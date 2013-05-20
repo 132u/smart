@@ -22,7 +22,7 @@ namespace AbbyyLs.CAT.Editor.Selenium.Tests
             _driver = new FirefoxDriver();
             baseURL = "http://project-x:10085";
             Login = "a.kurenkova@abbyy-ls.com";
-            Password = "UyJipCeH";
+            Password = "8i0fsbrs";
         }
 
         [TearDown] 

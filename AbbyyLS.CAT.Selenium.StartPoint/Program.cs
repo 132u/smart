@@ -22,11 +22,11 @@ namespace AbbyyLS.CAT.Selenium.StartPoint
             t.CreateResultFile();
             t.AutorizationTest();
 
-            //t.CreateDocumentSetupAllTest();
-            //t.SettingsTest();
+            t.CreateDocumentSetupAllTest();
+            t.SettingsTest();
 
-            //t.CreateDocumentDublicateNameTest();
-            //t.CreateDocumentBigNameTest();
+            t.CreateDocumentDublicateNameTest();
+            t.CreateDocumentBigNameTest();
             t.CreateDocumentLimitFileNameTest();
             t.CreateDocumentWrongSymbolsTest();
             t.CreateDocumentEqualLanguagesTest();

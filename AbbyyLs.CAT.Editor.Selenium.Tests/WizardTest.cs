@@ -31,17 +31,19 @@ namespace AbbyyLs.CAT.Editor.Selenium.Tests
         private string _password;
         private string Path;
 
-
+        ///<summary>
+        ///Метод установки различныз значений для теста
+        ///</summary>
         [SetUp]
         public void SetupTest()
         {
             //driver = new ChromeDriver();
             _driver = new FirefoxDriver();
             _js = (IJavaScriptExecutor)_driver;
-            _baseUrl = "http://project-x:85";
+            _baseUrl = "http://project-x:10085";
             _userId = "4";
             _login = "a.kurenkova@abbyy-ls.com";
-            _password = "UyJipCeH";
+            _password = "8i0fsbrs";
             _documentFile = @"\\project-x\Share\CAT\TestFiles\English.docx";
             _tmFile = @"\\project-x\Share\CAT\TestFiles\EN-Russian_ABBYY_Lingvo.tmx";
             Path = @"\\project-x\Share\CAT\TestResult\Result_" + DateTime.UtcNow.Ticks.ToString() + ".txt";
@@ -70,7 +72,9 @@ namespace AbbyyLs.CAT.Editor.Selenium.Tests
             sw.WriteLine(s);
             sw.Close();
         }
-
+        /// <summary>
+        /// Завершение тестов
+        /// </summary>
         [TearDown]
         public void TeardownTest()
         {
@@ -199,7 +203,7 @@ namespace AbbyyLs.CAT.Editor.Selenium.Tests
             //ждем загрузки
             for (int second = 0; ; second++)
             {
-                if (second >= Constants.TrySmall) 
+                if (second >= Constants.TrySmall)
                     Assert.Fail("timeout");
                 try
                 {
@@ -616,11 +620,11 @@ namespace AbbyyLs.CAT.Editor.Selenium.Tests
             _driver.FindElement(By.Id("wizard-next")).Click();
             for (int second = 0; ; second++)
             {
-                if (second >= Constants.TrySmall) 
+                if (second >= Constants.TrySmall)
                     Assert.Fail("timeout");
                 try
                 {
-                    if (IsElementPresent(By.CssSelector("#msg"))) 
+                    if (IsElementPresent(By.CssSelector("#msg")))
                         break;
                 }
                 catch (Exception)
@@ -637,11 +641,11 @@ namespace AbbyyLs.CAT.Editor.Selenium.Tests
             //ждем, когда перейдем на след.шаг
             for (int second = 0; ; second++)
             {
-                if (second >= Constants.TryMedium) 
+                if (second >= Constants.TryMedium)
                     Assert.Fail("timeout");
                 try
                 {
-                    if (IsElementPresent(By.CssSelector("#wizard-mts table tr"))) 
+                    if (IsElementPresent(By.CssSelector("#wizard-mts table tr")))
                         break;
                 }
                 catch (Exception)
@@ -655,11 +659,11 @@ namespace AbbyyLs.CAT.Editor.Selenium.Tests
             _driver.FindElement(By.Id("wizard-next")).Click();
             for (int second = 0; ; second++)
             {
-                if (second >= Constants.TrySmall) 
+                if (second >= Constants.TrySmall)
                     Assert.Fail("timeout");
                 try
                 {
-                    if (IsElementPresent(By.Id("wizard-filemanager"))) 
+                    if (IsElementPresent(By.Id("wizard-filemanager")))
                         break;
                 }
                 catch (Exception)
@@ -804,7 +808,7 @@ namespace AbbyyLs.CAT.Editor.Selenium.Tests
             //ждем, когда перейдем на след.шаг
             for (int second = 0; ; second++)
             {
-                if (second >= Constants.TryMedium) 
+                if (second >= Constants.TryMedium)
                     Assert.Fail("timeout");
                 try
                 {
@@ -918,7 +922,7 @@ namespace AbbyyLs.CAT.Editor.Selenium.Tests
 
             for (int second = 0; ; second++)
             {
-                if (second >= Constants.TrySmall) 
+                if (second >= Constants.TrySmall)
                     Assert.Fail("timeout");
                 try
                 {
@@ -1020,7 +1024,7 @@ namespace AbbyyLs.CAT.Editor.Selenium.Tests
             //wait
             for (int second = 0; ; second++)
             {
-                if (second >= Constants.TrySmall) 
+                if (second >= Constants.TrySmall)
                     Assert.Fail("timeout");
                 try
                 {
@@ -1061,7 +1065,7 @@ namespace AbbyyLs.CAT.Editor.Selenium.Tests
 
             _driver.FindElement(By.CssSelector("#wizard-upload input[name=\"File\"]")).SendKeys(Path);
             Thread.Sleep(Constants.Small);
-            string Target1 = string.Format("document.querySelector('#wizard-upload input[name=\"TargetLanguage\"]').value=\"{0}\"; ",TargetLang);
+            string Target1 = string.Format("document.querySelector('#wizard-upload input[name=\"TargetLanguage\"]').value=\"{0}\"; ", TargetLang);
             _js.ExecuteScript(Target1);
             string Source1 = string.Format("document.querySelector('#wizard-upload input[name=\"SourceLanguage\"]').value=\"{0}\"; ", SourceLang);
             _js.ExecuteScript(Source1);
@@ -1078,11 +1082,11 @@ namespace AbbyyLs.CAT.Editor.Selenium.Tests
 
             for (int second = 0; ; second++)
             {
-                if (second >= Constants.TrySmall) 
+                if (second >= Constants.TrySmall)
                     Assert.Fail("timeout");
                 try
                 {
-                    if (IsElementPresent(By.CssSelector("#msg"))) 
+                    if (IsElementPresent(By.CssSelector("#msg")))
                         break;
                 }
                 catch (Exception)
@@ -1098,11 +1102,11 @@ namespace AbbyyLs.CAT.Editor.Selenium.Tests
             //ждем, когда перейдем на след.шаг
             for (int second = 0; ; second++)
             {
-                if (second >= Constants.TryMedium) 
+                if (second >= Constants.TryMedium)
                     Assert.Fail("timeout");
                 try
                 {
-                    if (IsElementPresent(By.CssSelector("#wizard-mts table tr"))) 
+                    if (IsElementPresent(By.CssSelector("#wizard-mts table tr")))
                         break;
                 }
                 catch (Exception)
@@ -1122,7 +1126,7 @@ namespace AbbyyLs.CAT.Editor.Selenium.Tests
 
             for (int second = 0; ; second++)
             {
-                if (second >= Constants.TrySmall) 
+                if (second >= Constants.TrySmall)
                     Assert.Fail("timeout");
                 try
                 {
@@ -1151,11 +1155,11 @@ namespace AbbyyLs.CAT.Editor.Selenium.Tests
             for (
                 int second = 0; ; second++)
             {
-                if (second >= Constants.TrySmall) 
+                if (second >= Constants.TrySmall)
                     Assert.Fail("timeout");
                 try
                 {
-                    if (IsElementPresent(By.CssSelector("#docs table tbody tr"))) 
+                    if (IsElementPresent(By.CssSelector("#docs table tbody tr")))
                         break;
                 }
                 catch (Exception)
@@ -1189,7 +1193,7 @@ namespace AbbyyLs.CAT.Editor.Selenium.Tests
         {
             for (int second = 0; ; second++)
             {
-                if (second >= Constants.TrySmall) 
+                if (second >= Constants.TrySmall)
                     Assert.Fail("timeout");
                 try
                 {
@@ -1207,7 +1211,7 @@ namespace AbbyyLs.CAT.Editor.Selenium.Tests
         {
             for (int second = 0; ; second++)
             {
-                if (second >= Constants.TrySmall) 
+                if (second >= Constants.TrySmall)
                     Assert.Fail("timeout");
                 try
                 {
