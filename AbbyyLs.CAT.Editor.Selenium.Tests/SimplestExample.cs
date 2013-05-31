@@ -20,7 +20,7 @@ namespace AbbyyLs.CAT.Editor.Selenium.Tests
         public void SetupTest()
         {
             _driver = new FirefoxDriver();
-            baseURL = "http://project-x:10085";
+            baseURL = "http://cat-dev:10085";
             Login = "a.kurenkova@abbyy-ls.com";
             Password = "8i0fsbrs";
         }

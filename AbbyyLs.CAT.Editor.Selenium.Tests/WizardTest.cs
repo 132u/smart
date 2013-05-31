@@ -40,13 +40,13 @@ namespace AbbyyLs.CAT.Editor.Selenium.Tests
             //driver = new ChromeDriver();
             _driver = new FirefoxDriver();
             _js = (IJavaScriptExecutor)_driver;
-            _baseUrl = "http://project-x:10085";
+            _baseUrl = "http://cat-dev:10085";
             _userId = "4";
             _login = "a.kurenkova@abbyy-ls.com";
             _password = "8i0fsbrs";
-            _documentFile = @"\\project-x\Share\CAT\TestFiles\English.docx";
-            _tmFile = @"\\project-x\Share\CAT\TestFiles\EN-Russian_ABBYY_Lingvo.tmx";
-            Path = @"\\project-x\Share\CAT\TestResult\Result_" + DateTime.UtcNow.Ticks.ToString() + ".txt";
+            _documentFile = @"\\cat-dev\Share\CAT\TestFiles\English.docx";
+            _tmFile = @"\\cat-dev\Share\CAT\TestFiles\EN-Russian_ABBYY_Lingvo.tmx";
+            Path = @"\\cat-dev\Share\CAT\TestResult\Result_" + DateTime.UtcNow.Ticks.ToString() + ".txt";
         }
 
         /// <summary>
