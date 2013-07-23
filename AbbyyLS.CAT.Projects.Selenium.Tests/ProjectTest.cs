@@ -35,6 +35,10 @@ namespace AbbyyLs.CAT.Projects.Selenium.Tests
         public string DuplicateProjectName;
         private string _tmName;
 
+        //имена для тестов ТС-400
+        private string ExistedName; //для теста - изменение имени на существующее
+        private string DeletedName; //для етста - изменение имени на удаленное
+
 
         /// <summary>
         /// Старт тестов, переменные
@@ -210,6 +214,7 @@ namespace AbbyyLs.CAT.Projects.Selenium.Tests
             _driver.FindElement(By.CssSelector("input[name=\"Name\"]")).Clear();
             ProjectNameCheck = _projectName + " " + DateTime.UtcNow.Ticks.ToString();
             DuplicateProjectName += ProjectNameCheck;
+            DeletedName += ProjectNameCheck;
             _driver.FindElement(By.CssSelector("input[name=\"Name\"]")).SendKeys(ProjectNameCheck);
 
             _driver.FindElement(By.CssSelector("input[name=\"DeadlineDate\"]")).Clear();
@@ -268,6 +273,7 @@ namespace AbbyyLs.CAT.Projects.Selenium.Tests
         /// <summary>
         /// создание проекта без файла
         /// </summary>
+        [Test]
         public void CreateProjectNoFile()
         {
             WriteFileConsoleResults("Create Project Without Input Files Test", 2);
@@ -437,6 +443,7 @@ namespace AbbyyLs.CAT.Projects.Selenium.Tests
         /// <summary>
         /// тестирование совпадения имени проекта с удаленным
         /// </summary>
+        [Test]
         public void CreateProjectDeletedNameTest()
         {
             WriteFileConsoleResults("Create Project with Deleted Name Test", 2);
@@ -530,6 +537,7 @@ namespace AbbyyLs.CAT.Projects.Selenium.Tests
         /// </summary>
         /// <param name="filePath">путь в файлу, импортируемого в проект</param>
         /// <param name="status">параметр проверки - 1 испорт ок; 0 импорт не ок</param>
+        
         public bool ImportSomeFilesTest(String filePath, int status)
         {
             //открываем форму настройки
@@ -652,6 +660,7 @@ namespace AbbyyLs.CAT.Projects.Selenium.Tests
         /// метод тестирование создания проекта с существующим именем
         /// </summary>
         /// запускать перед удалением
+        [Test]
         public void CreateProjectDuplicateNameTest()
         {
             WriteFileConsoleResults("Create Project Duplicate Name Test", 2);
@@ -686,6 +695,7 @@ namespace AbbyyLs.CAT.Projects.Selenium.Tests
         /// <summary>
         /// метод проверки невозможности создания проекта в большим именем(>100 символов)
         /// </summary>
+        [Test]
         public void CreateProjectBigNameTest()
         {
             WriteFileConsoleResults("Create Project with Big Name (> 100 symbols) Test", 2);
@@ -721,6 +731,7 @@ namespace AbbyyLs.CAT.Projects.Selenium.Tests
         /// <summary>
         /// метод проверки на ограничение имени проекта (100 символов)
         /// </summary>
+        [Test]
         public void CreateProjectLimitNameTest()
         {
             WriteFileConsoleResults("Create Project - Limit Name (100) Test", 2);
@@ -750,6 +761,7 @@ namespace AbbyyLs.CAT.Projects.Selenium.Tests
         /// <summary>
         /// метод тестирования создания проектов с одинаковыми sourc и target языками
         /// </summary>
+        [Test]
         public void CreateProjectEqualLanguagesTest()
         {
             WriteFileConsoleResults("Create Project - Equal Languages", 2);
@@ -782,6 +794,7 @@ namespace AbbyyLs.CAT.Projects.Selenium.Tests
         /// <summary>
         /// метод для тестирования недопустимых символов в имени проекта
         /// </summary>
+        [Test]
         public void CreateProjectForbiddenSymbolsTest()
         {
             WriteFileConsoleResults("Create Project - Forbidden Symbols Test", 2);
@@ -806,7 +819,7 @@ namespace AbbyyLs.CAT.Projects.Selenium.Tests
             }
             Thread.Sleep(3000);
         }
-
+        [Test]
         public void CreateProjectForbiddenSymbolsTest2()
         {
 
@@ -840,6 +853,7 @@ namespace AbbyyLs.CAT.Projects.Selenium.Tests
         /// <summary>
         /// метод для тестирования проекта с пустым именем
         /// </summary>
+        [Test]
         public void CreateProjectEmptyNameTest()
         {
             WriteFileConsoleResults("Create project - Empty name", 2);
@@ -866,6 +880,7 @@ namespace AbbyyLs.CAT.Projects.Selenium.Tests
         /// <summary>
         /// метод для тестирования создания имени проекта состоящего из одного пробела
         /// </summary>
+        [Test]
         public void CreateProjectSpaceNameTest()
         {
             WriteFileConsoleResults("Create project - Name = SPACE", 2);
@@ -891,6 +906,7 @@ namespace AbbyyLs.CAT.Projects.Selenium.Tests
         }
 
 #warning Доделать тесты ТС-36
+        [Test]
         public void CreateProjectSpaceNameTest2()
         {
             string NamePr = _projectName + " " + DateTime.UtcNow.Ticks.ToString();
@@ -914,6 +930,7 @@ namespace AbbyyLs.CAT.Projects.Selenium.Tests
         /// <summary>
         /// отмена создания проекта на первом шаге
         /// </summary>
+        [Test]
         public void CancelFirstTest()
         {
             WriteFileConsoleResults("Cancel project creation after 1 step", 2);
@@ -942,6 +959,7 @@ namespace AbbyyLs.CAT.Projects.Selenium.Tests
         /// <summary>
         /// отмена создания проекта(подтверждение отмены)
         /// </summary>
+        [Test]
         public void CancelYesTest()
         {
             WriteFileConsoleResults("Cancel project creation with message - yes", 2);
@@ -992,6 +1010,7 @@ namespace AbbyyLs.CAT.Projects.Selenium.Tests
         /// <summary>
         /// отмена создания проекта - No 
         /// </summary>
+        [Test]
         public void CancelNoTest()
         {
             WriteFileConsoleResults("Cancel project creation with message - yes", 2);
@@ -1029,18 +1048,104 @@ namespace AbbyyLs.CAT.Projects.Selenium.Tests
             }
 
         }
-#warning pageSource  - уточнить про проверку этим методом
+
+
+
         /// <summary>
         /// изменение имени проекта на новое по нажатию кнопки Back
         /// </summary>
+        [Test]
         public void ChangeProjectNameOnNew()
         {
-            //string OldProjectName = _projectName + " " + DateTime.UtcNow.Ticks.ToString();
-            //string NewProjectName = _projectName + " " + DateTime.UtcNow.Ticks.ToString();
-            string OldProjectName = "1";
-            string NewProjectName = "2";
+            string OldProjectName = _projectName + " " + DateTime.UtcNow.Ticks.ToString() + " old";
+            string NewProjectName = _projectName + " " + DateTime.UtcNow.Ticks.ToString() + " new";
+            ExistedName += NewProjectName;
+            //Console.WriteLine(OldProjectName + "\n" + NewProjectName);
             WriteFileConsoleResults("Change project name on New by button <Back>", 2);
+            Thread.Sleep(4000);
+            Assert.IsTrue(_driver.FindElement(By.Id("project-add-btn")).Displayed);
+            _driver.FindElement(By.Id("project-add-btn")).Click();
+            WaitProjectFormUpload();
+            _driver.FindElement(By.CssSelector("input[name=\"Name\"]")).Clear();
+            _driver.FindElement(By.CssSelector("input[name=\"Name\"]")).SendKeys(OldProjectName);
+            Thread.Sleep(2000);
+            _driver.FindElement(By.XPath(".//div[@id='project-wizard-body']//span[text()='Next']")).Click();
+            WaitTMUpload();
+            _driver.FindElement(By.XPath(".//div[@id='project-wizard-body']//span[text()='Back']")).Click();
+            WaitProjectFormUpload();
+            _driver.FindElement(By.CssSelector("input[name=\"Name\"]")).Clear();
+            _driver.FindElement(By.CssSelector("input[name=\"Name\"]")).SendKeys(NewProjectName);
+            Thread.Sleep(2000);
+            _driver.FindElement(By.XPath(".//div[@id='project-wizard-body']//span[text()='Next']")).Click();
+            WaitTMUpload();
+            //нажать по Значку закрытия окна "x"
+            _driver.FindElement(By.XPath(".//div[@id='project-wizard']//div[@id='project-wizard_header']//img")).Click();
+            Thread.Sleep(2000);
+            _driver.Navigate().Refresh();
             Thread.Sleep(3000);
+            bool NewInList = IsElementPresent(By.XPath(".//div[@id='projects-body']//table//span//a[contains(text(), 'new')]"));
+            bool OldInList = IsElementPresent(By.XPath(".//div[@id='projects-body']//table//span//a[contains(text(), 'old')]"));
+            //Console.WriteLine("new: " +a + "    " + "old: " +  b);
+            if (NewInList && !OldInList) 
+             
+            {
+                WriteFileConsoleResults("Test Pass", 1);
+            }
+            else
+            {
+                WriteFileConsoleResults("Test Fail", 0);
+            }
+
+            
+            Thread.Sleep(6000);
+
+        }
+        /// <summary>
+        /// изменение имени проекта на существующее
+        /// </summary>
+        [Test]
+        public void ChangeProjectNameOnExist()
+        {
+            string OldProjectName = _projectName + " " + DateTime.UtcNow.Ticks.ToString() + " old";
+            WriteFileConsoleResults("Change project name on Existed by button <Back>", 2);
+            Thread.Sleep(4000);
+            Assert.IsTrue(_driver.FindElement(By.Id("project-add-btn")).Displayed);
+            _driver.FindElement(By.Id("project-add-btn")).Click();
+            WaitProjectFormUpload();
+            _driver.FindElement(By.CssSelector("input[name=\"Name\"]")).Clear();
+            _driver.FindElement(By.CssSelector("input[name=\"Name\"]")).SendKeys(OldProjectName);
+            Thread.Sleep(2000);
+            _driver.FindElement(By.XPath(".//div[@id='project-wizard-body']//span[text()='Next']")).Click();
+            WaitTMUpload();
+            _driver.FindElement(By.XPath(".//div[@id='project-wizard-body']//span[text()='Back']")).Click();
+            WaitProjectFormUpload();
+            Thread.Sleep(2000);
+            _driver.FindElement(By.CssSelector("input[name=\"Name\"]")).Clear();
+            _driver.FindElement(By.CssSelector("input[name=\"Name\"]")).SendKeys(ExistedName);
+            Thread.Sleep(2000);
+            //кнопка Next должна быть неактивной
+            _driver.FindElement(By.XPath(".//div[@id='project-wizard-form']//span[contains(text(), 'Next')]")).Click();
+
+            Thread.Sleep(4000);
+            if (_driver.FindElement(By.Id("project-wizard-tms")).Displayed)
+            {
+                WriteFileConsoleResults("Test Fail", 0);
+            }
+            else
+            {
+                WriteFileConsoleResults("Test Pass", 1);
+            }
+            Thread.Sleep(3000);
+            
+        }
+
+        [Test]
+        public void ChangeProjectNameOnDeleted()
+        {
+            string OldProjectName = _projectName + " " + DateTime.UtcNow.Ticks.ToString() + " old";
+            string NewProjectName = DeletedName + "new";
+            WriteFileConsoleResults("Change project name on Existed by button <Back>", 2);
+            Thread.Sleep(4000);
             Assert.IsTrue(_driver.FindElement(By.Id("project-add-btn")).Displayed);
             _driver.FindElement(By.Id("project-add-btn")).Click();
             WaitProjectFormUpload();
@@ -1055,12 +1160,13 @@ namespace AbbyyLs.CAT.Projects.Selenium.Tests
             _driver.FindElement(By.CssSelector("input[name=\"Name\"]")).Clear();
             _driver.FindElement(By.CssSelector("input[name=\"Name\"]")).SendKeys(NewProjectName);
             Thread.Sleep(2000);
-            _driver.FindElement(By.XPath(".//div[@id='project-wizard-body']//span[text()='Next']")).Click();
-            WaitTMUpload();
-            //нажать по Значку закрытия окна "x"
-            _driver.FindElement(By.XPath(".//div[@id='project-wizard']//div[@id='project-wizard_header']//img")).Click();
-            Thread.Sleep(2000);
-            if (_driver.PageSource.Contains(OldProjectName))
+
+            _driver.Navigate().Refresh();
+            Thread.Sleep(3000);
+            bool NewInList = IsElementPresent(By.XPath(".//div[@id='projects-body']//table//span//a[contains(text(), 'new')]"));
+            bool OldInList = IsElementPresent(By.XPath(".//div[@id='projects-body']//table//span//a[contains(text(), 'old')]"));
+            //Console.WriteLine("new: " +a + "    " + "old: " +  b);
+            if (NewInList && !OldInList)
             {
                 WriteFileConsoleResults("Test Pass", 1);
             }
@@ -1069,7 +1175,11 @@ namespace AbbyyLs.CAT.Projects.Selenium.Tests
                 WriteFileConsoleResults("Test Fail", 0);
             }
 
+
+
+
         }
+        
 
 
 
