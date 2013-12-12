@@ -5,9 +5,10 @@ using System.Threading.Tasks;
 using System.Threading;
 using System.Text.RegularExpressions;
 using AbbyyLs.CAT.Editor.Selenium.Tests;
+
 using AbbyyLs.CAT.Projects.Selenium.Tests;
-
-
+using System.Configuration;
+using System.Diagnostics;
 
 namespace AbbyyLs.CAT.Selenium.StartPoint
 {
@@ -26,10 +27,12 @@ namespace AbbyyLs.CAT.Selenium.StartPoint
         {
             
             WizardTest t = new WizardTest();
-            ProjectTest p = new ProjectTest();
-            p.SetupTest();
-            p.CreateResultFile();
-            p.AutorizationTest();
+            //ProjectTest p = new ProjectTest("devUrl", "workspaceUrl");
+            
+            //p.SetupTest();
+            //p.CreateResultFile();
+            //p.AutorizationTest();
+            //p.OpenDocument();
             //p.CreateProjectTest();
             //p.DeleteProjectTest();
             //p.CreateProjectDeletedNameTest();
@@ -43,11 +46,13 @@ namespace AbbyyLs.CAT.Selenium.StartPoint
             //p.CancelFirstTest();
             //p.CancelYesTest();
             //p.CancelNoTest();
-            p.ChangeProjectNameOnNew();
+            //p.ChangeProjectNameOnNew();
             //Thread.Sleep(6000);
 
-            //Тестирование импорта файлов
-            //Импорт одного файла docx
+            //////Тестирование импорта файлов
+            //////Импорт одного файла docx
+
+
             //p.WriteFileConsoleResults("Import Docx File Test", 2);
             //bool resdocx = p.ImportSomeFilesTest(DocxFile1, 1);
             //if (resdocx)
@@ -126,11 +131,6 @@ namespace AbbyyLs.CAT.Selenium.StartPoint
             //    p.WriteFileConsoleResults("Test Fail", 0);
             //}
 
-            
-
- 
-  
-            
             //p.CreateProjectDuplicateNameTest();
             //p.DeleteProjectTest();
             //p.CreateTMTest();

@@ -3,6 +3,8 @@ using System.Threading;
 using NUnit.Framework;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Firefox;
+using OpenQA.Selenium.Chrome;
+using OpenQA.Selenium.IE;
 using System.IO;
 using System.Text;
 using System.Configuration;
@@ -15,30 +17,79 @@ namespace AbbyyLs.CAT.Projects.Selenium.Tests
     /// <remarks>
     /// Методы для тестирования Проектов
     /// </remarks>
-    [TestFixture]
+    [TestFixture("DevUrl", "DevWorkspace", "Firefox")]
+    [TestFixture("StageUrl", "StageWorkspace")]
+    [TestFixture("StableUrl2", "StableWorkspace2", "Firefox")]
+    [TestFixture("StableUrl2", "StableWorkspace2", "Chrome")]
+    [TestFixture("StableUrl2", "StableWorkspace2", "IE")]
+    [TestFixture("StageUrl2", "StageWorkspace2", "Firefox")]
     public class ProjectTest
     {
 
         private IWebDriver _driver;
+        private FirefoxProfile _profile;
+
         private string _login;
         private string _password;
+
         private string _devUrl;
         private string _stageUrl;
         private string _stableUrl;
+        private string _stageUrl2;
+
+        private string _url;
+        private string _workspaceUrl;
+
         private string _projectName;
         private string _deadlineDate;
+        private string _tmName;
         private string _documentFile;
         private string _tmxFile;
-        private string Path;
-        private string _workspaceUrl;
+
+        private string ResultFilePath;
+
+
+
         public string ProjectNameCheck;
         public string DuplicateProjectName;
-        private string _tmName;
+
+        public string _documentFileWrong;
+        public string _ttxFile;
+        public string _txtFile;
+        public string _srtFile;
+
+        public string _xliffTC10;
 
         //имена для тестов ТС-400
         private string ExistedName; //для теста - изменение имени на существующее
-        private string DeletedName; //для етста - изменение имени на удаленное
+        private string DeletedName; //для теста - изменение имени на удаленное
 
+
+        public ProjectTest(string url, string workspaceUrl, string browserName)
+        {
+
+            this._url = ConfigurationManager.AppSettings[url];
+            this._workspaceUrl = ConfigurationManager.AppSettings[workspaceUrl];
+
+            if (browserName == "Firefox")
+            {
+                if (_driver == null)
+                {
+                    _profile = new FirefoxProfile(@"C:\Users\a.kurenkova\Desktop\FirefoxProfile");
+                    _driver = new FirefoxDriver(_profile);
+                }
+            }
+            else if (browserName == "Chrome")
+            {
+#warning Проверить версию chromedriver
+                _driver = new ChromeDriver();
+            }
+            else if (browserName == "IE")
+            {
+                //сделать запуск из ie
+            }
+
+        }
 
         /// <summary>
         /// Старт тестов, переменные
@@ -46,47 +97,48 @@ namespace AbbyyLs.CAT.Projects.Selenium.Tests
         [SetUp]
         public void SetupTest()
         {
-            _driver = new FirefoxDriver();
+            _driver.Manage().Timeouts().ImplicitlyWait(TimeSpan.FromSeconds(10));
+
             _login = ConfigurationManager.AppSettings["Login"];
             _password = ConfigurationManager.AppSettings["Password"];
-            _devUrl = ConfigurationManager.AppSettings["DevUrl"];
-            _stageUrl = ConfigurationManager.AppSettings["StageUrl"];
-            _stableUrl = ConfigurationManager.AppSettings["StableUrl"];
             _projectName = ConfigurationManager.AppSettings["ProjectName"];
-            _deadlineDate = "03.03.2014";
-#warning Как хранить пути к файлам в вебконфиге?
-            _documentFile = @"\\cat-dev\Share\CAT\TestFiles\TextEng2.docx";
-            _tmxFile = @"\\cat-dev\Share\CAT\TestFiles\tmxEng2.tmx";
-            Path = @"\\cat-dev\Share\CAT\TestResult\Result" + DateTime.UtcNow.Ticks.ToString() + ".txt";
-            _workspaceUrl = "https://testalena.cat-dev.perevedem.local/smartcat/workspace/";
             _tmName = ConfigurationManager.AppSettings["TMName"];
+            _deadlineDate = ConfigurationManager.AppSettings["DeadlineDate"];
 
+#warning Как хранить пути к файлам в вебконфиге?
+            _documentFile = @"C:\Users\a.kurenkova\Desktop\Repos\CAT\CAT.FrontEnd.Tests\AbbyyLS.CAT.Projects.Selenium.Tests\bin\Debug\Scripts\English.docx";
+            _tmxFile = @"\\cat-dev\Share\CAT\TestFiles\tmxEng2.tmx";
+
+            _documentFileWrong = @"\\cat-dev\Share\CAT\TestFiles\doc98.doc";
+            _ttxFile = @"\\cat-dev\Share\CAT\TestFiles\test.ttx";
+            _txtFile = @"\\cat-dev\Share\CAT\TestFiles\test.txt";
+            _srtFile = @"\\cat-dev\Share\CAT\TestFiles\test.srt";
+
+            _xliffTC10 = @"\\cat-dev\Share\CAT\TestFiles\Xliff\TC-10En.xliff";
+
+            ResultFilePath = @"\\cat-dev\Share\CAT\TestResult\Result" + DateTime.UtcNow.Ticks.ToString() + ".txt";
         }
-
-
 
         /// <summary>
         /// Метод создания файла для записи результатов тестирования
-        /// PS. Вызвать этот метод из главного при запуске тестов в начале!!
-        /// </summary>
+        /// 
         public void CreateResultFile()
         {
-            FileInfo fi = new FileInfo(Path);
+            FileInfo fi = new FileInfo(ResultFilePath);
             StreamWriter sw = fi.CreateText();
             sw.WriteLine("Test Results");
             sw.Close();
 
-
         }
 
         /// <summary>
-        /// Метод для записи результатов тестирования в файл
+        /// Метод для записи результатов тестирования в файл и в консоль
         /// </summary>
         /// <param name="s">Строка, записываемая в файл</param>
         public void WriteStringIntoFile(string s)
         {
 
-            StreamWriter sw = new StreamWriter(Path, true);
+            StreamWriter sw = new StreamWriter(ResultFilePath, true);
             sw.WriteLine(s);
             sw.Close();
 
@@ -120,7 +172,7 @@ namespace AbbyyLs.CAT.Projects.Selenium.Tests
         /// <param name="p">Параметр, отвечающий за цвет: 0 - fail(red), 1 - pass(green), 2 - black</param>
         public void WriteFileConsoleResults(string s, int p)
         {
-            StreamWriter sw = new StreamWriter(Path, true);
+            StreamWriter sw = new StreamWriter(ResultFilePath, true);
 
             switch (p)
             {
@@ -156,165 +208,365 @@ namespace AbbyyLs.CAT.Projects.Selenium.Tests
 
 
         /// <summary>
-        /// метод тестирования авторизации
+        /// метод тестирования авторизации пользователя в системе
         /// </summary>
         [Test]
         public void AutorizationTest()
         {
             WriteFileConsoleResults("Autorization Test", 2);
 
-            _driver.Navigate().GoToUrl(_stableUrl);
+            _driver.Navigate().GoToUrl(_url);
             _driver.FindElement(By.CssSelector("input[name=\"email\"]")).Clear();
             _driver.FindElement(By.CssSelector("input[name=\"email\"]")).SendKeys(_login);
             _driver.FindElement(By.CssSelector("input[name=\"password\"]")).Clear();
             _driver.FindElement(By.CssSelector("input[name=\"password\"]")).SendKeys(_password);
             _driver.FindElement(By.CssSelector("input[type = \"submit\"]")).Click();
             Thread.Sleep(6000);
-            if (_driver.FindElement(By.XPath(".//select/option[contains(text(), 'TestAlena')]")).Displayed)
+
+            if (IsElementPresent(By.XPath(".//select/option[contains(text(), 'TestAccount')]")))
             {
-                WriteFileConsoleResults("Login and password are correct", 1);
+                //_driver.FindElement(By.CssSelector("select[name=\"accountId\"] option:contains('TestAccount')"));
+                _driver.FindElement(By.XPath(".//select/option[contains(text(), 'TestAccount')]")).Click();
+                //переходим на сайт
+                _driver.FindElement(By.CssSelector("input[type = \"submit\"]")).Click();
+                Thread.Sleep(6000);
+                IWebElement myDynamicElement = _driver.FindElement(By.Id("projects-add-btn"));
+                _driver.Navigate().GoToUrl(_workspaceUrl);
+
+
             }
-            else
-            {
-                WriteFileConsoleResults("Login and password are wrong", 0);
-            }
 
-            //выбрать корп акк - TestAlena
-            //_driver.FindElement(By.CssSelector("select[name=\"accountId\"] option:contains('TestAlena')"));
 
-            _driver.FindElement(By.XPath(".//select/option[contains(text(), 'TestAlena')]")).Click();
-            WriteFileConsoleResults("Corp account is choosen", 2);
-            //переходим на сайт
-            _driver.FindElement(By.CssSelector("input[type = \"submit\"]")).Click();
+            Thread.Sleep(6000);
+            Assert.True(_driver.Title.Contains("Workspace"), "Ошибка: неверный заголовок страницы");
+            //Assert.That(_driver.Title, Is.StringContaining("Workspace"));
 
-            //проверяем что перешли на страницу новую
-            //Assert.AreEqual("https://login.cat-dev.perevedem.local/smartcat/workspace/", _driver.Url);
 
-            WriteFileConsoleResults("Page is opened\n  " + _driver.Url, 1);
-            WriteFileConsoleResults("Autorization Test Pass", 1);
         }
 
         /// <summary>
-        /// метод тестирования создания проекта со всеми данными 
+        /// открытие конкретного документа 924 в акке AlenaTest несколько раз подряд
+        /// </summary>
+        public void OpenDocument()
+        {
+            string document = "http://cat-stable.abbyy-ls.com/smartcat/editor/?DocumentId=924";
+            for (int i = 0; i < 100; i++)
+            {
+
+                _driver.Navigate().GoToUrl(document);
+                Thread.Sleep(5000);
+
+
+                bool isOk = IsElementPresent(By.XPath(".//tbody//div[contains(text(), 'Vadim Petrovich')]"));
+                if (isOk)
+                {
+                    WriteFileConsoleResults("Pass", 1);
+                }
+                else
+                {
+                    WriteFileConsoleResults("Fail", 0);
+                }
+            }
+        }
+
+        /// <summary>
+        /// метод тестирования создания проекта со всеми данными (от начала до конца)
         /// </summary>
         [Test]
         public void CreateProjectTest()
         {
+            AutorizationTest();
 
             WriteFileConsoleResults("Create Project Test", 2);
             Thread.Sleep(8000);
-            Assert.IsTrue(_driver.FindElement(By.Id("project-add-btn")).Displayed);
-            //нажать <Create>
-            _driver.FindElement(By.Id("project-add-btn")).Click();
+            //1 шаг - заполнение данных о проекте
+            _projectName += " " + DateTime.UtcNow.Ticks.ToString();
 
-            //ждем загрузки формы
-            WaitProjectFormUpload();
+            CreateProject(_projectName, true, _documentFile);
 
-            //заполнение полей на 1 шаге
-            _driver.FindElement(By.CssSelector("input[name=\"Name\"]")).Clear();
-            ProjectNameCheck = _projectName + " " + DateTime.UtcNow.Ticks.ToString();
-            DuplicateProjectName += ProjectNameCheck;
-            DeletedName += ProjectNameCheck;
-            _driver.FindElement(By.CssSelector("input[name=\"Name\"]")).SendKeys(ProjectNameCheck);
+            //проверить что проект появился с списке проектов
+            CheckProjectInList(_projectName);
 
-            _driver.FindElement(By.CssSelector("input[name=\"DeadlineDate\"]")).Clear();
-            _driver.FindElement(By.CssSelector("input[name=\"DeadlineDate\"]")).SendKeys(_deadlineDate);
+            Thread.Sleep(4000);
+        }
+
+        /// <summary>
+        /// метод тестирования загрузки DOC формата (неподдерживаемый формат)
+        /// </summary>
+        [Test]
+        public void ImportWrongFileTest()
+        {
+            AutorizationTest();
+            WriteFileConsoleResults("Import Wrong Format (DOC)", 2);
+            Thread.Sleep(5000);
+            //1 шаг - заполнение данных о проекте
+            _projectName += " " + DateTime.UtcNow.Ticks.ToString();
+            FirstStepProjectWizard(_projectName);
 
             //процесс добавления файла 
             //нажатие кнопки Add
             _driver.FindElement(By.XPath(".//div[@id='project-wizard-body']//span[text()='Add']")).Click();
 
             //скрипт Autolt - вызов скрипта для добавления файла
-            SetUploadedFile(_documentFile);
+            SetUploadedFile(_documentFileWrong);
             Thread.Sleep(6000);
 
-            //кнопка Next
-            _driver.FindElement(By.XPath(".//div[@id='project-wizard-form']//span[contains(text(), 'Next')]")).Click();
-
-
-            //2 шаг - выбор ТМ
-            //выбор из существующих
-            //проверка что ТМ появились
-            WaitTMUpload();
-
-            //выбор 1 из списка
-            _driver.FindElement(By.CssSelector("#project-wizard-tms table tr:nth-child(1) td:nth-child(2)")).Click();
-
-            //кнопка Next
-            _driver.FindElement(By.XPath(".//div[@id='project-wizard-tms']//span[contains(text(), 'Next')]")).Click();
-
-            //3 шаг - выбор МТ
-            //проверка что МT появились
-            WaitMTUpload();
-
-
-            //compreno
-            _driver.FindElement(By.CssSelector("#project-wizard-mts table tr:nth-child(3) td:nth-child(1)")).Click();
-            //moses
-            _driver.FindElement(By.CssSelector("#project-wizard-mts table tr:nth-child(5) td:nth-child(1)")).Click();
-
-            //кнопка Next
-            _driver.FindElement(By.XPath(".//div[@id='project-wizard-mts']//span[contains(text(), 'Next')]")).Click();
-
-            //4 шаг - выбор глоссария
-            //проверка что ТB появились
-            WaitTBUpload();
-
-            _driver.FindElement(By.CssSelector("#project-wizard-tbs table tr:nth-child(1) td:nth-child(1)")).Click();
-
-            //Finish
-            _driver.FindElement(By.XPath(".//div[@id='project-wizard-tbs']//span[contains(text(), 'Finish')]")).Click();
-
-            //проверить что проект появился с списке проектов
-            CheckProjectInList();
-
-            Thread.Sleep(4000);
+            Assert.True(IsElementPresent(By.XPath(".//span[text()='OK']")), "No error message");
         }
+#warning XLIFF
+        //сделать тесты для тестирования xliff
+
         /// <summary>
-        /// создание проекта без файла
+        /// метод тестирования загрузки нескольких файлов при создании проекта (docx+ttx)
         /// </summary>
         [Test]
-        public void CreateProjectNoFile()
+        public void ImportSomeFilesTest()
         {
-            WriteFileConsoleResults("Create Project Without Input Files Test", 2);
-            Thread.Sleep(8000);
-            Assert.IsTrue(_driver.FindElement(By.Id("project-add-btn")).Displayed);
+            AutorizationTest();
+            WriteFileConsoleResults("Upload some files - docx, ttx", 2);
+            Thread.Sleep(5000);
+
+            _projectName += " " + DateTime.UtcNow.Ticks.ToString();
+            FirstStepProjectWizard(_projectName);
+
+            _driver.FindElement(By.XPath(".//div[@id='project-wizard-body']//span[text()='Add']")).Click();
+            SetUploadedFile(_documentFile);
+            Thread.Sleep(4000);
+            _driver.FindElement(By.XPath(".//div[@id='project-wizard-body']//span[text()='Add']")).Click();
+            SetUploadedFile(_ttxFile);
+
+            Assert.IsTrue(!IsElementPresent(By.XPath(".//span[text()='OK']")), "Сообщение об ошибке о загрузке неверного формата");
+        }
+
+
+        /// <summary>
+        /// метод заполнения данных о проекте на 1 шаге (имя, дедлайн) 
+        /// </summary>
+        private void FirstStepProjectWizard(string ProjectName)
+        {
+            Assert.IsTrue(_driver.FindElement(By.Id("projects-add-btn")).Displayed);
             //нажать <Create>
-            _driver.FindElement(By.Id("project-add-btn")).Click();
+            _driver.FindElement(By.Id("projects-add-btn")).Click();
 
             //ждем загрузки формы
             WaitProjectFormUpload();
 
             //заполнение полей на 1 шаге
             _driver.FindElement(By.CssSelector("input[name=\"Name\"]")).Clear();
-            _driver.FindElement(By.CssSelector("input[name=\"Name\"]")).SendKeys(_projectName + " " + DateTime.UtcNow.Ticks.ToString());
+
+
+            //DuplicateProjectName += ProjectNameCheck;
+            //DeletedName += ProjectNameCheck;
+
+            _driver.FindElement(By.CssSelector("input[name=\"Name\"]")).SendKeys(ProjectName);
 
             _driver.FindElement(By.CssSelector("input[name=\"DeadlineDate\"]")).Clear();
             _driver.FindElement(By.CssSelector("input[name=\"DeadlineDate\"]")).SendKeys(_deadlineDate);
+        }
+
+        /// <summary>
+        /// создание проекта без файла
+        /// </summary>
+        [Test]
+        public void CreateProjectNoFile()
+        {
+#warning Пересмотреть - не протестила с контрпримером чтобы возникла ошибка.
+            AutorizationTest();
+            WriteFileConsoleResults("Create Project Without Input Files Test", 2);
+            Thread.Sleep(5000);
+            //заполнение полей на 1 шаге
+            _projectName += " " + DateTime.UtcNow.Ticks.ToString();
+
+            CreateProject(_projectName, false, "");
+
+            //проверить что проект появился с списке проектов
+            CheckProjectInList(_projectName);
+
+
+        }
+        /// <summary>
+        /// метод создания проекта от начала (1 шаг) до конца (шаг pretranslate)
+        /// </summary>
+        /// <param name="ProjectName">Имя проекта</param>
+        /// <param name="FileFlag">Наличие файла (true-проект с файлом)(</param>
+        public void CreateProject(string ProjectName, bool FileFlag, string DocumentName)
+        {
+            FirstStepProjectWizard(ProjectName);
+
+            if (FileFlag == true)
+            {
+                //процесс добавления файла 
+                //нажатие кнопки Add
+                _driver.FindElement(By.XPath(".//div[@id='project-wizard-body']//span[text()='Add']")).Click();
+
+                //скрипт Autolt - вызов скрипта для добавления файла
+                SetUploadedFile(DocumentName);
+                Thread.Sleep(2000);
+                WriteFileConsoleResults("Upload file finish", 2);
+
+                Thread.Sleep(500);
+            }
 
             _driver.FindElement(By.XPath(".//div[@id='project-wizard-form']//span[contains(text(), 'Next')]")).Click();
 
-            Thread.Sleep(6000);
+            //2 шаг - выбор ТМ
+            WaitTMUpload();
+            _driver.FindElement(By.CssSelector("#project-wizard-tms table tr:nth-child(1) td:nth-child(2)")).Click();
+            _driver.FindElement(By.XPath(".//div[@id='project-wizard-tms']//span[contains(text(), 'Next')]")).Click();
+            //3 шаг - выбор МТ
+            WaitMTUpload();
+            Thread.Sleep(500);
+            _driver.FindElement(By.CssSelector("#project-wizard-mts table tr:nth-child(2) td:nth-child(1)")).Click();
+            _driver.FindElement(By.CssSelector("#project-wizard-mts table tr:nth-child(4) td:nth-child(1)")).Click();
+            _driver.FindElement(By.XPath(".//div[@id='project-wizard-mts']//span[contains(text(), 'Next')]")).Click();
+            //4 шаг - выбор глоссария
+            WaitTBUpload();
+            if (IsElementPresent(By.CssSelector("#project-wizard-tbs table tr:nth-child(1) td:nth-child(1)")))
+            {
+                _driver.FindElement(By.CssSelector("#project-wizard-tbs table tr:nth-child(1) td:nth-child(1)")).Click();
+            }
+            _driver.FindElement(By.XPath(".//div[@id='project-wizard-tbs']//span[contains(text(), 'Next')]")).Click();
+            //5 шаг - настройка этапов workflow
+            WaitWorkflowStageUpload();
+                     
+            _driver.FindElement(By.Id("project-workflow-new-stage-btn")).Click();
 
-            if (_driver.FindElement(By.Id("project-wizard-tms")).Displayed)
-            {
-                WriteFileConsoleResults("Test Pass", 1);
-            }
-            else
-            {
-                WriteFileConsoleResults("Test Fail", 0);
-            }
+            _driver.FindElement(By.XPath(".//div[@id='project-wizard-workflow']//span[contains(text(), 'Next')]")).Click();
+            //Finish
+            WaitPretranslateUpload();
+            _driver.FindElement(By.XPath(".//div[@id='project-wizard-pretranslate']//span[contains(text(), 'Finish')]")).Click();
 
         }
 
-        private void CheckProjectInList()
+        /// <summary>
+        /// Импорт документа формата ttx (допустимый формат)
+        /// </summary>
+        [Test]
+        public void ImportTtxFileTest()
+        {
+            AutorizationTest();
+            WriteFileConsoleResults("Upload Ttx File Test", 2);
+            Thread.Sleep(4000);
+
+            _projectName += " " + DateTime.UtcNow.Ticks.ToString();
+            FirstStepProjectWizard(_projectName);
+
+            _driver.FindElement(By.XPath(".//div[@id='project-wizard-body']//span[text()='Add']")).Click();
+            SetUploadedFile(_ttxFile);
+            Thread.Sleep(4000);
+            Assert.IsTrue(!IsElementPresent(By.XPath(".//span[text()='OK']")), "Сообщение об ошибке о загрузке неверного формата");
+        }
+        /// <summary>
+        /// Импорт документа формата txt (допустимый формат)
+        /// </summary>
+        [Test]
+        public void ImportTxtFileTest()
+        {
+            AutorizationTest();
+            WriteFileConsoleResults("Upload Ttx File Test", 2);
+            Thread.Sleep(4000);
+
+            _projectName += " " + DateTime.UtcNow.Ticks.ToString();
+            FirstStepProjectWizard(_projectName);
+
+            _driver.FindElement(By.XPath(".//div[@id='project-wizard-body']//span[text()='Add']")).Click();
+            SetUploadedFile(_txtFile);
+            Thread.Sleep(4000);
+            Assert.IsTrue(!IsElementPresent(By.XPath(".//span[text()='OK']")), "Сообщение об ошибке о загрузке неверного формата");
+        }
+        /// <summary>
+        /// Импорт документа формата Srt (допустимый формат)
+        /// </summary>
+        [Test]
+        public void ImportSrtFileTest()
+        {
+            AutorizationTest();
+            WriteFileConsoleResults("Upload Ttx File Test", 2);
+            Thread.Sleep(4000);
+
+            _projectName += " " + DateTime.UtcNow.Ticks.ToString();
+            FirstStepProjectWizard(_projectName);
+
+            _driver.FindElement(By.XPath(".//div[@id='project-wizard-body']//span[text()='Add']")).Click();
+            SetUploadedFile(_srtFile);
+            Thread.Sleep(4000);
+            Assert.IsTrue(!IsElementPresent(By.XPath(".//span[text()='OK']")), "Сообщение об ошибке о загрузке неверного формата");
+        }
+
+
+        /// <summary>
+        /// Импорт документа в созданный проект без файла
+        /// </summary>
+        [Test]
+        public void ImportDocumentAfterCreationTest()
+        {
+            AutorizationTest();
+            WriteFileConsoleResults("Create Project Without Input Files Test", 2);
+            Thread.Sleep(3000);
+            //заполнение полей на 1 шаге
+            _projectName += " " + DateTime.UtcNow.Ticks.ToString();
+            CreateProject(_projectName, false, "");
+
+            Thread.Sleep(4000);
+            CheckProjectInList(_projectName);
+
+            //открытие настроек проекта
+            ImportDocumentProjectSettings();
+
+#warning Вставить проверку что документ загружен!!! (как проверить это)
+
+        }
+        /// <summary>
+        /// метод открытия настроек проекта (последнего в списке) и загрузки нового документа
+        /// </summary>
+        private void ImportDocumentProjectSettings()
+        {
+            Thread.Sleep(3000);
+            //сортировка по дате
+            _driver.FindElement(By.XPath(".//span[text()='Created']")).Click();
+            _driver.FindElement(By.XPath(".//span[text()='Created']")).Click();
+
+            //клик на название проекта
+            _driver.FindElement(By.CssSelector("#projects-body table tr:nth-child(1) td:nth-child(2) a")).Click();
+
+            Thread.Sleep(3000);
+
+            //_driver.FindElement(By.Id("projects-edit-btn")).Click();
+            //ждем когда окно с настройками загрузится
+            WaitProjectSettingUpload();
+
+            Thread.Sleep(4000);
+
+            _driver.FindElement(By.Id("documents-import-btn")).Click();
+
+            //ждем когда загрузится окно для загрузки документа
+            WaitImportDocumentFormUpload();
+            _driver.FindElement(By.XPath(".//div[@id='document-wizard-form-body']//span[text()='Add']")).Click();
+
+            //скрипт Autolt - вызов скрипта для добавления файла
+            SetUploadedFile(_documentFile);
+            Thread.Sleep(6000);
+
+            _driver.FindElement(By.XPath(".//div[@id='document-wizard-form']//span[text()='Next']")).Click();
+
+            Thread.Sleep(4000);
+            _driver.FindElement(By.XPath(".//div[@id='document-wizard-body']//div[3]//span[text()='Next']")).Click();
+            WaitDocumentWizardWorkflowFormUpload();
+            _driver.FindElement(By.XPath(".//div[@id='document-wizard-workflow']//span[text()='Finish']")).Click();
+
+        }
+
+        /// <summary>
+        /// метод проверки наличия проекта в списке проектов
+        /// </summary>
+        /// <param name="ProjectNameCheck">Имя проекта, которое ищем в списке проектов</param>
+        private void CheckProjectInList(string ProjectNameCheck)
         {
             _driver.FindElement(By.CssSelector("#projects-body table tr:nth-child(1) td:nth-child(2) a"));
 
             //проверка, что проект с именем ProjectNameCheck есть на странице
-            Assert.IsTrue(_driver.PageSource.Contains(ProjectNameCheck));
-            //PassConsoleWrite("Create Project Test Pass");
-            //WriteStringIntoFile("Create Project Test Pass");
+            Assert.IsTrue(_driver.PageSource.Contains(ProjectNameCheck), "Проверка на наличие проекта среди созданных  - не пройдена");
+
 
             if (_driver.PageSource.Contains(ProjectNameCheck))
             {
@@ -326,6 +578,74 @@ namespace AbbyyLs.CAT.Projects.Selenium.Tests
             }
         }
 
+        /// <summary>
+        /// метод ожидания загрузки окна для импорта документа
+        /// </summary>
+        private void WaitImportDocumentFormUpload()
+        {
+            for (int second = 0; ; second++)
+            {
+                if (second >= 4000)
+                    Assert.Fail("timeout");
+                if (IsElementPresent(By.Id("document-wizard")))
+                {
+                    Thread.Sleep(3000);
+                    break;
+                }
+                else
+                {
+                    WriteFileConsoleResults("Form Document Import is not opened", 0);
+                    break;
+                }
+            }
+        }
+        /// <summary>
+        /// метод ожидания загрузки wf при импорте документа 
+        /// </summary>
+        private void WaitDocumentWizardWorkflowFormUpload()
+        {
+            for (int second = 0; ; second++)
+            {
+                if (second >= 4000)
+                    Assert.Fail("timeout");
+                if (IsElementPresent(By.Id("document-wizard-workflow")))
+                {
+                    Thread.Sleep(3000);
+                    break;
+                }
+                else
+                {
+                    WriteFileConsoleResults("Error during import file - WF form is not opened", 0);
+                    break;
+                }
+            }
+
+        }
+        /// <summary>
+        /// метод ожидания загрузки окна с настройками (project setting)
+        /// </summary>
+        private void WaitProjectSettingUpload()
+        {
+            for (int second = 0; ; second++)
+            {
+                if (second >= 4000)
+                    Assert.Fail("timeout");
+                //ждем когда кнопка Import появится
+                if (IsElementPresent(By.Id("documents-import-btn")))
+                {
+                    Thread.Sleep(3000);
+                    break;
+                }
+                else
+                {
+                    WriteFileConsoleResults("Form Project-Setting-Page is not opened", 0);
+                    break;
+                }
+            }
+        }
+        /// <summary>
+        /// метод ожидания загрузки Глоссариев в визарде
+        /// </summary>
         private void WaitTBUpload()
         {
             for (int second = 0; ; second++)
@@ -345,7 +665,54 @@ namespace AbbyyLs.CAT.Projects.Selenium.Tests
                 }
             }
         }
+        /// <summary>
+        /// метод ожидания загрузки окна workflow в визарде
+        /// </summary>
+        private void WaitWorkflowStageUpload()
+        {
+            for (int second = 0; ; second++)
+            {
+                if (second >= 4000)
+                    Assert.Fail("timeout");
 
+                if (IsElementPresent(By.Id("project-wizard-pretranslate")))
+                {
+                    Thread.Sleep(3000);
+                    break;
+                }
+                else
+                {
+                    WriteFileConsoleResults("Form Project-Wizard-Workflow is not opened", 0);
+                    break;
+                }
+
+            }
+
+        }
+        /// <summary>
+        /// метод ожидания загрузки окна pretranslate в визарде 
+        /// </summary>
+        private void WaitPretranslateUpload()
+        {
+            for (int second = 0; ; second++)
+            {
+                if (second >= 4000)
+                    Assert.Fail("timeout");
+                if (IsElementPresent(By.Id("project-wizard-pretranslate")))
+                {
+                    Thread.Sleep(3000);
+                    break;
+                }
+                else
+                {
+                    WriteFileConsoleResults("Form Project-Wizard-Pretranslate is not opened", 0);
+                    break;
+                }
+            }
+        }
+        /// <summary>
+        /// метод ожидания загрузки МТ баз в визарде
+        /// </summary>
         private void WaitMTUpload()
         {
             for (int second = 0; ; second++)
@@ -365,7 +732,9 @@ namespace AbbyyLs.CAT.Projects.Selenium.Tests
                 }
             }
         }
-
+        /// <summary>
+        /// метод ожидания загрузки ТМ в визарде
+        /// </summary>
         private void WaitTMUpload()
         {
             for (int second = 0; ; second++)
@@ -385,59 +754,105 @@ namespace AbbyyLs.CAT.Projects.Selenium.Tests
                 }
             }
         }
-
+        /// <summary>
+        /// ожидание загрузки окна настройки проектов (визард)
+        /// </summary>
         private void WaitProjectFormUpload()
         {
             for (int second = 0; ; second++)
             {
                 if (second >= 4000)
                     Assert.Fail("timeout");
-
                 if (IsElementPresent(By.Id("project-wizard")))
                 {
                     WriteFileConsoleResults("Form Project-Wizard is opened", 1);
                     break;
                 }
-
                 else
                 {
                     WriteFileConsoleResults("Form Project-Wizard is not opened", 0);
                     break;
                 }
-
+            }
+        }
+        /// <summary>
+        /// ожидание загрузки окна messagebox
+        /// </summary>
+        private void WaitMessageboxUpload()
+        {
+            for (int second = 0; ; second++)
+            {
+                if (second >= 4000)
+                    Assert.Fail("timeout");
+                if (IsElementPresent(By.Id("messagebox")))
+                {
+                    WriteFileConsoleResults("MessageBox is opened", 1);
+                    break;
+                }
+                else
+                {
+                    WriteFileConsoleResults("MessageBox is not opened", 0);
+                    break;
+                }
             }
         }
 
-#warning надо получить название проекта из списка проектов!!!!! для проверки создания
-
         /// <summary>
-        /// Метод проверки удаления проекта
+        /// Метод проверки удаления проекта (без файлов)
         /// </summary>
         [Test]
-        public void DeleteProjectTest()
+        public void DeleteProjectNoFileTest()
         {
-            WriteFileConsoleResults("Delete Project Test", 2);
-
+            AutorizationTest();
+            WriteFileConsoleResults("Delete Project Without File Test", 2);
             WaitWorkspacePageUpload();
+            _projectName += " " + DateTime.UtcNow.Ticks.ToString();
+            //создать проект, который будем удалять
+            CreateProject(_projectName, false, "");
 
-            Thread.Sleep(6000);
+            Thread.Sleep(3000);
+
+            //сортировка по дате (только что созданный оказывается сверху)
+            _driver.FindElement(By.XPath(".//span[text()='Created']")).Click();
+            _driver.FindElement(By.XPath(".//span[text()='Created']")).Click();
+
+            //удалить первый проект из списка проектов
+            Thread.Sleep(3000);
             _driver.FindElement(By.CssSelector("#projects-body table tr:nth-child(1) td:nth-child(1)")).Click();
             _driver.FindElement(By.Id("project-delete-btn")).Click();
-            Thread.Sleep(10000);
-            _driver.FindElement(By.XPath(".//span[text()='Yes']")).Click();
+            WaitMessageboxUpload();
+            _driver.FindElement(By.XPath(".//div[@id='messagebox']//span[text()='Yes']")).Click();
 
-            //проверить что удалено, что проект бывший последним не совпадает с тем что сейчас после удаления
+            Assert.IsFalse(_driver.PageSource.Contains(_projectName));
+        }
 
-            Assert.IsFalse(_driver.PageSource.Contains(ProjectNameCheck));
+        /// <summary>
+        /// Метод проверки удаления проекта (с файлом)
+        /// </summary>
+        [Test]
+        public void DeleteProjectWithFileTest()
+        {
+            AutorizationTest();
+            WriteFileConsoleResults("Delete Project With File Test", 2);
+            WaitWorkspacePageUpload();
+            _projectName += " " + DateTime.UtcNow.Ticks.ToString();
 
-            if (!_driver.PageSource.Contains(ProjectNameCheck))
-            {
-                WriteFileConsoleResults("Delete Project Test Pass", 1);
-            }
-            else
-            {
-                WriteFileConsoleResults("Delete Project Test Fail", 2);
-            }
+            CreateProject(_projectName, true, _documentFile);
+
+            Thread.Sleep(3000);
+            //сортировка по дате (только что созданный оказывается сверху)
+            _driver.FindElement(By.XPath(".//span[text()='Created']")).Click();
+            _driver.FindElement(By.XPath(".//span[text()='Created']")).Click();
+
+            //удалить первый проект из списка проектов
+            Thread.Sleep(3000);
+            _driver.FindElement(By.CssSelector("#projects-body table tr:nth-child(1) td:nth-child(1)")).Click();
+            _driver.FindElement(By.Id("project-delete-btn")).Click();
+            WaitMessageboxUpload();
+            Thread.Sleep(3000);
+            _driver.FindElement(By.XPath(".//div[@id='messagebox']//span[text()='Yes']")).Click();
+
+            Assert.IsFalse(_driver.PageSource.Contains(_projectName));
 
         }
         /// <summary>
@@ -446,53 +861,56 @@ namespace AbbyyLs.CAT.Projects.Selenium.Tests
         [Test]
         public void CreateProjectDeletedNameTest()
         {
+            AutorizationTest();
             WriteFileConsoleResults("Create Project with Deleted Name Test", 2);
-            Thread.Sleep(4000);
+            WaitWorkspacePageUpload();
 
-            Assert.IsTrue(_driver.FindElement(By.Id("project-add-btn")).Displayed);
+            _projectName += " " + DateTime.UtcNow.Ticks.ToString();
+            CreateProject(_projectName, false, "");
 
-            _driver.FindElement(By.Id("project-add-btn")).Click();
-            WaitProjectFormUpload();
-            _driver.FindElement(By.CssSelector("input[name=\"Name\"]")).Clear();
-            //вводим большое имя проекта
-            _driver.FindElement(By.CssSelector("input[name=\"Name\"]")).SendKeys(ProjectNameCheck);
+            Thread.Sleep(3000);
+            //сортировка по дате (только что созданный оказывается сверху)
+            _driver.FindElement(By.XPath(".//span[text()='Created']")).Click();
+            _driver.FindElement(By.XPath(".//span[text()='Created']")).Click();
 
-            Thread.Sleep(2000);
-            _driver.FindElement(By.XPath(".//div[@id='project-wizard-form']//span[contains(text(), 'Next')]")).Click();
-            Thread.Sleep(4000);
+            //удалить первый проект из списка проектов
+            Thread.Sleep(3000);
+            _driver.FindElement(By.CssSelector("#projects-body table tr:nth-child(1) td:nth-child(1)")).Click();
+            _driver.FindElement(By.Id("project-delete-btn")).Click();
+            WaitMessageboxUpload();
+            Thread.Sleep(3000);
+            _driver.FindElement(By.XPath(".//div[@id='messagebox']//span[text()='Yes']")).Click();
+            Assert.IsFalse(_driver.PageSource.Contains(_projectName));
+            //создание нового проекта с именем удаленного
+            _driver.Navigate().GoToUrl(_url);
+            WaitWorkspacePageUpload();
+            FirstStepProjectWizard(_projectName);
 
-            if (_driver.FindElement(By.Id("project-wizard-tms")).Displayed)
-            {
-                WriteFileConsoleResults("Test Pass", 1);
-            }
-            else
-            {
-                WriteFileConsoleResults("Test Fail", 0);
-            }
-
+            Assert.IsFalse(_driver.PageSource.Contains("Unique project name required"));
         }
+
         /// <summary>
         /// Метод проверки создания ТМ
         /// </summary>
         [Test]
         public void CreateTMTest()
         {
+            AutorizationTest();
             WriteFileConsoleResults("Create TM Test", 2);
             WaitWorkspacePageUpload();
-            Thread.Sleep(6000);
-            Assert.IsTrue(_driver.FindElement(By.Id("project-add-btn")).Displayed);
+            Thread.Sleep(3000);
+
+            Assert.IsTrue(_driver.FindElement(By.Id("projects-add-btn")).Displayed);
             //нажать <Create>
-            _driver.FindElement(By.Id("project-add-btn")).Click();
+            _driver.FindElement(By.Id("projects-add-btn")).Click();
 
             //ждем загрузки формы
             WaitProjectFormUpload();
 
-            //заполнение полей на 1 шаге
-            _driver.FindElement(By.CssSelector("input[name=\"Name\"]")).Clear();
-            _driver.FindElement(By.CssSelector("input[name=\"Name\"]")).SendKeys(_projectName + " " + DateTime.UtcNow.Ticks.ToString());
+            _projectName += " " + DateTime.UtcNow.Ticks.ToString();
+            _tmName += " " + DateTime.UtcNow.Ticks.ToString();
 
-            _driver.FindElement(By.CssSelector("input[name=\"DeadlineDate\"]")).Clear();
-            _driver.FindElement(By.CssSelector("input[name=\"DeadlineDate\"]")).SendKeys(_deadlineDate);
+            FirstStepProjectWizard(_projectName);
 
             //процесс добавления файла 
             //нажатие кнопки Add
@@ -500,7 +918,9 @@ namespace AbbyyLs.CAT.Projects.Selenium.Tests
 
             //скрипт Autolt - вызов скрипта для добавления файла
             SetUploadedFile(_documentFile);
-            Thread.Sleep(6000);
+            WriteFileConsoleResults("Upload file finish", 2);
+
+            Thread.Sleep(500);
 
             //кнопка Next
             _driver.FindElement(By.XPath(".//div[@id='project-wizard-form']//span[contains(text(), 'Next')]")).Click();
@@ -515,7 +935,7 @@ namespace AbbyyLs.CAT.Projects.Selenium.Tests
 
             //заполняем данные о новой ТМ
             _driver.FindElement(By.CssSelector("#project-wizard-tm input[name=\"Name\"]")).Clear();
-            _driver.FindElement(By.CssSelector("#project-wizard-tm input[name=\"Name\"]")).SendKeys(_tmName + " " + DateTime.UtcNow.Ticks.ToString());
+            _driver.FindElement(By.CssSelector("#project-wizard-tm input[name=\"Name\"]")).SendKeys(_tmName);
 
             //добавить тмх файл
             _driver.FindElement(By.XPath(".//div[@id='project-wizard-tm']//span[text()='Add']")).Click();
@@ -528,24 +948,23 @@ namespace AbbyyLs.CAT.Projects.Selenium.Tests
 
             WaitTMUpload();
 
-            //проверить что ТМ появилась в списке
-            //дойти создание проекта до конца и посмотреть имя в настройках
+            Assert.IsTrue(_driver.PageSource.Contains(_tmName));
 
         }
+#warning где используется этот метод???
         /// <summary>
         /// метод проверки ТС-301 Импорта файлов
         /// </summary>
         /// <param name="filePath">путь в файлу, импортируемого в проект</param>
         /// <param name="status">параметр проверки - 1 испорт ок; 0 импорт не ок</param>
-        
         public bool ImportSomeFilesTest(String filePath, int status)
         {
             //открываем форму настройки
             WriteFileConsoleResults("ImportFilesTest", 2);
             Thread.Sleep(8000);
-            Assert.IsTrue(_driver.FindElement(By.Id("project-add-btn")).Displayed);
+            Assert.IsTrue(_driver.FindElement(By.Id("projects-add-btn")).Displayed);
             //нажать <Create>
-            _driver.FindElement(By.Id("project-add-btn")).Click();
+            _driver.FindElement(By.Id("projects-add-btn")).Click();
 
             //ждем загрузки формы
             WaitProjectFormUpload();
@@ -585,6 +1004,10 @@ namespace AbbyyLs.CAT.Projects.Selenium.Tests
                     return true;
             }
         }
+
+        /// <summary>
+        /// ожидание пока загрузится форма с ТМ
+        /// </summary>
         private void WaitTMCreateFormUpload()
         {
             for (int second = 0; ; second++)
@@ -604,6 +1027,7 @@ namespace AbbyyLs.CAT.Projects.Selenium.Tests
                 }
             }
         }
+
         /// <summary>
         /// вызов скрипта autoit v3 в тестах
         /// </summary>
@@ -612,17 +1036,14 @@ namespace AbbyyLs.CAT.Projects.Selenium.Tests
         {
             //путь к скрипту
             //FileInfo autoIt = new FileInfo("../Scripts/upload_file.exe");
-
-
             try
             {
                 //запуск скрипта 
                 Process p = new Process();
-
-                p.StartInfo.FileName = @"\\cat-dev\Share\CAT\TestFiles\upload_file.exe ";
+#warning Скрипт загрузки файла переместить в папку с проектом и указать отнсоительный путь
+                p.StartInfo.FileName = @"C:\Users\a.kurenkova\Desktop\Repos\CAT\CAT.FrontEnd.Tests\AbbyyLS.CAT.Projects.Selenium.Tests\bin\Debug\Scripts\upload_file.exe";
                 p.StartInfo.Arguments = filePath;
                 p.Start();
-
             }
             catch (IOException e)
             {
@@ -632,14 +1053,15 @@ namespace AbbyyLs.CAT.Projects.Selenium.Tests
             {
                 FailConsoleWrite(e.StackTrace);
             }
-
         }
-
+        /// <summary>
+        /// метод ожидания загрузки стартовой workspace страницы
+        /// </summary>
         private void WaitWorkspacePageUpload()
         {
             for (int second = 0; ; second++)
             {
-                if (second >= 20000)
+                if (second >= 10000)
                     Assert.Fail("timeout");
 
                 if (IsElementPresent(By.Id("projects-body")))
@@ -655,42 +1077,24 @@ namespace AbbyyLs.CAT.Projects.Selenium.Tests
                 }
             }
         }
-
         /// <summary>
-        /// метод тестирование создания проекта с существующим именем
+        /// метод тестирования создания проекта с существующим именем
         /// </summary>
-        /// запускать перед удалением
         [Test]
         public void CreateProjectDuplicateNameTest()
         {
+            AutorizationTest();
             WriteFileConsoleResults("Create Project Duplicate Name Test", 2);
-            Thread.Sleep(8000);
-            Assert.IsTrue(_driver.FindElement(By.Id("project-add-btn")).Displayed);
-            //нажать <Create>
-            _driver.FindElement(By.Id("project-add-btn")).Click();
-
-            //ждем загрузки формы
-            WaitProjectFormUpload();
-
-            //заполнение полей на 1 шаге
-            _driver.FindElement(By.CssSelector("input[name=\"Name\"]")).Clear();
-            _driver.FindElement(By.CssSelector("input[name=\"Name\"]")).SendKeys(DuplicateProjectName);
-
-            _driver.FindElement(By.XPath(".//div[@id='project-wizard-form']//span[contains(text(), 'Next')]")).Click();
-
-            //проверка что создать дубл.имя нельзя
-            if (IsElementPresent(By.Id("project-wizard-tms")))
-            {
-                WriteFileConsoleResults("Test Fail", 0);
-            }
-            else
-            {
-                WriteFileConsoleResults("Test Pass", 1);
-            }
-
-
-            Thread.Sleep(6000);
-
+            Thread.Sleep(2000);
+            WaitWorkspacePageUpload();
+            _projectName += " " + DateTime.UtcNow.Ticks.ToString();
+            CreateProject(_projectName, false, "");
+            Thread.Sleep(2000);
+            //_driver.Navigate().GoToUrl(_url);
+            WaitWorkspacePageUpload();
+            FirstStepProjectWizard(_projectName);
+            Thread.Sleep(3000);
+            Assert.IsTrue(_driver.PageSource.Contains("Unique project name required"));
         }
         /// <summary>
         /// метод проверки невозможности создания проекта в большим именем(>100 символов)
@@ -698,35 +1102,14 @@ namespace AbbyyLs.CAT.Projects.Selenium.Tests
         [Test]
         public void CreateProjectBigNameTest()
         {
+            AutorizationTest();
             WriteFileConsoleResults("Create Project with Big Name (> 100 symbols) Test", 2);
-            Thread.Sleep(6000);
+            WaitWorkspacePageUpload();
 
-            Assert.IsTrue(_driver.FindElement(By.Id("project-add-btn")).Displayed);
-
-            _driver.FindElement(By.Id("project-add-btn")).Click();
-            WaitProjectFormUpload();
-
-            _driver.FindElement(By.CssSelector("input[name=\"Name\"]")).Clear();
-            //вводим большое имя проекта
-            _driver.FindElement(By.CssSelector("input[name=\"Name\"]")).SendKeys("12345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901");
-
+            string bigName = "12345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901";
+            FirstStepProjectWizard(bigName);
             Thread.Sleep(2000);
-            //нажимаем кнопку next и проверяем открылось окно следующего шага или нет
-            _driver.FindElement(By.XPath(".//div[@id='project-wizard-form']//span[contains(text(), 'Next')]")).Click();
-
-            Thread.Sleep(6000);
-
-            if (_driver.FindElement(By.Id("project-wizard-tms")).Displayed)
-            {
-                WriteFileConsoleResults("Test Fail", 0);
-            }
-            else
-            {
-                WriteFileConsoleResults("Test Pass", 1);
-            }
-            //Thread.Sleep(4000);
-
-
+            Assert.IsTrue(_driver.PageSource.Contains("The maximum length for this field is 100"));
         }
         /// <summary>
         /// метод проверки на ограничение имени проекта (100 символов)
@@ -734,40 +1117,26 @@ namespace AbbyyLs.CAT.Projects.Selenium.Tests
         [Test]
         public void CreateProjectLimitNameTest()
         {
+            AutorizationTest();
             WriteFileConsoleResults("Create Project - Limit Name (100) Test", 2);
-            Thread.Sleep(4000);
+            WaitWorkspacePageUpload();
 
-            Assert.IsTrue(_driver.FindElement(By.Id("project-add-btn")).Displayed);
+            string limitName = "1234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890";
+            CreateProject(limitName, false, "");
+            Assert.IsTrue(_driver.PageSource.Contains(limitName));
 
-            _driver.FindElement(By.Id("project-add-btn")).Click();
-            WaitProjectFormUpload();
-            _driver.FindElement(By.CssSelector("input[name=\"Name\"]")).Clear();
-            //вводим большое имя проекта
-            _driver.FindElement(By.CssSelector("input[name=\"Name\"]")).SendKeys("1234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567891");
-
-            Thread.Sleep(2000);
-            _driver.FindElement(By.XPath(".//div[@id='project-wizard-form']//span[contains(text(), 'Next')]")).Click();
-            Thread.Sleep(4000);
-
-            if (_driver.FindElement(By.Id("project-wizard-tms")).Displayed)
-            {
-                WriteFileConsoleResults("Test Pass", 1);
-            }
-            else
-            {
-                WriteFileConsoleResults("Test Fail", 0);
-            }
         }
+#warning пересмотреть метод!! как лучше выбирать языки
         /// <summary>
-        /// метод тестирования создания проектов с одинаковыми sourc и target языками
+        /// метод тестирования создания проектов с одинаковыми source и target языками
         /// </summary>
         [Test]
         public void CreateProjectEqualLanguagesTest()
         {
             WriteFileConsoleResults("Create Project - Equal Languages", 2);
             Thread.Sleep(4000);
-            Assert.IsTrue(_driver.FindElement(By.Id("project-add-btn")).Displayed);
-            _driver.FindElement(By.Id("project-add-btn")).Click();
+            Assert.IsTrue(_driver.FindElement(By.Id("projects-add-btn")).Displayed);
+            _driver.FindElement(By.Id("projects-add-btn")).Click();
             WaitProjectFormUpload();
             _driver.FindElement(By.CssSelector("input[name=\"Name\"]")).Clear();
             _driver.FindElement(By.CssSelector("input[name=\"Name\"]")).SendKeys(_projectName + " " + DateTime.UtcNow.Ticks.ToString());
@@ -791,63 +1160,20 @@ namespace AbbyyLs.CAT.Projects.Selenium.Tests
             }
             Thread.Sleep(3000);
         }
+
         /// <summary>
         /// метод для тестирования недопустимых символов в имени проекта
         /// </summary>
         [Test]
         public void CreateProjectForbiddenSymbolsTest()
         {
+            AutorizationTest();
             WriteFileConsoleResults("Create Project - Forbidden Symbols Test", 2);
-            Thread.Sleep(4000);
-            Assert.IsTrue(_driver.FindElement(By.Id("project-add-btn")).Displayed);
-            _driver.FindElement(By.Id("project-add-btn")).Click();
-            WaitProjectFormUpload();
-            _driver.FindElement(By.CssSelector("input[name=\"Name\"]")).Clear();
-            _driver.FindElement(By.CssSelector("input[name=\"Name\"]")).SendKeys("*|\\:\"<\\>?/");
-            Thread.Sleep(2000);
+            WaitWorkspacePageUpload();
 
-            _driver.FindElement(By.XPath(".//div[@id='project-wizard-form']//span[contains(text(), 'Next')]")).Click();
-
-            Thread.Sleep(4000);
-            if (_driver.FindElement(By.Id("project-wizard-tms")).Displayed)
-            {
-                WriteFileConsoleResults("Test Fail", 0);
-            }
-            else
-            {
-                WriteFileConsoleResults("Test Pass", 1);
-            }
-            Thread.Sleep(3000);
-        }
-        [Test]
-        public void CreateProjectForbiddenSymbolsTest2()
-        {
-
-            string NamePr, NameCheck;
-            NamePr = _projectName + " " + DateTime.UtcNow.Ticks.ToString();
-            WriteFileConsoleResults("Create Project - Forbidden Symbols Test 2", 2);
-            Thread.Sleep(4000);
-            Assert.IsTrue(_driver.FindElement(By.Id("project-add-btn")).Displayed);
-            _driver.FindElement(By.Id("project-add-btn")).Click();
-            WaitProjectFormUpload();
-            _driver.FindElement(By.CssSelector("input[name=\"Name\"]")).Clear();
-            _driver.FindElement(By.CssSelector("input[name=\"Name\"]")).SendKeys(NamePr + "*|\\:\"<\\>?/");
-            Thread.Sleep(2000);
-            _driver.FindElement(By.XPath(".//div[@id='project-wizard-form']//span[contains(text(), 'Next')]")).Click();
-            Thread.Sleep(4000);
-            _driver.FindElement(By.XPath(".//div[@id='project-wizard-tms']//span[contains(text(), 'Back')]")).Click();
-            //получаем имя проекта
-            NameCheck = _driver.FindElement(By.CssSelector("input[name=\"Name\"]")).GetAttribute("value");
-
-            if (NameCheck == NamePr)
-            {
-                WriteFileConsoleResults("Test Pass", 1);
-            }
-            else
-            {
-                WriteFileConsoleResults("Test Fail", 0);
-            }
-
+            _projectName += " *|\\:\"<\\>?/ " + DateTime.UtcNow.Ticks.ToString();
+            CreateProject(_projectName, false, "");
+            Assert.IsFalse(_driver.PageSource.Contains(" *|\\:\"<\\>?/ "));
 
         }
         /// <summary>
@@ -856,26 +1182,17 @@ namespace AbbyyLs.CAT.Projects.Selenium.Tests
         [Test]
         public void CreateProjectEmptyNameTest()
         {
+            AutorizationTest();
             WriteFileConsoleResults("Create project - Empty name", 2);
-            Thread.Sleep(3000);
-            Assert.IsTrue(_driver.FindElement(By.Id("project-add-btn")).Displayed);
-            _driver.FindElement(By.Id("project-add-btn")).Click();
-            WaitProjectFormUpload();
-            _driver.FindElement(By.CssSelector("input[name=\"Name\"]")).Clear();
-            _driver.FindElement(By.CssSelector("input[name=\"Name\"]")).SendKeys("");
-            Thread.Sleep(2000);
-            _driver.FindElement(By.XPath(".//div[@id='project-wizard-form']//span[contains(text(), 'Next')]")).Click();
+            WaitWorkspacePageUpload();
+
+            FirstStepProjectWizard("");
 
             Thread.Sleep(3000);
-            if (_driver.FindElement(By.Id("project-wizard-tms")).Displayed)
-            {
-                WriteFileConsoleResults("Test Fail", 0);
-            }
-            else
-            {
-                WriteFileConsoleResults("Test Pass", 1);
-            }
-            Thread.Sleep(3000);
+            _driver.FindElement(By.XPath(".//div[@id='project-wizard-form']//span[contains(text(), 'Next')]")).Click();
+            Thread.Sleep(2000);
+            //проверяем, что появилось сообщение об ошибке около поля Name
+            Assert.IsTrue(_driver.PageSource.Contains("This field is required"));
         }
         /// <summary>
         /// метод для тестирования создания имени проекта состоящего из одного пробела
@@ -883,304 +1200,102 @@ namespace AbbyyLs.CAT.Projects.Selenium.Tests
         [Test]
         public void CreateProjectSpaceNameTest()
         {
-            WriteFileConsoleResults("Create project - Name = SPACE", 2);
+            AutorizationTest();
+            WriteFileConsoleResults("Create project - Empty name", 2);
+            WaitWorkspacePageUpload();
+
+            FirstStepProjectWizard(" ");
+
             Thread.Sleep(3000);
-            Assert.IsTrue(_driver.FindElement(By.Id("project-add-btn")).Displayed);
-            _driver.FindElement(By.Id("project-add-btn")).Click();
-            WaitProjectFormUpload();
-            _driver.FindElement(By.CssSelector("input[name=\"Name\"]")).Clear();
-            _driver.FindElement(By.CssSelector("input[name=\"Name\"]")).SendKeys(" ");
-            Thread.Sleep(2000);
             _driver.FindElement(By.XPath(".//div[@id='project-wizard-form']//span[contains(text(), 'Next')]")).Click();
-
-            Thread.Sleep(3000);
-            if (_driver.FindElement(By.Id("project-wizard-tms")).Displayed)
-            {
-                WriteFileConsoleResults("Test Fail", 0);
-            }
-            else
-            {
-                WriteFileConsoleResults("Test Pass", 1);
-            }
-            Thread.Sleep(3000);
+            Thread.Sleep(2000);
+            //проверяем, что появилось сообщение об ошибке около поля Name
+            Assert.IsTrue(_driver.PageSource.Contains("This field is required"));
         }
-
-#warning Доделать тесты ТС-36
+        /// <summary>
+        /// метод тестирования создания проекта с именем содержащим пробелы
+        /// </summary>
         [Test]
-        public void CreateProjectSpaceNameTest2()
+        public void CreateProjectSpacePlusSymbolsNameTest()
         {
-            string NamePr = _projectName + " " + DateTime.UtcNow.Ticks.ToString();
-            string NameCheck;
+            AutorizationTest();
             WriteFileConsoleResults("Create project - Name=Space+Name", 2);
-            Thread.Sleep(3000);
-            Assert.IsTrue(_driver.FindElement(By.Id("project-add-btn")).Displayed);
-            _driver.FindElement(By.Id("project-add-btn")).Click();
-            WaitProjectFormUpload();
-            _driver.FindElement(By.CssSelector("input[name=\"Name\"]")).Clear();
-            _driver.FindElement(By.CssSelector("input[name=\"Name\"]")).SendKeys(" " + NamePr);
+            WaitWorkspacePageUpload();
+            _projectName += "  " + DateTime.UtcNow.Ticks.ToString();
+            CreateProject(_projectName, false, "");
             Thread.Sleep(2000);
-            _driver.FindElement(By.XPath(".//div[@id='project-wizard-form']//span[contains(text(), 'Next')]")).Click();
-            Thread.Sleep(4000);
-            _driver.FindElement(By.XPath(".//div[@id='project-wizard-tms']//span[contains(text(), 'Back')]")).Click();
-            //получаем имя проекта
-            NameCheck = _driver.FindElement(By.CssSelector("input[name=\"Name\"]")).GetAttribute("value");
-
-
+            Assert.IsTrue(_driver.PageSource.Contains(_projectName));
         }
+
+#warning Убрать если у нас не будет кнопки back для возврата на первый шаг для отмены создания. СЕйчас реализовано, что кнопки нет, но в документации - кнопка описана.
         /// <summary>
         /// отмена создания проекта на первом шаге
         /// </summary>
-        [Test]
+        //[Test]
         public void CancelFirstTest()
         {
-            WriteFileConsoleResults("Cancel project creation after 1 step", 2);
-            Thread.Sleep(3000);
-            Assert.IsTrue(_driver.FindElement(By.Id("project-add-btn")).Displayed);
-            _driver.FindElement(By.Id("project-add-btn")).Click();
-            WaitProjectFormUpload();
-            _driver.FindElement(By.CssSelector("input[name=\"Name\"]")).Clear();
-            _driver.FindElement(By.CssSelector("input[name=\"Name\"]")).SendKeys(_projectName + " " + DateTime.UtcNow.Ticks.ToString());
-            Thread.Sleep(2000);
-            _driver.FindElement(By.XPath(".//div[@id='project-wizard-body']//span[text()='Cancel']")).Click();
-            Thread.Sleep(3000);
-
-            //должны оказаться на workspace без открытых окон, только список проектов
-            if (IsElementPresent(By.Id("project-wizard")))
-            {
-                WriteFileConsoleResults("Test Fail", 0);
-            }
-
-            else
-            {
-                WriteFileConsoleResults("Test Pass", 1);
-            }
 
         }
+#warning Убрать если у нас не будет кнопки back для возврата на первый шаг для отмены создания. СЕйчас реализовано, что кнопки нет, но в документации - кнопка описана.
         /// <summary>
         /// отмена создания проекта(подтверждение отмены)
         /// </summary>
-        [Test]
+        //[Test]
         public void CancelYesTest()
         {
-            WriteFileConsoleResults("Cancel project creation with message - yes", 2);
-            Thread.Sleep(3000);
-            Assert.IsTrue(_driver.FindElement(By.Id("project-add-btn")).Displayed);
-            _driver.FindElement(By.Id("project-add-btn")).Click();
-            WaitProjectFormUpload();
-            _driver.FindElement(By.CssSelector("input[name=\"Name\"]")).Clear();
-            string NameCheck = _projectName + " " + DateTime.UtcNow.Ticks.ToString();
-            _driver.FindElement(By.CssSelector("input[name=\"Name\"]")).SendKeys(NameCheck);
-            Thread.Sleep(2000);
-            _driver.FindElement(By.XPath(".//div[@id='project-wizard-body']//span[text()='Next']")).Click();
-            WaitTMUpload();
-            _driver.FindElement(By.XPath(".//div[@id='project-wizard-body']//span[text()='Back']")).Click();
-            WaitProjectFormUpload();
-            Thread.Sleep(2000);
-            _driver.FindElement(By.XPath(".//div[@id='project-wizard-body']//span[text()='Cancel']")).Click();
-
-            if (IsElementPresent(By.XPath(".//span[text()='Yes']")))
-            {
-                _driver.FindElement(By.XPath(".//span[text()='Yes']")).Click();
-                Thread.Sleep(4000);
-                if (!IsElementPresent(By.Id("project-wizard")))
-                {
-                    //проверка что в списке проектов нет проекта
-                    if (!_driver.PageSource.Contains(NameCheck))
-                    {
-                        WriteFileConsoleResults("Test Pass", 1);
-                    }
-                    else
-                    {
-                        WriteFileConsoleResults("Test Fail\n Project in list", 0);
-                    }
-
-                }
-                else
-                {
-                    WriteFileConsoleResults("Test Fail\n Message window did not close", 0);
-                }
-
-            }
-            else
-            {
-                WriteFileConsoleResults("Test Fail\n No message window", 0);
-            }
 
         }
+#warning Убрать если у нас не будет кнопки back для возврата на первый шаг для отмены создания. СЕйчас реализовано, что кнопки нет, но в документации - кнопка описана.
         /// <summary>
         /// отмена создания проекта - No 
         /// </summary>
-        [Test]
+        //[Test]
         public void CancelNoTest()
         {
-            WriteFileConsoleResults("Cancel project creation with message - yes", 2);
-            Thread.Sleep(3000);
-            Assert.IsTrue(_driver.FindElement(By.Id("project-add-btn")).Displayed);
-            _driver.FindElement(By.Id("project-add-btn")).Click();
-            WaitProjectFormUpload();
-            _driver.FindElement(By.CssSelector("input[name=\"Name\"]")).Clear();
-            string NameCheck = _projectName + " " + DateTime.UtcNow.Ticks.ToString();
-            _driver.FindElement(By.CssSelector("input[name=\"Name\"]")).SendKeys(NameCheck);
-            Thread.Sleep(2000);
-            _driver.FindElement(By.XPath(".//div[@id='project-wizard-body']//span[text()='Next']")).Click();
-            WaitTMUpload();
-            _driver.FindElement(By.XPath(".//div[@id='project-wizard-body']//span[text()='Back']")).Click();
-            WaitProjectFormUpload();
-            Thread.Sleep(2000);
-            _driver.FindElement(By.XPath(".//div[@id='project-wizard-body']//span[text()='Cancel']")).Click();
-
-            if (IsElementPresent(By.XPath(".//span[text()='No']")))
-            {
-                _driver.FindElement(By.XPath(".//span[text()='No']")).Click();
-                Thread.Sleep(2000);
-                if (IsElementPresent(By.Id("project-wizard")))
-                {
-                    WriteFileConsoleResults("Test Pass", 1);
-                }
-                else
-                {
-                    WriteFileConsoleResults("Test Fail\n Message window did not close", 0);
-                }
-            }
-            else
-            {
-                WriteFileConsoleResults("Test Fail\n No message window", 0);
-            }
 
         }
-
-
-
+#warning Кнопка back сейчас убрана.  втребованиях осталось про кнопку. убрана временно или навсегда? уточнить
         /// <summary>
         /// изменение имени проекта на новое по нажатию кнопки Back
         /// </summary>
-        [Test]
+        //[Test]
         public void ChangeProjectNameOnNew()
         {
-            string OldProjectName = _projectName + " " + DateTime.UtcNow.Ticks.ToString() + " old";
-            string NewProjectName = _projectName + " " + DateTime.UtcNow.Ticks.ToString() + " new";
-            ExistedName += NewProjectName;
-            //Console.WriteLine(OldProjectName + "\n" + NewProjectName);
-            WriteFileConsoleResults("Change project name on New by button <Back>", 2);
-            Thread.Sleep(4000);
-            Assert.IsTrue(_driver.FindElement(By.Id("project-add-btn")).Displayed);
-            _driver.FindElement(By.Id("project-add-btn")).Click();
-            WaitProjectFormUpload();
-            _driver.FindElement(By.CssSelector("input[name=\"Name\"]")).Clear();
-            _driver.FindElement(By.CssSelector("input[name=\"Name\"]")).SendKeys(OldProjectName);
-            Thread.Sleep(2000);
-            _driver.FindElement(By.XPath(".//div[@id='project-wizard-body']//span[text()='Next']")).Click();
-            WaitTMUpload();
-            _driver.FindElement(By.XPath(".//div[@id='project-wizard-body']//span[text()='Back']")).Click();
-            WaitProjectFormUpload();
-            _driver.FindElement(By.CssSelector("input[name=\"Name\"]")).Clear();
-            _driver.FindElement(By.CssSelector("input[name=\"Name\"]")).SendKeys(NewProjectName);
-            Thread.Sleep(2000);
-            _driver.FindElement(By.XPath(".//div[@id='project-wizard-body']//span[text()='Next']")).Click();
-            WaitTMUpload();
-            //нажать по Значку закрытия окна "x"
-            _driver.FindElement(By.XPath(".//div[@id='project-wizard']//div[@id='project-wizard_header']//img")).Click();
-            Thread.Sleep(2000);
-            _driver.Navigate().Refresh();
-            Thread.Sleep(3000);
-            bool NewInList = IsElementPresent(By.XPath(".//div[@id='projects-body']//table//span//a[contains(text(), 'new')]"));
-            bool OldInList = IsElementPresent(By.XPath(".//div[@id='projects-body']//table//span//a[contains(text(), 'old')]"));
-            //Console.WriteLine("new: " +a + "    " + "old: " +  b);
-            if (NewInList && !OldInList) 
-             
-            {
-                WriteFileConsoleResults("Test Pass", 1);
-            }
-            else
-            {
-                WriteFileConsoleResults("Test Fail", 0);
-            }
-
-            
-            Thread.Sleep(6000);
 
         }
+#warning Кнопка back сейчас убрана.  втребованиях осталось про кнопку. убрана временно или навсегда? уточнить
         /// <summary>
         /// изменение имени проекта на существующее
         /// </summary>
-        [Test]
+        //[Test]
         public void ChangeProjectNameOnExist()
         {
-            string OldProjectName = _projectName + " " + DateTime.UtcNow.Ticks.ToString() + " old";
-            WriteFileConsoleResults("Change project name on Existed by button <Back>", 2);
-            Thread.Sleep(4000);
-            Assert.IsTrue(_driver.FindElement(By.Id("project-add-btn")).Displayed);
-            _driver.FindElement(By.Id("project-add-btn")).Click();
-            WaitProjectFormUpload();
-            _driver.FindElement(By.CssSelector("input[name=\"Name\"]")).Clear();
-            _driver.FindElement(By.CssSelector("input[name=\"Name\"]")).SendKeys(OldProjectName);
-            Thread.Sleep(2000);
-            _driver.FindElement(By.XPath(".//div[@id='project-wizard-body']//span[text()='Next']")).Click();
-            WaitTMUpload();
-            _driver.FindElement(By.XPath(".//div[@id='project-wizard-body']//span[text()='Back']")).Click();
-            WaitProjectFormUpload();
-            Thread.Sleep(2000);
-            _driver.FindElement(By.CssSelector("input[name=\"Name\"]")).Clear();
-            _driver.FindElement(By.CssSelector("input[name=\"Name\"]")).SendKeys(ExistedName);
-            Thread.Sleep(2000);
-            //кнопка Next должна быть неактивной
-            _driver.FindElement(By.XPath(".//div[@id='project-wizard-form']//span[contains(text(), 'Next')]")).Click();
 
-            Thread.Sleep(4000);
-            if (_driver.FindElement(By.Id("project-wizard-tms")).Displayed)
-            {
-                WriteFileConsoleResults("Test Fail", 0);
-            }
-            else
-            {
-                WriteFileConsoleResults("Test Pass", 1);
-            }
-            Thread.Sleep(3000);
-            
         }
-
-        [Test]
+#warning Кнопка back сейчас убрана. в требованиях осталось про кнопку. убрана временно или навсегда? уточнить
+        //[Test]
         public void ChangeProjectNameOnDeleted()
         {
-            string OldProjectName = _projectName + " " + DateTime.UtcNow.Ticks.ToString() + " old";
-            string NewProjectName = DeletedName + "new";
-            WriteFileConsoleResults("Change project name on Existed by button <Back>", 2);
-            Thread.Sleep(4000);
-            Assert.IsTrue(_driver.FindElement(By.Id("project-add-btn")).Displayed);
-            _driver.FindElement(By.Id("project-add-btn")).Click();
-            WaitProjectFormUpload();
-            _driver.FindElement(By.CssSelector("input[name=\"Name\"]")).Clear();
-            _driver.FindElement(By.CssSelector("input[name=\"Name\"]")).SendKeys(OldProjectName);
-            Thread.Sleep(2000);
-            _driver.FindElement(By.XPath(".//div[@id='project-wizard-body']//span[text()='Next']")).Click();
-            WaitTMUpload();
-            _driver.FindElement(By.XPath(".//div[@id='project-wizard-body']//span[text()='Back']")).Click();
-            WaitProjectFormUpload();
-            Thread.Sleep(2000);
-            _driver.FindElement(By.CssSelector("input[name=\"Name\"]")).Clear();
-            _driver.FindElement(By.CssSelector("input[name=\"Name\"]")).SendKeys(NewProjectName);
-            Thread.Sleep(2000);
-
-            _driver.Navigate().Refresh();
-            Thread.Sleep(3000);
-            bool NewInList = IsElementPresent(By.XPath(".//div[@id='projects-body']//table//span//a[contains(text(), 'new')]"));
-            bool OldInList = IsElementPresent(By.XPath(".//div[@id='projects-body']//table//span//a[contains(text(), 'old')]"));
-            //Console.WriteLine("new: " +a + "    " + "old: " +  b);
-            if (NewInList && !OldInList)
-            {
-                WriteFileConsoleResults("Test Pass", 1);
-            }
-            else
-            {
-                WriteFileConsoleResults("Test Fail", 0);
-            }
-
-
-
 
         }
-        
+        /// <summary>
+        /// ТС-10 тестирование импорта xliff из memoQ 
+        /// </summary>
+        [Test]
+        public void TestCase10()
+        {
+            AutorizationTest();
+            WriteFileConsoleResults("Import Xliff - TC 10", 2);
+            WaitWorkspacePageUpload();
+            _projectName = "TC-10 " + DateTime.UtcNow.Ticks.ToString();
 
+            CreateProject(_projectName, true, _xliffTC10);
+            Thread.Sleep(2000);
+
+
+            Assert.IsTrue(_driver.PageSource.Contains(_projectName));
+
+        }
 
 
 
@@ -1199,11 +1314,6 @@ namespace AbbyyLs.CAT.Projects.Selenium.Tests
                 return false;
             }
         }
-
-
-
-
-
         /// <summary>
         /// Завершение тестов
         /// </summary>
@@ -1219,16 +1329,5 @@ namespace AbbyyLs.CAT.Projects.Selenium.Tests
 
             }
         }
-
-
-        /// <summary>
-        /// завершение теста
-        /// </summary>
-        public void CloseTest()
-        {
-            _driver.Quit();
-        }
-
-
     }
 }

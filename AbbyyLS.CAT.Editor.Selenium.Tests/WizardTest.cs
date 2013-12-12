@@ -34,7 +34,7 @@ namespace AbbyyLs.CAT.Editor.Selenium.Tests
         ///<summary>
         ///Метод установки различныз значений для теста
         ///</summary>
-        [SetUp]
+       
         public void SetupTest()
         {
             //driver = new ChromeDriver();

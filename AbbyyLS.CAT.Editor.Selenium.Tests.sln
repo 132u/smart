@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AbbyyLS.CAT.Selenium.StartP
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AbbyyLs.CAT.Projects.Selenium.Tests", "AbbyyLS.CAT.Projects.Selenium.Tests\AbbyyLs.CAT.Projects.Selenium.Tests.csproj", "{9DC9D68E-BBFD-4CCB-9C78-949E7E895D3A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AbbyyLs.CAT.Xliff.Selenium.Tests", "AbbyyLs.CAT.Xliff.Selenium.Tests\AbbyyLs.CAT.Xliff.Selenium.Tests.csproj", "{9E90A658-CEF5-46EF-81FB-CE47D8A08E63}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -25,6 +27,10 @@ Global
 		{9DC9D68E-BBFD-4CCB-9C78-949E7E895D3A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9DC9D68E-BBFD-4CCB-9C78-949E7E895D3A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9DC9D68E-BBFD-4CCB-9C78-949E7E895D3A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9E90A658-CEF5-46EF-81FB-CE47D8A08E63}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9E90A658-CEF5-46EF-81FB-CE47D8A08E63}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9E90A658-CEF5-46EF-81FB-CE47D8A08E63}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9E90A658-CEF5-46EF-81FB-CE47D8A08E63}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
