@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<RDF:RDF xmlns:NC="http://home.netscape.com/NC-rdf#"
+         xmlns:RDF="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+  <RDF:Description RDF:about="chrome://browser/content/browser.xul#main-window"
+                   width="1440"
+                   height="780"
+                   sizemode="normal"
+                   screenX="47"
+                   screenY="95" />
+  <RDF:Description RDF:about="chrome://browser/content/browser.xul">
+    <NC:persist RDF:resource="chrome://browser/content/browser.xul#main-window"/>
+    <NC:persist RDF:resource="chrome://browser/content/browser.xul#sidebar-box"/>
+    <NC:persist RDF:resource="chrome://browser/content/browser.xul#sidebar-title"/>
+    <NC:persist RDF:resource="chrome://browser/content/browser.xul#nav-bar"/>
+  </RDF:Description>
+  <RDF:Description RDF:about="chrome://browser/content/browser.xul#nav-bar"
+                   currentset="unified-back-forward-button,urlbar-container,reload-button,stop-button,search-container,webrtc-status-button,bookmarks-menu-button,downloads-button,home-button,window-controls,social-share-button,selenium-ide-button" />
+  <RDF:Description RDF:about="chrome://selenium-ide/content/selenium-ide.xul#selenium-ide"
+                   width="951"
+                   height="835"
+                   screenX="140"
+                   screenY="108" />
+  <RDF:Description RDF:about="chrome://browser/content/browser.xul#sidebar-title"
+                   value="" />
+  <RDF:Description RDF:about="chrome://selenium-ide/content/selenium-ide.xul">
+    <NC:persist RDF:resource="chrome://selenium-ide/content/selenium-ide.xul#selenium-ide"/>
+  </RDF:Description>
+</RDF:RDF>
