@@ -19,6 +19,10 @@ using OpenQA.Selenium.Interactions;
 namespace AbbyyLs.CAT.Projects.Selenium.Tests
 {
     [TestFixture("DevUrl", "DevWorkspace", "Firefox")]
+    [TestFixture("StableUrl2", "StableWorkspace2", "Firefox")]
+    [TestFixture("StableUrl2", "StableWorkspace2", "Chrome")]
+    [TestFixture("StableUrl2", "StableWorkspace2", "IE")]
+    [TestFixture("StageUrl2", "StageWorkspace2", "Firefox")]
     public class BaseTest
     {
         private IWebDriver _driver;
@@ -68,7 +72,7 @@ namespace AbbyyLs.CAT.Projects.Selenium.Tests
         }
 
 
-        public BaseTest(string url, string workspaceUrl, string browserName)
+        public BaseTest (string url, string workspaceUrl, string browserName)
         {
             _url = ConfigurationManager.AppSettings[url];
 
@@ -111,18 +115,19 @@ namespace AbbyyLs.CAT.Projects.Selenium.Tests
         {
 
             // выбрать проект
-            Wait.Until((d) => d.FindElement(By.LinkText(
-                _projectName
-                ))).Click();
-
+            Wait.Until((d) => d.FindElement(By.LinkText(_projectName))).Click();
+         
             // нажать на Progress
 
-            IWebElement element = _driver.FindElement(By.XPath(
-                "//div[starts-with(@id,'projectdocuments')]"
-                ));
-            element.FindElement(By.XPath(
-                "//tr[starts-with(@id,'gridview')]"
-                )).Click();
+            //IWebElement element = _driver.FindElement(By.XPath(
+            //    "//div[starts-with(@id,'projectdocuments')]"
+            //    ));
+            //element.FindElement(By.XPath(
+            //    "//tr[starts-with(@id,'gridview')]"
+            //    )).Click();
+
+            Thread.Sleep(5000);
+            _driver.FindElement(By.CssSelector(".project-documents div.x-grid-body table tr:nth-child(1) td:nth-child(1)")).Click();
             _driver.FindElement(By.Id(
                 "documents-progress-btn"
                 )).Click();
@@ -139,10 +144,13 @@ namespace AbbyyLs.CAT.Projects.Selenium.Tests
             IList<IWebElement> els = _driver.FindElements(By.XPath(
                 "//input[starts-with(@class,'x-form-field')]"
                 ));
-            els[1].SendKeys("Bob Dylan");
+            els[1].SendKeys("Bob");
 
             // Нажать на поле с введенным именем
-            _driver.FindElement(By.XPath("//div[starts-with(@class,'x-boundlist-item x-boundlist-item-over')]")).Click();
+            // _driver.FindElement(By.XPath("//div[starts-with(@class,'x-boundlist-item x-boundlist-item-over')]")
+           
+                        
+            
             // Нажать на Assign, чтобы появился Warning
             _wait.Until(d => _driver.FindElement(By.XPath(
                 "//a[contains(@class, 'x-btn x-btn-default-small x-btn-default-small-noicon assign')]"
@@ -199,9 +207,7 @@ namespace AbbyyLs.CAT.Projects.Selenium.Tests
                 ));
 
         }
-
-
-
+        
         /// <summary>
         /// метод тестирования авторизации пользователя в системе
         /// </summary>
@@ -229,6 +235,8 @@ namespace AbbyyLs.CAT.Projects.Selenium.Tests
             // Зайти на сайт
             _driver.FindElement(By.CssSelector("input[type = \"submit\"]")).Click();
 
+            //ждем пока появится кнопка на странице Workspace
+            _wait.Until((d) => d.FindElement(By.Id("projects-add-btn")));
             Assert.True(_driver.Title.Contains("Workspace"), "Ошибка: неверный заголовок страницы");
 
         }
@@ -268,7 +276,7 @@ namespace AbbyyLs.CAT.Projects.Selenium.Tests
                 Thread.Sleep(1000);
                 SendKeys.SendWait(@"{Enter}");
 
-                
+                                
                 Thread.Sleep(2000);
                 //TODO: заменить на NLog
                 //WriteFileConsoleResults("Upload file finish", 2);
@@ -347,7 +355,7 @@ namespace AbbyyLs.CAT.Projects.Selenium.Tests
 
         
         /// <summary>
-        /// Метод тестирования кнопки "Back" 
+        /// Метод тестирования кнопки "Back" в редакторе
         /// </summary>
         [Test]
         public void BackButton()
@@ -612,11 +620,14 @@ namespace AbbyyLs.CAT.Projects.Selenium.Tests
 
         private IWebDriver _driver;
         private FirefoxProfile _profile;
+        private WebDriverWait _wait;
 
         private string _login;
         private string _password;
 
         private string _url;
+
+        
 
         private string _projectName;
         private string _deadlineDate;
@@ -637,6 +648,8 @@ namespace AbbyyLs.CAT.Projects.Selenium.Tests
         public string _srtFile;
 
         public string _xliffTC10;
+
+
 
 
         public ProjectTest(string url, string workspaceUrl, string browserName)
@@ -691,6 +704,7 @@ namespace AbbyyLs.CAT.Projects.Selenium.Tests
             _xliffTC10 = @"\\cat-dev\Share\CAT\TestFiles\Xliff\TC-10En.xliff";
 
             ResultFilePath = @"\\cat-dev\Share\CAT\TestResult\Result" + DateTime.UtcNow.Ticks.ToString() + ".txt";
+            _wait = new WebDriverWait(_driver, TimeSpan.FromSeconds(10));
         }
 
         /// <summary>
@@ -787,7 +801,6 @@ namespace AbbyyLs.CAT.Projects.Selenium.Tests
         [Test]
         public void AutorizationTest()
         {
-            WriteFileConsoleResults("Autorization Test", 2);
 
             _driver.Navigate().GoToUrl(_url);
             _driver.FindElement(By.CssSelector("input[name=\"email\"]")).Clear();
@@ -796,35 +809,19 @@ namespace AbbyyLs.CAT.Projects.Selenium.Tests
             _driver.FindElement(By.CssSelector("input[name=\"password\"]")).SendKeys(_password);
             _driver.FindElement(By.CssSelector("input[type =\"submit\"]")).Click();
 
-
-            /*Thread.Sleep(6000); */
-
-            var wait = new WebDriverWait(_driver, TimeSpan.FromSeconds(3));
-            wait.Until((d) => d.FindElement(By.XPath(
+            // Дождаться пока загрузится поле с выбором аккаунта
+            _wait.Until((d) => d.FindElement(By.XPath(
                 "//select/option[contains(text(), 'TestAccount')]"
                 )));
 
+            // Выбрать тестовый аккаунт
+            _driver.FindElement(By.XPath(".//select/option[contains(text(), 'TestAccount')]")).Click();
+            // Зайти на сайт
+            _driver.FindElement(By.CssSelector("input[type = \"submit\"]")).Click();
 
-            /*if (IsElementPresent(By.XPath(".//select/option[contains(text(), 'TestAccount')]")))
-            { */
-                //_driver.FindElement(By.CssSelector("select[name=\"accountId\"] option:contains('TestAccount')"));
-                _driver.FindElement(By.XPath(".//select/option[contains(text(), 'TestAccount')]")).Click();
-                //переходим на сайт
-                _driver.FindElement(By.CssSelector("input[type = \"submit\"]")).Click();
-                /*Thread.Sleep(6000); */
-                /* IWebElement myDynamicElement = _driver.FindElement(By.Id("projects-add-btn")); */
-                /*_driver.Navigate().GoToUrl(_workspaceUrl); */
-
-
-                // Вернуть когда будут корректные Title для страницы
-            //wait.Until((d) => _driver.Title.Contains("Workspace"));
-
-            /* } */
-
-            // Вернуть когда будут корректные Title для страницы
-            //Assert.True(_driver.Title.Contains("Workspace"), "Ошибка: неверный заголовок страницы");
-            
-           
+            //ждем пока появится кнопка на странице Workspace
+            _wait.Until((d) => d.FindElement(By.Id("projects-add-btn")));
+            Assert.True(_driver.Title.Contains("Workspace"), "Ошибка: неверный заголовок страницы");          
 
 
         }
@@ -891,7 +888,7 @@ namespace AbbyyLs.CAT.Projects.Selenium.Tests
             //процесс добавления файла 
             //нажатие кнопки Add
             _driver.FindElement(By.XPath(".//div[@id='project-wizard-body']//span[text()='Add']")).Click();
-
+            //TODO: заменить скрипт
             //скрипт Autolt - вызов скрипта для добавления файла
             SetUploadedFile(_documentFileWrong);
             Thread.Sleep(6000);
