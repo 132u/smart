@@ -80,7 +80,7 @@ namespace AbbyyLs.CAT.Projects.Selenium.Tests
             {
                 if (_driver == null)
                 {
-                    string profiledir = "TestingFiles/Profile";
+                    string profiledir = "../../../Profile";
                     _profile = new FirefoxProfile(profiledir);
                     _driver = new FirefoxDriver(_profile);
                 }
@@ -610,6 +610,102 @@ namespace AbbyyLs.CAT.Projects.Selenium.Tests
 
 
 
+
+    public class UserLogTest : EditorButtonsTest
+    {
+
+        public UserLogTest(string url, string workspaceUrl, string browserName)
+            : base(url, workspaceUrl, browserName)
+        {
+
+        }
+
+               
+        /// <summary>
+        /// Метод выгрузки логов 
+        /// </summary>
+        [Test]
+
+        public void ExportLog()
+        {
+            // Нажать кнопку назад
+            BackButton();
+
+            //Выбрать документ
+
+            Driver.FindElement(By.CssSelector(".project-documents div.x-grid-body table tr:nth-child(1) td:nth-child(1)")).Click();
+
+            //Нажать кнопку выгрузки логов
+            Driver.FindElement(By.Id("log-export-btn-btnInnerEl")).Click();                      
+        }
+
+        /// <summary>
+        /// Метод тестирования набора текста в документе 
+        /// </summary>
+        [Test]
+
+        public void WriteText()
+        {
+            // Написать текст в первом сегменте
+            Driver.FindElement(By.CssSelector("#segments-body div table tr:nth-child(1) td:nth-child(3) div")).
+               SendKeys("This is a sample text");
+
+            string segmentxt = Driver.FindElement(By.CssSelector("#segments-body div table tr:nth-child(1) td:nth-child(3) div")).Text;
+
+            Assert.AreEqual("This is a sample text", segmentxt);
+
+            //Выгрузить логи
+            ExportLog();
+        }
+
+        /// <summary>
+        /// Метод тестирования удаления текста с клавиатуры в документе 
+        /// </summary>
+        [Test]
+
+        public void DeleteText()
+        {
+            // Написать текст в первом сегменте
+            Driver.FindElement(By.CssSelector("#segments-body div table tr:nth-child(1) td:nth-child(3) div")).
+               SendKeys("This is a sample text");
+
+            string segmentxt = Driver.FindElement(By.CssSelector("#segments-body div table tr:nth-child(1) td:nth-child(3) div")).Text;
+
+            Assert.AreEqual("This is a sample text", segmentxt);
+
+            //Удалить текст путем нажатия клавиши Backspace
+            while (!String.IsNullOrEmpty(segmentxt))
+            {
+                Driver.FindElement(By.CssSelector("#segments-body div table tr:nth-child(1) td:nth-child(3) div")).
+                   SendKeys(OpenQA.Selenium.Keys.Backspace);
+
+                segmentxt = Driver.FindElement(By.CssSelector("#segments-body div table tr:nth-child(1) td:nth-child(3) div")).Text;
+            }
+
+            //Убедиться, что в сегменте нет текста
+            Assert.AreEqual("", segmentxt);
+
+            //Выгрузить логи
+            ExportLog();
+        }
+
+        /// <summary>
+        /// Метод тестирования подтверждения перевода с помощью нажатия кнопки на панели инструментов 
+        /// </summary>
+        [Test]
+
+        public void ConfirmTextButton()
+        {
+            //Набрать текст в первом сегменте и нажать кнопку Confirm Segment
+            ConfirmButton();
+
+            //Выгрузить логи
+            ExportLog();
+
+        }
+              
+        
+    }
 
 
 

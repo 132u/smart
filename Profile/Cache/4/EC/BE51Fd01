@@ -1,0 +1,570 @@
+<!DOCTYPE HTML>
+<html itemscope itemtype="http://schema.org/Product">
+<head>
+	<title>Workspace</title>
+	<noscript>
+	
+	<meta http-equiv="refresh" content="0; url=/en/Alerts/EnableScriptsPlease?back=%2Fen%2Fsmartcat%2Fworkspace" />
+	
+	<style type="text/css">
+		body { display: none; }
+	</style>
+</noscript>
+
+	<!--[if lte IE 7]>
+		<script type="text/javascript">
+			window.location.replace('/en/Alerts/IE9NotSupported');
+		</script>
+	<![endif]-->
+
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="EngineVersion" content="1.0.0.113 (private)" />
+<meta name="LISVersion" content="15.0.826.0" />
+
+
+<link href="/Content/2.4.17.8426/CssStandard" rel="stylesheet" type="text/css" />
+
+
+
+<link href="/favicon.png" rel="icon" type="image/png" />
+
+
+<script type="text/javascript">
+	window.httpStatusCode = 200;
+	window.httpStatusText = "OK";
+	window.ContentPath = "/Content/2.4.17.8426/Static";
+
+	var app = {
+		texts: {"AjaxErrorMessage":"Failed to send the request to the server. An error occurred while contacting the server.\r\n\r\nPlease try again. If the error persists, please contact us using the feedback form.","HttpsAjaxErrorMessage":"Cannot establish a secure connection with the server.\r\n\r\nA possible reason is that your date and time settings are incorrect. Please check your date and time settings and restart the browser.","AuthenticationLost":"Cannot perform the operation. Please make sure you are logged in.","EnterpriseAuthenticationLost":"Cannot perform the operation. Access to the corporate section has been closed.","EnterpriseGlossaryNotFound":"This corporate glossary has been deleted by another user","EnterpriseAccountDeactivated":{"text":"The {0} corporate section has been closed.","title":"Corporate Section – Closed","closeButtonText":"OK"},"AuthorizationLost":"Cannot perform the operation. You may have insufficient access rights to perform this operation.\r\n\r\nPlease contact your system administrator for more information."}
+	};
+
+	(function (w, c) {
+		w[c] = w[c] || [];
+		
+		w.Startup = function(func) {
+			if (window['$']) {
+				func();
+			} else {
+				w[c].push(func);
+			}
+		};
+	})(window, 'lingvopro_callbacks');
+</script>
+	
+	<title>Workspace</title><meta charset="utf-8" /><meta http-equiv="x-ua-compatible" content="IE=edge" /><script src="/smartcatcontent/js/Gettext.js"></script><script src="/smartcatcontent/js/i18n.js"></script><link rel="stylesheet" href="/smartcatcontent/workspace/resources/Workspace-all.css" /><script type="text/javascript" src="/smartcatcontent/workspace/app.js"></script><!--<script src="../js/jquery-2.0.3.js"></script>
+		<script src="/smartcatcontent/js/SignalR/jquery.signalR.js"></script>
+		<script type="text/javascript" src="/signalr/hubs"> </script>
+		<script>
+			var workspace;
+			var editor;
+			var tm;
+			$(function () {
+				workspace = $.connection.workspace;
+				//$.connection.editor.qs = "documentId=979";
+				// $.connection.hub.qs = { "documentId": 979 };
+				editor = $.connection.editor;
+				tm = $.connection.translationmemory;
+
+				$.connection.hub.start({ transport: 'longPolling' });
+
+				workspace.client.ProjectNotify = ProjectNotify;
+				workspace.client.DocumentNotify = DocumentNotify;
+				editor.client.SegmentNotify = SegmentNotify;
+				tm.client.TMNotify = TMNotify;
+			});
+
+			function ProjectNotify(data) {
+				var projectChangeType = data.ProjectChangeType;
+				var changeTypeString;
+				switch (projectChangeType) {
+					case 1:
+						changeTypeString = "created";
+						break;
+					case 2:
+						changeTypeString = "deleted";
+						break;
+					case 4:
+						changeTypeString = "updated";
+						break;
+					case 8:
+						changeTypeString = "UpdateTm";
+						break;
+					case 16:
+						changeTypeString = "UpdateMT";
+						break;
+					case 32:
+						changeTypeString = "UpdateGlossaries";
+						break;
+					default:
+						changeTypeString = "unknown";
+				}
+				console.log("ProjectId=" + data.ProjectId + " Type:" + changeTypeString);
+			};
+
+			function DocumentNotify(data) {
+				var documentChangeType = data.DocumentChangeType;
+				var changeTypeString;
+				switch (documentChangeType) {
+					case 1:
+						changeTypeString = "created";
+						break;
+					case 2:
+						changeTypeString = "deleted";
+						break;
+					case 4:
+						changeTypeString = "updated";
+						break;
+					case 8:
+						changeTypeString = "UpdateTm";
+						break;
+					case 16:
+						changeTypeString = "UpdateMT";
+						break;
+					case 32:
+						changeTypeString = "UpdateGlossaries";
+						break;
+					case 64:
+						changeTypeString = "SegmentsResolved";
+						break;
+					default:
+						changeTypeString = "unknown";
+				}
+				alert("DocumentId=" + data.DocumentId + " Type:" + changeTypeString);
+			};
+
+			function SegmentNotify(data) {
+				var segmentChangeType = data.SegmentChangeType;
+				var changeTypeString;
+				switch (segmentChangeType) {
+					case 1:
+						changeTypeString = "Updated";
+						break;
+					case 2:
+						changeTypeString = "Confirmed";
+						break;
+					case 4:
+						changeTypeString = "Locked";
+						break;
+					default:
+						changeTypeString = "unknown";
+				}
+				alert("DocumentId=" + data.DocumentId + " SegmentId=" + data.SegmentId + " Type:" + changeTypeString);
+			};
+			
+			function TMNotify(data) {
+				var tmChangeType = data.TranslationMemoryChangeType;
+				var changeTypeString;
+				switch (tmChangeType) {
+					case 1:
+						changeTypeString = "Created";
+						break;
+					case 2:
+						changeTypeString = "Deleted";
+						break;
+					default:
+						changeTypeString = "unknown";
+				}
+				alert("TranslationMemoryId=" + data.TranslationMemoryId + " Type:" + changeTypeString);
+			};
+		</script>-->
+
+</head>
+<body class="g-bd">
+
+	
+	<div class="g-popup-bg js-popup-bg "></div>
+
+	<div class="js-data">
+		<div class="locale">en</div>
+		<div class="isauthenticated">True</div>
+		
+	</div>
+
+
+	<div class="g-popup-bd js-popup-bd js-popup-profile">
+		<div class="g-popup-shadow"></div>
+		<div class="g-popupbox g-profile">
+			<div class="g-popupbox__hd">
+				<h2 class="g-bold g-popupbox__hd__h2 js-popup-title">User profile</h2>
+			</div>
+			<div class="g-popupbox__bd js-popupbox-bd">
+				
+	<form action="/en/Profile/Save" method="POST">
+		<div class="g-profile__fields field">
+			<p class="g-bold g-profile__cntrl name">
+				<span class="g-profile__textname name">Name</span>
+				<input type="text" class="g-profile__field disabled js-profile-field immutable" disabled="disabled"
+					tabindex="1" autocomplete="off" value="Bob Test" />
+			</p>
+			<p class="g-bold g-profile__cntrl email">
+				<span class="g-profile__textname email">E-mail</span>
+				<input type="text" class="g-profile__field disabled js-profile-field " disabled="disabled"
+					tabindex="2" autocomplete="off" name="email" value="bob@test.ru" />
+			</p>
+				<p class="g-bold g-profile__cntrl js-password-on-email-change g-hidden">
+					<span class="g-profile__textname">Password<em class="g-profile__redstar">*</em></span>
+					<input type="password" class="g-profile__field js-password-field"
+						tabindex="3" autocomplete="off" name="password" />
+				</p>
+		</div>
+			<div class="g-hidden g-profile__fields password js-profile-password">
+				<p class="g-bold g-profile__cntrl currpass">
+					<span class="g-profile__textname currpass">Current password<em class="g-profile__redstar">*</em></span>
+					<input type="password" class="g-profile__field currpass js-password-field"
+						tabindex="4" autocomplete="off" name="password" />
+				</p>
+				<p class="g-bold g-profile__cntrl newpass">
+					<span class="g-profile__textname newpass">New password<em class="g-profile__redstar">*</em></span>
+					<input type="password" class="g-profile__field newpass js-password-field"
+						tabindex="5" autocomplete="off" name="newPassword" />
+				</p>
+				<p class="g-bold g-profile__cntrl cnfrmpass">
+					<span class="g-profile__textname cnfrmpass">Retype the password<em class="g-profile__redstar">*</em></span>
+					<input type="password" class="g-profile__field cnfrmpass js-password-field"
+						tabindex="6" autocomplete="off" name="confirmPassword" />
+				</p>
+			</div>
+
+		<div class="g-popupbox__error g-profile__error g-hidden js-dynamic-errors">
+			<p class="js-error-email">Invalid e-mail address.</p>
+			<p class="js-error-email-exists">The e-mail address you specified is already in use by another user.</p>
+			<p class="js-error-password">Invalid password</p>
+			<p class="js-error-password-mismatch">The two passwords do not match.</p>
+			<p class="js-error-empty">One or more required fields are empty</p>
+		</div>
+
+		<div class="g-popupbox__ft">
+			<div class="js-edit-toggle">
+	<span class="g-btn g-redbtn g-profile__lbtn js-edit-profile" title="">
+		<span class="g-btn__corn g-redbtn__corn">
+			<span class="g-btn__bg g-redbtn__bg bg"></span>
+		</span>
+		<span class="g-btn__data">
+			<a href="#" class="g-btn__text g-redbtn__text h30">Edit</a>
+		</span>
+	</span>
+
+					<span class="g-btn g-redbtn js-popup-close" title="">
+		<span class="g-btn__corn g-redbtn__corn">
+			<span class="g-btn__bg g-redbtn__bg bg"></span>
+		</span>
+		<span class="g-btn__data">
+			<a href="#" class="g-btn__text g-redbtn__text h30">Close</a>
+		</span>
+	</span>
+
+			</div>
+			<div class="g-hidden js-edit-toggle">
+	<span class="g-btn g-redbtn g-profile__lbtn js-change-password" title="">
+		<span class="g-btn__corn g-redbtn__corn">
+			<span class="g-btn__bg g-redbtn__bg bg"></span>
+		</span>
+		<span class="g-btn__data">
+			<a href="#" class="g-btn__text g-redbtn__text h30">Change password</a>
+		</span>
+	</span>
+
+				<a href="#" class="g-popupbox__cancel js-cancel">Cancel</a>
+					<span class="g-btn g-redbtn disable js-save" title="">
+		<span class="g-btn__corn g-redbtn__corn">
+			<span class="g-btn__bg g-redbtn__bg bg"></span>
+		</span>
+		<span class="g-btn__data">
+			<a href="#" class="g-btn__text g-redbtn__text h30">Save</a>
+<input class="g-btn__btn g-redbtn__btn h30" disabled="disabled" tabindex="110" type="submit" value="Save" />		</span>
+	</span>
+
+			</div>
+		</div>
+	</form>
+
+			</div>
+		</div>
+	</div>
+
+
+
+	<div class="g-popup-bd js-popup-bd g-feedbackPopup js-feedback-popup">
+		<div class="g-popup-shadow"></div>
+		<div class="g-popupbox ">
+			<div class="g-popupbox__hd">
+				<h2 class="g-bold g-popupbox__hd__h2 js-popup-title">Your feedback</h2>
+			</div>
+			<div class="g-popupbox__bd js-popupbox-bd">
+					<form action="/en/Home/SendFeedback" class="js-ajax-form-submit g-bold">
+		<input type="hidden" name="pageUrl" value="http://cat-stage2.abbyy-ls.com/en/smartcat/workspace" />
+		<div class="g-feedbackPopup__section feedback">
+			<div class="g-feedbackPopup__control">
+				<p class="g-feedbackPopup__textField">Subject</p>
+				<select id="subject" name="subject" tabindex="1"><option value=""></option>
+<option value="Wish">New feature suggestion</option>
+<option value="Error">Error message</option>
+<option value="HowTo">Question regarding the use of ABBYY Lingvo.Pro</option>
+<option value="Other">Other</option>
+</select>
+			</div>
+			<div class="g-feedbackPopup__control last">
+				<p class="g-feedbackPopup__textField">Message<span class="l-adduser__astrsk">*</span></p>
+				<textarea class="js-jq-watermark g-textbox g-feedbackPopup__field message" tabindex="2" name="text"
+					rows="4" cols="50" title="Use this form to send us your questions, comments and inquiries." data-color="#c0c0c0"></textarea>
+			</div>
+		</div>
+		<div class="g-feedbackPopup__section contacts">
+			<div class="g-feedbackPopup__control lside last">
+				<p class="g-feedbackPopup__textField">Name</p>
+				<input type="text" class="g-textbox g-feedbackPopup__field name" tabindex="3" name="name" value="Bob Test" />
+			</div>
+			<div class="g-feedbackPopup__control rside last">
+				<p class="g-feedbackPopup__textField">E-mail</p>
+				<input type="text" class="g-textbox g-feedbackPopup__field email" tabindex="4" name="email" value="bob@test.ru" />
+			</div>
+			<div class="g-clear"></div>
+				<div class="g-feedbackPopup__control corprName">
+					<p class="g-feedbackPopup__textField">Corporate section</p>
+					<input type="text" class="g-textbox g-feedbackPopup__field corprName" tabindex="5"
+						name="accountName" value="TestAccount"/>
+				</div>
+		</div>
+
+		
+		<div class="g-popupbox__error g-feedbackPopup__error g-hidden js-dynamic-errors">
+			<p class="js-error-text">Please enter the text of your message.</p>
+			<p class="js-error-text-too-long">The text of the message is too long.</p>
+			<p class="js-error-email">Invalid e-mail address.</p>
+		</div>
+
+		<div class="g-popupbox__ft">
+			<a href="#" class="g-popupbox__cancel js-popup-close">Cancel</a>
+				<span class="g-btn g-redbtn " title="">
+		<span class="g-btn__corn g-redbtn__corn">
+			<span class="g-btn__bg g-redbtn__bg bg"></span>
+		</span>
+		<span class="g-btn__data">
+			<a href="#" class="g-btn__text g-redbtn__text h30">Send</a>
+<input class="g-btn__btn g-redbtn__btn h30" type="submit" value="Send" />		</span>
+	</span>
+
+		</div>
+	</form>
+
+			</div>
+		</div>
+	</div>
+
+
+<script type="text/javascript">
+	var app = app || {};
+	app.texts = app.texts || {};
+
+	app.texts.feedbackThanks = {
+		title: "Your feedback",
+		message: " Your feedback has been submitted. Thank you for your time!",
+		button: "OK"
+	};
+	app.texts.feedbackTypeWatermark = "Please select a subject for your message";
+</script>
+	
+
+
+	<div class="g-popup-bd js-popup-bd js-info-popup b-popup-info">
+		<div class="g-popup-shadow"></div>
+		<div class="g-popupbox ">
+			<div class="g-popupbox__hd">
+				<h2 class="g-bold g-popupbox__hd__h2 js-popup-title">Information</h2>
+			</div>
+			<div class="g-popupbox__bd js-popupbox-bd">
+					<div class="js-popup-text g-popup-info-text"></div>
+	<div class="g-popupbox__ft">
+			<span class="g-btn g-redbtn js-popup-close" title="">
+		<span class="g-btn__corn g-redbtn__corn">
+			<span class="g-btn__bg g-redbtn__bg bg"></span>
+		</span>
+		<span class="g-btn__data">
+			<a href="#" class="g-btn__text g-redbtn__text h30 js-close-link">Close</a>
+		</span>
+	</span>
+
+	</div>
+
+			</div>
+		</div>
+	</div>
+
+
+
+	
+
+	<div class="g-page">
+		<div class="g-page__bd">
+
+<div class="g-page__top">
+	<div class="g-page__top__shadow"></div>
+	<div class="g-topbox">
+		<div class="g-topbox__user">
+			<div class="g-topbox__corpAcco js-corp-account activeCorp">
+				<span class="g-topbox__nameuser">Bob</span>
+					<span class="g-topbox__space">&nbsp;-&nbsp;</span>
+					<span class="g-iblock g-topbox__actvAccnt js-cur-ent-account">
+						<span class="js-selected-account">TestAccount</span>
+						<span class="g-topbox__actvAccnt__icon g-bg"></span>
+					</span>
+					<ul class="g-topbox__corplist js-ent-accounts-list g-hidden">
+							<li class="g-topbox__corpitem" data-value="Demo">Demo</li>
+							<li class="g-topbox__corpitem" data-value="TestAccount">TestAccount</li>
+							<li class="g-topbox__corpitem" data-value="TestAlena2">TestAlena2</li>
+					</ul>
+					<input type="hidden" id="account" name="account" value="" />
+			</div>
+			<span class="g-topbox__separator">|</span>
+			<span class="g-topbox__profile js-link-profile">Profile</span>
+				<span class="g-topbox__separator">|</span>
+<a class="g-topbox__info actions" href="/en/AuthApi/Logout?back=http%3A%2F%2Fcat-stage2.abbyy-ls.com%2Flogin">Log off</a>				<span class="g-topbox__separator">|</span>
+				<a class="g-topbox__info feedback js-feedback-trigger" href="#">Send feedback</a>
+			<span class="g-topbox__separator">|</span>
+			<a class="g-topbox__info" href="/en/Home/Help">Help</a>
+		</div>
+		<div class="g-topbox__lang">
+					<span class="g-topbox__link active">Eng</span>
+					<span class="g-topbox__separator links">|</span>
+					<a href="/ru/smartcat/workspace" class="g-topbox__link">Рус</a>
+		</div>
+	</div>
+</div>
+
+			<div class="g-page__cont">
+<div class="g-logobox">
+	<h1 class="g-logobox__logo">
+		<a href="/en/Start">
+			<img width="270" height="29" title="ABBYY SmartCAT" alt="ABBYY SmartCAT" src="/en/HostContent/Logo" />
+		</a>
+	</h1>
+	<div class="g-clear"></div>
+</div>
+
+
+
+	<div class="g-menubox">
+		<div class="g-box g-corprmenu">
+			<div class="g-box__corn g-corprmenu__corn">
+				<div class="g-box__bg g-corprmenu__bg shad"></div>
+				<div class="g-box__bg g-corprmenu__bg bg"></div>
+			</div>
+			<div class="g-box__data">
+				<ul class="g-corprmenu__list">
+						<li class="g-corprmenu__item first active">
+							<span class="g-corprmenu__separ"></span>
+							<a class="g-corprmenu__link first active" href="/en/Workspace">
+								<span class="js-title">SmartCAT</span>
+							</a>
+						</li>
+						<li class="g-corprmenu__item ">
+							<span class="g-corprmenu__separ"></span>
+							<a class="g-corprmenu__link " href="/en/Start">
+								<span class="js-title">Search</span>
+							</a>
+						</li>
+						<li class="g-corprmenu__item ">
+							<span class="g-corprmenu__separ"></span>
+							<a class="g-corprmenu__link " href="/en/Enterprise/Glossaries">
+								<span class="js-title">Glossaries</span>
+							</a>
+						</li>
+						<li class="g-corprmenu__item ">
+							<span class="g-corprmenu__separ"></span>
+							<a class="g-corprmenu__link " href="/en/Enterprise/TranslationMemories">
+								<span class="js-title">Translation Memory Bases</span>
+							</a>
+						</li>
+						<li class="g-corprmenu__item ">
+							<span class="g-corprmenu__separ"></span>
+							<a class="g-corprmenu__link " href="/en/LingvoDictionaries">
+								<span class="js-title">Lingvo Dictionaries</span>
+							</a>
+						</li>
+						<li class="g-corprmenu__item ">
+							<span class="g-corprmenu__separ"></span>
+							<a class="g-corprmenu__link " href="/en/Enterprise/Domains">
+								<span class="js-title">Projects</span>
+							</a>
+						</li>
+						<li class="g-corprmenu__item ">
+							<span class="g-corprmenu__separ"></span>
+							<a class="g-corprmenu__link " href="/en/Enterprise/Clients">
+								<span class="js-title">Clients</span>
+							</a>
+						</li>
+						<li class="g-corprmenu__item  uniq">
+							<span class="g-corprmenu__separ"></span>
+							<a class="g-corprmenu__link  uniq" href="/en/Enterprise/Users">
+									<span class="g-bg g-corprmenu__uniqicon"></span>
+								<span class="js-title">Users and rights</span>
+							</a>
+						</li>
+				</ul>
+				<div class="g-clear"></div>
+			</div>
+		</div>
+	</div>
+				<div class="g-body js-body">
+
+	<div id="additional-body"/>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+<script type="text/x-jquery-tmpl" id="dropdownlist-control-template">
+	<span class="js-dropdown ${settings.modifClass} g-drpdwn g-iblock {{if disabled}}disabled{{/if}}"
+			style="width:${settings.boxWidth}; height:${settings.boxHeight}; line-height:${settings.boxHeight};">
+		
+		<span class="js-dropdown__text ${settings.modifClass} g-drpdwn__text g-block" data-id="${selectedId}" title="${title}">
+			${selectedHtml}
+		</span>
+		<img alt="&#9660;" class="g-drpdwn__img g-bg" src="${ContentPath}/img/newImage/1px.png" />
+	</span>
+</script>
+
+
+<script type="text/x-jquery-tmpl" id="dropdownlist-list-template">
+	<span class="js-dropdown__list ${settings.modifClass} g-drpdwn__list" style="max-height:${settings.listHeight};">
+		{{each(ix, option) options}}
+			<span class="js-dropdown__item ${settings.modifClass} g-drpdwn__item g-block" data-id="${option.value}" title="${option.text}">
+				{{if option.text == ""}} &nbsp; {{else}} ${option.text} {{/if}}
+			</span>
+		{{/each}}
+	</span>
+</script>
+
+
+<script src="/Content/2.4.17.8426/JsStandard/Shared"></script>
+
+<script type="text/javascript">
+	
+	(function (w) {
+		loadScript('/Content/2.4.17.8426/JsStandard/VirtualKeyboard');
+	})(window);
+</script>
+
+
+	
+<script>var vk_languages = {"Chinese":"zh-CN","Danish":"da","Dutch":"nl","English":"en","Finnish":"fi","French":"fr","German":"de","Greek":"el","Hungarian":"hu","Italian":"it","Kazakh":"kk","Latin":"la","Norwegian":"nb-no","Polish":"pl","Portuguese":"pt-br","Russian":"ru","Spanish":"es","Tatar":"tt","Turkish":"tr","Ukrainian":"uk"};</script>
+
+<div id="virtual-keyboard" class="g-keybrd g-hidden">
+	<div class="g-keybrd__gradbox">
+		<div class="g-keybrd__shadie6789"></div>
+		<div class="g-keybrd__gradie6789"></div>
+	</div>
+	<table class="g-keybrd__tbl">
+		<tr><td class="g-keybrd-head">
+			<div class="g-keybrd-hdbox">
+				<img class="g-keybrd-close g-bg js-keybrd-close" src="/Content/2.4.17.8426/Static/img/newImage/1px.png" width="14" height="14" alt="X" title="Close" />
+			</div>
+		</td></tr>
+		<tr><td class="g-keybrd-body"></td></tr>
+	</table>
+</div>
+
+	
+</body>
+</html>
