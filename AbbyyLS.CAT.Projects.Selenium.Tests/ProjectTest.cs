@@ -144,13 +144,18 @@ namespace AbbyyLs.CAT.Projects.Selenium.Tests
             IList<IWebElement> els = _driver.FindElements(By.XPath(
                 "//input[starts-with(@class,'x-form-field')]"
                 ));
-            els[1].SendKeys("Bob");
+            //Имя для cat-stage2
+            //els[1].SendKeys("Bob Test");
 
-            // Нажать на поле с введенным именем
-            // _driver.FindElement(By.XPath("//div[starts-with(@class,'x-boundlist-item x-boundlist-item-over')]")
-           
+            //Имя для cat-dev
+            els[1].SendKeys("Bob Dylan");
                         
-            
+            //Для cat-stage2
+            //_driver.FindElement(By.XPath("//div[@class='x-boundlist-item'][starts-with(string(),'Bob Test')]")).Click();
+
+            //Для cat-dev
+            _driver.FindElement(By.CssSelector("div.x-boundlist-item")).Click();                                 
+                     
             // Нажать на Assign, чтобы появился Warning
             _wait.Until(d => _driver.FindElement(By.XPath(
                 "//a[contains(@class, 'x-btn x-btn-default-small x-btn-default-small-noicon assign')]"
@@ -194,7 +199,7 @@ namespace AbbyyLs.CAT.Projects.Selenium.Tests
 
             // Далее нажать на появившийся документ
             IWebElement element = Wait.Until(d => _driver.FindElement(By.XPath(
-                "//a[starts-with(@href, '/smartcat/editor')]" // критерий - editor
+                "//a[starts-with(@href, '/editor')]" // критерий - editor
                 )));
             element.Click();
 
@@ -438,7 +443,7 @@ namespace AbbyyLs.CAT.Projects.Selenium.Tests
 
             // Убедиться что сегмент подтвержден
             // Если элемента нет, то выкинет NoSuchElementException, поэтому нет Assert
-            Driver.FindElement(By.ClassName("icon-confirm"));
+            Driver.FindElement(By.ClassName("icon-ok"));
         }
 
 
@@ -503,7 +508,7 @@ namespace AbbyyLs.CAT.Projects.Selenium.Tests
             Driver.FindElement(By.Id("undo-btn")).Click();
             // Убедиться, что в target нет текста
             targetxt = Driver.FindElement(By.CssSelector("#segments-body div table tr:nth-child(1) td:nth-child(3) div")).Text;
-            Assert.AreEqual(" ", targetxt);
+            Assert.AreEqual("", targetxt);
         }
 
         /// <summary>
@@ -528,7 +533,7 @@ namespace AbbyyLs.CAT.Projects.Selenium.Tests
                 SendKeys(OpenQA.Selenium.Keys.Control + "Z");
             // Убедиться, что в target нет текста
             targetxt = Driver.FindElement(By.CssSelector("#segments-body div table tr:nth-child(1) td:nth-child(3) div")).Text;
-            Assert.AreEqual(" ", targetxt);
+            Assert.AreEqual("", targetxt);
         }
 
         /// <summary>
@@ -552,7 +557,7 @@ namespace AbbyyLs.CAT.Projects.Selenium.Tests
             Driver.FindElement(By.Id("undo-btn")).Click();
             // Убедиться, что в target нет текста
             targetxt = Driver.FindElement(By.CssSelector("#segments-body div table tr:nth-child(1) td:nth-child(3) div")).Text;
-            Assert.AreEqual(" ", targetxt);
+            Assert.AreEqual("", targetxt);
 
             // Нажать кнопку возврата отмененного действия
             Driver.FindElement(By.Id("redo-btn")).Click();
@@ -584,7 +589,7 @@ namespace AbbyyLs.CAT.Projects.Selenium.Tests
             Driver.FindElement(By.Id("undo-btn")).Click();
             // Убедиться, что в target нет текста
             targetxt = Driver.FindElement(By.CssSelector("#segments-body div table tr:nth-child(1) td:nth-child(3) div")).Text;
-            Assert.AreEqual(" ", targetxt);
+            Assert.AreEqual("", targetxt);
 
             // Нажать хоткей возврата отмененного действия
             Driver.FindElement(By.CssSelector("#segments-body div table tr:nth-child(1) td:nth-child(3) div")).
@@ -601,6 +606,10 @@ namespace AbbyyLs.CAT.Projects.Selenium.Tests
 
 
     }
+
+
+
+
 
 
 
