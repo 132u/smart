@@ -54,6 +54,18 @@ namespace AbbyyLs.CAT.Projects.Selenium.Tests
         private string _login;
         private string _password;
         private string _projectName;
+        private string _tmName;
+        protected string PathTestResults
+        {
+            get
+            {
+                System.IO.DirectoryInfo directoryInfo =
+                    System.IO.Directory.GetParent(@"..\..\..\TestResults\");
+                
+                return directoryInfo.ToString();               
+            }
+        }
+
         protected string ProjectName
         {
             get
@@ -61,6 +73,7 @@ namespace AbbyyLs.CAT.Projects.Selenium.Tests
                 return _projectName;
             }
         }
+        
         private string _deadlineDate;
         private string _documentFile;
         protected string DocumentFile
@@ -70,19 +83,43 @@ namespace AbbyyLs.CAT.Projects.Selenium.Tests
                 return _documentFile;
             }
         }
+        private string _tmFile;
+
+        protected string TmFile
+        {
+            get
+            {
+                return _tmFile;
+            }
+        }
 
 
         public BaseTest (string url, string workspaceUrl, string browserName)
         {
             _url = ConfigurationManager.AppSettings[url];
+            
 
             if (browserName == "Firefox")
             {
+                
                 if (_driver == null)
                 {
-                    string profiledir = "../../../Profile";
-                    _profile = new FirefoxProfile(profiledir);
+                    _profile = new FirefoxProfile();
+                    _profile.AcceptUntrustedCertificates = true;
+                    _profile.SetPreference("browser.download.dir", PathTestResults);
+                    _profile.SetPreference("browser.download.folderList", 2);
+                    _profile.SetPreference("browser.download.useDownloadDir", false);
+                    _profile.SetPreference("browser.download.manager.showWhenStarting", false);
+                    _profile.SetPreference("browser.helperApps.alwaysAsk.force", false);
+                    _profile.SetPreference("browser.helperApps.neverAsk.saveToDisk", "text/xml, text/csv, text/plain, text/log, application/zip, application/x-gzip, application/x-compressed, application/x-gtar, multipart/x-gzip, application/tgz, application/gnutar, application/x-tar");
+                    //_profile.SetPreference("pdfjs.disabled", true);
+                    
+
                     _driver = new FirefoxDriver(_profile);
+                    //string profiledir = "../../../Profile";
+                   // string profiledir = "TestingFiles/Profile";
+                    //_profile = new FirefoxProfile(profiledir);
+                    //_driver = new FirefoxDriver(_profile);
                 }
             }
             else if (browserName == "Chrome")
@@ -102,11 +139,15 @@ namespace AbbyyLs.CAT.Projects.Selenium.Tests
             _projectName = ConfigurationManager.AppSettings["ProjectName"];
             _deadlineDate = ConfigurationManager.AppSettings["DeadlineDate"];
             _documentFile = Path.GetFullPath("TestingFiles/English.docx");
+            _tmName = ConfigurationManager.AppSettings["TMName"];
 
             _projectName += " " + DateTime.UtcNow.Ticks.ToString();
+            _tmName += " " + DateTime.UtcNow.Ticks.ToString();
+            _tmFile = Path.GetFullPath("TestingFiles/Earth.tmx");
 
             _wait = new WebDriverWait(_driver, TimeSpan.FromSeconds(10));
         }
+
 
         /// <summary>
         /// Метод назначения задачи на пользователя 
@@ -118,13 +159,6 @@ namespace AbbyyLs.CAT.Projects.Selenium.Tests
             Wait.Until((d) => d.FindElement(By.LinkText(_projectName))).Click();
          
             // нажать на Progress
-
-            //IWebElement element = _driver.FindElement(By.XPath(
-            //    "//div[starts-with(@id,'projectdocuments')]"
-            //    ));
-            //element.FindElement(By.XPath(
-            //    "//tr[starts-with(@id,'gridview')]"
-            //    )).Click();
 
             Thread.Sleep(5000);
             _driver.FindElement(By.CssSelector(".project-documents div.x-grid-body table tr:nth-child(1) td:nth-child(1)")).Click();
@@ -145,17 +179,17 @@ namespace AbbyyLs.CAT.Projects.Selenium.Tests
                 "//input[starts-with(@class,'x-form-field')]"
                 ));
             //Имя для cat-stage2
-            //els[1].SendKeys("Bob Test");
+            els[1].SendKeys("Bob Test");
 
             //Имя для cat-dev
-            els[1].SendKeys("Bob Dylan");
+            //els[1].SendKeys("Bob Dylan");
                         
             //Для cat-stage2
-            //_driver.FindElement(By.XPath("//div[@class='x-boundlist-item'][starts-with(string(),'Bob Test')]")).Click();
+            _driver.FindElement(By.XPath("//div[@class='x-boundlist-item'][starts-with(string(),'Bob Test')]")).Click();
 
             //Для cat-dev
-            _driver.FindElement(By.CssSelector("div.x-boundlist-item")).Click();                                 
-                     
+            //_driver.FindElement(By.CssSelector("div.x-boundlist-item")).Click(); 
+                                                
             // Нажать на Assign, чтобы появился Warning
             _wait.Until(d => _driver.FindElement(By.XPath(
                 "//a[contains(@class, 'x-btn x-btn-default-small x-btn-default-small-noicon assign')]"
@@ -213,10 +247,6 @@ namespace AbbyyLs.CAT.Projects.Selenium.Tests
 
         }
         
-        /// <summary>
-        /// метод тестирования авторизации пользователя в системе
-        /// </summary>
-        [Test]
         public void Authorization() 
         {
             //TODO: Заменить на NLog
@@ -246,6 +276,7 @@ namespace AbbyyLs.CAT.Projects.Selenium.Tests
 
         }
 
+
         private void FirstStepProjectWizard(string ProjectName)
         {
             Assert.IsTrue(_driver.FindElement(By.Id("projects-add-btn")).Displayed);
@@ -265,57 +296,396 @@ namespace AbbyyLs.CAT.Projects.Selenium.Tests
             _driver.FindElement(By.CssSelector("input[name=\"DeadlineDate\"]")).SendKeys(_deadlineDate);
         }
 
+
         protected void CreateProject(string ProjectName, bool FileFlag, string DocumentName)
         {
             FirstStepProjectWizard(ProjectName);
 
+            AddDocument(FileFlag, DocumentName);
+            
+            //2 шаг - выбор ТМ
+            ChooseExistingTM();
+
+            //3 шаг - выбор МТ
+            ChooseMT();
+
+            //4 шаг - выбор глоссария
+            ChooseGlossary();
+
+            //5 шаг - настройка этапов workflow
+            SetUpWorkflow();
+
+            //Finish
+            Pretranslate();
+        }
+
+
+        protected void CreateProject(string ProjectName, bool FileFlag, string DocumentName, string TmName)
+        {
+            FirstStepProjectWizard(ProjectName);
+
+            AddDocument(FileFlag, DocumentName);
+
+            //2 шаг - создание ТМ
+            ChooseCreatedTM(TmName);
+
+            //3 шаг - выбор МТ
+            ChooseMT();
+
+            //4 шаг - выбор глоссария
+            ChooseGlossary();
+
+            //5 шаг - настройка этапов workflow
+            SetUpWorkflow();
+
+            //Finish
+            Pretranslate();
+        }
+
+
+        public void AddDocument(bool FileFlag, string DocumentName)
+        {
             if (FileFlag == true)
             {
                 //процесс добавления файла 
                 //нажатие кнопки Add
                 _driver.FindElement(By.XPath(".//div[@id='project-wizard-body']//span[text()='Add']")).Click();
-  
+
                 Thread.Sleep(1000);
                 // Заполнить форму для отправки файла
                 SendKeys.SendWait(DocumentName);
                 Thread.Sleep(1000);
                 SendKeys.SendWait(@"{Enter}");
 
-                                
-                Thread.Sleep(2000);
-                //TODO: заменить на NLog
-                //WriteFileConsoleResults("Upload file finish", 2);
 
+                Thread.Sleep(2000);                
             }
 
             _driver.FindElement(By.XPath(".//div[@id='project-wizard-form']//span[contains(text(), 'Next')]")).Click();
+        }
 
-            //2 шаг - выбор ТМ
+
+        public void ChooseExistingTM()
+        {    
+            //Выбрать существующий TM
             _wait.Until(d => _driver.FindElement(By.CssSelector("#project-wizard-tms table tr:nth-child(1) td:nth-child(2)")));
+
             _driver.FindElement(By.CssSelector("#project-wizard-tms table tr:nth-child(1) td:nth-child(2)")).Click();
+
             _driver.FindElement(By.XPath(".//div[@id='project-wizard-tms']//span[contains(text(), 'Next')]")).Click();
+        }
 
-            //3 шаг - выбор МТ
+
+        public void ChooseCreatedTM(string TmName)
+        {   
+            //Создать TM
+            _wait.Until(d => _driver.FindElement(By.CssSelector("#project-wizard-tms table tr:nth-child(1)")));
+            
+            CreateTMXFile(TmName);
+
+            _driver.FindElement(By.XPath(".//div[@id='project-wizard-tms']//span[contains(text(), 'Next')]")).Click();
+        }
+
+
+        public void ChooseMT()
+        {
+            //Выбрать необходимые MT
             _wait.Until(d => _driver.FindElement(By.CssSelector("#project-wizard-mts table tr:nth-child(2) td:nth-child(1)")));
+
             _driver.FindElement(By.CssSelector("#project-wizard-mts table tr:nth-child(2) td:nth-child(1)")).Click();
+
             _driver.FindElement(By.CssSelector("#project-wizard-mts table tr:nth-child(4) td:nth-child(1)")).Click();
+
+            _driver.FindElement(By.CssSelector("#project-wizard-mts table tr:nth-child(1) td:nth-child(1)")).Click();
+
+            _driver.FindElement(By.CssSelector("#project-wizard-mts table tr:nth-child(3) td:nth-child(1)")).Click();
+
+            _driver.FindElement(By.CssSelector("#project-wizard-mts table tr:nth-child(5) td:nth-child(1)")).Click();
+
             _driver.FindElement(By.XPath(".//div[@id='project-wizard-mts']//span[contains(text(), 'Next')]")).Click();
+        }
 
-            //4 шаг - выбор глоссария
+
+        public void ChooseGlossary()
+        {
+            //Выбрать необходимый глоссарий
             _wait.Until(d => _driver.FindElement(By.CssSelector("#project-wizard-tbs table tr:nth-child(1) td:nth-child(1)")));
+
             _driver.FindElement(By.CssSelector("#project-wizard-tbs table tr:nth-child(1) td:nth-child(1)")).Click();
+
             _driver.FindElement(By.XPath(".//div[@id='project-wizard-tbs']//span[contains(text(), 'Next')]")).Click();
+        }
 
-            //5 шаг - настройка этапов workflow
+
+        public void SetUpWorkflow()
+        {
+            //Настроить этапы workflow
             _wait.Until(d => _driver.FindElement(By.Id("project-workflow-new-stage-btn")));
-            _driver.FindElement(By.Id("project-workflow-new-stage-btn")).Click();
-            _driver.FindElement(By.XPath(".//div[@id='project-wizard-workflow']//span[contains(text(), 'Next')]")).Click();
 
-            //Finish
+            _driver.FindElement(By.Id("project-workflow-new-stage-btn")).Click();
+
+            _driver.FindElement(By.XPath(".//div[@id='project-wizard-workflow']//span[contains(text(), 'Next')]")).Click();
+        }
+
+
+        public void Pretranslate()
+        {
             _wait.Until(d => _driver.FindElement(By.XPath(".//div[@id='project-wizard-pretranslate']//span[contains(text(), 'Finish')]")));
             _driver.FindElement(By.XPath(".//div[@id='project-wizard-pretranslate']//span[contains(text(), 'Finish')]")).Click();
-
         }
+
+
+        public void CreateTMXFile(string TmName)
+        {
+            //Создать ТМ
+            _driver.FindElement(By.XPath(".//div[@id='project-wizard-tms']//span[text()='Create']")).Click();
+
+            _wait.Until(d => _driver.FindElement(By.XPath(".//div[@id='project-wizard-tm']//span[contains(text(), 'Add new TM Base')]")));
+
+            //Заполнить данные о новой ТМ
+            _driver.FindElement(By.CssSelector("#project-wizard-tm input[name='Name']")).Clear();
+
+            _driver.FindElement(By.CssSelector("#project-wizard-tm input[name='Name']")).SendKeys(_tmName);
+
+            //Добавить тмх файл
+            _driver.FindElement(By.XPath(".//div[@id='project-wizard-tm']//span[text()='Add']")).Click();
+
+            Thread.Sleep(1000);
+            // Заполнить форму для отправки файла
+            SendKeys.SendWait(TmName);
+
+            Thread.Sleep(1000);
+
+            SendKeys.SendWait(@"{Enter}");
+
+            Thread.Sleep(2000);
+
+            //Нажать на кнопку Accept
+            _driver.FindElement(By.XPath(".//div[@id='project-wizard-tm']//span[text()='Accept']")).Click();
+
+            _wait.Until(d => _driver.FindElement(By.CssSelector("#project-wizard-tms table tr:nth-child(1) td:nth-child(1)")));
+
+            //Выбирать созданный ТМ из списка не надо, он выбран автоматически
+
+            Assert.NotNull(_driver.FindElement(By.XPath(".//div[@id='project-wizard-tms']//table//tr[td[contains(string(), '" + _tmName + "')]]")));            
+        }
+
+        public void AddTMXFile(string projectname)
+        {
+            _driver.FindElement(By.LinkText(projectname)).Click();
+            //Нажать кнопку Edit
+            _driver.FindElement(By.XPath(".//div[@id='project-tms']//span[text()='Edit']")).Click();
+
+            _wait.Until(d => _driver.FindElement(By.CssSelector("#project-wizard-tms table tr:nth-child(1)")));
+
+            //Driver.FindElement(By.XPath("//div[@id='project-wizard-tms']//table//tr[contains(@class, 'selected')]/td[1]")).Click();
+
+            CreateTMXFile(TmFile);
+
+            _driver.FindElement(By.XPath("//div[@id='project-wizard']//span[text()='Save']")).Click();
+
+            _wait.Until(d => _driver.FindElement(By.XPath("//div[@id='project-tms']//table//tr[1]")));
+
+            _driver.Navigate().GoToUrl(_url);
+        }
+
+        public void ConfirmButton()
+        {
+            // Написать что-то в source
+            Driver.FindElement(By.CssSelector("#segments-body div table tr:nth-child(1) td:nth-child(3) div")).
+                SendKeys("This is a sample text");
+
+            // Нажать на кнопку подтвердить
+            Driver.FindElement(By.Id("confirm-btn")).Click();
+
+            // Убедиться что сегмент подтвержден
+            // Если элемента нет, то выкинет NoSuchElementException, поэтому нет Assert
+            Driver.FindElement(By.ClassName("icon-ok"));
+        }
+
+        public void BackButton()
+        {
+            // Нажать кнопку назад
+            Driver.FindElement(By.Id("back-btn")).Click();
+
+            Wait.Until((d) => d.Title.Contains("Workspace"));
+
+            Assert.AreEqual(true, Driver.Title.Contains("Workspace"));
+        }
+
+        public void SourceTargetSwitchButton()
+        {
+            //Выбрать source первого сегмента
+            Driver.FindElement(By.CssSelector("#segments-body div table tr:nth-child(1) td:nth-child(2)")).Click();
+
+            // Нажать кнопку Tab
+            Driver.FindElement(By.Id("toggle-btn")).Click();
+
+
+            // Проверить где находится курсор, и если в поле source, то все ок
+            IWebElement a = Driver.FindElement(By.CssSelector("#segments-body div table tr:nth-child(1) td:nth-child(3) div"));
+            IWebElement b = Driver.SwitchTo().ActiveElement();
+
+            Point a_loc = a.Location;
+            Point b_loc = b.Location;
+
+            Size a_size = a.Size;
+            Size b_size = b.Size;
+
+            Assert.True((a_loc == b_loc) && (a_size == b_size));
+        }
+
+        public void SourceTargetSwitchHotkey()
+        {
+            //Выбрать source первого сегмента
+            Driver.FindElement(By.CssSelector("#segments-body div table tr:nth-child(1) td:nth-child(2)")).Click();
+
+            // Нажать хоткей Tab
+            Driver.FindElement(By.CssSelector("#segments-body div table tr:nth-child(1) td:nth-child(2) div")).
+                SendKeys(OpenQA.Selenium.Keys.Tab);
+
+
+            // Проверить где находится курсор, и если в поле source, то все ок
+            IWebElement a = Driver.FindElement(By.CssSelector("#segments-body div table tr:nth-child(1) td:nth-child(3) div"));
+            IWebElement b = Driver.SwitchTo().ActiveElement();
+
+            Point a_loc = a.Location;
+            Point b_loc = b.Location;
+
+            Size a_size = a.Size;
+            Size b_size = b.Size;
+
+            Assert.True((a_loc == b_loc) && (a_size == b_size));
+        }
+
+        public void ToTargetButton()
+        {
+            // Выбрать source первого сегмента
+            Driver.FindElement(By.CssSelector("#segments-body div table tr:nth-child(1) td:nth-child(2)")).Click();
+
+            // Текст source'a первого сегмента
+            string sourcetxt = Driver.FindElement(By.CssSelector("#segments-body div table tr:nth-child(1) td:nth-child(2) div")).Text;
+            // Нажать кнопку копирования
+            Driver.FindElement(By.Id("copy-btn")).Click();
+
+            // Проверить, такой ли текст в target'те
+            string targetxt = Driver.FindElement(By.CssSelector("#segments-body div table tr:nth-child(1) td:nth-child(3) div")).Text;
+            Assert.AreEqual(sourcetxt, targetxt);
+        }
+
+        public void ToTargetHotkey()
+        {
+            // Выбрать source первого сегмента
+            Driver.FindElement(By.CssSelector("#segments-body div table tr:nth-child(1) td:nth-child(2)")).Click();
+
+            // Текст source'a первого сегмента
+            string sourcetxt = Driver.FindElement(By.CssSelector("#segments-body div table tr:nth-child(1) td:nth-child(2) div")).Text;
+            // Нажать хоткей копирования
+            Driver.FindElement(By.CssSelector("#segments-body div table tr:nth-child(1) td:nth-child(2)")).
+                SendKeys(OpenQA.Selenium.Keys.Control + OpenQA.Selenium.Keys.Insert);
+            // Проверить, такой ли текст в target'те
+            string targetxt = Driver.FindElement(By.CssSelector("#segments-body div table tr:nth-child(1) td:nth-child(3) div")).Text;
+            Assert.AreEqual(sourcetxt, targetxt);
+        }
+
+        public void CancelButton()
+        {
+            // Выбрать source первого сегмента
+            Driver.FindElement(By.CssSelector("#segments-body div table tr:nth-child(1) td:nth-child(2)")).Click();
+
+            // Нажать кнопку копирования
+            Driver.FindElement(By.Id("copy-btn")).Click();
+            // Текст source'a первого сегмента
+            string sourcetxt = Driver.FindElement(By.CssSelector("#segments-body div table tr:nth-child(1) td:nth-child(2) div")).Text;
+            // Проверить, такой ли текст в target'те
+            string targetxt = Driver.FindElement(By.CssSelector("#segments-body div table tr:nth-child(1) td:nth-child(3) div")).Text;
+            Assert.AreEqual(sourcetxt, targetxt);
+
+            // Нажать кнопку отмены
+            Driver.FindElement(By.Id("undo-btn")).Click();
+            // Убедиться, что в target нет текста
+            targetxt = Driver.FindElement(By.CssSelector("#segments-body div table tr:nth-child(1) td:nth-child(3) div")).Text;
+            Assert.AreEqual("", targetxt);
+        }
+
+        public void CancelHotkey()
+        {
+            // Выбрать source первого сегмента
+            Driver.FindElement(By.CssSelector("#segments-body div table tr:nth-child(1) td:nth-child(2)")).Click();
+
+            // Нажать кнопку копирования
+            Driver.FindElement(By.Id("copy-btn")).Click();
+            // Текст source'a первого сегмента
+            string sourcetxt = Driver.FindElement(By.CssSelector("#segments-body div table tr:nth-child(1) td:nth-child(2) div")).Text;
+            // Проверить, такой ли текст в target'те
+            string targetxt = Driver.FindElement(By.CssSelector("#segments-body div table tr:nth-child(1) td:nth-child(3) div")).Text;
+            Assert.AreEqual(sourcetxt, targetxt);
+
+            // Нажать хоткей отмены
+            Driver.FindElement(By.CssSelector("#segments-body div table tr:nth-child(1) td:nth-child(2)")).
+                SendKeys(OpenQA.Selenium.Keys.Control + "Z");
+            // Убедиться, что в target нет текста
+            targetxt = Driver.FindElement(By.CssSelector("#segments-body div table tr:nth-child(1) td:nth-child(3) div")).Text;
+            Assert.AreEqual("", targetxt);
+        }
+
+        public void RedoAfterCancelButton()
+        {
+            // Выбрать source первого сегмента
+            Driver.FindElement(By.CssSelector("#segments-body div table tr:nth-child(1) td:nth-child(2)")).Click();
+
+            // Нажать кнопку копирования
+            Driver.FindElement(By.Id("copy-btn")).Click();
+            // Текст source'a первого сегмента
+            string sourcetxt = Driver.FindElement(By.CssSelector("#segments-body div table tr:nth-child(1) td:nth-child(2) div")).Text;
+            // Проверить, такой ли текст в target'те
+            string targetxt = Driver.FindElement(By.CssSelector("#segments-body div table tr:nth-child(1) td:nth-child(3) div")).Text;
+            Assert.AreEqual(sourcetxt, targetxt);
+
+            // Нажать кнопку отмены
+            Driver.FindElement(By.Id("undo-btn")).Click();
+            // Убедиться, что в target нет текста
+            targetxt = Driver.FindElement(By.CssSelector("#segments-body div table tr:nth-child(1) td:nth-child(3) div")).Text;
+            Assert.AreEqual("", targetxt);
+
+            // Нажать кнопку возврата отмененного действия
+            Driver.FindElement(By.Id("redo-btn")).Click();
+
+            // Убедиться, что в target и source одинаковы
+            sourcetxt = Driver.FindElement(By.CssSelector("#segments-body div table tr:nth-child(1) td:nth-child(2) div")).Text;
+            targetxt = Driver.FindElement(By.CssSelector("#segments-body div table tr:nth-child(1) td:nth-child(3) div")).Text;
+            Assert.AreEqual(sourcetxt, targetxt);
+        }
+
+        public void RedoAfterCancelHotkey()
+        {
+            // Выбрать source первого сегмента
+            Driver.FindElement(By.CssSelector("#segments-body div table tr:nth-child(1) td:nth-child(2)")).Click();
+
+            // Нажать кнопку копирования
+            Driver.FindElement(By.Id("copy-btn")).Click();
+            // Текст source'a первого сегмента
+            string sourcetxt = Driver.FindElement(By.CssSelector("#segments-body div table tr:nth-child(1) td:nth-child(2) div")).Text;
+            // Проверить, такой ли текст в target'те
+            string targetxt = Driver.FindElement(By.CssSelector("#segments-body div table tr:nth-child(1) td:nth-child(3) div")).Text;
+            Assert.AreEqual(sourcetxt, targetxt);
+
+            // Нажать кнопку отмены
+            Driver.FindElement(By.Id("undo-btn")).Click();
+            // Убедиться, что в target нет текста
+            targetxt = Driver.FindElement(By.CssSelector("#segments-body div table tr:nth-child(1) td:nth-child(3) div")).Text;
+            Assert.AreEqual("", targetxt);
+
+            // Нажать хоткей возврата отмененного действия
+            Driver.FindElement(By.CssSelector("#segments-body div table tr:nth-child(1) td:nth-child(3) div")).
+                SendKeys(OpenQA.Selenium.Keys.Control + "Y");
+
+            // Убедиться, что в target и source одинаковы
+            sourcetxt = Driver.FindElement(By.CssSelector("#segments-body div table tr:nth-child(1) td:nth-child(2) div")).Text;
+            targetxt = Driver.FindElement(By.CssSelector("#segments-body div table tr:nth-child(1) td:nth-child(3) div")).Text;
+            Assert.AreEqual(sourcetxt, targetxt);
+        }
+       
 
         [TearDown]
         public void Teardown()
@@ -351,11 +721,16 @@ namespace AbbyyLs.CAT.Projects.Selenium.Tests
             // 2. Создание проекта с 1 документов внутри
             CreateProject(ProjectName, true, DocumentFile);
 
+            //CreateProject(ProjectName, true, DocumentFile, TmFile);
+
             // 3. Назначение задачи на пользователя
             AssignTask();
 
+            //AddTMXFile(ProjectName);
+
             // 4. Открытие документа по имени созданного проекта
             OpenDocument(ProjectName);
+
         }
 
         
@@ -363,40 +738,18 @@ namespace AbbyyLs.CAT.Projects.Selenium.Tests
         /// Метод тестирования кнопки "Back" в редакторе
         /// </summary>
         [Test]
-        public void BackButton()
+        public void BackButtonTest()
         {
-            // Нажать кнопку назад
-            Driver.FindElement(By.Id("back-btn")).Click();
-
-            Wait.Until((d) => d.Title.Contains("Workspace"));
-
-            Assert.AreEqual(true, Driver.Title.Contains("Workspace"));
+            BackButton();
         }
 
         /// <summary>
         /// Метод тестирования кнопки перемещения курсора между полями source и target без хоткея
         /// </summary>
         [Test]
-        public void SourceTargetSwitchButton()
+        public void SourceTargetSwitchButtonTest()
         {
-            //Выбрать source первого сегмента
-            Driver.FindElement(By.CssSelector("#segments-body div table tr:nth-child(1) td:nth-child(2)")).Click();
-
-            // Нажать кнопку Tab
-            Driver.FindElement(By.Id("toggle-btn")).Click();
-
-
-            // Проверить где находится курсор, и если в поле source, то все ок
-            IWebElement a = Driver.FindElement(By.CssSelector("#segments-body div table tr:nth-child(1) td:nth-child(3) div"));
-            IWebElement b = Driver.SwitchTo().ActiveElement();
-
-            Point a_loc = a.Location;
-            Point b_loc = b.Location;
-
-            Size a_size = a.Size;
-            Size b_size = b.Size;
-
-            Assert.True((a_loc == b_loc) && (a_size == b_size));
+            SourceTargetSwitchButton();
 
         }
 
@@ -404,46 +757,18 @@ namespace AbbyyLs.CAT.Projects.Selenium.Tests
         /// Метод тестирования хоткея перемещения курсора между полями source и target
         /// </summary>
         [Test]
-        public void SourceTargetSwitchHotkey()
+        public void SourceTargetSwitchHotkeyTest()
         {
-            //Выбрать source первого сегмента
-            Driver.FindElement(By.CssSelector("#segments-body div table tr:nth-child(1) td:nth-child(2)")).Click();
-
-            // Нажать хоткей Tab
-            Driver.FindElement(By.CssSelector("#segments-body div table tr:nth-child(1) td:nth-child(2) div")).
-                SendKeys(OpenQA.Selenium.Keys.Tab);
-
-
-            // Проверить где находится курсор, и если в поле source, то все ок
-            IWebElement a = Driver.FindElement(By.CssSelector("#segments-body div table tr:nth-child(1) td:nth-child(3) div"));
-            IWebElement b = Driver.SwitchTo().ActiveElement();
-
-            Point a_loc = a.Location;
-            Point b_loc = b.Location;
-
-            Size a_size = a.Size;
-            Size b_size = b.Size;
-
-            Assert.True((a_loc == b_loc) && (a_size == b_size));
-
+            SourceTargetSwitchHotkey();
         }
 
         /// <summary>
         /// Метод тестирования кнопки подтвеждения сегмента
         /// </summary>
         [Test]
-        public void ConfirmButton()
+        public void ConfirmButtonTest()
         {
-            // Написать что-то в source
-            Driver.FindElement(By.CssSelector("#segments-body div table tr:nth-child(1) td:nth-child(3) div")).
-                SendKeys("This is a sample text");
-
-            // Нажать на кнопку подтвердить
-            Driver.FindElement(By.Id("confirm-btn")).Click();
-
-            // Убедиться что сегмент подтвержден
-            // Если элемента нет, то выкинет NoSuchElementException, поэтому нет Assert
-            Driver.FindElement(By.ClassName("icon-ok"));
+            ConfirmButton();
         }
 
 
@@ -451,39 +776,18 @@ namespace AbbyyLs.CAT.Projects.Selenium.Tests
         /// Метод тестирования кнопки копирования оригинала в перевод
         /// </summary>
         [Test]
-        public void ToTargetButton()
+        public void ToTargetButtonTest()
         {
-            // Выбрать source первого сегмента
-            Driver.FindElement(By.CssSelector("#segments-body div table tr:nth-child(1) td:nth-child(2)")).Click();
-
-            // Текст source'a первого сегмента
-            string sourcetxt = Driver.FindElement(By.CssSelector("#segments-body div table tr:nth-child(1) td:nth-child(2) div")).Text;
-            // Нажать кнопку копирования
-            Driver.FindElement(By.Id("copy-btn")).Click();
-          
-            // Проверить, такой ли текст в target'те
-            string targetxt = Driver.FindElement(By.CssSelector("#segments-body div table tr:nth-child(1) td:nth-child(3) div")).Text;
-            Assert.AreEqual(sourcetxt, targetxt);
-
+            ToTargetButton();
         }
 
         /// <summary>
         /// Метод тестирования хоткея копирования оригинала в перевод
         /// </summary>
         [Test]
-        public void ToTargetHotkey()
+        public void ToTargetHotkeyTest()
         {
-            // Выбрать source первого сегмента
-            Driver.FindElement(By.CssSelector("#segments-body div table tr:nth-child(1) td:nth-child(2)")).Click();
-
-            // Текст source'a первого сегмента
-            string sourcetxt = Driver.FindElement(By.CssSelector("#segments-body div table tr:nth-child(1) td:nth-child(2) div")).Text;
-            // Нажать хоткей копирования
-            Driver.FindElement(By.CssSelector("#segments-body div table tr:nth-child(1) td:nth-child(2)")).
-                SendKeys(OpenQA.Selenium.Keys.Control + OpenQA.Selenium.Keys.Insert);
-            // Проверить, такой ли текст в target'те
-            string targetxt = Driver.FindElement(By.CssSelector("#segments-body div table tr:nth-child(1) td:nth-child(3) div")).Text;
-            Assert.AreEqual(sourcetxt, targetxt);
+            ToTargetHotkey();
 
         }
 
@@ -491,118 +795,37 @@ namespace AbbyyLs.CAT.Projects.Selenium.Tests
         /// Метод тестирования кнопки отмены действия
         /// </summary>
         [Test]
-        public void CancelButton()
+        public void CancelButtonTest()
         {
-            // Выбрать source первого сегмента
-            Driver.FindElement(By.CssSelector("#segments-body div table tr:nth-child(1) td:nth-child(2)")).Click();
-
-            // Нажать кнопку копирования
-            Driver.FindElement(By.Id("copy-btn")).Click();
-            // Текст source'a первого сегмента
-            string sourcetxt = Driver.FindElement(By.CssSelector("#segments-body div table tr:nth-child(1) td:nth-child(2) div")).Text;
-            // Проверить, такой ли текст в target'те
-            string targetxt = Driver.FindElement(By.CssSelector("#segments-body div table tr:nth-child(1) td:nth-child(3) div")).Text;
-            Assert.AreEqual(sourcetxt, targetxt);
-
-            // Нажать кнопку отмены
-            Driver.FindElement(By.Id("undo-btn")).Click();
-            // Убедиться, что в target нет текста
-            targetxt = Driver.FindElement(By.CssSelector("#segments-body div table tr:nth-child(1) td:nth-child(3) div")).Text;
-            Assert.AreEqual("", targetxt);
+            CancelButton();
         }
 
         /// <summary>
         /// Метод тестирования хоткея отмены действия
         /// </summary>
         [Test]
-        public void CancelHotkey()
+        public void CancelHotkeyTest()
         {
-            // Выбрать source первого сегмента
-            Driver.FindElement(By.CssSelector("#segments-body div table tr:nth-child(1) td:nth-child(2)")).Click();
-
-            // Нажать кнопку копирования
-            Driver.FindElement(By.Id("copy-btn")).Click();
-            // Текст source'a первого сегмента
-            string sourcetxt = Driver.FindElement(By.CssSelector("#segments-body div table tr:nth-child(1) td:nth-child(2) div")).Text;
-            // Проверить, такой ли текст в target'те
-            string targetxt = Driver.FindElement(By.CssSelector("#segments-body div table tr:nth-child(1) td:nth-child(3) div")).Text;
-            Assert.AreEqual(sourcetxt, targetxt);
-
-            // Нажать хоткей отмены
-            Driver.FindElement(By.CssSelector("#segments-body div table tr:nth-child(1) td:nth-child(2)")).
-                SendKeys(OpenQA.Selenium.Keys.Control + "Z");
-            // Убедиться, что в target нет текста
-            targetxt = Driver.FindElement(By.CssSelector("#segments-body div table tr:nth-child(1) td:nth-child(3) div")).Text;
-            Assert.AreEqual("", targetxt);
+            CancelHotkeyTest();
         }
 
         /// <summary>
         /// Метод тестирования кнопки возврата отмененного действия
         /// </summary>
         [Test]
-        public void RedoAfterCancelButton()
+        public void RedoAfterCancelButtonTest()
         {
-            // Выбрать source первого сегмента
-            Driver.FindElement(By.CssSelector("#segments-body div table tr:nth-child(1) td:nth-child(2)")).Click();
-
-            // Нажать кнопку копирования
-            Driver.FindElement(By.Id("copy-btn")).Click();
-            // Текст source'a первого сегмента
-            string sourcetxt = Driver.FindElement(By.CssSelector("#segments-body div table tr:nth-child(1) td:nth-child(2) div")).Text;
-            // Проверить, такой ли текст в target'те
-            string targetxt = Driver.FindElement(By.CssSelector("#segments-body div table tr:nth-child(1) td:nth-child(3) div")).Text;
-            Assert.AreEqual(sourcetxt, targetxt);
-
-            // Нажать кнопку отмены
-            Driver.FindElement(By.Id("undo-btn")).Click();
-            // Убедиться, что в target нет текста
-            targetxt = Driver.FindElement(By.CssSelector("#segments-body div table tr:nth-child(1) td:nth-child(3) div")).Text;
-            Assert.AreEqual("", targetxt);
-
-            // Нажать кнопку возврата отмененного действия
-            Driver.FindElement(By.Id("redo-btn")).Click();
-
-            // Убедиться, что в target и source одинаковы
-            sourcetxt = Driver.FindElement(By.CssSelector("#segments-body div table tr:nth-child(1) td:nth-child(2) div")).Text;
-            targetxt = Driver.FindElement(By.CssSelector("#segments-body div table tr:nth-child(1) td:nth-child(3) div")).Text;
-            Assert.AreEqual(sourcetxt, targetxt);
+            RedoAfterCancelButton();
         }
 
         /// <summary>
         /// Метод тестирования хоткея возврата отмененного действия
         /// </summary>
         [Test]
-        public void RedoAfterCancelHotkey()
+        public void RedoAfterCancelHotkeyTest()
         {
-            // Выбрать source первого сегмента
-            Driver.FindElement(By.CssSelector("#segments-body div table tr:nth-child(1) td:nth-child(2)")).Click();
-
-            // Нажать кнопку копирования
-            Driver.FindElement(By.Id("copy-btn")).Click();
-            // Текст source'a первого сегмента
-            string sourcetxt = Driver.FindElement(By.CssSelector("#segments-body div table tr:nth-child(1) td:nth-child(2) div")).Text;
-            // Проверить, такой ли текст в target'те
-            string targetxt = Driver.FindElement(By.CssSelector("#segments-body div table tr:nth-child(1) td:nth-child(3) div")).Text;
-            Assert.AreEqual(sourcetxt, targetxt);
-
-            // Нажать кнопку отмены
-            Driver.FindElement(By.Id("undo-btn")).Click();
-            // Убедиться, что в target нет текста
-            targetxt = Driver.FindElement(By.CssSelector("#segments-body div table tr:nth-child(1) td:nth-child(3) div")).Text;
-            Assert.AreEqual("", targetxt);
-
-            // Нажать хоткей возврата отмененного действия
-            Driver.FindElement(By.CssSelector("#segments-body div table tr:nth-child(1) td:nth-child(3) div")).
-                SendKeys(OpenQA.Selenium.Keys.Control + "Y");
-
-            // Убедиться, что в target и source одинаковы
-            sourcetxt = Driver.FindElement(By.CssSelector("#segments-body div table tr:nth-child(1) td:nth-child(2) div")).Text;
-            targetxt = Driver.FindElement(By.CssSelector("#segments-body div table tr:nth-child(1) td:nth-child(3) div")).Text;
-            Assert.AreEqual(sourcetxt, targetxt);
+            RedoAfterCancelHotkey();
         }
-
-
-
 
 
     }
@@ -611,8 +834,28 @@ namespace AbbyyLs.CAT.Projects.Selenium.Tests
 
 
 
-    public class UserLogTest : EditorButtonsTest
+    public class UserLogTest : BaseTest
     {
+        [SetUp]
+        public void Setup()
+        {
+            // 1. Авторизация
+            Authorization();
+
+            // 2. Создание проекта с 1 документов внутри
+            CreateProject(ProjectName, true, DocumentFile);
+
+            //CreateProject(ProjectName, true, DocumentFile, TmFile);
+
+            // 3. Назначение задачи на пользователя
+            AssignTask();
+
+            //AddTMXFile(ProjectName);
+
+            // 4. Открытие документа по имени созданного проекта
+            OpenDocument(ProjectName);
+
+        }
 
         public UserLogTest(string url, string workspaceUrl, string browserName)
             : base(url, workspaceUrl, browserName)
@@ -623,27 +866,36 @@ namespace AbbyyLs.CAT.Projects.Selenium.Tests
                
         /// <summary>
         /// Метод выгрузки логов 
-        /// </summary>
-        [Test]
-
-        public void ExportLog()
+        /// </summary>        
+        public void ExportLog(string path)
         {
-            // Нажать кнопку назад
-            BackButton();
-
+            //Получить путь к папке, куда выгружать логи
+            string fullResultPath = System.IO.Path.Combine(path, ProjectName);
+            
             //Выбрать документ
-
             Driver.FindElement(By.CssSelector(".project-documents div.x-grid-body table tr:nth-child(1) td:nth-child(1)")).Click();
 
             //Нажать кнопку выгрузки логов
-            Driver.FindElement(By.Id("log-export-btn-btnInnerEl")).Click();                      
+            Driver.FindElement(By.Id("log-export-btn")).Click();
+
+            // Заполнить форму для сохранения файла
+            Thread.Sleep(1000);
+
+            SendKeys.SendWait(fullResultPath);
+
+            Thread.Sleep(1000);
+
+            SendKeys.SendWait(@"{Enter}");
+
+            Thread.Sleep(5000);
+
+            Assert.IsTrue(System.IO.File.Exists(fullResultPath+".zip"));                        
         }
 
         /// <summary>
         /// Метод тестирования набора текста в документе 
         /// </summary>
         [Test]
-
         public void WriteText()
         {
             // Написать текст в первом сегменте
@@ -654,15 +906,22 @@ namespace AbbyyLs.CAT.Projects.Selenium.Tests
 
             Assert.AreEqual("This is a sample text", segmentxt);
 
+            //Создать папку для выгрузки логов
+            string resultPath = System.IO.Path.Combine(PathTestResults, "WriteText");
+                        
+            System.IO.Directory.CreateDirectory(resultPath);
+
+            // Нажать кнопку назад
+            BackButton();
+
             //Выгрузить логи
-            ExportLog();
+            ExportLog(resultPath);
         }
 
         /// <summary>
         /// Метод тестирования удаления текста с клавиатуры в документе 
         /// </summary>
         [Test]
-
         public void DeleteText()
         {
             // Написать текст в первом сегменте
@@ -685,29 +944,262 @@ namespace AbbyyLs.CAT.Projects.Selenium.Tests
             //Убедиться, что в сегменте нет текста
             Assert.AreEqual("", segmentxt);
 
+            //Создать папку для выгрузки логов
+            string resultPath = System.IO.Path.Combine(PathTestResults, "DeleteText");
+
+            System.IO.Directory.CreateDirectory(resultPath);
+
+            // Нажать кнопку назад
+            BackButton();
+
             //Выгрузить логи
-            ExportLog();
+            ExportLog(resultPath);
         }
 
         /// <summary>
         /// Метод тестирования подтверждения перевода с помощью нажатия кнопки на панели инструментов 
         /// </summary>
         [Test]
-
         public void ConfirmTextButton()
         {
             //Набрать текст в первом сегменте и нажать кнопку Confirm Segment
             ConfirmButton();
 
-            //Выгрузить логи
-            ExportLog();
+            //Создать папку для выгрузки логов
+            string resultPath = System.IO.Path.Combine(PathTestResults, "ConfirmTextButton");
 
+            System.IO.Directory.CreateDirectory(resultPath);
+
+            // Нажать кнопку назад
+            BackButton();
+
+            //Выгрузить логи
+            ExportLog(resultPath);
+        }
+
+        /// <summary>
+        /// Метод тестирования кнопки перемещения курсора между полями source и target
+        /// </summary>
+        [Test]
+        public void SourceTargetSegmentsSwitchButton()
+        {
+            //Переключить курсор между полями source и target
+            SourceTargetSwitchButton();
+
+            //Создать папку для выгрузки логов
+            string resultPath = System.IO.Path.Combine(PathTestResults, "SourceTargetSegmentsSwitchButton");
+
+            System.IO.Directory.CreateDirectory(resultPath);
+
+            // Нажать кнопку назад
+            BackButton();
+
+            //Выгрузить логи
+            ExportLog(resultPath);
+        }
+
+        /// <summary>
+        /// Метод тестирования кнопки перемещения курсора между полями source и target по хоткею
+        /// </summary>
+        [Test]
+        public void SourceTargetSegmentsSwitchHotkey()
+        {
+            //Переключить курсор между полями source и target
+            SourceTargetSwitchHotkey();
+
+            //Создать папку для выгрузки логов
+            string resultPath = System.IO.Path.Combine(PathTestResults, "SourceTargetSegmentsSwitchHotkey");
+
+            System.IO.Directory.CreateDirectory(resultPath);
+
+            // Нажать кнопку назад
+            BackButton();
+
+            //Выгрузить логи
+            ExportLog(resultPath);
+        }
+
+        /// <summary>
+        /// Метод тестирования подстановки перевода сегмента из MT по хоткею
+        /// </summary>
+        [Test]
+        public void SubstituteTranslationMTHotkey()
+        {
+            //Выбираем первый сегмент
+            Driver.FindElement(By.CssSelector("#segments-body div table tr:nth-child(1) td:nth-child(3) div")).Click();
+
+            //Ждем пока загрузится CAT-панель
+            Wait.Until(d => d.FindElement(By.XPath("//div[@id='cat']//table//tr[td[contains(string(),'MT')]]/td[4]")));
+
+            string catNumber = Driver.FindElement(By.XPath("//div[@id='cat']//table//tr[td[contains(string(),'MT')]]/td[1]")).Text;
+            
+            //Нажать хоткей для подстановки из MT перевода первого сегмента
+            Driver.FindElement(By.CssSelector("#segments-body div table tr:nth-child(1) td:nth-child(3) div")).
+                SendKeys(OpenQA.Selenium.Keys.Control + catNumber);
+
+            string segmentxt = Driver.FindElement(By.CssSelector("#segments-body div table tr:nth-child(1) td:nth-child(3) div")).Text;
+
+            string catxt = Driver.FindElement(By.XPath("//div[@id='cat']//table//tr[td[contains(string(),'MT')]]/td[4]")).Text;
+
+            Assert.AreEqual(segmentxt, catxt);
+
+            //Создать папку для выгрузки логов
+            string resultPath = System.IO.Path.Combine(PathTestResults, "SubstituteTranslationMTHotkey");
+
+            System.IO.Directory.CreateDirectory(resultPath);
+
+            // Нажать кнопку назад
+            BackButton();
+
+            //Выгрузить логи
+            ExportLog(resultPath);
+        }
+
+        /// <summary>
+        /// Метод тестирования подстановки перевода сегмента из MT по клику на сегмент в САТ-панели
+        /// </summary>
+        [Test]
+        public void SubstituteTranslationMTDoubleClick()
+        {
+            Driver.FindElement(By.CssSelector("#segments-body div table tr:nth-child(1) td:nth-child(3) div")).Click();
+
+            //Ждем пока загрузится CAT-панель
+            Wait.Until(d => d.FindElement(By.XPath("//div[@id='cat']//table//tr[td[contains(string(),'MT')]]/td[4]")));
+
+            //Нажать на сегмент в CAT-панели
+            Actions action = new Actions(Driver);
+
+            action.DoubleClick(Driver.FindElement(By.XPath("//div[@id='cat']//table//tr[td[contains(string(),'MT')]]/td[4]")));
+
+            action.Perform();
+            
+            string segmentxt = Driver.FindElement(By.CssSelector("#segments-body div table tr:nth-child(1) td:nth-child(3) div")).Text;
+
+            string catxt = Driver.FindElement(By.XPath("//div[@id='cat']//table//tr[td[contains(string(),'MT')]]/td[4]")).Text;
+
+            Assert.AreEqual(segmentxt, catxt);
+
+            //Создать папку для выгрузки логов
+            string resultPath = System.IO.Path.Combine(PathTestResults, "SubstituteTranslationMTDoubleClick");
+
+            System.IO.Directory.CreateDirectory(resultPath);
+
+            // Нажать кнопку назад
+            BackButton();
+
+            //Выгрузить логи
+            ExportLog(resultPath);
+        }
+
+        /// <summary>
+        /// Метод тестирования подстановки перевода сегмента из TM по клику на сегмент в САТ-панели
+        /// </summary>
+        [Test]
+        public void SubstituteTranslationTMHotkey()
+        {
+            //Выбираем первый сегмент
+            Driver.FindElement(By.CssSelector("#segments-body div table tr:nth-child(1) td:nth-child(3) div")).Click();
+
+            //Ждем пока загрузится CAT-панель
+            Wait.Until(d => d.FindElement(By.XPath("//div[@id='cat']//table//tr[td[contains(string(),'TM')]]/td[4]")));
+
+            string catNumber = Driver.FindElement(By.XPath("//div[@id='cat']//table//tr[td[contains(string(),'TM')]]/td[1]")).Text;
+
+            //Нажать хоткей для подстановки из MT перевода первого сегмента
+            Driver.FindElement(By.CssSelector("#segments-body div table tr:nth-child(1) td:nth-child(3) div")).
+                SendKeys(OpenQA.Selenium.Keys.Control + catNumber);
+
+            string segmentxt = Driver.FindElement(By.CssSelector("#segments-body div table tr:nth-child(1) td:nth-child(3) div")).Text;
+
+            string catxt = Driver.FindElement(By.XPath("//div[@id='cat']//table//tr[td[contains(string(),'TM')]]/td[4]")).Text;
+
+            Assert.AreEqual(segmentxt, catxt);
+
+            //Создать папку для выгрузки логов
+            string resultPath = System.IO.Path.Combine(PathTestResults, "SubstituteTranslationTMHotkey");
+
+            System.IO.Directory.CreateDirectory(resultPath);
+
+            // Нажать кнопку назад
+            BackButton();
+
+            //Выгрузить логи
+            ExportLog(resultPath);
+        }
+
+        /// <summary>
+        /// Метод тестирования подстановки перевода сегмента из TM по клику на сегмент в САТ-панели
+        /// </summary>
+        [Test]
+        public void SubstituteTranslationTMDoubleClick()
+        {
+            Driver.FindElement(By.CssSelector("#segments-body div table tr:nth-child(1) td:nth-child(3) div")).Click();
+
+            //Ждем пока загрузится CAT-панель
+            Wait.Until(d => d.FindElement(By.XPath("//div[@id='cat']//table//tr[td[contains(string(),'TM')]]/td[4]")));
+
+            //Нажать на сегмент в CAT-панели
+            Actions action = new Actions(Driver);
+
+            action.DoubleClick(Driver.FindElement(By.XPath("//div[@id='cat']//table//tr[td[contains(string(),'TM')]]/td[4]")));
+
+            action.Perform();
+            
+            string segmentxt = Driver.FindElement(By.CssSelector("#segments-body div table tr:nth-child(1) td:nth-child(3) div")).Text;
+
+            string catxt = Driver.FindElement(By.XPath("//div[@id='cat']//table//tr[td[contains(string(),'TM')]]/td[4]")).Text;
+
+            Assert.AreEqual(segmentxt, catxt);
+
+            //Создать папку для выгрузки логов
+            string resultPath = System.IO.Path.Combine(PathTestResults, "SubstituteTranslationTMDoubleClick");
+
+            System.IO.Directory.CreateDirectory(resultPath);
+
+            // Нажать кнопку назад
+            BackButton();
+
+            //Выгрузить логи
+            ExportLog(resultPath);
+        }
+
+        /// <summary>
+        /// Метод тестирования создания новой TM на странице настройки проекта
+        /// </summary>
+        [Test]
+        public void AddTMXFileTest()
+        {
+            Driver.Navigate().Back();
+
+            Driver.Navigate().Back();
+
+            AddTMXFile(ProjectName);
+
+            OpenDocument(ProjectName);                         
         }
               
         
     }
 
 
+    class AuthorizationTest : BaseTest
+    {
+        public AuthorizationTest(string url, string workspaceUrl, string browserName)
+            : base (url, workspaceUrl, browserName)
+        {
+
+        }
+
+        /// <summary>
+        /// метод тестирования авторизации пользователя в системе
+        /// </summary>
+        [Test]
+        public void AuthorizationMethodTest()
+        {
+            Authorization();
+        }
+                   
+    }
 
 
 
