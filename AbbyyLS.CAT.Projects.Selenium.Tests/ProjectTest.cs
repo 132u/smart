@@ -1033,6 +1033,24 @@ namespace AbbyyLs.CAT.Projects.Selenium.Tests
             Assert.IsTrue(System.IO.File.Exists(fullResultPath+".zip"));                        
         }
 
+         /// <summary>
+        /// Открытие-закрытие документа 
+        /// </summary>
+        [Test]
+        public void OpenCloseDocument()
+        {
+            //Создать папку для выгрузки логов
+            string resultPath = System.IO.Path.Combine(PathTestResults, "OpenCloseDocument");
+
+            System.IO.Directory.CreateDirectory(resultPath);
+
+            // Нажать кнопку назад
+            BackButton();
+
+            //Выгрузить логи
+            ExportLog(resultPath);
+        }
+
         /// <summary>
         /// Метод тестирования набора текста в документе 
         /// </summary>
@@ -1089,10 +1107,10 @@ namespace AbbyyLs.CAT.Projects.Selenium.Tests
             string resultPath = System.IO.Path.Combine(PathTestResults, "DeleteText");
 
             System.IO.Directory.CreateDirectory(resultPath);
-
-            // Нажать кнопку назад
+            
+            //Нажать кнопку назад
             BackButton();
-
+          
             //Выгрузить логи
             ExportLog(resultPath);
         }
@@ -1108,6 +1126,235 @@ namespace AbbyyLs.CAT.Projects.Selenium.Tests
 
             //Создать папку для выгрузки логов
             string resultPath = System.IO.Path.Combine(PathTestResults, "ConfirmTextButton");
+
+            System.IO.Directory.CreateDirectory(resultPath);
+
+            //Thread.Sleep(60000);
+
+            // Нажать кнопку назад
+            BackButton();
+
+            //Выгрузить логи
+            ExportLog(resultPath);
+        }
+
+        /// <summary>
+        /// Метод тестирования перемещения курсора между сегментами
+        /// </summary>
+        [Test]
+        public void ChooseSegment()
+        {
+            //Курсор в первом сегменте Source
+            Driver.FindElement(By.CssSelector("#segments-body div table tr:nth-child(1) td:nth-child(2) div")).Click();
+
+            //Курсор во втором сегменте Source
+            Driver.FindElement(By.CssSelector("#segments-body div table tr:nth-child(2) td:nth-child(2) div")).Click();
+
+            //Курсор во втором сегменте Target
+            Driver.FindElement(By.CssSelector("#segments-body div table tr:nth-child(2) td:nth-child(3) div")).Click();
+
+            //Курсор в четвертом сегменте Target
+            Driver.FindElement(By.CssSelector("#segments-body div table tr:nth-child(4) td:nth-child(3) div")).Click();
+
+            //Курсор в седьмом сегменте Source
+            Driver.FindElement(By.CssSelector("#segments-body div table tr:nth-child(7) td:nth-child(2) div")).Click();
+
+            //Курсор в последнем сегменте Target
+            Driver.FindElement(By.CssSelector("#segments-body div table tr:last-child td:nth-child(3) div")).Click();
+
+            //Создать папку для выгрузки логов
+             string resultPath = System.IO.Path.Combine(PathTestResults, "ChooseSegment");
+
+            System.IO.Directory.CreateDirectory(resultPath);
+
+            // Нажать кнопку назад
+            BackButton();
+
+            //Выгрузить логи
+            ExportLog(resultPath);
+        }
+
+        /// <summary>
+        /// Метод тестирования копирования текста из source в target по нажатию кнопки в панели инструментов
+        /// </summary>
+        [Test]
+        public void CopySourceSegmentButton()
+        {
+            //Копировать текст сегмента
+            ToTargetButton();
+
+            //Создать папку для выгрузки логов
+            string resultPath = System.IO.Path.Combine(PathTestResults, "CopySourceSegmentButton");
+
+            System.IO.Directory.CreateDirectory(resultPath);
+
+            // Нажать кнопку назад
+            BackButton();
+
+            //Выгрузить логи
+            ExportLog(resultPath);
+        }
+
+        /// <summary>
+        /// Метод тестирования копирования текста из source в target по хоткею
+        /// </summary>
+        [Test]
+        public void CopySourceSegmentHotkey()
+        {
+            //Копировать текст сегмента
+            ToTargetHotkey();
+
+            //Создать папку для выгрузки логов
+            string resultPath = System.IO.Path.Combine(PathTestResults, "CopySourceSegmentHotkey");
+
+            System.IO.Directory.CreateDirectory(resultPath);
+
+            // Нажать кнопку назад
+            BackButton();
+
+            //Выгрузить логи
+            ExportLog(resultPath);
+        }
+
+         /// <summary>
+        /// Метод тестирования Undo/Redo
+        /// </summary>
+        [Test]
+        public void UndoRedoActions()
+        {
+            // Выбрать source первого сегмента
+            Driver.FindElement(By.CssSelector("#segments-body div table tr:nth-child(1) td:nth-child(2)")).Click();
+
+            // Нажать кнопку копирования
+            Driver.FindElement(By.Id("copy-btn")).Click();
+
+            // Текст source'a первого сегмента
+            string sourcetxt = Driver.FindElement(By.CssSelector("#segments-body div table tr:nth-child(1) td:nth-child(2) div")).Text;
+            // Проверить, такой ли текст в target'те
+            string targetxt = Driver.FindElement(By.CssSelector("#segments-body div table tr:nth-child(1) td:nth-child(3) div")).Text;
+            Assert.AreEqual(sourcetxt, targetxt);
+
+            // Выбрать source второго сегмента
+            Driver.FindElement(By.CssSelector("#segments-body div table tr:nth-child(2) td:nth-child(2)")).Click();
+
+            // Нажать кнопку копирования
+            Driver.FindElement(By.Id("copy-btn")).Click();
+
+            // Текст source'a второго сегмента
+            sourcetxt = Driver.FindElement(By.CssSelector("#segments-body div table tr:nth-child(2) td:nth-child(2) div")).Text;
+
+            // Проверить, такой ли текст в target'те
+            targetxt = Driver.FindElement(By.CssSelector("#segments-body div table tr:nth-child(2) td:nth-child(3) div")).Text;
+            Assert.AreEqual(sourcetxt, targetxt);
+
+            // Нажать кнопку отмены
+            Driver.FindElement(By.Id("undo-btn")).Click();
+
+            // Убедиться, что в target нет текста
+            targetxt = Driver.FindElement(By.CssSelector("#segments-body div table tr:nth-child(2) td:nth-child(3) div")).Text;
+            Assert.AreEqual("", targetxt);
+
+            // Нажать кнопку возврата отмененного действия
+            Driver.FindElement(By.Id("redo-btn")).Click();
+
+            // Убедиться, что в target и source второго одинаковы
+            sourcetxt = Driver.FindElement(By.CssSelector("#segments-body div table tr:nth-child(2) td:nth-child(2) div")).Text;
+            targetxt = Driver.FindElement(By.CssSelector("#segments-body div table tr:nth-child(2) td:nth-child(3) div")).Text;
+            Assert.AreEqual(sourcetxt, targetxt);
+
+            // Выбрать target третьего сегмента
+            Driver.FindElement(By.CssSelector("#segments-body div table tr:nth-child(3) td:nth-child(3)")).Click();
+
+            // Написать текст в третьем сегменте
+            Driver.FindElement(By.CssSelector("#segments-body div table tr:nth-child(3) td:nth-child(3) div")).
+               SendKeys("This is a sample text");
+
+            targetxt = Driver.FindElement(By.CssSelector("#segments-body div table tr:nth-child(3) td:nth-child(3) div")).Text;
+            Assert.AreEqual("This is a sample text", targetxt);
+
+            // Выбрать target четвертого сегмента
+            Driver.FindElement(By.CssSelector("#segments-body div table tr:nth-child(4) td:nth-child(3)")).Click();
+
+            // Написать текст в четвертом сегменте
+            Driver.FindElement(By.CssSelector("#segments-body div table tr:nth-child(4) td:nth-child(3) div")).
+               SendKeys("This is a sample text");
+
+            targetxt = Driver.FindElement(By.CssSelector("#segments-body div table tr:nth-child(4) td:nth-child(3) div")).Text;
+            Assert.AreEqual("This is a sample text", targetxt);
+
+            // Нажать хоткей отмены
+            Driver.FindElement(By.CssSelector("#segments-body div table tr:nth-child(4) td:nth-child(3)")).
+                SendKeys(OpenQA.Selenium.Keys.Control + "Z");
+            // Убедиться, что в target четвертого сегмента нет текста
+            targetxt = Driver.FindElement(By.CssSelector("#segments-body div table tr:nth-child(4) td:nth-child(3) div")).Text;
+            Assert.AreEqual("", targetxt);
+
+            // Нажать хоткей отмены
+            Driver.FindElement(By.CssSelector("#segments-body div table tr:nth-child(3) td:nth-child(3)")).
+                SendKeys(OpenQA.Selenium.Keys.Control + "Z");
+            // Убедиться, что в target третьего сегмента нет текста
+            targetxt = Driver.FindElement(By.CssSelector("#segments-body div table tr:nth-child(3) td:nth-child(3) div")).Text;
+            Assert.AreEqual("", targetxt);
+
+            // Нажать хоткей возврата отмененного действия
+            Driver.FindElement(By.CssSelector("#segments-body div table tr:nth-child(3) td:nth-child(3) div")).
+                SendKeys(OpenQA.Selenium.Keys.Control + "Y");
+
+            //Убедиться, что текст равен исходному
+            targetxt = Driver.FindElement(By.CssSelector("#segments-body div table tr:nth-child(3) td:nth-child(3) div")).Text;
+            Assert.AreEqual("This is a sample text", targetxt);
+
+            // Нажать хоткей возврата отмененного действия
+            Driver.FindElement(By.CssSelector("#segments-body div table tr:nth-child(4) td:nth-child(3) div")).
+                SendKeys(OpenQA.Selenium.Keys.Control + "Y");
+
+            //Убедиться, что текст равен исходному
+            targetxt = Driver.FindElement(By.CssSelector("#segments-body div table tr:nth-child(4) td:nth-child(3) div")).Text;
+            Assert.AreEqual("This is a sample text", targetxt);
+
+            //Создать папку для выгрузки логов
+            string resultPath = System.IO.Path.Combine(PathTestResults, "UndoRedoActions");
+
+            System.IO.Directory.CreateDirectory(resultPath);
+
+            // Нажать кнопку назад
+            BackButton();
+
+            //Выгрузить логи
+            ExportLog(resultPath);
+        }
+
+         /// <summary>
+        /// Метод тестирования spellcheck
+        /// </summary>
+        [Test]
+        public void UseSpellcheck()
+        {
+            // Выбрать target первого сегмента
+            Driver.FindElement(By.CssSelector("#segments-body div table tr:nth-child(1) td:nth-child(3)")).Click();
+
+            // Написать текст в первом сегменте с опечаткой
+            Driver.FindElement(By.CssSelector("#segments-body div table tr:nth-child(1) td:nth-child(3) div")).
+               SendKeys("plonet");
+
+            
+            string targetxt = Driver.FindElement(By.CssSelector("#segments-body div table tr:nth-child(1) td:nth-child(3) div")).Text;
+            Assert.AreEqual("plonet", targetxt);
+                                   
+            Actions action = new Actions(Driver);
+
+            action.ContextClick(Driver.FindElement(By.CssSelector("#segments-body div table tr:nth-child(1) td:nth-child(3) div span.spellcheck")));
+
+            action.Perform();
+
+            // Выбрать target первого сегмента
+            Driver.FindElement(By.XPath("//div[@role='menu']//span[contains(string(),'planet')]")).Click();
+
+            targetxt = Driver.FindElement(By.CssSelector("#segments-body div table tr:nth-child(1) td:nth-child(3) div")).Text;
+            Assert.AreEqual("planet", targetxt);
+
+            //Создать папку для выгрузки логов
+            string resultPath = System.IO.Path.Combine(PathTestResults, "UseSpellcheck");
 
             System.IO.Directory.CreateDirectory(resultPath);
 
@@ -1131,6 +1378,8 @@ namespace AbbyyLs.CAT.Projects.Selenium.Tests
             string resultPath = System.IO.Path.Combine(PathTestResults, "SourceTargetSegmentsSwitchButton");
 
             System.IO.Directory.CreateDirectory(resultPath);
+
+            Thread.Sleep(60000);
 
             // Нажать кнопку назад
             BackButton();
@@ -1296,7 +1545,7 @@ namespace AbbyyLs.CAT.Projects.Selenium.Tests
             string resultPath = System.IO.Path.Combine(PathTestResults, "SubstituteTranslationTMDoubleClick");
 
             System.IO.Directory.CreateDirectory(resultPath);
-
+           
             // Нажать кнопку назад
             BackButton();
 
