@@ -685,7 +685,104 @@ namespace AbbyyLs.CAT.Projects.Selenium.Tests
             targetxt = Driver.FindElement(By.CssSelector("#segments-body div table tr:nth-child(1) td:nth-child(3) div")).Text;
             Assert.AreEqual(sourcetxt, targetxt);
         }
-       
+
+        private void ClickChangeCase(bool byButtonTrueByHotkeyFalse)
+        {
+            if (byButtonTrueByHotkeyFalse)
+            {
+                // Нажать кнопку
+                Driver.FindElement(By.Id("change-case-btn")).Click();
+            }
+            else
+            {
+                // Нажать хоткей
+                Driver.FindElement(By.CssSelector("#segments-body div table tr:nth-child(1) td:nth-child(3) div")).
+                    SendKeys(OpenQA.Selenium.Keys.Alt + OpenQA.Selenium.Keys.F3);
+            }
+        }
+
+        private void CheckChangeCase(string sourceText, string textAfterFirstChange, string textAfterSecondChange, bool byButtonTrueByHotkeyFalse)
+        {
+            // Список текстов для сравнения после изменения регистра
+            List<string> listToCompare = new List<string> ();
+            listToCompare.Add(textAfterFirstChange);
+            listToCompare.Add(textAfterSecondChange);
+            listToCompare.Add(sourceText);
+
+            for (int i = 0; i < 3; ++i)
+            {
+                // Нажать изменениe регистра
+                ClickChangeCase(byButtonTrueByHotkeyFalse);
+                // Убедиться, что регистр слова изменился правильно - сравнить со значением в listToCompare
+                string targetxt = Driver.FindElement(By.CssSelector("#segments-body div table tr:nth-child(1) td:nth-child(3) div")).Text;
+                Assert.AreEqual(listToCompare[i], targetxt);
+            }
+        }
+
+        public void ChangeCaseTextButton()
+        {
+            // Написать текст в первом сегменте в target
+            Driver.FindElement(By.CssSelector("#segments-body div table tr:nth-child(1) td:nth-child(3) div")).
+                SendKeys("the example sentence");
+            // Нажать хоткей выделения всего содержимого ячейки
+            Driver.FindElement(By.CssSelector("#segments-body div table tr:nth-child(1) td:nth-child(3) div")).
+                SendKeys(OpenQA.Selenium.Keys.Shift + OpenQA.Selenium.Keys.Control + OpenQA.Selenium.Keys.Home);
+            // Запустить проверку
+            CheckChangeCase("the example sentence", "The Example Sentence", "THE EXAMPLE SENTENCE", true);
+        }
+
+        public void ChangeCaseTextHotkey()
+        {
+            // Написать текст в первом сегменте в target
+            Driver.FindElement(By.CssSelector("#segments-body div table tr:nth-child(1) td:nth-child(3) div")).
+                SendKeys("the example sentence");
+            // Нажать хоткей выделения всего содержимого ячейки
+            Driver.FindElement(By.CssSelector("#segments-body div table tr:nth-child(1) td:nth-child(3) div")).
+                SendKeys(OpenQA.Selenium.Keys.Shift + OpenQA.Selenium.Keys.Control + OpenQA.Selenium.Keys.Home);
+            // Запустить проверку
+            CheckChangeCase("the example sentence", "The Example Sentence", "THE EXAMPLE SENTENCE", false);
+        }
+
+        public void ChangeCaseSomeWordButton()
+        {
+            // Написать текст в первом сегменте в target
+            Driver.FindElement(By.CssSelector("#segments-body div table tr:nth-child(1) td:nth-child(3) div")).
+                SendKeys("some words for example");
+            // Нажать хоткей выделения последнего слова
+            Driver.FindElement(By.CssSelector("#segments-body div table tr:nth-child(1) td:nth-child(3) div")).
+                SendKeys(OpenQA.Selenium.Keys.Shift + OpenQA.Selenium.Keys.Control + OpenQA.Selenium.Keys.ArrowLeft);
+            // Запустить проверку
+            CheckChangeCase("some words for example", "some words for Example", "some words for EXAMPLE", true);
+        }
+
+        public void ChangeCaseSomeWordHotkey()
+        {
+            // Написать текст в первом сегменте в target
+            Driver.FindElement(By.CssSelector("#segments-body div table tr:nth-child(1) td:nth-child(3) div")).
+                SendKeys("some words for example");
+            // Нажать хоткей выделения последнего слова
+            Driver.FindElement(By.CssSelector("#segments-body div table tr:nth-child(1) td:nth-child(3) div")).
+                SendKeys(OpenQA.Selenium.Keys.Shift + OpenQA.Selenium.Keys.Control + OpenQA.Selenium.Keys.ArrowLeft);
+            // Запустить проверку
+            CheckChangeCase("some words for example", "some words for Example", "some words for EXAMPLE", false);
+        }
+
+        public void ChangeCaseFirstWord()
+        {
+            // Написать текст в первом сегменте в target
+            Driver.FindElement(By.CssSelector("#segments-body div table tr:nth-child(1) td:nth-child(3) div")).
+                SendKeys("some words for example");
+            // Нажать хоткей перехода в начало строки
+            Driver.FindElement(By.CssSelector("#segments-body div table tr:nth-child(1) td:nth-child(3) div")).
+                SendKeys(OpenQA.Selenium.Keys.Control + OpenQA.Selenium.Keys.Home);
+            // Нажать хоткей выделения первого слова
+            Driver.FindElement(By.CssSelector("#segments-body div table tr:nth-child(1) td:nth-child(3) div")).
+                SendKeys(OpenQA.Selenium.Keys.Shift + OpenQA.Selenium.Keys.Control + OpenQA.Selenium.Keys.ArrowRight);
+            // Запустить проверку по кнопке
+            CheckChangeCase("some words for example", "Some words for example", "SOME words for example", true);
+            // Запустить проверку по хоткею
+            CheckChangeCase("some words for example", "Some words for example", "SOME words for example", false);
+        }      
 
         [TearDown]
         public void Teardown()
@@ -827,6 +924,50 @@ namespace AbbyyLs.CAT.Projects.Selenium.Tests
             RedoAfterCancelHotkey();
         }
 
+        /// <summary>
+        /// Метод тестирования кнопки изменения регистра для всего текста
+        /// 
+        [Test]
+        public void ChangeCaseTextButtonTest()
+        {
+            ChangeCaseTextButton();
+        }
+
+        /// <summary>
+        /// Метод тестирования хоткея изменения регистра для всего текста
+        /// 
+        [Test]
+        public void ChangeCaseTextHotkeyTest()
+        {
+            ChangeCaseTextHotkey();
+        }
+
+        /// <summary>
+        /// Метод тестирования кнопки изменения регистра для слова (не первого)
+        /// 
+        [Test]
+        public void ChangeCaseSomeWordButtonTest()
+        {
+            ChangeCaseSomeWordButton();
+        }
+
+        /// <summary>
+        /// Метод тестирования хоткея изменения регистра для слова (не первого)
+        /// 
+        [Test]
+        public void ChangeCaseSomeWordHotkeyTest()
+        {
+            ChangeCaseSomeWordHotkey();
+        }
+
+        /// <summary>
+        /// Метод тестирования кнопки и хоткея изменения регистра для первого слова
+        /// 
+        [Test]
+        public void ChangeCaseFirstWordTest()
+        {
+            ChangeCaseFirstWord();
+        }
 
     }
 
