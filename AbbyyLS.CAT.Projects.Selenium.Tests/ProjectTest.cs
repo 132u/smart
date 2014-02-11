@@ -55,6 +55,7 @@ namespace AbbyyLs.CAT.Projects.Selenium.Tests
         private string _password;
         private string _projectName;
         private string _tmName;
+        private string _constTmName;
         protected string PathTestResults
         {
             get
@@ -90,6 +91,16 @@ namespace AbbyyLs.CAT.Projects.Selenium.Tests
             get
             {
                 return _tmFile;
+            }
+        }
+
+        private string _secondTmFile;
+
+        protected string SecondTmFile
+        {
+            get
+            {
+                return _secondTmFile;
             }
         }
 
@@ -140,10 +151,12 @@ namespace AbbyyLs.CAT.Projects.Selenium.Tests
             _deadlineDate = ConfigurationManager.AppSettings["DeadlineDate"];
             _documentFile = Path.GetFullPath("TestingFiles/English.docx");
             _tmName = ConfigurationManager.AppSettings["TMName"];
+            _constTmName = ConfigurationManager.AppSettings["TMName"];
 
             _projectName += " " + DateTime.UtcNow.Ticks.ToString();
             _tmName += " " + DateTime.UtcNow.Ticks.ToString();
             _tmFile = Path.GetFullPath("TestingFiles/Earth.tmx");
+            _secondTmFile = Path.GetFullPath("TestingFiles/TextEngTestAddTMX.tmx");
 
             _wait = new WebDriverWait(_driver, TimeSpan.FromSeconds(10));
         }
@@ -276,6 +289,17 @@ namespace AbbyyLs.CAT.Projects.Selenium.Tests
 
         }
 
+        public void SwitchTMTab()
+        {
+            // Нажать кнопку перехода на страницу Базы Translation memory
+            _driver.FindElement(By.XPath(
+                ".//ul[@class='g-corprmenu__list']//a[contains(@href,'/Enterprise/TranslationMemories')]")).Click();
+
+            // ждем загрузки страницы
+            _wait.Until((d) => d.FindElement(By.XPath(
+                ".//span[contains(@class,'l-corpr__addbtnbox')]//a[contains(@class,'g-btn__text g-redbtn__text')]")).Displayed);
+        }
+
 
         private void FirstStepProjectWizard(string ProjectName)
         {
@@ -351,17 +375,22 @@ namespace AbbyyLs.CAT.Projects.Selenium.Tests
                 //нажатие кнопки Add
                 _driver.FindElement(By.XPath(".//div[@id='project-wizard-body']//span[text()='Add']")).Click();
 
-                Thread.Sleep(1000);
-                // Заполнить форму для отправки файла
-                SendKeys.SendWait(DocumentName);
-                Thread.Sleep(1000);
-                SendKeys.SendWait(@"{Enter}");
-
-
-                Thread.Sleep(2000);                
+                FillAddDocumentForm(DocumentName);
             }
 
             _driver.FindElement(By.XPath(".//div[@id='project-wizard-form']//span[contains(text(), 'Next')]")).Click();
+        }
+
+        private void FillAddDocumentForm(string DocumentName)
+        {
+            Thread.Sleep(1000);
+            // Заполнить форму для отправки файла
+            SendKeys.SendWait(DocumentName);
+            Thread.Sleep(1000);
+            SendKeys.SendWait(@"{Enter}");
+
+
+            Thread.Sleep(2000);
         }
 
 
@@ -709,7 +738,7 @@ namespace AbbyyLs.CAT.Projects.Selenium.Tests
             listToCompare.Add(textAfterSecondChange);
             listToCompare.Add(sourceText);
 
-            for (int i = 0; i < 3; ++i)
+            for (int i = 0; i < listToCompare.Count; ++i)
             {
                 // Нажать изменениe регистра
                 ClickChangeCase(byButtonTrueByHotkeyFalse);
@@ -782,7 +811,560 @@ namespace AbbyyLs.CAT.Projects.Selenium.Tests
             CheckChangeCase("some words for example", "Some words for example", "SOME words for example", true);
             // Запустить проверку по хоткею
             CheckChangeCase("some words for example", "Some words for example", "SOME words for example", false);
-        }      
+        }
+        
+        public void CreateNewTM()
+        {
+            // Выбрать уникальное имя TM
+            string uniqueTMName;
+            SelectUniqueTMName(out uniqueTMName);
+            // Создать ТМ
+            CreateTMByNameAndSave(uniqueTMName);
+
+            // Проверить, сохранился ли ТМ
+            Assert.IsTrue(GetIsExistTM(uniqueTMName), "Ошибка: ТМ не сохранился (не появился в списке)");
+
+            // Проверить, что количество сегментов равно 0
+            int segCount;
+            GetSegmentCount(uniqueTMName, out segCount);
+            Assert.IsTrue(segCount == 0, "Ошибка: количество сегментов должно быть равно 0");
+        }
+
+        public void CreateTMCheckProjectCreateTMList()
+        {
+            // Выбрать уникальное имя TM
+            string uniqueTMName;
+            SelectUniqueTMName(out uniqueTMName);
+            // Создать ТМ
+            CreateTMByNameAndSave(uniqueTMName);
+
+            // Перейти на вкладку SmartCAT и проверить, что TM нет в списке при создании проекта
+            Assert.IsTrue(GetIsExistTMCreateProject(uniqueTMName), "Ошибка: ТМ не сохранился (не появился в списке)");
+        }
+
+        public void CreateTMWithoutName()
+        {
+            // Открыть форму создания ТМ
+            OpenCreateTMForm();
+
+            // Нажать кнопку Сохранить
+            Driver.FindElement(By.XPath(
+                ".//div[contains(@class,'js-popup-create-tm')][2]//a[contains(@class,'g-btn__text')]")).Click();
+
+            // Проверить выделение ошибки в поле Название
+            Assert.IsTrue(_driver.FindElement(By.XPath(
+                ".//div[contains(@class,'js-popup-create-tm')][2]//input[contains(@class,'error')]")).Displayed,
+                "Ошибка: поле Название не выделено ошибкой");
+
+            // Проверить появления сообщения об ошибке
+            Assert.IsTrue(_driver.FindElement(By.XPath(
+                ".//div[contains(@class,'js-popup-create-tm')][2]//div[contains(@class,'l-createtm__error')]")).Displayed,
+                "Ошибка: не появилось сообщенеи об ошибке");
+        }
+
+        public void CreateTMWithExistingName()
+        {
+            string TMName = _constTmName;
+            // Создать ТМ
+            CreateTMIfNotExist(TMName);
+            // Создать ТМ с тем же (уже существующим) именем
+            CreateTMByNameAndSave(TMName);
+
+            // Проверить появление ошибки
+            Assert.IsTrue(Driver.FindElement(By.XPath(
+                ".//div[contains(@class,'js-popup-create-tm')][2]//div[contains(@class,'js-dynamic-errors')]//p[contains(@data-key,'name')]")).Displayed,
+                "Ошибка: не появилась ошибка создания ТМ с существующим именем");
+        }
+
+        public void CreateTMWithTMX()
+        {
+            // Выбрать уникальное имя TM
+            string uniqueTMName;
+            SelectUniqueTMName(out uniqueTMName);
+            // Создать ТМ
+            CreateTMByName(uniqueTMName);
+
+            // Нажать на Сохранить и Импортировать TMX файл
+            Driver.FindElement(By.XPath(
+                ".//div[contains(@class,'js-popup-create-tm')][2]//a[contains(@class,'js-save-and-import')]")).Click();
+            // ждем появления окна
+            Wait.Until((d) => d.FindElement(By.XPath(
+                ".//a[contains(@class,'js-upload-btn')]")));
+            // Загрузить TMX файл
+            UploadDocumentTM(TmFile);
+
+            // Проверить, сохранился ли ТМ
+            Assert.IsTrue(GetIsExistTM(uniqueTMName), "Ошибка: ТМ не сохранился (не появился в списке)");
+
+            // Проверить, что количество сегментов больше 0
+            int segCount;
+            GetSegmentCount(uniqueTMName, out segCount);
+            Assert.IsTrue(segCount > 0, "Ошибка: количество сегментов должно быть больше 0");
+        }        
+
+        public void CreateTMWithNotTMX()
+        {
+            // Выбрать уникальное имя TM
+            string uniqueTMName;
+            SelectUniqueTMName(out uniqueTMName);
+            // Создать ТМ
+            CreateTMByName(uniqueTMName);
+
+            // Нажать на Сохранить и Импортировать TMX файл
+            Driver.FindElement(By.XPath(
+                ".//div[contains(@class,'js-popup-create-tm')][2]//a[contains(@class,'js-save-and-import')]")).Click();
+
+            // ждем появления окна
+            Wait.Until((d) => d.FindElement(By.XPath(
+                ".//a[contains(@class,'js-upload-btn')]")));
+
+            // Загрузить НЕ(!) TMX файл
+            UploadDocumentTM(DocumentFile);
+
+            // Проверить, сохранился ли ТМ
+            Assert.IsTrue(GetIsExistTM(uniqueTMName), "Ошибка: ТМ не сохранился (не появился в списке)");
+
+            // Проверка: должен появиться значок с ошибкой TMX файла
+            // Иногда значок зависает (показывает колесо ожидания, а восклицательный знак появляется только после обновления страницы)
+            string xPathOfErrorIcon = uniqueTMName;
+            CreateXPathTMRow(ref xPathOfErrorIcon);
+            xPathOfErrorIcon += "/..//a[contains(@class,'js-error-icon')]";
+            Assert.NotNull(Driver.FindElement(By.XPath(xPathOfErrorIcon)),
+                "Ошибка: не появился значок с ошибкой TMX файла");
+        }
+
+        public void UpdateTMButton()
+        {
+            string TMName = _constTmName;
+            // Загрузить TMX файл
+            if (UploadDocumentToTMbyButton(TMName, "js-upload-btn", TmFile))
+            {
+                // Документ загружен
+                // Получить количество сегментов этого ТМ
+                int segCount;
+                GetSegmentCount(TMName, out segCount);
+                // Проверить, что количество сегментов больше нуля
+                Assert.IsTrue(segCount > 0);
+            }
+            // Иначе - документ не загружен, т.к. был загружен ранее - тест успешен
+        }
+
+        public void ExportTMButton()
+        {
+            string TMName = _constTmName;
+            // Отрыть информацию о ТМ и нажать кнопку
+            ClickButtonTMInfo(TMName, "js-export-btn");
+
+            // Открытие диалога
+            Thread.Sleep(5000);
+
+            // TODO проверка работы в диалоговом окне!!!
+        }
+
+        public void DeleteTMCheckTMList()
+        {
+            string TMName = _constTmName;
+            // Отрыть информацию о ТМ и нажать кнопку
+            ClickButtonTMInfo(TMName, "js-delete-btn");
+
+            // Нажимаем Delete в открывшейся форме
+            Wait.Until((d) => d.FindElement(By.XPath(
+                ".//div[contains(@class,'js-popup-confirm')]//input[contains(@type,'submit')]"))).Click();
+
+            // Закрытие формы
+            Thread.Sleep(5000);
+
+            // Проверить, что ТМ удалилась из списка
+            Assert.IsTrue(!GetIsExistTM(TMName), "Ошибка: ТМ не удалилась из списка");
+        }
+
+        public void DeleteTMCheckProjectCreateTMList()
+        {
+            string TMName = _constTmName;
+            // Отрыть информацию о ТМ и нажать кнопку
+            ClickButtonTMInfo(TMName, "js-delete-btn");
+
+            // Нажимаем Delete в открывшейся форме
+            Wait.Until((d) => d.FindElement(By.XPath(
+                ".//div[contains(@class,'js-popup-confirm')]//input[contains(@type,'submit')]"))).Click();
+            // Закрытие формы
+            Thread.Sleep(5000);
+
+            // Перейти на вкладку SmartCAT и проверить, что TM нет в списке при создании проекта
+            Assert.IsTrue(!GetIsExistTMCreateProject(TMName));
+        }
+
+        public void AddTMXOnClearTMButton()
+        {
+            // Создать чистый ТМ
+            string TMName;
+            SelectUniqueTMName(out TMName);
+            CreateTMByNameAndSave(TMName);
+
+            // Загрузить TMX
+            if (UploadDocumentToTMbyButton(TMName, "js-add-tmx-btn", TmFile))
+            {
+                // Документ загружен
+                // Получить количество сегментов после загрузки TMX
+                int segCount;
+                GetSegmentCount(TMName, out segCount);
+
+                // Проверить, что количество сегментов больше 0
+                Assert.IsTrue(segCount > 0);
+            }
+            // Иначе - документ не загружен, т.к. был загружен ранее - тест успешен
+        }
+
+        public void AddTMXButton()
+        {
+            string TMName = _constTmName;
+            // Получить количество сегментов до загрузки TMX
+            int segCountBefore;
+            GetSegmentCount(TMName, out segCountBefore);
+
+            if (segCountBefore == 0)
+            {
+                // Загрузить первый TMX, чтобы увеличить количество сегментов
+                UploadDocumentToTMbyButton(TMName, "js-add-tmx-btn", TmFile, false);
+                // Получить новое количество сегментов
+                GetSegmentCount(TMName, out segCountBefore);
+            }
+
+            // Загрузить TMX
+            if (UploadDocumentToTMbyButton(TMName, "js-add-tmx-btn", SecondTmFile, false))
+            {
+                // Получить количество сегментов после загрузки TMX
+                int segCountAfter;
+                GetSegmentCount(TMName, out segCountAfter);
+
+                // Проверить, что количество сегментов увеличилось (ри AddTMX количество сегментов должно суммироваться)
+                Assert.IsTrue(segCountAfter > segCountBefore);
+            }
+            // Иначе - документ не загружен, т.к. был загружен ранее - тест успешен
+        }
+
+        public void EditTMSaveWithoutName()
+        {
+            string TMName = _constTmName;
+            // Изменить имя на пустое и сохранить
+            EditTMFillName(TMName, "");
+
+            // Получить xPath формы редактирования ТМ
+            string xPath = TMName;
+            CreateXPathTMRow(ref xPath);
+            xPath += "/../../following-sibling::tr[contains(@class, 'js-editing')]";
+
+            // Проверить, что поле Имя выделено ошибкой
+            string nameErrorXPath = xPath + "//input[contains(@class, 'js-tm-name error')]";
+            Assert.IsTrue(Driver.FindElement(By.XPath(nameErrorXPath)).Displayed,
+                "Ошибка: поле Имя не отмечено ошибкой");
+
+            // Проверить, что появилось сообщение об ошибке в имени
+            string errorInfoPath = xPath +
+                "//div[contains(@class, 'js-dynamic-errors')]//p[contains(@class, 'js-error-tm-name-required')]";
+            Assert.IsTrue(Driver.FindElement(By.XPath(errorInfoPath)).Displayed,
+                "Ошибка: не появилось сообщение о пустом имени");
+        }
+
+        public void EditTMSaveExistingName()
+        {
+            string TMName = _constTmName;
+            // Создать ТМ с таким именем, если его еще нет
+            CreateTMIfNotExist(TMName);
+
+            // Выбрать уникальное имя TM
+            string uniqueTMName;
+            SelectUniqueTMName(out uniqueTMName);
+            // Создать ТМ
+            CreateTMByNameAndSave(uniqueTMName);
+
+            // Изменить имя на существующее и сохранить
+            EditTMFillName(uniqueTMName, TMName);
+
+            // Проверить, что появилось сообщение об ошибке в имени
+            string xPath = uniqueTMName;
+            CreateXPathTMRow(ref xPath);
+            xPath += "/../../following-sibling::tr[contains(@class, 'js-editing')]";
+            string errorInfoPath = xPath +
+                "//div[contains(@class,'js-dynamic-errors')]//p[contains(@data-key,'name')]";
+            Assert.IsTrue(Driver.FindElement(By.XPath(errorInfoPath)).Displayed,
+                "Ошибка: не появилось сообщение об ошибке в имени");
+        }
+
+        public void EditTMSaveUniqueName()
+        {
+            string TMName = _constTmName;
+            // Создать ТМ с таким именем, если его еще нет
+            CreateTMIfNotExist(TMName);
+            // Выбрать уникальное имя TM
+            string uniqueTMName;
+            SelectUniqueTMName(out uniqueTMName);
+
+            // Изменить имя на уникальное и сохранить
+            EditTMFillName(TMName, uniqueTMName);
+
+            // Проверить, что ТМ со старым именем удалился, а с новым именем есть
+            Assert.IsTrue(!GetIsExistTM(TMName), "Ошибка: не удалилось старое имя");
+            Assert.IsTrue(GetIsExistTM(uniqueTMName), "Ошибка: нет ТМ с новым именем");
+        }
+
+        private void EditTMFillName(string TMNameToEdit, string newTMName)
+        {
+            // Отрыть информацию о ТМ и нажать кнопку
+            ClickButtonTMInfo(TMNameToEdit, "js-edit-btn");
+
+            string xPath = TMNameToEdit;
+            CreateXPathTMRow(ref xPath);
+            xPath += "/../../following-sibling::tr[contains(@class, 'js-editing')]";
+            // Ждем открытия формы редактирования
+            Wait.Until((d) => d.FindElement(By.XPath(xPath)));
+
+            // Очистить поле Имя
+            string nameXPath = xPath + "//input[contains(@class, 'js-tm-name')]";
+            Driver.FindElement(By.XPath(nameXPath)).Clear();
+
+            // Если новое имя не пустое, то заполнить им поле Имя
+            if (newTMName.Length > 0)
+            {
+                Driver.FindElement(By.XPath(nameXPath)).SendKeys(newTMName);
+            }
+
+            // Сохранить изменение
+            string saveXPath = xPath + "//span[contains(@class, 'js-save-btn')]";
+            Driver.FindElement(By.XPath(saveXPath)).Click();
+
+            // Ответ формы
+            Thread.Sleep(2000);
+        }
+
+        private void OpenCreateTMForm()
+        {
+            // Нажать кнопку Создать TM
+            Driver.FindElement(By.XPath(
+                ".//span[contains(@class,'l-corpr__addbtnbox')]//a[contains(@class,'g-btn__text g-redbtn__text')]")).Click();
+            // ждем загрузку формы
+            Wait.Until((d) => d.FindElement(By.XPath(
+                ".//div[contains(@class,'js-popup-create-tm')][2]")));
+        }
+
+        private void SelectUniqueTMName(out string TMName)
+        {
+            // Выбрать уникальное имя ТМ
+            TMName = "TestTM";
+            while (GetIsExistTM(TMName))
+            {
+                TMName += DateTime.Now.ToString();
+            }
+        }
+
+        private bool GetIsExistTM(string TMName)
+        {
+            // Есть ли ТМ с таким именем в списке на странице Translation Memory Bases
+            return GetIsExistTMInCurrentList(TMName, "//tr[contains(@class, 'js-tm-row')]/td/span");
+        }
+
+        private bool GetIsExistTMCreateProject(string TMName)
+        {
+            // Перейти на страницу SmartCAT
+            Driver.FindElement(By.XPath(
+                ".//ul[@class='g-corprmenu__list']//a[contains(@href,'/Workspace')]")).Click();
+            Wait.Until((d) => d.FindElement(By.Id("projects-add-btn")));
+
+            // Начать создание проекта
+            FirstStepProjectWizard(ProjectName);
+            Driver.FindElement(By.XPath(".//div[@id='project-wizard-form']//span[contains(text(), 'Next')]")).Click();
+            // Дождаться появления списка ТМ
+            Wait.Until((d) => d.FindElement(By.Id("project-wizard-tms-body")).Displayed);
+
+            // Есть ли ТМ с таким именем в списке при создании проекта
+            return GetIsExistTMInCurrentList(TMName, "//div[@id='project-wizard-tms-body']//table//tr/td[2]/div");
+        }
+
+        private bool GetIsExistTMInCurrentList(string TMName, string xPathList)
+        {
+            // Проверить, что ТМ с этим именем существует
+            bool isExist = false;
+            IList<IWebElement> TMNames = Driver.FindElements(By.XPath(xPathList));
+            foreach (IWebElement el in TMNames)
+            {
+                if (el.Text == TMName)
+                {
+                    isExist = true;
+                    break;
+                }
+            }
+            return isExist;
+        }
+
+        private void CreateTMByNameAndSave(string TMName)
+        {
+            // Создать ТМ без сохранения формы
+            CreateTMByName(TMName);
+
+            // Нажать кнопку Сохранить
+            Driver.FindElement(By.XPath(
+                ".//div[contains(@class,'js-popup-create-tm')][2]//a[contains(@class,'g-btn__text')]")).Click();
+            // Закрытие формы
+            Thread.Sleep(5000);
+        }
+
+        private void CreateTMByName(string TMName)
+        {
+            // Открыть форму создания ТМ
+            OpenCreateTMForm();
+
+            // Ввести имя
+            Driver.FindElement(By.XPath(
+                ".//div[contains(@class,'js-popup-create-tm')][2]//input[contains(@class,'l-createtm__nmtext')]")).
+                SendKeys(TMName);
+
+            // Выбрать языки (source и target), чтобы сохранить ТМ
+            SelectSourceAndTargetLang();
+        }
+
+        private void SelectSourceAndTargetLang()
+        {
+            // Нажать на Source Language для выпадения списка языков
+            Driver.FindElement(By.XPath(
+                ".//div[contains(@class,'js-popup-create-tm')][2]//span[contains(@class,'l-createtm__srclnl_drpdwn')]")).Click();
+            // ждем выпадения списка
+            Wait.Until((d) => d.FindElement(By.XPath(
+                ".//span[contains(@class,'js-dropdown__list')]")));
+            // Выбираем Английский
+            Driver.FindElement(By.XPath(
+                ".//span[contains(@class,'js-dropdown__item')][@data-id='en']")).Click();
+
+            // Нажать на Target Language для выпадения списка языков
+            Driver.FindElement(By.XPath(
+                ".//div[contains(@class,'js-popup-create-tm')][2]//div[contains(@class,'js-languages-multiselect')]")).Click();
+            // ждем выпадения списка
+            Wait.Until((d) => d.FindElement(By.XPath(
+                ".//div[contains(@class,'ui-multiselect-menu')][contains(@class,'js-languages-multiselect')]")));
+            // Выбираем Русский (№27)
+            Driver.FindElement(By.XPath(
+                ".//li/label[contains(@for,'ui-multiselect-targetLanguages-option-27')]")).Click();
+            // Нажать на Target Language для закрытия списка
+            Driver.FindElement(By.XPath(
+                ".//div[contains(@class,'js-popup-create-tm')][2]//div[contains(@class,'js-languages-multiselect')]")).Click();
+        }
+
+        private bool UploadDocumentTM(string documentName)
+        {
+            // Загружен ли документ
+            bool isUpload = true;
+
+            // Нажать на Add для появления диалога загрузки документа
+            Driver.FindElement(By.XPath(
+                ".//a[contains(@class,'js-upload-btn')]")).Click();
+
+            // Заполнить диалог загрузки документа
+            FillAddDocumentForm(documentName);
+            // Нажать на Импорт
+            Driver.FindElement(By.XPath(
+                ".//div[contains(@class,'js-popup-import')][2]//span[contains(@class,'g-btn__data')]//a")).Click();
+
+            // Проверка, есть ли ошибка, что TMX уже был загружен
+            IList<IWebElement> errorEl = Driver.FindElements(By.XPath(".//p[contains(@class, 'js-error-from-server')]"));
+            if (errorEl.Count > 0)
+            {
+                // Документ не загружен
+                isUpload = false;
+            }
+
+            // Закрытие формы
+            Thread.Sleep(5000);
+            return isUpload;
+        }
+
+        private bool UploadDocumentToTMbyButton(string TMName, string btnName, string uploadFile, bool isNeedOpenInfo = true)
+        {
+            // Отрыть информацию о ТМ и нажать кнопку
+            ClickButtonTMInfo(TMName, btnName, isNeedOpenInfo);
+
+            // Нажимаем Import
+            Wait.Until((d) => d.FindElement(By.XPath(
+                ".//div[contains(@class,'js-popup-import')][2]//span[contains(@class,'g-btn__data')]"))).Click();
+
+            // Подождать появление ошибки
+            Thread.Sleep(2000);
+            // Проверить появление ошибки
+            Assert.IsTrue(Driver.FindElement(By.XPath(
+                ".//div[contains(@class,'js-popup-import')][2]//div[contains(@class,'g-popupbox__error')]")).Displayed,
+                "Ошибка: не появилось оповещение об ошибке, что файл не выбран");
+
+            // Загрузить документ
+            return UploadDocumentTM(uploadFile);
+        }
+
+        private void GetSegmentCount(string TMName, out int segCount)
+        {
+            // Открыть информацию о ТМ
+            ClickTMToShowInfo(TMName);
+
+            string xPath = TMName;
+            CreateXPathTMRow(ref xPath);
+            xPath += "/../../following-sibling::tr//table//tr/td[2]/div[4]";
+            string segmentsCount = Driver.FindElement(By.XPath(xPath)).Text;
+            // Нужно получить число сегментов из строки "Segments count: N", разделитель - ":"
+            int splitIndex = segmentsCount.IndexOf(":");
+            // Отступаем двоеточие и пробел
+            splitIndex += 2;
+            if (segmentsCount.Length > splitIndex)
+            {
+                segmentsCount = segmentsCount.Substring(splitIndex);
+            }
+            // Получить число сегментов из строки
+            segCount = int.Parse(segmentsCount);
+        }
+
+        private void ClickButtonTMInfo(string TMName, string btnName, bool isNeedOpenInfo = true)
+        {
+            if (isNeedOpenInfo)
+            {
+                // Открыть информацию о ТМ
+                ClickTMToShowInfo(TMName);
+            }
+
+            string xPath = TMName;
+            // Получить xPath строки нужного ТМ
+            CreateXPathTMRow(ref xPath);
+            // Получить xPath нужной кнопки открытой информации нужного ТМ
+            xPath += "/../../following-sibling::tr//span[contains(@class,'" + btnName + "')]";
+
+            // Нажать на нужную кнопку
+            Driver.FindElement(By.XPath(xPath)).Click();
+        }
+
+        private void ClickTMToShowInfo(string TMName)
+        {
+            // Если такого TM нет - создать его
+            CreateTMIfNotExist(TMName);
+
+            // Получить xPath строки с этим ТМ
+            string xPath = TMName;
+            CreateXPathTMRow(ref xPath);
+
+            // Открыть информацию о ТМ
+            Driver.FindElement(By.XPath(xPath)).Click();
+            // Подождать открытие информации
+            Thread.Sleep(2000);
+        }
+
+        private void CreateTMIfNotExist(string TMName)
+        {
+            if (!GetIsExistTM(TMName))
+            {
+                // Если нет такого ТМ, создать  его
+                CreateTMByNameAndSave(TMName);
+            }
+        }
+
+        private void CreateXPathTMRow(ref string rowTMName)
+        {
+            // Получить xPath строки, содержащей имя TM (поиск по имени)
+            rowTMName = ".//tr[contains(@class, 'js-tm-row')]/td/span[text()='" + rowTMName + "']";
+        }
+
 
         [TearDown]
         public void Teardown()
@@ -2904,6 +3486,160 @@ namespace AbbyyLs.CAT.Projects.Selenium.Tests
             {
 
             }
+        }
+    }
+
+    public class TMTest : BaseTest
+    {
+        public TMTest(string url, string workspaceUrl, string browserName)
+            : base(url, workspaceUrl, browserName)
+        {
+
+        }
+
+        [SetUp]
+        public void Setup()
+        {
+            // Авторизация
+            Authorization();
+
+            // Перейти на вкладку Базы Translation memory
+            SwitchTMTab();
+        }
+
+        /// <summary>
+        /// Метод тестирования создания ТМ (без TMX)
+        /// </summary>
+        [Test]
+        public void CreateNewTMTest()
+        {
+            CreateNewTM();
+        }
+
+        /// <summary>
+        /// Метод тестирования создания ТМ с проверкой списка TM при создании проекта
+        /// </summary>
+        [Test]
+        public void CreateTMCheckProjectCreateTMListTest()
+        {
+            CreateTMCheckProjectCreateTMList();
+        }
+
+        /// <summary>
+        /// Метод тестирования создания ТМ без имени
+        /// </summary>
+        [Test]
+        public void CreateTMWithoutNameTest()
+        {
+            CreateTMWithoutName();
+        }
+
+        /// <summary>
+        /// Метод тестирования создания ТМ с существующим именем
+        /// </summary>
+        [Test]
+        public void CreateTMWithExistingNameTest()
+        {
+            CreateTMWithExistingName();
+        }
+
+        /// <summary>
+        /// Метод тестирования создания ТМ c загрузкой TMX файла
+        /// </summary>
+        [Test]
+        public void CreateTMWithTMXTest()
+        {
+            CreateTMWithTMX();
+        }
+
+        /// <summary>
+        /// Метод тестирования создания ТМ с загрузкой НЕ(!) TMX файла
+        /// </summary>
+        [Test]
+        public void CreateTMWithNotTMXTest()
+        {
+            CreateTMWithNotTMX();
+        }
+
+        /// <summary>
+        /// Метод тестирования кнопки Update TM в открывающейся информации о ТМ
+        /// </summary>
+        [Test]
+        public void UpdateTMButtonTest()
+        {
+            UpdateTMButton();
+        }
+
+        /// <summary>
+        /// Метод тестирования кнопки Export в открывающейся информации о ТМ
+        /// </summary>
+        [Test]
+        public void ExportTMButtonTest()
+        {
+            ExportTMButton();
+        }
+
+        /// <summary>
+        /// Метод тестирования Delete с проверкой списка TM
+        /// </summary>
+        [Test]
+        public void DeleteTMCheckTMListTest()
+        {
+            DeleteTMCheckTMList();
+        }
+
+        /// <summary>
+        /// Метод тестирования Delete с проверкой списка TM при создании проекта
+        /// </summary>
+        [Test]
+        public void DeleteTMCheckProjectCreateTMListTest()
+        {
+            DeleteTMCheckProjectCreateTMList();
+        }
+
+        /// <summary>
+        /// Метод тестирования кнопки Add TMX для пустого ТМ
+        /// </summary>
+        [Test]
+        public void AddTMXOnClearTMButtonTest()
+        {
+            AddTMXOnClearTMButton();
+        }
+
+        /// <summary>
+        /// Метод тестирования кнопки Add TMX для ТМ с ТМХ
+        /// </summary>
+        [Test]
+        public void AddTMXExistingTMXButtonTest()
+        {
+            AddTMXButton();
+        }
+
+        /// <summary>
+        /// Тестирование редактирования ТМ: изменение имени на пустое
+        /// </summary>
+        [Test]
+        public void EditTMSaveWithoutNameTest()
+        {
+            EditTMSaveWithoutName();
+        }
+
+        /// <summary>
+        /// Тестирование редактирования ТМ: изменение имени на существующее
+        /// </summary>
+        [Test]
+        public void EditTMSaveExistingNameTest()
+        {
+            EditTMSaveExistingName();
+        }
+
+        /// <summary>
+        /// Тестирование редактирования ТМ: изменение имени на новое
+        /// </summary>
+        [Test]
+        public void EditTMSaveUniqueNameTest()
+        {
+            EditTMSaveUniqueName();
         }
     }
 }
