@@ -1,0 +1,501 @@
+
+1
+00:00:01,580 --> 00:00:05,57
+Okay, so in this next segment of the 
+class, we're going to talk about how to 
+
+2
+00:00:05,57 --> 00:00:08,500
+decode with phrase-based translation 
+models. 
+
+3
+00:00:08,500 --> 00:00:12,217
+That is, how we actually apply 
+phrase-based translation models to new 
+
+4
+00:00:12,217 --> 00:00:18,407
+sentences to produce translations. 
+So to recap, the critical ideal in a 
+
+5
+00:00:18,407 --> 00:00:25,720
+phase-based model is the idea of a 
+phrase-based lexicon. 
+
+6
+00:00:25,720 --> 00:00:30,876
+So, a phrase-based lexicon contains 
+phrase entries f, e. 
+
+7
+00:00:30,876 --> 00:00:35,34
+So these are pairs, where each f is a 
+sequence of one or more foreign, foreign 
+
+8
+00:00:35,34 --> 00:00:40,190
+words, and each e is a sequence of one or 
+more English words. 
+
+9
+00:00:40,190 --> 00:00:43,970
+So, if we look at this particular German 
+sentence, we shall use as an example 
+
+10
+00:00:43,970 --> 00:00:49,92
+throughout these slides. 
+and say we want to translate that into 
+
+11
+00:00:49,92 --> 00:00:54,681
+English, then the phrase-based lexicon is 
+going to provide various entries which 
+
+12
+00:00:54,681 --> 00:01:00,60
+may be relevant to this particular 
+sentence. 
+
+13
+00:01:00,60 --> 00:01:04,218
+So here are some example entries in the 
+lexicon, we might say, these two words in 
+
+14
+00:01:04,218 --> 00:01:08,376
+German correspond to we must or maybe 
+these three words in German correspond to 
+
+15
+00:01:08,376 --> 00:01:13,117
+we must also. 
+So we have the first two words here and 
+
+16
+00:01:13,117 --> 00:01:18,147
+the first three words here. 
+This single word in German, which appears 
+
+17
+00:01:18,147 --> 00:01:23,61
+here, might be translated as seriously, 
+so these are three entries from the 
+
+18
+00:01:23,61 --> 00:01:29,257
+phrased-based lexicon. 
+In practice, a lexicon might have, you 
+
+19
+00:01:29,257 --> 00:01:35,652
+know, millions of entries. 
+And we saw in the last lecture segment 
+
+20
+00:01:35,652 --> 00:01:40,692
+how we can extract these kinds of 
+lexicons from large quantities of 
+
+21
+00:01:40,692 --> 00:01:46,542
+translation examples, by first running 
+the IBM translation models to derive 
+
+22
+00:01:46,542 --> 00:01:52,122
+alignments, and then based on those 
+alignments, pulling out these phrase 
+
+23
+00:01:52,122 --> 00:02:01,114
+based entries. 
+I'll use g of f, e to refer to the score 
+
+24
+00:02:01,114 --> 00:02:05,920
+for lexicon entry. 
+So each of these has a score. 
+
+25
+00:02:05,920 --> 00:02:14,307
+And I wouldn't mind having minus 1.5 
+here, minus 1.8 here, minus 0.2 here. 
+
+26
+00:02:14,307 --> 00:02:19,784
+so for example, this might be the log of 
+the ratio of accounts. 
+
+27
+00:02:19,784 --> 00:02:23,928
+This is very similar to maximum 
+likelihood estimate, this could be 
+
+28
+00:02:23,928 --> 00:02:28,516
+thought of as t of f given e with the 
+conditional probability of the foreign 
+
+29
+00:02:28,516 --> 00:02:33,326
+sequence of words, f condition on the 
+English sentence sequence of words e 
+
+30
+00:02:33,326 --> 00:02:39,901
+ratio of these two counts. 
+And we're going to take the log of this 
+
+31
+00:02:39,901 --> 00:02:42,939
+as we saw in the last lecture, it's 
+convenient to take logs, and then, we'll 
+
+32
+00:02:42,939 --> 00:02:46,26
+start summing these different scores for 
+different phrases used in the 
+
+33
+00:02:46,26 --> 00:02:53,369
+translation. 
+So throughout this lecture, I'm going to 
+
+34
+00:02:53,369 --> 00:03:02,410
+consider phrase-based models consist of 
+three things. 
+
+35
+00:03:02,410 --> 00:03:06,890
+So firstly, a phrase-based lexicon 
+consisting of f, e pairs, exactly as I 
+
+36
+00:03:06,890 --> 00:03:11,20
+just showed you, the second thing we're 
+going to make use of is a trigram 
+
+37
+00:03:11,20 --> 00:03:17,940
+language model for the language which 
+we're trying to translate into. 
+
+38
+00:03:17,940 --> 00:03:24,84
+So throughout this lecture, I'll assume 
+that we're trying to translate from 
+
+39
+00:03:24,84 --> 00:03:29,448
+German into English. 
+And so, we have these phrase entries as 
+
+40
+00:03:29,448 --> 00:03:33,314
+one component. 
+The second component is a trigram 
+
+41
+00:03:33,314 --> 00:03:38,323
+language model for English. 
+So we have a language model, for example, 
+
+42
+00:03:38,323 --> 00:03:45,710
+a trigram language model for the language 
+into which we're trying to translate. 
+
+43
+00:03:45,710 --> 00:03:49,431
+So this will have parameters exactly as 
+we saw in the first lecture of this 
+
+44
+00:03:49,431 --> 00:03:53,457
+class, for example, parameters such as 
+the probability of also, given that the 
+
+45
+00:03:53,457 --> 00:03:58,975
+previous two words were we and must. 
+And finally, we're going to have a 
+
+46
+00:03:58,975 --> 00:04:02,370
+distortion parameter. 
+This is a single parameter, this is 
+
+47
+00:04:02,370 --> 00:04:06,54
+typically negative. 
+And as we'll see, this will penalize 
+
+48
+00:04:06,54 --> 00:04:10,539
+things from moving too far in the 
+translation process, when we start to use 
+
+49
+00:04:10,539 --> 00:04:15,386
+these phrases to translate particular 
+examples. 
+
+50
+00:04:15,386 --> 00:04:21,132
+So that's essentially it. 
+These are the three components of a 
+
+51
+00:04:21,132 --> 00:04:26,8
+phrase-based translation model. 
+The little bit more about the trigram 
+
+52
+00:04:26,8 --> 00:04:29,311
+language model. 
+So these parameters can be trained on 
+
+53
+00:04:29,311 --> 00:04:36,351
+very large quantities of English text. 
+And the trigram language model is going 
+
+54
+00:04:36,351 --> 00:04:43,135
+to be invaluable in providing a prior 
+distribution over which sentences are 
+
+55
+00:04:43,135 --> 00:04:50,563
+versus aren't likely in English. 
+So, here's some notation I'll use 
+
+56
+00:04:50,563 --> 00:04:54,711
+throughout this lecture for the given 
+sentence that we're try, trying to 
+
+57
+00:04:54,711 --> 00:04:59,191
+translate. 
+We can extract a set of possible phrases 
+
+58
+00:04:59,191 --> 00:05:04,141
+that are applicable to this particular 
+sentence, and it'll be useful to use the 
+
+59
+00:05:04,141 --> 00:05:09,123
+following notation for these phrases, 
+s,t,e. 
+
+60
+00:05:09,123 --> 00:05:19,273
+So s is going to be a start point of the 
+phrase, and t is going to be the end 
+
+61
+00:05:19,273 --> 00:05:35,100
+point of the phrase, and e is a sequence 
+of one or more English words. 
+
+62
+00:05:35,100 --> 00:05:41,795
+So one phrase that is applicable to this 
+particular example is 1, 2, we must, so 
+
+63
+00:05:41,795 --> 00:05:48,552
+let's number these words. 
+And that says that these two words, wir 
+
+64
+00:05:48,552 --> 00:05:55,221
+mussen, can be translated as we must. 
+Okay, so words 1 to 2 inclusive can be 
+
+65
+00:05:55,221 --> 00:05:59,256
+translated as we must. 
+Okay? 
+
+66
+00:05:59,256 --> 00:06:05,121
+so I'm going to use capital P, script P, 
+to denote the set of all possible phrases 
+
+67
+00:06:05,121 --> 00:06:11,412
+for a particular sentence, okay? 
+So, these are going to be derived through 
+
+68
+00:06:11,412 --> 00:06:14,900
+entries. 
+This comes from the fact that we have 
+
+69
+00:06:14,900 --> 00:06:20,680
+some phrase entry in our lexicon, saying 
+that these two words can be translated as 
+
+70
+00:06:20,680 --> 00:06:26,445
+we must. 
+And because, these two words, wir mussen, 
+
+71
+00:06:26,445 --> 00:06:30,110
+appear here we can apply this entry. 
+It's just going to be a little bit more 
+
+72
+00:06:30,110 --> 00:06:33,460
+convenient to think of these phrases once 
+we have a particular input sentence as 
+
+73
+00:06:33,460 --> 00:06:37,520
+having a start point, an end point and an 
+English string. 
+
+74
+00:06:37,520 --> 00:06:42,990
+So P is going to be the set of all 
+possible phrases for a sentence. 
+
+75
+00:06:42,990 --> 00:06:48,306
+So this is going to be a set. 
+So this might, for example, include 1, 2, 
+
+76
+00:06:48,306 --> 00:06:52,857
+we must. 
+It might include 1, 3, we must also, 
+
+77
+00:06:52,857 --> 00:06:59,875
+saying that these three words can be 
+translated as we must also. 
+
+78
+00:06:59,875 --> 00:07:07,779
+it might include an entry saying 6, 6, is 
+seriously, that would come from an entry 
+
+79
+00:07:07,779 --> 00:07:13,603
+saying that the word ernst, which is 
+sixth here can be translated as 
+
+80
+00:07:13,603 --> 00:07:21,904
+seriously, and so on, and so on. 
+This set might again, be quite large, and 
+
+81
+00:07:21,904 --> 00:07:24,490
+notice that many of these phrases will 
+overlap. 
+
+82
+00:07:24,490 --> 00:07:28,211
+For example, here, I have an entry for 
+words 1 through 2, and here, I have an 
+
+83
+00:07:28,211 --> 00:07:32,720
+entry for words 1 through 3. 
+So in summary, big P is just the set of 
+
+84
+00:07:32,720 --> 00:07:36,254
+all possible phrases for an input 
+sentence, where a phrase is a start point 
+
+85
+00:07:36,254 --> 00:07:46,944
+and an end point and an English string. 
+So for any phrase p, so let's say p is 
+
+86
+00:07:46,944 --> 00:07:53,104
+equal to 1, 2, we must. 
+I'll sometimes use the following 
+
+87
+00:07:53,104 --> 00:07:58,120
+notation. 
+So, sp, tp, ep are its three components. 
+
+88
+00:07:58,120 --> 00:08:08,456
+So s of p is 1, t of p is 2 in this case, 
+and e of p is equal to we must. 
+
+89
+00:08:08,456 --> 00:08:12,922
+Okay? 
+And so these three functions are just 
+
+90
+00:08:12,922 --> 00:08:16,452
+pulling out the three different 
+components of the phrase. 
+
+91
+00:08:16,452 --> 00:08:23,172
+And then, finally, g of p is going to be 
+the score of the phrase, so this might be 
+
+92
+00:08:23,172 --> 00:08:29,584
+minus 2.5. 
+And that will come from the original 
+
+93
+00:08:29,584 --> 00:08:36,484
+lexicon, so if we have this entry, entry 
+saying wir mussen, we must, and g of this 
+
+94
+00:08:36,484 --> 00:08:44,438
+is equal to minus 2.5. 
+Remember, this is typically log count of 
+
+95
+00:08:44,438 --> 00:08:49,750
+this whole phrase divided by count of the 
+English. 
+
+96
+00:08:49,750 --> 00:08:53,292
+This is just saying that's the score from 
+the phrase in the table, okay? 
+
+97
+00:08:53,292 --> 00:08:57,120
+So again, p is going to be the set of old 
+phrases for the sentence, each phrase is 
+
+98
+00:08:57,120 --> 00:09:00,588
+going to have some scores, some 
+probability. 
+
+99
+00:09:00,588 --> 00:09:05,670
+And we can easily calculate the set just 
+by taking our phrase-based lexicon and 
+
+100
+00:09:05,670 --> 00:09:12,683
+applying it to the particular input 
+sentence that we're trying to translate. 
+
