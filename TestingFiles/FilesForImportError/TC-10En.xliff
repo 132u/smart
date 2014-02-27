@@ -1,0 +1,1017 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2" xmlns:mq="MQXliff" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="urn:oasis:names:tc:xliff:document:1.2 xliff-core-1.2-transitional.xsd">
+<file original="Monarch English Text.docx" mq:id="b4653598-e58a-4434-8972-db8f0d80ebfa" source-language="en-us" target-language="ru" datatype="x-docx">
+<header>
+<tool tool-id="MQ" tool-name="MemoQ" tool-version="6.5.8" tool-company="Kilgray" />
+<mq:export-path>C:\Users\a.kurenkova\Documents\Testing\CAT\files for testing\Monarch English Text_rus.docx</mq:export-path>
+<mq:docinformation mq:isabstract="isabstract" mq:hashistory="true" mq:docname="Monarch English Text.docx" mq:majorversion="1" mq:minorversion="1" mq:nosplitjoin="false" mq:langindepgroupid="8dec173b-27f6-4020-b2f5-35115199b6c5" mq:multidocgroupid="e07a6d8c-6c12-4b09-9f41-5849267ecd67" mq:origfile="C:\Users\a.kurenkova\Documents\Testing\CAT\files for testing\Monarch English Text.docx">
+<mq:versioninfos mq:majorversion="1"><mq:minorversioninfo mq:minorversion="0" mq:comment="" mq:createdthroughview="false" mq:createreason="Import" mq:creationtime="188080910" mq:creatoruser="a.kurenkova" mq:tag=""><mq:details mq:type="MinorVersionDetailsImport"><![CDATA[<?xml version="1.0"?>
+<MinorVersionDetailsImport xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <FilePath>C:\Users\a.kurenkova\Documents\Testing\CAT\files for testing\Monarch English Text.docx</FilePath>
+</MinorVersionDetailsImport>]]></mq:details></mq:minorversioninfo>
+<mq:minorversioninfo mq:minorversion="1" mq:comment="" mq:createdthroughview="false" mq:createreason="BilingualExport" mq:creationtime="188081425" mq:creatoruser="a.kurenkova" mq:tag=""><mq:details mq:type="MinorVersionDetailsBilingExport"><![CDATA[<?xml version="1.0"?>
+<MinorVersionDetailsBilingExport xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <BilingualType>Xliff</BilingualType>
+  <TargetPath>C:\Users\a.kurenkova\Documents\Testing\CAT\files for testing\Xliff\1\memoQ\Monarch English Text.docx_rus.mqxliff</TargetPath>
+  <TwoColumpRtfProperties>MutipleDocuments</TwoColumpRtfProperties>
+  <BilingRtfProperties>EmptySegmentsWithMarkup</BilingRtfProperties>
+  <XliffProperties>IncludePreview</XliffProperties>
+</MinorVersionDetailsBilingExport>]]></mq:details></mq:minorversioninfo>
+</mq:versioninfos>
+<mq:tagdefinition alignhighlight="false" caseinsensitive="false" oename="utf-16" rawhtml="false" showitags="true" basicformat="true" supersubscript="true" xmlcommands="true"><mq:tagdefelement name="b" placeholder="false"></mq:tagdefelement><mq:tagdefelement name="btn" placeholder="false"><mq:tagdefattribute name="dt" filtered="true" required="true" translatable="true" /><mq:tagdefattribute name="name" filtered="false" required="true" translatable="false" /></mq:tagdefelement><mq:tagdefelement name="i" placeholder="false"></mq:tagdefelement><mq:tagdefelement name="underline-sng" placeholder="false"></mq:tagdefelement><mq:tagdefelement name="rtl-on" placeholder="false"></mq:tagdefelement><mq:tagdefelement name="rtl-off" placeholder="false"></mq:tagdefelement><mq:tagdefelement name="rpr" placeholder="false"><mq:tagdefattribute name="id" filtered="false" required="false" translatable="false" /><mq:tagdefattribute name="transform" filtered="true" required="false" translatable="false" /></mq:tagdefelement><mq:tagdefelement name="idx" placeholder="false"><mq:tagdefattribute name="id" filtered="true" required="false" translatable="false" /><mq:tagdefattribute name="transform" filtered="true" required="false" translatable="false" /></mq:tagdefelement><mq:tagdefelement name="l" placeholder="false"><mq:tagdefattribute name="depth" filtered="false" required="true" translatable="false" /></mq:tagdefelement><mq:tagdefelement name="instr" placeholder="false"><mq:tagdefattribute name="id" filtered="false" required="false" translatable="false" /><mq:tagdefattribute name="rprid" filtered="true" required="false" translatable="false" /></mq:tagdefelement><mq:tagdefelement name="sym" placeholder="false"><mq:tagdefattribute name="font" filtered="false" required="false" translatable="false" /><mq:tagdefattribute name="char" filtered="false" required="false" translatable="false" /><mq:tagdefattribute name="rprid" filtered="true" required="false" translatable="false" /><mq:tagdefattribute name="mqc" filtered="true" required="false" translatable="false" /></mq:tagdefelement><mq:tagdefelement name="pict" placeholder="true"><mq:tagdefattribute name="id" filtered="false" required="false" translatable="false" /><mq:tagdefattribute name="rprid" filtered="true" required="false" translatable="false" /></mq:tagdefelement><mq:tagdefelement name="bmk" placeholder="false"><mq:tagdefattribute name="colFirst" filtered="false" required="false" translatable="false" /><mq:tagdefattribute name="colLast" filtered="false" required="false" translatable="false" /><mq:tagdefattribute name="displacedByCustomXml" filtered="false" required="false" translatable="false" /><mq:tagdefattribute name="id" filtered="false" required="false" translatable="false" /><mq:tagdefattribute name="transform" filtered="true" required="false" translatable="false" /><mq:tagdefattribute name="name" filtered="false" required="false" translatable="false" /><mq:tagdefattribute name="rprid" filtered="true" required="false" translatable="false" /></mq:tagdefelement><mq:tagdefelement name="cmt" placeholder="false"><mq:tagdefattribute name="transform" filtered="true" required="false" translatable="false" /><mq:tagdefattribute name="displacedByCustomXml" filtered="false" required="false" translatable="false" /><mq:tagdefattribute name="id" filtered="false" required="false" translatable="false" /><mq:tagdefattribute name="rprid" filtered="true" required="false" translatable="false" /></mq:tagdefelement><mq:tagdefelement name="day" placeholder="false"><mq:tagdefattribute name="rprid" filtered="true" required="false" translatable="false" /></mq:tagdefelement><mq:tagdefelement name="month" placeholder="false"><mq:tagdefattribute name="rprid" filtered="true" required="false" translatable="false" /></mq:tagdefelement><mq:tagdefelement name="monthL" placeholder="false"><mq:tagdefattribute name="rprid" filtered="true" required="false" translatable="false" /></mq:tagdefelement><mq:tagdefelement name="year" placeholder="false"><mq:tagdefattribute name="rprid" filtered="true" required="false" translatable="false" /></mq:tagdefelement><mq:tagdefelement name="yearL" placeholder="false"><mq:tagdefattribute name="rprid" filtered="true" required="false" translatable="false" /></mq:tagdefelement><mq:tagdefelement name="dayL" placeholder="false"><mq:tagdefattribute name="rprid" filtered="true" required="false" translatable="false" /></mq:tagdefelement><mq:tagdefelement name="pgNum" placeholder="false"><mq:tagdefattribute name="rprid" filtered="true" required="false" translatable="false" /></mq:tagdefelement><mq:tagdefelement name="mq:ch" placeholder="false"><mq:tagdefattribute name="val" filtered="false" required="false" translatable="false" /><mq:tagdefattribute name="rprid" filtered="true" required="false" translatable="false" /></mq:tagdefelement><mq:tagdefelement name="o" placeholder="false"><mq:tagdefattribute name="id" filtered="true" required="false" translatable="false" /><mq:tagdefattribute name="rprid" filtered="true" required="false" translatable="false" /></mq:tagdefelement><mq:tagdefelement name="fld" placeholder="false"><mq:tagdefattribute name="id" filtered="false" required="false" translatable="false" /><mq:tagdefattribute name="rprid" filtered="true" required="false" translatable="false" /></mq:tagdefelement><mq:tagdefelement name="ruby" placeholder="false"><mq:tagdefattribute name="id" filtered="false" required="false" translatable="false" /><mq:tagdefattribute name="rprid" filtered="true" required="false" translatable="false" /></mq:tagdefelement><mq:tagdefelement name="draw" placeholder="false"><mq:tagdefattribute name="id" filtered="false" required="false" translatable="false" /><mq:tagdefattribute name="rprid" filtered="true" required="false" translatable="false" /></mq:tagdefelement><mq:tagdefelement name="sdt" placeholder="false"><mq:tagdefattribute name="id" filtered="false" required="false" translatable="false" /><mq:tagdefattribute name="rprid" filtered="true" required="false" translatable="false" /></mq:tagdefelement><mq:tagdefelement name="ptab" placeholder="false"><mq:tagdefattribute name="alignment" filtered="false" required="false" translatable="false" /><mq:tagdefattribute name="relativeTo" filtered="false" required="false" translatable="false" /><mq:tagdefattribute name="leader" filtered="false" required="false" translatable="false" /><mq:tagdefattribute name="rprid" filtered="true" required="false" translatable="false" /></mq:tagdefelement><mq:tagdefelement name="ent" placeholder="false"><mq:tagdefattribute name="id" filtered="false" required="false" translatable="false" /><mq:tagdefattribute name="rprid" filtered="true" required="false" translatable="false" /><mq:tagdefattribute name="customMarkFollows" filtered="false" required="false" translatable="false" /></mq:tagdefelement><mq:tagdefelement name="fnt" placeholder="false"><mq:tagdefattribute name="id" filtered="false" required="false" translatable="false" /><mq:tagdefattribute name="rprid" filtered="true" required="false" translatable="false" /><mq:tagdefattribute name="customMarkFollows" filtered="false" required="false" translatable="false" /></mq:tagdefelement><mq:tagdefelement name="hlnk" placeholder="false"><mq:tagdefattribute name="tgtFrame" filtered="false" required="false" translatable="false" /><mq:tagdefattribute name="tooltip" filtered="false" required="false" translatable="true" /><mq:tagdefattribute name="docLocation" filtered="false" required="false" translatable="false" /><mq:tagdefattribute name="history" filtered="false" required="false" translatable="false" /><mq:tagdefattribute name="anchor" filtered="false" required="false" translatable="false" /><mq:tagdefattribute name="id" filtered="false" required="false" translatable="false" /><mq:tagdefattribute name="rprid" filtered="true" required="false" translatable="false" /></mq:tagdefelement><mq:tagdefelement name="entr" placeholder="false"><mq:tagdefattribute name="rprid" filtered="true" required="false" translatable="false" /></mq:tagdefelement><mq:tagdefelement name="fntr" placeholder="false"><mq:tagdefattribute name="rprid" filtered="true" required="false" translatable="false" /></mq:tagdefelement><mq:tagdefelement name="mq:nt" placeholder="false"><mq:tagdefattribute name="id" filtered="true" required="false" translatable="false" /><mq:tagdefattribute name="type" filtered="true" required="false" translatable="false" /><mq:tagdefattribute name="text" filtered="false" required="false" translatable="false" /><mq:tagdefattribute name="rprid" filtered="true" required="false" translatable="false" /><mq:tagdefattribute name="val" filtered="false" required="false" translatable="false" /></mq:tagdefelement><mq:tagdefelement name="mo" placeholder="false"><mq:tagdefattribute name="id" filtered="true" required="false" translatable="false" /><mq:tagdefattribute name="rprid" filtered="true" required="false" translatable="false" /></mq:tagdefelement><mq:tagdefelement name="mq:rxt" placeholder="false"><mq:tagdefattribute name="displaytext" filtered="true" required="true" translatable="false" /><mq:tagdefattribute name="val" filtered="true" required="true" translatable="false" /></mq:tagdefelement><mq:tagdefelement name="mq:rxt-req" placeholder="true"><mq:tagdefattribute name="displaytext" filtered="true" required="true" translatable="false" /><mq:tagdefattribute name="val" filtered="true" required="true" translatable="false" /></mq:tagdefelement></mq:tagdefinition>
+<mq:doccomments />
+<mq:lqamodel><![CDATA[<XMLSerializedLQAModel xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema"><Version>1</Version><Name /><RevisionID>00000000-0000-0000-0000-000000000000</RevisionID><UseSeverityLevels>false</UseSeverityLevels><UsePenaltyPoints>false</UsePenaltyPoints><RequiresReviewerCommenting>false</RequiresReviewerCommenting><SeverityLevelNames /><ModelEntries /><PassFailCriterion><CountMultipleErrorOccuranceAsOne>false</CountMultipleErrorOccuranceAsOne><CritDefType>PenaltyPoints</CritDefType><PenaltyPointsNominator>0</PenaltyPointsNominator><PenaltyPointPerWordsDenominator>0</PenaltyPointPerWordsDenominator><NormalizedPenaltyScoreLimit>0</NormalizedPenaltyScoreLimit><CritDefinitionRules /></PassFailCriterion><QALQAMapping /><Timestamp>0001-01-01T00:00:00</Timestamp></XMLSerializedLQAModel>]]></mq:lqamodel>
+</mq:docinformation>
+</header>
+<body>
+<trans-unit id="1" mq:minorversionend="1" mq:minorversionstart="0" mq:status="NotStarted" mq:segmentguid="e1d10a2c-cfc2-46dc-818a-23230dde9c50" mq:lastchangedtimestamp="2007-12-17T12:28:29Z" mq:maxlengthchars="-1" mq:nosplitjoin="false" mq:firstlabel="1" mq:lastlabel="1" mq:autosplitjoinstate="0" mq:lastmodifrole="0" mq:multipleexactmatch="false">
+<source xml:space="preserve" mq:segpart="1"><bpt id="1" ctype="bold">{}</bpt>Monarch, the Big Bear of Tallac<ept id="1">{}</ept></source>
+<target xml:space="preserve"></target>
+<context-group>
+<context context-type="x-mmq-structural-context">trans-units / trans-unit#1 / struct-rpr#1</context>
+</context-group>
+<mq:minorversions>
+</mq:minorversions>
+<mq:startingws xml:space="preserve" />
+<mq:endingws xml:space="preserve" />
+<mq:commitinfos xmlns="MQXliff" /><mq:nosplitjoins />
+<mq:originalsource edited="false" />
+</trans-unit>
+<trans-unit id="2" mq:minorversionend="1" mq:minorversionstart="0" mq:status="NotStarted" mq:segmentguid="1d1dfa42-90b1-4d32-b900-559b92b9507f" mq:lastchangedtimestamp="2007-12-17T12:28:29Z" mq:maxlengthchars="-1" mq:nosplitjoin="false" mq:firstlabel="2" mq:lastlabel="2" mq:autosplitjoinstate="0" mq:lastmodifrole="0" mq:multipleexactmatch="false">
+<source xml:space="preserve" mq:segpart="2">Mount Tallac stands high above the other peaks of the Sierra Mountains.</source>
+<target xml:space="preserve"></target>
+<context-group>
+<context context-type="x-mmq-structural-context">trans-units / trans-unit#3 / struct-rpr#1</context>
+</context-group>
+<mq:minorversions>
+</mq:minorversions>
+<mq:startingws xml:space="preserve" />
+<mq:endingws xml:space="preserve"> </mq:endingws>
+<mq:commitinfos xmlns="MQXliff" /><mq:nosplitjoins />
+<mq:originalsource edited="false" />
+</trans-unit>
+<trans-unit id="3" mq:minorversionend="1" mq:minorversionstart="0" mq:status="NotStarted" mq:segmentguid="fbbf69b1-4742-46b1-adf0-7d51f798fdac" mq:lastchangedtimestamp="2007-12-17T12:28:29Z" mq:maxlengthchars="-1" mq:nosplitjoin="false" mq:firstlabel="2" mq:lastlabel="2" mq:autosplitjoinstate="0" mq:lastmodifrole="0" mq:multipleexactmatch="false">
+<source xml:space="preserve" mq:segpart="2">It is ten thousand feet above the sea.</source>
+<target xml:space="preserve"></target>
+<context-group>
+<context context-type="x-mmq-structural-context">trans-units / trans-unit#3 / struct-rpr#1</context>
+</context-group>
+<mq:minorversions>
+</mq:minorversions>
+<mq:startingws xml:space="preserve" />
+<mq:endingws xml:space="preserve"> </mq:endingws>
+<mq:commitinfos xmlns="MQXliff" /><mq:nosplitjoins />
+<mq:originalsource edited="false" />
+</trans-unit>
+<trans-unit id="4" mq:minorversionend="1" mq:minorversionstart="0" mq:status="NotStarted" mq:segmentguid="d015edbe-a60c-46ae-a827-2d4ddc36e051" mq:lastchangedtimestamp="2007-12-17T12:28:29Z" mq:maxlengthchars="-1" mq:nosplitjoin="false" mq:firstlabel="2" mq:lastlabel="2" mq:autosplitjoinstate="0" mq:lastmodifrole="0" mq:multipleexactmatch="false">
+<source xml:space="preserve" mq:segpart="2">From the top, looking north, one can see a very large, blue, wonderful lake.</source>
+<target xml:space="preserve"></target>
+<context-group>
+<context context-type="x-mmq-structural-context">trans-units / trans-unit#3 / struct-rpr#1</context>
+</context-group>
+<mq:minorversions>
+</mq:minorversions>
+<mq:startingws xml:space="preserve" />
+<mq:endingws xml:space="preserve"> </mq:endingws>
+<mq:commitinfos xmlns="MQXliff" /><mq:nosplitjoins />
+<mq:originalsource edited="false" />
+</trans-unit>
+<trans-unit id="5" mq:minorversionend="1" mq:minorversionstart="0" mq:status="NotStarted" mq:segmentguid="acfcc74d-e51b-49dc-909c-388f8f41c5ae" mq:lastchangedtimestamp="2007-12-17T12:28:29Z" mq:maxlengthchars="-1" mq:nosplitjoin="false" mq:firstlabel="2" mq:lastlabel="2" mq:autosplitjoinstate="0" mq:lastmodifrole="0" mq:multipleexactmatch="false">
+<source xml:space="preserve" mq:segpart="2">On every side there are wonderful colours and things,—pine trees, streams, hills.</source>
+<target xml:space="preserve"></target>
+<context-group>
+<context context-type="x-mmq-structural-context">trans-units / trans-unit#3 / struct-rpr#1</context>
+</context-group>
+<mq:minorversions>
+</mq:minorversions>
+<mq:startingws xml:space="preserve" />
+<mq:endingws xml:space="preserve"> </mq:endingws>
+<mq:commitinfos xmlns="MQXliff" /><mq:nosplitjoins />
+<mq:originalsource edited="false" />
+</trans-unit>
+<trans-unit id="6" mq:minorversionend="1" mq:minorversionstart="0" mq:status="NotStarted" mq:segmentguid="1f5f66f5-28ae-4765-bce0-5f0b9bfcc423" mq:lastchangedtimestamp="2007-12-17T12:28:29Z" mq:maxlengthchars="-1" mq:nosplitjoin="false" mq:firstlabel="2" mq:lastlabel="2" mq:autosplitjoinstate="0" mq:lastmodifrole="0" mq:multipleexactmatch="false">
+<source xml:space="preserve" mq:segpart="2">But Lan Kellyan's keen gray eyes did not notice the beautiful colours on the hills and lake.</source>
+<target xml:space="preserve"></target>
+<context-group>
+<context context-type="x-mmq-structural-context">trans-units / trans-unit#3 / struct-rpr#1</context>
+</context-group>
+<mq:minorversions>
+</mq:minorversions>
+<mq:startingws xml:space="preserve" />
+<mq:endingws xml:space="preserve"> </mq:endingws>
+<mq:commitinfos xmlns="MQXliff" /><mq:nosplitjoins />
+<mq:originalsource edited="false" />
+</trans-unit>
+<trans-unit id="7" mq:minorversionend="1" mq:minorversionstart="0" mq:status="NotStarted" mq:segmentguid="6c6abca4-da06-4c74-bb8c-ce1c10866130" mq:lastchangedtimestamp="2007-12-17T12:28:29Z" mq:maxlengthchars="-1" mq:nosplitjoin="false" mq:firstlabel="2" mq:lastlabel="2" mq:autosplitjoinstate="0" mq:lastmodifrole="0" mq:multipleexactmatch="false">
+<source xml:space="preserve" mq:segpart="2">He was a hunter.</source>
+<target xml:space="preserve"></target>
+<context-group>
+<context context-type="x-mmq-structural-context">trans-units / trans-unit#3 / struct-rpr#1</context>
+</context-group>
+<mq:minorversions>
+</mq:minorversions>
+<mq:startingws xml:space="preserve" />
+<mq:endingws xml:space="preserve"> </mq:endingws>
+<mq:commitinfos xmlns="MQXliff" /><mq:nosplitjoins />
+<mq:originalsource edited="false" />
+</trans-unit>
+<trans-unit id="8" mq:minorversionend="1" mq:minorversionstart="0" mq:status="NotStarted" mq:segmentguid="1c18f65c-c71e-4fa8-9e7f-2c7a3cd487e6" mq:lastchangedtimestamp="2007-12-17T12:28:29Z" mq:maxlengthchars="-1" mq:nosplitjoin="false" mq:firstlabel="2" mq:lastlabel="2" mq:autosplitjoinstate="0" mq:lastmodifrole="0" mq:multipleexactmatch="false">
+<source xml:space="preserve" mq:segpart="2">His leather clothes, brown face, strong body, and clear gray eyes told us that at once.</source>
+<target xml:space="preserve"></target>
+<context-group>
+<context context-type="x-mmq-structural-context">trans-units / trans-unit#3 / struct-rpr#1</context>
+</context-group>
+<mq:minorversions>
+</mq:minorversions>
+<mq:startingws xml:space="preserve" />
+<mq:endingws xml:space="preserve"> </mq:endingws>
+<mq:commitinfos xmlns="MQXliff" /><mq:nosplitjoins />
+<mq:originalsource edited="false" />
+</trans-unit>
+<trans-unit id="9" mq:minorversionend="1" mq:minorversionstart="0" mq:status="NotStarted" mq:segmentguid="59478f46-f128-40d9-9dae-01c7cedd18c0" mq:lastchangedtimestamp="2007-12-17T12:28:29Z" mq:maxlengthchars="-1" mq:nosplitjoin="false" mq:firstlabel="2" mq:lastlabel="2" mq:autosplitjoinstate="0" mq:lastmodifrole="0" mq:multipleexactmatch="false">
+<source xml:space="preserve" mq:segpart="2">His hunter's eye looked for and found a trail, and he followed it along the ground.</source>
+<target xml:space="preserve"></target>
+<context-group>
+<context context-type="x-mmq-structural-context">trans-units / trans-unit#3 / struct-rpr#1</context>
+</context-group>
+<mq:minorversions>
+</mq:minorversions>
+<mq:startingws xml:space="preserve" />
+<mq:endingws xml:space="preserve"> </mq:endingws>
+<mq:commitinfos xmlns="MQXliff" /><mq:nosplitjoins />
+<mq:originalsource edited="false" />
+</trans-unit>
+<trans-unit id="10" mq:minorversionend="1" mq:minorversionstart="0" mq:status="NotStarted" mq:segmentguid="67e1682a-c009-48df-a471-0bc5a1053138" mq:lastchangedtimestamp="2007-12-17T12:28:29Z" mq:maxlengthchars="-1" mq:nosplitjoin="false" mq:firstlabel="2" mq:lastlabel="2" mq:autosplitjoinstate="0" mq:lastmodifrole="0" mq:multipleexactmatch="false">
+<source xml:space="preserve" mq:segpart="2">He knew that a big bear and her two little cubs were somewhere close by, for the foot-marks of the animals in the grass were still fresh.</source>
+<target xml:space="preserve"></target>
+<context-group>
+<context context-type="x-mmq-structural-context">trans-units / trans-unit#3 / struct-rpr#1</context>
+</context-group>
+<mq:minorversions>
+</mq:minorversions>
+<mq:startingws xml:space="preserve" />
+<mq:endingws xml:space="preserve"> </mq:endingws>
+<mq:commitinfos xmlns="MQXliff" /><mq:nosplitjoins />
+<mq:originalsource edited="false" />
+</trans-unit>
+<trans-unit id="11" mq:minorversionend="1" mq:minorversionstart="0" mq:status="NotStarted" mq:segmentguid="6f8d0f8a-035d-4cfc-9504-f640c43f85c0" mq:lastchangedtimestamp="2007-12-17T12:28:29Z" mq:maxlengthchars="-1" mq:nosplitjoin="false" mq:firstlabel="2" mq:lastlabel="2" mq:autosplitjoinstate="0" mq:lastmodifrole="0" mq:multipleexactmatch="false">
+<source xml:space="preserve" mq:segpart="2">Lan's horse also knew that a grizzly family was near, for he sniffed and stepped nervously.<ph id="93">&lt;rpr id=&quot;2&quot;&gt;</ph></source>
+<target xml:space="preserve"></target>
+<context-group>
+<context context-type="x-mmq-structural-context">trans-units / trans-unit#3 / struct-rpr#1</context>
+</context-group>
+<mq:minorversions>
+</mq:minorversions>
+<mq:startingws xml:space="preserve" />
+<mq:endingws xml:space="preserve" />
+<mq:commitinfos xmlns="MQXliff" /><mq:nosplitjoins />
+<mq:originalsource edited="false" />
+</trans-unit>
+<trans-unit id="12" mq:minorversionend="1" mq:minorversionstart="0" mq:status="NotStarted" mq:segmentguid="35754c60-3ca8-4b3b-a9dd-3fc0f56ef7a1" mq:lastchangedtimestamp="2007-12-17T12:28:29Z" mq:maxlengthchars="-1" mq:nosplitjoin="false" mq:firstlabel="3" mq:lastlabel="3" mq:autosplitjoinstate="0" mq:lastmodifrole="0" mq:multipleexactmatch="false">
+<source xml:space="preserve" mq:segpart="3"><ph id="159">&lt;/rpr id=&quot;2&quot; transform=&quot;close&quot;&gt;</ph>Lan got off his horse and then, following the trail, climbed up a steep bank and there, at the top, fifty yards away, he saw an old grizzly and her two cubs.</source>
+<target xml:space="preserve"></target>
+<context-group>
+<context context-type="x-mmq-structural-context">trans-units / trans-unit#3 / struct-rpr#1</context>
+</context-group>
+<mq:minorversions>
+</mq:minorversions>
+<mq:startingws xml:space="preserve" />
+<mq:endingws xml:space="preserve"> </mq:endingws>
+<mq:commitinfos xmlns="MQXliff" /><mq:nosplitjoins />
+<mq:originalsource edited="false" />
+</trans-unit>
+<trans-unit id="13" mq:minorversionend="1" mq:minorversionstart="0" mq:status="NotStarted" mq:segmentguid="a6474160-0d8a-4f88-aecf-5af6f081b3cd" mq:lastchangedtimestamp="2007-12-17T12:28:29Z" mq:maxlengthchars="-1" mq:nosplitjoin="false" mq:firstlabel="3" mq:lastlabel="3" mq:autosplitjoinstate="0" mq:lastmodifrole="0" mq:multipleexactmatch="false">
+<source xml:space="preserve" mq:segpart="3">It was too far for a good shot, but Lan fired at what seemed to be the shoulder.</source>
+<target xml:space="preserve"></target>
+<context-group>
+<context context-type="x-mmq-structural-context">trans-units / trans-unit#3 / struct-rpr#1</context>
+</context-group>
+<mq:minorversions>
+</mq:minorversions>
+<mq:startingws xml:space="preserve" />
+<mq:endingws xml:space="preserve"> </mq:endingws>
+<mq:commitinfos xmlns="MQXliff" /><mq:nosplitjoins />
+<mq:originalsource edited="false" />
+</trans-unit>
+<trans-unit id="14" mq:minorversionend="1" mq:minorversionstart="0" mq:status="NotStarted" mq:segmentguid="a4c6f5ed-dc05-4b75-8607-88882057334e" mq:lastchangedtimestamp="2007-12-17T12:28:29Z" mq:maxlengthchars="-1" mq:nosplitjoin="false" mq:firstlabel="3" mq:lastlabel="3" mq:autosplitjoinstate="0" mq:lastmodifrole="0" mq:multipleexactmatch="false">
+<source xml:space="preserve" mq:segpart="3">The bear, wounded, sprang up and rushed to the place where the smoke from the gun arose.</source>
+<target xml:space="preserve"></target>
+<context-group>
+<context context-type="x-mmq-structural-context">trans-units / trans-unit#3 / struct-rpr#1</context>
+</context-group>
+<mq:minorversions>
+</mq:minorversions>
+<mq:startingws xml:space="preserve" />
+<mq:endingws xml:space="preserve"> </mq:endingws>
+<mq:commitinfos xmlns="MQXliff" /><mq:nosplitjoins />
+<mq:originalsource edited="false" />
+</trans-unit>
+<trans-unit id="15" mq:minorversionend="1" mq:minorversionstart="0" mq:status="NotStarted" mq:segmentguid="74f024ca-db9f-417b-b8ec-6f54aa437a7c" mq:lastchangedtimestamp="2007-12-17T12:28:29Z" mq:maxlengthchars="-1" mq:nosplitjoin="false" mq:firstlabel="3" mq:lastlabel="3" mq:autosplitjoinstate="0" mq:lastmodifrole="0" mq:multipleexactmatch="false">
+<source xml:space="preserve" mq:segpart="3">Lan ran down the bank, jumped on his horse and was off like the wind.</source>
+<target xml:space="preserve"></target>
+<context-group>
+<context context-type="x-mmq-structural-context">trans-units / trans-unit#3 / struct-rpr#1</context>
+</context-group>
+<mq:minorversions>
+</mq:minorversions>
+<mq:startingws xml:space="preserve" />
+<mq:endingws xml:space="preserve"> </mq:endingws>
+<mq:commitinfos xmlns="MQXliff" /><mq:nosplitjoins />
+<mq:originalsource edited="false" />
+</trans-unit>
+<trans-unit id="16" mq:minorversionend="1" mq:minorversionstart="0" mq:status="NotStarted" mq:segmentguid="898c7c26-04b8-4758-b662-e9ac0cf5f2ea" mq:lastchangedtimestamp="2007-12-17T12:28:29Z" mq:maxlengthchars="-1" mq:nosplitjoin="false" mq:firstlabel="3" mq:lastlabel="3" mq:autosplitjoinstate="0" mq:lastmodifrole="0" mq:multipleexactmatch="false">
+<source xml:space="preserve" mq:segpart="3">But the grizzly ran almost as fast, striking at him but missing each time.</source>
+<target xml:space="preserve"></target>
+<context-group>
+<context context-type="x-mmq-structural-context">trans-units / trans-unit#3 / struct-rpr#1</context>
+</context-group>
+<mq:minorversions>
+</mq:minorversions>
+<mq:startingws xml:space="preserve" />
+<mq:endingws xml:space="preserve"> </mq:endingws>
+<mq:commitinfos xmlns="MQXliff" /><mq:nosplitjoins />
+<mq:originalsource edited="false" />
+</trans-unit>
+<trans-unit id="17" mq:minorversionend="1" mq:minorversionstart="0" mq:status="NotStarted" mq:segmentguid="a0fea69e-a4b6-4a12-b6a4-397e8d65cd4c" mq:lastchangedtimestamp="2007-12-17T12:28:29Z" mq:maxlengthchars="-1" mq:nosplitjoin="false" mq:firstlabel="3" mq:lastlabel="3" mq:autosplitjoinstate="0" mq:lastmodifrole="0" mq:multipleexactmatch="false">
+<source xml:space="preserve" mq:segpart="3">A grizzly cannot run with great speed for a long distance, and soon the bear fell behind, and returned to her cubs.<ph id="117">&lt;rpr id=&quot;2&quot;&gt;</ph></source>
+<target xml:space="preserve"></target>
+<context-group>
+<context context-type="x-mmq-structural-context">trans-units / trans-unit#3 / struct-rpr#1</context>
+</context-group>
+<mq:minorversions>
+</mq:minorversions>
+<mq:startingws xml:space="preserve" />
+<mq:endingws xml:space="preserve" />
+<mq:commitinfos xmlns="MQXliff" /><mq:nosplitjoins />
+<mq:originalsource edited="false" />
+</trans-unit>
+<trans-unit id="18" mq:minorversionend="1" mq:minorversionstart="0" mq:status="NotStarted" mq:segmentguid="e2f171c7-445b-4edf-8b95-3af32b813d2b" mq:lastchangedtimestamp="2007-12-17T12:28:29Z" mq:maxlengthchars="-1" mq:nosplitjoin="false" mq:firstlabel="4" mq:lastlabel="4" mq:autosplitjoinstate="0" mq:lastmodifrole="0" mq:multipleexactmatch="false">
+<source xml:space="preserve" mq:segpart="4"><ph id="73">&lt;/rpr id=&quot;2&quot; transform=&quot;close&quot;&gt;</ph>Lan went back to his camp, but returned next day to look for that bear.</source>
+<target xml:space="preserve"></target>
+<context-group>
+<context context-type="x-mmq-structural-context">trans-units / trans-unit#3 / struct-rpr#1</context>
+</context-group>
+<mq:minorversions>
+</mq:minorversions>
+<mq:startingws xml:space="preserve" />
+<mq:endingws xml:space="preserve"> </mq:endingws>
+<mq:commitinfos xmlns="MQXliff" /><mq:nosplitjoins />
+<mq:originalsource edited="false" />
+</trans-unit>
+<trans-unit id="19" mq:minorversionend="1" mq:minorversionstart="0" mq:status="NotStarted" mq:segmentguid="73e2759d-798a-4174-b6b0-b21e9a6e5453" mq:lastchangedtimestamp="2007-12-17T12:28:29Z" mq:maxlengthchars="-1" mq:nosplitjoin="false" mq:firstlabel="4" mq:lastlabel="4" mq:autosplitjoinstate="0" mq:lastmodifrole="0" mq:multipleexactmatch="false">
+<source xml:space="preserve" mq:segpart="4">About a week later he was in a small, deep valley with sides of steep rock when he saw, far off, the old bear with her two cubs.</source>
+<target xml:space="preserve"></target>
+<context-group>
+<context context-type="x-mmq-structural-context">trans-units / trans-unit#3 / struct-rpr#1</context>
+</context-group>
+<mq:minorversions>
+</mq:minorversions>
+<mq:startingws xml:space="preserve" />
+<mq:endingws xml:space="preserve"> </mq:endingws>
+<mq:commitinfos xmlns="MQXliff" /><mq:nosplitjoins />
+<mq:originalsource edited="false" />
+</trans-unit>
+<trans-unit id="20" mq:minorversionend="1" mq:minorversionstart="0" mq:status="NotStarted" mq:segmentguid="b11da6f8-d1f3-4db8-b6f4-cc2dae2284e6" mq:lastchangedtimestamp="2007-12-17T12:28:29Z" mq:maxlengthchars="-1" mq:nosplitjoin="false" mq:firstlabel="4" mq:lastlabel="4" mq:autosplitjoinstate="0" mq:lastmodifrole="0" mq:multipleexactmatch="false">
+<source xml:space="preserve" mq:segpart="4">As she stopped to drink at the clear stream, Lan fired.</source>
+<target xml:space="preserve"></target>
+<context-group>
+<context context-type="x-mmq-structural-context">trans-units / trans-unit#3 / struct-rpr#1</context>
+</context-group>
+<mq:minorversions>
+</mq:minorversions>
+<mq:startingws xml:space="preserve" />
+<mq:endingws xml:space="preserve"> </mq:endingws>
+<mq:commitinfos xmlns="MQXliff" /><mq:nosplitjoins />
+<mq:originalsource edited="false" />
+</trans-unit>
+<trans-unit id="21" mq:minorversionend="1" mq:minorversionstart="0" mq:status="NotStarted" mq:segmentguid="bc11b50c-033c-4dbd-9ab2-f3a08ba756b2" mq:lastchangedtimestamp="2007-12-17T12:28:29Z" mq:maxlengthchars="-1" mq:nosplitjoin="false" mq:firstlabel="4" mq:lastlabel="4" mq:autosplitjoinstate="0" mq:lastmodifrole="0" mq:multipleexactmatch="false">
+<source xml:space="preserve" mq:segpart="4">When she heard the shot, the bear turned to her cubs and slapping first one and then the other, she chased them up a tree.</source>
+<target xml:space="preserve"></target>
+<context-group>
+<context context-type="x-mmq-structural-context">trans-units / trans-unit#3 / struct-rpr#1</context>
+</context-group>
+<mq:minorversions>
+</mq:minorversions>
+<mq:startingws xml:space="preserve" />
+<mq:endingws xml:space="preserve"> </mq:endingws>
+<mq:commitinfos xmlns="MQXliff" /><mq:nosplitjoins />
+<mq:originalsource edited="false" />
+</trans-unit>
+<trans-unit id="22" mq:minorversionend="1" mq:minorversionstart="0" mq:status="NotStarted" mq:segmentguid="79295018-153f-4a52-a397-bdfb0cfac982" mq:lastchangedtimestamp="2007-12-17T12:28:29Z" mq:maxlengthchars="-1" mq:nosplitjoin="false" mq:firstlabel="4" mq:lastlabel="4" mq:autosplitjoinstate="0" mq:lastmodifrole="0" mq:multipleexactmatch="false">
+<source xml:space="preserve" mq:segpart="4">Lan's second shot struck her.</source>
+<target xml:space="preserve"></target>
+<context-group>
+<context context-type="x-mmq-structural-context">trans-units / trans-unit#3 / struct-rpr#1</context>
+</context-group>
+<mq:minorversions>
+</mq:minorversions>
+<mq:startingws xml:space="preserve" />
+<mq:endingws xml:space="preserve"> </mq:endingws>
+<mq:commitinfos xmlns="MQXliff" /><mq:nosplitjoins />
+<mq:originalsource edited="false" />
+</trans-unit>
+<trans-unit id="23" mq:minorversionend="1" mq:minorversionstart="0" mq:status="NotStarted" mq:segmentguid="f06e757e-6117-46ab-97c2-1cd515a36b30" mq:lastchangedtimestamp="2007-12-17T12:28:29Z" mq:maxlengthchars="-1" mq:nosplitjoin="false" mq:firstlabel="4" mq:lastlabel="4" mq:autosplitjoinstate="0" mq:lastmodifrole="0" mq:multipleexactmatch="false">
+<source xml:space="preserve" mq:segpart="4">Wounded and raging, she charged fiercely on the hunter.</source>
+<target xml:space="preserve"></target>
+<context-group>
+<context context-type="x-mmq-structural-context">trans-units / trans-unit#3 / struct-rpr#1</context>
+</context-group>
+<mq:minorversions>
+</mq:minorversions>
+<mq:startingws xml:space="preserve" />
+<mq:endingws xml:space="preserve"> </mq:endingws>
+<mq:commitinfos xmlns="MQXliff" /><mq:nosplitjoins />
+<mq:originalsource edited="false" />
+</trans-unit>
+<trans-unit id="24" mq:minorversionend="1" mq:minorversionstart="0" mq:status="NotStarted" mq:segmentguid="4de16e3a-78bc-4126-950e-e58bdfe8dc35" mq:lastchangedtimestamp="2007-12-17T12:28:29Z" mq:maxlengthchars="-1" mq:nosplitjoin="false" mq:firstlabel="4" mq:lastlabel="4" mq:autosplitjoinstate="0" mq:lastmodifrole="0" mq:multipleexactmatch="false">
+<source xml:space="preserve" mq:segpart="4">A third shot struck her in the head and she rolled down the side of the great rocks and lay dead at the bottom of the valley.</source>
+<target xml:space="preserve"></target>
+<context-group>
+<context context-type="x-mmq-structural-context">trans-units / trans-unit#3 / struct-rpr#1</context>
+</context-group>
+<mq:minorversions>
+</mq:minorversions>
+<mq:startingws xml:space="preserve" />
+<mq:endingws xml:space="preserve"> </mq:endingws>
+<mq:commitinfos xmlns="MQXliff" /><mq:nosplitjoins />
+<mq:originalsource edited="false" />
+</trans-unit>
+<trans-unit id="25" mq:minorversionend="1" mq:minorversionstart="0" mq:status="NotStarted" mq:segmentguid="34e56d70-2364-42d3-943f-92cdb278c1ac" mq:lastchangedtimestamp="2007-12-17T12:28:29Z" mq:maxlengthchars="-1" mq:nosplitjoin="false" mq:firstlabel="4" mq:lastlabel="4" mq:autosplitjoinstate="0" mq:lastmodifrole="0" mq:multipleexactmatch="false">
+<source xml:space="preserve" mq:segpart="4">Lan now went to the tree where the cubs still were.</source>
+<target xml:space="preserve"></target>
+<context-group>
+<context context-type="x-mmq-structural-context">trans-units / trans-unit#3 / struct-rpr#1</context>
+</context-group>
+<mq:minorversions>
+</mq:minorversions>
+<mq:startingws xml:space="preserve" />
+<mq:endingws xml:space="preserve"> </mq:endingws>
+<mq:commitinfos xmlns="MQXliff" /><mq:nosplitjoins />
+<mq:originalsource edited="false" />
+</trans-unit>
+<trans-unit id="26" mq:minorversionend="1" mq:minorversionstart="0" mq:status="NotStarted" mq:segmentguid="9ab00e2f-32fb-4c3f-bc48-ed1ebb20b32d" mq:lastchangedtimestamp="2007-12-17T12:28:29Z" mq:maxlengthchars="-1" mq:nosplitjoin="false" mq:firstlabel="4" mq:lastlabel="4" mq:autosplitjoinstate="0" mq:lastmodifrole="0" mq:multipleexactmatch="false">
+<source xml:space="preserve" mq:segpart="4">They looked at him with fear as he approached them and when he began to climb the tree, they climbed up higher.</source>
+<target xml:space="preserve"></target>
+<context-group>
+<context context-type="x-mmq-structural-context">trans-units / trans-unit#3 / struct-rpr#1</context>
+</context-group>
+<mq:minorversions>
+</mq:minorversions>
+<mq:startingws xml:space="preserve" />
+<mq:endingws xml:space="preserve"> </mq:endingws>
+<mq:commitinfos xmlns="MQXliff" /><mq:nosplitjoins />
+<mq:originalsource edited="false" />
+</trans-unit>
+<trans-unit id="27" mq:minorversionend="1" mq:minorversionstart="0" mq:status="NotStarted" mq:segmentguid="973e2b2d-5339-4bfc-83b4-b99612b8b782" mq:lastchangedtimestamp="2007-12-17T12:28:29Z" mq:maxlengthchars="-1" mq:nosplitjoin="false" mq:firstlabel="4" mq:lastlabel="4" mq:autosplitjoinstate="0" mq:lastmodifrole="0" mq:multipleexactmatch="false">
+<source xml:space="preserve" mq:segpart="4">One of them began to whine and the other to growl, increasing their cries as he came nearer.</source>
+<target xml:space="preserve"></target>
+<context-group>
+<context context-type="x-mmq-structural-context">trans-units / trans-unit#3 / struct-rpr#1</context>
+</context-group>
+<mq:minorversions>
+</mq:minorversions>
+<mq:startingws xml:space="preserve" />
+<mq:endingws xml:space="preserve"> </mq:endingws>
+<mq:commitinfos xmlns="MQXliff" /><mq:nosplitjoins />
+<mq:originalsource edited="false" />
+</trans-unit>
+<trans-unit id="28" mq:minorversionend="1" mq:minorversionstart="0" mq:status="NotStarted" mq:segmentguid="d2cac729-fa06-453c-9ba5-3ca8020ac18a" mq:lastchangedtimestamp="2007-12-17T12:28:29Z" mq:maxlengthchars="-1" mq:nosplitjoin="false" mq:firstlabel="4" mq:lastlabel="4" mq:autosplitjoinstate="0" mq:lastmodifrole="0" mq:multipleexactmatch="false">
+<source xml:space="preserve" mq:segpart="4">He took out a rope, arid making nooses, dragged them to the ground in turn.</source>
+<target xml:space="preserve"></target>
+<context-group>
+<context context-type="x-mmq-structural-context">trans-units / trans-unit#3 / struct-rpr#1</context>
+</context-group>
+<mq:minorversions>
+</mq:minorversions>
+<mq:startingws xml:space="preserve" />
+<mq:endingws xml:space="preserve"> </mq:endingws>
+<mq:commitinfos xmlns="MQXliff" /><mq:nosplitjoins />
+<mq:originalsource edited="false" />
+</trans-unit>
+<trans-unit id="29" mq:minorversionend="1" mq:minorversionstart="0" mq:status="NotStarted" mq:segmentguid="5d388f1b-9d28-4b1c-8339-5d1f71dad15e" mq:lastchangedtimestamp="2007-12-17T12:28:29Z" mq:maxlengthchars="-1" mq:nosplitjoin="false" mq:firstlabel="4" mq:lastlabel="4" mq:autosplitjoinstate="0" mq:lastmodifrole="0" mq:multipleexactmatch="false">
+<source xml:space="preserve" mq:segpart="4">Then he put them into a bag and rode with them to his camp.</source>
+<target xml:space="preserve"></target>
+<context-group>
+<context context-type="x-mmq-structural-context">trans-units / trans-unit#3 / struct-rpr#1</context>
+</context-group>
+<mq:minorversions>
+</mq:minorversions>
+<mq:startingws xml:space="preserve" />
+<mq:endingws xml:space="preserve"> </mq:endingws>
+<mq:commitinfos xmlns="MQXliff" /><mq:nosplitjoins />
+<mq:originalsource edited="false" />
+</trans-unit>
+<trans-unit id="30" mq:minorversionend="1" mq:minorversionstart="0" mq:status="NotStarted" mq:segmentguid="69511846-f0c8-4fd3-994d-7bec681e573a" mq:lastchangedtimestamp="2007-12-17T12:28:29Z" mq:maxlengthchars="-1" mq:nosplitjoin="false" mq:firstlabel="4" mq:lastlabel="4" mq:autosplitjoinstate="0" mq:lastmodifrole="0" mq:multipleexactmatch="false">
+<source xml:space="preserve" mq:segpart="4">There he put a collar on each of them, and chained each to a post.</source>
+<target xml:space="preserve"></target>
+<context-group>
+<context context-type="x-mmq-structural-context">trans-units / trans-unit#3 / struct-rpr#1</context>
+</context-group>
+<mq:minorversions>
+</mq:minorversions>
+<mq:startingws xml:space="preserve" />
+<mq:endingws xml:space="preserve"> </mq:endingws>
+<mq:commitinfos xmlns="MQXliff" /><mq:nosplitjoins />
+<mq:originalsource edited="false" />
+</trans-unit>
+<trans-unit id="31" mq:minorversionend="1" mq:minorversionstart="0" mq:status="NotStarted" mq:segmentguid="3d8f52fc-047f-46da-b1dd-6b135c4599e5" mq:lastchangedtimestamp="2007-12-17T12:28:29Z" mq:maxlengthchars="-1" mq:nosplitjoin="false" mq:firstlabel="4" mq:lastlabel="4" mq:autosplitjoinstate="0" mq:lastmodifrole="0" mq:multipleexactmatch="false">
+<source xml:space="preserve" mq:segpart="4">They at once climbed up to the top of their posts.</source>
+<target xml:space="preserve"></target>
+<context-group>
+<context context-type="x-mmq-structural-context">trans-units / trans-unit#3 / struct-rpr#1</context>
+</context-group>
+<mq:minorversions>
+</mq:minorversions>
+<mq:startingws xml:space="preserve" />
+<mq:endingws xml:space="preserve"> </mq:endingws>
+<mq:commitinfos xmlns="MQXliff" /><mq:nosplitjoins />
+<mq:originalsource edited="false" />
+</trans-unit>
+<trans-unit id="32" mq:minorversionend="1" mq:minorversionstart="0" mq:status="NotStarted" mq:segmentguid="f2b6cb0c-a6ca-48df-963a-1fb9683ed6f5" mq:lastchangedtimestamp="2007-12-17T12:28:29Z" mq:maxlengthchars="-1" mq:nosplitjoin="false" mq:firstlabel="4" mq:lastlabel="4" mq:autosplitjoinstate="0" mq:lastmodifrole="0" mq:multipleexactmatch="false">
+<source xml:space="preserve" mq:segpart="4">Sitting on the top of the posts, one whined and the other growled.</source>
+<target xml:space="preserve"></target>
+<context-group>
+<context context-type="x-mmq-structural-context">trans-units / trans-unit#3 / struct-rpr#1</context>
+</context-group>
+<mq:minorversions>
+</mq:minorversions>
+<mq:startingws xml:space="preserve" />
+<mq:endingws xml:space="preserve"> </mq:endingws>
+<mq:commitinfos xmlns="MQXliff" /><mq:nosplitjoins />
+<mq:originalsource edited="false" />
+</trans-unit>
+<trans-unit id="33" mq:minorversionend="1" mq:minorversionstart="0" mq:status="NotStarted" mq:segmentguid="7bc749ff-86d4-42f7-9d69-e186d059a911" mq:lastchangedtimestamp="2007-12-17T12:28:29Z" mq:maxlengthchars="-1" mq:nosplitjoin="false" mq:firstlabel="4" mq:lastlabel="4" mq:autosplitjoinstate="0" mq:lastmodifrole="0" mq:multipleexactmatch="false">
+<source xml:space="preserve" mq:segpart="4">For the first few days they refused to eat, but at last they drank some milk which Lan left for them.</source>
+<target xml:space="preserve"></target>
+<context-group>
+<context context-type="x-mmq-structural-context">trans-units / trans-unit#3 / struct-rpr#1</context>
+</context-group>
+<mq:minorversions>
+</mq:minorversions>
+<mq:startingws xml:space="preserve" />
+<mq:endingws xml:space="preserve"> </mq:endingws>
+<mq:commitinfos xmlns="MQXliff" /><mq:nosplitjoins />
+<mq:originalsource edited="false" />
+</trans-unit>
+<trans-unit id="34" mq:minorversionend="1" mq:minorversionstart="0" mq:status="NotStarted" mq:segmentguid="26bdc659-2ecc-4c7e-96e7-6bdcc8b1b98c" mq:lastchangedtimestamp="2007-12-17T12:28:29Z" mq:maxlengthchars="-1" mq:nosplitjoin="false" mq:firstlabel="4" mq:lastlabel="4" mq:autosplitjoinstate="0" mq:lastmodifrole="0" mq:multipleexactmatch="false">
+<source xml:space="preserve" mq:segpart="4">In another week they even notified their master whenever they wanted food or drink.</source>
+<target xml:space="preserve"></target>
+<context-group>
+<context context-type="x-mmq-structural-context">trans-units / trans-unit#3 / struct-rpr#1</context>
+</context-group>
+<mq:minorversions>
+</mq:minorversions>
+<mq:startingws xml:space="preserve" />
+<mq:endingws xml:space="preserve" />
+<mq:commitinfos xmlns="MQXliff" /><mq:nosplitjoins />
+<mq:originalsource edited="false" />
+</trans-unit>
+<trans-unit id="35" mq:minorversionend="1" mq:minorversionstart="0" mq:status="NotStarted" mq:segmentguid="a3ffa166-b4c3-4261-bdd1-903c58f2a204" mq:lastchangedtimestamp="2007-12-17T12:28:29Z" mq:maxlengthchars="-1" mq:nosplitjoin="false" mq:firstlabel="5" mq:lastlabel="5" mq:autosplitjoinstate="0" mq:lastmodifrole="0" mq:multipleexactmatch="false">
+<source xml:space="preserve" mq:segpart="5">Jack and Jill, the hunter named the cubs.</source>
+<target xml:space="preserve"></target>
+<context-group>
+<context context-type="x-mmq-structural-context">trans-units / trans-unit#4 / struct-rpr#1</context>
+</context-group>
+<mq:minorversions>
+</mq:minorversions>
+<mq:startingws xml:space="preserve" />
+<mq:endingws xml:space="preserve"> </mq:endingws>
+<mq:commitinfos xmlns="MQXliff" /><mq:nosplitjoins />
+<mq:originalsource edited="false" />
+</trans-unit>
+<trans-unit id="36" mq:minorversionend="1" mq:minorversionstart="0" mq:status="NotStarted" mq:segmentguid="76d01935-3def-40c8-ad74-319c6b879c53" mq:lastchangedtimestamp="2007-12-17T12:28:29Z" mq:maxlengthchars="-1" mq:nosplitjoin="false" mq:firstlabel="5" mq:lastlabel="5" mq:autosplitjoinstate="0" mq:lastmodifrole="0" mq:multipleexactmatch="false">
+<source xml:space="preserve" mq:segpart="5">Jill had a bad temper.</source>
+<target xml:space="preserve"></target>
+<context-group>
+<context context-type="x-mmq-structural-context">trans-units / trans-unit#4 / struct-rpr#1</context>
+</context-group>
+<mq:minorversions>
+</mq:minorversions>
+<mq:startingws xml:space="preserve" />
+<mq:endingws xml:space="preserve"> </mq:endingws>
+<mq:commitinfos xmlns="MQXliff" /><mq:nosplitjoins />
+<mq:originalsource edited="false" />
+</trans-unit>
+<trans-unit id="37" mq:minorversionend="1" mq:minorversionstart="0" mq:status="NotStarted" mq:segmentguid="7f2c5bb5-e93d-4fe4-83e5-6dfb42d82ead" mq:lastchangedtimestamp="2007-12-17T12:28:29Z" mq:maxlengthchars="-1" mq:nosplitjoin="false" mq:firstlabel="5" mq:lastlabel="5" mq:autosplitjoinstate="0" mq:lastmodifrole="0" mq:multipleexactmatch="false">
+<source xml:space="preserve" mq:segpart="5">When Lan came to give her food, she climbed up the post and growled and ate the food only after he went away.</source>
+<target xml:space="preserve"></target>
+<context-group>
+<context context-type="x-mmq-structural-context">trans-units / trans-unit#4 / struct-rpr#1</context>
+</context-group>
+<mq:minorversions>
+</mq:minorversions>
+<mq:startingws xml:space="preserve" />
+<mq:endingws xml:space="preserve"> </mq:endingws>
+<mq:commitinfos xmlns="MQXliff" /><mq:nosplitjoins />
+<mq:originalsource edited="false" />
+</trans-unit>
+<trans-unit id="38" mq:minorversionend="1" mq:minorversionstart="0" mq:status="NotStarted" mq:segmentguid="5353c1c0-bc7a-4949-97de-44eecbb83e87" mq:lastchangedtimestamp="2007-12-17T12:28:29Z" mq:maxlengthchars="-1" mq:nosplitjoin="false" mq:firstlabel="5" mq:lastlabel="5" mq:autosplitjoinstate="0" mq:lastmodifrole="0" mq:multipleexactmatch="false">
+<source xml:space="preserve" mq:segpart="5">Jack, however, ran down his post to meet his master, and ate his food at once.</source>
+<target xml:space="preserve"></target>
+<context-group>
+<context context-type="x-mmq-structural-context">trans-units / trans-unit#4 / struct-rpr#1</context>
+</context-group>
+<mq:minorversions>
+</mq:minorversions>
+<mq:startingws xml:space="preserve" />
+<mq:endingws xml:space="preserve"> </mq:endingws>
+<mq:commitinfos xmlns="MQXliff" /><mq:nosplitjoins />
+<mq:originalsource edited="false" />
+</trans-unit>
+<trans-unit id="39" mq:minorversionend="1" mq:minorversionstart="0" mq:status="NotStarted" mq:segmentguid="1a44e6fa-dfd5-4a76-a460-3f70b6344f94" mq:lastchangedtimestamp="2007-12-17T12:28:29Z" mq:maxlengthchars="-1" mq:nosplitjoin="false" mq:firstlabel="5" mq:lastlabel="5" mq:autosplitjoinstate="0" mq:lastmodifrole="0" mq:multipleexactmatch="false">
+<source xml:space="preserve" mq:segpart="5">In a month Jacky grew so tame that Lan allowed him to run free.</source>
+<target xml:space="preserve"></target>
+<context-group>
+<context context-type="x-mmq-structural-context">trans-units / trans-unit#4 / struct-rpr#1</context>
+</context-group>
+<mq:minorversions>
+</mq:minorversions>
+<mq:startingws xml:space="preserve" />
+<mq:endingws xml:space="preserve"> </mq:endingws>
+<mq:commitinfos xmlns="MQXliff" /><mq:nosplitjoins />
+<mq:originalsource edited="false" />
+</trans-unit>
+<trans-unit id="40" mq:minorversionend="1" mq:minorversionstart="0" mq:status="NotStarted" mq:segmentguid="9233fc07-40f9-46f9-b6b0-421ba96b50f2" mq:lastchangedtimestamp="2007-12-17T12:28:29Z" mq:maxlengthchars="-1" mq:nosplitjoin="false" mq:firstlabel="5" mq:lastlabel="5" mq:autosplitjoinstate="0" mq:lastmodifrole="0" mq:multipleexactmatch="false">
+<source xml:space="preserve" mq:segpart="5">He followed his master like a dog, and his funny tricks always amused Lan and the few friends he had in the mountains.<ph id="120">&lt;rpr id=&quot;2&quot;&gt;</ph></source>
+<target xml:space="preserve"></target>
+<context-group>
+<context context-type="x-mmq-structural-context">trans-units / trans-unit#4 / struct-rpr#1</context>
+</context-group>
+<mq:minorversions>
+</mq:minorversions>
+<mq:startingws xml:space="preserve" />
+<mq:endingws xml:space="preserve" />
+<mq:commitinfos xmlns="MQXliff" /><mq:nosplitjoins />
+<mq:originalsource edited="false" />
+</trans-unit>
+<trans-unit id="41" mq:minorversionend="1" mq:minorversionstart="0" mq:status="NotStarted" mq:segmentguid="022affe7-5a9f-4ce5-ae3e-ce4347af5c59" mq:lastchangedtimestamp="2007-12-17T12:28:29Z" mq:maxlengthchars="-1" mq:nosplitjoin="false" mq:firstlabel="6" mq:lastlabel="6" mq:autosplitjoinstate="0" mq:lastmodifrole="0" mq:multipleexactmatch="false">
+<source xml:space="preserve" mq:segpart="6"><ph id="114">&lt;/rpr id=&quot;2&quot; transform=&quot;close&quot;&gt;</ph>Near the shanty where Lan lived was a meadow, where Lan cut enough hay to feed his two horses during the winter.</source>
+<target xml:space="preserve"></target>
+<context-group>
+<context context-type="x-mmq-structural-context">trans-units / trans-unit#4 / struct-rpr#1</context>
+</context-group>
+<mq:minorversions>
+</mq:minorversions>
+<mq:startingws xml:space="preserve" />
+<mq:endingws xml:space="preserve"> </mq:endingws>
+<mq:commitinfos xmlns="MQXliff" /><mq:nosplitjoins />
+<mq:originalsource edited="false" />
+</trans-unit>
+<trans-unit id="42" mq:minorversionend="1" mq:minorversionstart="0" mq:status="NotStarted" mq:segmentguid="d3eb20f4-3dfa-48de-9e9c-ba03dce88429" mq:lastchangedtimestamp="2007-12-17T12:28:29Z" mq:maxlengthchars="-1" mq:nosplitjoin="false" mq:firstlabel="6" mq:lastlabel="6" mq:autosplitjoinstate="0" mq:lastmodifrole="0" mq:multipleexactmatch="false">
+<source xml:space="preserve" mq:segpart="6">When the time came to cut the hay, Jack was his daily companion, following close at his heels, or lying on Lan's coat and guarding it from such terrible monsters as squirrels and others.</source>
+<target xml:space="preserve"></target>
+<context-group>
+<context context-type="x-mmq-structural-context">trans-units / trans-unit#4 / struct-rpr#1</context>
+</context-group>
+<mq:minorversions>
+</mq:minorversions>
+<mq:startingws xml:space="preserve" />
+<mq:endingws xml:space="preserve"> </mq:endingws>
+<mq:commitinfos xmlns="MQXliff" /><mq:nosplitjoins />
+<mq:originalsource edited="false" />
+</trans-unit>
+<trans-unit id="43" mq:minorversionend="1" mq:minorversionstart="0" mq:status="NotStarted" mq:segmentguid="dd1e8cd9-c720-40a5-b13e-a86deb05671e" mq:lastchangedtimestamp="2007-12-17T12:28:29Z" mq:maxlengthchars="-1" mq:nosplitjoin="false" mq:firstlabel="6" mq:lastlabel="6" mq:autosplitjoinstate="0" mq:lastmodifrole="0" mq:multipleexactmatch="false">
+<source xml:space="preserve" mq:segpart="6">One day Lan found a bee's nest.</source>
+<target xml:space="preserve"></target>
+<context-group>
+<context context-type="x-mmq-structural-context">trans-units / trans-unit#4 / struct-rpr#1</context>
+</context-group>
+<mq:minorversions>
+</mq:minorversions>
+<mq:startingws xml:space="preserve" />
+<mq:endingws xml:space="preserve"> </mq:endingws>
+<mq:commitinfos xmlns="MQXliff" /><mq:nosplitjoins />
+<mq:originalsource edited="false" />
+</trans-unit>
+<trans-unit id="44" mq:minorversionend="1" mq:minorversionstart="0" mq:status="NotStarted" mq:segmentguid="f53b5439-f513-4d0a-af34-cb1615769c3d" mq:lastchangedtimestamp="2007-12-17T12:28:29Z" mq:maxlengthchars="-1" mq:nosplitjoin="false" mq:firstlabel="6" mq:lastlabel="6" mq:autosplitjoinstate="0" mq:lastmodifrole="0" mq:multipleexactmatch="false">
+<source xml:space="preserve" mq:segpart="6">Jack loved honey, and knew what a bee's nest was; so when Lan said, "Honey — Jacky — honey!" the little bear always ran to the spot quickly.</source>
+<target xml:space="preserve"></target>
+<context-group>
+<context context-type="x-mmq-structural-context">trans-units / trans-unit#4 / struct-rpr#1</context>
+</context-group>
+<mq:minorversions>
+</mq:minorversions>
+<mq:startingws xml:space="preserve" />
+<mq:endingws xml:space="preserve"> </mq:endingws>
+<mq:commitinfos xmlns="MQXliff" /><mq:nosplitjoins />
+<mq:originalsource edited="false" />
+</trans-unit>
+<trans-unit id="45" mq:minorversionend="1" mq:minorversionstart="0" mq:status="NotStarted" mq:segmentguid="89562be7-c3fb-47de-88ec-d6f337e03513" mq:lastchangedtimestamp="2007-12-17T12:28:29Z" mq:maxlengthchars="-1" mq:nosplitjoin="false" mq:firstlabel="6" mq:lastlabel="6" mq:autosplitjoinstate="0" mq:lastmodifrole="0" mq:multipleexactmatch="false">
+<source xml:space="preserve" mq:segpart="6">Jacky knew that bees have stings; he therefore approached the nest carefully.</source>
+<target xml:space="preserve"></target>
+<context-group>
+<context context-type="x-mmq-structural-context">trans-units / trans-unit#4 / struct-rpr#1</context>
+</context-group>
+<mq:minorversions>
+</mq:minorversions>
+<mq:startingws xml:space="preserve" />
+<mq:endingws xml:space="preserve"> </mq:endingws>
+<mq:commitinfos xmlns="MQXliff" /><mq:nosplitjoins />
+<mq:originalsource edited="false" />
+</trans-unit>
+<trans-unit id="46" mq:minorversionend="1" mq:minorversionstart="0" mq:status="NotStarted" mq:segmentguid="959359e1-9e2a-4ca4-958a-6c68472a674b" mq:lastchangedtimestamp="2007-12-17T12:28:29Z" mq:maxlengthchars="-1" mq:nosplitjoin="false" mq:firstlabel="6" mq:lastlabel="6" mq:autosplitjoinstate="0" mq:lastmodifrole="0" mq:multipleexactmatch="false">
+<source xml:space="preserve" mq:segpart="6">Then, when some bees began to come out of the nest, he slapped at them till, one by one, he knocked them down and crushed them.<ph id="129">&lt;rpr id=&quot;2&quot;&gt;</ph></source>
+<target xml:space="preserve"></target>
+<context-group>
+<context context-type="x-mmq-structural-context">trans-units / trans-unit#4 / struct-rpr#1</context>
+</context-group>
+<mq:minorversions>
+</mq:minorversions>
+<mq:startingws xml:space="preserve" />
+<mq:endingws xml:space="preserve" />
+<mq:commitinfos xmlns="MQXliff" /><mq:nosplitjoins />
+<mq:originalsource edited="false" />
+</trans-unit>
+<trans-unit id="47" mq:minorversionend="1" mq:minorversionstart="0" mq:status="NotStarted" mq:segmentguid="9d0507fb-78dd-40fc-9cfb-aec972da61b7" mq:lastchangedtimestamp="2007-12-17T12:28:29Z" mq:maxlengthchars="-1" mq:nosplitjoin="false" mq:firstlabel="7" mq:lastlabel="7" mq:autosplitjoinstate="0" mq:lastmodifrole="0" mq:multipleexactmatch="false">
+<source xml:space="preserve" mq:segpart="7"><ph id="150">&lt;/rpr id=&quot;2&quot; transform=&quot;close&quot;&gt;</ph>When he got rid of the last bee in the nest, he ate first the honey, then the grubs and wax, and last of all the bees It was a great feast for him.<ph id="151">&lt;rpr id=&quot;2&quot;&gt;</ph></source>
+<target xml:space="preserve"></target>
+<context-group>
+<context context-type="x-mmq-structural-context">trans-units / trans-unit#4 / struct-rpr#1</context>
+</context-group>
+<mq:minorversions>
+</mq:minorversions>
+<mq:startingws xml:space="preserve" />
+<mq:endingws xml:space="preserve" />
+<mq:commitinfos xmlns="MQXliff" /><mq:nosplitjoins />
+<mq:originalsource edited="false" />
+</trans-unit>
+<trans-unit id="48" mq:minorversionend="1" mq:minorversionstart="0" mq:status="NotStarted" mq:segmentguid="31ddf826-e13e-40d8-93eb-cf78c678beaf" mq:lastchangedtimestamp="2007-12-17T12:28:29Z" mq:maxlengthchars="-1" mq:nosplitjoin="false" mq:firstlabel="8" mq:lastlabel="8" mq:autosplitjoinstate="0" mq:lastmodifrole="0" mq:multipleexactmatch="false">
+<source xml:space="preserve" mq:segpart="8"><ph id="51">&lt;/rpr id=&quot;2&quot; transform=&quot;close&quot;&gt;</ph>Lan's nearest neighbour was Lou Bonamay, a miner.</source>
+<target xml:space="preserve"></target>
+<context-group>
+<context context-type="x-mmq-structural-context">trans-units / trans-unit#4 / struct-rpr#1</context>
+</context-group>
+<mq:minorversions>
+</mq:minorversions>
+<mq:startingws xml:space="preserve" />
+<mq:endingws xml:space="preserve"> </mq:endingws>
+<mq:commitinfos xmlns="MQXliff" /><mq:nosplitjoins />
+<mq:originalsource edited="false" />
+</trans-unit>
+<trans-unit id="49" mq:minorversionend="1" mq:minorversionstart="0" mq:status="NotStarted" mq:segmentguid="5ee25d7b-8958-4016-85e8-bcbbc6622286" mq:lastchangedtimestamp="2007-12-17T12:28:29Z" mq:maxlengthchars="-1" mq:nosplitjoin="false" mq:firstlabel="8" mq:lastlabel="8" mq:autosplitjoinstate="0" mq:lastmodifrole="0" mq:multipleexactmatch="false">
+<source xml:space="preserve" mq:segpart="8">He lived, with his dog, in a shanty about a mile from Lan's shanty.</source>
+<target xml:space="preserve"></target>
+<context-group>
+<context context-type="x-mmq-structural-context">trans-units / trans-unit#4 / struct-rpr#1</context>
+</context-group>
+<mq:minorversions>
+</mq:minorversions>
+<mq:startingws xml:space="preserve" />
+<mq:endingws xml:space="preserve"> </mq:endingws>
+<mq:commitinfos xmlns="MQXliff" /><mq:nosplitjoins />
+<mq:originalsource edited="false" />
+</trans-unit>
+<trans-unit id="50" mq:minorversionend="1" mq:minorversionstart="0" mq:status="NotStarted" mq:segmentguid="59f846b2-8a4f-423f-bf2d-221220e0c0fe" mq:lastchangedtimestamp="2007-12-17T12:28:29Z" mq:maxlengthchars="-1" mq:nosplitjoin="false" mq:firstlabel="8" mq:lastlabel="8" mq:autosplitjoinstate="0" mq:lastmodifrole="0" mq:multipleexactmatch="false">
+<source xml:space="preserve" mq:segpart="8">One day, when he came to see Lan, he said, "Lan, bring Jacky and we'll have some fun."</source>
+<target xml:space="preserve"></target>
+<context-group>
+<context context-type="x-mmq-structural-context">trans-units / trans-unit#4 / struct-rpr#1</context>
+</context-group>
+<mq:minorversions>
+</mq:minorversions>
+<mq:startingws xml:space="preserve" />
+<mq:endingws xml:space="preserve"> </mq:endingws>
+<mq:commitinfos xmlns="MQXliff" /><mq:nosplitjoins />
+<mq:originalsource edited="false" />
+</trans-unit>
+<trans-unit id="51" mq:minorversionend="1" mq:minorversionstart="0" mq:status="NotStarted" mq:segmentguid="a88a9bc7-0719-40e5-a1b6-df604a25a4df" mq:lastchangedtimestamp="2007-12-17T12:28:29Z" mq:maxlengthchars="-1" mq:nosplitjoin="false" mq:firstlabel="8" mq:lastlabel="8" mq:autosplitjoinstate="0" mq:lastmodifrole="0" mq:multipleexactmatch="false">
+<source xml:space="preserve" mq:segpart="8">He went into the woods and Lan followed him with Jack at his heels.<ph id="69">&lt;rpr id=&quot;2&quot;&gt;</ph></source>
+<target xml:space="preserve"></target>
+<context-group>
+<context context-type="x-mmq-structural-context">trans-units / trans-unit#4 / struct-rpr#1</context>
+</context-group>
+<mq:minorversions>
+</mq:minorversions>
+<mq:startingws xml:space="preserve" />
+<mq:endingws xml:space="preserve" />
+<mq:commitinfos xmlns="MQXliff" /><mq:nosplitjoins />
+<mq:originalsource edited="false" />
+</trans-unit>
+<trans-unit id="52" mq:minorversionend="1" mq:minorversionstart="0" mq:status="NotStarted" mq:segmentguid="7336339c-e157-4dde-a965-441230b870ab" mq:lastchangedtimestamp="2007-12-17T12:28:29Z" mq:maxlengthchars="-1" mq:nosplitjoin="false" mq:firstlabel="9" mq:lastlabel="9" mq:autosplitjoinstate="0" mq:lastmodifrole="0" mq:multipleexactmatch="false">
+<source xml:space="preserve" mq:segpart="9"><ph id="85">&lt;/rpr id=&quot;2&quot; transform=&quot;close&quot;&gt;</ph>"There, Jacky, honey — honey!" and Bonamy pointed up a tree to a large wasp's nest.</source>
+<target xml:space="preserve"></target>
+<context-group>
+<context context-type="x-mmq-structural-context">trans-units / trans-unit#4 / struct-rpr#1</context>
+</context-group>
+<mq:minorversions>
+</mq:minorversions>
+<mq:startingws xml:space="preserve" />
+<mq:endingws xml:space="preserve"> </mq:endingws>
+<mq:commitinfos xmlns="MQXliff" /><mq:nosplitjoins />
+<mq:originalsource edited="false" />
+</trans-unit>
+<trans-unit id="53" mq:minorversionend="1" mq:minorversionstart="0" mq:status="NotStarted" mq:segmentguid="d0d52b38-d2cb-4f53-bc53-f9699a901a4d" mq:lastchangedtimestamp="2007-12-17T12:28:29Z" mq:maxlengthchars="-1" mq:nosplitjoin="false" mq:firstlabel="9" mq:lastlabel="9" mq:autosplitjoinstate="0" mq:lastmodifrole="0" mq:multipleexactmatch="false">
+<source xml:space="preserve" mq:segpart="9">Jacky looked.</source>
+<target xml:space="preserve"></target>
+<context-group>
+<context context-type="x-mmq-structural-context">trans-units / trans-unit#4 / struct-rpr#1</context>
+</context-group>
+<mq:minorversions>
+</mq:minorversions>
+<mq:startingws xml:space="preserve" />
+<mq:endingws xml:space="preserve"> </mq:endingws>
+<mq:commitinfos xmlns="MQXliff" /><mq:nosplitjoins />
+<mq:originalsource edited="false" />
+</trans-unit>
+<trans-unit id="54" mq:minorversionend="1" mq:minorversionstart="0" mq:status="NotStarted" mq:segmentguid="30cbd5a3-51ba-45d8-8bcf-2bc8fb25d55a" mq:lastchangedtimestamp="2007-12-17T12:28:29Z" mq:maxlengthchars="-1" mq:nosplitjoin="false" mq:firstlabel="9" mq:lastlabel="9" mq:autosplitjoinstate="0" mq:lastmodifrole="0" mq:multipleexactmatch="false">
+<source xml:space="preserve" mq:segpart="9">Certainly those things buzzing up there looked like bees, though he could not understand why the bee's nest had such a strange shape and was in such a place.</source>
+<target xml:space="preserve"></target>
+<context-group>
+<context context-type="x-mmq-structural-context">trans-units / trans-unit#4 / struct-rpr#1</context>
+</context-group>
+<mq:minorversions>
+</mq:minorversions>
+<mq:startingws xml:space="preserve" />
+<mq:endingws xml:space="preserve"> </mq:endingws>
+<mq:commitinfos xmlns="MQXliff" /><mq:nosplitjoins />
+<mq:originalsource edited="false" />
+</trans-unit>
+<trans-unit id="55" mq:minorversionend="1" mq:minorversionstart="0" mq:status="NotStarted" mq:segmentguid="642e4858-b176-4b5a-bd8d-9dcf264691f7" mq:lastchangedtimestamp="2007-12-17T12:28:29Z" mq:maxlengthchars="-1" mq:nosplitjoin="false" mq:firstlabel="9" mq:lastlabel="9" mq:autosplitjoinstate="0" mq:lastmodifrole="0" mq:multipleexactmatch="false">
+<source xml:space="preserve" mq:segpart="9">However, he climbed up the tree.</source>
+<target xml:space="preserve"></target>
+<context-group>
+<context context-type="x-mmq-structural-context">trans-units / trans-unit#4 / struct-rpr#1</context>
+</context-group>
+<mq:minorversions>
+</mq:minorversions>
+<mq:startingws xml:space="preserve" />
+<mq:endingws xml:space="preserve"> </mq:endingws>
+<mq:commitinfos xmlns="MQXliff" /><mq:nosplitjoins />
+<mq:originalsource edited="false" />
+</trans-unit>
+<trans-unit id="56" mq:minorversionend="1" mq:minorversionstart="0" mq:status="NotStarted" mq:segmentguid="d9040b99-6754-4dfb-8b7d-cb8409dc2fd0" mq:lastchangedtimestamp="2007-12-17T12:28:29Z" mq:maxlengthchars="-1" mq:nosplitjoin="false" mq:firstlabel="9" mq:lastlabel="9" mq:autosplitjoinstate="0" mq:lastmodifrole="0" mq:multipleexactmatch="false">
+<source xml:space="preserve" mq:segpart="9">The men waited.</source>
+<target xml:space="preserve"></target>
+<context-group>
+<context context-type="x-mmq-structural-context">trans-units / trans-unit#4 / struct-rpr#1</context>
+</context-group>
+<mq:minorversions>
+</mq:minorversions>
+<mq:startingws xml:space="preserve" />
+<mq:endingws xml:space="preserve"> </mq:endingws>
+<mq:commitinfos xmlns="MQXliff" /><mq:nosplitjoins />
+<mq:originalsource edited="false" />
+</trans-unit>
+<trans-unit id="57" mq:minorversionend="1" mq:minorversionstart="0" mq:status="NotStarted" mq:segmentguid="9e648a14-6998-48c5-93e2-d83adab94caa" mq:lastchangedtimestamp="2007-12-17T12:28:29Z" mq:maxlengthchars="-1" mq:nosplitjoin="false" mq:firstlabel="9" mq:lastlabel="9" mq:autosplitjoinstate="0" mq:lastmodifrole="0" mq:multipleexactmatch="false">
+<source xml:space="preserve" mq:segpart="9">Jack reached the branch where the big nest was high over the deep water.</source>
+<target xml:space="preserve"></target>
+<context-group>
+<context context-type="x-mmq-structural-context">trans-units / trans-unit#4 / struct-rpr#1</context>
+</context-group>
+<mq:minorversions>
+</mq:minorversions>
+<mq:startingws xml:space="preserve" />
+<mq:endingws xml:space="preserve"> </mq:endingws>
+<mq:commitinfos xmlns="MQXliff" /><mq:nosplitjoins />
+<mq:originalsource edited="false" />
+</trans-unit>
+<trans-unit id="58" mq:minorversionend="1" mq:minorversionstart="0" mq:status="NotStarted" mq:segmentguid="7f7072e1-37ca-4d69-93a6-3e7505df88ef" mq:lastchangedtimestamp="2007-12-17T12:28:29Z" mq:maxlengthchars="-1" mq:nosplitjoin="false" mq:firstlabel="9" mq:lastlabel="9" mq:autosplitjoinstate="0" mq:lastmodifrole="0" mq:multipleexactmatch="false">
+<source xml:space="preserve" mq:segpart="9">He walked along the branch, but very carefully.</source>
+<target xml:space="preserve"></target>
+<context-group>
+<context context-type="x-mmq-structural-context">trans-units / trans-unit#4 / struct-rpr#1</context>
+</context-group>
+<mq:minorversions>
+</mq:minorversions>
+<mq:startingws xml:space="preserve" />
+<mq:endingws xml:space="preserve"> </mq:endingws>
+<mq:commitinfos xmlns="MQXliff" /><mq:nosplitjoins />
+<mq:originalsource edited="false" />
+</trans-unit>
+<trans-unit id="59" mq:minorversionend="1" mq:minorversionstart="0" mq:status="NotStarted" mq:segmentguid="0ee39f2b-5548-4510-90d8-fcec200bd3f2" mq:lastchangedtimestamp="2007-12-17T12:28:29Z" mq:maxlengthchars="-1" mq:nosplitjoin="false" mq:firstlabel="9" mq:lastlabel="9" mq:autosplitjoinstate="0" mq:lastmodifrole="0" mq:multipleexactmatch="false">
+<source xml:space="preserve" mq:segpart="9">He took another step forward.</source>
+<target xml:space="preserve"></target>
+<context-group>
+<context context-type="x-mmq-structural-context">trans-units / trans-unit#4 / struct-rpr#1</context>
+</context-group>
+<mq:minorversions>
+</mq:minorversions>
+<mq:startingws xml:space="preserve" />
+<mq:endingws xml:space="preserve"> </mq:endingws>
+<mq:commitinfos xmlns="MQXliff" /><mq:nosplitjoins />
+<mq:originalsource edited="false" />
+</trans-unit>
+<trans-unit id="60" mq:minorversionend="1" mq:minorversionstart="0" mq:status="NotStarted" mq:segmentguid="1a8be96b-e371-403f-9ad9-877c986a442f" mq:lastchangedtimestamp="2007-12-17T12:28:29Z" mq:maxlengthchars="-1" mq:nosplitjoin="false" mq:firstlabel="9" mq:lastlabel="9" mq:autosplitjoinstate="0" mq:lastmodifrole="0" mq:multipleexactmatch="false">
+<source xml:space="preserve" mq:segpart="9">What an awful lot of bees!</source>
+<target xml:space="preserve"></target>
+<context-group>
+<context context-type="x-mmq-structural-context">trans-units / trans-unit#4 / struct-rpr#1</context>
+</context-group>
+<mq:minorversions>
+</mq:minorversions>
+<mq:startingws xml:space="preserve" />
+<mq:endingws xml:space="preserve"> </mq:endingws>
+<mq:commitinfos xmlns="MQXliff" /><mq:nosplitjoins />
+<mq:originalsource edited="false" />
+</trans-unit>
+<trans-unit id="61" mq:minorversionend="1" mq:minorversionstart="0" mq:status="NotStarted" mq:segmentguid="3db092c8-bc95-48f0-b2b3-55f1832e20aa" mq:lastchangedtimestamp="2007-12-17T12:28:29Z" mq:maxlengthchars="-1" mq:nosplitjoin="false" mq:firstlabel="9" mq:lastlabel="9" mq:autosplitjoinstate="0" mq:lastmodifrole="0" mq:multipleexactmatch="false">
+<source xml:space="preserve" mq:segpart="9">But bees mean honey!</source>
+<target xml:space="preserve"></target>
+<context-group>
+<context context-type="x-mmq-structural-context">trans-units / trans-unit#4 / struct-rpr#1</context>
+</context-group>
+<mq:minorversions>
+</mq:minorversions>
+<mq:startingws xml:space="preserve" />
+<mq:endingws xml:space="preserve"> </mq:endingws>
+<mq:commitinfos xmlns="MQXliff" /><mq:nosplitjoins />
+<mq:originalsource edited="false" />
+</trans-unit>
+<trans-unit id="62" mq:minorversionend="1" mq:minorversionstart="0" mq:status="NotStarted" mq:segmentguid="56f25045-90c4-4a59-a7bd-c60ce608dc99" mq:lastchangedtimestamp="2007-12-17T12:28:29Z" mq:maxlengthchars="-1" mq:nosplitjoin="false" mq:firstlabel="9" mq:lastlabel="9" mq:autosplitjoinstate="0" mq:lastmodifrole="0" mq:multipleexactmatch="false">
+<source xml:space="preserve" mq:segpart="9">So he stepped forward again.</source>
+<target xml:space="preserve"></target>
+<context-group>
+<context context-type="x-mmq-structural-context">trans-units / trans-unit#4 / struct-rpr#1</context>
+</context-group>
+<mq:minorversions>
+</mq:minorversions>
+<mq:startingws xml:space="preserve" />
+<mq:endingws xml:space="preserve"> </mq:endingws>
+<mq:commitinfos xmlns="MQXliff" /><mq:nosplitjoins />
+<mq:originalsource edited="false" />
+</trans-unit>
+<trans-unit id="63" mq:minorversionend="1" mq:minorversionstart="0" mq:status="NotStarted" mq:segmentguid="ee35c238-d703-4a7e-9330-741341dbf500" mq:lastchangedtimestamp="2007-12-17T12:28:29Z" mq:maxlengthchars="-1" mq:nosplitjoin="false" mq:firstlabel="9" mq:lastlabel="9" mq:autosplitjoinstate="0" mq:lastmodifrole="0" mq:multipleexactmatch="false">
+<source xml:space="preserve" mq:segpart="9">The wasps buzzed angrily, and he stepped back.</source>
+<target xml:space="preserve"></target>
+<context-group>
+<context context-type="x-mmq-structural-context">trans-units / trans-unit#4 / struct-rpr#1</context>
+</context-group>
+<mq:minorversions>
+</mq:minorversions>
+<mq:startingws xml:space="preserve" />
+<mq:endingws xml:space="preserve"> </mq:endingws>
+<mq:commitinfos xmlns="MQXliff" /><mq:nosplitjoins />
+<mq:originalsource edited="false" />
+</trans-unit>
+<trans-unit id="64" mq:minorversionend="1" mq:minorversionstart="0" mq:status="NotStarted" mq:segmentguid="44ee45cc-20f4-495a-bdd9-89bc07e1c035" mq:lastchangedtimestamp="2007-12-17T12:28:29Z" mq:maxlengthchars="-1" mq:nosplitjoin="false" mq:firstlabel="9" mq:lastlabel="9" mq:autosplitjoinstate="0" mq:lastmodifrole="0" mq:multipleexactmatch="false">
+<source xml:space="preserve" mq:segpart="9">But Bonamy said softly, "Honey — Jacky — honey!"<ph id="50">&lt;rpr id=&quot;2&quot;&gt;</ph></source>
+<target xml:space="preserve"></target>
+<context-group>
+<context context-type="x-mmq-structural-context">trans-units / trans-unit#4 / struct-rpr#1</context>
+</context-group>
+<mq:minorversions>
+</mq:minorversions>
+<mq:startingws xml:space="preserve" />
+<mq:endingws xml:space="preserve" />
+<mq:commitinfos xmlns="MQXliff" /><mq:nosplitjoins />
+<mq:originalsource edited="false" />
+</trans-unit>
+<trans-unit id="65" mq:minorversionend="1" mq:minorversionstart="0" mq:status="NotStarted" mq:segmentguid="47aa8817-5bbf-4108-aea7-3a1c96a5174c" mq:lastchangedtimestamp="2007-12-17T12:28:29Z" mq:maxlengthchars="-1" mq:nosplitjoin="false" mq:firstlabel="10" mq:lastlabel="10" mq:autosplitjoinstate="0" mq:lastmodifrole="0" mq:multipleexactmatch="false">
+<source xml:space="preserve" mq:segpart="10"><ph id="92">&lt;/rpr id=&quot;2&quot; transform=&quot;close&quot;&gt;</ph>Jack went slowly, and then waited for a long time till all the bees were back in the nest.</source>
+<target xml:space="preserve"></target>
+<context-group>
+<context context-type="x-mmq-structural-context">trans-units / trans-unit#4 / struct-rpr#1</context>
+</context-group>
+<mq:minorversions>
+</mq:minorversions>
+<mq:startingws xml:space="preserve" />
+<mq:endingws xml:space="preserve"> </mq:endingws>
+<mq:commitinfos xmlns="MQXliff" /><mq:nosplitjoins />
+<mq:originalsource edited="false" />
+</trans-unit>
+<trans-unit id="66" mq:minorversionend="1" mq:minorversionstart="0" mq:status="NotStarted" mq:segmentguid="6ffcb814-9268-411d-ad31-e7a5060a9ef4" mq:lastchangedtimestamp="2007-12-17T12:28:29Z" mq:maxlengthchars="-1" mq:nosplitjoin="false" mq:firstlabel="10" mq:lastlabel="10" mq:autosplitjoinstate="0" mq:lastmodifrole="0" mq:multipleexactmatch="false">
+<source xml:space="preserve" mq:segpart="10">Then he moved silently along the branch.</source>
+<target xml:space="preserve"></target>
+<context-group>
+<context context-type="x-mmq-structural-context">trans-units / trans-unit#4 / struct-rpr#1</context>
+</context-group>
+<mq:minorversions>
+</mq:minorversions>
+<mq:startingws xml:space="preserve" />
+<mq:endingws xml:space="preserve"> </mq:endingws>
+<mq:commitinfos xmlns="MQXliff" /><mq:nosplitjoins />
+<mq:originalsource edited="false" />
+</trans-unit>
+<trans-unit id="67" mq:minorversionend="1" mq:minorversionstart="0" mq:status="NotStarted" mq:segmentguid="9808354e-82ee-4596-8dd5-7264673ed2e5" mq:lastchangedtimestamp="2007-12-17T12:28:29Z" mq:maxlengthchars="-1" mq:nosplitjoin="false" mq:firstlabel="10" mq:lastlabel="10" mq:autosplitjoinstate="0" mq:lastmodifrole="0" mq:multipleexactmatch="false">
+<source xml:space="preserve" mq:segpart="10">When he was just over the nest, he put one little paw over the hole of the nest, and with his other arm seized the nest.</source>
+<target xml:space="preserve"></target>
+<context-group>
+<context context-type="x-mmq-structural-context">trans-units / trans-unit#4 / struct-rpr#1</context>
+</context-group>
+<mq:minorversions>
+</mq:minorversions>
+<mq:startingws xml:space="preserve" />
+<mq:endingws xml:space="preserve"> </mq:endingws>
+<mq:commitinfos xmlns="MQXliff" /><mq:nosplitjoins />
+<mq:originalsource edited="false" />
+</trans-unit>
+<trans-unit id="68" mq:minorversionend="1" mq:minorversionstart="0" mq:status="NotStarted" mq:segmentguid="8831a8cd-89c7-49f9-90c4-90f1a8c36cf4" mq:lastchangedtimestamp="2007-12-17T12:28:29Z" mq:maxlengthchars="-1" mq:nosplitjoin="false" mq:firstlabel="10" mq:lastlabel="10" mq:autosplitjoinstate="0" mq:lastmodifrole="0" mq:multipleexactmatch="false">
+<source xml:space="preserve" mq:segpart="10">Then he jumped from the branch into the stream below, taking with him the nest and the wasps in the nest.</source>
+<target xml:space="preserve"></target>
+<context-group>
+<context context-type="x-mmq-structural-context">trans-units / trans-unit#4 / struct-rpr#1</context>
+</context-group>
+<mq:minorversions>
+</mq:minorversions>
+<mq:startingws xml:space="preserve" />
+<mq:endingws xml:space="preserve"> </mq:endingws>
+<mq:commitinfos xmlns="MQXliff" /><mq:nosplitjoins />
+<mq:originalsource edited="false" />
+</trans-unit>
+<trans-unit id="69" mq:minorversionend="1" mq:minorversionstart="0" mq:status="NotStarted" mq:segmentguid="41939f30-61e0-4dcf-8c99-1ff91d5c3575" mq:lastchangedtimestamp="2007-12-17T12:28:29Z" mq:maxlengthchars="-1" mq:nosplitjoin="false" mq:firstlabel="10" mq:lastlabel="10" mq:autosplitjoinstate="0" mq:lastmodifrole="0" mq:multipleexactmatch="false">
+<source xml:space="preserve" mq:segpart="10">As soon as he reached the water, he tore the nest to pieces with his hind feet.</source>
+<target xml:space="preserve"></target>
+<context-group>
+<context context-type="x-mmq-structural-context">trans-units / trans-unit#4 / struct-rpr#1</context>
+</context-group>
+<mq:minorversions>
+</mq:minorversions>
+<mq:startingws xml:space="preserve" />
+<mq:endingws xml:space="preserve"> </mq:endingws>
+<mq:commitinfos xmlns="MQXliff" /><mq:nosplitjoins />
+<mq:originalsource edited="false" />
+</trans-unit>
+<trans-unit id="70" mq:minorversionend="1" mq:minorversionstart="0" mq:status="NotStarted" mq:segmentguid="f9590c97-6cf6-491c-b1a1-415d336d50bc" mq:lastchangedtimestamp="2007-12-17T12:28:29Z" mq:maxlengthchars="-1" mq:nosplitjoin="false" mq:firstlabel="10" mq:lastlabel="10" mq:autosplitjoinstate="0" mq:lastmodifrole="0" mq:multipleexactmatch="false">
+<source xml:space="preserve" mq:segpart="10">The nest floated away down the stream, while the honey-comb lay near the bank of the stream.</source>
+<target xml:space="preserve"></target>
+<context-group>
+<context context-type="x-mmq-structural-context">trans-units / trans-unit#4 / struct-rpr#1</context>
+</context-group>
+<mq:minorversions>
+</mq:minorversions>
+<mq:startingws xml:space="preserve" />
+<mq:endingws xml:space="preserve"> </mq:endingws>
+<mq:commitinfos xmlns="MQXliff" /><mq:nosplitjoins />
+<mq:originalsource edited="false" />
+</trans-unit>
+<trans-unit id="71" mq:minorversionend="1" mq:minorversionstart="0" mq:status="NotStarted" mq:segmentguid="d09a4778-3e5b-4954-9272-bee46884d446" mq:lastchangedtimestamp="2007-12-17T12:28:29Z" mq:maxlengthchars="-1" mq:nosplitjoin="false" mq:firstlabel="10" mq:lastlabel="10" mq:autosplitjoinstate="0" mq:lastmodifrole="0" mq:multipleexactmatch="false">
+<source xml:space="preserve" mq:segpart="10">Jack now swam up to it.</source>
+<target xml:space="preserve"></target>
+<context-group>
+<context context-type="x-mmq-structural-context">trans-units / trans-unit#4 / struct-rpr#1</context>
+</context-group>
+<mq:minorversions>
+</mq:minorversions>
+<mq:startingws xml:space="preserve" />
+<mq:endingws xml:space="preserve"> </mq:endingws>
+<mq:commitinfos xmlns="MQXliff" /><mq:nosplitjoins />
+<mq:originalsource edited="false" />
+</trans-unit>
+<trans-unit id="72" mq:minorversionend="1" mq:minorversionstart="0" mq:status="NotStarted" mq:segmentguid="cd1c79c8-9b23-4bae-a4de-969c6943a777" mq:lastchangedtimestamp="2007-12-17T12:28:29Z" mq:maxlengthchars="-1" mq:nosplitjoin="false" mq:firstlabel="10" mq:lastlabel="10" mq:autosplitjoinstate="0" mq:lastmodifrole="0" mq:multipleexactmatch="false">
+<source xml:space="preserve" mq:segpart="10">Most of the wasps were dead or too wet to be dangerous and Jacky carried the comb to the bank in triumph.</source>
+<target xml:space="preserve"></target>
+<context-group>
+<context context-type="x-mmq-structural-context">trans-units / trans-unit#4 / struct-rpr#1</context>
+</context-group>
+<mq:minorversions>
+</mq:minorversions>
+<mq:startingws xml:space="preserve" />
+<mq:endingws xml:space="preserve"> </mq:endingws>
+<mq:commitinfos xmlns="MQXliff" /><mq:nosplitjoins />
+<mq:originalsource edited="false" />
+</trans-unit>
+<trans-unit id="73" mq:minorversionend="1" mq:minorversionstart="0" mq:status="NotStarted" mq:segmentguid="1e003ea2-9119-4a06-a603-2ddf0dc523db" mq:lastchangedtimestamp="2007-12-17T12:28:29Z" mq:maxlengthchars="-1" mq:nosplitjoin="false" mq:firstlabel="10" mq:lastlabel="10" mq:autosplitjoinstate="0" mq:lastmodifrole="0" mq:multipleexactmatch="false">
+<source xml:space="preserve" mq:segpart="10">There was no honey, of course, but there were lots of fat white grubs which were almost as good.</source>
+<target xml:space="preserve"></target>
+<context-group>
+<context context-type="x-mmq-structural-context">trans-units / trans-unit#4 / struct-rpr#1</context>
+</context-group>
+<mq:minorversions>
+</mq:minorversions>
+<mq:startingws xml:space="preserve" />
+<mq:endingws xml:space="preserve"> </mq:endingws>
+<mq:commitinfos xmlns="MQXliff" /><mq:nosplitjoins />
+<mq:originalsource edited="false" />
+</trans-unit>
+<trans-unit id="74" mq:minorversionend="1" mq:minorversionstart="0" mq:status="NotStarted" mq:segmentguid="fd490530-f3d7-4527-8ad5-369c2cad465d" mq:lastchangedtimestamp="2007-12-17T12:28:29Z" mq:maxlengthchars="-1" mq:nosplitjoin="false" mq:firstlabel="10" mq:lastlabel="10" mq:autosplitjoinstate="0" mq:lastmodifrole="0" mq:multipleexactmatch="false">
+<source xml:space="preserve" mq:segpart="10">He ate till his paunch looked like a little rubber balloon.<ph id="61">&lt;rpr id=&quot;2&quot;&gt;</ph></source>
+<target xml:space="preserve"></target>
+<context-group>
+<context context-type="x-mmq-structural-context">trans-units / trans-unit#4 / struct-rpr#1</context>
+</context-group>
+<mq:minorversions>
+</mq:minorversions>
+<mq:startingws xml:space="preserve" />
+<mq:endingws xml:space="preserve" />
+<mq:commitinfos xmlns="MQXliff" /><mq:nosplitjoins />
+<mq:originalsource edited="false" />
+</trans-unit>
+<trans-unit id="75" mq:minorversionend="1" mq:minorversionstart="0" mq:status="NotStarted" mq:segmentguid="6c9b932b-bf5c-4d7a-9648-34867b5f136a" mq:lastchangedtimestamp="2007-12-17T12:28:29Z" mq:maxlengthchars="-1" mq:nosplitjoin="false" mq:firstlabel="11" mq:lastlabel="11" mq:autosplitjoinstate="0" mq:lastmodifrole="0" mq:multipleexactmatch="false">
+<source xml:space="preserve" mq:segpart="11"><ph id="45">&lt;/rpr id=&quot;2&quot; transform=&quot;close&quot;&gt;</ph>"Now what do you think of that?" said Lan.<ph id="46">&lt;rpr id=&quot;2&quot;&gt;</ph></source>
+<target xml:space="preserve"></target>
+<context-group>
+<context context-type="x-mmq-structural-context">trans-units / trans-unit#4 / struct-rpr#1</context>
+</context-group>
+<mq:minorversions>
+</mq:minorversions>
+<mq:startingws xml:space="preserve" />
+<mq:endingws xml:space="preserve" />
+<mq:commitinfos xmlns="MQXliff" /><mq:nosplitjoins />
+<mq:originalsource edited="false" />
+</trans-unit>
+<trans-unit id="76" mq:minorversionend="1" mq:minorversionstart="0" mq:status="NotStarted" mq:segmentguid="7eaa5718-bc67-48bf-b4e3-b5bf81a8931b" mq:lastchangedtimestamp="2007-12-17T12:28:29Z" mq:maxlengthchars="-1" mq:nosplitjoin="false" mq:firstlabel="12" mq:lastlabel="12" mq:autosplitjoinstate="0" mq:lastmodifrole="0" mq:multipleexactmatch="false">
+<source xml:space="preserve" mq:segpart="12"><ph id="40">&lt;/rpr id=&quot;2&quot; transform=&quot;close&quot;&gt;</ph>"The laugh is on us," answered Bonamy.</source>
+<target xml:space="preserve"></target>
+<context-group>
+<context context-type="x-mmq-structural-context">trans-units / trans-unit#4 / struct-rpr#1</context>
+</context-group>
+<mq:minorversions>
+</mq:minorversions>
+<mq:startingws xml:space="preserve" />
+<mq:endingws xml:space="preserve" />
+<mq:commitinfos xmlns="MQXliff" /><mq:nosplitjoins />
+<mq:originalsource edited="false" />
+</trans-unit>
+</body>
+</file>
+</xliff>

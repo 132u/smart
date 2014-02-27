@@ -9,7 +9,7 @@ using OpenQA.Selenium.Support.UI;
 using System.Windows.Forms;
 using OpenQA.Selenium.Interactions;
 
-namespace AbbyyLs.CAT.Projects.Selenium.Tests
+namespace AbbyyLs.CAT.Function.Selenium.Tests
 {
     public class UserLogTest : BaseTest
     {

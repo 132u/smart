@@ -16,7 +16,7 @@ using System.Drawing;
 
 using OpenQA.Selenium.Interactions;
 
-namespace AbbyyLs.CAT.Projects.Selenium.Tests
+namespace AbbyyLs.CAT.Function.Selenium.Tests
 {
     [TestFixture("DevUrl", "DevWorkspace", "Firefox")]
     [TestFixture("StableUrl2", "StableWorkspace2", "Firefox")]
@@ -176,7 +176,8 @@ namespace AbbyyLs.CAT.Projects.Selenium.Tests
                     _profile.SetPreference("browser.download.useDownloadDir", false);
                     _profile.SetPreference("browser.download.manager.showWhenStarting", false);
                     _profile.SetPreference("browser.helperApps.alwaysAsk.force", false);
-                    _profile.SetPreference("browser.helperApps.neverAsk.saveToDisk", "text/xml, text/csv, text/plain, text/log, application/zip, application/x-gzip, application/x-compressed, application/x-gtar, multipart/x-gzip, application/tgz, application/gnutar, application/x-tar, application/pdf, application/octet-stream");
+                    _profile.SetPreference
+                        ("browser.helperApps.neverAsk.saveToDisk", "text/xml, text/csv, text/plain, text/log, application/zip, application/x-gzip, application/x-compressed, application/x-gtar, multipart/x-gzip, application/tgz, application/gnutar, application/x-tar, application/x-xliff, application/x-sdlxliff, application/x-xlf, application/msword.docx, application/pdf, application/x-pdf, application/x-ttx, application/x-tmx, application/octet-stream");
                     //_profile.SetPreference("pdfjs.disabled", true);
 
 
@@ -297,9 +298,7 @@ namespace AbbyyLs.CAT.Projects.Selenium.Tests
         /// </summary>
         /// <param name="projectname">имя открываемого проекта</param>
         protected void OpenDocument(string projectname)
-        {
-            //WriteFileConsoleResults("Open Document", 2);
-
+        {           
             // Строчка нужного проекта
             _driver.FindElement(By.LinkText(projectname)).Click();
 
@@ -480,13 +479,13 @@ namespace AbbyyLs.CAT.Projects.Selenium.Tests
             //Выбрать необходимые MT
             _wait.Until(d => _driver.FindElement(By.CssSelector("#project-wizard-mts table tr:nth-child(2) td:nth-child(1)")));
 
-            _driver.FindElement(By.CssSelector("#project-wizard-mts table tr:nth-child(2) td:nth-child(1)")).Click();
-
-            _driver.FindElement(By.CssSelector("#project-wizard-mts table tr:nth-child(4) td:nth-child(1)")).Click();
-
             _driver.FindElement(By.CssSelector("#project-wizard-mts table tr:nth-child(1) td:nth-child(1)")).Click();
 
+            _driver.FindElement(By.CssSelector("#project-wizard-mts table tr:nth-child(2) td:nth-child(1)")).Click();
+
             _driver.FindElement(By.CssSelector("#project-wizard-mts table tr:nth-child(3) td:nth-child(1)")).Click();
+
+            _driver.FindElement(By.CssSelector("#project-wizard-mts table tr:nth-child(4) td:nth-child(1)")).Click();
 
             _driver.FindElement(By.CssSelector("#project-wizard-mts table tr:nth-child(5) td:nth-child(1)")).Click();
 
@@ -498,7 +497,7 @@ namespace AbbyyLs.CAT.Projects.Selenium.Tests
             //Выбрать MT Bing
             _wait.Until(d => _driver.FindElement(By.CssSelector("#project-wizard-mts table tr:nth-child(2) td:nth-child(1)")));
 
-            _driver.FindElement(By.CssSelector("#project-wizard-mts table tr:nth-child(1) td:nth-child(1)")).Click();
+            _driver.FindElement(By.CssSelector("#project-wizard-mts table tr:nth-child(3) td:nth-child(1)")).Click();
            
             _driver.FindElement(By.XPath(".//div[@id='project-wizard-mts']//span[contains(text(), 'Next')]")).Click();
         }
@@ -508,7 +507,7 @@ namespace AbbyyLs.CAT.Projects.Selenium.Tests
             //Выбрать MT Compreno
             _wait.Until(d => _driver.FindElement(By.CssSelector("#project-wizard-mts table tr:nth-child(2) td:nth-child(1)")));
 
-            _driver.FindElement(By.CssSelector("#project-wizard-mts table tr:nth-child(2) td:nth-child(1)")).Click();
+            _driver.FindElement(By.CssSelector("#project-wizard-mts table tr:nth-child(1) td:nth-child(1)")).Click();
 
             _driver.FindElement(By.XPath(".//div[@id='project-wizard-mts']//span[contains(text(), 'Next')]")).Click();
         }
@@ -518,7 +517,7 @@ namespace AbbyyLs.CAT.Projects.Selenium.Tests
             //Выбрать MT Google
             _wait.Until(d => _driver.FindElement(By.CssSelector("#project-wizard-mts table tr:nth-child(2) td:nth-child(1)")));
 
-            _driver.FindElement(By.CssSelector("#project-wizard-mts table tr:nth-child(3) td:nth-child(1)")).Click();
+            _driver.FindElement(By.CssSelector("#project-wizard-mts table tr:nth-child(2) td:nth-child(1)")).Click();
 
             _driver.FindElement(By.XPath(".//div[@id='project-wizard-mts']//span[contains(text(), 'Next')]")).Click();
         }

@@ -1,6 +1,6 @@
 ﻿using NUnit.Framework;
 
-namespace AbbyyLs.CAT.Projects.Selenium.Tests
+namespace AbbyyLs.CAT.Function.Selenium.Tests
 {
     class AuthorizationTest : BaseTest
     {

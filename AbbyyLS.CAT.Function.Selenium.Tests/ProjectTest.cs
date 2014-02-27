@@ -16,7 +16,7 @@ using System.Drawing;
 
 using OpenQA.Selenium.Interactions;
 
-namespace AbbyyLs.CAT.Projects.Selenium.Tests
+namespace AbbyyLs.CAT.Function.Selenium.Tests
 {
            
     /// <remarks>
@@ -28,7 +28,7 @@ namespace AbbyyLs.CAT.Projects.Selenium.Tests
    
         private string ResultFilePath;
 
-
+        
 
         public string ProjectNameCheck;
         public string DuplicateProjectName;
@@ -40,7 +40,11 @@ namespace AbbyyLs.CAT.Projects.Selenium.Tests
 
         public string _xliffTC10;
 
+        private string _filesForImportCorrectPath = Path.GetFullPath(@"..\..\..\TestingFiles\FilesForImportCorrect");
+        private string _filesForImportErrorPath = Path.GetFullPath(@"..\..\..\TestingFiles\FilesForImportError");
 
+        private static string[] filesForImportCorrect = Directory.GetFiles(Path.GetFullPath(@"..\..\..\TestingFiles\FilesForImportCorrect"));
+        private static string[] filesForImportError = Directory.GetFiles(Path.GetFullPath(@"..\..\..\TestingFiles\FilesForImportError"));
 
 
         public ProjectTest(string url, string workspaceUrl, string browserName)
@@ -308,7 +312,7 @@ namespace AbbyyLs.CAT.Projects.Selenium.Tests
             CheckProjectInList(ProjectName);
 
             //открытие настроек проекта
-            ImportDocumentProjectSettings();
+            ImportDocumentProjectSettings(DocumentFile);
 
         // TODO: Вставить проверку что документ загружен!!! (как проверить это)
         }
@@ -316,7 +320,8 @@ namespace AbbyyLs.CAT.Projects.Selenium.Tests
         /// <summary>
         /// метод открытия настроек проекта (последнего в списке) и загрузки нового документа
         /// </summary>
-        private void ImportDocumentProjectSettings()
+        /// <param name="filePath">путь в файлу, импортируемого в проект</param>
+        private void ImportDocumentProjectSettings(string filePath)
         {
             Thread.Sleep(3000);
             //сортировка по дате
@@ -338,7 +343,7 @@ namespace AbbyyLs.CAT.Projects.Selenium.Tests
             //Процесс добавления файла
             Driver.FindElement(By.XPath(".//div[@id='document-wizard-form-body']//span[text()='Add']")).Click();
 
-            FillAddDocumentForm(DocumentFile);
+            FillAddDocumentForm(filePath);
             Driver.FindElement(By.XPath(".//div[@id='document-wizard-form']//span[contains(text(), 'Next')]")).Click();
 
             Thread.Sleep(4000);
@@ -668,6 +673,158 @@ namespace AbbyyLs.CAT.Projects.Selenium.Tests
             Thread.Sleep(2000);
 
             Assert.IsTrue(Driver.PageSource.Contains(projectName));
+        }
+
+        /// <summary>
+        /// метод для тестирования импорта разбираемых на сегменты файлов из заданной папки в существующий проект
+        /// </summary>
+        /// <param name="filePath">путь в файлу, импортируемого в проект</param>
+        [Test]
+        [TestCaseSource("filesForImportCorrect")]
+        public void ImportFilesAfterCreationCorrectTest(string filePath)
+        {
+            Authorization();
+           
+            //Создать пустой проект          
+            CreateProject(ProjectName, false, "");
+
+            Thread.Sleep(4000);
+            //Проверка на наличие проекта
+            CheckProjectInList(ProjectName);
+
+            //Добавление документа
+            ImportDocumentProjectSettings(filePath);
+            Driver.Navigate().GoToUrl(Url);
+            Thread.Sleep(1000);
+
+            //Назначение задачи на пользователя
+            AssignTask();
+
+            // Строчка нужного проекта
+            Driver.FindElement(By.LinkText(ProjectName)).Click();
+
+            // Далее нажать на появившийся документ
+            IWebElement element = Wait.Until(d => Driver.FindElement(By.XPath(
+                "//a[starts-with(@href, '/editor')]" // критерий - editor
+                )));
+            element.Click();
+
+            // Дождаться загрузки страницы
+            Wait.Until((d) => d.Title.Contains("Editor"));
+
+            // Проверить, существует ли хотя бы один сегмент
+            Assert.IsTrue(IsElementPresent(By.CssSelector(
+                "#segments-body div table tr:nth-child(1)"
+                )));
+        }
+
+        /// <summary>
+        /// метод для тестирования импорта не разбираемых на сегменты файлов из заданной папки в существующий проект
+        /// </summary>
+        /// <param name="filePath">путь в файлу, импортируемого в проект</param>
+        [Test]
+        [TestCaseSource("filesForImportError")]
+        public void ImportFilesAfterCreationErrorTest(string filePath)
+        {
+            Authorization();
+
+            //Создать пустой проект          
+            CreateProject(ProjectName, false, "");
+
+            Thread.Sleep(4000);
+            //Проверка на наличие проекта
+            CheckProjectInList(ProjectName);
+
+            //Добавление документа
+            ImportDocumentProjectSettings(filePath);
+            Driver.Navigate().GoToUrl(Url);
+            Thread.Sleep(1000);
+
+            //Назначение задачи на пользователя
+            AssignTask();
+
+            // Строчка нужного проекта
+            Driver.FindElement(By.LinkText(ProjectName)).Click();
+
+            // Далее нажать на появившийся документ
+            IWebElement element = Wait.Until(d => Driver.FindElement(By.XPath(
+                "//a[starts-with(@href, '/editor')]" // критерий - editor
+                )));
+            element.Click();
+
+            // Дождаться загрузки страницы
+            Wait.Until((d) => d.Title.Contains("Editor"));
+
+            // Убедиться, что документ не разобран на сегменты
+            Assert.IsFalse(IsElementPresent(By.CssSelector(
+                "#segments-body div table tr:nth-child(1)"
+                )));
+        }
+
+        /// <summary>
+        /// метод для тестирования экспорта из проекта разбираемых на сегменты файлов из заданной папки
+        /// </summary>
+        /// <param name="filePath">путь в файлу, импортируемого в проект</param>
+        [Test]
+        [TestCaseSource("filesForImportCorrect")]
+        public void ExportOriginalCorrectDocumentTest(string filePath)
+        {
+            //Создать проект и импортировать файл 
+            ImportFilesAfterCreationCorrectTest(filePath);          
+            BackButton();
+
+            //Нажать на кнопку Export
+            Driver.FindElement(By.CssSelector(".project-documents div.x-grid-body table tr:nth-child(1) td:nth-child(1)")).Click();
+            Driver.FindElement(By.Id("documents-export-btn")).Click();
+            //Выбрать исходный файл из выпадающего списка
+            Driver.FindElement(By.XPath("//div[@id='documents-export-menu']//span[contains(string(),'Original file')]")).Click();
+
+            // Заполнить форму для сохранения файла
+            string resultPath = Path.Combine(PathTestResults, "ExportedOriginalDocuments");
+            Directory.CreateDirectory(resultPath);
+
+            Thread.Sleep(1000);
+            SendKeys.SendWait
+                (Path.Combine(resultPath, Path.GetFileNameWithoutExtension(filePath) + "_" + ProjectName+Path.GetExtension(filePath)));
+            Thread.Sleep(1000);
+
+            SendKeys.SendWait(@"{Enter}");
+            Thread.Sleep(5000);
+            Assert.IsTrue(File.Exists(Path.Combine
+                (resultPath, Path.GetFileNameWithoutExtension(filePath) + "_" + ProjectName+Path.GetExtension(filePath))));
+        }
+
+        /// <summary>
+        /// метод для тестирования экспорта из проекта не разбираемых на сегменты файлов из заданной папки
+        /// </summary>
+        /// <param name="filePath">путь в файлу, импортируемого в проект</param>
+        [Test]
+        [TestCaseSource("filesForImportError")]
+        public void ExportOriginalErrorDocumentTest(string filePath)
+        {
+            //Создать проект и импортировать файл 
+            ImportFilesAfterCreationErrorTest(filePath);
+            BackButton();
+
+            //Нажать на кнопку Export
+            Driver.FindElement(By.CssSelector(".project-documents div.x-grid-body table tr:nth-child(1) td:nth-child(1)")).Click();
+            Driver.FindElement(By.Id("documents-export-btn")).Click();
+            //Выбрать исходный файл из выпадающего списка
+            Driver.FindElement(By.XPath("//div[@id='documents-export-menu']//span[contains(string(),'Original file')]")).Click();
+
+            // Заполнить форму для сохранения файла
+            string resultPath = Path.Combine(PathTestResults, "ExportedOriginalDocuments");
+            Directory.CreateDirectory(resultPath);
+
+            Thread.Sleep(1000);
+            SendKeys.SendWait
+                (Path.Combine(resultPath, Path.GetFileNameWithoutExtension(filePath) + "_" + ProjectName + Path.GetExtension(filePath)));
+            Thread.Sleep(1000);
+
+            SendKeys.SendWait(@"{Enter}");
+            Thread.Sleep(5000);
+            Assert.IsTrue(File.Exists(Path.Combine
+                (resultPath, Path.GetFileNameWithoutExtension(filePath) + "_" + ProjectName + Path.GetExtension(filePath))));
         }
 
         // TODO: Убрать если у нас не будет кнопки back для возврата на первый шаг для отмены создания. СЕйчас реализовано, что кнопки нет, но в документации - кнопка описана.
