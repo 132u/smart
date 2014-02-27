@@ -12,8 +12,9 @@ namespace AbbyyLs.CAT.Projects.Selenium.Tests
         public TMTest(string url, string workspaceUrl, string browserName)
             : base(url, workspaceUrl, browserName)
         {
-
+            
         }
+       
 
         [SetUp]
         public void Setup()
@@ -166,8 +167,9 @@ namespace AbbyyLs.CAT.Projects.Selenium.Tests
         public void UpdateTMButtonTest()
         {
             string TMName = ConstTMName;
+            
             // Загрузить TMX файл
-            if (UploadDocumentToTMbyButton(TMName, "js-upload-btn", TmFile))
+            if (UploadDocumentToTMbyButton(TMName, "js-upload-btn", TmFile2))
             {
                 // Документ загружен
                 // Получить количество сегментов этого ТМ
@@ -566,7 +568,7 @@ namespace AbbyyLs.CAT.Projects.Selenium.Tests
         {
             // Отрыть информацию о ТМ и нажать кнопку
             ClickButtonTMInfo(TMName, btnName, isNeedOpenInfo);
-
+            
             // Нажимаем Import
             Wait.Until((d) => d.FindElement(By.XPath(
                 ".//div[contains(@class,'js-popup-import')][2]//span[contains(@class,'g-btn__data')]"))).Click();

@@ -111,6 +111,14 @@ namespace AbbyyLs.CAT.Projects.Selenium.Tests
                 return _tmFile;
             }
         }
+        private string _tmFile2;
+        protected string TmFile2
+        {
+            get
+            {
+                return _tmFile2;
+            }
+        }
 
         private string _secondTmFile;
 
@@ -203,6 +211,8 @@ namespace AbbyyLs.CAT.Projects.Selenium.Tests
             _projectName += " " + DateTime.UtcNow.Ticks.ToString();
             _tmName += " " + DateTime.UtcNow.Ticks.ToString();
             _tmFile = Path.GetFullPath(ConfigurationManager.AppSettings["TMXFile"]);
+            _tmFile2 = Path.GetFullPath(ConfigurationManager.AppSettings["TMXFile2"]);
+             
             _secondTmFile = Path.GetFullPath(ConfigurationManager.AppSettings["SecondTMXFile"]);
             _importGlossaryFile = Path.GetFullPath(ConfigurationManager.AppSettings["ImportGlossaryFile"]);
             _imageFile = Path.GetFullPath(ConfigurationManager.AppSettings["TestImageFile"]);
