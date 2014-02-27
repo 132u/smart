@@ -5,7 +5,7 @@ using OpenQA.Selenium;
 using System.Collections.Generic;
 using System.Windows.Forms;
 
-namespace AbbyyLs.CAT.Projects.Selenium.Tests
+namespace AbbyyLs.CAT.Function.Selenium.Tests
 {
     public class GlossaryTest : BaseTest
     {

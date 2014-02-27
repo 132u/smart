@@ -827,6 +827,40 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
                 (resultPath, Path.GetFileNameWithoutExtension(filePath) + "_" + ProjectName + Path.GetExtension(filePath))));
         }
 
+        /// <summary>
+        /// метод для тестирования экспорта из проекта переведенных файлов из заданной папки
+        /// </summary>
+        /// <param name="filePath">путь в файлу, импортируемого в проект</param>
+        [Test]
+        [TestCaseSource("filesForImportCorrect")]
+        public void ExportTranslatedCorrectDocumentTest(string filePath)
+        {
+            //Создать проект и импортировать файл 
+            ImportFilesAfterCreationCorrectTest(filePath);
+            ConfirmButton();
+            BackButton();
+
+            //Нажать на кнопку Export
+            Driver.FindElement(By.CssSelector(".project-documents div.x-grid-body table tr:nth-child(1) td:nth-child(1)")).Click();
+            Driver.FindElement(By.Id("documents-export-btn")).Click();
+            //Выбрать исходный файл из выпадающего списка
+            Driver.FindElement(By.XPath("//div[@id='documents-export-menu']//span[contains(string(),'Translation')]")).Click();
+
+            // Заполнить форму для сохранения файла
+            string resultPath = Path.Combine(PathTestResults, "ExportedTranslatedDocuments");
+            Directory.CreateDirectory(resultPath);
+
+            Thread.Sleep(1000);
+            SendKeys.SendWait
+                (Path.Combine(resultPath, Path.GetFileNameWithoutExtension(filePath) + "_" + ProjectName + Path.GetExtension(filePath)));
+            Thread.Sleep(1000);
+
+            SendKeys.SendWait(@"{Enter}");
+            Thread.Sleep(5000);
+            Assert.IsTrue(File.Exists(Path.Combine
+                (resultPath, Path.GetFileNameWithoutExtension(filePath) + "_" + ProjectName + Path.GetExtension(filePath))));
+        }
+
         // TODO: Убрать если у нас не будет кнопки back для возврата на первый шаг для отмены создания. СЕйчас реализовано, что кнопки нет, но в документации - кнопка описана.
         /// <summary>
         /// отмена создания проекта на первом шаге
