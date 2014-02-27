@@ -177,7 +177,7 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
                     _profile.SetPreference("browser.download.manager.showWhenStarting", false);
                     _profile.SetPreference("browser.helperApps.alwaysAsk.force", false);
                     _profile.SetPreference
-                        ("browser.helperApps.neverAsk.saveToDisk", "text/xml, text/csv, text/plain, text/log, application/zip, application/x-gzip, application/x-compressed, application/x-gtar, multipart/x-gzip, application/tgz, application/gnutar, application/x-tar, application/x-xliff, application/x-sdlxliff, application/x-xlf, application/msword.docx, application/pdf, application/x-pdf, application/x-ttx, application/x-tmx, application/octet-stream");
+                        ("browser.helperApps.neverAsk.saveToDisk", "text/xml, text/csv, text/plain, text/log, application/zip, application/x-gzip, application/x-compressed, application/x-gtar, multipart/x-gzip, application/tgz, application/gnutar, application/x-tar, application/x-xliff+xml,  application/msword.docx, application/pdf, application/x-pdf, application/octetstream, application/x-ttx, application/x-tmx, application/octet-stream");
                     //_profile.SetPreference("pdfjs.disabled", true);
 
 
