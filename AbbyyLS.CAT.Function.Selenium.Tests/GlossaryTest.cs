@@ -886,9 +886,59 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
         }
 
         /// <summary>
-        /// TODO: Метод тестирования редактирования предложенного термина без глоссария - не работает редактирование предложенного термина на stage2
+        /// Метод тестирования редактирования предложенного термина из глоссария
         /// </summary>
-        //[Test]
+        [Test]
+        public void EditSuggestedTermFromGlossaryTest()
+        {
+            // Создать глоссарий
+            string glossaryName = GetUniqueGlossaryName();
+            CreateGlossaryByName(glossaryName);
+
+            // Предложить термин
+            CreateSuggestTerm();
+            // Перейти к списку предложенных терминов
+            SwitchSuggestTermCurrentGlossary();
+
+            string newTermText = "New Term Text" + DateTime.UtcNow.ToString();
+            // Расширить окно, чтобы кнопка была видна, иначе она недоступна для Selenium
+            Driver.Manage().Window.Maximize();
+            // Нажать на редактирование
+            ClickButtonSuggestTermRow("js-edit-suggest");
+
+            // Ввести в термин новое значение
+            Driver.FindElement(By.XPath(".//div[contains(@class,'l-corprtree__langbox')][1]//span[contains(@class,'js-term-editor')]//input")).Clear();
+            Driver.FindElement(By.XPath(".//div[contains(@class,'l-corprtree__langbox')][1]//span[contains(@class,'js-term-editor')]//input")).SendKeys(newTermText);
+            // Перейти в другому языку
+            Driver.FindElement(By.XPath(".//div[contains(@class,'l-corprtree__langbox')][2]//span[contains(@class,'js-term-viewer')]")).Click();
+            Driver.FindElement(By.XPath(".//div[contains(@class,'l-corprtree__langbox')][2]//span[contains(@class,'js-term-editor')]//input")).Clear();
+            Driver.FindElement(By.XPath(".//div[contains(@class,'l-corprtree__langbox')][2]//span[contains(@class,'js-term-editor')]//input")).SendKeys(newTermText);
+            Thread.Sleep(2000);
+            // Принять термин
+            Driver.FindElement(By.XPath(".//span[contains(@class,'js-save-btn js-edit')]")).Click();
+            Thread.Sleep(5000);
+            // Перейти в глоссарий
+            SwitchGlossaryFromSuggestedTerm();
+
+            // Проверить термин в глоссарии
+            bool isTermAccepted = false;
+            IList<IWebElement> termLangList = Driver.FindElements(By.XPath(".//tr[contains(@class, 'js-concept-row')]//td[contains(@class,'glossaryShort')][1]/p"));
+            foreach (IWebElement el in termLangList)
+            {
+                if (el.Text.Trim() == newTermText)
+                {
+                    isTermAccepted = true;
+                    break;
+                }
+            }
+            Assert.IsTrue(termLangList.Count > 0, "Ошибка: термин не сохранился");
+            Assert.IsTrue(isTermAccepted, "Ошибка: термин сохранился неотредактированным");
+        }
+
+        /// <summary>
+        /// Метод тестирования редактирования предложенного термина без глоссария
+        /// </summary>
+        [Test]
         public void EditSuggestedTermWithoutGlossaryTest()
         {
             // Создать глоссарий
@@ -904,20 +954,65 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             // Перейти к списку предложенных терминов
             SwitchSuggestedTerms();
 
+            string newTermText = "New Term Text" + DateTime.UtcNow.ToString();
+            int rowNumber = 0;
+
             IList<IWebElement> termList = Driver.FindElements(By.XPath(GetSuggestTermRowsXPath()));
             for (int i = 0; i < termList.Count; ++i)
             {
                 // Если после удаления пробелов нет символов, значит, что глоссарий не указан
                 if (termList[i].Text.Trim().Length == 0)
                 {
-                    ClickButtonSuggestTermRow("js-edit-suggest");
-                    Wait.Until((d) => d.FindElement(By.XPath(".//div[contains(@class,'js-select-glossary-popup')]//span[contains(@class, 'js-dropdown siggglossp')]"))).Click();
-                    string xPathGlossary = ".//span[contains(@class, 'js-dropdown__item siggglosspp')][@title='" + glossaryName + "']";
-                    Wait.Until((d) => d.FindElement(By.XPath(xPathGlossary))).Click();
-                    Driver.FindElement(By.XPath(".//input[contains(@class, 'js-glossary-selected-button')]")).Click();
-                    Thread.Sleep(1000);
+                    rowNumber = i + 1;
                     break;
                 }
+            }
+
+            if (rowNumber > 0)
+            {
+                // Расширить окно, чтобы кнопка была видна, иначе она недоступна для Selenium
+                Driver.Manage().Window.Maximize();
+                // Нажать на редактирование
+                ClickButtonSuggestTermRow("js-edit-suggest", true, rowNumber);
+
+                // Дождаться появления формы выбора глоссария
+                Wait.Until((d) => d.FindElement(By.XPath(".//div[contains(@class,'js-select-glossary-popup')]//span[contains(@class, 'js-dropdown siggglossp')]"))).Click();
+                // Выбрать нужный глоссарий
+                string xPathGlossary = ".//span[contains(@class, 'js-dropdown__item siggglosspp')][@title='" + glossaryName + "']";
+                Wait.Until((d) => d.FindElement(By.XPath(xPathGlossary))).Click();
+                // Сохранить
+                Driver.FindElement(By.XPath(".//input[contains(@class, 'js-glossary-selected-button')]")).Click();
+                Thread.Sleep(2000);
+
+                // Ввести в термин новое значение
+                Driver.FindElement(By.XPath(".//div[contains(@class,'l-corprtree__langbox')][1]//span[contains(@class,'js-term-editor')]//input")).Clear();
+                Driver.FindElement(By.XPath(".//div[contains(@class,'l-corprtree__langbox')][1]//span[contains(@class,'js-term-editor')]//input")).SendKeys(newTermText);
+                // Перейти в другому языку
+                Driver.FindElement(By.XPath(".//div[contains(@class,'l-corprtree__langbox')][2]//span[contains(@class,'js-term-viewer')]")).Click();
+                Driver.FindElement(By.XPath(".//div[contains(@class,'l-corprtree__langbox')][2]//span[contains(@class,'js-term-editor')]//input")).Clear();
+                Driver.FindElement(By.XPath(".//div[contains(@class,'l-corprtree__langbox')][2]//span[contains(@class,'js-term-editor')]//input")).SendKeys(newTermText);
+                Thread.Sleep(2000);
+                // Принять термин
+                Driver.FindElement(By.XPath(".//span[contains(@class,'js-save-btn js-edit')]")).Click();
+                Thread.Sleep(5000);
+                // Перейти к списку глоссариев
+                SwitchGlossaryTab();
+                // Перейти в глоссарий
+                SwitchCurrentGlossary(glossaryName);
+
+                // Проверить термин в глоссарии
+                bool isTermAccepted = false;
+                IList<IWebElement> termLangList = Driver.FindElements(By.XPath(".//tr[contains(@class, 'js-concept-row')]//td[contains(@class,'glossaryShort')][1]/p"));
+                foreach (IWebElement el in termLangList)
+                {
+                    if (el.Text.Trim() == newTermText)
+                    {
+                        isTermAccepted = true;
+                        break;
+                    }
+                }
+                Assert.IsTrue(termLangList.Count > 0, "Ошибка: термин не сохранился");
+                Assert.IsTrue(isTermAccepted, "Ошибка: термин сохранился неотредактированным");
             }
         }
 
@@ -1212,9 +1307,9 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
         }
 
         /// <summary>
-        /// TODO Метод тестирования изменения структуры - Project/Domain - в stage2 нет списка проектов
+        /// Метод тестирования изменения структуры - Project/Domain
         /// </summary>
-        //[Test]
+        [Test]
         public void EditGlossaryStructureDomainTest()
         {
             // Перейти на вкладку проектов
@@ -1288,7 +1383,19 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             // Проверить, что список открылся
             Assert.IsTrue(Driver.FindElement(By.XPath(".//span[contains(@class,'js-dropdown__list')]")).Displayed, "Ошибка: список не открылся");
 
-            // Работать со списком проектов (пока его нет)
+            Driver.FindElement(By.XPath(
+                ".//span[contains(@class,'js-dropdown__list')]//span[contains(@class,'js-dropdown__item')][contains(@title,'" + projectName + "')]")).Click();
+
+            // Сохранить термин
+            Driver.FindElement(By.XPath(".//span[contains(@class,'js-save-btn js-edit')]")).Click();
+            // Дождаться появления поля с сохраненным термином
+            Wait.Until((d) => d.FindElement(By.XPath(".//tr[contains(@class,'js-concept-row opened')]")).Displayed);
+
+            // Проверить, что значение в поле есть
+            elXPath += "/../../div[contains(@class,'l-corpr__viewmode__view js-view')]//div[contains(@class,'js-value')]";
+            string text = Driver.FindElement(By.XPath(elXPath)).Text;
+            Assert.AreEqual(text, projectName, "Ошибка: проект не сохранился в поле");
+
         }
 
         /// <summary>
@@ -1792,9 +1899,9 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
         }
 
         /// <summary>
-        /// TODO Метод тестирования изменения структуры: добавление пользовательского поля Множественный выбор - на stage2 не сохраняются термины, если есть поле "Множественный выбор"
+        /// Метод тестирования изменения структуры: добавление пользовательского поля Множественный выбор
         /// </summary>
-        //[Test]
+        [Test]
         public void EditGlossaryStructureAddCustomMultipleChoiceFieldTest()
         {
             // Создать глоссарий, изменить структуру с добавлением списка, открыть добавление нового термина
@@ -1819,6 +1926,7 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             Driver.FindElement(By.XPath(
                 ".//ul[contains(@class,'ui-multiselect-checkboxes')]//span[contains(@class,'ui-multiselect-item-text')][text()='" + choiceList[1] + "']")).Click();
             Thread.Sleep(1000);
+            string resultString = choiceList[0] + ", " + choiceList[1];
 
             // Сохранить термин
             Driver.FindElement(By.XPath(".//span[contains(@class,'js-save-btn js-edit')]")).Click();
@@ -1828,14 +1936,13 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             // Проверить, что в термине выбранные элементы
             elXPath += "/../../div[contains(@class,'l-corpr__viewmode__view js-view')]//div";
             string text = Driver.FindElement(By.XPath(elXPath)).Text;
-
-            // MultiChoice сейчас не работает
+            Assert.AreEqual(resultString, text, "Ошибка: в поле сохранился неправильный выбор");
         }
 
         /// <summary>
-        /// TODO Метод тестирования изменения структуры: добавление ОБЯЗАТЕЛЬНОГО пользовательского поля Множественный выбор - на stage2 не сохраняются термины, если есть поле "Множественный выбор"
+        /// Метод тестирования изменения структуры: добавление ОБЯЗАТЕЛЬНОГО пользовательского поля Множественный выбор
         /// </summary>
-        //[Test]
+        [Test]
         public void EditGlossaryStructureAddCustomMultipleChoiceReaquiredFieldTest()
         {
             // Создать глоссарий, изменить структуру с добавлением списка, открыть добавление нового термина
@@ -1869,6 +1976,8 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             Driver.FindElement(By.XPath(
                 ".//ul[contains(@class,'ui-multiselect-checkboxes')]//span[contains(@class,'ui-multiselect-item-text')][text()='" + choiceList[1] + "']")).Click();
             Thread.Sleep(1000);
+            string resultString = choiceList[0] + ", " + choiceList[1];
+
             // Сохранить термин
             Driver.FindElement(By.XPath(".//span[contains(@class,'js-save-btn js-edit')]")).Click();
             // Дождаться появления поля с сохраненным термином
@@ -1877,13 +1986,13 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             // Проверить, что в термине выбранные элементы
             elXPath += "/../../div[contains(@class,'l-corpr__viewmode__view js-view')]//div";
             string text = Driver.FindElement(By.XPath(elXPath)).Text;
-            // MultiChoice сейчас не работает
+            Assert.AreEqual(resultString, text, "Ошибка: в поле сохранился неправильный выбор");
         }
 
         /// <summary>
-        /// TODO Метод тестирования изменения структуры: добавление пользовательского поля Да/Нет - на stage2 не сохраняется структура, если есть поле "Да/Нет"
+        /// TODO Метод тестирования изменения структуры: добавление пользовательского поля Да/Нет
         /// </summary>
-        //[Test]
+        [Test]
         public void EditGlossaryStructureAddCustomBooleanFieldTest()
         {
             // Создать глоссарий, изменить структуру, открыть добавление нового термина
@@ -1891,17 +2000,27 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 
             // Проверить, что поле появилось
             string elXPath =
-                ".//div[contains(@class,'js-concept-attrs')]//div[contains(@class,'l-corpr__viewmode__edit')]//p[text()='" + fieldName + "']";
+                ".//div[contains(@class,'js-concept-attrs')]//div[contains(@class,'l-corpr__viewmode__edit')]//span[contains(@class,'l-editgloss__name')][text()='" + fieldName + "']";
             Thread.Sleep(1000);
             Assert.IsTrue(Driver.FindElement(By.XPath(elXPath)).Displayed, "Ошибка: поле не появилось");
 
-            // Дальше проверки - поле не сохраняется в структуре!
+            // Отметить галочку
+            string inputXPath = elXPath + "/..//span[contains(@class,'js-chckbx')]//input[contains(@class,'js-chckbx__orig')]";
+            Driver.FindElement(By.XPath(inputXPath)).Click();
+
+            // Сохранить термин
+            Driver.FindElement(By.XPath(".//span[contains(@class,'js-save-btn js-edit')]")).Click();
+
+            // Проверить значение в поле
+            inputXPath = elXPath + "/..//input[contains(@class,'js-submit-input')]";
+            string valueResult = Driver.FindElement(By.XPath(inputXPath)).GetAttribute("value");
+            Assert.AreEqual("true", valueResult, "Ошибка: в поле неверное значение");
         }
 
         /// <summary>
-        /// TODO Метод тестирования изменения структуры: добавление ОБЯЗАТЕЛЬНОГО пользовательского поля Да/Нет - на stage2 не сохраняется структура, если есть поле "Да/Нет"
+        /// TODO Метод тестирования изменения структуры: добавление ОБЯЗАТЕЛЬНОГО пользовательского поля Да/Нет
         /// </summary>
-        //[Test]
+        [Test]
         public void EditGlossaryStructureAddCustomBooleanReaquiredFieldTest()
         {
             // Создать глоссарий, изменить структуру, открыть добавление нового термина
@@ -1909,14 +2028,30 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 
             // Проверить, что поле появилось
             string elXPath =
-                ".//div[contains(@class,'js-concept-attrs')]//div[contains(@class,'l-corpr__viewmode__edit')]//p[text()='" + fieldName + "']";
+                ".//div[contains(@class,'js-concept-attrs')]//div[contains(@class,'l-corpr__viewmode__edit')]//span[contains(@class,'l-editgloss__name')][text()='" + fieldName + "']";
             Thread.Sleep(1000);
             Assert.IsTrue(Driver.FindElement(By.XPath(elXPath)).Displayed, "Ошибка: поле не появилось");
 
             // Сохранить термин
             Driver.FindElement(By.XPath(".//span[contains(@class,'js-save-btn js-edit')]")).Click();
 
-            // Дальше проверки - поле не сохраняется в структуре!
+            // Проверить, что поле отмечено ошибкой - поле обязательное, поэтому не может сохраняться пустым            
+            Assert.IsTrue(
+                Driver.FindElement(By.XPath(
+                ".//div[contains(@class,'js-concept-attrs')]//div[contains(@class,'js-edit l-error')]//span[contains(@class,'l-editgloss__name')][text()='" + fieldName + "']")).Displayed,
+                "Ошибка: обязательное поле не отмечено ошибкой");
+
+            // Отметить галочку
+            string inputXPath = elXPath + "/..//span[contains(@class,'js-chckbx')]//input[contains(@class,'js-chckbx__orig')]";
+            Driver.FindElement(By.XPath(inputXPath)).Click();
+
+            // Сохранить термин
+            Driver.FindElement(By.XPath(".//span[contains(@class,'js-save-btn js-edit')]")).Click();
+
+            // Проверить значение в поле
+            inputXPath = elXPath + "/..//input[contains(@class,'js-submit-input')]";
+            string valueResult = Driver.FindElement(By.XPath(inputXPath)).GetAttribute("value");
+            Assert.AreEqual("true", valueResult, "Ошибка: в поле неверное значение");
         }
 
 
@@ -2355,7 +2490,7 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             foreach (string field in fieldsList)
             {
                 // Получить xPath строки с нужным полем
-                string rowXPath = ".//table[contains(@class, 'js-predefined-attrs-table Concept')]//tr[contains(@class, 'js-attr-row')][contains(@data-attr-key,'" + field + "')]";
+                string rowXPath = ".//table[contains(@class, 'js-predefined-attrs-table concept')]//tr[contains(@class, 'js-attr-row')][contains(@data-attr-key,'" + field + "')]";
                 // Получить аттрибут class этой строки
                 if (!Driver.FindElement(By.XPath(rowXPath)).GetAttribute("class").Contains("g-hidden"))
                 {

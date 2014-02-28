@@ -180,7 +180,6 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
                         ("browser.helperApps.neverAsk.saveToDisk", "text/xml, text/csv, text/plain, text/log, application/zip, application/x-gzip, application/x-compressed, application/x-gtar, multipart/x-gzip, application/tgz, application/gnutar, application/x-tar, application/x-xliff+xml,  application/msword.docx, application/pdf, application/x-pdf, application/octetstream, application/x-ttx, application/x-tmx, application/octet-stream");
                     //_profile.SetPreference("pdfjs.disabled", true);
 
-
                     _driver = new FirefoxDriver(_profile);
                     //string profiledir = "../../../Profile";
                     // string profiledir = "TestingFiles/Profile";
@@ -346,18 +345,6 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             Assert.True(_driver.Title.Contains("Workspace"), "Ошибка: неверный заголовок страницы");
 
         }
-
-        public void SwitchTMTab()
-        {
-            // Нажать кнопку перехода на страницу Базы Translation memory
-            _driver.FindElement(By.XPath(
-                ".//ul[@class='g-corprmenu__list']//a[contains(@href,'/Enterprise/TranslationMemories')]")).Click();
-
-            // ждем загрузки страницы
-            _wait.Until((d) => d.FindElement(By.XPath(
-                ".//span[contains(@class,'l-corpr__addbtnbox')]//a[contains(@class,'g-btn__text g-redbtn__text')]")).Displayed);
-        }
-
 
         protected void FirstStepProjectWizard(string ProjectName)
         {
@@ -950,8 +937,5 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 
             }
         }
-
-
-
     }
 }
