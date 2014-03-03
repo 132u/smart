@@ -158,15 +158,50 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             }
         }
 
+        private string _browserName;
+
+        private string BrowserName
+        {
+            get
+            {
+                return _browserName;
+            }
+        }
+
 
         public BaseTest(string url, string workspaceUrl, string browserName)
         {
+            _browserName = browserName;
             _url = ConfigurationManager.AppSettings[url];
 
+            CreateDriver();
 
-            if (browserName == "Firefox")
+            _login = ConfigurationManager.AppSettings["Login"];
+            _password = ConfigurationManager.AppSettings["Password"];
+            _projectName = ConfigurationManager.AppSettings["ProjectName"];
+            _deadlineDate = ConfigurationManager.AppSettings["DeadlineDate"];
+            _documentFile = Path.GetFullPath(ConfigurationManager.AppSettings["DocumentFile"]);
+            _tmName = ConfigurationManager.AppSettings["TMName"];
+            _constTmName = ConfigurationManager.AppSettings["TMName"];
+            _glossaryName = ConfigurationManager.AppSettings["GlossaryName"];
+
+            _projectName += " " + DateTime.UtcNow.Ticks.ToString();
+            _tmName += " " + DateTime.UtcNow.Ticks.ToString();
+            _tmFile = Path.GetFullPath(ConfigurationManager.AppSettings["TMXFile"]);
+            _tmFile2 = Path.GetFullPath(ConfigurationManager.AppSettings["TMXFile2"]);
+             
+            _secondTmFile = Path.GetFullPath(ConfigurationManager.AppSettings["SecondTMXFile"]);
+            _importGlossaryFile = Path.GetFullPath(ConfigurationManager.AppSettings["ImportGlossaryFile"]);
+            _imageFile = Path.GetFullPath(ConfigurationManager.AppSettings["TestImageFile"]);
+        }
+
+        /// <summary>
+        /// Метод создания _driver 
+        /// </summary>
+        private void CreateDriver()
+        {
+            if (BrowserName == "Firefox")
             {
-
                 if (_driver == null)
                 {
                     _profile = new FirefoxProfile();
@@ -187,39 +222,19 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
                     //_driver = new FirefoxDriver(_profile);
                 }
             }
-            else if (browserName == "Chrome")
+            else if (BrowserName == "Chrome")
             {
                 //TODO: Проверить версию chromedriver
                 _driver = new ChromeDriver();
             }
-            else if (browserName == "IE")
+            else if (BrowserName == "IE")
             {
                 //TODO: Сделать запуск из IE
             }
 
             _driver.Manage().Timeouts().ImplicitlyWait(TimeSpan.FromSeconds(10));
-
-            _login = ConfigurationManager.AppSettings["Login"];
-            _password = ConfigurationManager.AppSettings["Password"];
-            _projectName = ConfigurationManager.AppSettings["ProjectName"];
-            _deadlineDate = ConfigurationManager.AppSettings["DeadlineDate"];
-            _documentFile = Path.GetFullPath(ConfigurationManager.AppSettings["DocumentFile"]);
-            _tmName = ConfigurationManager.AppSettings["TMName"];
-            _constTmName = ConfigurationManager.AppSettings["TMName"];
-            _glossaryName = ConfigurationManager.AppSettings["GlossaryName"];
-
-            _projectName += " " + DateTime.UtcNow.Ticks.ToString();
-            _tmName += " " + DateTime.UtcNow.Ticks.ToString();
-            _tmFile = Path.GetFullPath(ConfigurationManager.AppSettings["TMXFile"]);
-            _tmFile2 = Path.GetFullPath(ConfigurationManager.AppSettings["TMXFile2"]);
-             
-            _secondTmFile = Path.GetFullPath(ConfigurationManager.AppSettings["SecondTMXFile"]);
-            _importGlossaryFile = Path.GetFullPath(ConfigurationManager.AppSettings["ImportGlossaryFile"]);
-            _imageFile = Path.GetFullPath(ConfigurationManager.AppSettings["TestImageFile"]);
-
             _wait = new WebDriverWait(_driver, TimeSpan.FromSeconds(10));
         }
-
 
         /// <summary>
         /// Метод назначения задачи на пользователя 
@@ -925,17 +940,25 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             return userName;
         }
 
+
+        [SetUp]
+        public void Setup()
+        {
+            if (_driver == null)
+            {
+                // Если конструктор заново не вызывался, то надо заполнить _driver
+                CreateDriver();
+            }
+        }
+
         [TearDown]
         public void Teardown()
         {
-            try
-            {
-                _driver.Quit();
-            }
-            catch (Exception)
-            {
-
-            }
+            // Закрыть драйвер
+            _driver.Quit();
+            // Очистить, чтобы при следующем тесте пересоздавалось
+            _driver = null;
         }
+        
     }
 }

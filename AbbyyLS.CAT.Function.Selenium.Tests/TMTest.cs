@@ -221,7 +221,7 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
         /// </summary>
         /// <param name="filePath">путь в файлу, импортируемого в проект</param>
         [Test, TestCaseSource("importTMXFileList")]
-        public void ExportTMWithTMXButtonTest(string importTMXFile)
+        public void ExportTMXTest(string importTMXFile)
         {
             string TMName = SelectUniqueTMName();
             // Создать ТМ с загрузкой файла ТМХ
@@ -238,7 +238,7 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             Thread.Sleep(2000);
             // В открывшемся диалоге выбираем "Сохранить"
             SendKeys.SendWait(@"{DOWN}");
-            Thread.Sleep(1000);
+            Thread.Sleep(2000);
             SendKeys.SendWait(@"{Enter}");
             Thread.Sleep(2000);
             // Ввести адрес
@@ -408,7 +408,7 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
         /// </summary>
         /// <param name="filePath">путь в файлу, импортируемого в проект</param>
         [Test, TestCaseSource("importTMXFileList")]
-        public void CreateTMWithTMXTest(string TMXFileImport)
+        public void ImportTMXTest(string TMXFileImport)
         {
             // Выбрать уникальное имя TM
             string uniqueTMName = SelectUniqueTMName();
