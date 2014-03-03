@@ -204,8 +204,6 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
            
             Assert.True(IsElementPresent(By.XPath(".//span[text()='OK']")), "No error message");
         }
-        // TODO: XLIFF
-        //сделать тесты для тестирования xliff
 
         /// <summary>
         /// метод тестирования загрузки нескольких файлов при создании проекта (docx+ttx)
@@ -315,6 +313,7 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             ImportDocumentProjectSettings(DocumentFile);
 
         // TODO: Вставить проверку что документ загружен!!! (как проверить это)
+            Assert.IsTrue(Driver.PageSource.Contains("docx"), "Fail - Не найден импортируемый документ docx после создания проекта");
         }
 
         /// <summary>
@@ -462,62 +461,7 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 
             Assert.IsFalse(Driver.PageSource.Contains("Unique project name required"));
         }
-
- 
-        // TODO: где используется этот метод???
-        /// <summary>
-        /// метод проверки ТС-301 Импорта файлов
-        /// </summary>
-        /// <param name="filePath">путь в файлу, импортируемого в проект</param>
-        /// <param name="status">параметр проверки - 1 испорт ок; 0 импорт не ок</param>
-        public bool ImportSomeFilesTest(String filePath, int status)
-        {
-            //открываем форму настройки
-            WriteFileConsoleResults("ImportFilesTest", 2);
-            Thread.Sleep(8000);
-            Assert.IsTrue(Driver.FindElement(By.Id("projects-add-btn")).Displayed);
-            //нажать <Create>
-            Driver.FindElement(By.Id("projects-add-btn")).Click();
-
-            //ждем загрузки формы            
-            Wait.Until((d) => d.FindElement(By.Id("project-wizard")));
-
-            //заполнение полей на 1 шаге
-            Driver.FindElement(By.CssSelector("input[name=\"Name\"]")).Clear();
-            
-
-            Driver.FindElement(By.CssSelector("input[name=\"Name\"]")).SendKeys(ProjectName);
-
-            Driver.FindElement(By.CssSelector("input[name=\"DeadlineDate\"]")).Clear();
-            Driver.FindElement(By.CssSelector("input[name=\"DeadlineDate\"]")).SendKeys(DeadlineDate);
-
-            //процесс добавления файла 
-            //нажатие кнопки Add
-            Driver.FindElement(By.XPath(".//div[@id='project-wizard-body']//span[text()='Add']")).Click();
-
-            //скрипт Autolt - вызов скрипта для добавления файла
-            FillAddDocumentForm(filePath);
-            Thread.Sleep(6000);
-
-
-            //проверка что загрузились файлы без ошибок
-
-            switch (status)
-            {
-                case 0:
-                    //проверка, что появилось окно об ошибке
-                    //если появилось окно, то return true, иначе return false
-                    return true;
-
-                case 1:
-                    //проверка что окна об ошибке не появилось
-                    return true;
-
-                default:
-                    return true;
-            }
-        }
-              
+        
         /// <summary>
         /// метод тестирования создания проекта с существующим именем
         /// </summary>
@@ -569,7 +513,6 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             Assert.IsTrue(Driver.PageSource.Contains(limitName));
         }
 
-        //TODO пересмотреть метод!! как лучше выбирать языки
         /// <summary>
         /// метод тестирования создания проектов с одинаковыми source и target языками
         /// </summary>
@@ -586,24 +529,26 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             Driver.FindElement(By.CssSelector("input[name=\"Name\"]")).SendKeys(ProjectName);
 
             Driver.FindElement(By.CssSelector("input[name=\"TargetLanguages\"]")).Clear();
-            Driver.FindElement(By.CssSelector("input[name=\"TargetLanguages\"]")).SendKeys("English");
-            Thread.Sleep(2000);
-            Driver.FindElement(By.XPath("//ul//li[contains(text(),'English')]")).Click();
-
+           
+            //выбираем язык в зависимости от локали
+            if (IsElementPresent(By.XPath(".//span[contains(@class, 'active')][contains(text(), 'Рус')]"))) 
+            {
+                Driver.FindElement(By.CssSelector("input[name=\"TargetLanguages\"]")).SendKeys("Английский"); 
+                
+            }
+            else if (IsElementPresent(By.XPath(".//span[contains(@class, 'active')][contains(text(), 'Eng')]")))
+            {
+                Driver.FindElement(By.CssSelector("input[name=\"TargetLanguages\"]")).SendKeys("English");   
+            }
+            Wait.Until((d) => d.FindElement(By.XPath(".//li[contains(@class, 'x-boundlist-item')]")));
+            Driver.FindElement(By.XPath(".//li[contains(@class, 'x-boundlist-item')]")).Click();
+                                
             Thread.Sleep(2000);
             Driver.FindElement(By.XPath(".//div[@id='project-wizard-form']//span[contains(text(), 'Next')]")).Click();
 
             Thread.Sleep(4000);
-            Assert.IsFalse(Driver.FindElement(By.Id("project-wizard-tms")).Displayed);
-            //if(Driver.FindElement(By.Id("project-wizard-tms")).Displayed)
-            //{
-               // WriteFileConsoleResults("Test Fail", 0);
-            //}
-            //else
-            //{
-               // WriteFileConsoleResults("Test Pass", 1);
-            //}
-           // Thread.Sleep(3000);
+            Assert.IsFalse(Driver.FindElement(By.Id("project-wizard-tms")).Displayed, "Fail - переход на шаг настройки ТМ осуществлен");
+            
         }
 
         /// <summary>
@@ -617,8 +562,8 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
            
             string projectNameForbidden = ProjectName + " *|\\:\"<\\>?/ ";
 
-            CreateProject(projectNameForbidden, false, "");                     
-            Assert.IsFalse(Driver.PageSource.Contains(" *|\\:\"<\\>?/ "));
+            CreateProject(projectNameForbidden, false, "");
+            Assert.IsFalse(Driver.PageSource.Contains(" *|\\:\"<\\>?/ "), "Fail - можно создать проект с запрещенными символами в названии - *|\\:\"<\\>?/");
         }
 
         /// <summary>
@@ -637,7 +582,7 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             Thread.Sleep(2000);
 
             //проверяем, что появилось сообщение об ошибке около поля Name
-            Assert.IsTrue(Driver.PageSource.Contains("This field is required"));
+            Assert.IsTrue(Driver.PageSource.Contains("This field is required"), "Fail - нет сообщения об ошибке при создании проекта без имени");
         }
 
         /// <summary>
@@ -916,23 +861,6 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
         public void ChangeProjectNameOnDeleted()
         {
 
-        }
-
-        /// <summary>
-        /// ТС-10 тестирование импорта xliff из memoQ 
-        /// </summary>
-        [Test]
-        public void TestCase10()
-        {
-            Authorization();
-            //WriteFileConsoleResults("Import Xliff - TC 10", 2);
-            
-            string projectName = "TC-10 " + DateTime.UtcNow.Ticks.ToString();
-
-            CreateProject(projectName, true, _xliffTC10);
-            Thread.Sleep(2000);
-
-            Assert.IsTrue(Driver.PageSource.Contains(projectName));
         }
 
 
