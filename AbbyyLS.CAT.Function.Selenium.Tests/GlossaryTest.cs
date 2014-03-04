@@ -1399,9 +1399,9 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
         }
 
         /// <summary>
-        /// TODO Метод тестирования изменения структуры - Image - на stage2 не грузятся изображения
+        /// Метод тестирования изменения структуры - Image
         /// </summary>
-        //[Test]
+        [Test]
         public void EditGlossaryStructureImageTest()
         {
             // Изменить структуру глоссария, открыть создание нового термина
@@ -1418,19 +1418,22 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 
             // Заполнить диалог загрузки изображения
             FillAddDocumentForm(ImageFile);
-
+            Thread.Sleep(2000);
             // Сохранить термин
             Driver.FindElement(By.XPath(".//span[contains(@class,'js-save-btn js-edit')]")).Click();
             // Дождаться появления поля с сохраненным термином
             Wait.Until((d) => d.FindElement(By.XPath(".//tr[contains(@class,'js-concept-row opened')]")).Displayed);
 
-            // Проверить изображение - пока изображение не грузится
+            // Проверить, что изображение загрузилось
+            elXPath += "/../../div[contains(@class,'l-editgloss__image')]//img[contains(@class,'l-editgloss__imageview')]";
+            string srcValue = Driver.FindElement(By.XPath(elXPath)).GetAttribute("src");
+            Assert.IsTrue(srcValue.Length > 0, "Ошибка: изображение не загрузилось");
         }
 
         /// <summary>
-        /// TODO Метод тестирования изменения структуры - Multimedia - на stage2 не грузится Media
+        /// Метод тестирования изменения структуры - Multimedia
         /// </summary>
-        //[Test]
+        [Test]
         public void EditGlossaryStructureMultimediaTest()
         {
             // Изменить структуру глоссария, открыть создание нового термина
@@ -1446,14 +1449,17 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             Driver.FindElement(By.XPath(fieldXPath)).Click();
 
             // Загружать видео или звук
-            //FillAddDocumentForm(ImageFile); - заменить ImageFile
+            FillAddDocumentForm(AudioFile);
 
             // Сохранить термин
             Driver.FindElement(By.XPath(".//span[contains(@class,'js-save-btn js-edit')]")).Click();
             // Дождаться появления поля с сохраненным термином
             Wait.Until((d) => d.FindElement(By.XPath(".//tr[contains(@class,'js-concept-row opened')]")).Displayed);
 
-            // Проверить загрузку медия (сейчас не грузится, еще создать медия-файл)
+            // Проверить, что файл загрузился
+            elXPath += "/../div[contains(@class,'l-editgloss__filemedia')]//a[contains(@class,'l-editgloss__filelink')]";
+            string hrefValue = Driver.FindElement(By.XPath(elXPath)).GetAttribute("href");
+            Assert.IsTrue(hrefValue.Length > 0, "Ошибка: файл не загрузился");
         }
 
         /// <summary>
@@ -1605,9 +1611,9 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
         }
 
         /// <summary>
-        /// TODO Метод тестирования изменения структуры: добавление пользовательского поля Аудио/Видео - на stage2 загрузка не работает
+        /// Метод тестирования изменения структуры: добавление пользовательского поля Аудио/Видео
         /// </summary>
-        //[Test]
+        [Test]
         public void EditGlossaryStructureAddCustomMediaFieldTest()
         {
             // Создать глоссарий, изменить структуру, открыть добавление нового термина
@@ -1621,25 +1627,23 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             string textareaXPath = elXPath + "/..//span[contains(@class,'l-editgloss__linkbox')]//a[contains(@class,'js-upload-btn')]";
             Driver.FindElement(By.XPath(textareaXPath)).Click();
             // Загрузить документ
-            //FillAddDocumentForm(ImageFile);
+            FillAddDocumentForm(AudioFile);
 
             // Сохранить термин
             Driver.FindElement(By.XPath(".//span[contains(@class,'js-save-btn js-edit')]")).Click();
             // Дождаться появления поля с сохраненным термином
             Wait.Until((d) => d.FindElement(By.XPath(".//tr[contains(@class,'js-concept-row opened')]")).Displayed);
 
-            // Проверить, что в термине поле не пустое
-            elXPath += "/../../div[contains(@class,'l-corpr__viewmode__view js-view')]//div";
-            string text = Driver.FindElement(By.XPath(elXPath)).Text;
-            Assert.IsTrue(text.Length > 0, "Ошибка: поле пустое");
-
-            // Не работает загрузка файлов + заменить файл на медия
+            // Проверить, что файл загрузился
+            elXPath += "/../div[contains(@class,'l-editgloss__filemedia')]//a[contains(@class,'l-editgloss__filelink')]";
+            string hrefValue = Driver.FindElement(By.XPath(elXPath)).GetAttribute("href");
+            Assert.IsTrue(hrefValue.Length > 0, "Ошибка: файл не загрузился");
         }
 
         /// <summary>
-        /// TODO Метод тестирования изменения структуры: добавление ОБЯЗАТЕЛЬНОГО пользовательского поля Аудио/Видео - на stage2 загрузка не работает
+        /// Метод тестирования изменения структуры: добавление ОБЯЗАТЕЛЬНОГО пользовательского поля Аудио/Видео
         /// </summary>
-        //[Test]
+        [Test]
         public void EditGlossaryStructureAddCustomMediaReaquiredFieldTest()
         {
             // Создать глоссарий, изменить структуру, открыть добавление нового термина
@@ -1661,25 +1665,23 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             // Кликнуть по полю
             string textareaXPath = elXPath + "/..//span[contains(@class,'l-editgloss__linkbox')]//a[contains(@class,'js-upload-btn')]";
             Driver.FindElement(By.XPath(textareaXPath)).Click();
-            FillAddDocumentForm(ImageFile);
+            FillAddDocumentForm(AudioFile);
 
             // Сохранить термин
             Driver.FindElement(By.XPath(".//span[contains(@class,'js-save-btn js-edit')]")).Click();
             // Дождаться появления поля с сохраненным термином
             Wait.Until((d) => d.FindElement(By.XPath(".//tr[contains(@class,'js-concept-row opened')]")).Displayed);
 
-            // Проверить, что в термине поле не пустое
-            elXPath += "/../../div[contains(@class,'l-corpr__viewmode__view js-view')]//div";
-            string text = Driver.FindElement(By.XPath(elXPath)).Text;
-            Assert.IsTrue(text.Length > 0, "Ошибка: поле пустое");
-
-            // Не работает загрузка файлов + заменить файл на медия
+            // Проверить, что файл загрузился
+            elXPath += "/../div[contains(@class,'l-editgloss__filemedia')]//a[contains(@class,'l-editgloss__filelink')]";
+            string hrefValue = Driver.FindElement(By.XPath(elXPath)).GetAttribute("href");
+            Assert.IsTrue(hrefValue.Length > 0, "Ошибка: файл не загрузился");
         }
 
         /// <summary>
-        /// TODO Метод тестирования изменения структуры: добавление пользовательского поля Изображение - на stage2 загрузка не работает
+        /// Метод тестирования изменения структуры: добавление пользовательского поля Image
         /// </summary>
-        //[Test]
+        [Test]
         public void EditGlossaryStructureAddCustomImageFieldTest()
         {
             // Создать глоссарий, изменить структуру, открыть добавление нового термина
@@ -1701,17 +1703,16 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             // Дождаться появления поля с сохраненным термином
             Wait.Until((d) => d.FindElement(By.XPath(".//tr[contains(@class,'js-concept-row opened')]")).Displayed);
 
-            // Проверить, что в термине поле не пустое
-            //elXPath += "/../../div[contains(@class,'l-corpr__viewmode__view js-view')]//div";
-            //string text = Driver.FindElement(By.XPath(elXPath)).Text;
-            //Assert.IsTrue(text.Length > 0, "Ошибка: поле пустое");
-            Assert.IsTrue(false, "Не работает загрузка изображений");
+            // Проверить, что изображение загрузилось
+            elXPath += "/../../div[contains(@class,'l-editgloss__image')]//img[contains(@class,'l-editgloss__imageview')]";
+            string srcValue = Driver.FindElement(By.XPath(elXPath)).GetAttribute("src");
+            Assert.IsTrue(srcValue.Length > 0, "Ошибка: изображение не загрузилось");
         }
 
         /// <summary>
-        /// TODO Метод тестирования изменения структуры: добавление ОБЯЗАТЕЛЬНОГО пользовательского поля Изображение - на stage2 загрузка не работает
+        /// Метод тестирования изменения структуры: добавление ОБЯЗАТЕЛЬНОГО пользовательского поля Изображение
         /// </summary>
-        //[Test]
+        [Test]
         public void EditGlossaryStructureAddCustomImageReaquiredFieldTest()
         {
             // Создать глоссарий, изменить структуру, открыть добавление нового термина
@@ -1733,7 +1734,7 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             // Кликнуть по полю
             string textareaXPath = elXPath + "/..//div[contains(@class,'l-editgloss__imagebox')]//a";
             Driver.FindElement(By.XPath(textareaXPath)).Click();
-            // Загрузить документа
+            // Загрузить документ
             FillAddDocumentForm(ImageFile);
 
             // Сохранить термин
@@ -1741,11 +1742,10 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             // Дождаться появления поля с сохраненным термином
             Wait.Until((d) => d.FindElement(By.XPath(".//tr[contains(@class,'js-concept-row opened')]")).Displayed);
 
-            // Проверить, что в термине поле не пустое
-            //elXPath += "/../../div[contains(@class,'l-corpr__viewmode__view js-view')]//div";
-            //string text = Driver.FindElement(By.XPath(elXPath)).Text;
-            //Assert.IsTrue(text.Length > 0, "Ошибка: поле пустое");
-            Assert.IsTrue(false, "Не работает загрузка изображений");
+            // Проверить, что изображение загрузилось
+            elXPath += "/../../div[contains(@class,'l-editgloss__image')]//img[contains(@class,'l-editgloss__imageview')]";
+            string srcValue = Driver.FindElement(By.XPath(elXPath)).GetAttribute("src");
+            Assert.IsTrue(srcValue.Length > 0, "Ошибка: изображение не загрузилось");
         }
 
         /// <summary>
@@ -1836,7 +1836,7 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
         public void EditGlossaryStructureAddCustomNumberFieldTest()
         {
             // Создать глоссарий, изменить структуру, открыть добавление нового термина
-            string fieldName = SetCustomFieldGlossaryStructure("Number");
+            string fieldName = SetCustomFieldGlossaryStructure("Number", false, true, "0");
 
             // Проверить, что поле появилось
             string elXPath =
@@ -1860,27 +1860,56 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
         }
 
         /// <summary>
-        /// Метод тестирования изменения структуры: добавление ОБЯЗАТЕЛЬНОГО пользовательского поля Число
+        /// Метод тестирования изменения структуры: добавление пользовательского поля Число, проверка необходимости значения по умолчанию
         /// </summary>
         [Test]
-        public void EditGlossaryStructureAddCustomNumberRequiredFieldTest()
+        public void EditGlossaryStructureAddCustomNumberDefaultValueFieldTest()
         {
             // Создать глоссарий, изменить структуру, открыть добавление нового термина
-            string fieldName = SetCustomFieldGlossaryStructure("Number", true);
+            string fieldName = "CustomField: " + "Number";
+
+            // Создать глоссарий
+            string glossaryName = GetUniqueGlossaryName();
+            CreateGlossaryByName(glossaryName);
+
+            // Открыть редактирование структуры
+            OpenEditGlossaryStructure();
+            // Перейти на пользовательские поля
+            Driver.FindElement(By.XPath(".//a[contains(@class,'js-type-tab js-custom-tab')]")).Click();
+            Wait.Until((d) => d.FindElement(By.XPath(".//table[contains(@class,'l-editgloss__tblEditStructure')]")).Displayed);
+            // Ввести названиe
+            Driver.FindElement(By.XPath(".//div[contains(@class,'js-custom-attrs')]//input[contains(@class,'l-editgloss__cusattrbox__text long js-name')]")).SendKeys(fieldName);
+            Thread.Sleep(1000);
+            // Выбрать тип
+            Driver.FindElement(By.XPath(".//table[contains(@class,'l-editgloss__tblEditStructure')]//span[contains(@class,'js-dropdown__text type')]")).Click();
+            Wait.Until((d) => d.FindElement(By.XPath(
+                ".//span[contains(@class,'js-dropdown__list')]//span[contains(@class,'js-dropdown__item type')][@data-id='Number']"))).Click();
+            Thread.Sleep(1000);
+            // Нажать "Добавить"
+            Driver.FindElement(By.XPath(".//span[contains(@class,'js-add-custom-attribute')]")).Click();
+
+            // Дождаться появления ошибки о необходимости ввести значение по умолчанию
+            Wait.Until((d) => d.FindElement(By.XPath(".//div[contains(@class,'js-attribute-errors')]//p[contains(@class,'js-error-default-value')]")).Displayed);
+            SetDefaultValueCustomField("0");
+            Thread.Sleep(1000);
+            // Нажать "Добавить"
+            Driver.FindElement(By.XPath(".//span[contains(@class,'js-add-custom-attribute')]")).Click();
+            Thread.Sleep(1000);
+            // Сохранить
+            Driver.FindElement(By.XPath(".//div[contains(@class, 'js-popup-buttons')]//span[contains(@class, 'js-save')]")).Click();
+            // Дождаться закрытия формы
+            Thread.Sleep(2000);
+
+            // Нажать New item
+            Wait.Until((d) => d.FindElement(By.XPath(
+                ".//span[contains(@class,'js-add-concept')]"))).Click();
+            // Заполнить термин
+            FillNewItemExtended();
 
             // Проверить, что поле появилось
             string elXPath =
                 ".//div[contains(@class,'js-concept-attrs')]//div[contains(@class,'l-corpr__viewmode__edit')]//p[text()='" + fieldName + "']";
             Assert.IsTrue(Driver.FindElement(By.XPath(elXPath)).Displayed, "Ошибка: поле не появилось");
-
-            // Сохранить термин
-            Driver.FindElement(By.XPath(".//span[contains(@class,'js-save-btn js-edit')]")).Click();
-
-            // Проверить, что поле отмечено ошибкой - поле обязательное, поэтому не может сохраняться пустым            
-            Assert.IsTrue(
-                Driver.FindElement(By.XPath(
-                ".//div[contains(@class,'js-concept-attrs')]//div[contains(@class,'js-edit l-error')]//p[contains(@class,'l-editgloss__name')][text()='" + fieldName + "']")).Displayed,
-                "Ошибка: обязательное поле не отмечено ошибкой");
 
             // Ввести в поле текст
             string textareaXPath = elXPath + "/..//input[contains(@class,'js-submit-input')]";
@@ -1990,7 +2019,7 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
         }
 
         /// <summary>
-        /// TODO Метод тестирования изменения структуры: добавление пользовательского поля Да/Нет
+        /// Метод тестирования изменения структуры: добавление пользовательского поля Да/Нет
         /// </summary>
         [Test]
         public void EditGlossaryStructureAddCustomBooleanFieldTest()
@@ -2017,44 +2046,7 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             Assert.AreEqual("true", valueResult, "Ошибка: в поле неверное значение");
         }
 
-        /// <summary>
-        /// TODO Метод тестирования изменения структуры: добавление ОБЯЗАТЕЛЬНОГО пользовательского поля Да/Нет
-        /// </summary>
-        [Test]
-        public void EditGlossaryStructureAddCustomBooleanReaquiredFieldTest()
-        {
-            // Создать глоссарий, изменить структуру, открыть добавление нового термина
-            string fieldName = SetCustomFieldGlossaryStructure("Boolean");
-
-            // Проверить, что поле появилось
-            string elXPath =
-                ".//div[contains(@class,'js-concept-attrs')]//div[contains(@class,'l-corpr__viewmode__edit')]//span[contains(@class,'l-editgloss__name')][text()='" + fieldName + "']";
-            Thread.Sleep(1000);
-            Assert.IsTrue(Driver.FindElement(By.XPath(elXPath)).Displayed, "Ошибка: поле не появилось");
-
-            // Сохранить термин
-            Driver.FindElement(By.XPath(".//span[contains(@class,'js-save-btn js-edit')]")).Click();
-
-            // Проверить, что поле отмечено ошибкой - поле обязательное, поэтому не может сохраняться пустым            
-            Assert.IsTrue(
-                Driver.FindElement(By.XPath(
-                ".//div[contains(@class,'js-concept-attrs')]//div[contains(@class,'js-edit l-error')]//span[contains(@class,'l-editgloss__name')][text()='" + fieldName + "']")).Displayed,
-                "Ошибка: обязательное поле не отмечено ошибкой");
-
-            // Отметить галочку
-            string inputXPath = elXPath + "/..//span[contains(@class,'js-chckbx')]//input[contains(@class,'js-chckbx__orig')]";
-            Driver.FindElement(By.XPath(inputXPath)).Click();
-
-            // Сохранить термин
-            Driver.FindElement(By.XPath(".//span[contains(@class,'js-save-btn js-edit')]")).Click();
-
-            // Проверить значение в поле
-            inputXPath = elXPath + "/..//input[contains(@class,'js-submit-input')]";
-            string valueResult = Driver.FindElement(By.XPath(inputXPath)).GetAttribute("value");
-            Assert.AreEqual("true", valueResult, "Ошибка: в поле неверное значение");
-        }
-
-
+        
 
         private void SwitchGlossaryTab()
         {
@@ -2209,7 +2201,7 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             // Найти невыбранное поле и добавить его
             string attributeValue = "";
             // Получить список полей
-            IList<IWebElement> allFields = Driver.FindElements(By.XPath(".//table[contains(@class, 'js-predefined-attrs-table Concept')]//tr[contains(@class, 'l-editgloss__tr')]"));
+            IList<IWebElement> allFields = Driver.FindElements(By.XPath(".//table[contains(@class, 'js-predefined-attrs-table concept')]//tr[contains(@class, 'l-editgloss__tr js-attr-row')]"));
             for (int i = 0; i < allFields.Count; ++i)
             {
                 attributeValue = allFields[i].GetAttribute("class");
@@ -2217,7 +2209,7 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
                 if (!attributeValue.Contains("g-hidden"))
                 {
                     // Получить xPath текущей строки
-                    string xPath = ".//table[contains(@class, 'js-predefined-attrs-table Concept')]//tr[contains(@class, 'l-editgloss__tr')][" + (i + 1).ToString() + "]/td[1]";
+                    string xPath = ".//table[contains(@class, 'js-predefined-attrs-table concept')]//tr[contains(@class, 'l-editgloss__tr js-attr-row')][" + (i + 1).ToString() + "]/td[1]";
                     // Выбрать строку
                     Driver.FindElement(By.XPath(xPath)).Click();
                     // Добавить
@@ -2552,7 +2544,7 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             Thread.Sleep(2000);
         }
 
-        private string SetCustomFieldGlossaryStructure(string fieldType, bool isRequired = false)
+        private string SetCustomFieldGlossaryStructure(string fieldType, bool isRequired = false, bool isNeedDefaultValue = false, string defaultValue = "")
         {
             // Создать глоссарий
             string glossaryName = GetUniqueGlossaryName();
@@ -2577,6 +2569,12 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
                 Driver.FindElement(By.XPath(".//span[contains(@class,'js-chckbx g-iblock')]")).Click();
             }
 
+            if (isNeedDefaultValue)
+            {
+                // Ввести значение по умолчанию
+                SetDefaultValueCustomField(defaultValue);
+            }
+
             Thread.Sleep(1000);
             // Нажать "Добавить"
             Driver.FindElement(By.XPath(".//span[contains(@class,'js-add-custom-attribute')]")).Click();
@@ -2592,6 +2590,16 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             // Заполнить термин
             FillNewItemExtended();
             return fieldName;
+        }
+
+        private void SetDefaultValueCustomField(string defaultValue)
+        {
+            // Очистить поле значения по умолчанию
+            Driver.FindElement(By.XPath(
+                ".//td[contains(@class,'js-default-editor-placeholder')]//input[contains(@class,'js-submit-input')]")).Clear();
+            // Ввести в него значение
+            Driver.FindElement(By.XPath(
+                ".//td[contains(@class,'js-default-editor-placeholder')]//input[contains(@class,'js-submit-input')]")).SendKeys(defaultValue);
         }
 
         private string SetCustomGlossaryStructureAddList(string fieldType, List<string> choiceList, bool isRequired = false)

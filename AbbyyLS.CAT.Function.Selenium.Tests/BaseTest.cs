@@ -158,6 +158,16 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             }
         }
 
+        private string _audioFile;
+
+        protected string AudioFile
+        {
+            get
+            {
+                return _audioFile;
+            }
+        }
+
         private string _browserName;
 
         private string BrowserName
@@ -193,6 +203,7 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             _secondTmFile = Path.GetFullPath(ConfigurationManager.AppSettings["SecondTMXFile"]);
             _importGlossaryFile = Path.GetFullPath(ConfigurationManager.AppSettings["ImportGlossaryFile"]);
             _imageFile = Path.GetFullPath(ConfigurationManager.AppSettings["TestImageFile"]);
+            _audioFile = Path.GetFullPath(ConfigurationManager.AppSettings["TestAudioFile"]);
         }
 
         /// <summary>
