@@ -1317,52 +1317,7 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 
             // Проверить, есть ли проект с таким именем
             string projectName = "TestGlossaryEditStructureProject";
-            IList<IWebElement> projectsList = Driver.FindElements(By.XPath(
-                ".//table[contains(@class,'js-domains js-sortable-table')]//tr[contains(@class,'l-corpr__trhover js-row')]"));
-            bool isProjectExists = false;
-            foreach (IWebElement el in projectsList)
-            {
-                if (el.Text == projectName)
-                {
-                    isProjectExists = true;
-                    break;
-                }
-            }
-
-            if (!isProjectExists)
-            {
-                // Добавить проект
-                // Нажать "Добавить проект"
-                Driver.FindElement(By.XPath(
-                    ".//span[contains(@class,'g-btn g-redbtn js-add-domain')]//a[contains(@class,'g-btn__text g-redbtn__text')]")).Click();
-                string rowXPath = ".//table[contains(@class,'js-domains')]//tr[contains(@class,'l-corpr__trhover js-row')]";
-                // Получить все строки в таблице с проектами
-                IList<IWebElement> rowsList = Driver.FindElements(By.XPath(rowXPath));
-                string tdXPath = "";
-                for (int i = 0; i < rowsList.Count; ++i)
-                {
-                    // Найти нескрытую строку для ввода имени нового проекта
-                    if (!rowsList[i].GetAttribute("class").Contains("g-hidden"))
-                    {
-                        tdXPath = rowXPath + "[" + (i + 1) + "]//td[contains(@class,'js-cell')]";
-                        if (Driver.FindElement(By.XPath(tdXPath)).GetAttribute("class").Contains("domainNew"))
-                        {
-                            string projectNameXPath = tdXPath +
-                                "//div[contains(@class,'js-edit-mode')]//input[contains(@class,'js-domain-name-input')]";
-                            // Ввести имя проекта
-                            Driver.FindElement(By.XPath(projectNameXPath)).SendKeys(projectName);
-                            break;
-                        }
-                    }
-                }
-
-                // Расширить окно, чтобы кнопка была видна, иначе она недоступна для Selenium
-                Driver.Manage().Window.Maximize();
-                // Сохранить новый проект
-                Driver.FindElement(By.XPath(tdXPath +
-                    "//div[contains(@class,'l-corpr__domainbox js-edit-mode')]//a[contains(@class,'save js-save-domain')]")).Click();
-                Thread.Sleep(1000);
-            }
+            CreateProjectIfNotExist(projectName);
 
             // Вернуться к глоссариям
             SwitchGlossaryTab();
@@ -2046,15 +2001,137 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             Assert.AreEqual("true", valueResult, "Ошибка: в поле неверное значение");
         }
 
+        /// <summary>
+        /// Метод тестирования поиска термина в глоссарии по слову из первого языка
+        /// </summary>
+        [Test]
+        public void SearchItemGlossaryFirstLangTest()
+        {
+            // Создать глоссарий
+            CreateGlossaryByName(GetUniqueGlossaryName());
+            string uniqueData = DateTime.UtcNow.Ticks.ToString() + "1Term";
+            string firstTerm = "Test First Term " + uniqueData;
+            string secondTerm = "Test Second Term " + DateTime.UtcNow.ToString();
+            // Создать термин
+            CreateItemAndSave(firstTerm, secondTerm);
+            Thread.Sleep(1000);
+            // Создать другой термин
+            CreateItemAndSave();
+            Thread.Sleep(1000);
+
+            // Получить количество терминов
+            int itemCountBefore = GetCountOfItems();
+
+            // Инициировать поиск по уникальному слову в первом термине
+            Driver.FindElement(By.XPath(".//input[contains(@class,'js-search-term')]")).Clear();
+            Driver.FindElement(By.XPath(".//input[contains(@class,'js-search-term')]")).SendKeys(uniqueData);
+            Driver.FindElement(By.XPath(".//a[contains(@class,'js-search-by-term')]")).Click();
+            // Дождаться окончания поиска
+            Thread.Sleep(2000);
+            int itemCountAfter = GetCountOfItems();
+            // Проверить, что найден только один термин
+            Assert.IsTrue(itemCountAfter == 1, "Ошибка: должен быть найден только один термин");
+
+            // Проверить, что показан нужный термин
+            string itemText = Driver.FindElement(By.XPath(".//tr[contains(@class, 'js-concept-row')]//td[contains(@class,'glossaryShort')][1]//p")).Text.Trim();
+            Assert.AreEqual(firstTerm, itemText, "Ошибка: найден неправильный термин");
+        }
         
 
-        private void SwitchGlossaryTab()
+        /// <summary>
+        /// Метод тестирования поиска термина в глоссарии по слову из второго языка
+        /// </summary>
+        [Test]
+        public void SearchItemGlossarySecondLangTest()
         {
-            // Перейти на страницу со списком глоссариев
-            Driver.FindElement(By.XPath(
-                ".//ul[@class='g-corprmenu__list']//a[contains(@href,'/Glossaries')]")).Click();
-            Wait.Until((d) => d.FindElement(By.XPath(
-                ".//span[contains(@class,'js-create-glossary-button')]//a[contains(@class,'g-btn__text g-redbtn__text')]")).Displayed);
+            // Создать глоссарий
+            CreateGlossaryByName(GetUniqueGlossaryName());
+            string uniqueData = DateTime.UtcNow.Ticks.ToString() + "2Term";
+            string firstTerm = "Test First Term " + DateTime.UtcNow.ToString();
+            string secondTerm = "Test Second Term " + uniqueData;
+
+            // Создать термин
+            CreateItemAndSave(firstTerm, secondTerm);
+            Thread.Sleep(1000);
+            // Создать другой термин
+            CreateItemAndSave();
+            Thread.Sleep(1000);
+
+            // Получить количество терминов
+            int itemCountBefore = GetCountOfItems();
+
+            // Инициировать поиск по уникальному слову в первом термине
+            Driver.FindElement(By.XPath(".//input[contains(@class,'js-search-term')]")).Clear();
+            Driver.FindElement(By.XPath(".//input[contains(@class,'js-search-term')]")).SendKeys(uniqueData);
+            Driver.FindElement(By.XPath(".//a[contains(@class,'js-search-by-term')]")).Click();
+            // Дождаться окончания поиска
+            Thread.Sleep(2000);
+            int itemCountAfter = GetCountOfItems();
+            // Проверить, что найден только один термин
+            Assert.IsTrue(itemCountAfter == 1, "Ошибка: должен быть найден только один термин");
+
+            // Проверить, что показан нужный термин
+            string itemText = Driver.FindElement(By.XPath(".//tr[contains(@class, 'js-concept-row')]//td[contains(@class,'glossaryShort')][1]//p")).Text.Trim();
+            Assert.AreEqual(firstTerm, itemText, "Ошибка: найден неправильный термин");
+        }
+
+        /// <summary>
+        /// Метод тестирования поиска термина из вкладки Поиска
+        /// </summary>
+        [Test]
+        public void SearchItemSearchTabTest()
+        {
+            // Создать глоссарий
+            string firstGlossaryName = GetUniqueGlossaryName();
+            CreateGlossaryByName(firstGlossaryName);
+
+            string uniqueData = DateTime.UtcNow.Ticks.ToString() + "SearchTest";
+            string firstTerm = "Test First Term " + uniqueData;
+            string secondTerm = "Test Second Term ";
+            // Создать термин
+            CreateItemAndSave(firstTerm, secondTerm + DateTime.UtcNow.Ticks.ToString());
+
+            // Перейти на вкладку Глоссарии
+            SwitchGlossaryTab();
+
+            // Создать глоссарий
+            string secondGlossaryName = GetUniqueGlossaryName();
+            CreateGlossaryByName(secondGlossaryName);
+            // Создать термин
+            CreateItemAndSave(firstTerm, secondTerm + DateTime.UtcNow.Ticks.ToString());
+            // Перейти на вкладку Поиск
+            SwitchSearchTab();
+            Thread.Sleep(5000);
+            // Ввести слово для поиска
+            Driver.FindElement(By.XPath(".//form[contains(@class,'js-search-form')]//textarea[@id='searchText']")).Clear();
+            Driver.FindElement(By.XPath(".//form[contains(@class,'js-search-form')]//textarea[@id='searchText']")).SendKeys(uniqueData);
+            // Нажать Перевести
+            Driver.FindElement(By.XPath(".//form[contains(@class,'js-search-form')]//span[contains(@class,'g-redbtn search')]//input")).Click();
+            Thread.Sleep(5000);
+            // Проверить результат
+            string tableXPath = ".//div[contains(@class,'js-search-results')]//div[contains(@class,'l-glossary__data')]";
+            IList<IWebElement> resultList = Driver.FindElements(By.XPath(tableXPath + "//h2[contains(@class,'l-glossary__srctext')]"));
+            Thread.Sleep(5000);
+            // Проверить, что найдено два термина
+            Assert.IsTrue(resultList.Count == 2, "Ошибка: поиск должен найти только два результата");
+
+            for (int i = 0; i < resultList.Count; ++i)
+            {
+                // Получить название глоссария
+                string foundGlossary = resultList[i].Text;
+                // Проверить, что найден правильный глоссарий
+                bool isRightGlossary = foundGlossary.Contains(firstGlossaryName) || foundGlossary.Contains(secondGlossaryName);
+
+                // Получить найденный термин
+                string itemXPath = tableXPath +
+                    "//table[" + (i + 1) + "]//td/table[contains(@class,'l-glossary__tblsrcword')]//td[contains(@class,'js-cell-width first')]//span[contains(@class,'l-glossary__srcwordtxt')]";
+                string itemText = Driver.FindElement(By.XPath(itemXPath)).Text;
+                // Проверить, что найден правильный термин
+                bool isRightItem = itemText == firstTerm;
+
+                // Проверить, что найден и правильный глоссарий, и правильный термин
+                Assert.IsTrue(isRightGlossary && isRightItem, "Ошибка: найден неправильный термин (" + (i + 1) + "-й найденный результат)");
+            }
         }
 
         private void SwitchCurrentGlossary(string glossaryName)
@@ -2085,13 +2162,13 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             Wait.Until((d) => d.FindElement(By.XPath(".//span[contains(@class,'l-corpr__addbtnbox js-buttons-block')]")).Displayed);
         }
 
-        private void SwitchProjectTab()
+        private void SwitchSearchTab()
         {
-            // Перейти на страницу со списком глоссариев
+            // Перейти на страницу поиска
             Driver.FindElement(By.XPath(
-                ".//ul[@class='g-corprmenu__list']//a[contains(@href,'/Domains')]")).Click();
+                ".//ul[@class='g-corprmenu__list']//a[contains(@href,'/Start')]")).Click();
             Wait.Until((d) => d.FindElement(By.XPath(
-                ".//span[contains(@class,'g-btn g-redbtn js-add-domain')]//a[contains(@class,'g-btn__text g-redbtn__text')]")).Displayed);
+                ".//form[contains(@class,'js-search-form')]")).Displayed);
         }
 
         private void OpenGlossaryProperties()
@@ -2233,7 +2310,7 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             // Расширить окно, чтобы кнопка была видна, иначе Selenium ее "не видит" и выдает ошибку
             Driver.Manage().Window.Maximize();
             // Нажать Сохранить
-            Driver.FindElement(By.XPath(".//tr[contains(@class, 'js-concept-row js-editing')]//a[contains(@class, 'js-save-btn')]")).Click();
+            Driver.FindElement(By.XPath(".//tr[contains(@class, 'js-concept-row js-editing opened')]//a[contains(@class, 'js-save-btn')]")).Click();
             Thread.Sleep(2000);
         }
 

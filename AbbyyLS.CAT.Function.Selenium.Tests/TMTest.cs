@@ -327,7 +327,7 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             int segCountAfter = GetSegmentCount(uniqueTMName);
 
             // Проверить, что количество сегментов увеличилось (при AddTMX количество сегментов должно суммироваться)
-            Assert.IsTrue(segCountAfter > segCountBefore, "Ошибка: количестве сегментов должно увеличиться");
+            Assert.IsTrue(segCountAfter > segCountBefore, "Ошибка: количество сегментов должно увеличиться");
         }
 
         /// <summary>
@@ -421,19 +421,7 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             // Проверить, что количество сегментов больше 0
             Assert.IsTrue(GetSegmentCount(uniqueTMName) > 0, "Ошибка: количество сегментов должно быть больше 0");
         }
-
-
-        private void SwitchTMTab()
-        {
-            // Нажать кнопку перехода на страницу Базы Translation memory
-            Driver.FindElement(By.XPath(
-                ".//ul[@class='g-corprmenu__list']//a[contains(@href,'/Enterprise/TranslationMemories')]")).Click();
-
-            // ждем загрузки страницы
-            Wait.Until((d) => d.FindElement(By.XPath(
-                ".//span[contains(@class,'l-corpr__addbtnbox')]//a[contains(@class,'g-btn__text g-redbtn__text')]")).Displayed);
-        }
-
+        
         private void EditTMFillName(string TMNameToEdit, string newTMName)
         {
             // Отрыть информацию о ТМ и нажать кнопку

@@ -195,8 +195,8 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             _constTmName = ConfigurationManager.AppSettings["TMName"];
             _glossaryName = ConfigurationManager.AppSettings["GlossaryName"];
 
-            _projectName += " " + DateTime.UtcNow.Ticks.ToString();
-            _tmName += " " + DateTime.UtcNow.Ticks.ToString();
+            CreateUniqueNamesByDatetime();
+            
             _tmFile = Path.GetFullPath(ConfigurationManager.AppSettings["TMXFile"]);
             _tmFile2 = Path.GetFullPath(ConfigurationManager.AppSettings["TMXFile2"]);
              
@@ -204,6 +204,12 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             _importGlossaryFile = Path.GetFullPath(ConfigurationManager.AppSettings["ImportGlossaryFile"]);
             _imageFile = Path.GetFullPath(ConfigurationManager.AppSettings["TestImageFile"]);
             _audioFile = Path.GetFullPath(ConfigurationManager.AppSettings["TestAudioFile"]);
+        }
+
+        private void CreateUniqueNamesByDatetime()
+        {
+            _projectName += " " + DateTime.UtcNow.Ticks.ToString();
+            _tmName += " " + DateTime.UtcNow.Ticks.ToString();
         }
 
         /// <summary>
@@ -951,6 +957,97 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             return userName;
         }
 
+        protected void SwitchProjectTab()
+        {
+            // Перейти на страницу со списком глоссариев
+            Driver.FindElement(By.XPath(
+                ".//ul[@class='g-corprmenu__list']//a[contains(@href,'/Domains')]")).Click();
+            Wait.Until((d) => d.FindElement(By.XPath(
+                ".//span[contains(@class,'g-btn g-redbtn js-add-domain')]//a[contains(@class,'g-btn__text g-redbtn__text')]")).Displayed);
+        }
+
+        protected void SwitchTMTab()
+        {
+            // Нажать кнопку перехода на страницу Базы Translation memory
+            Driver.FindElement(By.XPath(
+                ".//ul[@class='g-corprmenu__list']//a[contains(@href,'/Enterprise/TranslationMemories')]")).Click();
+
+            // ждем загрузки страницы
+            Wait.Until((d) => d.FindElement(By.XPath(
+                ".//span[contains(@class,'l-corpr__addbtnbox')]//a[contains(@class,'g-btn__text g-redbtn__text')]")).Displayed);
+        }
+
+        protected void SwitchGlossaryTab()
+        {
+            // Перейти на страницу со списком глоссариев
+            Driver.FindElement(By.XPath(
+                ".//ul[@class='g-corprmenu__list']//a[contains(@href,'/Glossaries')]")).Click();
+            Wait.Until((d) => d.FindElement(By.XPath(
+                ".//span[contains(@class,'js-create-glossary-button')]//a[contains(@class,'g-btn__text g-redbtn__text')]")).Displayed);
+        }
+
+        protected bool GetIsProjectExist(string projectName)
+        {
+            // Получить список всех проектов
+            IList<IWebElement> projectsList = Driver.FindElements(By.XPath(
+                ".//table[contains(@class,'js-domains js-sortable-table')]//tr[contains(@class,'l-corpr__trhover js-row')]"));
+            bool bProjectExist = false;
+            foreach (IWebElement el in projectsList)
+            {
+                // Проверить имя проекта
+                if (el.Text == projectName)
+                {
+                    bProjectExist = true;
+                    break;
+                }
+            }
+
+            return bProjectExist;
+        }
+
+        protected void CreateCATProject(string projectName)
+        {
+            // Нажать "Добавить проект"
+            Driver.FindElement(By.XPath(
+                ".//span[contains(@class,'g-btn g-redbtn js-add-domain')]//a[contains(@class,'g-btn__text g-redbtn__text')]")).Click();
+            string rowXPath = ".//table[contains(@class,'js-domains')]//tr[contains(@class,'l-corpr__trhover js-row')]";
+            // Получить все строки в таблице с проектами
+            IList<IWebElement> rowsList = Driver.FindElements(By.XPath(rowXPath));
+            string tdXPath = "";
+            for (int i = 0; i < rowsList.Count; ++i)
+            {
+                // Найти нескрытую строку для ввода имени нового проекта
+                if (!rowsList[i].GetAttribute("class").Contains("g-hidden"))
+                {
+                    tdXPath = rowXPath + "[" + (i + 1) + "]//td[contains(@class,'js-cell')]";
+                    if (Driver.FindElement(By.XPath(tdXPath)).GetAttribute("class").Contains("domainNew"))
+                    {
+                        string projectNameXPath = tdXPath +
+                            "//div[contains(@class,'js-edit-mode')]//input[contains(@class,'js-domain-name-input')]";
+                        // Ввести имя проекта
+                        Driver.FindElement(By.XPath(projectNameXPath)).SendKeys(projectName);
+                        break;
+                    }
+                }
+            }
+
+            // Расширить окно, чтобы кнопка была видна, иначе она недоступна для Selenium
+            Driver.Manage().Window.Maximize();
+            // Сохранить новый проект
+            Driver.FindElement(By.XPath(tdXPath +
+                "//div[contains(@class,'l-corpr__domainbox js-edit-mode')]//a[contains(@class,'save js-save-domain')]")).Click();
+            Thread.Sleep(1000);
+        }
+
+        protected void CreateProjectIfNotExist(string projectName)
+        {
+            if (!GetIsProjectExist(projectName))
+            {
+                // Если проект не найден, создать его
+                CreateCATProject(projectName);
+            }
+        }
+
 
         [SetUp]
         public void Setup()
@@ -959,6 +1056,8 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             {
                 // Если конструктор заново не вызывался, то надо заполнить _driver
                 CreateDriver();
+                // И заново создать уникальные названия
+                CreateUniqueNamesByDatetime();
             }
         }
 
