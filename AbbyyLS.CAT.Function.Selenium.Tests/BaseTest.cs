@@ -957,7 +957,7 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             return userName;
         }
 
-        protected void SwitchProjectTab()
+        protected void SwitchDomainTab()
         {
             // Перейти на страницу со списком глоссариев
             Driver.FindElement(By.XPath(
@@ -986,7 +986,7 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
                 ".//span[contains(@class,'js-create-glossary-button')]//a[contains(@class,'g-btn__text g-redbtn__text')]")).Displayed);
         }
 
-        protected bool GetIsProjectExist(string projectName)
+        protected bool GetIsDomainExist(string domainName)
         {
             // Получить список всех проектов
             IList<IWebElement> projectsList = Driver.FindElements(By.XPath(
@@ -995,7 +995,7 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             foreach (IWebElement el in projectsList)
             {
                 // Проверить имя проекта
-                if (el.Text == projectName)
+                if (el.Text == domainName)
                 {
                     bProjectExist = true;
                     break;
@@ -1005,7 +1005,7 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             return bProjectExist;
         }
 
-        protected void CreateCATProject(string projectName)
+        protected void CreateDomain(string domainName)
         {
             // Нажать "Добавить проект"
             Driver.FindElement(By.XPath(
@@ -1025,7 +1025,7 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
                         string projectNameXPath = tdXPath +
                             "//div[contains(@class,'js-edit-mode')]//input[contains(@class,'js-domain-name-input')]";
                         // Ввести имя проекта
-                        Driver.FindElement(By.XPath(projectNameXPath)).SendKeys(projectName);
+                        Driver.FindElement(By.XPath(projectNameXPath)).SendKeys(domainName);
                         break;
                     }
                 }
@@ -1039,12 +1039,12 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             Thread.Sleep(1000);
         }
 
-        protected void CreateProjectIfNotExist(string projectName)
+        protected void CreateDomainIfNotExist(string domainName)
         {
-            if (!GetIsProjectExist(projectName))
+            if (!GetIsDomainExist(domainName))
             {
                 // Если проект не найден, создать его
-                CreateCATProject(projectName);
+                CreateDomain(domainName);
             }
         }
 

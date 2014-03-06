@@ -49,7 +49,7 @@
   <ItemGroup>
     <Compile Include="Authorization.cs" />
     <Compile Include="BaseTest.cs" />
-    <Compile Include="CATProjectTest.cs" />
+    <Compile Include="DomainTest.cs" />
     <Compile Include="ClientTest.cs" />
     <Compile Include="EditorButtonsTest.cs" />
     <Compile Include="GlossaryTest.cs" />

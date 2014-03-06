@@ -7,9 +7,9 @@ using System.Windows.Forms;
 
 namespace AbbyyLs.CAT.Function.Selenium.Tests
 {
-    public class CATProject : BaseTest
+    public class Domain : BaseTest
     {
-        public CATProject(string url, string workspaceUrl, string browserName)
+        public Domain(string url, string workspaceUrl, string browserName)
             : base(url, workspaceUrl, browserName)
         {
 
@@ -22,78 +22,78 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             Authorization();
 
             // Перейти на вкладку Проект
-            SwitchProjectTab();
+            SwitchDomainTab();
         }
 
         /// <summary>
         /// Метод тестирования создания Проекта
         /// </summary>
         [Test]
-        public void CreateProjectTest()
+        public void CreateDomainTest()
         {
             // Создать проект с уникальным именем
-            string projectName = GetProjectUniqueName();
-            CreateCATProject(projectName);
+            string domainName = GetDomainUniqueName();
+            CreateDomain(domainName);
 
             // Проверить, что проект сохранился
-            Assert.IsTrue(GetIsProjectExist(projectName), "Ошибка: проект не создался");
+            Assert.IsTrue(GetIsDomainExist(domainName), "Ошибка: проект не создался");
         }
 
         /// <summary>
         /// Метод тестирования создания Проекта с существующим именем
         /// </summary>
         [Test]
-        public void CreateProjectExistingNameTest()
+        public void CreateDomainExistingNameTest()
         {
             // Создать проект с уникальным именем
-            string projectName = GetProjectUniqueName();
-            CreateCATProject(projectName);
+            string domainName = GetDomainUniqueName();
+            CreateDomain(domainName);
             // Создать проект с таким же именем
-            CreateCATProject(projectName);
+            CreateDomain(domainName);
             Thread.Sleep(2000);
 
             // Проверить, что появилась ошибка существующего имени - Assert внутри
-            AssertExistingProjectNameError();
+            AssertExistingDomainNameError();
         }
 
         /// <summary>
         /// Метод тестирования создания Проекта с пустым именем
         /// </summary>
         [Test]
-        public void CreateProjectEmptyNameTest()
+        public void CreateDomainEmptyNameTest()
         {
             // Создать проект с пустым именем
-            CreateCATProject("");
+            CreateDomain("");
 
             // Проверить, остался ли проект в режиме редактирования - Assert внутри
-            AssertEditingModeProject();
+            AssertEditingModeDomain();
         }
 
         /// <summary>
         /// Метод тестирования создания Проекта с пробельным именем
         /// </summary>
         [Test]
-        public void CreateProjectSpaceNameTest()
+        public void CreateDomainSpaceNameTest()
         {
             // Создать проект с пробельным именем
-            CreateCATProject("  ");
+            CreateDomain("  ");
 
             // Проверить, остался ли проект в режиме редактирования - Assert внутри
-            AssertEditingModeProject();
+            AssertEditingModeDomain();
         }
 
         /// <summary>
         /// Метод тестирования создания Проекта, проверка, что проект появился в списке при создании ТМ
         /// </summary>
         [Test]
-        public void CreateProjectCheckCreateTMTest()
+        public void CreateDomainCheckCreateTMTest()
         {
             // Создать проект
-            string projectName = GetProjectUniqueName();
-            CreateCATProject(projectName);
+            string domainName = GetDomainUniqueName();
+            CreateDomain(domainName);
 
             // Проверить, что проект есть в списке при создании ТМ
-            Assert.IsTrue(GetIsProjectExistCreateTM(projectName),
+            Assert.IsTrue(GetIsDomainExistCreateTM(domainName),
                 "Ошибка: проекта нет в списке при создании ТМ");
         }
 
@@ -101,14 +101,14 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
         /// Метод тестирования создания Проекта, проверка, что проект появился в списке при создании глоссария
         /// </summary>
         [Test]
-        public void CreateProjectCheckCreateGlossaryTest()
+        public void CreateDomainCheckCreateGlossaryTest()
         {
             // Создать проект
-            string projectName = GetProjectUniqueName();
-            CreateCATProject(projectName);
+            string domainName = GetDomainUniqueName();
+            CreateDomain(domainName);
 
             // Проверить проект в списке при создании глоссария
-            Assert.IsTrue(GetIsProjectExistCreateGlossaryTest(projectName),
+            Assert.IsTrue(GetIsDomainExistCreateGlossaryTest(domainName),
                 "Ошибка: проекта нет в списке");
         }
 
@@ -116,14 +116,14 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
         /// Метод тестирования создания Проекта, проверка, что проект появился в списке при создании термина глоссария
         /// </summary>
         [Test]
-        public void CreateProjectCheckCreateGlossaryItemTest()
+        public void CreateDomainCheckCreateGlossaryItemTest()
         {
             // Создать проект
-            string projectName = GetProjectUniqueName();
-            CreateCATProject(projectName);
+            string domainName = GetDomainUniqueName();
+            CreateDomain(domainName);
 
             // Проверить, что проект есть в списке при создании термина глоссария
-            Assert.IsTrue(GetIsProjectExistCreateGlossaryItemTest(projectName),
+            Assert.IsTrue(GetIsDomainExistCreateGlossaryItemTest(domainName),
                 "Ошибка: проекта нет в списке");
         }
 
@@ -131,118 +131,118 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
         /// Метод тестирования изменения имени Проекта
         /// </summary>
         [Test]
-        public void ChangeProjectNameTest()
+        public void ChangeDomainNameTest()
         {
             // Создать проект с уникальным именем
-            string projectName = GetProjectUniqueName();
-            CreateCATProject(projectName);
+            string domainName = GetDomainUniqueName();
+            CreateDomain(domainName);
             Thread.Sleep(1000);
 
             // Новое имя проекта
-            string newProjectName = GetProjectUniqueName();
+            string newDomainName = GetDomainUniqueName();
             // Изменить имя проекта
-            SetProjectNewName(projectName, newProjectName);
+            SetDomainNewName(domainName, newDomainName);
 
             // Проверить, что проекта со старым названием нет
-            Assert.IsTrue(!GetIsProjectExist(projectName), "Ошибка: старый проект не удалился");
+            Assert.IsTrue(!GetIsDomainExist(domainName), "Ошибка: старый проект не удалился");
             // Проверить, что есть проект с новым названием
-            Assert.IsTrue(GetIsProjectExist(newProjectName), "Ошибка: новый проект не сохранился");
+            Assert.IsTrue(GetIsDomainExist(newDomainName), "Ошибка: новый проект не сохранился");
         }
 
         /// <summary>
         /// Метод тестирования изменения имени Проекта на пустое
         /// </summary>
         [Test]
-        public void ChangeProjectEmptyNameTest()
+        public void ChangeDomainEmptyNameTest()
         {
             // Создать проект с уникальным именем
-            string projectName = GetProjectUniqueName();
-            CreateCATProject(projectName);
+            string domainName = GetDomainUniqueName();
+            CreateDomain(domainName);
             Thread.Sleep(1000);
 
             // Изменить имя проекта
-            SetProjectNewName(projectName, "");
+            SetDomainNewName(domainName, "");
 
             // Проверить, остался ли проект в режиме редактирования - Assert внутри
-            AssertEditingModeProject();
+            AssertEditingModeDomain();
         }
 
         /// <summary>
         /// Метод тестирования изменения имени Проекта на пробельное
         /// </summary>
         [Test]
-        public void ChangeProjectSpaceNameTest()
+        public void ChangeDomainSpaceNameTest()
         {
             // Создать проект с уникальным именем
-            string projectName = GetProjectUniqueName();
-            CreateCATProject(projectName);
+            string domainName = GetDomainUniqueName();
+            CreateDomain(domainName);
             Thread.Sleep(1000);
 
             // Изменить имя проекта
-            SetProjectNewName(projectName, "  ");
+            SetDomainNewName(domainName, "  ");
 
             // Проверить, остался ли проект в режиме редактирования - Assert внутри
-            AssertEditingModeProject();
+            AssertEditingModeDomain();
         }
 
         /// <summary>
         /// Метод тестирования изменения имени Проекта на существующее
         /// </summary>
         [Test]
-        public void ChangeProjectExistingNameTest()
+        public void ChangeDomainExistingNameTest()
         {
             // Создать проект с уникальным именем
-            string projectName = GetProjectUniqueName();
-            CreateCATProject(projectName);
+            string domainName = GetDomainUniqueName();
+            CreateDomain(domainName);
             Thread.Sleep(1000);
             // Создать другой проект с уникальным именем
-            string secondProjectName = GetProjectUniqueName();
-            CreateCATProject(secondProjectName);
+            string secondDomainName = GetDomainUniqueName();
+            CreateDomain(secondDomainName);
             Thread.Sleep(1000);
 
             // Изменить имя проекта
-            SetProjectNewName(secondProjectName, projectName);
+            SetDomainNewName(secondDomainName, domainName);
 
             // Проверить, появилась ли ошибка существующего имени - Assert внутри
-            AssertExistingProjectNameError();
+            AssertExistingDomainNameError();
         }
 
         /// <summary>
         /// Метод тестирования удаления Проекта
         /// </summary>
         [Test]
-        public void DeleteProjectTest()
+        public void DeleteDomainTest()
         {
             // Создать проект с уникальным именем
-            string projectName = GetProjectUniqueName();
-            CreateCATProject(projectName);
+            string domainName = GetDomainUniqueName();
+            CreateDomain(domainName);
             Thread.Sleep(1000);
 
             // Удалить проект
-            ClickDeleteProject(projectName);
+            ClickDeleteDomain(domainName);
 
             Thread.Sleep(1000);
             // Проверить, что проект удалился
-            Assert.IsTrue(!GetIsProjectExist(projectName), "Ошибка: проект не удалился");
+            Assert.IsTrue(!GetIsDomainExist(domainName), "Ошибка: проект не удалился");
         }
 
         /// <summary>
         /// Метод тестирования удаления Проекта, проверка списка при создании ТМ
         /// </summary>
         [Test]
-        public void DeleteProjectCheckCreateTM()
+        public void DeleteDomainCheckCreateTM()
         {
             // Создать проект с уникальным именем
-            string projectName = GetProjectUniqueName();
-            CreateCATProject(projectName);
+            string domainName = GetDomainUniqueName();
+            CreateDomain(domainName);
             Thread.Sleep(1000);
 
             // Удалить проект
-            ClickDeleteProject(projectName);
+            ClickDeleteDomain(domainName);
 
             Thread.Sleep(1000);
             // Проверить, что проекта нет в списке при создании TM
-            Assert.IsTrue(!GetIsProjectExistCreateTM(projectName),
+            Assert.IsTrue(!GetIsDomainExistCreateTM(domainName),
                 "Ошибка: проект остался в списке");
         }
 
@@ -250,19 +250,19 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
         /// Метод тестирования удаления Проекта, проверка списка при создании глоссария
         /// </summary>
         [Test]
-        public void DeleteProjectCheckCreateGlossaryTest()
+        public void DeleteDomainCheckCreateGlossaryTest()
         {
             // Создать проект с уникальным именем
-            string projectName = GetProjectUniqueName();
-            CreateCATProject(projectName);
+            string domainName = GetDomainUniqueName();
+            CreateDomain(domainName);
             Thread.Sleep(1000);
 
             // Удалить проект
-            ClickDeleteProject(projectName);
+            ClickDeleteDomain(domainName);
 
             Thread.Sleep(1000);
             // Проверить, что проекта нет в списке при создании глоссария
-            Assert.IsTrue(!GetIsProjectExistCreateGlossaryTest(projectName),
+            Assert.IsTrue(!GetIsDomainExistCreateGlossaryTest(domainName),
                 "Ошибка: проект остался в списке");
         }
 
@@ -270,49 +270,49 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
         /// Метод тестирования удаления Проекта, проверка списка при создании термина глоссария
         /// </summary>
         [Test]
-        public void DeleteProjectCheckCreateGlossaryItemTest()
+        public void DeleteDomainCheckCreateGlossaryItemTest()
         {
             // Создать проект с уникальным именем
-            string projectName = GetProjectUniqueName();
-            CreateCATProject(projectName);
+            string domainName = GetDomainUniqueName();
+            CreateDomain(domainName);
             Thread.Sleep(1000);
 
             // Удалить проект
-            ClickDeleteProject(projectName);
+            ClickDeleteDomain(domainName);
 
             Thread.Sleep(1000);
             // Проверить, что проекта нет в списке при создании термина глоссария
-            Assert.IsTrue(!GetIsProjectExistCreateGlossaryItemTest(projectName),
+            Assert.IsTrue(!GetIsDomainExistCreateGlossaryItemTest(domainName),
                 "Ошибка: проект остался в списке");
         }
         
-        private void SetProjectNewName(string projectName, string newProjectName)
+        private void SetDomainNewName(string domainName, string newDomainName)
         {
             // Нажать Изменить
-            string projectXPath = GetProjectRowXPath(projectName);
-            string editBtnXPath = projectXPath + "//a[contains(@class,'domain js-edit-domain')]";
+            string DomainXPath = GetDomainRowXPath(domainName);
+            string editBtnXPath = DomainXPath + "//a[contains(@class,'domain js-edit-domain')]";
             Driver.FindElement(By.XPath(editBtnXPath)).Click();
 
             // Ввести новое имя проекта
-            string projectNameXPath = projectXPath + "//div[contains(@class,'js-edit-mode')]//input[contains(@class,'js-domain-name-input')]";
-            Driver.FindElement(By.XPath(projectNameXPath)).Clear();
-            Driver.FindElement(By.XPath(projectNameXPath)).SendKeys(newProjectName);
+            string DomainNameXPath = DomainXPath + "//div[contains(@class,'js-edit-mode')]//input[contains(@class,'js-domain-name-input')]";
+            Driver.FindElement(By.XPath(DomainNameXPath)).Clear();
+            Driver.FindElement(By.XPath(DomainNameXPath)).SendKeys(newDomainName);
             // Сохранить
-            Driver.FindElement(By.XPath(projectXPath +
+            Driver.FindElement(By.XPath(DomainXPath +
                 "//div[contains(@class,'l-corpr__domainbox js-edit-mode')]//a[contains(@class,'save js-save-domain')]")).Click();
             Thread.Sleep(1000);
         }
 
-        private string GetProjectRowXPath(string projectName)
+        private string GetDomainRowXPath(string domainName)
         {
             string xPath = "";
             // Получить список всех проектов
-            IList<IWebElement> projectsList = Driver.FindElements(By.XPath(
+            IList<IWebElement> DomainsList = Driver.FindElements(By.XPath(
                 ".//table[contains(@class,'js-domains js-sortable-table')]//tr[contains(@class,'l-corpr__trhover js-row')]"));
-            for (int i = 0; i < projectsList.Count; ++i)
+            for (int i = 0; i < DomainsList.Count; ++i)
             {
                 // Проверить имя проекта
-                if (projectsList[i].Text == projectName)
+                if (DomainsList[i].Text == domainName)
                 {
                     xPath = ".//tr[contains(@class,'l-corpr__trhover js-row')][" + (i + 1) + "]";
                     break;
@@ -321,12 +321,12 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             return xPath;
         }
 
-        private string GetProjectUniqueName()
+        private string GetDomainUniqueName()
         {
-            return "TestProject" + DateTime.UtcNow.Ticks.ToString();
+            return "TestDomain" + DateTime.UtcNow.Ticks.ToString();
         }
 
-        private void AssertExistingProjectNameError()
+        private void AssertExistingDomainNameError()
         {
             // Проверить, появилась ли ошибка существующего имени
             string rowXPath = ".//table[contains(@class,'js-domains js-sortable-table')]//tr[contains(@class,'js-row js-error-row')]//div[contains(@class,'js-error-text g-hidden')]";
@@ -334,15 +334,15 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
                 "Ошибка: не появилась ошибка существующего имени");
         }
 
-        private void ClickDeleteProject(string projectName)
+        private void ClickDeleteDomain(string domainName)
         {
             // Получить xPath кнопки Удалить для проекта
-            string deleteBtnXPath = GetProjectRowXPath(projectName) + "//a[contains(@class,'domain js-delete-domain')]";
+            string deleteBtnXPath = GetDomainRowXPath(domainName) + "//a[contains(@class,'domain js-delete-domain')]";
             // Нажать Удалить
             Driver.FindElement(By.XPath(deleteBtnXPath)).Click();
         }
 
-        private bool GetIsProjectExistCreateTM(string projectName)
+        private bool GetIsDomainExistCreateTM(string domainName)
         {
             // Перейти на вкладку ТМ
             SwitchTMTab();
@@ -359,23 +359,23 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             Wait.Until((d) => d.FindElement(By.XPath(".//div[contains(@class,'ui-multiselect-menu')][2]")).Displayed);
 
             // Получить список проектов
-            IList<IWebElement> projectList = Driver.FindElements(By.XPath(
+            IList<IWebElement> DomainList = Driver.FindElements(By.XPath(
                 ".//div[contains(@class,'ui-multiselect-menu')][2]//ul[contains(@class,'ui-multiselect-checkboxes')]//li//label//span[contains(@class,'ui-multiselect-item-text')]"));
-            bool isProjectExist = false;
-            foreach (IWebElement el in projectList)
+            bool isDomainExist = false;
+            foreach (IWebElement el in DomainList)
             {
-                if (el.Text == projectName)
+                if (el.Text == domainName)
                 {
                     // Если проект в списке
-                    isProjectExist = true;
+                    isDomainExist = true;
                     break;
                 }
             }
 
-            return isProjectExist;
+            return isDomainExist;
         }
 
-        private bool GetIsProjectExistCreateGlossaryTest(string projectName)
+        private bool GetIsDomainExistCreateGlossaryTest(string domainName)
         {
             // Перейти на вкладку Глоссарии
             SwitchGlossaryTab();
@@ -387,28 +387,28 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             Wait.Until((d) => d.FindElement(By.XPath(
                 ".//div[contains(@class,'js-popup-edit-glossary')][2]")));
 
-            string xPathProjectField = ".//div[contains(@class,'js-popup-edit-glossary')][2]//input[contains(@name,'Domain')]";
+            string xPathDomainField = ".//div[contains(@class,'js-popup-edit-glossary')][2]//input[contains(@name,'Domain')]";
             // Нажать, чтобы появился список проектов
             Driver.FindElement(By.XPath(
-                xPathProjectField + "/..//div[contains(@class,'ui-multiselect')]")).Click();
+                xPathDomainField + "/..//div[contains(@class,'ui-multiselect')]")).Click();
             // Получить список проектов в списке
-            IList<IWebElement> projectList = Driver.FindElements(By.XPath(
+            IList<IWebElement> DomainList = Driver.FindElements(By.XPath(
                 ".//ul[contains(@class,'ui-multiselect-checkboxes')]//span[contains(@class,'ui-multiselect-item-text')]"));
-            bool isProjectExist = false;
-            foreach (IWebElement el in projectList)
+            bool isDomainExist = false;
+            foreach (IWebElement el in DomainList)
             {
-                if (el.Text == projectName)
+                if (el.Text == domainName)
                 {
                     // Если проект в списке
-                    isProjectExist = true;
+                    isDomainExist = true;
                     break;
                 }
             }
 
-            return isProjectExist;
+            return isDomainExist;
         }
 
-        private bool GetIsProjectExistCreateGlossaryItemTest(string projectName)
+        private bool GetIsDomainExistCreateGlossaryItemTest(string domainName)
         {
             // Перейти на вкладку Глоссарии
             SwitchGlossaryTab();
@@ -469,23 +469,23 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             Driver.FindElement(By.XPath(fieldXPath)).Click();
 
             // Получить список проектов в списке
-            IList<IWebElement> projectList = Driver.FindElements(By.XPath(
+            IList<IWebElement> DomainList = Driver.FindElements(By.XPath(
                 ".//span[contains(@class,'js-dropdown__list')]//span[contains(@class,'js-dropdown__item')]"));
-            bool isProjectExist = false;
-            foreach (IWebElement el in projectList)
+            bool isDomainExist = false;
+            foreach (IWebElement el in DomainList)
             {
-                if (el.Text == projectName)
+                if (el.Text == domainName)
                 {
                     // Если проект в списке
-                    isProjectExist = true;
+                    isDomainExist = true;
                     break;
                 }
             }
 
-            return isProjectExist;
+            return isDomainExist;
         }
 
-        private void AssertEditingModeProject()
+        private void AssertEditingModeDomain()
         {
             // Проверить, что проект не сохранился, а остался в режиме редактирования
             string saveBtnXPath =

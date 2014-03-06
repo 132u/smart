@@ -1313,11 +1313,11 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
         public void EditGlossaryStructureDomainTest()
         {
             // Перейти на вкладку проектов
-            SwitchProjectTab();
+            SwitchDomainTab();
 
             // Проверить, есть ли проект с таким именем
-            string projectName = "TestGlossaryEditStructureProject";
-            CreateProjectIfNotExist(projectName);
+            string domainName = "TestGlossaryEditStructureProject";
+            CreateDomainIfNotExist(domainName);
 
             // Вернуться к глоссариям
             SwitchGlossaryTab();
@@ -1339,7 +1339,7 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             Assert.IsTrue(Driver.FindElement(By.XPath(".//span[contains(@class,'js-dropdown__list')]")).Displayed, "Ошибка: список не открылся");
 
             Driver.FindElement(By.XPath(
-                ".//span[contains(@class,'js-dropdown__list')]//span[contains(@class,'js-dropdown__item')][contains(@title,'" + projectName + "')]")).Click();
+                ".//span[contains(@class,'js-dropdown__list')]//span[contains(@class,'js-dropdown__item')][contains(@title,'" + domainName + "')]")).Click();
 
             // Сохранить термин
             Driver.FindElement(By.XPath(".//span[contains(@class,'js-save-btn js-edit')]")).Click();
@@ -1349,7 +1349,7 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             // Проверить, что значение в поле есть
             elXPath += "/../../div[contains(@class,'l-corpr__viewmode__view js-view')]//div[contains(@class,'js-value')]";
             string text = Driver.FindElement(By.XPath(elXPath)).Text;
-            Assert.AreEqual(text, projectName, "Ошибка: проект не сохранился в поле");
+            Assert.AreEqual(text, domainName, "Ошибка: проект не сохранился в поле");
 
         }
 
