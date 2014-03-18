@@ -13,6 +13,7 @@ using System.Diagnostics;
 using System.Collections.Generic;
 using System.Windows.Forms;
 using System.Drawing;
+using System.Drawing.Imaging;
 
 using OpenQA.Selenium.Interactions;
 
@@ -188,10 +189,8 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 
             _login = ConfigurationManager.AppSettings["Login"];
             _password = ConfigurationManager.AppSettings["Password"];
-            _projectName = ConfigurationManager.AppSettings["ProjectName"];
             _deadlineDate = ConfigurationManager.AppSettings["DeadlineDate"];
             _documentFile = Path.GetFullPath(ConfigurationManager.AppSettings["DocumentFile"]);
-            _tmName = ConfigurationManager.AppSettings["TMName"];
             _constTmName = ConfigurationManager.AppSettings["TMName"];
             _glossaryName = ConfigurationManager.AppSettings["GlossaryName"];
 
@@ -208,8 +207,8 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 
         private void CreateUniqueNamesByDatetime()
         {
-            _projectName += " " + DateTime.UtcNow.Ticks.ToString();
-            _tmName += " " + DateTime.UtcNow.Ticks.ToString();
+            _projectName = ConfigurationManager.AppSettings["ProjectName"] + " " + DateTime.UtcNow.Ticks.ToString();
+            _tmName = ConfigurationManager.AppSettings["TMName"] + " " + DateTime.UtcNow.Ticks.ToString();
         }
 
         /// <summary>
@@ -241,7 +240,6 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             }
             else if (BrowserName == "Chrome")
             {
-                //TODO: Проверить версию chromedriver
                 _driver = new ChromeDriver();
             }
             else if (BrowserName == "IE")
@@ -1048,7 +1046,15 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             }
         }
 
+        protected void WaitAndClickElement(string xPath)
+        {
+            // Дождаться появления элемента
+            Wait.Until((d) => d.FindElement(By.XPath(xPath)).Displayed);
+            // Кликнуть по элементу
+            Driver.FindElement(By.XPath(xPath)).Click();
+        }
 
+        
         [SetUp]
         public void Setup()
         {
@@ -1064,11 +1070,34 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
         [TearDown]
         public void Teardown()
         {
+            // Если тест провалился
+            if (TestContext.CurrentContext.Result.Status.Equals(TestStatus.Failed))
+            {
+                // Сделать скриншот
+                ITakesScreenshot screenshotDriver = _driver as ITakesScreenshot;
+                Screenshot screenshot = screenshotDriver.GetScreenshot();
+
+                // Создать папку для скриншотов провалившихся тестов
+                string failResultPath = System.IO.Path.Combine(PathTestResults, "FailedTests");
+                System.IO.Directory.CreateDirectory(failResultPath);
+                // Создать имя скриншота по имени теста
+                string screenName = TestContext.CurrentContext.Test.Name;
+                if (screenName.Contains("("))
+                {
+                    // Убрать из названия теста аргументы (файлы)
+                    screenName = screenName.Substring(0, screenName.IndexOf("("));
+                }
+                screenName += DateTime.Now.Ticks.ToString() + ".png";
+                // Создать полное имя файла
+                screenName = System.IO.Path.Combine(failResultPath, screenName);
+                // Сохранить скриншот
+                screenshot.SaveAsFile(screenName, ImageFormat.Png);
+            }
+
             // Закрыть драйвер
             _driver.Quit();
             // Очистить, чтобы при следующем тесте пересоздавалось
             _driver = null;
         }
-        
     }
 }

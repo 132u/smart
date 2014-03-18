@@ -71,8 +71,7 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             // Открыть форму создания ТМ
             OpenCreateTMForm();
             // Нажать кнопку Сохранить
-            Driver.FindElement(By.XPath(
-                ".//div[contains(@class,'js-popup-create-tm')][2]//a[contains(@class,'g-btn__text')]")).Click();
+            WaitAndClickElement(".//div[contains(@class,'js-popup-create-tm')][2]//a[contains(@class,'g-btn__text')]");
 
             // Проверить выделение ошибки в поле Название
             Assert.IsTrue(Driver.FindElement(By.XPath(
@@ -171,14 +170,21 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             CreateTMWithUploadTMX(uniqueTMName, TmFile);
 
             // Получить количество сегментов
-            int segCountBefore = GetSegmentCount(uniqueTMName);
+            int segCountBefore = GetSegmentCount(uniqueTMName, false);
 
             // Загрузить TMX файл (обновить ТМ, заменяет старые ТМ на новые)
             UploadDocumentToTMbyButton(uniqueTMName, "js-upload-btn", SecondTmFile, false);
             Thread.Sleep(5000);
             // Получить количество сегментов
-            int segCountAfter = GetSegmentCount(uniqueTMName);
+            int segCountAfter = GetSegmentCount(uniqueTMName, false);
 
+            // Если количество не изменилось, возможно, просто не обновилась страница - принудительно обновить
+            if (segCountAfter == segCountBefore)
+            {
+                ReopenTMInfo(uniqueTMName);
+                segCountAfter = GetSegmentCount(uniqueTMName, false);
+            }
+            // Проверить, что количество сегментов изменилось
             Assert.IsTrue(segCountBefore != segCountAfter, "Ошибка: количество сегментов должно измениться");
         }
 
@@ -234,7 +240,7 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             uniqueExportName = System.IO.Path.Combine(resultPath, uniqueExportName);
 
             // Отрыть информацию о ТМ и нажать кнопку
-            ClickButtonTMInfo(TMName, "js-export-btn");
+            ClickButtonTMInfo(TMName, "js-export-btn", false);
             Thread.Sleep(2000);
             // В открывшемся диалоге выбираем "Сохранить"
             SendKeys.SendWait(@"{DOWN}");
@@ -303,8 +309,17 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             CreateTMByNameAndSave(TMName);
             // Загрузить ТМХ по кнопке в информации о ТМ
             UploadDocumentToTMbyButton(TMName, "js-add-tmx-btn", TmFile);
+            // Получить количество сегментов
+            int segmentCount = GetSegmentCount(TMName, false);
+            // Если количество сегментов = 0, возможно, не обновилась страница - принудительно обновить
+            if (segmentCount == 0)
+            {
+                ReopenTMInfo(TMName);
+                segmentCount = GetSegmentCount(TMName, false);
+            }
+
             // Проверить, что количество сегментов больше нуля (ТМХ загрузился)
-            Assert.IsTrue(GetSegmentCount(TMName) > 0, "Ошибка: количество сегментов должно быть больше нуля");
+            Assert.IsTrue(segmentCount > 0, "Ошибка: количество сегментов должно быть больше нуля");
         }
 
         /// <summary>
@@ -319,12 +334,19 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             CreateTMWithUploadTMX(uniqueTMName, TmFile);
 
             // Получить количество сегментов
-            int segCountBefore = GetSegmentCount(uniqueTMName);
+            int segCountBefore = GetSegmentCount(uniqueTMName, false);
 
             // Загрузить TMX файл
             UploadDocumentToTMbyButton(uniqueTMName, "js-upload-btn", SecondTmFile, false);
             // Получить количество сегментов после загрузки TMX
-            int segCountAfter = GetSegmentCount(uniqueTMName);
+            int segCountAfter = GetSegmentCount(uniqueTMName, false);
+
+            // Если количество сегментов не изменилось, возможно, страница не обновилась - принудительно обновить
+            if (segCountAfter == segCountBefore)
+            {
+                ReopenTMInfo(uniqueTMName);
+                segCountAfter = GetSegmentCount(uniqueTMName, false);
+            }
 
             // Проверить, что количество сегментов увеличилось (при AddTMX количество сегментов должно суммироваться)
             Assert.IsTrue(segCountAfter > segCountBefore, "Ошибка: количество сегментов должно увеличиться");
@@ -418,8 +440,16 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             // Проверить, сохранился ли ТМ
             Assert.IsTrue(GetIsExistTM(uniqueTMName), "Ошибка: ТМ не сохранился (не появился в списке)");
 
+            int segmentCount = GetSegmentCount(uniqueTMName, false);
+            // Если количество сегментов = 0, возможно, не обновилась страница - принудительно обновить
+            if (segmentCount == 0)
+            {
+                ReopenTMInfo(uniqueTMName);
+                segmentCount = GetSegmentCount(uniqueTMName, false);
+            }
+
             // Проверить, что количество сегментов больше 0
-            Assert.IsTrue(GetSegmentCount(uniqueTMName) > 0, "Ошибка: количество сегментов должно быть больше 0");
+            Assert.IsTrue(segmentCount > 0, "Ошибка: количество сегментов должно быть больше 0");
         }
         
         private void EditTMFillName(string TMNameToEdit, string newTMName)
@@ -565,14 +595,12 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
         private void UploadDocumentTM(string documentName)
         {
             // Нажать на Add для появления диалога загрузки документа
-            Driver.FindElement(By.XPath(
-                ".//a[contains(@class,'js-upload-btn')]")).Click();
+            WaitAndClickElement(".//a[contains(@class,'js-upload-btn')]");
 
             // Заполнить диалог загрузки документа
             FillAddDocumentForm(documentName);
             // Нажать на Импорт
-            Driver.FindElement(By.XPath(
-                ".//div[contains(@class,'js-popup-import')][2]//span[contains(@class,'g-btn__data')]//a")).Click();
+            WaitAndClickElement(".//div[contains(@class,'js-popup-import')][2]//span[contains(@class,'g-btn__data')]");
 
             // Закрытие формы
             Thread.Sleep(5000);
@@ -584,24 +612,22 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             ClickButtonTMInfo(TMName, btnName, isNeedOpenInfo);
 
             // Нажимаем Import
-            Wait.Until((d) => d.FindElement(By.XPath(
-                ".//div[contains(@class,'js-popup-import')][2]//span[contains(@class,'g-btn__data')]"))).Click();
+            WaitAndClickElement(".//div[contains(@class,'js-popup-import')][2]//span[contains(@class,'g-btn__data')]");
 
             // Подождать появление ошибки
             Thread.Sleep(2000);
-            // Проверить появление ошибки
-            //Assert.IsTrue(Driver.FindElement(By.XPath(
-            //".//div[contains(@class,'js-popup-import')][2]//div[contains(@class,'g-popupbox__error')]")).Displayed,
-            //"Ошибка: не появилось оповещение об ошибке, что файл не выбран");
 
             // Загрузить документ
             UploadDocumentTM(uploadFile);
         }
 
-        private int GetSegmentCount(string TMName)
+        private int GetSegmentCount(string TMName, bool isNeedToShowInfo = true)
         {
-            // Открыть информацию о ТМ
-            ClickTMToShowInfo(TMName);
+            if (isNeedToShowInfo)
+            {
+                // Открыть информацию о ТМ
+                ClickTMToShowInfo(TMName);
+            }
 
             string xPath = CreateXPathTMRow(TMName);
             xPath += "/../../following-sibling::tr//table//tr/td[2]/div[4]";
@@ -632,7 +658,7 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             xPath += "/../../following-sibling::tr//span[contains(@class,'" + btnName + "')]//a";
 
             // Нажать на нужную кнопку
-            Driver.FindElement(By.XPath(xPath)).Click();
+            WaitAndClickElement(xPath);
         }
 
         private void ClickTMToShowInfo(string TMName)
@@ -644,9 +670,25 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             string xPath = CreateXPathTMRow(TMName);
 
             // Открыть информацию о ТМ
-            Driver.FindElement(By.XPath(xPath)).Click();
+            ClickRowTM(xPath);
+        }
+
+        private void ClickRowTM(string rowXPath)
+        {
+            // Открыть информацию о ТМ
+            Driver.FindElement(By.XPath(rowXPath)).Click();
             // Подождать открытие информации
             Thread.Sleep(2000);
+        }
+
+        private void ReopenTMInfo(string TMName)
+        {
+            // Получить xPath строки с этим ТМ
+            string xPath = CreateXPathTMRow(TMName);
+            // Закрыть информацию
+            ClickRowTM(xPath);
+            // Открыть информацию
+            ClickRowTM(xPath);
         }
 
         private void CreateTMIfNotExist(string TMName)

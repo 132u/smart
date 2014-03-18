@@ -78,7 +78,7 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             CreateGlossaryByName(glossaryName);
             // Проверить, что появилось сообщение о существующем имени
             Assert.IsTrue(Driver.FindElement(By.XPath(
-                ".//div[contains(@class,'js-popup-edit-glossary')][2]//p[contains(@class,'js-error-from-server')][contains(@data-key,'name')]")).Displayed,
+                ".//div[contains(@class,'js-popup-edit-glossary')][2]//p[contains(@class,'js-error-glossary-exists')]")).Displayed,
                 "Ошибка: не появилось сообщение о существующем имени");
         }
 
@@ -195,6 +195,7 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             Thread.Sleep(60000);
             // Создать термин (изменение глоссария)
             CreateItemAndSave();
+            Thread.Sleep(1000);
 
             // Перейти к списку глоссариев
             SwitchGlossaryTab();
@@ -1171,7 +1172,7 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 
             // Проверить, что появилось сообщение о существующем имени
             Assert.IsTrue(Driver.FindElement(By.XPath(
-                ".//div[contains(@class,'js-popup-edit-glossary')][2]//p[contains(@class,'js-error-from-server')]")).Displayed,
+                ".//div[contains(@class,'js-popup-edit-glossary')][2]//p[contains(@class,'js-error-glossary-exists')]")).Displayed,
                 "Ошибка: не появилось сообщение о существующем имени");
         }
 
@@ -1316,7 +1317,7 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             SwitchDomainTab();
 
             // Проверить, есть ли проект с таким именем
-            string domainName = "TestGlossaryEditStructureProject";
+            string domainName = "TestDomainGlossaryEditStructure";
             CreateDomainIfNotExist(domainName);
 
             // Вернуться к глоссариям

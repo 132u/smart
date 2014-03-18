@@ -288,17 +288,19 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
         
         private void SetDomainNewName(string domainName, string newDomainName)
         {
-            // Нажать Изменить
-            string DomainXPath = GetDomainRowXPath(domainName);
-            string editBtnXPath = DomainXPath + "//a[contains(@class,'domain js-edit-domain')]";
+            // Нажать на строку
+            string domainXPath = GetDomainRowXPath(domainName);
+            Driver.FindElement(By.XPath(domainXPath)).Click();
+            // Нажать на Изменить
+            string editBtnXPath = domainXPath + "//a[contains(@class,'domain js-edit-domain')]";
             Driver.FindElement(By.XPath(editBtnXPath)).Click();
 
             // Ввести новое имя проекта
-            string DomainNameXPath = DomainXPath + "//div[contains(@class,'js-edit-mode')]//input[contains(@class,'js-domain-name-input')]";
-            Driver.FindElement(By.XPath(DomainNameXPath)).Clear();
-            Driver.FindElement(By.XPath(DomainNameXPath)).SendKeys(newDomainName);
+            string domainNameXPath = domainXPath + "//div[contains(@class,'js-edit-mode')]//input[contains(@class,'js-domain-name-input')]";
+            Driver.FindElement(By.XPath(domainNameXPath)).Clear();
+            Driver.FindElement(By.XPath(domainNameXPath)).SendKeys(newDomainName);
             // Сохранить
-            Driver.FindElement(By.XPath(DomainXPath +
+            Driver.FindElement(By.XPath(domainXPath +
                 "//div[contains(@class,'l-corpr__domainbox js-edit-mode')]//a[contains(@class,'save js-save-domain')]")).Click();
             Thread.Sleep(1000);
         }
@@ -336,8 +338,11 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 
         private void ClickDeleteDomain(string domainName)
         {
+            // Нажать на строку
+            string rowXPath = GetDomainRowXPath(domainName);
+            Driver.FindElement(By.XPath(rowXPath)).Click();
             // Получить xPath кнопки Удалить для проекта
-            string deleteBtnXPath = GetDomainRowXPath(domainName) + "//a[contains(@class,'domain js-delete-domain')]";
+            string deleteBtnXPath = rowXPath + "//a[contains(@class,'domain js-delete-domain')]";
             // Нажать Удалить
             Driver.FindElement(By.XPath(deleteBtnXPath)).Click();
         }
@@ -355,7 +360,7 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
                 ".//div[contains(@class,'js-popup-create-tm')][2]")));
 
             // Нажать на открытие списка проектов
-            Driver.FindElement(By.XPath(".//div[contains(@class,'js-domains-multiselect')]")).Click();
+            WaitAndClickElement(".//div[contains(@class,'js-domains-multiselect')]");
             Wait.Until((d) => d.FindElement(By.XPath(".//div[contains(@class,'ui-multiselect-menu')][2]")).Displayed);
 
             // Получить список проектов
@@ -389,8 +394,7 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 
             string xPathDomainField = ".//div[contains(@class,'js-popup-edit-glossary')][2]//input[contains(@name,'Domain')]";
             // Нажать, чтобы появился список проектов
-            Driver.FindElement(By.XPath(
-                xPathDomainField + "/..//div[contains(@class,'ui-multiselect')]")).Click();
+            WaitAndClickElement(xPathDomainField + "/..//div[contains(@class,'ui-multiselect')]");
             // Получить список проектов в списке
             IList<IWebElement> DomainList = Driver.FindElements(By.XPath(
                 ".//ul[contains(@class,'ui-multiselect-checkboxes')]//span[contains(@class,'ui-multiselect-item-text')]"));
@@ -449,7 +453,7 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             // Получить xPath строки с нужным полем
             string rowXPath = ".//table[contains(@class, 'js-predefined-attrs-table concept')]//tr[contains(@class, 'js-attr-row')][contains(@data-attr-key,'Domain')]/td[1]";
             // Нажать на поле
-            Driver.FindElement(By.XPath(rowXPath)).Click();
+            WaitAndClickElement(rowXPath);
             // Добавить
             Wait.Until((d) => d.FindElement(By.XPath(".//span[contains(@class,'js-add-tbx-attribute')]"))).Click();
             Thread.Sleep(1000);
@@ -466,7 +470,7 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             // Нажать на поле появилось
             string fieldXPath =
                 ".//div[contains(@class,'js-concept-attrs')]//div[contains(@class,'l-corpr__viewmode__edit js-edit')]//select[@name='Domain']/..//span[contains(@class,'js-dropdown')]";
-            Driver.FindElement(By.XPath(fieldXPath)).Click();
+            WaitAndClickElement(fieldXPath);
 
             // Получить список проектов в списке
             IList<IWebElement> DomainList = Driver.FindElements(By.XPath(
