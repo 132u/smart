@@ -58,7 +58,7 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             // Создать ТМ
             CreateTMByNameAndSave(uniqueTMName);
 
-            // Перейти на вкладку SmartCAT и проверить, что TM нет в списке при создании проекта
+            // Перейти на вкладку SmartCAT и проверить, что TM есть в списке при создании проекта
             Assert.IsTrue(GetIsExistTMCreateProject(uniqueTMName), "Ошибка: ТМ не сохранился (не появился в списке)");
         }
 
@@ -85,7 +85,7 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
         }
 
         /// <summary>
-        /// Метод тестирования создания ТМ без указания языков, проверка нормального сохранения ТМ
+        /// Метод тестирования создания ТМ без указания языков
         /// </summary>
         [Test]
         public void CreateTMWithoutLanguageTest()
@@ -108,19 +108,7 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             // Проверить появления сообщения об ошибке
             Assert.IsTrue(Driver.FindElement(By.XPath(
                 ".//div[contains(@class,'js-popup-create-tm')][2]//div[contains(@class,'l-createtm__error')]//p[contains(@class,'js-error-targetLanguage-required')]")).Displayed,
-                "Ошибка: не появилось сообщение об ошибке");            
-
-            // Выбрать языки (source и target), чтобы сохранить ТМ
-            SelectSourceAndTargetLang();
-
-            // Нажать кнопку Сохранить
-            Driver.FindElement(By.XPath(
-                ".//div[contains(@class,'js-popup-create-tm')][2]//a[contains(@class,'g-btn__text')]")).Click();
-            // Закрытие формы
-            Thread.Sleep(5000);
-
-            // Проверить, сохранился ли ТМ
-            Assert.IsTrue(GetIsExistTM(uniqueTMName), "Ошибка: ТМ не сохранился (не появился в списке)");
+                "Ошибка: не появилось сообщение об ошибке");
         }
 
         /// <summary>
@@ -174,10 +162,8 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 
             // Загрузить TMX файл (обновить ТМ, заменяет старые ТМ на новые)
             UploadDocumentToTMbyButton(uniqueTMName, "js-upload-btn", SecondTmFile, false);
-            Thread.Sleep(5000);
             // Получить количество сегментов
             int segCountAfter = GetSegmentCount(uniqueTMName, false);
-
             // Если количество не изменилось, возможно, просто не обновилась страница - принудительно обновить
             if (segCountAfter == segCountBefore)
             {
@@ -272,7 +258,7 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
                 ".//div[contains(@class,'js-popup-confirm')]//input[contains(@type,'submit')]"))).Click();
 
             // Закрытие формы
-            Thread.Sleep(5000);
+            Thread.Sleep(1000);
 
             // Проверить, что ТМ удалилась из списка
             Assert.IsTrue(!GetIsExistTM(TMName), "Ошибка: ТМ не удалилась из списка");
@@ -292,7 +278,7 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             Wait.Until((d) => d.FindElement(By.XPath(
                 ".//div[contains(@class,'js-popup-confirm')]//input[contains(@type,'submit')]"))).Click();
             // Закрытие формы
-            Thread.Sleep(5000);
+            Thread.Sleep(1000);
 
             // Перейти на вкладку SmartCAT и проверить, что TM нет в списке при создании проекта
             Assert.IsTrue(!GetIsExistTMCreateProject(TMName));
@@ -337,12 +323,12 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             int segCountBefore = GetSegmentCount(uniqueTMName, false);
 
             // Загрузить TMX файл
-            UploadDocumentToTMbyButton(uniqueTMName, "js-upload-btn", SecondTmFile, false);
+            UploadDocumentToTMbyButton(uniqueTMName, "js-add-tmx-btn", SecondTmFile, false);
             // Получить количество сегментов после загрузки TMX
             int segCountAfter = GetSegmentCount(uniqueTMName, false);
 
             // Если количество сегментов не изменилось, возможно, страница не обновилась - принудительно обновить
-            if (segCountAfter == segCountBefore)
+            if (segCountAfter <= segCountBefore)
             {
                 ReopenTMInfo(uniqueTMName);
                 segCountAfter = GetSegmentCount(uniqueTMName, false);
@@ -492,13 +478,8 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 
         private string SelectUniqueTMName()
         {
-            // Выбрать уникальное имя ТМ
-            string TMName = ConstTMName;
-            while (GetIsExistTM(TMName))
-            {
-                TMName += DateTime.Now.ToString();
-            }
-            return TMName;
+            // Создать уникальное имя для ТМ без проверки существова
+            return ConstTMName + DateTime.Now.ToString();
         }
 
         private bool GetIsExistTM(string TMName)
@@ -549,7 +530,7 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             Driver.FindElement(By.XPath(
                 ".//div[contains(@class,'js-popup-create-tm')][2]//a[contains(@class,'g-btn__text')]")).Click();
             // Закрытие формы
-            Thread.Sleep(5000);
+            Thread.Sleep(1000);
         }
 
         private void CreateTMByName(string TMName)
@@ -610,13 +591,6 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
         {
             // Отрыть информацию о ТМ и нажать кнопку
             ClickButtonTMInfo(TMName, btnName, isNeedOpenInfo);
-
-            // Нажимаем Import
-            WaitAndClickElement(".//div[contains(@class,'js-popup-import')][2]//span[contains(@class,'g-btn__data')]");
-
-            // Подождать появление ошибки
-            Thread.Sleep(2000);
-
             // Загрузить документ
             UploadDocumentTM(uploadFile);
         }
@@ -631,7 +605,7 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 
             string xPath = CreateXPathTMRow(TMName);
             xPath += "/../../following-sibling::tr//table//tr/td[2]/div[4]";
-            string segmentsCount = Driver.FindElement(By.XPath(xPath)).Text;
+            string segmentsCount = Wait.Until((d) => d.FindElement(By.XPath(xPath))).Text;
             // Нужно получить число сегментов из строки "Segments count: N", разделитель - ":"
             int splitIndex = segmentsCount.IndexOf(":");
             // Отступаем двоеточие и пробел
@@ -641,7 +615,7 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
                 segmentsCount = segmentsCount.Substring(splitIndex);
             }
             // Получить число сегментов из строки
-            return int.Parse(segmentsCount);
+            return int.Parse(segmentsCount.Trim());
         }
 
         private void ClickButtonTMInfo(string TMName, string btnName, bool isNeedOpenInfo = true)
@@ -678,7 +652,7 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             // Открыть информацию о ТМ
             Driver.FindElement(By.XPath(rowXPath)).Click();
             // Подождать открытие информации
-            Thread.Sleep(2000);
+            Thread.Sleep(500);
         }
 
         private void ReopenTMInfo(string TMName)

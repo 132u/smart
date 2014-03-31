@@ -16,8 +16,15 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             // 1. Авторизация
             Authorization();
 
+            string currentDocument = DocumentFile;
+            // При проверке Confirm не работает наш обычный файл, приходится загружать другой
+            if (TestContext.CurrentContext.Test.Name.Contains("Confirm"))
+            {
+                currentDocument = DocumentFileToConfirm;
+            }
+
             // 2. Создание проекта с 1 документов внутри
-            CreateProject(ProjectName, true, DocumentFile);
+            CreateProject(ProjectName, true, currentDocument);
 
             //CreateProject(ProjectName, true, DocumentFile, TmFile);
 
@@ -104,7 +111,7 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
         [Test]
         public void CancelHotkeyTest()
         {
-            CancelHotkeyTest();
+            CancelHotkey();
         }
 
         /// <summary>

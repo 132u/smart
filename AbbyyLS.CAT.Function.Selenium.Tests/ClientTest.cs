@@ -50,7 +50,6 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             CreateClient(clientName);
             // Создать клиента с таким же именем
             CreateClient(clientName);
-            Thread.Sleep(2000);
 
             // Проверить, появилась ли ошибка существующего имени - Assert внутри
             AssertExistingClientNameError();
@@ -121,7 +120,6 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             // Создать клиента с уникальным именем
             string clientName = GetClientUniqueName();
             CreateClient(clientName);
-            Thread.Sleep(1000);
 
             // Новое имя клиента
             string newClientName = GetClientUniqueName();
@@ -143,14 +141,12 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             // Создать клиента с уникальным именем
             string clientName = GetClientUniqueName();
             CreateClient(clientName);
-            Thread.Sleep(1000);
             // Получить xPath кнопки Сохранить для созданного клиента
             string saveBtnXPath = GetClientRowXPath(clientName) + "//div[contains(@class,'js-edit-mode')]//a[contains(@class,'save js-save-client')]";
 
             // Изменить имя клиента
             SetClientNewName(clientName, "");
-            Thread.Sleep(10000);
-            // Проверить, что клиент не сохранился, а остался в режиме редактирования - Asssert внутри
+            // Проверить, что клиент не сохранился, а остался в режиме редактирования - Assert внутри
             AssertEditingModeClient();
         }
 
@@ -163,14 +159,12 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             // Создать клиента с уникальным именем
             string clientName = GetClientUniqueName();
             CreateClient(clientName);
-            Thread.Sleep(1000);
             // Получить xPath кнопки Сохранить для созданного клиента
             string saveBtnXPath = GetClientRowXPath(clientName) + "//div[contains(@class,'js-edit-mode')]//a[contains(@class,'save js-save-client')]";
 
             // Изменить имя клиента
             SetClientNewName(clientName, "  ");
-            Thread.Sleep(10000);
-            // Проверить, что клиент не сохранился, а остался в режиме редактирования - Asssert внутри
+            // Проверить, что клиент не сохранился, а остался в режиме редактирования - Assert внутри
             AssertEditingModeClient();
         }
 
@@ -183,12 +177,9 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             // Создать клиента с уникальным именем
             string clientName = GetClientUniqueName();
             CreateClient(clientName);
-            Thread.Sleep(1000);
             // Создать другого клиента с уникальным именем
             string secondClientName = GetClientUniqueName();
             CreateClient(secondClientName);
-            Thread.Sleep(1000);
-
             // Изменить имя клиента
             SetClientNewName(secondClientName, clientName);
 
@@ -316,7 +307,6 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
                     break;
                 }
             }
-
             return bClientExist;
         }
 
@@ -408,8 +398,9 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
         {
             // Нажать Изменить
             string clientXPath = GetClientRowXPath(clientName);
+            WaitAndClickElement(clientXPath);
             string editBtnXPath = clientXPath + "//a[contains(@class,'client js-edit-client')]";
-            Driver.FindElement(By.XPath(editBtnXPath)).Click();
+            WaitAndClickElement(editBtnXPath);
 
             // Ввести новое имя клиента
             string clientNameXPath = clientXPath + "//div[contains(@class,'js-edit-mode')]//input[contains(@class,'js-client-name-input')]";

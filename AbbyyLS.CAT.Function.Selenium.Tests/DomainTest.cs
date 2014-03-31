@@ -7,9 +7,9 @@ using System.Windows.Forms;
 
 namespace AbbyyLs.CAT.Function.Selenium.Tests
 {
-    public class Domain : BaseTest
+    public class DomainTest : BaseTest
     {
-        public Domain(string url, string workspaceUrl, string browserName)
+        public DomainTest(string url, string workspaceUrl, string browserName)
             : base(url, workspaceUrl, browserName)
         {
 
@@ -50,7 +50,6 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             CreateDomain(domainName);
             // Создать проект с таким же именем
             CreateDomain(domainName);
-            Thread.Sleep(2000);
 
             // Проверить, что появилась ошибка существующего имени - Assert внутри
             AssertExistingDomainNameError();
@@ -136,7 +135,6 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             // Создать проект с уникальным именем
             string domainName = GetDomainUniqueName();
             CreateDomain(domainName);
-            Thread.Sleep(1000);
 
             // Новое имя проекта
             string newDomainName = GetDomainUniqueName();
@@ -158,7 +156,6 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             // Создать проект с уникальным именем
             string domainName = GetDomainUniqueName();
             CreateDomain(domainName);
-            Thread.Sleep(1000);
 
             // Изменить имя проекта
             SetDomainNewName(domainName, "");
@@ -176,7 +173,6 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             // Создать проект с уникальным именем
             string domainName = GetDomainUniqueName();
             CreateDomain(domainName);
-            Thread.Sleep(1000);
 
             // Изменить имя проекта
             SetDomainNewName(domainName, "  ");
@@ -194,11 +190,9 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             // Создать проект с уникальным именем
             string domainName = GetDomainUniqueName();
             CreateDomain(domainName);
-            Thread.Sleep(1000);
             // Создать другой проект с уникальным именем
             string secondDomainName = GetDomainUniqueName();
             CreateDomain(secondDomainName);
-            Thread.Sleep(1000);
 
             // Изменить имя проекта
             SetDomainNewName(secondDomainName, domainName);
@@ -456,7 +450,6 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             WaitAndClickElement(rowXPath);
             // Добавить
             Wait.Until((d) => d.FindElement(By.XPath(".//span[contains(@class,'js-add-tbx-attribute')]"))).Click();
-            Thread.Sleep(1000);
 
             // Сохранить
             Driver.FindElement(By.XPath(".//div[contains(@class, 'js-popup-buttons')]//span[contains(@class, 'js-save')]")).Click();
