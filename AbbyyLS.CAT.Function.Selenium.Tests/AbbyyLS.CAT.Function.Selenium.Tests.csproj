@@ -20,6 +20,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <DocumentationFile>bin\Debug\AbbyyLS.CAT.Function.Selenium.Tests.XML</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -53,6 +54,13 @@
     <Compile Include="DomainTest.cs" />
     <Compile Include="ClientTest.cs" />
     <Compile Include="EditorButtonsTest.cs" />
+    <Compile Include="GlossaryEditStructureCustomFieldsTest.cs" />
+    <Compile Include="GlossaryEditStructureGeneralFieldsTest.cs" />
+    <Compile Include="GlossaryEditStructureLanguageFieldsTest.cs" />
+    <Compile Include="GlossaryEditStructureTermFieldsTest.cs" />
+    <Compile Include="GlossaryItemTest.cs" />
+    <Compile Include="GlossaryMainTest.cs" />
+    <Compile Include="GlossarySuggestedTerms.cs" />
     <Compile Include="GlossaryTest.cs" />
     <Compile Include="NewProjectTest.cs" />
     <Compile Include="ProjectTest.cs" />

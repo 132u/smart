@@ -493,16 +493,15 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             // Перейти на страницу SmartCAT
             Driver.FindElement(By.XPath(
                 ".//ul[@class='g-corprmenu__list']//a[contains(@href,'/Workspace')]")).Click();
-            Wait.Until((d) => d.FindElement(By.Id("projects-add-btn")));
+            WaitProjectPageOpen();
 
             // Начать создание проекта
             FirstStepProjectWizard(ProjectName);
-            Driver.FindElement(By.XPath(".//div[@id='project-wizard-form']//span[contains(text(), 'Next')]")).Click();
-            // Дождаться появления списка ТМ
-            Wait.Until((d) => d.FindElement(By.Id("project-wizard-tms-body")).Displayed);
+            // Перейти на шаг выбора ТМ
+            AddDocument(false, "");
 
             // Есть ли ТМ с таким именем в списке при создании проекта
-            return GetIsExistTMInCurrentList(TMName, "//div[@id='project-wizard-tms-body']//table//tr/td[2]/div");
+            return GetIsExistTMInCurrentList(TMName, GetCreateProjectTMListXPath());
         }
 
         private bool GetIsExistTMInCurrentList(string TMName, string xPathList)

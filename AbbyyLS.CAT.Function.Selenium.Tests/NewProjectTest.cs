@@ -170,8 +170,8 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 
             //процесс добавления файла
             ImportDocumentCreateProject(_documentFileWrong);
-
-            Assert.True(IsElementPresent(By.XPath(".//span[text()='OK']")), "No error message");
+            Assert.True(IsElementDisplayed(By.XPath(".//div[contains(@class,'js-info-popup')]//span[contains(@class,'js-popup-close')]")),
+                "Ошибка: не появилось сообщение о неверном формате загружаемого документа");
         }
 
         /// <summary>
@@ -189,7 +189,8 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             // Загрузить второй документ
             ImportDocumentCreateProject(_ttxFile);
 
-            Assert.IsFalse(IsElementPresent(By.XPath(".//span[text()='OK']")), "Сообщение об ошибке о загрузке неверного формата");
+            Assert.IsFalse(IsElementDisplayed(By.XPath(".//div[contains(@class,'js-info-popup')]//span[contains(@class,'js-popup-close')]")),
+                "Ошибка: появилось сообщение о неверном формате загружаемого документа");
         }
 
         /// <summary>
@@ -218,7 +219,8 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             // Загрузить документ
             ImportDocumentCreateProject(_ttxFile);
 
-            Assert.IsFalse(IsElementPresent(By.XPath(".//span[text()='OK']")), "Сообщение об ошибке о загрузке неверного формата");
+            Assert.IsFalse(IsElementDisplayed(By.XPath(".//div[contains(@class,'js-info-popup')]//span[contains(@class,'js-popup-close')]")),
+                "Ошибка: появилось сообщение о неверном формате загружаемого документа");
         }
 
         /// <summary>
@@ -234,7 +236,8 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             // Загрузить документ
             ImportDocumentCreateProject(_txtFile);
 
-            Assert.IsFalse(IsElementPresent(By.XPath(".//span[text()='OK']")), "Сообщение об ошибке о загрузке неверного формата");
+            Assert.IsFalse(IsElementDisplayed(By.XPath(".//div[contains(@class,'js-info-popup')]//span[contains(@class,'js-popup-close')]")),
+                "Ошибка: появилось сообщение о неверном формате загружаемого документа");
         }
 
         /// <summary>
@@ -250,7 +253,8 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             // Загрузить документ
             ImportDocumentCreateProject(_srtFile);
 
-            Assert.IsFalse(IsElementPresent(By.XPath(".//span[text()='OK']")), "Сообщение об ошибке о загрузке неверного формата");
+            Assert.IsFalse(IsElementDisplayed(By.XPath(".//div[contains(@class,'js-info-popup')]//span[contains(@class,'js-popup-close')]")),
+                "Ошибка: появилось сообщение о неверном формате загружаемого документа");
         }
 
 
@@ -285,20 +289,53 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             //ждем когда окно с настройками загрузится
             Wait.Until((d) => d.FindElement(By.XPath(".//span[contains(@class,'js-document-import')]")));
             Thread.Sleep(1000);
+
+            // Кликнуть по Импорт
             Driver.FindElement(By.XPath(".//span[contains(@class,'js-document-import')]")).Click();
 
             //ждем когда загрузится окно для загрузки документа 
             Wait.Until((d) => d.FindElement(By.XPath(".//div[contains(@class,'js-popup-import-document')][2]")));
             //Процесс добавления файла
             Driver.FindElement(By.XPath(
-                ".//div[contains(@class,'js-popup-import-document')][2]//div[contains(@class,'js-file-input-container')]//a[contains(@class,'js-upload-btn')]")).Click();
+                ".//div[contains(@class,'js-popup-import-document')][2]//a[contains(@class,'js-add-file')]")).Click();
 
             FillAddDocumentForm(filePath);
-            // Выбрать язык назначения - Русский
-            Driver.FindElement(By.XPath(".//div[contains(@class,'js-popup-import-document')][2]//div[contains(@class,'js-languages-multiselect')]")).Click();
-            Wait.Until((d) => d.FindElement(By.XPath(".//div[contains(@class,'ui-multiselect-menu')]")).Enabled);
+
+            // Нажать Next
+            Driver.FindElement(By.XPath(".//div[contains(@class,'js-popup-import-document')][2]//span[contains(@class,'js-next')]")).Click();
+            // Нажать Next
+            Wait.Until((d) => d.FindElement(By.XPath(".//div[contains(@class,'js-popup-import-document')][2]//div[contains(@class,'l-project-section')]")).Displayed);
+            Driver.FindElement(By.XPath(".//div[contains(@class,'js-popup-import-document')][2]//span[contains(@class,'js-next')]")).Click();
+            // Нажать Finish
+            Wait.Until((d) => d.FindElement(By.XPath(".//div[contains(@class,'js-step last active')]")));
+            Driver.FindElement(By.XPath(".//span[contains(@class,'js-finish js-upload-btn')]")).Click();
+            // Дождаться загрузки документа
+            Wait.Until((d) => d.FindElement(By.XPath(".//img[contains(@title,'Job processing')]")).Displayed);
+            bool isDisappeared = false;
+            for (int i = 0; i < 10; ++i)
+            {
+                isDisappeared = WaitUntilDisappearElement(".//img[contains(@title,'Job processing')]", 40);
+                if (isDisappeared)
+                {
+                    break;
+                }
+            }
+            Assert.IsTrue(isDisappeared, "Ошибка: файл так и не загрузился");
+        }
+
+        protected void ImportDocumentIntoProject(string filePath)
+        {
+            // Кликнуть по Импорт
+            Driver.FindElement(By.XPath(".//span[contains(@class,'js-document-import')]")).Click();
+
+            //ждем когда загрузится окно для загрузки документа 
+            Wait.Until((d) => d.FindElement(By.XPath(".//div[contains(@class,'js-popup-import-document')][2]")));
+            //Процесс добавления файла
             Driver.FindElement(By.XPath(
-                ".//ul[contains(@class,'ui-multiselect-checkboxes')]//input[contains(@class,'ui-multiselect-input')][@value='25']")).Click();
+                ".//div[contains(@class,'js-popup-import-document')][2]//a[contains(@class,'js-add-file')]")).Click();
+
+            FillAddDocumentForm(filePath);
+
             // Нажать Next
             Driver.FindElement(By.XPath(".//div[contains(@class,'js-popup-import-document')][2]//span[contains(@class,'js-next')]")).Click();
             // Нажать Next
@@ -321,8 +358,6 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 
             // Удалить проект
             DeleteProjectFromList(ProjectName);
-            // Обновить страницу
-            Driver.FindElement(By.XPath(".//a[contains(@href,'/Glossaries')]")).SendKeys(OpenQA.Selenium.Keys.F5);
 
             Assert.IsFalse(GetIsProjectInList(ProjectName), "Ошибка: проект не удалился");
         }
@@ -337,6 +372,11 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             // Создать проект
             CreateProject(ProjectName, true, DocumentFile);
 
+            // Дождаться, пока документ догрузится
+            bool isWaitDisappeared = 
+                WaitUntilDisappearElement(".//a[@class='js-name'][contains(text(),'" + ProjectName + "')]/..//img[contains(@class,'l-project-doc__progress')]", 50);
+            Assert.IsTrue(isWaitDisappeared, "Ошибка: документ не загрузился");
+
             // Кликнуть по строке с проектом, чтобы открылась информация о нем (чтобы видно было документ)
             Driver.FindElement(By.XPath(
                 ".//table[contains(@class,'js-tasks-table')]//tr//td[2]//a[@class='js-name'][text()='" + ProjectName + "']/../../../td[3]")).Click();
@@ -346,12 +386,13 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             // Нажать кнопку удалить
             Driver.FindElement(By.XPath(".//span[contains(@class,'js-delete-btn')]")).Click();
             // Нажать Удалить проект
-            Driver.FindElement(By.XPath(".//input[contains(@class,'js-delete-project-btn')]")).Click();
-            // Обновить страницу
-            Driver.FindElement(By.XPath(".//a[contains(@href,'/Glossaries')]")).SendKeys(OpenQA.Selenium.Keys.F5);
-            // Проверить, что проект удалился
-            Assert.IsFalse(GetIsProjectInList(ProjectName), "Ошибка: проект не удалился");
+            Assert.IsTrue(IsElementPresent(By.XPath(".//div[contains(@class,'js-popup-delete-mode')]//input[contains(@class,'js-delete-project-btn')]")),
+                "Ошибка: нет кнопки удалить проект (диалог удаления документа или проекта)");
+            Driver.FindElement(By.XPath(".//div[contains(@class,'js-popup-delete-mode')]//input[contains(@class,'js-delete-project-btn')]")).Click();
 
+            WaitUntilDisappearElement(".//div[contains(@class,'js-popup-delete-mode')]", 30);
+            // Проверить, что проект удалился
+            Assert.IsTrue(GetIsProjectNotExist(ProjectName), "Ошибка: проект не удалился");
         }
 
         /// <summary>
@@ -367,9 +408,6 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             // Удалить проект
             DeleteProjectFromList(ProjectName);
 
-            //!!!!!!!!!!!!!!!! МБ не надо обновлять????
-            // Обновить страницу, чтобы проект удалился
-            Driver.FindElement(By.XPath(".//a[contains(@href,'/Glossaries')]")).SendKeys(OpenQA.Selenium.Keys.F5);
             // Проверить, остался ли проект в списке
             Assert.IsFalse(GetIsProjectInList(ProjectName), "Ошибка: проект не удалился");
 
@@ -393,8 +431,12 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             // Начать создание проекта с этим же именем
             FirstStepProjectWizard(ProjectName);
             Driver.FindElement(By.XPath(".//div[contains(@class,'js-popup-create-project')][2]//span[contains(@class,'js-next')]")).Click();
-            // Проверить, что появилась ошибка
-            Assert.IsTrue(Driver.PageSource.Contains("Unique project name required"));
+            // Проверить, что появилась ошибка и поле Имя выделено ошибкой
+            Assert.IsTrue(IsElementDisplayed(By.XPath(".//div[contains(@class,'js-popup-create-project')][2]//input[@name='name'][contains(@class,'error')]")),
+                "Ошибка: поле Название не отмечено ошибкой");
+            Assert.IsTrue(IsElementDisplayed(By.XPath(
+                ".//div[contains(@class,'js-popup-create-project')][2]//p[contains(@class,'js-error-name-exists')]")),
+                "Ошибка: не появилось сообщение о существующем имени");
         }
 
         /// <summary>
@@ -456,9 +498,13 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             // Создать имя с недопустимыми символами
             string projectNameForbidden = ProjectName + " *|\\:\"<\\>?/ ";
             // Создать проект
-            CreateProject(projectNameForbidden, false, "");
-            // Проверить, что проект не создался
-            Assert.IsTrue(!GetIsProjectInList(projectNameForbidden), "Ошибка: проект с запрещенными символами в имени создался");
+            FirstStepProjectWizard(projectNameForbidden);
+            Driver.FindElement(By.XPath(".//div[contains(@class,'js-popup-create-project')][2]//span[contains(@class,'js-next')]")).Click();
+            // Проверить, что появилась ошибка и поле Имя выделено ошибкой
+            Assert.IsTrue(IsElementDisplayed(By.XPath(".//div[contains(@class,'js-popup-create-project')][2]//p[contains(@class,'js-error-name-invalid-chars')]")),
+                "Ошибка: не появилось сообщение о существующем имени");
+            Assert.IsTrue(IsElementDisplayed(By.XPath(".//div[contains(@class,'js-popup-create-project')][2]//input[contains(@class,'error')]")),
+                "Ошибка: не появилось сообщение о существующем имени");
         }
 
         /// <summary>
@@ -472,8 +518,11 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             FirstStepProjectWizard("");
             Driver.FindElement(By.XPath(".//div[contains(@class,'js-popup-create-project')][2]//span[contains(@class,'js-next')]")).Click();
 
-            //проверяем, что появилось сообщение об ошибке около поля Name
-            Assert.IsTrue(Driver.PageSource.Contains("This field is required"), "Fail - нет сообщения об ошибке при создании проекта без имени");
+            // Проверить, что появилась ошибка и поле Имя выделено ошибкой
+            Assert.IsTrue(IsElementDisplayed(By.XPath(".//div[contains(@class,'js-popup-create-project')][2]//p[contains(@class,'js-error-name-required')]")),
+                "Ошибка: не появилось сообщение о существующем имени");
+            Assert.IsTrue(IsElementDisplayed(By.XPath(".//div[contains(@class,'js-popup-create-project')][2]//input[contains(@class,'error')]")),
+                "Ошибка: не появилось сообщение о существующем имени");
         }
 
         /// <summary>
@@ -487,8 +536,11 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             FirstStepProjectWizard(" ");
             Driver.FindElement(By.XPath(".//div[contains(@class,'js-popup-create-project')][2]//span[contains(@class,'js-next')]")).Click();
 
-            //проверяем, что появилось сообщение об ошибке около поля Name
-            Assert.IsTrue(Driver.PageSource.Contains("This field is required"));
+            // Проверить, что появилась ошибка и поле Имя выделено ошибкой
+            Assert.IsTrue(IsElementDisplayed(By.XPath(".//div[contains(@class,'js-popup-create-project')][2]//p[contains(@class,'js-error-name-required')]")),
+                "Ошибка: не появилось сообщение о существующем имени");
+            Assert.IsTrue(IsElementDisplayed(By.XPath(".//div[contains(@class,'js-popup-create-project')][2]//input[contains(@class,'error')]")),
+                "Ошибка: не появилось сообщение о существующем имени");
         }
 
         /// <summary>
@@ -513,35 +565,17 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
         [TestCaseSource("filesForImportCorrect")]
         public void ImportFilesAfterCreationCorrectTest(string filePath)
         {
-            Authorization();
-            //Создать пустой проект          
-            CreateProject(ProjectName, false, "");
-            //Проверка на наличие проекта
-            CheckProjectInList(ProjectName);
-
-            //Добавление документа
-            ImportDocumentProjectSettings(filePath, ProjectName);
-            Driver.Navigate().GoToUrl(Url);
-            Thread.Sleep(1000);
+            CreateProjectImportDocument(filePath);
+            // Вернуться к списку проектов
+            OpenMainWorkspacePage();
 
             //Назначение задачи на пользователя
             AssignTask();
 
             // Строчка нужного проекта
-            //Driver.FindElement(By.LinkText("TestProject")).Click();//TODO заменить документ
-            // переход на новую страницу
-            string href = Driver.FindElement(By.LinkText("TestProject")).GetAttribute("href");
-            href = href.Replace("workspace#", "");
-            string resultHref = href.Substring(0, href.IndexOf("-", href.IndexOf("project"))) + "/" + href.Substring(href.IndexOf("-", href.IndexOf("project")) + 1);
-            Driver.Navigate().GoToUrl(resultHref);
-            /*Console.WriteLine("At");
-            Thread.Sleep(5000);
-            // Далее нажать на появившийся документ
-            IWebElement element = Wait.Until(d => Driver.FindElement(By.XPath(
-                ".//a[starts-with(@href, '/editor')]" // критерий - editor
-                )));
-
-            element.Click();
+            Driver.FindElement(By.LinkText(ProjectName)).Click();
+            // Зайти в редактор документа
+            Driver.FindElement(By.XPath(".//a[contains(@class,'js-editor-link')]")).Click();
 
             // Дождаться загрузки страницы
             Wait.Until((d) => d.Title.Contains("Editor"));
@@ -549,7 +583,24 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             // Проверить, существует ли хотя бы один сегмент
             Assert.IsTrue(IsElementPresent(By.CssSelector(
                 "#segments-body div table tr:nth-child(1)"
-                )));*/
+                )));
+        }
+
+        /// <summary>
+        /// Создать проект, добавить документ
+        /// </summary>
+        /// <param name="filePath"></param>
+        protected void CreateProjectImportDocument(string filePath)
+        {
+            Authorization();
+            //Создать пустой проект          
+            CreateProject(ProjectName, false, "");
+            Thread.Sleep(1000);
+            //Проверка на наличие проекта
+            CheckProjectInList(ProjectName);
+
+            //Добавление документа
+            ImportDocumentProjectSettings(filePath, ProjectName);
         }
 
         /// <summary>
@@ -562,7 +613,7 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
         {
             Authorization();
 
-            //Создать пустой проект          
+            //Создать пустой проект
             CreateProject(ProjectName, false, "");
 
             //Проверка на наличие проекта
@@ -570,33 +621,23 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 
             //Добавление документа
             ImportDocumentProjectSettings(filePath, ProjectName);
-            Driver.Navigate().GoToUrl(Url);
-            Thread.Sleep(1000);
-
+            
+            OpenMainWorkspacePage();
             //Назначение задачи на пользователя
             AssignTask();
 
             // Строчка нужного проекта
-            //Driver.FindElement(By.LinkText("TestProject")).Click();//TODO заменить документ
-            // переход на новую страницу
-            string href = Driver.FindElement(By.LinkText("TestProject")).GetAttribute("href");
-            href = href.Replace("workspace#", "");
-            string resultHref = href.Substring(0, href.IndexOf("-", href.IndexOf("project"))) + "/" + href.Substring(href.IndexOf("-", href.IndexOf("project")) + 1);
-            Driver.Navigate().GoToUrl(resultHref);
-
-            /*// Далее нажать на появившийся документ
-            IWebElement element = Wait.Until(d => Driver.FindElement(By.XPath(
-                "//a[starts-with(@href, '/editor')]" // критерий - editor
-                )));
-            element.Click();
+            Driver.FindElement(By.LinkText(ProjectName)).Click();
+            // Зайти в редактор документа
+            Driver.FindElement(By.XPath(".//a[contains(@class,'js-editor-link')]")).Click();
 
             // Дождаться загрузки страницы
             Wait.Until((d) => d.Title.Contains("Editor"));
 
-            // Убедиться, что документ не разобран на сегменты
-            Assert.IsFalse(IsElementPresent(By.CssSelector(
+            // Проверить, существует ли хотя бы один сегмент
+            Assert.IsTrue(IsElementPresent(By.CssSelector(
                 "#segments-body div table tr:nth-child(1)"
-                )));*/
+                )));
         }
 
         /// <summary>
@@ -609,8 +650,12 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
         {
             //Создать проект и импортировать файл 
             ImportFilesAfterCreationCorrectTest(filePath);
+            // Выйти из редактора
             BackButton();
-
+            // Зайти в проект
+            Driver.FindElement(By.XPath(".//a[@class='js-name'][contains(text(),'" + ProjectName + "')]")).Click();
+            // Нажать галочку у документа
+            Driver.FindElement(By.XPath(".//table[contains(@class,'js-documents-table')]//td[contains(@class,'checkbox')]//input")).Click();
             //Нажать на кнопку Export
             Driver.FindElement(By.XPath(".//span[contains(@class,'js-document-export-block')]")).Click();
             //Выбрать Исходный файл из выпадающего списка
@@ -628,7 +673,8 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             SendKeys.SendWait(@"{Enter}");
             Thread.Sleep(5000);
             Assert.IsTrue(File.Exists(Path.Combine
-                (resultPath, Path.GetFileNameWithoutExtension(filePath) + "_" + ProjectName + Path.GetExtension(filePath))));
+                (resultPath, Path.GetFileNameWithoutExtension(filePath) + "_" + ProjectName + Path.GetExtension(filePath))),
+                "Ошибка: файл не экспортировался");
         }
 
         /// <summary>
@@ -642,6 +688,11 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             //Создать проект и импортировать файл 
             ImportFilesAfterCreationErrorTest(filePath);
             BackButton();
+
+            // Зайти в проект
+            Driver.FindElement(By.XPath(".//a[@class='js-name'][contains(text(),'" + ProjectName + "')]")).Click();
+            // Нажать галочку у документа
+            Driver.FindElement(By.XPath(".//table[contains(@class,'js-documents-table')]//td[contains(@class,'checkbox')]//input")).Click();
 
             //Нажать на кнопку Export
             Driver.FindElement(By.XPath(".//span[contains(@class,'js-document-export-block')]")).Click();
@@ -673,9 +724,15 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
         {
             //Создать проект и импортировать файл 
             ImportFilesAfterCreationCorrectTest(filePath);
+            // Подтвердить перевод
             ConfirmButton();
+            // Выйти из редактора
             BackButton();
-
+            // Зайти в проект
+            Driver.FindElement(By.XPath(".//a[@class='js-name'][contains(text(),'" + ProjectName + "')]")).Click();
+            // Нажать галочку у документа
+            Driver.FindElement(By.XPath(".//table[contains(@class,'js-documents-table')]//td[contains(@class,'checkbox')]//input")).Click();
+            
             //Нажать на кнопку Export
             Driver.FindElement(By.XPath(".//span[contains(@class,'js-document-export-block')]")).Click();
             //Выбрать Перевод из выпадающего списка
@@ -694,6 +751,108 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             Thread.Sleep(5000);
             Assert.IsTrue(File.Exists(Path.Combine
                 (resultPath, Path.GetFileNameWithoutExtension(filePath) + "_" + ProjectName + Path.GetExtension(filePath))));
+        }
+
+
+        /// <summary>
+        /// метод для тестирования отмены назначения документа пользователю
+        /// </summary>
+        [Test]
+        public void ReassignDocumentToUserTest()
+        {
+            Authorization();
+
+            //Создать пустой проект
+            CreateProject(ProjectName, false, "");
+
+            Thread.Sleep(4000);
+            //Проверка на наличие проекта
+            CheckProjectInList(ProjectName);
+
+            //Добавление документа
+            ImportDocumentProjectSettings(DocumentFile, ProjectName);
+            OpenMainWorkspacePage();
+            Thread.Sleep(1000);
+
+            //Назначение задачи на пользователя
+            AssignTask();
+
+            // Выбрать документ
+            Driver.FindElement(By.XPath(".//table[contains(@class,'js-documents-table')]//tr[1]/td[1]/span")).Click();
+            // Нажать Progress
+            Driver.FindElement(By.XPath(".//span[contains(@class,'js-document-progress')]")).Click();
+            
+            // Назначить ответственного в окне Progress
+            Driver.FindElement(By.XPath(".//div[contains(@class,'js-assigned-block inProgress')]//span[contains(@class,'js-assigned-cancel')]")).Click();
+            Wait.Until((d) => d.FindElement(By.XPath(".//div[contains(@class,'js-popup-confirm')]//input[contains(@class,'js-submit-btn')]"))).Click();
+            Thread.Sleep(2000);
+            Assert.IsTrue(Driver.FindElement(By.XPath(".//div[contains(@class,'js-popup-progress')]//div[contains(@class,'js-assigned-block notAssigned')]")).Displayed,
+                "Статус назначения не изменился на notAssigned");
+
+            Driver.FindElement(By.XPath(".//table[contains(@class,'js-progress-table')]//tr[1]//td[3]//span")).Click();
+            Wait.Until(d => Driver.FindElements(By.XPath(
+                ".//span[contains(@class,'js-dropdown__list')]"
+                )));
+            //Имя для cat-stage2
+            Driver.FindElement(By.XPath(".//span[contains(@class,'js-dropdown__item')][@title='Bob Test']")).Click();
+            Thread.Sleep(1000);
+
+            // Нажать на Assign
+            Wait.Until(d => Driver.FindElement(By.XPath(
+                ".//table[contains(@class,'js-progress-table')]//tr[1]//td[4]//span[contains(@class,'js-assign')]"
+                ))).Click();
+            Wait.Until((d) => d.FindElement(By.XPath(".//div[contains(@class,'js-assigned-block assigned')]//span[contains(@class,'js-assigned-cancel')]")).Displayed);
+            // Нажать на Close
+            Driver.FindElement(By.XPath(
+                ".//div[contains(@class,'js-popup-progress')][2]//span[contains(@class,'js-popup-close')]")).Click();
+        }
+
+        /// <summary>
+        /// Загрузка в проект документа, который уже был загружен
+        /// </summary>
+        [Test]
+        public void ImportDuplicateDocumentTest()
+        {
+            // Создать проект, загрузить документ, зайти в редактор
+            CreateProjectImportDocument(DocumentFile);
+            // Кликнуть по Импорт
+            Driver.FindElement(By.XPath(".//span[contains(@class,'js-document-import')]")).Click();
+
+            //ждем когда загрузится окно для загрузки документа 
+            Wait.Until((d) => d.FindElement(By.XPath(".//div[contains(@class,'js-popup-import-document')][2]")));
+            //Процесс добавления файла
+            Driver.FindElement(By.XPath(
+                ".//div[contains(@class,'js-popup-import-document')][2]//a[contains(@class,'js-add-file')]")).Click();
+            // Указать тот же документ
+            FillAddDocumentForm(DocumentFile);
+
+            // Проверить появление оповещения об ошибки
+            Assert.IsTrue(IsElementDisplayed(By.XPath(".//div[contains(@class,'js-info-popup')]")),
+                "Ошибка: не появилось сообщение о повторном файле");
+        }
+
+        /// <summary>
+        /// Удаление документа из проекта
+        /// </summary>
+        [Test]
+        public void DeleteDocumentFromProject()
+        {
+            // Создать проект, загрузить документ, зайти в редактор
+            CreateProjectImportDocument(DocumentFile);
+
+            // Выбрать документ
+            Driver.FindElement(By.XPath(".//table[contains(@class,'js-documents-table')]//tr[1]/td[1]/span")).Click();
+            // Нажать удалить
+            Driver.FindElement(By.XPath(".//span[contains(@class,'js-document-delete')]")).Click();
+
+            // Подтвердить
+            Wait.Until((d) => d.FindElement(By.XPath(".//div[contains(@class,'js-popup-confirm')]")).Displayed);
+            Driver.FindElement(By.XPath(".//div[contains(@class,'js-popup-confirm')]//input[contains(@class,'js-submit-btn')]")).Click();
+            WaitUntilDisappearElement(".//div[contains(@class,'js-popup-confirm')]");
+
+            // Проверить, что документа нет
+            Assert.IsFalse(IsElementPresent(By.XPath(".//table[contains(@class,'js-documents-table')]//tr[1]/td[1]/span")),
+                "Ошибка: документ не удалился");
         }
 
         // TODO: Убрать если у нас не будет кнопки back для возврата на первый шаг для отмены создания. СЕйчас реализовано, что кнопки нет, но в документации - кнопка описана.
@@ -764,23 +923,13 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             // Нажать Удалить
             Driver.FindElement(By.XPath(".//span[contains(@class,'js-delete-btn')]")).Click();
             // Подтвердить
-            Wait.Until((d) => d.FindElement(By.XPath(".//div[contains(@class,'js-popup-bd js-popup-confirm')]")).Displayed);
-            Driver.FindElement(By.XPath(".//div[contains(@class,'js-popup-bd js-popup-confirm')]//input[@type='submit']")).Click();
+            Wait.Until((d) => d.FindElement(By.XPath(".//div[contains(@class,'js-popup-confirm')]")).Displayed);
+            Driver.FindElement(By.XPath(".//div[contains(@class,'js-popup-confirm')]//input[contains(@class,'js-submit-btn')]")).Click();
+            WaitUntilDisappearElement(".//div[contains(@class,'js-popup-confirm')]", 30);
+            Thread.Sleep(500);
         }
 
-        private void SelectProjectInList(string ProjectNameToSelect)
-        {
-            // Кликнуть по галочке в строке с проектом
-            Driver.FindElement(By.XPath(
-                ".//table[contains(@class,'js-tasks-table')]//tr//td[2]//a[@class='js-name'][text()='" + ProjectNameToSelect + "']/../../../td[1]")).Click();
-        }
-
-        private void ClickProjectInList(string ProjectNameToClick)
-        {
-            // Кликнуть по названию проекта
-            Driver.FindElement(By.XPath(
-                ".//table[contains(@class,'js-tasks-table')]//tr//td[2]//a[@class='js-name'][text()='" + ProjectNameToClick + "']")).Click();
-        }
+        
 
 
         /// <summary>
@@ -793,38 +942,31 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             Assert.IsTrue(GetIsProjectInList(ProjectNameCheck), "Проверка на наличие проекта среди созданных  - не пройдена");
         }
 
-        private bool GetIsProjectInList(string ProjectNameCheck)
+        private bool GetIsProjectInList(string projectNameCheck)
+        {
+            return IsElementPresent(By.XPath(
+                ".//table[contains(@class,'js-tasks-table')]//tr//td[2]//a[@class='js-name'][text()='" + projectNameCheck + "']"));
+        }
+
+        private bool GetIsProjectNotExist(string projectNameCheck)
         {
             setDriverTimeoutMinimum();
-            // Вернуть, есть ли проект в списке
-            bool retVal = Driver.FindElements(By.XPath(
-                ".//table[contains(@class,'js-tasks-table')]//tr//td[2]//a[@class='js-name'][text()='" + ProjectNameCheck + "']")).Count > 0;
+            bool isNotExist = !GetIsProjectInList(projectNameCheck);
             setDriverTimeoutDefault();
-            return retVal;
+            return isNotExist;
         }
 
         private void ImportDocumentCreateProject(string documentName)
         {
             //процесс добавления файла 
-            Driver.FindElement(By.XPath(".//div[contains(@class,'js-popup-create-project')][2]//a[contains(@class,'js-upload-btn')]")).Click();
+            Driver.FindElement(By.XPath(".//div[contains(@class,'js-popup-create-project')][2]//a[contains(@class,'js-add-file')]")).Click();
             FillAddDocumentForm(documentName);
         }
 
-
-        /// <summary>
-        /// Проверка на наличие элемента на экране
-        /// </summary>
-        private bool IsElementPresent(By by)
+        private void OpenMainWorkspacePage()
         {
-            try
-            {
-                Driver.FindElement(by);
-                return true;
-            }
-            catch (NoSuchElementException)
-            {
-                return false;
-            }
+            Driver.FindElement(By.XPath(".//a[contains(@href,'/Workspace')]")).Click();
+            Wait.Until((d) => d.FindElement(By.XPath(".//span[contains(@class,'js-project-create')]")));
         }
 
     }

@@ -805,24 +805,6 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
         {
 
         }
-
-
-        /// <summary>
-        /// Проверка на наличие элемента на экране
-        /// </summary>
-        private bool IsElementPresent(By by)
-        {
-            try
-            {
-                Driver.FindElement(by);
-                return true;
-            }
-            catch (NoSuchElementException)
-            {
-                return false;
-            }
-        }
-            
     }
 
 
