@@ -339,7 +339,7 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 
             // Одобрить термин
             ClickButtonSuggestTermRow("sugg js-accept-suggest");
-
+            
             // Перейти к списку глоссариев
             SwitchGlossaryTab();
             // Перейти в наш первый глоссарий
@@ -382,7 +382,7 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
                     Wait.Until((d) => d.FindElement(By.XPath(xPathGlossary))).Click();
                     // Сохранить
                     Driver.FindElement(By.XPath(".//input[contains(@class, 'js-glossary-selected-button')]")).Click();
-                    Thread.Sleep(2000);
+                    Thread.Sleep(5000);
                     break;
                 }
             }
@@ -597,7 +597,7 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             Driver.FindElement(By.XPath(".//div[contains(@class,'l-corprtree__langbox')][2]//span[contains(@class,'js-term-editor')]//input")).SendKeys(newTermText);
             // Принять термин
             Driver.FindElement(By.XPath(".//span[contains(@class,'js-save-btn js-edit')]")).Click();
-            Thread.Sleep(1000);
+            Thread.Sleep(5000);
             // Перейти к списку глоссариев
             SwitchGlossaryTab();
             // Перейти в глоссарий
@@ -618,6 +618,100 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             Assert.IsTrue(isTermAccepted, "Ошибка: термин сохранился неотредактированным");
         }
 
+        /// <summary>
+        /// Тест: проверка автоматического переключения языков
+        /// Создается глоссарий, открывается форма предложения термина
+        /// Для первого термина открывается выпадающий список языков
+        /// Проверяется, что там два языка: английский и русский
+        /// Выбирается Русский
+        /// Проверяется, что для второго термина язык меняется на Английский
+        /// </summary>
+        [Test]
+        public void AutoSwitchingLanguageTest()
+        {
+            // Создать глоссарий
+            string glossaryName = GetUniqueGlossaryName();
+            CreateGlossaryByName(glossaryName);
+
+            // Нажать Предложить термин
+            Driver.FindElement(By.XPath(".//span[contains(@class, 'g-redbtn js-add-suggest')]//a")).Click();
+            Wait.Until((d) => d.FindElement(By.XPath(".//div[contains(@class,'js-popup-bd js-add-suggest-popup')]")).Displayed);
+
+            // Кликнуть по English
+            Driver.FindElement(By.XPath(
+                ".//div[contains(@class,'js-add-suggest-popup')]//div[contains(@class,'js-language')][1]//span[contains(@class,'addsugglang')]")).Click();
+            // Получить список элементов в выпавшем списке языков
+            IList<IWebElement> langList = Driver.FindElements(By.XPath(
+                ".//span[contains(@class,'js-dropdown__list')]//span[contains(@class,'js-dropdown__item')]"));
+            
+            // Проверить, что там два элемента - Английский и Русский
+            Assert.IsTrue(langList.Count == 2, "Ошибка: в списке должно быть два языка");
+            Assert.IsTrue(int.Parse(langList[0].GetAttribute("data-id")) == 9, "Ошибка: первый язык должен быть Английский");
+            Assert.IsTrue(int.Parse(langList[1].GetAttribute("data-id")) == 25, "Ошибка: первый язык должен быть Русский");
+
+            // Выбрать Русский
+            Driver.FindElement(By.XPath(
+                ".//span[contains(@class,'js-dropdown__list')]//span[contains(@class,'js-dropdown__item')][@data-id='25']")).Click();
+            
+            WaitUntilDisappearElement(".//span[contains(@class,'js-dropdown__list')]");
+            // Проверить, что вторым языком стал Английский
+            Assert.IsTrue(int.Parse(Driver.FindElement(By.XPath(
+                ".//div[contains(@class,'js-add-suggest-popup')]//div[contains(@class,'js-language')][2]//span[contains(@class,'js-dropdown__text')]")).GetAttribute("data-id")) == 9,
+                "Ошибка: второй язык не изменился на английский");
+        }
+
+        /// <summary>
+        /// Тест: предложение пустого термина (из списка глоссариев)
+        /// Проверка: появляется ошибка
+        /// </summary>
+        [Test]
+        public void SuggestEmptyTermFromGlossaryListTest()
+        {
+            // Нажать Предложить термин
+            Driver.FindElement(By.XPath(".//span[contains(@class, 'g-redbtn js-add-suggest')]//a")).Click();
+            Wait.Until((d) => d.FindElement(By.XPath(".//div[contains(@class,'js-popup-bd js-add-suggest-popup')]")).Displayed);
+
+            // Сохранить
+            Driver.FindElement(By.XPath(".//input[contains(@class, 'js-save-btn')]")).Click();
+            
+            // Проверить, что появилась ошибка
+            Assert.IsTrue(WaitUntilDisplayElement(".//div[contains(@class,'js-add-suggest-popup')]//div[contains(@class,'js-error-message')]"),
+                "Ошибка: не появилась ошибка пустого термина");
+        }
+
+        /// <summary>
+        /// Тест: предложение пустого термина (из глоссария)
+        /// Проверка: появляется ошибка
+        /// </summary>
+        [Test]
+        public void SuggestEmptyTermFromGlossaryTest()
+        {
+            // Создать глоссарий
+            string glossaryName = GetUniqueGlossaryName();
+            CreateGlossaryByName(glossaryName);
+
+            // Нажать Предложить термин
+            Driver.FindElement(By.XPath(".//span[contains(@class, 'g-redbtn js-add-suggest')]//a")).Click();
+            Wait.Until((d) => d.FindElement(By.XPath(".//div[contains(@class,'js-popup-bd js-add-suggest-popup')]")).Displayed);
+
+            // Сохранить
+            Driver.FindElement(By.XPath(".//input[contains(@class, 'js-save-btn')]")).Click();
+            
+            // Проверить, что появилась ошибка
+            Assert.IsTrue(WaitUntilDisplayElement(".//div[contains(@class,'js-add-suggest-popup')]//div[contains(@class,'js-error-message')]"),
+                "Ошибка: не появилась ошибка пустого термина");
+        }
+
+        /// <summary>
+        /// Не тест: перед выполнением остальных тестов нужно проверить права пользователя
+        /// Если нет прав на предложение терминов без указания глоссария,
+        /// добавить права
+        /// </summary>
+        [Test]
+        public void aaaaaFirstTestCheckUserRights()
+        {
+            AddUserRights();
+        }
 
         protected int GetCountSuggestTermsGlossary(string glossaryName)
         {
@@ -646,6 +740,8 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 
         protected void ClickButtonSuggestTermRow(string btnName, bool isNeedSelectCurrentRow = false, int rowNumber = 0, string glossaryName = "")
         {
+            int countBefore = GetCountOfSuggestTerms();
+            Console.WriteLine(countBefore);
             // Расширить окно, чтобы кнопка была видна, иначе Selenium ее "не видит" и выдает ошибку
             Driver.Manage().Window.Maximize();
             // Получить xPath ячейки с комментарием в строке
@@ -662,7 +758,12 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             // Нажать кнопку
             xPathTermRow += "//a[contains(@class, '" + btnName + "')]";
             Driver.FindElement(By.XPath(xPathTermRow)).Click();
-            Thread.Sleep(2000);
+
+            // Если не дождаться обновления списка предложенных терминов - появляется модальное окно с ошибкой, которое отлавливает Selenium
+            if (GetCountOfSuggestTerms() == countBefore)
+            {
+                Thread.Sleep(3000);
+            }
         }
 
 

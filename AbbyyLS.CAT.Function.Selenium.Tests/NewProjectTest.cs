@@ -277,51 +277,7 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             Assert.IsTrue(Driver.PageSource.Contains("docx"), "Fail - Не найден импортируемый документ docx после создания проекта");
         }
 
-        /// <summary>
-        /// метод открытия настроек проекта (последнего в списке) и загрузки нового документа
-        /// </summary>
-        /// <param name="filePath">путь в файлу, импортируемого в проект</param>
-        private void ImportDocumentProjectSettings(string filePath, string projectName)
-        {
-            // Проверить, что проект в списке
-            ClickProjectInList(projectName);
-
-            //ждем когда окно с настройками загрузится
-            Wait.Until((d) => d.FindElement(By.XPath(".//span[contains(@class,'js-document-import')]")));
-            Thread.Sleep(1000);
-
-            // Кликнуть по Импорт
-            Driver.FindElement(By.XPath(".//span[contains(@class,'js-document-import')]")).Click();
-
-            //ждем когда загрузится окно для загрузки документа 
-            Wait.Until((d) => d.FindElement(By.XPath(".//div[contains(@class,'js-popup-import-document')][2]")));
-            //Процесс добавления файла
-            Driver.FindElement(By.XPath(
-                ".//div[contains(@class,'js-popup-import-document')][2]//a[contains(@class,'js-add-file')]")).Click();
-
-            FillAddDocumentForm(filePath);
-
-            // Нажать Next
-            Driver.FindElement(By.XPath(".//div[contains(@class,'js-popup-import-document')][2]//span[contains(@class,'js-next')]")).Click();
-            // Нажать Next
-            Wait.Until((d) => d.FindElement(By.XPath(".//div[contains(@class,'js-popup-import-document')][2]//div[contains(@class,'l-project-section')]")).Displayed);
-            Driver.FindElement(By.XPath(".//div[contains(@class,'js-popup-import-document')][2]//span[contains(@class,'js-next')]")).Click();
-            // Нажать Finish
-            Wait.Until((d) => d.FindElement(By.XPath(".//div[contains(@class,'js-step last active')]")));
-            Driver.FindElement(By.XPath(".//span[contains(@class,'js-finish js-upload-btn')]")).Click();
-            // Дождаться загрузки документа
-            Wait.Until((d) => d.FindElement(By.XPath(".//img[contains(@title,'Job processing')]")).Displayed);
-            bool isDisappeared = false;
-            for (int i = 0; i < 10; ++i)
-            {
-                isDisappeared = WaitUntilDisappearElement(".//img[contains(@title,'Job processing')]", 40);
-                if (isDisappeared)
-                {
-                    break;
-                }
-            }
-            Assert.IsTrue(isDisappeared, "Ошибка: файл так и не загрузился");
-        }
+        
 
         protected void ImportDocumentIntoProject(string filePath)
         {
@@ -415,7 +371,7 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             FirstStepProjectWizard(ProjectName);
 
             // Проверить, что не появилось сообщение о существующем имени
-            Assert.IsFalse(Driver.PageSource.Contains("Unique project name required"));
+            AssertErrorDuplicateName(false);
         }
 
         /// <summary>
@@ -430,13 +386,9 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             Thread.Sleep(1000);
             // Начать создание проекта с этим же именем
             FirstStepProjectWizard(ProjectName);
-            Driver.FindElement(By.XPath(".//div[contains(@class,'js-popup-create-project')][2]//span[contains(@class,'js-next')]")).Click();
-            // Проверить, что появилась ошибка и поле Имя выделено ошибкой
-            Assert.IsTrue(IsElementDisplayed(By.XPath(".//div[contains(@class,'js-popup-create-project')][2]//input[@name='name'][contains(@class,'error')]")),
-                "Ошибка: поле Название не отмечено ошибкой");
-            Assert.IsTrue(IsElementDisplayed(By.XPath(
-                ".//div[contains(@class,'js-popup-create-project')][2]//p[contains(@class,'js-error-name-exists')]")),
-                "Ошибка: не появилось сообщение о существующем имени");
+            ClickNext();
+            // Проверить, что появилась ошибка и поле Имя выделено ошибкой - ASSERT внутри
+            AssertErrorDuplicateName();
         }
 
         /// <summary>
@@ -480,10 +432,15 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             Authorization();
             //1 шаг - заполнение данных о проекте
             FirstStepProjectWizard(ProjectName, false);
-            Driver.FindElement(By.XPath(".//div[contains(@class,'js-popup-create-project')][2]//span[contains(@class,'js-next')]")).Click();
+            ClickNext();
+
+            // Проверить, что появилось сообщение о совпадающих языках
+            Assert.IsTrue(IsElementDisplayed(By.XPath(
+                ".//div[contains(@class,'js-popup-create-project')][2]//div[contains(@class,'js-dynamic-errors')]//p[contains(@class,'js-error-sourceLanguage-match-targetLanguage')]")),
+                "Ошибка: не появилось сообщение о совпадающих языках");
             
-            // Проверить, что невозможно перейти на следующий шаг
-            Assert.IsFalse(Driver.FindElement(By.XPath(".//div[contains(@class,'js-popup-create-project')][2]//div[contains(@class,'check-tm')]")).Displayed,
+            // Проверить, что не перешли на следующий шаг
+            Assert.IsFalse(IsElementDisplayed(By.XPath(".//div[contains(@class,'js-popup-create-project')][2]//span[contains(@class,'js-tm-create')]")),
                 "Fail - переход на шаг настройки ТМ осуществлен");
         }
 
@@ -499,7 +456,7 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             string projectNameForbidden = ProjectName + " *|\\:\"<\\>?/ ";
             // Создать проект
             FirstStepProjectWizard(projectNameForbidden);
-            Driver.FindElement(By.XPath(".//div[contains(@class,'js-popup-create-project')][2]//span[contains(@class,'js-next')]")).Click();
+            ClickNext();
             // Проверить, что появилась ошибка и поле Имя выделено ошибкой
             Assert.IsTrue(IsElementDisplayed(By.XPath(".//div[contains(@class,'js-popup-create-project')][2]//p[contains(@class,'js-error-name-invalid-chars')]")),
                 "Ошибка: не появилось сообщение о существующем имени");
@@ -516,7 +473,7 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             Authorization();
             //1 шаг - заполнение данных о проекте
             FirstStepProjectWizard("");
-            Driver.FindElement(By.XPath(".//div[contains(@class,'js-popup-create-project')][2]//span[contains(@class,'js-next')]")).Click();
+            ClickNext();
 
             // Проверить, что появилась ошибка и поле Имя выделено ошибкой
             Assert.IsTrue(IsElementDisplayed(By.XPath(".//div[contains(@class,'js-popup-create-project')][2]//p[contains(@class,'js-error-name-required')]")),
@@ -534,7 +491,7 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             Authorization();
             //1 шаг - заполнение данных о проекте
             FirstStepProjectWizard(" ");
-            Driver.FindElement(By.XPath(".//div[contains(@class,'js-popup-create-project')][2]//span[contains(@class,'js-next')]")).Click();
+            ClickNext();
 
             // Проверить, что появилась ошибка и поле Имя выделено ошибкой
             Assert.IsTrue(IsElementDisplayed(By.XPath(".//div[contains(@class,'js-popup-create-project')][2]//p[contains(@class,'js-error-name-required')]")),
@@ -855,14 +812,18 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
                 "Ошибка: документ не удалился");
         }
 
-        // TODO: Убрать если у нас не будет кнопки back для возврата на первый шаг для отмены создания. СЕйчас реализовано, что кнопки нет, но в документации - кнопка описана.
         /// <summary>
         /// отмена создания проекта на первом шаге
         /// </summary>
-        //[Test]
+        [Test]
         public void CancelFirstTest()
         {
-
+            // Зайти под пользователем и открыть форму создания проекта
+            LoginOpenCreateProject();
+            // Нажать Отмену
+            Driver.FindElement(By.XPath(".//div[contains(@class,'js-popup-create-project')][2]//span[contains(@class,'js-popup-close')]")).Click();
+            // Проверить, что форма создания проекта закрылась
+            Assert.IsTrue(WaitUntilDisappearElement(".//div[contains(@class,'js-popup-create-project')][2]"), "Ошибка: не закрылась форма создания проекта");
         }
 
         // TODO: Убрать если у нас не будет кнопки back для возврата на первый шаг для отмены создания. СЕйчас реализовано, что кнопки нет, но в документации - кнопка описана.
@@ -885,31 +846,365 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 
         }
 
-        // TODO: Кнопка back сейчас убрана.  втребованиях осталось про кнопку. убрана временно или навсегда? уточнить
         /// <summary>
         /// изменение имени проекта на новое по нажатию кнопки Back
         /// </summary>
-        //[Test]
+        [Test]
         public void ChangeProjectNameOnNew()
         {
-
+            // Авторизация
+            Authorization();
+            // Открыли форму создания проекта, заполнили поля
+            FirstStepProjectWizard(ProjectName);
+            // Next
+            ClickNext();
+            // Нажать Back
+            ClickBack();
+            // Проверили, что вернулись на первый шаг
+            Assert.IsTrue(IsElementDisplayed(By.XPath(".//div[contains(@class,'js-popup-create-project')][2]//input[@name='name']")),
+                "Ошибка: по кнопке Back не вернулись на предыдущий шаг (где имя проекта)");
+            // Изменить имя
+            FillProjectNameInForm("TestProject" + DateTime.Now.Ticks);
+            // Next
+            ClickNext();
+            // Проверить, что ошибки не появилось
+            AssertErrorDuplicateName(false);
+            // Проверить, что перешли на шаг выбора ТМ
+            Assert.IsTrue(IsElementDisplayed(By.XPath(".//div[contains(@class,'js-popup-create-project')][2]//span[contains(@class,'js-tm-create')]")),
+                "Ошибка: не перешли на следующий шаг (выбора ТМ)");
         }
 
-        // TODO: Кнопка back сейчас убрана.  втребованиях осталось про кнопку. убрана временно или навсегда? уточнить
         /// <summary>
         /// изменение имени проекта на существующее
         /// </summary>
-        //[Test]
+        [Test]
         public void ChangeProjectNameOnExist()
         {
+            Authorization();
+            // Создать проект
+            CreateProject(ProjectName, false, "");
+            Thread.Sleep(1000);
 
+            // Открыли форму создания проекта, заполнили поля
+            string newProjectName = "TestProject" + DateTime.Now.Ticks;
+            FirstStepProjectWizard(newProjectName);
+            // Next
+            ClickNext();
+            // Нажать Back
+            ClickBack();
+            // Проверили, что вернулись на первый шаг
+            Assert.IsTrue(IsElementDisplayed(By.XPath(".//div[contains(@class,'js-popup-create-project')][2]//input[@name='name']")),
+                "Ошибка: по кнопке Back не вернулись на предыдущий шаг (где имя проекта)");
+            // Изменить имя
+            FillProjectNameInForm(ProjectName);
+            // Next
+            ClickNext();
+            // Проверить, что ошибка появилась
+            AssertErrorDuplicateName(true);
+            // Проверить, что не перешли на шаг выбора ТМ
+            Assert.IsFalse(IsElementDisplayed(By.XPath(".//div[contains(@class,'js-popup-create-project')][2]//span[contains(@class,'js-tm-create')]")),
+                "Ошибка: перешли на следующий шаг (выбора ТМ)");
         }
 
-        // TODO: Кнопка back сейчас убрана. в требованиях осталось про кнопку. убрана временно или навсегда? уточнить
-        //[Test]
+        /// <summary>
+        /// Тест: создание проекта, возврат на первый шаг
+        /// Проверка, что настройки сохранились
+        /// - имя проекта
+        /// - target язык
+        /// - Deadline дата
+        /// </summary>
+        [Test]
+        public void BackFirstStepCheckSettings()
+        {
+            Authorization();
+            
+            // Открыли форму создания проекта, заполнили поля
+            FirstStepProjectWizard(ProjectName);
+            // Next
+            ClickNext();
+            // Нажать Back
+            ClickBack();
+            // Проверили, что вернулись на первый шаг
+            Assert.IsTrue(IsElementDisplayed(By.XPath(".//div[contains(@class,'js-popup-create-project')][2]//input[@name='name']")),
+                "Ошибка: по кнопке Back не вернулись на первый шаг");
+
+            // Получить прописанное имя проекта
+            string resultProjectName = Driver.FindElement(By.XPath(
+                ".//div[contains(@class,'js-popup-create-project')][2]//input[contains(@name,'name')]")).GetAttribute("value");
+            // Target язык
+            string resultTargetLanguage = Driver.FindElement(By.XPath(
+                ".//div[contains(@class,'js-popup-create-project')][2]//span[contains(@class,'ui-multiselect-value')]")).Text;
+            // Deadline дата
+            string resultDeadline = Driver.FindElement(By.XPath(
+                ".//div[contains(@class,'js-popup-create-project')][2]//input[contains(@name,'deadlineDate')]")).GetAttribute("value");
+
+            bool isError = false;
+            string errorMessage = "Ошибка: при возврате на первый шаг не сохранились настройки:\n";
+
+            if (resultProjectName != ProjectName)
+            {
+                isError = true;
+                errorMessage += "- имя проекта не сохранилось\n";
+            }
+
+            if (resultTargetLanguage != "Russian")
+            {
+                isError = true;
+                errorMessage += "- язык Target не сохранился\n";
+            }
+
+            if (resultDeadline != DeadlineDate)
+            {
+                isError = true;
+                errorMessage += "- Deadline дата не сохранилась\n";
+            }
+
+            // Проверить ошибки
+            Assert.IsFalse(isError, errorMessage);
+        }
+
+        /// <summary>
+        /// Тест: создание проекта, возврат на шаг выбора ТМ
+        /// Проверка, что настройки сохранились
+        /// - выбранный ТМ
+        /// </summary>
+        [Test]
+        public void BackChooseTMStepCheckSettings()
+        {
+            Authorization();
+
+            // Открыли форму создания проекта, заполнили поля
+            FirstStepProjectWizard(ProjectName);
+            // Next
+            ClickNext();
+            // Выбрать ТМ
+            ChooseExistingTM();
+            // Нажать Back
+            ClickBack();
+            // Проверить 
+            CheckTMSettings();
+        }
+
+        /// <summary>
+        /// Тест: создание проекта, выбор ТМ, возврат на предыдущий шаг, обратно к выбору ТМ
+        /// Проверка, что настройки сохранились
+        /// - выбранный ТМ
+        /// </summary>
+        [Test]
+        public void BackNextChooseTMStepCheckSettings()
+        {
+            Authorization();
+
+            // Открыли форму создания проекта, заполнили поля
+            FirstStepProjectWizard(ProjectName);
+            // Next
+            ClickNext();
+            // Выбрать ТМ
+            Driver.FindElement(By.XPath(".//table[contains(@class,'js-tms-popup-table')]//tr[1]//td[1]//input")).Click();
+            // Нажать Back
+            ClickBack();
+            // Next
+            ClickNext();
+            // Проверить 
+            CheckTMSettings();
+        }
+
+        /// <summary>
+        /// Тест: создание проекта, возврат на шаг выбора глоссария
+        /// Проверка, что настройки сохранились
+        /// - выбранный глоссарий
+        /// </summary>
+        [Test]
+        public void BackChooseGlossaryStepCheckSettings()
+        {
+            Authorization();
+
+            // Открыли форму создания проекта, заполнили поля
+            FirstStepProjectWizard(ProjectName);
+            // Next
+            ClickNext();
+            // Выбрать ТМ
+            ChooseExistingTM();
+            // Выбрать глоссарий
+            ChooseFirstGlossary();
+
+            // Нажать Back
+            ClickBack();
+            // Проверить, сохранился ли выбор глоссария
+            CheckGlossarySettings();
+        }
+
+        /// <summary>
+        /// Тест: создание проекта, выбор глоссария, возврат на предыдущий шаг, обратно к выбору глоссария
+        /// Проверка, что настройки сохранились
+        /// - выбранный глоссарий
+        /// </summary>
+        [Test]
+        public void BackNextChooseGlossaryStepCheckSettings()
+        {
+            Authorization();
+
+            // Открыли форму создания проекта, заполнили поля
+            FirstStepProjectWizard(ProjectName);
+            // Next
+            ClickNext();
+            // Выбрать ТМ
+            ChooseExistingTM();
+            // Выбрать глоссарий
+            Driver.FindElement(By.XPath(".//table[contains(@class,'js-glossaries-table')]//tbody//tr[1]//input")).Click();
+
+            // Нажать Back
+            ClickBack();
+            // Next
+            ClickNext();
+            // Проверить, сохранился ли выбор глоссария
+            CheckGlossarySettings();
+        }
+
+        /// <summary>
+        /// Тест: создание проекта, возврат на шаг выбора MT
+        /// Проверка, что настройки сохранились
+        /// - выбранный MT
+        /// </summary>
+        [Test]
+        public void BackChooseMTStepCheckSettings()
+        {
+            Authorization();
+
+            // Открыли форму создания проекта, заполнили поля
+            FirstStepProjectWizard(ProjectName);
+            // Next
+            ClickNext();
+            // Выбрать ТМ
+            ChooseExistingTM();
+            // Выбрать глоссарий
+            ChooseFirstGlossary();
+            // Выбрать compreno
+            ChooseMTCompreno();
+
+            // Нажать Back
+            ClickBack();
+
+            // Проверить сохранился ли выбор МТ
+            CheckMTSettings();
+        }
+
+        /// <summary>
+        /// Тест: создание проекта, выбор МТ, возврат на предыдущий шаг, обратно к МТ
+        /// Проверка, что настройки сохранились
+        /// - выбранный MT
+        /// </summary>
+        [Test]
+        public void BackNextChooseMTStepCheckSettings()
+        {
+            Authorization();
+
+            // Открыли форму создания проекта, заполнили поля
+            FirstStepProjectWizard(ProjectName);
+            // Next
+            ClickNext();
+            // Выбрать ТМ
+            ChooseExistingTM();
+            // Выбрать глоссарий
+            ChooseFirstGlossary();
+            // Выбрать compreno
+            Driver.FindElement(By.XPath(
+                ".//div[contains(@class,'js-popup-create-project')][2]//table[contains(@class,'js-mts-table')]//tbody//tr[3]//input")).Click();
+            // Нажать Back
+            ClickBack();
+            // Next
+            ClickNext();
+
+            // Проверить, сохранился ли выбор МТ
+            CheckMTSettings();
+        }
+
+        /// <summary>
+        /// Тест: создание проекта, выбор stage, возврат к предудыщему, обратно к stage
+        /// Проверка, что настройки сохранились
+        /// - выбранный Stage
+        /// </summary>
+        [Test]
+        public void BackNextChooseStageCheckSettings()
+        {
+            Authorization();
+
+            // Открыли форму создания проекта, заполнили поля
+            FirstStepProjectWizard(ProjectName);
+            // Next
+            ClickNext();
+            // Выбрать ТМ
+            ChooseExistingTM();
+            // Выбрать глоссарий
+            ChooseFirstGlossary();
+            // Выбрать compreno
+            ChooseMTCompreno();
+            // Выбрать Stage
+            string stageText = "Editing";
+            Driver.FindElement(By.XPath(
+                ".//table[contains(@class,'js-workflow-table')]//tbody//td[2]//span[contains(@class,'js-dropdown__text')]")).Click();
+            Driver.FindElement(By.XPath(".//span[contains(@class,'js-dropdown__item')][contains(@title,'" + stageText + "')]")).Click();
+
+            // Нажать Back
+            ClickBack();
+            WaitUntilDisplayElement(".//div[contains(@class,'js-popup-create-project')][2]//table[contains(@class,'js-mts-table')]");
+            // Next
+            ClickNext();
+
+            // Проверили, что вернулись на шаг выбора stage
+            Assert.IsTrue(IsElementDisplayed(By.XPath(".//div[contains(@class,'js-popup-create-project')][2]//table[contains(@class,'js-workflow-table')]")),
+                "Ошибка: не вернулись на предыдущий шаг (выбор Stage)");
+
+            // Значение Stage
+            string resultStage = Driver.FindElement(By.XPath(
+                 ".//table[contains(@class,'js-workflow-table')]//tbody//td[2]//span[contains(@class,'js-dropdown__text')]")).Text;
+
+            bool isError = false;
+            string errorMessage = "Ошибка: при возврате на шаг с выбором Stage не сохранились настройки:\n";
+
+            if (!resultStage.Contains(stageText))
+            {
+                isError = true;
+                errorMessage += "- stage не сохранился\n";
+            }
+
+            // Проверить ошибки
+            Assert.IsFalse(isError, errorMessage);
+        }
+
+        /// <summary>
+        /// изменение имени проекта на удаленное
+        /// </summary>
+        [Test]
         public void ChangeProjectNameOnDeleted()
         {
+            Authorization();
+            // Создать проект
+            CreateProject(ProjectName, false, "");
+            // Удалить проект
+            DeleteProjectFromList(ProjectName);
+            // Проверить, остался ли проект в списке
+            Assert.IsFalse(GetIsProjectInList(ProjectName), "Ошибка: проект не удалился");
 
+            //создание нового проекта с именем удаленного
+            string newProjectName = "TestProject" + DateTime.Now.Ticks;
+            FirstStepProjectWizard(newProjectName);
+            // Next
+            ClickNext();
+            // Нажать Back
+            ClickBack();
+            // Проверили, что вернулись на первый шаг
+            Assert.IsTrue(IsElementDisplayed(By.XPath(".//div[contains(@class,'js-popup-create-project')][2]//input[@name='name']")),
+                "Ошибка: по кнопке Back не вернулись на предыдущий шаг (где имя проекта)");
+            // Изменить имя
+            FillProjectNameInForm(ProjectName);
+            // Next
+            ClickNext();
+            // Проверить, что ошибка не появилась
+            AssertErrorDuplicateName(false);
+            // Проверить, что перешли на шаг выбора ТМ
+            Assert.IsTrue(IsElementDisplayed(By.XPath(".//div[contains(@class,'js-popup-create-project')][2]//span[contains(@class,'js-tm-create')]")),
+                "Ошибка: перешли на следующий шаг (выбора ТМ)");
         }
 
         /// <summary>
@@ -929,9 +1224,6 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             Thread.Sleep(500);
         }
 
-        
-
-
         /// <summary>
         /// метод проверки наличия проекта в списке проектов
         /// </summary>
@@ -942,12 +1234,22 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             Assert.IsTrue(GetIsProjectInList(ProjectNameCheck), "Проверка на наличие проекта среди созданных  - не пройдена");
         }
 
+        /// <summary>
+        /// Проверить, что проект есть в списке
+        /// </summary>
+        /// <param name="projectNameCheck">имя проекта</param>
+        /// <returns>есть в списке</returns>
         private bool GetIsProjectInList(string projectNameCheck)
         {
             return IsElementPresent(By.XPath(
                 ".//table[contains(@class,'js-tasks-table')]//tr//td[2]//a[@class='js-name'][text()='" + projectNameCheck + "']"));
         }
 
+        /// <summary>
+        /// Проверить, что проекта нет (проверка без лишнего ожидания)
+        /// </summary>
+        /// <param name="projectNameCheck">имя проекта</param>
+        /// <returns>нет в списке</returns>
         private bool GetIsProjectNotExist(string projectNameCheck)
         {
             setDriverTimeoutMinimum();
@@ -956,6 +1258,10 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             return isNotExist;
         }
 
+        /// <summary>
+        /// Загрузить документ в форме создания проекта
+        /// </summary>
+        /// <param name="documentName">имя документа</param>
         private void ImportDocumentCreateProject(string documentName)
         {
             //процесс добавления файла 
@@ -963,10 +1269,193 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             FillAddDocumentForm(documentName);
         }
 
+        /// <summary>
+        /// Открыть страницу Workspace
+        /// </summary>
         private void OpenMainWorkspacePage()
         {
             Driver.FindElement(By.XPath(".//a[contains(@href,'/Workspace')]")).Click();
             Wait.Until((d) => d.FindElement(By.XPath(".//span[contains(@class,'js-project-create')]")));
+        }
+
+        /// <summary>
+        /// Авторизация и открытие формы создания проекта
+        /// </summary>
+        protected void LoginOpenCreateProject()
+        {
+            // Авторизация
+            Authorization();
+            Assert.IsTrue(Driver.FindElement(By.XPath(".//span[contains(@class,'js-project-create')]")).Displayed);
+            // Открыть создание проекта
+            OpenCreateProjectForm();
+        }
+
+        /// <summary>
+        /// Открыть форму создания проекта
+        /// </summary>
+        protected void OpenCreateProjectForm()
+        {
+            //нажать <Create>
+            Driver.FindElement(By.XPath(".//span[contains(@class,'js-project-create')]")).Click();
+
+            //ждем загрузки формы
+            Wait.Until((d) => d.FindElement(By.XPath(".//div[contains(@class,'js-popup-create-project')][2]")).Displayed);
+        }
+
+        /// <summary>
+        /// Проверка, есть ли ошибка существующего имени
+        /// </summary>
+        /// <param name="shouldErrorExist">условие для результата проверки - должна ли быть ошибка</param>
+        protected void AssertErrorDuplicateName(bool shouldErrorExist = true)
+        {
+            if (!shouldErrorExist)
+            {
+                // Т.к. ожидаем, что ошибка не появится, опускаем таймаут
+                setDriverTimeoutMinimum();
+            }
+
+            // Проверить, что поле Имя отмечено ошибкой
+            bool isExistErrorInput = IsElementDisplayed(By.XPath(
+                ".//div[contains(@class,'js-popup-create-project')][2]//input[@name='name'][contains(@class,'error')]"));
+            // Проверить, что есть сообщение, что имя существует
+            bool isExistErrorMessage = IsElementDisplayed(By.XPath(
+                ".//div[contains(@class,'js-popup-create-project')][2]//p[contains(@class,'js-error-name-exists')]"));
+
+            string errorMessage = "\n";
+            bool isError = false;
+            // Ошибка должна появиться
+            if (shouldErrorExist)
+            {
+                if (!isExistErrorInput)
+                {
+                    isError = true;
+                    errorMessage += "Ошибка: поле Название не отмечено ошибкой\n";
+                }
+                if (!isExistErrorMessage)
+                {
+                    isError = true;
+                    errorMessage += "Ошибка: не появилось сообщение о существующем имени";
+                }
+            }
+            // Ошибка НЕ должна появиться
+            else
+            {
+                if (isExistErrorInput)
+                {
+                    isError = true;
+                    errorMessage += "Ошибка: поле Название отмечено ошибкой\n";
+                }
+                if (isExistErrorMessage)
+                {
+                    isError = true;
+                    errorMessage += "Ошибка: появилось сообщение о существующем имени";
+                }
+            }
+
+            // Проверить условие
+            Assert.IsFalse(isError, errorMessage);
+
+            if (!shouldErrorExist)
+            {
+                setDriverTimeoutDefault();
+            }
+        }
+
+        /// <summary>
+        /// Проверка, что выбран Compreno MT
+        /// </summary>
+        protected void CheckMTSettings()
+        {
+            // Проверили, что вернулись на шаг выбора MT
+            Assert.IsTrue(IsElementDisplayed(By.XPath(".//div[contains(@class,'js-popup-create-project')][2]//table[contains(@class,'js-mts-table')]")),
+                "Ошибка: не вернулись на шаг выбора МТ");
+
+            // Значение checkbox у MT
+            string resultFirstMTCheck = Driver.FindElement(By.XPath(
+                ".//table[contains(@class,'js-mts-table')]//tbody//tr[3]//input")).GetAttribute("checked");
+
+            bool isError = false;
+            string errorMessage = "Ошибка: при возврате на шаг с выбором MT не сохранились настройки:\n";
+
+            if (resultFirstMTCheck != "true")
+            {
+                isError = true;
+                errorMessage += "- checkbox выбора MT не сохранился\n";
+            }
+
+            // Проверить ошибки
+            Assert.IsFalse(isError, errorMessage);
+        }
+
+        /// <summary>
+        /// Проверка, что выбран 1й глоссарий
+        /// </summary>
+        protected void CheckGlossarySettings()
+        {
+            // Проверили, что вернулись на шаг выбора глоссария
+            Assert.IsTrue(IsElementDisplayed(By.XPath(".//div[contains(@class,'js-popup-create-project')][2]//table[contains(@class,'js-glossaries-table')]")),
+                "Ошибка: не вернулись на шаг выбор глоссария");
+
+            // Значение checkbox у глоссария
+            string resultFirstGlossaryCheck = Driver.FindElement(By.XPath(
+                ".//table[contains(@class,'js-glossaries-table')]//tbody//tr[1]//input")).GetAttribute("checked");
+
+            bool isError = false;
+            string errorMessage = "Ошибка: при возврате на шаг с выбором глоссария не сохранились настройки:\n";
+
+            if (resultFirstGlossaryCheck != "true")
+            {
+                isError = true;
+                errorMessage += "- checkbox выбора глоссария не сохранился\n";
+            }
+
+            // Проверить ошибки
+            Assert.IsFalse(isError, errorMessage);
+        }
+
+        /// <summary>
+        /// Проверка:
+        /// - выбран checkbox первого ТМ
+        /// - выбран radio первого ТМ
+        /// </summary>
+        protected void CheckTMSettings()
+        {
+            // Проверили, что вернулись на шаг выбора ТМ
+            Assert.IsTrue(IsElementDisplayed(By.XPath(".//div[contains(@class,'js-popup-create-project')][2]//table[contains(@class,'js-tms-popup-table')]")),
+                "Ошибка: не вернулись на шаг выбора ТМ");
+
+            // Значение checkbox первого ТМ
+            string resultFirstTMCheck = Driver.FindElement(By.XPath(
+                ".//table[contains(@class,'js-tms-popup-table')]//tr[1]//td[1]//input")).GetAttribute("checked");
+            // Значение radio первого ТМ
+            string resultFirstTMRadio = Driver.FindElement(By.XPath(
+                ".//table[contains(@class,'js-tms-popup-table')]//tr[1]//td[6]//input")).GetAttribute("checked");
+
+            bool isError = false;
+            string errorMessage = "Ошибка: при возврате на шаг с выбором ТМ не сохранились настройки:\n";
+
+            if (resultFirstTMCheck != "true")
+            {
+                isError = true;
+                errorMessage += "- checkbox выбора ТМ не сохранился\n";
+            }
+
+            if (resultFirstTMRadio != "true")
+            {
+                isError = true;
+                errorMessage += "- radio Write выбора ТМ не сохранился\n";
+            }
+
+            // Проверить ошибки
+            Assert.IsFalse(isError, errorMessage);
+        }
+
+        /// <summary>
+        /// Нажатие Back при создании проекта
+        /// </summary>
+        protected void ClickBack()
+        {
+            Driver.FindElement(By.XPath(".//div[contains(@class,'js-popup-create-project')][2]//span[contains(@class,'js-back')]")).Click();
         }
 
     }

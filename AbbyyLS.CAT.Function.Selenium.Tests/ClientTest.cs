@@ -49,7 +49,7 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             string clientName = GetClientUniqueName();
             CreateClient(clientName);
             // Создать клиента с таким же именем
-            CreateClient(clientName);
+            CreateClient(clientName, false);
 
             // Проверить, появилась ли ошибка существующего имени - Assert внутри
             AssertExistingClientNameError();
@@ -62,9 +62,9 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
         public void CreateClientEmptyNameTest()
         {
             // Создать клиента с пустым именем
-            CreateClient("");
+            CreateClient("", false);
 
-            // Проверить, что клиент не сохранился, в остался в режиме редактирования - Asssert внутри
+            // Проверить, что клиент не сохранился, в остался в режиме редактирования - Assert внутри
             AssertEditingModeClient();
         }
 
@@ -75,7 +75,7 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
         public void CreateClientSpaceNameTest()
         {
             // Создать клиента с пробельным именем
-            CreateClient("  ");
+            CreateClient("  ", false);
 
             // Проверить, что клиент не сохранился, а остался в режиме редактирования - Asssert внутри
             AssertEditingModeClient();
@@ -145,7 +145,7 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             string saveBtnXPath = GetClientRowXPath(clientName) + "//div[contains(@class,'js-edit-mode')]//a[contains(@class,'save js-save-client')]";
 
             // Изменить имя клиента
-            SetClientNewName(clientName, "");
+            SetClientNewName(clientName, "", false);
             // Проверить, что клиент не сохранился, а остался в режиме редактирования - Assert внутри
             AssertEditingModeClient();
         }
@@ -163,7 +163,7 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             string saveBtnXPath = GetClientRowXPath(clientName) + "//div[contains(@class,'js-edit-mode')]//a[contains(@class,'save js-save-client')]";
 
             // Изменить имя клиента
-            SetClientNewName(clientName, "  ");
+            SetClientNewName(clientName, "  ", false);
             // Проверить, что клиент не сохранился, а остался в режиме редактирования - Assert внутри
             AssertEditingModeClient();
         }
@@ -181,7 +181,7 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             string secondClientName = GetClientUniqueName();
             CreateClient(secondClientName);
             // Изменить имя клиента
-            SetClientNewName(secondClientName, clientName);
+            SetClientNewName(secondClientName, clientName, false);
 
             // Проверить, появилась ли ошибка существующего имени - Assert внутри
             AssertExistingClientNameError();
@@ -196,11 +196,9 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             // Создать клиента с уникальным именем
             string clientName = GetClientUniqueName();
             CreateClient(clientName);
-            Thread.Sleep(1000);
 
             // Удалить клиента
             ClickDeleteClient(clientName);
-            Thread.Sleep(1000);
             // Проверить, что клиент удалился
             Assert.IsTrue(!GetIsClientExist(clientName), "Ошибка: клиент не удалился");
         }
@@ -214,11 +212,9 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             // Создать клиента с уникальным именем
             string clientName = GetClientUniqueName();
             CreateClient(clientName);
-            Thread.Sleep(1000);
 
             // Удалить клиента
             ClickDeleteClient(clientName);
-            Thread.Sleep(1000);
             // Проверить, что клиента нет в списке при создании TM
             Assert.IsTrue(!GetIsClientExistCreateTM(clientName),
                 "Ошибка: клиент остался в списке при создании ТМ");
@@ -233,11 +229,9 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             // Создать клиента с уникальным именем
             string clientName = GetClientUniqueName();
             CreateClient(clientName);
-            Thread.Sleep(1000);
 
             // Удалить клиента
             ClickDeleteClient(clientName);
-            Thread.Sleep(1000);
             // Проверить, что клиента нет в списке при создании глоссария
             Assert.IsTrue(!GetIsClientExistCreateGlossaryTest(clientName),
                 "Ошибка: клиент остался в списке");
@@ -258,7 +252,7 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             return "TestClient" + DateTime.UtcNow.Ticks.ToString();
         }
 
-        private void CreateClient(string clientName)
+        private void CreateClient(string clientName, bool shouldSaveOk = true)
         {
             // Нажать "Новый клиент"
             Driver.FindElement(By.XPath(
@@ -286,10 +280,17 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 
             // Расширить окно, чтобы кнопка была видна, иначе она недоступна для Selenium
             Driver.Manage().Window.Maximize();
+            tdXPath += "//div[contains(@class,'l-corpr__clientbox js-edit-mode')]//a[contains(@class,'save js-save-client')]";
             // Сохранить клиента
-            Driver.FindElement(By.XPath(tdXPath +
-                "//div[contains(@class,'l-corpr__clientbox js-edit-mode')]//a[contains(@class,'save js-save-client')]")).Click();
-            Thread.Sleep(1000);
+            Driver.FindElement(By.XPath(tdXPath)).Click();
+            if (shouldSaveOk)
+            {
+                WaitUntilDisappearElement(tdXPath);
+            }
+            else
+            {
+                Thread.Sleep(1000);
+            }
         }
 
         private bool GetIsClientExist(string clientName)
@@ -376,7 +377,7 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             string xPathClientField = ".//div[contains(@class,'js-popup-edit-glossary')][2]//select[contains(@name,'Client')]";
             Driver.FindElement(By.XPath(
                 xPathClientField + "/..//span[contains(@class,'js-dropdown')]")).Click();
-            Thread.Sleep(1000);
+            WaitUntilDisplayElement(".//span[contains(@class,'js-dropdown__list  g-drpdwn__list')]");
             // Получить список клиентов
             IList<IWebElement> clientList = Driver.FindElements(By.XPath(
                 ".//span[contains(@class,'js-dropdown__list  g-drpdwn__list')]//span[contains(@class,'js-dropdown__item')]"));
@@ -394,7 +395,7 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             return bClientExist;
         }
 
-        private void SetClientNewName(string clientName, string newClientName)
+        private void SetClientNewName(string clientName, string newClientName, bool shouldSaveOk = true)
         {
             // Нажать Изменить
             string clientXPath = GetClientRowXPath(clientName);
@@ -406,10 +407,18 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             string clientNameXPath = clientXPath + "//div[contains(@class,'js-edit-mode')]//input[contains(@class,'js-client-name-input')]";
             Driver.FindElement(By.XPath(clientNameXPath)).Clear();
             Driver.FindElement(By.XPath(clientNameXPath)).SendKeys(newClientName);
+
+            clientXPath += "//div[contains(@class,'l-corpr__clientbox js-edit-mode')]//a[contains(@class,'save js-save-client')]";
             // Сохранить
-            Driver.FindElement(By.XPath(clientXPath +
-                "//div[contains(@class,'l-corpr__clientbox js-edit-mode')]//a[contains(@class,'save js-save-client')]")).Click();
-            Thread.Sleep(1000);
+            Driver.FindElement(By.XPath(clientXPath)).Click();
+            if (shouldSaveOk)
+            {
+                WaitUntilDisappearElement(clientXPath);
+            }
+            else
+            {
+                Thread.Sleep(1000);
+            }
         }
 
         private string GetClientRowXPath(string clientName)
@@ -435,6 +444,8 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             // Получить xPath кнопки Удалить
             string deleteBtnXPath = GetClientRowXPath(clientName) + "//a[contains(@class,'client js-delete-client')]";
             Driver.FindElement(By.XPath(deleteBtnXPath)).Click();
+            WaitUntilDisappearElement(".//a[contains(@class,'client js-delete-client')]");
+            Thread.Sleep(1000);
         }
     }
 }

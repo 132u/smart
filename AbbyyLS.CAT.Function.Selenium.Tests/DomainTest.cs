@@ -49,7 +49,7 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             string domainName = GetDomainUniqueName();
             CreateDomain(domainName);
             // Создать проект с таким же именем
-            CreateDomain(domainName);
+            CreateDomain(domainName, false);
 
             // Проверить, что появилась ошибка существующего имени - Assert внутри
             AssertExistingDomainNameError();
@@ -62,7 +62,7 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
         public void CreateDomainEmptyNameTest()
         {
             // Создать проект с пустым именем
-            CreateDomain("");
+            CreateDomain("", false);
 
             // Проверить, остался ли проект в режиме редактирования - Assert внутри
             AssertEditingModeDomain();
@@ -75,7 +75,7 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
         public void CreateDomainSpaceNameTest()
         {
             // Создать проект с пробельным именем
-            CreateDomain("  ");
+            CreateDomain("  ", false);
 
             // Проверить, остался ли проект в режиме редактирования - Assert внутри
             AssertEditingModeDomain();
@@ -158,7 +158,7 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             CreateDomain(domainName);
 
             // Изменить имя проекта
-            SetDomainNewName(domainName, "");
+            SetDomainNewName(domainName, "", false);
 
             // Проверить, остался ли проект в режиме редактирования - Assert внутри
             AssertEditingModeDomain();
@@ -175,7 +175,7 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             CreateDomain(domainName);
 
             // Изменить имя проекта
-            SetDomainNewName(domainName, "  ");
+            SetDomainNewName(domainName, "  ", false);
 
             // Проверить, остался ли проект в режиме редактирования - Assert внутри
             AssertEditingModeDomain();
@@ -195,7 +195,7 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             CreateDomain(secondDomainName);
 
             // Изменить имя проекта
-            SetDomainNewName(secondDomainName, domainName);
+            SetDomainNewName(secondDomainName, domainName, false);
 
             // Проверить, появилась ли ошибка существующего имени - Assert внутри
             AssertExistingDomainNameError();
@@ -210,12 +210,9 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             // Создать проект с уникальным именем
             string domainName = GetDomainUniqueName();
             CreateDomain(domainName);
-            Thread.Sleep(1000);
 
             // Удалить проект
             ClickDeleteDomain(domainName);
-
-            Thread.Sleep(1000);
             // Проверить, что проект удалился
             Assert.IsTrue(!GetIsDomainExist(domainName), "Ошибка: проект не удалился");
         }
@@ -229,12 +226,9 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             // Создать проект с уникальным именем
             string domainName = GetDomainUniqueName();
             CreateDomain(domainName);
-            Thread.Sleep(1000);
 
             // Удалить проект
             ClickDeleteDomain(domainName);
-
-            Thread.Sleep(1000);
             // Проверить, что проекта нет в списке при создании TM
             Assert.IsTrue(!GetIsDomainExistCreateTM(domainName),
                 "Ошибка: проект остался в списке");
@@ -249,12 +243,9 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             // Создать проект с уникальным именем
             string domainName = GetDomainUniqueName();
             CreateDomain(domainName);
-            Thread.Sleep(1000);
 
             // Удалить проект
             ClickDeleteDomain(domainName);
-
-            Thread.Sleep(1000);
             // Проверить, что проекта нет в списке при создании глоссария
             Assert.IsTrue(!GetIsDomainExistCreateGlossaryTest(domainName),
                 "Ошибка: проект остался в списке");
@@ -269,18 +260,15 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             // Создать проект с уникальным именем
             string domainName = GetDomainUniqueName();
             CreateDomain(domainName);
-            Thread.Sleep(1000);
 
             // Удалить проект
             ClickDeleteDomain(domainName);
-
-            Thread.Sleep(1000);
             // Проверить, что проекта нет в списке при создании термина глоссария
             Assert.IsTrue(!GetIsDomainExistCreateGlossaryItemTest(domainName),
                 "Ошибка: проект остался в списке");
         }
         
-        private void SetDomainNewName(string domainName, string newDomainName)
+        private void SetDomainNewName(string domainName, string newDomainName, bool shouldSaveOk = true)
         {
             // Нажать на строку
             string domainXPath = GetDomainRowXPath(domainName);
@@ -293,10 +281,17 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             string domainNameXPath = domainXPath + "//div[contains(@class,'js-edit-mode')]//input[contains(@class,'js-domain-name-input')]";
             Driver.FindElement(By.XPath(domainNameXPath)).Clear();
             Driver.FindElement(By.XPath(domainNameXPath)).SendKeys(newDomainName);
+            domainXPath += "//div[contains(@class,'l-corpr__domainbox js-edit-mode')]//a[contains(@class,'save js-save-domain')]";
             // Сохранить
-            Driver.FindElement(By.XPath(domainXPath +
-                "//div[contains(@class,'l-corpr__domainbox js-edit-mode')]//a[contains(@class,'save js-save-domain')]")).Click();
-            Thread.Sleep(1000);
+            Driver.FindElement(By.XPath(domainXPath)).Click();
+            if (shouldSaveOk)
+            {
+                WaitUntilDisappearElement(domainXPath);
+            }
+            else
+            {
+                Thread.Sleep(1000);
+            }
         }
 
         private string GetDomainRowXPath(string domainName)
@@ -339,6 +334,7 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             string deleteBtnXPath = rowXPath + "//a[contains(@class,'domain js-delete-domain')]";
             // Нажать Удалить
             Driver.FindElement(By.XPath(deleteBtnXPath)).Click();
+            WaitUntilDisappearElement(deleteBtnXPath);
         }
 
         private bool GetIsDomainExistCreateTM(string domainName)
@@ -410,29 +406,9 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
         {
             // Перейти на вкладку Глоссарии
             SwitchGlossaryTab();
-
-            // Нажать кнопку Create a glossary
-            Driver.FindElement(By.XPath(
-                ".//span[contains(@class,'js-create-glossary-button')]//a[contains(@class,'g-btn__text g-redbtn__text')]")).Click();
-            // ждем загрузку формы
-            Wait.Until((d) => d.FindElement(By.XPath(
-                ".//div[contains(@class,'js-popup-edit-glossary')][2]")));
-
-            // Ввести имя
-            Driver.FindElement(By.XPath(
-                ".//div[contains(@class,'js-popup-edit-glossary')][2]//input[contains(@class,'js-glossary-name')]")).
-                SendKeys("TestGlossary:" + DateTime.UtcNow.Ticks.ToString());
-
-            // Добавить комментарий
-            Driver.FindElement(By.XPath(
-                ".//div[contains(@class,'js-popup-edit-glossary')][2]//textarea[contains(@name,'Comment')]")).
-                SendKeys("Test Glossary Generated by Selenium");
-
-            // Нажать сохранить
-            Driver.FindElement(By.XPath(
-               ".//div[contains(@class,'js-popup-edit-glossary')][2]//span[contains(@class,'js-save')]")).Click();
-            // Ответ формы
-            Thread.Sleep(2000);
+            
+            // Создать глоссарий
+            CreateGlossaryByName("Test Glossary Check Domain" + DateTime.Now);
 
             // Открыть Редактирование глоссария
             Wait.Until((d) => d.FindElement(By.XPath(
@@ -454,7 +430,7 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             // Сохранить
             Driver.FindElement(By.XPath(".//div[contains(@class, 'js-popup-buttons')]//span[contains(@class, 'js-save')]")).Click();
             // Дождаться закрытия формы
-            Thread.Sleep(2000);
+            WaitUntilDisappearElement(".//div[contains(@class,'js-popup-edit-structure')]");
 
             // Нажать New item
             Wait.Until((d) => d.FindElement(By.XPath(

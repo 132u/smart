@@ -231,7 +231,7 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             // Сохранить
             Driver.FindElement(By.XPath(".//div[contains(@class, 'js-popup-buttons')]//span[contains(@class, 'js-save')]")).Click();
             // Дождаться закрытия формы
-            Thread.Sleep(2000);
+            WaitUntilDisappearElement(".//div[contains(@class,'js-popup-edit-structure')]");
         }
     }
 }

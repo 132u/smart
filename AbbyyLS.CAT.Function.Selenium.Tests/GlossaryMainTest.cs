@@ -493,6 +493,57 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
                 "Ошибка: не появилось сообщение о пустом имени");
         }
 
+        /// <summary>
+        /// Тест: Открыть редактор структуры глоссария из редактора свойств
+        /// </summary>
+        [Test]
+        public void OpenStructureFromPropertiesTest()
+        {
+            // Создать глоссарий
+            string glossaryName = GetUniqueGlossaryName();
+            CreateGlossaryByName(glossaryName);
+
+            // Открыть редактирование свойств глоссария
+            OpenGlossaryProperties();
+
+            // Нажать Изменить структуру
+            Driver.FindElement(By.XPath(
+                ".//div[contains(@class,'js-popup-edit-glossary')][2]//a[contains(@class,'js-save-and-edit-structure')]")).Click();
+            WaitUntilDisappearElement(".//div[contains(@class,'js-popup-edit-glossary')][2]");
+
+            // Проверить, что открылся редактор структуры
+            Assert.IsTrue(IsElementDisplayed(By.XPath(".//div[contains(@class,'js-popup-edit-structure')]")),
+                "Ошибка: редактор структуры не открылся");
+        }
+
+        /// <summary>
+        /// Тест: создать глоссарий с несколькими языками
+        /// </summary>
+        [Test]
+        public void CreateMultiLanguageGlossary()
+        {
+            // Имя глоссария
+            string glossaryName = "TestGlossary" + DateTime.Now.Ticks;
+            // Список языков
+            List<int> langList = new List<int>();
+            langList.Add(7);
+            langList.Add(12);
+            langList.Add(1041);
+            langList.Add(1063);
+
+            // Создать глоссарий
+            CreateGlossaryMultiLanguage(glossaryName, langList);
+            SwitchGlossaryTab();
+
+            Thread.Sleep(3000);
+            // Проверить, что глоссарий добавился в список
+            Assert.IsTrue(GetIsExistGlossary(glossaryName), "Ошибка: глоссарий не добавился" + glossaryName);
+
+            // Зайти в глоссарий
+            SwitchCurrentGlossary(glossaryName);
+            // Удалить глоссарий
+            DeleteGlossary();
+        }
 
         protected void ChangeGlossaryNameToCurrent(string glossaryName)
         {
@@ -545,17 +596,6 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 
             // Сравнить с текущей датой или с сегодня (если тест проходит в полночь)
             return curDay.Date == resDate || DateTime.Today.Date == resDate;
-        }
-
-
-        protected void OpenGlossaryProperties()
-        {
-            // Нажать Редактирование
-            Wait.Until((d) => d.FindElement(By.XPath(
-                ".//span[contains(@class,'js-edit-submenu')]"))).Click();
-            // Нажать на Properties
-            Wait.Until((d) => d.FindElement(By.XPath(
-                ".//div[contains(@class,'js-edit-glossary-btn')]"))).Click();
         }
     }
 }

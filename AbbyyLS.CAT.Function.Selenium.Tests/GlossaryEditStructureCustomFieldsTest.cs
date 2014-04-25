@@ -635,7 +635,7 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             // Сохранить
             Driver.FindElement(By.XPath(".//div[contains(@class, 'js-popup-buttons')]//span[contains(@class, 'js-save')]")).Click();
             // Дождаться закрытия формы
-            Thread.Sleep(1000);
+            WaitUntilDisappearElement(".//div[contains(@class,'js-popup-edit-structure')]");
 
             // Нажать New item
             Wait.Until((d) => d.FindElement(By.XPath(
@@ -659,8 +659,8 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             Wait.Until((d) => d.FindElement(By.XPath(".//table[contains(@class,'l-editgloss__tblEditStructure')]")).Displayed);
             // Ввести названиe
             string fieldName = "CustomField: " + fieldType;
-            Driver.FindElement(By.XPath(".//div[contains(@class,'js-custom-attrs')]//input[contains(@class,'l-editgloss__cusattrbox__text long js-name')]")).SendKeys(fieldName);
-            Thread.Sleep(1000);
+            Driver.FindElement(By.XPath(
+                ".//div[contains(@class,'js-custom-attrs')]//input[contains(@class,'l-editgloss__cusattrbox__text long js-name')]")).SendKeys(fieldName);
             // Выбрать тип
             Driver.FindElement(By.XPath(".//table[contains(@class,'l-editgloss__tblEditStructure')]//span[contains(@class,'js-dropdown__text type')]")).Click();
             Wait.Until((d) => d.FindElement(By.XPath(
@@ -683,7 +683,7 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             // Сохранить
             Driver.FindElement(By.XPath(".//div[contains(@class, 'js-popup-buttons')]//span[contains(@class, 'js-save')]")).Click();
             // Дождаться закрытия формы
-            Thread.Sleep(2000);
+            WaitUntilDisappearElement(".//div[contains(@class,'js-popup-edit-structure')]");
 
             // Нажать New item
             Wait.Until((d) => d.FindElement(By.XPath(

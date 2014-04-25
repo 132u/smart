@@ -54,6 +54,7 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             FillNewItemExtended();
             // Сохранить
             Driver.FindElement(By.XPath(".//span[contains(@class,'js-save-text')]")).Click();
+            WaitUntilDisappearElement(".//span[contains(@class,'js-save-text')]");
             // Свернуть
             Driver.FindElement(By.XPath(".//a[contains(@class,'iconup')]")).Click();
 
@@ -73,10 +74,10 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             // Создать термин
             CreateItemAndSave(uniqueTerm, uniqueTerm);
             // Создать такой же термин
-            CreateItemAndSave(uniqueTerm, uniqueTerm);
+            CreateItemAndSave(uniqueTerm, uniqueTerm, false);
+            
             // Проверить, что появилось предупреждение
-            Assert.IsTrue(Driver.FindElement(By.XPath(
-                ".//div[contains(@class,'js-popup-confirm')]//form[contains(@action,'/Concepts/Save')]")).Displayed,
+            Assert.IsTrue(WaitUntilDisplayElement(".//div[contains(@class,'js-popup-confirm')]//form//span[contains(@class,'duplicate-term')]"),
                 "Ошибка: должно появиться предупреждение о добавлении существующего термина");
         }
 
@@ -132,8 +133,9 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             // Расширить окно, чтобы кнопка была видна, иначе Selenium ее "не видит" и выдает ошибку
             Driver.Manage().Window.Maximize();
             // Нажать Сохранить
-            Driver.FindElement(By.XPath(".//tr[contains(@class, 'js-concept-row js-editing opened')]//a[contains(@class, 'js-save-btn')]")).Click();
-            Thread.Sleep(2000);
+            string xPath = ".//tr[contains(@class, 'js-concept-row js-editing opened')]//a[contains(@class, 'js-save-btn')]";
+            Driver.FindElement(By.XPath(xPath)).Click();
+            WaitUntilDisappearElement(xPath);
 
             // Проверить количество терминов
             Assert.IsTrue(GetCountOfItems() > 0, "Ошибка: количество терминов должно быть больше 0 (термин не сохранился)");
@@ -169,7 +171,7 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             Driver.Manage().Window.Maximize();
             // Нажать Сохранить
             Driver.FindElement(By.XPath(".//tr[contains(@class, 'js-concept-row js-editing opened')]//a[contains(@class, 'js-save-btn')]")).Click();
-            Thread.Sleep(2000);
+            Thread.Sleep(1000);
 
             // Проверить, что поля отмечены красным
             Assert.IsTrue(IsElementPresent(By.XPath(".//tr[contains(@class, 'js-concept-row js-editing')]/td[2]//p[contains(@class,'l-error')]")),
@@ -200,7 +202,7 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             // Нажать на "корзинку"
             rowXPath += "//a[contains(@class, 'js-delete-btn')]";
             Driver.FindElement(By.XPath(rowXPath)).Click();
-            Thread.Sleep(2000);
+            WaitUntilDisappearElement(rowXPath);
             // Сравнить количество терминов
             int itemsCountAfter = GetCountOfItems();
             Assert.IsTrue(itemsCountAfter < itemsCount, "Ошибка: количество терминов не уменьшилось");
@@ -351,6 +353,121 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             }
         }
 
+        /// <summary>
+        /// Тест: создать термин с несколькими языками
+        /// </summary>
+        [Test]
+        public void CreateItemMultiLanguageGlossary()
+        {
+            // Имя глоссария
+            string glossaryName = "TestGlossary" + DateTime.Now.Ticks;
+            // Список языков
+            List<int> langList = new List<int>();
+            langList.Add(7);
+            langList.Add(12);
+            langList.Add(1041);
+            langList.Add(1063);
+
+            // Создать глоссарий
+            CreateGlossaryMultiLanguage(glossaryName, langList);
+
+            // Создать термин
+            CreateItemExtended();
+
+            // Свернуть
+            Driver.FindElement(By.XPath(".//a[contains(@class,'iconup')]")).Click();
+
+            // Проверить количество терминов
+            Assert.IsTrue(GetCountOfItems() > 0, "Ошибка: количество терминов должно быть больше 0 (термин не сохранился)");
+
+            // Удалить глоссарий, чтобы не было глоссария с многими языками
+            DeleteGlossary();
+        }
+
+        /// <summary>
+        /// Тест: изменение термина (обычный режим)
+        /// </summary>
+        [Test]
+        public void EditItemGeneral()
+        {
+            // Создать глоссарий
+            CreateGlossaryByName(GetUniqueGlossaryName());
+            // Создать термин
+            CreateItemAndSave();
+
+            // Нажать на строку с термином
+            Driver.FindElement(By.XPath(
+                ".//table[contains(@class,'js-concepts')]//tr[contains(@class,'js-concept-row')]//td[contains(@class,'glossaryComment')]")).Click();
+            // Нажать Редактировать
+            Driver.FindElement(By.XPath(
+                ".//table[contains(@class,'js-concepts')]//tr[contains(@class,'js-concept-row')]//a[contains(@class,'js-edit-btn')]")).Click();
+
+            string newTermText = "New Term " + DateTime.Now;
+            IList<IWebElement> termList = Driver.FindElements(By.XPath(".//input[contains(@class,'js-term')]"));
+            foreach(IWebElement el in termList)
+            {
+                el.Clear();
+                el.SendKeys(newTermText);
+            }
+
+            // Сохранить
+            Driver.FindElement(By.XPath(".//a[contains(@class,'js-save-btn')]")).Click();
+            // Проверить, что термин сохранился
+            Assert.IsTrue(WaitUntilDisappearElement(".//a[contains(@class,'js-save-btn')]"), "Ошибка: термин не сохранился");
+            // Проверить, что термин сохранился с новым значением
+            Assert.IsTrue(GetIsTermTextExist(newTermText), "Ошибка: термин не сохранил изменения");
+        }
+
+        /// <summary>
+        /// Тест: изменение термина (расширенный режим)
+        /// </summary>
+        [Test]
+        public void EditItemExtended()
+        {
+            // Имя глоссария
+            string glossaryName = "TestGlossary" + DateTime.Now.Ticks;
+            // Список языков
+            List<int> langList = new List<int>();
+            langList.Add(7);
+            langList.Add(12);
+            langList.Add(1041);
+            langList.Add(1063);
+
+            // Создать глоссарий
+            CreateGlossaryMultiLanguage(glossaryName, langList);
+
+            // Создать термин
+            CreateItemExtended();
+
+            // Нажать Редактировать
+            Driver.FindElement(By.XPath(
+                ".//span[contains(@class,'js-edit-btn')]")).Click();
+
+            string newTermText = "New Term " + DateTime.Now;
+            EditAllExtendedTerms(newTermText);
+
+            // Сохранить
+            Driver.FindElement(By.XPath(".//span[contains(@class,'js-save-btn')]")).Click();
+            // Проверить, что термин сохранился
+            Assert.IsTrue(WaitUntilDisappearElement(".//span[contains(@class,'js-save-btn')]"), "Ошибка: термин не сохранился");
+            // Проверить, что термин сохранился с новым значением
+            Assert.IsTrue(GetIsTermTextExist(newTermText), "Ошибка: термин не сохранил изменения");
+
+            // Удалить глоссарий
+            DeleteGlossary();
+        }
+
+        /// <summary>
+        /// Не тест: перед выполнением остальных тестов нужно проверить права пользователя
+        /// Если нет прав на поиск терминов нет,
+        /// добавить права
+        /// </summary>
+        [Test]
+        public void aaaaaFirstTestCheckUserRights()
+        {
+            AddUserRights();
+        }
+
         protected void SwitchSearchTab()
         {
             // Перейти на страницу поиска
@@ -358,6 +475,49 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
                 ".//ul[@class='g-corprmenu__list']//a[contains(@href,'/Start')]")).Click();
             Wait.Until((d) => d.FindElement(By.XPath(
                 ".//form[contains(@class,'js-search-form')]")).Displayed);
+        }
+
+        protected bool GetIsTermTextExist(string termText)
+        {
+            return IsElementPresent(By.XPath(".//table[contains(@class,'js-concepts')]//tr[contains(@class,'js-concept-row')]//p[contains(text(),'" + termText + "')]"));
+        }
+
+        protected void CreateItemExtended()
+        {
+            // Изменить структуру для перехода в расширенный режим
+            EditGlossaryStructureAddField();
+
+            // Нажать New item
+            Wait.Until((d) => d.FindElement(By.XPath(
+                ".//span[contains(@class,'js-add-concept')]"))).Click();
+            // Заполнить поля с терминами
+            FillNewItemExtended();
+            // Сохранить
+            Driver.FindElement(By.XPath(".//span[contains(@class,'js-save-text')]")).Click();
+
+            Assert.IsTrue(WaitUntilDisappearElement(".//span[contains(@class,'js-save-text')]"),
+                "Ошибка: термин не сохранился");
+        }
+
+        protected void EditAllExtendedTerms(string newTermText)
+        {
+            string xPath = ".//div[contains(@class,'l-corprtree__langbox')]";
+            IList<IWebElement> termList = Driver.FindElements(By.XPath(xPath));// + "//span[contains(@class,'js-term-viewer')]"));
+            for (int i = 0; i < termList.Count; ++i)
+            {
+                string viewerXPath = xPath + "[" + (i + 1) + "]//span[contains(@class,'js-term-viewer')]";
+                if (IsElementDisplayed(By.XPath(viewerXPath)))
+                {
+                    Driver.FindElement(By.XPath(viewerXPath)).Click();
+                }
+
+                string editXPath = xPath + "[" + (i + 1) + "]//span[contains(@class,'js-term-editor')]//input";
+                if (IsElementDisplayed(By.XPath(editXPath)))
+                {
+                    Driver.FindElement(By.XPath(editXPath)).Clear();
+                    Driver.FindElement(By.XPath(editXPath)).SendKeys(newTermText);
+                }
+            }
         }
     }
 }

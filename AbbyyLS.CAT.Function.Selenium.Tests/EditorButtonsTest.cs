@@ -24,8 +24,9 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             }
 
             // 2. Создание проекта с 1 документов внутри
-            CreateProject(ProjectName, true, currentDocument);
-
+            CreateProject(ProjectName, false, "");
+            //открытие настроек проекта
+            ImportDocumentProjectSettings(currentDocument, ProjectName);
             //CreateProject(ProjectName, true, DocumentFile, TmFile);
 
             // 3. Назначение задачи на пользователя
