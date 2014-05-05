@@ -542,6 +542,7 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
             ClickBackEditor();
             // Перейти на главную страницу
             OpenHomepage();
+            Thread.Sleep(2000);
         }
 
         /// <summary>

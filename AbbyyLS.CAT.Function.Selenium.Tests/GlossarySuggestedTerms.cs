@@ -487,13 +487,13 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             Driver.FindElement(By.XPath(".//div[contains(@class,'l-corprtree__langbox')][2]//span[contains(@class,'js-term-editor')]//input")).SendKeys(newTermText);
             // Принять термин
             Driver.FindElement(By.XPath(".//span[contains(@class,'js-save-btn js-edit')]")).Click();
-            Thread.Sleep(2000);
+            Assert.IsTrue(WaitUntilDisappearElement(".//span[contains(@class,'js-save-btn js-edit')]"), "Ошибка: предложенный термин не сохранился");
             // Перейти в глоссарий
             SwitchGlossaryFromSuggestedTerm();
 
             // Проверить термин в глоссарии
             bool isTermAccepted = false;
-            IList<IWebElement> termLangList = Driver.FindElements(By.XPath(".//tr[contains(@class, 'js-concept-row')]//td[contains(@class,'glossaryShort')][1]/p"));
+            IList<IWebElement> termLangList = Driver.FindElements(By.XPath(".//tr[contains(@class, 'js-concept-row')]//td[contains(@class,'glossaryShort')]//p"));
             foreach (IWebElement el in termLangList)
             {
                 if (el.Text.Trim() == newTermText)
@@ -522,13 +522,13 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             Driver.FindElement(By.XPath(".//div[contains(@class,'l-corprtree__langbox')][2]//div[contains(@class,'js-term-node')]//input")).SendKeys(newTermText);
             // Принять термин
             Driver.FindElement(By.XPath(".//span[contains(@class,'js-save-btn')]")).Click();
-            Thread.Sleep(2000);
+            Assert.IsTrue(WaitUntilDisappearElement(".//span[contains(@class,'js-save-btn js-edit')]"), "Ошибка: предложенный термин не сохранился");
             // Перейти в глоссарий
             SwitchGlossaryFromSuggestedTerm();
 
             // Проверить термин в глоссарии
             bool isTermAccepted = false;
-            IList<IWebElement> termLangList = Driver.FindElements(By.XPath(".//tr[contains(@class, 'js-concept-row')]//td[contains(@class,'glossaryShort')][1]/p"));
+            IList<IWebElement> termLangList = Driver.FindElements(By.XPath(".//tr[contains(@class, 'js-concept-row')]//td[contains(@class,'glossaryShort')][2]//p"));
             foreach (IWebElement el in termLangList)
             {
                 if (el.Text.Trim() == newTermText)

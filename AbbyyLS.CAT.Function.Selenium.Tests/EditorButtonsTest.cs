@@ -28,7 +28,7 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             //открытие настроек проекта
             ImportDocumentProjectSettings(currentDocument, ProjectName);
             //CreateProject(ProjectName, true, DocumentFile, TmFile);
-
+            OpenMainWorkspacePage();
             // 3. Назначение задачи на пользователя
             AssignTask();
 

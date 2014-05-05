@@ -539,19 +539,18 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 
             _driver.FindElement(By.XPath(".//div[contains(@class,'js-popup-create-project')][2]//input[@name='deadlineDate']")).Clear();
             _driver.FindElement(By.XPath(".//div[contains(@class,'js-popup-create-project')][2]//input[@name='deadlineDate']")).SendKeys(_deadlineDate);
-
-            // Выбираем языки
-            _driver.FindElement(By.XPath(
-                ".//div[contains(@class,'js-popup-create-project')][2]//span[contains(@class,'js-dropdown')]//span[contains(@class,'js-dropdown__text')]")).Click();
-            _driver.FindElement(By.XPath(".//span[contains(@class,'js-dropdown__list')]//span[@data-id='9']")).Click();
-            _driver.FindElement(By.XPath(".//div[contains(@class,'js-popup-create-project')][2]//div[contains(@class,'js-languages-multiselect')]")).Click();
-            if (isNeedDifferentLang)
+                       
+            if (!isNeedDifferentLang)
             {
+                // Выбираем языки - изменено, языки выбраны сразу
+                _driver.FindElement(By.XPath(
+                    ".//div[contains(@class,'js-popup-create-project')][2]//span[contains(@class,'js-dropdown')]//span[contains(@class,'js-dropdown__text')]")).Click();
+                _driver.FindElement(By.XPath(".//span[contains(@class,'js-dropdown__list')]//span[@data-id='9']")).Click();
+                _driver.FindElement(By.XPath(".//div[contains(@class,'js-popup-create-project')][2]//div[contains(@class,'js-languages-multiselect')]")).Click();
+                // Убираем русский
                 _driver.FindElement(By.XPath(
                     ".//ul[contains(@class,'ui-multiselect-checkboxes')]//li//span[contains(@class,'js-chckbx')]//input[@value='25']")).Click();
-            }
-            else
-            {
+                // Добавляем английский
                 _driver.FindElement(By.XPath(
                     ".//ul[contains(@class,'ui-multiselect-checkboxes')]//li//span[contains(@class,'js-chckbx')]//input[@value='9']")).Click();
             }
@@ -660,6 +659,15 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
                 }
             }
             Assert.IsTrue(isDisappeared, "Ошибка: файл так и не загрузился");
+        }
+
+        /// <summary>
+        /// Открыть страницу Workspace
+        /// </summary>
+        protected void OpenMainWorkspacePage()
+        {
+            Driver.FindElement(By.XPath(".//a[contains(@href,'/Workspace')]")).Click();
+            Wait.Until((d) => d.FindElement(By.XPath(".//span[contains(@class,'js-project-create')]")));
         }
 
         protected void CreateProject(string ProjectName, bool FileFlag, string DocumentName, string TmName)

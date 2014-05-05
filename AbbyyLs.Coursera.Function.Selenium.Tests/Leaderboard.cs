@@ -63,7 +63,8 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
             int numInList = ScrollLeaderboardToUser(userName);
 
             // Имя пользователя по этому номеру:
-            string userCurrentPositionName = Driver.FindElement(By.XPath(".//div[contains(@class,'rating')]//tr[" + numInList + "]//td[3]")).Text;
+            string userCurrentPositionName = 
+                Driver.FindElement(By.XPath(".//div[contains(@class,'rating')]//tr[" + numInList + "]//td[3]//a[contains(@data-bind,'name')]")).Text.Trim();
 
             Assert.AreEqual(userName, userCurrentPositionName, "Ошибка: на этом месте пользователь с другим именем");
         }
@@ -160,7 +161,7 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
         {
             setDriverTimeoutMinimum();
             bool isExist = IsElementPresent(By.XPath(".//tr[not(contains(@style,'display: none;'))]//td[3][contains(text(),'" + userName + "')]")) ||
-                IsElementPresent(By.XPath(".//tr[not(contains(@style,'display: none;'))]//td[3]/a[contains(text(),'" + userName + "')]"));
+                GetIsUserLeaderboardActiveList(userName);
             setDriverTimeoutDefault();
             return isExist;
         }

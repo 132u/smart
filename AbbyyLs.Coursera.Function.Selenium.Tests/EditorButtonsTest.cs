@@ -205,7 +205,8 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
             // Кликнуть по кнопке добавления символа переноса строки
             Driver.FindElement(By.XPath(".//a[contains(@data-qtip,'Ctrl+Q')]")).Click();
             // Проверка, что в ячейке появился символ переноса строки
-            Assert.IsTrue(IsElementPresent(By.XPath(".//div[@id='segments-body']//table//tr[" + editorRowNumber + "]//td[4]/div/img[contains(@class,'tag')]")),
+            // Старая проверка: Assert.IsTrue(IsElementPresent(By.XPath(".//div[@id='segments-body']//table//tr[" + editorRowNumber + "]//td[4]/div/img[contains(@class,'tag')]")),
+            Assert.IsTrue(IsElementPresent(By.XPath(".//div[@id='segments-body']//table//tr[" + editorRowNumber + "]//td[4]/div/span[contains(@class,'tag')]")),
                 "Ошибка: в ячейке Target не появился символ переноса строки");
         }
 
@@ -219,7 +220,8 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
             Driver.FindElement(By.CssSelector("#segments-body div table tr:nth-child(" + editorRowNumber + ") td:nth-child(4) div")).
                     SendKeys(OpenQA.Selenium.Keys.Control + "Q");
             // Проверка, что в ячейке появился символ переноса строки
-            Assert.IsTrue(IsElementPresent(By.XPath(".//div[@id='segments-body']//table//tr[" + editorRowNumber + "]//td[4]/div/img[contains(@class,'tag')]")),
+            // Старая проверка: Assert.IsTrue(IsElementPresent(By.XPath(".//div[@id='segments-body']//table//tr[" + editorRowNumber + "]//td[4]/div/img[contains(@class,'tag')]")),
+            Assert.IsTrue(IsElementPresent(By.XPath(".//div[@id='segments-body']//table//tr[" + editorRowNumber + "]//td[4]/div/span[contains(@class,'tag')]")),
                 "Ошибка: в ячейке Target не появился символ переноса строки");
         }
 

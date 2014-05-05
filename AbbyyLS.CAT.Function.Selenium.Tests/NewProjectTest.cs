@@ -1269,14 +1269,6 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             FillAddDocumentForm(documentName);
         }
 
-        /// <summary>
-        /// Открыть страницу Workspace
-        /// </summary>
-        private void OpenMainWorkspacePage()
-        {
-            Driver.FindElement(By.XPath(".//a[contains(@href,'/Workspace')]")).Click();
-            Wait.Until((d) => d.FindElement(By.XPath(".//span[contains(@class,'js-project-create')]")));
-        }
 
         /// <summary>
         /// Авторизация и открытие формы создания проекта

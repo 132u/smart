@@ -296,17 +296,6 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
             // Обновить страницу со список лекции
             Driver.FindElement(By.XPath(".//tbody[contains(@data-bind,'lectures')]")).SendKeys(OpenQA.Selenium.Keys.F5);
         }
-        
-        /// <summary>
-        /// Получить личный прогресс для лекции
-        /// </summary>
-        /// <param name="lectureRowNumber">номер строки с лекцией</param>
-        /// <returns>личный прогресс</returns>
-        protected int GetPersonalProgress(int lectureRowNumber)
-        {
-            return int.Parse(Driver.FindElement(By.XPath(
-                ".//tbody[contains(@data-bind,'lectures')]//tr[" + lectureRowNumber + "]//div[contains(@data-bind,'personalProgressView')]")).Text.Replace("%","").Trim());
-        }
 
         /// <summary>
         /// Получить общий прогресс для лекции

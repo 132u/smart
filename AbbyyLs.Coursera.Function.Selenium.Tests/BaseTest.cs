@@ -731,6 +731,74 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
         }
 
         /// <summary>
+        /// Поиск курса с максимальным прогрессом
+        /// </summary>
+        /// <returns>возвращает имя курса</returns>
+        protected string SelectCourseMaxProgress(out Decimal courseProgress)
+        {
+            Decimal maxProgressRight = 100;
+            // Список курсов для "правого" столбика
+            IList<IWebElement> courseRightList = _driver.FindElements(By.XPath(".//ul[contains(@data-bind,'projectsRight')]//table//td[2]//div[contains(@data-bind,'name')]"));
+            for (int i = 0; i < courseRightList.Count; ++i)
+            {
+                // Не учитываем курсы, в названии которых есть TestProject
+                if (!_driver.FindElement(By.XPath(
+                        ".//ul[contains(@data-bind,'projectsRight')]//table[" + (i + 1) + "]//td[2]//div[contains(@data-bind,'name')]")).Text.Contains("TestProject"))
+                {
+                    Decimal curProgress = Decimal.Parse(_driver.FindElement(By.XPath(
+                        ".//ul[contains(@data-bind,'projectsRight')]//table[" + (i + 1) + "]//td[1]//span[contains(@class,'percent')]")).Text.Replace("%", "").Replace(".", ","));
+                    if (curProgress > maxProgressRight)
+                    {
+                        // максимальный прогресс
+                        maxProgressRight = curProgress;
+                    }
+                }
+            }
+
+            Decimal maxProgressLeft = 100;
+            // Список курсов для "левого" столбика"
+            IList<IWebElement> courseLeftList = _driver.FindElements(By.XPath(".//ul[contains(@data-bind,'projectsLeft')]//table//td[2]//div[contains(@data-bind,'name')]"));
+            for (int i = 0; i < courseRightList.Count; ++i)
+            {
+                // Не учитываем курсы, в названии которых есть TestProject
+                if (!_driver.FindElement(By.XPath(
+                        ".//ul[contains(@data-bind,'projectsLeft')]//table[" + (i + 1) + "]//td[2]//div[contains(@data-bind,'name')]")).Text.Contains("TestProject"))
+                {
+                    Decimal curProgress = Decimal.Parse(_driver.FindElement(By.XPath(
+                        ".//ul[contains(@data-bind,'projectsLeft')]//table[" + (i + 1) + "]//td[1]//span[contains(@class,'percent')]")).Text.Replace("%", "").Replace(".", ","));
+                    if (curProgress > maxProgressLeft)
+                    {
+                        // максимальный прогресс
+                        maxProgressLeft = curProgress;
+                    }
+                }
+            }
+
+            // Выбрать, какой прогресс больше (в левом или правом столбике)
+            courseProgress = maxProgressLeft > maxProgressRight ? maxProgressLeft : maxProgressRight;
+
+            // Нажимаем на ссылку курса с наименьшим прогрессом
+            string courseXPath = ".//td[contains(@class,'coursePercents')]/span[contains(@class,'percent')][text()='" + courseProgress.ToString().Replace(",", ".") + "%']/../..//td/a";
+            string courseName = "";
+
+            // Все курсы с этим прогрессом
+            IList<IWebElement> courseElements =
+                _driver.FindElements(By.XPath(
+                ".//td[contains(@class,'coursePercents')]/span[contains(@class,'percent')][text()='" + courseProgress.ToString().Replace(",", ".") + "%']/../..//td[2]//div"));
+            foreach (IWebElement el in courseElements)
+            {
+                // Не учитываем курсы, в названии которых есть TestProject
+                if (!el.Text.Contains("TestProject"))
+                {
+                    courseName = el.Text;
+                    break;
+                }
+            }
+            // Вернуть имя курса
+            return courseName;
+        }
+
+        /// <summary>
         /// Переход в курс по имени курса
         /// </summary>
         protected void OpenCourseByName(string courseName)
@@ -861,7 +929,16 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
             _driver.FindElement(By.XPath(".//tbody[contains(@data-bind,'lectures')]//tr[" + rowNumber + "]//a")).Click();
             // Ждем перехода в лекцию
             _wait.Until((d) => d.FindElement(By.Id("back-btn")).Displayed);
-            Thread.Sleep(6000);
+
+            Scripts(_driver).ExecuteScript("localStorage.clear()");
+            _driver.FindElement(By.Id("back-btn")).SendKeys(OpenQA.Selenium.Keys.F5);
+            _wait.Until((d) => d.FindElement(By.XPath(".//div[@id='segments-body']//tbody//tr")).Displayed);
+
+        }
+
+        public static IJavaScriptExecutor Scripts (IWebDriver driver)
+        {
+            return (IJavaScriptExecutor)driver;
         }
 
         /// <summary>
@@ -1187,13 +1264,24 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
         }
 
         /// <summary>
-        /// Вернуть из профилял пользователя номер пользователя в общем зачете
+        /// Вернуть из профиля пользователя номер пользователя в общем зачете
         /// </summary>
         /// <returns></returns>
         protected int GetUserPosition()
         {
             // Получить место пользователя в общем зачете
             return int.Parse(_driver.FindElement(By.XPath(".//span[contains(@data-bind,'position')]")).Text.Trim());
+        }
+
+        /// <summary>
+        /// Вернуть, есть ли пользователь в списке лидерборда в активном списке
+        /// (без учета, что пользователь может отображаться до или после списка из 10 человек - активный список из ссылок)
+        /// </summary>
+        /// <param name="userName">имя пользователя</param>
+        /// <returns>есть пользователь</returns>
+        protected bool GetIsUserLeaderboardActiveList(string userName)
+        {
+            return IsElementPresent(By.XPath(".//tr[not(contains(@style,'display: none;'))]//td[3]/a[contains(text(),'" + userName + "')]"));
         }
 
         /// <summary>
@@ -1423,6 +1511,17 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
             return numInList;
         }
 
+        /// <summary>
+        /// Получить личный прогресс для лекции
+        /// </summary>
+        /// <param name="lectureRowNumber">номер строки с лекцией</param>
+        /// <returns>личный прогресс</returns>
+        protected int GetPersonalProgress(int lectureRowNumber)
+        {
+            return int.Parse(Driver.FindElement(By.XPath(
+                ".//tbody[contains(@data-bind,'lectures')]//tr[" + lectureRowNumber + "]//div[contains(@data-bind,'personalProgressView')]")).Text.Replace("%", "").Trim());
+        }
+
         DateTime testBeginTime;
 
         [SetUp]
@@ -1494,28 +1593,6 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
             {
                 Console.WriteLine("Fail!");
             }
-        }
-
-        protected void MakeScreenShot()
-        {
-            ITakesScreenshot screenshotDriver = _driver as ITakesScreenshot;
-            Screenshot screenshot = screenshotDriver.GetScreenshot();
-
-            // Создать папку для скриншотов провалившихся тестов
-            string failResultPath = System.IO.Path.Combine(PathTestResults, "FailedTests");
-            System.IO.Directory.CreateDirectory(failResultPath);
-            // Создать имя скриншота по имени теста
-            string screenName = TestContext.CurrentContext.Test.Name;
-            if (screenName.Contains("("))
-            {
-                // Убрать из названия теста аргументы (файлы)
-                screenName = screenName.Substring(0, screenName.IndexOf("("));
-            }
-            screenName += DateTime.Now.Ticks.ToString() + ".png";
-            // Создать полное имя файла
-            screenName = System.IO.Path.Combine(failResultPath, screenName);
-            // Сохранить скриншот
-            screenshot.SaveAsFile(screenName, ImageFormat.Png);
         }
     }
 }
