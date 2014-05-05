@@ -364,10 +364,6 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
         /// </summary>
         protected void AssignTask()
         {
-            // Перейти в проект
-            Driver.FindElement(By.XPath(".//a[@class='js-name'][contains(text(),'" + ProjectName + "')]")).Click();
-            Wait.Until((d) => d.FindElement(By.XPath(".//table[contains(@class,'l-project-panel-tbl')]")));
-
             // нажать галочку около документа
             _wait.Until((d) => d.FindElement(By.XPath(
                 ".//table[contains(@class,'js-documents-table')]//tr[contains(@class,'js-document-row')]/td[contains(@class,'js-checkbox-area')]/span")));
@@ -375,7 +371,6 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
                 ".//table[contains(@class,'js-documents-table')]//tr[contains(@class,'js-document-row')]/td[contains(@class,'js-checkbox-area')]/span")).Click();
             // нажать на Progress
             _driver.FindElement(By.XPath(".//span[contains(@class,'js-document-progress')]")).Click();
-
             WaitUntilDisplayElement(".//div[contains(@class,'js-popup-progress')][2]");
 
             // Назначить ответственного в окне Progress
@@ -394,7 +389,11 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             _driver.FindElement(By.XPath(
                 ".//div[contains(@class,'js-popup-progress')][2]//span[contains(@class,'js-popup-close')]")).Click();
 
-            // Вернуться на главную страницу
+            // Обновить страницу, чтобы активен был переход в редактор
+            _driver.FindElement(By.XPath(
+               ".//table[contains(@class,'js-documents-table')]")).SendKeys(OpenQA.Selenium.Keys.F5);
+
+            /*// Вернуться на главную страницу
             _driver.FindElement(By.XPath(".//a[contains(@href,'/Workspace')]")).Click();
             WaitProjectPageOpen();
 
@@ -402,8 +401,9 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             ClickProjectOpenInfo(_projectName);
             // Нажать на Accept
             WaitAndClickElement(".//tr[contains(@class,'js-project-panel')]/following-sibling::tr[contains(@class,'js-document-row')]//span[contains(@class,'js-accept')]//a");
+           
             // Перейти в проект
-            Driver.FindElement(By.XPath(".//a[@class='js-name'][contains(text(),'" + ProjectName + "')]")).Click();
+            _driver.FindElement(By.XPath(".//a[@class='js-name'][contains(text(),'" + ProjectName + "')]")).Click();*/
         }
 
 #endif
@@ -414,10 +414,8 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
         /// <param name="projectname">имя открываемого проекта</param>
         protected void OpenDocument(string projectname)
         {           
-            // Строчка нужного проекта
-            _driver.FindElement(By.LinkText(projectname)).Click();
+            // Открыть документ
             _driver.FindElement(By.XPath(".//a[contains(@class,'js-editor-link')]")).Click();
-            //Thread.Sleep(5000);
 
             // Дождаться загрузки страницы
             _wait.Until((d) => d.Title.Contains("Editor"));
@@ -426,7 +424,6 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             _driver.FindElement(By.CssSelector(
                 "#segments-body div table tr:nth-child(1)"
                 ));
-
         }
 #if OLD_WORKSPACE
         public void Authorization()
@@ -524,7 +521,7 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             _driver.FindElement(By.CssSelector("input[name=\"Name\"]")).SendKeys(projectName);
         }
 #elif NEW_WORKSPACE
-        protected void                                                                                                                                                                                                              FirstStepProjectWizard(string projectName, bool isNeedDifferentLang = true)
+        protected void FirstStepProjectWizard(string projectName, bool isNeedDifferentLang = true)
         {
             Assert.IsTrue(_driver.FindElement(By.XPath(".//span[contains(@class,'js-project-create')]")).Displayed);
             //нажать <Create>
@@ -539,7 +536,7 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 
             _driver.FindElement(By.XPath(".//div[contains(@class,'js-popup-create-project')][2]//input[@name='deadlineDate']")).Clear();
             _driver.FindElement(By.XPath(".//div[contains(@class,'js-popup-create-project')][2]//input[@name='deadlineDate']")).SendKeys(_deadlineDate);
-                       
+
             if (!isNeedDifferentLang)
             {
                 // Выбираем языки - изменено, языки выбраны сразу
@@ -620,7 +617,7 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
         /// <param name="filePath">путь в файлу, импортируемого в проект</param>
         protected void ImportDocumentProjectSettings(string filePath, string projectName)
         {
-            // Проверить, что проект в списке
+            // Зайти в проект
             ClickProjectInList(projectName);
 
             //ждем когда окно с настройками загрузится

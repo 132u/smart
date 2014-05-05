@@ -523,14 +523,9 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
         public void ImportFilesAfterCreationCorrectTest(string filePath)
         {
             CreateProjectImportDocument(filePath);
-            // Вернуться к списку проектов
-            OpenMainWorkspacePage();
-
             //Назначение задачи на пользователя
             AssignTask();
 
-            // Строчка нужного проекта
-            Driver.FindElement(By.LinkText(ProjectName)).Click();
             // Зайти в редактор документа
             Driver.FindElement(By.XPath(".//a[contains(@class,'js-editor-link')]")).Click();
 
@@ -579,7 +574,6 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             //Добавление документа
             ImportDocumentProjectSettings(filePath, ProjectName);
             
-            OpenMainWorkspacePage();
             //Назначение задачи на пользователя
             AssignTask();
 
@@ -728,9 +722,6 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 
             //Добавление документа
             ImportDocumentProjectSettings(DocumentFile, ProjectName);
-            OpenMainWorkspacePage();
-            Thread.Sleep(1000);
-
             //Назначение задачи на пользователя
             AssignTask();
 

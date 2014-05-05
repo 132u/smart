@@ -29,16 +29,11 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             // 2. Создание проекта с 1 документов внутри
             CreateProject(ProjectName, true, currentDocument);
 
-            //CreateProject(ProjectName, true, DocumentFile, TmFile);
-
             // 3. Назначение задачи на пользователя
             AssignTask();
 
-            //AddTMXFile(ProjectName);
-
             // 4. Открытие документа по имени созданного проекта
             OpenDocument(ProjectName);
-
         }
 
         public UserLogTest(string url, string workspaceUrl, string browserName)
@@ -605,7 +600,7 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             Driver.Navigate().Back();
 
             AddTMXFile(ProjectName);
-
+            Driver.FindElement(By.LinkText(ProjectName)).Click();
             OpenDocument(ProjectName);
         }
 

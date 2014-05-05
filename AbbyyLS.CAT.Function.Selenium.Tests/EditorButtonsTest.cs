@@ -27,16 +27,11 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             CreateProject(ProjectName, false, "");
             //открытие настроек проекта
             ImportDocumentProjectSettings(currentDocument, ProjectName);
-            //CreateProject(ProjectName, true, DocumentFile, TmFile);
-            OpenMainWorkspacePage();
             // 3. Назначение задачи на пользователя
             AssignTask();
 
-            //AddTMXFile(ProjectName);
-
             // 4. Открытие документа по имени созданного проекта
             OpenDocument(ProjectName);
-
         }
 
 
