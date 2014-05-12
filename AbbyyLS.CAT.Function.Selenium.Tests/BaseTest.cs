@@ -57,11 +57,36 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             }
         }
         private string _login;
+        protected string Login
+        {
+            get
+            {
+                return _login;
+            }
+        }
+
         private string _password;
+        protected string Password
+        {
+            get
+            {
+                return _password;
+            }
+        }
         private string _projectName;
         private string _tmName;
         private string _constTmName;
         private string _glossaryName;
+
+        private string _adminUrl;
+        protected string AdminUrl
+        {
+            get
+            {
+                return _adminUrl;
+            }
+        }
+
         protected string PathTestResults
         {
             get
@@ -221,6 +246,8 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             _importGlossaryFile = Path.GetFullPath(ConfigurationManager.AppSettings["ImportGlossaryFile"]);
             _imageFile = Path.GetFullPath(ConfigurationManager.AppSettings["TestImageFile"]);
             _audioFile = Path.GetFullPath(ConfigurationManager.AppSettings["TestAudioFile"]);
+
+            _adminUrl = ConfigurationManager.AppSettings["Stage2Admin"];
         }
 
         private void CreateUniqueNamesByDatetime()
@@ -455,7 +482,7 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 
         }
 #elif NEW_WORKSPACE
-        public void Authorization()
+        public void Authorization(string accountName = "TestAccount")
         {
             //TODO: Заменить на NLog
             //WriteFileConsoleResults("Autorization Test", 2);
@@ -474,11 +501,18 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
                 )));
 
             // Выбрать тестовый аккаунт
-            _driver.FindElement(By.XPath(".//select/option[contains(text(), 'TestAccount')]")).Click();
+            _driver.FindElement(By.XPath(".//select/option[contains(text(), '" + accountName + "')]")).Click();
             // Зайти на сайт
             _driver.FindElement(By.CssSelector("input[type = \"submit\"]")).Click();
-            
-            //Thread.Sleep(3000);
+
+            Wait.Until((d)=>d.FindElement(By.XPath(".//a[contains(@class,'js-set-locale')]")));
+            setDriverTimeoutMinimum();
+            if (IsElementPresent(By.XPath(".//a[contains(@class,'js-set-locale')][@data-locale='en']")))
+            {
+                _driver.FindElement(By.XPath(".//a[contains(@class,'js-set-locale')][@data-locale='en']")).Click();
+            }
+            setDriverTimeoutDefault();
+
         }
 #endif
 
@@ -536,7 +570,6 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 
             _driver.FindElement(By.XPath(".//div[contains(@class,'js-popup-create-project')][2]//input[@name='deadlineDate']")).Clear();
             _driver.FindElement(By.XPath(".//div[contains(@class,'js-popup-create-project')][2]//input[@name='deadlineDate']")).SendKeys(_deadlineDate);
-
             if (!isNeedDifferentLang)
             {
                 // Выбираем языки - изменено, языки выбраны сразу
@@ -550,9 +583,8 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
                 // Добавляем английский
                 _driver.FindElement(By.XPath(
                     ".//ul[contains(@class,'ui-multiselect-checkboxes')]//li//span[contains(@class,'js-chckbx')]//input[@value='9']")).Click();
+                _driver.FindElement(By.XPath(".//div[contains(@class,'js-popup-create-project')][2]//div[contains(@class,'js-languages-multiselect')]")).Click();
             }
-            _driver.FindElement(By.XPath(".//div[contains(@class,'js-popup-create-project')][2]//div[contains(@class,'js-languages-multiselect')]")).Click();
-            
         }
 
         protected void FillProjectNameInForm(string projectName)
@@ -1332,6 +1364,25 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
                 ".//span[contains(@class,'js-create-glossary-button')]//a[contains(@class,'g-btn__text g-redbtn__text')]")).Displayed);
         }
 
+        protected void SwitchSearchTab()
+        {
+            // Перейти на страницу поиска
+            Driver.FindElement(By.XPath(
+                ".//ul[@class='g-corprmenu__list']//a[contains(@href,'/Start')]")).Click();
+            Wait.Until((d) => d.FindElement(By.XPath(
+                ".//form[contains(@class,'js-search-form')]")).Displayed);
+        }
+
+        protected void InitSearch(string searchText)
+        {
+            // Ввести слово для поиска
+            Driver.FindElement(By.XPath(".//form[contains(@class,'js-search-form')]//textarea[@id='searchText']")).Clear();
+            Driver.FindElement(By.XPath(".//form[contains(@class,'js-search-form')]//textarea[@id='searchText']")).SendKeys(searchText);
+            // Нажать Перевести
+            Driver.FindElement(By.XPath(".//form[contains(@class,'js-search-form')]//span[contains(@class,'g-redbtn search')]//input")).Click();
+            Wait.Until((d) => d.FindElement(By.XPath(".//div[contains(@class,'js-search-results')]")));
+        }
+
         protected bool GetIsDomainExist(string domainName)
         {
             // Получить список всех проектов
@@ -1571,6 +1622,7 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
                 // И заново создать уникальные названия
                 CreateUniqueNamesByDatetime();
             }
+            //_driver.Manage().Window.Maximize();
         }
 
         [TearDown]

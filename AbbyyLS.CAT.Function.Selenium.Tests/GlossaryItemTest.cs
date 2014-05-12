@@ -322,12 +322,8 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             CreateItemAndSave(firstTerm, secondTerm + DateTime.UtcNow.Ticks.ToString());
             // Перейти на вкладку Поиск
             SwitchSearchTab();
-            // Ввести слово для поиска
-            Driver.FindElement(By.XPath(".//form[contains(@class,'js-search-form')]//textarea[@id='searchText']")).Clear();
-            Driver.FindElement(By.XPath(".//form[contains(@class,'js-search-form')]//textarea[@id='searchText']")).SendKeys(uniqueData);
-            // Нажать Перевести
-            Driver.FindElement(By.XPath(".//form[contains(@class,'js-search-form')]//span[contains(@class,'g-redbtn search')]//input")).Click();
-            Wait.Until((d) => d.FindElement(By.XPath(".//div[contains(@class,'js-search-results')]")));
+            // Найти перевод слова
+            InitSearch(uniqueData);
             // Проверить результат
             string tableXPath = ".//div[contains(@class,'js-search-results')]//div[contains(@class,'l-glossary__data')]";
             IList<IWebElement> resultList = Driver.FindElements(By.XPath(tableXPath + "//h2[contains(@class,'l-glossary__srctext')]"));
@@ -466,15 +462,6 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
         public void aaaaaFirstTestCheckUserRights()
         {
             AddUserRights();
-        }
-
-        protected void SwitchSearchTab()
-        {
-            // Перейти на страницу поиска
-            Driver.FindElement(By.XPath(
-                ".//ul[@class='g-corprmenu__list']//a[contains(@href,'/Start')]")).Click();
-            Wait.Until((d) => d.FindElement(By.XPath(
-                ".//form[contains(@class,'js-search-form')]")).Displayed);
         }
 
         protected bool GetIsTermTextExist(string termText)
