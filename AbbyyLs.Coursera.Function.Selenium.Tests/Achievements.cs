@@ -36,7 +36,7 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
         /// <summary>
         /// Тест: получение награды "Переводчик. 1 Уровень" (осуществить 5 переводов)
         /// </summary>
-        [Test]
+        //[Test]
         public void a_1_TranslatorLevel1()
         {
             // Уровень
@@ -50,7 +50,7 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
         /// <summary>
         /// Тест: получение награды "Переводчик. 2 Уровень" (осуществить 50 переводов)
         /// </summary>
-        [Test]
+        //[Test]
         public void a_1_TranslatorLevel2()
         {
             // Уровень
@@ -64,7 +64,7 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
         /// <summary>
         /// Тест: получение награды "Переводчик. 3 Уровень" (осуществить 250 переводов)
         /// </summary>
-        [Test]
+        //[Test]
         public void a_1_TranslatorLevel3()
         {
             // Уровень
@@ -78,7 +78,7 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
         /// <summary>
         /// Тест: получение награды "Переводчик. 4 Уровень" (осуществить 750 переводов)
         /// </summary>
-        [Test]
+        //[Test]
         public void a_1_TranslatorLevel4()
         {
             // Уровень
@@ -92,7 +92,7 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
         /// <summary>
         /// Тест: получение награды "Переводчик. 5 Уровень" (осуществить 1500 переводов)
         /// </summary>
-        [Test]
+        //[Test]
         public void a_1_TranslatorLevel5()
         {
             // Уровень
@@ -104,10 +104,10 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
         }
 
         /// <summary>
-        /// Тест: получение награды "Эксперт. 1 Уровень" (проголосовать за 5 переводов)
+        /// Тест: получение награды "Эксперт. 1 Уровень" (проголосовать за 5 переводов) - голосование За
         /// </summary>
         [Test]
-        public void b_1_ExpertLevel1()
+        public void b_1_ExpertLevel1VotesUp()
         {
             // Уровень
             int achieveLevel = 1;
@@ -115,6 +115,20 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
             int levelLimit = 5;
             // Добавить нужное количество голосов
             GetExpertLevel(achieveLevel, levelLimit);
+        }
+
+        /// <summary>
+        /// Тест: получение награды "Эксперт. 1 Уровень" (проголосовать за 5 переводов) - голосование Против
+        /// </summary>
+        [Test]
+        public void b_2_ExpertLevel1VotesDown()
+        {
+            // Уровень
+            int achieveLevel = 1;
+            // Количество голосов для получения уровня 
+            int levelLimit = 5;
+            // Добавить нужное количество голосов
+            GetExpertLevel(achieveLevel, levelLimit, false);
         }
 
         /// <summary>
@@ -174,6 +188,65 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
         }
 
         /// <summary>
+        /// Тест: награда Эксперт - проверка изменения прогресса при голосовании из виджета голосования
+        /// </summary>
+        [Test]
+        public void b_3_ExpertProgressTest()
+        {
+            string achieveType = "Expert";
+            // Выбрать пользователя, у которого отображается прогресс (не 5 уровень)
+            SelectUserWithoutAchieveLevel(achieveType, 5);
+
+            bool isOk = true;
+            string errorMessage = "\n";
+
+            // Прогресс до голосования
+            int achieveProgressBefore = GetAchieveProgressProfile(achieveType);
+            // Проголосовать За из виджета
+            VoteFromWidget("vwVoteUp");
+            // Прогресс после голосования
+            int achieveProgressAfter = GetAchieveProgressProfile(achieveType);
+
+            // Проверка прогресса
+            if (achieveProgressAfter <= achieveProgressBefore)
+            {
+                isOk = false;
+                errorMessage += "Ошибка: после голосования За прогресс Эксперта не увеличился\n";
+            }
+
+            // Прогресс до голосования
+            achieveProgressBefore = achieveProgressAfter;
+            // Проголосовать Против из виджета
+            VoteFromWidget("vwVoteDown");
+            // Прогресс после голосования
+            achieveProgressAfter = GetAchieveProgressProfile(achieveType);
+
+            // Проверка прогресса
+            if (achieveProgressAfter <= achieveProgressBefore)
+            {
+                isOk = false;
+                errorMessage += "Ошибка: после голосования Против прогресс Эксперта не увеличился\n";
+            }
+
+            // Прогресс до голосования
+            achieveProgressBefore = achieveProgressAfter;
+            // Нажать Пропустить
+            VoteFromWidget("vwSkip");
+            // Прогресс после голосования
+            achieveProgressAfter = GetAchieveProgressProfile(achieveType);
+
+            // Проверка прогресса
+            if (achieveProgressAfter != achieveProgressBefore)
+            {
+                isOk = false;
+                errorMessage += "Ошибка: после Пропустить изменился прогресс\n";
+            }
+
+            // Вывести ошибки
+            Assert.IsTrue(isOk, errorMessage);
+        }
+
+        /// <summary>
         /// Тест: получение награды "Профессионал. 1 уровень" (получить 3 голоса за перевод)
         /// </summary>
         [Test]
@@ -213,7 +286,7 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
         }
 
         /// <summary>
-        /// Тест: получение награды "Специалист. 1 уровень" (перевести 1% курса)
+        /// Тест: получение награды "Специалист. 1 уровень. Model Thinking" (перевести 1% курса)
         /// </summary>
         [Test]
         public void e_1_SpecialistLevel1()
@@ -222,7 +295,20 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
             // Сколько голосов нужно получить
             int levelLimit = 1;
             // Получить количество голосов
-            GetSpecialistLevel(achieveLevel, levelLimit);
+            GetSpecialistLevel(achieveLevel, levelLimit, "The Emergence of the Modern Middle East");//"Возникновение современного Ближнего Востока");// TODO разобраться с языком
+        }
+
+        /// <summary>
+        /// Тест: получение награды "Специалист. 2 уровень. Model Thinking" (перевести 10% курса)
+        /// </summary>
+        [Test]
+        public void e_1_SpecialistLevel2()
+        {
+            int achieveLevel = 2;
+            // Сколько голосов нужно получить
+            int levelLimit = 10;
+            // Получить количество голосов
+            GetSpecialistLevel(achieveLevel, levelLimit, "The Emergence of the Modern Middle East");
         }
 
         /// <summary>
@@ -244,7 +330,7 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
         {
             int needUserPosition = 10;
             // Добраться до нужного места в лидерборде
-            GetPositionLeaderboardOffline(needUserPosition, "Leader");
+            GetPositionLeaderboardOffline(needUserPosition, "Лидео");
         }
 
         /// <summary>
@@ -255,7 +341,7 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
         {
             int needUserPosition = 10;
             // Добраться до нужного места в лидерборде
-            GetPositionLeaderboardOffline(needUserPosition, "Leader", true);
+            GetPositionLeaderboardOffline(needUserPosition, "Лидер", true);
         }
 
         /// <summary>
@@ -266,7 +352,7 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
         {
             int needUserPosition = 1;
             // Добраться до нужного места в лидерборде
-            GetPositionLeaderboardOnline(needUserPosition);
+            GetPositionLeaderboardOnline(needUserPosition, "Number one");
         }
 
         /// <summary>
@@ -277,7 +363,7 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
         {
             int needUserPosition = 1;
             // Добраться до нужного места в лидерборде
-            GetPositionLeaderboardOffline(needUserPosition);
+            GetPositionLeaderboardOffline(needUserPosition, "Номер 1");
         }
 
         /// <summary>
@@ -288,7 +374,7 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
         protected void GetTranslatorLevel(int achieveLevel, int levelLimit)
         {
             string achieveType = "Translator";
-            SelectUserGetAchieve(achieveType, achieveLevel);
+            SelectUserWithoutAchieveLevel(achieveType, achieveLevel);
 
             bool isTestOk = true;
             string testErrorMessage = "\n";
@@ -301,10 +387,13 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
             string courseName = OpenCourseMinProgress();
             Console.WriteLine("курс: " + courseName);
 
-            // Добавить предложения до N-1
-            AddTranslationsCourse(translationsNumberLeft - 1, ref lectureRowNumber);
-            // Проверить, что нет сообщения о награде
-            CheckAchieveMessages(achieveType, achieveLevel, false, ref isTestOk, ref testErrorMessage);
+            if (translationsNumberLeft - 1 > 0)
+            {
+                // Добавить предложения до N-1
+                AddTranslationsCourse(translationsNumberLeft - 1, ref lectureRowNumber);
+                // Проверить, что нет сообщения о награде
+                CheckAchieveMessages(achieveType, achieveLevel, false, ref isTestOk, ref testErrorMessage);
+            }
 
             // Добавить перевод
             AddTranslationsCourse(1, ref lectureRowNumber);
@@ -319,20 +408,20 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
             if (newAchieveLevel != achieveLevel)
             {
                 isTestOk = false;
-                testErrorMessage += "Ошибка: после получения ачивки в профиле указывается неправильный уровень: " + newAchieveLevel;
+                testErrorMessage += "Ошибка: после получения ачивки в профиле указывается неправильный уровень: " + newAchieveLevel + "\n";
             }
             // проверка прогресса
             if (newAchieveProgress != levelLimit)
             {
                 isTestOk = false;
-                testErrorMessage += "Ошибка: после получения ачивки в профиле указывается неправильный прогресс: " + newAchieveProgress;
+                testErrorMessage += "Ошибка: после получения ачивки в профиле указывается неправильный прогресс: " + newAchieveProgress + "\n";
             }
 
             // Удалить два перевода
             OpenCoursePage();
             OpenCourseByName(courseName);
             OpenLectureByRowNum(1);
-            DeleteTranslations(1, 2);
+            DeleteMyTranslations(1, 2);
             ClickBackEditor();
 
             // Проверить, что уровень и прогресс в профиле не изменились
@@ -343,13 +432,13 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
             if (newAchieveLevel != achieveLevel)
             {
                 isTestOk = false;
-                testErrorMessage += "Ошибка: после удаления переводов в профиле указывается неправильный уровень: " + newAchieveLevel;
+                testErrorMessage += "Ошибка: после удаления переводов в профиле указывается неправильный уровень: " + newAchieveLevel + "\n";
             }
             // проверка прогресса
             if (newAchieveProgress != levelLimit)
             {
                 isTestOk = false;
-                testErrorMessage += "Ошибка: после удаления переводов в профиле указывается неправильный прогресс: " + newAchieveProgress;
+                testErrorMessage += "Ошибка: после удаления переводов в профиле указывается неправильный прогресс: " + newAchieveProgress + "\n";
             }
 
             // Добавить перевод вместо удаленного
@@ -367,18 +456,19 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
             if (newAchieveLevel != achieveLevel)
             {
                 isTestOk = false;
-                testErrorMessage += "Ошибка: после добавления перевода в удаленный в профиле указывается неправильный уровень: " + newAchieveLevel;
+                testErrorMessage += "Ошибка: после добавления перевода в удаленный в профиле указывается неправильный уровень: " + newAchieveLevel + "\n";
             }
             // проверка прогресса
             if (newAchieveProgress != levelLimit)
             {
                 isTestOk = false;
-                testErrorMessage += "Ошибка: после добавления перевода в удаленный в профиле указывается неправильный прогресс: " + newAchieveProgress;
+                testErrorMessage += "Ошибка: после добавления перевода в удаленный в профиле указывается неправильный прогресс: " + newAchieveProgress + "\n";
             }
 
             // Добавить новый перевод
             OpenCoursePage();
             OpenCourseByName(courseName);
+            ++lectureRowNumber;
             AddTranslationsCourse(1, ref lectureRowNumber);
             // Проверить, что нет сообщения
             CheckAchieveMessages(achieveType, achieveLevel, false, ref isTestOk, ref testErrorMessage);
@@ -391,13 +481,13 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
             if (newAchieveLevel != achieveLevel)
             {
                 isTestOk = false;
-                testErrorMessage += "Ошибка: после добавления нового перевода в профиле указывается неправильный уровень: " + newAchieveLevel;
+                testErrorMessage += "Ошибка: после добавления нового перевода в профиле указывается неправильный уровень: " + newAchieveLevel + "\n";
             }
             // прогресс должен увеличиться на 1
             if (newAchieveProgress != (levelLimit + 1))
             {
                 isTestOk = false;
-                testErrorMessage += "Ошибка: после добавления нового перевода в профиле указывается неправильный прогресс: " + newAchieveProgress;
+                testErrorMessage += "Ошибка: после добавления нового перевода в профиле указывается неправильный прогресс: " + newAchieveProgress + "\n";
             }
 
             // Вывести ошибки:
@@ -410,7 +500,7 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
         /// <param name="achieveType">тип награды</param>
         /// <param name="achieveLevel">уровень награды, который будет зарабатывать пользователь</param>
         /// <returns></returns>
-        protected int SelectUserGetAchieve(string achieveType, int achieveLevel)
+        protected int SelectUserWithoutAchieveLevel(string achieveType, int achieveLevel, string specialistCourseName = "")
         {
             bool isNeedChangeUser = true;
             // -1 - это пользователь Ян (он же Bob)
@@ -422,7 +512,7 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
                 // Открыть профиль пользователя
                 OpenUserProfileFromHomePage();
                 // Текущий уровень награды
-                int currentLevel = GetAchieveLevelProfile(achieveType);
+                int currentLevel = GetAchieveLevelProfile(achieveType, specialistCourseName);
                 isNeedChangeUser = currentLevel >= achieveLevel;
 
                 if (isNeedChangeUser)
@@ -442,11 +532,11 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
         }
 
         /// <summary>
-        /// Выбрать пользователя, место в рейтинге которого ниже нужного
+        /// Выбрать пользователя, у которого нет нужной награды
         /// </summary>
-        /// <param name="userPosition">место в рейтинге, которое будет зарабатывать пользователь</param>
-        /// <returns></returns>
-        protected int SelectUserRatingPosition(int userPosition)
+        /// <param name="achieveType">тип награды</param>
+        /// <returns>индекс пользователя</returns>
+        protected int SelectUserWithoutAchieve(string achieveType)
         {
             bool isNeedChangeUser = true;
             // -1 - это пользователь Ян (он же Bob)
@@ -457,9 +547,8 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
             {
                 // Открыть профиль пользователя
                 OpenUserProfileFromHomePage();
-                // Текущее место пользователя
-                int currentUserPosition = GetUserPosition();
-                isNeedChangeUser = currentUserPosition <= userPosition;
+                // Проверить, получена ли у пользователя награда
+                isNeedChangeUser = GetIsAchieveReceivedProfile(achieveType);
 
                 if (isNeedChangeUser)
                 {
@@ -487,7 +576,8 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
             string achieveText = Driver.FindElement(By.XPath(
                 ".//ul[@class='achive-list']//li[" + GetAchieveNumInList(achieveType) + "]//small[contains(@data-bind,'progress')]")).Text.Trim();
             // Прогресс
-            int achieveProgress = int.Parse(achieveText.Substring(0, achieveText.IndexOf("/")));
+            int startIndex = achieveText.IndexOf(" ") + 1;
+            int achieveProgress = int.Parse(achieveText.Substring(startIndex, achieveText.IndexOf("/") - startIndex));
             Console.WriteLine("прогресс: " + achieveProgress);
             return achieveProgress;
         }
@@ -543,7 +633,7 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
             startRowNumber = startRowNumber < 1 ? 1 : startRowNumber;
             for (int i = (startRowNumber - 1); i < percentElements.Count; ++i)
             {
-                // Выбираем лекцию с личным и общим прогрессом == 0
+                // Выбираем лекцию с личным прогрессом < 100
                 personalProgress = int.Parse(percentElements[i].Text.Replace("%", ""));
                 if (personalProgress < 100)
                 {
@@ -574,7 +664,7 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
 
             // Сбрасываем счетчик переведенных предложений
             translatedNumber = 0;
-            string translationText = "Test Translation " + DateTime.Now;
+            string translationText = "Test" + DateTime.Now.Ticks;
 
             if (!isLectureFinished)
             {
@@ -584,10 +674,7 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
                     segmentsList[i].Click();
                     if (segmentsList[i].Text.Trim().Length == 0)
                     {
-                        // Заполнить, только если чистое поле
-                        segmentsList[i].Clear();
                         segmentsList[i].SendKeys(translationText);
-
                         // Кликнуть по галочке с Confirm в строке сегмента
                         Driver.FindElement(By.XPath(".//span[contains(@class,'fa-border')]")).Click();
                         WaitUntilDisappearElement(".//span[contains(@class,'fa-border')]", 20);
@@ -615,76 +702,13 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
         }
 
         /// <summary>
-        /// Получить список видимых сегментов
-        /// </summary>
-        /// <param name="isLectureFinished">OUT: лекция закончилась</param>
-        /// <param name="startIndex">OUT: индекс для начала заполнения</param>
-        /// <param name="lastLastFactRow">IN/OUT: фактический номер последней видимой строки</param>
-        /// <returns></returns>
-        protected IList<IWebElement> GetVisibleSegmentList(ref int lastLastFactRow, out bool isLectureFinished, out int startIndex)
-        {
-            // README : если нужно понять, зачем такой странный алгоритм и к чему непонятные переменные:
-            // прочитать описание ниже.
-
-            // При входе в редактор Selenium видит только 34-35 сегментов.
-            // Сегменты могут начинаться не с первого:
-            // если до этого заходили в редактор и изменяли что-то в какой-то, например, 10 строке,
-            // то при следующем входе, курсор будет в 20 строке,
-            // а Selenium будет видеть с 3 строки по 38 (например),
-            // т.е. при обращении к первой строке, он будет обращаться к фактической 3 строке.
-            // Фактический номер строки - тот, который написан в первом столбце.
-            // При этом, когда мы обращаемся к какой-то строке по номеру tr:nth-child(N),
-            // может произойти ошибка, т.к. Selenium смещает свой видимый список по мере того, как мы заполняем предложения.
-            // Т.е. в следующий раз при обращении к первой строке, он уже будет обращаться к 4ой фактической строке (а видеть с 4 по 39).
-
-            // Поэтому беру список видимых строк.
-            // Получаю фактический номер первой строки и фактический номер последней строки.
-            // (К примеру 1 и 34, соответственно). lastFirstRow = 1, lastLastRow = 34
-            // Заполняю все эти видимые строки.
-            // Обновляю список видимых сегментов.
-            // Снова получаю фактический номер первой и последней строк.
-            // (К примеру, 15 и 50, соответственно). curFirstRow = 15, curLastRow = 50
-            // Нужно заполнить фактическую 35 строку, но для селениума она сейчас 21я.
-            // Чтобы не заполнять с 15 по 34 фактические строки повторно, приходится учитывать предыдущее значение 34,
-            // учитывать текущее первое значение 15:
-            // фактическая 15 строка - селениум 1 строка
-            // фактическиая 35 (34 последняя, нужна следующая - 35) - селениум ? строка
-            // => ? = 35 - 15 + 1 = 34 + 1 - 15 + 1
-            // => ? = lastLastRow + 1 - curFirstRow + 1
-            // А цикл начинается с 0 (номер строки - 1), поэтому start = lastLastRow - curFirstRow + 1
-
-
-            // Список видимых сегментов
-            IList<IWebElement> segmentsList = Driver.FindElements(By.CssSelector("#segments-body div table tr td:nth-child(4) div"));
-
-            // Фактический номер последней видимой строки
-            int curLastRow = int.Parse(Driver.FindElement(By.CssSelector("#segments-body div table tr:nth-child(" + segmentsList.Count + ") td:nth-child(1) div")).Text.Trim());
-
-            // Для проверки, закончилась лекция или нет - сравниваем последние фактические номера (текущий и предыдущий),
-            // если они совпали - мы зашли в заполненную лекцию
-            isLectureFinished = curLastRow == lastLastFactRow;
-
-            startIndex = 0;
-            if (!isLectureFinished)
-            {
-                // Фактический номер первой видимой строки
-                int curFirstRow = int.Parse(Driver.FindElement(By.CssSelector("#segments-body div table tr:nth-child(1) td:nth-child(1) div")).Text.Trim());
-                startIndex = lastLastFactRow - curFirstRow + 1;
-            }
-
-            lastLastFactRow = curLastRow;
-
-            return segmentsList;
-        }
-
-        /// <summary>
         /// Проверить сообщение о получении награды
         /// </summary>
         /// <param name="achieveType">тип награды</param>
         /// <param name="achieveLevel">уровень награды</param>
         /// <param name="messageShouldBeVisible">должно ли быть сообщение</param>
-        /// <param name="isTestOk">REF: результат теста</param>
-        /// <param name="testErrorMessage">REF: сообщение с результатом теста</param>
+        /// <param name="isTestOk">IN/OUT: результат теста</param>
+        /// <param name="testErrorMessage">IN/OUT: сообщение с результатом теста</param>
         protected void CheckAchieveMessages(string achieveType, int achieveLevel, bool messageShouldBeVisible,
                             ref bool isTestOk, ref string testErrorMessage)
         {
@@ -698,12 +722,12 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
             if (isExistEditorMessage != messageShouldBeVisible)
             {
                 isTestOk = false;
-                testErrorMessage += "Ошибка: в редакторе " + (isExistEditorMessage ? "" : "не ") + "появилось оповещение о награде";
+                testErrorMessage += "Ошибка: в редакторе " + (isExistEditorMessage ? "" : "не ") + "появилось оповещение о награде\n";
             }
             if (isExistLectureMessage)
             {
                 isTestOk = false;
-                testErrorMessage += "Ошибка: в лекции появилось оповещение";
+                testErrorMessage += "Ошибка: в лекции появилось оповещение\n";
             }
         }
 
@@ -711,21 +735,31 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
         /// Получить: есть ли сообщение о присуждении награды в редакторе
         /// </summary>
         /// <param name="achieveType">тип награды</param>
-        /// <param name="achieveLevel">уровень награды</param>
+        /// <param name="needCheckLevel">нужна ли проверка уровня награды</param>
+        /// <param name="achieveLevel">уровень награды для проверки</param>
         /// <returns>есть сообщение</returns>
         protected bool GetIsExistAchieveMessageEditor(string achieveType, bool needCheckLevel = false, int achieveLevel = 1)
         {
             bool isAchieveMessage = false;
             bool needCheckNewMessage = true;
-            
+            setDriverTimeoutWait();
             while (needCheckNewMessage)
             {
                 isAchieveMessage = IsElementDisplayed(By.XPath(".//div[contains(@class,'achievement')]"));
                 if (isAchieveMessage)
                 {
-                    Console.WriteLine("получили награду");
                     string achieveInfo = Driver.FindElement(By.XPath(".//div[contains(@class,'achievement')]//div[contains(@class,'name')]")).Text;
-                    string curAchieveType = achieveInfo.Substring(0, achieveInfo.IndexOf("(")).Trim();
+                    Console.WriteLine("получили награду " + achieveInfo);
+                    Console.WriteLine("а мы ждем тип " + achieveType);
+                    string curAchieveType = "";
+                    if (achieveInfo.Contains("("))
+                    {
+                        curAchieveType = achieveInfo.Substring(0, achieveInfo.IndexOf("(")).Trim();
+                    }
+                    else
+                    {
+                        curAchieveType = achieveInfo.Trim();
+                    }
 
                     // Тип награды
                     if (curAchieveType == achieveType)
@@ -733,7 +767,8 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
                         Console.WriteLine(achieveType);
                         if (needCheckLevel)
                         {
-                            int curAchieveLevel = int.Parse(achieveInfo.Substring(achieveInfo.IndexOf("(") + 1, achieveInfo.IndexOf("/") - achieveInfo.IndexOf("(") + 1).Trim());
+                            int startIndex = achieveInfo.IndexOf("(") + 1;
+                            int curAchieveLevel = int.Parse(achieveInfo.Substring(startIndex, achieveInfo.IndexOf("/") - startIndex).Trim());
                             // Уровень награды
                             if (achieveLevel == curAchieveLevel)
                             {
@@ -747,6 +782,7 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
                             needCheckNewMessage = false;
                         }
                     }
+                    MakeScreen();
                     Driver.FindElement(By.XPath(".//div[contains(@class,'achievement')]//span[contains(@class,'x-btn-icon-el')]")).Click();
                 }
                 else
@@ -756,7 +792,7 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
                     needCheckNewMessage = false;
                 }
             }
-
+            setDriverTimeoutDefault();
             return isAchieveMessage;
         }
 
@@ -764,7 +800,8 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
         /// Получить: есть ли сообщение о присуждении награды на странице лекции
         /// </summary>
         /// <param name="achieveType">тип награды</param>
-        /// <param name="achieveLevel">уровень награды</param>
+        /// <param name="needCheckLevel">нужна ли проверка уровня награды</param>
+        /// <param name="achieveLevel">уровень награды для проверки</param>
         /// <returns>есть сообщение</returns>
         protected bool GetIsExistAchieveMessageLecture(string achieveType, bool needCheckLevel = false, int achieveLevel = 1)
         {
@@ -778,14 +815,18 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
                     Console.WriteLine("получили награду");
                     string achieveInfo = Driver.FindElement(By.XPath(".//div[@id='achieve-popup']//strong")).Text;
                     string curAchieveType = achieveInfo.Substring(0, achieveInfo.IndexOf(" ")).Trim();
-
+                    Console.WriteLine("инфо: " + achieveInfo);
+                    Console.WriteLine("тип: " + curAchieveType);
                     // Тип награды
-                    if (curAchieveType == achieveType)
+                    if (curAchieveType.Contains(achieveType))
                     {
                         Console.WriteLine(achieveType);
+                        Console.WriteLine(achieveInfo);
                         if (needCheckLevel)
                         {
-                            int curAchieveLevel = int.Parse(achieveInfo.Substring(achieveInfo.IndexOf("(") + 1, achieveInfo.IndexOf("/") - achieveInfo.IndexOf("(") + 1).Trim());
+                            int indexStart = achieveInfo.IndexOf("(") + 1;
+                            Console.WriteLine(achieveInfo.Substring(indexStart, achieveInfo.IndexOf("/") - indexStart));
+                            int curAchieveLevel = int.Parse(achieveInfo.Substring(indexStart, achieveInfo.IndexOf("/") - indexStart).Trim());
                             // Уровень награды
                             if (achieveLevel == curAchieveLevel)
                             {
@@ -799,12 +840,12 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
                             needUpdateMessageInfo = false;
                         }
                     }
-                    Driver.FindElement(By.XPath(".//div[@id='achieve-popup')]//p/a[contains(@class,'button')]")).Click();
+                    Driver.FindElement(By.XPath(".//div[@id='achieve-popup']//p/a[contains(@class,'button')]")).Click();
                 }
                 else
                 {
                     // Нет награды
-                    Console.WriteLine("не получили нужную награду");
+                    Console.WriteLine("не получили такую награду");
                     needUpdateMessageInfo = false;
                 }
             }
@@ -816,11 +857,12 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
         /// Получить уровень награды в профиле
         /// </summary>
         /// <param name="achieveType">тип награды</param>
+        /// <param name="specialistCourseName">название курса (для награды Специалист)</param>
         /// <returns>уровень</returns>
-        protected int GetAchieveLevelProfile(string achieveType)
+        protected int GetAchieveLevelProfile(string achieveType, string specialistCourseName = "")
         {
             string achieveText = Driver.FindElement(By.XPath(
-                ".//ul[@class='achive-list']//li[" + GetAchieveNumInList(achieveType) + "]//strong")).Text.Trim();
+                ".//ul[@class='achive-list']//li[" + GetAchieveNumInList(achieveType, specialistCourseName) + "]//strong")).Text.Trim();
             int indexStart = achieveText.IndexOf("(") + 1;
             // Уровень
             int achieveLevel = int.Parse(achieveText.Substring(indexStart, achieveText.IndexOf("/") - indexStart));
@@ -829,26 +871,75 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
         }
 
         /// <summary>
+        /// Получить номер награды в списке
+        /// </summary>
+        /// <param name="achieveType">тип награды</param>
+        /// <param name="specialistCourseName">название курса для награды Специалист</param>
+        /// <returns>номер награды в списке</returns>
+        protected int GetAchieveNumInList(string achieveType, string specialistCourseName = "")
+        {
+            int rowNumber = 0;
+            bool isExist = false;
+            // Список наград
+            IList<IWebElement> achieveList = Driver.FindElements(By.XPath(".//ul[@class='achive-list']//li//strong"));
+            for (int i = 0; i < achieveList.Count; ++i)
+            {
+                // Если в названии награды есть название искомой награды
+                if (achieveList[i].Text.Trim().Contains(achieveType))
+                {
+                    bool isAchieveFound = true;
+                    // Если награда Специалист и нужно проверить название курса (награда Специалист отдельно для разных курсов)
+                    if (specialistCourseName.Length > 0)
+                    {
+                        string achieveDescrText = Driver.FindElement(By.XPath(".//ul[@class='achive-list']//li[" + (i + 1) + "]//small[contains(@data-bind,'explanation')]")).Text;
+                        // Есит название курса?
+                        if (!achieveDescrText.Contains(specialistCourseName))
+                        {
+                            isAchieveFound = false;
+                        }
+                    }
+
+                    if (isAchieveFound)
+                    {
+                        // награда найдена
+                        isExist = true;
+                        rowNumber = i + 1;
+                        break;
+                    }
+                }
+            }
+            // Проверить, что есть такая награда
+            Assert.IsTrue(isExist, "Ошибка: такой тип ачивки не найден");
+
+            // Вернуть номер этой награды в списке
+            return rowNumber;
+        }
+
+        /// <summary>
         /// Проверить награду Эксперт
         /// </summary>
         /// <param name="achieveLevel">уровень награды</param>
         /// <param name="levelLimit">количество голосов для уровня награды</param>
-        protected void GetExpertLevel(int achieveLevel, int levelLimit)
+        /// <param name="isVoteUp">голосование За или Против (true - За, false - Против)</param>
+        protected void GetExpertLevel(int achieveLevel, int levelLimit, bool isVoteUp = true)
         {
             string achieveType = "Expert";
-            SelectUserGetAchieve(achieveType, achieveLevel);
+            SelectUserWithoutAchieveLevel(achieveType, achieveLevel);
 
             bool isTestOk = true;
             string testErrorMessage = "\n";
             int voteNumberLeft = levelLimit - GetAchieveProgressProfile(achieveType);
 
-            // Проголосовать до N - 1
-            AddVotesCourses(voteNumberLeft - 1);
-            // Проверить, что нет сообщения о награде
-            CheckAchieveMessages(achieveType, achieveLevel, false, ref isTestOk, ref testErrorMessage);
-
+            if (voteNumberLeft - 1 > 0)
+            {
+                // Проголосовать до N - 1
+                AddVotesCourses(voteNumberLeft - 1, isVoteUp);
+                // Проверить, что нет сообщения о награде
+                CheckAchieveMessages(achieveType, achieveLevel, false, ref isTestOk, ref testErrorMessage);
+            }
             // Проголосовать до N
-            AddVotesCourses(1);
+            AddVotesCourses(1, isVoteUp);
+            WaitAchieveMessage();
             // Проверить, что оповещение появилось
             CheckAchieveMessages(achieveType, achieveLevel, true, ref isTestOk, ref testErrorMessage);
 
@@ -860,17 +951,18 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
             if (newAchieveLevel != achieveLevel)
             {
                 isTestOk = false;
-                testErrorMessage += "Ошибка: после получения ачивки в профиле указывается неправильный уровень: " + newAchieveLevel;
+                testErrorMessage += "Ошибка: после получения ачивки в профиле указывается неправильный уровень: " + newAchieveLevel + "\n";
             }
             // проверка прогресса
             if (newAchieveProgress != levelLimit)
             {
                 isTestOk = false;
-                testErrorMessage += "Ошибка: после получения ачивки в профиле указывается неправильный прогресс: " + newAchieveProgress;
+                testErrorMessage += "Ошибка: после получения ачивки в профиле указывается неправильный прогресс: " + newAchieveProgress + "\n";
             }
 
             // Проголосовать до N + 1
-            AddVotesCourses(1);
+            AddVotesCourses(1, isVoteUp);
+            WaitAchieveMessage();
             // Проверить, что оповещение не появилось
             CheckAchieveMessages(achieveType, achieveLevel, false, ref isTestOk, ref testErrorMessage);
 
@@ -882,13 +974,13 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
             if (newAchieveLevel != achieveLevel)
             {
                 isTestOk = false;
-                testErrorMessage += "Ошибка: после нового голоса в профиле указывается неправильный уровень: " + newAchieveLevel;
+                testErrorMessage += "Ошибка: после нового голоса в профиле указывается неправильный уровень: " + newAchieveLevel + "\n";
             }
             // проверка прогресса
             if (newAchieveProgress != (levelLimit + 1))
             {
                 isTestOk = false;
-                testErrorMessage += "Ошибка: после нового голоса в профиле указывается неправильный прогресс: " + newAchieveProgress;
+                testErrorMessage += "Ошибка: после нового голоса в профиле указывается неправильный прогресс: " + newAchieveProgress + "\n";
             }
 
             // Вывести ошибки:
@@ -896,11 +988,22 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
         }
 
         /// <summary>
-        /// Добавить голоса
+        /// Подождать появления оповещения о награде
+        /// </summary>
+        private void WaitAchieveMessage()
+        {
+            // Задержка для ожидания появления оповещения о награде
+            Thread.Sleep(10000);
+        }
+
+        /// <summary>
+        /// Добавить голоса в курс
         /// </summary>
         /// <param name="voteNumberLeft">оставшееся количество голосов</param>
-        protected void AddVotesCourses(int voteNumberLeft)
+        /// <param name="isVoteUp">голосование За или Против</param>
+        protected void AddVotesCourses(int voteNumberLeft, bool isVoteUp)
         {
+            Console.WriteLine("AddVotesCourses: voteNumberLeft: " + voteNumberLeft);
             if (voteNumberLeft > 0)
             {
                 OpenCoursePage();
@@ -913,6 +1016,7 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
                 while (voteNumberLeft > 0)
                 {
                     // Открыть лекцию
+                    Console.WriteLine("Открыть лекцию");
                     lectureRowNum = SelectLectureToVote(lectureRowNum);
                     Console.WriteLine("lectureRowNum: " + lectureRowNum);
                     OpenLectureByRowNum(lectureRowNum);
@@ -921,13 +1025,15 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
                     bool isFinished = false;
                     do
                     {
-                        isFinished = AddVotesVisibleSentences(ref lastLastFactRow, voteNumberLeft, out votedCounter);
+                        isFinished = AddVotesVisibleSentences(ref lastLastFactRow, voteNumberLeft, isVoteUp, out votedCounter);
+                        Console.WriteLine(isFinished ? "закончилась" : "не закончилась");
                         voteNumberLeft -= votedCounter;
-                        Console.WriteLine("levelLimit после: " + voteNumberLeft);
+                        Console.WriteLine("voteNumberLeft после: " + voteNumberLeft);
                     } while (voteNumberLeft > 0 && !isFinished);
 
                     if (voteNumberLeft <= 0)
                     {
+                        Console.WriteLine("voteNumberLeft <= 0");
                         break;
                     }
 
@@ -938,8 +1044,6 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
                 }
 
                 Assert.IsTrue(voteNumberLeft <= 0, "Ошибка: закончилась лекция");
-
-                ClickBackEditor();
             }
         }
 
@@ -980,35 +1084,36 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
         }
 
         /// <summary>
-        /// Проголосовать за переводы, за которые пользователь не голосовал
+        /// Проголосовать за переводы в видмых сегментах
         /// </summary>
         /// <param name="lastLastFactRow">IN/OUT: последний номер в строке с последним сегментом при предыдущем проходе редактора</param>
-        /// <param name="limitVotes">IN: максимальное количество голосов для добавления</param>
-        /// <param name="countVoted">OUT: количество добавленных голосов</param>
-        /// <returns></returns>
-        protected bool AddVotesVisibleSentences(ref int lastLastFactRow, int votesNumberLimit, out int votesNumber)
+        /// <param name="votesNumberLimit">IN: максимальное количество голосов для добавления</param>
+        /// <param name="isVoteUp">IN: голосование За или Против</param>
+        /// <param name="votesNumber">OUT: количество добавленных голосов</param>
+        /// <returns>лекция закончилась</returns>
+        protected bool AddVotesVisibleSentences(ref int lastLastFactRow, int votesNumberLimit, bool isVoteUp, out int votesNumber)
         {
             bool isLectureFinished = false;
             int startIndex = 0;
             // Список видимых сегментов
             IList<IWebElement> segmentsList = 
                 GetVisibleSegmentList(ref lastLastFactRow, out isLectureFinished, out startIndex);
-
+            Console.WriteLine("isLectureFinished: " + (isLectureFinished ? "да" : "нет"));
             // Сбрасываем счетчик переведенных предложений
             votesNumber = 0;
-            string translationText = "Test Translation " + DateTime.Now;
 
             if (!isLectureFinished)
             {
+                // Пройтись по всем сегментам
                 for (int i = startIndex; i < segmentsList.Count; ++i)
                 {
+                    // Кликнуть по Target
                     segmentsList[i].Click();
                     segmentsList[i].Click();
-                    Console.WriteLine("номер строки: " + (i + 1));
-                    // Проголосовать за переводы в сегменте
-                    int votedNum = VoteSuggestedTranslations(votesNumberLimit - votesNumber);
+                    // Проголосовать за переводы в сегменте (только за те, за которые нет голосов пользователя)
+                    int votedNum = VoteSuggestedTranslations(isVoteUp, true, true, votesNumberLimit - votesNumber);
+                    // Проверить количество сделанных голосов
                     votesNumber += votedNum;
-
                     if (votesNumber >= votesNumberLimit)
                     {
                         Console.WriteLine("Достаточно проголосовано, выходим из лекции");
@@ -1020,44 +1125,6 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
         }
 
         /// <summary>
-        /// Проголосовать за предложенные переводы
-        /// </summary>
-        /// <param name="votesNumberLeft"></param>
-        /// <returns></returns>
-        protected int VoteSuggestedTranslations(int votesNumberLeft)
-        {
-            int votedNumber = 0;
-            setDriverTimeoutMinimum();
-            IList<IWebElement> translationsList = Driver.FindElements(By.XPath(
-                ".//div[@id='translations-body']//table//tr//td[5]/div//span[contains(@class,'fa-thumbs-up')]"));
-            setDriverTimeoutDefault();
-            Console.WriteLine(translationsList.Count > 0 ? "переводы есть" : "переводов нет");
-
-            // Пробуем проголосовать за предложенные переводы
-            for (int i = 0; i < translationsList.Count; ++i)
-            {
-                if (votedNumber < votesNumberLeft)
-                {
-                    if (!translationsList[i].GetAttribute("class").Contains("disabled"))
-                    {
-                        Console.WriteLine("пытаемся проголосовать " + i);
-                        translationsList[i].Click();
-                        if (GetIsVoteConsideredEditor(true, (i + 1)))
-                        {
-                            ++votedNumber;
-                        }
-                    }
-                }
-                else
-                {
-                    break;
-                }
-            }
-
-            return votedNumber;
-        }
-
-        /// <summary>
         /// Проверить получение и потерю награды Профессионал
         /// </summary>
         /// <param name="achieveLevel">уровень награды</param>
@@ -1065,7 +1132,8 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
         protected void GetProfessionalLevel(int achieveLevel, int levelLimit)
         {
             string achieveType = "Professional";
-            int userIndex = SelectUserGetAchieve(achieveType, achieveLevel);
+            // Выбрать пользователя, который еще не получил эту награду
+            int userIndex = SelectUserWithoutAchieveLevel(achieveType, achieveLevel);
 
             bool isTestOk = true;
             string testErrorMessage = "\n";
@@ -1073,13 +1141,14 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
             // Добавить перевод
             string courseName;
             int lectureRowNumber, translationRowNumber;
-            string translationText = "Test Translation " + DateTime.Now;
+            string translationText = "Test" + DateTime.Now.Ticks;
             AddTranslation(translationText, out courseName, out lectureRowNumber, out translationRowNumber);
             Console.WriteLine("курс: " + courseName + ", номер лекции: " + lectureRowNumber + ", номер для перевода: " + translationRowNumber);
             ClickBackEditor();
+            // Выйти из пользователя
             LogoutUser();
 
-            // Проголосовать за него для получения награды
+            // Проголосовать за него для получения награды N раз
             int votesLeft = levelLimit;
             for (int i = 0; i < TestUserList.Count; ++i)
             {
@@ -1111,24 +1180,17 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
             if (!GetIsExistAchieveMessageLecture(achieveType, true, achieveLevel))
             {
                 isTestOk = false;
-                testErrorMessage += "Ошибка: не появилось сообщение о присуждении награды";
+                testErrorMessage += "Ошибка: не появилось сообщение о присуждении награды\n";
             }
 
-            // Проверить прогресс в профиле
+            // Проверить уровень ачивки в профиле
             OpenUserProfileFromCourse();
-            int newAchieveProgress = GetAchieveProgressProfile(achieveType);
             int newAchieveLevel = GetAchieveLevelProfile(achieveType);
             // проверка уровня награды
             if (newAchieveLevel != achieveLevel)
             {
                 isTestOk = false;
-                testErrorMessage += "Ошибка: после получения ачивки в профиле указывается неправильный уровень: " + newAchieveLevel;
-            }
-            // проверка прогресса
-            if (newAchieveProgress != levelLimit)
-            {
-                isTestOk = false;
-                testErrorMessage += "Ошибка: после получения ачивки в профиле указывается неправильный прогресс: " + newAchieveProgress;
+                testErrorMessage += "Ошибка: после получения ачивки в профиле указывается неправильный уровень: " + newAchieveLevel + "\n";
             }
             LogoutUser();
 
@@ -1138,8 +1200,9 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
                 if (i != userIndex)
                 {
                     LoginUser(TestUserList[i]);
+                    OpenCoursePage();
+                    OpenCourseByName(courseName);
                     VoteCurrentTranslation(lectureRowNumber, translationRowNumber, translationText, false);
-                    Console.WriteLine("проголосовал!");
                     LogoutUser();
                     break;
                 }
@@ -1157,25 +1220,20 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
 
             // Проверить прогресс в профиле
             OpenUserProfileFromCourse();
-            newAchieveProgress = GetAchieveProgressProfile(achieveType);
+            int newAchieveProgress = GetAchieveProgressProfile(achieveType);
             newAchieveLevel = GetAchieveLevelProfile(achieveType);
             // проверка уровня награды
             if (newAchieveLevel != achieveLevel)
             {
                 isTestOk = false;
-                testErrorMessage += "Ошибка: после голосва против в профиле указывается неправильный уровень: " + newAchieveLevel;
-            }
-            // проверка прогресса
-            if (newAchieveProgress != levelLimit)
-            {
-                isTestOk = false;
-                testErrorMessage += "Ошибка: после голосва против в профиле указывается неправильный прогресс: " + newAchieveProgress;
+                testErrorMessage += "Ошибка: после голоса против в профиле указывается неправильный уровень: " + newAchieveLevel + "\n";
             }
             
             // Добавить новый перевод
             AddTranslation(translationText, out courseName, out lectureRowNumber, out translationRowNumber);
             Console.WriteLine("курс: " + courseName + ", номер лекции: " + lectureRowNumber + ", номер для перевода: " + translationRowNumber);
             ClickBackEditor();
+            // Выйти из пользователя
             LogoutUser();
 
             // Проголосовать за него для получения награды
@@ -1185,6 +1243,8 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
                 if (i != userIndex)
                 {
                     LoginUser(TestUserList[i]);
+                    OpenCoursePage();
+                    OpenCourseByName(courseName);
                     VoteCurrentTranslation(lectureRowNumber, translationRowNumber, translationText, true);
                     Console.WriteLine("проголосовал!");
                     LogoutUser();
@@ -1210,7 +1270,7 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
             if (GetIsExistAchieveMessageLecture(achieveType, true, achieveLevel))
             {
                 isTestOk = false;
-                testErrorMessage += "Ошибка: появилось повторное сообщение о присуждении награды";
+                testErrorMessage += "Ошибка: появилось повторное сообщение о присуждении награды\n";
             }
 
             // Вывести ошибки:
@@ -1223,6 +1283,7 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
         /// <param name="lectureRowNumber">номер строки лекции</param>
         /// <param name="translationRowNumber">номер строки перевода</param>
         /// <param name="translationText">текст перевода</param>
+        /// <param name="voteUp">голос За или Против</param>
         protected void VoteCurrentTranslation(int lectureRowNumber, int translationRowNumber, string translationText, bool voteUp)
         {
             // Открыть лекцию
@@ -1244,129 +1305,131 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
         protected void GetPositionLeaderboardOnline(int needUserPosition, string achieveType)
         {
             // Выбрать пользователя
-            // TODO убрать Console
-            Console.WriteLine("выбрали пользователя: " + SelectUserRatingPosition(needUserPosition));
-
-            // Открыть лидерборд
-            OpenLeaderboardPage();
-            // Получить рейтинг пользователя на нужном месте
-            Decimal ratingNeedPosition = GetLeaderboardPositionRating(needUserPosition);
-            Console.WriteLine("нужно набрать рейтинга: " + ratingNeedPosition);
-
-            bool isNeedAddTranslations = false;
-            int minimumNumberToAdd = 0;
-            Decimal ratingBefore = 0;
-            string courseName = "";
-            do
-            {
-                Console.WriteLine("открыть профиль пользователя");
-
-                OpenUserProfileFromCourse();
-                ratingBefore = GetUserRating();
-                Console.WriteLine("Сейчас рейтинг пользователя: " + ratingBefore);
-
-                // Нужно добавить переводов
-                minimumNumberToAdd = (int)((ratingNeedPosition - ratingBefore) / 3);
-                Console.WriteLine("нужно переводов: " + minimumNumberToAdd);
-                isNeedAddTranslations = minimumNumberToAdd > 1;
-
-                // Перейти к списку доступных курсов
-                OpenCoursePage();
-                // Переход в курс с наименьшим прогрессом
-                courseName = OpenCourseMinProgress();
-                Console.WriteLine("курс: " + courseName);
-                int lectureRowNumber = 1;
-                if (isNeedAddTranslations)
-                {
-                    Console.WriteLine("начинаем добавлять переводы");
-                    AddTranslationsCourse(minimumNumberToAdd, ref lectureRowNumber);
-                }
-            } while (isNeedAddTranslations);
-
-            Console.WriteLine("достаточно добавили");
-            int userPosition = GetUserPosition();
-            Console.WriteLine("Сейчас место пользователя: " + userPosition);
-            if (userPosition <= needUserPosition)
-            {
-                Assert.Fail("Перелёт");
-            }
-
+            SelectUserWithoutAchieve(achieveType);
+            // TODO впилить изменение рейтинга
+            
+            // Хранит значение: была ли в течение теста какая-нибудь ошибка
             bool isOk = true;
+            // Хранит сообщения обо всех найденных ошибках
             string errorMessage = "\n";
-
-            bool isExistEditorAchieve = false, isExistLectureAchieve = false;
-            while (userPosition > needUserPosition)
+            if (!GetIsAchieveProgressUserPositionRight(achieveType, needUserPosition))
             {
-                if (isExistEditorAchieve || isExistLectureAchieve)
-                {
-                    isOk = false;
-                    errorMessage += "Ошибка: оповещение о награде появилось раньше времени\n";
-                }
-                Console.WriteLine("Сейчас место пользователя: " + userPosition);
+                isOk = false;
+                errorMessage += "Ошибка: перед началом теста у пользователя неправильно отображается прогресс в награде\n";
+            }
 
-                isExistEditorAchieve = AddTranslationWaitAchieve(achieveType);
-                isExistLectureAchieve = GetIsExistAchieveMessageLecture(achieveType);
+            bool isAchieveMessageLectureAppeared = false, isAchieveMessageEditorAppeared = false, isAchieveProfileReceived = false, isAchieveReceived = false;
+            string courseName = "";
+            while (!isAchieveReceived)
+            {
+                // Открыть курс
+                OpenCoursePage();
+                courseName = OpenCourseMinProgress();
 
+                // Заполнить лекцию до появления оповещения о награде
+                isAchieveMessageEditorAppeared = FillLectureWaitAchieve(achieveType);
+                // Проверить оповещение в лекции
+                isAchieveMessageLectureAppeared = GetIsExistAchieveMessageLecture(achieveType);
+                // Открыть профиль
                 OpenUserProfileFromCourse();
-                userPosition = GetUserPosition();
+                isAchieveProfileReceived = GetIsAchieveReceivedProfile(achieveType);
+                // Из-за того, что рейтинг может долго пересчитываться, оповещение о награде может прийти позже
+                // т.е. когда зайдем в профиль - награда будет и в профиле, и появится оповещение о награде
+                if (isAchieveProfileReceived)
+                {
+                    isAchieveMessageLectureAppeared = GetIsExistAchieveMessageLecture(achieveType);
+                }
+
+                isAchieveReceived = isAchieveMessageEditorAppeared || isAchieveMessageLectureAppeared || isAchieveProfileReceived;
             }
 
-            if (!isExistEditorAchieve)
+            // Проверка: оповещение о награде было, а в профиле награда не как получена
+            if ((isAchieveMessageEditorAppeared || isAchieveMessageLectureAppeared) && !isAchieveProfileReceived)
             {
                 isOk = false;
-                errorMessage += "Ошибка: в редакторе не появилось оповещение о получении награды " + achieveType + "\n";
+                errorMessage += "Ошибка: появилось оповещение о награде, а в профиле награда не как получена\n";
             }
-            if (isExistLectureAchieve)
+
+            // Проверка: в профиле награда получена, а оповещения не было
+            if (isAchieveProfileReceived && !(isAchieveMessageEditorAppeared || isAchieveMessageLectureAppeared))
             {
                 isOk = false;
-                errorMessage += "Ошибка: повторное оповещение о награде на странице лекции\n";
+                errorMessage += "Ошибка: в профиле награда получена, но оповещения не было\n";
             }
 
-            // TODO проверить в профиле ачивку
+            // Проверка: повторное оповещение (в редакторе и в лекции)
+            if (isAchieveMessageEditorAppeared && isAchieveMessageLectureAppeared)
+            {
+                isOk = false;
+                errorMessage += "Ошибка: оповещение появилось дважды: в редакторе и в лекции\n";
+            }
 
-            // Удалить два перевода
+            // Проверить прогресс награды (прогресса быть не должно)
+            if (GetAchieveProgressUserPosition(achieveType) != 0)
+            {
+                isOk = false;
+                errorMessage += "Ошибка: после получения награды не должно быть прогресса\n";
+            }
+
+            // Проверяем позицию пользователя
+            if (GetUserPosition() > needUserPosition)
+            {
+                isOk = false;
+                errorMessage += "Ошибка: неправильное место пользователя в профиле\n";
+            }
+
+            // Удалить переводы, чтобы понизить место
             OpenCoursePage();
             OpenCourseByName(courseName);
             OpenLectureByRowNum(1);
-            DeleteTranslations(1, 1);
+            DeleteMyTranslations(1, 5);
             ClickBackEditor();
 
             // Проверить место пользователя
             OpenUserProfileFromCourse();
-            userPosition = GetUserPosition();
-            if (userPosition > needUserPosition)
+            if (GetUserPosition() > needUserPosition)
             {
-                // TODO Проверить ачивку
-            }
-
-            while (userPosition > needUserPosition)
-            {
-                if (isExistEditorAchieve || isExistLectureAchieve)
+                // Проверить в профиле, что награда не потерялась
+                if (!GetIsAchieveReceivedProfile(achieveType))
                 {
                     isOk = false;
-                    errorMessage += "Ошибка: появилось повторное оповещение о награде, хотя место пользователя ниже необходимого\n";
+                    errorMessage += "Ошибка: после удаления переводов в профиле награда потеряна\n";
                 }
-                Console.WriteLine("Сейчас место пользователя: " + userPosition);
-
-                isExistEditorAchieve = AddTranslationWaitAchieve(achieveType);
-                isExistLectureAchieve = GetIsExistAchieveMessageLecture(achieveType);
-
-                OpenUserProfileFromCourse();
-                userPosition = GetUserPosition();
+                // Проверить, что у награды нет прогресса
+                if (GetAchieveProgressUserPosition(achieveType) > 0)
+                {
+                    isOk = false;
+                    errorMessage += "Ошибка: в профиле после получения награды и после удаления части переводов указан прогресс\n";
+                }
             }
-            
-            if (isExistEditorAchieve)
+
+            // Добавить переводы и проверить, появилось ли оповещение о награде в редакторе
+            isAchieveMessageEditorAppeared = AddTranslationsWaitAchieve(5, achieveType);
+            // Проверить оповещение в лекции
+            isAchieveMessageLectureAppeared = GetIsExistAchieveMessageLecture(achieveType);
+
+            if (isAchieveMessageEditorAppeared || isAchieveMessageLectureAppeared)
             {
                 isOk = false;
-                errorMessage += "Ошибка: если потерять место, а потом его снова получить - повторно появляется награда (в редакторе)\n";
-            }
-            if (isExistLectureAchieve)
-            {
-                isOk = false;
-                errorMessage += "Ошибка: если потерять место, а потом его снова получить - повторно появляется награда (в лекции)\n";
+                errorMessage += "Ошибка: если потерять место, а потом его снова получить - повторно появляется оповещение о награде награда\n";
             }
 
-            // TODO проверить в профиле ачивку
+            OpenUserProfileFromCourse();
+            // Проверить в профиле, что награда получена
+            if (!GetIsAchieveReceivedProfile(achieveType))
+            {
+                isOk = false;
+                errorMessage += "Ошибка: после добавления заново переводов в профиле награда потеряна\n";
+            }
+            // Проверить, что у награды нет прогресса
+            if (GetAchieveProgressUserPosition(achieveType) > 0)
+            {
+                isOk = false;
+                errorMessage += "Ошибка: в профиле после добавления заново переводов около награды отображается прогресс\n";
+            }
+
+            // Вывести ошибки
+            Assert.IsTrue(isOk, errorMessage);
         }
 
         /// <summary>
@@ -1387,62 +1450,78 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
         }
 
         /// <summary>
-        /// Добавить перевод и проверить сообщение о награде в редакторе
+        /// Добавить до получения награды, но не более max количества
         /// </summary>
+        /// <param name="maxNumTranslatoins">максимальное количество переводов для добавления</param>
         /// <param name="achieveType">тип награды</param>
-        /// <returns>есть ли сообщение о награде</returns>
-        protected bool AddTranslationWaitAchieve(string achieveType)
+        /// <returns>получили награду</returns>
+        protected bool AddTranslationsWaitAchieve(int maxNumTranslatoins, string achieveType)
         {
-            // Перейти к списку доступных курсов
+            // Открыть лекцию для перевода
             OpenCoursePage();
-            // Переход в курс с наименьшим прогрессом
-            string courseName = OpenCourseMinProgress();
-            Console.WriteLine("курс: " + courseName);
-
+            OpenCourseMinProgress();
             OpenLectureByRowNum(SelectLectureToTranslate());
 
-            int lastSentenceNumber = 0;
-            bool isAddedTranslation = false;
+            bool isLectureFinished = false, isAchieveReceived = false;
+            int numTranslationsLeft = maxNumTranslatoins;
+            int lastLastFactRow = 0;
 
-            do
+            Console.WriteLine("Начинаем добавлять 5 переводов");
+
+            // Добавить до получения награды, но не более количества переводов
+            while ((numTranslationsLeft > 0) && !isAchieveReceived)
             {
-                isAddedTranslation = AddTranslationEmptySegment(ref lastSentenceNumber);
-            } while (!isAddedTranslation);
+                // Если лекция заполнена, то зайти в др.лекцию
+                if (isLectureFinished)
+                {
+                    Console.WriteLine("Лекция  закончилась, перезаходим");
+                    ClickBackEditor();
+                    OpenLectureByRowNum(SelectLectureToTranslate());
+                    isLectureFinished = false;
+                }
 
-            bool isAchieveMessageExist = GetIsExistAchieveMessageEditor(achieveType);
+                Console.WriteLine("Добавляем переводы");
+                // Добавить переводы
+                isAchieveReceived = AddTranslationEmptySegment(ref numTranslationsLeft, out isLectureFinished, achieveType, ref lastLastFactRow);
+            }
 
+            Console.WriteLine("Выходим");
             // Выйти из редактора
             ClickBackEditor();
 
-            return isAchieveMessageExist;
+            return isAchieveReceived;
         }
 
         /// <summary>
-        /// Добавить перевод в пустой сегмент
+        /// Добавить N переводоы в пустые сегменты
         /// </summary>
-        /// <param name="lastLastFactRow">последний фактический номер видимой строки</param>
-        /// <returns>добавлен ли перевод</returns>
-        protected bool AddTranslationEmptySegment(ref int lastLastFactRow)
+        /// <param name="numTranslationsLeft">IN/OUT: сколько осталось добавить переводов</param>
+        /// <param name="isLectureFinished">OUT: лекция закончилась</param>
+        /// <param name="achieveType">тип награды (оповещение о которой ожидается)</param>
+        /// <param name="lastLastFactRow">IN/OUT: фактический номер последней видимой строки</param>
+        /// <returns>появилось ли оповещение о награде</returns>
+        protected bool AddTranslationEmptySegment(ref int numTranslationsLeft, out bool isLectureFinished, string achieveType, ref int lastLastFactRow)
         {
-            bool isLectureFinished = false;
-            bool isAddedTranslation = false;
+            bool isAchieveReceived = false;
             int startIndex = 0;
             // Список видимых сегментов
             IList<IWebElement> segmentsList = GetVisibleSegmentList(ref lastLastFactRow, out isLectureFinished, out startIndex);
 
             // Сбрасываем счетчик переведенных предложений
-            string translationText = "Test Translation " + DateTime.Now;
+            string translationText = "Test" + DateTime.Now.Ticks;
 
-            if (!isLectureFinished)
+            // Если лекция не закончилась, осталось добавить больше 0, награда не получена - добавляем переводы
+            if (!isLectureFinished && numTranslationsLeft > 0 && !isAchieveReceived)
             {
+                // Пройтись по всем видимым сегментам
 	            for (int i = startIndex; i < segmentsList.Count; ++i)
                 {
                     segmentsList[i].Click();
                     segmentsList[i].Click();
-                    if (segmentsList[i].Text.Trim().Length == 0)
+                    if (!GetIsExistMyTranslationSegment())
                     {
-                        // Заполнить, только если чистое поле
                         segmentsList[i].Clear();
+                        // Заполнить, если нет перевода
                         segmentsList[i].SendKeys(translationText);
 
                         // Кликнуть по галочке с Confirm в строке сегмента
@@ -1453,15 +1532,30 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
                         int translationRowNumber = GetSuggestedTranslationRowNum(translationText);
                         if (translationRowNumber > 0)
                         {
-                            isAddedTranslation = true;
-                            break;
+                            --numTranslationsLeft;
+                            isAchieveReceived = GetIsExistAchieveMessageEditor(achieveType);
+                            if (numTranslationsLeft <= 0)
+                            {
+                                break;
+                            }
                         }
                     }
                 }
             }
 
-            // Добавлен ли перевод
-            return isAddedTranslation;
+            // Появилась ли награда
+            return isAchieveReceived;
+        }
+
+        /// <summary>
+        /// Получить: получена ли награда (по типу отображения в профиле)
+        /// </summary>
+        /// <param name="achieveType">тип награды</param>
+        /// <returns>получена награда</returns>
+        protected bool GetIsAchieveReceivedProfile(string achieveType)
+        {
+            return !Driver.FindElement(By.XPath(
+                ".//ul[@class='achive-list']//li[" + GetAchieveNumInList(achieveType) + "]//span[contains(@class,'achive-type')]")).GetAttribute("class").Contains("not_av");
         }
 
         /// <summary>
@@ -1472,9 +1566,11 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
         /// <param name="isNeedGetStepUpPositionOffline">для теста, когда оффлайн пользователь должен подняться не до нужного места (10), а на место выше (9)</param>
         protected void GetPositionLeaderboardOffline(int needUserPosition, string achieveType, bool isNeedGetStepUpPositionOffline = false)
         {
-            // Выбрать пользователя
-            int userIndex = SelectUserRatingPosition(needUserPosition);
+            //  TODO впилить изменение рейтинга
 
+            // Выбрать пользователя
+            int userIndex = SelectUserWithoutAchieve(achieveType);
+            
             OpenHomepage();
             string userName = GetUserNameHomepage();
 
@@ -1482,13 +1578,14 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
             OpenLeaderboardPage();
             // Получить рейтинг пользователя на нужном месте
             Decimal ratingNeedPosition = GetLeaderboardPositionRating(needUserPosition);
-
+            Console.WriteLine("ratingNeedPosition: " + ratingNeedPosition);
             bool isNeedAddTranslations = false;
             int minimumNumberToAdd = 0;
             Decimal ratingBefore = 0;
-            List<string> courseList = new List<string> ();
+            List<string> courseList = new List<string>();
             do
             {
+                // Рейтинг в профиле
                 OpenUserProfileFromCourse();
                 ratingBefore = GetUserRating();
                 Console.WriteLine("Сейчас рейтинг пользователя: " + ratingBefore);
@@ -1498,23 +1595,27 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
                 Console.WriteLine("нужно переводов: " + minimumNumberToAdd);
                 isNeedAddTranslations = minimumNumberToAdd > 1;
 
-                // Перейти к списку доступных курсов
-                OpenCoursePage();
-                // Переход в курс с наименьшим прогрессом
-                
-                string courseName = OpenCourseMinProgress();
-                if (!courseList.Contains(courseName))
-                {
-                    courseList.Add(courseName);
-                }
-                Console.WriteLine("курс: " + courseName);
-                int lectureRowNumber = 1;
                 if (isNeedAddTranslations)
                 {
+                    // Перейти к списку доступных курсов
+                    OpenCoursePage();
+                    // Переход в курс с наименьшим прогрессом                
+                    string courseName = OpenCourseMinProgress();
+
+                    if (!courseList.Contains(courseName))
+                    {
+                        courseList.Add(courseName);
+                    }
+                    Console.WriteLine("курс: " + courseName);
+                    int lectureRowNumber = 1;
+                    // Добавить переводы для увеличения рейтинга
                     AddTranslationsCourse(minimumNumberToAdd, ref lectureRowNumber);
+                    ClickBackEditor();
                 }
             } while (isNeedAddTranslations);
 
+            // Проверить позицию пользователя
+            OpenUserProfileFromCourse();
             int userPosition = GetUserPosition();
             Console.WriteLine("Сейчас место пользователя: " + userPosition);
             if (userPosition <= needUserPosition)
@@ -1522,8 +1623,7 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
                 Assert.Fail("Перелёт");
             }
 
-            // Добавить курсы из профиля
-
+            // Зайти другим пользователем
             LogoutUser();
             if (userIndex == TestUserList.Count - 1)
             {
@@ -1534,19 +1634,32 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
                 LoginUser(TestUserList[userIndex + 1]);
             }
 
-            int offlineNeedUserPosition = isNeedGetStepUpPositionOffline ? (needUserPosition + 1) : needUserPosition;
+            Console.WriteLine("Зашли др пользователем");
+
+            // Какую позицию должен достичь пользователь голосованием
+            int offlineNeedUserPosition = isNeedGetStepUpPositionOffline ? (needUserPosition - 1) : needUserPosition;
+            Console.WriteLine("offline");
+            // TODO заменить
+            courseList.Add("The Emergence of the Modern Middle East");
             while (userPosition > offlineNeedUserPosition)
             {
+                Console.WriteLine("Надо голосовать");
                 // Проголосовать за перевод этого пользователя
                 VoteUserTranslationCourses(userName, courseList);
+                Console.WriteLine("Проголосовали");
+                // Подождать, чтобы обновился лидерборд
+                Thread.Sleep(2000);
                 // Проверить место пользователя в лидерборде
                 OpenLeaderboardPage();
+                // Если пользователь в основном списке
                 if (GetIsUserLeaderboardActiveList(userName))
                 {
+                    // Проверить позицию пользователя
                     userPosition = GetUserPositionLeaderboard(userName);
                 }
             }
 
+            // Вернуться в пользователя
             LogoutUser();
             if (userIndex == -1)
             {
@@ -1557,10 +1670,26 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
                 LoginUser(TestUserList[userIndex]);
             }
 
-            // Проверить, что появилось сообщение о награде
-            Assert.IsTrue(GetIsExistAchieveMessageLecture(achieveType), "Ошибка: при входе пользователя ему не появилось сообщение о награде");
+            bool isOk = true;
+            string errorMessage = "\n";
 
-            // TODO проверить в профиле ачивку
+            // Проверить, что при входе пользователя появилось оповещение о присуждении награды
+            if (!GetIsExistAchieveMessageLecture(achieveType))
+            {
+                isOk = false;
+                errorMessage += "Ошибка: при входе пользователя не появилось сообщение о присуждении награды\n";
+            }
+            // Открыть профиль
+            OpenUserProfileFromCourse();
+            // Проверить, что в профиле награда отображается как полученная
+            if (!GetIsAchieveReceivedProfile(achieveType))
+            {
+                isOk = false;
+                errorMessage += "Ошибка: в профиле не показывается, что награда получена\n";
+            }
+
+            // Вывести ошибки
+            Assert.IsTrue(isOk, errorMessage);
         }
 
         /// <summary>
@@ -1573,11 +1702,13 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
             bool isVoted = false;
             for (int i = 0; i < courseList.Count; ++i)
             {
+                // Открыть курс
                 OpenCoursePage();
                 OpenCourseByName(courseList[i]);
                 int lectureRowNum = 1;
                 while (!isVoted)
                 {
+                    // Выбрать лекцию (если лекция заканчивается - ищем следующие лекции)
                     lectureRowNum = SelectLectureToVote(lectureRowNum);
                     // Открыть лекцию
                     OpenLectureByRowNum(lectureRowNum);
@@ -1585,7 +1716,9 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
                     bool isFinished = false;
                     do
                     {
+                        // Проголосовать за перевод пользователя в лекции
                         isFinished = VoteVisibleUserTranslationLectures(ref lastLastFactRow, userName, out isVoted);
+                        // Если проголосовали - выходим
                         if (isVoted)
                         {
                             break;
@@ -1599,17 +1732,20 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
 
                     if (isFinished)
                     {
-                        ClickBackEditor();
+                        // Если лекция закончилась - поиск последующих лекций
                         ++lectureRowNum;
                     }
                 }
+
+                // Выход из лекции
+                ClickBackEditor();
             }
         }
 
         /// <summary>
         /// Проголосовать за перевод пользователя (проход по лекциям курса)
         /// </summary>
-        /// <param name="lastLastFactRow">фактический номер видимой последней строки</param>
+        /// <param name="lastLastFactRow">IN/OUT: фактический номер видимой последней строки</param>
         /// <param name="userName">имя пользователя, за чьи переводы надо проголосовать</param>
         /// <param name="isVoted">OUT: проголосовали</param>
         /// <returns>лекция закончилась</returns>
@@ -1621,12 +1757,14 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
             // Список видимых сегментов
             IList<IWebElement> segmentsList = GetVisibleSegmentList(ref lastLastFactRow, out isLectureFinished, out startIndex);
 
-            string translationText = "Test Translation " + DateTime.Now;
+            string translationText = "Test" + DateTime.Now.Ticks;
 
             if (!isLectureFinished)
             {
+                // Проход по сегментам
 	            for (int i = startIndex; i < segmentsList.Count; ++i)
                 {
+                    // Кликнуть по Target
                     segmentsList[i].Click();
                     segmentsList[i].Click();
                     Console.WriteLine("номер строки: " + (i + 1));
@@ -1658,6 +1796,7 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
     
             if (isExistUserTranslation)
             {
+                // Список элементов для голосования
                 IList<IWebElement> translationsList = Driver.FindElements(By.XPath(
                     ".//div[@id='translations-body']//table//tr//td[5]/div//span[contains(@class,'fa-thumbs-up')]"));
             
@@ -1666,14 +1805,18 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
                 // Пробуем проголосовать за предложенный перевод пользователя
                 for (int i = 0; i < translationsList.Count; ++i)
                 {
+                    // Имя переводчика предложенного перевода
                     string translaterName = Driver.FindElement(By.XPath(
-                        ".//div[@id='translations-body']//table//tr[" + (i + 1) + "//td[2]//div")).Text;
+                        ".//div[@id='translations-body']//table//tr[" + (i + 1) + "]//td[2]//div")).Text;
+                    // Если имя переводчика содержит имя нужного переводчика - голосуем
                     if (translaterName.Contains(userName))
                     {
+                        // Если не отдавали голос - голосуем
                         if (!translationsList[i].GetAttribute("class").Contains("disabled"))
                         {
                             Console.WriteLine("пытаемся проголосовать " + i);
                             translationsList[i].Click();
+                            // Проверяем - принят ли голос
                             if (GetIsVoteConsideredEditor(true, (i + 1)))
                             {
                                 isVoted = true;
@@ -1684,6 +1827,7 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
                 }
             }
 
+            // Проглосовали
             return isVoted;
         }
 
@@ -1699,101 +1843,169 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
                 ".//tr[not(contains(@style,'display: none;'))]//td[3]/a[contains(text(),'" + userName + "')]/../..//td[1]")).Text.Trim());
         }
 
-        // TODO
         /// <summary>
-        /// Добавить переводы в пустые сегменты
+        /// Проверить получение и потерю награды "Специалист"
         /// </summary>
-        /// <param name="lastLastFactRow">IN/OUT: последний номер в строке с последним сегментом при предыдущем проходе редактора</param>
-        /// <param name="translationNumberLimit">IN: максимальное количество переводов для добавления</param>
-        /// <param name="translatedNumber">OUT: количество добавленных переводов</param>
-        /// <returns>закончилась ли лекция (true: пустые предложения закончились)</returns>
-        protected bool FillEmptySegments(ref int lastLastFactRow, int translationNumberLimit, out int translatedNumber, bool isNeedConsiderRating = false, bool isNeedWaitAchieve = false)
+        /// <param name="achieveLevel">уровень награды</param>
+        /// <param name="levelLimit">процент для получения уровня</param>
+        /// <param name="courseName">имя курса</param>
+        protected void GetSpecialistLevel(int achieveLevel, int levelLimit, string courseName)
         {
-            // README : если нужно понять, зачем такой странный алгоритм и к чему непонятные переменные:
-            // прочитать описание ниже.
+            string achieveType = "Specialist";
+            SelectUserWithoutAchieveLevel(achieveType, achieveLevel, courseName);
+            
+            // TODO убрать
+            string courseNameToOpen = courseName;// "The Emergence of the Modern Middle East";// TODO разобраться с языком Model Thinking
 
-            // При входе в редактор Selenium видит только 34-35 сегментов.
-            // Сегменты могут начинаться не с первого:
-            // если до этого заходили в редактор и изменяли что-то в какой-то, например, 10 строке,
-            // то при следующем входе, курсор будет в 20 строке,
-            // а Selenium будет видеть с 3 строки по 38 (например),
-            // т.е. при обращении к первой строке, он будет обращаться к фактической 3 строке.
-            // Фактический номер строки - тот, который написан в первом столбце.
-            // При этом, когда мы обращаемся к какой-то строке по номеру tr:nth-child(N),
-            // может произойти ошибка, т.к. Selenium смещает свой видимый список по мере того, как мы заполняем предложения.
-            // Т.е. в следующий раз при обращении к первой строке, он уже будет обращаться к 4ой фактической строке (а видеть с 4 по 39).
-
-            // Поэтому беру список видимых строк.
-            // Получаю фактический номер первой строки и фактический номер последней строки.
-            // (К примеру 1 и 34, соответственно). lastFirstRow = 1, lastLastRow = 34
-            // Заполняю все эти видимые строки.
-            // Обновляю список видимых сегментов.
-            // Снова получаю фактический номер первой и последней строк.
-            // (К примеру, 15 и 50, соответственно). curFirstRow = 15, curLastRow = 50
-            // Нужно заполнить фактическую 35 строку, но для селениума она сейчас 21я.
-            // Чтобы не заполнять с 15 по 34 фактические строки повторно, приходится учитывать предыдущее значение 34,
-            // учитывать текущее первое значение 15:
-            // фактическая 15 строка - селениум 1 строка
-            // фактическиая 35 (34 последняя, нужна следующая - 35) - селениум ? строка
-            // => ? = 35 - 15 + 1 = 34 + 1 - 15 + 1
-            // => ? = lastLastRow + 1 - curFirstRow + 1
-            // А цикл начинается с 0 (номер строки - 1), поэтому start = lastLastRow - curFirstRow + 1
-
-            // Список видимых сегментов
-            IList<IWebElement> segmentsList = Driver.FindElements(By.CssSelector("#segments-body div table tr td:nth-child(4) div"));
-            IList<IWebElement> sourceSegmentsList = Driver.FindElements(By.CssSelector("#segments-body div table tr td:nth-child(3) div"));
-            Console.WriteLine("Всего видно: " + segmentsList.Count);
-
-            // Фактический номер первой видимой строки
-            int curFirstRow = int.Parse(Driver.FindElement(By.CssSelector("#segments-body div table tr:nth-child(1) td:nth-child(1) div")).Text.Trim());
-            Console.WriteLine("FN(1) = " + curFirstRow);
-            // Фактический номер последней видимой строки
-            int curLastRow = int.Parse(Driver.FindElement(By.CssSelector("#segments-body div table tr:nth-child(" + segmentsList.Count + ") td:nth-child(1) div")).Text.Trim());
-            Console.WriteLine("FN(L) = " + curLastRow);
-
-            // Для проверки, закончилась лекция или нет - сравниваем последние фактические номера (текущий и предыдущий),
-            // если они совпали - мы зашли в заполненную лекцию
-            bool isFinished = curLastRow == lastLastFactRow;
-            // Сбрасываем счетчик переведенных предложений
-            translatedNumber = 0;
-            // "Вес" перевода - учитывается при добавлении переводов для увеличения рейтинга, вес перевода будет больше 1, если в Source большой текст
-            int translationWeight = 1;
-
-            if (!isFinished)
+            bool isLevelReceived = false, isAchieveMessageLectureAppeared = false, isAchieveMessageAppeared = false;
+            while (!isLevelReceived)
             {
-                // Индекс для начала заполнения
-                int startIndex = lastLastFactRow - curFirstRow + 1;
-                Console.WriteLine("start: " + startIndex);
+                // Открыть курс
+                OpenCoursePage();
+                OpenCourseByName(courseNameToOpen);
 
-                string translationText = "Test Translation " + DateTime.Now;
+                // Заполнить лекцию до появления оповещения о награде
+                isAchieveMessageAppeared = FillLectureWaitAchieve(achieveType, true, achieveLevel);
+                // Проверить оповещение в лекции
+                isAchieveMessageLectureAppeared = GetIsExistAchieveMessageLecture(achieveType, true, achieveLevel);
+                
+                // Открыть профиль
+                OpenUserProfileFromCourse();
+                // Проверить, что достигли уровень
+                isLevelReceived = GetAchieveLevelProfile(achieveType, courseName) == achieveLevel;
+                Console.WriteLine("рейтинг: " + GetUserRating());
+            }
 
+            bool isOk = true;
+            string errorMessage = "\n";
+
+            if (!isAchieveMessageAppeared)
+            {
+                isOk = false;
+                errorMessage += "Ошибка: не появилось оповещение о том, что получили награду Специалист, хотя в профиле уровень награды поднялся\n";
+            }
+            if (isAchieveMessageLectureAppeared)
+            {
+                isOk = false;
+                errorMessage += "Ошибка: появилось оповещение о награде Специалист в лекции (повторное оповещение)\n";
+            }
+            // Проверить прогресс награды
+            if (GetAchieveProgressPercent(achieveType, courseName) < levelLimit)
+            {
+                isOk = false;
+                errorMessage += "Ошибка: в профиле в прогрессе награды указан неправльный прогресс\n";
+            }
+            
+            // Удалить переводы
+            OpenCoursePage();
+            OpenCourseByName(courseNameToOpen);
+            OpenLectureByRowNum(1);
+            DeleteMyTranslations(1, 5);
+            ClickBackEditor();
+            OpenUserProfileFromCourse();
+
+            // Проверить, что не потеряли уровень
+            if (GetAchieveLevelProfile(achieveType, courseName) < achieveLevel)
+            {
+                isOk = false;
+                errorMessage += "Ошибка: потеряли уровень награды, когда удалили часть переводов\n";
+            }
+            // Проверить, что прогресс не уменьшился
+            if (GetAchieveProgressPercent(achieveType, courseName) < levelLimit)
+            {
+                isOk = false;
+                errorMessage += "Ошибка: потеряли прогресс награды, когда удалили часть переводов\n";
+            }
+
+            // Добавить переводы
+            int lastRowNumber = 0, addedTranslationsNumber;
+            OpenCoursePage();
+            OpenCourseByName(courseNameToOpen);
+            OpenLectureByRowNum(1);
+            AddTranslationsEmptyVisibleSegments(ref lastRowNumber, 5, out addedTranslationsNumber);
+
+            // Проверка оповещения в редакторе
+            isAchieveMessageAppeared = GetIsExistAchieveMessageEditor(achieveType, true, achieveLevel);
+            ClickBackEditor();
+            // Проверка оповещения в лекции
+            isAchieveMessageLectureAppeared = GetIsExistAchieveMessageLecture(achieveType, true, achieveLevel);
+
+            if (isAchieveMessageAppeared)
+            {
+                isOk = false;
+                errorMessage += "Ошибка: заново получили ачивку (при повторном добавлении переводов)\n";
+            }
+            if (isAchieveMessageLectureAppeared)
+            {
+                isOk = false;
+                errorMessage += "Ошибка: заново получили ачивку и оповещение появилось в лекции\n";
+            }
+
+            // Вывести ошибки
+            Assert.IsTrue(isOk, errorMessage);
+        }
+
+        /// <summary>
+        /// Заполнить лекцию, ожидая оповещение о награде
+        /// </summary>
+        /// <param name="achieveType">тип награды</param>
+        /// <param name="isNeedAchieveLevel">нужна ли проверка уровня награды</param>
+        /// <param name="achieveLevel">уровень награды</param>
+        /// <returns>появилось оповещение о награде</returns>
+        protected bool FillLectureWaitAchieve(string achieveType, bool isNeedAchieveLevel = false, int achieveLevel = 1)
+        {
+            // Открыть лекцию
+            OpenLectureByRowNum(SelectLectureToTranslate());
+
+            bool isAchieveAppeared = false;
+            bool isLectureFilled = false;
+            int lastSentenceNumber = 0;
+            do
+            {
+                // Заполнить всю лекцию до появления награды
+                isLectureFilled = AddTranslationsEmptyVisibleSegmentsWaitAchieve(ref lastSentenceNumber, achieveType, isNeedAchieveLevel, achieveLevel, out isAchieveAppeared);
+            } while (!isLectureFilled && !isAchieveAppeared);
+            // Если получили награду или полностью заполнили лекцию - выходим
+            
+            // Выйти из редактора
+            ClickBackEditor();
+
+            return isAchieveAppeared;
+        }
+
+        /// <summary>
+        /// Добавить переводы и ожидать оповещение о награде
+        /// </summary>
+        /// <param name="lastLastFactRow">IN/OUT: фактический номер последнего видимого сегмента</param>
+        /// <param name="achieveType">тип награды</param>
+        /// <param name="isNeedAchieveLevel">нужна ли проверка уровня награды</param>
+        /// <param name="achieveLevel">уровень награды</param>
+        /// <param name="isAchieveAppeared">OUT: появилось оповещение о награде</param>
+        /// <returns></returns>
+        protected bool AddTranslationsEmptyVisibleSegmentsWaitAchieve(ref int lastLastFactRow, string achieveType, bool isNeedAchieveLevel, int achieveLevel, out bool isAchieveAppeared)
+        {
+            bool isLectureFinished = false;
+            int startIndex = 0;
+            // Список видимых сегментов
+            IList<IWebElement> segmentsList = GetVisibleSegmentList(ref lastLastFactRow, out isLectureFinished, out startIndex);
+
+            // Сбрасываем счетчик переведенных предложений
+            string translationText = "Test" + DateTime.Now.Ticks;
+            isAchieveAppeared = false;
+
+            if (!isLectureFinished)
+            {
+                // Пройтись по всем видимым сегментам
                 for (int i = startIndex; i < segmentsList.Count; ++i)
                 {
+                    // Кликнуть по Target
                     segmentsList[i].Click();
                     segmentsList[i].Click();
-                    if (segmentsList[i].Text.Trim().Length == 0)
+                    // Если перевода этого пользователя нет - добавить перевод
+                    if (!GetIsExistMyTranslationSegment())
                     {
-                        if (isNeedConsiderRating)
-                        {
-                            // Учет рейтинга - то есть добавляем переводы для увеличения рейтинга
-                            // Чтобы не перемахнуть через нужное число - проверяем количество слов в Source
-                            // Мы приняли при расчете нужного количества переводов, что за один перевод дается 3 балла к рейтингу
-                            // Но, по опыту выяснилось, если число слов больше 30, то баллов больше
-                            // и на каждые 30 добавляем 3 балла, то есть уменьшаем оставшееся количество переводов на (N / 30)
-                            int sourceWordsCount = sourceSegmentsList[i].Text.Split().Length;
-                            translationWeight = (sourceWordsCount / 30);
-                            Console.WriteLine("translationWeight: " + translationWeight);
-                            Console.WriteLine("translationNumberLimit - translatedNumber: " + (translationNumberLimit - translatedNumber));
-                            if (translationWeight > (translationNumberLimit - translatedNumber))
-                            {
-                                continue;
-                            }
-                        }
-
-                        // Заполнить, только если чистое поле
                         segmentsList[i].Clear();
                         segmentsList[i].SendKeys(translationText);
-
                         // Кликнуть по галочке с Confirm в строке сегмента
                         Driver.FindElement(By.XPath(".//span[contains(@class,'fa-border')]")).Click();
                         WaitUntilDisappearElement(".//span[contains(@class,'fa-border')]", 20);
@@ -1802,36 +2014,10 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
                         int translationRowNumber = GetSuggestedTranslationRowNum(translationText);
                         if (translationRowNumber > 0)
                         {
-                            // Если появился - перевод принят, увеличиваем счетчик
-                            ++translatedNumber;
-                            Console.WriteLine("осталось перевести: " + (translationNumberLimit - translatedNumber));
-
-                            if (isNeedConsiderRating)
+                            isAchieveAppeared = GetIsExistAchieveMessageEditor(achieveType, isNeedAchieveLevel, achieveLevel);
+                            
+                            if (isAchieveAppeared)
                             {
-                                translatedNumber += translationWeight;
-                            }
-
-                            if (isNeedWaitAchieve)
-                            {
-                                bool isAchieveMessage = IsElementDisplayed(By.XPath(".//div[contains(@class,'achievement')]"));
-                                if (isAchieveMessage)
-                                {
-                                    Console.WriteLine("получили награду");
-                                    string achieveInfo = Driver.FindElement(By.XPath(".//div[contains(@class,'achievement')]//div[contains(@class,'name')]")).Text;
-                                    string achieveType = achieveInfo.Substring(0, achieveInfo.IndexOf("(")).Trim();
-                                    Console.WriteLine(achieveType);
-                                    string achieveLevel = achieveInfo.Substring(achieveInfo.IndexOf("(") + 1, achieveInfo.IndexOf("/") - achieveInfo.IndexOf("(") + 1).Trim();
-                                    Console.WriteLine(achieveLevel);
-
-                                    Driver.FindElement(By.XPath(".//div[contains(@class,'achievement')]//span[contains(@class,'x-btn-icon-el')]")).Click();
-
-                                    break;
-                                }
-                            }
-
-                            if (translatedNumber >= translationNumberLimit)
-                            {
-                                Console.WriteLine("достаточно, выходим из лекции");
                                 break;
                             }
                         }
@@ -1839,193 +2025,81 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
                 }
             }
 
-            // Передать фактический номер текущей последней строки для последующего заполнения
-            lastLastFactRow = curLastRow;
-
             // Закончилась ли лекция
-            return isFinished;
+            return isLectureFinished;
         }
 
-        // TODO
-        protected void GetSpecialistLevel(int achieveLevel, int levelLimit)
+        /// <summary>
+        /// Получить прогресс (процент) награды в профиле
+        /// </summary>
+        /// <param name="achieveType">тип награды</param>
+        /// <param name="specialistCourseName">название курса для награды Специалист</param>
+        /// <returns>процентный прогресс</returns>
+        protected int GetAchieveProgressPercent(string achieveType, string specialistCourseName = "")
         {
-            string achieveType = "Specialist";
-            bool isNeedChangeUser = true;
-
-            for (int i = 0; i < TestUserList.Count; ++i)
-            {
-                // Открыть профиль пользователя
-                OpenUserProfileFromHomePage();
-                int userLevel = GetAchieveLevelProfile(achieveType);
-                isNeedChangeUser = userLevel >= achieveLevel;
-
-                if (isNeedChangeUser)
-                {
-                    LogoutUser();
-                    LoginUser(TestUserList[i]);
-                }
-                else
-                {
-                    break;
-                }
-            }
-
-            FillCourcePercent(levelLimit);
-            OpenUserProfileFromCourse();
-            int userLevelAfter = GetAchieveLevelProfile(achieveType);
-            int percent = GetAchieveProgressPercent(achieveType);
-
-            Console.WriteLine("userLevelAfter " + userLevelAfter);
-            Console.WriteLine("percent " + percent);
+            // текст прогресса для награды
+            string achieveText = Driver.FindElement(By.XPath(
+                ".//ul[@class='achive-list']//li[" + GetAchieveNumInList(achieveType, specialistCourseName) + "]//small[contains(@data-bind,'progress')]")).Text.Trim();
+            int startIndex = achieveText.IndexOf(" ") + 1;
+            // Прогресс
+            int achieveProgress = int.Parse(achieveText.Substring(startIndex, achieveText.IndexOf("%") - startIndex));
+            return achieveProgress;
         }
 
-        // TODO
-        protected void FillCourcePercent(int needPercent)
+        /// <summary>
+        /// Получить прогресс награды в профиле (количество пользователей перед текущим пользователем)
+        /// </summary>
+        /// <param name="achieveType">тип награды</param>
+        /// <returns>прогресс награды (если 0 - либо прогресса нет, либо в прогрессе указан 0)</returns>
+        protected int GetAchieveProgressUserPosition(string achieveType)
         {
-            // Перейти к списку доступных курсов
-            OpenCoursePage();
-            // Переход в курс с наименьшим прогрессом
-            string courseName = OpenCourseMinProgress();
-            Console.WriteLine("курс: " + courseName);
-
-            IList<IWebElement> percentElements = Driver.FindElements(By.XPath(".//div[contains(@data-bind,'personalProgressView')]"));
-
-            Console.WriteLine("количество лекций: " + percentElements.Count);
-
-            int sumPersonal = 0;
-            foreach (IWebElement el in percentElements)
-            {
-                sumPersonal += int.Parse(el.Text.Trim().Replace("%", ""));
-            }
-
-            Decimal currentPercent = sumPersonal / percentElements.Count;
-            Assert.IsTrue(currentPercent < needPercent, "Ошибка: неправильный подсчет в профиле, т.к. курс уже заполнен больше, чем надо для уровня.");
-
-            int fillFull = percentElements.Count / needPercent;
-
-            for (int i = 0; i < fillFull; ++i)
-            {
-                if (GetPersonalProgress(i + 1) < 100)
-                {
-                    OpenLectureByRowNum(i + 1);
-                    bool isFinished = false;
-                    int lastSentenceNumber = 0, translationsNumberLeft = 1000, translatedNumber = 0;
-                    do
-                    {
-                        isFinished = FillEmptySegments(ref lastSentenceNumber, translationsNumberLeft, out translatedNumber);
-                    } while (!isFinished);
-
-                    ClickBackEditor();
-
-                    Thread.Sleep(15000);
-
-                    Driver.FindElement(By.XPath(".//div[contains(@data-bind,'personalProgressView')]")).SendKeys(OpenQA.Selenium.Keys.F5);
-                }
-
-                Console.WriteLine("личный прогресс: " + GetPersonalProgress(i + 1));
-            }
-
-
-            if (fillFull < percentElements.Count)
-            {
-                OpenLectureByRowNum(fillFull);
-                bool isFinished = false;
-                int lastSentenceNumber = 0, translationsNumberLeft = 1000, translatedNumber = 0;
-                do
-                {
-                    isFinished = FillEmptySegments(ref lastSentenceNumber, translationsNumberLeft, out translatedNumber, false, true);
-                } while (!isFinished);
-
-                ClickBackEditor();
-
-                Thread.Sleep(15000);
-
-                Driver.FindElement(By.XPath(".//div[contains(@data-bind,'personalProgressView')]")).SendKeys(OpenQA.Selenium.Keys.F5);
-            }
-            
-        }
-
-        // TODO
-        protected bool GetIsSegmentVoted()
-        {
-            setDriverTimeoutMinimum();
-            bool isExistVoteUp = IsElementPresent(By.XPath(
-                ".//div[@id='translations-body']//table//tr//td[5]/div//span[contains(@class,'fa-thumbs-up')][contains(@class, 'disabled')]"));
-            Console.WriteLine("голос за: " + (isExistVoteUp ? "есть" : "нет"));
-
-            bool isExistVoteDown = IsElementPresent(By.XPath(".//div[@id='translations-body']//table//tr//td[5]/div//span[contains(@class,'fa-thumbs-down')][contains(@class, 'disabled')]"));
-            Console.WriteLine("голос против: " + (isExistVoteDown ? "есть" : "нет"));
-            // TODO добавить против всех
-
-            setDriverTimeoutDefault();
-            return isExistVoteUp || isExistVoteDown;
-        }
-
-        // TODO
-        protected Decimal GetUserCourseProgress()
-        {
-            Decimal resultProgress = 0;
-            // Получить проценты личного прогресса всех лекций
-            IList<IWebElement> percentElements = Driver.FindElements(By.XPath(".//div[contains(@data-bind,'personalProgressView')]"));
-            int personalProgress = 0;
-            foreach (IWebElement el in percentElements)
-            {
-                // Суммируем личные прогрессы
-                personalProgress += int.Parse(el.Text.Replace("%", ""));
-            }
-
-            resultProgress = personalProgress / percentElements.Count;
-            Console.WriteLine("вижу лекций: " + percentElements.Count);
-            Console.WriteLine("итоговый прогресс: " + resultProgress);
-            return resultProgress;
-        }
-
-        // TODO
-        protected int GetAchieveProgressPercent(string achieveType)
-        {
+            int achieveProgress = 0;
             string achieveText = Driver.FindElement(By.XPath(
                 ".//ul[@class='achive-list']//li[" + GetAchieveNumInList(achieveType) + "]//small[contains(@data-bind,'progress')]")).Text.Trim();
             // Прогресс
-            int achieveProgress = int.Parse(achieveText.Substring(0, achieveText.IndexOf("%")));
+            if (achieveText.Length > 0)
+            {
+                int startIndex = achieveText.IndexOf(" ") + 1;
+                int endIndex = achieveText.IndexOf(" ", startIndex);
+                achieveProgress = int.Parse(achieveText.Substring(startIndex, endIndex - startIndex));
+            }
+
             Console.WriteLine("прогресс: " + achieveProgress);
             return achieveProgress;
         }
 
-        // TODO
-        protected bool GetIsExistAchieveMessage()
+        /// <summary>
+        /// Проверить, правильно ли отображается прогресс в профиле для наград, связанных с местом пользователя
+        /// прогресс в награде не всегда в точности совпадает с (МестоПользователя - 10) или (МестоПользователя - 1),
+        /// т.к. учитывается, что несколько пользователей с одним и тем же рейтингом может занимать несколько мест.
+        /// Т.е. пользователь занимает 12 место, а перед ним на 10 и 11 месте два пользователя с одинаковым рейтингом,
+        /// тогда будет показано, что до 10 места перед ним только 1 человек, а не 2, т.к. при повышении рейтинга оба пользователя сместятся одновременно
+        /// </summary>
+        /// <param name="achieveType">тир награды</param>
+        /// <param name="needUserPosition">место пользователя для получения награды</param>
+        /// <returns></returns>
+        protected bool GetIsAchieveProgressUserPositionRight(string achieveType, int needUserPosition)
         {
-            return IsElementDisplayed(By.XPath(".//div[@id='achieve-popup']"));// && IsElementDisplayed(By.XPath(".//div[@id='achieve-popup']//img"));//TODO добавить проверку картинки
+            // Проверить, верен ли прогресс в профиле
+            return GetAchieveProgressUserPosition(achieveType) >= (GetUserPosition() - needUserPosition);
         }
 
-        // TODO
-        protected void GetAchieveMessageData(out string achieveType, out int level)
+        /// <summary>
+        /// Проголосовать в виджете
+        /// </summary>
+        /// <param name="btnXPath">xPath кнопки в виджете</param>
+        protected void VoteFromWidget(string btnXPath)
         {
-            string messageText = Driver.FindElement(By.XPath(".//div[@id='achieve-popup']//strong")).Text.Trim();
-            achieveType = messageText.Substring(0, messageText.IndexOf(" "));
-            int indexLevelStart = messageText.IndexOf("(") + 1;
-            level = int.Parse(messageText.Substring(indexLevelStart, messageText.IndexOf("/") - indexLevelStart));
-        }
-
-        // TODO
-        protected int GetAchieveNumInList(string achieveType)
-        {
-            int rowNumber = 0;
-            bool isExist = false;
-            IList<IWebElement> achieveList = Driver.FindElements(By.XPath(".//ul[@class='achive-list']//li//strong"));
-            for (int i = 0; i < achieveList.Count; ++i)
-            {
-                if (achieveList[i].Text.Trim().Contains(achieveType))
-                {
-                    isExist = true;
-                    rowNumber = i + 1;
-                    break;
-                }
-            }
-            // Проверить, что есть такая награда
-            Assert.IsTrue(isExist, "Ошибка: такой тип ачивки не найден");
-
-            // Вернуть номер этой награды в списке
-            return rowNumber;
+            // Открыть виджет
+            Driver.FindElement(By.Id("estimate")).Click();
+            // Дождаться открытия виджета
+            Wait.Until((d) => d.FindElement(By.Id("popup-voting")).Displayed);
+            // Проголосовать в виджете
+            Driver.FindElement(By.XPath(".//div[@id='popup-voting']//button[contains(@data-bind,'" + btnXPath + "')]")).Click();
+            Driver.FindElement(By.XPath(".//div[@id='popup-voting']//span[@class='close']")).Click();
+            // Обновить страницу
+            Driver.FindElement(By.Id("estimate")).SendKeys(OpenQA.Selenium.Keys.F5);
+            WaitUntilDisappearElement("estimate");
         }
     }
 }

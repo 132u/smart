@@ -42,7 +42,7 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
         public void AutoVoteOneself()
         {
             // Добавить перевод
-            string translationText = "Example Translation " + DateTime.Now.Ticks;
+            string translationText = "Test" + DateTime.Now.Ticks;
             AddTranslation(translationText);
             // Получить номер строки с добавленым переводом в списке предложенных переводов для предложения
             int rowNumber = GetSuggestedTranslationRowNum(translationText);
@@ -67,7 +67,7 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
         public void EditorVoteUpDownUp()
         {
             // Добавить перевод
-            string translationText = "Example Translation " + DateTime.Now.Ticks;
+            string translationText = "Test" + DateTime.Now.Ticks;
             string courseName;
             int lectureRowNumber, translationRowNum;
             AddTranslation(translationText, out courseName, out lectureRowNumber, out translationRowNum);
@@ -203,7 +203,7 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
         public void EditorVoteUpCheckLastEvents()
         {
             // Текст перевода
-            string translationText = "Example Translation " + DateTime.Now.Ticks;
+            string translationText = "Test" + DateTime.Now.Ticks;
             String lastEvTarget, lastEvAuthor;
             HomePageLastEventType lastEvType;
             // Добавить перевод, проголосовать, вернуться к списку событий
@@ -233,7 +233,7 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
         public void EditorVoteDownCheckLastEvents()
         {
             // Текст перевода
-            string translationText = "Example Translation " + DateTime.Now.Ticks;
+            string translationText = "Test" + DateTime.Now.Ticks;
             String lastEvTarget, lastEvAuthor;
             HomePageLastEventType lastEvType;
             // Добавить перевод, проголосовать, вернуться к списку событий
@@ -264,7 +264,7 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
         public void EditorVoteUpDownCheckLastEvents()
         {
             // Добавить перевод
-            string translationText = "Example Translation " + DateTime.Now.Ticks;
+            string translationText = "Test" + DateTime.Now.Ticks;
             string courseName;
             int lectureRowNumber, translationRowNum;
             AddTranslation(translationText, out courseName, out lectureRowNumber, out translationRowNum);
@@ -316,7 +316,7 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
         public void LastEventsVoteUpDownUp()
         {
             // Добавить перевод
-            string translationText = "Example Translation " + DateTime.Now.Ticks;
+            string translationText = "Test" + DateTime.Now.Ticks;
             string courseName;
             int lectureRowNumber, translationRowNum;
             AddTranslation(translationText, out courseName, out lectureRowNumber, out translationRowNum);
@@ -445,7 +445,7 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
         public void LastEventsVoteUpCheckLastEvents()
         {
             // Текст перевода
-            string translationText = "Example Translation " + DateTime.Now.Ticks;
+            string translationText = "Test" + DateTime.Now.Ticks;
             // Добавить перевод, проголосовать
             LastEventsVoteGetLastEventBeforeVoting(true, translationText);
             // Обновить страницу (дождаться, пока появится событие, что проголосовали)
@@ -459,7 +459,7 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
         public void LastEventsVoteDownCheckLastEvents()
         {
             // Текст перевода
-            string translationText = "Example Translation " + DateTime.Now.Ticks;
+            string translationText = "Test" + DateTime.Now.Ticks;
             // Добавить перевод, проголосовать
             LastEventsVoteGetLastEventBeforeVoting(false, translationText);
             // Обновить страницу (проверить, что событие так и не появляется)
@@ -473,7 +473,7 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
         public void LastEventsVoteUpDownCheckLastEvents()
         {
             // Добавить перевод
-            string translationText = "Example Translation " + DateTime.Now.Ticks;
+            string translationText = "Test" + DateTime.Now.Ticks;
             string courseName;
             int lectureRowNumber, translationRowNum;
             AddTranslation(translationText, out courseName, out lectureRowNumber, out translationRowNum);

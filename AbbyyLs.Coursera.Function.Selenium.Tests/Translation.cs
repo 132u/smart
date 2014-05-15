@@ -46,7 +46,7 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
             int translationsNumberBefore = GetUserTranslationsNumber();
 
             // Добавить перевод
-            string translationText = "Example Translation " + DateTime.Now.Ticks;
+            string translationText = "Test" + DateTime.Now.Ticks;
             AddTranslation(translationText);
             // Вернуться из редактора
             ClickBackEditor();
@@ -68,7 +68,7 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
         public void AddTranslationExistTranslations()
         {
             // Добавить перевод
-            string translationText = "Example Translation " + DateTime.Now.Ticks;
+            string translationText = "Test" + DateTime.Now.Ticks;
             string courseName;
             int lectureRowNumber, translationRowNum;
             AddTranslation(translationText, out courseName, out lectureRowNumber, out translationRowNum);
@@ -87,7 +87,7 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
             OpenCourseByName(courseName);
             // Перейти в лекцию
             OpenLectureByRowNum(lectureRowNumber);
-            string newTranslationText = "Example Translation " + DateTime.Now.Ticks;
+            string newTranslationText = "Test " + DateTime.Now.Ticks;
 
             // Добавить новый перевод в ту же ячейку
             AddTranslationByRowNum(translationRowNum, newTranslationText);
@@ -111,7 +111,7 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
         public void AddTranslationExistTranslationsAnotherUsers()
         {
             // Добавить перевод
-            string translationText = "Example Translation " + DateTime.Now.Ticks;
+            string translationText = "Test" + DateTime.Now.Ticks;
             string courseName;
             int lectureRowNumber, translationRowNum;
             AddTranslation(translationText, out courseName, out lectureRowNumber, out translationRowNum);
@@ -135,7 +135,7 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
             OpenCourseByName(courseName);
             // Перейти в лекцию
             OpenLectureByRowNum(lectureRowNumber);
-            string newTranslationText = "Example Translation " + DateTime.Now.Ticks;
+            string newTranslationText = "Test " + DateTime.Now.Ticks;
 
             // Добавить новый перевод в ту же ячейку
             AddTranslationByRowNum(translationRowNum, newTranslationText);
@@ -159,7 +159,7 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
         public void DeleteTranslation()
         {
             // Добавить перевод
-            string translationText = "Example Translation " + DateTime.Now.Ticks;
+            string translationText = "Test" + DateTime.Now.Ticks;
             string courseName;
             int lectureRowNumber, translationRowNum;
             AddTranslation(translationText, out courseName, out lectureRowNumber, out translationRowNum);
@@ -183,7 +183,7 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
             // Кликнуть по ячейке
             Driver.FindElement(By.CssSelector(targetCell)).Click();
             // Удалить перевод
-            DeleteTranslationSuggestedTranslations(translationText);
+            DeleteTranslationSuggestedTranslations();
             // Вернуться из редактора
             ClickBackEditor();
             // Зайти в профиль
@@ -204,7 +204,7 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
         public void EditTranslation()
         {
             // Добавить перевод
-            string translationText = "Example Translation " + DateTime.Now.Ticks;
+            string translationText = "Test" + DateTime.Now.Ticks;
             string courseName;
             int lectureRowNumber, translationRowNum;
             AddTranslation(translationText, out courseName, out lectureRowNumber, out translationRowNum);

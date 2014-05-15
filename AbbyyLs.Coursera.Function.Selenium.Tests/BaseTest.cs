@@ -266,6 +266,14 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
         }
 
         /// <summary>
+        /// Устанавливаем ожидание для драйвера для ожидания (2 секунды)
+        /// </summary>
+        protected void setDriverTimeoutWait()
+        {
+            _driver.Manage().Timeouts().ImplicitlyWait(TimeSpan.FromSeconds(2));
+        }
+
+        /// <summary>
         /// Устанавливаем ожидание для драйвера значение по умолчанию (10 секунд)
         /// </summary>
         protected void setDriverTimeoutDefault()
@@ -574,8 +582,7 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
             // Переход в курс с наименьшим прогрессом
             courseName = OpenCourseMinProgress();
             // Перейти в лекцию
-            lectureRowNumber = 15;// OpenLectureNotFilled();
-            OpenLectureByRowNum(lectureRowNumber);
+            lectureRowNumber = OpenLectureNotFilled();
             // Найти предложение без перевода
             translationRowNum = GetEmptyTranslationRowNumber();
 
@@ -736,7 +743,7 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
         /// <returns>возвращает имя курса</returns>
         protected string SelectCourseMaxProgress(out Decimal courseProgress)
         {
-            Decimal maxProgressRight = 100;
+            Decimal maxProgressRight = 0;
             // Список курсов для "правого" столбика
             IList<IWebElement> courseRightList = _driver.FindElements(By.XPath(".//ul[contains(@data-bind,'projectsRight')]//table//td[2]//div[contains(@data-bind,'name')]"));
             for (int i = 0; i < courseRightList.Count; ++i)
@@ -755,7 +762,7 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
                 }
             }
 
-            Decimal maxProgressLeft = 100;
+            Decimal maxProgressLeft = 0;
             // Список курсов для "левого" столбика"
             IList<IWebElement> courseLeftList = _driver.FindElements(By.XPath(".//ul[contains(@data-bind,'projectsLeft')]//table//td[2]//div[contains(@data-bind,'name')]"));
             for (int i = 0; i < courseRightList.Count; ++i)
@@ -1033,7 +1040,7 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
             IList<IWebElement> list = _driver.FindElements(By.XPath(".//div[@id='segments']//table//td[4]//div"));
             int countClear = list.Count > maxEditorLinesNum ? maxEditorLinesNum : list.Count;
             // Удалить с 1 сегмента
-            DeleteTranslations(1, countClear);
+            DeleteMyTranslations(1, countClear);
         }
 
         /// <summary>
@@ -1041,18 +1048,25 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
         /// </summary>
         /// <param name="begin">номер строки, начиная с которого удалить переводы</param>
         /// <param name="count">количество удаляемых переводов</param>
-        protected void DeleteTranslations(int begin, int count)
+        protected void DeleteMyTranslations(int begin, int count)
         {
             IList<IWebElement> list = _driver.FindElements(By.XPath(".//div[@id='segments']//table//td[4]//div"));
-            for (int i = begin; i < (begin + count); ++i)
+            int deletedNumber = 0;
+            int startIndex = begin > 0 ? (begin - 1) : 0;
+
+            for (int i = startIndex; i < list.Count; ++i)
             {
                 // Кликнуть по сегменту в нужной строке
-                _driver.FindElement(By.XPath(".//div[@id='segments']//table//tr[" + i + "]//td[4]//div")).Click();
-
-                if (list[(i - 1)].Text.Trim().Length > 0)
+                list[i].Click();
+                if (GetIsExistMyTranslationSegment())
                 {
                     // Удалить перевод из предложенных переводов
-                    DeleteTranslationSuggestedTranslations(list[(i - 1)].Text.Trim());
+                    DeleteTranslationSuggestedTranslations();
+                    ++deletedNumber;
+                    if (deletedNumber >= count)
+                    {
+                        break;
+                    }
                 }
             }
         }
@@ -1061,31 +1075,43 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
         /// Удалить переводы
         /// </summary>
         /// <param name="rowList">список номеров строк для удаления переводов</param>
-        protected void DeleteTranslations(List<int> rowList)
+        protected void DeleteMyTranslations(List<int> rowList)
         {
             IList<IWebElement> list = _driver.FindElements(By.XPath(".//div[@id='segments']//table//td[4]//div"));
             foreach (int i in rowList)
             {
                 // Кликнуть по сегменту в нужной строке
                 _driver.FindElement(By.XPath(".//div[@id='segments']//table//tr[" + i + "]//td[4]//div")).Click();
-                if (list[i].Text.Trim().Length > 0)
+                if (GetIsExistMyTranslationSegment())
                 {
                     // Удалить перевод из предложенных переводов
-                    DeleteTranslationSuggestedTranslations(list[i].Text.Trim());
+                    DeleteTranslationSuggestedTranslations();
                 }
             }
         }
 
         /// <summary>
-        /// Удалить конкретный перевод
+        /// Получить: есть ли мой перевод для данного сегмента
         /// </summary>
-        /// <param name="translationText">текст перевода, который надо удалить</param>
-        protected void DeleteTranslationSuggestedTranslations(string translationText)
+        /// <returns>перевод пользователя есть</returns>
+        protected bool GetIsExistMyTranslationSegment()
         {
-            // Получить номер строки в переводом в предложенных переводах
-            int rowNum = GetSuggestedTranslationRowNum(translationText);
+            setDriverTimeoutMinimum();
+            // Проверить, есть ли среди предложенных переводов - мой перевод (есть ли корзинка!)
+            bool isExistUserTranslation =
+                IsElementPresent(By.XPath(".//div[@id='translations-body']//table//tr//td[4]//span[contains(@class,'fa-trash-o')]"));
+            setDriverTimeoutDefault();
+            // Вернуть: перевод есть
+            return isExistUserTranslation;
+        }
+
+        /// <summary>
+        /// Удалить перевод
+        /// </summary>
+        protected void DeleteTranslationSuggestedTranslations()
+        {
             // Нажать на Удалить
-            Driver.FindElement(By.XPath(".//div[@id='translations-body']//table//tr[" + rowNum + "]//td[4]//span[contains(@class,'fa-trash-o')]")).Click();
+            Driver.FindElement(By.XPath(".//div[@id='translations-body']//table//td[4]//span[contains(@class,'fa-trash-o')]")).Click();
             // Подтвердить
             Driver.FindElement(By.XPath(".//div[@id='messagebox']//a[contains(@class,'x-btn-blue')]")).Click();
             // Дождаться, пока диалог подтверждения пропадет
@@ -1123,6 +1149,106 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
 
             // Номер строки
             return rowNumber;
+        }
+
+        /// <summary>
+        /// Добавить переводы в видимые сегменты
+        /// </summary>
+        /// <param name="lastLastFactRow">IN/OUT: фактический номер последней видимой строчки</param>
+        /// <returns>лекция закончилась</returns>
+        protected bool AddTraslationsVisibleSegments(ref int lastLastFactRow)
+        {
+            bool isLectureFinished = false;
+            int startIndex = 0;
+            // Список видимых сегментов
+            IList<IWebElement> segmentsList = GetVisibleSegmentList(ref lastLastFactRow, out isLectureFinished, out startIndex);
+
+            string translationText = "Test" + DateTime.Now.Ticks;
+
+            if (!isLectureFinished)
+            {
+                for (int i = startIndex; i < segmentsList.Count; ++i)
+                {
+                    segmentsList[i].Click();
+                    segmentsList[i].Click();
+                    if (segmentsList[i].Text.Trim().Length == 0)
+                    {
+                        segmentsList[i].SendKeys(translationText);
+                        // Кликнуть по галочке с Confirm в строке сегмента
+                        Driver.FindElement(By.XPath(".//span[contains(@class,'fa-border')]")).Click();
+                        WaitUntilDisappearElement(".//span[contains(@class,'fa-border')]", 20);
+                    }
+                }
+            }
+
+            // Закончилась ли лекция
+            return isLectureFinished;
+        }
+
+        /// <summary>
+        /// Получить список видимых сегментов
+        /// </summary>
+        /// <param name="lastLastFactRow">IN/OUT: фактический номер последней видимой строки</param>
+        /// <param name="isLectureFinished">OUT: лекция закончилась</param>
+        /// <param name="startIndex">OUT: номер первой строки для заполнения</param>
+        /// <returns>список сегментов</returns>
+        protected IList<IWebElement> GetVisibleSegmentList(ref int lastLastFactRow, out bool isLectureFinished, out int startIndex)
+        {
+            // README : если нужно понять, зачем такой странный алгоритм и к чему непонятные переменные:
+            // прочитать описание ниже.
+
+            // При входе в редактор Selenium видит только 34-35 сегментов.
+            // Сегменты могут начинаться не с первого:
+            // если до этого заходили в редактор и изменяли что-то в какой-то, например, 10 строке,
+            // то при следующем входе, курсор будет в 20 строке,
+            // а Selenium будет видеть с 3 строки по 38 (например),
+            // т.е. при обращении к первой строке, он будет обращаться к фактической 3 строке.
+            // Фактический номер строки - тот, который написан в первом столбце.
+            // При этом, когда мы обращаемся к какой-то строке по номеру tr:nth-child(N),
+            // может произойти ошибка, т.к. Selenium смещает свой видимый список по мере того, как мы заполняем предложения.
+            // Т.е. в следующий раз при обращении к первой строке, он уже будет обращаться к 4ой фактической строке (а видеть с 4 по 39).
+
+            // Поэтому беру список видимых строк.
+            // Получаю фактический номер первой строки и фактический номер последней строки.
+            // (К примеру 1 и 34, соответственно). lastFirstRow = 1, lastLastRow = 34
+            // Заполняю все эти видимые строки.
+            // Обновляю список видимых сегментов.
+            // Снова получаю фактический номер первой и последней строк.
+            // (К примеру, 15 и 50, соответственно). curFirstRow = 15, curLastRow = 50
+            // Нужно заполнить фактическую 35 строку, но для селениума она сейчас 21я.
+            // Чтобы не заполнять с 15 по 34 фактические строки повторно, приходится учитывать предыдущее значение 34,
+            // учитывать текущее первое значение 15:
+            // фактическая 15 строка - селениум 1 строка
+            // фактическиая 35 (34 последняя, нужна следующая - 35) - селениум ? строка
+            // => ? = 35 - 15 + 1 = 34 + 1 - 15 + 1
+            // => ? = lastLastRow + 1 - curFirstRow + 1
+            // А цикл начинается с 0 (номер строки - 1), поэтому start = lastLastRow - curFirstRow + 1
+
+
+            // Список видимых сегментов
+            IList<IWebElement> segmentsList = Driver.FindElements(By.CssSelector("#segments-body div table tr td:nth-child(4) div"));
+
+            // Фактический номер последней видимой строки
+            int curLastRow = int.Parse(Driver.FindElement(By.CssSelector("#segments-body div table tr:nth-child(" + segmentsList.Count + ") td:nth-child(1) div")).Text.Trim());
+
+            Console.WriteLine("curLastRow: " + curLastRow);
+            Console.WriteLine("lastLastFactRow: " + lastLastFactRow);
+
+            // Для проверки, закончилась лекция или нет - сравниваем последние фактические номера (текущий и предыдущий),
+            // если они совпали - мы зашли в заполненную лекцию
+            isLectureFinished = curLastRow == lastLastFactRow;
+
+            startIndex = 0;
+            if (!isLectureFinished)
+            {
+                // Фактический номер первой видимой строки
+                int curFirstRow = int.Parse(Driver.FindElement(By.CssSelector("#segments-body div table tr:nth-child(1) td:nth-child(1) div")).Text.Trim());
+                startIndex = lastLastFactRow - curFirstRow + 1;
+            }
+
+            lastLastFactRow = curLastRow;
+
+            return segmentsList;
         }
 
         /// <summary>
@@ -1362,7 +1488,7 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
                                 out int numTranslatedBefore, out int numTranslatedAfter)
         {
             // Добавить перевод
-            string translationText = "Example Translation " + DateTime.Now.Ticks;
+            string translationText = "Test" + DateTime.Now.Ticks;
             string courseName;
             int lectureRowNumber, translationRowNum;
             AddTranslation(translationText, out courseName, out lectureRowNumber, out translationRowNum);
@@ -1522,6 +1648,55 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
                 ".//tbody[contains(@data-bind,'lectures')]//tr[" + lectureRowNumber + "]//div[contains(@data-bind,'personalProgressView')]")).Text.Replace("%", "").Trim());
         }
 
+        /// <summary>
+        /// Проголосовать за предложенные переводы
+        /// </summary>
+        /// <param name="isVoteUp"></param>
+        /// <param name="isNumberLimited"></param>
+        /// <param name="votesNumberLeft"></param>
+        /// <returns></returns>
+        protected int VoteSuggestedTranslations(bool isVoteUp, bool voteOnlyUnvoted, bool isNumberLimited = false, int votesNumberLeft = 0)
+        {
+            int votedNumber = 0;
+            setDriverTimeoutMinimum();
+            string voteXPath = isVoteUp ? "fa-thumbs-up" : "fa-thumbs-down";
+            IList<IWebElement> translationsList = Driver.FindElements(By.XPath(
+                ".//div[@id='translations-body']//table//tr//td[5]/div//span[contains(@class,'" + voteXPath + "')]"));
+            setDriverTimeoutDefault();
+            Console.WriteLine(translationsList.Count > 0 ? "переводы есть" : "переводов нет");
+
+            // Пробуем проголосовать за предложенные переводы
+            for (int i = 0; i < translationsList.Count; ++i)
+            {
+                if (isNumberLimited && votedNumber >= votesNumberLeft)
+                {
+                    Console.WriteLine("выходим из голосования");
+                    break;
+                }
+
+                bool canVote = true;
+                if (voteOnlyUnvoted)
+                {
+                    setDriverTimeoutMinimum();
+                    canVote = !GetIsVoteConsideredEditor(true, (i + 1)) && !GetIsVoteConsideredEditor(false, (i + 1));
+                    setDriverTimeoutDefault();
+                }
+
+                if (canVote)
+                {
+                    Console.WriteLine("пытаемся проголосовать " + i);
+                    translationsList[i].Click();
+                    if (GetIsVoteConsideredEditor(isVoteUp, (i + 1)))
+                    {
+                        ++votedNumber;
+                    }
+                }
+            }
+            Console.WriteLine("вышли из цикла");
+            
+            return votedNumber;
+        }
+
         DateTime testBeginTime;
 
         [SetUp]
@@ -1592,6 +1767,32 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
             if (TestContext.CurrentContext.Result.Status.Equals(TestStatus.Failed))
             {
                 Console.WriteLine("Fail!");
+            }
+        }
+
+        public void MakeScreen()
+        {
+            //if (TestContext.CurrentContext.Result.Status.Equals(TestStatus.Failed))
+            {
+                // Сделать скриншот
+                ITakesScreenshot screenshotDriver = _driver as ITakesScreenshot;
+                Screenshot screenshot = screenshotDriver.GetScreenshot();
+
+                // Создать папку для скриншотов провалившихся тестов
+                string failResultPath = System.IO.Path.Combine(PathTestResults, "FailedTests");
+                System.IO.Directory.CreateDirectory(failResultPath);
+                // Создать имя скриншота по имени теста
+                string screenName = TestContext.CurrentContext.Test.Name;
+                if (screenName.Contains("("))
+                {
+                    // Убрать из названия теста аргументы (файлы)
+                    screenName = screenName.Substring(0, screenName.IndexOf("("));
+                }
+                screenName += DateTime.Now.Ticks.ToString() + ".png";
+                // Создать полное имя файла
+                screenName = System.IO.Path.Combine(failResultPath, screenName);
+                // Сохранить скриншот
+                screenshot.SaveAsFile(screenName, ImageFormat.Png);
             }
         }
     }

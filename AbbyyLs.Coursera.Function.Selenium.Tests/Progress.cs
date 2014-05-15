@@ -171,7 +171,7 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
             // Открыть лекцию
             OpenLectureByRowNum(lectureRowNumber);
             // Удалить переводы
-            DeleteTranslations(translationRowNum, numberSentencesGrowProgress);
+            DeleteMyTranslations(translationRowNum, numberSentencesGrowProgress);
             ClickBackEditor();
 
             // Прогресс после удаления
@@ -234,7 +234,7 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
             // Открыть лекцию
             OpenLectureByRowNum(lectureRowNumber);
             // Удалить добавленные переводы
-            DeleteTranslations(translatedRows);
+            DeleteMyTranslations(translatedRows);
             ClickBackEditor();
 
             // Общий прогресс после удаления переводов
@@ -275,7 +275,7 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
             // Открыть лекцию
             OpenLectureByRowNum(lectureRowNumber);
             // Удалить добавленные переводы
-            DeleteTranslations(translationRowNum, numberSentencesGrowProgress);
+            DeleteMyTranslations(translationRowNum, numberSentencesGrowProgress);
             ClickBackEditor();
 
             // Общий прогресс после удаления переводов
@@ -287,6 +287,273 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
         }
 
         /// <summary>
+        /// Тест: проверка, что если у сегмента все переводы с отрицательным рейтингом - сегмент не учитывается в прогрессе
+        /// </summary>
+        [Test]
+        public void DecreaseProgressVoteDown()
+        {
+            string courseName;
+            int lectureRowNumber, translationRowNum;
+            // Добавить переводы
+            AddTranslationsToGrowProgress(out courseName, out lectureRowNumber, out translationRowNum);
+            Console.WriteLine("courseName: " + courseName);
+            Console.WriteLine("lectureRowNumber: " + lectureRowNumber);
+            Console.WriteLine("translationRowNum: " + translationRowNum);
+            // Прогресс лекции
+            int generalProgressBefore = GetLectureProgress(lectureRowNumber);
+            // Открыть лекцию
+            OpenLectureByRowNum(lectureRowNumber);
+            for (int i = translationRowNum; i < (translationRowNum + numberSentencesGrowProgress); ++i)
+            {
+                ClickEditorRowByNum(i);
+                // Проголосовать против всех предложенных переводов для добавленных переводов лекции
+                VoteSuggestedTranslations(false, false);
+            }
+            ClickBackEditor();
+            WaitUpdateProgress();
+            // Прогресс после голосования против всех переводов
+            int generalProgressAfter = GetLectureProgress(lectureRowNumber);
+            Console.WriteLine("generalProgressAfter: " + generalProgressAfter);
+            // Проверить, что прогресс уменьшился
+            Assert.IsTrue(generalProgressAfter < generalProgressBefore, "Ошибка: прогресс лекции должен был уменьшиться");
+        }
+
+        /// <summary>
+        /// Тест: если проголосовать за перевод, у которого отрицательный рейтинг (других переводов нет), прогресс увеличивается
+        /// </summary>
+        [Test]
+        public void LectureProgressMakeTranslationsPositive()
+        {
+            string courseName;
+            int lectureRowNumber, translationRowNum;
+            // Добавить переводы
+            AddTranslationsToGrowProgress(out courseName, out lectureRowNumber, out translationRowNum);
+            // Открыть лекцию
+            OpenLectureByRowNum(lectureRowNumber);
+            for (int i = translationRowNum; i < (translationRowNum + numberSentencesGrowProgress); ++i)
+            {
+                ClickEditorRowByNum(i);
+                // Проголосовать против всех предложенных переводов для добавленных переводов лекции
+                VoteSuggestedTranslations(false, false);
+            }
+            ClickBackEditor();
+            WaitUpdateProgress();
+            // Прогресс после голосования против всех переводов
+            int generalProgressBefore = GetLectureProgress(lectureRowNumber);
+
+            LogoutUser();
+            LoginUser(User2);
+
+            // Проголосовать за переводы (рейтинг будет 0)
+            OpenLectureByRowNum(lectureRowNumber);
+            for (int i = translationRowNum; i < (translationRowNum + numberSentencesGrowProgress); ++i)
+            {
+                ClickEditorRowByNum(i);
+                // Проголосовать за эти переводы (сделать рейтинг = 0)
+                VoteSuggestedTranslations(true, false, true, 1);
+            }
+            ClickBackEditor();
+
+            LogoutUser();
+            LoginUser(TestUserList[0]);
+
+            // Проголосовать за переводы (рейтинг будет > 0)
+            OpenLectureByRowNum(lectureRowNumber);
+            for (int i = translationRowNum; i < (translationRowNum + numberSentencesGrowProgress); ++i)
+            {
+                ClickEditorRowByNum(i);
+                // Проголосовать за эти переводы (сделать рейтинг положительным)
+                VoteSuggestedTranslations(true, false, true, 1);
+            }
+            ClickBackEditor();
+            WaitUpdateProgress();
+            // Прогресс после
+            int generalProgressRatingPositive = GetLectureProgress(lectureRowNumber);
+            Console.WriteLine("generalProgressRatingPositive: " + generalProgressRatingPositive);
+
+            // Проверить, что прогресс увеличился
+            Assert.IsTrue(generalProgressRatingPositive > generalProgressBefore, "Ошибка: прогресс лекции должен был увеличиться");
+        }
+
+        /// <summary>
+        /// Тест: если проголосовать против перевода, но в этом же сегменте есть переводы с + рейтингом, то прогресс не меняется
+        /// </summary>
+        [Test]
+        public void LectureProgressNegativeAndPositiveTranslations()
+        {
+            string courseName;
+            int lectureRowNumber, translationRowNum;
+            // Добавить переводы
+            AddTranslationsToGrowProgress(out courseName, out lectureRowNumber, out translationRowNum);
+            Console.WriteLine("courseName: " + courseName);
+            Console.WriteLine("lectureRowNumber: " + lectureRowNumber);
+            Console.WriteLine("translationRowNum: " + translationRowNum);
+
+            LogoutUser();
+            LoginUser(User2);
+
+            // Добавить переводы в те же сегменты
+            OpenLectureByRowNum(lectureRowNumber);
+            Console.WriteLine("добавляем переводы вторым пользователем");
+            AddNumOfTranslations(translationRowNum);
+            ClickBackEditor();
+            // Прогресс лекции
+            int generalProgressBefore = GetLectureProgress(lectureRowNumber);
+            Console.WriteLine("generalProgressBefore: " + generalProgressBefore);
+            Console.WriteLine("голосуем");
+            // Открыть лекцию
+            OpenLectureByRowNum(lectureRowNumber);
+            for (int i = translationRowNum; i < (translationRowNum + numberSentencesGrowProgress); ++i)
+            {
+                ClickEditorRowByNum(i);
+                // Проголосовать против перевода
+                VoteSuggestedTranslations(false, false, true, 1);
+            }
+            ClickBackEditor();
+            WaitUpdateProgress();
+            // Прогресс после голосования против всех переводов
+            int generalProgressAfter = GetLectureProgress(lectureRowNumber);
+            Console.WriteLine("generalProgressAfter: " + generalProgressAfter);
+            // Проверить, что прогресс уменьшился
+            Assert.AreEqual(generalProgressBefore, generalProgressAfter, "Ошибка: прогресс лекции должен был измениться");
+        }
+
+        /// <summary>
+        /// Тест: если переводы пользователя получили голоса Против - личный  прогресс не меняется (не уменьшается)
+        /// </summary>
+        [Test]
+        public void PersonalProgressNegativeTranslations()
+        {
+            string courseName;
+            int lectureRowNumber, translationRowNum;
+            // Добавить переводы
+            AddTranslationsToGrowProgress(out courseName, out lectureRowNumber, out translationRowNum);
+            WaitUpdateProgress();
+            // Личный прогресс
+            int personalProgress = GetPersonalProgress(lectureRowNumber);
+            Console.WriteLine("personalProgress: " + personalProgress);
+
+            LogoutUser();
+            LoginUser(User2);
+
+            // Проголосовать против переводов
+            OpenLectureByRowNum(lectureRowNumber);
+            for (int i = translationRowNum; i < (translationRowNum + numberSentencesGrowProgress); ++i)
+            {
+                ClickEditorRowByNum(i);
+                // Проголосовать против переводов
+                VoteSuggestedTranslations(false, false);
+            }
+            ClickBackEditor();
+
+            // Вернуться в первого пользователя
+            LogoutUser();
+            LoginUser(User1);
+
+            // Прогресс после
+            int personalProgressAfter = GetPersonalProgress(lectureRowNumber);
+            Console.WriteLine("personalProgressAfter: " + personalProgressAfter);
+
+            // Проверить, что прогресс не изменился
+            Assert.AreEqual(personalProgress, personalProgressAfter, "Ошибка: личный прогресс изменился");
+        }
+
+        /// <summary>
+        /// Проверить увеличение прогресса курса
+        /// </summary>
+        [Test]
+        public void CourseProgressUp()
+        {
+            OpenCoursePage();
+            decimal courseProgress;
+            // Открыть курс с наименьшим прогрессом
+            string courseName = SelectCourseMinProgress(out courseProgress);
+
+            // TODO заменить
+            courseName = "The Emergence of the Modern Middle East";
+            courseProgress = GetCourseProgress(courseName);
+            Console.WriteLine("курс: " + courseName);
+            Console.WriteLine("прогресс: " + courseProgress);
+            OpenCourseByName(courseName);
+
+            // Выбрать пустую лекцию
+            int lectureRowNum = SelectEmptyLectureGetRowNumber();
+            OpenLectureByRowNum(lectureRowNum);
+            int lastLastFactNum = 0;
+            bool isLectureFinished = false;
+            // Заполнить лекцию
+            while (!isLectureFinished)
+            {
+                isLectureFinished = AddTraslationsVisibleSegments(ref lastLastFactNum);
+            }
+            // Выйти из лекции
+            ClickBackEditor();
+            WaitUpdateTotal();
+
+            OpenCoursePage();
+            decimal courseProgressAfter = GetCourseProgress(courseName);
+            Console.WriteLine("прогресс после: " + courseProgressAfter);
+            Assert.IsTrue(courseProgressAfter > courseProgress, "Ошибка: прогресс курса не увеличился");
+        }
+
+        /// <summary>
+        /// Тест: проверка изменения количества переведенных страниц на главной странице
+        /// </summary>
+        [Test]
+        public void TotalPagesHomepage()
+        {
+            // количество переведенных предложений до
+            int totalPagesBefore = GetTotalPages();
+
+            // Заполнить лекцию (как в тесте на увеличение прогресса курса)
+            CourseProgressUp();
+            // Перейти на главную
+            OpenHomepage();
+            // количество переведенных предложений после
+            int totalPagesAfter = GetTotalPages();
+
+            // Проверить, что количество переведенных страниц увеличилось
+            Assert.IsTrue(totalPagesAfter > totalPagesBefore, "Ошибка: количество переведенных страниц не увеличилось");
+        }
+
+        /// <summary>
+        /// Тест: проверка изменения количества переведенных слов на главной странице
+        /// </summary>
+        [Test]
+        public void TotalWordsHomepage()
+        {
+            // количество переведенных слов до
+            int totalWordsBefore = GetTotalWords();
+
+            string courseName;
+            int lectureRowNumber, translationRowNum;
+            // Добавить переводы
+            AddTranslationsToGrowProgress(out courseName, out lectureRowNumber, out translationRowNum);
+            WaitUpdateTotal();
+            // Перейти на главную
+            OpenHomepage();
+            // количество переведенных слов после
+            int totalWordsAfter = GetTotalWords();
+
+            // Проверить, что количество переведенных слов увеличилось
+            Assert.IsTrue(totalWordsAfter > totalWordsBefore, "Ошибка: количество переведенных слов не увеличилось");
+        }
+
+        /// <summary>
+        /// Получить прогресс курса
+        /// </summary>
+        /// <param name="courseName">имя курса</param>
+        /// <returns>прогресс</returns>
+        protected decimal GetCourseProgress(string courseName)
+        {
+            string percent = Driver.FindElement(By.XPath(
+                ".//ul[contains(@class,'projects-list')]//div[contains(@data-bind,'name')][contains(text(),'"
+                + courseName + "')]/../../..//span[contains(@data-bind,'complete')]")).Text.Replace("%", "").Replace(".", ",");
+            Console.WriteLine("прогресс курса " + courseName + ": " + percent);
+            return Decimal.Parse(percent);
+        }
+
+        /// <summary>
         /// Дождаться обновления прогресса
         /// </summary>
         private void WaitUpdateProgress()
@@ -295,6 +562,15 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
             Thread.Sleep(15000);
             // Обновить страницу со список лекции
             Driver.FindElement(By.XPath(".//tbody[contains(@data-bind,'lectures')]")).SendKeys(OpenQA.Selenium.Keys.F5);
+        }
+
+        /// <summary>
+        /// Дождаться обновления прогресса курса и данных на главной странице
+        /// </summary>
+        private void WaitUpdateTotal()
+        {
+            // Задержка для ожидания изменения прогресса
+            Thread.Sleep(60000);
         }
 
         /// <summary>
@@ -375,7 +651,7 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
         /// <param name="firstSegmentRowNumber">номер сегмента, с которого начинать добавление переводов</param>
         protected void AddNumOfTranslations(int firstSegmentRowNumber)
         {
-            string translationText = "Example Translation " + DateTime.Now.Ticks;
+            string translationText = "Test" + DateTime.Now.Ticks;
             // Добавить переводы
             for (int i = firstSegmentRowNumber; i < (firstSegmentRowNumber + numberSentencesGrowProgress); ++i)
             {
@@ -390,7 +666,7 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
         protected List<int> AddNumOfTranslationsEmptySegments()
         {
             List<int> translatedRows = new List<int>();
-            string translationText = "Example Translation " + DateTime.Now.Ticks;
+            string translationText = "Test" + DateTime.Now.Ticks;
             int currentIndex = 0;
             // Добавить переводы
             for (int i = 0; i < numberSentencesGrowProgress; ++i)
@@ -405,6 +681,28 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
                 translatedRows.Add(currentIndex);
             }
             return translatedRows;
+        }
+
+        /// <summary>
+        /// Получить количество переведенных слов (с главной страницы)
+        /// </summary>
+        /// <returns>количество переведенных слов</returns>
+        protected int GetTotalWords()
+        {
+            string totalWords = Driver.FindElement(By.XPath(".//span[contains(@data-bind,'totalWords')]")).Text;
+            Console.WriteLine("totalWords: " + totalWords);
+            return int.Parse(totalWords);
+        }
+
+        /// <summary>
+        /// Получить количество переведенных страниц (с главной страницы) (страница = 250 слов)
+        /// </summary>
+        /// <returns>количество переведенных страниц</returns>
+        protected int GetTotalPages()
+        {
+            string totalPages = Driver.FindElement(By.XPath(".//span[contains(@data-bind,'totalPages')]")).Text;
+            Console.WriteLine("totalPages: " + totalPages);
+            return int.Parse(totalPages);
         }
     }
 }

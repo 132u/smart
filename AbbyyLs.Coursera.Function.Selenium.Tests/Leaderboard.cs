@@ -63,8 +63,7 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
             int numInList = ScrollLeaderboardToUser(userName);
 
             // Имя пользователя по этому номеру:
-            string userCurrentPositionName = 
-                Driver.FindElement(By.XPath(".//div[contains(@class,'rating')]//tr[" + numInList + "]//td[3]//a[contains(@data-bind,'name')]")).Text.Trim();
+            string userCurrentPositionName = Driver.FindElement(By.XPath(".//div[contains(@class,'rating')]//tr[" + numInList + "]//td[3]//a[contains(@data-bind,'name')]")).Text.Trim();
 
             Assert.AreEqual(userName, userCurrentPositionName, "Ошибка: на этом месте пользователь с другим именем");
         }
@@ -99,7 +98,7 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
             // Получить текущее имя пользователя
             string userName = GetUserNameHomepage();
             // Добавить перевод
-            string translationText = "Example Translation " + DateTime.Now.Ticks;
+            string translationText = "Test" + DateTime.Now.Ticks;
             string courseName;
             int lectureRowNumber, translationRowNum;
             AddTranslation(translationText, out courseName, out lectureRowNumber, out translationRowNum);
@@ -124,7 +123,7 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
             // Получить текущее имя пользователя
             string userName = GetUserNameHomepage();
             // Добавить перевод
-            string translationText = "Example Translation " + DateTime.Now.Ticks;
+            string translationText = "Test" + DateTime.Now.Ticks;
             string courseName;
             int lectureRowNumber, translationRowNum;
             AddTranslation(translationText, out courseName, out lectureRowNumber, out translationRowNum);

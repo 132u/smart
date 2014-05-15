@@ -46,7 +46,7 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
             Decimal userRatingBefore = GetUserRating();
 
             // Добавить перевод
-            string translationText = "Example Translation " + DateTime.Now.Ticks;
+            string translationText = "Test" + DateTime.Now.Ticks;
             AddTranslation(translationText);
             // Вернуться из редактора
             ClickBackEditor();

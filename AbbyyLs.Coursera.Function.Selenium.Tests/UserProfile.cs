@@ -158,7 +158,7 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
         public void ChangeUserNameCheckTranslationBeforeEdit()
         {
             // Добавить перевод
-            string translationText = "Example Translation " + DateTime.Now.Ticks;
+            string translationText = "Test" + DateTime.Now.Ticks;
             string courseName;
             int lectureRowNumber, translationRowNum;
             AddTranslation(translationText, out courseName, out lectureRowNumber, out translationRowNum);
@@ -209,7 +209,7 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
             SaveNewUserNameInEditProfileForm(newUserName, newUserSurname);
 
             // Добавить перевод
-            string translationText = "Example Translation " + DateTime.Now.Ticks;
+            string translationText = "Test" + DateTime.Now.Ticks;
             string courseName;
             int lectureRowNumber, translationRowNum;
             AddTranslation(translationText, out courseName, out lectureRowNumber, out translationRowNum);
@@ -235,7 +235,7 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
         public void ChangeUserNameCheckEventListBeforeEdit()
         {
             // Добавить перевод
-            string translationText = "Example Translation " + DateTime.Now.Ticks;
+            string translationText = "Test" + DateTime.Now.Ticks;
             string courseName;
             int lectureRowNumber, translationRowNum;
             AddTranslation(translationText, out courseName, out lectureRowNumber, out translationRowNum);
@@ -290,7 +290,7 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
             SaveNewUserNameInEditProfileForm(newUserName, newUserSurname);
 
             // Добавить перевод
-            string translationText = "Example Translation " + DateTime.Now.Ticks;
+            string translationText = "Test" + DateTime.Now.Ticks;
             string courseName;
             int lectureRowNumber, translationRowNum;
             AddTranslation(translationText, out courseName, out lectureRowNumber, out translationRowNum);
@@ -761,7 +761,20 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
         /// <returns>полное имя - "имя фамилия"</returns>
         protected string GetFullNameLeaderboard()
         {
-            return Driver.FindElement(By.XPath(".//tr[contains(@class,'active')][@style='']//td[contains(@data-bind,'name')]")).Text.Trim();
+            string userName = "";
+
+            setDriverTimeoutMinimum();
+            if (IsElementPresent(By.XPath(".//tr[contains(@class,'active') and not(@disabled)]//td//a[contains(@data-bind,'name')]")))
+            {
+                userName = Driver.FindElement(By.XPath(".//tr[contains(@class,'active') and not(@disabled)]//td//a[contains(@data-bind,'name')]")).Text.Trim();
+            }
+            else if (IsElementPresent(By.XPath(".//tr[contains(@class,'active') and @style='']//td[contains(@data-bind,'name')]")))
+            {
+                userName = Driver.FindElement(By.XPath(".//tr[contains(@class,'active') and @style='']//td[contains(@data-bind,'name')]")).Text.Trim();
+            }
+            setDriverTimeoutDefault();
+
+            return userName;
         }
 
         /// <summary>
@@ -951,7 +964,8 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
         /// <returns>есть аватар</returns>
         protected bool GetIsAvatarExistLeaderboard()
         {
-            return Driver.FindElement(By.XPath(".//tr[contains(@class,'active')][@style='']//td[2]/img")).GetAttribute("src").Contains("/avatar/");
+            return Driver.FindElement(By.XPath(
+                    ".//tr[contains(@class,'active') and not(@disabled)]//td[2]/img")).GetAttribute("src").Contains("/avatar/");
         }
 
         /// <summary>
