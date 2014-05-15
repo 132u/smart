@@ -289,26 +289,195 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
         /// Тест: получение награды "Специалист. 1 уровень. Model Thinking" (перевести 1% курса)
         /// </summary>
         [Test]
-        public void e_1_SpecialistLevel1()
+        public void e_1_SpecialistLevel1_Model()
         {
             int achieveLevel = 1;
-            // Сколько голосов нужно получить
+            // Сколько процентов нужно заполнить
             int levelLimit = 1;
-            // Получить количество голосов
-            GetSpecialistLevel(achieveLevel, levelLimit, "The Emergence of the Modern Middle East");//"Возникновение современного Ближнего Востока");// TODO разобраться с языком
+            // Получить награду
+            GetSpecialistLevel(achieveLevel, levelLimit, "Model Thinking");
         }
 
         /// <summary>
         /// Тест: получение награды "Специалист. 2 уровень. Model Thinking" (перевести 10% курса)
         /// </summary>
         [Test]
-        public void e_1_SpecialistLevel2()
+        public void e_1_SpecialistLevel2_Model()
         {
             int achieveLevel = 2;
-            // Сколько голосов нужно получить
+            // Сколько процентов нужно заполнить
             int levelLimit = 10;
-            // Получить количество голосов
+            // Получить награду
+            GetSpecialistLevel(achieveLevel, levelLimit, "Model Thinking");
+        }
+
+        /// <summary>
+        /// Тест: получение награды "Специалист. 3 уровень. Model Thinking" (перевести 30% курса)
+        /// </summary>
+        [Test]
+        public void e_1_SpecialistLevel3_Model()
+        {
+            int achieveLevel = 3;
+            // Сколько процентов нужно заполнить
+            int levelLimit = 30;
+            // Получить награду
+            GetSpecialistLevel(achieveLevel, levelLimit, "Model Thinking");
+        }
+
+        /// <summary>
+        /// Тест: получение награды "Специалист. 4 уровень. Model Thinking" (перевести 60% курса)
+        /// </summary>
+        [Test]
+        public void e_1_SpecialistLevel4_Model()
+        {
+            int achieveLevel = 4;
+            // Сколько процентов нужно заполнить
+            int levelLimit = 60;
+            // Получить награду
+            GetSpecialistLevel(achieveLevel, levelLimit, "Model Thinking");
+        }
+
+        /// <summary>
+        /// Тест: получение награды "Специалист. 5 уровень. Model Thinking" (перевести 100% курса)
+        /// </summary>
+        [Test]
+        public void e_1_SpecialistLevel5_Model()
+        {
+            int achieveLevel = 5;
+            // Сколько процентов нужно заполнить
+            int levelLimit = 100;
+            // Получить награду
+            GetSpecialistLevel(achieveLevel, levelLimit, "Model Thinking");
+        }
+
+        /// <summary>
+        /// Тест: получение награды "Специалист. 1 уровень. The Emergence of the Modern Middle East" (перевести 1% курса)
+        /// </summary>
+        [Test]
+        public void e_2_SpecialistLevel1_East()
+        {
+            int achieveLevel = 1;
+            // Сколько процентов нужно заполнить
+            int levelLimit = 1;
+            // Получить награду
             GetSpecialistLevel(achieveLevel, levelLimit, "The Emergence of the Modern Middle East");
+        }
+
+        /// <summary>
+        /// Тест: получение награды "Специалист. 2 уровень. The Emergence of the Modern Middle East" (перевести 10% курса)
+        /// </summary>
+        [Test]
+        public void e_2_SpecialistLevel2_East()
+        {
+            int achieveLevel = 2;
+            // Сколько процентов нужно заполнить
+            int levelLimit = 10;
+            // Получить награду
+            GetSpecialistLevel(achieveLevel, levelLimit, "The Emergence of the Modern Middle East");
+        }
+
+        /// <summary>
+        /// Тест: получение награды "Специалист. 3 уровень. The Emergence of the Modern Middle East" (перевести 30% курса)
+        /// </summary>
+        [Test]
+        public void e_2_SpecialistLevel3_East()
+        {
+            int achieveLevel = 3;
+            // Сколько процентов нужно заполнить
+            int levelLimit = 30;
+            // Получить награду
+            GetSpecialistLevel(achieveLevel, levelLimit, "The Emergence of the Modern Middle East");
+        }
+
+        /// <summary>
+        /// Тест: получение награды "Специалист. 4 уровень. The Emergence of the Modern Middle East" (перевести 60% курса)
+        /// </summary>
+        [Test]
+        public void e_2_SpecialistLevel4_East()
+        {
+            int achieveLevel = 4;
+            // Сколько процентов нужно заполнить
+            int levelLimit = 60;
+            // Получить награду
+            GetSpecialistLevel(achieveLevel, levelLimit, "The Emergence of the Modern Middle East");
+        }
+
+        /// <summary>
+        /// Тест: получение награды "Специалист. 5 уровень. The Emergence of the Modern Middle East" (перевести 100% курса)
+        /// </summary>
+        [Test]
+        public void e_2_SpecialistLevel5_East()
+        {
+            int achieveLevel = 5;
+            // Сколько процентов нужно заполнить
+            int levelLimit = 100;
+            // Получить награду
+            GetSpecialistLevel(achieveLevel, levelLimit, "The Emergence of the Modern Middle East");
+        }
+
+        /// <summary>
+        /// Тест: получение награды "Специалист. 1 уровень. Cryptography" (перевести 1% курса)
+        /// </summary>
+        [Test]
+        public void e_3_SpecialistLevel1_Cryptography()
+        {
+            int achieveLevel = 1;
+            // Сколько процентов нужно заполнить
+            int levelLimit = 1;
+            // Получить награду
+            GetSpecialistLevel(achieveLevel, levelLimit, "Cryptography");
+        }
+
+        /// <summary>
+        /// Тест: получение награды "Специалист. 2 уровень. Cryptography" (перевести 10% курса)
+        /// </summary>
+        [Test]
+        public void e_3_SpecialistLevel2_Cryptography()
+        {
+            int achieveLevel = 2;
+            // Сколько процентов нужно заполнить
+            int levelLimit = 10;
+            // Получить награду
+            GetSpecialistLevel(achieveLevel, levelLimit, "Cryptography");
+        }
+
+        /// <summary>
+        /// Тест: получение награды "Специалист. 3 уровень. Cryptography" (перевести 30% курса)
+        /// </summary>
+        [Test]
+        public void e_3_SpecialistLevel3_Cryptography()
+        {
+            int achieveLevel = 3;
+            // Сколько процентов нужно заполнить
+            int levelLimit = 30;
+            // Получить награду
+            GetSpecialistLevel(achieveLevel, levelLimit, "Cryptography");
+        }
+
+        /// <summary>
+        /// Тест: получение награды "Специалист. 4 уровень. Cryptography" (перевести 60% курса)
+        /// </summary>
+        [Test]
+        public void e_3_SpecialistLevel4_Cryptography()
+        {
+            int achieveLevel = 4;
+            // Сколько процентов нужно заполнить
+            int levelLimit = 60;
+            // Получить награду
+            GetSpecialistLevel(achieveLevel, levelLimit, "Cryptography");
+        }
+
+        /// <summary>
+        /// Тест: получение награды "Специалист. 5 уровень. Cryptography" (перевести 100% курса)
+        /// </summary>
+        [Test]
+        public void e_3_SpecialistLevel5_Cryptography()
+        {
+            int achieveLevel = 5;
+            // Сколько процентов нужно заполнить
+            int levelLimit = 100;
+            // Получить награду
+            GetSpecialistLevel(achieveLevel, levelLimit, "Cryptography");
         }
 
         /// <summary>
@@ -330,7 +499,7 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
         {
             int needUserPosition = 10;
             // Добраться до нужного места в лидерборде
-            GetPositionLeaderboardOffline(needUserPosition, "Лидео");
+            GetPositionLeaderboardOffline(needUserPosition, "Leader");
         }
 
         /// <summary>
@@ -341,7 +510,7 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
         {
             int needUserPosition = 10;
             // Добраться до нужного места в лидерборде
-            GetPositionLeaderboardOffline(needUserPosition, "Лидер", true);
+            GetPositionLeaderboardOffline(needUserPosition, "Leader", true);
         }
 
         /// <summary>
@@ -363,7 +532,7 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
         {
             int needUserPosition = 1;
             // Добраться до нужного места в лидерборде
-            GetPositionLeaderboardOffline(needUserPosition, "Номер 1");
+            GetPositionLeaderboardOffline(needUserPosition, "Number one");
         }
 
         /// <summary>
@@ -1855,7 +2024,7 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
             SelectUserWithoutAchieveLevel(achieveType, achieveLevel, courseName);
             
             // TODO убрать
-            string courseNameToOpen = courseName;// "The Emergence of the Modern Middle East";// TODO разобраться с языком Model Thinking
+            string courseNameToOpen = courseName;
 
             bool isLevelReceived = false, isAchieveMessageLectureAppeared = false, isAchieveMessageAppeared = false;
             while (!isLevelReceived)

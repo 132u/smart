@@ -941,6 +941,7 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
             _driver.FindElement(By.Id("back-btn")).SendKeys(OpenQA.Selenium.Keys.F5);
             _wait.Until((d) => d.FindElement(By.XPath(".//div[@id='segments-body']//tbody//tr")).Displayed);
 
+            //Thread.Sleep(6000);
         }
 
         public static IJavaScriptExecutor Scripts (IWebDriver driver)
