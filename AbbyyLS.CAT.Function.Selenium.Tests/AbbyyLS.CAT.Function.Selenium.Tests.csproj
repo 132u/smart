@@ -55,6 +55,7 @@
     <Compile Include="DomainTest.cs" />
     <Compile Include="ClientTest.cs" />
     <Compile Include="EditorButtonsTest.cs" />
+    <Compile Include="Editor_RevisionTest.cs" />
     <Compile Include="GlossaryEditStructureCustomFieldsTest.cs" />
     <Compile Include="GlossaryEditStructureGeneralFieldsTest.cs" />
     <Compile Include="GlossaryEditStructureLanguageFieldsTest.cs" />

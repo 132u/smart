@@ -170,6 +170,25 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             }
         }
 
+        private string _editorTXTFile;
+        protected string EditorTXTFile
+        {
+            get
+            {
+                return _editorTXTFile;
+            }
+        }
+
+        private string _editorTMXFile;
+        protected string EditorTMXFile
+        {
+            get
+            {
+                return _editorTMXFile;
+            }
+        }
+        
+
         protected string ConstTMName
         {
             get
@@ -241,13 +260,16 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             
             _tmFile = Path.GetFullPath(ConfigurationManager.AppSettings["TMXFile"]);
             _tmFile2 = Path.GetFullPath(ConfigurationManager.AppSettings["TMXFile2"]);
+
+            _editorTXTFile = Path.GetFullPath(ConfigurationManager.AppSettings["EditorTXTFile"]);
+            _editorTMXFile = Path.GetFullPath(ConfigurationManager.AppSettings["EditorTMXFile"]);
              
             _secondTmFile = Path.GetFullPath(ConfigurationManager.AppSettings["SecondTMXFile"]);
             _importGlossaryFile = Path.GetFullPath(ConfigurationManager.AppSettings["ImportGlossaryFile"]);
             _imageFile = Path.GetFullPath(ConfigurationManager.AppSettings["TestImageFile"]);
             _audioFile = Path.GetFullPath(ConfigurationManager.AppSettings["TestAudioFile"]);
 
-            _adminUrl = ConfigurationManager.AppSettings["Stage2Admin"];
+            _adminUrl = ConfigurationManager.AppSettings[(url + "Admin")];
         }
 
         private void CreateUniqueNamesByDatetime()
@@ -294,6 +316,8 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 
             setDriverTimeoutDefault();
             _wait = new WebDriverWait(_driver, TimeSpan.FromSeconds(15));
+
+            _driver.Manage().Window.Maximize();
         }
 
         protected void setDriverTimeoutMinimum()
@@ -570,12 +594,16 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 
             _driver.FindElement(By.XPath(".//div[contains(@class,'js-popup-create-project')][2]//input[@name='deadlineDate']")).Clear();
             _driver.FindElement(By.XPath(".//div[contains(@class,'js-popup-create-project')][2]//input[@name='deadlineDate']")).SendKeys(_deadlineDate);
+
+            // Выбираем языки
+            // Source - En
+            _driver.FindElement(By.XPath(
+                ".//div[contains(@class,'js-popup-create-project')][2]//span[contains(@class,'js-dropdown')]//span[contains(@class,'js-dropdown__text')]")).Click();
+            _driver.FindElement(By.XPath(".//span[contains(@class,'js-dropdown__list')]//span[@data-id='9']")).Click();
+
             if (!isNeedDifferentLang)
             {
-                // Выбираем языки - изменено, языки выбраны сразу
-                _driver.FindElement(By.XPath(
-                    ".//div[contains(@class,'js-popup-create-project')][2]//span[contains(@class,'js-dropdown')]//span[contains(@class,'js-dropdown__text')]")).Click();
-                _driver.FindElement(By.XPath(".//span[contains(@class,'js-dropdown__list')]//span[@data-id='9']")).Click();
+                // Target
                 _driver.FindElement(By.XPath(".//div[contains(@class,'js-popup-create-project')][2]//div[contains(@class,'js-languages-multiselect')]")).Click();
                 // Убираем русский
                 _driver.FindElement(By.XPath(
@@ -620,7 +648,7 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             Pretranslate();
         }
 #elif NEW_WORKSPACE
-        protected void CreateProject(string ProjectName, bool FileFlag, string DocumentName)
+        protected void CreateProject(string ProjectName, bool FileFlag, string DocumentName, bool chooseMT = true)
         {
             FirstStepProjectWizard(ProjectName);
 
@@ -633,7 +661,14 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             ChooseGlossary();
 
             //4 шаг - выбор МТ
-            ChooseNoMT();
+            if (chooseMT)
+            {
+                ChooseMTCompreno();
+            }
+            else
+            {
+                ChooseNoMT();                
+            }
 
             //5 шаг - настройка этапов workflow
             SetUpWorkflow();
@@ -699,7 +734,7 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             Wait.Until((d) => d.FindElement(By.XPath(".//span[contains(@class,'js-project-create')]")));
         }
 
-        protected void CreateProject(string ProjectName, bool FileFlag, string DocumentName, string TmName)
+        protected void CreateProject(string ProjectName, bool FileFlag, string DocumentName, string TmName, bool chooseMT = true)
         {
             FirstStepProjectWizard(ProjectName);
 
@@ -708,11 +743,18 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             //2 шаг - создание ТМ
             ChooseCreatedTM(TmName);
 
-            //3 шаг - выбор МТ
-            ChooseMTCompreno();
-
-            //4 шаг - выбор глоссария
+            //3 шаг - выбор глоссария
             ChooseGlossary();
+
+            //4 шаг - выбор МТ
+            if (chooseMT)
+            {
+                ChooseMTCompreno();
+            }
+            else
+            {
+                ChooseNoMT();
+            }
 
             //5 шаг - настройка этапов workflow
             SetUpWorkflow();
@@ -791,11 +833,11 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
         public void ChooseCreatedTM(string TmName)
         {
             //Создать TM
-            _wait.Until(d => _driver.FindElement(By.CssSelector("#project-wizard-tms table tr:nth-child(1)")));
+            //_wait.Until(d => _driver.FindElement(By.CssSelector("#project-wizard-tms table tr:nth-child(1)")));
 
             CreateTMXFile(TmName);
 
-            _driver.FindElement(By.XPath(".//div[@id='project-wizard-tms']//span[contains(text(), 'Next')]")).Click();
+            ClickNext();
         }
 
 
@@ -975,17 +1017,19 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
         public void CreateTMXFile(string TmName)
         {
             //Создать ТМ
-            _driver.FindElement(By.XPath(".//div[@id='project-wizard-tms']//span[text()='Create']")).Click();
+            _driver.FindElement(By.XPath(".//div[contains(@class,'js-popup-create-project')][2]//span[contains(@class,'js-tm-create')]")).Click();
 
-            _wait.Until(d => _driver.FindElement(By.XPath(".//div[@id='project-wizard-tm']//span[contains(text(), 'Add new TM Base')]")));
+            _wait.Until(d => _driver.FindElement(By.XPath(".//div[contains(@class,'js-popup-create-tm')][2]")).Displayed);
 
             //Заполнить данные о новой ТМ
-            _driver.FindElement(By.CssSelector("#project-wizard-tm input[name='Name']")).Clear();
-
-            _driver.FindElement(By.CssSelector("#project-wizard-tm input[name='Name']")).SendKeys(_tmName);
+            IWebElement tmNameEl = _driver.FindElement(By.XPath(".//div[contains(@class,'js-popup-create-tm')][2]//input[contains(@class,'js-tm-name')]"));
+            tmNameEl.Clear();
+            tmNameEl.SendKeys(_tmName);
 
             //Добавить тмх файл
-            _driver.FindElement(By.XPath(".//div[@id='project-wizard-tm']//span[text()='Add']")).Click();
+            _driver.FindElement(By.XPath(".//div[contains(@class,'js-popup-create-tm')][2]//a[contains(@class,'js-save-and-import')]")).Click();
+            _wait.Until((d) => d.FindElement(By.XPath(".//div[contains(@class,'js-popup-import')][2]")).Displayed);
+            _driver.FindElement(By.XPath(".//div[contains(@class,'js-popup-import')][2]//a[contains(@class,'js-upload-btn')]")).Click();
 
             Thread.Sleep(1000);
             // Заполнить форму для отправки файла
@@ -994,14 +1038,10 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             SendKeys.SendWait(@"{Enter}");
             Thread.Sleep(2000);
 
-            //Нажать на кнопку Accept
-            _driver.FindElement(By.XPath(".//div[@id='project-wizard-tm']//span[text()='Accept']")).Click();
+            //Нажать на кнопку Import
+            _driver.FindElement(By.XPath(".//div[contains(@class,'js-popup-import')][2]//span[contains(@class,'js-import-button')]")).Click();
 
-            _wait.Until(d => _driver.FindElement(By.CssSelector("#project-wizard-tms table tr:nth-child(1) td:nth-child(1)")));
-
-            //Выбирать созданный ТМ из списка не надо, он выбран автоматически
-
-            Assert.NotNull(_driver.FindElement(By.XPath(".//div[@id='project-wizard-tms']//table//tr[td[contains(string(), '" + _tmName + "')]]")));
+            WaitUntilDisappearElement(".//div[contains(@class,'js-popup-import')][2]");
         }
 
         public void AddTMXFile(string projectname)
