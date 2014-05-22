@@ -612,20 +612,8 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             //Выбрать Исходный файл из выпадающего списка
             Driver.FindElement(By.XPath(".//div[contains(@class,'js-document-export original')]//a")).Click();
 
-            // Заполнить форму для сохранения файла
-            string resultPath = Path.Combine(PathTestResults, "ExportedOriginalDocuments");
-            Directory.CreateDirectory(resultPath);
-
-            Thread.Sleep(1000);
-            SendKeys.SendWait
-                (Path.Combine(resultPath, Path.GetFileNameWithoutExtension(filePath) + "_" + ProjectName + Path.GetExtension(filePath)));
-            Thread.Sleep(1000);
-
-            SendKeys.SendWait(@"{Enter}");
-            Thread.Sleep(5000);
-            Assert.IsTrue(File.Exists(Path.Combine
-                (resultPath, Path.GetFileNameWithoutExtension(filePath) + "_" + ProjectName + Path.GetExtension(filePath))),
-                "Ошибка: файл не экспортировался");
+            // Сохранить файл
+            ExternalDialogSaveDocument("ExportedOriginalDocuments", filePath);
         }
 
         /// <summary>
@@ -650,19 +638,8 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             //Выбрать Исходный файл из выпадающего списка
             Driver.FindElement(By.XPath(".//div[contains(@class,'js-document-export original')]//a")).Click();
 
-            // Заполнить форму для сохранения файла
-            string resultPath = Path.Combine(PathTestResults, "ExportedOriginalDocuments");
-            Directory.CreateDirectory(resultPath);
-
-            Thread.Sleep(1000);
-            SendKeys.SendWait
-                (Path.Combine(resultPath, Path.GetFileNameWithoutExtension(filePath) + "_" + ProjectName + Path.GetExtension(filePath)));
-            Thread.Sleep(1000);
-
-            SendKeys.SendWait(@"{Enter}");
-            Thread.Sleep(5000);
-            Assert.IsTrue(File.Exists(Path.Combine
-                (resultPath, Path.GetFileNameWithoutExtension(filePath) + "_" + ProjectName + Path.GetExtension(filePath))));
+            // Сохранить файл
+            ExternalDialogSaveDocument("ExportedOriginalDocuments", filePath);
         }
 
         /// <summary>
@@ -689,19 +666,8 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             //Выбрать Перевод из выпадающего списка
             Driver.FindElement(By.XPath(".//div[contains(@class,'js-document-export translation')]//a")).Click();
 
-            // Заполнить форму для сохранения файла
-            string resultPath = Path.Combine(PathTestResults, "ExportedTranslatedDocuments");
-            Directory.CreateDirectory(resultPath);
-
-            Thread.Sleep(1000);
-            SendKeys.SendWait
-                (Path.Combine(resultPath, Path.GetFileNameWithoutExtension(filePath) + "_" + ProjectName + Path.GetExtension(filePath)));
-            Thread.Sleep(1000);
-
-            SendKeys.SendWait(@"{Enter}");
-            Thread.Sleep(5000);
-            Assert.IsTrue(File.Exists(Path.Combine
-                (resultPath, Path.GetFileNameWithoutExtension(filePath) + "_" + ProjectName + Path.GetExtension(filePath))));
+            // Сохранить файл
+            ExternalDialogSaveDocument("ExportedTranslatedDocuments", filePath);
         }
 
 
@@ -726,18 +692,18 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             AssignTask();
 
             // Выбрать документ
-            Driver.FindElement(By.XPath(".//table[contains(@class,'js-documents-table')]//tr[1]/td[1]/span")).Click();
+            SelectDocumentInProject(1);
             // Нажать Progress
             Driver.FindElement(By.XPath(".//span[contains(@class,'js-document-progress')]")).Click();
             
             // Назначить ответственного в окне Progress
-            Driver.FindElement(By.XPath(".//div[contains(@class,'js-assigned-block inProgress')]//span[contains(@class,'js-assigned-cancel')]")).Click();
+            Driver.FindElement(By.XPath(".//span[contains(@class,'js-assigned-block') and contains(@class,'inProgress')]//span[contains(@class,'js-assigned-cancel')]")).Click();
             Wait.Until((d) => d.FindElement(By.XPath(".//div[contains(@class,'js-popup-confirm')]//input[contains(@class,'js-submit-btn')]"))).Click();
             Thread.Sleep(2000);
-            Assert.IsTrue(Driver.FindElement(By.XPath(".//div[contains(@class,'js-popup-progress')]//div[contains(@class,'js-assigned-block notAssigned')]")).Displayed,
+            Assert.IsTrue(IsElementDisplayed(By.XPath(".//div[contains(@class,'js-popup-progress')][2]//span[contains(@class,'notAssigned')]")),
                 "Статус назначения не изменился на notAssigned");
 
-            Driver.FindElement(By.XPath(".//table[contains(@class,'js-progress-table')]//tr[1]//td[3]//span")).Click();
+            Driver.FindElement(By.XPath(".//table[contains(@class,'js-progress-table')]//td[contains(@class,'assineer')]//span")).Click();
             Wait.Until(d => Driver.FindElements(By.XPath(
                 ".//span[contains(@class,'js-dropdown__list')]"
                 )));
@@ -746,10 +712,9 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             Thread.Sleep(1000);
 
             // Нажать на Assign
-            Wait.Until(d => Driver.FindElement(By.XPath(
-                ".//table[contains(@class,'js-progress-table')]//tr[1]//td[4]//span[contains(@class,'js-assign')]"
-                ))).Click();
-            Wait.Until((d) => d.FindElement(By.XPath(".//div[contains(@class,'js-assigned-block assigned')]//span[contains(@class,'js-assigned-cancel')]")).Displayed);
+            Driver.FindElement(By.XPath(".//span[contains(@class,'js-assign')]//a")).Click();
+
+            WaitUntilDisplayElement(".//span[contains(@class,'js-assigned-cancel')]");
             // Нажать на Close
             Driver.FindElement(By.XPath(
                 ".//div[contains(@class,'js-popup-progress')][2]//span[contains(@class,'js-popup-close')]")).Click();
@@ -1170,6 +1135,7 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
         public void ChangeProjectNameOnDeleted()
         {
             Authorization();
+            
             // Создать проект
             CreateProject(ProjectName, false, "");
             // Удалить проект
@@ -1197,6 +1163,601 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             Assert.IsTrue(IsElementDisplayed(By.XPath(".//div[contains(@class,'js-popup-create-project')][2]//span[contains(@class,'js-tm-create')]")),
                 "Ошибка: перешли на следующий шаг (выбора ТМ)");
         }
+
+        const string EXPORT_TYPE_SOURCE = "Original";
+        const string EXPORT_TYPE_TMX = "TMX";
+        const string EXPORT_TYPE_TARGET = "Translation";
+
+        [Test]
+        [TestCase(EXPORT_TYPE_SOURCE)]
+        [TestCase(EXPORT_TYPE_TMX)]
+        [TestCase(EXPORT_TYPE_TARGET)]
+        public void NewExportDocumentFromProjectTest(string exportType)
+        {
+            // TODO изменить выбор проекта
+            Authorization();
+            string projectName = CreateCommonProjectOneDocument();
+            CancelAllExportDownload();
+
+            // Зайти в проект
+            ClickProjectInList(projectName);
+            // Нажать галочку у документа
+            SelectDocumentInProject();
+            // Нажать "красный" экспорт
+            SelectExportMainProjectPanel(exportType);
+            // Экспортировать документ
+            WorkWithExport();
+        }
+
+        [Test]
+        [TestCase(EXPORT_TYPE_SOURCE)]
+        [TestCase(EXPORT_TYPE_TMX)]
+        [TestCase(EXPORT_TYPE_TARGET)]
+        public void NewExportProjectFromProjectListTest(string exportType)
+        {
+            // TODO изменить выбор проекта
+            Authorization();
+            CreateProject(ProjectName, true, DocumentFile, "", false);
+            ImportDocumentProjectSettings(DocumentFileToConfirm, ProjectName);
+            AssignTask();
+            OpenDocument(2);
+            ConfirmButton();
+            BackButton();
+            Assert.Pass();
+            string projectName = "TestProject 635359166399768218";
+
+            // Закрыть все окна с экспортом
+            CancelAllExportDownload();
+
+            // Выбрать этот проект
+            SelectProjectInList(projectName);
+            SelectExportMainProjectPanel(exportType);
+            WorkWithExport();
+        }
+
+        [Test]
+        [TestCase(EXPORT_TYPE_SOURCE)]
+        [TestCase(EXPORT_TYPE_TMX)]
+        [TestCase(EXPORT_TYPE_TARGET)]
+        public void NewExportProjectFromProjectListProjectSettingsTest(string exportType)
+        {
+            // TODO изменить выбор проекта
+            Authorization();
+            string projectName = "TestProject 635359166399768218";
+
+            // Закрыть все окна с экспортом
+            CancelAllExportDownload();
+
+            // Открыть информацию о проекте
+            ClickProjectOpenInfo(projectName);
+            SelectExportProjectListRow(exportType);
+            WorkWithExport();
+        }
+
+        [Test]
+        [TestCase(EXPORT_TYPE_SOURCE)]
+        [TestCase(EXPORT_TYPE_TMX)]
+        [TestCase(EXPORT_TYPE_TARGET)]
+        public void NewExportDocumentFromProjectListDocumentSettingsTest(string exportType)
+        {
+            // TODO изменить выбор проекта
+            Authorization();
+            string projectName = "TestDelete";
+
+            // Закрыть все окна с экспортом
+            CancelAllExportDownload();
+
+            // Открыть информацию о проекте
+            ClickProjectOpenInfo(projectName);
+            ClickDocumentOpenInfo(1);
+            SelectExportProjectListDocumentRow(exportType);
+            WorkWithExport();
+        }
+
+        [Test]
+        public void NewExportCloseNotifier()
+        {
+            // TODO изменить выбор проекта
+            Authorization();
+            string projectName = "TestProject 635359166399768218";
+
+            // Закрыть все окна с экспортом
+            CancelAllExportDownload();
+
+            // Открыть информацию о проекте
+            ClickProjectOpenInfo(projectName);
+            SelectExportProjectListRow(EXPORT_TYPE_SOURCE);
+            WaitExportDownloadBtn();
+            ClickCancelExportNotifier();
+
+            // Дождаться, пока информационное окно пропадет
+            Assert.IsTrue(WaitUntilDisappearElement(
+                GetExportNotifierXPath()),
+                "Ошибка: сообщение с экспортом не закрылось");
+        }
+
+        const string PLACE_SEARCH_NOTIFIER_UPDATE_PROJECT_LIST = "updateProjectList";
+        const string PLACE_SEARCH_NOTIFIER_UPDATE_PROJECT_PAGE = "updateProjectPage";
+        const string PLACE_SEARCH_NOTIFIER_OPEN_PROJECT = "openProject";
+        const string PLACE_SEARCH_NOTIFIER_OPEN_PROJECT_LIST = "openProjectList";
+        const string PLACE_SEARCH_NOTIFIER_OPEN_GLOSSARY = "openGlossary";
+        [Test]
+        [TestCase(PLACE_SEARCH_NOTIFIER_UPDATE_PROJECT_LIST)]
+        [TestCase(PLACE_SEARCH_NOTIFIER_OPEN_PROJECT)]
+        [TestCase(PLACE_SEARCH_NOTIFIER_OPEN_GLOSSARY)]
+        public void NewExportSaveNotifierProjectList(string placeSearch)
+        {
+            // TODO изменить выбор проекта
+            Authorization();
+            string projectName = "TestProject 635359166399768218";
+
+            // Закрыть все окна с экспортом
+            CancelAllExportDownload();
+
+            // Открыть информацию о проекте
+            ClickProjectOpenInfo(projectName);
+            SelectExportProjectListRow(EXPORT_TYPE_SOURCE);
+            WaitExportDownloadBtn();
+
+            switch (placeSearch)
+            {
+                case PLACE_SEARCH_NOTIFIER_UPDATE_PROJECT_LIST:
+                    Driver.Navigate().Refresh();
+                    break;
+                case PLACE_SEARCH_NOTIFIER_OPEN_PROJECT:
+                    ClickProjectInList(projectName);
+                    break;
+                case PLACE_SEARCH_NOTIFIER_OPEN_GLOSSARY:
+                    SwitchGlossaryTab();
+                    Assert.IsFalse(IsElementPresent(By.XPath(
+                        GetExportNotifierXPath())),
+                        "Ошибка: информационное окно об экспорте появилось на странице глоссария");
+                    OpenMainWorkspacePage();
+                    break;
+                default:
+                    Assert.Fail("Неверный аргумент: " + placeSearch);
+                    break;
+            }            
+            
+            // Проверить, что есть окно с экпортом
+            Assert.IsTrue(IsElementPresent(By.XPath(
+                GetExportNotifierXPath())),
+                "Ошибка: информационное окно об экспорте пропало после обновления страницы");
+        }
+
+        [Test]
+        [TestCase(PLACE_SEARCH_NOTIFIER_UPDATE_PROJECT_PAGE)]
+        [TestCase(PLACE_SEARCH_NOTIFIER_OPEN_PROJECT_LIST)]
+        [TestCase(PLACE_SEARCH_NOTIFIER_OPEN_GLOSSARY)]
+        public void NewExportSaveNotifierProjectPage(string placeSearch)
+        {
+            // TODO изменить выбор проекта
+            Authorization();
+            string projectName = "TestProject 635359166399768218";
+
+            // Закрыть все окна с экспортом
+            CancelAllExportDownload();
+
+            // Открыть проект
+            ClickProjectInList(projectName);
+            SelectDocumentInProject();
+            SelectExportMainProjectPanel(EXPORT_TYPE_SOURCE);
+            WaitExportDownloadBtn();
+
+            switch (placeSearch)
+            {
+                case PLACE_SEARCH_NOTIFIER_UPDATE_PROJECT_PAGE:
+                    Driver.Navigate().Refresh();
+                    break;
+                case PLACE_SEARCH_NOTIFIER_OPEN_PROJECT_LIST:
+                    OpenMainWorkspacePage();
+                    break;
+                case PLACE_SEARCH_NOTIFIER_OPEN_GLOSSARY:
+                    SwitchGlossaryTab();
+                    Assert.IsFalse(IsElementPresent(By.XPath(
+                        GetExportNotifierXPath())),
+                        "Ошибка: информационное окно об экспорте появилось на странице глоссария");
+                    OpenMainWorkspacePage();
+                    ClickProjectInList(projectName);
+                    break;
+                default:
+                    Assert.Fail("Неверный аргумент: " + placeSearch);
+                    break;
+            }
+
+            // Проверить, что есть окно с экпортом
+            Assert.IsTrue(IsElementPresent(By.XPath(
+                GetExportNotifierXPath())),
+                "Ошибка: информационное окно об экспорте пропало после обновления страницы");
+        }
+
+        [Test]
+        public void NewExportSaveNotifierAnotherProjectPage(string placeSearch)
+        {
+            // TODO изменить выбор проекта
+            Authorization();
+            string projectName = "TestProject 635359166399768218";
+            string projectName2 = "TestProject 635359966174263015";
+
+            // Закрыть все окна с экспортом
+            CancelAllExportDownload();
+
+            // Открыть проект
+            ClickProjectInList(projectName);
+            SelectDocumentInProject();
+            SelectExportMainProjectPanel(EXPORT_TYPE_SOURCE);
+            WaitExportDownloadBtn();
+
+            // Вернуться к списку проектов
+            OpenMainWorkspacePage();
+            ClickProjectInList(projectName2);
+
+            // Проверить, что есть окно с экпортом
+            Assert.IsTrue(IsElementPresent(By.XPath(
+                GetExportNotifierXPath())),
+                "Ошибка: информационное окно об экспорте пропало после обновления страницы");
+        }
+
+        [Test]
+        public void NewExportDocumentFromProjectCheckNotifierText()
+        {
+            // TODO изменить выбор проекта
+            Authorization();
+            string projectName = "TestProject 635359166399768218";
+
+            // Закрыть все окна с экспортом
+            CancelAllExportDownload();
+
+            ClickProjectInList(projectName);
+            SelectDocumentInProject();
+            SelectExportMainProjectPanel(EXPORT_TYPE_SOURCE);
+            WaitExportDownloadBtn();
+
+            string notifierText = GetNotifierText();
+
+            // TODO заменить название документа
+            Assert.IsTrue(notifierText.Contains("littleEarth.docx"),
+                "Ошибка: неправильный текст в сообщении об экспорте: нет названия документа\nСейчас текст: " + notifierText);
+        }
+
+        [Test]
+        public void NewExportDocumentsFromProjectCheckNotifierText()
+        {
+            // TODO изменить выбор проекта
+            Authorization();
+            string projectName = "TestProject 635359166399768218";
+
+            // Закрыть все окна с экспортом
+            CancelAllExportDownload();
+
+            ClickProjectInList(projectName);
+            SelectDocumentInProject(1);
+            SelectDocumentInProject(2);
+            SelectExportMainProjectPanel(EXPORT_TYPE_SOURCE);
+            WaitExportDownloadBtn();
+
+            string notifierText = GetNotifierText();
+
+            // TODO заменить название документа
+            Assert.IsTrue(notifierText.Contains("Documents"),
+                "Ошибка: неправильный текст в сообщении об экспорте: нет указания на несколько документов.\nСейчас текст: " + notifierText);
+        }
+
+        [Test]
+        public void NewExportDocumentFromProjectListCheckNotifierText()
+        {
+            // TODO изменить выбор проекта
+            Authorization();
+            string projectName = "TestProject 635359166399768218";
+
+            // Закрыть все окна с экспортом
+            CancelAllExportDownload();
+
+            // Открыть информацию о проекте
+            ClickProjectOpenInfo(projectName);
+            ClickDocumentOpenInfo(1);
+            SelectExportProjectListDocumentRow(EXPORT_TYPE_SOURCE);
+            WaitExportDownloadBtn();
+
+            string notifierText = GetNotifierText();
+
+            // TODO заменить название документа
+            Assert.IsTrue(notifierText.Contains("littleEarth.docx"),
+                "Ошибка: неправильный текст в сообщении об экспорте: нет названия документа\nСейчас текст: " + notifierText);
+        }
+
+        [Test]
+        public void NewExportProjectMultiDocCheckNotifierText()
+        {
+            // TODO изменить выбор проекта
+            Authorization();
+            string projectName = "TestProject 635359166399768218";
+
+            // Закрыть все окна с экспортом
+            CancelAllExportDownload();
+
+            // Выбрать этот проект
+            SelectProjectInList(projectName);
+            SelectExportMainProjectPanel(EXPORT_TYPE_SOURCE);
+            WaitExportDownloadBtn();
+
+            string notifierText = GetNotifierText();
+
+            // TODO заменить название документа
+            Assert.IsTrue(notifierText.Contains("Documents"),
+                "Ошибка: неправильный текст в сообщении об экспорте: нет множественного числа (документОВ)\nСейчас текст: " + notifierText);
+        }
+
+        [Test]
+        public void NewExportProjectOneDocCheckNotifierText()
+        {
+            // TODO изменить выбор проекта
+            Authorization();
+            string projectName = "TestProject 635359111650514550";
+
+            // Закрыть все окна с экспортом
+            CancelAllExportDownload();
+
+            // Выбрать этот проект
+            SelectProjectInList(projectName);
+            SelectExportMainProjectPanel(EXPORT_TYPE_SOURCE);
+            WaitExportDownloadBtn();
+
+            string notifierText = GetNotifierText();
+
+            // TODO заменить название документа
+            Assert.IsTrue(notifierText.Contains("littleEarth.docx"),
+                "Ошибка: неправильный текст в сообщении об экспорте: нет названия документа\nСейчас текст: " + notifierText);
+        }
+
+        [Test]
+        public void NewExportProjectsCheckNotifierText()
+        {
+            // TODO изменить выбор проекта
+            Authorization();
+            string projectName = "TestProject 635359111650514550";
+            string projectName2 = "TestProject 635359966174263015";
+
+            // Закрыть все окна с экспортом
+            CancelAllExportDownload();
+
+            // Выбрать этот проект
+            SelectProjectInList(projectName);
+            SelectProjectInList(projectName2);
+            SelectExportMainProjectPanel(EXPORT_TYPE_SOURCE);
+            WaitExportDownloadBtn();
+
+            string notifierText = GetNotifierText();
+
+            // TODO заменить название документа
+            Assert.IsTrue(notifierText.Contains("Documents"),
+                "Ошибка: неправильный текст в сообщении об экспорте проектов: нет множественного числа\nСейчас текст: " + notifierText);
+        }
+
+        [Test]
+        public void NewExportDocumentCheckNotifierDate()
+        {
+            // TODO изменить выбор проекта
+            Authorization();
+            string projectName = "TestProject 635359166399768218";
+
+            // Закрыть все окна с экспортом
+            CancelAllExportDownload();
+
+            ClickProjectInList(projectName);
+            SelectDocumentInProject();
+            SelectExportMainProjectPanel(EXPORT_TYPE_SOURCE);
+            WaitExportDownloadBtn();
+
+            DateTime curDate = DateTime.Now.AddHours(3);
+
+            string notifierText = GetNotifierText();
+            Console.WriteLine("notifierText:\n" + notifierText);
+            int startIndex = notifierText.IndexOf("/") - 2;
+            Assert.IsTrue(startIndex > 0, "Ошибка: неверный формат даты в сообщении: " + notifierText);
+
+            string month = notifierText.Substring(startIndex, 2);
+            startIndex += 3; // "mm/" = 3
+            string day = notifierText.Substring(startIndex, 2);
+            startIndex += 3; // "dd/" = 3
+            string year = notifierText.Substring(startIndex, 4);
+            startIndex += 5; // "yyyy " = 5;
+            string hour = notifierText.Substring(startIndex, 2);
+            startIndex += 3; // "hh:" = 3
+            string min = notifierText.Substring(startIndex, 2);
+            Console.WriteLine(month + "/" + day + "/" + year + " " + hour + ":" + min);
+
+            DateTime notifierDate = new DateTime(int.Parse(year), int.Parse(month), int.Parse(day), int.Parse(hour), int.Parse(min), 0);
+
+            double timeSubtract = curDate.Subtract(notifierDate).Ticks;
+            timeSubtract = timeSubtract < 0 ? (-1 * timeSubtract) : timeSubtract;
+
+            Assert.IsTrue(timeSubtract < TimeSpan.TicksPerHour,
+                "Ошибка: неправильная дата в сообщений об экспорте: " + notifierText);
+        }
+
+        [Test]
+        public void NewExportMultiNotifiers()
+        {
+            // TODO изменить выбор проекта
+            Authorization();
+            string projectName = "TestDelete";
+            string projectName2 = "TestProject 635360046537156162";
+
+            // Закрыть все окна с экспортом
+            CancelAllExportDownload();
+
+            // Выбрать этот проект
+            SelectProjectInList(projectName);
+            SelectExportMainProjectPanel(EXPORT_TYPE_SOURCE);
+            WaitExportDownloadBtn();
+            Thread.Sleep(2000);
+
+            SelectProjectInList(projectName);
+            SelectProjectInList(projectName2);
+            SelectExportMainProjectPanel(EXPORT_TYPE_SOURCE);
+
+            Assert.IsTrue(WaitUntilDisplayElement(GetExportNotifierXPath() + "[2]"),
+                "Ошибка: не появилось второе сообщение об экспорте");
+
+            int notifierNum = Driver.FindElements(By.XPath(GetExportNotifierXPath())).Count;
+
+            Assert.IsTrue(notifierNum > 1, "Ошибка: сообщение об экспорте только одно (или ни одного)");
+        }
+
+        [Test]
+        public void NewExportChangeNotifiers()
+        {
+            // должны быть с разными документами
+            // TODO изменить выбор проекта
+            Authorization();
+            string projectName = "TestDelete";
+            string projectName2 = "TestProject 635360046537156162";
+
+            // Закрыть все окна с экспортом
+            CancelAllExportDownload();
+
+            // Выбрать этот проект
+            SelectProjectInList(projectName);
+            SelectExportMainProjectPanel(EXPORT_TYPE_SOURCE);
+            WaitExportDownloadBtn();
+            SelectProjectInList(projectName);
+            SelectProjectInList(projectName2);
+            SelectExportMainProjectPanel(EXPORT_TYPE_SOURCE);
+
+            Assert.IsTrue(WaitUntilDisplayElement(GetExportNotifierXPath() + "[2]"),
+                "Ошибка: не появилось второе сообщение об экспорте");
+            Thread.Sleep(1000);            
+            string firstNotifierText = GetNotifierText();
+            Driver.FindElement(By.XPath(GetExportNotifierXPath() + "[1]")).Click();
+            Thread.Sleep(1000);
+            string secondNotifierText = GetNotifierText();
+            Assert.AreNotEqual(firstNotifierText, secondNotifierText, "Ошибка: сообщение не изменилось");
+        }
+
+
+        const int maxNotifierNumber = 5;
+
+        [Test]
+        public void NewExportLimitNotifiers()
+        {
+            // TODO изменить выбор проекта
+            // если с эксплортом одного и того же документа баг - поменять
+            Authorization();
+            string projectName = "TestDelete";
+            string projectName2 = "TestProject 635360046537156162";
+
+            // Закрыть все окна с экспортом
+            CancelAllExportDownload();
+
+            // Выбрать этот проект
+            SelectProjectInList(projectName);
+            for (int i = 0; i < maxNotifierNumber; ++i)
+            {
+                SelectExportMainProjectPanel(EXPORT_TYPE_SOURCE);
+                Thread.Sleep(2000);
+                Assert.IsTrue(WaitUntilDisplayElement(GetExportNotifierXPath() + "[" + (i + 1) + "]"),
+                    "Ошибка: не появилось новое сообщение об экспорте (" + (i + 1) + ")");
+            }
+        }
+
+        [Test]
+        public void NewExportMoreLimitNotifiers()
+        {
+            // TODO изменить выбор проекта
+            // если с эксплортом одного и того же документа баг - поменять
+            Authorization();
+            string projectName = "TestDelete";
+            string projectName2 = "TestProject 635360046537156162";
+
+            // Закрыть все окна с экспортом
+            CancelAllExportDownload();
+
+            // Выбрать этот проект
+            SelectProjectInList(projectName);
+            for (int i = 0; i < maxNotifierNumber; ++i)
+            {
+                SelectExportMainProjectPanel(EXPORT_TYPE_SOURCE);
+                Thread.Sleep(2000);
+                Assert.IsTrue(WaitUntilDisplayElement(GetExportNotifierXPath() + "[" + (i + 1) + "]"),
+                    "Ошибка: не появилось новое сообщение об экспорте (" + (i + 1) + ")");
+            }
+
+            // Вызвать еще раз экспорт
+            SelectExportMainProjectPanel(EXPORT_TYPE_SOURCE);
+            Thread.Sleep(2000);
+            int notifierNum2 = Driver.FindElements(By.XPath(GetExportNotifierXPath())).Count;
+
+            Assert.IsFalse(notifierNum2 > maxNotifierNumber, "Ошибка: слишком много сообщений об экспорте");
+        }
+
+        [Test]
+        public void NewExportChangeNotifiersDownload()
+        {
+            // должны быть с разными документами
+            // TODO изменить выбор проекта
+            Authorization();
+            string projectName = "TestDelete";
+            string projectName2 = "TestProject 635360046537156162";
+
+            // Закрыть все окна с экспортом
+            CancelAllExportDownload();
+
+            // Выбрать этот проект
+            SelectProjectInList(projectName);
+            SelectExportMainProjectPanel(EXPORT_TYPE_SOURCE);
+            WaitExportDownloadBtn();
+            SelectProjectInList(projectName);
+            SelectProjectInList(projectName2);
+            SelectExportMainProjectPanel(EXPORT_TYPE_SOURCE);
+
+            Assert.IsTrue(WaitUntilDisplayElement(GetExportNotifierXPath() + "[2]"),
+                "Ошибка: не появилось второе сообщение об экспорте");
+            Thread.Sleep(1000);
+            string firstNotifierText = GetNotifierText();
+            Driver.FindElement(By.XPath(GetExportNotifierXPath() + "[1]")).Click();
+            Thread.Sleep(1000);
+
+            ClickDownloadExportNotifier();
+            // проверить загрузку
+            // TODO мб не реализовать...
+            Assert.Fail("доделать тест");
+        }
+
+        [Test]
+        [TestCase(EXPORT_TYPE_SOURCE)]
+        [TestCase(EXPORT_TYPE_TMX)]
+        [TestCase(EXPORT_TYPE_TARGET)]
+        public void NewExportRenameвDocument(string exportType)
+        {
+            Authorization();
+            // Закрыть все окна с экспортом
+            CancelAllExportDownload();
+
+            // TODO изменить выбор проекта
+            string projectName = "TestDelete";
+            ClickProjectOpenInfo(projectName);
+            ClickDocumentOpenInfo(1);
+
+            Driver.FindElement(By.XPath(".//tr[contains(@class,'js-document-panel')]//span[contains(@class,'js-settings-btn')]")).Click();
+            Wait.Until((d) => d.FindElement(By.XPath(".//div[contains(@class,'js-popup-document-settings')][2]")).Displayed);
+            IWebElement nameEl = Driver.FindElement(By.XPath(".//div[contains(@class,'js-popup-document-settings')][2]//input[contains(@class,'js-name')]"));
+            nameEl.Clear();
+            projectName = "TestProject" + DateTime.Now.Ticks;
+            nameEl.SendKeys(projectName);
+            Driver.FindElement(By.XPath(".//div[contains(@class,'js-popup-document-settings')][2]//span[contains(@class,'js-save')]")).Click();
+            WaitUntilDisappearElement(".//div[contains(@class,'js-popup-document-settings')][2]");
+
+            SelectExportProjectListDocumentRow(exportType);
+
+            WaitExportDownloadBtn();
+
+            string notifierText = GetNotifierText();
+
+            Assert.IsTrue(notifierText.Contains(projectName), "Ошибка: экспортируется документ со старым названием");
+        }
+
+        
 
         /// <summary>
         /// Удаление проект на вкладке проектов по имени
@@ -1441,6 +2002,270 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             Driver.FindElement(By.XPath(".//div[contains(@class,'js-popup-create-project')][2]//span[contains(@class,'js-back')]")).Click();
         }
 
+        
+        protected string GetExportNotifierXPath()
+        {
+            return ".//div[@id='export-documents-notifier']//div[contains(@class,'g-exportDocNotifications-item')]";
+        }
+
+        protected string GetNotifierText()
+        {
+            return Driver.FindElement(By.XPath(GetExportNotifierXPath() + "//div[not(contains(@style,'none'))]/span")).Text;
+        }
+
+        /// <summary>
+        /// Нажать отмену для всех загрузок
+        /// </summary>
+        protected void CancelAllExportDownload()
+        {
+            int numberElements = 0;
+            setDriverTimeoutMinimum();
+            do
+            {
+                IList<IWebElement> cancelList = Driver.FindElements(By.XPath(
+                    GetExportNotifierXPath() + "//a[contains(@class,'js-cancel')]"));
+
+                numberElements = cancelList.Count;
+                if (numberElements > 0)
+                {
+                    // Закрыть верхнее (последнее)
+                    cancelList[cancelList.Count - 1].Click();
+                    Thread.Sleep(2000);
+                }
+            } while (numberElements > 0);
+            setDriverTimeoutDefault();
+        }
+
+        protected void WorkWithExport()
+        {
+            // Дождаться появления Download в Notifier 
+            WaitExportDownloadBtn();
+            // Нажать Download
+            ClickDownloadExportNotifier();
+
+            // Заполнить форму для сохранения файла
+            string resultPath = Path.Combine(PathTestResults, "ExportedOriginalDocuments");
+            Directory.CreateDirectory(resultPath);
+
+            resultPath = Path.Combine(resultPath,
+                Path.GetFileNameWithoutExtension(DocumentFileToConfirm) + "_" + DateTime.Now.Ticks + Path.GetExtension(DocumentFileToConfirm));
+            // TODO !!!!!!!!!!!!!!!!!
+            
+
+
+
+
+
+
+
+            // изменить разширение!!!! TMX
+
+            Console.WriteLine("file: " + resultPath);
+            Thread.Sleep(1000);
+            SendKeys.SendWait(@"{Down}");
+            Thread.Sleep(1000);
+            SendKeys.SendWait(@"{Enter}");
+            Thread.Sleep(3000);
+            SendKeys.SendWait(resultPath);
+            Thread.Sleep(3000);
+            SendKeys.SendWait(@"{Enter}");
+            Thread.Sleep(3000);
+
+            Assert.IsTrue(File.Exists(resultPath),
+                "Ошибка: файл не экспортировался");
+        }
+
+        protected void WaitExportDownloadBtn()
+        {
+            // Дождаться появления информационного окна
+            Assert.IsTrue(WaitUntilDisplayElement(
+                GetExportNotifierXPath()),
+                "Ошибка: не появилось информационное окно об экспорте");
+
+            // Дождаться появления кнопки Download
+            Assert.IsTrue(WaitNotifierDownloadBtn(),
+                "Ошибка: не появилась кнопка Download");
+        }
+
+        protected const int MAX_NUMBER_RESTART_EXPORT = 1;
+        protected bool WaitNotifierDownloadBtn()
+        {
+            // TODO заменить id нотификатора
+            string prepareXPath = ".//div[@id='export-documents-notifier']//span[contains(text(),'Preparing')]";
+            string downloadXPath = ".//div[@id='export-documents-notifier']//a[contains(@class,'js-download-result')]";
+            string restartXPath = ".//div[@id='export-documents-notifier']//a[@class='js-restart-task']";
+
+            int restartCounter = 0;
+            bool isExistDownloadBtn = false;
+
+            // Дождаться, пока пропадет Prepare
+            Assert.IsTrue(WaitUntilDisappearElement(prepareXPath, 40),
+                    "Ошибка: сообщение Prepare висит слишком долго");
+            // Проверить, появилась ли кнопка Download
+            isExistDownloadBtn = IsElementDisplayed(By.XPath(downloadXPath));
+
+            // Пробовать Restart, пока не появится Download, но не больше максимального количества попыток
+            while (!isExistDownloadBtn && restartCounter < MAX_NUMBER_RESTART_EXPORT)
+            {                
+                // Если нет сообщения об ошибке (Restart) - вообще нет сообщений - ошибка
+                Assert.IsTrue(IsElementPresent(By.XPath(restartXPath)), "Ошибка: нет ни сообщения Download, ни сообщения об ошибке");
+                
+                // Нажать Restart
+                Driver.FindElement(By.XPath(restartXPath)).Click();
+
+                // Проверить, что Restart начался
+                bool isRestartStarted = IsElementDisplayed(By.XPath(prepareXPath))
+                    || IsElementDisplayed(By.XPath(downloadXPath));
+
+                // Нет ни сообщения о Prepare, ни download
+                Assert.IsTrue(isRestartStarted, "Ошибка: после нажатия на Restart не начался экпорт заново");
+                // Дождаться, пока пропадет Prepare
+                Assert.IsTrue(WaitUntilDisappearElement(prepareXPath, 40),
+                    "Ошибка: сообщение Prepare висит слишком долго");
+                // Проверить Download
+                isExistDownloadBtn = IsElementDisplayed(By.XPath(downloadXPath));
+                ++restartCounter;
+            }
+
+            if (!isExistDownloadBtn)
+            {
+                // Если сделали N Restart - вывести ошибку, что тест дальше не может проверить функционал
+                Assert.IsTrue(restartCounter < MAX_NUMBER_RESTART_EXPORT,
+                    "Ошибка при экспорте! Выводится сообщение, что при экспорте произошла ошибка! Тест дальше проходить не может");
+            }
+
+            return isExistDownloadBtn;
+        }
+
+        protected void ClickDownloadExportNotifier()
+        {
+            Driver.FindElement(By.XPath(".//div[@id='export-documents-notifier']//a[contains(@class,'js-download-result')]")).Click();
+        }
+
+        protected void ClickCancelExportNotifier()
+        {
+            Driver.FindElement(By.XPath(".//div[@id='export-documents-notifier']//a[contains(@class,'js-cancel')]")).Click();
+        }
+
+        protected void SelectExportMainProjectPanel(string exportType)
+        {
+            //Нажать на кнопку Export
+            IWebElement el = Driver.FindElement(By.XPath(".//span[contains(@class,'js-document-export-block')]"));
+            Assert.IsFalse(el.GetAttribute("class").Contains("disable"), "Ошибка: кнопка Экспорт заблокирована");
+            el.Click();
+            //Выбрать тип экспорта
+            exportType = GetExportTypePage(exportType);
+            Driver.FindElement(By.XPath(
+                ".//div[contains(@class,'js-document-export') and contains(@data-download-type,'" + exportType + "')]//a")).Click();
+        }
+
+        protected void SelectExportProjectListRow(string exportType)
+        {
+            //Нажать на кнопку Export
+            Driver.FindElement(By.XPath(".//tr[contains(@class,'js-project-panel')]//span[contains(@class,'js-document-export-block')]")).Click();
+            //Выбрать тип экспорта
+            exportType = GetExportTypePage(exportType);
+            Driver.FindElement(By.XPath(
+                ".//div[contains(@class,'js-project-panel-export') and contains(@data-download-type,'" + exportType + "')]//a")).Click();
+        }
+
+        protected string GetExportTypePage(string exportType)
+        {
+            string exportTypePage = "";
+            switch (exportType)
+            {
+                case EXPORT_TYPE_SOURCE:
+                    exportTypePage = "Source";
+                    break;
+                case EXPORT_TYPE_TMX:
+                    exportTypePage = "Tmx";
+                    break;
+                case EXPORT_TYPE_TARGET:
+                    exportTypePage = "Target";
+                    break;
+            }
+            return exportTypePage;
+        }
+
+
+        protected void SelectDocumentInProjectList()
+        {
+
+            // TODO проверить
+            Thread.Sleep(2000);
+            Driver.FindElement(By.XPath(
+                ".//tr[@class='js-project-panel']/following-sibling::tr[contains(@class, 'js-document-row')]//td[contains(@class,'checkbox')]//input"))
+                .Click();
+        }
+
+        protected void ClickDocumentOpenInfo(int documentNumber)
+        {
+            // Кликнуть на открытие информации о документе
+            string documentXPath = ".//tr[@class='js-project-panel']/following-sibling::tr[contains(@class, 'js-document-row')]["
+                + documentNumber +
+                "]//td[contains(@class,'openCloseCell')]";
+            Assert.IsTrue(IsElementPresent(By.XPath(documentXPath)), "Ошибка: документов меньше " + documentNumber);
+
+            Driver.FindElement(By.XPath(documentXPath)).Click();
+        }
+
+        protected void SelectExportProjectListDocumentRow(string exportType)
+        {
+            //Нажать на кнопку Export
+            Driver.FindElement(By.XPath(".//tr[contains(@class,'js-document-panel')]//span[contains(@class,'js-document-export-block')]")).Click();
+            //Выбрать тип экспорта
+            exportType = GetExportTypePage(exportType);
+            Driver.FindElement(By.XPath(
+                ".//div[contains(@class,'js-document-panel-export') and contains(@data-download-type,'" + exportType + "')]//a")).Click();
+        }
+
+
+        
+
+        protected string CreateCommonProjectOneDocument()
+        {
+            setDriverTimeoutMinimum();
+            string currentProjectName = ProjectNameExportTestOneDoc;
+            if (!GetIsProjectInList(currentProjectName))
+            {
+                CreateProject(currentProjectName, false, "", "");
+                ImportDocumentProjectSettings(DocumentFileToConfirm, currentProjectName);
+                AssignTask();
+                OpenDocument();
+                ConfirmButton();
+                BackButton();
+            }
+            setDriverTimeoutDefault();
+            return currentProjectName;
+        }
+
+        protected string CreateCommonProjectMultiDocuments()
+        {
+            setDriverTimeoutMinimum();
+            string currentProjectName = ProjectNameExportTestMultiDoc;
+            if (!GetIsProjectInList(currentProjectName))
+            {
+                CreateProject(currentProjectName, false, "", "");
+                ImportDocumentProjectSettings(DocumentFileToConfirm, currentProjectName);
+                AssignTask();
+                OpenDocument();
+                ConfirmButton();
+                BackButton();
+                ImportDocumentProjectSettings(DocumentFileToConfirm2, currentProjectName);
+                AssignTask(2);
+                OpenDocument(2);
+                ConfirmButton();
+                BackButton();
+            }
+            setDriverTimeoutDefault();
+            return currentProjectName;
+        }
+
+        [TearDown]
+        public void Teardown()
+        {
+            CancelAllExportDownload();
+        }
     }
 
 

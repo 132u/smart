@@ -32,6 +32,7 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
         protected const string REVISION_TYPE_CONFIRMED = "Confirmed";
         protected const string REVISION_TYPE_INSERT_MT = "Insert MT";
         protected const string REVISION_TYPE_INSERT_TM = "Insert TM";
+        protected const string REVISION_TYPE_ROLLBACK = "Rollback";
 
         /// <summary>
         /// Старт тестов, переменные
@@ -497,8 +498,7 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             Assert.IsTrue(WaitUntilDisplayElement(".//div[@id='rollback']"), "Ошибка: не появился диалог подтверждения отката");
 
             // Нажать да
-            // TODO изменить id
-            Driver.FindElement(By.XPath(".//div[@id='rollback']//span[contains(text(),'Yes')]")).Click();
+            Driver.FindElement(By.XPath(".//div[@id='rollback']//a[contains(@class,'x-btn-blue')]")).Click();
             WaitUntilDisappearElement(".//div[@id='rollback']");
 
             // Текст в сегменте
@@ -526,8 +526,7 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             }
 
             // Проверить, что тип новой ревизии - Rollback
-            // TODO изменить тип
-            if (revisionType != "Rollback")
+            if (revisionType != REVISION_TYPE_ROLLBACK)
             {
                 isOk = false;
                 errorMessage += "Ошибка: тип ревизии неправильный: " + revisionType;
@@ -565,15 +564,13 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             Assert.IsTrue(WaitUntilDisplayElement(".//div[@id='rollback']"), "Ошибка: не появился диалог подтверждения отката");
 
             // Нажать нет
-            // TODO изменить id
-            Driver.FindElement(By.XPath(".//div[@id='rollback']//span[contains(text(),'No')]")).Click();
+            Driver.FindElement(By.XPath(".//div[@id='rollback']//a[contains(@class,'x-btn-gray')]")).Click();
             WaitUntilDisappearElement(".//div[@id='rollback']");
 
             // Проверить, что количество ревизий не увеличилось
             Assert.AreEqual(revisionCountBefore, GetRevisionListCount(), "Ошибка: количество ревизий изменилось");
             // Проверить, что тип последней ревизии - не Rollback
-            // TODO заменить тип
-            Assert.AreNotEqual("Rollback", GetRevisionType(1), "Ошибка: появилась ревизия Rollback");
+            Assert.AreNotEqual(REVISION_TYPE_ROLLBACK, GetRevisionType(1), "Ошибка: появилась ревизия Rollback");
         }
 
         /// <summary>
@@ -641,8 +638,8 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             Assert.AreEqual(2, GetRevisionListCount(), "Ошибка: должно быть две ревизии");
 
             // Проверить, что в последней ревизии выделен удаленный текст
-            // TODO заменить столбец
-            Assert.IsTrue(IsElementPresent(By.XPath(".//div[@id='revisions-body']//table//tbody//tr[1]//td[2]//del")),
+            Assert.IsTrue(IsElementPresent(By.XPath(
+                ".//div[@id='revisions-body']//table//tbody//tr[1]//td[contains(@class,'revision-text-cell')]//del")),
                 "Ошибка: в ревизии нет пометки об удаленном тексте");
         }
 
@@ -677,8 +674,8 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             Assert.AreEqual(2, GetRevisionListCount(), "Ошибка: должно быть две ревизии");
 
             // Проверить, что в последней ревизии выделен удаленный текст
-            // TODO заменить столбец
-            Assert.IsTrue(IsElementPresent(By.XPath(".//div[@id='revisions-body']//table//tbody//tr[1]//td[2]//ins")),
+            Assert.IsTrue(IsElementPresent(By.XPath(
+                ".//div[@id='revisions-body']//table//tbody//tr[1]//td[contains(@class,'revision-text-cell')]//ins")),
                 "Ошибка: в ревизии нет пометки об удаленном тексте");
         }
 
@@ -689,9 +686,10 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
         /// <returns>элемент IWebDriver</returns>
         protected IWebElement GetSegmentTargetElement(int segmentRowNumber)
         {
-            //TODO заменить номер столбца
             return Driver.FindElement(By.XPath(
-                ".//div[@id='segments-body']//table//tbody//tr[" + segmentRowNumber + "]//td[3]/div"));
+                ".//div[@id='segments-body']//table//tbody//tr["
+                + segmentRowNumber
+                + "]//td[contains(@class,'target-cell')]/div"));
         }
 
         /// <summary>
@@ -765,8 +763,8 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
         /// </summary>
         protected void ClickTimeToSortRevisions()
         {
-            // TODO заменить id
-            Driver.FindElement(By.XPath(".//span[contains(text(),'Time')]")).Click();
+            // TODO мб span
+            Driver.FindElement(By.XPath(".//div[contains(@class,'revision-date-column')]//span")).Click();
         }
 
         /// <summary>
@@ -812,9 +810,10 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
         /// <returns>тип ревизии</returns>
         protected string GetRevisionType(int rowNumber)
         {
-            // TODO заменить номер столбика
             return Driver.FindElement(By.XPath(
-                ".//div[@id='revisions-body']//table//tbody//tr[" + rowNumber + "]//td[5]/div")).Text;
+                ".//div[@id='revisions-body']//table//tbody//tr["
+                + rowNumber
+                + "]//td[contains(@class,'revision-type-cell')]/div")).Text;
         }
 
         /// <summary>
@@ -823,9 +822,7 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
         /// <returns>заблокирована</returns>
         protected bool GetRollbackBtnDisabled()
         {
-            // TODO заменить id
-            return Driver.FindElement(By.XPath(
-                ".//span[contains(text(),'Rollback')]/../../../../a")).GetAttribute("class").Contains("x-btn-disabled");
+            return Driver.FindElement(By.Id("revision-tollback-btn")).GetAttribute("class").Contains("x-btn-disabled");
         }
 
         /// <summary>
@@ -833,9 +830,7 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
         /// </summary>
         protected void ClickRollbackBtn()
         {
-            // TODO заменить id
-            Driver.FindElement(By.XPath(
-                ".//span[contains(text(),'Rollback')]")).Click();
+            Driver.FindElement(By.Id("revision-tollback-btn")).Click();
         }
 
         /// <summary>
@@ -845,8 +840,9 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
         /// <returns>текст</returns>
         protected string GetRevisionText(int revisionRowNumber)
         {
-            // TODO зменить номер столбца
-            return Driver.FindElement(By.XPath(".//div[@id='revisions-body']//table//tbody//tr[" + revisionRowNumber + "]//td[2]")).Text;
+            return Driver.FindElement(By.XPath(".//div[@id='revisions-body']//table//tbody//tr["
+                + revisionRowNumber
+                + "]//td[contains(@class,'revision-text-cell')]")).Text;
         }
 
         /// <summary>
@@ -856,8 +852,9 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
         /// <returns>время</returns>
         protected string GetRevisionTime(int revisionRowNumber)
         {
-            // TODO зменить номер столбца
-            return Driver.FindElement(By.XPath(".//div[@id='revisions-body']//table//tbody//tr[" + revisionRowNumber + "]//td[3]")).Text;
+            return Driver.FindElement(By.XPath(".//div[@id='revisions-body']//table//tbody//tr["
+                + revisionRowNumber
+                + "]//td[contains(@class,'revision-date-cell')]")).Text;
         }
 
         /// <summary>
@@ -876,9 +873,10 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
         /// <returns>сегмент подтвердился</returns>
         protected bool WaitSegmentConfirm(int segmentRowNumber)
         {
-            // TODO заменить столбец
             return WaitUntilDisplayElement(
-                ".//div[@id='segments-body']//table//tbody//tr[" + segmentRowNumber + "]//td[4]//span[contains(@class,'fa-check')]");
+                ".//div[@id='segments-body']//table//tbody//tr["
+                + segmentRowNumber
+                + "]//td[contains(@class,'info-cell')]//span[contains(@class,'fa-check')]");
         }
 
         /// <summary>
@@ -890,8 +888,7 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             if (!GetIsRevisionsTabAvailable())
             {
                 // Открыть вкладку Ревизии
-                // TODO заменить id кнопки
-                Driver.FindElement(By.XPath(".//span[contains(text(),'Revisions')]")).Click();
+                Driver.FindElement(By.Id("revisions-tab")).Click();
                 Wait.Until((d) => d.FindElement(By.Id("segments-body")).Displayed);
             }
         }
@@ -975,11 +972,12 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             
             //открытие настроек проекта            
             ImportDocumentProjectSettings(EditorTXTFile, ProjectName);
+            //ImportDocumentProjectSettings(DocumentFileToConfirm, ProjectName);
             // 3. Назначение задачи на пользователя
             AssignTask();
 
             // 4. Открытие документа по имени созданного проекта
-            OpenDocument(ProjectName);
+            OpenDocument();
         }
     }
 }

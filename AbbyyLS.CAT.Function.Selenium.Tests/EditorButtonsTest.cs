@@ -30,8 +30,8 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             // 3. Назначение задачи на пользователя
             AssignTask();
 
-            // 4. Открытие документа по имени созданного проекта
-            OpenDocument(ProjectName);
+            // 4. Открытие документа
+            OpenDocument();
         }
 
 
@@ -130,7 +130,7 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 
         /// <summary>
         /// Метод тестирования кнопки изменения регистра для всего текста
-        /// 
+        /// </summary>
         [Test]
         public void ChangeCaseTextButtonTest()
         {
@@ -139,7 +139,7 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 
         /// <summary>
         /// Метод тестирования хоткея изменения регистра для всего текста
-        /// 
+        /// </summary>
         [Test]
         public void ChangeCaseTextHotkeyTest()
         {
@@ -148,7 +148,7 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 
         /// <summary>
         /// Метод тестирования кнопки изменения регистра для слова (не первого)
-        /// 
+        /// </summary>
         [Test]
         public void ChangeCaseSomeWordButtonTest()
         {
@@ -157,7 +157,7 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 
         /// <summary>
         /// Метод тестирования хоткея изменения регистра для слова (не первого)
-        /// 
+        /// </summary>
         [Test]
         public void ChangeCaseSomeWordHotkeyTest()
         {
@@ -166,7 +166,7 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 
         /// <summary>
         /// Метод тестирования кнопки и хоткея изменения регистра для первого слова
-        /// 
+        /// </summary>
         [Test]
         public void ChangeCaseFirstWordTest()
         {

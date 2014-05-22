@@ -106,6 +106,24 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             }
         }
 
+        private string _projectNameExportTestOneDoc;
+        protected string ProjectNameExportTestOneDoc
+        {
+            get
+            {
+                return _projectNameExportTestOneDoc;
+            }
+        }
+
+        private string _projectNameExportTestMultiDoc;
+        protected string ProjectNameExportTestMultiDoc
+        {
+            get
+            {
+                return _projectNameExportTestMultiDoc;
+            }
+        }
+
         protected string GlossaryName
         {
             get
@@ -139,6 +157,15 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             get
             {
                 return _documentFileToConfirm;
+            }
+        }
+
+        private string _documentFileToConfirm2;
+        protected string DocumentFileToConfirm2
+        {
+            get
+            {
+                return _documentFileToConfirm2;
             }
         }
 
@@ -252,9 +279,12 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             _password = ConfigurationManager.AppSettings["Password"];
             _deadlineDate = ConfigurationManager.AppSettings["DeadlineDate"];
             _documentFile = Path.GetFullPath(ConfigurationManager.AppSettings["DocumentFile"]);
-            _documentFileToConfirm = Path.GetFullPath(ConfigurationManager.AppSettings["DocumentFileToConfrim"]);
+            _documentFileToConfirm = Path.GetFullPath(ConfigurationManager.AppSettings["DocumentFileToConfirm"]);
+            _documentFileToConfirm2 = Path.GetFullPath(ConfigurationManager.AppSettings["DocumentFileToConfirm2"]);
             _constTmName = ConfigurationManager.AppSettings["TMName"];
             _glossaryName = ConfigurationManager.AppSettings["GlossaryName"];
+            _projectNameExportTestOneDoc = ConfigurationManager.AppSettings["ProjectNameExportTestOneDoc"];
+            _projectNameExportTestMultiDoc = ConfigurationManager.AppSettings["ProjectNameExportTestMultiDoc"];
 
             CreateUniqueNamesByDatetime();
             
@@ -413,13 +443,10 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
         /// <summary>
         /// Метод назначения задачи на пользователя 
         /// </summary>
-        protected void AssignTask()
+        protected void AssignTask(int documentRowNum = 1)
         {
             // нажать галочку около документа
-            _wait.Until((d) => d.FindElement(By.XPath(
-                ".//table[contains(@class,'js-documents-table')]//tr[contains(@class,'js-document-row')]/td[contains(@class,'js-checkbox-area')]/span")));
-            _driver.FindElement(By.XPath(
-                ".//table[contains(@class,'js-documents-table')]//tr[contains(@class,'js-document-row')]/td[contains(@class,'js-checkbox-area')]/span")).Click();
+            SelectDocumentInProject(documentRowNum);
             // нажать на Progress
             _driver.FindElement(By.XPath(".//span[contains(@class,'js-document-progress')]")).Click();
             WaitUntilDisplayElement(".//div[contains(@class,'js-popup-progress')][2]");
@@ -432,17 +459,26 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
                 )));
             Driver.FindElement(By.XPath(".//span[contains(@class,'js-dropdown__item')][@title='Bob Test']")).Click();
             // Нажать на Assign
-            _wait.Until(d => _driver.FindElement(By.XPath(
-                ".//table[contains(@class,'js-progress-table')]//tr[1]//td[4]//span[contains(@class,'js-assign')]"
-                ))).Click();
+            _driver.FindElement(By.XPath(".//span[contains(@class,'js-assign')]//a")).Click();
+
             WaitUntilDisplayElement(".//span[contains(@class,'js-assigned-cancel')]");
+
             // Нажать на Close
             _driver.FindElement(By.XPath(
                 ".//div[contains(@class,'js-popup-progress')][2]//span[contains(@class,'js-popup-close')]")).Click();
 
+            SelectDocumentInProject(documentRowNum);
+
             // Обновить страницу, чтобы активен был переход в редактор
-            _driver.FindElement(By.XPath(
-               ".//table[contains(@class,'js-documents-table')]")).SendKeys(OpenQA.Selenium.Keys.F5);
+            _driver.Navigate().Refresh();
+
+            
+            // Нажать на Accept
+            IList<IWebElement> acceptList = Driver.FindElements(By.XPath(".//span[contains(@class,'js-accept')]"));
+            foreach(IWebElement el in acceptList)
+            {
+                el.Click();
+            }
 
             /*// Вернуться на главную страницу
             _driver.FindElement(By.XPath(".//a[contains(@href,'/Workspace')]")).Click();
@@ -459,14 +495,21 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 
 #endif
 
+
+        protected void SelectDocumentInProject(int docNum = 1)
+        {
+            // Нажать галочку у документа
+            Driver.FindElement(By.XPath(
+                ".//table[contains(@class,'js-documents-table')]//tr[" + docNum + "]//td[contains(@class,'checkbox')]//input")).Click();
+        }
+
         /// <summary>
         /// Метод открытия документа в редакторе
         /// </summary>
-        /// <param name="projectname">имя открываемого проекта</param>
-        protected void OpenDocument(string projectname)
+        protected void OpenDocument(int docNum = 1)
         {           
             // Открыть документ
-            _driver.FindElement(By.XPath(".//a[contains(@class,'js-editor-link')]")).Click();
+            _driver.FindElement(By.XPath(".//tr[contains(@class,'js-document-row')][" + docNum + "]//a[contains(@class,'js-editor-link')]")).Click();
 
             // Дождаться загрузки страницы
             _wait.Until((d) => d.Title.Contains("Editor"));
@@ -648,7 +691,7 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             Pretranslate();
         }
 #elif NEW_WORKSPACE
-        protected void CreateProject(string ProjectName, bool FileFlag, string DocumentName, bool chooseMT = true)
+        protected void CreateProject(string ProjectName, bool FileFlag, string DocumentName, bool chooseMT = false)
         {
             FirstStepProjectWizard(ProjectName);
 
@@ -675,6 +718,8 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 
             //Finish
             Pretranslate();
+
+            Thread.Sleep(5000);
         }
 #endif
 
@@ -712,17 +757,21 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             Wait.Until((d) => d.FindElement(By.XPath(".//div[contains(@class,'js-step last active')]")));
             Driver.FindElement(By.XPath(".//span[contains(@class,'js-finish js-upload-btn')]")).Click();
             // Дождаться загрузки документа
-            Wait.Until((d) => d.FindElement(By.XPath(".//img[contains(@title,'Job processing')]")).Displayed);
-            bool isDisappeared = false;
-            for (int i = 0; i < 10; ++i)
+            if (IsElementDisplayed(By.XPath(".//img[contains(@title,'Processing job')]")))
             {
-                isDisappeared = WaitUntilDisappearElement(".//img[contains(@title,'Job processing')]", 40);
-                if (isDisappeared)
+                Console.WriteLine("Ждем пропадания");
+                bool isDisappeared = false;
+                for (int i = 0; i < 10; ++i)
                 {
-                    break;
+                    isDisappeared = WaitUntilDisappearElement(".//img[contains(@title,'Processing job')]", 40);
+                    if (isDisappeared)
+                    {
+                        break;
+                    }
                 }
+                Assert.IsTrue(isDisappeared, "Ошибка: файл так и не загрузился");
+                Console.WriteLine("пропал");
             }
-            Assert.IsTrue(isDisappeared, "Ошибка: файл так и не загрузился");
         }
 
         /// <summary>
@@ -734,7 +783,7 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             Wait.Until((d) => d.FindElement(By.XPath(".//span[contains(@class,'js-project-create')]")));
         }
 
-        protected void CreateProject(string ProjectName, bool FileFlag, string DocumentName, string TmName, bool chooseMT = true)
+        protected void CreateProject(string ProjectName, bool FileFlag, string DocumentName, string TmName, bool chooseMT = false)
         {
             FirstStepProjectWizard(ProjectName);
 
@@ -807,6 +856,38 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             Thread.Sleep(3000);
         }
 
+        protected void ExternalDialogSelectSaveDocument(string documentName)
+        {
+            Thread.Sleep(2000);
+            // В открывшемся диалоге выбираем "Сохранить"
+            SendKeys.SendWait(@"{DOWN}");
+            Thread.Sleep(1000);
+            SendKeys.SendWait(@"{Enter}");
+            Thread.Sleep(2000);
+            // Ввести адрес
+            SendKeys.SendWait(documentName);
+            Thread.Sleep(1000);
+            SendKeys.SendWait(@"{Enter}");
+            Thread.Sleep(1000);
+        }
+
+        protected void ExternalDialogSaveDocument(string subFolderName, string filePath)
+        {
+            // Заполнить форму для сохранения файла
+            string resultPath = Path.Combine(PathTestResults, subFolderName);
+            Directory.CreateDirectory(resultPath);
+
+            Thread.Sleep(1000);
+            SendKeys.SendWait
+                (Path.Combine(resultPath, Path.GetFileNameWithoutExtension(filePath) + "_" + ProjectName + Path.GetExtension(filePath)));
+            Thread.Sleep(1000);
+
+            SendKeys.SendWait(@"{Enter}");
+            Thread.Sleep(5000);
+            Assert.IsTrue(File.Exists(Path.Combine
+                (resultPath, Path.GetFileNameWithoutExtension(filePath) + "_" + ProjectName + Path.GetExtension(filePath))),
+                "Ошибка: файл не экспортировался");
+        }
 #if OLD_WORKSPACE
         public void ChooseExistingTM()
         {
@@ -1026,22 +1107,24 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             tmNameEl.Clear();
             tmNameEl.SendKeys(_tmName);
 
-            //Добавить тмх файл
-            _driver.FindElement(By.XPath(".//div[contains(@class,'js-popup-create-tm')][2]//a[contains(@class,'js-save-and-import')]")).Click();
-            _wait.Until((d) => d.FindElement(By.XPath(".//div[contains(@class,'js-popup-import')][2]")).Displayed);
-            _driver.FindElement(By.XPath(".//div[contains(@class,'js-popup-import')][2]//a[contains(@class,'js-upload-btn')]")).Click();
+            if (TmName.Length > 0)
+            {
+                //Добавить тмх файл
+                _driver.FindElement(By.XPath(".//div[contains(@class,'js-popup-create-tm')][2]//a[contains(@class,'js-save-and-import')]")).Click();
+                _wait.Until((d) => d.FindElement(By.XPath(".//div[contains(@class,'js-popup-import')][2]")).Displayed);
+                _driver.FindElement(By.XPath(".//div[contains(@class,'js-popup-import')][2]//a[contains(@class,'js-upload-btn')]")).Click();
 
-            Thread.Sleep(1000);
-            // Заполнить форму для отправки файла
-            SendKeys.SendWait(TmName);
-            Thread.Sleep(1000);
-            SendKeys.SendWait(@"{Enter}");
-            Thread.Sleep(2000);
+                FillAddDocumentForm(TmName);
 
-            //Нажать на кнопку Import
-            _driver.FindElement(By.XPath(".//div[contains(@class,'js-popup-import')][2]//span[contains(@class,'js-import-button')]")).Click();
-
-            WaitUntilDisappearElement(".//div[contains(@class,'js-popup-import')][2]");
+                //Нажать на кнопку Import
+                _driver.FindElement(By.XPath(".//div[contains(@class,'js-popup-import')][2]//span[contains(@class,'js-import-button')]")).Click();
+                WaitUntilDisappearElement(".//div[contains(@class,'js-popup-import')][2]");
+            }
+            else
+            {
+                _driver.FindElement(By.XPath(".//div[contains(@class,'js-popup-create-tm')][2]//span[contains(@class,'js-save')]")).Click();
+                WaitUntilDisappearElement(".//div[contains(@class,'js-popup-create-tm')][2]");
+            }
         }
 
         public void AddTMXFile(string projectname)
@@ -1529,7 +1612,8 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
         {
             // Кликнуть на открытие информации о проекте
             Driver.FindElement(By.XPath(
-                ".//table[contains(@class,'js-tasks-table')]//tr//td[2]//a[@class='js-name'][text()='" + ProjectNameToClick + "']/../../..//td[contains(@class,'openCloseCell')]")).Click();
+                ".//table[contains(@class,'js-tasks-table')]//tr//td[2]//a[@class='js-name'][text()='"
+                + ProjectNameToClick + "']/../../..//td[contains(@class,'openCloseCell')]")).Click();
         }
 
         protected bool WaitUntilDisappearElement(string xPath, int maxWaitSeconds = 10)

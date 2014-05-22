@@ -370,17 +370,8 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 
             // Нажать Экспорт
             Driver.FindElement(By.XPath(".//a[contains(@href,'/Glossaries/Export')]")).Click();
-            Thread.Sleep(2000);
-            // В открывшемся диалоге выбираем "Сохранить"
-            SendKeys.SendWait(@"{DOWN}");
-            Thread.Sleep(1000);
-            SendKeys.SendWait(@"{Enter}");
-            Thread.Sleep(2000);
-            // Ввести адрес
-            SendKeys.SendWait(uniqueGlossaryName);
-            Thread.Sleep(1000);
-            SendKeys.SendWait(@"{Enter}");
-            Thread.Sleep(1000);
+            // Сохранить документ
+            ExternalDialogSelectSaveDocument(uniqueGlossaryName);
 
             // Проверить, экспортировался ли файл
             Assert.IsTrue(System.IO.File.Exists(uniqueGlossaryName + ".xlsx"), "Ошибка: файл не экспортировался");

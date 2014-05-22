@@ -192,17 +192,8 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 
             // Отрыть информацию о ТМ и нажать кнопку
             ClickButtonTMInfo(TMName, "js-export-btn");
-            Thread.Sleep(2000);
-            // В открывшемся диалоге выбираем "Сохранить"
-            SendKeys.SendWait(@"{DOWN}");
-            Thread.Sleep(1000);
-            SendKeys.SendWait(@"{Enter}");
-            Thread.Sleep(2000);
-            // Ввести адрес
-            SendKeys.SendWait(uniqueExportName);
-            Thread.Sleep(1000);
-            SendKeys.SendWait(@"{Enter}");
-            Thread.Sleep(1000);
+            // Сохранить файл
+            ExternalDialogSelectSaveDocument(uniqueExportName);
 
             // Проверить, экспортировался ли файл
             Assert.IsTrue(System.IO.File.Exists(uniqueExportName + ".tmx"), "Ошибка: файл не экспортировался");
@@ -227,17 +218,8 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 
             // Отрыть информацию о ТМ и нажать кнопку
             ClickButtonTMInfo(TMName, "js-export-btn", false);
-            Thread.Sleep(2000);
-            // В открывшемся диалоге выбираем "Сохранить"
-            SendKeys.SendWait(@"{DOWN}");
-            Thread.Sleep(2000);
-            SendKeys.SendWait(@"{Enter}");
-            Thread.Sleep(2000);
-            // Ввести адрес
-            SendKeys.SendWait(uniqueExportName);
-            Thread.Sleep(1000);
-            SendKeys.SendWait(@"{Enter}");
-            Thread.Sleep(1000);
+            // Сохранить файл
+            ExternalDialogSelectSaveDocument(uniqueExportName);
 
             // Проверить, экспортировался ли файл
             Assert.IsTrue(System.IO.File.Exists(uniqueExportName + ".tmx"), "Ошибка: файл не экспортировался");

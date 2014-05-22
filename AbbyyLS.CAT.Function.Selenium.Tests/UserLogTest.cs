@@ -33,7 +33,7 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             AssignTask();
 
             // 4. Открытие документа по имени созданного проекта
-            OpenDocument(ProjectName);
+            OpenDocument();
         }
 
         public UserLogTest(string url, string workspaceUrl, string browserName)
@@ -58,15 +58,7 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             Driver.FindElement(By.Id("log-export-btn")).Click();
 
             // Заполнить форму для сохранения файла
-            Thread.Sleep(1000);
-
-            SendKeys.SendWait(fullResultPath);
-
-            Thread.Sleep(1000);
-
-            SendKeys.SendWait(@"{Enter}");
-
-            Thread.Sleep(5000);
+            FillAddDocumentForm(fullResultPath);
 
             Assert.IsTrue(System.IO.File.Exists(fullResultPath + ".zip"));
         }
@@ -601,7 +593,7 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 
             AddTMXFile(ProjectName);
             Driver.FindElement(By.LinkText(ProjectName)).Click();
-            OpenDocument(ProjectName);
+            OpenDocument();
         }
 
 
