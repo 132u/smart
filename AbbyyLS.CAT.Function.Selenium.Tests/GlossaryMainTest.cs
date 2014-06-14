@@ -42,16 +42,13 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             // Открыть форму создания глоссария
             OpenCreateGlossary();
             // Нажать сохранить
-            Driver.FindElement(By.XPath(
-               ".//div[contains(@class,'js-popup-edit-glossary')][2]//span[contains(@class,'js-save')]")).Click();
+            GlossaryEditForm.ClickSaveGlossary();
 
             // Проверить, что поле Имя отмечено ошибкой
-            Assert.IsTrue(Driver.FindElement(By.XPath(
-                ".//div[contains(@class,'js-popup-edit-glossary')][2]//input[contains(@class,'js-glossary-name error')]")).Displayed,
+            Assert.IsTrue(GlossaryEditForm.GetIsExistGlossaryNameError(),
                 "Ошибка: поле имя не отмечено ошибкой");
             // Проверить, что появилось сообщение о пустом имени
-            Assert.IsTrue(Driver.FindElement(By.XPath(
-                ".//div[contains(@class,'js-popup-edit-glossary')][2]//p[contains(@class,'js-error-glossary-name-required')]")).Displayed,
+            Assert.IsTrue(GlossaryEditForm.GetIsExistErrorMessageEmptyGlossaryName(),
                 "Ошибка: не появилось сообщение о пустом имени");
         }
 
@@ -70,8 +67,7 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             // Создать глоссарий с этим же именем
             CreateGlossaryByName(glossaryName, false);
             // Проверить, что появилось сообщение о существующем имени
-            Assert.IsTrue(Driver.FindElement(By.XPath(
-                ".//div[contains(@class,'js-popup-edit-glossary')][2]//p[contains(@class,'js-error-glossary-exists')]")).Displayed,
+            Assert.IsTrue(GlossaryEditForm.GetIsExistErrorMessageExistGlossaryName(),
                 "Ошибка: не появилось сообщение о существующем имени");
         }
 
@@ -85,49 +81,16 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             OpenCreateGlossary();
 
             // Добавить язык (de)
-            Driver.FindElement(By.XPath(
-                ".//div[contains(@class,'js-popup-edit-glossary')][2]//span[contains(@class,'js-add-language-button')]")).Click();
-            Wait.Until((d) => d.FindElement(By.XPath(
-                ".//span[contains(@class,'js-glossary-language')][3]//span[contains(@class,'js-dropdown')]"))).Click();
-            Wait.Until((d) => d.FindElement(By.XPath(
-                ".//span[contains(@class,'js-dropdown__list glossary')]//span[@data-id = '7']"))).Click();
-
-            // Получить список выбранных языков
-            List<string> languages = new List<string>();
-            IList<IWebElement> selectedLanguages = Driver.FindElements(By.XPath(
-                ".//div[contains(@class, 'js-glossary-languages')]//span[contains(@class, 'js-glossary-language')]//span[contains(@class, 'js-dropdown__text')]"));
-            foreach (IWebElement el in selectedLanguages)
-            {
-                languages.Add(el.GetAttribute("data-id"));
-            }
+            GlossaryEditForm.ClickAddLanguage();
+            GlossaryEditForm.ClickLastLangOpenCloseList();
+            GlossaryEditForm.SelectLanguage(CommonHelper.LANGUAGE.German);
 
             // Нажать кнопку добавления языка
-            Driver.FindElement(By.XPath(
-                ".//div[contains(@class,'js-popup-edit-glossary')][2]//span[contains(@class,'js-add-language-button')]")).Click();
-            // Нажать для открытия списка доступных языков (нажать на 4й только что добавленный язык)
-            Wait.Until((d) => d.FindElement(By.XPath(
-                ".//span[contains(@class,'js-glossary-language')][4]//span[contains(@class,'js-dropdown')]"))).Click();
+            GlossaryEditForm.ClickAddLanguage();
+            GlossaryEditForm.ClickLastLangOpenCloseList();
 
-            // Получить список доступных языков
-            List<string> availableLanguages = new List<string>();
-            IList<IWebElement> availableLangElements = Driver.FindElements(By.XPath(
-                ".//span[contains(@class, 'js-dropdown__list')]//span[contains(@class, 'js-dropdown__item glossary')]"));
-            foreach (IWebElement el in availableLangElements)
-            {
-                availableLanguages.Add(el.GetAttribute("data-id"));
-            }
-
-            // Проверить, есть ли выбранные языки в списке доступных языков
-            bool isAvailableSelectedLang = false;
-            foreach (string el in languages)
-            {
-                if (availableLanguages.Contains(el))
-                {
-                    isAvailableSelectedLang = true;
-                    break;
-                }
-            }
-            Assert.IsTrue(!isAvailableSelectedLang, "Ошибка: уже выбранный язык остался в списке для добавления");
+            // Проверить, что языка нет в списке для добавления языка
+            Assert.IsTrue(!GlossaryEditForm.GetIsExistLanguageInLangList(CommonHelper.LANGUAGE.German), "Ошибка: уже выбранный язык остался в списке для добавления");
         }
 
         /// <summary>
@@ -140,14 +103,11 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             OpenCreateGlossary();
 
             // Получить количество выбранных языков
-            int selectedLangCountBefore = Driver.FindElements(By.XPath(
-                ".//div[contains(@class, 'js-glossary-languages')]//span[contains(@class, 'js-glossary-language')]")).Count;
+            int selectedLangCountBefore = GlossaryEditForm.GetGlossaryLanguageCount();
             // Удалить язык
-            Driver.FindElement(By.XPath(
-                ".//div[contains(@class, 'js-glossary-languages')]//em[contains(@class, 'js-delete-language')]")).Click();
+            GlossaryEditForm.ClickDeleteLanguage();
             // Получить количество выбранных языков
-            int selectedLangCountAfter = Driver.FindElements(By.XPath(
-                ".//div[contains(@class, 'js-glossary-languages')]//span[contains(@class, 'js-glossary-language')]")).Count;
+            int selectedLangCountAfter = GlossaryEditForm.GetGlossaryLanguageCount();
             // Проверить, что количество уменьшилось
             Assert.IsTrue(selectedLangCountAfter < selectedLangCountBefore, "Ошибка: количество языков не уменьшилось!");
         }
@@ -163,9 +123,8 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             // Создать новый глоссарий
             string glossaryName = CreateGlossaryAndReturnToGlossaryList();
 
-            string xPath = "//tr[contains(@class, 'js-glossary-row')]/td[1]/p[text() = '" + glossaryName + "']/../../td[8]";
             // Сравнить дату создания с текущей датой
-            Assert.IsTrue(GetIsDateEqualCurrentDayOrToday(Driver.FindElement(By.XPath(xPath)).Text, todayDate),
+            Assert.IsTrue(GetIsDateEqualCurrentDayOrToday(GlossaryListPage.GetGlossaryDateModified(glossaryName), todayDate),
                 "Ошибка: дата не совпадает");
         }
 
@@ -178,8 +137,7 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             // Создать новый глоссарий
             string glossaryName = CreateGlossaryAndReturnToGlossaryList();
             // Получить дату и время создания глоссария
-            string xPath = "//tr[contains(@class, 'js-glossary-row')]/td[1]/p[text() = '" + glossaryName + "']/../../td[8]";
-            string dateModifiedBefore = Driver.FindElement(By.XPath(xPath)).Text;
+            string dateModifiedBefore = GlossaryListPage.GetGlossaryDateModified(glossaryName);
 
             // Перейти в глоссарий
             SwitchCurrentGlossary(glossaryName);
@@ -187,11 +145,11 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             Thread.Sleep(60000);
             // Создать термин (изменение глоссария)
             CreateItemAndSave();
-            Assert.IsTrue(WaitUntilDisappearElement(".//img[contains(@class,'save concept')]"), "Ошибка: термин не сохранился");
+            Assert.IsTrue(GlossaryPage.WaitConceptGeneralSave(), "Ошибка: термин не сохранился");
             // Перейти к списку глоссариев
             SwitchGlossaryTab();
             // Получить дату и время изменения глоссария
-            string dateModifiedAfter = Driver.FindElement(By.XPath(xPath)).Text;
+            string dateModifiedAfter = GlossaryListPage.GetGlossaryDateModified(glossaryName);
 
             // Сравнить дату с предыдущей датой
             Assert.IsTrue(dateModifiedBefore != dateModifiedAfter, "Ошибка: дата изменения глоссария не изменилась");
@@ -210,8 +168,7 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             string glossaryName = CreateGlossaryAndReturnToGlossaryList();
 
             // Получить имя автора глоссария
-            string xPath = "//tr[contains(@class, 'js-glossary-row')]/td[1]/p[text() = '" + glossaryName + "']/../../td[9]/p";
-            string authorName = Driver.FindElement(By.XPath(xPath)).Text;
+            string authorName = GlossaryListPage.GetGlossaryAuthor(glossaryName);
             // Проверить, что текущий пользователь и есть автор
             Assert.AreEqual(userName, authorName, "Ошибка: автор нового глоссария - не текущий пользователь");
         }
@@ -229,17 +186,14 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             // Открыть редактирование свойств глоссария
             OpenGlossaryProperties();
             // Нажать Удалить глоссарий 
-            Wait.Until((d) => d.FindElement(By.XPath(
-                ".//div[contains(@class,'js-popup-edit-glossary')][2]//span[contains(@class, 'js-delete')]"))).Click();
+            GlossaryEditForm.ClickDeleteGlossary();
 
             // Проверить, что появилось предупреждение об удалении глоссария
-            Assert.IsTrue(Driver.FindElement(By.XPath(
-                ".//div[contains(@class,'js-popup-edit-glossary')][2]//p[contains(@class, 'js-error-confirm-delete-glossary')]")).Displayed,
+            Assert.IsTrue(GlossaryEditForm.GetIsExistWarningDeleteGlossary(),
                 "Ошибка: не появилось предупреждение об удалении глоссария");
 
             // Нажать Да (удалить)
-            Driver.FindElement(By.XPath(
-                ".//div[contains(@class,'js-popup-edit-glossary')][2]//a[contains(@class, 'js-confirm-delete-glossary')]")).Click();
+            GlossaryEditForm.ClickConfirmDeleteGlossary();
 
             // Проверить, что глоссария нет
             Assert.IsTrue(!GetIsExistGlossary(glossaryName), "Ошибка: глоссарий не удалился");
@@ -260,22 +214,18 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             // Открыть редактирование свойств глоссария
             OpenGlossaryProperties();
             // Получить количество языков
-            int availLanguageCountBefore = Driver.FindElements(By.XPath(
-                ".//div[contains(@class, 'js-glossary-languages')]//span[contains(@class, 'js-glossary-language')]")).Count;
+            int availLanguageCountBefore = GlossaryEditForm.GetGlossaryLanguageCount();
             // Удалить язык
-            Driver.FindElement(By.XPath(
-                ".//div[contains(@class, 'js-glossary-languages')]//em[contains(@class, 'js-delete-language')]")).Click();
+            GlossaryEditForm.ClickDeleteLanguage();
 
             // Проверить, появилось ли предупреждение об удалении языка на котором уже есть термин
-            Assert.IsTrue(Driver.FindElement(By.XPath(
-                ".//div[contains(@class, 'js-popup-edit-glossary')][2]//a[contains(@class, 'js-undo-delete-language')]")).Displayed,
+            Assert.IsTrue(GlossaryEditForm.GetIsExistWarningDeleteLanguage(),
                 "Ошибка: не появилось предупреждение, что есть термин на удаленном языке");
             // Отменить удаление
-            Driver.FindElement(By.XPath(".//div[contains(@class, 'js-popup-edit-glossary')][2]//a[contains(@class, 'js-undo-delete-language')]")).Click();
+            GlossaryEditForm.CancelDeleteLanguage();
 
             // Получить количество языков
-            int availLanguageCountAfter = Driver.FindElements(By.XPath(
-                ".//div[contains(@class, 'js-glossary-languages')]//span[contains(@class, 'js-glossary-language')]")).Count;
+            int availLanguageCountAfter = GlossaryEditForm.GetGlossaryLanguageCount();
             // Сравнить количество языков
             Assert.AreEqual(availLanguageCountBefore, availLanguageCountAfter, "Ошибка: количество языков разное (должно быть одинаковое, т.к. удаление отменили)");
         }
@@ -294,10 +244,9 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             EditGlossaryStructureAddField();
 
             // Нажать New item
-            Wait.Until((d) => d.FindElement(By.XPath(
-                ".//span[contains(@class,'js-add-concept')]"))).Click();
+            GlossaryPage.ClickNewItemBtn();
             // Проверить, что появилось поле добавления нового термина в расширенном виде
-            Assert.IsTrue(Driver.FindElement(By.XPath(".//tr[contains(@class, 'js-concept-panel')]")).Displayed,
+            Assert.IsTrue(GlossaryPage.GetIsExistNewItemExtendedMode(),
                 "Ошибка: не появилось расширенного режима добавления термина");
         }
 
@@ -313,9 +262,12 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             // Открыть Импорт, указать документ для импорта
             FillImportGlossaryForm();
             // Нажать Импорт
-            Driver.FindElement(By.XPath(".//div[contains(@class,'js-popup-import')][2]//span[contains(@class,'js-import-button')]")).Click();
+            GlossaryPage.ClickImportFormImportBtn();
+            // Дождаться закрытия формы импорта
+            GlossaryPage.WaitUntilImportFormDisappear();
             // Нажать Закрыть в сообщении об успешном добавлении
-            WaitAndClickElement(".//div[contains(@class,'js-info-popup b-popup-info')]//span[contains(@class,'js-popup-close')]");
+            GlossaryPage.ClickCloseSuccessResult();
+            // TODO убрать sleep
             Thread.Sleep(1000);
             // Проверить, что количество терминов больше нуля
             Assert.IsTrue(GetCountOfItems() > 0, "Ошибка: количество терминов должно быть больше нуля");
@@ -338,11 +290,14 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             // Открыть Импорт, указать документ для импорта
             FillImportGlossaryForm();
             // Указать "Заменить все термины"
-            Driver.FindElement(By.XPath(".//div[contains(@class,'js-popup-import')][2]//input[contains(@id,'needToClear')][@value='True']")).Click();
+            GlossaryPage.ClickReplaceAll();
             // Нажать Импорт
-            Driver.FindElement(By.XPath(".//div[contains(@class,'js-popup-import')][2]//span[contains(@class,'js-import-button')]")).Click();
+            GlossaryPage.ClickImportFormImportBtn();
+            // Дождаться закрытия формы импорта
+            GlossaryPage.WaitUntilImportFormDisappear();
             // Нажать Закрыть в сообщении об успешном добавлении
-            WaitAndClickElement(".//a[contains(@class,'js-close-link')]");
+            GlossaryPage.ClickCloseSuccessResult();
+            // TODO убрать sleep
             Thread.Sleep(1000);
             // Проверить, что количество терминов изменилось (количество терминов должно быть равно 1 для этого импортируемого файла)
             Assert.IsTrue(GetCountOfItems() == 1, "Ошибка: количество терминов должно быть равно 1");
@@ -369,7 +324,7 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             uniqueGlossaryName = System.IO.Path.Combine(resultPath, uniqueGlossaryName);
 
             // Нажать Экспорт
-            Driver.FindElement(By.XPath(".//a[contains(@href,'/Glossaries/Export')]")).Click();
+            GlossaryPage.ClickExportBtn();
             // Сохранить документ
             ExternalDialogSelectSaveDocument(uniqueGlossaryName);
 
@@ -423,8 +378,7 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             ChangeGlossaryNameToCurrent(glossaryName);
 
             // Проверить, что появилось сообщение о существующем имени
-            Assert.IsTrue(Driver.FindElement(By.XPath(
-                ".//div[contains(@class,'js-popup-edit-glossary')][2]//p[contains(@class,'js-error-glossary-exists')]")).Displayed,
+            Assert.IsTrue(GlossaryEditForm.GetIsExistErrorMessageExistGlossaryName(),
                 "Ошибка: не появилось сообщение о существующем имени");
         }
 
@@ -440,21 +394,15 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 
             // Открыть редактирование свойств глоссария
             OpenGlossaryProperties();
-            // Очистить поле с именем глоссария
-            Driver.FindElement(By.XPath(
-                ".//div[contains(@class, 'js-popup-edit-glossary')][2]//input[contains(@class,'js-glossary-name')]")).Clear();
-            // Сохранить
-            Driver.FindElement(By.XPath(
-                ".//div[contains(@class, 'js-popup-edit-glossary')][2]//span[contains(@class,'js-save')]")).Click();
+            // Ввести имя
+            ChangeGlossaryNameToCurrent("");
 
             // Проверить, что поле Имя отмечено ошибкой
-            Assert.IsTrue(Driver.FindElement(By.XPath(
-                ".//div[contains(@class,'js-popup-edit-glossary')][2]//input[contains(@class,'js-glossary-name error')]")).Displayed,
+            Assert.IsTrue(GlossaryEditForm.GetIsExistGlossaryNameError(),
                 "Ошибка: не появилось сообщение о пустом имени");
 
             // Проверить, что появилось сообщение о пустом имени
-            Assert.IsTrue(Driver.FindElement(By.XPath(
-                ".//div[contains(@class,'js-popup-edit-glossary')][2]//p[contains(@class,'js-error-glossary-name-required')]")).Displayed,
+            Assert.IsTrue(GlossaryEditForm.GetIsExistErrorMessageEmptyGlossaryName(),
                 "Ошибка: не появилось сообщение о пустом имени");
         }
 
@@ -474,13 +422,11 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             ChangeGlossaryNameToCurrent(" ");
 
             // Проверить, что поле Имя отмечено ошибкой
-            Assert.IsTrue(Driver.FindElement(By.XPath(
-                ".//div[contains(@class,'js-popup-edit-glossary')][2]//input[contains(@class,'js-glossary-name error')]")).Displayed,
+            Assert.IsTrue(GlossaryEditForm.GetIsExistGlossaryNameError(),
                 "Ошибка: не появилось сообщение о пустом имени");
 
             // Проверить, что появилось сообщение о пустом имени
-            Assert.IsTrue(Driver.FindElement(By.XPath(
-                ".//div[contains(@class,'js-popup-edit-glossary')][2]//p[contains(@class,'js-error-glossary-name-required')]")).Displayed,
+            Assert.IsTrue(GlossaryEditForm.GetIsExistErrorMessageEmptyGlossaryName(),
                 "Ошибка: не появилось сообщение о пустом имени");
         }
 
@@ -498,12 +444,11 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             OpenGlossaryProperties();
 
             // Нажать Изменить структуру
-            Driver.FindElement(By.XPath(
-                ".//div[contains(@class,'js-popup-edit-glossary')][2]//a[contains(@class,'js-save-and-edit-structure')]")).Click();
-            WaitUntilDisappearElement(".//div[contains(@class,'js-popup-edit-glossary')][2]");
+            GlossaryEditForm.ClickSaveAndEditStructureBtn();
+            GlossaryEditForm.WaitPageClose();
 
             // Проверить, что открылся редактор структуры
-            Assert.IsTrue(IsElementDisplayed(By.XPath(".//div[contains(@class,'js-popup-edit-structure')]")),
+            Assert.IsTrue(GlossaryPage.WaitPageLoad(),
                 "Ошибка: редактор структуры не открылся");
         }
 
@@ -516,16 +461,17 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             // Имя глоссария
             string glossaryName = "TestGlossary" + DateTime.Now.Ticks;
             // Список языков
-            List<int> langList = new List<int>();
-            langList.Add(7);
-            langList.Add(12);
-            langList.Add(1041);
-            langList.Add(1063);
+            List<CommonHelper.LANGUAGE> langList = new List<CommonHelper.LANGUAGE>();
+            langList.Add(CommonHelper.LANGUAGE.German);
+            langList.Add(CommonHelper.LANGUAGE.French);
+            langList.Add(CommonHelper.LANGUAGE.Japanise);
+            langList.Add(CommonHelper.LANGUAGE.French);
 
             // Создать глоссарий
-            CreateGlossaryMultiLanguage(glossaryName, langList);
+            CreateGlossaryByName(glossaryName, true, langList);
             SwitchGlossaryTab();
 
+            // TODO убрать sleep
             Thread.Sleep(3000);
             // Проверить, что глоссарий добавился в список
             Assert.IsTrue(GetIsExistGlossary(glossaryName), "Ошибка: глоссарий не добавился" + glossaryName);
@@ -536,34 +482,41 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             DeleteGlossary();
         }
 
+        /// <summary>
+        /// Изменить имя глоссария
+        /// </summary>
+        /// <param name="glossaryName">новое название</param>
         protected void ChangeGlossaryNameToCurrent(string glossaryName)
         {
-            // Очистить поле с именем глоссария
-            Driver.FindElement(By.XPath(
-                ".//div[contains(@class, 'js-popup-edit-glossary')][2]//input[contains(@class,'js-glossary-name')]")).Clear();
-            // Ввести уникальное имя
-            Driver.FindElement(By.XPath(
-                ".//div[contains(@class, 'js-popup-edit-glossary')][2]//input[contains(@class,'js-glossary-name')]")).SendKeys(glossaryName);
+            // Ввести имя глоссария
+            GlossaryEditForm.EnterGlossaryName(glossaryName);
             // Сохранить
-            Driver.FindElement(By.XPath(
-                ".//div[contains(@class, 'js-popup-edit-glossary')][2]//span[contains(@class,'js-save')]")).Click();
+            GlossaryEditForm.ClickSaveGlossary();
+            // TODO убрать sleep
             Thread.Sleep(1000);
         }
 
-
+        /// <summary>
+        /// Заполнить форму импорт глоссария
+        /// </summary>
         protected void FillImportGlossaryForm()
         {
             // Нажать Импорт
-            Driver.FindElement(By.XPath(".//span[contains(@class,'js-import-concepts')]")).Click();
+            GlossaryPage.ClickImportBtn();
             // Дождаться открытия формы
-            Wait.Until((d) => d.FindElement(By.XPath(".//div[contains(@class,'js-popup-import')][2]")));
+            GlossaryPage.WaitImportForm();
             // Нажать на Add для появления диалога загрузки документа
-            Driver.FindElement(By.XPath(".//a[contains(@class,'js-upload-btn')]")).Click();
+            GlossaryPage.ClickUploadBtn();
             // Заполнить форму загрузки документа
             FillAddDocumentForm(ImportGlossaryFile);
         }
 
-
+        /// <summary>
+        /// Вернуть, равна ли дата переданной дате или равна дате-сегодня (переданная строка содержит дату, которая равна переданной дате или сегодня)
+        /// </summary>
+        /// <param name="dateTimeString">строка с датой</param>
+        /// <param name="curDay">дата для сравнения</param>
+        /// <returns>Равна</returns>
         protected bool GetIsDateEqualCurrentDayOrToday(string dateTimeString, DateTime curDay)
         {
             // Формат dateTimeString: M(M)/D(D)/YYYY H(H):M(M) AM
@@ -587,6 +540,25 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 
             // Сравнить с текущей датой или с сегодня (если тест проходит в полночь)
             return curDay.Date == resDate || DateTime.Today.Date == resDate;
+        }
+
+        /// <summary>
+        /// Получить имя пользователя из профиля
+        /// </summary>
+        /// <returns>имя</returns>
+        protected string GetUserNameProfile()
+        {
+            string userName = "";
+            // Нажать на Профиль
+            MainHelperClass.OpenProfile();
+            // Дождаться открытия окна с профилем
+            MainHelperClass.WaitProfileOpen();
+            // Получить имя пользователя
+            userName = MainHelperClass.GetUserNameProfile();
+            // Закрыть профиль
+            MainHelperClass.CloseProfile();
+
+            return userName;
         }
     }
 }

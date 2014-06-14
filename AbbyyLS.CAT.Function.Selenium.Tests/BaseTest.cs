@@ -1,7 +1,4 @@
-﻿//#define OLD_WORKSPACE // включить, если тестируется старый WorkSpace
-#define NEW_WORKSPACE // включить, если тестируется новый WorkSpace
-
-using System;
+﻿using System;
 using System.Threading;
 using NUnit.Framework;
 using OpenQA.Selenium;
@@ -30,6 +27,9 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
     [TestFixture("StageUrl3", "DevWorkspace", "Firefox")]
     public class BaseTest
     {
+        /// <summary>
+        /// WebDriver
+        /// </summary>
         private IWebDriver _driver;
         protected IWebDriver Driver
         {
@@ -37,8 +37,11 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             {
                 return _driver;
             }
-
         }
+
+        /// <summary>
+        /// Wait
+        /// </summary>
         private WebDriverWait _wait;
         protected WebDriverWait Wait
         {
@@ -47,7 +50,15 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
                 return _wait;
             }
         }
+
+        /// <summary>
+        /// Профиль
+        /// </summary>
         private FirefoxProfile _profile;
+
+        /// <summary>
+        /// Url
+        /// </summary>
         private string _url;
         protected string Url
         {
@@ -56,28 +67,10 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
                 return _url;
             }
         }
-        private string _login;
-        protected string Login
-        {
-            get
-            {
-                return _login;
-            }
-        }
 
-        private string _password;
-        protected string Password
-        {
-            get
-            {
-                return _password;
-            }
-        }
-        private string _projectName;
-        private string _tmName;
-        private string _constTmName;
-        private string _glossaryName;
-
+        /// <summary>
+        /// URL соответствующей админки
+        /// </summary>
         private string _adminUrl;
         protected string AdminUrl
         {
@@ -87,6 +80,81 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             }
         }
 
+        /// <summary>
+        /// Логин пользователя
+        /// </summary>
+        private string _login;
+        protected string Login
+        {
+            get
+            {
+                return _login;
+            }
+        }
+
+        /// <summary>
+        /// Пароль пользователя
+        /// </summary>
+        private string _password;
+        protected string Password
+        {
+            get
+            {
+                return _password;
+            }
+        }
+
+        /// <summary>
+        /// Имя пользователя
+        /// </summary>
+        private string _userName;
+        protected string UserName
+        {
+            get
+            {
+                return _userName;
+            }
+        }
+
+        /// <summary>
+        /// Уникальное для теста название проекта
+        /// </summary>
+        private string _projectName;
+        protected string ProjectName
+        {
+            get
+            {
+                return _projectName;
+            }
+        }
+
+        /// <summary>
+        /// Общее/постоянное название ТМ
+        /// </summary>
+        private string _constTmName;
+        protected string ConstTMName
+        {
+            get
+            {
+                return _constTmName;
+            }
+        }
+
+        /// <summary>
+        /// Общая часть названия глоссария
+        /// </summary>
+        private string _glossaryName;
+        protected string GlossaryName
+        {
+            get
+            {
+                return _glossaryName;
+            }
+        }
+
+        /// <summary>
+        /// Path результатов теста
+        /// </summary>
         protected string PathTestResults
         {
             get
@@ -98,14 +166,9 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             }
         }
 
-        protected string ProjectName
-        {
-            get
-            {
-                return _projectName;
-            }
-        }
-
+        /// <summary>
+        /// Общее имя проекта с одним документом
+        /// </summary>
         private string _projectNameExportTestOneDoc;
         protected string ProjectNameExportTestOneDoc
         {
@@ -115,6 +178,9 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             }
         }
 
+        /// <summary>
+        /// Общее имя проекта с несколькими документами
+        /// </summary>
         private string _projectNameExportTestMultiDoc;
         protected string ProjectNameExportTestMultiDoc
         {
@@ -124,14 +190,9 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             }
         }
 
-        protected string GlossaryName
-        {
-            get
-            {
-                return _glossaryName;
-            }
-        }
-
+        /// <summary>
+        /// Deadline дата в английской локали
+        /// </summary>
         private string _deadlineDate;
 
         protected string DeadlineDate
@@ -142,6 +203,9 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             }
         }
 
+        /// <summary>
+        /// Полный путь к документу для загрузки
+        /// </summary>
         private string _documentFile;
         protected string DocumentFile
         {
@@ -151,6 +215,9 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             }
         }
 
+        /// <summary>
+        /// Полный путь к документу без тегов
+        /// </summary>
         private string _documentFileToConfirm;
         protected string DocumentFileToConfirm
         {
@@ -160,6 +227,9 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             }
         }
 
+        /// <summary>
+        /// Полный путь ко второму документу без тегов
+        /// </summary>
         private string _documentFileToConfirm2;
         protected string DocumentFileToConfirm2
         {
@@ -169,8 +239,10 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             }
         }
 
+        /// <summary>
+        /// Полный путь к файлу TMX
+        /// </summary>
         private string _tmFile;
-
         protected string TmFile
         {
             get
@@ -178,17 +250,11 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
                 return _tmFile;
             }
         }
-        private string _tmFile2;
-        protected string TmFile2
-        {
-            get
-            {
-                return _tmFile2;
-            }
-        }
 
+        /// <summary>
+        /// Полный путь ко второму файлу TMX
+        /// </summary>
         private string _secondTmFile;
-
         protected string SecondTmFile
         {
             get
@@ -197,6 +263,9 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             }
         }
 
+        /// <summary>
+        /// Полный путь к файлу TXT для работы в редакторе
+        /// </summary>
         private string _editorTXTFile;
         protected string EditorTXTFile
         {
@@ -206,6 +275,9 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             }
         }
 
+        /// <summary>
+        /// Полный путь к файлу TMX для работы в редакторе
+        /// </summary>
         private string _editorTMXFile;
         protected string EditorTMXFile
         {
@@ -214,18 +286,23 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
                 return _editorTMXFile;
             }
         }
-        
 
-        protected string ConstTMName
+        /// <summary>
+        /// Полный путь к RTF
+        /// </summary>
+        private string _rtfFile;
+        protected string RtfFile
         {
             get
             {
-                return _constTmName;
+                return _rtfFile;
             }
         }
-
+        
+        /// <summary>
+        /// Полный путь к файлу для импорта глоссария
+        /// </summary>
         private string _importGlossaryFile;
-
         protected string ImportGlossaryFile
         {
             get
@@ -234,8 +311,10 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             }
         }
 
+        /// <summary>
+        /// Путь к изображению
+        /// </summary>
         private string _imageFile;
-
         protected string ImageFile
         {
             get
@@ -244,8 +323,10 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             }
         }
 
+        /// <summary>
+        /// Путь к аудиофайлу (медиа)
+        /// </summary>
         private string _audioFile;
-
         protected string AudioFile
         {
             get
@@ -254,9 +335,11 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             }
         }
 
+        /// <summary>
+        /// Имя браузера
+        /// </summary>
         private string _browserName;
-
-        private string BrowserName
+        protected string BrowserName
         {
             get
             {
@@ -264,9 +347,249 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             }
         }
 
+        /// <summary>
+        /// Страница с проектом
+        /// </summary>
+        private ProjectPageHelper _projectPageHelper;
+        protected ProjectPageHelper ProjectPage
+        {
+            get
+            {
+                return _projectPageHelper;
+            }
+        }
+
+        /// <summary>
+        /// Страница редактора
+        /// </summary>
+        private EditorPageHelper _editorPageHelper;
+        protected EditorPageHelper EditorPage
+        {
+            get
+            {
+                return _editorPageHelper;
+            }
+        }
+
+        /// <summary>
+        /// Страница входа (Login)
+        /// </summary>
+        private LoginPageHelper _loginPageHelper;
+        protected LoginPageHelper LoginPage
+        {
+            get
+            {
+                return _loginPageHelper;
+            }
+        }
+
+        /// <summary>
+        /// Страница со списком проектов (Workspace)
+        /// </summary>
+        private WorkSpacePageHelper _workspacePageHelper;
+        protected WorkSpacePageHelper WorkspacePage
+        {
+            get
+            {
+                return _workspacePageHelper;
+            }
+        }
+
+        /// <summary>
+        /// Диалог создания проекта
+        /// </summary>
+        private Workspace_CreateProjectDialogHelper _workspaceCreateProjectHelper;
+        protected Workspace_CreateProjectDialogHelper WorkspaceCreateProjectDialog
+        {
+            get
+            {
+                return _workspaceCreateProjectHelper;
+            }
+        }
+
+        /// <summary>
+        /// Основной Helper (для работы с переходом между страницами - ссылки в верхнем меню)
+        /// </summary>
+        private MainHelper _mainHelper;
+        protected MainHelper MainHelperClass
+        {
+            get
+            {
+                return _mainHelper;
+            }
+        }
+
+        /// <summary>
+        /// Страница Domain
+        /// </summary>
+        private DomainPageHelper _domainPageHelper;
+        protected DomainPageHelper DomainPage
+        {
+            get
+            {
+                return _domainPageHelper;
+            }
+        }
+
+        /// <summary>
+        /// Страница TM
+        /// </summary>
+        private TMPageHelper _tmPageHelper;
+        protected TMPageHelper TMPage
+        {
+            get
+            {
+                return _tmPageHelper;
+            }
+        }
+
+        /// <summary>
+        /// Страница со списком глоссариев
+        /// </summary>
+        private GlossaryListPageHelper _glossaryListPageHelper;
+        protected GlossaryListPageHelper GlossaryListPage
+        {
+            get
+            {
+                return _glossaryListPageHelper;
+            }
+        }
+
+        /// <summary>
+        /// Страница глоссария
+        /// </summary>
+        private GlossaryPageHelper _glossaryPageHelper;
+        protected GlossaryPageHelper GlossaryPage
+        {
+            get
+            {
+                return _glossaryPageHelper;
+            }
+        }
+
+        /// <summary>
+        /// Страница Поиска/Перевода
+        /// </summary>
+        private SearchPageHelper _searchPageHelper;
+        protected SearchPageHelper SearchPage
+        {
+            get
+            {
+                return _searchPageHelper;
+            }
+        }
+
+        /// <summary>
+        /// Страница Client
+        /// </summary>
+        private ClientPageHelper _clientPageHelper;
+        protected ClientPageHelper ClientPage
+        {
+            get
+            {
+                return _clientPageHelper;
+            }
+        }
+
+        /// <summary>
+        /// Работа с админкой
+        /// </summary>
+        private AdminPageHelper _adminPageHelper;
+        protected AdminPageHelper AdminPage
+        {
+            get
+            {
+                return _adminPageHelper;
+            }
+        }
+
+        /// <summary>
+        /// Форма изменения структуры глоссария
+        /// </summary>
+        private GlossaryEditStructureFormHelper _glossaryEditStructureFormHelper;
+        protected GlossaryEditStructureFormHelper GlossaryEditStructureForm
+        {
+            get
+            {
+                return _glossaryEditStructureFormHelper;
+            }
+        }
+
+        /// <summary>
+        /// Страница со словарями
+        /// </summary>
+        private DictionaryPageHelper _dictionaryPageHelper;
+        protected DictionaryPageHelper DictionaryPage
+        {
+            get
+            {
+                return _dictionaryPageHelper;
+            }
+        }
+
+        /// <summary>
+        /// Вкладка Ревизии в редакторе
+        /// </summary>
+        private Editor_RevisionPageHelper _revisionPageHelper;
+        protected Editor_RevisionPageHelper RevisionPage
+        {
+            get
+            {
+                return _revisionPageHelper;
+            }
+        }
+
+        /// <summary>
+        /// Страница с настройкой прав пользователей
+        /// </summary>
+        private UserRightsPageHelper _userRightsPageHalper;
+        protected UserRightsPageHelper UserRightsPage
+        {
+            get
+            {
+                return _userRightsPageHalper; 
+            }
+        }
+
+        /// <summary>
+        /// Диалог предложения термина
+        /// </summary>
+        private SuggestTermDialogHelper _suggestTermDialogHelper;
+        protected SuggestTermDialogHelper SuggestTermDialog
+        {
+            get
+            {
+                return _suggestTermDialogHelper;
+            }
+        }
+
+        /// <summary>
+        /// Форма редактирования глоссария
+        /// </summary>
+        private GlossaryEditFormHelper _glossaryEditFormHelper;
+        protected GlossaryEditFormHelper GlossaryEditForm
+        {
+            get
+            {
+                return _glossaryEditFormHelper;
+            }
+        }
+
+        /// <summary>
+        /// Страница с предложенными терминами глоссариев
+        /// </summary>
+        public GlossarySuggestPageHelper _glossarySuggestPageHelper;
+        protected GlossarySuggestPageHelper GlossarySuggestPage
+        {
+            get
+            {
+                return _glossarySuggestPageHelper;
+            }
+        }
+
+
         // информация о тесте
         DateTime testBeginTime;
-
 
         public BaseTest(string url, string workspaceUrl, string browserName)
         {
@@ -277,6 +600,7 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 
             _login = ConfigurationManager.AppSettings["Login"];
             _password = ConfigurationManager.AppSettings["Password"];
+            _userName = ConfigurationManager.AppSettings["UserName"];
             _deadlineDate = ConfigurationManager.AppSettings["DeadlineDate"];
             _documentFile = Path.GetFullPath(ConfigurationManager.AppSettings["DocumentFile"]);
             _documentFileToConfirm = Path.GetFullPath(ConfigurationManager.AppSettings["DocumentFileToConfirm"]);
@@ -287,25 +611,26 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             _projectNameExportTestMultiDoc = ConfigurationManager.AppSettings["ProjectNameExportTestMultiDoc"];
 
             CreateUniqueNamesByDatetime();
-            
-            _tmFile = Path.GetFullPath(ConfigurationManager.AppSettings["TMXFile"]);
-            _tmFile2 = Path.GetFullPath(ConfigurationManager.AppSettings["TMXFile2"]);
 
             _editorTXTFile = Path.GetFullPath(ConfigurationManager.AppSettings["EditorTXTFile"]);
             _editorTMXFile = Path.GetFullPath(ConfigurationManager.AppSettings["EditorTMXFile"]);
-             
+
+            _tmFile = Path.GetFullPath(ConfigurationManager.AppSettings["TMXFile"]);
             _secondTmFile = Path.GetFullPath(ConfigurationManager.AppSettings["SecondTMXFile"]);
             _importGlossaryFile = Path.GetFullPath(ConfigurationManager.AppSettings["ImportGlossaryFile"]);
             _imageFile = Path.GetFullPath(ConfigurationManager.AppSettings["TestImageFile"]);
             _audioFile = Path.GetFullPath(ConfigurationManager.AppSettings["TestAudioFile"]);
+            _rtfFile = Path.GetFullPath(ConfigurationManager.AppSettings["DocumentRTF"]);
 
             _adminUrl = ConfigurationManager.AppSettings[(url + "Admin")];
         }
 
+        /// <summary>
+        /// Обновить уникальные имена для нового теста
+        /// </summary>
         private void CreateUniqueNamesByDatetime()
         {
-            _projectName = ConfigurationManager.AppSettings["ProjectName"] + " " + DateTime.UtcNow.Ticks.ToString();
-            _tmName = ConfigurationManager.AppSettings["TMName"] + " " + DateTime.UtcNow.Ticks.ToString();
+            _projectName = ConfigurationManager.AppSettings["ProjectName"] + "_" + DateTime.UtcNow.Ticks.ToString();
         }
 
         /// <summary>
@@ -337,516 +662,418 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             }
             else if (BrowserName == "Chrome")
             {
+                // драйвер работает некорректно
                 _driver = new ChromeDriver();
             }
             else if (BrowserName == "IE")
             {
-                //TODO: Сделать запуск из IE
+                // не запускается
             }
 
             setDriverTimeoutDefault();
             _wait = new WebDriverWait(_driver, TimeSpan.FromSeconds(15));
 
             _driver.Manage().Window.Maximize();
+
+            RecreateDrivers();
         }
 
+        /// <summary>
+        /// Пересоздание Helper'ов с новыми Driver, Wait
+        /// </summary>
+        private void RecreateDrivers()
+        {
+            _projectPageHelper = new ProjectPageHelper(Driver, Wait);
+            _editorPageHelper = new EditorPageHelper(Driver, Wait);
+            _loginPageHelper = new LoginPageHelper(Driver, Wait);
+            _workspacePageHelper = new WorkSpacePageHelper(Driver, Wait);
+            _workspaceCreateProjectHelper = new Workspace_CreateProjectDialogHelper(Driver, Wait);
+            _mainHelper = new MainHelper(Driver, Wait);
+            _domainPageHelper = new DomainPageHelper(Driver, Wait);
+            _tmPageHelper = new TMPageHelper(Driver, Wait);
+            _glossaryListPageHelper = new GlossaryListPageHelper(Driver, Wait);
+            _glossaryPageHelper = new GlossaryPageHelper(Driver, Wait);
+            _searchPageHelper = new SearchPageHelper(Driver, Wait);
+            _clientPageHelper = new ClientPageHelper(Driver, Wait);
+            _adminPageHelper = new AdminPageHelper(Driver, Wait);
+            _glossaryEditStructureFormHelper = new GlossaryEditStructureFormHelper(Driver, Wait);
+            _dictionaryPageHelper = new DictionaryPageHelper(Driver, Wait);
+            _revisionPageHelper = new Editor_RevisionPageHelper(Driver, Wait);
+            _userRightsPageHalper = new UserRightsPageHelper(Driver, Wait);
+            _suggestTermDialogHelper = new SuggestTermDialogHelper(Driver, Wait);
+            _glossaryEditFormHelper = new GlossaryEditFormHelper(Driver, Wait);
+            _glossarySuggestPageHelper = new GlossarySuggestPageHelper(Driver, Wait);
+        }
+
+        /// <summary>
+        /// Установить время ожидания драйвера в минимум (для поиска элементов, которых по ожиданию нет)
+        /// </summary>
         protected void setDriverTimeoutMinimum()
         {
             _driver.Manage().Timeouts().ImplicitlyWait(TimeSpan.FromSeconds(1));
         }
 
+        /// <summary>
+        /// Установить стандартное время ожидание драйвера
+        /// </summary>
         protected void setDriverTimeoutDefault()
         {
             _driver.Manage().Timeouts().ImplicitlyWait(TimeSpan.FromSeconds(15));
         }
-
-
-
-#if OLD_WORKSPACE // тестируется версия со старой страницей проекта
-
+        
         /// <summary>
         /// Метод назначения задачи на пользователя 
         /// </summary>
-        protected void AssignTask()
-        {
-
-            // выбрать проект
-            Wait.Until((d) => d.FindElement(By.LinkText(_projectName))).Click();
-
-            // TODO проверку, на старой странице или на новой
-
-            // нажать на Progress
-            _wait.Until((d) => d.FindElement(By.CssSelector(".project-documents div.x-grid-body table tr:nth-child(1) td:nth-child(1)")));
-            Thread.Sleep(500);
-            _wait.Until((d) => d.FindElement(By.CssSelector(".project-documents div.x-grid-body table tr:nth-child(1) td:nth-child(1)")));
-            _driver.FindElement(By.CssSelector(".project-documents div.x-grid-body table tr:nth-child(1) td:nth-child(1)")).Click();
-            _driver.FindElement(By.Id(
-                "documents-progress-btn"
-                )).Click();
-
-            Thread.Sleep(1000);
-
-            // Назначить ответственного в окне Progress
-
-            // Ввести нужное имя (пока хардкод)
-            _driver.FindElement(By.CssSelector("#document-settings-workflow-body table tr:nth-child(1) td:nth-child(3)")).Click();
-            _wait.Until(d => _driver.FindElements(By.XPath(
-                "//input[starts-with(@class,'x-form-field')]"
-                )));
-            IList<IWebElement> els = _driver.FindElements(By.XPath(
-                "//input[starts-with(@class,'x-form-field')]"
-                ));
-            //Имя для cat-stage2
-            els[1].SendKeys("Bob Test");
-            Thread.Sleep(500);
-            //Имя для cat-dev
-            //els[1].SendKeys("Bob Dylan");
-
-            //Для cat-stage2
-            _driver.FindElement(By.XPath("//div[@class='x-boundlist-item'][starts-with(string(),'Bob Test')]")).Click();
-
-            //Для cat-dev
-            //_driver.FindElement(By.CssSelector("div.x-boundlist-item")).Click(); 
-
-            // Нажать на Assign, чтобы появился Warning
-            _wait.Until(d => _driver.FindElement(By.XPath(
-                "//a[contains(@class, 'x-btn x-btn-default-small x-btn-default-small-noicon assign')]"
-                ))).Click();
-            // Нажать на Ok в окне Warning
-            _driver.FindElement(By.Id("button-1012")).Click();
-            // Нажать Assign
-            _wait.Until(d => _driver.FindElement(By.XPath(
-                "//a[contains(@class, 'x-btn x-btn-default-small x-btn-default-small-noicon assign')]"
-                ))).Click();
-            Thread.Sleep(1000);
-            // Нажать на Close
-            _driver.FindElement(By.XPath("//span[contains(text(), 'Close')]")).Click();
-
-            // Вернуться на главную страницу
-            _driver.Navigate().GoToUrl(_url);
-
-            // Нажать на Assigned Tasks
-            _wait.Until(d => _driver.FindElement(By.XPath("//span[contains(text(), 'Assigned Tasks')]"))).Click();
-
-            // Нажать на все Accept кнопки
-            IList<IWebElement> acceptbuttons = _driver.FindElements(By.XPath("//span[contains(text(), 'Accept')]"));
-            foreach (IWebElement el in acceptbuttons)
-                el.Click();
-            // Нажать на Apply Changes
-            _driver.FindElement(By.XPath("//span[contains(text(), 'Apply changes')]")).Click();
-            // Вернуться на главную страницу
-            _driver.Navigate().GoToUrl(_url);
-        }
-
-#elif NEW_WORKSPACE // тестируется версия с новой страницей проекта
-
-        /// <summary>
-        /// Метод назначения задачи на пользователя 
-        /// </summary>
+        /// <param name="documentRowNum">номер документа</param>
         protected void AssignTask(int documentRowNum = 1)
         {
             // нажать галочку около документа
             SelectDocumentInProject(documentRowNum);
             // нажать на Progress
-            _driver.FindElement(By.XPath(".//span[contains(@class,'js-document-progress')]")).Click();
-            WaitUntilDisplayElement(".//div[contains(@class,'js-popup-progress')][2]");
+            ProjectPage.ClickProgressBtn();
+            ProjectPage.WaitProgressDialogOpen();
 
             // Назначить ответственного в окне Progress
-            // Ввести нужное имя
-            _driver.FindElement(By.XPath(".//table[contains(@class,'js-progress-table')]//tr[1]//td[3]//span")).Click();
-            _wait.Until(d => _driver.FindElements(By.XPath(
-                ".//span[contains(@class,'js-dropdown__list')]"
-                )));
-            Driver.FindElement(By.XPath(".//span[contains(@class,'js-dropdown__item')][@title='Bob Test']")).Click();
+            ProjectPage.ClickUserNameCell();
+            // Выбрать нужное имя
+            ProjectPage.WaitAssignUserList();
+            ProjectPage.ClickAssignUserListUser(UserName);
             // Нажать на Assign
-            _driver.FindElement(By.XPath(".//span[contains(@class,'js-assign')]//a")).Click();
-
-            WaitUntilDisplayElement(".//span[contains(@class,'js-assigned-cancel')]");
+            ProjectPage.ClickAssignBtn();
+            // Дождаться появления Cancel
+            ProjectPage.WaitCancelAssignBtnDisplay();
 
             // Нажать на Close
-            _driver.FindElement(By.XPath(
-                ".//div[contains(@class,'js-popup-progress')][2]//span[contains(@class,'js-popup-close')]")).Click();
+            ProjectPage.CloseAssignDialogClick();
 
             SelectDocumentInProject(documentRowNum);
 
             // Обновить страницу, чтобы активен был переход в редактор
             _driver.Navigate().Refresh();
-
             
             // Нажать на Accept
-            IList<IWebElement> acceptList = Driver.FindElements(By.XPath(".//span[contains(@class,'js-accept')]"));
-            foreach(IWebElement el in acceptList)
-            {
-                el.Click();
-            }
-
-            /*// Вернуться на главную страницу
-            _driver.FindElement(By.XPath(".//a[contains(@href,'/Workspace')]")).Click();
-            WaitProjectPageOpen();
-
-            // Открыть информацию о проекте
-            ClickProjectOpenInfo(_projectName);
-            // Нажать на Accept
-            WaitAndClickElement(".//tr[contains(@class,'js-project-panel')]/following-sibling::tr[contains(@class,'js-document-row')]//span[contains(@class,'js-accept')]//a");
-           
-            // Перейти в проект
-            _driver.FindElement(By.XPath(".//a[@class='js-name'][contains(text(),'" + ProjectName + "')]")).Click();*/
+            ProjectPage.ClickAllAcceptBtns();
         }
 
-#endif
-
-
-        protected void SelectDocumentInProject(int docNum = 1)
+        /// <summary>
+        /// Нажать галочку у документа в проекте
+        /// </summary>
+        /// <param name="documentNumber"></param>
+        protected void SelectDocumentInProject(int documentNumber = 1)
         {
             // Нажать галочку у документа
-            Driver.FindElement(By.XPath(
-                ".//table[contains(@class,'js-documents-table')]//tr[" + docNum + "]//td[contains(@class,'checkbox')]//input")).Click();
+            Assert.IsTrue(ProjectPage.SelectDocument(documentNumber),
+                "Ошибка: на странице проекта нет документа");
         }
 
         /// <summary>
         /// Метод открытия документа в редакторе
         /// </summary>
-        protected void OpenDocument(int docNum = 1)
+        protected void OpenDocument(int documentNumber = 1)
         {           
             // Открыть документ
-            _driver.FindElement(By.XPath(".//tr[contains(@class,'js-document-row')][" + docNum + "]//a[contains(@class,'js-editor-link')]")).Click();
+            Assert.IsTrue(ProjectPage.OpenDocument(documentNumber), "Ошибка: на странице проекта нет документа");
 
             // Дождаться загрузки страницы
-            _wait.Until((d) => d.Title.Contains("Editor"));
+            EditorPage.WaitPageLoad();
 
             // Проверить, существует ли хотя бы один сегмент
-            _driver.FindElement(By.CssSelector(
-                "#segments-body div table tr:nth-child(1)"
-                ));
+            Assert.IsTrue(EditorPage.GetSegmentsExist(), "Ошибка: нет сегментов");
         }
-#if OLD_WORKSPACE
-        public void Authorization()
-        {
-            //TODO: Заменить на NLog
-            //WriteFileConsoleResults("Autorization Test", 2);
 
-            // Отослать Credentials
-            _driver.Navigate().GoToUrl(_url);
-            _driver.FindElement(By.CssSelector("input[name=\"email\"]")).Clear();
-            _driver.FindElement(By.CssSelector("input[name=\"email\"]")).SendKeys(_login);
-            _driver.FindElement(By.CssSelector("input[name=\"password\"]")).Clear();
-            _driver.FindElement(By.CssSelector("input[name=\"password\"]")).SendKeys(_password);
-            _driver.FindElement(By.CssSelector("input[type =\"submit\"]")).Click();
-
-            // Дождаться пока загрузится поле с выбором аккаунта
-            _wait.Until((d) => d.FindElement(By.XPath(
-                "//select/option[contains(text(), 'TestAccount')]"
-                )));
-
-            // Выбрать тестовый аккаунт
-            _driver.FindElement(By.XPath(".//select/option[contains(text(), 'TestAccount')]")).Click();
-            // Зайти на сайт
-            _driver.FindElement(By.CssSelector("input[type = \"submit\"]")).Click();
-
-            //ждем пока появится кнопка на странице Workspace
-            _wait.Until((d) => d.FindElement(By.Id("projects-add-btn")));
-            Assert.True(_driver.Title.Contains("Workspace"), "Ошибка: неверный заголовок страницы");
-
-        }
-#elif NEW_WORKSPACE
+        /// <summary>
+        /// Авторизация
+        /// </summary>
+        /// <param name="accountName">аккаунт</param>
         public void Authorization(string accountName = "TestAccount")
         {
-            //TODO: Заменить на NLog
-            //WriteFileConsoleResults("Autorization Test", 2);
-
-            // Отослать Credentials
+            // Перейти на стартовую страницу
             _driver.Navigate().GoToUrl(_url);
-            _driver.FindElement(By.CssSelector("input[name=\"email\"]")).Clear();
-            _driver.FindElement(By.CssSelector("input[name=\"email\"]")).SendKeys(_login);
-            _driver.FindElement(By.CssSelector("input[name=\"password\"]")).Clear();
-            _driver.FindElement(By.CssSelector("input[name=\"password\"]")).SendKeys(_password);
-            _driver.FindElement(By.CssSelector("input[type =\"submit\"]")).Click();
+            // Проверить, загрузилась ли
+            Assert.IsTrue(LoginPage.WaitPageLoad(),
+                "Не прогрузилась страница Login - возможно, сайт недоступен");
 
-            // Дождаться пока загрузится поле с выбором аккаунта
-            _wait.Until((d) => d.FindElement(By.XPath(
-                "//select/option[contains(text(), 'TestAccount')]"
-                )));
+            // Заполнить логин и пароль
+            LoginPage.EnterLogin(_login);
+            LoginPage.EnterPassword(_password);
+            LoginPage.ClickSubmit();
 
-            // Выбрать тестовый аккаунт
-            _driver.FindElement(By.XPath(".//select/option[contains(text(), '" + accountName + "')]")).Click();
+            // Проверить, появился ли список аккаунтов
+            Assert.IsTrue(LoginPage.WaitAccountExist(accountName),
+                "Не появился выбор аккаунта: либо нет аккаунта (" + accountName + "), либо недоступен AOL");
+
+            // Выбрать аккаунт
+            LoginPage.ClickAccountName(accountName);
             // Зайти на сайт
-            _driver.FindElement(By.CssSelector("input[type = \"submit\"]")).Click();
+            LoginPage.ClickSubmit();
 
-            Wait.Until((d)=>d.FindElement(By.XPath(".//a[contains(@class,'js-set-locale')]")));
-            setDriverTimeoutMinimum();
-            if (IsElementPresent(By.XPath(".//a[contains(@class,'js-set-locale')][@data-locale='en']")))
+            // Изменили язык на Английский
+            Assert.IsTrue(WorkspacePage.WaitAppearLocaleBtn(), "Не дождались загрузки страницы со ссылкой для изменения языка");
+            WorkspacePage.SelectLocale(WorkSpacePageHelper.LOCALE_LANGUAGE_SELECT.English);
+        }
+        
+        /// <summary>
+        /// Заполнение первого шага создания проекта
+        /// </summary>
+        /// <param name="projectName">название проекта</param>
+        /// <param name="useDefaultTargetLanguage">использовать язык target по умолчанию</param>
+        protected void FirstStepProjectWizard(string projectName, bool useDefaultTargetLanguage = true,
+            CommonHelper.LANGUAGE srcLang = CommonHelper.LANGUAGE.English,
+            CommonHelper.LANGUAGE trgLang = CommonHelper.LANGUAGE.English)
+        {
+            Assert.IsTrue(WorkspacePage.WaitPageLoad(), "Страница workspace не прогрузилась");
+
+            // Нажать <Create>
+            WorkspacePage.ClickCreateProject();
+            // Ждем загрузки формы
+            WorkspaceCreateProjectDialog.WaitDialogDisplay();
+
+            // Ввести название проекта
+            WorkspaceCreateProjectDialog.FillProjectName(projectName);
+            // Ывести deadline дату
+            WorkspaceCreateProjectDialog.FillDeadlineDate(_deadlineDate);
+
+            // Выбрать Source - en
+            WorkspaceCreateProjectDialog.SelectSourceLanguage(srcLang);
+
+            // Выбрать Target
+            if (!useDefaultTargetLanguage)
             {
-                _driver.FindElement(By.XPath(".//a[contains(@class,'js-set-locale')][@data-locale='en']")).Click();
-            }
-            setDriverTimeoutDefault();
-
-        }
-#endif
-
-#if OLD_WORKSPACE
-        protected void WaitProjectPageOpen()
-        {
-            Wait.Until((d) => d.FindElement(By.Id("projects-add-btn")));
-        }
-#elif NEW_WORKSPACE
-        protected void WaitProjectPageOpen()
-        {
-            Wait.Until((d) => d.FindElement(By.XPath(".//span[contains(@class,'js-project-create')]")));
-        }
-#endif
-
-
-#if OLD_WORKSPACE
-        protected void FirstStepProjectWizard(string projectName, bool newWorkspaceFlag = true)
-        {
-            Assert.IsTrue(_driver.FindElement(By.Id("projects-add-btn")).Displayed);
-            //нажать <Create>
-            _driver.FindElement(By.Id("projects-add-btn")).Click();
-
-            //ждем загрузки формы
-
-            _wait.Until((d) => d.FindElement(By.Id("project-wizard")));
-
-            //заполнение полей на 1 шаге
-            FillProjectNameInForm(projectName);
-
-            _driver.FindElement(By.CssSelector("input[name=\"DeadlineDate\"]")).Clear();
-            _driver.FindElement(By.CssSelector("input[name=\"DeadlineDate\"]")).SendKeys(_deadlineDate);
-        }
-
-        protected void FillProjectNameInForm(string projectName)
-        {
-            //заполнение полей на 1 шаге
-            _driver.FindElement(By.CssSelector("input[name=\"Name\"]")).Clear();
-
-            _driver.FindElement(By.CssSelector("input[name=\"Name\"]")).SendKeys(projectName);
-        }
-#elif NEW_WORKSPACE
-        protected void FirstStepProjectWizard(string projectName, bool isNeedDifferentLang = true)
-        {
-            Assert.IsTrue(_driver.FindElement(By.XPath(".//span[contains(@class,'js-project-create')]")).Displayed);
-            //нажать <Create>
-            _driver.FindElement(By.XPath(".//span[contains(@class,'js-project-create')]")).Click();
-
-            //ждем загрузки формы
-
-            _wait.Until((d) => d.FindElement(By.XPath(".//div[contains(@class,'js-popup-create-project')][2]")).Displayed);
-
-            //заполнение полей на 1 шаге
-            FillProjectNameInForm(projectName);
-
-            _driver.FindElement(By.XPath(".//div[contains(@class,'js-popup-create-project')][2]//input[@name='deadlineDate']")).Clear();
-            _driver.FindElement(By.XPath(".//div[contains(@class,'js-popup-create-project')][2]//input[@name='deadlineDate']")).SendKeys(_deadlineDate);
-
-            // Выбираем языки
-            // Source - En
-            _driver.FindElement(By.XPath(
-                ".//div[contains(@class,'js-popup-create-project')][2]//span[contains(@class,'js-dropdown')]//span[contains(@class,'js-dropdown__text')]")).Click();
-            _driver.FindElement(By.XPath(".//span[contains(@class,'js-dropdown__list')]//span[@data-id='9']")).Click();
-
-            if (!isNeedDifferentLang)
-            {
-                // Target
-                _driver.FindElement(By.XPath(".//div[contains(@class,'js-popup-create-project')][2]//div[contains(@class,'js-languages-multiselect')]")).Click();
+                // Открыть список Target
+                WorkspaceCreateProjectDialog.ClickTargetList();
                 // Убираем русский
-                _driver.FindElement(By.XPath(
-                    ".//ul[contains(@class,'ui-multiselect-checkboxes')]//li//span[contains(@class,'js-chckbx')]//input[@value='25']")).Click();
+                WorkspaceCreateProjectDialog.ClickTargetItem(CommonHelper.LANGUAGE.Russian);
                 // Добавляем английский
-                _driver.FindElement(By.XPath(
-                    ".//ul[contains(@class,'ui-multiselect-checkboxes')]//li//span[contains(@class,'js-chckbx')]//input[@value='9']")).Click();
-                _driver.FindElement(By.XPath(".//div[contains(@class,'js-popup-create-project')][2]//div[contains(@class,'js-languages-multiselect')]")).Click();
+                WorkspaceCreateProjectDialog.ClickTargetItem(trgLang);
+                // Закрыть список Target
+                WorkspaceCreateProjectDialog.ClickTargetList();
             }
         }
 
-        protected void FillProjectNameInForm(string projectName)
+        /// <summary>
+        /// Создать проект
+        /// </summary>
+        /// <param name="projectName">название проекта</param>
+        /// <param name="downloadFile">документ для загрузки</param>
+        /// <param name="createNewTM">создать новый TM</param>
+        /// <param name="tmFile">файл для загрузки в ТМ</param>
+        /// <param name="chooseGlossary">выбрать глоссарий</param>
+        /// <param name="chooseMT">выбрать МТ</param>
+        /// <param name="mtType">тип МТ</param>
+        protected void CreateProject(string projectName, string downloadFile = "",
+            bool createNewTM = false, string tmFile = "",
+            bool chooseGlossary = false,
+            bool chooseMT = false, Workspace_CreateProjectDialogHelper.MT_TYPE mtType = Workspace_CreateProjectDialogHelper.MT_TYPE.None,
+            bool isNeedCheckExist = true)
         {
-            //заполнение полей на 1 шаге
-            _driver.FindElement(By.XPath(".//div[contains(@class,'js-popup-create-project')][2]//input[@name='name']"));
-            _driver.FindElement(By.XPath(".//div[contains(@class,'js-popup-create-project')][2]//input[@name='name']")).Clear();
-            _driver.FindElement(By.XPath(".//div[contains(@class,'js-popup-create-project')][2]//input[@name='name']")).SendKeys(projectName);
-        }
-
-#endif
-
-#if OLD_WORKSPACE
-        protected void CreateProject(string ProjectName, bool FileFlag, string DocumentName)
-        {
-            FirstStepProjectWizard(ProjectName);
-
-            AddDocument(FileFlag, DocumentName);
-
-            //2 шаг - выбор ТМ
-            ChooseExistingTM();
-
-            //3 шаг - выбор МТ
-            ChooseMTCompreno();
-
-            //4 шаг - выбор глоссария
-            ChooseGlossary();
-
-            //5 шаг - настройка этапов workflow
-            SetUpWorkflow();
-
-            //Finish
-            Pretranslate();
-        }
-#elif NEW_WORKSPACE
-        protected void CreateProject(string ProjectName, bool FileFlag, string DocumentName, bool chooseMT = false)
-        {
-            FirstStepProjectWizard(ProjectName);
-
-            AddDocument(FileFlag, DocumentName);
-
-            //2 шаг - выбор ТМ
-            ChooseExistingTM();
-
-            //3 шаг - выбор глоссария
-            ChooseGlossary();
-
-            //4 шаг - выбор МТ
-            if (chooseMT)
+            // Заполнение полей на первом шаге
+            FirstStepProjectWizard(projectName);            
+            if (downloadFile.Length > 0)
             {
-                ChooseMTCompreno();
+                // Загрузить файл
+                WorkspaceCreateProjectDialog.ClickAddDocumentBtn();
+                FillAddDocumentForm(downloadFile);
+            }
+            WorkspaceCreateProjectDialog.ClickNextStep();
+
+            //2 шаг - выбор ТМ
+            if (createNewTM)
+            {
+                // Создать новую ТМ
+                CreateNewTM(tmFile);
             }
             else
             {
-                ChooseNoMT();                
+                // Выбрать существующую ТМ
+                ChooseExistingTM();
             }
+            WorkspaceCreateProjectDialog.ClickNextStep();
+
+            //3 шаг - выбор глоссария
+            if (chooseGlossary)
+            {
+                WorkspaceCreateProjectDialog.ClickFirstGlossaryInTable();
+            }
+            WorkspaceCreateProjectDialog.ClickNextStep();
+
+            //4 шаг - выбор МТ
+            if (chooseMT && mtType != Workspace_CreateProjectDialogHelper.MT_TYPE.None)
+            {
+                WorkspaceCreateProjectDialog.ChooseMT(mtType);
+            }
+            WorkspaceCreateProjectDialog.ClickNextStep();
 
             //5 шаг - настройка этапов workflow
-            SetUpWorkflow();
+            //SetUpWorkflow();
+            WorkspaceCreateProjectDialog.ClickNextStep();
 
+            //5 шаг - настройка Pretranslate            
+            //Pretranslate();
             //Finish
-            Pretranslate();
-
-            Thread.Sleep(5000);
+            WorkspaceCreateProjectDialog.ClickFinishCreate();
+            // Дождаться проекта в списке проектов
+            if (isNeedCheckExist)
+            {
+                Assert.IsTrue(WorkspacePage.WaitProjectAppearInList(projectName), "Ошибка: проект не появился в списке Workspace");
+            }
+            else
+            {
+                Thread.Sleep(5000);
+            }
         }
-#endif
 
         /// <summary>
-        /// метод открытия настроек проекта (последнего в списке) и загрузки нового документа
+        /// Создать проект и не проверять, создался ли он
+        /// </summary>
+        /// <param name="projectName">название проекта</param>
+        protected void CreateProjectWithoutCheckExist(string projectName)
+        {
+            CreateProject(projectName, "", false, "", false, false, Workspace_CreateProjectDialogHelper.MT_TYPE.None, false);
+        }
+
+        /// <summary>
+        /// Создать новую ТМ в диалоге создания проекта
+        /// </summary>
+        /// <param name="TmFileName">файл для загрузки в ТМ</param>
+        /// <param name="fromWorkspaceOrProject">true: из workspace, false - из проекта</param>
+        public void CreateNewTM(string TmFileName, bool fromWorkspaceOrProject = true)
+        {
+            //Создать ТМ
+            if (fromWorkspaceOrProject)
+            {
+                WorkspaceCreateProjectDialog.ClickCreateTM();
+            }
+            else
+            {
+                ProjectPage.ClickCreateTMBtn();
+            }
+
+            WorkspaceCreateProjectDialog.WaitCreateTMDialog();
+
+            //Заполнить данные о новой ТМ
+            WorkspaceCreateProjectDialog.FillTMName("TestTM" + DateTime.Now.Ticks);
+
+            if (TmFileName.Length > 0)
+            {
+                //Добавить тмх файл
+                WorkspaceCreateProjectDialog.ClickAddTMX();
+                WorkspaceCreateProjectDialog.WaitUploadTMXDialog();
+                WorkspaceCreateProjectDialog.ClickAddTMXUploadTMXDialog();
+
+                // Заполнить имя файла для загрузки
+                FillAddDocumentForm(TmFileName);
+
+                //Нажать на кнопку Import
+                WorkspaceCreateProjectDialog.ClickImportBtn();
+
+                if (WorkspaceCreateProjectDialog.GetIsExistErrorFileMessage())
+                {
+                    // Диалог загрузки документа не закрылся - закрываем
+                    TryCloseExternalDialog();
+
+                    // кликаем Import снова
+                    WorkspaceCreateProjectDialog.ClickImportBtn();
+                }
+                WorkspaceCreateProjectDialog.WaitImportDialogDisappear();
+            }
+            else
+            {
+                WorkspaceCreateProjectDialog.ClickSaveTM();
+                WorkspaceCreateProjectDialog.WaitUntilCreateTMDialogDisappear();
+            }
+        }
+
+        /// <summary>
+        /// Выбрать существующую ТМ
+        /// </summary>
+        public void ChooseExistingTM()
+        {
+            Assert.IsTrue(WorkspaceCreateProjectDialog.GetIsTMTableNotEmpty(),
+                "Ошибка: пустая таблица TM");
+            WorkspaceCreateProjectDialog.ClickFirstTMInTable();
+        }
+
+        // TODO
+        public void SetUpWorkflow()
+        {
+            // Сейчас не изменяем ничего на шаге
+            //Настроить этапы workflow
+            //_wait.Until(d => _driver.FindElement(By.XPath(".//div[contains(@class,'js-popup-create-project')][2]//span[contains(@class,'js-new-stage')]")));
+            //_driver.FindElement(By.XPath(".//div[contains(@class,'js-popup-create-project')][2]//span[contains(@class,'js-new-stage')]")).Click();
+        }
+
+        // TODO
+        public void Pretranslate()
+        {
+            // Сейчас не изменяем ничего на шаге
+            //_wait.Until(d => _driver.FindElement(By.XPath(".//div[contains(@class,'js-popup-create-project')][2]//span[contains(@class,'js-finish js-upload-btn')]")));
+            //_driver.FindElement(By.XPath(".//div[contains(@class,'js-popup-create-project')][2]//span[contains(@class,'js-finish js-upload-btn')]")).Click();
+        }
+
+        /// <summary>
+        /// метод открытия настроек проекта и загрузки нового документа
         /// </summary>
         /// <param name="filePath">путь в файлу, импортируемого в проект</param>
         protected void ImportDocumentProjectSettings(string filePath, string projectName)
         {
             // Зайти в проект
-            ClickProjectInList(projectName);
+            OpenProjectPage(projectName);
 
-            //ждем когда окно с настройками загрузится
-            WaitUntilDisplayElement(".//span[contains(@class,'js-document-import')]");
+            // Кликнуть Import
+            ProjectPage.ClickImportBtn();
 
-            // Кликнуть по Импорт
-            Driver.FindElement(By.XPath(".//span[contains(@class,'js-document-import')]")).Click();
-
-            //ждем когда загрузится окно для загрузки документа 
-            Wait.Until((d) => d.FindElement(By.XPath(".//div[contains(@class,'js-popup-import-document')][2]")));
-            //Процесс добавления файла
-            Driver.FindElement(By.XPath(
-                ".//div[contains(@class,'js-popup-import-document')][2]//a[contains(@class,'js-add-file')]")).Click();
-
+            // ждем, когда загрузится окно для загрузки документа 
+            ProjectPage.WaitImportDialogDisplay();
+            // Нажать Add
+            ProjectPage.ClickAddDocumentInImport();
+            // Заполнить диалог загрузки
             FillAddDocumentForm(filePath);
+            
+            // Нажать Next
+            ProjectPage.ClickNextImportDialog();
+            Console.WriteLine("кликнули Next");
 
-            // Нажать Next
-            Driver.FindElement(By.XPath(".//div[contains(@class,'js-popup-import-document')][2]//span[contains(@class,'js-next')]")).Click();
-            WaitUntilDisplayElement(".//table[contains(@class,'js-tms-table')]");
-            Driver.FindElement(By.XPath(".//div[contains(@class,'js-popup-import-document')][2]//table[contains(@class,'js-tms-table')]//tbody//tr[1]//td[5]//input")).Click();
-            // Нажать Next
-            Wait.Until((d) => d.FindElement(By.XPath(".//div[contains(@class,'js-popup-import-document')][2]//div[contains(@class,'l-project-section')]")).Displayed);
-            Driver.FindElement(By.XPath(".//div[contains(@class,'js-popup-import-document')][2]//span[contains(@class,'js-next')]")).Click();
-            // Нажать Finish
-            Wait.Until((d) => d.FindElement(By.XPath(".//div[contains(@class,'js-step last active')]")));
-            Driver.FindElement(By.XPath(".//span[contains(@class,'js-finish js-upload-btn')]")).Click();
-            // Дождаться загрузки документа
-            if (IsElementDisplayed(By.XPath(".//img[contains(@title,'Processing job')]")))
+            // Если появилось сообщение, что не указали файл, значит, Enter не нажался
+            if (ProjectPage.GetIsExistNoFileError())
             {
-                Console.WriteLine("Ждем пропадания");
-                bool isDisappeared = false;
-                for (int i = 0; i < 10; ++i)
-                {
-                    isDisappeared = WaitUntilDisappearElement(".//img[contains(@title,'Processing job')]", 40);
-                    if (isDisappeared)
-                    {
-                        break;
-                    }
-                }
-                Assert.IsTrue(isDisappeared, "Ошибка: файл так и не загрузился");
-                Console.WriteLine("пропал");
+                // Диалог загрузки документа не закрылся - закрываем
+                TryCloseExternalDialog();
+
+                // кликнуть Next снова
+                ProjectPage.ClickNextImportDialog();;
             }
+            // Дождаться появления ТМ таблицы
+            ProjectPage.WaitImportTMTableDisplay();
+
+            // Next
+            ProjectPage.ClickNextImportDialog();
+            // Нажать Finish
+            ProjectPage.ClickFinishImportDialog();
+            // Дождаться окончания загрузки
+            Assert.IsTrue(ProjectPage.WaitDocumentDownloadFinish(),
+                "Ошибка: документ загружается слишком долго");
         }
 
         /// <summary>
-        /// Открыть страницу Workspace
+        /// Проверить, есть ли проект в списке на странице Workspace
         /// </summary>
-        protected void OpenMainWorkspacePage()
+        /// <param name="projectName">название проекта</param>
+        /// <returns>есть</returns>
+        protected bool GetIsExistProject(string projectName)
         {
-            Driver.FindElement(By.XPath(".//a[contains(@href,'/Workspace')]")).Click();
-            Wait.Until((d) => d.FindElement(By.XPath(".//span[contains(@class,'js-project-create')]")));
-        }
+            return WorkspacePage.GetIsProjectInList(projectName);
+        }    
 
-        protected void CreateProject(string ProjectName, bool FileFlag, string DocumentName, string TmName, bool chooseMT = false)
-        {
-            FirstStepProjectWizard(ProjectName);
-
-            AddDocument(FileFlag, DocumentName);
-
-            //2 шаг - создание ТМ
-            ChooseCreatedTM(TmName);
-
-            //3 шаг - выбор глоссария
-            ChooseGlossary();
-
-            //4 шаг - выбор МТ
-            if (chooseMT)
-            {
-                ChooseMTCompreno();
-            }
-            else
-            {
-                ChooseNoMT();
-            }
-
-            //5 шаг - настройка этапов workflow
-            SetUpWorkflow();
-
-            //Finish
-            Pretranslate();
-        }
-
-#if OLD_WORKSPACE
-        public void AddDocument(bool FileFlag, string DocumentName)
-        {
-            if (FileFlag == true)
-            {
-                //процесс добавления файла 
-                //нажатие кнопки Add
-                _driver.FindElement(By.XPath(".//div[@id='project-wizard-form-files-containerEl']//span[text()='Add']")).Click();
-
-                FillAddDocumentForm(DocumentName);
-            }
-
-            _driver.FindElement(By.XPath(".//div[@id='project-wizard-form']//span[contains(text(), 'Next')]")).Click();
-        }
-#elif NEW_WORKSPACE
-        public void AddDocument(bool FileFlag, string DocumentName)
-        {
-            if (FileFlag == true)
-            {
-                //процесс добавления файла 
-                //нажатие кнопки Add
-                _driver.FindElement(By.XPath(".//div[contains(@class,'js-popup-create-project')][2]//div[contains(@class,'js-files-uploader')]//a[contains(@class,'js-add-file')]")).Click();
-
-                FillAddDocumentForm(DocumentName);
-            }
-
-            ClickNext();
-        }
-#endif
+        /// <summary>
+        /// Работа с диалогом браузера: загрузка документа
+        /// </summary>
+        /// <param name="DocumentName">полный путь к документу</param>
         protected void FillAddDocumentForm(string DocumentName)
         {
             Thread.Sleep(3000);
             // Заполнить форму для отправки файла
             SendKeys.SendWait(DocumentName);
-            Thread.Sleep(5000);
+            Thread.Sleep(1000);
             SendKeys.SendWait(@"{Tab}");
             Thread.Sleep(1000);
             SendKeys.SendWait(@"{Tab}");
@@ -856,6 +1083,19 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             Thread.Sleep(3000);
         }
 
+        /// <summary>
+        /// Закрываем диалог
+        /// </summary>
+        protected void TryCloseExternalDialog()
+        {
+            SendKeys.SendWait(@"{Enter}");
+            Thread.Sleep(1000);
+        }
+
+        /// <summary>
+        /// Работа с диалогом браузера: сохранение документа
+        /// </summary>
+        /// <param name="documentName">имя документа</param>
         protected void ExternalDialogSelectSaveDocument(string documentName)
         {
             Thread.Sleep(2000);
@@ -871,694 +1111,237 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             Thread.Sleep(1000);
         }
 
-        protected void ExternalDialogSaveDocument(string subFolderName, string filePath)
+        /// <summary>
+        /// Работа с диалогом браузера: сохранение документа
+        /// </summary>
+        /// <param name="subFolderName">название папки для выгрузки</param>
+        /// <param name="useFileName">использовать название исходного файла</param>
+        /// <param name="filePath">название исходного файла</param>
+        /// <param name="originalFileExtension">использовать исходное расширение</param>
+        /// <param name="fileExtension">расширение</param>
+        protected void ExternalDialogSaveDocument(string subFolderName,
+            bool useFileName = false, string filePath = "" ,
+            bool originalFileExtension = true, string fileExtension = "")
         {
             // Заполнить форму для сохранения файла
             string resultPath = Path.Combine(PathTestResults, subFolderName);
             Directory.CreateDirectory(resultPath);
 
-            Thread.Sleep(1000);
-            SendKeys.SendWait
-                (Path.Combine(resultPath, Path.GetFileNameWithoutExtension(filePath) + "_" + ProjectName + Path.GetExtension(filePath)));
-            Thread.Sleep(1000);
+            string newFileName = "";
+            if (useFileName)
+            {
+                newFileName = Path.GetFileNameWithoutExtension(filePath) + "_" + DateTime.Now.Ticks.ToString();
+            }
+            else
+            {
+                newFileName = DateTime.Now.Ticks.ToString();
+            }
+
+            string currentFileExtension = originalFileExtension ? Path.GetExtension(filePath) : fileExtension;
+
+            resultPath = Path.Combine(resultPath, newFileName + currentFileExtension);
+
+            Thread.Sleep(3000);
+            SendKeys.SendWait(resultPath);
+            Thread.Sleep(2000);
 
             SendKeys.SendWait(@"{Enter}");
             Thread.Sleep(5000);
-            Assert.IsTrue(File.Exists(Path.Combine
-                (resultPath, Path.GetFileNameWithoutExtension(filePath) + "_" + ProjectName + Path.GetExtension(filePath))),
-                "Ошибка: файл не экспортировался");
-        }
-#if OLD_WORKSPACE
-        public void ChooseExistingTM()
-        {
-            //Выбрать существующий TM
-            _wait.Until(d => _driver.FindElement(By.CssSelector("#project-wizard-tms table tr:nth-child(1) td:nth-child(2)")));
-
-            _driver.FindElement(By.CssSelector("#project-wizard-tms table tr:nth-child(1) td:nth-child(2)")).Click();
-
-            _driver.FindElement(By.XPath(".//div[@id='project-wizard-tms']//span[contains(text(), 'Next')]")).Click();
-        }
-#elif NEW_WORKSPACE
-        public void ChooseExistingTM()
-        {
-            //Выбрать существующий TM
-            _wait.Until(d => _driver.FindElement(By.XPath(".//table[contains(@class,'js-tms-popup-table')]")));
-
-            _driver.FindElement(By.XPath(".//table[contains(@class,'js-tms-popup-table')]//tbody//tr[1]//td[1]//input")).Click();
-
-            ClickNext();
-        }
-#endif
-
-
-        public void ChooseCreatedTM(string TmName)
-        {
-            //Создать TM
-            //_wait.Until(d => _driver.FindElement(By.CssSelector("#project-wizard-tms table tr:nth-child(1)")));
-
-            CreateTMXFile(TmName);
-
-            ClickNext();
+            Assert.IsTrue(File.Exists(resultPath), "Ошибка: файл не экспортировался\n" + resultPath);
         }
 
-
-        public void ChooseMT()
+        /// <summary>
+        /// Добавить перевод и подтвердить
+        /// </summary>
+        public void AddTranslationAndConfirm(int segmentRowNumber = 1, string text = "Translation")
         {
-            //Выбрать необходимые MT
-            _wait.Until(d => _driver.FindElement(By.CssSelector("#project-wizard-mts table tr:nth-child(2) td:nth-child(1)")));
-
-            _driver.FindElement(By.CssSelector("#project-wizard-mts table tr:nth-child(1) td:nth-child(1)")).Click();
-
-            _driver.FindElement(By.CssSelector("#project-wizard-mts table tr:nth-child(2) td:nth-child(1)")).Click();
-
-            _driver.FindElement(By.CssSelector("#project-wizard-mts table tr:nth-child(3) td:nth-child(1)")).Click();
-
-            _driver.FindElement(By.CssSelector("#project-wizard-mts table tr:nth-child(4) td:nth-child(1)")).Click();
-
-            _driver.FindElement(By.CssSelector("#project-wizard-mts table tr:nth-child(5) td:nth-child(1)")).Click();
-
-            _driver.FindElement(By.XPath(".//div[@id='project-wizard-mts']//span[contains(text(), 'Next')]")).Click();
-        }
-
-        public void ChooseMTBing()
-        {
-            //Выбрать MT Bing
-            _wait.Until(d => _driver.FindElement(By.CssSelector("#project-wizard-mts table tr:nth-child(2) td:nth-child(1)")));
-
-            _driver.FindElement(By.CssSelector("#project-wizard-mts table tr:nth-child(3) td:nth-child(1)")).Click();
-           
-            _driver.FindElement(By.XPath(".//div[@id='project-wizard-mts']//span[contains(text(), 'Next')]")).Click();
-        }
-
-#if OLD_WORKSPACE
-        public void ChooseMTCompreno()
-        {
-            //Выбрать MT Compreno
-            _wait.Until(d => _driver.FindElement(By.CssSelector("#project-wizard-mts table tr:nth-child(2) td:nth-child(1)")));
-
-            _driver.FindElement(By.CssSelector("#project-wizard-mts table tr:nth-child(1) td:nth-child(1)")).Click();
-
-            _driver.FindElement(By.XPath(".//div[@id='project-wizard-mts']//span[contains(text(), 'Next')]")).Click();
-        }
-
-        public void ChooseNoMT()
-        {
-            _driver.FindElement(By.XPath(".//div[@id='project-wizard-mts']//span[contains(text(), 'Next')]")).Click();
-        }
-#elif NEW_WORKSPACE
-        public void ChooseMTCompreno()
-        {
-            //Выбрать MT Compreno
-            _driver.FindElement(By.XPath(
-                ".//div[contains(@class,'js-popup-create-project')][2]//table[contains(@class,'js-mts-table')]//tbody//tr[3]//input")).Click();
-            ClickNext();
-        }
-
-        public void ChooseNoMT()
-        {
-            ClickNext();
-        }
-
-#endif
-        public void ChooseMTGoogle()
-        {
-            //Выбрать MT Google
-            _wait.Until(d => _driver.FindElement(By.CssSelector("#project-wizard-mts table tr:nth-child(2) td:nth-child(1)")));
-
-            _driver.FindElement(By.CssSelector("#project-wizard-mts table tr:nth-child(2) td:nth-child(1)")).Click();
-
-            _driver.FindElement(By.XPath(".//div[@id='project-wizard-mts']//span[contains(text(), 'Next')]")).Click();
-        }
-
-        public void ChooseMTMoses()
-        {
-            //Выбрать MT Moses
-            _wait.Until(d => _driver.FindElement(By.CssSelector("#project-wizard-mts table tr:nth-child(2) td:nth-child(1)")));
-
-            _driver.FindElement(By.CssSelector("#project-wizard-mts table tr:nth-child(4) td:nth-child(1)")).Click();
-
-            _driver.FindElement(By.XPath(".//div[@id='project-wizard-mts']//span[contains(text(), 'Next')]")).Click();
-        }
-
-        public void ChooseMTYandex()
-        {
-            //Выбрать MT Yandex
-            _wait.Until(d => _driver.FindElement(By.CssSelector("#project-wizard-mts table tr:nth-child(2) td:nth-child(1)")));
-
-            _driver.FindElement(By.CssSelector("#project-wizard-mts table tr:nth-child(5) td:nth-child(1)")).Click();
-
-            _driver.FindElement(By.XPath(".//div[@id='project-wizard-mts']//span[contains(text(), 'Next')]")).Click();
-        }
-
-#if OLD_WORKSPACE
-        public void ChooseGlossary()
-        {
-            //Выбрать необходимый глоссарий
-            _wait.Until(d => _driver.FindElement(By.CssSelector("#project-wizard-tbs table tr:nth-child(1) td:nth-child(1)")));
-
-            _driver.FindElement(By.CssSelector("#project-wizard-tbs table tr:nth-child(1) td:nth-child(1)")).Click();
-
-            _driver.FindElement(By.XPath(".//div[@id='project-wizard-tbs']//span[contains(text(), 'Next')]")).Click();
-        }
-
-        public void ChooseFirstGlossary()
-        {
-            //Выбрать необходимый глоссарий
-            _wait.Until(d => _driver.FindElement(By.CssSelector("#project-wizard-tbs table tbody tr:nth-child(1) td:nth-child(1)")));
-
-            _driver.FindElement(By.CssSelector("#project-wizard-tbs table tbody tr:nth-child(1) td:nth-child(1)")).Click();
-
-            _driver.FindElement(By.XPath(".//div[@id='project-wizard-tbs']//span[contains(text(), 'Next')]")).Click();
-        }
-
-        public void ClickNext()
-        {
-            _driver.FindElement(By.XPath(".//div[@id='project-wizard-tbs']//span[contains(text(), 'Next')]")).Click();
-        }
-
-#elif NEW_WORKSPACE
-        public void ChooseGlossary()
-        {
-            //Выбрать необходимый глоссарий
-            //_driver.FindElement(By.XPath(
-                //".//div[contains(@class,'js-popup-create-project')][2]//table[contains(@class,'js-glossaries-table')]//span[contains(@class,'js-chckbx')]")).Click();
-
-            ClickNext();
-        }
-
-        public void ChooseFirstGlossary()
-        {
-            //Выбрать необходимый глоссарий
-            _driver.FindElement(By.XPath(".//table[contains(@class,'js-glossaries-table')]//tbody//tr[1]//input")).Click();
-
-            ClickNext();
-        }
-
-        public void ClickNext()
-        {
-            _driver.FindElement(By.XPath(".//div[contains(@class,'js-popup-create-project')][2]//span[contains(@class,'js-next')]")).Click();
-        }
-#endif
-
-#if OLD_WORKSPACE
-        public void SetUpWorkflow()
-        {
-            //Настроить этапы workflow
-            _wait.Until(d => _driver.FindElement(By.Id("project-workflow-new-stage-btn")));
-
-            _driver.FindElement(By.Id("project-workflow-new-stage-btn")).Click();
-
-            _driver.FindElement(By.XPath(".//div[@id='project-wizard-workflow']//span[contains(text(), 'Next')]")).Click();
-        }
-#elif NEW_WORKSPACE
-        public void SetUpWorkflow()
-        {
-            //Настроить этапы workflow
-            //_wait.Until(d => _driver.FindElement(By.XPath(".//div[contains(@class,'js-popup-create-project')][2]//span[contains(@class,'js-new-stage')]")));
-            //_driver.FindElement(By.XPath(".//div[contains(@class,'js-popup-create-project')][2]//span[contains(@class,'js-new-stage')]")).Click();
-
-            ClickNext();
-        }
-#endif
-
-#if OLD_WORKSPACE
-        public void Pretranslate()
-        {
-            _wait.Until(d => _driver.FindElement(By.XPath(".//div[@id='project-wizard-pretranslate']//span[contains(text(), 'Finish')]")));
-            _driver.FindElement(By.XPath(".//div[@id='project-wizard-pretranslate']//span[contains(text(), 'Finish')]")).Click();
-        }
-#elif NEW_WORKSPACE
-        public void Pretranslate()
-        {
-            _wait.Until(d => _driver.FindElement(By.XPath(".//div[contains(@class,'js-popup-create-project')][2]//span[contains(@class,'js-finish js-upload-btn')]")));
-            _driver.FindElement(By.XPath(".//div[contains(@class,'js-popup-create-project')][2]//span[contains(@class,'js-finish js-upload-btn')]")).Click();
-        }
-#endif
-
-        public void CreateTMXFile(string TmName)
-        {
-            //Создать ТМ
-            _driver.FindElement(By.XPath(".//div[contains(@class,'js-popup-create-project')][2]//span[contains(@class,'js-tm-create')]")).Click();
-
-            _wait.Until(d => _driver.FindElement(By.XPath(".//div[contains(@class,'js-popup-create-tm')][2]")).Displayed);
-
-            //Заполнить данные о новой ТМ
-            IWebElement tmNameEl = _driver.FindElement(By.XPath(".//div[contains(@class,'js-popup-create-tm')][2]//input[contains(@class,'js-tm-name')]"));
-            tmNameEl.Clear();
-            tmNameEl.SendKeys(_tmName);
-
-            if (TmName.Length > 0)
-            {
-                //Добавить тмх файл
-                _driver.FindElement(By.XPath(".//div[contains(@class,'js-popup-create-tm')][2]//a[contains(@class,'js-save-and-import')]")).Click();
-                _wait.Until((d) => d.FindElement(By.XPath(".//div[contains(@class,'js-popup-import')][2]")).Displayed);
-                _driver.FindElement(By.XPath(".//div[contains(@class,'js-popup-import')][2]//a[contains(@class,'js-upload-btn')]")).Click();
-
-                FillAddDocumentForm(TmName);
-
-                //Нажать на кнопку Import
-                _driver.FindElement(By.XPath(".//div[contains(@class,'js-popup-import')][2]//span[contains(@class,'js-import-button')]")).Click();
-                WaitUntilDisappearElement(".//div[contains(@class,'js-popup-import')][2]");
-            }
-            else
-            {
-                _driver.FindElement(By.XPath(".//div[contains(@class,'js-popup-create-tm')][2]//span[contains(@class,'js-save')]")).Click();
-                WaitUntilDisappearElement(".//div[contains(@class,'js-popup-create-tm')][2]");
-            }
-        }
-
-        public void AddTMXFile(string projectname)
-        {
-            _driver.FindElement(By.LinkText(projectname)).Click();
-            //Нажать кнопку Edit
-            _driver.FindElement(By.XPath(".//div[@id='project-tms']//span[text()='Edit']")).Click();
-
-            _wait.Until(d => _driver.FindElement(By.CssSelector("#project-wizard-tms table tr:nth-child(1)")));
-
-            //Driver.FindElement(By.XPath("//div[@id='project-wizard-tms']//table//tr[contains(@class, 'selected')]/td[1]")).Click();
-
-            CreateTMXFile(TmFile);
-
-            _driver.FindElement(By.XPath("//div[@id='project-wizard']//span[text()='Save']")).Click();
-
-            _wait.Until(d => _driver.FindElement(By.XPath("//div[@id='project-tms']//table//tr[1]")));
-
-            _driver.Navigate().GoToUrl(_url);
-        }
-
-        public void ConfirmButton()
-        {
-            // Написать что-то в source
-            Driver.FindElement(By.CssSelector("#segments-body div table tr:nth-child(1) td:nth-child(3) div")).
-                SendKeys("Translation");
-
+            // Написать что-то в target
+            EditorPage.AddTextTarget(segmentRowNumber, text);
             // Нажать на кнопку подтвердить
-            Driver.FindElement(By.Id("confirm-btn")).Click();
+            EditorPage.ClickConfirmBtn();
+            
             // Убедиться что сегмент подтвержден
-            Assert.IsTrue(WaitUntilDisappearElement(
-                ".//div[@id='segments-body']//table//tr[1]//td[4]//span[contains(@class,'fa-border')]"),
-                "Ошибка: рамка вокрут галочки не пропадает - Confirm не прошел");
+            Assert.IsTrue(WaitSegmentConfirm(1),
+                "Ошибка: подтверждение (Confirm) не прошло");
         }
 
-        public void BackButton()
+        /// <summary>
+        /// Дождаться, пока сегмент подтвердится
+        /// </summary>
+        /// <param name="segmentRowNumber">номер сегмента</param>
+        /// <returns>сегмент подтвердился</returns>
+        protected bool WaitSegmentConfirm(int segmentRowNumber)
+        {
+            return EditorPage.WaitSegmentConfirm(segmentRowNumber);
+        }
+
+        /// <summary>
+        /// Нажать Back в редакторе, проверить возврат в Workspace
+        /// </summary>
+        /// <param name="backToProject">откуда заходили в редактов: true: страница проекта, false - список проектов</param>
+        public void EditorClickBackBtn(bool backToProject = true)
         {
             // Нажать кнопку назад
-            Driver.FindElement(By.Id("back-btn")).Click();
+            EditorPage.ClickBackBtn();
 
-            Wait.Until((d) => d.Title.Contains("Workspace"));
-
-            Assert.AreEqual(true, Driver.Title.Contains("Workspace"));
-        }
-
-        public void SourceTargetSwitchButton()
-        {
-            //Выбрать source первого сегмента
-            Driver.FindElement(By.CssSelector("#segments-body div table tr:nth-child(1) td:nth-child(2)")).Click();
-
-            // Нажать кнопку Tab
-            Driver.FindElement(By.Id("toggle-btn")).Click();
-
-
-            // Проверить где находится курсор, и если в поле source, то все ок
-            IWebElement a = Driver.FindElement(By.CssSelector("#segments-body div table tr:nth-child(1) td:nth-child(3) div"));
-            IWebElement b = Driver.SwitchTo().ActiveElement();
-
-            Point a_loc = a.Location;
-            Point b_loc = b.Location;
-
-            Size a_size = a.Size;
-            Size b_size = b.Size;
-
-            Assert.True((a_loc == b_loc) && (a_size == b_size));
-        }
-
-        public void SourceTargetSwitchHotkey()
-        {
-            //Выбрать source первого сегмента
-            Driver.FindElement(By.CssSelector("#segments-body div table tr:nth-child(1) td:nth-child(2)")).Click();
-
-            // Нажать хоткей Tab
-            Driver.FindElement(By.CssSelector("#segments-body div table tr:nth-child(1) td:nth-child(2) div")).
-                SendKeys(OpenQA.Selenium.Keys.Tab);
-
-
-            // Проверить где находится курсор, и если в поле source, то все ок
-            IWebElement a = Driver.FindElement(By.CssSelector("#segments-body div table tr:nth-child(1) td:nth-child(3) div"));
-            IWebElement b = Driver.SwitchTo().ActiveElement();
-
-            Point a_loc = a.Location;
-            Point b_loc = b.Location;
-
-            Size a_size = a.Size;
-            Size b_size = b.Size;
-
-            Assert.True((a_loc == b_loc) && (a_size == b_size));
-        }
-
-        public void ToTargetButton()
-        {
-            // Выбрать source первого сегмента
-            Driver.FindElement(By.CssSelector("#segments-body div table tr:nth-child(1) td:nth-child(2)")).Click();
-
-            // Текст source'a первого сегмента
-            string sourcetxt = Driver.FindElement(By.CssSelector("#segments-body div table tr:nth-child(1) td:nth-child(2) div")).Text;
-            // Нажать кнопку копирования
-            Driver.FindElement(By.Id("copy-btn")).Click();
-
-            // Проверить, такой ли текст в target'те
-            string targetxt = Driver.FindElement(By.CssSelector("#segments-body div table tr:nth-child(1) td:nth-child(3) div")).Text;
-            Assert.AreEqual(sourcetxt, targetxt);
-        }
-
-        public void ToTargetHotkey()
-        {
-            // Выбрать source первого сегмента
-            Driver.FindElement(By.CssSelector("#segments-body div table tr:nth-child(1) td:nth-child(2)")).Click();
-
-            // Текст source'a первого сегмента
-            string sourcetxt = Driver.FindElement(By.CssSelector("#segments-body div table tr:nth-child(1) td:nth-child(2) div")).Text;
-            // Нажать хоткей копирования
-            Driver.FindElement(By.CssSelector("#segments-body div table tr:nth-child(1) td:nth-child(2)")).
-                SendKeys(OpenQA.Selenium.Keys.Control + OpenQA.Selenium.Keys.Insert);
-            // Проверить, такой ли текст в target'те
-            string targetxt = Driver.FindElement(By.CssSelector("#segments-body div table tr:nth-child(1) td:nth-child(3) div")).Text;
-            Assert.AreEqual(sourcetxt, targetxt);
-        }
-
-        public void CancelButton()
-        {
-            // Выбрать source первого сегмента
-            Driver.FindElement(By.CssSelector("#segments-body div table tr:nth-child(1) td:nth-child(2)")).Click();
-
-            // Нажать кнопку копирования
-            Driver.FindElement(By.Id("copy-btn")).Click();
-            // Текст source'a первого сегмента
-            string sourcetxt = Driver.FindElement(By.CssSelector("#segments-body div table tr:nth-child(1) td:nth-child(2) div")).Text;
-            // Проверить, такой ли текст в target'те
-            string targetxt = Driver.FindElement(By.CssSelector("#segments-body div table tr:nth-child(1) td:nth-child(3) div")).Text;
-            Assert.AreEqual(sourcetxt, targetxt);
-
-            // Нажать кнопку отмены
-            Driver.FindElement(By.Id("undo-btn")).Click();
-            // Убедиться, что в target нет текста
-            targetxt = Driver.FindElement(By.CssSelector("#segments-body div table tr:nth-child(1) td:nth-child(3) div")).Text;
-            Assert.AreEqual("", targetxt);
-        }
-
-        public void CancelHotkey()
-        {
-            // Выбрать source первого сегмента
-            Driver.FindElement(By.CssSelector("#segments-body div table tr:nth-child(1) td:nth-child(2)")).Click();
-
-            // Нажать кнопку копирования
-            Driver.FindElement(By.Id("copy-btn")).Click();
-            // Текст source'a первого сегмента
-            string sourcetxt = Driver.FindElement(By.CssSelector("#segments-body div table tr:nth-child(1) td:nth-child(2) div")).Text;
-            // Проверить, такой ли текст в target'те
-            string targetxt = Driver.FindElement(By.CssSelector("#segments-body div table tr:nth-child(1) td:nth-child(3) div")).Text;
-            Assert.AreEqual(sourcetxt, targetxt);
-
-            // Нажать хоткей отмены
-            Driver.FindElement(By.CssSelector("#segments-body div table tr:nth-child(1) td:nth-child(2)")).
-                SendKeys(OpenQA.Selenium.Keys.Control + "Z");
-            // Убедиться, что в target нет текста
-            targetxt = Driver.FindElement(By.CssSelector("#segments-body div table tr:nth-child(1) td:nth-child(3) div")).Text;
-            Assert.AreEqual("", targetxt);
-        }
-
-        public void RedoAfterCancelButton()
-        {
-            // Выбрать source первого сегмента
-            Driver.FindElement(By.CssSelector("#segments-body div table tr:nth-child(1) td:nth-child(2)")).Click();
-
-            // Нажать кнопку копирования
-            Driver.FindElement(By.Id("copy-btn")).Click();
-            // Текст source'a первого сегмента
-            string sourcetxt = Driver.FindElement(By.CssSelector("#segments-body div table tr:nth-child(1) td:nth-child(2) div")).Text;
-            // Проверить, такой ли текст в target'те
-            string targetxt = Driver.FindElement(By.CssSelector("#segments-body div table tr:nth-child(1) td:nth-child(3) div")).Text;
-            Assert.AreEqual(sourcetxt, targetxt);
-
-            // Нажать кнопку отмены
-            Driver.FindElement(By.Id("undo-btn")).Click();
-            // Убедиться, что в target нет текста
-            targetxt = Driver.FindElement(By.CssSelector("#segments-body div table tr:nth-child(1) td:nth-child(3) div")).Text;
-            Assert.AreEqual("", targetxt);
-
-            // Нажать кнопку возврата отмененного действия
-            Driver.FindElement(By.Id("redo-btn")).Click();
-
-            // Убедиться, что в target и source одинаковы
-            sourcetxt = Driver.FindElement(By.CssSelector("#segments-body div table tr:nth-child(1) td:nth-child(2) div")).Text;
-            targetxt = Driver.FindElement(By.CssSelector("#segments-body div table tr:nth-child(1) td:nth-child(3) div")).Text;
-            Assert.AreEqual(sourcetxt, targetxt);
-        }
-
-        public void RedoAfterCancelHotkey()
-        {
-            // Выбрать source первого сегмента
-            Driver.FindElement(By.CssSelector("#segments-body div table tr:nth-child(1) td:nth-child(2)")).Click();
-
-            // Нажать кнопку копирования
-            Driver.FindElement(By.Id("copy-btn")).Click();
-            // Текст source'a первого сегмента
-            string sourcetxt = Driver.FindElement(By.CssSelector("#segments-body div table tr:nth-child(1) td:nth-child(2) div")).Text;
-            // Проверить, такой ли текст в target'те
-            string targetxt = Driver.FindElement(By.CssSelector("#segments-body div table tr:nth-child(1) td:nth-child(3) div")).Text;
-            Assert.AreEqual(sourcetxt, targetxt);
-
-            // Нажать кнопку отмены
-            Driver.FindElement(By.Id("undo-btn")).Click();
-            // Убедиться, что в target нет текста
-            targetxt = Driver.FindElement(By.CssSelector("#segments-body div table tr:nth-child(1) td:nth-child(3) div")).Text;
-            Assert.AreEqual("", targetxt);
-
-            // Нажать хоткей возврата отмененного действия
-            Driver.FindElement(By.CssSelector("#segments-body div table tr:nth-child(1) td:nth-child(3) div")).
-                SendKeys(OpenQA.Selenium.Keys.Control + "Y");
-
-            // Убедиться, что в target и source одинаковы
-            sourcetxt = Driver.FindElement(By.CssSelector("#segments-body div table tr:nth-child(1) td:nth-child(2) div")).Text;
-            targetxt = Driver.FindElement(By.CssSelector("#segments-body div table tr:nth-child(1) td:nth-child(3) div")).Text;
-            Assert.AreEqual(sourcetxt, targetxt);
-        }
-
-        private void ClickChangeCase(bool byButtonTrueByHotkeyFalse)
-        {
-            if (byButtonTrueByHotkeyFalse)
+            if (backToProject)
             {
-                // Нажать кнопку
-                Driver.FindElement(By.Id("change-case-btn")).Click();
+                // Дождаться переход на страницу проекта
+                Assert.IsTrue(ProjectPage.WaitPageLoad(), "Ошибка не вернулись на страницу проекта");
             }
             else
             {
-                // Нажать хоткей
-                Driver.FindElement(By.CssSelector("#segments-body div table tr:nth-child(1) td:nth-child(3) div")).
-                    SendKeys(OpenQA.Selenium.Keys.Alt + OpenQA.Selenium.Keys.F3);
+                // Проверить, что перешли в Workspace
+                Assert.IsTrue(WorkspacePage.WaitPageLoad(), "Ошибка: не зашли в Workspace");
             }
         }
 
-        private void CheckChangeCase(string sourceText, string textAfterFirstChange, string textAfterSecondChange, bool byButtonTrueByHotkeyFalse)
+        /// <summary>
+        /// Нажать Source, кликнуть Toggle (кнопку)
+        /// </summary>
+        public void SourceTargetSwitchButton(int segmentNumber)
         {
-            // Список текстов для сравнения после изменения регистра
-            List<string> listToCompare = new List<string>();
-            listToCompare.Add(textAfterFirstChange);
-            listToCompare.Add(textAfterSecondChange);
-            listToCompare.Add(sourceText);
-
-            for (int i = 0; i < listToCompare.Count; ++i)
-            {
-                // Нажать изменениe регистра
-                ClickChangeCase(byButtonTrueByHotkeyFalse);
-                // Убедиться, что регистр слова изменился правильно - сравнить со значением в listToCompare
-                string targetxt = Driver.FindElement(By.CssSelector("#segments-body div table tr:nth-child(1) td:nth-child(3) div")).Text;
-                Assert.AreEqual(listToCompare[i], targetxt);
-            }
+            //Выбрать target нужного сегмента
+            EditorPage.ClickTargetCell(segmentNumber);
+            // Нажать Toggle
+            EditorPage.ClickToggleBtn();
         }
 
-        public void ChangeCaseTextButton()
+        /// <summary>
+        /// Кликнуть Toggle (хоткей)
+        /// </summary>
+        public void SourceTargetSwitchHotkey(int segmentNumber)
         {
-            // Написать текст в первом сегменте в target
-            Driver.FindElement(By.CssSelector("#segments-body div table tr:nth-child(1) td:nth-child(3) div")).
-                SendKeys("the example sentence");
-            // Нажать хоткей выделения всего содержимого ячейки
-            Driver.FindElement(By.CssSelector("#segments-body div table tr:nth-child(1) td:nth-child(3) div")).
-                SendKeys(OpenQA.Selenium.Keys.Shift + OpenQA.Selenium.Keys.Control + OpenQA.Selenium.Keys.Home);
-            // Запустить проверку
-            CheckChangeCase("the example sentence", "The Example Sentence", "THE EXAMPLE SENTENCE", true);
+            // Нажать хоткей Tab
+            EditorPage.SendKeysTarget(segmentNumber, OpenQA.Selenium.Keys.Tab);
         }
 
-        public void ChangeCaseTextHotkey()
+        /// <summary>
+        /// Проверить Copy (кнопка)
+        /// </summary>
+        public void ToTargetButton(int rowNumber = 1)
         {
-            // Написать текст в первом сегменте в target
-            Driver.FindElement(By.CssSelector("#segments-body div table tr:nth-child(1) td:nth-child(3) div")).
-                SendKeys("the example sentence");
-            // Нажать хоткей выделения всего содержимого ячейки
-            Driver.FindElement(By.CssSelector("#segments-body div table tr:nth-child(1) td:nth-child(3) div")).
-                SendKeys(OpenQA.Selenium.Keys.Shift + OpenQA.Selenium.Keys.Control + OpenQA.Selenium.Keys.Home);
-            // Запустить проверку
-            CheckChangeCase("the example sentence", "The Example Sentence", "THE EXAMPLE SENTENCE", false);
+            //Выбрать source нужного сегмента
+            EditorPage.ClickSourceCell(rowNumber);
+
+            // Текст source'a нужного сегмента
+            string sourcetxt = EditorPage.GetSourceText(rowNumber);
+
+            // Нажать кнопку копирования
+            EditorPage.ClickCopyBtn();
+
+            // Проверить, такой ли текст в target'те
+            string targetxt = EditorPage.GetTargetText(rowNumber);
+            Assert.AreEqual(sourcetxt, targetxt, "Ошибка: после кнопки Copy текст в Source и Target не совпадает");
         }
 
-        public void ChangeCaseSomeWordButton()
+        /// <summary>
+        /// Проверить Copy (хоткей)
+        /// </summary>
+        public void ToTargetHotkey(int rowNumber = 1)
         {
-            // Написать текст в первом сегменте в target
-            Driver.FindElement(By.CssSelector("#segments-body div table tr:nth-child(1) td:nth-child(3) div")).
-                SendKeys("some words for example");
-            // Нажать хоткей выделения последнего слова
-            Driver.FindElement(By.CssSelector("#segments-body div table tr:nth-child(1) td:nth-child(3) div")).
-                SendKeys(OpenQA.Selenium.Keys.Shift + OpenQA.Selenium.Keys.Control + OpenQA.Selenium.Keys.ArrowLeft);
-            // Запустить проверку
-            CheckChangeCase("some words for example", "some words for Example", "some words for EXAMPLE", true);
+            //Выбрать source сегмента
+            EditorPage.ClickSourceCell(rowNumber);
+
+            // Текст source'a сегмента
+            string sourcetxt = EditorPage.GetSourceText(rowNumber);
+            // Нажать хоткей копирования
+            EditorPage.SendKeysSource(rowNumber, OpenQA.Selenium.Keys.Control + OpenQA.Selenium.Keys.Insert);
+            // Проверить, такой ли текст в target'те
+            string targetxt = EditorPage.GetTargetText(rowNumber);
+            Assert.AreEqual(sourcetxt, targetxt, "Ошибка: после хоткея Copy текст в Source и Target не совпадает");
         }
 
-        public void ChangeCaseSomeWordHotkey()
-        {
-            // Написать текст в первом сегменте в target
-            Driver.FindElement(By.CssSelector("#segments-body div table tr:nth-child(1) td:nth-child(3) div")).
-                SendKeys("some words for example");
-            // Нажать хоткей выделения последнего слова
-            Driver.FindElement(By.CssSelector("#segments-body div table tr:nth-child(1) td:nth-child(3) div")).
-                SendKeys(OpenQA.Selenium.Keys.Shift + OpenQA.Selenium.Keys.Control + OpenQA.Selenium.Keys.ArrowLeft);
-            // Запустить проверку
-            CheckChangeCase("some words for example", "some words for Example", "some words for EXAMPLE", false);
-        }
-
-        public void ChangeCaseFirstWord()
-        {
-            // Написать текст в первом сегменте в target
-            Driver.FindElement(By.CssSelector("#segments-body div table tr:nth-child(1) td:nth-child(3) div")).
-                SendKeys("some words for example");
-            // Нажать хоткей перехода в начало строки
-            Driver.FindElement(By.CssSelector("#segments-body div table tr:nth-child(1) td:nth-child(3) div")).
-                SendKeys(OpenQA.Selenium.Keys.Control + OpenQA.Selenium.Keys.Home);
-            // Нажать хоткей выделения первого слова
-            Driver.FindElement(By.CssSelector("#segments-body div table tr:nth-child(1) td:nth-child(3) div")).
-                SendKeys(OpenQA.Selenium.Keys.Shift + OpenQA.Selenium.Keys.Control + OpenQA.Selenium.Keys.ArrowRight);
-            // Запустить проверку по кнопке
-            CheckChangeCase("some words for example", "Some words for example", "SOME words for example", true);
-            // Запустить проверку по хоткею
-            CheckChangeCase("some words for example", "Some words for example", "SOME words for example", false);
-        }
-
-        protected string GetUserNameProfile()
-        {
-            string userName = "";
-            // Нажать на Профиль
-            Driver.FindElement(By.XPath(".//span[contains(@class,'js-link-profile')]")).Click();
-            // Дождаться открытия окна с профилем
-            Wait.Until((d) => d.FindElement(By.XPath(
-                ".//div[contains(@class,'g-popupbox g-profile')]")).Displayed);
-            // Получить имя пользователя
-            userName = Driver.FindElement(By.XPath(
-                ".//div[contains(@class,'g-popupbox g-profile')]//p[contains(@class, 'g-profile__cntrl name')]//input")).GetAttribute("value");
-            // Закрыть профиль
-            Driver.FindElement(By.XPath(".//div[contains(@class,'g-popupbox g-profile')]//span[contains(@class, 'js-popup-close')]")).Click();
-
-            return userName;
-        }
-
+        /// <summary>
+        /// Перейти на страницу Domain
+        /// </summary>
         protected void SwitchDomainTab()
         {
-            // Перейти на страницу со списком глоссариев
-            Driver.FindElement(By.XPath(
-                ".//ul[@class='g-corprmenu__list']//a[contains(@href,'/Domains')]")).Click();
-            Wait.Until((d) => d.FindElement(By.XPath(
-                ".//span[contains(@class,'g-btn g-redbtn js-add-domain')]//a[contains(@class,'g-btn__text g-redbtn__text')]")).Displayed);
+            MainHelperClass.ClickOpenDomainPage();
+            DomainPage.WaitPageLoad();
         }
 
+        /// <summary>
+        /// Перейти на страницу TM
+        /// </summary>
         protected void SwitchTMTab()
         {
             // Нажать кнопку перехода на страницу Базы Translation memory
-            Driver.FindElement(By.XPath(
-                ".//ul[@class='g-corprmenu__list']//a[contains(@href,'/Enterprise/TranslationMemories')]")).Click();
-
-            // ждем загрузки страницы
-            Wait.Until((d) => d.FindElement(By.XPath(
-                ".//span[contains(@class,'l-corpr__addbtnbox')]//a[contains(@class,'g-btn__text g-redbtn__text')]")).Displayed);
+            MainHelperClass.ClickOpenTMPage();
+            TMPage.WaitPageLoad();
         }
 
+        /// <summary>
+        /// Перейти на страницу глоссариев
+        /// </summary>
         protected void SwitchGlossaryTab()
         {
-            // Перейти на страницу со списком глоссариев
-            Driver.FindElement(By.XPath(
-                ".//ul[@class='g-corprmenu__list']//a[contains(@href,'/Glossaries')]")).Click();
-            Wait.Until((d) => d.FindElement(By.XPath(
-                ".//span[contains(@class,'js-create-glossary-button')]//a[contains(@class,'g-btn__text g-redbtn__text')]")).Displayed);
+            MainHelperClass.ClickOpenGlossaryPage();
+            GlossaryListPage.WaitPageLoad();
         }
 
+        /// <summary>
+        /// Перейти на страницу поиска
+        /// </summary>
         protected void SwitchSearchTab()
         {
-            // Перейти на страницу поиска
-            Driver.FindElement(By.XPath(
-                ".//ul[@class='g-corprmenu__list']//a[contains(@href,'/Start')]")).Click();
-            Wait.Until((d) => d.FindElement(By.XPath(
-                ".//form[contains(@class,'js-search-form')]")).Displayed);
+            MainHelperClass.ClickOpenSearchPage();
+            SearchPage.WaitPageLoad();
         }
 
+        /// <summary>
+        /// Перейти на страницу Workspace
+        /// </summary>
+        protected void SwitchWorkspaceTab()
+        {
+            MainHelperClass.ClickOpenWorkSpacePage();
+            WorkspacePage.WaitPageLoad();
+        }
+
+        /// <summary>
+        /// Инициировать поиск
+        /// </summary>
+        /// <param name="searchText"></param>
         protected void InitSearch(string searchText)
         {
             // Ввести слово для поиска
-            Driver.FindElement(By.XPath(".//form[contains(@class,'js-search-form')]//textarea[@id='searchText']")).Clear();
-            Driver.FindElement(By.XPath(".//form[contains(@class,'js-search-form')]//textarea[@id='searchText']")).SendKeys(searchText);
+            SearchPage.AddTextSearch(searchText);
             // Нажать Перевести
-            Driver.FindElement(By.XPath(".//form[contains(@class,'js-search-form')]//span[contains(@class,'g-redbtn search')]//input")).Click();
-            Wait.Until((d) => d.FindElement(By.XPath(".//div[contains(@class,'js-search-results')]")));
+            SearchPage.ClickTranslateBtn();
+            SearchPage.WaitUntilShowResults();
         }
 
+        /// <summary>
+        /// Есть ли такой domain
+        /// </summary>
+        /// <param name="domainName">название</param>
+        /// <returns>есть</returns>
         protected bool GetIsDomainExist(string domainName)
         {
-            // Получить список всех проектов
-            IList<IWebElement> projectsList = Driver.FindElements(By.XPath(
-                ".//table[contains(@class,'js-domains js-sortable-table')]//tr[contains(@class,'l-corpr__trhover js-row')]"));
-            bool bProjectExist = false;
-            foreach (IWebElement el in projectsList)
-            {
-                // Проверить имя проекта
-                if (el.Text == domainName)
-                {
-                    bProjectExist = true;
-                    break;
-                }
-            }
-
-            return bProjectExist;
+            // TODO мб заменить вызов
+            return DomainPage.GetIsDomainExist(domainName);
         }
 
+        /// <summary>
+        /// Создать Domain
+        /// </summary>
+        /// <param name="domainName">имя</param>
+        /// <param name="shouldCreateOk">должен сохраниться</param>
         protected void CreateDomain(string domainName, bool shouldCreateOk = true)
         {
             // Нажать "Добавить проект"
-            Driver.FindElement(By.XPath(
-                ".//span[contains(@class,'g-btn g-redbtn js-add-domain')]//a[contains(@class,'g-btn__text g-redbtn__text')]")).Click();
-            string rowXPath = ".//table[contains(@class,'js-domains')]//tr[contains(@class,'l-corpr__trhover js-row')]";
-            // Получить все строки в таблице с проектами
-            IList<IWebElement> rowsList = Driver.FindElements(By.XPath(rowXPath));
-            string tdXPath = "";
-            for (int i = 0; i < rowsList.Count; ++i)
-            {
-                // Найти нескрытую строку для ввода имени нового проекта
-                if (!rowsList[i].GetAttribute("class").Contains("g-hidden"))
-                {
-                    tdXPath = rowXPath + "[" + (i + 1) + "]//td[contains(@class,'js-cell')]";
-                    if (Driver.FindElement(By.XPath(tdXPath)).GetAttribute("class").Contains("domainNew"))
-                    {
-                        string projectNameXPath = tdXPath +
-                            "//div[contains(@class,'js-edit-mode')]//input[contains(@class,'js-domain-name-input')]";
-                        // Ввести имя проекта
-                        Driver.FindElement(By.XPath(projectNameXPath)).SendKeys(domainName);
-                        break;
-                    }
-                }
-            }
+            DomainPage.ClickCreateDomainBtn();
+            // Ввести имя
+            DomainPage.EnterNameCreateDomain(domainName);
 
             // Расширить окно, чтобы кнопка была видна, иначе она недоступна для Selenium
             Driver.Manage().Window.Maximize();
-            tdXPath += "//div[contains(@class,'l-corpr__domainbox js-edit-mode')]//a[contains(@class,'save js-save-domain')]";
+
             // Сохранить новый проект
-            Driver.FindElement(By.XPath(tdXPath)).Click();
+            DomainPage.ClickSaveDomain();
             if (shouldCreateOk)
             {
-                WaitUntilDisappearElement(tdXPath);
+                Assert.IsTrue(DomainPage.WaitUntilSave(), "Ошибка: domain не сохранился!");
             }
             else
             {
@@ -1566,170 +1349,115 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             }
         }
 
-        protected void CreateDomainIfNotExist(string domainName)
+        /// <summary>
+        /// Кликнуть галочку около проекта в списке проектов
+        /// </summary>
+        /// <param name="projectName">название проекта</param>
+        protected void SelectProjectInList(string projectName)
         {
-            if (!GetIsDomainExist(domainName))
-            {
-                // Если проект не найден, создать его
-                CreateDomain(domainName);
-            }
-        }
-
-        protected void WaitAndClickElement(string xPath)
-        {
-            // Дождаться появления элемента
-            Wait.Until((d) => d.FindElement(By.XPath(xPath)).Displayed);
-            // Кликнуть по элементу
-            Driver.FindElement(By.XPath(xPath)).Click();
-        }
-
-        protected string GetCreateProjectTMListXPath()
-        {
-#if OLD_WORKSPACE
-            Wait.Until((d) => d.FindElement(By.XPath(".//div[@id='project-wizard-tms-body']")).Displayed);
-            return ".//div[@id='project-wizard-tms-body']//table//tr/td[2]/div";
-#elif NEW_WORKSPACE
-            Wait.Until((d) => d.FindElement(By.XPath(".//div[contains(@class,'js-popup-create-project')][2]//table[contains(@class,'js-tms-popup-table')]")).Displayed);
-            return ".//div[contains(@class,'js-popup-create-project')][2]//table[contains(@class,'js-tms-popup-table')]//tr/td[contains(@class,'js-name')]";
-#endif
-        }
-
-        protected void SelectProjectInList(string ProjectNameToSelect)
-        {
-            // Кликнуть по галочке в строке с проектом
-            Driver.FindElement(By.XPath(
-                ".//table[contains(@class,'js-tasks-table')]//tr//td[2]//a[@class='js-name'][text()='" + ProjectNameToSelect + "']/../../../td[1]")).Click();
-        }
-
-        protected void ClickProjectInList(string ProjectNameToClick)
-        {
-            // Кликнуть по названию проекта
-            Driver.FindElement(By.XPath(
-                ".//table[contains(@class,'js-tasks-table')]//tr//td[2]//a[@class='js-name'][text()='" + ProjectNameToClick + "']")).Click();
-        }
-
-        protected void ClickProjectOpenInfo(string ProjectNameToClick)
-        {
-            // Кликнуть на открытие информации о проекте
-            Driver.FindElement(By.XPath(
-                ".//table[contains(@class,'js-tasks-table')]//tr//td[2]//a[@class='js-name'][text()='"
-                + ProjectNameToClick + "']/../../..//td[contains(@class,'openCloseCell')]")).Click();
-        }
-
-        protected bool WaitUntilDisappearElement(string xPath, int maxWaitSeconds = 10)
-        {
-            bool isDisplayed = false;
-            TimeSpan timeBegin = DateTime.Now.TimeOfDay;
-            setDriverTimeoutMinimum();
-            do
-            {
-                isDisplayed = IsElementDisplayed(By.XPath(xPath));
-                if (!isDisplayed || DateTime.Now.TimeOfDay.Subtract(timeBegin).Seconds > maxWaitSeconds)
-                {
-                    break;
-                }
-                Thread.Sleep(1000);
-            } while (isDisplayed);
-            setDriverTimeoutDefault();
-            return !isDisplayed;
-        }
-
-        protected bool WaitUntilDisplayElement(string xPath)
-        {
-            try
-            {
-                Wait.Until((d) => d.FindElement(By.XPath(xPath)).Displayed);
-                return true;
-            }
-            catch (WebDriverTimeoutException)
-            {
-                return false;
-            }
+            WorkspacePage.SelectProject(projectName);
         }
 
         /// <summary>
-        /// Проверка на наличие элемента на экране
+        /// Открыть проект (со страницы Workflow)
         /// </summary>
-        protected bool IsElementPresent(By by)
+        /// <param name="projectName">название проекта</param>
+        protected void OpenProjectPage(string projectName)
         {
-            try
-            {
-                Driver.FindElement(by);
-                return true;
-            }
-            catch (NoSuchElementException)
-            {
-                return false;
-            }
+            WorkspacePage.OpenProjectPage(projectName);
         }
 
         /// <summary>
-        /// Проверка на отображение элемента на экране
+        /// Открыть свертку проекта
         /// </summary>
-        protected bool IsElementDisplayed(By by)
+        /// <param name="projectName">название проекта</param>
+        protected void OpenProjectInfo(string projectName)
         {
-            try
-            {
-                return Driver.FindElement(by).Displayed;
-            }
-            catch
-            {
-                return false;
-            }
+            WorkspacePage.OpenProjectInfo(projectName);
         }
 
-        /// <summary>
-        /// Проверка на доступность элемента
-        /// </summary>
-        protected bool IsElementEnabled(By by)
-        {
-            try
-            {
-                return Driver.FindElement(by).Enabled;
-            }
-            catch (NoSuchElementException)
-            {
-                return false;
-            }
-        }
+        // Открыть диалог создания глоссария
         protected void OpenCreateGlossary()
         {
-            // Нажать кнопку Create a glossary
-            Driver.FindElement(By.XPath(
-                ".//span[contains(@class,'js-create-glossary-button')]//a[contains(@class,'g-btn__text g-redbtn__text')]")).Click();
-            // ждем загрузку формы
-            Wait.Until((d) => d.FindElement(By.XPath(
-                ".//div[contains(@class,'js-popup-edit-glossary')][2]")));
+            GlossaryListPage.ClickCreateGlossary();
+            GlossaryEditForm.WaitPageLoad();
         }
 
-        protected void CreateGlossaryByName(string glossaryName, bool bNeedWaitSuccessSave = true)
+        /// <summary>
+        /// Создать новый глоссарий
+        /// </summary>
+        /// <param name="glossaryName">название</param>
+        /// <param name="bNeedWaitSuccessSave">ожидается успешное сохранение</param>
+        protected void CreateGlossaryByName(string glossaryName, bool bNeedWaitSuccessSave = true, List<CommonHelper.LANGUAGE> langList = null)
         {
             // Открыть форму создания глоссария
             OpenCreateGlossary();
 
             // Ввести имя
-            Driver.FindElement(By.XPath(
-                ".//div[contains(@class,'js-popup-edit-glossary')][2]//input[contains(@class,'js-glossary-name')]")).
-                SendKeys(glossaryName);
+            GlossaryEditForm.EnterGlossaryName(glossaryName);
 
             // Добавить комментарий
-            Driver.FindElement(By.XPath(
-                ".//div[contains(@class,'js-popup-edit-glossary')][2]//textarea[contains(@name,'Comment')]")).
-                SendKeys("Test Glossary Generated by Selenium");
+            GlossaryEditForm.EnterComment("Test Glossary Generated by Selenium");
+
+            if (langList != null)
+            {
+                // Добавить языки
+                foreach (CommonHelper.LANGUAGE langID in langList)
+                {
+                    AddLanguageCreateGlossary(langID);
+                }
+            }
 
             // Нажать сохранить
-            Driver.FindElement(By.XPath(
-               ".//div[contains(@class,'js-popup-edit-glossary')][2]//span[contains(@class,'js-save')]")).Click();
+            GlossaryEditForm.ClickSaveGlossary();
 
             if (bNeedWaitSuccessSave)
             {
                 // Ожидание успешного сохранения
-                WaitUntilDisplayElement(".//span[contains(@class,'js-add-concept')]");
+                Assert.IsTrue(GlossaryPage.WaitPageLoad(), "Ошибка: глоссарий не сохранился, не перешли на страницу глоссария");
             }
             else
             {
                 Thread.Sleep(1000);
             }
+        }
+
+        /// <summary>
+        /// Добавить язык при создании глоссария
+        /// </summary>
+        /// <param name="langNumber">код языка</param>
+        protected void AddLanguageCreateGlossary(CommonHelper.LANGUAGE lang)
+        {
+            // Кликнуть по Плюсу
+            GlossaryEditForm.ClickAddLanguage();
+            // Открыть выпадающий список у добавленного языка
+            GlossaryEditForm.ClickLastLangOpenCloseList();
+            // Выбрать язык
+            Assert.IsTrue(GlossaryEditForm.GetIsExistLanguageInList(lang),
+                "Ошибка: указанного языка нет в списке");
+
+            GlossaryEditForm.SelectLanguage(lang);
+        }
+
+        /// <summary>
+        /// Создать проект с документом, открыть документ
+        /// </summary>
+        /// <param name="withTM">с ТМ</param>
+        /// <param name="withMT">с МТ</param>
+        protected void CreateReadyProject(string projectName, bool withTM = true, bool withMT = false, string uploadDocument = "")
+        {
+            // Создание проекта
+            CreateProject(projectName, "", withTM, EditorTMXFile, false, withMT, Workspace_CreateProjectDialogHelper.MT_TYPE.DefaultMT);
+
+            //открытие настроек проекта
+            uploadDocument = uploadDocument.Length == 0 ? EditorTXTFile : uploadDocument;
+            ImportDocumentProjectSettings(uploadDocument, projectName);
+
+            // 3. Назначение задачи на пользователя
+            AssignTask();
+
+            // 4. Открытие документа по имени созданного проекта
+            OpenDocument();
         }
 
         [SetUp]
@@ -1804,6 +1532,7 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             {
                 // Если тест провалился
                 Console.WriteLine("Fail!");
+
             }
         }
     }

@@ -29,7 +29,8 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             // Изменить структуру глоссария, открыть создание нового термина
             EditGlossaryGeneralStructure();
             // Проверить поле Interpretation
-            CheckEditGlossaryStructureTextarea("Interpretation");
+            string fieldName = GlossaryEditStructureForm.attributeDict[GlossaryEditStructureFormHelper.ATTRIBUTE_TYPE.Interpretation];
+            CheckEditGlossaryStructureTextarea(fieldName);
         }
 
         /// <summary>
@@ -41,7 +42,8 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             // Изменить структуру глоссария, открыть создание нового термина
             EditGlossaryGeneralStructure();
             // Проверить поле InterpretationSource
-            CheckEditGlossaryStructureTextarea("InterpretationSource");
+            string fieldName = GlossaryEditStructureForm.attributeDict[GlossaryEditStructureFormHelper.ATTRIBUTE_TYPE.InterpretationSource];
+            CheckEditGlossaryStructureTextarea(fieldName);
         }
 
         /// <summary>
@@ -53,7 +55,8 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             // Изменить структуру глоссария, открыть создание нового термина
             EditGlossaryGeneralStructure();
             // Проверить поле Example
-            CheckEditGlossaryStructureTextarea("Example");
+            string fieldName = GlossaryEditStructureForm.attributeDict[GlossaryEditStructureFormHelper.ATTRIBUTE_TYPE.Example];
+            CheckEditGlossaryStructureTextarea(fieldName);
         }
 
         /// <summary>
@@ -65,30 +68,26 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             // Изменить структуру глоссария, открыть создание нового термина
             EditGlossaryGeneralStructure();
 
-            string fieldName = "Topic";
+            string fieldName = GlossaryEditStructureForm.attributeDict[GlossaryEditStructureFormHelper.ATTRIBUTE_TYPE.Topic];
 
             // Проверить, что поле появилось
-            string elXPath = ".//div[contains(@class,'js-concept-attrs')]//div[contains(@class,'js-control')]//input[@name='" + fieldName + "']";
-            Assert.IsTrue(Driver.FindElement(By.XPath(elXPath)).Enabled, "Ошибка: поле не появилось");
+            Assert.IsTrue(GlossaryPage.GetIsExistInput(fieldName), "Ошибка: поле не появилось");
 
             // Нажать на поле
-            string fieldXPath = elXPath + "/..//div[contains(@class,'ui-dropdown-treeview-wrapper')]/div[1]//span";
-            Driver.FindElement(By.XPath(fieldXPath)).Click();
+            GlossaryPage.ClickTopicDropdown(fieldName);
             // Проверить, что список открылся
-            fieldXPath = ".//div[contains(@class,'l-corpr__viewmode__edit js-edit')]//div[contains(@class,'ui-dropdown-treeview_dropDown')]";
-            Assert.IsTrue(Driver.FindElement(By.XPath(fieldXPath)).Displayed, "Ошибка: список не открылся");
+            Assert.IsTrue(GlossaryPage.GetIsTopicListVisible(), "Ошибка: список не открылся");
 
             // Выбрать Все
-            fieldXPath += "//div[contains(@class,'ui-treeview_node  ui-treeview_rootNode ui-treeview_openedNode')]//div/span";
-            Driver.FindElement(By.XPath(fieldXPath)).Click();
+            GlossaryPage.SelectTopicItem();
             // Сохранить термин
-            Driver.FindElement(By.XPath(".//span[contains(@class,'js-save-btn js-edit')]")).Click();
-            Wait.Until((d) => d.FindElement(By.XPath(".//tr[contains(@class,'js-concept-row opened')]")).Displayed);
+            GlossaryPage.ClickSaveExtendedConcept();
+            Assert.IsTrue(GlossaryPage.WaitConceptSave(), "Ошибка: термин не сохранился");
 
+            string text = GlossaryPage.GetTopicValue(fieldName);
+            Console.WriteLine("text:\n" + text + "...");
             // Проверить, что значение в поле есть
-            elXPath = ".//div[contains(@class,'js-concept-attrs')]//div[contains(@class,'js-control')]//p[@title='" + fieldName + "']/..//div";
-            string text = Driver.FindElement(By.XPath(elXPath)).Text;
-            Assert.IsTrue(text.Length > 0, "Ошибка: значение не сохранилось");
+            Assert.IsTrue(GlossaryPage.GetTopicValue(fieldName).Length > 0, "Ошибка: значение не сохранилось");
         }
 
         /// <summary>
@@ -110,31 +109,26 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             // Изменить структуру глоссария, открыть создание нового термина
             EditGlossaryGeneralStructure();
 
-            string fieldName = "Domain";
+            string fieldName = GlossaryEditStructureForm.attributeDict[GlossaryEditStructureFormHelper.ATTRIBUTE_TYPE.Domain];
 
             // Проверить, что поле появилось
-            string elXPath =
-                ".//div[contains(@class,'js-concept-attrs')]//div[contains(@class,'l-corpr__viewmode__edit js-edit')]//select[@name='" + fieldName + "']";
-            Assert.IsTrue(Driver.FindElement(By.XPath(elXPath)).Enabled, "Ошибка: поле не появилось");
+            Assert.IsTrue(GlossaryPage.GetIsExistSelect(fieldName), "Ошибка: поле не появилось");
 
             // Нажать на поле, чтобы открылся список
-            string fieldXPath = elXPath + "/..//span[contains(@class,'js-dropdown')]";
-            Driver.FindElement(By.XPath(fieldXPath)).Click();
+            GlossaryPage.ClickSelectDropdown(fieldName);
             // Проверить, что список открылся
-            Assert.IsTrue(Driver.FindElement(By.XPath(".//span[contains(@class,'js-dropdown__list')]")).Displayed, "Ошибка: список не открылся");
+            Assert.IsTrue(GlossaryPage.GetIsSelectListVisible(), "Ошибка: список не открылся");
 
-            Driver.FindElement(By.XPath(
-                ".//span[contains(@class,'js-dropdown__list')]//span[contains(@class,'js-dropdown__item')][contains(@title,'" + domainName + "')]")).Click();
+            GlossaryPage.SelectChoiceItem(domainName);
 
             // Сохранить термин
-            Driver.FindElement(By.XPath(".//span[contains(@class,'js-save-btn js-edit')]")).Click();
+            GlossaryPage.ClickSaveExtendedConcept();
             // Дождаться появления поля с сохраненным термином
-            Wait.Until((d) => d.FindElement(By.XPath(".//tr[contains(@class,'js-concept-row opened')]")).Displayed);
+            Assert.IsTrue(GlossaryPage.WaitConceptSave(), "Ошибка: термин не сохранился");
 
             // Проверить, что значение в поле есть
-            elXPath += "/../../div[contains(@class,'l-corpr__viewmode__view js-view')]//div[contains(@class,'js-value')]";
-            string text = Driver.FindElement(By.XPath(elXPath)).Text;
-            Assert.AreEqual(text, domainName, "Ошибка: проект не сохранился в поле");
+            string text = GlossaryPage.GetSelectValue(fieldName);
+            Assert.AreEqual(domainName, text, "Ошибка: проект не сохранился в поле");
 
         }
 
@@ -150,23 +144,19 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             string fieldName = "Image";
 
             // Проверить, что поле появилось
-            string elXPath = ".//div[contains(@class,'js-concept-attrs')]//div[contains(@class,'js-control')]//input[@name='" + fieldName + "']";
-            Assert.IsTrue(Driver.FindElement(By.XPath(elXPath)).Enabled, "Ошибка: поле не появилось");
+            Assert.IsTrue(GlossaryPage.GetIsExistInput(fieldName), "Ошибка: поле не появилось");
             // Нажать на поле, чтобы открылся диалог загрузки документа
-            string fieldXPath = elXPath + "/..//div[contains(@class,'l-editgloss__imagebox')]//a";
-            Driver.FindElement(By.XPath(fieldXPath)).Click();
+            GlossaryPage.ClickImageToImport(fieldName);
 
             // Заполнить диалог загрузки изображения
             FillAddDocumentForm(ImageFile);
             // Сохранить термин
-            Driver.FindElement(By.XPath(".//span[contains(@class,'js-save-btn js-edit')]")).Click();
+            GlossaryPage.ClickSaveExtendedConcept();
             // Дождаться появления поля с сохраненным термином
-            Wait.Until((d) => d.FindElement(By.XPath(".//tr[contains(@class,'js-concept-row opened')]")).Displayed);
+            Assert.IsTrue(GlossaryPage.WaitConceptSave(), "Ошибка: термин не сохранился");
 
             // Проверить, что изображение загрузилось
-            elXPath += "/../../div[contains(@class,'l-editgloss__image')]//img[contains(@class,'l-editgloss__imageview')]";
-            string srcValue = Driver.FindElement(By.XPath(elXPath)).GetAttribute("src");
-            Assert.IsTrue(srcValue.Length > 0, "Ошибка: изображение не загрузилось");
+            Assert.IsTrue(GlossaryPage.GetFieldImageFilled(fieldName), "Ошибка: изображение не загрузилось");
         }
 
         /// <summary>
@@ -178,49 +168,50 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             // Изменить структуру глоссария, открыть создание нового термина
             EditGlossaryGeneralStructure();
 
-            string fieldName = "Multimedia";
+            string fieldName = GlossaryEditStructureForm.attributeDict[GlossaryEditStructureFormHelper.ATTRIBUTE_TYPE.Multimedia];
 
             // Проверить, что поле появилось
-            string elXPath = ".//div[contains(@class,'js-concept-attrs')]//div[contains(@class,'js-control')]//input[@name='" + fieldName + "']";
-            Assert.IsTrue(Driver.FindElement(By.XPath(elXPath)).Enabled, "Ошибка: поле не появилось");
+            Assert.IsTrue(GlossaryPage.GetIsExistInput(fieldName), "Ошибка: поле не появилось");
             // Нажать на поле, чтобы открылся диалог загрузки документа
-            string fieldXPath = elXPath + "/..//span[contains(@class,'l-editgloss__linkbox')]//a";
-            Driver.FindElement(By.XPath(fieldXPath)).Click();
+            GlossaryPage.ClickMediaToImport(fieldName);
 
             // Загружать видео или звук
             FillAddDocumentForm(AudioFile);
 
             // Сохранить термин
-            Driver.FindElement(By.XPath(".//span[contains(@class,'js-save-btn js-edit')]")).Click();
+            GlossaryPage.ClickSaveExtendedConcept();
             // Дождаться появления поля с сохраненным термином
-            Wait.Until((d) => d.FindElement(By.XPath(".//tr[contains(@class,'js-concept-row opened')]")).Displayed);
+            Assert.IsTrue(GlossaryPage.WaitConceptSave(), "Ошибка: термин не сохранился");
 
             // Проверить, что файл загрузился
-            elXPath += "/../div[contains(@class,'l-editgloss__filemedia')]//a[contains(@class,'l-editgloss__filelink')]";
-            string hrefValue = Driver.FindElement(By.XPath(elXPath)).GetAttribute("href");
-            Assert.IsTrue(hrefValue.Length > 0, "Ошибка: файл не загрузился");
+            Assert.IsTrue(GlossaryPage.GetIsFieldMediaFilled(fieldName), "Ошибка: файл не загрузился");
         }
 
+        /// <summary>
+        /// Проверить работу textarea
+        /// </summary>
+        /// <param name="fieldName">название поля</param>
         protected void CheckEditGlossaryStructureTextarea(string fieldName)
         {
             // Проверить, что поле появилось
-            string elXPath = ".//div[contains(@class,'js-concept-attrs')]//div[contains(@class,'js-control')]//textarea[@name='" + fieldName + "']";
-            Assert.IsTrue(Driver.FindElement(By.XPath(elXPath)).Displayed, "Ошибка: поле не появилось");
+            Assert.IsTrue(GlossaryPage.GetIsExistTextarea(fieldName), "Ошибка: поле не появилось");
             // Ввести текст в поле
             string interpretationExample = fieldName + " Example";
-            Driver.FindElement(By.XPath(elXPath)).SendKeys(interpretationExample);
+            GlossaryPage.FillTextarea(fieldName, interpretationExample);
 
             // Сохранить термин
-            Driver.FindElement(By.XPath(".//span[contains(@class,'js-save-btn js-edit')]")).Click();
-            Wait.Until((d) => d.FindElement(By.XPath(".//tr[contains(@class,'js-concept-row opened')]")).Displayed);
+            GlossaryPage.ClickSaveExtendedConcept();
+            Assert.IsTrue(GlossaryPage.WaitConceptSave(), "Ошибка: термин не сохранился");
 
             // Проверить, что текст в поле сохранился
-            elXPath += "/../../div[contains(@class,'l-corpr__viewmode__view js-view')]//div";
-            string text = Driver.FindElement(By.XPath(elXPath)).Text;
-            Assert.AreEqual(text, interpretationExample, "Ошибка: текст не сохранился");
+            string text = GlossaryPage.GetTextareaValue(fieldName).Trim();
+            Assert.AreEqual(interpretationExample, text, "Ошибка: текст не сохранился");
         }
 
 
+        /// <summary>
+        /// Создать глоссарий, изменить структуру глоссария, заполнить термин
+        /// </summary>
         protected void EditGlossaryGeneralStructure()
         {
             // Имя глоссария для тестирования структуры, чтобы не создавать лишний раз
@@ -240,46 +231,39 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             AddAllSystemGeneralFieldStructure();
 
             // Нажать New item
-            Wait.Until((d) => d.FindElement(By.XPath(
-                ".//span[contains(@class,'js-add-concept')]"))).Click();
+            GlossaryPage.ClickNewItemBtn();
             // Заполнить термин
             FillNewItemExtended();
         }
 
 
+        /// <summary>
+        /// Добавить все поля
+        /// </summary>
         protected void AddAllSystemGeneralFieldStructure()
         {
             // Открыть редактирование структуры
             OpenEditGlossaryStructure();
-
-            List<string> fieldsList = new List<string>();
-            fieldsList.Add("Interpretation");
-            fieldsList.Add("InterpretationSource");
-            fieldsList.Add("Topic");
-            fieldsList.Add("Domain");
-            fieldsList.Add("Multimedia");
-            fieldsList.Add("Image");
-            fieldsList.Add("Example");
-
-            foreach (string field in fieldsList)
-            {
-                // Получить xPath строки с нужным полем
-                string rowXPath = ".//table[contains(@class, 'js-predefined-attrs-table concept')]//tr[contains(@class, 'js-attr-row')][contains(@data-attr-key,'" + field + "')]";
-                // Получить аттрибут class этой строки
-                if (!Driver.FindElement(By.XPath(rowXPath)).GetAttribute("class").Contains("g-hidden"))
-                {
-                    rowXPath += "/td[1]";
-                    // Нажать на поле
-                    Driver.FindElement(By.XPath(rowXPath)).Click();
-                    // Добавить
-                    Wait.Until((d) => d.FindElement(By.XPath(".//span[contains(@class,'js-add-tbx-attribute')]"))).Click();
-                }
-            }
+            // Добавить все поля
+            GlossaryEditStructureForm.SelectAllFields();
 
             // Сохранить
-            Driver.FindElement(By.XPath(".//div[contains(@class, 'js-popup-buttons')]//span[contains(@class, 'js-save')]")).Click();
+            GlossaryEditStructureForm.ClickSaveStructureBtn();
             // Дождаться закрытия формы
-            WaitUntilDisappearElement(".//div[contains(@class,'js-popup-edit-structure')]");
+            GlossaryEditStructureForm.WaitFormClose();
+        }
+
+        /// <summary>
+        /// Создать Domain, есть его нет
+        /// </summary>
+        /// <param name="domainName"></param>
+        protected void CreateDomainIfNotExist(string domainName)
+        {
+            if (!GetIsDomainExist(domainName))
+            {
+                // Если проект не найден, создать его
+                CreateDomain(domainName);
+            }
         }
 
     }

@@ -16,24 +16,10 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
         [SetUp]
         public void Setup()
         {
-            // 1. Авторизация
+            projectName = "TestLogProject" + DateTime.Now.Ticks;
+
+            // Авторизация
             Authorization();
-
-            string currentDocument = DocumentFile;
-            // При проверке Confirm не работает наш обычный файл, приходится загружать другой
-            if (TestContext.CurrentContext.Test.Name.Contains("Confirm"))
-            {
-                currentDocument = DocumentFileToConfirm;
-            }
-
-            // 2. Создание проекта с 1 документов внутри
-            CreateProject(ProjectName, true, currentDocument);
-
-            // 3. Назначение задачи на пользователя
-            AssignTask();
-
-            // 4. Открытие документа по имени созданного проекта
-            OpenDocument();
         }
 
         public UserLogTest(string url, string workspaceUrl, string browserName)
@@ -42,26 +28,7 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 
         }
 
-
-        /// <summary>
-        /// Метод выгрузки логов 
-        /// </summary>        
-        public void ExportLog(string path)
-        {
-            //Получить путь к папке, куда выгружать логи
-            string fullResultPath = System.IO.Path.Combine(path, ProjectName);
-
-            //Выбрать документ
-            Driver.FindElement(By.CssSelector(".project-documents div.x-grid-body table tr:nth-child(1) td:nth-child(1)")).Click();
-
-            //Нажать кнопку выгрузки логов
-            Driver.FindElement(By.Id("log-export-btn")).Click();
-
-            // Заполнить форму для сохранения файла
-            FillAddDocumentForm(fullResultPath);
-
-            Assert.IsTrue(System.IO.File.Exists(fullResultPath + ".zip"));
-        }
+        protected string projectName;
 
         /// <summary>
         /// Открытие-закрытие документа 
@@ -69,42 +36,12 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
         [Test]
         public void OpenCloseDocument()
         {
-            //Создать папку для выгрузки логов
-            string resultPath = System.IO.Path.Combine(PathTestResults, "OpenCloseDocument");
-
-            System.IO.Directory.CreateDirectory(resultPath);
-
+            // Открыть документ
+            CreateReadyProject(projectName, false, false, DocumentFileToConfirm);
             // Нажать кнопку назад
-            BackButton();
-
+            EditorClickBackBtn();
             //Выгрузить логи
-            ExportLog(resultPath);
-        }
-
-        /// <summary>
-        /// Метод тестирования набора текста в документе 
-        /// </summary>
-        [Test]
-        public void WriteText()
-        {
-            // Написать текст в первом сегменте
-            Driver.FindElement(By.CssSelector("#segments-body div table tr:nth-child(1) td:nth-child(3) div")).
-               SendKeys("This is a sample text");
-
-            string segmentxt = Driver.FindElement(By.CssSelector("#segments-body div table tr:nth-child(1) td:nth-child(3) div")).Text;
-
-            Assert.AreEqual("This is a sample text", segmentxt);
-
-            //Создать папку для выгрузки логов
-            string resultPath = System.IO.Path.Combine(PathTestResults, "WriteText");
-
-            System.IO.Directory.CreateDirectory(resultPath);
-
-            // Нажать кнопку назад
-            BackButton();
-
-            //Выгрузить логи
-            ExportLog(resultPath);
+            ExportLog();
         }
 
         /// <summary>
@@ -113,36 +50,26 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
         [Test]
         public void DeleteText()
         {
+            // Открыть документ
+            CreateReadyProject(projectName, false, false, DocumentFileToConfirm);
+
+            int segmentNum = 1;
             // Написать текст в первом сегменте
-            Driver.FindElement(By.CssSelector("#segments-body div table tr:nth-child(1) td:nth-child(3) div")).
-               SendKeys("This is a sample text");
-
-            string segmentxt = Driver.FindElement(By.CssSelector("#segments-body div table tr:nth-child(1) td:nth-child(3) div")).Text;
-
-            Assert.AreEqual("This is a sample text", segmentxt);
+            EditorPage.AddTextTarget(segmentNum, "Translation");
 
             //Удалить текст путем нажатия клавиши Backspace
-            while (!String.IsNullOrEmpty(segmentxt))
+            while (EditorPage.GetTargetText(segmentNum).Length > 0)
             {
-                Driver.FindElement(By.CssSelector("#segments-body div table tr:nth-child(1) td:nth-child(3) div")).
-                   SendKeys(OpenQA.Selenium.Keys.Backspace);
-
-                segmentxt = Driver.FindElement(By.CssSelector("#segments-body div table tr:nth-child(1) td:nth-child(3) div")).Text;
+                EditorPage.SendKeysTarget(segmentNum, OpenQA.Selenium.Keys.Backspace);
             }
-
-            //Убедиться, что в сегменте нет текста
-            Assert.AreEqual("", segmentxt);
-
-            //Создать папку для выгрузки логов
-            string resultPath = System.IO.Path.Combine(PathTestResults, "DeleteText");
-
-            System.IO.Directory.CreateDirectory(resultPath);
+            EditorPage.ClickSaveBtn();
+            // TODO почему появляется модальное окно
+            Thread.Sleep(1000);
 
             //Нажать кнопку назад
-            BackButton();
-
+            EditorClickBackBtn();
             //Выгрузить логи
-            ExportLog(resultPath);
+            ExportLog();
         }
 
         /// <summary>
@@ -151,21 +78,16 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
         [Test]
         public void ConfirmTextButton()
         {
+            // Открыть документ
+            CreateReadyProject(projectName, false, false, DocumentFileToConfirm);
+
             //Набрать текст в первом сегменте и нажать кнопку Confirm Segment
-            ConfirmButton();
-
-            //Создать папку для выгрузки логов
-            string resultPath = System.IO.Path.Combine(PathTestResults, "ConfirmTextButton");
-
-            System.IO.Directory.CreateDirectory(resultPath);
-
-            //Thread.Sleep(60000);
+            AddTranslationAndConfirm();
 
             // Нажать кнопку назад
-            BackButton();
-
+            EditorClickBackBtn();
             //Выгрузить логи
-            ExportLog(resultPath);
+            ExportLog();
         }
 
         /// <summary>
@@ -174,34 +96,29 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
         [Test]
         public void ChooseSegment()
         {
-            //Курсор в первом сегменте Source
-            Driver.FindElement(By.CssSelector("#segments-body div table tr:nth-child(1) td:nth-child(2) div")).Click();
+            // Открыть документ
+            CreateReadyProject(projectName, false, false, DocumentFileToConfirm);
 
+            //Курсор в первом сегменте Source
+            EditorPage.ClickSourceCell(1);
             //Курсор во втором сегменте Source
-            Driver.FindElement(By.CssSelector("#segments-body div table tr:nth-child(2) td:nth-child(2) div")).Click();
+            EditorPage.ClickSourceCell(2);
 
             //Курсор во втором сегменте Target
-            Driver.FindElement(By.CssSelector("#segments-body div table tr:nth-child(2) td:nth-child(3) div")).Click();
-
+            EditorPage.ClickTargetCell(2);
             //Курсор в четвертом сегменте Target
-            Driver.FindElement(By.CssSelector("#segments-body div table tr:nth-child(4) td:nth-child(3) div")).Click();
+            EditorPage.ClickTargetCell(4);
 
             //Курсор в седьмом сегменте Source
-            Driver.FindElement(By.CssSelector("#segments-body div table tr:nth-child(7) td:nth-child(2) div")).Click();
+            EditorPage.ClickSourceCell(7);
 
             //Курсор в последнем сегменте Target
-            Driver.FindElement(By.CssSelector("#segments-body div table tr:last-child td:nth-child(3) div")).Click();
-
-            //Создать папку для выгрузки логов
-            string resultPath = System.IO.Path.Combine(PathTestResults, "ChooseSegment");
-
-            System.IO.Directory.CreateDirectory(resultPath);
+            EditorPage.ClickTargetCell(EditorPage.GetSegmentsNumber());
 
             // Нажать кнопку назад
-            BackButton();
-
+            EditorClickBackBtn();
             //Выгрузить логи
-            ExportLog(resultPath);
+            ExportLog();
         }
 
         /// <summary>
@@ -210,19 +127,16 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
         [Test]
         public void CopySourceSegmentButton()
         {
+            // Открыть документ
+            CreateReadyProject(projectName, false, false, DocumentFileToConfirm);
+            
             //Копировать текст сегмента
             ToTargetButton();
 
-            //Создать папку для выгрузки логов
-            string resultPath = System.IO.Path.Combine(PathTestResults, "CopySourceSegmentButton");
-
-            System.IO.Directory.CreateDirectory(resultPath);
-
             // Нажать кнопку назад
-            BackButton();
-
+            EditorClickBackBtn();
             //Выгрузить логи
-            ExportLog(resultPath);
+            ExportLog();
         }
 
         /// <summary>
@@ -231,19 +145,16 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
         [Test]
         public void CopySourceSegmentHotkey()
         {
+            // Открыть документ
+            CreateReadyProject(projectName, false, false, DocumentFileToConfirm);
+            
             //Копировать текст сегмента
             ToTargetHotkey();
 
-            //Создать папку для выгрузки логов
-            string resultPath = System.IO.Path.Combine(PathTestResults, "CopySourceSegmentHotkey");
-
-            System.IO.Directory.CreateDirectory(resultPath);
-
             // Нажать кнопку назад
-            BackButton();
-
+            EditorClickBackBtn();
             //Выгрузить логи
-            ExportLog(resultPath);
+            ExportLog();
         }
 
         /// <summary>
@@ -252,147 +163,59 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
         [Test]
         public void UndoRedoActions()
         {
-            // Выбрать source первого сегмента
-            Driver.FindElement(By.CssSelector("#segments-body div table tr:nth-child(1) td:nth-child(2)")).Click();
+            // Открыть документ
+            CreateReadyProject(projectName, false, false, DocumentFileToConfirm);
 
-            // Нажать кнопку копирования
-            Driver.FindElement(By.Id("copy-btn")).Click();
+            // Копирование первого сегмента
+            ToTargetButton(1);
 
-            // Текст source'a первого сегмента
-            string sourcetxt = Driver.FindElement(By.CssSelector("#segments-body div table tr:nth-child(1) td:nth-child(2) div")).Text;
-            // Проверить, такой ли текст в target'те
-            string targetxt = Driver.FindElement(By.CssSelector("#segments-body div table tr:nth-child(1) td:nth-child(3) div")).Text;
-            Assert.AreEqual(sourcetxt, targetxt);
+            // Копирование второго сегмента
+            ToTargetButton(2);
 
-            // Выбрать source второго сегмента
-            Driver.FindElement(By.CssSelector("#segments-body div table tr:nth-child(2) td:nth-child(2)")).Click();
+            // Кликнуть Undo
+            EditorPage.ClickUndoBtn();
+            string targetText = EditorPage.GetTargetText(2);
+            Assert.IsTrue(targetText == "", "Ошибка: после undo текст в таргете не удалился\n" + targetText);
 
-            // Нажать кнопку копирования
-            Driver.FindElement(By.Id("copy-btn")).Click();
-
-            // Текст source'a второго сегмента
-            sourcetxt = Driver.FindElement(By.CssSelector("#segments-body div table tr:nth-child(2) td:nth-child(2) div")).Text;
-
-            // Проверить, такой ли текст в target'те
-            targetxt = Driver.FindElement(By.CssSelector("#segments-body div table tr:nth-child(2) td:nth-child(3) div")).Text;
-            Assert.AreEqual(sourcetxt, targetxt);
-
-            // Нажать кнопку отмены
-            Driver.FindElement(By.Id("undo-btn")).Click();
-
-            // Убедиться, что в target нет текста
-            targetxt = Driver.FindElement(By.CssSelector("#segments-body div table tr:nth-child(2) td:nth-child(3) div")).Text;
-            Assert.AreEqual("", targetxt);
-
-            // Нажать кнопку возврата отмененного действия
-            Driver.FindElement(By.Id("redo-btn")).Click();
-
-            // Убедиться, что в target и source второго одинаковы
-            sourcetxt = Driver.FindElement(By.CssSelector("#segments-body div table tr:nth-child(2) td:nth-child(2) div")).Text;
-            targetxt = Driver.FindElement(By.CssSelector("#segments-body div table tr:nth-child(2) td:nth-child(3) div")).Text;
-            Assert.AreEqual(sourcetxt, targetxt);
-
-            // Выбрать target третьего сегмента
-            Driver.FindElement(By.CssSelector("#segments-body div table tr:nth-child(3) td:nth-child(3)")).Click();
+            // Кликнуть Redo
+            EditorPage.ClickRedoBtn();
+            Thread.Sleep(500);
+            Assert.AreEqual(EditorPage.GetSourceText(2), EditorPage.GetTargetText(2), "Ошибка: после redo текст в target не восстановился");
 
             // Написать текст в третьем сегменте
-            Driver.FindElement(By.CssSelector("#segments-body div table tr:nth-child(3) td:nth-child(3) div")).
-               SendKeys("This is a sample text");
+            Console.WriteLine("Написать текст в третьем сегменте");
+            string text3Segment = "Test for 3d segment";
+            EditorPage.AddTextTarget(3, text3Segment);
 
-            targetxt = Driver.FindElement(By.CssSelector("#segments-body div table tr:nth-child(3) td:nth-child(3) div")).Text;
-            Assert.AreEqual("This is a sample text", targetxt);
-
-            // Выбрать target четвертого сегмента
-            Driver.FindElement(By.CssSelector("#segments-body div table tr:nth-child(4) td:nth-child(3)")).Click();
-
-            // Написать текст в четвертом сегменте
-            Driver.FindElement(By.CssSelector("#segments-body div table tr:nth-child(4) td:nth-child(3) div")).
-               SendKeys("This is a sample text");
-
-            targetxt = Driver.FindElement(By.CssSelector("#segments-body div table tr:nth-child(4) td:nth-child(3) div")).Text;
-            Assert.AreEqual("This is a sample text", targetxt);
+            // Написать текст в 4 сегменте
+            Console.WriteLine("Написать текст в 4 сегменте");
+            EditorPage.AddTextTarget(4, "Test for 4th segment");
+            
+            // Нажать хоткей отмены
+            Console.WriteLine("Нажать хоткей отмены");
+            EditorPage.SendKeysTarget(4, OpenQA.Selenium.Keys.Control + "Z");
+            // Проверить, что 4 сегмент пуст
+            Assert.IsTrue(EditorPage.GetTargetText(4) == "", "Ошибка: после хоткея отмены текст в 4 сегменте не удалился");
 
             // Нажать хоткей отмены
-            Driver.FindElement(By.CssSelector("#segments-body div table tr:nth-child(4) td:nth-child(3)")).
-                SendKeys(OpenQA.Selenium.Keys.Control + "Z");
-            // Убедиться, что в target четвертого сегмента нет текста
-            targetxt = Driver.FindElement(By.CssSelector("#segments-body div table tr:nth-child(4) td:nth-child(3) div")).Text;
-            Assert.AreEqual("", targetxt);
+            Console.WriteLine("Нажать хоткей отмены");
+            EditorPage.SendKeysTarget(3, OpenQA.Selenium.Keys.Control + "Z");
+            // Проверить, что 3 сегмент пуст
+            Assert.IsTrue(EditorPage.GetTargetText(3) == "", "Ошибка: после хоткея отмены текст в 3 сегменте не удалился");
 
-            // Нажать хоткей отмены
-            Driver.FindElement(By.CssSelector("#segments-body div table tr:nth-child(3) td:nth-child(3)")).
-                SendKeys(OpenQA.Selenium.Keys.Control + "Z");
-            // Убедиться, что в target третьего сегмента нет текста
-            targetxt = Driver.FindElement(By.CssSelector("#segments-body div table tr:nth-child(3) td:nth-child(3) div")).Text;
-            Assert.AreEqual("", targetxt);
-
-            // Нажать хоткей возврата отмененного действия
-            Driver.FindElement(By.CssSelector("#segments-body div table tr:nth-child(3) td:nth-child(3) div")).
-                SendKeys(OpenQA.Selenium.Keys.Control + "Y");
-
-            //Убедиться, что текст равен исходному
-            targetxt = Driver.FindElement(By.CssSelector("#segments-body div table tr:nth-child(3) td:nth-child(3) div")).Text;
-            Assert.AreEqual("This is a sample text", targetxt);
-
-            // Нажать хоткей возврата отмененного действия
-            Driver.FindElement(By.CssSelector("#segments-body div table tr:nth-child(4) td:nth-child(3) div")).
-                SendKeys(OpenQA.Selenium.Keys.Control + "Y");
-
-            //Убедиться, что текст равен исходному
-            targetxt = Driver.FindElement(By.CssSelector("#segments-body div table tr:nth-child(4) td:nth-child(3) div")).Text;
-            Assert.AreEqual("This is a sample text", targetxt);
-
-            //Создать папку для выгрузки логов
-            string resultPath = System.IO.Path.Combine(PathTestResults, "UndoRedoActions");
-
-            System.IO.Directory.CreateDirectory(resultPath);
-
+            // Нажать хоткей восстановления
+            Console.WriteLine("Нажать хоткей восстановления");
+            EditorPage.SendKeysTarget(3, OpenQA.Selenium.Keys.Control + "Y");
+            EditorPage.ClickTargetCell(5);
+            // Проверить, что 3 сегмент не пуст
+            Assert.AreEqual(text3Segment, EditorPage.GetTargetText(3), "Ошибка: после хоткея возврата текст в 3 сегменте не появился");
+            // TODO убрать sleep
+            Thread.Sleep(5000);
             // Нажать кнопку назад
-            BackButton();
-
+            EditorClickBackBtn();
+            
             //Выгрузить логи
-            ExportLog(resultPath);
-        }
-
-        /// <summary>
-        /// Метод тестирования spellcheck
-        /// </summary>
-        [Test]
-        public void UseSpellcheck()
-        {
-            // Выбрать target первого сегмента
-            Driver.FindElement(By.CssSelector("#segments-body div table tr:nth-child(1) td:nth-child(3)")).Click();
-
-            // Написать текст в первом сегменте с опечаткой
-            Driver.FindElement(By.CssSelector("#segments-body div table tr:nth-child(1) td:nth-child(3) div")).
-               SendKeys("plonet");
-
-
-            string targetxt = Driver.FindElement(By.CssSelector("#segments-body div table tr:nth-child(1) td:nth-child(3) div")).Text;
-            Assert.AreEqual("plonet", targetxt);
-
-            Actions action = new Actions(Driver);
-
-            action.ContextClick(Driver.FindElement(By.CssSelector("#segments-body div table tr:nth-child(1) td:nth-child(3) div span.spellcheck")));
-
-            action.Perform();
-
-            // Выбрать target первого сегмента
-            Driver.FindElement(By.XPath("//div[@role='menu']//span[contains(string(),'planet')]")).Click();
-
-            targetxt = Driver.FindElement(By.CssSelector("#segments-body div table tr:nth-child(1) td:nth-child(3) div")).Text;
-            Assert.AreEqual("planet", targetxt);
-
-            //Создать папку для выгрузки логов
-            string resultPath = System.IO.Path.Combine(PathTestResults, "UseSpellcheck");
-
-            System.IO.Directory.CreateDirectory(resultPath);
-
-            // Нажать кнопку назад
-            BackButton();
-
-            //Выгрузить логи
-            ExportLog(resultPath);
+            ExportLog();
         }
 
         /// <summary>
@@ -401,19 +224,16 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
         [Test]
         public void SourceTargetSegmentsSwitchButton()
         {
+            // Открыть документ
+            CreateReadyProject(projectName, false, false, DocumentFileToConfirm);
+            
             //Переключить курсор между полями source и target
-            SourceTargetSwitchButton();
-
-            //Создать папку для выгрузки логов
-            string resultPath = System.IO.Path.Combine(PathTestResults, "SourceTargetSegmentsSwitchButton");
-
-            System.IO.Directory.CreateDirectory(resultPath);
+            SourceTargetSwitchButton(1);
 
             // Нажать кнопку назад
-            BackButton();
-
+            EditorClickBackBtn();
             //Выгрузить логи
-            ExportLog(resultPath);
+            ExportLog();
         }
 
         /// <summary>
@@ -422,19 +242,16 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
         [Test]
         public void SourceTargetSegmentsSwitchHotkey()
         {
+            // Открыть документ
+            CreateReadyProject(projectName, false, false, DocumentFileToConfirm);
+            
             //Переключить курсор между полями source и target
-            SourceTargetSwitchHotkey();
-
-            //Создать папку для выгрузки логов
-            string resultPath = System.IO.Path.Combine(PathTestResults, "SourceTargetSegmentsSwitchHotkey");
-
-            System.IO.Directory.CreateDirectory(resultPath);
+            SourceTargetSwitchHotkey(1);
 
             // Нажать кнопку назад
-            BackButton();
-
+            EditorClickBackBtn();
             //Выгрузить логи
-            ExportLog(resultPath);
+            ExportLog();
         }
 
         /// <summary>
@@ -443,34 +260,35 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
         [Test]
         public void SubstituteTranslationMTHotkey()
         {
+            // Открыть документ
+            CreateReadyProject(projectName, true, true);
+
             //Выбираем первый сегмент
-            Driver.FindElement(By.CssSelector("#segments-body div table tr:nth-child(1) td:nth-child(3) div")).Click();
+            EditorPage.ClickTargetCell(1);
 
             //Ждем пока загрузится CAT-панель
-            Wait.Until(d => d.FindElement(By.XPath("//div[@id='cat']//table//tr[td[contains(string(),'MT')]]/td[4]")));
+            Assert.IsTrue(EditorPage.GetCATPanelNotEmpty(), "Ошибка: панель CAT пуста");            
 
-            string catNumber = Driver.FindElement(By.XPath("//div[@id='cat']//table//tr[td[contains(string(),'MT')]]/td[1]")).Text;
+            int MTNumber = EditorPage.GetCATTranslationRowNumber(EditorPageHelper.CAT_TYPE.MT);
+            Console.WriteLine("MTNumber: " + MTNumber);
 
             //Нажать хоткей для подстановки из MT перевода первого сегмента
-            Driver.FindElement(By.CssSelector("#segments-body div table tr:nth-child(1) td:nth-child(3) div")).
-                SendKeys(OpenQA.Selenium.Keys.Control + catNumber);
+            EditorPage.SendKeysTarget(1, OpenQA.Selenium.Keys.Control + MTNumber.ToString());
 
-            string segmentxt = Driver.FindElement(By.CssSelector("#segments-body div table tr:nth-child(1) td:nth-child(3) div")).Text;
+            // Текст в target
+            string targetText = EditorPage.GetTargetText(1);
+            // Текст в cat-панели
+            string catText = EditorPage.GetCATPanelText(MTNumber);
+            // Проверить, что они совпадают
+            Assert.AreEqual(catText, targetText, "Ошибка: текст target и cat не совпадают");
 
-            string catxt = Driver.FindElement(By.XPath("//div[@id='cat']//table//tr[td[contains(string(),'MT')]]/td[4]")).Text;
-
-            Assert.AreEqual(segmentxt, catxt);
-
-            //Создать папку для выгрузки логов
-            string resultPath = System.IO.Path.Combine(PathTestResults, "SubstituteTranslationMTHotkey");
-
-            System.IO.Directory.CreateDirectory(resultPath);
+            // Ожидание cохранения
+            Thread.Sleep(1000);
 
             // Нажать кнопку назад
-            BackButton();
-
+            EditorClickBackBtn();
             //Выгрузить логи
-            ExportLog(resultPath);
+            ExportLog();
         }
 
         /// <summary>
@@ -479,34 +297,35 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
         [Test]
         public void SubstituteTranslationMTDoubleClick()
         {
-            Driver.FindElement(By.CssSelector("#segments-body div table tr:nth-child(1) td:nth-child(3) div")).Click();
+            // Открыть документ
+            CreateReadyProject(projectName, true, true);
+
+            //Выбираем первый сегмент
+            EditorPage.ClickTargetCell(1);
 
             //Ждем пока загрузится CAT-панель
-            Wait.Until(d => d.FindElement(By.XPath("//div[@id='cat']//table//tr[td[contains(string(),'MT')]]/td[4]")));
+            Assert.IsTrue(EditorPage.GetCATPanelNotEmpty(), "Ошибка: панель CAT пуста");
 
-            //Нажать на сегмент в CAT-панели
-            Actions action = new Actions(Driver);
+            int MTNumber = EditorPage.GetCATTranslationRowNumber(EditorPageHelper.CAT_TYPE.MT);
+            Console.WriteLine("MTNumber: " + MTNumber);
+            // Двойной клик
+            EditorPage.DoubleClickCATPanel(MTNumber);
 
-            action.DoubleClick(Driver.FindElement(By.XPath("//div[@id='cat']//table//tr[td[contains(string(),'MT')]]/td[4]")));
+            
+            // Текст в target
+            string targetText = EditorPage.GetTargetText(1);
+            // Текст в cat-панели
+            string catText = EditorPage.GetCATPanelText(MTNumber);
+            // Проверить, что они совпадают
+            Assert.AreEqual(catText, targetText, "Ошибка: текст target и cat не совпадают");
 
-            action.Perform();
-
-            string segmentxt = Driver.FindElement(By.CssSelector("#segments-body div table tr:nth-child(1) td:nth-child(3) div")).Text;
-
-            string catxt = Driver.FindElement(By.XPath("//div[@id='cat']//table//tr[td[contains(string(),'MT')]]/td[4]")).Text;
-
-            Assert.AreEqual(segmentxt, catxt);
-
-            //Создать папку для выгрузки логов
-            string resultPath = System.IO.Path.Combine(PathTestResults, "SubstituteTranslationMTDoubleClick");
-
-            System.IO.Directory.CreateDirectory(resultPath);
+            // Ожидание cохранения
+            Thread.Sleep(1000);
 
             // Нажать кнопку назад
-            BackButton();
-
+            EditorClickBackBtn();
             //Выгрузить логи
-            ExportLog(resultPath);
+            ExportLog();
         }
 
         /// <summary>
@@ -515,34 +334,36 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
         [Test]
         public void SubstituteTranslationTMHotkey()
         {
+            int segmentRow = 4;
+            // Открыть документ
+            CreateReadyProject(projectName, true);
+
             //Выбираем первый сегмент
-            Driver.FindElement(By.CssSelector("#segments-body div table tr:nth-child(1) td:nth-child(3) div")).Click();
+            EditorPage.ClickTargetCell(segmentRow);
 
             //Ждем пока загрузится CAT-панель
-            Wait.Until(d => d.FindElement(By.XPath("//div[@id='cat']//table//tr[td[contains(string(),'TM')]]/td[4]")));
+            Assert.IsTrue(EditorPage.GetCATPanelNotEmpty(), "Ошибка: панель CAT пуста");
 
-            string catNumber = Driver.FindElement(By.XPath("//div[@id='cat']//table//tr[td[contains(string(),'TM')]]/td[1]")).Text;
+            int TMNumber = EditorPage.GetCATTranslationRowNumber(EditorPageHelper.CAT_TYPE.TM);
+            Console.WriteLine("TMNumber: " + TMNumber);
 
-            //Нажать хоткей для подстановки из MT перевода первого сегмента
-            Driver.FindElement(By.CssSelector("#segments-body div table tr:nth-child(1) td:nth-child(3) div")).
-                SendKeys(OpenQA.Selenium.Keys.Control + catNumber);
+            //Нажать хоткей для подстановки из TM перевода первого сегмента
+            EditorPage.SendKeysTarget(segmentRow, OpenQA.Selenium.Keys.Control + TMNumber.ToString());
 
-            string segmentxt = Driver.FindElement(By.CssSelector("#segments-body div table tr:nth-child(1) td:nth-child(3) div")).Text;
+            // Текст в target
+            string targetText = EditorPage.GetTargetText(segmentRow);
+            // Текст в cat-панели
+            string catText = EditorPage.GetCATPanelText(TMNumber);
+            // Проверить, что они совпадают
+            Assert.AreEqual(catText, targetText, "Ошибка: текст target и cat не совпадают");
 
-            string catxt = Driver.FindElement(By.XPath("//div[@id='cat']//table//tr[td[contains(string(),'TM')]]/td[4]")).Text;
-
-            Assert.AreEqual(segmentxt, catxt);
-
-            //Создать папку для выгрузки логов
-            string resultPath = System.IO.Path.Combine(PathTestResults, "SubstituteTranslationTMHotkey");
-
-            System.IO.Directory.CreateDirectory(resultPath);
+            // Ожидание cохранения
+            Thread.Sleep(1000);
 
             // Нажать кнопку назад
-            BackButton();
-
+            EditorClickBackBtn();
             //Выгрузить логи
-            ExportLog(resultPath);
+            ExportLog();
         }
 
         /// <summary>
@@ -551,51 +372,68 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
         [Test]
         public void SubstituteTranslationTMDoubleClick()
         {
-            Driver.FindElement(By.CssSelector("#segments-body div table tr:nth-child(1) td:nth-child(3) div")).Click();
+            int segmentRow = 4;
+            // Открыть документ
+            CreateReadyProject(projectName, true);
+
+            //Выбираем первый сегмент
+            EditorPage.ClickTargetCell(segmentRow);
 
             //Ждем пока загрузится CAT-панель
-            Wait.Until(d => d.FindElement(By.XPath("//div[@id='cat']//table//tr[td[contains(string(),'TM')]]/td[4]")));
+            Assert.IsTrue(EditorPage.GetCATPanelNotEmpty(), "Ошибка: панель CAT пуста");
 
-            //Нажать на сегмент в CAT-панели
-            Actions action = new Actions(Driver);
+            int TMNumber = EditorPage.GetCATTranslationRowNumber(EditorPageHelper.CAT_TYPE.TM);
+            Console.WriteLine("TMNumber: " + TMNumber);
+            // Двойной клик
+            EditorPage.DoubleClickCATPanel(TMNumber);
 
-            action.DoubleClick(Driver.FindElement(By.XPath("//div[@id='cat']//table//tr[td[contains(string(),'TM')]]/td[4]")));
 
-            action.Perform();
+            // Текст в target
+            string targetText = EditorPage.GetTargetText(segmentRow);
+            // Текст в cat-панели
+            string catText = EditorPage.GetCATPanelText(TMNumber);
+            // Проверить, что они совпадают
+            Assert.AreEqual(catText, targetText, "Ошибка: текст target и cat не совпадают");
 
-            string segmentxt = Driver.FindElement(By.CssSelector("#segments-body div table tr:nth-child(1) td:nth-child(3) div")).Text;
-
-            string catxt = Driver.FindElement(By.XPath("//div[@id='cat']//table//tr[td[contains(string(),'TM')]]/td[4]")).Text;
-
-            Assert.AreEqual(segmentxt, catxt);
-
-            //Создать папку для выгрузки логов
-            string resultPath = System.IO.Path.Combine(PathTestResults, "SubstituteTranslationTMDoubleClick");
-
-            System.IO.Directory.CreateDirectory(resultPath);
+            // Ожидание cохранения
+            Thread.Sleep(1000);
 
             // Нажать кнопку назад
-            BackButton();
-
+            EditorClickBackBtn();
             //Выгрузить логи
-            ExportLog(resultPath);
+            ExportLog();
         }
 
         /// <summary>
-        /// Метод тестирования создания новой TM на странице настройки проекта
+        /// Метод тестирования выгрузки пустого лога
         /// </summary>
         [Test]
-        public void AddTMXFileTest()
+        public void EmptyLogTest()
         {
-            Driver.Navigate().Back();
-
-            Driver.Navigate().Back();
-
-            AddTMXFile(ProjectName);
-            Driver.FindElement(By.LinkText(ProjectName)).Click();
-            OpenDocument();
+            // Создание проекта
+            CreateProject(projectName, DocumentFile);
+            // Открыть проект
+            OpenProjectPage(projectName);
+            // Дождаться пропадания колеса ожидания
+            Assert.IsTrue(ProjectPage.WaitDocumentDownloadFinish(),
+                "Ошибка: колесо ожидания долго не пропадает");
+            // Выгрузить логи
+            ExportLog();
         }
 
+        /// <summary>
+        /// Метод выгрузки логов 
+        /// </summary>        
+        public void ExportLog()
+        {
+            //Выбрать документ
+            SelectDocumentInProject();
 
+            //Нажать кнопку выгрузки логов
+            ProjectPage.ClickDownloadLogs();
+
+            // Экспортировать и проверить, что файл сохранен
+            ExternalDialogSaveDocument(TestContext.CurrentContext.Test.Name, false, "", false, ".zip");
+        }
     }
 }

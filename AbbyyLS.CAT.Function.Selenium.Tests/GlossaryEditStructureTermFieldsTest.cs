@@ -26,7 +26,8 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
         [Test]
         public void AddSourceFieldTest()
         {
-            CheckTermLevelField("Source");
+            string fieldName = GlossaryEditStructureForm.attributeDict[GlossaryEditStructureFormHelper.ATTRIBUTE_TYPE.Source];
+            CheckTermLevelField(fieldName);
         }
 
         /// <summary>
@@ -35,7 +36,8 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
         [Test]
         public void AddInterpretationFieldTest()
         {
-            CheckTermLevelField("Interpretation");
+            string fieldName = GlossaryEditStructureForm.attributeDict[GlossaryEditStructureFormHelper.ATTRIBUTE_TYPE.Interpretation];
+            CheckTermLevelField(fieldName);
         }
 
         /// <summary>
@@ -44,7 +46,8 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
         [Test]
         public void AddInterpretationSourceFieldTest()
         {
-            CheckTermLevelField("InterpretationSource");
+            string fieldName = GlossaryEditStructureForm.attributeDict[GlossaryEditStructureFormHelper.ATTRIBUTE_TYPE.InterpretationSource];
+            CheckTermLevelField(fieldName);
         }
 
         /// <summary>
@@ -53,7 +56,8 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
         [Test]
         public void AddContextFieldTest()
         {
-            CheckTermLevelField("Context");
+            string fieldName = GlossaryEditStructureForm.attributeDict[GlossaryEditStructureFormHelper.ATTRIBUTE_TYPE.Context];
+            CheckTermLevelField(fieldName);
         }
 
         /// <summary>
@@ -62,7 +66,8 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
         [Test]
         public void AddContextSourceFieldTest()
         {
-            CheckTermLevelField("ContextSource");
+            string fieldName = GlossaryEditStructureForm.attributeDict[GlossaryEditStructureFormHelper.ATTRIBUTE_TYPE.ContextSource];
+            CheckTermLevelField(fieldName);
         }
 
         /// <summary>
@@ -71,7 +76,8 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
         [Test]
         public void AddStatusFieldTest()
         {
-            CheckTermLevelSelectField("Status");
+            string fieldName = GlossaryEditStructureForm.attributeDict[GlossaryEditStructureFormHelper.ATTRIBUTE_TYPE.Status];
+            CheckTermLevelSelectField(fieldName);
         }
 
         /// <summary>
@@ -80,7 +86,8 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
         [Test]
         public void AddLabelFieldTest()
         {
-            CheckTermLevelSelectField("Label");
+            string fieldName = GlossaryEditStructureForm.attributeDict[GlossaryEditStructureFormHelper.ATTRIBUTE_TYPE.Label];
+            CheckTermLevelSelectField(fieldName);
         }
 
         /// <summary>
@@ -89,7 +96,8 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
         [Test]
         public void AddGenderFieldTest()
         {
-            CheckTermLevelSelectField("Gender");
+            string fieldName = GlossaryEditStructureForm.attributeDict[GlossaryEditStructureFormHelper.ATTRIBUTE_TYPE.Gender];
+            CheckTermLevelSelectField(fieldName);
         }
 
         /// <summary>
@@ -98,7 +106,8 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
         [Test]
         public void AddNumberFieldTest()
         {
-            CheckTermLevelSelectField("Number");
+            string fieldName = GlossaryEditStructureForm.attributeDict[GlossaryEditStructureFormHelper.ATTRIBUTE_TYPE.Number];
+            CheckTermLevelSelectField(fieldName);
         }
 
         /// <summary>
@@ -107,62 +116,69 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
         [Test]
         public void AddPartOfSpeechFieldTest()
         {
-            CheckTermLevelSelectField("PartOfSpeech");
+            string fieldName = GlossaryEditStructureForm.attributeDict[GlossaryEditStructureFormHelper.ATTRIBUTE_TYPE.PartOfSpeech];
+            CheckTermLevelSelectField(fieldName);
         }
 
+        /// <summary>
+        /// Проверить поле Select уровня Term
+        /// </summary>
+        /// <param name="fieldName">название поля</param>
         protected void CheckTermLevelSelectField(string fieldName)
         {
             // Создать глоссарий, изменить структуру, открыть добавление термина
             EditGlossaryTermStructure();
 
             // Проверить, что поле есть            
-            string selectXPath = ".//td[contains(@class,'js-details-panel')]//select[@name='" + fieldName + "']";
-            Assert.IsTrue(Driver.FindElements(By.XPath(selectXPath)).Count > 0, "Ошибка: поле не появилось!");
-            string optionId = Driver.FindElement(By.XPath(selectXPath + "//option[2]")).GetAttribute("value");
+            Assert.IsTrue(GlossaryPage.GetIsExistDetailsSelect(fieldName), "Ошибка: поле не появилось!");
+
+            string optionId = GlossaryPage.GetDetailsSelectOptionID(fieldName, 2);
             // Нажать, чтобы список открылся
-            string fieldXPath = selectXPath + "/..//span[contains(@class,'js-dropdown')]";
-            Driver.FindElement(By.XPath(fieldXPath)).Click();
+            GlossaryPage.ClickDetailsSelectDropdown(fieldName);
             // Выбрать значение
-            string optionText =
-                Driver.FindElement(By.XPath(".//span[contains(@class,'js-dropdown__list')]//span[@data-id='" + optionId + "']")).Text;
-            Driver.FindElement(By.XPath(".//span[contains(@class,'js-dropdown__list')]//span[@data-id='" + optionId + "']")).Click();
+            string optionText = GlossaryPage.GetListItemText(optionId);
+            GlossaryPage.ClickListItemByID(optionId);
 
             // Сохранить термин
-            Driver.FindElement(By.XPath(".//span[contains(@class,'js-save-btn js-edit')]")).Click();
+            GlossaryPage.ClickSaveExtendedConcept();
             // Дождаться появления поля с сохраненным термином
-            Wait.Until((d) => d.FindElement(By.XPath(".//tr[contains(@class,'js-concept-row opened')]")).Displayed);
+            Assert.IsTrue(GlossaryPage.WaitConceptSave(), "Ошибка: термин не сохранился");
             // Нажать на термин, чтобы появились поля для Term
-            Driver.FindElement(By.XPath(".//div[contains(@class,'js-term-node')]")).Click();
-            string fieldText = Driver.FindElement(By.XPath(
-                ".//div[contains(@class,'js-term-attrs')]//select[@name='" + fieldName + "']/../..//div[contains(@class,'js-value')]")).Text;
-
+            GlossaryPage.OpenTermLevel();
+            string fieldText = GlossaryPage.GetDetailsSelectValue(fieldName);
+            // Проверить значение поля
             Assert.AreEqual(optionText, fieldText, "Ошибка: значение не сохранилось\n");
         }
 
+        /// <summary>
+        /// Проверить поле уровня Term
+        /// </summary>
+        /// <param name="fieldName">название поля</param>
         protected void CheckTermLevelField(string fieldName)
         {
             // Создать глоссарий, изменить структуру, открыть добавление термина
             EditGlossaryTermStructure();
 
             // Проверить, что поле есть            
-            string textareaXPath = ".//td[contains(@class,'js-details-panel')]//textarea[@name='" + fieldName + "']";
-            Assert.IsTrue(Driver.FindElements(By.XPath(textareaXPath)).Count > 0, "Ошибка: поле не появилось!");
+            Assert.IsTrue(GlossaryPage.GetIsExistDetailsTextarea(fieldName), "Ошибка: поле не появилось!");
             // Ввести текст в поле
             string fieldExample = fieldName + " Example";
-            Driver.FindElement(By.XPath(textareaXPath)).SendKeys(fieldExample);
+            GlossaryPage.FillDetailTextarea(fieldName, fieldExample);
 
             // Сохранить термин
-            Driver.FindElement(By.XPath(".//span[contains(@class,'js-save-btn js-edit')]")).Click();
+            GlossaryPage.ClickSaveExtendedConcept();
             // Дождаться появления поля с сохраненным термином
-            Wait.Until((d) => d.FindElement(By.XPath(".//tr[contains(@class,'js-concept-row opened')]")).Displayed);
+            Assert.IsTrue(GlossaryPage.WaitConceptSave(), "Ошибка: термин не сохранился");
             // Нажать на термин, чтобы появились поля для Term
-            Driver.FindElement(By.XPath(".//div[contains(@class,'js-term-node')]")).Click();
-            string fieldText = Driver.FindElement(By.XPath(
-                ".//div[contains(@class,'js-term-attrs')]//textarea[@name='" + fieldName + "']/../..//div[contains(@class,'js-value')]")).Text;
-
+            GlossaryPage.OpenTermLevel();
+            // Проверить, что значение сохранилось
+            string fieldText = GlossaryPage.GetDetailTextareaValue(fieldName);
             Assert.AreEqual(fieldExample, fieldText, "Ошибка: текст не сохранился\n");
         }
 
+        /// <summary>
+        /// Добавить глоссарий, изменить структуру, открыть уровень Term
+        /// </summary>
         protected void EditGlossaryTermStructure()
         {
             // Имя глоссария для тестирования структуры уровня Language, чтобы не создавать лишний раз
@@ -182,56 +198,33 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             AddAllSystemTermFieldStructure();
 
             // Нажать New item
-            Wait.Until((d) => d.FindElement(By.XPath(
-                ".//span[contains(@class,'js-add-concept')]"))).Click();
+            GlossaryPage.ClickNewItemBtn();
             // Заполнить термин
             FillNewItemExtended();
 
             // Нажать на термин, чтобы появились поля для Term
-            Driver.FindElement(By.XPath(".//div[contains(@class,'js-term-node')]")).Click();
+            GlossaryPage.OpenTermLevel();
         }
 
+        /// <summary>
+        /// Изменить структуру: добавить все поля уровня Term
+        /// </summary>
         protected void AddAllSystemTermFieldStructure()
         {
             // Открыть редактирование структуры
             OpenEditGlossaryStructure();
 
             // Выбрать уровень "Term"
-            Driver.FindElement(By.XPath(".//span[contains(@class,'js-dropdown__text level')]")).Click();
-            Driver.FindElement(By.XPath(
-                ".//span[contains(@class,'js-dropdown__list level g-drpdwn__list')]//span[@data-id='term']")).Click();
+            GlossaryEditStructureForm.ClickLevelDropdown();
+            GlossaryEditStructureForm.SelectTermLevel();
 
-            List<string> fieldsList = new List<string>();
-            fieldsList.Add("Source");
-            fieldsList.Add("Gender");
-            fieldsList.Add("Number");
-            fieldsList.Add("PartOfSpeech");
-            fieldsList.Add("Interpretation");
-            fieldsList.Add("InterpretationSource");
-            fieldsList.Add("Context");
-            fieldsList.Add("ContextSource");
-            fieldsList.Add("Status");
-            fieldsList.Add("Label");
-
-            foreach (string field in fieldsList)
-            {
-                // Получить xPath строки с нужным полем
-                string rowXPath = ".//table[contains(@class, 'js-predefined-attrs-table term')]//tr[contains(@class, 'js-attr-row')][contains(@data-attr-key,'" + field + "')]";
-                // Получить аттрибут class этой строки
-                if (!Driver.FindElement(By.XPath(rowXPath)).GetAttribute("class").Contains("g-hidden"))
-                {
-                    rowXPath += "/td[1]";
-                    // Нажать на поле
-                    Driver.FindElement(By.XPath(rowXPath)).Click();
-                    // Добавить
-                    Wait.Until((d) => d.FindElement(By.XPath(".//span[contains(@class,'js-add-tbx-attribute')]"))).Click();
-                }
-            }
+            // Добавить все поля
+            GlossaryEditStructureForm.SelectAllFields();
 
             // Сохранить
-            Driver.FindElement(By.XPath(".//div[contains(@class, 'js-popup-buttons')]//span[contains(@class, 'js-save')]")).Click();
+            GlossaryEditStructureForm.ClickSaveStructureBtn();
             // Дождаться закрытия формы
-            WaitUntilDisappearElement(".//div[contains(@class,'js-popup-edit-structure')]");
+            GlossaryEditStructureForm.WaitFormClose();
         }
     }
 }

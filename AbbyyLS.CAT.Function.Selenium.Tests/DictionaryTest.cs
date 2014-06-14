@@ -44,10 +44,10 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             // Найти перевод слова
             InitSearch("tester");
             // Проверить результат: должен быть показан результат из словаря
-            Assert.IsTrue(IsElementPresent(By.XPath(".//div[contains(@class,'js-search-results')]//div[contains(@class,'l-articles')]/div/span[2]")),
+            Assert.IsTrue(SearchPage.GetIsDictionarySearchResultExist(),
                 "Ошибка: не показаны результаты поиска по словарю");
             // Проверить словарь
-            string resultText = Driver.FindElement(By.XPath(".//div[contains(@class,'js-search-results')]//div[contains(@class,'l-articles')]/div/span[2]")).Text;
+            string resultText = SearchPage.GetDictionaryName();
             Assert.AreEqual("ABBYY Lingvo dictionaries (En-Ru)", resultText,
                 "Ошибка: не тот словарь: " + resultText);
         }
@@ -64,7 +64,7 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             InitSearch("tester");
             
             // Проверить, что перевод - ссылка
-            Assert.IsTrue(IsElementPresent(By.XPath(".//a[contains(@class,'js-show-examples')]//span[contains(@class,'translation')]")),
+            Assert.IsTrue(SearchPage.GetIsTranslationRefExist(),
                 "Ошибка: перевод - не ссылка");
         }
 
@@ -80,22 +80,22 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             InitSearch("tester");
 
             // Нажать на перевод
-            Driver.FindElement(By.XPath(".//a[contains(@class,'js-show-examples')]//span[contains(@class,'translation')]")).Click();
+            SearchPage.ClickTranslation();
 
             // Дождаться открытия форму с переводом
-            Wait.Until((d) => d.FindElement(By.XPath(".//div[contains(@class,'js-window-examples-data')]")));
+            SearchPage.WaitUntilTranslationFormAppear();
             // Кликнуть по переводу
-            Driver.FindElement(By.XPath(".//div[contains(@class,'js-window-examples-data')]//a[contains(@class,'g-winexamp__reverse')]")).Click();
+            SearchPage.ClickTranslationFormRef();
 
             // Дождаться появления результата (перевод по каждому слову)
-            Wait.Until((d) => d.FindElement(By.XPath(".//div[contains(@class,'l-wordbyword')]")));
+            SearchPage.WaitWordByWordTranslationAppear();
 
             // Проверить, что Source теперь Русский
-            Assert.IsTrue(IsElementPresent(By.XPath(".//select[@id='SearchSrcLang']//option[@value='ru'][@selected='selected']")),
+            Assert.IsTrue(SearchPage.GetIsSourceRussian(),
                 "Ошибка: язык Source не изменился на русский");
 
-            // Проверить, что появились переводы слов
-            Assert.IsTrue(IsElementPresent(By.XPath(".//div[contains(@class,'l-wordbyword')]//table//td//a[contains(@href,'Translate/ru-en')]")),
+            // Проверить, что появились переводы слов (со ссылками)
+            Assert.IsTrue(SearchPage.GetIsReverseTranslationListExist(),
                 "Ошибка: нет обратных переводов");
         }
 
@@ -110,14 +110,11 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             // Найти перевод слова
             InitSearch("tester");
 
-            // Нажать на перевод
-            Driver.FindElement(By.XPath(".//a[contains(@class,'js-show-examples')]//span[contains(@class,'translation')]")).Click();
-
             // Проверить, что появилось сообщение об автоматическом изменении языков
-            Assert.IsTrue(IsElementPresent(By.XPath(".//div[contains(@class,'js-language-autoreversed')]")),
+            Assert.IsTrue(SearchPage.GetIsExistAutoreversedMessage(),
                 "Ошибка: не появилось сообщение об автоматическом изменении языков");
-            // Проверить ссылку дял возврата языков
-            Assert.IsTrue(IsElementPresent(By.XPath(".//div[contains(@class,'js-language-autoreversed')]//a[contains(@href,'/Translate/ru-en')]")),
+            // Проверить ссылку для возврата языков
+            Assert.IsTrue(SearchPage.GetIsExistAutoreversedRef(),
                 "Ошибка: не появилось ссылки для возврата языков");
         }
 
@@ -136,10 +133,10 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             AddDictionaryAccount();
 
             // Сохранить
-            Driver.FindElement(By.XPath(".//input[@type='submit']")).Click();
+            AdminPage.ClickSubmit();
 
             // Дождаться успеха
-            Wait.Until((d) => d.FindElement(By.XPath(".//p[contains(@class,'b-success-message')]")).Displayed);
+            AdminPage.WaitSuccessAnswer();
 
             // Добавить пользователя в аккаунт
             AddUserToAccount();
@@ -150,15 +147,13 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             Authorization(accountName);
 
             // Проверка, что вкладка LingvoDictionaries видна
-            Assert.IsTrue(IsElementDisplayed(By.XPath(".//a[contains(@href,'/LingvoDictionaries')]")),
+            Assert.IsTrue(MainHelperClass.GetIsRefDictionariesVisible(),
                 "Ошибка: не показывается вкладка Lingvo Dictionaries");
 
             // Перейти на вкладку со словарями
-            Driver.FindElement(By.XPath(".//a[contains(@href,'/LingvoDictionaries')]")).Click();
-
-            IList<IWebElement> dictList = Driver.FindElements(By.XPath(
-                ".//div[contains(@class,'js-dictionaries-search-result')]//div[contains(@class,'l-dctnrs__dict')]"));
-            Assert.IsTrue(dictList.Count > 0, "Ошибка: список словарей пуст");
+            MainHelperClass.ClickOpenDictionariesPage();
+            // Проверить список словарей
+            Assert.IsTrue(DictionaryPage.GetDictionaryListCount() > 0, "Ошибка: список словарей пуст");
         }
 
         /// <summary>
@@ -174,10 +169,10 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             string accountName = FillGeneralAccountFields();
 
             // Сохранить
-            Driver.FindElement(By.XPath(".//input[@type='submit']")).Click();
+            AdminPage.ClickSubmit();
 
             // Дождаться успеха
-            Wait.Until((d) => d.FindElement(By.XPath(".//p[contains(@class,'b-success-message')]")).Displayed);
+            AdminPage.WaitSuccessAnswer();
 
             // Добавить пользователя в аккаунт
             AddUserToAccount();
@@ -188,7 +183,7 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             Authorization(accountName);
 
             // Проверка, что вкладка LingvoDictionaries не видна
-            Assert.IsFalse(IsElementDisplayed(By.XPath(".//a[contains(@href,'/LingvoDictionaries')]")),
+            Assert.IsFalse(MainHelperClass.GetIsRefDictionariesVisible(),
                 "Ошибка: вкладка Lingvo Dictionaries видна (не должно быть видно)");
         }
 
@@ -207,10 +202,10 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             AddDictionaryAccount(false);
 
             // Сохранить
-            Driver.FindElement(By.XPath(".//input[@type='submit']")).Click();
+            AdminPage.ClickSubmit();
 
             // Дождаться успеха
-            Wait.Until((d) => d.FindElement(By.XPath(".//p[contains(@class,'b-success-message')]")).Displayed);
+            AdminPage.WaitSuccessAnswer();
 
             // Добавить пользователя в аккаунт
             AddUserToAccount();
@@ -221,15 +216,13 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             Authorization(accountName);
 
             // Проверка, что вкладка LingvoDictionaries видна
-            Assert.IsTrue(IsElementDisplayed(By.XPath(".//a[contains(@href,'/LingvoDictionaries')]")),
+            Assert.IsTrue(MainHelperClass.GetIsRefDictionariesVisible(),
                 "Ошибка: не показывается вкладка Lingvo Dictionaries");
 
             // Перейти на вкладку со словарями
-            Driver.FindElement(By.XPath(".//a[contains(@href,'/LingvoDictionaries')]")).Click();
-
-            IList<IWebElement> dictList = Driver.FindElements(By.XPath(
-                ".//div[contains(@class,'js-dictionaries-search-result')]//div[contains(@class,'l-dctnrs__dict')]"));
-            Assert.IsTrue(dictList.Count == 0, "Ошибка: список словарей НЕ пуст");
+            MainHelperClass.ClickOpenDictionariesPage();
+            // Проверить, что список словарей пуст
+            Assert.IsTrue(DictionaryPage.GetDictionaryListCount() == 0, "Ошибка: список словарей НЕ пуст");
         }
 
         /// <summary>
@@ -247,10 +240,10 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             AddDictionaryAccount(false);
 
             // Сохранить
-            Driver.FindElement(By.XPath(".//input[@type='submit']")).Click();
+            AdminPage.ClickSubmit();
 
             // Дождаться успеха
-            Wait.Until((d) => d.FindElement(By.XPath(".//p[contains(@class,'b-success-message')]")).Displayed);
+            AdminPage.WaitSuccessAnswer();
 
             // Добавить пользователя в аккаунт
             AddUserToAccount();
@@ -258,12 +251,12 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             // Перейти в корпоративные аккаунты
             SwitchEnterpriseAccountList();
             // Нажать редактирование созданного аккаунта
-            Driver.FindElement(By.XPath(".//td[text()='" + accountName + "']/../td[1]//a[contains(@href,'/EnterpriseAccounts/Edit')]")).Click();
+            AdminPage.ClickEditAccount(accountName);
 
             // Добавить словари
             AddDictionaryAccount();
             // Сохранить
-            Driver.FindElement(By.XPath(".//input[@type='submit']")).Click();
+            AdminPage.ClickSubmit();
 
             // Перейти в CAT
             Driver.Navigate().GoToUrl(Url);
@@ -271,15 +264,13 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             Authorization(accountName);
 
             // Проверка, что вкладка LingvoDictionaries видна
-            Assert.IsTrue(IsElementDisplayed(By.XPath(".//a[contains(@href,'/LingvoDictionaries')]")),
+            Assert.IsTrue(MainHelperClass.GetIsRefDictionariesVisible(),
                 "Ошибка: не показывается вкладка Lingvo Dictionaries");
 
             // Перейти на вкладку со словарями
-            Driver.FindElement(By.XPath(".//a[contains(@href,'/LingvoDictionaries')]")).Click();
-
-            IList<IWebElement> dictList = Driver.FindElements(By.XPath(
-                ".//div[contains(@class,'js-dictionaries-search-result')]//div[contains(@class,'l-dctnrs__dict')]"));
-            Assert.IsTrue(dictList.Count > 0, "Ошибка: список словарей пуст");
+            MainHelperClass.ClickOpenDictionariesPage();
+            // Проверить, что есть словари
+            Assert.IsTrue(DictionaryPage.GetDictionaryListCount() > 0, "Ошибка: список словарей пуст");
         }
 
         /// <summary>
@@ -291,19 +282,14 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             // Зайти
             Authorization();
             SwitchSearchTab();
-            Driver.FindElement(By.Id("SearchSrcLang")).Click();
-            Driver.FindElement(By.XPath(".//select[@id='SearchSrcLang']//option[@value='en']")).Click();
-            SendKeys.SendWait(@"{Enter}");
-            Driver.FindElement(By.Id("SearchDestLang")).Click();
-            Driver.FindElement(By.XPath(".//select[@id='SearchDestLang']//option[@value='en']")).Click();
-            SendKeys.SendWait(@"{Enter}");
+            SearchPage.SelectEnSourceLanguage();
+            SearchPage.SelectEnTargetLanguage();
             
             // Найти перевод слова
             InitSearch("tester");
-            Wait.Until((d) => d.FindElement(By.XPath(".//p[contains(@class,'l-glossary__nothingFound')]")));
-            string definitionClass = Driver.FindElement(By.XPath(".//li[contains(@data-search-mode,'Interpret')]")).GetAttribute("class");
+            SearchPage.WaitSearchResult();
             // Проверить, что вкладка Definitions активна
-            Assert.IsTrue(definitionClass.Contains("active"), "Ошибка: не перешли на вкладку Definitions");
+            Assert.IsTrue(SearchPage.GetIsDefinitionTabActive(), "Ошибка: не перешли на вкладку Definitions");
         }
 
         /// <summary>
@@ -314,21 +300,21 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             // Перейти в админку
             Driver.Navigate().GoToUrl(AdminUrl);
             // Дождаться открытия формы входа
-            Wait.Until((d) => d.FindElement(By.XPath(".//form[contains(@action,'/Home/Login')]")));
+            Assert.IsTrue(AdminPage.WaitPageLoad(), "Ошибка: страница админки не загрузилась");
             // Логин
-            Driver.FindElement(By.XPath(".//input[@name='email']")).SendKeys(Login);
-            Driver.FindElement(By.XPath(".//input[@name='password']")).SendKeys(Password);
-            Driver.FindElement(By.XPath(".//input[@type='submit']")).Click();
+            AdminPage.FillLogin(Login);
+            AdminPage.FillPassword(Password);
+            AdminPage.ClickSubmit();
 
             // Зайти в аккаунты
             SwitchEnterpriseAccountList();
 
             // Нажать Создать
-            Driver.FindElement(By.XPath(".//a[contains(@href,'/EnterpriseAccounts/Edit')]")).Click();
+            AdminPage.ClickAddAccount();
 
-            bool isWinWithForm = false;
+            bool isWindowWithForm = false;
             Driver.SwitchTo().Window(Driver.WindowHandles[1]);
-            isWinWithForm = IsElementPresent(By.XPath(".//form[contains(@action,'Edit')]"));
+            isWindowWithForm = AdminPage.GetIsAddAccountFormDisplay();
 
             // Если вдруг неправильное окно - перебирать все окна в цикле
             /*foreach (string winH in Driver.WindowHandles)
@@ -341,7 +327,7 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
                 }
             }*/
 
-            Assert.IsTrue(isWinWithForm, "Ошибка: не нашли окно с формой создания аккаунта");
+            Assert.IsTrue(isWindowWithForm, "Ошибка: не нашли окно с формой создания аккаунта");
         }
 
         /// <summary>
@@ -354,14 +340,12 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             string uniqPref = DateTime.Now.Ticks.ToString();
             string accountName = "TestAccount" + uniqPref;
             // Название
-            Driver.FindElement(By.XPath(".//input[@name='Name']")).SendKeys(accountName);
+            AdminPage.FillAccountName(accountName);
             // Поддомен
-            Driver.FindElement(By.XPath(".//input[@name='SubDomain']")).SendKeys("testaccount" + uniqPref);
+            AdminPage.FillSubdomainName("testaccount" + uniqPref);
 
             // Дата
-            string deadLineDate = DateTime.Now.AddDays(10).Date.ToString();
-            deadLineDate = deadLineDate.Substring(0, deadLineDate.IndexOf(" "));
-            Driver.FindElement(By.Id("ExpirationDate")).SendKeys(deadLineDate);
+            AdminPage.FillDeadLineDate(DateTime.Now.AddDays(10));
 
             // Вернуть имя аккаунта
             return accountName;
@@ -374,23 +358,20 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
         protected void AddDictionaryAccount(bool needAddAllDictionaries = true)
         {
             // Выбрать Функцию Словари
-            if (IsElementPresent(By.XPath(".//table[@name='Features']//select[@id='left']//option[@value='LingvoDictionaries']")))
+            if (AdminPage.GetAvailableAddDictionaryFeature())
             {
-                Driver.FindElement(By.XPath(".//table[@name='Features']//select[@id='left']//option[@value='LingvoDictionaries']")).Click();
-                Driver.FindElement(By.XPath(".//table[@name='Features']//input[@name='toRight']")).Click();
+                AdminPage.ClickDictioaryInFeatures();
+                AdminPage.ClickToRightFeatureTable();
             }
 
             if (needAddAllDictionaries)
             {
                 // Добавить словари
-                Driver.FindElement(By.XPath(".//table[contains(@name,'dictionariesPackages')]//input[@name='allToRight']")).Click();
+                AdminPage.AddAllDictionaries();
             }
 
             // Добавить дату
-            string deadLineDate = DateTime.Now.AddDays(10).Date.ToString();
-            deadLineDate = deadLineDate.Substring(0, deadLineDate.IndexOf(" "));
-            Driver.FindElement(By.Id("DictionariesExpirationDate")).Clear();
-            Driver.FindElement(By.Id("DictionariesExpirationDate")).SendKeys(deadLineDate);
+            AdminPage.FillDictionaryDeadlineDate(DateTime.Now.AddDays(10));
         }
 
         /// <summary>
@@ -399,17 +380,15 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
         protected void AddUserToAccount()
         {
             // Перейти в управление пользователями
-            Driver.FindElement(By.XPath(".//a[contains(@href,'/EnterpriseAccounts/ManageUsers')]")).Click();
-            // Дождаться открытия формы
-            Wait.Until((d) => d.FindElement(By.Id("searchText")));
+            AdminPage.OpenUserManagementPage();
             // Ввести логин пользователя
-            Driver.FindElement(By.Id("searchText")).SendKeys(Login);
+            AdminPage.FillUserNameSearch(Login);
             // Найти
-            Driver.FindElement(By.Id("findUser")).Click();
+            AdminPage.ClickSearchUserBtn();
             // Дождаться появления пользователя
-            Wait.Until((d) => d.FindElement(By.Id("addUsersBtn")));
+            AdminPage.WaitSearchUserResult();
             // Добавить
-            Driver.FindElement(By.Id("addUsersBtn")).Click();
+            AdminPage.ClickAddUser();
         }
 
         /// <summary>
@@ -418,7 +397,7 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
         protected void SwitchEnterpriseAccountList()
         {
             // Зайти в аккаунты
-            WaitAndClickElement(".//a[@href='/EnterpriseAccounts']");
+            AdminPage.ClickOpenEntepriseAccounts();
         }
 
         /// <summary>
@@ -435,10 +414,10 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             AddDictionaryAccount();
 
             // Сохранить
-            Driver.FindElement(By.XPath(".//input[@type='submit']")).Click();
+            AdminPage.ClickSubmit();
 
             // Дождаться успеха
-            Wait.Until((d) => d.FindElement(By.XPath(".//p[contains(@class,'b-success-message')]")).Displayed);
+            AdminPage.WaitSuccessAnswer();
 
             // Добавить пользователя в аккаунт
             AddUserToAccount();
@@ -449,15 +428,13 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             Authorization(accountName);
 
             // Проверка, что вкладка LingvoDictionaries видна
-            Assert.IsTrue(IsElementDisplayed(By.XPath(".//a[contains(@href,'/LingvoDictionaries')]")),
+            Assert.IsTrue(MainHelperClass.GetIsRefDictionariesVisible(),
                 "Ошибка: не показывается вкладка Lingvo Dictionaries");
 
             // Перейти на вкладку со словарями
-            Driver.FindElement(By.XPath(".//a[contains(@href,'/LingvoDictionaries')]")).Click();
+            MainHelperClass.ClickOpenDictionariesPage();
 
-            IList<IWebElement> dictList = Driver.FindElements(By.XPath(
-                ".//div[contains(@class,'js-dictionaries-search-result')]//div[contains(@class,'l-dctnrs__dict')]"));
-            Assert.IsTrue(dictList.Count > 0, "Ошибка: список словарей пуст");
+            Assert.IsTrue(DictionaryPage.GetDictionaryListCount() > 0, "Ошибка: список словарей пуст");
 
             // Перейти на вкладку Search
             SwitchSearchTab();

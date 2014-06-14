@@ -25,37 +25,43 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             SwitchGlossaryTab();
         }
 
+        /// <summary>
+        /// Зайти в глоссарий
+        /// </summary>
+        /// <param name="glossaryName"></param>
         protected void SwitchCurrentGlossary(string glossaryName)
         {
             // Перейти на страницу глоссария
-            string xPath = "//tr[contains(@class, 'js-glossary-row')]/td[1]/p[text()='" + glossaryName + "']";
-            Driver.FindElement(By.XPath(xPath)).Click();
+            GlossaryListPage.ClickGlossaryRow(glossaryName);
+            Assert.IsTrue(GlossaryPage.WaitPageLoad(), 
+                "Ошибка: не зашли в глоссарий");
         }
 
+        /// <summary>
+        /// Вернуть, есть ли глоссарий с таким именем
+        /// </summary>
+        /// <param name="glossaryName">навзание</param>
+        /// <returns>есть</returns>
         protected bool GetIsExistGlossary(string glossaryName)
         {
             // Получить: существует ли глоссарий с таким именем
-            bool isExist = false;
-            setDriverTimeoutMinimum();
-            IList<IWebElement> glossaryList = Driver.FindElements(By.XPath("//tr[contains(@class, 'js-glossary-row')]/td[1]/p"));
-            foreach (IWebElement el in glossaryList)
-            {
-                if (el.Text == glossaryName)
-                {
-                    isExist = true;
-                    break;
-                }
-            }
-            setDriverTimeoutDefault();
-            return isExist;
+            return GlossaryListPage.GetIsExistGlossary(glossaryName);
         }
 
+        /// <summary>
+        /// Создать уникальное имя
+        /// </summary>
+        /// <returns>имя</returns>
         protected string GetUniqueGlossaryName()
         {
             // Получить уникальное имя глоссария (т.к. добавляется точная дата и время, то не надо проверять, есть ли такой глоссарий в списке)
             return GlossaryName + DateTime.Now.ToString();
         }
 
+        /// <summary>
+        /// Создать глоссарий и вернуться к списку глоссариев
+        /// </summary>
+        /// <returns>название глоссария</returns>
         protected string CreateGlossaryAndReturnToGlossaryList()
         {
             // Получить уникальное имя для глоссария
@@ -67,59 +73,58 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             return glossaryName;
         }
 
+        /// <summary>
+        /// Получить количество терминов
+        /// </summary>
+        /// <returns></returns>
         protected int GetCountOfItems()
         {
-            setDriverTimeoutMinimum();
-            int result = Driver.FindElements(By.XPath(".//tr[contains(@class, 'js-concept-row')]")).Count;
-            setDriverTimeoutDefault();
-            return result;
+            return GlossaryPage.GetConceptCount();
         }
 
+        /// <summary>
+        /// Открыть редактирование структуры
+        /// </summary>
         protected void OpenEditGlossaryStructure()
         {
             // Открыть Редактирование глоссария
-            Wait.Until((d) => d.FindElement(By.XPath(
-                ".//span[contains(@class,'js-edit-submenu')]"))).Click();
-            // Выбрать Редактирование структуры
-            Wait.Until((d) => d.FindElement(By.XPath(
-                ".//div[contains(@class,'js-edit-structure-btn')]"))).Click();
-            // Дождаться появления формы
-            Wait.Until((d) => d.FindElement(By.XPath(
-                ".//div[contains(@class,'js-popup-edit-structure')]")));
+            GlossaryPage.OpenEditGlossaryList();
+            // Открыть форму Редактирование структуры
+            GlossaryPage.OpenEditStructureForm();
+            GlossaryEditStructureForm.WaitPageLoad();
         }
 
+        /// <summary>
+        /// Добавить поле в структуру глоссария
+        /// </summary>
         protected void EditGlossaryStructureAddField()
         {
             OpenEditGlossaryStructure();
 
-            // Найти невыбранное поле и добавить его
-            string attributeValue = "";
-            // Получить список полей
-            IList<IWebElement> allFields = Driver.FindElements(By.XPath(".//table[contains(@class, 'js-predefined-attrs-table concept')]//tr[contains(@class, 'l-editgloss__tr js-attr-row')]"));
-            for (int i = 0; i < allFields.Count; ++i)
-            {
-                attributeValue = allFields[i].GetAttribute("class");
-                // Если поле не скрыто, нажать на него
-                if (!attributeValue.Contains("g-hidden"))
-                {
-                    // Получить xPath текущей строки
-                    string xPath = ".//table[contains(@class, 'js-predefined-attrs-table concept')]//tr[contains(@class, 'l-editgloss__tr js-attr-row')][" + (i + 1).ToString() + "]/td[1]";
-                    // Выбрать строку
-                    Driver.FindElement(By.XPath(xPath)).Click();
-                    // Добавить
-                    Wait.Until((d) => d.FindElement(By.XPath(
-                        ".//span[contains(@class,'js-add-tbx-attribute')]"))).Click();
-                    Thread.Sleep(500);
-                    break;
-                }
-            }
+            /// Проверить, что открыта нужнная таблица
+            Assert.IsTrue(GlossaryEditStructureForm.GetIsConceptTableDisplay(), "Ошибка: в редакторе структуры отображается не та таблица");
 
+            // Нажать на поле Domain
+            if (GlossaryEditStructureForm.ClickFieldToAdd(GlossaryEditStructureFormHelper.ATTRIBUTE_TYPE.Domain))
+            {
+                // Добавить
+                GlossaryEditStructureForm.ClickAddToListBtn();
+            }
             // Сохранить
-            Driver.FindElement(By.XPath(".//div[contains(@class, 'js-popup-buttons')]//span[contains(@class, 'js-save')]")).Click();
+            GlossaryEditStructureForm.ClickSaveStructureBtn();
+            // Дождаться закрытия формы
+            GlossaryEditStructureForm.WaitFormClose();
+
             // Дождаться закрытия формы
             Thread.Sleep(1000);
         }
 
+        /// <summary>
+        /// Создать термин и сохранить
+        /// </summary>
+        /// <param name="firstTerm">текст 1 термина/языка</param>
+        /// <param name="secondTerm">текст 2 термина/языка</param>
+        /// <param name="shouldSaveOk">Должно сохраниться (проверить сохранение)</param>
         protected void CreateItemAndSave(string firstTerm = "", string secondTerm = "", bool shouldSaveOk = true)
         {
             // Открыть форму добавления термина и заполнить поля
@@ -127,32 +132,45 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             // Расширить окно, чтобы кнопка была видна, иначе Selenium ее "не видит" и выдает ошибку
             Driver.Manage().Window.Maximize();
             // Нажать Сохранить
-            Driver.FindElement(By.XPath(".//tr[contains(@class, 'js-concept-row js-editing opened')]//a[contains(@class, 'js-save-btn')]")).Click();
+            GlossaryPage.ClickSaveTermin();
             if (shouldSaveOk)
             {
-                Assert.IsTrue(WaitUntilDisappearElement(".//tr[contains(@class, 'js-concept-row')]//a[contains(@class,'js-save-btn')]"), "Ошибка: термин не сохранился");
+                // TODO проверить!
+                Assert.IsTrue(GlossaryPage.WaitConceptGeneralSave(), "Ошибка: термин не сохранился");
             }
         }
 
+        /// <summary>
+        /// Создать новый термин и заполнить
+        /// </summary>
+        /// <param name="firstTerm">текст для первого термина</param>
+        /// <param name="secondTerm">текст для второго термина</param>
         protected void FillCreateItem(string firstTerm = "", string secondTerm = "")
         {
             // Нажать New item
-            Wait.Until((d) => d.FindElement(By.XPath(".//span[contains(@class,'js-add-concept')]"))).Click();
+            GlossaryPage.ClickNewItemBtn();
             // Дождаться появления строки для ввода
-            Wait.Until((d) => d.FindElement(By.XPath(".//table[contains(@class,'js-concepts')]")));
+            GlossaryPage.WaitConceptTableAppear();
             // Заполнить термин
             if (firstTerm.Length == 0)
             {
                 firstTerm = "Term First Language" + DateTime.Now.ToString();
             }
-            Driver.FindElement(By.XPath(".//tr[contains(@class, 'js-concept-row js-editing')]/td[1]//input")).SendKeys(firstTerm);
+            GlossaryPage.FillTerm(1, firstTerm);
             if (secondTerm.Length == 0)
             {
                 secondTerm = "Term Second Language" + DateTime.Now.ToString();
             }
-            Driver.FindElement(By.XPath(".//tr[contains(@class, 'js-concept-row js-editing')]/td[2]//input")).SendKeys(secondTerm);
+            GlossaryPage.FillTerm(2, secondTerm);
         }
 
+        /// <summary>
+        /// Предложить термин и сохранить
+        /// </summary>
+        /// <param name="termFirst">текст первого термина</param>
+        /// <param name="termSecond">текст второго термина</param>
+        /// <param name="isNeedSelectGlossary">нужно ли выбирать глоссарий</param>
+        /// <param name="glossaryName">название глоссария</param>
         protected void SuggestTermAndSave(string termFirst, string termSecond, bool isNeedSelectGlossary = false, string glossaryName = "")
         {
             // Открыть форму предложения термина и заполнить полня
@@ -160,109 +178,48 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             if (isNeedSelectGlossary)
             {
                 // Открыть список с глоссариями
-                Driver.FindElement(By.XPath(".//span[contains(@class, 'js-dropdown addsuggglos')]")).Click();
-                Wait.Until((d) => d.FindElement(By.XPath(".//span[contains(@class, 'js-dropdown__list addsuggglos')]")).Enabled);
+                SuggestTermDialog.OpenGlossaryList();
                 // Выбрать наш первый созданный глоссарий в выпавшем списке
-                string xPathFirstGlossary = ".//span[contains(@class, 'js-dropdown__item addsuggglos')][@title='" + glossaryName + "']";
-                Driver.FindElement(By.XPath(xPathFirstGlossary)).Click();
+                SuggestTermDialog.SelectGlossary(glossaryName);
             }
 
             // Сохранить
-            Driver.FindElement(By.XPath(".//input[contains(@class, 'js-save-btn')]")).Click();
-            Thread.Sleep(2000);
+            SuggestTermDialog.ClickSave();
+            // TODO убрать sleep
+            Thread.Sleep(500);
         }
 
+        /// <summary>
+        /// Заполнить термины
+        /// </summary>
+        /// <param name="suggestTermFirst">текст первого термина</param>
+        /// <param name="suggestTermSecond">текст второго термина</param>
         protected void SuggestTermFillTerms(string suggestTermFirst, string suggestTermSecond)
         {
             // Нажать Предложить термин
-            Driver.FindElement(By.XPath(".//span[contains(@class, 'g-redbtn js-add-suggest')]//a")).Click();
-            Wait.Until((d) => d.FindElement(By.XPath(".//div[contains(@class,'js-popup-bd js-add-suggest-popup')]")).Displayed);
+            GlossaryListPage.ClickAddSuggest();
+            SuggestTermDialog.WaitPageLoad();
             // Заполнить термин
-            Driver.FindElement(By.XPath(
-                ".//div[contains(@class, 'l-addsugg__contr lang js-language')][1]//input[contains(@class, 'js-addsugg-term')]"))
-                .SendKeys(suggestTermFirst);
-            Driver.FindElement(By.XPath(
-                ".//div[contains(@class, 'l-addsugg__contr lang js-language')][2]//input[contains(@class, 'js-addsugg-term')]"))
-                .SendKeys(suggestTermSecond);
+            SuggestTermDialog.FillTerm(1, suggestTermFirst);
+            SuggestTermDialog.FillTerm(2, suggestTermSecond);
         }
 
-        protected string GetSuggestTermRowsXPath()
-        {
-            // Вернуть xPath строк с предложенными терминами
-            return ".//tr[contains(@class, 'js-suggest-row')]/td[contains(@class, 'js-glossary-cell')]//p";
-        }
-
+        /// <summary>
+        /// Заполнить термин в расширенной форме
+        /// </summary>
         protected void FillNewItemExtended()
         {
-            // Текст терминов
-            string termText = "Example Term Text " + DateTime.Now.ToString();
-            string xPathLang = ".//div[contains(@class, 'js-terms-tree')]//div[contains(@class, 'l-corprtree__langbox')]";
-            // Поля языков
-            IList<IWebElement> termList = Driver.FindElements(By.XPath(xPathLang + "//span[contains(@class,'js-add-term')]"));
-            for (int i = 0; i < termList.Count; ++i )
-            {
-                // Нажать Add
-                termList[i].Click();
-                // Ввести термин
-                Driver.FindElement(By.XPath(xPathLang + "[" + (i + 1) + "]//span[contains(@class,'js-term-editor')]//input")).SendKeys(termText);
-            }
-        }
-
-
-        /// <summary>
-        /// Добавить язык при создании глоссария
-        /// </summary>
-        /// <param name="langNumber">код языка</param>
-        protected void AddLanguageCreateGlossary(int langNumber)
-        {
-            // Кликнуть по Плюсу
-            Driver.FindElement(By.XPath(".//div[contains(@class,'js-popup-edit-glossary')][2]//span[contains(@class,'js-add-language-button')]")).Click();
-            // Открыть выпадающий список у добавленного языка
-            Driver.FindElement(By.XPath(
-                ".//span[contains(@class,'js-glossary-language')][last()]//span[contains(@class,'js-dropdown')]")).Click();
-            // Выбрать язык
-            Assert.IsTrue(IsElementPresent(By.XPath(".//span[contains(@class,'js-dropdown__list')]//span[@data-id='" + langNumber + "']")),
-                "Ошибка: указанного языка (data-id=" + langNumber + ") нет в списке");
-
-            Driver.FindElement(By.XPath(".//span[contains(@class,'js-dropdown__list')]//span[@data-id='" + langNumber + "']")).Click();
-            WaitUntilDisappearElement(".//span[contains(@class,'js-dropdown__list')]");
+            GlossaryPage.FillItemTermsExtended("Example Term Text " + DateTime.Now.ToString());
         }
 
         /// <summary>
-        /// Создать глоссарий с несколькими языками
+        /// Изменить все термины в расширенной версии
         /// </summary>
-        /// <param name="glossaryName">имя глоссария</param>
-        /// <param name="langList">список ID языков</param>
-        protected void CreateGlossaryMultiLanguage(string glossaryName, List<int> langList)
+        /// <param name="text">текст</param>
+        protected void EditAllExtendedItems(string text)
         {
-            // Открыть форму создания глоссария
-            OpenCreateGlossary();
-
-            // Ввести имя
-            Driver.FindElement(By.XPath(
-                ".//div[contains(@class,'js-popup-edit-glossary')][2]//input[contains(@class,'js-glossary-name')]")).
-                SendKeys(glossaryName);
-
-            // Добавить комментарий
-            Driver.FindElement(By.XPath(
-                ".//div[contains(@class,'js-popup-edit-glossary')][2]//textarea[contains(@name,'Comment')]")).
-                SendKeys("Test Glossary Generated by Selenium");
-
-            // Добавить языки
-            foreach (int langID in langList)
-            {
-                AddLanguageCreateGlossary(langID);
-            }
-
-            // Нажать сохранить
-            Driver.FindElement(By.XPath(
-               ".//div[contains(@class,'js-popup-edit-glossary')][2]//span[contains(@class,'js-save')]")).Click();
-
-            // Дождаться закрытия формы
-            Assert.IsTrue(WaitUntilDisappearElement(".//div[contains(@class,'js-popup-edit-glossary')]"),
-                "Ошибка: форма добавления глоссария не пропала - глоссарий не добавился");
+            GlossaryPage.EditTermsExtended(text);
         }
-
 
         /// <summary>
         /// Удаление глоссария
@@ -272,15 +229,11 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             // Открыть редактирование свойств глоссария
             OpenGlossaryProperties();
             // Нажать Удалить глоссарий 
-            Wait.Until((d) => d.FindElement(By.XPath(
-                ".//div[contains(@class,'js-popup-edit-glossary')][2]//span[contains(@class, 'js-delete')]"))).Click();
+            GlossaryEditForm.ClickDeleteGlossary();
 
             // Нажать Да (удалить)
-            Driver.FindElement(By.XPath(
-                ".//div[contains(@class,'js-popup-edit-glossary')][2]//a[contains(@class, 'js-confirm-delete-glossary')]")).Click();
-
-            Wait.Until((d) => d.FindElement(By.XPath(
-               ".//span[contains(@class,'js-create-glossary-button')]//a[contains(@class,'g-btn__text g-redbtn__text')]")).Displayed);
+            GlossaryEditForm.ClickConfirmDeleteGlossary();
+            GlossaryListPage.WaitPageLoad();
         }
 
         /// <summary>
@@ -289,58 +242,63 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
         protected void OpenGlossaryProperties()
         {
             // Нажать Редактирование
-            Wait.Until((d) => d.FindElement(By.XPath(
-                ".//span[contains(@class,'js-edit-submenu')]"))).Click();
+            GlossaryPage.OpenEditGlossaryList();
             // Нажать на Properties
-            Wait.Until((d) => d.FindElement(By.XPath(
-                ".//div[contains(@class,'js-edit-glossary-btn')]"))).Click();
+            GlossaryPage.ClickOpenProperties();
         }
 
         protected void AddUserRights()
         {
             // хардкор!
             // Проверить, что есть кнопка Предложить термин на странице со списком глоссариев
-            if (IsElementPresent(By.XPath(".//span[contains(@class,'js-add-suggest')]")))
+            if (GlossaryListPage.GetIsAddSuggestExist())
             {
                 Assert.Pass("Все хорошо - у пользователя права есть!");
             }
             // Иначе: добавляем права
 
             // Перейти в пользователи и права
-            Driver.FindElement(By.XPath(".//a[contains(@href,'/Enterprise/Users')]")).Click();
+            UserRightsPage.OpenPage();
             // Перейти в группы
-            Driver.FindElement(By.XPath(".//a[contains(@href,'/Enterprise/Groups')]")).Click();
+            UserRightsPage.OpenGroups();
             // Выбрать Administrators
-            Driver.FindElement(By.XPath(".//td[contains(@class,'js-group-name')][text()='Administrators']")).Click();
+            UserRightsPage.SelectAdmins();
             // Edit
-            Driver.FindElement(By.XPath(".//span[contains(@class,'js-editgroup-btn')]")).Click();
+            UserRightsPage.ClickEdit();
             // Add right
-            Driver.FindElement(By.XPath(".//span[contains(@class,'js-add-right-btn')]")).Click();
+            UserRightsPage.ClickAddRights();
             // Suggest concepts without glossary
-            Driver.FindElement(By.XPath(".//li[@data-type='AddSuggestsWithoutGlossary']//input")).Click();
+            UserRightsPage.SelectSuggestWithoutGlossary();
             // Next
-            Driver.FindElement(By.XPath(".//span[contains(@class,'js-next')]")).Click();
+            UserRightsPage.ClickNext();
             // Add
-            Driver.FindElement(By.XPath(".//span[contains(@class,'js-add')]//a[contains(text(),'Add')]")).Click();
+            UserRightsPage.ClickAdd();
             Thread.Sleep(1000);
             // Add right
-            Driver.FindElement(By.XPath(".//span[contains(@class,'js-add-right-btn')]")).Click();
+            UserRightsPage.ClickAddRights();
             // Suggest concepts without glossary
-            Driver.FindElement(By.XPath(".//li[@data-type='GlossarySearch']//input")).Click();
+            UserRightsPage.SelectGlossarySearch();
             // Next
-            Driver.FindElement(By.XPath(".//span[contains(@class,'js-next')]")).Click();
+            UserRightsPage.ClickNext();
             // All Glossaries
-            Driver.FindElement(By.XPath(".//div[contains(@class,'js-scope-section')][2]//input[contains(@name,'accessRightScopeType')]")).Click();
+            UserRightsPage.SelectAllGlossaries();
             // Next
-            Driver.FindElement(By.XPath(".//span[contains(@class,'js-next')]")).Click();
+            UserRightsPage.ClickNext();
             // Add
-            Driver.FindElement(By.XPath(".//span[contains(@class,'js-add')]//a[contains(text(),'Add')]")).Click();
+            UserRightsPage.ClickAdd();
             Thread.Sleep(1000);
             // Save
-            Driver.FindElement(By.XPath(".//span[contains(@class,'js-save-btn')]")).Click();
+            UserRightsPage.ClickSave();
             Thread.Sleep(1000);
             SwitchGlossaryTab();
-            Assert.IsTrue(IsElementPresent(By.XPath(".//span[contains(@class,'js-add-suggest')]")), "права не добавились");
+            Assert.IsTrue(GlossaryListPage.GetIsAddSuggestExist(), "ОШИБКА! Права не добавились.");
         }
+
+        // TODO TODO УБРААААТЬ!!!!!!
+        /*protected string GetSuggestTermRowsXPath()
+        {
+            return ".//tr[contains(@class, 'js-suggest-row')]/td[contains(@class, 'js-glossary-cell')]//p";
+        }*/
+
     }
 }

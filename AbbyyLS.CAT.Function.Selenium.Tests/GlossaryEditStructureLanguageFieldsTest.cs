@@ -26,7 +26,8 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
         [Test]
         public void AddCommentFieldTest()
         {
-            CheckLanguageLevelField("Comment");
+            string fieldName = GlossaryEditStructureForm.attributeDict[GlossaryEditStructureFormHelper.ATTRIBUTE_TYPE.Comment];
+            CheckLanguageLevelField(fieldName);
         }
 
         /// <summary>
@@ -35,7 +36,8 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
         [Test]
         public void AddInterpretationFieldTest()
         {
-            CheckLanguageLevelField("Interpretation");
+            string fieldName = GlossaryEditStructureForm.attributeDict[GlossaryEditStructureFormHelper.ATTRIBUTE_TYPE.Interpretation];
+            CheckLanguageLevelField(fieldName);
         }
 
         /// <summary>
@@ -44,9 +46,14 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
         [Test]
         public void AddInterpretationSourceFieldTest()
         {
-            CheckLanguageLevelField("InterpretationSource");
+            string fieldName = GlossaryEditStructureForm.attributeDict[GlossaryEditStructureFormHelper.ATTRIBUTE_TYPE.InterpretationSource];
+            CheckLanguageLevelField(fieldName);
         }
 
+        /// <summary>
+        /// Проверить поля уровня Language
+        /// </summary>
+        /// <param name="fieldName">назваие поля</param>
         protected void CheckLanguageLevelField(string fieldName)
         {
             // Имя глоссария для тестирования структуры уровня Language, чтобы не создавать лишний раз
@@ -66,66 +73,48 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             AddAllSystemLanguageFieldStructure();
 
             // Нажать New item
-            Wait.Until((d) => d.FindElement(By.XPath(
-                ".//span[contains(@class,'js-add-concept')]"))).Click();
+            GlossaryPage.ClickNewItemBtn();
             // Заполнить термин
             FillNewItemExtended();
 
             // Нажать на язык, чтобы появились поля для Language
-            Driver.FindElement(By.XPath(".//div[contains(@class,'js-node js-lang-node')]")).Click();
+            GlossaryPage.OpenLanguageAttributes();
             // Проверить, что поле есть            
-            string textareaXPath = ".//td[contains(@class,'js-details-panel')]//textarea[@name='" + fieldName + "']";
-            Assert.IsTrue(Driver.FindElements(By.XPath(textareaXPath)).Count > 0, "Ошибка: поле не появилось!");
+            Assert.IsTrue(GlossaryPage.GetIsExistDetailsTextarea(fieldName), "Ошибка: поле не появилось!");
             // Ввести текст в поле
             string fieldExample = fieldName + " Example";
-            Driver.FindElement(By.XPath(textareaXPath)).SendKeys(fieldExample);
+            GlossaryPage.FillDetailTextarea(fieldName, fieldExample);
 
             // Сохранить термин
-            Driver.FindElement(By.XPath(".//span[contains(@class,'js-save-btn js-edit')]")).Click();
+            GlossaryPage.ClickSaveExtendedConcept();
             // Дождаться появления поля с сохраненным термином
-            Wait.Until((d) => d.FindElement(By.XPath(".//tr[contains(@class,'js-concept-row opened')]")).Displayed);
+            Assert.IsTrue(GlossaryPage.WaitConceptSave(), "Ошибка: термин не сохранился");
             // Нажать на язык, чтобы появились поля для Language
-            Driver.FindElement(By.XPath(".//div[contains(@class,'js-node js-lang-node')]")).Click();
-            string fieldText = Driver.FindElement(By.XPath(
-                ".//div[contains(@class,'js-lang-attrs')]//textarea[@name='" + fieldName + "']/../..//div[contains(@class,'js-value')]")).Text;
+            GlossaryPage.OpenLanguageAttributes();
+            string fieldText = GlossaryPage.GetDetailTextareaValue(fieldName);
 
             Assert.AreEqual(fieldExample, fieldText, "Ошибка: текст не сохранился\n");
         }
 
+        /// <summary>
+        /// Изменить структуру: добавить все поля уровня Language
+        /// </summary>
         protected void AddAllSystemLanguageFieldStructure()
         {
             // Открыть редактирование структуры
             OpenEditGlossaryStructure();
 
             // Выбрать уровень "Language"
-            Driver.FindElement(By.XPath(".//span[contains(@class,'js-dropdown__text level')]")).Click();
-            Driver.FindElement(By.XPath(
-                ".//span[contains(@class,'js-dropdown__list level g-drpdwn__list')]//span[@data-id='language']")).Click();
+            GlossaryEditStructureForm.ClickLevelDropdown();
+            GlossaryEditStructureForm.SelectLanguageLevel();
 
-            List<string> fieldsList = new List<string>();
-            fieldsList.Add("Interpretation");
-            fieldsList.Add("InterpretationSource");
-            fieldsList.Add("Comment");
-
-            foreach (string field in fieldsList)
-            {
-                // Получить xPath строки с нужным полем
-                string rowXPath = ".//table[contains(@class, 'js-predefined-attrs-table language')]//tr[contains(@class, 'js-attr-row')][contains(@data-attr-key,'" + field + "')]";
-                // Получить аттрибут class этой строки
-                if (!Driver.FindElement(By.XPath(rowXPath)).GetAttribute("class").Contains("g-hidden"))
-                {
-                    rowXPath += "/td[1]";
-                    // Нажать на поле
-                    Driver.FindElement(By.XPath(rowXPath)).Click();
-                    // Добавить
-                    Wait.Until((d) => d.FindElement(By.XPath(".//span[contains(@class,'js-add-tbx-attribute')]"))).Click();
-                }
-            }
+            // Добавить все поля
+            GlossaryEditStructureForm.SelectAllFields();
 
             // Сохранить
-            Driver.FindElement(By.XPath(".//div[contains(@class, 'js-popup-buttons')]//span[contains(@class, 'js-save')]")).Click();
+            GlossaryEditStructureForm.ClickSaveStructureBtn();
             // Дождаться закрытия формы
-            WaitUntilDisappearElement(".//div[contains(@class,'js-popup-edit-structure')]");
+            GlossaryEditStructureForm.WaitFormClose();
         }
     }
 }

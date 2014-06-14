@@ -64,8 +64,9 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             // Создать проект с пустым именем
             CreateDomain("", false);
 
-            // Проверить, остался ли проект в режиме редактирования - Assert внутри
-            AssertEditingModeDomain();
+            // Проверить, что проект не сохранился, а остался в режиме редактирования
+            Assert.IsTrue(DomainPage.GetIsNewDomainEditMode(),
+                "Ошибка: не остался в режиме редактирования");
         }
 
         /// <summary>
@@ -77,8 +78,9 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             // Создать проект с пробельным именем
             CreateDomain("  ", false);
 
-            // Проверить, остался ли проект в режиме редактирования - Assert внутри
-            AssertEditingModeDomain();
+            // Проверить, что проект не сохранился, а остался в режиме редактирования
+            Assert.IsTrue(DomainPage.GetIsNewDomainEditMode(),
+                "Ошибка: не остался в режиме редактирования");
         }
 
         /// <summary>
@@ -160,8 +162,9 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             // Изменить имя проекта
             SetDomainNewName(domainName, "", false);
 
-            // Проверить, остался ли проект в режиме редактирования - Assert внутри
-            AssertEditingModeDomain();
+            // Проверить, что проект не сохранился, а остался в режиме редактирования
+            Assert.IsTrue(DomainPage.GetIsEditMode(),
+                "Ошибка: не остался в режиме редактирования");
         }
 
         /// <summary>
@@ -177,8 +180,9 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             // Изменить имя проекта
             SetDomainNewName(domainName, "  ", false);
 
-            // Проверить, остался ли проект в режиме редактирования - Assert внутри
-            AssertEditingModeDomain();
+            // Проверить, что проект не сохранился, а остался в режиме редактирования
+            Assert.IsTrue(DomainPage.GetIsEditMode(),
+                "Ошибка: не остался в режиме редактирования");
         }
 
         /// <summary>
@@ -212,7 +216,7 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             CreateDomain(domainName);
 
             // Удалить проект
-            ClickDeleteDomain(domainName);
+            DomainPage.ClickDeleteDomain(domainName);
             // Проверить, что проект удалился
             Assert.IsTrue(!GetIsDomainExist(domainName), "Ошибка: проект не удалился");
         }
@@ -228,7 +232,7 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             CreateDomain(domainName);
 
             // Удалить проект
-            ClickDeleteDomain(domainName);
+            DomainPage.ClickDeleteDomain(domainName);
             // Проверить, что проекта нет в списке при создании TM
             Assert.IsTrue(!GetIsDomainExistCreateTM(domainName),
                 "Ошибка: проект остался в списке");
@@ -245,7 +249,7 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             CreateDomain(domainName);
 
             // Удалить проект
-            ClickDeleteDomain(domainName);
+            DomainPage.ClickDeleteDomain(domainName);
             // Проверить, что проекта нет в списке при создании глоссария
             Assert.IsTrue(!GetIsDomainExistCreateGlossaryTest(domainName),
                 "Ошибка: проект остался в списке");
@@ -262,31 +266,30 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             CreateDomain(domainName);
 
             // Удалить проект
-            ClickDeleteDomain(domainName);
+            DomainPage.ClickDeleteDomain(domainName);
             // Проверить, что проекта нет в списке при создании термина глоссария
             Assert.IsTrue(!GetIsDomainExistCreateGlossaryItemTest(domainName),
                 "Ошибка: проект остался в списке");
         }
         
+        /// <summary>
+        /// Изменить имя домена
+        /// </summary>
+        /// <param name="domainName">старое имя</param>
+        /// <param name="newDomainName">новое имя</param>
+        /// <param name="shouldSaveOk">должен сохраниться успешно</param>
         private void SetDomainNewName(string domainName, string newDomainName, bool shouldSaveOk = true)
         {
-            // Нажать на строку
-            string domainXPath = GetDomainRowXPath(domainName);
-            Driver.FindElement(By.XPath(domainXPath)).Click();
-            // Нажать на Изменить
-            string editBtnXPath = domainXPath + "//a[contains(@class,'domain js-edit-domain')]";
-            Driver.FindElement(By.XPath(editBtnXPath)).Click();
+            // Нажать на Edit
+            DomainPage.ClickEditDomainBtn(domainName);
 
             // Ввести новое имя проекта
-            string domainNameXPath = domainXPath + "//div[contains(@class,'js-edit-mode')]//input[contains(@class,'js-domain-name-input')]";
-            Driver.FindElement(By.XPath(domainNameXPath)).Clear();
-            Driver.FindElement(By.XPath(domainNameXPath)).SendKeys(newDomainName);
-            domainXPath += "//div[contains(@class,'l-corpr__domainbox js-edit-mode')]//a[contains(@class,'save js-save-domain')]";
+            DomainPage.EnterNewName(domainName, newDomainName);
             // Сохранить
-            Driver.FindElement(By.XPath(domainXPath)).Click();
+            DomainPage.ClickSaveDomain();
             if (shouldSaveOk)
             {
-                WaitUntilDisappearElement(domainXPath);
+                Assert.IsTrue(DomainPage.WaitUntilSave(), "Ошибка: не пропала кнопка Save");
             }
             else
             {
@@ -294,114 +297,69 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             }
         }
 
-        private string GetDomainRowXPath(string domainName)
-        {
-            string xPath = "";
-            // Получить список всех проектов
-            IList<IWebElement> DomainsList = Driver.FindElements(By.XPath(
-                ".//table[contains(@class,'js-domains js-sortable-table')]//tr[contains(@class,'l-corpr__trhover js-row')]"));
-            for (int i = 0; i < DomainsList.Count; ++i)
-            {
-                // Проверить имя проекта
-                if (DomainsList[i].Text == domainName)
-                {
-                    xPath = ".//tr[contains(@class,'l-corpr__trhover js-row')][" + (i + 1) + "]";
-                    break;
-                }
-            }
-            return xPath;
-        }
-
+        /// <summary>
+        /// Получить уникальное имя домена
+        /// </summary>
+        /// <returns>имя</returns>
         private string GetDomainUniqueName()
         {
             return "TestDomain" + DateTime.UtcNow.Ticks.ToString();
         }
 
+        /// <summary>
+        /// Проверка, есть ли ошибка существующего имени домена (Assert)
+        /// </summary>
         private void AssertExistingDomainNameError()
         {
             // Проверить, появилась ли ошибка существующего имени
-            string rowXPath = ".//table[contains(@class,'js-domains js-sortable-table')]//tr[contains(@class,'js-row js-error-row')]//div[contains(@class,'js-error-text g-hidden')]";
-            Assert.IsTrue(Driver.FindElement(By.XPath(rowXPath)).Displayed,
+            Assert.IsTrue(DomainPage.GetIsNameErrorExist(),
                 "Ошибка: не появилась ошибка существующего имени");
         }
 
-        private void ClickDeleteDomain(string domainName)
-        {
-            // Нажать на строку
-            string rowXPath = GetDomainRowXPath(domainName);
-            Driver.FindElement(By.XPath(rowXPath)).Click();
-            // Получить xPath кнопки Удалить для проекта
-            string deleteBtnXPath = rowXPath + "//a[contains(@class,'domain js-delete-domain')]";
-            // Нажать Удалить
-            Driver.FindElement(By.XPath(deleteBtnXPath)).Click();
-            WaitUntilDisappearElement(deleteBtnXPath);
-        }
-
+        /// <summary>
+        /// Вернуть, есть ли domain в списке при создании ТМ
+        /// </summary>
+        /// <param name="domainName"></param>
+        /// <returns></returns>
         private bool GetIsDomainExistCreateTM(string domainName)
         {
             // Перейти на вкладку ТМ
             SwitchTMTab();
 
             // Нажать кнопку Создать TM
-            Driver.FindElement(By.XPath(
-                ".//span[contains(@class,'l-corpr__addbtnbox')]//a[contains(@class,'g-btn__text g-redbtn__text')]")).Click();
-            // ждем загрузку формы
-            Wait.Until((d) => d.FindElement(By.XPath(
-                ".//div[contains(@class,'js-popup-create-tm')][2]")));
-
+            TMPage.ClickCreateTM();
+            
             // Нажать на открытие списка проектов
-            WaitAndClickElement(".//div[contains(@class,'js-domains-multiselect')]");
-            Wait.Until((d) => d.FindElement(By.XPath(".//div[contains(@class,'ui-multiselect-menu')][2]")).Displayed);
+            TMPage.ClickOpenDomainListCreateTM();
 
-            // Получить список проектов
-            IList<IWebElement> DomainList = Driver.FindElements(By.XPath(
-                ".//div[contains(@class,'ui-multiselect-menu')][2]//ul[contains(@class,'ui-multiselect-checkboxes')]//li//label//span[contains(@class,'ui-multiselect-item-text')]"));
-            bool isDomainExist = false;
-            foreach (IWebElement el in DomainList)
-            {
-                if (el.Text == domainName)
-                {
-                    // Если проект в списке
-                    isDomainExist = true;
-                    break;
-                }
-            }
-
-            return isDomainExist;
+            // Проверить, есть ли domain в списке
+            return TMPage.GetIsDomainExistCreateTM(domainName);
         }
 
+        /// <summary>
+        /// Вернуть, есть ли domain в списке доменов при создании глоссария
+        /// </summary>
+        /// <param name="domainName"></param>
+        /// <returns></returns>
         private bool GetIsDomainExistCreateGlossaryTest(string domainName)
         {
             // Перейти на вкладку Глоссарии
             SwitchGlossaryTab();
 
             // Нажать кнопку Create a glossary
-            Driver.FindElement(By.XPath(
-                ".//span[contains(@class,'js-create-glossary-button')]//a[contains(@class,'g-btn__text g-redbtn__text')]")).Click();
-            // ждем загрузку формы
-            Wait.Until((d) => d.FindElement(By.XPath(
-                ".//div[contains(@class,'js-popup-edit-glossary')][2]")));
+            OpenCreateGlossary();
 
-            string xPathDomainField = ".//div[contains(@class,'js-popup-edit-glossary')][2]//input[contains(@name,'Domain')]";
             // Нажать, чтобы появился список проектов
-            WaitAndClickElement(xPathDomainField + "/..//div[contains(@class,'ui-multiselect')]");
-            // Получить список проектов в списке
-            IList<IWebElement> DomainList = Driver.FindElements(By.XPath(
-                ".//ul[contains(@class,'ui-multiselect-checkboxes')]//span[contains(@class,'ui-multiselect-item-text')]"));
-            bool isDomainExist = false;
-            foreach (IWebElement el in DomainList)
-            {
-                if (el.Text == domainName)
-                {
-                    // Если проект в списке
-                    isDomainExist = true;
-                    break;
-                }
-            }
-
-            return isDomainExist;
+            GlossaryEditForm.ClickOpenDomainList();
+            // Есть ли domain в списке
+            return GlossaryEditForm.GetIsDomainInList(domainName);
         }
 
+        /// <summary>
+        /// Вернуть, есть ли domain в списке доменов при создании термина глоссария
+        /// </summary>
+        /// <param name="domainName"></param>
+        /// <returns></returns>
         private bool GetIsDomainExistCreateGlossaryItemTest(string domainName)
         {
             // Перейти на вкладку Глоссарии
@@ -411,60 +369,31 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             CreateGlossaryByName("Test Glossary Check Domain" + DateTime.Now);
 
             // Открыть Редактирование глоссария
-            Wait.Until((d) => d.FindElement(By.XPath(
-                ".//span[contains(@class,'js-edit-submenu')]"))).Click();
-            // Выбрать Редактирование структуры
-            Wait.Until((d) => d.FindElement(By.XPath(
-                ".//div[contains(@class,'js-edit-structure-btn')]"))).Click();
-            // Дождаться появления формы
-            Wait.Until((d) => d.FindElement(By.XPath(
-                ".//div[contains(@class,'js-popup-edit-structure')]")));
+            GlossaryPage.OpenEditGlossaryList();
+            // Открыть форму Редактирование структуры
+            GlossaryPage.OpenEditStructureForm();
+            GlossaryEditStructureForm.WaitPageLoad();
+            // Проверить, что открыта нужнная таблица
+            Assert.IsTrue(GlossaryEditStructureForm.GetIsConceptTableDisplay(), "Ошибка: в редакторе структуры отображается не та таблица");
 
-            // Получить xPath строки с нужным полем
-            string rowXPath = ".//table[contains(@class, 'js-predefined-attrs-table concept')]//tr[contains(@class, 'js-attr-row')][contains(@data-attr-key,'Domain')]/td[1]";
-            // Нажать на поле
-            WaitAndClickElement(rowXPath);
+            // Нажать на поле Domain
+            Assert.IsTrue(GlossaryEditStructureForm.ClickFieldToAdd(GlossaryEditStructureFormHelper.ATTRIBUTE_TYPE.Domain),
+                "Ошибка: не удалось выделить поле Domain");
             // Добавить
-            Wait.Until((d) => d.FindElement(By.XPath(".//span[contains(@class,'js-add-tbx-attribute')]"))).Click();
+            GlossaryEditStructureForm.ClickAddToListBtn();
 
             // Сохранить
-            Driver.FindElement(By.XPath(".//div[contains(@class, 'js-popup-buttons')]//span[contains(@class, 'js-save')]")).Click();
+            GlossaryEditStructureForm.ClickSaveStructureBtn();
             // Дождаться закрытия формы
-            WaitUntilDisappearElement(".//div[contains(@class,'js-popup-edit-structure')]");
+            GlossaryEditStructureForm.WaitFormClose();
 
             // Нажать New item
-            Wait.Until((d) => d.FindElement(By.XPath(
-                ".//span[contains(@class,'js-add-concept')]"))).Click();
+            GlossaryPage.ClickNewItemBtn();
 
-            // Нажать на поле появилось
-            string fieldXPath =
-                ".//div[contains(@class,'js-concept-attrs')]//div[contains(@class,'l-corpr__viewmode__edit js-edit')]//select[@name='Domain']/..//span[contains(@class,'js-dropdown')]";
-            WaitAndClickElement(fieldXPath);
-
-            // Получить список проектов в списке
-            IList<IWebElement> DomainList = Driver.FindElements(By.XPath(
-                ".//span[contains(@class,'js-dropdown__list')]//span[contains(@class,'js-dropdown__item')]"));
-            bool isDomainExist = false;
-            foreach (IWebElement el in DomainList)
-            {
-                if (el.Text == domainName)
-                {
-                    // Если проект в списке
-                    isDomainExist = true;
-                    break;
-                }
-            }
-
-            return isDomainExist;
-        }
-
-        private void AssertEditingModeDomain()
-        {
-            // Проверить, что проект не сохранился, а остался в режиме редактирования
-            string saveBtnXPath =
-                ".//tr[@class='l-corpr__trhover js-row']//td[contains(@class,'js-cell')]//div[contains(@class,'js-edit-mode')]//a[contains(@class,'domain save js-save-domain')]";
-            Assert.IsTrue(Driver.FindElement(By.XPath(saveBtnXPath)).Displayed,
-                "Ошибка: не остался в режиме редактирования");
+            // Нажать на поле
+            GlossaryPage.NewItemClickDomainField();
+            // Вернуть, есть ли domain в списке
+            return GlossaryPage.GetIsDomainExistInItemDomainList(domainName);
         }
     }
 }

@@ -64,8 +64,9 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             // Создать клиента с пустым именем
             CreateClient("", false);
 
-            // Проверить, что клиент не сохранился, в остался в режиме редактирования - Assert внутри
-            AssertEditingModeClient();
+            // Проверить, что клиент не сохранился, а остался в режиме редактирования
+            Assert.IsTrue(ClientPage.GetIsNewClientEditMode(),
+                "Ошибка: не остался в режиме редактирования");
         }
 
         /// <summary>
@@ -77,8 +78,9 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             // Создать клиента с пробельным именем
             CreateClient("  ", false);
 
-            // Проверить, что клиент не сохранился, а остался в режиме редактирования - Asssert внутри
-            AssertEditingModeClient();
+            // Проверить, что клиент не сохранился, а остался в режиме редактирования
+            Assert.IsTrue(ClientPage.GetIsNewClientEditMode(),
+                "Ошибка: не остался в режиме редактирования");
         }
 
         /// <summary>
@@ -141,13 +143,12 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             // Создать клиента с уникальным именем
             string clientName = GetClientUniqueName();
             CreateClient(clientName);
-            // Получить xPath кнопки Сохранить для созданного клиента
-            string saveBtnXPath = GetClientRowXPath(clientName) + "//div[contains(@class,'js-edit-mode')]//a[contains(@class,'save js-save-client')]";
 
             // Изменить имя клиента
             SetClientNewName(clientName, "", false);
-            // Проверить, что клиент не сохранился, а остался в режиме редактирования - Assert внутри
-            AssertEditingModeClient();
+            // Проверить, что клиент не сохранился, а остался в режиме редактирования
+            Assert.IsTrue(ClientPage.GetIsEditMode(),
+                "Ошибка: не остался в режиме редактирования");
         }
 
         /// <summary>
@@ -159,13 +160,12 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             // Создать клиента с уникальным именем
             string clientName = GetClientUniqueName();
             CreateClient(clientName);
-            // Получить xPath кнопки Сохранить для созданного клиента
-            string saveBtnXPath = GetClientRowXPath(clientName) + "//div[contains(@class,'js-edit-mode')]//a[contains(@class,'save js-save-client')]";
 
             // Изменить имя клиента
             SetClientNewName(clientName, "  ", false);
-            // Проверить, что клиент не сохранился, а остался в режиме редактирования - Assert внутри
-            AssertEditingModeClient();
+            // Проверить, что клиент не сохранился, а остался в режиме редактирования
+            Assert.IsTrue(ClientPage.GetIsEditMode(),
+                "Ошибка: не остался в режиме редактирования");
         }
 
         /// <summary>
@@ -237,55 +237,44 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
                 "Ошибка: клиент остался в списке");
         }
         
+        /// <summary>
+        /// Перейти на страницу клиентов
+        /// </summary>
         private void SwitchClientTab()
         {
             // Перейти на страницу Клиенты
-            Driver.FindElement(By.XPath(
-                ".//ul[@class='g-corprmenu__list']//a[contains(@href,'/Clients')]")).Click();
-            Wait.Until((d) => d.FindElement(By.XPath(
-                ".//span[contains(@class,'g-btn g-redbtn js-add-client')]//a[contains(@class,'g-btn__text g-redbtn__text')]"))
-                .Displayed);
+            MainHelperClass.ClickOpenClientPage();
+            ClientPage.WaitPageLoad();
         }
 
+        /// <summary>
+        /// Создать уникальное имя для клиента
+        /// </summary>
+        /// <returns>имя</returns>
         private string GetClientUniqueName()
         {
             return "TestClient" + DateTime.UtcNow.Ticks.ToString();
         }
 
+        /// <summary>
+        /// Создать нового клиента
+        /// </summary>
+        /// <param name="clientName">имя клиента</param>
+        /// <param name="shouldSaveOk">должен успешно сохраниться</param>
         private void CreateClient(string clientName, bool shouldSaveOk = true)
         {
             // Нажать "Новый клиент"
-            Driver.FindElement(By.XPath(
-                ".//span[contains(@class,'g-btn g-redbtn js-add-client')]//a[contains(@class,'g-btn__text g-redbtn__text')]")).Click();
-            string rowXPath = ".//table[contains(@class,'js-clients')]//tr[contains(@class,'l-corpr__trhover js-row')]";
-            // Получить все строки в таблице с клиентами
-            IList<IWebElement> rowsList = Driver.FindElements(By.XPath(rowXPath));
-            string tdXPath = "";
-            for (int i = 0; i < rowsList.Count; ++i)
-            {
-                // Найти нескрытую строку для ввода имени нового клиента
-                if (!rowsList[i].GetAttribute("class").Contains("g-hidden"))
-                {
-                    tdXPath = rowXPath + "[" + (i + 1) + "]//td[contains(@class,'js-cell')]";
-                    if (Driver.FindElement(By.XPath(tdXPath)).GetAttribute("class").Contains("clientNew"))
-                    {
-                        string clientNameXPath = tdXPath +
-                            "//div[contains(@class,'js-edit-mode')]//input[contains(@class,'js-client-name-input')]";
-                        // Ввести имя клиента
-                        Driver.FindElement(By.XPath(clientNameXPath)).SendKeys(clientName);
-                        break;
-                    }
-                }
-            }
+            ClientPage.ClickCreateClientBtn();
+            // Ввести имя
+            ClientPage.EnterNewClientName(clientName);
 
             // Расширить окно, чтобы кнопка была видна, иначе она недоступна для Selenium
             Driver.Manage().Window.Maximize();
-            tdXPath += "//div[contains(@class,'l-corpr__clientbox js-edit-mode')]//a[contains(@class,'save js-save-client')]";
             // Сохранить клиента
-            Driver.FindElement(By.XPath(tdXPath)).Click();
+            ClientPage.ClickSaveBtn();
             if (shouldSaveOk)
             {
-                WaitUntilDisappearElement(tdXPath);
+                Assert.IsTrue(ClientPage.WaitSaveBtnDisappear(), "Ошибка: клиент не сохранился");
             }
             else
             {
@@ -293,127 +282,84 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             }
         }
 
+        /// <summary>
+        /// Вернуть, есть ли клиент в списке
+        /// </summary>
+        /// <param name="clientName">название</param>
+        /// <returns>есть</returns>
         private bool GetIsClientExist(string clientName)
         {
-            // Получить список всех клиентов
-            IList<IWebElement> clientsList = Driver.FindElements(By.XPath(
-                ".//table[contains(@class,'js-clients js-sortable-table')]//tr[contains(@class,'l-corpr__trhover js-row')]"));
-            bool bClientExist = false;
-            foreach (IWebElement el in clientsList)
-            {
-                // Проверить имя клиента
-                if (el.Text == clientName)
-                {
-                    bClientExist = true;
-                    break;
-                }
-            }
-            return bClientExist;
+            return ClientPage.GetIsClientExist(clientName);
         }
 
+        /// <summary>
+        /// Проверить, есть ли ошибка существующего имени
+        /// </summary>
         private void AssertExistingClientNameError()
         {
             // Проверить, появилась ли ошибка существующего имени
-            string rowXPath = ".//table[contains(@class,'js-clients js-sortable-table')]//tr[contains(@class,'js-row js-error-row')]//div[contains(@class,'js-error-text g-hidden')]";
-            Assert.IsTrue(Driver.FindElement(By.XPath(rowXPath)).Displayed,
+            Assert.IsTrue(ClientPage.GetIsNameErrorExist(),
                 "Ошибка: не появилась ошибка существующего имени");
         }
 
-        private void AssertEditingModeClient()
-        {
-            // Проверить, что клиент не сохранился, а остался в режиме редактирования
-            string saveBtnXPath =
-                ".//tr[@class='l-corpr__trhover js-row']//td[contains(@class,'js-cell')]//div[contains(@class,'js-edit-mode')]//a[contains(@class,'client save js-save-client')]";
-            Assert.IsTrue(Driver.FindElement(By.XPath(saveBtnXPath)).Displayed,
-                "Ошибка: не остался в режиме редактирования");
-        }
-
+        /// <summary>
+        /// Вернуть, есть ли клиент в списке при создании ТМ
+        /// </summary>
+        /// <param name="clientName">название</param>
+        /// <returns>есть</returns>
         private bool GetIsClientExistCreateTM(string clientName)
         {
             // Перейти на вкладку ТМ
             SwitchTMTab();
 
             // Нажать кнопку Создать TM
-            Driver.FindElement(By.XPath(
-                ".//span[contains(@class,'l-corpr__addbtnbox')]//a[contains(@class,'g-btn__text g-redbtn__text')]")).Click();
-            // ждем загрузку формы
-            Wait.Until((d) => d.FindElement(By.XPath(
-                ".//div[contains(@class,'js-popup-create-tm')][2]")));
+            TMPage.ClickCreateTM();
 
             // Нажать на открытие списка клиентов
-            Driver.FindElement(By.XPath(".//span[contains(@class,'js-client-select')]")).Click();
-            Wait.Until((d) => d.FindElement(By.XPath(".//span[contains(@class,'js-client-select g-drpdwn__list')]")).Displayed);
+            TMPage.ClickOpenClientListCreateTM();
 
-            // Получить список клиентов
-            IList<IWebElement> clientList = Driver.FindElements(By.XPath(
-                ".//span[contains(@class,'js-client-select g-drpdwn__list')]//span[contains(@class,'js-dropdown__item')]"));
-            bool bClientExist = false;
-            foreach (IWebElement el in clientList)
-            {
-                if (el.GetAttribute("title") == clientName)
-                {
-                    // Если клиент в списке
-                    bClientExist = true;
-                    break;
-                }
-            }
-
-            return bClientExist;
+            // Есть ли клиент в списке
+            return TMPage.GetIsClientExistCreateTM(clientName);
         }
 
+        /// <summary>
+        /// Проверить, есть ли клиент в списке клиентов при создании глоссария
+        /// </summary>
+        /// <param name="clientName">название клиента</param>
+        /// <returns>есть</returns>
         private bool GetIsClientExistCreateGlossaryTest(string clientName)
         {
             // Перейти на вкладку Глоссарии
             SwitchGlossaryTab();
 
             // Нажать кнопку Create a glossary
-            Driver.FindElement(By.XPath(
-                ".//span[contains(@class,'js-create-glossary-button')]//a[contains(@class,'g-btn__text g-redbtn__text')]")).Click();
-            // ждем загрузку формы
-            Wait.Until((d) => d.FindElement(By.XPath(
-                ".//div[contains(@class,'js-popup-edit-glossary')][2]")));
+            OpenCreateGlossary();
 
             // Нажать, чтобы появился список клиентов
-            string xPathClientField = ".//div[contains(@class,'js-popup-edit-glossary')][2]//select[contains(@name,'Client')]";
-            Driver.FindElement(By.XPath(
-                xPathClientField + "/..//span[contains(@class,'js-dropdown')]")).Click();
-            WaitUntilDisplayElement(".//span[contains(@class,'js-dropdown__list  g-drpdwn__list')]");
-            // Получить список клиентов
-            IList<IWebElement> clientList = Driver.FindElements(By.XPath(
-                ".//span[contains(@class,'js-dropdown__list  g-drpdwn__list')]//span[contains(@class,'js-dropdown__item')]"));
-            bool bClientExist = false;
-            foreach (IWebElement el in clientList)
-            {
-                if (el.GetAttribute("title") == clientName)
-                {
-                    // Если клиент в списке
-                    bClientExist = true;
-                    break;
-                }
-            }
-
-            return bClientExist;
+            GlossaryEditForm.ClickOpenClientList();
+            // Есть ли клиент в списке
+            return GlossaryEditForm.GetIsClientInList(clientName);
         }
 
+        /// <summary>
+        /// Переименовать
+        /// </summary>
+        /// <param name="clientName">старое имя</param>
+        /// <param name="newClientName">новое имя</param>
+        /// <param name="shouldSaveOk">должен сохраниться</param>
         private void SetClientNewName(string clientName, string newClientName, bool shouldSaveOk = true)
         {
             // Нажать Изменить
-            string clientXPath = GetClientRowXPath(clientName);
-            WaitAndClickElement(clientXPath);
-            string editBtnXPath = clientXPath + "//a[contains(@class,'client js-edit-client')]";
-            WaitAndClickElement(editBtnXPath);
+            ClientPage.ClickEdit(clientName);
 
             // Ввести новое имя клиента
-            string clientNameXPath = clientXPath + "//div[contains(@class,'js-edit-mode')]//input[contains(@class,'js-client-name-input')]";
-            Driver.FindElement(By.XPath(clientNameXPath)).Clear();
-            Driver.FindElement(By.XPath(clientNameXPath)).SendKeys(newClientName);
+            ClientPage.EnterNewName(newClientName);
 
-            clientXPath += "//div[contains(@class,'l-corpr__clientbox js-edit-mode')]//a[contains(@class,'save js-save-client')]";
             // Сохранить
-            Driver.FindElement(By.XPath(clientXPath)).Click();
+            ClientPage.ClickSaveBtn();
             if (shouldSaveOk)
             {
-                WaitUntilDisappearElement(clientXPath);
+                Assert.IsTrue(ClientPage.WaitSaveBtnDisappear(), "Ошибка: клиент не сохранился");
             }
             else
             {
@@ -421,31 +367,13 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             }
         }
 
-        private string GetClientRowXPath(string clientName)
-        {
-            string xPath = "";
-            // Получить список всех клиентов
-            IList<IWebElement> clientsList = Driver.FindElements(By.XPath(
-                ".//table[contains(@class,'js-clients js-sortable-table')]//tr[contains(@class,'l-corpr__trhover js-row')]"));
-            for (int i = 0; i < clientsList.Count; ++i)
-            {
-                // Проверить имя клиента
-                if (clientsList[i].Text == clientName)
-                {
-                    xPath = ".//tr[contains(@class,'l-corpr__trhover js-row')][" + (i + 1) + "]";
-                    break;
-                }
-            }
-            return xPath;
-        }
-
+        /// <summary>
+        /// Кликнуть Удалить
+        /// </summary>
+        /// <param name="clientName">название</param>
         private void ClickDeleteClient(string clientName)
         {
-            // Получить xPath кнопки Удалить
-            string deleteBtnXPath = GetClientRowXPath(clientName) + "//a[contains(@class,'client js-delete-client')]";
-            Driver.FindElement(By.XPath(deleteBtnXPath)).Click();
-            WaitUntilDisappearElement(".//a[contains(@class,'client js-delete-client')]");
-            Thread.Sleep(1000);
+            ClientPage.ClickDelete(clientName);
         }
     }
 }
