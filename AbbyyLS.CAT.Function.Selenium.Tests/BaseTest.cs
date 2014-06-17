@@ -799,13 +799,18 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             LoginPage.ClickSubmit();
 
             // Проверить, появился ли список аккаунтов
-            Assert.IsTrue(LoginPage.WaitAccountExist(accountName),
-                "Не появился выбор аккаунта: либо нет аккаунта (" + accountName + "), либо недоступен AOL");
-
-            // Выбрать аккаунт
-            LoginPage.ClickAccountName(accountName);
-            // Зайти на сайт
-            LoginPage.ClickSubmit();
+            if (LoginPage.WaitAccountExist(accountName))
+            {
+                // Выбрать аккаунт
+                LoginPage.ClickAccountName(accountName);
+                // Зайти на сайт
+                LoginPage.ClickSubmit();
+            }
+            else if (LoginPage.GetIsErrorExist())
+            {
+                Assert.Fail("Появилась ошибка при входе! М.б.недоступен AOL.");
+            }
+            // иначе у пользователя только 1 аккаунт
 
             // Изменили язык на Английский
             Assert.IsTrue(WorkspacePage.WaitAppearLocaleBtn(), "Не дождались загрузки страницы со ссылкой для изменения языка");
@@ -830,7 +835,7 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 
             // Ввести название проекта
             WorkspaceCreateProjectDialog.FillProjectName(projectName);
-            // Ывести deadline дату
+            // Ввести deadline дату
             WorkspaceCreateProjectDialog.FillDeadlineDate(_deadlineDate);
 
             // Выбрать Source - en

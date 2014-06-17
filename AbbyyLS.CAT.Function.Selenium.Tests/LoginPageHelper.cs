@@ -61,13 +61,28 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             ClickElement(By.XPath(GetAccountItemXPath(accountName)));
         }
 
+        /// <summary>
+        /// Вернуть, появилась ли ошибка
+        /// </summary>
+        /// <returns>появилась</returns>
+        public bool GetIsErrorExist()
+        {
+            SetDriverTimeoutMinimum();
+            bool isErrorExist = GetIsElementDisplay(By.XPath(ERROR_XPATH));
+            SetDriverTimeoutDefault();
+            return isErrorExist;
+        }
+
         protected string GetAccountItemXPath(string accountName)
         {
             return "//select/option[contains(text(), '" + accountName + "')]";
         }
 
+        
+
         protected const string EMAIL_CSS = "input[name=\"email\"]";
         protected const string PASSWORD_CSS = "input[name=\"password\"]";
         protected const string SUBMIT_BTN_CSS = "input[type =\"submit\"]";
+        protected const string ERROR_XPATH = "//div[contains(@class,'js-dynamic-errors')]";
     }
 }

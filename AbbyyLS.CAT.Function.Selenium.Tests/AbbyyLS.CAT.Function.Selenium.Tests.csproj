@@ -73,7 +73,7 @@
     <Compile Include="GlossaryListPageHelper.cs" />
     <Compile Include="GlossaryPageHelper.cs" />
     <Compile Include="GlossaryEditStructureFormHelper.cs" />
-    <Compile Include="GlossarySuggestedTerms.cs" />
+    <Compile Include="GlossarySuggestedTermsTest.cs" />
     <Compile Include="GlossarySuggestPageHelper.cs" />
     <Compile Include="GlossaryTest.cs" />
     <Compile Include="LoginPageHelper.cs" />
@@ -83,7 +83,7 @@
     <Compile Include="Project_MainTest.cs" />
     <Compile Include="Project_ExportTest.cs" />
     <Compile Include="Project_ImportTest.cs" />
-    <Compile Include="Project_SaveSettingsByBack.cs" />
+    <Compile Include="Project_SaveSettingsByBackTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SearchPageHelper.cs" />
     <Compile Include="SuggestTermDialogHelper.cs" />
