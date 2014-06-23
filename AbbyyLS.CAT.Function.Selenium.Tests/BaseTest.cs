@@ -587,6 +587,18 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             }
         }
 
+		/// <summary>
+		/// Страница выдачи
+		/// </summary>
+		private CatPanelResultsHelper _catPanelHelper;
+		protected CatPanelResultsHelper CatPanel
+		{
+			get
+			{
+				return _catPanelHelper;
+			}
+		}
+
 
         // информация о тесте
         DateTime testBeginTime;
@@ -703,6 +715,7 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             _suggestTermDialogHelper = new SuggestTermDialogHelper(Driver, Wait);
             _glossaryEditFormHelper = new GlossaryEditFormHelper(Driver, Wait);
             _glossarySuggestPageHelper = new GlossarySuggestPageHelper(Driver, Wait);
+			_catPanelHelper = new CatPanelResultsHelper(Driver, Wait);
         }
 
         /// <summary>
@@ -912,7 +925,7 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             //SetUpWorkflow();
             WorkspaceCreateProjectDialog.ClickNextStep();
 
-            //5 шаг - настройка Pretranslate            
+            //5 шаг - настройка Pretranslate
             //Pretranslate();
             //Finish
             WorkspaceCreateProjectDialog.ClickFinishCreate();

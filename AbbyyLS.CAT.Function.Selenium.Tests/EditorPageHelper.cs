@@ -8,6 +8,8 @@ using OpenQA.Selenium.Firefox;
 using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.IE;
 using OpenQA.Selenium.Support.UI;
+using System.Windows.Forms;
+using System.Threading;
 
 namespace AbbyyLs.CAT.Function.Selenium.Tests
 {
@@ -19,6 +21,7 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             CATTypeDict = new Dictionary<CAT_TYPE, string>();
             CATTypeDict.Add(CAT_TYPE.MT, "MT");
             CATTypeDict.Add(CAT_TYPE.TM, "TM");
+			CATTypeDict.Add(CAT_TYPE.TB, "TB");
         }
 
         /// <summary>
@@ -148,7 +151,7 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
         public bool WaitSegmentConfirm(int segmentRowNumber)
         {
             string xPath = SEGMENT_ROW_XPATH + "[" + segmentRowNumber + "]//td[contains(@class,'" + INFO_COLUMN_CLASS + "')]//span[contains(@class,'" + CONFIRMED_ICO_CLASS + "')]";
-            return WaitUntilDisplayElement(By.XPath(xPath));    
+			return WaitUntilDisplayElement(By.XPath(xPath));
         }
 
         /// <summary>
@@ -290,6 +293,32 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             return SEGMENTS_CSS + ":nth-child(" + rowNumber + ")" + " td." + SOURCE_CELL_CLASS +" div";
         }
 
+		/// <summary>
+		/// Возвращает список подсвеченных в сегменте текстов
+		/// </summary>
+		/// <param name="segmentRowNumber">Номер сегмента</param>
+		/// <returns>Список подсвеченных в сегменте текстов</returns>
+		public List<string> GetSegmentSelectedTexts(int segmentRowNumber)
+		{
+			List<string> selectedTexts = new List<string>();
+			// Выбор нужного сегмента
+			ClickSourceCell(segmentRowNumber);
+			Thread.Sleep(1000);
+
+			// Выборка подсвеченных слов в сегменте
+			string xPath = SEGMENT_ROW_XPATH + "[" + segmentRowNumber + "]//td[2]//div//pre//span";
+			IList<IWebElement> segmentCatSelectedList = GetElementList(By.XPath(xPath));
+			
+			if (segmentCatSelectedList.Count > 0)
+			{
+				foreach (IWebElement item in segmentCatSelectedList)
+				{
+					selectedTexts.Add(item.Text);
+				}
+			}
+			return selectedTexts;
+		}
+
         protected const string TITLE_TEXT = "Editor";
         protected const string SEGMENTS_CSS = "#segments-body div table tr";
         protected const string FIRST_SOURCE_CSS = SEGMENTS_CSS + ":nth-child(1)";
@@ -309,6 +338,7 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
         protected const string CONFIRMED_ICO_CLASS = "fa-check";
         protected const string TARGET_CELL_CLASS = "target-cell";
         protected const string SOURCE_CELL_CLASS = "source-cell";
+		protected const string SEGMENT_CAT_SELECTED = "cat-selected";
 
         protected const string SPELL_CHECK_CONTEXT_CLASS = "div[contains(@class,'mce-container-body')]";
         protected const string FIRST_SPELL_CHECK_ROW_XPATH = SPELL_CHECK_CONTEXT_CLASS + "//div[1]//span";
@@ -318,10 +348,11 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
         protected const string CAT_PANEL_TYPE_COLUMN_XPATH = CAT_PANEL_EXISTENCE_XPATH + "//td[3]/div";
         protected const string CAT_PANEL_TEXT_COL_PART = "//td[4]/div";
         protected const string CAT_PANEL_TEXT_COLUMN_XPATH = CAT_PANEL_EXISTENCE_XPATH + CAT_PANEL_TEXT_COL_PART;
+		protected const string CAT_PANEL_TYPE_COLUMN_MATCH_XPATH = CAT_PANEL_EXISTENCE_XPATH + "//td[3]//div//span";
 
         protected const string SAVE_BTN_UNAVAILABLE_XPATH = ".//a[@id='" + SAVE_BTN_ID + "' and contains(@class,'x-btn-disabled')]";
 
-        public enum CAT_TYPE {MT, TM};
+        public enum CAT_TYPE {MT, TM, TB};
         protected Dictionary<CAT_TYPE, string> CATTypeDict;
     }
 }

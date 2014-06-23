@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Firefox;
@@ -222,7 +223,6 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             ClickElement(By.XPath(DOWNLOAD_LOGS_BTN_XPATH));
         }
 
-
         /// <summary>
         /// Дождаться загрузки
         /// </summary>
@@ -340,6 +340,28 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             return GetElementClass(By.XPath(PROGRESS_DIALOG_ASSIGN_SPAN_XPATH)).Contains("notAssigned");
         }
 
+		/// <summary>
+		/// Находит глоссарий по имени и выбирает его
+		/// </summary>
+		/// <param name="nameGlossary"></param>
+		/// <returns>Найдена переменная или нет</returns>
+		public void SetGlossaryByName(string nameGlossary)
+		{
+			// Выборка имен глоссариев
+			IList <IWebElement> glossaryList = GetElementList(By.XPath(GLOSSARY_LIST_XPATH + "//td[2]"));
+			for (int i = 0; i < glossaryList.Count; ++i)
+			{
+				if (glossaryList[i].Text.Contains(nameGlossary))
+				{
+					// Включаем требуемый глоссарий
+					ClickElement(By.XPath(GLOSSARY_LIST_XPATH + "[" + (i+1).ToString() + "]//td[1]"));
+					Thread.Sleep(1000);
+					ClickElement(By.XPath(EDIT_GLOSSARY_SAVE_BTN_XPATH));
+					Thread.Sleep(1000);
+				}
+			}
+		}
+
         protected const string PROJECT_TABLE_XPATH = "//table[contains(@class,'l-project-panel-tbl')]";
         protected const string PROGRESS_BTN_XPATH = "//span[contains(@class,'js-document-progress')]";
         protected const string PROGRESS_DIALOG_XPATH = "//div[contains(@class,'js-popup-progress')][2]";
@@ -379,5 +401,8 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 
         protected const string CONFIRM_DIALOG_XPATH = "//div[contains(@class,'js-popup-confirm')]";
         protected const string CONFIRM_YES_XPATH = CONFIRM_DIALOG_XPATH + "//input[contains(@class,'js-submit-btn')]";
+
+		protected const string GLOSSARY_LIST_XPATH = "//table[contains(@class,'js-glossaries-table')]//tbody//tr";
+		protected const string EDIT_GLOSSARY_SAVE_BTN_XPATH = "//span[contains(@class,'js-glossaries-save')]";
     }
 }

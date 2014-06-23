@@ -51,6 +51,8 @@
   <ItemGroup>
     <Compile Include="Authorization.cs" />
     <Compile Include="BaseTest.cs" />
+    <Compile Include="CatPanelResultsTest.cs" />
+    <Compile Include="CatPanelResultsHelper.cs" />
     <Compile Include="ClientPageHelper.cs" />
     <Compile Include="CommonHelper.cs" />
     <Compile Include="AdminPageHelper.cs" />
