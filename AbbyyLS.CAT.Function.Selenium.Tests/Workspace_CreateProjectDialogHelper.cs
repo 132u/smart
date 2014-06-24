@@ -505,7 +505,7 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 
         protected const string CREATE_PROJECT_DIALOG_XPATH = "//div[contains(@class,'js-popup-create-project')][2]";
         protected const string DEADLINE_DATE_INPUT_XPATH = CREATE_PROJECT_DIALOG_XPATH + "//input[@name='deadlineDate']";
-        protected const string SOURCE_LANG_DROPDOWN_XPATH = CREATE_PROJECT_DIALOG_XPATH + "//span[contains(@class,'js-dropdown')]";
+		protected const string SOURCE_LANG_DROPDOWN_XPATH = CREATE_PROJECT_DIALOG_XPATH + "//div[select[@id='sourceLanguage']]/span";
         protected const string SPAN_DROPDOWN_LIST_XPATH = "//span[contains(@class,'js-dropdown__list')]";
         protected const string LANG_ITEM_XPATH = "//span[@data-id='";
         protected const string TARGET_MULTISELECT_XPATH = CREATE_PROJECT_DIALOG_XPATH + "//div[contains(@class,'js-languages-multiselect')]";
