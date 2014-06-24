@@ -498,6 +498,87 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             return MT_TABLE_XPATH + "//tr//td[contains(text(),'" + MTTypeDict[mtType] + "')]/../td[1]//input";
         }
 
+		/// <summary>
+		/// Возвращает список задач Workflow на этапе создания проекта
+		/// </summary>
+		/// <returns>Список строк</returns>
+		public List<string> GetWFTaskList()
+		{
+			List<string> wfTaskList = new List<string>();
+
+			// Выборка задач workflow
+			string xPath = WF_TABLE_XPATH + "//tr//td[2]//span//span";
+			IList<IWebElement> wfTaskIList = GetElementList(By.XPath(xPath));
+
+			if (wfTaskIList.Count > 0)
+			{
+				foreach (IWebElement item in wfTaskIList)
+				{
+					wfTaskList.Add(item.Text);
+				}
+			}
+			return wfTaskList;
+		}
+
+		/// <summary>
+		/// Возвращает список всех типов workflow для заданной задачи
+		/// </summary>
+		/// <param name="taskNumber">Номер задачи</param>
+		/// <returns>Список типов задачи</returns>
+		public List<string> GetWFTaskTypeList(int taskNumber)
+		{
+			List<string> wfTaskList = new List<string>();
+
+			// Выбор задачи workflow
+			string workflowXPath = WF_TABLE_XPATH + "//tr[" + taskNumber.ToString() + "]//td[2]//span//span";
+
+			// Получение выпадающего списка
+			ClickElement(By.XPath(workflowXPath));
+			IList<IWebElement> wfDropdownIList = GetElementList(By.XPath(WF_DROPDOWNLIST_XPATH));
+
+			// Выбираем заданный
+			foreach (IWebElement wfTaskType in wfDropdownIList)
+			{
+				wfTaskList.Add(wfTaskType.Text);
+			}
+
+			return wfTaskList;
+		}
+
+		/// <summary>
+		/// Задает тип задачи Workflow
+		/// </summary>
+		/// <param name="taskNumber">Номер задачи</param>
+		/// <param name="taskType">Тип задачи из выпадающего списка</param>
+		public void SetWFTaskList(int taskNumber, string taskType)
+		{
+			List<string> wfTaskList = new List<string>();
+			
+			// Выбор задачи workflow
+			string workflowXPath = WF_TABLE_XPATH + "//tr[" + taskNumber.ToString() + "]//td[2]//span//span";
+			
+			// Получение выпадающего списка
+			ClickElement(By.XPath(workflowXPath));
+			IList<IWebElement> wfDropdownIList = GetElementList(By.XPath(WF_DROPDOWNLIST_XPATH));
+
+			// Выбираем заданный
+			foreach (IWebElement wfTaskType in wfDropdownIList)
+			{
+				if (wfTaskType.Text == taskType)
+				{
+					wfTaskType.Click();
+					break;
+				}
+			}
+		}
+
+		/// <summary>
+		/// Кликаем добавить новую задачу
+		/// </summary>
+		public void ClickWorkflowNewTask()
+		{
+			ClickElement(By.XPath(WF_NEW_TASK_BTN));
+		}
 
         public enum MT_TYPE { DefaultMT, Google, Bing, Yandex, Moses, None };
         protected Dictionary<MT_TYPE, string> MTTypeDict = new Dictionary<MT_TYPE, string>();
@@ -539,7 +620,7 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
         protected const string FINISH_BTN_XPATH = CREATE_PROJECT_DIALOG_XPATH + "//span[contains(@class,'js-finish js-upload-btn')]";
         protected const string ERROR_FORMAT_DOCUMENT_MESSAGE_XPATH = "//div[contains(@class,'js-info-popup')]" + CLOSE_BTN_XPATH; // TODO плохой id
 
-        protected const string CLOSE_BTN_XPATH = "//span[contains(@class,'js-popup-close')]";
+        protected const string CLOSE_BTN_XPATH = "//div[2]//div//img[contains(@class,'js-popup-close')]";
         protected const string CLOSE_DIALOG_BTN_XPATH = CREATE_PROJECT_DIALOG_XPATH + CLOSE_BTN_XPATH;
 
         protected const string ERROR_NAME_EXISTS_XPATH = CREATE_PROJECT_DIALOG_XPATH + "//p[contains(@class,'js-error-name-exists')]";
@@ -557,6 +638,9 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
         protected const string YANDEX_MT_TYPE = "Yandex";
         protected const string MOSES_MT_TYPE = "Moses";
 
+		protected const string WF_TABLE_XPATH = CREATE_PROJECT_DIALOG_XPATH + "//table[contains(@class,'js-workflow-table')]//tbody";
+		protected const string WF_DROPDOWNLIST_XPATH = "//span[contains(@class,'js-dropdown__item')]";
+		protected const string WF_NEW_TASK_BTN = CREATE_PROJECT_DIALOG_XPATH + "//span[contains(@class,'js-new-stage')]";
 
         //protected const string MT_TYPE = 
     }

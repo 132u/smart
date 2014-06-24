@@ -95,6 +95,7 @@
     <Compile Include="UserRightsPageHelper.cs" />
     <Compile Include="WorkSpacePageHelper.cs" />
     <Compile Include="Workspace_CreateProjectDialogHelper.cs" />
+    <Compile Include="Workspace_CreateProjectDialogTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config">

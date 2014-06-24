@@ -362,6 +362,53 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 			}
 		}
 
+		/// <summary>
+		/// Кликаем настройки проекта
+		/// </summary>
+		public void ClickProjectSettings()
+		{
+			ClickElement(By.XPath(PROJECT_SETTINGS_BTN_XPATH));
+		}
+
+		/// <summary>
+		/// Кликаем настройки проекта
+		/// </summary>
+		public void ClickProjectSettingsWorkflow()
+		{
+			ClickElement(By.XPath(PROJECT_SETTINGS_WORKFLOW_XPATH));
+		}
+
+		/// <summary>
+		/// Возвращает список задач Workflow на этапе создания проекта
+		/// </summary>
+		/// <returns>Список строк</returns>
+		public List<string> ProjectSettingsGetWFTaskList()
+		{
+			List<string> wfTaskList = new List<string>();
+
+			// Выборка задач workflow
+			string xPath = PROJECT_SETTINGS_WF_TABLE_XPATH + "//tr//td[2]//span//span";
+			IList<IWebElement> wfTaskIList = GetElementList(By.XPath(xPath));
+
+			if (wfTaskIList.Count > 0)
+			{
+				foreach (IWebElement item in wfTaskIList)
+				{
+					wfTaskList.Add(item.Text);
+				}
+			}
+			return wfTaskList;
+		}
+
+		/// <summary>
+		/// Кликаем добавить новую задачу в настройках проекта
+		/// </summary>
+		public void ClickProjectSettingsWorkflowNewTask()
+		{
+			ClickElement(By.XPath(PROJECT_SETTINGS_WF_NEW_TASK_BTN));
+		}
+
+
         protected const string PROJECT_TABLE_XPATH = "//table[contains(@class,'l-project-panel-tbl')]";
         protected const string PROGRESS_BTN_XPATH = "//span[contains(@class,'js-document-progress')]";
         protected const string PROGRESS_DIALOG_XPATH = "//div[contains(@class,'js-popup-progress')][2]";
@@ -404,5 +451,12 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 
 		protected const string GLOSSARY_LIST_XPATH = "//table[contains(@class,'js-glossaries-table')]//tbody//tr";
 		protected const string EDIT_GLOSSARY_SAVE_BTN_XPATH = "//span[contains(@class,'js-glossaries-save')]";
+
+		protected const string PROJECT_SETTINGS_BTN_XPATH = "//span[contains(@class,'js-project-edit')]";
+		protected const string PROJECT_SETTINGS_WORKFLOW_XPATH = "//a[contains(@class,'js-workflow-tab')]";
+
+		protected const string PROJECT_SETTINGS_WF_TABLE_XPATH = "//table[contains(@class,'js-workflow-table')]//tbody";
+		protected const string PROJECT_SETTINGS_WF_DROPDOWNLIST_XPATH = "//span[contains(@class,'js-dropdown__item')]";
+		protected const string PROJECT_SETTINGS_WF_NEW_TASK_BTN = "//span[contains(@class,'js-new-stage')]";
     }
 }

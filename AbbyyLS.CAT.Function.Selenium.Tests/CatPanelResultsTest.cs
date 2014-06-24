@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using NUnit.Framework;
 using System.Threading;
+using NUnit.Framework;
 
 namespace AbbyyLs.CAT.Function.Selenium.Tests
 {
@@ -10,7 +10,6 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 		public CatPanelResultsTest(string url, string workspaceUrl, string browserName)
 			: base (url, workspaceUrl, browserName)
 		{
-
 		}
 
 		/// <summary>
