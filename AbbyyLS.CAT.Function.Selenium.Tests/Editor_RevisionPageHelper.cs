@@ -207,7 +207,7 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 
         protected const string REVISION_BTN_ID = "revisions-tab";
         protected const string REVISION_TAB_ID = "revisions-body";
-        protected const string ROLLBACK_BTN_ID = "revision-tollback-btn";
+        protected const string ROLLBACK_BTN_ID = "revision-rollback-btn";
 
         protected const string REVISION_LIST_XPATH = "//div[@id='revisions-body']//table//tbody//tr";
         protected const string TIME_COLUMN_XPATH = "//td[contains(@class,'revision-date-cell')]";
