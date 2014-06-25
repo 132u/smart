@@ -303,7 +303,6 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             return GetIsInputChecked(By.XPath(GetMTXpath(mtType)));
         }
 
-
         /// <summary>
         /// Нажать на Finish
         /// </summary>
@@ -580,6 +579,47 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 			ClickElement(By.XPath(WF_NEW_TASK_BTN));
 		}
 
+		/// <summary>
+		/// Кликаем кнопку удаления задачи
+		/// </summary>
+		public void ClickWorkflowDeleteTask(int taskNumber)
+		{
+			ClickElement(By.XPath(CREATE_PROJECT_DIALOG_XPATH + "//tr[" + taskNumber.ToString() + "]" + WF_DELETE_TASK_BTN));
+		}
+
+		/// <summary>
+		/// Возвращает отображаемый номер для заданной задачи
+		/// </summary>
+		/// <param name="taskNumber">Номер задачи</param>
+		/// <returns>Отображаемый номер задачи</returns>
+		public int GetWFVisibleTaskNumber(int taskNumber)
+		{
+			// Выбор задачи workflow
+			string workflowXPath = WF_TABLE_XPATH + "//tr[" + taskNumber.ToString() + "]//td[1]";
+
+			// Получение номера
+			return Int32.Parse(GetTextElement(By.XPath(workflowXPath)));
+		}
+
+		/// <summary>
+		/// Возвращает, отображается ли сообщение о пустом Workflow
+		/// </summary>
+		/// <returns>Отображение сообщения об ошибке</returns>
+		public bool GetIsErrorWFEmptyDisplayed()
+		{
+			return GetIsElementDisplay(By.XPath("//div[" + ERROR_WF_EMPTY + "]"));
+		}
+
+		/// <summary>
+		/// Возвращает, находится ли мастер на шаге Workflow
+		/// </summary>
+		/// <returns>Мастер находится на шаге Workflow</returns>
+		public bool GetIsStepWF()
+		{
+			return GetIsElementDisplay(By.XPath(WF_NEW_TASK_BTN));
+		}
+
+
         public enum MT_TYPE { DefaultMT, Google, Bing, Yandex, Moses, None };
         protected Dictionary<MT_TYPE, string> MTTypeDict = new Dictionary<MT_TYPE, string>();
         
@@ -641,6 +681,8 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 		protected const string WF_TABLE_XPATH = CREATE_PROJECT_DIALOG_XPATH + "//table[contains(@class,'js-workflow-table')]//tbody";
 		protected const string WF_DROPDOWNLIST_XPATH = "//span[contains(@class,'js-dropdown__item')]";
 		protected const string WF_NEW_TASK_BTN = CREATE_PROJECT_DIALOG_XPATH + "//span[contains(@class,'js-new-stage')]";
+		protected const string WF_DELETE_TASK_BTN = "//a[contains(@class,'js-delete-workflow')]";
+		protected const string ERROR_WF_EMPTY = "//p[contains(@class,'js-error-workflow-empty')]";
 
         //protected const string MT_TYPE = 
     }

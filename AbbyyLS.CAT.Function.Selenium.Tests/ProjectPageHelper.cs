@@ -379,10 +379,10 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 		}
 
 		/// <summary>
-		/// Возвращает список задач Workflow на этапе создания проекта
+		/// Возвращает список задач Workflow в настройках проекта
 		/// </summary>
 		/// <returns>Список строк</returns>
-		public List<string> ProjectSettingsGetWFTaskList()
+		public List<string> GetWFTaskListProjectSettings()
 		{
 			List<string> wfTaskList = new List<string>();
 
@@ -401,11 +401,76 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 		}
 
 		/// <summary>
+		/// Задает тип задачи Workflow в настройках проекта
+		/// </summary>
+		/// <param name="taskNumber">Номер задачи</param>
+		/// <param name="taskType">Тип задачи из выпадающего списка</param>
+		public void SetWFTaskListProjectSettings(int taskNumber, string taskType)
+		{
+			List<string> wfTaskList = new List<string>();
+
+			// Выбор задачи workflow
+			string workflowXPath = PROJECT_SETTINGS_WF_TABLE_XPATH + "//tr[" + taskNumber.ToString() + "]//td[2]//span//span";
+
+			// Получение выпадающего списка
+			ClickElement(By.XPath(workflowXPath));
+			IList<IWebElement> wfDropdownIList = GetElementList(By.XPath(PROJECT_SETTINGS_WF_DROPDOWNLIST_XPATH));
+
+			// Выбираем заданный
+			foreach (IWebElement wfTaskType in wfDropdownIList)
+			{
+				if (wfTaskType.Text == taskType)
+				{
+					wfTaskType.Click();
+					break;
+				}
+			}
+		}
+
+		/// <summary>
 		/// Кликаем добавить новую задачу в настройках проекта
 		/// </summary>
 		public void ClickProjectSettingsWorkflowNewTask()
 		{
 			ClickElement(By.XPath(PROJECT_SETTINGS_WF_NEW_TASK_BTN));
+		}
+
+		/// <summary>
+		/// Кликаем сохранение настроек проекта
+		/// </summary>
+		public void ClickProjectSettingsSave()
+		{
+			ClickElement(By.XPath(PROJECT_SETTINGS_SAVE_BTN));
+		}
+
+		/// <summary>
+		/// Кликаем отмену настроек проекта
+		/// </summary>
+		public void ClickProjectSettingsCancel()
+		{
+			ClickElement(By.XPath(PROJECT_SETTINGS_CANCEL_BTN));
+		}
+
+		/// <summary>
+		/// Кликаем кнопку удаления задачи в настройках проекта
+		/// </summary>
+		public void ClickProjectSettingsWFDeleteTask(int taskNumber)
+		{
+			ClickElement(By.XPath("//div[contains(@class,'js-popup-edit')]//tr[" + taskNumber.ToString() + "]" + PROJECT_SETTINGS_WF_DELETE_TASK_BTN));
+		}
+
+		/// <summary>
+		/// Возвращает отображаемый номер для заданной задачи
+		/// </summary>
+		/// <param name="taskNumber">Номер задачи</param>
+		/// <returns>Отображаемый номер задачи</returns>
+		public int GetProjectSettingsWFVisibleTaskNumber(int taskNumber)
+		{
+			// Выбор задачи workflow
+			string workflowXPath = PROJECT_SETTINGS_WF_TABLE_XPATH + "//tr[" + taskNumber.ToString() + "]//td[1]";
+
+			// Получение номера
+			return Int32.Parse(GetTextElement(By.XPath(workflowXPath)));
 		}
 
 
@@ -458,5 +523,9 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 		protected const string PROJECT_SETTINGS_WF_TABLE_XPATH = "//table[contains(@class,'js-workflow-table')]//tbody";
 		protected const string PROJECT_SETTINGS_WF_DROPDOWNLIST_XPATH = "//span[contains(@class,'js-dropdown__item')]";
 		protected const string PROJECT_SETTINGS_WF_NEW_TASK_BTN = "//span[contains(@class,'js-new-stage')]";
+		protected const string PROJECT_SETTINGS_WF_DELETE_TASK_BTN = "//a[contains(@class,'js-delete-workflow')]";
+
+		protected const string PROJECT_SETTINGS_CANCEL_BTN = "//div[contains(@class,'js-popup-edit')]//a[contains(@class,'js-popup-close')]";
+		protected const string PROJECT_SETTINGS_SAVE_BTN = "//div[contains(@class,'js-popup-edit')]//span[contains(@class,'js-save')]";
     }
 }
