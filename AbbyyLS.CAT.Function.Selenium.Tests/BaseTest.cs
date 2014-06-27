@@ -898,7 +898,10 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             if (createNewTM)
             {
                 // Создать новую ТМ
-                CreateNewTM(tmFile);
+				if (Driver.Url.Contains("stage3"))
+					CreateNewTMStage3(tmFile);
+				else
+					CreateNewTM(tmFile);
             }
             else
             {
@@ -1000,6 +1003,50 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
                 WorkspaceCreateProjectDialog.WaitUntilCreateTMDialogDisappear();
             }
         }
+
+		/// <summary>
+		/// Создать новую ТМ в диалоге создания проекта на Stage3
+		/// </summary>
+		/// <param name="TmFileName">файл для загрузки в ТМ</param>
+		/// <param name="fromWorkspaceOrProject">true - из workspace, false - из проекта</param>
+		public void CreateNewTMStage3(string TmFileName, bool fromWorkspaceOrProject = true)
+		{
+			//Создание ТМ
+			if (TmFileName.Length > 0)
+			{
+				//Добавить тмх файл
+				WorkspaceCreateProjectDialog.ClickUploadTMXStage3();
+				WorkspaceCreateProjectDialog.WaitUploadTMXDialogStage3();
+				WorkspaceCreateProjectDialog.FillTMNameDialogStage3("TestTM" + DateTime.Now.Ticks);
+				WorkspaceCreateProjectDialog.ClickAddTMXDialogStage3();
+				Thread.Sleep(1000);
+
+				// Заполнить имя файла для загрузки
+				FillAddDocumentForm(TmFileName);
+
+				//Нажать на кнопку Import
+				WorkspaceCreateProjectDialog.ClickSaveTMXDialogStage3();
+				Thread.Sleep(1000);
+
+				if (WorkspaceCreateProjectDialog.GetIsExistErrorFileMessage())
+				{
+					// Диалог загрузки документа не закрылся - закрываем
+					TryCloseExternalDialog();
+
+					// кликаем Import снова
+					WorkspaceCreateProjectDialog.ClickImportBtn();
+				}
+				WorkspaceCreateProjectDialog.WaitImportDialogDisappear();
+			}
+			else
+			{
+				WorkspaceCreateProjectDialog.ClickCreateTM();
+				WorkspaceCreateProjectDialog.WaitCreateTMDialog();
+				WorkspaceCreateProjectDialog.FillTMName("TestTM" + DateTime.Now.Ticks);
+				WorkspaceCreateProjectDialog.ClickSaveTM();
+				WorkspaceCreateProjectDialog.WaitUntilCreateTMDialogDisappear();
+			}
+		}
 
         /// <summary>
         /// Выбрать существующую ТМ

@@ -8,9 +8,9 @@ using System.Threading;
 
 namespace AbbyyLs.CAT.Function.Selenium.Tests
 {
-	class Workspace_CreateProjectDialogTest : BaseTest
+	class WorkflowTest : BaseTest
 	{
-		public Workspace_CreateProjectDialogTest(string url, string workspaceUrl, string browserName)
+		public WorkflowTest(string url, string workspaceUrl, string browserName)
 			: base (url, workspaceUrl, browserName)
 		{
 		}
@@ -28,7 +28,7 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 		/// Проверка создания Translation Workflow по-умолчанию при создании проекта
 		/// </summary>
 		[Test]
-		public void CreateProjectWFDefaultTaskType()
+		public void DefaultTaskType()
 		{
 			List<string> workflowCreateList = new List<string>();
 			
@@ -66,7 +66,7 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 		/// Проверка выбора Editing Workflow при создании проекта
 		/// </summary>
 		[Test]
-		public void CreateProjectWFChangeTaskType()
+		public void ChangeTaskType()
 		{
 			List<string> workflowList = new List<string>();
 
@@ -131,7 +131,7 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 		/// Проверка наличия всех типов при добавлении новой задачи Workflow
 		/// </summary>
 		[Test]
-		public void CreateProjectWFNewTaskTypes()
+		public void NewTaskTypesOnCreate()
 		{
 			List<string> workflowTypesList = new List<string>();
 
@@ -173,7 +173,7 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 		/// Проверка наличия добавленной новой задачи Workflow
 		/// </summary>
 		[Test]
-		public void CreateProjectWFNewTask()
+		public void NewTask()
 		{
 			List<string> workflowList = new List<string>();
 
@@ -233,7 +233,7 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 		/// Проверка создания задачи Workflow того же типа, что и уже созданная
 		/// </summary>
 		[Test]
-		public void CreateProjectWFNewTaskSameType()
+		public void NewTaskSameType()
 		{
 			List<string> workflowList = new List<string>();
 
@@ -295,7 +295,7 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 		/// Проверка создания задачи в настройках уже созданного проекта
 		/// </summary>
 		[Test]
-		public void ProjectWFAddingTask()
+		public void AddingTask()
 		{
 			List<string> workflowList = new List<string>();
 
@@ -351,7 +351,7 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 		/// Проверка отмены создания задачи в настройках уже созданного проекта
 		/// </summary>
 		[Test]
-		public void ProjectWFCancelAddingTask()
+		public void CancelAddingTask()
 		{
 			List<string> workflowList = new List<string>();
 
@@ -403,7 +403,7 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 		/// Проверка удаления задачи Workflow при создании проекта
 		/// </summary>
 		[Test]
-		public void CreateProjectWFDeleteTask()
+		public void DeleteTaskOnCreate()
 		{
 			List<string> workflowList = new List<string>();
 
@@ -452,7 +452,7 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 		/// Проверка удаления задачи Workflow в созданном проекте
 		/// </summary>
 		[Test]
-		public void ProjectWFDeleteTask()
+		public void DeleteTask()
 		{
 			List<string> workflowList = new List<string>();
 
@@ -499,7 +499,7 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 		/// Проверка удаления задачи Workflow при создании проекта
 		/// </summary>
 		[Test]
-		public void CreateProjectWFDeleteAllTasks()
+		public void DeleteAllTasksOnCreate()
 		{
 			// Создание проекта
 			// 1) Заполнение полей
@@ -538,7 +538,7 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 		/// Проверка отмены удаления задачи Workflow в созданном проекте
 		/// </summary>
 		[Test]
-		public void CreateProjectWFCancelDeleteTask()
+		public void CancelDeleteTask()
 		{
 			List<string> workflowListBefore = new List<string>();
 			List<string> workflowListAfter = new List<string>();
@@ -609,7 +609,7 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 		/// Проверка редактирования задачи в настройках уже созданного проекта
 		/// </summary>
 		[Test]
-		public void ProjectWFChangingTask()
+		public void ChangingTask()
 		{
 			List<string> workflowList = new List<string>();
 			string workflowTaskBefore = "";
@@ -666,7 +666,7 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 		/// Проверка наличия добавленной новой задачи Workflow при возврате в мастере
 		/// </summary>
 		[Test]
-		public void CreateProjectWFOnBack()
+		public void BackOnCreate()
 		{
 			List<string> workflowList = new List<string>();
 
@@ -718,7 +718,7 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 		/// Проверка добавления новой задачи Workflow после возврата в мастере
 		/// </summary>
 		[Test]
-		public void CreateProjectWFAddingTaskAfterBack()
+		public void AddingTaskAfterBack()
 		{
 			List<string> workflowCreateList = new List<string>();
 			List<string> workflowList = new List<string>();
@@ -801,7 +801,7 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 		/// Проверка изменения новой задачи Workflow после возврата в мастере
 		/// </summary>
 		[Test]
-		public void CreateProjectWFChangingTaskAfterBack()
+		public void ChangingTaskAfterBack()
 		{
 			List<string> workflowCreateList = new List<string>();
 			List<string> workflowList = new List<string>();
@@ -879,7 +879,7 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 		/// Проверка удаления задачи Workflow после возврата в мастере
 		/// </summary>
 		[Test]
-		public void CreateProjectWFDeletingTaskAfterBack()
+		public void DeletingTaskAfterBack()
 		{
 			List<string> workflowCreateList = new List<string>();
 			List<string> workflowList = new List<string>();

@@ -13,7 +13,7 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
         }
 		
 		/// <summary>
-		/// Получить процент совпадений
+		/// Возвращает процент совпадений в CAT
 		/// </summary>
 		/// <param name="rowNumber">Номер строки CAT</param>
 		/// <returns>Процент совпадений</returns>
@@ -21,12 +21,30 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 		{
 			int procentMatch = 0;
 			// Получение процента совпадений для всех элементов CAT
-			List<string> textList = GetTextListElement(By.XPath(CAT_PANEL_TYPE_COLUMN_MATCH_XPATH));
+			List<string> textList = GetTextListElement(By.XPath(CAT_PANEL_PROCENT_MATCH_XPATH));
 			// Переводим в int
 			procentMatch = Int32.Parse(textList[rowNumber].Remove(textList[rowNumber].IndexOf('%')));
 			return procentMatch;
 		}
 
-		protected const string CAT_PANEL_TYPE_COLUMN_MATCH_XPATH = ".//div[@id='cat-body']//table//tbody//tr//td[3]//div//span";
+		/// <summary>
+		/// Возвращает список терминов в САТ панели
+		/// </summary>
+		/// <returns>Список терминов САТ панели</returns>
+		public List<string> GetCATTerms()
+		{
+			// Получение списка терминов в CAT в нижнем регистре
+			List <string> terms = new List<string>();
+
+			foreach (string term in GetTextListElement(By.XPath(CAT_PANEL_TERM_XPATH)))
+			{
+				terms.Add(term.ToLower());
+			}
+			return terms;
+		}
+
+
+		protected const string CAT_PANEL_TERM_XPATH = ".//div[@id='cat-body']//table//tbody//tr//td[2]//div";
+		protected const string CAT_PANEL_PROCENT_MATCH_XPATH = ".//div[@id='cat-body']//table//tbody//tr//td[3]//div//span";
 	}
 }

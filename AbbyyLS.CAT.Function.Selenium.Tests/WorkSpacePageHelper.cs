@@ -472,10 +472,28 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             return EXPORT_TYPE_REF_BEGINING + exportTypeDict[type] + "')]//a";
         }
 
+		/// <summary>
+		/// Ожидание ожидание загрузки проекта
+		/// </summary>
+		/// <param name="projectName">Имя проекта</param>
+		/// <returns>Загрузился ли проект</returns>
+		public bool WaitProjectLoad(string projectName)
+		{
+			// Ожидаем пока загрузится документ. Обновляем страницу, если недождались
+			if (!WaitDocumentProjectDownload(projectName))
+			{
+				Driver.Navigate().Refresh();
+				// Внова проверяем загрузился ли документ. Ожидаем пока загрузится.
+				if (!WaitDocumentProjectDownload(projectName))
+					return false;
+			}
+			return true;
+		}
 
 
         public enum LOCALE_LANGUAGE_SELECT { English, Russian };
         public enum EXPORT_TYPE { Original, TMX, Translated };
+
 
         protected const string LOCALE_REF_PATH = ".//a[contains(@class,'js-set-locale')]";
         protected const string LOCALE_EN_LANG = "en";

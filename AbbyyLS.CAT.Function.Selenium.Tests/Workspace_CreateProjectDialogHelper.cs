@@ -619,6 +619,48 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 			return GetIsElementDisplay(By.XPath(WF_NEW_TASK_BTN));
 		}
 
+		/// <summary>
+		/// Кликнуть Upload TMX (для STAGE3)
+		/// </summary>
+		public void ClickUploadTMXStage3()
+		{
+			ClickElement(By.XPath(UPLOAD_TMX_BTN_STAGE3_XPATH));
+		}
+
+		/// <summary>
+		/// Дождаться появления диалога загрузки ТМХ (для STAGE3)
+		/// </summary>
+		/// <returns>появился</returns>
+		public bool WaitUploadTMXDialogStage3()
+		{
+			return WaitUntilDisplayElement(By.XPath(IMPORT_TMX_DIALOG_STAGE3_XPATH));
+		}
+
+		/// <summary>
+		/// Кликнуть Add TMX в окне диалога (для STAGE3)
+		/// </summary>
+		public void ClickAddTMXDialogStage3()
+		{
+			ClickElement(By.XPath(ADD_TMX_BTN_STAGE3_XPATH));
+		}
+
+		/// <summary>
+		/// Кликнуть Save TMX в окне диалога (для STAGE3)
+		/// </summary>
+		public void ClickSaveTMXDialogStage3()
+		{
+			ClickElement(By.XPath(SAVE_BTN_STAGE3_XPATH));
+		}
+
+		/// <summary>
+		/// Заполнить название ТМ в диалоге (Stage3)
+		/// </summary>
+		/// <param name="TMName">название</param>
+		public void FillTMNameDialogStage3(string TMName)
+		{
+			ClearAndAddText(By.XPath(NAME_TM_STAGE3_XPATH), TMName);
+		}
+
 
         public enum MT_TYPE { DefaultMT, Google, Bing, Yandex, Moses, None };
         protected Dictionary<MT_TYPE, string> MTTypeDict = new Dictionary<MT_TYPE, string>();
@@ -636,6 +678,14 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
         protected const string ADD_DOCUMENT_BTN_XPATH = CREATE_PROJECT_DIALOG_XPATH + "//div[contains(@class,'js-files-uploader')]//a";// TODO проверить, старая версия: "//div[contains(@class,'js-files-uploader')]//a[contains(@class,'js-add-file')]" и "//div[contains(@class,'js-popup-create-project')][2]//a[contains(@class,'js-add-file')]"
         protected const string NEXT_BTN_XPATH = CREATE_PROJECT_DIALOG_XPATH + "//span[contains(@class,'js-next')]";
         protected const string CREATE_TM_BTN_XPATH = CREATE_PROJECT_DIALOG_XPATH + "//span[contains(@class,'js-tm-create')]";
+
+		
+		protected const string UPLOAD_TMX_BTN_STAGE3_XPATH = CREATE_PROJECT_DIALOG_XPATH + "//span[contains(@class,'js-tm-upload')]";
+		protected const string IMPORT_TMX_DIALOG_STAGE3_XPATH = "//div[contains(@class,'js-popup-import-tm')][2]";
+		protected const string ADD_TMX_BTN_STAGE3_XPATH = IMPORT_TMX_DIALOG_STAGE3_XPATH + "//a[contains(@class,'js-upload-btn')]";
+		protected const string SAVE_BTN_STAGE3_XPATH = IMPORT_TMX_DIALOG_STAGE3_XPATH + "//span[contains(@class,'js-save')]";
+		protected const string NAME_TM_STAGE3_XPATH = IMPORT_TMX_DIALOG_STAGE3_XPATH + "//input[contains(@class,'js-tm-name')]";
+
 
         protected const string CREATE_TM_DIALOG_XPATH = "//div[contains(@class,'js-popup-create-tm')][2]";
         protected const string NEW_TM_NAME_INPUT_XPATH = CREATE_TM_DIALOG_XPATH +"//input[contains(@class,'js-tm-name')]";
