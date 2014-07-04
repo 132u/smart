@@ -49,6 +49,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AssignResponsiblesHelper.cs" />
+    <Compile Include="AssignResponsiblesTest.cs" />
     <Compile Include="Authorization.cs" />
     <Compile Include="BaseTest.cs" />
     <Compile Include="CatPanelResultsTest.cs" />

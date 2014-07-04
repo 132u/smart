@@ -490,6 +490,31 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 			return true;
 		}
 
+		/// <summary>
+		/// Нажать на прогресс в поле документа
+		/// </summary>
+		public void ClickDocumentProgress()
+		{
+			ClickElement(By.XPath(DOCUMENT_INFO_TR_XPATH + DOCUMENT_PROGRESS_XPATH));
+		}
+
+		/// <summary>
+		/// Нажать на кнопку прав пользователя в инфо документа
+		/// </summary>
+		public void ClickDocumentAssignBtn()
+		{
+			ClickElement(By.XPath(DOCUMENT_ASSIGN_RESPONSIBLES_BTN_XPATH));
+		}
+
+		/// <summary>
+		/// Нажать на кнопку добавления документа в инфо проекта
+		/// </summary>
+		public void ClickDocumentUploadBtn()
+		{
+			ClickElement(By.XPath(UPLOAD_DOCUMENT_BTN_XPATH));
+		}
+
+		
 
         public enum LOCALE_LANGUAGE_SELECT { English, Russian };
         public enum EXPORT_TYPE { Original, TMX, Translated };
@@ -544,5 +569,9 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
         protected const string DOCUMENT_SETTINGS_DIALOG_XPATH = ".//div[contains(@class,'js-popup-document-settings')][2]";
         protected const string DOCUMENT_SETTINGS_NAME_XPATH = DOCUMENT_SETTINGS_DIALOG_XPATH + "//input[contains(@class,'js-name')]";
         protected const string DOCUMENT_SETTINGS_SAVE_BTN_XPATH = DOCUMENT_SETTINGS_DIALOG_XPATH + "//span[contains(@class,'js-save')]";
+
+		protected const string DOCUMENT_PROGRESS_XPATH = "//td//a[contains(@class,'js-progress-link')]";
+		protected const string DOCUMENT_ASSIGN_RESPONSIBLES_BTN_XPATH = "//span[contains(@class,'js-assign-btn')]";
+		protected const string UPLOAD_DOCUMENT_BTN_XPATH = ".//span[contains(@class,'js-import-btn ')]";
     }
 }

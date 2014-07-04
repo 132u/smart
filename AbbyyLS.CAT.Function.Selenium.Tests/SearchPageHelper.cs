@@ -195,7 +195,7 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
         /// <returns>названия глоссариев</returns>
         public List<string> GetGlossaryResultNames()
         {
-            return GetTextListElement(By.XPath(GLOSSARY_RESULT_GLOSSARY_ITEM_XPATH));
+			return GetTextListElement(By.XPath(GLOSSARY_RESULT_GLOSSARY_ITEM_XPATH));
         }
 
         /// <summary>

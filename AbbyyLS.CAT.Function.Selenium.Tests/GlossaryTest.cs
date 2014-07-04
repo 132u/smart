@@ -175,6 +175,20 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
         {
             // Открыть форму предложения термина и заполнить полня
             SuggestTermFillTerms(termFirst, termSecond);
+
+			// Проверяем языки En-Ru
+			if (SuggestTermDialog.GetLanguageId(1) != "9")
+			{
+				SuggestTermDialog.OpenLanguageList(1);
+				SuggestTermDialog.SelectLanguage("9");
+			}
+
+			if (SuggestTermDialog.GetLanguageId(2) != "25")
+			{
+				SuggestTermDialog.OpenLanguageList(2);
+				SuggestTermDialog.SelectLanguage("25");
+			}
+
             if (isNeedSelectGlossary)
             {
                 // Открыть список с глоссариями

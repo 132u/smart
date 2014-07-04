@@ -179,7 +179,7 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
             // Перейти в лекцию
             OpenLectureByRowNum(lectureRowNumber);
             // Кликнуть по ячейке
-            string targetCell = "#segments-body div table tr:nth-child(" + translationRowNum + ") td:nth-child(4) div";
+            string targetCell = "#segments-body div table:nth-child(" + translationRowNum + ") td:nth-child(4) div";
             // Кликнуть по ячейке
             Driver.FindElement(By.CssSelector(targetCell)).Click();
             // Удалить перевод
@@ -224,11 +224,11 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
             // Перейти в лекцию
             OpenLectureByRowNum(lectureRowNumber);
             // Кликнуть по ячейке
-            string targetCell = "#segments-body div table tr:nth-child(" + translationRowNum + ") td:nth-child(4) div";
+            string targetCell = "#segments-body div table:nth-child(" + translationRowNum + ") td:nth-child(4) div";
             Driver.FindElement(By.CssSelector(targetCell)).Click();
             // Кликнуть редактировать перевод
             int rowNum = GetSuggestedTranslationRowNum(translationText);
-            Driver.FindElement(By.XPath(".//div[@id='translations-body']//table//tr[" + rowNum + "]//td[4]//span[contains(@class,'fa-pencil')]")).Click();
+            Driver.FindElement(By.XPath(".//div[@id='translations-body']//table[" + rowNum + "]//td[4]//span[contains(@class,'fa-pencil')]")).Click();
             // Ввести текст
             Driver.FindElement(By.CssSelector(targetCell)).SendKeys(DateTime.Now.ToString());
             // Кликнуть Confirm

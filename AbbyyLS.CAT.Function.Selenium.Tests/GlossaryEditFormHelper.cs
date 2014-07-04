@@ -149,7 +149,7 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
         /// <returns>есть</returns>
         public bool GetIsExistLanguageInList(LANGUAGE lang)
         {
-            return GetIsElementDisplay(By.XPath(DROPDOWNLIST_XPATH + "//span[@data-id='" + languageID[lang] + "']"));
+			return GetIsElementDisplay(By.XPath(DROPDOWNLIST_XPATH + "//span[@data-id='" + languageID[lang] + "']"));
         }
 
         /// <summary>

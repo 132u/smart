@@ -45,6 +45,8 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 			// Открываем документ
 			OpenDocument();
 			Thread.Sleep(1000);
+			
+			EditorPage.ClickSourceCell(1);
 
 			// Проверка, что на CATPanel что-то есть
 			Assert.IsTrue(EditorPage.GetCATPanelNotEmpty(), 
@@ -85,6 +87,8 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 			// Открываем документ
 			OpenDocument();
 			Thread.Sleep(1000);
+
+			EditorPage.ClickSourceCell(1);
 
 			// Проверка, что на CATPanel что-то есть
 			Assert.IsTrue(EditorPage.GetCATPanelNotEmpty(), 
@@ -138,7 +142,9 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 			// Открываем документ
 			OpenDocument();
 			Thread.Sleep(1000);
-			
+
+			EditorPage.ClickSourceCell(1);
+
 			// Проверка, что на CATpanel что-то есть
 			Assert.IsTrue(EditorPage.GetCATPanelNotEmpty(), 
 				"Ошибка: нет переводов в панели САТ.");

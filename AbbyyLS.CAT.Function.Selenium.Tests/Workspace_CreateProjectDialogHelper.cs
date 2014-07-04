@@ -704,13 +704,13 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
         protected const string TM_TABLE_TM_NAME_XPATH = TM_TABLE_XPATH + "//tr//td[contains(@class,'js-name')]";
 
         protected const string FIRST_GLOSSARY_XPATH =
-            CREATE_PROJECT_DIALOG_XPATH + "//table[contains(@class,'js-glossaries-table')]//tbody//span[contains(@class,'js-chckbx')]";
-        protected const string MT_TABLE_XPATH = CREATE_PROJECT_DIALOG_XPATH + "//table[contains(@class,'js-mts-table')]//tbody";
+			CREATE_PROJECT_DIALOG_XPATH + "//table[contains(@class,'js-glossaries')]//tbody//tr[1]/*/span[contains(@class,'js-chckbx')]";
+        protected const string MT_TABLE_XPATH = CREATE_PROJECT_DIALOG_XPATH + "//table[contains(@class,'js-mts')]//tbody";
 
         protected const string FINISH_BTN_XPATH = CREATE_PROJECT_DIALOG_XPATH + "//span[contains(@class,'js-finish js-upload-btn')]";
         protected const string ERROR_FORMAT_DOCUMENT_MESSAGE_XPATH = "//div[contains(@class,'js-info-popup')]" + CLOSE_BTN_XPATH; // TODO плохой id
 
-        protected const string CLOSE_BTN_XPATH = "//div[2]//div//img[contains(@class,'js-popup-close')]";
+        protected const string CLOSE_BTN_XPATH = "//div[2]//div//span[contains(@class,'js-popup-close')]";
         protected const string CLOSE_DIALOG_BTN_XPATH = CREATE_PROJECT_DIALOG_XPATH + CLOSE_BTN_XPATH;
 
         protected const string ERROR_NAME_EXISTS_XPATH = CREATE_PROJECT_DIALOG_XPATH + "//p[contains(@class,'js-error-name-exists')]";

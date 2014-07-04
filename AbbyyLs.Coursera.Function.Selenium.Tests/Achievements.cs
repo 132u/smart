@@ -193,7 +193,7 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
         [Test]
         public void b_3_ExpertProgressTest()
         {
-            string achieveType = "Expert";
+            string achieveType = "Эксперт";
             // Выбрать пользователя, у которого отображается прогресс (не 5 уровень)
             SelectUserWithoutAchieveLevel(achieveType, 5);
 
@@ -295,7 +295,7 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
             // Сколько процентов нужно заполнить
             int levelLimit = 1;
             // Получить награду
-            GetSpecialistLevel(achieveLevel, levelLimit, "Model Thinking");
+            GetSpecialistLevel(achieveLevel, levelLimit, "Модель мышления");
         }
 
         /// <summary>
@@ -308,7 +308,7 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
             // Сколько процентов нужно заполнить
             int levelLimit = 10;
             // Получить награду
-            GetSpecialistLevel(achieveLevel, levelLimit, "Model Thinking");
+			GetSpecialistLevel(achieveLevel, levelLimit, "Модель мышления");
         }
 
         /// <summary>
@@ -321,7 +321,7 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
             // Сколько процентов нужно заполнить
             int levelLimit = 30;
             // Получить награду
-            GetSpecialistLevel(achieveLevel, levelLimit, "Model Thinking");
+			GetSpecialistLevel(achieveLevel, levelLimit, "Модель мышления");
         }
 
         /// <summary>
@@ -334,7 +334,7 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
             // Сколько процентов нужно заполнить
             int levelLimit = 60;
             // Получить награду
-            GetSpecialistLevel(achieveLevel, levelLimit, "Model Thinking");
+			GetSpecialistLevel(achieveLevel, levelLimit, "Модель мышления");
         }
 
         /// <summary>
@@ -347,7 +347,7 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
             // Сколько процентов нужно заполнить
             int levelLimit = 100;
             // Получить награду
-            GetSpecialistLevel(achieveLevel, levelLimit, "Model Thinking");
+			GetSpecialistLevel(achieveLevel, levelLimit, "Модель мышления");
         }
 
         /// <summary>
@@ -360,7 +360,7 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
             // Сколько процентов нужно заполнить
             int levelLimit = 1;
             // Получить награду
-            GetSpecialistLevel(achieveLevel, levelLimit, "The Emergence of the Modern Middle East");
+			GetSpecialistLevel(achieveLevel, levelLimit, "Возникновение современного Ближнего Востока");
         }
 
         /// <summary>
@@ -373,7 +373,7 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
             // Сколько процентов нужно заполнить
             int levelLimit = 10;
             // Получить награду
-            GetSpecialistLevel(achieveLevel, levelLimit, "The Emergence of the Modern Middle East");
+			GetSpecialistLevel(achieveLevel, levelLimit, "Возникновение современного Ближнего Востока");
         }
 
         /// <summary>
@@ -386,7 +386,7 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
             // Сколько процентов нужно заполнить
             int levelLimit = 30;
             // Получить награду
-            GetSpecialistLevel(achieveLevel, levelLimit, "The Emergence of the Modern Middle East");
+			GetSpecialistLevel(achieveLevel, levelLimit, "Возникновение современного Ближнего Востока");
         }
 
         /// <summary>
@@ -399,7 +399,7 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
             // Сколько процентов нужно заполнить
             int levelLimit = 60;
             // Получить награду
-            GetSpecialistLevel(achieveLevel, levelLimit, "The Emergence of the Modern Middle East");
+			GetSpecialistLevel(achieveLevel, levelLimit, "Возникновение современного Ближнего Востока");
         }
 
         /// <summary>
@@ -412,7 +412,7 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
             // Сколько процентов нужно заполнить
             int levelLimit = 100;
             // Получить награду
-            GetSpecialistLevel(achieveLevel, levelLimit, "The Emergence of the Modern Middle East");
+			GetSpecialistLevel(achieveLevel, levelLimit, "Возникновение современного Ближнего Востока");
         }
 
         /// <summary>
@@ -425,7 +425,7 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
             // Сколько процентов нужно заполнить
             int levelLimit = 1;
             // Получить награду
-            GetSpecialistLevel(achieveLevel, levelLimit, "Cryptography");
+            GetSpecialistLevel(achieveLevel, levelLimit, "Криптография");
         }
 
         /// <summary>
@@ -438,7 +438,7 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
             // Сколько процентов нужно заполнить
             int levelLimit = 10;
             // Получить награду
-            GetSpecialistLevel(achieveLevel, levelLimit, "Cryptography");
+			GetSpecialistLevel(achieveLevel, levelLimit, "Криптография");
         }
 
         /// <summary>
@@ -451,7 +451,7 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
             // Сколько процентов нужно заполнить
             int levelLimit = 30;
             // Получить награду
-            GetSpecialistLevel(achieveLevel, levelLimit, "Cryptography");
+			GetSpecialistLevel(achieveLevel, levelLimit, "Криптография");
         }
 
         /// <summary>
@@ -464,7 +464,7 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
             // Сколько процентов нужно заполнить
             int levelLimit = 60;
             // Получить награду
-            GetSpecialistLevel(achieveLevel, levelLimit, "Cryptography");
+			GetSpecialistLevel(achieveLevel, levelLimit, "Криптография");
         }
 
         /// <summary>
@@ -477,7 +477,7 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
             // Сколько процентов нужно заполнить
             int levelLimit = 100;
             // Получить награду
-            GetSpecialistLevel(achieveLevel, levelLimit, "Cryptography");
+			GetSpecialistLevel(achieveLevel, levelLimit, "Криптография");
         }
 
         /// <summary>
@@ -488,7 +488,7 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
         {
             int needUserPosition = 10;
             // Добраться до нужного места в лидерборде
-            GetPositionLeaderboardOnline(needUserPosition, "Leader");
+			GetPositionLeaderboardOnline(needUserPosition, "Лидер");
         }
 
         /// <summary>
@@ -499,7 +499,7 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
         {
             int needUserPosition = 10;
             // Добраться до нужного места в лидерборде
-            GetPositionLeaderboardOffline(needUserPosition, "Leader");
+            GetPositionLeaderboardOffline(needUserPosition, "Лидер");
         }
 
         /// <summary>
@@ -510,7 +510,7 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
         {
             int needUserPosition = 10;
             // Добраться до нужного места в лидерборде
-            GetPositionLeaderboardOffline(needUserPosition, "Leader", true);
+			GetPositionLeaderboardOffline(needUserPosition, "Лидер", true);
         }
 
         /// <summary>
@@ -521,7 +521,7 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
         {
             int needUserPosition = 1;
             // Добраться до нужного места в лидерборде
-            GetPositionLeaderboardOnline(needUserPosition, "Number one");
+			GetPositionLeaderboardOnline(needUserPosition, "Номер один");
         }
 
         /// <summary>
@@ -532,7 +532,7 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
         {
             int needUserPosition = 1;
             // Добраться до нужного места в лидерборде
-            GetPositionLeaderboardOffline(needUserPosition, "Number one");
+			GetPositionLeaderboardOffline(needUserPosition, "Номер один");
         }
 
         /// <summary>
@@ -542,7 +542,7 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
         /// <param name="levelLimit">количество переводов для награды</param>
         protected void GetTranslatorLevel(int achieveLevel, int levelLimit)
         {
-            string achieveType = "Translator";
+            string achieveType = "Переводчик";
             SelectUserWithoutAchieveLevel(achieveType, achieveLevel);
 
             bool isTestOk = true;
@@ -845,8 +845,8 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
                     {
                         segmentsList[i].SendKeys(translationText);
                         // Кликнуть по галочке с Confirm в строке сегмента
-                        Driver.FindElement(By.XPath(".//span[contains(@class,'fa-border')]")).Click();
-                        WaitUntilDisappearElement(".//span[contains(@class,'fa-border')]", 20);
+						Driver.FindElement(By.XPath(".//div[@id='segments-body']//span[contains(@class,'fa-check')]")).Click();
+						WaitUntilDisappearElement(".//div[@id='segments-body']//span[contains(@class,'fa-border')]", 20);
 
                         // Проверить, что перевод появился в предложенных переводах
                         int translationRowNumber = GetSuggestedTranslationRowNum(translationText);
@@ -952,7 +952,7 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
                         }
                     }
                     MakeScreen();
-                    Driver.FindElement(By.XPath(".//div[contains(@class,'achievement')]//span[contains(@class,'x-btn-icon-el')]")).Click();
+                    Driver.FindElement(By.XPath(".//div[contains(@class,'achievement')]//span[contains(@class,'x-btn-button-orange')]")).Click();
                 }
                 else
                 {
@@ -1053,7 +1053,7 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
             IList<IWebElement> achieveList = Driver.FindElements(By.XPath(".//ul[@class='achive-list']//li//strong"));
             for (int i = 0; i < achieveList.Count; ++i)
             {
-                // Если в названии награды есть название искомой награды
+				// Если в названии награды есть название искомой награды
                 if (achieveList[i].Text.Trim().Contains(achieveType))
                 {
                     bool isAchieveFound = true;
@@ -1092,7 +1092,7 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
         /// <param name="isVoteUp">голосование За или Против (true - За, false - Против)</param>
         protected void GetExpertLevel(int achieveLevel, int levelLimit, bool isVoteUp = true)
         {
-            string achieveType = "Expert";
+            string achieveType = "Эксперт";
             SelectUserWithoutAchieveLevel(achieveType, achieveLevel);
 
             bool isTestOk = true;
@@ -1300,7 +1300,7 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
         /// <param name="levelLimit">количество голосов для награды</param>
         protected void GetProfessionalLevel(int achieveLevel, int levelLimit)
         {
-            string achieveType = "Professional";
+            string achieveType = "Профессионал";
             // Выбрать пользователя, который еще не получил эту награду
             int userIndex = SelectUserWithoutAchieveLevel(achieveType, achieveLevel);
 
@@ -1694,8 +1694,8 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
                         segmentsList[i].SendKeys(translationText);
 
                         // Кликнуть по галочке с Confirm в строке сегмента
-                        Driver.FindElement(By.XPath(".//span[contains(@class,'fa-border')]")).Click();
-                        WaitUntilDisappearElement(".//span[contains(@class,'fa-border')]", 20);
+						Driver.FindElement(By.XPath(".//div[@id='segments-body']//span[contains(@class,'fa-check')]")).Click();
+						WaitUntilDisappearElement(".//div[@id='segments-body']//span[contains(@class,'fa-border')]", 20);
 
                         // Проверить, что перевод появился в предложенных переводах
                         int translationRowNumber = GetSuggestedTranslationRowNum(translationText);
@@ -1976,7 +1976,7 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
                 {
                     // Имя переводчика предложенного перевода
                     string translaterName = Driver.FindElement(By.XPath(
-                        ".//div[@id='translations-body']//table//tr[" + (i + 1) + "]//td[2]//div")).Text;
+                        ".//div[@id='translations-body']//table[" + (i + 1) + "]//td[2]//div")).Text;
                     // Если имя переводчика содержит имя нужного переводчика - голосуем
                     if (translaterName.Contains(userName))
                     {
@@ -2020,11 +2020,19 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
         /// <param name="courseName">имя курса</param>
         protected void GetSpecialistLevel(int achieveLevel, int levelLimit, string courseName)
         {
-            string achieveType = "Specialist";
+			string achieveType = "Специалист";
             SelectUserWithoutAchieveLevel(achieveType, achieveLevel, courseName);
             
             // TODO убрать
-            string courseNameToOpen = courseName;
+			string courseNameToOpen = "";
+			if (courseName == "Модель мышления")
+				courseNameToOpen = "Model Thinking";
+
+			if (courseName == "Возникновение современного Ближнего Востока")
+				courseNameToOpen = "The Emergence of the Modern Middle East";
+
+			if (courseName == "Криптография")
+				courseNameToOpen = "Cryptography";
 
             bool isLevelReceived = false, isAchieveMessageLectureAppeared = false, isAchieveMessageAppeared = false;
             while (!isLevelReceived)
@@ -2176,8 +2184,8 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
                         segmentsList[i].Clear();
                         segmentsList[i].SendKeys(translationText);
                         // Кликнуть по галочке с Confirm в строке сегмента
-                        Driver.FindElement(By.XPath(".//span[contains(@class,'fa-border')]")).Click();
-                        WaitUntilDisappearElement(".//span[contains(@class,'fa-border')]", 20);
+						Driver.FindElement(By.XPath(".//div[@id='segments-body']//span[contains(@class,'fa-check')]")).Click();
+						WaitUntilDisappearElement(".//div[@id='segments-body']//span[contains(@class,'fa-border')]", 20);
 
                         // Проверить, что перевод появился в предложенных переводах
                         int translationRowNumber = GetSuggestedTranslationRowNum(translationText);

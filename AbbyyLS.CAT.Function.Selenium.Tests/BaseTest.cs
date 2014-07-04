@@ -25,6 +25,8 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
     [TestFixture("StableUrl2", "StableWorkspace2", "IE")]
     [TestFixture("StageUrl2", "StageWorkspace2", "Firefox")]
     [TestFixture("StageUrl3", "DevWorkspace", "Firefox")]
+	[TestFixture("StageUrl1", "StableWorkspace1", "Firefox")]
+	[TestFixture("StageUrl3lpro", "StageWorkspace3", "Firefox")]
     public class BaseTest
     {
         /// <summary>
@@ -599,6 +601,18 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 			}
 		}
 
+		/// <summary>
+		/// Окно прав пользователя
+		/// </summary>
+		private AssignResponsiblesHelper _assignResponsiblesHelper;
+		protected AssignResponsiblesHelper AssignResponsibles
+		{
+			get
+			{
+				return _assignResponsiblesHelper;
+			}
+		}
+
 
         // информация о тесте
         DateTime testBeginTime;
@@ -716,6 +730,7 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             _glossaryEditFormHelper = new GlossaryEditFormHelper(Driver, Wait);
             _glossarySuggestPageHelper = new GlossarySuggestPageHelper(Driver, Wait);
 			_catPanelHelper = new CatPanelResultsHelper(Driver, Wait);
+			_assignResponsiblesHelper = new AssignResponsiblesHelper(Driver, Wait);
         }
 
         /// <summary>
@@ -802,28 +817,46 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
         {
             // Перейти на стартовую страницу
             _driver.Navigate().GoToUrl(_url);
-            // Проверить, загрузилась ли
-            Assert.IsTrue(LoginPage.WaitPageLoad(),
-                "Не прогрузилась страница Login - возможно, сайт недоступен");
 
-            // Заполнить логин и пароль
-            LoginPage.EnterLogin(_login);
-            LoginPage.EnterPassword(_password);
-            LoginPage.ClickSubmit();
+			if (Driver.Url.Contains("lpro"))
+			{
+				// Проверить, загрузилась ли
+				Assert.IsTrue(LoginPage.WaitPageLoadLpro(),
+					"Не прогрузилась страница Login - возможно, сайт недоступен");
+				
+				LoginPage.ClickLoginBtnLpro();
 
-            // Проверить, появился ли список аккаунтов
-            if (LoginPage.WaitAccountExist(accountName))
-            {
-                // Выбрать аккаунт
-                LoginPage.ClickAccountName(accountName);
-                // Зайти на сайт
-                LoginPage.ClickSubmit();
-            }
-            else if (LoginPage.GetIsErrorExist())
-            {
-                Assert.Fail("Появилась ошибка при входе! М.б.недоступен AOL.");
-            }
-            // иначе у пользователя только 1 аккаунт
+				// Заполнить логин и пароль
+				LoginPage.EnterLoginLpro(_login);
+				LoginPage.EnterPasswordLpro(_password);
+				Thread.Sleep(1000);
+				LoginPage.ClickSubmitLpro();
+			}
+			else
+			{
+				// Проверить, загрузилась ли
+				Assert.IsTrue(LoginPage.WaitPageLoad(),
+					"Не прогрузилась страница Login - возможно, сайт недоступен");
+
+				// Заполнить логин и пароль
+				LoginPage.EnterLogin(_login);
+				LoginPage.EnterPassword(_password);
+				LoginPage.ClickSubmit();
+
+				// Проверить, появился ли список аккаунтов
+				if (LoginPage.WaitAccountExist(accountName))
+				{
+					// Выбрать аккаунт
+					LoginPage.ClickAccountName(accountName);
+					// Зайти на сайт
+					LoginPage.ClickSubmit();
+				}
+				else if (LoginPage.GetIsErrorExist())
+				{
+					Assert.Fail("Появилась ошибка при входе! М.б.недоступен AOL.");
+				}
+				// иначе у пользователя только 1 аккаунт
+			}
 
             // Изменили язык на Английский
             Assert.IsTrue(WorkspacePage.WaitAppearLocaleBtn(), "Не дождались загрузки страницы со ссылкой для изменения языка");
@@ -898,7 +931,7 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             if (createNewTM)
             {
                 // Создать новую ТМ
-				if (Driver.Url.Contains("stage3"))
+				if (Driver.Url.Contains("stage3") || Driver.Url.Contains("stage1"))
 					CreateNewTMStage3(tmFile);
 				else
 					CreateNewTM(tmFile);
@@ -1224,8 +1257,8 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             EditorPage.AddTextTarget(segmentRowNumber, text);
             // Нажать на кнопку подтвердить
             EditorPage.ClickConfirmBtn();
-            
             // Убедиться что сегмент подтвержден
+
             Assert.IsTrue(WaitSegmentConfirm(1),
                 "Ошибка: подтверждение (Confirm) не прошло");
         }
@@ -1248,7 +1281,6 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
         {
             // Нажать кнопку назад
             EditorPage.ClickBackBtn();
-
             if (backToProject)
             {
                 // Дождаться переход на страницу проекта

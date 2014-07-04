@@ -68,7 +68,7 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
         /// <param name="userName">имя пользователя</param>
         public void ClickAssignUserListUser(string userName)
         {
-            string xPath = PROGRESS_DIALOG_USER_ITEM_LIST_XPATH + "[@title='" + userName + "']";
+            string xPath = PROGRESS_DIALOG_USER_ITEM_LIST_XPATH + "[contains(@title,'" + userName + "')]";
             ClickElement(By.XPath(xPath));
         }
 
@@ -473,6 +473,32 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 			return Int32.Parse(GetTextElement(By.XPath(workflowXPath)));
 		}
 
+		/// <summary>
+		/// Нажать на прогресс в поле документа
+		/// </summary>
+		public void ClickDocumentProgress()
+		{
+			ClickElement(By.XPath(DOCUMENT_PROGRESS_XPATH));
+		}
+
+		/// <summary>
+		/// Открыть свертку документа
+		/// </summary>
+		/// <param name="documentNumber">номер документа</param>
+		/// <returns>такой документ есть</returns>
+		public bool OpenDocumentInfo(int documentNumber)
+		{
+			// Кликнуть на открытие информации о документе
+			string documentXPath = DOCUMENT_ROW_XPATH + "[" + documentNumber + "]//" + OPEN_CLOSE_TD_XPATH;
+			bool isExistDocument = GetIsElementExist(By.XPath(documentXPath));
+			if (isExistDocument)
+			{
+				ClickElement(By.XPath(documentXPath));
+			}
+
+			return isExistDocument;
+		}
+
 
         protected const string PROJECT_TABLE_XPATH = "//table[contains(@class,'l-project-panel-tbl')]";
         protected const string PROGRESS_BTN_XPATH = "//span[contains(@class,'js-document-progress')]";
@@ -527,5 +553,10 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 
 		protected const string PROJECT_SETTINGS_CANCEL_BTN = "//div[contains(@class,'js-popup-edit')]//a[contains(@class,'js-popup-close')]";
 		protected const string PROJECT_SETTINGS_SAVE_BTN = "//div[contains(@class,'js-popup-edit')]//span[contains(@class,'js-save')]";
+		
+		protected const string DOCUMENT_PROGRESS_XPATH = "//td//a[contains(@class,'js-progress-link')]";
+		protected const string DOCUMENT_ASSIGN_RESPONSIBLES_BTN_XPATH = "//span[contains(@class,'js-assign-btn')]";
+		protected const string OPEN_CLOSE_TD_XPATH = "td[contains(@class,'openCloseCell')]";
+		protected const string UPLOAD_DOCUMENT_BTN_XPATH = ".//span[contains(@class,'js-import-btn ')]";
     }
 }

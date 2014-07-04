@@ -39,7 +39,7 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
         /// <returns>есть сегменты</returns>
         public bool GetSegmentsExist()
         {
-			if (Driver.Url.Contains("cat-stage3"))
+			if (Driver.Url.Contains("stage3") || Driver.Url.Contains("stage1"))
 				return GetIsElementExist(By.CssSelector(SEGMENTS_STAGE3_CSS));
 			else
 				return GetIsElementExist(By.CssSelector(SEGMENTS_CSS));
@@ -153,7 +153,12 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
         /// <returns>сегмент подтвердился</returns>
         public bool WaitSegmentConfirm(int segmentRowNumber)
         {
-            string xPath = SEGMENT_ROW_XPATH + "[" + segmentRowNumber + "]//td[contains(@class,'" + INFO_COLUMN_CLASS + "')]//span[contains(@class,'" + CONFIRMED_ICO_CLASS + "')]";
+			string xPath = "";
+			if (Driver.Url.Contains("stage3") || Driver.Url.Contains("stage1"))
+				xPath = SEGMENT_ROW_STAGE3_XPATH + "[" + segmentRowNumber + "]//td[contains(@class,'" + INFO_COLUMN_CLASS + "')]//span[contains(@class,'" + CONFIRMED_ICO_CLASS + "')]";
+			else
+				xPath = SEGMENT_ROW_XPATH + "[" + segmentRowNumber + "]//td[contains(@class,'" + INFO_COLUMN_CLASS + "')]//span[contains(@class,'" + CONFIRMED_ICO_CLASS + "')]";
+
 			return WaitUntilDisplayElement(By.XPath(xPath));
         }
 
@@ -164,7 +169,7 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
         public int GetSegmentsNumber()
         {
             int segmentCount;
-			if (Driver.Url.Contains("cat-stage3"))
+			if (Driver.Url.Contains("stage3") || Driver.Url.Contains("stage1"))
 				segmentCount = GetElementList(By.CssSelector(SEGMENTS_STAGE3_CSS)).Count;
 			else
 				segmentCount = GetElementList(By.CssSelector(SEGMENTS_CSS)).Count;
@@ -195,12 +200,18 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
         /// <returns>не пуста</returns>
         public bool GetCATPanelNotEmpty()
         {
-            // проверить, что вообще есть панель
+			string xPath;
+			if (Driver.Url.Contains("stage3") || Driver.Url.Contains("stage1"))
+				xPath = CAT_PANEL_EXISTENCE_STAGE3_XPATH;
+			else
+				xPath = CAT_PANEL_EXISTENCE_XPATH;
+			
+			// проверить, что вообще есть панель
             bool isNotEmpty = GetIsElementExist(By.Id(CAT_PANEL_ID));
             if (isNotEmpty)
             {
                 // Проверить, что в панели есть содержимое
-                isNotEmpty = GetIsElementExist(By.XPath(CAT_PANEL_EXISTENCE_XPATH));
+				isNotEmpty = GetIsElementExist(By.XPath(xPath));
             }
             return isNotEmpty;
         }
@@ -233,7 +244,13 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
         /// <param name="rowNumber">номер строки в панели</param>
         public void DoubleClickCATPanel(int rowNumber)
         {
-            DoubleClickElement(By.XPath(CAT_PANEL_EXISTENCE_XPATH + "[" + rowNumber + "]" + CAT_PANEL_TEXT_COL_PART));
+			string xPath;
+			if (Driver.Url.Contains("stage3") || Driver.Url.Contains("stage1"))
+				xPath = CAT_PANEL_EXISTENCE_STAGE3_XPATH;
+			else
+				xPath = CAT_PANEL_EXISTENCE_XPATH;
+
+			DoubleClickElement(By.XPath(xPath + "[" + rowNumber + "]" + CAT_PANEL_TEXT_COL_PART));
         }
 
         /// <summary>
@@ -288,7 +305,7 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
         /// <returns>xPath</returns>
         protected string GetTargetCellCss(int rowNumber)
         {
-			if (Driver.Url.Contains("cat-stage3"))
+			if (Driver.Url.Contains("stage3") || Driver.Url.Contains("stage1"))
 				return SEGMENTS_STAGE3_CSS + ":nth-child(" + rowNumber + ")" + " td." + TARGET_CELL_CLASS + " div";
 			else
 				return SEGMENTS_CSS + ":nth-child(" + rowNumber + ")" + " td." + TARGET_CELL_CLASS + " div";
@@ -301,7 +318,7 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
         /// <returns>xPath</returns>
         protected string GetSourceCellCss(int rowNumber)
         {
-			if (Driver.Url.Contains("cat-stage3"))
+			if (Driver.Url.Contains("stage3") || Driver.Url.Contains("stage1"))
 				return SEGMENTS_STAGE3_CSS + ":nth-child(" + rowNumber + ")" + " td." + SOURCE_CELL_CLASS +" div";
 			else
 				return SEGMENTS_CSS + ":nth-child(" + rowNumber + ")" + " td." + SOURCE_CELL_CLASS + " div";
@@ -321,7 +338,7 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 
 			// Выборка подсвеченных слов в сегменте
 			string segmentCSS;
-			if (Driver.Url.Contains("cat-stage3"))
+			if (Driver.Url.Contains("stage3") || Driver.Url.Contains("stage1"))
 				segmentCSS = SEGMENTS_STAGE3_CSS + ":nth-child(" + segmentRowNumber + ") td:nth-child(2) div pre span";
 			else
 				segmentCSS = SEGMENTS_CSS + ":nth-child(" + segmentRowNumber + ") td:nth-child(2) div pre span";
@@ -355,6 +372,7 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 
         protected const string SEGMENTS_BODY_ID = "segments-body";
         protected const string SEGMENT_ROW_XPATH = ".//div[@id='" + SEGMENTS_BODY_ID + "']//table//tbody//tr";
+		protected const string SEGMENT_ROW_STAGE3_XPATH = ".//div[@id='" + SEGMENTS_BODY_ID + "']//table";
         protected const string INFO_COLUMN_CLASS = "info-cell";
         protected const string CONFIRMED_ICO_CLASS = "fa-check";
         protected const string TARGET_CELL_CLASS = "target-cell";
@@ -366,6 +384,7 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 
         protected const string CAT_PANEL_ID = "cat-body";
         protected const string CAT_PANEL_EXISTENCE_XPATH = ".//div[@id='" + CAT_PANEL_ID + "']//table//tbody//tr";
+		protected const string CAT_PANEL_EXISTENCE_STAGE3_XPATH = ".//div[@id='" + CAT_PANEL_ID + "']//table";
         protected const string CAT_PANEL_TYPE_COLUMN_XPATH = CAT_PANEL_EXISTENCE_XPATH + "//td[3]/div";
         protected const string CAT_PANEL_TEXT_COL_PART = "//td[4]/div";
         protected const string CAT_PANEL_TEXT_COLUMN_XPATH = CAT_PANEL_EXISTENCE_XPATH + CAT_PANEL_TEXT_COL_PART;

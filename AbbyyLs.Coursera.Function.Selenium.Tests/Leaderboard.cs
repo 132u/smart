@@ -127,7 +127,7 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
             string courseName;
             int lectureRowNumber, translationRowNum;
             AddTranslation(translationText, out courseName, out lectureRowNumber, out translationRowNum);
-            ClickBackEditor();
+			ClickBackEditor();
             // Перейти в список курсов
             OpenCoursePage();
             // Открыть другой курс
@@ -135,17 +135,14 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
             // Открыть первую лекцию
             OpenLectureByRowNum(1);
             // Добавить перевод            
-            AddTranslationByRowNum(GetEmptyTranslationRowNumber(), translationText);
-            ClickBackEditor();
-            
+			AddTranslationByRowNum(GetEmptyTranslationRowNumber(), translationText);
+			ClickBackEditor();
             // Перейти к списку лидеров
             OpenLeaderboardPage();
             // Получить рейтинг пользователя в лидерборде
             Decimal leaderboardRating = GetRatingLeaderboard();
-
             // Открыть курс в лидерборде
             OpenLeaderboardCourse(courseName);
-
             // Получить рейтинг для курса
             Decimal courseRating = GetRatingLeaderboard();
             // Сравнить рейтинг общий и для курса

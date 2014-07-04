@@ -52,7 +52,14 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
         /// <returns>появилась</returns>
         public bool WaitRevisionAppear(int revisionNumber)
         {
-            return WaitUntilDisplayElement(By.XPath(REVISION_LIST_XPATH + "[" + revisionNumber + "]"));
+			string revisionXPath = "";
+
+			if (Driver.Url.Contains("stage3") || Driver.Url.Contains("stage1"))
+				revisionXPath = REVISION_LIST_STAGE3_XPATH;
+			else
+				revisionXPath = REVISION_LIST_XPATH;
+
+			return WaitUntilDisplayElement(By.XPath(revisionXPath + "[" + revisionNumber + "]"));
         }
 
         /// <summary>
@@ -110,7 +117,13 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
         /// <returns>есть ревизия</returns>
         public bool ClickRevision(int revisionNumber)
         {
-            string revisionXPath = REVISION_LIST_XPATH + "[" + revisionNumber + "]//td";
+            string revisionXPath = "";
+			
+			if (Driver.Url.Contains("stage3") || Driver.Url.Contains("stage1"))
+				revisionXPath = REVISION_LIST_STAGE3_XPATH + "[" + revisionNumber + "]//td";
+			else
+				revisionXPath = REVISION_LIST_XPATH + "[" + revisionNumber + "]//td";
+
             // Есть ли ревизия
             bool isExistRevision = GetIsElementExist(By.XPath(revisionXPath));
             if (isExistRevision)
@@ -127,7 +140,14 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
         /// <returns>количество</returns>
         public int GetRevisionListCount()
         {
-            return GetElementList(By.XPath(REVISION_LIST_XPATH)).Count;
+			string revisionXPath = "";
+
+			if (Driver.Url.Contains("stage3") || Driver.Url.Contains("stage1"))
+				revisionXPath = REVISION_LIST_STAGE3_XPATH;
+			else
+				revisionXPath = REVISION_LIST_XPATH;
+
+			return GetElementList(By.XPath(revisionXPath)).Count;
         }
 
         /// <summary>
@@ -200,7 +220,14 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
         /// <returns>xPath</returns>
         protected string GetRevisionCellXPath(int revisionNumber, string column)
         {
-            return REVISION_LIST_XPATH + "[" + revisionNumber + "]" + column;
+			string revisionXPath = "";
+
+			if (Driver.Url.Contains("stage3") || Driver.Url.Contains("stage1"))
+				revisionXPath = REVISION_LIST_STAGE3_XPATH;
+			else
+				revisionXPath = REVISION_LIST_XPATH;
+
+			return revisionXPath + "[" + revisionNumber + "]" + column;
         }
 
         public enum RevisionType { AutoSave, Confirmed, InsertMT, InsertTM, Rollback };
@@ -210,6 +237,7 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
         protected const string ROLLBACK_BTN_ID = "revision-rollback-btn";
 
         protected const string REVISION_LIST_XPATH = "//div[@id='revisions-body']//table//tbody//tr";
+		protected const string REVISION_LIST_STAGE3_XPATH = "//div[@id='revisions-body']//table";
         protected const string TIME_COLUMN_XPATH = "//td[contains(@class,'revision-date-cell')]";
         protected const string TEXT_COLUMN_XPATH = "//td[contains(@class,'revision-text-cell')]";
         protected const string TYPE_COLUMN_XPATH = "//td[contains(@class,'revision-type-cell')]";

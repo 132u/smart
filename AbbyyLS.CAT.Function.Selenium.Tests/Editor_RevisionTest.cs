@@ -296,6 +296,8 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
         {
             CreateReadyProject(ProjectName, true, true);
 
+			EditorPage.ClickSourceCell(1);
+
             // Проверить, что есть переводы в панели CAT
             Assert.IsTrue(EditorPage.GetCATPanelNotEmpty(), "Ошибка: нет переводов в панели САТ");
             int catTranslationNum = EditorPage.GetCATTranslationRowNumber(EditorPageHelper.CAT_TYPE.MT);
@@ -332,6 +334,8 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
         public void PasteFromMTAfterConfirmTest()
         {
             CreateReadyProject(ProjectName, true, true);
+
+			EditorPage.ClickSourceCell(1);
 
             // Проверить, что есть переводы в панели CAT
             Assert.IsTrue(EditorPage.GetCATPanelNotEmpty(), "Ошибка: нет переводов в панели САТ");
@@ -407,6 +411,8 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
         public void ConfirmSomeTranslations()
         {
             CreateReadyProject(ProjectName);
+
+			EditorPage.ClickSourceCell(1);
 
             // Подтвердить несколько переводов в сегменте
             int translationNumber = 2;
@@ -574,6 +580,8 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
         public void ConfirmInsertedMTTest()
         {
             CreateReadyProject(ProjectName, true, true);
+
+			EditorPage.ClickSourceCell(1);
 
             // Проверить, что есть переводы MT
             Assert.IsTrue(EditorPage.GetCATPanelNotEmpty(), "Ошибка: нет переводов в МТ");

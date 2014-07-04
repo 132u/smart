@@ -245,6 +245,7 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 
             // Нажать New item
             GlossaryPage.ClickNewItemBtn();
+
             // Проверить, что появилось поле добавления нового термина в расширенном виде
             Assert.IsTrue(GlossaryPage.GetIsExistNewItemExtendedMode(),
                 "Ошибка: не появилось расширенного режима добавления термина");
@@ -465,7 +466,7 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             langList.Add(CommonHelper.LANGUAGE.German);
             langList.Add(CommonHelper.LANGUAGE.French);
             langList.Add(CommonHelper.LANGUAGE.Japanise);
-            langList.Add(CommonHelper.LANGUAGE.French);
+            langList.Add(CommonHelper.LANGUAGE.Lithuanian);
 
             // Создать глоссарий
             CreateGlossaryByName(glossaryName, true, langList);

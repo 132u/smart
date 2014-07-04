@@ -40,7 +40,7 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             FirstStepProjectWizard(ProjectName);
 
             //процесс добавления файла
-            ImportDocumentCreateProject(RtfFile);
+			ImportDocumentCreateProject(AudioFile);
 
             // Проверить, что появилось сообщение о неверном формате загружаемого документа
             Assert.IsTrue(WorkspaceCreateProjectDialog.GetIsExistErrorFormatDocumentMessage(),

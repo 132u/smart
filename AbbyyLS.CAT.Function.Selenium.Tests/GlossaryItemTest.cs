@@ -322,11 +322,10 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             List<string> glossaryNames = SearchPage.GetGlossaryResultNames();
             // Проверить, что найдено два термина
             Assert.IsTrue(glossaryNames.Count == glossaryList.Count, "Ошибка: поиск должен найти только два результата");
+			
+			Assert.IsTrue(glossaryNames[0].Contains(glossaryList[0]), "Ошибка: в списке нет глоссария:\n" + glossaryList[0]);
 
-            for (int i = 0; i < glossaryList.Count; ++i )
-            {
-                Assert.IsTrue(glossaryNames.Contains(glossaryList[i]), "Ошибка: в списке нет глоссария:\n" + glossaryList[i]);
-            }
+			Assert.IsTrue(glossaryNames[1].Contains(glossaryList[1]), "Ошибка: в списке нет глоссария:\n" + glossaryList[1]);
 
             for (int i = 0; i < glossaryNames.Count; ++i)
             {
@@ -427,13 +426,13 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 
             // Сохранить
             GlossaryPage.ClickSaveExtendedConcept();
+			Thread.Sleep(5000);
             // Проверить, что термин сохранился
             Assert.IsTrue(GlossaryPage.WaitConceptSave(), "Ошибка: термин не сохранился");
             // Свернуть
-            GlossaryPage.ClickTurnOffBtn();
+			GlossaryPage.ClickTurnOffBtn();
             // Проверить, что термин сохранился с новым значением
             Assert.IsTrue(GetIsTermTextExist(newTermText), "Ошибка: термин не сохранил изменения");
-
             // Удалить глоссарий
             DeleteGlossary();
         }

@@ -61,6 +61,46 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             ClickElement(By.XPath(GetAccountItemXPath(accountName)));
         }
 
+		public void ClickLoginBtnLpro()
+		{
+			ClickElement(By.Id(LOGIN_BTN_LPRO_XPATH));
+		}
+
+		/// <summary>
+		/// Дождаться загрузки страницы на lpro
+		/// </summary>
+		/// <returns>загрузилась</returns>
+		public bool WaitPageLoadLpro()
+		{
+			return WaitUntilDisplayElement(By.Id(LOGIN_BTN_LPRO_XPATH));
+		}
+
+		/// <summary>
+		/// Ввести логин на lpro
+		/// </summary>
+		/// <param name="login">логин</param>
+		public void EnterLoginLpro(string login)
+		{
+			ClearAndAddText(By.Id(EMAIL_LPRO_XPATH), login);
+		}
+
+		/// <summary>
+		/// Ввести пароль на lpro
+		/// </summary>
+		/// <param name="password">пароль</param>
+		public void EnterPasswordLpro(string password)
+		{
+			ClearAndAddText(By.Id(PASSWORD_LPRO_XPATH), password);
+		}
+
+		/// <summary>
+		/// Кликнуть кнопку Login
+		/// </summary>
+		public void ClickSubmitLpro()
+		{
+			ClickElement(By.XPath(SUBMIT_LPRO_XPATH));
+		}
+
         /// <summary>
         /// Вернуть, появилась ли ошибка
         /// </summary>
@@ -84,5 +124,10 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
         protected const string PASSWORD_CSS = "input[name=\"password\"]";
         protected const string SUBMIT_BTN_CSS = "input[type =\"submit\"]";
         protected const string ERROR_XPATH = "//div[contains(@class,'js-dynamic-errors')]";
+		
+		protected const string LOGIN_BTN_LPRO_XPATH = "btnLogin";
+		protected const string EMAIL_LPRO_XPATH = "lfLogin";
+		protected const string PASSWORD_LPRO_XPATH = "lfPwd";
+		protected const string SUBMIT_LPRO_XPATH = "//input[@value='Login']";
     }
 }

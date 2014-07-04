@@ -153,6 +153,7 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             CreateItemAndSave(SuggestTerm1, SuggestTerm2);
             // Предложить термин
             SuggestTermAndSave(SuggestTerm1, SuggestTerm2);
+			Thread.Sleep(2000);
             // Проверить, что появилось предупреждение
             Assert.IsTrue(SuggestTermDialog.GetIsExistDuplicateWarning(),
                 "Ошибка: не появилось предупреждение о существующем термине");
@@ -181,11 +182,13 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             CreateItemAndSave(SuggestTerm1, SuggestTerm2);
             // Предложить термин
             SuggestTermAndSave(SuggestTerm1, SuggestTerm2);
-            // Согласиться
-            SuggestTermDialog.ClickSave();
-            Thread.Sleep(500);
+			Thread.Sleep(2000);
+			// Согласиться
+			SuggestTermDialog.ClickSave();
+			Thread.Sleep(2000);
             // Перейти в предложенные термины
-            SwitchSuggestTermsTab();
+			SwitchSuggestTermsTab();
+			Thread.Sleep(2000);
             // Проверить, что предложенный термин сохранился
             Assert.IsTrue(GlossarySuggestPage.GetSuggestTermsCount() > 0, "Ошибка: предложенный термин не сохранился");
         }
@@ -211,13 +214,16 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 
             // Предложить термин  с указанием глоссария
             SuggestTermAndSave(SuggestTerm1, SuggestTerm2, true, glossaryName);
+			Thread.Sleep(2000);
             // Проверить, что появилось предупреждение
             Assert.IsTrue(SuggestTermDialog.GetIsExistDuplicateWarning(),
                 "Ошибка: не появилось предупреждение о существующем термине");
             // Нажать отмену
             SuggestTermDialog.ClickCancel();
+			Thread.Sleep(2000);
             // Перейти в глоссарий
             SwitchCurrentGlossary(glossaryName);
+			Thread.Sleep(2000);
             // Перейти в предложенные термины
             SwitchSuggestTermsTab();
             // Проверить, что нет предложенных терминов
@@ -244,10 +250,13 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             SwitchGlossaryTab();
             // Предложить термин  с указанием глоссария
             SuggestTermAndSave(SuggestTerm1, SuggestTerm2, true, glossaryName);
+			Thread.Sleep(2000);
             // Согласиться
             SuggestTermDialog.ClickSave();
+			Thread.Sleep(2000);
             // Перейти в глоссарий
             SwitchCurrentGlossary(glossaryName);
+			Thread.Sleep(2000);
             // Перейти в предложенные термины
             SwitchSuggestTermsTab();
             // Проверить, что предложенный термин сохранился

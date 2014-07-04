@@ -920,11 +920,6 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             return GetIsElementDisplay(By.XPath(CONCEPT_EDITING_TD_XPATH));
         }
 
-
-
-
-
-
         /// <summary>
         /// Получить xPath пользовательского поля (для поля типа Bool)
         /// </summary>
@@ -1072,7 +1067,7 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
         protected const string ITEM_EDITOR_INPUT_XPATH = "//span[contains(@class,'js-term-editor')]//input";
 
         protected const string CONCEPT_TABLE_XPATH = "//table[contains(@class,'js-concepts')]";
-        protected const string CONCEPT_EDITING_TD_XPATH = "//tr[contains(@class, 'js-concept-row js-editing')]//td";
+		protected const string CONCEPT_EDITING_TD_XPATH = "//tr[contains(@class, 'js-concept')]//td";
         protected const string CONCEPT_EDITING_OPENED = "//tr[contains(@class, 'js-concept-row js-editing opened')]";
         protected const string EDIT_CONCEPT_SAVE_BTN_XPATH = CONCEPT_EDITING_OPENED + "//a[contains(@class, 'js-save-btn')]";
         protected const string CANCEL_EDIT_CONCEPT_BTN_XPATH = CONCEPT_EDITING_OPENED + "//a[contains(@class, 'js-cancel-btn')]";

@@ -686,9 +686,8 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             string projectName = CreateProjectOneDocument(false);
             // Создать второй проект
             string projectName2 = CreateCommonProjectMultiDocuments(false);
-            // Закрыть все открытые сообщения об экспорте
+			// Закрыть все открытые сообщения об экспорте
             WorkspacePage.CancelAllNotifiers();
-
             // Экспортировать второй проект (с 2 документами)
             SelectProjectInList(projectName2);
             ClickExportBtnRed(EXPORT_TYPE_SOURCE);

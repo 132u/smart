@@ -8,6 +8,7 @@ using OpenQA.Selenium.Firefox;
 using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.IE;
 using OpenQA.Selenium.Support.UI;
+using System.Threading;
 
 namespace AbbyyLs.CAT.Function.Selenium.Tests
 {
@@ -209,7 +210,6 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             ClickElement(By.XPath(GetAccountEditBtnXPath(account)));
         }
 
-
         /// <summary>
         /// Вернуть xPath кнопки Edit около акканта
         /// </summary>
@@ -229,6 +229,21 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
         {
             return date.Day + "." + date.Month + "." + date.Year;
         }
+
+		/// <summary>
+		/// Выбрать затею
+		/// </summary>
+		/// <param name="name">название</param>
+		public void SetVenture(string name)
+		{
+			if (GetIsElementDisplay(By.XPath(VENTURE_XPATH)))
+			{
+				ClickElement(By.XPath(VENTURE_XPATH));
+				WaitUntilDisplayElement(By.XPath(VENTURE_XPATH + "//option[contains(@value,'" + name + "')]"));
+				SendTextElement(By.XPath(VENTURE_XPATH), name);
+				ClickElement(By.XPath(VENTURE_XPATH));
+			}
+		}
 
         protected const string LOGIN_FORM_XPATH = "//form[contains(@action,'/Home/Login')]";
         protected const string LOGIN_FORM_LOGIN_XPATH = "//input[@name='email']";
@@ -254,5 +269,6 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
         protected const string ACCOUNT_NAME_XPATH = "//input[@name='Name']";
         protected const string SUBDOMAIN_NAME_XPATH = "//input[@name='SubDomain']";
         protected const string CREATE_ACCOUNT_FORM_XPATH = "//form[contains(@action,'Edit')]";
+		protected const string VENTURE_XPATH = "//select[@id='VentureId']";
     }
 }
