@@ -964,8 +964,9 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
         /// <returns>есть аватар</returns>
         protected bool GetIsAvatarExistLeaderboard()
         {
-            return Driver.FindElement(By.XPath(
-                    ".//tr[contains(@class,'active') and not(@disabled)]//td[2]/img")).GetAttribute("src").Contains("/avatar/");
+			return Driver.FindElement(By.XPath(
+								SelectByUrl(".//tr[contains(@class,'active') and not(@disabled)]//td[2]/img",
+											".//span[contains(@class,'menu-user-link')]/img"))).GetAttribute("src").Contains("/avatar/");
         }
 
         /// <summary>

@@ -578,9 +578,8 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
         private int GetTranslationRatingInEditor(int rowNumber)
         {
             return int.Parse(
-                Driver.FindElement(By.XPath(".//div[@id='translations-body']//table[" + rowNumber + "]//td[5]/div//span[contains(@class,'rating-count')]")).Text);
+                Driver.FindElement(By.XPath(SelectByUrl(".//div[@id='translations-body']//table//tr[" + rowNumber + "]//td[5]/div//span[contains(@class,'rating-count')]",
+														".//div[@id='translations-body']//table[" + rowNumber + "]//td[5]/div//span[contains(@class,'rating-count')]"))).Text);
         }
-
-
     }
 }

@@ -1975,8 +1975,9 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
                 for (int i = 0; i < translationsList.Count; ++i)
                 {
                     // Имя переводчика предложенного перевода
-                    string translaterName = Driver.FindElement(By.XPath(
-                        ".//div[@id='translations-body']//table[" + (i + 1) + "]//td[2]//div")).Text;
+                    string translaterName = Driver.FindElement(By.XPath(SelectByUrl(
+                        ".//div[@id='translations-body']//table//tr[" + (i + 1) + "]//td[2]//div",
+						".//div[@id='translations-body']//table[" + (i + 1) + "]//td[2]//div"))).Text;
                     // Если имя переводчика содержит имя нужного переводчика - голосуем
                     if (translaterName.Contains(userName))
                     {

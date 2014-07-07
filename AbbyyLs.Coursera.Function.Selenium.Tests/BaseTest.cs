@@ -486,8 +486,11 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
         protected void VoteFromEditor(bool isVoteUp, int rowNumber)
         {
             string voteClass = isVoteUp ? "fa-thumbs-up" : "fa-thumbs-down";
-            Driver.FindElement(By.XPath(".//div[@id='translations-body']//table[" + rowNumber + "]//td[5]/div//span[contains(@class,'" + voteClass + "')]")).Click();
-            Thread.Sleep(1000);
+            Driver.FindElement(By.XPath(
+									SelectByUrl(".//div[@id='translations-body']//table//tr[" + rowNumber + "]//td[5]/div//span[contains(@class,'" + voteClass + "')]",
+												".//div[@id='translations-body']//table[" + rowNumber + "]//td[5]/div//span[contains(@class,'" + voteClass + "')]"))).Click();
+            
+			Thread.Sleep(1000);
             Assert.IsTrue(GetIsVoteConsideredEditor(isVoteUp, rowNumber), "Ошибка: голос не принят");
         }
 
@@ -685,7 +688,7 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
                         ".//ul[contains(@data-bind,'projectsRight')]//table[" + (i + 1) + "]//td[2]//div[contains(@data-bind,'name')]")).Text.Contains("TestProject"))
                 {
                     Decimal curProgress = Decimal.Parse(_driver.FindElement(By.XPath(
-                        ".//ul[contains(@data-bind,'projectsRight')]//table[" + (i + 1) + "]//td[1]//span[contains(@class,'percent')]")).Text.Replace("%", "").Replace(".", ","));
+						".//ul[contains(@data-bind,'projectsRight')]//table[" + (i + 1) + "]//td[1]//span[contains(@class,'percent')]")).Text.Replace("%", "").Replace(".", ","));
                     if (curProgress < minProgressRight)
                     {
                         // минимальный прогресс
@@ -956,7 +959,8 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
         /// <param name="targetText">текст перевода</param>
         protected void AddTranslationByRowNum(int rowNumber, string targetText)
         {
-            string targetCell = "#segments-body div table:nth-child(" + rowNumber + ") td:nth-child(4) div";
+			string targetCell = SelectByUrl("#segments-body div table tr:nth-child(" + rowNumber + ") td:nth-child(4) div",
+											"#segments-body div table:nth-child(" + rowNumber + ") td:nth-child(4) div");
             // Кликнуть по ячейке
             _driver.FindElement(By.CssSelector(targetCell)).Click();
             // Очистить
@@ -1019,8 +1023,11 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
         protected int GetTranslationVariantsNum(int translationRowNum)
         {
             // Получить количество вариантов перевода
-            _driver.FindElement(By.CssSelector("#segments-body div table:nth-child(" + translationRowNum + ") td:nth-child(4) div")).Click();
-            string variantsNumberStr = _driver.FindElement(By.CssSelector("#segments-body div table:nth-child(" + translationRowNum + ") td:nth-child(6) div")).Text.Trim();
+            _driver.FindElement(By.CssSelector(SelectByUrl("#segments-body div table tr:nth-child(" + translationRowNum + ") td:nth-child(4) div", 
+															"#segments-body div table:nth-child(" + translationRowNum + ") td:nth-child(4) div"))).Click();
+            
+			string variantsNumberStr = _driver.FindElement(By.CssSelector(SelectByUrl("#segments-body div table tr:nth-child(" + translationRowNum + ") td:nth-child(6) div", 
+																						"#segments-body div table:nth-child(" + translationRowNum + ") td:nth-child(6) div"))).Text.Trim();
             int variantsNumber = 0;
             // Если поле пустое - то вариантов 0
             if (variantsNumberStr.Length > 0)
@@ -1080,7 +1087,8 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
             foreach (int i in rowList)
             {
                 // Кликнуть по сегменту в нужной строке
-                _driver.FindElement(By.XPath(".//div[@id='segments']//table[" + i + "]//td[4]//div")).Click();
+                _driver.FindElement(By.XPath(SelectByUrl(".//div[@id='segments']//table//tr[" + i + "]//td[4]//div",
+															".//div[@id='segments']//table[" + i + "]//td[4]//div"))).Click();
                 if (GetIsExistMyTranslationSegment())
                 {
                     // Удалить перевод из предложенных переводов
@@ -1124,7 +1132,8 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
         /// <param name="rowNumber">номер строки</param>
         protected void ClickEditorRowByNum(int rowNumber)
         {
-            _driver.FindElement(By.XPath(".//div[@id='segments']//table[" + rowNumber + "]//td[4]//div")).Click();
+            _driver.FindElement(By.XPath(SelectByUrl(".//div[@id='segments']//table//tr[" + rowNumber + "]//td[4]//div", 
+														".//div[@id='segments']//table[" + rowNumber + "]//td[4]//div"))).Click();
         }
 
         /// <summary>
@@ -1228,8 +1237,8 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
             IList<IWebElement> segmentsList = Driver.FindElements(By.CssSelector("#segments-body div table tr td:nth-child(4) div"));
 
             // Фактический номер последней видимой строки
-            int curLastRow = int.Parse(Driver.FindElement(By.CssSelector("#segments-body div table:nth-child(" + segmentsList.Count + ") td:nth-child(1) div")).Text.Trim());
-
+            int curLastRow = int.Parse(Driver.FindElement(By.CssSelector(SelectByUrl("#segments-body div table tr:nth-child(" + segmentsList.Count + ") td:nth-child(1) div",
+																						"#segments-body div table:nth-child(" + segmentsList.Count + ") td:nth-child(1) div"))).Text.Trim());
             Console.WriteLine("curLastRow: " + curLastRow);
             Console.WriteLine("lastLastFactRow: " + lastLastFactRow);
 
@@ -1241,7 +1250,8 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
             if (!isLectureFinished)
             {
                 // Фактический номер первой видимой строки
-                int curFirstRow = int.Parse(Driver.FindElement(By.CssSelector("#segments-body div table:nth-child(1) td:nth-child(1) div")).Text.Trim());
+                int curFirstRow = int.Parse(Driver.FindElement(By.CssSelector(SelectByUrl("#segments-body div table tr:nth-child(1) td:nth-child(1) div",
+																							"#segments-body div table:nth-child(1) td:nth-child(1) div"))).Text.Trim());
                 startIndex = lastLastFactRow - curFirstRow + 1;
             }
 
@@ -1257,7 +1267,8 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
         /// <returns>имя автора</returns>
         protected string GetSuggestedTranslationAuthor(int rowNumber)
         {
-            return _driver.FindElement(By.XPath(".//div[@id='translations-body']//table[" + rowNumber + "]//td[2]/div")).Text.Trim();
+            return _driver.FindElement(By.XPath(SelectByUrl(".//div[@id='translations-body']//table//tr[" + rowNumber + "]//td[2]/div",
+															".//div[@id='translations-body']//table[" + rowNumber + "]//td[2]/div"))).Text.Trim();
         }
 
         /// <summary>
@@ -1566,11 +1577,13 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
         protected void AssertConfirmIsDone(int rowNumber)
         {
             // Проверка, что около ячейки с переводом есть галочка
-            Assert.IsTrue(IsElementPresent(By.XPath(".//div[@id='segments-body']//table[" + rowNumber + "]//td[5]//span[contains(@class,'fa-check')]")),
+            Assert.IsTrue(IsElementPresent(By.XPath(SelectByUrl(".//div[@id='segments-body']//table//tr[" + rowNumber + "]//td[5]//span[contains(@class,'fa-check')]",
+																".//div[@id='segments-body']//table[" + rowNumber + "]//td[5]//span[contains(@class,'fa-check')]"))),
                 "Ошибка: около ячейки не появилось галочки");
             // Проверка, что около ячейки с переводом галочка не в рамке (то есть подтверждение прошло)
-            Assert.IsTrue(WaitUntilDisappearElement(
-				".//div[@id='segments-body']//table[" + rowNumber + "]//td[5]//span[contains(@class,'fa-border')]", 25),
+            Assert.IsTrue(WaitUntilDisappearElement(SelectByUrl(
+				".//div[@id='segments-body']//table//tr[" + rowNumber + "]//td[5]//span[contains(@class,'fa-border')]",
+				".//div[@id='segments-body']//table[" + rowNumber + "]//td[5]//span[contains(@class,'fa-border')]"), 25),
                 "Ошибка: рамка вокруг галочки не пропадает - Confirm не прошел");
         }
 
@@ -1583,10 +1596,9 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
         protected bool GetIsVoteConsideredEditor(bool isVoteUp, int rowNumber)
         {
             string voteIcon = isVoteUp ? "fa-thumbs-up" : "fa-thumbs-down";
-            return IsElementPresent(By.XPath(
-                    ".//div[@id='translations-body']//table["
-                    + rowNumber + "]//td[5]/div//span[contains(@class,'"
-                    + voteIcon + "')][contains(@class,'disabled')]"));
+            return IsElementPresent(By.XPath(SelectByUrl(
+					".//div[@id='translations-body']//table//tr["+ rowNumber + "]//td[5]/div//span[contains(@class,'"+ voteIcon + "')][contains(@class,'disabled')]",
+                    ".//div[@id='translations-body']//table["+ rowNumber + "]//td[5]/div//span[contains(@class,'"+ voteIcon + "')][contains(@class,'disabled')]")));
         }
 
         /// <summary>
@@ -1794,5 +1806,21 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
                 screenshot.SaveAsFile(screenName, ImageFormat.Png);
             }
         }
+
+		/// <summary>
+		/// Возвращает строку соответствующую действительному адресу (Stage2 или Stage3)
+		/// </summary>
+		/// <param name="parametrStage2">Строка соответсвующая Stage2</param>
+		/// <param name="parametrStage3">Строка соответсвующая Stage2</param>
+		/// <returns></returns>
+		public string SelectByUrl(string parametrStage2, string parametrStage3)
+		{
+			if (Driver.Url.Contains("stage2"))
+				return parametrStage2;
+			else if (Driver.Url.Contains("stage3"))
+				return parametrStage3;
+
+			return "";
+		}
     }
 }
