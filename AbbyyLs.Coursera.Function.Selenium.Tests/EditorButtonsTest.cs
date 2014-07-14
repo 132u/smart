@@ -33,7 +33,7 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
         public void Setup()
         {
             // Перейти к списку доступных курсов
-            OpenCoursePage();
+			Assert.IsTrue(OpenCoursePage(), "Ошибка: список курсов пустой.");
             // Переход в курс с наименьшим прогрессом
             string courseName = OpenCourseMinProgress();
             // Перейти в лекцию
@@ -41,10 +41,7 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
             // Найти предложение без перевода
             editorRowNumber = GetEmptyTranslationRowNumber();
             // Кликнуть в ячейку Target
-            Driver.FindElement(By.CssSelector(SelectByUrl(
-                "#segments-body div table tr:nth-child(" + editorRowNumber + ") td:nth-child(4) div",
-				"#segments-body div table:nth-child(" + editorRowNumber + ") td:nth-child(4) div"))).
-				Click();
+			EditorPage.ClickTargetByRowNumber(editorRowNumber);
         }
 
         /// <summary>
@@ -57,7 +54,7 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
             ClickBackEditor();
 
             // Проверить, что вернулись в список лекций
-            Assert.IsTrue(IsElementPresent(By.XPath(".//tbody[contains(@data-bind,'lectures')]")), "Ошибка: не вышли из редактора по кнопке Back");
+            Assert.IsTrue(LecturePage.WaitUntilDisplayLecturesList(), "Ошибка: не вышли из редактора по кнопке Back");
         }
 
         /// <summary>
@@ -103,15 +100,11 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
         public void ChangeCaseTextButton()
         {
             // Написать текст в первом сегменте в target
-            Driver.FindElement(By.CssSelector(SelectByUrl(
-				"#segments-body div table tr:nth-child(" + editorRowNumber + ") td:nth-child(4) div",
-				"#segments-body div table:nth-child(" + editorRowNumber + ") td:nth-child(4) div"))).
-                SendKeys("the example sentence");
+			EditorPage.AddTextTargetByRowNumber(editorRowNumber, "the example sentence");
+
             // Нажать хоткей выделения всего содержимого ячейки
-            Driver.FindElement(By.CssSelector(SelectByUrl(
-				"#segments-body div table tr:nth-child(" + editorRowNumber + ") td:nth-child(4) div",
-				"#segments-body div table:nth-child(" + editorRowNumber + ") td:nth-child(4) div"))).
-                SendKeys(OpenQA.Selenium.Keys.Shift + OpenQA.Selenium.Keys.Control + OpenQA.Selenium.Keys.Home);
+			EditorPage.AddTextTargetByRowNumber(editorRowNumber, OpenQA.Selenium.Keys.Shift + OpenQA.Selenium.Keys.Control + OpenQA.Selenium.Keys.Home);
+
             // Запустить проверку
             CheckChangeCase("the example sentence", "The Example Sentence", "THE EXAMPLE SENTENCE", true);
         }
@@ -123,15 +116,11 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
         public void ChangeCaseTextHotkey()
         {
             // Написать текст в первом сегменте в target
-            Driver.FindElement(By.CssSelector(SelectByUrl(
-				"#segments-body div table tr:nth-child(" + editorRowNumber + ") td:nth-child(4) div",
-				"#segments-body div table:nth-child(" + editorRowNumber + ") td:nth-child(4) div"))).
-                SendKeys("the example sentence");
+			EditorPage.AddTextTargetByRowNumber(editorRowNumber, "the example sentence");
+
             // Нажать хоткей выделения всего содержимого ячейки
-            Driver.FindElement(By.CssSelector(SelectByUrl(
-				"#segments-body div table tr:nth-child(" + editorRowNumber + ") td:nth-child(4) div",
-				"#segments-body div table:nth-child(" + editorRowNumber + ") td:nth-child(4) div"))).
-                SendKeys(OpenQA.Selenium.Keys.Shift + OpenQA.Selenium.Keys.Control + OpenQA.Selenium.Keys.Home);
+			EditorPage.AddTextTargetByRowNumber(editorRowNumber, OpenQA.Selenium.Keys.Shift + OpenQA.Selenium.Keys.Control + OpenQA.Selenium.Keys.Home);
+
             // Запустить проверку
             CheckChangeCase("the example sentence", "The Example Sentence", "THE EXAMPLE SENTENCE", false);
         }
@@ -143,15 +132,11 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
         public void ChangeCaseSomeWordButton()
         {
             // Написать текст в первом сегменте в target
-            Driver.FindElement(By.CssSelector(SelectByUrl(
-				"#segments-body div table tr:nth-child(" + editorRowNumber + ") td:nth-child(4) div",
-				"#segments-body div table:nth-child(" + editorRowNumber + ") td:nth-child(4) div"))).
-                SendKeys("some words for example");
+			EditorPage.AddTextTargetByRowNumber(editorRowNumber, "some words for example");
+			
             // Нажать хоткей выделения последнего слова
-            Driver.FindElement(By.CssSelector(SelectByUrl(
-				"#segments-body div table tr:nth-child(" + editorRowNumber + ") td:nth-child(4) div",
-				"#segments-body div table:nth-child(" + editorRowNumber + ") td:nth-child(4) div"))).
-                SendKeys(OpenQA.Selenium.Keys.Shift + OpenQA.Selenium.Keys.Control + OpenQA.Selenium.Keys.ArrowLeft);
+			EditorPage.AddTextTargetByRowNumber(editorRowNumber, OpenQA.Selenium.Keys.Shift + OpenQA.Selenium.Keys.Control + OpenQA.Selenium.Keys.ArrowLeft);
+
             // Запустить проверку
             CheckChangeCase("some words for example", "some words for Example", "some words for EXAMPLE", true);
         }
@@ -163,15 +148,11 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
         public void ChangeCaseSomeWordHotkey()
         {
             // Написать текст в первом сегменте в target
-            Driver.FindElement(By.CssSelector(SelectByUrl(
-				"#segments-body div table tr:nth-child(" + editorRowNumber + ") td:nth-child(4) div",
-				"#segments-body div table:nth-child(" + editorRowNumber + ") td:nth-child(4) div"))).
-                SendKeys("some words for example");
+			EditorPage.AddTextTargetByRowNumber(editorRowNumber, "some words for example");
+			
             // Нажать хоткей выделения последнего слова
-            Driver.FindElement(By.CssSelector(SelectByUrl(
-				"#segments-body div table tr:nth-child(" + editorRowNumber + ") td:nth-child(4) div",
-				"#segments-body div table:nth-child(" + editorRowNumber + ") td:nth-child(4) div"))).
-                SendKeys(OpenQA.Selenium.Keys.Shift + OpenQA.Selenium.Keys.Control + OpenQA.Selenium.Keys.ArrowLeft);
+			EditorPage.AddTextTargetByRowNumber(editorRowNumber, OpenQA.Selenium.Keys.Shift + OpenQA.Selenium.Keys.Control + OpenQA.Selenium.Keys.ArrowLeft);
+
             // Запустить проверку
             CheckChangeCase("some words for example", "some words for Example", "some words for EXAMPLE", false);
         }
@@ -183,20 +164,14 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
         public void ChangeCaseFirstWordButton()
         {
             // Написать текст в первом сегменте в target
-            Driver.FindElement(By.CssSelector(SelectByUrl(
-				"#segments-body div table tr:nth-child(" + editorRowNumber + ") td:nth-child(4) div",
-				"#segments-body div table:nth-child(" + editorRowNumber + ") td:nth-child(4) div"))).
-                SendKeys("some words for example");
+			EditorPage.AddTextTargetByRowNumber(editorRowNumber, "some words for example");
+
             // Нажать хоткей перехода в начало строки
-            Driver.FindElement(By.CssSelector(SelectByUrl(
-				"#segments-body div table tr:nth-child(" + editorRowNumber + ") td:nth-child(4) div",
-				"#segments-body div table:nth-child(" + editorRowNumber + ") td:nth-child(4) div"))).
-                SendKeys(OpenQA.Selenium.Keys.Control + OpenQA.Selenium.Keys.Home);
+			EditorPage.AddTextTargetByRowNumber(editorRowNumber, OpenQA.Selenium.Keys.Control + OpenQA.Selenium.Keys.Home);
+
             // Нажать хоткей выделения первого слова
-            Driver.FindElement(By.CssSelector(SelectByUrl(
-				"#segments-body div table tr:nth-child(" + editorRowNumber + ") td:nth-child(4) div",
-				"#segments-body div table:nth-child(" + editorRowNumber + ") td:nth-child(4) div"))).
-                SendKeys(OpenQA.Selenium.Keys.Shift + OpenQA.Selenium.Keys.Control + OpenQA.Selenium.Keys.ArrowRight);
+			EditorPage.AddTextTargetByRowNumber(editorRowNumber, OpenQA.Selenium.Keys.Shift + OpenQA.Selenium.Keys.Control + OpenQA.Selenium.Keys.ArrowRight);
+
             // Запустить проверку по кнопке
             CheckChangeCase("some words for example", "Some words for example", "SOME words for example", true);
         }
@@ -208,20 +183,14 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
         public void ChangeCaseFirstWordHotkey()
         {
             // Написать текст в первом сегменте в target
-            Driver.FindElement(By.CssSelector(SelectByUrl(
-				"#segments-body div table tr:nth-child(" + editorRowNumber + ") td:nth-child(4) div",
-				"#segments-body div table:nth-child(" + editorRowNumber + ") td:nth-child(4) div"))).
-                SendKeys("some words for example");
+			EditorPage.AddTextTargetByRowNumber(editorRowNumber, "some words for example");
+
             // Нажать хоткей перехода в начало строки
-            Driver.FindElement(By.CssSelector(SelectByUrl(
-				"#segments-body div table tr:nth-child(" + editorRowNumber + ") td:nth-child(4) div",
-				"#segments-body div table:nth-child(" + editorRowNumber + ") td:nth-child(4) div"))).
-                SendKeys(OpenQA.Selenium.Keys.Control + OpenQA.Selenium.Keys.Home);
+			EditorPage.AddTextTargetByRowNumber(editorRowNumber, OpenQA.Selenium.Keys.Control + OpenQA.Selenium.Keys.Home);
+			
             // Нажать хоткей выделения первого слова
-            Driver.FindElement(By.CssSelector(SelectByUrl(
-				"#segments-body div table tr:nth-child(" + editorRowNumber + ") td:nth-child(4) div",
-				"#segments-body div table:nth-child(" + editorRowNumber + ") td:nth-child(4) div"))).
-                SendKeys(OpenQA.Selenium.Keys.Shift + OpenQA.Selenium.Keys.Control + OpenQA.Selenium.Keys.ArrowRight);
+			EditorPage.AddTextTargetByRowNumber(editorRowNumber, OpenQA.Selenium.Keys.Shift + OpenQA.Selenium.Keys.Control + OpenQA.Selenium.Keys.ArrowRight);
+
             // Запустить проверку по хоткею
             CheckChangeCase("some words for example", "Some words for example", "SOME words for example", false);
         }
@@ -233,12 +202,11 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
         public void AddLineBreakButton()
         {
             // Кликнуть по кнопке добавления символа переноса строки
-            Driver.FindElement(By.XPath(".//a[contains(@data-qtip,'Ctrl+Q')]")).Click();
+			EditorPage.ClickTagInsertBtn();
+
             // Проверка, что в ячейке появился символ переноса строки
             // Старая проверка: Assert.IsTrue(IsElementPresent(By.XPath(".//div[@id='segments-body']//table//tr[" + editorRowNumber + "]//td[4]/div/img[contains(@class,'tag')]")),
-            Assert.IsTrue(IsElementPresent(By.XPath(SelectByUrl(
-				".//div[@id='segments-body']//table//tr[" + editorRowNumber + "]//td[4]/div//span[contains(@class,'tag')]",
-				".//div[@id='segments-body']//table[" + editorRowNumber + "]//td[4]/div//span[contains(@class,'tag')]"))),
+            Assert.IsTrue(EditorPage.GetIsTagPresent(editorRowNumber),
                 "Ошибка: в ячейке Target не появился символ переноса строки");
         }
 
@@ -249,15 +217,11 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
         public void AddLineBreakHotkey()
         {
             // Хоткей добавления символа переноса строки
-			Driver.FindElement(By.CssSelector(SelectByUrl(
-				"#segments-body div table tr:nth-child(" + editorRowNumber + ") td:nth-child(4) div",
-				"#segments-body div table:nth-child(" + editorRowNumber + ") td:nth-child(4) div"))).
-				SendKeys(OpenQA.Selenium.Keys.Control + "q");
+			EditorPage.AddTextTargetByRowNumber(editorRowNumber, OpenQA.Selenium.Keys.Control + "q");
+
             // Проверка, что в ячейке появился символ переноса строки
             // Старая проверка: Assert.IsTrue(IsElementPresent(By.XPath(".//div[@id='segments-body']//table//tr[" + editorRowNumber + "]//td[4]/div/img[contains(@class,'tag')]")),
-			Assert.IsTrue(IsElementPresent(By.XPath(SelectByUrl(
-				".//div[@id='segments-body']//table//tr[" + editorRowNumber + "]//td[4]/div//span[contains(@class,'tag')]",
-				".//div[@id='segments-body']//table[" + editorRowNumber + "]//td[4]/div//span[contains(@class,'tag')]"))),
+			Assert.IsTrue(EditorPage.GetIsTagPresent(editorRowNumber),
                 "Ошибка: в ячейке Target не появился символ переноса строки");
         }
 
@@ -268,13 +232,10 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
         public void ConfirmButtonTest()
         {
             // Написать текст в первом сегменте в target
-            Driver.FindElement(By.CssSelector(SelectByUrl(
-				"#segments-body div table tr:nth-child(" + editorRowNumber + ") td:nth-child(4) div",
-				"#segments-body div table:nth-child(" + editorRowNumber + ") td:nth-child(4) div"))).
-                SendKeys("some words for example");
+			EditorPage.AddTextTargetByRowNumber(editorRowNumber, "some words for example");
 
             // Confirm - кнопка
-            Driver.FindElement(By.Id("confirm-btn")).Click();
+			EditorPage.ClickConfirmBtn();
 
             // Проверить, что Confirm прошел (Assert внутри)
             AssertConfirmIsDone(editorRowNumber);
@@ -287,13 +248,11 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
         public void ConfirmByEnterTest()
         {
             // Написать текст в первом сегменте в target
-            Driver.FindElement(By.CssSelector(SelectByUrl(
-				"#segments-body div table tr:nth-child(" + editorRowNumber + ") td:nth-child(4) div",
-				"#segments-body div table:nth-child(" + editorRowNumber + ") td:nth-child(4) div"))).
-                SendKeys("some words for example");
+			EditorPage.AddTextTargetByRowNumber(editorRowNumber, "some words for example");
 
             // Confirm - клавиша Enter
-            SendKeys.SendWait(@"{Enter}");
+			SendKeys.SendWait(@"{Enter}");
+			EditorPage.AddTextTargetByRowNumber(editorRowNumber, OpenQA.Selenium.Keys.Enter);
 
             // Проверить, что Confirm прошел (Assert внутри)
             AssertConfirmIsDone(editorRowNumber);
@@ -306,16 +265,10 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
         public void ConfirmHotkeyCtrlEnterTest()
         {
             // Написать текст в первом сегменте в target
-            Driver.FindElement(By.CssSelector(SelectByUrl(
-				"#segments-body div table tr:nth-child(" + editorRowNumber + ") td:nth-child(4) div",
-				"#segments-body div table:nth-child(" + editorRowNumber + ") td:nth-child(4) div"))).
-                SendKeys("some words for example");
+			EditorPage.AddTextTargetByRowNumber(editorRowNumber, "some words for example");
 
             // Confirm - хоткей Ctrl+Enter (Return - это Enter)
-            Driver.FindElement(By.CssSelector(SelectByUrl(
-				"#segments-body div table tr:nth-child(" + editorRowNumber + ") td:nth-child(4) div",
-				"#segments-body div table:nth-child(" + editorRowNumber + ") td:nth-child(4) div"))).
-                SendKeys(OpenQA.Selenium.Keys.Control + OpenQA.Selenium.Keys.Return);
+			EditorPage.AddTextTargetByRowNumber(editorRowNumber, OpenQA.Selenium.Keys.Control + OpenQA.Selenium.Keys.Return);
 
             // Проверить, что Confirm прошел (Assert внутри)
             AssertConfirmIsDone(editorRowNumber);
@@ -328,20 +281,16 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
         public void ConfirmByTickButtonTest()
         {
             // Написать текст в первом сегменте в target
-            Driver.FindElement(By.CssSelector(SelectByUrl(
-				"#segments-body div table tr:nth-child(" + editorRowNumber + ") td:nth-child(4) div",
-				"#segments-body div table:nth-child(" + editorRowNumber + ") td:nth-child(4) div"))).
-				SendKeys("some words for example");
+			EditorPage.AddTextTargetByRowNumber(editorRowNumber, "some words for example");
 
             // Confirm - галочка в строке
-            Driver.FindElement(By.XPath(SelectByUrl(
-				".//div[@id='segments-body']//table//tr[" + editorRowNumber + "]//td[5]//span[contains(@class,'fa-check')]",
-				".//div[@id='segments-body']//table[" + editorRowNumber + "]//td[5]//span[contains(@class,'fa-check')]"))).
-				Click();
+			EditorPage.ClickSegmentConfirmByRowNumber(editorRowNumber);
 
             // Проверить, что Confirm прошел (Assert внутри)
             AssertConfirmIsDone(editorRowNumber);
         }
+
+
 
         /// <summary>
         /// Проверка работы в редакторе функционала Toggle
@@ -350,25 +299,20 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
         protected void SourceTargetSwitchCheck(bool byButton)
         {
             // Toggle
-            if (byButton)
+			if (byButton)
             {
                 // Кнопка Toggle
-                Driver.FindElement(By.Id("toggle-btn")).Click();
+				EditorPage.ClickToggleBtn();
             }
             else
             {
                 // Нажать хоткей Tab
-                Driver.FindElement(By.CssSelector(SelectByUrl(
-					"#segments-body div table tr:nth-child(" + editorRowNumber + ") td:nth-child(4) div",
-					"#segments-body div table:nth-child(" + editorRowNumber + ") td:nth-child(4) div"))).
-					SendKeys(OpenQA.Selenium.Keys.Tab);
+				EditorPage.AddTextTargetByRowNumber(editorRowNumber, OpenQA.Selenium.Keys.Tab);
             }
 
             // Проверить, где находится курсор (должен в Source этой же строчки) - сравним содержимое
-            IWebElement source_cell = Driver.FindElement(By.CssSelector(SelectByUrl(
-				"#segments-body div table tr:nth-child(" + editorRowNumber + ") td:nth-child(3) div",
-				"#segments-body div table:nth-child(" + editorRowNumber + ") td:nth-child(3) div")));
-            IWebElement active_cell = Driver.SwitchTo().ActiveElement();
+			IWebElement source_cell = EditorPage.GetSourceByRowNumber(editorRowNumber);
+			IWebElement active_cell = Driver.SwitchTo().ActiveElement();
 
             Point source_loc = source_cell.Location;
             Point active_loc = active_cell.Location;
@@ -389,31 +333,24 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
         protected void ToTargetCheck(bool byButton)
         {
             // Выбрать source первого сегмента
-            string sourceText = Driver.FindElement(By.CssSelector(SelectByUrl(
-				"#segments-body div table tr:nth-child(" + editorRowNumber + ") td:nth-child(3) div",
-				"#segments-body div table:nth-child(" + editorRowNumber + ") td:nth-child(3) div"))).
-				Text;
+			string sourceText = EditorPage.GetSourceByRowNumber(editorRowNumber).Text;
 
             // ToTarget
             if (byButton)
             {
                 // Нажать кнопку копирования
-                Driver.FindElement(By.Id("copy-btn")).Click();
+				EditorPage.ClickCopyBtn();
             }
             else
             {
                 // Нажать хоткей Ctrl+Insert
-                Driver.FindElement(By.CssSelector(SelectByUrl(
-					"#segments-body div table tr:nth-child(" + editorRowNumber + ") td:nth-child(4) div",
-					"#segments-body div table:nth-child(" + editorRowNumber + ") td:nth-child(4) div"))).
-                    SendKeys(OpenQA.Selenium.Keys.Control + OpenQA.Selenium.Keys.Insert);
+				EditorPage.AddTextTargetByRowNumber(editorRowNumber,
+					OpenQA.Selenium.Keys.Control + OpenQA.Selenium.Keys.Insert);
             }
 
             // Проверить, такой ли текст в target'те
-            string targetText = Driver.FindElement(By.CssSelector(SelectByUrl(
-				"#segments-body div table tr:nth-child(" + editorRowNumber + ") td:nth-child(4) div",
-				"#segments-body div table:nth-child(" + editorRowNumber + ") td:nth-child(4) div"))).
-				Text;
+			string targetText = EditorPage.GetTargetByRowNumber(editorRowNumber).Text;
+
             Assert.AreEqual(sourceText, targetText);
         }
 
@@ -437,10 +374,8 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
                 // Нажать изменениe регистра
                 ClickChangeCase(byButtonTrueByHotkeyFalse);
                 // Убедиться, что регистр слова изменился правильно - сравнить со значением в listToCompare
-                string targetxt = Driver.FindElement(By.CssSelector(SelectByUrl(
-					"#segments-body div table tr:nth-child(" + editorRowNumber + ") td:nth-child(4) div",
-					"#segments-body div table:nth-child(" + editorRowNumber + ") td:nth-child(4) div"))).
-					Text;
+				string targetxt = EditorPage.GetTargetByRowNumber(editorRowNumber).Text;
+
                 Assert.AreEqual(listToCompare[i], targetxt);
             }
         }
@@ -454,15 +389,12 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
             if (byButtonTrueByHotkeyFalse)
             {
                 // Нажать кнопку
-                Driver.FindElement(By.Id("change-case-btn")).Click();
+				EditorPage.ClickChangeCaseBtn();
             }
             else
             {
                 // Нажать хоткей
-                Driver.FindElement(By.CssSelector(SelectByUrl(
-					"#segments-body div table tr:nth-child(" + editorRowNumber + ") td:nth-child(4) div",
-					"#segments-body div table:nth-child(" + editorRowNumber + ") td:nth-child(4) div"))).
-                    SendKeys(OpenQA.Selenium.Keys.Alt + OpenQA.Selenium.Keys.F3);
+				EditorPage.AddTextTargetByRowNumber(editorRowNumber, OpenQA.Selenium.Keys.Alt + OpenQA.Selenium.Keys.F3);
             }
         }
     }

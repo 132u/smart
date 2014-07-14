@@ -62,8 +62,8 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
             AddTranslationsToGrowProgress(out courseName, out lectureRowNumber, out translationRowNum);
 
             // Прогресс после добавления
-            int personalProgressBefore = GetPersonalProgress(lectureRowNumber);
-            int lectureProgressBefore = GetLectureProgress(lectureRowNumber);
+			int personalProgressBefore = LecturePage.GetLecturePersonalProgressByNumber(lectureRowNumber);
+			int lectureProgressBefore = LecturePage.GetLectureGeneralProgressByNumber(lectureRowNumber);
 
             // Открыть лекцию
             OpenLectureByRowNum(lectureRowNumber);
@@ -75,8 +75,10 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
 
             // Прогресс после повторного добавления
             WaitUpdateProgress();
-            int personalProgressAfter = GetPersonalProgress(lectureRowNumber);
-            int lectureProgressAfter = GetLectureProgress(lectureRowNumber);
+			// Проверить, что вернулись в список лекций
+			Assert.IsTrue(LecturePage.WaitUntilDisplayLecturesList(), "Ошибка: не вышли из редактора по кнопке Back");
+			int personalProgressAfter = LecturePage.GetLecturePersonalProgressByNumber(lectureRowNumber);
+			int lectureProgressAfter = LecturePage.GetLectureGeneralProgressByNumber(lectureRowNumber);
 
             bool isError = false;
             string errorMessage = "\n";
@@ -112,13 +114,13 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
             AddTranslationsToGrowProgress(out courseName, out lectureRowNumber, out translationRowNum);
 
             // Выйти из этого пользователя
-            LogoutUser();
+			Header.LogoutUser();
             // Зайти под другим пользователем
-            LoginUser(User2);
+			LoginUser(User2);
 
             // Прогресс до добавления переводов
-            int personalProgressBefore = GetPersonalProgress(lectureRowNumber);
-            int lectureProgressBefore = GetLectureProgress(lectureRowNumber);
+			int personalProgressBefore = LecturePage.GetLecturePersonalProgressByNumber(lectureRowNumber);
+			int lectureProgressBefore = LecturePage.GetLectureGeneralProgressByNumber(lectureRowNumber);
 
             // Открыть лекцию
             OpenLectureByRowNum(lectureRowNumber);
@@ -129,8 +131,10 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
 
             // Прогресс после добавления
             WaitUpdateProgress();
-            int personalProgressAfter = GetPersonalProgress(lectureRowNumber);
-            int lectureProgressAfter = GetLectureProgress(lectureRowNumber);
+			// Проверить, что вернулись в список лекций
+			Assert.IsTrue(LecturePage.WaitUntilDisplayLecturesList(), "Ошибка: не вышли из редактора по кнопке Back");
+			int personalProgressAfter = LecturePage.GetLecturePersonalProgressByNumber(lectureRowNumber);
+			int lectureProgressAfter = LecturePage.GetLectureGeneralProgressByNumber(lectureRowNumber);
 
             bool isError = false;
             string errorMessage = "\n";
@@ -167,7 +171,7 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
             AddTranslationsToGrowProgress(out courseName, out lectureRowNumber, out translationRowNum);
 
             // Личный прогресс до удаления
-            int personalProgressBefore = GetPersonalProgress(lectureRowNumber);
+			int personalProgressBefore = LecturePage.GetLecturePersonalProgressByNumber(lectureRowNumber);
             // Открыть лекцию
             OpenLectureByRowNum(lectureRowNumber);
             // Удалить переводы
@@ -176,7 +180,10 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
 
             // Прогресс после удаления
             WaitUpdateProgress();
-            int personalProgressAfter = GetPersonalProgress(lectureRowNumber);
+			// Проверить, что вернулись в список лекций
+			Assert.IsTrue(LecturePage.WaitUntilDisplayLecturesList(), "Ошибка: не вышли из редактора по кнопке Back");
+
+			int personalProgressAfter = LecturePage.GetLecturePersonalProgressByNumber(lectureRowNumber);
             // Проверить, что прогресс уменьшился
             Assert.IsTrue(personalProgressAfter < personalProgressBefore, "Ошибка: личный прогресс не уменьшился");
         }
@@ -189,13 +196,13 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
         public void AddTranslationEmptySegmentsCheckFullTest()
         {
             // Перейти к списку доступных курсов
-            OpenCoursePage();
+			Assert.IsTrue(OpenCoursePage(), "Ошибка: список курсов пустой.");
             // Переход в курс с наименьшим прогрессом
             string courseName = OpenCourseMinProgress();
             // Найти лекцию с пустым прогрессом
             int lectureRowNumber = SelectEmptyLectureGetRowNumber();
             // Общий прогресс до добавления
-            int lectureProgressBefore = GetLectureProgress(lectureRowNumber);
+			int lectureProgressBefore = LecturePage.GetLectureGeneralProgressByNumber(lectureRowNumber);
             OpenLectureByRowNum(lectureRowNumber);
 
             // Добавить переводы в сегменты, в которых нет переводов
@@ -204,7 +211,10 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
 
             // Общий прогресс после добавления переводов
             WaitUpdateProgress();
-            int lectureProgressAfter = GetLectureProgress(lectureRowNumber);
+			// Проверить, что вернулись в список лекций
+			Assert.IsTrue(LecturePage.WaitUntilDisplayLecturesList(), "Ошибка: не вышли из редактора по кнопке Back");
+
+			int lectureProgressAfter = LecturePage.GetLectureGeneralProgressByNumber(lectureRowNumber);
             // Проверить, что прогресс увеличился
             Assert.IsTrue(lectureProgressAfter > lectureProgressBefore, "Ошибка: общий прогресс не увеличился");
         }
@@ -217,7 +227,7 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
         public void DeleteTranslationsEmptySegmentsCheckFullTest()
         {
             // Перейти к списку доступных курсов
-            OpenCoursePage();
+			Assert.IsTrue(OpenCoursePage(), "Ошибка: список курсов пустой.");
             // Переход в курс с наименьшим прогрессом
             string courseName = OpenCourseMinProgress();
             // Найти лекцию с пустым прогрессом
@@ -230,16 +240,22 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
 
             // Общий прогресс после добавления переводов
             WaitUpdateProgress();
-            int lectureProgressBefore = GetLectureProgress(lectureRowNumber);
+			// Проверить, что вернулись в список лекций
+			Assert.IsTrue(LecturePage.WaitUntilDisplayLecturesList(), "Ошибка: не вышли из редактора по кнопке Back");
+
+			int lectureProgressBefore = LecturePage.GetLectureGeneralProgressByNumber(lectureRowNumber);
             // Открыть лекцию
             OpenLectureByRowNum(lectureRowNumber);
             // Удалить добавленные переводы
             DeleteMyTranslations(translatedRows);
             ClickBackEditor();
 
-            // Общий прогресс после удаления переводов
-            WaitUpdateProgress();
-            int lectureProgressAfter = GetLectureProgress(lectureRowNumber);
+			// Общий прогресс после добавления переводов
+			WaitUpdateProgress();
+			// Проверить, что вернулись в список лекций
+			Assert.IsTrue(LecturePage.WaitUntilDisplayLecturesList(), "Ошибка: не вышли из редактора по кнопке Back");
+
+			int lectureProgressAfter = LecturePage.GetLectureGeneralProgressByNumber(lectureRowNumber);
             // Проверить, что прогресс уменьшился
             Assert.IsTrue(lectureProgressAfter < lectureProgressBefore, "Ошибка: общий прогресс не уменьшился");
         }
@@ -258,9 +274,9 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
             AddTranslationsToGrowProgress(out courseName, out lectureRowNumber, out translationRowNum);
 
             // Выйти
-            LogoutUser();
+			Header.LogoutUser();
             // Зайти другим пользователем
-            LoginUser(User2);
+			LoginUser(User2);
             
             // Открыть лекцию
             OpenLectureByRowNum(lectureRowNumber);
@@ -268,9 +284,12 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
             AddNumOfTranslations(translationRowNum);
             ClickBackEditor();
 
-            // Общий прогресс после добавления переводов
-            WaitUpdateProgress();
-            int lectureProgressBefore = GetLectureProgress(lectureRowNumber);
+			// Общий прогресс после добавления переводов
+			WaitUpdateProgress();
+			// Проверить, что вернулись в список лекций
+			Assert.IsTrue(LecturePage.WaitUntilDisplayLecturesList(), "Ошибка: не вышли из редактора по кнопке Back");
+
+			int lectureProgressBefore = LecturePage.GetLectureGeneralProgressByNumber(lectureRowNumber);
 
             // Открыть лекцию
             OpenLectureByRowNum(lectureRowNumber);
@@ -278,9 +297,12 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
             DeleteMyTranslations(translationRowNum, numberSentencesGrowProgress);
             ClickBackEditor();
 
-            // Общий прогресс после удаления переводов
-            WaitUpdateProgress();
-            int lectureProgressAfter = GetLectureProgress(lectureRowNumber);
+			// Общий прогресс после добавления переводов
+			WaitUpdateProgress();
+			// Проверить, что вернулись в список лекций
+			Assert.IsTrue(LecturePage.WaitUntilDisplayLecturesList(), "Ошибка: не вышли из редактора по кнопке Back");
+
+			int lectureProgressAfter = LecturePage.GetLectureGeneralProgressByNumber(lectureRowNumber);
 
             // Проверить, что общий прогресс не изменился
             Assert.AreEqual(lectureProgressBefore, lectureProgressAfter, "Ошибка: общий прогресс не должен меняться");
@@ -300,19 +322,24 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
             Console.WriteLine("lectureRowNumber: " + lectureRowNumber);
             Console.WriteLine("translationRowNum: " + translationRowNum);
             // Прогресс лекции
-            int generalProgressBefore = GetLectureProgress(lectureRowNumber);
+			int generalProgressBefore = LecturePage.GetLectureGeneralProgressByNumber(lectureRowNumber);
             // Открыть лекцию
             OpenLectureByRowNum(lectureRowNumber);
             for (int i = translationRowNum; i < (translationRowNum + numberSentencesGrowProgress); ++i)
             {
-                ClickEditorRowByNum(i);
+                EditorPage.ClickTargetByRowNumber(i);
                 // Проголосовать против всех предложенных переводов для добавленных переводов лекции
                 VoteSuggestedTranslations(false, false);
             }
             ClickBackEditor();
-            WaitUpdateProgress();
+
+			// Общий прогресс после добавления переводов
+			WaitUpdateProgress();
+			// Проверить, что вернулись в список лекций
+			Assert.IsTrue(LecturePage.WaitUntilDisplayLecturesList(), "Ошибка: не вышли из редактора по кнопке Back");
+
             // Прогресс после голосования против всех переводов
-            int generalProgressAfter = GetLectureProgress(lectureRowNumber);
+			int generalProgressAfter = LecturePage.GetLectureGeneralProgressByNumber(lectureRowNumber);
             Console.WriteLine("generalProgressAfter: " + generalProgressAfter);
             // Проверить, что прогресс уменьшился
             Assert.IsTrue(generalProgressAfter < generalProgressBefore, "Ошибка: прогресс лекции должен был уменьшиться");
@@ -332,43 +359,53 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
             OpenLectureByRowNum(lectureRowNumber);
             for (int i = translationRowNum; i < (translationRowNum + numberSentencesGrowProgress); ++i)
             {
-                ClickEditorRowByNum(i);
+                EditorPage.ClickTargetByRowNumber(i);
                 // Проголосовать против всех предложенных переводов для добавленных переводов лекции
                 VoteSuggestedTranslations(false, false);
             }
             ClickBackEditor();
-            WaitUpdateProgress();
-            // Прогресс после голосования против всех переводов
-            int generalProgressBefore = GetLectureProgress(lectureRowNumber);
 
-            LogoutUser();
-            LoginUser(User2);
+			// Общий прогресс после добавления переводов
+			WaitUpdateProgress();
+			// Проверить, что вернулись в список лекций
+			Assert.IsTrue(LecturePage.WaitUntilDisplayLecturesList(), "Ошибка: не вышли из редактора по кнопке Back");
+
+            // Прогресс после голосования против всех переводов
+			int generalProgressBefore = LecturePage.GetLectureGeneralProgressByNumber(lectureRowNumber);
+
+			Header.LogoutUser();
+			LoginUser(User2);
 
             // Проголосовать за переводы (рейтинг будет 0)
             OpenLectureByRowNum(lectureRowNumber);
             for (int i = translationRowNum; i < (translationRowNum + numberSentencesGrowProgress); ++i)
             {
-                ClickEditorRowByNum(i);
+                EditorPage.ClickTargetByRowNumber(i);
                 // Проголосовать за эти переводы (сделать рейтинг = 0)
                 VoteSuggestedTranslations(true, false, true, 1);
             }
             ClickBackEditor();
 
-            LogoutUser();
-            LoginUser(TestUserList[0]);
+			Header.LogoutUser();
+			LoginUser(TestUserList[0]);
 
             // Проголосовать за переводы (рейтинг будет > 0)
             OpenLectureByRowNum(lectureRowNumber);
             for (int i = translationRowNum; i < (translationRowNum + numberSentencesGrowProgress); ++i)
             {
-                ClickEditorRowByNum(i);
+                EditorPage.ClickTargetByRowNumber(i);
                 // Проголосовать за эти переводы (сделать рейтинг положительным)
                 VoteSuggestedTranslations(true, false, true, 1);
             }
             ClickBackEditor();
-            WaitUpdateProgress();
+
+			// Общий прогресс после добавления переводов
+			WaitUpdateProgress();
+			// Проверить, что вернулись в список лекций
+			Assert.IsTrue(LecturePage.WaitUntilDisplayLecturesList(), "Ошибка: не вышли из редактора по кнопке Back");
+
             // Прогресс после
-            int generalProgressRatingPositive = GetLectureProgress(lectureRowNumber);
+			int generalProgressRatingPositive = LecturePage.GetLectureGeneralProgressByNumber(lectureRowNumber);
             Console.WriteLine("generalProgressRatingPositive: " + generalProgressRatingPositive);
 
             // Проверить, что прогресс увеличился
@@ -389,8 +426,8 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
             Console.WriteLine("lectureRowNumber: " + lectureRowNumber);
             Console.WriteLine("translationRowNum: " + translationRowNum);
 
-            LogoutUser();
-            LoginUser(User2);
+			Header.LogoutUser();
+			LoginUser(User2);
 
             // Добавить переводы в те же сегменты
             OpenLectureByRowNum(lectureRowNumber);
@@ -398,21 +435,26 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
             AddNumOfTranslations(translationRowNum);
             ClickBackEditor();
             // Прогресс лекции
-            int generalProgressBefore = GetLectureProgress(lectureRowNumber);
+			int generalProgressBefore = LecturePage.GetLectureGeneralProgressByNumber(lectureRowNumber);
             Console.WriteLine("generalProgressBefore: " + generalProgressBefore);
             Console.WriteLine("голосуем");
             // Открыть лекцию
             OpenLectureByRowNum(lectureRowNumber);
             for (int i = translationRowNum; i < (translationRowNum + numberSentencesGrowProgress); ++i)
             {
-                ClickEditorRowByNum(i);
+                EditorPage.ClickTargetByRowNumber(i);
                 // Проголосовать против перевода
                 VoteSuggestedTranslations(false, false, true, 1);
             }
             ClickBackEditor();
-            WaitUpdateProgress();
+
+			// Общий прогресс после добавления переводов
+			WaitUpdateProgress();
+			// Проверить, что вернулись в список лекций
+			Assert.IsTrue(LecturePage.WaitUntilDisplayLecturesList(), "Ошибка: не вышли из редактора по кнопке Back");
+
             // Прогресс после голосования против всех переводов
-            int generalProgressAfter = GetLectureProgress(lectureRowNumber);
+            int generalProgressAfter = LecturePage.GetLectureGeneralProgressByNumber(lectureRowNumber);
             Console.WriteLine("generalProgressAfter: " + generalProgressAfter);
             // Проверить, что прогресс уменьшился
             Assert.AreEqual(generalProgressBefore, generalProgressAfter, "Ошибка: прогресс лекции должен был измениться");
@@ -429,29 +471,32 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
             // Добавить переводы
             AddTranslationsToGrowProgress(out courseName, out lectureRowNumber, out translationRowNum);
             WaitUpdateProgress();
+			// Проверить, что вернулись в список лекций
+			Assert.IsTrue(LecturePage.WaitUntilDisplayLecturesList(), "Ошибка: не вышли из редактора по кнопке Back");
+
             // Личный прогресс
-            int personalProgress = GetPersonalProgress(lectureRowNumber);
+			int personalProgress = LecturePage.GetLecturePersonalProgressByNumber(lectureRowNumber);
             Console.WriteLine("personalProgress: " + personalProgress);
 
-            LogoutUser();
-            LoginUser(User2);
+			Header.LogoutUser();
+			LoginUser(User2);
 
             // Проголосовать против переводов
             OpenLectureByRowNum(lectureRowNumber);
             for (int i = translationRowNum; i < (translationRowNum + numberSentencesGrowProgress); ++i)
             {
-                ClickEditorRowByNum(i);
+                EditorPage.ClickTargetByRowNumber(i);
                 // Проголосовать против переводов
                 VoteSuggestedTranslations(false, false);
             }
             ClickBackEditor();
 
             // Вернуться в первого пользователя
-            LogoutUser();
-            LoginUser(User1);
+			Header.LogoutUser();
+			LoginUser(User1);
 
             // Прогресс после
-            int personalProgressAfter = GetPersonalProgress(lectureRowNumber);
+			int personalProgressAfter = LecturePage.GetLecturePersonalProgressByNumber(lectureRowNumber);
             Console.WriteLine("personalProgressAfter: " + personalProgressAfter);
 
             // Проверить, что прогресс не изменился
@@ -464,14 +509,15 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
         [Test]
         public void CourseProgressUp()
         {
-            OpenCoursePage();
+			Assert.IsTrue(OpenCoursePage(), "Ошибка: список курсов пустой.");
             decimal courseProgress;
             // Открыть курс с наименьшим прогрессом
             string courseName = SelectCourseMinProgress(out courseProgress);
 
             // TODO заменить
-            courseName = "The Emergence of the Modern Middle East";
-            courseProgress = GetCourseProgress(courseName);
+            //courseName = "The Emergence of the Modern Middle East";
+			//courseName = "Machine Learning";
+            courseProgress = CoursePage.GetCourseProcentByName(courseName);
             Console.WriteLine("курс: " + courseName);
             Console.WriteLine("прогресс: " + courseProgress);
             OpenCourseByName(courseName);
@@ -490,8 +536,8 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
             ClickBackEditor();
             WaitUpdateTotal();
 
-            OpenCoursePage();
-            decimal courseProgressAfter = GetCourseProgress(courseName);
+			Assert.IsTrue(OpenCoursePage(), "Ошибка: список курсов пустой.");
+            decimal courseProgressAfter = CoursePage.GetCourseProcentByName(courseName);
             Console.WriteLine("прогресс после: " + courseProgressAfter);
             Assert.IsTrue(courseProgressAfter > courseProgress, "Ошибка: прогресс курса не увеличился");
         }
@@ -503,14 +549,14 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
         public void TotalPagesHomepage()
         {
             // количество переведенных предложений до
-            int totalPagesBefore = GetTotalPages();
+            int totalPagesBefore = HomePage.GetTotalPages();
 
             // Заполнить лекцию (как в тесте на увеличение прогресса курса)
             CourseProgressUp();
             // Перейти на главную
-            OpenHomepage();
+			Header.OpenHomepage();
             // количество переведенных предложений после
-            int totalPagesAfter = GetTotalPages();
+            int totalPagesAfter = HomePage.GetTotalPages();
 
             // Проверить, что количество переведенных страниц увеличилось
             Assert.IsTrue(totalPagesAfter > totalPagesBefore, "Ошибка: количество переведенных страниц не увеличилось");
@@ -523,7 +569,7 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
         public void TotalWordsHomepage()
         {
             // количество переведенных слов до
-            int totalWordsBefore = GetTotalWords();
+            int totalWordsBefore = HomePage.GetTotalWords();
 
             string courseName;
             int lectureRowNumber, translationRowNum;
@@ -531,27 +577,15 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
             AddTranslationsToGrowProgress(out courseName, out lectureRowNumber, out translationRowNum);
             WaitUpdateTotal();
             // Перейти на главную
-            OpenHomepage();
+			Header.OpenHomepage();
             // количество переведенных слов после
-            int totalWordsAfter = GetTotalWords();
+            int totalWordsAfter = HomePage.GetTotalWords();
 
             // Проверить, что количество переведенных слов увеличилось
             Assert.IsTrue(totalWordsAfter > totalWordsBefore, "Ошибка: количество переведенных слов не увеличилось");
         }
 
-        /// <summary>
-        /// Получить прогресс курса
-        /// </summary>
-        /// <param name="courseName">имя курса</param>
-        /// <returns>прогресс</returns>
-        protected decimal GetCourseProgress(string courseName)
-        {
-            string percent = Driver.FindElement(By.XPath(
-                ".//ul[contains(@class,'projects-list')]//div[contains(@data-bind,'name')][contains(text(),'"
-                + courseName + "')]/../../..//span[contains(@data-bind,'complete')]")).Text.Replace("%", "").Replace(".", ",");
-            Console.WriteLine("прогресс курса " + courseName + ": " + percent);
-            return Decimal.Parse(percent);
-        }
+
 
         /// <summary>
         /// Дождаться обновления прогресса
@@ -561,7 +595,7 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
             // Задержка для ожидания изменения прогресса
             Thread.Sleep(15000);
             // Обновить страницу со список лекции
-            Driver.FindElement(By.XPath(".//tbody[contains(@data-bind,'lectures')]")).SendKeys(OpenQA.Selenium.Keys.F5);
+			Driver.Navigate().Refresh();
         }
 
         /// <summary>
@@ -574,42 +608,6 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
         }
 
         /// <summary>
-        /// Получить общий прогресс для лекции
-        /// </summary>
-        /// <param name="lectureRowNumber">номер строки с лекцией</param>
-        /// <returns>общий прогресс</returns>
-        protected int GetLectureProgress(int lectureRowNumber)
-        {
-            return int.Parse(Driver.FindElement(By.XPath(
-                ".//tbody[contains(@data-bind,'lectures')]//tr[" + lectureRowNumber + "]//div[contains(@data-bind,'progressView')]")).Text.Replace("%", "").Trim());
-        }
-
-        /// <summary>
-        /// Проверить, что достаточно пустых сегментов для заполнения лекции
-        /// Если недостаточно - очистка лекции и проверка, что прогресс равен нулю после очистки
-        /// </summary>
-        /// <param name="lectureRowNumber">номер строки с лекцией</param>
-        /// <param name="translationRowNum">номер строки с пустым сегментом</param>
-        protected void CheckEmptySegmentsLecture(int lectureRowNumber, int translationRowNum)
-        {
-            // Максимальное число для добавления переводов, чтобы прогресс увеличился
-            if (translationRowNum > maxEditorLinesNum - numberSentencesGrowProgress)
-            {
-                // Очистить лекцию
-                ClearLecture();
-                ClickBackEditor();
-                // Проверить, что прогресс равен нулю после очистки лекции
-                WaitUpdateProgress();
-                Assert.IsTrue(GetPersonalProgress(lectureRowNumber) == 0,
-                    "Ошибка: не уменьшился прогресс после удаления всех переводов лекции");
-            }
-            else
-            {
-                ClickBackEditor();
-            }
-        }
-
-        /// <summary>
         /// Добавить переводы для увеличения прогресса
         /// Проверить, что прогресс увеличился
         /// </summary>
@@ -619,13 +617,13 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
         protected void AddTranslationsToGrowProgress(out string courseName, out int lectureRowNumber, out int firstSegmentRowNumber)
         {
             // Перейти к списку доступных курсов
-            OpenCoursePage();
+			Assert.IsTrue(OpenCoursePage(), "Ошибка: список курсов пустой.");
             // Переход в курс с наименьшим прогрессом
             courseName = OpenCourseMinProgress();
             // Перейти в лекцию
             lectureRowNumber = SelectEmptyLectureGetRowNumber();
             Console.WriteLine("лекция: " + lectureRowNumber);
-            int personalProgress = GetPersonalProgress(lectureRowNumber);
+			int personalProgress = LecturePage.GetLecturePersonalProgressByNumber(lectureRowNumber);
            
             // Проверить пустые сегменты в лекции
             //CheckEmptySegmentsLecture(lectureRowNumber, firstSegmentRowNumber);
@@ -638,9 +636,12 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
             AddNumOfTranslations(firstSegmentRowNumber);
             ClickBackEditor();
 
-            // Прогресс после добавления
-            WaitUpdateProgress();
-            int personalProgressAfter = GetPersonalProgress(lectureRowNumber);
+			// Общий прогресс после добавления переводов
+			WaitUpdateProgress();
+			// Проверить, что вернулись в список лекций
+			Assert.IsTrue(LecturePage.WaitUntilDisplayLecturesList(), "Ошибка: не вышли из редактора по кнопке Back");
+
+			int personalProgressAfter = LecturePage.GetLecturePersonalProgressByNumber(lectureRowNumber);
             // Проверить, что прогресс увеличился
             Assert.IsTrue(personalProgressAfter > personalProgress, "Ошибка: прогресс не увеличился");
         }
@@ -672,7 +673,7 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
             for (int i = 0; i < numberSentencesGrowProgress; ++i)
             {
                 currentIndex = i + 1;
-                while (GetTranslationVariantsNum(currentIndex) > 0)
+                while (EditorPage.GetQuantityTranslationsByRowNumber(currentIndex) > 0)
                 {
                     ++currentIndex;
                     Assert.IsFalse(currentIndex > maxEditorLinesNum, "Ошибка: в лекции недостаточно сегментов без переводов");
@@ -681,28 +682,6 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
                 translatedRows.Add(currentIndex);
             }
             return translatedRows;
-        }
-
-        /// <summary>
-        /// Получить количество переведенных слов (с главной страницы)
-        /// </summary>
-        /// <returns>количество переведенных слов</returns>
-        protected int GetTotalWords()
-        {
-            string totalWords = Driver.FindElement(By.XPath(".//span[contains(@data-bind,'totalWords')]")).Text;
-            Console.WriteLine("totalWords: " + totalWords);
-            return int.Parse(totalWords);
-        }
-
-        /// <summary>
-        /// Получить количество переведенных страниц (с главной страницы) (страница = 250 слов)
-        /// </summary>
-        /// <returns>количество переведенных страниц</returns>
-        protected int GetTotalPages()
-        {
-            string totalPages = Driver.FindElement(By.XPath(".//span[contains(@data-bind,'totalPages')]")).Text;
-            Console.WriteLine("totalPages: " + totalPages);
-            return int.Parse(totalPages);
         }
     }
 }

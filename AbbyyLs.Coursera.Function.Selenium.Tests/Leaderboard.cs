@@ -40,11 +40,11 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
         public void ExistUserMainList()
         {
             // Получить текущее имя пользователя
-            string userName = GetUserNameHomepage();
+			string userName = HomePage.GetUserName();
 
             // Перейти в список лидеров
-            OpenCoursePage();
-            OpenLeaderboardPage();
+			Assert.IsTrue(OpenCoursePage(), "Ошибка: список курсов пустой.");
+			Header.OpenLeaderboardPage();
 
             // Проверить, что пользователь есть в списке
             Assert.IsTrue(GetIsUserExistLeaderboard(userName), "Ошибка: пользователя нет в списке");
@@ -57,13 +57,13 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
         public void UserPositionLeaderboard()
         {
             // Получить текущее имя пользователя
-            string userName = GetUserNameHomepage();
+			string userName = HomePage.GetUserName();
 
             // Пролистать список лидеров до пользователя
             int numInList = ScrollLeaderboardToUser(userName);
 
             // Имя пользователя по этому номеру:
-            string userCurrentPositionName = Driver.FindElement(By.XPath(".//div[contains(@class,'rating')]//tr[" + numInList + "]//td[3]//a[contains(@data-bind,'name')]")).Text.Trim();
+			string userCurrentPositionName = LeaderboardPage.GetNameByRowNumber(numInList);
 
             Assert.AreEqual(userName, userCurrentPositionName, "Ошибка: на этом месте пользователь с другим именем");
         }
@@ -75,16 +75,16 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
         public void UserRatingLeaderboard()
         {
             // Получить текущее имя пользователя
-            string userName = GetUserNameHomepage();
+			string userName = HomePage.GetUserName();
 
             // Открыть профиль пользователя
             OpenUserProfileFromHomePage();
             // Получить рейтинг пользователя в профиле
-            Decimal userRating = GetUserRating();
+			Decimal userRating = ProfilePage.GetUserRating();
             // Перейти к списку лидеров
-            OpenLeaderboardPage();
+			Header.OpenLeaderboardPage();
             // Получить рейтинг пользователя в лидерборде
-            Decimal leaderboardRating = GetRatingLeaderboard();
+            Decimal leaderboardRating = LeaderboardPage.GetRaitingActiveUser();
             // Сравнить рейтинг
             Assert.AreEqual(userRating, leaderboardRating, "Ошибка: рейтинг в лидерборде не совпадает с рейтингом в профиле");
         }
@@ -96,7 +96,7 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
         public void CourseLeaderboardUserExist()
         {
             // Получить текущее имя пользователя
-            string userName = GetUserNameHomepage();
+			string userName = HomePage.GetUserName();
             // Добавить перевод
             string translationText = "Test" + DateTime.Now.Ticks;
             string courseName;
@@ -105,7 +105,7 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
             ClickBackEditor();
 
             // Перейти к списку лидеров
-            OpenLeaderboardPage();
+			Header.OpenLeaderboardPage();
 
             // Открыть курс в лидерборде
             OpenLeaderboardCourse(courseName);
@@ -121,7 +121,7 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
         public void CourseLeaderboardCompareRating()
         {
             // Получить текущее имя пользователя
-            string userName = GetUserNameHomepage();
+			string userName = HomePage.GetUserName();
             // Добавить перевод
             string translationText = "Test" + DateTime.Now.Ticks;
             string courseName;
@@ -129,7 +129,7 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
             AddTranslation(translationText, out courseName, out lectureRowNumber, out translationRowNum);
 			ClickBackEditor();
             // Перейти в список курсов
-            OpenCoursePage();
+			Assert.IsTrue(OpenCoursePage(), "Ошибка: список курсов пустой.");
             // Открыть другой курс
             OpenAnotherCourse(courseName);
             // Открыть первую лекцию
@@ -138,16 +138,18 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
 			AddTranslationByRowNum(GetEmptyTranslationRowNumber(), translationText);
 			ClickBackEditor();
             // Перейти к списку лидеров
-            OpenLeaderboardPage();
+			Header.OpenLeaderboardPage();
             // Получить рейтинг пользователя в лидерборде
-            Decimal leaderboardRating = GetRatingLeaderboard();
+            Decimal leaderboardRating = LeaderboardPage.GetRaitingActiveUser();
             // Открыть курс в лидерборде
             OpenLeaderboardCourse(courseName);
             // Получить рейтинг для курса
-            Decimal courseRating = GetRatingLeaderboard();
+            Decimal courseRating = LeaderboardPage.GetRaitingActiveUser();
             // Сравнить рейтинг общий и для курса
             Assert.IsTrue(courseRating < leaderboardRating, "Ошибка: рейтинг для курса должен быть меньше общего рейтинга");
         }
+		
+
 
         /// <summary>
         /// Вернуть, есть ли пользователь в списке лидеров
@@ -156,43 +158,10 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
         protected bool GetIsUserExistLeaderboard(string userName)
         {
             setDriverTimeoutMinimum();
-            bool isExist = IsElementPresent(By.XPath(".//tr[not(contains(@style,'display: none;'))]//td[3][contains(text(),'" + userName + "')]")) ||
-                GetIsUserLeaderboardActiveList(userName);
+			bool isExist = LeaderboardPage.GetIsUserLeaderboardDownList(userName) ||
+                LeaderboardPage.GetIsUserLeaderboardActiveList(userName);
             setDriverTimeoutDefault();
             return isExist;
-        }
-
-        /// <summary>
-        /// Вернуть рейтинг пользователя в лидерборде
-        /// </summary>
-        /// <returns>рейтинг</returns>
-        protected Decimal GetRatingLeaderboard()
-        {
-            return Decimal.Parse(
-                Driver.FindElement(By.XPath(
-                ".//tr[contains(@class,'active')][not(contains(@style,'display: none'))]//td[contains(@data-bind,'rating')]")).Text.Trim().Replace(".", ","));
-        }
-
-        /// <summary>
-        /// Получить номер курса в выпадающем списке на странице лидерборда
-        /// </summary>
-        /// <param name="courseName">имя курса</param>
-        /// <returns>индекс</returns>
-        private int GetCourseIndexLeaderboardlist(string courseName)
-        {
-            int courseIndex = 0;
-            IList<IWebElement> courseList = Driver.FindElements(By.XPath(".//select[@id='select_courses_rat']//option"));
-            for (int i = 0; i < courseList.Count; ++i)
-            {
-                if (courseList[i].Text == courseName)
-                {
-                    courseIndex = i;
-                    break;
-                }
-            }
-
-            Assert.IsTrue(courseIndex > 0, "Ошибка: курса нет в выпадающем списке");
-            return courseIndex;
         }
 
         /// <summary>
@@ -201,19 +170,35 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
         /// <param name="courseName">название курса</param>
         private void OpenLeaderboardCourse(string courseName)
         {
-            string totalNum = Driver.FindElement(By.XPath(".//div[contains(@data-bind,'total')]")).Text;
+			int totalNum = LeaderboardPage.GetLeadersQuantity();
             // Открыть список курсов
-            Driver.FindElement(By.Id("select_courses_rat")).Click();
-            // Получить индекс курса в списке
-            int courseIndex = GetCourseIndexLeaderboardlist(courseName);
-            for (int i = 0; i < courseIndex; ++i)
-            {
-                SendKeys.SendWait(@"{Down}");
-            }
-            // Выбрать нужный курс
-            SendKeys.SendWait(@"{Enter}");
-            // Дождаться обновления
-            Wait.Until((d) => d.FindElement(By.XPath(".//div[contains(@data-bind,'total')][not(contains(text()," + totalNum + "))]")));
+			LeaderboardPage.OpenCoursesList();
+            // Проверка наличия курса в списке
+			Assert.IsTrue(FindCourseInList(courseName), "Ошибка: курса нет в выпадающем списке");
+			// Выбрать курс из списка
+			LeaderboardPage.SelectCourseByName(courseName);
+			// Дождаться пока подгрузятся результаты (изменится общее количество лидеров)
+			Assert.IsTrue(LeaderboardPage.WaitUntilLeadersQuantityChanged(totalNum), "Ошибка: Выбранный курс не загрузился.");
         }
+
+		/// <summary>
+		/// Проверка наличия курса в списке
+		/// </summary>
+		/// <param name="courseName">Имя курса</param>
+		/// <returns>Курс присутсвует в списке</returns>
+		private bool FindCourseInList(string courseName)
+		{
+			bool isPresent = false;
+			List<string> courseList = LeaderboardPage.GetCoursesList();
+			foreach (string course in courseList)
+			{
+				if (course == courseName)
+				{
+					isPresent = true;
+					break;
+				}
+			}
+			return isPresent;
+		}
     }
 }

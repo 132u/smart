@@ -43,7 +43,7 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
             OpenUserProfileFromHomePage();
 
             // Получить количество переведенных предложений до добавления перевода
-            int translationsNumberBefore = GetUserTranslationsNumber();
+			int translationsNumberBefore = ProfilePage.GetUserTranslationsNumber();
 
             // Добавить перевод
             string translationText = "Test" + DateTime.Now.Ticks;
@@ -54,7 +54,7 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
             OpenUserProfileFromCourse();
 
             // Получить количество переведенных предложений после добавления перевода
-            int translationsNumberAfter = GetUserTranslationsNumber();
+			int translationsNumberAfter = ProfilePage.GetUserTranslationsNumber();
             // Проверить, что рейтинг увеличился
             Assert.IsTrue(translationsNumberAfter > translationsNumberBefore,
                 "Ошибка: после добавления перевода количество переведенных предложений пользователя не увеличилось");
@@ -79,10 +79,10 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
             OpenUserProfileFromCourse();
 
             // Получить количество переведенных предложений до добавления перевода
-            int translationsNumberBefore = GetUserTranslationsNumber();
+			int translationsNumberBefore = ProfilePage.GetUserTranslationsNumber();
 
             // Перейти к списку курсов
-            OpenCoursePage();
+			Assert.IsTrue(OpenCoursePage(), "Ошибка: список курсов пустой.");
             // Зайти в курс
             OpenCourseByName(courseName);
             // Перейти в лекцию
@@ -97,7 +97,7 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
             OpenUserProfileFromCourse();
 
             // Получить количество переведенных предложений до добавления перевода
-            int translationsNumberAfter = GetUserTranslationsNumber();
+			int translationsNumberAfter = ProfilePage.GetUserTranslationsNumber();
 
             // Проверить, что количество переводов увеличилось
             Assert.IsTrue(translationsNumberAfter > translationsNumberBefore, "Ошибка: количество переводов не увеличилось");
@@ -119,18 +119,18 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
             // Вернуться из редактора
             ClickBackEditor();
             // Выйти из пользователя
-            LogoutUser();
+			Header.LogoutUser();
             // Зайти другим пользователем
-            LoginUser(User2);
+			LoginUser(User2);
 
             // Зайти в профиль
             OpenUserProfileFromCourse();
 
             // Получить количество переведенных предложений до добавления перевода
-            int translationsNumberBefore = GetUserTranslationsNumber();
+			int translationsNumberBefore = ProfilePage.GetUserTranslationsNumber();
 
             // Перейти к списку курсов
-            OpenCoursePage();
+			Assert.IsTrue(OpenCoursePage(), "Ошибка: список курсов пустой.");
             // Зайти в курс
             OpenCourseByName(courseName);
             // Перейти в лекцию
@@ -145,7 +145,7 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
             OpenUserProfileFromCourse();
 
             // Получить количество переведенных предложений до добавления перевода
-            int translationsNumberAfter = GetUserTranslationsNumber();
+			int translationsNumberAfter = ProfilePage.GetUserTranslationsNumber();
 
             // Проверить, что количество переводов увеличилось
             Assert.IsTrue(translationsNumberAfter > translationsNumberBefore, "Ошибка: количество переводов не увеличилось");
@@ -170,29 +170,25 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
             OpenUserProfileFromCourse();
 
             // Получить количество переведенных предложений до добавления перевода
-            int translationsNumberBefore = GetUserTranslationsNumber();
+			int translationsNumberBefore = ProfilePage.GetUserTranslationsNumber();
 
             // Перейти к списку курсов
-            OpenCoursePage();
+			Assert.IsTrue(OpenCoursePage(), "Ошибка: список курсов пустой.");
             // Зайти в курс
             OpenCourseByName(courseName);
             // Перейти в лекцию
             OpenLectureByRowNum(lectureRowNumber);
             // Кликнуть по ячейке
-            string targetCell = SelectByUrl(
-				"#segments-body div table tr:nth-child(" + translationRowNum + ") td:nth-child(4) div",
-				"#segments-body div table:nth-child(" + translationRowNum + ") td:nth-child(4) div");
-            // Кликнуть по ячейке
-            Driver.FindElement(By.CssSelector(targetCell)).Click();
+			EditorPage.ClickTargetByRowNumber(translationRowNum);
             // Удалить перевод
-            DeleteTranslationSuggestedTranslations();
+			EditorPage.DeleteTranslation();
             // Вернуться из редактора
             ClickBackEditor();
             // Зайти в профиль
             OpenUserProfileFromCourse();
 
             // Получить количество переведенных предложений до добавления перевода
-            int translationsNumberAfter = GetUserTranslationsNumber();
+			int translationsNumberAfter = ProfilePage.GetUserTranslationsNumber();
 
             // Проверить, что количество переводов уменьшилось
             Assert.IsTrue(translationsNumberAfter < translationsNumberBefore, "Ошибка: количество переводов не уменьшилось");
@@ -217,31 +213,27 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
             OpenUserProfileFromCourse();
 
             // Получить количество переведенных предложений до добавления перевода
-            int translationsNumberBefore = GetUserTranslationsNumber();
+			int translationsNumberBefore = ProfilePage.GetUserTranslationsNumber();
 
             // Перейти к списку курсов
-            OpenCoursePage();
+			Assert.IsTrue(OpenCoursePage(), "Ошибка: список курсов пустой.");
             // Зайти в курс
             OpenCourseByName(courseName);
             // Перейти в лекцию
             OpenLectureByRowNum(lectureRowNumber);
             // Кликнуть по ячейке
-            string targetCell = SelectByUrl(
-				"#segments-body div table tr:nth-child(" + translationRowNum + ") td:nth-child(4) div",
-				"#segments-body div table:nth-child(" + translationRowNum + ") td:nth-child(4) div");
-            Driver.FindElement(By.CssSelector(targetCell)).Click();
+			EditorPage.ClickTargetByRowNumber(translationRowNum);
             // Кликнуть редактировать перевод
-            int rowNum = GetSuggestedTranslationRowNum(translationText);
-            Driver.FindElement(By.XPath(SelectByUrl(
-				".//div[@id='translations-body']//table//tr[" + rowNum + "]//td[4]//span[contains(@class,'fa-pencil')]",
-				".//div[@id='translations-body']//table[" + rowNum + "]//td[4]//span[contains(@class,'fa-pencil')]"))).
-				Click();
+			int rowNum = EditorPage.GetTranslationRowNumberByTarget(translationText);
+            EditorPage.ClickEditTranslationByRowNumber(rowNum);
 
             // Ввести текст
-            Driver.FindElement(By.CssSelector(targetCell)).SendKeys(DateTime.Now.ToString());
+			EditorPage.AddTextTargetByRowNumber(translationRowNum, DateTime.Now.ToString());
+
             // Кликнуть Confirm
-            Driver.FindElement(By.Id("confirm-btn")).Click();
-            // Дождаться Confirm
+			EditorPage.ClickConfirmBtn();
+
+			// Дождаться Confirm
             AssertConfirmIsDone(translationRowNum);
             // Вернуться из редактора
             ClickBackEditor();
@@ -249,7 +241,7 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
             OpenUserProfileFromCourse();
 
             // Получить количество переведенных предложений до добавления перевода
-            int translationsNumberAfter = GetUserTranslationsNumber();
+			int translationsNumberAfter = ProfilePage.GetUserTranslationsNumber();
 
             // Проверить, что количество переводов не изменилось
             Assert.AreEqual(translationsNumberBefore, translationsNumberAfter, "Ошибка: количество переводов изменилось");

@@ -59,10 +59,10 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
             SaveNewUserNameInEditProfileForm(newUserName, newUserSurname);
 
             // Вернуться на главную страницу
-            OpenHomepage();
+			Header.OpenHomepage();
 
             // Получить полное имя пользователя после изменения
-            string resultUserName = GetFullNameHomepage();
+            string resultUserName = HomePage.GetUserName();
 
             // Восстановить имя пользователя
             RecoverUserNameFromHomePage();
@@ -88,7 +88,7 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
             SaveNewUserNameInEditProfileForm(newUserName, newUserSurname);
 
             // Получить полное имя после изменения
-            string resultUserName = GetFullNameProfile();
+            string resultUserName = ProfilePage.GetFullUserName();
 
             // Восстановить имя
             RecoverUserNameFromProfile();
@@ -113,7 +113,7 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
             SaveNewUserNameInEditProfileForm(newUserName, newUserSurname);
 
             // Перейти к списку лидеров
-            OpenLeaderboardPage();
+            Header.OpenLeaderboardPage();
             // Получить полное имя после изменения
             string resultUserName = GetFullNameLeaderboard();
 
@@ -140,9 +140,9 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
             SaveNewUserNameInEditProfileForm(newUserName, newUserSurname);
 
             // Перейти на страницу курсов
-            OpenCoursePage();
+			Assert.IsTrue(OpenCoursePage(), "Ошибка: список курсов пустой.");
             // Получить полное имя после изменения
-            string resultUserName = GetFullNameMainMenu();
+            string resultUserName = Header.GetName();
 
             // Восстановить имя
             RecoverUserNameFromCourse();
@@ -175,14 +175,14 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
             SaveNewUserNameInEditProfileForm(newUserName, newUserSurname);
 
             // Вернуться в лекцию
-            OpenCoursePage();
-            OpenCourseByName(courseName);
+			Assert.IsTrue(OpenCoursePage(), "Ошибка: список курсов пустой.");
+			OpenCourseByName(courseName);
             OpenLectureByRowNum(lectureRowNumber);
-            ClickEditorRowByNum(translationRowNum);
+            EditorPage.ClickTargetByRowNumber(translationRowNum);
             // Найти добавленный перевод
-            int curTranslationNumber = GetSuggestedTranslationRowNum(translationText);
+			int curTranslationNumber = EditorPage.GetTranslationRowNumberByTarget(translationText);
             // Получить имя в списке добавленных переводов
-            string resultUserName = GetSuggestedTranslationAuthor(curTranslationNumber);
+            string resultUserName = EditorPage.GetTranslationAuthorByRowNumber(curTranslationNumber);
 
             // Выйти из редактора
             ClickBackEditor();
@@ -215,9 +215,9 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
             AddTranslation(translationText, out courseName, out lectureRowNumber, out translationRowNum);
 
             // Найти добавленный перевод
-            int curTranslationNumber = GetSuggestedTranslationRowNum(translationText);
+			int curTranslationNumber = EditorPage.GetTranslationRowNumberByTarget(translationText);
             // Получить имя в списке добавленных переводов
-            string resultUserName = GetSuggestedTranslationAuthor(curTranslationNumber);
+            string resultUserName = EditorPage.GetTranslationAuthorByRowNumber(curTranslationNumber);
 
             // Выйти из редактора
             ClickBackEditor();
@@ -242,12 +242,12 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
             // Выйти из редактора
             ClickBackEditor();
             // Перейти на главную страницу
-            OpenHomepage();
+			Header.OpenHomepage();
             // Ожидание появления события в списке
             WaitEventInEventListByTarget(translationText);
             int rowNumber = GetEventRowNum(translationText, HomePageLastEventType.AddTranslationEvent);
             // Имя пользователя в списке событий до изменения имени
-            string userNameBefore = GetAuthorEventList(rowNumber);
+			string userNameBefore = HomePage.GetEventAuthorByRowNumber(rowNumber);
 
             // Перейти в профиль
             OpenUserProfileFromHomePage();
@@ -259,12 +259,12 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
             SaveNewUserNameInEditProfileForm(newUserName, newUserSurname);
             
             // Перейти на главную страницу
-            OpenHomepage();
+			Header.OpenHomepage();
             // Ожидание изменения имени в списке событий
             bool isAuthorChanged = WaitEventListChangingAuthor(translationText, HomePageLastEventType.AddTranslationEvent, userNameBefore);
             rowNumber = GetEventRowNum(translationText, HomePageLastEventType.AddTranslationEvent);
             // Получить имя в списке событий
-            string resultUserName = GetAuthorEventList(rowNumber).Replace("...", "");
+			string resultUserName = HomePage.GetEventAuthorByRowNumber(rowNumber).Replace("...", "");
             // Восстановить имя
             RecoverUserNameFromHomePage();
 
@@ -297,13 +297,12 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
             // Выйти из редактора
             ClickBackEditor();
             // Перейти на главную страницу
-            OpenHomepage();
+			Header.OpenHomepage();
             // Ожидание появления события в списке
             WaitEventInEventListByTarget(translationText);
             int rowNumber = GetEventRowNum(translationText, HomePageLastEventType.AddTranslationEvent);
             // Имя пользователя в списке событий до изменения имени
-            string resultUserName = GetAuthorEventList(rowNumber).Replace("...", "");
-
+            string resultUserName = HomePage.GetEventAuthorByRowNumber(rowNumber).Replace("...", "");
             // Восстановить имя
             RecoverUserNameFromHomePage();
 
@@ -322,10 +321,10 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
             AddAvatarUser();
 
             // Перейти в список курсов
-            OpenCoursePage();
+			Assert.IsTrue(OpenCoursePage(), "Ошибка: список курсов пустой.");
 
             // Есть ли аватар
-            bool isAvatarExist = GetIsAvatarExistMainMenu();
+            bool isAvatarExist = Header.GetIsAvatarPresentHeader();
             // Восстановить аватар
             RecoverAvatarFromCourse();
             // Проверить аватар
@@ -342,7 +341,7 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
             AddAvatarUser();
 
             // Есть ли аватар
-            bool isAvatarExist = GetIsAvatarExistProfile();
+            bool isAvatarExist = ProfilePage.GetIsAvatarPresentProfile();
             // Восстановить аватар
             RecoverAvatarFromProfile();
             // Проверить аватар
@@ -359,9 +358,9 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
             AddAvatarUser();
 
             // Перейти к списку лидеров
-            OpenLeaderboardPage();
+			Header.OpenLeaderboardPage();
             // Есть ли аватар
-            bool isAvatarExist = GetIsAvatarExistLeaderboard();
+            bool isAvatarExist = LeaderboardPage.GetIsAvatarPresentLeaderboard();
             // Восстановить аватар
             RecoverAvatarFromCourse();
 
@@ -377,11 +376,11 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
         {
             // Добавить аватар пользователю
             AddAvatarUser();
-
+			ProfilePage.WaitUntilDisplayProfile();
             // Перейти к списку лидеров
             OpenEditProfileForm();
             // Есть ли аватар
-            bool isAvatarExist = GetIsAvatarExistEditProfileForm();
+            bool isAvatarExist = Header.GetIsAvatarPresentEditorProfile();
             // Закрыть редактирование профиля
             CloseEditProfileForm();
             // Восстановить аватар
@@ -402,14 +401,13 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
             // Открыть форму
             OpenEditProfileForm();
             // Изменить имя на пустое
-            ChangeNameProfile("");
+			Header.ChangeNameProfile("");
 
-            Assert.IsTrue(IsElementDisplayed(By.XPath(
-                ".//div[contains(@class,'main-fields')]//input[contains(@data-bind,'name')][contains(@class,'errorInput')]")),
+            Assert.IsTrue(Header.GetIsErrorNameInputPresent(),
                 "Ошибка: поле Имя должно быть отмечено ошибкой");
-            Assert.IsTrue(IsElementPresent(By.XPath(".//div[contains(@class,'errorMsg2')][contains(@data-bind,'name')]")),
+			Assert.IsTrue(Header.GetIsErrorNameMessagePresent(),
                 "Ошибка: должна появиться ошибка о неправильном имени");
-            Assert.IsTrue(Driver.FindElement(By.XPath(".//input[contains(@class,'js-save')]")).GetAttribute("class").Contains("btn-inactive"),
+			Assert.IsFalse(Header.GetIsSaveProfileBtnActive(),
                 "Ошибка: кнопка сохранения должна быть неактивной");
         }
 
@@ -424,15 +422,14 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
             // Открыть форму
             OpenEditProfileForm();
             // Изменить имя на пустое
-            ChangeNameProfile(" ");
+			Header.ChangeNameProfile(" ");
 
-            Assert.IsTrue(IsElementDisplayed(By.XPath(
-                ".//div[contains(@class,'main-fields')]//input[contains(@data-bind,'name')][contains(@class,'errorInput')]")),
-                "Ошибка: поле Имя должно быть отмечено ошибкой");
-            Assert.IsTrue(IsElementPresent(By.XPath(".//div[contains(@class,'errorMsg2')][contains(@data-bind,'name')]")),
-                "Ошибка: должна появиться ошибка о неправильном имени");
-            Assert.IsTrue(Driver.FindElement(By.XPath(".//input[contains(@class,'js-save')]")).GetAttribute("class").Contains("btn-inactive"),
-                "Ошибка: кнопка сохранения должна быть неактивной");
+			Assert.IsTrue(Header.GetIsErrorNameInputPresent(),
+				"Ошибка: поле Имя должно быть отмечено ошибкой");
+			Assert.IsTrue(Header.GetIsErrorNameMessagePresent(),
+				"Ошибка: должна появиться ошибка о неправильном имени");
+			Assert.IsFalse(Header.GetIsSaveProfileBtnActive(),
+				"Ошибка: кнопка сохранения должна быть неактивной");
         }
 
         /// <summary>
@@ -446,15 +443,14 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
             // Открыть форму
             OpenEditProfileForm();
             // Изменить имя на пустое
-            ChangeSurnameProfile("");
+			Header.ChangeSurnameProfile("");
 
-            Assert.IsTrue(IsElementDisplayed(By.XPath(
-                ".//div[contains(@class,'main-fields')]//input[contains(@data-bind,'surname')][contains(@class,'errorInput')]")),
-                "Ошибка: поле Фамилия должно быть отмечено ошибкой");
-            Assert.IsTrue(IsElementPresent(By.XPath(".//div[contains(@class,'errorMsg2')][contains(@data-bind,'surname')]")),
-                "Ошибка: должна появиться ошибка о неправильной фамилии");
-            Assert.IsTrue(Driver.FindElement(By.XPath(".//input[contains(@class,'js-save')]")).GetAttribute("class").Contains("btn-inactive"),
-                "Ошибка: кнопка сохранения должна быть неактивной");
+			Assert.IsTrue(Header.GetIsErrorSurnameInputPresent(),
+				"Ошибка: поле Фамилия должно быть отмечено ошибкой");
+			Assert.IsTrue(Header.GetIsErrorSurnameMessagePresent(),
+				"Ошибка: должна появиться ошибка о неправильной фамилии");
+			Assert.IsFalse(Header.GetIsSaveProfileBtnActive(),
+				"Ошибка: кнопка сохранения должна быть неактивной");
         }
 
         /// <summary>
@@ -468,15 +464,14 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
             // Открыть форму
             OpenEditProfileForm();
             // Изменить имя на пустое
-            ChangeSurnameProfile(" ");
+			Header.ChangeSurnameProfile(" ");
 
-            Assert.IsTrue(IsElementDisplayed(By.XPath(
-                ".//div[contains(@class,'main-fields')]//input[contains(@data-bind,'surname')][contains(@class,'errorInput')]")),
-                "Ошибка: поле Фамилия должно быть отмечено ошибкой");
-            Assert.IsTrue(IsElementPresent(By.XPath(".//div[contains(@class,'errorMsg2')][contains(@data-bind,'surname')]")),
-                "Ошибка: должна появиться ошибка о неправильной фамилии");
-            Assert.IsTrue(Driver.FindElement(By.XPath(".//input[contains(@class,'js-save')]")).GetAttribute("class").Contains("btn-inactive"),
-                "Ошибка: кнопка сохранения должна быть неактивной");
+			Assert.IsTrue(Header.GetIsErrorSurnameInputPresent(),
+				"Ошибка: поле Фамилия должно быть отмечено ошибкой");
+			Assert.IsTrue(Header.GetIsErrorSurnameMessagePresent(),
+				"Ошибка: должна появиться ошибка о неправильной фамилии");
+			Assert.IsFalse(Header.GetIsSaveProfileBtnActive(),
+				"Ошибка: кнопка сохранения должна быть неактивной");
         }
 
         /// <summary>
@@ -493,7 +488,7 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
             string aboutInfo = "About Me Info " + DateTime.Now.Ticks;
             ChangeAboutMeInfo(aboutInfo);
             // Получить текст информации о себе
-            string resultAboutInfo = GetAboutMeInfo();
+			string resultAboutInfo = ProfilePage.GetInfo();
             // Проверить, что сохранилась правильная информация
             Assert.AreEqual(resultAboutInfo, aboutInfo, "Ошибка: текст о себе не сохранился");
         }
@@ -513,12 +508,14 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
             // Изменить пароль
             ChangePasswordAndSave(User1.password, newUserPassword);
             // Выйти из пользователя
-            LogoutUser();
+			Header.LogoutUser();
 
             // Войти в пользователя с новым паролем
-            LoginUser(User1.login, newUserPassword);
+			Header.Login(User1.login, newUserPassword);
+			//LoginUser(User1);
+
             // Проверить, что удается войти в пользователя
-            Assert.IsFalse(IsExistIncorrectPasswordError(), "Ошибка: не удается войти в пользователя с новым паролем (" + User1NewPass + ")");
+			Assert.IsFalse(IsExistIncorrectPasswordError(), "Ошибка: не удается войти в пользователя с новым паролем (" + newUserPassword + ")");
 
             // Открыть профиль
             OpenUserProfileFromHomePage();
@@ -541,12 +538,13 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
             // Изменить пароль
             ChangePasswordAndSave(User1.password, newUserPassword);
             // Выйти из пользователя
-            LogoutUser();
+			Header.LogoutUser();
 
             // Войти в пользователя с новым паролем
-            LoginUser(User1.login, newUserPassword);
+			Header.Login(User1.login, newUserPassword);
+			//LoginUser(User1.login, User1NewPass);
             // Проверить, что удается войти в пользователя
-            Assert.IsFalse(IsExistIncorrectPasswordError(), "Ошибка: не удается войти в пользователя с новым паролем (" + User1NewPass + ")");
+			Assert.IsFalse(IsExistIncorrectPasswordError(), "Ошибка: не удается войти в пользователя с новым паролем (" + newUserPassword + ")");
 
             // Открыть профиль
             OpenUserProfileFromHomePage();
@@ -570,13 +568,13 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
             ChangePassword(User1.password, newUserPassword);
             
             // Проверить, что поле Новый пароль отмечено ошибкой и есть сообщение об ошибке
-            Assert.IsTrue(Driver.FindElement(By.XPath(".//form[@id='change-password-form']//input[@name='newpassword']")).GetAttribute("class").Contains("errorInput"),
+            Assert.IsTrue(Header.GetIsErrorNewPasswordInputPresent(),
                 "Ошибка: поле Новый пароль не отмечено ошибкой");
-            Assert.IsTrue(IsElementPresent(By.XPath(".//form[@id='change-password-form']//div[contains(@class,'errorMsg2')][contains(@data-bind,'newpassword')]")),
+			Assert.IsTrue(Header.GetIsErrorNewPasswordMessagePresent(),
                 "Ошибка: не появилось сообщение о слишком коротком пароле");
 
             // Проверить, что кнопка Сохранить заблокирована
-            Assert.IsTrue(Driver.FindElement(By.XPath(".//form[@id='change-password-form']//input[@type='submit']")).GetAttribute("class").Contains("btn-inactive"),
+            Assert.IsFalse(Header.GetIsSavePasswordBtnActive(),
                 "Ошибка: кнопка Сохранить не заблокирована");
 
             // Проверить, что пользователь заходит со старым паролем
@@ -599,10 +597,10 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
             // Изменить пароль
             ChangePasswordAndSave(User1.password, newUserPassword);
             // Выйти из пользователя
-            LogoutUser();
+			Header.LogoutUser();
 
             // Войти в пользователя с новым паролем
-            LoginUser(User1.login, newUserPassword);
+            LoginUser(User1);
             // Проверить, что удается войти в пользователя
             Assert.IsFalse(IsExistIncorrectPasswordError(), "Ошибка: не удается войти в пользователя с новым паролем (" + User1NewPass + ")");
             // Восстаналивать пароль не надо, т.к. пароль изменили на тот же самый
@@ -623,7 +621,7 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
             ChangePasswordAndSave(User1NewPass, User1.password);
 
             // Проверить, что появилось сообщение о неверном пароле
-            Assert.IsTrue(IsElementPresent(By.XPath(".//form[@id='change-password-form']//div[contains(@class,'js-dynamic-errors')]//p[@id='error1']")),
+            Assert.IsTrue(Header.GetIsPasswordErrorPresent(),
                 "Ошибка: не появилось сообщение о неверном пароле");
 
             CheckUserLastPasswordValid();
@@ -643,15 +641,15 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
             // Ввести разные пароли: новый и подтверждение
             ChangePassword(User1.password, User1NewPass, User1LimitPass);
 
-            // Проверить, что поле Подтверждение пароля отмечено ошибкой и есть сообщение об ошибке
-            Assert.IsTrue(Driver.FindElement(By.XPath(".//form[@id='change-password-form']//input[@name='confirmpassword']")).GetAttribute("class").Contains("errorInput"),
-                "Ошибка: поле Подтверждение пароля не отмечено ошибкой");
-            Assert.IsTrue(IsElementPresent(By.XPath(".//form[@id='change-password-form']//div[contains(@class,'errorMsg2')][contains(@data-bind,'confirmpassword')]")),
-                "Ошибка: не появилось сообщение о не совпадающих паролях");
+			// Проверить, что поле Новый пароль отмечено ошибкой и есть сообщение об ошибке
+			Assert.IsTrue(Header.GetIsErrorRenewPasswordInputPresent(),
+				"Ошибка: поле Подтверждение пароля не отмечено ошибкой");
+			Assert.IsTrue(Header.GetIsErrorRenewPasswordMessagePresent(),
+				"Ошибка: не появилось сообщение о не совпадающих паролях");
 
-            // Проверить, что кнопка Сохранить заблокирована
-            Assert.IsTrue(Driver.FindElement(By.XPath(".//form[@id='change-password-form']//input[@type='submit']")).GetAttribute("class").Contains("btn-inactive"),
-                "Ошибка: кнопка Сохранить не заблокирована");
+			// Проверить, что кнопка Сохранить заблокирована
+			Assert.IsFalse(Header.GetIsSavePasswordBtnActive(),
+				"Ошибка: кнопка Сохранить не заблокирована");
 
             CheckUserLastPasswordValid();
         }
@@ -673,7 +671,7 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
         public void OpenProfileFromMainMenuCoursePage()
         {
             // Перейти на страницу со списком курсов
-            OpenCoursePage();
+			Assert.IsTrue(OpenCoursePage(), "Ошибка: список курсов пустой.");
             // Открыть профиль по ссылке в главном меню на странице со списком курсов
             OpenUserProfileFromCourse();
         }
@@ -685,34 +683,34 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
         public void OpenProfileFromAnotherUserPage()
         {
             // Перейти на страницу курсов
-            OpenCoursePage();
+			Assert.IsTrue(OpenCoursePage(), "Ошибка: список курсов пустой.");
             // Перейти к списку лидеров
-            OpenLeaderboardPage();
-
-            // В списке лидеров найти ссылку на другого пользователя
+			Header.OpenLeaderboardPage();
+			Assert.IsTrue(LeaderboardPage.GetIsNamePresentByRowNumber(1), "Ошибка: список лидеров пуст");
+            
+			// В списке лидеров найти ссылку на другого пользователя
             string curUserName = GetFullNameLeaderboard();
-            string anotherUserRef = ".//div[contains(@class,'rating')]//tr[4]//td[3]/a[contains(@data-bind,'name')]";
-            Driver.FindElement(By.XPath(anotherUserRef));
-            Assert.IsTrue(IsElementPresent(By.XPath(anotherUserRef)), "Ошибка: список лидеров пуст");
-            // Получить имя первого лидера
-            string firstLeaderName = Driver.FindElement(By.XPath(anotherUserRef)).Text.Trim();
-            if (firstLeaderName != curUserName)
+			// Получить имя первого лидера
+			string firstLeaderName = LeaderboardPage.GetNameByRowNumber(1);
+			
+			if (firstLeaderName != curUserName)
             {
-                anotherUserRef = ".//div[contains(@class,'rating')]//tr[5]//td[3]/a[contains(@data-bind,'name')]";
-                Assert.IsTrue(IsElementPresent(By.XPath(anotherUserRef)), "Ошибка: в списке нет других пользователей");
+                Assert.IsTrue(LeaderboardPage.GetIsNamePresentByRowNumber(2), "Ошибка: в списке нет других пользователей");
+				LeaderboardPage.ClickNameByRowNumber(2);
             }
+			else
+			{
+				LeaderboardPage.ClickNameByRowNumber(1);
+			}
 
-            // Перейти в профиль другого пользователя
-            Driver.FindElement(By.XPath(anotherUserRef)).Click();
-            // Дождаться загрузки страницы
-            Wait.Until((d) => d.FindElement(By.ClassName("profile-description")).Displayed);
+			// Дождаться загрузки страницы
+			Assert.IsTrue(ProfilePage.WaitUntilDisplayProfile(), "Ошибка: Страница профиля не открылась.");
 
             // Открыть профиль текущего пользователя
             OpenUserProfileFromCourse();
             Thread.Sleep(1000);
             // Проверить, что открылся профиль именно текущего пользователя
-            Assert.AreEqual(curUserName,
-                Driver.FindElement(By.XPath(".//div[contains(@class,'profile-title')]")).Text.Trim(),
+            Assert.AreEqual(curUserName, ProfilePage.GetFullUserName(),
                 "Ошибка: не открылся профиль текущего пользователя");
         }
 
@@ -723,37 +721,18 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
         public void OpenProfileFromLeaderboard()
         {
             // Получить текущее имя пользователя
-            string userName = GetUserNameHomepage();
+            string userName = HomePage.GetUserName();
 
             // Пролистать список лидеров до пользователя
             int numInList = ScrollLeaderboardToUser(userName);
 
             // Кликнуть по пользователю в списке
-            Driver.FindElement(By.XPath(".//div[contains(@class,'rating')]//tr[" + numInList + "]//td[3]/a")).Click();
-            Assert.IsTrue(IsElementDisplayed(By.ClassName("profile-description")), "Ошибка: профиль не открылся");
+			LeaderboardPage.ClickNameByRowNumber(numInList);
+			// Дождаться загрузки страницы
+			Assert.IsTrue(ProfilePage.WaitUntilDisplayProfile(), "Ошибка: Страница профиля не открылась.");
         }
 
-        /// <summary>
-        /// Получить полное имя пользователя на главной странице
-        /// </summary>
-        /// <returns>полное имя - "имя фамилия"</returns>
-        protected string GetFullNameHomepage()
-        {
-            // Получить полное имя пользователя на главной странице
-            // Полное имя - "имя фамилия"
-            return Driver.FindElement(By.XPath(".//a[contains(@data-bind,'userName')]")).Text;
-        }
-
-        /// <summary>
-        /// Получить полное имя пользователя на странице профиля пользователя
-        /// </summary>
-        /// <returns>полное имя - "имя фамилия"</returns>
-        protected string GetFullNameProfile()
-        {
-            // Получить полное имя пользователя на странице профиля пользователя
-            // Полное имя - "имя фамилия"
-            return Driver.FindElement(By.XPath(".//div[contains(@data-bind,'fullName')]")).Text;
-        }
+		
 
         /// <summary>
         /// Получить полное имя пользователя на странице списка лидеров
@@ -764,26 +743,12 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
             string userName = "";
 
             setDriverTimeoutMinimum();
-            if (IsElementPresent(By.XPath(".//tr[contains(@class,'active') and not(@disabled)]//td//a[contains(@data-bind,'name')]")))
-            {
-                userName = Driver.FindElement(By.XPath(".//tr[contains(@class,'active') and not(@disabled)]//td//a[contains(@data-bind,'name')]")).Text.Trim();
-            }
-            else if (IsElementPresent(By.XPath(".//tr[contains(@class,'active') and @style='']//td[contains(@data-bind,'name')]")))
-            {
-                userName = Driver.FindElement(By.XPath(".//tr[contains(@class,'active') and @style='']//td[contains(@data-bind,'name')]")).Text.Trim();
-            }
+			// Получение имени пользователя, проверка всех списков
+			userName = LeaderboardPage.GetUserName();
+
             setDriverTimeoutDefault();
 
             return userName;
-        }
-
-        /// <summary>
-        /// Получить полное имя пользователя в главном меню
-        /// </summary>
-        /// <returns>полное имя - "имя фамилия"</returns>
-        protected string GetFullNameMainMenu()
-        {
-            return Driver.FindElement(By.XPath(".//div[@id='main-menu']//a[contains(@class,'user-name')]")).Text.Trim();
         }
 
         /// <summary>
@@ -792,8 +757,9 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
         protected void OpenEditProfileForm()
         {
             // Открыть форму редактирования
-            Driver.FindElement(By.CssSelector("a[data-popup =\"editor-form\"]")).Click();
-            Wait.Until((d) => d.FindElement(By.Id("editor-form")).Displayed);
+            Header.ClickOpenEditorForm();
+			// Формирование ошибки, если форма не открылась
+			Assert.IsTrue(Header.WaitUntilEditorFormDisplay(), "Ошибка: Форма редактирования данных пользователя не открылась.");
         }
 
         /// <summary>
@@ -801,10 +767,35 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
         /// </summary>
         protected void CloseEditProfileForm()
         {
-            // Открыть форму редактирования
-            Driver.FindElement(By.XPath(".//div[@id='editor-form']//div[contains(@class,'cancel')]")).Click();
-            WaitUntilDisappearElement(".//div[@id='editor-form']");
+            // Закрыть форму редактирования
+			Header.ClickCloseEditorForm();
+			Assert.IsTrue(Header.WaitUntilEditorFormDisappear(), "Ошибка: Форма редактирования данных пользователя не закрылась.");
         }
+
+		/// <summary>
+		/// Сохранить данные пользователя
+		/// </summary>
+		protected void SaveProfile()
+		{
+			// Закрыть форму редактирования
+			Header.ClickSaveProfileBtn();
+			Assert.IsTrue(Header.WaitUntilEditorFormDisappear(), "Ошибка: Форма редактирования данных пользователя не закрылась.");
+		}
+
+		/// <summary>
+		/// Сохранить пароль пользователя
+		/// </summary>
+		protected void SavePassword()
+		{
+			// Проверить, что кнопка Сохранить не заблокирована
+			Assert.IsTrue(Header.GetIsSavePasswordBtnActive(),
+				"Ошибка: кнопка Сохранить заблокирована");
+
+			Header.ClickSavePasswordBtn();
+
+			// Дождаться, пока форма закроется
+			Header.WaitUntilEditorFormDisappear();
+		}
 
         /// <summary>
         /// Открыть форму изменения пароля
@@ -814,8 +805,9 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
             // Открыть форму редактирования
             OpenEditProfileForm();
             // Перейти на вкладку изменения пароля
-            Driver.FindElement(By.XPath(".//div[@id='editor-form']//label[contains(@data-bind,'changePassword')]")).Click();
-            Wait.Until((d) => d.FindElement(By.Id("change-password-form")).Displayed);
+			Header.ClickChangePasswordForm();
+			// Дождаться пока откроется форма изменения пароля
+			Assert.IsTrue(Header.WaitUntilChangePasswordFormDisplay(), "Ошибка: Форма смены пароля не открылась.");
         }
 
         /// <summary>
@@ -826,37 +818,11 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
         protected void SaveNewUserNameInEditProfileForm(string newUserName, string newUserSurname)
         {
             // Ввести новое имя
-            ChangeNameProfile(newUserName);
+			Header.ChangeNameProfile(newUserName);
             // Ввести новую фамилию
-            ChangeSurnameProfile(newUserSurname);
+			Header.ChangeSurnameProfile(newUserSurname);
             // Сохранить
-            Driver.FindElement(By.XPath(".//form[@id='edit-profile-form']//input[contains(@class,'js-save')]")).Click();
-            // Дождаться, пока форма закроется
-            WaitUntilDisappearElement("a[data-popup =\"editor-form\"]");
-        }
-
-        /// <summary>
-        /// Ввести имя
-        /// </summary>
-        /// <param name="name">имя</param>
-        protected void ChangeNameProfile(string name)
-        {
-            // Очистить поле Имя
-            Driver.FindElement(By.XPath(".//form[@id='edit-profile-form']//input[@name='name']")).Clear();
-            // Ввести новое имя
-            Driver.FindElement(By.XPath(".//form[@id='edit-profile-form']//input[@name='name']")).SendKeys(name);
-        }
-
-        /// <summary>
-        /// Ввести фамилию
-        /// </summary>
-        /// <param name="surname">фамилия</param>
-        protected void ChangeSurnameProfile(string surname)
-        {
-            // Очистить поле Имя
-            Driver.FindElement(By.XPath(".//form[@id='edit-profile-form']//input[@name='surname']")).Clear();
-            // Ввести новое имя
-            Driver.FindElement(By.XPath(".//form[@id='edit-profile-form']//input[@name='surname']")).SendKeys(surname);
+			SaveProfile();
         }
 
         /// <summary>
@@ -866,13 +832,9 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
         protected void ChangeAboutMeInfo(string info)
         {
             // Очистить поле Информация о себе
-            Driver.FindElement(By.XPath(".//form[@id='edit-profile-form']//textarea[contains(@data-bind,'aboutme')]")).Clear();
-            // Добавить информацию
-            Driver.FindElement(By.XPath(".//form[@id='edit-profile-form']//textarea[contains(@data-bind,'aboutme')]")).SendKeys(info);
+			Header.ChangeInfoProfile(info);
             // Сохранить
-            Driver.FindElement(By.XPath(".//form[@id='edit-profile-form']//input[contains(@class,'js-save')]")).Click();
-            // Дождаться, пока форма закроется
-            WaitUntilDisappearElement("a[data-popup =\"editor-form\"]");
+			SaveProfile();
         }
 
         /// <summary>
@@ -928,55 +890,15 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
         {
             // Открыть форму редактирования профиля
             OpenEditProfileForm();
+
             // Кликнуть на открытие диалога загрузки файла
-            Driver.FindElement(By.XPath(".//form[contains(@id,'edit-profile-form')]//div[contains(@class,'js-upload-btn')]//a")).Click();
+			Header.ClickAvatarUploadBtn();
 
             // Заполнить диалог загрузки документа
             FillAddDocumentForm(ImageFile);
 
             // Сохранить
-            Driver.FindElement(By.XPath(".//form[@id='edit-profile-form']//input[contains(@class,'js-save')]")).Click();
-            // Дождаться, пока форма закроется
-            WaitUntilDisappearElement("a[data-popup =\"editor-form\"]");
-        }
-
-        /// <summary>
-        /// Проверить, есть ли аватар в главном меню
-        /// </summary>
-        /// <returns>есть аватар</returns>
-        protected bool GetIsAvatarExistMainMenu()
-        {
-            return Driver.FindElement(By.XPath(".//div[@id='main-menu']//span[contains(@class,'menu-user-link')]/img")).GetAttribute("src").Contains("/avatar/");
-        }
-
-        /// <summary>
-        /// Проверить, есть ли аватар в профиле
-        /// </summary>
-        /// <returns>есть аватар</returns>
-        protected bool GetIsAvatarExistProfile()
-        {
-            return Driver.FindElement(By.XPath(".//div[contains(@class,'profile-description')]/..//img")).GetAttribute("src").Contains("/avatar/");
-        }
-
-        /// <summary>
-        /// Проверить, есть ли аватар в профиле
-        /// </summary>
-        /// <returns>есть аватар</returns>
-        protected bool GetIsAvatarExistLeaderboard()
-        {
-			return Driver.FindElement(By.XPath(
-								SelectByUrl(".//tr[contains(@class,'active') and not(@disabled)]//td[2]/img",
-											".//span[contains(@class,'menu-user-link')]/img"))).GetAttribute("src").Contains("/avatar/");
-        }
-
-        /// <summary>
-        /// Проверить, есть ли аватар в форме редактирования пользователя
-        /// </summary>
-        /// <returns>есть аватар</returns>
-        protected bool GetIsAvatarExistEditProfileForm()
-        {
-            return Driver.FindElement(By.XPath(
-                ".//form[@id='edit-profile-form']//div[contains(@class,'js-avatar')]//img[contains(@data-bind,'attr')]")).GetAttribute("src").Contains("/Files/");
+			SaveProfile();
         }
 
         /// <summary>
@@ -1010,12 +932,10 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
             OpenEditProfileForm();
 
             // Удалить аватар
-            Driver.FindElement(By.XPath(".//form[@id='edit-profile-form']//div[contains(@class,'js-clear-btn')]/a")).Click();
+			Header.ClickAvatarDeleteBtn();
 
             // Сохранить
-            Driver.FindElement(By.XPath(".//form[@id='edit-profile-form']//input[contains(@class,'js-save')]")).Click();
-            // Дождаться, пока форма закроется
-            WaitUntilDisappearElement("a[data-popup =\"editor-form\"]");
+			SaveProfile();
         }
 
         /// <summary>
@@ -1031,27 +951,18 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
             Driver.Manage().Window.Maximize();
 
             // Проверить, что аватара нет
-            if (GetIsAvatarExistProfile())
+            if (ProfilePage.GetIsAvatarPresentProfile())
             {
                 // Удалить аватар
                 RecoverAvatarFromProfile();
                 // Проверить, что аватара нет
-                Assert.IsFalse(GetIsAvatarExistProfile(), "Ошибка: не удаляется аватар перед началом теста");
+                Assert.IsFalse(ProfilePage.GetIsAvatarPresentProfile(), "Ошибка: не удаляется аватар перед началом теста");
             }
 
             // Открыть форму
             OpenEditProfileForm();
             // Добавить аватар
             AddAvatarInProfile();
-        }
-
-        /// <summary>
-        /// Получить текст информации о себе
-        /// </summary>
-        /// <returns>информация о себе</returns>
-        protected string GetAboutMeInfo()
-        {
-            return Driver.FindElement(By.XPath(".//div[contains(@data-bind,'about')]")).Text.Trim();
         }
 
         /// <summary>
@@ -1063,18 +974,18 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
         protected void ChangePassword(string oldPassword, string newPassword, string confirmPassword = "")
         {
             // Ввести старый пароль
-            Driver.FindElement(By.XPath(".//form[@id='change-password-form']//input[@name='password']")).Clear();
-            Driver.FindElement(By.XPath(".//form[@id='change-password-form']//input[@name='password']")).SendKeys(oldPassword);
+			Header.ChangeOldPassword(oldPassword);
+
             // Вести новый пароль
-            Driver.FindElement(By.XPath(".//form[@id='change-password-form']//input[@name='newpassword']")).Clear();
-            Driver.FindElement(By.XPath(".//form[@id='change-password-form']//input[@name='newpassword']")).SendKeys(newPassword);
+			Header.ChangeNewPassword(newPassword);
+
             // Вести подтверждение нового пароля
             if (confirmPassword.Length == 0)
             {
                 confirmPassword = newPassword;
             }
-            Driver.FindElement(By.XPath(".//form[@id='change-password-form']//input[@name='confirmpassword']")).Clear();
-            Driver.FindElement(By.XPath(".//form[@id='change-password-form']//input[@name='confirmpassword']")).SendKeys(confirmPassword);
+
+			Header.ChangeReNewPassword(confirmPassword);
         }
 
         /// <summary>
@@ -1088,13 +999,8 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
             // Заполнить форму изменения пароля
             ChangePassword(oldPassword, newPassword, confirmPassword);
 
-            // Проверить, что кнопка Сохранить не заблокирована
-            Assert.IsTrue(IsElementPresent(By.XPath(".//form[@id='change-password-form']//input[@type='submit'][not(contains(@class,'btn-inactive'))]")),
-                "Ошибка: кнопка Сохранить заблокирована");
-
-            Driver.FindElement(By.XPath(".//form[@id='change-password-form']//input[contains(@data-bind,'submitClick')]")).Click();
-            // Дождаться, пока форма закроется
-            WaitUntilDisappearElement(".//form[@id='change-password-form']");
+            // Закрыть форму
+			SavePassword();
         }
 
         /// <summary>
@@ -1115,13 +1021,11 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
         /// <returns>есть ошибка</returns>
         private bool IsExistIncorrectPasswordError()
         {
-            bool isExistError = false;
-            if (!WaitUntilDisappearElement(".//form[@id='login-form-login']"))
+            if (!Header.WaitUntilLoginFormDisappear())
             {
-                isExistError = IsElementDisplayed(By.XPath(
-                                    ".//form[@id='login-form-login']//div[contains(@class,'js-dynamic-errors')]"));
+				return Header.GetIsLoginErrorPresent();
             }
-            return isExistError;
+            return false;
         }
 
         /// <summary>
@@ -1143,7 +1047,7 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
             foreach (string pass in passwordList)
             {
                 // Заполнить форму с другим паролем
-                FillAuthorizationData(User1.login, pass);
+                Header.FillAuthorizationData(User1.login, pass);
                 // Проверить, прошел ли пароль
                 if (!IsExistIncorrectPasswordError())
                 {
@@ -1165,7 +1069,7 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
                 // Восстанавливаем пароль
                 RecoverUserPassword(currentPassword);
                 // Возвращаемся на главную страницу
-                OpenHomepage();
+				Header.OpenHomepage();
             }
         }
 
@@ -1175,11 +1079,12 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
         protected void CheckUserLastPasswordValid()
         {
             // Выйти из редактора
-            Driver.FindElement(By.XPath(".//div[@id='editor-form']//div[@class='cancel']")).Click();
+			Header.ClickCloseEditorForm();
+
             // Выйти из пользователя
-            LogoutUser();
+            Header.LogoutUser();
             // Зайти с обычным паролем
-            LoginUser(User1);
+			LoginUser(User1);
             Assert.IsFalse(IsExistIncorrectPasswordError(), "Ошибка: пользователь не может зайти со своим старым паролем!");
         }
     }

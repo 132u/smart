@@ -30,7 +30,6 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
         [SetUp]
         public void Setup()
         {
-
         }
 
         /// <summary>
@@ -45,11 +44,11 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
             string translationText = "Test" + DateTime.Now.Ticks;
             AddTranslation(translationText);
             // Получить номер строки с добавленым переводом в списке предложенных переводов для предложения
-            int rowNumber = GetSuggestedTranslationRowNum(translationText);
+			int rowNumber = EditorPage.GetTranslationRowNumberByTarget(translationText);
             // Получить количество голосов за этот перевод
-            int translationRating = GetTranslationRatingInEditor(rowNumber);
+			int translationRating = EditorPage.GetTranslationRatingByRowNumber(rowNumber);
             // Проверить, что иконка "Голосовать За" заблокирована - т.е. голос поставлен автоматически
-            Assert.IsTrue(GetIsVoteConsideredEditor(true, rowNumber),
+            Assert.IsTrue(EditorPage.GetIsVoteConsidered(true, rowNumber),
                 "Ошибка: кнопка Голосовать За не заблокирована");
             // Проверить, что рейтинг больше нуля
             Assert.IsTrue(translationRating > 0, "Ошибка: рейтинг должен быть больше нуля, автоматический голос за себя не поставлен");
@@ -74,29 +73,31 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
             // Выйти из редактора
             ClickBackEditor();
             // Выйти из этого пользователя
-            LogoutUser();
+            Header.LogoutUser();
 
             // Зайти другим пользователем
-            LoginUser(User2);
+			LoginUser(User2);
             // Зайти в лекцию
             OpenLectureByRowNum(lectureRowNumber);
             // Перейти в строку с добавленным переводом
-            ClickEditorRowByNum(translationRowNum);
+            EditorPage.ClickTargetByRowNumber(translationRowNum);
             // Получить номер строки с добавленым переводом в списке предложенных переводов для предложения
-            int rowNumber = GetSuggestedTranslationRowNum(translationText);
+			int rowNumber = EditorPage.GetTranslationRowNumberByTarget(translationText);
 
             // Получить количество голосов за этот перевод
-            int ratingBefore = GetTranslationRatingInEditor(rowNumber);
+			int ratingBefore = EditorPage.GetTranslationRatingByRowNumber(rowNumber);
             // Проголосовать За
             VoteFromEditor(true, rowNumber);
-            int ratingAfter = GetTranslationRatingInEditor(rowNumber);
+			rowNumber = EditorPage.GetTranslationRowNumberByTarget(translationText);
+			int ratingAfter = EditorPage.GetTranslationRatingByRowNumber(rowNumber);
             // Проверить, что рейтинг увеличился на 1
             Assert.IsTrue(ratingAfter == (ratingBefore + 1), "Ошибка: (в редакторе, голосование за перевод) рейтинг после голоса ЗА не увеличился на 1");
             ratingBefore = ratingAfter;
 
             // Повторно проголосовать За
             VoteFromEditor(true, rowNumber);
-            ratingAfter = GetTranslationRatingInEditor(rowNumber);
+			rowNumber = EditorPage.GetTranslationRowNumberByTarget(translationText);
+			ratingAfter = EditorPage.GetTranslationRatingByRowNumber(rowNumber);
             // Проверить, что рейтинг не изменился
             Assert.IsTrue(ratingAfter == ratingBefore, "Ошибка: (в редакторе, повторное голосование ЗА) рейтинг не должен был измениться");
 
@@ -105,27 +106,30 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
             // Зайти в лекцию
             OpenLectureByRowNum(lectureRowNumber);
             // Перейти в строку с добавленным переводом
-            ClickEditorRowByNum(translationRowNum);
+            EditorPage.ClickTargetByRowNumber(translationRowNum);
             // Получить номер строки с добавленым переводом в списке предложенных переводов для предложения
-            rowNumber = GetSuggestedTranslationRowNum(translationText);
+			rowNumber = EditorPage.GetTranslationRowNumberByTarget(translationText);
             // Получить количество голосов за этот перевод
-            ratingBefore = GetTranslationRatingInEditor(rowNumber);
+			ratingBefore = EditorPage.GetTranslationRatingByRowNumber(rowNumber);
             // Проголосовать За
             VoteFromEditor(true, rowNumber);
-            ratingAfter = GetTranslationRatingInEditor(rowNumber);
+			rowNumber = EditorPage.GetTranslationRowNumberByTarget(translationText);
+			ratingAfter = EditorPage.GetTranslationRatingByRowNumber(rowNumber);
             // Проверить, что рейтинг не изменился
             Assert.IsTrue(ratingAfter == ratingBefore, "Ошибка: (в редакторе, проголосовали ЗА, вышли из редактора, зашли снова, проголосовали ЗА) рейтинг не должен был измениться");
             ratingBefore = ratingAfter;
 
             // Проголосовать Против
             VoteFromEditor(false, rowNumber);
-            ratingAfter = GetTranslationRatingInEditor(rowNumber);
+			rowNumber = EditorPage.GetTranslationRowNumberByTarget(translationText);
+			ratingAfter = EditorPage.GetTranslationRatingByRowNumber(rowNumber);
             // Проверить, что рейтинг изменился на -2
             Assert.IsTrue(ratingAfter == (ratingBefore - 2), "Ошибка: (в редакторе, проголосовали ЗА, проголосовали ПРОТИВ) рейтинг должен измениться на -2");
             ratingBefore = ratingAfter;
             // Проголосовать За
             VoteFromEditor(true, rowNumber);
-            ratingAfter = GetTranslationRatingInEditor(rowNumber);
+			rowNumber = EditorPage.GetTranslationRowNumberByTarget(translationText);
+            ratingAfter = EditorPage.GetTranslationRatingByRowNumber(rowNumber);
             // Проверить, что рейтинг изменился на -2
             Assert.IsTrue(ratingAfter == (ratingBefore + 2), "Ошибка: (в редакторе, проголосовали ПРОТИВ, проголосовали ЗА) рейтинг должен измениться на +2");
         }
@@ -271,41 +275,41 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
             // Выйти из редактора
             ClickBackEditor();
             // Выйти из этого пользователя
-            LogoutUser();
+			Header.LogoutUser();
 
             // Зайти другим пользователем
-            LoginUser(User2);
+			LoginUser(User2);
             // Зайти в курс
-            OpenCoursePage();
+			Assert.IsTrue(OpenCoursePage(), "Ошибка: список курсов пустой.");
             OpenCourseByName(courseName);
             // Зайти в лекцию
             OpenLectureByRowNum(lectureRowNumber);
             // Перейти в строку с добавленным переводом
-            ClickEditorRowByNum(translationRowNum);
+            EditorPage.ClickTargetByRowNumber(translationRowNum);
             // Получить номер строки с добавленым переводом в списке предложенных переводов для предложения
-            int rowNumber = GetSuggestedTranslationRowNum(translationText);
+			int rowNumber = EditorPage.GetTranslationRowNumberByTarget(translationText);
 
             // Проголосовать За
             VoteFromEditor(true, rowNumber);
             ClickBackEditor();
             // Перейти на главную страницу
-            OpenHomepage();
+			Header.OpenHomepage();
             Assert.IsTrue(WaitEventInEventListByTarget(translationText, HomePageLastEventType.VoteUpEvent), "Ошибка: событие о голосовании не появилось");
             // Зайти в курс
-            OpenCoursePage();
+			Assert.IsTrue(OpenCoursePage(), "Ошибка: список курсов пустой.");
             OpenCourseByName(courseName);
             // Зайти в лекцию
             OpenLectureByRowNum(lectureRowNumber);
             // Перейти в строку с добавленным переводом
-            ClickEditorRowByNum(translationRowNum);
+            EditorPage.ClickTargetByRowNumber(translationRowNum);
             // Получить номер строки с добавленым переводом в списке предложенных переводов для предложения
-            rowNumber = GetSuggestedTranslationRowNum(translationText);
+			rowNumber = EditorPage.GetTranslationRowNumberByTarget(translationText);
 
             // Проголосовать против
             VoteFromEditor(false, rowNumber);
             ClickBackEditor();
             // Перейти на главную страницу
-            OpenHomepage();
+			Header.OpenHomepage();
             Assert.IsFalse(WaitEventInEventListByTarget(translationText, HomePageLastEventType.VoteUpEvent, false), "Ошибка: событие должно пропасть");
         }
         
@@ -323,55 +327,56 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
             // Выйти из редактора
             ClickBackEditor();
             // Выйти из этого пользователя
-            LogoutUser();
+			Header.LogoutUser();
 
             // Зайти другим пользователем
-            LoginUser(User2);
+			LoginUser(User2);
             // Перейти на главную страницу
-            OpenHomepage();
+            Header.OpenHomepage();
             // Получить номер строки с событием
             int rowNumber = GetEventRowNum(translationText, HomePageLastEventType.AddTranslationEvent);
             // Получить число голосов до голосования
-            int ratingBefore = GetRatingEventList(rowNumber);
+			int ratingBefore = HomePage.GetEventRatingByRowNumber(rowNumber);
 
             // Проголосовать
-            Assert.True(VoteEventListByRowNum(rowNumber, true), "Ошибка: не удалось проголосовать");
+			Assert.True(HomePage.GetIsCanVoteEventListByRowNumber(rowNumber, true), "Ошибка: не удалось проголосовать");
             // Получить число голосов после голосования
-            int ratingAfter = GetRatingEventList(rowNumber);
+			int ratingAfter = HomePage.GetEventRatingByRowNumber(rowNumber);
             // Сравнить количество голосов
             Assert.IsTrue(ratingBefore < ratingAfter, "Ошибка: количество голосов не увеличилось");
             ratingBefore = ratingAfter;
 
             // Проверить, что нельзя проголосовать снова
-            Assert.IsFalse(VoteEventListByRowNum(rowNumber, true), "Ошибка: нельзя голосовать дважды");
+			Assert.IsFalse(HomePage.GetIsCanVoteEventListByRowNumber(rowNumber, true), "Ошибка: нельзя голосовать дважды");
             // Попробовать проголосовать
-            TryVoteVotedEventListByRowNum(rowNumber, true);
+            HomePage.VoteVotedEventListByRowNumber(rowNumber, true);
+			Thread.Sleep(1000);
             // Проверить, что количество голосов не изменилось
-            ratingAfter = GetRatingEventList(rowNumber);
+			ratingAfter = HomePage.GetEventRatingByRowNumber(rowNumber);
             Assert.IsTrue(ratingBefore == ratingAfter, "Ошибка: после повторного голосования рейтинг не должен был измениться");
 
             // Обновить страницу (дождаться, пока появится событие, что проголосовали)
             WaitEventInEventListByTarget(translationText, HomePageLastEventType.VoteUpEvent);
             // Найти нужное событие
             rowNumber = GetEventRowNum(translationText, HomePageLastEventType.AddTranslationEvent);
-            ratingBefore = GetRatingEventList(rowNumber);
+			ratingBefore = HomePage.GetEventRatingByRowNumber(rowNumber);
 
             // Проголосовать
-            VoteEventListByRowNum(rowNumber, true);
-            ratingAfter = GetRatingEventList(rowNumber);
+			HomePage.GetIsCanVoteEventListByRowNumber(rowNumber, true);
+			ratingAfter = HomePage.GetEventRatingByRowNumber(rowNumber);
             // Проверить, что число голосов не изменилось
             Assert.IsTrue(ratingBefore == ratingAfter, "Ошибка: число голосов не должно было измениться");
 
             // Проголосовать Против
-            Assert.IsTrue(VoteEventListByRowNum(rowNumber, false), "Ошибка: недоступно голосование против");
-            ratingAfter = GetRatingEventList(rowNumber);
+			Assert.IsTrue(HomePage.GetIsCanVoteEventListByRowNumber(rowNumber, false), "Ошибка: недоступно голосование против");
+			ratingAfter = HomePage.GetEventRatingByRowNumber(rowNumber);
             // Проверить, что количество голосов изменилось
             Assert.IsTrue(ratingAfter == ratingBefore - 2, "Ошибка: число голосов должно было измениться на -2");
             ratingBefore = ratingAfter;
 
             // Проголосовать За
-            Assert.IsTrue(VoteEventListByRowNum(rowNumber, true), "Ошибка: недоступно голосование За");
-            ratingAfter = GetRatingEventList(rowNumber);
+			Assert.IsTrue(HomePage.GetIsCanVoteEventListByRowNumber(rowNumber, true), "Ошибка: недоступно голосование За");
+			ratingAfter = HomePage.GetEventRatingByRowNumber(rowNumber);
             // Проверить, что количество голосов изменилось
             Assert.IsTrue(ratingAfter == ratingBefore + 2, "Ошибка: число голосов должно было измениться на +2");
         }
@@ -480,25 +485,27 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
             // Выйти из редактора
             ClickBackEditor();
             // Выйти из этого пользователя
-            LogoutUser();
+			Header.LogoutUser();
 
             // Зайти другим пользователем
-            LoginUser(User2);
+			LoginUser(User2);
             // Перейти на главную
-            OpenHomepage();
+			Header.OpenHomepage();
 
             // Проголосовать За
             int rowNumber = GetEventRowNum(translationText, HomePageLastEventType.AddTranslationEvent);
-            Assert.IsTrue(VoteEventListByRowNum(rowNumber, true), "Ошибка: не удалось проголосовать");
+			Assert.IsTrue(HomePage.GetIsCanVoteEventListByRowNumber(rowNumber, true), "Ошибка: не удалось проголосовать");
             // Обновить страницу (дождаться, пока появится событие, что проголосовали)
             Assert.IsTrue(WaitEventInEventListByTarget(translationText, HomePageLastEventType.VoteUpEvent), "Ошибка: событие о голосовании не появилось");
 
             // Проголосовать против
             rowNumber = GetEventRowNum(translationText, HomePageLastEventType.AddTranslationEvent);
-            Assert.IsTrue(VoteEventListByRowNum(rowNumber, false), "Ошибка: не удалось проголосовать");
+			Assert.IsTrue(HomePage.GetIsCanVoteEventListByRowNumber(rowNumber, false), "Ошибка: не удалось проголосовать");
             Assert.IsFalse(WaitEventInEventListByTarget(translationText, HomePageLastEventType.VoteUpEvent, false), "Ошибка: событие о голосовании ЗА не пропало");
         }
         
+
+
         /// <summary>
         /// Проголосовать из редактора, вернуть последнее событие до голосования
         /// </summary>
@@ -516,24 +523,24 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
             // Выйти из редактора
             ClickBackEditor();
             // Выйти из этого пользователя
-            LogoutUser();
+			Header.LogoutUser();
 
             // Зайти другим пользователем
-            LoginUser(User2);
+			LoginUser(User2);
             // Перейти на главную
-            OpenHomepage();
+			Header.OpenHomepage();
             // Получить последнее действие
             GetLastEventInfo(out lastEvTarget, out lastEvType, out lastEvAuthor);
 
             // Зайти в курс
-            OpenCoursePage();
+			Assert.IsTrue(OpenCoursePage(), "Ошибка: список курсов пустой.");
             OpenCourseByName(courseName);
             // Зайти в лекцию
             OpenLectureByRowNum(lectureRowNumber);
             // Перейти в строку с добавленным переводом
-            ClickEditorRowByNum(translationRowNum);
+            EditorPage.ClickTargetByRowNumber(translationRowNum);
             // Получить номер строки с добавленым переводом в списке предложенных переводов для предложения
-            int rowNumber = GetSuggestedTranslationRowNum(translationText);
+            int rowNumber = EditorPage.GetTranslationRowNumberByTarget(translationText);
 
             // Проголосовать
             VoteFromEditor(isVoteUp, rowNumber);
@@ -541,7 +548,7 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
             // Выйти из редактора
             ClickBackEditor();
             // Перейти на главную страницу
-            OpenHomepage();
+            Header.OpenHomepage();
             Thread.Sleep(2000);
         }
 
@@ -558,28 +565,16 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
             // Выйти из редактора
             ClickBackEditor();
             // Выйти из этого пользователя
-            LogoutUser();
+			Header.LogoutUser();
 
             // Зайти другим пользователем
-            LoginUser(User2);
+			LoginUser(User2);
             // Перейти на главную
-            OpenHomepage();
+			Header.OpenHomepage();
 
             // Проголосовать
             int rowNumber = GetEventRowNum(translationText, HomePageLastEventType.AddTranslationEvent);
-            Assert.IsTrue(VoteEventListByRowNum(rowNumber, isVoteUp), "Ошибка: не удалось проголосовать");
-        }
-
-        /// <summary>
-        /// Получить рейтинг перевода
-        /// </summary>
-        /// <param name="rowNumber">номер строки в списке предложенных переводов</param>
-        /// <returns>рейтинг перевода</returns>
-        private int GetTranslationRatingInEditor(int rowNumber)
-        {
-            return int.Parse(
-                Driver.FindElement(By.XPath(SelectByUrl(".//div[@id='translations-body']//table//tr[" + rowNumber + "]//td[5]/div//span[contains(@class,'rating-count')]",
-														".//div[@id='translations-body']//table[" + rowNumber + "]//td[5]/div//span[contains(@class,'rating-count')]"))).Text);
+            Assert.IsTrue(HomePage.GetIsCanVoteEventListByRowNumber(rowNumber, isVoteUp), "Ошибка: не удалось проголосовать");
         }
     }
 }

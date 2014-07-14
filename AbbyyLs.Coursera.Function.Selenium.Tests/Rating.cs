@@ -43,18 +43,19 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
             OpenUserProfileFromHomePage();
 
             // Получить рейтинг до добавления перевода
-            Decimal userRatingBefore = GetUserRating();
+			Decimal userRatingBefore = ProfilePage.GetUserRating();
 
             // Добавить перевод
             string translationText = "Test" + DateTime.Now.Ticks;
             AddTranslation(translationText);
             // Вернуться из редактора
             ClickBackEditor();
+
             // Зайти в профиль
             OpenUserProfileFromCourse();
 
             // Получить рейтинг после добавления перевода
-            Decimal userRatingAfter = GetUserRating();
+            Decimal userRatingAfter = ProfilePage.GetUserRating();
             Console.WriteLine(userRatingAfter - userRatingBefore);
             // Проверить, что рейтинг увеличился
             Assert.IsTrue(userRatingAfter > userRatingBefore, "Ошибка: после добавления перевода рейтинг пользователя не увеличился");
