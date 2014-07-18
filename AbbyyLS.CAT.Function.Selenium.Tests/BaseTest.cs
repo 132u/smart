@@ -882,7 +882,7 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             // Ввести название проекта
             WorkspaceCreateProjectDialog.FillProjectName(projectName);
             // Ввести deadline дату
-            WorkspaceCreateProjectDialog.FillDeadlineDate(_deadlineDate);
+            //WorkspaceCreateProjectDialog.FillDeadlineDate(_deadlineDate);
 
             // Выбрать Source - en
             WorkspaceCreateProjectDialog.SelectSourceLanguage(srcLang);
