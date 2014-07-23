@@ -33,6 +33,20 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             Wait.Until((d) => d.Title.Contains(TITLE_TEXT));
         }
 
+		/// <summary>
+		/// Возвращает задачу
+		/// </summary>
+		/// <returns>Задача</returns>
+		public string GetStageName()
+		{
+			string stage = "";
+
+			if (GetIsElementExist(By.XPath(STAGE_NAME_XPATH)))
+				stage = GetTextElement(By.XPath(STAGE_NAME_XPATH));
+
+			return stage;
+		}
+
         /// <summary>
         /// Получить, есть ли сегменты
         /// </summary>
@@ -360,6 +374,8 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
         protected const string SEGMENTS_CSS = "#segments-body div table tr";
 		protected const string SEGMENTS_STAGE3_CSS = "#segments-body div div table";
         protected const string FIRST_SOURCE_CSS = SEGMENTS_CSS + ":nth-child(1)";
+
+		protected const string STAGE_NAME_XPATH = ".//h1/span[contains(@class, 'stage-name')]";
 
         protected const string CONFIRM_BTN_ID = "confirm-btn";
         protected const string BACK_BTN_ID = "back-btn";

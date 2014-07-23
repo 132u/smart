@@ -118,6 +118,42 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             }
         }
 
+		/// <summary>
+		/// Логин второго пользователя
+		/// </summary>
+		private string _login2;
+		protected string Login2
+		{
+			get
+			{
+				return _login2;
+			}
+		}
+
+		/// <summary>
+		/// Пароль второго пользователя
+		/// </summary>
+		private string _password2;
+		protected string Password2
+		{
+			get
+			{
+				return _password2;
+			}
+		}
+
+		/// <summary>
+		/// Имя второго пользователя
+		/// </summary>
+		private string _userName2;
+		protected string UserName2
+		{
+			get
+			{
+				return _userName2;
+			}
+		}
+
         /// <summary>
         /// Уникальное для теста название проекта
         /// </summary>
@@ -604,12 +640,12 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 		/// <summary>
 		/// Окно прав пользователя
 		/// </summary>
-		private AssignResponsiblesHelper _assignResponsiblesHelper;
-		protected AssignResponsiblesHelper AssignResponsibles
+		private ResponsiblesDialogHelper _responsiblesDialogHelper;
+		protected ResponsiblesDialogHelper ResponsiblesDialog
 		{
 			get
 			{
-				return _assignResponsiblesHelper;
+				return _responsiblesDialogHelper;
 			}
 		}
 
@@ -627,6 +663,11 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             _login = ConfigurationManager.AppSettings["Login"];
             _password = ConfigurationManager.AppSettings["Password"];
             _userName = ConfigurationManager.AppSettings["UserName"];
+
+			_login2 = ConfigurationManager.AppSettings["Login2"];
+			_password2 = ConfigurationManager.AppSettings["Password2"];
+			_userName2 = ConfigurationManager.AppSettings["UserName2"];
+
             _deadlineDate = ConfigurationManager.AppSettings["DeadlineDate"];
             _documentFile = Path.GetFullPath(ConfigurationManager.AppSettings["DocumentFile"]);
             _documentFileToConfirm = Path.GetFullPath(ConfigurationManager.AppSettings["DocumentFileToConfirm"]);
@@ -730,7 +771,7 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             _glossaryEditFormHelper = new GlossaryEditFormHelper(Driver, Wait);
             _glossarySuggestPageHelper = new GlossarySuggestPageHelper(Driver, Wait);
 			_catPanelHelper = new CatPanelResultsHelper(Driver, Wait);
-			_assignResponsiblesHelper = new AssignResponsiblesHelper(Driver, Wait);
+			_responsiblesDialogHelper = new ResponsiblesDialogHelper(Driver, Wait);
         }
 
         /// <summary>
@@ -813,9 +854,24 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
         /// Авторизация
         /// </summary>
         /// <param name="accountName">аккаунт</param>
-        public void Authorization(string accountName = "TestAccount")
+		/// <param name="alternativeUser">Использовать альтернативный аккаунт</param>
+        public void Authorization(string accountName = "TestAccount", bool alternativeUser = false)
         {
-            // Перейти на стартовую страницу
+            string authLogin = "";
+			string authPassword = "";
+			
+			if (!alternativeUser)
+			{
+				authLogin = _login;
+				authPassword = _password;
+			}
+			else
+			{
+				authLogin = _login2;
+				authPassword = _password2;
+			}
+
+			// Перейти на стартовую страницу
             _driver.Navigate().GoToUrl(_url);
 
 			if (Driver.Url.Contains("lpro"))
@@ -827,8 +883,8 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 				LoginPage.ClickLoginBtnLpro();
 
 				// Заполнить логин и пароль
-				LoginPage.EnterLoginLpro(_login);
-				LoginPage.EnterPasswordLpro(_password);
+				LoginPage.EnterLoginLpro(authLogin);
+				LoginPage.EnterPasswordLpro(authPassword);
 				Thread.Sleep(1000);
 				LoginPage.ClickSubmitLpro();
 			}
@@ -839,8 +895,8 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 					"Не прогрузилась страница Login - возможно, сайт недоступен");
 
 				// Заполнить логин и пароль
-				LoginPage.EnterLogin(_login);
-				LoginPage.EnterPassword(_password);
+				LoginPage.EnterLogin(authLogin);
+				LoginPage.EnterPassword(authPassword);
 				LoginPage.ClickSubmit();
 
 				// Проверить, появился ли список аккаунтов
@@ -868,6 +924,8 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
         /// </summary>
         /// <param name="projectName">название проекта</param>
         /// <param name="useDefaultTargetLanguage">использовать язык target по умолчанию</param>
+		/// <param name="srcLang">язык источника</param>
+		/// <param name="trgLang">язык перевода</param>
         protected void FirstStepProjectWizard(string projectName, bool useDefaultTargetLanguage = true,
             CommonHelper.LANGUAGE srcLang = CommonHelper.LANGUAGE.English,
             CommonHelper.LANGUAGE trgLang = CommonHelper.LANGUAGE.English)
@@ -911,6 +969,7 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
         /// <param name="chooseGlossary">выбрать глоссарий</param>
         /// <param name="chooseMT">выбрать МТ</param>
         /// <param name="mtType">тип МТ</param>
+		/// <param name="isNeedCheckExist">Нужна проверка проекта в списке</param>
         protected void CreateProject(string projectName, string downloadFile = "",
             bool createNewTM = false, string tmFile = "",
             bool chooseGlossary = false,

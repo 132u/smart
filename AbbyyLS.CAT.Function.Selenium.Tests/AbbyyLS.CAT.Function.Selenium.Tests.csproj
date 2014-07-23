@@ -49,7 +49,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AssignResponsiblesHelper.cs" />
+    <Compile Include="ResponsiblesDialogHelper.cs" />
     <Compile Include="AssignResponsiblesTest.cs" />
     <Compile Include="Authorization.cs" />
     <Compile Include="BaseTest.cs" />

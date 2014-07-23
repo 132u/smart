@@ -514,7 +514,32 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 			ClickElement(By.XPath(UPLOAD_DOCUMENT_BTN_XPATH));
 		}
 
-		
+		/// <summary>
+		/// Нажать на кнопку "Users and rights"	
+		/// </summary>
+		public void ClickUsersAndRightsBtn()
+		{
+			ClickElement(By.XPath(USERS_RIGHTS_BTN_XPATH));
+		}
+
+		/// <summary>
+		/// Возвращает имя текущего пользователя
+		/// </summary>
+		/// <returns>Имя пользователя</returns>
+		public string GetUserName()
+		{
+			return GetTextElement(By.XPath(USER_NAME_XPATH));
+		}
+
+		/// <summary>
+		/// Разлогинится
+		/// </summary>
+		public void ClickLogoff()
+		{
+			ClickElement(By.XPath(LOGOFF_XPATH));
+		}
+
+
 
         public enum LOCALE_LANGUAGE_SELECT { English, Russian };
         public enum EXPORT_TYPE { Original, TMX, Translated };
@@ -573,5 +598,11 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 		protected const string DOCUMENT_PROGRESS_XPATH = "//td//a[contains(@class,'js-progress-link')]";
 		protected const string DOCUMENT_ASSIGN_RESPONSIBLES_BTN_XPATH = "//span[contains(@class,'js-assign-btn')]";
 		protected const string UPLOAD_DOCUMENT_BTN_XPATH = ".//span[contains(@class,'js-import-btn ')]";
+
+		protected const string USERS_RIGHTS_BTN_XPATH = ".//a[contains(@href,'/Enterprise/Users')]";
+
+		protected const string ACCOUNT_XPATH = ".//div[contains(@class,'js-corp-account')]";
+		protected const string USER_NAME_XPATH = ACCOUNT_XPATH + "//span[contains(@class,'nameuser')]";
+		protected const string LOGOFF_XPATH = ".//a[contains(@href,'Logout')]";
     }
 }

@@ -13,8 +13,12 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 {
     public class LoginPageHelper : CommonHelper
     {
-        IWebDriver _driver;
-        public LoginPageHelper(IWebDriver driver, WebDriverWait wait):
+        /// <summary>
+        /// Конструктор
+        /// </summary>
+        /// <param name="driver"></param>
+        /// <param name="wait"></param>
+		public LoginPageHelper(IWebDriver driver, WebDriverWait wait):
             base (driver, wait)
         {
         }

@@ -7,16 +7,25 @@ using System.Windows.Forms;
 
 namespace AbbyyLs.CAT.Function.Selenium.Tests
 {
-    public class GlossaryTest : BaseTest
+    /// <summary>
+    /// Тесты глоссариев
+    /// </summary>
+	public class GlossaryTest : BaseTest
     {
-        public GlossaryTest(string url, string workspaceUrl, string browserName)
+        /// <summary>
+        /// Конструктор
+        /// </summary>
+        /// <param name="url"></param>
+        /// <param name="workspaceUrl"></param>
+        /// <param name="browserName"></param>
+		public GlossaryTest(string url, string workspaceUrl, string browserName)
             : base(url, workspaceUrl, browserName)
         {
 
         }
 
-        [SetUp]
-        public void Setup()
+		[SetUp]
+		public void Setup()
         {
             // Авторизация
             Authorization();
@@ -272,7 +281,9 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             // Иначе: добавляем права
 
             // Перейти в пользователи и права
-            UserRightsPage.OpenPage();
+			WorkspacePage.ClickUsersAndRightsBtn();
+			// Ожидание открытия страницы
+			Assert.IsTrue(UserRightsPage.WaitUntilUsersRightsDisplay(), "Ошибка: Страница прав пользователя не открылась.");
             // Перейти в группы
             UserRightsPage.OpenGroups();
             // Выбрать Administrators
