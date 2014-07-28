@@ -811,51 +811,6 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 		}
 
 		/// <summary>
-		/// Выбирает из выпадающего списка пользователя или группу по имени
-		/// </summary>
-		/// <param name="rowNumber">Номер строки задачи</param>
-		/// <param name="name">Имя пользователя или группы</param>
-		/// <param name="isGroup">Выбор группы</param>
-		private void SetResponsible(int rowNumber, string name, bool isGroup)
-		{
-			string fullName = "";
-			
-			// Открыть выпадающий список
-			ResponsiblesDialog.ClickResponsiblesDropboxByRowNumber(rowNumber);
-
-			if (isGroup)
-				fullName = "Group: " + name;
-			else
-				fullName = name;
-
-			// Выбрать для заданной задачи имя исполнителя
-			ResponsiblesDialog.SetVisibleResponsible(rowNumber, fullName);
-
-			// Кликнуть подтверждение для заданной задачи
-			ResponsiblesDialog.ClickAssignBtn(rowNumber);
-		}
-
-		/// <summary>
-		/// Открытие диалога выбора исполнителя
-		/// </summary>
-		/// <param name="projectName">Имя проекта</param>
-		private void OpenAssignDialog(string projectName)
-		{
-			// Открываем инфо проекта
-			WorkspacePage.OpenProjectInfo(projectName);
-
-			// Открываем инфо документа 
-			WorkspacePage.OpenDocumentInfo(1);
-
-			// Открываем окно с правами пользователя через кнопку прав
-			WorkspacePage.ClickDocumentAssignBtn();
-
-			// Ожидание открытия диалога выбора исполнителя
-			Assert.IsTrue(ResponsiblesDialog.WaitUntilResponsiblesDialogDisplay(),
-				"Ошибка: Диалог выбора исполнителя не открылся.");
-		}
-
-		/// <summary>
 		/// Отмена исполнителя для заданной строки
 		/// </summary>
 		/// <param name="rowNumber">Номер строки</param>

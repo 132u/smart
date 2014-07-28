@@ -1324,7 +1324,7 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
         /// </summary>
         public void ToTargetButton(int rowNumber = 1)
         {
-            //Выбрать source нужного сегмента
+            // Выбрать source нужного сегмента
             EditorPage.ClickSourceCell(rowNumber);
 
             // Текст source'a нужного сегмента
@@ -1562,6 +1562,51 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             // 4. Открытие документа по имени созданного проекта
             OpenDocument();
         }
+
+		/// <summary>
+		/// Открытие диалога выбора исполнителя
+		/// </summary>
+		/// <param name="projectName">Имя проекта</param>
+		protected void OpenAssignDialog(string projectName)
+		{
+			// Открываем инфо проекта
+			WorkspacePage.OpenProjectInfo(projectName);
+
+			// Открываем инфо документа 
+			WorkspacePage.OpenDocumentInfo(1);
+
+			// Открываем окно с правами пользователя через кнопку прав
+			WorkspacePage.ClickDocumentAssignBtn();
+
+			// Ожидание открытия диалога выбора исполнителя
+			Assert.IsTrue(ResponsiblesDialog.WaitUntilResponsiblesDialogDisplay(),
+				"Ошибка: Диалог выбора исполнителя не открылся.");
+		}
+
+		/// <summary>
+		/// Выбирает из выпадающего списка пользователя или группу по имени
+		/// </summary>
+		/// <param name="rowNumber">Номер строки задачи</param>
+		/// <param name="name">Имя пользователя или группы</param>
+		/// <param name="isGroup">Выбор группы</param>
+		protected void SetResponsible(int rowNumber, string name, bool isGroup)
+		{
+			string fullName = "";
+
+			// Открыть выпадающий список
+			ResponsiblesDialog.ClickResponsiblesDropboxByRowNumber(rowNumber);
+
+			if (isGroup)
+				fullName = "Group: " + name;
+			else
+				fullName = name;
+
+			// Выбрать для заданной задачи имя исполнителя
+			ResponsiblesDialog.SetVisibleResponsible(rowNumber, fullName);
+
+			// Кликнуть подтверждение для заданной задачи
+			ResponsiblesDialog.ClickAssignBtn(rowNumber);
+		}
 
         [SetUp]
         public void Setup()

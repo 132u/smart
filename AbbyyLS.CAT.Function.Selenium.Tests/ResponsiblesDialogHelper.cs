@@ -182,11 +182,21 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 		public bool WaitUntilChooseTaskDialogDisplay()
 		{
 			// Ожидаем пока загрузится диалог
-			if (!WaitUntilDisplayElement(By.XPath(CHOOSE_TASK_FORM_XPATH + "[2]")))
+			if (!WaitUntilDisplayElement(By.XPath(CHOOSE_TASK_FORM_XPATH)))
 			{
 				return false;
 			}
 			return true;
+		}
+
+		/// <summary>
+		/// Выбор задачи по порядковому номеру
+		/// </summary>
+		public void ClickChoosenTask(int rowNumber)
+		{
+			IList<IWebElement> taskList = GetElementList(By.XPath(TASK_XPATH));
+
+			taskList[(rowNumber - 1)].Click();
 		}
 		
 		/// <summary>
@@ -247,7 +257,9 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 
 		protected const string YES_BTN_CONFIRM_XPATH = CONFIRM_RESET_ASSIGNMENT_FORM_XPATH + "//input[contains(@class, 'js-submit-btn ')]";
 
-		protected const string CHOOSE_TASK_FORM_XPATH = ".//div[contains(@class, 'js-choose-editor-step-popup')]";
+		protected const string CHOOSE_TASK_FORM_XPATH = ".//div[contains(@class, 'js-choose-editor-step-popup')][2]";
+		protected const string TASK_XPATH = CHOOSE_TASK_FORM_XPATH + "//table//a";
+
 
 		protected const string CONFIRM_RESET_ASSIGNMENT_FORM_XPATH = ".//div[contains(@class, 'js-popup-confirm')]";
 		protected const string INFO_FORM_XPATH = ".//div[contains(@class, 'js-info-popup')]";

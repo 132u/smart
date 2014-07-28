@@ -144,11 +144,11 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
         }
 
 		/// <summary>
-		/// Кликнуть Изменить регистр
+		/// Кликнуть по кнопке отката
 		/// </summary>
-		public void ClickChangeCaseBtn()
+		public void ClickRollbackBtn()
 		{
-			ClickElement(By.Id(CHANGE_CASE_BTN_ID));
+			ClickElement(By.Id(ROLLBACK_BTN_ID));
 		}
 
 		/// <summary>
@@ -173,6 +173,14 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 		public void ClickFindErrorBtn()
 		{
 			ClickElement(By.Id(FIND_ERROR_BTN_ID));
+		}
+
+		/// <summary>
+		/// Кликнуть Изменить регистр
+		/// </summary>
+		public void ClickChangeCaseBtn()
+		{
+			ClickElement(By.Id(CHANGE_CASE_BTN_ID));
 		}
 
 		/// <summary>
@@ -264,6 +272,45 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 
 			return WaitUntilDisplayElement(By.XPath(xPath));
         }
+
+		/// <summary>
+		/// Возвращает, отображается замок в инфо сегмента
+		/// </summary>
+		/// <param name="segmentRowNumber">номер сегмента</param>
+		/// <returns>Сегмент заблокирован</returns>
+		public bool GetIsSegmentLock(int segmentRowNumber)
+		{
+			string xPath = "";
+			xPath = SEGMENT_ROW_XPATH + "[" + segmentRowNumber + "]//td[contains(@class,'" + 
+				INFO_COLUMN_CLASS + "')]//span[contains(@class,'" + 
+				LOCKED_ICO_CLASS + "')][not(contains(@class,'inactive'))]";
+
+			return GetIsElementExist(By.XPath(xPath));
+		}
+
+		/// <summary>
+		/// Возвращает, отображается ли Confirm сегмента
+		/// </summary>
+		/// <param name="segmentRowNumber">Номер сегмента</param>
+		/// <returns>Сегмент подтвержден</returns>
+		public bool GetIsSegmentConfirm(int segmentRowNumber)
+		{
+			string xPath = "";
+			xPath = SEGMENT_ROW_XPATH + "[" + segmentRowNumber + "]//td[contains(@class,'" +
+				INFO_COLUMN_CLASS + "')]//span[contains(@class,'" +
+				CONFIRMED_ICO_CLASS + "')]";
+
+			return GetIsElementExist(By.XPath(xPath));
+		}
+
+		/// <summary>
+		/// Возвращает, заблокирована ли кнопка отката изменений сегмента
+		/// </summary>
+		/// <returns>Кнопка отката заблокирована</returns>
+		public bool GetIsRollbackBtnLock()
+		{
+			return GetElementClass(By.Id(ROLLBACK_BTN_ID)).Contains("disabled");
+		}
 
         /// <summary>
         /// Вернуть количество сегментов
@@ -436,6 +483,14 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 		}
 
 		/// <summary>
+		/// Кликнуть кнопку добавления слова в словарь
+		/// </summary>
+		public void ClickAddWordDictionary()
+		{
+			ClickElement(By.XPath(ADD_WORD_BTN));
+		}
+
+		/// <summary>
 		/// Возвращает открылась ли форма сообщения
 		/// </summary>
 		/// <returns>Форма открылась</returns>
@@ -477,6 +532,7 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 		protected const string UNFINISHED_BTN_ID = "unfinished-btn";
 		protected const string COPY_BTN_ID = "copy-btn";
 		protected const string TOGGLE_BTN_ID = "toggle-btn";
+		protected const string ROLLBACK_BTN_ID = "step-rollback-btn";
 		protected const string INSERT_TAG_BTN_ID = "tag-insert-btn";
 		protected const string DICTIONARY_BTN_ID = "dictionary-btn";
 		protected const string FIND_ERROR_BTN_ID = "qa-error-btn";
@@ -488,6 +544,8 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 		protected const string MESSAGEBOX_FORM_ID = "messagebox";
 		protected const string CONCORDANCE_SEARCH_ID = "concordance-search";
 		protected const string CHAR_FORM_ID = "charmap";
+
+		protected const string ADD_WORD_BTN = ".//div[@id='" + DICTIONARY_FORM_ID + "']//span[contains(@id, 'btnInnerEl')]";
         
         protected const string SAVE_BTN_ID = "save-btn";
         
@@ -495,10 +553,11 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 		protected const string SEGMENT_ROW_XPATH = ".//div[@id='" + SEGMENTS_BODY_ID + "']//table";
         protected const string INFO_COLUMN_CLASS = "info-cell";
         protected const string CONFIRMED_ICO_CLASS = "fa-check";
+		protected const string LOCKED_ICO_CLASS = "fa-lock";
         protected const string TARGET_CELL_CLASS = "target-cell";
         protected const string SOURCE_CELL_CLASS = "source-cell";
 		protected const string SEGMENT_CAT_SELECTED = "cat-selected";
-		protected const string TARGET_XPATH = "//td[4]//div";
+		protected const string TARGET_XPATH = "//td[3]//div";
 		protected const string TAG_TARGET_XPATH = TARGET_XPATH + "//img[contains(@class,'tag')]";
 
         protected const string SPELL_CHECK_CONTEXT_CLASS = "div[contains(@class,'mce-container-body')]";

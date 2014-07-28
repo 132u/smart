@@ -642,7 +642,7 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
         
 
         protected const string CREATE_PROJECT_DIALOG_XPATH = "//div[contains(@class,'js-popup-create-project')][2]";
-		protected const string DEADLINE_DATE_INPUT_XPATH = CREATE_PROJECT_DIALOG_XPATH + "//div[contains(@class, 'js-deadline-date')]//input[1]";
+		protected const string DEADLINE_DATE_INPUT_XPATH = CREATE_PROJECT_DIALOG_XPATH + "//input[contains(@class, 'l-project__date')]";
 		protected const string SOURCE_LANG_DROPDOWN_XPATH = CREATE_PROJECT_DIALOG_XPATH + "//div[select[@id='sourceLanguage']]/span";
         protected const string SPAN_DROPDOWN_LIST_XPATH = "//span[contains(@class,'js-dropdown__list')]";
         protected const string LANG_ITEM_XPATH = "//span[@data-id='";
@@ -664,9 +664,7 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 
         protected const string CREATE_TM_DIALOG_XPATH = "//div[contains(@class,'js-popup-create-tm')][2]";
         protected const string NEW_TM_NAME_INPUT_XPATH = CREATE_TM_DIALOG_XPATH +"//input[contains(@class,'js-tm-name')]";
-        //protected const string ADD_TMX_BTN_XPATH = CREATE_TM_DIALOG_XPATH + "//a[contains(@class,'js-save-and-import')]";
         protected const string UPLOAG_TMX_DIALOG_XPATH = ".//div[contains(@class,'js-popup-import')][2]";
-        //protected const string UPLOAD_TMX_BTN_XPATH = UPLOAG_TMX_DIALOG_XPATH +"//a[contains(@class,'js-upload-btn')]";
         protected const string IMPORT_TMX_BTN_XPATH = UPLOAG_TMX_DIALOG_XPATH + "//span[contains(@class,'js-import-button')]";
         protected const string SAVE_TM_BTN_XPATH = CREATE_TM_DIALOG_XPATH + "//span[contains(@class,'js-save')]";
         
@@ -685,7 +683,7 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
         protected const string FINISH_BTN_XPATH = CREATE_PROJECT_DIALOG_XPATH + "//span[contains(@class,'js-finish js-upload-btn')]";
         protected const string ERROR_FORMAT_DOCUMENT_MESSAGE_XPATH = "//div[contains(@class,'js-info-popup')]" + CLOSE_BTN_XPATH; // TODO плохой id
 
-        protected const string CLOSE_BTN_XPATH = "//div[2]//div//span[contains(@class,'js-popup-close')]";
+        protected const string CLOSE_BTN_XPATH = "//img[contains(@class,'js-popup-close')]";
         protected const string CLOSE_DIALOG_BTN_XPATH = CREATE_PROJECT_DIALOG_XPATH + CLOSE_BTN_XPATH;
 
         protected const string ERROR_NAME_EXISTS_XPATH = CREATE_PROJECT_DIALOG_XPATH + "//p[contains(@class,'js-error-name-exists')]";
@@ -708,7 +706,5 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 		protected const string WF_NEW_TASK_BTN = CREATE_PROJECT_DIALOG_XPATH + "//span[contains(@class,'js-new-stage')]";
 		protected const string WF_DELETE_TASK_BTN = "//a[contains(@class,'js-delete-workflow')]";
 		protected const string ERROR_WF_EMPTY = "//p[contains(@class,'js-error-workflow-empty')]";
-
-        //protected const string MT_TYPE = 
     }
 }
