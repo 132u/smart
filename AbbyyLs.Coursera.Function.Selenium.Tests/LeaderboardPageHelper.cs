@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Windows.Forms;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.UI;
-using System.Windows.Forms;
 
 namespace AbbyyLs.Coursera.Function.Selenium.Tests
 {
@@ -169,8 +169,16 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
 		/// <param name="courseName">Имя курса</param>
 		public void SelectCourseByName(string courseName)
 		{
-			SendTextElement(By.Id(COURSES_LIST_ID), courseName);
-			SendKeys.SendWait(@"{Enter}");
+			IList<IWebElement> courseList = GetElementList(By.XPath(COURSES_IN_LIST_XPATH));
+			foreach (IWebElement course in courseList)
+			{
+				if (course.Text == courseName)
+				{
+					course.Click();
+					SendKeys.SendWait(@"{Enter}");
+					break;
+				}
+			}
 		}
 
 		/// <summary>
@@ -207,7 +215,7 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
 
 		protected const string ACTIVE_USER_RATING_XPATH = LEADERS_XPATH +
 			"//tr[not(contains(@style,'display: none;'))][contains(@class,'active')]//td[contains(@data-bind,'rating')]";
-
+		
 		protected const string LEADERS_QUANTITY = HEADER_XPATH + "//div[contains(@data-bind,'total')]";
 		
 		protected const string HEADER_RANGE_XPATH = HEADER_XPATH + "//div[contains(@data-bind,'currentPageRange')]";

@@ -30,7 +30,7 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
         public void WaitPageLoad()
         {
             // Дождаться загрузки страницы
-            Wait.Until((d) => d.Title.Contains(TITLE_TEXT));
+            Wait.Until((d) => d.Url.Contains(TITLE_TEXT));
         }
 
 		/// <summary>
@@ -53,10 +53,7 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
         /// <returns>есть сегменты</returns>
         public bool GetSegmentsExist()
         {
-			if (Driver.Url.Contains("stage3") || Driver.Url.Contains("stage1"))
-				return GetIsElementExist(By.CssSelector(SEGMENTS_STAGE3_CSS));
-			else
-				return GetIsElementExist(By.CssSelector(SEGMENTS_CSS));
+			return GetIsElementExist(By.CssSelector(SEGMENTS_CSS));
         }
 
         /// <summary>
@@ -98,6 +95,30 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             ClickElement(By.Id(CONFIRM_BTN_ID));
         }
 
+		/// <summary>
+		/// Кликнуть Undo
+		/// </summary>
+		public void ClickUndoBtn()
+		{
+			ClickElement(By.Id(UNDO_BTN_ID));
+		}
+
+		/// <summary>
+		/// Кликнуть Redo
+		/// </summary>
+		public void ClickRedoBtn()
+		{
+			ClickElement(By.Id(REDO_BTN_ID));
+		}
+
+		/// <summary>
+		/// Кликнуть Unfinished
+		/// </summary>
+		public void ClickUnfinishedBtn()
+		{
+			ClickElement(By.Id(UNFINISHED_BTN_ID));
+		}
+
         /// <summary>
         /// Кликнуть по Back
         /// </summary>
@@ -121,6 +142,54 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
         {
             ClickElement(By.Id(COPY_BTN_ID));
         }
+
+		/// <summary>
+		/// Кликнуть Изменить регистр
+		/// </summary>
+		public void ClickChangeCaseBtn()
+		{
+			ClickElement(By.Id(CHANGE_CASE_BTN_ID));
+		}
+
+		/// <summary>
+		/// Кликнуть вставить Tag
+		/// </summary>
+		public void ClickInsertTagBtn()
+		{
+			ClickElement(By.Id(INSERT_TAG_BTN_ID));
+		}
+
+		/// <summary>
+		/// Кликнуть словарь
+		/// </summary>
+		public void ClickDictionaryBtn()
+		{
+			ClickElement(By.Id(DICTIONARY_BTN_ID));
+		}
+
+		/// <summary>
+		/// Кликнуть поиск ошибки
+		/// </summary>
+		public void ClickFindErrorBtn()
+		{
+			ClickElement(By.Id(FIND_ERROR_BTN_ID));
+		}
+
+		/// <summary>
+		/// Кликнуть конкордный поиск
+		/// </summary>
+		public void ClickConcordanceBtn()
+		{
+			ClickElement(By.Id(CONCORDANCE_BTN_ID));
+		}
+
+		/// <summary>
+		/// Кликнуть кнопку вставки спецсимвола
+		/// </summary>
+		public void ClickCharacterBtn()
+		{
+			ClickElement(By.Id(CHARACTER_BTN_ID));
+		}
 
         /// <summary>
         /// Кликнуть Source
@@ -160,6 +229,29 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             return GetTextElement(By.CssSelector(GetTargetCellCss(rowNumber))).Trim();
         }
 
+		/// <summary>
+		/// Возвращает, есть ли tag в переводе для заданного сегмента
+		/// </summary>
+		/// <param name="rowNumber">Номер сегмента</param>
+		/// <returns>Tag есть</returns>
+		public bool GetIsTagPresent(int rowNumber)
+		{
+			string xPath = SEGMENT_ROW_XPATH +
+				"[" + rowNumber + "]" + TAG_TARGET_XPATH;
+
+			return GetIsElementExist(By.XPath(xPath));
+		}
+
+		/// <summary>
+		/// Получить элемент Source
+		/// </summary>
+		/// <param name="rowNumber">номер строки</param>
+		/// <returns>Элемент</returns>
+		public IWebElement GetSource(int rowNumber)
+		{
+			return GetElement(By.CssSelector(GetSourceCellCss(rowNumber)));
+		}
+
         /// <summary>
         /// Дождаться, пока сегмент подтвердится
         /// </summary>
@@ -168,10 +260,7 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
         public bool WaitSegmentConfirm(int segmentRowNumber)
         {
 			string xPath = "";
-			if (Driver.Url.Contains("stage3") || Driver.Url.Contains("stage1"))
-				xPath = SEGMENT_ROW_STAGE3_XPATH + "[" + segmentRowNumber + "]//td[contains(@class,'" + INFO_COLUMN_CLASS + "')]//span[contains(@class,'" + CONFIRMED_ICO_CLASS + "')]";
-			else
-				xPath = SEGMENT_ROW_XPATH + "[" + segmentRowNumber + "]//td[contains(@class,'" + INFO_COLUMN_CLASS + "')]//span[contains(@class,'" + CONFIRMED_ICO_CLASS + "')]";
+			xPath = SEGMENT_ROW_XPATH + "[" + segmentRowNumber + "]//td[contains(@class,'" + INFO_COLUMN_CLASS + "')]//span[contains(@class,'" + CONFIRMED_ICO_CLASS + "')]";
 
 			return WaitUntilDisplayElement(By.XPath(xPath));
         }
@@ -183,29 +272,10 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
         public int GetSegmentsNumber()
         {
             int segmentCount;
-			if (Driver.Url.Contains("stage3") || Driver.Url.Contains("stage1"))
-				segmentCount = GetElementList(By.CssSelector(SEGMENTS_STAGE3_CSS)).Count;
-			else
-				segmentCount = GetElementList(By.CssSelector(SEGMENTS_CSS)).Count;
+			segmentCount = GetElementList(By.CssSelector(SEGMENTS_CSS)).Count;
 
             Console.WriteLine("segmentCount: " + segmentCount);
             return segmentCount;
-        }
-
-        /// <summary>
-        /// Кликнуть Undo
-        /// </summary>
-        public void ClickUndoBtn()
-        {
-            ClickElement(By.Id(UNDO_BTN_ID));
-        }
-
-        /// <summary>
-        /// Кликнуть Redo
-        /// </summary>
-        public void ClickRedoBtn()
-        {
-            ClickElement(By.Id(REDO_BTN_ID));
         }
 
         /// <summary>
@@ -215,10 +285,7 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
         public bool GetCATPanelNotEmpty()
         {
 			string xPath;
-			if (Driver.Url.Contains("stage3") || Driver.Url.Contains("stage1"))
-				xPath = CAT_PANEL_EXISTENCE_STAGE3_XPATH;
-			else
-				xPath = CAT_PANEL_EXISTENCE_XPATH;
+			xPath = CAT_PANEL_EXISTENCE_XPATH;
 			
 			// проверить, что вообще есть панель
             bool isNotEmpty = GetIsElementExist(By.Id(CAT_PANEL_ID));
@@ -259,10 +326,7 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
         public void DoubleClickCATPanel(int rowNumber)
         {
 			string xPath;
-			if (Driver.Url.Contains("stage3") || Driver.Url.Contains("stage1"))
-				xPath = CAT_PANEL_EXISTENCE_STAGE3_XPATH;
-			else
-				xPath = CAT_PANEL_EXISTENCE_XPATH;
+			xPath = CAT_PANEL_EXISTENCE_XPATH;
 
 			DoubleClickElement(By.XPath(xPath + "[" + rowNumber + "]" + CAT_PANEL_TEXT_COL_PART));
         }
@@ -295,14 +359,6 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
         }
 
         /// <summary>
-        /// Кликнуть Изменить регистр
-        /// </summary>
-        public void ClickChangeCaseBtn()
-        {
-            ClickElement(By.Id(CHANGE_CASE_BTN_ID));
-        }
-
-        /// <summary>
         /// Проверить, активен ли Source
         /// </summary>
         /// <param name="segmentNumber">номер сегмента</param>
@@ -312,6 +368,16 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             return GetIsElementActive(By.CssSelector(GetSourceCellCss(segmentNumber)));
         }
 
+		/// <summary>
+		/// Проверить, активен ли Target
+		/// </summary>
+		/// <param name="segmentNumber">номер сегмента</param>
+		/// <returns>активен</returns>
+		public bool GetIsCursorInTargetCell(int segmentNumber)
+		{
+			return GetIsElementActive(By.CssSelector(GetTargetCellCss(segmentNumber)));
+		}
+
         /// <summary>
         /// Получить xPath Target
         /// </summary>
@@ -319,10 +385,7 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
         /// <returns>xPath</returns>
         protected string GetTargetCellCss(int rowNumber)
         {
-			if (Driver.Url.Contains("stage3") || Driver.Url.Contains("stage1"))
-				return SEGMENTS_STAGE3_CSS + ":nth-child(" + rowNumber + ")" + " td." + TARGET_CELL_CLASS + " div";
-			else
-				return SEGMENTS_CSS + ":nth-child(" + rowNumber + ")" + " td." + TARGET_CELL_CLASS + " div";
+			return SEGMENTS_CSS + ":nth-child(" + rowNumber + ")" + " td." + TARGET_CELL_CLASS + " div";
         }
 
         /// <summary>
@@ -332,10 +395,7 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
         /// <returns>xPath</returns>
         protected string GetSourceCellCss(int rowNumber)
         {
-			if (Driver.Url.Contains("stage3") || Driver.Url.Contains("stage1"))
-				return SEGMENTS_STAGE3_CSS + ":nth-child(" + rowNumber + ")" + " td." + SOURCE_CELL_CLASS +" div";
-			else
-				return SEGMENTS_CSS + ":nth-child(" + rowNumber + ")" + " td." + SOURCE_CELL_CLASS + " div";
+			return SEGMENTS_CSS + ":nth-child(" + rowNumber + ")" + " td." + SOURCE_CELL_CLASS +" div";
         }
 
 		/// <summary>
@@ -352,10 +412,7 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 
 			// Выборка подсвеченных слов в сегменте
 			string segmentCSS;
-			if (Driver.Url.Contains("stage3") || Driver.Url.Contains("stage1"))
-				segmentCSS = SEGMENTS_STAGE3_CSS + ":nth-child(" + segmentRowNumber + ") td:nth-child(2) div pre span";
-			else
-				segmentCSS = SEGMENTS_CSS + ":nth-child(" + segmentRowNumber + ") td:nth-child(2) div pre span";
+			segmentCSS = SEGMENTS_CSS + ":nth-child(" + segmentRowNumber + ") td:nth-child(2) div pre span";
 
 			IList<IWebElement> segmentCatSelectedList = GetElementList(By.CssSelector(segmentCSS));
 			
@@ -369,38 +426,86 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 			return selectedTexts;
 		}
 
+		/// <summary>
+		/// Возвращает открылась ли форма словаря
+		/// </summary>
+		/// <returns>Форма открылась</returns>
+		public bool WaitDictionaryFormDisplay()
+		{
+			return WaitUntilDisplayElement(By.Id(DICTIONARY_FORM_ID));
+		}
 
-        protected const string TITLE_TEXT = "Editor";
-        protected const string SEGMENTS_CSS = "#segments-body div table tr";
-		protected const string SEGMENTS_STAGE3_CSS = "#segments-body div div table";
+		/// <summary>
+		/// Возвращает открылась ли форма сообщения
+		/// </summary>
+		/// <returns>Форма открылась</returns>
+		public bool WaitMessageFormDisplay()
+		{
+			return WaitUntilDisplayElement(By.Id(MESSAGEBOX_FORM_ID));
+		}
+
+		/// <summary>
+		/// Возвращает открылся ли поиск
+		/// </summary>
+		/// <returns>Поиск открылся</returns>
+		public bool WaitConcordanceSearchDisplay()
+		{
+			return WaitUntilDisplayElement(By.Id(CONCORDANCE_SEARCH_ID));
+		}
+
+		/// <summary>
+		/// Возвращает открылась ли форма выбора спецсимвола
+		/// </summary>
+		/// <returns>Форма открылась</returns>
+		public bool WaitCharFormDisplay()
+		{
+			return WaitUntilDisplayElement(By.Id(CHAR_FORM_ID));
+		}
+
+
+
+        protected const string TITLE_TEXT = "editor";
+		protected const string SEGMENTS_CSS = "#segments-body div div table";
         protected const string FIRST_SOURCE_CSS = SEGMENTS_CSS + ":nth-child(1)";
 
 		protected const string STAGE_NAME_XPATH = ".//h1/span[contains(@class, 'stage-name')]";
 
-        protected const string CONFIRM_BTN_ID = "confirm-btn";
         protected const string BACK_BTN_ID = "back-btn";
-        protected const string TOGGLE_BTN_ID = "toggle-btn";
-        protected const string COPY_BTN_ID = "copy-btn";
-        protected const string UNDO_BTN_ID = "undo-btn";
-        protected const string REDO_BTN_ID = "redo-btn";
-        protected const string SAVE_BTN_ID = "save-btn";
-        protected const string CHANGE_CASE_BTN_ID = "change-case-btn";
+		protected const string CONFIRM_BTN_ID = "confirm-btn";
+		protected const string UNDO_BTN_ID = "undo-btn";
+		protected const string REDO_BTN_ID = "redo-btn";
+		protected const string UNFINISHED_BTN_ID = "unfinished-btn";
+		protected const string COPY_BTN_ID = "copy-btn";
+		protected const string TOGGLE_BTN_ID = "toggle-btn";
+		protected const string INSERT_TAG_BTN_ID = "tag-insert-btn";
+		protected const string DICTIONARY_BTN_ID = "dictionary-btn";
+		protected const string FIND_ERROR_BTN_ID = "qa-error-btn";
+		protected const string CHANGE_CASE_BTN_ID = "change-case-btn";
+		protected const string CONCORDANCE_BTN_ID = "concordance-search-btn";
+		protected const string CHARACTER_BTN_ID = "charmap-btn";
 
+		protected const string DICTIONARY_FORM_ID = "dictionary";
+		protected const string MESSAGEBOX_FORM_ID = "messagebox";
+		protected const string CONCORDANCE_SEARCH_ID = "concordance-search";
+		protected const string CHAR_FORM_ID = "charmap";
+        
+        protected const string SAVE_BTN_ID = "save-btn";
+        
         protected const string SEGMENTS_BODY_ID = "segments-body";
-        protected const string SEGMENT_ROW_XPATH = ".//div[@id='" + SEGMENTS_BODY_ID + "']//table//tbody//tr";
-		protected const string SEGMENT_ROW_STAGE3_XPATH = ".//div[@id='" + SEGMENTS_BODY_ID + "']//table";
+		protected const string SEGMENT_ROW_XPATH = ".//div[@id='" + SEGMENTS_BODY_ID + "']//table";
         protected const string INFO_COLUMN_CLASS = "info-cell";
         protected const string CONFIRMED_ICO_CLASS = "fa-check";
         protected const string TARGET_CELL_CLASS = "target-cell";
         protected const string SOURCE_CELL_CLASS = "source-cell";
 		protected const string SEGMENT_CAT_SELECTED = "cat-selected";
+		protected const string TARGET_XPATH = "//td[4]//div";
+		protected const string TAG_TARGET_XPATH = TARGET_XPATH + "//img[contains(@class,'tag')]";
 
         protected const string SPELL_CHECK_CONTEXT_CLASS = "div[contains(@class,'mce-container-body')]";
         protected const string FIRST_SPELL_CHECK_ROW_XPATH = SPELL_CHECK_CONTEXT_CLASS + "//div[1]//span";
 
         protected const string CAT_PANEL_ID = "cat-body";
-        protected const string CAT_PANEL_EXISTENCE_XPATH = ".//div[@id='" + CAT_PANEL_ID + "']//table//tbody//tr";
-		protected const string CAT_PANEL_EXISTENCE_STAGE3_XPATH = ".//div[@id='" + CAT_PANEL_ID + "']//table";
+		protected const string CAT_PANEL_EXISTENCE_XPATH = ".//div[@id='" + CAT_PANEL_ID + "']//table";
         protected const string CAT_PANEL_TYPE_COLUMN_XPATH = CAT_PANEL_EXISTENCE_XPATH + "//td[3]/div";
         protected const string CAT_PANEL_TEXT_COL_PART = "//td[4]/div";
         protected const string CAT_PANEL_TEXT_COLUMN_XPATH = CAT_PANEL_EXISTENCE_XPATH + CAT_PANEL_TEXT_COL_PART;

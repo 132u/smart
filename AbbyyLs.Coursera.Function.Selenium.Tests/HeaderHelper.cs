@@ -20,7 +20,10 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
 		public void Login(string login, string password)
 		{
 			// Открыть форму логина
-			ClickElement(By.XPath(LOGIN_XPATH));
+			if (GetIsElementExist(By.XPath(LOGIN_XPATH)))
+				ClickElement(By.XPath(LOGIN_XPATH));
+			else 
+				ClickElement(By.XPath(LOGIN_HEADER_XPATH));
 
 			// Дождаться открытия формы
 			WaitUntilDisplayElement(By.XPath(LOGIN_FORM_LOGIN_XPATH));
@@ -58,7 +61,7 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
 		/// </summary>
 		public void LogoutUser()
 		{
-			ClickElement(By.XPath(SelectByUrl(LOGOUT_BTN_STAGE2_XPATH, LOGOUT_BTN_STAGE3_XPATH)));
+			ClickElement(By.XPath(LOGOUT_BTN_XPATH));
 			WaitUntilDisplayElement(By.XPath(LOGIN_XPATH));
 		}
 
@@ -138,7 +141,7 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
 		/// </summary>
 		public void ClickOpenEditorForm()
 		{
-			ClickElement(By.XPath(SelectByUrl(EDIT_PROFILE_LINK_STAGE2_XPATH, EDIT_PROFILE_LINK_STAGE3_XPATH)));
+			ClickElement(By.XPath(EDIT_PROFILE_LINK_XPATH));
 		}
 
 		/// <summary>
@@ -384,6 +387,7 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
 
 
 		protected const string LOGIN_XPATH = ".//a[contains(@data-popup,'login-form')]";
+		protected const string LOGIN_HEADER_XPATH = ".//button[contains(@data-popup,'login-form')]";
 
 		protected const string LOGIN_FORM_LOGIN_XPATH = ".//form[@id='login-form-login']";
 		protected const string LOGIN_FORM_REGISTRATION_XPATH = ".//form[@id='login-form-register']";
@@ -420,11 +424,9 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
 		protected const string NEW_PASSWORD_ERROR_MESSAGE_XPATH = EDITOR_CHANGE_PASSWORD_FORM_XPATH + "//div[contains(@class,'errorMsg2')][contains(@data-bind,'newpassword')]";
 		protected const string RENEW_PASSWORD_ERROR_MESSAGE_XPATH = EDITOR_CHANGE_PASSWORD_FORM_XPATH + "//div[contains(@class,'errorMsg2')][contains(@data-bind,'confirmpassword')]";
 
-		protected const string LOGOUT_BTN_STAGE2_XPATH = ".//a[contains(@data-bind,'logout')]",
-								LOGOUT_BTN_STAGE3_XPATH = ".//button[contains(@data-bind,'logout')]";
+		protected const string LOGOUT_BTN_XPATH = ".//button[contains(@data-bind,'logout')]";
 
-		protected const string EDIT_PROFILE_LINK_STAGE2_XPATH = ".//a[contains(@data-popup,'editor-form')]",
-								EDIT_PROFILE_LINK_STAGE3_XPATH = ".//button[contains(@data-popup,'editor-form')]";
+		protected const string EDIT_PROFILE_LINK_XPATH = ".//button[contains(@data-popup,'editor-form')]";
 
 		protected const string AVATAR_HEADER_XPATH = ".//div[@id='main-menu']//span[contains(@class,'menu-user-link')]/img";
 

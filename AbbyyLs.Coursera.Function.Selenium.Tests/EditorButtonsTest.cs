@@ -348,10 +348,14 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
 					OpenQA.Selenium.Keys.Control + OpenQA.Selenium.Keys.Insert);
             }
 
+			EditorPage.ClickConfirmBtn();
+
+			Thread.Sleep(1000);
+
             // Проверить, такой ли текст в target'те
 			string targetText = EditorPage.GetTargetByRowNumber(editorRowNumber).Text;
 
-            Assert.AreEqual(sourceText, targetText);
+            Assert.AreEqual(sourceText, targetText, "Ошибка: Текст target не совпадает с вводимым.");
         }
 
         /// <summary>

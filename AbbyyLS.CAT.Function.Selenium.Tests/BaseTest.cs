@@ -846,6 +846,8 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             // Дождаться загрузки страницы
             EditorPage.WaitPageLoad();
 
+			Thread.Sleep(1000);
+
             // Проверить, существует ли хотя бы один сегмент
             Assert.IsTrue(EditorPage.GetSegmentsExist(), "Ошибка: нет сегментов");
         }
@@ -940,7 +942,7 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             // Ввести название проекта
             WorkspaceCreateProjectDialog.FillProjectName(projectName);
             // Ввести deadline дату
-            //WorkspaceCreateProjectDialog.FillDeadlineDate(_deadlineDate);
+            WorkspaceCreateProjectDialog.FillDeadlineDate(_deadlineDate);
 
             // Выбрать Source - en
             WorkspaceCreateProjectDialog.SelectSourceLanguage(srcLang);
@@ -990,10 +992,7 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             if (createNewTM)
             {
                 // Создать новую ТМ
-				if (Driver.Url.Contains("stage3") || Driver.Url.Contains("stage1"))
-					CreateNewTMStage3(tmFile);
-				else
-					CreateNewTM(tmFile);
+				CreateNewTM(tmFile);
             }
             else
             {
@@ -1044,80 +1043,28 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             CreateProject(projectName, "", false, "", false, false, Workspace_CreateProjectDialogHelper.MT_TYPE.None, false);
         }
 
-        /// <summary>
-        /// Создать новую ТМ в диалоге создания проекта
-        /// </summary>
-        /// <param name="TmFileName">файл для загрузки в ТМ</param>
-        /// <param name="fromWorkspaceOrProject">true: из workspace, false - из проекта</param>
-        public void CreateNewTM(string TmFileName, bool fromWorkspaceOrProject = true)
-        {
-            //Создать ТМ
-            if (fromWorkspaceOrProject)
-            {
-                WorkspaceCreateProjectDialog.ClickCreateTM();
-            }
-            else
-            {
-                ProjectPage.ClickCreateTMBtn();
-            }
-
-            WorkspaceCreateProjectDialog.WaitCreateTMDialog();
-
-            //Заполнить данные о новой ТМ
-            WorkspaceCreateProjectDialog.FillTMName("TestTM" + DateTime.Now.Ticks);
-
-            if (TmFileName.Length > 0)
-            {
-                //Добавить тмх файл
-                WorkspaceCreateProjectDialog.ClickAddTMX();
-                WorkspaceCreateProjectDialog.WaitUploadTMXDialog();
-                WorkspaceCreateProjectDialog.ClickAddTMXUploadTMXDialog();
-
-                // Заполнить имя файла для загрузки
-                FillAddDocumentForm(TmFileName);
-
-                //Нажать на кнопку Import
-                WorkspaceCreateProjectDialog.ClickImportBtn();
-
-                if (WorkspaceCreateProjectDialog.GetIsExistErrorFileMessage())
-                {
-                    // Диалог загрузки документа не закрылся - закрываем
-                    TryCloseExternalDialog();
-
-                    // кликаем Import снова
-                    WorkspaceCreateProjectDialog.ClickImportBtn();
-                }
-                WorkspaceCreateProjectDialog.WaitImportDialogDisappear();
-            }
-            else
-            {
-                WorkspaceCreateProjectDialog.ClickSaveTM();
-                WorkspaceCreateProjectDialog.WaitUntilCreateTMDialogDisappear();
-            }
-        }
-
 		/// <summary>
-		/// Создать новую ТМ в диалоге создания проекта на Stage3
+		/// Создать новую ТМ в диалоге создания проекта
 		/// </summary>
 		/// <param name="TmFileName">файл для загрузки в ТМ</param>
 		/// <param name="fromWorkspaceOrProject">true - из workspace, false - из проекта</param>
-		public void CreateNewTMStage3(string TmFileName, bool fromWorkspaceOrProject = true)
+		public void CreateNewTM(string TmFileName, bool fromWorkspaceOrProject = true)
 		{
 			//Создание ТМ
 			if (TmFileName.Length > 0)
 			{
 				//Добавить тмх файл
-				WorkspaceCreateProjectDialog.ClickUploadTMXStage3();
-				WorkspaceCreateProjectDialog.WaitUploadTMXDialogStage3();
-				WorkspaceCreateProjectDialog.FillTMNameDialogStage3("TestTM" + DateTime.Now.Ticks);
-				WorkspaceCreateProjectDialog.ClickAddTMXDialogStage3();
+				WorkspaceCreateProjectDialog.ClickUploadTMX();
+				WorkspaceCreateProjectDialog.WaitUploadTMXDialog();
+				WorkspaceCreateProjectDialog.FillTMNameDialog("TestTM" + DateTime.Now.Ticks);
+				WorkspaceCreateProjectDialog.ClickAddTMXDialog();
 				Thread.Sleep(1000);
 
 				// Заполнить имя файла для загрузки
 				FillAddDocumentForm(TmFileName);
 
 				//Нажать на кнопку Import
-				WorkspaceCreateProjectDialog.ClickSaveTMXDialogStage3();
+				WorkspaceCreateProjectDialog.ClickSaveTMXDialog();
 				Thread.Sleep(1000);
 
 				if (WorkspaceCreateProjectDialog.GetIsExistErrorFileMessage())
@@ -1229,7 +1176,8 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
         {
             Thread.Sleep(3000);
             // Заполнить форму для отправки файла
-            SendKeys.SendWait(DocumentName);
+			string txt = System.Text.RegularExpressions.Regex.Replace(DocumentName, "[+^%~()]", "{$0}");
+			SendKeys.SendWait(txt);
             Thread.Sleep(1000);
             SendKeys.SendWait(@"{Tab}");
             Thread.Sleep(1000);
@@ -1317,8 +1265,7 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             // Нажать на кнопку подтвердить
             EditorPage.ClickConfirmBtn();
             // Убедиться что сегмент подтвержден
-
-            Assert.IsTrue(WaitSegmentConfirm(1),
+            Assert.IsTrue(WaitSegmentConfirm(segmentRowNumber),
                 "Ошибка: подтверждение (Confirm) не прошло");
         }
 
@@ -1366,7 +1313,7 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
         /// <summary>
         /// Кликнуть Toggle (хоткей)
         /// </summary>
-        public void SourceTargetSwitchHotkey(int segmentNumber)
+        public void	SourceTargetSwitchHotkey(int segmentNumber)
         {
             // Нажать хоткей Tab
             EditorPage.SendKeysTarget(segmentNumber, OpenQA.Selenium.Keys.Tab);

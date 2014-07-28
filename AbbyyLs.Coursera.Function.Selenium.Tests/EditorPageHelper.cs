@@ -27,9 +27,7 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
 		/// <returns>Список сегментов отображается</returns>
 		public bool WaitUntilDisplaySegments()
 		{
-			return WaitUntilDisplayElement(By.Id(SelectByUrl(
-				SEGMENTS_BODY_STAGE2_XPATH, 
-				SEGMENTS_BODY_STAGE3_XPATH)));
+			return WaitUntilDisplayElement(By.XPath(SEGMENTS_BODY_XPATH));
 		}
 
 		/// <summary>
@@ -40,7 +38,7 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
 		/// <returns>Рамочка есть</returns>
 		public bool WaitUntilDisappearBorderByRowNumber(int rowNumber)
 		{
-			string xPath = SelectByUrl(SEGMENTS_BODY_STAGE2_XPATH, SEGMENTS_BODY_STAGE3_XPATH) +
+			string xPath = SEGMENTS_BODY_XPATH +
 				 "[" + rowNumber + "]" + INFO_BORDER_XPATH;
 
 			return WaitUntilDisappearElement(By.XPath(xPath), 25);
@@ -54,7 +52,7 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
 		/// <returns>Рамочка есть</returns>
 		public bool WaitUntilDisappearBorderByPosition(int position)
 		{
-			string xPath = SelectByUrl(SEGMENTS_BODY_STAGE2_XPATH, SEGMENTS_BODY_STAGE3_XPATH) + POSITION_XPATH +
+			string xPath = SEGMENTS_BODY_XPATH + POSITION_XPATH +
 				"[text()='" + position + "']/../.." + INFO_BORDER_XPATH;
 
 			return WaitUntilDisappearElement(By.XPath(xPath), 25);
@@ -119,7 +117,7 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
 		/// </summary>
 		public void ClickTargetByRowNumber(int rowNumber)
 		{
-			string targetCell = SelectByUrl(SEGMENTS_BODY_STAGE2_XPATH, SEGMENTS_BODY_STAGE3_XPATH) +
+			string targetCell = SEGMENTS_BODY_XPATH +
 				"[" + rowNumber + "]" + TARGET_XPATH;
 
 			ClickElement(By.XPath(targetCell));
@@ -131,7 +129,7 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
 		/// <param name="position">Позиция сегмента</param>
 		public void ClickSegmentConfirmByPosition(int position)
 		{
-			string check = SelectByUrl(SEGMENTS_BODY_STAGE2_XPATH, SEGMENTS_BODY_STAGE3_XPATH) + POSITION_XPATH +
+			string check = SEGMENTS_BODY_XPATH + POSITION_XPATH +
 				"[text()='" + position + "']/../.." + INFO_CHECK_XPATH;
 
 			ClickElement(By.XPath(check));
@@ -143,7 +141,7 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
 		/// <param name="position">Номер строки сегмента</param>
 		public void ClickSegmentConfirmByRowNumber(int rowNumber)
 		{
-			string check = SelectByUrl(SEGMENTS_BODY_STAGE2_XPATH, SEGMENTS_BODY_STAGE3_XPATH) +
+			string check = SEGMENTS_BODY_XPATH +
 				"[" + rowNumber + "]" + INFO_CHECK_XPATH;
 
 			ClickElement(By.XPath(check));
@@ -155,7 +153,7 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
 		/// <returns>Перевод есть</returns>
 		public bool GetIsUserTranslationExist()
 		{
-			return GetIsElementExist(By.XPath(SelectByUrl(TRANSLATION_BODY_STAGE2_XPATH, TRANSLATION_BODY_STAGE3_XPATH) +
+			return GetIsElementExist(By.XPath(TRANSLATION_BODY_XPATH +
 				TRASH_BTN_XPATH));
 		}
 
@@ -166,7 +164,7 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
 		/// <returns>Галочка есть</returns>
 		public bool GetIsCheckPresent(int rowNumber)
 		{
-			string xPath = SelectByUrl(SEGMENTS_BODY_STAGE2_XPATH, SEGMENTS_BODY_STAGE3_XPATH) +
+			string xPath = SEGMENTS_BODY_XPATH +
 				"[" + rowNumber + "]" + INFO_CHECK_XPATH;
 
 			return GetIsElementExist(By.XPath(xPath));
@@ -179,7 +177,7 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
 		/// <returns>Tag есть</returns>
 		public bool GetIsTagPresent(int rowNumber)
 		{
-			string xPath = SelectByUrl(SEGMENTS_BODY_STAGE2_XPATH, SEGMENTS_BODY_STAGE3_XPATH) +
+			string xPath = SEGMENTS_BODY_XPATH +
 				"[" + rowNumber + "]" + TAG_TARGET_XPATH;
 
 			return GetIsElementExist(By.XPath(xPath));
@@ -192,8 +190,7 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
 		/// <returns>Элемент</returns>
 		public IWebElement GetSourceByRowNumber(int rowNumber)
 		{
-			IWebElement source = GetElement(By.XPath(SelectByUrl(
-				SEGMENTS_BODY_STAGE2_XPATH, SEGMENTS_BODY_STAGE3_XPATH) +
+			IWebElement source = GetElement(By.XPath(SEGMENTS_BODY_XPATH +
 				"[" + rowNumber + "]" + SOURCE_XPATH));
 			return source;
 		}
@@ -205,8 +202,7 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
 		/// <returns>Элемент</returns>
 		public IWebElement GetTargetByRowNumber(int rowNumber)
 		{
-			IWebElement target = GetElement(By.XPath(SelectByUrl(
-				SEGMENTS_BODY_STAGE2_XPATH, SEGMENTS_BODY_STAGE3_XPATH) +
+			IWebElement target = GetElement(By.XPath(SEGMENTS_BODY_XPATH +
 				"[" + rowNumber + "]" + TARGET_XPATH));
 			return target;
 		}
@@ -217,8 +213,7 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
 		/// <returns>Список элементов</returns>
 		public IList<IWebElement> GetTagetsList()
 		{
-			IList<IWebElement> targetList = GetElementList(By.XPath(SelectByUrl(
-				SEGMENTS_BODY_STAGE2_XPATH, SEGMENTS_BODY_STAGE3_XPATH) +
+			IList<IWebElement> targetList = GetElementList(By.XPath(SEGMENTS_BODY_XPATH +
 				TARGET_XPATH));
 			return targetList;
 		}
@@ -230,8 +225,7 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
 		/// <returns>Список элементов</returns>
 		public IList<IWebElement> GetVotesListByVoteType(string voteType)
 		{
-			IList<IWebElement> voteList = GetElementList(By.XPath(SelectByUrl(
-				TRANSLATION_BODY_STAGE2_XPATH, TRANSLATION_BODY_STAGE3_XPATH) +
+			IList<IWebElement> voteList = GetElementList(By.XPath(TRANSLATION_BODY_XPATH +
 				VOTE_XPATH + "//span[contains(@class,'" + voteType + "')]"));
 			
 			return voteList;
@@ -255,7 +249,7 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
 		public void DeleteTranslation()
 		{
 			// Кликнуть удалить перевод
-			ClickElement(By.XPath(SelectByUrl(TRANSLATION_BODY_STAGE2_XPATH, TRANSLATION_BODY_STAGE3_XPATH) + 
+			ClickElement(By.XPath(TRANSLATION_BODY_XPATH + 
 				TRASH_BTN_XPATH));
 
 			// Дождаться пока появится окно подтверждения
@@ -274,7 +268,7 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
 		/// <param name="rowNumber">Номер строки</param>
 		public void ClickEditTranslationByRowNumber(int rowNumber)
 		{
-			string xPath = SelectByUrl(TRANSLATION_BODY_STAGE2_XPATH, TRANSLATION_BODY_STAGE3_XPATH) +
+			string xPath = TRANSLATION_BODY_XPATH +
 				"[" + rowNumber + "]" + PANCIL_BTN_XPATH;
 			
 			ClickElement(By.XPath(xPath));
@@ -287,7 +281,7 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
 		/// <param name="targetText">текст перевода</param>
 		public void AddTextTargetByRowNumber(int rowNumber, string targetText)
 		{
-			string targetCell = SelectByUrl(SEGMENTS_BODY_STAGE2_XPATH, SEGMENTS_BODY_STAGE3_XPATH) +
+			string targetCell = SEGMENTS_BODY_XPATH +
 				"[" + rowNumber + "]" + TARGET_XPATH;
 			
 			// Кликнуть по ячейке
@@ -303,8 +297,7 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
 		/// <returns>Количество переводов</returns>
 		public int GetQuantityTranslationsByRowNumber(int rowNumber)
 		{
-			string xPath = SelectByUrl(
-					SEGMENTS_BODY_STAGE2_XPATH, SEGMENTS_BODY_STAGE3_XPATH) +
+			string xPath = SEGMENTS_BODY_XPATH +
 					"[" + rowNumber + "]" + TRANSLATIONS_XPATH;
 
 			if (GetTextElement(By.XPath(xPath)).Trim() != String.Empty)
@@ -320,8 +313,7 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
 		/// <returns>Номер строки</returns>
 		public int GetRowPositionByRowNumber(int rowNumber)
 		{
-			return int.Parse(GetTextElement(By.XPath(SelectByUrl(
-					SEGMENTS_BODY_STAGE2_XPATH, SEGMENTS_BODY_STAGE3_XPATH) +
+			return int.Parse(GetTextElement(By.XPath(SEGMENTS_BODY_XPATH +
 					"[" + rowNumber + "]" + POSITION_XPATH)));
 		}
 
@@ -350,8 +342,7 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
 		/// <returns>рейтинг перевода</returns>
 		public int GetTranslationRatingByRowNumber(int rowNumber)
 		{
-			return int.Parse(GetTextElement(By.XPath(SelectByUrl(
-					TRANSLATION_BODY_STAGE2_XPATH, TRANSLATION_BODY_STAGE3_XPATH) +
+			return int.Parse(GetTextElement(By.XPath(TRANSLATION_BODY_XPATH +
 					"[" + rowNumber + "]" + INFO_RATING_XPATH)));
 		}
 
@@ -362,8 +353,7 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
 		/// <returns>Автор перевода</returns>
 		public string GetTranslationAuthorByRowNumber(int rowNumber)
 		{
-			return GetTextElement(By.XPath(SelectByUrl(
-					TRANSLATION_BODY_STAGE2_XPATH, TRANSLATION_BODY_STAGE3_XPATH) +
+			return GetTextElement(By.XPath(TRANSLATION_BODY_XPATH +
 					"[" + rowNumber + "]" + AUTHOR_XPATH));
 		}
 
@@ -375,8 +365,7 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
 		public int GetTranslationRowNumberByTime(string time)
 		{
 			// Определяем элемент перевода
-			string translationListXPath = SelectByUrl(
-				TRANSLATION_BODY_STAGE2_XPATH, TRANSLATION_BODY_STAGE3_XPATH);
+			string translationListXPath = TRANSLATION_BODY_XPATH;
 
 			// Получаем список всех элементов перевода
 			IList<IWebElement> translationList = GetElementList(By.XPath(translationListXPath));
@@ -403,8 +392,7 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
 		public int GetTranslationRowNumberByTarget(string target)
 		{
 			// Определяем элемент перевода
-			string translationListXPath = SelectByUrl(
-				TRANSLATION_BODY_STAGE2_XPATH, TRANSLATION_BODY_STAGE3_XPATH);
+			string translationListXPath = TRANSLATION_BODY_XPATH;
 
 			// Получаем список всех элементов перевода
 			IList<IWebElement> translationList = GetElementList(By.XPath(translationListXPath));
@@ -432,7 +420,7 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
 		public bool GetIsVoteConsidered(bool isVoteUp, int rowNumber)
 		{
 			string voteIcon = isVoteUp ? "fa-thumbs-up" : "fa-thumbs-down";
-			string xPath = SelectByUrl(TRANSLATION_BODY_STAGE2_XPATH, TRANSLATION_BODY_STAGE3_XPATH) +
+			string xPath = TRANSLATION_BODY_XPATH +
 				"[" + rowNumber + "]//td[5]/div//span[contains(@class,'" + voteIcon + "')][contains(@class,'disabled')]";
 
 			return GetIsElementExist(By.XPath(xPath));
@@ -447,7 +435,7 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
 		public string GetTimeVote(bool isVoteUp, int rowNumber)
 		{
 			string voteClass = isVoteUp ? "fa-thumbs-up" : "fa-thumbs-down";
-			string xPath = SelectByUrl(TRANSLATION_BODY_STAGE2_XPATH, TRANSLATION_BODY_STAGE3_XPATH) +
+			string xPath = TRANSLATION_BODY_XPATH +
 				"[" + rowNumber + "]//td[5]/div//span[contains(@class,'" + voteClass + "')]";
 
 			string time = GetTextElement(By.XPath(xPath + "/../../../td[1]/div"));
@@ -466,21 +454,19 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
 		protected const string CHANGE_CASE_BTN_ID = "change-case-btn";
 		protected const string TAG_INSERT_BTN_ID = "tag-insert-btn";
 
-		protected const string SEGMENTS_BODY_STAGE2_XPATH = ".//div[@id='segments-body']//tbody//tr",
-								SEGMENTS_BODY_STAGE3_XPATH = ".//div[@id='segments-body']//table";
+		protected const string SEGMENTS_BODY_XPATH = ".//div[@id='segments-body']//table";
 
 		protected const string POSITION_XPATH = "//td[1]//div";
 		protected const string SOURCE_XPATH = "//td[3]//div";
 		protected const string TARGET_XPATH = "//td[4]//div";
-		protected const string TAG_TARGET_XPATH = TARGET_XPATH + "//span[contains(@class,'tag')]";
+		protected const string TAG_TARGET_XPATH = TARGET_XPATH + "//img[contains(@class,'tag')]";
 		protected const string TRANSLATIONS_XPATH = "//td[6]//div";
 
 		protected const string INFO_CHECK_XPATH = "//td[5]//span[contains(@class,'fa-check')]";
 		protected const string INFO_BORDER_XPATH = "//td[5]//span[contains(@class,'fa-border')]";
 		protected const string INFO_RATING_XPATH = "//td[5]//span[contains(@class,'rating-count')]";
 
-		protected const string TRANSLATION_BODY_STAGE2_XPATH = ".//div[@id='translations-body']//tbody//tr",
-								TRANSLATION_BODY_STAGE3_XPATH = ".//div[@id='translations-body']//table";
+		protected const string TRANSLATION_BODY_XPATH = ".//div[@id='translations-body']//table";
 		
 		protected const string TRASH_BTN_XPATH = "//td[4]//span[contains(@class,'fa-trash-o')]";
 		protected const string PANCIL_BTN_XPATH = "//td[4]//span[contains(@class,'fa-pencil')]";

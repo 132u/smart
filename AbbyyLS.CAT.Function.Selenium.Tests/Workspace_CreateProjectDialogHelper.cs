@@ -186,28 +186,12 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
         }
 
         /// <summary>
-        /// Кликнуть на загрузку TMX
-        /// </summary>
-        public void ClickAddTMX()
-        {
-            ClickElement(By.XPath(ADD_TMX_BTN_XPATH));
-        }
-
-        /// <summary>
         /// Дождаться появления диалога загрузки ТМХ
         /// </summary>
         /// <returns>появился</returns>
         public bool WaitUploadTMXDialog()
         {
             return WaitUntilDisplayElement(By.XPath(UPLOAG_TMX_DIALOG_XPATH));
-        }
-
-        /// <summary>
-        /// Кликнуть Загрузить в диалоге
-        /// </summary>
-        public void ClickAddTMXUploadTMXDialog()
-        {
-            ClickElement(By.XPath(UPLOAD_TMX_BTN_XPATH));
         }
 
         /// <summary>
@@ -620,45 +604,36 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 		}
 
 		/// <summary>
-		/// Кликнуть Upload TMX (для STAGE3)
+		/// Кликнуть Upload TMX
 		/// </summary>
-		public void ClickUploadTMXStage3()
+		public void ClickUploadTMX()
 		{
-			ClickElement(By.XPath(UPLOAD_TMX_BTN_STAGE3_XPATH));
+			ClickElement(By.XPath(UPLOAD_TMX_BTN_XPATH));
 		}
 
 		/// <summary>
-		/// Дождаться появления диалога загрузки ТМХ (для STAGE3)
+		/// Кликнуть Add TMX в окне диалога
 		/// </summary>
-		/// <returns>появился</returns>
-		public bool WaitUploadTMXDialogStage3()
+		public void ClickAddTMXDialog()
 		{
-			return WaitUntilDisplayElement(By.XPath(IMPORT_TMX_DIALOG_STAGE3_XPATH));
+			ClickElement(By.XPath(ADD_TMX_BTN_XPATH));
 		}
 
 		/// <summary>
-		/// Кликнуть Add TMX в окне диалога (для STAGE3)
+		/// Кликнуть Save TMX в окне диалога
 		/// </summary>
-		public void ClickAddTMXDialogStage3()
+		public void ClickSaveTMXDialog()
 		{
-			ClickElement(By.XPath(ADD_TMX_BTN_STAGE3_XPATH));
+			ClickElement(By.XPath(SAVE_BTN_XPATH));
 		}
 
 		/// <summary>
-		/// Кликнуть Save TMX в окне диалога (для STAGE3)
-		/// </summary>
-		public void ClickSaveTMXDialogStage3()
-		{
-			ClickElement(By.XPath(SAVE_BTN_STAGE3_XPATH));
-		}
-
-		/// <summary>
-		/// Заполнить название ТМ в диалоге (Stage3)
+		/// Заполнить название ТМ в диалоге
 		/// </summary>
 		/// <param name="TMName">название</param>
-		public void FillTMNameDialogStage3(string TMName)
+		public void FillTMNameDialog(string TMName)
 		{
-			ClearAndAddText(By.XPath(NAME_TM_STAGE3_XPATH), TMName);
+			ClearAndAddText(By.XPath(NAME_TM_XPATH), TMName);
 		}
 
 
@@ -667,7 +642,7 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
         
 
         protected const string CREATE_PROJECT_DIALOG_XPATH = "//div[contains(@class,'js-popup-create-project')][2]";
-        protected const string DEADLINE_DATE_INPUT_XPATH = CREATE_PROJECT_DIALOG_XPATH + "//input[@name='deadlineDate']";
+		protected const string DEADLINE_DATE_INPUT_XPATH = CREATE_PROJECT_DIALOG_XPATH + "//div[contains(@class, 'js-deadline-date')]//input[1]";
 		protected const string SOURCE_LANG_DROPDOWN_XPATH = CREATE_PROJECT_DIALOG_XPATH + "//div[select[@id='sourceLanguage']]/span";
         protected const string SPAN_DROPDOWN_LIST_XPATH = "//span[contains(@class,'js-dropdown__list')]";
         protected const string LANG_ITEM_XPATH = "//span[@data-id='";
@@ -680,18 +655,18 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
         protected const string CREATE_TM_BTN_XPATH = CREATE_PROJECT_DIALOG_XPATH + "//span[contains(@class,'js-tm-create')]";
 
 		
-		protected const string UPLOAD_TMX_BTN_STAGE3_XPATH = CREATE_PROJECT_DIALOG_XPATH + "//span[contains(@class,'js-tm-upload')]";
-		protected const string IMPORT_TMX_DIALOG_STAGE3_XPATH = "//div[contains(@class,'js-popup-import-tm')][2]";
-		protected const string ADD_TMX_BTN_STAGE3_XPATH = IMPORT_TMX_DIALOG_STAGE3_XPATH + "//a[contains(@class,'js-upload-btn')]";
-		protected const string SAVE_BTN_STAGE3_XPATH = IMPORT_TMX_DIALOG_STAGE3_XPATH + "//span[contains(@class,'js-save')]";
-		protected const string NAME_TM_STAGE3_XPATH = IMPORT_TMX_DIALOG_STAGE3_XPATH + "//input[contains(@class,'js-tm-name')]";
+		protected const string UPLOAD_TMX_BTN_XPATH = CREATE_PROJECT_DIALOG_XPATH + "//span[contains(@class,'js-tm-upload')]";
+		protected const string IMPORT_TMX_DIALOG_XPATH = "//div[contains(@class,'js-popup-import-tm')][2]";
+		protected const string ADD_TMX_BTN_XPATH = IMPORT_TMX_DIALOG_XPATH + "//a[contains(@class,'js-upload-btn')]";
+		protected const string SAVE_BTN_XPATH = IMPORT_TMX_DIALOG_XPATH + "//span[contains(@class,'js-save')]";
+		protected const string NAME_TM_XPATH = IMPORT_TMX_DIALOG_XPATH + "//input[contains(@class,'js-tm-name')]";
 
 
         protected const string CREATE_TM_DIALOG_XPATH = "//div[contains(@class,'js-popup-create-tm')][2]";
         protected const string NEW_TM_NAME_INPUT_XPATH = CREATE_TM_DIALOG_XPATH +"//input[contains(@class,'js-tm-name')]";
-        protected const string ADD_TMX_BTN_XPATH = CREATE_TM_DIALOG_XPATH + "//a[contains(@class,'js-save-and-import')]";
+        //protected const string ADD_TMX_BTN_XPATH = CREATE_TM_DIALOG_XPATH + "//a[contains(@class,'js-save-and-import')]";
         protected const string UPLOAG_TMX_DIALOG_XPATH = ".//div[contains(@class,'js-popup-import')][2]";
-        protected const string UPLOAD_TMX_BTN_XPATH = UPLOAG_TMX_DIALOG_XPATH +"//a[contains(@class,'js-upload-btn')]";
+        //protected const string UPLOAD_TMX_BTN_XPATH = UPLOAG_TMX_DIALOG_XPATH +"//a[contains(@class,'js-upload-btn')]";
         protected const string IMPORT_TMX_BTN_XPATH = UPLOAG_TMX_DIALOG_XPATH + "//span[contains(@class,'js-import-button')]";
         protected const string SAVE_TM_BTN_XPATH = CREATE_TM_DIALOG_XPATH + "//span[contains(@class,'js-save')]";
         

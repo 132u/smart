@@ -240,6 +240,10 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
                     {
                         break;
                     }
+					else
+					{
+						Driver.Navigate().Refresh();
+					}
                 }
             }
             return isDisappeared;

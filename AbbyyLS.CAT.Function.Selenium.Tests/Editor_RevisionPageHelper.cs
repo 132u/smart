@@ -54,10 +54,7 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
         {
 			string revisionXPath = "";
 
-			if (Driver.Url.Contains("stage3") || Driver.Url.Contains("stage1"))
-				revisionXPath = REVISION_LIST_STAGE3_XPATH;
-			else
-				revisionXPath = REVISION_LIST_XPATH;
+			revisionXPath = REVISION_LIST_XPATH;
 
 			return WaitUntilDisplayElement(By.XPath(revisionXPath + "[" + revisionNumber + "]"));
         }
@@ -119,10 +116,7 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
         {
             string revisionXPath = "";
 			
-			if (Driver.Url.Contains("stage3") || Driver.Url.Contains("stage1"))
-				revisionXPath = REVISION_LIST_STAGE3_XPATH + "[" + revisionNumber + "]//td";
-			else
-				revisionXPath = REVISION_LIST_XPATH + "[" + revisionNumber + "]//td";
+			revisionXPath = REVISION_LIST_XPATH + "[" + revisionNumber + "]//td";
 
             // Есть ли ревизия
             bool isExistRevision = GetIsElementExist(By.XPath(revisionXPath));
@@ -142,10 +136,7 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
         {
 			string revisionXPath = "";
 
-			if (Driver.Url.Contains("stage3") || Driver.Url.Contains("stage1"))
-				revisionXPath = REVISION_LIST_STAGE3_XPATH;
-			else
-				revisionXPath = REVISION_LIST_XPATH;
+			revisionXPath = REVISION_LIST_XPATH;
 
 			return GetElementList(By.XPath(revisionXPath)).Count;
         }
@@ -222,10 +213,7 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
         {
 			string revisionXPath = "";
 
-			if (Driver.Url.Contains("stage3") || Driver.Url.Contains("stage1"))
-				revisionXPath = REVISION_LIST_STAGE3_XPATH;
-			else
-				revisionXPath = REVISION_LIST_XPATH;
+			revisionXPath = REVISION_LIST_XPATH;
 
 			return revisionXPath + "[" + revisionNumber + "]" + column;
         }
@@ -236,8 +224,7 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
         protected const string REVISION_TAB_ID = "revisions-body";
         protected const string ROLLBACK_BTN_ID = "revision-rollback-btn";
 
-        protected const string REVISION_LIST_XPATH = "//div[@id='revisions-body']//table//tbody//tr";
-		protected const string REVISION_LIST_STAGE3_XPATH = "//div[@id='revisions-body']//table";
+		protected const string REVISION_LIST_XPATH = "//div[@id='revisions-body']//table";
         protected const string TIME_COLUMN_XPATH = "//td[contains(@class,'revision-date-cell')]";
         protected const string TEXT_COLUMN_XPATH = "//td[contains(@class,'revision-text-cell')]";
         protected const string TYPE_COLUMN_XPATH = "//td[contains(@class,'revision-type-cell')]";

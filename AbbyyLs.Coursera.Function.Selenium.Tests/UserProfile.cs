@@ -105,15 +105,19 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
         {
             // Открыть профиль
             OpenUserProfileFromHomePage();
+
             // Открыть форму
             OpenEditProfileForm();
-            string newUserName = UserName + DateTime.Now.Ticks;
+
+			string newUserName = UserName + DateTime.Now.Ticks;
             string newUserSurname = UserSurname + DateTime.Now.Ticks;
-            // Изменить имя и фамилию
+           
+			// Изменить имя и фамилию
             SaveNewUserNameInEditProfileForm(newUserName, newUserSurname);
 
             // Перейти к списку лидеров
             Header.OpenLeaderboardPage();
+
             // Получить полное имя после изменения
             string resultUserName = GetFullNameLeaderboard();
 

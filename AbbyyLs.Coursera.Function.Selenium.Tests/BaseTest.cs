@@ -16,6 +16,7 @@ using System.Drawing;
 using System.Drawing.Imaging;
 
 using OpenQA.Selenium.Interactions;
+using System.Text.RegularExpressions;
 
 namespace AbbyyLs.Coursera.Function.Selenium.Tests
 {
@@ -970,7 +971,8 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
 		{
 			Thread.Sleep(3000);
 			// Заполнить форму для отправки файла
-			SendKeys.SendWait(DocumentName);
+			string txt = Regex.Replace(DocumentName, "[+^%~()]", "{$0}");
+			SendKeys.SendWait(txt);
 			Thread.Sleep(2000);
 			SendKeys.SendWait(@"{Tab}");
 			Thread.Sleep(500);
@@ -1557,6 +1559,9 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
             }
 
             _driver.Navigate().GoToUrl(_url);
+
+			_driver.Manage().Window.Maximize();
+
             // Зайти под первым пользователем
 			LoginUser(_user1);
         }

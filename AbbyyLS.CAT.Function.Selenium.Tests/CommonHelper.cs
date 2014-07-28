@@ -421,6 +421,29 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             }
         }
 
+		/// <summary>
+		/// Вернуть элемент
+		/// </summary>
+		/// <param name="by">by</param>
+		/// <returns>элемент</returns>
+		protected IWebElement GetElement(By by)
+		{
+			try
+			{
+				return Driver.FindElement(by);
+			}
+			catch (StaleElementReferenceException)
+			{
+				Console.WriteLine("StaleElementReferenceException: GetElementList: " + by.ToString());
+				return GetElement(by);
+			}
+			catch (Exception exType)
+			{
+				Assert.Fail("Произошла ошибка:\n" + exType.ToString());
+				return null;
+			}
+		}
+
         /// <summary>
         /// Вернуть количество элементов
         /// </summary>

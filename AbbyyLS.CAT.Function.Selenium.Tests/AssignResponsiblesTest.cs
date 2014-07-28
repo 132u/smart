@@ -33,8 +33,8 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 			// Создание проекта
 			CreateProject(ProjectName, EditorTXTFile);
 
-			// Ожидаем пока загрузится документ
-			WorkspacePage.WaitProjectLoad(ProjectName);
+			// Дождаться, пока документ догрузится
+			Assert.IsTrue(WorkspacePage.WaitProjectLoad(ProjectName), "Ошибка: документ не загрузился");
 
 			// Открываем инфо проекта
 			WorkspacePage.OpenProjectInfo(ProjectName);
@@ -59,8 +59,8 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 			// Создание проекта
 			CreateProject(ProjectName, EditorTXTFile);
 
-			// Ожидаем пока загрузится документ
-			WorkspacePage.WaitProjectLoad(ProjectName);
+			// Дождаться, пока документ догрузится
+			Assert.IsTrue(WorkspacePage.WaitProjectLoad(ProjectName), "Ошибка: документ не загрузился");
 
 			// Открываем диалог выбора исполнителя
 			OpenAssignDialog(ProjectName);
@@ -75,8 +75,8 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 			// Создание проекта
 			CreateProject(ProjectName, EditorTXTFile);
 
-			// Ожидаем пока загрузится документ
-			WorkspacePage.WaitProjectLoad(ProjectName);
+			// Дождаться, пока документ догрузится
+			Assert.IsTrue(WorkspacePage.WaitProjectLoad(ProjectName), "Ошибка: документ не загрузился");
 
 			// Открываем проект
 			OpenProjectPage(ProjectName);
@@ -99,8 +99,8 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 			// Создание проекта
 			CreateProject(ProjectName, EditorTXTFile);
 
-			// Ожидаем пока загрузится документ
-			WorkspacePage.WaitProjectLoad(ProjectName);
+			// Дождаться, пока документ догрузится
+			Assert.IsTrue(WorkspacePage.WaitProjectLoad(ProjectName), "Ошибка: документ не загрузился");
 
 			// Открываем проект
 			OpenProjectPage(ProjectName);
@@ -126,8 +126,8 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 			// Создание проекта
 			CreateProject(ProjectName, EditorTXTFile);
 
-			// Ожидаем пока загрузится документ
-			WorkspacePage.WaitProjectLoad(ProjectName);
+			// Дождаться, пока документ догрузится
+			Assert.IsTrue(WorkspacePage.WaitProjectLoad(ProjectName), "Ошибка: документ не загрузился");
 
 			// Открываем проект
 			OpenProjectPage(ProjectName);
@@ -153,8 +153,8 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 			// Создание проекта
 			CreateProject(ProjectName);
 
-			// Ожидаем пока загрузится проект
-			WorkspacePage.WaitProjectLoad(ProjectName);
+			// Дождаться, пока документ догрузится
+			Assert.IsTrue(WorkspacePage.WaitProjectLoad(ProjectName), "Ошибка: документ не загрузился");
 
 			// Открываем инфо проекта
 			WorkspacePage.OpenProjectInfo(ProjectName);
@@ -188,8 +188,8 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 			// Создание проекта
 			CreateProject(ProjectName);
 
-			// Ожидаем пока загрузится проект
-			WorkspacePage.WaitProjectLoad(ProjectName);
+			// Дождаться, пока документ догрузится
+			Assert.IsTrue(WorkspacePage.WaitProjectLoad(ProjectName), "Ошибка: документ не загрузился");
 
 			// Открываем проект
 			OpenProjectPage(ProjectName);
@@ -228,8 +228,8 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 			// Создание проекта
 			CreateProject(ProjectName, EditorTXTFile);
 
-			// Ожидаем пока загрузится проект
-			WorkspacePage.WaitProjectLoad(ProjectName);
+			// Дождаться, пока документ догрузится
+			Assert.IsTrue(WorkspacePage.WaitProjectLoad(ProjectName), "Ошибка: документ не загрузился");
 
 			// Переходим к вкладке прав пользователей
 			WorkspacePage.ClickUsersAndRightsBtn();
@@ -305,8 +305,8 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 			// Создание проекта
 			CreateProject(ProjectName, EditorTXTFile);
 
-			// Ожидаем пока загрузится проект
-			WorkspacePage.WaitProjectLoad(ProjectName);
+			// Дождаться, пока документ догрузится
+			Assert.IsTrue(WorkspacePage.WaitProjectLoad(ProjectName), "Ошибка: документ не загрузился");
 
 			// Переходим к вкладке прав пользователей
 			WorkspacePage.ClickUsersAndRightsBtn();
@@ -343,7 +343,7 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 			}
 
 			Assert.IsTrue(isPresent,
-				"Ошибка: В выпадающем списке отсутсвует новая группа: " + groupName);
+				"Ошибка: В выпадающем списке отсутствует новая группа: " + groupName);
 		}
 
 		/// <summary>
@@ -358,8 +358,8 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 			// Создание проекта
 			CreateProject(ProjectName, EditorTXTFile);
 
-			// Ожидаем пока загрузится проект
-			WorkspacePage.WaitProjectLoad(ProjectName);
+			// Дождаться, пока документ догрузится
+			Assert.IsTrue(WorkspacePage.WaitProjectLoad(ProjectName), "Ошибка: документ не загрузился");
 
 			// Открываем диалог выбора исполнителя
 			OpenAssignDialog(ProjectName);
@@ -429,8 +429,8 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 			Assert.IsTrue(WorkspacePage.WaitProjectAppearInList(ProjectName),
 				"Ошибка: Проект не появился в списке.");
 
-			// Ожидаем пока загрузится проект
-			WorkspacePage.WaitProjectLoad(ProjectName);
+			// Дождаться, пока документ догрузится
+			Assert.IsTrue(WorkspacePage.WaitProjectLoad(ProjectName), "Ошибка: документ не загрузился");
 
 			// Открываем диалог выбора исполнителя
 			OpenAssignDialog(ProjectName);
@@ -473,8 +473,8 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 			// Создание проекта
 			CreateProject(ProjectName, EditorTXTFile);
 
-			// Ожидаем пока загрузится проект
-			WorkspacePage.WaitProjectLoad(ProjectName);
+			// Дождаться, пока документ догрузится
+			Assert.IsTrue(WorkspacePage.WaitProjectLoad(ProjectName), "Ошибка: документ не загрузился");
 
 			// Открываем диалог выбора исполнителя
 			OpenAssignDialog(ProjectName);
@@ -520,8 +520,8 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 			// Создание проекта
 			CreateProject(ProjectName, EditorTXTFile);
 
-			// Ожидаем пока загрузится проект
-			WorkspacePage.WaitProjectLoad(ProjectName);
+			// Дождаться, пока документ догрузится
+			Assert.IsTrue(WorkspacePage.WaitProjectLoad(ProjectName), "Ошибка: документ не загрузился");
 
 			// Открываем диалог выбора исполнителя
 			OpenAssignDialog(ProjectName);
@@ -538,6 +538,10 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 
 			// Открытие страницы проекта
 			OpenProjectPage(ProjectName);
+
+			// Подтверждение назначения
+			ProjectPage.ClickAllAcceptBtns();
+			Thread.Sleep(1000);
 
 			// Открываем документ
 			OpenDocument();
@@ -602,6 +606,10 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 			// Открытие страницы проекта
 			OpenProjectPage(ProjectName);
 
+			// Подтверждение назначения
+			ProjectPage.ClickAllAcceptBtns();
+			Thread.Sleep(1000);
+
 			// Открываем документ
 			OpenDocument();
 			Thread.Sleep(1000);
@@ -624,8 +632,8 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 			// Создание проекта
 			CreateProject(ProjectName, EditorTXTFile);
 
-			// Ожидаем пока загрузится документ
-			WorkspacePage.WaitProjectLoad(ProjectName);
+			// Дождаться, пока документ догрузится
+			Assert.IsTrue(WorkspacePage.WaitProjectLoad(ProjectName), "Ошибка: документ не загрузился");
 
 			// Открываем диалог выбора исполнителя
 			OpenAssignDialog(ProjectName);
@@ -647,8 +655,8 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 			// Создание проекта
 			CreateProject(ProjectName, EditorTXTFile);
 
-			// Ожидаем пока загрузится проект
-			WorkspacePage.WaitProjectLoad(ProjectName);
+			// Дождаться, пока документ догрузится
+			Assert.IsTrue(WorkspacePage.WaitProjectLoad(ProjectName), "Ошибка: документ не загрузился");
 
 			// Открываем диалог выбора исполнителя
 			OpenAssignDialog(ProjectName);
@@ -665,6 +673,10 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 
 			// Открытие страницы проекта
 			OpenProjectPage(ProjectName);
+
+			// Подтверждение назначения
+			ProjectPage.ClickAllAcceptBtns();
+			Thread.Sleep(1000);
 
 			// Открываем документ
 			OpenDocument();

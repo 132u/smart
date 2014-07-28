@@ -14,6 +14,7 @@ using NUnit.Framework;
 using OpenQA.Selenium.Interactions;
 using System.Drawing;
 using System.Drawing.Imaging;
+using System.Text.RegularExpressions;
 
 namespace AbbyyLs.Coursera.Function.Selenium.Tests
 {
@@ -190,11 +191,13 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
 		/// <param name="text">текст</param>
 		protected void ClearAndAddText(By by, string text)
 		{
+			string txt = Regex.Replace(text, "[+^%~()]", "{$0}");
+			
 			try
 			{
 				IWebElement el = Driver.FindElement(by);
 				el.Clear();
-				el.SendKeys(text);
+				el.SendKeys(txt);
 			}
 			catch (StaleElementReferenceException)
 			{
@@ -244,11 +247,13 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
 		/// <param name="text"></param>
 		protected void ClickAndSendTextElement(By by, string text)
 		{
+			string txt = Regex.Replace(text, "[+^%~()]", "{$0}");
+
 			try
 			{
 				IWebElement el = Driver.FindElement(by);
 				el.Click();
-				el.SendKeys(text);
+				el.SendKeys(txt);
 			}
 			catch (StaleElementReferenceException)
 			{
@@ -272,12 +277,14 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
 		/// <param name="text">тест</param>
 		protected void ClickClearAndAddText(By by, string text)
 		{
+			string txt = Regex.Replace(text, "[+^%~()]", "{$0}");
+			
 			try
 			{
 				IWebElement el = Driver.FindElement(by);
 				el.Click();
 				el.Clear();
-				el.SendKeys(text);
+				el.SendKeys(txt);
 			}
 			catch (StaleElementReferenceException)
 			{
@@ -301,9 +308,11 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
 		/// <param name="text">текст</param>
 		protected void SendTextElement(By by, string text)
 		{
+			string txt = Regex.Replace(text, "[+^%~()]", "{$0}");
+			
 			try
 			{
-				Driver.FindElement(by).SendKeys(text);
+				Driver.FindElement(by).SendKeys(txt);
 			}
 			catch (StaleElementReferenceException)
 			{
@@ -628,32 +637,34 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
 		/// <param name="text">текст</param>
 		protected void ClearAndFillElementsList(By by, string text)
 		{
+			string txt = Regex.Replace(text, "[+^%~()]", "{$0}");
+			
 			IList<IWebElement> termList = GetElementList(by);
 			foreach (IWebElement el in termList)
 			{
 				el.Clear();
-				el.SendKeys(text);
+				el.SendKeys(txt);
 			}
 		}
 
 
 
 
-		/// <summary>
-		/// Возвращает строку соответствующую действительному адресу (Stage2 или Stage3)
-		/// </summary>
-		/// <param name="parametrStage2">Строка соответсвующая Stage2</param>
-		/// <param name="parametrStage3">Строка соответсвующая Stage2</param>
-		/// <returns></returns>
-		protected string SelectByUrl(string parametrStage2, string parametrStage3)
-		{
-			if (Driver.Url.Contains("stage2"))
-				return parametrStage2;
-			else if (Driver.Url.Contains("stage3"))
-				return parametrStage3;
+		///// <summary>
+		///// Возвращает строку соответствующую действительному адресу (Stage2 или Stage3)
+		///// </summary>
+		///// <param name="parametrStage2">Строка соответсвующая Stage2</param>
+		///// <param name="parametrStage3">Строка соответсвующая Stage2</param>
+		///// <returns></returns>
+		//protected string SelectByUrl(string parametrStage2, string parametrStage3)
+		//{
+		//	if (Driver.Url.Contains("stage2"))
+		//		return parametrStage2;
+		//	else if (Driver.Url.Contains("stage3"))
+		//		return parametrStage3;
 
-			return "";
-		}
+		//	return "";
+		//}
 
 		/// <summary>
 		/// Выполнение скрипта для очистки кеша

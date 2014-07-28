@@ -342,12 +342,11 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             // Название
             AdminPage.FillAccountName(accountName);
 			
-			// Затея.
-			if (Driver.Url.Contains("stage3"))
-				AdminPage.SetVenture("SmartCAT");
-			
+			// Затея		
 			if (Driver.Url.Contains("stage1"))
 				AdminPage.SetVenture("Perevedem.ru");
+			else
+				AdminPage.SetVenture("SmartCAT");
             
 			// Поддомен
             AdminPage.FillSubdomainName("testaccount" + uniqPref);

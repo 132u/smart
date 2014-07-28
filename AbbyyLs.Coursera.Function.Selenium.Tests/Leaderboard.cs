@@ -120,33 +120,33 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
         [Test]
         public void CourseLeaderboardCompareRating()
         {
-            // Получить текущее имя пользователя
+			// Получить текущее имя пользователя
 			string userName = HomePage.GetUserName();
-            // Добавить перевод
-            string translationText = "Test" + DateTime.Now.Ticks;
-            string courseName;
-            int lectureRowNumber, translationRowNum;
-            AddTranslation(translationText, out courseName, out lectureRowNumber, out translationRowNum);
+			// Добавить перевод
+			string translationText = "Test" + DateTime.Now.Ticks;
+			string courseName;
+			int lectureRowNumber, translationRowNum;
+			AddTranslation(translationText, out courseName, out lectureRowNumber, out translationRowNum);
 			ClickBackEditor();
-            // Перейти в список курсов
+			// Перейти в список курсов
 			Assert.IsTrue(OpenCoursePage(), "Ошибка: список курсов пустой.");
-            // Открыть другой курс
-            OpenAnotherCourse(courseName);
-            // Открыть первую лекцию
-            OpenLectureByRowNum(1);
-            // Добавить перевод            
+			// Открыть другой курс
+			OpenAnotherCourse(courseName);
+			// Открыть первую лекцию
+			OpenLectureByRowNum(1);
+			// Добавить перевод            
 			AddTranslationByRowNum(GetEmptyTranslationRowNumber(), translationText);
 			ClickBackEditor();
-            // Перейти к списку лидеров
+			// Перейти к списку лидеров
 			Header.OpenLeaderboardPage();
-            // Получить рейтинг пользователя в лидерборде
-            Decimal leaderboardRating = LeaderboardPage.GetRaitingActiveUser();
-            // Открыть курс в лидерборде
-            OpenLeaderboardCourse(courseName);
-            // Получить рейтинг для курса
-            Decimal courseRating = LeaderboardPage.GetRaitingActiveUser();
-            // Сравнить рейтинг общий и для курса
-            Assert.IsTrue(courseRating < leaderboardRating, "Ошибка: рейтинг для курса должен быть меньше общего рейтинга");
+			// Получить рейтинг пользователя в лидерборде
+			Decimal leaderboardRating = LeaderboardPage.GetRaitingActiveUser();
+			// Открыть курс в лидерборде
+			OpenLeaderboardCourse(courseName); //courseName
+			// Получить рейтинг для курса
+			Decimal courseRating = LeaderboardPage.GetRaitingActiveUser();
+			// Сравнить рейтинг общий и для курса
+			Assert.IsTrue(courseRating < leaderboardRating, "Ошибка: рейтинг для курса должен быть меньше общего рейтинга");
         }
 		
 
