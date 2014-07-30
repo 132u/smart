@@ -389,23 +389,6 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
         }
 
         /// <summary>
-        /// Дождаться, пока кнопка Save заблокируется
-        /// </summary>
-        /// <returns>заблокировалась</returns>
-        public bool WaitSaveBtnDisabled()
-        {
-            return WaitUntilDisplayElement(By.XPath(SAVE_BTN_UNAVAILABLE_XPATH));
-        }
-
-        /// <summary>
-        /// Кликнуть кнопку Save
-        /// </summary>
-        public void ClickSaveBtn()
-        {
-            ClickElement(By.Id(SAVE_BTN_ID));
-        }
-
-        /// <summary>
         /// Проверить, активен ли Source
         /// </summary>
         /// <param name="segmentNumber">номер сегмента</param>
@@ -474,23 +457,6 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 		}
 
 		/// <summary>
-		/// Возвращает открылась ли форма словаря
-		/// </summary>
-		/// <returns>Форма открылась</returns>
-		public bool WaitDictionaryFormDisplay()
-		{
-			return WaitUntilDisplayElement(By.Id(DICTIONARY_FORM_ID));
-		}
-
-		/// <summary>
-		/// Кликнуть кнопку добавления слова в словарь
-		/// </summary>
-		public void ClickAddWordDictionary()
-		{
-			ClickElement(By.XPath(ADD_WORD_BTN));
-		}
-
-		/// <summary>
 		/// Возвращает открылась ли форма сообщения
 		/// </summary>
 		/// <returns>Форма открылась</returns>
@@ -517,6 +483,128 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 			return WaitUntilDisplayElement(By.Id(CHAR_FORM_ID));
 		}
 
+		/// <summary>
+		/// Возвращает открылась ли форма словаря
+		/// </summary>
+		/// <returns>Форма открылась</returns>
+		public bool WaitDictionaryFormDisplay()
+		{
+			return WaitUntilDisplayElement(By.Id(DICTIONARY_FORM_ID));
+		}
+
+		/// <summary>
+		/// Возвращает закрылась ли форма словаря
+		/// </summary>
+		/// <returns>Форма закрылась</returns>
+		public bool WaitDictionaryFormDisappear()
+		{
+			return WaitUntilDisappearElement(By.Id(DICTIONARY_FORM_ID));
+		}
+
+		/// <summary>
+		/// Возвращает открылось ли сообщение об ошибке повторного добавления слова
+		/// </summary>
+		/// <returns>Сообщение открылось</returns>
+		public bool WaitAlreadyExistInDictionaryMessageDisplay()
+		{
+			return WaitUntilDisplayElement(By.XPath(ERROR_MESSAGE_XPATH));
+		}
+
+		/// <summary>
+		/// Кликнуть кнопку добавления слова в словарь
+		/// </summary>
+		public void ClickAddWordDictionaryBtn()
+		{
+			ClickElement(By.XPath(ADD_WORD_BTN_XPATH));
+		}
+
+		/// <summary>
+		/// Кликнуть кнопку закрытия словаря
+		/// </summary>
+		public void ClickCloseDictionaryBtn()
+		{
+			ClickElement(By.XPath(CLOSE_DICTIONARY_BTN_XPATH));
+		}
+
+		/// <summary>
+		/// Кликнуть кнопку удаления слова из словаря
+		/// </summary>
+		/// <param name="word">Слово, которое необходимо удалить</param>
+		public void ClickDeleteWordDictionaryBtn(string word)
+		{
+			// Получение xpath кнопки удаления для заданного слова
+			string xPath = WORDS_TABLE_XPATH + WORD_XPATH +
+				"[text()='" + word + "']/../.." + DELETE_WORD_XPATH;
+
+			ClickElement(By.XPath(xPath));
+		}
+
+		/// <summary>
+		/// Дважды кликнуть по слове из словаря
+		/// </summary>
+		/// <param name="word">Слово</param>
+		public void DoubleClickWordDictionary(string word)
+		{
+			// Получение xpath заданного слова
+			string xPath = WORDS_TABLE_XPATH + WORD_XPATH +
+				"[text()='" + word + "']";
+
+			DoubleClickElement(By.XPath(xPath));
+		}
+
+		/// <summary>
+		/// Возвращает список слов из словаря
+		/// </summary>
+		/// <returns>Список слов из словаря</returns>
+		public List<string> GetWordListDictionary()
+		{
+			string xPath = WORDS_TABLE_XPATH + WORD_XPATH;
+
+			List<string> wordList = new List<string>();
+
+			if (GetIsElementExist(By.XPath(xPath)))
+				wordList = GetTextListElement(By.XPath(xPath));
+
+			return wordList;
+		}
+
+		/// <summary>
+		/// Добавляет слово в словарь
+		/// </summary>
+		/// <param name="word">Слово</param>
+		public void AddWordDictionary(string word)
+		{
+			ClickClearAndAddText(By.XPath(INPUT_WORD_XPATH), word);
+			SendKeys.SendWait(@"{Enter}");
+		}
+
+		/// <summary>
+		/// Возвращает список подчеркнутых слов
+		/// </summary>
+		/// <param name="rowNumber">Номер строки сегмента</param>
+		/// <returns>Список подчеркнутых слов</returns>
+		public List<string> GetWordListSpellcheck(int rowNumber)
+		{
+			string xPath = SEGMENT_ROW_XPATH + "[" + rowNumber + "]" +
+				SPELLCHECK_TARGET_XPATH;
+
+			List<string> wordList = new List<string>();
+
+			if (GetIsElementExist(By.XPath(xPath)))
+				wordList = GetTextListElement(By.XPath(xPath));
+
+			return wordList;
+		}
+
+		/// <summary>
+		/// Возвращает сохранились ли сегменты
+		/// </summary>
+		/// <returns>Сегменты сохранились</returns>
+		public bool WaitUntilAllSegmentsSave()
+		{
+			return WaitUntilDisappearElement(By.XPath(AUTOSAVING_XPATH));
+		}
+
 
 
         protected const string TITLE_TEXT = "editor";
@@ -540,14 +628,22 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 		protected const string CONCORDANCE_BTN_ID = "concordance-search-btn";
 		protected const string CHARACTER_BTN_ID = "charmap-btn";
 
+		protected const string AUTOSAVING_XPATH = ".//div[contains(@id, 'component')][contains(text(), 'Saving')]";
+
 		protected const string DICTIONARY_FORM_ID = "dictionary";
 		protected const string MESSAGEBOX_FORM_ID = "messagebox";
 		protected const string CONCORDANCE_SEARCH_ID = "concordance-search";
 		protected const string CHAR_FORM_ID = "charmap";
 
-		protected const string ADD_WORD_BTN = ".//div[@id='" + DICTIONARY_FORM_ID + "']//span[contains(@id, 'btnInnerEl')]";
-        
-        protected const string SAVE_BTN_ID = "save-btn";
+		protected const string DICTIONARY_FORM_XPATH = ".//div[@id='" + DICTIONARY_FORM_ID + "']";
+		protected const string CLOSE_DICTIONARY_BTN_XPATH = DICTIONARY_FORM_XPATH + "//span[contains(@class, 'fa-times')]";
+		protected const string ADD_WORD_BTN_XPATH = DICTIONARY_FORM_XPATH + "//span[contains(@id, 'btnInnerEl')]";
+		protected const string WORDS_TABLE_XPATH = DICTIONARY_FORM_XPATH + "//table";
+		protected const string WORD_XPATH = "//td[1]/div";
+		protected const string DELETE_WORD_XPATH = "//td[2]//span[contains(@class, 'fa-trash')]";
+		protected const string INPUT_WORD_XPATH = DICTIONARY_FORM_XPATH + "//input[contains(@id, 'textfield')]";
+
+		protected const string ERROR_MESSAGE_XPATH = ".//div[contains(@id, 'messagebox')][contains(text(), 'is already in the dictionary')]";
         
         protected const string SEGMENTS_BODY_ID = "segments-body";
 		protected const string SEGMENT_ROW_XPATH = ".//div[@id='" + SEGMENTS_BODY_ID + "']//table";
@@ -559,6 +655,7 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 		protected const string SEGMENT_CAT_SELECTED = "cat-selected";
 		protected const string TARGET_XPATH = "//td[3]//div";
 		protected const string TAG_TARGET_XPATH = TARGET_XPATH + "//img[contains(@class,'tag')]";
+		protected const string SPELLCHECK_TARGET_XPATH = TARGET_XPATH + "//span[contains(@class,'spellcheck')]";
 
         protected const string SPELL_CHECK_CONTEXT_CLASS = "div[contains(@class,'mce-container-body')]";
         protected const string FIRST_SPELL_CHECK_ROW_XPATH = SPELL_CHECK_CONTEXT_CLASS + "//div[1]//span";
@@ -569,8 +666,6 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
         protected const string CAT_PANEL_TEXT_COL_PART = "//td[4]/div";
         protected const string CAT_PANEL_TEXT_COLUMN_XPATH = CAT_PANEL_EXISTENCE_XPATH + CAT_PANEL_TEXT_COL_PART;
 		protected const string CAT_PANEL_TYPE_COLUMN_MATCH_XPATH = CAT_PANEL_EXISTENCE_XPATH + "//td[3]//div//span";
-
-        protected const string SAVE_BTN_UNAVAILABLE_XPATH = ".//a[@id='" + SAVE_BTN_ID + "' and contains(@class,'x-btn-disabled')]";
 
         public enum CAT_TYPE {MT, TM, TB};
         protected Dictionary<CAT_TYPE, string> CATTypeDict;

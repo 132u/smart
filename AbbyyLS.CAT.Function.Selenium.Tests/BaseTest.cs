@@ -16,6 +16,7 @@ using System.Drawing;
 using System.Drawing.Imaging;
 
 using OpenQA.Selenium.Interactions;
+using System.Text.RegularExpressions;
 
 namespace AbbyyLs.CAT.Function.Selenium.Tests
 {
@@ -23,10 +24,10 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
     [TestFixture("StableUrl2", "StableWorkspace2", "Firefox")]
     [TestFixture("StableUrl2", "StableWorkspace2", "Chrome")]
     [TestFixture("StableUrl2", "StableWorkspace2", "IE")]
-    [TestFixture("StageUrl2", "StageWorkspace2", "Firefox")]
-    [TestFixture("StageUrl3", "DevWorkspace", "Firefox")]
-	[TestFixture("StageUrl1", "StableWorkspace1", "Firefox")]
-	[TestFixture("StageUrl3lpro", "StageWorkspace3", "Firefox")]
+	[TestFixture("StageUrl1", "StageWorkspace1", "Firefox")]
+	[TestFixture("StageUrl2", "StageWorkspace2", "Firefox")]
+	[TestFixture("StageUrl3", "StageWorkspace3", "Firefox")]
+	[TestFixture("StageUrl3lpro", "StageWorkspace3lpro", "Firefox")]
     public class BaseTest
     {
         /// <summary>
@@ -1176,7 +1177,8 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
         {
             Thread.Sleep(3000);
             // Заполнить форму для отправки файла
-			string txt = System.Text.RegularExpressions.Regex.Replace(DocumentName, "[+^%~()]", "{$0}");
+			string txt = Regex.Replace(DocumentName, "[+^%~()]", "{$0}");
+
 			SendKeys.SendWait(txt);
             Thread.Sleep(1000);
             SendKeys.SendWait(@"{Tab}");
@@ -1203,14 +1205,16 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
         /// <param name="documentName">имя документа</param>
         protected void ExternalDialogSelectSaveDocument(string documentName)
         {
-            Thread.Sleep(2000);
+			string txt = Regex.Replace(documentName, "[+^%~()]", "{$0}");
+			
+			Thread.Sleep(2000);
             // В открывшемся диалоге выбираем "Сохранить"
             SendKeys.SendWait(@"{DOWN}");
             Thread.Sleep(1000);
             SendKeys.SendWait(@"{Enter}");
             Thread.Sleep(2000);
             // Ввести адрес
-            SendKeys.SendWait(documentName);
+			SendKeys.SendWait(txt);
             Thread.Sleep(1000);
             SendKeys.SendWait(@"{Enter}");
             Thread.Sleep(1000);
@@ -1246,8 +1250,10 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 
             resultPath = Path.Combine(resultPath, newFileName + currentFileExtension);
 
+			string txt = Regex.Replace(resultPath, "[+^%~()]", "{$0}");
+
             Thread.Sleep(3000);
-            SendKeys.SendWait(resultPath);
+			SendKeys.SendWait(txt);
             Thread.Sleep(2000);
 
             SendKeys.SendWait(@"{Enter}");
@@ -1607,6 +1613,31 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 			// Кликнуть подтверждение для заданной задачи
 			ResponsiblesDialog.ClickAssignBtn(rowNumber);
 		}
+
+		/// <summary>
+		/// Открывает словарь в редакторе
+		/// </summary>
+		protected void OpenEditorDictionary()
+		{
+			// Кликнуть по кнопке
+			EditorPage.ClickDictionaryBtn();
+
+			// Проверка, что открылась форма
+			Assert.IsTrue(EditorPage.WaitDictionaryFormDisplay(),
+				"Ошибка: Форма со словарем не открылась.");
+		}
+
+		/// <summary>
+		/// Дождаться автосохранения сегментов
+		/// </summary>
+		protected void AutoSave()
+		{
+			// Дожидаемся сохранения сегментов
+			Assert.IsTrue(EditorPage.WaitUntilAllSegmentsSave(),
+				"Ошибка: Не проходит автосохранение.");
+		}
+
+		
 
         [SetUp]
         public void Setup()

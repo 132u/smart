@@ -62,9 +62,9 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             {
                 EditorPage.SendKeysTarget(segmentNum, OpenQA.Selenium.Keys.Backspace);
             }
-            EditorPage.ClickSaveBtn();
-            // TODO почему появляется модальное окно
-            Thread.Sleep(1000);
+
+			// Дождаться автосохранения
+			AutoSave();
 
             //Нажать кнопку назад
             EditorClickBackBtn();

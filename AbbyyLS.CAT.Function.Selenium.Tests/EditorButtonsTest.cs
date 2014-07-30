@@ -14,7 +14,6 @@ using System.Collections.Generic;
 using System.Windows.Forms;
 using System.Drawing;
 using System.Drawing.Imaging;
-
 using OpenQA.Selenium.Interactions;
 
 namespace AbbyyLs.CAT.Function.Selenium.Tests
@@ -526,7 +525,7 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 		public void TagHotkeyTest()
 		{
 			// Хоткей добавления символа переноса строки
-			EditorPage.AddTextTarget(1, OpenQA.Selenium.Keys.Control + "q");
+			EditorPage.AddTextTarget(1, OpenQA.Selenium.Keys.F8);
 
 			// Проверка, что в ячейке появился символ переноса строки
 			Assert.IsTrue(EditorPage.GetIsTagPresent(1),
@@ -539,12 +538,7 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 		[Test]
 		public void DictionaryButtonTest()
 		{
-			// Кликнуть по кнопке
-			EditorPage.ClickDictionaryBtn();
-
-			// Проверка, что открылась форма
-			Assert.IsTrue(EditorPage.WaitDictionaryFormDisplay(),
-				"Ошибка: Форма со словарем не открылась.");
+			OpenEditorDictionary();
 		}
 
 		/// <summary>

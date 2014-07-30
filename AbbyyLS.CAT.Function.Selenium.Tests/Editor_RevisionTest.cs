@@ -48,8 +48,8 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             // Добавить текст в Target
             string text = "Text" + DateTime.Now.Ticks;
             AddTextTarget(1, text);
-            // Сохранить
-            ClickAutoSaveBtn();
+			// Дождаться автосохранения
+			AutoSave();
             
             // Открыть вкладку Ревизии
             OpenRevisionTab();
@@ -72,8 +72,8 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             // Добавить текст в Target
             string text = "Text" + DateTime.Now.Ticks;
             AddTextTarget(1, text);
-            // Сохранить
-            ClickAutoSaveBtn();
+			// Дождаться автосохранения
+			AutoSave();
 
             // Открыть вкладку Ревизии
             OpenRevisionTab();
@@ -143,37 +143,20 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 
         const string byHotkey = "byHotkey";
         const string byButton = "byButton";
-        const string byTimeoutAutoSave = "byTimeoutAutoSave";
         /// <summary>
         /// ТЕСТ: проверка хоткея Автосохранение
         /// </summary>
         [Test]
-        [TestCase(byHotkey)]
-        [TestCase(byButton)]
-        [TestCase(byTimeoutAutoSave)]
-        public void AutoSaveTest(string byHotkeyOrButtonOrTime)
+        public void AutoSaveTest()
         {
             CreateReadyProject(ProjectName);
 
             // Добавить текст в Target
             string text = "Text" + DateTime.Now.Ticks;
             AddTextTarget(1, text);
-            // Сохранить
-            if (byHotkeyOrButtonOrTime == byHotkey)
-            {
-                // Нажат хоткей автосохранения
-                ClickAutoSaveHotkey(1);
-            }
-            else if (byHotkeyOrButtonOrTime == byButton)
-            {
-                // Нажать кнопку сохранения
-                ClickAutoSaveBtn();
-            }
-            else if (byHotkeyOrButtonOrTime == byTimeoutAutoSave)
-            {
-                // Дождаться автосохранения по времени
-                Thread.Sleep(5000);
-            }
+
+			// Дождаться автосохранения
+			AutoSave();
 
             // Открыть вкладку Ревизии
             OpenRevisionTab();
@@ -239,8 +222,8 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             string text = "Text" + DateTime.Now.Ticks;
             int segmentRowNumber = 1;
             AddTextTarget(segmentRowNumber, text);
-            // Сохранить
-            ClickAutoSaveBtn();
+			// Дождаться автосохранения
+			AutoSave();
 
             // Открыть вкладку Ревизии
             OpenRevisionTab();
@@ -451,8 +434,8 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
                 string text = "Text" + DateTime.Now.Ticks;
                 // Добавить текст
                 AddTextTarget(segmentRowNumber, text);
-                // Сохранить
-                ClickAutoSaveBtn();
+				// Дождаться автосохранения
+				AutoSave();
             }
 
             // Открыть вкладку Ревизии
@@ -692,27 +675,6 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
         {
             // Кликнуть по Target
             EditorPage.ClickTargetCell(segmentRowNumber);
-        }
-
-        /// <summary>
-        /// Кликнуть для автосохранения
-        /// </summary>
-        protected void ClickAutoSaveBtn()
-        {
-            EditorPage.ClickSaveBtn();
-            // Дождаться, пока кнопка заблокируется
-            EditorPage.WaitSaveBtnDisabled();
-        }
-
-        /// <summary>
-        /// Нажать хоткей автосохранения
-        /// </summary>
-        protected void ClickAutoSaveHotkey(int segmentRowNum)
-        {
-            // Кликнуть хоткей в target
-            EditorPage.SendKeysTarget(segmentRowNum, OpenQA.Selenium.Keys.Control + "S");
-            // Дождаться, пока кнопка заблокируется
-            EditorPage.WaitSaveBtnDisabled();
         }
 
         /// <summary>

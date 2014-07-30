@@ -47,6 +47,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="EditorDictionaryTest.cs" />
     <Compile Include="ResponsiblesDialogHelper.cs" />
     <Compile Include="AssignResponsiblesTest.cs" />
     <Compile Include="Authorization.cs" />

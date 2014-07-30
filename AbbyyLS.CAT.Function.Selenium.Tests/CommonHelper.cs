@@ -14,6 +14,7 @@ using NUnit.Framework;
 using OpenQA.Selenium.Interactions;
 using System.Drawing;
 using System.Drawing.Imaging;
+using System.Text.RegularExpressions;
 
 namespace AbbyyLs.CAT.Function.Selenium.Tests
 {
@@ -188,11 +189,13 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
         /// <param name="text">текст</param>
         protected void ClearAndAddText(By by, string text)
         {
-            try
+			string txt = Regex.Replace(text, "[+^%~()]", "{$0}");
+
+			try
             {
                 IWebElement el = Driver.FindElement(by);
                 el.Clear();
-                el.SendKeys(text);
+				el.SendKeys(txt);
             }
             catch (StaleElementReferenceException)
             {
@@ -242,11 +245,13 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
         /// <param name="text"></param>
         protected void ClickAndSendTextElement(By by, string text)
         {
-            try
+			string txt = Regex.Replace(text, "[+^%~()]", "{$0}");
+			
+			try
             {
                 IWebElement el = Driver.FindElement(by);
                 el.Click();
-                el.SendKeys(text);
+                el.SendKeys(txt);
             }
             catch (StaleElementReferenceException)
             {
@@ -270,12 +275,14 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
         /// <param name="text">тест</param>
         protected void ClickClearAndAddText(By by, string text)
         {
-            try
+			string txt = Regex.Replace(text, "[+^%~()]", "{$0}");
+
+			try
             {
                 IWebElement el = Driver.FindElement(by);
                 el.Click();
                 el.Clear();
-                el.SendKeys(text);
+                el.SendKeys(txt);
             }
             catch (StaleElementReferenceException)
             {
@@ -299,9 +306,11 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
         /// <param name="text">текст</param>
         protected void SendTextElement(By by, string text)
         {
-            try
+			string txt = Regex.Replace(text, "[+^%~()]", "{$0}");
+			
+			try
             {
-                Driver.FindElement(by).SendKeys(text);
+                Driver.FindElement(by).SendKeys(txt);
             }
             catch (StaleElementReferenceException)
             {
@@ -626,11 +635,13 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
         /// <param name="text">текст</param>
         protected void ClearAndFillElementsList(By by, string text)
         {
-            IList<IWebElement> termList = GetElementList(by);
+			string txt = Regex.Replace(text, "[+^%~()]", "{$0}");
+			
+			IList<IWebElement> termList = GetElementList(by);
             foreach (IWebElement el in termList)
             {
                 el.Clear();
-                el.SendKeys(text);
+                el.SendKeys(txt);
             }
         }
 
