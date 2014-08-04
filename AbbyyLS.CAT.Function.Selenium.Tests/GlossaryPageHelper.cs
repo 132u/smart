@@ -11,9 +11,17 @@ using OpenQA.Selenium.Support.UI;
 
 namespace AbbyyLs.CAT.Function.Selenium.Tests
 {
-    public class GlossaryPageHelper : CommonHelper
+    /// <summary>
+    /// Хелпер страницы глоссариев
+    /// </summary>
+	public class GlossaryPageHelper : CommonHelper
     {
-        public GlossaryPageHelper(IWebDriver driver, WebDriverWait wait) :
+        /// <summary>
+        /// Конструктор хелпера
+        /// </summary>
+        /// <param name="driver">Драйвер</param>
+        /// <param name="wait">Таймаут</param>
+		public GlossaryPageHelper(IWebDriver driver, WebDriverWait wait) :
             base(driver, wait)
         {
         }
@@ -219,9 +227,6 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
         }
 
         ///////////////////// Пользовательское поле Boolean
-
-
-
         /// <summary>
         /// Вернуть, есть ли пользовательское поле
         /// </summary>
@@ -242,7 +247,6 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             return GetIsElementDisplay(By.XPath(GetCustomFieldErrorXPath(fieldName)));
         }
 
-
         //////////////////////////////////// Пользовательское поле MultiSelect
         /// <summary>
         /// Кликнуть на поле множественного выбора
@@ -261,9 +265,8 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
         {
             ClickElement(By.XPath(MULTISELECT_ITEM_XPATH + "[text()='" + item + "']"));
         }
-        //////////////////////////////////// Пользовательское поле MultiSelect
         
-
+		//////////////////////////////////// Пользовательское поле MultiSelect
         /// <summary>
         /// Получить значение пользовательского поля
         /// </summary>
@@ -275,7 +278,6 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
         }
 
         //////////////////////////////////// Пользовательское поле Number
-
         /// <summary>
         /// Ввести значение в пользовательское поле нового термина - Number
         /// </summary>
@@ -295,7 +297,8 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
         {
             return GetTextElement(By.XPath(GetCustomFieldViewXPath(fieldName) + NUMBER_FIELD_VALUE_XPATH));
         }
-        //////////////////////////////////// Пользовательское поле Number
+        
+		//////////////////////////////////// Пользовательское поле Number
 
         //////////////////////////////////// Пользовательское поле List/Choice
         /// <summary>
@@ -315,7 +318,8 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
         {
             ClickElement(By.XPath(CHOICE_LIST_XPATH + "[@title='" + item + "']"));
         }
-        //////////////////////////////////// Пользовательское поле List/Choice
+        
+		//////////////////////////////////// Пользовательское поле List/Choice
 
         //////////////////////////////////// Пользовательское поле Image
         /// <summary>
@@ -870,7 +874,6 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             return WaitUntilDisappearElement(By.XPath(IMPORT_FORM_XPATH));
         }
 
-
         /// <summary>
         /// Кликнуть кнопку Upload
         /// </summary>
@@ -1050,6 +1053,8 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             return CHOICE_DROPDOWN_LIST + "[@data-id='" + optionID + "']";
         }
 
+
+
         protected const string ADD_CONCEPT_XPATH = "//span[contains(@class,'js-add-concept')]";
         protected const string OPEN_EDIT_GLOSSARY_LIST_XPATH = "//span[contains(@class,'js-edit-submenu')]";
         protected const string OPEN_EDIT_STRUCTURE_FORM_BTN_XPATH = "//div[contains(@class,'js-edit-structure-btn')]";
@@ -1075,7 +1080,6 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
         protected const string CONCEPT_ROW_XPATH = "//tr[contains(@class, 'js-concept-row')]";
         protected const string OPENED_CONCEPT_ROW_XPATH = "//tr[contains(@class,'js-concept-row opened')]";
         protected const string SAVE_EXTENDED_BTN_XPATH = CONCEPT_TABLE_XPATH + "//span[contains(@class,'js-save-btn')]";
-        
         
         protected const string CUSTOM_FIELD_BOOL_EDIT_CONCEPT_XPATH = NEW_ITEM_CONCEPT_PART_XPATH + NEW_ITEM_EDIT_DIV_XPATH + "//span[contains(@class,'l-editgloss__name')]";
         protected const string CUSTOM_FIELD_BOOL_CHECKBOX_XPATH = "/..//span[contains(@class,'js-chckbx')]//input[contains(@class,'js-chckbx__orig')]";
@@ -1120,7 +1124,6 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 
         protected const string DETAILS_SELECT_XPATH = DETAILS_XPATH + "//select";
         protected const string DETAILS_SELECT_OPTION_XPATH = "//option";
-
 
         protected const string TERM_ROW_XPATH = "//div[contains(@class,'js-term-node')]";
 

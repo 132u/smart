@@ -12,9 +12,17 @@ using System.Threading;
 
 namespace AbbyyLs.CAT.Function.Selenium.Tests
 {
-    public class TMPageHelper : CommonHelper
+    /// <summary>
+    /// Хелпер страницы ТМ
+    /// </summary>
+	public class TMPageHelper : CommonHelper
     {
-        public TMPageHelper(IWebDriver driver, WebDriverWait wait) :
+        /// <summary>
+        /// Конструктор хелпера
+        /// </summary>
+        /// <param name="driver">Драйвер</param>
+        /// <param name="wait">Таймаут</param>
+		public TMPageHelper(IWebDriver driver, WebDriverWait wait) :
             base(driver, wait)
         {
             TMButtonDict = new Dictionary<TM_BTN_TYPE,string>();
@@ -420,6 +428,8 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             return TM_ROW_XPATH + "[text()='" + TMName + "']/parent::td/parent::tr";
         }
 
+
+
         public enum TM_BTN_TYPE { Update, Export, Delete, Add, Edit, Save };
 
         protected const string ADD_TM_BTN_XPATH = ".//span[contains(@class,'js-create-tm')]";
@@ -480,10 +490,6 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
         protected const string CONFIRM_XPATH = "//div[contains(@class,'js-popup-confirm')]//input[contains(@type,'submit')]";
         protected const string NO_TMX_FILE_ERROR_XPATH = IMPORT_POPUP_XPATH + "//p[contains(@class,'js-error-invalid-file-extension')]";
 
-
         protected Dictionary<TM_BTN_TYPE, string> TMButtonDict;
-
-       
-
     }
 }

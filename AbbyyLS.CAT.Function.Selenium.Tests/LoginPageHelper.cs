@@ -11,13 +11,16 @@ using OpenQA.Selenium.Support.UI;
 
 namespace AbbyyLs.CAT.Function.Selenium.Tests
 {
-    public class LoginPageHelper : CommonHelper
+	/// <summary>
+	/// Хелпер страницы логиина
+	/// </summary>
+	public class LoginPageHelper : CommonHelper
     {
         /// <summary>
         /// Конструктор
         /// </summary>
-        /// <param name="driver"></param>
-        /// <param name="wait"></param>
+        /// <param name="driver">Драйвер</param>
+        /// <param name="wait">Таймаут</param>
 		public LoginPageHelper(IWebDriver driver, WebDriverWait wait):
             base (driver, wait)
         {
@@ -50,21 +53,36 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             ClearAndAddText(By.CssSelector(PASSWORD_CSS), password);
         }
 
+		/// <summary>
+		/// Кликнуть Submit
+		/// </summary>
         public void ClickSubmit()
         {
             ClickElement(By.CssSelector(SUBMIT_BTN_CSS));
         }
-
+		
+		/// <summary>
+		/// Дождаться отображения имени аккаунта
+		/// </summary>
+		/// <param name="accountName">Имя аакаунта</param>
+		/// <returns>Имя отображается</returns>
         public bool WaitAccountExist(string accountName)
         {
             return WaitUntilDisplayElement(By.XPath(GetAccountItemXPath(accountName)));
         }
 
+		/// <summary>
+		/// Кликнуть по имени пользователя
+		/// </summary>
+		/// <param name="accountName">Имя пользователя</param>
         public void ClickAccountName(string accountName)
         {
             ClickElement(By.XPath(GetAccountItemXPath(accountName)));
         }
 
+		/// <summary>
+		/// Кликнуть по кнопке Login в LPRO
+		/// </summary>
 		public void ClickLoginBtnLpro()
 		{
 			ClickElement(By.Id(LOGIN_BTN_LPRO_XPATH));
@@ -117,6 +135,11 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             return isErrorExist;
         }
 
+		/// <summary>
+		/// Возвращает XPath заданного имени пользователя
+		/// </summary>
+		/// <param name="accountName">Имя пользователя</param>
+		/// <returns>XPath</returns>
         protected string GetAccountItemXPath(string accountName)
         {
             return "//select/option[contains(text(), '" + accountName + "')]";

@@ -11,9 +11,17 @@ using OpenQA.Selenium.Support.UI;
 
 namespace AbbyyLs.CAT.Function.Selenium.Tests
 {
-    public class GlossaryEditStructureFormHelper : CommonHelper
+    /// <summary>
+    /// Хелпер формы редактирования структуры глоссария
+    /// </summary>
+	public class GlossaryEditStructureFormHelper : CommonHelper
     {
-        public GlossaryEditStructureFormHelper(IWebDriver driver, WebDriverWait wait) :
+        /// <summary>
+        /// Конструктор хелпера
+        /// </summary>
+        /// <param name="driver">Драйвер</param>
+        /// <param name="wait">Таймаут</param>
+		public GlossaryEditStructureFormHelper(IWebDriver driver, WebDriverWait wait) :
             base(driver, wait)
         {
             attributeDict = new Dictionary<ATTRIBUTE_TYPE, string>();
@@ -123,7 +131,6 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             }
         }
 
-
         /// <summary>
         /// Ввести значение по умолчанию
         /// </summary>
@@ -132,7 +139,6 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
         {
             ClearAndAddText(By.XPath(DEFAULT_INPUT_XPATH), value);
         }
-
 
         /// <summary>
         /// Перейти на вкладку Пользовательские
@@ -260,17 +266,17 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             return GetTableXPath(tableType) + "//tr[contains(@data-attr-key,'" + attributeDict[attr] + "')]/td";
         }
 
+
+
         public enum ATTRIBUTE_TYPE
         {
             Interpretation, InterpretationSource, Topic, Domain, Comment,
             Multimedia, Image, Example, Source, Gender, Number, PartOfSpeech, Context, ContextSource, Status, Label
         };
-
         public enum FIELD_TYPE
         {
             Media, Date, Image, Choice, MultipleChoice, Number, Text, Boolean
         };
-
 
         protected const string FORM_XPATH = ".//div[contains(@class,'js-popup-edit-structure')]";
         protected const string TABLE_CLASS = "//table[contains(@class,'js-predefined-attrs-table')]";

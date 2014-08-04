@@ -7,14 +7,26 @@ using System.Windows.Forms;
 
 namespace AbbyyLs.CAT.Function.Selenium.Tests
 {
-    public class GlossaryMainTest : GlossaryTest
+    /// <summary>
+    /// Группа тестов для общей проверки глоссриев
+    /// </summary>
+	public class GlossaryMainTest : GlossaryTest
     {
-        public GlossaryMainTest(string url, string workspaceUrl, string browserName)
+        /// <summary>
+        /// Конструктор теста
+        /// </summary>
+        /// <param name="url">Адрес</param>
+        /// <param name="workspaceUrl">Адрес workspace</param>
+        /// <param name="browserName">Название браузера</param>
+		public GlossaryMainTest(string url, string workspaceUrl, string browserName)
             : base(url, workspaceUrl, browserName)
         {
 
         }
 
+		/// <summary>
+		/// Начальная подготовка для каждого теста
+		/// </summary>
         [SetUp]
         public void Setup()
         {
@@ -482,6 +494,8 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             // Удалить глоссарий
             DeleteGlossary();
         }
+
+
 
         /// <summary>
         /// Изменить имя глоссария

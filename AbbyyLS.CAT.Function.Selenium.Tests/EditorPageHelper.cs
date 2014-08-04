@@ -13,9 +13,17 @@ using System.Threading;
 
 namespace AbbyyLs.CAT.Function.Selenium.Tests
 {
-    public class EditorPageHelper : CommonHelper
+    /// <summary>
+    /// Хелпер страницы редактора
+    /// </summary>
+	public class EditorPageHelper : CommonHelper
     {
-        public EditorPageHelper(IWebDriver driver, WebDriverWait wait):
+        /// <summary>
+        /// Конструктор хелпера
+        /// </summary>
+        /// <param name="driver">Драйвер</param>
+        /// <param name="wait">Таймаут</param>
+		public EditorPageHelper(IWebDriver driver, WebDriverWait wait):
             base (driver, wait)
         {
             CATTypeDict = new Dictionary<CAT_TYPE, string>();
@@ -611,7 +619,7 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 		protected const string SEGMENTS_CSS = "#segments-body div div table";
         protected const string FIRST_SOURCE_CSS = SEGMENTS_CSS + ":nth-child(1)";
 
-		protected const string STAGE_NAME_XPATH = ".//h1/span[contains(@class, 'stage-name')]";
+		protected const string STAGE_NAME_XPATH = ".//h1/span[contains(@class, 'workflow')]";
 
         protected const string BACK_BTN_ID = "back-btn";
 		protected const string CONFIRM_BTN_ID = "confirm-btn";

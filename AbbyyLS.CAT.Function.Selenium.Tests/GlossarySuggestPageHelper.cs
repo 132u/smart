@@ -11,9 +11,17 @@ using OpenQA.Selenium.Support.UI;
 
 namespace AbbyyLs.CAT.Function.Selenium.Tests
 {
-    public class GlossarySuggestPageHelper : CommonHelper
+    /// <summary>
+    /// Хелпер страницы предложенных терминов глоссария
+    /// </summary>
+	public class GlossarySuggestPageHelper : CommonHelper
     {
-        public GlossarySuggestPageHelper(IWebDriver driver, WebDriverWait wait) :
+        /// <summary>
+        /// Конструктор хелпера
+        /// </summary>
+        /// <param name="driver">Драйвер</param>
+        /// <param name="wait">Таймаут</param>
+		public GlossarySuggestPageHelper(IWebDriver driver, WebDriverWait wait) :
             base(driver, wait)
         {
             buttonsDict = new Dictionary<BUTTON_ID, string>();
@@ -218,13 +226,14 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             return TERM_ROW_XPATH + "[" + rowNumber + "]" + "//td";
         }
 
+
+
         public enum BUTTON_ID { AcceptSuggestTerm, EditSuggestTerm, RejectSuggestTerm };
 
         protected Dictionary<BUTTON_ID, string> buttonsDict;
         protected const string BUTTON_ACCEPT_XPATH = "js-accept-suggest";
         protected const string BUTTON_EDIT_XPATH = "js-edit-suggest";
         protected const string BUTTON_REJECT_XPATH = "js-reject-suggest";
-
 
         protected const string SUGGEST_TABLE_XPATH = "//table[contains(@class,'js-suggests')]";
         protected const string CURRENT_GLOSSARY_REF_XPATH = "//a[contains(@href,'/Enterprise/Concepts')]";

@@ -18,14 +18,26 @@ using OpenQA.Selenium.Interactions;
 
 namespace AbbyyLs.CAT.Function.Selenium.Tests
 {
+	/// <summary>
+	/// Группа тестов для проверки словаря орфографии в редакторе
+	/// </summary>
 	public class EditorDictionaryTest : BaseTest
 	{
+		/// <summary>
+		/// Конструктор теста
+		/// </summary>
+		/// <param name="url">Адрес</param>
+		/// <param name="workspaceUrl">Адрес workspace</param>
+		/// <param name="browserName">Название браузера</param>
 		public EditorDictionaryTest(string url, string workspaceUrl, string browserName)
             : base(url, workspaceUrl, browserName)
         {
 
         }
 
+		/// <summary>
+		/// Начальная подготовка для каждого теста
+		/// </summary>
         [SetUp]
         public void Setup()
         {

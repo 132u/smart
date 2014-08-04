@@ -11,9 +11,17 @@ using OpenQA.Selenium.Support.UI;
 
 namespace AbbyyLs.CAT.Function.Selenium.Tests
 {
-    public class UserRightsPageHelper : CommonHelper
+    /// <summary>
+    /// Хелпер для страницы прав пользователя
+    /// </summary>
+	public class UserRightsPageHelper : CommonHelper
     {
-        public UserRightsPageHelper(IWebDriver driver, WebDriverWait wait) :
+        /// <summary>
+        /// Конструктор хелпера
+        /// </summary>
+        /// <param name="driver">Драйвер</param>
+        /// <param name="wait">Таймаут</param>
+		public UserRightsPageHelper(IWebDriver driver, WebDriverWait wait) :
             base(driver, wait)
         {
         }

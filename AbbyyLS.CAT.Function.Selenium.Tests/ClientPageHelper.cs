@@ -11,9 +11,17 @@ using OpenQA.Selenium.Support.UI;
 
 namespace AbbyyLs.CAT.Function.Selenium.Tests
 {
-    public class ClientPageHelper : CommonHelper
+    /// <summary>
+    /// Хелпер вкладки Clients
+    /// </summary>
+	public class ClientPageHelper : CommonHelper
     {
-        public ClientPageHelper(IWebDriver driver, WebDriverWait wait) :
+        /// <summary>
+        /// Конструктор хелпера
+        /// </summary>
+        /// <param name="driver">Драйвер</param>
+        /// <param name="wait">Таймаут</param>
+		public ClientPageHelper(IWebDriver driver, WebDriverWait wait) :
             base(driver, wait)
         {
         }
@@ -36,7 +44,6 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
         {
             return GetIsElementDisplay(By.XPath(GetClientRowXPath(clientName)));
         }
-
 
         /// <summary>
         /// Кликнуть Создать клиента
@@ -142,7 +149,6 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             SendTextElement(By.XPath(NEW_CLIENT_INPUT_XPATH), name);
         }
 
-
         /// <summary>
         /// Вернуть xPath строки с клиентом
         /// </summary>
@@ -164,6 +170,7 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             }
             return NOT_HIDDEN_TR + "[contains(@class,'js-row')][" + rowNum + "]";
         }
+
 
 
         protected const string DELETE_BTN_XPATH = "//a[contains(@class,'js-delete-client')]";

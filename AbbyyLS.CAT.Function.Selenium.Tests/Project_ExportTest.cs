@@ -8,14 +8,26 @@ using System.IO;
 
 namespace AbbyyLs.CAT.Function.Selenium.Tests
 {
-    public class Project_ExportTest : NewProjectTest
+    /// <summary>
+    /// Группа тестов для проверки экспорта проекта
+    /// </summary>
+	public class Project_ExportTest : NewProjectTest
     {
-        public Project_ExportTest(string url, string workspaceUrl, string browserName)
+        /// <summary>
+        /// Конструктор теста
+        /// </summary>
+        /// <param name="url">Адрес</param>
+        /// <param name="workspaceUrl">Адрес workspace</param>
+        /// <param name="browserName">Название браузера</param>
+		public Project_ExportTest(string url, string workspaceUrl, string browserName)
             : base(url, workspaceUrl, browserName)
         {
 
         }
 
+		/// <summary>
+		/// Предварительная подготовка группы тестов
+		/// </summary>
         [SetUp]
         public void Setup()
         {
@@ -28,7 +40,6 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
         const string EXPORT_TYPE_SOURCE = "Original";
         const string EXPORT_TYPE_TMX = "TMX";
         const string EXPORT_TYPE_TARGET = "Translation";
-
 
         /// <summary>
         /// тип страницы для просмотра нотификатора
@@ -167,7 +178,7 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
         /// ТЕСТ: закрытие сообщения об экспорте (Отмена в сообщении Download)
         /// </summary>
         [Test]
-        public void ExportCloseNotifier()
+		public void ExportCloseNotifier()
         {
             // Создать проект с документом (если его нет)
             string projectName = CreateProjectOneDocument(false);
@@ -786,6 +797,8 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             Assert.IsTrue(notifierText.Contains(newDocumentName), "Ошибка: экспортируется документ со старым названием");
         }
 
+
+
         /// <summary>
         /// Экспортировать после появления сообщения Download
         /// </summary>
@@ -950,7 +963,6 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             }
             return exportTypePage;
         }
-
 
         /// <summary>
         /// Проверить, что в тексте сообщения об экспорте есть название документа
@@ -1125,6 +1137,9 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             return currentProjectName;
         }
 
+		/// <summary>
+		/// Конченые действия для каждого теста
+		/// </summary>
         [TearDown]
         public void Teardown()
         {

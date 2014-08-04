@@ -7,14 +7,26 @@ using System.Windows.Forms;
 
 namespace AbbyyLs.CAT.Function.Selenium.Tests
 {
-    public class ClientTest : BaseTest
+    /// <summary>
+    /// Группа тестов для проверки клиентов
+    /// </summary>
+	public class ClientTest : BaseTest
     {
-        public ClientTest(string url, string workspaceUrl, string browserName)
+        /// <summary>
+        /// Конструктор теста
+        /// </summary>
+        /// <param name="url">Адрес</param>
+        /// <param name="workspaceUrl">Адрес workspace</param>
+        /// <param name="browserName">Название браузера</param>
+		public ClientTest(string url, string workspaceUrl, string browserName)
             : base(url, workspaceUrl, browserName)
         {
 
         }
 
+		/// <summary>
+		/// Начальная подготовка для каждого теста
+		/// </summary>
         [SetUp]
         public void Setup()
         {

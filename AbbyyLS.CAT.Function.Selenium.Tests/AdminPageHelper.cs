@@ -12,9 +12,17 @@ using System.Threading;
 
 namespace AbbyyLs.CAT.Function.Selenium.Tests
 {
-    public class AdminPageHelper : CommonHelper
+    /// <summary>
+    /// Хелпер админки
+    /// </summary>
+	public class AdminPageHelper : CommonHelper
     {
-        public AdminPageHelper(IWebDriver driver, WebDriverWait wait) :
+        /// <summary>
+        /// Конструктор хелпера
+        /// </summary>
+        /// <param name="driver">Драйвер</param>
+        /// <param name="wait">Таймаут</param>
+		public AdminPageHelper(IWebDriver driver, WebDriverWait wait) :
             base(driver, wait)
         {
         }

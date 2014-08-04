@@ -18,14 +18,26 @@ using OpenQA.Selenium.Interactions;
 
 namespace AbbyyLs.CAT.Function.Selenium.Tests
 {
-    public class EditorButtonsTest : BaseTest
+    /// <summary>
+    /// Группа тестов кнопок редактора
+    /// </summary>
+	public class EditorButtonsTest : BaseTest
     {
-        public EditorButtonsTest(string url, string workspaceUrl, string browserName)
+        /// <summary>
+        /// Конструктор теста
+        /// </summary>
+        /// <param name="url">Адрес</param>
+        /// <param name="workspaceUrl">Адрес workspace</param>
+        /// <param name="browserName">Название браузера</param>
+		public EditorButtonsTest(string url, string workspaceUrl, string browserName)
             : base(url, workspaceUrl, browserName)
         {
 
         }
 
+		/// <summary>
+		/// Начальная подготовка для каждого теста
+		/// </summary>
         [SetUp]
         public void Setup()
         {
@@ -51,7 +63,6 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             // 4. Открытие документа
             OpenDocument();
         }
-
 
         /// <summary>
         /// Метод тестирования кнопки "Back" в редакторе
@@ -713,6 +724,7 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
         /// <param name="textAfterFirstChange">текст после первого изменения</param>
         /// <param name="textAfterSecondChange">текст после второго изменения</param>
         /// <param name="byButtonTrueByHotkeyFalse">по кнопке или по хоткею</param>
+		/// <param name="segmentNumber">порядковый номер сегмента</param>
         protected void CheckChangeCase(string sourceText, string textAfterFirstChange, string textAfterSecondChange, bool byButtonTrueByHotkeyFalse, int segmentNumber)
         {
             // Список текстов для сравнения после изменения регистра

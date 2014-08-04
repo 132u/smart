@@ -7,14 +7,26 @@ using System.Windows.Forms;
 
 namespace AbbyyLs.CAT.Function.Selenium.Tests
 {
-    public class GlossaryEditStructureCustomFieldsTest : GlossaryTest
+    /// <summary>
+    /// Группа тестов для проверки редактирования структуры глоссариев
+    /// </summary>
+	public class GlossaryEditStructureCustomFieldsTest : GlossaryTest
     {
-        public GlossaryEditStructureCustomFieldsTest(string url, string workspaceUrl, string browserName)
+        /// <summary>
+        /// Конструктор теста
+        /// </summary>
+        /// <param name="url">Адрес</param>
+        /// <param name="workspaceUrl">Адрес workspace</param>
+        /// <param name="browserName">Название браузера</param>
+		public GlossaryEditStructureCustomFieldsTest(string url, string workspaceUrl, string browserName)
             : base(url, workspaceUrl, browserName)
         {
 
         }
 
+		/// <summary>
+		/// Предварительная подготовка группы тестов
+		/// </summary>
         [SetUp]
         public void Setup()
         {
@@ -493,6 +505,8 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             // Проверить значение в поле
             Assert.IsTrue(GlossaryPage.GetIsCustomBooleanChecked(fieldName), "Ошибка: в поле неверное значение");
         }
+
+
 
         /// <summary>
         /// Добавить пользовательское поле с добавлением списка

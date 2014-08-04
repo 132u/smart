@@ -12,9 +12,17 @@ using System.Windows.Forms;
 
 namespace AbbyyLs.CAT.Function.Selenium.Tests
 {
-    public class SearchPageHelper : CommonHelper
+    /// <summary>
+    /// Хелпер страницы поиска
+    /// </summary>
+	public class SearchPageHelper : CommonHelper
     {
-        public SearchPageHelper(IWebDriver driver, WebDriverWait wait) :
+        /// <summary>
+        /// Конструктор хелпера
+        /// </summary>
+        /// <param name="driver">Драйвер</param>
+        /// <param name="wait">Таймаут</param>
+		public SearchPageHelper(IWebDriver driver, WebDriverWait wait) :
             base(driver, wait)
         {
         }
@@ -207,6 +215,8 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
         {
             return GetTextElement(By.XPath("//table[" + resultNumber + "]" + GLOSSARY_RESULT_TEXT_TD));
         }
+
+
 
         protected const string SEARCH_FORM_XPATH = "//form[contains(@class,'js-search-form')]";
         protected const string SEARCH_TEXT_ID = "searchText";

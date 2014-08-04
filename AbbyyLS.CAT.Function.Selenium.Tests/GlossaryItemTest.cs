@@ -7,14 +7,26 @@ using System.Windows.Forms;
 
 namespace AbbyyLs.CAT.Function.Selenium.Tests
 {
-    public class GlossaryItemTest : GlossaryTest
+    /// <summary>
+    /// Группа тестов для проверки редактирования терминов глоссария
+    /// </summary>
+	public class GlossaryItemTest : GlossaryTest
     {
-        public GlossaryItemTest(string url, string workspaceUrl, string browserName)
+        /// <summary>
+        /// Конструктор теста
+        /// </summary>
+        /// <param name="url">Адрес</param>
+        /// <param name="workspaceUrl">Адрес workspace</param>
+        /// <param name="browserName">Название браузера</param>
+		public GlossaryItemTest(string url, string workspaceUrl, string browserName)
             : base(url, workspaceUrl, browserName)
         {
 
         }
 
+		/// <summary>
+		/// Начальная подготовка для каждого теста
+		/// </summary>
         [SetUp]
         public void Setup()
         {
@@ -199,7 +211,6 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             Assert.IsTrue(itemsCountAfter < itemsCount, "Ошибка: количество терминов не уменьшилось");
         }
 
-
         /// <summary>
         /// Метод тестирования кнопки отмены создания термина
         /// </summary>
@@ -249,7 +260,6 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             string itemText = GlossaryPage.GetFirstTermText();
             Assert.AreEqual(firstTerm, itemText, "Ошибка: найден неправильный термин");
         }
-
 
         /// <summary>
         /// Метод тестирования поиска термина в глоссарии по слову из второго языка
@@ -447,6 +457,8 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
         {
             AddUserRights();
         }
+
+
 
         /// <summary>
         /// Вернуть, есть ли термин с таким текстом

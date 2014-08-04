@@ -8,14 +8,26 @@ using System.IO;
 
 namespace AbbyyLs.CAT.Function.Selenium.Tests
 {
-    public class Project_SaveSettingsByBackTest : NewProjectTest
+    /// <summary>
+    /// Группа тестов для проверки сохранения шагов при создании проекта
+    /// </summary>
+	public class Project_SaveSettingsByBackTest : NewProjectTest
     {
-        public Project_SaveSettingsByBackTest(string url, string workspaceUrl, string browserName)
+        /// <summary>
+        /// Конструктор теста
+        /// </summary>
+        /// <param name="url">Адрес</param>
+        /// <param name="workspaceUrl">Адрес workspace</param>
+        /// <param name="browserName">Название браузера</param>
+		public Project_SaveSettingsByBackTest(string url, string workspaceUrl, string browserName)
             : base(url, workspaceUrl, browserName)
         {
 
         }
 
+		/// <summary>
+		/// Начальная подготовка для каждого теста
+		/// </summary>
         [SetUp]
         public void Setup()
         {
@@ -293,6 +305,8 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             // Проверить ошибки
             Assert.IsFalse(isError, errorMessage);
         }
+
+
 
         /// <summary>
         /// Проверка, что выбран Compreno MT

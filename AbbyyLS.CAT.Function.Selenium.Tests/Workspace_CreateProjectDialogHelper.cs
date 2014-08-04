@@ -11,9 +11,17 @@ using OpenQA.Selenium.Support.UI;
 
 namespace AbbyyLs.CAT.Function.Selenium.Tests
 {
-    public class Workspace_CreateProjectDialogHelper : WorkSpacePageHelper
+    /// <summary>
+    /// Хелпер диалога создания проекта
+    /// </summary>
+	public class Workspace_CreateProjectDialogHelper : WorkSpacePageHelper
     {
-        public Workspace_CreateProjectDialogHelper(IWebDriver driver, WebDriverWait wait) :
+        /// <summary>
+        /// Конструктор хелпера
+        /// </summary>
+        /// <param name="driver">Драйвер</param>
+        /// <param name="wait">Таймаут</param>
+		public Workspace_CreateProjectDialogHelper(IWebDriver driver, WebDriverWait wait) :
             base(driver, wait)
         {
             MTTypeDict.Add(MT_TYPE.DefaultMT, DEFAULT_MT_TYPE);

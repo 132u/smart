@@ -7,14 +7,26 @@ using System.Windows.Forms;
 
 namespace AbbyyLs.CAT.Function.Selenium.Tests
 {
-    public class GlossaryEditStructureTermFieldsTest : GlossaryTest
+    /// <summary>
+    /// Группа тестов дял проверки редактирования структуры глоссария (термины)
+    /// </summary>
+	public class GlossaryEditStructureTermFieldsTest : GlossaryTest
     {
-        public GlossaryEditStructureTermFieldsTest(string url, string workspaceUrl, string browserName)
+        /// <summary>
+        /// Конструктор теста
+        /// </summary>
+        /// <param name="url">Адрес</param>
+        /// <param name="workspaceUrl">Адрес workspace</param>
+        /// <param name="browserName">Название браузера</param>
+		public GlossaryEditStructureTermFieldsTest(string url, string workspaceUrl, string browserName)
             : base(url, workspaceUrl, browserName)
         {
 
         }
 
+		/// <summary>
+		/// Начальная подготовка для каждого теста
+		/// </summary>
         [SetUp]
         public void Setup()
         {
@@ -119,6 +131,8 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             string fieldName = GlossaryEditStructureForm.attributeDict[GlossaryEditStructureFormHelper.ATTRIBUTE_TYPE.PartOfSpeech];
             CheckTermLevelSelectField(fieldName);
         }
+
+
 
         /// <summary>
         /// Проверить поле Select уровня Term

@@ -11,9 +11,17 @@ using OpenQA.Selenium.Support.UI;
 
 namespace AbbyyLs.CAT.Function.Selenium.Tests
 {
-    public class MainHelper : CommonHelper
+    /// <summary>
+    /// Основной хелпер
+    /// </summary>
+	public class MainHelper : CommonHelper
     {
-        public MainHelper(IWebDriver driver, WebDriverWait wait) :
+        /// <summary>
+        /// Конструктор основного хелпера
+        /// </summary>
+        /// <param name="driver">Драйвер</param>
+        /// <param name="wait">Таймаут</param>
+		public MainHelper(IWebDriver driver, WebDriverWait wait) :
             base(driver, wait)
         {
         }
@@ -124,6 +132,7 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
         {
             ClickElement(By.XPath(CLOSE_PROFILE_XPATH));
         }
+
 
 
         protected const string WORKSPACE_REF_XPATH = ".//a[contains(@href,'/Workspace')]";

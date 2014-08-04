@@ -8,17 +8,26 @@ using System.IO;
 
 namespace AbbyyLs.CAT.Function.Selenium.Tests
 {
-    public class TMTest : BaseTest
+    /// <summary>
+    /// Группа тестов для проверки ТМ
+    /// </summary>
+	public class TMTest : BaseTest
     {
-        private static string[] importTMXFileList = Directory.GetFiles(Path.GetFullPath(@"..\..\..\TestingFiles\TMTestFiles"));
-
+      	/// <summary>
+		/// Конструктор теста
+		/// </summary>
+		/// <param name="url">Адрес</param>
+		/// <param name="workspaceUrl">Адрес workspace</param>
+		/// <param name="browserName">Название браузера</param>
         public TMTest(string url, string workspaceUrl, string browserName)
             : base(url, workspaceUrl, browserName)
         {
             
         }
-       
 
+		/// <summary>
+		/// Предварительная подготовка группы тестов
+		/// </summary>
         [SetUp]
         public void Setup()
         {
@@ -28,6 +37,8 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             // Перейти на вкладку Базы Translation memory
             SwitchTMTab();
         }
+
+		private static string[] importTMXFileList = Directory.GetFiles(Path.GetFullPath(@"..\..\..\TestingFiles\TMTestFiles"));
 
         /// <summary>
         /// Метод тестирования создания ТМ (без TMX)
@@ -202,7 +213,7 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
         /// <summary>
         /// Метод тестирования кнопки Export в открывающейся информации о ТМ с загруженным TMX (по списку ТМХ файлов для загрузки)
         /// </summary>
-        /// <param name="filePath">путь в файлу, импортируемого в проект</param>
+		/// <param name="importTMXFile">путь в файлу, импортируемого в проект</param>
         [Test, TestCaseSource("importTMXFileList")]
         public void ExportTMXTest(string importTMXFile)
         {
@@ -381,7 +392,7 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
         /// <summary>
         /// Создание ТМ с загрузкой ТМХ (по списку ТМХ файлов), проверка, что ТМХ загрузился
         /// </summary>
-        /// <param name="filePath">путь в файлу, импортируемого в проект</param>
+		/// <param name="TMXFileImport">путь в файлу, импортируемого в проект</param>
         [Test, TestCaseSource("importTMXFileList")]
         public void ImportTMXTest(string TMXFileImport)
         {
@@ -404,12 +415,17 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             // Проверить, что количество сегментов больше 0
             Assert.IsTrue(segmentCount > 0, "Ошибка: количество сегментов должно быть больше 0");
         }
+		
+
 
         /// <summary>
-        /// Вернуть, есть ли ТМ в списке при создании проекта
+		/// Вернуть, есть ли ТМ в списке при создании проекта
         /// </summary>
-        /// <param name="TMName">название ТМ</param>
-        /// <returns>есть</returns>
+        /// <param name="TMName">Название ТМ</param>
+        /// <param name="isNeedChangeLanguages">Необходимость в смене языка</param>
+        /// <param name="srcLang">Язык источника</param>
+        /// <param name="trgLang">Язык перевода</param>
+        /// <returns></returns>
         private bool GetIsExistTMCreateProjectList(string TMName, bool isNeedChangeLanguages = false,
             CommonHelper.LANGUAGE srcLang = CommonHelper.LANGUAGE.English, CommonHelper.LANGUAGE trgLang = CommonHelper.LANGUAGE.Russian)
         {
@@ -492,9 +508,11 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
         }
 
         /// <summary>
-        /// Создать ТМ и сохранить
+		/// Создать ТМ и сохранить
         /// </summary>
-        /// <param name="TMName">название ТМ</param>
+        /// <param name="TMName">Название ТМ</param>
+        /// <param name="sourceLang">Язык источника</param>
+        /// <param name="targetLang">Язык перевода</param>
         private void CreateTMByNameAndSave(string TMName,
             CommonHelper.LANGUAGE sourceLang = CommonHelper.LANGUAGE.English,
             CommonHelper.LANGUAGE targetLang = CommonHelper.LANGUAGE.Russian)
@@ -510,9 +528,11 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
         }
 
         /// <summary>
-        /// Создать ТМ (без сохранения)
+		/// Создать ТМ (без сохранения)
         /// </summary>
-        /// <param name="TMName"></param>
+        /// <param name="TMName">Название ТМ</param>
+        /// <param name="sourceLang">Язык источника</param>
+        /// <param name="targetLang">Язык перевода</param>
         private void CreateTMByName(string TMName,
             CommonHelper.LANGUAGE sourceLang = CommonHelper.LANGUAGE.English,
             CommonHelper.LANGUAGE targetLang = CommonHelper.LANGUAGE.Russian)

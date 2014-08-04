@@ -11,9 +11,27 @@ using OpenQA.Selenium.Interactions;
 
 namespace AbbyyLs.CAT.Function.Selenium.Tests
 {
-    public class UserLogTest : BaseTest
+    /// <summary>
+    /// Группа тестов для проверки лога
+    /// </summary>
+	public class UserLogTest : BaseTest
     {
-        [SetUp]
+		/// <summary>
+		/// Конструктор теста
+		/// </summary>
+		/// <param name="url">Адрес</param>
+		/// <param name="workspaceUrl">Адрес workspace</param>
+		/// <param name="browserName">Название браузера</param>
+		public UserLogTest(string url, string workspaceUrl, string browserName)
+			: base(url, workspaceUrl, browserName)
+		{
+
+		}
+
+		/// <summary>
+		/// Предварительная подготовка группы тестов
+		/// </summary>
+		[SetUp]
         public void Setup()
         {
             projectName = "TestLogProject" + DateTime.Now.Ticks;
@@ -22,12 +40,9 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             Authorization();
         }
 
-        public UserLogTest(string url, string workspaceUrl, string browserName)
-            : base(url, workspaceUrl, browserName)
-        {
-
-        }
-
+		/// <summary>
+		/// Название проекта
+		/// </summary>
         protected string projectName;
 
         /// <summary>
@@ -420,6 +435,8 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             // Выгрузить логи
             ExportLog();
         }
+
+
 
         /// <summary>
         /// Метод выгрузки логов 

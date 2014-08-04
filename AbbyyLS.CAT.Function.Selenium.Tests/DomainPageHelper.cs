@@ -11,9 +11,17 @@ using OpenQA.Selenium.Support.UI;
 
 namespace AbbyyLs.CAT.Function.Selenium.Tests
 {
-    public class DomainPageHelper : CommonHelper
+    /// <summary>
+    /// Хелпер вкладки домены
+    /// </summary>
+	public class DomainPageHelper : CommonHelper
     {
-        public DomainPageHelper(IWebDriver driver, WebDriverWait wait) :
+        /// <summary>
+        /// Конструктор хелпера
+        /// </summary>
+        /// <param name="driver">Драйвер</param>
+        /// <param name="wait">Таймаут</param>
+		public DomainPageHelper(IWebDriver driver, WebDriverWait wait) :
             base(driver, wait)
         {
         }
@@ -179,6 +187,8 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             return NOT_HIDDEN_TR + "[contains(@class,'js-row')][" + rowNum + "]";
         }
 
+
+
         protected const string ADD_DOMAIN_BTN_XPATH = ".//span[contains(@class,'js-add-domain')]";
         protected const string SAVE_DOMAIN_BTN_XPATH = "//a[contains(@class,'js-save-domain')]";
         protected const string DELETE_DOMAIN_BTN_XPATH = "//a[contains(@class,'js-delete-domain')]";
@@ -194,9 +204,7 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 
         protected const string ERROR_NAME_XPATH = "//div[contains(@class,'js-error-text g-hidden')]";
 
-
         protected const string DOMAIN_LIST_XPATH = ".//table[contains(@class,'js-domains')]//tr[contains(@class,'js-row') and not(contains(@class,'g-hidden'))]";
         protected const string NOT_HIDDEN_TR = "//tr[not(contains(@class,'g-hidden'))]";
-        
     }
 }

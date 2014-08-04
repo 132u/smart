@@ -12,9 +12,17 @@ using System.Threading;
 
 namespace AbbyyLs.CAT.Function.Selenium.Tests
 {
-    public class WorkSpacePageHelper : CommonHelper
+    /// <summary>
+    /// Хелпер страницы workspace
+    /// </summary>
+	public class WorkSpacePageHelper : CommonHelper
     {
-        public WorkSpacePageHelper(IWebDriver driver, WebDriverWait wait) :
+        /// <summary>
+        /// Конструктор хелпера
+        /// </summary>
+        /// <param name="driver">Драйвер</param>
+        /// <param name="wait">Таймаут</param>
+		public WorkSpacePageHelper(IWebDriver driver, WebDriverWait wait) :
             base(driver, wait)
         {
             exportTypeDict = new Dictionary<EXPORT_TYPE, string>();

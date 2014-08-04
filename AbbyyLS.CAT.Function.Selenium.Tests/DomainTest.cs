@@ -7,14 +7,26 @@ using System.Windows.Forms;
 
 namespace AbbyyLs.CAT.Function.Selenium.Tests
 {
-    public class DomainTest : BaseTest
+    /// <summary>
+    /// Группа тестов для проверки доменов
+    /// </summary>
+	public class DomainTest : BaseTest
     {
-        public DomainTest(string url, string workspaceUrl, string browserName)
+        /// <summary>
+        /// Конструктор теста
+        /// </summary>
+        /// <param name="url">Адрес</param>
+        /// <param name="workspaceUrl">Адрес workspace</param>
+        /// <param name="browserName">Название браузера</param>
+		public DomainTest(string url, string workspaceUrl, string browserName)
             : base(url, workspaceUrl, browserName)
         {
 
         }
 
+		/// <summary>
+		/// Начальная подготовка для каждого теста
+		/// </summary>
         [SetUp]
         public void Setup()
         {
@@ -272,6 +284,8 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
                 "Ошибка: проект остался в списке");
         }
         
+
+
         /// <summary>
         /// Изменить имя домена
         /// </summary>

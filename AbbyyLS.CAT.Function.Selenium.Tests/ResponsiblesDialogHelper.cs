@@ -5,8 +5,16 @@ using OpenQA.Selenium.Support.UI;
 
 namespace AbbyyLs.CAT.Function.Selenium.Tests
 {
+	/// <summary>
+	/// Хелпер диалога редактирования назначения на задачу
+	/// </summary>
 	public class ResponsiblesDialogHelper : CommonHelper
 	{
+		/// <summary>
+		/// Конструктор хелпера
+		/// </summary>
+		/// <param name="driver">Драйвер</param>
+		/// <param name="wait">Таймаут</param>
 		public ResponsiblesDialogHelper(IWebDriver driver, WebDriverWait wait) :
             base (driver, wait)
         {
@@ -259,8 +267,7 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 
 		protected const string CHOOSE_TASK_FORM_XPATH = ".//div[contains(@class, 'js-choose-editor-step-popup')][2]";
 		protected const string TASK_XPATH = CHOOSE_TASK_FORM_XPATH + "//table//a";
-
-
+		
 		protected const string CONFIRM_RESET_ASSIGNMENT_FORM_XPATH = ".//div[contains(@class, 'js-popup-confirm')]";
 		protected const string INFO_FORM_XPATH = ".//div[contains(@class, 'js-info-popup')]";
 	}

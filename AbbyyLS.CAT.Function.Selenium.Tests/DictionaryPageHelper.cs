@@ -11,9 +11,17 @@ using OpenQA.Selenium.Support.UI;
 
 namespace AbbyyLs.CAT.Function.Selenium.Tests
 {
-    public class DictionaryPageHelper : CommonHelper
+    /// <summary>
+    /// Хелпер страницы словарей
+    /// </summary>
+	public class DictionaryPageHelper : CommonHelper
     {
-        public DictionaryPageHelper(IWebDriver driver, WebDriverWait wait) :
+        /// <summary>
+        /// Конструктор хелпера
+        /// </summary>
+        /// <param name="driver">Драйвер</param>
+        /// <param name="wait">Таймаут</param>
+		public DictionaryPageHelper(IWebDriver driver, WebDriverWait wait) :
             base(driver, wait)
         {
         }
@@ -26,6 +34,8 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
         {
             return GetElementList(By.XPath(DICTIONARY_LIST_XPATH)).Count;
         }
+
+
 
         protected const string DICTIONARY_LIST_XPATH = ".//div[contains(@class,'js-dictionaries-search-result')]//div[contains(@class,'l-dctnrs__dict')]";
     }

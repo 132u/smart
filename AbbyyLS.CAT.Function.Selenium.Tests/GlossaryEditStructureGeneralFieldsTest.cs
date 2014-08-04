@@ -7,14 +7,26 @@ using System.Windows.Forms;
 
 namespace AbbyyLs.CAT.Function.Selenium.Tests
 {
-    public class GlossaryEditStructureGeneralFieldsTest : GlossaryTest
+    /// <summary>
+    /// Группа тестов для проверки редактирования структуры глоссария
+    /// </summary>
+	public class GlossaryEditStructureGeneralFieldsTest : GlossaryTest
     {
-        public GlossaryEditStructureGeneralFieldsTest(string url, string workspaceUrl, string browserName)
+        /// <summary>
+        /// Конструктор хелпера
+        /// </summary>
+        /// <param name="url">Адрес</param>
+        /// <param name="workspaceUrl">Адрес workspace</param>
+        /// <param name="browserName">Название браузера</param>
+		public GlossaryEditStructureGeneralFieldsTest(string url, string workspaceUrl, string browserName)
             : base(url, workspaceUrl, browserName)
         {
 
         }
 
+		/// <summary>
+		/// Начальная подготовка для каждого теста
+		/// </summary>
         [SetUp]
         public void Setup()
         {
@@ -187,6 +199,8 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             Assert.IsTrue(GlossaryPage.GetIsFieldMediaFilled(fieldName), "Ошибка: файл не загрузился");
         }
 
+
+
         /// <summary>
         /// Проверить работу textarea
         /// </summary>
@@ -207,7 +221,6 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             string text = GlossaryPage.GetTextareaValue(fieldName).Trim();
             Assert.AreEqual(interpretationExample, text, "Ошибка: текст не сохранился");
         }
-
 
         /// <summary>
         /// Создать глоссарий, изменить структуру глоссария, заполнить термин
@@ -235,7 +248,6 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             // Заполнить термин
             FillNewItemExtended();
         }
-
 
         /// <summary>
         /// Добавить все поля
@@ -265,6 +277,5 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
                 CreateDomain(domainName);
             }
         }
-
     }
 }

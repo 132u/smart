@@ -8,14 +8,26 @@ using System.IO;
 
 namespace AbbyyLs.CAT.Function.Selenium.Tests
 {
-    public class Project_MainTest : NewProjectTest
+    /// <summary>
+    /// Группа основных тестов проекта
+    /// </summary>
+	public class Project_MainTest : NewProjectTest
     {
-        public Project_MainTest(string url, string workspaceUrl, string browserName)
+        /// <summary>
+        /// Конструктор теста
+        /// </summary>
+        /// <param name="url">Адрес</param>
+        /// <param name="workspaceUrl">Адрес workspace</param>
+        /// <param name="browserName">Название браузера</param>
+		public Project_MainTest(string url, string workspaceUrl, string browserName)
             : base(url, workspaceUrl, browserName)
         {
 
         }
 
+		/// <summary>
+		/// Предварительная подготовка группы тестов
+		/// </summary>
         [SetUp]
         public void Setup()
         {
@@ -166,7 +178,6 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             Assert.IsTrue(WorkspaceCreateProjectDialog.GetIsFirstStep(),
                 "Ошибка: не остались на первом шаге");
         }
-
 
         /// <summary>
         /// метод для тестирования недопустимых символов в имени проекта

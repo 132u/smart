@@ -11,9 +11,17 @@ using OpenQA.Selenium.Support.UI;
 
 namespace AbbyyLs.CAT.Function.Selenium.Tests
 {
-    public class SuggestTermDialogHelper : CommonHelper
+    /// <summary>
+    /// Хелпер диалога редактирования термина
+    /// </summary>
+	public class SuggestTermDialogHelper : CommonHelper
     {
-        public SuggestTermDialogHelper(IWebDriver driver, WebDriverWait wait) :
+        /// <summary>
+        /// Конструктор хелпера
+        /// </summary>
+        /// <param name="driver">Драйвер</param>
+        /// <param name="wait">Таймаут</param>
+		public SuggestTermDialogHelper(IWebDriver driver, WebDriverWait wait) :
             base(driver, wait)
         {
         }
@@ -132,6 +140,8 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             ClickElement(By.XPath(CANCEL_BTN_XPATH));
         }
 
+
+
         protected const string DIALOG_XPATH = "//div[contains(@class,'js-add-suggest-popup')]";
         protected const string TERM_XPATH = "//div[contains(@class, 'l-addsugg__contr lang js-language')]";
         protected const string TERM_INPUT_XPATH = "//input[contains(@class, 'js-addsugg-term')]";
@@ -142,8 +152,7 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
         protected const string LANGUAGE_ITEM_XPATH = ITEM_XPATH + "[@data-id='";
         protected const string SAVE_BTN_XPATH = "//input[contains(@class, 'js-save-btn')]";
         protected const string CANCEL_BTN_XPATH = DIALOG_XPATH + "//a[contains(@class,'g-popupbox__cancel js-popup-close')]";
-
-
+		
         protected const string ERROR_MESSAGE_XPATH = DIALOG_XPATH + "//div[contains(@class,'js-error-message')]";
         protected const string LANGUAGE_XPATH = "//span[contains(@class,'js-dropdown__text addsugglang')]";
         protected const string DUPLICATE_WARNING_XPATH = "//div[contains(@class,'js-duplicate-warning')]";

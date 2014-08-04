@@ -11,9 +11,17 @@ using OpenQA.Selenium.Support.UI;
 
 namespace AbbyyLs.CAT.Function.Selenium.Tests
 {
-    public class GlossaryEditFormHelper : CommonHelper
+    /// <summary>
+    /// Хелпер формы редактирования глоссария
+    /// </summary>
+	public class GlossaryEditFormHelper : CommonHelper
     {
-        public GlossaryEditFormHelper(IWebDriver driver, WebDriverWait wait) :
+        /// <summary>
+        /// Конструктор хелпера
+        /// </summary>
+        /// <param name="driver">Драйвер</param>
+        /// <param name="wait">Таймаут</param>
+		public GlossaryEditFormHelper(IWebDriver driver, WebDriverWait wait) :
             base(driver, wait)
         {
         }
@@ -257,7 +265,6 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             return GetIsElementDisplay(By.XPath(ERROR_EMPTY_NAME_XPATH));
         }
 
-
         /// <summary>
         /// Вернуть, появилось ли сообщение об ошибке (существующее имя глоссария)
         /// </summary>
@@ -267,12 +274,13 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             return GetIsElementDisplay(By.XPath(ERROR_EXIST_NAME_XPATH));
         }
 
+
+
         protected const string DIALOG_XPATH = ".//div[contains(@class,'js-popup-edit-glossary')][2]";
         protected const string GLOSSARY_NAME_XPATH = DIALOG_XPATH + "//input[contains(@class,'js-glossary-name')]";
         protected const string GLOSSARY_COMMENT_XPATH = DIALOG_XPATH + "//textarea[contains(@name,'Comment')]";
         protected const string GLOSSARY_SAVE_XPATH = DIALOG_XPATH + "//span[contains(@class,'js-save')]";
         protected const string SAVE_AND_EDIT_STRUCTURE_BTN_XPATH = DIALOG_XPATH + "//a[contains(@class,'js-save-and-edit-structure')]";
-
 
         protected const string CLIENT_LIST_XPATH = DIALOG_XPATH + "//select[contains(@name,'Client')]/..//span[contains(@class,'js-dropdown')]"; // TODO пересмотреть
         protected const string DOMAIN_LIST_XPATH = DIALOG_XPATH + "//input[contains(@name,'Domain')]/..//div[contains(@class,'ui-multiselect')]"; // TODO пересмотреть
@@ -295,8 +303,5 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 
         protected const string ERROR_EMPTY_NAME_XPATH = DIALOG_XPATH + "//p[contains(@class,'js-error-glossary-name-required')]";
         protected const string ERROR_EXIST_NAME_XPATH = DIALOG_XPATH + "//p[contains(@class,'js-error-glossary-exists')]";
-        
-
     }
-
 }

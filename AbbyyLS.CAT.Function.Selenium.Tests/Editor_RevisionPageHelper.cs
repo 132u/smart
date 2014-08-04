@@ -11,9 +11,17 @@ using OpenQA.Selenium.Support.UI;
 
 namespace AbbyyLs.CAT.Function.Selenium.Tests
 {
-    public class Editor_RevisionPageHelper : CommonHelper
+    /// <summary>
+    /// Хелпер для истории версий редактора
+    /// </summary>
+	public class Editor_RevisionPageHelper : CommonHelper
     {
-        public Editor_RevisionPageHelper(IWebDriver driver, WebDriverWait wait) :
+        /// <summary>
+        /// Конструктор хелпера
+        /// </summary>
+        /// <param name="driver">Драйвер</param>
+        /// <param name="wait">Таймаут</param>
+		public Editor_RevisionPageHelper(IWebDriver driver, WebDriverWait wait) :
             base(driver, wait)
         {
             revisionTypeList = new Dictionary<string,RevisionType>();
@@ -218,6 +226,8 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 			return revisionXPath + "[" + revisionNumber + "]" + column;
         }
 
+
+
         public enum RevisionType { AutoSave, Confirmed, InsertMT, InsertTM, Rollback };
 
         protected const string REVISION_BTN_ID = "revisions-tab";
@@ -233,8 +243,6 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 
         protected const string ROLLBACK_DISABLED_CLASS = "x-btn-disabled";
         
-
-
         protected Dictionary<string, RevisionType> revisionTypeList;
         protected const string REVISION_TYPE_AUTOSAVE = "Autosave";
         protected const string REVISION_TYPE_CONFIRMED = "Confirmed";

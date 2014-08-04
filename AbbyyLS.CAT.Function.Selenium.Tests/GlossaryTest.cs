@@ -24,8 +24,11 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 
         }
 
+		/// <summary>
+		/// Предварительная подготовка группы тестов
+		/// </summary>
 		[SetUp]
-		public void Setup()
+		public void SetupGlossary()
         {
             // Авторизация
             Authorization();
@@ -110,7 +113,7 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
         {
             OpenEditGlossaryStructure();
 
-            /// Проверить, что открыта нужнная таблица
+            // Проверить, что открыта нужнная таблица
             Assert.IsTrue(GlossaryEditStructureForm.GetIsConceptTableDisplay(), "Ошибка: в редакторе структуры отображается не та таблица");
 
             // Нажать на поле Domain

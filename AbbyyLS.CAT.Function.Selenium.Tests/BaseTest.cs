@@ -20,7 +20,10 @@ using System.Text.RegularExpressions;
 
 namespace AbbyyLs.CAT.Function.Selenium.Tests
 {
-    [TestFixture("DevUrl", "DevWorkspace", "Firefox")]
+    /// <summary>
+    /// Базовый тест
+    /// </summary>
+	[TestFixture("DevUrl", "DevWorkspace", "Firefox")]
     [TestFixture("StableUrl2", "StableWorkspace2", "Firefox")]
     [TestFixture("StableUrl2", "StableWorkspace2", "Chrome")]
     [TestFixture("StableUrl2", "StableWorkspace2", "IE")]
@@ -34,7 +37,10 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
         /// WebDriver
         /// </summary>
         private IWebDriver _driver;
-        protected IWebDriver Driver
+		/// <summary>
+		/// WebDriver
+		/// </summary>
+		protected IWebDriver Driver
         {
             get
             {
@@ -46,7 +52,10 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
         /// Wait
         /// </summary>
         private WebDriverWait _wait;
-        protected WebDriverWait Wait
+		/// <summary>
+		/// Wait
+		/// </summary>
+		protected WebDriverWait Wait
         {
             get
             {
@@ -63,6 +72,9 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
         /// Url
         /// </summary>
         private string _url;
+		/// <summary>
+		/// Url
+		/// </summary>
         protected string Url
         {
             get
@@ -75,6 +87,9 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
         /// URL соответствующей админки
         /// </summary>
         private string _adminUrl;
+		/// <summary>
+		/// URL соответствующей админки
+		/// </summary>
         protected string AdminUrl
         {
             get
@@ -87,6 +102,9 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
         /// Логин пользователя
         /// </summary>
         private string _login;
+		/// <summary>
+		/// Логин пользователя
+		/// </summary>
         protected string Login
         {
             get
@@ -99,6 +117,9 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
         /// Пароль пользователя
         /// </summary>
         private string _password;
+		/// <summary>
+		/// Пароль пользователя
+		/// </summary>
         protected string Password
         {
             get
@@ -111,6 +132,9 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
         /// Имя пользователя
         /// </summary>
         private string _userName;
+		/// <summary>
+		/// Имя пользователя
+		/// </summary>
         protected string UserName
         {
             get
@@ -123,6 +147,9 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 		/// Логин второго пользователя
 		/// </summary>
 		private string _login2;
+		/// <summary>
+		/// Логин второго пользователя
+		/// </summary>
 		protected string Login2
 		{
 			get
@@ -135,6 +162,9 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 		/// Пароль второго пользователя
 		/// </summary>
 		private string _password2;
+		/// <summary>
+		/// Пароль второго пользователя
+		/// </summary>
 		protected string Password2
 		{
 			get
@@ -147,6 +177,9 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 		/// Имя второго пользователя
 		/// </summary>
 		private string _userName2;
+		/// <summary>
+		/// Имя второго пользователя
+		/// </summary>
 		protected string UserName2
 		{
 			get
@@ -159,6 +192,9 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
         /// Уникальное для теста название проекта
         /// </summary>
         private string _projectName;
+		/// <summary>
+		/// Уникальное для теста название проекта
+		/// </summary>
         protected string ProjectName
         {
             get
@@ -171,6 +207,9 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
         /// Общее/постоянное название ТМ
         /// </summary>
         private string _constTmName;
+		/// <summary>
+		/// Общее/постоянное название ТМ
+		/// </summary>
         protected string ConstTMName
         {
             get
@@ -183,6 +222,9 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
         /// Общая часть названия глоссария
         /// </summary>
         private string _glossaryName;
+		/// <summary>
+		/// Общая часть названия глоссария
+		/// </summary>
         protected string GlossaryName
         {
             get
@@ -209,6 +251,9 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
         /// Общее имя проекта с одним документом
         /// </summary>
         private string _projectNameExportTestOneDoc;
+		/// <summary>
+		/// Общее имя проекта с одним документом
+		/// </summary>
         protected string ProjectNameExportTestOneDoc
         {
             get
@@ -221,6 +266,9 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
         /// Общее имя проекта с несколькими документами
         /// </summary>
         private string _projectNameExportTestMultiDoc;
+		/// <summary>
+		/// Общее имя проекта с несколькими документами
+		/// </summary>
         protected string ProjectNameExportTestMultiDoc
         {
             get
@@ -233,7 +281,9 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
         /// Deadline дата в английской локали
         /// </summary>
         private string _deadlineDate;
-
+		/// <summary>
+		/// Deadline дата в английской локали
+		/// </summary>
         protected string DeadlineDate
         {
             get
@@ -246,6 +296,9 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
         /// Полный путь к документу для загрузки
         /// </summary>
         private string _documentFile;
+		/// <summary>
+		/// Полный путь к документу для загрузки
+		/// </summary>
         protected string DocumentFile
         {
             get
@@ -258,6 +311,9 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
         /// Полный путь к документу без тегов
         /// </summary>
         private string _documentFileToConfirm;
+		/// <summary>
+		/// Полный путь к документу без тегов
+		/// </summary>
         protected string DocumentFileToConfirm
         {
             get
@@ -270,6 +326,9 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
         /// Полный путь ко второму документу без тегов
         /// </summary>
         private string _documentFileToConfirm2;
+		/// <summary>
+		/// Полный путь ко второму документу без тегов
+		/// </summary>
         protected string DocumentFileToConfirm2
         {
             get
@@ -282,6 +341,9 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
         /// Полный путь к файлу TMX
         /// </summary>
         private string _tmFile;
+		/// <summary>
+		/// Полный путь к файлу TMX
+		/// </summary>
         protected string TmFile
         {
             get
@@ -294,6 +356,9 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
         /// Полный путь ко второму файлу TMX
         /// </summary>
         private string _secondTmFile;
+		/// <summary>
+		/// Полный путь ко второму файлу TMX
+		/// </summary>
         protected string SecondTmFile
         {
             get
@@ -306,6 +371,9 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
         /// Полный путь к файлу TXT для работы в редакторе
         /// </summary>
         private string _editorTXTFile;
+		/// <summary>
+		/// Полный путь к файлу TXT для работы в редакторе
+		/// </summary>
         protected string EditorTXTFile
         {
             get
@@ -318,6 +386,9 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
         /// Полный путь к файлу TMX для работы в редакторе
         /// </summary>
         private string _editorTMXFile;
+		/// <summary>
+		/// Полный путь к файлу TMX для работы в редакторе
+		/// </summary>
         protected string EditorTMXFile
         {
             get
@@ -330,6 +401,9 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
         /// Полный путь к RTF
         /// </summary>
         private string _rtfFile;
+		/// <summary>
+		/// Полный путь к RTF
+		/// </summary>
         protected string RtfFile
         {
             get
@@ -342,6 +416,9 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
         /// Полный путь к файлу для импорта глоссария
         /// </summary>
         private string _importGlossaryFile;
+		/// <summary>
+		/// Полный путь к файлу для импорта глоссария
+		/// </summary>
         protected string ImportGlossaryFile
         {
             get
@@ -354,6 +431,9 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
         /// Путь к изображению
         /// </summary>
         private string _imageFile;
+		/// <summary>
+		/// Путь к изображению
+		/// </summary>
         protected string ImageFile
         {
             get
@@ -366,6 +446,9 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
         /// Путь к аудиофайлу (медиа)
         /// </summary>
         private string _audioFile;
+		/// <summary>
+		/// Путь к аудиофайлу (медиа)
+		/// </summary>
         protected string AudioFile
         {
             get
@@ -378,6 +461,9 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
         /// Имя браузера
         /// </summary>
         private string _browserName;
+		/// <summary>
+		/// Имя браузера
+		/// </summary>
         protected string BrowserName
         {
             get
@@ -390,6 +476,9 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
         /// Страница с проектом
         /// </summary>
         private ProjectPageHelper _projectPageHelper;
+		/// <summary>
+		/// Страница с проектом
+		/// </summary>
         protected ProjectPageHelper ProjectPage
         {
             get
@@ -402,6 +491,9 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
         /// Страница редактора
         /// </summary>
         private EditorPageHelper _editorPageHelper;
+		/// <summary>
+		/// Страница редактора
+		/// </summary>
         protected EditorPageHelper EditorPage
         {
             get
@@ -414,6 +506,9 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
         /// Страница входа (Login)
         /// </summary>
         private LoginPageHelper _loginPageHelper;
+		/// <summary>
+		/// Страница входа (Login)
+		/// </summary>
         protected LoginPageHelper LoginPage
         {
             get
@@ -426,6 +521,9 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
         /// Страница со списком проектов (Workspace)
         /// </summary>
         private WorkSpacePageHelper _workspacePageHelper;
+		/// <summary>
+		/// Страница со списком проектов (Workspace)
+		/// </summary>
         protected WorkSpacePageHelper WorkspacePage
         {
             get
@@ -438,6 +536,9 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
         /// Диалог создания проекта
         /// </summary>
         private Workspace_CreateProjectDialogHelper _workspaceCreateProjectHelper;
+		/// <summary>
+		/// Диалог создания проекта
+		/// </summary>
         protected Workspace_CreateProjectDialogHelper WorkspaceCreateProjectDialog
         {
             get
@@ -450,6 +551,9 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
         /// Основной Helper (для работы с переходом между страницами - ссылки в верхнем меню)
         /// </summary>
         private MainHelper _mainHelper;
+		/// <summary>
+		/// Основной Helper (для работы с переходом между страницами - ссылки в верхнем меню)
+		/// </summary>
         protected MainHelper MainHelperClass
         {
             get
@@ -462,6 +566,9 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
         /// Страница Domain
         /// </summary>
         private DomainPageHelper _domainPageHelper;
+		/// <summary>
+		/// Страница Domain
+		/// </summary>
         protected DomainPageHelper DomainPage
         {
             get
@@ -474,6 +581,9 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
         /// Страница TM
         /// </summary>
         private TMPageHelper _tmPageHelper;
+		/// <summary>
+		/// Страница TM
+		/// </summary>
         protected TMPageHelper TMPage
         {
             get
@@ -486,6 +596,9 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
         /// Страница со списком глоссариев
         /// </summary>
         private GlossaryListPageHelper _glossaryListPageHelper;
+		/// <summary>
+		/// Страница со списком глоссариев
+		/// </summary>
         protected GlossaryListPageHelper GlossaryListPage
         {
             get
@@ -498,6 +611,9 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
         /// Страница глоссария
         /// </summary>
         private GlossaryPageHelper _glossaryPageHelper;
+		/// <summary>
+		/// Страница глоссария
+		/// </summary>
         protected GlossaryPageHelper GlossaryPage
         {
             get
@@ -510,6 +626,9 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
         /// Страница Поиска/Перевода
         /// </summary>
         private SearchPageHelper _searchPageHelper;
+		/// <summary>
+		/// Страница Поиска/Перевода
+		/// </summary>
         protected SearchPageHelper SearchPage
         {
             get
@@ -522,6 +641,9 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
         /// Страница Client
         /// </summary>
         private ClientPageHelper _clientPageHelper;
+		/// <summary>
+		/// Страница Client
+		/// </summary>
         protected ClientPageHelper ClientPage
         {
             get
@@ -534,6 +656,9 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
         /// Работа с админкой
         /// </summary>
         private AdminPageHelper _adminPageHelper;
+		/// <summary>
+		/// Работа с админкой
+		/// </summary>
         protected AdminPageHelper AdminPage
         {
             get
@@ -546,6 +671,9 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
         /// Форма изменения структуры глоссария
         /// </summary>
         private GlossaryEditStructureFormHelper _glossaryEditStructureFormHelper;
+		/// <summary>
+		/// Форма изменения структуры глоссария
+		/// </summary>
         protected GlossaryEditStructureFormHelper GlossaryEditStructureForm
         {
             get
@@ -558,6 +686,9 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
         /// Страница со словарями
         /// </summary>
         private DictionaryPageHelper _dictionaryPageHelper;
+		/// <summary>
+		/// Страница со словарями
+		/// </summary>
         protected DictionaryPageHelper DictionaryPage
         {
             get
@@ -570,6 +701,9 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
         /// Вкладка Ревизии в редакторе
         /// </summary>
         private Editor_RevisionPageHelper _revisionPageHelper;
+		/// <summary>
+		/// Вкладка Ревизии в редакторе
+		/// </summary>
         protected Editor_RevisionPageHelper RevisionPage
         {
             get
@@ -582,6 +716,9 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
         /// Страница с настройкой прав пользователей
         /// </summary>
         private UserRightsPageHelper _userRightsPageHalper;
+		/// <summary>
+		/// Страница с настройкой прав пользователей
+		/// </summary>
         protected UserRightsPageHelper UserRightsPage
         {
             get
@@ -594,6 +731,9 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
         /// Диалог предложения термина
         /// </summary>
         private SuggestTermDialogHelper _suggestTermDialogHelper;
+		/// <summary>
+		/// Диалог предложения термина
+		/// </summary>
         protected SuggestTermDialogHelper SuggestTermDialog
         {
             get
@@ -606,6 +746,9 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
         /// Форма редактирования глоссария
         /// </summary>
         private GlossaryEditFormHelper _glossaryEditFormHelper;
+		/// <summary>
+		/// Форма редактирования глоссария
+		/// </summary>
         protected GlossaryEditFormHelper GlossaryEditForm
         {
             get
@@ -618,6 +761,9 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
         /// Страница с предложенными терминами глоссариев
         /// </summary>
         public GlossarySuggestPageHelper _glossarySuggestPageHelper;
+		/// <summary>
+        /// Страница с предложенными терминами глоссариев
+        /// </summary>
         protected GlossarySuggestPageHelper GlossarySuggestPage
         {
             get
@@ -630,6 +776,9 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 		/// Страница выдачи
 		/// </summary>
 		private CatPanelResultsHelper _catPanelHelper;
+		/// <summary>
+		/// Страница выдачи
+		/// </summary>
 		protected CatPanelResultsHelper CatPanel
 		{
 			get
@@ -642,6 +791,9 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 		/// Окно прав пользователя
 		/// </summary>
 		private ResponsiblesDialogHelper _responsiblesDialogHelper;
+		/// <summary>
+		/// Окно прав пользователя
+		/// </summary>
 		protected ResponsiblesDialogHelper ResponsiblesDialog
 		{
 			get
@@ -654,6 +806,12 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
         // информация о тесте
         DateTime testBeginTime;
 
+		/// <summary>
+		/// Конструктор базового теста
+		/// </summary>
+		/// <param name="url">Адрес</param>
+		/// <param name="workspaceUrl">Аздрес workspace</param>
+		/// <param name="browserName">Название браузера</param>
         public BaseTest(string url, string workspaceUrl, string browserName)
         {
             _browserName = browserName;
@@ -877,7 +1035,7 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 			// Перейти на стартовую страницу
             _driver.Navigate().GoToUrl(_url);
 
-			if (Driver.Url.Contains("lpro"))
+			if (Driver.Url.Contains("pro"))
 			{
 				// Проверить, загрузилась ли
 				Assert.IsTrue(LoginPage.WaitPageLoadLpro(),
@@ -1099,6 +1257,9 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
         }
 
         // TODO
+		/// <summary>
+		/// Шаг формирования рабочего процесса диалога создания проекта
+		/// </summary>
         public void SetUpWorkflow()
         {
             // Сейчас не изменяем ничего на шаге
@@ -1108,6 +1269,9 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
         }
 
         // TODO
+		/// <summary>
+		/// Шаг Pretranslate диалога создания проекта
+		/// </summary>
         public void Pretranslate()
         {
             // Сейчас не изменяем ничего на шаге
@@ -1119,6 +1283,7 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
         /// метод открытия настроек проекта и загрузки нового документа
         /// </summary>
         /// <param name="filePath">путь в файлу, импортируемого в проект</param>
+		/// <param name="projectName">имя проекта</param>
         protected void ImportDocumentProjectSettings(string filePath, string projectName)
         {
             // Зайти в проект
@@ -1485,7 +1650,9 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             WorkspacePage.OpenProjectInfo(projectName);
         }
 
-        // Открыть диалог создания глоссария
+        /// <summary>
+		/// Открыть диалог создания глоссария
+        /// </summary>
         protected void OpenCreateGlossary()
         {
             GlossaryListPage.ClickCreateGlossary();
@@ -1497,6 +1664,7 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
         /// </summary>
         /// <param name="glossaryName">название</param>
         /// <param name="bNeedWaitSuccessSave">ожидается успешное сохранение</param>
+		/// <param name="langList">список языков</param>
         protected void CreateGlossaryByName(string glossaryName, bool bNeedWaitSuccessSave = true, List<CommonHelper.LANGUAGE> langList = null)
         {
             // Открыть форму создания глоссария
@@ -1534,7 +1702,7 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
         /// <summary>
         /// Добавить язык при создании глоссария
         /// </summary>
-        /// <param name="langNumber">код языка</param>
+        /// <param name="lang">код языка</param>
         protected void AddLanguageCreateGlossary(CommonHelper.LANGUAGE lang)
         {
             // Кликнуть по Плюсу
@@ -1551,8 +1719,10 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
         /// <summary>
         /// Создать проект с документом, открыть документ
         /// </summary>
+		/// <param name="projectName">имя проекта</param>
         /// <param name="withTM">с ТМ</param>
         /// <param name="withMT">с МТ</param>
+		/// <param name="uploadDocument">путь к документу</param>
         protected void CreateReadyProject(string projectName, bool withTM = true, bool withMT = false, string uploadDocument = "")
         {
             // Создание проекта
@@ -1638,9 +1808,11 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 		}
 
 		
-
+		/// <summary>
+		/// Начальная подготовка для каждого теста
+		/// </summary>
         [SetUp]
-        public void Setup()
+        public void SetupBase()
         {
             // Вывести время начала теста
             testBeginTime = DateTime.Now;
@@ -1656,8 +1828,11 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             //_driver.Manage().Window.Maximize();
         }
 
+		/// <summary>
+		/// Конченые действия для каждого теста
+		/// </summary>
         [TearDown]
-        public void Teardown()
+        public void TeardownBase()
         {
             // Если тест провалился
             if (TestContext.CurrentContext.Result.Status.Equals(TestStatus.Failed))

@@ -8,27 +8,39 @@ using System.IO;
 
 namespace AbbyyLs.CAT.Function.Selenium.Tests
 {
-    public class Project_ImportTest : NewProjectTest
+    /// <summary>
+    /// Группа тестов для проверки импорта проекта
+    /// </summary>
+	public class Project_ImportTest : NewProjectTest
     {
-        protected string _filesForImportCorrectPath = Path.GetFullPath(@"..\..\..\TestingFiles\FilesForImportCorrect");
+		/// <summary>
+		/// Конструктор теста
+		/// </summary>
+		/// <param name="url">Адрес</param>
+		/// <param name="workspaceUrl">Адрес workspace</param>
+		/// <param name="browserName">Название браузера</param>
+		public Project_ImportTest(string url, string workspaceUrl, string browserName)
+			: base(url, workspaceUrl, browserName)
+		{
+
+		}
+
+		/// <summary>
+		/// Предварительная подготовка группы тестов
+		/// </summary>
+		[SetUp]
+		public void Setup()
+		{
+
+		}
+
+		protected string _filesForImportCorrectPath = Path.GetFullPath(@"..\..\..\TestingFiles\FilesForImportCorrect");
         protected string _filesForConfirmPath = Path.GetFullPath(@"..\..\..\TestingFiles\FilesForConfirm");
         protected string _filesForImportErrorPath = Path.GetFullPath(@"..\..\..\TestingFiles\FilesForImportError");
 
         protected static string[] filesForImportCorrect = Directory.GetFiles(Path.GetFullPath(@"..\..\..\TestingFiles\FilesForImportCorrect"));
         protected static string[] filesForConfirm = Directory.GetFiles(Path.GetFullPath(@"..\..\..\TestingFiles\FilesForConfirm"));
         protected static string[] filesForImportError = Directory.GetFiles(Path.GetFullPath(@"..\..\..\TestingFiles\FilesForImportError"));
-
-        public Project_ImportTest(string url, string workspaceUrl, string browserName)
-            : base(url, workspaceUrl, browserName)
-        {
-
-        }
-
-        [SetUp]
-        public void Setup()
-        {
-            
-        }
 
         /// <summary>
         /// метод тестирования загрузки rtf формата (неподдерживаемый формат)
@@ -220,6 +232,8 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             Assert.IsTrue(ProjectPage.WaitImportDocumentErrorMessage(),
                 "Ошибка: не появилось сообщение о повторном файле");
         }
+
+
 
         /// <summary>
         /// Загрузить документ в форме создания проекта

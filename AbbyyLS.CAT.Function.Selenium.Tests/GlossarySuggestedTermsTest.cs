@@ -7,14 +7,26 @@ using System.Windows.Forms;
 
 namespace AbbyyLs.CAT.Function.Selenium.Tests
 {
-    public class GlossarySuggestedTermsTest : GlossaryTest
+    /// <summary>
+    /// Группа тестов для проверки терминов глоссария
+    /// </summary>
+	public class GlossarySuggestedTermsTest : GlossaryTest
     {
-        public GlossarySuggestedTermsTest(string url, string workspaceUrl, string browserName)
+        /// <summary>
+        /// Конструктор теста
+        /// </summary>
+        /// <param name="url">Адрес</param>
+        /// <param name="workspaceUrl">Адрес workspace</param>
+        /// <param name="browserName">Названеи браузера</param>
+		public GlossarySuggestedTermsTest(string url, string workspaceUrl, string browserName)
             : base(url, workspaceUrl, browserName)
         {
 
         }
 
+		/// <summary>
+		/// Предварительная подготовка группы тестов
+		/// </summary>
         [SetUp]
         public void Setup()
         {
@@ -634,6 +646,8 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
         {
             AddUserRights();
         }
+
+
 
         /// <summary>
         /// Кликнуть кнопку термина по имени глоссария

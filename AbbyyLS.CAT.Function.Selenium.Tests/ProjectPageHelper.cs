@@ -12,9 +12,17 @@ using OpenQA.Selenium.Support.UI;
 
 namespace AbbyyLs.CAT.Function.Selenium.Tests
 {
-    public class ProjectPageHelper : CommonHelper
+    /// <summary>
+    /// Хелпер страницы проекта
+    /// </summary>
+	public class ProjectPageHelper : CommonHelper
     {
-        public ProjectPageHelper(IWebDriver driver, WebDriverWait wait):
+        /// <summary>
+        /// Конструктор хелпера
+        /// </summary>
+        /// <param name="driver">Драйвер</param>
+        /// <param name="wait">Таймаут</param>
+		public ProjectPageHelper(IWebDriver driver, WebDriverWait wait):
             base (driver, wait)
         {
         }
@@ -502,6 +510,7 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 
 			return isExistDocument;
 		}
+
 
 
         protected const string PROJECT_TABLE_XPATH = "//table[contains(@class,'l-project-panel-tbl')]";

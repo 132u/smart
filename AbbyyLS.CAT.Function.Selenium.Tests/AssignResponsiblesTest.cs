@@ -8,8 +8,17 @@ using System.Threading;
 
 namespace AbbyyLs.CAT.Function.Selenium.Tests
 {
+	/// <summary>
+	/// Группа тестов для проверки назначения пользователя на задачу
+	/// </summary>
 	class AssignResponsiblesTest : BaseTest
 	{
+		/// <summary>
+		/// Конструктор теста
+		/// </summary>
+		/// <param name="url">Адрес</param>
+		/// <param name="workspaceUrl">Адрес workspace</param>
+		/// <param name="browserName">Название браузера</param>
 		public AssignResponsiblesTest(string url, string workspaceUrl, string browserName)
 			: base (url, workspaceUrl, browserName)
 		{

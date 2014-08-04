@@ -5,8 +5,16 @@ using OpenQA.Selenium.Support.UI;
 
 namespace AbbyyLs.CAT.Function.Selenium.Tests
 {
+	/// <summary>
+	/// Хелпер панели выдачи переводов
+	/// </summary>
 	public class CatPanelResultsHelper : CommonHelper
 	{
+		/// <summary>
+		/// Конструктор хелпера
+		/// </summary>
+		/// <param name="driver">Драйвер</param>
+		/// <param name="wait">Таймаут</param>
 		public CatPanelResultsHelper(IWebDriver driver, WebDriverWait wait) :
             base (driver, wait)
         {
@@ -42,6 +50,7 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 			}
 			return terms;
 		}
+
 
 
 		protected const string CAT_PANEL_TERM_XPATH = ".//div[@id='cat-body']//table//tbody//tr//td[2]//div";

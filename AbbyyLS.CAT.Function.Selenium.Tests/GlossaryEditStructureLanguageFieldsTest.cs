@@ -7,14 +7,26 @@ using System.Windows.Forms;
 
 namespace AbbyyLs.CAT.Function.Selenium.Tests
 {
-    public class GlossaryEditStructureLanguageFieldsTest : GlossaryTest
+    /// <summary>
+    /// Группа тестов дял проверки редактирования структуры глоссария (язык)
+    /// </summary>
+	public class GlossaryEditStructureLanguageFieldsTest : GlossaryTest
     {
-        public GlossaryEditStructureLanguageFieldsTest(string url, string workspaceUrl, string browserName)
+        /// <summary>
+        /// Конструктор теста
+        /// </summary>
+        /// <param name="url">Адрес</param>
+        /// <param name="workspaceUrl">Адрес workspace</param>
+        /// <param name="browserName">Название браузера</param>
+		public GlossaryEditStructureLanguageFieldsTest(string url, string workspaceUrl, string browserName)
             : base(url, workspaceUrl, browserName)
         {
 
         }
 
+		/// <summary>
+		/// Начальная подготовка для каждого теста
+		/// </summary>
         [SetUp]
         public void Setup()
         {
@@ -49,6 +61,8 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             string fieldName = GlossaryEditStructureForm.attributeDict[GlossaryEditStructureFormHelper.ATTRIBUTE_TYPE.InterpretationSource];
             CheckLanguageLevelField(fieldName);
         }
+
+
 
         /// <summary>
         /// Проверить поля уровня Language

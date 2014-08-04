@@ -20,9 +20,18 @@ using OpenQA.Selenium.Interactions;
 
 namespace AbbyyLs.CAT.Function.Selenium.Tests
 {
-    public class Editor_RevisionTest : BaseTest
+    /// <summary>
+    /// Группа тестов для проверки истории версий в редакторе
+    /// </summary>
+	public class Editor_RevisionTest : BaseTest
     {
-        public Editor_RevisionTest(string url, string workspaceUrl, string browserName)
+        /// <summary>
+        /// Конструктор теста
+        /// </summary>
+        /// <param name="url">Адрес</param>
+        /// <param name="workspaceUrl">Адрес workspace</param>
+        /// <param name="browserName">Название браузера</param>
+		public Editor_RevisionTest(string url, string workspaceUrl, string browserName)
             : base(url, workspaceUrl, browserName)
         {
 
@@ -386,7 +395,6 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
                 "Ошибка: неправильный тип ревизии");
         }
 
-
         /// <summary>
         /// ТЕСТ: подтверждение нескольких переводов одного сегмента (несколько ревизий)
         /// </summary>
@@ -656,6 +664,8 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             Assert.IsTrue(RevisionPage.GetHasRevisionInsertedTextPart(1),
                 "Ошибка: в ревизии нет пометки о добавленном тексте");
         }
+
+
 
         /// <summary>
         /// Добавить текст в Target

@@ -18,9 +18,18 @@ using System.Text.RegularExpressions;
 
 namespace AbbyyLs.CAT.Function.Selenium.Tests
 {
-    public class CommonHelper
+    /// <summary>
+    /// Общий хелпер
+    /// </summary>
+	public class CommonHelper
     {
-        private IWebDriver _driver;
+        /// <summary>
+        /// Драйвер
+        /// </summary>
+		private IWebDriver _driver;
+		/// <summary>
+		/// Драйвер
+		/// </summary>
         protected IWebDriver Driver
         {
             get
@@ -28,7 +37,14 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
                 return _driver;
             }
         }
+
+		/// <summary>
+		/// Таймаут
+		/// </summary>
         private WebDriverWait _wait;
+		/// <summary>
+		/// Таймаут
+		/// </summary>
         protected WebDriverWait Wait
         {
             get
@@ -62,6 +78,7 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
         /// Дождаться, пока появится элемент
         /// </summary>
         /// <param name="by">by</param>
+		/// <param name="maxWait">таймаут</param>
         /// <returns>появился элемент</returns>
         protected bool WaitUntilDisplayElement(By by, int maxWait = 10)
         {

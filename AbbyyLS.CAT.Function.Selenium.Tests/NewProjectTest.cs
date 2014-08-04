@@ -18,17 +18,25 @@ using OpenQA.Selenium.Interactions;
 
 namespace AbbyyLs.CAT.Function.Selenium.Tests
 {
-
     /// <remarks>
     /// Методы для тестирования Проектов
     /// </remarks>
-
-    public class NewProjectTest : BaseTest
+	
+	public class NewProjectTest : BaseTest
     {
+		/// <summary>
+		/// Конструктор теста
+		/// </summary>
+		/// <param name="url">Адрес</param>
+		/// <param name="workspaceUrl">Адрес workspace</param>
+		/// <param name="browserName">Название браузера</param>
+		public NewProjectTest(string url, string workspaceUrl, string browserName)
+			: base(url, workspaceUrl, browserName)
+		{
+
+		}
 
         protected string ResultFilePath;
-
-
 
         public string ProjectNameCheck;
         public string DuplicateProjectName;
@@ -53,14 +61,6 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
         // В сообщении об экспорте при экспорте нескольких документов должно быть Documents
         protected const string EXPORT_NOTIFIER_DOWNLOAD_DOCUMENTS = "Documents";
 
-
-        public NewProjectTest(string url, string workspaceUrl, string browserName)
-            : base(url, workspaceUrl, browserName)
-        {
-
-        }
-
-
         /// <summary>
         /// Старт тестов, переменные
         /// </summary>
@@ -79,7 +79,6 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 
             Authorization();
         }
-
 
         ///////////////////////////////
         // Что это?

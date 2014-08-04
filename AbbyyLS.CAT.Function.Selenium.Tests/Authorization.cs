@@ -2,9 +2,18 @@
 
 namespace AbbyyLs.CAT.Function.Selenium.Tests
 {
-    class AuthorizationTest : BaseTest
+    /// <summary>
+    /// Группа тестов для проверки авторизации
+    /// </summary>
+	class AuthorizationTest : BaseTest
     {
-        public AuthorizationTest(string url, string workspaceUrl, string browserName)
+        /// <summary>
+        /// Конструктор тестов
+        /// </summary>
+        /// <param name="url">Адрес</param>
+        /// <param name="workspaceUrl">Адрес workspace</param>
+        /// <param name="browserName">Название браузера</param>
+		public AuthorizationTest(string url, string workspaceUrl, string browserName)
             : base(url, workspaceUrl, browserName)
         {
 

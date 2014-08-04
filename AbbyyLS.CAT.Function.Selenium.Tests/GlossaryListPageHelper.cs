@@ -11,9 +11,17 @@ using OpenQA.Selenium.Support.UI;
 
 namespace AbbyyLs.CAT.Function.Selenium.Tests
 {
-    public class GlossaryListPageHelper : CommonHelper
+    /// <summary>
+    /// Хелпер страницы списка глоссариев
+    /// </summary>
+	public class GlossaryListPageHelper : CommonHelper
     {
-        public GlossaryListPageHelper(IWebDriver driver, WebDriverWait wait) :
+        /// <summary>
+        /// Конструктор хелпера
+        /// </summary>
+        /// <param name="driver">Драйвер</param>
+        /// <param name="wait">Таймаут</param>
+		public GlossaryListPageHelper(IWebDriver driver, WebDriverWait wait) :
             base(driver, wait)
         {
         }
@@ -98,7 +106,6 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             return GetTextElement(By.XPath(GLOSSARY_NAME_XPATH + "[text() = '" + glossaryName + "']/../../td[8]"));
         }
 
-
         /// <summary>
         /// Получить xPath глоссария
         /// </summary>
@@ -110,9 +117,9 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
         }
 
 
+
         protected const string CREATE_GLOSSARY_BTN_XPATH = ".//span[contains(@class,'js-create-glossary-button')]//a";
         protected const string ADD_SUGGEST_BTN_XPATH = "//span[contains(@class,'js-add-suggest')]";
         protected const string GLOSSARY_NAME_XPATH = "//tr[contains(@class, 'js-glossary-row')]/td[1]/p";       
-
     }
 }

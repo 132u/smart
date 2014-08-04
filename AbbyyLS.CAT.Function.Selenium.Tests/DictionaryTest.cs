@@ -18,9 +18,18 @@ using OpenQA.Selenium.Interactions;
 
 namespace AbbyyLs.CAT.Function.Selenium.Tests
 {
-    public class DictionaryTest : BaseTest
+    /// <summary>
+    /// Группа тестов для проверки словарей
+    /// </summary>
+	public class DictionaryTest : BaseTest
     {
-        public DictionaryTest(string url, string workspaceUrl, string browserName)
+        /// <summary>
+        /// Констрйктор теста
+        /// </summary>
+        /// <param name="url">Адрес</param>
+        /// <param name="workspaceUrl">Адрес workspace</param>
+        /// <param name="browserName">Название браузера</param>
+		public DictionaryTest(string url, string workspaceUrl, string browserName)
             : base(url, workspaceUrl, browserName)
         {
 
@@ -291,6 +300,8 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             // Проверить, что вкладка Definitions активна
             Assert.IsTrue(SearchPage.GetIsDefinitionTabActive(), "Ошибка: не перешли на вкладку Definitions");
         }
+
+
 
         /// <summary>
         /// Открыть форму создания аккаунта
