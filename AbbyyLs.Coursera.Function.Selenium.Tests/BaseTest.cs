@@ -1020,7 +1020,6 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
 			{
 				// Проверить, есть ли событие
 				isPresent = HomePage.GetIsEventPresentByTarget(targetText, ConvertLastEventTypeToString(evType));
-
 				// Проверить, что условие поиска выполнено или превышен лимит времени
 				isNeedStopWait = (!waitAppearEvent ? !isPresent : isPresent) || DateTime.Now.TimeOfDay.Subtract(timeBegin).Seconds > maxDurationWaitEventList;
 				if (isNeedStopWait)
@@ -1028,9 +1027,7 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
 					break;
 				}
 				// Ожидание
-				Console.WriteLine("start sleep");
-				Thread.Sleep(1000);
-				Console.WriteLine("end sleep");
+				Thread.Sleep(5000);
 				// Обновление страницы
 				_driver.FindElement(By.XPath(".//div")).SendKeys(OpenQA.Selenium.Keys.F5);
 			} while (!isNeedStopWait);
@@ -1096,11 +1093,18 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
 		/// <param name="rowNumber">номер строки в списке предложенных переводов</param>
 		protected void VoteFromEditor(bool isVoteUp, int rowNumber)
 		{
-			string time = EditorPage.GetTimeVote(isVoteUp, rowNumber);
+			// Получить время создания перевода
+			string time = EditorPage.GetTranslationTimeByRowNumber(rowNumber);
+
+			// Проголосовать
+			EditorPage.VoteByRowNumber(isVoteUp, rowNumber);
 			Thread.Sleep(1000);
-			rowNumber = EditorPage.GetTranslationRowNumberByTime(time);
-			Thread.Sleep(1000);
-			Assert.IsTrue(EditorPage.GetIsVoteConsidered(isVoteUp, rowNumber), "Ошибка: голос не принят");
+
+			// Получаем новый номер строки для перевода
+			int rowNumberNew = EditorPage.GetTranslationRowNumberByTime(time);
+			
+			// Првоеряем, что голос принят
+			Assert.IsTrue(EditorPage.GetIsVoteConsidered(isVoteUp, rowNumberNew), "Ошибка: голос не принят");
 		}
 
 		/// <summary>

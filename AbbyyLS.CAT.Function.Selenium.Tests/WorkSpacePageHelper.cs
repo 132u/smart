@@ -44,7 +44,7 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
         /// Дождаться появления ссылки для изменения языка локали
         /// </summary>
         /// <returns>появилась</returns>
-        public bool WaitAppearLocaleBtn()
+		public bool WaitAppearLocaleBtn()
         {
             return WaitUntilDisplayElement(By.XPath(LOCALE_REF_PATH));
         }
@@ -140,7 +140,16 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
         /// <returns>есть</returns>
         public bool GetIsProjectInList(string projectName)
         {
-            return GetIsElementExist(By.XPath(GetProjectRefXPath(projectName)));
+			// Выставляем минимальный таймаут
+			SetDriverTimeoutMinimum();
+			
+			// Находим, существует ли проект в списке
+			bool isExist = GetIsElementExist(By.XPath(GetProjectRefXPath(projectName)));
+			
+			// Возвращаем дефолтное значение таймаута
+			SetDriverTimeoutDefault();
+			
+			return isExist;
         }
 
         /// <summary>

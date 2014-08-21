@@ -35,34 +35,93 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 
         }
 
+
+
+		// Имя проекта, использующегося в нескольких тестах
+		// Проект не изменяется при проведении тестов
+		private string projectNoChangesName = "";
+
+
+
+		/// <summary>
+		/// Начальная подготовка для группы тестов
+		/// </summary>
+		[TestFixtureSetUp]
+		public void SetupAll()
+		{
+			// Создание уникального имени проекта
+			CreateUniqueNamesByDatetime();
+
+			// Запись имени для дальнейшего использования в группе тестов
+			projectNoChangesName = ProjectName;
+		}
+
 		/// <summary>
 		/// Начальная подготовка для каждого теста
 		/// </summary>
         [SetUp]
         public void Setup()
         {
-            // 1. Авторизация
-            Authorization();
+			// Не выходить из браузера после теста
+			quitDriverAfterTest = false;
 
-            string currentDocument = DocumentFile;
-            // При проверке Confirm не работает наш обычный файл, приходится загружать другой
-            if (TestContext.CurrentContext.Test.Name.Contains("Confirm"))
-				currentDocument = DocumentFileToConfirm;
-			else if (TestContext.CurrentContext.Test.Name.Contains("Unfinished") ||
-				TestContext.CurrentContext.Test.Name.Contains("PreviousStage"))
-				currentDocument = EditorTXTFile;
+			// 1. Переход на страницу workspace
+			GoToWorkspace();
 
+			// 2. Создание проекта с 1 документом внутри
+			// При проверке PreviousStage нужно создать новый проект с уникальным именем, т.к. необходимо внести изменения в задачи
+			// При проверке Tag нужно чтобы в документе проекта присутствовал tag
+			if (TestContext.CurrentContext.Test.Name.Contains("PreviousStage"))
+			{
+				// Создание проекта с уникальным именем
+				CreateProjectIfNotCreated(ProjectName, EditorTXTFile);
+				// Открытие настроек проекта
+				WorkspacePage.OpenProjectPage(ProjectName);
+			}
+			else if (TestContext.CurrentContext.Test.Name.Contains("Tag"))
+			{
+				// Создание проекта с уникальным именем
+				CreateProjectIfNotCreated(ProjectName, DocumentFile);
+				// Открытие настроек проекта
+				WorkspacePage.OpenProjectPage(ProjectName);
+			}
+			else
+			{
+				// Создание проекта с неизменяемым именем, для проведения нескольких тестов
+				CreateProjectIfNotCreated(projectNoChangesName, EditorTXTFile);
+				// Открытие настроек проекта
+				WorkspacePage.OpenProjectPage(projectNoChangesName);
+			}
+			
+			// 3. Назначение задачи на пользователя
+			if (ProjectPage.GetDocumentTask(1) == "")
+				AssignTask();
 
-            // 2. Создание проекта с 1 документом внутри
-            CreateProject(ProjectName);
-            //открытие настроек проекта
-            ImportDocumentProjectSettings(currentDocument, ProjectName);
-            // 3. Назначение задачи на пользователя
-            AssignTask();
-
-            // 4. Открытие документа
-            OpenDocument();
+			// 4. Открытие документа
+			OpenDocument();
         }
+
+		/// <summary>
+		/// Конечные действия для каждого теста
+		/// </summary>
+		[TearDown]
+		public void TearDown()
+		{
+			try
+			{
+				// Удалить все из сегментов
+				for (int i = 0; i <= EditorPage.GetSegmentsNumber(); i++)
+				{
+					EditorPage.AddTextTarget(i + 1, "");
+				}
+				
+				// Дождаться сохранения сегментов
+				EditorPage.WaitUntilAllSegmentsSave();
+			}
+			catch { }
+		}
+
+
 
         /// <summary>
         /// Метод тестирования кнопки "Back" в редакторе
@@ -110,7 +169,7 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 
 			// Нажать кнопку отмены
 			EditorPage.ClickUndoBtn();
-			
+
 			// Убедиться, что в target нет текста
 			string targetxt = EditorPage.GetTargetText(segmentNumber);
 			Assert.AreEqual("", targetxt, "Ошибка: после Undo в Target есть текст");
@@ -128,7 +187,7 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 
 			// Нажать хоткей отмены
 			EditorPage.SendKeysTarget(segmentNumber, OpenQA.Selenium.Keys.Control + "z");
-			
+
 			// Убедиться, что в target нет текста
 			string targetxt = EditorPage.GetTargetText(segmentNumber);
 			Assert.AreEqual("", targetxt, "Ошибка: после Undo в Target есть текст");
@@ -148,6 +207,7 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 
 			// Подтверждаем
 			EditorPage.ClickConfirmBtn();
+			WaitSegmentConfirm(segmentNumber);
 
 			// Нажать кнопку отмены
 			EditorPage.ClickUndoBtn();
@@ -175,6 +235,7 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 
 			// Подтверждаем
 			EditorPage.ClickConfirmBtn();
+			WaitSegmentConfirm(segmentNumber);
 
 			// Нажать хоткей отмены
 			EditorPage.SendKeysTarget(segmentNumber, OpenQA.Selenium.Keys.Control + "z");
@@ -455,13 +516,8 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 			// Дождаться открытия страницы проекта
 			ProjectPage.WaitPageLoad();
 
-			//Открываем настройки проекта
-			ProjectPage.ClickProjectSettings();
-			Thread.Sleep(1000);
-
-			//Переходим на вкладку Workflow
-			ProjectPage.ClickProjectSettingsWorkflow();
-			Thread.Sleep(1000);
+			//Открываем Workflow в настройках проекта
+			OpenWorkflowSettings();
 
 			// Добавление новой задачи
 			ProjectPage.ClickProjectSettingsWorkflowNewTask();
@@ -480,7 +536,7 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 			OpenAssignDialog(ProjectName);
 
 			// Выбор в качестве исполнителя для второй задачи группы Administrator
-			SetResponsible(2, "Administrators", true);
+			SetResponsible(2, UserName, false);
 
 			// Закрываем форму
 			ResponsiblesDialog.ClickCloseBtn();

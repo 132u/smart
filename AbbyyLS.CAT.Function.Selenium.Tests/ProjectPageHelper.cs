@@ -53,6 +53,14 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             return WaitUntilDisplayElement(By.XPath(PROGRESS_DIALOG_XPATH));
         }
 
+		/// <summary>
+		/// Кликнуть по Assign Responsibles документа
+		/// </summary>
+		public void ClickAssignRessponsibleBtn()
+		{
+			ClickElement(By.XPath(DOCUMENT_ASSIGN_RESPONSIBLES_BTN_XPATH));
+		}
+
         /// <summary>
         /// Кликнуть по ячейке с пользователем в диалоге
         /// </summary>
@@ -87,6 +95,15 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
         {
             ClickElement(By.XPath(PROGRESS_DIALOG_ASSIGN_BTN_XPATH));
         }
+
+		/// <summary>
+		/// Дождаться появления кнопки Assign
+		/// </summary>
+		/// <returns></returns>
+		public bool WaitAssignBtnDisplay()
+		{
+			return WaitUntilDisplayElement(By.XPath(PROGRESS_DIALOG_ASSIGN_BTN_XPATH));
+		}
 
         /// <summary>
         /// Дождаться появления кнопки Cancel
@@ -511,6 +528,19 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 			return isExistDocument;
 		}
 
+		/// <summary>
+		/// Возвращает задачу по номеру документа
+		/// </summary>
+		/// <param name="documentNumber">Номер документа</param>
+		/// <returns>Задача</returns>
+		public string GetDocumentTask(int documentNumber)
+		{
+			// Кликнуть на открытие информации о документе
+			string XPath = DOCUMENT_ROW_XPATH + "[" + documentNumber + "]//" + TASK_NAME_XPATH;
+
+			return GetTextElement(By.XPath(XPath)).Trim();
+		}
+
 
 
         protected const string PROJECT_TABLE_XPATH = "//table[contains(@class,'l-project-panel-tbl')]";
@@ -520,10 +550,10 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             ".//table[contains(@class,'js-progress-table')]//tr[1]//td[3]//span";
         protected const string PROGRESS_DIALOG_USERLIST_XPATH = "//span[contains(@class,'js-dropdown__list')]";
         protected const string PROGRESS_DIALOG_USER_ITEM_LIST_XPATH = "//span[contains(@class,'js-dropdown__item')]";
-        protected const string PROGRESS_DIALOG_ASSIGN_SPAN_XPATH = "//span[contains(@class,'js-assign')]";
+		protected const string PROGRESS_DIALOG_ASSIGN_SPAN_XPATH = "//td[contains(@class,'js-status')]//span[contains(@class,'js-assign')]";
         protected const string PROGRESS_DIALOG_ASSIGN_BTN_XPATH = PROGRESS_DIALOG_ASSIGN_SPAN_XPATH + "//a";
         protected const string PROGRESS_DIALOG_CANCEL_BTN_XPATH = "//span[contains(@class,'js-assigned-cancel')]";
-        protected const string PROGRESS_DIALOG_CLOSE_BTN_XPATH = "//div[contains(@class,'js-popup-progress')][2]//span[contains(@class,'js-popup-close')]";
+        protected const string PROGRESS_DIALOG_CLOSE_BTN_XPATH = "//div[contains(@class,'js-popup-progress')][2]//span[contains(@class,'js-popup-close')]/span[1]";
 
         protected const string ACCEPT_BTN_XPATH = ".//span[contains(@class,'js-accept')]";
 
@@ -570,6 +600,7 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 		protected const string DOCUMENT_PROGRESS_XPATH = "//td//a[contains(@class,'js-progress-link')]";
 		protected const string DOCUMENT_ASSIGN_RESPONSIBLES_BTN_XPATH = "//span[contains(@class,'js-assign-btn')]";
 		protected const string OPEN_CLOSE_TD_XPATH = "td[contains(@class,'openCloseCell')]";
+		protected const string TASK_NAME_XPATH = OPEN_CLOSE_TD_XPATH + "//div[contains(@class,'js-text-overflow')]";
 		protected const string UPLOAD_DOCUMENT_BTN_XPATH = ".//span[contains(@class,'js-import-btn ')]";
     }
 }

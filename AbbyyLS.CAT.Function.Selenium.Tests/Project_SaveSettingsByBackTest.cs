@@ -25,6 +25,8 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 
         }
 
+
+
 		/// <summary>
 		/// Начальная подготовка для каждого теста
 		/// </summary>
@@ -33,6 +35,8 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
         {
             
         }
+
+
 
         /// <summary>
         /// Тест: создание проекта, возврат на первый шаг

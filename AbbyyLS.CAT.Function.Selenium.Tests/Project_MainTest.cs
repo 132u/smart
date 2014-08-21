@@ -87,7 +87,7 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             // Нажать Удалить Проект
             Assert.IsTrue(WorkspacePage.ClickDeleteProjectDeleteMode(),
                 "Ошибка: нет кнопки Удалить проект");
-
+			Thread.Sleep(5000);
             // Проверить, что проект удалился
             Assert.IsTrue(GetIsNotExistProject(ProjectName), "Ошибка: проект не удалился");
         }
@@ -300,7 +300,7 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             SelectDocumentInProject(1);
             // Нажать удалить
             ProjectPage.ClickDeleteBtn();
-
+			Thread.Sleep(1000);
             // Подтвердить
             ProjectPage.ConfirmClickYes();
             Thread.Sleep(5000);
@@ -440,23 +440,6 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
         }
 
 
-
-        /// <summary>
-        /// Удаление проект на вкладке проектов по имени
-        /// </summary>
-        /// <param name="ProjectNameToDelete">имя проекта, который надо удалить</param>
-        protected void DeleteProjectFromList(string ProjectNameToDelete)
-        {
-            // Выбрать этот проект
-            SelectProjectInList(ProjectNameToDelete);
-            // Нажать Удалить
-            WorkspacePage.ClickDeleteProjectBtn();
-            // Подтвердить
-            Assert.IsTrue(WorkspacePage.ClickConfirmDelete(), "Ошибка: не появилась форма подтверждения удаления проекта");
-            // Дождаться, пока пропадет диалог подтверждения удаления
-            Assert.IsTrue(WorkspacePage.WaitUntilDeleteConfirmFormDisappear(), "Ошибка: не появилась форма подтверждения удаления проекта");
-            Thread.Sleep(500);
-        }
 
         /// <summary>
         /// Проверка, есть ли ошибка существующего имени

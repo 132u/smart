@@ -24,6 +24,8 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 
         }
 
+
+
 		/// <summary>
 		/// Начальная подготовка для каждого теста
 		/// </summary>
@@ -31,6 +33,8 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
         public void Setup()
         {
         }
+
+
 
         /// <summary>
         /// Метод тестирования создания Глоссария

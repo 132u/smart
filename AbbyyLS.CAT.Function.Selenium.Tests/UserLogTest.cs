@@ -36,8 +36,11 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
         {
             projectName = "TestLogProject" + DateTime.Now.Ticks;
 
-            // Авторизация
-            Authorization();
+			// Не закрывать браузер
+			quitDriverAfterTest = false;
+
+			// Переходим к странице воркспейса
+			GoToWorkspace();
         }
 
 		/// <summary>

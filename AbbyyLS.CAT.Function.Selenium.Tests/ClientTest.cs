@@ -24,18 +24,22 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 
         }
 
+
+
 		/// <summary>
 		/// Начальная подготовка для каждого теста
 		/// </summary>
         [SetUp]
         public void Setup()
         {
-            // Авторизация
-            Authorization();
-
-            // Перейти на вкладку Клиенты
-            SwitchClientTab();
+            // Не закрывать браузер
+			quitDriverAfterTest = false;
+			
+			// Переходим к странице воркспейса
+            GoToClients();
         }
+
+
 
         /// <summary>
         /// Метод тестирования создания Клиента
@@ -249,6 +253,8 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
                 "Ошибка: клиент остался в списке");
         }
         
+
+
         /// <summary>
         /// Перейти на страницу клиентов
         /// </summary>

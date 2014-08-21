@@ -94,30 +94,30 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
             Assert.IsTrue(ratingAfter == (ratingBefore + 1), "Ошибка: (в редакторе, голосование за перевод) рейтинг после голоса ЗА не увеличился на 1");
             ratingBefore = ratingAfter;
 
-            // Повторно проголосовать За
-            VoteFromEditor(true, rowNumber);
+			// Повторно проголосовать За
+			VoteFromEditor(true, rowNumber);
 			rowNumber = EditorPage.GetTranslationRowNumberByTarget(translationText);
 			ratingAfter = EditorPage.GetTranslationRatingByRowNumber(rowNumber);
-            // Проверить, что рейтинг не изменился
-            Assert.IsTrue(ratingAfter == ratingBefore, "Ошибка: (в редакторе, повторное голосование ЗА) рейтинг не должен был измениться");
+			// Проверить, что рейтинг не изменился
+			Assert.IsTrue(ratingAfter == ratingBefore, "Ошибка: (в редакторе, повторное голосование ЗА) рейтинг не должен был измениться");
 
-            // Выйти из редактора и зайти снова
-            ClickBackEditor();
-            // Зайти в лекцию
-            OpenLectureByRowNum(lectureRowNumber);
-            // Перейти в строку с добавленным переводом
-            EditorPage.ClickTargetByRowNumber(translationRowNum);
-            // Получить номер строки с добавленым переводом в списке предложенных переводов для предложения
+			// Выйти из редактора и зайти снова
+			ClickBackEditor();
+			// Зайти в лекцию
+			OpenLectureByRowNum(lectureRowNumber);
+			// Перейти в строку с добавленным переводом
+			EditorPage.ClickTargetByRowNumber(translationRowNum);
+			// Получить номер строки с добавленым переводом в списке предложенных переводов для предложения
 			rowNumber = EditorPage.GetTranslationRowNumberByTarget(translationText);
-            // Получить количество голосов за этот перевод
+			// Получить количество голосов за этот перевод
 			ratingBefore = EditorPage.GetTranslationRatingByRowNumber(rowNumber);
-            // Проголосовать За
-            VoteFromEditor(true, rowNumber);
+			// Проголосовать За
+			VoteFromEditor(true, rowNumber);
 			rowNumber = EditorPage.GetTranslationRowNumberByTarget(translationText);
 			ratingAfter = EditorPage.GetTranslationRatingByRowNumber(rowNumber);
-            // Проверить, что рейтинг не изменился
-            Assert.IsTrue(ratingAfter == ratingBefore, "Ошибка: (в редакторе, проголосовали ЗА, вышли из редактора, зашли снова, проголосовали ЗА) рейтинг не должен был измениться");
-            ratingBefore = ratingAfter;
+			// Проверить, что рейтинг не изменился
+			Assert.IsTrue(ratingAfter == ratingBefore, "Ошибка: (в редакторе, проголосовали ЗА, вышли из редактора, зашли снова, проголосовали ЗА) рейтинг не должен был измениться");
+			ratingBefore = ratingAfter;
 
             // Проголосовать Против
             VoteFromEditor(false, rowNumber);
@@ -130,7 +130,7 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
             VoteFromEditor(true, rowNumber);
 			rowNumber = EditorPage.GetTranslationRowNumberByTarget(translationText);
             ratingAfter = EditorPage.GetTranslationRatingByRowNumber(rowNumber);
-            // Проверить, что рейтинг изменился на -2
+            // Проверить, что рейтинг изменился на +2
             Assert.IsTrue(ratingAfter == (ratingBefore + 2), "Ошибка: (в редакторе, проголосовали ПРОТИВ, проголосовали ЗА) рейтинг должен измениться на +2");
         }
 

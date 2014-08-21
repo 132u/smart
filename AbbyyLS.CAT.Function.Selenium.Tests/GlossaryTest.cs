@@ -24,18 +24,22 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 
         }
 
+
+
 		/// <summary>
 		/// Предварительная подготовка группы тестов
 		/// </summary>
 		[SetUp]
 		public void SetupGlossary()
         {
-            // Авторизация
-            Authorization();
+			// Не закрывать браузер
+			quitDriverAfterTest = false;
 
-            // Перейти на вкладку Glossary
-            SwitchGlossaryTab();
+			// Переходим к странице глоссариев
+			GoToGlossaries();
         }
+
+
 
         /// <summary>
         /// Зайти в глоссарий

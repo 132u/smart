@@ -142,6 +142,7 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
                     {
                         break;
                     }
+					Driver.Navigate().Refresh();
                 }
             }
             return isDisappeared;

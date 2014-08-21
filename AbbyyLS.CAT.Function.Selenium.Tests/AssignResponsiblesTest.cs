@@ -24,14 +24,41 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 		{
 		}
 
+
+
+		// Имя проекта, использующегося в нескольких тестах
+		// Проект не изменяется при проведении тестов
+		private string projectNoChangesName = "";
+
+
+
 		/// <summary>
-		/// Старт тестов. Авторизация
+		/// Подготовка для группы тестов
+		/// </summary>
+		[TestFixtureSetUp]
+		public void SetupAll()
+		{
+			// Создание уникального имени проекта
+			CreateUniqueNamesByDatetime();
+
+			// Запись имени для дальнейшего использования в группе тестов
+			projectNoChangesName = ProjectName;
+		}
+
+		/// <summary>
+		/// Подготовка для каждого теста
 		/// </summary>
 		[SetUp]
 		public void Setup()
 		{
-			Authorization();
+			// Не выходить из браузера после теста
+			quitDriverAfterTest = false;
+
+			// Переход на страницу workspace
+			GoToWorkspace();
 		}
+
+
 
 		/// <summary>
 		/// Проверка отображения окна с правами пользователя при нажатии прогресса в Workflow
@@ -40,13 +67,10 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 		public void ResponsiblesWorkspaceOnProgressLink()
 		{
 			// Создание проекта
-			CreateProject(ProjectName, EditorTXTFile);
-
-			// Дождаться, пока документ догрузится
-			Assert.IsTrue(WorkspacePage.WaitProjectLoad(ProjectName), "Ошибка: документ не загрузился");
-
+			CreateProjectIfNotCreated(projectNoChangesName, EditorTXTFile);
+			
 			// Открываем инфо проекта
-			WorkspacePage.OpenProjectInfo(ProjectName);
+			WorkspacePage.OpenProjectInfo(projectNoChangesName);
 
 			// Открываем инфо документа 
 			WorkspacePage.OpenDocumentInfo(1);
@@ -66,13 +90,42 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 		public void ResponsiblesWorkspaceOnAssignBtn()
 		{
 			// Создание проекта
-			CreateProject(ProjectName, EditorTXTFile);
-
-			// Дождаться, пока документ догрузится
-			Assert.IsTrue(WorkspacePage.WaitProjectLoad(ProjectName), "Ошибка: документ не загрузился");
+			CreateProjectIfNotCreated(projectNoChangesName, EditorTXTFile);
 
 			// Открываем диалог выбора исполнителя
-			OpenAssignDialog(ProjectName);
+			OpenAssignDialog(projectNoChangesName);
+		}
+
+		/// <summary>
+		/// Проверка отображения окна с правами пользователя при загрузке документа в проект
+		/// </summary>
+		[Test]
+		public void ResponsiblesWorkspaceUploadDocument()
+		{
+			// Создание проекта
+			CreateProjectIfNotCreated(projectNoChangesName, EditorTXTFile);
+
+			// Открываем инфо проекта
+			WorkspacePage.OpenProjectInfo(projectNoChangesName);
+
+			// Открываем диалог загрузки документа
+			WorkspacePage.ClickDocumentUploadBtn();
+
+			// Ожидаем пока загрузится диалог
+			ProjectPage.WaitImportDialogDisplay();
+
+			// Открываем диалог добавления документа
+			ProjectPage.ClickAddDocumentInImport();
+
+			// Добавляем документ
+			FillAddDocumentForm(DocumentFileToConfirm);
+
+			ProjectPage.ClickNextImportDialog();
+			ProjectPage.ClickNextImportDialog();
+
+			// Ожидание открытия диалога выбора исполнителя
+			Assert.IsTrue(ResponsiblesDialog.WaitUntilMasterResponsiblesDialogDisplay(),
+				"Ошибка: Диалог выбора исполнителя не открылся.");
 		}
 
 		/// <summary>
@@ -82,13 +135,10 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 		public void ResponsiblesProjectOnProgressLink()
 		{
 			// Создание проекта
-			CreateProject(ProjectName, EditorTXTFile);
-
-			// Дождаться, пока документ догрузится
-			Assert.IsTrue(WorkspacePage.WaitProjectLoad(ProjectName), "Ошибка: документ не загрузился");
-
+			CreateProjectIfNotCreated(projectNoChangesName, EditorTXTFile);
+			
 			// Открываем проект
-			OpenProjectPage(ProjectName);
+			OpenProjectPage(projectNoChangesName);
 
 			// Открываем окно прав исполнителей
 			ProjectPage.ClickDocumentProgress();
@@ -106,19 +156,16 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 		public void ResponsiblesProjectOnAssignBtn()
 		{
 			// Создание проекта
-			CreateProject(ProjectName, EditorTXTFile);
-
-			// Дождаться, пока документ догрузится
-			Assert.IsTrue(WorkspacePage.WaitProjectLoad(ProjectName), "Ошибка: документ не загрузился");
+			CreateProjectIfNotCreated(projectNoChangesName, EditorTXTFile);
 
 			// Открываем проект
-			OpenProjectPage(ProjectName);
+			OpenProjectPage(projectNoChangesName);
 
 			// Открываем инфо документа 
 			ProjectPage.OpenDocumentInfo(1);
 
 			// Открываем окно прав исполнителей
-			ProjectPage.ClickAssignBtn();
+			ProjectPage.ClickAssignRessponsibleBtn();
 			Thread.Sleep(1000);
 
 			// Ожидание открытия диалога выбора исполнителя
@@ -133,13 +180,10 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 		public void ResponsiblesProjectOnProgressBtn()
 		{
 			// Создание проекта
-			CreateProject(ProjectName, EditorTXTFile);
-
-			// Дождаться, пока документ догрузится
-			Assert.IsTrue(WorkspacePage.WaitProjectLoad(ProjectName), "Ошибка: документ не загрузился");
-
+			CreateProjectIfNotCreated(projectNoChangesName, EditorTXTFile);
+			
 			// Открываем проект
-			OpenProjectPage(ProjectName);
+			OpenProjectPage(projectNoChangesName);
 
 			// Открываем инфо документа 
 			ProjectPage.SelectDocument(1);
@@ -154,54 +198,16 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 		}
 
 		/// <summary>
-		/// Проверка отображения окна с правами пользователя при загрузке документа в проект
-		/// </summary>
-		[Test]
-		public void ResponsiblesWorkspaceUploadDocument()
-		{
-			// Создание проекта
-			CreateProject(ProjectName);
-
-			// Дождаться, пока документ догрузится
-			Assert.IsTrue(WorkspacePage.WaitProjectLoad(ProjectName), "Ошибка: документ не загрузился");
-
-			// Открываем инфо проекта
-			WorkspacePage.OpenProjectInfo(ProjectName);
-
-			// Открываем диалог загрузки документа
-			WorkspacePage.ClickDocumentUploadBtn();
-
-			// Ожидаем пока загрузится диалог
-			ProjectPage.WaitImportDialogDisplay();
-
-			// Открываем диалог добавления документа
-			ProjectPage.ClickAddDocumentInImport();
-
-			// Добавляем документ
-			FillAddDocumentForm(EditorTXTFile);
-
-			ProjectPage.ClickNextImportDialog();
-			ProjectPage.ClickNextImportDialog();
-
-			// Ожидание открытия диалога выбора исполнителя
-			Assert.IsTrue(ResponsiblesDialog.WaitUntilMasterResponsiblesDialogDisplay(),
-				"Ошибка: Диалог выбора исполнителя не открылся.");
-		}
-
-		/// <summary>
 		/// Проверка отображения окна с правами пользователя при загрузке документа в окне проекта
 		/// </summary>
 		[Test]
 		public void ResponsiblesProjectUploadDocument()
 		{
 			// Создание проекта
-			CreateProject(ProjectName);
-
-			// Дождаться, пока документ догрузится
-			Assert.IsTrue(WorkspacePage.WaitProjectLoad(ProjectName), "Ошибка: документ не загрузился");
-
+			CreateProjectIfNotCreated(projectNoChangesName, EditorTXTFile);
+			
 			// Открываем проект
-			OpenProjectPage(ProjectName);
+			OpenProjectPage(projectNoChangesName);
 
 			// Открываем диалог загрузки документа
 			ProjectPage.ClickImportBtn();
@@ -213,7 +219,7 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 			ProjectPage.ClickAddDocumentInImport();
 
 			// Добавляем документ
-			FillAddDocumentForm(EditorTXTFile);
+			FillAddDocumentForm(DocumentFileToConfirm);
 
 			ProjectPage.ClickNextImportDialog();
 			ProjectPage.ClickNextImportDialog();
@@ -234,12 +240,6 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 			List<string> responsibleUsersList = new List<string>();
 			List<string> responsibleGroupList = new List<string>();
 			
-			// Создание проекта
-			CreateProject(ProjectName, EditorTXTFile);
-
-			// Дождаться, пока документ догрузится
-			Assert.IsTrue(WorkspacePage.WaitProjectLoad(ProjectName), "Ошибка: документ не загрузился");
-
 			// Переходим к вкладке прав пользователей
 			WorkspacePage.ClickUsersAndRightsBtn();
 
@@ -267,8 +267,11 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 			// Перейти на страницу проектов
 			SwitchWorkspaceTab();
 
+			// Создание проекта
+			CreateProjectIfNotCreated(projectNoChangesName, EditorTXTFile);
+
 			// Открываем диалог выбора исполнителя
-			OpenAssignDialog(ProjectName);
+			OpenAssignDialog(projectNoChangesName);
 
 			ResponsiblesDialog.ClickResponsiblesDropboxByRowNumber(1);
 
@@ -284,7 +287,7 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 				usersList.Remove(responsibleUsersList[i]);
 			}
 
-			// Получаем список из выпадающего списка исполнителей
+			// Получаем список из выпадающего списка групп исполнителей
 			responsibleGroupList = ResponsiblesDialog.GetResponsibleGroupsListByRowNumber(1);
 
 			for (int i = 0; i < responsibleGroupList.Count; i++)
@@ -311,12 +314,6 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 			string groupName = "GroupTest" + DateTime.Now.Ticks.ToString();
 			bool isPresent = false;
 
-			// Создание проекта
-			CreateProject(ProjectName, EditorTXTFile);
-
-			// Дождаться, пока документ догрузится
-			Assert.IsTrue(WorkspacePage.WaitProjectLoad(ProjectName), "Ошибка: документ не загрузился");
-
 			// Переходим к вкладке прав пользователей
 			WorkspacePage.ClickUsersAndRightsBtn();
 
@@ -335,8 +332,11 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 			// Перейти на страницу проектов
 			SwitchWorkspaceTab();
 
+			// Создание проекта
+			CreateProjectIfNotCreated(projectNoChangesName, EditorTXTFile);
+
 			// Открываем диалог выбора исполнителя
-			OpenAssignDialog(ProjectName);
+			OpenAssignDialog(projectNoChangesName);
 
 			ResponsiblesDialog.ClickResponsiblesDropboxByRowNumber(1);
 
@@ -361,20 +361,14 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 		[Test]
 		public void AssignUserOneTask()
 		{
-			// Проверка присутствия текущего пользователя в группе Administrators
-			CheckUserInAdministratorsGroup();
-
 			// Создание проекта
-			CreateProject(ProjectName, EditorTXTFile);
-
-			// Дождаться, пока документ догрузится
-			Assert.IsTrue(WorkspacePage.WaitProjectLoad(ProjectName), "Ошибка: документ не загрузился");
+			CreateProjectIfNotCreated(ProjectName, EditorTXTFile);
 
 			// Открываем диалог выбора исполнителя
 			OpenAssignDialog(ProjectName);
 
 			// Выбор в качестве исполнителя для первой задачи группы Administrator
-			SetResponsible(1, "Administrators", true);
+			SetResponsible(1, UserName, false);
 
 			// Закрываем форму
 			ResponsiblesDialog.ClickCloseBtn();
@@ -405,9 +399,6 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 		[Test]
 		public void AssignUserFewTasks()
 		{
-			// Проверка присутствия текущего пользователя в группе Administrators
-			CheckUserInAdministratorsGroup();
-			
 			// Создание проекта
 			// 1) Заполнение полей
 			FirstStepProjectWizard(ProjectName);
@@ -445,10 +436,10 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 			OpenAssignDialog(ProjectName);
 
 			// Выбор в качестве исполнителя для первой задачи группы Administrator
-			SetResponsible(1, "Administrators", true);
+			SetResponsible(1, UserName, false);
 
 			// Выбор в качестве исполнителя для второй задачи группы Administrator
-			SetResponsible(2, "Administrators", true);
+			SetResponsible(2, UserName, false);
 
 			// Закрываем форму
 			ResponsiblesDialog.ClickCloseBtn();
@@ -476,9 +467,6 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 		[Test]
 		public void DeleteUserTask()
 		{
-			// Проверка присутствия текущего пользователя в группе Administrators
-			CheckUserInAdministratorsGroup();
-
 			// Создание проекта
 			CreateProject(ProjectName, EditorTXTFile);
 
@@ -489,7 +477,7 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 			OpenAssignDialog(ProjectName);
 
 			// Выбор в качестве исполнителя для первой задачи группы Administrator
-			SetResponsible(1, "Administrators", true);
+			SetResponsible(1, UserName, false);
 
 			// Закрываем форму
 			ResponsiblesDialog.ClickCloseBtn();
@@ -501,13 +489,8 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 			// Открытие страницы проекта
 			OpenProjectPage(ProjectName);
 
-			//Открываем настройки проекта
-			ProjectPage.ClickProjectSettings();
-			Thread.Sleep(1000);
-
-			//Переходим на вкладку Workflow
-			ProjectPage.ClickProjectSettingsWorkflow();
-			Thread.Sleep(1000);
+			//Открываем Workflow в настройках проекта
+			OpenWorkflowSettings();
 
 			// Удаление первой задачи Translation
 			ProjectPage.ClickProjectSettingsWFDeleteTask(1);
@@ -523,14 +506,14 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 		[Test]
 		public void AssignDifferentUsersOneTask()
 		{
+			// После теста закрываем браузер, т.к. залогиниваемся под альтернативным пользователем
+			quitDriverAfterTest = true;
+			
 			// Проверка второго пользователя
 			CheckUserPresent(UserName2);
-			
-			// Создание проекта
-			CreateProject(ProjectName, EditorTXTFile);
 
-			// Дождаться, пока документ догрузится
-			Assert.IsTrue(WorkspacePage.WaitProjectLoad(ProjectName), "Ошибка: документ не загрузился");
+			// Создание проекта
+			CreateProjectIfNotCreated(ProjectName, EditorTXTFile);
 
 			// Открываем диалог выбора исполнителя
 			OpenAssignDialog(ProjectName);
@@ -639,13 +622,10 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 		public void AssignNobody()
 		{
 			// Создание проекта
-			CreateProject(ProjectName, EditorTXTFile);
-
-			// Дождаться, пока документ догрузится
-			Assert.IsTrue(WorkspacePage.WaitProjectLoad(ProjectName), "Ошибка: документ не загрузился");
+			CreateProjectIfNotCreated(projectNoChangesName, EditorTXTFile);
 
 			// Открываем диалог выбора исполнителя
-			OpenAssignDialog(ProjectName);
+			OpenAssignDialog(projectNoChangesName);
 
 			// Кликнуть подтверждение для заданной задачи
 			ResponsiblesDialog.ClickAssignBtn(1);
@@ -662,10 +642,7 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 		public void UnAssignUser()
 		{
 			// Создание проекта
-			CreateProject(ProjectName, EditorTXTFile);
-
-			// Дождаться, пока документ догрузится
-			Assert.IsTrue(WorkspacePage.WaitProjectLoad(ProjectName), "Ошибка: документ не загрузился");
+			CreateProjectIfNotCreated(ProjectName, EditorTXTFile);
 
 			// Открываем диалог выбора исполнителя
 			OpenAssignDialog(ProjectName);

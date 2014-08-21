@@ -24,14 +24,22 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 		{
 		}
 
+
+
 		/// <summary>
 		/// Старт тестов. Авторизация
 		/// </summary>
 		[SetUp]
 		public void Setup()
 		{
-			Authorization();
+			// Не выходить из браузера после теста
+			quitDriverAfterTest = false;
+
+			// 1. Переход на страницу workspace
+			GoToWorkspace();
 		}
+
+
 
 		/// <summary>
 		/// Проверка создания Translation Workflow по-умолчанию при создании проекта
@@ -55,6 +63,7 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 			
 			// 4) Выбор МТ
 			WorkspaceCreateProjectDialog.ClickNextStep();
+			Thread.Sleep(1000);
 
 			// 5) Проверка workflow
 			workflowCreateList = WorkspaceCreateProjectDialog.GetWFTaskList();
@@ -68,7 +77,7 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 			
 			//Выход без сохранения проекта
 			WorkspaceCreateProjectDialog.ClickCloseDialog();
-			Thread.Sleep(1000);
+			WorkspaceCreateProjectDialog.WaitDialogDisappear();
 		}
 
 		/// <summary>
@@ -97,6 +106,7 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 			// 5) Проверка workflow
 			// Изменение типа созданной задачи на Editing
 			WorkspaceCreateProjectDialog.SetWFTaskList(1, "Editing");
+			Thread.Sleep(1000);
 
 			workflowList = WorkspaceCreateProjectDialog.GetWFTaskList();
 			// Проверка наличия только одной задачи
@@ -117,13 +127,8 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 			// Открываем проект
 			OpenProjectPage(ProjectName);
 
-			//Открываем настройки проекта
-			ProjectPage.ClickProjectSettings();
-			Thread.Sleep(1000);
-
-			//Переходим на вкладку Workflow
-			ProjectPage.ClickProjectSettingsWorkflow();
-			Thread.Sleep(1000);
+			//Открываем Workflow в настройках проекта
+			OpenWorkflowSettings();
 
 			// Проверяем наличие только одной задачи - Editing
 			workflowList = ProjectPage.GetWFTaskListProjectSettings();
@@ -165,8 +170,8 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 
 			// Проверка типов второй задачи
 			workflowTypesList = WorkspaceCreateProjectDialog.GetWFTaskTypeList(2);
-			// Проверка наличия 7 типов задач
-			Assert.AreEqual(7, workflowTypesList.Count,
+			// Проверка наличия 3 типов задач
+			Assert.AreEqual(3, workflowTypesList.Count,
 				"Ошибка: Неверное количество задач workflow.");
 
 			// Проверка, что первая задача - Translation
@@ -175,7 +180,7 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 
 			//Выход без сохранения проекта
 			WorkspaceCreateProjectDialog.ClickCloseDialog();
-			Thread.Sleep(1000);
+			WorkspaceCreateProjectDialog.WaitDialogDisappear();
 		}
 
 		/// <summary>
@@ -203,7 +208,6 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 
 			// 5) Добавление новой задачи Proofreading
 			WorkspaceCreateProjectDialog.ClickWorkflowNewTask();
-			Thread.Sleep(1000);
 			WorkspaceCreateProjectDialog.SetWFTaskList(2, "Proofreading");
 			WorkspaceCreateProjectDialog.ClickNextStep();
 
@@ -215,13 +219,8 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 			// Открываем проект
 			OpenProjectPage(ProjectName);
 
-			//Открываем настройки проекта
-			ProjectPage.ClickProjectSettings();
-			Thread.Sleep(1000);
-
-			//Переходим на вкладку Workflow
-			ProjectPage.ClickProjectSettingsWorkflow();
-			Thread.Sleep(1000);
+			//Открываем Workflow в настройках проекта
+			OpenWorkflowSettings();
 
 			// Проверяем задачи Workflow проекта
 			workflowList = ProjectPage.GetWFTaskListProjectSettings();
@@ -263,7 +262,6 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 
 			// 5) Добавление новой задачи Translation
 			WorkspaceCreateProjectDialog.ClickWorkflowNewTask();
-			Thread.Sleep(1000);
 			WorkspaceCreateProjectDialog.SetWFTaskList(2, "Translation");
 			WorkspaceCreateProjectDialog.ClickNextStep();
 
@@ -275,13 +273,8 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 			// Открываем проект
 			OpenProjectPage(ProjectName);
 
-			//Открываем настройки проекта
-			ProjectPage.ClickProjectSettings();
-			Thread.Sleep(1000);
-
-			//Переходим на вкладку Workflow
-			ProjectPage.ClickProjectSettingsWorkflow();
-			Thread.Sleep(1000);
+			//Открываем Workflow в настройках проекта
+			OpenWorkflowSettings();
 
 			// Проверяем задачи Workflow проекта
 			workflowList = ProjectPage.GetWFTaskListProjectSettings();
@@ -296,8 +289,6 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 			// Проверка, что вторая задача - Transaltion
 			Assert.AreEqual("Translation", workflowList[1],
 				"Ошибка: Вторая задача не \"Translation\".");
-
-			Thread.Sleep(1000);
 		}
 
 		/// <summary>
@@ -315,13 +306,8 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 			// Открываем проект
 			OpenProjectPage(ProjectName);
 
-			//Открываем настройки проекта
-			ProjectPage.ClickProjectSettings();
-			Thread.Sleep(1000);
-
-			//Переходим на вкладку Workflow
-			ProjectPage.ClickProjectSettingsWorkflow();
-			Thread.Sleep(1000);
+			//Открываем Workflow в настройках проекта
+			OpenWorkflowSettings();
 
 			// Добавление новой задачи
 			ProjectPage.ClickProjectSettingsWorkflowNewTask();
@@ -333,13 +319,8 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 			ProjectPage.ClickProjectSettingsSave();
 			Thread.Sleep(1000);
 
-			//Открываем настройки проекта
-			ProjectPage.ClickProjectSettings();
-			Thread.Sleep(1000);
-
-			//Переходим на вкладку Workflow
-			ProjectPage.ClickProjectSettingsWorkflow();
-			Thread.Sleep(1000);
+			//Открываем Workflow в настройках проекта
+			OpenWorkflowSettings();
 
 			// Проверяем задачи Workflow проекта
 			workflowList = ProjectPage.GetWFTaskListProjectSettings();
@@ -371,31 +352,22 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 			// Открываем проект
 			OpenProjectPage(ProjectName);
 
-			//Открываем настройки проекта
-			ProjectPage.ClickProjectSettings();
-			Thread.Sleep(1000);
-
-			//Переходим на вкладку Workflow
-			ProjectPage.ClickProjectSettingsWorkflow();
-			Thread.Sleep(1000);
+			//Открываем Workflow в настройках проекта
+			OpenWorkflowSettings();
 
 			// Добавление новой задачи
 			ProjectPage.ClickProjectSettingsWorkflowNewTask();
 
 			// Изменение типа новой задачи
 			ProjectPage.SetWFTaskListProjectSettings(2, "Proofreading");
+			Thread.Sleep(1000);
 
 			// Отмена сохранения проекта
 			ProjectPage.ClickProjectSettingsCancel();
 			Thread.Sleep(1000);
 
-			//Открываем настройки проекта
-			ProjectPage.ClickProjectSettings();
-			Thread.Sleep(1000);
-
-			//Переходим на вкладку Workflow
-			ProjectPage.ClickProjectSettingsWorkflow();
-			Thread.Sleep(1000);
+			//Открываем Workflow в настройках проекта
+			OpenWorkflowSettings();
 
 			// Проверяем задачи Workflow проекта
 			workflowList = ProjectPage.GetWFTaskListProjectSettings();
@@ -433,11 +405,12 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 
 			// 5) Добавление новой задачи Proofreading
 			WorkspaceCreateProjectDialog.ClickWorkflowNewTask();
-			Thread.Sleep(1000);
 			WorkspaceCreateProjectDialog.SetWFTaskList(2, "Proofreading");
+			Thread.Sleep(1000);
 
 			// Удаление первой задачи Translation
 			WorkspaceCreateProjectDialog.ClickWorkflowDeleteTask(1);
+			Thread.Sleep(1000);
 
 			workflowList = WorkspaceCreateProjectDialog.GetWFTaskList();
 			// Проверка наличия только одной задачи
@@ -454,7 +427,7 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 
 			//Выход без сохранения проекта
 			WorkspaceCreateProjectDialog.ClickCloseDialog();
-			Thread.Sleep(1000);
+			WorkspaceCreateProjectDialog.WaitDialogDisappear();
 		}
 
 		/// <summary>
@@ -472,13 +445,8 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 			// Открываем проект
 			OpenProjectPage(ProjectName);
 
-			//Открываем настройки проекта
-			ProjectPage.ClickProjectSettings();
-			Thread.Sleep(1000);
-
-			//Переходим на вкладку Workflow
-			ProjectPage.ClickProjectSettingsWorkflow();
-			Thread.Sleep(1000);
+			//Открываем Workflow в настройках проекта
+			OpenWorkflowSettings();
 
 			// Добавление новой задачи
 			ProjectPage.ClickProjectSettingsWorkflowNewTask();
@@ -489,6 +457,7 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 
 			// Удаление первой задачи Translation
 			ProjectPage.ClickProjectSettingsWFDeleteTask(1);
+			Thread.Sleep(1000);
 
 			workflowList = ProjectPage.GetWFTaskListProjectSettings();
 			// Проверка наличия только одной задачи
@@ -540,7 +509,7 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 
 			//Выход без сохранения проекта
 			WorkspaceCreateProjectDialog.ClickCloseDialog();
-			Thread.Sleep(1000);
+			WorkspaceCreateProjectDialog.WaitDialogDisappear();
 		}
 
 		/// <summary>
@@ -571,6 +540,7 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 			WorkspaceCreateProjectDialog.ClickWorkflowNewTask();
 			WorkspaceCreateProjectDialog.SetWFTaskList(2, "Proofreading");
 			WorkspaceCreateProjectDialog.ClickNextStep();
+			Thread.Sleep(1000);
 
 			// 6) Настройка Pretranslate. Проверка создания проекта
 			WorkspaceCreateProjectDialog.ClickFinishCreate();
@@ -580,31 +550,22 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 			// Открываем проект
 			OpenProjectPage(ProjectName);
 
-			//Открываем настройки проекта
-			ProjectPage.ClickProjectSettings();
-			Thread.Sleep(1000);
-
-			//Переходим на вкладку Workflow
-			ProjectPage.ClickProjectSettingsWorkflow();
-			Thread.Sleep(1000);
+			//Открываем Workflow в настройках проекта
+			OpenWorkflowSettings();
 			
 			// Записываем задачи Workflow проекта
 			workflowListBefore = ProjectPage.GetWFTaskListProjectSettings();
 
 			// Удаление первой задачи
 			ProjectPage.ClickProjectSettingsWFDeleteTask(1);
+			Thread.Sleep(1000);
 
 			// Отмена сохранения проекта
 			ProjectPage.ClickProjectSettingsCancel();
 			Thread.Sleep(1000);
 
-			//Открываем настройки проекта
-			ProjectPage.ClickProjectSettings();
-			Thread.Sleep(1000);
-
-			//Переходим на вкладку Workflow
-			ProjectPage.ClickProjectSettingsWorkflow();
-			Thread.Sleep(1000);
+			//Открываем Workflow в настройках проекта
+			OpenWorkflowSettings();
 
 			// Записываем задачи Workflow проекта
 			workflowListAfter = ProjectPage.GetWFTaskListProjectSettings();
@@ -631,13 +592,8 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 			// Открываем проект
 			OpenProjectPage(ProjectName);
 
-			//Открываем настройки проекта
-			ProjectPage.ClickProjectSettings();
-			Thread.Sleep(1000);
-
-			//Переходим на вкладку Workflow
-			ProjectPage.ClickProjectSettingsWorkflow();
-			Thread.Sleep(1000);
+			//Открываем Workflow в настройках проекта
+			OpenWorkflowSettings();
 
 			// Проверяем задачи Workflow проекта
 			workflowList = ProjectPage.GetWFTaskListProjectSettings();
@@ -645,18 +601,14 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 
 			// Изменение типа новой задачи
 			ProjectPage.SetWFTaskListProjectSettings(1, "Proofreading");
+			Thread.Sleep(1000);
 
 			// Сохранение проекта
 			ProjectPage.ClickProjectSettingsSave();
 			Thread.Sleep(1000);
 
-			//Открываем настройки проекта
-			ProjectPage.ClickProjectSettings();
-			Thread.Sleep(1000);
-
-			//Переходим на вкладку Workflow
-			ProjectPage.ClickProjectSettingsWorkflow();
-			Thread.Sleep(1000);
+			//Открываем Workflow в настройках проекта
+			OpenWorkflowSettings();
 
 			// Проверяем задачи Workflow проекта
 			workflowList = ProjectPage.GetWFTaskListProjectSettings();
@@ -720,7 +672,7 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 
 			//Выход без сохранения проекта
 			WorkspaceCreateProjectDialog.ClickCloseDialog();
-			Thread.Sleep(1000);
+			WorkspaceCreateProjectDialog.WaitDialogDisappear();
 		}
 
 		/// <summary>
@@ -790,13 +742,8 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 			// Открываем проект
 			OpenProjectPage(ProjectName);
 
-			//Открываем настройки проекта
-			ProjectPage.ClickProjectSettings();
-			Thread.Sleep(1000);
-
-			//Переходим на вкладку Workflow
-			ProjectPage.ClickProjectSettingsWorkflow();
-			Thread.Sleep(1000);
+			//Открываем Workflow в настройках проекта
+			OpenWorkflowSettings();
 
 			// Записываем задачи Workflow проекта
 			workflowList = ProjectPage.GetWFTaskListProjectSettings();
@@ -868,13 +815,8 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 			// Открываем проект
 			OpenProjectPage(ProjectName);
 
-			//Открываем настройки проекта
-			ProjectPage.ClickProjectSettings();
-			Thread.Sleep(1000);
-
-			//Переходим на вкладку Workflow
-			ProjectPage.ClickProjectSettingsWorkflow();
-			Thread.Sleep(1000);
+			//Открываем Workflow в настройках проекта
+			OpenWorkflowSettings();
 
 			// Записываем задачи Workflow проекта
 			workflowList = ProjectPage.GetWFTaskListProjectSettings();
@@ -942,13 +884,8 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 			// Открываем проект
 			OpenProjectPage(ProjectName);
 
-			//Открываем настройки проекта
-			ProjectPage.ClickProjectSettings();
-			Thread.Sleep(1000);
-
-			//Переходим на вкладку Workflow
-			ProjectPage.ClickProjectSettingsWorkflow();
-			Thread.Sleep(1000);
+			//Открываем Workflow в настройках проекта
+			OpenWorkflowSettings();
 
 			// Записываем задачи Workflow проекта
 			workflowList = ProjectPage.GetWFTaskListProjectSettings();

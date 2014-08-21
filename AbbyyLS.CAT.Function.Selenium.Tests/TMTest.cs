@@ -25,18 +25,22 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             
         }
 
+
+
 		/// <summary>
 		/// Предварительная подготовка группы тестов
 		/// </summary>
         [SetUp]
         public void Setup()
         {
-            // Авторизация
-            Authorization();
+			// Не закрывать браузер
+			quitDriverAfterTest = false;
 
-            // Перейти на вкладку Базы Translation memory
-            SwitchTMTab();
+			// Переходим к странице воркспейса
+			GoToTranslationMemories();
         }
+
+
 
 		private static string[] importTMXFileList = Directory.GetFiles(Path.GetFullPath(@"..\..\..\TestingFiles\TMTestFiles"));
 
@@ -523,8 +527,10 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             // Нажать кнопку Сохранить
             TMPage.ClickSaveNewTM();
             // Закрытие формы
-            // TODO убрать sleep
-            Thread.Sleep(1000);
+
+			// Дождаться окончания загрузки
+			Assert.IsTrue(TMPage.WaitDocumentDownloadFinish(),
+				"Ошибка: документ загружается слишком долго");
         }
 
         /// <summary>

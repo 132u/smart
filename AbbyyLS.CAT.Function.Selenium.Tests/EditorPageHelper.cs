@@ -35,10 +35,10 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
         /// <summary>
         /// Дождаться, пока загрузится страница
         /// </summary>
-        public void WaitPageLoad()
+        public bool WaitPageLoad()
         {
             // Дождаться загрузки страницы
-            Wait.Until((d) => d.Url.Contains(TITLE_TEXT));
+            return Wait.Until((d) => d.Url.Contains(TITLE_TEXT));
         }
 
 		/// <summary>
@@ -452,8 +452,12 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 			string segmentCSS;
 			segmentCSS = SEGMENTS_CSS + ":nth-child(" + segmentRowNumber + ") td:nth-child(2) div pre span";
 
+			// Выставляем минимальный таймаут
+			SetDriverTimeoutMinimum();
+
 			IList<IWebElement> segmentCatSelectedList = GetElementList(By.CssSelector(segmentCSS));
 			
+			// Получаем список в нижнем регистре
 			if (segmentCatSelectedList.Count > 0)
 			{
 				foreach (IWebElement item in segmentCatSelectedList)
@@ -461,6 +465,10 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 					selectedTexts.Add(item.Text.ToLower());
 				}
 			}
+
+			// Выставляем дефолтное значение таймаута
+			SetDriverTimeoutDefault();
+
 			return selectedTexts;
 		}
 

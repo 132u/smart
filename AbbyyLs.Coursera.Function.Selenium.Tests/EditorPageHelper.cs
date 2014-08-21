@@ -343,7 +343,7 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
 		public int GetTranslationRatingByRowNumber(int rowNumber)
 		{
 			return int.Parse(GetTextElement(By.XPath(TRANSLATION_BODY_XPATH +
-					"[" + rowNumber + "]" + INFO_RATING_XPATH)));
+					"[" + rowNumber + "]" + RATING_XPATH)));
 		}
 
 		/// <summary>
@@ -353,8 +353,23 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
 		/// <returns>Автор перевода</returns>
 		public string GetTranslationAuthorByRowNumber(int rowNumber)
 		{
-			return GetTextElement(By.XPath(TRANSLATION_BODY_XPATH +
-					"[" + rowNumber + "]" + AUTHOR_XPATH));
+			string xPath = TRANSLATION_BODY_XPATH +
+					"[" + rowNumber + "]" + AUTHOR_XPATH;
+			
+			return GetTextElement(By.XPath(xPath));
+		}
+
+		/// <summary>
+		/// Получить время добавления перевода
+		/// </summary>
+		/// <param name="rowNumber">Номер строки</param>
+		/// <returns>Время создания перевода</returns>
+		public string GetTranslationTimeByRowNumber(int rowNumber)
+		{
+			string xPath = TRANSLATION_BODY_XPATH +
+				"[" + rowNumber + "]" + TIME_XPATH;
+
+			return GetTextElement(By.XPath(xPath));
 		}
 
 		/// <summary>
@@ -431,18 +446,14 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
 		/// </summary>
 		/// <param name="isVoteUp">Тип голоса</param>
 		/// <param name="rowNumber">Номер строки</param>
-		/// <returns>Время создания перевода</returns>
-		public string GetTimeVote(bool isVoteUp, int rowNumber)
+		public void VoteByRowNumber(bool isVoteUp, int rowNumber)
 		{
 			string voteClass = isVoteUp ? "fa-thumbs-up" : "fa-thumbs-down";
+
 			string xPath = TRANSLATION_BODY_XPATH +
 				"[" + rowNumber + "]//td[5]/div//span[contains(@class,'" + voteClass + "')]";
 
-			string time = GetTextElement(By.XPath(xPath + "/../../../td[1]/div"));
-
 			ClickElement(By.XPath(xPath));
-
-			return time;
 		}
 
 
@@ -456,22 +467,24 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
 
 		protected const string SEGMENTS_BODY_XPATH = ".//div[@id='segments-body']//table";
 
-		protected const string POSITION_XPATH = "//td[1]//div";
-		protected const string SOURCE_XPATH = "//td[3]//div";
-		protected const string TARGET_XPATH = "//td[4]//div";
+		protected const string POSITION_XPATH = "//td[contains(@class, 'cell-row-numberer')]//div";
+		protected const string SOURCE_XPATH = "//td[contains(@class, 'source-cell')]//div";
+		protected const string TARGET_XPATH = "//td[contains(@class, 'target-cell')]//div";
 		protected const string TAG_TARGET_XPATH = TARGET_XPATH + "//img[contains(@class,'tag')]";
-		protected const string TRANSLATIONS_XPATH = "//td[6]//div";
+		protected const string TRANSLATIONS_XPATH = "//td[contains(@class, 'cell-translationcolumn')]//div";
+		protected const string INFO_XPATH = "//td[contains(@class, 'info-cell')]//div";
 
-		protected const string INFO_CHECK_XPATH = "//td[5]//span[contains(@class,'fa-check')]";
-		protected const string INFO_BORDER_XPATH = "//td[5]//span[contains(@class,'fa-border')]";
-		protected const string INFO_RATING_XPATH = "//td[5]//span[contains(@class,'rating-count')]";
-
+		protected const string INFO_CHECK_XPATH = INFO_XPATH + "//span[contains(@class,'fa-check')]";
+		protected const string INFO_BORDER_XPATH = INFO_XPATH + "//span[contains(@class,'fa-border')]";
+		
 		protected const string TRANSLATION_BODY_XPATH = ".//div[@id='translations-body']//table";
 		
 		protected const string TRASH_BTN_XPATH = "//td[4]//span[contains(@class,'fa-trash-o')]";
 		protected const string PANCIL_BTN_XPATH = "//td[4]//span[contains(@class,'fa-pencil')]";
+		protected const string TIME_XPATH = "//td[1]//div";
 		protected const string AUTHOR_XPATH = "//td[2]//div";
 		protected const string VOTE_XPATH = "//td[5]/div";
+		protected const string RATING_XPATH = VOTE_XPATH + "//span[contains(@class,'rating-count')]";
 
 		protected const string CONFIRM_DIALOG_YES_BTN = ".//div[@id='messagebox']//a[contains(@class,'x-btn-blue')]";
 	}

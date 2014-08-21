@@ -77,7 +77,11 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             ResultFilePath = Path.GetFullPath(@"..\..\..\TestResults\Result");
             _exportFilePath = DocumentFileToConfirm;
 
-            Authorization();
+            // Не закрывать браузер
+			quitDriverAfterTest = false;
+			
+			// Переходим к странице воркспейса
+            GoToWorkspace();
         }
 
         ///////////////////////////////

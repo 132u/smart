@@ -33,7 +33,55 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 	[TestFixture("StageUrl3lpro", "StageWorkspace3lpro", "Firefox")]
     public class BaseTest
     {
-        /// <summary>
+		/// <summary>
+		/// Конструктор базового теста
+		/// </summary>
+		/// <param name="url">Адрес</param>
+		/// <param name="workspaceUrl">Аздрес workspace</param>
+		/// <param name="browserName">Название браузера</param>
+		public BaseTest(string url, string workspaceUrl, string browserName)
+		{
+			_browserName = browserName;
+			_url = ConfigurationManager.AppSettings[url];
+			_workspaceUrl = ConfigurationManager.AppSettings[workspaceUrl];
+
+			CreateDriver();
+
+			_login = ConfigurationManager.AppSettings["Login"];
+			_password = ConfigurationManager.AppSettings["Password"];
+			_userName = ConfigurationManager.AppSettings["UserName"];
+
+			_login2 = ConfigurationManager.AppSettings["Login2"];
+			_password2 = ConfigurationManager.AppSettings["Password2"];
+			_userName2 = ConfigurationManager.AppSettings["UserName2"];
+
+			_deadlineDate = ConfigurationManager.AppSettings["DeadlineDate"];
+			_documentFile = Path.GetFullPath(ConfigurationManager.AppSettings["DocumentFile"]);
+			_documentFileToConfirm = Path.GetFullPath(ConfigurationManager.AppSettings["DocumentFileToConfirm"]);
+			_documentFileToConfirm2 = Path.GetFullPath(ConfigurationManager.AppSettings["DocumentFileToConfirm2"]);
+			_constTmName = ConfigurationManager.AppSettings["TMName"];
+			_glossaryName = ConfigurationManager.AppSettings["GlossaryName"];
+			_projectNameExportTestOneDoc = ConfigurationManager.AppSettings["ProjectNameExportTestOneDoc"];
+			_projectNameExportTestMultiDoc = ConfigurationManager.AppSettings["ProjectNameExportTestMultiDoc"];
+
+			CreateUniqueNamesByDatetime();
+
+			_editorTXTFile = Path.GetFullPath(ConfigurationManager.AppSettings["EditorTXTFile"]);
+			_editorTMXFile = Path.GetFullPath(ConfigurationManager.AppSettings["EditorTMXFile"]);
+
+			_tmFile = Path.GetFullPath(ConfigurationManager.AppSettings["TMXFile"]);
+			_secondTmFile = Path.GetFullPath(ConfigurationManager.AppSettings["SecondTMXFile"]);
+			_importGlossaryFile = Path.GetFullPath(ConfigurationManager.AppSettings["ImportGlossaryFile"]);
+			_imageFile = Path.GetFullPath(ConfigurationManager.AppSettings["TestImageFile"]);
+			_audioFile = Path.GetFullPath(ConfigurationManager.AppSettings["TestAudioFile"]);
+			_rtfFile = Path.GetFullPath(ConfigurationManager.AppSettings["DocumentRTF"]);
+
+			_adminUrl = ConfigurationManager.AppSettings[(url + "Admin")];
+		}
+		
+
+
+		/// <summary>
         /// WebDriver
         /// </summary>
         private IWebDriver _driver;
@@ -82,6 +130,21 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
                 return _url;
             }
         }
+
+		/// <summary>
+		/// Url workspace
+		/// </summary>
+		private string _workspaceUrl;
+		/// <summary>
+		/// Url workspace
+		/// </summary>
+		protected string workspaceUrl
+		{
+			get
+			{
+				return _workspaceUrl;
+			}
+		}
 
         /// <summary>
         /// URL соответствующей админки
@@ -472,6 +535,8 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             }
         }
 
+
+
         /// <summary>
         /// Страница с проектом
         /// </summary>
@@ -803,58 +868,134 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 		}
 
 
+
         // информация о тесте
         DateTime testBeginTime;
 
 		/// <summary>
-		/// Конструктор базового теста
+		/// Вкл/откл закрытия драйвера после каждого теста
 		/// </summary>
-		/// <param name="url">Адрес</param>
-		/// <param name="workspaceUrl">Аздрес workspace</param>
-		/// <param name="browserName">Название браузера</param>
-        public BaseTest(string url, string workspaceUrl, string browserName)
-        {
-            _browserName = browserName;
-            _url = ConfigurationManager.AppSettings[url];
+		protected bool quitDriverAfterTest;
 
-            CreateDriver();
 
-            _login = ConfigurationManager.AppSettings["Login"];
-            _password = ConfigurationManager.AppSettings["Password"];
-            _userName = ConfigurationManager.AppSettings["UserName"];
 
-			_login2 = ConfigurationManager.AppSettings["Login2"];
-			_password2 = ConfigurationManager.AppSettings["Password2"];
-			_userName2 = ConfigurationManager.AppSettings["UserName2"];
+		/// <summary>
+		/// Начальная подготовка для группы тестов
+		/// </summary>
+		[TestFixtureSetUp]
+		public void SetupAllBase()
+		{
+		}
 
-            _deadlineDate = ConfigurationManager.AppSettings["DeadlineDate"];
-            _documentFile = Path.GetFullPath(ConfigurationManager.AppSettings["DocumentFile"]);
-            _documentFileToConfirm = Path.GetFullPath(ConfigurationManager.AppSettings["DocumentFileToConfirm"]);
-            _documentFileToConfirm2 = Path.GetFullPath(ConfigurationManager.AppSettings["DocumentFileToConfirm2"]);
-            _constTmName = ConfigurationManager.AppSettings["TMName"];
-            _glossaryName = ConfigurationManager.AppSettings["GlossaryName"];
-            _projectNameExportTestOneDoc = ConfigurationManager.AppSettings["ProjectNameExportTestOneDoc"];
-            _projectNameExportTestMultiDoc = ConfigurationManager.AppSettings["ProjectNameExportTestMultiDoc"];
+		/// <summary>
+		/// Начальная подготовка для каждого теста
+		/// </summary>
+		[SetUp]
+		public void SetupBase()
+		{
+			// По умолчанию выходим из браузера
+			quitDriverAfterTest = true;
+			
+			// Вывести время начала теста
+			testBeginTime = DateTime.Now;
+			Console.WriteLine(TestContext.CurrentContext.Test.Name + "\nStart: " + testBeginTime.ToString());
 
-            CreateUniqueNamesByDatetime();
+			if (_driver == null)
+			{
+				// Если конструктор заново не вызывался, то надо заполнить _driver
+				CreateDriver();
+			}
 
-            _editorTXTFile = Path.GetFullPath(ConfigurationManager.AppSettings["EditorTXTFile"]);
-            _editorTMXFile = Path.GetFullPath(ConfigurationManager.AppSettings["EditorTMXFile"]);
+			// Создание уникального имени проекта
+			CreateUniqueNamesByDatetime();
+		}
 
-            _tmFile = Path.GetFullPath(ConfigurationManager.AppSettings["TMXFile"]);
-            _secondTmFile = Path.GetFullPath(ConfigurationManager.AppSettings["SecondTMXFile"]);
-            _importGlossaryFile = Path.GetFullPath(ConfigurationManager.AppSettings["ImportGlossaryFile"]);
-            _imageFile = Path.GetFullPath(ConfigurationManager.AppSettings["TestImageFile"]);
-            _audioFile = Path.GetFullPath(ConfigurationManager.AppSettings["TestAudioFile"]);
-            _rtfFile = Path.GetFullPath(ConfigurationManager.AppSettings["DocumentRTF"]);
+		/// <summary>
+		/// Конечные действия для группы тестов
+		/// </summary>
+		[TestFixtureTearDown]
+		public void TeardownAllBase()
+		{
+			// Закрыть драйвер
+			ExitDriver();
+		}
 
-            _adminUrl = ConfigurationManager.AppSettings[(url + "Admin")];
-        }
+		/// <summary>
+		/// Конечные действия для каждого теста
+		/// </summary>
+		[TearDown]
+		public void TeardownBase()
+		{
+			// При вылете браузера возникает ошибка, пытаемся ее словить
+			try
+			{
+				if (TestContext.CurrentContext.Result.Status.Equals(TestStatus.Failed))
+				{
+					// Сделать скриншот
+					ITakesScreenshot screenshotDriver = _driver as ITakesScreenshot;
+					Screenshot screenshot = screenshotDriver.GetScreenshot();
+
+					// Создать папку для скриншотов провалившихся тестов
+					string failResultPath = System.IO.Path.Combine(PathTestResults, "FailedTests");
+					System.IO.Directory.CreateDirectory(failResultPath);
+					// Создать имя скриншота по имени теста
+					string screenName = TestContext.CurrentContext.Test.Name;
+					if (screenName.Contains("("))
+					{
+						// Убрать из названия теста аргументы (файлы)
+						screenName = screenName.Substring(0, screenName.IndexOf("("));
+					}
+					screenName += DateTime.Now.Ticks.ToString() + ".png";
+					// Создать полное имя файла
+					screenName = System.IO.Path.Combine(failResultPath, screenName);
+					// Сохранить скриншот
+					screenshot.SaveAsFile(screenName, ImageFormat.Png);
+				}
+			}
+			catch (Exception)
+			{
+				// Закрыть драйвер
+				ExitDriver();
+			}
+
+			// Выходим из браузера, если нужно
+			if (quitDriverAfterTest)
+			{
+				ExitDriver();
+			}
+
+			// Вывести информацию о прохождении теста
+			DateTime testFinishTime = DateTime.Now;
+			// Время окончания теста
+			Console.WriteLine("Finish: " + testFinishTime.ToString());
+			// Длительность теста
+			TimeSpan duration = TimeSpan.FromTicks(testFinishTime.Ticks - testBeginTime.Ticks);
+			string durResult = "Duration: ";
+			if (duration.TotalMinutes > 1)
+			{
+				durResult += duration.TotalMinutes + "min";
+			}
+			else
+			{
+				durResult += duration.TotalSeconds + "sec";
+			}
+
+			durResult += " (" + duration.TotalMilliseconds + "ms).";
+			Console.WriteLine(durResult);
+
+			if (TestContext.CurrentContext.Result.Status.Equals(TestStatus.Failed))
+			{
+				// Если тест провалился
+				Console.WriteLine("Fail!");
+			}
+		}
+
+
 
         /// <summary>
         /// Обновить уникальные имена для нового теста
         /// </summary>
-        private void CreateUniqueNamesByDatetime()
+        protected void CreateUniqueNamesByDatetime()
         {
             _projectName = ConfigurationManager.AppSettings["ProjectName"] + "_" + DateTime.UtcNow.Ticks.ToString();
         }
@@ -870,6 +1011,8 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
                 {
                     _profile = new FirefoxProfile();
                     _profile.AcceptUntrustedCertificates = true;
+					// Изменение языка браузера на английский
+					_profile.SetPreference("intl.accept_languages", "en");
                     _profile.SetPreference("browser.download.dir", PathTestResults);
                     _profile.SetPreference("browser.download.folderList", 2);
                     _profile.SetPreference("browser.download.useDownloadDir", false);
@@ -938,7 +1081,7 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
         /// </summary>
         protected void setDriverTimeoutMinimum()
         {
-            _driver.Manage().Timeouts().ImplicitlyWait(TimeSpan.FromSeconds(1));
+            _driver.Manage().Timeouts().ImplicitlyWait(TimeSpan.FromSeconds(3));
         }
 
         /// <summary>
@@ -955,17 +1098,26 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
         /// <param name="documentRowNum">номер документа</param>
         protected void AssignTask(int documentRowNum = 1)
         {
-            // нажать галочку около документа
-            SelectDocumentInProject(documentRowNum);
-            // нажать на Progress
-            ProjectPage.ClickProgressBtn();
+			// Открываем инфо документа 
+			ProjectPage.OpenDocumentInfo(1);
+
+			// Открываем окно прав исполнителей
+			ProjectPage.ClickAssignRessponsibleBtn();
+			
+			//// нажать галочку около документа
+			//SelectDocumentInProject(documentRowNum);
+			//// нажать на Progress
+			//ProjectPage.ClickProgressBtn();
             ProjectPage.WaitProgressDialogOpen();
 
             // Назначить ответственного в окне Progress
             ProjectPage.ClickUserNameCell();
-            // Выбрать нужное имя
             ProjectPage.WaitAssignUserList();
+
+			// Выбрать нужное имя
             ProjectPage.ClickAssignUserListUser(UserName);
+			ProjectPage.WaitAssignBtnDisplay();
+
             // Нажать на Assign
             ProjectPage.ClickAssignBtn();
             // Дождаться появления Cancel
@@ -1054,14 +1206,12 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 				// Проверить, загрузилась ли
 				Assert.IsTrue(LoginPage.WaitPageLoad(),
 					"Не прогрузилась страница Login - возможно, сайт недоступен");
-
 				// Заполнить логин и пароль
 				LoginPage.EnterLogin(authLogin);
 				LoginPage.EnterPassword(authPassword);
 				LoginPage.ClickSubmit();
-
 				// Проверить, появился ли список аккаунтов
-				if (LoginPage.WaitAccountExist(accountName))
+				if (LoginPage.WaitAccountExist(accountName, 5))
 				{
 					// Выбрать аккаунт
 					LoginPage.ClickAccountName(accountName);
@@ -1074,12 +1224,181 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 				}
 				// иначе у пользователя только 1 аккаунт
 			}
-
             // Изменили язык на Английский
             Assert.IsTrue(WorkspacePage.WaitAppearLocaleBtn(), "Не дождались загрузки страницы со ссылкой для изменения языка");
             WorkspacePage.SelectLocale(WorkSpacePageHelper.LOCALE_LANGUAGE_SELECT.English);
         }
-        
+
+		/// <summary>
+		/// Переход на вкладку workspace
+		/// Если переадресация на стартовую страницу, то авторизация
+		/// </summary>
+		public void GoToWorkspace()
+		{
+			// Отлавливаем Modal Dialog Exception
+			// В случае, если для завершения предыдущего теста нужно закрыть дополнительный диалог
+			try
+			{			
+				// Перейти на страницу workspace
+				_driver.Navigate().GoToUrl(_workspaceUrl);
+
+				// Если открылась страница логина
+				if (LoginPage.WaitPageLoad(1))
+				{
+					// Проходим процедуру авторизации
+					Authorization();
+				}
+			}
+			catch
+			{
+				_driver.Navigate().Refresh();
+
+				// Закрываем Modal Dialog
+				AcceptModalDialog();
+
+				// Пробуем перейти на страницу еще раз
+				GoToWorkspace();
+			}
+		}
+
+		/// <summary>
+		/// Переход на вкладку глоссариев
+		/// Если переадресация на стартовую страницу, то авторизация и затем переход
+		/// </summary>
+		public void GoToGlossaries()
+		{
+			// Отлавливаем Modal Dialog Exception
+			// В случае, если для завершения предыдущего теста нужно закрыть дополнительный диалог
+			try
+			{	
+				// Перейти на страницу глоссариев
+				_driver.Navigate().GoToUrl(_url + "/Enterprise/Glossaries");
+				
+				// Если открылась страница логина
+				if (LoginPage.WaitPageLoad(1))
+				{
+					// Проходим процедуру авторизации
+					Authorization();
+					// Пробуем перейти на глоссарии еще раз
+					GoToGlossaries();
+				}
+			}
+			catch
+			{
+				_driver.Navigate().Refresh();
+
+				// Закрываем Modal Dialog
+				AcceptModalDialog();
+
+				Thread.Sleep(2000);
+
+				// Пробуем перейти на глоссарии еще раз
+				GoToGlossaries();
+			}
+		}
+
+		/// <summary>
+		/// Переход на вкладку TM
+		/// Если переадресация на стартовую страницу, то авторизация и затем переход
+		/// </summary>
+		public void GoToTranslationMemories()
+		{
+			// Отлавливаем Modal Dialog Exception
+			// В случае, если для завершения предыдущего теста нужно закрыть дополнительный диалог
+			try
+			{		
+				// Перейти на страницу
+				_driver.Navigate().GoToUrl(_url + "/Enterprise/TranslationMemories");
+
+				// Если открылась страница логина
+				if (LoginPage.WaitPageLoad(1))
+				{
+					// Проходим процедуру авторизации
+					Authorization();
+					// Пробуем перейти на страницу еще раз
+					GoToTranslationMemories();
+				}
+			}
+			catch
+			{
+				_driver.Navigate().Refresh();
+				
+				// Закрываем Modal Dialog
+				AcceptModalDialog();
+
+				// Пробуем перейти на страницу еще раз
+				GoToTranslationMemories();
+			}
+		}
+
+		/// <summary>
+		/// Переход на вкладку Domains
+		/// Если переадресация на стартовую страницу, то авторизация и затем переход
+		/// </summary>
+		public void GoToDomains()
+		{
+			// Отлавливаем Modal Dialog Exception
+			// В случае, если для завершения предыдущего теста нужно закрыть дополнительный диалог
+			try
+			{		
+				// Перейти на страницу
+				_driver.Navigate().GoToUrl(_url + "/Enterprise/Domains");
+
+				// Если открылась страница логина
+				if (LoginPage.WaitPageLoad(1))
+				{
+					// Проходим процедуру авторизации
+					Authorization();
+					// Пробуем перейти на страницу еще раз
+					GoToDomains();
+				}
+			}
+			catch
+			{
+				_driver.Navigate().Refresh();
+				
+				// Закрываем Modal Dialog
+				AcceptModalDialog();
+
+				// Пробуем перейти на страницу еще раз
+				GoToDomains();
+			}
+		}
+
+		/// <summary>
+		/// Переход на вкладку Clients
+		/// Если переадресация на стартовую страницу, то авторизация и затем переход
+		/// </summary>
+		public void GoToClients()
+		{
+			// Отлавливаем Modal Dialog Exception
+			// В случае, если для завершения предыдущего теста нужно закрыть дополнительный диалог
+			try
+			{
+				// Перейти на страницу
+				_driver.Navigate().GoToUrl(_url + "/Enterprise/Clients");
+
+				// Если открылась страница логина
+				if (LoginPage.WaitPageLoad(1))
+				{
+					// Проходим процедуру авторизации
+					Authorization();
+					// Пробуем перейти на страницу еще раз
+					GoToClients();
+				}
+			}
+			catch
+			{
+				_driver.Navigate().Refresh();
+
+				// Закрываем Modal Dialog
+				AcceptModalDialog();
+
+				// Пробуем перейти на страницу еще раз
+				GoToClients();
+			}
+		}
+
         /// <summary>
         /// Заполнение первого шага создания проекта
         /// </summary>
@@ -1201,6 +1520,22 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
         {
             CreateProject(projectName, "", false, "", false, false, Workspace_CreateProjectDialogHelper.MT_TYPE.None, false);
         }
+
+		/// <summary>
+		/// Создание проекта, если проект с таким именем не создан
+		/// </summary>
+		/// <param name="projectName">Имя проекта</param>
+		protected void CreateProjectIfNotCreated(string projectName, string downloadFile = "")
+		{
+			if (!GetIsExistProject(projectName))
+			{
+				// Создание проекта
+				CreateProject(projectName, downloadFile);
+
+				// Дождаться, пока документ догрузится
+				Assert.IsTrue(WorkspacePage.WaitProjectLoad(projectName), "Ошибка: документ не загрузился");
+			}
+		}
 
 		/// <summary>
 		/// Создать новую ТМ в диалоге создания проекта
@@ -1332,7 +1667,24 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
         protected bool GetIsExistProject(string projectName)
         {
             return WorkspacePage.GetIsProjectInList(projectName);
-        }    
+        }
+
+		/// <summary>
+		/// Удаление проект на вкладке проектов по имени
+		/// </summary>
+		/// <param name="ProjectNameToDelete">имя проекта, который надо удалить</param>
+		protected void DeleteProjectFromList(string ProjectNameToDelete)
+		{
+			// Выбрать этот проект
+			SelectProjectInList(ProjectNameToDelete);
+			// Нажать Удалить
+			WorkspacePage.ClickDeleteProjectBtn();
+			// Подтвердить
+			Assert.IsTrue(WorkspacePage.ClickConfirmDelete(), "Ошибка: не появилась форма подтверждения удаления проекта");
+			// Дождаться, пока пропадет диалог подтверждения удаления
+			Assert.IsTrue(WorkspacePage.WaitUntilDeleteConfirmFormDisappear(), "Ошибка: не появилась форма подтверждения удаления проекта");
+			Thread.Sleep(500);
+		}
 
         /// <summary>
         /// Работа с диалогом браузера: загрузка документа
@@ -1521,7 +1873,9 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             string sourcetxt = EditorPage.GetSourceText(rowNumber);
             // Нажать хоткей копирования
             EditorPage.SendKeysSource(rowNumber, OpenQA.Selenium.Keys.Control + OpenQA.Selenium.Keys.Insert);
-            // Проверить, такой ли текст в target'те
+
+
+			// Проверить, такой ли текст в target'те
             string targetxt = EditorPage.GetTargetText(rowNumber);
             Assert.AreEqual(sourcetxt, targetxt, "Ошибка: после хоткея Copy текст в Source и Target не совпадает");
         }
@@ -1639,6 +1993,7 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
         protected void OpenProjectPage(string projectName)
         {
             WorkspacePage.OpenProjectPage(projectName);
+			ProjectPage.WaitPageLoad();
         }
 
         /// <summary>
@@ -1649,6 +2004,20 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
         {
             WorkspacePage.OpenProjectInfo(projectName);
         }
+
+		/// <summary>
+		/// Открыть вкладку workflow настроек из окна проекта
+		/// </summary>
+		protected void OpenWorkflowSettings()
+		{
+			//Открываем настройки проекта
+			ProjectPage.ClickProjectSettings();
+			Thread.Sleep(1000);
+
+			//Переходим на вкладку Workflow
+			ProjectPage.ClickProjectSettingsWorkflow();
+			Thread.Sleep(1000);
+		}
 
         /// <summary>
 		/// Открыть диалог создания глоссария
@@ -1807,87 +2176,41 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 				"Ошибка: Не проходит автосохранение.");
 		}
 
-		
 		/// <summary>
-		/// Начальная подготовка для каждого теста
+		/// Завершение работы с Driver
 		/// </summary>
-        [SetUp]
-        public void SetupBase()
-        {
-            // Вывести время начала теста
-            testBeginTime = DateTime.Now;
-            Console.WriteLine(TestContext.CurrentContext.Test.Name + "\nStart: " + testBeginTime.ToString());
-            
-            if (_driver == null)
-            {
-                // Если конструктор заново не вызывался, то надо заполнить _driver
-                CreateDriver();
-                // И заново создать уникальные названия
-                CreateUniqueNamesByDatetime();
-            }
-            //_driver.Manage().Window.Maximize();
-        }
+		protected void ExitDriver()
+		{
+			if (_driver != null)
+			{
+				// Закрыть драйвер
+				_driver.Quit();
+				// Очистить, чтобы при следующем тесте пересоздавалось
+				_driver = null;
+			}
+		}
 
 		/// <summary>
-		/// Конченые действия для каждого теста
+		/// Закрываем модальный диалог
 		/// </summary>
-        [TearDown]
-        public void TeardownBase()
-        {
-            // Если тест провалился
-            if (TestContext.CurrentContext.Result.Status.Equals(TestStatus.Failed))
-            {
-                // Сделать скриншот
-                ITakesScreenshot screenshotDriver = _driver as ITakesScreenshot;
-                Screenshot screenshot = screenshotDriver.GetScreenshot();
+		protected void AcceptModalDialog()
+		{
+			try
+			{
+				if (_driver.SwitchTo().Alert().Text.Contains("Эта страница просит вас подтвердить, что вы хотите уйти — при этом введённые вами данные могут не сохраниться."))
+					_driver.SwitchTo().Alert().Accept();
 
-                // Создать папку для скриншотов провалившихся тестов
-                string failResultPath = System.IO.Path.Combine(PathTestResults, "FailedTests");
-                System.IO.Directory.CreateDirectory(failResultPath);
-                // Создать имя скриншота по имени теста
-                string screenName = TestContext.CurrentContext.Test.Name;
-                if (screenName.Contains("("))
-                {
-                    // Убрать из названия теста аргументы (файлы)
-                    screenName = screenName.Substring(0, screenName.IndexOf("("));
-                }
-                screenName += DateTime.Now.Ticks.ToString() + ".png";
-                // Создать полное имя файла
-                screenName = System.IO.Path.Combine(failResultPath, screenName);
-                // Сохранить скриншот
-                screenshot.SaveAsFile(screenName, ImageFormat.Png);
-            }
+				Thread.Sleep(500);
 
-            // Закрыть драйвер
-            _driver.Quit();
-            // Очистить, чтобы при следующем тесте пересоздавалось
-            _driver = null;
+				if (_driver.SwitchTo().Alert().Text.Contains("Failed to send the request to the server. An error occurred while contacting the server."))
+					_driver.SwitchTo().Alert().Accept();
 
-            // Вывести информацию о прохождении теста
-            DateTime testFinishTime = DateTime.Now;
-            // Время окончания теста
-            Console.WriteLine("Finish: " + testFinishTime.ToString());
-            // Длительность теста
-            TimeSpan duration = TimeSpan.FromTicks(testFinishTime.Ticks - testBeginTime.Ticks);
-            string durResult = "Duration: ";
-            if (duration.TotalMinutes > 1)
-            {
-                durResult += duration.TotalMinutes + "min";
-            }
-            else
-            {
-                durResult += duration.TotalSeconds + "sec";
-            }
-
-            durResult += " (" + duration.TotalMilliseconds + "ms).";
-            Console.WriteLine(durResult);
-
-            if (TestContext.CurrentContext.Result.Status.Equals(TestStatus.Failed))
-            {
-                // Если тест провалился
-                Console.WriteLine("Fail!");
-
-            }
-        }
+				Thread.Sleep(500);
+			}
+			catch (NoAlertPresentException)
+			{
+				TryCloseExternalDialog();
+			}
+		}
     }
 }

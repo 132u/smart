@@ -30,9 +30,11 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
         /// Дождаться загрузки страницы
         /// </summary>
         /// <returns>загрузилась</returns>
-        public bool WaitPageLoad()
+		public bool WaitPageLoad(int maxwait = 15)
         {
-            return WaitUntilDisplayElement(By.CssSelector(EMAIL_CSS));
+			bool isDisplay = WaitUntilDisplayElement(By.CssSelector(EMAIL_CSS), maxwait);
+
+			return isDisplay;
         }
 
         /// <summary>
@@ -65,10 +67,11 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 		/// Дождаться отображения имени аккаунта
 		/// </summary>
 		/// <param name="accountName">Имя аакаунта</param>
+		/// <param name="waitmax">Максимальный таймаут</param>
 		/// <returns>Имя отображается</returns>
-        public bool WaitAccountExist(string accountName)
+        public bool WaitAccountExist(string accountName, int waitmax = 15)
         {
-            return WaitUntilDisplayElement(By.XPath(GetAccountItemXPath(accountName)));
+            return WaitUntilDisplayElement(By.XPath(GetAccountItemXPath(accountName)), waitmax);
         }
 
 		/// <summary>

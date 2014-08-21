@@ -19,16 +19,25 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 		public CatPanelResultsTest(string url, string workspaceUrl, string browserName)
 			: base (url, workspaceUrl, browserName)
 		{
+			System.Console.WriteLine("CatPanelResultsTest");
 		}
 
+
+
 		/// <summary>
-		/// Старт тестов. Авторизация
+		/// Подготовка для каждого теста
 		/// </summary>
 		[SetUp]
 		public void Setup()
 		{
-			Authorization();
+			// Не выходить из браузера после теста
+			quitDriverAfterTest = false;
+
+			// Переход на страницу workspace
+			GoToWorkspace();
 		}
+
+
 
 		/// <summary>
 		/// ТЕСТ: Проверка выдач и переводов из МТ
@@ -82,6 +91,8 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 		[Test]
 		public void CheckTM()
 		{
+			System.Console.WriteLine("CheckTM");
+			
 			// Создание проекта с файлом с МТ с файлом
 			CreateProject(ProjectName, EditorTXTFile, true, EditorTMXFile, false, false, 
 				Workspace_CreateProjectDialogHelper.MT_TYPE.None, true);
@@ -136,7 +147,9 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 			
 			// Создание проекта с файлом
 			SwitchWorkspaceTab();
-			CreateProject(ProjectName, EditorTXTFile);
+			// Создание проекта с файлом с ТМ без файла и с заданным МТ
+			CreateProject(ProjectName, EditorTXTFile, true);
+			//CreateProject(ProjectName, EditorTXTFile);
 
 			// Ожидаем пока загрузится документ.
 			if (!WorkspacePage.WaitProjectLoad(ProjectName))
@@ -163,11 +176,17 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 				"Ошибка: ТB нет в списке или ТB не первая.");
 
 			// Проверка соответствия терминов САТ и подсвеченных слов сегмента
-			Assert.AreEqual(EditorPage.GetSegmentSelectedTexts(1), CatPanel.GetCATTerms(),
+			List<string> segmentTermins = EditorPage.GetSegmentSelectedTexts(1);
+			segmentTermins.Sort();
+
+			List<string> catTermins = CatPanel.GetCATTerms();
+			catTermins.Sort();
+
+			Assert.AreEqual(segmentTermins, catTermins,
 				"Ошибка: Подсвеченные слова в сегменте не соответствуют терминам САТ.");
 
 			// Проверка соответствия заданных терминов и подсвеченных слов сегмента
-			Assert.AreEqual(EditorPage.GetSegmentSelectedTexts(1), dictionary.Keys,
+			Assert.AreEqual(segmentTermins, dictionary.Keys,
 				"Ошибка: Подсвеченные слова в сегменте не соответствуют терминам САТ.");
 		}
 
@@ -182,8 +201,8 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 			// Добавление словаря для глоссария
 			Dictionary<string, string> dictionary = new Dictionary<string, string>
 			{ 
-				{"one", "один"},
 				{"more", "еще"},
+				{"one", "один"},
 				{"test", "тест"}
 			};
 
@@ -196,7 +215,7 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 
 			// Создание проекта с файлом
 			SwitchWorkspaceTab();
-			CreateProject(ProjectName, EditorTXTFile);
+			CreateProject(ProjectName, EditorTXTFile, true);
 
 			// Ожидаем пока загрузится документ.
 			if (!WorkspacePage.WaitProjectLoad(ProjectName))
@@ -224,11 +243,17 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 				"Ошибка: ТB нет в списке или ТB не первая.");
 
 			// Проверка соответствия терминов САТ и подсвеченных слов сегмента
-			Assert.AreEqual(EditorPage.GetSegmentSelectedTexts(3), CatPanel.GetCATTerms(),
+			List<string> segmentTermins = EditorPage.GetSegmentSelectedTexts(3);
+			segmentTermins.Sort();
+
+			List<string> catTermins = CatPanel.GetCATTerms();
+			catTermins.Sort();
+
+			Assert.AreEqual(segmentTermins, catTermins,
 				"Ошибка: Подсвеченные слова в сегменте не соответствуют терминам САТ.");
 
 			// Проверка соответствия заданных терминов и подсвеченных слов сегмента
-			Assert.AreEqual(EditorPage.GetSegmentSelectedTexts(3), dictionary.Keys,
+			Assert.AreEqual(segmentTermins, dictionary.Keys,
 				"Ошибка: Подсвеченные слова в сегменте не соответствуют терминам САТ.");
 		}
 
@@ -238,6 +263,7 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 		[Test]
 		public void GlossaryFewSegments()
 		{
+			System.Console.WriteLine("GlossaryFewSegments");
 			string uniqueGlossaryName = GlossaryName + DateTime.Now.ToString();
 			List<string> catSelectedTexts = new List<string>();
 
@@ -259,7 +285,7 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 
 			// Создание проекта с файлом
 			SwitchWorkspaceTab();
-			CreateProject(ProjectName, EditorTXTFile);
+			CreateProject(ProjectName, EditorTXTFile, true);
 
 			// Ожидаем пока загрузится документ.
 			if (!WorkspacePage.WaitProjectLoad(ProjectName))
@@ -299,6 +325,10 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 
 
 
+		/// <summary>
+		/// Создание нового глоссария из указанных слов словаря
+		/// </summary>
+		/// <param name="dict">Словарь</param>
 		protected void SetGlossaryByDictinary(Dictionary<string, string> dict)
 		{
 			foreach (KeyValuePair<string, string> pair in dict)

@@ -599,7 +599,7 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 		/// <returns>Отображение сообщения об ошибке</returns>
 		public bool GetIsErrorWFEmptyDisplayed()
 		{
-			return GetIsElementDisplay(By.XPath("//div[" + ERROR_WF_EMPTY + "]"));
+			return GetIsElementDisplay(By.XPath(CREATE_PROJECT_DIALOG_XPATH + ERROR_WF_EMPTY));
 		}
 
 		/// <summary>
@@ -672,7 +672,7 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 
         protected const string CREATE_TM_DIALOG_XPATH = "//div[contains(@class,'js-popup-create-tm')][2]";
         protected const string NEW_TM_NAME_INPUT_XPATH = CREATE_TM_DIALOG_XPATH +"//input[contains(@class,'js-tm-name')]";
-        protected const string UPLOAG_TMX_DIALOG_XPATH = ".//div[contains(@class,'js-popup-import')][2]";
+        protected const string UPLOAG_TMX_DIALOG_XPATH = ".//div[contains(@class,'js-popup-import-tm')][2]";
         protected const string IMPORT_TMX_BTN_XPATH = UPLOAG_TMX_DIALOG_XPATH + "//span[contains(@class,'js-import-button')]";
         protected const string SAVE_TM_BTN_XPATH = CREATE_TM_DIALOG_XPATH + "//span[contains(@class,'js-save')]";
         
@@ -689,7 +689,7 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
         protected const string MT_TABLE_XPATH = CREATE_PROJECT_DIALOG_XPATH + "//table[contains(@class,'js-mts')]//tbody";
 
         protected const string FINISH_BTN_XPATH = CREATE_PROJECT_DIALOG_XPATH + "//span[contains(@class,'js-finish js-upload-btn')]";
-        protected const string ERROR_FORMAT_DOCUMENT_MESSAGE_XPATH = "//div[contains(@class,'js-info-popup')]" + CLOSE_BTN_XPATH; // TODO плохой id
+        protected const string ERROR_FORMAT_DOCUMENT_MESSAGE_XPATH = "//div[contains(@class,'js-info-popup')]"; // TODO плохой id
 
         protected const string CLOSE_BTN_XPATH = "//img[contains(@class,'js-popup-close')]";
         protected const string CLOSE_DIALOG_BTN_XPATH = CREATE_PROJECT_DIALOG_XPATH + CLOSE_BTN_XPATH;

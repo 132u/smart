@@ -53,6 +53,7 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 
             //процесс добавления файла
 			ImportDocumentCreateProject(AudioFile);
+			Thread.Sleep(1000);
 
             // Проверить, что появилось сообщение о неверном формате загружаемого документа
             Assert.IsTrue(WorkspaceCreateProjectDialog.GetIsExistErrorFormatDocumentMessage(),
@@ -173,40 +174,40 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
                 )));*/
         }
 
-        /// <summary>
-        /// метод для тестирования импорта не разбираемых на сегменты файлов из заданной папки в существующий проект
-        /// </summary>
-        /// <param name="filePath">путь в файлу, импортируемого в проект</param>
-        [Test]
-        [TestCaseSource("filesForImportError")]
-        public void ImportFilesAfterCreationErrorTest(string filePath)
-        {
-            // Создать проект, загрузить документ, проверить сегменты
-            CreateReadyProject(ProjectName, false, false, filePath);
+		///// <summary>
+		///// метод для тестирования импорта не разбираемых на сегменты файлов из заданной папки в существующий проект
+		///// </summary>
+		///// <param name="filePath">путь в файлу, импортируемого в проект</param>
+		//[Test]
+		//[TestCaseSource("filesForImportError")]
+		//public void ImportFilesAfterCreationErrorTest(string filePath)
+		//{
+		//	// Создать проект, загрузить документ, проверить сегменты
+		//	CreateReadyProject(ProjectName, false, false, filePath);
 
-            // TODO проверить - почему такая проверка в конце
-            ////Создать пустой проект
-            //CreateProject(ProjectName);
+		//	// TODO проверить - почему такая проверка в конце
+		//	////Создать пустой проект
+		//	//CreateProject(ProjectName);
 
-            ////Добавление документа
-            //ImportDocumentProjectSettings(filePath, ProjectName);
+		//	////Добавление документа
+		//	//ImportDocumentProjectSettings(filePath, ProjectName);
 
-            ////Назначение задачи на пользователя
-            //AssignTask();
+		//	////Назначение задачи на пользователя
+		//	//AssignTask();
 
-            //// Строчка нужного проекта
-            //Driver.FindElement(By.LinkText(ProjectName)).Click();
-            //// Зайти в редактор документа
-            //Driver.FindElement(By.XPath(".//a[contains(@class,'js-editor-link')]")).Click();
+		//	//// Строчка нужного проекта
+		//	//Driver.FindElement(By.LinkText(ProjectName)).Click();
+		//	//// Зайти в редактор документа
+		//	//Driver.FindElement(By.XPath(".//a[contains(@class,'js-editor-link')]")).Click();
 
-            //// Дождаться загрузки страницы
-            //Wait.Until((d) => d.Title.Contains("Editor"));
+		//	//// Дождаться загрузки страницы
+		//	//Wait.Until((d) => d.Title.Contains("Editor"));
 
-            //// Проверить, существует ли хотя бы один сегмент
-            //Assert.IsTrue(IsElementPresent(By.CssSelector(
-            //    "#segments-body div table tr:nth-child(1)"
-            //    )));
-        }
+		//	//// Проверить, существует ли хотя бы один сегмент
+		//	//Assert.IsTrue(IsElementPresent(By.CssSelector(
+		//	//    "#segments-body div table tr:nth-child(1)"
+		//	//    )));
+		//}
 
         /// <summary>
         /// Загрузка в проект документа, который уже был загружен

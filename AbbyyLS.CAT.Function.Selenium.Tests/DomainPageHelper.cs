@@ -84,6 +84,14 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             ClickElement(By.XPath(SAVE_DOMAIN_XPATH));
         }
 
+		/// <summary>
+		/// Кликнуть Cancel
+		/// </summary>
+		public void ClickCancelDomain()
+		{
+			ClickElement(By.XPath(CANCEL_DOMAIN_XPATH));
+		}
+
         /// <summary>
         /// Дождаться сохранения (пропадает кнопка Save)
         /// </summary>
@@ -191,11 +199,13 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 
         protected const string ADD_DOMAIN_BTN_XPATH = ".//span[contains(@class,'js-add-domain')]";
         protected const string SAVE_DOMAIN_BTN_XPATH = "//a[contains(@class,'js-save-domain')]";
+		protected const string CANCEL_DOMAIN_BTN_XPATH = "//a[contains(@class,'js-revert-domain')]";
         protected const string DELETE_DOMAIN_BTN_XPATH = "//a[contains(@class,'js-delete-domain')]";
         protected const string EDIT_DOMAIN_BTN_XPATH = "//a[contains(@class,'js-edit-domain')]";
 
         protected const string NEW_DOMAIN_TD_XPATH = NOT_HIDDEN_TR + "//td[contains(@class,'domainNew')]//div[contains(@class,'" + EDIT_DOMAIN_CLASS + "')]" + NAME_INPUT_XPATH;
         protected const string SAVE_DOMAIN_XPATH = NOT_HIDDEN_TR + "//div[contains(@class,'" + EDIT_DOMAIN_CLASS + "') and not(contains(@class,'g-hidden'))]" + SAVE_DOMAIN_BTN_XPATH;
+		protected const string CANCEL_DOMAIN_XPATH = NOT_HIDDEN_TR + "//tr[not(contains(@class,'g-hidden'))]//div[contains(@class,'" + EDIT_DOMAIN_CLASS + "') and not(contains(@class,'g-hidden'))]//a[contains(@class,'js-revert-domain')]" + CANCEL_DOMAIN_BTN_XPATH;
 
         protected const string EDIT_DOMAIN_CLASS = "js-edit-mode";
 

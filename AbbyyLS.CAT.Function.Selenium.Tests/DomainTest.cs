@@ -24,18 +24,22 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 
         }
 
+
+
 		/// <summary>
 		/// Начальная подготовка для каждого теста
 		/// </summary>
         [SetUp]
         public void Setup()
         {
-            // Авторизация
-            Authorization();
+			// Не закрывать браузер
+			quitDriverAfterTest = false;
 
-            // Перейти на вкладку Проект
-            SwitchDomainTab();
+			// Переходим к странице воркспейса
+			GoToDomains();
         }
+
+
 
         /// <summary>
         /// Метод тестирования создания Проекта

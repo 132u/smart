@@ -24,6 +24,8 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 
         }
 
+
+
 		/// <summary>
 		/// Предварительная подготовка группы тестов
 		/// </summary>
@@ -31,6 +33,8 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
         public void Setup()
         {
         }
+
+
 
         /// <summary>
         /// Метод тестирования изменения структуры: добавление пользовательского текстового поля

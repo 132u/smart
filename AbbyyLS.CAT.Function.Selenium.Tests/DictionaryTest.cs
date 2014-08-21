@@ -35,12 +35,16 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 
         }
 
+
+
         /// <summary>
         /// Старт тестов, переменные
         /// </summary>
         [SetUp]
         public void SetupTest()
         {}
+
+
 
         /// <summary>
         /// Тест: проверка перевода со словарями

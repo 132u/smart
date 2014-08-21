@@ -80,11 +80,14 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
         /// <param name="by">by</param>
 		/// <param name="maxWait">таймаут</param>
         /// <returns>появился элемент</returns>
-        protected bool WaitUntilDisplayElement(By by, int maxWait = 10)
+        protected bool WaitUntilDisplayElement(By by, int maxWait = 15)
         {
-            try
+			// Записываем таймаут, который был. чтобы вернуть его обратно
+			int timeout = _wait.Timeout.Seconds;
+			try
             {
-                _wait.Until((d) => d.FindElement(by).Displayed);
+				_wait.Timeout = TimeSpan.FromSeconds(maxWait);
+				_wait.Until((d) => d.FindElement(by).Displayed);
                 return true;
             }
             catch (StaleElementReferenceException )
@@ -101,6 +104,11 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
                 Assert.Fail("Произошла ошибка:\n" + exType.ToString());
                 return false;
             }
+			finally
+			{
+				// Возвращаем таймаут обратнно
+				_wait.Timeout = TimeSpan.FromSeconds(timeout);
+			}
         }
 
         /// <summary>

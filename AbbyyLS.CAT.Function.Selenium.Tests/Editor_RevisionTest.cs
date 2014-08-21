@@ -43,7 +43,11 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
         [SetUp]
         public void SetupTest()
         {
-            Authorization();
+			// Не закрывать браузер
+			quitDriverAfterTest = false;
+
+			// Переходим к странице воркспейса
+			GoToWorkspace();
         }
 
         /// <summary>
