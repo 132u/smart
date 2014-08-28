@@ -75,6 +75,11 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             Console.WriteLine("добавили текст: " + text);
         }
 
+        public void ClearTarget(int rowNum)
+        {
+            ClearElement(By.CssSelector((GetTargetCellCss(rowNum))));
+        }
+
         /// <summary>
         /// Отправить keys в target
         /// </summary>
@@ -117,6 +122,14 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 		public void ClickRedoBtn()
 		{
 			ClickElement(By.Id(REDO_BTN_ID));
+		}
+
+		/// <summary>
+		/// Кликнуть Add Term
+		/// </summary>
+		public void ClickAddTermBtn()
+		{
+			ClickElement(By.Id(ADD_TERM_BTN_ID));
 		}
 
 		/// <summary>
@@ -509,6 +522,15 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 		}
 
 		/// <summary>
+		/// Возвращает открылась ли форма добавления термина
+		/// </summary>
+		/// <returns>Форма открылась</returns>
+		public bool WaitAddTermFormDisplay()
+		{
+			return WaitUntilDisplayElement(By.Id(ADD_TERM_FORM_ID));
+		}
+
+		/// <summary>
 		/// Возвращает закрылась ли форма словаря
 		/// </summary>
 		/// <returns>Форма закрылась</returns>
@@ -643,10 +665,12 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 		protected const string CHANGE_CASE_BTN_ID = "change-case-btn";
 		protected const string CONCORDANCE_BTN_ID = "concordance-search-btn";
 		protected const string CHARACTER_BTN_ID = "charmap-btn";
+		protected const string ADD_TERM_BTN_ID = "add-term-btn";
 
 		protected const string AUTOSAVING_XPATH = ".//div[contains(@id, 'component')][contains(text(), 'Saving')]";
 
 		protected const string DICTIONARY_FORM_ID = "dictionary";
+		protected const string ADD_TERM_FORM_ID = "term-window";
 		protected const string MESSAGEBOX_FORM_ID = "messagebox";
 		protected const string CONCORDANCE_SEARCH_ID = "concordance-search";
 		protected const string CHAR_FORM_ID = "charmap";

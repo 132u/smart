@@ -699,6 +699,81 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
         }
 
         /// <summary>
+        /// Вернуть, есть ли данный одиночный сорс термин
+        /// </summary>
+        /// <param name="text">текст</param>
+        /// <returns>есть</returns>
+        public bool GetIsSingleSourceTermExists(string text)
+        {
+            if (GetIsExistTerm(text))
+            {
+                return !GetIsElementDisplay(By.XPath(SINGLE_SOURCE_TERM_XPATH.Replace("#", text)));
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        /// <summary>
+        /// Вернуть, есть ли данный одиночный таргет термин
+        /// </summary>
+        /// <param name="text">текст</param>
+        /// <returns>есть</returns>
+        public bool GetIsSingleTargetTermExists(string text)
+        {
+            if (GetIsExistTerm(text))
+            {
+                return !GetIsElementDisplay(By.XPath(SINGLE_TARGET_TERM_XPATH.Replace("#", text)));
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        /// <summary>
+        /// Вернуть, есть ли термин с заданными сорсом и таргетом
+        /// </summary>
+        /// <param name="sourceText">текст сорса</param>
+        /// <param name="targetText">текст таргета</param>
+        /// <returns>есть</returns>
+        public bool GetIsSourceTargetTermExists(string sourceText, string targetText)
+        {
+            return GetIsElementDisplay(By.XPath(SOURCE_TARGET_TERM_XPATH.Replace("#", sourceText).Replace("**", targetText)));
+        }
+
+        /// <summary>
+        /// Вернуть, есть ли термин с заданным комментарием
+        /// </summary>
+        /// <param name="text">текст комментария</param>       
+        /// <returns>есть</returns>
+        public bool GetIsCommentExists(string text)
+        {
+            return GetIsElementDisplay(By.XPath(COMMENT_XPATH.Replace("#", text)));
+        }
+
+        /// <summary>
+        /// Вернуть, есть ли два одинаковых заданных термина
+        /// </summary>
+        /// <param name="sourceText">текст сорса</param>
+        /// <param name="targetText">текст таргета</param>
+        /// <returns>есть</returns>
+        public bool GetAreTwoEqualTermsExist(string sourceText, string targetText)
+        {
+           List<IWebElement> terms = Driver.FindElements(By.XPath(SOURCE_TARGET_TERM_XPATH.Replace("#", sourceText).
+               Replace("**", targetText))).ToList();
+            if (terms.Count > 1)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        /// <summary>
         /// Кликнуть Edit
         /// </summary>
         public void ClickEditBtn()
@@ -712,6 +787,14 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
         public void ClickTermRow()
         {
             ClickElement(By.XPath(CONCEPT_ROW_XPATH + TERM_COMMENT_TD));
+        }
+
+        /// <summary>
+        /// Кликнуть на заданную строку термина
+        /// </summary>
+        public void ClickTermRowByNameOfTerm(string source, string target)
+        {
+            ClickElement(By.XPath(SOURCE_TARGET_TERM_COMMENT_RAW_XPATH.Replace("#", source).Replace("**", target)));
         }
 
         /// <summary>
@@ -1138,6 +1221,11 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
         protected const string TERM_TEXT_XPATH = CONCEPT_ROW_XPATH + "//td[contains(@class,'glossaryShort')]//p";
         protected const string TERM_ERROR_XPATH = "//p[contains(@class,'l-error')]";
         protected const string TERM_ERROR_MESSAGE_XPATH = "//div[contains(@class,'js-term-box')][contains(@class,'l-error')]";
+        protected const string SINGLE_SOURCE_TERM_XPATH = CONCEPT_ROW_XPATH + "//td[1][contains(string(), '#')]/following-sibling::td[1]//p";
+        protected const string SINGLE_TARGET_TERM_XPATH = CONCEPT_ROW_XPATH + "//td[1]/p../following-sibling::td[1][contains(string(), '#')]";
+        protected const string COMMENT_XPATH = CONCEPT_ROW_XPATH + "//td[contains(@class, 'glossaryComment') and contains(string(), '#')]";
+        protected const string SOURCE_TARGET_TERM_XPATH = "//tr[contains(@class, 'js-concept-row') and contains(string(), '#') and contains(string(), '**')]";
+        protected const string SOURCE_TARGET_TERM_COMMENT_RAW_XPATH = "//tr[contains(@class, 'js-concept-row') and contains(string(), '#') and contains(string(), '**')]//td[4]";
 
         protected const string ADD_SYNONYM_BTN_XPATH = "//span[contains(@class,'js-add-term')]";
         protected const string SYNONYM_INPUT_XPATH = "//div" + INPUT_TERM_XPATH;

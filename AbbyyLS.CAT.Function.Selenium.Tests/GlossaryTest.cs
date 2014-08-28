@@ -250,33 +250,22 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
         {
             GlossaryPage.EditTermsExtended(text);
         }
-
-        /// <summary>
-        /// Удаление глоссария
-        /// </summary>
-        protected void DeleteGlossary()
-        {
-            // Открыть редактирование свойств глоссария
-            OpenGlossaryProperties();
-            // Нажать Удалить глоссарий 
-            GlossaryEditForm.ClickDeleteGlossary();
-
-            // Нажать Да (удалить)
-            GlossaryEditForm.ClickConfirmDeleteGlossary();
-            GlossaryListPage.WaitPageLoad();
-        }
-
-        /// <summary>
-        /// Открыть свойства глоссария
-        /// </summary>
-        protected void OpenGlossaryProperties()
-        {
-            // Нажать Редактирование
-            GlossaryPage.OpenEditGlossaryList();
-            // Нажать на Properties
-            GlossaryPage.ClickOpenProperties();
-        }
-
+        
+		/// <summary>
+		/// Создать глоссарий и вернуться к списку глоссариев
+		/// </summary>
+		/// <returns>название глоссария</returns>
+		protected string CreateGlossaryAndReturnToGlossaryList()
+		{
+			// Получить уникальное имя для глоссария
+			string glossaryName = GetUniqueGlossaryName();
+			// Создать глоссарий
+			CreateGlossaryByName(glossaryName);
+			// Перейти к списку глоссариев
+			SwitchGlossaryTab();
+			return glossaryName;
+		}
+       
         protected void AddUserRights()
         {
             // хардкор!

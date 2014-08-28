@@ -701,7 +701,7 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 		/// </summary>
 		[Test]
 		public void ChangeCaseFirstWordTest()
-		{
+		{			
 			int segmentNumber = 1;
 			// Написать текст в первом сегменте в target
 			EditorPage.AddTextTarget(segmentNumber, "some words for example");

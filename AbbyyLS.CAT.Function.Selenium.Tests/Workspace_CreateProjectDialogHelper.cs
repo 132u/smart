@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Firefox;
@@ -255,8 +256,9 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
         /// Выбрать первую ТМ из списка
         /// </summary>
         public void ClickFirstTMInTable()
-        {
+        {            
             ClickElement(By.XPath(TM_TABLE_FIRST_ITEM_XPATH));
+            Thread.Sleep(500);
         }
 
         /// <summary>
@@ -266,6 +268,16 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
         {
             ClickElement(By.XPath(FIRST_GLOSSARY_XPATH));
         }
+
+		/// <summary>
+		/// Выбрать глоссарий по имени
+		/// </summary>
+		public void ClickGlossaryByName(string glossaryName)
+		{
+			//string xpath = GLOSSARY_BY_NAME_XPATH.Replace("#", glossaryName);			
+			 //((IJavaScriptExecutor)Driver).ExecuteScript("var el = document.getElementByXpath("+xpath+"); el.scrollIntoView(true);");  
+			ClickElement(By.XPath(GLOSSARY_BY_NAME_XPATH.Replace("#", glossaryName)));
+		}
 
         /// <summary>
         /// Нажать галочку у ТМ
@@ -686,6 +698,8 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 
         protected const string FIRST_GLOSSARY_XPATH =
 			CREATE_PROJECT_DIALOG_XPATH + "//table[contains(@class,'js-glossaries')]//tbody//tr[1]/*/span[contains(@class,'js-chckbx')]";
+		protected const string GLOSSARY_BY_NAME_XPATH = CREATE_PROJECT_DIALOG_XPATH + "//table[contains(@class,'js-glossaries')]//tbody//tr[contains(string(), '#')]/*/span[contains(@class,'js-chckbx')]";
+		protected const string GLOSSARY_BY_NAME_TR_XPATH = CREATE_PROJECT_DIALOG_XPATH + "//table[contains(@class,'js-glossaries')]//tbody//tr[contains(string(), '#')]";
         protected const string MT_TABLE_XPATH = CREATE_PROJECT_DIALOG_XPATH + "//table[contains(@class,'js-mts')]//tbody";
 
         protected const string FINISH_BTN_XPATH = CREATE_PROJECT_DIALOG_XPATH + "//span[contains(@class,'js-finish js-upload-btn')]";

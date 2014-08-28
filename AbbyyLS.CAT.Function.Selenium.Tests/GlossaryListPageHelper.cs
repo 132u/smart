@@ -71,10 +71,10 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
         /// <returns>есть</returns>
         public bool GetIsExistGlossary(string glossaryName)
         {
-            SetDriverTimeoutMinimum();
-            bool isExist = GetIsElementExist(By.XPath(GetGlossaryRowXPath(glossaryName)));
-            SetDriverTimeoutDefault();
-            return isExist;
+			
+            //bool isExist = GetIsElementExist(By.XPath(GetGlossaryRowXPath(glossaryName)));
+           // SetDriverTimeoutDefault();
+			return WaitUntilDisplayElement(By.XPath(GetGlossaryRowXPath(glossaryName)));
         }
 
         /// <summary>

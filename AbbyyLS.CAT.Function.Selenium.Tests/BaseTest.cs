@@ -94,6 +94,10 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             {
                 return _driver;
             }
+            set
+            {
+                _driver = value;
+            }
         }
 
         /// <summary>
@@ -867,10 +871,23 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 			}
 		}
 
-
+        /// <summary>
+        /// Форма добавления нового термина в редакторе
+        /// </summary>
+        private AddTermFormHelper _addTermFormHelper;
+        /// <summary>
+        /// Форма добавления нового термина в редакторе
+        /// </summary>
+        protected AddTermFormHelper AddTermForm
+        {
+            get
+            {
+                return _addTermFormHelper;
+            }
+        }
 
         // информация о тесте
-        DateTime testBeginTime;
+        protected DateTime testBeginTime;
 
 		/// <summary>
 		/// Вкл/откл закрытия драйвера после каждого теста
@@ -1074,6 +1091,7 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             _glossarySuggestPageHelper = new GlossarySuggestPageHelper(Driver, Wait);
 			_catPanelHelper = new CatPanelResultsHelper(Driver, Wait);
 			_responsiblesDialogHelper = new ResponsiblesDialogHelper(Driver, Wait);
+            _addTermFormHelper = new AddTermFormHelper(Driver, Wait);
         }
 
         /// <summary>
@@ -1454,7 +1472,7 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             bool createNewTM = false, string tmFile = "",
             bool chooseGlossary = false,
             bool chooseMT = false, Workspace_CreateProjectDialogHelper.MT_TYPE mtType = Workspace_CreateProjectDialogHelper.MT_TYPE.None,
-            bool isNeedCheckExist = true)
+            bool isNeedCheckExist = true, string glossaryName = "")
         {
             // Заполнение полей на первом шаге
             FirstStepProjectWizard(projectName);            
@@ -1480,10 +1498,15 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             WorkspaceCreateProjectDialog.ClickNextStep();
 
             //3 шаг - выбор глоссария
-            if (chooseGlossary)
+            if (chooseGlossary && glossaryName == "")
             {
                 WorkspaceCreateProjectDialog.ClickFirstGlossaryInTable();
             }
+			else if (chooseGlossary && glossaryName != "")
+			{
+				WorkspaceCreateProjectDialog.ClickGlossaryByName(glossaryName);
+								
+			}
             WorkspaceCreateProjectDialog.ClickNextStep();
 
             //4 шаг - выбор МТ
@@ -2069,6 +2092,53 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
         }
 
         /// <summary>
+        /// Получить количество терминовв глоссарии
+        /// </summary>
+        /// <returns></returns>
+        protected int GetCountOfItems()
+        {
+            return GlossaryPage.GetConceptCount();
+        }
+
+        /// <summary>
+        /// Зайти в глоссарий
+        /// </summary>
+        /// <param name="glossaryName"></param>
+        protected void SwitchCurrentGlossary(string glossaryName)
+        {
+            // Перейти на страницу глоссария
+            GlossaryListPage.ClickGlossaryRow(glossaryName);
+            Assert.IsTrue(GlossaryPage.WaitPageLoad(),
+                "Ошибка: не зашли в глоссарий");
+        }
+
+        /// <summary>
+        /// Открыть свойства глоссария
+        /// </summary>
+        protected void OpenGlossaryProperties()
+        {
+            // Нажать Редактирование
+            GlossaryPage.OpenEditGlossaryList();
+            // Нажать на Properties
+            GlossaryPage.ClickOpenProperties();
+        }
+
+        /// <summary>
+        /// Удаление глоссария
+        /// </summary>
+        protected void DeleteGlossary()
+        {
+            // Открыть редактирование свойств глоссария
+            OpenGlossaryProperties();
+            // Нажать Удалить глоссарий 
+            GlossaryEditForm.ClickDeleteGlossary();
+
+            // Нажать Да (удалить)
+            GlossaryEditForm.ClickConfirmDeleteGlossary();
+            GlossaryListPage.WaitPageLoad();
+        }
+            
+        /// <summary>
         /// Добавить язык при создании глоссария
         /// </summary>
         /// <param name="lang">код языка</param>
@@ -2164,6 +2234,27 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 			// Проверка, что открылась форма
 			Assert.IsTrue(EditorPage.WaitDictionaryFormDisplay(),
 				"Ошибка: Форма со словарем не открылась.");
+		}
+
+		/// <summary>
+		/// Создать уникальное имя
+		/// </summary>
+		/// <returns>имя</returns>
+		protected string GetUniqueGlossaryName()
+		{
+			// Получить уникальное имя глоссария (т.к. добавляется точная дата и время, то не надо проверять, есть ли такой глоссарий в списке)
+			return GlossaryName + DateTime.Now.ToString();
+		}
+		
+		/// <summary>
+		/// Вернуть, есть ли глоссарий с таким именем
+		/// </summary>
+		/// <param name="glossaryName">навзание</param>
+		/// <returns>есть</returns>
+		protected bool GetIsExistGlossary(string glossaryName)
+		{
+			// Получить: существует ли глоссарий с таким именем
+			return GlossaryListPage.GetIsExistGlossary(glossaryName);
 		}
 
 		/// <summary>

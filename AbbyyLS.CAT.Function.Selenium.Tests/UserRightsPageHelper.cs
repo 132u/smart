@@ -99,6 +99,14 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             ClickElement(By.XPath(ALL_GLOSSARIES_SELECT_XPATH));
         }
 
+		/// <summary>
+		/// Выбрать Управление глоссариями
+		/// </summary>
+		public void SelectManageGlossaries()
+		{
+			ClickElement(By.XPath(MANAGE_GLOSSARIES_INPUT_XPATH));
+		}
+
         /// <summary>
         /// Кликнуть Сохранить
         /// </summary>
@@ -253,6 +261,30 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 			return usersInGroup;
 		}
 
+		/// <summary>
+		/// Вводим имя нового пользователя группы
+		/// </summary>
+		/// <param name="userName">Имя нового пользователя</param>
+		public void AddUserToGroup(string userName)
+		{
+			ClearAndAddText(By.XPath(USER_NAME_INPUT_XPATH), userName);
+		}
+
+		/// <summary>
+		/// Проверяем есть ли Управление всеми глоссариями в списке прав группы
+		/// </summary>
+		public bool IsManageAllGlossariesRightIsPresent()
+		{
+			if (GetIsElementExist(By.XPath(MANAGE_ALL_GLOSSARIES_TEXT_XPATH)))
+			{
+				return true;
+			}
+			else
+			{
+				return false;
+			}
+		}
+
 
 
         protected const string PAGE_LINK_XPATH = "//a[contains(@href,'/Enterprise/Users')]";
@@ -261,6 +293,7 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
         protected const string EDIT_BTN_XPATH = "//span[contains(@class,'js-editgroup-btn')]";
         protected const string ADD_RIGHTS_BTN_XPATH = "//span[contains(@class,'js-add-right-btn')]";
         protected const string SUGGEST_WITHOUT_GLOSSARY_INPUT_XPATH = "//li[@data-type='AddSuggestsWithoutGlossary']//input";
+		protected const string MANAGE_GLOSSARIES_INPUT_XPATH = "//li[@data-type='GlossaryManagement']//input";
         protected const string GLOSSARY_SEARCH_INPUT_XPATH = "//li[@data-type='GlossarySearch']//input";
         protected const string NEXT_BTN_XPATH = "//span[contains(@class,'js-next')]";
         protected const string ADD_BTN_XPATH = "//span[contains(@class,'js-add')]//a[contains(text(),'Add')]";
@@ -283,5 +316,7 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 		protected const string GROUPS_XPATH = GROUPS_RIGHTS_TABLE_XPATH + "//tr[contains(@class, 'js-group-row')]";
 		protected const string GROUP_NAME_XPATH = "//td[contains(@class, 'js-group-name')]";
 		protected const string GROUP_USERS_XPATH = "//ul[contains(@class, 'js-users-list')]//span[contains(@class, 'js-user-name')]";
+		protected const string USER_NAME_INPUT_XPATH = "//input[contains(@class,'js-add-user')]";
+		protected const string MANAGE_ALL_GLOSSARIES_TEXT_XPATH = "//ul[contains(@class, 'js-rights-list')]//span[contains(string(), 'Manage all glossaries')]";
     }
 }
