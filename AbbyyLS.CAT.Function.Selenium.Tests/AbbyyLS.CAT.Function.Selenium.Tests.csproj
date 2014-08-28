@@ -39,16 +39,18 @@
     <Reference Include="System.Drawing" />
     <Reference Include="System.Web.Extensions" />
     <Reference Include="System.Windows.Forms" />
-    <Reference Include="WebDriver">
+    <Reference Include="WebDriver, Version=2.42.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\lib\WebDriver.2.38\WebDriver.dll</HintPath>
     </Reference>
-    <Reference Include="WebDriver.Support">
+    <Reference Include="WebDriver.Support, Version=2.42.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\lib\WebDriver.2.38\WebDriver.Support.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AddTermFormHelper.cs" />
-    <Compile Include="EditorDictionaryTest.cs" />
+    <Compile Include="EditorSpellcheckTest.cs" />
     <Compile Include="GlossaryEditorTest.cs" />
     <Compile Include="ResponsiblesDialogHelper.cs" />
     <Compile Include="AssignResponsiblesTest.cs" />

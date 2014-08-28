@@ -931,7 +931,7 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 		/// Конечные действия для группы тестов
 		/// </summary>
 		[TestFixtureTearDown]
-		public void TeardownAllBase()
+		public virtual void TeardownAllBase()
 		{
 			// Закрыть драйвер
 			ExitDriver();
@@ -1468,6 +1468,7 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
         /// <param name="chooseMT">выбрать МТ</param>
         /// <param name="mtType">тип МТ</param>
 		/// <param name="isNeedCheckExist">Нужна проверка проекта в списке</param>
+        /// <param name="glossaryName">Имя глоссария</param>
         protected void CreateProject(string projectName, string downloadFile = "",
             bool createNewTM = false, string tmFile = "",
             bool chooseGlossary = false,
@@ -1548,12 +1549,16 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 		/// Создание проекта, если проект с таким именем не создан
 		/// </summary>
 		/// <param name="projectName">Имя проекта</param>
-		protected void CreateProjectIfNotCreated(string projectName, string downloadFile = "")
+        protected void CreateProjectIfNotCreated(string projectName, string downloadFile = "",
+            bool createNewTM = false, string tmFile = "",
+            bool chooseGlossary = false,
+            bool chooseMT = false, Workspace_CreateProjectDialogHelper.MT_TYPE mtType = Workspace_CreateProjectDialogHelper.MT_TYPE.None,
+            bool isNeedCheckExist = true, string glossaryName = "")
 		{
 			if (!GetIsExistProject(projectName))
 			{
 				// Создание проекта
-				CreateProject(projectName, downloadFile);
+				CreateProject(projectName, downloadFile, createNewTM, tmFile, chooseGlossary, chooseMT, mtType, isNeedCheckExist, glossaryName);
 
 				// Дождаться, пока документ догрузится
 				Assert.IsTrue(WorkspacePage.WaitProjectLoad(projectName), "Ошибка: документ не загрузился");

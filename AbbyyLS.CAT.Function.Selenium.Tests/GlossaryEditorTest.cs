@@ -26,25 +26,77 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 		private string _glossaryName;
         private string _glossaryName2;       
         private string _projectName2;
+        // Имя проекта, использующегося в нескольких тестах
+        // Проект не изменяется при проведении тестов
+        private string projectNoChangesName = "";
+        private bool beforeTests = false;
        
 		
+
 		[TestFixtureSetUp]
 		public void BeforeClass()
 		{
-			//Авторизация
-			Authorization("TestAccount");
-			//Проверка прав пользователя
-			CheckAddUserRights();
-			//Создание нового словаря
-			CreateNewGlossary();
-			//Создание проекта	
-			CreateProject(ProjectName, "", false, "", true, false, Workspace_CreateProjectDialogHelper.MT_TYPE.None, true, _glossaryName);
-			//Открытие настроек проекта			
-			ImportDocumentProjectSettings(DocumentFile, ProjectName);
-			//Назначение задачи на пользователя
-			AssignTask(1);			
+            // Создание уникального имени проекта
+            CreateUniqueNamesByDatetime();
+
+            // Запись имени для дальнейшего использования в группе тестов
+            projectNoChangesName = ProjectName;
 		}
-		
+
+        [SetUp]
+        public void Setup()
+        {
+            // Не выходить из браузера после теста
+            quitDriverAfterTest = false;
+
+            GoToWorkspace();
+
+            if (!beforeTests)
+            {
+                //Проверка прав пользователя
+                CheckAddUserRights();
+                //Создание нового словаря
+                CreateNewGlossary();
+                //Создание проекта	
+                CreateProjectIfNotCreated(projectNoChangesName, "", false, "", true, false, Workspace_CreateProjectDialogHelper.MT_TYPE.None, true, _glossaryName);
+                //Открытие настроек проекта			
+                ImportDocumentProjectSettings(DocumentFile, projectNoChangesName);
+                //Назначение задачи на пользователя
+                AssignTask(1);
+
+                beforeTests = true;
+            }
+            else
+            {
+                // Открыть проект
+                WorkspacePage.OpenProjectPage(projectNoChangesName);
+            }
+
+            //Открытие документа
+            OpenDocument();
+        }
+
+        [TestFixtureTearDown]
+        public override void TeardownAllBase()
+        {
+            GoToGlossaries();
+            // Зайти в глоссарий
+            SwitchCurrentGlossary(_glossaryName);
+            // Удалить глоссарий
+            DeleteGlossary();
+            // Удалить второй глоссарий
+            if (_glossaryName2 != null && GetIsExistGlossary(_glossaryName2))
+            {
+                SwitchCurrentGlossary(_glossaryName2);
+                // Удалить глоссарий
+                DeleteGlossary();
+            }
+
+            ExitDriver();
+        }
+
+
+
 		/// <summary>
 		/// Открывает форму добавления термина в редакторе по нажатию кнопки на панели
 		/// </summary>
@@ -519,7 +571,7 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             DeleteTermByName("Galaxy", "Галактика");
             SwitchWorkspaceTab();
             // Открытие проекта
-            WorkspacePage.OpenProjectPage(ProjectName);
+            WorkspacePage.OpenProjectPage(projectNoChangesName);
             // Открытие документа
             ProjectPage.OpenDocument(1);
             Thread.Sleep(500);
@@ -540,6 +592,8 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             OpenCurrentGlossary();
             Assert.IsTrue(GlossaryPage.GetIsSourceTargetTermExists("Galaxy", "Галактика"), "Ошибка: Не добавлен повторно термин.");
         }
+
+
 
         /// <summary>
         /// Проверяем, что там у пользователя с правами
@@ -763,98 +817,6 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             WorkspaceCreateProjectDialog.ClickFinishCreate();
             // Дождаться проекта в списке проектов           
             Assert.IsTrue(WorkspacePage.WaitProjectAppearInList(_projectName2), "Ошибка: проект не появился в списке Workspace");            
-        }
-
-		[SetUp]
-		public override void SetupBase()
-		{
-            // Вывести время начала теста
-            testBeginTime = DateTime.Now;
-            Console.WriteLine(TestContext.CurrentContext.Test.Name + "\nStart: " + testBeginTime.ToString());
-            Driver.Navigate().GoToUrl(Url);
-            // Открыть проект
-            WorkspacePage.OpenProjectPage(ProjectName);
-            //Открытие документа
-            OpenDocument();
-			
-		}
-
-		[TearDown]
-		public override void TeardownBase()
-		{
-            // Если тест провалился
-            if (TestContext.CurrentContext.Result.Status.Equals(TestStatus.Failed))
-            {
-                // Сделать скриншот
-                ITakesScreenshot screenshotDriver = Driver as ITakesScreenshot;
-                Screenshot screenshot = screenshotDriver.GetScreenshot();
-
-                // Создать папку для скриншотов провалившихся тестов
-                string failResultPath = System.IO.Path.Combine(PathTestResults, "FailedTests");
-                System.IO.Directory.CreateDirectory(failResultPath);
-                // Создать имя скриншота по имени теста
-                string screenName = TestContext.CurrentContext.Test.Name;
-                if (screenName.Contains("("))
-                {
-                    // Убрать из названия теста аргументы (файлы)
-                    screenName = screenName.Substring(0, screenName.IndexOf("("));
-                }
-                screenName += DateTime.Now.Ticks.ToString() + ".png";
-                // Создать полное имя файла
-                screenName = System.IO.Path.Combine(failResultPath, screenName);
-                // Сохранить скриншот
-                screenshot.SaveAsFile(screenName, ImageFormat.Png);
-            }
-
-            // Вывести информацию о прохождении теста
-            DateTime testFinishTime = DateTime.Now;
-            // Время окончания теста
-            Console.WriteLine("Finish: " + testFinishTime.ToString());
-            // Длительность теста
-            TimeSpan duration = TimeSpan.FromTicks(testFinishTime.Ticks - testBeginTime.Ticks);
-            string durResult = "Duration: ";
-            if (duration.TotalMinutes > 1)
-            {
-                durResult += duration.TotalMinutes + "min";
-            }
-            else
-            {
-                durResult += duration.TotalSeconds + "sec";
-            }
-
-            durResult += " (" + duration.TotalMilliseconds + "ms).";
-            Console.WriteLine(durResult);
-
-            if (TestContext.CurrentContext.Result.Status.Equals(TestStatus.Failed))
-            {
-                // Если тест провалился
-                Console.WriteLine("Fail!");
-
-            }
-		}
-
-    [TestFixtureTearDown]
-        public void AfterClass()
-        {
-            Driver.Navigate().GoToUrl(Url);
-            // Переключиться на вкладку глоссарии
-            SwitchGlossaryTab();
-            // Зайти в глоссарий
-            SwitchCurrentGlossary(_glossaryName);
-            // Удалить глоссарий
-            DeleteGlossary();
-            // Удалить второй глоссарий
-            if ( _glossaryName2 != null && GetIsExistGlossary(_glossaryName2))
-            {
-                 SwitchCurrentGlossary(_glossaryName2);
-                 // Удалить глоссарий
-                 DeleteGlossary();
-            }
-
-            // Закрыть драйвер
-            Driver.Quit();
-            // Очистить, чтобы при следующем тесте пересоздавалось
-            Driver = null;
         }
 	}
 }

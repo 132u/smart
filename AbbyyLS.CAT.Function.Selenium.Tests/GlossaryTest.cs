@@ -250,22 +250,7 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
         {
             GlossaryPage.EditTermsExtended(text);
         }
-        
-		/// <summary>
-		/// Создать глоссарий и вернуться к списку глоссариев
-		/// </summary>
-		/// <returns>название глоссария</returns>
-		protected string CreateGlossaryAndReturnToGlossaryList()
-		{
-			// Получить уникальное имя для глоссария
-			string glossaryName = GetUniqueGlossaryName();
-			// Создать глоссарий
-			CreateGlossaryByName(glossaryName);
-			// Перейти к списку глоссариев
-			SwitchGlossaryTab();
-			return glossaryName;
-		}
-       
+        		      
         protected void AddUserRights()
         {
             // хардкор!
