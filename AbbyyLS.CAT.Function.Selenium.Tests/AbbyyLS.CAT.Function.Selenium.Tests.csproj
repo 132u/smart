@@ -47,7 +47,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="EditorSpellcheckTest.cs" />
+    <Compile Include="AddTermFormHelper.cs" />
+    <Compile Include="EditorDictionaryTest.cs" />
+    <Compile Include="GlossaryEditorTest.cs" />
     <Compile Include="ResponsiblesDialogHelper.cs" />
     <Compile Include="AssignResponsiblesTest.cs" />
     <Compile Include="Authorization.cs" />
