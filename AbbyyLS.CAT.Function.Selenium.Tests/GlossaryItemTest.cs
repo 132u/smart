@@ -205,7 +205,7 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             GlossaryPage.ClickTermRow();
             // Нажать на "корзинку"
             GlossaryPage.ClickDeleteBtn();
-            GlossaryPage.WaitConceptGeneralSave();
+			GlossaryPage.WaitConceptGeneralDelete();
             // Сравнить количество терминов
             int itemsCountAfter = GetCountOfItems();
             Assert.IsTrue(itemsCountAfter < itemsCount, "Ошибка: количество терминов не уменьшилось");

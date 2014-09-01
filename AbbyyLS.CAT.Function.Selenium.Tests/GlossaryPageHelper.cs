@@ -167,6 +167,15 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             return WaitUntilDisappearElement(By.XPath(EDIT_CONCEPT_SAVE_BTN_XPATH));
         }
 
+		/// <summary>
+		/// Дождаться удаления термина в обычном режиме
+		/// </summary>
+		/// <returns></returns>
+		public bool WaitConceptGeneralDelete()
+		{
+			return WaitUntilDisappearElement(By.XPath(DELETE_CONCEPT_BTN_XPATH));
+		}
+
         /// <summary>
         /// Вернуть количество терминов
         /// </summary>

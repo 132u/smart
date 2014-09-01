@@ -813,7 +813,7 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             else
             {
                 // Нажать хоткей
-                EditorPage.SendKeysTarget(rowNumber, OpenQA.Selenium.Keys.Alt + OpenQA.Selenium.Keys.F3);
+                EditorPage.SendKeysTarget(rowNumber, OpenQA.Selenium.Keys.Shift + OpenQA.Selenium.Keys.F3);
             }
         }
     }

@@ -759,7 +759,7 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             GlossaryPage.ClickTermRowByNameOfTerm(source, target);
             // Нажать на "корзинку"
             GlossaryPage.ClickDeleteBtn();
-            GlossaryPage.WaitConceptGeneralSave();
+			GlossaryPage.WaitConceptGeneralDelete();
             Thread.Sleep(1000);
             // Сравнить количество терминов
             int itemsCountAfter = GetCountOfItems();

@@ -1117,7 +1117,7 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
         protected void AssignTask(int documentRowNum = 1)
         {
 			// Открываем инфо документа 
-			ProjectPage.OpenDocumentInfo(1);
+			ProjectPage.OpenDocumentInfo(documentRowNum);
 
 			// Открываем окно прав исполнителей
 			ProjectPage.ClickAssignRessponsibleBtn();
