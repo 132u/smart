@@ -78,9 +78,9 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 		}
 
 		/// <summary>
-		/// Вернуть присуствует ли заданный текст в SourceTerm
-        /// <param name="text">текст</param>
+		/// Вернуть присуствует ли заданный текст в SourceTerm       
 		/// </summary>
+        /// <param name="text">текст</param>
 		/// <returns>есть</returns>
 		public bool GetSourceTermText(string text)
 		{
@@ -88,9 +88,9 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 		}
 
         /// <summary>
-        /// Вернуть присуствует ли заданный текст в TargetTerm
-        /// <param name="text">текст</param>
+        /// Вернуть присуствует ли заданный текст в TargetTerm        
         /// </summary>
+        /// <param name="text">текст</param>
         /// <returns>есть</returns>
 		public bool GetTargetTermText(string text)
 		{
@@ -98,27 +98,27 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 		}
 
 		/// <summary>
-		/// Набрать текст в  TargetTerm
-		/// <param name="targetText">текст для ввода</param>
+		/// Набрать текст в  TargetTerm		
 		/// </summary>
+        /// <param name="targetText">текст для ввода</param>
 		public void TypeTargetTermText(string targetText)
 		{
             ClickClearAndAddText(By.XPath(TARGET_TERM_INPUT_XPATH), targetText);
 		}
 
 		/// <summary>
-		/// Набрать текст в  SourceTerm
-		/// <param name="sourceText">текст для ввода</param>
+		/// Набрать текст в  SourceTerm		
 		/// </summary>
+        /// <param name="sourceText">текст для ввода</param>
 		public void TypeSourceTermText(string sourceText)
 		{
 			ClickClearAndAddText(By.XPath(SOURCE_TERM_INPUT_XPATH), sourceText);
 		}
 
 		/// <summary>
-		/// Набрать комментарий
-		/// <param name="commentText">текст комментария</param>
+		/// Набрать комментарий		
 		/// </summary>
+        /// <param name="commentText">текст комментария</param>
 		public void TypeCommentText(string commentText)
 		{
 			SendTextElement(By.XPath(COMMENT_INPUT_XPATH), commentText);            
@@ -133,9 +133,9 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
         }
 
 		/// <summary>
-		/// Получить, есть ли словарь с заданным именем
-		/// <param name="glossaryName">имя словаря</param>
+		/// Получить, есть ли словарь с заданным именем		
 		/// </summary>
+        /// <param name="glossaryName">имя словаря</param>
 		/// <returns>есть словарь</returns>
 		public bool CheckGlossaryByName(string glossaryName)
 		{			
@@ -143,9 +143,9 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 		}
 
 		/// <summary>
-		/// Выбрать словарь из выпадающего списка 
-		/// <param name="glossaryName">имя словаря</param>
+		/// Выбрать словарь из выпадающего списка 		
 		/// </summary>
+        /// <param name="glossaryName">имя словаря</param>
 		public void SelectGlossaryByName(string glossaryName)
 		{
 			ClickElement(By.XPath(TERM_BASE_BOUNDLIST_XPATH.Replace("#", glossaryName)));

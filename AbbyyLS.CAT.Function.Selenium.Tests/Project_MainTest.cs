@@ -31,7 +31,7 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
         [SetUp]
         public void Setup()
         {
-
+            //GoToWorkspace();
         }
 
         /// <summary>
@@ -419,6 +419,232 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
                 "Ошибка: перешли на следующий шаг (выбора ТМ)");
         }
 
+        /// <summary>
+        /// Проверка на автоматическое присвоение имени проекта при загрузке файла
+        /// </summary>
+        [Test]
+        public void AutofillProjectName()
+        {
+            string fileName = "littleEarth";
+
+            // Нажать <Create>
+            WorkspacePage.ClickCreateProject();
+            // Ждем загрузки формы
+            WorkspaceCreateProjectDialog.WaitDialogDisplay();
+            // Загрузить файл
+            WorkspaceCreateProjectDialog.ClickAddDocumentBtn();
+            FillAddDocumentForm(DocumentFile);
+            Thread.Sleep(1000);
+            Assert.IsTrue(WorkspaceCreateProjectDialog.CheckProjectName(fileName),
+                "Ошибка: Имя проекта автоматически не присвоилось");
+        }
+
+        /// <summary>
+        /// Проверка, что автоматическое присвоенное имя не изменяется после повторного добавления файла
+        /// </summary>
+        [Test]
+        public void AutofillProjectNameAddTwoFiles()
+        {
+            string fileName = "littleEarth";
+
+            // Нажать <Create>
+            WorkspacePage.ClickCreateProject();
+            // Ждем загрузки формы
+            WorkspaceCreateProjectDialog.WaitDialogDisplay();
+            // Загрузить файл
+            WorkspaceCreateProjectDialog.ClickAddDocumentBtn();
+            FillAddDocumentForm(DocumentFile);
+            Thread.Sleep(1000);
+            Assert.IsTrue(WorkspaceCreateProjectDialog.CheckProjectName(fileName),
+                "Ошибка: Имя проекта автоматически не присвоилось");
+
+            // Загрузить второй файл
+            WorkspaceCreateProjectDialog.ClickAddDocumentBtn();
+            FillAddDocumentForm(EditorTXTFile);
+            Thread.Sleep(1000);
+            Assert.IsTrue(WorkspaceCreateProjectDialog.CheckProjectName(fileName),
+                "Ошибка: Автоматическое присвоенное имя проекта изменилось при загрузке второго файла");
+        }
+
+        /// <summary>
+        /// Проверка, что автоматическое присвоенное имя не изменяется после удаления файла
+        /// </summary>
+        [Test]
+        public void AutofillProjectNameDeleteFile()
+        {
+            string fileName = "littleEarth";
+
+            // Нажать <Create>
+            WorkspacePage.ClickCreateProject();
+            // Ждем загрузки формы
+            WorkspaceCreateProjectDialog.WaitDialogDisplay();
+            // Загрузить файл
+            WorkspaceCreateProjectDialog.ClickAddDocumentBtn();
+            FillAddDocumentForm(DocumentFile);
+            Thread.Sleep(1000);
+            Assert.IsTrue(WorkspaceCreateProjectDialog.CheckProjectName(fileName),
+                "Ошибка: Имя проекта автоматически не присвоилось");
+            // Удалить файл
+            WorkspaceCreateProjectDialog.ClickDeleteFile(fileName);
+            Assert.IsTrue(WorkspaceCreateProjectDialog.WaitUntilFileDisappear(fileName),
+                "Ошибка: Файл {0} не был удален.", fileName);
+
+            Assert.IsTrue(WorkspaceCreateProjectDialog.CheckProjectName(fileName),
+                "Ошибка:  Автоматическое присвоенное имя проекта изменилось после удаления файла");          
+        }
+
+        /// <summary>
+        /// Удаление загруженного файла из визарда проекта
+        /// </summary>
+        [Test]
+        public void DeleteFileFromWizard()
+        {
+            string fileName = "littleEarth";
+
+            // Нажать <Create>
+            WorkspacePage.ClickCreateProject();
+            // Ждем загрузки формы
+            WorkspaceCreateProjectDialog.WaitDialogDisplay();
+            // Загрузить файл
+            WorkspaceCreateProjectDialog.ClickAddDocumentBtn();
+            FillAddDocumentForm(DocumentFile);
+            Thread.Sleep(1000);
+            // Удалить файл
+            WorkspaceCreateProjectDialog.ClickDeleteFile(fileName);
+            Assert.IsTrue(WorkspaceCreateProjectDialog.WaitUntilFileDisappear(fileName),
+                "Ошибка: Файл {0} не был удален", fileName);
+        }
+
+        /// <summary>
+        /// Сохранение проекта с пустым именем на первом шаге визарда
+        /// </summary>
+        [Test]
+        public void EmptyProjectNameFinishAfterFirstStep()
+        {            
+            // Нажать <Create>
+            WorkspacePage.ClickCreateProject();
+            // Ждем загрузки формы
+            WorkspaceCreateProjectDialog.WaitDialogDisplay();
+            // Нажимаем кнопку Готово
+            WorkspaceCreateProjectDialog.ClickFinishCreate();
+            // Проверить, что появилась ошибка и поле Имя выделено ошибкой
+            Assert.IsTrue(WorkspaceCreateProjectDialog.GetIsExistErrorMessageNoName(),
+                "Ошибка: Не появилось сообщение о существующем имени");
+            Assert.IsTrue(WorkspaceCreateProjectDialog.GetIsNameInputError(),
+                "Ошибка: Поле с именем не отмечено ошибкой");
+        }
+
+        /// <summary>
+        /// Создание проекта с одинаковыми source и target языками на первом шаге визарда
+        /// </summary>
+        [Test]
+        public void CreateProjectEqualLanguagesFinishAfterFirstStep()
+        {
+            //1 шаг - заполнение данных о проекте
+            FirstStepProjectWizard(ProjectName, false);
+            WorkspaceCreateProjectDialog.ClickFinishCreate();
+
+            // Проверить, что появилось сообщение о совпадающих языках
+            Assert.IsTrue(WorkspaceCreateProjectDialog.GetIsExistErrorDuplicateLanguage(),
+                "Ошибка: Не появилось сообщение о совпадающих языках");
+
+            // Проверить, что не перешли на следующий шаг
+            Assert.IsTrue(WorkspaceCreateProjectDialog.GetIsFirstStep(),
+                "Ошибка: Не остались на первом шаге");
+        }
+
+        /// <summary>
+        /// Создание проекта с текущей датой дедлайна
+        /// </summary>
+        [Test]
+        public void CreateProjectCurrentDeadlineDate()
+        {
+            // Нажать <Create>
+            WorkspacePage.ClickCreateProject();
+            // Ждем загрузки формы
+            WorkspaceCreateProjectDialog.WaitDialogDisplay();
+
+            // Ввести название проекта
+            WorkspaceCreateProjectDialog.FillProjectName(ProjectName);
+            // Наначить датой дедлайна текущую
+            ChooseCurrentDeadlineDate();
+            // Нажать "Готово"
+            WorkspaceCreateProjectDialog.ClickFinishCreate();
+            // Дождаться проекта в списке проектов
+            Assert.IsTrue(WorkspacePage.WaitProjectAppearInList(ProjectName),
+                "Ошибка: Проект не появился в списке Workspace");
+        }
+
+        /// <summary>
+        /// Создание проекта с дедлайном позже текущей даты
+        /// </summary>
+        [Test]
+        public void CreateProjectFutureDeadlineDate()
+        {
+            // Нажать <Create>
+            WorkspacePage.ClickCreateProject();
+            // Ждем загрузки формы
+            WorkspaceCreateProjectDialog.WaitDialogDisplay();
+
+            // Ввести название проекта
+            WorkspaceCreateProjectDialog.FillProjectName(ProjectName);
+            // Назначаем дедлайн позже текущей даты
+            ChooseFutureDeadlineDate();
+            // Нажать "Готово"
+            WorkspaceCreateProjectDialog.ClickFinishCreate();
+            // Дождаться проекта в списке проектов
+            Assert.IsTrue(WorkspacePage.WaitProjectAppearInList(ProjectName),
+                "Ошибка: Проект не появился в списке Workspace");
+        }
+
+        /// <summary>
+        /// Создание проекта с прошедшей датой дедлайна
+        /// </summary>
+        [Test]
+        public void CreateProjectPastDeadlineDate()
+        {
+            // Нажать <Create>
+            WorkspacePage.ClickCreateProject();
+            // Ждем загрузки формы
+            WorkspaceCreateProjectDialog.WaitDialogDisplay();
+
+            // Ввести название проекта
+            WorkspaceCreateProjectDialog.FillProjectName(ProjectName);
+            // Назначить дедлайн на уже прошедшую дату
+            ChoosePastDeadlineDate();
+            // Нажать "Готово"
+            WorkspaceCreateProjectDialog.ClickFinishCreate();
+            // Дождаться проекта в списке проектов
+            Assert.IsTrue(WorkspacePage.WaitProjectAppearInList(ProjectName),
+                "Ошибка: Проект не появился в списке Workspace");
+        }
+
+        /// <summary>
+        /// Неверный формат даты дедлайна
+        /// </summary>
+        [Test]
+        public void InvalidDeadlineDateFormat([Values("03/03/20166", "03 03/2016", "0303/2016", "033/03/2016", "03/033/2016", "03/03/201")]string dateFormat)
+        {
+            // Нажать <Create>
+            WorkspacePage.ClickCreateProject();
+            // Ждем загрузки формы
+            WorkspaceCreateProjectDialog.WaitDialogDisplay();
+
+            // Ввести название проекта
+            WorkspaceCreateProjectDialog.FillProjectName(ProjectName);
+            // Назначить дедлайн (неверный формат даты)
+            WorkspaceCreateProjectDialog.FillDeadlineDate(dateFormat);           ;
+            // Нажать "Готово"
+            WorkspaceCreateProjectDialog.ClickFinishCreate();
+            // Дождаться сообщения об ошибке            
+            Assert.IsTrue(WorkspaceCreateProjectDialog.GetIsErrorMessageInvalidDeadlineDate(),
+                "Ошибка: Не было сообщения о неверном формате даты");
+        }
+
+        //<add key="Login" value="bobby@mailforspam.com" />
+        // <add key="Password" value="YrdyNpnnu" />
+        // <add key="UserName" value="Bobby Test" />
+
         // TODO: Убрать если у нас не будет кнопки back для возврата на первый шаг для отмены создания. СЕйчас реализовано, что кнопки нет, но в документации - кнопка описана.
         /// <summary>
         /// отмена создания проекта(подтверждение отмены)
@@ -439,7 +665,57 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 
         }
 
+        /// <summary>
+        /// Выбрать текущую дату дедлайна в календаре
+        /// </summary>
+         protected void ChooseCurrentDeadlineDate()
+         {
+             // Кликнуть по полю выбора даты дедлайна, чтобы появился календарь
+             WorkspaceCreateProjectDialog.ClickDeadlineInput();
+             Assert.IsTrue(WorkspaceCreateProjectDialog.WaitUntilDisplayCalendar(),
+                 "Ошибка: Не появился календарь для выбора даты дедлайна");
 
+             // Выбрать в календаре текущую дату
+             WorkspaceCreateProjectDialog.ClickDeadlineCurrentDate();
+             Assert.IsNotNullOrEmpty(WorkspaceCreateProjectDialog.GetDeadlineValue(),
+                 "Ошибка: Дата дедлайна не выбрана");
+         }
+
+         /// <summary>
+         /// Выбрать дату дедлайна в календаре после текущей
+         /// </summary>
+         protected void ChooseFutureDeadlineDate()
+         {
+             // Кликнуть по полю выбора даты дедлайна, чтобы появился календарь
+             WorkspaceCreateProjectDialog.ClickDeadlineInput();
+             Assert.IsTrue(WorkspaceCreateProjectDialog.WaitUntilDisplayCalendar(),
+                 "Ошибка: Не появился календарь для выбора даты дедлайна");
+
+             // Перейти на следующий месяц календаря
+             WorkspaceCreateProjectDialog.ClickNextMonthPicker();
+             // Выбрать в календаре произвольную дату
+             WorkspaceCreateProjectDialog.ClickDeadlineSomeDate();
+             Assert.IsNotNullOrEmpty(WorkspaceCreateProjectDialog.GetDeadlineValue(),
+                 "Ошибка: Дата дедлайна не выбрана");
+         }
+
+         /// <summary>
+         /// Выбрать прошедшую дату дедлайна в календаре 
+         /// </summary>
+         protected void ChoosePastDeadlineDate()
+         {
+             // Кликнуть по полю выбора даты дедлайна, чтобы появился календарь
+             WorkspaceCreateProjectDialog.ClickDeadlineInput();
+             Assert.IsTrue(WorkspaceCreateProjectDialog.WaitUntilDisplayCalendar(),
+                 "Ошибка: Не появился календарь для выбора даты дедлайна");
+
+             // Перейти на предыдущий месяц календаря
+             WorkspaceCreateProjectDialog.ClickPreviousMonthPicker();
+             // Выбрать в календаре произвольную дату
+             WorkspaceCreateProjectDialog.ClickDeadlineSomeDate();
+             Assert.IsNotNullOrEmpty(WorkspaceCreateProjectDialog.GetDeadlineValue(),
+                 "Ошибка: Дата дедлайна не выбрана");
+         }
 
         /// <summary>
         /// Проверка, есть ли ошибка существующего имени

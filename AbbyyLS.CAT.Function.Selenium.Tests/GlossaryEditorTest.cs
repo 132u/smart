@@ -709,9 +709,9 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
         }
 
         /// <summary>
-        /// Создаем новый словарь с заданным именем
-        /// <param name="firstGlossary">словарь номер один или два</param>  
+        /// Создаем новый словарь с заданным именем         
         /// </summary>
+        /// <param name="firstGlossary">словарь номер один или два</param> 
 		private void CreateNewGlossary(bool firstGlossary = true)
 		{
             string glossaryName;
@@ -745,10 +745,10 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 		}
 
         /// <summary>
-        /// Удаляем термин с заданными сорсом и таргетом
+        /// Удаляем термин с заданными сорсом и таргетом        
+        /// </summary>
         /// <param name="source">сорс</param> 
         /// <param name="target">таргет</param>  
-        /// </summary>
         private void DeleteTermByName(string source, string target)
         {
             int itemsCount = GetCountOfItems();

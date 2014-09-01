@@ -369,6 +369,15 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
         }
 
         /// <summary>
+        /// Вернуть, есть ли сообщение о неверной дате дедлайна
+        /// </summary>
+        /// <returns>есть</returns>
+        public bool GetIsErrorMessageInvalidDeadlineDate()
+        {
+            return GetIsElementDisplay(By.XPath(ERROR_DEADLINE_DATE_XPATH));
+        }
+
+        /// <summary>
         /// Вернуть, есть ли ошибка 
         /// </summary>
         /// <returns></returns>
@@ -605,6 +614,18 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 			return Int32.Parse(GetTextElement(By.XPath(workflowXPath)));
 		}
 
+        /// <summary>
+        /// Проверяет имя проекта
+        /// </summary>
+        /// <param name="projectName">Имя проекта</param>
+        /// <returns>Нужное ли имя</returns>
+        public bool CheckProjectName(string projectName)
+        {
+            string name = GetElementAttribute(By.XPath(PROJECT_NAME_INPUT_XPATH), "value");
+            
+                return (name == projectName);            
+        }
+
 		/// <summary>
 		/// Возвращает, отображается ли сообщение о пустом Workflow
 		/// </summary>
@@ -656,6 +677,82 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 			ClearAndAddText(By.XPath(NAME_TM_XPATH), TMName);
 		}
 
+        /// <summary>
+        /// Кликнуть по кнопке "Удалить файл"
+        /// </summary>
+        /// <param name="fileName">имя файла</param>
+        public void ClickDeleteFile(string fileName)
+        {
+            ClickElement(By.XPath(DELETE_FILE_BTN_XPATH.Replace("#", fileName)));
+        }
+
+        /// <summary>
+        /// Кликнуть по полю Имя
+        /// </summary>       
+        public void ClickProjectNameInput()
+        {
+            ClickElement(By.XPath(PROJECT_NAME_INPUT_XPATH));
+        }
+
+        /// <summary>
+        /// Кликнуть по полю Дедлайн, чтобы появился календарь
+        /// </summary>        
+        public void ClickDeadlineInput()
+        {
+            ClickElement(By.XPath(DEADLINE_DATE_INPUT_XPATH));
+        }
+
+        /// <summary>
+        /// Кликнуть по текущей дате в календаре
+        /// </summary>        
+        public void ClickDeadlineCurrentDate()
+        {
+            ClickElement(By.XPath(DEADLINE_DATE_CURRENT_XPATH));
+        }
+
+        /// <summary>
+        /// Перейти на следующий месяц календаря
+        /// </summary>        
+        public void ClickNextMonthPicker()
+        {
+            ClickElement(By.XPath(DEADLINE_DATE_NEXT_MONTH_XPATH));
+        }
+
+        /// <summary>
+        /// Перейти на предыдущий месяц календаря
+        /// </summary>        
+        public void ClickPreviousMonthPicker()
+        {
+            ClickElement(By.XPath(DEADLINE_DATE_PREV_MONTH_XPATH));
+        }
+
+        /// <summary>
+        /// Кликнуть по произвольной дате в календаре
+        /// </summary>        
+        public void ClickDeadlineSomeDate()
+        {
+            ClickElement(By.XPath(DEADLINE_DATE_XPATH));
+        }
+
+        /// <summary>
+        /// Дождаться, пока появится календарь
+        /// </summary>       
+        /// <returns>появился календарь</returns>
+        public bool WaitUntilDisplayCalendar()
+        {
+            return WaitUntilDisplayElement(By.XPath(DEADLINE_DATE_CURRENT_XPATH));
+        }
+
+        /// <summary>
+        /// Дождаться, пока заданный файл исчезнет из списка загруженных файлов
+        /// </summary>
+        /// <param name="fileName">имя файла</param>
+        /// <returns>файла в списке нет</returns>
+        public bool WaitUntilFileDisappear(string fileName)
+        {
+            return WaitUntilDisappearElement(By.XPath(DELETE_FILE_BTN_XPATH.Replace("#", fileName)));            
+        }
+
 
         public enum MT_TYPE { DefaultMT, Google, Bing, Yandex, Moses, None };
         protected Dictionary<MT_TYPE, string> MTTypeDict = new Dictionary<MT_TYPE, string>();
@@ -673,14 +770,18 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
         protected const string ADD_DOCUMENT_BTN_XPATH = CREATE_PROJECT_DIALOG_XPATH + "//div[contains(@class,'js-files-uploader')]//a";// TODO проверить, старая версия: "//div[contains(@class,'js-files-uploader')]//a[contains(@class,'js-add-file')]" и "//div[contains(@class,'js-popup-create-project')][2]//a[contains(@class,'js-add-file')]"
         protected const string NEXT_BTN_XPATH = CREATE_PROJECT_DIALOG_XPATH + "//span[contains(@class,'js-next')]";
         protected const string CREATE_TM_BTN_XPATH = CREATE_PROJECT_DIALOG_XPATH + "//span[contains(@class,'js-tm-create')]";
-
+        protected const string DELETE_FILE_BTN_XPATH = CREATE_PROJECT_DIALOG_XPATH + "//li[contains(@class, 'js-file-list') and contains(string(), '#')]//span[contains(@class, 'btn')]//a[contains(@class, 'js-remove-file')]";
+        protected const string DEADLINE_DATE_CURRENT_XPATH = "//div[contains(@id, 'ui-datepicker-div')]//table[contains(@class, 'ui-datepicker-calendar')]//td[contains(@class, 'ui-datepicker-today')]//a";
+        protected const string DEADLINE_DATE_NEXT_MONTH_XPATH = "//div[contains(@id, 'ui-datepicker-div')]//a[contains(@class, 'ui-datepicker-next')]";
+        protected const string DEADLINE_DATE_PREV_MONTH_XPATH = "//div[contains(@id, 'ui-datepicker-div')]//a[contains(@class, 'ui-datepicker-prev')]";
+        protected const string DEADLINE_DATE_XPATH = "//div[contains(@id, 'ui-datepicker-div')]//table[contains(@class, 'ui-datepicker-calendar')]//tr[2]//td[2]";
 		
 		protected const string UPLOAD_TMX_BTN_XPATH = CREATE_PROJECT_DIALOG_XPATH + "//span[contains(@class,'js-tm-upload')]";
 		protected const string IMPORT_TMX_DIALOG_XPATH = "//div[contains(@class,'js-popup-import-tm')][2]";
 		protected const string ADD_TMX_BTN_XPATH = IMPORT_TMX_DIALOG_XPATH + "//a[contains(@class,'js-upload-btn')]";
 		protected const string SAVE_BTN_XPATH = IMPORT_TMX_DIALOG_XPATH + "//span[contains(@class,'js-save')]";
 		protected const string NAME_TM_XPATH = IMPORT_TMX_DIALOG_XPATH + "//input[contains(@class,'js-tm-name')]";
-
+        
 
         protected const string CREATE_TM_DIALOG_XPATH = "//div[contains(@class,'js-popup-create-tm')][2]";
         protected const string NEW_TM_NAME_INPUT_XPATH = CREATE_TM_DIALOG_XPATH +"//input[contains(@class,'js-tm-name')]";
@@ -713,6 +814,7 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
         protected const string ERROR_FILE_TM_XPATH = UPLOAG_TMX_DIALOG_XPATH + "//p[contains(@class,'js-error-invalid-file-extension')]";
         protected const string ERROR_DUPLICATE_LANG_XPATH = CREATE_PROJECT_DIALOG_XPATH + "//p[contains(@class,'js-error-sourceLanguage-match-targetLanguage')]";
         protected const string ERROR_FORBIDDEN_SYMBOLS_NAME = CREATE_PROJECT_DIALOG_XPATH + "//p[contains(@class,'js-error-name-invalid-chars')]";
+        protected const string ERROR_DEADLINE_DATE_XPATH = CREATE_PROJECT_DIALOG_XPATH + "//p[contains(@class,'js-error-date-incorrect')]";
 
         protected const string STAGE_BTN_XPATH = "//table[contains(@class,'js-workflow-table')]//tbody//td[2]//span[contains(@class,'js-dropdown__text')]";
         protected const string STAGE_ITEM_XPATH = "//span[contains(@class,'js-dropdown__item')]";
