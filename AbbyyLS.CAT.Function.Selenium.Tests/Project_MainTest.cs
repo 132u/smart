@@ -338,6 +338,8 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             WorkspaceCreateProjectDialog.ClickNextStep();
             // Нажать Back
             WorkspaceCreateProjectDialog.ClickBackBtn();
+			// Подтвердить переход
+			SkipNotSelectedTM();
             // Проверили, что вернулись на первый шаг
             Assert.IsTrue(WorkspaceCreateProjectDialog.GetIsFirstStep(),
                 "Ошибка: по кнопке Back не вернулись на предыдущий шаг (где имя проекта)");
@@ -370,6 +372,8 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             WorkspaceCreateProjectDialog.ClickNextStep();
             // Нажать Back
             WorkspaceCreateProjectDialog.ClickBackBtn();
+			// Подтвердить переход
+			SkipNotSelectedTM();
             // Проверили, что вернулись на первый шаг
             Assert.IsTrue(WorkspaceCreateProjectDialog.GetIsFirstStep(),
                 "Ошибка: по кнопке Back не вернулись на предыдущий шаг (где имя проекта)");
@@ -404,6 +408,8 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             WorkspaceCreateProjectDialog.ClickNextStep();
             // Нажать Back
             WorkspaceCreateProjectDialog.ClickBackBtn();
+			// Подтвердить переход
+			SkipNotSelectedTM();
             // Проверили, что вернулись на первый шаг
             Assert.IsTrue(WorkspaceCreateProjectDialog.GetIsFirstStep(),
                 "Ошибка: по кнопке Back не вернулись на предыдущий шаг (где имя проекта)");
@@ -633,7 +639,7 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             // Ввести название проекта
             WorkspaceCreateProjectDialog.FillProjectName(ProjectName);
             // Назначить дедлайн (неверный формат даты)
-            WorkspaceCreateProjectDialog.FillDeadlineDate(dateFormat);           ;
+            WorkspaceCreateProjectDialog.FillDeadlineDate(dateFormat);
             // Нажать "Готово"
             WorkspaceCreateProjectDialog.ClickFinishCreate();
             // Дождаться сообщения об ошибке            

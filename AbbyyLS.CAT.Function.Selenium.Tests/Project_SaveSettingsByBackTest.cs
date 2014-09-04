@@ -54,6 +54,8 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             WorkspaceCreateProjectDialog.ClickNextStep();
             // Нажать Back
             WorkspaceCreateProjectDialog.ClickBackBtn();
+			// Подтвердить переход
+			SkipNotSelectedTM();
             // Проверили, что вернулись на первый шаг
             Assert.IsTrue(WorkspaceCreateProjectDialog.GetIsFirstStep(),
                 "Ошибка: по кнопке Back не вернулись на первый шаг");
@@ -61,7 +63,7 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             // Получить прописанное имя проекта
             string resultProjectName = WorkspaceCreateProjectDialog.GetProjectInputName();
             // Target язык
-            string resultTargetLanguage = WorkspaceCreateProjectDialog.GetTargetValue();
+            List<string> resultTargetLanguageList = WorkspaceCreateProjectDialog.GetTargetLanguageList();
             // Deadline дата
             string resultDeadline = WorkspaceCreateProjectDialog.GetDeadlineValue();
 
@@ -74,7 +76,7 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
                 errorMessage += "- имя проекта не сохранилось\n";
             }
 
-            if (resultTargetLanguage != "Russian")
+            if (resultTargetLanguageList.Count != 1 || resultTargetLanguageList[0] != "Russian")
             {
                 isError = true;
                 errorMessage += "- язык Target не сохранился\n";
@@ -154,7 +156,6 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             WorkspaceCreateProjectDialog.ClickFirstGlossaryInTable();
             // Next
             WorkspaceCreateProjectDialog.ClickNextStep();
-
             // Нажать Back
             WorkspaceCreateProjectDialog.ClickBackBtn();
             // Проверить, сохранился ли выбор глоссария
@@ -179,7 +180,6 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             WorkspaceCreateProjectDialog.ClickNextStep();
             // Выбрать глоссарий
             WorkspaceCreateProjectDialog.ClickFirstGlossaryInTable();
-
             // Нажать Back
             WorkspaceCreateProjectDialog.ClickBackBtn();
             // Next
@@ -213,10 +213,8 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             WorkspaceCreateProjectDialog.ChooseMT(mtType);
             // Next
             WorkspaceCreateProjectDialog.ClickNextStep();
-
             // Нажать Back
             WorkspaceCreateProjectDialog.ClickBackBtn();
-
             // Проверить сохранился ли выбор МТ
             CheckMTSettings(mtType);
         }

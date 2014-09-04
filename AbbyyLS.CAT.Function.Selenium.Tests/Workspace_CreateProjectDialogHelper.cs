@@ -98,13 +98,29 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             ClickElement(By.XPath(TARGET_MULTISELECT_ITEM_XPATH + GetLangByTypeWithBracket(langType)));
         }
 
+		/// <summary>
+		/// Кликнуть по всем выбранным элементам в списке Target (выбрать/снять выбор)
+		/// </summary>
+		public void ClickAllSelectedTargetItems()
+		{
+			SetDriverTimeoutMinimum();
+
+			// Жмем на каждый выбранный элемент
+			foreach (IWebElement element in GetElementList(By.XPath(TARGET_MULTISELECT_ITEM_SELECTED_XPATH)))
+			{
+				element.Click();
+			}
+
+			SetDriverTimeoutDefault();
+		}
+
         /// <summary>
         /// Вернуть значение Target
         /// </summary>
         /// <returns>target</returns>
-        public string GetTargetValue()
+        public List<string> GetTargetLanguageList()
         {
-            return GetTextElement(By.XPath(TARGET_LANG_VALUE_XPATH));
+            return GetTextListElement(By.XPath(TARGET_LANG_VALUE_XPATH));
         }
 
         /// <summary>
@@ -753,6 +769,32 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             return WaitUntilDisappearElement(By.XPath(DELETE_FILE_BTN_XPATH.Replace("#", fileName)));            
         }
 
+		/// <summary>
+		/// Дождаться, пока появится диалог подтверждения не выбранной ТМ
+		/// </summary>       
+		/// <returns>появился диалог</returns>
+		public bool WaitUntilConfirmTMDialogDisplay()
+		{
+			return WaitUntilDisplayElement(By.XPath(CONFIRM_NOT_SELECTED_TM_DIALOG_XPATH), 3);
+		}
+
+		/// <summary>
+		/// Кликнуть по кнопке Skip
+		/// </summary>        
+		public void ClickSkipBtn()
+		{
+			ClickElement(By.XPath(CONFIRM_DIALOG_SKIP_BTN_XPATH));
+		}
+
+		/// <summary>
+		/// Дождаться, пока диалог подтверждения не выбранной ТМ исчезнет
+		/// </summary>       
+		/// <returns>диалог исчез</returns>
+		public bool WaitUntilConfirmTMDialogDisappear()
+		{
+			return WaitUntilDisappearElement(By.XPath(CONFIRM_NOT_SELECTED_TM_DIALOG_XPATH), 3);
+		}
+
 
         public enum MT_TYPE { DefaultMT, Google, Bing, Yandex, Moses, None };
         protected Dictionary<MT_TYPE, string> MTTypeDict = new Dictionary<MT_TYPE, string>();
@@ -765,6 +807,7 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
         protected const string LANG_ITEM_XPATH = "//span[@data-id='";
         protected const string TARGET_MULTISELECT_XPATH = CREATE_PROJECT_DIALOG_XPATH + "//div[contains(@class,'js-languages-multiselect')]";
         protected const string TARGET_MULTISELECT_ITEM_XPATH = ".//ul[contains(@class,'ui-multiselect-checkboxes')]//li//span[contains(@class,'js-chckbx')]//input[@value='";
+		protected const string TARGET_MULTISELECT_ITEM_SELECTED_XPATH = ".//ul[contains(@class,'ui-multiselect-checkboxes')]//li//span[contains(@class,'js-chckbx')]//input[@aria-selected='true']";
         protected const string TARGET_LANG_VALUE_XPATH = CREATE_PROJECT_DIALOG_XPATH + "//span[contains(@class,'ui-multiselect-value')]";
         protected const string PROJECT_NAME_INPUT_XPATH = CREATE_PROJECT_DIALOG_XPATH + "//input[@name='name']";
         protected const string ADD_DOCUMENT_BTN_XPATH = CREATE_PROJECT_DIALOG_XPATH + "//div[contains(@class,'js-files-uploader')]//a";// TODO проверить, старая версия: "//div[contains(@class,'js-files-uploader')]//a[contains(@class,'js-add-file')]" и "//div[contains(@class,'js-popup-create-project')][2]//a[contains(@class,'js-add-file')]"
@@ -781,7 +824,9 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 		protected const string ADD_TMX_BTN_XPATH = IMPORT_TMX_DIALOG_XPATH + "//a[contains(@class,'js-upload-btn')]";
 		protected const string SAVE_BTN_XPATH = IMPORT_TMX_DIALOG_XPATH + "//span[contains(@class,'js-save')]";
 		protected const string NAME_TM_XPATH = IMPORT_TMX_DIALOG_XPATH + "//input[contains(@class,'js-tm-name')]";
-        
+
+		protected const string CONFIRM_NOT_SELECTED_TM_DIALOG_XPATH = "//div[contains(@class,'js-incorrect-tm-popup')][2]";
+		protected const string CONFIRM_DIALOG_SKIP_BTN_XPATH = CONFIRM_NOT_SELECTED_TM_DIALOG_XPATH + "//input[contains(@class,'js-skip-btn')]";
 
         protected const string CREATE_TM_DIALOG_XPATH = "//div[contains(@class,'js-popup-create-tm')][2]";
         protected const string NEW_TM_NAME_INPUT_XPATH = CREATE_TM_DIALOG_XPATH +"//input[contains(@class,'js-tm-name')]";

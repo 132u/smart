@@ -1426,7 +1426,7 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 		/// <param name="trgLang">язык перевода</param>
         protected void FirstStepProjectWizard(string projectName, bool useDefaultTargetLanguage = true,
             CommonHelper.LANGUAGE srcLang = CommonHelper.LANGUAGE.English,
-            CommonHelper.LANGUAGE trgLang = CommonHelper.LANGUAGE.English)
+            CommonHelper.LANGUAGE trgLang = CommonHelper.LANGUAGE.Russian)
         {
             Assert.IsTrue(WorkspacePage.WaitPageLoad(), "Страница workspace не прогрузилась");
 
@@ -1443,7 +1443,10 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             // Выбрать Source - en
             WorkspaceCreateProjectDialog.SelectSourceLanguage(srcLang);
 
-            // Выбрать Target
+			// Проверить, что в Target выставлен русский язык
+			SetRusLanguageTarget();
+
+			// Выбрать Target
             if (!useDefaultTargetLanguage)
             {
                 // Открыть список Target
@@ -2306,6 +2309,42 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 			catch (NoAlertPresentException)
 			{
 				TryCloseExternalDialog();
+			}
+		}
+
+		/// <summary>
+		/// Задает русский язык в Target при создании проекта
+		/// </summary>
+		protected void SetRusLanguageTarget()
+		{
+			// Проверить, что в Target русский язык
+			List<string> langList = WorkspaceCreateProjectDialog.GetTargetLanguageList();
+			if (langList.Count != 1 || langList[0] != "Russian")
+			{
+				// Открыть список Target
+				WorkspaceCreateProjectDialog.ClickTargetList();
+				// Кликаем по всем выбранным языкам, чтобы снять галки
+				WorkspaceCreateProjectDialog.ClickAllSelectedTargetItems();
+				// Выбираем русский язык
+				WorkspaceCreateProjectDialog.ClickTargetItem(CommonHelper.LANGUAGE.Russian);
+				// Закрыть список Target
+				WorkspaceCreateProjectDialog.ClickTargetList();
+			}
+		}
+
+		/// <summary>
+		/// Пропуск подтверждения отсутствия TM при создании проекта
+		/// </summary>
+		protected void SkipNotSelectedTM()
+		{
+			// В случае, если диалог открыт
+			if (WorkspaceCreateProjectDialog.WaitUntilConfirmTMDialogDisplay())
+			{
+				// Жмем Skip
+				WorkspaceCreateProjectDialog.ClickSkipBtn();
+				// Ждем пока диалог не пропадет
+				Assert.IsTrue(WorkspaceCreateProjectDialog.WaitUntilConfirmTMDialogDisappear(),
+					"Ошибка: после нажатия кнопки Skip диалог подтверждения не выбранной ТМ не закрылся.");
 			}
 		}
     }
