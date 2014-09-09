@@ -57,7 +57,11 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             // Открыть документ
             CreateReadyProject(projectName, false, false, DocumentFileToConfirm);
             // Нажать кнопку назад
-            EditorClickBackBtn();
+            EditorClickHomeBtn();
+
+			// Перейти к проекту
+			OpenProjectPage(projectName);
+
             //Выгрузить логи
             ExportLog();
         }
@@ -85,7 +89,11 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 			AutoSave();
 
             //Нажать кнопку назад
-            EditorClickBackBtn();
+            EditorClickHomeBtn();
+
+			// Перейти к проекту
+			OpenProjectPage(projectName);
+
             //Выгрузить логи
             ExportLog();
         }
@@ -103,7 +111,11 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             AddTranslationAndConfirm();
 
             // Нажать кнопку назад
-            EditorClickBackBtn();
+            EditorClickHomeBtn();
+
+			// Перейти к проекту
+			OpenProjectPage(projectName);
+
             //Выгрузить логи
             ExportLog();
         }
@@ -134,7 +146,11 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             EditorPage.ClickTargetCell(EditorPage.GetSegmentsNumber());
 
             // Нажать кнопку назад
-            EditorClickBackBtn();
+            EditorClickHomeBtn();
+
+			// Перейти к проекту
+			OpenProjectPage(projectName);
+
             //Выгрузить логи
             ExportLog();
         }
@@ -152,7 +168,11 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             ToTargetButton();
 
             // Нажать кнопку назад
-            EditorClickBackBtn();
+            EditorClickHomeBtn();
+
+			// Перейти к проекту
+			OpenProjectPage(projectName);
+
             //Выгрузить логи
             ExportLog();
         }
@@ -170,7 +190,11 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             ToTargetHotkey();
 
             // Нажать кнопку назад
-            EditorClickBackBtn();
+            EditorClickHomeBtn();
+
+			// Перейти к проекту
+			OpenProjectPage(projectName);
+
             //Выгрузить логи
             ExportLog();
         }
@@ -230,7 +254,10 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             // TODO убрать sleep
             Thread.Sleep(5000);
             // Нажать кнопку назад
-            EditorClickBackBtn();
+            EditorClickHomeBtn();
+
+			// Перейти к проекту
+			OpenProjectPage(projectName);
             
             //Выгрузить логи
             ExportLog();
@@ -249,7 +276,11 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             SourceTargetSwitchButton(1);
 
             // Нажать кнопку назад
-            EditorClickBackBtn();
+            EditorClickHomeBtn();
+
+			// Перейти к проекту
+			OpenProjectPage(projectName);
+
             //Выгрузить логи
             ExportLog();
         }
@@ -267,7 +298,11 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             SourceTargetSwitchHotkey(1);
 
             // Нажать кнопку назад
-            EditorClickBackBtn();
+            EditorClickHomeBtn();
+
+			// Перейти к проекту
+			OpenProjectPage(projectName);
+
             //Выгрузить логи
             ExportLog();
         }
@@ -304,7 +339,11 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             Thread.Sleep(1000);
 
             // Нажать кнопку назад
-            EditorClickBackBtn();
+            EditorClickHomeBtn();
+
+			// Перейти к проекту
+			OpenProjectPage(projectName);
+
             //Выгрузить логи
             ExportLog();
         }
@@ -341,7 +380,11 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             Thread.Sleep(1000);
 
             // Нажать кнопку назад
-            EditorClickBackBtn();
+            EditorClickHomeBtn();
+
+			// Перейти к проекту
+			OpenProjectPage(projectName);
+
             //Выгрузить логи
             ExportLog();
         }
@@ -379,7 +422,11 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             Thread.Sleep(1000);
 
             // Нажать кнопку назад
-            EditorClickBackBtn();
+            EditorClickHomeBtn();
+
+			// Перейти к проекту
+			OpenProjectPage(projectName);
+
             //Выгрузить логи
             ExportLog();
         }
@@ -417,7 +464,11 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             Thread.Sleep(1000);
 
             // Нажать кнопку назад
-            EditorClickBackBtn();
+            EditorClickHomeBtn();
+
+			// Перейти к проекту
+			OpenProjectPage(projectName);
+
             //Выгрузить логи
             ExportLog();
         }

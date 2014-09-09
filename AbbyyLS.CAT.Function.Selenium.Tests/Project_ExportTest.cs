@@ -1066,11 +1066,11 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
                 // Ввести текст и подтвердить
                 AddTranslationAndConfirm();
                 // Выйти
-                EditorClickBackBtn();
-                if (!isNeedOpenProject)
+                EditorClickHomeBtn();
+                if (isNeedOpenProject)
                 {
-                    // Переходим на Workspace
-                    SwitchWorkspaceTab();
+					// Заходим в проект
+					OpenProjectPage(currentProjectName);
                 }
             }
             else if (isNeedOpenProject)
@@ -1108,9 +1108,7 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
                 // Добавить перевод и подтвердить
                 AddTranslationAndConfirm();
                 // Выйти из редактора
-                EditorClickBackBtn();
-                // Вернуться в Workspace
-                SwitchWorkspaceTab();
+                EditorClickHomeBtn();
 
                 // Загрузить второй документ
                 ImportDocumentProjectSettings(DocumentFileToConfirm2, currentProjectName);
@@ -1121,12 +1119,12 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
                 // Добавить перевод и подтвердить
                 AddTranslationAndConfirm();
                 // Выйти из редактора
-                EditorClickBackBtn();
+                EditorClickHomeBtn();
 
-                if (!isNeedOpenProject)
+                if (isNeedOpenProject)
                 {
-                    // Вернуться в Workspace
-                    SwitchWorkspaceTab();
+					// Перейти к проекту
+					OpenProjectPage(currentProjectName);
                 }
             }
             else if (isNeedOpenProject)

@@ -245,10 +245,10 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
         
         protected Dictionary<string, RevisionType> revisionTypeList;
         protected const string REVISION_TYPE_AUTOSAVE = "Autosave";
-        protected const string REVISION_TYPE_CONFIRMED = "Confirmed";
-        protected const string REVISION_TYPE_INSERT_MT = "Insert MT";
-        protected const string REVISION_TYPE_INSERT_TM = "Insert TM";
-        protected const string REVISION_TYPE_ROLLBACK = "Rollback";
+        protected const string REVISION_TYPE_CONFIRMED = "Confirmation";
+        protected const string REVISION_TYPE_INSERT_MT = "MT insertion";
+        protected const string REVISION_TYPE_INSERT_TM = "TM insertion";
+        protected const string REVISION_TYPE_ROLLBACK = "Restored";
 
         protected const string ROLLBACK_DIALOG_ID = "rollback";
         protected const string ROLLBACK_DLG_YES_CLASS = "x-btn-blue";

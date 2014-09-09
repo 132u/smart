@@ -147,9 +147,9 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
         /// <summary>
         /// Кликнуть по Back
         /// </summary>
-        public void ClickBackBtn()
+        public void ClickHomeBtn()
         {
-            ClickElement(By.Id(BACK_BTN_ID));
+            ClickElement(By.Id(HOME_BTN_ID));
         }
 
         /// <summary>
@@ -655,13 +655,13 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 
 		protected const string STAGE_NAME_XPATH = ".//h1/span[contains(@class, 'workflow')]";
 
-        protected const string BACK_BTN_ID = "back-btn";
+        protected const string HOME_BTN_ID = "back-btn";
 		protected const string CONFIRM_BTN_ID = "confirm-btn";
 		protected const string UNDO_BTN_ID = "undo-btn";
 		protected const string REDO_BTN_ID = "redo-btn";
 		protected const string UNFINISHED_BTN_ID = "unfinished-btn";
 		protected const string COPY_BTN_ID = "copy-btn";
-		protected const string TOGGLE_BTN_ID = "toggle-btn";
+		protected const string TOGGLE_BTN_ID = "toggle-source-btn";
 		protected const string ROLLBACK_BTN_ID = "step-rollback-btn";
 		protected const string INSERT_TAG_BTN_ID = "tag-insert-btn";
 		protected const string DICTIONARY_BTN_ID = "dictionary-btn";

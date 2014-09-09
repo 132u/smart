@@ -111,7 +111,7 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
 
 
 
-		protected const string COURSE_NAME_XPATH = ".//div[@id='course-info']/div";
+		protected const string COURSE_NAME_XPATH = ".//span[@id='course-title']";
 		protected const string LECTURES_XPATH = ".//tbody[contains(@data-bind,'lectures')]";
 		protected const string LECTURE_NAME_XPATH = "//a[contains(@data-bind,'name')]";
 		protected const string LECTURE_OWN_PROCENT_XPATH = "//div[contains(@data-bind,'personalProgressView')]";

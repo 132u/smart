@@ -127,10 +127,10 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
         /// Метод тестирования кнопки "Back" в редакторе
         /// </summary>
         [Test]
-        public void BackButtonTest()
+        public void HomeButtonTest()
         {
             // Кнопка Back, проверка перехода
-            EditorClickBackBtn();
+            EditorClickHomeBtn();
         }
 
 		/// <summary>
@@ -511,7 +511,13 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 			AddTranslationAndConfirm(1, "some words for example");
 
 			// Выйти из редактора
-			EditorPage.ClickBackBtn();
+			EditorPage.ClickHomeBtn();
+
+			// Дождаться загрузки воркспейса
+			WorkspacePage.WaitPageLoad();
+
+			// Перейти к проекту
+			OpenProjectPage(ProjectName);
 
 			// Дождаться открытия страницы проекта
 			ProjectPage.WaitPageLoad();

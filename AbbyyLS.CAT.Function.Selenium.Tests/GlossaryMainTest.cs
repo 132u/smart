@@ -481,7 +481,7 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             List<CommonHelper.LANGUAGE> langList = new List<CommonHelper.LANGUAGE>();
             langList.Add(CommonHelper.LANGUAGE.German);
             langList.Add(CommonHelper.LANGUAGE.French);
-            langList.Add(CommonHelper.LANGUAGE.Japanise);
+            langList.Add(CommonHelper.LANGUAGE.Japanese);
             langList.Add(CommonHelper.LANGUAGE.Lithuanian);
 
             // Создать глоссарий

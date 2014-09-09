@@ -389,7 +389,7 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 				"Ошибка: В адресной строке отсутствует запись \"StageNumber=1\".");
 
 			// Проверка задачи в редакторе
-			Assert.AreEqual("Translation (T)", EditorPage.GetStageName(),
+			Assert.AreEqual("Translation (T):", EditorPage.GetStageName(),
 				"Ошибка: В шапке редактора отсутствует нужная задача.");
 		}
 
@@ -544,14 +544,11 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 				"Ошибка: В адресной строке отсутствует запись \"StageNumber=1\".");
 
 			// Проверка задачи в редакторе
-			Assert.AreEqual("Translation (T)", EditorPage.GetStageName(),
+			Assert.AreEqual("Translation (T):", EditorPage.GetStageName(),
 				"Ошибка: В шапке редактора отсутствует нужная задача.");
 
 			// Выходим из редактора
-			EditorClickBackBtn();
-
-			// Перейти на страницу проектов
-			SwitchWorkspaceTab();
+			EditorClickHomeBtn();
 
 			// Открываем диалог выбора исполнителя
 			OpenAssignDialog(ProjectName);
@@ -581,14 +578,11 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 				"Ошибка: В адресной строке присутствует запись \"StageNumber=1\".");
 
 			// Проверка отсутсвия задачи в редакторе
-			Assert.AreEqual("View mode", EditorPage.GetStageName(),
+			Assert.AreEqual("View mode:", EditorPage.GetStageName(),
 				"Ошибка: В шапке редактора есть задача.");
 
 			// Выходим из редактора
-			EditorClickBackBtn();
-
-			// Переходим на страницу проектов
-			SwitchWorkspaceTab();
+			EditorClickHomeBtn();
 
 			// Разлогиниться
 			WorkspacePage.ClickLogoff();
@@ -611,7 +605,7 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 				"Ошибка: В адресной строке отсутствует запись \"StageNumber=1\".");
 
 			// Проверка задачи в редакторе
-			Assert.AreEqual("Translation (T)", EditorPage.GetStageName(),
+			Assert.AreEqual("Translation (T):", EditorPage.GetStageName(),
 				"Ошибка: В шапке редактора отсутствует нужная задача.");
 		}
 
@@ -673,14 +667,11 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 				"Ошибка: В адресной строке отсутствует запись \"StageNumber=1\".");
 
 			// Проверка задачи в редакторе
-			Assert.AreEqual("Translation (T)", EditorPage.GetStageName(),
+			Assert.AreEqual("Translation (T):", EditorPage.GetStageName(),
 				"Ошибка: В шапке редактора отсутствует нужная задача.");
 
 			// Выходим из редактора
-			EditorClickBackBtn();
-
-			// Перейти на страницу проектов
-			SwitchWorkspaceTab();
+			EditorClickHomeBtn();
 
 			// Открываем диалог выбора исполнителя
 			OpenAssignDialog(ProjectName);
@@ -707,7 +698,7 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 				"Ошибка: В адресной строке присутствует запись \"StageNumber=1\".");
 
 			// Проверка отсутсвия задачи в редакторе
-			Assert.AreEqual("View mode", EditorPage.GetStageName(),
+			Assert.AreEqual("View mode:", EditorPage.GetStageName(),
 				"Ошибка: В шапке редактора есть задача.");
 		}
 

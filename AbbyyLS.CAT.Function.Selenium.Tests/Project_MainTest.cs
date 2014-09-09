@@ -167,7 +167,7 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
         public void CreateProjectEqualLanguagesTest()
         {
             //1 шаг - заполнение данных о проекте
-            FirstStepProjectWizard(ProjectName, false);
+            FirstStepProjectWizard(ProjectName, false, CommonHelper.LANGUAGE.English, CommonHelper.LANGUAGE.English);
             WorkspaceCreateProjectDialog.ClickNextStep();
 
             // Проверить, что появилось сообщение о совпадающих языках
@@ -547,7 +547,7 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
         public void CreateProjectEqualLanguagesFinishAfterFirstStep()
         {
             //1 шаг - заполнение данных о проекте
-            FirstStepProjectWizard(ProjectName, false);
+            FirstStepProjectWizard(ProjectName, false, CommonHelper.LANGUAGE.English, CommonHelper.LANGUAGE.English);
             WorkspaceCreateProjectDialog.ClickFinishCreate();
 
             // Проверить, что появилось сообщение о совпадающих языках

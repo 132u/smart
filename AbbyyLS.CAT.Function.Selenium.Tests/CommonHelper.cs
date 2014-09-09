@@ -70,7 +70,7 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
             languageID.Add(LANGUAGE.Russian, STANDARD_LANG_ID_RU);
             languageID.Add(LANGUAGE.German, STANDARD_LANG_ID_DE);
             languageID.Add(LANGUAGE.French, STANDARD_LANG_ID_FR);
-            languageID.Add(LANGUAGE.Japanise, STANDARD_LANG_ID_JP);
+            languageID.Add(LANGUAGE.Japanese, STANDARD_LANG_ID_JP);
             languageID.Add(LANGUAGE.Lithuanian, STANDARD_LANG_ID_LT);
         }
 
@@ -672,7 +672,7 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 
 
 
-        public enum LANGUAGE { English, Russian, German, French, Japanise, Lithuanian };
+		public enum LANGUAGE { English, Russian, German, French, Japanese, Lithuanian };
         protected Dictionary<LANGUAGE, string> languageID;
 
         protected const string STANDARD_LANG_ID_EN = "9";

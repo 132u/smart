@@ -204,7 +204,11 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
         [Test]
         public void ExportClearTMButtonTest()
         {
-            string TMName = SelectUniqueTMName();
+			// После теста с экспортом необходимо выйти из брайзера,
+			// чтобы сбросить выбор в диалоге экспорта (сохранить или открыть файл)
+			quitDriverAfterTest = true;
+
+			string TMName = SelectUniqueTMName();
             // Создать ТМ
             CreateTMByNameAndSave(TMName);
 
@@ -221,7 +225,11 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
         [Test, TestCaseSource("importTMXFileList")]
         public void ExportTMXTest(string importTMXFile)
         {
-            string TMName = SelectUniqueTMName();
+			// После теста с экспортом необходимо выйти из брайзера,
+			// чтобы сбросить выбор в диалоге экспорта (сохранить или открыть файл)
+			quitDriverAfterTest = true;
+			
+			string TMName = SelectUniqueTMName();
             // Создать ТМ с загрузкой файла ТМХ
             CreateTMWithUploadTMX(TMName, importTMXFile);
 

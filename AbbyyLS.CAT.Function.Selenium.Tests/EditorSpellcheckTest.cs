@@ -85,7 +85,10 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 			CloseEditorDictionary();
 
 			// Закрываем редактор
-			EditorClickBackBtn();
+			EditorClickHomeBtn();
+
+			// Заходим в проект
+			OpenProjectPage(ProjectName);
 
 			// Снова открываем редактор
 			OpenDocument();
@@ -123,7 +126,10 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 			CloseEditorDictionary();
 
 			// Закрываем редактор
-			EditorClickBackBtn();
+			EditorClickHomeBtn();
+
+			// Заходим в проект
+			OpenProjectPage(ProjectName);
 
 			// Снова открываем редактор
 			OpenDocument();

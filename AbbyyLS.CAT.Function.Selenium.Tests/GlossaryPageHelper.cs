@@ -704,7 +704,7 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
         /// <returns></returns>
         public bool GetIsTermExistByText(string text)
         {
-            return GetIsElementDisplay(By.XPath(CONCEPT_ROW_XPATH + "//p[contains(text(),'" + text + "')]"));
+			return GetIsElementDisplay(By.XPath(CONCEPT_ROW_XPATH + "//p[contains(text(),'" + text + "')]"));
         }
 
         /// <summary>

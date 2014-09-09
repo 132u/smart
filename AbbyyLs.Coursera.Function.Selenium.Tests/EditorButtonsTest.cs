@@ -398,7 +398,7 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
             else
             {
                 // Нажать хоткей
-				EditorPage.AddTextTargetByRowNumber(editorRowNumber, OpenQA.Selenium.Keys.Alt + OpenQA.Selenium.Keys.F3);
+				EditorPage.AddTextTargetByRowNumber(editorRowNumber, OpenQA.Selenium.Keys.Shift + OpenQA.Selenium.Keys.F3);
             }
         }
     }
