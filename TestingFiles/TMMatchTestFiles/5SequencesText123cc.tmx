@@ -1,0 +1,64 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<tmx version="1.4">
+  <header creationtool="AbbyyLS.Tmx" creationtoolversion="2.4.28.18327" segtype="sentence" o-tmf="ATM" adminlang="en-US" srclang="en" datatype="plaintext" />
+  <body>
+    <tu>
+      <tuv xml:lang="en">
+        <prop type="x-context-post">&lt;seg&gt;Sequence for translation test.&lt;/seg&gt;</prop>
+        <seg>First sequence for translation test.</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Первое предложение для тестирования.</seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv xml:lang="en">
+        <prop type="x-context-pre">&lt;seg&gt;First sequence for translation test.&lt;/seg&gt;</prop>
+        <prop type="x-context-post">&lt;seg&gt;Third sequence for translation test.&lt;/seg&gt;</prop>
+        <seg>Second sequence for translation test.</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg></seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv xml:lang="en">
+        <prop type="x-context-pre">&lt;seg&gt;Second sequence for translation test.&lt;/seg&gt;</prop>
+        <prop type="x-context-post">&lt;seg&gt;Almost last sequence for translation test.&lt;/seg&gt;</prop>
+        <seg>Third sequence for translation test.</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Третье предложение для тестирования.</seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv xml:lang="en">
+        <prop type="x-context-pre">&lt;seg&gt;Third sequence for translation test.&lt;/seg&gt;</prop>
+        <prop type="x-context-post">&lt;seg&gt;Last sequence for translation test.&lt;/seg&gt;</prop>
+        <seg>Almost last sequence for translation test.</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg></seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv xml:lang="en">
+        <prop type="x-context-pre">&lt;seg&gt;Last sequence for translation test.&lt;/seg&gt;</prop>
+        <prop type="x-context-post">&lt;seg&gt;One more sentence for translation.&lt;/seg&gt;</prop>
+        <seg>Last sequence for translation test.</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Последнее предложение для тестирования.</seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv xml:lang="en">
+        <prop type="x-context-pre">&lt;seg&gt;Last sequence for translation test.&lt;/seg&gt;</prop>
+        <seg>Sentence for translation.</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Предложение для перевода.</seg>
+      </tuv>
+    </tu>
+  </body>
+</tmx>
