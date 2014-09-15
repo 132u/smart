@@ -1,0 +1,8 @@
+﻿<NUnitProject>
+  <Settings activeconfig="Debug" />
+  <Config name="Debug" binpathtype="Auto">
+    <assembly path="bin\AbbyyLS.CAT.Function.Selenium.Tests.dll" />
+    <assembly path="bin\AbbyyLs.Coursera.Function.Selenium.Tests.dll" />
+  </Config>
+  <Config name="Release" binpathtype="Auto" />
+</NUnitProject>
