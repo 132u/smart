@@ -1,6 +1,0 @@
-d:\Work\Repos\smatcat_tests\bin\AbbyyLs.Coursera.Function.Selenium.Tests.dll.config
-d:\Work\Repos\smatcat_tests\bin\AbbyyLs.Coursera.Function.Selenium.Tests.dll
-d:\Work\Repos\smatcat_tests\bin\AbbyyLs.Coursera.Function.Selenium.Tests.pdb
-d:\Work\Repos\smatcat_tests\AbbyyLs.Coursera.Function.Selenium.Tests\obj\Debug\AbbyyLs.Coursera.Function.Selenium.Tests.csprojResolveAssemblyReference.cache
-d:\Work\Repos\smatcat_tests\AbbyyLs.Coursera.Function.Selenium.Tests\obj\Debug\AbbyyLs.Coursera.Function.Selenium.Tests.dll
-d:\Work\Repos\smatcat_tests\AbbyyLs.Coursera.Function.Selenium.Tests\obj\Debug\AbbyyLs.Coursera.Function.Selenium.Tests.pdb
