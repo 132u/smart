@@ -20,158 +20,158 @@ using System.Text.RegularExpressions;
 
 namespace AbbyyLs.Coursera.Function.Selenium.Tests
 {
-    [TestFixture("StageUrl2", "StageWorkspace2", "Firefox")]
-    [TestFixture("StageUrl3", "StageWorkspace2", "Firefox")]
-    public class BaseTest
-    {
-        protected const int maxEditorLinesNum = 16;
-        protected const int numberSentencesGrowProgress = 5;
-        protected const int maxDurationWaitEventList = 50;
+	[TestFixture("StageUrl2", "StageWorkspace2", "Firefox")]
+	[TestFixture("StageUrl3", "StageWorkspace2", "Firefox")]
+	public class BaseTest
+	{
+		protected const int maxEditorLinesNum = 16;
+		protected const int numberSentencesGrowProgress = 5;
+		protected const int maxDurationWaitEventList = 50;
 
-        private IWebDriver _driver;
-        protected IWebDriver Driver
-        {
-            get
-            {
-                return _driver;
-            }
+		private IWebDriver _driver;
+		protected IWebDriver Driver
+		{
+			get
+			{
+				return _driver;
+			}
 
-        }
-        private WebDriverWait _wait;
-        protected WebDriverWait Wait
-        {
-            get
-            {
-                return _wait;
-            }
-        }
-        private FirefoxProfile _profile;
-        private string _url;
-        protected string Url
-        {
-            get
-            {
-                return _url;
-            }
-        }
+		}
+		private WebDriverWait _wait;
+		protected WebDriverWait Wait
+		{
+			get
+			{
+				return _wait;
+			}
+		}
+		private FirefoxProfile _profile;
+		private string _url;
+		protected string Url
+		{
+			get
+			{
+				return _url;
+			}
+		}
 
-        protected struct UserInfo
-        {
-            public string login;
-            public string password;
+		protected struct UserInfo
+		{
+			public string login;
+			public string password;
 
-            public UserInfo (string l, string p)
-            {
-                login = l;
-                password = p;
-            }
-        }
+			public UserInfo(string l, string p)
+			{
+				login = l;
+				password = p;
+			}
+		}
 
-        private UserInfo _user1;
-        protected UserInfo User1
-        {
-            get
-            {
-                return _user1;
-            }
-        }
+		private UserInfo _user1;
+		protected UserInfo User1
+		{
+			get
+			{
+				return _user1;
+			}
+		}
 
-        private UserInfo _user2;
-        protected UserInfo User2
-        {
-            get
-            {
-                return _user2;
-            }
-        }
+		private UserInfo _user2;
+		protected UserInfo User2
+		{
+			get
+			{
+				return _user2;
+			}
+		}
 
-        private List<UserInfo> _testUserList;
-        protected List<UserInfo> TestUserList
-        {
-            get
-            {
-                return _testUserList;
-            }
-        }
+		private List<UserInfo> _testUserList;
+		protected List<UserInfo> TestUserList
+		{
+			get
+			{
+				return _testUserList;
+			}
+		}
 
 
-        private string _userName;
-        public string UserName
-        {
-            get
-            {
-                return _userName;
-            }
-        }
+		private string _userName;
+		public string UserName
+		{
+			get
+			{
+				return _userName;
+			}
+		}
 
-        private string _userSurname;
-        public string UserSurname
-        {
-            get
-            {
-                return _userSurname;
-            }
-        }
+		private string _userSurname;
+		public string UserSurname
+		{
+			get
+			{
+				return _userSurname;
+			}
+		}
 
-        // Возможные типы событий в списке последних событий на главной странице
-        public enum HomePageLastEventType { AddTranslationEvent, VoteUpEvent}
+		// Возможные типы событий в списке последних событий на главной странице
+		public enum HomePageLastEventType { AddTranslationEvent, VoteUpEvent }
 
-        protected string PathTestResults
-        {
-            get
-            {
-                System.IO.DirectoryInfo directoryInfo =
-                    System.IO.Directory.GetParent(@"..\..\..\TestResults\");
+		protected string PathTestResults
+		{
+			get
+			{
+				System.IO.DirectoryInfo directoryInfo =
+					System.IO.Directory.GetParent(@"..\..\..\TestResults\");
 
-                return directoryInfo.ToString();
-            }
-        }
+				return directoryInfo.ToString();
+			}
+		}
 
-        private string _imageFile;
-        public string ImageFile
-        {
-            get
-            {
-                return _imageFile;
-            }
-        }
+		private string _imageFile;
+		public string ImageFile
+		{
+			get
+			{
+				return _imageFile;
+			}
+		}
 
-        private string _browserName;
+		private string _browserName;
 
-        private string BrowserName
-        {
-            get
-            {
-                return _browserName;
-            }
-        }
+		private string BrowserName
+		{
+			get
+			{
+				return _browserName;
+			}
+		}
 
-        private string _user1NewPass;
-        public string User1NewPass
-        {
-            get
-            {
-                return _user1NewPass;
-            }
-        }
+		private string _user1NewPass;
+		public string User1NewPass
+		{
+			get
+			{
+				return _user1NewPass;
+			}
+		}
 
-        private string _user1ForbiddenPass;
-        public string User1ForbiddenPass
-        {
-            get
-            {
-                return _user1ForbiddenPass;
-            }
-        }
+		private string _user1ForbiddenPass;
+		public string User1ForbiddenPass
+		{
+			get
+			{
+				return _user1ForbiddenPass;
+			}
+		}
 
-        private string _user1LimitPass;
-        public string User1LimitPass
-        {
-            get
-            {
-                return _user1LimitPass;
-            }
-        }
+		private string _user1LimitPass;
+		public string User1LimitPass
+		{
+			get
+			{
+				return _user1LimitPass;
+			}
+		}
 
 		/// <summary>
 		/// Страница курсов
@@ -232,7 +232,7 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
 				return _leaderboardPageHelper;
 			}
 		}
-		
+
 		/// <summary>
 		/// Страница лекций
 		/// </summary>
@@ -257,96 +257,96 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
 			}
 		}
 
-        /// <summary>
-        /// Конструктор BaseTest
-        /// </summary>
-        public BaseTest(string url, string workspaceUrl, string browserName)
-        {
-            _browserName = browserName;
-            _url = ConfigurationManager.AppSettings[url];
-            CreateDriver();
+		/// <summary>
+		/// Конструктор BaseTest
+		/// </summary>
+		public BaseTest(string url, string workspaceUrl, string browserName)
+		{
+			_browserName = browserName;
+			_url = ConfigurationManager.AppSettings[url];
+			CreateDriver();
 
-            _user1.login = ConfigurationManager.AppSettings["LoginUser1"];
-            _user1.password = ConfigurationManager.AppSettings["PasswordUser1"];
+			_user1.login = ConfigurationManager.AppSettings["LoginUser1"];
+			_user1.password = ConfigurationManager.AppSettings["PasswordUser1"];
 
-            _user2.login = ConfigurationManager.AppSettings["LoginUser2"];
-            _user2.password = ConfigurationManager.AppSettings["PasswordUser2"];
+			_user2.login = ConfigurationManager.AppSettings["LoginUser2"];
+			_user2.password = ConfigurationManager.AppSettings["PasswordUser2"];
 
-            _userName = ConfigurationManager.AppSettings["userName1"];
-            _userSurname = ConfigurationManager.AppSettings["userSurname1"];
+			_userName = ConfigurationManager.AppSettings["userName1"];
+			_userSurname = ConfigurationManager.AppSettings["userSurname1"];
 
-            _imageFile = Path.GetFullPath(ConfigurationManager.AppSettings["TestImageFile"]);
+			_imageFile = Path.GetFullPath(ConfigurationManager.AppSettings["TestImageFile"]);
 
-            _user1NewPass = ConfigurationManager.AppSettings["PasswordUser1newPass"];
-            _user1ForbiddenPass = ConfigurationManager.AppSettings["PasswordUser1forbiddenPass"];
-            _user1LimitPass = ConfigurationManager.AppSettings["PasswordUser1limitPass"];
+			_user1NewPass = ConfigurationManager.AppSettings["PasswordUser1newPass"];
+			_user1ForbiddenPass = ConfigurationManager.AppSettings["PasswordUser1forbiddenPass"];
+			_user1LimitPass = ConfigurationManager.AppSettings["PasswordUser1limitPass"];
 
-            _testUserList = new List<UserInfo>();
-            
-            // Заполнение данных тестовых пользователей
-            _testUserList.Add(new UserInfo(ConfigurationManager.AppSettings["LoginTestUser1"], ConfigurationManager.AppSettings["PasswordTestUser1"]));
-            _testUserList.Add(new UserInfo(ConfigurationManager.AppSettings["LoginTestUser2"], ConfigurationManager.AppSettings["PasswordTestUser2"]));
-            _testUserList.Add(new UserInfo(ConfigurationManager.AppSettings["LoginTestUser3"], ConfigurationManager.AppSettings["PasswordTestUser3"]));
-            _testUserList.Add(new UserInfo(ConfigurationManager.AppSettings["LoginTestUser4"], ConfigurationManager.AppSettings["PasswordTestUser4"]));
-            _testUserList.Add(new UserInfo(ConfigurationManager.AppSettings["LoginTestUser5"], ConfigurationManager.AppSettings["PasswordTestUser5"]));
-            _testUserList.Add(new UserInfo(ConfigurationManager.AppSettings["LoginTestUser6"], ConfigurationManager.AppSettings["PasswordTestUser6"]));
-            _testUserList.Add(new UserInfo(ConfigurationManager.AppSettings["LoginTestUser7"], ConfigurationManager.AppSettings["PasswordTestUser7"]));
-            _testUserList.Add(new UserInfo(ConfigurationManager.AppSettings["LoginTestUser8"], ConfigurationManager.AppSettings["PasswordTestUser8"]));
-            _testUserList.Add(new UserInfo(ConfigurationManager.AppSettings["LoginTestUser9"], ConfigurationManager.AppSettings["PasswordTestUser9"]));
-            _testUserList.Add(new UserInfo(ConfigurationManager.AppSettings["LoginTestUser10"], ConfigurationManager.AppSettings["PasswordTestUser10"]));
-            _testUserList.Add(new UserInfo(ConfigurationManager.AppSettings["LoginTestUser11"], ConfigurationManager.AppSettings["PasswordTestUser11"]));
-            _testUserList.Add(new UserInfo(ConfigurationManager.AppSettings["LoginTestUser12"], ConfigurationManager.AppSettings["PasswordTestUser12"]));
-            _testUserList.Add(new UserInfo(ConfigurationManager.AppSettings["LoginTestUser13"], ConfigurationManager.AppSettings["PasswordTestUser13"]));
-            _testUserList.Add(new UserInfo(ConfigurationManager.AppSettings["LoginTestUser14"], ConfigurationManager.AppSettings["PasswordTestUser14"]));
-            _testUserList.Add(new UserInfo(ConfigurationManager.AppSettings["LoginTestUser15"], ConfigurationManager.AppSettings["PasswordTestUser15"]));
-            _testUserList.Add(new UserInfo(ConfigurationManager.AppSettings["LoginTestUser16"], ConfigurationManager.AppSettings["PasswordTestUser16"]));
-        }
+			_testUserList = new List<UserInfo>();
 
-        /// <summary>
-        /// Метод создания _driver 
-        /// </summary>
-        private void CreateDriver()
-        {
-            if (BrowserName == "Firefox")
-            {
-                if (_driver == null)
-                {
-                    _profile = new FirefoxProfile();
-                    _profile.AcceptUntrustedCertificates = true;
-                    _profile.SetPreference("browser.download.dir", PathTestResults);
-                    _profile.SetPreference("browser.download.folderList", 2);
-                    _profile.SetPreference("browser.download.useDownloadDir", false);
-                    //_profile.SetPreference("browser.download.manager.showWhenStarting", false);
-                    _profile.SetPreference("browser.helperApps.alwaysAsk.force", false);
-                    _profile.SetPreference
-                        ("browser.helperApps.neverAsk.saveToDisk", "text/xml, text/csv, text/plain, text/log, application/zip, application/x-gzip, application/x-compressed, application/x-gtar, multipart/x-gzip, application/tgz, application/gnutar, application/x-tar, application/x-xliff+xml,  application/msword.docx, application/pdf, application/x-pdf, application/octetstream, application/x-ttx, application/x-tmx, application/octet-stream");
-                    //_profile.SetPreference("pdfjs.disabled", true);
-
-                    _driver = new FirefoxDriver(_profile);
-                    //string profiledir = "../../../Profile";
-                    // string profiledir = "TestingFiles/Profile";
-                    //_profile = new FirefoxProfile(profiledir);
-                    //_driver = new FirefoxDriver(_profile);
-                }
-            }
-            else if (BrowserName == "Chrome")
-            {
-                _driver = new ChromeDriver();
-            }
-            else if (BrowserName == "IE")
-            {
-                //TODO: Сделать запуск из IE
-            }
-
-            setDriverTimeoutDefault();
-            _wait = new WebDriverWait(_driver, TimeSpan.FromSeconds(20));
-
-			RecreateDrivers();
-        }
+			// Заполнение данных тестовых пользователей
+			_testUserList.Add(new UserInfo(ConfigurationManager.AppSettings["LoginTestUser1"], ConfigurationManager.AppSettings["PasswordTestUser1"]));
+			_testUserList.Add(new UserInfo(ConfigurationManager.AppSettings["LoginTestUser2"], ConfigurationManager.AppSettings["PasswordTestUser2"]));
+			_testUserList.Add(new UserInfo(ConfigurationManager.AppSettings["LoginTestUser3"], ConfigurationManager.AppSettings["PasswordTestUser3"]));
+			_testUserList.Add(new UserInfo(ConfigurationManager.AppSettings["LoginTestUser4"], ConfigurationManager.AppSettings["PasswordTestUser4"]));
+			_testUserList.Add(new UserInfo(ConfigurationManager.AppSettings["LoginTestUser5"], ConfigurationManager.AppSettings["PasswordTestUser5"]));
+			_testUserList.Add(new UserInfo(ConfigurationManager.AppSettings["LoginTestUser6"], ConfigurationManager.AppSettings["PasswordTestUser6"]));
+			_testUserList.Add(new UserInfo(ConfigurationManager.AppSettings["LoginTestUser7"], ConfigurationManager.AppSettings["PasswordTestUser7"]));
+			_testUserList.Add(new UserInfo(ConfigurationManager.AppSettings["LoginTestUser8"], ConfigurationManager.AppSettings["PasswordTestUser8"]));
+			_testUserList.Add(new UserInfo(ConfigurationManager.AppSettings["LoginTestUser9"], ConfigurationManager.AppSettings["PasswordTestUser9"]));
+			_testUserList.Add(new UserInfo(ConfigurationManager.AppSettings["LoginTestUser10"], ConfigurationManager.AppSettings["PasswordTestUser10"]));
+			_testUserList.Add(new UserInfo(ConfigurationManager.AppSettings["LoginTestUser11"], ConfigurationManager.AppSettings["PasswordTestUser11"]));
+			_testUserList.Add(new UserInfo(ConfigurationManager.AppSettings["LoginTestUser12"], ConfigurationManager.AppSettings["PasswordTestUser12"]));
+			_testUserList.Add(new UserInfo(ConfigurationManager.AppSettings["LoginTestUser13"], ConfigurationManager.AppSettings["PasswordTestUser13"]));
+			_testUserList.Add(new UserInfo(ConfigurationManager.AppSettings["LoginTestUser14"], ConfigurationManager.AppSettings["PasswordTestUser14"]));
+			_testUserList.Add(new UserInfo(ConfigurationManager.AppSettings["LoginTestUser15"], ConfigurationManager.AppSettings["PasswordTestUser15"]));
+			_testUserList.Add(new UserInfo(ConfigurationManager.AppSettings["LoginTestUser16"], ConfigurationManager.AppSettings["PasswordTestUser16"]));
+		}
 
 		/// <summary>
-        /// Пересоздание Helper'ов с новыми Driver, Wait
-        /// </summary>
+		/// Метод создания _driver 
+		/// </summary>
+		private void CreateDriver()
+		{
+			if (BrowserName == "Firefox")
+			{
+				if (_driver == null)
+				{
+					_profile = new FirefoxProfile();
+					_profile.AcceptUntrustedCertificates = true;
+					_profile.SetPreference("browser.download.dir", PathTestResults);
+					_profile.SetPreference("browser.download.folderList", 2);
+					_profile.SetPreference("browser.download.useDownloadDir", false);
+					//_profile.SetPreference("browser.download.manager.showWhenStarting", false);
+					_profile.SetPreference("browser.helperApps.alwaysAsk.force", false);
+					_profile.SetPreference
+						("browser.helperApps.neverAsk.saveToDisk", "text/xml, text/csv, text/plain, text/log, application/zip, application/x-gzip, application/x-compressed, application/x-gtar, multipart/x-gzip, application/tgz, application/gnutar, application/x-tar, application/x-xliff+xml,  application/msword.docx, application/pdf, application/x-pdf, application/octetstream, application/x-ttx, application/x-tmx, application/octet-stream");
+					//_profile.SetPreference("pdfjs.disabled", true);
+
+					_driver = new FirefoxDriver(_profile);
+					//string profiledir = "../../../Profile";
+					// string profiledir = "TestingFiles/Profile";
+					//_profile = new FirefoxProfile(profiledir);
+					//_driver = new FirefoxDriver(_profile);
+				}
+			}
+			else if (BrowserName == "Chrome")
+			{
+				_driver = new ChromeDriver();
+			}
+			else if (BrowserName == "IE")
+			{
+				//TODO: Сделать запуск из IE
+			}
+
+			setDriverTimeoutDefault();
+			_wait = new WebDriverWait(_driver, TimeSpan.FromSeconds(20));
+
+			RecreateDrivers();
+		}
+
+		/// <summary>
+		/// Пересоздание Helper'ов с новыми Driver, Wait
+		/// </summary>
 		private void RecreateDrivers()
 		{
 			_coursePageHelper = new CoursePageHelper(Driver, Wait);
@@ -358,48 +358,48 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
 			_profilePageHelper = new ProfilePageHelper(Driver, Wait);
 		}
 
-        /// <summary>
-        /// Устанавливаем ожидание для драйвера в минимум (1 секунда)
-        /// </summary>
-        protected void setDriverTimeoutMinimum()
-        {
-            _driver.Manage().Timeouts().ImplicitlyWait(TimeSpan.FromSeconds(1));
-        }
+		/// <summary>
+		/// Устанавливаем ожидание для драйвера в минимум (1 секунда)
+		/// </summary>
+		protected void setDriverTimeoutMinimum()
+		{
+			_driver.Manage().Timeouts().ImplicitlyWait(TimeSpan.FromSeconds(1));
+		}
 
-        /// <summary>
-        /// Устанавливаем ожидание для драйвера для ожидания (2 секунды)
-        /// </summary>
-        protected void setDriverTimeoutWait()
-        {
-            _driver.Manage().Timeouts().ImplicitlyWait(TimeSpan.FromSeconds(2));
-        }
+		/// <summary>
+		/// Устанавливаем ожидание для драйвера для ожидания (2 секунды)
+		/// </summary>
+		protected void setDriverTimeoutWait()
+		{
+			_driver.Manage().Timeouts().ImplicitlyWait(TimeSpan.FromSeconds(2));
+		}
 
-        /// <summary>
-        /// Устанавливаем ожидание для драйвера значение по умолчанию (10 секунд)
-        /// </summary>
-        protected void setDriverTimeoutDefault()
-        {
-            _driver.Manage().Timeouts().ImplicitlyWait(TimeSpan.FromSeconds(20));
-        }
+		/// <summary>
+		/// Устанавливаем ожидание для драйвера значение по умолчанию (10 секунд)
+		/// </summary>
+		protected void setDriverTimeoutDefault()
+		{
+			_driver.Manage().Timeouts().ImplicitlyWait(TimeSpan.FromSeconds(20));
+		}
 
-        /// <summary>
-        /// Устанавливаем ожидание для драйвера в максимум (20 секунд)
-        /// </summary>
-        protected void setDriverTimeoutMaximum()
-        {
-            _driver.Manage().Timeouts().ImplicitlyWait(TimeSpan.FromSeconds(30));
-        }
+		/// <summary>
+		/// Устанавливаем ожидание для драйвера в максимум (20 секунд)
+		/// </summary>
+		protected void setDriverTimeoutMaximum()
+		{
+			_driver.Manage().Timeouts().ImplicitlyWait(TimeSpan.FromSeconds(30));
+		}
 
-        /// <summary>
-        /// Метод авторизации пользователя
-        /// </summary>
-        /// <param name="userInfo">Пользователь</param>
-        protected void LoginUser(UserInfo userInfo)
-        {
+		/// <summary>
+		/// Метод авторизации пользователя
+		/// </summary>
+		/// <param name="userInfo">Пользователь</param>
+		protected void LoginUser(UserInfo userInfo)
+		{
 			Header.Login(userInfo.login, userInfo.password);
 			// Проверить, что не выбросило на форму регистрации
 			Assert.IsFalse(Header.GetIsRegistrationFormDisplay(), "Ошибка: При попытке входа открылась форма регистрации.");
-        }
+		}
 
 		/// <summary>
 		/// Дождаться появления элемента и кликнуть
@@ -413,21 +413,21 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
 			_driver.FindElement(By.XPath(xPath)).Click();
 		} // Удалить после удаления LoginUser
 
-        /// <summary>
-        /// Заполнение формы авторизации пользователя
-        /// </summary>
-        /// <param name="login">логин</param>
-        /// <param name="password">пароль</param>
-        protected void FillAuthorizationData(string login, string password)
-        {
-            // Ввести логин и пароль
-            _driver.FindElement(By.CssSelector("input[name=\"email\"]")).Clear();
-            _driver.FindElement(By.CssSelector("input[name=\"email\"]")).SendKeys(login);
-            _driver.FindElement(By.CssSelector("input[name=\"password\"]")).Clear();
-            _driver.FindElement(By.CssSelector("input[name=\"password\"]")).SendKeys(password);
-            // Нажать Зайти
-            _driver.FindElement(By.CssSelector("input[type =\"submit\"]")).Click();
-        } // Удалить после удаления LoginUser
+		/// <summary>
+		/// Заполнение формы авторизации пользователя
+		/// </summary>
+		/// <param name="login">логин</param>
+		/// <param name="password">пароль</param>
+		protected void FillAuthorizationData(string login, string password)
+		{
+			// Ввести логин и пароль
+			_driver.FindElement(By.CssSelector("input[name=\"email\"]")).Clear();
+			_driver.FindElement(By.CssSelector("input[name=\"email\"]")).SendKeys(login);
+			_driver.FindElement(By.CssSelector("input[name=\"password\"]")).Clear();
+			_driver.FindElement(By.CssSelector("input[name=\"password\"]")).SendKeys(password);
+			// Нажать Зайти
+			_driver.FindElement(By.CssSelector("input[type =\"submit\"]")).Click();
+		} // Удалить после удаления LoginUser
 
 		/// <summary>
 		/// Разлогиниться из этого пользователя
@@ -623,11 +623,20 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
 		/// <summary>
 		/// В редакторе кликает Back для выхода из него
 		/// </summary>
-		protected void ClickBackEditor()
+		protected void ClickHomeEditor()
 		{
-			// Back
-			EditorPage.ClickBackBtn();
-			Assert.IsTrue(LecturePage.WaitUntilDisplayLecturesList(), "Ошибка: не вышли из редактора по кнопке Back");
+			// Получение имени курса
+			string courseLectureName = EditorPage.GetCourseName();
+			string courseName = courseLectureName.Remove(courseLectureName.IndexOf(" —"));
+			Console.WriteLine(courseName);
+
+			// Home
+			EditorPage.ClickHomeBtn();
+			Assert.IsTrue(CoursePage.WaitUntilCourseListDisplay(), "Ошибка: не вышли из редактора по кнопке Home");
+
+			// Открытие страницы лекций
+			CoursePage.OpenCourseByName(courseName);
+			Assert.IsTrue(LecturePage.WaitUntilDisplayLecturesList(), "Ошибка: не открылся список лекций");
 		}
 
 		/// <summary>
@@ -673,18 +682,22 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
 		/// <returns>имя курса, который открыли</returns>
 		protected string OpenAnotherCourse(string courseNameNotToOpen)
 		{
+			Decimal minProgress = 99;
 			string openCourseName = "";
 			// Список курсов
 			List<string> courseList = CoursePage.GetCoursesNameList();
 			foreach (string el in courseList)
 			{
 				// Найти курс, название которого отличается от переданного и не содержит TestProject
-				if (el != courseNameNotToOpen &&
-					!el.Contains("TestProject"))
+				if (el != courseNameNotToOpen && !el.Contains("TestProject"))
 				{
-					openCourseName = el;
-					OpenCourseByName(openCourseName);
-					break;
+					Decimal curProgress = CoursePage.GetCourseProcentByName(el);
+					if (curProgress < minProgress)
+					{
+						openCourseName = el;
+						OpenCourseByName(openCourseName);
+						break;
+					}
 				}
 			}
 			// имя курса
@@ -697,7 +710,7 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
 		/// <returns>возвращает имя курса</returns>
 		protected string SelectCourseMinProgress(out Decimal courseProgress)
 		{
-			Decimal minProgress = 100;
+			Decimal minProgress = 99;
 			string courseMinProgress = "";
 			// Список курсов для "правого" столбика
 			foreach (string course in CoursePage.GetCoursesNameList())
@@ -769,7 +782,7 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
 			OpenLectureByRowNum(lectureRowNumber);
 			return lectureRowNumber;
 		}
-		
+
 		/// <summary>
 		/// Выбор лекции (с общим и личным прогрессом меньше 100)
 		/// </summary>
@@ -1102,7 +1115,7 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
 
 			// Получаем новый номер строки для перевода
 			int rowNumberNew = EditorPage.GetTranslationRowNumberByTime(time);
-			
+
 			// Првоеряем, что голос принят
 			Assert.IsTrue(EditorPage.GetIsVoteConsidered(isVoteUp, rowNumberNew), "Ошибка: голос не принят");
 		}
@@ -1201,7 +1214,7 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
 			int lectureRowNumber, translationRowNum;
 			AddTranslation(translationText, out courseName, out lectureRowNumber, out translationRowNum);
 			// Выйти из редактора
-			ClickBackEditor();
+			ClickHomeEditor();
 
 			// Открыть профиль пользователя
 			OpenUserProfileFromCourse();
@@ -1228,7 +1241,7 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
 				// Проголосовать
 				VoteFromEditor(isVoteUp, rowNumber);
 				// Выйти из редактора
-				ClickBackEditor();
+				ClickHomeEditor();
 			}
 			else
 			{
@@ -1548,106 +1561,106 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
 
 
 
-        DateTime testBeginTime;
+		DateTime testBeginTime;
 
-        [SetUp]
-        public void Setup()
-        {
-            testBeginTime = DateTime.Now;
-            Console.WriteLine(TestContext.CurrentContext.Test.Name + "\nStart: " + testBeginTime.ToString());
+		[SetUp]
+		public void Setup()
+		{
+			testBeginTime = DateTime.Now;
+			Console.WriteLine(TestContext.CurrentContext.Test.Name + "\nStart: " + testBeginTime.ToString());
 
-            if (_driver == null)
-            {
-                // Если конструктор заново не вызывался, то надо заполнить _driver
-                CreateDriver();
-            }
+			if (_driver == null)
+			{
+				// Если конструктор заново не вызывался, то надо заполнить _driver
+				CreateDriver();
+			}
 
-            _driver.Navigate().GoToUrl(_url);
+			_driver.Navigate().GoToUrl(_url);
 
 			_driver.Manage().Window.Maximize();
 
-            // Зайти под первым пользователем
+			// Зайти под первым пользователем
 			LoginUser(_user1);
-        }
+		}
 
-        [TearDown]
-        public void Teardown()
-        {
-            // Если тест провалился
-            //if (TestContext.CurrentContext.Result.Status.Equals(TestStatus.Failed))
-            {
-                // Сделать скриншот
-                ITakesScreenshot screenshotDriver = _driver as ITakesScreenshot;
-                Screenshot screenshot = screenshotDriver.GetScreenshot();
+		[TearDown]
+		public void Teardown()
+		{
+			// Если тест провалился
+			//if (TestContext.CurrentContext.Result.Status.Equals(TestStatus.Failed))
+			{
+				// Сделать скриншот
+				ITakesScreenshot screenshotDriver = _driver as ITakesScreenshot;
+				Screenshot screenshot = screenshotDriver.GetScreenshot();
 
-                // Создать папку для скриншотов провалившихся тестов
-                string failResultPath = System.IO.Path.Combine(PathTestResults, "FailedTests");
-                System.IO.Directory.CreateDirectory(failResultPath);
-                // Создать имя скриншота по имени теста
-                string screenName = TestContext.CurrentContext.Test.Name;
-                if (screenName.Contains("("))
-                {
-                    // Убрать из названия теста аргументы (файлы)
-                    screenName = screenName.Substring(0, screenName.IndexOf("("));
-                }
-                screenName += DateTime.Now.Ticks.ToString() + ".png";
-                // Создать полное имя файла
-                screenName = System.IO.Path.Combine(failResultPath, screenName);
-                // Сохранить скриншот
-                screenshot.SaveAsFile(screenName, ImageFormat.Png);
-            }
+				// Создать папку для скриншотов провалившихся тестов
+				string failResultPath = System.IO.Path.Combine(PathTestResults, "FailedTests");
+				System.IO.Directory.CreateDirectory(failResultPath);
+				// Создать имя скриншота по имени теста
+				string screenName = TestContext.CurrentContext.Test.Name;
+				if (screenName.Contains("("))
+				{
+					// Убрать из названия теста аргументы (файлы)
+					screenName = screenName.Substring(0, screenName.IndexOf("("));
+				}
+				screenName += DateTime.Now.Ticks.ToString() + ".png";
+				// Создать полное имя файла
+				screenName = System.IO.Path.Combine(failResultPath, screenName);
+				// Сохранить скриншот
+				screenshot.SaveAsFile(screenName, ImageFormat.Png);
+			}
 
-            // Закрыть драйвер
-            _driver.Quit();
-            // Очистить, чтобы при следующем тесте пересоздавалось
-            _driver = null;
+			// Закрыть драйвер
+			_driver.Quit();
+			// Очистить, чтобы при следующем тесте пересоздавалось
+			_driver = null;
 
-            DateTime testFinishTime = DateTime.Now;
-            Console.WriteLine("Finish: " + testFinishTime.ToString());
-            TimeSpan duration = TimeSpan.FromTicks(testFinishTime.Ticks - testBeginTime.Ticks);
-            string durResult = "Duration: ";
-            if (duration.TotalMinutes > 1)
-            {
-                durResult += duration.TotalMinutes + "min";
-            }
-            else
-            {
-                durResult += duration.TotalSeconds + "sec";
-            }
+			DateTime testFinishTime = DateTime.Now;
+			Console.WriteLine("Finish: " + testFinishTime.ToString());
+			TimeSpan duration = TimeSpan.FromTicks(testFinishTime.Ticks - testBeginTime.Ticks);
+			string durResult = "Duration: ";
+			if (duration.TotalMinutes > 1)
+			{
+				durResult += duration.TotalMinutes + "min";
+			}
+			else
+			{
+				durResult += duration.TotalSeconds + "sec";
+			}
 
-            durResult += " (" + duration.TotalMilliseconds + "ms).";
-            Console.WriteLine(durResult);
+			durResult += " (" + duration.TotalMilliseconds + "ms).";
+			Console.WriteLine(durResult);
 
-            if (TestContext.CurrentContext.Result.Status.Equals(TestStatus.Failed))
-            {
-                Console.WriteLine("Fail!");
-            }
-        }
+			if (TestContext.CurrentContext.Result.Status.Equals(TestStatus.Failed))
+			{
+				Console.WriteLine("Fail!");
+			}
+		}
 
-        public void MakeScreen()
-        {
-            //if (TestContext.CurrentContext.Result.Status.Equals(TestStatus.Failed))
-            {
-                // Сделать скриншот
-                ITakesScreenshot screenshotDriver = _driver as ITakesScreenshot;
-                Screenshot screenshot = screenshotDriver.GetScreenshot();
+		public void MakeScreen()
+		{
+			//if (TestContext.CurrentContext.Result.Status.Equals(TestStatus.Failed))
+			{
+				// Сделать скриншот
+				ITakesScreenshot screenshotDriver = _driver as ITakesScreenshot;
+				Screenshot screenshot = screenshotDriver.GetScreenshot();
 
-                // Создать папку для скриншотов провалившихся тестов
-                string failResultPath = System.IO.Path.Combine(PathTestResults, "FailedTests");
-                System.IO.Directory.CreateDirectory(failResultPath);
-                // Создать имя скриншота по имени теста
-                string screenName = TestContext.CurrentContext.Test.Name;
-                if (screenName.Contains("("))
-                {
-                    // Убрать из названия теста аргументы (файлы)
-                    screenName = screenName.Substring(0, screenName.IndexOf("("));
-                }
-                screenName += DateTime.Now.Ticks.ToString() + ".png";
-                // Создать полное имя файла
-                screenName = System.IO.Path.Combine(failResultPath, screenName);
-                // Сохранить скриншот
-                screenshot.SaveAsFile(screenName, ImageFormat.Png);
-            }
-        }
-    }
+				// Создать папку для скриншотов провалившихся тестов
+				string failResultPath = System.IO.Path.Combine(PathTestResults, "FailedTests");
+				System.IO.Directory.CreateDirectory(failResultPath);
+				// Создать имя скриншота по имени теста
+				string screenName = TestContext.CurrentContext.Test.Name;
+				if (screenName.Contains("("))
+				{
+					// Убрать из названия теста аргументы (файлы)
+					screenName = screenName.Substring(0, screenName.IndexOf("("));
+				}
+				screenName += DateTime.Now.Ticks.ToString() + ".png";
+				// Создать полное имя файла
+				screenName = System.IO.Path.Combine(failResultPath, screenName);
+				// Сохранить скриншот
+				screenshot.SaveAsFile(screenName, ImageFormat.Png);
+			}
+		}
+	}
 }

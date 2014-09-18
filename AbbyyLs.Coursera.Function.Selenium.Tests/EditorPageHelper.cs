@@ -8,9 +8,9 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
 	public class EditorPageHelper : CommonHelper
 	{
 		public EditorPageHelper(IWebDriver driver, WebDriverWait wait) :
-            base (driver, wait)
-        {
-        }
+			base(driver, wait)
+		{
+		}
 
 		/// <summary>
 		/// Возвращает отображается ли кнопка Back
@@ -18,7 +18,7 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
 		/// <returns>Кнопка Back отображается</returns>
 		public bool WaitUntilDisplayBackBtn()
 		{
-			return WaitUntilDisplayElement(By.Id(BACK_BTN_ID));
+			return WaitUntilDisplayElement(By.Id(HOME_BTN_ID));
 		}
 
 		/// <summary>
@@ -43,7 +43,7 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
 
 			return WaitUntilDisappearElement(By.XPath(xPath), 25);
 		}
-		
+
 		/// <summary>
 		/// Ожидает пока исчезнет рамочка вокруг галки (прошел Confirm)
 		/// Возвращает, исчезла ли рамочка
@@ -61,10 +61,19 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
 		/// <summary>
 		/// Кликнуть Back для выхода из него
 		/// </summary>
-		public void ClickBackBtn()
+		public void ClickHomeBtn()
 		{
 			// Back
-			ClickElement(By.Id(BACK_BTN_ID));
+			ClickElement(By.Id(HOME_BTN_ID));
+		}
+
+		/// <summary>
+		/// Возвращает текст курс + лекция
+		/// </summary>
+		/// <returns>Имя курса + лекции</returns>
+		public string GetCourseName()
+		{
+			return GetTextElement(By.Id(LECTURE_NAME_ID));
 		}
 
 		/// <summary>
@@ -227,7 +236,7 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
 		{
 			IList<IWebElement> voteList = GetElementList(By.XPath(TRANSLATION_BODY_XPATH +
 				VOTE_XPATH + "//span[contains(@class,'" + voteType + "')]"));
-			
+
 			return voteList;
 		}
 
@@ -249,12 +258,12 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
 		public void DeleteTranslation()
 		{
 			// Кликнуть удалить перевод
-			ClickElement(By.XPath(TRANSLATION_BODY_XPATH + 
+			ClickElement(By.XPath(TRANSLATION_BODY_XPATH +
 				TRASH_BTN_XPATH));
 
 			// Дождаться пока появится окно подтверждения
 			WaitUntilDisplayElement(By.XPath(CONFIRM_DIALOG_YES_BTN));
-			
+
 			// Нажать ДА в диалоге
 			ClickElement(By.XPath(CONFIRM_DIALOG_YES_BTN));
 
@@ -270,7 +279,7 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
 		{
 			string xPath = TRANSLATION_BODY_XPATH +
 				"[" + rowNumber + "]" + PANCIL_BTN_XPATH;
-			
+
 			ClickElement(By.XPath(xPath));
 		}
 
@@ -283,7 +292,7 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
 		{
 			string targetCell = SEGMENTS_BODY_XPATH +
 				"[" + rowNumber + "]" + TARGET_XPATH;
-			
+
 			// Кликнуть по ячейке
 			ClickElement(By.XPath(targetCell));
 			// Очистит и написать текст в ячейке target
@@ -329,7 +338,7 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
 			ExecuteClearScript();
 
 			// Обновляем страницу
-			SendTextElement(By.Id(BACK_BTN_ID), OpenQA.Selenium.Keys.F5);
+			SendTextElement(By.Id(HOME_BTN_ID), OpenQA.Selenium.Keys.F5);
 
 			// Ждем отображения сегментов
 			WaitUntilDisplaySegments();
@@ -355,7 +364,7 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
 		{
 			string xPath = TRANSLATION_BODY_XPATH +
 					"[" + rowNumber + "]" + AUTHOR_XPATH;
-			
+
 			return GetTextElement(By.XPath(xPath));
 		}
 
@@ -388,7 +397,7 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
 			// Получаем номер строки в которой находится заданная дата
 			for (int i = 0; i < translationList.Count; ++i)
 			{
-				if (GetTextElement(By.XPath(translationListXPath + 
+				if (GetTextElement(By.XPath(translationListXPath +
 					"[" + (i + 1).ToString() + "]//td[1]/div")).
 					Contains(time))
 				{
@@ -440,7 +449,7 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
 
 			return GetIsElementExist(By.XPath(xPath));
 		}
-		
+
 		/// <summary>
 		/// Проголосовать
 		/// </summary>
@@ -458,9 +467,11 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
 
 
 
-		protected const string BACK_BTN_ID = "back-btn";
+		protected const string LECTURE_NAME_ID = "title";
+
+		protected const string HOME_BTN_ID = "back-btn";
 		protected const string CONFIRM_BTN_ID = "confirm-btn";
-		protected const string TOGGLE_BTN_ID = "toggle-btn";
+		protected const string TOGGLE_BTN_ID = "toggle-source-btn";
 		protected const string COPY_BTN_ID = "copy-btn";
 		protected const string CHANGE_CASE_BTN_ID = "change-case-btn";
 		protected const string TAG_INSERT_BTN_ID = "tag-insert-btn";
@@ -476,9 +487,9 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
 
 		protected const string INFO_CHECK_XPATH = INFO_XPATH + "//span[contains(@class,'fa-check')]";
 		protected const string INFO_BORDER_XPATH = INFO_XPATH + "//span[contains(@class,'fa-border')]";
-		
+
 		protected const string TRANSLATION_BODY_XPATH = ".//div[@id='translations-body']//table";
-		
+
 		protected const string TRASH_BTN_XPATH = "//td[4]//span[contains(@class,'fa-trash-o')]";
 		protected const string PANCIL_BTN_XPATH = "//td[4]//span[contains(@class,'fa-pencil')]";
 		protected const string TIME_XPATH = "//td[1]//div";

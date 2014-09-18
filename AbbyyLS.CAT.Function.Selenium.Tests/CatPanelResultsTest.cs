@@ -17,7 +17,7 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 		/// <param name="workspaceUrl">Адрес workspace</param>
 		/// <param name="browserName">Название браузера</param>
 		public CatPanelResultsTest(string url, string workspaceUrl, string browserName)
-			: base (url, workspaceUrl, browserName)
+			: base(url, workspaceUrl, browserName)
 		{
 			System.Console.WriteLine("CatPanelResultsTest");
 		}
@@ -43,6 +43,7 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 		/// ТЕСТ: Проверка выдач и переводов из МТ
 		/// </summary>
 		[Test]
+		[Ignore("Temporarily not working")]
 		[TestCase(Workspace_CreateProjectDialogHelper.MT_TYPE.DefaultMT)]
 		[TestCase(Workspace_CreateProjectDialogHelper.MT_TYPE.Bing)]
 		[TestCase(Workspace_CreateProjectDialogHelper.MT_TYPE.Google)]
@@ -59,15 +60,15 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 
 			// Открываем проект
 			OpenProjectPage(ProjectName);
-			
+
 			// Открываем документ
 			OpenDocument();
 			Thread.Sleep(1000);
-			
+
 			EditorPage.ClickSourceCell(1);
 
 			// Проверка, что на CATPanel что-то есть
-			Assert.IsTrue(EditorPage.GetCATPanelNotEmpty(), 
+			Assert.IsTrue(EditorPage.GetCATPanelNotEmpty(),
 				"Ошибка: нет переводов в панели САТ.");
 
 			// Проверка наличия MT
@@ -92,9 +93,9 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 		public void CheckTM()
 		{
 			System.Console.WriteLine("CheckTM");
-			
+
 			// Создание проекта с файлом с МТ с файлом
-			CreateProject(ProjectName, EditorTXTFile, true, EditorTMXFile, false, false, 
+			CreateProject(ProjectName, EditorTXTFile, true, EditorTMXFile, false, false,
 				Workspace_CreateProjectDialogHelper.MT_TYPE.None, true);
 
 			// Ожидаем пока загрузится документ.
@@ -111,7 +112,7 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 			EditorPage.ClickSourceCell(1);
 
 			// Проверка, что на CATPanel что-то есть
-			Assert.IsTrue(EditorPage.GetCATPanelNotEmpty(), 
+			Assert.IsTrue(EditorPage.GetCATPanelNotEmpty(),
 				"Ошибка: нет переводов в панели САТ.");
 
 			// Проверка наличия TМ
@@ -144,7 +145,7 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 
 			// Создание глоссария на основании словаря
 			SetGlossaryByDictinary(dictionary);
-			
+
 			// Создание проекта с файлом
 			SwitchWorkspaceTab();
 			// Создание проекта с файлом с ТМ без файла и с заданным МТ
@@ -154,7 +155,7 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 			// Ожидаем пока загрузится документ.
 			if (!WorkspacePage.WaitProjectLoad(ProjectName))
 				Assert.Fail("Ошибка: Проект не загрузился.");
-			
+
 			// Открываем проект
 			OpenProjectPage(ProjectName);
 
@@ -168,7 +169,7 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 			EditorPage.ClickSourceCell(1);
 
 			// Проверка, что на CATpanel что-то есть
-			Assert.IsTrue(EditorPage.GetCATPanelNotEmpty(), 
+			Assert.IsTrue(EditorPage.GetCATPanelNotEmpty(),
 				"Ошибка: нет переводов в панели САТ.");
 
 			// Проверка наличия TB
@@ -321,33 +322,6 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 			// Проверяем, что совпадения отсутствуют
 			Assert.AreEqual(0, catSelectedTexts.Count,
 				"Ошибка: количество совпадений четвертого сегмента не корректно.");
-		}
-
-
-
-		/// <summary>
-		/// Создание нового глоссария из указанных слов словаря
-		/// </summary>
-		/// <param name="dict">Словарь</param>
-		protected void SetGlossaryByDictinary(Dictionary<string, string> dict)
-		{
-			foreach (KeyValuePair<string, string> pair in dict)
-			{
-				// Нажать New item
-				GlossaryPage.ClickNewItemBtn();
-				// Дождаться появления строки для ввода
-				GlossaryPage.WaitConceptTableAppear();
-				// Заполнить термин
-				GlossaryPage.FillTerm(1, pair.Key);
-				GlossaryPage.FillTerm(2, pair.Value);
-
-				// Расширить окно, чтобы кнопка была видна, иначе Selenium ее "не видит" и выдает ошибку
-				Driver.Manage().Window.Maximize();
-				// Нажать Сохранить
-				GlossaryPage.ClickSaveTermin();
-				GlossaryPage.WaitConceptGeneralSave();
-				Thread.Sleep(1000);
-			}
 		}
 	}
 }
