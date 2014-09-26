@@ -300,11 +300,11 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
         protected const string ALL_GLOSSARIES_SELECT_XPATH = "//div[contains(@class,'js-scope-section')][2]//input[contains(@name,'accessRightScopeType')]";
         protected const string SAVE_BTN_XPATH = "//span[contains(@class,'js-save-btn')]";
 
-		protected const string CREATE_GROUP_BTN_XPATH = "//span[contains(@class,'js-addgroup-btn')]//a[contains(text(),'Create group')]";
+		protected const string CREATE_GROUP_BTN_XPATH = "//span[contains(@class,'js-addgroup-btn')]//a[contains(text(),'Create Group')]";
 		protected const string CREATE_GROUP_FORM_XPATH = "//form[contains(@action,'/Enterprise/Groups/Add')]";
 		protected const string NAME_NEW_GROUP_XPATH = CREATE_GROUP_FORM_XPATH + "//label/input";
 		protected const string CANCEL_NEW_GROUP_XPATH = CREATE_GROUP_FORM_XPATH + "//a[contains(@class,'js-popup')]";
-		protected const string SAVE_NEW_GROUP_XPATH = CREATE_GROUP_FORM_XPATH + "//input[contains(@value,'Create group')]";
+		protected const string SAVE_NEW_GROUP_XPATH = CREATE_GROUP_FORM_XPATH + "//input[contains(@value,'Create Group')]";
 		protected const string ERROR_NEW_GROUP_XPATH = CREATE_GROUP_FORM_XPATH + "//div[contains(@class,'js-error-message')]";
 
 		protected const string USERS_RIGHTS_TABLE_XPATH = ".//table[contains(@class, 'js-users')]";

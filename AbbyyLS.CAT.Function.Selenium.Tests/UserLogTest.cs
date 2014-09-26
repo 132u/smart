@@ -368,6 +368,8 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 			Console.WriteLine("Нажать хоткей отмены");
 			EditorPage.SendKeysTarget(segmentNum, OpenQA.Selenium.Keys.Control + "z");
 			// Пишем в лог
+			WriteLog(segmentNum, "Переход в target", "Клик мыши", "-");
+			// Пишем в лог
 			WriteLog(segmentNum, "Нажатие хоткея Undo", "Ctrl + Z", "-");
 			// Проверить, что 4 сегмент пуст
 			Assert.IsTrue(EditorPage.GetTargetText(segmentNum) == "", "Ошибка: после хоткея отмены текст в 4 сегменте не удалился");
@@ -377,6 +379,8 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 			segmentNum = 3;
 			EditorPage.SendKeysTarget(segmentNum, OpenQA.Selenium.Keys.Control + "z");
 			// Пишем в лог
+			WriteLog(segmentNum, "Переход в target", "Клик мыши", "-");
+			// Пишем в лог
 			WriteLog(segmentNum, "Нажатие хоткея Undo", "Ctrl + Z", "-");
 			// Проверить, что 3 сегмент пуст
 			Assert.IsTrue(EditorPage.GetTargetText(segmentNum) == "", "Ошибка: после хоткея отмены текст в 3 сегменте не удалился");
@@ -384,6 +388,8 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 			// Нажать хоткей восстановления
 			Console.WriteLine("Нажать хоткей восстановления");
 			EditorPage.SendKeysTarget(segmentNum, OpenQA.Selenium.Keys.Control + "y");
+			// Пишем в лог
+			WriteLog(segmentNum, "Переход в target", "Клик мыши", "-");
 			// Пишем в лог
 			WriteLog(segmentNum, "Нажатие хоткея Redo", "Ctrl + Y", "-");
 
@@ -394,8 +400,10 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 
 			// Проверить, что 3 сегмент не пуст
 			Assert.AreEqual(text3Segment, EditorPage.GetTargetText(3), "Ошибка: после хоткея возврата текст в 3 сегменте не появился");
-			// TODO убрать sleep
-			Thread.Sleep(5000);
+			
+			// Дождаться автосохранения
+			AutoSave();
+
 			// Нажать кнопку назад
 			EditorClickHomeBtn();
 			// Пишем в лог

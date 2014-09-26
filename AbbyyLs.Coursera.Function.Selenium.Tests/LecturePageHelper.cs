@@ -22,8 +22,9 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
 				GetTextElement(By.XPath(COURSE_NAME_XPATH)) == "Natural Language Processing")
 			{
 				RefreshPage();
+				ClickElement(By.XPath(LECTURES_LINK_XPATH));
 				if (!WaitUntilDisplayElement(By.XPath(LECTURES_XPATH)) &&
-				GetTextElement(By.XPath(COURSE_NAME_XPATH)) == "Natural Language Processing")
+					GetTextElement(By.XPath(COURSE_NAME_XPATH)) == "Natural Language Processing")
 					return false;
 				else
 					return true;
@@ -48,7 +49,7 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
 		/// <returns>Процент собственного прогресса</returns>
 		public int GetLecturePersonalProgressByNumber(int lectureNumber)
 		{
-			string xPath = LECTURES_XPATH + "//" + LECTURE_POSITION_XPATH + 
+			string xPath = LECTURES_XPATH + LECTURE_POSITION_XPATH + 
 				"[contains(text(),'" + lectureNumber.ToString() + "')]/.." + 
 				LECTURE_OWN_PROCENT_XPATH;
 
@@ -68,7 +69,7 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
 		/// <returns>Процент общего прогресса</returns>
 		public int GetLectureGeneralProgressByNumber(int lectureNumber)
 		{
-			string xPath = LECTURES_XPATH + "//" + LECTURE_POSITION_XPATH + 
+			string xPath = LECTURES_XPATH + LECTURE_POSITION_XPATH + 
 				"[contains(text(),'" + lectureNumber.ToString() + "')]/.." + 
 				LECTURE_GENERAL_PROCENT_XPATH;
 
@@ -110,13 +111,13 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
 		}
 
 
-
 		protected const string COURSE_NAME_XPATH = ".//span[@id='course-title']";
 		protected const string LECTURES_XPATH = ".//tbody[contains(@data-bind,'lectures')]";
 		protected const string LECTURE_NAME_XPATH = "//a[contains(@data-bind,'name')]";
 		protected const string LECTURE_OWN_PROCENT_XPATH = "//div[contains(@data-bind,'personalProgressView')]";
 		protected const string LECTURE_GENERAL_PROCENT_XPATH = "//div[contains(@data-bind,'progressView')]";
-		protected const string LECTURE_POSITION_XPATH = "td[contains(@data-bind,'position')]";
+		protected const string LECTURE_POSITION_XPATH = "//td[contains(@data-bind,'position')]";
+		protected const string LECTURES_LINK_XPATH = "//label[contains(text(),'Lectures')]";
 
 	}
 }

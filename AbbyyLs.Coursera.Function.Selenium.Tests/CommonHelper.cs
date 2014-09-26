@@ -295,6 +295,11 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
 			{
 				Assert.Fail("Элемент не найден!\n" + by.ToString());
 			}
+			catch (InvalidOperationException)
+			{
+				Console.WriteLine("InvalidOperationException: ClickAndSendTextElement: " + by.ToString());
+				ClickAndSendTextElement(by, text);
+			}
 			catch (Exception exType)
 			{
 				Assert.Fail("Произошла ошибка:\n" + exType.ToString());

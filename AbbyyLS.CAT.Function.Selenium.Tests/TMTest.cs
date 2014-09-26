@@ -25,7 +25,7 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 
 		}
 
-
+		static string[] importTMXFileList = Directory.GetFiles(Path.Combine(@"..\TestingFiles\", "TMTestFiles"));
 
 		/// <summary>
 		/// Предварительная подготовка группы тестов
@@ -33,8 +33,6 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 		[SetUp]
 		public void Setup()
 		{
-			string[] importTMXFileList = Directory.GetFiles(Path.Combine(PathTestFiles, "TMTestFiles"));
-
 			// Не закрывать браузер
 			quitDriverAfterTest = false;
 

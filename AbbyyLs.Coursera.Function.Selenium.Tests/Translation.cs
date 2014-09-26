@@ -246,5 +246,92 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
 			// Проверить, что количество переводов не изменилось
 			Assert.AreEqual(translationsNumberBefore, translationsNumberAfter, "Ошибка: количество переводов изменилось");
 		}
+
+		/// <summary>
+		/// Тест: добавление нескольких переводов в рендомные лекции каждого курса
+		/// </summary>
+		[Test]
+		public void AddRandomTranslationEveryCource()
+		{
+			string translationText = "Test" + DateTime.Now.Ticks;
+			Random randomLec = new Random();
+			Random randomSeg = new Random();
+			// Количество лекций из курса
+			int lec = 4;
+			// Количество сегментов из лекции
+			int seg = 3;
+
+			// Перейти к списку доступных курсов
+			Assert.IsTrue(OpenCoursePage(), "Ошибка: список курсов пустой.");
+
+			// Получить список всех курсов
+			List<string> coursList =  CoursePage.GetCoursesNameList();
+
+			foreach(string course in coursList)
+			{
+				Console.WriteLine("Открытие курса: " + course);
+				// Открыть лекцию
+				OpenCourseByName(course);
+				
+				// Получить список лекций
+				List<string> lectureList = LecturePage.GetLecturesNameList();
+				int lecCount = lectureList.Count;
+
+				for (int i = 0; i < lec; i++)
+				{
+					// Получение диапазона лекций
+					int minLec = (lecCount * i / lec);
+					int maxLec = (lecCount * (i + 1) / lec) - 1;
+					int lectureNum = randomLec.Next(minLec, maxLec);
+					
+					Console.WriteLine("Открытие лекции: " + lectureList[lectureNum]);
+					// Открытие лекции
+					OpenLectureByRowNum(lectureNum + 1);
+					Thread.Sleep(3000);
+
+					// Получение количества сегментов
+					int segCount = EditorPage.GetSegmentsCount();
+					Console.WriteLine("Всего сегментов в лекции: " + segCount.ToString());
+
+					// Добавление перевода в первый сегмент
+					AddTranslationByPosition(1, translationText);
+
+					for (int j = 0; j < seg; j++)
+					{
+						// Получение диапазона сегментов
+						int minSeg = (segCount * j / seg) + 1;
+						int maxSeg = segCount * (j + 1) / seg;
+						int segmentNum = randomSeg.Next(minSeg, maxSeg);
+
+						// Добавление перевода
+						AddTranslationByPosition(segmentNum, translationText);
+					}
+
+					// Добавление перевода в последний сегмент
+					AddTranslationByPosition(segCount, translationText);
+
+					// Выход из редактора
+					ClickHomeEditor();
+				}
+
+				// Выход из курса
+				OpenCoursePage();
+			}
+		}
+
+
+
+		private void AddTranslationByPosition(int positionNum, string text)
+		{
+			Console.WriteLine("Добавление перевода в сегмент №" + positionNum);
+			
+			// Добавление перевода
+			EditorPage.AddTextTargetByPosition(positionNum, text);
+			EditorPage.ClickConfirmBtn();
+			// Дождаться Confirm
+			Assert.IsTrue(EditorPage.WaitUntilDisappearBorderByPosition(positionNum), "Ошибка: рамка вокруг галочки не пропадает - Confirm не прошел");
+
+			Console.WriteLine(" OK");
+		}
 	}
 }

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.UI;
+using System.Threading;
 
 namespace AbbyyLs.Coursera.Function.Selenium.Tests
 {
@@ -59,21 +60,21 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
 		}
 
 		/// <summary>
-		/// Кликнуть Back для выхода из него
-		/// </summary>
-		public void ClickHomeBtn()
-		{
-			// Back
-			ClickElement(By.Id(HOME_BTN_ID));
-		}
-
-		/// <summary>
 		/// Возвращает текст курс + лекция
 		/// </summary>
 		/// <returns>Имя курса + лекции</returns>
 		public string GetCourseName()
 		{
 			return GetTextElement(By.Id(LECTURE_NAME_ID));
+		}
+
+		/// <summary>
+		/// Кликнуть Back для выхода из него
+		/// </summary>
+		public void ClickHomeBtn()
+		{
+			// Back
+			ClickElement(By.Id(HOME_BTN_ID));
 		}
 
 		/// <summary>
@@ -463,6 +464,49 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
 				"[" + rowNumber + "]//td[5]/div//span[contains(@class,'" + voteClass + "')]";
 
 			ClickElement(By.XPath(xPath));
+		}
+
+		/// <summary>
+		/// Получение количества сегментов
+		/// </summary>
+		public int GetSegmentsCount()
+		{
+			// Перемещаемся в конец списка
+			SendTextElement(By.XPath(POSITION_XPATH), OpenQA.Selenium.Keys.End);
+			Thread.Sleep(3000);
+
+			// Получаем номер последнего сегмента
+			int count = GetElementsCount(By.XPath(SEGMENTS_BODY_XPATH));
+			int lastPosition = int.Parse(GetTextElement(By.XPath(SEGMENTS_BODY_XPATH +
+					"[" + count + "]" + POSITION_XPATH)));
+			
+			// Перемещаемся в начало списка
+			SendTextElement(By.XPath(POSITION_XPATH), OpenQA.Selenium.Keys.Home);
+			Thread.Sleep(3000);
+
+			return lastPosition;
+		}
+
+		/// <summary>
+		/// Добавить текст по номеру позиции
+		/// </summary>
+		/// <param name="position">Номер позиции</param>
+		/// <param name="text">Строка</param>
+		public void AddTextTargetByPosition(int position, string text)
+		{
+			SetDriverTimeoutMinimum();
+			string target = SEGMENTS_BODY_XPATH + POSITION_XPATH +
+				"[text()='" + position + "']/../.." + TARGET_XPATH;
+
+			while(!GetIsElementDisplay(By.XPath(target)))
+			{
+				// Перемещаемся по списку
+				SendTextElement(By.XPath(POSITION_XPATH), OpenQA.Selenium.Keys.PageDown);
+				Thread.Sleep(500);
+			}
+
+			ClickClearAndAddText(By.XPath(target), text);
+			SetDriverTimeoutDefault();
 		}
 
 

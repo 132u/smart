@@ -121,7 +121,7 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
 			get
 			{
 				System.IO.DirectoryInfo directoryInfo =
-					System.IO.Directory.GetParent(@"..\..\..\TestResults\");
+					System.IO.Directory.GetParent(@"..\TestResults\");
 
 				return directoryInfo.ToString();
 			}
@@ -628,7 +628,6 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
 			// Получение имени курса
 			string courseLectureName = EditorPage.GetCourseName();
 			string courseName = courseLectureName.Remove(courseLectureName.IndexOf(" —"));
-			Console.WriteLine(courseName);
 
 			// Home
 			EditorPage.ClickHomeBtn();

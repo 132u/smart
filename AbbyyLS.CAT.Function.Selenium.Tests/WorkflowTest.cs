@@ -92,16 +92,20 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 			// 1) Заполнение полей
 			FirstStepProjectWizard(ProjectName);
 			WorkspaceCreateProjectDialog.ClickNextStep();
+			Thread.Sleep(500);
 
 			// 2) Выбор ТМ
 			ChooseExistingTM();
 			WorkspaceCreateProjectDialog.ClickNextStep();
+			Thread.Sleep(500);
 
 			// 3) Выбор глоссария
 			WorkspaceCreateProjectDialog.ClickNextStep();
+			Thread.Sleep(500);
 
 			// 4) Выбор МТ
 			WorkspaceCreateProjectDialog.ClickNextStep();
+			Thread.Sleep(500);
 
 			// 5) Проверка workflow
 			// Изменение типа созданной задачи на Editing

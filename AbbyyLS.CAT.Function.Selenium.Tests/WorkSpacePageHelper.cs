@@ -572,10 +572,10 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
         protected const string DOCUMENT_INFO_TR_XPATH = PROJECT_INFO_XPATH + "//following-sibling::tr[contains(@class, 'js-document-row')]";
         protected const string OPEN_CLOSE_TD_XPATH = "td[contains(@class,'openCloseCell')]";
 
-        protected const string NOTIFIER_XPATH = "//div[@id='export-documents-notifier']";
-        protected const string NOTIFIER_ITEM_XPATH = NOTIFIER_XPATH + "//div[contains(@class,'g-exportDocNotifications-item')]";
-        protected const string NOTIFIER_CANCEL_BTN_XPATH = NOTIFIER_VISIBLE_XPATH + "//a[contains(@class,'js-cancel')]";
-        protected const string NOTIFIER_DOWNLOAD_BTN_XPATH = NOTIFIER_XPATH + "//a[contains(@class,'js-download-result')]";
+		protected const string NOTIFIER_XPATH = "//div[@id='notifications-block']";
+		protected const string NOTIFIER_ITEM_XPATH = NOTIFIER_XPATH + "//div[contains(@class,'notifications-item')]";
+        protected const string NOTIFIER_CANCEL_BTN_XPATH = NOTIFIER_VISIBLE_XPATH + "//a[contains(text(),'Close')]";
+        protected const string NOTIFIER_DOWNLOAD_BTN_XPATH = NOTIFIER_XPATH + "//a[contains(text(),'Download')]";
         // TODO изменить айдишники
         protected const string NOTIFIER_PREPARE_XPATH = NOTIFIER_XPATH + "//span[contains(text(),'Preparing')]";
         protected const string NOTIFIER_RESTART_BTN_XPATH = NOTIFIER_XPATH + "//a[@class='js-restart-task']";

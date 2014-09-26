@@ -22,8 +22,15 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 		public Project_ImportTest(string url, string workspaceUrl, string browserName)
 			: base(url, workspaceUrl, browserName)
 		{
-
 		}
+
+		static string _filesForImportCorrectPath = Path.Combine(@"..\TestingFiles\", "FilesForImportCorrect");
+		static string _filesForConfirmPath = Path.Combine(@"..\TestingFiles\", "FilesForConfirm");
+		static string _filesForImportErrorPath = Path.Combine(@"..\TestingFiles\", "FilesForImportError");
+
+		static string[] filesForImportCorrect = Directory.GetFiles(_filesForImportCorrectPath);
+		static string[] filesForConfirm = Directory.GetFiles(_filesForConfirmPath);
+		static string[] filesForImportError = Directory.GetFiles(_filesForImportErrorPath);
 
 		/// <summary>
 		/// Предварительная подготовка группы тестов
@@ -31,13 +38,6 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 		[SetUp]
 		public void Setup()
 		{
-			string _filesForImportCorrectPath = Path.Combine(PathTestFiles, "FilesForImportCorrect");
-			string _filesForConfirmPath = Path.Combine(PathTestFiles, "FilesForConfirm");
-			string _filesForImportErrorPath = Path.Combine(PathTestFiles, "FilesForImportError");
-
-			string[] filesForImportCorrect = Directory.GetFiles(Path.Combine(PathTestFiles, "FilesForImportCorrect"));
-			string[] filesForConfirm = Directory.GetFiles(Path.Combine(PathTestFiles, "FilesForConfirm"));
-			string[] filesForImportError = Directory.GetFiles(Path.Combine(PathTestFiles, "FilesForImportError"));
 		}
 
 
