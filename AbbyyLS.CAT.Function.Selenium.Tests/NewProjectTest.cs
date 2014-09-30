@@ -27,11 +27,11 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 		/// <summary>
 		/// Конструктор теста
 		/// </summary>
-		/// <param name="url">Адрес</param>
-		/// <param name="workspaceUrl">Адрес workspace</param>
+		 
+		 
 		/// <param name="browserName">Название браузера</param>
-		public NewProjectTest(string url, string workspaceUrl, string browserName)
-			: base(url, workspaceUrl, browserName)
+		public NewProjectTest(string browserName)
+			: base(browserName)
 		{
 
 		}
@@ -183,7 +183,7 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 		/// <param name="filePath"></param>
 		protected void CreateProjectImportDocument(string filePath)
 		{
-			//Создать пустой проект          
+			//Создать пустой проект		  
 			CreateProject(ProjectName);
 
 			//Добавление документа

@@ -21,14 +21,14 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
 {
 	class Translation : BaseTest
 	{
-		public Translation(string url, string workspaceUrl, string browserName)
-			: base(url, workspaceUrl, browserName)
+		public Translation(string browserName)
+			: base(browserName)
 		{
 
 		}
 
 		[SetUp]
-		public void Setup()
+		public void SetupTranslation()
 		{
 		}
 

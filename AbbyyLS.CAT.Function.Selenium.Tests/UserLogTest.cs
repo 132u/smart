@@ -21,11 +21,11 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 		/// <summary>
 		/// Конструктор теста
 		/// </summary>
-		/// <param name="url">Адрес</param>
-		/// <param name="workspaceUrl">Адрес workspace</param>
+		 
+		 
 		/// <param name="browserName">Название браузера</param>
-		public UserLogTest(string url, string workspaceUrl, string browserName)
-			: base(url, workspaceUrl, browserName)
+		public UserLogTest(string browserName)
+			: base(browserName)
 		{
 
 		}
@@ -1066,7 +1066,7 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 
 		/// <summary>
 		/// Метод выгрузки логов 
-		/// </summary>        
+		/// </summary>		
 		public void ExportLog()
 		{
 			//Выбрать документ
@@ -1081,7 +1081,7 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 
 		/// <summary>
 		/// Создание глоссария
-		/// </summary>        
+		/// </summary>
 		public void CreateGlossary(string glossaryName)
 		{
 			// Добавление словаря для глоссария
@@ -1106,7 +1106,7 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 
 		/// <summary>
 		/// Метод проверки подстановки из САТ
-		/// </summary>        
+		/// </summary>
 		public void PasteFromCAT(int segmentNum, EditorPageHelper.CAT_TYPE CatType, bool useHotkey)
 		{
 			string catType = "";

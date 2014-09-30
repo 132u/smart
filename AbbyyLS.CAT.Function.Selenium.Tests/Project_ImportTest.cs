@@ -16,11 +16,11 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 		/// <summary>
 		/// Конструктор теста
 		/// </summary>
-		/// <param name="url">Адрес</param>
-		/// <param name="workspaceUrl">Адрес workspace</param>
+		 
+		 
 		/// <param name="browserName">Название браузера</param>
-		public Project_ImportTest(string url, string workspaceUrl, string browserName)
-			: base(url, workspaceUrl, browserName)
+		public Project_ImportTest(string browserName)
+			: base(browserName)
 		{
 		}
 
@@ -138,7 +138,7 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 		{
 			// Создать проект
 			CreateProject(ProjectName);
-			// загрузить документ            
+			// загрузить документ			
 			ImportDocumentProjectSettings(DocumentFile, ProjectName);
 
 			// Проверить, что в проекте есть документ
@@ -205,8 +205,8 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 
 		//	//// Проверить, существует ли хотя бы один сегмент
 		//	//Assert.IsTrue(IsElementPresent(By.CssSelector(
-		//	//    "#segments-body div table tr:nth-child(1)"
-		//	//    )));
+		//	//	"#segments-body div table tr:nth-child(1)"
+		//	//	)));
 		//}
 
 		/// <summary>

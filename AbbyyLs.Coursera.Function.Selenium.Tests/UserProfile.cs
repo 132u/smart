@@ -21,14 +21,14 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
 {
 	class UserProfile : BaseTest
 	{
-		public UserProfile(string url, string workspaceUrl, string browserName)
-			: base(url, workspaceUrl, browserName)
+		public UserProfile(string browserName)
+			: base(browserName)
 		{
 
 		}
 
 		[SetUp]
-		public void Setup()
+		public void SetupProfile()
 		{
 			// Проверка входа в пользователя - есть ли ошибка неправильного пароля
 			if (IsExistIncorrectPasswordError())

@@ -18,22 +18,22 @@ using OpenQA.Selenium.Interactions;
 
 namespace AbbyyLs.CAT.Function.Selenium.Tests
 {
-    /// <summary>
-    /// Группа тестов кнопок редактора
-    /// </summary>
+	/// <summary>
+	/// Группа тестов кнопок редактора
+	/// </summary>
 	public class EditorButtonsTest : BaseTest
-    {
-        /// <summary>
-        /// Конструктор теста
-        /// </summary>
-        /// <param name="url">Адрес</param>
-        /// <param name="workspaceUrl">Адрес workspace</param>
-        /// <param name="browserName">Название браузера</param>
-		public EditorButtonsTest(string url, string workspaceUrl, string browserName)
-            : base(url, workspaceUrl, browserName)
-        {
+	{
+		/// <summary>
+		/// Конструктор теста
+		/// </summary>
+		 
+		 
+		/// <param name="browserName">Название браузера</param>
+		public EditorButtonsTest(string browserName)
+			: base(browserName)
+		{
 
-        }
+		}
 
 
 
@@ -59,9 +59,9 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 		/// <summary>
 		/// Начальная подготовка для каждого теста
 		/// </summary>
-        [SetUp]
-        public void Setup()
-        {
+		[SetUp]
+		public void Setup()
+		{
 			// Не выходить из браузера после теста
 			quitDriverAfterTest = false;
 
@@ -99,7 +99,7 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 
 			// 4. Открытие документа
 			OpenDocument();
-        }
+		}
 
 		/// <summary>
 		/// Конечные действия для каждого теста
@@ -123,15 +123,15 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 
 
 
-        /// <summary>
-        /// Метод тестирования кнопки "Back" в редакторе
-        /// </summary>
-        [Test]
-        public void HomeButtonTest()
-        {
-            // Кнопка Back, проверка перехода
-            EditorClickHomeBtn();
-        }
+		/// <summary>
+		/// Метод тестирования кнопки "Back" в редакторе
+		/// </summary>
+		[Test]
+		public void HomeButtonTest()
+		{
+			// Кнопка Back, проверка перехода
+			EditorClickHomeBtn();
+		}
 
 		/// <summary>
 		/// Метод тестирования кнопки подтвеждения сегмента
@@ -471,35 +471,35 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 			ToTargetHotkey();
 		}
 
-        /// <summary>
-        /// Метод тестирования кнопки перемещения курсора между полями source и target без хоткея
-        /// </summary>
-        [Test]
-        public void TabButtonTest()
-        {
-            int segmentNumber = 1;
-            // Перешли из Target в Source по кнопке
-            SourceTargetSwitchButton(segmentNumber);
+		/// <summary>
+		/// Метод тестирования кнопки перемещения курсора между полями source и target без хоткея
+		/// </summary>
+		[Test]
+		public void TabButtonTest()
+		{
+			int segmentNumber = 1;
+			// Перешли из Target в Source по кнопке
+			SourceTargetSwitchButton(segmentNumber);
 
-            // Проверить где находится курсор, и если в поле source, то все ок
-            Assert.True(EditorPage.GetIsCursorInSourceCell(segmentNumber),
-                "Ошибка: после кнопки Toggle не перешли в Target");
-        }
+			// Проверить где находится курсор, и если в поле source, то все ок
+			Assert.True(EditorPage.GetIsCursorInSourceCell(segmentNumber),
+				"Ошибка: после кнопки Toggle не перешли в Target");
+		}
 
-        /// <summary>
-        /// Метод тестирования хоткея перемещения курсора между полями source и target
-        /// </summary>
-        [Test]
-        public void TabHotkeyTest()
-        {
-            int segmentNumber = 1;
-            // Перешли из Target в Source по хоткею
-            SourceTargetSwitchHotkey(segmentNumber);
+		/// <summary>
+		/// Метод тестирования хоткея перемещения курсора между полями source и target
+		/// </summary>
+		[Test]
+		public void TabHotkeyTest()
+		{
+			int segmentNumber = 1;
+			// Перешли из Target в Source по хоткею
+			SourceTargetSwitchHotkey(segmentNumber);
 
-            // Проверить где находится курсор, и если в поле source, то все ок
-            Assert.True(EditorPage.GetIsCursorInSourceCell(segmentNumber),
-                "Ошибка: после хоткея Toggle не перешли в Target");
-        }
+			// Проверить где находится курсор, и если в поле source, то все ок
+			Assert.True(EditorPage.GetIsCursorInSourceCell(segmentNumber),
+				"Ошибка: после хоткея Toggle не перешли в Target");
+		}
 
 		/// <summary>
 		/// Метод тестирования кнопки отката на предыдущее состояние сегмента
@@ -574,7 +574,7 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 
 			// Проверяем что появился замочек в сегменете
 			Assert.True(EditorPage.GetIsSegmentLock(1),
-                "Ошибка: Не появился замочек у перевода сегмента.");
+				"Ошибка: Не появился замочек у перевода сегмента.");
 		}
 
 		/// <summary>
@@ -779,48 +779,48 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 
 
 
-        /// <summary>
-        /// Проверить изменение регистра
-        /// </summary>
-        /// <param name="sourceText">начальный текст</param>
-        /// <param name="textAfterFirstChange">текст после первого изменения</param>
-        /// <param name="textAfterSecondChange">текст после второго изменения</param>
-        /// <param name="byButtonTrueByHotkeyFalse">по кнопке или по хоткею</param>
+		/// <summary>
+		/// Проверить изменение регистра
+		/// </summary>
+		/// <param name="sourceText">начальный текст</param>
+		/// <param name="textAfterFirstChange">текст после первого изменения</param>
+		/// <param name="textAfterSecondChange">текст после второго изменения</param>
+		/// <param name="byButtonTrueByHotkeyFalse">по кнопке или по хоткею</param>
 		/// <param name="segmentNumber">порядковый номер сегмента</param>
-        protected void CheckChangeCase(string sourceText, string textAfterFirstChange, string textAfterSecondChange, bool byButtonTrueByHotkeyFalse, int segmentNumber)
-        {
-            // Список текстов для сравнения после изменения регистра
-            List<string> listToCompare = new List<string>();
-            listToCompare.Add(textAfterFirstChange);
-            listToCompare.Add(textAfterSecondChange);
-            listToCompare.Add(sourceText);
+		protected void CheckChangeCase(string sourceText, string textAfterFirstChange, string textAfterSecondChange, bool byButtonTrueByHotkeyFalse, int segmentNumber)
+		{
+			// Список текстов для сравнения после изменения регистра
+			List<string> listToCompare = new List<string>();
+			listToCompare.Add(textAfterFirstChange);
+			listToCompare.Add(textAfterSecondChange);
+			listToCompare.Add(sourceText);
 
-            for (int i = 0; i < listToCompare.Count; ++i)
-            {
-                // Нажать изменениe регистра
-                ClickChangeCase(byButtonTrueByHotkeyFalse, segmentNumber);
-                // Убедиться, что регистр слова изменился правильно - сравнить со значением в listToCompare
-                Assert.AreEqual(listToCompare[i], EditorPage.GetTargetText(segmentNumber), "Ошибка: не совпал текст при изменении регистра");
-            }
-        }
+			for (int i = 0; i < listToCompare.Count; ++i)
+			{
+				// Нажать изменениe регистра
+				ClickChangeCase(byButtonTrueByHotkeyFalse, segmentNumber);
+				// Убедиться, что регистр слова изменился правильно - сравнить со значением в listToCompare
+				Assert.AreEqual(listToCompare[i], EditorPage.GetTargetText(segmentNumber), "Ошибка: не совпал текст при изменении регистра");
+			}
+		}
 
-        /// <summary>
-        /// Нажать Изменить регистр
-        /// </summary>
-        /// <param name="byButtonTrueByHotkeyFalse">true - по кнопке, false - по хоткею</param>
-        /// <param name="rowNumber">номер сегмента</param>
-        protected void ClickChangeCase(bool byButtonTrueByHotkeyFalse, int rowNumber)
-        {
-            if (byButtonTrueByHotkeyFalse)
-            {
-                // Нажать кнопку
-                EditorPage.ClickChangeCaseBtn();
-            }
-            else
-            {
-                // Нажать хоткей
-                EditorPage.SendKeysTarget(rowNumber, OpenQA.Selenium.Keys.Shift + OpenQA.Selenium.Keys.F3);
-            }
-        }
-    }
+		/// <summary>
+		/// Нажать Изменить регистр
+		/// </summary>
+		/// <param name="byButtonTrueByHotkeyFalse">true - по кнопке, false - по хоткею</param>
+		/// <param name="rowNumber">номер сегмента</param>
+		protected void ClickChangeCase(bool byButtonTrueByHotkeyFalse, int rowNumber)
+		{
+			if (byButtonTrueByHotkeyFalse)
+			{
+				// Нажать кнопку
+				EditorPage.ClickChangeCaseBtn();
+			}
+			else
+			{
+				// Нажать хоткей
+				EditorPage.SendKeysTarget(rowNumber, OpenQA.Selenium.Keys.Shift + OpenQA.Selenium.Keys.F3);
+			}
+		}
+	}
 }

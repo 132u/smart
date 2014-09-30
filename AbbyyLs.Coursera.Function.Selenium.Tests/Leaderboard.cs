@@ -21,14 +21,14 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
 {
 	class Leaderboard : BaseTest
 	{
-		public Leaderboard(string url, string workspaceUrl, string browserName)
-			: base(url, workspaceUrl, browserName)
+		public Leaderboard(string browserName)
+			: base(browserName)
 		{
 
 		}
 
 		[SetUp]
-		public void Setup()
+		public void LeaderBoard()
 		{
 		}
 
@@ -134,7 +134,7 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
 			OpenAnotherCourse(courseName);
 			// Открыть первую лекцию
 			OpenLectureByRowNum(1);
-			// Добавить перевод            
+			// Добавить перевод			
 			AddTranslationByRowNum(GetEmptyTranslationRowNumber(), translationText);
 			ClickHomeEditor();
 			// Перейти к списку лидеров

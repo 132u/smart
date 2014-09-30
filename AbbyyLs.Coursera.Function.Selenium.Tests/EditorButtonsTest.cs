@@ -21,8 +21,8 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
 {
 	class EditorButtonsTest : BaseTest
 	{
-		public EditorButtonsTest(string url, string workspaceUrl, string browserName)
-			: base(url, workspaceUrl, browserName)
+		public EditorButtonsTest(string browserName)
+			: base(browserName)
 		{
 
 		}
@@ -30,7 +30,7 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
 		private int editorRowNumber;
 
 		[SetUp]
-		public void Setup()
+		public void EditorButtons()
 		{
 			// Перейти к списку доступных курсов
 			Assert.IsTrue(OpenCoursePage(), "Ошибка: список курсов пустой.");

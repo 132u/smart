@@ -675,9 +675,9 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
 		/// Выполнение скрипта для очистки кеша
 		/// </summary>
 		public void ExecuteClearScript()
-        {
+		{
 			Scripts(_driver).ExecuteScript("localStorage.clear()");
-        }
+		}
 
 		public static IJavaScriptExecutor Scripts(IWebDriver driver)
 		{

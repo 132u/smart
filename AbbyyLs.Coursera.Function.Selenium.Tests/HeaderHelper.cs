@@ -8,9 +8,9 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
 	public class HeaderHelper : CommonHelper
 	{
 		public HeaderHelper(IWebDriver driver, WebDriverWait wait) :
-            base (driver, wait)
-        {
-        }
+			base (driver, wait)
+		{
+		}
 
 		/// <summary>
 		/// Залогиниться

@@ -13,11 +13,11 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 		/// <summary>
 		/// Конструктор теста
 		/// </summary>
-		/// <param name="url">Адрес</param>
-		/// <param name="workspaceUrl">Адрес workspace</param>
+		 
+		 
 		/// <param name="browserName">Название браузера</param>
-		public CatPanelResultsTest(string url, string workspaceUrl, string browserName)
-			: base(url, workspaceUrl, browserName)
+		public CatPanelResultsTest(string browserName)
+			: base(browserName)
 		{
 			System.Console.WriteLine("CatPanelResultsTest");
 		}

@@ -21,14 +21,14 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
 {
 	class Voting : BaseTest
 	{
-		public Voting(string url, string workspaceUrl, string browserName)
-			: base(url, workspaceUrl, browserName)
+		public Voting(string browserName)
+			: base(browserName)
 		{
 
 		}
 
 		[SetUp]
-		public void Setup()
+		public void SetupVoting()
 		{
 		}
 

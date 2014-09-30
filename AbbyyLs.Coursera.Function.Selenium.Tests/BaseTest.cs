@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Drawing.Text;
 using System.Threading;
 using NUnit.Framework;
 using OpenQA.Selenium;
@@ -14,14 +15,16 @@ using System.Collections.Generic;
 using System.Windows.Forms;
 using System.Drawing;
 using System.Drawing.Imaging;
+using NConfiguration;
+using NLog;
 
 using OpenQA.Selenium.Interactions;
 using System.Text.RegularExpressions;
 
 namespace AbbyyLs.Coursera.Function.Selenium.Tests
 {
-	[TestFixture("StageUrl2", "StageWorkspace2", "Firefox")]
-	[TestFixture("StageUrl3", "StageWorkspace2", "Firefox")]
+	[TestFixture("Firefox")]
+	
 	public class BaseTest
 	{
 		protected const int maxEditorLinesNum = 16;
@@ -260,46 +263,47 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
 		/// <summary>
 		/// Конструктор BaseTest
 		/// </summary>
-		public BaseTest(string url, string workspaceUrl, string browserName)
+		public BaseTest(string browserName)
 		{
+
+			var cfgAgentSpecific = TestSettingDefinition.Instance.Get<TargetServerConfig>();
+			var cfgConst = TestSettingDefinition.Instance.Get<TestUserConfig>();
+		
+			var cfgRoot = TestSettingDefinition.Instance.Get<FilesRootCfg>(); 
+
+
+
 			_browserName = browserName;
-			_url = ConfigurationManager.AppSettings[url];
+			_url = cfgAgentSpecific.Url;
+			
+
+			
 			CreateDriver();
 
-			_user1.login = ConfigurationManager.AppSettings["LoginUser1"];
-			_user1.password = ConfigurationManager.AppSettings["PasswordUser1"];
 
-			_user2.login = ConfigurationManager.AppSettings["LoginUser2"];
-			_user2.password = ConfigurationManager.AppSettings["PasswordUser2"];
-
-			_userName = ConfigurationManager.AppSettings["userName1"];
-			_userSurname = ConfigurationManager.AppSettings["userSurname1"];
-
-			_imageFile = Path.GetFullPath(ConfigurationManager.AppSettings["TestImageFile"]);
-
-			_user1NewPass = ConfigurationManager.AppSettings["PasswordUser1newPass"];
-			_user1ForbiddenPass = ConfigurationManager.AppSettings["PasswordUser1forbiddenPass"];
-			_user1LimitPass = ConfigurationManager.AppSettings["PasswordUser1limitPass"];
 
 			_testUserList = new List<UserInfo>();
 
 			// Заполнение данных тестовых пользователей
-			_testUserList.Add(new UserInfo(ConfigurationManager.AppSettings["LoginTestUser1"], ConfigurationManager.AppSettings["PasswordTestUser1"]));
-			_testUserList.Add(new UserInfo(ConfigurationManager.AppSettings["LoginTestUser2"], ConfigurationManager.AppSettings["PasswordTestUser2"]));
-			_testUserList.Add(new UserInfo(ConfigurationManager.AppSettings["LoginTestUser3"], ConfigurationManager.AppSettings["PasswordTestUser3"]));
-			_testUserList.Add(new UserInfo(ConfigurationManager.AppSettings["LoginTestUser4"], ConfigurationManager.AppSettings["PasswordTestUser4"]));
-			_testUserList.Add(new UserInfo(ConfigurationManager.AppSettings["LoginTestUser5"], ConfigurationManager.AppSettings["PasswordTestUser5"]));
-			_testUserList.Add(new UserInfo(ConfigurationManager.AppSettings["LoginTestUser6"], ConfigurationManager.AppSettings["PasswordTestUser6"]));
-			_testUserList.Add(new UserInfo(ConfigurationManager.AppSettings["LoginTestUser7"], ConfigurationManager.AppSettings["PasswordTestUser7"]));
-			_testUserList.Add(new UserInfo(ConfigurationManager.AppSettings["LoginTestUser8"], ConfigurationManager.AppSettings["PasswordTestUser8"]));
-			_testUserList.Add(new UserInfo(ConfigurationManager.AppSettings["LoginTestUser9"], ConfigurationManager.AppSettings["PasswordTestUser9"]));
-			_testUserList.Add(new UserInfo(ConfigurationManager.AppSettings["LoginTestUser10"], ConfigurationManager.AppSettings["PasswordTestUser10"]));
-			_testUserList.Add(new UserInfo(ConfigurationManager.AppSettings["LoginTestUser11"], ConfigurationManager.AppSettings["PasswordTestUser11"]));
-			_testUserList.Add(new UserInfo(ConfigurationManager.AppSettings["LoginTestUser12"], ConfigurationManager.AppSettings["PasswordTestUser12"]));
-			_testUserList.Add(new UserInfo(ConfigurationManager.AppSettings["LoginTestUser13"], ConfigurationManager.AppSettings["PasswordTestUser13"]));
-			_testUserList.Add(new UserInfo(ConfigurationManager.AppSettings["LoginTestUser14"], ConfigurationManager.AppSettings["PasswordTestUser14"]));
-			_testUserList.Add(new UserInfo(ConfigurationManager.AppSettings["LoginTestUser15"], ConfigurationManager.AppSettings["PasswordTestUser15"]));
-			_testUserList.Add(new UserInfo(ConfigurationManager.AppSettings["LoginTestUser16"], ConfigurationManager.AppSettings["PasswordTestUser16"]));
+			for (int v=0; v<16; v++) _testUserList.Add(new UserInfo(cfgConst.Users[v].Login, cfgConst.Users[v].Password));
+
+			// заполнение констант
+
+			_user1.login = "smallname@mailforspam.com";
+			_user1.password = "123456";
+
+			_user2.login = "bigname@mailforspam.com";
+			_user2.password = "4bj1bnVZQYrI4nKn";
+
+			_userName = "Bob";
+			_userSurname = "Test";
+
+			_imageFile = Path.GetFullPath(cfgRoot.Root + "/TestImage.jpg");
+
+			_user1NewPass = "0123456";
+			_user1ForbiddenPass = "123";
+			_user1LimitPass = "012345";
+
 		}
 
 		/// <summary>

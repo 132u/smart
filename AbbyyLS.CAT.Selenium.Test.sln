@@ -7,6 +7,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AbbyyLS.CAT.Function.Seleni
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AbbyyLs.Coursera.Function.Selenium.Tests", "AbbyyLs.Coursera.Function.Selenium.Tests\AbbyyLs.Coursera.Function.Selenium.Tests.csproj", "{8DF75CDC-DC96-4B13-925C-00D1C2FE2188}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "configs", "configs", "{A63C7CD2-0E87-4A6C-8B47-0AA9D76961CC}"
+	ProjectSection(SolutionItems) = preProject
+		configs\AgentSpecific.xml = configs\AgentSpecific.xml
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

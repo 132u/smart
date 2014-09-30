@@ -8,9 +8,9 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
 	public class LecturePageHelper : CommonHelper
 	{
 		public LecturePageHelper(IWebDriver driver, WebDriverWait wait) :
-            base (driver, wait)
-        {
-        }
+			base (driver, wait)
+		{
+		}
 
 		/// <summary>
 		/// Возвращает открылась ли страница лекций

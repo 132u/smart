@@ -21,13 +21,13 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
 {
 	class Achievements : BaseTest
 	{
-		public Achievements(string url, string workspaceUrl, string browserName)
-			: base(url, workspaceUrl, browserName)
+		public Achievements(string browserName)
+			: base(browserName)
 		{
 		}
 
 		[SetUp]
-		public void Setup()
+		public void SetupAchievments()
 		{
 		}
 
@@ -1768,7 +1768,7 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
 				{
 					// Перейти к списку доступных курсов
 					OpenCoursePage();
-					// Переход в курс с наименьшим прогрессом                
+					// Переход в курс с наименьшим прогрессом				
 					string courseName = OpenCourseMinProgress();
 
 					if (!courseList.Contains(courseName))

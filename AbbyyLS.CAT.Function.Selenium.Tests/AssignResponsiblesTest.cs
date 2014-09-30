@@ -16,11 +16,11 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 		/// <summary>
 		/// Конструктор теста
 		/// </summary>
-		/// <param name="url">Адрес</param>
-		/// <param name="workspaceUrl">Адрес workspace</param>
+		 
+		 
 		/// <param name="browserName">Название браузера</param>
-		public AssignResponsiblesTest(string url, string workspaceUrl, string browserName)
-			: base (url, workspaceUrl, browserName)
+		public AssignResponsiblesTest(string browserName)
+			: base (browserName)
 		{
 		}
 
@@ -585,7 +585,7 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 			EditorClickHomeBtn();
 
 			// Разлогиниться
-            WorkspacePage.ClickAccount();
+			WorkspacePage.ClickAccount();
 			WorkspacePage.ClickLogoff();
 
 			Authorization("TestAccount", true);

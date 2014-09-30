@@ -9,9 +9,9 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
 	public class LeaderboardPageHelper : CommonHelper
 	{
 		public LeaderboardPageHelper(IWebDriver driver, WebDriverWait wait) :
-            base (driver, wait)
-        {
-        }
+			base (driver, wait)
+		{
+		}
 
 		/// <summary>
 		/// Дождаться, пока изменится общее количество лидеров

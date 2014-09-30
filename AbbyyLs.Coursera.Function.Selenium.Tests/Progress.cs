@@ -21,14 +21,14 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
 {
 	class Progress : BaseTest
 	{
-		public Progress(string url, string workspaceUrl, string browserName)
-			: base(url, workspaceUrl, browserName)
+		public Progress(string browserName)
+			: base(browserName)
 		{
 
 		}
 
 		[SetUp]
-		public void Setup()
+		public void SetupProgress()
 		{
 			Driver.Manage().Window.Maximize();
 		}
@@ -344,6 +344,8 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
 			// Проверить, что прогресс уменьшился
 			Assert.IsTrue(generalProgressAfter < generalProgressBefore, "Ошибка: прогресс лекции должен был уменьшиться");
 		}
+
+
 
 		/// <summary>
 		/// Тест: если проголосовать за перевод, у которого отрицательный рейтинг (других переводов нет), прогресс увеличивается

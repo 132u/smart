@@ -8,9 +8,9 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
 	public class ProfilePageHelper : CommonHelper
 	{
 		public ProfilePageHelper(IWebDriver driver, WebDriverWait wait) :
-            base (driver, wait)
-        {
-        }
+			base (driver, wait)
+		{
+		}
 
 		/// <summary>
 		/// Дождаться открытия страницы профиля пользователя

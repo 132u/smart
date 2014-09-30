@@ -14,6 +14,8 @@ using System.Collections.Generic;
 using System.Windows.Forms;
 using System.Drawing;
 using System.Drawing.Imaging;
+using NConfiguration;
+using NLog;
 
 using OpenQA.Selenium.Interactions;
 using System.Text.RegularExpressions;
@@ -23,60 +25,65 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 	/// <summary>
 	/// Базовый тест
 	/// </summary>
-	[TestFixture("DevUrl", "DevWorkspace", "Firefox")]
-	[TestFixture("StableUrl2", "StableWorkspace2", "Firefox")]
-	[TestFixture("StableUrl2", "StableWorkspace2", "Chrome")]
-	[TestFixture("StableUrl2", "StableWorkspace2", "IE")]
-	[TestFixture("StageUrl1", "StageWorkspace1", "Firefox")]
-	[TestFixture("StageUrl2", "StageWorkspace2", "Firefox")]
-	[TestFixture("StageUrl3", "StageWorkspace3", "Firefox")]
-	[TestFixture("StageUrl3lpro", "StageWorkspace3lpro", "Firefox")]
+	
+	[TestFixture("Firefox")]
+	
 	public class BaseTest
 	{
 		/// <summary>
 		/// Конструктор базового теста
 		/// </summary>
-		/// <param name="url">Адрес</param>
-		/// <param name="workspaceUrl">Аздрес workspace</param>
+		 
+		
 		/// <param name="browserName">Название браузера</param>
-		public BaseTest(string url, string workspaceUrl, string browserName)
+		public BaseTest(string browserName)
 		{
+
+			var cfgAgentSpecific = TestSettingDefinition.Instance.Get<TargetServerConfig>();
+			var cfgUserInfo = TestSettingDefinition.Instance.Get<UserInfoConfig>();
+			var cfgRoot = TestSettingDefinition.Instance.Get<FilesRootCfg>();
+			
+
 			_browserName = browserName;
-			_url = ConfigurationManager.AppSettings[url];
-			_workspaceUrl = ConfigurationManager.AppSettings[workspaceUrl];
+			_url = "https://" + cfgAgentSpecific.Url;
+			_workspaceUrl = cfgAgentSpecific.Workspace;
+			if (string.IsNullOrWhiteSpace(_workspaceUrl))
+				_workspaceUrl ="https://" + cfgAgentSpecific.Url + "/workspace";
+			_adminUrl = "http://" + cfgAgentSpecific.Url + ":81";
+
 
 			CreateDriver();
 
-			_login = ConfigurationManager.AppSettings["Login"];
-			_password = ConfigurationManager.AppSettings["Password"];
-			_userName = ConfigurationManager.AppSettings["UserName"];
+			_login = cfgUserInfo.Login;
+			_password = cfgUserInfo.Password;
+			_userName = cfgUserInfo.UserName;
 
-			_login2 = ConfigurationManager.AppSettings["Login2"];
-			_password2 = ConfigurationManager.AppSettings["Password2"];
-			_userName2 = ConfigurationManager.AppSettings["UserName2"];
+			_login2 = cfgUserInfo.Login2;
+			_password2 = cfgUserInfo.Password2;
+			_userName2 = cfgUserInfo.UserName2;
 
-			_deadlineDate = ConfigurationManager.AppSettings["DeadlineDate"];
-			_documentFile = Path.GetFullPath(ConfigurationManager.AppSettings["DocumentFile"]);
-			_documentFileToConfirm = Path.GetFullPath(ConfigurationManager.AppSettings["DocumentFileToConfirm"]);
-			_documentFileToConfirm2 = Path.GetFullPath(ConfigurationManager.AppSettings["DocumentFileToConfirm2"]);
-			_constTmName = ConfigurationManager.AppSettings["TMName"];
-			_glossaryName = ConfigurationManager.AppSettings["GlossaryName"];
-			_projectNameExportTestOneDoc = ConfigurationManager.AppSettings["ProjectNameExportTestOneDoc"];
-			_projectNameExportTestMultiDoc = ConfigurationManager.AppSettings["ProjectNameExportTestMultiDoc"];
+			_deadlineDate = "03/03/2016";
+			_documentFile = Path.GetFullPath(cfgRoot.Root + "/littleEarth.docx");
+			_documentFileToConfirm = Path.GetFullPath(cfgRoot.Root + "/FilesForConfirm/testToConfirm.txt");
+			_documentFileToConfirm2 = Path.GetFullPath(cfgRoot.Root + "/FilesForConfirm/testToConfirm2.txt");
+			_constTmName = "TestTM";
+			_glossaryName = "TestGlossary";
+			_projectNameExportTestOneDoc = "TestProjectTestExportOneDocumentUniqueName";
+			_projectNameExportTestMultiDoc = "TestProjectTestExportMultiDocumentsUniqueName";
 
 			CreateUniqueNamesByDatetime();
 
-			_editorTXTFile = Path.GetFullPath(ConfigurationManager.AppSettings["EditorTXTFile"]);
-			_editorTMXFile = Path.GetFullPath(ConfigurationManager.AppSettings["EditorTMXFile"]);
+			_editorTXTFile = Path.GetFullPath(cfgRoot.Root + "/FileForTestTM/textWithoutTags.txt");
+			_editorTMXFile = Path.GetFullPath(cfgRoot.Root + "/FileForTestTM/textWithoutTags.tmx");
 
-			_tmFile = Path.GetFullPath(ConfigurationManager.AppSettings["TMXFile"]);
-			_secondTmFile = Path.GetFullPath(ConfigurationManager.AppSettings["SecondTMXFile"]);
-			_importGlossaryFile = Path.GetFullPath(ConfigurationManager.AppSettings["ImportGlossaryFile"]);
-			_imageFile = Path.GetFullPath(ConfigurationManager.AppSettings["TestImageFile"]);
-			_audioFile = Path.GetFullPath(ConfigurationManager.AppSettings["TestAudioFile"]);
-			_rtfFile = Path.GetFullPath(ConfigurationManager.AppSettings["DocumentRTF"]);
+			_tmFile = Path.GetFullPath(cfgRoot.Root + "/Earth.tmx");
+			_secondTmFile = Path.GetFullPath(cfgRoot.Root + "/TextEngTestAddTMX.tmx");
+			_importGlossaryFile = Path.GetFullPath(cfgRoot.Root + "/TestGlossary.xlsx");
+			_imageFile = Path.GetFullPath(cfgRoot.Root + "/TestImage.jpg");
+			_audioFile = Path.GetFullPath(cfgRoot.Root + "/TestAudio.mp3");
+			_rtfFile = Path.GetFullPath(cfgRoot.Root + "/rtf1.rtf");
 
-			_adminUrl = ConfigurationManager.AppSettings[(url + "Admin")];
+			
 		}
 
 
@@ -1028,7 +1035,7 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 		/// </summary>
 		protected void CreateUniqueNamesByDatetime()
 		{
-			_projectName = ConfigurationManager.AppSettings["ProjectName"] + "_" + DateTime.UtcNow.Ticks.ToString();
+			_projectName = "Test Project" + "_" + DateTime.UtcNow.Ticks.ToString();
 		}
 
 		/// <summary>

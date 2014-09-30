@@ -24,7 +24,7 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 		/// <param name="driver">Драйвер</param>
 		/// <param name="wait">Таймаут</param>
 		public AddTermFormHelper(IWebDriver driver, WebDriverWait wait):
-            base (driver, wait)
+			base (driver, wait)
 		{
 
 		}
@@ -80,38 +80,38 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 		}
 
 		/// <summary>
-		/// Вернуть присуствует ли заданный текст в SourceTerm       
+		/// Вернуть присуствует ли заданный текст в SourceTerm	
 		/// </summary>
-        /// <param name="text">текст</param>
+		/// <param name="text">текст</param>
 		/// <returns>есть</returns>
 		public bool GetSourceTermText(string text)
 		{
 			return GetIsElementExist(By.XPath(SOURCE_TERM_VALUE_XPATH.Replace("#", text)));
 		}
 
-        /// <summary>
-        /// Вернуть присуствует ли заданный текст в TargetTerm        
-        /// </summary>
-        /// <param name="text">текст</param>
-        /// <returns>есть</returns>
+		/// <summary>
+		/// Вернуть присуствует ли заданный текст в TargetTerm
+		/// </summary>
+		/// <param name="text">текст</param>
+		/// <returns>есть</returns>
 		public bool GetTargetTermText(string text)
 		{
-            return GetIsElementExist(By.XPath(TARGET_TERM_VALUE_XPATH.Replace("#", text)));
+			return GetIsElementExist(By.XPath(TARGET_TERM_VALUE_XPATH.Replace("#", text)));
 		}
 
 		/// <summary>
 		/// Набрать текст в  TargetTerm		
 		/// </summary>
-        /// <param name="targetText">текст для ввода</param>
+		/// <param name="targetText">текст для ввода</param>
 		public void TypeTargetTermText(string targetText)
 		{
-            ClickClearAndAddText(By.XPath(TARGET_TERM_INPUT_XPATH), targetText);
+			ClickClearAndAddText(By.XPath(TARGET_TERM_INPUT_XPATH), targetText);
 		}
 
 		/// <summary>
 		/// Набрать текст в  SourceTerm		
 		/// </summary>
-        /// <param name="sourceText">текст для ввода</param>
+		/// <param name="sourceText">текст для ввода</param>
 		public void TypeSourceTermText(string sourceText)
 		{
 			ClickClearAndAddText(By.XPath(SOURCE_TERM_INPUT_XPATH), sourceText);
@@ -120,65 +120,65 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 		/// <summary>
 		/// Набрать комментарий		
 		/// </summary>
-        /// <param name="commentText">текст комментария</param>
+		/// <param name="commentText">текст комментария</param>
 		public void TypeCommentText(string commentText)
 		{
-			SendTextElement(By.XPath(COMMENT_INPUT_XPATH), commentText);            
+			SendTextElement(By.XPath(COMMENT_INPUT_XPATH), commentText);
 		}
 
-        /// <summary>
-        /// Раскрыть выпадающий список        
-        /// </summary>
-        public void OpenGlossaryList()
-        {
-            ClickElement(By.XPath(TERM_BASE_COMBOBOX_TRIGGER_XPATH));
-        }
+		/// <summary>
+		/// Раскрыть выпадающий список		
+		/// </summary>
+		public void OpenGlossaryList()
+		{
+			ClickElement(By.XPath(TERM_BASE_COMBOBOX_TRIGGER_XPATH));
+		}
 
 		/// <summary>
 		/// Получить, есть ли словарь с заданным именем		
 		/// </summary>
-        /// <param name="glossaryName">имя словаря</param>
+		/// <param name="glossaryName">имя словаря</param>
 		/// <returns>есть словарь</returns>
 		public bool CheckGlossaryByName(string glossaryName)
 		{			
-            return WaitUntilDisplayElement(By.XPath(TERM_BASE_BOUNDLIST_XPATH.Replace("#", glossaryName)));		
+			return WaitUntilDisplayElement(By.XPath(TERM_BASE_BOUNDLIST_XPATH.Replace("#", glossaryName)));		
 		}
 
 		/// <summary>
-		/// Выбрать словарь из выпадающего списка 		
+		/// Выбрать словарь из выпадающего списка
 		/// </summary>
-        /// <param name="glossaryName">имя словаря</param>
+		/// <param name="glossaryName">имя словаря</param>
 		public void SelectGlossaryByName(string glossaryName)
 		{
 			ClickElement(By.XPath(TERM_BASE_BOUNDLIST_XPATH.Replace("#", glossaryName)));
 		}
 
-        /// <summary>
-        /// Получить, появилось ли сообщение о добавлении одиночного термина      
-        /// </summary>
-        /// <returns>есть</returns>
-        public bool WaitConfirmSingleTermMessage()
-        {
-            return WaitUntilDisplayElement(By.XPath(CONFIRM_SINGLE_TERM_MESSAGE_XPATH), 5);
-        }
+		/// <summary>
+		/// Получить, появилось ли сообщение о добавлении одиночного термина	
+		/// </summary>
+		/// <returns>есть</returns>
+		public bool WaitConfirmSingleTermMessage()
+		{
+			return WaitUntilDisplayElement(By.XPath(CONFIRM_SINGLE_TERM_MESSAGE_XPATH), 5);
+		}
 
-        /// <summary>
-        /// Получить, появилось ли сообщение о сохранении термина     
-        /// </summary>
-        /// <returns>есть</returns>
-        public bool WaitTermSavedMessage()
-        {
-            return WaitUntilDisplayElement(By.XPath(TERM_SAVED_MESSAGE_XPATH), 15);
-        }
+		/// <summary>
+		/// Получить, появилось ли сообщение о сохранении термина	 
+		/// </summary>
+		/// <returns>есть</returns>
+		public bool WaitTermSavedMessage()
+		{
+			return WaitUntilDisplayElement(By.XPath(TERM_SAVED_MESSAGE_XPATH), 15);
+		}
 
-        /// <summary>
-        /// Получить, появилось ли сообщение о повторном добавлении термина    
-        /// </summary>
-        /// <returns>есть</returns>
-        public bool WaitContainsTermMessage()
-        {
-            return WaitUntilDisplayElement(By.XPath(CONTAINS_TERM_MESSAGE_XPATH), 5);
-        }
+		/// <summary>
+		/// Получить, появилось ли сообщение о повторном добавлении термина	
+		/// </summary>
+		/// <returns>есть</returns>
+		public bool WaitContainsTermMessage()
+		{
+			return WaitUntilDisplayElement(By.XPath(CONTAINS_TERM_MESSAGE_XPATH), 5);
+		}
 
 
 
@@ -190,9 +190,9 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 		protected const string CONTAINS_TERM_YES_BTN_XPATH = CONTAINS_TERM_MESSAGE_XPATH + "//span[contains(string(), 'Yes')]";
 
 		protected const string SOURCE_TERM_VALUE_XPATH = "//div[contains(@id, 'term-window')]//input[contains(@name, 'sourceTerm') and contains(@value, '#')]";
-        protected const string TARGET_TERM_VALUE_XPATH = "//div[contains(@id, 'term-window')]//input[contains(@name, 'targetTerm') and contains(@value, '#')]";
-        protected const string SOURCE_TERM_INPUT_XPATH = "//div[contains(@id, 'term-window')]//input[contains(@name, 'sourceTerm')]";
-        protected const string TARGET_TERM_INPUT_XPATH = "//div[contains(@id, 'term-window')]//input[contains(@name, 'targetTerm')]";
+		protected const string TARGET_TERM_VALUE_XPATH = "//div[contains(@id, 'term-window')]//input[contains(@name, 'targetTerm') and contains(@value, '#')]";
+		protected const string SOURCE_TERM_INPUT_XPATH = "//div[contains(@id, 'term-window')]//input[contains(@name, 'sourceTerm')]";
+		protected const string TARGET_TERM_INPUT_XPATH = "//div[contains(@id, 'term-window')]//input[contains(@name, 'targetTerm')]";
 		protected const string COMMENT_INPUT_XPATH = "//div[contains(@id, 'term-window')]//textarea[contains(@name, 'comment')]";
 
 		protected const string TERM_BASE_COMBOBOX_TRIGGER_XPATH = "//div[contains(@id, 'term-window')]//div[contains(@id, 'trigger-picker')]";

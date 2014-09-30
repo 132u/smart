@@ -107,7 +107,7 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 		/// <summary>
 		/// Очистить таргет
 		/// </summary>
-		/// <param name="rowNum">номер строки</param>       
+		/// <param name="rowNum">номер строки</param>	   
 		public void ClearTarget(int rowNum)
 		{
 			ClearElement(By.CssSelector((GetTargetCellCss(rowNum))));

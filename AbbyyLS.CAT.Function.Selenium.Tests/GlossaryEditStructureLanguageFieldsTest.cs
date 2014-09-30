@@ -7,128 +7,128 @@ using System.Windows.Forms;
 
 namespace AbbyyLs.CAT.Function.Selenium.Tests
 {
-    /// <summary>
-    /// Группа тестов дял проверки редактирования структуры глоссария (язык)
-    /// </summary>
+	/// <summary>
+	/// Группа тестов дял проверки редактирования структуры глоссария (язык)
+	/// </summary>
 	public class GlossaryEditStructureLanguageFieldsTest : GlossaryTest
-    {
-        /// <summary>
-        /// Конструктор теста
-        /// </summary>
-        /// <param name="url">Адрес</param>
-        /// <param name="workspaceUrl">Адрес workspace</param>
-        /// <param name="browserName">Название браузера</param>
-		public GlossaryEditStructureLanguageFieldsTest(string url, string workspaceUrl, string browserName)
-            : base(url, workspaceUrl, browserName)
-        {
+	{
+		/// <summary>
+		/// Конструктор теста
+		/// </summary>
+		 
+		 
+		/// <param name="browserName">Название браузера</param>
+		public GlossaryEditStructureLanguageFieldsTest(string browserName)
+			: base(browserName)
+		{
 
-        }
+		}
 
 		/// <summary>
 		/// Начальная подготовка для каждого теста
 		/// </summary>
-        [SetUp]
-        public void Setup()
-        {
-        }
+		[SetUp]
+		public void Setup()
+		{
+		}
 
-        /// <summary>
-        /// Метод тестирования изменения структуры на уровне Languages - поле Comment
-        /// </summary>
-        [Test]
-        public void AddCommentFieldTest()
-        {
-            string fieldName = GlossaryEditStructureForm.attributeDict[GlossaryEditStructureFormHelper.ATTRIBUTE_TYPE.Comment];
-            CheckLanguageLevelField(fieldName);
-        }
+		/// <summary>
+		/// Метод тестирования изменения структуры на уровне Languages - поле Comment
+		/// </summary>
+		[Test]
+		public void AddCommentFieldTest()
+		{
+			string fieldName = GlossaryEditStructureForm.attributeDict[GlossaryEditStructureFormHelper.ATTRIBUTE_TYPE.Comment];
+			CheckLanguageLevelField(fieldName);
+		}
 
-        /// <summary>
-        /// Метод тестирования изменения структуры на уровне Languages - поле Interpretation
-        /// </summary>
-        [Test]
-        public void AddInterpretationFieldTest()
-        {
-            string fieldName = GlossaryEditStructureForm.attributeDict[GlossaryEditStructureFormHelper.ATTRIBUTE_TYPE.Interpretation];
-            CheckLanguageLevelField(fieldName);
-        }
+		/// <summary>
+		/// Метод тестирования изменения структуры на уровне Languages - поле Interpretation
+		/// </summary>
+		[Test]
+		public void AddInterpretationFieldTest()
+		{
+			string fieldName = GlossaryEditStructureForm.attributeDict[GlossaryEditStructureFormHelper.ATTRIBUTE_TYPE.Interpretation];
+			CheckLanguageLevelField(fieldName);
+		}
 
-        /// <summary>
-        /// Метод тестирования изменения структуры на уровне Languages - поле InterpretationSource
-        /// </summary>
-        [Test]
-        public void AddInterpretationSourceFieldTest()
-        {
-            string fieldName = GlossaryEditStructureForm.attributeDict[GlossaryEditStructureFormHelper.ATTRIBUTE_TYPE.InterpretationSource];
-            CheckLanguageLevelField(fieldName);
-        }
+		/// <summary>
+		/// Метод тестирования изменения структуры на уровне Languages - поле InterpretationSource
+		/// </summary>
+		[Test]
+		public void AddInterpretationSourceFieldTest()
+		{
+			string fieldName = GlossaryEditStructureForm.attributeDict[GlossaryEditStructureFormHelper.ATTRIBUTE_TYPE.InterpretationSource];
+			CheckLanguageLevelField(fieldName);
+		}
 
 
 
-        /// <summary>
-        /// Проверить поля уровня Language
-        /// </summary>
-        /// <param name="fieldName">назваие поля</param>
-        protected void CheckLanguageLevelField(string fieldName)
-        {
-            // Имя глоссария для тестирования структуры уровня Language, чтобы не создавать лишний раз
-            string glossaryName = "TestGlossaryEditStructureLanguageLevelUniqueName";
-            if (!GetIsExistGlossary(glossaryName))
-            {
-                // Создать глоссарий
-                CreateGlossaryByName(glossaryName);
-            }
-            else
-            {
-                // Открыть глоссарий
-                SwitchCurrentGlossary(glossaryName);
-            }
+		/// <summary>
+		/// Проверить поля уровня Language
+		/// </summary>
+		/// <param name="fieldName">назваие поля</param>
+		protected void CheckLanguageLevelField(string fieldName)
+		{
+			// Имя глоссария для тестирования структуры уровня Language, чтобы не создавать лишний раз
+			string glossaryName = "TestGlossaryEditStructureLanguageLevelUniqueName";
+			if (!GetIsExistGlossaryF(glossaryName))
+			{
+				// Создать глоссарий
+				CreateGlossaryByName(glossaryName);
+			}
+			else
+			{
+				// Открыть глоссарий
+				SwitchCurrentGlossaryF(glossaryName);
+			}
 
-            // Добавить все поля в структуру
-            AddAllSystemLanguageFieldStructure();
+			// Добавить все поля в структуру
+			AddAllSystemLanguageFieldStructure();
 
-            // Нажать New item
-            GlossaryPage.ClickNewItemBtn();
-            // Заполнить термин
-            FillNewItemExtended();
+			// Нажать New item
+			GlossaryPage.ClickNewItemBtn();
+			// Заполнить термин
+			FillNewItemExtended();
 
-            // Нажать на язык, чтобы появились поля для Language
-            GlossaryPage.OpenLanguageAttributes();
-            // Проверить, что поле есть            
-            Assert.IsTrue(GlossaryPage.GetIsExistDetailsTextarea(fieldName), "Ошибка: поле не появилось!");
-            // Ввести текст в поле
-            string fieldExample = fieldName + " Example";
-            GlossaryPage.FillDetailTextarea(fieldName, fieldExample);
+			// Нажать на язык, чтобы появились поля для Language
+			GlossaryPage.OpenLanguageAttributes();
+			// Проверить, что поле есть			
+			Assert.IsTrue(GlossaryPage.GetIsExistDetailsTextarea(fieldName), "Ошибка: поле не появилось!");
+			// Ввести текст в поле
+			string fieldExample = fieldName + " Example";
+			GlossaryPage.FillDetailTextarea(fieldName, fieldExample);
 
-            // Сохранить термин
-            GlossaryPage.ClickSaveExtendedConcept();
-            // Дождаться появления поля с сохраненным термином
-            Assert.IsTrue(GlossaryPage.WaitConceptSave(), "Ошибка: термин не сохранился");
-            // Нажать на язык, чтобы появились поля для Language
-            GlossaryPage.OpenLanguageAttributes();
-            string fieldText = GlossaryPage.GetDetailTextareaValue(fieldName);
+			// Сохранить термин
+			GlossaryPage.ClickSaveExtendedConcept();
+			// Дождаться появления поля с сохраненным термином
+			Assert.IsTrue(GlossaryPage.WaitConceptSave(), "Ошибка: термин не сохранился");
+			// Нажать на язык, чтобы появились поля для Language
+			GlossaryPage.OpenLanguageAttributes();
+			string fieldText = GlossaryPage.GetDetailTextareaValue(fieldName);
 
-            Assert.AreEqual(fieldExample, fieldText, "Ошибка: текст не сохранился\n");
-        }
+			Assert.AreEqual(fieldExample, fieldText, "Ошибка: текст не сохранился\n");
+		}
 
-        /// <summary>
-        /// Изменить структуру: добавить все поля уровня Language
-        /// </summary>
-        protected void AddAllSystemLanguageFieldStructure()
-        {
-            // Открыть редактирование структуры
-            OpenEditGlossaryStructure();
+		/// <summary>
+		/// Изменить структуру: добавить все поля уровня Language
+		/// </summary>
+		protected void AddAllSystemLanguageFieldStructure()
+		{
+			// Открыть редактирование структуры
+			OpenEditGlossaryStructure();
 
-            // Выбрать уровень "Language"
-            GlossaryEditStructureForm.ClickLevelDropdown();
-            GlossaryEditStructureForm.SelectLanguageLevel();
+			// Выбрать уровень "Language"
+			GlossaryEditStructureForm.ClickLevelDropdown();
+			GlossaryEditStructureForm.SelectLanguageLevel();
 
-            // Добавить все поля
-            GlossaryEditStructureForm.SelectAllFields();
+			// Добавить все поля
+			GlossaryEditStructureForm.SelectAllFields();
 
-            // Сохранить
-            GlossaryEditStructureForm.ClickSaveStructureBtn();
-            // Дождаться закрытия формы
-            GlossaryEditStructureForm.WaitFormClose();
-        }
-    }
+			// Сохранить
+			GlossaryEditStructureForm.ClickSaveStructureBtn();
+			// Дождаться закрытия формы
+			GlossaryEditStructureForm.WaitFormClose();
+		}
+	}
 }

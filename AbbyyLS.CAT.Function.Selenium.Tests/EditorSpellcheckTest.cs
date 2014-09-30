@@ -26,21 +26,21 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 		/// <summary>
 		/// Конструктор теста
 		/// </summary>
-		/// <param name="url">Адрес</param>
-		/// <param name="workspaceUrl">Адрес workspace</param>
+		 
+		 
 		/// <param name="browserName">Название браузера</param>
-		public EditorSpellcheckTest(string url, string workspaceUrl, string browserName)
-            : base(url, workspaceUrl, browserName)
-        {
+		public EditorSpellcheckTest(string browserName)
+			: base(browserName)
+		{
 
-        }
+		}
 
 		/// <summary>
 		/// Начальная подготовка для каждого теста
 		/// </summary>
-        [SetUp]
-        public void Setup()
-        {
+		[SetUp]
+		public void Setup()
+		{
 			// Не закрывать браузер
 			quitDriverAfterTest = false;
 
@@ -48,20 +48,20 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 			GoToWorkspace();
 
 			// 2. Создание проекта с 1 документом внутри
-            CreateProject(ProjectName, "", true);
+			CreateProject(ProjectName, "", true);
 
-            // 3. Открытие настроек проекта
+			// 3. Открытие настроек проекта
 			ImportDocumentProjectSettings(DocumentFile, ProjectName);
 
-            // 4. Назначение задачи на пользователя
-            AssignTask();
+			// 4. Назначение задачи на пользователя
+			AssignTask();
 
-            // 5. Открытие документа
-            OpenDocument();
+			// 5. Открытие документа
+			OpenDocument();
 
 			// Подготавливаем словарь к работе
 			DeleteAllWords();
-        }
+		}
 
 		/// <summary>
 		/// Тест: проверка добавления слова в словарь

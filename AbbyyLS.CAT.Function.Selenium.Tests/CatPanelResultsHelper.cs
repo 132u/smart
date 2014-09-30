@@ -16,9 +16,9 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 		/// <param name="driver">Драйвер</param>
 		/// <param name="wait">Таймаут</param>
 		public CatPanelResultsHelper(IWebDriver driver, WebDriverWait wait) :
-            base (driver, wait)
-        {
-        }
+			base (driver, wait)
+		{
+		}
 		
 		/// <summary>
 		/// Возвращает процент совпадений в CAT

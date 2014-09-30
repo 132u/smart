@@ -16,9 +16,9 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 		/// <param name="driver">Драйвер</param>
 		/// <param name="wait">Таймаут</param>
 		public ResponsiblesDialogHelper(IWebDriver driver, WebDriverWait wait) :
-            base (driver, wait)
-        {
-        }
+			base (driver, wait)
+		{
+		}
 
 		/// <summary>
 		/// Ожидание загрузки диалога выбора исполнителя
