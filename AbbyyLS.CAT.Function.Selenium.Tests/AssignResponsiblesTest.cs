@@ -585,6 +585,7 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 			EditorClickHomeBtn();
 
 			// Разлогиниться
+            WorkspacePage.ClickAccount();
 			WorkspacePage.ClickLogoff();
 
 			Authorization("TestAccount", true);

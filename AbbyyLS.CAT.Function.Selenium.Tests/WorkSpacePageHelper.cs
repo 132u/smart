@@ -548,6 +548,14 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 			return GetTextElement(By.XPath(USER_NAME_XPATH));
 		}
 
+        /// <summary>
+        /// Нажать на имя пользователя и аккаунт, чтобы появилась черная плашка Настройки профиля
+        /// </summary>
+        public void ClickAccount()
+        {
+            ClickElement(By.XPath(ACCOUNT_XPATH));
+        }
+
 		/// <summary>
 		/// Разлогинится
 		/// </summary>
