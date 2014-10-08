@@ -73,6 +73,16 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
         }
 
         /// <summary>
+        /// Выбрать Source русский
+        /// </summary>
+        public void SelectRuSourceLanguage()
+        {
+            ClickElement(By.Id(SOURCE_LANGUAGE_LIST_ID));
+            ClickElement(By.XPath(SOURCE_LANGUAGE_LIST_XPATH + LANGUAGE_RU_OPTION));
+            SendKeys.SendWait(@"{Enter}");
+        }
+
+        /// <summary>
         /// Выбрать Target английский
         /// </summary>
         public void SelectEnTargetLanguage()

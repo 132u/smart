@@ -89,6 +89,9 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
         {
             AddAccountWithDictionaries();
 
+            // Поменять языки на странице поиска, если надо
+            ChangeLanguages();
+
             // Найти перевод слова
             InitSearch("tester");
 
@@ -460,6 +463,18 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 
             // Перейти на вкладку Search
             SwitchSearchTab();
+        }
+
+        /// <summary>
+        /// Поменять языки на вкладке поиска (сорс - русский, таргет - английский)
+        /// </summary>
+        protected void ChangeLanguages()
+        {
+            if (!SearchPage.GetIsSourceRussian())
+            {
+                SearchPage.SelectRuSourceLanguage();
+                SearchPage.SelectEnTargetLanguage();
+            }
         }
     }
 }
