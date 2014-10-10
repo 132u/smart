@@ -27,11 +27,6 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
 
 		}
 
-		[SetUp]
-		public void SetupTranslation()
-		{
-		}
-
 		/// <summary>
 		/// Тест: добавление перевода в сегмент, где нет перевода пользователя
 		/// Проверка, что количество переведенных предложений в профиле увеличилось

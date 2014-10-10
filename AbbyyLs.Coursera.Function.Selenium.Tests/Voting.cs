@@ -27,11 +27,6 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
 
 		}
 
-		[SetUp]
-		public void SetupVoting()
-		{
-		}
-
 		/// <summary>
 		/// Тест: Проверка, что при добавлении перевода За него автоматически ставится голос.
 		/// - проверка, что кнопка "Голосовать За" заблокирована

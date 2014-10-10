@@ -270,17 +270,11 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
 			var cfgConst = TestSettingDefinition.Instance.Get<TestUserConfig>();
 		
 			var cfgRoot = TestSettingDefinition.Instance.Get<FilesRootCfg>(); 
-
-
-
+			
 			_browserName = browserName;
 			_url = cfgAgentSpecific.Url;
 			
-
-			
 			CreateDriver();
-
-
 
 			_testUserList = new List<UserInfo>();
 

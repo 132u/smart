@@ -28,7 +28,7 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
 		}
 
 		[SetUp]
-		public void SetupProfile()
+		public void RecoverPassword()
 		{
 			// Проверка входа в пользователя - есть ли ошибка неправильного пароля
 			if (IsExistIncorrectPasswordError())

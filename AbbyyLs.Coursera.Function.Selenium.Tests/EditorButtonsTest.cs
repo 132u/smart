@@ -30,7 +30,7 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
 		private int editorRowNumber;
 
 		[SetUp]
-		public void EditorButtons()
+		public void CursorToEmptyTranslationRow()
 		{
 			// Перейти к списку доступных курсов
 			Assert.IsTrue(OpenCoursePage(), "Ошибка: список курсов пустой.");

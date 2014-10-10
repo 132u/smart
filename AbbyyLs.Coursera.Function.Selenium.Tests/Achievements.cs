@@ -26,11 +26,6 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
 		{
 		}
 
-		[SetUp]
-		public void SetupAchievments()
-		{
-		}
-
 		// Тесты должны проходить только в определенном порядке, поэтому названия с привязкой к алфавиту
 
 		/// <summary>

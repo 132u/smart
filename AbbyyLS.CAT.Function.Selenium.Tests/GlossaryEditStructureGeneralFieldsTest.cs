@@ -229,7 +229,7 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 		{
 			// Имя глоссария для тестирования структуры, чтобы не создавать лишний раз
 			string glossaryName = "TestGlossaryEditStructureUniqueName";
-			if (!GetIsExistGlossaryF(glossaryName))
+			if (!GetIsExistGlossary(glossaryName))
 			{
 				// Создать глоссарий
 				CreateGlossaryByName(glossaryName);
@@ -237,7 +237,7 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 			else
 			{
 				// Открыть глоссарий
-				SwitchCurrentGlossaryF(glossaryName);
+				SwitchCurrentGlossary(glossaryName);
 			}
 
 			// Добавить все поля в структуру

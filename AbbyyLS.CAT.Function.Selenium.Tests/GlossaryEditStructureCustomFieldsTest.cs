@@ -605,7 +605,7 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 		protected string CreateGlossaryAddCustom(GlossaryEditStructureFormHelper.FIELD_TYPE fieldType, bool isRequired = false)
 		{
 			// Создать глоссарий
-			string glossaryName = GetUniqueGlossaryNameF();
+			string glossaryName = GetUniqueGlossaryName();
 			CreateGlossaryByName(glossaryName);
 
 			// Открыть редактирование структуры

@@ -38,42 +38,7 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 			// Переходим к странице глоссариев
 			GoToGlossaries();
 		}
-
-
-
-		/// <summary>
-		/// Зайти в глоссарий
-		/// </summary>
-		/// <param name="glossaryName"></param>
-		protected void SwitchCurrentGlossaryF(string glossaryName)
-		{
-			// Перейти на страницу глоссария
-			GlossaryListPage.ClickGlossaryRow(glossaryName);
-			Assert.IsTrue(GlossaryPage.WaitPageLoad(), 
-				"Ошибка: не зашли в глоссарий");
-		}
-
-		/// <summary>
-		/// Вернуть, есть ли глоссарий с таким именем
-		/// </summary>
-		/// <param name="glossaryName">навзание</param>
-		/// <returns>есть</returns>
-		protected bool GetIsExistGlossaryF(string glossaryName)
-		{
-			// Получить: существует ли глоссарий с таким именем
-			return GlossaryListPage.GetIsExistGlossary(glossaryName);
-		}
-
-		/// <summary>
-		/// Создать уникальное имя
-		/// </summary>
-		/// <returns>имя</returns>
-		protected string GetUniqueGlossaryNameF()
-		{
-			// Получить уникальное имя глоссария (т.к. добавляется точная дата и время, то не надо проверять, есть ли такой глоссарий в списке)
-			return GlossaryName + DateTime.Now.ToString();
-		}
-
+		
 		/// <summary>
 		/// Создать глоссарий и вернуться к списку глоссариев
 		/// </summary>
@@ -81,21 +46,12 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 		protected string CreateGlossaryAndReturnToGlossaryList()
 		{
 			// Получить уникальное имя для глоссария
-			string glossaryName = GetUniqueGlossaryNameF();
+			string glossaryName = GetUniqueGlossaryName();
 			// Создать глоссарий
 			CreateGlossaryByName(glossaryName);
 			// Перейти к списку глоссариев
 			SwitchGlossaryTab();
 			return glossaryName;
-		}
-
-		/// <summary>
-		/// Получить количество терминов
-		/// </summary>
-		/// <returns></returns>
-		protected int GetCountOfItemsGP()
-		{
-			return GlossaryPage.GetConceptCount();
 		}
 
 		/// <summary>

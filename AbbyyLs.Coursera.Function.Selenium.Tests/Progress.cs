@@ -27,12 +27,6 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
 
 		}
 
-		[SetUp]
-		public void SetupProgress()
-		{
-			Driver.Manage().Window.Maximize();
-		}
-
 		/// <summary>
 		/// Тест: Добавление перевода в сегмент, где нет никаких переводов
 		/// Проверка: личный прогресс увеличивается 

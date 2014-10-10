@@ -46,7 +46,7 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 			string glossaryName = CreateGlossaryAndReturnToGlossaryList();
 
 			// Проверить, что глоссарий сохранился
-			Assert.IsTrue(GetIsExistGlossaryF(glossaryName), "Ошибка: глоссарий не создался");
+			Assert.IsTrue(GetIsExistGlossary(glossaryName), "Ошибка: глоссарий не создался");
 		}
 
 		/// <summary>
@@ -75,7 +75,7 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 		public void CreateGlossaryWithExistingNameTest()
 		{
 			// Создать  глоссарий
-			string glossaryName = GetUniqueGlossaryNameF();
+			string glossaryName = GetUniqueGlossaryName();
 			CreateGlossaryByName(glossaryName);
 			// Перейти в список глоссариев
 			SwitchGlossaryTab();
@@ -156,7 +156,7 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 			string dateModifiedBefore = GlossaryListPage.GetGlossaryDateModified(glossaryName);
 
 			// Перейти в глоссарий
-			SwitchCurrentGlossaryF(glossaryName);
+			SwitchCurrentGlossary(glossaryName);
 			// Поставить задержку минуту, чтобы дата изменения изменилась (точность даты и времени до минуты)
 			Thread.Sleep(60000);
 			// Создать термин (изменение глоссария)
@@ -196,7 +196,7 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 		public void DeleteGlossaryTest()
 		{
 			// Создать  глоссарий
-			string glossaryName = GetUniqueGlossaryNameF();
+			string glossaryName = GetUniqueGlossaryName();
 			CreateGlossaryByName(glossaryName);
 
 			// Открыть редактирование свойств глоссария
@@ -212,7 +212,7 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 			GlossaryEditForm.ClickConfirmDeleteGlossary();
 
 			// Проверить, что глоссария нет
-			Assert.IsTrue(!GetIsExistGlossaryF(glossaryName), "Ошибка: глоссарий не удалился");
+			Assert.IsTrue(!GetIsExistGlossary(glossaryName), "Ошибка: глоссарий не удалился");
 		}
 
 		/// <summary>
@@ -222,7 +222,7 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 		public void DeleteLanguageExistTermTest()
 		{
 			// Создать глоссарий
-			string glossaryName = GetUniqueGlossaryNameF();
+			string glossaryName = GetUniqueGlossaryName();
 			CreateGlossaryByName(glossaryName);
 			// Создать термин
 			CreateItemAndSave();
@@ -253,7 +253,7 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 		public void EditGlossaryStructureTest()
 		{
 			// Создать глоссарий
-			string glossaryName = GetUniqueGlossaryNameF();
+			string glossaryName = GetUniqueGlossaryName();
 			CreateGlossaryByName(glossaryName);
 
 			// Добавить элемент в структуре глоссария
@@ -274,7 +274,7 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 		public void ImportGlossaryAddConceptsTest()
 		{
 			// Создать глоссарий
-			string glossaryName = GetUniqueGlossaryNameF();
+			string glossaryName = GetUniqueGlossaryName();
 			CreateGlossaryByName(glossaryName);
 			// Открыть Импорт, указать документ для импорта
 			FillImportGlossaryForm();
@@ -287,7 +287,7 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 			// TODO убрать sleep
 			Thread.Sleep(1000);
 			// Проверить, что количество терминов больше нуля
-			Assert.IsTrue(GetCountOfItemsGP() > 0, "Ошибка: количество терминов должно быть больше нуля");
+			Assert.IsTrue(GetCountOfItems() > 0, "Ошибка: количество терминов должно быть больше нуля");
 		}
 
 		/// <summary>
@@ -297,12 +297,12 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 		public void ImportGlossaryReplaceAllConceptsTest()
 		{
 			// Создать глоссарий
-			string glossaryName = GetUniqueGlossaryNameF();
+			string glossaryName = GetUniqueGlossaryName();
 			CreateGlossaryByName(glossaryName);
 			// Создать термины
 			CreateItemAndSave();
 			CreateItemAndSave();
-			Assert.IsTrue(GetCountOfItemsGP() == 2, "Ошибка: должно сохраниться 2 термина");
+			Assert.IsTrue(GetCountOfItems() == 2, "Ошибка: должно сохраниться 2 термина");
 
 			// Открыть Импорт, указать документ для импорта
 			FillImportGlossaryForm();
@@ -317,7 +317,7 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 			// TODO убрать sleep
 			Thread.Sleep(1000);
 			// Проверить, что количество терминов изменилось (количество терминов должно быть равно 1 для этого импортируемого файла)
-			Assert.IsTrue(GetCountOfItemsGP() == 1, "Ошибка: количество терминов должно быть равно 1");
+			Assert.IsTrue(GetCountOfItems() == 1, "Ошибка: количество терминов должно быть равно 1");
 		}
 
 		/// <summary>
@@ -327,7 +327,7 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 		public void ExportGlossaryTest()
 		{
 			// Создать глоссарий
-			string glossaryName = GetUniqueGlossaryNameF();
+			string glossaryName = GetUniqueGlossaryName();
 			CreateGlossaryByName(glossaryName);
 			// Создать термины
 			CreateItemAndSave();
@@ -356,10 +356,10 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 		public void ChangeGlossaryNameTest()
 		{
 			// Создать глоссарий
-			string glossaryName = GetUniqueGlossaryNameF();
+			string glossaryName = GetUniqueGlossaryName();
 			CreateGlossaryByName(glossaryName);
 			// Получить уникальное имя для глоссария
-			string uniqueGlossaryName = GetUniqueGlossaryNameF();
+			string uniqueGlossaryName = GetUniqueGlossaryName();
 
 			// Открыть редактирование свойств глоссария
 			OpenGlossaryProperties();
@@ -369,9 +369,9 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 			SwitchGlossaryTab();
 
 			// Проверить, что нет глоссария со старым именем
-			Assert.IsTrue(!GetIsExistGlossaryF(glossaryName), "Ошибка: старое имя глоссария не удалилось");
+			Assert.IsTrue(!GetIsExistGlossary(glossaryName), "Ошибка: старое имя глоссария не удалилось");
 			// Проверить, что появился глоссарий с новым именем
-			Assert.IsTrue(GetIsExistGlossaryF(uniqueGlossaryName), "Ошибка: новое имя глоссария не появилось");
+			Assert.IsTrue(GetIsExistGlossary(uniqueGlossaryName), "Ошибка: новое имя глоссария не появилось");
 		}
 
 		/// <summary>
@@ -381,12 +381,12 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 		public void ChangeGlossaryExistingNameTest()
 		{
 			// Создать глоссарий
-			string glossaryName = GetUniqueGlossaryNameF();
+			string glossaryName = GetUniqueGlossaryName();
 			CreateGlossaryByName(glossaryName);
 			// Перейти к списку глоссариев
 			SwitchGlossaryTab();
 			// Создать другой глоссарий
-			string secondGlossaryName = GetUniqueGlossaryNameF();
+			string secondGlossaryName = GetUniqueGlossaryName();
 			CreateGlossaryByName(secondGlossaryName);
 
 			// Открыть редактирование свойств глоссария
@@ -406,7 +406,7 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 		public void ChangeGlossaryEmptyNameTest()
 		{
 			// Создать глоссарий
-			string glossaryName = GetUniqueGlossaryNameF();
+			string glossaryName = GetUniqueGlossaryName();
 			CreateGlossaryByName(glossaryName);
 
 			// Открыть редактирование свойств глоссария
@@ -430,7 +430,7 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 		public void ChangeGlossarySpaceNameTest()
 		{
 			// Создать глоссарий
-			string glossaryName = GetUniqueGlossaryNameF();
+			string glossaryName = GetUniqueGlossaryName();
 			CreateGlossaryByName(glossaryName);
 
 			// Открыть редактирование свойств глоссария
@@ -454,7 +454,7 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 		public void OpenStructureFromPropertiesTest()
 		{
 			// Создать глоссарий
-			string glossaryName = GetUniqueGlossaryNameF();
+			string glossaryName = GetUniqueGlossaryName();
 			CreateGlossaryByName(glossaryName);
 
 			// Открыть редактирование свойств глоссария
@@ -491,10 +491,10 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 			// TODO убрать sleep
 			Thread.Sleep(3000);
 			// Проверить, что глоссарий добавился в список
-			Assert.IsTrue(GetIsExistGlossaryF(glossaryName), "Ошибка: глоссарий не добавился" + glossaryName);
+			Assert.IsTrue(GetIsExistGlossary(glossaryName), "Ошибка: глоссарий не добавился" + glossaryName);
 
 			// Зайти в глоссарий
-			SwitchCurrentGlossaryF(glossaryName);
+			SwitchCurrentGlossary(glossaryName);
 			// Удалить глоссарий
 			DeleteGlossary();
 		}

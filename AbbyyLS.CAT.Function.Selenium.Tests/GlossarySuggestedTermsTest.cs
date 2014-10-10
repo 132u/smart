@@ -62,7 +62,7 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 		public void SuggestWithGlossaryFromGlossaryListTest()
 		{
 			// Создать глоссарий
-			string glossaryName = GetUniqueGlossaryNameF();
+			string glossaryName = GetUniqueGlossaryName();
 			CreateGlossaryByName(glossaryName);
 
 			// Перейти к списку глоссариев
@@ -83,7 +83,7 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 		public void SuggestWithGlossaryFromGlossaryTest()
 		{
 			// Создать глоссарий
-			string glossaryName = GetUniqueGlossaryNameF();
+			string glossaryName = GetUniqueGlossaryName();
 			CreateGlossaryByName(glossaryName);
 			// Предложить термин
 			CreateSuggestTerm();
@@ -105,7 +105,7 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 			// Создать один глоссарий
 			string firstGlossaryName = CreateGlossaryAndReturnToGlossaryList();
 			// Создать другой глоссарий
-			string secondGlossaryName = GetUniqueGlossaryNameF();
+			string secondGlossaryName = GetUniqueGlossaryName();
 			CreateGlossaryByName(secondGlossaryName);
 
 			// Предложить термин для первого глоссария на странице второго глоссария
@@ -133,7 +133,7 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 			// Перейти к списку глоссариев
 			SwitchGlossaryTab();
 			// Создать  глоссарий
-			CreateGlossaryByName(GetUniqueGlossaryNameF());
+			CreateGlossaryByName(GetUniqueGlossaryName());
 
 			// Предложить термин с отсутствием глоссария
 			SuggestTermSetGlossary("");
@@ -155,7 +155,7 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 		public void SuggestExistingTermWarningFromGlossaryTest()
 		{
 			// Создать  глоссарий
-			string glossaryName = GetUniqueGlossaryNameF();
+			string glossaryName = GetUniqueGlossaryName();
 			CreateGlossaryByName(glossaryName);
 
 			string uniquePrefix = DateTime.Now.ToString();
@@ -184,7 +184,7 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 		public void SuggestExistingTermAcceptFromGlossaryTest()
 		{
 			// Создать  глоссарий
-			string glossaryName = GetUniqueGlossaryNameF();
+			string glossaryName = GetUniqueGlossaryName();
 			CreateGlossaryByName(glossaryName);
 
 			string uniquePrefix = DateTime.Now.ToString();
@@ -212,7 +212,7 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 		public void SuggestExistingTermWarningFromGlossaryListTest()
 		{
 			// Создать  глоссарий
-			string glossaryName = GetUniqueGlossaryNameF();
+			string glossaryName = GetUniqueGlossaryName();
 			CreateGlossaryByName(glossaryName);
 
 			string uniquePrefix = DateTime.Now.ToString();
@@ -234,7 +234,7 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 			SuggestTermDialog.ClickCancel();
 			Thread.Sleep(2000);
 			// Перейти в глоссарий
-			SwitchCurrentGlossaryF(glossaryName);
+			SwitchCurrentGlossary(glossaryName);
 			Thread.Sleep(2000);
 			// Перейти в предложенные термины
 			SwitchSuggestTermsTab();
@@ -249,7 +249,7 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 		public void SuggestExistingTermAcceptFromGlossaryListTest()
 		{
 			// Создать  глоссарий
-			string glossaryName = GetUniqueGlossaryNameF();
+			string glossaryName = GetUniqueGlossaryName();
 			CreateGlossaryByName(glossaryName);
 
 			string uniquePrefix = DateTime.Now.ToString();
@@ -267,7 +267,7 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 			SuggestTermDialog.ClickSave();
 			Thread.Sleep(2000);
 			// Перейти в глоссарий
-			SwitchCurrentGlossaryF(glossaryName);
+			SwitchCurrentGlossary(glossaryName);
 			Thread.Sleep(2000);
 			// Перейти в предложенные термины
 			SwitchSuggestTermsTab();
@@ -282,7 +282,7 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 		public void AcceptWithGlossaryFromGlossaryListTest()
 		{
 			// Создать  глоссарий
-			string glossaryName = GetUniqueGlossaryNameF();
+			string glossaryName = GetUniqueGlossaryName();
 			CreateGlossaryByName(glossaryName);
 			// Предложить термин
 			CreateSuggestTerm();
@@ -297,10 +297,10 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 			// Перейти к списку глоссариев
 			SwitchGlossaryTab();
 			// Перейти в глоссарий
-			SwitchCurrentGlossaryF(glossaryName);
+			SwitchCurrentGlossary(glossaryName);
 
 			// Проверить количество терминов
-			Assert.IsTrue(GetCountOfItemsGP() > 0, "Ошибка: термин не добавился");
+			Assert.IsTrue(GetCountOfItems() > 0, "Ошибка: термин не добавился");
 		}
 
 		/// <summary>
@@ -310,7 +310,7 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 		public void AcceptWithGlossaryFromGlossaryTest()
 		{
 			// Создать  глоссарий
-			string glossaryName = GetUniqueGlossaryNameF();
+			string glossaryName = GetUniqueGlossaryName();
 			CreateGlossaryByName(glossaryName);
 			// Предложить термин
 			CreateSuggestTerm();
@@ -322,7 +322,7 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 			SwitchGlossaryFromSuggestedTerm();
 
 			// Проверить количество терминов
-			Assert.IsTrue(GetCountOfItemsGP() > 0, "Ошибка: термин не добавился");
+			Assert.IsTrue(GetCountOfItems() > 0, "Ошибка: термин не добавился");
 		}
 
 		/// <summary>
@@ -332,7 +332,7 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 		public void AcceptWithGlossaryFromAnotherGlossaryTest()
 		{
 			// Создать глоссарий
-			string glossaryNameWithSuggestTerm = GetUniqueGlossaryNameF();
+			string glossaryNameWithSuggestTerm = GetUniqueGlossaryName();
 			CreateGlossaryByName(glossaryNameWithSuggestTerm);
 			// Предложить термин
 			CreateSuggestTerm();
@@ -340,7 +340,7 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 			// Перейти к списку глоссариев
 			SwitchGlossaryTab();
 			// Создать другой глоссарий
-			string glossaryName = GetUniqueGlossaryNameF();
+			string glossaryName = GetUniqueGlossaryName();
 			CreateGlossaryByName(glossaryName);
 			// Перейти в предложенные термины для этого глоссария
 			SwitchSuggestTermsTab();
@@ -356,10 +356,10 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 			// Перейти к списку глоссариев
 			SwitchGlossaryTab();
 			// Перейти в наш первый глоссарий
-			SwitchCurrentGlossaryF(glossaryNameWithSuggestTerm);
+			SwitchCurrentGlossary(glossaryNameWithSuggestTerm);
 
 			// Проверить количество терминов
-			Assert.IsTrue(GetCountOfItemsGP() > 0, "Ошибка: термин не добавился");
+			Assert.IsTrue(GetCountOfItems() > 0, "Ошибка: термин не добавился");
 		}
 
 		/// <summary>
@@ -369,7 +369,7 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 		public void AcceptWithoutGlossaryFromGlossaryListTest()
 		{
 			// Создать глоссарий
-			string glossaryName = GetUniqueGlossaryNameF();
+			string glossaryName = GetUniqueGlossaryName();
 			CreateGlossaryByName(glossaryName);
 			// Перейти к списку глоссариев
 			SwitchGlossaryTab();
@@ -396,10 +396,10 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 			// Перейти к списку глоссариев
 			SwitchGlossaryTab();
 			// Перейти в глоссарий
-			SwitchCurrentGlossaryF(glossaryName);
+			SwitchCurrentGlossary(glossaryName);
 
 			// Проверить количество терминов
-			Assert.IsTrue(GetCountOfItemsGP() > 0, "Ошибка: термин не добавился");
+			Assert.IsTrue(GetCountOfItems() > 0, "Ошибка: термин не добавился");
 		}
 
 		/// <summary>
@@ -440,7 +440,7 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 		public void DeleteWithGlossaryTest()
 		{
 			// Создать глоссарий
-			string glossaryName = GetUniqueGlossaryNameF();
+			string glossaryName = GetUniqueGlossaryName();
 			CreateGlossaryByName(glossaryName);
 			// Предложить термин
 			CreateSuggestTerm();
@@ -511,7 +511,7 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 		public void EditWithoutGlossaryTest()
 		{
 			// Создать глоссарий
-			string glossaryName = GetUniqueGlossaryNameF();
+			string glossaryName = GetUniqueGlossaryName();
 			CreateGlossaryByName(glossaryName);
 			// Перейти к списку глоссариев
 			SwitchGlossaryTab();
@@ -554,7 +554,7 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 			// Перейти к списку глоссариев
 			SwitchGlossaryTab();
 			// Перейти в глоссарий
-			SwitchCurrentGlossaryF(glossaryName);
+			SwitchCurrentGlossary(glossaryName);
 
 			// Проверить термин в глоссарии
 			Assert.IsTrue(GlossaryPage.GetIsExistTerm(newTermText), "Ошибка: термин не сохранился в глоссарии");
@@ -572,7 +572,7 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 		public void AutoSwitchingLanguageTest()
 		{
 			// Создать глоссарий
-			string glossaryName = GetUniqueGlossaryNameF();
+			string glossaryName = GetUniqueGlossaryName();
 			CreateGlossaryByName(glossaryName);
 
 			// Нажать Предложить термин
@@ -621,7 +621,7 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 		public void SuggestEmptyTermFromGlossaryTest()
 		{
 			// Создать глоссарий
-			string glossaryName = GetUniqueGlossaryNameF();
+			string glossaryName = GetUniqueGlossaryName();
 			CreateGlossaryByName(glossaryName);
 
 			// Нажать Предложить термин
@@ -753,7 +753,7 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 		protected void SuggestWithGlossaryClickEdit()
 		{
 			// Создать глоссарий
-			string glossaryName = GetUniqueGlossaryNameF();
+			string glossaryName = GetUniqueGlossaryName();
 			CreateGlossaryByName(glossaryName);
 
 			// Предложить термин

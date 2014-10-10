@@ -26,13 +26,7 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
 		{
 
 		}
-
-		[SetUp]
-		public void SetupRating()
-		{
-
-		}
-
+		
 		/// <summary>
 		/// Тест: проверка, что рейтинг пользователя увеличивается, если он добавляет перевод
 		/// </summary>

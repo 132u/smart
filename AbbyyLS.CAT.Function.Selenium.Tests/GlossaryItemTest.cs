@@ -39,12 +39,12 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 		public void CreateItemGeneralTest()
 		{
 			// Создать глоссарий
-			CreateGlossaryByName(GetUniqueGlossaryNameF());
+			CreateGlossaryByName(GetUniqueGlossaryName());
 			// Создать термин
 			CreateItemAndSave();
 
 			// Проверить количество терминов
-			Assert.IsTrue(GetCountOfItemsGP() > 0, "Ошибка: количество терминов должно быть больше 0 (термин не сохранился)");
+			Assert.IsTrue(GetCountOfItems() > 0, "Ошибка: количество терминов должно быть больше 0 (термин не сохранился)");
 		}
 
 		/// <summary>
@@ -54,7 +54,7 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 		public void CreateItemExtendedTest()
 		{
 			// Создать новый глоссарий
-			CreateGlossaryByName(GetUniqueGlossaryNameF());
+			CreateGlossaryByName(GetUniqueGlossaryName());
 
 			// Изменить структуру для перехода в расширенный режим
 			EditGlossaryStructureAddField();
@@ -70,7 +70,7 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 			GlossaryPage.ClickTurnOffBtn();
 
 			// Проверить количество терминов
-			Assert.IsTrue(GetCountOfItemsGP() > 0, "Ошибка: количество терминов должно быть больше 0 (термин не сохранился)");
+			Assert.IsTrue(GetCountOfItems() > 0, "Ошибка: количество терминов должно быть больше 0 (термин не сохранился)");
 		}
 
 		/// <summary>
@@ -80,7 +80,7 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 		public void CreateExistingItemTest()
 		{
 			// Создать глоссарий
-			CreateGlossaryByName(GetUniqueGlossaryNameF());
+			CreateGlossaryByName(GetUniqueGlossaryName());
 			string uniqueTerm = "TestTermText" + DateTime.Now.ToString();
 			// Создать термин
 			CreateItemAndSave(uniqueTerm, uniqueTerm);
@@ -99,7 +99,7 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 		public void CreateEmptyItemTest()
 		{
 			// Создать глоссарий
-			CreateGlossaryByName(GetUniqueGlossaryNameF());
+			CreateGlossaryByName(GetUniqueGlossaryName());
 			// Нажать New item
 			GlossaryPage.ClickNewItemBtn();
 			// Дождаться появления строки для ввода
@@ -120,7 +120,7 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 		public void CreateItemSynonymsTest()
 		{
 			// Создать глоссарий
-			CreateGlossaryByName(GetUniqueGlossaryNameF());
+			CreateGlossaryByName(GetUniqueGlossaryName());
 			string term1 = "Term1";
 			string term2 = "Term2";
 			// Открыть форму добавления термина и заполнить поля
@@ -145,7 +145,7 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 			GlossaryPage.WaitConceptGeneralSave();
 
 			// Проверить количество терминов
-			Assert.IsTrue(GetCountOfItemsGP() > 0, "Ошибка: количество терминов должно быть больше 0 (термин не сохранился)");
+			Assert.IsTrue(GetCountOfItems() > 0, "Ошибка: количество терминов должно быть больше 0 (термин не сохранился)");
 		}
 
 		/// <summary>
@@ -155,7 +155,7 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 		public void CreateItemEqualSynonymsTest()
 		{
 			// Создать глоссарий
-			CreateGlossaryByName(GetUniqueGlossaryNameF());
+			CreateGlossaryByName(GetUniqueGlossaryName());
 			string term1 = "Term1";
 			string term2 = "Term2";
 			// Открыть форму добавления термина и заполнить поля
@@ -192,12 +192,12 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 		public void DeleteItemTest()
 		{
 			// Создать глоссарий
-			string glossaryName = GetUniqueGlossaryNameF();
+			string glossaryName = GetUniqueGlossaryName();
 			CreateGlossaryByName(glossaryName);
 
 			// Создать термин
 			CreateItemAndSave();
-			int itemsCount = GetCountOfItemsGP();
+			int itemsCount = GetCountOfItems();
 
 			// Расширить окно, чтобы "корзинка" была видна, иначе Selenium ее "не видит" и выдает ошибку
 			Driver.Manage().Window.Maximize();
@@ -207,7 +207,7 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 			GlossaryPage.ClickDeleteBtn();
 			GlossaryPage.WaitConceptGeneralDelete();
 			// Сравнить количество терминов
-			int itemsCountAfter = GetCountOfItemsGP();
+			int itemsCountAfter = GetCountOfItems();
 			Assert.IsTrue(itemsCountAfter < itemsCount, "Ошибка: количество терминов не уменьшилось");
 		}
 
@@ -218,14 +218,14 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 		public void CancelCreateItemTest()
 		{
 			// Создать глоссарий
-			CreateGlossaryByName(GetUniqueGlossaryNameF());
+			CreateGlossaryByName(GetUniqueGlossaryName());
 			// Открыть форму Создание термина и заполнить ее
 			FillCreateItem();
 			// Отменить
 			GlossaryPage.ClickCancelEditBtn();
 
 			// Проверить, что количество терминов равно нулю
-			Assert.IsTrue(GetCountOfItemsGP() == 0, "Ошибка: количество терминов должно быть равно 0");
+			Assert.IsTrue(GetCountOfItems() == 0, "Ошибка: количество терминов должно быть равно 0");
 		}
 
 		/// <summary>
@@ -235,7 +235,7 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 		public void SearchItemGlossaryFirstLangTest()
 		{
 			// Создать глоссарий
-			CreateGlossaryByName(GetUniqueGlossaryNameF());
+			CreateGlossaryByName(GetUniqueGlossaryName());
 			string uniqueData = DateTime.UtcNow.Ticks.ToString() + "1Term";
 			string firstTerm = "Test First Term " + uniqueData;
 			string secondTerm = "Test Second Term " + DateTime.UtcNow.ToString();
@@ -245,14 +245,14 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 			CreateItemAndSave();
 
 			// Получить количество терминов
-			int itemCountBefore = GetCountOfItemsGP();
+			int itemCountBefore = GetCountOfItems();
 
 			// Инициировать поиск по уникальному слову в первом термине
 			GlossaryPage.FillSearchField(uniqueData);
 			GlossaryPage.ClickSearchBtn();
 			// Дождаться окончания поиска
 			Thread.Sleep(2000);
-			int itemCountAfter = GetCountOfItemsGP();
+			int itemCountAfter = GetCountOfItems();
 			// Проверить, что найден только один термин
 			Assert.IsTrue(itemCountAfter == 1, "Ошибка: должен быть найден только один термин");
 
@@ -268,7 +268,7 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 		public void SearchItemGlossarySecondLangTest()
 		{
 			// Создать глоссарий
-			CreateGlossaryByName(GetUniqueGlossaryNameF());
+			CreateGlossaryByName(GetUniqueGlossaryName());
 			string uniqueData = DateTime.UtcNow.Ticks.ToString() + "2Term";
 			string firstTerm = "Test First Term " + DateTime.UtcNow.ToString();
 			string secondTerm = "Test Second Term " + uniqueData;
@@ -279,14 +279,14 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 			CreateItemAndSave();
 
 			// Получить количество терминов
-			int itemCountBefore = GetCountOfItemsGP();
+			int itemCountBefore = GetCountOfItems();
 
 			// Инициировать поиск по уникальному слову в первом термине
 			GlossaryPage.FillSearchField(uniqueData);
 			GlossaryPage.ClickSearchBtn();
 			// Дождаться окончания поиска
 			Thread.Sleep(2000);
-			int itemCountAfter = GetCountOfItemsGP();
+			int itemCountAfter = GetCountOfItems();
 			// Проверить, что найден только один термин
 			Assert.IsTrue(itemCountAfter == 1, "Ошибка: должен быть найден только один термин");
 
@@ -302,7 +302,7 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 		public void SearchItemSearchTabTest()
 		{
 			// Создать глоссарий
-			string firstGlossaryName = GetUniqueGlossaryNameF();
+			string firstGlossaryName = GetUniqueGlossaryName();
 			CreateGlossaryByName(firstGlossaryName);
 
 			string uniqueData = DateTime.UtcNow.Ticks.ToString() + "SearchTest";
@@ -315,7 +315,7 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 			SwitchGlossaryTab();
 
 			// Создать глоссарий
-			string secondGlossaryName = GetUniqueGlossaryNameF();
+			string secondGlossaryName = GetUniqueGlossaryName();
 			CreateGlossaryByName(secondGlossaryName);
 			// Создать термин
 			CreateItemAndSave(firstTerm, secondTerm + DateTime.UtcNow.Ticks.ToString());
@@ -374,7 +374,7 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 			GlossaryPage.ClickTurnOffBtn();
 
 			// Проверить количество терминов
-			Assert.IsTrue(GetCountOfItemsGP() > 0, "Ошибка: количество терминов должно быть больше 0 (термин не сохранился)");
+			Assert.IsTrue(GetCountOfItems() > 0, "Ошибка: количество терминов должно быть больше 0 (термин не сохранился)");
 
 			// Удалить глоссарий, чтобы не было глоссария с многими языками
 			DeleteGlossary();
@@ -387,7 +387,7 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 		public void EditItemGeneral()
 		{
 			// Создать глоссарий
-			CreateGlossaryByName(GetUniqueGlossaryNameF());
+			CreateGlossaryByName(GetUniqueGlossaryName());
 			// Создать термин
 			CreateItemAndSave();
 

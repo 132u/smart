@@ -27,11 +27,6 @@ namespace AbbyyLs.Coursera.Function.Selenium.Tests
 
 		}
 
-		[SetUp]
-		public void LeaderBoard()
-		{
-		}
-
 		/// <summary>
 		/// Тест: Проверка отображения пользователя в общем списке
 		/// т.е. даже если пользователь не входит в 10ку юзеров, он все равно должен быть отображен в конце таблицы
