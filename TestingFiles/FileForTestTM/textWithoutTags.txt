@@ -1,4 +1,4 @@
-First sentence.
+first sentence.
 Second phrase.
 One more test sentence.
 Last sentence with different text.
