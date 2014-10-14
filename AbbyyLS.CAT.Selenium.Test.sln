@@ -1,13 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
-VisualStudioVersion = 12.0.30723.0
+VisualStudioVersion = 12.0.21005.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AbbyyLS.CAT.Function.Selenium.Tests", "AbbyyLS.CAT.Function.Selenium.Tests\AbbyyLS.CAT.Function.Selenium.Tests.csproj", "{9DC9D68E-BBFD-4CCB-9C78-949E7E895D3A}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AbbyyLs.Coursera.Function.Selenium.Tests", "AbbyyLs.Coursera.Function.Selenium.Tests\AbbyyLs.Coursera.Function.Selenium.Tests.csproj", "{8DF75CDC-DC96-4B13-925C-00D1C2FE2188}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AbbyyLS.PEMT.Function.Selenium.Tests", "AbbyyLS.PEMT.Function.Selenium.Tests\AbbyyLS.PEMT.Function.Selenium.Tests\AbbyyLS.PEMT.Function.Selenium.Tests.csproj", "{D802A6EC-7F72-4CCB-A626-5D00353675A1}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "configs", "configs", "{A63C7CD2-0E87-4A6C-8B47-0AA9D76961CC}"
 	ProjectSection(SolutionItems) = preProject
@@ -28,10 +26,6 @@ Global
 		{8DF75CDC-DC96-4B13-925C-00D1C2FE2188}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8DF75CDC-DC96-4B13-925C-00D1C2FE2188}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8DF75CDC-DC96-4B13-925C-00D1C2FE2188}.Release|Any CPU.Build.0 = Release|Any CPU
-		{D802A6EC-7F72-4CCB-A626-5D00353675A1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{D802A6EC-7F72-4CCB-A626-5D00353675A1}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{D802A6EC-7F72-4CCB-A626-5D00353675A1}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{D802A6EC-7F72-4CCB-A626-5D00353675A1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
