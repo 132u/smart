@@ -137,7 +137,7 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 
 		protected const string WORKSPACE_REF_XPATH = ".//a[contains(@href,'/Workspace')]";
 		protected const string DOMAIN_REF_XPATH = ".//a[contains(@href,'/Domains')]";
-		protected const string TM_REF_XPATH = ".//a[contains(@href,'/Enterprise/TranslationMemories')]"; // TODO проверить ".//ul[@class='g-corprmenu__list']//a[contains(@href,'/Enterprise/TranslationMemories')]
+		protected const string TM_REF_XPATH = ".//a[contains(@href,'/TranslationMemories/Index')]"; // TODO проверить ".//ul[@class='g-corprmenu__list']//a[contains(@href,'/Enterprise/TranslationMemories')]
 		protected const string GLOSSARY_REF_XPATH = ".//a[contains(@href,'/Glossaries')]";
 		protected const string SUGGEST_TERMS_REF_XPATH = ".//a[contains(@href,'/Suggests')]";
 		protected const string SEARCH_REF_XPATH = ".//a[contains(@href,'/Start')]";

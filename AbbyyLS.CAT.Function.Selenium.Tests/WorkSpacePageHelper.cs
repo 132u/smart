@@ -624,7 +624,7 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 		protected const string DOCUMENT_ASSIGN_RESPONSIBLES_BTN_XPATH = "//span[contains(@class,'js-assign-btn')]";
 		protected const string UPLOAD_DOCUMENT_BTN_XPATH = ".//span[contains(@class,'js-import-btn ')]";
 
-		protected const string USERS_RIGHTS_BTN_XPATH = ".//a[contains(@href,'/Enterprise/Users')]";
+		protected const string USERS_RIGHTS_BTN_XPATH = ".//a[contains(@href,'/Users/Index')]";
 
 		protected const string ACCOUNT_XPATH = ".//div[contains(@class,'js-corp-account')]";
 		protected const string USER_NAME_XPATH = ACCOUNT_XPATH + "//span[contains(@class,'nameuser')]";

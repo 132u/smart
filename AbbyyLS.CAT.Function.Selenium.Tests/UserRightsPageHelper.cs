@@ -287,8 +287,8 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 
 
 
-		protected const string PAGE_LINK_XPATH = "//a[contains(@href,'/Enterprise/Users')]";
-		protected const string GROUP_LINK_XPATH = "//a[contains(@href,'/Enterprise/Groups')]";
+		protected const string PAGE_LINK_XPATH = "//a[contains(@href,'/Users/Index')]";
+		protected const string GROUP_LINK_XPATH = "//a[contains(@href,'/Groups/Index')]";
 		protected const string ADMIN_GROUP_XPATH = "//td[contains(@class,'js-group-name')][text()='Administrators']";
 		protected const string EDIT_BTN_XPATH = "//span[contains(@class,'js-editgroup-btn')]";
 		protected const string ADD_RIGHTS_BTN_XPATH = "//span[contains(@class,'js-add-right-btn')]";
@@ -301,7 +301,7 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 		protected const string SAVE_BTN_XPATH = "//span[contains(@class,'js-save-btn')]";
 
 		protected const string CREATE_GROUP_BTN_XPATH = "//span[contains(@class,'js-addgroup-btn')]//a[contains(text(),'Create Group')]";
-		protected const string CREATE_GROUP_FORM_XPATH = "//form[contains(@action,'/Enterprise/Groups/Add')]";
+		protected const string CREATE_GROUP_FORM_XPATH = "//form[contains(@action,'/Groups/Add')]";
 		protected const string NAME_NEW_GROUP_XPATH = CREATE_GROUP_FORM_XPATH + "//label/input";
 		protected const string CANCEL_NEW_GROUP_XPATH = CREATE_GROUP_FORM_XPATH + "//a[contains(@class,'js-popup')]";
 		protected const string SAVE_NEW_GROUP_XPATH = CREATE_GROUP_FORM_XPATH + "//input[contains(@value,'Create Group')]";

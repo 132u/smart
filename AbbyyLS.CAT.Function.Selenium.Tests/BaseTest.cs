@@ -1347,7 +1347,7 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 			try
 			{
 				// Перейти на страницу
-				_driver.Navigate().GoToUrl(_url + "/Enterprise/TranslationMemories");
+				_driver.Navigate().GoToUrl(_url + "/TranslationMemories/Index");
 
 				// Если открылась страница логина
 				if (LoginPage.WaitPageLoad(1))
@@ -1381,7 +1381,7 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 			try
 			{
 				// Перейти на страницу
-				_driver.Navigate().GoToUrl(_url + "/Enterprise/Domains");
+				_driver.Navigate().GoToUrl(_url + "/Domains/Index");
 
 				// Если открылась страница логина
 				if (LoginPage.WaitPageLoad(1))
@@ -1415,7 +1415,7 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 			try
 			{
 				// Перейти на страницу
-				_driver.Navigate().GoToUrl(_url + "/Enterprise/Clients");
+				_driver.Navigate().GoToUrl(_url + "/Clients/Index");
 
 				// Если открылась страница логина
 				if (LoginPage.WaitPageLoad(1))
