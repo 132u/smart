@@ -88,10 +88,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		public void CheckReverseTranslation()
 		{
 			AddAccountWithDictionaries();
-
-			// Поменять языки на странице поиска, если надо
-			ChangeLanguages();
-
+			
 			// Найти перевод слова
 			InitSearch("tester");
 
@@ -122,6 +119,9 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		public void CheckAutoReverse()
 		{
 			AddAccountWithDictionaries();
+
+            // Поменять языки на странице поиска, если надо
+            ChangeLanguages();
 
 			// Найти перевод слова
 			InitSearch("tester");
