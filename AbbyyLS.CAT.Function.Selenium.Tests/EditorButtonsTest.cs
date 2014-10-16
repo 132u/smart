@@ -654,7 +654,7 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 			// Нажать хоткей выделения всего содержимого ячейки
 			EditorPage.SendKeysTarget(segmentNumber, OpenQA.Selenium.Keys.Shift + OpenQA.Selenium.Keys.Control + OpenQA.Selenium.Keys.Home);
 			// Запустить проверку
-            CheckChangeCase("the example sentence", "The Example Sentence", "THE EXAMPLE SENTENCE", true, segmentNumber);
+			CheckChangeCase("the example sentence", "The Example Sentence", "THE EXAMPLE SENTENCE", true, segmentNumber);
 		}
 
 		/// <summary>
@@ -669,7 +669,7 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 			// Нажать хоткей выделения всего содержимого ячейки
 			EditorPage.SendKeysTarget(segmentNumber, OpenQA.Selenium.Keys.Shift + OpenQA.Selenium.Keys.Control + OpenQA.Selenium.Keys.Home);
 			// Запустить проверку
-            CheckChangeCase("the example sentence", "The Example Sentence", "THE EXAMPLE SENTENCE", false, segmentNumber);
+			CheckChangeCase("the example sentence", "The Example Sentence", "THE EXAMPLE SENTENCE", false, segmentNumber);
 		}
 
 		/// <summary>
@@ -716,21 +716,21 @@ namespace AbbyyLs.CAT.Function.Selenium.Tests
 			// Нажать хоткей выделения первого слова
 			EditorPage.SendKeysTarget(segmentNumber, OpenQA.Selenium.Keys.Shift + OpenQA.Selenium.Keys.Control + OpenQA.Selenium.Keys.ArrowRight);
 			// Запустить проверку по хоткею
-            CheckChangeCase("some words for example", "Some words for example", "SOME words for example", false, segmentNumber);
+			CheckChangeCase("some words for example", "Some words for example", "SOME words for example", false, segmentNumber);
 		}
-        [Test]
-        public void ChangeCaseFirstWordTestByBtn()
-        {
-            int segmentNumber = 1;
-            // Написать текст в первом сегменте в target
-            EditorPage.AddTextTarget(segmentNumber, "some words for example");
-            // Нажать хоткей перехода в начало строки
-            EditorPage.SendKeysTarget(segmentNumber, OpenQA.Selenium.Keys.Control + OpenQA.Selenium.Keys.Home);
-            // Нажать хоткей выделения первого слова
-            EditorPage.SendKeysTarget(segmentNumber, OpenQA.Selenium.Keys.Shift + OpenQA.Selenium.Keys.Control + OpenQA.Selenium.Keys.ArrowRight);
-           // Запустить проверку по кнопке
-           	CheckChangeCase("some words for example", "Some words for example", "SOME words for example", true, segmentNumber);
-        }
+		[Test]
+		public void ChangeCaseFirstWordTestByBtn()
+		{
+			int segmentNumber = 1;
+			// Написать текст в первом сегменте в target
+			EditorPage.AddTextTarget(segmentNumber, "some words for example");
+			// Нажать хоткей перехода в начало строки
+			EditorPage.SendKeysTarget(segmentNumber, OpenQA.Selenium.Keys.Control + OpenQA.Selenium.Keys.Home);
+			// Нажать хоткей выделения первого слова
+			EditorPage.SendKeysTarget(segmentNumber, OpenQA.Selenium.Keys.Shift + OpenQA.Selenium.Keys.Control + OpenQA.Selenium.Keys.ArrowRight);
+		   // Запустить проверку по кнопке
+		   	CheckChangeCase("some words for example", "Some words for example", "SOME words for example", true, segmentNumber);
+		}
 		/// <summary>
 		/// Проверка работы в редакторе кнопки конкордного поиска
 		/// </summary>
