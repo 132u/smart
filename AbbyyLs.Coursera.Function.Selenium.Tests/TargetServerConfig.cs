@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 
-namespace AbbyyLs.Coursera.Function.Selenium.Tests
+namespace AbbyyLS.Coursera.Function.Selenium.Tests
 {
 	[DataContract (Name = "CourseraTargetServer")]
 	class TargetServerConfig

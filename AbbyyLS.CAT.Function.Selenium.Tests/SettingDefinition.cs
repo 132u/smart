@@ -10,7 +10,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AbbyyLs.CAT.Function.Selenium.Tests
+namespace AbbyyLS.CAT.Function.Selenium.Tests
 {
 	public class SettingDefinition
 	{

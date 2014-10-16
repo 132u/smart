@@ -11,7 +11,7 @@ using OpenQA.Selenium.Support.UI;
 using System.Windows.Forms;
 using System.Threading;
 
-namespace AbbyyLs.CAT.Function.Selenium.Tests
+namespace AbbyyLS.CAT.Function.Selenium.Tests
 {
 	/// <summary>
 	/// Хелпер формы Add a term

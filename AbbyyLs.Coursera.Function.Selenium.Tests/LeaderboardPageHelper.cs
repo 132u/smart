@@ -4,7 +4,7 @@ using System.Windows.Forms;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.UI;
 
-namespace AbbyyLs.Coursera.Function.Selenium.Tests
+namespace AbbyyLS.Coursera.Function.Selenium.Tests
 {
 	public class LeaderboardPageHelper : CommonHelper
 	{

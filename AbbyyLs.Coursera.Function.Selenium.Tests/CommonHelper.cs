@@ -16,7 +16,7 @@ using System.Drawing;
 using System.Drawing.Imaging;
 using System.Text.RegularExpressions;
 
-namespace AbbyyLs.Coursera.Function.Selenium.Tests
+namespace AbbyyLS.Coursera.Function.Selenium.Tests
 {
 	public class CommonHelper
 	{

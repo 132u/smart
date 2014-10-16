@@ -10,7 +10,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AbbyyLs.Coursera.Function.Selenium.Tests
+namespace AbbyyLS.Coursera.Function.Selenium.Tests
 {
 	public static class TestSettingDefinition
 	{

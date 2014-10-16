@@ -4,7 +4,7 @@ using OpenQA.Selenium;
 using OpenQA.Selenium.Support.UI;
 using System.Threading;
 
-namespace AbbyyLs.Coursera.Function.Selenium.Tests
+namespace AbbyyLS.Coursera.Function.Selenium.Tests
 {
 	public class EditorPageHelper : CommonHelper
 	{

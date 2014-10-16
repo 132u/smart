@@ -16,7 +16,7 @@ using System.Drawing;
 using System.Drawing.Imaging;
 using System.Text.RegularExpressions;
 
-namespace AbbyyLs.CAT.Function.Selenium.Tests
+namespace AbbyyLS.CAT.Function.Selenium.Tests
 {
 	/// <summary>
 	/// Общий хелпер

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.UI;
 
-namespace AbbyyLs.CAT.Function.Selenium.Tests
+namespace AbbyyLS.CAT.Function.Selenium.Tests
 {
 	/// <summary>
 	/// Хелпер панели выдачи переводов

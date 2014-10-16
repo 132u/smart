@@ -7,8 +7,8 @@
     <ProjectGuid>{8DF75CDC-DC96-4B13-925C-00D1C2FE2188}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>AbbyyLs.Coursera.Function.Selenium.Tests</RootNamespace>
-    <AssemblyName>AbbyyLs.Coursera.Function.Selenium.Tests</AssemblyName>
+    <RootNamespace>AbbyyLS.Coursera.Function.Selenium.Tests</RootNamespace>
+    <AssemblyName>AbbyyLS.Coursera.Function.Selenium.Tests</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>

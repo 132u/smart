@@ -20,7 +20,7 @@ using NLog;
 using OpenQA.Selenium.Interactions;
 using System.Text.RegularExpressions;
 
-namespace AbbyyLs.CAT.Function.Selenium.Tests
+namespace AbbyyLS.CAT.Function.Selenium.Tests
 {
 	/// <summary>
 	/// Базовый тест

@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("AbbyyLs.Coursera.Function.Selenium.Tests")]
+[assembly: AssemblyTitle("AbbyyLS.Coursera.Function.Selenium.Tests")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("AbbyyLs.Coursera.Function.Selenium.Tests")]
+[assembly: AssemblyProduct("AbbyyLS.Coursera.Function.Selenium.Tests")]
 [assembly: AssemblyCopyright("Copyright ©  2014")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]

@@ -5,7 +5,7 @@ using OpenQA.Selenium;
 using System.Collections.Generic;
 using System.Windows.Forms;
 
-namespace AbbyyLs.CAT.Function.Selenium.Tests
+namespace AbbyyLS.CAT.Function.Selenium.Tests
 {
 	/// <summary>
 	/// Группа тестов для проверки доменов

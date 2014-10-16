@@ -16,7 +16,7 @@ using System.Drawing;
 
 using OpenQA.Selenium.Interactions;
 
-namespace AbbyyLs.CAT.Function.Selenium.Tests
+namespace AbbyyLS.CAT.Function.Selenium.Tests
 {
 	/// <remarks>
 	/// Методы для тестирования Проектов

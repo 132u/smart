@@ -17,7 +17,7 @@ using System.Drawing.Imaging;
 
 using OpenQA.Selenium.Interactions;
 
-namespace AbbyyLs.Coursera.Function.Selenium.Tests
+namespace AbbyyLS.Coursera.Function.Selenium.Tests
 {
 	class EditorButtonsTest : BaseTest
 	{

@@ -1,6 +1,6 @@
 ﻿using NUnit.Framework;
 
-namespace AbbyyLs.CAT.Function.Selenium.Tests
+namespace AbbyyLS.CAT.Function.Selenium.Tests
 {
 	/// <summary>
 	/// Группа тестов для проверки авторизации

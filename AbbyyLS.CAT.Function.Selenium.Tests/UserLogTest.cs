@@ -11,7 +11,7 @@ using OpenQA.Selenium.IE;
 using OpenQA.Selenium.Support.UI;
 using OpenQA.Selenium.Interactions;
 
-namespace AbbyyLs.CAT.Function.Selenium.Tests
+namespace AbbyyLS.CAT.Function.Selenium.Tests
 {
 	/// <summary>
 	/// Группа тестов для проверки лога

@@ -7,7 +7,7 @@ using System.Configuration;
 using System.Windows.Forms;
 using System.Drawing.Imaging;
 
-namespace AbbyyLs.CAT.Function.Selenium.Tests
+namespace AbbyyLS.CAT.Function.Selenium.Tests
 {
 	[TestFixture]
 	class GlossaryEditorTest : BaseTest

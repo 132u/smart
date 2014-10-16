@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using NUnit.Framework;
 using System.Threading;
 
-namespace AbbyyLs.CAT.Function.Selenium.Tests
+namespace AbbyyLS.CAT.Function.Selenium.Tests
 {
 	/// <summary>
 	/// Группа тестов для проверки рабочего процесса

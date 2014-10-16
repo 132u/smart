@@ -10,7 +10,7 @@ using OpenQA.Selenium.IE;
 using OpenQA.Selenium.Support.UI;
 using System.Threading;
 
-namespace AbbyyLs.CAT.Function.Selenium.Tests
+namespace AbbyyLS.CAT.Function.Selenium.Tests
 {
 	/// <summary>
 	/// Хелпер админки

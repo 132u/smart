@@ -21,7 +21,7 @@ using NLog;
 using OpenQA.Selenium.Interactions;
 using System.Text.RegularExpressions;
 
-namespace AbbyyLs.Coursera.Function.Selenium.Tests
+namespace AbbyyLS.Coursera.Function.Selenium.Tests
 {
 	[TestFixture("Firefox")]
 	
