@@ -42,7 +42,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			attributeDict.Add(ATTRIBUTE_TYPE.Status, ATTRIBUTE_STATUS);
 			attributeDict.Add(ATTRIBUTE_TYPE.Label, ATTRIBUTE_LABEL);
 
-			fieldTypeDict = new Dictionary<FIELD_TYPE, string>();
+			fieldTypeDict = new Dictionary<FIELD_TYPE, int>();
 			fieldTypeDict.Add(FIELD_TYPE.Media, FIELD_MEDIA);
 			fieldTypeDict.Add(FIELD_TYPE.Date, FIELD_DATE);
 			fieldTypeDict.Add(FIELD_TYPE.Image, FIELD_IMAGE);
@@ -323,14 +323,14 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		protected const string ATTRIBUTE_STATUS = "Status";
 		protected const string ATTRIBUTE_LABEL = "Label";
 
-		protected Dictionary<FIELD_TYPE, string> fieldTypeDict;
-		protected const string FIELD_MEDIA = "Media";
-		protected const string FIELD_DATE = "Date";
-		protected const string FIELD_IMAGE = "Image";
-		protected const string FIELD_CHOICE = "Choice";
-		protected const string FIELD_MULTI_CHOICE = "MultipleChoice";
-		protected const string FIELD_NUMBER = "Number";
-		protected const string FIELD_TEXT = "Text";
-		protected const string FIELD_BOOL = "Boolean";
+		protected Dictionary<FIELD_TYPE, int> fieldTypeDict;
+		protected const int FIELD_MEDIA = 5;
+		protected const int FIELD_DATE = 4;
+		protected const int FIELD_IMAGE = 6;
+		protected const int FIELD_CHOICE = 7;
+		protected const int FIELD_MULTI_CHOICE = 8;
+		protected const int FIELD_NUMBER = 2;
+		protected const int FIELD_TEXT = 1;
+		protected const int FIELD_BOOL = 3;
 	}
 }
