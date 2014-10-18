@@ -119,12 +119,20 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		}
 
 		/// <summary>
-		/// Кликнуть кнопку Login
+		/// Кликнуть кнопку Login на странице авторизации
 		/// </summary>
 		public void ClickSubmitLpro()
 		{
 			ClickElement(By.XPath(SUBMIT_LPRO_XPATH));
 		}
+
+		/// <summary>
+		/// Кликнуть кнопку Login на странице выбора аккаунта
+		/// </summary>
+		public void ClickSubmit2()
+		{
+			ClickElement(By.XPath(SUBMIT_BTN_CSS2));
+		} 
 
 		/// <summary>
 		/// Вернуть, появилась ли ошибка
@@ -137,7 +145,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			SetDriverTimeoutDefault();
 			return isErrorExist;
 		}
-
+		
 		/// <summary>
 		/// Возвращает XPath заданного имени пользователя
 		/// </summary>
@@ -151,6 +159,8 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		protected const string EMAIL_CSS = "input[name=\"email\"]";
 		protected const string PASSWORD_CSS = "input[name=\"password\"]";
 		protected const string SUBMIT_BTN_CSS = "//button[contains(@class, 'btn-danger')]";
+		protected const string SUBMIT_BTN_CSS2 = "//button[contains(@class, 'btn btn-danger ng-binding') and @ng-class='{ disabled: selectAccount.$invalid }']";
+
 		protected const string ERROR_XPATH = "//div[contains(@class,'js-dynamic-errors')]";
 		
 		protected const string LOGIN_BTN_LPRO_XPATH = "btnLogin";

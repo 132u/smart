@@ -1255,7 +1255,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 					// Выбрать аккаунт
 					LoginPage.ClickAccountName(accountName);
 					// Зайти на сайт
-					LoginPage.ClickSubmit();
+					LoginPage.ClickSubmit2();
 				}
 				else if (LoginPage.GetIsErrorExist())
 				{
