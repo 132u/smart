@@ -559,7 +559,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 
 		protected const string DOCUMENT_LIST_XPATH = ".//table[contains(@class,'js-documents-table')]//tbody";
 		protected const string DOCUMENT_ROW_XPATH = ".//tr[contains(@class,'js-document-row')]";
-		protected const string DOCUMENT_ROW_EDITOR_LINK_XPATH = "//a[contains(@class,'js-editor-link')]";
+		protected const string DOCUMENT_ROW_EDITOR_LINK_XPATH = "//td[2]//p//a[contains(@class,'js-name l-project__doc-link')]";
 
 		protected const string IMPORT_DOCUMENT_BTN_XPATH = ".//span[contains(@class,'js-document-import')]";
 		protected const string IMPORT_DIALOG_XPATH = ".//div[contains(@class,'js-popup-import-document')][2]";

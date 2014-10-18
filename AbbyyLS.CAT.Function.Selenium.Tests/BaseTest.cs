@@ -1193,6 +1193,10 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			// Открыть документ
 			Assert.IsTrue(ProjectPage.OpenDocument(documentNumber), "Ошибка: на странице проекта нет документа");
 
+			//выбрать задачу перевода и открыть редактор
+			EditorPage.ClickTaskBtn();
+			EditorPage.ClickContBtn();
+
 			// Дождаться загрузки страницы
 			EditorPage.WaitPageLoad();
 

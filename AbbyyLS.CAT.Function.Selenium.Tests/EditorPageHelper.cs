@@ -676,7 +676,19 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			return WaitUntilDisappearElement(By.XPath(AUTOSAVING_XPATH));
 		}
 
+		public void ClickTaskBtn()
+		{
+			ClickElement(By.XPath(TASK_TRNSLT_BTN_XPATH));
+		}
 
+		public void ClickContBtn()
+		{
+			ClickElement(By.XPath(TASK_CONTINUE_BTN_XPATH));
+		}
+
+
+		protected const string TASK_TRNSLT_BTN_XPATH = "//span[contains(@id, 'button-1030-btnEl')]";
+		protected const string TASK_CONTINUE_BTN_XPATH = "//span[contains(@id, 'button-1033-btnEl')]";
 
 		protected const string TITLE_TEXT = "editor";
 		protected const string SEGMENTS_CSS = "#segments-body div div table";
