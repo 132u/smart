@@ -60,7 +60,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// </summary>
 		public void ClickSubmit()
 		{
-			ClickElement(By.CssSelector(SUBMIT_BTN_CSS));
+			ClickElement(By.XPath(SUBMIT_BTN_CSS));
 		}
 		
 		/// <summary>
@@ -147,12 +147,10 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		{
 			return "//select/option[contains(text(), '" + accountName + "')]";
 		}
-
 		
-
 		protected const string EMAIL_CSS = "input[name=\"email\"]";
 		protected const string PASSWORD_CSS = "input[name=\"password\"]";
-		protected const string SUBMIT_BTN_CSS = "input[type =\"submit\"]";
+		protected const string SUBMIT_BTN_CSS = "//button[contains(@class, 'btn-danger')]";
 		protected const string ERROR_XPATH = "//div[contains(@class,'js-dynamic-errors')]";
 		
 		protected const string LOGIN_BTN_LPRO_XPATH = "btnLogin";
