@@ -22,19 +22,21 @@ using System.Text.RegularExpressions;
 
 namespace AbbyyLS.CAT.Function.Selenium.Tests
 {
+	using NUnit.Framework.Constraints;
+
 	/// <summary>
 	/// Базовый тест
 	/// </summary>
-	
+
 	[TestFixture("Firefox")]
-	
+
 	public class BaseTest
 	{
 		/// <summary>
 		/// Конструктор базового теста
 		/// </summary>
-		 
-		
+
+
 		/// <param name="browserName">Название браузера</param>
 		public BaseTest(string browserName)
 		{
@@ -42,17 +44,16 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			var cfgAgentSpecific = TestSettingDefinition.Instance.Get<TargetServerConfig>();
 			var cfgUserInfo = TestSettingDefinition.Instance.Get<UserInfoConfig>();
 			var cfgRoot = TestSettingDefinition.Instance.Get<FilesRootCfg>();
-			
-
 			_browserName = browserName;
 			_url = "https://" + cfgAgentSpecific.Url;
 			_workspaceUrl = cfgAgentSpecific.Workspace;
 			if (string.IsNullOrWhiteSpace(_workspaceUrl))
-				_workspaceUrl ="https://" + cfgAgentSpecific.Url + "/workspace";
+				_workspaceUrl = "https://" + cfgAgentSpecific.Url + "/workspace";
 			_adminUrl = "http://" + cfgAgentSpecific.Url + ":81";
 
 
 			CreateDriver();
+
 
 			_login = cfgUserInfo.Login;
 			_password = cfgUserInfo.Password;
@@ -66,6 +67,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			_documentFile = Path.GetFullPath(cfgRoot.Root + "/littleEarth.docx");
 			_documentFileToConfirm = Path.GetFullPath(cfgRoot.Root + "/FilesForConfirm/testToConfirm.txt");
 			_documentFileToConfirm2 = Path.GetFullPath(cfgRoot.Root + "/FilesForConfirm/testToConfirm2.txt");
+
 			_constTmName = "TestTM";
 			_glossaryName = "TestGlossary";
 			_projectNameExportTestOneDoc = "TestProjectTestExportOneDocumentUniqueName";
@@ -82,12 +84,40 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			_imageFile = Path.GetFullPath(cfgRoot.Root + "/TestImage.jpg");
 			_audioFile = Path.GetFullPath(cfgRoot.Root + "/TestAudio.mp3");
 			_rtfFile = Path.GetFullPath(cfgRoot.Root + "/rtf1.rtf");
+			_photoLoad = Path.GetFullPath(cfgRoot.Root + "/FilesForLoadPhotoInRegistration/");
+			_testUserFile = Path.GetFullPath(cfgRoot.RootToConfig + "/TestUsers.xml");
+			if (TestUserFileExist())
+			{
+					var cfgTestUser = TestSettingDefinition.Instance.Get<TestUserConfig>();
 
-			
+					_testUserList = new List<UserInfo>();
+					// Добавление пользователей в _testUserList из конфига
+					for (int v = 0; v < 6; v++)
+						_testUserList.Add(
+							new UserInfo(cfgTestUser.Users[v].Login, cfgTestUser.Users[v].Password, cfgTestUser.Users[v].State));
+			}
 		}
 
 
+		public bool TestUserFileExist()
+		{
+			return File.Exists(_testUserFile);
 
+		}
+		/// <summary>
+		/// Файл со списком пользователей , имеющие аккаунты на аол/курсера/передем
+		/// </summary>
+		private string _testUserFile;
+		/// <summary>
+		///  Файл со списком пользователей , имеющие аккаунты на аол/курсера/передем
+		/// </summary>
+		protected string TestUserFile
+		{
+			get
+			{
+				return _testUserFile;
+			}
+		}
 		/// <summary>
 		/// WebDriver
 		/// </summary>
@@ -262,6 +292,15 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			}
 		}
 
+		private List<UserInfo> _testUserList;
+		protected List<UserInfo> TestUserList
+		{
+			get
+			{
+				return _testUserList;
+			}
+		}
+
 		/// <summary>
 		/// Уникальное для теста название проекта
 		/// </summary>
@@ -395,6 +434,20 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			}
 		}
 
+		///// <summary>
+		///// Полный путь к документу тестовых юзеров
+		///// </summary>
+		//private string _testUserFile;
+		///// <summary>
+		///// Полный путь к документу тестовых юзеров
+		///// </summary>
+		//protected string TestUserFile
+		//{
+		//	get
+		//	{
+		//		return _testUserFile;
+		//	}
+		//}
 		/// <summary>
 		/// Полный путь к документу без тегов
 		/// </summary>
@@ -561,6 +614,20 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		}
 
 
+		/// <summary>
+		/// Полный путь к фото для загрузки на стр регистрации
+		/// </summary>
+		private string _photoLoad;
+		/// <summary>
+		/// Полный путь к фото для загрузки на стр регистрации
+		/// </summary>
+		protected string PhotoLoad
+		{
+			get
+			{
+				return _photoLoad;
+			}
+		}
 
 		/// <summary>
 		/// Страница с проектом
@@ -907,6 +974,15 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			}
 		}
 
+		private RegistrationPageHelper _registrationPageHelper;
+		protected RegistrationPageHelper RegistrationPage
+		{
+			get
+			{
+				return _registrationPageHelper;
+			}
+		}
+
 		// информация о тесте
 		protected DateTime testBeginTime;
 
@@ -1088,6 +1164,16 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <summary>
 		/// Пересоздание Helper'ов с новыми Driver, Wait
 		/// </summary>
+
+
+
+
+
+
+
+
+
+
 		private void RecreateDrivers()
 		{
 			_projectPageHelper = new ProjectPageHelper(Driver, Wait);
@@ -1113,6 +1199,8 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			_catPanelHelper = new CatPanelResultsHelper(Driver, Wait);
 			_responsiblesDialogHelper = new ResponsiblesDialogHelper(Driver, Wait);
 			_addTermFormHelper = new AddTermFormHelper(Driver, Wait);
+			_registrationPageHelper = new RegistrationPageHelper(Driver, Wait);
+
 		}
 
 		/// <summary>
@@ -1301,6 +1389,29 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 
 				// Пробуем перейти на страницу еще раз
 				GoToWorkspace();
+			}
+		}
+
+		/// <summary>
+		/// Переход на admin страницу
+		/// </summary>
+		public void GoToAdminPage()
+		{
+			try
+			{
+				// Перейти на  admin страницу
+				_driver.Navigate().GoToUrl(_adminUrl);
+				//Assert.IsTrue(AdminPage.WaitPageLoad(), "Ошибка: страница админки не загрузилась");
+			}
+			catch
+			{
+				_driver.Navigate().Refresh();
+
+				// Закрываем Modal Dialog
+				AcceptModalDialog();
+
+				// Пробуем перейти на страницу еще раз
+				GoToAdminPage();
 			}
 		}
 
@@ -2429,6 +2540,42 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 				GlossaryPage.ClickSaveTermin();
 				GlossaryPage.WaitConceptGeneralSave();
 				Thread.Sleep(1000);
+			}
+		}
+
+		/// <summary>
+		/// Переход на страницу регистрации
+		/// </summary>
+		public void GoToRegistrationPage()
+		{
+			try
+			{
+				_driver.Navigate().GoToUrl(_url + "/freelance-reg");
+
+			}
+			catch
+			{
+				_driver.Navigate().Refresh();
+
+				// Закрываем Modal Dialog
+				AcceptModalDialog();
+
+				// Пробуем перейти на страницу еще раз
+				GoToRegistrationPage();
+			}
+		}
+
+		protected struct UserInfo
+		{
+			public string login;
+			public string password;
+
+			public bool state;
+			public UserInfo(string l, string p, bool s)
+			{
+				login = l;
+				password = p;
+				state = s;
 			}
 		}
 	}

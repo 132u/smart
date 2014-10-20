@@ -21,7 +21,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 	/// <summary>
 	/// Группа тестов для проверки словарей
 	/// </summary>
-	public class DictionaryTest : BaseTest
+	public class DictionaryTest : AdminTest
 	{
 		/// <summary>
 		/// Констрйктор теста
@@ -155,7 +155,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			AdminPage.WaitSuccessAnswer();
 
 			// Добавить пользователя в аккаунт
-			AddUserToAccount();
+			AddUserToAccount(Login);
 
 			// Перейти в CAT
 			Driver.Navigate().GoToUrl(Url);
@@ -191,7 +191,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			AdminPage.WaitSuccessAnswer();
 
 			// Добавить пользователя в аккаунт
-			AddUserToAccount();
+            AddUserToAccount(Login);
 
 			// Перейти в CAT
 			Driver.Navigate().GoToUrl(Url);
@@ -224,7 +224,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			AdminPage.WaitSuccessAnswer();
 
 			// Добавить пользователя в аккаунт
-			AddUserToAccount();
+            AddUserToAccount(Login);
 
 			// Перейти в CAT
 			Driver.Navigate().GoToUrl(Url);
@@ -262,7 +262,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			AdminPage.WaitSuccessAnswer();
 
 			// Добавить пользователя в аккаунт
-			AddUserToAccount();
+            AddUserToAccount(Login);
 
 			// Перейти в корпоративные аккаунты
 			SwitchEnterpriseAccountList();
@@ -310,71 +310,9 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 
 
 
-		/// <summary>
-		/// Открыть форму создания аккаунта
-		/// </summary>
-		protected void OpenCreateAccountForm()
-		{
-			// Перейти в админку
-			Driver.Navigate().GoToUrl(AdminUrl);
-			// Дождаться открытия формы входа
-			Assert.IsTrue(AdminPage.WaitPageLoad(), "Ошибка: страница админки не загрузилась");
-			// Логин
-			AdminPage.FillLogin(Login);
-			AdminPage.FillPassword(Password);
-			AdminPage.ClickSubmit();
 
-			// Зайти в аккаунты
-			SwitchEnterpriseAccountList();
 
-			// Нажать Создать
-			AdminPage.ClickAddAccount();
 
-			bool isWindowWithForm = false;
-			Driver.SwitchTo().Window(Driver.WindowHandles[1]);
-			isWindowWithForm = AdminPage.GetIsAddAccountFormDisplay();
-
-			// Если вдруг неправильное окно - перебирать все окна в цикле
-			/*foreach (string winH in Driver.WindowHandles)
-			{
-				Driver.SwitchTo().Window(winH);
-				isWinWithForm = IsElementPresent(By.XPath(".//form[contains(@action,'Edit')]"));
-				if (isWinWithForm)
-				{
-					break;
-				}
-			}*/
-
-			Assert.IsTrue(isWindowWithForm, "Ошибка: не нашли окно с формой создания аккаунта");
-		}
-
-		/// <summary>
-		/// Заполнить основные поля создания аккаунта
-		/// </summary>
-		/// <returns>имя аккаунта</returns>
-		protected string FillGeneralAccountFields()
-		{
-			// Заполнить форму аккаунта
-			string uniqPref = DateTime.Now.Ticks.ToString();
-			string accountName = "TestAccount" + uniqPref;
-			// Название
-			AdminPage.FillAccountName(accountName);
-			
-			// Затея		
-			if (Driver.Url.Contains("stage1"))
-				AdminPage.SetVenture("Perevedem.ru");
-			else
-				AdminPage.SetVenture("SmartCAT");
-			
-			// Поддомен
-			AdminPage.FillSubdomainName("testaccount" + uniqPref);
-
-			// Дата
-			AdminPage.FillDeadLineDate(DateTime.Now.AddDays(10));
-
-			// Вернуть имя аккаунта
-			return accountName;
-		}
 
 		/// <summary>
 		/// Добавить словари в аккаунт
@@ -399,31 +337,9 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			AdminPage.FillDictionaryDeadlineDate(DateTime.Now.AddDays(10));
 		}
 
-		/// <summary>
-		/// Добавить пользователя в аккаунт
-		/// </summary>
-		protected void AddUserToAccount()
-		{
-			// Перейти в управление пользователями
-			AdminPage.OpenUserManagementPage();
-			// Ввести логин пользователя
-			AdminPage.FillUserNameSearch(Login);
-			// Найти
-			AdminPage.ClickSearchUserBtn();
-			// Дождаться появления пользователя
-			AdminPage.WaitSearchUserResult();
-			// Добавить
-			AdminPage.ClickAddUser();
-		}
 
-		/// <summary>
-		/// Перейти на страницу корпоративных аккаунтов
-		/// </summary>
-		protected void SwitchEnterpriseAccountList()
-		{
-			// Зайти в аккаунты
-			AdminPage.ClickOpenEntepriseAccounts();
-		}
+
+
 
 		/// <summary>
 		/// Создать аккаунт со словарями
@@ -445,7 +361,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			AdminPage.WaitSuccessAnswer();
 
 			// Добавить пользователя в аккаунт
-			AddUserToAccount();
+            AddUserToAccount(Login);
 
 			// Перейти в CAT
 			Driver.Navigate().GoToUrl(Url);

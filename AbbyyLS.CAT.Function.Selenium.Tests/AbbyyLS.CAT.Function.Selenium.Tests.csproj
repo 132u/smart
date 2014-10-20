@@ -56,7 +56,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AddTermFormHelper.cs" />
+    <Compile Include="AdminTests.cs" />
+    <Compile Include="RandomString.cs" />
     <Compile Include="FilesRootCfg.cs" />
+    <Compile Include="RegistrationPageHelper.cs" />
+    <Compile Include="RegistrationPageTest.cs" />
+    <Compile Include="TestUser.cs" />
+    <Compile Include="TestUserConfig.cs" />
     <Compile Include="UserInfoConfig.cs" />
     <Compile Include="EditorSpellcheckTest.cs" />
     <Compile Include="GlossaryEditorTest.cs" />

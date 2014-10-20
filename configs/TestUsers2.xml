@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<configuration>
+
+		<TestUsers>
+			<TestUser Login = "aol3mailru@mail.ru"	Password = "aol3mailru@mail.ru" State = "false" />
+			<TestUser Login = "testuserivanpetrov2@mailforspam.com"	Password = "12trC89p" State = "false" />
+			<TestUser Login = "testuserivanpetrov3@mailforspam.com"	Password = "12trC89p" State = "true" />
+			<TestUser Login = "testuserivanpetrov4@mailforspam.com"	Password = "12trC89p" State = "false" />
+			<TestUser Login = "testuserivanpetrov5@mailforspam.com"	Password = "12trC89p" State = "false" />
+			<TestUser Login = "testuserivanpetrov6@mailforspam.com"	Password = "12trC89p" State = "false" />
+		</TestUsers>
+	
+</configuration>

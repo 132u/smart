@@ -7,13 +7,11 @@ using System.Runtime.Serialization;
 
 namespace AbbyyLS.CAT.Function.Selenium.Tests
 {
-	[DataContract(Name="TestingFiles")]
-	class FilesRootCfg
+	[DataContract(Name = "TestUsers")]
+	class TestUserConfig
 	{
-		[DataMember(Name = "RootDirectory")]
-		public string Root { get; set; }
+		[DataMember(Name = "TestUser")]
+		public List<TestUser> Users { get; set; }
 
-		[DataMember(Name = "ConfigDirectory")]
-		public string RootToConfig { get; set; }
 	}
 }

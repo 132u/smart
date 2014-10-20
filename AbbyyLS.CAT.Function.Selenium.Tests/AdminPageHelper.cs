@@ -90,6 +90,16 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		}
 
 		/// <summary>
+		/// Кликнуть для перехода на страницу управления пользователями определенного аккаунта
+		/// </summary>
+		/// <param name="accountName">имя аккаунта</param>
+		public bool OpenUserManagementPageForAccount(string accountName)
+		{
+			ClickElement(By.XPath("//td[text()='" + accountName + "']"+ALL_MANAGE_USER_BTN));
+			return WaitUntilDisplayElement(By.Id(USER_SEARCH_ID));
+		}
+
+		/// <summary>
 		/// Ввести имя пользователя в поиск
 		/// </summary>
 		/// <param name="userName">имя пользователя</param>
@@ -253,6 +263,113 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			}
 		}
 
+		/// <summary>
+		/// Нажать кнопку Создать нового юзера
+		/// </summary>
+		public void ClickCreateNewUserBtn()
+		{
+			ClickElement(By.XPath(CREATE_NEW_USER_XPATH));
+		}
+
+		/// <summary>
+		/// Заполнить поле email для нового юзера
+		/// </summary>
+		/// <param name="emailForNewUser">email</param>
+		public void FillEmailForNewUser(string emailForNewUser)
+		{
+			ClearAndAddText(By.XPath(EMAIL_FOR_NEW_USER_XPATH), emailForNewUser);
+		}
+
+		/// <summary>
+		/// Заполнить поле Nickname для нового юзера
+		/// </summary>
+		/// <param name="nickNameForNewUser">Nickname</param>
+		public void FillNickNameForNewUser(string nickNameForNewUser)
+		{
+			ClearAndAddText(By.XPath(NICKNAME_FOR_NEW_USER_XPATH), nickNameForNewUser);
+		}
+
+		/// <summary>
+		/// Заполнить поле пароль для нового юзера
+		/// </summary>
+		/// <param name="password">пароль</param>
+		public void FillPasswordForNewUser(string password)
+		{
+			ClearAndAddText(By.XPath(PASSWORD_FOR_NEW_USER_XPATH), password);
+		}
+
+		/// <summary>
+		/// Заполнить поле подтверждения пароля для нового юзера
+		/// </summary>
+		/// <param name="confirmPassword">пароль</param>
+		public void FillConfirmPasswordForNewUser(string confirmPassword)
+		{
+			ClearAndAddText(By.XPath(PASSWORD2_FOR_NEW_USER_XPATH), confirmPassword);
+		}
+
+		/// <summary>
+		/// Нажать кнопку Submit при создании нового юзера
+		/// </summary>
+		public void ClickSubmitBtnNewUser()
+		{
+			ClickElement(By.XPath(SUBMIT_BTN_FOR_NEW_USER_XPATH));
+		}
+
+		/// <summary>
+		/// Нажать кнопку Сохранить при создании нового юзера
+		/// </summary>
+		public void ClickSaveBtnForNewUser()
+		{
+			ClickElement(By.XPath(SUBMIT_BTN_FOR_NEW_USER_XPATH));
+		}
+
+		/// <summary>
+		/// Нажать кнопку Создать перс аккаунт для нового юзера
+		/// </summary>
+		public void ClickCreatePersonalAccBtnForNewUser()
+		{
+			ClickElement(By.XPath(CREATE_PERS_ACCOUNT_XPATH));
+		}
+
+		/// <summary>
+		/// Запонить поле фамилия , когда создается новый перс аккаунт
+		/// </summary>
+		/// <param name="surname">фамилия</param>
+		public void FillSurname(string surname)
+		{
+			ClickClearAndAddText(By.XPath(SURNAME_FIELD_IN_PERS_ACC), surname);
+		}
+
+		/// <summary>
+		/// Нажать кнопку Сохранить при создании перс аккаунт
+		/// </summary>
+		public void ClickSaveBtnPersAcc()
+		{
+			ClickElement(By.XPath(SAVE_BTN_NEW_PEERS_ACC));
+		}
+
+		//public IWebElement FindActiveCheckBox()
+		//{
+		//   return Driver.FindElement(By.XPath(ACTIVE_CHECKBOX_XPATH));
+		//}
+
+		/// <summary>
+		/// Проверить чексбокс Active 
+		/// </summary>
+		/// <returns>чекнут(true) или не чекнут чекбокс(false)</returns>
+		public bool IsSelectedActiveCheckbox()
+		{
+			return IsSelected(By.XPath(ACTIVE_CHECKBOX_XPATH));
+		}
+
+		/// <summary>
+		/// Чекнуть Active чебкбокс 
+		/// </summary>
+		public void SelectCheckbox()
+		{
+			ClickElement(By.XPath(ACTIVE_CHECKBOX_XPATH));
+		}
+
 		protected const string LOGIN_FORM_XPATH = "//form[contains(@action,'/Home/Login')]";
 		protected const string LOGIN_FORM_LOGIN_XPATH = "//input[@name='email']";
 		protected const string LOGIN_FORM_PASSWORD_XPATH = "//input[@name='password']";
@@ -278,5 +395,18 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		protected const string SUBDOMAIN_NAME_XPATH = "//input[@name='SubDomain']";
 		protected const string CREATE_ACCOUNT_FORM_XPATH = "//form[contains(@action,'Edit')]";
 		protected const string VENTURE_XPATH = "//select[@id='VentureId']";
+
+		protected const string CREATE_NEW_USER_XPATH = "//a[@href='/Users/Create']";
+		protected const string EMAIL_FOR_NEW_USER_XPATH = "//input[@id='EMail']";
+		protected const string NICKNAME_FOR_NEW_USER_XPATH = "//input[@id='Nickname']";
+		protected const string PASSWORD_FOR_NEW_USER_XPATH = "//div[6]/input[@class='inputField']";
+		protected const string PASSWORD2_FOR_NEW_USER_XPATH = "//div[8]/input[@class='inputField']";
+		protected const string SUBMIT_BTN_FOR_NEW_USER_XPATH = "//p[@class='submit-area']/input";
+		protected const string CREATE_PERS_ACCOUNT_XPATH = "//form[@action='/Users/CreatePersonalAccount']/input[2]"; //кнопка создать перс акккаунт
+		protected const string SURNAME_FIELD_IN_PERS_ACC = ".//input[@id='Surname']"; // поле фамилия на стр создания перс аккаунта
+		protected const string SAVE_BTN_NEW_PEERS_ACC = "//p[@class='submit-area']/input"; //кнопка Сохранить при создании персонального аккаунта
+		protected const string ACTIVE_CHECKBOX_XPATH = "//input[@type='checkbox' and @id='IsActive']"; // чекбокс Active
+		//все кнопки ManageUsers в таблице корпоративных аккаунтов
+		protected const string ALL_MANAGE_USER_BTN = "//preceding-sibling::td//a[contains(@href,'/EnterpriseAccounts/ManageUsers/')]";
 	}
 }

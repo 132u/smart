@@ -4,6 +4,9 @@
 	<CatTargetServer Url="smartcat.stage3.als.local" Workspace=""/>
 	<CourseraTargetServer Url="http://coursera.stage2.als.local/en"/>
 
-	<TestingFiles RootDirectory="../TestingFiles"/>
+	<TestingFiles 
+		RootDirectory="../TestingFiles"
+		ConfigDirectory="../configs"
+	/>
 	
 </configuration>

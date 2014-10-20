@@ -60,7 +60,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// </summary>
 		/// <param name="driver"></param>
 		/// <param name="wait"></param>
-		public CommonHelper (IWebDriver driver, WebDriverWait wait)
+		public CommonHelper(IWebDriver driver, WebDriverWait wait)
 		{
 			_driver = driver;
 			_wait = wait;
@@ -90,7 +90,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 				_wait.Until((d) => d.FindElement(by).Displayed);
 				return true;
 			}
-			catch (StaleElementReferenceException )
+			catch (StaleElementReferenceException)
 			{
 				Console.WriteLine("StaleElementReferenceException: WaitUntilDisplayElement: " + by.ToString());
 				return WaitUntilDisplayElement(by, maxWait);
@@ -123,7 +123,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 				Driver.FindElement(by);
 				return true;
 			}
-			catch(StaleElementReferenceException)
+			catch (StaleElementReferenceException)
 			{
 				Console.WriteLine("StaleElementReferenceException: GetIsElementExist: " + by.ToString());
 				return GetIsElementExist(by);
@@ -271,7 +271,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		protected void ClickAndSendTextElement(By by, string text)
 		{
 			string txt = Regex.Replace(text, "[+^%~()]", "{$0}");
-			
+
 			try
 			{
 				IWebElement el = Driver.FindElement(by);
@@ -332,7 +332,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		protected void SendTextElement(By by, string text)
 		{
 			string txt = Regex.Replace(text, "[+^%~()]", "{$0}");
-			
+
 			try
 			{
 				Driver.FindElement(by).SendKeys(txt);
@@ -661,7 +661,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		protected void ClearAndFillElementsList(By by, string text)
 		{
 			string txt = Regex.Replace(text, "[+^%~()]", "{$0}");
-			
+
 			IList<IWebElement> termList = GetElementList(by);
 			foreach (IWebElement el in termList)
 			{
@@ -670,7 +670,21 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			}
 		}
 
+		/// <summary>
+		/// Обовить страницу
+		/// </summary>
+		public void RefreshPage()
+		{
+			Driver.Navigate().Refresh();
+		}
 
+		/// <summary>
+		/// Определить чекнут чекбокс или нет
+		/// </summary>
+		public bool IsSelected(By by)
+		{
+			return Driver.FindElement(by).Selected;
+		}
 
 		public enum LANGUAGE { English, Russian, German, French, Japanese, Lithuanian };
 		protected Dictionary<LANGUAGE, string> languageID;
@@ -681,6 +695,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		protected const string STANDARD_LANG_ID_FR = "12";
 		protected const string STANDARD_LANG_ID_JP = "1041";
 		protected const string STANDARD_LANG_ID_LT = "1063";
-		
+
 	}
 }

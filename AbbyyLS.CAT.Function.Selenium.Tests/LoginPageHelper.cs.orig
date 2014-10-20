@@ -1,5 +1,4 @@
-﻿
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -62,7 +61,13 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		public void ClickSubmit()
 		{
 			ClickElement(By.XPath(SUBMIT_BTN_CSS));
-
+<<<<<<< HEAD
+=======
+		}
+		public void ClickSubmit2()
+		{
+			ClickElement(By.XPath(SUBMIT_BTN_CSS2));
+>>>>>>> PRX5601- тесты регистрации фрилансеров
 		}
 		/// <summary>
 		/// Дождаться отображения имени аккаунта
@@ -159,14 +164,19 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		
 		protected const string EMAIL_CSS = "input[name=\"email\"]";
 		protected const string PASSWORD_CSS = "input[name=\"password\"]";
+<<<<<<< HEAD
 		protected const string SUBMIT_BTN_CSS = "//button[contains(@class, 'btn-danger')]";
 		protected const string SUBMIT_BTN_CSS2 = "//button[contains(@class, 'btn btn-danger ng-binding') and @ng-class='{ disabled: selectAccount.$invalid }']";
+
+=======
+		protected const string SUBMIT_BTN_CSS = "//*[contains(@class, 'btn btn-danger ng-binding')]";
+>>>>>>> PRX5601- тесты регистрации фрилансеров
 		protected const string ERROR_XPATH = "//div[contains(@class,'js-dynamic-errors')]";
 		
 		protected const string LOGIN_BTN_LPRO_XPATH = "btnLogin";
 		protected const string EMAIL_LPRO_XPATH = "lfLogin";
 		protected const string PASSWORD_LPRO_XPATH = "lfPwd";
 		protected const string SUBMIT_LPRO_XPATH = "//input[@value='Login']";
+		protected const string SUBMIT_BTN_CSS2 = "//button[contains(@class, 'btn btn-danger ng-binding') and @ng-class='{ disabled: selectAccount.$invalid }']";
 	}
 }
-

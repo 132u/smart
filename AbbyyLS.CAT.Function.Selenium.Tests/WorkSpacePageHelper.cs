@@ -564,9 +564,13 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			ClickElement(By.XPath(LOGOFF_XPATH));
 		}
 
+	    public bool CheckAccountList(string accountName)
+	    {
+	       return GetIsElementDisplay(By.XPath("//li[@class='g-topbox__corpitem' and @title='" + accountName + "']"));
+	    }
 
 
-		public enum LOCALE_LANGUAGE_SELECT { English, Russian };
+	    public enum LOCALE_LANGUAGE_SELECT { English, Russian };
 		public enum EXPORT_TYPE { Original, TMX, Translated };
 
 
