@@ -2,9 +2,6 @@
 
 namespace AbbyyLS.CAT.Function.Selenium.Tests
 {
-	using NUnit.Framework.Constraints;
-	using System.IO;
-
 	/// <summary>
 	/// Тесты регистрации фрилансера
 	/// </summary>

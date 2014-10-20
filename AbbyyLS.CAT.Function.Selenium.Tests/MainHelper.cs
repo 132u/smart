@@ -144,7 +144,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		protected const string CLIENT_REF_XPATH = ".//a[contains(@href,'/Clients')]";
 		protected const string DICTIONARIES_REF_XPATH = ".//a[contains(@href,'/LingvoDictionaries')]";
 
-		protected const string OPEN_PROFILE_XPATH = "//span[contains(@class,'js-link-profile')]";
+		protected const string OPEN_PROFILE_XPATH = "//a[@class='js-link-profile g-redbtn__text g-btn__text']";
 		protected const string PROFILE_FORM_XPATH = "//div[contains(@class,'g-popupbox g-profile')]";
 		protected const string PROFILE_USER_NAME_XPATH = PROFILE_FORM_XPATH + "//p[contains(@class, 'name')]//input";
 		protected const string CLOSE_PROFILE_XPATH = PROFILE_FORM_XPATH + "//span[contains(@class, 'js-popup-close')]//a";

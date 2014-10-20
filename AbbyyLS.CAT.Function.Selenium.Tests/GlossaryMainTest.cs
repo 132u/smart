@@ -177,9 +177,8 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		[Test]
 		public void CheckAuthorCreatedGlossaryTest()
 		{
-			// Получить имя пользователя из профиля
-			string userName = GetUserNameProfile();
-
+			// Получить имя пользователя из панели WS 
+			string userName = WorkspacePage.GetUserName();
 			// Создать глоссарий
 			string glossaryName = CreateGlossaryAndReturnToGlossaryList();
 

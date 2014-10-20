@@ -3,17 +3,6 @@ using OpenQA.Selenium.Support.UI;
 
 namespace AbbyyLS.CAT.Function.Selenium.Tests
 {
-	using System.Drawing;
-	using System.Drawing.Imaging;
-	using System.Net;
-
-
-
-	using NUnit.Framework;
-
-	using OpenQA.Selenium.Support.Extensions;
-	using System.IO;
-
 	/// <summary>
 	/// Хелпер страницы регистрации 
 	/// </summary>
