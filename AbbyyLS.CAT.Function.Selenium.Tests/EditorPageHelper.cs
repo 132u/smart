@@ -687,8 +687,8 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		}
 
 
-		protected const string TASK_TRNSLT_BTN_XPATH = "//span[contains(@id, 'button-1030-btnEl')]";
-		protected const string TASK_CONTINUE_BTN_XPATH = "//span[contains(@id, 'button-1033-btnEl')]";
+		protected const string TASK_TRNSLT_BTN_XPATH = "//span[contains(@id, 'stagenumber-1')]";
+		protected const string TASK_CONTINUE_BTN_XPATH = "//span[contains(@id, 'continue-btn')]";
 
 		protected const string TITLE_TEXT = "editor";
 		protected const string SEGMENTS_CSS = "#segments-body div div table";
