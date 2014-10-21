@@ -109,12 +109,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		{
 			try
 			{
-				// Удалить все из сегментов
-				for (int i = 0; i <= EditorPage.GetSegmentsNumber(); i++)
-				{
-					EditorPage.AddTextTarget(i + 1, "");
-				}
-				
 				// Дождаться сохранения сегментов
 				EditorPage.WaitUntilAllSegmentsSave();
 			}
