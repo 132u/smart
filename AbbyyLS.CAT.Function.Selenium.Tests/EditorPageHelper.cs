@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using NUnit.Framework;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Firefox;
 using OpenQA.Selenium.Chrome;
@@ -139,6 +140,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		public void ClickConfirmBtn()
 		{
 			ClickElement(By.Id(CONFIRM_BTN_ID));
+			Thread.Sleep(3000);
 		}
 
 		/// <summary>
@@ -686,6 +688,33 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			ClickElement(By.XPath(TASK_CONTINUE_BTN_XPATH));
 		}
 
+		/// <summary>
+		/// Подстановка из САТ в выбранный сегмент строки с конкретным типом
+		/// </summary>
+		public void PasteFromCAT(int segmentNum, EditorPageHelper.CAT_TYPE CatType, bool useHotkey)
+		{
+			//Выбираем сегмент
+			ClickTargetCell(segmentNum);
+			
+			//Ждем пока загрузится CAT-панель
+			Assert.IsTrue(GetCATPanelNotEmpty(), "Ошибка: панель CAT пуста");
+
+			int TMNumber = GetCATTranslationRowNumber(CatType);
+			
+			if (useHotkey)
+			{
+				//Нажать хоткей для подстановки из TM перевода сегмента
+				SendKeysTarget(segmentNum, OpenQA.Selenium.Keys.Control + TMNumber.ToString());
+			}
+			else
+			{
+				// Двойной клик
+				DoubleClickCATPanel(TMNumber);
+			}
+			// Дожидаемся сохранения сегментов
+			Assert.IsTrue(WaitUntilAllSegmentsSave(),
+				"Ошибка: Не проходит автосохранение.");
+		}
 
 		protected const string TASK_TRNSLT_BTN_XPATH = "//span[contains(@id, 'stagenumber-1')]";
 		protected const string TASK_CONTINUE_BTN_XPATH = "//span[contains(@id, 'continue-btn')]";

@@ -74,7 +74,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			if (TestContext.CurrentContext.Test.Name.Contains("PreviousStage"))
 			{
 				// Создание проекта с уникальным именем
-				CreateProjectIfNotCreated(ProjectName, EditorTXTFile);
+				CreateProjectIfNotCreated(ProjectName, EditorTXTFile, false, "", false, true, Workspace_CreateProjectDialogHelper.MT_TYPE.DefaultMT);
 				// Открытие настроек проекта
 				WorkspacePage.OpenProjectPage(ProjectName);
 			}
@@ -152,164 +152,90 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		}
 
 		/// <summary>
-		/// Метод тестирования кнопки отмены ввода текста
+		/// Метод тестирования кнопки Undo и Redo при вводе текста
 		/// </summary>
 		[Test]
-		public void UndoButtonTextTest()
+		public void UndoRedoButtonTextTest()
 		{
-			int segmentNumber = 1;
-			// Вводим текст в первый сегмент
-			EditorPage.AddTextTarget(segmentNumber, "some text");
-
-			// Нажать кнопку отмены
-			EditorPage.ClickUndoBtn();
-
-			// Убедиться, что в target нет текста
-			string targetxt = EditorPage.GetTargetText(segmentNumber);
-			Assert.AreEqual("", targetxt, "Ошибка: после Undo в Target есть текст");
-		}
-
-		/// <summary>
-		/// Метод тестирования хоткея отмены ввода текста
-		/// </summary>
-		[Test]
-		public void UndoHotkeyTextTest()
-		{
-			int segmentNumber = 1;
-			// Вводим текст в первый сегмент
-			EditorPage.AddTextTarget(segmentNumber, "some text");
-
-			// Нажать хоткей отмены
-			EditorPage.SendKeysTarget(segmentNumber, OpenQA.Selenium.Keys.Control + "z");
-
-			// Убедиться, что в target нет текста
-			string targetxt = EditorPage.GetTargetText(segmentNumber);
-			Assert.AreEqual("", targetxt, "Ошибка: после Undo в Target есть текст");
-		}
-
-		/// <summary>
-		/// Метод тестирования кнопки отмены подтверждения текста
-		/// </summary>
-		[Test]
-		public void UndoButtonSegmentTest()
-		{
-			int segmentNumber = 1;
-			string sourcetxt = EditorPage.GetSourceText(segmentNumber);
-
-			// Копируем текст в первый сегмент
-			ToTargetButton(segmentNumber);
-
-			// Подтверждаем
-			EditorPage.ClickConfirmBtn();
-			WaitSegmentConfirm(segmentNumber);
-
-			// Нажать кнопку отмены
-			EditorPage.ClickUndoBtn();
-
-			// Убедиться, что текст в target такой же как в source
-			string targetxt = EditorPage.GetTargetText(segmentNumber);
-			Assert.AreEqual(sourcetxt, targetxt, "Ошибка: Текст не соответствует введенному.");
-
-			// Убедиться, что сегмент стал неподтвержденным
-			Assert.IsFalse(EditorPage.GetIsSegmentConfirm(segmentNumber),
-				"Ошибка: Сегмент не должен быть подтвержденным.");
-		}
-
-		/// <summary>
-		/// Метод тестирования хоткея отмены подтверждения текста
-		/// </summary>
-		[Test]
-		public void UndoHotkeySegmentTest()
-		{
-			int segmentNumber = 1;
-			string sourcetxt = EditorPage.GetSourceText(segmentNumber);
-
-			// Копируем текст в первый сегмент
-			ToTargetButton(segmentNumber);
-
-			// Подтверждаем
-			EditorPage.ClickConfirmBtn();
-			WaitSegmentConfirm(segmentNumber);
-
-			// Нажать хоткей отмены
-			EditorPage.SendKeysTarget(segmentNumber, OpenQA.Selenium.Keys.Control + "z");
-
-			// Убедиться, что текст в target такой же как в source
-			string targetxt = EditorPage.GetTargetText(segmentNumber);
-			Assert.AreEqual(sourcetxt, targetxt, "Ошибка: Текст не соответствует введенному.");
-
-			// Убедиться, что сегмент стал неподтвержденным
-			Assert.IsFalse(EditorPage.GetIsSegmentConfirm(segmentNumber),
-				"Ошибка: Сегмент не должен быть подтвержденным.");
-		}
-
-		/// <summary>
-		/// Метод тестирования кнопки возврата отмененного действия
-		/// </summary>
-		[Test]
-		public void RedoButtonTextTest()
-		{
-			int segmentNumber = 1;
-			string text = "some text";
+			const int segmentNumber = 1;
+			const string text = "some text";
+			const string textundo = "some tex";
 			// Вводим текст в первый сегмент
 			EditorPage.AddTextTarget(segmentNumber, text);
 
 			// Нажать кнопку отмены
 			EditorPage.ClickUndoBtn();
+
+			// Проверить, что в target убралась одна буква
+			string targetxt = EditorPage.GetTargetText(segmentNumber);
+			Assert.AreEqual(textundo, targetxt, "Ошибка: после Undo в Target не убрана одна буква");
 
 			// Нажать кнопку возврата отмененного действия
 			EditorPage.ClickRedoBtn();
 
 			// Убедиться, что в текст соответствует введенному
-			string targetxt = EditorPage.GetTargetText(segmentNumber);
+			targetxt = EditorPage.GetTargetText(segmentNumber);
 			Assert.AreEqual(text, targetxt, "Ошибка: Текст не соответствует введенному.");
 		}
 
 		/// <summary>
-		/// Метод тестирования хоткея возврата отмененного действия
+		/// Метод тестирования хоткея Undo и Redo при вводе текста
 		/// </summary>
 		[Test]
-		public void RedoHotkeyTextTest()
+		public void UndoRedoHotkeyTextTest()
 		{
-			int segmentNumber = 1;
-			string text = "some text";
+			const int segmentNumber = 1;
+			const string text = "some text";
+			const string textundo = "some tex";
 			// Вводим текст в первый сегмент
 			EditorPage.AddTextTarget(segmentNumber, text);
 
-			// Нажать кнопку отмены
-			EditorPage.ClickUndoBtn();
+			// Нажать хоткей отмены
+			EditorPage.SendKeysTarget(segmentNumber, OpenQA.Selenium.Keys.Control + "z");
+
+			// Убедиться, что в target нет текста
+			string targetxt = EditorPage.GetTargetText(segmentNumber);
+			Assert.AreEqual(textundo, targetxt, "Ошибка: после Undo в Target не убрана одна буква");
 
 			// Нажать хоткей возврата отмененного действия
 			EditorPage.SendKeysTarget(segmentNumber, OpenQA.Selenium.Keys.Control + "y");
 
 			// Убедиться, что в текст соответствует введенному
-			string targetxt = EditorPage.GetTargetText(segmentNumber);
+			targetxt = EditorPage.GetTargetText(segmentNumber);
 			Assert.AreEqual(text, targetxt, "Ошибка: Текст не соответствует введенному.");
 		}
 
 		/// <summary>
-		/// Метод тестирования кнопки возврата отмененного подтверждения текста
+		/// Метод тестирования кнопки Undo и Redo при подтверждении сегмента
 		/// </summary>
 		[Test]
-		public void RedoButtonSegmentTest()
+		public void UndoRedoButtonSegmentTest()
 		{
-			int segmentNumber = 1;
+			const int segmentNumber = 1;
 			string sourcetxt = EditorPage.GetSourceText(segmentNumber);
 
 			// Копируем текст в первый сегмент
-			ToTargetButton(segmentNumber);
+			ToTargetButton();
 
 			// Подтверждаем
 			EditorPage.ClickConfirmBtn();
 
 			// Нажать кнопку отмены
 			EditorPage.ClickUndoBtn();
+			
+			// Убедиться, что текст в target такой же как в source
+			string targetxt = EditorPage.GetTargetText(segmentNumber);
+			Assert.AreEqual(sourcetxt, targetxt, "Ошибка: Текст не соответствует введенному.");
+
+			// Убедиться, что сегмент стал неподтвержденным
+			Assert.IsFalse(EditorPage.GetIsSegmentConfirm(segmentNumber),
+				"Ошибка: Сегмент не должен быть подтвержденным.");
 
 			// Нажать кнопку возврата отмененного действия
 			EditorPage.ClickRedoBtn();
 
 			// Убедиться, что текст в target такой же как в source
-			string targetxt = EditorPage.GetTargetText(segmentNumber);
+			targetxt = EditorPage.GetTargetText(segmentNumber);
 			Assert.AreEqual(sourcetxt, targetxt, "Ошибка: Текст не соответствует введенному.");
 
 			// Убедиться, что сегмент стал подтвержденным
@@ -318,10 +244,10 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		}
 
 		/// <summary>
-		/// Метод тестирования хоткея возврата отмененного подтверждения текста
+		/// Метод тестирования хоткея Undo и Redo при подтверждении сегмента
 		/// </summary>
 		[Test]
-		public void RedoHotkeySegmentTest()
+		public void UndoRedoHotkeySegmentTest()
 		{
 			int segmentNumber = 1;
 			string sourcetxt = EditorPage.GetSourceText(segmentNumber);
@@ -332,19 +258,94 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			// Подтверждаем
 			EditorPage.ClickConfirmBtn();
 
-			// Нажать кнопку отмены
-			EditorPage.ClickUndoBtn();
-
-			// Нажать хоткей возврата отмененного действия
-			EditorPage.SendKeysTarget(segmentNumber, OpenQA.Selenium.Keys.Control + "y");
+			// Нажать хоткей отмены
+			EditorPage.SendKeysTarget(segmentNumber, OpenQA.Selenium.Keys.Control + "z");
 
 			// Убедиться, что текст в target такой же как в source
 			string targetxt = EditorPage.GetTargetText(segmentNumber);
 			Assert.AreEqual(sourcetxt, targetxt, "Ошибка: Текст не соответствует введенному.");
 
+			// Убедиться, что сегмент стал неподтвержденным
+			Assert.IsFalse(EditorPage.GetIsSegmentConfirm(segmentNumber),
+				"Ошибка: Сегмент не должен быть подтвержденным.");
+
+			// Нажать хоткей возврата отмененного действия
+			EditorPage.SendKeysTarget(segmentNumber, OpenQA.Selenium.Keys.Control + "y");
+
+			// Убедиться, что текст в target такой же как в source
+			targetxt = EditorPage.GetTargetText(segmentNumber);
+			Assert.AreEqual(sourcetxt, targetxt, "Ошибка: Текст не соответствует введенному.");
+
 			// Убедиться, что сегмент стал подтвержденным
 			Assert.IsTrue(EditorPage.GetIsSegmentConfirm(segmentNumber),
 				"Ошибка: Сегмент должен быть подтвержденным.");
+		}
+
+		/// <summary>
+		/// Метод тестирования кнопки Undo и Redo при подстановке из CAT-панели
+		/// </summary>
+		[Test]
+		public void UndoRedoButtonCatTest()
+		{
+			int segmentNumber = 1;
+			
+			// Почистить таргет
+			EditorPage.AddTextTarget(segmentNumber, "");
+
+			//Выбираем первый сегмент
+			EditorPage.ClickTargetCell(segmentNumber);
+
+			// Подставляем перевод из CAT
+			EditorPage.PasteFromCAT(1, EditorPageHelper.CAT_TYPE.TM, true);
+
+			// Нажать кнопку отмены
+			EditorPage.ClickUndoBtn();
+
+			// Проверить, что в target пусто
+			string targetxt = EditorPage.GetTargetText(segmentNumber);
+			Assert.AreEqual("", targetxt, "Ошибка: после Undo в Target есть текст");
+
+			// Нажать кнопку возврата отмененного действия
+			EditorPage.ClickRedoBtn();
+
+			// Проверить, что в target не пусто
+			targetxt = EditorPage.GetTargetText(segmentNumber);
+			Assert.AreNotEqual("", targetxt, "Ошибка: после Redo в Target нет текста");
+		}
+
+		/// <summary>
+		/// Метод тестирования хоткея Undo и Redo при подстановке из CAT-панели
+		/// </summary>
+		[Test]
+		public void UndoRedoHotkeyCatTest()
+		{
+			int segmentNumber = 1;
+
+			// Почистить таргет
+			EditorPage.AddTextTarget(segmentNumber, "");
+
+			//Выбираем первый сегмент
+			EditorPage.ClickTargetCell(segmentNumber);
+
+			// Подставляем перевод из CAT
+			EditorPage.PasteFromCAT(1, EditorPageHelper.CAT_TYPE.TM, true);
+
+			// Нажать хоткей отмены
+			EditorPage.SendKeysTarget(segmentNumber, OpenQA.Selenium.Keys.Control + "z");
+
+			// Проверить, что в target пусто
+			string targetxt = EditorPage.GetTargetText(segmentNumber);
+			Assert.AreEqual("", targetxt, "Ошибка: после Undo в Target есть текст");
+
+			// Нажать хоткей возврата отмененного действия
+			EditorPage.SendKeysTarget(segmentNumber, OpenQA.Selenium.Keys.Control + "y");
+
+			// Проверить, что в target не пусто
+			targetxt = EditorPage.GetTargetText(segmentNumber);
+			Assert.AreNotEqual("", targetxt, "Ошибка: после Redo в Target нет текста");
+
+			// Почистить таргет
+			EditorPage.AddTextTarget(segmentNumber, "");
 		}
 
 		/// <summary>
