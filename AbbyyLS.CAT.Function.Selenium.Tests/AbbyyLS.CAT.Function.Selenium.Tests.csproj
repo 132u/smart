@@ -7,7 +7,7 @@
     <ProjectGuid>{9DC9D68E-BBFD-4CCB-9C78-949E7E895D3A}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>AbbyyLs.CAT.Function.Selenium.Tests</RootNamespace>
+    <RootNamespace>AbbyyLS.CAT.Function.Selenium.Tests</RootNamespace>
     <AssemblyName>AbbyyLS.CAT.Function.Selenium.Tests</AssemblyName>
     <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
@@ -57,6 +57,8 @@
   <ItemGroup>
     <Compile Include="AddTermFormHelper.cs" />
     <Compile Include="AdminTests.cs" />
+    <Compile Include="CatPanelSubstitutionTest.cs" />
+    <Compile Include="LoginPageHelper.cs" />
     <Compile Include="RandomString.cs" />
     <Compile Include="FilesRootCfg.cs" />
     <Compile Include="RegistrationPageHelper.cs" />
@@ -97,7 +99,6 @@
     <Compile Include="GlossarySuggestedTermsTest.cs" />
     <Compile Include="GlossarySuggestPageHelper.cs" />
     <Compile Include="GlossaryTest.cs" />
-    <Compile Include="LoginPageHelper.cs" />
     <Compile Include="MainHelper.cs" />
     <Compile Include="NewProjectTest.cs" />
     <Compile Include="ProjectPageHelper.cs" />

@@ -64,7 +64,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			//Заполнить пароль
 			LoginPage.EnterPassword(RegistrationPage.password);
 			//Нажать кнопку Sign In
-			LoginPage.ClickSubmit();
+			LoginPage.ClickSubmitCredentials();
 			//Проверить что имя и фамилия фрилансера отображается в панели на стр WS
 			Assert.IsTrue(
 				RegistrationPage.CheckNameSurnameInWSPanel(),

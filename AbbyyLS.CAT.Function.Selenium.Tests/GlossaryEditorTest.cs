@@ -58,7 +58,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 				//Создание нового словаря
 				CreateNewGlossary();
 				//Создание проекта	
-				CreateProjectIfNotCreated(projectNoChangesName, "", false, "", true, false, Workspace_CreateProjectDialogHelper.MT_TYPE.None, true, _glossaryName);
+				CreateProjectIfNotCreated(projectNoChangesName, "", false, "", Workspace_CreateProjectDialogHelper.SetGlossary.ByName, _glossaryName);
 				//Открытие настроек проекта			
 				ImportDocumentProjectSettings(DocumentFile, projectNoChangesName);
 				//Назначение задачи на пользователя
@@ -470,7 +470,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			// Создать новый глоссарий
 			CreateNewGlossary(false);
 			// Создать проект с одним глоссарием
-			CreateProject(_projectName2, "", false, "", true, false, Workspace_CreateProjectDialogHelper.MT_TYPE.None, true, _glossaryName);
+			CreateProject(_projectName2, "", false, "", Workspace_CreateProjectDialogHelper.SetGlossary.ByName, _glossaryName);
 			//Открытие настроек проекта			
 			ImportDocumentProjectSettings(DocumentFile, _projectName2);
 			//Назначение задачи на пользователя

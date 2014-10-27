@@ -8,7 +8,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 	/// <summary>
 	/// Хелпер панели выдачи переводов
 	/// </summary>
-	public class CatPanelResultsHelper : CommonHelper
+	public class CatPanelResultsHelper : AddTermFormHelper
 	{
 		/// <summary>
 		/// Конструктор хелпера

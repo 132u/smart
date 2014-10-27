@@ -59,7 +59,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <summary>
 		/// Кликнуть Submit
 		/// </summary>
-		public void ClickSubmit()
+		public void ClickSubmitCredentials()
 		{
 			ClickElement(By.XPath(SUBMIT_BTN_CSS));
 
@@ -130,7 +130,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <summary>
 		/// Кликнуть кнопку Login на странице выбора аккаунта
 		/// </summary>
-		public void ClickSubmit2()
+		public void ClickSubmitAccount()
 		{
 			ClickElement(By.XPath(SUBMIT_BTN_CSS2));
 		} 

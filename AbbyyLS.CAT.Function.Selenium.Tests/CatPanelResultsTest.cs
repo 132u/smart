@@ -52,7 +52,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		public void CheckMT(Workspace_CreateProjectDialogHelper.MT_TYPE mt_type)
 		{
 			// Создание проекта с файлом с ТМ без файла и с заданным МТ
-			CreateProject(ProjectName, DocumentFile, true, "", false, true, mt_type, true);
+			CreateProject(ProjectName, DocumentFile, true, "", Workspace_CreateProjectDialogHelper.SetGlossary.None, "", true, mt_type, true);
 
 			// Ожидаем пока загрузится документ.
 			if (!WorkspacePage.WaitProjectLoad(ProjectName))
@@ -95,8 +95,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			System.Console.WriteLine("CheckTM");
 
 			// Создание проекта с файлом с МТ с файлом
-			CreateProject(ProjectName, EditorTXTFile, true, EditorTMXFile, false, false,
-				Workspace_CreateProjectDialogHelper.MT_TYPE.None, true);
+			CreateProject(ProjectName, EditorTXTFile, true, EditorTMXFile);
 
 			// Ожидаем пока загрузится документ.
 			if (!WorkspacePage.WaitProjectLoad(ProjectName))

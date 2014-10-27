@@ -84,17 +84,23 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			_imageFile = Path.GetFullPath(cfgRoot.Root + "/TestImage.jpg");
 			_audioFile = Path.GetFullPath(cfgRoot.Root + "/TestAudio.mp3");
 			_rtfFile = Path.GetFullPath(cfgRoot.Root + "/rtf1.rtf");
+			
+			_txtFileForMatchTest = Path.GetFullPath(cfgRoot.Root + "/FilesForMatchTest/TxtFileForMatchTest.docx");
+			_tmxFileForMatchTest = Path.GetFullPath(cfgRoot.Root + "/FilesForMatchTest/TmxFileForMatchTest.tmx");
+			
 			_photoLoad = Path.GetFullPath(cfgRoot.Root + "/FilesForLoadPhotoInRegistration/");
 			_testUserFile = Path.GetFullPath(cfgRoot.RootToConfig + "/TestUsers.xml");
+			
 			if (TestUserFileExist())
 			{
-					var cfgTestUser = TestSettingDefinition.Instance.Get<TestUserConfig>();
+				var cfgTestUser = TestSettingDefinition.Instance.Get<TestUserConfig>();
 
-					_testUserList = new List<UserInfo>();
-					// Добавление пользователей в _testUserList из конфига
-					for (int v = 0; v < 6; v++)
-						_testUserList.Add(
-							new UserInfo(cfgTestUser.Users[v].Login, cfgTestUser.Users[v].Password, cfgTestUser.Users[v].State));
+
+				_testUserList = new List<UserInfo>();
+				// Добавление пользователей в _testUserList из конфига
+				for (int v = 0; v < 6; v++)
+					_testUserList.Add(
+						new UserInfo(cfgTestUser.Users[v].Login, cfgTestUser.Users[v].Password, cfgTestUser.Users[v].State));
 			}
 		}
 
@@ -552,7 +558,34 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 				return _rtfFile;
 			}
 		}
-
+		/// <summary>
+		/// Полный путь к Txt для match теста
+		/// </summary>
+		private string _txtFileForMatchTest;
+		/// <summary>
+		/// Полный путь к Txt для match теста
+		/// </summary>
+		protected string TxtFileForMatchTest
+		{
+			get
+			{
+				return _txtFileForMatchTest;
+			}
+		}
+		/// <summary>
+		/// Полный путь к Tmx для match теста
+		/// </summary>
+		private string _tmxFileForMatchTest;
+		/// <summary>
+		/// Полный путь к Tmx для match теста
+		/// </summary>
+		protected string TmxFileForMatchTest
+		{
+			get
+			{
+				return _tmxFileForMatchTest;
+			}
+		}
 		/// <summary>
 		/// Полный путь к файлу для импорта глоссария
 		/// </summary>
@@ -1340,14 +1373,17 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 				// Заполнить логин и пароль
 				LoginPage.EnterLogin(authLogin);
 				LoginPage.EnterPassword(authPassword);
-				LoginPage.ClickSubmit();
+				LoginPage.ClickSubmitCredentials();
+
+				Thread.Sleep(3000);
+
 				// Проверить, появился ли список аккаунтов
 				if (LoginPage.WaitAccountExist(accountName, 5))
 				{
 					// Выбрать аккаунт
 					LoginPage.ClickAccountName(accountName);
 					// Зайти на сайт
-					LoginPage.ClickSubmit2();
+					LoginPage.ClickSubmitAccount();
 				}
 				else if (LoginPage.GetIsErrorExist())
 				{
@@ -1603,16 +1639,16 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <param name="downloadFile">документ для загрузки</param>
 		/// <param name="createNewTM">создать новый TM</param>
 		/// <param name="tmFile">файл для загрузки в ТМ</param>
-		/// <param name="chooseGlossary">выбрать глоссарий</param>
+		/// <param name="setGlossary">тип глоссария: новый, первый в списке, по имени</param>
+		/// <param name="glossaryName">имя глоссария, если выбирается по имени</param>
 		/// <param name="chooseMT">выбрать МТ</param>
 		/// <param name="mtType">тип МТ</param>
 		/// <param name="isNeedCheckExist">Нужна проверка проекта в списке</param>
-		/// <param name="glossaryName">Имя глоссария</param>
 		protected void CreateProject(string projectName, string downloadFile = "",
 			bool createNewTM = false, string tmFile = "",
-			bool chooseGlossary = false,
+			Workspace_CreateProjectDialogHelper.SetGlossary setGlossary = Workspace_CreateProjectDialogHelper.SetGlossary.None, string glossaryName = "",
 			bool chooseMT = false, Workspace_CreateProjectDialogHelper.MT_TYPE mtType = Workspace_CreateProjectDialogHelper.MT_TYPE.None,
-			bool isNeedCheckExist = true, string glossaryName = "")
+			bool isNeedCheckExist = true)
 		{
 			// Заполнение полей на первом шаге
 			FirstStepProjectWizard(projectName);
@@ -1639,15 +1675,28 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			WorkspaceCreateProjectDialog.ClickNextStep();
 
 			//3 шаг - выбор глоссария
-			if (chooseGlossary && glossaryName == "")
+			switch (setGlossary)
 			{
-				WorkspaceCreateProjectDialog.ClickFirstGlossaryInTable();
+				case Workspace_CreateProjectDialogHelper.SetGlossary.None:
+					
+					break;
+				
+				case Workspace_CreateProjectDialogHelper.SetGlossary.First:
+		
+					WorkspaceCreateProjectDialog.ClickFirstGlossaryInTable();
+					break;
+		
+				case Workspace_CreateProjectDialogHelper.SetGlossary.New:
+		
+					CreateAndAddGlossary();
+					break;
+		
+				case Workspace_CreateProjectDialogHelper.SetGlossary.ByName:
+		
+					WorkspaceCreateProjectDialog.ClickGlossaryByName(glossaryName);
+					break;
 			}
-			else if (chooseGlossary && glossaryName != "")
-			{
-				WorkspaceCreateProjectDialog.ClickGlossaryByName(glossaryName);
-
-			}
+			
 			Thread.Sleep(500);
 			WorkspaceCreateProjectDialog.ClickNextStep();
 
@@ -1656,12 +1705,12 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			{
 				WorkspaceCreateProjectDialog.ChooseMT(mtType);
 			}
-			Thread.Sleep(500);
+			
 			WorkspaceCreateProjectDialog.ClickNextStep();
 
 			//5 шаг - настройка этапов workflow
 			//SetUpWorkflow();
-			Thread.Sleep(500);
+			Thread.Sleep(1000);
 			WorkspaceCreateProjectDialog.ClickNextStep();
 
 			//5 шаг - настройка Pretranslate
@@ -1686,23 +1735,32 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <param name="projectName">название проекта</param>
 		protected void CreateProjectWithoutCheckExist(string projectName)
 		{
-			CreateProject(projectName, "", false, "", false, false, Workspace_CreateProjectDialogHelper.MT_TYPE.None, false);
+			CreateProject(projectName, "", false, "", Workspace_CreateProjectDialogHelper.SetGlossary.None, "", false, Workspace_CreateProjectDialogHelper.MT_TYPE.None, false);
 		}
 
 		/// <summary>
 		/// Создание проекта, если проект с таким именем не создан
 		/// </summary>
-		/// <param name="projectName">Имя проекта</param>
+		/// <param name="projectName">название проекта</param>
+		/// <param name="downloadFile">документ для загрузки</param>
+		/// <param name="createNewTM">создать новый TM</param>
+		/// <param name="tmFile">файл для загрузки в ТМ</param>
+		/// <param name="setGlossary">тип глоссария: новый, первый в списке, по имени</param>
+		/// <param name="glossaryName">имя глоссария, если выбирается по имени</param>
+		/// <param name="chooseMT">выбрать МТ</param>
+		/// <param name="mtType">тип МТ</param>
+		/// <param name="isNeedCheckExist">Нужна проверка проекта в списке</param>
 		protected void CreateProjectIfNotCreated(string projectName, string downloadFile = "",
 			bool createNewTM = false, string tmFile = "",
-			bool chooseGlossary = false,
+			Workspace_CreateProjectDialogHelper.SetGlossary setGlossary = Workspace_CreateProjectDialogHelper.SetGlossary.None,
+			string glossaryName = "",
 			bool chooseMT = false, Workspace_CreateProjectDialogHelper.MT_TYPE mtType = Workspace_CreateProjectDialogHelper.MT_TYPE.None,
-			bool isNeedCheckExist = true, string glossaryName = "")
+			bool isNeedCheckExist = true)
 		{
 			if (!GetIsExistProject(projectName))
 			{
 				// Создание проекта
-				CreateProject(projectName, downloadFile, createNewTM, tmFile, chooseGlossary, chooseMT, mtType, isNeedCheckExist, glossaryName);
+				CreateProject(projectName, downloadFile, createNewTM, tmFile, setGlossary, glossaryName, chooseMT, mtType, isNeedCheckExist);
 
 				// Дождаться, пока документ догрузится
 				Assert.IsTrue(WorkspacePage.WaitProjectLoad(projectName), "Ошибка: документ не загрузился");
@@ -1761,6 +1819,17 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			Assert.IsTrue(WorkspaceCreateProjectDialog.GetIsTMTableNotEmpty(),
 				"Ошибка: пустая таблица TM");
 			WorkspaceCreateProjectDialog.ClickFirstTMInTable();
+		}
+		
+		/// <summary>
+		/// Создание и подключение нового глоссария
+		/// </summary>
+		public void CreateAndAddGlossary()
+		{
+			string internalGlossaryName = "InternalGlossaryName" + DateTime.UtcNow.Ticks.ToString();
+			WorkspaceCreateProjectDialog.ClickCreateGlossary();
+			WorkspaceCreateProjectDialog.SetNewGlossaryName(internalGlossaryName);
+			WorkspaceCreateProjectDialog.ClickSaveNewGlossary();
 		}
 
 		// TODO
@@ -2234,7 +2303,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 				Thread.Sleep(1000);
 			}
 		}
-
+		
 		/// <summary>
 		/// Получить количество терминовв глоссарии
 		/// </summary>
@@ -2336,7 +2405,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			Workspace_CreateProjectDialogHelper.MT_TYPE mtType = Workspace_CreateProjectDialogHelper.MT_TYPE.DefaultMT, bool chooseGlossary = false, string glossaryName = "")
 		{
 			// Создание проекта
-			CreateProject(projectName, "", withTM, EditorTMXFile, chooseGlossary, withMT, mtType);
+			CreateProject(projectName, "", withTM, EditorTMXFile, Workspace_CreateProjectDialogHelper.SetGlossary.None, glossaryName, withMT, mtType);
 
 			//открытие настроек проекта
 			uploadDocument = uploadDocument.Length == 0 ? EditorTXTFile : uploadDocument;
@@ -2516,6 +2585,31 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 				Assert.IsTrue(WorkspaceCreateProjectDialog.WaitUntilConfirmTMDialogDisappear(),
 					"Ошибка: после нажатия кнопки Skip диалог подтверждения не выбранной ТМ не закрылся.");
 			}
+		}
+		
+		/// <summary>
+		/// Метод подстановки из САТ, возвращает номер строки, из которой произведена подстановка
+		/// </summary>
+		/// <param name="segmentNumber">номер сегмента таргет для подстановки  в него</param>
+		/// <param name="catType">тип подстановки из CAT</param>
+		/// <returns>номер строки CAT из которой произвели подстановку</returns>
+
+		protected int PasteFromCatReturnCatLineNumber(int segmentNumber, EditorPageHelper.CAT_TYPE catType)
+		{
+
+			//Выбираем сегмент
+			EditorPage.ClickTargetCell(segmentNumber);
+
+			int catLineNumber = EditorPage.GetCATTranslationRowNumber(catType);
+
+			//Нажать хоткей для подстановки из TM перевода сегмента
+			EditorPage.SendKeysTarget(segmentNumber, OpenQA.Selenium.Keys.Control + catLineNumber.ToString());
+
+			// Дождаться автосохранения
+			Assert.IsTrue(EditorPage.WaitUntilAllSegmentsSave(),
+				"Ошибка: Не проходит автосохранение.");
+
+			return catLineNumber;
 		}
 
 		/// <summary>

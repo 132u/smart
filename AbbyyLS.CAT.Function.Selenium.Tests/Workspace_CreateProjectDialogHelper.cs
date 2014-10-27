@@ -164,6 +164,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		public void ClickNextStep()
 		{
 			ClickElement(By.XPath(NEXT_BTN_XPATH));
+			Thread.Sleep(1000);
 		}
 
 		/// <summary>
@@ -669,6 +670,14 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		}
 
 		/// <summary>
+		/// Кликнуть Create Glossary
+		/// </summary>
+		public void ClickCreateGlossary()
+		{
+			ClickElement(By.XPath(CREATE_GLOSSARY_BTN_XPATH));
+		}
+
+		/// <summary>
 		/// Кликнуть Add TMX в окне диалога
 		/// </summary>
 		public void ClickAddTMXDialog()
@@ -690,6 +699,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <param name="TMName">название</param>
 		public void FillTMNameDialog(string TMName)
 		{
+			Thread.Sleep(1000);
 			ClearAndAddText(By.XPath(NAME_TM_XPATH), TMName);
 		}
 
@@ -795,12 +805,28 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			return WaitUntilDisappearElement(By.XPath(CONFIRM_NOT_SELECTED_TM_DIALOG_XPATH), 3);
 		}
 
+		/// <summary>
+		/// Кликнуть по кнопке сохранения словаря
+		/// </summary>
+		public void ClickSaveNewGlossary()
+		{
+			ClickElement(By.XPath(SAVE_GLOSSARY_BTN_XPATH));
+		}
 
+		/// <summary>
+		/// ввести имя словаря в поле new glossary name
+		/// </summary>
+		public void SetNewGlossaryName(string internalGlossaryName)
+		{
+			ClearAndAddText(By.XPath(NEW_GLOSSARY_NAME_INPUT_XPATH), internalGlossaryName);
+		}
+
+		public enum SetGlossary { New, First, ByName, None };
 		public enum MT_TYPE { DefaultMT, Google, Bing, Yandex, Moses, None };
 		protected Dictionary<MT_TYPE, string> MTTypeDict = new Dictionary<MT_TYPE, string>();
-		
 
 		protected const string CREATE_PROJECT_DIALOG_XPATH = "//div[contains(@class,'js-popup-create-project')][2]";
+
 		protected const string DEADLINE_DATE_INPUT_XPATH = CREATE_PROJECT_DIALOG_XPATH + "//input[contains(@class, 'l-project__date')]";
 		protected const string SOURCE_LANG_DROPDOWN_XPATH = CREATE_PROJECT_DIALOG_XPATH + "//div[select[@id='sourceLanguage']]/span";
 		protected const string SPAN_DROPDOWN_LIST_XPATH = "//span[contains(@class,'js-dropdown__list')]";
@@ -820,6 +846,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		protected const string DEADLINE_DATE_XPATH = "//div[contains(@id, 'ui-datepicker-div')]//table[contains(@class, 'ui-datepicker-calendar')]//tr[2]//td[2]";
 		
 		protected const string UPLOAD_TMX_BTN_XPATH = CREATE_PROJECT_DIALOG_XPATH + "//span[contains(@class,'js-tm-upload')]";
+		protected const string CREATE_GLOSSARY_BTN_XPATH = CREATE_PROJECT_DIALOG_XPATH + "//span[contains(@class,'js-glossary-create')]";
 		protected const string IMPORT_TMX_DIALOG_XPATH = "//div[contains(@class,'js-popup-import-tm')][2]";
 		protected const string ADD_TMX_BTN_XPATH = IMPORT_TMX_DIALOG_XPATH + "//a[contains(@class,'js-upload-btn')]";
 		protected const string SAVE_BTN_XPATH = IMPORT_TMX_DIALOG_XPATH + "//span[contains(@class,'js-save')]";
@@ -846,7 +873,11 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			CREATE_PROJECT_DIALOG_XPATH + "//table[contains(@class,'js-glossaries')]//tbody//tr[1]/*/span[contains(@class,'js-chckbx')]";
 		protected const string GLOSSARY_BY_NAME_XPATH = CREATE_PROJECT_DIALOG_XPATH + "//table[contains(@class,'js-glossaries')]//tbody//tr[contains(string(), '#')]/*/span[contains(@class,'js-chckbx')]";
 		protected const string GLOSSARY_BY_NAME_TR_XPATH = CREATE_PROJECT_DIALOG_XPATH + "//table[contains(@class,'js-glossaries')]//tbody//tr[contains(string(), '#')]";
-		protected const string MT_TABLE_XPATH = CREATE_PROJECT_DIALOG_XPATH + "//table[contains(@class,'js-mts')]//tbody";
+		protected const string CREATE_GLOSSARY_DIALOG_XPATH = "//div[contains(@class,'js-popup-edit-glossary')][2]";
+		protected const string NEW_GLOSSARY_NAME_INPUT_XPATH = CREATE_GLOSSARY_DIALOG_XPATH + "//input[contains(@class,'js-glossary-name')]";
+		protected const string SAVE_GLOSSARY_BTN_XPATH = CREATE_GLOSSARY_DIALOG_XPATH + "//span[contains(@class,'js-save')]";
+
+		protected const string MT_TABLE_XPATH = CREATE_PROJECT_DIALOG_XPATH + "//table[contains(@class,'js-mts-body')]//tbody";
 
 		protected const string FINISH_BTN_XPATH = CREATE_PROJECT_DIALOG_XPATH + "//span[contains(@class,'js-finish js-upload-btn')]";
 		protected const string ERROR_FORMAT_DOCUMENT_MESSAGE_XPATH = "//div[contains(@class,'js-info-popup')]"; // TODO плохой id

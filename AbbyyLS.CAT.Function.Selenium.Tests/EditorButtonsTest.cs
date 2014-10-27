@@ -74,7 +74,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			if (TestContext.CurrentContext.Test.Name.Contains("PreviousStage"))
 			{
 				// Создание проекта с уникальным именем
-				CreateProjectIfNotCreated(ProjectName, EditorTXTFile, false, "", false, true, Workspace_CreateProjectDialogHelper.MT_TYPE.DefaultMT);
+				CreateProjectIfNotCreated(ProjectName, EditorTXTFile, false, "", Workspace_CreateProjectDialogHelper.SetGlossary.None, "", true, Workspace_CreateProjectDialogHelper.MT_TYPE.DefaultMT);
 				// Открытие настроек проекта
 				WorkspacePage.OpenProjectPage(ProjectName);
 			}
@@ -219,6 +219,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 
 			// Подтверждаем
 			EditorPage.ClickConfirmBtn();
+			WaitSegmentConfirm(segmentNumber);
 
 			// Нажать кнопку отмены
 			EditorPage.ClickUndoBtn();
@@ -296,7 +297,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			EditorPage.ClickTargetCell(segmentNumber);
 
 			// Подставляем перевод из CAT
-			EditorPage.PasteFromCAT(1, EditorPageHelper.CAT_TYPE.TM, true);
+			int tmp = PasteFromCatReturnCatLineNumber(1, EditorPageHelper.CAT_TYPE.TM);
 
 			// Нажать кнопку отмены
 			EditorPage.ClickUndoBtn();
@@ -328,7 +329,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			EditorPage.ClickTargetCell(segmentNumber);
 
 			// Подставляем перевод из CAT
-			EditorPage.PasteFromCAT(1, EditorPageHelper.CAT_TYPE.TM, true);
+			int tmp = PasteFromCatReturnCatLineNumber(1, EditorPageHelper.CAT_TYPE.TM);
 
 			// Нажать хоткей отмены
 			EditorPage.SendKeysTarget(segmentNumber, OpenQA.Selenium.Keys.Control + "z");

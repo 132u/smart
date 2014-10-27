@@ -140,7 +140,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		public void ClickConfirmBtn()
 		{
 			ClickElement(By.Id(CONFIRM_BTN_ID));
-			Thread.Sleep(3000);
 		}
 
 		/// <summary>
@@ -678,43 +677,84 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			return WaitUntilDisappearElement(By.XPath(AUTOSAVING_XPATH));
 		}
 
+		/// <summary>
+		/// Нажать кнопку "перевод" в окошке перед открытием редактора
+		/// </summary>
 		public void ClickTaskBtn()
 		{
 			ClickElement(By.XPath(TASK_TRNSLT_BTN_XPATH));
 		}
 
+		/// <summary>
+		/// Нажать кнопку "продолжить" в окошке перед открытием редактора
+		/// </summary>
 		public void ClickContBtn()
 		{
 			ClickElement(By.XPath(TASK_CONTINUE_BTN_XPATH));
 		}
 
 		/// <summary>
-		/// Подстановка из САТ в выбранный сегмент строки с конкретным типом
+		/// Возвращает стоящий в таргете цвет текста колонки match
 		/// </summary>
-		public void PasteFromCAT(int segmentNum, EditorPageHelper.CAT_TYPE CatType, bool useHotkey)
+		/// <param name="segmentNumber">номер сегмента таргет</param>
+		/// <returns>цвет текста</returns>
+		public string GetTargetMatchColor(int segmentNumber)
 		{
-			//Выбираем сегмент
-			ClickTargetCell(segmentNum);
-			
-			//Ждем пока загрузится CAT-панель
-			Assert.IsTrue(GetCATPanelNotEmpty(), "Ошибка: панель CAT пуста");
-
-			int TMNumber = GetCATTranslationRowNumber(CatType);
-			
-			if (useHotkey)
-			{
-				//Нажать хоткей для подстановки из TM перевода сегмента
-				SendKeysTarget(segmentNum, OpenQA.Selenium.Keys.Control + TMNumber.ToString());
-			}
-			else
-			{
-				// Двойной клик
-				DoubleClickCATPanel(TMNumber);
-			}
-			// Дожидаемся сохранения сегментов
-			Assert.IsTrue(WaitUntilAllSegmentsSave(),
-				"Ошибка: Не проходит автосохранение.");
+			//забираем цвет процента
+			return GetElementClass(By.XPath(targetMatchColumnPercentXpath(segmentNumber)));
 		}
+
+		/// <summary>
+		/// Возвращает стоящий в таргете тип подстановки из CAT-панели : МТ\ТМ\TB
+		/// </summary> 
+		/// <param name="segmentNumber">номер сегмента таргет</param>
+		/// <returns>тип подстановки</returns>
+
+		public string GetTargetSubstitutionType(int segmentNumber)
+		{
+			Thread.Sleep(1000);
+			//забираем текст из колонки match таргета
+			var targetMatchColumnText = GetTextElement(By.XPath(targetMatchColumnTextXpath(segmentNumber))).Trim();
+
+			//получаем из текста две первые буквы (тип подстановки)
+			return targetMatchColumnText.Length >= 2 ? targetMatchColumnText.Substring(0, 2) : "";
+		}
+
+		/// <summary>
+		/// Возвращает стоящий в таргете процент совпадения
+		/// </summary> 
+		/// <param name="segmentNumber">номер сегмента таргет</param>
+		/// <returns>процент совпадения</returns>
+		public int GetTargetMatchPercent(int segmentNumber)
+		{
+			// берем процент совпадения
+			var targetMatchPercent = GetTextElement(By.XPath(targetMatchColumnPercentXpath(segmentNumber)));
+			// Переводим в int
+			return ParseStrToInt(targetMatchPercent.Remove(targetMatchPercent.IndexOf('%')));
+		}
+		
+		/// <summary>
+		/// XPATH типа подстановки в колонке match таргета у конкретного сегмента
+		/// </summary>
+		/// <param name="segmentNumber">номер сегмента таргет</param> 
+		/// <returns>xpath типа подстановки</returns>
+		private string targetMatchColumnTextXpath(int segmentNumber)
+		{
+			return "//table[@data-recordindex='" + (segmentNumber - 1) + "' and contains(@id, 'segment')]" + TARGET_MATCH_COLUMN_XPATH;
+		}
+
+		/// <summary>
+		/// XPATH процента в колонке match таргета у конкретного сегмента
+		/// </summary>
+		/// <param name="segmentNumber">номер сегмента таргет</param> 
+		/// <returns>xpath процента совпадения</returns>
+		private string targetMatchColumnPercentXpath(int segmentNumber)
+		{
+			return "//table[@data-recordindex='" + (segmentNumber - 1) + "' and contains(@id, 'segment')]" + TARGET_MATCH_COLUMN_PERCENT_XPATH;
+		}
+
+		protected const string TARGET_MATCH_COLUMN_XPATH = "//td[5]//div";
+		protected const string TARGET_MATCH_COLUMN_PERCENT_XPATH = TARGET_MATCH_COLUMN_XPATH + "//span";
 
 		protected const string TASK_TRNSLT_BTN_XPATH = "//span[contains(@id, 'stagenumber-1')]";
 		protected const string TASK_CONTINUE_BTN_XPATH = "//span[contains(@id, 'continue-btn')]";

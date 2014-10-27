@@ -42,6 +42,108 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 
 
 		/// <summary>
+		/// Метод выгрузки логов 
+		/// </summary>		
+		public void ExportLog()
+		{
+			//Выбрать документ
+			SelectDocumentInProject();
+
+			//Нажать кнопку выгрузки логов
+			ProjectPage.ClickDownloadLogs();
+
+			// Экспортировать и проверить, что файл сохранен
+			ExternalDialogSaveDocument("UserLogTests\\" + TestContext.CurrentContext.Test.Name, false, "", false, ".zip", time);
+
+		}
+
+		
+
+		/// <summary>
+		/// Создание глоссария
+		/// </summary>
+		public void CreateGlossary(string glossaryName)
+		{
+			// Добавление словаря для глоссария
+			Dictionary<string, string> dictionary = new Dictionary<string, string>
+			{ 
+				{"first", "первый"},
+				{"second", "второй"},
+				{"one", "один"},
+				{"last", "последний"}
+			};
+
+			// Создание глоссария с уникальным именем
+			SwitchGlossaryTab();
+			CreateGlossaryByName(glossaryName);
+
+			// Создание глоссария на основании словаря
+			SetGlossaryByDictinary(dictionary);
+
+			// Создание проекта с файлом
+			SwitchWorkspaceTab();
+		}
+
+		/// <summary>
+		/// Метод проверки подстановки из САТ
+		/// </summary>
+		public void PasteFromCAT(int segmentNum, EditorPageHelper.CAT_TYPE CatType, bool useHotkey)
+		{
+			string catType = "";
+
+			switch (CatType)
+			{
+				case EditorPageHelper.CAT_TYPE.MT:
+					catType = "MT";
+					break;
+				case EditorPageHelper.CAT_TYPE.TM:
+					catType = "TM";
+					break;
+				case EditorPageHelper.CAT_TYPE.TB:
+					catType = "TB";
+					break;
+				default:
+					break;
+			}
+
+			//Выбираем сегмент
+			EditorPage.ClickTargetCell(segmentNum);
+			// Пишем в лог
+			WriteLog(segmentNum, "Переход в target", "Клик мыши", "-");
+
+			//Ждем пока загрузится CAT-панель
+			Assert.IsTrue(EditorPage.GetCATPanelNotEmpty(), "Ошибка: панель CAT пуста");
+
+			int TMNumber = EditorPage.GetCATTranslationRowNumber(CatType);
+			Console.WriteLine("TMNumber: " + TMNumber);
+
+			if (useHotkey)
+			{
+				//Нажать хоткей для подстановки из TM перевода сегмента
+				EditorPage.SendKeysTarget(segmentNum, OpenQA.Selenium.Keys.Control + TMNumber.ToString());
+				// Пишем в лог
+				WriteLog(segmentNum, "Вставка из панели САТ (" + catType + ")", "Ctrl + " + TMNumber.ToString(), EditorPage.GetTargetText(segmentNum));
+			}
+			else
+			{
+				// Двойной клик
+				EditorPage.DoubleClickCATPanel(TMNumber);
+				// Пишем в лог
+				WriteLog(segmentNum, "Вставка из панели САТ (" + catType + ")", "Двойной клик мыши", EditorPage.GetTargetText(segmentNum));
+			}
+
+			// Дождаться автосохранения
+			AutoSave();
+		}
+
+		public void WriteLog(int segment, string even, string evenClick, string text)
+		{
+			// Пишем в лог
+			logSW.WriteLine(DateTime.Now.ToString(timeFormat) + " | {0} | {1} | {2} | {3}",
+				segment.ToString(), even.PadRight(50), evenClick.PadRight(30), text.PadRight(100));
+		}
+
+		/// <summary>
 		/// Предварительная подготовка группы тестов
 		/// </summary>
 		[SetUp]
@@ -1063,104 +1165,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		}
 
 
-
-		/// <summary>
-		/// Метод выгрузки логов 
-		/// </summary>		
-		public void ExportLog()
-		{
-			//Выбрать документ
-			SelectDocumentInProject();
-
-			//Нажать кнопку выгрузки логов
-			ProjectPage.ClickDownloadLogs();
-
-			// Экспортировать и проверить, что файл сохранен
-			ExternalDialogSaveDocument("UserLogTests\\" + TestContext.CurrentContext.Test.Name, false, "", false, ".zip", time);
-		}
-
-		/// <summary>
-		/// Создание глоссария
-		/// </summary>
-		public void CreateGlossary(string glossaryName)
-		{
-			// Добавление словаря для глоссария
-			Dictionary<string, string> dictionary = new Dictionary<string, string>
-			{ 
-				{"first", "первый"},
-				{"second", "второй"},
-				{"one", "один"},
-				{"last", "последний"}
-			};
-
-			// Создание глоссария с уникальным именем
-			SwitchGlossaryTab();
-			CreateGlossaryByName(glossaryName);
-
-			// Создание глоссария на основании словаря
-			SetGlossaryByDictinary(dictionary);
-
-			// Создание проекта с файлом
-			SwitchWorkspaceTab();
-		}
-
-		/// <summary>
-		/// Метод проверки подстановки из САТ
-		/// </summary>
-		public void PasteFromCAT(int segmentNum, EditorPageHelper.CAT_TYPE CatType, bool useHotkey)
-		{
-			string catType = "";
-
-			switch (CatType)
-			{
-				case EditorPageHelper.CAT_TYPE.MT:
-					catType = "MT";
-					break;
-				case EditorPageHelper.CAT_TYPE.TM:
-					catType = "TM";
-					break;
-				case EditorPageHelper.CAT_TYPE.TB:
-					catType = "TB";
-					break;
-				default:
-					break;
-			}
-
-			//Выбираем сегмент
-			EditorPage.ClickTargetCell(segmentNum);
-			// Пишем в лог
-			WriteLog(segmentNum, "Переход в target", "Клик мыши", "-");
-
-			//Ждем пока загрузится CAT-панель
-			Assert.IsTrue(EditorPage.GetCATPanelNotEmpty(), "Ошибка: панель CAT пуста");
-
-			int TMNumber = EditorPage.GetCATTranslationRowNumber(CatType);
-			Console.WriteLine("TMNumber: " + TMNumber);
-
-			if (useHotkey)
-			{
-				//Нажать хоткей для подстановки из TM перевода сегмента
-				EditorPage.SendKeysTarget(segmentNum, OpenQA.Selenium.Keys.Control + TMNumber.ToString());
-				// Пишем в лог
-				WriteLog(segmentNum, "Вставка из панели САТ (" + catType + ")", "Ctrl + " + TMNumber.ToString(), EditorPage.GetTargetText(segmentNum));
-			}
-			else
-			{
-				// Двойной клик
-				EditorPage.DoubleClickCATPanel(TMNumber);
-				// Пишем в лог
-				WriteLog(segmentNum, "Вставка из панели САТ (" + catType + ")", "Двойной клик мыши", EditorPage.GetTargetText(segmentNum));
-			}
-
-			// Дождаться автосохранения
-			AutoSave();
-		}
-
-		public void WriteLog(int segment, string even, string evenClick, string text)
-		{
-			// Пишем в лог
-			logSW.WriteLine(DateTime.Now.ToString(timeFormat) + " | {0} | {1} | {2} | {3}",
-				segment.ToString(), even.PadRight(50), evenClick.PadRight(30), text.PadRight(100));
-		}
+		
 	}
 }
