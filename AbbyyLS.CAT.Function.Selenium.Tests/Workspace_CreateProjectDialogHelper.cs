@@ -302,7 +302,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <param name="mtType"></param>
 		public void ChooseMT(MT_TYPE mtType)
 		{
-			ClickElement(By.XPath(GetMTXpath(mtType)));
+			ClickElement(By.XPath(GetMtXpath(mtType)));
 		}
 
 		/// <summary>
@@ -321,7 +321,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <returns>отмечена</returns>
 		public bool GetIsMTChecked(MT_TYPE mtType)
 		{
-			return GetIsInputChecked(By.XPath(GetMTXpath(mtType)));
+			return GetIsInputChecked(By.XPath(GetMtXpath(mtType)));
 		}
 
 		/// <summary>
@@ -522,9 +522,26 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// </summary>
 		/// <param name="mtType">тип МТ</param>
 		/// <returns>xPath</returns>
-		protected string GetMTXpath(MT_TYPE mtType)
+		protected string GetMtXpath(MT_TYPE mtType)
 		{
-			return MT_TABLE_XPATH + "//tr//td[contains(text(),'" + MTTypeDict[mtType] + "')]/../td[1]//input";
+			string typemt = "";
+			switch (MTTypeDict[mtType])
+			{
+				case "Default MT":
+					typemt = "f42671d9-df7e-4678-a846-d9143011cd2c";
+					break;
+				case "Google":
+					typemt = "754204d5-3c49-4bc0-a5aa-28adf2e34b98";
+					break;
+				case "Microsoft Bing":
+					typemt = "97ad5dd3-e547-4aaa-8f9b-3cfc530907ca";
+					break;
+				case "Yandex":
+					typemt = "33baaffd-dee6-4a91-9abd-e591968f32f2";
+					break;
+			}
+
+			return "//tr[@data-id='" + typemt + "']//input[contains(@name,'mt-checkbox')]";
 		}
 
 		/// <summary>
