@@ -753,6 +753,8 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			return "//table[@data-recordindex='" + (segmentNumber - 1) + "' and contains(@id, 'segment')]" + TARGET_MATCH_COLUMN_PERCENT_XPATH;
 		}
 
+
+
 		protected const string TARGET_MATCH_COLUMN_XPATH = "//td[5]//div";
 		protected const string TARGET_MATCH_COLUMN_PERCENT_XPATH = TARGET_MATCH_COLUMN_XPATH + "//span";
 
@@ -824,5 +826,14 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 
 		public enum CAT_TYPE { MT, TM, TB };
 		protected Dictionary<CAT_TYPE, string> CATTypeDict;
+		protected const string WORKFLOW_SELECT_WINDOW = ".//div[@id='workflowselectwindow-1025']";
+		protected const string TASK_IN_WORKFLOW_SELECT_WINDOW = "//span[@id='wf-stagenumber-1-btn-btnInnerEl' and text()='Translation']";
+
+		protected const string CONTINUE_BTN_IN_WORKFLOW_SELECT_WINDOW = "//a[@id='wf-continue-btn']";
+
+		public bool GetTaskBtnIsExist()
+		{
+			return GetIsElementExist(By.XPath(TASK_TRNSLT_BTN_XPATH));
+		}
 	}
 }

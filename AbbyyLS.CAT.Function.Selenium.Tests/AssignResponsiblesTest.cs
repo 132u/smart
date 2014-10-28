@@ -384,10 +384,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			OpenDocument();
 			Thread.Sleep(1000);
 
-			// Проверка наличия записи "StageNumber=1" в адресной строке
-			Assert.IsTrue(Driver.Url.Contains("StageNumber=1"),
-				"Ошибка: В адресной строке отсутствует запись \"StageNumber=1\".");
-
 			// Проверка задачи в редакторе
 			Assert.AreEqual("Translation (T):", EditorPage.GetStageName(),
 				"Ошибка: В шапке редактора отсутствует нужная задача.");
@@ -539,10 +535,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			OpenDocument();
 			Thread.Sleep(1000);
 
-			// Проверка наличия записи "StageNumber=1" в адресной строке
-			Assert.IsTrue(Driver.Url.Contains("StageNumber=1"),
-				"Ошибка: В адресной строке отсутствует запись \"StageNumber=1\".");
-
 			// Проверка задачи в редакторе
 			Assert.AreEqual("Translation (T):", EditorPage.GetStageName(),
 				"Ошибка: В шапке редактора отсутствует нужная задача.");
@@ -573,10 +565,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			OpenDocument();
 			Thread.Sleep(1000);
 
-			// Проверка отсутствия записи "StageNumber=1" в адресной строке
-			Assert.IsFalse(Driver.Url.Contains("StageNumber=1"),
-				"Ошибка: В адресной строке присутствует запись \"StageNumber=1\".");
-
 			// Проверка отсутсвия задачи в редакторе
 			Assert.AreEqual("View mode:", EditorPage.GetStageName(),
 				"Ошибка: В шапке редактора есть задача.");
@@ -600,10 +588,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			// Открываем документ
 			OpenDocument();
 			Thread.Sleep(1000);
-
-			// Проверка наличия записи "StageNumber=1" в адресной строке
-			Assert.IsTrue(Driver.Url.Contains("StageNumber=1"),
-				"Ошибка: В адресной строке отсутствует запись \"StageNumber=1\".");
 
 			// Проверка задачи в редакторе
 			Assert.AreEqual("Translation (T):", EditorPage.GetStageName(),
@@ -663,10 +647,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			OpenDocument();
 			Thread.Sleep(1000);
 
-			// Проверка наличия записи "StageNumber=1" в адресной строке
-			Assert.IsTrue(Driver.Url.Contains("StageNumber=1"),
-				"Ошибка: В адресной строке отсутствует запись \"StageNumber=1\".");
-
 			// Проверка задачи в редакторе
 			Assert.AreEqual("Translation (T):", EditorPage.GetStageName(),
 				"Ошибка: В шапке редактора отсутствует нужная задача.");
@@ -694,16 +674,10 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			OpenDocument();
 			Thread.Sleep(1000);
 
-			// Проверка отсутствия записи "StageNumber=1" в адресной строке
-			Assert.IsFalse(Driver.Url.Contains("StageNumber=1"),
-				"Ошибка: В адресной строке присутствует запись \"StageNumber=1\".");
-
 			// Проверка отсутсвия задачи в редакторе
 			Assert.AreEqual("View mode:", EditorPage.GetStageName(),
 				"Ошибка: В шапке редактора есть задача.");
 		}
-
-
 
 		/// <summary>
 		/// Создает новую группу с заданным именем
