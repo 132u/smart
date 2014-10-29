@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Threading;
 using NUnit.Framework;
-using OpenQA.Selenium;
-using System.Collections.Generic;
 using System.Windows.Forms;
 using System.IO;
 
@@ -16,16 +14,12 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <summary>
 		/// Конструктор теста
 		/// </summary>
-		 
-		 
 		/// <param name="browserName">Название браузера</param>
 		public TMTest(string browserName)
 			: base(browserName)
 		{
 
 		}
-
-		static string[] importTMXFileList = Directory.GetFiles(Path.Combine(@"..\TestingFiles\", "TMTestFiles"));
 
 		/// <summary>
 		/// Предварительная подготовка группы тестов
@@ -38,18 +32,20 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 
 			// Переходим к странице воркспейса
 			GoToTranslationMemories();
+
+			// Выбираем имя для ТМ, которое будет использовано в тесте
+			UniqueTmName = SelectUniqueTMName();
 		}
-
-
 
 		/// <summary>
 		/// Метод тестирования создания ТМ (без TMX)
 		/// </summary>
-		[Test]
-		public void CreateNewTMTest()
+		[Test, TestCaseSource("TmNamesList")]
+		public void CreateNewTMTest(string tmName)
 		{
 			// Выбрать уникальное имя TM
-			string uniqueTMName = SelectUniqueTMName();
+			string uniqueTMName = SelectUniqueTMName(tmName);
+
 			// Создать ТМ
 			CreateTMByNameAndSave(uniqueTMName);
 
@@ -61,20 +57,36 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		}
 
 		/// <summary>
+		/// Метод тестирования отмены создания новой ТМ
+		/// </summary>
+		[Test]
+		public void CancelNewTMCreation()
+		{
+			// Открыть окно создания новой ТМ и заполнить необходимые поля
+			CreateTMByName(UniqueTmName);
+
+			// Нажать кнопку "отмена"
+			TMPage.ClickCancelSavingNewTM();
+
+			// Проверить, что ТМ с именем UniqueTmName нет в списке
+			Assert.IsFalse(
+				GetIsExistTM(UniqueTmName), 
+				string.Format("Ошибка: ТМ {0} имеется в списке после операции отмены сохранения", UniqueTmName));
+		}
+		
+		/// <summary>
 		/// Метод тестирования создания ТМ с проверкой списка TM при создании проекта
 		/// </summary>
 		[Test]
 		public void CreateTMCheckProjectCreateTMListTest()
 		{
-			// Выбрать имя TM
-			string TMName = "00000" + DateTime.Now.Ticks;
 			// Создать ТМ
 			CommonHelper.LANGUAGE srcLang = CommonHelper.LANGUAGE.English;
 			CommonHelper.LANGUAGE trgLang = CommonHelper.LANGUAGE.Russian;
-			CreateTMByNameAndSave(TMName, srcLang, trgLang);
+			CreateTMByNameAndSave(UniqueTmName, srcLang, trgLang);
 
 			// Перейти на вкладку Workspace и проверить, что TM есть в списке при создании проекта
-			Assert.IsTrue(GetIsExistTMCreateProjectList(TMName), "Ошибка: ТМ нет в списке при создании проекта");
+			Assert.IsTrue(GetIsExistTMCreateProjectList(UniqueTmName), "Ошибка: ТМ нет в списке при создании проекта");
 		}
 
 		/// <summary>
@@ -83,15 +95,13 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		[Test]
 		public void CreateTMAnotherLangCheckProjectCreateTMListTest()
 		{
-			// Выбрать уникальное имя TM
-			string uniqueTMName = SelectUniqueTMName();
 			// Создать ТМ
 			CommonHelper.LANGUAGE srcLang = CommonHelper.LANGUAGE.French;
 			CommonHelper.LANGUAGE trgLang = CommonHelper.LANGUAGE.German;
-			CreateTMByNameAndSave(uniqueTMName, srcLang, trgLang);
+			CreateTMByNameAndSave(UniqueTmName, srcLang, trgLang);
 
 			// Перейти на вкладку Workspace и проверить, что TM есть в списке при создании проекта
-			Assert.IsTrue(GetIsExistTMCreateProjectList(uniqueTMName, true, srcLang, trgLang), "Ошибка: ТМ нет в списке при создании проекта");
+			Assert.IsTrue(GetIsExistTMCreateProjectList(UniqueTmName, true, srcLang, trgLang), "Ошибка: ТМ нет в списке при создании проекта");
 		}
 
 		/// <summary>
@@ -120,13 +130,10 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		[Test]
 		public void CreateTMWithoutLanguageTest()
 		{
-			// Выбрать уникальное имя TM
-			string uniqueTMName = SelectUniqueTMName();
-
 			// Открыть форму создания ТМ
 			OpenCreateTMForm();
 			// Ввести имя
-			TMPage.InputNewTMName(uniqueTMName);
+			TMPage.InputNewTMName(UniqueTmName);
 			// Нажать кнопку Сохранить
 			TMPage.ClickSaveNewTM();
 
@@ -141,11 +148,9 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		[Test]
 		public void CreateTMWithExistingNameTest()
 		{
-			string TMName = ConstTMName;
-			// Создать ТМ
-			CreateTMIfNotExist(TMName);
+			CreateTMIfNotExist(ConstTMName);
 			// Создать ТМ с тем же (уже существующим) именем
-			CreateTMByNameAndSave(TMName);
+			CreateTMByNameAndSave(ConstTMName);
 
 			// Проверить появление ошибки
 			Assert.IsTrue(TMPage.GetIsExistCreateTMErrorExistName(),
@@ -158,10 +163,8 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		[Test]
 		public void CreateTMWithNotTMXTest()
 		{
-			// Выбрать уникальное имя TM
-			string uniqueTMName = SelectUniqueTMName();
 			// Создать ТМ с загрузкой НЕ(!) TMX файла
-			CreateTMWithUploadTMX(uniqueTMName, DocumentFile);
+			CreateTMWithUploadTMX(UniqueTmName, DocumentFile);
 
 			// Проверить, что появилось сообщение о неверном расширении файла
 			Assert.IsTrue(TMPage.GetIsErrorMessageNotTMX(),
@@ -174,23 +177,25 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		[Test]
 		public void UpdateTMButtonTest()
 		{
-			// Выбрать уникальное имя TM
-			string uniqueTMName = SelectUniqueTMName();
 			// Создать ТМ и загрузить TMX файл
-			CreateTMWithUploadTMX(uniqueTMName, EditorTMXFile);
+			CreateTMWithUploadTMX(UniqueTmName, EditorTMXFile);
 
 			// Получить количество сегментов
-			int segCountBefore = GetSegmentCount(uniqueTMName);
+			int segCountBefore = GetSegmentCount(UniqueTmName);
 
 			// Загрузить TMX файл (обновить ТМ, заменяет старые ТМ на новые)
-			UploadDocumentToTMbyButton(uniqueTMName, TMPageHelper.TM_BTN_TYPE.Update, SecondTmFile);
+			UploadDocumentToTMbyButton(UniqueTmName, TMPageHelper.TM_BTN_TYPE.Update, SecondTmFile);
+
+			// Соглашаемся переписать старые TM на новые
+			TMPage.ConfirmTMEdition();
+
 			// Получить количество сегментов
-			int segCountAfter = GetSegmentCount(uniqueTMName);
+			int segCountAfter = GetSegmentCount(UniqueTmName);
 			// Если количество не изменилось, возможно, просто не обновилась страница - принудительно обновить
 			if (segCountAfter == segCountBefore)
 			{
-				ReopenTMInfo(uniqueTMName);
-				segCountAfter = GetSegmentCount(uniqueTMName);
+				ReopenTMInfo(UniqueTmName);
+				segCountAfter = GetSegmentCount(UniqueTmName);
 			}
 			// Проверить, что количество сегментов изменилось
 			Assert.IsTrue(segCountBefore != segCountAfter, "Ошибка: количество сегментов должно измениться");
@@ -206,12 +211,11 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			// чтобы сбросить выбор в диалоге экспорта (сохранить или открыть файл)
 			quitDriverAfterTest = true;
 
-			string TMName = SelectUniqueTMName();
 			// Создать ТМ
-			CreateTMByNameAndSave(TMName);
+			CreateTMByNameAndSave(UniqueTmName);
 
 			// Отрыть информацию о ТМ и нажать кнопку
-			ClickButtonTMInfo(TMName, TMPageHelper.TM_BTN_TYPE.Export);
+			ClickButtonTMInfo(UniqueTmName, TMPageHelper.TM_BTN_TYPE.Export);
 			// Экспортировать - Assert внутри
 			ExportTM();
 		}
@@ -227,12 +231,11 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			// чтобы сбросить выбор в диалоге экспорта (сохранить или открыть файл)
 			quitDriverAfterTest = true;
 
-			string TMName = SelectUniqueTMName();
 			// Создать ТМ с загрузкой файла ТМХ
-			CreateTMWithUploadTMX(TMName, importTMXFile);
+			CreateTMWithUploadTMX(UniqueTmName, importTMXFile);
 
 			// Отрыть информацию о ТМ и нажать кнопку
-			ClickButtonTMInfo(TMName, TMPageHelper.TM_BTN_TYPE.Export);
+			ClickButtonTMInfo(UniqueTmName, TMPageHelper.TM_BTN_TYPE.Export);
 			// Экспортировать - Assert внутри
 			ExportTM();
 		}
@@ -243,20 +246,48 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		[Test]
 		public void DeleteTMCheckTMListTest()
 		{
-			string TMName = ConstTMName;
-			CreateTMIfNotExist(TMName);
-			// Отрыть информацию о ТМ и нажать кнопку
-			ClickButtonTMInfo(TMName, TMPageHelper.TM_BTN_TYPE.Delete);
+			CreateTMIfNotExist(ConstTMName);
 
-			// Нажимаем Delete в открывшейся форме
-			TMPage.ConfirmDelete();
+			// Отрыть информацию о ТМ, нажать кнопку Delete и сголаситься с предупреждением об удалении ТМ
+			ClickButtonTMInfo(
+				ConstTMName, 
+				TMPageHelper.TM_BTN_TYPE.Delete, 
+				isConfirmationQuestionExist: true);
 
 			// Закрытие формы
 			// TODO убрать sleep
 			Thread.Sleep(1000);
 
 			// Проверить, что ТМ удалилась из списка
-			Assert.IsTrue(!GetIsExistTM(TMName), "Ошибка: ТМ не удалилась из списка");
+			Assert.IsTrue(!GetIsExistTM(ConstTMName), "Ошибка: ТМ не удалилась из списка");
+		}
+
+		/// <summary>
+		/// Метод тестирования Delete с проверкой списка TM и создание ТМ с таким же именем
+		/// </summary>
+		[Test]
+		public void DeleteTMAndCreateTMWithTheSameName()
+		{
+			CreateTMIfNotExist(ConstTMName);
+
+			// Отрыть информацию о ТМ, нажать кнопку Delete и сголаситься с предупреждением об удалении ТМ
+			ClickButtonTMInfo(
+				ConstTMName,
+				TMPageHelper.TM_BTN_TYPE.Delete,
+				isConfirmationQuestionExist: true);
+
+			// Закрытие формы
+			// TODO: убрать Sleep
+			Thread.Sleep(1000);
+
+			// Проверить, что ТМ удалилась из списка
+			Assert.IsTrue(!GetIsExistTM(ConstTMName), "Ошибка: ТМ не удалилась из списка.");
+
+			// Создание ТМ с именем, идентичным только удаленной
+			CreateTMIfNotExist(ConstTMName);
+
+			// Проверить, что ТМ появилась в списке
+			Assert.IsTrue(GetIsExistTM(ConstTMName), "Ошибка: ТМ не появилась в списке.");
 		}
 
 		/// <summary>
@@ -265,21 +296,15 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		[Test]
 		public void DeleteTMCheckProjectCreateTMListTest()
 		{
-			// Выбрать имя TM
-			// TODO попробовать изменить!
-			string TMName = "00000" + DateTime.Now.Ticks;
-			CreateTMByNameAndSave(TMName);
+			CreateTMByNameAndSave(UniqueTmName);
 			// Отрыть информацию о ТМ и нажать кнопку
-			ClickButtonTMInfo(TMName, TMPageHelper.TM_BTN_TYPE.Delete);
-
-			// Нажимаем Delete в открывшейся форме
-			TMPage.ConfirmDelete();
-			// Закрытие формы
-			// TODO убрать sleep
-			Thread.Sleep(1000);
-
+			ClickButtonTMInfo(
+				UniqueTmName, 
+				TMPageHelper.TM_BTN_TYPE.Delete, 
+				isConfirmationQuestionExist: true);
+			
 			// Перейти на вкладку Workspace и проверить, что TM нет в списке при создании проекта
-			Assert.IsTrue(!GetIsExistTMCreateProjectList(TMName), "Ошибка: ТМ не удалилась из списка при создании проекта");
+			Assert.IsTrue(!GetIsExistTMCreateProjectList(UniqueTmName), "Ошибка: ТМ не удалилась из списка при создании проекта");
 		}
 
 		/// <summary>
@@ -288,18 +313,16 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		[Test]
 		public void AddTMXOnClearTMButtonTest()
 		{
-			// Создать новый ТМ
-			string TMName = SelectUniqueTMName();
-			CreateTMByNameAndSave(TMName);
+			CreateTMByNameAndSave(UniqueTmName);
 			// Загрузить ТМХ по кнопке в информации о ТМ
-			UploadDocumentToTMbyButton(TMName, TMPageHelper.TM_BTN_TYPE.Add, SecondTmFile);
+			UploadDocumentToTMbyButton(UniqueTmName, TMPageHelper.TM_BTN_TYPE.Add, SecondTmFile);
 			// Получить количество сегментов
-			int segmentCount = GetSegmentCount(TMName);
+			int segmentCount = GetSegmentCount(UniqueTmName);
 			// Если количество сегментов = 0, возможно, не обновилась страница - принудительно обновить
 			if (segmentCount == 0)
 			{
-				ReopenTMInfo(TMName);
-				segmentCount = GetSegmentCount(TMName);
+				ReopenTMInfo(UniqueTmName);
+				segmentCount = GetSegmentCount(UniqueTmName);
 			}
 
 			// Проверить, что количество сегментов больше нуля (ТМХ загрузился)
@@ -312,24 +335,22 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		[Test]
 		public void AddTMXExistingTMButtonTest()
 		{
-			// Выбрать уникальное имя TM
-			string uniqueTMName = SelectUniqueTMName();
 			// Создать ТМ и загрузить ТМХ файл
-			CreateTMWithUploadTMX(uniqueTMName, EditorTMXFile);
+			CreateTMWithUploadTMX(UniqueTmName, EditorTMXFile);
 
 			// Получить количество сегментов
-			int segCountBefore = GetSegmentCount(uniqueTMName);
+			int segCountBefore = GetSegmentCount(UniqueTmName);
 
 			// Загрузить TMX файл
-			UploadDocumentToTMbyButton(uniqueTMName, TMPageHelper.TM_BTN_TYPE.Add, SecondTmFile);
+			UploadDocumentToTMbyButton(UniqueTmName, TMPageHelper.TM_BTN_TYPE.Add, SecondTmFile);
 			// Получить количество сегментов после загрузки TMX
-			int segCountAfter = GetSegmentCount(uniqueTMName);
+			int segCountAfter = GetSegmentCount(UniqueTmName);
 
 			// Если количество сегментов не изменилось, возможно, страница не обновилась - принудительно обновить
 			if (segCountAfter <= segCountBefore)
 			{
-				ReopenTMInfo(uniqueTMName);
-				segCountAfter = GetSegmentCount(uniqueTMName);
+				ReopenTMInfo(UniqueTmName);
+				segCountAfter = GetSegmentCount(UniqueTmName);
 			}
 
 			// Проверить, что количество сегментов увеличилось (при AddTMX количество сегментов должно суммироваться)
@@ -342,10 +363,9 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		[Test]
 		public void EditTMSaveWithoutNameTest()
 		{
-			string TMName = ConstTMName;
-			CreateTMIfNotExist(TMName);
+			CreateTMIfNotExist(ConstTMName);
 			// Изменить имя на пустое и сохранить
-			EditTMFillName(TMName, "");
+			EditTMFillName(ConstTMName, "");
 
 			// Проверить, что поле Имя выделено ошибкой
 			Assert.IsTrue(TMPage.GetIsEditTMNameWithError(),
@@ -362,17 +382,14 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		[Test]
 		public void EditTMSaveExistingNameTest()
 		{
-			string TMName = ConstTMName;
 			// Создать ТМ с таким именем, если его еще нет
-			CreateTMIfNotExist(TMName);
+			CreateTMIfNotExist(ConstTMName);
 
-			// Выбрать уникальное имя TM
-			string uniqueTMName = SelectUniqueTMName();
 			// Создать ТМ
-			CreateTMByNameAndSave(uniqueTMName);
+			CreateTMByNameAndSave(UniqueTmName);
 
 			// Изменить имя на существующее и сохранить
-			EditTMFillName(uniqueTMName, TMName);
+			EditTMFillName(UniqueTmName, ConstTMName);
 
 			// Проверить, что появилось сообщение об ошибке в имени
 			Assert.IsTrue(TMPage.GetIsExistEditErrorExistName(),
@@ -385,18 +402,15 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		[Test]
 		public void EditTMSaveUniqueNameTest()
 		{
-			string TMName = ConstTMName;
 			// Создать ТМ с таким именем, если его еще нет
-			CreateTMIfNotExist(TMName);
-			// Выбрать уникальное имя TM
-			string uniqueTMName = SelectUniqueTMName();
-
+			CreateTMIfNotExist(ConstTMName);
+			
 			// Изменить имя на уникальное и сохранить
-			EditTMFillName(TMName, uniqueTMName);
+			EditTMFillName(ConstTMName, UniqueTmName);
 
 			// Проверить, что ТМ со старым именем удалился, а с новым именем есть
-			Assert.IsTrue(!GetIsExistTM(TMName), "Ошибка: не удалилось старое имя");
-			Assert.IsTrue(GetIsExistTM(uniqueTMName), "Ошибка: нет ТМ с новым именем");
+			Assert.IsTrue(!GetIsExistTM(ConstTMName), "Ошибка: не удалилось старое имя");
+			Assert.IsTrue(GetIsExistTM(UniqueTmName), "Ошибка: нет ТМ с новым именем");
 		}
 
 		/// <summary>
@@ -406,27 +420,47 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		[Test, TestCaseSource("importTMXFileList")]
 		public void ImportTMXTest(string TMXFileImport)
 		{
-			// Выбрать уникальное имя TM
-			string uniqueTMName = SelectUniqueTMName();
 			// Создать ТМ с загрузкой ТМХ
-			CreateTMWithUploadTMX(uniqueTMName, TMXFileImport);
+			CreateTMWithUploadTMX(UniqueTmName, TMXFileImport);
 
 			// Проверить, сохранился ли ТМ
-			Assert.IsTrue(GetIsExistTM(uniqueTMName), "Ошибка: ТМ не сохранился (не появился в списке)");
+			Assert.IsTrue(GetIsExistTM(UniqueTmName), "Ошибка: ТМ не сохранился (не появился в списке)");
 
-			int segmentCount = GetSegmentCount(uniqueTMName);
+			int segmentCount = GetSegmentCount(UniqueTmName);
 			// Если количество сегментов = 0, возможно, не обновилась страница - принудительно обновить
 			if (segmentCount == 0)
 			{
-				ReopenTMInfo(uniqueTMName);
-				segmentCount = GetSegmentCount(uniqueTMName);
+				ReopenTMInfo(UniqueTmName);
+				segmentCount = GetSegmentCount(UniqueTmName);
 			}
 
 			// Проверить, что количество сегментов больше 0
 			Assert.IsTrue(segmentCount > 0, "Ошибка: количество сегментов должно быть больше 0");
 		}
 
+		/// <summary>
+		/// Проверка повляения уведамлений при загрузке TMX файла
+		/// </summary>
+		[Test]
+		public void CheckNotificationDuringTMXFileUploading()
+		{
+			//Формируем путь до TMX файла для загрузки
+			string tmxFileForBaloonChecking = Path.Combine(
+				PathTestFiles,
+				"TMTestFiles",
+				"TMFile2.tmx");
 
+			// Создать ТМ с загрузкой ТМХ и передать флаг с проверкой существования всплывающего окна с информацией
+			CreateTMWithUploadTMX(
+				UniqueTmName, 
+				tmxFileForBaloonChecking, 
+				checkBaloonExisting: true);
+
+			TMPage.ClickCancelButtonOnNotificationBaloon();
+
+			Assert.IsFalse(TMPage.IsInformationBaloonExist(),
+				"Ошибка: плашка с информацией о загружаемых ТU не закрыта.");
+		}
 
 		/// <summary>
 		/// Вернуть, есть ли ТМ в списке при создании проекта
@@ -436,8 +470,11 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <param name="srcLang">Язык источника</param>
 		/// <param name="trgLang">Язык перевода</param>
 		/// <returns></returns>
-		private bool GetIsExistTMCreateProjectList(string TMName, bool isNeedChangeLanguages = false,
-			CommonHelper.LANGUAGE srcLang = CommonHelper.LANGUAGE.English, CommonHelper.LANGUAGE trgLang = CommonHelper.LANGUAGE.Russian)
+		private bool GetIsExistTMCreateProjectList(
+			string TMName, 
+			bool isNeedChangeLanguages = false,
+			CommonHelper.LANGUAGE srcLang = CommonHelper.LANGUAGE.English, 
+			CommonHelper.LANGUAGE trgLang = CommonHelper.LANGUAGE.Russian)
 		{
 			// Перейти на страницу со списком проектов
 			SwitchWorkspaceTab();
@@ -503,7 +540,17 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		private string SelectUniqueTMName()
 		{
 			// Создать уникальное имя для ТМ без проверки существова
-			return ConstTMName + DateTime.Now.ToString();
+			return ConstTMName + DateTime.Now;
+		}
+
+		/// <summary>
+		/// Выбрать уникальное имя
+		/// </summary>
+		/// <returns>имя</returns>
+		private static string SelectUniqueTMName(string tmName)
+		{
+			// Создать уникальное имя для ТМ без проверки существова
+			return tmName + DateTime.Now;
 		}
 
 		/// <summary>
@@ -523,7 +570,8 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <param name="TMName">Название ТМ</param>
 		/// <param name="sourceLang">Язык источника</param>
 		/// <param name="targetLang">Язык перевода</param>
-		private void CreateTMByNameAndSave(string TMName,
+		private void CreateTMByNameAndSave(
+			string TMName,
 			CommonHelper.LANGUAGE sourceLang = CommonHelper.LANGUAGE.English,
 			CommonHelper.LANGUAGE targetLang = CommonHelper.LANGUAGE.Russian)
 		{
@@ -545,7 +593,8 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <param name="TMName">Название ТМ</param>
 		/// <param name="sourceLang">Язык источника</param>
 		/// <param name="targetLang">Язык перевода</param>
-		private void CreateTMByName(string TMName,
+		private void CreateTMByName(
+			string TMName,
 			CommonHelper.LANGUAGE sourceLang = CommonHelper.LANGUAGE.English,
 			CommonHelper.LANGUAGE targetLang = CommonHelper.LANGUAGE.Russian)
 		{
@@ -562,7 +611,9 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <summary>
 		/// Выбрать языки Source и Target
 		/// </summary>
-		private void SelectSourceAndTargetLang(CommonHelper.LANGUAGE sourceLang = CommonHelper.LANGUAGE.English, CommonHelper.LANGUAGE targetLang = CommonHelper.LANGUAGE.Russian)
+		private void SelectSourceAndTargetLang(
+			CommonHelper.LANGUAGE sourceLang = CommonHelper.LANGUAGE.English, 
+			CommonHelper.LANGUAGE targetLang = CommonHelper.LANGUAGE.Russian)
 		{
 			// Нажать на Source Language для выпадения списка языков
 			TMPage.ClickOpenSourceLangList();
@@ -585,7 +636,12 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// Загрузить документ в ТМ
 		/// </summary>
 		/// <param name="documentName">название документа</param>
-		private void UploadDocumentTM(string documentName)
+		/// <param name="tmName">имя ТМ</param>
+		/// <param name="checkBaloonExisting">проверять существование всплывающего окна</param>
+		private void UploadDocumentTM(
+			string documentName, 
+			string tmName, 
+			bool checkBaloonExisting = false)
 		{
 			TMPage.WaitUntilUploadDialog();
 			// Нажать на Add для появления диалога загрузки документа
@@ -595,8 +651,16 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			FillAddDocumentForm(documentName);
 
 			Console.WriteLine(documentName);
+
 			// Нажать на Импорт
 			TMPage.ClickImportBtn();
+
+			// Проверяем наличие информационных плашек, если это необходимо
+			if (checkBaloonExisting)
+			{
+				CheckTMInformationBaloonExisting(tmName);
+			}
+
 			Console.WriteLine("кликнули импорт");
 			if (TMPage.GetIsErrorMessageNotTMX())
 			{
@@ -604,11 +668,40 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 				Thread.Sleep(1000);
 				// Нажать на Импорт
 				TMPage.ClickImportBtn();
+
+				// Проверяем наличие информационных плашек, если это необходимо
+				if (checkBaloonExisting)
+				{
+					CheckTMInformationBaloonExisting(tmName);
+				}
 			}
 
 			// Дождаться окончания загрузки
 			Assert.IsTrue(TMPage.WaitDocumentDownloadFinish(),
 				"Ошибка: документ загружается слишком долго");
+		}
+
+		/// <summary>
+		/// Проверка существования необходимых плашек при загрузке TM
+		/// </summary>
+		private void CheckTMInformationBaloonExisting(string tmName)
+		{
+			// Получаем информацию о наличии\отсутствии плашки с предупреждением о том, что информация обрабатывается была выведена
+			var isProcessingInformationBaloonExist = TMPage.IsBaloonWithSpecificMessageExist(
+				string.Format("Importing translation units to \"{0}\" TM", tmName));
+
+			// Проверяем, что плашка с информацией о количестве загруженных TU была выведена
+			// 20 - количество TU в файле TMFile2.tmx. Пока данный метод используется только в одном тесте, поэтому 20 захардкожена.
+			var isTUInformationBaloonExist = TMPage.IsBaloonWithSpecificMessageExist(
+				string.Format("20 translation units have been successfully imported into \"{0}\" TM.", tmName));
+
+			// Проверяем, что плашка с предупреждением о том, что информация обрабатывается была выведена 
+			Assert.IsTrue(isProcessingInformationBaloonExist,
+				"Ошибка: плашка с предупреждением о том, что информация обрабатывается не была выведена.");
+
+			// Проверяем, что плашка с информацией о количестве загруженных TU была выведена
+			Assert.IsTrue(isTUInformationBaloonExist,
+				"Ошибка: плашка с информацией о количестве загруженных TU не была выведена.");
 		}
 
 		/// <summary>
@@ -622,7 +715,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			// Отрыть информацию о ТМ и нажать кнопку
 			ClickButtonTMInfo(TMName, btnType);
 			// Загрузить документ
-			UploadDocumentTM(uploadFile);
+			UploadDocumentTM(uploadFile, TMName);
 		}
 
 		/// <summary>
@@ -644,12 +737,21 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// </summary>
 		/// <param name="TMName"></param>
 		/// <param name="btnType"></param>
-		private void ClickButtonTMInfo(string TMName, TMPageHelper.TM_BTN_TYPE btnType)
+		/// <param name="isConfirmationQuestionExist"></param>
+		private void ClickButtonTMInfo(
+			string TMName, 
+			TMPageHelper.TM_BTN_TYPE btnType, 
+			bool isConfirmationQuestionExist = false)
 		{
 			// Открыть информацию о ТМ
 			OpenTMInfo(TMName);
 			// Кликнуть кнопку
 			TMPage.ClickTMButton(btnType);
+
+			if (isConfirmationQuestionExist)
+			{
+				TMPage.ConfirmTMEdition();
+			}
 		}
 
 		/// <summary>
@@ -698,7 +800,10 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// </summary>
 		/// <param name="uniqueTMName">название ТМ</param>
 		/// <param name="fileName">файл для загрузки</param>
-		private void CreateTMWithUploadTMX(string uniqueTMName, string fileName)
+		private void CreateTMWithUploadTMX(
+			string uniqueTMName, 
+			string fileName, 
+			bool checkBaloonExisting = false)
 		{
 			// Создать ТМ
 			CreateTMByName(uniqueTMName);
@@ -707,7 +812,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			TMPage.ClickSaveAndImportCreateTM();
 
 			// Загрузить TMX файл
-			UploadDocumentTM(fileName);
+			UploadDocumentTM(fileName, uniqueTMName, checkBaloonExisting);
 		}
 
 		/// <summary>
@@ -726,5 +831,20 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			ExternalDialogSelectSaveDocument(resultPath);
 			Assert.IsTrue(File.Exists(resultPath), "Ошибка: файл не экспортировался\n" + resultPath);
 		}
+
+		private static readonly string[] importTMXFileList = Directory.GetFiles(
+				Path.Combine(
+					Environment.CurrentDirectory,
+					@"..\TestingFiles\",
+					"TMTestFiles"));
+
+		private static readonly string[] TmNamesList =
+		{
+			"TestTM", 
+			"Тестовая ТМ", 
+			"我喜爱的哈伯尔阿哈伯尔"
+		};
+
+		private string UniqueTmName { get; set; }
 	}
 }

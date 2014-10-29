@@ -1,19 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
-using System.Configuration;
 using OpenQA.Selenium;
-using OpenQA.Selenium.Firefox;
-using OpenQA.Selenium.Chrome;
-using OpenQA.Selenium.IE;
 using OpenQA.Selenium.Support.UI;
 using NUnit.Framework;
 using OpenQA.Selenium.Interactions;
 using System.Drawing;
-using System.Drawing.Imaging;
 using System.Text.RegularExpressions;
 
 namespace AbbyyLS.CAT.Function.Selenium.Tests

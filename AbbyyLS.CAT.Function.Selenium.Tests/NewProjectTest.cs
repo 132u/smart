@@ -1,20 +1,6 @@
 ﻿using System;
-using System.Threading;
 using NUnit.Framework;
-using OpenQA.Selenium;
-using OpenQA.Selenium.Firefox;
-using OpenQA.Selenium.Chrome;
-using OpenQA.Selenium.IE;
-using OpenQA.Selenium.Support.UI;
 using System.IO;
-using System.Text;
-using System.Configuration;
-using System.Diagnostics;
-using System.Collections.Generic;
-using System.Windows.Forms;
-using System.Drawing;
-
-using OpenQA.Selenium.Interactions;
 
 namespace AbbyyLS.CAT.Function.Selenium.Tests
 {
@@ -48,14 +34,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 
 		public string _xliffTC10;
 
-		//protected string _filesForImportCorrectPath = Path.GetFullPath(@"..\..\..\TestingFiles\FilesForImportCorrect");
-		//protected string _filesForConfirmPath = Path.GetFullPath(@"..\..\..\TestingFiles\FilesForConfirm");
-		//protected string _filesForImportErrorPath = Path.GetFullPath(@"..\..\..\TestingFiles\FilesForImportError");
-
-		//protected static string[] filesForImportCorrect = Directory.GetFiles(Path.GetFullPath(@"..\..\..\TestingFiles\FilesForImportCorrect"));
-		//protected static string[] filesForConfirm = Directory.GetFiles(Path.GetFullPath(@"..\..\..\TestingFiles\FilesForConfirm"));
-		//protected static string[] filesForImportError = Directory.GetFiles(Path.GetFullPath(@"..\..\..\TestingFiles\FilesForImportError"));
-
 		// Path документа для экспорта (для определения названия документа в сообщении об экспорте)
 		protected string _exportFilePath;
 		// В сообщении об экспорте при экспорте нескольких документов должно быть Documents
@@ -83,10 +61,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			// Переходим к странице воркспейса
 			GoToWorkspace();
 		}
-
-		///////////////////////////////
-		// Что это?
-
+		
 		/// <summary>
 		/// Метод создания файла для записи результатов тестирования
 		/// </summary>
@@ -96,7 +71,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			StreamWriter sw = fi.CreateText();
 			sw.WriteLine("Test Results");
 			sw.Close();
-
 		}
 
 		/// <summary>

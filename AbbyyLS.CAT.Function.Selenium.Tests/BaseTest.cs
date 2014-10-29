@@ -4,20 +4,12 @@ using NUnit.Framework;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Firefox;
 using OpenQA.Selenium.Chrome;
-using OpenQA.Selenium.IE;
 using OpenQA.Selenium.Support.UI;
 using System.IO;
-using System.Text;
-using System.Configuration;
-using System.Diagnostics;
 using System.Collections.Generic;
 using System.Windows.Forms;
-using System.Drawing;
 using System.Drawing.Imaging;
 using NConfiguration;
-using NLog;
-
-using OpenQA.Selenium.Interactions;
 using System.Text.RegularExpressions;
 
 namespace AbbyyLS.CAT.Function.Selenium.Tests
@@ -75,6 +67,8 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 
 			CreateUniqueNamesByDatetime();
 
+			_pathTestFiles = cfgRoot.Root;
+
 			_editorTXTFile = Path.GetFullPath(cfgRoot.Root + "/FileForTestTM/textWithoutTags.txt");
 			_editorTMXFile = Path.GetFullPath(cfgRoot.Root + "/FileForTestTM/textWithoutTags.tmx");
 
@@ -87,7 +81,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			
 			_txtFileForMatchTest = Path.GetFullPath(cfgRoot.Root + "/FilesForMatchTest/TxtFileForMatchTest.docx");
 			_tmxFileForMatchTest = Path.GetFullPath(cfgRoot.Root + "/FilesForMatchTest/TmxFileForMatchTest.tmx");
-			
 			_photoLoad = Path.GetFullPath(cfgRoot.Root + "/FilesForLoadPhotoInRegistration/");
 			_testUserFile = Path.GetFullPath(cfgRoot.RootToConfig + "/TestUsers.xml");
 			
@@ -104,11 +97,9 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			}
 		}
 
-
 		public bool TestUserFileExist()
 		{
 			return File.Exists(_testUserFile);
-
 		}
 		/// <summary>
 		/// Файл со списком пользователей , имеющие аккаунты на аол/курсера/передем
@@ -359,12 +350,17 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		{
 			get
 			{
-				System.IO.DirectoryInfo directoryInfo =
-					System.IO.Directory.GetParent(@"..\TestResults\");
+				DirectoryInfo directoryInfo =
+					Directory.GetParent(@"..\TestResults\");
 
 				return directoryInfo.ToString();
 			}
 		}
+
+		/// <summary>
+		/// Путь к файлам для тестирования, взятый из AgentSpecific.xml
+		/// </summary>
+		private string _pathTestFiles;
 
 		/// <summary>
 		/// Path файлов для тестирования
@@ -373,13 +369,14 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		{
 			get
 			{
-				System.IO.DirectoryInfo directoryInfo =
-					System.IO.Directory.GetParent(@"..\TestingFiles\");
-
-				return directoryInfo.ToString();
+				return Directory.GetParent(
+					string.Concat(
+						_pathTestFiles, 
+						Path.DirectorySeparatorChar))
+					.ToString();
 			}
 		}
-
+		
 		/// <summary>
 		/// Общее имя проекта с одним документом
 		/// </summary>
@@ -1083,8 +1080,8 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 					Screenshot screenshot = screenshotDriver.GetScreenshot();
 
 					// Создать папку для скриншотов провалившихся тестов
-					string failResultPath = System.IO.Path.Combine(PathTestResults, "FailedTests");
-					System.IO.Directory.CreateDirectory(failResultPath);
+					string failResultPath = Path.Combine(PathTestResults, "FailedTests");
+					Directory.CreateDirectory(failResultPath);
 					// Создать имя скриншота по имени теста
 					string screenName = TestContext.CurrentContext.Test.Name;
 					if (screenName.Contains("("))
@@ -1092,9 +1089,9 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 						// Убрать из названия теста аргументы (файлы)
 						screenName = screenName.Substring(0, screenName.IndexOf("("));
 					}
-					screenName += DateTime.Now.Ticks.ToString() + ".png";
+					screenName += DateTime.Now.Ticks + ".png";
 					// Создать полное имя файла
-					screenName = System.IO.Path.Combine(failResultPath, screenName);
+					screenName = Path.Combine(failResultPath, screenName);
 					// Сохранить скриншот
 					screenshot.SaveAsFile(screenName, ImageFormat.Png);
 				}

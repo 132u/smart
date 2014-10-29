@@ -1,10 +1,5 @@
-﻿using System;
-using System.Threading;
+﻿using System.Threading;
 using NUnit.Framework;
-using OpenQA.Selenium;
-using System.Collections.Generic;
-using System.Windows.Forms;
-using System.IO;
 
 namespace AbbyyLS.CAT.Function.Selenium.Tests
 {
@@ -24,14 +19,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		{
 		}
 
-		static string _filesForImportCorrectPath = Path.Combine(@"..\TestingFiles\", "FilesForImportCorrect");
-		static string _filesForConfirmPath = Path.Combine(@"..\TestingFiles\", "FilesForConfirm");
-		static string _filesForImportErrorPath = Path.Combine(@"..\TestingFiles\", "FilesForImportError");
-
-		static string[] filesForImportCorrect = Directory.GetFiles(_filesForImportCorrectPath);
-		static string[] filesForConfirm = Directory.GetFiles(_filesForConfirmPath);
-		static string[] filesForImportError = Directory.GetFiles(_filesForImportErrorPath);
-
 		/// <summary>
 		/// Предварительная подготовка группы тестов
 		/// </summary>
@@ -39,8 +26,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		public void Setup()
 		{
 		}
-
-
 
 		/// <summary>
 		/// метод тестирования загрузки rtf формата (неподдерживаемый формат)
@@ -145,70 +130,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			Assert.IsTrue(ProjectPage.GetIsExistDocument(1),
 				"Ошибка: на странице проекта нет документа");
 		}
-
-		/// <summary>
-		/// метод для тестирования импорта разбираемых на сегменты файлов из заданной папки в существующий проект
-		/// </summary>
-		/// <param name="filePath">путь в файлу, импортируемого в проект</param>
-		[Test]
-		[TestCaseSource("filesForImportCorrect")]
-		public void ImportFilesAfterCreationCorrectTest(string filePath)
-		{
-			// Создать проект, загрузить документ, проверить сегменты
-			CreateReadyProject(ProjectName, false, false, filePath);
-
-			/* TODO проверить
-			CreateProjectImportDocument(filePath);
-			//Назначение задачи на пользователя
-			AssignTask();
-
-			// Зайти в редактор документа
-			Driver.FindElement(By.XPath(".//a[contains(@class,'js-editor-link')]")).Click();
-
-			// Дождаться загрузки страницы
-			Wait.Until((d) => d.Title.Contains("Editor"));
-
-			// Проверить, существует ли хотя бы один сегмент
-			Assert.IsTrue(IsElementPresent(By.CssSelector(
-				"#segments-body div table tr:nth-child(1)"
-				)));*/
-		}
-
-		///// <summary>
-		///// метод для тестирования импорта не разбираемых на сегменты файлов из заданной папки в существующий проект
-		///// </summary>
-		///// <param name="filePath">путь в файлу, импортируемого в проект</param>
-		//[Test]
-		//[TestCaseSource("filesForImportError")]
-		//public void ImportFilesAfterCreationErrorTest(string filePath)
-		//{
-		//	// Создать проект, загрузить документ, проверить сегменты
-		//	CreateReadyProject(ProjectName, false, false, filePath);
-
-		//	// TODO проверить - почему такая проверка в конце
-		//	////Создать пустой проект
-		//	//CreateProject(ProjectName);
-
-		//	////Добавление документа
-		//	//ImportDocumentProjectSettings(filePath, ProjectName);
-
-		//	////Назначение задачи на пользователя
-		//	//AssignTask();
-
-		//	//// Строчка нужного проекта
-		//	//Driver.FindElement(By.LinkText(ProjectName)).Click();
-		//	//// Зайти в редактор документа
-		//	//Driver.FindElement(By.XPath(".//a[contains(@class,'js-editor-link')]")).Click();
-
-		//	//// Дождаться загрузки страницы
-		//	//Wait.Until((d) => d.Title.Contains("Editor"));
-
-		//	//// Проверить, существует ли хотя бы один сегмент
-		//	//Assert.IsTrue(IsElementPresent(By.CssSelector(
-		//	//	"#segments-body div table tr:nth-child(1)"
-		//	//	)));
-		//}
-
+		
 		/// <summary>
 		/// Загрузка в проект документа, который уже был загружен
 		/// </summary>
@@ -217,6 +139,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		{
 			// Создать проект, загрузить документ
 			CreateProjectImportDocument(DocumentFile);
+
 			// Кликнуть по Импорт
 			ProjectPage.ClickImportBtn();
 
@@ -233,8 +156,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			Assert.IsTrue(ProjectPage.WaitImportDocumentErrorMessage(),
 				"Ошибка: не появилось сообщение о повторном файле");
 		}
-
-
 
 		/// <summary>
 		/// Загрузить документ в форме создания проекта

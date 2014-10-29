@@ -1,14 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using OpenQA.Selenium;
-using OpenQA.Selenium.Firefox;
-using OpenQA.Selenium.Chrome;
-using OpenQA.Selenium.IE;
-using OpenQA.Selenium.Support.UI;
+﻿using System.Collections.Generic;
 using System.Threading;
+using OpenQA.Selenium;
+using OpenQA.Selenium.Support.UI;
 
 namespace AbbyyLS.CAT.Function.Selenium.Tests
 {
@@ -293,6 +286,23 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		}
 
 		/// <summary>
+		/// Отменить сохранение новой ТМ
+		/// </summary>
+		public void ClickCancelSavingNewTM()
+		{
+			// Нажать кнопку Сохранить
+			ClickElement(By.XPath(CANCEL_TM_SAVING_BTN_XPATH));
+		}
+
+		/// <summary>
+		/// Нажать кнопку Cancel на информационной плашке
+		/// </summary>
+		public void ClickCancelButtonOnNotificationBaloon()
+		{
+			ClickElement(By.XPath(NOTIFICATION_BALOON_BUTTON_XPATH));
+		}
+
+		/// <summary>
 		/// Вернуть, есть ли ТМ в списке
 		/// </summary>
 		/// <param name="TMName">название ТМ</param>
@@ -301,6 +311,23 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		{
 			// TODO проверить мб проверить циклом
 			return GetIsElementExist(By.XPath(TM_ROW_NAME + "[text()='" + TMName + "']"));
+		}
+
+		/// <summary>
+		/// Вернуть true, если информационная плашка существует
+		/// </summary>
+		public bool IsInformationBaloonExist()
+		{
+			return GetIsElementExist(By.XPath(NOTIFICATION_BALOON_TEXT_XPATH));
+		}
+
+		/// <summary>
+		/// Вернуть true, если плашка с текстом text появилась в окне браузера
+		/// <param name="text">текст сообщения</param>
+		/// </summary>
+		public bool IsBaloonWithSpecificMessageExist(string text)
+		{
+			return GetIsElementExist(By.XPath(NOTIFICATION_BALOON_TEXT_XPATH + "[text()='" + text + "']"));
 		}
 
 		/// <summary>
@@ -377,9 +404,8 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <summary>
 		/// Подтвердить удаление
 		/// </summary>
-		public void ConfirmDelete()
-		{// TODO убрать Wait
-			WaitUntilDisplayElement(By.XPath(CONFIRM_XPATH));
+		public void ConfirmTMEdition()
+		{
 			ClickElement(By.XPath(CONFIRM_XPATH));
 		}
 
@@ -426,7 +452,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <returns>xPath</returns>
 		protected string GetTMRow(string TMName)
 		{
-			return TM_ROW_XPATH + "[text()='" + TMName + "']/parent::td/parent::tr";
+			return TM_ROW_XPATH + "[text()='" + TMName + "']/parent::span/parent::td/parent::tr";
 		}
 
 
@@ -448,7 +474,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		protected const string CREATE_TM_DIALOG_SAVE_AND_IMPORT_BTN_XPATH = CREATE_TM_DIALOG_XPATH + "//a[contains(@class,'js-save-and-import')]";
 		protected const string UPLOAD_BTN_XPATH = "//a[contains(@class,'js-upload-btn')]";
 
-		protected const string TM_ROW_XPATH = "//tr[contains(@class, 'js-tm-row')]/td/span";
+		protected const string TM_ROW_XPATH = "//tr[contains(@class, 'js-tm-row')]/td/span/span";
 
 		protected const string BTN_ROW_XPATH = "//tr[@class='js-tm-panel']";
 		protected const string UPDATE_BTN_XPATH = BTN_ROW_XPATH + "//span[contains(@class,'js-upload-btn')]//a";
@@ -470,11 +496,16 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 
 		protected const string NEW_TM_NAME_XPATH = CREATE_TM_DIALOG_XPATH + "//input[contains(@class,'js-tm-name')]";
 		protected const string SAVE_TM_BTN_XPATH = CREATE_TM_DIALOG_XPATH + "//span[contains(@class,'js-save')]";
+		protected const string CANCEL_TM_SAVING_BTN_XPATH = CREATE_TM_DIALOG_XPATH + "//a[contains(@class,'js-cancel')]";
 
-		protected const string TM_ROW_NAME = "//tr[contains(@class,'js-tm-row')]//td/span";
+		protected const string TM_ROW_NAME = "//tr[contains(@class,'js-tm-row')]//td/span/span";
 		protected const string TM_EDIT_FORM_XPATH = "//tr[contains(@class,'js-tm-panel js-editing')]";
 		protected const string TM_EDIT_NAME_XPATH = TM_EDIT_FORM_XPATH + "//input[contains(@class, 'js-tm-name')]";
 		protected const string TM_EDIT_SAVE_BTN_XPATH = TM_EDIT_FORM_XPATH + "//span[contains(@class,'js-save-btn')]";
+
+		protected const string NOTIFICATION_BALOON_XPATH = "//div[contains(@class,'g-notifications-container')]";
+		protected const string NOTIFICATION_BALOON_TEXT_XPATH = NOTIFICATION_BALOON_XPATH + "//span[1]";
+		protected const string NOTIFICATION_BALOON_BUTTON_XPATH = NOTIFICATION_BALOON_XPATH + "//span[2]//a";
 
 		protected const string ERROR_EDIT_EXIST_NAME_XPATH = TM_EDIT_FORM_XPATH + ERROR_EXIST_NAME;
 		protected const string ERROR_EDIT_NO_NAME_XPATH = TM_EDIT_FORM_XPATH + ERROR_NO_NAME;

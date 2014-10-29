@@ -1,13 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
 using OpenQA.Selenium;
-using OpenQA.Selenium.Firefox;
-using OpenQA.Selenium.Chrome;
-using OpenQA.Selenium.IE;
 using OpenQA.Selenium.Support.UI;
 
 namespace AbbyyLS.CAT.Function.Selenium.Tests
@@ -504,7 +498,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <returns>есть</returns>
 		public bool GetIsExistTM(string TMName)
 		{
-			return GetIsElementExist(By.XPath(TM_TABLE_TM_NAME_XPATH + "[text()='" + TMName + "']"));
+            return GetIsElementExist(By.XPath(TM_TABLE_TM_NAME_XPATH + "[text()='" + TMName + "']"));
 		}
 
 		/// <summary>
@@ -884,7 +878,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		protected const string TM_TABLE_FIRST_ITEM_XPATH = TM_TABLE_XPATH + "//tr[1]//td[1]//input";
 		protected const string TM_TABLE_CHECK_TD = "//td[contains(@class,'js-checkbox-area')]//input";
 		protected const string TM_TABLE_RADIO_TD = "//td[contains(@class,'radio')]//input";
-		protected const string TM_TABLE_TM_NAME_XPATH = TM_TABLE_XPATH + "//tr//td[contains(@class,'js-name')]";
+		protected const string TM_TABLE_TM_NAME_XPATH = TM_TABLE_XPATH + "//tr//td[contains(@class,'js-name')]/p";
 
 		protected const string FIRST_GLOSSARY_XPATH =
 			CREATE_PROJECT_DIALOG_XPATH + "//table[contains(@class,'js-glossaries')]//tbody//tr[1]/*/span[contains(@class,'js-chckbx')]";
