@@ -478,9 +478,9 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			Assert.IsTrue(rollbackNumber > 0, "Неверный параметр: rollbackNumber - номер добавленного перевода, начиная с 1");
 			Assert.IsTrue(translationNumber >= rollbackNumber, "Неверный параметр: rollbackNumber должен быть меньше translationNumber");
 
-			int segmentRowNumber = 1;
+			int segmentNumber = 1;
 			// Подтвердить несколько переводов в одном сегменте
-			List<string> translationList = AddTranslationsToSegment(segmentRowNumber, translationNumber);
+			List<string> translationList = AddTranslationsToSegment(segmentNumber, translationNumber);
 
 			// Текст ревизии для отката
 			string revisionText = translationList[rollbackNumber - 1];
@@ -507,8 +507,10 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			bool isOk = true;
 			string errorMessage = "\n";
 
+			EditorPage.WaitUntilDisplayTargetText(segmentNumber, revisionText);
+
 			// Проверить, что текст в сегменте совпадает с текстом в ревизии
-			if (EditorPage.GetTargetText(segmentRowNumber) != revisionText)
+			if (EditorPage.GetTargetText(segmentNumber) != revisionText)
 			{
 				isOk = false;
 				errorMessage += "Ошибка: в сегменте неправильный текст (д.б. " + revisionText + ")\n";

@@ -73,6 +73,9 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		public void AddTextTarget(int rowNum, string text)
 		{
 			ClickClearAndAddText(By.CssSelector(GetTargetCellCss(rowNum)), text);
+
+			WaitUntilDisplayElement(By.XPath(GetTargetWithTextXpath(rowNum, text)), 1);
+			
 			Console.WriteLine("добавили текст: " + text);
 		}
 
@@ -464,13 +467,24 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		}
 
 		/// <summary>
-		/// Получить xPath Target
+		/// Получить Css Target
 		/// </summary>
 		/// <param name="rowNumber">номер строки</param>
-		/// <returns>xPath</returns>
+		/// <returns>Css</returns>
 		protected string GetTargetCellCss(int rowNumber)
 		{
 			return SEGMENTS_CSS + ":nth-child(" + rowNumber + ")" + " td." + TARGET_CELL_CLASS + " div";
+		}
+		
+		/// <summary>
+		/// Получить xPath Target с конкретным текстом
+		/// </summary>
+		/// <param name="segmentNumber">номер строки</param>
+		/// <param name="text">текст</param>
+		/// <returns>xPath</returns>
+		protected string GetTargetWithTextXpath(int segmentNumber, string text)
+		{
+			return "//table[@data-recordindex='" + (segmentNumber - 1) + "' and contains(@id, 'segment')]" + TARGET_TEXT_XPATH + text + "']";
 		}
 
 		/// <summary>
@@ -580,6 +594,17 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		public bool WaitAlreadyExistInDictionaryMessageDisplay()
 		{
 			return WaitUntilDisplayElement(By.XPath(ERROR_MESSAGE_XPATH));
+		}
+
+		/// <summary>
+		/// Возвращает появился ли в таргете новый текст
+		/// </summary>
+		/// <param name="segmentNumber">номер строки таргет</param>
+		/// <param name="text">новый текст</param>
+		/// <returns>появился новый текст</returns>
+		public bool WaitUntilDisplayTargetText(int segmentNumber, string text)
+		{
+			return WaitUntilDisplayElement(By.XPath(GetTargetWithTextXpath(segmentNumber, text)), 1);
 		}
 
 		/// <summary>
@@ -810,6 +835,8 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		protected const string SOURCE_CELL_CLASS = "source-cell";
 		protected const string SEGMENT_CAT_SELECTED = "cat-selected";
 		protected const string TARGET_XPATH = "//td[3]//div";
+
+		protected const string TARGET_TEXT_XPATH = TARGET_XPATH + "[string()='";
 		protected const string TAG_TARGET_XPATH = TARGET_XPATH + "//img[contains(@class,'tag')]";
 		protected const string SPELLCHECK_TARGET_XPATH = TARGET_XPATH + "//span[contains(@class,'spellcheck')]";
 		protected const string CONTEXT_MENU_SPELLCHECK_ADD_XPATH = "//span[contains(string(), 'Add to dictionary')]";
