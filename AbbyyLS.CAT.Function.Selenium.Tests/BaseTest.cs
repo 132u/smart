@@ -1348,15 +1348,13 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			}
 
 			// Перейти на стартовую страницу
-			_driver.Navigate().GoToUrl(_url);
+			_driver.Navigate().GoToUrl(_url+"/sign-in");
 
 			if (Driver.Url.Contains("pro"))
 			{
 				// Проверить, загрузилась ли
 				Assert.IsTrue(LoginPage.WaitPageLoadLpro(),
 					"Не прогрузилась страница Login - возможно, сайт недоступен");
-
-				LoginPage.ClickLoginBtnLpro();
 
 				// Заполнить логин и пароль
 				LoginPage.EnterLoginLpro(authLogin);
@@ -1409,8 +1407,9 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 				_driver.Navigate().GoToUrl(_workspaceUrl);
 
 				// Если открылась страница логина
-				if (LoginPage.WaitPageLoad(1))
+				if (LoginPage.WaitPageLoad(1) || LoginPage.WaitPromoPageLoad())
 				{
+					
 					// Проходим процедуру авторизации
 					Authorization();
 				}
@@ -1464,7 +1463,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 				_driver.Navigate().GoToUrl(_url + "/Enterprise/Glossaries");
 
 				// Если открылась страница логина
-				if (LoginPage.WaitPageLoad(1))
+				if (LoginPage.WaitPageLoad(1) || LoginPage.WaitPromoPageLoad())
 				{
 					// Проходим процедуру авторизации
 					Authorization();
@@ -1500,7 +1499,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 				_driver.Navigate().GoToUrl(_url + "/TranslationMemories/Index");
 
 				// Если открылась страница логина
-				if (LoginPage.WaitPageLoad(1))
+				if (LoginPage.WaitPageLoad(1) || LoginPage.WaitPromoPageLoad())
 				{
 					// Проходим процедуру авторизации
 					Authorization();
@@ -1534,7 +1533,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 				_driver.Navigate().GoToUrl(_url + "/Domains/Index");
 
 				// Если открылась страница логина
-				if (LoginPage.WaitPageLoad(1))
+				if (LoginPage.WaitPageLoad(1) || LoginPage.WaitPromoPageLoad())
 				{
 					// Проходим процедуру авторизации
 					Authorization();
@@ -1568,7 +1567,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 				_driver.Navigate().GoToUrl(_url + "/Clients/Index");
 
 				// Если открылась страница логина
-				if (LoginPage.WaitPageLoad(1))
+				if (LoginPage.WaitPageLoad(1) || LoginPage.WaitPromoPageLoad())
 				{
 					// Проходим процедуру авторизации
 					Authorization();

@@ -37,6 +37,14 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 
 			return isDisplay;
 		}
+		/// <summary>
+		/// Дождаться загрузки страницы http://www.smartcat.pro/?backUrl=%2fworkspace
+		/// </summary>
+		/// <returns>загрузилась</returns>
+		public bool WaitPromoPageLoad(int maxwait = 15)
+		{
+			return  WaitUntilDisplayElement(By.XPath(PRO_ELEMENT), maxwait);
+		}
 
 		/// <summary>
 		/// Ввести логин
@@ -85,20 +93,12 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		}
 
 		/// <summary>
-		/// Кликнуть по кнопке Login в LPRO
-		/// </summary>
-		public void ClickLoginBtnLpro()
-		{
-			ClickElement(By.Id(LOGIN_BTN_LPRO_XPATH));
-		}
-
-		/// <summary>
 		/// Дождаться загрузки страницы на lpro
 		/// </summary>
 		/// <returns>загрузилась</returns>
 		public bool WaitPageLoadLpro()
 		{
-			return WaitUntilDisplayElement(By.Id(LOGIN_BTN_LPRO_XPATH));
+			return WaitUntilDisplayElement(By.XPath(LOGIN_BTN_LPRO_XPATH));
 		}
 
 		/// <summary>
@@ -162,11 +162,13 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		protected const string SUBMIT_BTN_CSS = "//button[contains(@class, 'btn-danger')]";
 		protected const string SUBMIT_BTN_CSS2 = "//button[contains(@class, 'btn btn-danger ng-binding') and @ng-class='{ disabled: selectAccount.$invalid }']";
 		protected const string ERROR_XPATH = "//div[contains(@class,'js-dynamic-errors')]";
-		
-		protected const string LOGIN_BTN_LPRO_XPATH = "btnLogin";
-		protected const string EMAIL_LPRO_XPATH = "lfLogin";
-		protected const string PASSWORD_LPRO_XPATH = "lfPwd";
-		protected const string SUBMIT_LPRO_XPATH = "//input[@value='Login']";
+
+		protected const string LOGIN_BTN_LPRO_XPATH = "//input[@id='email']";
+		protected const string EMAIL_LPRO_XPATH = "email";
+		protected const string PASSWORD_LPRO_XPATH = "password";
+		protected const string SUBMIT_LPRO_XPATH = "//button[@id='btn-sign-in']";
+
+		protected const string PRO_ELEMENT = "//div[@class='logo-description']";
 	}
 }
 
