@@ -312,15 +312,15 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// </summary>
 		public void ClickSubmitBtnNewUser()
 		{
-			ClickElement(By.XPath(SUBMIT_BTN_FOR_NEW_USER_XPATH));
+			ClickElement(By.XPath(SAVE_BTN_XPATH));
 		}
 
 		/// <summary>
-		/// Нажать кнопку Сохранить при создании нового юзера
+		/// Нажать кнопку Сохранить 
 		/// </summary>
-		public void ClickSaveBtnForNewUser()
+		public void ClickSaveBtn()
 		{
-			ClickElement(By.XPath(SUBMIT_BTN_FOR_NEW_USER_XPATH));
+			ClickElement(By.XPath(SAVE_BTN_XPATH));
 		}
 
 		/// <summary>
@@ -401,7 +401,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		protected const string NICKNAME_FOR_NEW_USER_XPATH = "//input[@id='Nickname']";
 		protected const string PASSWORD_FOR_NEW_USER_XPATH = "//div[6]/input[@class='inputField']";
 		protected const string PASSWORD2_FOR_NEW_USER_XPATH = "//div[8]/input[@class='inputField']";
-		protected const string SUBMIT_BTN_FOR_NEW_USER_XPATH = "//p[@class='submit-area']/input";
+		protected const string SAVE_BTN_XPATH = "//p[@class='submit-area']/input";
 		protected const string CREATE_PERS_ACCOUNT_XPATH = "//form[@action='/Users/CreatePersonalAccount']/input[2]"; //кнопка создать перс акккаунт
 		protected const string SURNAME_FIELD_IN_PERS_ACC = ".//input[@id='Surname']"; // поле фамилия на стр создания перс аккаунта
 		protected const string SAVE_BTN_NEW_PEERS_ACC = "//p[@class='submit-area']/input"; //кнопка Сохранить при создании персонального аккаунта

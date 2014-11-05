@@ -13,5 +13,9 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		[DataMember(Name = "TestUser")]
 		public List<TestUser> Users { get; set; }
 
+		[DataMember(Name = "TestCompany")]
+		public List<TestUser> Companies { get; set; }
+
 	}
+
 }

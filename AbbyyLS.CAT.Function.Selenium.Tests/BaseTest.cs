@@ -86,17 +86,37 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			
 			if (TestUserFileExist())
 			{
-				var cfgTestUser = TestSettingDefinition.Instance.Get<TestUserConfig>();
-
+					var _cfgTestUser = TestSettingDefinition.Instance.Get<TestUserConfig>();
+					var _cfgTestCompany = TestSettingDefinition.Instance.Get<TestUserConfig>();
 
 				_testUserList = new List<UserInfo>();
+					_testCompanyList = new List<UserInfo>();
 				// Добавление пользователей в _testUserList из конфига
-				for (int v = 0; v < 6; v++)
+					for (int v = 0; v < _cfgTestUser.Users.Count; v++)
 					_testUserList.Add(
-						new UserInfo(cfgTestUser.Users[v].Login, cfgTestUser.Users[v].Password, cfgTestUser.Users[v].State));
+							new UserInfo(_cfgTestUser.Users[v].Login, _cfgTestUser.Users[v].Password, _cfgTestUser.Users[v].Activated));
+
+					for (int v = 0; v < _cfgTestCompany.Companies.Count; v++)
+						_testCompanyList.Add(
+							new UserInfo(_cfgTestCompany.Companies[v].Login, _cfgTestCompany.Companies[v].Password, _cfgTestCompany.Companies[v].Activated));
 			}
 		}
 
+		public enum RegistrationType
+		{
+			User,
+			Company
+		}
+
+		public enum RegistrationField
+		{
+			FirstName,
+			LastName,
+			CompanyName,
+			DomainName,
+			PhoneNumber,
+			CompanyType
+		}
 		public bool TestUserFileExist()
 		{
 			return File.Exists(_testUserFile);
@@ -298,6 +318,14 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			}
 		}
 
+		private List<UserInfo> _testCompanyList;
+		protected List<UserInfo> TestCompanyList
+		{
+			get
+			{
+				return _testCompanyList;
+			}
+		}
 		/// <summary>
 		/// Уникальное для теста название проекта
 		/// </summary>
@@ -2638,12 +2666,19 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <summary>
 		/// Переход на страницу регистрации
 		/// </summary>
-		public void GoToRegistrationPage()
+		/// <param name="client">компания или пользователь</param>
+		public void GoToRegistrationPage(RegistrationType client)
 		{
 			try
 			{
-				_driver.Navigate().GoToUrl(_url + "/freelance-reg");
-
+				if (client == RegistrationType.Company)
+				{
+					_driver.Navigate().GoToUrl(_url + "/corp-reg");
+				}
+				else
+				{
+					_driver.Navigate().GoToUrl(_url + "/freelance-reg");
+				}
 			}
 			catch
 			{
@@ -2653,7 +2688,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 				AcceptModalDialog();
 
 				// Пробуем перейти на страницу еще раз
-				GoToRegistrationPage();
+				GoToRegistrationPage(client);
 			}
 		}
 
@@ -2662,12 +2697,12 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			public string login;
 			public string password;
 
-			public bool state;
+			public bool activated;
 			public UserInfo(string l, string p, bool s)
 			{
 				login = l;
 				password = p;
-				state = s;
+				activated = s;
 			}
 		}
 	}

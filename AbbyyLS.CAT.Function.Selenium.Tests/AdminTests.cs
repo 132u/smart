@@ -12,8 +12,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <summary>
 		/// Конструктор теста
 		/// </summary>
-
-
 		/// <param name="browserName">Название браузера</param>
 		public AdminTest(string browserName)
 			: base(browserName)
@@ -39,22 +37,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		}
 
 		/// <summary>
-		/// Добавить пользователя в определенный аккаунт
-		/// </summary>
-		protected void AddUserToSpecialAccount(string login, string accountname)
-		{
-			// Перейти в управление пользователями
-			AdminPage.OpenUserManagementPageForAccount(accountname);
-			// Ввести логин пользователя
-			AdminPage.FillUserNameSearch(login);
-			// Найти
-			AdminPage.ClickSearchUserBtn();
-			// Дождаться появления пользователя
-			AdminPage.WaitSearchUserResult();
-			// Добавить
-			AdminPage.ClickAddUser();
-		}
-		/// <summary>
 		/// Открыть форму создания корпоративного аккаунта
 		/// </summary>
 		public void OpenCreateAccountForm()
@@ -65,10 +47,8 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 
 			// Нажать Создать
 			AdminPage.ClickAddAccount();
-
-			bool isWindowWithForm = false;
 			Driver.SwitchTo().Window(Driver.WindowHandles[1]);
-			isWindowWithForm = AdminPage.GetIsAddAccountFormDisplay();
+			bool isWindowWithForm = AdminPage.GetIsAddAccountFormDisplay();
 			Assert.IsTrue(isWindowWithForm, "Ошибка: не нашли окно с формой создания аккаунта");
 		}
 
@@ -116,7 +96,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		public void LoginToAdminPage()
 		{
 			GoToAdminPage();
-			//
 			AdminPage.FillLogin(Login);
 			AdminPage.FillPassword(Password);
 			AdminPage.ClickSubmit();
@@ -152,6 +131,27 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			AdminPage.FillPasswordForNewUser(password);
 			AdminPage.FillConfirmPasswordForNewUser(password);
 			AdminPage.ClickSubmitBtnNewUser();
+		}
+
+		/// <summary>
+		/// Добавить польователя в корп аккаунт
+		/// </summary>
+		/// <returns>Имя созданного аккаунта</returns>
+		public  string AddUserToCorpAccount()
+		{
+			SwitchEnterpriseAccountList();
+			// Нажать Создать
+			AdminPage.ClickAddAccount();
+			// Переключаемся в новое окно браузера
+			Driver.SwitchTo().Window(Driver.WindowHandles[1]);
+			bool isWindowWithForm = AdminPage.GetIsAddAccountFormDisplay();
+			Assert.IsTrue(isWindowWithForm, "Ошибка: не нашли окно с формой создания аккаунта");
+			// Заполняем поля для создания корп аккаунта
+			string accountName = FillGeneralAccountFields();
+			// Нажать кнопку сохранить
+			AdminPage.ClickSaveBtn();
+			AddUserToAccount(RegistrationPage.Email);
+			return accountName;
 		}
 	}
 }

@@ -549,6 +549,16 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		}
 
 		/// <summary>
+		/// Возвращает название компании в вехней панели рядом с именем текущего пользователя
+		/// </summary>
+		/// <returns>Название компании</returns>
+		public string GetCompanyName()
+		{
+			//ClickAccount();
+			return GetTextElement(By.XPath(COMPANY_NAME_PANEL_WS));
+		}
+
+		/// <summary>
 		/// Нажать на имя пользователя и аккаунт, чтобы появилась черная плашка Настройки профиля
 		/// </summary>
 		public void ClickAccount()
@@ -568,7 +578,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 	    {
 	       return GetIsElementDisplay(By.XPath("//li[@class='g-topbox__corpitem' and @title='" + accountName + "']"));
 	    }
-
 
 	    public enum LOCALE_LANGUAGE_SELECT { English, Russian };
 		public enum EXPORT_TYPE { Original, TMX, Translated };
@@ -633,5 +642,8 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		protected const string ACCOUNT_XPATH = ".//div[contains(@class,'js-corp-account')]";
 		protected const string USER_NAME_XPATH = ACCOUNT_XPATH + "//span[contains(@class,'nameuser')]";
 		protected const string LOGOFF_XPATH = ".//a[contains(@href,'Logout')]";
-	}
+
+		protected const string TOP_BOX_COMPANY_NAME = "//div[@class='g-topbox__currentAccount__nickname']";
+		protected const string COMPANY_NAME_PANEL_WS = "//span[@class='g-topbox__currentAccount__name']";
+	}//div[@class='g-topbox__currentAccount__nickname']/span[@class='g-topbox__currentAccount__name']
 }

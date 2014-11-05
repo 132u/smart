@@ -1,0 +1,38 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<configuration>
+
+		<TestUsers>
+			<!--
+						тэг TestUser - для тестирования регистрации юзеров, которые имею аакаунт в aol/coursera/perevedem
+						(см 3.1-3.6 пункты в PRX-5601)
+						Activated = "false" - неактивированый аккаунт
+						Activated = "true" - активированый аккаунт
+						
+						тэг TestCompany - для тестирования регистрации компаний,
+						с помощью юзера, который имею аккаунт в aol/coursera/perevedem
+						(см 1й пункт PRX-5752)
+						Activated = "false" - неактивированый аккаунт
+						Activated = "true" - активированый аккаунт
+						
+						Количество TestUser можно менять(удалять или добавлять строки)
+			-->
+			<TestUser Login = "ssssssss213123s@mail.ru"	Password = "aol3mailru@mail.ru" Activated = "false" />
+			<TestUser Login = "testuserivanpetrov2@mailforspam.com"	Password = "12trC89p" Activated = "false" />
+			<TestUser Login = "testuserivanpetrov3@mailforspam.com"	Password = "12trC89p" Activated = "true" />
+			<TestUser Login = "testuserivanpetrov4@mailforspam.com"	Password = "12trC89p" Activated = "false" />
+			<TestUser Login = "testuserivanpetrov5@mailforspam.com"	Password = "12trC89p" Activated = "false" />
+			<TestUser Login = "testuserivanpetrov6@mailforspam.com"	Password = "12trC89p" Activated = "false" />
+			
+			<TestCompany Login = "laedraep@disposableinbox.com"	Password = "123123123" Activated = "true" />
+			<TestCompany Login = "b1123272@trbvm.com"	Password = "123123123" Activated = "false" />
+			<TestCompany Login = "box141409401662@unmail.ru"	Password = "123123123" Activated = "true" />
+			<TestCompany Login = "box141409403961@unmail.ru"	Password = "123123123" Activated = "false" />
+			<TestCompany Login = "box141415652096@unmail.ru"	Password = "123123123" Activated = "true" />
+			<TestCompany Login = "box141415376881@unmail.ru"	Password = "123123123" Activated = "false" />
+			<TestCompany Login = "box141415668249@unmail.ru"	Password = "123123123" Activated = "true" />
+			<TestCompany Login = "box141415672547@unmail.ru"	Password = "123123123" Activated = "false" />
+
+		</TestUsers>
+
+
+</configuration>

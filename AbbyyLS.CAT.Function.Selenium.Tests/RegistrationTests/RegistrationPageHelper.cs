@@ -16,23 +16,28 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		public RegistrationPageHelper(IWebDriver driver, WebDriverWait wait) :
 			base(driver, wait)
 		{
-			this.firstName = GetUniqueString();
-			this.lastName = GetUniqueString();
-			this.email = GetUniqueEmail();
-			this.password = GetUniquePassword();
-			this.nickName = GetUniqueString();
+			FirstName = GetUniqueString();
+			LastName = GetUniqueString();
+			Email = GetUniqueEmail();
+			Password = GetUniquePassword();
+			NickName = GetUniqueString();
+			NameCompany = RandomString.GenerateRandomString();
+			DomainName = "D" + RandomString.GenerateRandomString();
 		}
 
-		public string firstName;
-		public string lastName;
-		public string email;
-		public string password;
-		public string nickName;
+		public  string FirstName;
+		public string LastName;
+		public string Email;
+		public string Password;
+		public string NickName;
+		public string NameCompany;
+		public string DomainName;
+
 
 		/// <summary>
 		/// Заполнить все поля на певом шаге регистрации фрилансера
 		/// </summary>
-		///  <param name="email">email фрилансера</param>
+		/// <param name="email">email фрилансера</param>
 		/// <param name="password">пароль</param>
 		/// <param name="confirmPassword">подтверждение пароля</param>
 		public void FillRegistrationDataInFirstStep(string email, string password, string confirmPassword)
@@ -50,14 +55,12 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// </summary>
 		/// <param name="firstName">имя фрилансера</param>
 		/// <param name="lastName">фамилия фридансера</param>
-		public void FillRegistrationDataInSecondStep(
-													string firstName,
-													string lastName)
+		public void FillRegistrationDataInSecondStep(string firstName, string lastName)
 		{
 			//запомнить имя фрилансера
-			this.firstName = firstName;
+			this.FirstName = firstName;
 			//запомнить фамилию фрилансера
-			this.lastName = lastName;
+			this.LastName = lastName;
 			//заполнить поле имя
 			TypeTextInFirstNameField(firstName);
 			//заполнить поле фамилии
@@ -179,39 +182,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			ClearAndAddText(By.XPath(LAST_NAME_FIELD), lastName);
 		}
 
-
-		///// <summary>
-		///// Выбор таймзоны - второй шаг регистрации
-		///// </summary>
-		//public void SelectTimeZoneInDropDown(string timeZone)
-		//{
-		//    this.SelectItemInDropDownByText(By.XPath(TIMEZONE), timeZone);
-		//}
-
-		///// <summary>
-		///// Выбор родного языка  - второй шаг регистрации
-		///// </summary>
-		//public void SelectLanguageInDropDown(string language)
-		//{
-		//    this.SelectItemInDropDownByText(By.XPath(NATIVE_LANGUAGE), language);
-		//}
-
-		///// <summary>
-		///// Выбор сервиса 
-		///// </summary>
-		//public void SelectServiceInDropDown(string service)
-		//{
-		//    this.SelectItemInDropDownByText(By.XPath(SERVICE_PROVIDE), service);
-		//}
-
-		///// <summary>
-		///// Выбор уровня владения языком
-		///// </summary>
-		//public void SelectLangLevelInDropDown(string langLevel)
-		//{
-		//    this.SelectItemInDropDownByText(By.XPath(LANG_LEVEL), langLevel);
-		//}
-
 		/// <summary>
 		/// Нажать кнопку создания аккаунта  - второй шаг регистрации
 		/// </summary>
@@ -225,7 +195,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// </summary>
 		public bool CheckNameSurnameInWSPanel()
 		{
-			if (GetTextElement(By.XPath(USER_NAME_XPATH)) == this.firstName + ' ' + this.lastName) return true;
+			if (GetTextElement(By.XPath(USER_NAME_XPATH)) == this.FirstName + ' ' + this.LastName) return true;
 			else return false;
 		}
 
@@ -234,7 +204,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// </summary>
 		public bool CheckNameInWSPanel()
 		{
-			if (GetTextElement(By.XPath(USER_NAME_XPATH)) == this.firstName) return true;
+			if (GetTextElement(By.XPath(USER_NAME_XPATH)) == this.FirstName) return true;
 			else return false;
 		}
 		/// <summary>
@@ -383,8 +353,95 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		protected const string LOAD_PHOTO_BTN = "//input[@type='file']";
 		protected const string LABEL_WRONG_FORMAT = "//i[text()='Wrong format' and @class='ng-binding']";
 		protected const string LABEL_LOAD_PHOTO = "//i[text()='Load photo' and @class='ng-binding']";
-		public string err { get; set; }
 
+		/// <summary>
+		/// Заполнить поле имя на 2м шаге стр регистрации компании 
+		/// </summary>
+		public void FillFirstNameCompany(string firstNameCompany)
+		{
+			ClearAndAddText(By.XPath(FIRST_NAME_COMPANY), firstNameCompany);
+		}
 
+		/// <summary>
+		/// Заполнить поле фамилия на 2м шаге стр регистрации компании 
+		/// </summary>
+		public void FillLastNameCompany(string lastNameCompany)
+		{
+			ClearAndAddText(By.XPath(LAST_NAME_COMPANY), lastNameCompany);
+		}
+
+		/// <summary>
+		/// Заполнить поле название компании на 2м шаге стр регистрации компании 
+		/// </summary>
+		public void FillNameCompany(string nameCompany)
+		{
+			ClearAndAddText(By.XPath(COMPANY_NAME_COMPANY), nameCompany);
+		}
+
+		/// <summary>
+		/// Заполнить поле домен на 2м шаге стр регистрации компании 
+		/// </summary>
+		public void FillDomainNameCompany(string domainNameCompany)
+		{
+			ClearAndAddText(By.XPath(DOMAIN_NAME_COMPANY), domainNameCompany);
+		}
+
+		/// <summary>
+		/// Заполнить поле телефон на 2м шаге стр регистрации компании 
+		/// </summary>
+		public void FillPhoneNumberCompany(string phoneNumber)
+		{
+			ClearAndAddText(By.XPath(PHONE_NUMBER), phoneNumber);
+		}
+
+		/// <summary>
+		/// Нажать кнопку Создать аккаунт на 2м шаге стр регистрации компании 
+		/// </summary>
+		public void ClickCreateAccountCompanyBtn()
+		{
+			DoubleClickElement(By.XPath(CREATE_ACCOUNT_COMPANY_BTN));
+		}
+
+		/// <summary>
+		/// Выбрать тип компании на 2м шаге стр регистрации компании 
+		/// </summary>
+		public void SelectCompanyType(string companyType)
+		{
+			ClickElement(By.XPath(COMPANY_TYPE_DD + OPTION_IN_COMPANY_TYPE_DD + companyType + "']"));
+		}
+
+		/// <summary>
+		/// Получить Xpath опции в дропдауне тип компании
+		/// </summary>
+		public string GetOptionXpathFromCompanyDD(string companyTypeOptpion)
+		{
+			return companyTypeOptpion + "']";
+		}
+
+		public bool CheckCreateAccBtnActive()
+		{
+			return ((GetElementAttribute(By.XPath(CREATE_ACCOUNT_COMPANY_BTN), "disabled") == "true"));
+		}
+
+		public void ClickLogInFromMsg()
+		{
+			ClickElement(By.XPath(LOGIN_LINK_FROM_MSG));
+		}
+
+		public bool GetWrongPasswordMsgIsDisplay()
+		{
+			return GetIsElementDisplay(By.XPath(WRONG_PASSWORD));
+		}
+
+		protected const string FIRST_NAME_COMPANY = ".//input[@id='firstname']";
+		protected const string LAST_NAME_COMPANY = ".//input[@id='lastname']";
+		protected const string COMPANY_NAME_COMPANY = ".//input[@id='company']";
+		protected const string DOMAIN_NAME_COMPANY = ".//input[@id='subdomain']";
+		protected const string CREATE_ACCOUNT_COMPANY_BTN = "//button[@id='btn-create-account']";
+		protected const string PHONE_NUMBER = ".//input[@id='phone-number']";
+		protected const string COMPANY_TYPE_DD = ".//select[@id='company-type']";
+		protected const string OPTION_IN_COMPANY_TYPE_DD = "//option[text()='";
+		protected const string LOGIN_LINK_FROM_MSG = "//a[@ng-click='showSignIn()' and text()='log in']";
+		protected const string WRONG_PASSWORD = "//p[@class='help-block ng-binding']";
 	}
 }

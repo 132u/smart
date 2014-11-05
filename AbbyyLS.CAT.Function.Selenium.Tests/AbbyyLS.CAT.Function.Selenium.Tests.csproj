@@ -58,11 +58,12 @@
     <Compile Include="AddTermFormHelper.cs" />
     <Compile Include="AdminTests.cs" />
     <Compile Include="CatPanelSubstitutionTest.cs" />
+    <Compile Include="RegistrationTests\CompanyRegistrationTest.cs" />
     <Compile Include="LoginPageHelper.cs" />
     <Compile Include="RandomString.cs" />
     <Compile Include="FilesRootCfg.cs" />
-    <Compile Include="RegistrationPageHelper.cs" />
-    <Compile Include="RegistrationPageTest.cs" />
+    <Compile Include="RegistrationTests\RegistrationPageHelper.cs" />
+    <Compile Include="RegistrationTests\FreelanceRegistrationTest.cs" />
     <Compile Include="TestUser.cs" />
     <Compile Include="TestUserConfig.cs" />
     <Compile Include="UserInfoConfig.cs" />

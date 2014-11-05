@@ -16,7 +16,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		[DataMember(Name = "Password")]
 		public string Password { get; set; }
 
-		[DataMember(Name = "State")]
-		public bool State { get; set; }
+		[DataMember(Name = "Activated")]
+		public bool Activated { get; set; }
 	}
 }

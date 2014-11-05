@@ -1,17 +1,17 @@
 ﻿using NUnit.Framework;
 
-namespace AbbyyLS.CAT.Function.Selenium.Tests
+namespace AbbyyLS.CAT.Function.Selenium.Tests.Registraion.Freelance
 {
 	/// <summary>
 	/// Тесты регистрации фрилансера
 	/// </summary>
-	public class RegistrationPageTest : AdminTest
+	public class FreelanceRegistrationTest : AdminTest
 	{
 		/// <summary>
 		/// Конструктор теста регистрации фрилансера
 		/// </summary>
 		/// <param name="browserName">Название браузера</param>
-		public RegistrationPageTest(string browserName)
+		public FreelanceRegistrationTest(string browserName)
 			: base(browserName)
 		{
 
@@ -23,13 +23,13 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		public void RegistrationNewUser(string email, string password)
 		{
 			// Переход на страницу регистрации
-			GoToRegistrationPage();
+			GoToRegistrationPage(RegistrationType.User);
 			// Заполняем все поля на первом шаге регистрации
 			RegistrationPage.FillRegistrationDataInFirstStep(email, password, password);
 			// Нажимаем кнопку Sign up
 			RegistrationPage.ClickSignUpButton();
 			// Заполняем все поля на втором шаге регистрации
-			RegistrationPage.FillRegistrationDataInSecondStep(RegistrationPage.firstName, RegistrationPage.lastName);
+			RegistrationPage.FillRegistrationDataInSecondStep(RegistrationPage.FirstName, RegistrationPage.LastName);
 			// Нажимаем кнопку Create Account
 			RegistrationPage.ClickCreateAccountButton();
 		}
@@ -38,9 +38,10 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// Тест регистрации нового юзера
 		/// </summary>
 		[Test]
+
 		public void RegistrationNewUserTest()
 		{
-			RegistrationNewUser(RegistrationPage.email,RegistrationPage.password);
+			RegistrationNewUser(RegistrationPage.Email,RegistrationPage.Password);
 			// Проверка ,что имя и фамилия нового фрилансера отображается правильно в хидере
 			Assert.IsTrue(
 				RegistrationPage.CheckNameSurnameInWSPanel(), "Ошибка: имя фрилансера неправильно отображается на странице WS");
@@ -52,7 +53,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		[Test]
 		public void LoginNewUserAfterRegistration()
 		{
-			RegistrationNewUser(RegistrationPage.email,RegistrationPage.password);
+			RegistrationNewUser(RegistrationPage.Email,RegistrationPage.Password);
 			//Нажать на имя юзера,чтоб открыть подменю
 			WorkspacePage.ClickAccount();
 			//Нажать кнопку выхода
@@ -60,9 +61,9 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			//Обновить страницу
 			RegistrationPage.RefreshLoginPage();
 			//Заполнить email
-			LoginPage.EnterLogin(RegistrationPage.email);
+			LoginPage.EnterLogin(RegistrationPage.Email);
 			//Заполнить пароль
-			LoginPage.EnterPassword(RegistrationPage.password);
+			LoginPage.EnterPassword(RegistrationPage.Password);
 			//Нажать кнопку Sign In
 			LoginPage.ClickSubmitCredentials();
 			//Проверить что имя и фамилия фрилансера отображается в панели на стр WS
@@ -78,11 +79,11 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		public void CheckThatSignUpBtnIsDisable()
 		{
 			// Переход на страницу регистрации
-			GoToRegistrationPage();
+			GoToRegistrationPage(RegistrationType.User);
 			// Заполняем все поля на первом шаге регистрации
 			RegistrationPage.FillRegistrationDataInFirstStep(
-				RegistrationPage.email,
-				RegistrationPage.password,
+				RegistrationPage.Email,
+				RegistrationPage.Password,
 				"wrong password");
 			Assert.IsTrue(RegistrationPage.CheckThatSignUpButtonIsDisable(), "Ошибка: пароли разные, но кнопка активна!");
 		}
@@ -94,9 +95,9 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		public void CheckThatUserIsAlreadyExist()
 		{
 			// Переход на страницу регистрации
-			GoToRegistrationPage();
+			GoToRegistrationPage(RegistrationType.User);
 			// Заполняем все поля на первом шаге регистрации
-			RegistrationPage.FillRegistrationDataInFirstStep(Login, RegistrationPage.password, RegistrationPage.password);
+			RegistrationPage.FillRegistrationDataInFirstStep(Login, RegistrationPage.Password, RegistrationPage.Password);
 			RegistrationPage.ClickSignUpButton();
 			RegistrationPage.CheckErrorMessageThatUserIsAlreadyExist();
 		}
@@ -108,9 +109,9 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		public void CheckThatSignUpBtnIsDisableWhenNoPassword()
 		{
 			// Переход на страницу регистрации
-			GoToRegistrationPage();
+			GoToRegistrationPage(RegistrationType.User);
 			// Заполняем все поля на первом шаге регистрации
-			RegistrationPage.FillRegistrationDataInFirstStep(RegistrationPage.email, RegistrationPage.password, "");
+			RegistrationPage.FillRegistrationDataInFirstStep(RegistrationPage.Email, RegistrationPage.Password, "");
 			Assert.IsTrue(RegistrationPage.CheckThatSignUpButtonIsDisable(), "Ошибка: Пароля нет, но кнопка активна!");
 		}
 
@@ -121,9 +122,9 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		public void CheckThatSignUpBtnIsDisableWhenPasswordIsSpace()
 		{
 			// Переход на страницу регистрации
-			GoToRegistrationPage();
+			GoToRegistrationPage(RegistrationType.User);
 			// Заполняем все поля на первом шаге регистрации
-			RegistrationPage.FillRegistrationDataInFirstStep(RegistrationPage.email, " ", " ");
+			RegistrationPage.FillRegistrationDataInFirstStep(RegistrationPage.Email, " ", " ");
 			Assert.IsTrue(RegistrationPage.CheckThatSignUpButtonIsDisable(), "Ошибка:  Пароль - пробел, но кнопка активна!");
 		}
 
@@ -134,14 +135,14 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		public void CheckPhotoLabel()
 		{
 			// Переход на страницу регистрации
-			GoToRegistrationPage();
+			GoToRegistrationPage(RegistrationType.User);
 			// Заполняем все поля на первом шаге регистрации
 			RegistrationPage.FillRegistrationDataInFirstStep(
-				RegistrationPage.email,
-				RegistrationPage.password,
-				RegistrationPage.password);
+				RegistrationPage.Email,
+				RegistrationPage.Password,
+				RegistrationPage.Password);
 			RegistrationPage.ClickSignUpButton();
-			RegistrationPage.FillRegistrationDataInSecondStep(RegistrationPage.firstName, RegistrationPage.lastName);
+			RegistrationPage.FillRegistrationDataInSecondStep(RegistrationPage.FirstName, RegistrationPage.LastName);
 			Assert.IsTrue(RegistrationPage.CheckLabelForPhoto(), "Ошибка: Load photo не отображается в секции для фото");
 		}
 
@@ -152,14 +153,14 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		public void CheckBtnIsDisableWhenLevelIsNotSet()
 		{
 			// Переход на страницу регистрации
-			GoToRegistrationPage();
+			GoToRegistrationPage(RegistrationType.User);
 			// Заполняем все поля на первом шаге регистрации
 			RegistrationPage.FillRegistrationDataInFirstStep(
-				RegistrationPage.email,
-				RegistrationPage.password,
-				RegistrationPage.password);
+				RegistrationPage.Email,
+				RegistrationPage.Password,
+				RegistrationPage.Password);
 			RegistrationPage.ClickSignUpButton();
-			RegistrationPage.FillRegistrationDataInSecondStep(RegistrationPage.firstName, RegistrationPage.lastName);
+			RegistrationPage.FillRegistrationDataInSecondStep(RegistrationPage.FirstName, RegistrationPage.LastName);
 			RegistrationPage.SelectSecondService();
 			Assert.IsTrue(RegistrationPage.CheckThatCreateAccountBtnIsDisable(), "Ошибка: Этап для второй пары языков не указан, но кнопка активна!");
 		}
@@ -176,16 +177,17 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		[TestCase("“♣☺♂” , “”‘~!@#$%^&*()?>,.//*<!–“”, “${code}”;–>")]
 		[TestCase("asadsdsa,asddsa@asd.asd")]
 		[TestCase("ывавыааыва@ывааываыв.com")]
+		[TestCase("testsds@dsdom")]
 		[Test]
 		public void CheckInvalidEmails(string invalidEmail)
 		{
 			// Переход на страницу регистрации
-			GoToRegistrationPage();
+			GoToRegistrationPage(RegistrationType.User);
 			// Заполняем все поля на первом шаге регистрации
 			RegistrationPage.FillRegistrationDataInFirstStep(
 				invalidEmail,
-				RegistrationPage.password,
-				RegistrationPage.password);
+				RegistrationPage.Password,
+				RegistrationPage.Password);
 			Assert.IsTrue(RegistrationPage.CheckThatSignUpButtonIsDisable(), "Ошибка: Email невалидный, но кнопка активна!");
 		}
 
@@ -196,22 +198,21 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		public void CreateAccountInAdminAndChechRegistration()
 		{
 			LoginToAdminPage();
-			CreateNewUserInAdminPage(RegistrationPage.email, RegistrationPage.nickName, RegistrationPage.password);
+			CreateNewUserInAdminPage(RegistrationPage.Email, RegistrationPage.NickName, RegistrationPage.Password);
 			// Переход на страницу регистрации
-			GoToRegistrationPage();
+			GoToRegistrationPage(RegistrationType.User);
 			RegistrationPage.GoToLoginPageWithExistAccount();
-			RegistrationPage.TypeTextInEmailFieldSignIn(RegistrationPage.email);
-			RegistrationPage.TypeTextInPasswordFieldSignIn(RegistrationPage.password);
+			RegistrationPage.TypeTextInEmailFieldSignIn(RegistrationPage.Email);
+			RegistrationPage.TypeTextInPasswordFieldSignIn(RegistrationPage.Password);
 			RegistrationPage.ClickSignInButton();
-			RegistrationPage.FillRegistrationDataInSecondStep(RegistrationPage.firstName, RegistrationPage.lastName);
+			RegistrationPage.FillRegistrationDataInSecondStep(RegistrationPage.FirstName, RegistrationPage.LastName);
 			RegistrationPage.ClickCreateAccountButton();
 			// проверка ,что имя и фамилия нового фрилансера отображается правильно в хидере
 			Assert.IsTrue(
 				RegistrationPage.CheckNameSurnameInWSPanel(),
 				"Ошибка: имя фрилансера неправильно отображается на странице WS");
 		}
-
-
+		
 		/// <summary>
 		/// Тест - проверка, что сообщение 'Неверный парлоль'  появляется, если пароль неверен - Sign In форма
 		/// </summary>
@@ -219,17 +220,15 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		public void LoginWithExistEmailAndWrongPassword()
 		{
 			LoginToAdminPage();
-			CreateNewUserInAdminPage(RegistrationPage.email, RegistrationPage.nickName, RegistrationPage.password);
+			CreateNewUserInAdminPage(RegistrationPage.Email, RegistrationPage.NickName, RegistrationPage.Password);
 			// Переход на страницу регистрации
-			GoToRegistrationPage();
+			GoToRegistrationPage(RegistrationType.User);
 			RegistrationPage.GoToLoginPageWithExistAccount();
-			RegistrationPage.TypeTextInEmailFieldSignIn(RegistrationPage.email);
+			RegistrationPage.TypeTextInEmailFieldSignIn(RegistrationPage.Email);
 			RegistrationPage.TypeTextInPasswordFieldSignIn("wrong password");
 			RegistrationPage.ClickSignInButton();
 			Assert.IsTrue(RegistrationPage.CheckThatErrorMeassageThatPasswordIsWrongDisplay(), "Ошибка: Сообщение 'Пароль неправильный' не появилось");
-
 		}
-
 
 		/// <summary>
 		///Тест - проверка, что сообщение 'Пользователя не существует'  появляется, если исользовать рандомный email - Sign In форма
@@ -237,11 +236,11 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		[Test]
 		public void LoginWithNotExitEmail()
 		{
-			// Переход на страницу регистрации
-			GoToRegistrationPage();
+			// Переход на страницу регистрации пользователя
+			GoToRegistrationPage(RegistrationType.User);
 			RegistrationPage.GoToLoginPageWithExistAccount();
-			RegistrationPage.TypeTextInEmailFieldSignIn(RegistrationPage.email);
-			RegistrationPage.TypeTextInPasswordFieldSignIn(RegistrationPage.password);
+			RegistrationPage.TypeTextInEmailFieldSignIn(RegistrationPage.Email);
+			RegistrationPage.TypeTextInPasswordFieldSignIn(RegistrationPage.Password);
 			RegistrationPage.ClickSignInButton();
 			Assert.IsTrue(RegistrationPage.CheckThatErrorMeassageThatUserIsNotExistIsDisplay(), "Ошибка: Сообщение 'Пользователя не существует' не появилось");
 
@@ -275,12 +274,12 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		public void LoadPhotoTest(bool format, string photo)
 		{
 			// Переход на страницу регистрации
-			GoToRegistrationPage();
+			GoToRegistrationPage(RegistrationType.User);
 			// Заполняем все поля на первом шаге регистрации
 			RegistrationPage.FillRegistrationDataInFirstStep(
-			   RegistrationPage.email,
-			   RegistrationPage.password,
-			   RegistrationPage.password);
+			   RegistrationPage.Email,
+			   RegistrationPage.Password,
+			   RegistrationPage.Password);
 			RegistrationPage.ClickSignUpButton();
 			ImportPhoto(PhotoLoad + photo);
 			if (format)
@@ -302,38 +301,22 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			// Логинемся в админке
 			LoginToAdminPage();
 			// Создаем нового юзера
-			CreateNewUserInAdminPage(RegistrationPage.email, RegistrationPage.nickName, RegistrationPage.password);
+			CreateNewUserInAdminPage(RegistrationPage.Email, RegistrationPage.NickName, RegistrationPage.Password);
 			// Переходим на стр корпоративных аккаунтов
 			SwitchEnterpriseAccountList();
 			// Нажать Создать
 			AdminPage.ClickAddAccount();
 			// Переключаемся в новое окно браузера
-			bool isWindowWithForm = false;
 			Driver.SwitchTo().Window(Driver.WindowHandles[1]);
-			isWindowWithForm = AdminPage.GetIsAddAccountFormDisplay();
-
-			// Если вдруг неправильное окно - перебирать все окна в цикле
-			/*foreach (string winH in Driver.WindowHandles)
-			{
-				Driver.SwitchTo().Window(winH);
-				isWinWithForm = IsElementPresent(By.XPath(".//form[contains(@action,'Edit')]"));
-				if (isWinWithForm)
-				{
-					break;
-				}
-			}*/
-
+			bool isWindowWithForm = AdminPage.GetIsAddAccountFormDisplay();
 			Assert.IsTrue(isWindowWithForm, "Ошибка: не нашли окно с формой создания аккаунта");
 			// Заполняем поля для создания корп аккаунта
 			string accountName = FillGeneralAccountFields();
 			// Нажать кнопку сохранить
-			AdminPage.ClickSaveBtnForNewUser();
-			// Переходим на стр корпоративных аккаунтов
-			SwitchEnterpriseAccountList();
-			// Добавляем ранее созданого юзера в новый ранее созданый аккаунт
-			AddUserToSpecialAccount(RegistrationPage.email, accountName);
-			// Переходим на стр регистрации фрилансеров
-			RegisterUserWithExistAccount(RegistrationPage.email, RegistrationPage.password);
+			AdminPage.ClickSaveBtn();
+			AddUserToAccount(RegistrationPage.Email);
+			// Регистрируем нового фрилансера
+			RegisterUserWithExistAccount(RegistrationPage.Email, RegistrationPage.Password);
 			WorkspacePage.ClickAccount();
 			// Проверка, что список корп аккаунтов верный
 			WorkspacePage.CheckAccountList(accountName);
@@ -347,21 +330,22 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		{
 			LoginToAdminPage();
 			// Создать нового юзера
-			CreateNewUserInAdminPage(RegistrationPage.email, RegistrationPage.firstName, RegistrationPage.password);
+			CreateNewUserInAdminPage(RegistrationPage.Email, RegistrationPage.FirstName, RegistrationPage.Password);
 			// Создать персональный аккаунт активный
-			CreateNewPersAcc(RegistrationPage.lastName, true);
-			GoToRegistrationPage();
+			CreateNewPersAcc(RegistrationPage.LastName, true);
+			GoToRegistrationPage(RegistrationType.User);
 			LoginAsExistUser();
 			Assert.True(RegistrationPage.CheckNameInWSPanel(), "Ошибка: имя фрилансера неправильно отображается на странице WS");
 		}
 
-		///<summary>метод для авторизации юзера с существующи аккаунтом</summary>
+		/// </summary>
+		///<summary> Mетод авторизации юзера с существующи аккаунтом</summary>
 		/// </summary>
 		public void LoginAsExistUser()
 		{
 			RegistrationPage.GoToLoginPageWithExistAccount();
-			RegistrationPage.TypeTextInEmailFieldSignIn(RegistrationPage.email);
-			RegistrationPage.TypeTextInPasswordFieldSignIn(RegistrationPage.password);
+			RegistrationPage.TypeTextInEmailFieldSignIn(RegistrationPage.Email);
+			RegistrationPage.TypeTextInPasswordFieldSignIn(RegistrationPage.Password);
 			RegistrationPage.ClickSignInButton();
 		}
 
@@ -372,24 +356,23 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		public void RegisterNewUserWithInActivePersAcc()
 		{
 			LoginToAdminPage();
-			CreateNewUserInAdminPage(RegistrationPage.email, RegistrationPage.nickName, RegistrationPage.password);
-			CreateNewPersAcc(RegistrationPage.lastName, false);
-			GoToRegistrationPage();
+			CreateNewUserInAdminPage(RegistrationPage.Email, RegistrationPage.NickName, RegistrationPage.Password);
+			CreateNewPersAcc(RegistrationPage.LastName, false);
+			GoToRegistrationPage(RegistrationType.User);
 			LoginAsExistUser();
 			// Заполняем все поля на втором шаге регистрации
-			RegistrationPage.FillRegistrationDataInSecondStep(RegistrationPage.firstName, RegistrationPage.lastName);
+			RegistrationPage.FillRegistrationDataInSecondStep(RegistrationPage.FirstName, RegistrationPage.LastName);
 			// Нажимаем кнопку Create Account
 			RegistrationPage.ClickCreateAccountButton();
-			//ЕЩЕ НЕ РЕАЛИЗОВАНО, должно появится сообщение
-			//есть тикет. сейчас не сделано так - PRX-5533
+			//TODO ЕЩЕ НЕ РЕАЛИЗОВАНО, должно появится сообщение, есть тикет, но сейчас не сделано так - PRX-5533
 		}
 
 		/// <summary>
-		/// Метода для регистрации юзера с существующим аккаунтом
+		/// Метод для регистрации юзера с существующим аккаунтом
 		/// </summary>
 		public void RegisterUserWithExistAccount(string email, string password)
 		{
-			GoToRegistrationPage();
+			GoToRegistrationPage(RegistrationType.User);
 			RegistrationPage.FillRegistrationDataInFirstStep(email, password, password);
 			// Нажимаем кнопку Sign up
 			RegistrationPage.ClickSignUpButton();
@@ -399,7 +382,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			RegistrationPage.TypeTextInPasswordFieldSignIn(password);
 			RegistrationPage.ClickSignInButton();
 			// Заполняем все поля на втором шаге регистрации
-			RegistrationPage.FillRegistrationDataInSecondStep(RegistrationPage.firstName, RegistrationPage.lastName);
+			RegistrationPage.FillRegistrationDataInSecondStep(RegistrationPage.FirstName, RegistrationPage.LastName);
 			// Нажимаем кнопку Create Account
 			RegistrationPage.ClickCreateAccountButton();
 			Assert.IsTrue(RegistrationPage.CheckNameSurnameInWSPanel(), "Ошибка: имя фрилансера неправильно отображаются на странице WS");
@@ -418,21 +401,21 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			{
 				Assert.Ignore("Файл TestUsers.xml с тестовыми пользователями отсутствует");
 			}
-			
-				// перебор юзеров из конфига 
-				for (int i = 0; i < TestUserList.Count; i++)
-				{
-					// здесь будет условие , если State = false/true  заведен тикет с уточнением требований, пока не решен вопрос - PRX-5519
-					//if (TestUserList[i].state)
-					//{
-					RegisterUserWithExistAccount(TestUserList[i].login, TestUserList[i].password);
-					//Нажать на имя юзера,чтоб открыть подменю
-					WorkspacePage.ClickAccount();
-					//Нажать кнопку выхода
-					WorkspacePage.ClickLogoff();
-					//}
-				}
+
+			// перебор юзеров из конфига 
+			for (int i = 0; i < TestUserList.Count; i++)
+			{
+				// здесь будет условие , если Activated = false/true  заведен тикет с уточнением требований, пока не решен вопрос - PRX-5519
+				//if (TestUserList[i].Activated)
+				//{
+				RegisterUserWithExistAccount(TestUserList[i].login, TestUserList[i].password);
+				//Нажать на имя юзера,чтоб открыть подменю
+				WorkspacePage.ClickAccount();
+				//Нажать кнопку выхода
+				WorkspacePage.ClickLogoff();
+				//}
 			}
+		}
 		}
 
 	}
