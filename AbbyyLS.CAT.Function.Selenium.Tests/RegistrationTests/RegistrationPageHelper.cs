@@ -442,6 +442,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		protected const string COMPANY_TYPE_DD = ".//select[@id='company-type']";
 		protected const string OPTION_IN_COMPANY_TYPE_DD = "//option[text()='";
 		protected const string LOGIN_LINK_FROM_MSG = "//a[@ng-click='showSignIn()' and text()='log in']";
-		protected const string WRONG_PASSWORD = "//p[@class='help-block ng-binding']";
+		protected const string WRONG_PASSWORD = "//p[@class='help-block ng-scope']";
 	}
 }
