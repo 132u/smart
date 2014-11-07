@@ -2519,6 +2519,8 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			else
 				fullName = name;
 
+			ResponsiblesDialog.WaitUntilUsersListDisplay(fullName);
+
 			// Выбрать для заданной задачи имя исполнителя
 			ResponsiblesDialog.SetVisibleResponsible(rowNumber, fullName);
 

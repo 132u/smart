@@ -35,6 +35,31 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		}
 
 		/// <summary>
+		/// Ожидание загрузки списка исполнителей
+		/// </summary>
+		/// <param name="name">Имя одного из исполнителей</param>
+		/// <returns>Список загрузился</returns>
+		public bool WaitUntilUsersListDisplay(string name)
+		{
+			// Ожидаем пока загрузится диалог
+			if (!WaitUntilDisplayElement(By.XPath(GetOurUserXpath(name))))
+			{
+				return false;
+			}
+			return true;
+		}
+
+		/// <summary>
+		/// Получить xPath нашего пользователя в списке исполнителей
+		/// </summary>
+		/// <param name="name">Имя одного из исполнителей</param>
+		/// <returns>xPath</returns>
+		protected string GetOurUserXpath(string name)
+		{
+			return VISIBLE_RESPONSIBLE_USERS_XPATH + "[@title ='" + name + "']";
+		}
+
+		/// <summary>
 		/// Ожидание закрытия диалога выбора исполнителя
 		/// </summary>
 		/// <returns>Диалог закрылся</returns>
