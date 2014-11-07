@@ -72,6 +72,9 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			_editorTXTFile = Path.GetFullPath(cfgRoot.Root + "/FileForTestTM/textWithoutTags.txt");
 			_editorTMXFile = Path.GetFullPath(cfgRoot.Root + "/FileForTestTM/textWithoutTags.tmx");
 
+			_editorTXTFile22Lines = Path.GetFullPath(cfgRoot.Root + "/LongTxtTmx/Text22lines.txt");
+			_editorTMXFile22lines = Path.GetFullPath(cfgRoot.Root + "/LongTxtTmx/22linesTM.tmx");
+
 			_tmFile = Path.GetFullPath(cfgRoot.Root + "/Earth.tmx");
 			_secondTmFile = Path.GetFullPath(cfgRoot.Root + "/TextEngTestAddTMX.tmx");
 			_importGlossaryFile = Path.GetFullPath(cfgRoot.Root + "/TestGlossary.xlsx");
@@ -555,6 +558,21 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		}
 
 		/// <summary>
+		/// Полный путь к файлу TXT из 22 строк для работы в редакторе
+		/// </summary>
+		private string _editorTXTFile22Lines;
+		/// <summary>
+		/// Полный путь к файлу TXT из 22 строк для работы в редакторе
+		/// </summary>
+		protected string EditorTXTFile22Lines
+		{
+			get
+			{
+				return _editorTXTFile22Lines;
+			}
+		}
+
+		/// <summary>
 		/// Полный путь к файлу TMX для работы в редакторе
 		/// </summary>
 		private string _editorTMXFile;
@@ -566,6 +584,21 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			get
 			{
 				return _editorTMXFile;
+			}
+		}
+
+		/// <summary>
+		/// Полный путь к файлу TMX 22 строки для работы в редакторе 
+		/// </summary>
+		private string _editorTMXFile22lines;
+		/// <summary>
+		/// Полный путь к файлу TMX 22 строки для работы в редакторе
+		/// </summary>
+		protected string EditorTMXFile22lines
+		{
+			get
+			{
+				return _editorTMXFile22lines;
 			}
 		}
 
