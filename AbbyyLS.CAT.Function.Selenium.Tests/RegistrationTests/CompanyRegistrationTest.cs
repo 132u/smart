@@ -101,49 +101,22 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Registraion.Company
 		/// <summary>
 		///Тест регистрации юзера с существующим активным или неактивным аккаунтом в coursera/aol ( or log in with your ABBYY Online account )
 		/// </summary>
-		[Test]
-		public void RegisterUserFromExternalSite()
+		[TestCase(0, "active AOL user - 1st row in  TestUsers.xml file")]
+		[TestCase(1, "inactive AOL user  - 2nd row in  TestUsers.xml file")]
+		[TestCase(2, "active Coursera user - 3th row in  TestUsers.xml file")]
+		[TestCase(3, "inactive Coursera user - 4th row in  TestUsers.xml file")]
+		public void RegisterUserFromExternalSite(int userNumber, string userTest)
 		{
 			// если TestUsers.xml отсутствует в папке config, то порпускаем тест
-			if (!TestUserFileExist())
+			if (!TestUserFileExist() || (TestCompanyList.Count == 0))
 			{
 				Assert.Ignore("Файл TestUsers.xml с тестовыми пользователями отсутствует");
 			}
-			// перебор юзеров из конфига 
-			for (int i = 0; i < 3; i++)
-			{
-				// здесь будет условие , если Activated = false/true  заведен тикет с уточнением требований, пока не решен вопрос - PRX-5519
-				//if (TestCompanyList[i].activated)
-				//{
-				RegisterExistUserAndCheckWS(TestCompanyList[i].login, TestCompanyList[i].password, RegistrationPage.NameCompany  + i, RegistrationPage.DomainName  + i);
-				//Нажать кнопку выхода
-				WorkspacePage.ClickLogoff();
-				//}
-			}
-		}
-
-		/// <summary>
-		///Тест регистрации юзера с существующим активным или неактивным аккаунтом в coursera/aol (через ссылку из сообщения )
-		/// </summary>
-		[Test]
-		public void RegisterUserFromExternalSiteThroughMessageLink()
-		{
-			// если TestUsers.xml отсутствует в папке config, то порпускаем тест
-			if (!TestUserFileExist())
-			{
-				Assert.Ignore("Файл TestUsers.xml с тестовыми пользователями отсутствует");
-			}
-
-			// перебор юзеров из конфига  начиная с 4го
-			for (int i = 4; i < 7; i++)
-			{
-				RegisterExistUserThrowLogInMsgAndCheckWS(
-					TestCompanyList[i].login,
-					TestCompanyList[i].password,
-					RegistrationPage.NameCompany + i,
-					RegistrationPage.DomainName + i);
-				WorkspacePage.ClickLogoff();
-			}
+			RegisterExistUserAndCheckWS(
+				TestCompanyList[userNumber].login,
+				TestCompanyList[userNumber].password,
+				RegistrationPage.NameCompany,
+				RegistrationPage.DomainName);
 		}
 
 		/// <summary>

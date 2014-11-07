@@ -393,29 +393,20 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Registraion.Freelance
 		/// <summary>
 		///Тест регистрации юзера с существующим активным или неактивным аккаунтом в coursera/perevedem/aol
 		/// </summary>
-		[Test]
-		public void LoginAsUserWithAccountFromExternalSite()
+		[TestCase(0, "active AOL user (1st row in TestUsers.xml file)")]
+		[TestCase(1, "inactive AOL user (2nd row in TestUsers.xml file)")]
+		[TestCase(2, "active Coursera user (3th row in TestUsers.xml in file)")]
+		[TestCase(3, "inactive Coursera user (4th row in TestUsers.xml in file)")]
+		[TestCase(4, "active Perevedem user (5th row in TestUsers.xml file)")]
+		[TestCase(5, "inactive Perevedem user (6th row in TestUsers.xml file)")]
+		public void LoginAsUserWithAccountFromExternalSite(int userNumber, string userTest)
 		{
 			// если TestUsers.xml отсутствует в папке config, то порпускаем тест
-			if (!TestUserFileExist())
+			if (!TestUserFileExist() || (TestUserList.Count == 0))
 			{
-				Assert.Ignore("Файл TestUsers.xml с тестовыми пользователями отсутствует");
+				Assert.Ignore("Файл TestUsers.xml с тестовыми пользователями отсутствует или нет данных о юзере");
 			}
-
-			// перебор юзеров из конфига 
-			for (int i = 0; i < TestUserList.Count; i++)
-			{
-				// здесь будет условие , если Activated = false/true  заведен тикет с уточнением требований, пока не решен вопрос - PRX-5519
-				//if (TestUserList[i].Activated)
-				//{
-				RegisterUserWithExistAccount(TestUserList[i].login, TestUserList[i].password);
-				//Нажать на имя юзера,чтоб открыть подменю
-				WorkspacePage.ClickAccount();
-				//Нажать кнопку выхода
-				WorkspacePage.ClickLogoff();
-				//}
+				RegisterUserWithExistAccount(TestUserList[userNumber].login, TestUserList[userNumber].password);
 			}
 		}
-		}
-
-	}
+}
