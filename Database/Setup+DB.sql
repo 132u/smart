@@ -1,4 +1,5 @@
 USE [SmartCat_AutoTests]
+SET QUOTED_IDENTIFIER ON
 SET XACT_ABORT ON
 
 INSERT INTO Auth.Users (ID, NickName, EMail, PreferredLanguageID, IsAdmin)
