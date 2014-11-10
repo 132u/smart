@@ -11,6 +11,7 @@ using System.Windows.Forms;
 using System.Drawing.Imaging;
 using NConfiguration;
 using System.Text.RegularExpressions;
+using NLog;
 
 namespace AbbyyLS.CAT.Function.Selenium.Tests
 {
@@ -24,84 +25,90 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 
 	public class BaseTest
 	{
+		private static Logger logger = LogManager.GetCurrentClassLogger();
 		/// <summary>
 		/// Конструктор базового теста
 		/// </summary>
-
-
 		/// <param name="browserName">Название браузера</param>
 		public BaseTest(string browserName)
 		{
-
-			var cfgAgentSpecific = TestSettingDefinition.Instance.Get<TargetServerConfig>();
-			var cfgUserInfo = TestSettingDefinition.Instance.Get<UserInfoConfig>();
-			var cfgRoot = TestSettingDefinition.Instance.Get<FilesRootCfg>();
-			_browserName = browserName;
-			_url = "https://" + cfgAgentSpecific.Url;
-			_workspaceUrl = cfgAgentSpecific.Workspace;
-			if (string.IsNullOrWhiteSpace(_workspaceUrl))
-				_workspaceUrl = "https://" + cfgAgentSpecific.Url + "/workspace";
-			_adminUrl = "http://" + cfgAgentSpecific.Url + ":81";
-
-
-			CreateDriver();
-
-
-			_login = cfgUserInfo.Login;
-			_password = cfgUserInfo.Password;
-			_userName = cfgUserInfo.UserName;
-
-			_login2 = cfgUserInfo.Login2;
-			_password2 = cfgUserInfo.Password2;
-			_userName2 = cfgUserInfo.UserName2;
-
-			_deadlineDate = "03/03/2016";
-			_documentFile = Path.GetFullPath(cfgRoot.Root + "/littleEarth.docx");
-			_documentFileToConfirm = Path.GetFullPath(cfgRoot.Root + "/FilesForConfirm/testToConfirm.txt");
-			_documentFileToConfirm2 = Path.GetFullPath(cfgRoot.Root + "/FilesForConfirm/testToConfirm2.txt");
-
-			_constTmName = "TestTM";
-			_glossaryName = "TestGlossary";
-			_projectNameExportTestOneDoc = "TestProjectTestExportOneDocumentUniqueName";
-			_projectNameExportTestMultiDoc = "TestProjectTestExportMultiDocumentsUniqueName";
-
-			CreateUniqueNamesByDatetime();
-
-			_pathTestFiles = cfgRoot.Root;
-
-			_editorTXTFile = Path.GetFullPath(cfgRoot.Root + "/FileForTestTM/textWithoutTags.txt");
-			_editorTMXFile = Path.GetFullPath(cfgRoot.Root + "/FileForTestTM/textWithoutTags.tmx");
-
-			_editorTXTFile22Lines = Path.GetFullPath(cfgRoot.Root + "/LongTxtTmx/Text22lines.txt");
-			_editorTMXFile22lines = Path.GetFullPath(cfgRoot.Root + "/LongTxtTmx/22linesTM.tmx");
-
-			_tmFile = Path.GetFullPath(cfgRoot.Root + "/Earth.tmx");
-			_secondTmFile = Path.GetFullPath(cfgRoot.Root + "/TextEngTestAddTMX.tmx");
-			_importGlossaryFile = Path.GetFullPath(cfgRoot.Root + "/TestGlossary.xlsx");
-			_imageFile = Path.GetFullPath(cfgRoot.Root + "/TestImage.jpg");
-			_audioFile = Path.GetFullPath(cfgRoot.Root + "/TestAudio.mp3");
-			_rtfFile = Path.GetFullPath(cfgRoot.Root + "/rtf1.rtf");
-			
-			_txtFileForMatchTest = Path.GetFullPath(cfgRoot.Root + "/FilesForMatchTest/TxtFileForMatchTest.docx");
-			_tmxFileForMatchTest = Path.GetFullPath(cfgRoot.Root + "/FilesForMatchTest/TmxFileForMatchTest.tmx");
-			_photoLoad = Path.GetFullPath(cfgRoot.Root + "/FilesForLoadPhotoInRegistration/");
-			_testUserFile = Path.GetFullPath(cfgRoot.RootToConfig + "/TestUsers.xml");
-			
-			if (TestUserFileExist())
+			try
 			{
+				var cfgAgentSpecific = TestSettingDefinition.Instance.Get<TargetServerConfig>();
+				var cfgUserInfo = TestSettingDefinition.Instance.Get<UserInfoConfig>();
+				var cfgRoot = TestSettingDefinition.Instance.Get<FilesRootCfg>();
+				_browserName = browserName;
+				_url = "https://" + cfgAgentSpecific.Url;
+				_workspaceUrl = cfgAgentSpecific.Workspace;
+				if (string.IsNullOrWhiteSpace(_workspaceUrl))
+					_workspaceUrl = "https://" + cfgAgentSpecific.Url + "/workspace";
+				_adminUrl = "http://" + cfgAgentSpecific.Url + ":81";
+
+
+				CreateDriver();
+
+
+				_login = cfgUserInfo.Login;
+				_password = cfgUserInfo.Password;
+				_userName = cfgUserInfo.UserName;
+
+				_login2 = cfgUserInfo.Login2;
+				_password2 = cfgUserInfo.Password2;
+				_userName2 = cfgUserInfo.UserName2;
+
+				_deadlineDate = "03/03/2016";
+				_documentFile = Path.GetFullPath(cfgRoot.Root + "/littleEarth.docx");
+				_documentFileToConfirm = Path.GetFullPath(cfgRoot.Root + "/FilesForConfirm/testToConfirm.txt");
+				_documentFileToConfirm2 = Path.GetFullPath(cfgRoot.Root + "/FilesForConfirm/testToConfirm2.txt");
+
+				_constTmName = "TestTM";
+				_glossaryName = "TestGlossary";
+				_projectNameExportTestOneDoc = "TestProjectTestExportOneDocumentUniqueName";
+				_projectNameExportTestMultiDoc = "TestProjectTestExportMultiDocumentsUniqueName";
+
+				CreateUniqueNamesByDatetime();
+
+				_pathTestFiles = cfgRoot.Root;
+
+				_editorTXTFile = Path.GetFullPath(cfgRoot.Root + "/FileForTestTM/textWithoutTags.txt");
+				_editorTMXFile = Path.GetFullPath(cfgRoot.Root + "/FileForTestTM/textWithoutTags.tmx");
+
+				_editorTXTFile22Lines = Path.GetFullPath(cfgRoot.Root + "/LongTxtTmx/Text22lines.txt");
+				_editorTMXFile22lines = Path.GetFullPath(cfgRoot.Root + "/LongTxtTmx/22linesTM.tmx");
+
+				_tmFile = Path.GetFullPath(cfgRoot.Root + "/Earth.tmx");
+				_secondTmFile = Path.GetFullPath(cfgRoot.Root + "/TextEngTestAddTMX.tmx");
+				_importGlossaryFile = Path.GetFullPath(cfgRoot.Root + "/TestGlossary.xlsx");
+				_imageFile = Path.GetFullPath(cfgRoot.Root + "/TestImage.jpg");
+				_audioFile = Path.GetFullPath(cfgRoot.Root + "/TestAudio.mp3");
+				_rtfFile = Path.GetFullPath(cfgRoot.Root + "/rtf1.rtf");
+
+				_txtFileForMatchTest = Path.GetFullPath(cfgRoot.Root + "/FilesForMatchTest/TxtFileForMatchTest.docx");
+				_tmxFileForMatchTest = Path.GetFullPath(cfgRoot.Root + "/FilesForMatchTest/TmxFileForMatchTest.tmx");
+				_photoLoad = Path.GetFullPath(cfgRoot.Root + "/FilesForLoadPhotoInRegistration/");
+				_testUserFile = Path.GetFullPath(cfgRoot.RootToConfig + "/TestUsers.xml");
+
+				if (TestUserFileExist())
+				{
 					var _cfgTestUser = TestSettingDefinition.Instance.Get<TestUserConfig>();
 					var _cfgTestCompany = TestSettingDefinition.Instance.Get<TestUserConfig>();
 
-				_testUserList = new List<UserInfo>();
+					_testUserList = new List<UserInfo>();
 					_testCompanyList = new List<UserInfo>();
-				// Добавление пользователей в _testUserList из конфига
+					// Добавление пользователей в _testUserList из конфига
 					for (int v = 0; v < _cfgTestUser.Users.Count; v++)
-					_testUserList.Add(
-							new UserInfo(_cfgTestUser.Users[v].Login, _cfgTestUser.Users[v].Password, _cfgTestUser.Users[v].Activated));
+						_testUserList.Add(
+								new UserInfo(_cfgTestUser.Users[v].Login, _cfgTestUser.Users[v].Password, _cfgTestUser.Users[v].Activated));
 
 					for (int v = 0; v < _cfgTestCompany.Companies.Count; v++)
 						_testCompanyList.Add(
 							new UserInfo(_cfgTestCompany.Companies[v].Login, _cfgTestCompany.Companies[v].Password, _cfgTestCompany.Companies[v].Activated));
+				}
+			}
+			catch (Exception ex)
+			{
+				logger.ErrorException("Ошибка в конструкторе : " + ex.Message, ex);
+				throw;
 			}
 		}
 
