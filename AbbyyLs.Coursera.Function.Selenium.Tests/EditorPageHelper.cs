@@ -301,6 +301,21 @@ namespace AbbyyLS.Coursera.Function.Selenium.Tests
 		}
 
 		/// <summary>
+		/// Очистить сегмент и добавить перевод в строку
+		/// </summary>
+		/// <param name="rowNumber">номер строки</param>
+		/// <param name="targetText">текст перевода</param>
+		public void ClearSegmentAddTextTargetByRowNumber(int rowNumber, string targetText)
+		{
+			string targetCell = SEGMENTS_BODY_XPATH +
+				"[" + rowNumber + "]" + TARGET_XPATH;
+
+			// Кликнуть по ячейке
+			ClickElement(By.XPath(targetCell));
+			// Очистит и написать текст в ячейке targetSendTextElement
+			ClickClearAndAddText(By.XPath(targetCell), targetText);
+		}
+		/// <summary>
 		/// Получить количество переводов определенной строки
 		/// </summary>
 		/// <param name="rowNumber">Номер строки сегмента</param>

@@ -314,7 +314,47 @@ namespace AbbyyLS.Coursera.Function.Selenium.Tests
 			}
 		}
 
+		/// <summary>
+		/// Тест: добавление двух одинаковых переводов один сегмент
+		/// </summary>
+		[Test]
+		public void AddTwoIdenticalTranslations()
+		{ 
+		// Добавить перевод
+			string translationText = "Test" + DateTime.Now.Ticks;
+			string courseName;
+			int lectureRowNumber, translationRowNum;
 
+			// Добавить перевод в сегмент
+			AddTranslation(translationText, out courseName, out lectureRowNumber, out translationRowNum);
+
+			//Посчитать кол-во переводов после сохранения
+			int quantityAfterFirstSave = EditorPage.GetQuantityTranslationsByRowNumber(translationRowNum);
+
+			// Добавить новый перевод в ту же ячейку
+			ClearSegmentAddTranslationByRowNum(translationRowNum, translationText);
+
+			//Посчитать кол-во переводов после сохранения
+			int quantityAfterSecondSave = EditorPage.GetQuantityTranslationsByRowNumber(translationRowNum);
+			Console.WriteLine("quantity after 1st save = " + quantityAfterFirstSave + "\n" + "quantity after 2nd save = " + quantityAfterSecondSave);
+
+			// сравниваем количество переводов сегмента после 1го и 2го сохранения
+			Assert.IsTrue(quantityAfterFirstSave == quantityAfterSecondSave, "Ошибка: количество переводов изменилось");
+		}
+
+		/// <summary>
+		/// Очистить сегмент и добавить перевод в строку
+		/// </summary>
+		/// <param name="rowNumber">номер строки</param>
+		/// <param name="targetText">текст перевода</param>
+		protected void ClearSegmentAddTranslationByRowNum(int rowNumber, string targetText)
+		{
+
+			EditorPage.ClearSegmentAddTextTargetByRowNumber(rowNumber, targetText);
+			EditorPage.ClickConfirmBtn();
+			// Дождаться Confirm
+			AssertConfirmIsDone(rowNumber);
+		}
 
 		private void AddTranslationByPosition(int positionNum, string text)
 		{

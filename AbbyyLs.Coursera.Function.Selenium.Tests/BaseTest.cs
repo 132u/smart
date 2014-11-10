@@ -928,6 +928,7 @@ namespace AbbyyLS.Coursera.Function.Selenium.Tests
 		/// <param name="targetText">текст перевода</param>
 		protected void AddTranslationByRowNum(int rowNumber, string targetText)
 		{
+			
 			EditorPage.AddTextTargetByRowNumber(rowNumber, targetText);
 			EditorPage.ClickConfirmBtn();
 			// Дождаться Confirm
