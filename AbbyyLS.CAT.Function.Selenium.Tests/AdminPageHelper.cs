@@ -192,16 +192,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		{
 			SendTextElement(By.XPath(SUBDOMAIN_NAME_XPATH), name);
 		}
-
-		/// <summary>
-		/// Ввести deadline дату
-		/// </summary>
-		/// <param name="date">дата</param>
-		public void FillDeadLineDate(DateTime date)
-		{
-			SendTextElement(By.Id(DEADLINE_DATE_ID), GetDateString(date));
-		}
-
+		
 		/// <summary>
 		/// Кликнуть Создать аккаунт
 		/// </summary>

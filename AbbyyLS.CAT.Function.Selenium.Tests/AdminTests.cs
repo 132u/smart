@@ -82,9 +82,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			// Поддомен
 			AdminPage.FillSubdomainName("testaccount" + uniqPref);
 
-			// Дата
-			AdminPage.FillDeadLineDate(DateTime.Now.AddDays(10));
-
 			// Вернуть имя аккаунта
 			return accountName;
 		}
