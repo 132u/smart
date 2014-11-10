@@ -15,8 +15,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <summary>
 		/// Конструктор теста
 		/// </summary>
-		 
-		 
 		/// <param name="browserName">Название браузера</param>
 		public GlossaryEditStructureCustomFieldsTest(string browserName)
 			: base(browserName)

@@ -62,6 +62,15 @@
     <Compile Include="LoginPageHelper.cs" />
     <Compile Include="RandomString.cs" />
     <Compile Include="FilesRootCfg.cs" />
+    <Compile Include="TMTests\TMCreationTests.cs" />
+    <Compile Include="TMTests\TMEditingTests.cs" />
+    <Compile Include="TMTests\TMExportTests.cs" />
+    <Compile Include="TMTests\TMInProjectTets.cs" />
+    <Compile Include="TMTests\TMPageHelper.cs" />
+    <Compile Include="TMTests\TMRemovingTests.cs" />
+    <Compile Include="TMTests\TMTest.cs" />
+    <Compile Include="TMTests\TMUpdatingTests.cs" />
+    <Compile Include="TMTests\TMXUploadingTests.cs" />
     <Compile Include="RegistrationTests\RegistrationPageHelper.cs" />
     <Compile Include="RegistrationTests\FreelanceRegistrationTest.cs" />
     <Compile Include="TestUser.cs" />
@@ -112,8 +121,6 @@
     <Compile Include="SettingDefinition.cs" />
     <Compile Include="SuggestTermDialogHelper.cs" />
     <Compile Include="TestSettingDefinition.cs" />
-    <Compile Include="TMPageHelper.cs" />
-    <Compile Include="TMTest.cs" />
     <Compile Include="TargetServerConfig.cs" />
     <Compile Include="UserLogTest.cs" />
     <Compile Include="UserRightsPageHelper.cs" />

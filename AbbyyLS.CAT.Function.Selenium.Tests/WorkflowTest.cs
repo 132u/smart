@@ -55,7 +55,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			WorkspaceCreateProjectDialog.ClickNextStep();
 
 			// 2) Выбор ТМ
-			ChooseExistingTM();
+			ChooseFirstTMInList();
 			WorkspaceCreateProjectDialog.ClickNextStep();
 						
 			// 3) Выбор глоссария
@@ -95,7 +95,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			Thread.Sleep(500);
 
 			// 2) Выбор ТМ
-			ChooseExistingTM();
+			ChooseFirstTMInList();
 			WorkspaceCreateProjectDialog.ClickNextStep();
 			Thread.Sleep(500);
 
@@ -159,7 +159,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			WorkspaceCreateProjectDialog.ClickNextStep();
 
 			// 2) Выбор ТМ
-			ChooseExistingTM();
+			ChooseFirstTMInList();
 			WorkspaceCreateProjectDialog.ClickNextStep();
 
 			// 3) Выбор глоссария
@@ -201,7 +201,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			WorkspaceCreateProjectDialog.ClickNextStep();
 
 			// 2) Выбор ТМ
-			ChooseExistingTM();
+			ChooseFirstTMInList();
 			WorkspaceCreateProjectDialog.ClickNextStep();
 
 			// 3) Выбор глоссария
@@ -255,7 +255,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			WorkspaceCreateProjectDialog.ClickNextStep();
 
 			// 2) Выбор ТМ
-			ChooseExistingTM();
+			ChooseFirstTMInList();
 			WorkspaceCreateProjectDialog.ClickNextStep();
 
 			// 3) Выбор глоссария
@@ -398,7 +398,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			WorkspaceCreateProjectDialog.ClickNextStep();
 
 			// 2) Выбор ТМ
-			ChooseExistingTM();
+			ChooseFirstTMInList();
 			WorkspaceCreateProjectDialog.ClickNextStep();
 
 			// 3) Выбор глоссария
@@ -489,7 +489,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			WorkspaceCreateProjectDialog.ClickNextStep();
 
 			// 2) Выбор ТМ
-			ChooseExistingTM();
+			ChooseFirstTMInList();
 			WorkspaceCreateProjectDialog.ClickNextStep();
 
 			// 3) Выбор глоссария
@@ -531,7 +531,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			WorkspaceCreateProjectDialog.ClickNextStep();
 
 			// 2) Выбор ТМ
-			ChooseExistingTM();
+			ChooseFirstTMInList();
 			WorkspaceCreateProjectDialog.ClickNextStep();
 
 			// 3) Выбор глоссария
@@ -641,7 +641,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			WorkspaceCreateProjectDialog.ClickNextStep();
 
 			// 2) Выбор ТМ
-			ChooseExistingTM();
+			ChooseFirstTMInList();
 			WorkspaceCreateProjectDialog.ClickNextStep();
 
 			// 3) Выбор глоссария
@@ -694,7 +694,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			WorkspaceCreateProjectDialog.ClickNextStep();
 
 			// 2) Выбор ТМ
-			ChooseExistingTM();
+			ChooseFirstTMInList();
 			WorkspaceCreateProjectDialog.ClickNextStep();
 
 			// 3) Выбор глоссария
@@ -772,7 +772,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			WorkspaceCreateProjectDialog.ClickNextStep();
 
 			// 2) Выбор ТМ
-			ChooseExistingTM();
+			ChooseFirstTMInList();
 			WorkspaceCreateProjectDialog.ClickNextStep();
 
 			// 3) Выбор глоссария
@@ -845,7 +845,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			WorkspaceCreateProjectDialog.ClickNextStep();
 
 			// 2) Выбор ТМ
-			ChooseExistingTM();
+			ChooseFirstTMInList();
 			WorkspaceCreateProjectDialog.ClickNextStep();
 
 			// 3) Выбор глоссария

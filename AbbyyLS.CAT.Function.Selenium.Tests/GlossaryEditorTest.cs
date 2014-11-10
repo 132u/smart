@@ -803,7 +803,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			FirstStepProjectWizard(_projectName2);
 			WorkspaceCreateProjectDialog.ClickNextStep();
 			// Выбрать существующую ТМ
-			ChooseExistingTM();
+			ChooseFirstTMInList();
 			WorkspaceCreateProjectDialog.ClickNextStep();
 			// Выбор словарей			
 			WorkspaceCreateProjectDialog.ClickGlossaryByName(_glossaryName);

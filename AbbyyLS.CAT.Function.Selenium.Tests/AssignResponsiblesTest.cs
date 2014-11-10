@@ -406,7 +406,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			WorkspaceCreateProjectDialog.ClickNextStep();
 
 			// 2) Выбор ТМ
-			ChooseExistingTM();
+			ChooseFirstTMInList();
 			WorkspaceCreateProjectDialog.ClickNextStep();
 
 			// 3) Выбор глоссария

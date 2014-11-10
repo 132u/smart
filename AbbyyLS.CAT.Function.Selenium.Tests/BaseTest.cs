@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading;
+using AbbyyLS.CAT.Function.Selenium.Tests.Workspace.TM;
 using NUnit.Framework;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Firefox;
@@ -82,12 +83,11 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 				_imageFile = Path.GetFullPath(cfgRoot.Root + "/TestImage.jpg");
 				_audioFile = Path.GetFullPath(cfgRoot.Root + "/TestAudio.mp3");
 				_rtfFile = Path.GetFullPath(cfgRoot.Root + "/rtf1.rtf");
-
 				_txtFileForMatchTest = Path.GetFullPath(cfgRoot.Root + "/FilesForMatchTest/TxtFileForMatchTest.docx");
 				_tmxFileForMatchTest = Path.GetFullPath(cfgRoot.Root + "/FilesForMatchTest/TmxFileForMatchTest.tmx");
 				_photoLoad = Path.GetFullPath(cfgRoot.Root + "/FilesForLoadPhotoInRegistration/");
 				_testUserFile = Path.GetFullPath(cfgRoot.RootToConfig + "/TestUsers.xml");
-
+			
 				if (TestUserFileExist())
 				{
 					var _cfgTestUser = TestSettingDefinition.Instance.Get<TestUserConfig>();
@@ -111,7 +111,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 				throw;
 			}
 		}
-
 		public enum RegistrationType
 		{
 			User,
@@ -1209,7 +1208,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// </summary>
 		protected void CreateUniqueNamesByDatetime()
 		{
-			_projectName = "Test Project" + "_" + DateTime.UtcNow.Ticks.ToString();
+			_projectName = "Test Project" + "_" + DateTime.UtcNow.Ticks;
 		}
 
 		/// <summary>
@@ -1710,10 +1709,15 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <param name="chooseMT">выбрать МТ</param>
 		/// <param name="mtType">тип МТ</param>
 		/// <param name="isNeedCheckExist">Нужна проверка проекта в списке</param>
-		protected void CreateProject(string projectName, string downloadFile = "",
-			bool createNewTM = false, string tmFile = "",
-			Workspace_CreateProjectDialogHelper.SetGlossary setGlossary = Workspace_CreateProjectDialogHelper.SetGlossary.None, string glossaryName = "",
-			bool chooseMT = false, Workspace_CreateProjectDialogHelper.MT_TYPE mtType = Workspace_CreateProjectDialogHelper.MT_TYPE.None,
+		protected void CreateProject(
+			string projectName, 
+			string downloadFile = "",
+			bool createNewTM = false, 
+			string tmFile = "",
+			Workspace_CreateProjectDialogHelper.SetGlossary setGlossary = Workspace_CreateProjectDialogHelper.SetGlossary.None, 
+			string glossaryName = "",
+			bool chooseMT = false, 
+			Workspace_CreateProjectDialogHelper.MT_TYPE mtType = Workspace_CreateProjectDialogHelper.MT_TYPE.None,
 			bool isNeedCheckExist = true)
 		{
 			// Заполнение полей на первом шаге
@@ -1735,8 +1739,9 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			else
 			{
 				// Выбрать существующую ТМ
-				ChooseExistingTM();
+				ChooseFirstTMInList();
 			}
+
 			Thread.Sleep(500);
 			WorkspaceCreateProjectDialog.ClickNextStep();
 
@@ -1878,12 +1883,13 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		}
 
 		/// <summary>
-		/// Выбрать существующую ТМ
+		/// Выбрать первую ТМ из списка доступных 
 		/// </summary>
-		public void ChooseExistingTM()
+		public void ChooseFirstTMInList()
 		{
 			Assert.IsTrue(WorkspaceCreateProjectDialog.GetIsTMTableNotEmpty(),
 				"Ошибка: пустая таблица TM");
+
 			WorkspaceCreateProjectDialog.ClickFirstTMInTable();
 		}
 		
@@ -2052,9 +2058,13 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <param name="filePath">название исходного файла</param>
 		/// <param name="originalFileExtension">использовать исходное расширение</param>
 		/// <param name="fileExtension">расширение</param>
-		protected void ExternalDialogSaveDocument(string subFolderName,
-			bool useFileName = false, string filePath = "",
-			bool originalFileExtension = true, string fileExtension = "", string time = "")
+		protected void ExternalDialogSaveDocument(
+			string subFolderName,
+			bool useFileName = false, 
+			string filePath = "",
+			bool originalFileExtension = true, 
+			string fileExtension = "", 
+			string time = "")
 		{
 			// Заполнить форму для сохранения файла
 			string resultPath = Path.Combine(PathTestResults, subFolderName, time);
@@ -2333,7 +2343,10 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <param name="glossaryName">название</param>
 		/// <param name="bNeedWaitSuccessSave">ожидается успешное сохранение</param>
 		/// <param name="langList">список языков</param>
-		protected void CreateGlossaryByName(string glossaryName, bool bNeedWaitSuccessSave = true, List<CommonHelper.LANGUAGE> langList = null)
+		protected void CreateGlossaryByName(
+			string glossaryName, 
+			bool bNeedWaitSuccessSave = true, 
+			List<CommonHelper.LANGUAGE> langList = null)
 		{
 			// Открыть форму создания глоссария
 			OpenCreateGlossary();
@@ -2362,7 +2375,9 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			if (bNeedWaitSuccessSave)
 			{
 				// Ожидание успешного сохранения
-				Assert.IsTrue(GlossaryPage.WaitPageLoad(), "Ошибка: глоссарий не сохранился, не перешли на страницу глоссария");
+				Assert.IsTrue(
+					GlossaryPage.WaitPageLoad(), 
+					"Ошибка: глоссарий не сохранился, не перешли на страницу глоссария");
 			}
 			else
 			{
@@ -2467,8 +2482,14 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <param name="withTM">с ТМ</param>
 		/// <param name="withMT">с МТ</param>
 		/// <param name="uploadDocument">путь к документу</param>
-		protected void CreateReadyProject(string projectName, bool withTM = true, bool withMT = false, string uploadDocument = "",
-			Workspace_CreateProjectDialogHelper.MT_TYPE mtType = Workspace_CreateProjectDialogHelper.MT_TYPE.DefaultMT, bool chooseGlossary = false, string glossaryName = "")
+		protected void CreateReadyProject(
+			string projectName, 
+			bool withTM = true, 
+			bool withMT = false, 
+			string uploadDocument = "",
+			Workspace_CreateProjectDialogHelper.MT_TYPE mtType = Workspace_CreateProjectDialogHelper.MT_TYPE.DefaultMT, 
+			bool chooseGlossary = false, 
+			string glossaryName = "")
 		{
 			// Создание проекта
 			CreateProject(projectName, "", withTM, EditorTMXFile, Workspace_CreateProjectDialogHelper.SetGlossary.None, glossaryName, withMT, mtType);

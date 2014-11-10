@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
-using System.Threading;
+using System.Threading.Tasks;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.UI;
 
-namespace AbbyyLS.CAT.Function.Selenium.Tests
+namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.TM
 {
 	/// <summary>
 	/// Хелпер страницы ТМ
@@ -81,7 +81,8 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		public bool GetIsClientExistCreateTM(string clientName)
 		{
 			// Получить список клиентов
-			IList<IWebElement> clientList = GetElementList(By.XPath(CREATE_TM_CLIENT_LIST_XPATH + CREATE_TM_CLIENT_ITEM_XPATH));
+			IList<IWebElement> clientList = GetElementList(
+				By.XPath(CREATE_TM_CLIENT_LIST_XPATH + CREATE_TM_CLIENT_ITEM_XPATH));
 			bool bClientExist = false;
 			foreach (IWebElement el in clientList)
 			{
@@ -214,6 +215,27 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			return ParseStrToInt(segmentText);
 		}
 
+		///<summary>
+		/// Вернуть true, если проект projectName указан в информации о ТМ
+		/// </summary>
+		public bool GetIsProjectExistInTmInformation(string tmName, string projectName)
+		{
+			var projectText = GetTextElement(By.XPath(PROJECT_GROUP_SPAN_XPATH));
+
+			var splitIndex = projectText.IndexOf(":") + 3;
+
+			if (projectText.Length > splitIndex)
+			{
+				projectText = projectText.Substring(splitIndex);
+			}
+			else
+			{
+				projectText = string.Empty;
+			}
+
+			return projectText == projectName;
+		}
+
 		/// <summary>
 		/// Кликнуть Импорт
 		/// </summary>
@@ -255,6 +277,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		public void SelectTargetLanguage(LANGUAGE lang)
 		{
 			string xPath = TARGET_LANG_ITEM_XPATH + languageID[lang] + "']";
+
 			ClickElement(By.XPath(xPath));
 		}
 
@@ -314,6 +337,14 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		}
 
 		/// <summary>
+		/// Вернуть, если для данной ТМ указаны корректные языки
+		/// </summary>
+		public bool GetIsCorrectLanguagesForTm(string TMName, string formattedLanguagesString)
+		{
+			return GetTextElement(By.XPath(GetTMRow(TMName))).Contains(formattedLanguagesString);
+		}
+
+		/// <summary>
 		/// Вернуть true, если информационная плашка существует
 		/// </summary>
 		public bool IsInformationBaloonExist()
@@ -327,7 +358,10 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// </summary>
 		public bool IsBaloonWithSpecificMessageExist(string text)
 		{
-			return GetIsElementExist(By.XPath(NOTIFICATION_BALOON_TEXT_XPATH + "[text()='" + text + "']"));
+			return WaitUntilDisplayElement(
+				By.XPath(
+					NOTIFICATION_BALOON_TEXT_XPATH + "[text()='" + text + "']"), 
+					45);
 		}
 
 		/// <summary>
@@ -357,6 +391,43 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			ClearElement(By.XPath(TM_EDIT_NAME_XPATH));
 		}
 
+		///<summary>
+		/// Кликнуть на поле с проектом в форме редактирования ТМ
+		/// </summary>
+		public void ClickToProjectsListAtTmEdditForm()
+		{
+			ClickElement(By.XPath(TM_EDIT_PROJECT));
+		}
+
+		///<summary>
+		/// Добавить проект projectName к ТМ
+		/// </summary>
+		public string EditTMAddProject()
+		{
+			ClickElement(By.XPath(PROJECT_TO_ADD_ITEM_XPATH));
+
+			return GetTextElement(By.XPath(PROJECT_TO_ADD_ITEM_XPATH));
+		}
+
+		/// <summary>
+		/// Очистить комментарий в форме изменения ТМ
+		/// </summary>
+		public void EditTMClearComment()
+		{
+			if (GetIsElementExist(By.XPath(TM_EDIT_COMMENT_XPATH)))
+			{
+				ClearElement(By.XPath(TM_EDIT_COMMENT_XPATH));
+			}
+		}
+
+		///<summary>
+		/// Кликнуть на поле с языком перевода в форме редактирования ТМ
+		/// </summary>
+		public void ClickToTargetLanguagesAtTmEdditForm()
+		{
+			ClickElement(By.XPath(TM_EDIT_TARGET_LANGUAGE));
+		}
+
 		/// <summary>
 		/// Ввести имя Тм в форме редактирования ТМ
 		/// </summary>
@@ -364,6 +435,15 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		public void InputEditTMName(string TMName)
 		{
 			SendTextElement(By.XPath(TM_EDIT_NAME_XPATH), TMName);
+		}
+
+		/// <summary>
+		/// Ввести комментарий Тм в форме редактирования ТМ
+		/// </summary>
+		/// <param name="tmComment">комментарий к ТМ</param>
+		public void InputEditTMComment(string tmComment)
+		{
+			SendTextElement(By.XPath(TM_EDIT_COMMENT_XPATH), tmComment);
 		}
 
 		/// <summary>
@@ -399,6 +479,15 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		public bool GetIsExistEditErrorNoName()
 		{
 			return GetIsElementDisplay(By.XPath(ERROR_EDIT_NO_NAME_XPATH));
+		}
+
+		/// <summary>
+		/// Вернуть true, если для машины tmName найден комментарий comment
+		/// </summary>
+		/// <returns></returns>
+		public bool GetIsCommentExist(string comment)
+		{
+			return GetTextElement(By.XPath(TM_COMMENT_SPAN_XPATH)) == comment;
 		}
 
 		/// <summary>
@@ -455,8 +544,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			return TM_ROW_XPATH + "[text()='" + TMName + "']/parent::span/parent::td/parent::tr";
 		}
 
-
-
 		public enum TM_BTN_TYPE { Update, Export, Delete, Add, Edit, Save };
 
 		protected const string ADD_TM_BTN_XPATH = ".//span[contains(@class,'js-create-tm')]";
@@ -484,7 +571,9 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		protected const string EDIT_BTN_XPATH = BTN_ROW_XPATH + "//span[contains(@class,'js-edit-btn')]";
 		protected const string SAVE_BTN_XPATH = BTN_ROW_XPATH + "//span[contains(@class,'js-save-btn')]";
 		// TODO заменить id
+		protected const string PROJECT_GROUP_SPAN_XPATH = BTN_ROW_XPATH + "//table[@class='l-tmpanel__table']//div[1]";
 		protected const string SEGMENT_SPAN_XPATH = BTN_ROW_XPATH + "//table[@class='l-tmpanel__table']//div[4]";
+		protected const string TM_COMMENT_SPAN_XPATH = BTN_ROW_XPATH + "//td[@class='l-tmpanel__td ']";
 		protected const string IMPORT_POPUP_XPATH = "//div[contains(@class,'js-popup-import')][2]";
 		protected const string IMPORT_BTN_XPATH = IMPORT_POPUP_XPATH + "//span[contains(@class,'js-import-button')]";
 
@@ -494,14 +583,20 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		protected const string SOURCE_LANG_ITEM_XPATH = "//span[contains(@class,'js-dropdown__item')][@data-id='";
 		protected const string TARGET_LANG_ITEM_XPATH = "//div[contains(@class,'ui-multiselect-menu') and contains(@class,'js-languages-multiselect')]//li//input[@value='";
 
+		protected const string PROJECT_TO_ADD_ITEM_XPATH = "//div[contains(@class,'js-domains-multiselect')]//ul//li[2]//label//span[2]";
+
 		protected const string NEW_TM_NAME_XPATH = CREATE_TM_DIALOG_XPATH + "//input[contains(@class,'js-tm-name')]";
 		protected const string SAVE_TM_BTN_XPATH = CREATE_TM_DIALOG_XPATH + "//span[contains(@class,'js-save')]";
 		protected const string CANCEL_TM_SAVING_BTN_XPATH = CREATE_TM_DIALOG_XPATH + "//a[contains(@class,'js-cancel')]";
 
 		protected const string TM_ROW_NAME = "//tr[contains(@class,'js-tm-row')]//td/span/span";
+		protected const string TM_ROW_LANGUAGES = "//tr[contains(@class,'js-tm-row')]//td[2]/span";
 		protected const string TM_EDIT_FORM_XPATH = "//tr[contains(@class,'js-tm-panel js-editing')]";
 		protected const string TM_EDIT_NAME_XPATH = TM_EDIT_FORM_XPATH + "//input[contains(@class, 'js-tm-name')]";
+		protected const string TM_EDIT_COMMENT_XPATH = TM_EDIT_FORM_XPATH + "//textarea";
 		protected const string TM_EDIT_SAVE_BTN_XPATH = TM_EDIT_FORM_XPATH + "//span[contains(@class,'js-save-btn')]";
+		protected const string TM_EDIT_TARGET_LANGUAGE = TM_EDIT_FORM_XPATH + "//div[contains(@class,'js-languages-multiselect')]";
+		protected const string TM_EDIT_PROJECT = TM_EDIT_FORM_XPATH + "//div[contains(@class,'js-domains-multiselect')]";
 
 		protected const string NOTIFICATION_BALOON_XPATH = "//div[contains(@class,'g-notifications-container')]";
 		protected const string NOTIFICATION_BALOON_TEXT_XPATH = NOTIFICATION_BALOON_XPATH + "//span[1]";

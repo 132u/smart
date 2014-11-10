@@ -1,9 +1,6 @@
 ﻿using System;
 using System.Threading;
 using NUnit.Framework;
-using OpenQA.Selenium;
-using System.Collections.Generic;
-using System.Windows.Forms;
 
 namespace AbbyyLS.CAT.Function.Selenium.Tests
 {

@@ -1,12 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using OpenQA.Selenium;
-using OpenQA.Selenium.Firefox;
-using OpenQA.Selenium.Chrome;
-using OpenQA.Selenium.IE;
 using OpenQA.Selenium.Support.UI;
 using System.Threading;
 
@@ -55,19 +49,36 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <param name="langType">язык</param>
 		public void SelectLocale(LOCALE_LANGUAGE_SELECT langType)
 		{
-			string lang = "";
-			if (langType == LOCALE_LANGUAGE_SELECT.English)
-			{
-				lang = LOCALE_EN_LANG;
-			}
-
+			string lang = langType == LOCALE_LANGUAGE_SELECT.English 
+									? LOCALE_EN_LANG 
+									: LOCALE_RU_LANG;
 			string xPath = LOCALE_REF_PATH + "[@data-locale='" + lang + "']";
 			SetDriverTimeoutMinimum();
+
 			if (GetIsElementExist(By.XPath(xPath)))
 			{
 				ClickElement(By.XPath(xPath));
 			}
+
 			SetDriverTimeoutDefault();
+		}
+
+		/// <summary>
+		/// Узнать текущую локализацию
+		/// </summary>
+		public LOCALE_LANGUAGE_SELECT GetCurrentLocale()
+		{
+			if (GetIsElementExist(
+				By.XPath(
+					string.Format(
+						"{0}[@data-locale='{1}']",
+						LOCALE_REF_PATH,
+						LOCALE_RU_LANG))))
+			{
+				return LOCALE_LANGUAGE_SELECT.English;
+			}
+			
+			return LOCALE_LANGUAGE_SELECT.Russian;
 		}
 
 		/// <summary>
@@ -583,9 +594,11 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		public enum EXPORT_TYPE { Original, TMX, Translated };
 
 
+		public const string LOCALE_EN_LANG = "en";
+		public const string LOCALE_RU_LANG = "ru";
+		
 		protected const string LOCALE_REF_PATH = ".//a[contains(@class,'js-set-locale')]";
-		protected const string LOCALE_EN_LANG = "en";
-
+		
 		protected const string CREATE_BTN_XPATH = ".//span[contains(@class,'js-project-create')]";
 
 		protected const string PROJECTS_TABLE_XPATH = ".//table[contains(@class,'js-tasks-table')]";
