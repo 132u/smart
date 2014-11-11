@@ -154,7 +154,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <returns>XPath</returns>
 		protected string GetAccountItemXPath(string accountName)
 		{
-			return "//select/option[contains(concat(' ', normalize-space(text()), ' '), ' " + accountName + " ')]";
+			return "//li[text()='Europe']/following-sibling::li[@class='ng-scope']//a[text()='" + accountName + "']";
 		}
 		
 		protected const string EMAIL_CSS = "input[name=\"email\"]";
