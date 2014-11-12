@@ -26,7 +26,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 
 	public class BaseTest
 	{
-		private static Logger logger = LogManager.GetCurrentClassLogger();
+		public static Logger Logger = LogManager.GetCurrentClassLogger();
 		/// <summary>
 		/// Конструктор базового теста
 		/// </summary>
@@ -107,7 +107,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			}
 			catch (Exception ex)
 			{
-				logger.ErrorException("Ошибка в конструкторе : " + ex.Message, ex);
+				Logger.ErrorException("Ошибка в конструкторе : " + ex.Message, ex);
 				throw;
 			}
 		}

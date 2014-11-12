@@ -4,6 +4,7 @@ using NUnit.Framework;
 using OpenQA.Selenium;
 using System.Collections.Generic;
 using System.Windows.Forms;
+using NLog;
 
 namespace AbbyyLS.CAT.Function.Selenium.Tests
 {
@@ -140,8 +141,8 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			string glossaryName = CreateGlossaryAndReturnToGlossaryList();
 
 			// Сравнить дату создания с текущей датой
-			Assert.IsTrue(GetIsDateEqualCurrentDayOrToday(GlossaryListPage.GetGlossaryDateModified(glossaryName), todayDate),
-				"Ошибка: дата не совпадает");
+			Assert.IsTrue(GetIsDateEqualCurrentDayOrToday(GlossaryListPage.GetGlossaryDateModified(glossaryName), todayDate), 
+				"Ошибка: дата создания глоссари и дата в таблице на странице списка глоссари не совпадают");
 		}
 
 		/// <summary>
@@ -555,7 +556,9 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 
 			// Создать дату в стандартном формате
 			DateTime resDate = DateTime.Parse(day + "." + month + "." + year);
-
+			Logger.Trace("время в таблице resDate = " + resDate);
+			Logger.Trace("время создания глоссари curDay.Date = " + curDay.Date);
+			Logger.Trace("сегодняшняя дата если тест проходит в полночь DateTime.Today.Date = " + DateTime.Today.Date);
 			// Сравнить с текущей датой или с сегодня (если тест проходит в полночь)
 			return curDay.Date == resDate || DateTime.Today.Date == resDate;
 		}
