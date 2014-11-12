@@ -57,8 +57,8 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Editor.Revisions
 				GoToWorkspace();
 
 				// создаем документ с нужным файлом, нужной ТМ, подкючаем МТ и глоссарий
-				CreateProject(_projectNameRevisionsTest, EditorTXTFile22Lines,
-				true, EditorTMXFile22lines,
+				CreateProject(_projectNameRevisionsTest, LongTxtFile,
+				true, LongTmxFile,
 				Workspace_CreateProjectDialogHelper.SetGlossary.None, "",
 				true, Workspace_CreateProjectDialogHelper.MT_TYPE.DefaultMT,
 				false);

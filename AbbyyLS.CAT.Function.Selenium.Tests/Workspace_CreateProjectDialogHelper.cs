@@ -153,6 +153,23 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		}
 
 		/// <summary>
+		/// Подождать пока загруженный документ появится в списке
+		/// </summary>
+		public bool WaitDocumentAppear(string file)
+		{
+			return WaitUntilDisplayElement(By.XPath(GetUploadedDocumentListXpath(file)), 1);
+		}
+
+		/// <summary>
+		/// xpath списка загруженного файла
+		/// </summary>
+		/// <returns>xpath файла</returns>
+		public string GetUploadedDocumentListXpath(string file)
+		{
+			return UPLOADED_DOCUMENTS_LIST_XPATH + "//span[text()='" + file + "']";
+		}
+
+		/// <summary>
 		/// Кликнуть Next
 		/// </summary>
 		public void ClickNextStep()
@@ -211,7 +228,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <returns>появился</returns>
 		public bool WaitUploadTMXDialog()
 		{
-			return WaitUntilDisplayElement(By.XPath(UPLOAG_TMX_DIALOG_XPATH));
+			return WaitUntilDisplayElement(By.XPath(UPLOAG_TMX_DIALOG_XPATH),1);
 		}
 
 		/// <summary>
@@ -229,6 +246,42 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		public bool WaitImportDialogDisappear()
 		{
 			return WaitUntilDisappearElement(By.XPath(UPLOAG_TMX_DIALOG_XPATH));
+		}
+
+		/// <summary>
+		/// Дождаться, пока новая ТМ появится в списке
+		/// </summary>
+		/// <returns>появилась</returns>
+		public bool WaitTmxAppear(string tmName)
+		{
+			return WaitUntilDisplayElement(By.XPath(GetTmxXpath(tmName)), 1);
+		}
+
+		/// <summary>
+		/// xpath новой ТМ в списке
+		/// </summary>
+		/// <returns>xpath TM в списке</returns>
+		public string GetTmxXpath(string tmName)
+		{
+			return TM_TABLE_TM_NAME_XPATH + "[text()='" + tmName + "']";
+		}
+
+		/// <summary>
+		/// Дождаться, пока новый глоссарий появится в списке
+		/// </summary>
+		/// <returns>появился</returns>
+		public bool WaitNewGlossaryAppear(string glossaryName)
+		{
+			return WaitUntilDisplayElement(By.XPath(GetNewGlossaryXpath(glossaryName)), 1);
+		}
+
+		/// <summary>
+		/// xpath нового глоссария в списке
+		/// </summary>
+		/// <returns>xpath глоссария в списке</returns>
+		public string GetNewGlossaryXpath(string glossaryName)
+		{
+			return FIRST_GLOSSARY_NAME_XPATH + "//p[text()='" + glossaryName + "']";
 		}
 
 		/// <summary>
@@ -848,6 +901,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		protected const string TARGET_LANG_VALUE_XPATH = CREATE_PROJECT_DIALOG_XPATH + "//span[contains(@class,'ui-multiselect-value')]";
 		protected const string PROJECT_NAME_INPUT_XPATH = CREATE_PROJECT_DIALOG_XPATH + "//input[@name='name']";
 		protected const string ADD_DOCUMENT_BTN_XPATH = CREATE_PROJECT_DIALOG_XPATH + "//div[contains(@class,'js-files-uploader')]//a";// TODO проверить, старая версия: "//div[contains(@class,'js-files-uploader')]//a[contains(@class,'js-add-file')]" и "//div[contains(@class,'js-popup-create-project')][2]//a[contains(@class,'js-add-file')]"
+		protected const string UPLOADED_DOCUMENTS_LIST_XPATH = "//li[@class='js-file-list-item']";
 		protected const string NEXT_BTN_XPATH = CREATE_PROJECT_DIALOG_XPATH + "//span[contains(@class,'js-next')]";
 		protected const string CREATE_TM_BTN_XPATH = CREATE_PROJECT_DIALOG_XPATH + "//span[contains(@class,'js-tm-create')]";
 		protected const string DELETE_FILE_BTN_XPATH = CREATE_PROJECT_DIALOG_XPATH + "//li[contains(@class, 'js-file-list') and contains(string(), '#')]//span[contains(@class, 'btn')]//a[contains(@class, 'js-remove-file')]";
@@ -882,6 +936,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 
 		protected const string FIRST_GLOSSARY_XPATH =
 			CREATE_PROJECT_DIALOG_XPATH + "//table[contains(@class,'js-glossaries')]//tbody//tr[1]/*/span[contains(@class,'js-chckbx')]";
+		protected const string FIRST_GLOSSARY_NAME_XPATH = "//table[contains(@class,'js-glossaries')]//tbody//tr[1]//td[2]";
 		protected const string GLOSSARY_BY_NAME_XPATH = CREATE_PROJECT_DIALOG_XPATH + "//table[contains(@class,'js-glossaries')]//tbody//tr[contains(string(), '#')]/*/span[contains(@class,'js-chckbx')]";
 		protected const string GLOSSARY_BY_NAME_TR_XPATH = CREATE_PROJECT_DIALOG_XPATH + "//table[contains(@class,'js-glossaries')]//tbody//tr[contains(string(), '#')]";
 		protected const string CREATE_GLOSSARY_DIALOG_XPATH = "//div[contains(@class,'js-popup-edit-glossary')][2]";

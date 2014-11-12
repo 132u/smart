@@ -74,8 +74,8 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 				_editorTXTFile = Path.GetFullPath(cfgRoot.Root + "/FileForTestTM/textWithoutTags.txt");
 				_editorTMXFile = Path.GetFullPath(cfgRoot.Root + "/FileForTestTM/textWithoutTags.tmx");
 
-				_editorTXTFile22Lines = Path.GetFullPath(cfgRoot.Root + "/LongTxtTmx/Text22lines.txt");
-				_editorTMXFile22lines = Path.GetFullPath(cfgRoot.Root + "/LongTxtTmx/22linesTM.tmx");
+				_longTxtFile = Path.GetFullPath(cfgRoot.Root + "/LongTxtTmx/LongText.txt");
+				_longTmxFile = Path.GetFullPath(cfgRoot.Root + "/LongTxtTmx/LongTM.tmx");
 
 				_tmFile = Path.GetFullPath(cfgRoot.Root + "/Earth.tmx");
 				_secondTmFile = Path.GetFullPath(cfgRoot.Root + "/TextEngTestAddTMX.tmx");
@@ -130,6 +130,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		{
 			return File.Exists(_testUserFile);
 		}
+
 		/// <summary>
 		/// Файл со списком пользователей , имеющие аккаунты на аол/курсера/передем
 		/// </summary>
@@ -564,17 +565,17 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		}
 
 		/// <summary>
-		/// Полный путь к файлу TXT из 22 строк для работы в редакторе
+		/// Полный путь к файлу TXT из 25 строк для работы в редакторе
 		/// </summary>
-		private string _editorTXTFile22Lines;
+		private string _longTxtFile;
 		/// <summary>
-		/// Полный путь к файлу TXT из 22 строк для работы в редакторе
+		/// Полный путь к файлу TXT из 25 строк для работы в редакторе
 		/// </summary>
-		protected string EditorTXTFile22Lines
+		protected string LongTxtFile
 		{
 			get
 			{
-				return _editorTXTFile22Lines;
+				return _longTxtFile;
 			}
 		}
 
@@ -594,17 +595,17 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		}
 
 		/// <summary>
-		/// Полный путь к файлу TMX 22 строки для работы в редакторе 
+		/// Полный путь к файлу TMX для longTxt 
 		/// </summary>
-		private string _editorTMXFile22lines;
+		private string _longTmxFile;
 		/// <summary>
-		/// Полный путь к файлу TMX 22 строки для работы в редакторе
+		/// Полный путь к файлу TMX для longTxt
 		/// </summary>
-		protected string EditorTMXFile22lines
+		protected string LongTmxFile
 		{
 			get
 			{
-				return _editorTMXFile22lines;
+				return _longTmxFile;
 			}
 		}
 
@@ -1727,13 +1728,14 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 				// Загрузить файл
 				WorkspaceCreateProjectDialog.ClickAddDocumentBtn();
 				FillAddDocumentForm(downloadFile);
+				WorkspaceCreateProjectDialog.WaitDocumentAppear(Path.GetFileName(downloadFile));
 			}
 			WorkspaceCreateProjectDialog.ClickNextStep();
 
 			//2 шаг - выбор ТМ
 			if (createNewTM)
 			{
-				// Создать новую ТМ
+				// Создать новую ТМ, c файлом или чистую
 				CreateNewTM(tmFile);
 			}
 			else
@@ -1742,7 +1744,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 				ChooseFirstTMInList();
 			}
 
-			Thread.Sleep(500);
+			
 			WorkspaceCreateProjectDialog.ClickNextStep();
 
 			//3 шаг - выбор глоссария
@@ -1768,7 +1770,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 					break;
 			}
 			
-			Thread.Sleep(500);
 			WorkspaceCreateProjectDialog.ClickNextStep();
 
 			//4 шаг - выбор МТ
@@ -1781,7 +1782,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 
 			//5 шаг - настройка этапов workflow
 			//SetUpWorkflow();
-			Thread.Sleep(1000);
+			Thread.Sleep(500);
 			WorkspaceCreateProjectDialog.ClickNextStep();
 
 			//5 шаг - настройка Pretranslate
@@ -1845,22 +1846,27 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <param name="fromWorkspaceOrProject">true - из workspace, false - из проекта</param>
 		public void CreateNewTM(string TmFileName, bool fromWorkspaceOrProject = true)
 		{
+			string tmName = "TestTM" + DateTime.Now.Ticks;
+
 			//Создание ТМ
 			if (TmFileName.Length > 0)
 			{
 				//Добавить тмх файл
 				WorkspaceCreateProjectDialog.ClickUploadTMX();
 				WorkspaceCreateProjectDialog.WaitUploadTMXDialog();
-				WorkspaceCreateProjectDialog.FillTMNameDialog("TestTM" + DateTime.Now.Ticks);
+				WorkspaceCreateProjectDialog.FillTMNameDialog(tmName);
 				WorkspaceCreateProjectDialog.ClickAddTMXDialog();
-				Thread.Sleep(1000);
+
+				WorkspaceCreateProjectDialog.WaitUploadTMXDialog();
 
 				// Заполнить имя файла для загрузки
 				FillAddDocumentForm(TmFileName);
 
 				//Нажать на кнопку Import
 				WorkspaceCreateProjectDialog.ClickSaveTMXDialog();
-				Thread.Sleep(1000);
+
+				//Дождаться пока ТМ появится в списке
+				WorkspaceCreateProjectDialog.WaitTmxAppear(tmName);
 
 				if (WorkspaceCreateProjectDialog.GetIsExistErrorFileMessage())
 				{
@@ -1876,9 +1882,11 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			{
 				WorkspaceCreateProjectDialog.ClickCreateTM();
 				WorkspaceCreateProjectDialog.WaitCreateTMDialog();
-				WorkspaceCreateProjectDialog.FillTMName("TestTM" + DateTime.Now.Ticks);
+				WorkspaceCreateProjectDialog.FillTMName(tmName);
 				WorkspaceCreateProjectDialog.ClickSaveTM();
 				WorkspaceCreateProjectDialog.WaitUntilCreateTMDialogDisappear();
+				//Дождаться пока ТМ появится в списке
+				WorkspaceCreateProjectDialog.WaitTmxAppear(tmName);
 			}
 		}
 
@@ -1902,6 +1910,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			WorkspaceCreateProjectDialog.ClickCreateGlossary();
 			WorkspaceCreateProjectDialog.SetNewGlossaryName(internalGlossaryName);
 			WorkspaceCreateProjectDialog.ClickSaveNewGlossary();
+			WorkspaceCreateProjectDialog.WaitNewGlossaryAppear(internalGlossaryName);
 		}
 
 		// TODO
@@ -2017,6 +2026,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			Thread.Sleep(1000);
 			SendKeys.SendWait(@"{Enter}");
 
+			// заменить в методах, где загружаются объекты, на ожидание появления загруженного объекта, потом убрать слип здесь
 			Thread.Sleep(3000);
 		}
 
