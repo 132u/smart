@@ -167,3 +167,5 @@ VALUES ('B7776F45-05BE-4AFD-8EC5-706203BBB292', 'ttx')
 
 INSERT INTO Cat.DisassembleDocumentMethods_Accounts (AccountId, MethodName)
 VALUES ('B7776F45-05BE-4AFD-8EC5-706203BBB292', 'xliff')
+
+INSERT INTO Integration.ClientAuth VALUES ('SmartCAT', 'IygQoaM0EIO8RVLs4KWJvcqbOj76TaA1SFqMCD4HohnmTgupEdvLnSUNzxl/dhAWujCjdMEMT0C3k3NQRJsFug==')
