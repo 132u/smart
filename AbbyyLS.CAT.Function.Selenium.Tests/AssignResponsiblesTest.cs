@@ -466,9 +466,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			// Создание проекта
 			CreateProject(ProjectName, EditorTXTFile);
 
-			// Дождаться, пока документ догрузится
-			Assert.IsTrue(WorkspacePage.WaitProjectLoad(ProjectName), "Ошибка: документ не загрузился");
-
 			// Открываем диалог выбора исполнителя
 			OpenAssignDialog(ProjectName);
 

@@ -69,10 +69,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		{
 			// Создать проект
 			CreateProject(ProjectName, DocumentFile);
-
-			// Дождаться, пока документ догрузится
-			Assert.IsTrue(WorkspacePage.WaitProjectLoad(ProjectName), "Ошибка: документ не загрузился");
-
+			
 			// Кликнуть по строке с проектом, чтобы открылась информация о нем (чтобы видно было документ)
 			WorkspacePage.OpenProjectInfo(ProjectName);
 			// TODO Sleep

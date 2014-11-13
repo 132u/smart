@@ -305,7 +305,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 
 			// Создание проекта
 			CreateProject(ProjectName);
-			WorkspacePage.WaitProjectLoad(ProjectName);
 
 			// Открываем проект
 			OpenProjectPage(ProjectName);
@@ -351,7 +350,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 
 			// Создание проекта
 			CreateProject(ProjectName);
-			WorkspacePage.WaitProjectLoad(ProjectName);
 
 			// Открываем проект
 			OpenProjectPage(ProjectName);
@@ -591,7 +589,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 
 			// Создание проекта
 			CreateProject(ProjectName);
-			WorkspacePage.WaitProjectLoad(ProjectName);
 
 			// Открываем проект
 			OpenProjectPage(ProjectName);

@@ -1790,6 +1790,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			//Finish
 			Thread.Sleep(500);
 			WorkspaceCreateProjectDialog.ClickFinishCreate();
+
 			// Дождаться проекта в списке проектов
 			if (isNeedCheckExist)
 			{
@@ -1799,6 +1800,9 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			{
 				Thread.Sleep(5000);
 			}
+
+			// Дождаться, пока документ догрузится
+			Assert.IsTrue(WorkspacePage.WaitProjectLoad(projectName), "Ошибка: документ не загрузился");
 		}
 
 		/// <summary>
@@ -1833,9 +1837,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			{
 				// Создание проекта
 				CreateProject(projectName, downloadFile, createNewTM, tmFile, setGlossary, glossaryName, chooseMT, mtType, isNeedCheckExist);
-
-				// Дождаться, пока документ догрузится
-				Assert.IsTrue(WorkspacePage.WaitProjectLoad(projectName), "Ошибка: документ не загрузился");
 			}
 		}
 

@@ -53,11 +53,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		{
 			// Создание проекта с файлом с ТМ без файла и с заданным МТ
 			CreateProject(ProjectName, DocumentFile, true, "", Workspace_CreateProjectDialogHelper.SetGlossary.None, "", true, mt_type, true);
-
-			// Ожидаем пока загрузится документ.
-			if (!WorkspacePage.WaitProjectLoad(ProjectName))
-				Assert.Fail("Ошибка: Проект не загрузился.");
-
+			
 			// Открываем проект
 			OpenProjectPage(ProjectName);
 
@@ -96,11 +92,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 
 			// Создание проекта с файлом с МТ с файлом
 			CreateProject(ProjectName, EditorTXTFile, true, EditorTMXFile);
-
-			// Ожидаем пока загрузится документ.
-			if (!WorkspacePage.WaitProjectLoad(ProjectName))
-				Assert.Fail("Ошибка: Проект не загрузился.");
-
+			
 			// Открываем проект
 			OpenProjectPage(ProjectName);
 
@@ -150,11 +142,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			// Создание проекта с файлом с ТМ без файла и с заданным МТ
 			CreateProject(ProjectName, EditorTXTFile, true);
 			//CreateProject(ProjectName, EditorTXTFile);
-
-			// Ожидаем пока загрузится документ.
-			if (!WorkspacePage.WaitProjectLoad(ProjectName))
-				Assert.Fail("Ошибка: Проект не загрузился.");
-
+			
 			// Открываем проект
 			OpenProjectPage(ProjectName);
 
@@ -216,11 +204,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			// Создание проекта с файлом
 			SwitchWorkspaceTab();
 			CreateProject(ProjectName, EditorTXTFile, true);
-
-			// Ожидаем пока загрузится документ.
-			if (!WorkspacePage.WaitProjectLoad(ProjectName))
-				Assert.Fail("Ошибка: Проект не загрузился.");
-
+			
 			// Открываем проект
 			OpenProjectPage(ProjectName);
 
@@ -286,11 +270,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			// Создание проекта с файлом
 			SwitchWorkspaceTab();
 			CreateProject(ProjectName, EditorTXTFile, true);
-
-			// Ожидаем пока загрузится документ.
-			if (!WorkspacePage.WaitProjectLoad(ProjectName))
-				Assert.Fail("Ошибка: Проект не загрузился.");
-
+			
 			// Открываем проект
 			OpenProjectPage(ProjectName);
 
