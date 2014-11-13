@@ -115,7 +115,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		public void OpenAddTermFormHotKey()
 		{
 			// Нажать хоткей вызова формы для добавления термина
-			EditorPage.SendKeysTarget(1, OpenQA.Selenium.Keys.Control + "E");
+			EditorPage.AddTermFormByHotkey(1);
 
 			// Проверка, что открылась форма
 			Assert.IsTrue(EditorPage.WaitAddTermFormDisplay(),
@@ -679,12 +679,14 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// </summary>
 		private void AutofillFormSourceWordSelected()
 		{
+			const int segmentNumber = 1;
+
 			// Курсор в Source
 			EditorPage.ClickToggleBtn();
 			// Нажать хоткей перехода в начало строки
-			EditorPage.SendKeysSource(1, OpenQA.Selenium.Keys.Control + OpenQA.Selenium.Keys.Home);
+			EditorPage.CursorToSourceLineBeginningByHotkey(segmentNumber);
 			// Нажать хоткей выделения первого слова
-			EditorPage.SendKeysSource(1, OpenQA.Selenium.Keys.Shift + OpenQA.Selenium.Keys.Control + OpenQA.Selenium.Keys.ArrowRight);
+			EditorPage.SelectFirstWordSourceByHotkey(segmentNumber);
 			//Открываем форму добавления термина
 			OpenAddTermForm();
 			Assert.IsTrue(AddTermForm.GetSourceTermText("Earth"), "Ошибка: Нет автозаполнения сорса.");
@@ -695,14 +697,16 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// </summary>
 		private void AutofillFormTargetWordSelected()
 		{
+			const int segmentNumber = 1;
+
 			// Удаляем старый текст из таргета
-			EditorPage.ClearTarget(1);
+			EditorPage.ClearTarget(segmentNumber);
 			// Написать что-то в target
-			EditorPage.AddTextTarget(1, "Земля это такая планета.");
+			EditorPage.AddTextTarget(segmentNumber, "Земля это такая планета.");
 			// Нажать хоткей перехода в начало строки
-			EditorPage.SendKeysTarget(1, OpenQA.Selenium.Keys.Control + OpenQA.Selenium.Keys.Home);
+			EditorPage.CursorToTargetLineBeginningByHotkey(segmentNumber);
 			// Нажать хоткей выделения первого слова
-			EditorPage.SendKeysTarget(1, OpenQA.Selenium.Keys.Shift + OpenQA.Selenium.Keys.Control + OpenQA.Selenium.Keys.ArrowRight);
+			EditorPage.SelectFirstWordTargetByHotkey(segmentNumber);
 			//Открываем форму добавления термина
 			OpenAddTermForm();
 			Assert.IsTrue(AddTermForm.GetTargetTermText("Земля"), "Ошибка: Нет автозаполнения таргета.");

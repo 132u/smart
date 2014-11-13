@@ -118,6 +118,188 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		}
 
 		/// <summary>
+		/// Нажать хоткей поиска
+		/// </summary>
+		/// <param name="segmentNumber">номер строки</param>
+		public void SearchByHotkey(int segmentNumber)
+		{
+			AddTextTarget(segmentNumber, OpenQA.Selenium.Keys.Control + "k");
+		}
+
+		/// <summary>
+		/// Нажать хоткей для подстановки из кат перевода сегмента
+		/// </summary>
+		/// <param name="segmentNumber">номер строки</param>
+		/// <param name="catLineNumber">номер строки панели кат</param>
+		public void PutCatMatchByHotkey(int segmentNumber, int catLineNumber)
+		{
+			SendKeysTarget(segmentNumber, OpenQA.Selenium.Keys.Control + catLineNumber.ToString());
+		}
+
+		/// <summary>
+		/// Нажать хоткей для Confirm
+		/// </summary>
+		/// <param name="segmentNumber">номер строки</param>
+		public void ConfirmByHotkey(int segmentNumber)
+		{
+			SendKeysTarget(segmentNumber, OpenQA.Selenium.Keys.Control + OpenQA.Selenium.Keys.Return);
+		}
+
+		/// <summary>
+		/// Нажать хоткей для изменения регистра
+		/// </summary>
+		/// <param name="segmentNumber">номер строки</param>
+		public void ChangeCaseByHotkey(int segmentNumber)
+		{
+			SendKeysTarget(segmentNumber, OpenQA.Selenium.Keys.Shift + OpenQA.Selenium.Keys.F3);
+		}
+
+		/// <summary>
+		/// Нажать хоткей отмены
+		/// </summary>
+		/// <param name="segmentNumber">номер строки</param>
+		public void UndoByHotkey(int segmentNumber)
+		{
+			SendKeysTarget(segmentNumber, OpenQA.Selenium.Keys.Control + OpenQA.Selenium.Keys.Control + "z");
+		}
+
+		/// <summary>
+		/// Нажать хоткей возврата отмененного действия
+		/// </summary>
+		/// <param name="segmentNumber">номер строки</param>
+		public void RedoByHotkey(int segmentNumber)
+		{
+			SendKeysTarget(segmentNumber, OpenQA.Selenium.Keys.Control + "y");
+		}
+
+		/// <summary>
+		/// Нажать хоткей Tab
+		/// </summary>
+		/// <param name="segmentNumber">номер строки</param>
+		public void TabByHotkey(int segmentNumber)
+		{
+			SendKeysTarget(segmentNumber, OpenQA.Selenium.Keys.Tab);
+		}
+
+		/// <summary>
+		/// Нажать хоткей  перехода в начало строки таргет
+		/// </summary>
+		/// <param name="segmentNumber">номер строки</param>
+		public void CursorToTargetLineBeginningByHotkey(int segmentNumber)
+		{
+			SendKeysTarget(segmentNumber, OpenQA.Selenium.Keys.Control + OpenQA.Selenium.Keys.Home);
+		}
+
+		/// <summary>
+		/// Нажать хоткей  перехода в начало строки сорс
+		/// </summary>
+		/// <param name="segmentNumber">номер строки</param>
+		public void CursorToSourceLineBeginningByHotkey(int segmentNumber)
+		{
+			SendKeysSource(segmentNumber, OpenQA.Selenium.Keys.Control + OpenQA.Selenium.Keys.Home);
+		}
+
+		/// <summary>
+		/// Нажать хоткей выделения последнего слова
+		/// </summary>
+		/// <param name="segmentNumber">номер строки</param>
+		public void SelectLastWordByHotkey(int segmentNumber)
+		{
+			SendKeysTarget(segmentNumber, OpenQA.Selenium.Keys.Shift + OpenQA.Selenium.Keys.Control + OpenQA.Selenium.Keys.ArrowLeft);
+		}
+
+		/// <summary>
+		/// Нажать хоткей выделения первого слова таргет
+		/// </summary>
+		/// <param name="segmentNumber">номер строки</param>
+		public void SelectFirstWordTargetByHotkey(int segmentNumber)
+		{
+			SendKeysTarget(segmentNumber, OpenQA.Selenium.Keys.Shift + OpenQA.Selenium.Keys.Control + OpenQA.Selenium.Keys.ArrowRight);
+		}
+
+		/// <summary>
+		/// Нажать хоткей выделения первого слова сорс
+		/// </summary>
+		/// <param name="segmentNumber">номер строки</param>
+		public void SelectFirstWordSourceByHotkey(int segmentNumber)
+		{
+			SendKeysSource(segmentNumber, OpenQA.Selenium.Keys.Shift + OpenQA.Selenium.Keys.Control + OpenQA.Selenium.Keys.ArrowRight);
+		}
+
+		/// <summary>
+		/// Нажать хоткей перемещения курсора после третьего слова от начала строки
+		/// </summary>
+		/// <param name="segmentNumber">номер строки</param>
+		public void PutCursorAfterThirdWordByHotkey(int segmentNumber)
+		{
+			SendKeysTarget(segmentNumber, OpenQA.Selenium.Keys.Control + OpenQA.Selenium.Keys.Home + OpenQA.Selenium.Keys.ArrowRight + OpenQA.Selenium.Keys.ArrowRight + OpenQA.Selenium.Keys.ArrowRight);
+		}
+
+		/// <summary>
+		/// Нажать хоткей выделения следующих трех символов
+		/// </summary>
+		/// <param name="segmentNumber">номер строки</param>
+		public void SelectNextThreeSymbolsByHotkey(int segmentNumber)
+		{
+			SendKeysTarget(segmentNumber,
+			OpenQA.Selenium.Keys.ArrowRight + OpenQA.Selenium.Keys.Shift + OpenQA.Selenium.Keys.ArrowRight + OpenQA.Selenium.Keys.ArrowRight + OpenQA.Selenium.Keys.ArrowRight);
+		}
+
+		/// <summary>
+		/// Нажать хоткей End
+		/// </summary>
+		/// <param name="segmentNumber">номер строки</param>
+		public void EndHotkey(int segmentNumber)
+		{
+			SendKeysTarget(segmentNumber, OpenQA.Selenium.Keys.End);
+		}
+
+		/// <summary>
+		/// Нажать хоткей вызова формы для добавления термина
+		/// </summary>
+		/// <param name="segmentNumber">номер строки</param>
+		public void AddTermFormByHotkey(int segmentNumber)
+		{
+			SendKeysTarget(segmentNumber, OpenQA.Selenium.Keys.Control + "E");
+		}
+
+		/// <summary>
+		/// Нажать хоткей выделения второго и третьего слов
+		/// </summary>
+		/// <param name="segmentNumber">номер строки</param>
+		public void SelectSecondThirdWordsByHotkey(int segmentNumber)
+		{
+			SendKeysTarget(segmentNumber, OpenQA.Selenium.Keys.Home + OpenQA.Selenium.Keys.Control + OpenQA.Selenium.Keys.ArrowRight + OpenQA.Selenium.Keys.Shift + OpenQA.Selenium.Keys.ArrowRight + OpenQA.Selenium.Keys.ArrowRight);
+		}
+
+		/// <summary>
+		/// Нажать хоткей поиска следующего незаконченного сегмента
+		/// </summary>
+		/// <param name="segmentNumber">номер строки</param>
+		public void NextUnfinishedSegmentByHotkey(int segmentNumber)
+		{
+			SendKeysTarget(segmentNumber, OpenQA.Selenium.Keys.F9);
+		}
+
+		/// <summary>
+		/// Нажать хоткей выделения всего содержимого ячейки
+		/// </summary>
+		/// <param name="segmentNumber">номер строки</param>
+		public void SelectAlltextByHotkey(int segmentNumber)
+		{
+			SendKeysTarget(segmentNumber, OpenQA.Selenium.Keys.Shift + OpenQA.Selenium.Keys.Control + OpenQA.Selenium.Keys.Home);
+		}
+
+		/// <summary>
+		/// Нажать хоткей копирования из сорс
+		/// </summary>
+		/// <param name="segmentNumber">номер строки</param>
+		public void CopySourceByHotkey(int segmentNumber)
+		{
+			SendKeysSource(segmentNumber, OpenQA.Selenium.Keys.Control + OpenQA.Selenium.Keys.Insert);
+		}
+
+		/// <summary>
 		/// Отправить keys в target
 		/// </summary>
 		/// <param name="row">номер строки</param>

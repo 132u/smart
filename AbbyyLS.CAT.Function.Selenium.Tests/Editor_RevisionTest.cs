@@ -348,7 +348,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Editor.Revisions
 			if (byHotkeyOrDoubleClick == byHotkey)
 			{
 				// Ctrl+N - для вставки перевода из CAT-MT (N - номер в панели)
-				EditorPage.SendKeysTarget(segmentNumber, OpenQA.Selenium.Keys.Control + catTranslationNum.ToString());
+				EditorPage.PutCatMatchByHotkey(segmentNumber, catTranslationNum);
 			}
 			else if (byHotkeyOrDoubleClick == byDoubleClick)
 			{
@@ -420,7 +420,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Editor.Revisions
 			if (byHotkeyOrDoubleClick == byHotkey)
 			{
 				// Ctrl+1 - для вставки перевода из CAT-MT
-				EditorPage.SendKeysTarget(segmentNumber, OpenQA.Selenium.Keys.Control + catTranslationNum.ToString());
+				EditorPage.PutCatMatchByHotkey(segmentNumber, catTranslationNum);
 			}
 			else if (byHotkeyOrDoubleClick == byDoubleClick)
 			{
@@ -626,7 +626,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Editor.Revisions
 			Assert.IsTrue(catTranslationNum < 10, "Ошибка: строка с TM должна быть ближе, чем 10 (для хоткея)");
 
 			// Вставить из МТ
-			EditorPage.SendKeysTarget(segmentNumber, OpenQA.Selenium.Keys.Control + catTranslationNum.ToString());
+			EditorPage.PutCatMatchByHotkey(segmentNumber, catTranslationNum);
 			// Подтвердить
 			ClickConfirmBtn(segmentNumber);
 			// Вернуться
@@ -745,7 +745,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Editor.Revisions
 		protected void ClickConfirmHotkey(int segmentRowNum)
 		{
 			// хоткей Confirm
-			EditorPage.SendKeysTarget(segmentRowNum, OpenQA.Selenium.Keys.Control + OpenQA.Selenium.Keys.Return);
+			EditorPage.ConfirmByHotkey(segmentRowNum);
 			// Дождаться подтверждения
 			Assert.IsTrue(WaitSegmentConfirm(segmentRowNum), "Ошибка: Confirm не прошел");
 		}

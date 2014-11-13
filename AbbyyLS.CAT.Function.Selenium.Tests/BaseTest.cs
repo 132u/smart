@@ -2159,7 +2159,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		public void SourceTargetSwitchHotkey(int segmentNumber)
 		{
 			// Нажать хоткей Tab
-			EditorPage.SendKeysTarget(segmentNumber, OpenQA.Selenium.Keys.Tab);
+			EditorPage.TabByHotkey(segmentNumber);
 		}
 
 		/// <summary>
@@ -2192,7 +2192,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			// Текст source'a сегмента
 			string sourcetxt = EditorPage.GetSourceText(rowNumber);
 			// Нажать хоткей копирования
-			EditorPage.SendKeysSource(rowNumber, OpenQA.Selenium.Keys.Control + OpenQA.Selenium.Keys.Insert);
+			EditorPage.CopySourceByHotkey(rowNumber);
 
 
 			// Проверить, такой ли текст в target'те
@@ -2703,7 +2703,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			int catLineNumber = EditorPage.GetCATTranslationRowNumber(catType);
 
 			//Нажать хоткей для подстановки из TM перевода сегмента
-			EditorPage.SendKeysTarget(segmentNumber, OpenQA.Selenium.Keys.Control + catLineNumber.ToString());
+			EditorPage.PutCatMatchByHotkey(segmentNumber, catLineNumber);
 
 			// Дождаться автосохранения
 			Assert.IsTrue(EditorPage.WaitUntilAllSegmentsSave(),

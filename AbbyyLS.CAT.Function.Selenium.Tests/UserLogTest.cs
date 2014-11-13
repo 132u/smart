@@ -87,7 +87,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <summary>
 		/// Метод проверки подстановки из САТ
 		/// </summary>
-		public void PasteFromCAT(int segmentNum, EditorPageHelper.CAT_TYPE CatType, bool useHotkey)
+		public void PasteFromCAT(int segmentNumber, EditorPageHelper.CAT_TYPE CatType, bool useHotkey)
 		{
 			string catType = "";
 
@@ -107,9 +107,9 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			}
 
 			//Выбираем сегмент
-			EditorPage.ClickTargetCell(segmentNum);
+			EditorPage.ClickTargetCell(segmentNumber);
 			// Пишем в лог
-			WriteLog(segmentNum, "Переход в target", "Клик мыши", "-");
+			WriteLog(segmentNumber, "Переход в target", "Клик мыши", "-");
 
 			//Ждем пока загрузится CAT-панель
 			Assert.IsTrue(EditorPage.GetCATPanelNotEmpty(), "Ошибка: панель CAT пуста");
@@ -120,16 +120,16 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			if (useHotkey)
 			{
 				//Нажать хоткей для подстановки из TM перевода сегмента
-				EditorPage.SendKeysTarget(segmentNum, OpenQA.Selenium.Keys.Control + TMNumber.ToString());
+				EditorPage.PutCatMatchByHotkey(segmentNumber, TMNumber);
 				// Пишем в лог
-				WriteLog(segmentNum, "Вставка из панели САТ (" + catType + ")", "Ctrl + " + TMNumber.ToString(), EditorPage.GetTargetText(segmentNum));
+				WriteLog(segmentNumber, "Вставка из панели САТ (" + catType + ")", "Ctrl + " + TMNumber.ToString(), EditorPage.GetTargetText(segmentNumber));
 			}
 			else
 			{
 				// Двойной клик
 				EditorPage.DoubleClickCATPanel(TMNumber);
 				// Пишем в лог
-				WriteLog(segmentNum, "Вставка из панели САТ (" + catType + ")", "Двойной клик мыши", EditorPage.GetTargetText(segmentNum));
+				WriteLog(segmentNumber, "Вставка из панели САТ (" + catType + ")", "Двойной клик мыши", EditorPage.GetTargetText(segmentNumber));
 			}
 
 			// Дождаться автосохранения
@@ -414,91 +414,91 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			// Пишем в лог
 			WriteLog(0, "Открытие документа", "-", "-");
 
-			int segmentNum = 1;
+			int segmentNumber = 1;
 			// Копирование первого сегмента
-			ToTargetButton(segmentNum);
+			ToTargetButton(segmentNumber);
 			// Пишем в лог
-			WriteLog(segmentNum, "Переход в source", "Клик мыши", "-");
+			WriteLog(segmentNumber, "Переход в source", "Клик мыши", "-");
 			// Пишем в лог
-			WriteLog(segmentNum, "Нажатие кнопки копирования source в target", "Кнопка редактора", EditorPage.GetSourceText(segmentNum));
+			WriteLog(segmentNumber, "Нажатие кнопки копирования source в target", "Кнопка редактора", EditorPage.GetSourceText(segmentNumber));
 
-			segmentNum = 2;
+			segmentNumber = 2;
 			// Копирование второго сегмента
-			ToTargetButton(segmentNum);
+			ToTargetButton(segmentNumber);
 			// Пишем в лог
-			WriteLog(segmentNum, "Переход в source", "Клик мыши", "-");
+			WriteLog(segmentNumber, "Переход в source", "Клик мыши", "-");
 			// Пишем в лог
-			WriteLog(segmentNum, "Нажатие кнопки копирования source в target", "Кнопка редактора", EditorPage.GetSourceText(segmentNum));
+			WriteLog(segmentNumber, "Нажатие кнопки копирования source в target", "Кнопка редактора", EditorPage.GetSourceText(segmentNumber));
 
 			// Кликнуть Undo
 			EditorPage.ClickUndoBtn();
 			// Пишем в лог
-			WriteLog(segmentNum, "Нажатие кнопки Undo", "Кнопка редактора", "-");
+			WriteLog(segmentNumber, "Нажатие кнопки Undo", "Кнопка редактора", "-");
 
-			string targetText = EditorPage.GetTargetText(segmentNum);
+			string targetText = EditorPage.GetTargetText(segmentNumber);
 			Assert.IsTrue(targetText == "", "Ошибка: после undo текст в таргете не удалился\n" + targetText);
 
 			// Кликнуть Redo
 			EditorPage.ClickRedoBtn();
 			// Пишем в лог
-			WriteLog(segmentNum, "Нажатие кнопки Redo", "Кнопка редактора", "-");
+			WriteLog(segmentNumber, "Нажатие кнопки Redo", "Кнопка редактора", "-");
 
 			Thread.Sleep(500);
-			Assert.AreEqual(EditorPage.GetSourceText(segmentNum), EditorPage.GetTargetText(segmentNum), "Ошибка: после redo текст в target не восстановился");
+			Assert.AreEqual(EditorPage.GetSourceText(segmentNumber), EditorPage.GetTargetText(segmentNumber), "Ошибка: после redo текст в target не восстановился");
 
 			// Написать текст в третьем сегменте
 			Console.WriteLine("Написать текст в третьем сегменте");
-			segmentNum = 3;
+			segmentNumber = 3;
 			string text3Segment = "Test for 3d segment";
-			EditorPage.AddTextTarget(segmentNum, text3Segment);
+			EditorPage.AddTextTarget(segmentNumber, text3Segment);
 			// Пишем в лог
-			WriteLog(segmentNum, "Переход в target", "Клик мыши", "-");
+			WriteLog(segmentNumber, "Переход в target", "Клик мыши", "-");
 			// Пишем лог ввод текста
-			WriteLog(segmentNum, "Добавление текста", "Клавиатура", text3Segment);
+			WriteLog(segmentNumber, "Добавление текста", "Клавиатура", text3Segment);
 
 			// Написать текст в 4 сегменте
 			Console.WriteLine("Написать текст в 4 сегменте");
-			segmentNum = 4;
+			segmentNumber = 4;
 			string text4Segment = "Test for 4th segment";
-			EditorPage.AddTextTarget(segmentNum, text4Segment);
+			EditorPage.AddTextTarget(segmentNumber, text4Segment);
 			// Пишем в лог
-			WriteLog(segmentNum, "Переход в target", "Клик мыши", "-");
+			WriteLog(segmentNumber, "Переход в target", "Клик мыши", "-");
 			// Пишем лог ввод текста
-			WriteLog(segmentNum, "Добавление текста", "Клавиатура", text4Segment);
+			WriteLog(segmentNumber, "Добавление текста", "Клавиатура", text4Segment);
 
 			// Нажать хоткей отмены
 			Console.WriteLine("Нажать хоткей отмены");
-			EditorPage.SendKeysTarget(segmentNum, OpenQA.Selenium.Keys.Control + "z");
+			EditorPage.UndoByHotkey(segmentNumber);
 			// Пишем в лог
-			WriteLog(segmentNum, "Переход в target", "Клик мыши", "-");
+			WriteLog(segmentNumber, "Переход в target", "Клик мыши", "-");
 			// Пишем в лог
-			WriteLog(segmentNum, "Нажатие хоткея Undo", "Ctrl + Z", "-");
+			WriteLog(segmentNumber, "Нажатие хоткея Undo", "Ctrl + Z", "-");
 			// Проверить, что 4 сегмент пуст
-			Assert.IsTrue(EditorPage.GetTargetText(segmentNum) == "", "Ошибка: после хоткея отмены текст в 4 сегменте не удалился");
+			Assert.IsTrue(EditorPage.GetTargetText(segmentNumber) == "", "Ошибка: после хоткея отмены текст в 4 сегменте не удалился");
 
 			// Нажать хоткей отмены
 			Console.WriteLine("Нажать хоткей отмены");
-			segmentNum = 3;
-			EditorPage.SendKeysTarget(segmentNum, OpenQA.Selenium.Keys.Control + "z");
+			segmentNumber = 3;
+			EditorPage.UndoByHotkey(segmentNumber);
 			// Пишем в лог
-			WriteLog(segmentNum, "Переход в target", "Клик мыши", "-");
+			WriteLog(segmentNumber, "Переход в target", "Клик мыши", "-");
 			// Пишем в лог
-			WriteLog(segmentNum, "Нажатие хоткея Undo", "Ctrl + Z", "-");
+			WriteLog(segmentNumber, "Нажатие хоткея Undo", "Ctrl + Z", "-");
 			// Проверить, что 3 сегмент пуст
-			Assert.IsTrue(EditorPage.GetTargetText(segmentNum) == "", "Ошибка: после хоткея отмены текст в 3 сегменте не удалился");
+			Assert.IsTrue(EditorPage.GetTargetText(segmentNumber) == "", "Ошибка: после хоткея отмены текст в 3 сегменте не удалился");
 
 			// Нажать хоткей восстановления
 			Console.WriteLine("Нажать хоткей восстановления");
-			EditorPage.SendKeysTarget(segmentNum, OpenQA.Selenium.Keys.Control + "y");
+			EditorPage.RedoByHotkey(segmentNumber);
 			// Пишем в лог
-			WriteLog(segmentNum, "Переход в target", "Клик мыши", "-");
+			WriteLog(segmentNumber, "Переход в target", "Клик мыши", "-");
 			// Пишем в лог
-			WriteLog(segmentNum, "Нажатие хоткея Redo", "Ctrl + Y", "-");
+			WriteLog(segmentNumber, "Нажатие хоткея Redo", "Ctrl + Y", "-");
 
-			segmentNum = 5;
-			EditorPage.ClickTargetCell(segmentNum);
+			segmentNumber = 5;
+			EditorPage.ClickTargetCell(segmentNumber);
 			// Пишем в лог
-			WriteLog(segmentNum, "Переход в target", "Клик мыши", "-");
+			WriteLog(segmentNumber, "Переход в target", "Клик мыши", "-");
 
 			// Проверить, что 3 сегмент не пуст
 			Assert.AreEqual(text3Segment, EditorPage.GetTargetText(3), "Ошибка: после хоткея возврата текст в 3 сегменте не появился");
@@ -840,61 +840,61 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			// Пишем в лог
 			WriteLog(0, "Открытие документа", "-", "-");
 
-			int segmentNum = 1;
+			int segmentNumber = 1;
 
 			//Копировать текст сегмента
-			ToTargetButton(segmentNum);
+			ToTargetButton(segmentNumber);
 			// Пишем в лог
-			WriteLog(segmentNum, "Переход в source", "Клик мыши", "-");
+			WriteLog(segmentNumber, "Переход в source", "Клик мыши", "-");
 			// Пишем в лог
-			WriteLog(segmentNum, "Нажатие кнопки копирования source в target", "Кнопка редактора", EditorPage.GetTargetText(segmentNum));
+			WriteLog(segmentNumber, "Нажатие кнопки копирования source в target", "Кнопка редактора", EditorPage.GetTargetText(segmentNumber));
 
-			segmentNum = 3;
-			ToTargetButton(segmentNum);
+			segmentNumber = 3;
+			ToTargetButton(segmentNumber);
 			// Пишем в лог
-			WriteLog(segmentNum, "Переход в source", "Клик мыши", "-");
+			WriteLog(segmentNumber, "Переход в source", "Клик мыши", "-");
 			// Пишем в лог
-			WriteLog(segmentNum, "Нажатие кнопки копирования source в target", "Кнопка редактора", EditorPage.GetTargetText(segmentNum));
+			WriteLog(segmentNumber, "Нажатие кнопки копирования source в target", "Кнопка редактора", EditorPage.GetTargetText(segmentNumber));
 
-			segmentNum = 1;
+			segmentNumber = 1;
 			// Всячески перемещаемся в target
-			EditorPage.SendKeysTarget(segmentNum, OpenQA.Selenium.Keys.End);
+			EditorPage.EndHotkey(segmentNumber);
 			// Пишем в лог
-			WriteLog(segmentNum, "Переход в target", "Клик мыши", "-");
+			WriteLog(segmentNumber, "Переход в target", "Клик мыши", "-");
 			// Пишем в лог
-			WriteLog(segmentNum, "Нажатие кнопки End", "End", "-");
+			WriteLog(segmentNumber, "Нажатие кнопки End", "End", "-");
 
-			EditorPage.SendKeysTarget(segmentNum, OpenQA.Selenium.Keys.Home);
+			EditorPage.SendKeysTarget(segmentNumber, OpenQA.Selenium.Keys.Home);
 			// Пишем в лог
-			WriteLog(segmentNum, "Нажатие кнопки Home", "Home", "-");
+			WriteLog(segmentNumber, "Нажатие кнопки Home", "Home", "-");
 
-			EditorPage.SendKeysTarget(segmentNum, OpenQA.Selenium.Keys.ArrowRight);
+			EditorPage.SendKeysTarget(segmentNumber, OpenQA.Selenium.Keys.ArrowRight);
 			// Пишем в лог
-			WriteLog(segmentNum, "Нажатие кнопки вправо", "Arrow Right", "-");
+			WriteLog(segmentNumber, "Нажатие кнопки вправо", "Arrow Right", "-");
 
-			EditorPage.SendKeysTarget(segmentNum, OpenQA.Selenium.Keys.ArrowLeft);
+			EditorPage.SendKeysTarget(segmentNumber, OpenQA.Selenium.Keys.ArrowLeft);
 			// Пишем в лог
-			WriteLog(segmentNum, "Нажатие кнопки влево", "Arrow Left", "-");
+			WriteLog(segmentNumber, "Нажатие кнопки влево", "Arrow Left", "-");
 
-			segmentNum = 3;
+			segmentNumber = 3;
 			// Всячески перемещаемся в target
-			EditorPage.SendKeysTarget(segmentNum, OpenQA.Selenium.Keys.End);
+			EditorPage.EndHotkey(segmentNumber);
 			// Пишем в лог
-			WriteLog(segmentNum, "Переход в target", "Клик мыши", "-");
+			WriteLog(segmentNumber, "Переход в target", "Клик мыши", "-");
 			// Пишем в лог
-			WriteLog(segmentNum, "Нажатие кнопки End", "End", "-");
+			WriteLog(segmentNumber, "Нажатие кнопки End", "End", "-");
 
-			EditorPage.SendKeysTarget(segmentNum, OpenQA.Selenium.Keys.Home);
+			EditorPage.SendKeysTarget(segmentNumber, OpenQA.Selenium.Keys.Home);
 			// Пишем в лог
-			WriteLog(segmentNum, "Нажатие кнопки Home", "Home", "-");
+			WriteLog(segmentNumber, "Нажатие кнопки Home", "Home", "-");
 
-			EditorPage.SendKeysTarget(segmentNum, OpenQA.Selenium.Keys.ArrowRight);
+			EditorPage.SendKeysTarget(segmentNumber, OpenQA.Selenium.Keys.ArrowRight);
 			// Пишем в лог
-			WriteLog(segmentNum, "Нажатие кнопки вправо", "Arrow Right", "-");
+			WriteLog(segmentNumber, "Нажатие кнопки вправо", "Arrow Right", "-");
 
-			EditorPage.SendKeysTarget(segmentNum, OpenQA.Selenium.Keys.ArrowLeft);
+			EditorPage.SendKeysTarget(segmentNumber, OpenQA.Selenium.Keys.ArrowLeft);
 			// Пишем в лог
-			WriteLog(segmentNum, "Нажатие кнопки влево", "Arrow Left", "-");
+			WriteLog(segmentNumber, "Нажатие кнопки влево", "Arrow Left", "-");
 
 			// Дождаться автосохранения
 			AutoSave();
