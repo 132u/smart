@@ -1,4 +1,12 @@
-﻿using OpenQA.Selenium;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using OpenQA.Selenium;
+using OpenQA.Selenium.Firefox;
+using OpenQA.Selenium.Chrome;
+using OpenQA.Selenium.IE;
 using OpenQA.Selenium.Support.UI;
 
 namespace AbbyyLS.CAT.Function.Selenium.Tests
@@ -13,8 +21,8 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// </summary>
 		/// <param name="driver">Драйвер</param>
 		/// <param name="wait">Таймаут</param>
-		public MainHelper(IWebDriver driver, WebDriverWait wait)
-			: base(driver, wait)
+		public MainHelper(IWebDriver driver, WebDriverWait wait) :
+			base(driver, wait)
 		{
 		}
 

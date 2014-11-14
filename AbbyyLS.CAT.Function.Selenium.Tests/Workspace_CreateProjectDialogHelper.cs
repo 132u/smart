@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.UI;
@@ -101,7 +100,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			SetDriverTimeoutMinimum();
 
 			// Жмем на каждый выбранный элемент
-			foreach (var element in GetElementList(By.XPath(TARGET_MULTISELECT_ITEM_SELECTED_XPATH)))
+			foreach (IWebElement element in GetElementList(By.XPath(TARGET_MULTISELECT_ITEM_SELECTED_XPATH)))
 			{
 				element.Click();
 			}
@@ -308,7 +307,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <returns>не пустая</returns>
 		public bool GetIsTMTableNotEmpty()
 		{
-			var isExist = WaitUntilDisplayElement(By.XPath(TM_TABLE_XPATH));
+			bool isExist = WaitUntilDisplayElement(By.XPath(TM_TABLE_XPATH));
 
 			if (isExist)
 			{
@@ -459,7 +458,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		{
 			SetDriverTimeoutMinimum();
 
-			var isExistError = GetIsElementDisplay(By.XPath(ERROR_FILE_TM_XPATH));
+			bool isExistError = GetIsElementDisplay(By.XPath(ERROR_FILE_TM_XPATH));
 			SetDriverTimeoutDefault();
 
 			return isExistError;
@@ -527,14 +526,12 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		public bool SelectStage(string stageText)
 		{
 			// TODO неудачный айдишник
-			var xPath = STAGE_ITEM_XPATH + "[contains(@title,'" + stageText + "')]";
-			var isExistStage = GetIsElementDisplay(By.XPath(xPath));
-
+			string xPath = STAGE_ITEM_XPATH + "[contains(@title,'" + stageText + "')]";
+			bool isExistStage = GetIsElementDisplay(By.XPath(xPath));
 			if (isExistStage)
 			{
 				ClickElement(By.XPath(xPath));
 			}
-
 			return isExistStage;
 		}
 
@@ -554,7 +551,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <returns>есть</returns>
 		public bool GetIsExistTM(string TMName)
 		{
-			return GetIsElementExist(By.XPath(TM_TABLE_TM_NAME_XPATH + "[text()='" + TMName + "']"));
+            return GetIsElementExist(By.XPath(TM_TABLE_TM_NAME_XPATH + "[text()='" + TMName + "']"));
 		}
 
 		/// <summary>
@@ -574,7 +571,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <returns>xPath</returns>
 		protected string GetMtXpath(MT_TYPE mtType)
 		{
-			var typemt = "";
+			string typemt = "";
 			switch (MTTypeDict[mtType])
 			{
 				case "Default MT":
@@ -600,15 +597,18 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <returns>Список строк</returns>
 		public List<string> GetWFTaskList()
 		{
-			var wfTaskList = new List<string>();
+			List<string> wfTaskList = new List<string>();
 
 			// Выборка задач workflow
-			var xPath = WF_TABLE_XPATH + "//tr//td[2]//span//span";
-			var wfTaskIList = GetElementList(By.XPath(xPath));
+			string xPath = WF_TABLE_XPATH + "//tr//td[2]//span//span";
+			IList<IWebElement> wfTaskIList = GetElementList(By.XPath(xPath));
 
 			if (wfTaskIList.Count > 0)
 			{
-				wfTaskList.AddRange(wfTaskIList.Select(item => item.Text));
+				foreach (IWebElement item in wfTaskIList)
+				{
+					wfTaskList.Add(item.Text);
+				}
 			}
 			return wfTaskList;
 		}
@@ -620,16 +620,22 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <returns>Список типов задачи</returns>
 		public List<string> GetWFTaskTypeList(int taskNumber)
 		{
+			List<string> wfTaskList = new List<string>();
+
 			// Выбор задачи workflow
-			var workflowXPath = WF_TABLE_XPATH + "//tr[" + taskNumber.ToString() + "]//td[2]//span//span";
+			string workflowXPath = WF_TABLE_XPATH + "//tr[" + taskNumber.ToString() + "]//td[2]//span//span";
 
 			// Получение выпадающего списка
 			ClickElement(By.XPath(workflowXPath));
-			var wfDropdownIList = GetElementList(By.XPath(WF_DROPDOWNLIST_XPATH));
+			IList<IWebElement> wfDropdownIList = GetElementList(By.XPath(WF_DROPDOWNLIST_XPATH));
 
 			// Выбираем заданный
+			foreach (IWebElement wfTaskType in wfDropdownIList)
+			{
+				wfTaskList.Add(wfTaskType.Text);
+			}
 
-			return wfDropdownIList.Select(wfTaskType => wfTaskType.Text).ToList();
+			return wfTaskList;
 		}
 
 		/// <summary>
@@ -639,15 +645,17 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <param name="taskType">Тип задачи из выпадающего списка</param>
 		public void SetWFTaskList(int taskNumber, string taskType)
 		{
+			List<string> wfTaskList = new List<string>();
+			
 			// Выбор задачи workflow
-			var workflowXPath = WF_TABLE_XPATH + "//tr[" + taskNumber + "]//td[2]//span//span";
+			string workflowXPath = WF_TABLE_XPATH + "//tr[" + taskNumber.ToString() + "]//td[2]//span//span";
 			
 			// Получение выпадающего списка
 			ClickElement(By.XPath(workflowXPath));
-			var wfDropdownIList = GetElementList(By.XPath(WF_DROPDOWNLIST_XPATH));
+			IList<IWebElement> wfDropdownIList = GetElementList(By.XPath(WF_DROPDOWNLIST_XPATH));
 
 			// Выбираем заданный
-			foreach (var wfTaskType in wfDropdownIList)
+			foreach (IWebElement wfTaskType in wfDropdownIList)
 			{
 				if (wfTaskType.Text == taskType)
 				{
@@ -670,8 +678,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// </summary>
 		public void ClickWorkflowDeleteTask(int taskNumber)
 		{
-			ClickElement(By.XPath(CREATE_PROJECT_DIALOG_XPATH + "//tr[" 
-				+ taskNumber + "]" + WF_DELETE_TASK_BTN));
+			ClickElement(By.XPath(CREATE_PROJECT_DIALOG_XPATH + "//tr[" + taskNumber.ToString() + "]" + WF_DELETE_TASK_BTN));
 		}
 
 		/// <summary>
@@ -682,7 +689,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		public int GetWFVisibleTaskNumber(int taskNumber)
 		{
 			// Выбор задачи workflow
-			var workflowXPath = WF_TABLE_XPATH + "//tr[" + taskNumber + "]//td[1]";
+			string workflowXPath = WF_TABLE_XPATH + "//tr[" + taskNumber.ToString() + "]//td[1]";
 
 			// Получение номера
 			return Int32.Parse(GetTextElement(By.XPath(workflowXPath)));
@@ -695,7 +702,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <returns>Нужное ли имя</returns>
 		public bool CheckProjectName(string projectName)
 		{
-			var name = GetElementAttribute(By.XPath(PROJECT_NAME_INPUT_XPATH), "value");
+			string name = GetElementAttribute(By.XPath(PROJECT_NAME_INPUT_XPATH), "value");
 			
 				return (name == projectName);			
 		}

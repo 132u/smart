@@ -1,6 +1,12 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using OpenQA.Selenium;
+using OpenQA.Selenium.Firefox;
+using OpenQA.Selenium.Chrome;
+using OpenQA.Selenium.IE;
 using OpenQA.Selenium.Support.UI;
 
 namespace AbbyyLS.CAT.Function.Selenium.Tests
@@ -15,8 +21,8 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// </summary>
 		/// <param name="driver">Драйвер</param>
 		/// <param name="wait">Таймаут</param>
-		public GlossaryPageHelper(IWebDriver driver, WebDriverWait wait)
-			: base(driver, wait)
+		public GlossaryPageHelper(IWebDriver driver, WebDriverWait wait) :
+			base(driver, wait)
 		{
 		}
 
@@ -69,9 +75,18 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		public bool GetIsDomainExistInItemDomainList(string domainName)
 		{
 			// Получить список проектов в списке
-			var domainList = GetElementList(By.XPath(CHOICE_LIST_XPATH));
-
-			return domainList.Any(el => el.Text == domainName);
+			IList<IWebElement> DomainList = GetElementList(By.XPath(CHOICE_LIST_XPATH));
+			bool isDomainExist = false;
+			foreach (IWebElement el in DomainList)
+			{
+				if (el.Text == domainName)
+				{
+					// Если проект в списке
+					isDomainExist = true;
+					break;
+				}
+			}
+			return isDomainExist;
 		}
 
 		/// <summary>
@@ -89,9 +104,8 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		public void FillItemTermsExtended(string text)
 		{
 			// Поля языков
-			var termList = GetElementList(By.XPath(ITEM_ADD_EXTENDED_XPATH));
-
-			for (var i = 0; i < termList.Count; ++i)
+			IList<IWebElement> termList = GetElementList(By.XPath(ITEM_ADD_EXTENDED_XPATH));
+			for (int i = 0; i < termList.Count; ++i)
 			{
 				// Нажать Add
 				termList[i].Click();
@@ -107,9 +121,8 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		public void EditTermsExtended(string text)
 		{
 			// Поля языков
-			var termList = GetElementList(By.XPath(ITEM_TERMS_EXTENDED_XPATH + TERM_ROW_XPATH));
-
-			for (var i = 0; i < termList.Count; ++i)
+			IList<IWebElement> termList = GetElementList(By.XPath(ITEM_TERMS_EXTENDED_XPATH + TERM_ROW_XPATH));
+			for (int i = 0; i < termList.Count; ++i)
 			{
 				// Нажать Add
 				termList[i].Click();
@@ -170,9 +183,8 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		public int GetConceptCount()
 		{
 			SetDriverTimeoutMinimum();
-			var result = GetElementsCount(By.XPath(CONCEPT_ROW_XPATH));
+			int result = GetElementsCount(By.XPath(CONCEPT_ROW_XPATH));
 			SetDriverTimeoutDefault();
-
 			return result;
 		}
 
@@ -210,8 +222,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <param name="fieldName">название поля</param>
 		public void ClickCustomFieldBool(string fieldName)
 		{
-			ClickElement(By.XPath(GetCustomFieldBoolXPath(fieldName) + 
-				CUSTOM_FIELD_BOOL_CHECKBOX_XPATH));
+			ClickElement(By.XPath(GetCustomFieldBoolXPath(fieldName) + CUSTOM_FIELD_BOOL_CHECKBOX_XPATH));
 		}
 
 		/// <summary>
@@ -221,8 +232,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <returns>отмечена</returns>
 		public bool GetIsCustomBooleanChecked(string fieldName)
 		{
-			return GetElementAttribute(By.XPath(GetCustomFieldBoolXPath(fieldName) + 
-				INPUT_FIELD_VALUE_XPATH), "value") == "true";
+			return GetElementAttribute(By.XPath(GetCustomFieldBoolXPath(fieldName) + INPUT_FIELD_VALUE_XPATH), "value") == "true";
 		}
 
 		///////////////////// Пользовательское поле Boolean
@@ -253,8 +263,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <param name="fieldName">название поля</param>
 		public void ClickCustomFieldMultiSelect(string fieldName)
 		{
-			ClickElement(By.XPath(GetCustomFieldXPath(fieldName) +
-				MULTISELECT_FIELD_VALUE_XPATH));
+			ClickElement(By.XPath(GetCustomFieldXPath(fieldName) + MULTISELECT_FIELD_VALUE_XPATH));
 		}
 
 		/// <summary>
@@ -274,8 +283,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <returns>значение</returns>
 		public string GetCustomFieldValue(string fieldName)
 		{
-			return GetTextElement(By.XPath(GetCustomFieldXPath(fieldName) +
-				FIELD_DIV_VALUE_XPATH));
+			return GetTextElement(By.XPath(GetCustomFieldXPath(fieldName) + FIELD_DIV_VALUE_XPATH));
 		}
 
 		//////////////////////////////////// Пользовательское поле Number
@@ -286,8 +294,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <param name="value">значение</param>
 		public void FillCustomFieldNumber(string fieldName, string value)
 		{
-			SendTextElement(By.XPath(GetCustomFieldXPath(fieldName) + 
-				INPUT_FIELD_VALUE_XPATH), value);
+			SendTextElement(By.XPath(GetCustomFieldXPath(fieldName) + INPUT_FIELD_VALUE_XPATH), value);
 		}
 
 		/// <summary>
@@ -297,8 +304,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <returns>значение</returns>
 		public string GetCustomFieldNumberValue(string fieldName)
 		{
-			return GetTextElement(By.XPath(GetCustomFieldViewXPath(fieldName) +
-				NUMBER_FIELD_VALUE_XPATH));
+			return GetTextElement(By.XPath(GetCustomFieldViewXPath(fieldName) + NUMBER_FIELD_VALUE_XPATH));
 		}
 		
 		//////////////////////////////////// Пользовательское поле Number
@@ -310,8 +316,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <param name="fieldName">название поля</param>
 		public void ClickCustomFieldChoice(string fieldName)
 		{
-			ClickElement(By.XPath(GetCustomFieldXPath(fieldName) + 
-				CHOICE_FIELD_DROPDOWN_XPATH));
+			ClickElement(By.XPath(GetCustomFieldXPath(fieldName) + CHOICE_FIELD_DROPDOWN_XPATH));
 		}
 
 		/// <summary>
@@ -362,8 +367,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <returns>есть изображение</returns>
 		public bool GetCustomFieldImageFilled(string fieldName)
 		{
-			var xPath = GetCustomFieldImageXPath(fieldName) + CUSTOM_IMAGE_EXIT_XPATH;
-
+			string xPath = GetCustomFieldImageXPath(fieldName) + CUSTOM_IMAGE_EXIT_XPATH;
 			return GetElementAttribute(By.XPath(xPath), "src").Trim().Length > 0;
 		}
 		//////////////////////////////////// Пользовательское поле Image
@@ -376,8 +380,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <param name="fieldName"></param>
 		public void ClickCustomFieldMedia(string fieldName)
 		{
-			ClickElement(By.XPath(GetCustomFieldImageXPath(fieldName) + 
-				CUSTOM_FIELD_MEDIA_REF_XPATH));
+			ClickElement(By.XPath(GetCustomFieldImageXPath(fieldName) + CUSTOM_FIELD_MEDIA_REF_XPATH));
 		}
 
 		/// <summary>
@@ -387,7 +390,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <returns>заполнено</returns>
 		public bool GetIsCustomFieldMediaFilled(string fieldName)
 		{
-			var xPath = GetCustomFieldImageXPath(fieldName) + FIELD_MEDIA_CONTAINS_XPATH;
+			string xPath = GetCustomFieldImageXPath(fieldName) + FIELD_MEDIA_CONTAINS_XPATH;
 
 			return GetElementAttribute(By.XPath(xPath), "href").Trim().Length > 0;
 		}
@@ -431,9 +434,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <param name="text">текст</param>
 		public void FillCustomFieldText(string fieldName, string text)
 		{
-			SendTextElement(
-				By.XPath(GetCustomFieldXPath(fieldName) + CUSTOM_FIELD_TEXT_XPATH), 
-				text);
+			SendTextElement(By.XPath(GetCustomFieldXPath(fieldName) + CUSTOM_FIELD_TEXT_XPATH), text);
 		}
 		/////////////////////////////////// Пользовательское поле Текст
 
@@ -492,7 +493,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <returns>заполнено</returns>
 		public bool GetIsFieldMediaFilled(string fieldName)
 		{
-			var xPath = GetInputXPath(fieldName) + FIELD_MEDIA_CONTAINS_XPATH;
+			string xPath = GetInputXPath(fieldName) + FIELD_MEDIA_CONTAINS_XPATH;
 
 			return GetElementAttribute(By.XPath(xPath), "href").Trim().Length > 0;
 		}
@@ -512,8 +513,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <returns>есть изображение</returns>
 		public bool GetFieldImageFilled(string fieldName)
 		{
-			var xPath = GetInputXPath(fieldName) + CUSTOM_IMAGE_EXIT_XPATH;
-
+			string xPath = GetInputXPath(fieldName) + CUSTOM_IMAGE_EXIT_XPATH;
 			return GetElementAttribute(By.XPath(xPath), "src").Trim().Length > 0;
 		}
 
@@ -626,8 +626,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <returns>значение</returns>
 		public string GetDetailTextareaValue(string fieldName)
 		{
-			return GetTextElement(By.XPath(GetDetailsTextareaXPath(fieldName) + 
-				DETAILS_TEXTAREA_VALUE));
+			return GetTextElement(By.XPath(GetDetailsTextareaXPath(fieldName) + DETAILS_TEXTAREA_VALUE));
 		}
 
 		/// <summary>
@@ -656,9 +655,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <returns>id</returns>
 		public string GetDetailsSelectOptionID(string fieldName, int optionNumber)
 		{
-			var xPath = GetDetailsSelectXPath(fieldName) 
-				+ DETAILS_SELECT_OPTION_XPATH + "[" + optionNumber + "]";
-
+			string xPath = GetDetailsSelectXPath(fieldName) + DETAILS_SELECT_OPTION_XPATH + "[" + optionNumber + "]";
 			return GetElementAttribute(By.XPath(xPath), "value");
 		}
 
@@ -668,8 +665,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <param name="fieldName">название поля</param>
 		public void ClickDetailsSelectDropdown(string fieldName)
 		{
-			ClickElement(By.XPath(GetDetailsSelectXPath(fieldName) + 
-				CHOICE_FIELD_DROPDOWN_XPATH));
+			ClickElement(By.XPath(GetDetailsSelectXPath(fieldName) + CHOICE_FIELD_DROPDOWN_XPATH));
 		}
 
 		/// <summary>
@@ -698,8 +694,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <returns>значение</returns>
 		public string GetDetailsSelectValue(string fieldName)
 		{
-			return GetTextElement(By.XPath(GetDetailsSelectXPath(fieldName) + 
-				DETAILS_TEXTAREA_VALUE));
+			return GetTextElement(By.XPath(GetDetailsSelectXPath(fieldName) + DETAILS_TEXTAREA_VALUE));
 		}
 
 		/// <summary>
@@ -709,8 +704,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <returns></returns>
 		public bool GetIsTermExistByText(string text)
 		{
-			return GetIsElementDisplay(By.XPath(CONCEPT_ROW_XPATH + 
-				"//p[contains(text(),'" + text + "')]"));
+			return GetIsElementDisplay(By.XPath(CONCEPT_ROW_XPATH + "//p[contains(text(),'" + text + "')]"));
 		}
 
 		/// <summary>
@@ -776,14 +770,16 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <returns>есть</returns>
 		public bool GetAreTwoEqualTermsExist(string sourceText, string targetText)
 		{
-			var terms = Driver.FindElements(
-			   By.XPath(
-				   SOURCE_TARGET_TERM_XPATH
-						.Replace("#", sourceText)
-						.Replace("**", targetText)))
-						.ToList();
-
-			return terms.Count > 1;
+		   List<IWebElement> terms = Driver.FindElements(By.XPath(SOURCE_TARGET_TERM_XPATH.Replace("#", sourceText).
+			   Replace("**", targetText))).ToList();
+			if (terms.Count > 1)
+			{
+				return true;
+			}
+			else
+			{
+				return false;
+			}
 		}
 
 		/// <summary>
@@ -893,8 +889,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <param name="langNumber">номер языка</param>
 		public void ClickAddSynonym(int langNumber)
 		{
-			ClickElement(By.XPath(CONCEPT_EDITING_TD_XPATH + 
-				"[" + langNumber + "]" + ADD_SYNONYM_BTN_XPATH));
+			ClickElement(By.XPath(CONCEPT_EDITING_TD_XPATH + "[" + langNumber + "]" + ADD_SYNONYM_BTN_XPATH));
 		}
 
 		/// <summary>
@@ -904,8 +899,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <param name="text">текст</param>
 		public void FillSynonymTermLanguage(int langNumber, string text)
 		{
-			ClearAndAddText(By.XPath(CONCEPT_EDITING_TD_XPATH + 
-				"[" + langNumber + "]" + SYNONYM_INPUT_XPATH), text);
+			ClearAndAddText(By.XPath(CONCEPT_EDITING_TD_XPATH + "[" + langNumber + "]" + SYNONYM_INPUT_XPATH), text);
 		}
 
 		/// <summary>
@@ -915,8 +909,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <returns>отмечен</returns>
 		public bool GetIsTermErrorExist(int langNumber)
 		{
-			return GetIsElementExist(By.XPath(CONCEPT_EDITING_TD_XPATH + 
-				"[" + langNumber + "]" + TERM_ERROR_XPATH));
+			return GetIsElementExist(By.XPath(CONCEPT_EDITING_TD_XPATH + "[" + langNumber + "]" + TERM_ERROR_XPATH));
 		}
 
 		/// <summary>
@@ -926,8 +919,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <returns>есть</returns>
 		public bool GetIsTermErrorMessageExist(int langNumber)
 		{
-			return GetIsElementExist(By.XPath(CONCEPT_EDITING_TD_XPATH + 
-				"[" + langNumber + "]" + TERM_ERROR_MESSAGE_XPATH));
+			return GetIsElementExist(By.XPath(CONCEPT_EDITING_TD_XPATH + "[" + langNumber + "]" + TERM_ERROR_MESSAGE_XPATH));
 		}
 
 		/// <summary>
@@ -1030,8 +1022,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <returns>xPath</returns>
 		protected string GetCustomFieldBoolXPath(string fieldName)
 		{
-			return CUSTOM_FIELD_BOOL_EDIT_CONCEPT_XPATH + 
-				"[contains(text(),'" + fieldName + "')]";
+			return CUSTOM_FIELD_BOOL_EDIT_CONCEPT_XPATH + "[contains(text(),'" + fieldName + "')]";
 		}
 
 		/// <summary>
@@ -1041,8 +1032,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <returns>xPath</returns>
 		protected string GetCustomFieldXPath(string fieldName)
 		{
-			return CUSTOM_FIELD_EDIT_CONCEPT_XPATH + 
-				"[contains(text(),'" + fieldName + "')]";
+			return CUSTOM_FIELD_EDIT_CONCEPT_XPATH + "[contains(text(),'" + fieldName + "')]";
 		}
 
 		/// <summary>
@@ -1052,8 +1042,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <returns>xPath</returns>
 		protected string GetCustomFieldViewXPath(string fieldName)
 		{
-			return CUSTOM_FIELD_VIEW_CONCEPT_XPATH + 
-				"[contains(text(),'" + fieldName + "')]";
+			return CUSTOM_FIELD_VIEW_CONCEPT_XPATH + "[contains(text(),'" + fieldName + "')]";
 		}
 
 		/// <summary>
@@ -1063,8 +1052,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <returns>xPath</returns>
 		protected string GetCustomFieldErrorXPath(string fieldName)
 		{
-			return CUSTOM_ERROR_FIELD_XPATH + 
-				"[contains(text(),'" + fieldName + "')]";
+			return CUSTOM_ERROR_FIELD_XPATH + "[contains(text(),'" + fieldName + "')]";
 		}
 
 		/// <summary>
@@ -1074,8 +1062,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <returns>xPath</returns>
 		protected string GetCustomFieldImageXPath(string fieldName)
 		{
-			return CUSTOM_FIELD_IMAGE_XPATH + 
-				"[contains(text(),'" + fieldName + "')]";
+			return CUSTOM_FIELD_IMAGE_XPATH + "[contains(text(),'" + fieldName + "')]";
 		}
 
 		/// <summary>
@@ -1085,8 +1072,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <returns>xPath</returns>
 		protected string GetCustomFieldImageErrorXPath(string fieldName)
 		{
-			return CUSTOM_ERROR_FIELD_IMAGE_XPATH + 
-				"[contains(text(),'" + fieldName + "')]";
+			return CUSTOM_ERROR_FIELD_IMAGE_XPATH + "[contains(text(),'" + fieldName + "')]";
 		}
 
 		/// <summary>
@@ -1106,8 +1092,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <returns>xPath</returns>
 		protected string GetTextareaValueXPath(string fieldName)
 		{
-			return TEXTAREA_FIELD_XPATH + 
-				"[@name='" + fieldName + "']" + FIELD_DIV_VALUE_XPATH;
+			return TEXTAREA_FIELD_XPATH + "[@name='" + fieldName + "']" + FIELD_DIV_VALUE_XPATH;
 		}
 
 		/// <summary>

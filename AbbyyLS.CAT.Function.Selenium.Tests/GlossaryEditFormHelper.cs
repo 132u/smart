@@ -1,5 +1,12 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using OpenQA.Selenium;
+using OpenQA.Selenium.Firefox;
+using OpenQA.Selenium.Chrome;
+using OpenQA.Selenium.IE;
 using OpenQA.Selenium.Support.UI;
 
 namespace AbbyyLS.CAT.Function.Selenium.Tests
@@ -70,7 +77,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		public bool ClickOpenClientList()
 		{
 			ClickElement(By.XPath(CLIENT_LIST_XPATH));
-
 			return WaitUntilDisplayElement(By.XPath(DROPDOWNLIST_XPATH));
 		}
 
@@ -81,7 +87,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		public bool ClickOpenDomainList()
 		{
 			ClickElement(By.XPath(DOMAIN_LIST_XPATH));
-
 			return WaitUntilDisplayElement(By.XPath(MULTISELECT_LIST_XPATH));
 		}
 
@@ -93,9 +98,8 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		public bool GetIsClientInList(string clientName)
 		{
 			// Получить список клиентов
-			var clientList = GetElementList(By.XPath(DROPDOWNLIST_ITEM_XPATH));
-			var bClientExist = false;
-
+			IList<IWebElement> clientList = GetElementList(By.XPath(DROPDOWNLIST_ITEM_XPATH));
+			bool bClientExist = false;
 			foreach (IWebElement el in clientList)
 			{
 				if (el.GetAttribute("title") == clientName)
@@ -116,9 +120,8 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		public bool GetIsDomainInList(string domainName)
 		{
 			// Получить список клиентов
-			var DomainList = GetElementList(By.XPath(MULTISELECT_LIST_XPATH));
-			var isDomainExist = false;
-
+			IList<IWebElement> DomainList = GetElementList(By.XPath(MULTISELECT_LIST_XPATH));
+			bool isDomainExist = false;
 			foreach (IWebElement el in DomainList)
 			{
 				if (el.Text == domainName)
@@ -128,7 +131,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 					break;
 				}
 			}
-
 			return isDomainExist;
 		}
 
@@ -155,8 +157,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <returns>есть</returns>
 		public bool GetIsExistLanguageInList(LANGUAGE lang)
 		{
-			return GetIsElementDisplay(By.XPath(DROPDOWNLIST_XPATH + 
-				"//span[@data-id='" + languageID[lang] + "']"));
+			return GetIsElementDisplay(By.XPath(DROPDOWNLIST_XPATH + "//span[@data-id='" + languageID[lang] + "']"));
 		}
 
 		/// <summary>
@@ -165,9 +166,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <param name="lang">язык</param>
 		public void SelectLanguage(LANGUAGE lang)
 		{
-			ClickElement(By.XPath(DROPDOWNLIST_XPATH + "//span[@data-id='" + 
-				languageID[lang] + "']"));
-
+			ClickElement(By.XPath(DROPDOWNLIST_XPATH + "//span[@data-id='" + languageID[lang] + "']"));
 			WaitUntilDisappearElement(By.XPath(DROPDOWNLIST_XPATH));
 		}
 
@@ -178,8 +177,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <returns>есть</returns>
 		public bool GetIsExistLanguageInLangList(LANGUAGE lang)
 		{
-			return GetIsElementDisplay(By.XPath(DROPDOWNLIST_XPATH + 
-				"//span[@data-id='" + languageID[lang] + "']"));
+			return GetIsElementDisplay(By.XPath(DROPDOWNLIST_XPATH + "//span[@data-id='" + languageID[lang] + "']"));
 		}
 
 		/// <summary>
@@ -247,8 +245,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <returns>есть</returns>
 		public bool GetIsExistGlossaryNameError()
 		{
-			return GetIsElementDisplay(By.XPath(GLOSSARY_NAME_XPATH + 
-				"[contains(@class,'error')]"));
+			return GetIsElementDisplay(By.XPath(GLOSSARY_NAME_XPATH + "[contains(@class,'error')]"));
 		}
 
 		/// <summary>

@@ -1,6 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using OpenQA.Selenium;
+using OpenQA.Selenium.Firefox;
+using OpenQA.Selenium.Chrome;
+using OpenQA.Selenium.IE;
 using OpenQA.Selenium.Support.UI;
 
 namespace AbbyyLS.CAT.Function.Selenium.Tests
@@ -120,18 +126,14 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// /// <returns>пропала кнопка</returns>
 		public bool ClickDeleteDomain(string domainName)
 		{
-			var domainXPath = GetDomainRowXPath(domainName);
-
+			string domainXPath = GetDomainRowXPath(domainName);
 			// Кликнуть по строке
 			ClickElement(By.XPath(domainXPath));
-			var deleteXPath = domainXPath + DELETE_DOMAIN_BTN_XPATH;
-			
+			string deleteXPath = domainXPath + DELETE_DOMAIN_BTN_XPATH;
 			// Дождаться появления Delete
 			WaitUntilDisplayElement(By.XPath(deleteXPath));
-			
 			// Кликнуть Delete
 			ClickElement(By.XPath(deleteXPath));
-
 			return WaitUntilDisappearElement(By.XPath(deleteXPath));
 		}
 
@@ -141,15 +143,12 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <param name="domainName">название</param>
 		public void ClickEditDomainBtn(string domainName)
 		{
-			var domainXPath = GetDomainRowXPath(domainName);
-
+			string domainXPath = GetDomainRowXPath(domainName);
 			// Кликнуть по строке
 			ClickElement(By.XPath(domainXPath));
-			var editXPath = domainXPath + EDIT_DOMAIN_BTN_XPATH;
-			
+			string editXPath = domainXPath + EDIT_DOMAIN_BTN_XPATH;
 			// Дождаться появления Edit
 			WaitUntilDisplayElement(By.XPath(editXPath));
-			
 			// Кликнуть Edit
 			ClickElement(By.XPath(editXPath));
 		}
@@ -161,8 +160,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <param name="newName">новое имя</param>
 		public void EnterNewName(string domainName, string newName)
 		{
-			ClearAndAddText(
-				By.XPath(ENTER_NAME_XPATH),
+			ClearAndAddText(By.XPath(ENTER_NAME_XPATH),
 				newName);
 		}
 
@@ -182,9 +180,8 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <returns>XPath</returns>
 		protected string GetDomainRowXPath(string domainName)
 		{
-			var rowNum = 0;
-			var domainList = GetElementList(By.XPath(DOMAIN_LIST_XPATH));
-			
+			int rowNum = 0;
+			IList<IWebElement> domainList = GetElementList(By.XPath(DOMAIN_LIST_XPATH));
 			for (int i = 0; i < domainList.Count; ++i)
 			{
 				if (domainList[i].Text.Contains(domainName))

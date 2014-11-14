@@ -2,7 +2,14 @@
 using System.IO;
 using System.Threading;
 using System.Collections.Generic;
+using System.Windows.Forms;
 using NUnit.Framework;
+using OpenQA.Selenium;
+using OpenQA.Selenium.Firefox;
+using OpenQA.Selenium.Chrome;
+using OpenQA.Selenium.IE;
+using OpenQA.Selenium.Support.UI;
+using OpenQA.Selenium.Interactions;
 
 namespace AbbyyLS.CAT.Function.Selenium.Tests
 {
@@ -14,12 +21,16 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <summary>
 		/// Конструктор теста
 		/// </summary>
+		 
+		 
 		/// <param name="browserName">Название браузера</param>
 		public UserLogTest(string browserName)
 			: base(browserName)
 		{
 
 		}
+
+
 
 		/// <summary>
 		/// Название проекта
@@ -42,12 +53,11 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			ProjectPage.ClickDownloadLogs();
 
 			// Экспортировать и проверить, что файл сохранен
-			ExternalDialogSaveDocument(
-				subFolderName: "UserLogTests\\" + TestContext.CurrentContext.Test.Name,
-				originalFileExtension: false, 
-				fileExtension: ".zip",
-				time: time);
+			ExternalDialogSaveDocument("UserLogTests\\" + TestContext.CurrentContext.Test.Name, false, "", false, ".zip", time);
+
 		}
+
+		
 
 		/// <summary>
 		/// Создание глоссария
@@ -55,7 +65,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		public void CreateGlossary(string glossaryName)
 		{
 			// Добавление словаря для глоссария
-			var dictionary = new Dictionary<string, string>
+			Dictionary<string, string> dictionary = new Dictionary<string, string>
 			{ 
 				{"first", "первый"},
 				{"second", "второй"},
@@ -69,6 +79,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 
 			// Создание глоссария на основании словаря
 			SetGlossaryByDictinary(dictionary);
+
 			// Создание проекта с файлом
 			SwitchWorkspaceTab();
 		}
@@ -76,10 +87,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <summary>
 		/// Метод проверки подстановки из САТ
 		/// </summary>
-		public void PasteFromCAT(
-			int segmentNumber, 
-			EditorPageHelper.CAT_TYPE CatType, 
-			bool useHotkey)
+		public void PasteFromCAT(int segmentNumber, EditorPageHelper.CAT_TYPE CatType, bool useHotkey)
 		{
 			string catType = "";
 
@@ -106,7 +114,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			//Ждем пока загрузится CAT-панель
 			Assert.IsTrue(EditorPage.GetCATPanelNotEmpty(), "Ошибка: панель CAT пуста");
 
-			var TMNumber = EditorPage.GetCATTranslationRowNumber(CatType);
+			int TMNumber = EditorPage.GetCATTranslationRowNumber(CatType);
 			Console.WriteLine("TMNumber: " + TMNumber);
 
 			if (useHotkey)
@@ -131,9 +139,8 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		public void WriteLog(int segment, string even, string evenClick, string text)
 		{
 			// Пишем в лог
-			logSW.WriteLine(
-				DateTime.Now.ToString(timeFormat) + " | {0} | {1} | {2} | {3}",
-				segment, even.PadRight(50), evenClick.PadRight(30), text.PadRight(100));
+			logSW.WriteLine(DateTime.Now.ToString(timeFormat) + " | {0} | {1} | {2} | {3}",
+				segment.ToString(), even.PadRight(50), evenClick.PadRight(30), text.PadRight(100));
 		}
 
 		/// <summary>
@@ -146,12 +153,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 
 			time = DateTime.Now.ToString("yyyy-MM-dd hh_mm_ss.fff");
 
-			var path = Path.Combine(
-				PathTestResults, 
-				"UserLogTests", 
-				TestContext.CurrentContext.Test.Name, 
-				time);
-
+			string path = Path.Combine(PathTestResults, "UserLogTests", TestContext.CurrentContext.Test.Name, time);
 			if (!Directory.Exists(path))
 			{
 				Directory.CreateDirectory(path);
@@ -161,6 +163,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 
 			// Не закрывать браузер
 			quitDriverAfterTest = false;
+
 			// Переходим к странице воркспейса
 			GoToWorkspace();
 		}
@@ -184,18 +187,18 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		public void OpenCloseDocument()
 		{
 			// Открыть документ
-			CreateReadyProject(
-				projectName,
-				withTM: false,
-				uploadDocument: DocumentFileToConfirm);
+			CreateReadyProject(projectName, false, false, DocumentFileToConfirm);
 			// Пишем в лог
 			WriteLog(0, "Открытие документа", "-", "-");
+
 			// Нажать кнопку назад
 			EditorClickHomeBtn();
 			// Пишем в лог
 			WriteLog(0, "Нажатие кнопки Home", "Кнопка редактора", "-");
+
 			// Перейти к проекту
 			OpenProjectPage(projectName);
+
 			//Выгрузить логи
 			ExportLog();
 		}
@@ -207,16 +210,12 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		public void DeleteText()
 		{
 			// Открыть документ
-			CreateReadyProject(
-				projectName,
-				withTM: false,
-				uploadDocument: DocumentFileToConfirm);
+			CreateReadyProject(projectName, false, false, DocumentFileToConfirm);
 			// Пишем в лог
 			WriteLog(0, "Открытие документа", "-", "-");
 
-			const int segmentNum = 1;
-			const string text = "Translation";
-
+			int segmentNum = 1;
+			string text = "Translation";
 			// Написать текст в первом сегменте
 			EditorPage.AddTextTarget(segmentNum, text);
 			// Пишем в лог
@@ -229,17 +228,20 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			{
 				EditorPage.SendKeysTarget(segmentNum, OpenQA.Selenium.Keys.Backspace);
 			}
-
 			// Пишем в лог
 			WriteLog(segmentNum, "Удаление текста", "BackSpace", text);
+
 			// Дождаться автосохранения
 			AutoSave();
+
 			//Нажать кнопку назад
 			EditorClickHomeBtn();
 			// Пишем в лог
 			WriteLog(0, "Нажатие кнопки Home", "Кнопка редактора", "-");
+
 			// Перейти к проекту
 			OpenProjectPage(projectName);
+
 			//Выгрузить логи
 			ExportLog();
 		}
@@ -251,15 +253,12 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		public void ConfirmTextButton()
 		{
 			// Открыть документ
-			CreateReadyProject(
-				projectName,
-				withTM: false,
-				uploadDocument: DocumentFileToConfirm);
+			CreateReadyProject(projectName, false, false, DocumentFileToConfirm);
 			// Пишем в лог
 			WriteLog(0, "Открытие документа", "-", "-");
 
-			var segmentNum = 1;
-			var text = "Translation";
+			int segmentNum = 1;
+			string text = "Translation";
 
 			//Набрать текст в первом сегменте и нажать кнопку Confirm Segment
 			AddTranslationAndConfirm(segmentNum, text);
@@ -269,12 +268,15 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			WriteLog(segmentNum, "Добавление текста", "Клавиатура", text);
 			// Пишем лог Confirm
 			WriteLog(segmentNum, "Нажатие кнопки Confirm", "Кнопка редактора", "-");
+
 			// Нажать кнопку назад
 			EditorClickHomeBtn();
 			// Пишем в лог
 			WriteLog(0, "Нажатие кнопки Home", "Кнопка редактора", "-");
+
 			// Перейти к проекту
 			OpenProjectPage(projectName);
+
 			//Выгрузить логи
 			ExportLog();
 		}
@@ -286,47 +288,53 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		public void ChooseSegment()
 		{
 			// Открыть документ
-			CreateReadyProject(
-				projectName,
-				withTM: false,
-				uploadDocument: DocumentFileToConfirm);
+			CreateReadyProject(projectName, false, false, DocumentFileToConfirm);
 			// Пишем в лог
 			WriteLog(0, "Открытие документа", "-", "-");
-			var segmentNum = 1;
+
+			int segmentNum = 1;
 			//Курсор в первом сегменте Source
 			EditorPage.ClickSourceCell(segmentNum);
 			// Пишем в лог
 			WriteLog(segmentNum, "Переход в source", "Клик мыши", "-");
+
 			segmentNum = 2;
 			//Курсор во втором сегменте Source
 			EditorPage.ClickSourceCell(segmentNum);
 			// Пишем в лог
 			WriteLog(segmentNum, "Переход в source", "Клик мыши", "-");
+
 			//Курсор во втором сегменте Target
 			EditorPage.ClickTargetCell(segmentNum);
 			// Пишем в лог
 			WriteLog(segmentNum, "Переход в target", "Клик мыши", "-");
+
 			segmentNum = 4;
 			//Курсор в четвертом сегменте Target
 			EditorPage.ClickTargetCell(segmentNum);
 			// Пишем в лог
 			WriteLog(segmentNum, "Переход в target", "Клик мыши", "-");
+
 			segmentNum = 7;
 			//Курсор в седьмом сегменте Source
 			EditorPage.ClickSourceCell(segmentNum);
 			// Пишем в лог
 			WriteLog(segmentNum, "Переход в source", "Клик мыши", "-");
+
 			//Курсор в последнем сегменте Target
 			segmentNum = EditorPage.GetSegmentsNumber();
 			EditorPage.ClickTargetCell(segmentNum);
 			// Пишем в лог
 			WriteLog(segmentNum, "Переход в target", "Клик мыши", "-");
+
 			// Нажать кнопку назад
 			EditorClickHomeBtn();
 			// Пишем в лог
 			WriteLog(0, "Нажатие кнопки Home", "Кнопка редактора", "-");
+
 			// Перейти к проекту
 			OpenProjectPage(projectName);
+
 			//Выгрузить логи
 			ExportLog();
 		}
@@ -338,29 +346,27 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		public void CopySourceSegmentButton()
 		{
 			// Открыть документ
-			CreateReadyProject(
-				projectName,
-				withTM: false,
-				uploadDocument: DocumentFileToConfirm);
+			CreateReadyProject(projectName, false, false, DocumentFileToConfirm);
 			// Пишем в лог
 			WriteLog(0, "Открытие документа", "-", "-");
-			var segmentNum = 1;
+
+			int segmentNum = 1;
+
 			//Копировать текст сегмента
 			ToTargetButton(segmentNum);
 			// Пишем в лог
 			WriteLog(segmentNum, "Переход в source", "Клик мыши", "-");
 			// Пишем в лог
-			WriteLog(
-				segmentNum,
-				"Нажатие кнопки копирования source в target", 
-				"Кнопка редактора", 
-				EditorPage.GetSourceText(segmentNum));
+			WriteLog(segmentNum, "Нажатие кнопки копирования source в target", "Кнопка редактора", EditorPage.GetSourceText(segmentNum));
+
 			// Нажать кнопку назад
 			EditorClickHomeBtn();
 			// Пишем в лог
 			WriteLog(0, "Нажатие кнопки Home", "Кнопка редактора", "-");
+
 			// Перейти к проекту
 			OpenProjectPage(projectName);
+
 			//Выгрузить логи
 			ExportLog();
 		}
@@ -372,31 +378,27 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		public void CopySourceSegmentHotkey()
 		{
 			// Открыть документ
-			CreateReadyProject(
-				projectName,
-				withTM: false,
-				uploadDocument: DocumentFileToConfirm);
+			CreateReadyProject(projectName, false, false, DocumentFileToConfirm);
 			// Пишем в лог
 			WriteLog(0, "Открытие документа", "-", "-");
 
-			var segmentNum = 1;
+			int segmentNum = 1;
 
 			//Копировать текст сегмента
 			ToTargetHotkey();
 			// Пишем в лог
 			WriteLog(segmentNum, "Переход в source", "Клик мыши", "-");
 			// Пишем в лог
-			WriteLog(
-				segmentNum, 
-				"Нажатие хоткея копирования source в target",
-				"Ctrl + Insert",
-				EditorPage.GetSourceText(segmentNum));
+			WriteLog(segmentNum, "Нажатие хоткея копирования source в target", "Ctrl + Insert", EditorPage.GetSourceText(segmentNum));
+
 			// Нажать кнопку назад
 			EditorClickHomeBtn();
 			// Пишем в лог
 			WriteLog(0, "Нажатие кнопки Home", "Кнопка редактора", "-");
+
 			// Перейти к проекту
 			OpenProjectPage(projectName);
+
 			//Выгрузить логи
 			ExportLog();
 		}
@@ -408,10 +410,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		public void UndoRedoActions()
 		{
 			// Открыть документ
-			CreateReadyProject(
-				projectName,
-				withTM: false,
-				uploadDocument: DocumentFileToConfirm);
+			CreateReadyProject(projectName, false, false, DocumentFileToConfirm);
 			// Пишем в лог
 			WriteLog(0, "Открытие документа", "-", "-");
 
@@ -421,11 +420,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			// Пишем в лог
 			WriteLog(segmentNumber, "Переход в source", "Клик мыши", "-");
 			// Пишем в лог
-			WriteLog(
-				segmentNumber, 
-				"Нажатие кнопки копирования source в target", 
-				"Кнопка редактора", 
-				EditorPage.GetSourceText(segmentNumber));
+			WriteLog(segmentNumber, "Нажатие кнопки копирования source в target", "Кнопка редактора", EditorPage.GetSourceText(segmentNumber));
 
 			segmentNumber = 2;
 			// Копирование второго сегмента
@@ -433,11 +428,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			// Пишем в лог
 			WriteLog(segmentNumber, "Переход в source", "Клик мыши", "-");
 			// Пишем в лог
-			WriteLog(
-				segmentNumber, 
-				"Нажатие кнопки копирования source в target", 
-				"Кнопка редактора", 
-				EditorPage.GetSourceText(segmentNumber));
+			WriteLog(segmentNumber, "Нажатие кнопки копирования source в target", "Кнопка редактора", EditorPage.GetSourceText(segmentNumber));
 
 			// Кликнуть Undo
 			EditorPage.ClickUndoBtn();
@@ -453,10 +444,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			WriteLog(segmentNumber, "Нажатие кнопки Redo", "Кнопка редактора", "-");
 
 			Thread.Sleep(500);
-			Assert.AreEqual(
-				EditorPage.GetSourceText(segmentNumber), 
-				EditorPage.GetTargetText(segmentNumber), 
-				"Ошибка: после redo текст в target не восстановился");
+			Assert.AreEqual(EditorPage.GetSourceText(segmentNumber), EditorPage.GetTargetText(segmentNumber), "Ошибка: после redo текст в target не восстановился");
 
 			// Написать текст в третьем сегменте
 			Console.WriteLine("Написать текст в третьем сегменте");
@@ -486,9 +474,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			// Пишем в лог
 			WriteLog(segmentNumber, "Нажатие хоткея Undo", "Ctrl + Z", "-");
 			// Проверить, что 4 сегмент пуст
-			Assert.IsTrue(
-				EditorPage.GetTargetText(segmentNumber) == "", 
-				"Ошибка: после хоткея отмены текст в 4 сегменте не удалился");
+			Assert.IsTrue(EditorPage.GetTargetText(segmentNumber) == "", "Ошибка: после хоткея отмены текст в 4 сегменте не удалился");
 
 			// Нажать хоткей отмены
 			Console.WriteLine("Нажать хоткей отмены");
@@ -499,9 +485,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			// Пишем в лог
 			WriteLog(segmentNumber, "Нажатие хоткея Undo", "Ctrl + Z", "-");
 			// Проверить, что 3 сегмент пуст
-			Assert.IsTrue(
-				EditorPage.GetTargetText(segmentNumber) == "", 
-				"Ошибка: после хоткея отмены текст в 3 сегменте не удалился");
+			Assert.IsTrue(EditorPage.GetTargetText(segmentNumber) == "", "Ошибка: после хоткея отмены текст в 3 сегменте не удалился");
 
 			// Нажать хоткей восстановления
 			Console.WriteLine("Нажать хоткей восстановления");
@@ -517,10 +501,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			WriteLog(segmentNumber, "Переход в target", "Клик мыши", "-");
 
 			// Проверить, что 3 сегмент не пуст
-			Assert.AreEqual(
-				text3Segment, 
-				EditorPage.GetTargetText(3),
-				"Ошибка: после хоткея возврата текст в 3 сегменте не появился");
+			Assert.AreEqual(text3Segment, EditorPage.GetTargetText(3), "Ошибка: после хоткея возврата текст в 3 сегменте не появился");
 			
 			// Дождаться автосохранения
 			AutoSave();
@@ -544,26 +525,27 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		public void SourceTargetSegmentsSwitchButton()
 		{
 			// Открыть документ
-			CreateReadyProject(
-				projectName,
-				withTM: false,
-				withMT: false,
-				uploadDocument: DocumentFileToConfirm);
+			CreateReadyProject(projectName, false, false, DocumentFileToConfirm);
 			// Пишем в лог
 			WriteLog(0, "Открытие документа", "-", "-");
-			var segmentNum = 1;
+
+			int segmentNum = 1;
+
 			//Переключить курсор между полями source и target
 			SourceTargetSwitchButton(segmentNum);
 			// Пишем в лог
 			WriteLog(segmentNum, "Переход в target", "Клик мыши", "-");
 			// Пишем лог Toggle
 			WriteLog(segmentNum, "Нажатие кнопки Toggle", "Кнопка редактора", "-");
+
 			// Нажать кнопку назад
 			EditorClickHomeBtn();
 			// Пишем в лог
 			WriteLog(0, "Нажатие кнопки Home", "Кнопка редактора", "-");
+
 			// Перейти к проекту
 			OpenProjectPage(projectName);
+
 			//Выгрузить логи
 			ExportLog();
 		}
@@ -575,26 +557,27 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		public void SourceTargetSegmentsSwitchHotkey()
 		{
 			// Открыть документ
-			CreateReadyProject(
-				projectName,
-				withTM: false,
-				withMT: false,
-				uploadDocument: DocumentFileToConfirm);
+			CreateReadyProject(projectName, false, false, DocumentFileToConfirm);
 			// Пишем в лог
 			WriteLog(0, "Открытие документа", "-", "-");
-			var segmentNum = 1;
+
+			int segmentNum = 1;
+
 			//Переключить курсор между полями source и target
 			SourceTargetSwitchHotkey(segmentNum);
 			// Пишем в лог
 			WriteLog(segmentNum, "Переход в target", "Клик мыши", "-");
 			// Пишем лог Toggle
 			WriteLog(segmentNum, "Нажатие хоткея Toggle", "Tab", "-");
+
 			// Нажать кнопку назад
 			EditorClickHomeBtn();
 			// Пишем в лог
 			WriteLog(0, "Нажатие кнопки Home", "Кнопка редактора", "-");
+
 			// Перейти к проекту
 			OpenProjectPage(projectName);
+
 			//Выгрузить логи
 			ExportLog();
 		}
@@ -606,20 +589,21 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		public void SubstituteTranslationMTHotkey()
 		{
 			// Открыть документ
-			CreateReadyProject(projectName, withMT: true);
+			CreateReadyProject(projectName, true, true);
 			// Пишем в лог
 			WriteLog(0, "Открытие документа", "-", "-");
+
 			// Проверяем подстановку САТ 1-го сегмента
-			PasteFromCAT(
-				segmentNum: 1,
-				CatType: EditorPageHelper.CAT_TYPE.MT,
-				useHotkey: true);
+			PasteFromCAT(1, EditorPageHelper.CAT_TYPE.MT, true);
+
 			// Нажать кнопку назад
 			EditorClickHomeBtn();
 			// Пишем в лог
 			WriteLog(0, "Нажатие кнопки Home", "Кнопка редактора", "-");
+
 			// Перейти к проекту
 			OpenProjectPage(projectName);
+
 			//Выгрузить логи
 			ExportLog();
 		}
@@ -637,26 +621,21 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		public void SubstituteTranslationMTDoubleClick(Workspace_CreateProjectDialogHelper.MT_TYPE mtType)
 		{
 			// Открыть документ
-			CreateReadyProject(
-				projectName,
-				withMT:true,
-				mtType: mtType);
-
+			CreateReadyProject(projectName, true, true, "", mtType);
 			// Пишем в лог
 			WriteLog(0, "Открытие документа", "-", "-");
 
 			// Проверяем подстановку САТ 1-го сегмента
-			PasteFromCAT(
-				segmentNum: 1,
-				CatType: EditorPageHelper.CAT_TYPE.MT,
-				useHotkey: false);
+			PasteFromCAT(1, EditorPageHelper.CAT_TYPE.MT, false);
 
 			// Нажать кнопку назад
 			EditorClickHomeBtn();
 			// Пишем в лог
 			WriteLog(0, "Нажатие кнопки Home", "Кнопка редактора", "-");
+
 			// Перейти к проекту
 			OpenProjectPage(projectName);
+
 			//Выгрузить логи
 			ExportLog();
 		}
@@ -668,33 +647,27 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		public void SubstituteTranslationTMHotkey()
 		{
 			// Открыть документ
-			CreateReadyProject(projectName);
+			CreateReadyProject(projectName, true);
 			// Пишем в лог
 			WriteLog(0, "Открытие документа", "-", "-");
+
 			// Проверяем подстановку САТ 1-го сегмента
-			PasteFromCAT(
-				segmentNum: 1,
-				CatType: EditorPageHelper.CAT_TYPE.MT,
-				useHotkey: true);
+			PasteFromCAT(1, EditorPageHelper.CAT_TYPE.TM, true);
 
 			// Проверяем подстановку САТ 2-го сегмента
-			PasteFromCAT(
-				segmentNum: 2,
-				CatType: EditorPageHelper.CAT_TYPE.MT,
-				useHotkey: true);
+			PasteFromCAT(2, EditorPageHelper.CAT_TYPE.TM, true);
 
 			// Проверяем подстановку САТ 4-го сегмента
-			PasteFromCAT(
-				segmentNum: 4,
-				CatType: EditorPageHelper.CAT_TYPE.MT,
-				useHotkey: true);
+			PasteFromCAT(4, EditorPageHelper.CAT_TYPE.TM, true);
 
 			// Нажать кнопку назад
 			EditorClickHomeBtn();
 			// Пишем в лог
 			WriteLog(0, "Нажатие кнопки Home", "Кнопка редактора", "-");
+
 			// Перейти к проекту
 			OpenProjectPage(projectName);
+
 			//Выгрузить логи
 			ExportLog();
 		}
@@ -709,27 +682,24 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			CreateReadyProject(projectName, true);
 			// Пишем в лог
 			WriteLog(0, "Открытие документа", "-", "-");
+
 			// Проверяем подстановку САТ 1-го сегмента
-			PasteFromCAT(
-				segmentNum: 1,
-				CatType: EditorPageHelper.CAT_TYPE.MT,
-				useHotkey: false);
+			PasteFromCAT(1, EditorPageHelper.CAT_TYPE.TM, false);
+
 			// Проверяем подстановку САТ 2-го сегмента
-			PasteFromCAT(
-				segmentNum: 2,
-				CatType: EditorPageHelper.CAT_TYPE.MT,
-				useHotkey: false);
+			PasteFromCAT(2, EditorPageHelper.CAT_TYPE.TM, false);
+
 			// Проверяем подстановку САТ 4-го сегмента
-			PasteFromCAT(
-				segmentNum: 4,
-				CatType: EditorPageHelper.CAT_TYPE.MT,
-				useHotkey: false);
+			PasteFromCAT(4, EditorPageHelper.CAT_TYPE.TM, false);
+
 			// Нажать кнопку назад
 			EditorClickHomeBtn();
 			// Пишем в лог
 			WriteLog(0, "Нажатие кнопки Home", "Кнопка редактора", "-");
+
 			// Перейти к проекту
 			OpenProjectPage(projectName);
+
 			//Выгрузить логи
 			ExportLog();
 		}
@@ -744,12 +714,9 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			CreateProject(projectName, DocumentFile);
 			// Открыть проект
 			OpenProjectPage(projectName);
-
 			// Дождаться пропадания колеса ожидания
-			Assert.IsTrue(
-				ProjectPage.WaitDocumentDownloadFinish(),
+			Assert.IsTrue(ProjectPage.WaitDocumentDownloadFinish(),
 				"Ошибка: колесо ожидания долго не пропадает");
-
 			// Выгрузить логи
 			ExportLog();
 		}
@@ -761,12 +728,12 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		public void Spellcheck()
 		{
 			// Открыть документ
-			CreateReadyProject(projectName, withTM: false);
+			CreateReadyProject(projectName, false);
 			// Пишем в лог
 			WriteLog(0, "Открытие документа", "-", "-");
 
-			var segmentNum = 1;
-			var text = "Плонета";
+			int segmentNum = 1;
+			string text = "Плонета";
 
 			// Написать текст в первом сегменте
 			EditorPage.AddTextTarget(segmentNum, text);
@@ -774,18 +741,23 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			WriteLog(segmentNum, "Переход в target", "Клик мыши", "-");
 			// Пишем лог ввод текста
 			WriteLog(segmentNum, "Добавление текста", "Клавиатура", text);
+
 			// Открыть контекстное меню и выбрать первое слово замены
 			text = EditorPage.RightClickSpellcheck(segmentNum, 1);
 			// Пишем лог ввод текста
 			WriteLog(segmentNum, "Вставка из словаря (контекстное меню)", "Клик мыши", text);
+
 			// Дождаться автосохранения
 			AutoSave();
+
 			//Нажать кнопку назад
 			EditorClickHomeBtn();
 			// Пишем в лог
 			WriteLog(0, "Нажатие кнопки Home", "Кнопка редактора", "-");
+
 			// Перейти к проекту
 			OpenProjectPage(projectName);
+
 			//Выгрузить логи
 			ExportLog();
 		}
@@ -797,11 +769,11 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		public void MovingInSource()
 		{
 			// Открыть документ
-			CreateReadyProject(projectName, withTM: false);
+			CreateReadyProject(projectName, false);
 			// Пишем в лог
 			WriteLog(0, "Открытие документа", "-", "-");
 
-			var segmentNum = 1;
+			int segmentNum = 1;
 
 			// Всячески перемещаемся в source
 			EditorPage.SendKeysSource(segmentNum, OpenQA.Selenium.Keys.End);
@@ -809,15 +781,19 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			WriteLog(segmentNum, "Переход в source", "Клик мыши", "-");
 			// Пишем в лог
 			WriteLog(segmentNum, "Нажатие кнопки End", "End", "-");
+
 			EditorPage.SendKeysSource(segmentNum, OpenQA.Selenium.Keys.Home);
 			// Пишем в лог
 			WriteLog(segmentNum, "Нажатие кнопки Home", "Home", "-");
+
 			EditorPage.SendKeysSource(segmentNum, OpenQA.Selenium.Keys.ArrowRight);
 			// Пишем в лог
 			WriteLog(segmentNum, "Нажатие кнопки вправо", "Arrow Right", "-");
+
 			EditorPage.SendKeysSource(segmentNum, OpenQA.Selenium.Keys.ArrowLeft);
 			// Пишем в лог
 			WriteLog(segmentNum, "Нажатие кнопки влево", "Arrow Left", "-");
+
 			segmentNum = 3;
 			// Всячески перемещаемся в source
 			EditorPage.SendKeysSource(segmentNum, OpenQA.Selenium.Keys.End);
@@ -825,23 +801,30 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			WriteLog(segmentNum, "Переход в source", "Клик мыши", "-");
 			// Пишем в лог
 			WriteLog(segmentNum, "Нажатие кнопки End", "End", "-");
+
 			EditorPage.SendKeysSource(segmentNum, OpenQA.Selenium.Keys.Home);
 			// Пишем в лог
 			WriteLog(segmentNum, "Нажатие кнопки Home", "Home", "-");
+
 			EditorPage.SendKeysSource(segmentNum, OpenQA.Selenium.Keys.ArrowRight);
 			// Пишем в лог
 			WriteLog(segmentNum, "Нажатие кнопки вправо", "Arrow Right", "-");
+
 			EditorPage.SendKeysSource(segmentNum, OpenQA.Selenium.Keys.ArrowLeft);
 			// Пишем в лог
 			WriteLog(segmentNum, "Нажатие кнопки влево", "Arrow Left", "-");
+
 			// Дождаться автосохранения
 			AutoSave();
+
 			//Нажать кнопку назад
 			EditorClickHomeBtn();
 			// Пишем в лог
 			WriteLog(0, "Нажатие кнопки Home", "Кнопка редактора", "-");
+
 			// Перейти к проекту
 			OpenProjectPage(projectName);
+
 			//Выгрузить логи
 			ExportLog();
 		}
@@ -853,8 +836,8 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		public void MovingInTarget()
 		{
 			// Открыть документ
-			CreateReadyProject(projectName, withTM: false);
-			
+			CreateReadyProject(projectName, false);
+			// Пишем в лог
 			WriteLog(0, "Открытие документа", "-", "-");
 
 			int segmentNumber = 1;
@@ -864,22 +847,14 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			// Пишем в лог
 			WriteLog(segmentNumber, "Переход в source", "Клик мыши", "-");
 			// Пишем в лог
-			WriteLog(
-				segmentNumber, 
-				"Нажатие кнопки копирования source в target", 
-				"Кнопка редактора", 
-				EditorPage.GetTargetText(segmentNumber));
+			WriteLog(segmentNumber, "Нажатие кнопки копирования source в target", "Кнопка редактора", EditorPage.GetTargetText(segmentNumber));
 
 			segmentNumber = 3;
 			ToTargetButton(segmentNumber);
 			// Пишем в лог
 			WriteLog(segmentNumber, "Переход в source", "Клик мыши", "-");
 			// Пишем в лог
-			WriteLog(
-				segmentNumber, 
-				"Нажатие кнопки копирования source в target", 
-				"Кнопка редактора", 
-				EditorPage.GetTargetText(segmentNumber));
+			WriteLog(segmentNumber, "Нажатие кнопки копирования source в target", "Кнопка редактора", EditorPage.GetTargetText(segmentNumber));
 
 			segmentNumber = 1;
 			// Всячески перемещаемся в target
@@ -926,6 +901,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 
 			//Нажать кнопку назад
 			EditorClickHomeBtn();
+			// Пишем в лог
 			WriteLog(0, "Нажатие кнопки Home", "Кнопка редактора", "-");
 
 			// Перейти к проекту
@@ -943,36 +919,34 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		{
 			// Открыть документ
 			CreateReadyProject(projectName, false);
+			// Пишем в лог
 			WriteLog(0, "Открытие документа", "-", "-");
 
-			var segmentNum = 2;
+			int segmentNum = 2;
 
 			//Копировать текст сегмента
 			ToTargetButton(segmentNum);
+			// Пишем в лог
 			WriteLog(segmentNum, "Переход в source", "Клик мыши", "-");
+			// Пишем в лог
 			WriteLog(segmentNum, "Нажатие кнопки копирования source в target", "Кнопка редактора", EditorPage.GetTargetText(segmentNum));
 
 			segmentNum = 1;
-
 			// Нажать хоткей выделения source
 			EditorPage.SendKeysSource(segmentNum, OpenQA.Selenium.Keys.Shift + OpenQA.Selenium.Keys.Control + OpenQA.Selenium.Keys.End);
+			// Пишем в лог
 			WriteLog(segmentNum, "Переход в source", "Клик мыши", "-");
-			WriteLog(
-				segmentNum,
-				"Нажатие хоткея выделения всего текста",
-				"Shift + Ctrl + End", 
-				EditorPage.GetSourceText(segmentNum));
+			// Пишем в лог
+			WriteLog(segmentNum, "Нажатие хоткея выделения всего текста", "Shift + Ctrl + End", EditorPage.GetSourceText(segmentNum));
 			Thread.Sleep(1000);
 
 			segmentNum = 2;
 			// Нажать хоткей выделения target
 			EditorPage.SendKeysTarget(segmentNum, OpenQA.Selenium.Keys.Shift + OpenQA.Selenium.Keys.Control + OpenQA.Selenium.Keys.End);
+			// Пишем в лог
 			WriteLog(segmentNum, "Переход в target", "Клик мыши", "-");
-			WriteLog(
-				segmentNum,
-				"Нажатие хоткея выделения всего текста", 
-				"Shift + Ctrl + End", 
-				EditorPage.GetTargetText(segmentNum));
+			// Пишем в лог
+			WriteLog(segmentNum, "Нажатие хоткея выделения всего текста", "Shift + Ctrl + End", EditorPage.GetTargetText(segmentNum));
 			Thread.Sleep(1000);
 
 			// Дождаться автосохранения
@@ -980,6 +954,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 
 			//Нажать кнопку назад
 			EditorClickHomeBtn();
+			// Пишем в лог
 			WriteLog(0, "Нажатие кнопки Home", "Кнопка редактора", "-");
 
 			// Перейти к проекту
@@ -1000,11 +975,12 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			// Пишем в лог
 			WriteLog(0, "Открытие документа", "-", "-");
 
-			var segmentNum = 1;
-			var text = "Первый";
+			int segmentNum = 1;
+			string text = "Первый";
 
 			// Добавить перевод в первый target
 			EditorPage.AddTextTarget(segmentNum, text);
+			// Пишем в лог
 			WriteLog(segmentNum, "Переход в target", "Клик мыши", "-");
 			// Пишем лог ввод текста
 			WriteLog(segmentNum, "Добавление текста", "Клавиатура", text);
@@ -1013,6 +989,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			text = "Второй";
 			// Добавить перевод во второй target
 			EditorPage.AddTextTarget(segmentNum, text);
+			// Пишем в лог
 			WriteLog(segmentNum, "Переход в target", "Клик мыши", "-");
 			// Пишем лог ввод текста
 			WriteLog(segmentNum, "Добавление текста", "Клавиатура", text);
@@ -1021,6 +998,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			text = "Последний";
 			// Добавить перевод в последний target
 			EditorPage.AddTextTarget(segmentNum, text);
+			// Пишем в лог
 			WriteLog(segmentNum, "Переход в target", "Клик мыши", "-");
 			// Пишем лог ввод текста
 			WriteLog(segmentNum, "Добавление текста", "Клавиатура", text);
@@ -1030,6 +1008,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 
 			//Нажать кнопку назад
 			EditorClickHomeBtn();
+			// Пишем в лог
 			WriteLog(0, "Нажатие кнопки Home", "Кнопка редактора", "-");
 
 			// Перейти к проекту
@@ -1046,16 +1025,15 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		public void SubstituteTranslationTextTmMt()
 		{
 			// Открыть документ
-			CreateReadyProject(projectName, withMT: true);
-			
+			CreateReadyProject(projectName, true, true);
+			// Пишем в лог
 			WriteLog(0, "Открытие документа", "-", "-");
 
-			const int segmentNum = 1;
-			const string text = "Translation";
-
+			int segmentNum = 1;
+			string text = "Translation";
 			//Набрать текст в первом сегменте и нажать кнопку Confirm Segment
-			AddTranslationAndConfirm();
-			
+			AddTranslationAndConfirm(segmentNum, text);
+			// Пишем в лог
 			WriteLog(segmentNum, "Переход в target", "Клик мыши", "-");
 			// Пишем лог ввод текста
 			WriteLog(segmentNum, "Добавление текста", "Клавиатура", text);
@@ -1064,22 +1042,16 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 
 			// Дождаться автосохранения
 			AutoSave();
-			
+
 			// Проверяем подстановку TМ из САТ в 1-ый сегмент
-			PasteFromCAT(
-				segmentNum: 1,
-				CatType: EditorPageHelper.CAT_TYPE.TM, 
-				useHotkey: false);
+			PasteFromCAT(1, EditorPageHelper.CAT_TYPE.TM, false);
 
 			// Проверяем подстановку MT из САТ в 1-ый сегмент
-			PasteFromCAT(
-				segmentNum: 1,
-				CatType: EditorPageHelper.CAT_TYPE.TM,
-				useHotkey: false);
+			PasteFromCAT(1, EditorPageHelper.CAT_TYPE.MT, false);
 
 			// Нажать кнопку назад
 			EditorClickHomeBtn();
-			
+			// Пишем в лог
 			WriteLog(0, "Нажатие кнопки Home", "Кнопка редактора", "-");
 
 			// Перейти к проекту
@@ -1096,38 +1068,33 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		public void SubstituteTranslationTextMtTm()
 		{
 			// Открыть документ
-			CreateReadyProject(projectName, withMT: true);
+			CreateReadyProject(projectName, true, true);
 			// Пишем в лог
 			WriteLog(0, "Открытие документа", "-", "-");
 
-			var segmentNum = 1;
-			var text = "Translation";
-
+			int segmentNum = 1;
+			string text = "Translation";
 			//Набрать текст в первом сегменте и нажать кнопку Confirm Segment
 			AddTranslationAndConfirm(segmentNum, text);
-			
+			// Пишем в лог
 			WriteLog(segmentNum, "Переход в target", "Клик мыши", "-");
 			// Пишем лог ввод текста
 			WriteLog(segmentNum, "Добавление текста", "Клавиатура", text);
 			// Пишем лог Confirm
 			WriteLog(segmentNum, "Нажатие кнопки Confirm", "Кнопка редактора", "-");
+
 			// Дождаться автосохранения
 			AutoSave();
 
 			// Проверяем подстановку MT из САТ в 1-ый сегмент
-			PasteFromCAT(
-				segmentNum: 1,
-				CatType: EditorPageHelper.CAT_TYPE.TM,
-				useHotkey: false);
+			PasteFromCAT(1, EditorPageHelper.CAT_TYPE.MT, false);
+
 			// Проверяем подстановку TМ из САТ в 1-ый сегмент
-			PasteFromCAT(
-				segmentNum: 1,
-				CatType: EditorPageHelper.CAT_TYPE.TM,
-				useHotkey: false);
+			PasteFromCAT(1, EditorPageHelper.CAT_TYPE.TM, false);
 
 			// Нажать кнопку назад
 			EditorClickHomeBtn();
-			
+			// Пишем в лог
 			WriteLog(0, "Нажатие кнопки Home", "Кнопка редактора", "-");
 
 			// Перейти к проекту
@@ -1143,64 +1110,47 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		[Test]
 		public void SubstituteTranslationTB()
 		{
-			var uniqueGlossaryName = GlossaryName + DateTime.Now;
+			string uniqueGlossaryName = GlossaryName + DateTime.Now.ToString();
 
 			// Создание глоссария
 			CreateGlossary(uniqueGlossaryName);
 
 			// Открыть документ
-			CreateReadyProject(
-				projectName,
-				withMT: true,
-				mtType: Workspace_CreateProjectDialogHelper.MT_TYPE.DefaultMT,
-				chooseGlossary: true,
-				glossaryName: uniqueGlossaryName);
+			CreateReadyProject(projectName, true, true, "", Workspace_CreateProjectDialogHelper.MT_TYPE.DefaultMT, true, uniqueGlossaryName);
+			// Пишем в лог
 			WriteLog(0, "Открытие документа", "-", "-");
+
 			// Проверяем подстановку TB из САТ в 1-ый сегмент
 			PasteFromCAT(1, EditorPageHelper.CAT_TYPE.TB, false);
 
-			const int segmentNum = 2;
-			const string text = "Translation";
-
+			int segmentNum = 2;
+			string text = "Translation";
 			//Набрать текст во втором сегменте и нажать кнопку Confirm Segment
-			AddTranslationAndConfirm(segmentNum);
+			AddTranslationAndConfirm(segmentNum, text);
 			// Пишем в лог
 			WriteLog(segmentNum, "Переход в target", "Клик мыши", "-");
 			// Пишем лог ввод текста
 			WriteLog(segmentNum, "Добавление текста", "Клавиатура", text);
 			// Пишем лог Confirm
 			WriteLog(segmentNum, "Нажатие кнопки Confirm", "Кнопка редактора", "-");
+
 			// Дождаться автосохранения
 			AutoSave();
+
 			// Проверяем подстановку TB из САТ в 2-ой сегмент
-			PasteFromCAT(
-				segmentNum: 2,
-				CatType: EditorPageHelper.CAT_TYPE.TM,
-				useHotkey: false);
+			PasteFromCAT(2, EditorPageHelper.CAT_TYPE.TB, false);
 
 			// Проверяем подстановку MT из САТ в 3-ий сегмент
-			PasteFromCAT(
-				segmentNum: 3,
-				CatType: EditorPageHelper.CAT_TYPE.TM,
-				useHotkey: false);
+			PasteFromCAT(3, EditorPageHelper.CAT_TYPE.MT, false);
 
 			// Проверяем подстановку TB из САТ в 3-ый сегмент
-			PasteFromCAT(
-				segmentNum: 3,
-				CatType: EditorPageHelper.CAT_TYPE.TB,
-				useHotkey: false);
+			PasteFromCAT(3, EditorPageHelper.CAT_TYPE.TB, false);
 
 			// Проверяем подстановку TМ из САТ в 4-ый сегмент
-			PasteFromCAT(
-				segmentNum: 4,
-				CatType: EditorPageHelper.CAT_TYPE.TM,
-				useHotkey: false);
+			PasteFromCAT(4, EditorPageHelper.CAT_TYPE.TM, false);
 
 			// Проверяем подстановку TB из САТ в 4-ый сегмент
-			PasteFromCAT(
-				segmentNum: 4,
-				CatType: EditorPageHelper.CAT_TYPE.TB,
-				useHotkey: false);
+			PasteFromCAT(4, EditorPageHelper.CAT_TYPE.TB, false);
 
 			// Нажать кнопку назад
 			EditorClickHomeBtn();

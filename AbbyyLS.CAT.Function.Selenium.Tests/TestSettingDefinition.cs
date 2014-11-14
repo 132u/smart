@@ -1,5 +1,13 @@
 ﻿using NConfiguration;
+using NConfiguration.Combination;
+using NConfiguration.GenericView;
+using NConfiguration.Joining;
+using NConfiguration.Xml;
 using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
 
 namespace AbbyyLS.CAT.Function.Selenium.Tests

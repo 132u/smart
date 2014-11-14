@@ -1,6 +1,14 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using OpenQA.Selenium;
+using OpenQA.Selenium.Firefox;
+using OpenQA.Selenium.Chrome;
+using OpenQA.Selenium.IE;
 using OpenQA.Selenium.Support.UI;
+using System.Threading;
 
 namespace AbbyyLS.CAT.Function.Selenium.Tests
 {
@@ -78,7 +86,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		public bool OpenUserManagementPage()
 		{
 			ClickElement(By.XPath(MANAGEMENT_USERS_REF_XPATH));
-
 			return WaitUntilDisplayElement(By.Id(USER_SEARCH_ID));
 		}
 
@@ -89,7 +96,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		public bool OpenUserManagementPageForAccount(string accountName)
 		{
 			ClickElement(By.XPath("//td[text()='" + accountName + "']"+ALL_MANAGE_USER_BTN));
-
 			return WaitUntilDisplayElement(By.Id(USER_SEARCH_ID));
 		}
 
@@ -332,6 +338,11 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		{
 			ClickElement(By.XPath(SAVE_BTN_NEW_PEERS_ACC));
 		}
+
+		//public IWebElement FindActiveCheckBox()
+		//{
+		//   return Driver.FindElement(By.XPath(ACTIVE_CHECKBOX_XPATH));
+		//}
 
 		/// <summary>
 		/// Проверить чексбокс Active 

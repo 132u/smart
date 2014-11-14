@@ -1,6 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using OpenQA.Selenium;
+using OpenQA.Selenium.Firefox;
+using OpenQA.Selenium.Chrome;
+using OpenQA.Selenium.IE;
 using OpenQA.Selenium.Support.UI;
 
 namespace AbbyyLS.CAT.Function.Selenium.Tests
@@ -53,10 +59,10 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <param name="clientName">название</param>
 		public void ClickEdit(string clientName)
 		{
-			var clientXPath = GetClientRowXPath(clientName);
+			string clientXPath = GetClientRowXPath(clientName);
 			// Кликнуть по строке						
 			ClickElement(By.XPath(clientXPath));
-			var editXPath = clientXPath + EDIT_BTN_XPATH;
+			string editXPath = clientXPath + EDIT_BTN_XPATH;
 			// Дождаться появления Edit
 			WaitUntilDisplayElement(By.XPath(editXPath));
 			// Кликнуть Edit
@@ -79,15 +85,14 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <param name="clientName">название</param>
 		public bool ClickDelete(string clientName)
 		{
-			var clientXPath = GetClientRowXPath(clientName);
+			string clientXPath = GetClientRowXPath(clientName);
 			// Кликнуть по строке
 			ClickElement(By.XPath(clientXPath));
-			var deleteXPath = clientXPath + DELETE_BTN_XPATH;
+			string deleteXPath = clientXPath + DELETE_BTN_XPATH;
 			// Дождаться появления Delete
 			WaitUntilDisplayElement(By.XPath(deleteXPath));
 			// Кликнуть Delete
 			ClickElement(By.XPath(deleteXPath));
-
 			return WaitUntilDisappearElement(By.XPath(deleteXPath));
 		}
 
@@ -151,7 +156,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <returns>XPath</returns>
 		protected string GetClientRowXPath(string clientName)
 		{
-			var rowNum = 0;
+			int rowNum = 0;
 			IList<IWebElement> clientList = GetElementList(By.XPath(CLIENT_LIST_XPATH));
 			for (int i = 0; i < clientList.Count; ++i )
 			{

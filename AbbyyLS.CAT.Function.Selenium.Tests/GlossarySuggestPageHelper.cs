@@ -1,6 +1,12 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using OpenQA.Selenium;
+using OpenQA.Selenium.Firefox;
+using OpenQA.Selenium.Chrome;
+using OpenQA.Selenium.IE;
 using OpenQA.Selenium.Support.UI;
 
 namespace AbbyyLS.CAT.Function.Selenium.Tests
@@ -15,15 +21,13 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// </summary>
 		/// <param name="driver">Драйвер</param>
 		/// <param name="wait">Таймаут</param>
-		public GlossarySuggestPageHelper(IWebDriver driver, WebDriverWait wait)
-			: base(driver, wait)
+		public GlossarySuggestPageHelper(IWebDriver driver, WebDriverWait wait) :
+			base(driver, wait)
 		{
-			buttonsDict = new Dictionary<BUTTON_ID, string>
-			{
-				{BUTTON_ID.AcceptSuggestTerm, BUTTON_ACCEPT_XPATH},
-				{BUTTON_ID.EditSuggestTerm, BUTTON_EDIT_XPATH},
-				{BUTTON_ID.RejectSuggestTerm, BUTTON_REJECT_XPATH}
-			};
+			buttonsDict = new Dictionary<BUTTON_ID, string>();
+			buttonsDict.Add(BUTTON_ID.AcceptSuggestTerm, BUTTON_ACCEPT_XPATH);
+			buttonsDict.Add(BUTTON_ID.EditSuggestTerm, BUTTON_EDIT_XPATH);
+			buttonsDict.Add(BUTTON_ID.RejectSuggestTerm, BUTTON_REJECT_XPATH);
 		}
 
 		/// <summary>
@@ -50,9 +54,8 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		public int GetSuggestTermsCount()
 		{
 			SetDriverTimeoutMinimum();
-			var count = GetElementsCount(By.XPath(TERM_ROW_XPATH));
+			int count = GetElementsCount(By.XPath(TERM_ROW_XPATH));
 			SetDriverTimeoutDefault();
-
 			return count;
 		}
 
@@ -62,9 +65,17 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <returns>количество</returns>
 		public int GetSuggestTermsCurrentGlossaryCount(string glossaryName)
 		{
-			var glossaryNameList = GetTextListElement(By.XPath(ROW_GLOSSARY_NAME_XPATH));
+			List<string> glossaryNameList = GetTextListElement(By.XPath(ROW_GLOSSARY_NAME_XPATH));
+			int glossaryCount = 0;
+			foreach (string glName in glossaryNameList)
+			{
+				if (glName.Trim() == glossaryName)
+				{
+					++glossaryCount;
+				}
+			}
 
-			return glossaryNameList.Count(glName => glName.Trim() == glossaryName);
+			return glossaryCount;
 		}
 
 		/// <summary>
@@ -74,10 +85,9 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <returns>номер термина</returns>
 		public int GetTermRowNumberByGlossaryName(string glossaryName)
 		{
-			var glossaryNameList = GetTextListElement(By.XPath(ROW_GLOSSARY_NAME_XPATH));
-			var rowNumber = 0;
-
-			for (var i = 0; i < glossaryNameList.Count; ++i)
+			List<string> glossaryNameList = GetTextListElement(By.XPath(ROW_GLOSSARY_NAME_XPATH));
+			int rowNumber = 0;
+			for (int i = 0; i < glossaryNameList.Count; ++i)
 			{
 				if (glossaryNameList[i].Trim() == glossaryName)
 				{
@@ -107,8 +117,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <param name="btn">id кнопки</param>
 		public void ClickRowButton(int rowNumber, BUTTON_ID btn)
 		{
-			ClickElement(By.XPath(GetRowXPath(rowNumber) +
-				"//a[contains(@class, '" + buttonsDict[btn] + "')]"));
+			ClickElement(By.XPath(GetRowXPath(rowNumber) + "//a[contains(@class, '" + buttonsDict[btn] + "')]"));
 		}
 
 		/// <summary>
@@ -178,8 +187,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <param name="text">текст</param>
 		public void FillEditTermItem(int itemNumber, string text)
 		{
-			ClearAndAddText(By.XPath(EDIT_TERM_BOX 
-				+ "[" + itemNumber + "]" + EDITOR_INPUT_XPATH), text);
+			ClearAndAddText(By.XPath(EDIT_TERM_BOX + "[" + itemNumber + "]" + EDITOR_INPUT_XPATH), text);
 		}
 
 		/// <summary>

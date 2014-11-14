@@ -1,6 +1,9 @@
 ﻿﻿using System;
 using System.Threading;
 using NUnit.Framework;
+using OpenQA.Selenium;
+using System.Collections.Generic;
+using System.Windows.Forms;
 
 namespace AbbyyLS.CAT.Function.Selenium.Tests
 {
@@ -45,13 +48,11 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		public void CreateClientTest()
 		{
 			// Создать клиента с уникальным именем
-			var clientName = getClientUniqueName();
-			createClient(clientName);
+			string clientName = GetClientUniqueName();
+			CreateClient(clientName);
 
 			// Проверить, что клиент сохранился
-			Assert.IsTrue(
-				getIsClientExist(clientName), 
-				"Ошибка: клиент не сохранился");
+			Assert.IsTrue(GetIsClientExist(clientName), "Ошибка: клиент не сохранился");
 		}
 
 		/// <summary>
@@ -61,13 +62,13 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		public void CreateClientExistingNameTest()
 		{
 			// Создать клиента с уникальным именем
-			var clientName = getClientUniqueName();
-			createClient(clientName);
+			string clientName = GetClientUniqueName();
+			CreateClient(clientName);
 			// Создать клиента с таким же именем
-			createClient(clientName, false);
+			CreateClient(clientName, false);
 
 			// Проверить, появилась ли ошибка существующего имени - Assert внутри
-			assertExistingClientNameError();
+			AssertExistingClientNameError();
 		}
 
 		/// <summary>
@@ -77,11 +78,10 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		public void CreateClientEmptyNameTest()
 		{
 			// Создать клиента с пустым именем
-			createClient("", false);
+			CreateClient("", false);
 
 			// Проверить, что клиент не сохранился, а остался в режиме редактирования
-			Assert.IsTrue(
-				ClientPage.GetIsNewClientEditMode(),
+			Assert.IsTrue(ClientPage.GetIsNewClientEditMode(),
 				"Ошибка: не остался в режиме редактирования");
 		}
 
@@ -92,11 +92,10 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		public void CreateClientSpaceNameTest()
 		{
 			// Создать клиента с пробельным именем
-			createClient("  ", false);
+			CreateClient("  ", false);
 
 			// Проверить, что клиент не сохранился, а остался в режиме редактирования
-			Assert.IsTrue(
-				ClientPage.GetIsNewClientEditMode(),
+			Assert.IsTrue(ClientPage.GetIsNewClientEditMode(),
 				"Ошибка: не остался в режиме редактирования");
 		}
 
@@ -107,12 +106,11 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		public void CreateClientCheckCreateTMTest()
 		{
 			// Создать клиента с уникальным именем
-			string clientName = getClientUniqueName();
-			createClient(clientName);
+			string clientName = GetClientUniqueName();
+			CreateClient(clientName);
 
 			// Проверить, что клиент есть в списке при создании ТМ
-			Assert.IsTrue(
-				getIsClientExistCreateTM(clientName),
+			Assert.IsTrue(GetIsClientExistCreateTM(clientName),
 				"Ошибка: клиента нет в списке при создании ТМ");
 		}
 
@@ -123,12 +121,11 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		public void CreateClientCheckCreateGlossaryTest()
 		{
 			// Создать клиента
-			string clientName = getClientUniqueName();
-			createClient(clientName);
+			string clientName = GetClientUniqueName();
+			CreateClient(clientName);
 
 			// Проверить, что клиент есть в списке при создании глоссария
-			Assert.IsTrue(
-				getIsClientExistCreateGlossaryTest(clientName),
+			Assert.IsTrue(GetIsClientExistCreateGlossaryTest(clientName),
 				"Ошибка: клиента нет в списке при создании глоссария");
 		}
 
@@ -139,22 +136,18 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		public void ChangeClientNameTest()
 		{
 			// Создать клиента с уникальным именем
-			string clientName = getClientUniqueName();
-			createClient(clientName);
+			string clientName = GetClientUniqueName();
+			CreateClient(clientName);
 
 			// Новое имя клиента
-			string newClientName = getClientUniqueName();
+			string newClientName = GetClientUniqueName();
 			// Изменить имя клиента
-			setClientNewName(clientName, newClientName);
+			SetClientNewName(clientName, newClientName);
 
 			// Проверить, что клиента со старым названием нет
-			Assert.IsTrue(
-				!getIsClientExist(clientName), 
-				"Ошибка: старый клиент не удалился");
+			Assert.IsTrue(!GetIsClientExist(clientName), "Ошибка: старый клиент не удалился");
 			// Проверить, что есть клиент с новым названием
-			Assert.IsTrue(
-				getIsClientExist(newClientName), 
-				"Ошибка: новый клиент не сохранился");
+			Assert.IsTrue(GetIsClientExist(newClientName), "Ошибка: новый клиент не сохранился");
 		}
 
 		/// <summary>
@@ -164,14 +157,13 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		public void ChangeClientEmptyNameTest()
 		{
 			// Создать клиента с уникальным именем
-			string clientName = getClientUniqueName();
-			createClient(clientName);
+			string clientName = GetClientUniqueName();
+			CreateClient(clientName);
 
 			// Изменить имя клиента
-			setClientNewName(clientName, "", false);
+			SetClientNewName(clientName, "", false);
 			// Проверить, что клиент не сохранился, а остался в режиме редактирования
-			Assert.IsTrue(
-				ClientPage.GetIsEditMode(),
+			Assert.IsTrue(ClientPage.GetIsEditMode(),
 				"Ошибка: не остался в режиме редактирования");
 		}
 
@@ -182,14 +174,13 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		public void ChangeClientSpaceNameTest()
 		{
 			// Создать клиента с уникальным именем
-			string clientName = getClientUniqueName();
-			createClient(clientName);
+			string clientName = GetClientUniqueName();
+			CreateClient(clientName);
 
 			// Изменить имя клиента
-			setClientNewName(clientName, "  ", false);
+			SetClientNewName(clientName, "  ", false);
 			// Проверить, что клиент не сохранился, а остался в режиме редактирования
-			Assert.IsTrue(
-				ClientPage.GetIsEditMode(),
+			Assert.IsTrue(ClientPage.GetIsEditMode(),
 				"Ошибка: не остался в режиме редактирования");
 		}
 
@@ -200,16 +191,16 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		public void ChangeClientExistingNameTest()
 		{
 			// Создать клиента с уникальным именем
-			var clientName = getClientUniqueName();
-			createClient(clientName);
+			string clientName = GetClientUniqueName();
+			CreateClient(clientName);
 			// Создать другого клиента с уникальным именем
-			var secondClientName = getClientUniqueName();
-			createClient(secondClientName);
+			string secondClientName = GetClientUniqueName();
+			CreateClient(secondClientName);
 			// Изменить имя клиента
-			setClientNewName(secondClientName, clientName, false);
+			SetClientNewName(secondClientName, clientName, false);
 
 			// Проверить, появилась ли ошибка существующего имени - Assert внутри
-			assertExistingClientNameError();
+			AssertExistingClientNameError();
 		}
 
 		/// <summary>
@@ -219,16 +210,13 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		public void DeleteClientTest()
 		{
 			// Создать клиента с уникальным именем
-			var clientName = getClientUniqueName();
-			createClient(clientName);
+			string clientName = GetClientUniqueName();
+			CreateClient(clientName);
 
 			// Удалить клиента
 			ClickDeleteClient(clientName);
-
 			// Проверить, что клиент удалился
-			Assert.IsTrue(
-				!getIsClientExist(clientName), 
-				"Ошибка: клиент не удалился");
+			Assert.IsTrue(!GetIsClientExist(clientName), "Ошибка: клиент не удалился");
 		}
 
 		/// <summary>
@@ -238,15 +226,13 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		public void DeleteClientCheckCreateTM()
 		{
 			// Создать клиента с уникальным именем
-			var clientName = getClientUniqueName();
-			createClient(clientName);
+			string clientName = GetClientUniqueName();
+			CreateClient(clientName);
 
 			// Удалить клиента
 			ClickDeleteClient(clientName);
-
 			// Проверить, что клиента нет в списке при создании TM
-			Assert.IsTrue(
-				!getIsClientExistCreateTM(clientName),
+			Assert.IsTrue(!GetIsClientExistCreateTM(clientName),
 				"Ошибка: клиент остался в списке при создании ТМ");
 		}
 
@@ -257,26 +243,35 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		public void DeleteClientCheckCreateGlossaryTest()
 		{
 			// Создать клиента с уникальным именем
-			string clientName = getClientUniqueName();
-			createClient(clientName);
+			string clientName = GetClientUniqueName();
+			CreateClient(clientName);
 
 			// Удалить клиента
 			ClickDeleteClient(clientName);
-
 			// Проверить, что клиента нет в списке при создании глоссария
-			Assert.IsTrue(
-				!getIsClientExistCreateGlossaryTest(clientName),
+			Assert.IsTrue(!GetIsClientExistCreateGlossaryTest(clientName),
 				"Ошибка: клиент остался в списке");
 		}
+		
 
+
+		/// <summary>
+		/// Перейти на страницу клиентов
+		/// </summary>
+		private void SwitchClientTab()
+		{
+			// Перейти на страницу Клиенты
+			MainHelperClass.ClickOpenClientPage();
+			ClientPage.WaitPageLoad();
+		}
 
 		/// <summary>
 		/// Создать уникальное имя для клиента
 		/// </summary>
 		/// <returns>имя</returns>
-		private static string getClientUniqueName()
+		private string GetClientUniqueName()
 		{
-			return "TestClient" + DateTime.UtcNow.Ticks;
+			return "TestClient" + DateTime.UtcNow.Ticks.ToString();
 		}
 
 		/// <summary>
@@ -284,23 +279,20 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// </summary>
 		/// <param name="clientName">имя клиента</param>
 		/// <param name="shouldSaveOk">должен успешно сохраниться</param>
-		private void createClient(string clientName, bool shouldSaveOk = true)
+		private void CreateClient(string clientName, bool shouldSaveOk = true)
 		{
 			// Нажать "Новый клиент"
 			ClientPage.ClickCreateClientBtn();
 			// Ввести имя
 			ClientPage.EnterNewClientName(clientName);
 
-			// Расширить окно, чтобы кнопка была видна, 
-			// иначе она недоступна для Selenium
+			// Расширить окно, чтобы кнопка была видна, иначе она недоступна для Selenium
 			Driver.Manage().Window.Maximize();
 			// Сохранить клиента
 			ClientPage.ClickSaveBtn();
 			if (shouldSaveOk)
 			{
-				Assert.IsTrue(
-					ClientPage.WaitSaveBtnDisappear(), 
-					"Ошибка: клиент не сохранился");
+				Assert.IsTrue(ClientPage.WaitSaveBtnDisappear(), "Ошибка: клиент не сохранился");
 			}
 			else
 			{
@@ -313,7 +305,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// </summary>
 		/// <param name="clientName">название</param>
 		/// <returns>есть</returns>
-		private bool getIsClientExist(string clientName)
+		private bool GetIsClientExist(string clientName)
 		{
 			return ClientPage.GetIsClientExist(clientName);
 		}
@@ -321,7 +313,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <summary>
 		/// Проверить, есть ли ошибка существующего имени
 		/// </summary>
-		private void assertExistingClientNameError()
+		private void AssertExistingClientNameError()
 		{
 			// Проверить, появилась ли ошибка существующего имени
 			Assert.IsTrue(ClientPage.GetIsNameErrorExist(),
@@ -333,7 +325,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// </summary>
 		/// <param name="clientName">название</param>
 		/// <returns>есть</returns>
-		private bool getIsClientExistCreateTM(string clientName)
+		private bool GetIsClientExistCreateTM(string clientName)
 		{
 			// Перейти на вкладку ТМ
 			SwitchTMTab();
@@ -353,7 +345,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// </summary>
 		/// <param name="clientName">название клиента</param>
 		/// <returns>есть</returns>
-		private bool getIsClientExistCreateGlossaryTest(string clientName)
+		private bool GetIsClientExistCreateGlossaryTest(string clientName)
 		{
 			// Перейти на вкладку Глоссарии
 			SwitchGlossaryTab();
@@ -373,10 +365,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <param name="clientName">старое имя</param>
 		/// <param name="newClientName">новое имя</param>
 		/// <param name="shouldSaveOk">должен сохраниться</param>
-		private void setClientNewName(
-			string clientName, 
-			string newClientName, 
-			bool shouldSaveOk = true)
+		private void SetClientNewName(string clientName, string newClientName, bool shouldSaveOk = true)
 		{
 			// Нажать Изменить
 			ClientPage.ClickEdit(clientName);
@@ -388,9 +377,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			ClientPage.ClickSaveBtn();
 			if (shouldSaveOk)
 			{
-				Assert.IsTrue(
-					ClientPage.WaitSaveBtnDisappear(),
-					"Ошибка: клиент не сохранился");
+				Assert.IsTrue(ClientPage.WaitSaveBtnDisappear(), "Ошибка: клиент не сохранился");
 			}
 			else
 			{

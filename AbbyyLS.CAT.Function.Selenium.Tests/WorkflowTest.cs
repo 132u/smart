@@ -1,4 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using NUnit.Framework;
 using System.Threading;
 
@@ -12,6 +16,8 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <summary>
 		/// Конструктор теста
 		/// </summary>
+		 
+		 
 		/// <param name="browserName">Название браузера</param>
 		public WorkflowTest(string browserName)
 			: base (browserName)
@@ -41,6 +47,8 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		[Test]
 		public void DefaultTaskType()
 		{
+			List<string> workflowCreateList = new List<string>();
+			
 			// Создание проекта
 			// 1) Заполнение полей
 			FirstStepProjectWizard(ProjectName);
@@ -49,7 +57,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			// 2) Выбор ТМ
 			ChooseFirstTMInList();
 			WorkspaceCreateProjectDialog.ClickNextStep();
-
+						
 			// 3) Выбор глоссария
 			WorkspaceCreateProjectDialog.ClickNextStep();
 			
@@ -58,16 +66,13 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			Thread.Sleep(1000);
 
 			// 5) Проверка workflow
-			var workflowCreateList = WorkspaceCreateProjectDialog.GetWFTaskList();
-
+			workflowCreateList = WorkspaceCreateProjectDialog.GetWFTaskList();
 			// Проверка наличия только одной задачи
 			Assert.AreEqual(1, workflowCreateList.Count, 
 				"Ошибка: Неверное количество задач workflow.");
 
 			// Проверка, что первая задача - Translation
-			Assert.AreEqual(
-				"Translation", 
-				workflowCreateList[0], 
+			Assert.AreEqual("Translation", workflowCreateList[0], 
 				"Ошибка: Первая задача не \"Translation\"");
 			
 			//Выход без сохранения проекта
@@ -81,6 +86,8 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		[Test]
 		public void ChangeTaskType()
 		{
+			List<string> workflowList = new List<string>();
+
 			// Создание проекта
 			// 1) Заполнение полей
 			FirstStepProjectWizard(ProjectName);
@@ -105,25 +112,20 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			WorkspaceCreateProjectDialog.SetWFTaskList(1, "Editing");
 			Thread.Sleep(1000);
 
-			var workflowList = WorkspaceCreateProjectDialog.GetWFTaskList();
+			workflowList = WorkspaceCreateProjectDialog.GetWFTaskList();
 			// Проверка наличия только одной задачи
-			Assert.AreEqual(
-				1,
-				workflowList.Count, 
+			Assert.AreEqual(1, workflowList.Count, 
 				"Ошибка: Неверное количество задач workflow.");
 
 			// Проверка, что первая задача - Editing
-			Assert.AreEqual(
-				"Editing",
-				workflowList[0], 
+			Assert.AreEqual("Editing", workflowList[0], 
 				"Ошибка: Первая задача не \"Editing\".");
 			
 			WorkspaceCreateProjectDialog.ClickNextStep();
 
 			// 6) Настройка Pretranslate. Проверка создания проекта
 			WorkspaceCreateProjectDialog.ClickFinishCreate();
-			Assert.IsTrue(
-				WorkspacePage.WaitProjectAppearInList(ProjectName),
+			Assert.IsTrue(WorkspacePage.WaitProjectAppearInList(ProjectName),
 				"Ошибка: Проект не появился в списке.");
 
 			// Открываем проект
@@ -139,9 +141,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 				"Ошибка: Неверное количество задач workflow.");
 
 			// Проверка, что первая задача - Editing
-			Assert.AreEqual(
-				"Editing", 
-				workflowList[0],
+			Assert.AreEqual("Editing", workflowList[0],
 				"Ошибка: Первая задача не \"Editing\".");
 		}
 
@@ -151,6 +151,8 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		[Test]
 		public void NewTaskTypesOnCreate()
 		{
+			List<string> workflowTypesList = new List<string>();
+
 			// Создание проекта
 			// 1) Заполнение полей
 			FirstStepProjectWizard(ProjectName);
@@ -171,15 +173,13 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			Thread.Sleep(1000);
 
 			// Проверка типов второй задачи
-			var workflowTypesList = WorkspaceCreateProjectDialog.GetWFTaskTypeList(2);
+			workflowTypesList = WorkspaceCreateProjectDialog.GetWFTaskTypeList(2);
 			// Проверка наличия 3 типов задач
 			Assert.AreEqual(3, workflowTypesList.Count,
 				"Ошибка: Неверное количество задач workflow.");
 
 			// Проверка, что первая задача - Translation
-			Assert.AreEqual(
-				"Translation", 
-				workflowTypesList[0],
+			Assert.AreEqual("Translation", workflowTypesList[0],
 				"Ошибка: Первая задача не \"Translation\"");
 
 			//Выход без сохранения проекта
@@ -193,6 +193,8 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		[Test]
 		public void NewTask()
 		{
+			List<string> workflowList = new List<string>();
+
 			// Создание проекта
 			// 1) Заполнение полей
 			FirstStepProjectWizard(ProjectName);
@@ -215,8 +217,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 
 			// 6) Настройка Pretranslate. Проверка создания проекта
 			WorkspaceCreateProjectDialog.ClickFinishCreate();
-			Assert.IsTrue(
-				WorkspacePage.WaitProjectAppearInList(ProjectName),
+			Assert.IsTrue(WorkspacePage.WaitProjectAppearInList(ProjectName),
 				"Ошибка: Проект не появился в списке.");
 
 			// Открываем проект
@@ -226,21 +227,17 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			OpenWorkflowSettings();
 
 			// Проверяем задачи Workflow проекта
-			var workflowList = ProjectPage.GetWFTaskListProjectSettings();
+			workflowList = ProjectPage.GetWFTaskListProjectSettings();
 			// Проверка наличия двух задач
 			Assert.AreEqual(2, workflowList.Count,
 				"Ошибка: Неверное количество задач workflow.");
 
 			// Проверка, что первая задача - Translation
-			Assert.AreEqual(
-				"Translation",
-				workflowList[0],
+			Assert.AreEqual("Translation", workflowList[0],
 				"Ошибка: Первая задача не \"Translation\".");
 
 			// Проверка, что вторая задача - Proofreading
-			Assert.AreEqual(
-				"Proofreading",
-				workflowList[1],
+			Assert.AreEqual("Proofreading", workflowList[1],
 				"Ошибка: Вторая задача не \"Proofreading\".");
 		}
 
@@ -250,6 +247,8 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		[Test]
 		public void NewTaskSameType()
 		{
+			List<string> workflowList = new List<string>();
+
 			// Создание проекта
 			// 1) Заполнение полей
 			FirstStepProjectWizard(ProjectName);
@@ -272,8 +271,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 
 			// 6) Настройка Pretranslate. Проверка создания проекта
 			WorkspaceCreateProjectDialog.ClickFinishCreate();
-			Assert.IsTrue(
-				WorkspacePage.WaitProjectAppearInList(ProjectName),
+			Assert.IsTrue(WorkspacePage.WaitProjectAppearInList(ProjectName),
 				"Ошибка: Проект не появился в списке.");
 
 			// Открываем проект
@@ -283,21 +281,17 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			OpenWorkflowSettings();
 
 			// Проверяем задачи Workflow проекта
-			var workflowList = ProjectPage.GetWFTaskListProjectSettings();
+			workflowList = ProjectPage.GetWFTaskListProjectSettings();
 			// Проверка наличия двух задач
 			Assert.AreEqual(2, workflowList.Count,
 				"Ошибка: Неверное количество задач workflow.");
 
 			// Проверка, что первая задача - Translation
-			Assert.AreEqual(
-				"Translation", 
-				workflowList[0],
+			Assert.AreEqual("Translation", workflowList[0],
 				"Ошибка: Первая задача не \"Translation\".");
 
 			// Проверка, что вторая задача - Transaltion
-			Assert.AreEqual(
-				"Translation",
-				workflowList[1],
+			Assert.AreEqual("Translation", workflowList[1],
 				"Ошибка: Вторая задача не \"Translation\".");
 		}
 
@@ -307,6 +301,8 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		[Test]
 		public void AddingTask()
 		{
+			List<string> workflowList = new List<string>();
+
 			// Создание проекта
 			CreateProject(ProjectName);
 
@@ -330,21 +326,17 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			OpenWorkflowSettings();
 
 			// Проверяем задачи Workflow проекта
-			var workflowList = ProjectPage.GetWFTaskListProjectSettings();
+			workflowList = ProjectPage.GetWFTaskListProjectSettings();
 			// Проверка наличия двух задач
 			Assert.AreEqual(2, workflowList.Count,
 				"Ошибка: Неверное количество задач workflow.");
 
 			// Проверка, что первая задача - Translation
-			Assert.AreEqual(
-				"Translation", 
-				workflowList[0],
+			Assert.AreEqual("Translation", workflowList[0],
 				"Ошибка: Первая задача не \"Translation\".");
 
 			// Проверка, что вторая задача - Proofreading
-			Assert.AreEqual(
-				"Proofreading",
-				workflowList[1],
+			Assert.AreEqual("Proofreading", workflowList[1],
 				"Ошибка: Вторая задача не \"Proofreading\".");
 		}
 
@@ -354,6 +346,8 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		[Test]
 		public void CancelAddingTask()
 		{
+			List<string> workflowList = new List<string>();
+
 			// Создание проекта
 			CreateProject(ProjectName);
 
@@ -378,16 +372,13 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			OpenWorkflowSettings();
 
 			// Проверяем задачи Workflow проекта
-			var workflowList = ProjectPage.GetWFTaskListProjectSettings();
-
+			workflowList = ProjectPage.GetWFTaskListProjectSettings();
 			// Проверка наличия одной задачи
 			Assert.AreEqual(1, workflowList.Count,
 				"Ошибка: Неверное количество задач workflow.");
 
 			// Проверка, что первая задача - Translation
-			Assert.AreEqual(
-				"Translation", 
-				workflowList[0],
+			Assert.AreEqual("Translation", workflowList[0],
 				"Ошибка: Первая задача не \"Translation\".");
 		}
 
@@ -397,6 +388,8 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		[Test]
 		public void DeleteTaskOnCreate()
 		{
+			List<string> workflowList = new List<string>();
+
 			// Создание проекта
 			// 1) Заполнение полей
 			FirstStepProjectWizard(ProjectName);
@@ -421,16 +414,13 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			WorkspaceCreateProjectDialog.ClickWorkflowDeleteTask(1);
 			Thread.Sleep(1000);
 
-			var workflowList = WorkspaceCreateProjectDialog.GetWFTaskList();
-			
+			workflowList = WorkspaceCreateProjectDialog.GetWFTaskList();
 			// Проверка наличия только одной задачи
 			Assert.AreEqual(1, workflowList.Count,
 				"Ошибка: Неверное количество задач workflow.");
 
 			// Проверка, что первая задача - Proofreading
-			Assert.AreEqual(
-				"Proofreading",
-				workflowList[0],
+			Assert.AreEqual("Proofreading", workflowList[0],
 				"Ошибка: Первая задача не \"Proofreading\".");
 
 			// Проверка, что первая задача - отображена с первым номером
@@ -448,6 +438,8 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		[Test]
 		public void DeleteTask()
 		{
+			List<string> workflowList = new List<string>();
+
 			// Создание проекта
 			CreateProject(ProjectName);
 			WorkspacePage.WaitProjectLoad(ProjectName);
@@ -469,15 +461,13 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			ProjectPage.ClickProjectSettingsWFDeleteTask(1);
 			Thread.Sleep(1000);
 
-			var workflowList = ProjectPage.GetWFTaskListProjectSettings();
+			workflowList = ProjectPage.GetWFTaskListProjectSettings();
 			// Проверка наличия только одной задачи
 			Assert.AreEqual(1, workflowList.Count,
 				"Ошибка: Неверное количество задач workflow.");
 
 			// Проверка, что первая задача - Proofreading
-			Assert.AreEqual(
-				"Proofreading", 
-				workflowList[0],
+			Assert.AreEqual("Proofreading", workflowList[0],
 				"Ошибка: Первая задача не \"Proofreading\".");
 
 			// Проверка, что первая задача - отображена с первым номером
@@ -512,13 +502,11 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			Thread.Sleep(1000);
 
 			// Проверка наличия отображения сообщения об ошибке
-			Assert.IsTrue(
-				WorkspaceCreateProjectDialog.GetIsErrorWFEmptyDisplayed(),
+			Assert.IsTrue(WorkspaceCreateProjectDialog.GetIsErrorWFEmptyDisplayed(),
 				"Ошибка: Не отображается сообщение об ошибке(пустой workflow).");
 
 			// Проверка, что мастер не перешел на следующий шаг
-			Assert.IsTrue(
-				WorkspaceCreateProjectDialog.GetIsStepWF(),
+			Assert.IsTrue(WorkspaceCreateProjectDialog.GetIsStepWF(),
 				"Ошибка: Мастер не находится на шаге Workflow.");
 
 			//Выход без сохранения проекта
@@ -532,6 +520,9 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		[Test]
 		public void CancelDeleteTask()
 		{
+			List<string> workflowListBefore = new List<string>();
+			List<string> workflowListAfter = new List<string>();
+
 			// Создание проекта
 			// 1) Заполнение полей
 			FirstStepProjectWizard(ProjectName);
@@ -565,7 +556,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			OpenWorkflowSettings();
 			
 			// Записываем задачи Workflow проекта
-			var workflowListBefore = ProjectPage.GetWFTaskListProjectSettings();
+			workflowListBefore = ProjectPage.GetWFTaskListProjectSettings();
 
 			// Удаление первой задачи
 			ProjectPage.ClickProjectSettingsWFDeleteTask(1);
@@ -579,12 +570,10 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			OpenWorkflowSettings();
 
 			// Записываем задачи Workflow проекта
-			var workflowListAfter = ProjectPage.GetWFTaskListProjectSettings();
+			workflowListAfter = ProjectPage.GetWFTaskListProjectSettings();
 
 			// Проверка, что задачи не изменились
-			Assert.AreEqual(
-				workflowListBefore, 
-				workflowListAfter,
+			Assert.AreEqual(workflowListBefore, workflowListAfter,
 				"Ошибка: Список задач изменился.");
 		}
 
@@ -594,9 +583,9 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		[Test]
 		public void ChangingTask()
 		{
-			var workflowList = new List<string>();
-			var workflowTaskBefore = "";
-			var workflowTaskAfter = "";
+			List<string> workflowList = new List<string>();
+			string workflowTaskBefore = "";
+			string workflowTaskAfter = "";
 
 			// Создание проекта
 			CreateProject(ProjectName);
@@ -627,15 +616,11 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			workflowTaskAfter = workflowList[0];
 			
 			// Проверка, что первая задача - Proofreading
-			Assert.AreEqual(
-				"Proofreading",
-				workflowList[0],
+			Assert.AreEqual("Proofreading", workflowList[0],
 				"Ошибка: Вторая задача не \"Proofreading\".");
 
 			// Проверка, что тип задачи изменился
-			Assert.AreNotEqual(
-				workflowTaskBefore,
-				workflowTaskAfter,
+			Assert.AreNotEqual(workflowTaskBefore, workflowTaskAfter,
 				"Ошибка: тип задачи не изменился.");
 		}
 
@@ -645,6 +630,8 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		[Test]
 		public void BackOnCreate()
 		{
+			List<string> workflowList = new List<string>();
+
 			// Создание проекта
 			// 1) Заполнение полей
 			FirstStepProjectWizard(ProjectName);
@@ -671,21 +658,17 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			Thread.Sleep(1000);
 
 			// Проверка workflow
-			var workflowList = WorkspaceCreateProjectDialog.GetWFTaskList();
+			workflowList = WorkspaceCreateProjectDialog.GetWFTaskList();
 			// Проверка наличия только двух задач
 			Assert.AreEqual(2, workflowList.Count,
 				"Ошибка: Неверное количество задач workflow.");
 
 			// Проверка, что первая задача - Translation
-			Assert.AreEqual(
-				"Translation", 
-				workflowList[0],
+			Assert.AreEqual("Translation", workflowList[0],
 				"Ошибка: Первая задача не \"Translation\".");
 
 			// Проверка, что вторая задача - Proofreading
-			Assert.AreEqual(
-				"Proofreading",
-				workflowList[1],
+			Assert.AreEqual("Proofreading", workflowList[1],
 				"Ошибка: Вторая задача не \"Proofreading\".");
 
 			//Выход без сохранения проекта
@@ -699,6 +682,9 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		[Test]
 		public void AddingTaskAfterBack()
 		{
+			List<string> workflowCreateList = new List<string>();
+			List<string> workflowList = new List<string>();
+
 			// Создание проекта
 			// 1) Заполнение полей
 			FirstStepProjectWizard(ProjectName);
@@ -730,7 +716,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			Thread.Sleep(1000);
 
 			// Проверка workflow
-			var workflowCreateList = WorkspaceCreateProjectDialog.GetWFTaskList();
+			workflowCreateList = WorkspaceCreateProjectDialog.GetWFTaskList();
 			// Проверка наличия трех задач
 			Assert.AreEqual(3, workflowCreateList.Count,
 				"Ошибка: Неверное количество задач workflow.");
@@ -761,12 +747,10 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			OpenWorkflowSettings();
 
 			// Записываем задачи Workflow проекта
-			var workflowList = ProjectPage.GetWFTaskListProjectSettings();
+			workflowList = ProjectPage.GetWFTaskListProjectSettings();
 
 			// Проверка отличия задач
-			Assert.AreEqual(
-				workflowCreateList, 
-				workflowList,
+			Assert.AreEqual(workflowCreateList, workflowList,
 				"Ошибка: Задачи отличаются от тех, что были созданы.");
 		}
 
@@ -776,6 +760,9 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		[Test]
 		public void ChangingTaskAfterBack()
 		{
+			List<string> workflowCreateList = new List<string>();
+			List<string> workflowList = new List<string>();
+
 			// Создание проекта
 			// 1) Заполнение полей
 			FirstStepProjectWizard(ProjectName);
@@ -806,7 +793,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			Thread.Sleep(1000);
 
 			// Проверка workflow
-			var workflowCreateList = WorkspaceCreateProjectDialog.GetWFTaskList();
+			workflowCreateList = WorkspaceCreateProjectDialog.GetWFTaskList();
 			// Проверка наличия трех задач
 			Assert.AreEqual(2, workflowCreateList.Count,
 				"Ошибка: Неверное количество задач workflow.");
@@ -833,12 +820,10 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			OpenWorkflowSettings();
 
 			// Записываем задачи Workflow проекта
-			var workflowList = ProjectPage.GetWFTaskListProjectSettings();
+			workflowList = ProjectPage.GetWFTaskListProjectSettings();
 
 			// Проверка отличия задач
-			Assert.AreEqual(
-				workflowCreateList, 
-				workflowList,
+			Assert.AreEqual(workflowCreateList, workflowList,
 				"Ошибка: Задачи отличаются от тех, что были созданы.");
 		}
 
@@ -848,6 +833,9 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		[Test]
 		public void DeletingTaskAfterBack()
 		{
+			List<string> workflowCreateList = new List<string>();
+			List<string> workflowList = new List<string>();
+
 			// Создание проекта
 			// 1) Заполнение полей
 			FirstStepProjectWizard(ProjectName);
@@ -878,7 +866,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			Thread.Sleep(1000);
 
 			// Проверка workflow
-			var workflowCreateList = WorkspaceCreateProjectDialog.GetWFTaskList();
+			workflowCreateList = WorkspaceCreateProjectDialog.GetWFTaskList();
 			// Проверка наличия трех задач
 			Assert.AreEqual(1, workflowCreateList.Count,
 				"Ошибка: Неверное количество задач workflow.");
@@ -901,7 +889,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			OpenWorkflowSettings();
 
 			// Записываем задачи Workflow проекта
-			var workflowList = ProjectPage.GetWFTaskListProjectSettings();
+			workflowList = ProjectPage.GetWFTaskListProjectSettings();
 
 			// Проверка отличия задач
 			Assert.AreEqual(workflowCreateList, workflowList,

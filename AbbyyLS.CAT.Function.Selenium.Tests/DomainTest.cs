@@ -1,6 +1,9 @@
 ﻿﻿using System;
 using System.Threading;
 using NUnit.Framework;
+using OpenQA.Selenium;
+using System.Collections.Generic;
+using System.Windows.Forms;
 
 namespace AbbyyLS.CAT.Function.Selenium.Tests
 {
@@ -12,12 +15,16 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <summary>
 		/// Конструктор теста
 		/// </summary>
+		 
+		 
 		/// <param name="browserName">Название браузера</param>
 		public DomainTest(string browserName)
 			: base(browserName)
 		{
 
 		}
+
+
 
 		/// <summary>
 		/// Начальная подготовка для каждого теста
@@ -32,6 +39,8 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			GoToDomains();
 		}
 
+
+
 		/// <summary>
 		/// Метод тестирования создания Проекта
 		/// </summary>
@@ -39,7 +48,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		public void CreateDomainTest()
 		{
 			// Создать проект с уникальным именем
-			string domainName = getDomainUniqueName();
+			string domainName = GetDomainUniqueName();
 			CreateDomain(domainName);
 
 			// Проверить, что проект сохранился
@@ -53,13 +62,13 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		public void CreateDomainExistingNameTest()
 		{
 			// Создать проект с уникальным именем
-			string domainName = getDomainUniqueName();
+			string domainName = GetDomainUniqueName();
 			CreateDomain(domainName);
 			// Создать проект с таким же именем
 			CreateDomain(domainName, false);
 
 			// Проверить, что появилась ошибка существующего имени - Assert внутри
-			assertExistingDomainNameError();
+			AssertExistingDomainNameError();
 		}
 
 		/// <summary>
@@ -97,11 +106,11 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		public void CreateDomainCheckCreateTMTest()
 		{
 			// Создать проект
-			string domainName = getDomainUniqueName();
+			string domainName = GetDomainUniqueName();
 			CreateDomain(domainName);
 
 			// Проверить, что проект есть в списке при создании ТМ
-			Assert.IsTrue(getIsDomainExistCreateTM(domainName),
+			Assert.IsTrue(GetIsDomainExistCreateTM(domainName),
 				"Ошибка: проекта нет в списке при создании ТМ");
 		}
 
@@ -112,11 +121,11 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		public void CreateDomainCheckCreateGlossaryTest()
 		{
 			// Создать проект
-			string domainName = getDomainUniqueName();
+			string domainName = GetDomainUniqueName();
 			CreateDomain(domainName);
 
 			// Проверить проект в списке при создании глоссария
-			Assert.IsTrue(getIsDomainExistCreateGlossaryTest(domainName),
+			Assert.IsTrue(GetIsDomainExistCreateGlossaryTest(domainName),
 				"Ошибка: проекта нет в списке");
 		}
 
@@ -127,11 +136,11 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		public void CreateDomainCheckCreateGlossaryItemTest()
 		{
 			// Создать проект
-			string domainName = getDomainUniqueName();
+			string domainName = GetDomainUniqueName();
 			CreateDomain(domainName);
 
 			// Проверить, что проект есть в списке при создании термина глоссария
-			Assert.IsTrue(getIsDomainExistCreateGlossaryItemTest(domainName),
+			Assert.IsTrue(GetIsDomainExistCreateGlossaryItemTest(domainName),
 				"Ошибка: проекта нет в списке");
 		}
 
@@ -142,11 +151,11 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		public void ChangeDomainNameTest()
 		{
 			// Создать проект с уникальным именем
-			string domainName = getDomainUniqueName();
+			string domainName = GetDomainUniqueName();
 			CreateDomain(domainName);
 
 			// Новое имя проекта
-			string newDomainName = getDomainUniqueName();
+			string newDomainName = GetDomainUniqueName();
 			// Изменить имя проекта
 			SetDomainNewName(domainName, newDomainName);
 
@@ -163,7 +172,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		public void ChangeDomainEmptyNameTest()
 		{
 			// Создать проект с уникальным именем
-			string domainName = getDomainUniqueName();
+			string domainName = GetDomainUniqueName();
 			CreateDomain(domainName);
 
 			// Изменить имя проекта
@@ -181,7 +190,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		public void ChangeDomainSpaceNameTest()
 		{
 			// Создать проект с уникальным именем
-			string domainName = getDomainUniqueName();
+			string domainName = GetDomainUniqueName();
 			CreateDomain(domainName);
 
 			// Изменить имя проекта
@@ -199,17 +208,17 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		public void ChangeDomainExistingNameTest()
 		{
 			// Создать проект с уникальным именем
-			string domainName = getDomainUniqueName();
+			string domainName = GetDomainUniqueName();
 			CreateDomain(domainName);
 			// Создать другой проект с уникальным именем
-			string secondDomainName = getDomainUniqueName();
+			string secondDomainName = GetDomainUniqueName();
 			CreateDomain(secondDomainName);
 
 			// Изменить имя проекта
 			SetDomainNewName(secondDomainName, domainName, false);
 
 			// Проверить, появилась ли ошибка существующего имени - Assert внутри
-			assertExistingDomainNameError();
+			AssertExistingDomainNameError();
 		}
 
 		/// <summary>
@@ -219,15 +228,13 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		public void DeleteDomainTest()
 		{
 			// Создать проект с уникальным именем
-			string domainName = getDomainUniqueName();
+			string domainName = GetDomainUniqueName();
 			CreateDomain(domainName);
 
 			// Удалить проект
 			DomainPage.ClickDeleteDomain(domainName);
 			// Проверить, что проект удалился
-			Assert.IsTrue(
-				!GetIsDomainExist(domainName), 
-				"Ошибка: проект не удалился");
+			Assert.IsTrue(!GetIsDomainExist(domainName), "Ошибка: проект не удалился");
 		}
 
 		/// <summary>
@@ -237,14 +244,13 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		public void DeleteDomainCheckCreateTM()
 		{
 			// Создать проект с уникальным именем
-			string domainName = getDomainUniqueName();
+			string domainName = GetDomainUniqueName();
 			CreateDomain(domainName);
 
 			// Удалить проект
 			DomainPage.ClickDeleteDomain(domainName);
 			// Проверить, что проекта нет в списке при создании TM
-			Assert.IsTrue(
-				!getIsDomainExistCreateTM(domainName),
+			Assert.IsTrue(!GetIsDomainExistCreateTM(domainName),
 				"Ошибка: проект остался в списке");
 		}
 
@@ -255,14 +261,13 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		public void DeleteDomainCheckCreateGlossaryTest()
 		{
 			// Создать проект с уникальным именем
-			string domainName = getDomainUniqueName();
+			string domainName = GetDomainUniqueName();
 			CreateDomain(domainName);
 
 			// Удалить проект
 			DomainPage.ClickDeleteDomain(domainName);
 			// Проверить, что проекта нет в списке при создании глоссария
-			Assert.IsTrue(
-				!getIsDomainExistCreateGlossaryTest(domainName),
+			Assert.IsTrue(!GetIsDomainExistCreateGlossaryTest(domainName),
 				"Ошибка: проект остался в списке");
 		}
 
@@ -273,27 +278,25 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		public void DeleteDomainCheckCreateGlossaryItemTest()
 		{
 			// Создать проект с уникальным именем
-			string domainName = getDomainUniqueName();
+			string domainName = GetDomainUniqueName();
 			CreateDomain(domainName);
 
 			// Удалить проект
 			DomainPage.ClickDeleteDomain(domainName);
 			// Проверить, что проекта нет в списке при создании термина глоссария
-			Assert.IsTrue(
-				!getIsDomainExistCreateGlossaryItemTest(domainName),
+			Assert.IsTrue(!GetIsDomainExistCreateGlossaryItemTest(domainName),
 				"Ошибка: проект остался в списке");
 		}
 		
+
+
 		/// <summary>
 		/// Изменить имя домена
 		/// </summary>
 		/// <param name="domainName">старое имя</param>
 		/// <param name="newDomainName">новое имя</param>
 		/// <param name="shouldSaveOk">должен сохраниться успешно</param>
-		private void SetDomainNewName(
-			string domainName, 
-			string newDomainName, 
-			bool shouldSaveOk = true)
+		private void SetDomainNewName(string domainName, string newDomainName, bool shouldSaveOk = true)
 		{
 			// Нажать на Edit
 			DomainPage.ClickEditDomainBtn(domainName);
@@ -304,9 +307,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			DomainPage.ClickSaveDomain();
 			if (shouldSaveOk)
 			{
-				Assert.IsTrue(
-					DomainPage.WaitUntilSave(), 
-					"Ошибка: не пропала кнопка Save");
+				Assert.IsTrue(DomainPage.WaitUntilSave(), "Ошибка: не пропала кнопка Save");
 			}
 			else
 			{
@@ -318,19 +319,18 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// Получить уникальное имя домена
 		/// </summary>
 		/// <returns>имя</returns>
-		private static string getDomainUniqueName()
+		private string GetDomainUniqueName()
 		{
-			return "TestDomain" + DateTime.UtcNow.Ticks;
+			return "TestDomain" + DateTime.UtcNow.Ticks.ToString();
 		}
 
 		/// <summary>
 		/// Проверка, есть ли ошибка существующего имени домена (Assert)
 		/// </summary>
-		private void assertExistingDomainNameError()
+		private void AssertExistingDomainNameError()
 		{
 			// Проверить, появилась ли ошибка существующего имени
-			Assert.IsTrue(
-				DomainPage.GetIsNameErrorExist(),
+			Assert.IsTrue(DomainPage.GetIsNameErrorExist(),
 				"Ошибка: не появилась ошибка существующего имени");
 		}
 
@@ -339,7 +339,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// </summary>
 		/// <param name="domainName"></param>
 		/// <returns></returns>
-		private bool getIsDomainExistCreateTM(string domainName)
+		private bool GetIsDomainExistCreateTM(string domainName)
 		{
 			// Перейти на вкладку ТМ
 			SwitchTMTab();
@@ -359,7 +359,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// </summary>
 		/// <param name="domainName"></param>
 		/// <returns></returns>
-		private bool getIsDomainExistCreateGlossaryTest(string domainName)
+		private bool GetIsDomainExistCreateGlossaryTest(string domainName)
 		{
 			// Перейти на вкладку Глоссарии
 			SwitchGlossaryTab();
@@ -378,7 +378,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// </summary>
 		/// <param name="domainName"></param>
 		/// <returns></returns>
-		private bool getIsDomainExistCreateGlossaryItemTest(string domainName)
+		private bool GetIsDomainExistCreateGlossaryItemTest(string domainName)
 		{
 			// Перейти на вкладку Глоссарии
 			SwitchGlossaryTab();
@@ -388,21 +388,15 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 
 			// Открыть Редактирование глоссария
 			GlossaryPage.OpenEditGlossaryList();
-
 			// Открыть форму Редактирование структуры
 			GlossaryPage.OpenEditStructureForm();
 			GlossaryEditStructureForm.WaitPageLoad();
-
 			// Проверить, что открыта нужнная таблица
-			Assert.IsTrue(
-				GlossaryEditStructureForm.GetIsConceptTableDisplay(), 
-				"Ошибка: в редакторе структуры отображается не та таблица");
+			Assert.IsTrue(GlossaryEditStructureForm.GetIsConceptTableDisplay(), "Ошибка: в редакторе структуры отображается не та таблица");
 
 			// Нажать на поле Domain
-			Assert.IsTrue(
-				GlossaryEditStructureForm.ClickFieldToAdd(GlossaryEditStructureFormHelper.ATTRIBUTE_TYPE.Domain),
+			Assert.IsTrue(GlossaryEditStructureForm.ClickFieldToAdd(GlossaryEditStructureFormHelper.ATTRIBUTE_TYPE.Domain),
 				"Ошибка: не удалось выделить поле Domain");
-
 			// Добавить
 			GlossaryEditStructureForm.ClickAddToListBtn();
 
@@ -416,7 +410,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 
 			// Нажать на поле
 			GlossaryPage.NewItemClickDomainField();
-
 			// Вернуть, есть ли domain в списке
 			return GlossaryPage.GetIsDomainExistInItemDomainList(domainName);
 		}

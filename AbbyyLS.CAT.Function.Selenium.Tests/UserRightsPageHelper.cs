@@ -1,7 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using OpenQA.Selenium;
+using OpenQA.Selenium.Firefox;
+using OpenQA.Selenium.Chrome;
+using OpenQA.Selenium.IE;
 using OpenQA.Selenium.Support.UI;
 
 namespace AbbyyLS.CAT.Function.Selenium.Tests
@@ -16,8 +21,8 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// </summary>
 		/// <param name="driver">Драйвер</param>
 		/// <param name="wait">Таймаут</param>
-		public UserRightsPageHelper(IWebDriver driver, WebDriverWait wait)
-			: base(driver, wait)
+		public UserRightsPageHelper(IWebDriver driver, WebDriverWait wait) :
+			base(driver, wait)
 		{
 		}
 
@@ -117,7 +122,11 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		public bool WaitUntilUsersRightsDisplay()
 		{
 			// Ожидаем пока загрузится страница
-			return WaitUntilDisplayElement(By.XPath(USERS_RIGHTS_TABLE_XPATH));
+			if (!WaitUntilDisplayElement(By.XPath(USERS_RIGHTS_TABLE_XPATH)))
+			{
+				return false;
+			}
+			return true;
 		}
 
 		/// <summary>
@@ -127,7 +136,11 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		public bool WaitUntilGroupsRightsDisplay()
 		{
 			// Ожидаем пока загрузится страница
-			return WaitUntilDisplayElement(By.XPath(ADMIN_GROUP_XPATH));
+			if (!WaitUntilDisplayElement(By.XPath(ADMIN_GROUP_XPATH)))
+			{
+				return false;
+			}
+			return true;
 		}
 
 		/// <summary>
@@ -136,10 +149,16 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <returns>Список имен пользователей</returns>
 		public List<string> GetUserFullnameList()
 		{
-			var nameList = GetTextListElement(By.XPath(USERS_XPATH + USER_NAME_XPATH));
-			var surnameList = GetTextListElement(By.XPath(USERS_XPATH + USER_SURNAME_XPATH));
+			List<string> fullNameList = new List<string>();
+			List<string> nameList = GetTextListElement(By.XPath(USERS_XPATH + USER_NAME_XPATH));
+			List<string> surnameList = GetTextListElement(By.XPath(USERS_XPATH + USER_SURNAME_XPATH));
 
-			return nameList.Select((t, i) => (t + " " + surnameList[i]).Trim()).ToList();
+			for (int i = 0; i < nameList.Count; i++)
+			{
+				fullNameList.Add((nameList[i] + " " + surnameList[i]).Trim());
+			}
+
+			return fullNameList;
 		}
 
 		/// <summary>
@@ -166,7 +185,11 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		public bool WaitUntilCreateFormDisplay()
 		{
 			// Ожидаем пока загрузится страница
-			return WaitUntilDisplayElement(By.XPath(CREATE_GROUP_FORM_XPATH));
+			if (!WaitUntilDisplayElement(By.XPath(CREATE_GROUP_FORM_XPATH)))
+			{
+				return false;
+			}
+			return true;
 		}
 
 		/// <summary>
@@ -176,7 +199,11 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		public bool WaitUntilCreateFormDisappear()
 		{
 			// Ожидаем пока загрузится страница
-			return WaitUntilDisappearElement(By.XPath(CREATE_GROUP_FORM_XPATH), 15);
+			if (!WaitUntilDisappearElement(By.XPath(CREATE_GROUP_FORM_XPATH), 15))
+			{
+				return false;
+			}
+			return true;
 		}
 
 		/// <summary>
@@ -210,8 +237,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// </summary>
 		public void ClickGroupByName(string groupName)
 		{
-			ClickElement(By.XPath(GROUPS_XPATH + GROUP_NAME_XPATH + 
-				"[contains(text(), '" + groupName + "')]"));
+			ClickElement(By.XPath(GROUPS_XPATH + GROUP_NAME_XPATH + "[contains(text(), '" + groupName + "')]"));
 		}
 
 		/// <summary>
@@ -220,18 +246,16 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <returns>Список пользователей</returns>
 		public List<string> GetDisplayUsersInGroup()
 		{
-			var usersInGroup = new List<string>();
+			List<string> usersInGroup = new List<string>();
 
-			var xPath = GROUPS_RIGHTS_TABLE_XPATH + GROUP_USERS_XPATH;
+			string xPath = GROUPS_RIGHTS_TABLE_XPATH + GROUP_USERS_XPATH;
 
-			var users = GetElementList(By.XPath(xPath));
+			IList<IWebElement> users = GetElementList(By.XPath(xPath));
 
-			foreach (var user in users)
+			foreach (IWebElement user in users)
 			{
 				if (user.Displayed && user.Text != String.Empty)
-				{
 					usersInGroup.Add(user.Text);
-				}
 			}
 
 			return usersInGroup;
@@ -251,8 +275,16 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// </summary>
 		public bool IsManageAllGlossariesRightIsPresent()
 		{
-			return GetIsElementExist(By.XPath(MANAGE_ALL_GLOSSARIES_TEXT_XPATH));
+			if (GetIsElementExist(By.XPath(MANAGE_ALL_GLOSSARIES_TEXT_XPATH)))
+			{
+				return true;
+			}
+			else
+			{
+				return false;
+			}
 		}
+
 
 
 		protected const string PAGE_LINK_XPATH = "//a[contains(@href,'/Users/Index')]";

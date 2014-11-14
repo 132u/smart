@@ -16,15 +16,13 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// </summary>
 		/// <param name="driver">Драйвер</param>
 		/// <param name="wait">Таймаут</param>
-		public WorkSpacePageHelper(IWebDriver driver, WebDriverWait wait) 
-			: base(driver, wait)
+		public WorkSpacePageHelper(IWebDriver driver, WebDriverWait wait) :
+			base(driver, wait)
 		{
-			exportTypeDict = new Dictionary<EXPORT_TYPE, string>
-			{
-				{EXPORT_TYPE.Original, EXPORT_TYPE_NAME_ORIGINAL},
-				{EXPORT_TYPE.TMX, EXPORT_TYPE_NAME_TMX},
-				{EXPORT_TYPE.Translated, EXPORT_TYPE_NAME_TRANSLATED}
-			};
+			exportTypeDict = new Dictionary<EXPORT_TYPE, string>();
+			exportTypeDict.Add(EXPORT_TYPE.Original, EXPORT_TYPE_NAME_ORIGINAL);
+			exportTypeDict.Add(EXPORT_TYPE.TMX, EXPORT_TYPE_NAME_TMX);
+			exportTypeDict.Add(EXPORT_TYPE.Translated, EXPORT_TYPE_NAME_TRANSLATED);
 		}
 
 		/// <summary>
@@ -51,10 +49,10 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <param name="langType">язык</param>
 		public void SelectLocale(LOCALE_LANGUAGE_SELECT langType)
 		{
-			var lang = langType == LOCALE_LANGUAGE_SELECT.English 
+			string lang = langType == LOCALE_LANGUAGE_SELECT.English 
 									? LOCALE_EN_LANG 
 									: LOCALE_RU_LANG;
-			var xPath = LOCALE_REF_PATH + "[@data-locale='" + lang + "']";
+			string xPath = LOCALE_REF_PATH + "[@data-locale='" + lang + "']";
 			SetDriverTimeoutMinimum();
 
 			if (GetIsElementExist(By.XPath(xPath)))
@@ -126,9 +124,8 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		public bool OpenDocumentInfo(int documentNumber)
 		{
 			// Кликнуть на открытие информации о документе
-			var documentXPath = DOCUMENT_INFO_TR_XPATH + "[" + documentNumber + "]//" + OPEN_CLOSE_TD_XPATH;
-			var isExistDocument = GetIsElementExist(By.XPath(documentXPath));
-			
+			string documentXPath = DOCUMENT_INFO_TR_XPATH + "[" + documentNumber + "]//" + OPEN_CLOSE_TD_XPATH;
+			bool isExistDocument = GetIsElementExist(By.XPath(documentXPath));
 			if (isExistDocument)
 			{
 				ClickElement(By.XPath(documentXPath));
@@ -158,7 +155,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			SetDriverTimeoutMinimum();
 			
 			// Находим, существует ли проект в списке
-			var isExist = GetIsElementExist(By.XPath(GetProjectRefXPath(projectName)));
+			bool isExist = GetIsElementExist(By.XPath(GetProjectRefXPath(projectName)));
 			
 			// Возвращаем дефолтное значение таймаута
 			SetDriverTimeoutDefault();
@@ -208,14 +205,13 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		public bool ClickExportRedBtn()
 		{
 			// Кнопка не заблокирована?
-			var isEnabled = !GetElementClass(By.XPath(EXPORT_BTN_XPATH)).Contains(DISABLED_BTN_CLASS);
+			bool isEnabled = !GetElementClass(By.XPath(EXPORT_BTN_XPATH)).Contains(DISABLED_BTN_CLASS);
 
 			if (isEnabled)
 			{
 				Console.WriteLine("кликнуть красный экспорт\n" + EXPORT_BTN_XPATH);
 				ClickElement(By.XPath(EXPORT_BTN_XPATH));
 			}
-
 			return isEnabled;
 		}
 
@@ -321,7 +317,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		public void CancelAllNotifiers()
 		{
 			SetDriverTimeoutMinimum();
-			var isExist = GetIsElementDisplay(By.XPath(NOTIFIER_CANCEL_BTN_XPATH));
+			bool isExist = GetIsElementDisplay(By.XPath(NOTIFIER_CANCEL_BTN_XPATH));
 
 			while (isExist)
 			{
@@ -391,18 +387,18 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <returns>дата (в DateTime)</returns>
 		public DateTime GetDateFromNotifier()
 		{
-			var notifierText = GetNotifierText();
+			string notifierText = GetNotifierText();
 			// Распарсим дату в сообщении об экспорте
-			var startIndex = notifierText.IndexOf("/") - 2;
-			var month = notifierText.Substring(startIndex, 2);
+			int startIndex = notifierText.IndexOf("/") - 2;
+			string month = notifierText.Substring(startIndex, 2);
 			startIndex += 3; // "mm/" = 3
-			var day = notifierText.Substring(startIndex, 2);
+			string day = notifierText.Substring(startIndex, 2);
 			startIndex += 3; // "dd/" = 3
-			var year = notifierText.Substring(startIndex, 4);
+			string year = notifierText.Substring(startIndex, 4);
 			startIndex += 5; // "yyyy " = 5;
-			var hour = notifierText.Substring(startIndex, 2);
+			string hour = notifierText.Substring(startIndex, 2);
 			startIndex += 3; // "hh:" = 3
-			var min = notifierText.Substring(startIndex, 2);
+			string min = notifierText.Substring(startIndex, 2);
 			Console.WriteLine(month + "/" + day + "/" + year + " " + hour + ":" + min);
 
 			// Получили дату
@@ -423,7 +419,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <returns>форма открылась</returns>
 		public bool ClickConfirmDelete()
 		{
-			var isExistForm = WaitUntilDisplayElement(By.XPath(CONFIRM_DELETE_FORM_XPATH));
+			bool isExistForm = WaitUntilDisplayElement(By.XPath(CONFIRM_DELETE_FORM_XPATH));
 			if (isExistForm)
 			{
 				ClickElement(By.XPath(CONFIRM_DELETE_YES_XPATH));
@@ -465,8 +461,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <returns>кнопка Удалить проекта есть</returns>
 		public bool ClickDeleteProjectDeleteMode()
 		{
-			var isBtnExist = GetIsElementExist(By.XPath(DELETE_MODE_DIALOG_DELETE_PROJECT_XPATH));
-			
+			bool isBtnExist = GetIsElementExist(By.XPath(DELETE_MODE_DIALOG_DELETE_PROJECT_XPATH));
 			if (isBtnExist)
 			{
 				ClickElement(By.XPath(DELETE_MODE_DIALOG_DELETE_PROJECT_XPATH));

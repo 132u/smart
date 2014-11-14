@@ -1,7 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using NUnit.Framework;
 using OpenQA.Selenium;
+using OpenQA.Selenium.Firefox;
+using OpenQA.Selenium.Chrome;
+using OpenQA.Selenium.IE;
 using OpenQA.Selenium.Support.UI;
 using System.Windows.Forms;
 using System.Threading;
@@ -18,15 +24,13 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// </summary>
 		/// <param name="driver">Драйвер</param>
 		/// <param name="wait">Таймаут</param>
-		public EditorPageHelper(IWebDriver driver, WebDriverWait wait) 
-			: base(driver, wait)
+		public EditorPageHelper(IWebDriver driver, WebDriverWait wait) :
+			base(driver, wait)
 		{
-			CATTypeDict = new Dictionary<CAT_TYPE, string>
-			{
-				{CAT_TYPE.MT, "MT"},
-				{CAT_TYPE.TM, "TM"},
-				{CAT_TYPE.TB, "TB"}
-			};
+			CATTypeDict = new Dictionary<CAT_TYPE, string>();
+			CATTypeDict.Add(CAT_TYPE.MT, "MT");
+			CATTypeDict.Add(CAT_TYPE.TM, "TM");
+			CATTypeDict.Add(CAT_TYPE.TB, "TB");
 		}
 
 		/// <summary>
@@ -83,14 +87,14 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <returns>Строка выбора</returns>
 		public string RightClickSpellcheck(int rowNum, int variantRow)
 		{
-			var xPath = SEGMENT_ROW_XPATH + "[" + rowNum + "]" +
+			string xPath = SEGMENT_ROW_XPATH + "[" + rowNum + "]" +
 				SPELLCHECK_TARGET_XPATH;
-			var result = "";
+			string result = "";
+
 			var actions = new OpenQA.Selenium.Interactions.Actions(Driver);
-			
 			actions.MoveToElement(GetElement(By.XPath(xPath)), 1, 1).ContextClick().Build().Perform();
 
-			var elements = GetElementList(By.XPath(CONTEXT_MENU_SPELLCHECK_ADD_XPATH + "/../../div[" + variantRow + "]/span"));
+			IList<IWebElement> elements = GetElementList(By.XPath(CONTEXT_MENU_SPELLCHECK_ADD_XPATH + "/../../div[" + variantRow + "]/span"));
 
 			foreach (IWebElement element in elements)
 			{
@@ -480,7 +484,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <returns>Tag есть</returns>
 		public bool GetIsTagPresent(int rowNumber)
 		{
-			var xPath = SEGMENT_ROW_XPATH +
+			string xPath = SEGMENT_ROW_XPATH +
 				"[" + rowNumber + "]" + TAG_TARGET_XPATH;
 
 			return GetIsElementExist(By.XPath(xPath));
@@ -503,7 +507,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <returns>сегмент подтвердился</returns>
 		public bool WaitSegmentConfirm(int segmentRowNumber)
 		{
-			var xPath = "";
+			string xPath = "";
 			xPath = SEGMENT_ROW_XPATH + "[" + segmentRowNumber + "]//td[contains(@class,'" + INFO_COLUMN_CLASS + "')]//span[contains(@class,'" + CONFIRMED_ICO_CLASS + "')]";
 
 			return WaitUntilDisplayElement(By.XPath(xPath));
@@ -516,7 +520,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <returns>Сегмент заблокирован</returns>
 		public bool GetIsSegmentLock(int segmentRowNumber)
 		{
-			var xPath = "";
+			string xPath = "";
 			xPath = SEGMENT_ROW_XPATH + "[" + segmentRowNumber + "]//td[contains(@class,'" +
 				INFO_COLUMN_CLASS + "')]//span[contains(@class,'" +
 				LOCKED_ICO_CLASS + "')][not(contains(@class,'inactive'))]";
@@ -531,7 +535,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <returns>Сегмент подтвержден</returns>
 		public bool GetIsSegmentConfirm(int segmentRowNumber)
 		{
-			var xPath = "";
+			string xPath = "";
 			xPath = SEGMENT_ROW_XPATH + "[" + segmentRowNumber + "]//td[contains(@class,'" +
 				INFO_COLUMN_CLASS + "')]//span[contains(@class,'" +
 				CONFIRMED_ICO_CLASS + "')]";
@@ -554,10 +558,10 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <returns>количество</returns>
 		public int GetSegmentsNumber()
 		{
-			var segmentCount = GetElementList(By.CssSelector(SEGMENTS_CSS)).Count;
+			int segmentCount;
+			segmentCount = GetElementList(By.CssSelector(SEGMENTS_CSS)).Count;
 
 			Console.WriteLine("segmentCount: " + segmentCount);
-
 			return segmentCount;
 		}
 
@@ -567,17 +571,16 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <returns>не пуста</returns>
 		public bool GetCATPanelNotEmpty()
 		{
-			var xPath = CAT_PANEL_EXISTENCE_XPATH;
+			string xPath;
+			xPath = CAT_PANEL_EXISTENCE_XPATH;
 
 			// проверить, что вообще есть панель
-			var isNotEmpty = GetIsElementExist(By.Id(CAT_PANEL_ID));
-
+			bool isNotEmpty = GetIsElementExist(By.Id(CAT_PANEL_ID));
 			if (isNotEmpty)
 			{
 				// Проверить, что в панели есть содержимое
 				isNotEmpty = GetIsElementExist(By.XPath(xPath));
 			}
-
 			return isNotEmpty;
 		}
 
@@ -589,11 +592,9 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		public int GetCATTranslationRowNumber(CAT_TYPE type)
 		{
 			int rowNum = 0;
-
 			// Список текстов
-			var textList = GetTextListElement(By.XPath(CAT_PANEL_TYPE_COLUMN_XPATH));
-			var typeStr = CATTypeDict[type];
-
+			List<string> textList = GetTextListElement(By.XPath(CAT_PANEL_TYPE_COLUMN_XPATH));
+			string typeStr = CATTypeDict[type];
 			for (int i = 0; i < textList.Count; ++i)
 			{
 				if (textList[i].Contains(typeStr))
@@ -611,7 +612,8 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <param name="rowNumber">номер строки в панели</param>
 		public void DoubleClickCATPanel(int rowNumber)
 		{
-			const string xPath = CAT_PANEL_EXISTENCE_XPATH;
+			string xPath;
+			xPath = CAT_PANEL_EXISTENCE_XPATH;
 
 			DoubleClickElement(By.XPath(xPath + "[" + rowNumber + "]" + CAT_PANEL_TEXT_COL_PART));
 		}
@@ -621,7 +623,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// </summary>
 		/// <param name="rowNumber">номер строки в кат-панели</param>
 		/// <returns>текст</returns>
-		public string GetCatPanelText(int rowNumber)
+		public string GetCATPanelText(int rowNumber)
 		{
 			return GetTextElement(By.XPath(CAT_PANEL_TEXT_COLUMN_XPATH));
 		}
@@ -664,8 +666,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <returns>xPath</returns>
 		protected string GetTargetWithTextXpath(int segmentNumber, string text)
 		{
-			return "//table[@data-recordindex='" + (segmentNumber - 1) + 
-				"' and contains(@id, 'segment')]" + TARGET_TEXT_XPATH + text + "']";
+			return "//table[@data-recordindex='" + (segmentNumber - 1) + "' and contains(@id, 'segment')]" + TARGET_TEXT_XPATH + text + "']";
 		}
 
 		/// <summary>
@@ -675,8 +676,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <returns>xPath</returns>
 		protected string GetSourceCellCss(int rowNumber)
 		{
-			return SEGMENTS_CSS + ":nth-child(" + rowNumber + ")" + 
-				" td." + SOURCE_CELL_CLASS + " div";
+			return SEGMENTS_CSS + ":nth-child(" + rowNumber + ")" + " td." + SOURCE_CELL_CLASS + " div";
 		}
 
 		/// <summary>
@@ -686,24 +686,27 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <returns>Список подсвеченных в сегменте текстов</returns>
 		public List<string> GetSegmentSelectedTexts(int segmentRowNumber)
 		{
-			var selectedTexts = new List<string>();
-
+			List<string> selectedTexts = new List<string>();
 			// Выбор нужного сегмента
 			ClickSourceCell(segmentRowNumber);
 			Thread.Sleep(1000);
 
 			// Выборка подсвеченных слов в сегменте
-			var segmentCss = SEGMENTS_CSS + ":nth-child(" + segmentRowNumber + ") td:nth-child(2) div pre span";
+			string segmentCSS;
+			segmentCSS = SEGMENTS_CSS + ":nth-child(" + segmentRowNumber + ") td:nth-child(2) div pre span";
 
 			// Выставляем минимальный таймаут
 			SetDriverTimeoutMinimum();
 
-			var segmentCatSelectedList = GetElementList(By.CssSelector(segmentCss));
+			IList<IWebElement> segmentCatSelectedList = GetElementList(By.CssSelector(segmentCSS));
 
 			// Получаем список в нижнем регистре
 			if (segmentCatSelectedList.Count > 0)
 			{
-				selectedTexts.AddRange(segmentCatSelectedList.Select(item => item.Text.ToLower()));
+				foreach (IWebElement item in segmentCatSelectedList)
+				{
+					selectedTexts.Add(item.Text.ToLower());
+				}
 			}
 
 			// Выставляем дефолтное значение таймаута
@@ -834,9 +837,9 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <returns>Список слов из словаря</returns>
 		public List<string> GetWordListDictionary()
 		{
-			const string xPath = WORDS_TABLE_XPATH + WORD_XPATH;
+			string xPath = WORDS_TABLE_XPATH + WORD_XPATH;
 
-			var wordList = new List<string>();
+			List<string> wordList = new List<string>();
 
 			if (GetIsElementExist(By.XPath(xPath)))
 				wordList = GetTextListElement(By.XPath(xPath));
@@ -861,15 +864,13 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <returns>Список подчеркнутых слов</returns>
 		public List<string> GetWordListSpellcheck(int rowNumber)
 		{
-			var xPath = SEGMENT_ROW_XPATH + "[" + rowNumber + "]" +
+			string xPath = SEGMENT_ROW_XPATH + "[" + rowNumber + "]" +
 				SPELLCHECK_TARGET_XPATH;
 
-			var wordList = new List<string>();
+			List<string> wordList = new List<string>();
 
 			if (GetIsElementExist(By.XPath(xPath)))
-			{
 				wordList = GetTextListElement(By.XPath(xPath));
-			}
 
 			return wordList;
 		}
@@ -935,7 +936,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		{
 			// берем процент совпадения
 			var targetMatchPercent = GetTextElement(By.XPath(targetMatchColumnPercentXpath(segmentNumber)));
-
 			// Переводим в int
 			return ParseStrToInt(targetMatchPercent.Remove(targetMatchPercent.IndexOf('%')));
 		}
@@ -945,10 +945,9 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// </summary>
 		/// <param name="segmentNumber">номер сегмента таргет</param> 
 		/// <returns>xpath типа подстановки</returns>
-		private static string targetMatchColumnTextXpath(int segmentNumber)
+		private string targetMatchColumnTextXpath(int segmentNumber)
 		{
-			return "//table[@data-recordindex='" + (segmentNumber - 1) 
-				+ "' and contains(@id, 'segment')]" + TARGET_MATCH_COLUMN_XPATH;
+			return "//table[@data-recordindex='" + (segmentNumber - 1) + "' and contains(@id, 'segment')]" + TARGET_MATCH_COLUMN_XPATH;
 		}
 
 		/// <summary>
@@ -956,10 +955,9 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// </summary>
 		/// <param name="segmentNumber">номер сегмента таргет</param> 
 		/// <returns>xpath процента совпадения</returns>
-		private static string targetMatchColumnPercentXpath(int segmentNumber)
+		private string targetMatchColumnPercentXpath(int segmentNumber)
 		{
-			return "//table[@data-recordindex='" + (segmentNumber - 1) 
-				+ "' and contains(@id, 'segment')]" + TARGET_MATCH_COLUMN_PERCENT_XPATH;
+			return "//table[@data-recordindex='" + (segmentNumber - 1) + "' and contains(@id, 'segment')]" + TARGET_MATCH_COLUMN_PERCENT_XPATH;
 		}
 
 
@@ -1036,9 +1034,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		protected const string CAT_PANEL_TYPE_COLUMN_MATCH_XPATH = CAT_PANEL_EXISTENCE_XPATH + "//td[3]//div//span";
 
 		public enum CAT_TYPE { MT, TM, TB };
-
 		protected Dictionary<CAT_TYPE, string> CATTypeDict;
-
 		protected const string WORKFLOW_SELECT_WINDOW = ".//div[@id='workflowselectwindow-1025']";
 		protected const string TASK_IN_WORKFLOW_SELECT_WINDOW = "//span[@id='wf-stagenumber-1-btn-btnInnerEl' and text()='Translation']";
 

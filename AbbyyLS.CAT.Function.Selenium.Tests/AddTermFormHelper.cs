@@ -1,5 +1,15 @@
-﻿using OpenQA.Selenium;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using OpenQA.Selenium;
+using OpenQA.Selenium.Firefox;
+using OpenQA.Selenium.Chrome;
+using OpenQA.Selenium.IE;
 using OpenQA.Selenium.Support.UI;
+using System.Windows.Forms;
+using System.Threading;
 
 namespace AbbyyLS.CAT.Function.Selenium.Tests
 {
@@ -18,6 +28,8 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		{
 
 		}
+
+
 
 		/// <summary>
 		/// Нажать кнопку "Отмена"
@@ -167,6 +179,8 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		{
 			return WaitUntilDisplayElement(By.XPath(CONTAINS_TERM_MESSAGE_XPATH), 5);
 		}
+
+
 
 		protected const string CANCEL_BTN_XPATH = "//div[contains(@id, 'term-window')]//span[contains(string(), 'Cancel')]";
 		protected const string ADD_BTN_XPATH = "//div[contains(@id, 'term-window')]//span[contains(string(), 'Add')]";

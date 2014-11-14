@@ -67,8 +67,8 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// </summary>
 		public void CreateResultFile()
 		{
-			var fi = new FileInfo(ResultFilePath);
-			var sw = fi.CreateText();
+			FileInfo fi = new FileInfo(ResultFilePath);
+			StreamWriter sw = fi.CreateText();
 			sw.WriteLine("Test Results");
 			sw.Close();
 		}
@@ -79,7 +79,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <param name="s">Строка, записываемая в файл</param>
 		public void WriteStringIntoFile(string s)
 		{
-			var sw = new StreamWriter(ResultFilePath, true);
+			StreamWriter sw = new StreamWriter(ResultFilePath, true);
 			sw.WriteLine(s);
 			sw.Close();
 		}
@@ -113,7 +113,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <param name="p">Параметр, отвечающий за цвет: 0 - fail(red), 1 - pass(green), 2 - black</param>
 		public void WriteFileConsoleResults(string s, int p)
 		{
-			var sw = new StreamWriter(ResultFilePath, true);
+			StreamWriter sw = new StreamWriter(ResultFilePath, true);
 
 			switch (p)
 			{
@@ -125,7 +125,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 					sw.WriteLine(s);
 					sw.WriteLine("\n");
 					sw.Close();
-
 					break;
 				//успешно пройденные тесты
 				case 1:
@@ -135,19 +134,22 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 					sw.WriteLine(s);
 					sw.WriteLine("\n");
 					sw.Close();
-
 					break;
 				case 2:
 					Console.WriteLine(s);
 					sw.WriteLine(s);
 					sw.WriteLine("\n");
 					sw.Close();
-
 					break;
 				default:
 					break;
 			}
 		}
+
+		///////////////////////////////
+
+
+
 
 		/// <summary>
 		/// Создать проект, добавить документ
@@ -169,9 +171,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		protected void CheckProjectInList(string projectName)
 		{
 			//проверка, что проект с именем projectName есть на странице
-			Assert.IsTrue(
-				GetIsExistProject(projectName), 
-				"Ошибка: проекта " + projectName + " нет в списке");
+			Assert.IsTrue(GetIsExistProject(projectName), "Ошибка: проекта " + projectName + " нет в списке");
 		}
 
 		/// <summary>
@@ -182,10 +182,11 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		protected bool GetIsNotExistProject(string projectNameCheck)
 		{
 			setDriverTimeoutMinimum();
-			// Проекта нет?
-			var isNotExist = !GetIsExistProject(projectNameCheck);
-			setDriverTimeoutDefault();
 
+			// Проекта нет?
+			bool isNotExist = !GetIsExistProject(projectNameCheck);
+
+			setDriverTimeoutDefault();
 			return isNotExist;
 		}
 	}

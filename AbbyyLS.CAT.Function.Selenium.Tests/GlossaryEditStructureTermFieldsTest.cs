@@ -1,4 +1,9 @@
-﻿using NUnit.Framework;
+﻿using System;
+using System.Threading;
+using NUnit.Framework;
+using OpenQA.Selenium;
+using System.Collections.Generic;
+using System.Windows.Forms;
 
 namespace AbbyyLS.CAT.Function.Selenium.Tests
 {
@@ -10,6 +15,8 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <summary>
 		/// Конструктор теста
 		/// </summary>
+		 
+		 
 		/// <param name="browserName">Название браузера</param>
 		public GlossaryEditStructureTermFieldsTest(string browserName)
 			: base(browserName)
@@ -18,12 +25,20 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		}
 
 		/// <summary>
+		/// Начальная подготовка для каждого теста
+		/// </summary>
+		[SetUp]
+		public void Setup()
+		{
+		}
+
+		/// <summary>
 		/// Метод тестирования изменения структуры на уровне Term - поле Source
 		/// </summary>
 		[Test]
 		public void AddSourceFieldTest()
 		{
-			var fieldName = GlossaryEditStructureForm.attributeDict[GlossaryEditStructureFormHelper.ATTRIBUTE_TYPE.Source];
+			string fieldName = GlossaryEditStructureForm.attributeDict[GlossaryEditStructureFormHelper.ATTRIBUTE_TYPE.Source];
 			CheckTermLevelField(fieldName);
 		}
 
@@ -33,7 +48,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		[Test]
 		public void AddInterpretationFieldTest()
 		{
-			var fieldName = GlossaryEditStructureForm.attributeDict[GlossaryEditStructureFormHelper.ATTRIBUTE_TYPE.Interpretation];
+			string fieldName = GlossaryEditStructureForm.attributeDict[GlossaryEditStructureFormHelper.ATTRIBUTE_TYPE.Interpretation];
 			CheckTermLevelField(fieldName);
 		}
 
@@ -43,7 +58,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		[Test]
 		public void AddInterpretationSourceFieldTest()
 		{
-			var fieldName = GlossaryEditStructureForm.attributeDict[GlossaryEditStructureFormHelper.ATTRIBUTE_TYPE.InterpretationSource];
+			string fieldName = GlossaryEditStructureForm.attributeDict[GlossaryEditStructureFormHelper.ATTRIBUTE_TYPE.InterpretationSource];
 			CheckTermLevelField(fieldName);
 		}
 
@@ -53,7 +68,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		[Test]
 		public void AddContextFieldTest()
 		{
-			var fieldName = GlossaryEditStructureForm.attributeDict[GlossaryEditStructureFormHelper.ATTRIBUTE_TYPE.Context];
+			string fieldName = GlossaryEditStructureForm.attributeDict[GlossaryEditStructureFormHelper.ATTRIBUTE_TYPE.Context];
 			CheckTermLevelField(fieldName);
 		}
 
@@ -63,7 +78,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		[Test]
 		public void AddContextSourceFieldTest()
 		{
-			var fieldName = GlossaryEditStructureForm.attributeDict[GlossaryEditStructureFormHelper.ATTRIBUTE_TYPE.ContextSource];
+			string fieldName = GlossaryEditStructureForm.attributeDict[GlossaryEditStructureFormHelper.ATTRIBUTE_TYPE.ContextSource];
 			CheckTermLevelField(fieldName);
 		}
 
@@ -73,7 +88,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		[Test]
 		public void AddStatusFieldTest()
 		{
-			var fieldName = GlossaryEditStructureForm.attributeDict[GlossaryEditStructureFormHelper.ATTRIBUTE_TYPE.Status];
+			string fieldName = GlossaryEditStructureForm.attributeDict[GlossaryEditStructureFormHelper.ATTRIBUTE_TYPE.Status];
 			CheckTermLevelSelectField(fieldName);
 		}
 
@@ -83,7 +98,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		[Test]
 		public void AddLabelFieldTest()
 		{
-			var fieldName = GlossaryEditStructureForm.attributeDict[GlossaryEditStructureFormHelper.ATTRIBUTE_TYPE.Label];
+			string fieldName = GlossaryEditStructureForm.attributeDict[GlossaryEditStructureFormHelper.ATTRIBUTE_TYPE.Label];
 			CheckTermLevelSelectField(fieldName);
 		}
 
@@ -93,7 +108,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		[Test]
 		public void AddGenderFieldTest()
 		{
-			var fieldName = GlossaryEditStructureForm.attributeDict[GlossaryEditStructureFormHelper.ATTRIBUTE_TYPE.Gender];
+			string fieldName = GlossaryEditStructureForm.attributeDict[GlossaryEditStructureFormHelper.ATTRIBUTE_TYPE.Gender];
 			CheckTermLevelSelectField(fieldName);
 		}
 
@@ -103,7 +118,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		[Test]
 		public void AddNumberFieldTest()
 		{
-			var fieldName = GlossaryEditStructureForm.attributeDict[GlossaryEditStructureFormHelper.ATTRIBUTE_TYPE.Number];
+			string fieldName = GlossaryEditStructureForm.attributeDict[GlossaryEditStructureFormHelper.ATTRIBUTE_TYPE.Number];
 			CheckTermLevelSelectField(fieldName);
 		}
 
@@ -113,7 +128,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		[Test]
 		public void AddPartOfSpeechFieldTest()
 		{
-			var fieldName = GlossaryEditStructureForm.attributeDict[GlossaryEditStructureFormHelper.ATTRIBUTE_TYPE.PartOfSpeech];
+			string fieldName = GlossaryEditStructureForm.attributeDict[GlossaryEditStructureFormHelper.ATTRIBUTE_TYPE.PartOfSpeech];
 			CheckTermLevelSelectField(fieldName);
 		}
 
@@ -129,15 +144,13 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			EditGlossaryTermStructure();
 
 			// Проверить, что поле есть			
-			Assert.IsTrue(
-				GlossaryPage.GetIsExistDetailsSelect(fieldName), 
-				"Ошибка: поле не появилось!");
+			Assert.IsTrue(GlossaryPage.GetIsExistDetailsSelect(fieldName), "Ошибка: поле не появилось!");
 
-			var optionId = GlossaryPage.GetDetailsSelectOptionID(fieldName, 2);
+			string optionId = GlossaryPage.GetDetailsSelectOptionID(fieldName, 2);
 			// Нажать, чтобы список открылся
 			GlossaryPage.ClickDetailsSelectDropdown(fieldName);
 			// Выбрать значение
-			var optionText = GlossaryPage.GetListItemText(optionId);
+			string optionText = GlossaryPage.GetListItemText(optionId);
 			GlossaryPage.ClickListItemByID(optionId);
 
 			// Сохранить термин
@@ -146,7 +159,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			Assert.IsTrue(GlossaryPage.WaitConceptSave(), "Ошибка: термин не сохранился");
 			// Нажать на термин, чтобы появились поля для Term
 			GlossaryPage.OpenTermLevel();
-			var fieldText = GlossaryPage.GetDetailsSelectValue(fieldName);
+			string fieldText = GlossaryPage.GetDetailsSelectValue(fieldName);
 			// Проверить значение поля
 			Assert.AreEqual(optionText, fieldText, "Ошибка: значение не сохранилось\n");
 		}
@@ -161,27 +174,20 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			EditGlossaryTermStructure();
 
 			// Проверить, что поле есть			
-			Assert.IsTrue(
-				GlossaryPage.GetIsExistDetailsTextarea(fieldName), 
-				"Ошибка: поле не появилось!");
-
+			Assert.IsTrue(GlossaryPage.GetIsExistDetailsTextarea(fieldName), "Ошибка: поле не появилось!");
 			// Ввести текст в поле
-			var fieldExample = fieldName + " Example";
+			string fieldExample = fieldName + " Example";
 			GlossaryPage.FillDetailTextarea(fieldName, fieldExample);
+
 			// Сохранить термин
 			GlossaryPage.ClickSaveExtendedConcept();
-
 			// Дождаться появления поля с сохраненным термином
 			Assert.IsTrue(GlossaryPage.WaitConceptSave(), "Ошибка: термин не сохранился");
-
 			// Нажать на термин, чтобы появились поля для Term
 			GlossaryPage.OpenTermLevel();
-
 			// Проверить, что значение сохранилось
-			Assert.AreEqual(
-				fieldExample, 
-				GlossaryPage.GetDetailTextareaValue(fieldName), 
-				"Ошибка: текст не сохранился\n");
+			string fieldText = GlossaryPage.GetDetailTextareaValue(fieldName);
+			Assert.AreEqual(fieldExample, fieldText, "Ошибка: текст не сохранился\n");
 		}
 
 		/// <summary>
@@ -190,8 +196,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		protected void EditGlossaryTermStructure()
 		{
 			// Имя глоссария для тестирования структуры уровня Language, чтобы не создавать лишний раз
-			const string glossaryName = "TestGlossaryEditStructureTermLevelUniqueName";
-
+			string glossaryName = "TestGlossaryEditStructureTermLevelUniqueName";
 			if (!GetIsExistGlossary(glossaryName))
 			{
 				// Создать глоссарий
@@ -205,10 +210,12 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 
 			// Добавить все поля в структуру
 			AddAllSystemTermFieldStructure();
+
 			// Нажать New item
 			GlossaryPage.ClickNewItemBtn();
 			// Заполнить термин
 			FillNewItemExtended();
+
 			// Нажать на термин, чтобы появились поля для Term
 			GlossaryPage.OpenTermLevel();
 		}

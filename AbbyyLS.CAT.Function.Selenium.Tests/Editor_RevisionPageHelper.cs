@@ -1,5 +1,12 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using OpenQA.Selenium;
+using OpenQA.Selenium.Firefox;
+using OpenQA.Selenium.Chrome;
+using OpenQA.Selenium.IE;
 using OpenQA.Selenium.Support.UI;
 
 namespace AbbyyLS.CAT.Function.Selenium.Tests
@@ -14,17 +21,15 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// </summary>
 		/// <param name="driver">Драйвер</param>
 		/// <param name="wait">Таймаут</param>
-		public Editor_RevisionPageHelper(IWebDriver driver, WebDriverWait wait) 
-			: base(driver, wait)
+		public Editor_RevisionPageHelper(IWebDriver driver, WebDriverWait wait) :
+			base(driver, wait)
 		{
-			revisionTypeList = new Dictionary<string,RevisionType>
-			{
-				{REVISION_TYPE_AUTOSAVE, RevisionType.AutoSave},
-				{REVISION_TYPE_CONFIRMED, RevisionType.Confirmed},
-				{REVISION_TYPE_INSERT_MT, RevisionType.InsertMT},
-				{REVISION_TYPE_INSERT_TM, RevisionType.InsertTM},
-				{REVISION_TYPE_ROLLBACK, RevisionType.Rollback}
-			};
+			revisionTypeList = new Dictionary<string,RevisionType>();
+			revisionTypeList.Add(REVISION_TYPE_AUTOSAVE, RevisionType.AutoSave);
+			revisionTypeList.Add(REVISION_TYPE_CONFIRMED, RevisionType.Confirmed);
+			revisionTypeList.Add(REVISION_TYPE_INSERT_MT, RevisionType.InsertMT);
+			revisionTypeList.Add(REVISION_TYPE_INSERT_TM, RevisionType.InsertTM);
+			revisionTypeList.Add(REVISION_TYPE_ROLLBACK, RevisionType.Rollback);
 		}
 
 		/// <summary>
@@ -35,7 +40,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		{
 			// Открыть вкладку Ревизии
 			ClickElement(By.Id(REVISION_BTN_ID));
-
 			// Дождаться открытия
 			return WaitUntilDisplayElement(By.Id(REVISION_TAB_ID));
 		}
@@ -56,7 +60,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <returns>появилась</returns>
 		public bool WaitRevisionAppear(int revisionNumber)
 		{
-			var revisionXPath = "";
+			string revisionXPath = "";
 
 			revisionXPath = REVISION_LIST_XPATH;
 
@@ -107,8 +111,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <returns>тип</returns>
 		public RevisionType GetRevisionType(int revisionNumber)
 		{
-			var typeStr = GetTextElement(By.XPath(GetRevisionCellXPath(revisionNumber, TYPE_COLUMN_XPATH)));
-			
+			string typeStr = GetTextElement(By.XPath(GetRevisionCellXPath(revisionNumber, TYPE_COLUMN_XPATH)));
 			return revisionTypeList[typeStr];
 		}
 
@@ -119,19 +122,17 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <returns>есть ревизия</returns>
 		public bool ClickRevision(int revisionNumber)
 		{
-			var revisionXPath = "";
+			string revisionXPath = "";
 			
 			revisionXPath = REVISION_LIST_XPATH + "[" + revisionNumber + "]//td";
 
 			// Есть ли ревизия
-			var isExistRevision = GetIsElementExist(By.XPath(revisionXPath));
-			
+			bool isExistRevision = GetIsElementExist(By.XPath(revisionXPath));
 			if (isExistRevision)
 			{
 				// Кликнуть ревизию
 				ClickElement(By.XPath(revisionXPath));
 			}
-
 			return isExistRevision;
 		}
 
@@ -141,7 +142,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <returns>количество</returns>
 		public int GetRevisionListCount()
 		{
-			var revisionXPath = "";
+			string revisionXPath = "";
 
 			revisionXPath = REVISION_LIST_XPATH;
 
@@ -218,7 +219,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <returns>xPath</returns>
 		protected string GetRevisionCellXPath(int revisionNumber, string column)
 		{
-			var revisionXPath = "";
+			string revisionXPath = "";
 
 			revisionXPath = REVISION_LIST_XPATH;
 

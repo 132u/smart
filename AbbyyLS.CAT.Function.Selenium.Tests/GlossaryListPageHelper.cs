@@ -1,4 +1,12 @@
-﻿using OpenQA.Selenium;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using OpenQA.Selenium;
+using OpenQA.Selenium.Firefox;
+using OpenQA.Selenium.Chrome;
+using OpenQA.Selenium.IE;
 using OpenQA.Selenium.Support.UI;
 
 namespace AbbyyLS.CAT.Function.Selenium.Tests
@@ -13,8 +21,8 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// </summary>
 		/// <param name="driver">Драйвер</param>
 		/// <param name="wait">Таймаут</param>
-		public GlossaryListPageHelper(IWebDriver driver, WebDriverWait wait)
-			: base(driver, wait)
+		public GlossaryListPageHelper(IWebDriver driver, WebDriverWait wait) :
+			base(driver, wait)
 		{
 		}
 
@@ -42,7 +50,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		public bool GetIsAddSuggestExist()
 		{
 			SetDriverTimeoutMinimum();
-			var isExist = GetIsElementDisplay(By.XPath(ADD_SUGGEST_BTN_XPATH));
+			bool isExist = GetIsElementDisplay(By.XPath(ADD_SUGGEST_BTN_XPATH));
 			SetDriverTimeoutDefault();
 
 			return isExist;

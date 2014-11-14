@@ -1,5 +1,12 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using OpenQA.Selenium;
+using OpenQA.Selenium.Firefox;
+using OpenQA.Selenium.Chrome;
+using OpenQA.Selenium.IE;
 using OpenQA.Selenium.Support.UI;
 
 namespace AbbyyLS.CAT.Function.Selenium.Tests
@@ -14,8 +21,8 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// </summary>
 		/// <param name="driver">Драйвер</param>
 		/// <param name="wait">Таймаут</param>
-		public SuggestTermDialogHelper(IWebDriver driver, WebDriverWait wait)
-			: base(driver, wait)
+		public SuggestTermDialogHelper(IWebDriver driver, WebDriverWait wait) :
+			base(driver, wait)
 		{
 		}
 
@@ -54,7 +61,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		public bool OpenGlossaryList()
 		{
 			ClickElement(By.XPath(OPEN_GLOSSARY_LIST_XPATH));
-
 			return WaitUntilDisplayElement(By.XPath(LIST_XPATH));
 		}
 
@@ -103,7 +109,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		public bool OpenLanguageList(int termNumber)
 		{
 			ClickElement(By.XPath(TERM_XPATH + "[" + termNumber + "]" + LANGUAGE_XPATH));
-
 			return WaitUntilDisplayElement(By.XPath(LIST_XPATH));
 		}
 
@@ -115,7 +120,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		public bool SelectLanguage(string id)
 		{
 			ClickElement(By.XPath(LANGUAGE_ITEM_XPATH + id + "']"));
-
 			return WaitUntilDisappearElement(By.XPath(LIST_XPATH));
 		}
 

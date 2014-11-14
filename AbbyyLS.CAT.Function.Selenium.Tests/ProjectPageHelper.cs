@@ -1,8 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Threading;
+using System.Threading.Tasks;
 using OpenQA.Selenium;
+using OpenQA.Selenium.Firefox;
+using OpenQA.Selenium.Chrome;
+using OpenQA.Selenium.IE;
 using OpenQA.Selenium.Support.UI;
 
 namespace AbbyyLS.CAT.Function.Selenium.Tests
@@ -17,8 +22,8 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// </summary>
 		/// <param name="driver">Драйвер</param>
 		/// <param name="wait">Таймаут</param>
-		public ProjectPageHelper(IWebDriver driver, WebDriverWait wait) 
-			: base(driver, wait)
+		public ProjectPageHelper(IWebDriver driver, WebDriverWait wait) :
+			base(driver, wait)
 		{
 		}
 
@@ -79,7 +84,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <param name="userName">имя пользователя</param>
 		public void ClickAssignUserListUser(string userName)
 		{
-			var xPath = PROGRESS_DIALOG_USER_ITEM_LIST_XPATH + "[contains(@title,'" + userName + "')]";
+			string xPath = PROGRESS_DIALOG_USER_ITEM_LIST_XPATH + "[contains(@title,'" + userName + "')]";
 			ClickElement(By.XPath(xPath));
 		}
 
@@ -131,9 +136,8 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		public void ClickAllAcceptBtns()
 		{
 			// Нажать на Accept
-			var acceptList = GetElementList(By.XPath(ACCEPT_BTN_XPATH));
-
-			foreach (var el in acceptList)
+			IList<IWebElement> acceptList = GetElementList(By.XPath(ACCEPT_BTN_XPATH));
+			foreach (IWebElement el in acceptList)
 			{
 				el.Click();
 			}
@@ -155,15 +159,13 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <param name="documentNumber">номер документа</param>
 		public bool SelectDocument(int documentNumber)
 		{
-			var isDocumentExist = GetIsExistDocument(documentNumber);
-
+			bool isDocumentExist = GetIsExistDocument(documentNumber);
 			if (isDocumentExist)
 			{
 				// Нажать галочку у документа
 				ClickElement(By.XPath(DOCUMENT_LIST_XPATH
 					+ "//tr[" + documentNumber + "]//td[contains(@class,'checkbox')]//input"));
 			}
-
 			return isDocumentExist;
 		}
 
@@ -173,15 +175,13 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <param name="documentNumber">номер документа</param>
 		public bool OpenDocument(int documentNumber)
 		{
-			var isDocumentExist = GetIsExistDocument(documentNumber);
-
+			bool isDocumentExist = GetIsExistDocument(documentNumber);
 			if (isDocumentExist)
 			{
 				ClickElement(By.XPath(DOCUMENT_ROW_XPATH
 					+ "[" + documentNumber + "]"
 					+ DOCUMENT_ROW_EDITOR_LINK_XPATH));
 			}
-
 			return isDocumentExist;
 		}
 
@@ -254,21 +254,21 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <returns>загрузился документ</returns>
 		public bool WaitDocumentDownloadFinish()
 		{
-			var isDisappeared = true;
-
+			bool isDisappeared = true;
 			if (GetIsElementDisplay(By.XPath(DOWNLOAD_DOC_IMG_XPATH)))
 			{
 				isDisappeared = false;
-				for (var i = 0; i < 5; ++i)
+				for (int i = 0; i < 5; ++i)
 				{
 					isDisappeared = WaitUntilDisappearElement(By.XPath(DOWNLOAD_DOC_IMG_XPATH), 40);
-					
 					if (isDisappeared)
 					{
 						break;
 					}
-
-					Driver.Navigate().Refresh();
+					else
+					{
+						Driver.Navigate().Refresh();
+					}
 				}
 			}
 			return isDisappeared;
@@ -333,7 +333,8 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		public bool GetIsExistNoFileError()
 		{
 			SetDriverTimeoutMinimum();
-			var isExistError = GetIsElementDisplay(By.XPath(NO_FILE_ERROR_XPATH));
+
+			bool isExistError = GetIsElementDisplay(By.XPath(NO_FILE_ERROR_XPATH));
 			SetDriverTimeoutDefault();
 
 			return isExistError;
@@ -376,13 +377,13 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		public void SetGlossaryByName(string nameGlossary)
 		{
 			// Выборка имен глоссариев
-			var glossaryList = GetElementList(By.XPath(GLOSSARY_LIST_XPATH + "//td[2]"));
-			for (var i = 0; i < glossaryList.Count; ++i)
+			IList<IWebElement> glossaryList = GetElementList(By.XPath(GLOSSARY_LIST_XPATH + "//td[2]"));
+			for (int i = 0; i < glossaryList.Count; ++i)
 			{
 				if (glossaryList[i].Text.Contains(nameGlossary))
 				{
 					// Включаем требуемый глоссарий
-					ClickElement(By.XPath(GLOSSARY_LIST_XPATH + "[" + (i + 1) + "]//td[1]"));
+					ClickElement(By.XPath(GLOSSARY_LIST_XPATH + "[" + (i + 1).ToString() + "]//td[1]"));
 					Thread.Sleep(1000);
 					ClickElement(By.XPath(EDIT_GLOSSARY_SAVE_BTN_XPATH));
 					Thread.Sleep(1000);
@@ -412,15 +413,18 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <returns>Список строк</returns>
 		public List<string> GetWFTaskListProjectSettings()
 		{
-			var wfTaskList = new List<string>();
+			List<string> wfTaskList = new List<string>();
 
 			// Выборка задач workflow
-			var xPath = PROJECT_SETTINGS_WF_TABLE_XPATH + "//tr//td[2]//span//span";
-			var wfTaskIList = GetElementList(By.XPath(xPath));
+			string xPath = PROJECT_SETTINGS_WF_TABLE_XPATH + "//tr//td[2]//span//span";
+			IList<IWebElement> wfTaskIList = GetElementList(By.XPath(xPath));
 
 			if (wfTaskIList.Count > 0)
 			{
-				wfTaskList.AddRange(wfTaskIList.Select(item => item.Text));
+				foreach (IWebElement item in wfTaskIList)
+				{
+					wfTaskList.Add(item.Text);
+				}
 			}
 			return wfTaskList;
 		}
@@ -432,15 +436,17 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <param name="taskType">Тип задачи из выпадающего списка</param>
 		public void SetWFTaskListProjectSettings(int taskNumber, string taskType)
 		{
+			List<string> wfTaskList = new List<string>();
+
 			// Выбор задачи workflow
-			var workflowXPath = PROJECT_SETTINGS_WF_TABLE_XPATH + "//tr[" + taskNumber.ToString() + "]//td[2]//span//span";
+			string workflowXPath = PROJECT_SETTINGS_WF_TABLE_XPATH + "//tr[" + taskNumber.ToString() + "]//td[2]//span//span";
 
 			// Получение выпадающего списка
 			ClickElement(By.XPath(workflowXPath));
-			var wfDropdownIList = GetElementList(By.XPath(PROJECT_SETTINGS_WF_DROPDOWNLIST_XPATH));
+			IList<IWebElement> wfDropdownIList = GetElementList(By.XPath(PROJECT_SETTINGS_WF_DROPDOWNLIST_XPATH));
 
 			// Выбираем заданный
-			foreach (var wfTaskType in wfDropdownIList)
+			foreach (IWebElement wfTaskType in wfDropdownIList)
 			{
 				if (wfTaskType.Text == taskType)
 				{
@@ -490,7 +496,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		public int GetProjectSettingsWFVisibleTaskNumber(int taskNumber)
 		{
 			// Выбор задачи workflow
-			var workflowXPath = PROJECT_SETTINGS_WF_TABLE_XPATH + "//tr[" + taskNumber + "]//td[1]";
+			string workflowXPath = PROJECT_SETTINGS_WF_TABLE_XPATH + "//tr[" + taskNumber.ToString() + "]//td[1]";
 
 			// Получение номера
 			return Int32.Parse(GetTextElement(By.XPath(workflowXPath)));
@@ -512,8 +518,8 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		public bool OpenDocumentInfo(int documentNumber)
 		{
 			// Кликнуть на открытие информации о документе
-			var documentXPath = DOCUMENT_ROW_XPATH + "[" + documentNumber + "]//" + OPEN_CLOSE_TD_XPATH;
-			var isExistDocument = GetIsElementExist(By.XPath(documentXPath));
+			string documentXPath = DOCUMENT_ROW_XPATH + "[" + documentNumber + "]//" + OPEN_CLOSE_TD_XPATH;
+			bool isExistDocument = GetIsElementExist(By.XPath(documentXPath));
 			if (isExistDocument)
 			{
 				ClickElement(By.XPath(documentXPath));
@@ -530,7 +536,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		public string GetDocumentTask(int documentNumber)
 		{
 			// Кликнуть на открытие информации о документе
-			var XPath = DOCUMENT_ROW_XPATH + "[" + documentNumber + "]//" + TASK_NAME_XPATH;
+			string XPath = DOCUMENT_ROW_XPATH + "[" + documentNumber + "]//" + TASK_NAME_XPATH;
 
 			return GetTextElement(By.XPath(XPath)).Trim();
 		}

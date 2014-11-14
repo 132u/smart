@@ -20,6 +20,14 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		}
 
 		/// <summary>
+		/// Предварительная подготовка группы тестов
+		/// </summary>
+		[SetUp]
+		public void Setup()
+		{
+		}
+
+		/// <summary>
 		/// метод тестирования загрузки rtf формата (неподдерживаемый формат)
 		/// </summary>
 		[Test]
@@ -33,8 +41,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			Thread.Sleep(1000);
 
 			// Проверить, что появилось сообщение о неверном формате загружаемого документа
-			Assert.IsTrue(
-				WorkspaceCreateProjectDialog.GetIsExistErrorFormatDocumentMessage(),
+			Assert.IsTrue(WorkspaceCreateProjectDialog.GetIsExistErrorFormatDocumentMessage(),
 				"Ошибка: не появилось сообщение о неверном формате загружаемого документа");
 		}
 
@@ -46,14 +53,14 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		{
 			//1 шаг - заполнение данных о проекте
 			FirstStepProjectWizard(ProjectName);
+
 			// Загрузить документ
 			ImportDocumentCreateProject(DocumentFile);
 			// Загрузить второй документ
 			ImportDocumentCreateProject(_ttxFile);
 
 			// Проверить, что не появилось сообщение о неверном формате загружаемого документа
-			Assert.IsFalse(
-				WorkspaceCreateProjectDialog.GetIsExistErrorFormatDocumentMessage(),
+			Assert.IsFalse(WorkspaceCreateProjectDialog.GetIsExistErrorFormatDocumentMessage(),
 				"Ошибка: появилось сообщение о неверном формате загружаемого документа");
 		}
 
@@ -65,12 +72,12 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		{
 			//1 шаг - заполнение данных о проекте
 			FirstStepProjectWizard(ProjectName);
+
 			// Загрузить документ
 			ImportDocumentCreateProject(_ttxFile);
 
 			// Проверить, что не появилось сообщение о неверном формате загружаемого документа
-			Assert.IsFalse(
-				WorkspaceCreateProjectDialog.GetIsExistErrorFormatDocumentMessage(),
+			Assert.IsFalse(WorkspaceCreateProjectDialog.GetIsExistErrorFormatDocumentMessage(),
 				"Ошибка: появилось сообщение о неверном формате загружаемого документа");
 		}
 
@@ -82,12 +89,12 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		{
 			//1 шаг - заполнение данных о проекте
 			FirstStepProjectWizard(ProjectName);
+
 			// Загрузить документ
 			ImportDocumentCreateProject(_txtFile);
 
 			// Проверить, что не появилось сообщение о неверном формате загружаемого документа
-			Assert.IsFalse(
-				WorkspaceCreateProjectDialog.GetIsExistErrorFormatDocumentMessage(),
+			Assert.IsFalse(WorkspaceCreateProjectDialog.GetIsExistErrorFormatDocumentMessage(),
 				"Ошибка: появилось сообщение о неверном формате загружаемого документа");
 		}
 
@@ -99,12 +106,12 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		{
 			//1 шаг - заполнение данных о проекте
 			FirstStepProjectWizard(ProjectName);
+
 			// Загрузить документ
 			ImportDocumentCreateProject(_srtFile);
 
 			// Проверить, что не появилось сообщение о неверном формате загружаемого документа
-			Assert.IsFalse(
-				WorkspaceCreateProjectDialog.GetIsExistErrorFormatDocumentMessage(),
+			Assert.IsFalse(WorkspaceCreateProjectDialog.GetIsExistErrorFormatDocumentMessage(),
 				"Ошибка: появилось сообщение о неверном формате загружаемого документа");
 		}
 
@@ -120,8 +127,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			ImportDocumentProjectSettings(DocumentFile, ProjectName);
 
 			// Проверить, что в проекте есть документ
-			Assert.IsTrue(
-				ProjectPage.GetIsExistDocument(1),
+			Assert.IsTrue(ProjectPage.GetIsExistDocument(1),
 				"Ошибка: на странице проекта нет документа");
 		}
 		
@@ -133,11 +139,12 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		{
 			// Создать проект, загрузить документ
 			CreateProjectImportDocument(DocumentFile);
+
 			// Кликнуть по Импорт
 			ProjectPage.ClickImportBtn();
+
 			//ждем когда загрузится окно для загрузки документа 
 			ProjectPage.WaitImportDialogDisplay();
-
 			//Процесс добавления файла
 
 			// Нажать Add
@@ -146,8 +153,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			FillAddDocumentForm(DocumentFile);
 
 			// Проверить появление оповещения об ошибке
-			Assert.IsTrue(
-				ProjectPage.WaitImportDocumentErrorMessage(),
+			Assert.IsTrue(ProjectPage.WaitImportDocumentErrorMessage(),
 				"Ошибка: не появилось сообщение о повторном файле");
 		}
 

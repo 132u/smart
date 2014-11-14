@@ -1,19 +1,30 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Windows.Forms;
 using System.Threading;
 using NUnit.Framework;
+using OpenQA.Selenium;
+using System.Threading.Tasks;
+using OpenQA.Selenium.Firefox;
+using OpenQA.Selenium.Chrome;
+using OpenQA.Selenium.IE;
+using OpenQA.Selenium.Support.UI;
 
 namespace AbbyyLS.CAT.Function.Selenium.Tests
 {
 	/// <summary>
 	/// Группа тестов для проверки колонки match в таргете при выдачах из cat-панели
 	/// </summary>
-	class CatPanelSubstitutionTest 
-		: BaseTest
+	class CatPanelSubstitutionTest : BaseTest
 	{
 
 		/// <summary>
 		/// Конструктор теста
 		/// </summary>
+		 
+		 
 		/// <param name="browserName">Название браузера</param>
 		public CatPanelSubstitutionTest(string browserName)
 			: base (browserName)
@@ -22,7 +33,10 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		}
 
 		// название проекта для проведения тестов
-		protected string _projectNameMatchTest = "MatchTest" + "_" + DateTime.UtcNow.Ticks;
+		protected string _projectNameMatchTest = "MatchTest" + "_" + DateTime.UtcNow.Ticks.ToString();
+
+		// флаг создан ли проект (создается один раз перед всеми тестами)
+		private bool _projectCreated;
 
 		// строка, обозначающая тип подстановки в колонке match в таргет
 		protected const string _catSubstitutionTmType = "TM";
@@ -43,16 +57,11 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 				GoToWorkspace();
 				
 				// создаем документ с нужным файлом, нужной ТМ, подкючаем МТ и глоссарий
-				CreateProject(
-					projectName: _projectNameMatchTest, 
-					downloadFile: TxtFileForMatchTest,
-					createNewTM: true, 
-					tmFile: TmxFileForMatchTest,
-					setGlossary: Workspace_CreateProjectDialogHelper.SetGlossary.New, 
-					glossaryName: "",
-					chooseMT:true,
-					mtType: Workspace_CreateProjectDialogHelper.MT_TYPE.DefaultMT,
-					isNeedCheckExist: false);
+				CreateProject(_projectNameMatchTest, TxtFileForMatchTest,
+				true, TmxFileForMatchTest,
+				Workspace_CreateProjectDialogHelper.SetGlossary.New, "",
+				true, Workspace_CreateProjectDialogHelper.MT_TYPE.DefaultMT,
+				false);
 
 				Thread.Sleep(2000);
 
@@ -92,9 +101,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		///  <param name="segmentNumber">номер сегмента таргет для подстановки из CAT</param>
 
 		[Test]
-		public void CheckMatchAfterTmSubstitutionSegmentNumber(
-			[Values(1, 2, 3, 4, 5)]
-			int segmentNumber)
+		public void CheckMatchAfterTmSubstitutionSegmentNumber([Values(1, 2, 3, 4, 5)]int segmentNumber)
 		{
 			const int yellowUpperBound = 99;
 			const int yellowLowerBound = 76;
@@ -108,51 +115,28 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 
 			//ищем в кат номер строки с подходящим термином из ТМ, подставляем в таргет
 			//записываем номер строки CAT-панели, из которой выполнена подстановка
-			var catSubstitutionLineNumber = PasteFromCatReturnCatLineNumber(
-				segmentNumber, 
-				EditorPageHelper.CAT_TYPE.TM);
+			int catSubstitutionLineNumber = PasteFromCatReturnCatLineNumber(segmentNumber, EditorPageHelper.CAT_TYPE.TM);
 			
 			//проверка1: появилось значение в колонке match - ресурс ТМ  
-			Assert.AreEqual(
-				_catSubstitutionTmType, 
-				EditorPage.GetTargetSubstitutionType(segmentNumber),
+			Assert.AreEqual(_catSubstitutionTmType, EditorPage.GetTargetSubstitutionType(segmentNumber),
 				"в колонке match таргета не появилось значение ресурса - ТМ");
 
 			//проверяем, сколько процентов в колонке match таргета
-			var targetMatchPercent = EditorPage.GetTargetMatchPercent(segmentNumber);
-
+			int targetMatchPercent = EditorPage.GetTargetMatchPercent(segmentNumber);
 			//проверка2: проверка, что число совпадает с числом из СAT-панели
-			Assert.AreEqual(
-				CatPanel.GetCATTranslationProcentMatch(catSubstitutionLineNumber - 1), 
-				targetMatchPercent, 
+			Assert.AreEqual(CatPanel.GetCATTranslationProcentMatch(catSubstitutionLineNumber - 1), targetMatchPercent, 
 				"процент совпадения в таргет не совпадает с процентом на панели CAT"); 
 			
 			//проверка3: проверка цветового выделения
 			if (targetMatchPercent > yellowUpperBound)
-			{
-				Assert.AreEqual(
-					green, 
-					EditorPage.GetTargetMatchColor(segmentNumber),
+				Assert.AreEqual(green, EditorPage.GetTargetMatchColor(segmentNumber),
 					"цвет не соответствует проценту совпадения");
-			}
-
-
-			if (targetMatchPercent <= yellowUpperBound &&
-			    targetMatchPercent >= yellowLowerBound)
-			{
-				Assert.AreEqual(
-					yellow,
-					EditorPage.GetTargetMatchColor(segmentNumber),
+			if (targetMatchPercent <= yellowUpperBound && targetMatchPercent >= yellowLowerBound)
+				Assert.AreEqual(yellow, EditorPage.GetTargetMatchColor(segmentNumber),
 					"цвет не соответствует проценту совпадения");
-			}
-
 			if (targetMatchPercent < yellowLowerBound)
-			{
-				Assert.AreEqual(
-					red, 
-					EditorPage.GetTargetMatchColor(segmentNumber),
+				Assert.AreEqual(red, EditorPage.GetTargetMatchColor(segmentNumber),
 					"цвет не соответствует проценту совпадения");
-			}
 			
 		}
 
@@ -164,28 +148,23 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		[Test]
 		public void CheckMatchAfterMtSubstitution()
 		{
-			var segmentNumber = 1;
+			int segmentNumber = 1;
 			
 			// кликаем в таргет, чтобы заполнилась панель CAT 
 			EditorPage.ClickTargetCell(segmentNumber);
 			
 			//ищем в кат номер строки с подходящим термином из MT, подставляем в таргет
 			//записываем номер строки CAT-панели, из которой выполнена подстановка
-			var catSubstitutionLineNumber = PasteFromCatReturnCatLineNumber(segmentNumber, EditorPageHelper.CAT_TYPE.MT);
+			int catSubstitutionLineNumber = PasteFromCatReturnCatLineNumber(segmentNumber, EditorPageHelper.CAT_TYPE.MT);
 			
 			//проверка1: появилось значение в колонке match - ресурс MT  
-			Assert.AreEqual(
-				_catSubstitutionMtType, 
-				EditorPage.GetTargetSubstitutionType(segmentNumber),
+			Assert.AreEqual(_catSubstitutionMtType, EditorPage.GetTargetSubstitutionType(segmentNumber),
 				"в колонке match таргета не появилось значение ресурса - МТ");
 			
 			//проверяем, сколько процентов в колонке match таргета
-			var targetMatchPercent = EditorPage.GetTargetMatchPercent(segmentNumber);
-
+			int targetMatchPercent = EditorPage.GetTargetMatchPercent(segmentNumber);
 			//проверка2: проверка, что число совпадает с числом из СAT-панели
-			Assert.AreEqual(
-				CatPanel.GetCATTranslationProcentMatch(catSubstitutionLineNumber-1), 
-				targetMatchPercent,
+			Assert.AreEqual(CatPanel.GetCATTranslationProcentMatch(catSubstitutionLineNumber-1), targetMatchPercent,
 				"процент совпадения в таргет не совпадает с процентом на панели CAT");
 		}
 
@@ -198,28 +177,23 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		[Test]
 		public void CheckMatchAfterBothSubstitutions()
 		{
-			const int segmentNumber = 1;
+			int segmentNumber = 1;
 
 			// кликаем в таргет, чтобы заполнилась панель CAT 
 			EditorPage.ClickTargetCell(segmentNumber);
 			
 			//ищем в кат номер строки с подходящим термином из МТ, подставляем в таргет
 			//записываем номер строки CAT-панели, из которой выполнена подстановка
-			var catSubstitutionLineNumber = PasteFromCatReturnCatLineNumber(segmentNumber, EditorPageHelper.CAT_TYPE.MT);
+			int catSubstitutionLineNumber = PasteFromCatReturnCatLineNumber(segmentNumber, EditorPageHelper.CAT_TYPE.MT);
 			
 			//проверка1: появилось значение в колонке match - ресурс MT  
-			Assert.AreEqual(
-				_catSubstitutionMtType, 
-				EditorPage.GetTargetSubstitutionType(segmentNumber),
+			Assert.AreEqual(_catSubstitutionMtType, EditorPage.GetTargetSubstitutionType(segmentNumber),
 				"в колонке match таргета не появилось значение ресурса - МТ");
 			
 			//проверяем, сколько процентов в колонке match таргета
-			var targetMatchPercent = EditorPage.GetTargetMatchPercent(segmentNumber);
-
+			int targetMatchPercent = EditorPage.GetTargetMatchPercent(segmentNumber);
 			//проверка2: проверка, что число совпадает с числом из СAT-панели
-			Assert.AreEqual(
-				CatPanel.GetCATTranslationProcentMatch(catSubstitutionLineNumber - 1), 
-				targetMatchPercent,
+			Assert.AreEqual(CatPanel.GetCATTranslationProcentMatch(catSubstitutionLineNumber - 1), targetMatchPercent,
 				"процент совпадения в таргет не совпадает с процентом на панели CAT");
 
 			//удаляем подставленный термин
@@ -232,18 +206,12 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			catSubstitutionLineNumber = PasteFromCatReturnCatLineNumber(segmentNumber, EditorPageHelper.CAT_TYPE.TM);
 			
 			//проверка1: появилось значение в колонке match - ресурс ТМ  
-			Assert.AreEqual(
-				_catSubstitutionTmType, 
-				EditorPage.GetTargetSubstitutionType(segmentNumber),
+			Assert.AreEqual(_catSubstitutionTmType, EditorPage.GetTargetSubstitutionType(segmentNumber),
 				"в колонке match таргета не появилось значение ресурса - ТМ");
-
 			//проверяем, сколько процентов в колонке match таргета
 			targetMatchPercent = EditorPage.GetTargetMatchPercent(segmentNumber);
-
 			//проверка2: проверка, что число совпадает с числом из СAT-панели
-			Assert.AreEqual(
-				CatPanel.GetCATTranslationProcentMatch(catSubstitutionLineNumber - 1), 
-				targetMatchPercent, 
+			Assert.AreEqual(CatPanel.GetCATTranslationProcentMatch(catSubstitutionLineNumber - 1), targetMatchPercent, 
 				"процент совпадения в таргет не совпадает с процентом на панели CAT");
 		}
 
@@ -255,32 +223,26 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		[Test]
 		public void CheckMatchAfterEditCell()
 		{
-			const int segmentNumber = 1;
+			int segmentNumber = 1;
 
 			// кликаем в таргет, чтобы заполнилась панель CAT 
 			EditorPage.ClickTargetCell(segmentNumber);
 
 			//ищем в кат номер строки с подходящим термином из TM, подставляем в таргет
 			//записываем номер строки CAT-панели, из которой выполнена подстановка
-			var catSubstitutionLineNumber = PasteFromCatReturnCatLineNumber(segmentNumber, EditorPageHelper.CAT_TYPE.TM);
+			int catSubstitutionLineNumber = PasteFromCatReturnCatLineNumber(segmentNumber, EditorPageHelper.CAT_TYPE.TM);
 
 			//добавляем в таргет текст
 			EditorPage.ClickTargetCell(segmentNumber);
 			EditorPage.SendKeysTarget(segmentNumber, " hello ");
 
 			//проверка1: значение в колонке match прежнее - ресурс ТМ  
-			Assert.AreEqual(
-				_catSubstitutionTmType, 
-				EditorPage.GetTargetSubstitutionType(segmentNumber),
+			Assert.AreEqual(_catSubstitutionTmType, EditorPage.GetTargetSubstitutionType(segmentNumber),
 				"в колонке match таргета не появилось значение ресурса - ТМ");
-
 			//проверяем, сколько процентов в колонке match таргета
-			var targetMatchPercent = EditorPage.GetTargetMatchPercent(segmentNumber);
-
+			int targetMatchPercent = EditorPage.GetTargetMatchPercent(segmentNumber);
 			//проверка2: проверка, что число совпадает с числом из СAT-панели
-			Assert.AreEqual(
-				CatPanel.GetCATTranslationProcentMatch(catSubstitutionLineNumber - 1), 
-				targetMatchPercent, 
+			Assert.AreEqual(CatPanel.GetCATTranslationProcentMatch(catSubstitutionLineNumber - 1), targetMatchPercent, 
 				"процент совпадения в таргет не совпадает с процентом на панели CAT");
 		}
 		
@@ -292,32 +254,26 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		[Test]
 		public void CheckMatchAfterDelete()
 		{
-			const int segmentNumber = 1;
+			int segmentNumber = 1;
 
 			// кликаем в таргет, чтобы заполнилась панель CAT
 			EditorPage.ClickTargetCell(segmentNumber);
 
 			//ищем в кат номер строки с подходящим термином из TM, подставляем в таргет
 			//записываем номер строки CAT-панели, из которой выполнена подстановка
-			var catSubstitutionLineNumber = PasteFromCatReturnCatLineNumber(segmentNumber, EditorPageHelper.CAT_TYPE.TM);
+			int catSubstitutionLineNumber = PasteFromCatReturnCatLineNumber(segmentNumber, EditorPageHelper.CAT_TYPE.TM);
 
 			//удаляем текст, вставляем новый
 			EditorPage.ClickTargetCell(segmentNumber);
 			EditorPage.AddTextTarget(segmentNumber, "new text");
 
 			//проверка1: значение в колонке match прежнее - ресурс ТМ  
-			Assert.AreEqual(
-				_catSubstitutionTmType, 
-				EditorPage.GetTargetSubstitutionType(segmentNumber),
+			Assert.AreEqual(_catSubstitutionTmType, EditorPage.GetTargetSubstitutionType(segmentNumber),
 				"в колонке match таргета не появилось значение ресурса - ТМ");
-
 			//проверяем, сколько процентов в колонке match таргета
-			var targetMatchPercent = EditorPage.GetTargetMatchPercent(segmentNumber);
-
+			int targetMatchPercent = EditorPage.GetTargetMatchPercent(segmentNumber);
 			//проверка2: проверка, что число совпадает с числом из СAT-панели
-			Assert.AreEqual(
-				CatPanel.GetCATTranslationProcentMatch(catSubstitutionLineNumber - 1), 
-				targetMatchPercent, 
+			Assert.AreEqual(CatPanel.GetCATTranslationProcentMatch(catSubstitutionLineNumber - 1), targetMatchPercent, 
 				"процент совпадения в таргет не совпадает с процентом на панели CAT");
 		
 		}
@@ -331,10 +287,9 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		///  <param name="catType">тип подстановки из CAT</param>
 		[Test]
 		public void CheckTmMtMatchAfterAdd(
-			[Values(EditorPageHelper.CAT_TYPE.TM, EditorPageHelper.CAT_TYPE.MT)] 
-			EditorPageHelper.CAT_TYPE catType)
+			[Values(EditorPageHelper.CAT_TYPE.TM, EditorPageHelper.CAT_TYPE.MT)] EditorPageHelper.CAT_TYPE catType)
 		{
-			const int segmentNumber = 1;
+			int segmentNumber = 1;
 
 			// пишем текст
 			EditorPage.ClickTargetCell(segmentNumber);
@@ -342,31 +297,19 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 
 			//ищем в кат номер строки с подходящим термином из ТМ или МТ, подставляем в таргет
 			//записываем номер строки CAT-панели, из которой выполнена подстановка
-			var catSubstitutionLineNumber = PasteFromCatReturnCatLineNumber(segmentNumber, catType);
+			int catSubstitutionLineNumber = PasteFromCatReturnCatLineNumber(segmentNumber, catType);
 
 			//проверка1: значение в колонке match прежнее - ресурс ТМ  
 			if (catType == EditorPageHelper.CAT_TYPE.TM)
-			{
-				Assert.AreEqual(
-					_catSubstitutionTmType,
-					EditorPage.GetTargetSubstitutionType(segmentNumber),
+				Assert.AreEqual(_catSubstitutionTmType, EditorPage.GetTargetSubstitutionType(segmentNumber),
 					"в колонке match таргета не появилось значение ресурса - ТМ");
-			}
 			else
-			{
-				Assert.AreEqual(
-					_catSubstitutionMtType, 
-					EditorPage.GetTargetSubstitutionType(segmentNumber),
+				Assert.AreEqual(_catSubstitutionMtType, EditorPage.GetTargetSubstitutionType(segmentNumber),
 					"в колонке match таргета не появилось значение ресурса - МТ");
-			}
-				
 			//проверяем, сколько процентов в колонке match таргета
-			var targetMatchPercent = EditorPage.GetTargetMatchPercent(segmentNumber);
-
+			int targetMatchPercent = EditorPage.GetTargetMatchPercent(segmentNumber);
 			//проверка2: проверка, что число совпадает с числом из СAT-панели
-			Assert.AreEqual(
-				CatPanel.GetCATTranslationProcentMatch(catSubstitutionLineNumber - 1), 
-				targetMatchPercent, 
+			Assert.AreEqual(CatPanel.GetCATTranslationProcentMatch(catSubstitutionLineNumber - 1), targetMatchPercent, 
 				"процент совпадения в таргет не совпадает с процентом на панели CAT");
 		
 		}
@@ -378,24 +321,21 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		[Test]
 		public void AfterGlossarySubstitutionCheckMatch()
 		{
-			const int segmentNumber = 1;
+			int segmentNumber = 1;
 
 			EditorPage.ClickTargetCell(segmentNumber);
 
-			var sourceTerm = EditorPage.GetSourceText(segmentNumber);
+			string sourceTerm = EditorPage.GetSourceText(segmentNumber);
 
 			AddTermGlossary(sourceTerm, "термин глоссария");
 
 			EditorPage.ClickTargetCell(segmentNumber);
 
-			//ищем в кат номер строки с подходящим термином из глоссария, 
-			// подставляем в таргет,
+			//ищем в кат номер строки с подходящим термином из глоссария, подставляем в таргет
 			//записываем номер строки CAT-панели, из которой выполнена подстановка
-			PasteFromCatReturnCatLineNumber(segmentNumber, EditorPageHelper.CAT_TYPE.TB);
+			int tmp = PasteFromCatReturnCatLineNumber(segmentNumber, EditorPageHelper.CAT_TYPE.TB);
 
-			Assert.AreEqual(
-				_catSubstitutionTbType, 
-				EditorPage.GetTargetSubstitutionType(segmentNumber),
+			Assert.AreEqual(_catSubstitutionTbType, EditorPage.GetTargetSubstitutionType(segmentNumber),
 				"в колонке match таргета не пусто");
 
 		}
@@ -405,6 +345,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// </summary>
 		///  <param name="sourceTerm">слово для внесения в словарь</param>
 		///  <param name="targetTerm">перевод слова словаря</param>
+
 		public void AddTermGlossary(string sourceTerm, string targetTerm)
 		{
 			// Нажать кнопку вызова формы для добавления термина
@@ -421,8 +362,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			AddTermForm.ClickTermSaved();
 		}
 
-		// флаг создан ли проект (создается один раз перед всеми тестами)
-		private bool _projectCreated;
+		
 	}
 }
 

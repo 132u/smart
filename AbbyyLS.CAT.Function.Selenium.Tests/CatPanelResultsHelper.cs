@@ -28,10 +28,8 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		public int GetCATTranslationProcentMatch(int rowNumber)
 		{
 			int procentMatch = 0;
-
 			// Получение процента совпадений для всех элементов CAT
 			List<string> textList = GetTextListElement(By.XPath(CAT_PANEL_PROCENT_MATCH_XPATH));
-
 			// Переводим в int
 			procentMatch = Int32.Parse(textList[rowNumber].Remove(textList[rowNumber].IndexOf('%')));
 			return procentMatch;

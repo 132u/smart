@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.UI;
 
@@ -14,8 +15,8 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// </summary>
 		/// <param name="driver">Драйвер</param>
 		/// <param name="wait">Таймаут</param>
-		public ResponsiblesDialogHelper(IWebDriver driver, WebDriverWait wait)
-			: base (driver, wait)
+		public ResponsiblesDialogHelper(IWebDriver driver, WebDriverWait wait) :
+			base (driver, wait)
 		{
 		}
 
@@ -26,7 +27,11 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		public bool WaitUntilResponsiblesDialogDisplay()
 		{
 			// Ожидаем пока загрузится диалог
-			return WaitUntilDisplayElement(By.XPath(RESPONSIBLES_TABLE_XPATH));
+			if (!WaitUntilDisplayElement(By.XPath(RESPONSIBLES_TABLE_XPATH)))
+			{
+				return false;
+			}
+			return true;
 		}
 
 		/// <summary>
@@ -37,7 +42,11 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		public bool WaitUntilUsersListDisplay(string name)
 		{
 			// Ожидаем пока загрузится диалог
-			return WaitUntilDisplayElement(By.XPath(GetOurUserXpath(name)));
+			if (!WaitUntilDisplayElement(By.XPath(GetOurUserXpath(name))))
+			{
+				return false;
+			}
+			return true;
 		}
 
 		/// <summary>
@@ -57,7 +66,11 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		public bool WaitUntilResponsiblesDialogDissapear()
 		{
 			// Ожидаем пока загрузится диалог
-			return WaitUntilDisappearElement(By.XPath(RESPONSIBLES_TABLE_XPATH));
+			if (!WaitUntilDisappearElement(By.XPath(RESPONSIBLES_TABLE_XPATH)))
+			{
+				return false;
+			}
+			return true;
 		}
 
 		/// <summary>
@@ -67,9 +80,13 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		public bool WaitUntilMasterResponsiblesDialogDisplay()
 		{
 			// Ожидаем пока загрузится диалог
-			return WaitUntilDisplayElement(By.XPath(CHOOSE_TASK_STEP__XPATH + "[2]"));
+			if (!WaitUntilDisplayElement(By.XPath(CHOOSE_TASK_STEP__XPATH + "[2]")))
+			{
+				return false;
+			}
+			return true;
 		}
-
+		
 		/// <summary>
 		/// Возвращает список исполнителей из выпадающего списка (не включает группы)
 		/// </summary>
@@ -77,21 +94,19 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <returns>Список исполнителей</returns>
 		public List<string> GetResponsibleUsersListByRowNumber(int rowNumber)
 		{
-			var usersList = new List<string>();
+			List<string> usersList = new List<string>();
 
-			var xPath = RESPONSIBLES_TABLE_XPATH + "//tr[" + rowNumber + "]" +
+			string xPath = RESPONSIBLES_TABLE_XPATH + "//tr[" + rowNumber + "]" +
 				RESPONSIBLE_USERS_XPATH;
 
-			var elementUsersList = GetElementList(By.XPath(xPath));
+			IList<IWebElement> elementUsersList = GetElementList(By.XPath(xPath));
 
-			foreach (var element in elementUsersList)
+			foreach (IWebElement element in elementUsersList)
 			{
-				var attr = element.GetAttribute("text");
+				string attr = element.GetAttribute("text");
 
 				if ((attr != "") && (!attr.Contains("Group: ")))
-				{
 					usersList.Add(attr.Replace("  ", " "));
-				}
 			}
 
 			return usersList;
@@ -104,16 +119,16 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <returns>Список групп</returns>
 		public List<string> GetResponsibleGroupsListByRowNumber(int rowNumber)
 		{
-			var groupsList = new List<string>();
+			List<string> groupsList = new List<string>();
 
-			var xPath = RESPONSIBLES_TABLE_XPATH + "//tr[" + rowNumber + "]" +
+			string xPath = RESPONSIBLES_TABLE_XPATH + "//tr[" + rowNumber + "]" +
 				RESPONSIBLE_USERS_XPATH;
 
-			var elementUsersList = GetElementList(By.XPath(xPath));
+			IList<IWebElement> elementUsersList = GetElementList(By.XPath(xPath));
 
-			foreach (var element in elementUsersList)
+			foreach (IWebElement element in elementUsersList)
 			{
-				var attr = element.GetAttribute("text");
+				string attr = element.GetAttribute("text");
 
 				if ((attr != "") && (attr.Contains("Group: ")))
 					groupsList.Add(attr.Replace("  ", " "));
@@ -128,7 +143,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// </summary>
 		public void ClickResponsiblesDropboxByRowNumber(int rowNumber)
 		{
-			var xPath = RESPONSIBLES_TABLE_XPATH + "//tr[" + rowNumber + "]" +
+			string xPath = RESPONSIBLES_TABLE_XPATH + "//tr[" + rowNumber + "]" +
 				DROPDOWNLIST_XPATH;
 
 			ClickElement(By.XPath(xPath));
@@ -141,9 +156,9 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <param name="name">Имя исполнителя</param>
 		public void SetVisibleResponsible(int rowNumber, string name)
 		{
-			var xPath = VISIBLE_RESPONSIBLE_USERS_XPATH;
+			string xPath = VISIBLE_RESPONSIBLE_USERS_XPATH;
 
-			foreach (var element in GetElementList(By.XPath(xPath)))
+			foreach (IWebElement element in GetElementList(By.XPath(xPath)))
 			{
 				if (element.GetAttribute("title") == name)
 				{
@@ -159,7 +174,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <param name="rowNumber">Номер строки задачи</param>
 		public void ClickAssignBtn(int rowNumber)
 		{
-			var xPath = RESPONSIBLES_TABLE_XPATH + "//tr[" + rowNumber + "]" +
+			string xPath = RESPONSIBLES_TABLE_XPATH + "//tr[" + rowNumber + "]" +
 				ASSIGN_BTN_XPATH;
 			
 			ClickElement(By.XPath(xPath));
@@ -171,7 +186,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <param name="rowNumber">Номер строки задачи</param>
 		public void ClickCancelBtn(int rowNumber)
 		{
-			var xPath = RESPONSIBLES_TABLE_XPATH + "//tr[" + rowNumber + "]" +
+			string xPath = RESPONSIBLES_TABLE_XPATH + "//tr[" + rowNumber + "]" +
 				CANCEL_BTN_XPATH;
 
 			ClickElement(By.XPath(xPath));
@@ -212,7 +227,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// </summary>
 		public void ClickChoosenTask(int rowNumber)
 		{
-			var taskList = GetElementList(By.XPath(TASK_XPATH));
+			IList<IWebElement> taskList = GetElementList(By.XPath(TASK_XPATH));
 
 			taskList[(rowNumber - 1)].Click();
 		}
