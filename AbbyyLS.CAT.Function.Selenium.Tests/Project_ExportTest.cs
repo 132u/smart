@@ -1,9 +1,6 @@
 ﻿using System;
 using System.Threading;
 using NUnit.Framework;
-using OpenQA.Selenium;
-using System.Collections.Generic;
-using System.Windows.Forms;
 using System.IO;
 
 namespace AbbyyLS.CAT.Function.Selenium.Tests
@@ -23,15 +20,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			: base(browserName)
 		{
 
-		}
-
-		/// <summary>
-		/// Предварительная подготовка группы тестов
-		/// </summary>
-		[SetUp]
-		public void Setup()
-		{
-			
 		}
 
 		/// <summary>
@@ -66,7 +54,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		public void ExportDocumentFromProjectTest(string exportType)
 		{			
 			// Создать проект с документом (если его нет)
-			string projectName = CreateProjectOneDocument(true);
+			CreateProjectOneDocument(true);
 			
 			// Закрыть все открытые сообщения об экспорте
 			WorkspacePage.CancelAllNotifiers();
@@ -90,7 +78,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		public void ExportProjectFromProjectListTest(string exportType)
 		{
 			// Создать проект с документом (если его нет)
-			string projectName = CreateProjectOneDocument(false);
+			var projectName = CreateProjectOneDocument(false);
 			// Закрыть все открытые сообщения об экспорте
 			WorkspacePage.CancelAllNotifiers();
 
@@ -113,10 +101,9 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		public void ExportProjectFromProjectListProjectSettingsTest(string exportType)
 		{
 			// Создать проект с документом (если его нет)
-			string projectName = CreateProjectOneDocument(false);
+			var projectName = CreateProjectOneDocument(false);
 			// Закрыть все открытые сообщения об экспорте
 			WorkspacePage.CancelAllNotifiers();
-
 			// Открыть информацию о проекте
 			OpenProjectInfo(projectName);
 			// Нажать на Экспорт в свертке проекта
@@ -136,10 +123,9 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		public void ExportDocumentFromProjectListDocumentSettingsTest(string exportType)
 		{
 			// Создать проект с документом (если его нет)
-			string projectName = CreateProjectOneDocument(false);
+			var projectName = CreateProjectOneDocument(false);
 			// Закрыть все открытые сообщения об экспорте
 			WorkspacePage.CancelAllNotifiers();
-
 			// Открыть информацию о проекте
 			OpenProjectInfo(projectName);
 			// Открыть информацию о документе (свертку документа)
@@ -161,15 +147,13 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		public void ExportMultiDocumentsTest(string exportType)
 		{
 			// Создать проект с документами (если его нет)
-			string projectName = CreateCommonProjectMultiDocuments(false);
+			var projectName = CreateCommonProjectMultiDocuments(false);
 			// Закрыть все открытые сообщения об экспорте
 			WorkspacePage.CancelAllNotifiers();
-
 			// Выделить проект
 			SelectProjectInList(projectName);
 			// Нажать на "красный" экспорт
 			ClickExportBtnRed(exportType);
-
 			// Экспортировать документ
 			WorkWithExport(exportType, true);
 		}
@@ -181,10 +165,9 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		public void ExportCloseNotifier()
 		{
 			// Создать проект с документом (если его нет)
-			string projectName = CreateProjectOneDocument(false);
+			var projectName = CreateProjectOneDocument(false);
 			// Закрыть все открытые сообщения об экспорте
 			WorkspacePage.CancelAllNotifiers();
-
 			// Открыть информацию о проекте
 			OpenProjectInfo(projectName);
 			// Нажать экспорт проекта "Original"
@@ -195,7 +178,8 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			WorkspacePage.ClickCancelNotifier();
 
 			// Дождаться, пока информационное окно пропадет
-			Assert.IsTrue(WorkspacePage.WaitUntilDisappearNotifier(),
+			Assert.IsTrue(
+				WorkspacePage.WaitUntilDisappearNotifier(),
 				"Ошибка: сообщение с экспортом не закрылось");
 		}
 
@@ -210,10 +194,9 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		public void ExportSaveNotifierProjectList(string placeSearch)
 		{
 			// Создать проект с документом (если его нет)
-			string projectName = CreateProjectOneDocument(false);
+			var projectName = CreateProjectOneDocument(false);
 			// Закрыть все открытые сообщения об экспорте
 			WorkspacePage.CancelAllNotifiers();
-
 			// Открыть информацию о проекте
 			OpenProjectInfo(projectName);
 			// Наэать Экспорт Original
@@ -235,7 +218,8 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 					// перейти на страницу глоссариев
 					SwitchGlossaryTab();
 					// проверить, что сообщения нет
-					Assert.IsTrue(WorkspacePage.WaitUntilDisappearNotifier(),
+					Assert.IsTrue(
+						WorkspacePage.WaitUntilDisappearNotifier(),
 						"Ошибка: информационное окно об экспорте появилось на странице глоссария");
 					// вернуться к списку проектов
 					SwitchWorkspaceTab();
@@ -246,7 +230,8 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			}
 
 			// Проверить, что есть окно с экпортом
-			Assert.IsTrue(WorkspacePage.GetIsExistNotifier(),
+			Assert.IsTrue(
+				WorkspacePage.GetIsExistNotifier(),
 				"Ошибка: информационное окно об экспорте пропало после обновления страницы");
 		}
 
@@ -261,7 +246,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		public void ExportSaveNotifierProjectPage(string placeSearch)
 		{
 			// Создать проект с документом (если его нет)
-			string projectName = CreateProjectOneDocument(true);
+			var projectName = CreateProjectOneDocument(true);
 			// Закрыть все открытые сообщения об экспорте
 			WorkspacePage.CancelAllNotifiers();
 
@@ -286,7 +271,8 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 					// перейти в глоссарии
 					SwitchGlossaryTab();
 					// проверить, что сообщения нет
-					Assert.IsTrue(WorkspacePage.WaitUntilDisappearNotifier(),
+					Assert.IsTrue(
+						WorkspacePage.WaitUntilDisappearNotifier(),
 						"Ошибка: информационное окно об экспорте появилось на странице глоссария");
 					// вернуться в проект
 					SwitchWorkspaceTab();
@@ -298,7 +284,8 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			}
 
 			// Проверить, что есть окно с экпортом
-			Assert.IsTrue(WorkspacePage.GetIsExistNotifier(),
+			Assert.IsTrue(
+				WorkspacePage.GetIsExistNotifier(),
 				"Ошибка: информационное окно об экспорте пропало после обновления страницы");
 		}
 
@@ -309,9 +296,9 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		public void ExportSaveNotifierAnotherProjectPage()
 		{
 			// Создать проект
-			string projectName = CreateProjectOneDocument(false);
+			var projectName = CreateProjectOneDocument(false);
 			// Создать второй проект
-			string projectName2 = CreateCommonProjectMultiDocuments(false);
+			var projectName2 = CreateCommonProjectMultiDocuments(false);
 			// Закрыть все открытые сообщения об экспорте
 			WorkspacePage.CancelAllNotifiers();
 
@@ -330,7 +317,8 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			OpenProjectPage(projectName2);
 
 			// Проверить, что есть окно с экпортом
-			Assert.IsTrue(WorkspacePage.GetIsExistNotifier(),
+			Assert.IsTrue(
+				WorkspacePage.GetIsExistNotifier(),
 				"Ошибка: информационное окно об экспорте пропало после обновления страницы");
 		}
 
@@ -341,7 +329,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		public void ExportDocumentFromProjectCheckNotifierText()
 		{
 			// Создать проект с документом (если его нет)
-			string projectName = CreateProjectOneDocument(true);
+			CreateProjectOneDocument(true);
 			// Закрыть все открытые сообщения об экспорте
 			WorkspacePage.CancelAllNotifiers();
 
@@ -363,10 +351,9 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		public void ExportDocumentsFromProjectCheckNotifierText()
 		{
 			// Создать проект с документами (если его нет)
-			string projectName = CreateCommonProjectMultiDocuments(true);
+			CreateCommonProjectMultiDocuments(true);
 			// Закрыть все открытые сообщения об экспорте
 			WorkspacePage.CancelAllNotifiers();
-
 			// Выделить оба документа
 			SelectDocumentInProject(1);
 			SelectDocumentInProject(2);
@@ -386,10 +373,9 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		public void ExportDocumentFromProjectListCheckNotifierText()
 		{
 			// Создать проект с документами (если его нет)
-			string projectName = CreateProjectOneDocument(false);
+			var projectName = CreateProjectOneDocument(false);
 			// Закрыть все открытые сообщения об экспорте
 			WorkspacePage.CancelAllNotifiers();
-
 			// Открыть информацию о проекте
 			OpenProjectInfo(projectName);
 			// Открыть свертку документа
@@ -410,10 +396,9 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		public void ExportProjectOneDocCheckNotifierText()
 		{
 			// Создать проект с документами (если его нет)
-			string projectName = CreateProjectOneDocument(false);
+			var projectName = CreateProjectOneDocument(false);
 			// Закрыть все открытые сообщения об экспорте
 			WorkspacePage.CancelAllNotifiers();
-
 			// Выбрать этот проект
 			SelectProjectInList(projectName);
 			// Нажать "красный" экспорт Original
@@ -432,10 +417,9 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		public void ExportProjectMultiDocCheckNotifierText()
 		{
 			// Создать проект с документами (если его нет)
-			string projectName = CreateCommonProjectMultiDocuments(false);
+			var projectName = CreateCommonProjectMultiDocuments(false);
 			// Закрыть все открытые сообщения об экспорте
 			WorkspacePage.CancelAllNotifiers();
-
 			// Выбрать этот проект
 			SelectProjectInList(projectName);
 			// Нажать "красный" экспорт Original
@@ -454,15 +438,16 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		public void ExportProjectsCheckNotifierText()
 		{
 			// Создать проект
-			string projectName = CreateProjectOneDocument(false);
+			var projectName = CreateProjectOneDocument(false);
 			// Создать второй проект
-			string projectName2 = CreateCommonProjectMultiDocuments(false);
+			var projectName2 = CreateCommonProjectMultiDocuments(false);
 			// Закрыть все открытые сообщения об экспорте
 			WorkspacePage.CancelAllNotifiers();
 
 			// Выбрать оба проекта
 			SelectProjectInList(projectName);
 			SelectProjectInList(projectName2);
+
 			// Нажать "красный" экспорт Original
 			ClickExportBtnRed(EXPORT_TYPE_SOURCE);
 			// Дождаться Download
@@ -479,27 +464,26 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		public void ExportDocumentCheckNotifierDate()
 		{
 			// Создать проект с документами (если его нет)
-			string projectName = CreateProjectOneDocument(true);
+			CreateProjectOneDocument(true);
 			// Закрыть все открытые сообщения об экспорте
 			WorkspacePage.CancelAllNotifiers();
-
 			// Выбрать документ
 			SelectDocumentInProject();
 			// Нажать Экспорт Original
 			ClickExportBtnRed(EXPORT_TYPE_SOURCE);
 			// Дождаться Download
 			WaitExportDownloadBtn();
-
 			// Текущая дата
-			DateTime curDate = DateTime.Now;
+			var curDate = DateTime.Now;
 			// Получили дату из сообщения:
-			DateTime notifierDate = WorkspacePage.GetDateFromNotifier();
-
+			var notifierDate = WorkspacePage.GetDateFromNotifier();
 			// Разница между датами
 			double timeSubtract = curDate.Subtract(notifierDate).Ticks;
 			timeSubtract = timeSubtract < 0 ? (-1 * timeSubtract) : timeSubtract;
+
 			// Если разница между датами/временем больше часа - ошибка
-			Assert.IsTrue(timeSubtract < TimeSpan.TicksPerHour,
+			Assert.IsTrue(
+				timeSubtract < TimeSpan.TicksPerHour,
 				"Ошибка: неправильная дата в сообщений об экспорте: " + WorkspacePage.GetNotifierText());
 		}
 
@@ -510,15 +494,16 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		public void ExportChangeNotifiers()
 		{
 			// Создать проект
-			string projectName = CreateProjectOneDocument(false);
+			var projectName = CreateProjectOneDocument(false);
 			// Создать второй проект
-			string projectName2 = CreateCommonProjectMultiDocuments(false);
+			var projectName2 = CreateCommonProjectMultiDocuments(false);
 			// Закрыть все открытые сообщения об экспорте
 			WorkspacePage.CancelAllNotifiers();
 
 			// Экспортировать первый проект (один документ)
 			SelectProjectInList(projectName);
 			ClickExportBtnRed(EXPORT_TYPE_SOURCE);
+
 			// Дождаться Download
 			WaitExportDownloadBtn();
 			// Убрать галочку с первого
@@ -529,20 +514,24 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			ClickExportBtnRed(EXPORT_TYPE_SOURCE);
 
 			// Ждем второе сообщение об экспорте
-			Assert.IsTrue(WorkspacePage.WaitNotifierAppear(2),
+			Assert.IsTrue(
+				WorkspacePage.WaitNotifierAppear(2),
 				"Ошибка: не появилось второе сообщение об экспорте");
+			
 			Thread.Sleep(1000);
 			// Текст верхнего сообщения (первое сообщение)
-			string firstNotifierText = WorkspacePage.GetNotifierText();
+			var firstNotifierText = WorkspacePage.GetNotifierText();
 			// Кликнуть, чтобы переключить сообщения
 			ChangeNotifier(1);
 			// Текст верхнего сообщения
-			string secondNotifierText = WorkspacePage.GetNotifierText();
-			// Проверить, что сообщение изменилось/переключилось
-			Assert.AreNotEqual(firstNotifierText, secondNotifierText, "Ошибка: сообщение не изменилось");
-		}
+			var secondNotifierText = WorkspacePage.GetNotifierText();
 
-		const int maxNotifierNumber = 5;
+			// Проверить, что сообщение изменилось/переключилось
+			Assert.AreNotEqual(
+				firstNotifierText, 
+				secondNotifierText, 
+				"Ошибка: сообщение не изменилось");
+		}
 
 		/// <summary>
 		/// ТЕСТ: проверить, что можно открыть максимально возможное количество сообщений
@@ -551,10 +540,9 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		public void ExportLimitNotifiers()
 		{
 			// Создать проект
-			string projectName = CreateProjectOneDocument(false);
+			var projectName = CreateProjectOneDocument(false);
 			// Закрыть все открытые сообщения об экспорте
 			WorkspacePage.CancelAllNotifiers();
-
 			// Открыть сообщения об экспорте
 			InitializeLimitNotifiers(projectName);
 		}
@@ -566,21 +554,21 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		public void ExportMoreLimitNotifiers()
 		{
 			// Создать проект
-			string projectName = CreateProjectOneDocument(false);
+			var projectName = CreateProjectOneDocument(false);
 			// Закрыть все открытые сообщения об экспорте
 			WorkspacePage.CancelAllNotifiers();
-
 			// Открыть сообщения об экспорте
 			InitializeLimitNotifiers(projectName);
-
 			// Вызвать еще раз экспорт
 			ClickExportBtnRed(EXPORT_TYPE_SOURCE);
 			// TODO попробовать убрать sleep
 			Thread.Sleep(2000);
-			int notifierCount = WorkspacePage.GetNotifierNumber();
+			var notifierCount = WorkspacePage.GetNotifierNumber();
 
 			// Проверить, что сообщений не больше максимального количества
-			Assert.IsFalse(notifierCount > maxNotifierNumber, "Ошибка: слишком много сообщений об экспорте");
+			Assert.IsFalse(
+				notifierCount > MaxNotifierNumber, 
+				"Ошибка: слишком много сообщений об экспорте");
 		}
 
 		/// <summary>
@@ -590,19 +578,18 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		public void ExportCheckNotifiersFreshAbove()
 		{
 			// Создать проект
-			string projectName = CreateProjectOneDocument(false);
+			var projectName = CreateProjectOneDocument(false);
 			// Создать второй проект
-			string projectName2 = CreateCommonProjectMultiDocuments(false);
+			var projectName2 = CreateCommonProjectMultiDocuments(false);
 			// Закрыть все открытые сообщения об экспорте
 			WorkspacePage.CancelAllNotifiers();
-
 			// Экспортировать первый проект (один документ)
 			SelectProjectInList(projectName);
 			ClickExportBtnRed(EXPORT_TYPE_SOURCE);
 			// Дождаться Download
 			WaitExportDownloadBtn();
 
-			string firstNotifierText = WorkspacePage.GetNotifierText();
+			var firstNotifierText = WorkspacePage.GetNotifierText();
 
 			// Убрать галочку с первого
 			SelectProjectInList(projectName);
@@ -612,15 +599,20 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			ClickExportBtnRed(EXPORT_TYPE_SOURCE);
 
 			// Ждем второе сообщение об экспорте
-			Assert.IsTrue(WorkspacePage.WaitNotifierAppear(2),
+			Assert.IsTrue(
+				WorkspacePage.WaitNotifierAppear(2),
 				"Ошибка: не появилось второе сообщение об экспорте");
-			Thread.Sleep(1000);
 
+			Thread.Sleep(1000);
+			
 			// Текст верхнего сообщения
-			string secondNotifierText = WorkspacePage.GetNotifierText();
+			var secondNotifierText = WorkspacePage.GetNotifierText();
 
 			// Проверить, что сообщение изменилось - то есть свежее сообщение сверху
-			Assert.AreNotEqual(firstNotifierText, secondNotifierText, "Ошибка: сообщение не изменилось, свежее сообщение должно быть сверху");
+			Assert.AreNotEqual(
+				firstNotifierText, 
+				secondNotifierText, 
+				"Ошибка: сообщение не изменилось, свежее сообщение должно быть сверху");
 		}
 
 		/// <summary>
@@ -630,18 +622,18 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		public void ExportChangeFirstToThird()
 		{
 			// Создать проект
-			string projectName = CreateProjectOneDocument(false);
+			var projectName = CreateProjectOneDocument(false);
 			// Создать второй проект
-			string projectName2 = CreateCommonProjectMultiDocuments(false);
+			var projectName2 = CreateCommonProjectMultiDocuments(false);
 			// Закрыть все открытые сообщения об экспорте
 			WorkspacePage.CancelAllNotifiers();
 
 			// Экспортировать первый проект (один документ)
 			SelectProjectInList(projectName);
 			ClickExportBtnRed(EXPORT_TYPE_SOURCE);
+
 			// Дождаться Download
 			WaitExportDownloadBtn();
-
 			// Убрать галочку с первого
 			SelectProjectInList(projectName);
 
@@ -650,7 +642,8 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			ClickExportBtnRed(EXPORT_TYPE_SOURCE);
 
 			// Ждем второе сообщение об экспорте
-			Assert.IsTrue(WorkspacePage.WaitNotifierAppear(2),
+			Assert.IsTrue(
+				WorkspacePage.WaitNotifierAppear(2),
 				"Ошибка: не появилось второе сообщение об экспорте");
 			Thread.Sleep(2000);
 
@@ -664,24 +657,28 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			ClickExportBtnDocumentSettings(EXPORT_TYPE_SOURCE);
 
 			// Ждем третье сообщение об экспорте
-			Assert.IsTrue(WorkspacePage.WaitNotifierAppear(3),
+			Assert.IsTrue(
+				WorkspacePage.WaitNotifierAppear(3),
 				"Ошибка: не появилось третье сообщение об экспорте");
+
 			Thread.Sleep(3000);
 
 			// Текст верхнего сообщения
-			string freshNotifierText = WorkspacePage.GetNotifierText();
+			var freshNotifierText = WorkspacePage.GetNotifierText();
 			Console.WriteLine("freshNotifierText: " + freshNotifierText);
 
 			// Кликнуть, чтобы переключить сообщения - на первое
 			ChangeNotifier(1);
 
 			// Текст верхнего сообщения
-			string currentNotifierText = WorkspacePage.GetNotifierText();
+			var currentNotifierText = WorkspacePage.GetNotifierText();
 			Console.WriteLine("currentNotifierText: " + currentNotifierText);
-			string docName = Path.GetFileNameWithoutExtension(_exportFilePath);
+			var docName = Path.GetFileNameWithoutExtension(_exportFilePath);
 
 			// Проверить, что появилось самое старое сообщение
-			Assert.IsTrue(currentNotifierText.Contains(docName), "Ошибка: кликнули по верхнему сообщению - появилось не первое!");
+			Assert.IsTrue(
+				currentNotifierText.Contains(docName), 
+				"Ошибка: кликнули по верхнему сообщению - появилось не первое!");
 		}
 
 		/// <summary>
@@ -691,21 +688,24 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		public void ExportChangeFirstToSecond()
 		{
 			// Название документа, которое будем искать во втором сообщении
-			string secondNotifierDocName = Path.GetFileNameWithoutExtension(_exportFilePath);
-
+			var secondNotifierDocName = Path.GetFileNameWithoutExtension(_exportFilePath);
 			// Создать проект
-			string projectName = CreateProjectOneDocument(false);
+			var projectName = CreateProjectOneDocument(false);
 			// Создать второй проект
-			string projectName2 = CreateCommonProjectMultiDocuments(false);
+			var projectName2 = CreateCommonProjectMultiDocuments(false);
 			// Закрыть все открытые сообщения об экспорте
 			WorkspacePage.CancelAllNotifiers();
+
 			// Экспортировать второй проект (с 2 документами)
 			SelectProjectInList(projectName2);
 			ClickExportBtnRed(EXPORT_TYPE_SOURCE);
+
 			// Дождаться Download
 			WaitExportDownloadBtn();
+
 			// Проверка, что первом сообщении нет текста, который мы будем искать при переключении на второе сообщение
-			Assert.IsFalse(WorkspacePage.GetNotifierText().Contains(secondNotifierDocName),
+			Assert.IsFalse(
+				WorkspacePage.GetNotifierText().Contains(secondNotifierDocName),
 				"Тестовая ошибка: в первом сообщении об экспорте есть искомое название документа (должно быть только во втором)");
 
 			// Убрать галочку с проекта
@@ -718,11 +718,14 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			SelectProjectInList(projectName);
 
 			// Ждем второе сообщение об экспорте
-			Assert.IsTrue(WorkspacePage.WaitNotifierAppear(2),
+			Assert.IsTrue(
+				WorkspacePage.WaitNotifierAppear(2),
 				"Ошибка: не появилось второе сообщение об экспорте");
 			Thread.Sleep(3000);
+
 			// Проверка, что во втором сообщении есть искомый текст
-			Assert.IsTrue(WorkspacePage.GetNotifierText().Contains(secondNotifierDocName),
+			Assert.IsTrue(
+				WorkspacePage.GetNotifierText().Contains(secondNotifierDocName),
 				"Тестовая ошибка: во втором сообщении об экспорте нет нужного названия документа");
 
 			// Экспортировать второй проект (с 2 документами)
@@ -739,18 +742,19 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 				"Тестовая ошибка: в третьем сообщении об экспорте есть искомое название документа (должно быть только во втором)");
 
 			// Текст верхнего сообщения
-			string freshNotifierText = WorkspacePage.GetNotifierText();
+			var freshNotifierText = WorkspacePage.GetNotifierText();
 			Console.WriteLine("freshNotifierText: " + freshNotifierText);
 
 			// Кликнуть, чтобы переключить сообщения - на второе
 			ChangeNotifier(2);
 
 			// Текст верхнего сообщения
-			string currentNotifierText = WorkspacePage.GetNotifierText();
+			var currentNotifierText = WorkspacePage.GetNotifierText();
 			Console.WriteLine("currentNotifierText: " + currentNotifierText);
 
 			// Проверить, что появилось второе сообщение
-			Assert.IsTrue(currentNotifierText.Contains(secondNotifierDocName),
+			Assert.IsTrue(
+				currentNotifierText.Contains(secondNotifierDocName),
 				"Ошибка: кликнули по верхнему сообщению - появилось не второе!");
 		}
 
@@ -765,10 +769,9 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		public void ExportRenamedDocument(string exportType)
 		{
 			// Создать проект
-			string projectName = CreateProjectOneDocument(false, true);
+			var projectName = CreateProjectOneDocument(false, true);
 			// Закрыть все открытые сообщения об экспорте
 			WorkspacePage.CancelAllNotifiers();
-
 			// Открыть информацию о проекте
 			OpenProjectInfo(projectName);
 			// Открыть информацию о документе
@@ -776,10 +779,11 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 
 			// Изменить имя документа
 			WorkspacePage.ClickDocumentSettingsBtn();
-			Assert.IsTrue(WorkspacePage.WaitDocumentSettingsDialogAppear(),
+			Assert.IsTrue(
+				WorkspacePage.WaitDocumentSettingsDialogAppear(),
 				"Ошибка: диалог настройки документа не открылся");
 			// Ввести новое название документа
-			string newDocumentName = "docName" + DateTime.Now.Ticks;
+			var newDocumentName = "docName" + DateTime.Now.Ticks;
 			WorkspacePage.DocumentSettingsAddName(newDocumentName);
 
 			// Сохранить
@@ -793,8 +797,10 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			WaitExportDownloadBtn();
 
 			// Проверить, что отображается новое имя документа
-			string notifierText = WorkspacePage.GetNotifierText();
-			Assert.IsTrue(notifierText.Contains(newDocumentName), "Ошибка: экспортируется документ со старым названием");
+			var notifierText = WorkspacePage.GetNotifierText();
+			Assert.IsTrue(
+				notifierText.Contains(newDocumentName), 
+				"Ошибка: экспортируется документ со старым названием");
 		}
 
 
@@ -810,8 +816,8 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			WaitExportDownloadBtn();
 			// Нажать Download
 			WorkspacePage.ClickDownloadNotifier();
-			bool isNeedOriginalExtension = true;
-			string fileExtension = "";
+			var isNeedOriginalExtension = true;
+			var fileExtension = "";
 
 			if (multiDoc)
 			{
@@ -839,11 +845,14 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		protected void WaitExportDownloadBtn()
 		{
 			// Дождаться появления информационного окна
-			Assert.IsTrue(WorkspacePage.GetIsExistNotifier(),
+			Assert.IsTrue(
+				WorkspacePage.GetIsExistNotifier(),
 				"Ошибка: не появилось информационное окно об экспорте");
 
 			// Дождаться появления кнопки Download
-			Assert.IsTrue(WaitNotifierDownloadBtn(), "Ошибка: не появилась кнопка Download");
+			Assert.IsTrue(
+				WaitNotifierDownloadBtn(), 
+				"Ошибка: не появилась кнопка Download");
 		}
 
 		/// <summary>
@@ -852,12 +861,14 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <returns>появилась кнопка</returns>		
 		protected bool WaitNotifierDownloadBtn()
 		{
-			int restartCounter = 0;
-			bool isExistDownloadBtn = false;
+			var restartCounter = 0;
+			var isExistDownloadBtn = false;
 
 			// Дождаться, пока пропадет Prepare
-			Assert.IsTrue(WorkspacePage.WaitUntilDisappearPrepareNotifier(),
-					"Ошибка: сообщение Prepare висит слишком долго");
+			Assert.IsTrue(
+				WorkspacePage.WaitUntilDisappearPrepareNotifier(),
+				"Ошибка: сообщение Prepare висит слишком долго");
+
 			// Проверить, появилась ли кнопка Download
 			isExistDownloadBtn = WorkspacePage.GetIsDownloadBtnNotifierDisplayed();
 
@@ -865,20 +876,26 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			while (!isExistDownloadBtn && restartCounter < MAX_NUMBER_RESTART_EXPORT)
 			{
 				// Если нет сообщения об ошибке (Restart) - вообще нет сообщений - ошибка
-				Assert.IsTrue(WorkspacePage.GetIsRestartBtnNotifierDisplayed(), "Ошибка: нет ни сообщения Download, ни сообщения об ошибке");
+				Assert.IsTrue(
+					WorkspacePage.GetIsRestartBtnNotifierDisplayed(), 
+					"Ошибка: нет ни сообщения Download, ни сообщения об ошибке");
 
 				// Нажать Restart
 				WorkspacePage.ClickRestartNotifier();
 
 				// Проверить, что Restart начался
-				bool isRestartStarted = WorkspacePage.GetIsPrepareNotifierDisplayed()
+				var isRestartStarted = WorkspacePage.GetIsPrepareNotifierDisplayed()
 					|| WorkspacePage.GetIsDownloadBtnNotifierDisplayed();
 
 				// Нет ни сообщения о Prepare, ни download
-				Assert.IsTrue(isRestartStarted, "Ошибка: после нажатия на Restart не начался экпорт заново");
+				Assert.IsTrue(
+					isRestartStarted, 
+					"Ошибка: после нажатия на Restart не начался экпорт заново");
 				// Дождаться, пока пропадет Prepare
-				Assert.IsTrue(WorkspacePage.WaitUntilDisappearPrepareNotifier(),
+				Assert.IsTrue(
+					WorkspacePage.WaitUntilDisappearPrepareNotifier(),
 						"Ошибка: сообщение Prepare висит слишком долго");
+
 				// Проверить, появилась ли кнопка Download
 				isExistDownloadBtn = WorkspacePage.GetIsDownloadBtnNotifierDisplayed();
 				++restartCounter;
@@ -887,7 +904,8 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			if (!isExistDownloadBtn)
 			{
 				// Если сделали N Restart - вывести ошибку, что тест дальше не может проверить функционал
-				Assert.IsTrue(restartCounter < MAX_NUMBER_RESTART_EXPORT,
+				Assert.IsTrue(
+					restartCounter < MAX_NUMBER_RESTART_EXPORT,
 					"Ошибка при экспорте! Выводится сообщение, что при экспорте произошла ошибка! Тест дальше проходить не может");
 			}
 
@@ -901,7 +919,9 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		protected void ClickExportBtnRed(string exportType)
 		{
 			//Нажать на кнопку Export
-			Assert.IsTrue(WorkspacePage.ClickExportRedBtn(), "Ошибка: кнопка Экспорт заблокирована");
+			Assert.IsTrue(
+				WorkspacePage.ClickExportRedBtn(), 
+				"Ошибка: кнопка Экспорт заблокирована");
 			
 			//Выбрать тип экспорта
 			SelectExportType(exportType);
@@ -948,7 +968,8 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <returns>внутренний тип экспорта</returns>
 		protected WorkSpacePageHelper.EXPORT_TYPE GetExportTypePage(string exportType)
 		{
-			WorkSpacePageHelper.EXPORT_TYPE exportTypePage = WorkSpacePageHelper.EXPORT_TYPE.Original;
+			var exportTypePage = WorkSpacePageHelper.EXPORT_TYPE.Original;
+
 			switch (exportType)
 			{
 				case EXPORT_TYPE_SOURCE:
@@ -961,6 +982,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 					exportTypePage = WorkSpacePageHelper.EXPORT_TYPE.Translated;
 					break;
 			}
+
 			return exportTypePage;
 		}
 
@@ -969,16 +991,17 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// </summary>
 		protected void AssertNotifierDocumentName()
 		{
-			string notifierText = WorkspacePage.GetNotifierText();
-			string docName = Path.GetFileNameWithoutExtension(_exportFilePath);
+			var notifierText = WorkspacePage.GetNotifierText();
+			var docName = Path.GetFileNameWithoutExtension(_exportFilePath);
 			Console.WriteLine("docName " + docName);
 			Console.WriteLine("notifierText: " + notifierText);
 
 			// Есть ли в тексте сообщения название документа:
-			Assert.IsTrue(notifierText.Contains(docName),
+			Assert.IsTrue(
+				notifierText.Contains(docName),
 				"Ошибка: неправильный текст в сообщении об экспорте: нет названия документа.\n"
-				+ "Документ: " + docName
-				+ "\nСейчас текст: " + notifierText);
+					+ "Документ: " + docName
+					+ "\nСейчас текст: " + notifierText);
 		}
 
 		/// <summary>
@@ -987,10 +1010,11 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		protected void AssertNotifierMultiDocuments()
 		{
 			// Текст сообщения об экспорте
-			string notifierText = WorkspacePage.GetNotifierText();
+			var notifierText = WorkspacePage.GetNotifierText();
 
 			// Проверить, что в тексте есть указание на несколько документов
-			Assert.IsTrue(notifierText.Contains(EXPORT_NOTIFIER_DOWNLOAD_DOCUMENTS),
+			Assert.IsTrue(
+				notifierText.Contains(EXPORT_NOTIFIER_DOWNLOAD_DOCUMENTS),
 				"Ошибка: неправильный текст в сообщении об экспорте: нет указания на несколько документов.\nСейчас текст: " + notifierText);
 		}
 
@@ -1002,7 +1026,8 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		{
 			// Выбрать проект
 			SelectProjectInList(projectName);
-			for (int i = 0; i < maxNotifierNumber; ++i)
+
+			for (var i = 0; i < MaxNotifierNumber; ++i)
 			{
 				// Нажать "красный" экспорт Original
 				ClickExportBtnRed(EXPORT_TYPE_SOURCE);
@@ -1033,7 +1058,9 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		protected void ClickDocumentOpenInfo(int documentNumber = 1)
 		{
 			// Кликнуть на открытие информации о документе
-			Assert.IsTrue(WorkspacePage.OpenDocumentInfo(documentNumber), "Ошибка: нет такого документа N " + documentNumber);
+			Assert.IsTrue(
+				WorkspacePage.OpenDocumentInfo(documentNumber), 
+				"Ошибка: нет такого документа N " + documentNumber);
 		}
 
 		/// <summary>
@@ -1045,7 +1072,8 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		protected string CreateProjectOneDocument(bool isNeedOpenProject, bool isNeedUniqueProject = false)
 		{
 			// имя общего проекта
-			string currentProjectName = "";
+			var currentProjectName = "";
+
 			if (isNeedUniqueProject)
 			{
 				currentProjectName = "TestProject" + DateTime.Now.Ticks;
@@ -1057,7 +1085,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 
 			// проверить, есть ли проект
 			// (рассчитываем на то, что если проект есть, то в нем уже есть документ с переводом)
-			bool isProjectNotExist = isNeedUniqueProject || GetIsNotExistProject(currentProjectName);
+			var isProjectNotExist = isNeedUniqueProject || GetIsNotExistProject(currentProjectName);
 
 			if (isProjectNotExist)
 			{
@@ -1067,6 +1095,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 				AddTranslationAndConfirm();
 				// Выйти
 				EditorClickHomeBtn();
+
 				if (isNeedOpenProject)
 				{
 					// Заходим в проект
@@ -1091,14 +1120,14 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <returns>название проекта</returns>
 		protected string CreateCommonProjectMultiDocuments(bool isNeedOpenProject)
 		{
-			string currentProjectName = ProjectNameExportTestMultiDoc;
-			bool isNotExistProject = GetIsNotExistProject(currentProjectName);
+			var currentProjectName = ProjectNameExportTestMultiDoc;
+			var isNotExistProject = GetIsNotExistProject(currentProjectName);
+
 			// Создать проект, если его нет
 			if (isNotExistProject)
 			{
 				// Создать проект
 				CreateProject(currentProjectName);
-
 				// Загрузить документ
 				ImportDocumentProjectSettings(DocumentFileToConfirm, currentProjectName);
 				// Назначить
@@ -1109,7 +1138,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 				AddTranslationAndConfirm();
 				// Выйти из редактора
 				EditorClickHomeBtn();
-
 				// Загрузить второй документ
 				ImportDocumentProjectSettings(DocumentFileToConfirm2, currentProjectName);
 				// Назначить второй
@@ -1132,6 +1160,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 				// Открыть проект
 				OpenProjectPage(currentProjectName);
 			}
+
 			return currentProjectName;
 		}
 
@@ -1143,5 +1172,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		{
 			WorkspacePage.CancelAllNotifiers();
 		}
+
+		const int MaxNotifierNumber = 5;
 	}
 }

@@ -88,7 +88,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		[Test]
 		public void CheckTM()
 		{
-			System.Console.WriteLine("CheckTM");
+			Console.WriteLine("CheckTM");
 
 			// Создание проекта с файлом с МТ с файлом
 			CreateProject(ProjectName, EditorTXTFile, true, EditorTMXFile);
@@ -121,10 +121,10 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		[Test]
 		public void GlossaryFirstSegment()
 		{
-			string uniqueGlossaryName = GlossaryName + DateTime.Now.ToString();
+			var uniqueGlossaryName = GlossaryName + DateTime.Now;
 
 			// Добавление словаря для глоссария
-			Dictionary<string, string> dictionary = new Dictionary<string, string>
+			var dictionary = new Dictionary<string, string>
 			{ 
 				{"first", "первый"},
 				{"sentence", "предложение"}
@@ -184,10 +184,10 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		[Test]
 		public void GlossaryThirdSegment()
 		{
-			string uniqueGlossaryName = GlossaryName + DateTime.Now.ToString();
+			var uniqueGlossaryName = GlossaryName + DateTime.Now;
 
 			// Добавление словаря для глоссария
-			Dictionary<string, string> dictionary = new Dictionary<string, string>
+			var dictionary = new Dictionary<string, string>
 			{ 
 				{"more", "еще"},
 				{"one", "один"},
@@ -247,12 +247,13 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		[Test]
 		public void GlossaryFewSegments()
 		{
-			System.Console.WriteLine("GlossaryFewSegments");
-			string uniqueGlossaryName = GlossaryName + DateTime.Now.ToString();
-			List<string> catSelectedTexts = new List<string>();
+			Console.WriteLine("GlossaryFewSegments");
+
+			var uniqueGlossaryName = GlossaryName + DateTime.Now;
+			var catSelectedTexts = new List<string>();
 
 			// Добавление словаря для глоссария
-			Dictionary<string, string> dictionary = new Dictionary<string, string>
+			var dictionary = new Dictionary<string, string>
 			{ 
 				{"second", "второй"},
 				{"one", "один"},

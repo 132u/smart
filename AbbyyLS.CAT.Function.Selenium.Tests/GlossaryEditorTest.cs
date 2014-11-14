@@ -1,11 +1,7 @@
 ﻿using System;
 using System.Threading;
 using NUnit.Framework;
-using OpenQA.Selenium;
 using System.Collections.Generic;
-using System.Configuration;
-using System.Windows.Forms;
-using System.Drawing.Imaging;
 
 namespace AbbyyLS.CAT.Function.Selenium.Tests
 {
@@ -22,15 +18,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			: base (browserName)
 		{
 		}
-
-		private string _glossaryName;
-		private string _glossaryName2;	   
-		private string _projectName2;
-		// Имя проекта, использующегося в нескольких тестах
-		// Проект не изменяется при проведении тестов
-		private string projectNoChangesName = "";
-		private bool beforeTests = false;
-	   
 		
 
 		[TestFixtureSetUp]
@@ -54,11 +41,15 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			if (!beforeTests)
 			{
 				//Проверка прав пользователя
-				CheckAddUserRights();
+				checkAddUserRights();
 				//Создание нового словаря
-				CreateNewGlossary();
+				createNewGlossary();
 				//Создание проекта	
-				CreateProjectIfNotCreated(projectNoChangesName, "", false, "", Workspace_CreateProjectDialogHelper.SetGlossary.ByName, _glossaryName);
+				CreateProjectIfNotCreated(
+					projectNoChangesName, 
+					setGlossary: Workspace_CreateProjectDialogHelper.SetGlossary.ByName,
+					glossaryName: _glossaryName);
+
 				//Открытие настроек проекта			
 				ImportDocumentProjectSettings(DocumentFile, projectNoChangesName);
 				//Назначение задачи на пользователя
@@ -80,10 +71,13 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		public override void TeardownAllBase()
 		{
 			GoToGlossaries();
+
 			// Зайти в глоссарий
 			SwitchCurrentGlossary(_glossaryName);
+
 			// Удалить глоссарий
 			DeleteGlossary();
+
 			// Удалить второй глоссарий
 			if (_glossaryName2 != null && GetIsExistGlossary(_glossaryName2))
 			{
@@ -94,9 +88,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 
 			ExitDriver();
 		}
-
-
-
+		
 		/// <summary>
 		/// Открывает форму добавления термина в редакторе по нажатию кнопки на панели
 		/// </summary>
@@ -104,7 +96,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		public void OpenAddTermFormBtn()
 		{
 			// Открытие формы
-			OpenAddTermForm();
+			openAddTermForm();
 			
 		}
 
@@ -118,7 +110,8 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			EditorPage.AddTermFormByHotkey(1);
 
 			// Проверка, что открылась форма
-			Assert.IsTrue(EditorPage.WaitAddTermFormDisplay(),
+			Assert.IsTrue(
+				EditorPage.WaitAddTermFormDisplay(),
 				"Ошибка: Форма для добавления термина не открылась.");
 		}
 
@@ -129,7 +122,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		public void AutofillAddTermFormSourceWordSelected()
 		{
 			//Автозаполнение формы
-			AutofillFormSourceWordSelected();		
+			autofillFormSourceWordSelected();		
 		}
 
 		/// <summary>
@@ -138,9 +131,10 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		[Test]
 		public void TargetWordSelectedAutofillAddTermForm()
 		{
-			AutofillFormTargetWordSelected();
+			autofillFormTargetWordSelected();
 			
-			// Удаляем текст из таргета и подтверждаем (чтобы не всплывало PopUp окно, AutoSave иногда очень тормозит)
+			// Удаляем текст из таргета и подтверждаем 
+			// (чтобы не всплывало PopUp окно, AutoSave иногда очень тормозит)
 			AddTermForm.ClickCancelBtn();
 			EditorPage.ClearTarget(1);		   
 			AutoSave();
@@ -154,20 +148,27 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		public void AddSingleSourceTermToGlossary()
 		{
 			// Автозаполнение формы
-			AutofillFormSourceWordSelected();
+			autofillFormSourceWordSelected();
 			// Нажать сохранить
 			AddTermForm.ClickAddBtn();
-			Assert.IsTrue(AddTermForm.WaitConfirmSingleTermMessage(),
+
+			Assert.IsTrue(
+				AddTermForm.WaitConfirmSingleTermMessage(),
 				"Ошибка: Не было сообщения о добавлении одиночного термина.");
+
 			// Добавить термин
 			AddTermForm.ClickAddSingleTerm();
-			Assert.IsTrue(AddTermForm.WaitTermSavedMessage(),
+			Assert.IsTrue(
+				AddTermForm.WaitTermSavedMessage(),
 				"Ошибка: Не было сообщения о сохранении термина.");
+
 			// Термин сохранен, нажать ок
 			AddTermForm.ClickTermSaved();
+
 			// Открыть глоссарий и проверить, есть ли термин
-			OpenCurrentGlossary();
-			Assert.IsTrue(GlossaryPage.GetIsSingleSourceTermExists("Earth"),
+			openCurrentGlossary();
+			Assert.IsTrue(
+				GlossaryPage.GetIsSingleSourceTermExists("Earth"),
 				"Ошибка: Не добавлен одиночный термин из сорса.");
 		}
 
@@ -178,16 +179,20 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		public void AddSingleTargetTermToGlossary()
 		{
 			// Автозаполнение формы
-			AutofillFormTargetWordSelected();
+			autofillFormTargetWordSelected();
 			
 			// Нажать сохранить
 			AddTermForm.ClickAddBtn();
-			Assert.IsTrue(AddTermForm.WaitConfirmSingleTermMessage(),
+			Assert.IsTrue(
+				AddTermForm.WaitConfirmSingleTermMessage(),
 				"Ошибка: Не было сообщения о добавлении одиночного термина.");
+
 			// Добавить термин
 			AddTermForm.ClickAddSingleTerm();
-			Assert.IsTrue(AddTermForm.WaitTermSavedMessage(),
+			Assert.IsTrue(
+				AddTermForm.WaitTermSavedMessage(),
 				"Ошибка: Не было сообщения о сохранении термина.");
+
 			// Термин сохранен, нажать ок
 			AddTermForm.ClickTermSaved();
 
@@ -198,7 +203,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			Thread.Sleep(7000);
 
 			// Открыть глоссарий и проверить, есть ли термин
-			OpenCurrentGlossary();
+			openCurrentGlossary();
 			Assert.IsTrue(GlossaryPage.GetIsSingleTargetTermExists("Земля"),
 				"Ошибка: Не добавлен одиночный термин из таргета.");
 		}
@@ -209,19 +214,23 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		[Test]
 		public void AddSourceTargetTermToGlossary()
 		{
-			OpenAddTermForm();
+			openAddTermForm();
+
 			// Добавить сорс
 			AddTermForm.TypeSourceTermText("Comet");
 			// Добавить термин в таргет
 			AddTermForm.TypeTargetTermText("Комета");
+
 			// Нажать сохранить
 			AddTermForm.ClickAddBtn();
 			Assert.IsTrue(AddTermForm.WaitTermSavedMessage(),
-				"Ошибка: Не было сообщения о сохранении термина.");		 
+				"Ошибка: Не было сообщения о сохранении термина.");	
+	 
 			// Термин сохранен, нажать ок
 			AddTermForm.ClickTermSaved();
+
 			// Открыть глоссарий и проверить, есть ли термин
-			OpenCurrentGlossary();
+			openCurrentGlossary();
 			Assert.IsTrue(GlossaryPage.GetIsSourceTargetTermExists("Comet", "Комета"), "Ошибка: Не добавлен термин.");
 		}
 
@@ -232,20 +241,26 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		public void AddModifiedSourceTargetTermToGlossary()
 		{
 			// Автозаполнение формы
-			AutofillFormSourceWordSelected();
+			autofillFormSourceWordSelected();
 			// Изменить текст сорса
 			AddTermForm.TypeSourceTermText("Mars");
 			// Добавить термин в таргет
 			AddTermForm.TypeTargetTermText("Марс");
+
 			// Нажать сохранить
 			AddTermForm.ClickAddBtn();
-			Assert.IsTrue(AddTermForm.WaitTermSavedMessage(),
+			Assert.IsTrue(
+				AddTermForm.WaitTermSavedMessage(),
 				"Ошибка: Не было сообщения о сохранении термина.");
+
 			// Термин сохранен, нажать ок
 			AddTermForm.ClickTermSaved();			
+
 			// Открыть глоссарий и проверить, есть ли термин
-			OpenCurrentGlossary();
-			Assert.IsTrue(GlossaryPage.GetIsSourceTargetTermExists("Mars", "Марс"), "Ошибка: Не добавлен термин.");
+			openCurrentGlossary();
+			Assert.IsTrue(
+				GlossaryPage.GetIsSourceTargetTermExists("Mars", "Марс"), 
+				"Ошибка: Не добавлен термин.");
 		}
 
 		/// <summary>
@@ -255,27 +270,32 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		public void AddSourceModifiedTargetTermToGlossary()
 		{
 			// Автозаполнение формы
-			AutofillFormTargetWordSelected();
+			autofillFormTargetWordSelected();
 			// Добавить сорс
 			AddTermForm.TypeSourceTermText("Uran");
 			// Изменить термин таргета
 			AddTermForm.TypeTargetTermText("Уран");
+
 			// Нажать сохранить
 			AddTermForm.ClickAddBtn();
-			Assert.IsTrue(AddTermForm.WaitTermSavedMessage(),
+			Assert.IsTrue(
+				AddTermForm.WaitTermSavedMessage(),
 				"Ошибка: Не было сообщения о сохранении термина.");
+
 			// Термин сохранен, нажать ок
 			AddTermForm.ClickTermSaved();
-
-			// Удаляем текст из таргета и подтверждаем (чтобы не всплывало PopUp окно, AutoSave иногда очень тормозит)
+			// Удаляем текст из таргета и подтверждаем 
+			// (чтобы не всплывало PopUp окно, AutoSave иногда очень тормозит)
 			EditorPage.ClearTarget(1);
 			EditorPage.ClickConfirmBtn();
 			AutoSave();
 
 
 			// Открыть глоссарий и проверить, есть ли термин
-			OpenCurrentGlossary();
-			Assert.IsTrue(GlossaryPage.GetIsSourceTargetTermExists("Uran", "Уран"), "Ошибка: Не добавлен термин.");
+			openCurrentGlossary();
+			Assert.IsTrue(
+				GlossaryPage.GetIsSourceTargetTermExists("Uran", "Уран"), 
+				"Ошибка: Не добавлен термин.");
 		}
 
 		/// <summary>
@@ -285,24 +305,27 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		public void AddExistedSourceTermToGlossary()
 		{
 			// Открытие формы
-			OpenAddTermForm();
+			openAddTermForm();
 			// Добавить сорс
 			AddTermForm.TypeSourceTermText("planet");
 			// Добавить таргет
 			AddTermForm.TypeTargetTermText("планета");
+
 			// Нажать сохранить
 			AddTermForm.ClickAddBtn();
-			Assert.IsTrue(AddTermForm.WaitTermSavedMessage(),
+			Assert.IsTrue(
+				AddTermForm.WaitTermSavedMessage(),
 				"Ошибка: Не было сообщения о сохранении термина.");
 
 			// Термин сохранен, нажать ок
 			AddTermForm.ClickTermSaved();
 			// Открытие формы
-			OpenAddTermForm();
+			openAddTermForm();
 			// Добавить сорс
 			AddTermForm.TypeSourceTermText("planet");
 			// Добавить таргет
 			AddTermForm.TypeTargetTermText("планетка");
+
 			// Нажать сохранить
 			AddTermForm.ClickAddBtn();
 			Assert.IsTrue(AddTermForm.WaitContainsTermMessage(),
@@ -315,8 +338,9 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 
 			// Термин сохранен, нажать ок
 			AddTermForm.ClickTermSaved();
+
 			// Открыть глоссарий и проверить, есть ли термин
-			OpenCurrentGlossary();
+			openCurrentGlossary();
 			Assert.IsTrue(GlossaryPage.GetIsSourceTargetTermExists("planet", "планетка"), "Ошибка: Не добавлен термин.");
 		}
 
@@ -327,11 +351,12 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		public void AddExistedTargetTermToGlossary()
 		{
 			// Открытие формы
-			OpenAddTermForm();
+			openAddTermForm();
 			// Добавить сорс
 			AddTermForm.TypeSourceTermText("asteroid");
 			// Добавить таргет
 			AddTermForm.TypeTargetTermText("астероид");
+
 			// Нажать сохранить
 			AddTermForm.ClickAddBtn();
 			Assert.IsTrue(AddTermForm.WaitTermSavedMessage(),
@@ -340,11 +365,12 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			// Термин сохранен, нажать ок
 			AddTermForm.ClickTermSaved();
 			// Открытие формы
-			OpenAddTermForm();
+			openAddTermForm();
 			// Добавить сорс
 			AddTermForm.TypeSourceTermText("the Asteroid");
 			// Добавить таргет
 			AddTermForm.TypeTargetTermText("астероид");
+
 			// Нажать сохранить
 			AddTermForm.ClickAddBtn();
 			Assert.IsTrue(AddTermForm.WaitContainsTermMessage(),
@@ -358,7 +384,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			// Термин сохранен, нажать ок
 			AddTermForm.ClickTermSaved();
 			// Открыть глоссарий и проверить, есть ли термин
-			OpenCurrentGlossary();
+			openCurrentGlossary();
 			Assert.IsTrue(GlossaryPage.GetIsSourceTargetTermExists("the Asteroid", "астероид"), "Ошибка: Не добавлен термин.");
 		}
 
@@ -369,11 +395,12 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		public void AddExistedTermToGlossary()
 		{
 			// Открытие формы
-			OpenAddTermForm();
+			openAddTermForm();
 			// Добавить сорс
 			AddTermForm.TypeSourceTermText("Sun");
 			// Добавить таргет
 			AddTermForm.TypeTargetTermText("солнце");
+
 			// Нажать сохранить
 			AddTermForm.ClickAddBtn();
 			Assert.IsTrue(AddTermForm.WaitTermSavedMessage(),
@@ -382,11 +409,12 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			// Термин сохранен, нажать ок
 			AddTermForm.ClickTermSaved();
 			// Открытие формы
-			OpenAddTermForm();
+			openAddTermForm();
 			// Добавить сорс
 			AddTermForm.TypeSourceTermText("Sun");
 			// Добавить таргет
 			AddTermForm.TypeTargetTermText("солнце");
+
 			// Нажать сохранить
 			AddTermForm.ClickAddBtn();
 			Assert.IsTrue(AddTermForm.WaitContainsTermMessage(),
@@ -399,8 +427,9 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 
 			// Термин сохранен, нажать ок
 			AddTermForm.ClickTermSaved();
+
 			// Открыть глоссарий и проверить, есть ли термин
-			OpenCurrentGlossary();
+			openCurrentGlossary();
 			Assert.IsTrue(GlossaryPage.GetAreTwoEqualTermsExist("Sun", "солнце"), "Ошибка: Не добавлен термин.");
 		}
 
@@ -411,13 +440,14 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		public void AddCommentToGlossary()
 		{
 			// Открытие формы
-			OpenAddTermForm();
+			openAddTermForm();
 			// Добавить сорс
 			AddTermForm.TypeSourceTermText("Neptun");
 			// Добавить таргет
 			AddTermForm.TypeTargetTermText("Нептун");
 			// Добавить комментарий
 			AddTermForm.TypeCommentText("Generated By Selenium");
+
 			// Нажать сохранить
 			AddTermForm.ClickAddBtn();
 			Assert.IsTrue(AddTermForm.WaitTermSavedMessage(),
@@ -425,8 +455,9 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 
 			// Термин сохранен, нажать ок
 			AddTermForm.ClickTermSaved();		   
+
 			// Открыть глоссарий и проверить, добавлен ли комментарий
-			OpenCurrentGlossary();
+			openCurrentGlossary();
 			Assert.IsTrue(GlossaryPage.GetIsCommentExists("Generated By Selenium"), "Ошибка: Не добавлен комментарий.");
 		}
 
@@ -439,7 +470,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			// Нажать кнопку Назад
 			EditorPage.ClickHomeBtn();
 			// Создать проект с двумя глоссариями
-			CreateProjectWithTwoGlossaries();
+			createProjectWithTwoGlossaries();
 			//Открытие настроек проекта			
 			ImportDocumentProjectSettings(DocumentFile, _projectName2);
 			//Назначение задачи на пользователя
@@ -447,7 +478,8 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			//Открытие документа
 			OpenDocument();
 			// Открытие формы
-			OpenAddTermForm();
+			openAddTermForm();
+
 			// Посмотреть выпадающий список
 			AddTermForm.OpenGlossaryList();
 			Assert.IsTrue(AddTermForm.CheckGlossaryByName(_glossaryName),
@@ -463,12 +495,12 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		[Test]
 		public void CheckGlossaryListInProjectCreatedWithOneGlossary()
 		{
-			_projectName2 = ProjectName + "_" + DateTime.UtcNow.Ticks.ToString() + "2";
+			_projectName2 = ProjectName + "_" + DateTime.UtcNow.Ticks + "2";
 
 			// Нажать кнопку Назад
 			EditorPage.ClickHomeBtn();
 			// Создать новый глоссарий
-			CreateNewGlossary(false);
+			createNewGlossary(false);
 			// Создать проект с одним глоссарием
 			CreateProject(_projectName2, "", false, "", Workspace_CreateProjectDialogHelper.SetGlossary.ByName, _glossaryName);
 			//Открытие настроек проекта			
@@ -480,7 +512,8 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			//Открытие документа
 			OpenDocument();
 			// Открытие формы
-			OpenAddTermForm();
+			openAddTermForm();
+
 			// Посмотреть выпадающий список
 			AddTermForm.OpenGlossaryList();
 			Assert.IsTrue(AddTermForm.CheckGlossaryByName(_glossaryName),
@@ -499,7 +532,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			// Нажать кнопку Назад
 			EditorPage.ClickHomeBtn();
 			// Создать проект с двумя глоссариями
-			CreateProjectWithTwoGlossaries();
+			createProjectWithTwoGlossaries();
 			//Открытие настроек проекта			
 			ImportDocumentProjectSettings(DocumentFile, _projectName2);
 			//Назначение задачи на пользователя
@@ -507,28 +540,31 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			//Открытие документа
 			OpenDocument();
 			// Открытие формы
-			OpenAddTermForm();
+			openAddTermForm();
+
 			// Посмотреть выпадающий список и выбрать словарь
 			AddTermForm.OpenGlossaryList();
 			Assert.IsTrue(AddTermForm.CheckGlossaryByName(_glossaryName),
 				"Ошибка: Словарь" + _glossaryName + "отсуствует в выпадающем списке.");
 			Assert.IsTrue(AddTermForm.CheckGlossaryByName(_glossaryName2),
 				"Ошибка: Словарь" + _glossaryName2 + "отсуствует в выпадающем списке.");
+
 			AddTermForm.SelectGlossaryByName(_glossaryName);
 
 			// Добавить сорс
 			AddTermForm.TypeSourceTermText("Space");
 			// Добавить таргет
 			AddTermForm.TypeTargetTermText("Космос");
+
 			// Нажать сохранить
 			AddTermForm.ClickAddBtn();
 			Assert.IsTrue(AddTermForm.WaitTermSavedMessage(),
 				"Ошибка: Не было сообщения о сохранении термина.");
+
 			// Термин сохранен, нажать ок
 			AddTermForm.ClickTermSaved();
-
 			// Открытие формы
-			OpenAddTermForm();
+			openAddTermForm();
 			// Выбрать второй глоссарий
 			AddTermForm.OpenGlossaryList();
 			AddTermForm.SelectGlossaryByName(_glossaryName2);
@@ -536,10 +572,12 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			AddTermForm.TypeSourceTermText("Space");
 			// Добавить таргет
 			AddTermForm.TypeTargetTermText("Космос");
+
 			// Нажать сохранить
 			AddTermForm.ClickAddBtn();
 			Assert.IsTrue(AddTermForm.WaitTermSavedMessage(),
 				"Ошибка: Не было сообщения о сохранении термина.");
+
 			// Термин сохранен, нажать ок
 			AddTermForm.ClickTermSaved();
 		}
@@ -551,11 +589,12 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		public void DeleteAddTermToGlossary()
 		{
 			// Открытие формы
-			OpenAddTermForm();
+			openAddTermForm();
 			// Добавить сорс
 			AddTermForm.TypeSourceTermText("Galaxy");
 			// Добавить таргет
 			AddTermForm.TypeTargetTermText("Галактика");
+
 			// Нажать сохранить
 			AddTermForm.ClickAddBtn();			
 			Assert.IsTrue(AddTermForm.WaitTermSavedMessage(),
@@ -563,12 +602,13 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 
 			// Термин сохранен, нажать ок
 			AddTermForm.ClickTermSaved();
+
 			// Открыть глоссарий и проверить, есть ли термин
-			OpenCurrentGlossary();
+			openCurrentGlossary();
 			Assert.IsTrue(GlossaryPage.GetIsSourceTargetTermExists("Galaxy", "Галактика"), "Ошибка: Не добавлен термин.");
 
 			// Удаляем заданный термин
-			DeleteTermByName("Galaxy", "Галактика");
+			deleteTermByName("Galaxy", "Галактика");
 			SwitchWorkspaceTab();
 			// Открытие проекта
 			WorkspacePage.OpenProjectPage(projectNoChangesName);
@@ -576,11 +616,12 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			ProjectPage.OpenDocument(1);
 			Thread.Sleep(500);
 			// Открытие формы
-			OpenAddTermForm();
+			openAddTermForm();
 			// Добавить сорс
 			AddTermForm.TypeSourceTermText("Galaxy");
 			// Добавить таргет
 			AddTermForm.TypeTargetTermText("Галактика");
+
 			// Нажать сохранить
 			AddTermForm.ClickAddBtn();
 			Assert.IsTrue(AddTermForm.WaitTermSavedMessage(),
@@ -588,46 +629,59 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 
 			// Термин сохранен, нажать ок
 			AddTermForm.ClickTermSaved();
+
 			// Открыть глоссарий и проверить, есть ли термин
-			OpenCurrentGlossary();
+			openCurrentGlossary();
 			Assert.IsTrue(GlossaryPage.GetIsSourceTargetTermExists("Galaxy", "Галактика"), "Ошибка: Не добавлен повторно термин.");
 		}
 
-
+		private string _glossaryName;
+		private string _glossaryName2;
+		private string _projectName2;
+		// Имя проекта, использующегося в нескольких тестах
+		// Проект не изменяется при проведении тестов
+		private string projectNoChangesName = "";
+		private bool beforeTests = false;
 
 		/// <summary>
 		/// Проверяем, что там у пользователя с правами
 		/// </summary>
-		private void CheckAddUserRights()
+		private void checkAddUserRights()
 		{			
 			// Переходим к вкладке прав пользователей
 			WorkspacePage.ClickUsersAndRightsBtn();
 			// Ожидание открытия страницы
-			Assert.IsTrue(UserRightsPage.WaitUntilUsersRightsDisplay(), "Ошибка: Страница прав пользователя не открылась.");
+			Assert.IsTrue(
+				UserRightsPage.WaitUntilUsersRightsDisplay(), 
+				"Ошибка: Страница прав пользователя не открылась.");
 
 			// Открываем страницу групп пользователей
 			UserRightsPage.OpenGroups();
 			// Ожидание открытия страницы прав групп пользователей
-			Assert.IsTrue(UserRightsPage.WaitUntilGroupsRightsDisplay(), "Ошибка: Страница прав групп пользователей не открылась.");
+			Assert.IsTrue(
+				UserRightsPage.WaitUntilGroupsRightsDisplay(), 
+				"Ошибка: Страница прав групп пользователей не открылась.");
 
 			// Открываем страницу групп пользователей
 			UserRightsPage.OpenGroups();
+
 			// Ожидание открытия страницы прав групп пользователей
-			Assert.IsTrue(UserRightsPage.WaitUntilGroupsRightsDisplay(), "Ошибка: Страница прав групп пользователей не открылась.");
+			Assert.IsTrue(
+				UserRightsPage.WaitUntilGroupsRightsDisplay(), 
+				"Ошибка: Страница прав групп пользователей не открылась.");
 
 			// Получение имени пользователя
-			string userName = WorkspacePage.GetUserName();
+			var userName = WorkspacePage.GetUserName();
 
 			// Окрытие группы Administrators
 			UserRightsPage.ClickGroupByName("Administrators");
 			Thread.Sleep(1000);
 
 			// Получение списка пользователей в группе Administrators
-			List<string> usersInGroup = UserRightsPage.GetDisplayUsersInGroup();
+			var usersInGroup = UserRightsPage.GetDisplayUsersInGroup();
 
 			if (!usersInGroup.Contains(userName) || !UserRightsPage.IsManageAllGlossariesRightIsPresent())
 			{
-
 				// Нажать Edit
 				UserRightsPage.ClickEdit();
 
@@ -646,6 +700,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 					// Жмем добавить
 					UserRightsPage.ClickAdd();
 					Thread.Sleep(1000);
+
 					Assert.IsTrue(UserRightsPage.IsManageAllGlossariesRightIsPresent(), 
 						"Ошибка: Право управления глоссариями не удалось добавить.");
 				}
@@ -666,8 +721,11 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 				// Получение списка пользователей в группе Administrators
 				usersInGroup = UserRightsPage.GetDisplayUsersInGroup();
 
-				Assert.IsTrue(usersInGroup.Contains(userName), "Ошибка: Пользователя не удалось добавить.");
-				Assert.IsTrue(UserRightsPage.IsManageAllGlossariesRightIsPresent(), 
+				Assert.IsTrue(
+					usersInGroup.Contains(userName), 
+					"Ошибка: Пользователя не удалось добавить.");
+				Assert.IsTrue(
+					UserRightsPage.IsManageAllGlossariesRightIsPresent(), 
 					"Ошибка: Право управления глоссариями не удалось добавить.");
 
 				SwitchWorkspaceTab();
@@ -677,7 +735,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <summary>
 		/// Автозаполнение сорса
 		/// </summary>
-		private void AutofillFormSourceWordSelected()
+		private void autofillFormSourceWordSelected()
 		{
 			const int segmentNumber = 1;
 
@@ -695,7 +753,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <summary>
 		/// Автозаполнение таргета
 		/// </summary>
-		private void AutofillFormTargetWordSelected()
+		private void autofillFormTargetWordSelected()
 		{
 			const int segmentNumber = 1;
 
@@ -707,8 +765,9 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			EditorPage.CursorToTargetLineBeginningByHotkey(segmentNumber);
 			// Нажать хоткей выделения первого слова
 			EditorPage.SelectFirstWordTargetByHotkey(segmentNumber);
+
 			//Открываем форму добавления термина
-			OpenAddTermForm();
+			openAddTermForm();
 			Assert.IsTrue(AddTermForm.GetTargetTermText("Земля"), "Ошибка: Нет автозаполнения таргета.");
 		}
 
@@ -716,7 +775,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// Создаем новый словарь с заданным именем		 
 		/// </summary>
 		/// <param name="firstGlossary">словарь номер один или два</param> 
-		private void CreateNewGlossary(bool firstGlossary = true)
+		private void createNewGlossary(bool firstGlossary = true)
 		{
 			string glossaryName;
 
@@ -738,10 +797,12 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 				_glossaryName2 = "01" + GetUniqueGlossaryName();
 				glossaryName = _glossaryName2;
 			}
+
 			// Создать глоссарий
 			CreateGlossaryByName(glossaryName);
 			// Перейти к списку глоссариев
 			SwitchGlossaryTab();			
+
 			// Проверить, что глоссарий сохранился
 			Assert.IsTrue(GetIsExistGlossary(glossaryName), "Ошибка: глоссарий не создался " + glossaryName);
 
@@ -753,9 +814,9 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// </summary>
 		/// <param name="source">сорс</param> 
 		/// <param name="target">таргет</param>  
-		private void DeleteTermByName(string source, string target)
+		private void deleteTermByName(string source, string target)
 		{
-			int itemsCount = GetCountOfItems();
+			var itemsCount = GetCountOfItems();
 
 			// Расширить окно, чтобы "корзинка" была видна, иначе Selenium ее "не видит" и выдает ошибку
 			Driver.Manage().Window.Maximize();
@@ -765,30 +826,35 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			GlossaryPage.ClickDeleteBtn();
 			GlossaryPage.WaitConceptGeneralDelete();
 			Thread.Sleep(1000);
+
 			// Сравнить количество терминов
-			int itemsCountAfter = GetCountOfItems();
-			Assert.IsTrue(itemsCountAfter < itemsCount, "Ошибка: количество терминов не уменьшилось");
+			var itemsCountAfter = GetCountOfItems();
+			Assert.IsTrue(
+				itemsCountAfter < itemsCount, 
+				"Ошибка: количество терминов не уменьшилось");
 		}
 
 		/// <summary>
 		/// Открыть форму добавления термина	  
 		/// </summary>
-		private void OpenAddTermForm()
+		private void openAddTermForm()
 		{
 			// Нажать кнопку вызова формы для добавления термина
 			EditorPage.ClickAddTermBtn();
+
 			// Проверка, что открылась форма
-			Assert.IsTrue(EditorPage.WaitAddTermFormDisplay(),
+			Assert.IsTrue(
+				EditorPage.WaitAddTermFormDisplay(),
 				"Ошибка: Форма для добавления термина не открылась.");
 		}
 
 		/// <summary>
 		/// Открыть текущий словарь	  
 		/// </summary>
-		private void OpenCurrentGlossary()
+		private void openCurrentGlossary()
 		{
 			// Нажать кнопку Назад
-			EditorPage.ClickHomeBtn();			
+			EditorPage.ClickHomeBtn();
 			// Перейти к списку глоссариев
 			SwitchGlossaryTab(); 
 			// Перейти в глоссарий
@@ -798,11 +864,11 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <summary>
 		/// Создать проект с двумя глоссариями	 
 		/// </summary>
-		private void CreateProjectWithTwoGlossaries()
+		private void createProjectWithTwoGlossaries()
 		{
-			_projectName2 = ProjectName + "_" + DateTime.UtcNow.Ticks.ToString() + "2";		 
-				// Создать второй словарь
-				CreateNewGlossary(false);					
+			_projectName2 = ProjectName + "_" + DateTime.UtcNow.Ticks + "2";		 
+			// Создать второй словарь
+			createNewGlossary(false);					
 			// Заполнение полей на первом шаге
 			FirstStepProjectWizard(_projectName2);
 			WorkspaceCreateProjectDialog.ClickNextStep();
@@ -819,6 +885,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			WorkspaceCreateProjectDialog.ClickNextStep();
 			// Настройка Pretranslate		  
 			WorkspaceCreateProjectDialog.ClickFinishCreate();
+
 			// Дождаться проекта в списке проектов		   
 			Assert.IsTrue(WorkspacePage.WaitProjectAppearInList(_projectName2), "Ошибка: проект не появился в списке Workspace");			
 		}

@@ -1,12 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using OpenQA.Selenium;
-using OpenQA.Selenium.Firefox;
-using OpenQA.Selenium.Chrome;
-using OpenQA.Selenium.IE;
+﻿using OpenQA.Selenium;
 using OpenQA.Selenium.Support.UI;
 
 namespace AbbyyLS.CAT.Function.Selenium.Tests
@@ -34,8 +26,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		{
 			return GetElementList(By.XPath(DICTIONARY_LIST_XPATH)).Count;
 		}
-
-
 
 		protected const string DICTIONARY_LIST_XPATH = ".//div[contains(@class,'js-dictionaries-search-result')]//div[contains(@class,'l-dctnrs__dict')]";
 	}

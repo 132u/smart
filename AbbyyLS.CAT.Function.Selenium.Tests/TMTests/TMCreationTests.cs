@@ -8,7 +8,8 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.TM
 		/// Конструктор теста
 		/// </summary>
 		/// <param name="browserName">Название браузера</param>
-		public TMCreationTests(string browserName) : base(browserName)
+		public TMCreationTests(string browserName) 
+			: base(browserName)
 		{
 		}
 

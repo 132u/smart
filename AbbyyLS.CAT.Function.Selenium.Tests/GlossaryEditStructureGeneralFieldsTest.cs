@@ -1,9 +1,5 @@
 ﻿using System;
-using System.Threading;
 using NUnit.Framework;
-using OpenQA.Selenium;
-using System.Collections.Generic;
-using System.Windows.Forms;
 
 namespace AbbyyLS.CAT.Function.Selenium.Tests
 {
@@ -25,14 +21,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		}
 
 		/// <summary>
-		/// Начальная подготовка для каждого теста
-		/// </summary>
-		[SetUp]
-		public void Setup()
-		{
-		}
-
-		/// <summary>
 		/// Метод тестирования изменения структуры - Definition/Interpretation
 		/// </summary>
 		[Test]
@@ -41,7 +29,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			// Изменить структуру глоссария, открыть создание нового термина
 			EditGlossaryGeneralStructure();
 			// Проверить поле Interpretation
-			string fieldName = GlossaryEditStructureForm.attributeDict[GlossaryEditStructureFormHelper.ATTRIBUTE_TYPE.Interpretation];
+			var fieldName = GlossaryEditStructureForm.attributeDict[GlossaryEditStructureFormHelper.ATTRIBUTE_TYPE.Interpretation];
 			CheckEditGlossaryStructureTextarea(fieldName);
 		}
 
@@ -54,7 +42,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			// Изменить структуру глоссария, открыть создание нового термина
 			EditGlossaryGeneralStructure();
 			// Проверить поле InterpretationSource
-			string fieldName = GlossaryEditStructureForm.attributeDict[GlossaryEditStructureFormHelper.ATTRIBUTE_TYPE.InterpretationSource];
+			var fieldName = GlossaryEditStructureForm.attributeDict[GlossaryEditStructureFormHelper.ATTRIBUTE_TYPE.InterpretationSource];
 			CheckEditGlossaryStructureTextarea(fieldName);
 		}
 
@@ -67,7 +55,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			// Изменить структуру глоссария, открыть создание нового термина
 			EditGlossaryGeneralStructure();
 			// Проверить поле Example
-			string fieldName = GlossaryEditStructureForm.attributeDict[GlossaryEditStructureFormHelper.ATTRIBUTE_TYPE.Example];
+			var fieldName = GlossaryEditStructureForm.attributeDict[GlossaryEditStructureFormHelper.ATTRIBUTE_TYPE.Example];
 			CheckEditGlossaryStructureTextarea(fieldName);
 		}
 
@@ -80,13 +68,14 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			// Изменить структуру глоссария, открыть создание нового термина
 			EditGlossaryGeneralStructure();
 
-			string fieldName = GlossaryEditStructureForm.attributeDict[GlossaryEditStructureFormHelper.ATTRIBUTE_TYPE.Topic];
+			var fieldName = GlossaryEditStructureForm.attributeDict[GlossaryEditStructureFormHelper.ATTRIBUTE_TYPE.Topic];
 
 			// Проверить, что поле появилось
 			Assert.IsTrue(GlossaryPage.GetIsExistInput(fieldName), "Ошибка: поле не появилось");
 
 			// Нажать на поле
 			GlossaryPage.ClickTopicDropdown(fieldName);
+
 			// Проверить, что список открылся
 			Assert.IsTrue(GlossaryPage.GetIsTopicListVisible(), "Ошибка: список не открылся");
 
@@ -94,10 +83,12 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			GlossaryPage.SelectTopicItem();
 			// Сохранить термин
 			GlossaryPage.ClickSaveExtendedConcept();
+
 			Assert.IsTrue(GlossaryPage.WaitConceptSave(), "Ошибка: термин не сохранился");
 
-			string text = GlossaryPage.GetTopicValue(fieldName);
+			var text = GlossaryPage.GetTopicValue(fieldName);
 			Console.WriteLine("text:\n" + text + "...");
+
 			// Проверить, что значение в поле есть
 			Assert.IsTrue(GlossaryPage.GetTopicValue(fieldName).Length > 0, "Ошибка: значение не сохранилось");
 		}
@@ -112,7 +103,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			SwitchDomainTab();
 
 			// Проверить, есть ли проект с таким именем
-			string domainName = "TestDomainGlossaryEditStructure";
+			const string domainName = "TestDomainGlossaryEditStructure";
 			CreateDomainIfNotExist(domainName);
 
 			// Вернуться к глоссариям
@@ -121,7 +112,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			// Изменить структуру глоссария, открыть создание нового термина
 			EditGlossaryGeneralStructure();
 
-			string fieldName = GlossaryEditStructureForm.attributeDict[GlossaryEditStructureFormHelper.ATTRIBUTE_TYPE.Domain];
+			var fieldName = GlossaryEditStructureForm.attributeDict[GlossaryEditStructureFormHelper.ATTRIBUTE_TYPE.Domain];
 
 			// Проверить, что поле появилось
 			Assert.IsTrue(GlossaryPage.GetIsExistSelect(fieldName), "Ошибка: поле не появилось");
@@ -139,8 +130,10 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			Assert.IsTrue(GlossaryPage.WaitConceptSave(), "Ошибка: термин не сохранился");
 
 			// Проверить, что значение в поле есть
-			string text = GlossaryPage.GetSelectValue(fieldName);
-			Assert.AreEqual(domainName, text, "Ошибка: проект не сохранился в поле");
+			Assert.AreEqual(
+				domainName,
+				GlossaryPage.GetSelectValue(fieldName), 
+				"Ошибка: проект не сохранился в поле");
 
 		}
 
@@ -153,17 +146,18 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			// Изменить структуру глоссария, открыть создание нового термина
 			EditGlossaryGeneralStructure();
 
-			string fieldName = "Image";
+			const string fieldName = "Image";
 
 			// Проверить, что поле появилось
 			Assert.IsTrue(GlossaryPage.GetIsExistInput(fieldName), "Ошибка: поле не появилось");
+
 			// Нажать на поле, чтобы открылся диалог загрузки документа
 			GlossaryPage.ClickImageToImport(fieldName);
-
 			// Заполнить диалог загрузки изображения
 			FillAddDocumentForm(ImageFile);
 			// Сохранить термин
 			GlossaryPage.ClickSaveExtendedConcept();
+			
 			// Дождаться появления поля с сохраненным термином
 			Assert.IsTrue(GlossaryPage.WaitConceptSave(), "Ошибка: термин не сохранился");
 
@@ -180,10 +174,11 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			// Изменить структуру глоссария, открыть создание нового термина
 			EditGlossaryGeneralStructure();
 
-			string fieldName = GlossaryEditStructureForm.attributeDict[GlossaryEditStructureFormHelper.ATTRIBUTE_TYPE.Multimedia];
+			var fieldName = GlossaryEditStructureForm.attributeDict[GlossaryEditStructureFormHelper.ATTRIBUTE_TYPE.Multimedia];
 
 			// Проверить, что поле появилось
 			Assert.IsTrue(GlossaryPage.GetIsExistInput(fieldName), "Ошибка: поле не появилось");
+
 			// Нажать на поле, чтобы открылся диалог загрузки документа
 			GlossaryPage.ClickMediaToImport(fieldName);
 
@@ -192,11 +187,14 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 
 			// Сохранить термин
 			GlossaryPage.ClickSaveExtendedConcept();
+
 			// Дождаться появления поля с сохраненным термином
 			Assert.IsTrue(GlossaryPage.WaitConceptSave(), "Ошибка: термин не сохранился");
 
 			// Проверить, что файл загрузился
-			Assert.IsTrue(GlossaryPage.GetIsFieldMediaFilled(fieldName), "Ошибка: файл не загрузился");
+			Assert.IsTrue(
+				GlossaryPage.GetIsFieldMediaFilled(fieldName), 
+				"Ошибка: файл не загрузился");
 		}
 
 
@@ -208,9 +206,13 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		protected void CheckEditGlossaryStructureTextarea(string fieldName)
 		{
 			// Проверить, что поле появилось
-			Assert.IsTrue(GlossaryPage.GetIsExistTextarea(fieldName), "Ошибка: поле не появилось");
+			Assert.IsTrue(
+				GlossaryPage.GetIsExistTextarea(fieldName),
+				"Ошибка: поле не появилось");
+
 			// Ввести текст в поле
-			string interpretationExample = fieldName + " Example";
+			var interpretationExample = fieldName + " Example";
+
 			GlossaryPage.FillTextarea(fieldName, interpretationExample);
 
 			// Сохранить термин
@@ -218,7 +220,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			Assert.IsTrue(GlossaryPage.WaitConceptSave(), "Ошибка: термин не сохранился");
 
 			// Проверить, что текст в поле сохранился
-			string text = GlossaryPage.GetTextareaValue(fieldName).Trim();
+			var text = GlossaryPage.GetTextareaValue(fieldName).Trim();
 			Assert.AreEqual(interpretationExample, text, "Ошибка: текст не сохранился");
 		}
 
@@ -228,7 +230,8 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		protected void EditGlossaryGeneralStructure()
 		{
 			// Имя глоссария для тестирования структуры, чтобы не создавать лишний раз
-			string glossaryName = "TestGlossaryEditStructureUniqueName";
+			const string glossaryName = "TestGlossaryEditStructureUniqueName";
+
 			if (!GetIsExistGlossary(glossaryName))
 			{
 				// Создать глоссарий
@@ -242,7 +245,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 
 			// Добавить все поля в структуру
 			AddAllSystemGeneralFieldStructure();
-
 			// Нажать New item
 			GlossaryPage.ClickNewItemBtn();
 			// Заполнить термин
@@ -258,7 +260,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			OpenEditGlossaryStructure();
 			// Добавить все поля
 			GlossaryEditStructureForm.SelectAllFields();
-
 			// Сохранить
 			GlossaryEditStructureForm.ClickSaveStructureBtn();
 			// Дождаться закрытия формы

@@ -1,13 +1,4 @@
-﻿
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using OpenQA.Selenium;
-using OpenQA.Selenium.Firefox;
-using OpenQA.Selenium.Chrome;
-using OpenQA.Selenium.IE;
+﻿using OpenQA.Selenium;
 using OpenQA.Selenium.Support.UI;
 
 namespace AbbyyLS.CAT.Function.Selenium.Tests
@@ -33,7 +24,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <returns>загрузилась</returns>
 		public bool WaitPageLoad(int maxwait = 15)
 		{
-			bool isDisplay = WaitUntilDisplayElement(By.CssSelector(EMAIL_CSS), maxwait);
+			var isDisplay = WaitUntilDisplayElement(By.CssSelector(EMAIL_CSS), maxwait);
 
 			return isDisplay;
 		}
@@ -144,8 +135,9 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		public bool GetIsErrorExist()
 		{
 			SetDriverTimeoutMinimum();
-			bool isErrorExist = GetIsElementDisplay(By.XPath(ERROR_XPATH));
+			var isErrorExist = GetIsElementDisplay(By.XPath(ERROR_XPATH));
 			SetDriverTimeoutDefault();
+
 			return isErrorExist;
 		}
 		

@@ -16,8 +16,6 @@ using NLog;
 
 namespace AbbyyLS.CAT.Function.Selenium.Tests
 {
-	using NUnit.Framework.Constraints;
-
 	/// <summary>
 	/// Базовый тест
 	/// </summary>
@@ -46,7 +44,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 				_adminUrl = "http://" + cfgAgentSpecific.Url + ":81";
 
 
-				CreateDriver();
+				createDriver();
 
 
 				_login = cfgUserInfo.Login;
@@ -95,14 +93,26 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 
 					_testUserList = new List<UserInfo>();
 					_testCompanyList = new List<UserInfo>();
-					// Добавление пользователей в _testUserList из конфига
-					for (int v = 0; v < _cfgTestUser.Users.Count; v++)
-						_testUserList.Add(
-								new UserInfo(_cfgTestUser.Users[v].Login, _cfgTestUser.Users[v].Password, _cfgTestUser.Users[v].Activated));
 
-					for (int v = 0; v < _cfgTestCompany.Companies.Count; v++)
+					// Добавление пользователей в _testUserList из конфига
+					foreach (var user in _cfgTestUser.Users)
+					{
+						_testUserList.Add(
+							new UserInfo(
+								user.Login, 
+								user.Password, 
+								user.Activated));
+					}
+
+
+					foreach (var user in _cfgTestCompany.Companies)
+					{
 						_testCompanyList.Add(
-							new UserInfo(_cfgTestCompany.Companies[v].Login, _cfgTestCompany.Companies[v].Password, _cfgTestCompany.Companies[v].Activated));
+							new UserInfo(
+								user.Login, 
+								user.Password, 
+								user.Activated));
+					}
 				}
 			}
 			catch (Exception ex)
@@ -388,7 +398,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		{
 			get
 			{
-				DirectoryInfo directoryInfo =
+				var directoryInfo =
 					Directory.GetParent(@"..\TestResults\");
 
 				return directoryInfo.ToString();
@@ -1115,7 +1125,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			if (_driver == null)
 			{
 				// Если конструктор заново не вызывался, то надо заполнить _driver
-				CreateDriver();
+				createDriver();
 			}
 
 			// Создание уникального имени проекта
@@ -1144,14 +1154,16 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 				if (TestContext.CurrentContext.Result.Status.Equals(TestStatus.Failed))
 				{
 					// Сделать скриншот
-					ITakesScreenshot screenshotDriver = _driver as ITakesScreenshot;
-					Screenshot screenshot = screenshotDriver.GetScreenshot();
+					var screenshotDriver = _driver as ITakesScreenshot;
+					var screenshot = screenshotDriver.GetScreenshot();
 
 					// Создать папку для скриншотов провалившихся тестов
-					string failResultPath = Path.Combine(PathTestResults, "FailedTests");
+					var failResultPath = Path.Combine(PathTestResults, "FailedTests");
 					Directory.CreateDirectory(failResultPath);
+
 					// Создать имя скриншота по имени теста
-					string screenName = TestContext.CurrentContext.Test.Name;
+					var screenName = TestContext.CurrentContext.Test.Name;
+					
 					if (screenName.Contains("("))
 					{
 						// Убрать из названия теста аргументы (файлы)
@@ -1177,12 +1189,13 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			}
 
 			// Вывести информацию о прохождении теста
-			DateTime testFinishTime = DateTime.Now;
+			var testFinishTime = DateTime.Now;
 			// Время окончания теста
-			Console.WriteLine("Finish: " + testFinishTime.ToString());
+			Console.WriteLine("Finish: " + testFinishTime);
 			// Длительность теста
-			TimeSpan duration = TimeSpan.FromTicks(testFinishTime.Ticks - testBeginTime.Ticks);
-			string durResult = "Duration: ";
+			var duration = TimeSpan.FromTicks(testFinishTime.Ticks - testBeginTime.Ticks);
+			var durResult = "Duration: ";
+
 			if (duration.TotalMinutes > 1)
 			{
 				durResult += duration.TotalMinutes + "min";
@@ -1215,14 +1228,17 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <summary>
 		/// Метод создания _driver 
 		/// </summary>
-		private void CreateDriver()
+		private void createDriver()
 		{
 			if (BrowserName == "Firefox")
 			{
 				if (_driver == null)
 				{
-					_profile = new FirefoxProfile();
-					_profile.AcceptUntrustedCertificates = true;
+					_profile = new FirefoxProfile
+					{
+						AcceptUntrustedCertificates = true
+					};
+
 					// Изменение языка браузера на английский
 					_profile.SetPreference("intl.accept_languages", "en");
 					_profile.SetPreference("browser.download.dir", PathTestResults);
@@ -1262,16 +1278,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <summary>
 		/// Пересоздание Helper'ов с новыми Driver, Wait
 		/// </summary>
-
-
-
-
-
-
-
-
-
-
 		private void RecreateDrivers()
 		{
 			_projectPageHelper = new ProjectPageHelper(Driver, Wait);
@@ -1367,7 +1373,8 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		protected void SelectDocumentInProject(int documentNumber = 1)
 		{
 			// Нажать галочку у документа
-			Assert.IsTrue(ProjectPage.SelectDocument(documentNumber),
+			Assert.IsTrue(
+				ProjectPage.SelectDocument(documentNumber),
 				"Ошибка: на странице проекта нет документа");
 		}
 
@@ -1377,10 +1384,16 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		protected void OpenDocument(int documentNumber = 1)
 		{
 			// Открыть документ
-			Assert.IsTrue(ProjectPage.OpenDocument(documentNumber), "Ошибка: на странице проекта нет документа");
+			Assert.IsTrue(
+				ProjectPage.OpenDocument(documentNumber), 
+				"Ошибка: на странице проекта нет документа");
+
 			if (ResponsiblesDialog.WaitUntilChooseTaskDialogDisplay())
 			{
-				Assert.True(EditorPage.GetTaskBtnIsExist(), "Ошибка: Неверный этап в окне выбора ");
+				Assert.True(
+					EditorPage.GetTaskBtnIsExist(), 
+					"Ошибка: Неверный этап в окне выбора ");
+
 				//выбрать задачу перевода и открыть редактор
 				EditorPage.ClickTaskBtn();
 				EditorPage.ClickContBtn();
@@ -1400,7 +1413,10 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <param name="accountName">аккаунт</param>
 		/// <param name="alternativeUser">Использовать альтернативный аккаунт</param>
 		/// <param name="dataServer">Расположение сервера</param>
-		public void Authorization(string accountName = "TestAccount", bool alternativeUser = false, string dataServer = "Europe")
+		public void Authorization(
+			string accountName = "TestAccount", 
+			bool alternativeUser = false, 
+			string dataServer = "Europe")
 		{
 			string authLogin = "";
 			string authPassword = "";
@@ -1458,7 +1474,9 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 				// иначе у пользователя только 1 аккаунт
 			}
 			// Изменили язык на Английский
-			Assert.IsTrue(WorkspacePage.WaitAppearLocaleBtn(), "Не дождались загрузки страницы со ссылкой для изменения языка");
+			Assert.IsTrue(
+				WorkspacePage.WaitAppearLocaleBtn(), 
+				"Не дождались загрузки страницы со ссылкой для изменения языка");
 			WorkspacePage.SelectLocale(WorkSpacePageHelper.LOCALE_LANGUAGE_SELECT.English);
 		}
 
@@ -1663,7 +1681,9 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <param name="useDefaultTargetLanguage">использовать язык target по умолчанию</param>
 		/// <param name="srcLang">язык источника</param>
 		/// <param name="trgLang">язык перевода</param>
-		protected void FirstStepProjectWizard(string projectName, bool useDefaultTargetLanguage = true,
+		protected void FirstStepProjectWizard(
+			string projectName, 
+			bool useDefaultTargetLanguage = true,
 			CommonHelper.LANGUAGE srcLang = CommonHelper.LANGUAGE.English,
 			CommonHelper.LANGUAGE trgLang = CommonHelper.LANGUAGE.Russian)
 		{
@@ -1812,7 +1832,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <param name="projectName">название проекта</param>
 		protected void CreateProjectWithoutCheckExist(string projectName)
 		{
-			CreateProject(projectName, "", false, "", Workspace_CreateProjectDialogHelper.SetGlossary.None, "", false, Workspace_CreateProjectDialogHelper.MT_TYPE.None, false);
+			CreateProject(projectName, isNeedCheckExist: false);
 		}
 
 		/// <summary>
@@ -1827,11 +1847,15 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <param name="chooseMT">выбрать МТ</param>
 		/// <param name="mtType">тип МТ</param>
 		/// <param name="isNeedCheckExist">Нужна проверка проекта в списке</param>
-		protected void CreateProjectIfNotCreated(string projectName, string downloadFile = "",
-			bool createNewTM = false, string tmFile = "",
+		protected void CreateProjectIfNotCreated(
+			string projectName, 
+			string downloadFile = "",
+			bool createNewTM = false, 
+			string tmFile = "",
 			Workspace_CreateProjectDialogHelper.SetGlossary setGlossary = Workspace_CreateProjectDialogHelper.SetGlossary.None,
 			string glossaryName = "",
-			bool chooseMT = false, Workspace_CreateProjectDialogHelper.MT_TYPE mtType = Workspace_CreateProjectDialogHelper.MT_TYPE.None,
+			bool chooseMT = false, 
+			Workspace_CreateProjectDialogHelper.MT_TYPE mtType = Workspace_CreateProjectDialogHelper.MT_TYPE.None,
 			bool isNeedCheckExist = true)
 		{
 			if (!GetIsExistProject(projectName))
@@ -1897,7 +1921,8 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// </summary>
 		public void ChooseFirstTMInList()
 		{
-			Assert.IsTrue(WorkspaceCreateProjectDialog.GetIsTMTableNotEmpty(),
+			Assert.IsTrue(
+				WorkspaceCreateProjectDialog.GetIsTMTableNotEmpty(),
 				"Ошибка: пустая таблица TM");
 
 			WorkspaceCreateProjectDialog.ClickFirstTMInTable();
@@ -1908,7 +1933,8 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// </summary>
 		public void CreateAndAddGlossary()
 		{
-			string internalGlossaryName = "InternalGlossaryName" + DateTime.UtcNow.Ticks.ToString();
+			var internalGlossaryName = "InternalGlossaryName" + DateTime.UtcNow.Ticks;
+
 			WorkspaceCreateProjectDialog.ClickCreateGlossary();
 			WorkspaceCreateProjectDialog.SetNewGlossaryName(internalGlossaryName);
 			WorkspaceCreateProjectDialog.ClickSaveNewGlossary();
@@ -1947,19 +1973,17 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		{
 			// Зайти в проект
 			OpenProjectPage(projectName);
-
 			// Кликнуть Import
 			ProjectPage.ClickImportBtn();
-
 			// ждем, когда загрузится окно для загрузки документа 
 			ProjectPage.WaitImportDialogDisplay();
 			// Нажать Add
 			ProjectPage.ClickAddDocumentInImport();
 			// Заполнить диалог загрузки
 			FillAddDocumentForm(filePath);
-
 			// Нажать Next
 			ProjectPage.ClickNextImportDialog();
+
 			Console.WriteLine("кликнули Next");
 
 			// Если появилось сообщение, что не указали файл, значит, Enter не нажался
@@ -1971,15 +1995,17 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 				// кликнуть Next снова
 				ProjectPage.ClickNextImportDialog();
 			}
+
 			// Дождаться появления ТМ таблицы
 			ProjectPage.WaitImportTMTableDisplay();
-
 			// Next
 			ProjectPage.ClickNextImportDialog();
 			// Нажать Finish
 			ProjectPage.ClickFinishImportDialog();
+
 			// Дождаться окончания загрузки
-			Assert.IsTrue(ProjectPage.WaitDocumentDownloadFinish(),
+			Assert.IsTrue(
+				ProjectPage.WaitDocumentDownloadFinish(),
 				"Ошибка: документ загружается слишком долго");
 		}
 
@@ -2004,9 +2030,15 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			// Нажать Удалить
 			WorkspacePage.ClickDeleteProjectBtn();
 			// Подтвердить
-			Assert.IsTrue(WorkspacePage.ClickConfirmDelete(), "Ошибка: не появилась форма подтверждения удаления проекта");
+			Assert.IsTrue(
+				WorkspacePage.ClickConfirmDelete(), 
+				"Ошибка: не появилась форма подтверждения удаления проекта");
+
 			// Дождаться, пока пропадет диалог подтверждения удаления
-			Assert.IsTrue(WorkspacePage.WaitUntilDeleteConfirmFormDisappear(), "Ошибка: не появилась форма подтверждения удаления проекта");
+			Assert.IsTrue(
+				WorkspacePage.WaitUntilDeleteConfirmFormDisappear(), 
+				"Ошибка: не появилась форма подтверждения удаления проекта");
+
 			Thread.Sleep(500);
 		}
 
@@ -2047,7 +2079,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <param name="documentName">имя документа</param>
 		protected void ExternalDialogSelectSaveDocument(string documentName)
 		{
-			string txt = Regex.Replace(documentName, "[+^%~()]", "{$0}");
+			var txt = Regex.Replace(documentName, "[+^%~()]", "{$0}");
 
 			Thread.Sleep(2000);
 			// В открывшемся диалоге выбираем "Сохранить"
@@ -2079,10 +2111,10 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			string time = "")
 		{
 			// Заполнить форму для сохранения файла
-			string resultPath = Path.Combine(PathTestResults, subFolderName, time);
+			var resultPath = Path.Combine(PathTestResults, subFolderName, time);
 			Directory.CreateDirectory(resultPath);
+			var newFileName = "";
 
-			string newFileName = "";
 			if (useFileName)
 			{
 				newFileName = Path.GetFileNameWithoutExtension(filePath) + "_" + DateTime.Now.Ticks.ToString();
@@ -2092,18 +2124,18 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 				newFileName = DateTime.Now.Ticks.ToString();
 			}
 
-			string currentFileExtension = originalFileExtension ? Path.GetExtension(filePath) : fileExtension;
+			var currentFileExtension = originalFileExtension ? Path.GetExtension(filePath) : fileExtension;
 
 			resultPath = Path.Combine(resultPath, newFileName + currentFileExtension);
 
-			string txt = Regex.Replace(resultPath, "[+^%~()]", "{$0}");
+			var txt = Regex.Replace(resultPath, "[+^%~()]", "{$0}");
 
 			Thread.Sleep(3000);
 			SendKeys.SendWait(txt);
 			Thread.Sleep(2000);
-
 			SendKeys.SendWait(@"{Enter}");
 			Thread.Sleep(5000);
+
 			Assert.IsTrue(File.Exists(resultPath), "Ошибка: файл не экспортировался\n" + resultPath);
 		}
 
@@ -2116,6 +2148,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			EditorPage.AddTextTarget(segmentRowNumber, text);
 			// Нажать на кнопку подтвердить
 			EditorPage.ClickConfirmBtn();
+
 			// Убедиться что сегмент подтвержден
 			Assert.IsTrue(WaitSegmentConfirm(segmentRowNumber),
 				"Ошибка: подтверждение (Confirm) не прошло");
@@ -2139,6 +2172,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		{
 			// Нажать кнопку назад
 			EditorPage.ClickHomeBtn();
+
 			// Проверить, что перешли в Workspace
 			Assert.IsTrue(WorkspacePage.WaitPageLoad(), "Ошибка: не зашли в Workspace");
 		}
@@ -2172,14 +2206,18 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			EditorPage.ClickSourceCell(rowNumber);
 
 			// Текст source'a нужного сегмента
-			string sourcetxt = EditorPage.GetSourceText(rowNumber);
+			var sourcetxt = EditorPage.GetSourceText(rowNumber);
 
 			// Нажать кнопку копирования
 			EditorPage.ClickCopyBtn();
 
 			// Проверить, такой ли текст в target'те
-			string targetxt = EditorPage.GetTargetText(rowNumber);
-			Assert.AreEqual(sourcetxt, targetxt, "Ошибка: после кнопки Copy текст в Source и Target не совпадает");
+			var targetxt = EditorPage.GetTargetText(rowNumber);
+
+			Assert.AreEqual(
+				sourcetxt, 
+				targetxt, 
+				"Ошибка: после кнопки Copy текст в Source и Target не совпадает");
 		}
 
 		/// <summary>
@@ -2191,14 +2229,17 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			EditorPage.ClickSourceCell(rowNumber);
 
 			// Текст source'a сегмента
-			string sourcetxt = EditorPage.GetSourceText(rowNumber);
+			var sourcetxt = EditorPage.GetSourceText(rowNumber);
+
 			// Нажать хоткей копирования
 			EditorPage.CopySourceByHotkey(rowNumber);
-
-
+			
 			// Проверить, такой ли текст в target'те
-			string targetxt = EditorPage.GetTargetText(rowNumber);
-			Assert.AreEqual(sourcetxt, targetxt, "Ошибка: после хоткея Copy текст в Source и Target не совпадает");
+			var targetxt = EditorPage.GetTargetText(rowNumber);
+			Assert.AreEqual(
+				sourcetxt, 
+				targetxt, 
+				"Ошибка: после хоткея Copy текст в Source и Target не совпадает");
 		}
 
 		/// <summary>
@@ -2375,7 +2416,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			if (langList != null)
 			{
 				// Добавить языки
-				foreach (CommonHelper.LANGUAGE langID in langList)
+				foreach (var langID in langList)
 				{
 					AddLanguageCreateGlossary(langID);
 				}
@@ -2414,8 +2455,8 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		{
 			// Перейти на страницу глоссария
 			GlossaryListPage.ClickGlossaryRow(glossaryName);
-			Assert.IsTrue(GlossaryPage.WaitPageLoad(),
-				"Ошибка: не зашли в глоссарий");
+
+			Assert.IsTrue(GlossaryPage.WaitPageLoad(), "Ошибка: не зашли в глоссарий");
 		}
 
 		/// <summary>
@@ -2454,6 +2495,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			GlossaryEditForm.ClickAddLanguage();
 			// Открыть выпадающий список у добавленного языка
 			GlossaryEditForm.ClickLastLangOpenCloseList();
+
 			// Выбрать язык
 			Assert.IsTrue(GlossaryEditForm.GetIsExistLanguageInList(lang),
 				"Ошибка: указанного языка нет в списке");
@@ -2473,17 +2515,23 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			}
 			// Выставить первый английский
 			GlossaryEditForm.ClickLastLangOpenCloseList();
+
 			// Выбрать язык
-			Assert.IsTrue(GlossaryEditForm.GetIsExistLanguageInList(CommonHelper.LANGUAGE.English),
+			Assert.IsTrue(
+				GlossaryEditForm.GetIsExistLanguageInList(CommonHelper.LANGUAGE.English),
 				"Ошибка: указанного языка нет в списке");
+
 			GlossaryEditForm.SelectLanguage(CommonHelper.LANGUAGE.English);
 			// Кликнуть по Плюсу
 			GlossaryEditForm.ClickAddLanguage();
 			// Выставить второй русский
 			GlossaryEditForm.ClickLastLangOpenCloseList();
+
 			// Выбрать язык
-			Assert.IsTrue(GlossaryEditForm.GetIsExistLanguageInList(CommonHelper.LANGUAGE.Russian),
+			Assert.IsTrue(
+				GlossaryEditForm.GetIsExistLanguageInList(CommonHelper.LANGUAGE.Russian),
 				"Ошибка: указанного языка нет в списке");
+
 			GlossaryEditForm.SelectLanguage(CommonHelper.LANGUAGE.Russian);
 		}
 
@@ -2515,7 +2563,9 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 
 			// Добавляем созданный глоссарий
 			if (glossaryName != "")
+			{
 				ProjectPage.SetGlossaryByName(glossaryName);
+			}
 
 			// 4. Открытие документа по имени созданного проекта
 			OpenDocument();
@@ -2537,7 +2587,8 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			WorkspacePage.ClickDocumentAssignBtn();
 
 			// Ожидание открытия диалога выбора исполнителя
-			Assert.IsTrue(ResponsiblesDialog.WaitUntilResponsiblesDialogDisplay(),
+			Assert.IsTrue(
+				ResponsiblesDialog.WaitUntilResponsiblesDialogDisplay(),
 				"Ошибка: Диалог выбора исполнителя не открылся.");
 		}
 
@@ -2549,15 +2600,19 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <param name="isGroup">Выбор группы</param>
 		protected void SetResponsible(int rowNumber, string name, bool isGroup)
 		{
-			string fullName = "";
+			var fullName = "";
 
 			// Открыть выпадающий список
 			ResponsiblesDialog.ClickResponsiblesDropboxByRowNumber(rowNumber);
 
 			if (isGroup)
+			{
 				fullName = "Group: " + name;
+			}
 			else
+			{
 				fullName = name;
+			}
 
 			ResponsiblesDialog.WaitUntilUsersListDisplay(fullName);
 
@@ -2577,7 +2632,8 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			EditorPage.ClickDictionaryBtn();
 
 			// Проверка, что открылась форма
-			Assert.IsTrue(EditorPage.WaitDictionaryFormDisplay(),
+			Assert.IsTrue(
+				EditorPage.WaitDictionaryFormDisplay(),
 				"Ошибка: Форма со словарем не открылась.");
 		}
 
@@ -2588,7 +2644,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		protected string GetUniqueGlossaryName()
 		{
 			// Получить уникальное имя глоссария (т.к. добавляется точная дата и время, то не надо проверять, есть ли такой глоссарий в списке)
-			return GlossaryName + DateTime.Now.ToString();
+			return GlossaryName + DateTime.Now;
 		}
 
 		/// <summary>
@@ -2608,7 +2664,8 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		protected void AutoSave()
 		{
 			// Дожидаемся сохранения сегментов
-			Assert.IsTrue(EditorPage.WaitUntilAllSegmentsSave(),
+			Assert.IsTrue(
+				EditorPage.WaitUntilAllSegmentsSave(),
 				"Ошибка: Не проходит автосохранение.");
 		}
 
@@ -2658,7 +2715,8 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		protected void SetRusLanguageTarget()
 		{
 			// Проверить, что в Target русский язык
-			List<string> langList = WorkspaceCreateProjectDialog.GetTargetLanguageList();
+			var langList = WorkspaceCreateProjectDialog.GetTargetLanguageList();
+
 			if (langList.Count != 1 || langList[0] != "Russian")
 			{
 				// Открыть список Target
@@ -2682,8 +2740,10 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			{
 				// Жмем Skip
 				WorkspaceCreateProjectDialog.ClickSkipBtn();
+
 				// Ждем пока диалог не пропадет
-				Assert.IsTrue(WorkspaceCreateProjectDialog.WaitUntilConfirmTMDialogDisappear(),
+				Assert.IsTrue(
+					WorkspaceCreateProjectDialog.WaitUntilConfirmTMDialogDisappear(),
 					"Ошибка: после нажатия кнопки Skip диалог подтверждения не выбранной ТМ не закрылся.");
 			}
 		}
@@ -2701,13 +2761,14 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			//Выбираем сегмент
 			EditorPage.ClickTargetCell(segmentNumber);
 
-			int catLineNumber = EditorPage.GetCATTranslationRowNumber(catType);
+			var catLineNumber = EditorPage.GetCATTranslationRowNumber(catType);
 
 			//Нажать хоткей для подстановки из TM перевода сегмента
 			EditorPage.PutCatMatchByHotkey(segmentNumber, catLineNumber);
 
 			// Дождаться автосохранения
-			Assert.IsTrue(EditorPage.WaitUntilAllSegmentsSave(),
+			Assert.IsTrue(
+				EditorPage.WaitUntilAllSegmentsSave(),
 				"Ошибка: Не проходит автосохранение.");
 
 			return catLineNumber;
@@ -2719,7 +2780,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <param name="dict">Словарь</param>
 		protected void SetGlossaryByDictinary(Dictionary<string, string> dict)
 		{
-			foreach (KeyValuePair<string, string> pair in dict)
+			foreach (var pair in dict)
 			{
 				// Нажать New item
 				GlossaryPage.ClickNewItemBtn();
@@ -2780,5 +2841,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 				activated = s;
 			}
 		}
+
+		private static Logger logger = LogManager.GetCurrentClassLogger();
 	}
 }

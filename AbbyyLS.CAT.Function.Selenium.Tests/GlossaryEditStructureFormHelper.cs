@@ -1,12 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using OpenQA.Selenium;
-using OpenQA.Selenium.Firefox;
-using OpenQA.Selenium.Chrome;
-using OpenQA.Selenium.IE;
 using OpenQA.Selenium.Support.UI;
 
 namespace AbbyyLS.CAT.Function.Selenium.Tests
@@ -24,33 +17,37 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		public GlossaryEditStructureFormHelper(IWebDriver driver, WebDriverWait wait) :
 			base(driver, wait)
 		{
-			attributeDict = new Dictionary<ATTRIBUTE_TYPE, string>();
-			attributeDict.Add(ATTRIBUTE_TYPE.Interpretation, ATTRIBUTE_INTERPRETATION);
-			attributeDict.Add(ATTRIBUTE_TYPE.InterpretationSource, ATTRIBUTE_INTERPRETATION_SRC);
-			attributeDict.Add(ATTRIBUTE_TYPE.Topic, ATTRIBUTE_TOPIC);
-			attributeDict.Add(ATTRIBUTE_TYPE.Domain, ATTRIBUTE_DOMAIN);
-			attributeDict.Add(ATTRIBUTE_TYPE.Comment, ATTRIBUTE_COMMENT);
-			attributeDict.Add(ATTRIBUTE_TYPE.Multimedia, ATTRIBUTE_MEDIA);
-			attributeDict.Add(ATTRIBUTE_TYPE.Image, ATTRIBUTE_IMAGE);
-			attributeDict.Add(ATTRIBUTE_TYPE.Example, ATTRIBUTE_EXAMPLE);
-			attributeDict.Add(ATTRIBUTE_TYPE.Source, ATTRIBUTE_SOURCE);
-			attributeDict.Add(ATTRIBUTE_TYPE.Gender, ATTRIBUTE_GENDER);
-			attributeDict.Add(ATTRIBUTE_TYPE.Number, ATTRIBUTE_NUMBER);
-			attributeDict.Add(ATTRIBUTE_TYPE.PartOfSpeech, ATTRIBUTE_PART_OF_SPEECH);
-			attributeDict.Add(ATTRIBUTE_TYPE.Context, ATTRIBUTE_CONTEXT);
-			attributeDict.Add(ATTRIBUTE_TYPE.ContextSource, ATTRIBUTE_CONTEXT_SRC);
-			attributeDict.Add(ATTRIBUTE_TYPE.Status, ATTRIBUTE_STATUS);
-			attributeDict.Add(ATTRIBUTE_TYPE.Label, ATTRIBUTE_LABEL);
+			attributeDict = new Dictionary<ATTRIBUTE_TYPE, string>
+			{
+				{ATTRIBUTE_TYPE.Interpretation, ATTRIBUTE_INTERPRETATION},
+				{ATTRIBUTE_TYPE.InterpretationSource, ATTRIBUTE_INTERPRETATION_SRC},
+				{ATTRIBUTE_TYPE.Topic, ATTRIBUTE_TOPIC},
+				{ATTRIBUTE_TYPE.Domain, ATTRIBUTE_DOMAIN},
+				{ATTRIBUTE_TYPE.Comment, ATTRIBUTE_COMMENT},
+				{ATTRIBUTE_TYPE.Multimedia, ATTRIBUTE_MEDIA},
+				{ATTRIBUTE_TYPE.Image, ATTRIBUTE_IMAGE},
+				{ATTRIBUTE_TYPE.Example, ATTRIBUTE_EXAMPLE},
+				{ATTRIBUTE_TYPE.Source, ATTRIBUTE_SOURCE},
+				{ATTRIBUTE_TYPE.Gender, ATTRIBUTE_GENDER},
+				{ATTRIBUTE_TYPE.Number, ATTRIBUTE_NUMBER},
+				{ATTRIBUTE_TYPE.PartOfSpeech, ATTRIBUTE_PART_OF_SPEECH},
+				{ATTRIBUTE_TYPE.Context, ATTRIBUTE_CONTEXT},
+				{ATTRIBUTE_TYPE.ContextSource, ATTRIBUTE_CONTEXT_SRC},
+				{ATTRIBUTE_TYPE.Status, ATTRIBUTE_STATUS},
+				{ATTRIBUTE_TYPE.Label, ATTRIBUTE_LABEL}
+			};
 
-			fieldTypeDict = new Dictionary<FIELD_TYPE, int>();
-			fieldTypeDict.Add(FIELD_TYPE.Media, FIELD_MEDIA);
-			fieldTypeDict.Add(FIELD_TYPE.Date, FIELD_DATE);
-			fieldTypeDict.Add(FIELD_TYPE.Image, FIELD_IMAGE);
-			fieldTypeDict.Add(FIELD_TYPE.Choice, FIELD_CHOICE);
-			fieldTypeDict.Add(FIELD_TYPE.MultipleChoice, FIELD_MULTI_CHOICE);
-			fieldTypeDict.Add(FIELD_TYPE.Number, FIELD_NUMBER);
-			fieldTypeDict.Add(FIELD_TYPE.Text, FIELD_TEXT);
-			fieldTypeDict.Add(FIELD_TYPE.Boolean, FIELD_BOOL);
+			fieldTypeDict = new Dictionary<FIELD_TYPE, int>
+			{
+				{FIELD_TYPE.Media, FIELD_MEDIA},
+				{FIELD_TYPE.Date, FIELD_DATE},
+				{FIELD_TYPE.Image, FIELD_IMAGE},
+				{FIELD_TYPE.Choice, FIELD_CHOICE},
+				{FIELD_TYPE.MultipleChoice, FIELD_MULTI_CHOICE},
+				{FIELD_TYPE.Number, FIELD_NUMBER},
+				{FIELD_TYPE.Text, FIELD_TEXT},
+				{FIELD_TYPE.Boolean, FIELD_BOOL}
+			};
 		}
 
 		/// <summary>
@@ -87,13 +84,15 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <returns>поле выделено</returns>
 		public bool ClickFieldToAdd(ATTRIBUTE_TYPE attr)
 		{
-			string xpath = GetAttributeXPath(CONCEPT_TABLE_CLASS, attr);
+			var xpath = GetAttributeXPath(CONCEPT_TABLE_CLASS, attr);
 
-			bool isDisplayed = GetIsElementDisplay(By.XPath(xpath));
+			var isDisplayed = GetIsElementDisplay(By.XPath(xpath));
+
 			if (isDisplayed)
 			{
 				ClickElement(By.XPath(GetAttributeXPath(CONCEPT_TABLE_CLASS, attr)));
 			}
+
 			return isDisplayed && GetIsElementDisplay(By.XPath(SELECTED_ROW_XPATH));
 		}
 
@@ -120,9 +119,10 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		{
 			// Список видимых элементов таблицы
 			SetDriverTimeoutMinimum();
-			IList<IWebElement> attrList = GetElementList(By.XPath(GetVisibleTableXPath() + TABLE_NOT_HIDDEN_TR_XPATH));
+			var attrList = GetElementList(By.XPath(GetVisibleTableXPath() + TABLE_NOT_HIDDEN_TR_XPATH));
 			SetDriverTimeoutDefault();
-			foreach(IWebElement el in attrList)
+
+			foreach(var el in attrList)
 			{
 				// Кликнуть по элементу
 				el.Click();
