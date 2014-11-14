@@ -73,23 +73,25 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 
 		}
 		/// <summary>
-		/// Дождаться отображения имени аккаунта
+		/// Дождаться отображения названия аккаунта
 		/// </summary>
-		/// <param name="accountName">Имя аакаунта</param>
+		/// <param name="accountName">Название аккаунта</param>
 		/// <param name="waitmax">Максимальный таймаут</param>
+		/// <param name="dataServer">Расположение сервера</param>
 		/// <returns>Имя отображается</returns>
-		public bool WaitAccountExist(string accountName, int waitmax = 15)
+		public bool WaitAccountExist(string accountName, int waitmax = 15, string dataServer = "Europe")
 		{
-			return WaitUntilDisplayElement(By.XPath(GetAccountItemXPath(accountName)), waitmax);
+			return WaitUntilDisplayElement(By.XPath(GetAccountItemXPath(accountName, dataServer)), waitmax);
 		}
 
 		/// <summary>
-		/// Кликнуть по имени пользователя
+		/// Кликнуть по названию аккаунта
 		/// </summary>
-		/// <param name="accountName">Имя пользователя</param>
-		public void ClickAccountName(string accountName)
+		/// <param name="accountName">Название аккаунта</param>
+		/// <param name="dataServer">Местоположение сервера</param>
+		public void ClickAccountName(string accountName, string dataServer = "Europe")
 		{
-			ClickElement(By.XPath(GetAccountItemXPath(accountName)));
+			ClickElement(By.XPath(GetAccountItemXPath(accountName, dataServer)));
 		}
 
 		/// <summary>
@@ -148,13 +150,14 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		}
 		
 		/// <summary>
-		/// Возвращает XPath заданного имени пользователя
+		/// Возвращает XPath аккаунта по его названию
 		/// </summary>
-		/// <param name="accountName">Имя пользователя</param>
+		/// <param name="accountName">Название аккаунта</param>
+		/// <param name="dataServer">Расположение сервера</param>
 		/// <returns>XPath</returns>
-		protected string GetAccountItemXPath(string accountName)
+		protected string GetAccountItemXPath(string accountName, string dataServer)
 		{
-			return "//li[text()='Europe']/following-sibling::li[@class='ng-scope']//a[text()='" + accountName + "']";
+			return "//li[text()='" + dataServer + "']/following-sibling::li[@class='ng-scope']//span[text()='" + accountName + "']";
 		}
 		
 		protected const string EMAIL_CSS = "input[name=\"email\"]";

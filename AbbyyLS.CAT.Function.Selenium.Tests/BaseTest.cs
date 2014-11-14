@@ -1399,7 +1399,8 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// </summary>
 		/// <param name="accountName">аккаунт</param>
 		/// <param name="alternativeUser">Использовать альтернативный аккаунт</param>
-		public void Authorization(string accountName = "TestAccount", bool alternativeUser = false)
+		/// <param name="dataServer">Расположение сервера</param>
+		public void Authorization(string accountName = "TestAccount", bool alternativeUser = false, string dataServer = "Europe")
 		{
 			string authLogin = "";
 			string authPassword = "";
