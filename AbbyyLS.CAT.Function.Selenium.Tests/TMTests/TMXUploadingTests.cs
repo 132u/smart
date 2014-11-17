@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using NUnit.Framework;
 
 namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.TM
@@ -64,7 +65,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.TM
 		/// Создание ТМ с загрузкой ТМХ (по списку ТМХ файлов), проверка, что ТМХ загрузился
 		/// </summary>
 		/// <param name="TMXFileImport">путь в файлу, импортируемого в проект</param>
-		[Test, TestCaseSource("importTMXFileList")]
+		[Test, TestCaseSource("tmxFileList")]
 		public void ImportTMXTest(string TMXFileImport)
 		{
 			// Создать ТМ с загрузкой ТМХ
@@ -112,5 +113,11 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.TM
 			Assert.IsFalse(TMPage.IsInformationBaloonExist(),
 				"Ошибка: плашка с информацией о загружаемых ТU не закрыта.");
 		}
+
+		private static readonly string[] tmxFileList = Directory.GetFiles(
+												Path.Combine(
+													Environment.CurrentDirectory,
+													@"..\..\TestingFiles\",
+													"TMTestFiles"));
 	}
 }

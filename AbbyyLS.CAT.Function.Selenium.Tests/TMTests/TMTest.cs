@@ -15,7 +15,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.TM
 		public TMTest(string browserName)
 			: base(browserName)
 		{
-		}
+		} 
 
 		/// <summary>
 		/// Предварительная подготовка для каждого тест-метода
@@ -536,10 +536,10 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.TM
 
 		public string UniqueTmName { get; set; }
 
-		public static readonly string[] importTMXFileList = Directory.GetFiles(
+		public static readonly string[] ImportTMXFileList = Directory.GetFiles(
 																Path.Combine(
 																	Environment.CurrentDirectory,
-																	@"..\TestingFiles\",
+																	@"..\..\TestingFiles\",
 																	"TMTestFiles"));
 
 		#region Private методы

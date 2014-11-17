@@ -1,4 +1,6 @@
-﻿using NUnit.Framework;
+﻿using System;
+using System.IO;
+using NUnit.Framework;
 
 namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.TM
 {
@@ -32,7 +34,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.TM
 		/// Метод тестирования кнопки Export в открывающейся информации о ТМ с загруженным TMX (по списку ТМХ файлов для загрузки)
 		/// </summary>
 		/// <param name="importTMXFile">путь в файлу, импортируемого в проект</param>
-		[Test, TestCaseSource("importTMXFileList")]
+		[Test, TestCaseSource("tmxFileList")]
 		public void ExportTMXTest(string importTMXFile)
 		{
 			// После теста с экспортом необходимо выйти из брайзера,
@@ -47,5 +49,11 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.TM
 			// Экспортировать - Assert внутри
 			ExportTM();
 		}
+
+		private static readonly string[] tmxFileList = Directory.GetFiles(
+														Path.Combine(
+															Environment.CurrentDirectory,
+															@"..\..\TestingFiles\",
+															"TMTestFiles"));
 	}
 }

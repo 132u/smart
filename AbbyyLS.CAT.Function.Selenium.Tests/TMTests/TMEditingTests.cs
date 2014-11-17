@@ -90,7 +90,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.TM
 			// Проверить, что появилось сообщение об ошибке в имени
 			Assert.IsTrue(TMPage.GetIsExistEditErrorNoName(),
 				"Ошибка: не появилось сообщение об ошибке в имени");
-		}
+		} 
 
 		/// <summary>
 		/// Редактирование имени ТМ: проверка изменения имени в визарде проектов
@@ -227,7 +227,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.TM
 			}
 			else
 			{
-				CreateTMWithUploadTMX(UniqueTmName, importTMXFileList[0]);
+				CreateTMWithUploadTMX(UniqueTmName, ImportTMXFileList[0]);
 			}
 		}
 
