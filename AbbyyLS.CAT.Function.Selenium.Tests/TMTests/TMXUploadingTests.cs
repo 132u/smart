@@ -117,7 +117,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.TM
 		private static readonly string[] tmxFileList = Directory.GetFiles(
 												Path.Combine(
 													Environment.CurrentDirectory,
-													@"..\..\TestingFiles\",
+													@"..\TestingFiles\",
 													"TMTestFiles"));
 	}
 }

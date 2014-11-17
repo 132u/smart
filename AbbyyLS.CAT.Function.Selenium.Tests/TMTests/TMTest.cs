@@ -539,7 +539,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.TM
 		public static readonly string[] ImportTMXFileList = Directory.GetFiles(
 																Path.Combine(
 																	Environment.CurrentDirectory,
-																	@"..\..\TestingFiles\",
+																	@"..\TestingFiles\",
 																	"TMTestFiles"));
 
 		#region Private методы
