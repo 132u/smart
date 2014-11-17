@@ -85,6 +85,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			catch (StaleElementReferenceException)
 			{
 				Console.WriteLine("StaleElementReferenceException: WaitUntilDisplayElement: " + by.ToString());
+
 				return WaitUntilDisplayElement(by, maxWait);
 			}
 			catch (WebDriverTimeoutException)
@@ -354,17 +355,23 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		{
 			bool isDisplayed = false;
 			TimeSpan timeBegin = DateTime.Now.TimeOfDay;
+
 			SetDriverTimeoutMinimum();
+
 			do
 			{
 				isDisplayed = GetIsElementDisplay(by);
+
 				if (!isDisplayed || DateTime.Now.TimeOfDay.Subtract(timeBegin).Seconds > maxWaitSeconds)
 				{
 					break;
 				}
+
 				Thread.Sleep(1000);
 			} while (isDisplayed);
+
 			SetDriverTimeoutDefault();
+
 			return !isDisplayed;
 		}
 
@@ -504,10 +511,12 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			{
 				List<string> textList = new List<string>();
 				IList<IWebElement> elList = GetElementList(by);
+
 				foreach (IWebElement el in elList)
 				{
 					textList.Add(el.Text);
 				}
+
 				return textList;
 			}
 			catch (StaleElementReferenceException)
@@ -679,6 +688,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		}
 
 		public enum LANGUAGE { English, Russian, German, French, Japanese, Lithuanian };
+
 		protected Dictionary<LANGUAGE, string> languageID;
 
 		protected const string STANDARD_LANG_ID_EN = "9";

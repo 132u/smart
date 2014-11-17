@@ -1,9 +1,5 @@
 ﻿using NUnit.Framework;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace AbbyyLS.CAT.Function.Selenium.Tests
 {
@@ -42,13 +38,15 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		public void OpenCreateAccountForm()
 		{
 			LoginToAdminPage();
+
 			// Зайти в корпоративные аккаунты
 			SwitchEnterpriseAccountList();
 
 			// Нажать Создать
 			AdminPage.ClickAddAccount();
 			Driver.SwitchTo().Window(Driver.WindowHandles[1]);
-			bool isWindowWithForm = AdminPage.GetIsAddAccountFormDisplay();
+			var isWindowWithForm = AdminPage.GetIsAddAccountFormDisplay();
+
 			Assert.IsTrue(isWindowWithForm, "Ошибка: не нашли окно с формой создания аккаунта");
 		}
 
@@ -68,17 +66,12 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		public string FillGeneralAccountFields()
 		{
 			// Заполнить форму аккаунта
-			string uniqPref = DateTime.Now.Ticks.ToString();
-			string accountName = "TestAccount" + uniqPref;
+			var uniqPref = DateTime.Now.Ticks.ToString();
+			var accountName = "TestAccount" + uniqPref;
 			// Название
 			AdminPage.FillAccountName(accountName);
-
 			// Затея		
-			if (Driver.Url.Contains("stage1"))
-				AdminPage.SetVenture("Perevedem.ru");
-			else
-				AdminPage.SetVenture("SmartCAT");
-
+			AdminPage.SetVenture(Driver.Url.Contains("stage1") ? "Perevedem.ru" : "SmartCAT");
 			// Поддомен
 			AdminPage.FillSubdomainName("testaccount" + uniqPref);
 

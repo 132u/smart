@@ -1,20 +1,5 @@
 ﻿using System;
-using System.Threading;
 using NUnit.Framework;
-using OpenQA.Selenium;
-using OpenQA.Selenium.Firefox;
-using OpenQA.Selenium.Chrome;
-using OpenQA.Selenium.IE;
-using OpenQA.Selenium.Support.UI;
-using System.IO;
-using System.Text;
-using System.Configuration;
-using System.Diagnostics;
-using System.Collections.Generic;
-using System.Windows.Forms;
-using System.Drawing;
-
-using OpenQA.Selenium.Interactions;
 
 namespace AbbyyLS.CAT.Function.Selenium.Tests
 {
@@ -24,27 +9,14 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 	public class DictionaryTest : AdminTest
 	{
 		/// <summary>
-		/// Констрйктор теста
+		/// Конструктор теста
 		/// </summary>
-		 
-		 
 		/// <param name="browserName">Название браузера</param>
 		public DictionaryTest(string browserName)
 			: base(browserName)
 		{
 
 		}
-
-
-
-		/// <summary>
-		/// Старт тестов, переменные
-		/// </summary>
-		[SetUp]
-		public void SetupTest()
-		{}
-
-
 
 		/// <summary>
 		/// Тест: проверка перевода со словарями
@@ -56,12 +28,17 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 
 			// Найти перевод слова
 			InitSearch("tester");
+
 			// Проверить результат: должен быть показан результат из словаря
-			Assert.IsTrue(SearchPage.GetIsDictionarySearchResultExist(),
+			Assert.IsTrue(
+				SearchPage.GetIsDictionarySearchResultExist(),
 				"Ошибка: не показаны результаты поиска по словарю");
+
 			// Проверить словарь
 			string resultText = SearchPage.GetDictionaryName();
-			Assert.AreEqual("ABBYY Lingvo dictionaries (En-Ru)", resultText,
+
+			Assert.AreEqual(
+				"ABBYY Lingvo dictionaries (En-Ru)", resultText,
 				"Ошибка: не тот словарь: " + resultText);
 		}
 
@@ -77,7 +54,8 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			InitSearch("tester");
 			
 			// Проверить, что перевод - ссылка
-			Assert.IsTrue(SearchPage.GetIsTranslationRefExist(),
+			Assert.IsTrue(
+				SearchPage.GetIsTranslationRefExist(),
 				"Ошибка: перевод - не ссылка");
 		}
 
@@ -104,11 +82,13 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			SearchPage.WaitWordByWordTranslationAppear();
 
 			// Проверить, что Source теперь Русский
-			Assert.IsTrue(SearchPage.GetIsSourceRussian(),
+			Assert.IsTrue(
+				SearchPage.GetIsSourceRussian(),
 				"Ошибка: язык Source не изменился на русский");
 
 			// Проверить, что появились переводы слов (со ссылками)
-			Assert.IsTrue(SearchPage.GetIsReverseTranslationListExist(),
+			Assert.IsTrue(
+				SearchPage.GetIsReverseTranslationListExist(),
 				"Ошибка: нет обратных переводов");
 		}
 
@@ -120,17 +100,19 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		{
 			AddAccountWithDictionaries();
 
-            // Поменять языки на странице поиска, если надо
-            ChangeLanguages();
+			// Поменять языки на странице поиска, если надо
+			ChangeLanguages();
 
 			// Найти перевод слова
 			InitSearch("tester");
 
 			// Проверить, что появилось сообщение об автоматическом изменении языков
-			Assert.IsTrue(SearchPage.GetIsExistAutoreversedMessage(),
+			Assert.IsTrue(
+				SearchPage.GetIsExistAutoreversedMessage(),
 				"Ошибка: не появилось сообщение об автоматическом изменении языков");
 			// Проверить ссылку для возврата языков
-			Assert.IsTrue(SearchPage.GetIsExistAutoreversedRef(),
+			Assert.IsTrue(
+				SearchPage.GetIsExistAutoreversedRef(),
 				"Ошибка: не появилось ссылки для возврата языков");
 		}
 
@@ -163,13 +145,17 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			Authorization(accountName);
 
 			// Проверка, что вкладка LingvoDictionaries видна
-			Assert.IsTrue(MainHelperClass.GetIsRefDictionariesVisible(),
+			Assert.IsTrue(
+				MainHelperClass.GetIsRefDictionariesVisible(),
 				"Ошибка: не показывается вкладка Lingvo Dictionaries");
 
 			// Перейти на вкладку со словарями
 			MainHelperClass.ClickOpenDictionariesPage();
+
 			// Проверить список словарей
-			Assert.IsTrue(DictionaryPage.GetDictionaryListCount() > 0, "Ошибка: список словарей пуст");
+			Assert.IsTrue(
+				DictionaryPage.GetDictionaryListCount() > 0, 
+				"Ошибка: список словарей пуст");
 		}
 
 		/// <summary>
@@ -182,7 +168,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			OpenCreateAccountForm();
 
 			// Заполнить форму аккаунта
-			string accountName = FillGeneralAccountFields();
+			var accountName = FillGeneralAccountFields();
 
 			// Сохранить
 			AdminPage.ClickSubmit();
@@ -191,7 +177,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			AdminPage.WaitSuccessAnswer();
 
 			// Добавить пользователя в аккаунт
-            AddUserToAccount(Login);
+			AddUserToAccount(Login);
 
 			// Перейти в CAT
 			Driver.Navigate().GoToUrl(Url);
@@ -199,7 +185,8 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			Authorization(accountName);
 
 			// Проверка, что вкладка LingvoDictionaries не видна
-			Assert.IsFalse(MainHelperClass.GetIsRefDictionariesVisible(),
+			Assert.IsFalse(
+				MainHelperClass.GetIsRefDictionariesVisible(),
 				"Ошибка: вкладка Lingvo Dictionaries видна (не должно быть видно)");
 		}
 
@@ -214,6 +201,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 
 			// Заполнить форму аккаунта
 			string accountName = FillGeneralAccountFields();
+
 			// Добавить функцию Словари, но не добавлять список словарей
 			AddDictionaryAccount(false);
 
@@ -224,7 +212,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			AdminPage.WaitSuccessAnswer();
 
 			// Добавить пользователя в аккаунт
-            AddUserToAccount(Login);
+			AddUserToAccount(Login);
 
 			// Перейти в CAT
 			Driver.Navigate().GoToUrl(Url);
@@ -232,13 +220,17 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			Authorization(accountName);
 
 			// Проверка, что вкладка LingvoDictionaries видна
-			Assert.IsTrue(MainHelperClass.GetIsRefDictionariesVisible(),
+			Assert.IsTrue(
+				MainHelperClass.GetIsRefDictionariesVisible(),
 				"Ошибка: не показывается вкладка Lingvo Dictionaries");
 
 			// Перейти на вкладку со словарями
 			MainHelperClass.ClickOpenDictionariesPage();
+
 			// Проверить, что список словарей пуст
-			Assert.IsTrue(DictionaryPage.GetDictionaryListCount() == 0, "Ошибка: список словарей НЕ пуст");
+			Assert.IsTrue(
+				DictionaryPage.GetDictionaryListCount() == 0, 
+				"Ошибка: список словарей НЕ пуст");
 		}
 
 		/// <summary>
@@ -262,7 +254,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			AdminPage.WaitSuccessAnswer();
 
 			// Добавить пользователя в аккаунт
-            AddUserToAccount(Login);
+			AddUserToAccount(Login);
 
 			// Перейти в корпоративные аккаунты
 			SwitchEnterpriseAccountList();
@@ -280,13 +272,17 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			Authorization(accountName);
 
 			// Проверка, что вкладка LingvoDictionaries видна
-			Assert.IsTrue(MainHelperClass.GetIsRefDictionariesVisible(),
+			Assert.IsTrue(
+				MainHelperClass.GetIsRefDictionariesVisible(),
 				"Ошибка: не показывается вкладка Lingvo Dictionaries");
 
 			// Перейти на вкладку со словарями
 			MainHelperClass.ClickOpenDictionariesPage();
+
 			// Проверить, что есть словари
-			Assert.IsTrue(DictionaryPage.GetDictionaryListCount() > 0, "Ошибка: список словарей пуст");
+			Assert.IsTrue(
+				DictionaryPage.GetDictionaryListCount() > 0, 
+				"Ошибка: список словарей пуст");
 		}
 
 		/// <summary>
@@ -304,15 +300,12 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			// Найти перевод слова
 			InitSearch("tester");
 			SearchPage.WaitSearchResult();
+
 			// Проверить, что вкладка Definitions активна
-			Assert.IsTrue(SearchPage.GetIsDefinitionTabActive(), "Ошибка: не перешли на вкладку Definitions");
+			Assert.IsTrue(
+				SearchPage.GetIsDefinitionTabActive(), 
+				"Ошибка: не перешли на вкладку Definitions");
 		}
-
-
-
-
-
-
 
 		/// <summary>
 		/// Добавить словари в аккаунт
@@ -337,10 +330,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			AdminPage.FillDictionaryDeadlineDate(DateTime.Now.AddDays(10));
 		}
 
-
-
-
-
 		/// <summary>
 		/// Создать аккаунт со словарями
 		/// </summary>
@@ -361,7 +350,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			AdminPage.WaitSuccessAnswer();
 
 			// Добавить пользователя в аккаунт
-            AddUserToAccount(Login);
+			AddUserToAccount(Login);
 
 			// Перейти в CAT
 			Driver.Navigate().GoToUrl(Url);
@@ -369,13 +358,16 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			Authorization(accountName);
 
 			// Проверка, что вкладка LingvoDictionaries видна
-			Assert.IsTrue(MainHelperClass.GetIsRefDictionariesVisible(),
+			Assert.IsTrue(
+				MainHelperClass.GetIsRefDictionariesVisible(),
 				"Ошибка: не показывается вкладка Lingvo Dictionaries");
 
 			// Перейти на вкладку со словарями
 			MainHelperClass.ClickOpenDictionariesPage();
 
-			Assert.IsTrue(DictionaryPage.GetDictionaryListCount() > 0, "Ошибка: список словарей пуст");
+			Assert.IsTrue(
+				DictionaryPage.GetDictionaryListCount() > 0, 
+				"Ошибка: список словарей пуст");
 
 			// Перейти на вкладку Search
 			SwitchSearchTab();

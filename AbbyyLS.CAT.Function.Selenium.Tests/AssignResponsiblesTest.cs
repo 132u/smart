@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using NUnit.Framework;
 using System.Threading;
 
@@ -16,21 +13,11 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <summary>
 		/// Конструктор теста
 		/// </summary>
-		 
-		 
 		/// <param name="browserName">Название браузера</param>
 		public AssignResponsiblesTest(string browserName)
 			: base (browserName)
 		{
 		}
-
-
-
-		// Имя проекта, использующегося в нескольких тестах
-		// Проект не изменяется при проведении тестов
-		private string projectNoChangesName = "";
-
-
 
 		/// <summary>
 		/// Подготовка для группы тестов
@@ -42,7 +29,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			CreateUniqueNamesByDatetime();
 
 			// Запись имени для дальнейшего использования в группе тестов
-			projectNoChangesName = ProjectName;
+			_projectNoChangesName = ProjectName;
 		}
 
 		/// <summary>
@@ -58,8 +45,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			GoToWorkspace();
 		}
 
-
-
 		/// <summary>
 		/// Проверка отображения окна с правами пользователя при нажатии прогресса в Workflow
 		/// </summary>
@@ -67,10 +52,10 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		public void ResponsiblesWorkspaceOnProgressLink()
 		{
 			// Создание проекта
-			CreateProjectIfNotCreated(projectNoChangesName, EditorTXTFile);
+			CreateProjectIfNotCreated(_projectNoChangesName, EditorTXTFile);
 			
 			// Открываем инфо проекта
-			WorkspacePage.OpenProjectInfo(projectNoChangesName);
+			WorkspacePage.OpenProjectInfo(_projectNoChangesName);
 
 			// Открываем инфо документа 
 			WorkspacePage.OpenDocumentInfo(1);
@@ -90,10 +75,10 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		public void ResponsiblesWorkspaceOnAssignBtn()
 		{
 			// Создание проекта
-			CreateProjectIfNotCreated(projectNoChangesName, EditorTXTFile);
+			CreateProjectIfNotCreated(_projectNoChangesName, EditorTXTFile);
 
 			// Открываем диалог выбора исполнителя
-			OpenAssignDialog(projectNoChangesName);
+			OpenAssignDialog(_projectNoChangesName);
 		}
 
 		/// <summary>
@@ -103,10 +88,10 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		public void ResponsiblesWorkspaceUploadDocument()
 		{
 			// Создание проекта
-			CreateProjectIfNotCreated(projectNoChangesName, EditorTXTFile);
+			CreateProjectIfNotCreated(_projectNoChangesName, EditorTXTFile);
 
 			// Открываем инфо проекта
-			WorkspacePage.OpenProjectInfo(projectNoChangesName);
+			WorkspacePage.OpenProjectInfo(_projectNoChangesName);
 
 			// Открываем диалог загрузки документа
 			WorkspacePage.ClickDocumentUploadBtn();
@@ -135,10 +120,10 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		public void ResponsiblesProjectOnProgressLink()
 		{
 			// Создание проекта
-			CreateProjectIfNotCreated(projectNoChangesName, EditorTXTFile);
+			CreateProjectIfNotCreated(_projectNoChangesName, EditorTXTFile);
 			
 			// Открываем проект
-			OpenProjectPage(projectNoChangesName);
+			OpenProjectPage(_projectNoChangesName);
 
 			// Открываем окно прав исполнителей
 			ProjectPage.ClickDocumentProgress();
@@ -156,10 +141,10 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		public void ResponsiblesProjectOnAssignBtn()
 		{
 			// Создание проекта
-			CreateProjectIfNotCreated(projectNoChangesName, EditorTXTFile);
+			CreateProjectIfNotCreated(_projectNoChangesName, EditorTXTFile);
 
 			// Открываем проект
-			OpenProjectPage(projectNoChangesName);
+			OpenProjectPage(_projectNoChangesName);
 
 			// Открываем инфо документа 
 			ProjectPage.OpenDocumentInfo(1);
@@ -180,10 +165,10 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		public void ResponsiblesProjectOnProgressBtn()
 		{
 			// Создание проекта
-			CreateProjectIfNotCreated(projectNoChangesName, EditorTXTFile);
+			CreateProjectIfNotCreated(_projectNoChangesName, EditorTXTFile);
 			
 			// Открываем проект
-			OpenProjectPage(projectNoChangesName);
+			OpenProjectPage(_projectNoChangesName);
 
 			// Открываем инфо документа 
 			ProjectPage.SelectDocument(1);
@@ -204,10 +189,10 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		public void ResponsiblesProjectUploadDocument()
 		{
 			// Создание проекта
-			CreateProjectIfNotCreated(projectNoChangesName, EditorTXTFile);
+			CreateProjectIfNotCreated(_projectNoChangesName, EditorTXTFile);
 			
 			// Открываем проект
-			OpenProjectPage(projectNoChangesName);
+			OpenProjectPage(_projectNoChangesName);
 
 			// Открываем диалог загрузки документа
 			ProjectPage.ClickImportBtn();
@@ -268,10 +253,10 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			SwitchWorkspaceTab();
 
 			// Создание проекта
-			CreateProjectIfNotCreated(projectNoChangesName, EditorTXTFile);
+			CreateProjectIfNotCreated(_projectNoChangesName, EditorTXTFile);
 
 			// Открываем диалог выбора исполнителя
-			OpenAssignDialog(projectNoChangesName);
+			OpenAssignDialog(_projectNoChangesName);
 
 			ResponsiblesDialog.ClickResponsiblesDropboxByRowNumber(1);
 
@@ -333,10 +318,10 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			SwitchWorkspaceTab();
 
 			// Создание проекта
-			CreateProjectIfNotCreated(projectNoChangesName, EditorTXTFile);
+			CreateProjectIfNotCreated(_projectNoChangesName, EditorTXTFile);
 
 			// Открываем диалог выбора исполнителя
-			OpenAssignDialog(projectNoChangesName);
+			OpenAssignDialog(_projectNoChangesName);
 
 			ResponsiblesDialog.ClickResponsiblesDropboxByRowNumber(1);
 
@@ -598,10 +583,10 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		public void AssignNobody()
 		{
 			// Создание проекта
-			CreateProjectIfNotCreated(projectNoChangesName, EditorTXTFile);
+			CreateProjectIfNotCreated(_projectNoChangesName, EditorTXTFile);
 
 			// Открываем диалог выбора исполнителя
-			OpenAssignDialog(projectNoChangesName);
+			OpenAssignDialog(_projectNoChangesName);
 
 			// Кликнуть подтверждение для заданной задачи
 			ResponsiblesDialog.ClickAssignBtn(1);
@@ -630,7 +615,8 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			ResponsiblesDialog.ClickCloseBtn();
 
 			// Ожидание закрытия диалога выбора исполнителя
-			Assert.IsTrue(ResponsiblesDialog.WaitUntilResponsiblesDialogDissapear(),
+			Assert.IsTrue(
+				ResponsiblesDialog.WaitUntilResponsiblesDialogDissapear(),
 				"Ошибка: Диалог выбора исполнителя не закрылся.");
 
 			// Открытие страницы проекта
@@ -645,7 +631,8 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			Thread.Sleep(1000);
 
 			// Проверка задачи в редакторе
-			Assert.AreEqual("Translation (T):", EditorPage.GetStageName(),
+			Assert.AreEqual(
+				"Translation (T):", EditorPage.GetStageName(),
 				"Ошибка: В шапке редактора отсутствует нужная задача.");
 
 			// Выходим из редактора
@@ -661,7 +648,8 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			ResponsiblesDialog.ClickCloseBtn();
 
 			// Ожидание закрытия диалога выбора исполнителя
-			Assert.IsTrue(ResponsiblesDialog.WaitUntilResponsiblesDialogDissapear(),
+			Assert.IsTrue(
+				ResponsiblesDialog.WaitUntilResponsiblesDialogDissapear(),
 				"Ошибка: Диалог выбора исполнителя не закрылся.");
 
 			// Открытие страницы проекта
@@ -672,7 +660,8 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			Thread.Sleep(1000);
 
 			// Проверка отсутсвия задачи в редакторе
-			Assert.AreEqual("View mode:", EditorPage.GetStageName(),
+			Assert.AreEqual(
+				"View mode:", EditorPage.GetStageName(),
 				"Ошибка: В шапке редактора есть задача.");
 		}
 
@@ -686,7 +675,9 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			UserRightsPage.ClickCreateGroup();
 
 			// Ожидание открытия формы создания группы
-			Assert.IsTrue(UserRightsPage.WaitUntilCreateFormDisplay(), "Ошибка: Форма создания группы не открылась.");
+			Assert.IsTrue(
+				UserRightsPage.WaitUntilCreateFormDisplay(), 
+				"Ошибка: Форма создания группы не открылась.");
 
 			// Вводим имя новой группы
 			UserRightsPage.AddGroupName(groupName);
@@ -697,7 +688,9 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			Thread.Sleep(1000);
 
 			// Проверка, что форма создания грцппы закрылась
-			Assert.IsTrue(UserRightsPage.WaitUntilCreateFormDisappear(), "Ошибка: Форма создания группы не закрылась.");
+			Assert.IsTrue(
+				UserRightsPage.WaitUntilCreateFormDisappear(), 
+				"Ошибка: Форма создания группы не закрылась.");
 		}
 
 		/// <summary>
@@ -712,13 +705,17 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			WorkspacePage.ClickUsersAndRightsBtn();
 
 			// Ожидание открытия страницы
-			Assert.IsTrue(UserRightsPage.WaitUntilUsersRightsDisplay(), "Ошибка: Страница прав пользователя не открылась.");
+			Assert.IsTrue(
+				UserRightsPage.WaitUntilUsersRightsDisplay(), 
+				"Ошибка: Страница прав пользователя не открылась.");
 
 			// Открываем страницу групп пользователей
 			UserRightsPage.OpenGroups();
 
 			// Ожидание открытия страницы прав групп пользователей
-			Assert.IsTrue(UserRightsPage.WaitUntilGroupsRightsDisplay(), "Ошибка: Страница прав групп пользователей не открылась.");
+			Assert.IsTrue(
+				UserRightsPage.WaitUntilGroupsRightsDisplay(), 
+				"Ошибка: Страница прав групп пользователей не открылась.");
 
 			// Получение имени пользователя
 			userName = WorkspacePage.GetUserName();
@@ -731,7 +728,9 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			// Получение списка пользователей в группе Administrators
 			usersInGroup = UserRightsPage.GetDisplayUsersInGroup();
 
-			Assert.IsTrue(usersInGroup.Contains(userName), "Ошибка: Текущего пользователя нет в группе Administrators.");
+			Assert.IsTrue(
+				usersInGroup.Contains(userName), 
+				"Ошибка: Текущего пользователя нет в группе Administrators.");
 
 			// Возвращаемся на страницу проектов
 			SwitchWorkspaceTab();
@@ -748,12 +747,16 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			WorkspacePage.ClickUsersAndRightsBtn();
 
 			// Ожидание открытия страницы
-			Assert.IsTrue(UserRightsPage.WaitUntilUsersRightsDisplay(), "Ошибка: Страница прав пользователя не открылась.");
+			Assert.IsTrue(
+				UserRightsPage.WaitUntilUsersRightsDisplay(), 
+				"Ошибка: Страница прав пользователя не открылась.");
 
 			// Получение списка пользователей
 			usersList = UserRightsPage.GetUserFullnameList();
 
-			Assert.IsTrue(usersList.Contains(userName), "Ошибка: Пользователь " + userName + " отсутствует в списке пользователей.");
+			Assert.IsTrue(
+				usersList.Contains(userName), 
+				"Ошибка: Пользователь " + userName + " отсутствует в списке пользователей.");
 
 			// Возвращаемся на страницу проектов
 			SwitchWorkspaceTab();
@@ -769,15 +772,21 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			ResponsiblesDialog.ClickCancelBtn(rowNumber);
 
 			// Ожидание открытия диалога подтверждения
-			Assert.IsTrue(ResponsiblesDialog.WaitUntilConfirmDialogDisplay(),
+			Assert.IsTrue(
+				ResponsiblesDialog.WaitUntilConfirmDialogDisplay(),
 				"Ошибка: Диалог подтверждения не открылся.");
 
 			// Подтверждение
 			ResponsiblesDialog.ClickYesBtn();
 
 			// Ожидание закрытия диалога подтверждения
-			Assert.IsTrue(ResponsiblesDialog.WaitUntilConfirmDialogDissapear(),
+			Assert.IsTrue(
+				ResponsiblesDialog.WaitUntilConfirmDialogDissapear(),
 				"Ошибка: Диалог подтверждения не закрылся.");
 		}
+
+		// Имя проекта, использующегося в нескольких тестах
+		// Проект не изменяется при проведении тестов
+		private string _projectNoChangesName = string.Empty;
 	}
 }

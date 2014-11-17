@@ -1,10 +1,5 @@
-﻿using System;
-using System.Threading;
-using NUnit.Framework;
-using OpenQA.Selenium;
+﻿using NUnit.Framework;
 using System.Collections.Generic;
-using System.Windows.Forms;
-using System.IO;
 
 namespace AbbyyLS.CAT.Function.Selenium.Tests
 {
@@ -16,27 +11,12 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <summary>
 		/// Конструктор теста
 		/// </summary>
-		 
-		 
 		/// <param name="browserName">Название браузера</param>
 		public Project_SaveSettingsByBackTest(string browserName)
 			: base(browserName)
 		{
 
 		}
-
-
-
-		/// <summary>
-		/// Начальная подготовка для каждого теста
-		/// </summary>
-		[SetUp]
-		public void Setup()
-		{
-			
-		}
-
-
 
 		/// <summary>
 		/// Тест: создание проекта, возврат на первый шаг
@@ -56,19 +36,21 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			WorkspaceCreateProjectDialog.ClickBackBtn();
 			// Подтвердить переход
 			SkipNotSelectedTM();
+
 			// Проверили, что вернулись на первый шаг
-			Assert.IsTrue(WorkspaceCreateProjectDialog.GetIsFirstStep(),
+			Assert.IsTrue(
+				WorkspaceCreateProjectDialog.GetIsFirstStep(),
 				"Ошибка: по кнопке Back не вернулись на первый шаг");
 
 			// Получить прописанное имя проекта
-			string resultProjectName = WorkspaceCreateProjectDialog.GetProjectInputName();
+			var resultProjectName = WorkspaceCreateProjectDialog.GetProjectInputName();
 			// Target язык
-			List<string> resultTargetLanguageList = WorkspaceCreateProjectDialog.GetTargetLanguageList();
+			var resultTargetLanguageList = WorkspaceCreateProjectDialog.GetTargetLanguageList();
 			// Deadline дата
-			string resultDeadline = WorkspaceCreateProjectDialog.GetDeadlineValue();
+			var resultDeadline = WorkspaceCreateProjectDialog.GetDeadlineValue();
 
-			bool isError = false;
-			string errorMessage = "Ошибка: при возврате на первый шаг не сохранились настройки:\n";
+			var isError = false;
+			var errorMessage = "Ошибка: при возврате на первый шаг не сохранились настройки:\n";
 
 			if (resultProjectName != ProjectName)
 			{
@@ -209,7 +191,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			// Next
 			WorkspaceCreateProjectDialog.ClickNextStep();
 			// Выбрать compreno
-			Workspace_CreateProjectDialogHelper.MT_TYPE mtType = Workspace_CreateProjectDialogHelper.MT_TYPE.DefaultMT;
+			var mtType = Workspace_CreateProjectDialogHelper.MT_TYPE.DefaultMT;
 			WorkspaceCreateProjectDialog.ChooseMT(mtType);
 			// Next
 			WorkspaceCreateProjectDialog.ClickNextStep();
@@ -240,7 +222,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			// Next
 			WorkspaceCreateProjectDialog.ClickNextStep();
 			// Выбрать compreno
-			Workspace_CreateProjectDialogHelper.MT_TYPE mtType = Workspace_CreateProjectDialogHelper.MT_TYPE.DefaultMT;
+			var mtType = Workspace_CreateProjectDialogHelper.MT_TYPE.DefaultMT;
 			WorkspaceCreateProjectDialog.ChooseMT(mtType);
 			// Нажать Back
 			WorkspaceCreateProjectDialog.ClickBackBtn();
@@ -272,14 +254,16 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			// Next
 			WorkspaceCreateProjectDialog.ClickNextStep();
 			// Выбрать compreno
-			Workspace_CreateProjectDialogHelper.MT_TYPE mtType = Workspace_CreateProjectDialogHelper.MT_TYPE.DefaultMT;
+			var mtType = Workspace_CreateProjectDialogHelper.MT_TYPE.DefaultMT;
 			WorkspaceCreateProjectDialog.ChooseMT(mtType);
 			// Next
 			WorkspaceCreateProjectDialog.ClickNextStep();
 			// Выбрать Stage
-			string stageText = "Editing";
+			var stageText = "Editing";
 			WorkspaceCreateProjectDialog.OpenStageList();
-			Assert.IsTrue(WorkspaceCreateProjectDialog.SelectStage(stageText),
+
+			Assert.IsTrue(
+				WorkspaceCreateProjectDialog.SelectStage(stageText),
 				"Ошибка: нет такого stage: " + stageText);
 
 			// Нажать Back
@@ -289,14 +273,15 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			WorkspaceCreateProjectDialog.ClickNextStep();
 
 			// Проверили, что вернулись на шаг выбора stage
-			Assert.IsTrue(WorkspaceCreateProjectDialog.GetIsStepChooseStage(),
+			Assert.IsTrue(
+				WorkspaceCreateProjectDialog.GetIsStepChooseStage(),
 				"Ошибка: не вернулись на предыдущий шаг (выбор Stage)");
 
 			// Значение Stage
-			string resultStage = WorkspaceCreateProjectDialog.GetCurrentStage();
+			var resultStage = WorkspaceCreateProjectDialog.GetCurrentStage();
 
-			bool isError = false;
-			string errorMessage = "Ошибка: при возврате на шаг с выбором Stage не сохранились настройки:\n";
+			var isError = false;
+			var errorMessage = "Ошибка: при возврате на шаг с выбором Stage не сохранились настройки:\n";
 
 			if (!resultStage.Contains(stageText))
 			{
@@ -320,10 +305,10 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 				"Ошибка: не вернулись на шаг выбора МТ");
 
 			// Значение checkbox у MT
-			bool isFirstMTCheck = WorkspaceCreateProjectDialog.GetIsMTChecked(mtType);
+			var isFirstMTCheck = WorkspaceCreateProjectDialog.GetIsMTChecked(mtType);
 
-			bool isError = false;
-			string errorMessage = "Ошибка: при возврате на шаг с выбором MT не сохранились настройки:\n";
+			var isError = false;
+			var errorMessage = "Ошибка: при возврате на шаг с выбором MT не сохранились настройки:\n";
 
 			if (!isFirstMTCheck)
 			{
@@ -345,10 +330,10 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 				"Ошибка: не вернулись на шаг выбор глоссария");
 
 			// Значение checkbox у глоссария
-			bool isFirstGlossaryCheck = WorkspaceCreateProjectDialog.GetIsFirstGlossaryChecked();
+			var isFirstGlossaryCheck = WorkspaceCreateProjectDialog.GetIsFirstGlossaryChecked();
 
-			bool isError = false;
-			string errorMessage = "Ошибка: при возврате на шаг с выбором глоссария не сохранились настройки:\n";
+			var isError = false;
+			var errorMessage = "Ошибка: при возврате на шаг с выбором глоссария не сохранились настройки:\n";
 
 			if (!isFirstGlossaryCheck)
 			{
@@ -368,16 +353,17 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		protected void CheckTMSettings()
 		{
 			// Проверили, что вернулись на шаг выбора ТМ
-			Assert.IsTrue(WorkspaceCreateProjectDialog.GetIsStepChooseTM(),
+			Assert.IsTrue(
+				WorkspaceCreateProjectDialog.GetIsStepChooseTM(),
 				"Ошибка: не вернулись на шаг выбора ТМ");
 
 			// Значение checkbox первого ТМ
-			bool isFirstTMCheck = WorkspaceCreateProjectDialog.GetIsTMChecked(1);
+			var isFirstTMCheck = WorkspaceCreateProjectDialog.GetIsTMChecked(1);
 			// Значение radio первого ТМ
-			bool isFirstTMRadio = WorkspaceCreateProjectDialog.GetIsTMRadioChecked(1);
+			var isFirstTMRadio = WorkspaceCreateProjectDialog.GetIsTMRadioChecked(1);
 
-			bool isError = false;
-			string errorMessage = "Ошибка: при возврате на шаг с выбором ТМ не сохранились настройки:\n";
+			var isError = false;
+			var errorMessage = "Ошибка: при возврате на шаг с выбором ТМ не сохранились настройки:\n";
 
 			if (!isFirstTMCheck)
 			{

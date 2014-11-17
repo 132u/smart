@@ -1,20 +1,6 @@
-﻿using System;
-using System.Threading;
+﻿using System.Threading;
 using NUnit.Framework;
-using OpenQA.Selenium;
-using OpenQA.Selenium.Firefox;
-using OpenQA.Selenium.Chrome;
-using OpenQA.Selenium.IE;
-using OpenQA.Selenium.Support.UI;
-using System.IO;
-using System.Text;
-using System.Configuration;
-using System.Diagnostics;
 using System.Collections.Generic;
-using System.Windows.Forms;
-using System.Drawing;
-using System.Drawing.Imaging;
-using OpenQA.Selenium.Interactions;
 
 namespace AbbyyLS.CAT.Function.Selenium.Tests
 {
@@ -26,8 +12,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <summary>
 		/// Конструктор теста
 		/// </summary>
-		 
-		 
 		/// <param name="browserName">Название браузера</param>
 		public EditorButtonsTest(string browserName)
 			: base(browserName)
@@ -35,13 +19,9 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 
 		}
 
-
-
 		// Имя проекта, использующегося в нескольких тестах
 		// Проект не изменяется при проведении тестов
-		private string projectNoChangesName = "";
-
-
+		private string _projectNoChangesName = "";
 
 		/// <summary>
 		/// Начальная подготовка для группы тестов
@@ -53,7 +33,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			CreateUniqueNamesByDatetime();
 
 			// Запись имени для дальнейшего использования в группе тестов
-			projectNoChangesName = ProjectName;
+			_projectNoChangesName = ProjectName;
 		}
 
 		/// <summary>
@@ -88,9 +68,9 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			else
 			{
 				// Создание проекта с неизменяемым именем, для проведения нескольких тестов
-				CreateProjectIfNotCreated(projectNoChangesName, EditorTXTFile);
+				CreateProjectIfNotCreated(_projectNoChangesName, EditorTXTFile);
 				// Открытие настроек проекта
-				WorkspacePage.OpenProjectPage(projectNoChangesName);
+				WorkspacePage.OpenProjectPage(_projectNoChangesName);
 			}
 			
 			// 3. Назначение задачи на пользователя
@@ -112,10 +92,10 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 				// Дождаться сохранения сегментов
 				EditorPage.WaitUntilAllSegmentsSave();
 			}
-			catch { }
+			catch
+			{
+			}
 		}
-
-
 
 		/// <summary>
 		/// Метод тестирования кнопки "Back" в редакторе
@@ -147,8 +127,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			EditorPage.AddTextTarget(1, "some words for example" + OpenQA.Selenium.Keys.Control + OpenQA.Selenium.Keys.Return);
 
 			// Убедиться что сегмент подтвержден
-			Assert.IsTrue(WaitSegmentConfirm(1),
-				"Ошибка: Подтверждение (Confirm) не прошло");
+			Assert.IsTrue(WaitSegmentConfirm(1), "Ошибка: Подтверждение (Confirm) не прошло");
 		}
 
 		/// <summary>
@@ -160,6 +139,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			const int segmentNumber = 1;
 			const string text = "some text";
 			const string textundo = "some tex";
+
 			// Вводим текст в первый сегмент
 			EditorPage.AddTextTarget(segmentNumber, text);
 
@@ -167,7 +147,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			EditorPage.ClickUndoBtn();
 
 			// Проверить, что в target убралась одна буква
-			string targetxt = EditorPage.GetTargetText(segmentNumber);
+			var targetxt = EditorPage.GetTargetText(segmentNumber);
 			Assert.AreEqual(textundo, targetxt, "Ошибка: после Undo в Target не убрана одна буква");
 
 			// Нажать кнопку возврата отмененного действия
@@ -187,6 +167,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			const int segmentNumber = 1;
 			const string text = "some text";
 			const string textundo = "some tex";
+
 			// Вводим текст в первый сегмент
 			EditorPage.AddTextTarget(segmentNumber, text);
 
@@ -194,7 +175,8 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			EditorPage.UndoByHotkey(segmentNumber);
 
 			// Убедиться, что в target нет текста
-			string targetxt = EditorPage.GetTargetText(segmentNumber);
+			var targetxt = EditorPage.GetTargetText(segmentNumber);
+
 			Assert.AreEqual(textundo, targetxt, "Ошибка: после Undo в Target не убрана одна буква");
 
 			// Нажать хоткей возврата отмененного действия
@@ -212,7 +194,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		public void UndoRedoButtonSegmentTest()
 		{
 			const int segmentNumber = 1;
-			string sourcetxt = EditorPage.GetSourceText(segmentNumber);
+			var sourcetxt = EditorPage.GetSourceText(segmentNumber);
 
 			// Копируем текст в первый сегмент
 			ToTargetButton();
@@ -225,8 +207,11 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			EditorPage.ClickUndoBtn();
 			
 			// Убедиться, что текст в target такой же как в source
-			string targetxt = EditorPage.GetTargetText(segmentNumber);
-			Assert.AreEqual(sourcetxt, targetxt, "Ошибка: Текст не соответствует введенному.");
+			var targetxt = EditorPage.GetTargetText(segmentNumber);
+			Assert.AreEqual(
+				sourcetxt, 
+				targetxt, 
+				"Ошибка: Текст не соответствует введенному.");
 
 			// Убедиться, что сегмент стал неподтвержденным
 			Assert.IsFalse(EditorPage.GetIsSegmentConfirm(segmentNumber),
@@ -237,10 +222,14 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 
 			// Убедиться, что текст в target такой же как в source
 			targetxt = EditorPage.GetTargetText(segmentNumber);
-			Assert.AreEqual(sourcetxt, targetxt, "Ошибка: Текст не соответствует введенному.");
+			Assert.AreEqual(
+				sourcetxt, 
+				targetxt, 
+				"Ошибка: Текст не соответствует введенному.");
 
 			// Убедиться, что сегмент стал подтвержденным
-			Assert.IsTrue(EditorPage.GetIsSegmentConfirm(segmentNumber),
+			Assert.IsTrue(
+				EditorPage.GetIsSegmentConfirm(segmentNumber),
 				"Ошибка: Сегмент должен быть подтвержденным.");
 		}
 
@@ -250,8 +239,8 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		[Test]
 		public void UndoRedoHotkeySegmentTest()
 		{
-			int segmentNumber = 1;
-			string sourcetxt = EditorPage.GetSourceText(segmentNumber);
+			const int segmentNumber = 1;
+			var sourcetxt = EditorPage.GetSourceText(segmentNumber);
 
 			// Копируем текст в первый сегмент
 			ToTargetButton(segmentNumber);
@@ -263,11 +252,15 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			EditorPage.UndoByHotkey(segmentNumber);
 
 			// Убедиться, что текст в target такой же как в source
-			string targetxt = EditorPage.GetTargetText(segmentNumber);
-			Assert.AreEqual(sourcetxt, targetxt, "Ошибка: Текст не соответствует введенному.");
+			var targetxt = EditorPage.GetTargetText(segmentNumber);
+			Assert.AreEqual(
+				sourcetxt, 
+				targetxt, 
+				"Ошибка: Текст не соответствует введенному.");
 
 			// Убедиться, что сегмент стал неподтвержденным
-			Assert.IsFalse(EditorPage.GetIsSegmentConfirm(segmentNumber),
+			Assert.IsFalse(
+				EditorPage.GetIsSegmentConfirm(segmentNumber),
 				"Ошибка: Сегмент не должен быть подтвержденным.");
 
 			// Нажать хоткей возврата отмененного действия
@@ -278,7 +271,8 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			Assert.AreEqual(sourcetxt, targetxt, "Ошибка: Текст не соответствует введенному.");
 
 			// Убедиться, что сегмент стал подтвержденным
-			Assert.IsTrue(EditorPage.GetIsSegmentConfirm(segmentNumber),
+			Assert.IsTrue(
+				EditorPage.GetIsSegmentConfirm(segmentNumber),
 				"Ошибка: Сегмент должен быть подтвержденным.");
 		}
 
@@ -288,7 +282,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		[Test]
 		public void UndoRedoButtonCatTest()
 		{
-			int segmentNumber = 1;
+			var segmentNumber = 1;
 			
 			// Почистить таргет
 			EditorPage.AddTextTarget(segmentNumber, "");
@@ -297,13 +291,13 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			EditorPage.ClickTargetCell(segmentNumber);
 
 			// Подставляем перевод из CAT
-			int tmp = PasteFromCatReturnCatLineNumber(1, EditorPageHelper.CAT_TYPE.TM);
+			PasteFromCatReturnCatLineNumber(1, EditorPageHelper.CAT_TYPE.TM);
 
 			// Нажать кнопку отмены
 			EditorPage.ClickUndoBtn();
 
 			// Проверить, что в target пусто
-			string targetxt = EditorPage.GetTargetText(segmentNumber);
+			var targetxt = EditorPage.GetTargetText(segmentNumber);
 			Assert.AreEqual("", targetxt, "Ошибка: после Undo в Target есть текст");
 
 			// Нажать кнопку возврата отмененного действия
@@ -320,7 +314,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		[Test]
 		public void UndoRedoHotkeyCatTest()
 		{
-			int segmentNumber = 1;
+			var segmentNumber = 1;
 
 			// Почистить таргет
 			EditorPage.AddTextTarget(segmentNumber, "");
@@ -329,13 +323,13 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			EditorPage.ClickTargetCell(segmentNumber);
 
 			// Подставляем перевод из CAT
-			int tmp = PasteFromCatReturnCatLineNumber(1, EditorPageHelper.CAT_TYPE.TM);
+			PasteFromCatReturnCatLineNumber(1, EditorPageHelper.CAT_TYPE.TM);
 
 			// Нажать хоткей отмены
 			EditorPage.UndoByHotkey(segmentNumber);
 
 			// Проверить, что в target пусто
-			string targetxt = EditorPage.GetTargetText(segmentNumber);
+			var targetxt = EditorPage.GetTargetText(segmentNumber);
 			Assert.AreEqual("", targetxt, "Ошибка: после Undo в Target есть текст");
 
 			// Нажать хоткей возврата отмененного действия
@@ -369,7 +363,8 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			EditorPage.ClickToggleBtn();
 
 			// Проверить, активен второй сегмент
-			Assert.IsTrue(EditorPage.GetIsCursorInSourceCell(2),
+			Assert.IsTrue(
+				EditorPage.GetIsCursorInSourceCell(2),
 				"Ошибка: Произошел переход не на нужный (второй) сегмент.");
 		}
 
@@ -393,7 +388,8 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			EditorPage.ClickToggleBtn();
 
 			// Проверить, активен второй сегмент
-			Assert.IsTrue(EditorPage.GetIsCursorInSourceCell(2),
+			Assert.IsTrue(
+				EditorPage.GetIsCursorInSourceCell(2),
 				"Ошибка: Произошел переход не на нужный (второй) сегмент.");
 
 		}
@@ -418,7 +414,8 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			EditorPage.ClickToggleBtn();
 
 			// Проверить, активен третий сегмент
-			Assert.IsTrue(EditorPage.GetIsCursorInSourceCell(3),
+			Assert.IsTrue(
+				EditorPage.GetIsCursorInSourceCell(3),
 				"Ошибка: Произошел переход не на нужный (третий) сегмент.");
 		}
 
@@ -442,7 +439,8 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			EditorPage.ClickToggleBtn();
 
 			// Проверить, активен третий сегмент
-			Assert.IsTrue(EditorPage.GetIsCursorInSourceCell(3),
+			Assert.IsTrue(
+				EditorPage.GetIsCursorInSourceCell(3),
 				"Ошибка: Произошел переход не на нужный (третий) сегмент.");
 
 		}
@@ -473,12 +471,14 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		[Test]
 		public void TabButtonTest()
 		{
-			int segmentNumber = 1;
+			var segmentNumber = 1;
+
 			// Перешли из Target в Source по кнопке
 			SourceTargetSwitchButton(segmentNumber);
 
 			// Проверить где находится курсор, и если в поле source, то все ок
-			Assert.True(EditorPage.GetIsCursorInSourceCell(segmentNumber),
+			Assert.True(
+				EditorPage.GetIsCursorInSourceCell(segmentNumber),
 				"Ошибка: после кнопки Toggle не перешли в Target");
 		}
 
@@ -488,7 +488,8 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		[Test]
 		public void TabHotkeyTest()
 		{
-			int segmentNumber = 1;
+			var segmentNumber = 1;
+
 			// Перешли из Target в Source по хоткею
 			SourceTargetSwitchHotkey(segmentNumber);
 
@@ -555,21 +556,24 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			EditorPage.WaitPageLoad();
 
 			// Проверяем что нет замочка в сегменете
-			Assert.False(EditorPage.GetIsSegmentLock(1),
+			Assert.False(
+				EditorPage.GetIsSegmentLock(1),
 				"Ошибка: Сегмент заблокирован.");
 
 			// Переходим к первому сегменту
 			EditorPage.ClickTargetCell(1);
 
 			// Проверяем что кнопка отката разблокирована
-			Assert.False(EditorPage.GetIsRollbackBtnLock(),
+			Assert.False(
+				EditorPage.GetIsRollbackBtnLock(),
 				"Ошибка: Кнопка отката изменений сегмента заблокирована.");
 
 			// Жмем кнопку отката изменений
 			EditorPage.ClickRollbackBtn();
 
 			// Проверяем что появился замочек в сегменете
-			Assert.True(EditorPage.GetIsSegmentLock(1),
+			Assert.True(
+				EditorPage.GetIsSegmentLock(1),
 				"Ошибка: Не появился замочек у перевода сегмента.");
 		}
 
@@ -583,7 +587,8 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			EditorPage.ClickInsertTagBtn();
 
 			// Проверка, что в ячейке появился символ переноса строки
-			Assert.IsTrue(EditorPage.GetIsTagPresent(1),
+			Assert.IsTrue(
+				EditorPage.GetIsTagPresent(1),
 				"Ошибка: в ячейке Target не появился символ переноса строки");
 		}
 
@@ -597,7 +602,8 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			EditorPage.AddTextTarget(1, OpenQA.Selenium.Keys.F8);
 
 			// Проверка, что в ячейке появился символ переноса строки
-			Assert.IsTrue(EditorPage.GetIsTagPresent(1),
+			Assert.IsTrue(
+				EditorPage.GetIsTagPresent(1),
 				"Ошибка: в ячейке Target не появился символ переноса строки");
 		}
 
@@ -620,7 +626,8 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			EditorPage.ClickFindErrorBtn();
 
 			// Проверка, что открылась форма
-			Assert.IsTrue(EditorPage.WaitMessageFormDisplay(),
+			Assert.IsTrue(
+				EditorPage.WaitMessageFormDisplay(),
 				"Ошибка: Форма с сообщением не открылась.");
 		}
 
@@ -634,7 +641,8 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			EditorPage.AddTextTarget(1, OpenQA.Selenium.Keys.F7);
 
 			// Проверка, что открылась форма
-			Assert.IsTrue(EditorPage.WaitMessageFormDisplay(),
+			Assert.IsTrue(
+				EditorPage.WaitMessageFormDisplay(),
 				"Ошибка: Форма с сообщением не открылась.");
 		}
 
@@ -645,6 +653,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		public void ChangeCaseTextButtonTest()
 		{
 			int segmentNumber = 1;
+
 			// Написать текст в первом сегменте в target
 			EditorPage.AddTextTarget(segmentNumber, "the example sentence");
 			// Нажать хоткей выделения всего содержимого ячейки
@@ -660,6 +669,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		public void ChangeCaseTextHotkeyTest()
 		{
 			int segmentNumber = 1;
+
 			// Написать текст в первом сегменте в target
 			EditorPage.AddTextTarget(segmentNumber, "the example sentence");
 			// Нажать хоткей выделения всего содержимого ячейки
@@ -675,12 +685,18 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		public void ChangeCaseSomeWordButtonTest()
 		{
 			int segmentNumber = 1;
+
 			// Написать текст в первом сегменте в target
 			EditorPage.AddTextTarget(segmentNumber, "some words for example");
 			// Нажать хоткей выделения последнего слова
 			EditorPage.SelectLastWordByHotkey(segmentNumber);
 			// Запустить проверку
-			CheckChangeCase("some words for example", "some words for Example", "some words for EXAMPLE", true, segmentNumber);
+			CheckChangeCase(
+				"some words for example", 
+				"some words for Example", 
+				"some words for EXAMPLE", 
+				true, 
+				segmentNumber);
 		}
 
 		/// <summary>
@@ -690,12 +706,18 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		public void ChangeCaseSomeWordHotkeyTest()
 		{
 			int segmentNumber = 1;
+
 			// Написать текст в первом сегменте в target
 			EditorPage.AddTextTarget(segmentNumber, "some words for example");
 			// Нажать хоткей выделения последнего слова
 			EditorPage.SelectLastWordByHotkey(segmentNumber);
 			// Запустить проверку
-			CheckChangeCase("some words for example", "some words for Example", "some words for EXAMPLE", false, segmentNumber);
+			CheckChangeCase(
+				"some words for example", 
+				"some words for Example", 
+				"some words for EXAMPLE", 
+				false, 
+				segmentNumber);
 		}
 
 		/// <summary>
@@ -705,6 +727,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		public void ChangeCaseFirstWordTestByHotKey()
 		{			
 			int segmentNumber = 1;
+
 			// Написать текст в первом сегменте в target
 			EditorPage.AddTextTarget(segmentNumber, "some words for example");
 			// Нажать хоткей перехода в начало строки
@@ -712,12 +735,19 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			// Нажать хоткей выделения первого слова
 			EditorPage.SelectFirstWordTargetByHotkey(segmentNumber);
 				// Запустить проверку по хоткею
-			CheckChangeCase("some words for example", "Some words for example", "SOME words for example", false, segmentNumber);
+			CheckChangeCase(
+				"some words for example", 
+				"Some words for example", 
+				"SOME words for example", 
+				false, 
+				segmentNumber);
+
 		}
 		[Test]
 		public void ChangeCaseFirstWordTestByBtn()
 		{
 			int segmentNumber = 1;
+
 			// Написать текст в первом сегменте в target
 			EditorPage.AddTextTarget(segmentNumber, "some words for example");
 			// Нажать хоткей перехода в начало строки
@@ -725,10 +755,13 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			// Нажать хоткей выделения первого слова
 			EditorPage.SelectFirstWordTargetByHotkey(segmentNumber);
 			// Запустить проверку по кнопке
-			CheckChangeCase("some words for example", "Some words for example", "SOME words for example", true, segmentNumber);
+		   	CheckChangeCase(
+				"some words for example", 
+				"Some words for example", 
+				"SOME words for example", 
+				true, 
+				segmentNumber);
 		}
-
-
 
 		/// <summary>
 		/// Метод тестирования хоткея изменения регистра для слов через дефис 
@@ -737,6 +770,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		public void ChangeCaseHyphenWordTestByHotKey()
 		{
 			int segmentNumber = 1;
+
 			// Написать текст в первом сегменте в target
 			EditorPage.AddTextTarget(segmentNumber, "some-words for example");
 			// Нажать хоткей перехода в начало строки
@@ -744,7 +778,12 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			// Нажать хоткей выделения первого слова
 			EditorPage.SelectFirstWordTargetByHotkey(segmentNumber);
 			// Запустить проверку по хоткею
-			CheckChangeCase("some-words for example", "Some-Words for example", "SOME-WORDS for example", false, segmentNumber);
+			CheckChangeCase(
+				"some-words for example", 
+				"Some-Words for example", 
+				"SOME-WORDS for example", 
+				false, 
+				segmentNumber);
 		}
 
 		/// <summary>
@@ -754,6 +793,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		public void ChangeCaseHyphenWordTestByBtn()
 		{
 			int segmentNumber = 1;
+
 			// Написать текст в первом сегменте в target
 			EditorPage.AddTextTarget(segmentNumber, "some-words for example");
 			// Нажать хоткей перехода в начало строки
@@ -761,7 +801,12 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			// Нажать хоткей выделения первого слова
 			EditorPage.SelectFirstWordTargetByHotkey(segmentNumber);
 			// Запустить проверку по хоткею
-			CheckChangeCase("some-words for example", "Some-Words for example", "SOME-WORDS for example", true, segmentNumber);
+			CheckChangeCase(
+				"some-words for example", 
+				"Some-Words for example", 
+				"SOME-WORDS for example", 
+				true, 
+				segmentNumber);
 		}
 
 		/// <summary>
@@ -771,6 +816,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		public void ChangeCasePartWordTestByBtn()
 		{
 			int segmentNumber = 1;
+
 			// Написать текст в первом сегменте в target
 			EditorPage.AddTextTarget(segmentNumber, "some-words for example");
 			// Нажать хоткей перемещения курсора к четвертому слову
@@ -778,7 +824,12 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			// Нажать хоткей выделения трех символов в слове
 			EditorPage.SelectNextThreeSymbolsByHotkey(segmentNumber);
 			// Запустить проверку по кнопке
-			CheckChangeCase("some words for example", "some words for eXample", "some words for eXAMple", true, segmentNumber);
+			CheckChangeCase(
+				"some words for example", 
+				"some words for eXample", 
+				"some words for eXAMple", 
+				true, 
+				segmentNumber);
 		}
 
 		/// <summary>
@@ -788,6 +839,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		public void ChangeCasePartWordTestByHotKey()
 		{
 			int segmentNumber = 1;
+
 			// Написать текст в первом сегменте в target
 			EditorPage.AddTextTarget(segmentNumber, "some words for example");
 			// Нажать хоткей перемещения курсора к четвертому слову
@@ -795,7 +847,12 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			// Нажать хоткей выделения трех символов в слове
 			EditorPage.SelectNextThreeSymbolsByHotkey(segmentNumber);
 			// Запустить проверку по хоткею
-			CheckChangeCase("some words for example", "some words for eXample", "some words for eXAMple", false, segmentNumber);
+			CheckChangeCase(
+				"some words for example", 
+				"some words for eXample", 
+				"some words for eXAMple", 
+				false, 
+				segmentNumber);
 		}
 
 		/// <summary>
@@ -805,6 +862,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		public void ChangeCasePartWordTestByHotKeyCurentRealization()
 		{
 			int segmentNumber = 1;
+
 			// Написать текст в первом сегменте в target
 			EditorPage.AddTextTarget(segmentNumber, "some words for example");
 			// Нажать хоткей перемещения курсора к четвертому слову
@@ -812,7 +870,12 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			// Нажать хоткей выделения трех символов в слове
 			EditorPage.SelectNextThreeSymbolsByHotkey(segmentNumber);
 			// Запустить проверку по хоткею
-			CheckChangeCase("some words for eXAMple", "some words for eXAMple", "some words for example", false, segmentNumber);
+			CheckChangeCase(
+				"some words for eXAMple", 
+				"some words for eXAMple", 
+				"some words for example", 
+				false, 
+				segmentNumber);
 		}
 
 		/// <summary>
@@ -822,6 +885,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		public void ChangeCasePartWordTestByBtnCurentRealization()
 		{
 			int segmentNumber = 1;
+
 			// Написать текст в первом сегменте в target
 			EditorPage.AddTextTarget(segmentNumber, "some words for example");
 			// Нажать хоткей перемещения курсора к четвертому слову
@@ -829,9 +893,13 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			// Нажать хоткей выделения трех символов в слове
 			EditorPage.SelectNextThreeSymbolsByHotkey(segmentNumber);
 			// Запустить проверку по хоткею
-			CheckChangeCase("some words for eXAMple", "some words for eXAMple", "some words for example", true, segmentNumber);
+			CheckChangeCase(
+				"some words for eXAMple", 
+				"some words for eXAMple", 
+				"some words for example", 
+				true, 
+				segmentNumber);
 		}
-
 
 		/// <summary>
 		/// Метод тестирования кнопки изменения регистра для слова (не первого) 
@@ -845,7 +913,12 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			// Нажать хоткей выделения второго и третьего слов
 			EditorPage.SelectSecondThirdWordsByHotkey(segmentNumber);
 			// Запустить проверку кнопка
-			CheckChangeCase("some WORDS FOR example", "some words for example", "some Words For example", true, segmentNumber);
+			CheckChangeCase(
+				"some WORDS FOR example", 
+				"some words for example", 
+				"some Words For example", 
+				true, 
+				segmentNumber);
 		}
 
 		/// <summary>
@@ -855,12 +928,18 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		public void ChangeCaseSomeWordHotkeyNonStandardTest()
 		{
 			int segmentNumber = 1;
+
 			// Написать текст в первом сегменте в target
 			EditorPage.AddTextTarget(segmentNumber, "some wOrDs fOr example");
 			// Нажать хоткей выделения второго и третьего слов
 			EditorPage.SelectSecondThirdWordsByHotkey(segmentNumber);
 			// Запустить проверку хоткей
-			CheckChangeCase("some WORDS FOR example", "some words for example", "some Words For example", false, segmentNumber);
+			CheckChangeCase(
+				"some WORDS FOR example", 
+				"some words for example", 
+				"some Words For example", 
+				false, 
+				segmentNumber);
 		}
 
 		/// <summary>
@@ -870,12 +949,18 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		public void ChangeCaseFirstWordButtonNonStandardTest()
 		{
 			int segmentNumber = 1;
+
 			// Написать текст в первом сегменте в target
 			EditorPage.AddTextTarget(segmentNumber, "sOMe words for example");
 			EditorPage.CursorToTargetLineBeginningByHotkey(segmentNumber);
 			EditorPage.SelectFirstWordTargetByHotkey(segmentNumber);
 			// Запустить проверку
-			CheckChangeCase("some words for example", "Some words for example", "SOME Words For example", true, segmentNumber);
+			CheckChangeCase(
+				"some words for example", 
+				"Some words for example", 
+				"SOME Words For example", 
+				true, 
+				segmentNumber);
 		}
 
 		/// <summary>
@@ -885,11 +970,17 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		public void ChangeCaseFirstWordHotkeyNonStandardTest()
 		{
 			int segmentNumber = 1;
+
 			// Написать текст в первом сегменте в target
 			EditorPage.AddTextTarget(segmentNumber, "sOMe words for example");
 			EditorPage.SelectFirstWordTargetByHotkey(segmentNumber);
 			// Запустить проверку
-			CheckChangeCase("some words for example", "Some words for example", "SOME Words For example", true, segmentNumber);
+			CheckChangeCase(
+				"some words for example", 
+				"Some words for example", 
+				"SOME Words For example", 
+				true, 
+				segmentNumber);
 		}
 
 		/// <summary>
@@ -899,12 +990,18 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		public void ChangeCaseSomeWordButtonNonStandardTestCurrentRealization()
 		{
 			int segmentNumber = 1;
+
 			// Написать текст в первом сегменте в target
 			EditorPage.AddTextTarget(segmentNumber, "some wOrDs fOr example");
 			// Нажать хоткей выделения последнего слова
 			EditorPage.SelectSecondThirdWordsByHotkey(segmentNumber);
 			// Запустить проверку
-			CheckChangeCase("some Words For example", "some WORDS FOR example", "some words for example", true, segmentNumber);
+			CheckChangeCase(
+				"some Words For example", 
+				"some WORDS FOR example", 
+				"some words for example", 
+				true, 
+				segmentNumber);
 		}
 
 		/// <summary>
@@ -914,12 +1011,18 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		public void ChangeCaseSomeWordHotkeyNonStandardTestCurrentRealization()
 		{
 			int segmentNumber = 1;
+
 			// Написать текст в первом сегменте в target
 			EditorPage.AddTextTarget(segmentNumber, "some wOrDs fOr example");
 			// Нажать хоткей выделения последнего слова
 			EditorPage.SelectSecondThirdWordsByHotkey(segmentNumber);
 			// Запустить проверку
-			CheckChangeCase("some Words For example", "some WORDS FOR example", "some words for example", true, segmentNumber);
+			CheckChangeCase(
+				"some Words For example", 
+				"some WORDS FOR example", 
+				"some words for example", 
+				true, 
+				segmentNumber);
 		}
 
 		/// <summary>
@@ -929,12 +1032,18 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		public void ChangeCaseFirstWordButtonNonStandardTestCurrentRealization()
 		{
 			int segmentNumber = 1;
+
 			// Написать текст в первом сегменте в target
 			EditorPage.AddTextTarget(segmentNumber, "sOMe words for example");
 			EditorPage.CursorToTargetLineBeginningByHotkey(segmentNumber);
 			EditorPage.SelectFirstWordTargetByHotkey(segmentNumber);
 			// Запустить проверку
-			CheckChangeCase("Some words for example", "SOME words for example", "some words for example", true, segmentNumber);
+			CheckChangeCase(
+				"Some words for example", 
+				"SOME words for example", 
+				"some words for example", 
+				true, 
+				segmentNumber);
 		}
 
 		/// <summary>
@@ -944,12 +1053,18 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		public void ChangeCaseFirstWordHotkeyNonStandardTestCurrentRealization()
 		{
 			int segmentNumber = 1;
+
 			// Написать текст в первом сегменте в target
 			EditorPage.AddTextTarget(segmentNumber, "sOMe words for example");
 			EditorPage.CursorToTargetLineBeginningByHotkey(segmentNumber);
 			EditorPage.SelectFirstWordTargetByHotkey(segmentNumber);
 			// Запустить проверку
-			CheckChangeCase("Some words for example", "SOME words for example", "some words for example", true, segmentNumber);
+			CheckChangeCase(
+				"Some words for example", 
+				"SOME words for example", 
+				"some words for example", 
+				true, 
+				segmentNumber);
 		}
 
 		/// <summary>
@@ -962,7 +1077,8 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			EditorPage.ClickConcordanceBtn();
 
 			// Проверка, что открылся поиск
-			Assert.IsTrue(EditorPage.WaitConcordanceSearchDisplay(),
+			Assert.IsTrue(
+				EditorPage.WaitConcordanceSearchDisplay(),
 				"Ошибка: Поиск не открылся.");
 		}
 
@@ -976,7 +1092,8 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			EditorPage.SearchByHotkey(1);
 
 			// Проверка, что открылся поиск
-			Assert.IsTrue(EditorPage.WaitConcordanceSearchDisplay(),
+			Assert.IsTrue(
+				EditorPage.WaitConcordanceSearchDisplay(),
 				"Ошибка: Поиск не открылся.");
 		}
 
@@ -990,7 +1107,8 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			EditorPage.ClickCharacterBtn();
 
 			// Проверка, что открылась форма
-			Assert.IsTrue(EditorPage.WaitCharFormDisplay(),
+			Assert.IsTrue(
+				EditorPage.WaitCharFormDisplay(),
 				"Ошибка: Форма выбора спецсимвола не открылась.");
 		}
 
@@ -1004,7 +1122,8 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			EditorPage.AddTextTarget(1, OpenQA.Selenium.Keys.Control + OpenQA.Selenium.Keys.Shift + "i");
 
 			// Проверка, что открылась форма
-			Assert.IsTrue(EditorPage.WaitCharFormDisplay(),
+			Assert.IsTrue(
+				EditorPage.WaitCharFormDisplay(),
 				"Ошибка: Форма выбора спецсимвола не открылась.");
 		}
 
@@ -1018,18 +1137,26 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <param name="textAfterSecondChange">текст после второго изменения</param>
 		/// <param name="byButtonTrueByHotkeyFalse">по кнопке или по хоткею</param>
 		/// <param name="segmentNumber">порядковый номер сегмента</param>
-		protected void CheckChangeCase(string sourceText, string textAfterFirstChange, string textAfterSecondChange, bool byButtonTrueByHotkeyFalse, int segmentNumber)
+		protected void CheckChangeCase(
+			string sourceText, 
+			string textAfterFirstChange, 
+			string textAfterSecondChange, 
+			bool byButtonTrueByHotkeyFalse, 
+			int segmentNumber)
 		{
 			// Список текстов для сравнения после изменения регистра
-			List<string> listToCompare = new List<string>();
-			listToCompare.Add(textAfterFirstChange);
-			listToCompare.Add(textAfterSecondChange);
-			listToCompare.Add(sourceText);
+			var listToCompare = new List<string>
+			{
+				textAfterFirstChange,
+				textAfterSecondChange,
+				sourceText
+			};
 
 			for (int i = 0; i < listToCompare.Count; ++i)
 			{
 				// Нажать изменениe регистра
 				ClickChangeCase(byButtonTrueByHotkeyFalse, segmentNumber);
+
 				// Убедиться, что регистр слова изменился правильно - сравнить со значением в listToCompare
 				Assert.AreEqual(listToCompare[i], EditorPage.GetTargetText(segmentNumber), "Ошибка: не совпал текст при изменении регистра");
 			}

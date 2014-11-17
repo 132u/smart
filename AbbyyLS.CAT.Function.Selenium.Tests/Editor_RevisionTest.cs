@@ -1,22 +1,7 @@
 ﻿using System;
 using System.Threading;
 using NUnit.Framework;
-using OpenQA.Selenium;
-using OpenQA.Selenium.Firefox;
-using OpenQA.Selenium.Chrome;
-using OpenQA.Selenium.IE;
-using OpenQA.Selenium.Support.UI;
-using OpenQA.Selenium.Support.PageObjects;
-using System.IO;
-using System.Text;
-using System.Configuration;
-using System.Diagnostics;
 using System.Collections.Generic;
-using System.Windows.Forms;
-using System.Drawing;
-using System.Linq;
-
-using OpenQA.Selenium.Interactions;
 
 namespace AbbyyLS.CAT.Function.Selenium.Tests.Editor.Revisions
 {
@@ -28,8 +13,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Editor.Revisions
 		/// <summary>
 		/// Конструктор теста
 		/// </summary>
-		 
-		 
 		/// <param name="browserName">Название браузера</param>
 		public Editor_RevisionTest(string browserName)
 			: base(browserName)
@@ -38,7 +21,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Editor.Revisions
 		}
 
 		// название проекта для проведения тестов
-		protected string _projectNameRevisionsTest = "RevisionsTest" + "_" + DateTime.UtcNow.Ticks.ToString();
+		protected string _projectNameRevisionsTest = "RevisionsTest" + "_" + DateTime.UtcNow.Ticks;
 
 		// флаг создан ли проект (создается один раз перед всеми тестами)
 		private bool _projectCreated;
@@ -94,10 +77,10 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Editor.Revisions
 		[Test]
 		public void RollbackBtnDisabledTest()
 		{
-			int segmentNumber = 1;
+			var segmentNumber = 1;
 
 			// Добавить текст в Target
-			string text = "Text" + DateTime.Now.Ticks;
+			var text = "Text" + DateTime.Now.Ticks;
 			AddTextTarget(segmentNumber, text);
 			// Дождаться автосохранения
 			AutoSave();
@@ -109,10 +92,14 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Editor.Revisions
 			OpenRevisionTab();
 
 			// Проверить, что количество ревизий больше 0 (перевод появился в ревизиях)
-			Assert.IsTrue(RevisionPage.GetRevisionListCount() > 0, "Ошибка: перевод не появился в ревизиях");
+			Assert.IsTrue(
+				RevisionPage.GetRevisionListCount() > 0, 
+				"Ошибка: перевод не появился в ревизиях");
 
 			// Проверить, что кнопка заблокирована
-			Assert.IsFalse(RevisionPage.GetIsRollbackBtnEnabled(), "Ошибка: кнопка Rollback должна быть заблокирована");
+			Assert.IsFalse(
+				RevisionPage.GetIsRollbackBtnEnabled(), 
+				"Ошибка: кнопка Rollback должна быть заблокирована");
 		}
 
 		/// <summary>
@@ -121,11 +108,12 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Editor.Revisions
 		[Test]
 		public void RollbackBtnEnabledTest()
 		{
-			int segmentNumber = 2;
+			var segmentNumber = 2;
 
 			// Добавить текст в Target
-			string text = "Text" + DateTime.Now.Ticks;
+			var text = "Text" + DateTime.Now.Ticks;
 			AddTextTarget(segmentNumber, text);
+
 			// Дождаться автосохранения
 			AutoSave();
 
@@ -136,13 +124,19 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Editor.Revisions
 			OpenRevisionTab();
 
 			// Проверить, что количество ревизий больше 0 (перевод появился в ревизиях)
-			Assert.IsTrue(RevisionPage.GetRevisionListCount() > 0, "Ошибка: перевод не появился в ревизиях");
+			Assert.IsTrue(
+				RevisionPage.GetRevisionListCount() > 0, 
+				"Ошибка: перевод не появился в ревизиях");
 
 			// Выбрать ревизию
-			Assert.IsTrue(RevisionPage.ClickRevision(1), "Ошибка: ревизии нет");
+			Assert.IsTrue(
+				RevisionPage.ClickRevision(1), 
+				"Ошибка: ревизии нет");
 
 			// Проверить, что кнопка не заблокирована
-			Assert.IsTrue(RevisionPage.GetIsRollbackBtnEnabled(), "Ошибка: кнопка Rollback не должна быть заблокирована");
+			Assert.IsTrue(
+				RevisionPage.GetIsRollbackBtnEnabled(), 
+				"Ошибка: кнопка Rollback не должна быть заблокирована");
 		}
 
 		/// <summary>
@@ -151,10 +145,11 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Editor.Revisions
 		[Test]
 		public void TimeBtnTest()
 		{
-			int segmentNumber = 3;
+			var segmentNumber = 3;
 
 			// Количество 
-			int revisionNumberCount = 3;
+			var revisionNumberCount = 3;
+
 			// Добавить ревизии
 			AddTranslationsToSegment(segmentNumber, revisionNumberCount);
 
@@ -162,26 +157,28 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Editor.Revisions
 			Assert.IsTrue(RevisionPage.GetRevisionListCount() >= revisionNumberCount, "Ошибка: количество ревизий не совпадает");
 
 			// Текст и время первой ревизии До
-			string revisionTextBefore = RevisionPage.GetRevisionText(1);
-			string revisionTimeBefore = RevisionPage.GetRevisionTime(1);
+			var revisionTextBefore = RevisionPage.GetRevisionText(1);
+			var revisionTimeBefore = RevisionPage.GetRevisionTime(1);
 
 			Console.WriteLine("до: " + revisionTextBefore + " " + revisionTimeBefore);
+
 			// Кликнуть Time
 			RevisionPage.ClickTimeToSort();
 
 			// Текст и время первой ревизии После
-			string revisionTextAfter = RevisionPage.GetRevisionText(1);
-			string revisionTimeAfter = RevisionPage.GetRevisionTime(1);
+			var revisionTextAfter = RevisionPage.GetRevisionText(1);
+			var revisionTimeAfter = RevisionPage.GetRevisionTime(1);
 
 			Console.WriteLine("после: " + revisionTextAfter + " " + revisionTimeAfter);
 
 			// Изменился ли текст
-			bool isTextChanged = revisionTextBefore != revisionTextAfter;
+			var isTextChanged = revisionTextBefore != revisionTextAfter;
 			// Изменилось ли время
-			bool isTimeChanged = revisionTimeBefore != revisionTimeAfter;
+			var isTimeChanged = revisionTimeBefore != revisionTimeAfter;
 
-			bool isOk = isTextChanged && isTimeChanged;
-			string errorMessage = "";
+			var isOk = isTextChanged && isTimeChanged;
+			var errorMessage = "";
+
 			// Проверить, что текст изменился
 			if (!isTextChanged)
 			{
@@ -198,18 +195,16 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Editor.Revisions
 			Assert.IsTrue(isOk, errorMessage);
 		}
 
-		const string byHotkey = "byHotkey";
-		const string byButton = "byButton";
 		/// <summary>
 		/// ТЕСТ: проверка хоткея Автосохранение
 		/// </summary>
 		[Test]
 		public void AutoSaveTest()
 		{
-			int segmentNumber = 4;
+			var segmentNumber = 4;
 
 			// Добавить текст в Target
-			string text = "Text" + DateTime.Now.Ticks;
+			var text = "Text" + DateTime.Now.Ticks;
 			AddTextTarget(segmentNumber, text);
 
 			// Дождаться автосохранения
@@ -222,10 +217,14 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Editor.Revisions
 			OpenRevisionTab();
 
 			// Проверить, что количество ревизий больше 0 (перевод появился в ревизиях)
-			Assert.IsTrue(RevisionPage.GetRevisionListCount() > 0, "Ошибка: перевод не появился в ревизиях");
+			Assert.IsTrue(
+				RevisionPage.GetRevisionListCount() > 0, 
+				"Ошибка: перевод не появился в ревизиях");
 
 			// Проверить тип
-			Assert.AreEqual(Editor_RevisionPageHelper.RevisionType.AutoSave, RevisionPage.GetRevisionType(1),
+			Assert.AreEqual(
+				Editor_RevisionPageHelper.RevisionType.AutoSave, 
+				RevisionPage.GetRevisionType(1),
 				"Ошибка: тип ревизии не совпадает");
 		}
 
@@ -235,22 +234,27 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Editor.Revisions
 		/// <param name="segmentNumber">номер сегмента</param>
 		/// <param name="byHotkeyOrButton">хоткей или кнопка</param>
 		[Test, Sequential]
-		public void ConfirmTest([Values(5, 6)] int segmentNumber, [Values(byHotkey, byButton)] string byHotkeyOrButton)
+		public void ConfirmTest(
+			[Values(5, 6)] 
+			int segmentNumber, 
+			[Values(ByHotkey, ByButton)]
+			string byHotkeyOrButton)
 		{
 			// Добавить текст в Target
-			string text = "Text" + DateTime.Now.Ticks;
+			var text = "Text" + DateTime.Now.Ticks;
 			AddTextTarget(segmentNumber, text);
 
 			// Вернуться в сегмент
 			ClickSegmentTarget(segmentNumber);
 
 			// Подтвердить
-			if (byHotkeyOrButton == byHotkey)
+			if (byHotkeyOrButton == ByHotkey)
 			{
 				// Нажать хоткей подтверждения
 				ClickConfirmHotkey(segmentNumber);
 			}
-			else if (byHotkeyOrButton == byButton)
+
+			else if (byHotkeyOrButton == ByButton)
 			{
 				// Нажать кнопку подтверждения
 				ClickConfirmBtn(segmentNumber);
@@ -263,10 +267,14 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Editor.Revisions
 			OpenRevisionTab();
 
 			// Проверить, что количество ревизий больше 0 (перевод появился в ревизиях)
-			Assert.IsTrue(RevisionPage.GetRevisionListCount() > 0, "Ошибка: перевод не появился в ревизиях");
+			Assert.IsTrue(
+				RevisionPage.GetRevisionListCount() > 0, 
+				"Ошибка: перевод не появился в ревизиях");
 
 			// Проверить тип
-			Assert.AreEqual(Editor_RevisionPageHelper.RevisionType.Confirmed, RevisionPage.GetRevisionType(1),
+			Assert.AreEqual(
+				Editor_RevisionPageHelper.RevisionType.Confirmed, 
+				RevisionPage.GetRevisionType(1),
 				"Ошибка: тип ревизии не совпадает");
 		}
 
@@ -277,25 +285,33 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Editor.Revisions
 		public void ConfirmAfterSaveTest()
 		{
 			// Добавить текст в Target
-			string text = "Text" + DateTime.Now.Ticks;
-			int segmentNumber = 7;
+			var text = "Text" + DateTime.Now.Ticks;
+			var segmentNumber = 7;
+
 			AddTextTarget(segmentNumber, text);
+
 			// Дождаться автосохранения
 			AutoSave();
+
 			// Вернуться в сегмент
 			ClickSegmentTarget(segmentNumber);
+
 			// Открыть вкладку Ревизии
 			OpenRevisionTab();
 
 			// Получить количество ревизий
-			int revisionListCount = RevisionPage.GetRevisionListCount();
+			var revisionListCount = RevisionPage.GetRevisionListCount();
 			Console.WriteLine("количество строк в ревизиях: " + revisionListCount);
 
 			// Проверить, что количество больше 0 (перевод появился в ревизиях)
-			Assert.IsTrue(revisionListCount > 0, "Ошибка: перевод не появился в ревизиях");
+			Assert.IsTrue(
+				revisionListCount > 0, 
+				"Ошибка: перевод не появился в ревизиях");
 
 			// Проверить тип
-			Assert.AreEqual(Editor_RevisionPageHelper.RevisionType.AutoSave, RevisionPage.GetRevisionType(1),
+			Assert.AreEqual(
+				Editor_RevisionPageHelper.RevisionType.AutoSave, 
+				RevisionPage.GetRevisionType(1),
 				"Ошибка: тип ревизии не совпадает");
 
 			// Подтвердить
@@ -304,7 +320,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Editor.Revisions
 			ClickSegmentTarget(segmentNumber);
 
 			// Количество ревизий
-			int revisionListCountAfter = RevisionPage.GetRevisionListCount();
+			var revisionListCountAfter = RevisionPage.GetRevisionListCount();
 
 			bool isOk = true;
 			string errorMessage = "";
@@ -327,30 +343,35 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Editor.Revisions
 			Assert.IsTrue(isOk, errorMessage);
 		}
 
-		const string byDoubleClick = "byDoubleClick";
 		/// <summary>
 		/// ТЕСТ: вставка перевода из MT
 		/// </summary>
 		/// <param name="segmentNumber">номер сегмента</param>
 		/// <param name="byHotkeyOrDoubleClick">хоткей или даблклик</param>
 		[Test, Sequential]
-		public void PasteFromMTTest([Values(8, 9)] int segmentNumber, [Values(byDoubleClick, byHotkey)] string byHotkeyOrDoubleClick)
+		public void PasteFromMTTest(
+			[Values(8, 9)] 
+			int segmentNumber, 
+			[Values(ByDoubleClick, ByHotkey)] 
+			string byHotkeyOrDoubleClick)
 		{
 			EditorPage.ClickSourceCell(segmentNumber);
 
 			// Проверить, что есть переводы в панели CAT
 			Assert.IsTrue(EditorPage.GetCATPanelNotEmpty(), "Ошибка: нет переводов в панели САТ");
+			
 			int catTranslationNum = EditorPage.GetCATTranslationRowNumber(EditorPageHelper.CAT_TYPE.MT);
+			
 			Assert.IsTrue(catTranslationNum > 0, "Ошибка: нет MT в CAT");
 			Assert.IsTrue(catTranslationNum < 10, "Ошибка: строка с MT должна быть ближе, чем 10 (для хоткея)");
 
 			// Target
-			if (byHotkeyOrDoubleClick == byHotkey)
+			if (byHotkeyOrDoubleClick == ByHotkey)
 			{
 				// Ctrl+N - для вставки перевода из CAT-MT (N - номер в панели)
 				EditorPage.PutCatMatchByHotkey(segmentNumber, catTranslationNum);
 			}
-			else if (byHotkeyOrDoubleClick == byDoubleClick)
+			else if (byHotkeyOrDoubleClick == ByDoubleClick)
 			{
 				// Двойной клик
 				EditorPage.DoubleClickCATPanel(catTranslationNum);
@@ -363,7 +384,9 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Editor.Revisions
 			Assert.IsTrue(RevisionPage.GetRevisionListCount() > 0, "Ошибка: ревизия не сохранилась");
 
 			// Проверить тип
-			Assert.AreEqual(Editor_RevisionPageHelper.RevisionType.InsertMT, RevisionPage.GetRevisionType(1),
+			Assert.AreEqual(
+				Editor_RevisionPageHelper.RevisionType.InsertMT, 
+				RevisionPage.GetRevisionType(1),
 				"Ошибка: неправильный тип ревизии");
 		}
 
@@ -379,24 +402,33 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Editor.Revisions
 
 			// Проверить, что есть переводы в панели CAT
 			Assert.IsTrue(EditorPage.GetCATPanelNotEmpty(), "Ошибка: нет переводов в панели САТ");
+
 			int catTranslationNum = EditorPage.GetCATTranslationRowNumber(EditorPageHelper.CAT_TYPE.MT);
+
 			Assert.IsTrue(catTranslationNum > 0, "Ошибка: перевод не MT");
 			Assert.IsTrue(catTranslationNum < 10, "Ошибка: строка с MT должна быть ближе, чем 10 (для хоткея)");
 
 			// Добавить текст в Target
 			AddTranslationAndConfirm(segmentNumber, "Text" + DateTime.Now.Ticks);
+
 			// Вернуться в сегмент
 			ClickSegmentTarget(segmentNumber);
 
 			// Двойной клик по MT
 			EditorPage.DoubleClickCATPanel(catTranslationNum);
+
 			// Дождаться, пока появится вторая ревизия
 			Assert.IsTrue(RevisionPage.WaitRevisionAppear(2), "Ошибка: не появилась вторая ревизия");
 
 			// Проверить тип
-			Assert.AreEqual(Editor_RevisionPageHelper.RevisionType.InsertMT, RevisionPage.GetRevisionType(1),
+			Assert.AreEqual(
+				Editor_RevisionPageHelper.RevisionType.InsertMT, 
+				RevisionPage.GetRevisionType(1),
 				"Ошибка: неправильный тип 1 (свежей) ревизии");
-			Assert.AreEqual(Editor_RevisionPageHelper.RevisionType.Confirmed, RevisionPage.GetRevisionType(2),
+
+			Assert.AreEqual(
+				Editor_RevisionPageHelper.RevisionType.Confirmed, 
+				RevisionPage.GetRevisionType(2),
 				"Ошибка: неправильный тип 2 (старой) ревизии");
 		}
 
@@ -406,23 +438,29 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Editor.Revisions
 		/// <param name="segmentNumber">номер сегмента</param>
 		/// <param name="byHotkeyOrDoubleClick">хоткей или даблклик</param>
 		[Test, Sequential]
-		public void PasteFromTMTest([Values(11, 12)] int segmentNumber, [Values(byDoubleClick, byHotkey)] string byHotkeyOrDoubleClick)
+		public void PasteFromTMTest(
+			[Values(11, 12)] 
+			int segmentNumber, 
+			[Values(ByDoubleClick, ByHotkey)] 
+			string byHotkeyOrDoubleClick)
 		{
 			//Выбираем первый сегмент
 			EditorPage.ClickTargetCell(segmentNumber);
 
 			// Проверить, что есть переводы в панели CAT
 			Assert.IsTrue(EditorPage.GetCATPanelNotEmpty(), "Ошибка: нет переводов в панели САТ");
+
 			int catTranslationNum = EditorPage.GetCATTranslationRowNumber(EditorPageHelper.CAT_TYPE.TM);
+
 			Assert.IsTrue(catTranslationNum > 0, "Ошибка: перевод не TM");
 			Assert.IsTrue(catTranslationNum < 10, "Ошибка: строка с TM должна быть ближе, чем 10 (для хоткея)");
 
-			if (byHotkeyOrDoubleClick == byHotkey)
+			if (byHotkeyOrDoubleClick == ByHotkey)
 			{
 				// Ctrl+1 - для вставки перевода из CAT-MT
 				EditorPage.PutCatMatchByHotkey(segmentNumber, catTranslationNum);
 			}
-			else if (byHotkeyOrDoubleClick == byDoubleClick)
+			else if (byHotkeyOrDoubleClick == ByDoubleClick)
 			{
 				// Двойной клик
 				EditorPage.DoubleClickCATPanel(catTranslationNum);
@@ -435,7 +473,9 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Editor.Revisions
 			Assert.IsTrue(RevisionPage.GetRevisionListCount() > 0, "Ошибка: ревизия не сохранилась");
 
 			// Проверить тип
-			Assert.AreEqual(Editor_RevisionPageHelper.RevisionType.InsertTM, RevisionPage.GetRevisionType(1),
+			Assert.AreEqual(
+				Editor_RevisionPageHelper.RevisionType.InsertTM, 
+				RevisionPage.GetRevisionType(1),
 				"Ошибка: неправильный тип ревизии");
 		}
 
@@ -445,29 +485,34 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Editor.Revisions
 		[Test]
 		public void ConfirmSomeTranslations()
 		{
-			int segmentNumber = 13;
+			var segmentNumber = 13;
 
 			EditorPage.ClickSourceCell(segmentNumber);
 
 			// Подтвердить несколько переводов в сегменте
-			int translationNumber = 2;
+			var translationNumber = 2;
 			AddTranslationsToSegment(segmentNumber, translationNumber);
 
 			// Открыть вкладку Ревизии
 			OpenRevisionTab();
 
 			// Получить количество ревизий
-			int revisionListCount = RevisionPage.GetRevisionListCount();
+			var revisionListCount = RevisionPage.GetRevisionListCount();
 			Console.WriteLine("количество строк в ревизиях: " + revisionListCount);
 
 			// Проверить количество ревизий (== translationNumber)
-			Assert.AreEqual(translationNumber, revisionListCount, "Ошибка: неверное количество ревизий: " + revisionListCount);
+			Assert.AreEqual(
+				translationNumber, 
+				revisionListCount, 
+				"Ошибка: неверное количество ревизий: " + revisionListCount);
 
 			// Проверить типы ревизий
 			for (int i = 0; i < revisionListCount; ++i)
 			{
-				Assert.AreEqual(Editor_RevisionPageHelper.RevisionType.Confirmed, RevisionPage.GetRevisionType(i + 1),
-				"Ошибка: неправильный тип ревизии N " + (i + 1) + " (сверху)");
+				Assert.AreEqual(
+					Editor_RevisionPageHelper.RevisionType.Confirmed, 
+					RevisionPage.GetRevisionType(i + 1),
+					"Ошибка: неправильный тип ревизии N " + (i + 1) + " (сверху)");
 			}
 		}
 
@@ -477,18 +522,22 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Editor.Revisions
 		[Test]
 		public void AutosaveSomeTranslations()
 		{
-			int segmentNumber = 14;
-			int translationNumber = 2;
-			for (int i = 0; i < translationNumber; ++i)
+			const int segmentNumber = 14;
+			const int translationNumber = 2;
+
+			for (var i = 0; i < translationNumber; ++i)
 			{
-				string text = "Text" + DateTime.Now.Ticks;
+				var text = "Text" + DateTime.Now.Ticks;
+
 				// Добавить текст
 				AddTextTarget(segmentNumber, text);
+
 				// Дождаться автосохранения
 				AutoSave();
 			}
 			// Вернуться в сегмент
 			ClickSegmentTarget(segmentNumber);
+
 			// Открыть вкладку Ревизии
 			OpenRevisionTab();
 
@@ -496,7 +545,9 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Editor.Revisions
 			Assert.AreEqual(1, RevisionPage.GetRevisionListCount(), "Ошибка: неверное количество ревизий");
 
 			// Проверить тип ревизии
-			Assert.AreEqual(Editor_RevisionPageHelper.RevisionType.AutoSave, RevisionPage.GetRevisionType(1),
+			Assert.AreEqual(
+				Editor_RevisionPageHelper.RevisionType.AutoSave, 
+				RevisionPage.GetRevisionType(1),
 				"Ошибка: неправильный тип ревизии");
 		}
 
@@ -508,26 +559,36 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Editor.Revisions
 		[Test, Sequential]
 		public void RollbackTest([Values(15, 16, 17)] int segmentNumber, [Values(3, 2, 1)] int rollbackNumber)
 		{
-			int translationNumber = 3;
+			const int translationNumber = 3;
 
 			// Проверка параметров
-			Assert.IsTrue(rollbackNumber > 0, "Неверный параметр: rollbackNumber - номер добавленного перевода, начиная с 1");
-			Assert.IsTrue(translationNumber >= rollbackNumber, "Неверный параметр: rollbackNumber должен быть меньше translationNumber");
+			Assert.IsTrue(
+				rollbackNumber > 0, 
+				"Неверный параметр: rollbackNumber - номер добавленного перевода, начиная с 1");
+
+			Assert.IsTrue(
+				translationNumber >= rollbackNumber, 
+				"Неверный параметр: rollbackNumber должен быть меньше translationNumber");
 
 			// Подтвердить несколько переводов в одном сегменте
-			List<string> translationList = AddTranslationsToSegment(segmentNumber, translationNumber);
+			var translationList = AddTranslationsToSegment(segmentNumber, translationNumber);
 
 			// Текст ревизии для отката
-			string revisionText = translationList[rollbackNumber - 1];
+			var revisionText = translationList[rollbackNumber - 1];
 
 			EditorPage.ClickTargetCell(segmentNumber);
 
 			// Проверить, что все ревизии сохранились
 			OpenRevisionTab();
-			Assert.AreEqual(translationNumber, RevisionPage.GetRevisionListCount(), "Ошибка: неправильное количество ревизий");
+
+			Assert.AreEqual(
+				translationNumber, 
+				RevisionPage.GetRevisionListCount(), 
+				"Ошибка: неправильное количество ревизий");
 
 			// Выделить ревизию
-			int revisionRollBackNumber = (translationNumber - rollbackNumber + 1);
+			var revisionRollBackNumber = (translationNumber - rollbackNumber + 1);
+
 			Assert.IsTrue(RevisionPage.ClickRevision(revisionRollBackNumber), "Ошибка: такой ревизии нет");
 			Assert.IsTrue(RevisionPage.GetIsRollbackBtnEnabled(), "Ошибка: кнопка Rollback заблокирована");
 
@@ -582,10 +643,12 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Editor.Revisions
 			// Добавить текст в Target
 			int segmentNumber = 18;
 			AddTranslationAndConfirm(segmentNumber, "Text" + DateTime.Now.Ticks);
+
 			// Вернуться в сегмент
 			ClickSegmentTarget(segmentNumber);
 
 			int revisionCountBefore = RevisionPage.GetRevisionListCount();
+
 			// Выделить ревизию
 			Assert.IsTrue(RevisionPage.ClickRevision(1), "Ошибка: такой ревизии нет");
 			Assert.IsTrue(RevisionPage.GetIsRollbackBtnEnabled(), "Ошибка: кнопка Rollback заблокирована");
@@ -599,13 +662,20 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Editor.Revisions
 			// Нажать нет
 			RevisionPage.ClickNoRollbackDlg();
 			RevisionPage.WaitUntilRollbackDialogDisappear();
+
 			// Вернуться в сегмент
 			ClickSegmentTarget(segmentNumber);
 
 			// Проверить, что количество ревизий не увеличилось
-			Assert.AreEqual(revisionCountBefore, RevisionPage.GetRevisionListCount(), "Ошибка: количество ревизий изменилось");
+			Assert.AreEqual(
+				revisionCountBefore, 
+				RevisionPage.GetRevisionListCount(), 
+				"Ошибка: количество ревизий изменилось");
+
 			// Проверить, что тип последней ревизии - не Rollback
-			Assert.AreNotEqual(Editor_RevisionPageHelper.RevisionType.Rollback, RevisionPage.GetRevisionType(1),
+			Assert.AreNotEqual(
+				Editor_RevisionPageHelper.RevisionType.Rollback, 
+				RevisionPage.GetRevisionType(1),
 				"Ошибка: появилась ревизия Rollback");
 		}
 
@@ -615,13 +685,15 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Editor.Revisions
 		[Test]
 		public void ConfirmInsertedMtTest()
 		{
-			int segmentNumber = 19;
+			var segmentNumber = 19;
 
 			EditorPage.ClickSourceCell(segmentNumber);
 
 			// Проверить, что есть переводы MT
 			Assert.IsTrue(EditorPage.GetCATPanelNotEmpty(), "Ошибка: нет переводов в МТ");
-			int catTranslationNum = EditorPage.GetCATTranslationRowNumber(EditorPageHelper.CAT_TYPE.MT);
+
+			var catTranslationNum = EditorPage.GetCATTranslationRowNumber(EditorPageHelper.CAT_TYPE.MT);
+
 			Assert.IsTrue(catTranslationNum > 0, "Ошибка: перевод не МТ");
 			Assert.IsTrue(catTranslationNum < 10, "Ошибка: строка с TM должна быть ближе, чем 10 (для хоткея)");
 
@@ -629,6 +701,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Editor.Revisions
 			EditorPage.PutCatMatchByHotkey(segmentNumber, catTranslationNum);
 			// Подтвердить
 			ClickConfirmBtn(segmentNumber);
+
 			// Вернуться
 			ClickSegmentTarget(segmentNumber);
 
@@ -636,11 +709,15 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Editor.Revisions
 			Assert.IsTrue(RevisionPage.GetRevisionListCount() == 2, "Ошибка: должно сохраниться две ревизии");
 
 			// Проверить тип
-			Assert.AreEqual(Editor_RevisionPageHelper.RevisionType.Confirmed, RevisionPage.GetRevisionType(1),
+			Assert.AreEqual(
+				Editor_RevisionPageHelper.RevisionType.Confirmed, 
+				RevisionPage.GetRevisionType(1),
 				"Ошибка: неправильный тип 1 (свежей) ревизии (д.б. Confirmed)");
 
 			// Проверить тип
-			Assert.AreEqual(Editor_RevisionPageHelper.RevisionType.InsertMT, RevisionPage.GetRevisionType(2),
+			Assert.AreEqual(
+				Editor_RevisionPageHelper.RevisionType.InsertMT, 
+				RevisionPage.GetRevisionType(2),
 				"Ошибка: неправильный тип 2 (старой) ревизии (д.б. Insert MT)");
 		}
 
@@ -651,19 +728,21 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Editor.Revisions
 		public void RemovePartTextTest()
 		{
 			// Добавить текст в Target
-			int segmentNumber = 20;
-			string text = "Text" + DateTime.Now.Ticks;
+			const int segmentNumber = 20;
+			var text = "Text" + DateTime.Now.Ticks;
 			AddTranslationAndConfirm(segmentNumber, text);
+
 			// Вернуться в сегмент
 			ClickSegmentTarget(segmentNumber);
 
 			// Ввести новый текст (старый, удалив часть текста)
-			string textToRemove = text.Substring(2, 5);
+			var textToRemove = text.Substring(2, 5);
 			Console.WriteLine("textToRemove: " + textToRemove);
 			text = text.Replace(textToRemove, "");
 			Console.WriteLine("text: " + text);
 
 			AddTranslationAndConfirm(segmentNumber, text);
+
 			// Вернуться в сегмент
 			ClickSegmentTarget(segmentNumber);
 
@@ -671,7 +750,8 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Editor.Revisions
 			Assert.AreEqual(2, RevisionPage.GetRevisionListCount(), "Ошибка: должно быть две ревизии");
 
 			// Проверить, что в последней ревизии выделен удаленный текст
-			Assert.IsTrue(RevisionPage.GetHasRevisionDeletedTextPart(1),
+			Assert.IsTrue(
+				RevisionPage.GetHasRevisionDeletedTextPart(1),
 				"Ошибка: в ревизии нет пометки об удаленном тексте");
 		}
 
@@ -682,18 +762,20 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Editor.Revisions
 		public void AddPartTextTest()
 		{
 			// Добавить текст в Target
-			string text = "Text" + DateTime.Now.Ticks;
-			int segmentNumber = 21;
+			var text = "Text" + DateTime.Now.Ticks;
+			const int segmentNumber = 21;
 			AddTranslationAndConfirm(segmentNumber, text);
+
 			// Вернуться в сегмент
 			ClickSegmentTarget(segmentNumber);
 
 			// Ввести новый текст (старый, добавив часть нового текста)
-			string textToAdd = "newText";
+			var textToAdd = "newText";
 			Console.WriteLine("textToAdd: " + textToAdd);
 			text = text.Insert(2, textToAdd);
 			Console.WriteLine("text: " + text);
 			AddTranslationAndConfirm(segmentNumber, text);
+
 			// Вернуться в сегмент
 			ClickSegmentTarget(segmentNumber);
 
@@ -704,8 +786,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Editor.Revisions
 			Assert.IsTrue(RevisionPage.GetHasRevisionInsertedTextPart(1),
 				"Ошибка: в ревизии нет пометки о добавленном тексте");
 		}
-
-
 
 		/// <summary>
 		/// Добавить текст в Target
@@ -734,6 +814,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Editor.Revisions
 		protected void ClickConfirmBtn(int segmentRowWaitConfirm)
 		{
 			EditorPage.ClickConfirmBtn();
+
 			// Дождаться подтверждения
 			Assert.IsTrue(WaitSegmentConfirm(segmentRowWaitConfirm), "Ошибка: Confirm не прошел");
 		}
@@ -759,7 +840,8 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Editor.Revisions
 			if (!RevisionPage.GetIsRevisionTabDisplay())
 			{
 				// Открыть вкладку Ревизии
-				Assert.IsTrue(RevisionPage.OpenRevisionTab(),
+				Assert.IsTrue(
+					RevisionPage.OpenRevisionTab(),
 					"Ошибка: вкладка с ревизиями не открылась");
 			}
 		}
@@ -772,19 +854,26 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Editor.Revisions
 		/// <returns>список внесенных переводов</returns>
 		protected List<string> AddTranslationsToSegment(int segmentRowNumber, int translationNumber)
 		{
-			List<string> textList = new List<string>();
+			var textList = new List<string>();
+
 			// Добавить текст в Target
-			for (int i = 0; i < translationNumber; ++i)
+			for (var i = 0; i < translationNumber; ++i)
 			{
-				string text = "Text" + DateTime.Now.Ticks;
+				var text = "Text" + DateTime.Now.Ticks;
+
 				// Добавить текст
 				AddTranslationAndConfirm(segmentRowNumber, text);
 				textList.Add(text);
 			}
+
 			// Вернуться
 			EditorPage.ClickTargetCell(segmentRowNumber);
 
 			return textList;
 		}
+
+		const string ByHotkey = "byHotkey";
+		const string ByButton = "byButton";
+		const string ByDoubleClick = "byDoubleClick";
 	}
 }

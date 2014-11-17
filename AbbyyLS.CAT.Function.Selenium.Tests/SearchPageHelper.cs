@@ -1,12 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using OpenQA.Selenium;
-using OpenQA.Selenium.Firefox;
-using OpenQA.Selenium.Chrome;
-using OpenQA.Selenium.IE;
 using OpenQA.Selenium.Support.UI;
 using System.Windows.Forms;
 
@@ -22,8 +15,8 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// </summary>
 		/// <param name="driver">Драйвер</param>
 		/// <param name="wait">Таймаут</param>
-		public SearchPageHelper(IWebDriver driver, WebDriverWait wait) :
-			base(driver, wait)
+		public SearchPageHelper(IWebDriver driver, WebDriverWait wait)
+			: base(driver, wait)
 		{
 		}
 

@@ -1,20 +1,6 @@
-﻿using System;
-using System.Threading;
+﻿using System.Threading;
 using NUnit.Framework;
-using OpenQA.Selenium;
-using OpenQA.Selenium.Firefox;
-using OpenQA.Selenium.Chrome;
-using OpenQA.Selenium.IE;
-using OpenQA.Selenium.Support.UI;
-using System.IO;
-using System.Text;
-using System.Configuration;
-using System.Diagnostics;
 using System.Collections.Generic;
-using System.Windows.Forms;
-using System.Drawing;
-using System.Drawing.Imaging;
-using OpenQA.Selenium.Interactions;
 
 namespace AbbyyLS.CAT.Function.Selenium.Tests
 {
@@ -26,8 +12,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <summary>
 		/// Конструктор теста
 		/// </summary>
-		 
-		 
 		/// <param name="browserName">Название браузера</param>
 		public EditorSpellcheckTest(string browserName)
 			: base(browserName)
@@ -69,7 +53,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		[Test]
 		public void AddNewWord()
 		{
-			string word = "Ккапучино";
+			const string word = "Ккапучино";
 			
 			// Добавляем новое слово в словарь
 			AddWord(word);
@@ -78,7 +62,8 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			OpenEditorDictionary();
 
 			// Проверяем, что слово добавлено в словарь
-			Assert.IsTrue(GetIsWordPresentInDictionary(word),
+			Assert.IsTrue(
+				GetIsWordPresentInDictionary(word),
 				"Ошибка: Слово отсутствует в словаре.");
 
 			// Закрываем форму словаря
@@ -97,7 +82,8 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			OpenEditorDictionary();
 
 			// Проверяем, что слово добавлено в словарь
-			Assert.IsTrue(GetIsWordPresentInDictionary(word),
+			Assert.IsTrue(
+				GetIsWordPresentInDictionary(word),
 				"Ошибка: Слово отсутствует в словаре.");
 		}
 
@@ -107,7 +93,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		[Test]
 		public void DeleteWord()
 		{
-			string word = "Ллатте";
+			const string word = "Ллатте";
 
 			// Добавляем новое слово в словарь
 			AddWord(word);
@@ -119,7 +105,8 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			OpenEditorDictionary();
 
 			// Проверяем, что слово отсутствует в словарь
-			Assert.IsFalse(GetIsWordPresentInDictionary(word),
+			Assert.IsFalse(
+				GetIsWordPresentInDictionary(word),
 				"Ошибка: Слово не удалилось после повторного открытия окна словаря.");
 
 			// Закрываем форму словаря
@@ -138,7 +125,8 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			OpenEditorDictionary();
 
 			// Проверяем, что слово отсутствует в словарь
-			Assert.IsFalse(GetIsWordPresentInDictionary(word),
+			Assert.IsFalse(
+				GetIsWordPresentInDictionary(word),
 				"Ошибка: Слово не удалилось после повторного открытия редактора.");
 		}
 
@@ -148,7 +136,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		[Test]
 		public void UnderlineBeforeAddWord()
 		{
-			string word = "Ээспрессо";
+			const string word = "Ээспрессо";
 
 			// Добавляем слово в target сегмента
 			EditorPage.AddTextTarget(1, word);
@@ -157,7 +145,8 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			AutoSave();
 
 			// Проверяем, что слово подчеркнуто
-			Assert.IsTrue(EditorPage.GetWordListSpellcheck(1).Contains(word),
+			Assert.IsTrue(
+				EditorPage.GetWordListSpellcheck(1).Contains(word),
 				"Ошибка: Нужное слово не обнаружено в списке подчеркнутых.");
 		}
 
@@ -167,7 +156,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		[Test]
 		public void UnderlineAfterAddWord()
 		{
-			string word = "Аамерикано";
+			const string word = "Аамерикано";
 
 			// Добавляем новое слово
 			AddWord(word);
@@ -179,7 +168,8 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			AutoSave();
 
 			// Проверяем, что слово не подчеркнуто
-			Assert.IsFalse(EditorPage.GetWordListSpellcheck(1).Contains(word),
+			Assert.IsFalse(
+				EditorPage.GetWordListSpellcheck(1).Contains(word),
 				"Ошибка: Нужное слово обнаружено в списке подчеркнутых.");
 		}
 
@@ -189,7 +179,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		[Test]
 		public void UnderlineAfterDeleteWord()
 		{
-			string word = "Ммокка";
+			const string word = "Ммокка";
 
 			// Добавляем новое слово
 			AddWord(word);
@@ -204,12 +194,11 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			AutoSave();
 
 			// Проверяем, что слово подчеркнуто
-			Assert.IsTrue(EditorPage.GetWordListSpellcheck(1).Contains(word),
+			Assert.IsTrue(
+				EditorPage.GetWordListSpellcheck(1).Contains(word),
 				"Ошибка: Нужное слово не обнаружено в списке подчеркнутых.");
 		}
 
-		const string Word1 = "Планета";
-		const string Word2 = "Чуть-чуть";
 		/// <summary>
 		/// Тест: проверка подчеркивания слова с дефисом
 		/// </summary>
@@ -218,14 +207,16 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		[TestCase(Word2)]
 		public void UnderlineWord(string word)
 		{
-			string wrongWord = "Ы" + word;
+			var wrongWord = "Ы" + word;
 
 			// Проверяем, что слово не подчеркнуто
-			Assert.IsFalse(GetIsWordUnderlined(word), 
+			Assert.IsFalse(
+				GetIsWordUnderlined(word), 
 				"Ошибка: Слово должно быть не подчеркнуто");
 
 			// Проверяем, что слово подчеркнуто
-			Assert.IsTrue(GetIsWordUnderlined(wrongWord),
+			Assert.IsTrue(
+				GetIsWordUnderlined(wrongWord),
 				"Ошибка: Слово должно быть подчеркнуто");
 		}
 
@@ -235,7 +226,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		[Test]
 		public void AddSameWord()
 		{
-			string word = "Ббариста";
+			const string word = "Ббариста";
 
 			// Добавляем новое слово
 			AddWord(word);
@@ -247,7 +238,8 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			AddWordDictionaryOpened(word);
 
 			// Проверяем, что открылось сообщение об ошибке
-			Assert.IsTrue(EditorPage.WaitAlreadyExistInDictionaryMessageDisplay(),
+			Assert.IsTrue(
+				EditorPage.WaitAlreadyExistInDictionaryMessageDisplay(),
 				"Ошибка: Сообщение об ошибке не открылось.");
 		}
 
@@ -257,8 +249,8 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		[Test]
 		public void EditWord()
 		{
-			string wordFirst = "Рристретто";
-			string wordSecond = "Ррристретто";
+			const string wordFirst = "Рристретто";
+			const string wordSecond = "Ррристретто";
 
 			// Добавляем новое слово
 			AddWord(wordFirst);
@@ -274,7 +266,8 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			Thread.Sleep(1000);
 
 			// Проверяем, что слово добавлено в словарь
-			Assert.IsTrue(GetIsWordPresentInDictionary(wordSecond),
+			Assert.IsTrue(
+				GetIsWordPresentInDictionary(wordSecond),
 				"Ошибка: Нужное слово отсутствует в словаре.");
 
 			// Закрываем форму словаря
@@ -284,7 +277,8 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			OpenEditorDictionary();
 
 			// Проверяем, что слово добавлено в словарь
-			Assert.IsTrue(GetIsWordPresentInDictionary(wordSecond),
+			Assert.IsTrue(
+				GetIsWordPresentInDictionary(wordSecond),
 				"Ошибка: Нужное слово отсутствует в словаре.");
 		}
 
@@ -330,7 +324,8 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			AddWordDictionaryOpened(word);
 
 			// Проверяем, что слово добавлено в словарь
-			Assert.IsTrue(GetIsWordPresentInDictionary(word),
+			Assert.IsTrue(
+				GetIsWordPresentInDictionary(word),
 				"Ошибка: Нужное слово отсутствует в словаре.");
 
 			// Закрываем форму словаря
@@ -350,7 +345,8 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			EditorPage.ClickDeleteWordDictionaryBtn(word);
 
 			// Проверяем, что слово отсутствует в словарь
-			Assert.IsFalse(GetIsWordPresentInDictionary(word),
+			Assert.IsFalse(
+				GetIsWordPresentInDictionary(word),
 				"Ошибка: Слово не удалилось.");
 
 			// Закрываем форму словаря
@@ -365,13 +361,17 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			// Открываем словарь
 			OpenEditorDictionary();
 
-			List<string> wordsList = EditorPage.GetWordListDictionary();
+			var wordsList = EditorPage.GetWordListDictionary();
 
 			// Проверяем, что в словаре есть слова и удаляем их
 			if (wordsList.Count != 0)
-				foreach (string word in wordsList)
+			{
+				foreach (var word in wordsList)
+				{
 					EditorPage.ClickDeleteWordDictionaryBtn(word);
-
+				}
+			}
+			
 			// Закрываем форму словаря
 			CloseEditorDictionary();
 		}
@@ -383,14 +383,9 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <returns>Слово присутствует</returns>
 		protected bool GetIsWordPresentInDictionary(string word)
 		{
-			List<string> wordsList = EditorPage.GetWordListDictionary();
-			bool isPresent = false;
-
-			// Проверяем, в словаре есть слова
-			if ((wordsList.Count != 0) && (wordsList.Contains(word)))
-				isPresent = true;
-
-			return isPresent;
+			var wordsList = EditorPage.GetWordListDictionary();
+			
+			return (wordsList.Count != 0) && (wordsList.Contains(word));
 		}
 
 		/// <summary>
@@ -407,10 +402,11 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			AutoSave();
 
 			// Проверяем, что слово подчеркнуто
-			if (EditorPage.GetWordListSpellcheck(1).Contains(word))
-				return true;
-			else
-				return false;
+			return EditorPage.GetWordListSpellcheck(1).Contains(word);
+			
 		}
+
+		const string Word1 = "Планета";
+		const string Word2 = "Чуть-чуть";
 	}
 }
