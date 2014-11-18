@@ -390,9 +390,21 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 
 			WorkspaceCreateProjectDialog.ClickNextStep();
 
-			// 2) Выбор ТМ
-			ChooseFirstTMInList();
-			WorkspaceCreateProjectDialog.ClickNextStep();
+			//2 шаг - выбор ТМ
+				if (!WorkspaceCreateProjectDialog.GetIsTMTableNotEmpty())
+				{
+					// Кликаем Next
+					WorkspaceCreateProjectDialog.ClickNextStep();
+					// Кликаем Skip
+					SkipNotSelectedTM();
+				}
+				else
+				{
+					// Выбрать существующую ТМ
+					ChooseFirstTMInList();
+					WorkspaceCreateProjectDialog.ClickNextStep();
+				}
+			
 
 			// 3) Выбор глоссария
 			WorkspaceCreateProjectDialog.ClickNextStep();

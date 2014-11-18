@@ -1758,15 +1758,24 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			{
 				// Создать новую ТМ, c файлом или чистую
 				CreateNewTM(tmFile);
+				WorkspaceCreateProjectDialog.ClickNextStep();
 			}
 			else
 			{
-				// Выбрать существующую ТМ
-				ChooseFirstTMInList();
+				if (!WorkspaceCreateProjectDialog.GetIsTMTableNotEmpty())
+				{
+					// Кликаем Next
+					WorkspaceCreateProjectDialog.ClickNextStep();
+					// Кликаем Skip
+					SkipNotSelectedTM();
+				}
+				else
+				{
+					// Выбрать существующую ТМ
+					ChooseFirstTMInList();
+					WorkspaceCreateProjectDialog.ClickNextStep();
+				}
 			}
-
-			
-			WorkspaceCreateProjectDialog.ClickNextStep();
 
 			//3 шаг - выбор глоссария
 			switch (setGlossary)
