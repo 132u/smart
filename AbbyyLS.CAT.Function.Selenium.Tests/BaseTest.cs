@@ -136,6 +136,17 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			PhoneNumber,
 			CompanyType
 		}
+
+
+		/// <summary>
+		/// Перечисление типов компании (в комбобоксе на 2ом шаге регистрации)
+		/// </summary>
+		public enum CompanyType
+		{
+			TranslationDepartment = 0,
+			LanguageServiceProvider = 1,
+		}
+
 		public bool TestUserFileExist()
 		{
 			return File.Exists(_testUserFile);

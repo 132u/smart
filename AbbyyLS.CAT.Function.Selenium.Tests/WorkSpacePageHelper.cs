@@ -561,6 +561,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <returns>Имя пользователя</returns>
 		public string GetUserName()
 		{
+			WaitUntilDisplayElement(By.XPath(USER_NAME_XPATH));
 			return GetTextElement(By.XPath(USER_NAME_XPATH));
 		}
 
@@ -570,7 +571,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <returns>Название компании</returns>
 		public string GetCompanyName()
 		{
-			//ClickAccount();
+			WaitUntilDisplayElement(By.XPath(COMPANY_NAME_PANEL_WS));
 			return GetTextElement(By.XPath(COMPANY_NAME_PANEL_WS));
 		}
 

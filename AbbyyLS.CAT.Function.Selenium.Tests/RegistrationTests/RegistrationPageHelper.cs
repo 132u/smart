@@ -33,7 +33,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		public string NameCompany;
 		public string DomainName;
 
-
 		/// <summary>
 		/// Заполнить все поля на певом шаге регистрации фрилансера
 		/// </summary>
@@ -273,6 +272,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// </summary>
 		public bool CheckErrorMessageThatUserIsAlreadyExist()
 		{
+			WaitUntilDisplayElement(By.XPath(ERROR_MESSAGE_USER_IS_ALREADY_EXIST));
 			return GetIsElementDisplay(By.XPath(ERROR_MESSAGE_USER_IS_ALREADY_EXIST));
 		}
 		/// <summary>
@@ -345,7 +345,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		protected const string SECOND_STEP_LABEL = "//div[@class='panel-heading']/h4";
 		protected const string ACCOUNT_XPATH = ".//div[contains(@class,'js-corp-account')]";
 		protected const string USER_NAME_XPATH = ACCOUNT_XPATH + "//span[contains(@class,'nameuser')]";
-		protected const string ERROR_MESSAGE_USER_IS_ALREADY_EXIST = "//p[@class='help-block messagebox ng-binding ng-scope' and contains(@ng-show,'[errors.alreadyExists]')]"; //сообщение, что юзер уже существует
+		protected const string ERROR_MESSAGE_USER_IS_ALREADY_EXIST = "//p[contains(@class, 'help-block messagebox') and contains(@ng-show,'[errors.alreadyExists]')]"; //сообщение, что юзер уже существует
 		protected const string CREATE_ACCOUNT_IN_ABBYY_ONLINE_LINK = "//a[text()='account in ABBYY-Online']";
 		protected const string USER_NOT_EXIST_MESSAGE = "//p[@class='help-block messagebox ng-binding ng-scope' and contains(@ng-show,'[errors.userNotFound]')]";//сообщение ,что юзера не существует 
 		protected const string EXIST_ACCOUNT_LINK_ABBY_ONLINE = "//a[@id='show-sign-in']";
@@ -402,12 +402,14 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			DoubleClickElement(By.XPath(CREATE_ACCOUNT_COMPANY_BTN));
 		}
 
+
 		/// <summary>
 		/// Выбрать тип компании на 2м шаге стр регистрации компании 
 		/// </summary>
-		public void SelectCompanyType(string companyType)
+		/// <param name="option"> Номер опции в комбобоксе тип компании </param>
+		public void SelectCompanyType(int option)
 		{
-			ClickElement(By.XPath(COMPANY_TYPE_DD + OPTION_IN_COMPANY_TYPE_DD + companyType + "']"));
+			ClickElement(By.XPath(COMPANY_TYPE_DD + OPTION_IN_COMPANY_TYPE_DD + option + "']"));
 		}
 
 		/// <summary>
@@ -440,7 +442,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		protected const string CREATE_ACCOUNT_COMPANY_BTN = "//button[@id='btn-create-account']";
 		protected const string PHONE_NUMBER = ".//input[@id='phone-number']";
 		protected const string COMPANY_TYPE_DD = ".//select[@id='company-type']";
-		protected const string OPTION_IN_COMPANY_TYPE_DD = "//option[text()='";
+		protected const string OPTION_IN_COMPANY_TYPE_DD = "//option[@value='";
 		protected const string LOGIN_LINK_FROM_MSG = "//a[@ng-click='showSignIn()' and text()='log in']";
 		protected const string WRONG_PASSWORD = "//p[@class='help-block ng-scope']";
 	}

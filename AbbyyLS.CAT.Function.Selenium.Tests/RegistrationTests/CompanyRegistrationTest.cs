@@ -139,8 +139,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Registraion.Company
 			{
 				// Выбрать аккаунт
 				LoginPage.ClickAccountName(_corpAccountNameInAdmin);
-				// Зайти на сайт
-				LoginPage.ClickSubmitAccount();
 			}
 			else if (LoginPage.GetIsErrorExist())
 			{
@@ -152,7 +150,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Registraion.Company
 				(WorkspacePage.GetCompanyName() == _corpAccountNameInAdmin), "Ошибка: название компании неверно отображается в панели WS");
 			Assert.IsTrue(
 				(WorkspacePage.GetUserName() == RegistrationPage.FirstName + " " + RegistrationPage.LastName), "Ошибка: имя представителя компании неверно отображается в панели WS");
-
 		}
 
 		///<summary>
@@ -182,8 +179,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Registraion.Company
 						RegistrationPage.LastName,
 						RegistrationPage.NameCompany,
 						RegistrationPage.DomainName,
-						"123123213123213",
-						"Language Service Provider");
+						"123123213123213");
 					break;
 
 				case RegistrationField.LastName:
@@ -192,8 +188,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Registraion.Company
 						string.Empty,
 						RegistrationPage.NameCompany,
 						RegistrationPage.DomainName,
-						"123123213123213",
-						"Language Service Provider");
+						"123123213123213");
 					break;
 
 				case RegistrationField.CompanyName:
@@ -202,8 +197,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Registraion.Company
 						RegistrationPage.LastName,
 						string.Empty,
 						RegistrationPage.DomainName,
-						"123123213123213",
-						"Language Service Provider");
+						"123123213123213");
 					break;
 
 				case RegistrationField.DomainName:
@@ -212,8 +206,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Registraion.Company
 						RegistrationPage.LastName,
 						RegistrationPage.NameCompany,
 						string.Empty,
-						"123123213123213",
-						"Language Service Provider");
+						"123123213123213");
 					break;
 
 				case RegistrationField.PhoneNumber:
@@ -222,8 +215,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Registraion.Company
 						RegistrationPage.LastName,
 						RegistrationPage.NameCompany,
 						RegistrationPage.DomainName,
-						string.Empty,
-						"Language Service Provider");
+						string.Empty);
 					break;
 			}
 			Assert.IsTrue(CheckCreateAccBtnDisable(), WARNING_MESSAGE_BUTTON_IS_DISABLE);
@@ -235,7 +227,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Registraion.Company
 		/// </summary>
 		/// <param name="email">email</param>
 		///  <param name="valid">валидный или неавлидный</param>
-		[TestCase("Em\"ailG1\'23\\23!@#$%^&*()_-|?><,.kh@ads!asdkljoogle.com", true)]
+		[TestCase("Em\"ailG1\'23\\23!@#$%^&*()_-|?><,.kh@ads!asdkljoogle.com", false)]
 		[TestCase("dfsdfsdf@google.com", true)]
 		[TestCase(".email@google.com", false)]
 		[TestCase("email@google.com.", false)]
@@ -244,9 +236,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Registraion.Company
 		[TestCase("emaif.uyyl@google..com", false)]
 		[TestCase("emaif uyyl@google.com", false)]
 		[TestCase("emaifuyyl@goog le.com", false)]
-		[TestCase("emaif\nuyyl@google.com", false)] //\n
-		[TestCase("emaif\ruyyl@google.com", false)]//\r
-		[TestCase("emaif\vuyyl@google.com", false)]//\v
+		[TestCase("tab	fyyl@google.com", false)] //tab
 		[TestCase("", false)]
 		[TestCase(" ", false)]
 		[TestCase("asdasddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd@asdasdddddddddddddddddddddddddddddddddddddddddddddddddddddddddddasdasdddddddddddddddddddddddddddddddddddddddddddddddddddddddddddasdasdddddddddddddddddddddddddddddddddddddddddddddddddddddddddddasdasdddddddddddddddddddddddddddddddddddddddddddddddsdddd.com", true)] //64 -domen, 253 - local part
@@ -254,8 +244,8 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Registraion.Company
 		[TestCase("asdasdddddddddddddddddddddddddddddddddddddddddddddddddddddddddd@asdasdddddddddddddddddddddddddddddddddddddddddddddddddddddddddddasdasdddddddddddddddddddddddddddddddddddddddddddddddddddddddddddasdasdddddddddddddddddddddddddddddddddddddddddddddddddddddddddddasdasdddddddddddddddddddddddddddddddddddddddddddddddsddd.com", true)] //63 -domen, 252 - local part
 		[TestCase("gfgfgfgfgfg.@mail.ru", false)]
 		[TestCase("email@goo@sfd@ffgl@khhje.com", false)]
-		[TestCase("email@goo@sfd@ffgl@khhje.com", false)]
 		[TestCase("gfgfgfgfgfgfgggfgfgf", false)]
+		[TestCase("dfsd+f-sdf@go-o[]gle.com", true)]
 		[Test]
 		public void CheckEmailCompanyValidation(string email, bool valid)
 		{
@@ -281,11 +271,11 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Registraion.Company
 		[TestCase("gfgfgfgfgfgfgggfgfgf", "sdassdfsdf")]
 		[TestCase("", "")]
 		[TestCase(" ", " ")]
-		[TestCase("qwe qwe qwe", "qwe qwe qwe")]
 		[TestCase("1", "1")]
 		[TestCase("12345", "12345")]
 		[TestCase("     ", "     ")] // 5 пробелов
 		[TestCase("      ", "      ")] // 6 пробелов
+		//[TestCase("qwe qwe qwe", "qwe qwe qwe")] пока что непонятно с требованиями PRX-5858
 		[Test]
 		public void CheckPasswordCompanyValidation(string password, string confirmPasword)
 		{
@@ -329,8 +319,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Registraion.Company
 				RegistrationPage.LastName,
 				companyName,
 				RegistrationPage.DomainName,
-				"123123213123213",
-				"Language Service Provider");
+				"123123213123213");
 			if(!state)
 				Assert.IsTrue(CheckCreateAccBtnDisable(), WARNING_MESSAGE_BUTTON_IS_DISABLE);
 			else
@@ -344,8 +333,8 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Registraion.Company
 		/// <param name="state">валидное или не валидное значение</param>
 		[Test]
 		[TestCase("aaa", true)]
-		[TestCase("asddddddddddddddddddddddddddddddddddddddddddddddddd", true)] //51
-		[TestCase("asdddddddddddddddddddddddddddddddddddddddddddddddddd", false)] //52
+		[TestCase("asdddddddddddddddddddddddddzzz", true)] //30
+		[TestCase("asdddddddddddddddddddddddddzzzd", false)] //31
 		[TestCase("as", false)]
 		[TestCase("asddddddd", true)]
 		[TestCase("wwwasddddddd", false)]
@@ -367,8 +356,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Registraion.Company
 				RegistrationPage.LastName,
 				RegistrationPage.NameCompany,
 				domain,
-				"123123213123213",
-				"Language Service Provider");
+				"123123213123213");
 			if (!state)
 				Assert.IsTrue(CheckCreateAccBtnDisable(), WARNING_MESSAGE_BUTTON_IS_DISABLE);
 			else
@@ -391,11 +379,25 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Registraion.Company
 				RegistrationPage.LastName,
 				RegistrationPage.NameCompany,
 				RegistrationPage.DomainName+"1",
-				"123123213123213",
-				"Language Service Provider");
+				"123123213123213");
 			Assert.IsTrue(CheckCreateAccBtnDisable(), WARNING_MESSAGE_BUTTON_IS_DISABLE);
 		}
 
+		/// <summary>
+		/// Тест - Проверка, что при вводе неверного пароля появляется сообщение "Wrong password" 
+		/// </summary>
+		[Test]
+		public void WrongPasswordTest()
+		{
+			RegisterNewUserWithCompanyAndCheckWS(RegistrationPage.Email, RegistrationPage.Password);
+			WorkspacePage.ClickLogoff();
+			GoToRegistrationPage(RegistrationType.Company);
+			RegistrationPage.FillRegistrationDataInFirstStep(RegistrationPage.Email, RegistrationPage.Password, RegistrationPage.Password);
+			RegistrationPage.ClickSignUpButton();
+			Assert.IsTrue(RegistrationPage.CheckErrorMessageThatUserIsAlreadyExist(), "Ошибка: сообщение о том, что юзер уже существует не появилось");
+			RegistrationPage.GoToLoginPageWithExistAccount();
+			RegisterAsExistUserWithInCorrectPassword(RegistrationPage.Email, RegistrationPage.Password);
+		}
 		/// <summary>
 		/// Метод проверки активности кнопки Create Company Account 
 		/// </summary>
@@ -412,14 +414,15 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Registraion.Company
 		/// <param name="lastName">фамилия</param>
 		/// <param name="companyName">название компании</param>
 		/// <param name="domainName">имя домена</param>
-		public void FillAllFieldsSecondStepCompanyRegistration(string firstName, string lastName, string companyName, string domainName, string phoneNumber, string companyType)
+		/// <param name="optionCompanyType">номер опции в комбобоксе тип компании</param>
+		public void FillAllFieldsSecondStepCompanyRegistration(string firstName, string lastName, string companyName, string domainName, string phoneNumber, CompanyType companyType = CompanyType.LanguageServiceProvider)
 		{
 			RegistrationPage.FillFirstNameCompany(firstName);
 			RegistrationPage.FillLastNameCompany(lastName);
 			RegistrationPage.FillNameCompany(companyName);
 			RegistrationPage.FillDomainNameCompany(domainName);
 			RegistrationPage.FillPhoneNumberCompany(phoneNumber);
-			RegistrationPage.SelectCompanyType(companyType);
+			RegistrationPage.SelectCompanyType((int)companyType);
 		}
 
 		/// <summary>
@@ -455,15 +458,13 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Registraion.Company
 			RegistrationPage.ClickSignUpButton();
 			Assert.IsTrue(RegistrationPage.CheckErrorMessageThatUserIsAlreadyExist(), "Ошибка: сообщение о том, что юзер уже существует не появилось");
 			RegistrationPage.GoToLoginPageWithExistAccount();
-			RegisterAsExistUserWithInCorrectPassword(email, password);
 			RegisterAsExistUserWithCorrectPassword(email, password);
 			FillAllFieldsSecondStepCompanyRegistration(
 				RegistrationPage.FirstName,
 				RegistrationPage.LastName,
 				nameCompany,
 				domainName,
-				"123123213123213",
-				"Language Service Provider");
+				"123123213123213");
 			RegistrationPage.ClickCreateAccountCompanyBtn();
 			Console.WriteLine("WorkspacePage.GetUserName() = " + WorkspacePage.GetUserName() + " ; \n RegistrationPage.firstName & RegistrationPage.lastName = " + RegistrationPage.FirstName + " " + RegistrationPage.LastName);
 			WorkspacePage.ClickAccount();
@@ -488,15 +489,13 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Registraion.Company
 			RegistrationPage.ClickSignUpButton();
 			Assert.IsTrue(RegistrationPage.CheckErrorMessageThatUserIsAlreadyExist(), "Ошибка: сообщение о том, что юзер уже существует не появилось");
 			RegistrationPage.ClickLogInFromMsg();
-			RegisterAsExistUserWithInCorrectPassword(email, password);
 			RegisterAsExistUserWithCorrectPassword(email, password);
 			FillAllFieldsSecondStepCompanyRegistration(
 				RegistrationPage.FirstName,
 				RegistrationPage.LastName,
 				nameCompany,
 				domainName,
-				"123123213123213",
-				"Language Service Provider");
+				"123123213123213");
 			RegistrationPage.ClickCreateAccountCompanyBtn();
 			WorkspacePage.ClickAccount();
 			Thread.Sleep(10);
@@ -520,8 +519,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Registraion.Company
 				RegistrationPage.LastName,
 				RegistrationPage.NameCompany,
 				RegistrationPage.DomainName,
-				"123123213123213",
-				"Language Service Provider");
+				"123123213123213");
 			RegistrationPage.ClickCreateAccountCompanyBtn();
 			WorkspacePage.ClickAccount();
 			Thread.Sleep(15);
