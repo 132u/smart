@@ -58,10 +58,12 @@
     <Compile Include="AddTermFormHelper.cs" />
     <Compile Include="AdminTests.cs" />
     <Compile Include="CatPanelSubstitutionTest.cs" />
+    <Compile Include="RegistrationTests\CaptchaTest.cs" />
     <Compile Include="RegistrationTests\CompanyRegistrationTest.cs" />
     <Compile Include="LoginPageHelper.cs" />
     <Compile Include="RandomString.cs" />
     <Compile Include="FilesRootCfg.cs" />
+    <Compile Include="RegistrationTests\RegistrationBaseTest.cs" />
     <Compile Include="TMTests\TMCreationTests.cs" />
     <Compile Include="TMTests\TMEditingTests.cs" />
     <Compile Include="TMTests\TMExportTests.cs" />

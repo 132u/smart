@@ -1,11 +1,12 @@
 ﻿using NUnit.Framework;
+using AbbyyLS.CAT.Function.Selenium.Tests.RegistrationTests;
 
-namespace AbbyyLS.CAT.Function.Selenium.Tests.Registraion.Freelance
+namespace AbbyyLS.CAT.Function.Selenium.Tests.Registration.Freelance
 {
 	/// <summary>
 	/// Тесты регистрации фрилансера
 	/// </summary>
-	public class FreelanceRegistrationTest : AdminTest
+	public class FreelanceRegistrationTest : RegistrationBaseTest
 	{
 		/// <summary>
 		/// Конструктор теста регистрации фрилансера
@@ -15,23 +16,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Registraion.Freelance
 			: base(browserName)
 		{
 
-		}
-
-		/// <summary>
-		/// Метод регистрации нового юзера
-		/// </summary>
-		public void RegistrationNewUser(string email, string password)
-		{
-			// Переход на страницу регистрации
-			GoToRegistrationPage(RegistrationType.User);
-			// Заполняем все поля на первом шаге регистрации
-			RegistrationPage.FillRegistrationDataInFirstStep(email, password, password);
-			// Нажимаем кнопку Sign up
-			RegistrationPage.ClickSignUpButton();
-			// Заполняем все поля на втором шаге регистрации
-			RegistrationPage.FillRegistrationDataInSecondStep(RegistrationPage.FirstName, RegistrationPage.LastName);
-			// Нажимаем кнопку Create Account
-			RegistrationPage.ClickCreateAccountButton();
 		}
 
 		/// <summary>
@@ -407,6 +391,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Registraion.Freelance
 				Assert.Ignore("Файл TestUsers.xml с тестовыми пользователями отсутствует или нет данных о юзере");
 			}
 				RegisterUserWithExistAccount(TestUserList[userNumber].login, TestUserList[userNumber].password);
-			}
 		}
+
+	}
 }

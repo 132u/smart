@@ -1,10 +1,11 @@
 ﻿using NUnit.Framework;
 using System.Threading;
 using System;
+using AbbyyLS.CAT.Function.Selenium.Tests.RegistrationTests;
 
-namespace AbbyyLS.CAT.Function.Selenium.Tests.Registraion.Company
+namespace AbbyyLS.CAT.Function.Selenium.Tests.Registration.Company
 {
-	internal class CompanyRegistrationTest : AdminTest
+	internal class CompanyRegistrationTest : RegistrationBaseTest
 	{
 
 		/// <summary>
@@ -398,6 +399,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Registraion.Company
 			RegistrationPage.GoToLoginPageWithExistAccount();
 			RegisterAsExistUserWithInCorrectPassword(RegistrationPage.Email, RegistrationPage.Password);
 		}
+
 		/// <summary>
 		/// Метод проверки активности кнопки Create Company Account 
 		/// </summary>
@@ -405,44 +407,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Registraion.Company
 		{
 			RegistrationPage.ClickCreateAccountCompanyBtn();
 			return !WorkspacePage.WaitPageLoad();
-		}
-
-		/// <summary>
-		/// Метод - заполнение полей на втором шаге регистрации
-		/// </summary>
-		/// <param name="firstName">имя</param>
-		/// <param name="lastName">фамилия</param>
-		/// <param name="companyName">название компании</param>
-		/// <param name="domainName">имя домена</param>
-		/// <param name="optionCompanyType">номер опции в комбобоксе тип компании</param>
-		public void FillAllFieldsSecondStepCompanyRegistration(string firstName, string lastName, string companyName, string domainName, string phoneNumber, CompanyType companyType = CompanyType.LanguageServiceProvider)
-		{
-			RegistrationPage.FillFirstNameCompany(firstName);
-			RegistrationPage.FillLastNameCompany(lastName);
-			RegistrationPage.FillNameCompany(companyName);
-			RegistrationPage.FillDomainNameCompany(domainName);
-			RegistrationPage.FillPhoneNumberCompany(phoneNumber);
-			RegistrationPage.SelectCompanyType((int)companyType);
-		}
-
-		/// <summary>
-		/// Метод - регистрация , как существующий пользователь по ссылке "your ABBYY Online account"
-		/// </summary>
-		public void RegisterAsExistUserWithCorrectPassword(string email, string password)
-		{
-			RegistrationPage.TypeTextInEmailFieldSignIn(email);
-			RegistrationPage.TypeTextInPasswordFieldSignIn(password);
-			RegistrationPage.ClickSignInButton();
-		}
-
-		public void RegisterAsExistUserWithInCorrectPassword(string email, string correctPassword)
-		{
-			RegistrationPage.TypeTextInEmailFieldSignIn(email);
-			RegistrationPage.TypeTextInPasswordFieldSignIn(correctPassword + "1");
-			RegistrationPage.ClickSignInButton();
-			Assert.IsTrue(
-				RegistrationPage.GetWrongPasswordMsgIsDisplay(),
-				"Ошибка: сообщение \"Wrong password\" не появилось(должно появится, тк пароль неверный)");
 		}
 
 		/// <summary>
@@ -473,7 +437,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Registraion.Company
 				(WorkspacePage.GetCompanyName() == nameCompany), "Ошибка: название компании неверно отображается в панели WS");
 			Assert.IsTrue(
 				(WorkspacePage.GetUserName() == RegistrationPage.FirstName + " " + RegistrationPage.LastName), "Ошибка: имя представителя компании неверно отображается в панели WS");
-
 		}
 
 		/// <summary>
@@ -501,31 +464,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Registraion.Company
 			Thread.Sleep(10);
 			Assert.IsTrue(
 				(WorkspacePage.GetCompanyName() == nameCompany), "Ошибка: название компании неверно отображается в панели WS");
-			Assert.IsTrue(
-				(WorkspacePage.GetUserName() == RegistrationPage.FirstName + " " + RegistrationPage.LastName), "Ошибка: имя представителя компании неверно отображается в панели WS");
-		}
-
-		public void RegisterNewUserWithCompanyAndCheckWS(string email,string password)
-		{
-			// Переход на страницу регистрации компании
-			GoToRegistrationPage(RegistrationType.Company);
-			// Заполняем все поля на первом шаге регистрации компании
-			RegistrationPage.FillRegistrationDataInFirstStep(email, password, password);
-			// Нажимаем кнопку Sign Up
-			RegistrationPage.ClickSignUpButton();
-			// Заполняем все поля на втором шаге регистрации компании
-			FillAllFieldsSecondStepCompanyRegistration(
-				RegistrationPage.FirstName,
-				RegistrationPage.LastName,
-				RegistrationPage.NameCompany,
-				RegistrationPage.DomainName,
-				"123123213123213");
-			RegistrationPage.ClickCreateAccountCompanyBtn();
-			WorkspacePage.ClickAccount();
-			Thread.Sleep(15);
-			Console.WriteLine("WorkspacePage.GetCompanyName() NEWUSER= " + WorkspacePage.GetCompanyName() + " ; \n RegistrationPage.nameCompany NEW USER = " + RegistrationPage.NameCompany);
-			Assert.IsTrue(
-				(WorkspacePage.GetCompanyName() == RegistrationPage.NameCompany), "Ошибка: название компании неверно отображается в панели WS");
 			Assert.IsTrue(
 				(WorkspacePage.GetUserName() == RegistrationPage.FirstName + " " + RegistrationPage.LastName), "Ошибка: имя представителя компании неверно отображается в панели WS");
 		}

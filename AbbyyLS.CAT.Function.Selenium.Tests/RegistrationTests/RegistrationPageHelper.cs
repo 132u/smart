@@ -435,6 +435,24 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			return GetIsElementDisplay(By.XPath(WRONG_PASSWORD));
 		}
 
+		/// <summary>
+		/// Проверить, что поле для ввода капчи и сообщение "Введите символы на картинке" появились
+		/// </summary>
+		public bool GetCaptchaIsDisplayed()
+		{
+			return (GetIsElementDisplay(By.XPath(CAPTCHA_LABEL)) && GetIsElementDisplay(By.XPath(CAPTCHA_INPUT)));
+
+		}
+
+
+		/// <summary>
+		/// Кликнуть Sign out на странице corp-reg (2й шаг)
+		/// </summary>
+		public void ClickSignOutBtn()
+		{
+			ClickElement(By.XPath(SIGN_OUT_BTN));
+		}
+
 		protected const string FIRST_NAME_COMPANY = ".//input[@id='firstname']";
 		protected const string LAST_NAME_COMPANY = ".//input[@id='lastname']";
 		protected const string COMPANY_NAME_COMPANY = ".//input[@id='company']";
@@ -445,5 +463,9 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		protected const string OPTION_IN_COMPANY_TYPE_DD = "//option[@value='";
 		protected const string LOGIN_LINK_FROM_MSG = "//a[@ng-click='showSignIn()' and text()='log in']";
 		protected const string WRONG_PASSWORD = "//p[@class='help-block ng-scope']";
+		protected const string CAPTCHA_LABEL = "//label[@for='captcha']";
+		protected const string CAPTCHA_INPUT = "//input[@id='captcha']";
+		protected const string SIGN_OUT_BTN = "//a[@id='btn-signout']"; // кнопка Sign out на странице corp-reg (2й шаг)
+
 	}
 }
