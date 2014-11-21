@@ -13,6 +13,7 @@ using System.Drawing.Imaging;
 using NConfiguration;
 using System.Text.RegularExpressions;
 using NLog;
+using OpenQA.Selenium.IE;
 
 namespace AbbyyLS.CAT.Function.Selenium.Tests
 {
@@ -21,7 +22,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 	/// </summary>
 
 	[TestFixture("Firefox")]
-
+	[TestFixture("IE")]
 	public class BaseTest
 	{
 		public static Logger Logger = LogManager.GetCurrentClassLogger();
@@ -1275,7 +1276,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			}
 			else if (BrowserName == "IE")
 			{
-				// не запускается
+				_driver = new InternetExplorerDriver();
 			}
 
 			setDriverTimeoutDefault();
