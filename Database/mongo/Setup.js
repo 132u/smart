@@ -262,3 +262,19 @@ db.Auth.Groups.insert({
         }
     ]
 });
+
+db.Billing.LicensePackages.insert({
+"_id" : CSUUID("88E80FDD-F021-4098-AF16-5E3BB3204F41"),
+    "accountId" : CSUUID("0D6E5EFC-962A-488F-AB0D-FE4C8D1F28AF"),
+	"licensesCount" : NumberInt(25),
+	"beginDate" : ISODate("2014-11-24"),
+    "endDate" : ISODate("2018-11-06"),
+    "isManuallyCreated" : true,
+    "isDemo" : false,
+    "cost" : "0.00",
+    "currencyType" : "RUB",
+    "paidPeriodIds" : [ 
+        "5472e4d340b51b0a10634589"
+    ]
+});
+
