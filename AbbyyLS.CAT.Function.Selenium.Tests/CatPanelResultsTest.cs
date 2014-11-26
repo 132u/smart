@@ -31,7 +31,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		public void Setup()
 		{
 			// Не выходить из браузера после теста
-			quitDriverAfterTest = false;
+			QuitDriverAfterTest = false;
 
 			// Переход на страницу workspace
 			GoToWorkspace();
@@ -52,7 +52,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		public void CheckMT(Workspace_CreateProjectDialogHelper.MT_TYPE mt_type)
 		{
 			// Создание проекта с файлом с ТМ без файла и с заданным МТ
-			CreateProject(ProjectName, DocumentFile, true, "", Workspace_CreateProjectDialogHelper.SetGlossary.None, "", true, mt_type, true);
+			CreateProject(ProjectName, TestFile.DocumentFile, true, "", Workspace_CreateProjectDialogHelper.SetGlossary.None, "", true, mt_type, true);
 			
 			// Открываем проект
 			OpenProjectPage(ProjectName);
@@ -91,7 +91,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			Console.WriteLine("CheckTM");
 
 			// Создание проекта с файлом с МТ с файлом
-			CreateProject(ProjectName, EditorTXTFile, true, EditorTMXFile);
+			CreateProject(ProjectName, TestFile.EditorTXTFile, true, TestFile.EditorTMXFile);
 			
 			// Открываем проект
 			OpenProjectPage(ProjectName);
@@ -140,7 +140,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			// Создание проекта с файлом
 			SwitchWorkspaceTab();
 			// Создание проекта с файлом с ТМ без файла и с заданным МТ
-			CreateProject(ProjectName, EditorTXTFile, true);
+			CreateProject(ProjectName, TestFile.EditorTXTFile, true);
 			//CreateProject(ProjectName, EditorTXTFile);
 			
 			// Открываем проект
@@ -203,7 +203,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 
 			// Создание проекта с файлом
 			SwitchWorkspaceTab();
-			CreateProject(ProjectName, EditorTXTFile, true);
+			CreateProject(ProjectName, TestFile.EditorTXTFile, true);
 			
 			// Открываем проект
 			OpenProjectPage(ProjectName);
@@ -270,7 +270,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 
 			// Создание проекта с файлом
 			SwitchWorkspaceTab();
-			CreateProject(ProjectName, EditorTXTFile, true);
+			CreateProject(ProjectName, TestFile.EditorTXTFile, true);
 			
 			// Открываем проект
 			OpenProjectPage(ProjectName);

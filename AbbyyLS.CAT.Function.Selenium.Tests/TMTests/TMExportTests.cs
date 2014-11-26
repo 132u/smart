@@ -19,7 +19,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.TM
 		{
 			// После теста с экспортом необходимо выйти из брайзера,
 			// чтобы сбросить выбор в диалоге экспорта (сохранить или открыть файл)
-			quitDriverAfterTest = true;
+			QuitDriverAfterTest = true;
 
 			// Создать ТМ
 			CreateTMByNameAndSave(UniqueTmName);
@@ -39,7 +39,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.TM
 		{
 			// После теста с экспортом необходимо выйти из брайзера,
 			// чтобы сбросить выбор в диалоге экспорта (сохранить или открыть файл)
-			quitDriverAfterTest = true;
+			QuitDriverAfterTest = true;
 
 			// Создать ТМ с загрузкой файла ТМХ
 			CreateTMWithUploadTMX(UniqueTmName, importTMXFile);

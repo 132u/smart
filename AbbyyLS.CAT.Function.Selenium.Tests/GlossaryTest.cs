@@ -28,7 +28,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		public void SetupGlossary()
 		{
 			// Не закрывать браузер
-			quitDriverAfterTest = false;
+			QuitDriverAfterTest = false;
 			// Переходим к странице глоссариев
 			GoToGlossaries();
 		}

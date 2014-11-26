@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Threading;
 using NUnit.Framework;
-using System.Collections.Generic;
 
 namespace AbbyyLS.CAT.Function.Selenium.Tests
 {
@@ -34,7 +33,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		public void Setup()
 		{
 			// Не выходить из браузера после теста
-			quitDriverAfterTest = false;
+			QuitDriverAfterTest = false;
 
 			GoToWorkspace();
 
@@ -51,7 +50,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 					glossaryName: _glossaryName);
 
 				//Открытие настроек проекта			
-				ImportDocumentProjectSettings(DocumentFile, projectNoChangesName);
+				ImportDocumentProjectSettings(TestFile.DocumentFile, projectNoChangesName);
 				//Назначение задачи на пользователя
 				AssignTask(1);
 
@@ -472,7 +471,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			// Создать проект с двумя глоссариями
 			createProjectWithTwoGlossaries();
 			//Открытие настроек проекта			
-			ImportDocumentProjectSettings(DocumentFile, _projectName2);
+			ImportDocumentProjectSettings(TestFile.DocumentFile, _projectName2);
 			//Назначение задачи на пользователя
 			AssignTask(1);
 			//Открытие документа
@@ -504,7 +503,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			// Создать проект с одним глоссарием
 			CreateProject(_projectName2, "", false, "", Workspace_CreateProjectDialogHelper.SetGlossary.ByName, _glossaryName);
 			//Открытие настроек проекта			
-			ImportDocumentProjectSettings(DocumentFile, _projectName2);
+			ImportDocumentProjectSettings(TestFile.DocumentFile, _projectName2);
 			//Назначение задачи на пользователя
 			AssignTask(1);
 			// Добавляем второй глоссарий
@@ -534,7 +533,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			// Создать проект с двумя глоссариями
 			createProjectWithTwoGlossaries();
 			//Открытие настроек проекта			
-			ImportDocumentProjectSettings(DocumentFile, _projectName2);
+			ImportDocumentProjectSettings(TestFile.DocumentFile, _projectName2);
 			//Назначение задачи на пользователя
 			AssignTask(1);
 			//Открытие документа

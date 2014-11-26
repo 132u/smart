@@ -30,7 +30,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		public void Setup()
 		{
 			// Не закрывать браузер
-			quitDriverAfterTest = false;
+			QuitDriverAfterTest = false;
 			
 			// Переходим к странице воркспейса
 			GoToClients();

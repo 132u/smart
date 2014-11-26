@@ -27,7 +27,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		public void Setup()
 		{
 			// Не выходить из браузера после теста
-			quitDriverAfterTest = false;
+			QuitDriverAfterTest = false;
 
 			// 1. Переход на страницу workspace
 			GoToWorkspace();

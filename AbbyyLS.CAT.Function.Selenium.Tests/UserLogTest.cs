@@ -157,7 +157,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			logSW = new StreamWriter(new FileStream(path + "\\EventsLog.txt", FileMode.Create));
 
 			// Не закрывать браузер
-			quitDriverAfterTest = false;
+			QuitDriverAfterTest = false;
 			// Переходим к странице воркспейса
 			GoToWorkspace();
 		}
@@ -184,7 +184,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			CreateReadyProject(
 				projectName,
 				withTM: false,
-				uploadDocument: DocumentFileToConfirm);
+				uploadDocument: TestFile.DocumentFileToConfirm);
 			// Пишем в лог
 			WriteLog(0, "Открытие документа", "-", "-");
 			// Нажать кнопку назад
@@ -207,7 +207,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			CreateReadyProject(
 				projectName,
 				withTM: false,
-				uploadDocument: DocumentFileToConfirm);
+				uploadDocument: TestFile.DocumentFileToConfirm);
 			// Пишем в лог
 			WriteLog(0, "Открытие документа", "-", "-");
 
@@ -251,7 +251,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			CreateReadyProject(
 				projectName,
 				withTM: false,
-				uploadDocument: DocumentFileToConfirm);
+				uploadDocument: TestFile.DocumentFileToConfirm);
 			// Пишем в лог
 			WriteLog(0, "Открытие документа", "-", "-");
 
@@ -286,7 +286,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			CreateReadyProject(
 				projectName,
 				withTM: false,
-				uploadDocument: DocumentFileToConfirm);
+				uploadDocument: TestFile.DocumentFileToConfirm);
 			// Пишем в лог
 			WriteLog(0, "Открытие документа", "-", "-");
 			var segmentNum = 1;
@@ -338,7 +338,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			CreateReadyProject(
 				projectName,
 				withTM: false,
-				uploadDocument: DocumentFileToConfirm);
+				uploadDocument: TestFile.DocumentFileToConfirm);
 			// Пишем в лог
 			WriteLog(0, "Открытие документа", "-", "-");
 			var segmentNum = 1;
@@ -372,7 +372,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			CreateReadyProject(
 				projectName,
 				withTM: false,
-				uploadDocument: DocumentFileToConfirm);
+				uploadDocument: TestFile.DocumentFileToConfirm);
 			// Пишем в лог
 			WriteLog(0, "Открытие документа", "-", "-");
 
@@ -408,7 +408,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			CreateReadyProject(
 				projectName,
 				withTM: false,
-				uploadDocument: DocumentFileToConfirm);
+				uploadDocument: TestFile.DocumentFileToConfirm);
 			// Пишем в лог
 			WriteLog(0, "Открытие документа", "-", "-");
 
@@ -530,7 +530,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 				projectName,
 				withTM: false,
 				withMT: false,
-				uploadDocument: DocumentFileToConfirm);
+				uploadDocument: TestFile.DocumentFileToConfirm);
 			// Пишем в лог
 			WriteLog(0, "Открытие документа", "-", "-");
 			var segmentNum = 1;
@@ -561,7 +561,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 				projectName,
 				withTM: false,
 				withMT: false,
-				uploadDocument: DocumentFileToConfirm);
+				uploadDocument: TestFile.DocumentFileToConfirm);
 			// Пишем в лог
 			WriteLog(0, "Открытие документа", "-", "-");
 			var segmentNum = 1;
@@ -723,7 +723,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		public void EmptyLogTest()
 		{
 			// Создание проекта
-			CreateProject(projectName, DocumentFile);
+			CreateProject(projectName, TestFile.DocumentFile);
 			// Открыть проект
 			OpenProjectPage(projectName);
 

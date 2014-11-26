@@ -19,7 +19,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.TM
 		{
 			CreateTMByNameAndSave(UniqueTmName);
 			// Загрузить ТМХ по кнопке в информации о ТМ
-			UploadDocumentToTMbyButton(UniqueTmName, TMPageHelper.TM_BTN_TYPE.Add, SecondTmFile);
+			UploadDocumentToTMbyButton(UniqueTmName, TMPageHelper.TM_BTN_TYPE.Add, TestFile.SecondTmFile);
 			// Получить количество сегментов
 			int segmentCount = GetSegmentCount(UniqueTmName);
 			// Если количество сегментов = 0, возможно, не обновилась страница - принудительно обновить
@@ -40,13 +40,13 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.TM
 		public void AddTMXExistingTMButtonTest()
 		{
 			// Создать ТМ и загрузить ТМХ файл
-			CreateTMWithUploadTMX(UniqueTmName, EditorTMXFile);
+			CreateTMWithUploadTMX(UniqueTmName, TestFile.EditorTMXFile);
 
 			// Получить количество сегментов
 			int segCountBefore = GetSegmentCount(UniqueTmName);
 
 			// Загрузить TMX файл
-			UploadDocumentToTMbyButton(UniqueTmName, TMPageHelper.TM_BTN_TYPE.Add, SecondTmFile);
+			UploadDocumentToTMbyButton(UniqueTmName, TMPageHelper.TM_BTN_TYPE.Add, TestFile.SecondTmFile);
 			// Получить количество сегментов после загрузки TMX
 			int segCountAfter = GetSegmentCount(UniqueTmName);
 

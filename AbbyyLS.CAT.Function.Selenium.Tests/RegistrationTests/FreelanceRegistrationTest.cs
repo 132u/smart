@@ -1,4 +1,5 @@
-﻿using NUnit.Framework;
+﻿using AbbyyLS.CAT.Function.Selenium.Tests.CommonDataStructures;
+using NUnit.Framework;
 using AbbyyLS.CAT.Function.Selenium.Tests.RegistrationTests;
 
 namespace AbbyyLS.CAT.Function.Selenium.Tests.Registration.Freelance
@@ -265,7 +266,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Registration.Freelance
 			   RegistrationPage.Password,
 			   RegistrationPage.Password);
 			RegistrationPage.ClickSignUpButton();
-			ImportPhoto(PhotoLoad + photo);
+			ImportPhoto(TestFile.PhotoLoad + photo);
 			if (format)
 			{
 				Assert.IsFalse(RegistrationPage.WrongFormatLabelISDisplay(), "Ошибка: Надпись Wrong Format появилась(не должна появляться)");
@@ -390,7 +391,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Registration.Freelance
 			{
 				Assert.Ignore("Файл TestUsers.xml с тестовыми пользователями отсутствует или нет данных о юзере");
 			}
-				RegisterUserWithExistAccount(TestUserList[userNumber].login, TestUserList[userNumber].password);
+				RegisterUserWithExistAccount(TestUserList[userNumber].Login, TestUserList[userNumber].Password);
 		}
 
 	}

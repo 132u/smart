@@ -33,18 +33,23 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Editor.Revisions
 		public void SetupTest()
 		{
 			// Не выходить из браузера после теста
-			quitDriverAfterTest = false;
+			QuitDriverAfterTest = false;
 
 			if (!_projectCreated)
 			{
 				GoToWorkspace();
 
 				// создаем документ с нужным файлом, нужной ТМ, подкючаем МТ и глоссарий
-				CreateProject(_projectNameRevisionsTest, LongTxtFile,
-				true, LongTmxFile,
-				Workspace_CreateProjectDialogHelper.SetGlossary.None, "",
-				true, Workspace_CreateProjectDialogHelper.MT_TYPE.DefaultMT,
-				false);
+				CreateProject(
+					_projectNameRevisionsTest, 
+					TestFile.LongTxtFile,
+					true, 
+					TestFile.LongTmxFile,
+					Workspace_CreateProjectDialogHelper.SetGlossary.None, 
+					"",
+					true,
+					Workspace_CreateProjectDialogHelper.MT_TYPE.DefaultMT,
+					false);
 
 				Thread.Sleep(2000);
 

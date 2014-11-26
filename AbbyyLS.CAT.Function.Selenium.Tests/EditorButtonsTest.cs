@@ -43,7 +43,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		public void Setup()
 		{
 			// Не выходить из браузера после теста
-			quitDriverAfterTest = false;
+			QuitDriverAfterTest = false;
 
 			// 1. Переход на страницу workspace
 			GoToWorkspace();
@@ -54,21 +54,31 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			if (TestContext.CurrentContext.Test.Name.Contains("PreviousStage"))
 			{
 				// Создание проекта с уникальным именем
-				CreateProjectIfNotCreated(ProjectName, EditorTXTFile, false, "", Workspace_CreateProjectDialogHelper.SetGlossary.None, "", true, Workspace_CreateProjectDialogHelper.MT_TYPE.DefaultMT);
+				CreateProjectIfNotCreated(
+					ProjectName, 
+					TestFile.EditorTXTFile, 
+					false, 
+					"", 
+					Workspace_CreateProjectDialogHelper.SetGlossary.None, 
+					"", 
+					true, 
+					Workspace_CreateProjectDialogHelper.MT_TYPE.DefaultMT);
 				// Открытие настроек проекта
 				WorkspacePage.OpenProjectPage(ProjectName);
 			}
 			else if (TestContext.CurrentContext.Test.Name.Contains("Tag"))
 			{
 				// Создание проекта с уникальным именем
-				CreateProjectIfNotCreated(ProjectName, DocumentFile);
+				CreateProjectIfNotCreated(ProjectName, TestFile.DocumentFile);
 				// Открытие настроек проекта
 				WorkspacePage.OpenProjectPage(ProjectName);
 			}
 			else
 			{
 				// Создание проекта с неизменяемым именем, для проведения нескольких тестов
-				CreateProjectIfNotCreated(_projectNoChangesName, EditorTXTFile);
+				CreateProjectIfNotCreated(
+					_projectNoChangesName, 
+					TestFile.EditorTXTFile);
 				// Открытие настроек проекта
 				WorkspacePage.OpenProjectPage(_projectNoChangesName);
 			}

@@ -1,4 +1,5 @@
-﻿using AbbyyLS.CAT.Function.Selenium.Tests.RegistrationTests;
+﻿using AbbyyLS.CAT.Function.Selenium.Tests.CommonDataStructures;
+using AbbyyLS.CAT.Function.Selenium.Tests.RegistrationTests;
 using NUnit.Framework;
 
 namespace AbbyyLS.CAT.Function.Selenium.Tests.Registration.Captcha

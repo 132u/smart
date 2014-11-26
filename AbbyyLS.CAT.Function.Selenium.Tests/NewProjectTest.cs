@@ -53,10 +53,10 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			_xliffTC10 = Path.Combine(PathTestFiles, "TC-10En.xliff");
 
 			ResultFilePath = Path.Combine(PathTestFiles, "Result");
-			_exportFilePath = DocumentFileToConfirm;
+			_exportFilePath = TestFile.DocumentFileToConfirm;
 
 			// Не закрывать браузер
-			quitDriverAfterTest = false;
+			QuitDriverAfterTest = false;
 
 			// Переходим к странице воркспейса
 			GoToWorkspace();

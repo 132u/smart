@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Threading;
+using AbbyyLS.CAT.Function.Selenium.Tests.CommonDataStructures;
+using AbbyyLS.CAT.Function.Selenium.Tests.CommonHelpers;
 using AbbyyLS.CAT.Function.Selenium.Tests.Workspace.TM;
 using NUnit.Framework;
 using OpenQA.Selenium;
@@ -25,96 +27,31 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 	[TestFixture("IE")]
 	public class BaseTest
 	{
+
 		public static Logger Logger = LogManager.GetCurrentClassLogger();
+
 		/// <summary>
 		/// Конструктор базового теста
 		/// </summary>
 		/// <param name="browserName">Название браузера</param>
 		public BaseTest(string browserName)
 		{
+
 			try
 			{
 				var cfgAgentSpecific = TestSettingDefinition.Instance.Get<TargetServerConfig>();
 				var cfgUserInfo = TestSettingDefinition.Instance.Get<UserInfoConfig>();
 				var cfgRoot = TestSettingDefinition.Instance.Get<FilesRootCfg>();
-				_browserName = browserName;
-				_url = "https://" + cfgAgentSpecific.Url;
-				_workspaceUrl = cfgAgentSpecific.Workspace;
-				if (string.IsNullOrWhiteSpace(_workspaceUrl))
-					_workspaceUrl = "https://" + cfgAgentSpecific.Url + "/workspace";
-				_adminUrl = "http://" + cfgAgentSpecific.Url + ":81";
 
+				BrowserName = browserName;
+				TestFile = new TestFile(cfgRoot);
+				PathTestFiles = cfgRoot.Root;
 
 				createDriver();
-
-
-				_login = cfgUserInfo.Login;
-				_password = cfgUserInfo.Password;
-				_userName = cfgUserInfo.UserName;
-
-				_login2 = cfgUserInfo.Login2;
-				_password2 = cfgUserInfo.Password2;
-				_userName2 = cfgUserInfo.UserName2;
-
-				_deadlineDate = "03/03/2016";
-				_documentFile = Path.GetFullPath(cfgRoot.Root + "/littleEarth.docx");
-				_documentFileToConfirm = Path.GetFullPath(cfgRoot.Root + "/FilesForConfirm/testToConfirm.txt");
-				_documentFileToConfirm2 = Path.GetFullPath(cfgRoot.Root + "/FilesForConfirm/testToConfirm2.txt");
-
-				_constTmName = "TestTM";
-				_glossaryName = "TestGlossary";
-				_projectNameExportTestOneDoc = "TestProjectTestExportOneDocumentUniqueName";
-				_projectNameExportTestMultiDoc = "TestProjectTestExportMultiDocumentsUniqueName";
-
 				CreateUniqueNamesByDatetime();
-
-				_pathTestFiles = cfgRoot.Root;
-
-				_editorTXTFile = Path.GetFullPath(cfgRoot.Root + "/FileForTestTM/textWithoutTags.txt");
-				_editorTMXFile = Path.GetFullPath(cfgRoot.Root + "/FileForTestTM/textWithoutTags.tmx");
-
-				_longTxtFile = Path.GetFullPath(cfgRoot.Root + "/LongTxtTmx/LongText.txt");
-				_longTmxFile = Path.GetFullPath(cfgRoot.Root + "/LongTxtTmx/LongTM.tmx");
-
-				_tmFile = Path.GetFullPath(cfgRoot.Root + "/Earth.tmx");
-				_secondTmFile = Path.GetFullPath(cfgRoot.Root + "/TextEngTestAddTMX.tmx");
-				_importGlossaryFile = Path.GetFullPath(cfgRoot.Root + "/TestGlossary.xlsx");
-				_imageFile = Path.GetFullPath(cfgRoot.Root + "/TestImage.jpg");
-				_audioFile = Path.GetFullPath(cfgRoot.Root + "/TestAudio.mp3");
-				_rtfFile = Path.GetFullPath(cfgRoot.Root + "/rtf1.rtf");
-				_txtFileForMatchTest = Path.GetFullPath(cfgRoot.Root + "/FilesForMatchTest/TxtFileForMatchTest.docx");
-				_tmxFileForMatchTest = Path.GetFullPath(cfgRoot.Root + "/FilesForMatchTest/TmxFileForMatchTest.tmx");
-				_photoLoad = Path.GetFullPath(cfgRoot.Root + "/FilesForLoadPhotoInRegistration/");
-				_testUserFile = Path.GetFullPath(cfgRoot.RootToConfig + "/TestUsers.xml");
-			
-				if (TestUserFileExist())
-				{
-					var _cfgTestUser = TestSettingDefinition.Instance.Get<TestUserConfig>();
-					var _cfgTestCompany = TestSettingDefinition.Instance.Get<TestUserConfig>();
-
-					_testUserList = new List<UserInfo>();
-					_testCompanyList = new List<UserInfo>();
-
-					// Добавление пользователей в _testUserList из конфига
-					foreach (var user in _cfgTestUser.Users)
-					{
-						_testUserList.Add(
-							new UserInfo(
-								user.Login, 
-								user.Password, 
-								user.Activated));
-					}
-
-
-					foreach (var user in _cfgTestCompany.Companies)
-					{
-						_testCompanyList.Add(
-							new UserInfo(
-								user.Login, 
-								user.Password, 
-								user.Activated));
-					}
-				}
+				initializeRelatedToServerFields(cfgAgentSpecific);
+				initializeRelatedToUserFields(cfgUserInfo);
+				initializeUsersAndCompanyList();
 			}
 			catch (Exception ex)
 			{
@@ -122,996 +59,121 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 				throw;
 			}
 		}
-		public enum RegistrationType
-		{
-			User,
-			Company
-		}
+		
 
-		public enum RegistrationField
-		{
-			FirstName,
-			LastName,
-			CompanyName,
-			DomainName,
-			PhoneNumber,
-			CompanyType
-		}
+		protected IWebDriver Driver { get; private set; }
 
+		protected WebDriverWait Wait { get; private set; }
 
-		/// <summary>
-		/// Перечисление типов компании (в комбобоксе на 2ом шаге регистрации)
-		/// </summary>
-		public enum CompanyType
-		{
-			TranslationDepartment = 0,
-			LanguageServiceProvider = 1,
-		}
+		protected string Url { get; private set; }
 
-		public bool TestUserFileExist()
-		{
-			return File.Exists(_testUserFile);
-		}
+		protected string WorkspaceUrl { get; private set; }
+		
+		protected string AdminUrl { get; private set; }
 
-		/// <summary>
-		/// Файл со списком пользователей , имеющие аккаунты на аол/курсера/передем
-		/// </summary>
-		private string _testUserFile;
-		/// <summary>
-		///  Файл со списком пользователей , имеющие аккаунты на аол/курсера/передем
-		/// </summary>
-		protected string TestUserFile
-		{
-			get
-			{
-				return _testUserFile;
-			}
-		}
-		/// <summary>
-		/// WebDriver
-		/// </summary>
-		private IWebDriver _driver;
-		/// <summary>
-		/// WebDriver
-		/// </summary>
-		protected IWebDriver Driver
-		{
-			get
-			{
-				return _driver;
-			}
-			set
-			{
-				_driver = value;
-			}
-		}
+		protected string Login { get; private set; }
 
-		/// <summary>
-		/// Wait
-		/// </summary>
-		private WebDriverWait _wait;
-		/// <summary>
-		/// Wait
-		/// </summary>
-		protected WebDriverWait Wait
-		{
-			get
-			{
-				return _wait;
-			}
-		}
+		protected string Password { get; private set; }
 
-		/// <summary>
-		/// Профиль
-		/// </summary>
-		private FirefoxProfile _profile;
+		protected string UserName { get; private set; }
 
-		/// <summary>
-		/// Url
-		/// </summary>
-		private string _url;
-		/// <summary>
-		/// Url
-		/// </summary>
-		protected string Url
-		{
-			get
-			{
-				return _url;
-			}
-		}
+		protected string Login2 { get; private set; }
 
-		/// <summary>
-		/// Url workspace
-		/// </summary>
-		private string _workspaceUrl;
-		/// <summary>
-		/// Url workspace
-		/// </summary>
-		protected string workspaceUrl
-		{
-			get
-			{
-				return _workspaceUrl;
-			}
-		}
+		protected string Password2 { get; private set; }
 
-		/// <summary>
-		/// URL соответствующей админки
-		/// </summary>
-		private string _adminUrl;
-		/// <summary>
-		/// URL соответствующей админки
-		/// </summary>
-		protected string AdminUrl
-		{
-			get
-			{
-				return _adminUrl;
-			}
-		}
+		protected string UserName2 { get; private set; }
 
-		/// <summary>
-		/// Логин пользователя
-		/// </summary>
-		private string _login;
-		/// <summary>
-		/// Логин пользователя
-		/// </summary>
-		protected string Login
-		{
-			get
-			{
-				return _login;
-			}
-		}
+		protected List<UserInfo> TestUserList { get; private set; }
 
-		/// <summary>
-		/// Пароль пользователя
-		/// </summary>
-		private string _password;
-		/// <summary>
-		/// Пароль пользователя
-		/// </summary>
-		protected string Password
-		{
-			get
-			{
-				return _password;
-			}
-		}
+		protected List<UserInfo> TestCompanyList { get; private set; }
 
-		/// <summary>
-		/// Имя пользователя
-		/// </summary>
-		private string _userName;
-		/// <summary>
-		/// Имя пользователя
-		/// </summary>
-		protected string UserName
-		{
-			get
-			{
-				return _userName;
-			}
-		}
+		protected string ProjectName { get; private set; }
 
-		/// <summary>
-		/// Логин второго пользователя
-		/// </summary>
-		private string _login2;
-		/// <summary>
-		/// Логин второго пользователя
-		/// </summary>
-		protected string Login2
-		{
-			get
-			{
-				return _login2;
-			}
-		}
-
-		/// <summary>
-		/// Пароль второго пользователя
-		/// </summary>
-		private string _password2;
-		/// <summary>
-		/// Пароль второго пользователя
-		/// </summary>
-		protected string Password2
-		{
-			get
-			{
-				return _password2;
-			}
-		}
-
-		/// <summary>
-		/// Имя второго пользователя
-		/// </summary>
-		private string _userName2;
-		/// <summary>
-		/// Имя второго пользователя
-		/// </summary>
-		protected string UserName2
-		{
-			get
-			{
-				return _userName2;
-			}
-		}
-
-		private List<UserInfo> _testUserList;
-		protected List<UserInfo> TestUserList
-		{
-			get
-			{
-				return _testUserList;
-			}
-		}
-
-		private List<UserInfo> _testCompanyList;
-		protected List<UserInfo> TestCompanyList
-		{
-			get
-			{
-				return _testCompanyList;
-			}
-		}
-		/// <summary>
-		/// Уникальное для теста название проекта
-		/// </summary>
-		private string _projectName;
-		/// <summary>
-		/// Уникальное для теста название проекта
-		/// </summary>
-		protected string ProjectName
-		{
-			get
-			{
-				return _projectName;
-			}
-		}
-
-		/// <summary>
-		/// Общее/постоянное название ТМ
-		/// </summary>
-		private string _constTmName;
-		/// <summary>
-		/// Общее/постоянное название ТМ
-		/// </summary>
-		protected string ConstTMName
-		{
-			get
-			{
-				return _constTmName;
-			}
-		}
-
-		/// <summary>
-		/// Общая часть названия глоссария
-		/// </summary>
-		private string _glossaryName;
-		/// <summary>
-		/// Общая часть названия глоссария
-		/// </summary>
-		protected string GlossaryName
-		{
-			get
-			{
-				return _glossaryName;
-			}
-		}
-
-		/// <summary>
-		/// Path результатов теста
-		/// </summary>
 		protected string PathTestResults
 		{
 			get
 			{
-				var directoryInfo =
-					Directory.GetParent(@"..\TestResults\");
 
-				return directoryInfo.ToString();
+				return Directory.GetParent(@"..\TestResults\").ToString();
 			}
 		}
 
-		/// <summary>
-		/// Путь к файлам для тестирования, взятый из AgentSpecific.xml
-		/// </summary>
-		private string _pathTestFiles;
-
-		/// <summary>
-		/// Path файлов для тестирования
-		/// </summary>
 		public string PathTestFiles
 		{
 			get
 			{
-				return Directory.GetParent(
-					string.Concat(
-						_pathTestFiles, 
-						Path.DirectorySeparatorChar))
-					.ToString();
+				return _pathTestFiles;
+			}
+
+			private set
+			{
+				_pathTestFiles = Directory.GetParent(string.Concat(value, Path.DirectorySeparatorChar)).ToString();
 			}
 		}
 		
-		/// <summary>
-		/// Общее имя проекта с одним документом
-		/// </summary>
-		private string _projectNameExportTestOneDoc;
-		/// <summary>
-		/// Общее имя проекта с одним документом
-		/// </summary>
-		protected string ProjectNameExportTestOneDoc
-		{
-			get
-			{
-				return _projectNameExportTestOneDoc;
-			}
-		}
+		protected TestFile TestFile { get; private set; }
 
-		/// <summary>
-		/// Общее имя проекта с несколькими документами
-		/// </summary>
-		private string _projectNameExportTestMultiDoc;
-		/// <summary>
-		/// Общее имя проекта с несколькими документами
-		/// </summary>
-		protected string ProjectNameExportTestMultiDoc
-		{
-			get
-			{
-				return _projectNameExportTestMultiDoc;
-			}
-		}
+		protected string TxtFileForMatchTest { get; private set; }
 
-		/// <summary>
-		/// Deadline дата в английской локали
-		/// </summary>
-		private string _deadlineDate;
-		/// <summary>
-		/// Deadline дата в английской локали
-		/// </summary>
-		protected string DeadlineDate
-		{
-			get
-			{
-				return _deadlineDate;
-			}
-		}
+		protected string BrowserName { get; private set; }
 
-		/// <summary>
-		/// Полный путь к документу для загрузки
-		/// </summary>
-		private string _documentFile;
-		/// <summary>
-		/// Полный путь к документу для загрузки
-		/// </summary>
-		protected string DocumentFile
-		{
-			get
-			{
-				return _documentFile;
-			}
-		}
+		protected ProjectPageHelper ProjectPage { get; private set; }
 
-		///// <summary>
-		///// Полный путь к документу тестовых юзеров
-		///// </summary>
-		//private string _testUserFile;
-		///// <summary>
-		///// Полный путь к документу тестовых юзеров
-		///// </summary>
-		//protected string TestUserFile
-		//{
-		//	get
-		//	{
-		//		return _testUserFile;
-		//	}
-		//}
-		/// <summary>
-		/// Полный путь к документу без тегов
-		/// </summary>
-		private string _documentFileToConfirm;
-		/// <summary>
-		/// Полный путь к документу без тегов
-		/// </summary>
-		protected string DocumentFileToConfirm
-		{
-			get
-			{
-				return _documentFileToConfirm;
-			}
-		}
+		protected EditorPageHelper EditorPage { get; private set; }
 
-		/// <summary>
-		/// Полный путь ко второму документу без тегов
-		/// </summary>
-		private string _documentFileToConfirm2;
-		/// <summary>
-		/// Полный путь ко второму документу без тегов
-		/// </summary>
-		protected string DocumentFileToConfirm2
-		{
-			get
-			{
-				return _documentFileToConfirm2;
-			}
-		}
+		protected LoginPageHelper LoginPage { get; private set; }
 
-		/// <summary>
-		/// Полный путь к файлу TMX
-		/// </summary>
-		private string _tmFile;
-		/// <summary>
-		/// Полный путь к файлу TMX
-		/// </summary>
-		protected string TmFile
-		{
-			get
-			{
-				return _tmFile;
-			}
-		}
+		protected WorkSpacePageHelper WorkspacePage { get; private set; }
 
-		/// <summary>
-		/// Полный путь ко второму файлу TMX
-		/// </summary>
-		private string _secondTmFile;
-		/// <summary>
-		/// Полный путь ко второму файлу TMX
-		/// </summary>
-		protected string SecondTmFile
-		{
-			get
-			{
-				return _secondTmFile;
-			}
-		}
+		protected Workspace_CreateProjectDialogHelper WorkspaceCreateProjectDialog { get; private set; }
 
-		/// <summary>
-		/// Полный путь к файлу TXT для работы в редакторе
-		/// </summary>
-		private string _editorTXTFile;
-		/// <summary>
-		/// Полный путь к файлу TXT для работы в редакторе
-		/// </summary>
-		protected string EditorTXTFile
-		{
-			get
-			{
-				return _editorTXTFile;
-			}
-		}
+		protected MainHelper MainHelperClass { get; private set; }
 
-		/// <summary>
-		/// Полный путь к файлу TXT из 25 строк для работы в редакторе
-		/// </summary>
-		private string _longTxtFile;
-		/// <summary>
-		/// Полный путь к файлу TXT из 25 строк для работы в редакторе
-		/// </summary>
-		protected string LongTxtFile
-		{
-			get
-			{
-				return _longTxtFile;
-			}
-		}
+		protected DomainPageHelper DomainPage { get; private set; }
 
-		/// <summary>
-		/// Полный путь к файлу TMX для работы в редакторе
-		/// </summary>
-		private string _editorTMXFile;
-		/// <summary>
-		/// Полный путь к файлу TMX для работы в редакторе
-		/// </summary>
-		protected string EditorTMXFile
-		{
-			get
-			{
-				return _editorTMXFile;
-			}
-		}
+		protected TMPageHelper TMPage { get; private set; }
 
-		/// <summary>
-		/// Полный путь к файлу TMX для longTxt 
-		/// </summary>
-		private string _longTmxFile;
-		/// <summary>
-		/// Полный путь к файлу TMX для longTxt
-		/// </summary>
-		protected string LongTmxFile
-		{
-			get
-			{
-				return _longTmxFile;
-			}
-		}
+		protected GlossaryListPageHelper GlossaryListPage { get; private set; }
 
-		/// <summary>
-		/// Полный путь к RTF
-		/// </summary>
-		private string _rtfFile;
-		/// <summary>
-		/// Полный путь к RTF
-		/// </summary>
-		protected string RtfFile
-		{
-			get
-			{
-				return _rtfFile;
-			}
-		}
-		/// <summary>
-		/// Полный путь к Txt для match теста
-		/// </summary>
-		private string _txtFileForMatchTest;
-		/// <summary>
-		/// Полный путь к Txt для match теста
-		/// </summary>
-		protected string TxtFileForMatchTest
-		{
-			get
-			{
-				return _txtFileForMatchTest;
-			}
-		}
-		/// <summary>
-		/// Полный путь к Tmx для match теста
-		/// </summary>
-		private string _tmxFileForMatchTest;
-		/// <summary>
-		/// Полный путь к Tmx для match теста
-		/// </summary>
-		protected string TmxFileForMatchTest
-		{
-			get
-			{
-				return _tmxFileForMatchTest;
-			}
-		}
-		/// <summary>
-		/// Полный путь к файлу для импорта глоссария
-		/// </summary>
-		private string _importGlossaryFile;
-		/// <summary>
-		/// Полный путь к файлу для импорта глоссария
-		/// </summary>
-		protected string ImportGlossaryFile
-		{
-			get
-			{
-				return _importGlossaryFile;
-			}
-		}
+		protected GlossaryPageHelper GlossaryPage { get; private set; }
 
-		/// <summary>
-		/// Путь к изображению
-		/// </summary>
-		private string _imageFile;
-		/// <summary>
-		/// Путь к изображению
-		/// </summary>
-		protected string ImageFile
-		{
-			get
-			{
-				return _imageFile;
-			}
-		}
+		protected SearchPageHelper SearchPage { get; private set; }
 
-		/// <summary>
-		/// Путь к аудиофайлу (медиа)
-		/// </summary>
-		private string _audioFile;
-		/// <summary>
-		/// Путь к аудиофайлу (медиа)
-		/// </summary>
-		protected string AudioFile
-		{
-			get
-			{
-				return _audioFile;
-			}
-		}
+		protected ClientPageHelper ClientPage { get; private set; }
 
-		/// <summary>
-		/// Имя браузера
-		/// </summary>
-		private string _browserName;
-		/// <summary>
-		/// Имя браузера
-		/// </summary>
-		protected string BrowserName
-		{
-			get
-			{
-				return _browserName;
-			}
-		}
+		protected AdminPageHelper AdminPage { get; private set; }
 
+		protected GlossaryEditStructureFormHelper GlossaryEditStructureForm { get; private set; }
 
-		/// <summary>
-		/// Полный путь к фото для загрузки на стр регистрации
-		/// </summary>
-		private string _photoLoad;
-		/// <summary>
-		/// Полный путь к фото для загрузки на стр регистрации
-		/// </summary>
-		protected string PhotoLoad
-		{
-			get
-			{
-				return _photoLoad;
-			}
-		}
+		protected DictionaryPageHelper DictionaryPage { get; private set; }
 
-		/// <summary>
-		/// Страница с проектом
-		/// </summary>
-		private ProjectPageHelper _projectPageHelper;
-		/// <summary>
-		/// Страница с проектом
-		/// </summary>
-		protected ProjectPageHelper ProjectPage
-		{
-			get
-			{
-				return _projectPageHelper;
-			}
-		}
+		protected Editor_RevisionPageHelper RevisionPage { get; private set; }
 
-		/// <summary>
-		/// Страница редактора
-		/// </summary>
-		private EditorPageHelper _editorPageHelper;
-		/// <summary>
-		/// Страница редактора
-		/// </summary>
-		protected EditorPageHelper EditorPage
-		{
-			get
-			{
-				return _editorPageHelper;
-			}
-		}
+		protected UserRightsPageHelper UserRightsPage { get; private set; }
 
-		/// <summary>
-		/// Страница входа (Login)
-		/// </summary>
-		private LoginPageHelper _loginPageHelper;
-		/// <summary>
-		/// Страница входа (Login)
-		/// </summary>
-		protected LoginPageHelper LoginPage
-		{
-			get
-			{
-				return _loginPageHelper;
-			}
-		}
+		protected SuggestTermDialogHelper SuggestTermDialog { get; private set; }
 
-		/// <summary>
-		/// Страница со списком проектов (Workspace)
-		/// </summary>
-		private WorkSpacePageHelper _workspacePageHelper;
-		/// <summary>
-		/// Страница со списком проектов (Workspace)
-		/// </summary>
-		protected WorkSpacePageHelper WorkspacePage
-		{
-			get
-			{
-				return _workspacePageHelper;
-			}
-		}
+		protected GlossaryEditFormHelper GlossaryEditForm { get; private set; }
 
-		/// <summary>
-		/// Диалог создания проекта
-		/// </summary>
-		private Workspace_CreateProjectDialogHelper _workspaceCreateProjectHelper;
-		/// <summary>
-		/// Диалог создания проекта
-		/// </summary>
-		protected Workspace_CreateProjectDialogHelper WorkspaceCreateProjectDialog
-		{
-			get
-			{
-				return _workspaceCreateProjectHelper;
-			}
-		}
+		protected GlossarySuggestPageHelper GlossarySuggestPage { get; private set; }
 
-		/// <summary>
-		/// Основной Helper (для работы с переходом между страницами - ссылки в верхнем меню)
-		/// </summary>
-		private MainHelper _mainHelper;
-		/// <summary>
-		/// Основной Helper (для работы с переходом между страницами - ссылки в верхнем меню)
-		/// </summary>
-		protected MainHelper MainHelperClass
-		{
-			get
-			{
-				return _mainHelper;
-			}
-		}
+		protected CatPanelResultsHelper CatPanel { get; private set; }
 
-		/// <summary>
-		/// Страница Domain
-		/// </summary>
-		private DomainPageHelper _domainPageHelper;
-		/// <summary>
-		/// Страница Domain
-		/// </summary>
-		protected DomainPageHelper DomainPage
-		{
-			get
-			{
-				return _domainPageHelper;
-			}
-		}
+		protected ResponsiblesDialogHelper ResponsiblesDialog { get; private set; }
 
-		/// <summary>
-		/// Страница TM
-		/// </summary>
-		private TMPageHelper _tmPageHelper;
-		/// <summary>
-		/// Страница TM
-		/// </summary>
-		protected TMPageHelper TMPage
-		{
-			get
-			{
-				return _tmPageHelper;
-			}
-		}
+		protected AddTermFormHelper AddTermForm { get; private set; }
 
-		/// <summary>
-		/// Страница со списком глоссариев
-		/// </summary>
-		private GlossaryListPageHelper _glossaryListPageHelper;
-		/// <summary>
-		/// Страница со списком глоссариев
-		/// </summary>
-		protected GlossaryListPageHelper GlossaryListPage
-		{
-			get
-			{
-				return _glossaryListPageHelper;
-			}
-		}
+		protected RegistrationPageHelper RegistrationPage { get; private set; }
 
-		/// <summary>
-		/// Страница глоссария
-		/// </summary>
-		private GlossaryPageHelper _glossaryPageHelper;
-		/// <summary>
-		/// Страница глоссария
-		/// </summary>
-		protected GlossaryPageHelper GlossaryPage
-		{
-			get
-			{
-				return _glossaryPageHelper;
-			}
-		}
+		protected DateTime TestBeginTime { get; private set; }
 
-		/// <summary>
-		/// Страница Поиска/Перевода
-		/// </summary>
-		private SearchPageHelper _searchPageHelper;
-		/// <summary>
-		/// Страница Поиска/Перевода
-		/// </summary>
-		protected SearchPageHelper SearchPage
-		{
-			get
-			{
-				return _searchPageHelper;
-			}
-		}
+		protected bool QuitDriverAfterTest { get; set; }
 
-		/// <summary>
-		/// Страница Client
-		/// </summary>
-		private ClientPageHelper _clientPageHelper;
-		/// <summary>
-		/// Страница Client
-		/// </summary>
-		protected ClientPageHelper ClientPage
-		{
-			get
-			{
-				return _clientPageHelper;
-			}
-		}
-
-		/// <summary>
-		/// Работа с админкой
-		/// </summary>
-		private AdminPageHelper _adminPageHelper;
-		/// <summary>
-		/// Работа с админкой
-		/// </summary>
-		protected AdminPageHelper AdminPage
-		{
-			get
-			{
-				return _adminPageHelper;
-			}
-		}
-
-		/// <summary>
-		/// Форма изменения структуры глоссария
-		/// </summary>
-		private GlossaryEditStructureFormHelper _glossaryEditStructureFormHelper;
-		/// <summary>
-		/// Форма изменения структуры глоссария
-		/// </summary>
-		protected GlossaryEditStructureFormHelper GlossaryEditStructureForm
-		{
-			get
-			{
-				return _glossaryEditStructureFormHelper;
-			}
-		}
-
-		/// <summary>
-		/// Страница со словарями
-		/// </summary>
-		private DictionaryPageHelper _dictionaryPageHelper;
-		/// <summary>
-		/// Страница со словарями
-		/// </summary>
-		protected DictionaryPageHelper DictionaryPage
-		{
-			get
-			{
-				return _dictionaryPageHelper;
-			}
-		}
-
-		/// <summary>
-		/// Вкладка Ревизии в редакторе
-		/// </summary>
-		private Editor_RevisionPageHelper _revisionPageHelper;
-		/// <summary>
-		/// Вкладка Ревизии в редакторе
-		/// </summary>
-		protected Editor_RevisionPageHelper RevisionPage
-		{
-			get
-			{
-				return _revisionPageHelper;
-			}
-		}
-
-		/// <summary>
-		/// Страница с настройкой прав пользователей
-		/// </summary>
-		private UserRightsPageHelper _userRightsPageHalper;
-		/// <summary>
-		/// Страница с настройкой прав пользователей
-		/// </summary>
-		protected UserRightsPageHelper UserRightsPage
-		{
-			get
-			{
-				return _userRightsPageHalper;
-			}
-		}
-
-		/// <summary>
-		/// Диалог предложения термина
-		/// </summary>
-		private SuggestTermDialogHelper _suggestTermDialogHelper;
-		/// <summary>
-		/// Диалог предложения термина
-		/// </summary>
-		protected SuggestTermDialogHelper SuggestTermDialog
-		{
-			get
-			{
-				return _suggestTermDialogHelper;
-			}
-		}
-
-		/// <summary>
-		/// Форма редактирования глоссария
-		/// </summary>
-		private GlossaryEditFormHelper _glossaryEditFormHelper;
-		/// <summary>
-		/// Форма редактирования глоссария
-		/// </summary>
-		protected GlossaryEditFormHelper GlossaryEditForm
-		{
-			get
-			{
-				return _glossaryEditFormHelper;
-			}
-		}
-
-		/// <summary>
-		/// Страница с предложенными терминами глоссариев
-		/// </summary>
-		public GlossarySuggestPageHelper _glossarySuggestPageHelper;
-		/// <summary>
-		/// Страница с предложенными терминами глоссариев
-		/// </summary>
-		protected GlossarySuggestPageHelper GlossarySuggestPage
-		{
-			get
-			{
-				return _glossarySuggestPageHelper;
-			}
-		}
-
-		/// <summary>
-		/// Страница выдачи
-		/// </summary>
-		private CatPanelResultsHelper _catPanelHelper;
-		/// <summary>
-		/// Страница выдачи
-		/// </summary>
-		protected CatPanelResultsHelper CatPanel
-		{
-			get
-			{
-				return _catPanelHelper;
-			}
-		}
-
-		/// <summary>
-		/// Окно прав пользователя
-		/// </summary>
-		private ResponsiblesDialogHelper _responsiblesDialogHelper;
-		/// <summary>
-		/// Окно прав пользователя
-		/// </summary>
-		protected ResponsiblesDialogHelper ResponsiblesDialog
-		{
-			get
-			{
-				return _responsiblesDialogHelper;
-			}
-		}
-
-		/// <summary>
-		/// Форма добавления нового термина в редакторе
-		/// </summary>
-		private AddTermFormHelper _addTermFormHelper;
-		/// <summary>
-		/// Форма добавления нового термина в редакторе
-		/// </summary>
-		protected AddTermFormHelper AddTermForm
-		{
-			get
-			{
-				return _addTermFormHelper;
-			}
-		}
-
-		private RegistrationPageHelper _registrationPageHelper;
-		protected RegistrationPageHelper RegistrationPage
-		{
-			get
-			{
-				return _registrationPageHelper;
-			}
-		}
-
-		// информация о тесте
-		protected DateTime testBeginTime;
-
-		/// <summary>
-		/// Вкл/откл закрытия драйвера после каждого теста
-		/// </summary>
-		protected bool quitDriverAfterTest;
-
-
+		public const string DeadlineDate = "03/03/2016";
+		public const string ConstTMName = "TestTM";
+		public const string GlossaryName = "TestGlossary";
+		public const string ProjectNameExportTestOneDoc = "TestProjectTestExportOneDocumentUniqueName";
+		public const string ProjectNameExportTestMultiDoc = "TestProjectTestExportMultiDocumentsUniqueName";
 
 		/// <summary>
 		/// Начальная подготовка для группы тестов
@@ -1128,15 +190,15 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		public void SetupBase()
 		{
 			// По умолчанию выходим из браузера
-			quitDriverAfterTest = true;
+			QuitDriverAfterTest = true;
 
 			// Вывести время начала теста
-			testBeginTime = DateTime.Now;
-			Console.WriteLine(TestContext.CurrentContext.Test.Name + "\nStart: " + testBeginTime.ToString());
+			TestBeginTime = DateTime.Now;
+			Console.WriteLine(TestContext.CurrentContext.Test.Name + "\nStart: " + TestBeginTime);
 
-			if (_driver == null)
+			if (Driver == null)
 			{
-				// Если конструктор заново не вызывался, то надо заполнить _driver
+				// Если конструктор заново не вызывался, то надо заполнить Driver
 				createDriver();
 			}
 
@@ -1166,7 +228,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 				if (TestContext.CurrentContext.Result.Status.Equals(TestStatus.Failed))
 				{
 					// Сделать скриншот
-					var screenshotDriver = _driver as ITakesScreenshot;
+					var screenshotDriver = Driver as ITakesScreenshot;
 					var screenshot = screenshotDriver.GetScreenshot();
 
 					// Создать папку для скриншотов провалившихся тестов
@@ -1195,7 +257,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			}
 
 			// Выходим из браузера, если нужно
-			if (quitDriverAfterTest)
+			if (QuitDriverAfterTest)
 			{
 				ExitDriver();
 			}
@@ -1205,7 +267,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			// Время окончания теста
 			Console.WriteLine("Finish: " + testFinishTime);
 			// Длительность теста
-			var duration = TimeSpan.FromTicks(testFinishTime.Ticks - testBeginTime.Ticks);
+			var duration = TimeSpan.FromTicks(testFinishTime.Ticks - TestBeginTime.Ticks);
 			var durResult = "Duration: ";
 
 			if (duration.TotalMinutes > 1)
@@ -1227,24 +289,27 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			}
 		}
 
-
-
+		public bool TestUserFileExist()
+		{
+			return File.Exists(TestFile.TestUserFile);
+		}
+		
 		/// <summary>
 		/// Обновить уникальные имена для нового теста
 		/// </summary>
 		protected void CreateUniqueNamesByDatetime()
 		{
-			_projectName = "Test Project" + "_" + DateTime.UtcNow.Ticks;
+			ProjectName = "Test Project" + "_" + DateTime.UtcNow.Ticks;
 		}
 
 		/// <summary>
-		/// Метод создания _driver 
+		/// Метод создания Driver 
 		/// </summary>
 		private void createDriver()
 		{
 			if (BrowserName == "Firefox")
 			{
-				if (_driver == null)
+				if (Driver == null)
 				{
 					_profile = new FirefoxProfile
 					{
@@ -1262,61 +327,29 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 						("browser.helperApps.neverAsk.saveToDisk", "text/xml, text/csv, text/plain, text/log, application/zip, application/x-gzip, application/x-compressed, application/x-gtar, multipart/x-gzip, application/tgz, application/gnutar, application/x-tar, application/x-xliff+xml,  application/msword.docx, application/pdf, application/x-pdf, application/octetstream, application/x-ttx, application/x-tmx, application/octet-stream");
 					//_profile.SetPreference("pdfjs.disabled", true);
 
-					_driver = new FirefoxDriver(_profile);
+					Driver = new FirefoxDriver(_profile);
 					//string profiledir = "../../../Profile";
 					// string profiledir = "TestingFiles/Profile";
 					//_profile = new FirefoxProfile(profiledir);
-					//_driver = new FirefoxDriver(_profile);
+					//Driver = new FirefoxDriver(_profile);
 				}
 			}
 			else if (BrowserName == "Chrome")
 			{
 				// драйвер работает некорректно
-				_driver = new ChromeDriver();
+				Driver = new ChromeDriver();
 			}
 			else if (BrowserName == "IE")
 			{
-				_driver = new InternetExplorerDriver();
+				Driver = new InternetExplorerDriver();
 			}
 
 			setDriverTimeoutDefault();
-			_wait = new WebDriverWait(_driver, TimeSpan.FromSeconds(15));
+			Wait = new WebDriverWait(Driver, TimeSpan.FromSeconds(15));
 
-			_driver.Manage().Window.Maximize();
+			Driver.Manage().Window.Maximize();
 
-			RecreateDrivers();
-		}
-
-		/// <summary>
-		/// Пересоздание Helper'ов с новыми Driver, Wait
-		/// </summary>
-		private void RecreateDrivers()
-		{
-			_projectPageHelper = new ProjectPageHelper(Driver, Wait);
-			_editorPageHelper = new EditorPageHelper(Driver, Wait);
-			_loginPageHelper = new LoginPageHelper(Driver, Wait);
-			_workspacePageHelper = new WorkSpacePageHelper(Driver, Wait);
-			_workspaceCreateProjectHelper = new Workspace_CreateProjectDialogHelper(Driver, Wait);
-			_mainHelper = new MainHelper(Driver, Wait);
-			_domainPageHelper = new DomainPageHelper(Driver, Wait);
-			_tmPageHelper = new TMPageHelper(Driver, Wait);
-			_glossaryListPageHelper = new GlossaryListPageHelper(Driver, Wait);
-			_glossaryPageHelper = new GlossaryPageHelper(Driver, Wait);
-			_searchPageHelper = new SearchPageHelper(Driver, Wait);
-			_clientPageHelper = new ClientPageHelper(Driver, Wait);
-			_adminPageHelper = new AdminPageHelper(Driver, Wait);
-			_glossaryEditStructureFormHelper = new GlossaryEditStructureFormHelper(Driver, Wait);
-			_dictionaryPageHelper = new DictionaryPageHelper(Driver, Wait);
-			_revisionPageHelper = new Editor_RevisionPageHelper(Driver, Wait);
-			_userRightsPageHalper = new UserRightsPageHelper(Driver, Wait);
-			_suggestTermDialogHelper = new SuggestTermDialogHelper(Driver, Wait);
-			_glossaryEditFormHelper = new GlossaryEditFormHelper(Driver, Wait);
-			_glossarySuggestPageHelper = new GlossarySuggestPageHelper(Driver, Wait);
-			_catPanelHelper = new CatPanelResultsHelper(Driver, Wait);
-			_responsiblesDialogHelper = new ResponsiblesDialogHelper(Driver, Wait);
-			_addTermFormHelper = new AddTermFormHelper(Driver, Wait);
-			_registrationPageHelper = new RegistrationPageHelper(Driver, Wait);
-
+			recreateDrivers();
 		}
 
 		/// <summary>
@@ -1324,7 +357,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// </summary>
 		protected void setDriverTimeoutMinimum()
 		{
-			_driver.Manage().Timeouts().ImplicitlyWait(TimeSpan.FromSeconds(3));
+			Driver.Manage().Timeouts().ImplicitlyWait(TimeSpan.FromSeconds(3));
 		}
 
 		/// <summary>
@@ -1332,7 +365,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// </summary>
 		protected void setDriverTimeoutDefault()
 		{
-			_driver.Manage().Timeouts().ImplicitlyWait(TimeSpan.FromSeconds(15));
+			Driver.Manage().Timeouts().ImplicitlyWait(TimeSpan.FromSeconds(15));
 		}
 
 		/// <summary>
@@ -1372,7 +405,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			SelectDocumentInProject(documentRowNum);
 
 			// Обновить страницу, чтобы активен был переход в редактор
-			_driver.Navigate().Refresh();
+			Driver.Navigate().Refresh();
 
 			// Нажать на Accept
 			ProjectPage.ClickAllAcceptBtns();
@@ -1435,17 +468,17 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 
 			if (!alternativeUser)
 			{
-				authLogin = _login;
-				authPassword = _password;
+				authLogin = Login;
+				authPassword = Password;
 			}
 			else
 			{
-				authLogin = _login2;
-				authPassword = _password2;
+				authLogin = Login2;
+				authPassword = Password2;
 			}
 
 			// Перейти на стартовую страницу
-			_driver.Navigate().GoToUrl(_url+"/sign-in");
+			Driver.Navigate().GoToUrl(Url + "/sign-in");
 
 			if (Driver.Url.Contains("pro"))
 			{
@@ -1503,7 +536,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			try
 			{
 				// Перейти на страницу workspace
-				_driver.Navigate().GoToUrl(_workspaceUrl);
+				Driver.Navigate().GoToUrl(WorkspaceUrl);
 
 				// Если открылась страница логина
 				if (LoginPage.WaitPageLoad(1) || LoginPage.WaitPromoPageLoad())
@@ -1515,7 +548,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			}
 			catch
 			{
-				_driver.Navigate().Refresh();
+				Driver.Navigate().Refresh();
 
 				// Закрываем Modal Dialog
 				AcceptModalDialog();
@@ -1533,12 +566,12 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			try
 			{
 				// Перейти на  admin страницу
-				_driver.Navigate().GoToUrl(_adminUrl);
+				Driver.Navigate().GoToUrl(AdminUrl);
 				//Assert.IsTrue(AdminPage.WaitPageLoad(), "Ошибка: страница админки не загрузилась");
 			}
 			catch
 			{
-				_driver.Navigate().Refresh();
+				Driver.Navigate().Refresh();
 
 				// Закрываем Modal Dialog
 				AcceptModalDialog();
@@ -1559,7 +592,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			try
 			{
 				// Перейти на страницу глоссариев
-				_driver.Navigate().GoToUrl(_url + "/Enterprise/Glossaries");
+				Driver.Navigate().GoToUrl(Url + "/Enterprise/Glossaries");
 
 				// Если открылась страница логина
 				if (LoginPage.WaitPageLoad(1) || LoginPage.WaitPromoPageLoad())
@@ -1572,7 +605,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			}
 			catch
 			{
-				_driver.Navigate().Refresh();
+				Driver.Navigate().Refresh();
 
 				// Закрываем Modal Dialog
 				AcceptModalDialog();
@@ -1595,7 +628,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			try
 			{
 				// Перейти на страницу
-				_driver.Navigate().GoToUrl(_url + "/TranslationMemories/Index");
+				Driver.Navigate().GoToUrl(Url + "/TranslationMemories/Index");
 
 				// Если открылась страница логина
 				if (LoginPage.WaitPageLoad(1) || LoginPage.WaitPromoPageLoad())
@@ -1608,7 +641,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			}
 			catch
 			{
-				_driver.Navigate().Refresh();
+				Driver.Navigate().Refresh();
 
 				// Закрываем Modal Dialog
 				AcceptModalDialog();
@@ -1629,7 +662,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			try
 			{
 				// Перейти на страницу
-				_driver.Navigate().GoToUrl(_url + "/Domains/Index");
+				Driver.Navigate().GoToUrl(Url + "/Domains/Index");
 
 				// Если открылась страница логина
 				if (LoginPage.WaitPageLoad(1) || LoginPage.WaitPromoPageLoad())
@@ -1642,7 +675,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			}
 			catch
 			{
-				_driver.Navigate().Refresh();
+				Driver.Navigate().Refresh();
 
 				// Закрываем Modal Dialog
 				AcceptModalDialog();
@@ -1663,7 +696,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			try
 			{
 				// Перейти на страницу
-				_driver.Navigate().GoToUrl(_url + "/Clients/Index");
+				Driver.Navigate().GoToUrl(Url + "/Clients/Index");
 
 				// Если открылась страница логина
 				if (LoginPage.WaitPageLoad(1) || LoginPage.WaitPromoPageLoad())
@@ -1676,7 +709,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			}
 			catch
 			{
-				_driver.Navigate().Refresh();
+				Driver.Navigate().Refresh();
 
 				// Закрываем Modal Dialog
 				AcceptModalDialog();
@@ -1709,7 +742,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			// Ввести название проекта
 			WorkspaceCreateProjectDialog.FillProjectName(projectName);
 			// Ввести deadline дату
-			WorkspaceCreateProjectDialog.FillDeadlineDate(_deadlineDate);
+			WorkspaceCreateProjectDialog.FillDeadlineDate(DeadlineDate);
 
 			// Выбрать Source - en
 			WorkspaceCreateProjectDialog.SelectSourceLanguage(srcLang);
@@ -1968,10 +1001,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// </summary>
 		public void SetUpWorkflow()
 		{
-			// Сейчас не изменяем ничего на шаге
-			//Настроить этапы workflow
-			//_wait.Until(d => _driver.FindElement(By.XPath(".//div[contains(@class,'js-popup-create-project')][2]//span[contains(@class,'js-new-stage')]")));
-			//_driver.FindElement(By.XPath(".//div[contains(@class,'js-popup-create-project')][2]//span[contains(@class,'js-new-stage')]")).Click();
 		}
 
 		// TODO
@@ -1980,9 +1009,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// </summary>
 		public void Pretranslate()
 		{
-			// Сейчас не изменяем ничего на шаге
-			//_wait.Until(d => _driver.FindElement(By.XPath(".//div[contains(@class,'js-popup-create-project')][2]//span[contains(@class,'js-finish js-upload-btn')]")));
-			//_driver.FindElement(By.XPath(".//div[contains(@class,'js-popup-create-project')][2]//span[contains(@class,'js-finish js-upload-btn')]")).Click();
 		}
 
 		/// <summary>
@@ -2570,10 +1596,10 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			string glossaryName = "")
 		{
 			// Создание проекта
-			CreateProject(projectName, "", withTM, EditorTMXFile, Workspace_CreateProjectDialogHelper.SetGlossary.None, glossaryName, withMT, mtType);
+			CreateProject(projectName, "", withTM, TestFile.EditorTMXFile, Workspace_CreateProjectDialogHelper.SetGlossary.None, glossaryName, withMT, mtType);
 
 			//открытие настроек проекта
-			uploadDocument = uploadDocument.Length == 0 ? EditorTXTFile : uploadDocument;
+			uploadDocument = uploadDocument.Length == 0 ? TestFile.EditorTXTFile : uploadDocument;
 			ImportDocumentProjectSettings(uploadDocument, projectName);
 
 			// 3. Назначение задачи на пользователя
@@ -2692,12 +1718,12 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// </summary>
 		protected void ExitDriver()
 		{
-			if (_driver != null)
+			if (Driver != null)
 			{
 				// Закрыть драйвер
-				_driver.Quit();
+				Driver.Quit();
 				// Очистить, чтобы при следующем тесте пересоздавалось
-				_driver = null;
+				Driver = null;
 			}
 		}
 
@@ -2708,16 +1734,16 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		{
 			try
 			{
-				if (_driver.SwitchTo().Alert().Text.
+				if (Driver.SwitchTo().Alert().Text.
 					Contains("Эта страница просит вас подтвердить, что вы хотите уйти — при этом введённые вами данные могут не сохраниться.") ||
-					_driver.SwitchTo().Alert().Text.
+					Driver.SwitchTo().Alert().Text.
 					Contains("This page is asking you to confirm that you want to leave - data you have entered may not be saved."))
-					_driver.SwitchTo().Alert().Accept();
+					Driver.SwitchTo().Alert().Accept();
 
 				Thread.Sleep(500);
 
-				if (_driver.SwitchTo().Alert().Text.Contains("Failed to send the request to the server. An error occurred while contacting the server."))
-					_driver.SwitchTo().Alert().Accept();
+				if (Driver.SwitchTo().Alert().Text.Contains("Failed to send the request to the server. An error occurred while contacting the server."))
+					Driver.SwitchTo().Alert().Accept();
 
 				Thread.Sleep(500);
 			}
@@ -2827,16 +1853,16 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			{
 				if (client == RegistrationType.Company)
 				{
-					_driver.Navigate().GoToUrl(_url + "/corp-reg");
+					Driver.Navigate().GoToUrl(Url + "/corp-reg");
 				}
 				else
 				{
-					_driver.Navigate().GoToUrl(_url + "/freelance-reg");
+					Driver.Navigate().GoToUrl(Url + "/freelance-reg");
 				}
 			}
 			catch
 			{
-				_driver.Navigate().Refresh();
+				Driver.Navigate().Refresh();
 
 				// Закрываем Modal Dialog
 				AcceptModalDialog();
@@ -2846,20 +1872,95 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			}
 		}
 
-		protected struct UserInfo
+		/// <summary>
+		/// Пересоздание Helper'ов с новыми Driver, Wait
+		/// </summary>
+		private void recreateDrivers()
 		{
-			public string login;
-			public string password;
+			ProjectPage = new ProjectPageHelper(Driver, Wait);
+			EditorPage = new EditorPageHelper(Driver, Wait);
+			LoginPage = new LoginPageHelper(Driver, Wait);
+			WorkspacePage = new WorkSpacePageHelper(Driver, Wait);
+			WorkspaceCreateProjectDialog = new Workspace_CreateProjectDialogHelper(Driver, Wait);
+			MainHelperClass = new MainHelper(Driver, Wait);
+			DomainPage = new DomainPageHelper(Driver, Wait);
+			TMPage = new TMPageHelper(Driver, Wait);
+			GlossaryListPage = new GlossaryListPageHelper(Driver, Wait);
+			GlossaryPage = new GlossaryPageHelper(Driver, Wait);
+			SearchPage = new SearchPageHelper(Driver, Wait);
+			ClientPage = new ClientPageHelper(Driver, Wait);
+			AdminPage = new AdminPageHelper(Driver, Wait);
+			GlossaryEditStructureForm = new GlossaryEditStructureFormHelper(Driver, Wait);
+			DictionaryPage = new DictionaryPageHelper(Driver, Wait);
+			RevisionPage = new Editor_RevisionPageHelper(Driver, Wait);
+			UserRightsPage = new UserRightsPageHelper(Driver, Wait);
+			SuggestTermDialog = new SuggestTermDialogHelper(Driver, Wait);
+			GlossaryEditForm = new GlossaryEditFormHelper(Driver, Wait);
+			GlossarySuggestPage = new GlossarySuggestPageHelper(Driver, Wait);
+			CatPanel = new CatPanelResultsHelper(Driver, Wait);
+			ResponsiblesDialog = new ResponsiblesDialogHelper(Driver, Wait);
+			AddTermForm = new AddTermFormHelper(Driver, Wait);
+			RegistrationPage = new RegistrationPageHelper(Driver, Wait);
 
-			public bool activated;
-			public UserInfo(string l, string p, bool s)
+		}
+
+		private void initializeUsersAndCompanyList()
+		{
+			if (TestUserFileExist())
 			{
-				login = l;
-				password = p;
-				activated = s;
+				var cfgTestUser = TestSettingDefinition.Instance.Get<TestUserConfig>();
+				var cfgTestCompany = TestSettingDefinition.Instance.Get<TestUserConfig>();
+
+				TestUserList = new List<UserInfo>();
+				TestCompanyList = new List<UserInfo>();
+
+				// Добавление пользователей в _testUserList из конфига
+				foreach (var user in cfgTestUser.Users)
+				{
+					TestUserList.Add(
+						new UserInfo(
+							user.Login, 
+							user.Password, 
+							user.Activated));
+				}
+
+
+				foreach (var user in cfgTestCompany.Companies)
+				{
+					TestCompanyList.Add(
+						new UserInfo(
+							user.Login, 
+							user.Password, 
+							user.Activated));
+				}
 			}
 		}
 
-		private static Logger logger = LogManager.GetCurrentClassLogger();
+		private void initializeRelatedToServerFields(TargetServerConfig cfgAgentSpecific)
+		{
+			Url = "https://" + cfgAgentSpecific.Url;
+			WorkspaceUrl = cfgAgentSpecific.Workspace;
+
+			if (string.IsNullOrWhiteSpace(WorkspaceUrl))
+			{
+				WorkspaceUrl = "https://" + cfgAgentSpecific.Url + "/workspace";
+			}
+
+			AdminUrl = "http://" + cfgAgentSpecific.Url + ":81";
+		}
+
+		private void initializeRelatedToUserFields(UserInfoConfig cfgUserInfo)
+		{
+			Login = cfgUserInfo.Login;
+			Password = cfgUserInfo.Password;
+			UserName = cfgUserInfo.UserName;
+
+			Login2 = cfgUserInfo.Login2;
+			Password2 = cfgUserInfo.Password2;
+			UserName2 = cfgUserInfo.UserName2;
+		}
+
+		private string _pathTestFiles;
+		private FirefoxProfile _profile;
 	}
 }

@@ -36,7 +36,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		public void SetUp()
 		{
 			// Не выходить из браузера после теста
-			quitDriverAfterTest = false;
+			QuitDriverAfterTest = false;
 
 			if (!_projectCreated)
 			{
@@ -47,7 +47,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 					projectName: _projectNameMatchTest, 
 					downloadFile: TxtFileForMatchTest,
 					createNewTM: true, 
-					tmFile: TmxFileForMatchTest,
+					tmFile: TestFile.TmxFileForMatchTest,
 					setGlossary: Workspace_CreateProjectDialogHelper.SetGlossary.New, 
 					glossaryName: "",
 					chooseMT:true,

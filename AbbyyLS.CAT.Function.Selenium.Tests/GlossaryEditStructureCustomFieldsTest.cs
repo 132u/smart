@@ -186,7 +186,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			// Кликнуть по полю
 			GlossaryPage.ClickCustomFieldMedia(fieldName);
 			// Загрузить документ
-			FillAddDocumentForm(AudioFile);
+			FillAddDocumentForm(TestFile.AudioFile);
 
 			// Сохранить термин
 			GlossaryPage.ClickSaveExtendedConcept();
@@ -228,7 +228,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			GlossaryPage.ClickCustomFieldMedia(fieldName);
 
 			// Загрузить документ
-			FillAddDocumentForm(AudioFile);
+			FillAddDocumentForm(TestFile.AudioFile);
 
 			// Сохранить термин
 			GlossaryPage.ClickSaveExtendedConcept();
@@ -260,7 +260,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			// Кликнуть по полю
 			GlossaryPage.ClickCustomFieldImage(fieldName);
 			// Загрузить документ
-			FillAddDocumentForm(ImageFile);
+			FillAddDocumentForm(TestFile.ImageFile);
 
 			// Сохранить термин
 			GlossaryPage.ClickSaveExtendedConcept();
@@ -300,7 +300,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			// Кликнуть по полю
 			GlossaryPage.ClickCustomFieldImage(fieldName);
 			// Загрузить документ
-			FillAddDocumentForm(ImageFile);
+			FillAddDocumentForm(TestFile.ImageFile);
 
 			// Сохранить термин
 			GlossaryPage.ClickSaveExtendedConcept();

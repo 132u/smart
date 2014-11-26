@@ -568,7 +568,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			// Нажать на Add для появления диалога загрузки документа
 			GlossaryPage.ClickUploadBtn();
 			// Заполнить форму загрузки документа
-			FillAddDocumentForm(ImportGlossaryFile);
+			FillAddDocumentForm(TestFile.ImportGlossaryFile);
 		}
 
 		/// <summary>

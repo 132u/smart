@@ -53,7 +53,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		public void DeleteProjectWithFileTest()
 		{
 			// Создать проект
-			CreateProject(ProjectName, DocumentFile);
+			CreateProject(ProjectName, TestFile.DocumentFile);
 			
 			// Кликнуть по строке с проектом, чтобы открылась информация о нем (чтобы видно было документ)
 			WorkspacePage.OpenProjectInfo(ProjectName);
@@ -260,7 +260,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			//Создать пустой проект
 			CreateProject(ProjectName);
 			//Добавление документа
-			ImportDocumentProjectSettings(DocumentFile, ProjectName);
+			ImportDocumentProjectSettings(TestFile.DocumentFile, ProjectName);
 			//Назначение задачи на пользователя
 			AssignTask();
 			// Выбрать документ
@@ -304,7 +304,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		public void DeleteDocumentFromProject()
 		{
 			// Создать проект, загрузить документ
-			CreateProjectImportDocument(DocumentFile);
+			CreateProjectImportDocument(TestFile.DocumentFile);
 			// Выбрать документ
 			SelectDocumentInProject(1);
 			// Нажать удалить
@@ -467,7 +467,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			WorkspaceCreateProjectDialog.WaitDialogDisplay();
 			// Загрузить файл
 			WorkspaceCreateProjectDialog.ClickAddDocumentBtn();
-			FillAddDocumentForm(DocumentFile);
+			FillAddDocumentForm(TestFile.DocumentFile);
 			Thread.Sleep(1000);
 
 			Assert.IsTrue(
@@ -489,7 +489,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			WorkspaceCreateProjectDialog.WaitDialogDisplay();
 			// Загрузить файл
 			WorkspaceCreateProjectDialog.ClickAddDocumentBtn();
-			FillAddDocumentForm(DocumentFile);
+			FillAddDocumentForm(TestFile.DocumentFile);
 			Thread.Sleep(1000);
 
 			Assert.IsTrue(
@@ -498,7 +498,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 
 			// Загрузить второй файл
 			WorkspaceCreateProjectDialog.ClickAddDocumentBtn();
-			FillAddDocumentForm(EditorTXTFile);
+			FillAddDocumentForm(TestFile.EditorTXTFile);
 			Thread.Sleep(1000);
 
 			Assert.IsTrue(
@@ -520,7 +520,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			WorkspaceCreateProjectDialog.WaitDialogDisplay();
 			// Загрузить файл
 			WorkspaceCreateProjectDialog.ClickAddDocumentBtn();
-			FillAddDocumentForm(DocumentFile);
+			FillAddDocumentForm(TestFile.DocumentFile);
 			Thread.Sleep(1000);
 
 			Assert.IsTrue(
@@ -551,7 +551,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			WorkspaceCreateProjectDialog.WaitDialogDisplay();
 			// Загрузить файл
 			WorkspaceCreateProjectDialog.ClickAddDocumentBtn();
-			FillAddDocumentForm(DocumentFile);
+			FillAddDocumentForm(TestFile.DocumentFile);
 			Thread.Sleep(1000);
 			// Удалить файл
 			WorkspaceCreateProjectDialog.ClickDeleteFile(fileName);

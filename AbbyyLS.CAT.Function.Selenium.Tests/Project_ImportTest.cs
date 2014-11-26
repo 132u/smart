@@ -29,7 +29,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			FirstStepProjectWizard(ProjectName);
 
 			//процесс добавления файла
-			ImportDocumentCreateProject(AudioFile);
+			ImportDocumentCreateProject(TestFile.AudioFile);
 			Thread.Sleep(1000);
 
 			// Проверить, что появилось сообщение о неверном формате загружаемого документа
@@ -47,7 +47,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			//1 шаг - заполнение данных о проекте
 			FirstStepProjectWizard(ProjectName);
 			// Загрузить документ
-			ImportDocumentCreateProject(DocumentFile);
+			ImportDocumentCreateProject(TestFile.DocumentFile);
 			// Загрузить второй документ
 			ImportDocumentCreateProject(_ttxFile);
 
@@ -117,7 +117,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			// Создать проект
 			CreateProject(ProjectName);
 			// загрузить документ			
-			ImportDocumentProjectSettings(DocumentFile, ProjectName);
+			ImportDocumentProjectSettings(TestFile.DocumentFile, ProjectName);
 
 			// Проверить, что в проекте есть документ
 			Assert.IsTrue(
@@ -132,7 +132,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		public void ImportDuplicateDocumentTest()
 		{
 			// Создать проект, загрузить документ
-			CreateProjectImportDocument(DocumentFile);
+			CreateProjectImportDocument(TestFile.DocumentFile);
 			// Кликнуть по Импорт
 			ProjectPage.ClickImportBtn();
 			//ждем когда загрузится окно для загрузки документа 
@@ -143,7 +143,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			// Нажать Add
 			ProjectPage.ClickAddDocumentInImport();
 			// Заполнить диалог загрузки
-			FillAddDocumentForm(DocumentFile);
+			FillAddDocumentForm(TestFile.DocumentFile);
 
 			// Проверить появление оповещения об ошибке
 			Assert.IsTrue(

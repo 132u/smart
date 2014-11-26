@@ -1,4 +1,5 @@
-﻿using NUnit.Framework;
+﻿using AbbyyLS.CAT.Function.Selenium.Tests.CommonDataStructures;
+using NUnit.Framework;
 using System.Threading;
 using System;
 using AbbyyLS.CAT.Function.Selenium.Tests.RegistrationTests;
@@ -114,8 +115,8 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Registration.Company
 				Assert.Ignore("Файл TestUsers.xml с тестовыми пользователями отсутствует");
 			}
 			RegisterExistUserAndCheckWS(
-				TestCompanyList[userNumber].login,
-				TestCompanyList[userNumber].password,
+				TestCompanyList[userNumber].Login,
+				TestCompanyList[userNumber].Password,
 				RegistrationPage.NameCompany,
 				RegistrationPage.DomainName);
 		}

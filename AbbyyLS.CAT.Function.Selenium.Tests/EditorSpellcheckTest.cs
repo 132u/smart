@@ -26,7 +26,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		public void Setup()
 		{
 			// Не закрывать браузер
-			quitDriverAfterTest = false;
+			QuitDriverAfterTest = false;
 
 			// 1. Переходим к странице воркспейса
 			GoToWorkspace();
@@ -35,7 +35,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			CreateProject(ProjectName, "", true);
 
 			// 3. Открытие настроек проекта
-			ImportDocumentProjectSettings(DocumentFile, ProjectName);
+			ImportDocumentProjectSettings(TestFile.DocumentFile, ProjectName);
 
 			// 4. Назначение задачи на пользователя
 			AssignTask();

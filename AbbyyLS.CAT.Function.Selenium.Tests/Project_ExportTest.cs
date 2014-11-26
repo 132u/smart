@@ -1129,7 +1129,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 				// Создать проект
 				CreateProject(currentProjectName);
 				// Загрузить документ
-				ImportDocumentProjectSettings(DocumentFileToConfirm, currentProjectName);
+				ImportDocumentProjectSettings(TestFile.DocumentFileToConfirm, currentProjectName);
 				// Назначить
 				AssignTask();
 				// Открыть документ
@@ -1139,7 +1139,9 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 				// Выйти из редактора
 				EditorClickHomeBtn();
 				// Загрузить второй документ
-				ImportDocumentProjectSettings(DocumentFileToConfirm2, currentProjectName);
+				ImportDocumentProjectSettings(
+					TestFile.DocumentFileToConfirm2, 
+					currentProjectName);
 				// Назначить второй
 				AssignTask(2);
 				// Открыть второй документ

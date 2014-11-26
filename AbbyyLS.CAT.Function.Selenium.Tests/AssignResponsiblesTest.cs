@@ -39,7 +39,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		public void Setup()
 		{
 			// Не выходить из браузера после теста
-			quitDriverAfterTest = false;
+			QuitDriverAfterTest = false;
 
 			// Переход на страницу workspace
 			GoToWorkspace();
@@ -52,7 +52,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		public void ResponsiblesWorkspaceOnProgressLink()
 		{
 			// Создание проекта
-			CreateProjectIfNotCreated(_projectNoChangesName, EditorTXTFile);
+			CreateProjectIfNotCreated(_projectNoChangesName, TestFile.EditorTXTFile);
 			
 			// Открываем инфо проекта
 			WorkspacePage.OpenProjectInfo(_projectNoChangesName);
@@ -75,7 +75,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		public void ResponsiblesWorkspaceOnAssignBtn()
 		{
 			// Создание проекта
-			CreateProjectIfNotCreated(_projectNoChangesName, EditorTXTFile);
+			CreateProjectIfNotCreated(_projectNoChangesName, TestFile.EditorTXTFile);
 
 			// Открываем диалог выбора исполнителя
 			OpenAssignDialog(_projectNoChangesName);
@@ -88,7 +88,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		public void ResponsiblesWorkspaceUploadDocument()
 		{
 			// Создание проекта
-			CreateProjectIfNotCreated(_projectNoChangesName, EditorTXTFile);
+			CreateProjectIfNotCreated(_projectNoChangesName, TestFile.EditorTXTFile);
 
 			// Открываем инфо проекта
 			WorkspacePage.OpenProjectInfo(_projectNoChangesName);
@@ -103,7 +103,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			ProjectPage.ClickAddDocumentInImport();
 
 			// Добавляем документ
-			FillAddDocumentForm(DocumentFileToConfirm);
+			FillAddDocumentForm(TestFile.DocumentFileToConfirm);
 
 			ProjectPage.ClickNextImportDialog();
 			ProjectPage.ClickNextImportDialog();
@@ -120,7 +120,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		public void ResponsiblesProjectOnProgressLink()
 		{
 			// Создание проекта
-			CreateProjectIfNotCreated(_projectNoChangesName, EditorTXTFile);
+			CreateProjectIfNotCreated(_projectNoChangesName, TestFile.EditorTXTFile);
 			
 			// Открываем проект
 			OpenProjectPage(_projectNoChangesName);
@@ -141,7 +141,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		public void ResponsiblesProjectOnAssignBtn()
 		{
 			// Создание проекта
-			CreateProjectIfNotCreated(_projectNoChangesName, EditorTXTFile);
+			CreateProjectIfNotCreated(_projectNoChangesName, TestFile.EditorTXTFile);
 
 			// Открываем проект
 			OpenProjectPage(_projectNoChangesName);
@@ -165,7 +165,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		public void ResponsiblesProjectOnProgressBtn()
 		{
 			// Создание проекта
-			CreateProjectIfNotCreated(_projectNoChangesName, EditorTXTFile);
+			CreateProjectIfNotCreated(_projectNoChangesName, TestFile.EditorTXTFile);
 			
 			// Открываем проект
 			OpenProjectPage(_projectNoChangesName);
@@ -189,7 +189,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		public void ResponsiblesProjectUploadDocument()
 		{
 			// Создание проекта
-			CreateProjectIfNotCreated(_projectNoChangesName, EditorTXTFile);
+			CreateProjectIfNotCreated(_projectNoChangesName, TestFile.EditorTXTFile);
 			
 			// Открываем проект
 			OpenProjectPage(_projectNoChangesName);
@@ -204,7 +204,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			ProjectPage.ClickAddDocumentInImport();
 
 			// Добавляем документ
-			FillAddDocumentForm(DocumentFileToConfirm);
+			FillAddDocumentForm(TestFile.DocumentFileToConfirm);
 
 			ProjectPage.ClickNextImportDialog();
 			ProjectPage.ClickNextImportDialog();
@@ -253,7 +253,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			SwitchWorkspaceTab();
 
 			// Создание проекта
-			CreateProjectIfNotCreated(_projectNoChangesName, EditorTXTFile);
+			CreateProjectIfNotCreated(_projectNoChangesName, TestFile.EditorTXTFile);
 
 			// Открываем диалог выбора исполнителя
 			OpenAssignDialog(_projectNoChangesName);
@@ -318,7 +318,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			SwitchWorkspaceTab();
 
 			// Создание проекта
-			CreateProjectIfNotCreated(_projectNoChangesName, EditorTXTFile);
+			CreateProjectIfNotCreated(_projectNoChangesName, TestFile.EditorTXTFile);
 
 			// Открываем диалог выбора исполнителя
 			OpenAssignDialog(_projectNoChangesName);
@@ -347,7 +347,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		public void AssignUserOneTask()
 		{
 			// Создание проекта
-			CreateProjectIfNotCreated(ProjectName, EditorTXTFile);
+			CreateProjectIfNotCreated(ProjectName, TestFile.EditorTXTFile);
 
 			// Открываем диалог выбора исполнителя
 			OpenAssignDialog(ProjectName);
@@ -386,7 +386,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			
 			// Загрузить файл
 			WorkspaceCreateProjectDialog.ClickAddDocumentBtn();
-			FillAddDocumentForm(EditorTXTFile);
+			FillAddDocumentForm(TestFile.EditorTXTFile);
 
 			WorkspaceCreateProjectDialog.ClickNextStep();
 
@@ -461,7 +461,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		public void DeleteUserTask()
 		{
 			// Создание проекта
-			CreateProject(ProjectName, EditorTXTFile);
+			CreateProject(ProjectName, TestFile.EditorTXTFile);
 
 			// Открываем диалог выбора исполнителя
 			OpenAssignDialog(ProjectName);
@@ -497,13 +497,13 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		public void AssignDifferentUsersOneTask()
 		{
 			// После теста закрываем браузер, т.к. залогиниваемся под альтернативным пользователем
-			quitDriverAfterTest = true;
+			QuitDriverAfterTest = true;
 			
 			// Проверка второго пользователя
 			CheckUserPresent(UserName2);
 
 			// Создание проекта
-			CreateProjectIfNotCreated(ProjectName, EditorTXTFile);
+			CreateProjectIfNotCreated(ProjectName, TestFile.EditorTXTFile);
 
 			// Открываем диалог выбора исполнителя
 			OpenAssignDialog(ProjectName);
@@ -595,7 +595,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		public void AssignNobody()
 		{
 			// Создание проекта
-			CreateProjectIfNotCreated(_projectNoChangesName, EditorTXTFile);
+			CreateProjectIfNotCreated(_projectNoChangesName, TestFile.EditorTXTFile);
 
 			// Открываем диалог выбора исполнителя
 			OpenAssignDialog(_projectNoChangesName);
@@ -615,7 +615,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		public void UnAssignUser()
 		{
 			// Создание проекта
-			CreateProjectIfNotCreated(ProjectName, EditorTXTFile);
+			CreateProjectIfNotCreated(ProjectName, TestFile.EditorTXTFile);
 
 			// Открываем диалог выбора исполнителя
 			OpenAssignDialog(ProjectName);

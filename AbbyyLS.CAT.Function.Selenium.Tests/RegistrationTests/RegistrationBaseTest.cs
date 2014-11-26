@@ -1,4 +1,5 @@
-﻿using NUnit.Framework;
+﻿using AbbyyLS.CAT.Function.Selenium.Tests.CommonDataStructures;
+using NUnit.Framework;
 using System.Threading;
 using System;
 using AbbyyLS.CAT.Function.Selenium.Tests.RegistrationTests;
@@ -94,8 +95,14 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.RegistrationTests
 		/// <param name="lastName">фамилия</param>
 		/// <param name="companyName">название компании</param>
 		/// <param name="domainName">имя домена</param>
-		/// <param name="optionCompanyType">номер опции в комбобоксе тип компании</param>
-		public void FillAllFieldsSecondStepCompanyRegistration(string firstName, string lastName, string companyName, string domainName, string phoneNumber, CompanyType companyType = CompanyType.LanguageServiceProvider)
+		/// <param name="companyType">номер опции в комбобоксе тип компании</param>
+		public void FillAllFieldsSecondStepCompanyRegistration(
+			string firstName, 
+			string lastName, 
+			string companyName, 
+			string domainName, 
+			string phoneNumber, 
+			CompanyType companyType = CompanyType.LanguageServiceProvider)
 		{
 			RegistrationPage.FillFirstNameCompany(firstName);
 			RegistrationPage.FillLastNameCompany(lastName);

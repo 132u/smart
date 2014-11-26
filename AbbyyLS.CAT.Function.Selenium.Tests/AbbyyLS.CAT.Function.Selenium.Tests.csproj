@@ -58,6 +58,11 @@
     <Compile Include="AddTermFormHelper.cs" />
     <Compile Include="AdminTests.cs" />
     <Compile Include="CatPanelSubstitutionTest.cs" />
+    <Compile Include="CommonDataStructures\CompanyType.cs" />
+    <Compile Include="CommonDataStructures\RegistrationField.cs" />
+    <Compile Include="CommonDataStructures\RegistrationType.cs" />
+    <Compile Include="CommonDataStructures\UserInfo.cs" />
+    <Compile Include="CommonHelpers\TestFile.cs" />
     <Compile Include="RegistrationTests\CaptchaTest.cs" />
     <Compile Include="RegistrationTests\CompanyRegistrationTest.cs" />
     <Compile Include="LoginPageHelper.cs" />
@@ -155,10 +160,6 @@
   </Target>
 -->
   <Target Name="AfterBuild">
-        <Copy
-            SourceFiles="..\IEDriverServer.exe"
-            DestinationFolder="..\bin\"
-        />
+    <Copy SourceFiles="..\IEDriverServer.exe" DestinationFolder="..\bin\" />
   </Target>
-
 </Project>
