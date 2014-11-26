@@ -23,6 +23,16 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		}
 
 		/// <summary>
+		/// Старт тестов
+		/// </summary>
+		[SetUp]
+		public void SetupTest()
+		{
+			// Переходим к странице воркспейса
+			GoToWorkspace();
+		}
+
+		/// <summary>
 		/// тип экспорта
 		/// </summary>
 		const string EXPORT_TYPE_SOURCE = "Original";

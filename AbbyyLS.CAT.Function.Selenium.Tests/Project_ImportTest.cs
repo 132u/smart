@@ -20,6 +20,16 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		}
 
 		/// <summary>
+		/// Старт тестов
+		/// </summary>
+		[SetUp]
+		public void SetupTest()
+		{
+			// Переходим к странице воркспейса
+			GoToWorkspace();
+		}
+
+		/// <summary>
 		/// метод тестирования загрузки rtf формата (неподдерживаемый формат)
 		/// </summary>
 		[Test]

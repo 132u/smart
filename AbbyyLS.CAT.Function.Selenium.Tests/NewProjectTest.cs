@@ -19,6 +19,15 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		public NewProjectTest(string browserName)
 			: base(browserName)
 		{
+			_documentFileWrong = Path.Combine(PathTestFiles, "doc98.doc");
+			_ttxFile = Path.Combine(PathTestFiles, "test.ttx");
+			_txtFile = Path.Combine(PathTestFiles, "test.txt");
+			_srtFile = Path.Combine(PathTestFiles, "test.srt");
+
+			_xliffTC10 = Path.Combine(PathTestFiles, "TC-10En.xliff");
+
+			ResultFilePath = Path.Combine(PathTestFiles, "Result");
+			_exportFilePath = TestFile.DocumentFileToConfirm;
 
 		}
 
@@ -45,21 +54,9 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		[SetUp]
 		public void SetupTest()
 		{
-			_documentFileWrong = Path.Combine(PathTestFiles, "doc98.doc");
-			_ttxFile = Path.Combine(PathTestFiles, "test.ttx");
-			_txtFile = Path.Combine(PathTestFiles, "test.txt");
-			_srtFile = Path.Combine(PathTestFiles, "test.srt");
-
-			_xliffTC10 = Path.Combine(PathTestFiles, "TC-10En.xliff");
-
-			ResultFilePath = Path.Combine(PathTestFiles, "Result");
-			_exportFilePath = TestFile.DocumentFileToConfirm;
-
 			// Не закрывать браузер
 			QuitDriverAfterTest = false;
 
-			// Переходим к странице воркспейса
-			GoToWorkspace();
 		}
 		
 		/// <summary>
@@ -187,6 +184,63 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			setDriverTimeoutDefault();
 
 			return isNotExist;
+		}
+
+		/// <summary>
+		/// Проверка, есть ли ошибка существующего имени
+		/// </summary>
+		/// <param name="shouldErrorExist">условие для результата проверки - должна ли быть ошибка</param>
+		protected void AssertErrorDuplicateName(bool shouldErrorExist = true)
+		{
+			if (!shouldErrorExist)
+			{
+				// Т.к. ожидаем, что ошибка не появится, опускаем таймаут
+				setDriverTimeoutMinimum();
+			}
+
+			// Проверить, что поле Имя отмечено ошибкой
+			bool isExistErrorInput = WorkspaceCreateProjectDialog.GetIsNameInputError();
+			// Проверить, что есть сообщение, что имя существует
+			bool isExistErrorMessage = WorkspaceCreateProjectDialog.GetIsExistErrorMessageNameExists();
+
+			string errorMessage = "\n";
+			bool isError = false;
+			// Ошибка должна появиться
+			if (shouldErrorExist)
+			{
+				if (!isExistErrorInput)
+				{
+					isError = true;
+					errorMessage += "Ошибка: поле Название не отмечено ошибкой\n";
+				}
+				if (!isExistErrorMessage)
+				{
+					isError = true;
+					errorMessage += "Ошибка: не появилось сообщение о существующем имени";
+				}
+			}
+			// Ошибка НЕ должна появиться
+			else
+			{
+				if (isExistErrorInput)
+				{
+					isError = true;
+					errorMessage += "Ошибка: поле Название отмечено ошибкой\n";
+				}
+				if (isExistErrorMessage)
+				{
+					isError = true;
+					errorMessage += "Ошибка: появилось сообщение о существующем имени";
+				}
+			}
+
+			// Проверить условие
+			Assert.IsFalse(isError, errorMessage);
+
+			if (!shouldErrorExist)
+			{
+				setDriverTimeoutDefault();
+			}
 		}
 	}
 }

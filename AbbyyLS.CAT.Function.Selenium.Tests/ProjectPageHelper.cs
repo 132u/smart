@@ -57,6 +57,15 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		}
 
 		/// <summary>
+		/// Проверить, что кнопки Assign Tasks нет на стр проектов
+		/// </summary>
+		public bool GetIsAssignRessponsibleBtnExist()
+		{
+			return GetIsElementExist(By.XPath(DOCUMENT_ASSIGN_RESPONSIBLES_BTN_XPATH));
+		}
+
+
+		/// <summary>
 		/// Кликнуть по ячейке с пользователем в диалоге
 		/// </summary>
 		public void ClickUserNameCell()
@@ -221,6 +230,21 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		public void ClickNextImportDialog()
 		{
 			ClickElement(By.XPath(IMPORT_NEXT_BTN_XPATH));
+		}
+
+		/// <summary>
+		/// Проверить , что открыть Pretranslate step в окне создания проекта
+		/// </summary>
+		public bool GetPretranslateTitleDisplay()
+		{
+			return GetIsElementDisplay(By.XPath(PRETRANSLATE_TITLE_IN_DIALOG_XPATH));
+		}
+		/// <summary>
+		/// Проверить есть ли Next кнопка в диалоге импорта
+		/// </summary>
+		public bool GetNextBtnImportDialogDisplay()
+		{
+			return GetIsElementDisplay(By.XPath(IMPORT_NEXT_BTN_XPATH));
 		}
 
 		/// <summary>
@@ -404,6 +428,14 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		public void ClickProjectSettingsWorkflow()
 		{
 			ClickElement(By.XPath(PROJECT_SETTINGS_WORKFLOW_XPATH));
+		}
+
+		/// <summary>
+		/// Проверить отображеются ли Workflow в настройках проекта 
+		/// </summary>
+		public bool GetSettingsWorkflowDisplay()
+		{
+			return GetIsElementDisplay(By.XPath(PROJECT_SETTINGS_WORKFLOW_XPATH));
 		}
 
 		/// <summary>
@@ -596,5 +628,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		protected const string OPEN_CLOSE_TD_XPATH = "td[contains(@class,'openCloseCell')]";
 		protected const string TASK_NAME_XPATH = OPEN_CLOSE_TD_XPATH + "//div[contains(@class,'js-text-overflow')]";
 		protected const string UPLOAD_DOCUMENT_BTN_XPATH = ".//span[contains(@class,'js-import-btn ')]";
+		protected const string PRETRANSLATE_TITLE_IN_DIALOG_XPATH = "//span[text()='Set Up Pretranslation']";
 	}
 }

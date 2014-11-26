@@ -5,7 +5,7 @@ using NUnit.Framework;
 namespace AbbyyLS.CAT.Function.Selenium.Tests
 {
 	/// <summary>
-	/// Группа основных тестов проекта
+	/// Группа основных тестов проекта с использованием корпаративного аккаунта
 	/// </summary>
 	public class Project_MainTest : NewProjectTest
 	{
@@ -20,6 +20,16 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 
 		}
 
+		/// <summary>
+		/// Старт тестов
+		/// </summary>
+		[SetUp]
+		public void SetupTest()
+		{
+			// Переходим к странице воркспейса
+			GoToWorkspace();
+		}
+		
 		/// <summary>
 		/// создание проекта без файла
 		/// </summary>

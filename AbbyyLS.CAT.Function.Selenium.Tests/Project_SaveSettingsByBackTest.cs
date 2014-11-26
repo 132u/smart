@@ -19,6 +19,16 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		}
 
 		/// <summary>
+		/// Старт тестов
+		/// </summary>
+		[SetUp]
+		public void SetupTest()
+		{
+			// Переходим к странице воркспейса
+			GoToWorkspace();
+		}
+
+		/// <summary>
 		/// Тест: создание проекта, возврат на первый шаг
 		/// Проверка, что настройки сохранились
 		/// - имя проекта

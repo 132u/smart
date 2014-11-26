@@ -529,7 +529,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// Переход на вкладку workspace
 		/// Если переадресация на стартовую страницу, то авторизация
 		/// </summary>
-		public void GoToWorkspace()
+		public void GoToWorkspace(string accountName = "TestAccount")
 		{
 			// Отлавливаем Modal Dialog Exception
 			// В случае, если для завершения предыдущего теста нужно закрыть дополнительный диалог
@@ -543,7 +543,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 				{
 					
 					// Проходим процедуру авторизации
-					Authorization();
+					Authorization(accountName);
 				}
 			}
 			catch
@@ -1012,11 +1012,11 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		}
 
 		/// <summary>
-		/// метод открытия настроек проекта и загрузки нового документа
+		/// метод открытия настроек проекта и загрузки нового документа с помощью  корпоративного аккаунта
 		/// </summary>
 		/// <param name="filePath">путь в файлу, импортируемого в проект</param>
 		/// <param name="projectName">имя проекта</param>
-		protected void ImportDocumentProjectSettings(string filePath, string projectName)
+		protected void ImportDocumentProjectSettings(string filePath, string projectName, string accountType = "TestAccount")
 		{
 			// Зайти в проект
 			OpenProjectPage(projectName);
@@ -1045,15 +1045,31 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 
 			// Дождаться появления ТМ таблицы
 			ProjectPage.WaitImportTMTableDisplay();
-			// Next
-			ProjectPage.ClickNextImportDialog();
-			// Нажать Finish
-			ProjectPage.ClickFinishImportDialog();
+			if (accountType != "TestAccount")
+			{
+				//Проверить, что кнопка Next отсутствует в диалоге импорта документа 
+				Assert.IsFalse(ProjectPage.GetNextBtnImportDialogDisplay(), "Ошибка : Next кнопка отображется в диалоге импорта документа ");
 
-			// Дождаться окончания загрузки
+				// Нажать Finish
+				ProjectPage.ClickFinishImportDialog();
+
+				// Дождаться окончания загрузки
+				Assert.IsTrue(ProjectPage.WaitDocumentDownloadFinish(),
+					"Ошибка: документ загружается слишком долго");
+			}
+			else
+			{
+				// Next
+				ProjectPage.ClickNextImportDialog();
+
+				// Нажать Finish
+				ProjectPage.ClickFinishImportDialog();
+
+				// Дождаться окончания загрузки
 			Assert.IsTrue(
 				ProjectPage.WaitDocumentDownloadFinish(),
-				"Ошибка: документ загружается слишком долго");
+					"Ошибка: документ загружается слишком долго");
+			}
 		}
 
 		/// <summary>

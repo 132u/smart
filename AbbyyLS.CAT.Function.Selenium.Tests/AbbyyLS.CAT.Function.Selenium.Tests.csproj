@@ -64,6 +64,7 @@
     <Compile Include="CommonDataStructures\UserInfo.cs" />
     <Compile Include="CommonHelpers\TestFile.cs" />
     <Compile Include="RegistrationTests\CaptchaTest.cs" />
+    <Compile Include="PersonalAccount\Project_MainPersAccTest.cs" />
     <Compile Include="RegistrationTests\CompanyRegistrationTest.cs" />
     <Compile Include="LoginPageHelper.cs" />
     <Compile Include="RandomString.cs" />
@@ -131,6 +132,7 @@
     <Compile Include="TargetServerConfig.cs" />
     <Compile Include="UserLogTest.cs" />
     <Compile Include="UserRightsPageHelper.cs" />
+    <Compile Include="PersonalAccount\WorkflowTestPersAcc.cs" />
     <Compile Include="WorkSpacePageHelper.cs" />
     <Compile Include="Workspace_CreateProjectDialogHelper.cs" />
     <Compile Include="WorkflowTest.cs" />
