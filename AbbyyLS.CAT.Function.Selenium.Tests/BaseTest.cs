@@ -1237,7 +1237,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			EditorPage.ClickHomeBtn();
 
 			// Проверить, что перешли в Workspace
-			Assert.IsTrue(WorkspacePage.WaitPageLoad(), "Ошибка: не зашли в Workspace");
+			Assert.IsTrue(ProjectPage.WaitPageLoad(), "Ошибка: страница проекта не открылась");
 		}
 
 		/// <summary>

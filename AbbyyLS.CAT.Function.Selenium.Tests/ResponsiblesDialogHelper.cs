@@ -275,7 +275,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 
 		protected const string YES_BTN_CONFIRM_XPATH = CONFIRM_RESET_ASSIGNMENT_FORM_XPATH + "//input[contains(@class, 'js-submit-btn ')]";
 
-		protected const string CHOOSE_TASK_FORM_XPATH = ".//div[@id='workflowselectwindow-1025']";
+		protected const string CHOOSE_TASK_FORM_XPATH = ".//div[@id='workflow-select-window']";
 		protected const string TASK_XPATH = CHOOSE_TASK_FORM_XPATH + "//table//a";
 		
 		protected const string CONFIRM_RESET_ASSIGNMENT_FORM_XPATH = ".//div[contains(@class, 'js-popup-confirm')]";

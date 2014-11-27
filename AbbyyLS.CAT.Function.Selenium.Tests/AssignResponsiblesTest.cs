@@ -493,6 +493,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <summary>
 		/// Назначение/сброс пользователей на задачу
 		/// </summary>
+		[Category("PRX_6556")]
 		[Test]
 		public void AssignDifferentUsersOneTask()
 		{
@@ -535,6 +536,9 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 
 			// Выходим из редактора
 			EditorClickHomeBtn();
+
+			// Переход в WS
+			GoToWorkspace();
 
 			// Открываем диалог выбора исполнителя
 			OpenAssignDialog(ProjectName);

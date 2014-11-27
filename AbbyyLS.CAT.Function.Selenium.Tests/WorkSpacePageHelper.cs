@@ -536,6 +536,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// </summary>
 		public void ClickDocumentAssignBtn()
 		{
+			WaitUntilDisplayElement(By.XPath(DOCUMENT_ASSIGN_RESPONSIBLES_BTN_XPATH));
 			ClickElement(By.XPath(DOCUMENT_ASSIGN_RESPONSIBLES_BTN_XPATH));
 		}
 
