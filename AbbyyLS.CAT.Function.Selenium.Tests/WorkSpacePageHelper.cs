@@ -115,7 +115,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <param name="projectName">название проекта</param>
 		public void OpenProjectInfo(string projectName)
 		{
-			ClickElement(By.XPath(GetProjectRefXPath(projectName) + "/../../../" + OPEN_CLOSE_TD_XPATH));
+			ClickElement(By.XPath(GetProjectRefXPath(projectName) + "/../../" + OPEN_CLOSE_TD_XPATH));
 		}
 
 		/// <summary>
@@ -610,7 +610,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		protected const string PROJECTS_TABLE_XPATH = ".//table[contains(@class,'js-tasks-table')]";
 
 		protected const string DOCUMENT_INFO_TR_XPATH = PROJECT_INFO_XPATH + "//following-sibling::tr[contains(@class, 'js-document-row')]";
-		protected const string OPEN_CLOSE_TD_XPATH = "td[contains(@class,'openCloseCell')]";
+		protected const string OPEN_CLOSE_TD_XPATH = "div[contains(@class,'l-corpr__threeDots')]";
 
 		protected const string NOTIFIER_XPATH = "//div[@id='notifications-block']";
 		protected const string NOTIFIER_ITEM_XPATH = NOTIFIER_XPATH + "//div[contains(@class,'notifications-item')]";
