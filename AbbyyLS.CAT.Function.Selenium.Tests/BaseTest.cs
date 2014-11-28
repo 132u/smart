@@ -546,8 +546,10 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 					Authorization(accountName);
 				}
 			}
-			catch
+			catch (Exception ex)
 			{
+				Logger.ErrorException("Ошибка при переходе на стр WS: " + ex.Message, ex);
+
 				Driver.Navigate().Refresh();
 
 				// Закрываем Modal Dialog
