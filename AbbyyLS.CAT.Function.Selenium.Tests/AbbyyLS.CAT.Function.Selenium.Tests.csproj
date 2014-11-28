@@ -2,168 +2,168 @@
 <Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{9DC9D68E-BBFD-4CCB-9C78-949E7E895D3A}</ProjectGuid>
-    <OutputType>Library</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>AbbyyLS.CAT.Function.Selenium.Tests</RootNamespace>
-    <AssemblyName>AbbyyLS.CAT.Function.Selenium.Tests</AssemblyName>
-    <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
-    <FileAlignment>512</FileAlignment>
+	<Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+	<Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+	<ProjectGuid>{9DC9D68E-BBFD-4CCB-9C78-949E7E895D3A}</ProjectGuid>
+	<OutputType>Library</OutputType>
+	<AppDesignerFolder>Properties</AppDesignerFolder>
+	<RootNamespace>AbbyyLS.CAT.Function.Selenium.Tests</RootNamespace>
+	<AssemblyName>AbbyyLS.CAT.Function.Selenium.Tests</AssemblyName>
+	<TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
+	<FileAlignment>512</FileAlignment>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>..\bin\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <DocumentationFile>
-    </DocumentationFile>
+	<DebugSymbols>true</DebugSymbols>
+	<DebugType>full</DebugType>
+	<Optimize>false</Optimize>
+	<OutputPath>..\bin\</OutputPath>
+	<DefineConstants>DEBUG;TRACE</DefineConstants>
+	<ErrorReport>prompt</ErrorReport>
+	<WarningLevel>4</WarningLevel>
+	<DocumentationFile>
+	</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>..\bin\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
+	<DebugType>pdbonly</DebugType>
+	<Optimize>true</Optimize>
+	<OutputPath>..\bin\</OutputPath>
+	<DefineConstants>TRACE</DefineConstants>
+	<ErrorReport>prompt</ErrorReport>
+	<WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="NConfiguration">
-      <HintPath>..\lib\Common\External\NConfiguration\NConfiguration.dll</HintPath>
-    </Reference>
-    <Reference Include="NLog">
-      <HintPath>..\lib\Common\External\NLog\NLog.dll</HintPath>
-    </Reference>
-    <Reference Include="nunit.framework">
-      <HintPath>..\lib\Common\External\NUnit\nunit.framework.dll</HintPath>
-    </Reference>
-    <Reference Include="System" />
-    <Reference Include="System.Configuration" />
-    <Reference Include="System.Drawing" />
-    <Reference Include="System.Runtime.Serialization" />
-    <Reference Include="System.Web.Extensions" />
-    <Reference Include="System.Windows.Forms" />
-    <Reference Include="WebDriver">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\lib\WebDriver.2.42\WebDriver.dll</HintPath>
-    </Reference>
-    <Reference Include="WebDriver.Support">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\lib\WebDriver.2.42\WebDriver.Support.dll</HintPath>
-    </Reference>
+	<Reference Include="NConfiguration">
+	  <HintPath>..\lib\Common\External\NConfiguration\NConfiguration.dll</HintPath>
+	</Reference>
+	<Reference Include="NLog">
+	  <HintPath>..\lib\Common\External\NLog\NLog.dll</HintPath>
+	</Reference>
+	<Reference Include="nunit.framework">
+	  <HintPath>..\lib\Common\External\NUnit\nunit.framework.dll</HintPath>
+	</Reference>
+	<Reference Include="System" />
+	<Reference Include="System.Configuration" />
+	<Reference Include="System.Drawing" />
+	<Reference Include="System.Runtime.Serialization" />
+	<Reference Include="System.Web.Extensions" />
+	<Reference Include="System.Windows.Forms" />
+	<Reference Include="WebDriver">
+	  <SpecificVersion>False</SpecificVersion>
+	  <HintPath>..\lib\WebDriver.2.42\WebDriver.dll</HintPath>
+	</Reference>
+	<Reference Include="WebDriver.Support">
+	  <SpecificVersion>False</SpecificVersion>
+	  <HintPath>..\lib\WebDriver.2.42\WebDriver.Support.dll</HintPath>
+	</Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AddTermFormHelper.cs" />
-    <Compile Include="AdminTests.cs" />
-    <Compile Include="CatPanelSubstitutionTest.cs" />
-    <Compile Include="CommonDataStructures\CompanyType.cs" />
-    <Compile Include="CommonDataStructures\RegistrationField.cs" />
-    <Compile Include="CommonDataStructures\RegistrationType.cs" />
-    <Compile Include="CommonDataStructures\UserInfo.cs" />
-    <Compile Include="CommonHelpers\TestFile.cs" />
-    <Compile Include="RegistrationTests\CaptchaTest.cs" />
-    <Compile Include="PersonalAccount\Project_MainPersAccTest.cs" />
-    <Compile Include="RegistrationTests\CompanyRegistrationTest.cs" />
-    <Compile Include="LoginPageHelper.cs" />
-    <Compile Include="RandomString.cs" />
-    <Compile Include="FilesRootCfg.cs" />
-    <Compile Include="RegistrationTests\RegistrationBaseTest.cs" />
-    <Compile Include="TMTests\TMCreationTests.cs" />
-    <Compile Include="TMTests\TMEditingTests.cs" />
-    <Compile Include="TMTests\TMExportTests.cs" />
-    <Compile Include="TMTests\TMInProjectTets.cs" />
-    <Compile Include="TMTests\TMPageHelper.cs" />
-    <Compile Include="TMTests\TMRemovingTests.cs" />
-    <Compile Include="TMTests\TMTest.cs" />
-    <Compile Include="TMTests\TMUpdatingTests.cs" />
-    <Compile Include="TMTests\TMXUploadingTests.cs" />
-    <Compile Include="RegistrationTests\RegistrationPageHelper.cs" />
-    <Compile Include="RegistrationTests\FreelanceRegistrationTest.cs" />
-    <Compile Include="TestUser.cs" />
-    <Compile Include="TestUserConfig.cs" />
-    <Compile Include="UserInfoConfig.cs" />
-    <Compile Include="EditorSpellcheckTest.cs" />
-    <Compile Include="GlossaryEditorTest.cs" />
-    <Compile Include="ResponsiblesDialogHelper.cs" />
-    <Compile Include="AssignResponsiblesTest.cs" />
-    <Compile Include="Authorization.cs" />
-    <Compile Include="BaseTest.cs" />
-    <Compile Include="CatPanelResultsTest.cs" />
-    <Compile Include="CatPanelResultsHelper.cs" />
-    <Compile Include="ClientPageHelper.cs" />
-    <Compile Include="CommonHelper.cs" />
-    <Compile Include="AdminPageHelper.cs" />
-    <Compile Include="DictionaryPageHelper.cs" />
-    <Compile Include="DictionaryTest.cs" />
-    <Compile Include="DomainPageHelper.cs" />
-    <Compile Include="DomainTest.cs" />
-    <Compile Include="ClientTest.cs" />
-    <Compile Include="EditorButtonsTest.cs" />
-    <Compile Include="EditorPageHelper.cs" />
-    <Compile Include="Editor_RevisionPageHelper.cs" />
-    <Compile Include="Editor_RevisionTest.cs" />
-    <Compile Include="GlossaryEditFormHelper.cs" />
-    <Compile Include="GlossaryEditStructureCustomFieldsTest.cs" />
-    <Compile Include="GlossaryEditStructureGeneralFieldsTest.cs" />
-    <Compile Include="GlossaryEditStructureLanguageFieldsTest.cs" />
-    <Compile Include="GlossaryEditStructureTermFieldsTest.cs" />
-    <Compile Include="GlossaryItemTest.cs" />
-    <Compile Include="GlossaryMainTest.cs" />
-    <Compile Include="GlossaryListPageHelper.cs" />
-    <Compile Include="GlossaryPageHelper.cs" />
-    <Compile Include="GlossaryEditStructureFormHelper.cs" />
-    <Compile Include="GlossarySuggestedTermsTest.cs" />
-    <Compile Include="GlossarySuggestPageHelper.cs" />
-    <Compile Include="GlossaryTest.cs" />
-    <Compile Include="MainHelper.cs" />
-    <Compile Include="NewProjectTest.cs" />
-    <Compile Include="ProjectPageHelper.cs" />
-    <Compile Include="Project_MainTest.cs" />
-    <Compile Include="Project_ExportTest.cs" />
-    <Compile Include="Project_ImportTest.cs" />
-    <Compile Include="Project_SaveSettingsByBackTest.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SearchPageHelper.cs" />
-    <Compile Include="SettingDefinition.cs" />
-    <Compile Include="SuggestTermDialogHelper.cs" />
-    <Compile Include="TestSettingDefinition.cs" />
-    <Compile Include="TargetServerConfig.cs" />
-    <Compile Include="UserLogTest.cs" />
-    <Compile Include="UserRightsPageHelper.cs" />
-    <Compile Include="PersonalAccount\WorkflowTestPersAcc.cs" />
-    <Compile Include="WorkSpacePageHelper.cs" />
-    <Compile Include="Workspace_CreateProjectDialogHelper.cs" />
-    <Compile Include="WorkflowTest.cs" />
+	<Compile Include="AdminTests\AdminPageHelper.cs" />
+	<Compile Include="AdminTests\AdminTests.cs" />
+	<Compile Include="AssignResponsiblesTests\AssignResponsiblesTest.cs" />
+	<Compile Include="AssignResponsiblesTests\ResponsiblesDialogHelper.cs" />
+	<Compile Include="Authorization.cs" />
+	<Compile Include="BaseTest.cs" />
+	<Compile Include="CatPanelTests\CatPanelResultsHelper.cs" />
+	<Compile Include="CatPanelTests\CatPanelResultsTest.cs" />
+	<Compile Include="CatPanelTests\CatPanelSubstitutionTest.cs" />
+	<Compile Include="ClientTests\ClientPageHelper.cs" />
+	<Compile Include="ClientTests\ClientTest.cs" />
+	<Compile Include="CommonDataStructures\CompanyType.cs" />
+	<Compile Include="CommonDataStructures\RegistrationField.cs" />
+	<Compile Include="CommonDataStructures\RegistrationType.cs" />
+	<Compile Include="CommonDataStructures\UserInfo.cs" />
+	<Compile Include="CommonHelpers\TestFile.cs" />
+	<Compile Include="CommonHelpers\CommonHelper.cs" />
+	<Compile Include="CommonHelpers\LoginPageHelper.cs" />
+	<Compile Include="CommonHelpers\MainHelper.cs" />
+	<Compile Include="CommonHelpers\SearchPageHelper.cs" />
+	<Compile Include="CommonHelpers\WorkSpacePageHelper.cs" />
+	<Compile Include="CommonHelpers\Workspace_CreateProjectDialogHelper.cs" />
+	<Compile Include="Configs\FilesRootCfg.cs" />
+	<Compile Include="Configs\TargetServerConfig.cs" />
+	<Compile Include="Configs\TestUserConfig.cs" />
+	<Compile Include="Configs\UserInfoConfig.cs" />
+	<Compile Include="DictionaryTests\DictionaryPageHelper.cs" />
+	<Compile Include="DictionaryTests\DictionaryTest.cs" />
+	<Compile Include="DomainTests\DomainPageHelper.cs" />
+	<Compile Include="DomainTests\DomainTest.cs" />
+	<Compile Include="EditorTests\EditorButtonsTest.cs" />
+	<Compile Include="EditorTests\EditorPageHelper.cs" />
+	<Compile Include="EditorTests\EditorSpellcheckTest.cs" />
+	<Compile Include="EditorTests\Editor_RevisionPageHelper.cs" />
+	<Compile Include="EditorTests\Editor_RevisionTest.cs" />
+	<Compile Include="GlossaryTests\AddTermFormHelper.cs" />
+	<Compile Include="GlossaryTests\GlossaryEditFormHelper.cs" />
+	<Compile Include="GlossaryTests\GlossaryEditorTest.cs" />
+	<Compile Include="GlossaryTests\GlossaryEditStructureCustomFieldsTest.cs" />
+	<Compile Include="GlossaryTests\GlossaryEditStructureFormHelper.cs" />
+	<Compile Include="GlossaryTests\GlossaryEditStructureGeneralFieldsTest.cs" />
+	<Compile Include="GlossaryTests\GlossaryEditStructureLanguageFieldsTest.cs" />
+	<Compile Include="GlossaryTests\GlossaryEditStructureTermFieldsTest.cs" />
+	<Compile Include="GlossaryTests\GlossaryItemTest.cs" />
+	<Compile Include="GlossaryTests\GlossaryListPageHelper.cs" />
+	<Compile Include="GlossaryTests\GlossaryMainTest.cs" />
+	<Compile Include="GlossaryTests\GlossaryPageHelper.cs" />
+	<Compile Include="GlossaryTests\GlossarySuggestedTermsTest.cs" />
+	<Compile Include="GlossaryTests\GlossarySuggestPageHelper.cs" />
+	<Compile Include="GlossaryTests\GlossaryTest.cs" />
+	<Compile Include="GlossaryTests\SuggestTermDialogHelper.cs" />
+	<Compile Include="GlossaryTests\UserRightsPageHelper.cs" />
+	<Compile Include="ProjectTests\NewProjectTest.cs" />
+	<Compile Include="ProjectTests\ProjectPageHelper.cs" />
+	<Compile Include="ProjectTests\Project_ExportTest.cs" />
+	<Compile Include="ProjectTests\Project_ImportTest.cs" />
+	<Compile Include="ProjectTests\Project_MainTest.cs" />
+	<Compile Include="ProjectTests\Project_SaveSettingsByBackTest.cs" />
+	<Compile Include="RegistrationTests\CaptchaTest.cs" />
+	<Compile Include="PersonalAccount\Project_MainPersAccTest.cs" />
+	<Compile Include="RegistrationTests\CompanyRegistrationTest.cs" />
+	<Compile Include="RegistrationTests\RandomString.cs" />
+	<Compile Include="RegistrationTests\RegistrationBaseTest.cs" />
+	<Compile Include="TMTests\TMCreationTests.cs" />
+	<Compile Include="TMTests\TMEditingTests.cs" />
+	<Compile Include="TMTests\TMExportTests.cs" />
+	<Compile Include="TMTests\TMInProjectTets.cs" />
+	<Compile Include="TMTests\TMPageHelper.cs" />
+	<Compile Include="TMTests\TMRemovingTests.cs" />
+	<Compile Include="TMTests\TMTest.cs" />
+	<Compile Include="TMTests\TMUpdatingTests.cs" />
+	<Compile Include="TMTests\TMXUploadingTests.cs" />
+	<Compile Include="RegistrationTests\RegistrationPageHelper.cs" />
+	<Compile Include="RegistrationTests\FreelanceRegistrationTest.cs" />
+	<Compile Include="TestUser.cs" />
+	<Compile Include="Properties\AssemblyInfo.cs" />
+	<Compile Include="SettingDefinition.cs" />
+	<Compile Include="TestSettingDefinition.cs" />
+	<Compile Include="UserLogTest.cs" />
+	<Compile Include="PersonalAccount\WorkflowTestPersAcc.cs" />
+	<Compile Include="WorkflowTest.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config">
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="NLog.config">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
+	<None Include="App.config">
+	  <SubType>Designer</SubType>
+	</None>
+	<None Include="NLog.config">
+	  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	</None>
   </ItemGroup>
   <ItemGroup>
-    <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />
+	<Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />
   </ItemGroup>
   <ItemGroup>
-    <WCFMetadata Include="Service References\" />
+	<WCFMetadata Include="Service References\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
-       Other similar extension points exist, see Microsoft.Common.targets.  
+	   Other similar extension points exist, see Microsoft.Common.targets.  
   <Target Name="BeforeBuild">
-          <Copy
-            SourceFiles="IEDriverServer.exe"
-            DestinationFolder="..\bin\"
-        />
+		  <Copy
+			SourceFiles="IEDriverServer.exe"
+			DestinationFolder="..\bin\"
+		/>
   </Target>
 -->
   <Target Name="AfterBuild">
-    <Copy SourceFiles="..\IEDriverServer.exe" DestinationFolder="..\bin\" />
+	<Copy SourceFiles="..\IEDriverServer.exe" DestinationFolder="..\bin\" />
   </Target>
 </Project>
