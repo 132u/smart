@@ -555,8 +555,16 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 				// Закрываем Modal Dialog
 				AcceptModalDialog();
 
-				// Пробуем перейти на страницу еще раз
-				GoToWorkspace();
+				// Перейти на страницу workspace второй раз
+				Driver.Navigate().GoToUrl(WorkspaceUrl);
+
+				// Если открылась страница логина
+				if (LoginPage.WaitPageLoad(1) || LoginPage.WaitPromoPageLoad())
+				{
+
+					// Проходим процедуру авторизации
+					Authorization(accountName);
+				}
 			}
 		}
 
