@@ -796,7 +796,16 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 				// Загрузить файл
 				WorkspaceCreateProjectDialog.ClickAddDocumentBtn();
 				FillAddDocumentForm(downloadFile);
-				WorkspaceCreateProjectDialog.WaitDocumentAppear(Path.GetFileName(downloadFile));
+
+				if (!WorkspaceCreateProjectDialog.WaitDocumentAppear(Path.GetFileName(downloadFile)))
+				{
+					TryCloseExternalDialog2();
+					WorkspaceCreateProjectDialog.ClickAddDocumentBtn();
+					FillAddDocumentForm(downloadFile);
+					Assert.IsTrue(WorkspaceCreateProjectDialog.WaitDocumentAppear(Path.GetFileName(downloadFile)),
+						"Ошибка: документ не загрузился после второй попытки");
+				}
+
 			}
 			WorkspaceCreateProjectDialog.ClickNextStep();
 
@@ -1127,6 +1136,17 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 
 			// заменить в методах, где загружаются объекты, на ожидание появления загруженного объекта, потом убрать слип здесь
 			Thread.Sleep(3000);
+		}
+
+		/// <summary>
+		/// Закрываем диалог 2
+		/// </summary>
+		protected void TryCloseExternalDialog2()
+		{
+			SendKeys.SendWait(@"{Tab}");
+			Thread.Sleep(1000);
+			SendKeys.SendWait(@"{Enter}");
+			Thread.Sleep(1000);
 		}
 
 		/// <summary>
