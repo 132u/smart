@@ -151,7 +151,25 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		{
 			return "//li[text()='" + dataServer + "']/following-sibling::li[@class='ng-scope']//span[text()='" + accountName + "']";
 		}
-		
+
+		/// <summary>
+		/// Проверить, что Европа отображаестя на стр выбора аккаунта
+		/// </summary>
+		/// <returns></returns>
+		public bool CheckEuropeServerIsDisplayed()
+		{
+			return WaitUntilDisplayElement(By.XPath(EUROPE_SERVER));
+		}
+
+		/// <summary>
+		/// Проверить, что США отображаестя на стр выбора аккаунта
+		/// </summary>
+		/// <returns></returns>
+		public bool CheckUsaServerIsDisplayed()
+		{
+			return WaitUntilDisplayElement(By.XPath(USA_SERVER));
+		}
+
 		protected const string EMAIL_CSS = "input[name=\"email\"]";
 		protected const string PASSWORD_CSS = "input[name=\"password\"]";
 		protected const string SUBMIT_BTN_CSS = "//button[contains(@class, 'btn-danger')]";
@@ -162,6 +180,8 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		protected const string EMAIL_LPRO_XPATH = "email";
 		protected const string PASSWORD_LPRO_XPATH = "password";
 		protected const string SUBMIT_LPRO_XPATH = "//button[@id='btn-sign-in']";
+		protected const string EUROPE_SERVER = "//li[text()='Europe']";
+		protected const string USA_SERVER = "//li[text()='USA']";
 
 		protected const string PRO_ELEMENT = "//div[@class='logo-description']";
 	}

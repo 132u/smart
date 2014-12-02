@@ -84,6 +84,8 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// </summary>
 		public void SelectSecondService()
 		{
+			// Кликнуть кнопку Add
+			ClickAddServiceBtn();
 			ClickElement(By.XPath(SERVICE_PROVID3));
 			ClickElement(By.XPath(SERVICE_PROVIDE4));
 		}
@@ -333,19 +335,19 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		protected const string COUNTRY2 = "//select[@id='country']/option[@value='2']";
 		protected const string TIMEZONE = "//select[@id='timezone']/option[@value='3']";
 		protected const string NATIVE_LANGUAGE =
-			"//span[contains(@class,'native_langs')]//select[contains(@class, 'languages')]//option[@value='4']";
+			"//select[contains(@class, 'multi-select-item ')]//option[@value='4']";
 		protected const string SERVICE_PROVIDE = "//table[@class='t-servSelect']//td[1]/select/option[@value='2']";
 		protected const string SERVICE_PROVIDE2 = "//table[@class='t-servSelect']//td[3]/select/option[@value='6']";
-		protected const string SERVICE_PROVID3 = "//table[@class='t-servSelect']//tr[2]/td[1]/select/option[@value='6']";
-		protected const string SERVICE_PROVIDE4 = "//table[@class='t-servSelect']//tr[2]/td[3]/select/option[@value='9']";
+		protected const string SERVICE_PROVID3 = "//table[@class='t-servSelect']//tbody[3]//select//option[@value='6']";
+		protected const string SERVICE_PROVIDE4 = "//table[@class='t-servSelect']//tbody[3]//td[3]/select/option[@value='9']";
 		protected const string CREATE_ACCOUNT_BUTTON = "//button[@id='btn-create-account']";
-		protected const string LANG_LEVEL = "//tr[@class='ng-scope']/td[4]//select/option[@value='0']";
+		protected const string LANG_LEVEL = "//tr[contains(@name,'serviceSelectForm')]/td[4]//select/option[@value='0']";
 		protected const string LANG_LEVEL2 = "//tr[@class='ng-scope']//td[@class='service_select']";
 		protected const string FIRST_STEP_LABEL = "//strong[@class='ng-binding']";
 		protected const string SECOND_STEP_LABEL = "//div[@class='panel-heading']/h4";
 		protected const string ACCOUNT_XPATH = ".//div[contains(@class,'js-corp-account')]";
 		protected const string USER_NAME_XPATH = ACCOUNT_XPATH + "//span[contains(@class,'nameuser')]";
-		protected const string ERROR_MESSAGE_USER_IS_ALREADY_EXIST = "//p[contains(@class, 'help-block messagebox') and contains(@ng-show,'[errors.alreadyExists]')]"; //сообщение, что юзер уже существует
+		protected const string ERROR_MESSAGE_USER_IS_ALREADY_EXIST = "//div[@ng-message='already-exists']"; //сообщение, что юзер уже существует
 		protected const string CREATE_ACCOUNT_IN_ABBYY_ONLINE_LINK = "//a[text()='account in ABBYY-Online']";
 		protected const string USER_NOT_EXIST_MESSAGE = "//p[@class='help-block messagebox ng-binding ng-scope' and contains(@ng-show,'[errors.userNotFound]')]";//сообщение ,что юзера не существует 
 		protected const string EXIST_ACCOUNT_LINK_ABBY_ONLINE = "//a[@id='show-sign-in']";
@@ -453,6 +455,13 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			ClickElement(By.XPath(SIGN_OUT_BTN));
 		}
 
+		/// <summary>
+		/// Кликнуть кнопку Add для добавления второй пары языков
+		/// </summary>
+		public void ClickAddServiceBtn()
+		{
+			ClickElement(By.XPath(ADD_SERVICE));
+		}
 		protected const string FIRST_NAME_COMPANY = ".//input[@id='firstname']";
 		protected const string LAST_NAME_COMPANY = ".//input[@id='lastname']";
 		protected const string COMPANY_NAME_COMPANY = ".//input[@id='company']";
@@ -466,6 +475,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		protected const string CAPTCHA_LABEL = "//label[@for='captcha']";
 		protected const string CAPTCHA_INPUT = "//input[@id='captcha']";
 		protected const string SIGN_OUT_BTN = "//a[@id='btn-signout']"; // кнопка Sign out на странице corp-reg (2й шаг)
-
+		protected const string ADD_SERVICE = "//div[@class='add-item']//a";
 	}
 }

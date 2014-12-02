@@ -51,6 +51,11 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Registration.Freelance
 			LoginPage.EnterPassword(RegistrationPage.Password);
 			//Нажать кнопку Sign In
 			LoginPage.ClickSubmitCredentials();
+
+			// Если открылась страница выбора аккаунта, то кликаем по названию аккаунта
+			if (LoginPage.CheckEuropeServerIsDisplayed() && LoginPage.CheckUsaServerIsDisplayed())
+				LoginPage.ClickAccountName("Personal");
+
 			//Проверить что имя и фамилия фрилансера отображается в панели на стр WS
 			Assert.IsTrue(
 				RegistrationPage.CheckNameSurnameInWSPanel(),
@@ -119,6 +124,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Registration.Freelance
 		[Test]
 		public void CheckPhotoLabel()
 		{
+			Assert.Ignore("Тест инорируем, так как поле для загрузки фото убрали со стр регистрации фрилансеров");
 			// Переход на страницу регистрации
 			GoToRegistrationPage(RegistrationType.User);
 			// Заполняем все поля на первом шаге регистрации
@@ -135,6 +141,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Registration.Freelance
 		/// Тест для проверки, что кнопка SignUp неактивна, если этап для второй пары языков, не указан  PRX-5503 п 6.3.
 		/// </summary>
 		[Test]
+		[Category("PRX-6718")]
 		public void CheckBtnIsDisableWhenLevelIsNotSet()
 		{
 			// Переход на страницу регистрации
