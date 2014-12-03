@@ -1136,10 +1136,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 
 			SendKeys.SendWait(txt);
 			Thread.Sleep(1000);
-			SendKeys.SendWait(@"{Tab}");
-			Thread.Sleep(1000);
-			SendKeys.SendWait(@"{Tab}");
-			Thread.Sleep(1000);
 			SendKeys.SendWait(@"{Enter}");
 
 			// заменить в методах, где загружаются объекты, на ожидание появления загруженного объекта, потом убрать слип здесь
