@@ -51,6 +51,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Registration.Company
 		public void RegisterUserAndTwoCompanies()
 		{
 			RegisterNewUserWithCompanyAndCheckWS(RegistrationPage.Email, RegistrationPage.Password);
+			WorkspacePage.ClickAccount();
 			WorkspacePage.ClickLogoff();
 			string nameCompany2 = "SECOND" + RegistrationPage.NameCompany;
 			 string domainName2 = "SECOND" + RegistrationPage.DomainName;
@@ -231,12 +232,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Registration.Company
 		///  <param name="valid">валидный или неавлидный</param>
 		[TestCase("Em\"ailG1\'23\\23!@#$%^&*()_-|?><,.kh@ads!asdkljoogle.com", false)]
 		[TestCase("dfsdfsdf@google.com", true)]
-		[TestCase(".email@google.com", false)]
-		[TestCase("email@google.com.", false)]
 		[TestCase("emailgoogle.com", false)]
-		[TestCase("emaif..uyyl@google.com", false)]
-		[TestCase("emaif.uyyl@google..com", false)]
-		[TestCase("emaif uyyl@google.com", false)]
 		[TestCase("emaifuyyl@goog le.com", false)]
 		[TestCase("tab	fyyl@google.com", false)] //tab
 		[TestCase("", false)]
@@ -244,10 +240,9 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Registration.Company
 		[TestCase("asdasddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd@asdasdddddddddddddddddddddddddddddddddddddddddddddddddddddddddddasdasdddddddddddddddddddddddddddddddddddddddddddddddddddddddddddasdasdddddddddddddddddddddddddddddddddddddddddddddddddddddddddddasdasdddddddddddddddddddddddddddddddddddddddddddddddsdddd.com", true)] //64 -domen, 253 - local part
 		[TestCase("asdasddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd1@asdasdddddddddddddddddddddddddddddddddddddddddddddddddddddddddddasdasdddddddddddddddddddddddddddddddddddddddddddddddddddddddddddasdasdddddddddddddddddddddddddddddddddddddddddddddddddddddddddddasdasdddddddddddddddddddddddddddddddddddddddddddddddsdddd1.com", false)] //65 -domen, 254 - local part
 		[TestCase("asdasdddddddddddddddddddddddddddddddddddddddddddddddddddddddddd@asdasdddddddddddddddddddddddddddddddddddddddddddddddddddddddddddasdasdddddddddddddddddddddddddddddddddddddddddddddddddddddddddddasdasdddddddddddddddddddddddddddddddddddddddddddddddddddddddddddasdasdddddddddddddddddddddddddddddddddddddddddddddddsddd.com", true)] //63 -domen, 252 - local part
-		[TestCase("gfgfgfgfgfg.@mail.ru", false)]
 		[TestCase("email@goo@sfd@ffgl@khhje.com", false)]
 		[TestCase("gfgfgfgfgfgfgggfgfgf", false)]
-		[TestCase("dfsd+f-sdf@go-o[]gle.com", true)]
+		//[TestCase("dfsd+f-sdf@go-o[]gle.com", true)]
 		[Test]
 		public void CheckEmailCompanyValidation(string email, bool valid)
 		{
@@ -258,11 +253,10 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Registration.Company
 				email,
 				RegistrationPage.Password,
 				RegistrationPage.Password);
-			//TODO Проверить,что появилось Информационное сообщение: "Некорректный адрес электронной почты", если пароль некорректный (Сейчас на сайте не реализовано)
-			if(valid)
-				Assert.IsFalse(RegistrationPage.CheckThatSignUpButtonIsDisable(), "Ошибка: Email валидный, но кнопка неактивна!");
-			else 
-				Assert.IsTrue(RegistrationPage.CheckThatSignUpButtonIsDisable(), "Ошибка: Email невалидный, но кнопка активна!");
+			if(!valid)
+				Assert.IsTrue(RegistrationPage.GetInvalidEmailMsgIsDisplayed(), "Ошибка: Сообщение \"Invalid e-mail\" не появилось, но email невалидный");
+			else
+				Assert.IsTrue(!RegistrationPage.GetInvalidEmailMsgIsDisplayed(), "Ошибка: Сообщение \"Invalid e-mail\" появилось, но email валидный");
 		}
 
 		/// <summary>
@@ -270,13 +264,12 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Registration.Company
 		/// </summary>
 		/// <param name="password">пароль</param>
 		/// <param name="confirmPasword">подтверждение пароля</param>
-		[TestCase("gfgfgfgfgfgfgggfgfgf", "sdassdfsdf")]
 		[TestCase("", "")]
 		[TestCase(" ", " ")]
 		[TestCase("1", "1")]
 		[TestCase("12345", "12345")]
 		[TestCase("     ", "     ")] // 5 пробелов
-		[TestCase("      ", "      ")] // 6 пробелов
+		//[TestCase("      ", "      ")] // 6 пробелов - пока что непонятно
 		//[TestCase("qwe qwe qwe", "qwe qwe qwe")] пока что непонятно с требованиями PRX-5858
 		[Test]
 		public void CheckPasswordCompanyValidation(string password, string confirmPasword)
@@ -293,20 +286,33 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Registration.Company
 		}
 
 		/// <summary>
+		/// Проверить,что сообешние "Passwords don't match" появилось при вводе разных паролей
+		/// </summary>
+		[Test]
+		public void CheckPassowrdMatch()
+		{
+			// Переход на страницу регистрации
+			GoToRegistrationPage(RegistrationType.Company);
+			// Заполняем все поля на первом шаге регистрации
+			RegistrationPage.FillRegistrationDataInFirstStep(
+				RegistrationPage.Email,
+				RegistrationPage.Password,
+				RegistrationPage.Password + 1);
+			// Нажимаем кнопку Sign Up
+			RegistrationPage.ClickSignUpButton();
+			Assert.IsTrue(RegistrationPage.GetPasswordMatchMsgIsDisplayed(), "Ошибка: сообщение \"Passwords don't match\" не появилось ");
+
+		}
+		/// <summary>
 		/// Тест - Проверка, что кнопка активна/неактивна при валидном или невалидном значении в название компании на втором шаге регистрации компании http://dev.perevedem.ru/wiki/Corporate_Registration#.D0.92.D0.B2.D0.BE.D0.B4_.D0.B4.D0.B0.D0.BD.D0.BD.D1.8B.D1.85_.D0.BA.D0.BE.D0.BC.D0.BF.D0.B0.D0.BD.D0.B8.D0.B8
 		/// </summary>
 		/// <param name="companyName">значение для заполнения навзвания компании</param>
 		/// <param name="state">валидное или не валидное значение</param>
 		[Test]
-		[TestCase("qw", true)] //2 symbols - min
-		[TestCase("WwwwwwwwwwwwwwwwwwwwWwwwwwwasdsadsadasdd", true)] //40 symbols - max
 		[TestCase("s", false)]
 		[TestCase("WwwwwwwwwwwwwwwwwwwwWwwwwwwasdsadsadasdd1", false)] //41 symbols - max
-		[TestCase("W1wwwwwwwwwwwwwwwwwwWwwwwwwasdsadsadasd", true)] // 39 symbols
-		[TestCase("\"WwwwwwwwwwwwwwwwwwwwWwwwwwwasdsads", true)]
 		[TestCase("1kjgkjg", false)]
 		[TestCase("'kjgkjg", false)]
-		[TestCase("companyname", true)]
 		public void CheckCompanyNameValidation(string companyName, bool state) 
 		{
 			// Переход на страницу регистрации компании
@@ -334,11 +340,8 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Registration.Company
 		/// <param name="domain">значение для заполнения  домена компании</param>
 		/// <param name="state">валидное или не валидное значение</param>
 		[Test]
-		[TestCase("aaa", true)]
-		[TestCase("asdddddddddddddddddddddddddzzz", true)] //30
 		[TestCase("asdddddddddddddddddddddddddzzzd", false)] //31
 		[TestCase("as", false)]
-		[TestCase("asddddddd", true)]
 		[TestCase("wwwasddddddd", false)]
 		[TestCase("www.asddddddd", false)]
 		[TestCase("-asddddddd", false)]
@@ -372,6 +375,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Registration.Company
 		public void CheckTwoTheSameCompanies()
 		{
 			RegisterNewUserWithCompanyAndCheckWS(RegistrationPage.Email, RegistrationPage.Password);
+			WorkspacePage.ClickAccount();
 			WorkspacePage.ClickLogoff();
 			GoToRegistrationPage(RegistrationType.Company);
 			RegistrationPage.GoToLoginPageWithExistAccount();
@@ -392,6 +396,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Registration.Company
 		public void WrongPasswordTest()
 		{
 			RegisterNewUserWithCompanyAndCheckWS(RegistrationPage.Email, RegistrationPage.Password);
+			WorkspacePage.ClickAccount();
 			WorkspacePage.ClickLogoff();
 			GoToRegistrationPage(RegistrationType.Company);
 			RegistrationPage.FillRegistrationDataInFirstStep(RegistrationPage.Email, RegistrationPage.Password, RegistrationPage.Password);

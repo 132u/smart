@@ -664,6 +664,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		protected const string LOGOFF_XPATH = ".//a[contains(@href,'Logout')]";
 
 		protected const string TOP_BOX_COMPANY_NAME = "//div[@class='g-topbox__currentAccount__nickname']";
-		protected const string COMPANY_NAME_PANEL_WS = "//span[@class='g-topbox__currentAccount__name']";
+		protected const string COMPANY_NAME_PANEL_WS = "//span[contains(@class,'selected-account')]";
 	}//div[@class='g-topbox__currentAccount__nickname']/span[@class='g-topbox__currentAccount__name']
 }

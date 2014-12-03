@@ -21,7 +21,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			Email = GetUniqueEmail();
 			Password = GetUniquePassword();
 			NickName = GetUniqueString();
-			NameCompany = RandomString.GenerateRandomString();
+			NameCompany = "CN" + RandomString.Generate(8);
 			DomainName = "D" + RandomString.GenerateRandomString();
 		}
 
@@ -434,6 +434,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 
 		public bool GetWrongPasswordMsgIsDisplay()
 		{
+			WaitUntilDisplayElement(By.XPath(WRONG_PASSWORD));
 			return GetIsElementDisplay(By.XPath(WRONG_PASSWORD));
 		}
 
@@ -462,6 +463,22 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		{
 			ClickElement(By.XPath(ADD_SERVICE));
 		}
+
+		/// <summary>
+		/// Вернуть появилось ли сообщение о том, что пароли не совпадают
+		/// </summary>
+		public bool GetPasswordMatchMsgIsDisplayed()
+		{
+			return WaitUntilDisplayElement(By.XPath(PASSWORD_ERROR_MATCH));
+		}
+
+		/// <summary>
+		/// Вернуть появилось ли сообщение о том, email невалидный
+		/// </summary>
+		public bool GetInvalidEmailMsgIsDisplayed()
+		{
+			return WaitUntilDisplayElement(By.XPath(EMAIL_INVALID_MSG));
+		}
 		protected const string FIRST_NAME_COMPANY = ".//input[@id='firstname']";
 		protected const string LAST_NAME_COMPANY = ".//input[@id='lastname']";
 		protected const string COMPANY_NAME_COMPANY = ".//input[@id='company']";
@@ -471,10 +488,12 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		protected const string COMPANY_TYPE_DD = ".//select[@id='company-type']";
 		protected const string OPTION_IN_COMPANY_TYPE_DD = "//option[@value='";
 		protected const string LOGIN_LINK_FROM_MSG = "//a[@ng-click='showSignIn()' and text()='log in']";
-		protected const string WRONG_PASSWORD = "//p[@class='help-block ng-scope']";
+		protected const string WRONG_PASSWORD = "//div[contains(@class, 'messagebox') and contains(@ng-show, 'wrongPassword')]";
 		protected const string CAPTCHA_LABEL = "//label[@for='captcha']";
 		protected const string CAPTCHA_INPUT = "//input[@id='captcha']";
 		protected const string SIGN_OUT_BTN = "//a[@id='btn-signout']"; // кнопка Sign out на странице corp-reg (2й шаг)
 		protected const string ADD_SERVICE = "//div[@class='add-item']//a";
+		protected const string PASSWORD_ERROR_MATCH = "//span[contains(@ng-show, 'error.match ')]";
+		protected const string EMAIL_INVALID_MSG = "//span[contains(@ng-show,'signupForm.email')]";
 	}
 }
