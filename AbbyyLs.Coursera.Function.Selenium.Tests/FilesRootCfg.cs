@@ -9,7 +9,7 @@ using System.Runtime.Serialization;
 namespace AbbyyLS.Coursera.Function.Selenium.Tests
 {
 	[DataContract(Name = "TestingFiles")]
-	class FilesRootCfg
+	public class FilesRootCfg
 	{
 		[DataMember(Name = "RootDirectory")]
 		public string Root { get; set; }

@@ -68,6 +68,7 @@
     <Compile Include="Leaderboard.cs" />
     <Compile Include="LeaderboardPageHelper.cs" />
     <Compile Include="LecturePageHelper.cs" />
+    <Compile Include="TestFile.cs" />
     <Compile Include="TestUser.cs" />
     <Compile Include="TestUserConfig.cs" />
     <Compile Include="ProfilePageHelper.cs" />

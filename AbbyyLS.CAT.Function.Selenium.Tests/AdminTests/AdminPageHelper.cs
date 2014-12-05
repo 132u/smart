@@ -83,6 +83,13 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		}
 
 		/// <summary>
+		/// Кликнуть кнопку управления пользователями для определенного корп аккаунта в таблице аккаунтов
+		/// </summary>
+		public void ClickUserAddBtnInCorpList(string account)
+		{
+			ClickElement(By.XPath(ACCOUNT_NAME_IN_LIST + account + "']" + ALL_MANAGE_USER_BTN));
+		}
+		/// <summary>
 		/// Кликнуть для перехода на страницу управления пользователями определенного аккаунта
 		/// </summary>
 		/// <param name="accountName">имя аккаунта</param>
@@ -350,6 +357,55 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			ClickElement(By.XPath(ACTIVE_CHECKBOX_XPATH));
 		}
 
+		/// <summary>
+		/// Чекнуть чекбокс Администратор
+		/// </summary>
+		public void ChechIsAdminCheckbox()
+		{
+			ClickElement(By.XPath(IS_ADMIN_CHECKBOX));
+		}
+
+		/// <summary>
+		/// Кликнуть по ссылке Поиск пользователей в меню слева
+		/// </summary>
+		public void ClickSearchUserLink()
+		{
+			ClickElement(By.XPath(SERACH_USER_LINK));
+			WaitUntilDisplayElement(By.XPath(SERACH_USER_LINK));
+		}
+
+		/// <summary>
+		/// Кликнуть по кнопке Найти рядом с полем поиска
+		/// </summary>
+		public void ClickFindBtn()
+		{
+			ClickElement(By.XPath(FIND_BTN));
+		}
+
+		/// <summary>
+		/// Кликнуть по email в таблице результатов поиска
+		/// </summary>
+		public void ClickEmailInSearchResultTable(string email)
+		{
+			ClickElement(By.XPath(EMAIL_IN_SEARCH_RES_TABLE + email + "']"));
+		}
+
+		/// <summary>
+		/// Вернуть: сообщение "Пользователь с таким e-mail уже существует в AOL, теперь добавлен и в БД приложения"
+		/// </summary>
+		/// <returns></returns>
+		public bool GetIsUserIsExistMsgDisplay()
+		{
+			return GetIsElementDisplay(By.XPath(USER_IS_EXIST_MCG));
+		}
+
+		/// <summary>
+		/// Отметить Workflow чекбокс при создании корп аккаунта
+		/// </summary>
+		public void CheckWorkflowCheckbox()
+		{
+			ClickElement(By.XPath(WORKFLOW_CHECKBOX));
+		}
 		protected const string LOGIN_FORM_XPATH = "//form[contains(@action,'/Home/Login')]";
 		protected const string LOGIN_FORM_LOGIN_XPATH = "//input[@name='email']";
 		protected const string LOGIN_FORM_PASSWORD_XPATH = "//input[@name='password']";
@@ -388,5 +444,13 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		protected const string ACTIVE_CHECKBOX_XPATH = "//input[@type='checkbox' and @id='IsActive']"; // чекбокс Active
 		//все кнопки ManageUsers в таблице корпоративных аккаунтов
 		protected const string ALL_MANAGE_USER_BTN = "//preceding-sibling::td//a[contains(@href,'/EnterpriseAccounts/ManageUsers/')]";
-	}
+		protected const string ACCOUNT_NAME_IN_LIST = "//td[text()='";
+		//td[text()='Coursera3']/preceding-sibling::td//div//a[contains(@href,'/EnterpriseAccounts/ManageUsers')]
+		protected const string IS_ADMIN_CHECKBOX = "//input[@id='isAdmin'] ";
+		protected const string SERACH_USER_LINK = "//a[@href='/Users']";
+		protected const string FIND_BTN = "//form[@action='/Users']/input[2]";
+		protected const string EMAIL_IN_SEARCH_RES_TABLE = "//a[text()='";
+		protected const string USER_IS_EXIST_MCG = "//fieldset//div[2]/span[contains(text(),'таким e-mail уже существует в AOL')]";
+		protected const string WORKFLOW_CHECKBOX = "//input[@id='WorkflowEnabled']";
+		}
 }

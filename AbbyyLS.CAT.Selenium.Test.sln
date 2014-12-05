@@ -10,8 +10,11 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "configs", "configs", "{A63C7CD2-0E87-4A6C-8B47-0AA9D76961CC}"
 	ProjectSection(SolutionItems) = preProject
 		configs\AgentSpecific.xml = configs\AgentSpecific.xml
+		configs\CourseraUsers.xml = configs\CourseraUsers.xml
 		configs\TestUsers.xml = configs\TestUsers.xml
 	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AbbyyLS.CAT.Function.Selenium.Admin", "AbbyyLS.CAT.Function.Selenium.Admin\AbbyyLS.CAT.Function.Selenium.Admin.csproj", "{7DF8C0A3-4319-4689-B11F-2F18BD290458}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -27,6 +30,10 @@ Global
 		{8DF75CDC-DC96-4B13-925C-00D1C2FE2188}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8DF75CDC-DC96-4B13-925C-00D1C2FE2188}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8DF75CDC-DC96-4B13-925C-00D1C2FE2188}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7DF8C0A3-4319-4689-B11F-2F18BD290458}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7DF8C0A3-4319-4689-B11F-2F18BD290458}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7DF8C0A3-4319-4689-B11F-2F18BD290458}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7DF8C0A3-4319-4689-B11F-2F18BD290458}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

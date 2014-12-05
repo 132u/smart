@@ -10,8 +10,8 @@ namespace AbbyyLS.Coursera.Function.Selenium.Tests
 	[DataContract(Name = "TestUsers")]
 	class TestUserConfig
 	{
-		[DataMember(Name = "TestUser")]
-		public List<TestUser> Users { get; set; }
+		[DataMember(Name = "CourseraUser")]
+		public List<TestUser> CourseraUsers { get; set; }
 
 	}
 }

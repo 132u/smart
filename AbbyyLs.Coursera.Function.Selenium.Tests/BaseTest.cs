@@ -62,11 +62,12 @@ namespace AbbyyLS.Coursera.Function.Selenium.Tests
 		{
 			public string login;
 			public string password;
-
-			public UserInfo(string l, string p)
+			public bool activated;
+			public UserInfo(string l, string p, bool isActivated = true)
 			{
 				login = l;
 				password = p;
+				activated = isActivated;
 			}
 		}
 
@@ -88,14 +89,14 @@ namespace AbbyyLS.Coursera.Function.Selenium.Tests
 			}
 		}
 
-		private List<UserInfo> _testUserList;
-		protected List<UserInfo> TestUserList
-		{
-			get
-			{
-				return _testUserList;
-			}
-		}
+		//private List<UserInfo> _testUserList;
+		//protected List<UserInfo> TestUserList
+		//{
+		//	get
+		//	{
+		//		return _testUserList;
+		//	}
+		//}
 
 
 		private string _userName;
@@ -189,6 +190,12 @@ namespace AbbyyLS.Coursera.Function.Selenium.Tests
 		}
 
 		/// <summary>
+		/// Пользователи Coursera
+		/// </summary>
+		protected List<UserInfo> TestUserList { get; private set; }
+		protected TestFile TestFile { get; private set; }
+
+		/// <summary>
 		/// Страница редактора
 		/// </summary>
 		private EditorPageHelper _editorPageHelper;
@@ -273,13 +280,24 @@ namespace AbbyyLS.Coursera.Function.Selenium.Tests
 			
 			_browserName = browserName;
 			_url = cfgAgentSpecific.Url;
-			
+			TestFile = new TestFile(cfgRoot);
 			CreateDriver();
 
-			_testUserList = new List<UserInfo>();
+			//_testUserList = new List<UserInfo>();
 
-			// Заполнение данных тестовых пользователей
-			for (int v=0; v<16; v++) _testUserList.Add(new UserInfo(cfgConst.Users[v].Login, cfgConst.Users[v].Password));
+			//// Заполнение данных тестовых пользователей
+			//for (int v=0; v<16; v++) _testUserList.Add(new UserInfo(cfgConst.Users[v].Login, cfgConst.Users[v].Password));
+			var cfgCourseraUser = TestSettingDefinition.Instance.Get<TestUserConfig>();
+			TestUserList = new List<UserInfo>();
+
+			foreach (var user in cfgCourseraUser.CourseraUsers)
+			{
+				TestUserList.Add(
+					new UserInfo(
+						user.Login,
+						user.Password,
+						user.Activated));
+			}
 
 			// заполнение констант
 

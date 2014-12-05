@@ -33,6 +33,18 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		}
 
 		/// <summary>
+		/// Найти пользователя по email
+		/// </summary>
+		/// <param name="email"> email </param>
+		public void FindUser(string email)
+		{
+			AdminPage.ClickSearchUserLink();
+			AdminPage.FillUserNameSearch(email);
+			AdminPage.ClickFindBtn();
+			AdminPage.ClickEmailInSearchResultTable(email);
+		}
+
+		/// <summary>
 		/// Открыть форму создания корпоративного аккаунта
 		/// </summary>
 		public void OpenCreateAccountForm()
@@ -62,18 +74,34 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <summary>
 		/// Заполнить основные поля создания аккаунта
 		/// </summary>
+		/// <param name="testAccount"> Аккаунт для бобби или обычный корп аккаунт </param>
+		/// <param name="ventureId"> Имя затеи </param>
+		/// <param name="workFlow"> Workflow чекбокс </param>
+		/// <param name="venture"> Затея </param>
 		/// <returns>имя аккаунта</returns>
-		public string FillGeneralAccountFields()
+		public string FillGeneralAccountFields(string testAccount = "", bool workFlow = false, string venture = "SmartCAT")
 		{
 			// Заполнить форму аккаунта
 			var uniqPref = DateTime.Now.Ticks.ToString();
-			var accountName = "TestAccount" + uniqPref;
+			string accountName = (testAccount == "") ? "TestAccount" + uniqPref : testAccount;
+
 			// Название
 			AdminPage.FillAccountName(accountName);
-			// Затея		
-			AdminPage.SetVenture(Driver.Url.Contains("stage1") ? "Perevedem.ru" : "SmartCAT");
+
+			// Выбрали затею
+			AdminPage.SetVenture(venture);
+
+			// Затея
+			//AdminPage.SetVenture(Driver.Url.Contains("stage1") ? "Perevedem.ru" : "SmartCAT");
+
 			// Поддомен
 			AdminPage.FillSubdomainName("testaccount" + uniqPref);
+
+			if (workFlow)
+			{
+				AdminPage.CheckWorkflowCheckbox();
+				AcceptWorkflowModalDialog();
+			}
 
 			// Вернуть имя аккаунта
 			return accountName;
@@ -111,9 +139,10 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// Создание нового юзера
 		/// </summary>
 		/// <param name="emailForNewUser"> email </param>
-		/// <param name="nickNameForNewUser"> никнэйм </param>
+		/// <param name="nickNameForNewUser"> nickname </param>
 		/// <param name="password"> пароль </param>
-		public void CreateNewUserInAdminPage(string emailForNewUser, string nickNameForNewUser, string password)
+		/// <param name="admin"> админ или нет </param>
+		public void CreateNewUserInAdminPage(string emailForNewUser, string nickNameForNewUser, string password, bool admin = false)
 		{
 			AdminPage.ClickCreateNewUserBtn();
 			AdminPage.FillEmailForNewUser(emailForNewUser);
@@ -121,13 +150,27 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			AdminPage.FillPasswordForNewUser(password);
 			AdminPage.FillConfirmPasswordForNewUser(password);
 			AdminPage.ClickSubmitBtnNewUser();
+			if(admin)
+				AdminPage.ChechIsAdminCheckbox();
+
+			AdminPage.ClickSubmitBtnNewUser();
 		}
 
 		/// <summary>
 		/// Добавить польователя в корп аккаунт
 		/// </summary>
 		/// <returns>Имя созданного аккаунта</returns>
-		public  string AddUserToCorpAccount()
+		public void AddUserToCorpAccount(string userEmail)
+		{
+			AddUserToAccount(userEmail);
+		}
+
+		/// <summary>
+		/// Создание корпоративного аккаунта
+		/// </summary>
+		/// <param name="testAccount"> Аккаунт для бобби или обычный корп аккаунт </param>
+		/// <returns></returns>
+		public string CreateCorpAccount(string testAccount = "", bool workflow = false, string venture = "SmartCAT")
 		{
 			SwitchEnterpriseAccountList();
 			// Нажать Создать
@@ -137,11 +180,22 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			bool isWindowWithForm = AdminPage.GetIsAddAccountFormDisplay();
 			Assert.IsTrue(isWindowWithForm, "Ошибка: не нашли окно с формой создания аккаунта");
 			// Заполняем поля для создания корп аккаунта
-			string accountName = FillGeneralAccountFields();
+			string accountName = FillGeneralAccountFields(testAccount, workflow, venture);
 			// Нажать кнопку сохранить
 			AdminPage.ClickSaveBtn();
-			AddUserToAccount(RegistrationPage.Email);
 			return accountName;
+		}
+
+		/// <summary>
+		/// Добавить пользователя в конкретный корп аккаунт на стр Корпоративных аккаунтов
+		/// </summary>
+		/// <param name="login"> логин пользователя</param>
+		/// <param name="account"> название аккаунта </param>
+		public void AddUserToSpecifyAccount(string login, string account)
+		{
+			SwitchEnterpriseAccountList();
+			AdminPage.ClickUserAddBtnInCorpList(account);
+			AddUserToCorpAccount(login);
 		}
 	}
 }

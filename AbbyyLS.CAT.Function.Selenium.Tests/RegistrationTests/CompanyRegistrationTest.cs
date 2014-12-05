@@ -39,7 +39,8 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Registration.Company
 			LoginToAdminPage();
 			// Создание нового пользователя
 			CreateNewUserInAdminPage(RegistrationPage.Email, RegistrationPage.NickName, RegistrationPage.Password);
-			_corpAccountNameInAdmin = AddUserToCorpAccount();
+			_corpAccountNameInAdmin = CreateCorpAccount();
+			AddUserToCorpAccount(RegistrationPage.Email);
 			// Переход на страницу регистрации c cуществующим аккаунтом
 			RegisterExistUserAndCheckWS(RegistrationPage.Email, RegistrationPage.Password, RegistrationPage.NameCompany, RegistrationPage.DomainName);
 		}

@@ -86,6 +86,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		protected List<UserInfo> TestUserList { get; private set; }
 
 		protected List<UserInfo> TestCompanyList { get; private set; }
+		protected List<UserInfo> CourseraUserList { get; private set; }
 
 		protected string ProjectName { get; private set; }
 
@@ -1796,6 +1797,24 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		}
 
 		/// <summary>
+		/// Закрываем окно с вопросом о Workflow
+		/// </summary>
+		protected void AcceptWorkflowModalDialog()
+		{
+			try
+			{
+				if (Driver.SwitchTo().Alert().Text.
+					Contains("Включение функции workflow для аккаунта необратимо, обратное выключение будет невозможно. Продолжить?"));// ||
+					Driver.SwitchTo().Alert().Accept();
+
+				Thread.Sleep(500);
+			}
+			catch (NoAlertPresentException)
+			{
+				TryCloseExternalDialog();
+			}
+		}
+		/// <summary>
 		/// Задает русский язык в Target при создании проекта
 		/// </summary>
 		protected void SetRusLanguageTarget()
@@ -1952,11 +1971,13 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			{
 				var cfgTestUser = TestSettingDefinition.Instance.Get<TestUserConfig>();
 				var cfgTestCompany = TestSettingDefinition.Instance.Get<TestUserConfig>();
+				var cfgCourseraUser = TestSettingDefinition.Instance.Get<TestUserConfig>();
+
 
 				TestUserList = new List<UserInfo>();
 				TestCompanyList = new List<UserInfo>();
+				CourseraUserList = new List<UserInfo>();
 
-				// Добавление пользователей в _testUserList из конфига
 				foreach (var user in cfgTestUser.Users)
 				{
 					TestUserList.Add(
@@ -1975,6 +1996,16 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 							user.Password, 
 							user.Activated));
 				}
+
+				foreach (var user in cfgCourseraUser.CourseraUsers)
+				{
+					CourseraUserList.Add(
+						new UserInfo(
+							user.Login, 
+							user.Password,
+							user.Activated));
+				}
+
 			}
 		}
 
