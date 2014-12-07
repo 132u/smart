@@ -97,7 +97,4 @@
   <Target Name="BeforeBuild">
   </Target>
 -->
-  <Target Name="AfterBuild">
-    <Copy SourceFiles="..\IEDriverServer.exe" DestinationFolder="..\bin\" />
-  </Target>
 </Project>

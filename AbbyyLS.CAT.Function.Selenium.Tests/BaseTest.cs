@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Threading;
 using AbbyyLS.CAT.Function.Selenium.Tests.CommonDataStructures;
 using AbbyyLS.CAT.Function.Selenium.Tests.CommonHelpers;
@@ -1131,16 +1132,11 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <param name="DocumentName">полный путь к документу</param>
 		protected void FillAddDocumentForm(string DocumentName)
 		{
-			Thread.Sleep(3000);
-			// Заполнить форму для отправки файла
-			string txt = Regex.Replace(DocumentName, "[+^%~()]", "{$0}");
-
-			SendKeys.SendWait(txt);
-			Thread.Sleep(1000);
-			SendKeys.SendWait(@"{Enter}");
-
-			// заменить в методах, где загружаются объекты, на ожидание появления загруженного объекта, потом убрать слип здесь
-			Thread.Sleep(3000);
+			using (var uploadScript = Process.Start("upload.exe", DocumentName))
+			{
+				if (uploadScript != null)
+					uploadScript.WaitForExit(2000);
+			}
 		}
 
 		/// <summary>
