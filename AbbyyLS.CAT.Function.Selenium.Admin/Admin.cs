@@ -42,7 +42,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Admin
 		public void CreatePersAccountForRingo()
 		{
 			// Создаем ринго пользователя
-			CreateNewUserInAdminPage(Login2, UserName2, Password2, true);
+			CreateNewUserInAdminPage(Login2, UserName2, Password2);
 			CreateNewPersAcc("Personal", true);
 		}
 

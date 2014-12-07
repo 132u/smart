@@ -1135,7 +1135,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			using (var uploadScript = Process.Start("upload.exe", DocumentName))
 			{
 				if (uploadScript != null)
-					uploadScript.WaitForExit(2000);
+					uploadScript.WaitForExit(7000);
 			}
 		}
 
