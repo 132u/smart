@@ -1,0 +1,1 @@
+"%ProgramFiles%\Java\jre7\bin\java.exe" -jar C:\SeleniumServer\selenium-server-standalone-2.43.1.jar -role webdriver -hub http://localhost:4444/grid/register -port 5556 -firefoxProfileTemplate SeleniumProfile -timeout 300000 -browser "browserName=firefox,maxInstances=1,platform=ANY,seleniumProtocol=WebDriver"
