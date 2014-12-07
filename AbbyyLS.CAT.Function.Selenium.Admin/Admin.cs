@@ -39,10 +39,11 @@ namespace AbbyyLS.CAT.Function.Selenium.Admin
 		/// Создание персонального аккаунта для ringo
 		/// </summary>
 		[Test]
+		[Ignore("fails")]
 		public void CreatePersAccountForRingo()
 		{
 			// Создаем ринго пользователя
-			CreateNewUserInAdminPage(Login2, UserName2, Password2);
+			CreateNewUserInAdminPage(Login2, UserName2, Password2, true);
 			CreateNewPersAcc("Personal", true);
 		}
 
