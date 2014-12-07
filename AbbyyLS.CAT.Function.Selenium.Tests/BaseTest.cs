@@ -1136,7 +1136,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			{
 				if (uploadScript != null)
 				{
-					uploadScript.WaitForExit(7000);
+					uploadScript.WaitForExit(20000);
 					if (uploadScript.HasExited)
 						Logger.Trace("Скрипт загрузки файла завершился с кодом " + uploadScript.ExitCode);
 					else
