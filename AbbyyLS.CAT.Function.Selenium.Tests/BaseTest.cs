@@ -25,7 +25,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 	/// </summary>
 
 	[TestFixture("Firefox")]
-	[TestFixture("IE")]
+	//[TestFixture("IE")]
 	public class BaseTest
 	{
 
