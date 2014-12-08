@@ -384,6 +384,9 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 
 			var sourceTerm = EditorPage.GetSourceText(segmentNumber);
 
+			// Нажать кнопку вызова формы для добавления термина
+			EditorPage.ClickAddTermBtn();
+
 			AddTermGlossary(sourceTerm, "термин глоссария");
 
 			EditorPage.ClickTargetCell(segmentNumber);
@@ -394,31 +397,9 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			PasteFromCatReturnCatLineNumber(segmentNumber, EditorPageHelper.CAT_TYPE.TB);
 
 			Assert.AreEqual(
-				_catSubstitutionTbType, 
+				_catSubstitutionTbType,
 				EditorPage.GetTargetSubstitutionType(segmentNumber),
 				"в колонке match таргета не пусто");
-
-		}
-
-		/// <summary>
-		/// Добавляет сорс-таргет сегмента в глоссарий для теста
-		/// </summary>
-		///  <param name="sourceTerm">слово для внесения в словарь</param>
-		///  <param name="targetTerm">перевод слова словаря</param>
-		public void AddTermGlossary(string sourceTerm, string targetTerm)
-		{
-			// Нажать кнопку вызова формы для добавления термина
-			EditorPage.ClickAddTermBtn();
-			// Добавить сорс
-			AddTermForm.TypeSourceTermText(sourceTerm);
-			// Добавить термин в таргет
-			AddTermForm.TypeTargetTermText(targetTerm);
-			// Нажать сохранить
-			AddTermForm.ClickAddBtn();
-			
-			Thread.Sleep(2000);
-			// Термин сохранен, нажать ок
-			AddTermForm.ClickTermSaved();
 		}
 
 		// флаг создан ли проект (создается один раз перед всеми тестами)

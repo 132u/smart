@@ -653,7 +653,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <returns>Css</returns>
 		protected string GetTargetCellCss(int rowNumber)
 		{
-			return SEGMENTS_CSS + ":nth-child(" + rowNumber + ")" + " td." + TARGET_CELL_CLASS + " div";
+			return SEGMENTS_CSS + ":nth-child(" + rowNumber + ")" + " td:nth-of-type(3) div div";
 		}
 		
 		/// <summary>
@@ -675,8 +675,8 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <returns>xPath</returns>
 		protected string GetSourceCellCss(int rowNumber)
 		{
-			return SEGMENTS_CSS + ":nth-child(" + rowNumber + ")" + 
-				" td." + SOURCE_CELL_CLASS + " div";
+			return SEGMENTS_CSS + ":nth-child(" + rowNumber + ")" +
+				" td:nth-of-type(2) div div";
 		}
 
 		/// <summary>
@@ -892,6 +892,57 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		}
 
 		/// <summary>
+		/// Нажать кнопку "перевод" в окошке перед открытием редактора
+		/// </summary>
+		public void ClickTranslationTaskBtn()
+		{
+			ClickElement(By.XPath(TASK_TRNSLT_BTN_XPATH));
+		}
+
+		/// <summary>
+		/// Нажать кнопку "редактура" в окошке перед открытием редактора
+		/// </summary>
+		public void ClickEditingTaskBtn()
+		{
+			ClickElement(By.XPath(TASK_EDIT_BTN_XPATH));
+		}
+
+		/// <summary>
+		/// Нажать кнопку "корректура" в окошке перед открытием редактора
+		/// </summary>
+		public void ClickProofreadingTaskBtn()
+		{
+			ClickElement(By.XPath(TASK_PROOFREADING_BTN_XPATH));
+		}
+
+		/// <summary>
+		/// Убедиться, что появилась кнопка Перевод
+		/// </summary>
+		/// <returns>появилась</returns>
+		public bool GetTranslationTaskBtnIsExist()
+		{
+			return GetIsElementExist(By.XPath(TASK_TRNSLT_BTN_XPATH));
+		}
+
+		/// <summary>
+		/// Убедиться, что появилась кнопка Редактура
+		/// </summary>
+		/// <returns>появилась</returns>
+		public bool GetEditingTaskBtnIsExist()
+		{
+			return GetIsElementExist(By.XPath(TASK_EDIT_BTN_XPATH));
+		}
+
+		/// <summary>
+		/// Убедиться, что появилась кнопка Корректура
+		/// </summary>
+		/// <returns>появилась</returns>
+		public bool GetProofreadingTaskBtnIsExist()
+		{
+			return GetIsElementExist(By.XPath(TASK_PROOFREADING_BTN_XPATH));
+		}
+
+		/// <summary>
 		/// Нажать кнопку "продолжить" в окошке перед открытием редактора
 		/// </summary>
 		public void ClickContBtn()
@@ -967,7 +1018,9 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		protected const string TARGET_MATCH_COLUMN_XPATH = "//td[5]//div";
 		protected const string TARGET_MATCH_COLUMN_PERCENT_XPATH = TARGET_MATCH_COLUMN_XPATH + "//span";
 
-		protected const string TASK_TRNSLT_BTN_XPATH = "//span[contains(@id, 'stagenumber-1')]";
+		protected const string TASK_TRNSLT_BTN_XPATH = "//span[contains(text(),'Translation')]";
+		protected const string TASK_EDIT_BTN_XPATH = "//span[contains(text(), 'Editing')]";
+		protected const string TASK_PROOFREADING_BTN_XPATH = "//span[contains(text(), 'Proofreading')]";
 		protected const string TASK_CONTINUE_BTN_XPATH = "//span[contains(@id, 'continue-btn')]";
 
 		protected const string TITLE_TEXT = "editor";

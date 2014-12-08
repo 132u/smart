@@ -413,6 +413,56 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			ProjectPage.ClickAllAcceptBtns();
 		}
 
+
+
+		/// <summary>
+		/// Создание Тм с импортом файла со страницы проекта
+		/// </summary>
+		/// <param name="tmName">название новой Тм</param>
+		/// <param name="file">файл tmx</param>
+		public void ProjectPageAddTmImportTmx(string tmName, string file)
+		{
+			//Кликнуть кнопку Edit TM
+			ProjectPage.ClickEditTMBtn();
+			//Дождаться появления диалога изменения ТМ
+			ProjectPage.WaitEditTMDialogAppear();
+			//Нажать Create в диалоге редактирования TM
+			ProjectPage.ClickCreateTMBtn();
+			//Заполнить название ТМ в диалоге
+			ProjectPage.FillTmNameDialog(tmName);
+			//Нажать Импорт в диалоге редактирования TM
+			ProjectPage.ClickSaveAndImportTMBtn();
+			//Нажать Загрузить файл в диалоге редактирования TM
+			ProjectPage.ClickUploadTMBtn();
+			//Загрузить документ
+			FillAddDocumentForm(file);
+			//Подтвердить импорт
+			ProjectPage.ClickConfirmImportBtn();
+			// Сохранить изменения
+			ProjectPage.ClickSaveTMBtn();
+			// Дождаться окончания загрузки
+			Assert.IsTrue(ProjectPage.WaitDocumentDownloadFinish(),
+				"Ошибка: документ загружается слишком долго");
+		}
+
+		/// <summary>
+		/// Настройка претранслейта c Tm со страницы проекта
+		/// </summary>
+		/// <param name="tmName">название Тм для претранслейта</param>
+		public void SetTmPretranslate(string tmName)
+		{
+			// нажать кнопку претранслейт
+			ProjectPage.ClickPretranslateBtn();
+			// создать новое правило
+			ProjectPage.ClickNewRuleBtn();
+			// открыть меню источника претранслейта
+			ProjectPage.ClickSourcePretranslateBtn();
+			// выбрать ТМ как источник
+			ProjectPage.ClickTmForPretranslateBtn(tmName);
+			// сохранить настройки и выполнить претранслейт
+			ProjectPage.ClickSavePretranslateBtn();
+		}
+
 		/// <summary>
 		/// Нажать галочку у документа в проекте
 		/// </summary>
@@ -426,23 +476,44 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		}
 
 		/// <summary>
-		/// Метод открытия документа в редакторе
+		/// Метод открытия документа в редакторе для выполнения конкретного задания
 		/// </summary>
-		protected void OpenDocument(int documentNumber = 1)
+		/// <param name="documentNumber">Номер документа в списке на странице проекта</param>
+		/// <param name="taskId">Тип выполняемого задания: 1)перевод 2)редактура 3)корректура</param>
+		protected void OpenDocument(int documentNumber = 1, int taskId = 1)
 		{
 			// Открыть документ
 			Assert.IsTrue(
-				ProjectPage.OpenDocument(documentNumber), 
+				ProjectPage.OpenDocument(documentNumber),
 				"Ошибка: на странице проекта нет документа");
 
 			if (ResponsiblesDialog.WaitUntilChooseTaskDialogDisplay())
 			{
-				Assert.True(
-					EditorPage.GetTaskBtnIsExist(), 
-					"Ошибка: Неверный этап в окне выбора ");
+				switch (taskId)
+				{
+					case 1:
 
-				//выбрать задачу перевода и открыть редактор
-				EditorPage.ClickTaskBtn();
+						Assert.True(EditorPage.GetTranslationTaskBtnIsExist(), "Ошибка: Неверный этап в окне выбора ");
+
+						//выбрать задачу перевода
+						EditorPage.ClickTranslationTaskBtn();
+						break;
+
+					case 2:
+						Assert.True(EditorPage.GetEditingTaskBtnIsExist(), "Ошибка: Неверный этап в окне выбора ");
+
+						//выбрать задачу редактуры
+						EditorPage.ClickEditingTaskBtn();
+						break;
+
+					case 3:
+						Assert.True(EditorPage.GetProofreadingTaskBtnIsExist(), "Ошибка: Неверный этап в окне выбора ");
+
+						//выбрать задачу корректуры
+						EditorPage.ClickProofreadingTaskBtn();
+						break;
+				}
+
 				EditorPage.ClickContBtn();
 			}
 			// Дождаться загрузки страницы
@@ -788,16 +859,22 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <param name="chooseMT">выбрать МТ</param>
 		/// <param name="mtType">тип МТ</param>
 		/// <param name="isNeedCheckExist">Нужна проверка проекта в списке</param>
+		/// <param name="translationTasksNumber">количество заданий перевода</param>
+		/// <param name="editingTasksNumber">количество заданий редактуры</param>
+		/// <param name="proofreadingTasksNumber">количество заданий корректуры</param>
 		protected void CreateProject(
-			string projectName, 
+			string projectName,
 			string downloadFile = "",
-			bool createNewTM = false, 
+			bool createNewTM = false,
 			string tmFile = "",
-			Workspace_CreateProjectDialogHelper.SetGlossary setGlossary = Workspace_CreateProjectDialogHelper.SetGlossary.None, 
+			Workspace_CreateProjectDialogHelper.SetGlossary setGlossary = Workspace_CreateProjectDialogHelper.SetGlossary.None,
 			string glossaryName = "",
-			bool chooseMT = false, 
+			bool chooseMT = false,
 			Workspace_CreateProjectDialogHelper.MT_TYPE mtType = Workspace_CreateProjectDialogHelper.MT_TYPE.None,
-			bool isNeedCheckExist = true)
+			bool isNeedCheckExist = true,
+			int translationTasksNumber = 1,
+			int editingTasksNumber = 0,
+			int proofreadingTasksNumber = 0)
 		{
 			// Заполнение полей на первом шаге
 			FirstStepProjectWizard(projectName);
@@ -806,16 +883,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 				// Загрузить файл
 				WorkspaceCreateProjectDialog.ClickAddDocumentBtn();
 				FillAddDocumentForm(downloadFile);
-
-				if (!WorkspaceCreateProjectDialog.WaitDocumentAppear(Path.GetFileName(downloadFile)))
-				{
-					TryCloseExternalDialog2();
-					WorkspaceCreateProjectDialog.ClickAddDocumentBtn();
-					FillAddDocumentForm(downloadFile);
-					Assert.IsTrue(WorkspaceCreateProjectDialog.WaitDocumentAppear(Path.GetFileName(downloadFile)),
-						"Ошибка: документ не загрузился после второй попытки");
-				}
-
+				WorkspaceCreateProjectDialog.WaitDocumentAppear(Path.GetFileName(downloadFile));
 			}
 			WorkspaceCreateProjectDialog.ClickNextStep();
 
@@ -847,25 +915,25 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			switch (setGlossary)
 			{
 				case Workspace_CreateProjectDialogHelper.SetGlossary.None:
-					
+
 					break;
-				
+
 				case Workspace_CreateProjectDialogHelper.SetGlossary.First:
-		
+
 					WorkspaceCreateProjectDialog.ClickFirstGlossaryInTable();
 					break;
-		
+
 				case Workspace_CreateProjectDialogHelper.SetGlossary.New:
-		
+
 					CreateAndAddGlossary();
 					break;
-		
+
 				case Workspace_CreateProjectDialogHelper.SetGlossary.ByName:
-		
+
 					WorkspaceCreateProjectDialog.ClickGlossaryByName(glossaryName);
 					break;
 			}
-			
+
 			WorkspaceCreateProjectDialog.ClickNextStep();
 
 			//4 шаг - выбор МТ
@@ -873,11 +941,14 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			{
 				WorkspaceCreateProjectDialog.ChooseMT(mtType);
 			}
-			
+
 			WorkspaceCreateProjectDialog.ClickNextStep();
 
 			//5 шаг - настройка этапов workflow
-			//SetUpWorkflow();
+			SetUpWorkflow(translationTasksNumber,
+			editingTasksNumber,
+			proofreadingTasksNumber);
+
 			Thread.Sleep(500);
 			WorkspaceCreateProjectDialog.ClickNextStep();
 
@@ -1016,12 +1087,70 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			WorkspaceCreateProjectDialog.WaitNewGlossaryAppear(internalGlossaryName);
 		}
 
-		// TODO
 		/// <summary>
 		/// Шаг формирования рабочего процесса диалога создания проекта
 		/// </summary>
-		public void SetUpWorkflow()
+		/// <param name="translationTasksNumber">количество заданий перевода</param>
+		/// <param name="editingTasksNumber">количество заданий редактуры</param>
+		/// <param name="proofreadingTasksNumber">количество заданий корректуры</param>
+		public void SetUpWorkflow(
+			int translationTasksNumber = 1,
+			int editingTasksNumber = 0,
+			int proofreadingTasksNumber = 0)
 		{
+
+			// если в документе нет задачи перевода, поменять стоящий по умолчанию перевод на редактуру
+			if (translationTasksNumber == 0 && editingTasksNumber != 0)
+			{
+				// меняем первый таск на редактуру
+				WorkspaceCreateProjectDialog.SetWorkflowEditingTask(1);
+				// количество заданий по редактуре уменьшаем на один - одно задание уже поставили
+				editingTasksNumber--;
+			}
+			// если в документе нет задач перевода и редактуры, поменять стоящий по умолчанию перевод на корректуру
+			else if (translationTasksNumber == 0 && editingTasksNumber == 0)
+			{
+				// меняем первый таск на корректуру
+				WorkspaceCreateProjectDialog.SetWorkflowProofreadingTask(1);
+				// количество заданий по корректуре уменьшаем на один - одно задание уже поставили
+				proofreadingTasksNumber--;
+			}
+
+			//номер этапа в списке этапов
+			int taskNumber = 2;
+
+			//создать необходимое количество Translation
+			for (int i = 1; i < translationTasksNumber; i++)
+			{
+				// кликнуть создание нового задания
+				WorkspaceCreateProjectDialog.ClickWorkflowNewTask();
+				// установить новое задание - перевод
+				WorkspaceCreateProjectDialog.SetWorkflowTranslationTask(taskNumber);
+
+				taskNumber++;
+			}
+
+			//создать необходимое количество Editing
+			for (int i = 0; i < editingTasksNumber; i++)
+			{
+				// кликнуть создание нового задания
+				WorkspaceCreateProjectDialog.ClickWorkflowNewTask();
+				// установить новое задание - редактура
+				WorkspaceCreateProjectDialog.SetWorkflowEditingTask(taskNumber);
+
+				taskNumber++;
+			}
+
+			//создать необходимое количество Proofreading
+			for (int i = 0; i < proofreadingTasksNumber; i++)
+			{
+				// кликнуть создание нового задания
+				WorkspaceCreateProjectDialog.ClickWorkflowNewTask();
+				// установить новое задание - корректура
+				WorkspaceCreateProjectDialog.SetWorkflowProofreadingTask(taskNumber);
+
+				taskNumber++;
+			}
 		}
 
 		// TODO
@@ -1132,17 +1261,14 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <param name="DocumentName">полный путь к документу</param>
 		protected void FillAddDocumentForm(string DocumentName)
 		{
-			using (var uploadScript = Process.Start("upload.exe", DocumentName))
-			{
-				if (uploadScript != null)
-				{
-					uploadScript.WaitForExit(20000);
-					if (uploadScript.HasExited)
-						Logger.Trace("Скрипт загрузки файла завершился с кодом " + uploadScript.ExitCode);
-					else
-						Logger.Trace("Скрипт загрузки файла не завершился в отведенное время");
-				}
-			}
+			Thread.Sleep(3000);
+			
+			var txt = Regex.Replace(DocumentName, "[+^%~()]", "{$0}");
+
+			SendKeys.SendWait(txt);
+			Thread.Sleep(2000);
+			SendKeys.SendWait(@"{Enter}");
+			Thread.Sleep(2000);
 		}
 
 		/// <summary>
@@ -1260,13 +1386,24 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// Нажать Back в редакторе, проверить возврат в Workspace
 		/// </summary>
 		/// <param name="backToProject">откуда заходили в редактов: true: страница проекта, false - список проектов</param>
-		public void EditorClickHomeBtn()
+		public void EditorClickHomeBtn(bool backToProject = false)
 		{
 			// Нажать кнопку назад
 			EditorPage.ClickHomeBtn();
 
-			// Проверить, что перешли в Workspace
-			Assert.IsTrue(ProjectPage.WaitPageLoad(), "Ошибка: страница проекта не открылась");
+			if (backToProject)
+			{
+				Assert.IsTrue(
+					ProjectPage.WaitPageLoad(),
+					"Ошибка: не зашли на страницу проекта");
+			}
+			else
+			{
+				// Проверить, что перешли в Workspace
+				Assert.IsTrue(
+					WorkspacePage.WaitPageLoad(),
+					"Ошибка: не зашли в Workspace");
+			}
 		}
 
 		/// <summary>
@@ -1933,6 +2070,25 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 				// Пробуем перейти на страницу еще раз
 				GoToRegistrationPage(client);
 			}
+		}
+
+		/// <summary>
+		/// Добавляет сорс-таргет сегмента в глоссарий для теста
+		/// </summary>
+		///  <param name="sourceTerm">слово для внесения в словарь</param>
+		///  <param name="targetTerm">перевод слова словаря</param>
+		public void AddTermGlossary(string sourceTerm, string targetTerm)
+		{
+			// Добавить сорс
+			AddTermForm.TypeSourceTermText(sourceTerm);
+			// Добавить термин в таргет
+			AddTermForm.TypeTargetTermText(targetTerm);
+			// Нажать сохранить
+			AddTermForm.ClickAddBtn();
+
+			Thread.Sleep(2000);
+			// Термин сохранен, нажать ок
+			AddTermForm.ClickTermSaved();
 		}
 
 		/// <summary>

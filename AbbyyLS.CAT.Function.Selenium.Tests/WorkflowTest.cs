@@ -41,21 +41,8 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		[Test]
 		public void DefaultTaskType()
 		{
-			// Создание проекта
-			// 1) Заполнение полей
-			FirstStepProjectWizard(ProjectName);
-			WorkspaceCreateProjectDialog.ClickNextStep();
-
-			// 2) Выбор ТМ
-			ChooseFirstTMInList();
-			WorkspaceCreateProjectDialog.ClickNextStep();
-
-			// 3) Выбор глоссария
-			WorkspaceCreateProjectDialog.ClickNextStep();
-			
-			// 4) Выбор МТ
-			WorkspaceCreateProjectDialog.ClickNextStep();
-			Thread.Sleep(1000);
+			// Создание проекта до этапа воркфлоу
+			FillFourStepsProjectWizard(ProjectName);
 
 			// 5) Проверка workflow
 			var workflowCreateList = WorkspaceCreateProjectDialog.GetWFTaskList();
@@ -81,30 +68,14 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		[Test]
 		public void ChangeTaskType()
 		{
-			// Создание проекта
-			// 1) Заполнение полей
-			FirstStepProjectWizard(ProjectName);
-			WorkspaceCreateProjectDialog.ClickNextStep();
-			Thread.Sleep(500);
-
-			// 2) Выбор ТМ
-			ChooseFirstTMInList();
-			WorkspaceCreateProjectDialog.ClickNextStep();
-			Thread.Sleep(500);
-
-			// 3) Выбор глоссария
-			WorkspaceCreateProjectDialog.ClickNextStep();
-			Thread.Sleep(500);
-
-			// 4) Выбор МТ
-			WorkspaceCreateProjectDialog.ClickNextStep();
-			Thread.Sleep(500);
+			// Создание проекта до этапа воркфлоу
+			FillFourStepsProjectWizard(ProjectName);
 
 			// 5) Проверка workflow
 			// Изменение типа созданной задачи на Editing
-			WorkspaceCreateProjectDialog.SetWFTaskList(1, "Editing");
+			WorkspaceCreateProjectDialog.SetWorkflowEditingTask(1);
 			Thread.Sleep(1000);
-
+			
 			var workflowList = WorkspaceCreateProjectDialog.GetWFTaskList();
 			// Проверка наличия только одной задачи
 			Assert.AreEqual(
@@ -151,20 +122,8 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		[Test]
 		public void NewTaskTypesOnCreate()
 		{
-			// Создание проекта
-			// 1) Заполнение полей
-			FirstStepProjectWizard(ProjectName);
-			WorkspaceCreateProjectDialog.ClickNextStep();
-
-			// 2) Выбор ТМ
-			ChooseFirstTMInList();
-			WorkspaceCreateProjectDialog.ClickNextStep();
-
-			// 3) Выбор глоссария
-			WorkspaceCreateProjectDialog.ClickNextStep();
-
-			// 4) Выбор МТ
-			WorkspaceCreateProjectDialog.ClickNextStep();
+			// Создание проекта до этапа воркфлоу
+			FillFourStepsProjectWizard(ProjectName);
 
 			// 5) Добавление новой задачи Workflow
 			WorkspaceCreateProjectDialog.ClickWorkflowNewTask();
@@ -194,30 +153,12 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		public void NewTask()
 		{
 			// Создание проекта
-			// 1) Заполнение полей
-			FirstStepProjectWizard(ProjectName);
-			WorkspaceCreateProjectDialog.ClickNextStep();
-
-			// 2) Выбор ТМ
-			ChooseFirstTMInList();
-			WorkspaceCreateProjectDialog.ClickNextStep();
-
-			// 3) Выбор глоссария
-			WorkspaceCreateProjectDialog.ClickNextStep();
-
-			// 4) Выбор МТ
-			WorkspaceCreateProjectDialog.ClickNextStep();
-
-			// 5) Добавление новой задачи Proofreading
-			WorkspaceCreateProjectDialog.ClickWorkflowNewTask();
-			WorkspaceCreateProjectDialog.SetWFTaskList(2, "Proofreading");
-			WorkspaceCreateProjectDialog.ClickNextStep();
-
-			// 6) Настройка Pretranslate. Проверка создания проекта
-			WorkspaceCreateProjectDialog.ClickFinishCreate();
-			Assert.IsTrue(
-				WorkspacePage.WaitProjectAppearInList(ProjectName),
-				"Ошибка: Проект не появился в списке.");
+			CreateProject(ProjectName, "",
+				false, "",
+				Workspace_CreateProjectDialogHelper.SetGlossary.None, "",
+				false, Workspace_CreateProjectDialogHelper.MT_TYPE.None,
+				true,
+				1, 0, 1);
 
 			// Открываем проект
 			OpenProjectPage(ProjectName);
@@ -251,30 +192,12 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		public void NewTaskSameType()
 		{
 			// Создание проекта
-			// 1) Заполнение полей
-			FirstStepProjectWizard(ProjectName);
-			WorkspaceCreateProjectDialog.ClickNextStep();
-
-			// 2) Выбор ТМ
-			ChooseFirstTMInList();
-			WorkspaceCreateProjectDialog.ClickNextStep();
-
-			// 3) Выбор глоссария
-			WorkspaceCreateProjectDialog.ClickNextStep();
-
-			// 4) Выбор МТ
-			WorkspaceCreateProjectDialog.ClickNextStep();
-
-			// 5) Добавление новой задачи Translation
-			WorkspaceCreateProjectDialog.ClickWorkflowNewTask();
-			WorkspaceCreateProjectDialog.SetWFTaskList(2, "Translation");
-			WorkspaceCreateProjectDialog.ClickNextStep();
-
-			// 6) Настройка Pretranslate. Проверка создания проекта
-			WorkspaceCreateProjectDialog.ClickFinishCreate();
-			Assert.IsTrue(
-				WorkspacePage.WaitProjectAppearInList(ProjectName),
-				"Ошибка: Проект не появился в списке.");
+			CreateProject(ProjectName, "",
+				false, "",
+				Workspace_CreateProjectDialogHelper.SetGlossary.None, "",
+				false, Workspace_CreateProjectDialogHelper.MT_TYPE.None,
+				true,
+				2);
 
 			// Открываем проект
 			OpenProjectPage(ProjectName);
@@ -397,24 +320,12 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		[Test]
 		public void DeleteTaskOnCreate()
 		{
-			// Создание проекта
-			// 1) Заполнение полей
-			FirstStepProjectWizard(ProjectName);
-			WorkspaceCreateProjectDialog.ClickNextStep();
-
-			// 2) Выбор ТМ
-			ChooseFirstTMInList();
-			WorkspaceCreateProjectDialog.ClickNextStep();
-
-			// 3) Выбор глоссария
-			WorkspaceCreateProjectDialog.ClickNextStep();
-
-			// 4) Выбор МТ
-			WorkspaceCreateProjectDialog.ClickNextStep();
+			// Создание проекта до этапа воркфлоу
+			FillFourStepsProjectWizard(ProjectName);
 
 			// 5) Добавление новой задачи Proofreading
 			WorkspaceCreateProjectDialog.ClickWorkflowNewTask();
-			WorkspaceCreateProjectDialog.SetWFTaskList(2, "Proofreading");
+			WorkspaceCreateProjectDialog.SetWorkflowProofreadingTask(2);
 			Thread.Sleep(1000);
 
 			// Удаление первой задачи Translation
@@ -449,21 +360,18 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		public void DeleteTask()
 		{
 			// Создание проекта
-			CreateProject(ProjectName);
-			WorkspacePage.WaitProjectLoad(ProjectName);
+			CreateProject(ProjectName, "",
+				false, "",
+				Workspace_CreateProjectDialogHelper.SetGlossary.None, "",
+				false, Workspace_CreateProjectDialogHelper.MT_TYPE.None,
+				true,
+				1, 0, 1);
 
 			// Открываем проект
 			OpenProjectPage(ProjectName);
 
 			//Открываем Workflow в настройках проекта
 			OpenWorkflowSettings();
-
-			// Добавление новой задачи
-			ProjectPage.ClickProjectSettingsWorkflowNewTask();
-
-			// Изменение типа новой задачи
-			ProjectPage.SetWFTaskListProjectSettings(2, "Proofreading");
-			Thread.Sleep(1000);
 
 			// Удаление первой задачи Translation
 			ProjectPage.ClickProjectSettingsWFDeleteTask(1);
@@ -476,7 +384,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 
 			// Проверка, что первая задача - Proofreading
 			Assert.AreEqual(
-				"Proofreading", 
+				"Proofreading",
 				workflowList[0],
 				"Ошибка: Первая задача не \"Proofreading\".");
 
@@ -491,20 +399,8 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		[Test]
 		public void DeleteAllTasksOnCreate()
 		{
-			// Создание проекта
-			// 1) Заполнение полей
-			FirstStepProjectWizard(ProjectName);
-			WorkspaceCreateProjectDialog.ClickNextStep();
-
-			// 2) Выбор ТМ
-			ChooseFirstTMInList();
-			WorkspaceCreateProjectDialog.ClickNextStep();
-
-			// 3) Выбор глоссария
-			WorkspaceCreateProjectDialog.ClickNextStep();
-
-			// 4) Выбор МТ
-			WorkspaceCreateProjectDialog.ClickNextStep();
+			// Создание проекта до этапа воркфлоу
+			FillFourStepsProjectWizard(ProjectName);
 
 			// 5) Удаление первой задачи Translation
 			WorkspaceCreateProjectDialog.ClickWorkflowDeleteTask(1);
@@ -533,30 +429,12 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		public void CancelDeleteTask()
 		{
 			// Создание проекта
-			// 1) Заполнение полей
-			FirstStepProjectWizard(ProjectName);
-			WorkspaceCreateProjectDialog.ClickNextStep();
-
-			// 2) Выбор ТМ
-			ChooseFirstTMInList();
-			WorkspaceCreateProjectDialog.ClickNextStep();
-
-			// 3) Выбор глоссария
-			WorkspaceCreateProjectDialog.ClickNextStep();
-
-			// 4) Выбор МТ
-			WorkspaceCreateProjectDialog.ClickNextStep();
-
-			// 5) Добавление новой задачи Proofreading
-			WorkspaceCreateProjectDialog.ClickWorkflowNewTask();
-			WorkspaceCreateProjectDialog.SetWFTaskList(2, "Proofreading");
-			WorkspaceCreateProjectDialog.ClickNextStep();
-			Thread.Sleep(1000);
-
-			// 6) Настройка Pretranslate. Проверка создания проекта
-			WorkspaceCreateProjectDialog.ClickFinishCreate();
-			Assert.IsTrue(WorkspacePage.WaitProjectAppearInList(ProjectName),
-				"Ошибка: Проект не появился в списке.");
+			CreateProject(ProjectName, "",
+				false, "",
+				Workspace_CreateProjectDialogHelper.SetGlossary.None, "",
+				false, Workspace_CreateProjectDialogHelper.MT_TYPE.None,
+				true,
+				1, 0, 1);
 
 			// Открываем проект
 			OpenProjectPage(ProjectName);
@@ -645,24 +523,12 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		[Test]
 		public void BackOnCreate()
 		{
-			// Создание проекта
-			// 1) Заполнение полей
-			FirstStepProjectWizard(ProjectName);
-			WorkspaceCreateProjectDialog.ClickNextStep();
-
-			// 2) Выбор ТМ
-			ChooseFirstTMInList();
-			WorkspaceCreateProjectDialog.ClickNextStep();
-
-			// 3) Выбор глоссария
-			WorkspaceCreateProjectDialog.ClickNextStep();
-
-			// 4) Выбор МТ
-			WorkspaceCreateProjectDialog.ClickNextStep();
+			// Создание проекта до этапа воркфлоу
+			FillFourStepsProjectWizard(ProjectName);
 
 			// 5) Добавление новой задачи Proofreading
 			WorkspaceCreateProjectDialog.ClickWorkflowNewTask();
-			WorkspaceCreateProjectDialog.SetWFTaskList(2, "Proofreading");
+			WorkspaceCreateProjectDialog.SetWorkflowProofreadingTask(2);
 			WorkspaceCreateProjectDialog.ClickNextStep();
 			Thread.Sleep(1000);
 
@@ -699,24 +565,12 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		[Test]
 		public void AddingTaskAfterBack()
 		{
-			// Создание проекта
-			// 1) Заполнение полей
-			FirstStepProjectWizard(ProjectName);
-			WorkspaceCreateProjectDialog.ClickNextStep();
-
-			// 2) Выбор ТМ
-			ChooseFirstTMInList();
-			WorkspaceCreateProjectDialog.ClickNextStep();
-
-			// 3) Выбор глоссария
-			WorkspaceCreateProjectDialog.ClickNextStep();
-
-			// 4) Выбор МТ
-			WorkspaceCreateProjectDialog.ClickNextStep();
+			// Создание проекта до этапа воркфлоу
+			FillFourStepsProjectWizard(ProjectName);
 
 			// 5) Добавление новой задачи Proofreading
 			WorkspaceCreateProjectDialog.ClickWorkflowNewTask();
-			WorkspaceCreateProjectDialog.SetWFTaskList(2, "Proofreading");
+			WorkspaceCreateProjectDialog.SetWorkflowProofreadingTask(2);
 			WorkspaceCreateProjectDialog.ClickNextStep();
 			Thread.Sleep(1000);
 
@@ -726,7 +580,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 
 			// 5) Добавление новой задачи Editing
 			WorkspaceCreateProjectDialog.ClickWorkflowNewTask();
-			WorkspaceCreateProjectDialog.SetWFTaskList(3, "Editing");
+			WorkspaceCreateProjectDialog.SetWorkflowEditingTask(3);
 			Thread.Sleep(1000);
 
 			// Проверка workflow
@@ -776,25 +630,21 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		[Test]
 		public void ChangingTaskAfterBack()
 		{
-			// Создание проекта
-			// 1) Заполнение полей
-			FirstStepProjectWizard(ProjectName);
-			WorkspaceCreateProjectDialog.ClickNextStep();
-
-			// 2) Выбор ТМ
-			ChooseFirstTMInList();
-			WorkspaceCreateProjectDialog.ClickNextStep();
-
-			// 3) Выбор глоссария
-			WorkspaceCreateProjectDialog.ClickNextStep();
-
-			// 4) Выбор МТ
-			WorkspaceCreateProjectDialog.ClickNextStep();
+			// Создание проекта до этапа воркфлоу
+			FillFourStepsProjectWizard(ProjectName);
 
 			// 5) Добавление новой задачи Proofreading
 			WorkspaceCreateProjectDialog.ClickWorkflowNewTask();
-			WorkspaceCreateProjectDialog.SetWFTaskList(2, "Proofreading");
+			WorkspaceCreateProjectDialog.SetWorkflowProofreadingTask(2);
 			WorkspaceCreateProjectDialog.ClickNextStep();
+			Thread.Sleep(1000);
+
+			// 6) Возврат к предыдущей странице мастера
+			WorkspaceCreateProjectDialog.ClickBackBtn();
+			Thread.Sleep(1000);
+
+			// 5) Изменение задачи Proofreading на Editing
+			WorkspaceCreateProjectDialog.SetWorkflowEditingTask(2);
 			Thread.Sleep(1000);
 
 			// 6) Возврат к предыдущей странице мастера
@@ -848,24 +698,12 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		[Test]
 		public void DeletingTaskAfterBack()
 		{
-			// Создание проекта
-			// 1) Заполнение полей
-			FirstStepProjectWizard(ProjectName);
-			WorkspaceCreateProjectDialog.ClickNextStep();
-
-			// 2) Выбор ТМ
-			ChooseFirstTMInList();
-			WorkspaceCreateProjectDialog.ClickNextStep();
-
-			// 3) Выбор глоссария
-			WorkspaceCreateProjectDialog.ClickNextStep();
-
-			// 4) Выбор МТ
-			WorkspaceCreateProjectDialog.ClickNextStep();
+			// Создание проекта до этапа воркфлоу
+			FillFourStepsProjectWizard(ProjectName);
 
 			// 5) Добавление новой задачи Proofreading
 			WorkspaceCreateProjectDialog.ClickWorkflowNewTask();
-			WorkspaceCreateProjectDialog.SetWFTaskList(2, "Proofreading");
+			WorkspaceCreateProjectDialog.SetWorkflowProofreadingTask(2);
 			WorkspaceCreateProjectDialog.ClickNextStep();
 			Thread.Sleep(1000);
 
@@ -906,6 +744,24 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			// Проверка отличия задач
 			Assert.AreEqual(workflowCreateList, workflowList,
 				"Ошибка: Задачи отличаются от тех, что были созданы.");
+		}
+
+		protected void FillFourStepsProjectWizard(string projectName)
+		{
+			// Создание проекта
+			// 1) Заполнение полей
+			FirstStepProjectWizard(projectName);
+			WorkspaceCreateProjectDialog.ClickNextStep();
+
+			// 2) Выбор ТМ
+			ChooseFirstTMInList();
+			WorkspaceCreateProjectDialog.ClickNextStep();
+
+			// 3) Выбор глоссария
+			WorkspaceCreateProjectDialog.ClickNextStep();
+
+			// 4) Выбор МТ
+			WorkspaceCreateProjectDialog.ClickNextStep();
 		}
 	}
 }

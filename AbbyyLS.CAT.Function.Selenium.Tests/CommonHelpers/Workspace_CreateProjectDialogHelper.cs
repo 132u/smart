@@ -27,6 +27,11 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			MTTypeDict.Add(MT_TYPE.Moses, MOSES_MT_TYPE);
 		}
 
+		//названия задач в списке на этапе настройки workflow в визарде
+		private const string translationTaskType = "Translation";
+		private const string editingTaskType = "Editing";
+		private const string proofreadingTaskType = "Proofreading";
+
 		/// <summary>
 		/// Дождаться появления диалога создания проекта
 		/// </summary>
@@ -229,7 +234,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <returns>появился</returns>
 		public bool WaitUploadTMXDialog()
 		{
-			return WaitUntilDisplayElement(By.XPath(UPLOAG_TMX_DIALOG_XPATH),1);
+			return WaitUntilDisplayElement(By.XPath(UPLOAG_TMX_DIALOG_XPATH));
 		}
 
 		/// <summary>
@@ -656,6 +661,131 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 				}
 			}
 		}
+		/// <summary>
+		/// Возвращает появилась ли задача Translation в списке
+		/// </summary>
+		/// <param name="taskNumber">Номер задачи</param>
+		/// <returns>появилась ли задача</returns>
+		public bool WaitUntilTranslationTaskDisplayed(int taskNumber)
+		{
+			// Выбор задачи workflow
+			string workflowXPath = WF_TABLE_XPATH +
+				"//tr[" + taskNumber + "]//td[2]//span//span" +
+				"[contains(text(), '" + translationTaskType + "')]";
+
+			return WaitUntilDisplayElement(By.XPath(workflowXPath), 1);
+		}
+
+		/// <summary>
+		/// Возвращает появилась ли задача Editing в списке
+		/// </summary>
+		/// <param name="taskNumber">Номер задачи</param>
+		/// <returns>появилась ли задача</returns>
+		public bool WaitUntilEditingTaskDisplayed(int taskNumber)
+		{
+			// Выбор задачи workflow
+			string workflowXPath = WF_TABLE_XPATH +
+				"//tr[" + taskNumber.ToString() + "]//td[2]//span//span" +
+				"[contains(text(), '" + editingTaskType + "')]";
+
+			return WaitUntilDisplayElement(By.XPath(workflowXPath), 1);
+		}
+
+		/// <summary>
+		/// Возвращает появилась ли задача Proofreading в списке
+		/// </summary>
+		/// <param name="taskNumber">Номер задачи</param>
+		/// <returns>появилась ли задача</returns>
+		public bool WaitUntilProofreadingTaskDisplayed(int taskNumber)
+		{
+			// Выбор задачи workflow
+			var workflowXPath = WF_TABLE_XPATH +
+				"//tr[" + taskNumber.ToString() + "]//td[2]//span//span" +
+				"[contains(text(), '" + proofreadingTaskType + "')]";
+
+			return WaitUntilDisplayElement(By.XPath(workflowXPath), 1);
+		}
+
+		/// <summary>
+		/// Задает тип задачи Workflow - Translation
+		/// </summary>
+		/// <param name="taskNumber">Номер задачи</param>
+		public void SetWorkflowTranslationTask(int taskNumber)
+		{
+
+			// Получение выпадающего списка
+			ClickElement(By.XPath(GetWfTaskNumberXpath(taskNumber)));
+			IList<IWebElement> wfDropdownIList = GetElementList(By.XPath(WF_DROPDOWNLIST_XPATH));
+
+			// Выбираем заданный
+			foreach (IWebElement wfTaskType in wfDropdownIList)
+			{
+				if (wfTaskType.Text == translationTaskType)
+				{
+					wfTaskType.Click();
+					break;
+				}
+			}
+
+			WaitUntilTranslationTaskDisplayed(taskNumber);
+		}
+
+		/// <summary>
+		/// Задает тип задачи Workflow - Editing
+		/// </summary>
+		/// <param name="taskNumber">Номер задачи</param>
+		public void SetWorkflowEditingTask(int taskNumber)
+		{
+
+			// Получение выпадающего списка
+			ClickElement(By.XPath(GetWfTaskNumberXpath(taskNumber)));
+			var wfDropdownIList = GetElementList(By.XPath(WF_DROPDOWNLIST_XPATH));
+
+			// Выбираем заданный
+			foreach (var wfTaskType in wfDropdownIList)
+			{
+				if (wfTaskType.Text == editingTaskType)
+				{
+					wfTaskType.Click();
+					break;
+				}
+			}
+
+			WaitUntilEditingTaskDisplayed(taskNumber);
+		}
+
+		/// <summary>
+		/// Задает тип задачи Workflow - Proofreading
+		/// </summary>
+		/// <param name="taskNumber">Номер задачи</param>
+		public void SetWorkflowProofreadingTask(int taskNumber)
+		{
+
+			// Получение выпадающего списка
+			ClickElement(By.XPath(GetWfTaskNumberXpath(taskNumber)));
+			IList<IWebElement> wfDropdownIList = GetElementList(By.XPath(WF_DROPDOWNLIST_XPATH));
+
+			// Выбираем заданный
+			foreach (IWebElement wfTaskType in wfDropdownIList)
+			{
+				if (wfTaskType.Text == proofreadingTaskType)
+				{
+					wfTaskType.Click();
+					break;
+				}
+			}
+
+			WaitUntilProofreadingTaskDisplayed(taskNumber);
+		}
+
+		/// <summary>
+		/// Вернуть xPath строки с нужным этапом
+		/// </summary>
+		/// <returns>xPath</returns>
+		protected string GetWfTaskNumberXpath(int taskNumber)
+		{
+			return WF_TABLE_XPATH + "//tr[" + taskNumber + "]//td[2]//span//span";
+		}
 
 		/// <summary>
 		/// Кликаем добавить новую задачу
@@ -756,7 +886,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <param name="TMName">название</param>
 		public void FillTMNameDialog(string TMName)
 		{
-			Thread.Sleep(1000);
 			ClearAndAddText(By.XPath(NAME_TM_XPATH), TMName);
 		}
 

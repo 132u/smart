@@ -149,6 +149,49 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		}
 
 		/// <summary>
+		/// Нажать кнопку претранслейт
+		/// </summary>
+		public void ClickPretranslateBtn()
+		{
+			ClickElement(By.XPath(PRETRANSLATE_BTN_XPATH));
+		}
+
+		/// <summary>
+		/// Нажать кнопку новое правило претранслейта
+		/// </summary>
+		public void ClickNewRuleBtn()
+		{
+			ClickElement(By.XPath(NEW_RULE_BTN_XPATH));
+		}
+
+		/// <summary>
+		/// Нажать кнопку выбора источника претранслейта
+		/// </summary>
+		public void ClickSourcePretranslateBtn()
+		{
+			ClickElement(By.XPath(SOURCE_PRETRANSLATE_BTN_XPATH));
+		}
+
+		/// <summary>
+		/// Выбрать TM как источник претранслейта
+		/// </summary>
+		/// <param name="tmName"> название ТМ</param>
+		public void ClickTmForPretranslateBtn(string tmName)
+		{
+			string xpath = TM_PRETRANSLATE_BTN_XPATH + "and contains(@title, '" + tmName + "')]";
+
+			ClickElement(By.XPath(xpath));
+		}
+
+		/// <summary>
+		/// Нажать кнопку сохранить настройки претранслейта
+		/// </summary>
+		public void ClickSavePretranslateBtn()
+		{
+			ClickElement(By.XPath(SAVE_PRETRANSLATE_BTN_XPATH));
+		}
+
+		/// <summary>
 		/// Вернуть, есть ли такой документ
 		/// </summary>
 		/// <param name="documentNumber">номер документа</param>
@@ -338,6 +381,39 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		public void ClickSaveTMBtn()
 		{
 			ClickElement(By.XPath(EDIT_TM_SAVE_BTN_XPATH));
+		}
+
+		/// <summary>
+		/// Заполнить название ТМ в диалоге
+		/// </summary>
+		/// <param name="tmName">название</param>
+		public void FillTmNameDialog(string tmName)
+		{
+			ClearAndAddText(By.XPath(EDIT_TM_NAME_INPUT), tmName);
+		}
+
+		/// <summary>
+		/// Нажать Загрузить файл в диалоге редактирования TM
+		/// </summary>
+		public void ClickUploadTMBtn()
+		{
+			ClickElement(By.XPath(EDIT_TM_UPLOAD));
+		}
+
+		/// <summary>
+		/// Нажать Импорт в диалоге редактирования TM
+		/// </summary>
+		public void ClickSaveAndImportTMBtn()
+		{
+			ClickElement(By.XPath(EDIT_TM_SAVE_AND_IMPORT_BTN_XPATH));
+		}
+
+		/// <summary>
+		/// Нажать Подтверждение импортирования в диалоге редактирования TM
+		/// </summary>
+		public void ClickConfirmImportBtn()
+		{
+			ClickElement(By.XPath(EDIT_TM_IMPORT_BTN));
 		}
 
 		/// <summary>
@@ -602,6 +678,12 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		protected const string EDIT_TM_DIALOG_XPATH = "//div[contains(@class,'js-popup-tm')][2]";
 		protected const string EDIT_TM_CREATE_BTN_XPATH = EDIT_TM_DIALOG_XPATH + "//span[contains(@class,'js-tm-create')]";
 		protected const string EDIT_TM_SAVE_BTN_XPATH = EDIT_TM_DIALOG_XPATH + "//span[contains(@class,'js-submit-btn')]";
+		protected const string EDIT_TM_CREATE_TM_XPATH = "//div[contains(@class,'js-popup-create-tm')][2]";
+		protected const string EDIT_TM_NAME_INPUT = EDIT_TM_CREATE_TM_XPATH + "//input[contains(@class,'js-tm-name')]";
+		protected const string EDIT_TM_SAVE_AND_IMPORT_BTN_XPATH = EDIT_TM_CREATE_TM_XPATH + "//a[contains(@class,'js-save-and-import')]";
+		protected const string EDIT_TM_IMPORT_DIALOG_XPATH = "//div[contains(@class,'js-popup-import')][2]";
+		protected const string EDIT_TM_UPLOAD = EDIT_TM_IMPORT_DIALOG_XPATH + "//a[contains(@class,'js-upload-btn')]";
+		protected const string EDIT_TM_IMPORT_BTN = EDIT_TM_IMPORT_DIALOG_XPATH + "//input[contains(@value, 'Import')]";
 
 		protected const string IMPORT_DOCUMENT_ERROR_XPATH = "//div[contains(@class,'js-info-popup')]";
 		protected const string DELETE_BTN_XPATH = "//span[contains(@class,'js-document-delete')]";
@@ -629,5 +711,11 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		protected const string TASK_NAME_XPATH = OPEN_CLOSE_TD_XPATH + "//div[contains(@class,'js-text-overflow')]";
 		protected const string UPLOAD_DOCUMENT_BTN_XPATH = ".//span[contains(@class,'js-import-btn ')]";
 		protected const string PRETRANSLATE_TITLE_IN_DIALOG_XPATH = "//span[text()='Set Up Pretranslation']";
+
+		protected const string PRETRANSLATE_BTN_XPATH = "//span[contains(@class,'js-project-pretranslate')]";
+		protected const string NEW_RULE_BTN_XPATH = "//div[contains(@class,'pretranslate')][2]//span[contains(@class,'js-new-rule')]";
+		protected const string SOURCE_PRETRANSLATE_BTN_XPATH = "//div[contains(@class,'pretranslate')]//span[contains(@class, 'js-dropdown')]";
+		protected const string TM_PRETRANSLATE_BTN_XPATH = "//span[contains(@class, 'js-dropdown')";
+		protected const string SAVE_PRETRANSLATE_BTN_XPATH = "//div[contains(@class,'pretranslate')][2]//span[contains(@class, 'js-save')]";
 	}
 }

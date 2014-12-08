@@ -23,7 +23,9 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 				{REVISION_TYPE_CONFIRMED, RevisionType.Confirmed},
 				{REVISION_TYPE_INSERT_MT, RevisionType.InsertMT},
 				{REVISION_TYPE_INSERT_TM, RevisionType.InsertTM},
-				{REVISION_TYPE_ROLLBACK, RevisionType.Rollback}
+				{REVISION_TYPE_ROLLBACK, RevisionType.Rollback},
+				{REVISION_TYPE_INSERT_TB, RevisionType.InsertTb},
+				{REVISION_TYPE_PRETRANSLATION, RevisionType.Pretranslation}
 			};
 		}
 
@@ -113,6 +115,16 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		}
 
 		/// <summary>
+		/// Получить имя создателя ревизии
+		/// </summary>
+		/// <param name="revisionNumber">номер ревизии</param>
+		/// <returns>имя</returns>
+		public string GetRevisionUser(int revisionNumber)
+		{
+			return GetTextElement(By.XPath(GetRevisionCellXPath(revisionNumber, USER_COLUMN_XPATH)));
+		}
+
+		/// <summary>
 		/// Выделить ревизию
 		/// </summary>
 		/// <param name="revisionNumber">номер ревизии</param>
@@ -154,6 +166,14 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		public void ClickTimeToSort()
 		{
 			ClickElement(By.XPath(TIME_COLUMN_BTN_XPATH));
+		}
+
+		/// <summary>
+		/// Кликнуть User для сортировки
+		/// </summary>
+		public void ClickUserToSort()
+		{
+			ClickElement(By.XPath(USER_COLUMN_BTN_XPATH));
 		}
 
 		/// <summary>
@@ -227,7 +247,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 
 
 
-		public enum RevisionType { AutoSave, Confirmed, InsertMT, InsertTM, Rollback };
+		public enum RevisionType { AutoSave, Confirmed, InsertMT, InsertTM, Rollback, InsertTb, Pretranslation };
 
 		protected const string REVISION_BTN_ID = "revisions-tab";
 		protected const string REVISION_TAB_ID = "revisions-body";
@@ -237,17 +257,21 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		protected const string TIME_COLUMN_XPATH = "//td[contains(@class,'revision-date-cell')]";
 		protected const string TEXT_COLUMN_XPATH = "//td[contains(@class,'revision-text-cell')]";
 		protected const string TYPE_COLUMN_XPATH = "//td[contains(@class,'revision-type-cell')]";
+		protected const string USER_COLUMN_XPATH = "//td[contains(@class,'revision-user-cell')]";
 
 		protected const string TIME_COLUMN_BTN_XPATH = ".//div[contains(@class,'revision-date-column')]//span";
+		protected const string USER_COLUMN_BTN_XPATH = "//div[@id='gridcolumn-1105']//span";
 
 		protected const string ROLLBACK_DISABLED_CLASS = "x-btn-disabled";
-		
+
 		protected Dictionary<string, RevisionType> revisionTypeList;
 		protected const string REVISION_TYPE_AUTOSAVE = "Autosave";
 		protected const string REVISION_TYPE_CONFIRMED = "Confirmation";
 		protected const string REVISION_TYPE_INSERT_MT = "MT insertion";
 		protected const string REVISION_TYPE_INSERT_TM = "TM insertion";
 		protected const string REVISION_TYPE_ROLLBACK = "Restored";
+		protected const string REVISION_TYPE_INSERT_TB = "TB insertion";
+		protected const string REVISION_TYPE_PRETRANSLATION = "Pretranslation";
 
 		protected const string ROLLBACK_DIALOG_ID = "rollback";
 		protected const string ROLLBACK_DLG_YES_CLASS = "x-btn-blue";

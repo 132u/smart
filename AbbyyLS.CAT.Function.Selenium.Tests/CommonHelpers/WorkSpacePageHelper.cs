@@ -592,12 +592,20 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			ClickElement(By.XPath(LOGOFF_XPATH));
 		}
 
-	    public bool CheckAccountList(string accountName)
-	    {
-	       return GetIsElementDisplay(By.XPath("//li[@class='g-topbox__corpitem' and @title='" + accountName + "']"));
-	    }
+		public bool CheckAccountList(string accountName)
+		{
+			return GetIsElementDisplay(By.XPath("//li[@class='g-topbox__corpitem' and @title='" + accountName + "']"));
+		}
 
-	    public enum LOCALE_LANGUAGE_SELECT { English, Russian };
+		/// <summary>
+		/// Проверить, находимся ли мы на странице воркспейса
+		/// </summary>
+		public bool CheckIfWorkspace()
+		{
+			return GetIsElementDisplay(By.XPath(CREATE_BTN_XPATH));
+		}
+
+		public enum LOCALE_LANGUAGE_SELECT { English, Russian };
 		public enum EXPORT_TYPE { Original, TMX, Translated };
 
 
@@ -665,5 +673,5 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 
 		protected const string TOP_BOX_COMPANY_NAME = "//div[@class='g-topbox__currentAccount__nickname']";
 		protected const string COMPANY_NAME_PANEL_WS = "//span[contains(@class,'selected-account')]";
-	}//div[@class='g-topbox__currentAccount__nickname']/span[@class='g-topbox__currentAccount__name']
+	}
 }

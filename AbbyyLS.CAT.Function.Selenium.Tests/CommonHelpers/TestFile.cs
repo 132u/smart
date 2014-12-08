@@ -15,9 +15,11 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.CommonHelpers
 
 			LongTxtFile = Path.GetFullPath(cfgRoot.Root + "/LongTxtTmx/LongText.txt");
 			LongTmxFile = Path.GetFullPath(cfgRoot.Root + "/LongTxtTmx/LongTM.tmx");
+			OneLineTmxFile = Path.GetFullPath(cfgRoot.Root + "/LongTxtTmx/OneLineTmx.tmx");
 
 			SecondTmFile = Path.GetFullPath(cfgRoot.Root + "/TextEngTestAddTMX.tmx");
 			ImportGlossaryFile = Path.GetFullPath(cfgRoot.Root + "/TestGlossary.xlsx");
+			EditorXlfFile = Path.GetFullPath(cfgRoot.Root + "/Xliff/ТС-42.xlf");
 			ImageFile = Path.GetFullPath(cfgRoot.Root + "/TestImage.jpg");
 			AudioFile = Path.GetFullPath(cfgRoot.Root + "/TestAudio.mp3");
 			TxtFileForMatchTest = Path.GetFullPath(cfgRoot.Root + "/FilesForMatchTest/TxtFileForMatchTest.docx");
@@ -36,7 +38,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.CommonHelpers
 		public string DocumentFileToConfirm2 { get; private set; }
 
 		/// Полный путь к файлу TXT для работы в редакторе
-		public  string EditorTXTFile { get; private set; }
+		public string EditorTXTFile { get; private set; }
 
 		/// Полный путь к файлу TMX для работы в редакторе
 		public string EditorTMXFile { get; private set; }
@@ -70,5 +72,11 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.CommonHelpers
 
 		///  Файл со списком пользователей , имеющие аккаунты на аол/курсера/передем
 		public string TestUserFile { get; private set; }
+
+		/// Полный путь к файлу TMX для претранслейта для longTxt
+		public string OneLineTmxFile { get; private set; }
+
+		/// Полный путь к XLF
+		public string EditorXlfFile { get; private set; }
 	}
 }

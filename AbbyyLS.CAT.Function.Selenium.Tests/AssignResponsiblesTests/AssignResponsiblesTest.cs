@@ -414,7 +414,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 
 			// 5) Добавление новой задачи Editing
 			WorkspaceCreateProjectDialog.ClickWorkflowNewTask();
-			WorkspaceCreateProjectDialog.SetWFTaskList(2, "Editing");
+			WorkspaceCreateProjectDialog.SetWorkflowEditingTask(2);
 			WorkspaceCreateProjectDialog.ClickNextStep();
 
 			// 6) Настройка Pretranslate. Проверка создания проекта
