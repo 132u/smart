@@ -8,7 +8,6 @@ using NUnit.Framework;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Firefox;
 using OpenQA.Selenium.Chrome;
-using OpenQA.Selenium.Remote;
 using OpenQA.Selenium.Support.UI;
 using System.IO;
 using System.Collections.Generic;
@@ -330,9 +329,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 						("browser.helperApps.neverAsk.saveToDisk", "text/xml, text/csv, text/plain, text/log, application/zip, application/x-gzip, application/x-compressed, application/x-gtar, multipart/x-gzip, application/tgz, application/gnutar, application/x-tar, application/x-xliff+xml,  application/msword.docx, application/pdf, application/x-pdf, application/octetstream, application/x-ttx, application/x-tmx, application/octet-stream");
 					//_profile.SetPreference("pdfjs.disabled", true);
 
-					DesiredCapabilities capability = DesiredCapabilities.Firefox();
-					capability.IsJavaScriptEnabled = true;
-					Driver = new RemoteWebDriver(new Uri("http://localhost:4444/wd/hub"), capability);
+					Driver = new FirefoxDriver(_profile);
 					//string profiledir = "../../../Profile";
 					// string profiledir = "TestingFiles/Profile";
 					//_profile = new FirefoxProfile(profiledir);
@@ -1135,16 +1132,17 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <param name="DocumentName">полный путь к документу</param>
 		protected void FillAddDocumentForm(string DocumentName)
 		{
-			Thread.Sleep(3000);
-			// Заполнить форму для отправки файла
-			string txt = Regex.Replace(DocumentName, "[+^%~()]", "{$0}");
-
-			SendKeys.SendWait(txt);
-			Thread.Sleep(1000);
-			SendKeys.SendWait(@"{Enter}");
-
-			// заменить в методах, где загружаются объекты, на ожидание появления загруженного объекта, потом убрать слип здесь
-			Thread.Sleep(3000);
+			using (var uploadScript = Process.Start("upload.exe", DocumentName))
+			{
+				if (uploadScript != null)
+				{
+					uploadScript.WaitForExit(20000);
+					if (uploadScript.HasExited)
+						Logger.Trace("Скрипт загрузки файла завершился с кодом " + uploadScript.ExitCode);
+					else
+						Logger.Trace("Скрипт загрузки файла не завершился в отведенное время");
+				}
+			}
 		}
 
 		/// <summary>
