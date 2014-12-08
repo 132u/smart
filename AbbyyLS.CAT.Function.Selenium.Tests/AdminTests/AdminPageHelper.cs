@@ -366,6 +366,15 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		}
 
 		/// <summary>
+		/// Определить чекунт ли Admin чекбокс
+		/// </summary>
+		public bool GetIsAdminCheckboxIsChecked()
+		{
+			return GetIsInputChecked(By.XPath(IS_ADMIN_CHECKBOX));
+		}
+
+
+		/// <summary>
 		/// Кликнуть по ссылке Поиск пользователей в меню слева
 		/// </summary>
 		public void ClickSearchUserLink()
@@ -396,7 +405,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <returns></returns>
 		public bool GetIsUserIsExistMsgDisplay()
 		{
-			return GetIsElementDisplay(By.XPath(USER_IS_EXIST_MCG));
+			return GetIsElementDisplay(By.XPath(USER_IS_EXIST_MSG));
 		}
 
 		/// <summary>
@@ -406,6 +415,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		{
 			ClickElement(By.XPath(WORKFLOW_CHECKBOX));
 		}
+
 		protected const string LOGIN_FORM_XPATH = "//form[contains(@action,'/Home/Login')]";
 		protected const string LOGIN_FORM_LOGIN_XPATH = "//input[@name='email']";
 		protected const string LOGIN_FORM_PASSWORD_XPATH = "//input[@name='password']";
@@ -450,7 +460,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		protected const string SERACH_USER_LINK = "//a[@href='/Users']";
 		protected const string FIND_BTN = "//form[@action='/Users']/input[2]";
 		protected const string EMAIL_IN_SEARCH_RES_TABLE = "//a[text()='";
-		protected const string USER_IS_EXIST_MCG = "//fieldset//div[2]/span[contains(text(),'таким e-mail уже существует в AOL')]";
+		protected const string USER_IS_EXIST_MSG = "//fieldset//div[2]/span[contains(text(),'таким e-mail уже существует в AOL')]";
 		protected const string WORKFLOW_CHECKBOX = "//input[@id='WorkflowEnabled']";
-		}
+	}
 }

@@ -45,6 +45,15 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		}
 
 		/// <summary>
+		/// Чекнуть Admin чекбокс
+		/// </summary>
+		public void CheckAdminCheckbox()
+		{
+			if (!AdminPage.GetIsAdminCheckboxIsChecked())
+				AdminPage.ChechIsAdminCheckbox();
+		}
+
+		/// <summary>
 		/// Открыть форму создания корпоративного аккаунта
 		/// </summary>
 		public void OpenCreateAccountForm()
@@ -150,10 +159,15 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			AdminPage.FillPasswordForNewUser(password);
 			AdminPage.FillConfirmPasswordForNewUser(password);
 			AdminPage.ClickSubmitBtnNewUser();
-			if(admin)
+			if (!AdminPage.GetIsUserIsExistMsgDisplay() && admin)
+			{
 				AdminPage.ChechIsAdminCheckbox();
-
-			AdminPage.ClickSubmitBtnNewUser();
+				AdminPage.ClickSubmitBtnNewUser();
+			}
+			else if (AdminPage.GetIsUserIsExistMsgDisplay())
+			{
+				Logger.Trace("Пользователь "+emailForNewUser+" уже есть в AOL, добавлен в БД");
+			}
 		}
 
 		/// <summary>
