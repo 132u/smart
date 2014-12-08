@@ -65,7 +65,7 @@
     <Compile Include="BaseTest.cs" />
     <Compile Include="CatPanelTests\CatPanelResultsHelper.cs" />
     <Compile Include="CatPanelTests\CatPanelResultsTest.cs" />
-    <Compile Include="CatPanelTests\CatPanelSubstitutionTest.cs" />
+    <Compile Include="CatPanelTests\MatchColumnTest.cs" />
     <Compile Include="ClientTests\ClientPageHelper.cs" />
     <Compile Include="ClientTests\ClientTest.cs" />
     <Compile Include="Common\CompanyType.cs" />

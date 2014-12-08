@@ -1068,8 +1068,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		protected const string INFO_COLUMN_CLASS = "info-cell";
 		protected const string CONFIRMED_ICO_CLASS = "fa-check";
 		protected const string LOCKED_ICO_CLASS = "fa-lock";
-		protected const string TARGET_CELL_CLASS = "target-cell";
-		protected const string SOURCE_CELL_CLASS = "source-cell";
 		protected const string SEGMENT_CAT_SELECTED = "cat-selected";
 		protected const string TARGET_XPATH = "//td[3]//div";
 

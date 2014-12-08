@@ -7,7 +7,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 	/// <summary>
 	/// Группа тестов для проверки колонки match в таргете при выдачах из cat-панели
 	/// </summary>
-	class CatPanelSubstitutionTest 
+	class MatchColumnTest 
 		: BaseTest
 	{
 
@@ -15,7 +15,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// Конструктор теста
 		/// </summary>
 		/// <param name="browserName">Название браузера</param>
-		public CatPanelSubstitutionTest(string browserName)
+		public MatchColumnTest(string browserName)
 			: base (browserName)
 		{
 			
@@ -44,8 +44,8 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 				
 				// создаем документ с нужным файлом, нужной ТМ, подкючаем МТ и глоссарий
 				CreateProject(
-					projectName: _projectNameMatchTest, 
-					downloadFile: TxtFileForMatchTest,
+					projectName: _projectNameMatchTest,
+					downloadFile: TestFile.TxtFileForMatchTest,
 					createNewTM: true, 
 					tmFile: TestFile.TmxFileForMatchTest,
 					setGlossary: Workspace_CreateProjectDialogHelper.SetGlossary.New, 

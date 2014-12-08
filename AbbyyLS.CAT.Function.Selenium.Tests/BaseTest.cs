@@ -115,8 +115,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		
 		protected TestFile TestFile { get; private set; }
 
-		protected string TxtFileForMatchTest { get; private set; }
-
 		protected string BrowserName { get; private set; }
 
 		protected ProjectPageHelper ProjectPage { get; private set; }
