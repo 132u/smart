@@ -60,8 +60,10 @@
     <Compile Include="AdminTests\AdminPageHelper.cs" />
     <Compile Include="AdminTests\AdminTests.cs" />
     <Compile Include="AssignResponsiblesTests\AssignResponsiblesTest.cs" />
+    <Compile Include="BillingTest\BillingTest.cs" />
     <Compile Include="AssignResponsiblesTests\ResponsiblesDialogHelper.cs" />
     <Compile Include="Authorization.cs" />
+    <Compile Include="BillingTest\MyAccountPageHelper.cs" />
     <Compile Include="BaseTest.cs" />
     <Compile Include="CatPanelTests\CatPanelResultsHelper.cs" />
     <Compile Include="CatPanelTests\CatPanelResultsTest.cs" />

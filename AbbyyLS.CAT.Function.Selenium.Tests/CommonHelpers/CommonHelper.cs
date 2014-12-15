@@ -7,6 +7,7 @@ using NUnit.Framework;
 using OpenQA.Selenium.Interactions;
 using System.Drawing;
 using System.Text.RegularExpressions;
+using NLog;
 
 namespace AbbyyLS.CAT.Function.Selenium.Tests
 {
@@ -15,6 +16,8 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 	/// </summary>
 	public class CommonHelper
 	{
+		public static Logger Logger = LogManager.GetCurrentClassLogger();
+
 		/// <summary>
 		/// Драйвер
 		/// </summary>
@@ -84,7 +87,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			}
 			catch (StaleElementReferenceException)
 			{
-				Console.WriteLine("StaleElementReferenceException: WaitUntilDisplayElement: " + by.ToString());
+				Logger.Trace("StaleElementReferenceException: WaitUntilDisplayElement: " + by.ToString());
 
 				return WaitUntilDisplayElement(by, maxWait);
 			}
@@ -118,7 +121,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			}
 			catch (StaleElementReferenceException)
 			{
-				Console.WriteLine("StaleElementReferenceException: GetIsElementExist: " + by.ToString());
+				Logger.Trace("StaleElementReferenceException: GetIsElementExist: " + by.ToString());
 				return GetIsElementExist(by);
 			}
 			catch (NoSuchElementException)
@@ -130,6 +133,23 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 				Assert.Fail("Произошла ошибка:\n" + exType.ToString());
 				return false;
 			}
+		}
+
+		/// <summary>
+		/// Перейти в iframe
+		/// </summary>
+		protected void SwitchToFrame(By by)
+		{
+			IWebElement frame = Driver.FindElement(by);
+			Driver.SwitchTo().Frame(frame);
+		}
+
+		/// <summary>
+		/// Выйти из iframe 
+		/// </summary>
+		protected void SwitchToDefaultContent()
+		{
+			Driver.SwitchTo().DefaultContent();
 		}
 
 		/// <summary>
@@ -145,7 +165,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			}
 			catch (StaleElementReferenceException)
 			{
-				Console.WriteLine("StaleElementReferenceException: GetIsElementDisplay: " + by.ToString());
+				Logger.Trace("StaleElementReferenceException: GetIsElementDisplay: " + by.ToString());
 				return GetIsElementDisplay(by);
 			}
 			catch (NoSuchElementException)
@@ -171,7 +191,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			}
 			catch (StaleElementReferenceException)
 			{
-				Console.WriteLine("StaleElementReferenceException: ClickElement: " + by.ToString());
+				Logger.Trace("StaleElementReferenceException: ClickElement: " + by.ToString());
 				ClickElement(by);
 			}
 			catch (NoSuchElementException)
@@ -217,7 +237,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			}
 			catch (StaleElementReferenceException)
 			{
-				Console.WriteLine("StaleElementReferenceException: ClearAndAddText: " + by.ToString());
+				Logger.Trace("StaleElementReferenceException: ClearAndAddText: " + by.ToString());
 				ClearAndAddText(by, text);
 			}
 			catch (NoSuchElementException)
@@ -243,7 +263,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			}
 			catch (StaleElementReferenceException)
 			{
-				Console.WriteLine("StaleElementReferenceException: ClearElement: " + by.ToString());
+				Logger.Trace("StaleElementReferenceException: ClearElement: " + by.ToString());
 				ClearElement(by);
 			}
 			catch (NoSuchElementException)
@@ -273,7 +293,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			}
 			catch (StaleElementReferenceException)
 			{
-				Console.WriteLine("StaleElementReferenceException: ClickAndSendTextElement: " + by.ToString());
+				Logger.Trace("StaleElementReferenceException: ClickAndSendTextElement: " + by.ToString());
 				ClickAndSendTextElement(by, text);
 			}
 			catch (NoSuchElementException)
@@ -304,7 +324,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			}
 			catch (StaleElementReferenceException)
 			{
-				Console.WriteLine("StaleElementReferenceException: ClickAndSendTextElement: " + by.ToString());
+				Logger.Trace("StaleElementReferenceException: ClickAndSendTextElement: " + by.ToString());
 				ClickAndSendTextElement(by, text);
 			}
 			catch (NoSuchElementException)
@@ -332,7 +352,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			}
 			catch (StaleElementReferenceException)
 			{
-				Console.WriteLine("StaleElementReferenceException: SendTextElement: " + by.ToString());
+				Logger.Trace("StaleElementReferenceException: SendTextElement: " + by.ToString());
 				SendTextElement(by, text);
 			}
 			catch (NoSuchElementException)
@@ -388,7 +408,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			}
 			catch (StaleElementReferenceException)
 			{
-				Console.WriteLine("StaleElementReferenceException: GetTextElement: " + by.ToString());
+				Logger.Trace("StaleElementReferenceException: GetTextElement: " + by.ToString());
 				return GetTextElement(by);
 			}
 			catch (NoSuchElementException)
@@ -416,7 +436,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			}
 			catch (StaleElementReferenceException)
 			{
-				Console.WriteLine("StaleElementReferenceException: GetElementClass: " + by.ToString());
+				Logger.Trace("StaleElementReferenceException: GetElementClass: " + by.ToString());
 				return GetElementClass(by);
 			}
 			catch (NoSuchElementException)
@@ -444,7 +464,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			}
 			catch (StaleElementReferenceException)
 			{
-				Console.WriteLine("StaleElementReferenceException: GetElementList: " + by.ToString());
+				Logger.Trace("StaleElementReferenceException: GetElementList: " + by.ToString());
 				return GetElementList(by);
 			}
 			catch (Exception exType)
@@ -467,7 +487,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			}
 			catch (StaleElementReferenceException)
 			{
-				Console.WriteLine("StaleElementReferenceException: GetElementList: " + by.ToString());
+				Logger.Trace("StaleElementReferenceException: GetElementList: " + by.ToString());
 				return GetElement(by);
 			}
 			catch (Exception exType)
@@ -490,7 +510,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			}
 			catch (StaleElementReferenceException)
 			{
-				Console.WriteLine("StaleElementReferenceException: GetElementCount: " + by.ToString());
+				Logger.Trace("StaleElementReferenceException: GetElementCount: " + by.ToString());
 				return GetElementsCount(by);
 			}
 			catch (Exception exType)
@@ -521,7 +541,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			}
 			catch (StaleElementReferenceException)
 			{
-				Console.WriteLine("StaleElementReferenceException: GetTextListElement: " + by.ToString());
+				Logger.Trace("StaleElementReferenceException: GetTextListElement: " + by.ToString());
 				return GetTextListElement(by);
 			}
 			catch (Exception exType)
@@ -547,7 +567,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			}
 			catch (StaleElementReferenceException)
 			{
-				Console.WriteLine("StaleElementReferenceException: DoubleClickElement: " + by.ToString());
+				Logger.Trace("StaleElementReferenceException: DoubleClickElement: " + by.ToString());
 				DoubleClickElement(by);
 			}
 			catch (Exception exType)
@@ -579,7 +599,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			}
 			catch (StaleElementReferenceException)
 			{
-				Console.WriteLine("StaleElementReferenceException: GetIsElementActive: " + by.ToString());
+				Logger.Trace("StaleElementReferenceException: GetIsElementActive: " + by.ToString());
 				return GetIsElementActive(by);
 			}
 			catch (Exception exType)
@@ -602,7 +622,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			}
 			catch (StaleElementReferenceException)
 			{
-				Console.WriteLine("StaleElementReferenceException: GetIsInputChecked: " + by.ToString());
+				Logger.Trace("StaleElementReferenceException: GetIsInputChecked: " + by.ToString());
 				return GetIsInputChecked(by);
 			}
 			catch (Exception exType)
@@ -631,7 +651,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			}
 			catch (StaleElementReferenceException)
 			{
-				Console.WriteLine("StaleElementReferenceException: GetElementAttribute: " + by.ToString());
+				Logger.Trace("StaleElementReferenceException: GetElementAttribute: " + by.ToString());
 				return GetElementAttribute(by, attr);
 			}
 			catch (Exception exType)

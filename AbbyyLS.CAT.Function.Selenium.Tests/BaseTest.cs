@@ -164,6 +164,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		protected AddTermFormHelper AddTermForm { get; private set; }
 
 		protected RegistrationPageHelper RegistrationPage { get; private set; }
+		protected MyAccountPageHelper MyAccountPage { get; private set; }
 
 		protected DateTime TestBeginTime { get; private set; }
 
@@ -797,6 +798,29 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 
 				// Пробуем перейти на страницу еще раз
 				GoToClients();
+			}
+		}
+
+		/// <summary>
+		/// Переход на страницу My Account
+		/// Если переадресация на стартовую страницу, то авторизация и затем переход по клику MyAccount в панели WS
+		/// </summary>
+		public void GoToMyAccount()
+		{
+			// Перейти на страницу
+			Driver.Navigate().GoToUrl(Url + "/Billing/LicensePackages/");
+
+			// Если открылась страница логина
+			if (LoginPage.WaitPageLoad(1) || LoginPage.WaitPromoPageLoad())
+			{
+				// Проходим процедуру авторизации
+				Authorization();
+
+				// Кликаем MyAccount в панели WS
+				MyAccountPage.ClickMyAccountLink();
+
+				// Перешли в новое открытое окно браузера
+				Driver.SwitchTo().Window(Driver.WindowHandles[1]);
 			}
 		}
 
@@ -2118,7 +2142,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			ResponsiblesDialog = new ResponsiblesDialogHelper(Driver, Wait);
 			AddTermForm = new AddTermFormHelper(Driver, Wait);
 			RegistrationPage = new RegistrationPageHelper(Driver, Wait);
-
+			MyAccountPage = new MyAccountPageHelper(Driver, Wait);
 		}
 
 		private void initializeUsersAndCompanyList()
