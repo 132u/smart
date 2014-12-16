@@ -1047,12 +1047,9 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 				WorkspaceCreateProjectDialog.ClickUploadTMX();
 				WorkspaceCreateProjectDialog.WaitUploadTMXDialog();
 				WorkspaceCreateProjectDialog.FillTMNameDialog(tmName);
-				WorkspaceCreateProjectDialog.ClickAddTMXDialog();
 
-				WorkspaceCreateProjectDialog.WaitUploadTMXDialog();
-
-				// Заполнить имя файла для загрузки
-				FillAddDocumentForm(TmFileName);
+				FillAddDocumentForm2(TmFileName, TM_UPLOAD);
+				FillAddDocumentForm(TmFileName, TM_UPLOAD2);
 
 				//Нажать на кнопку Import
 				WorkspaceCreateProjectDialog.ClickSaveTMXDialog();
@@ -1196,7 +1193,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			ProjectPage.WaitImportDialogDisplay();
 			// Заполнить диалог загрузки
 			FillAddDocumentForm(filePath, ADD_FILE_ON_PROJECT_PAGE);
-			Thread.Sleep(1000); // Sleep Не удалять! необходим для предотвращения появления окна загрузки
 
 			// Нажать Next
 			ProjectPage.ClickNextImportDialog();
@@ -1283,8 +1279,22 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		{
 			((IJavaScriptExecutor)Driver).ExecuteScript("document.evaluate('" + file + "', document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue.style.display = 'block';");
 			Driver.FindElement(By.XPath(file)).SendKeys(DocumentName);
+			Thread.Sleep(1000); // Sleep Не удалять! необходим для предотвращения появления окна загрузки
 		}
 
+		/// <summary>
+		/// Загрузка документа, когда необходимо заполнить поле Import file
+		/// </summary>
+		/// <param name="DocumentName"> название документа </param>
+		/// <param name="xpath"> Xpath поля загрузки </param>
+		/// <param name="fileName"> навзание файла </param>
+		protected void FillAddDocumentForm2(string DocumentName, string xpath)
+		{
+			((IJavaScriptExecutor)Driver).ExecuteScript("document.evaluate('" + xpath + "', document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue.style.display = 'block';");
+			((IJavaScriptExecutor)Driver).ExecuteScript("document.getElementsByClassName('js-submit-input g-hidden')[0].setAttribute('type', 'text');");
+			Driver.FindElement(By.XPath(xpath)).SendKeys(DocumentName);
+			((IJavaScriptExecutor)Driver).ExecuteScript("document.getElementsByClassName('g-iblock g-bold l-editgloss__filelink js-filename-link')[0].innerHTML = '" + Path.GetFileName(DocumentName) + "'");
+		}
 		/// <summary>
 		/// Закрываем диалог 2
 		/// </summary>
@@ -2214,6 +2224,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		protected const string TM_UPLOAD2 = "html/body/div[17]/div[2]/div[2]/div/div[1]/form/input";
 		protected const string IMPORT_TERMS = "html/body/div[15]/div[2]/div[2]/form/div[1]/div[1]/div/input";
 		protected const string MEDIA_ENTRY = "html/body/div[6]/div[1]/div[2]/div[3]/div/table/tbody/tr[2]/td/div/div[2]/table/tbody/tr[2]/td[1]/div/div[2]/input"; // загрузка медиа файла в термин нас тр глоссари
-
+		protected const string ADD_TMX = "html/body/div[11]/div[2]/div[2]/form/div[1]/div/div/input";
+		protected const string ADD_TMX2 = "html/body/div[11]/div[2]/div[2]/form/input";
 	}
 }

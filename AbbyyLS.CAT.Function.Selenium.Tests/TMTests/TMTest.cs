@@ -149,12 +149,10 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.TM
 			var locale = WorkspacePage.GetCurrentLocale();
 
 			TMPage.WaitUntilUploadDialog();
-			// Нажать на Add для появления диалога загрузки документа
-			TMPage.ClickAddUploadBtn();
 
 			// Заполнить диалог загрузки документа
-			FillAddDocumentForm(documentName);
-
+			FillAddDocumentForm2(documentName, ADD_TMX);
+			FillAddDocumentForm(documentName, ADD_TMX2);
 			Console.WriteLine(documentName);
 
 			// Нажать на Импорт
