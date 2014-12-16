@@ -84,26 +84,24 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <summary>
 		/// Проверка отображения окна с правами пользователя при загрузке документа в проект
 		/// </summary>
+		[Category("teamcity_upload")]
 		[Test]
 		public void ResponsiblesWorkspaceUploadDocument()
 		{
 			// Создание проекта
 			CreateProjectIfNotCreated(_projectNoChangesName, TestFile.EditorTXTFile);
 
-			// Открываем инфо проекта
+			//Открываем инфо проекта
 			WorkspacePage.OpenProjectInfo(_projectNoChangesName);
 
-			// Открываем диалог загрузки документа
+			//Открываем диалог загрузки документа
 			WorkspacePage.ClickDocumentUploadBtn();
 
-			// Ожидаем пока загрузится диалог
+			//Ожидаем пока загрузится диалог
 			ProjectPage.WaitImportDialogDisplay();
 
-			// Открываем диалог добавления документа
-			ProjectPage.ClickAddDocumentInImport();
-
 			// Добавляем документ
-			FillAddDocumentForm(TestFile.DocumentFileToConfirm);
+			FillAddDocumentForm(TestFile.DocumentFileToConfirm, ADD_FILE_TO_PROJECT);
 
 			ProjectPage.ClickNextImportDialog();
 			ProjectPage.ClickNextImportDialog();
@@ -185,6 +183,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <summary>
 		/// Проверка отображения окна с правами пользователя при загрузке документа в окне проекта
 		/// </summary>
+		[Category("teamcity_upload")]
 		[Test]
 		public void ResponsiblesProjectUploadDocument()
 		{
@@ -194,17 +193,14 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			// Открываем проект
 			OpenProjectPage(_projectNoChangesName);
 
-			// Открываем диалог загрузки документа
+			//// Открываем диалог загрузки документа
 			ProjectPage.ClickImportBtn();
 
-			// Ожидаем пока загрузится диалог
+			//// Ожидаем пока загрузится диалог
 			ProjectPage.WaitImportDialogDisplay();
 
-			// Открываем диалог добавления документа
-			ProjectPage.ClickAddDocumentInImport();
-
 			// Добавляем документ
-			FillAddDocumentForm(TestFile.DocumentFileToConfirm);
+			FillAddDocumentForm(TestFile.DocumentFileToConfirm, ADD_FILE_ON_PROJECT_PAGE);
 
 			ProjectPage.ClickNextImportDialog();
 			ProjectPage.ClickNextImportDialog();
@@ -377,15 +373,14 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <summary>
 		/// Назначение пользователя на два этапа
 		/// </summary>
+		[Category("teamcity_upload")]
 		[Test]
 		public void AssignUserFewTasks()
 		{
 			// Создание проекта
 			// 1) Заполнение полей
 			FirstStepProjectWizard(ProjectName);
-			
-			// Загрузить файл
-			WorkspaceCreateProjectDialog.ClickAddDocumentBtn();
+
 			FillAddDocumentForm(TestFile.EditorTXTFile);
 
 			WorkspaceCreateProjectDialog.ClickNextStep();

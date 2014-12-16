@@ -466,6 +466,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <summary>
 		/// Проверка на автоматическое присвоение имени проекта при загрузке файла
 		/// </summary>
+		[Category("teamcity_upload")]
 		[Test]
 		public void AutofillProjectName()
 		{
@@ -476,8 +477,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			// Ждем загрузки формы
 			WorkspaceCreateProjectDialog.WaitDialogDisplay();
 			// Загрузить файл
-			WorkspaceCreateProjectDialog.ClickAddDocumentBtn();
-			FillAddDocumentForm(TestFile.DocumentFile);
+			FillAddDocumentForm(TestFile.DocumentFile, UPLOAD_FILE_TO_NEW_PROJECT);
 			Thread.Sleep(1000);
 
 			Assert.IsTrue(
@@ -488,6 +488,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <summary>
 		/// Проверка, что автоматическое присвоенное имя не изменяется после повторного добавления файла
 		/// </summary>
+		[Category("teamcity_upload")]
 		[Test]
 		public void AutofillProjectNameAddTwoFiles()
 		{
@@ -498,8 +499,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			// Ждем загрузки формы
 			WorkspaceCreateProjectDialog.WaitDialogDisplay();
 			// Загрузить файл
-			WorkspaceCreateProjectDialog.ClickAddDocumentBtn();
-			FillAddDocumentForm(TestFile.DocumentFile);
+			FillAddDocumentForm(TestFile.DocumentFile, UPLOAD_FILE_TO_NEW_PROJECT);
 			Thread.Sleep(1000);
 
 			Assert.IsTrue(
@@ -507,8 +507,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 				"Ошибка: Имя проекта автоматически не присвоилось");
 
 			// Загрузить второй файл
-			WorkspaceCreateProjectDialog.ClickAddDocumentBtn();
-			FillAddDocumentForm(TestFile.EditorTXTFile);
+			FillAddDocumentForm(TestFile.EditorTXTFile, UPLOAD_FILE_TO_NEW_PROJECT);
 			Thread.Sleep(1000);
 
 			Assert.IsTrue(
@@ -519,6 +518,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <summary>
 		/// Проверка, что автоматическое присвоенное имя не изменяется после удаления файла
 		/// </summary>
+		[Category("teamcity_upload")]
 		[Test]
 		public void AutofillProjectNameDeleteFile()
 		{
@@ -529,8 +529,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			// Ждем загрузки формы
 			WorkspaceCreateProjectDialog.WaitDialogDisplay();
 			// Загрузить файл
-			WorkspaceCreateProjectDialog.ClickAddDocumentBtn();
-			FillAddDocumentForm(TestFile.DocumentFile);
+			FillAddDocumentForm(TestFile.DocumentFile, UPLOAD_FILE_TO_NEW_PROJECT);
 			Thread.Sleep(1000);
 
 			Assert.IsTrue(
@@ -550,6 +549,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <summary>
 		/// Удаление загруженного файла из визарда проекта
 		/// </summary>
+		[Category("teamcity_upload")]
 		[Test]
 		public void DeleteFileFromWizard()
 		{
@@ -560,8 +560,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			// Ждем загрузки формы
 			WorkspaceCreateProjectDialog.WaitDialogDisplay();
 			// Загрузить файл
-			WorkspaceCreateProjectDialog.ClickAddDocumentBtn();
-			FillAddDocumentForm(TestFile.DocumentFile);
+			FillAddDocumentForm(TestFile.DocumentFile, UPLOAD_FILE_TO_NEW_PROJECT);
 			Thread.Sleep(1000);
 			// Удалить файл
 			WorkspaceCreateProjectDialog.ClickDeleteFile(fileName);

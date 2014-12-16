@@ -902,8 +902,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			FirstStepProjectWizard(projectName);
 			if (downloadFile.Length > 0)
 			{
-				// Загрузить файл
-				WorkspaceCreateProjectDialog.ClickAddDocumentBtn();
 				FillAddDocumentForm(downloadFile);
 				WorkspaceCreateProjectDialog.WaitDocumentAppear(Path.GetFileName(downloadFile));
 			}
@@ -1196,10 +1194,10 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			ProjectPage.ClickImportBtn();
 			// ждем, когда загрузится окно для загрузки документа 
 			ProjectPage.WaitImportDialogDisplay();
-			// Нажать Add
-			ProjectPage.ClickAddDocumentInImport();
 			// Заполнить диалог загрузки
-			FillAddDocumentForm(filePath);
+			FillAddDocumentForm(filePath, ADD_FILE_ON_PROJECT_PAGE);
+			Thread.Sleep(1000); // Sleep Не удалять! необходим для предотвращения появления окна загрузки
+
 			// Нажать Next
 			ProjectPage.ClickNextImportDialog();
 
@@ -1281,16 +1279,10 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// Работа с диалогом браузера: загрузка документа
 		/// </summary>
 		/// <param name="DocumentName">полный путь к документу</param>
-		protected void FillAddDocumentForm(string DocumentName)
+		protected void FillAddDocumentForm(string DocumentName, string file = UPLOAD_FILE_TO_NEW_PROJECT)
 		{
-			Thread.Sleep(3000);
-			
-			var txt = Regex.Replace(DocumentName, "[+^%~()]", "{$0}");
-
-			SendKeys.SendWait(txt);
-			Thread.Sleep(2000);
-			SendKeys.SendWait(@"{Enter}");
-			Thread.Sleep(2000);
+			((IJavaScriptExecutor)Driver).ExecuteScript("document.evaluate('" + file + "', document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue.style.display = 'block';");
+			Driver.FindElement(By.XPath(file)).SendKeys(DocumentName);
 		}
 
 		/// <summary>
@@ -2215,5 +2207,13 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 
 		private string _pathTestFiles;
 		private FirefoxProfile _profile;
+		protected const string UPLOAD_FILE_TO_NEW_PROJECT = "//html/body/div[23]/div[2]/div[2]/div[1]/div[1]/div[1]/div[2]/div[1]/input"; // добавление документа при создании проекта
+		protected const string ADD_FILE_TO_PROJECT = "html/body/div[19]/div[2]/div[2]/div[1]/div[1]/div/div[2]/div[5]/input"; // добавление документа уже сущестующему проекту на стр WS
+		protected const string ADD_FILE_ON_PROJECT_PAGE = "html/body/div[14]/div[2]/div[2]/div[1]/div[1]/div/div[2]/div[5]/input"; // добавление документа уже сущестующему проекту на стр проекта
+		protected const string TM_UPLOAD = "html/body/div[17]/div[2]/div[2]/div/div[1]/form/div/div/input";
+		protected const string TM_UPLOAD2 = "html/body/div[17]/div[2]/div[2]/div/div[1]/form/input";
+		protected const string IMPORT_TERMS = "html/body/div[15]/div[2]/div[2]/form/div[1]/div[1]/div/input";
+		protected const string MEDIA_ENTRY = "html/body/div[6]/div[1]/div[2]/div[3]/div/table/tbody/tr[2]/td/div/div[2]/table/tbody/tr[2]/td[1]/div/div[2]/input"; // загрузка медиа файла в термин нас тр глоссари
+
 	}
 }
