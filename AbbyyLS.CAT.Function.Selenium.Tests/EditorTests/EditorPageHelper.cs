@@ -676,7 +676,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		protected string GetSourceCellCss(int rowNumber)
 		{
 			return SEGMENTS_CSS + ":nth-child(" + rowNumber + ")" +
-				" td:nth-of-type(2) div div";
+				" td:nth-of-type(2) div pre";
 		}
 
 		/// <summary>
