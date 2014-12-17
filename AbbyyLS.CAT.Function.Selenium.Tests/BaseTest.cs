@@ -1409,25 +1409,14 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <summary>
 		/// Нажать Back в редакторе, проверить возврат в Workspace
 		/// </summary>
-		/// <param name="backToProject">откуда заходили в редактов: true: страница проекта, false - список проектов</param>
-		public void EditorClickHomeBtn(bool backToProject = false)
+		public void EditorClickHomeBtn()
 		{
 			// Нажать кнопку назад
 			EditorPage.ClickHomeBtn();
 
-			if (backToProject)
-			{
-				Assert.IsTrue(
+			Assert.IsTrue(
 					ProjectPage.WaitPageLoad(),
 					"Ошибка: не зашли на страницу проекта");
-			}
-			else
-			{
-				// Проверить, что перешли в Workspace
-				Assert.IsTrue(
-					WorkspacePage.WaitPageLoad(),
-					"Ошибка: не зашли в Workspace");
-			}
 		}
 
 		/// <summary>

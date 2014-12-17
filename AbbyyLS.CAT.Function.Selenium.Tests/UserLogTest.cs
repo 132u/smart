@@ -191,8 +191,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			EditorClickHomeBtn();
 			// Пишем в лог
 			WriteLog(0, "Нажатие кнопки Home", "Кнопка редактора", "-");
-			// Перейти к проекту
-			OpenProjectPage(projectName);
 			//Выгрузить логи
 			ExportLog();
 		}
@@ -235,8 +233,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			EditorClickHomeBtn();
 			// Пишем в лог
 			WriteLog(0, "Нажатие кнопки Home", "Кнопка редактора", "-");
-			// Перейти к проекту
-			OpenProjectPage(projectName);
 			//Выгрузить логи
 			ExportLog();
 		}
@@ -270,8 +266,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			EditorClickHomeBtn();
 			// Пишем в лог
 			WriteLog(0, "Нажатие кнопки Home", "Кнопка редактора", "-");
-			// Перейти к проекту
-			OpenProjectPage(projectName);
 			//Выгрузить логи
 			ExportLog();
 		}
@@ -322,8 +316,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			EditorClickHomeBtn();
 			// Пишем в лог
 			WriteLog(0, "Нажатие кнопки Home", "Кнопка редактора", "-");
-			// Перейти к проекту
-			OpenProjectPage(projectName);
 			//Выгрузить логи
 			ExportLog();
 		}
@@ -392,8 +384,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			EditorClickHomeBtn();
 			// Пишем в лог
 			WriteLog(0, "Нажатие кнопки Home", "Кнопка редактора", "-");
-			// Перейти к проекту
-			OpenProjectPage(projectName);
 			//Выгрузить логи
 			ExportLog();
 		}
@@ -511,10 +501,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			EditorClickHomeBtn();
 			// Пишем в лог
 			WriteLog(0, "Нажатие кнопки Home", "Кнопка редактора", "-");
-
-			// Перейти к проекту
-			OpenProjectPage(projectName);
-
 			//Выгрузить логи
 			ExportLog();
 		}
@@ -544,8 +530,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			EditorClickHomeBtn();
 			// Пишем в лог
 			WriteLog(0, "Нажатие кнопки Home", "Кнопка редактора", "-");
-			// Перейти к проекту
-			OpenProjectPage(projectName);
 			//Выгрузить логи
 			ExportLog();
 		}
@@ -575,8 +559,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			EditorClickHomeBtn();
 			// Пишем в лог
 			WriteLog(0, "Нажатие кнопки Home", "Кнопка редактора", "-");
-			// Перейти к проекту
-			OpenProjectPage(projectName);
 			//Выгрузить логи
 			ExportLog();
 		}
@@ -600,8 +582,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			EditorClickHomeBtn();
 			// Пишем в лог
 			WriteLog(0, "Нажатие кнопки Home", "Кнопка редактора", "-");
-			// Перейти к проекту
-			OpenProjectPage(projectName);
 			//Выгрузить логи
 			ExportLog();
 		}
@@ -637,8 +617,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			EditorClickHomeBtn();
 			// Пишем в лог
 			WriteLog(0, "Нажатие кнопки Home", "Кнопка редактора", "-");
-			// Перейти к проекту
-			OpenProjectPage(projectName);
 			//Выгрузить логи
 			ExportLog();
 		}
@@ -675,8 +653,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			EditorClickHomeBtn();
 			// Пишем в лог
 			WriteLog(0, "Нажатие кнопки Home", "Кнопка редактора", "-");
-			// Перейти к проекту
-			OpenProjectPage(projectName);
 			//Выгрузить логи
 			ExportLog();
 		}
@@ -710,8 +686,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			EditorClickHomeBtn();
 			// Пишем в лог
 			WriteLog(0, "Нажатие кнопки Home", "Кнопка редактора", "-");
-			// Перейти к проекту
-			OpenProjectPage(projectName);
 			//Выгрузить логи
 			ExportLog();
 		}
@@ -766,8 +740,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			EditorClickHomeBtn();
 			// Пишем в лог
 			WriteLog(0, "Нажатие кнопки Home", "Кнопка редактора", "-");
-			// Перейти к проекту
-			OpenProjectPage(projectName);
 			//Выгрузить логи
 			ExportLog();
 		}
@@ -822,8 +794,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			EditorClickHomeBtn();
 			// Пишем в лог
 			WriteLog(0, "Нажатие кнопки Home", "Кнопка редактора", "-");
-			// Перейти к проекту
-			OpenProjectPage(projectName);
 			//Выгрузить логи
 			ExportLog();
 		}
@@ -901,10 +871,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			//Нажать кнопку назад
 			EditorClickHomeBtn();
 			WriteLog(0, "Нажатие кнопки Home", "Кнопка редактора", "-");
-
-			// Перейти к проекту
-			OpenProjectPage(projectName);
-
 			//Выгрузить логи
 			ExportLog();
 		}
@@ -951,14 +917,9 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 
 			// Дождаться автосохранения
 			AutoSave();
-
 			//Нажать кнопку назад
 			EditorClickHomeBtn();
 			WriteLog(0, "Нажатие кнопки Home", "Кнопка редактора", "-");
-
-			// Перейти к проекту
-			OpenProjectPage(projectName);
-
 			//Выгрузить логи
 			ExportLog();
 		}
@@ -1005,10 +966,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			//Нажать кнопку назад
 			EditorClickHomeBtn();
 			WriteLog(0, "Нажатие кнопки Home", "Кнопка редактора", "-");
-
-			// Перейти к проекту
-			OpenProjectPage(projectName);
-
 			//Выгрузить логи
 			ExportLog();
 		}
@@ -1055,10 +1012,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			EditorClickHomeBtn();
 			
 			WriteLog(0, "Нажатие кнопки Home", "Кнопка редактора", "-");
-
-			// Перейти к проекту
-			OpenProjectPage(projectName);
-
 			//Выгрузить логи
 			ExportLog();
 		}
@@ -1103,9 +1056,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			EditorClickHomeBtn();
 			
 			WriteLog(0, "Нажатие кнопки Home", "Кнопка редактора", "-");
-
-			// Перейти к проекту
-			OpenProjectPage(projectName);
 
 			//Выгрузить логи
 			ExportLog();
@@ -1180,9 +1130,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			EditorClickHomeBtn();
 			// Пишем в лог
 			WriteLog(0, "Нажатие кнопки Home", "Кнопка редактора", "-");
-
-			// Перейти к проекту
-			OpenProjectPage(projectName);
 
 			//Выгрузить логи
 			ExportLog();

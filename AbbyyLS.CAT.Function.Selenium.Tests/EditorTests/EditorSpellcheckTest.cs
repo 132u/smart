@@ -72,9 +72,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			// Закрываем редактор
 			EditorClickHomeBtn();
 
-			// Заходим в проект
-			OpenProjectPage(ProjectName);
-
 			// Снова открываем редактор
 			OpenDocument();
 
@@ -114,9 +111,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 
 			// Закрываем редактор
 			EditorClickHomeBtn();
-
-			// Заходим в проект
-			OpenProjectPage(ProjectName);
 
 			// Снова открываем редактор
 			OpenDocument();

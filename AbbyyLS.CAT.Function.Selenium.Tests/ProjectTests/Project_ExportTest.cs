@@ -1106,10 +1106,9 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 				// Выйти
 				EditorClickHomeBtn();
 
-				if (isNeedOpenProject)
+				if (!isNeedOpenProject)
 				{
-					// Заходим в проект
-					OpenProjectPage(currentProjectName);
+					GoToTranslationMemories();
 				}
 			}
 			else if (isNeedOpenProject)

@@ -880,7 +880,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Editor.Revisions
 				"Ошибка: неправильное количество ревизий");
 
 			// Выходим из редактора
-			EditorClickHomeBtn(backToProject: true);
+			EditorClickHomeBtn();
 
 			// Разлогиниться
 			WorkspacePage.ClickAccount();
@@ -929,7 +929,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Editor.Revisions
 				"Ошибка: ревизия первого пользователя не первая после второй сортировки");
 
 			// Выходим из редактора
-			EditorClickHomeBtn(backToProject: true);
+			EditorClickHomeBtn();
 
 			// Разлогиниться
 			WorkspacePage.ClickAccount();
@@ -988,7 +988,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Editor.Revisions
 				"Ошибка: неправильный тип ревизии");
 
 			// Выходим из редактора
-			EditorClickHomeBtn(backToProject: true);
+			EditorClickHomeBtn();
 
 			// Выполняем претранслейт
 			implementPretranslate(catType);
