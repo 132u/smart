@@ -116,7 +116,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			return accountName;
 		}
 
-
 		/// <summary>
 		/// Зайти в  админку
 		/// </summary>
@@ -195,6 +194,9 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			Assert.IsTrue(isWindowWithForm, "Ошибка: не нашли окно с формой создания аккаунта");
 			// Заполняем поля для создания корп аккаунта
 			string accountName = FillGeneralAccountFields(testAccount, workflow, venture);
+			// Выбрать функции
+			SelectFeatures();
+			AdminPage.SetDictionariesExpirationDate();
 			// Нажать кнопку сохранить
 			AdminPage.ClickSaveBtn();
 			return accountName;
@@ -211,5 +213,20 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			AdminPage.ClickUserAddBtnInCorpList(account);
 			AddUserToCorpAccount(login);
 		}
+
+		public void SelectFeatures()
+		{
+			foreach (string f in Features)
+			{
+				if (f == "LiveChat")
+					continue;
+
+				AdminPage.SelectFeature(f);
+				AdminPage.ClickRightArrowToAddFeature();
+			}
+		}
+
+		public string[] Features = {"Clients", "LingvoDictionaries", "Crowd", "Domains", "HelpPage", "LiveChat", "TranslateConnector", "UserActivities" };
+
 	}
 }

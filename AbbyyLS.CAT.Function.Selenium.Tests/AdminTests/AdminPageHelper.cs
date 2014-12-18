@@ -1,6 +1,7 @@
 ﻿using System;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.UI;
+using System.Collections.Generic;
 
 namespace AbbyyLS.CAT.Function.Selenium.Tests
 {
@@ -415,6 +416,33 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		{
 			ClickElement(By.XPath(WORKFLOW_CHECKBOX));
 		}
+		
+		/// <summary>
+		/// Выбрать функцию
+		/// </summary>
+		public void SelectFeature(string feature)
+		{
+			ClickElement(By.XPath(FEATURES_OPTIONS + feature+ "']"));
+		}
+
+		/// <summary>
+		/// Кликнуть стрелку, чтоб доавбить функию
+		/// </summary>
+		public void ClickRightArrowToAddFeature()
+		{
+			ClickElement(By.XPath(FEATURES_TO_RIGHT_ARROW));
+		}
+
+		/// <summary>
+		/// Установить дату окончания действия словаря
+		/// </summary>
+		/// <param name="date"> дата окончания </param>
+		public void SetDictionariesExpirationDate()
+		{
+			DateTime today = DateTime.Today;
+			string nextWeek = today.AddYears(1).ToString("dd/MM/yyyy");
+			SendTextElement(By.XPath(DICTIONARIES_EXP_DATE), nextWeek);
+		}
 
 		protected const string LOGIN_FORM_XPATH = "//form[contains(@action,'/Home/Login')]";
 		protected const string LOGIN_FORM_LOGIN_XPATH = "//input[@name='email']";
@@ -462,5 +490,10 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		protected const string EMAIL_IN_SEARCH_RES_TABLE = "//a[text()='";
 		protected const string USER_IS_EXIST_MSG = "//fieldset//div[2]/span[contains(text(),'таким e-mail уже существует в AOL')]";
 		protected const string WORKFLOW_CHECKBOX = "//input[@id='WorkflowEnabled']";
+
+		protected const string FEATURES_TABLE = "//table[@name='Features']";
+		protected const string FEATURES_OPTIONS = FEATURES_TABLE + "//select[@id='left']//option[@value='";
+		protected const string FEATURES_TO_RIGHT_ARROW = FEATURES_TABLE + "//input[@name='toRight']";
+		protected const string DICTIONARIES_EXP_DATE = "//input[@id='DictionariesExpirationDate']";
 	}
 }
