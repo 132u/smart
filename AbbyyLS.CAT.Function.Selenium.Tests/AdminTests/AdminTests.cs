@@ -196,7 +196,8 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			string accountName = FillGeneralAccountFields(testAccount, workflow, venture);
 			// Выбрать функции
 			SelectFeatures();
-			AdminPage.SetDictionariesExpirationDate();
+			// Выбрать дату окончания действия словаря
+			SelectExpDate();
 			// Нажать кнопку сохранить
 			AdminPage.ClickSaveBtn();
 			return accountName;
@@ -228,5 +229,11 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 
 		public string[] Features = {"Clients", "LingvoDictionaries", "Crowd", "Domains", "HelpPage", "LiveChat", "TranslateConnector", "UserActivities" };
 
+		public void SelectExpDate()
+		{
+			AdminPage.ClickCalendar();
+			AdminPage.SelectYear("2015");
+			AdminPage.SelectDay("14");
+		}
 	}
 }

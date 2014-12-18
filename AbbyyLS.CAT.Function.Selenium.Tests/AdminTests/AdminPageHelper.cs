@@ -443,7 +443,21 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			string nextWeek = today.AddYears(1).ToString("dd/MM/yyyy");
 			SendTextElement(By.XPath(DICTIONARIES_EXP_DATE), nextWeek);
 		}
+		public void ClickCalendar()
+		{
+			ClickElement(By.XPath(DICTIONARIES_EXP_DATE));
+			//ClickElement(By.XPath(CALENDAR));
+		}
 
+		public void SelectYear(string year)
+		{
+			ClickElement(By.XPath(SELCTED_YEAR + year + "']"));
+		}
+
+		public void SelectDay(string day)
+		{
+			ClickElement(By.XPath(SELCTED_DAY + "text()='" + day + "']"));
+		}
 		protected const string LOGIN_FORM_XPATH = "//form[contains(@action,'/Home/Login')]";
 		protected const string LOGIN_FORM_LOGIN_XPATH = "//input[@name='email']";
 		protected const string LOGIN_FORM_PASSWORD_XPATH = "//input[@name='password']";
@@ -495,5 +509,8 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		protected const string FEATURES_OPTIONS = FEATURES_TABLE + "//select[@id='left']//option[@value='";
 		protected const string FEATURES_TO_RIGHT_ARROW = FEATURES_TABLE + "//input[@name='toRight']";
 		protected const string DICTIONARIES_EXP_DATE = "//input[@id='DictionariesExpirationDate']";
+		protected const string CALENDAR = "//div[@id='ui-datepicker-div']";
+		protected const string SELCTED_YEAR = "//select[@class='ui-datepicker-year']/option[@value='";
+		protected const string SELCTED_DAY = "//table[@class='ui-datepicker-calendar']//tbody//td//a[";
 	}
 }
