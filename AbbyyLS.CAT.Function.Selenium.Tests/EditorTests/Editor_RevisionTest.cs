@@ -86,7 +86,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Editor.Revisions
 					Thread.Sleep(1000);
 				}
 			}
-
 		}
 
 		/// <summary>
@@ -96,6 +95,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Editor.Revisions
 		public void RollbackBtnDisabledTest()
 		{
 			var segmentNumber = 1;
+			EditorPage.ScrollToRequiredSegment(segmentNumber);
 
 			// Добавить текст в Target
 			var text = "Text" + DateTime.Now.Ticks;
@@ -127,6 +127,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Editor.Revisions
 		public void RollbackBtnEnabledTest()
 		{
 			var segmentNumber = 2;
+			EditorPage.ScrollToRequiredSegment(segmentNumber);
 
 			// Добавить текст в Target
 			var text = "Text" + DateTime.Now.Ticks;
@@ -164,6 +165,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Editor.Revisions
 		public void TimeBtnTest()
 		{
 			const int segmentNumber = 3;
+			EditorPage.ScrollToRequiredSegment(segmentNumber);
 
 			// Количество 
 			const int revisionNumberCount = 3;
@@ -222,6 +224,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Editor.Revisions
 		public void AutoSaveTest()
 		{
 			var segmentNumber = 4;
+			EditorPage.ScrollToRequiredSegment(segmentNumber);
 
 			// Добавить текст в Target
 			var text = "Text" + DateTime.Now.Ticks;
@@ -262,6 +265,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Editor.Revisions
 		{
 			// Добавить текст в Target
 			var text = "Text" + DateTime.Now.Ticks;
+			EditorPage.ScrollToRequiredSegment(segmentNumber);
 			AddTextTarget(segmentNumber, text);
 
 			// Вернуться в сегмент
@@ -307,6 +311,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Editor.Revisions
 			// Добавить текст в Target
 			var text = "Text" + DateTime.Now.Ticks;
 			var segmentNumber = 7;
+			EditorPage.ScrollToRequiredSegment(segmentNumber);
 
 			AddTextTarget(segmentNumber, text);
 
@@ -375,6 +380,8 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Editor.Revisions
 			[Values(ByDoubleClick, ByHotkey)] 
 			string byHotkeyOrDoubleClick)
 		{
+			EditorPage.ScrollToRequiredSegment(segmentNumber);
+
 			EditorPage.ClickSourceCell(segmentNumber);
 
 			// Проверить, что есть переводы в панели CAT
@@ -417,6 +424,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Editor.Revisions
 		public void PasteFromMtAfterConfirmTest()
 		{
 			int segmentNumber = 10;
+			EditorPage.ScrollToRequiredSegment(segmentNumber);
 
 			EditorPage.ClickSourceCell(segmentNumber);
 
@@ -464,6 +472,8 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Editor.Revisions
 			[Values(ByDoubleClick, ByHotkey)] 
 			string byHotkeyOrDoubleClick)
 		{
+			EditorPage.ScrollToRequiredSegment(segmentNumber);
+
 			//Выбираем первый сегмент
 			EditorPage.ClickTargetCell(segmentNumber);
 
@@ -506,7 +516,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Editor.Revisions
 		public void ConfirmSomeTranslations()
 		{
 			var segmentNumber = 13;
-
+			EditorPage.ScrollToRequiredSegment(segmentNumber);
 			EditorPage.ClickSourceCell(segmentNumber);
 
 			// Подтвердить несколько переводов в сегменте
@@ -545,6 +555,8 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Editor.Revisions
 			const int segmentNumber = 14;
 			const int translationNumber = 2;
 
+			EditorPage.ScrollToRequiredSegment(segmentNumber);
+
 			for (var i = 0; i < translationNumber; ++i)
 			{
 				var text = "Text" + DateTime.Now.Ticks;
@@ -580,6 +592,8 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Editor.Revisions
 		public void RollbackTest([Values(15, 16, 17)] int segmentNumber, [Values(3, 2, 1)] int rollbackNumber)
 		{
 			const int translationNumber = 3;
+
+			EditorPage.ScrollToRequiredSegment(segmentNumber);
 
 			// Проверка параметров
 			Assert.IsTrue(
@@ -662,6 +676,8 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Editor.Revisions
 		{
 			// Добавить текст в Target
 			int segmentNumber = 18;
+			EditorPage.ScrollToRequiredSegment(segmentNumber);
+
 			AddTranslationAndConfirm(segmentNumber, "Text" + DateTime.Now.Ticks);
 
 			// Вернуться в сегмент
@@ -707,6 +723,8 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Editor.Revisions
 		{
 			var segmentNumber = 19;
 
+			EditorPage.ScrollToRequiredSegment(segmentNumber);
+
 			EditorPage.ClickSourceCell(segmentNumber);
 
 			// Проверить, что есть переводы MT
@@ -749,6 +767,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Editor.Revisions
 		{
 			// Добавить текст в Target
 			const int segmentNumber = 20;
+			EditorPage.ScrollToRequiredSegment(segmentNumber);
 			var text = "Text" + DateTime.Now.Ticks;
 			AddTranslationAndConfirm(segmentNumber, text);
 
@@ -784,6 +803,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Editor.Revisions
 			// Добавить текст в Target
 			var text = "Text" + DateTime.Now.Ticks;
 			const int segmentNumber = 21;
+			EditorPage.ScrollToRequiredSegment(segmentNumber);
 			AddTranslationAndConfirm(segmentNumber, text);
 
 			// Вернуться в сегмент
@@ -816,6 +836,8 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Editor.Revisions
 			[Values(22, 23)] int segmentNumber,
 			[Values(true, false)] bool byHotkey)
 		{
+			EditorPage.ScrollToRequiredSegment(segmentNumber);
+
 			//Выбираем сегмент
 			EditorPage.ClickTargetCell(segmentNumber);
 
@@ -868,6 +890,8 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Editor.Revisions
 		{
 			const int segmentNumber = 24;
 			const int translationNumber = 3;
+
+			EditorPage.ScrollToRequiredSegment(segmentNumber);
 
 			// Подтвердить несколько переводов в одном сегменте
 			AddTranslationsToSegment(segmentNumber, translationNumber);
@@ -949,6 +973,8 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Editor.Revisions
 			Editor_RevisionPageHelper.RevisionType expectedRevisionType)
 		{
 			const int segmentNumber = 26;
+			
+			EditorPage.ScrollToRequiredSegment(segmentNumber);
 
 			EditorPage.ClickSourceCell(segmentNumber);
 
@@ -1040,6 +1066,8 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Editor.Revisions
 
 			const int segmentNumber = 1;
 
+			EditorPage.ScrollToRequiredSegment(segmentNumber);
+
 			EditorPage.ClickSourceCell(segmentNumber);
 
 			// Проверить тип
@@ -1076,7 +1104,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Editor.Revisions
 		protected void ClickConfirmBtn(int segmentRowWaitConfirm)
 		{
 			EditorPage.ClickConfirmBtn();
-
+			
 			// Дождаться подтверждения
 			Assert.IsTrue(WaitSegmentConfirm(segmentRowWaitConfirm), "Ошибка: Confirm не прошел");
 		}
