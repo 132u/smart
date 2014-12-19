@@ -255,7 +255,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <param name="segmentNumber">номер строки</param>
 		public void AddTermFormByHotkey(int segmentNumber)
 		{
-			SendKeysTarget(segmentNumber, OpenQA.Selenium.Keys.Control + "E");
+			SendKeysTarget(segmentNumber, OpenQA.Selenium.Keys.Control + "e");
 		}
 
 		/// <summary>
