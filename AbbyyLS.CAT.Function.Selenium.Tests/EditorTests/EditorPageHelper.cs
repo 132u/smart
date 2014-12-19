@@ -1082,7 +1082,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		protected const string SEGMENT_CAT_SELECTED = "cat-selected";
 		protected const string TARGET_XPATH = "//td[3]//div";
 		protected const string SOURCE_CELL_XPATH = "//td[2]//div//div";
-		protected const string TARGET_CELL_XPATH = "//td[3]//div//div";
+		protected const string TARGET_CELL_XPATH = "//td[3]//div//pre";
 		protected const string FIRST_VISIBLE_SEGMENT_XPATH = "//div[@id='segments-body']//table[1]//td[1]";
 		protected const string SEGMENTS_TABLE_XPATH = "//div[@id='segments-body']//div//div[2]//table";
 
