@@ -844,7 +844,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <param name="word">Слово</param>
 		public void AddWordDictionary(string word)
 		{
-			ClickClearAndAddText(By.XPath(INPUT_WORD_XPATH), word);
+			SendTextElement(By.XPath(INPUT_WORD_XPATH), word);
 			SendKeys.SendWait(@"{Enter}");
 		}
 
