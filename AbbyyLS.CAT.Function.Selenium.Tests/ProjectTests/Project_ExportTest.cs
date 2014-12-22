@@ -1147,6 +1147,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 				AddTranslationAndConfirm();
 				// Выйти из редактора
 				EditorClickHomeBtn();
+				GoToWorkspace();
 				// Загрузить второй документ
 				ImportDocumentProjectSettings(
 					TestFile.DocumentFileToConfirm2, 
@@ -1160,10 +1161,10 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 				// Выйти из редактора
 				EditorClickHomeBtn();
 
-				if (isNeedOpenProject)
+				if (!isNeedOpenProject)
 				{
 					// Перейти к проекту
-					OpenProjectPage(currentProjectName);
+					GoToWorkspace();
 				}
 			}
 			else if (isNeedOpenProject)
