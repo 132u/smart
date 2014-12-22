@@ -327,7 +327,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		protected const string EMAIL_FIELD_IN_SIGN_IN = "//form[@name='signinForm']//input[@id='email']";
 		protected const string PASSWORD_FIELD_IN_SIGN_IN = "//form[@name='signinForm']//input[@id='password']";
 		protected const string CONFIRM_PASSWORD_FIELD = "//input[@id='confirm']";
-		protected const string SIGN_UP_BUTTON = "//button[contains(text(),'Sign Up')]";
+		protected const string SIGN_UP_BUTTON = "//button[@id='btn-sign-up']";
 		protected const string SIGN_IN_BUTTON = "//button[contains(text(),'Sign In')]";
 		protected const string FIRST_NAME_FIELD = "//input[@id='firstname']";
 		protected const string LAST_NAME_FIELD = "//input[@id='lastname']";
