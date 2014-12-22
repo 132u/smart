@@ -25,11 +25,19 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		[TestFixtureSetUp]
 		public void SetupAll()
 		{
-			// Создание уникального имени проекта
-			CreateUniqueNamesByDatetime();
+			try
+			{
+				// Создание уникального имени проекта
+				CreateUniqueNamesByDatetime();
 
-			// Запись имени для дальнейшего использования в группе тестов
-			_projectNoChangesName = ProjectName;
+				// Запись имени для дальнейшего использования в группе тестов
+				_projectNoChangesName = ProjectName;
+			}
+			catch (Exception ex)
+			{
+				Logger.ErrorException("Ошибка в конструкторе : " + ex.Message, ex);
+				throw;
+			}
 		}
 
 		/// <summary>
@@ -216,11 +224,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		[Test]
 		public void VerifyUsersAndGroupsLists()
 		{
-			List<string> usersList = new List<string>();
-			List<string> groupsList = new List<string>();
-			List<string> responsibleUsersList = new List<string>();
-			List<string> responsibleGroupList = new List<string>();
-			
 			// Переходим к вкладке прав пользователей
 			WorkspacePage.ClickUsersAndRightsBtn();
 
@@ -228,7 +231,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			Assert.IsTrue(UserRightsPage.WaitUntilUsersRightsDisplay(), "Ошибка: Страница прав пользователя не открылась.");
 
 			// Получаем список 
-			usersList = UserRightsPage.GetUserFullnameList();
+			List<string> usersList = UserRightsPage.GetUserFullnameList();
 
 			// Открываем страницу групп пользователей
 			UserRightsPage.OpenGroups();
@@ -237,7 +240,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			Assert.IsTrue(UserRightsPage.WaitUntilGroupsRightsDisplay(), "Ошибка: Страница прав групп пользователей не открылась.");
 
 			// Получаем список 
-			groupsList = UserRightsPage.GetGroupNameList();
+			List<string> groupsList = UserRightsPage.GetGroupNameList();
 
 			// Добавляем в начало каждой строки слово Group как в списке диалога
 			for (int i= 0; i < groupsList.Count; i++)
@@ -259,7 +262,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			Thread.Sleep(1000);
 
 			// Получаем список из выпадающего списка исполнителей
-			responsibleUsersList = ResponsiblesDialog.GetResponsibleUsersListByRowNumber(1);
+			List<string> responsibleUsersList = ResponsiblesDialog.GetResponsibleUsersListByRowNumber(1);
 
 			for (int i = 0; i < responsibleUsersList.Count; i++)
 			{
@@ -269,7 +272,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			}
 
 			// Получаем список из выпадающего списка групп исполнителей
-			responsibleGroupList = ResponsiblesDialog.GetResponsibleGroupsListByRowNumber(1);
+			List<string> responsibleGroupList = ResponsiblesDialog.GetResponsibleGroupsListByRowNumber(1);
 
 			for (int i = 0; i < responsibleGroupList.Count; i++)
 			{
@@ -377,48 +380,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		[Test]
 		public void AssignUserFewTasks()
 		{
-			// Создание проекта
-			// 1) Заполнение полей
-			FirstStepProjectWizard(ProjectName);
-
-			FillAddDocumentForm(TestFile.EditorTXTFile);
-
-			WorkspaceCreateProjectDialog.ClickNextStep();
-
-			//2 шаг - выбор ТМ
-				if (!WorkspaceCreateProjectDialog.GetIsTMTableNotEmpty())
-				{
-					// Кликаем Next
-					WorkspaceCreateProjectDialog.ClickNextStep();
-					// Кликаем Skip
-					SkipNotSelectedTM();
-				}
-				else
-				{
-					// Выбрать существующую ТМ
-					ChooseFirstTMInList();
-					WorkspaceCreateProjectDialog.ClickNextStep();
-				}
-			
-
-			// 3) Выбор глоссария
-			WorkspaceCreateProjectDialog.ClickNextStep();
-
-			// 4) Выбор МТ
-			WorkspaceCreateProjectDialog.ClickNextStep();
-
-			// 5) Добавление новой задачи Editing
-			WorkspaceCreateProjectDialog.ClickWorkflowNewTask();
-			WorkspaceCreateProjectDialog.SetWorkflowEditingTask(2);
-			WorkspaceCreateProjectDialog.ClickNextStep();
-
-			// 6) Настройка Pretranslate. Проверка создания проекта
-			WorkspaceCreateProjectDialog.ClickFinishCreate();
-			Assert.IsTrue(WorkspacePage.WaitProjectAppearInList(ProjectName),
-				"Ошибка: Проект не появился в списке.");
-
-			// Дождаться, пока документ догрузится
-			Assert.IsTrue(WorkspacePage.WaitProjectLoad(ProjectName), "Ошибка: документ не загрузился");
+			CreateProject(ProjectName, TestFile.EditorTXTFile, false, "", Workspace_CreateProjectDialogHelper.SetGlossary.None, "", false, Workspace_CreateProjectDialogHelper.MT_TYPE.None, true, 1, 1, 0);
 
 			// Открываем диалог выбора исполнителя
 			OpenAssignDialog(ProjectName);
@@ -496,7 +458,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			QuitDriverAfterTest = true;
 			
 			// Проверка второго пользователя
-			CheckUserPresent(UserName2);
+			сheckUserPresent(UserName2);
 
 			// Создание проекта
 			CreateProjectIfNotCreated(ProjectName, TestFile.EditorTXTFile);
@@ -539,7 +501,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			OpenAssignDialog(ProjectName);
 
 			// Отменяем исполнителя
-			CancelAssignUser(1);
+			сancelAssignUser(1);
 
 			// Выбор в качестве исполнителя для первой задачи второго юзера
 			SetResponsible(1, UserName2, false);
@@ -653,7 +615,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			OpenAssignDialog(ProjectName);
 
 			// Отменяем исполнителя
-			CancelAssignUser(1);
+			сancelAssignUser(1);
 
 			// Закрываем форму
 			ResponsiblesDialog.ClickCloseBtn();
@@ -750,10 +712,8 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <summary>
 		/// Проверка, что текущий пользователь присутствует
 		/// </summary>
-		private void CheckUserPresent(string userName)
+		private void сheckUserPresent(string userName)
 		{
-			List<string> usersList = new List<string>();
-
 			// Переходим к вкладке прав пользователей
 			WorkspacePage.ClickUsersAndRightsBtn();
 
@@ -763,7 +723,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 				"Ошибка: Страница прав пользователя не открылась.");
 
 			// Получение списка пользователей
-			usersList = UserRightsPage.GetUserFullnameList();
+			List<string> usersList = UserRightsPage.GetUserFullnameList();
 
 			Assert.IsTrue(
 				usersList.Contains(userName), 
@@ -777,7 +737,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// Отмена исполнителя для заданной строки
 		/// </summary>
 		/// <param name="rowNumber">Номер строки</param>
-		private void CancelAssignUser(int rowNumber)
+		private void сancelAssignUser(int rowNumber)
 		{
 			// Отменяем исполнителя
 			ResponsiblesDialog.ClickCancelBtn(rowNumber);
