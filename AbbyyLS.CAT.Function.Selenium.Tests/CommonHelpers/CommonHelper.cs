@@ -77,6 +77,10 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <returns>появился элемент</returns>
 		protected bool WaitUntilDisplayElement(By by, int maxWait = 15)
 		{
+			if (by == null)
+			{
+				throw new ArgumentNullException("by");
+			}
 			// Записываем таймаут, который был. чтобы вернуть его обратно
 			int timeout = _wait.Timeout.Seconds;
 			try
@@ -84,6 +88,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 				_wait.Timeout = TimeSpan.FromSeconds(maxWait);
 				_wait.Until((d) => d.FindElement(by).Displayed);
 				return true;
+
 			}
 			catch (StaleElementReferenceException)
 			{

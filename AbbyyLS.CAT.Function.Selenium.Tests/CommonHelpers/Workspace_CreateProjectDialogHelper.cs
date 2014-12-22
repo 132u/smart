@@ -163,7 +163,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// </summary>
 		public bool WaitDocumentAppear(string file)
 		{
-			return WaitUntilDisplayElement(By.XPath(GetUploadedDocumentListXpath(file)), 1);
+			return WaitUntilDisplayElement(By.XPath(GetUploadedDocumentListXpath(file)));
 		}
 
 		/// <summary>
