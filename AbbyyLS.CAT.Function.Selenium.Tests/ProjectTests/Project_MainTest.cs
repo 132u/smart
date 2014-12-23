@@ -477,7 +477,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			// Ждем загрузки формы
 			WorkspaceCreateProjectDialog.WaitDialogDisplay();
 			// Загрузить файл
-			FillAddDocumentForm(TestFile.DocumentFile, UPLOAD_FILE_TO_NEW_PROJECT);
+			UploadFile(TestFile.DocumentFile, UPLOAD_FILE_TO_NEW_PROJECT);
 			Thread.Sleep(1000);
 
 			Assert.IsTrue(
@@ -499,7 +499,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			// Ждем загрузки формы
 			WorkspaceCreateProjectDialog.WaitDialogDisplay();
 			// Загрузить файл
-			FillAddDocumentForm(TestFile.DocumentFile, UPLOAD_FILE_TO_NEW_PROJECT);
+			UploadFile(TestFile.DocumentFile, UPLOAD_FILE_TO_NEW_PROJECT);
 			Thread.Sleep(1000);
 
 			Assert.IsTrue(
@@ -507,7 +507,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 				"Ошибка: Имя проекта автоматически не присвоилось");
 
 			// Загрузить второй файл
-			FillAddDocumentForm(TestFile.EditorTXTFile, UPLOAD_FILE_TO_NEW_PROJECT);
+			UploadFile(TestFile.EditorTXTFile, UPLOAD_FILE_TO_NEW_PROJECT);
 			Thread.Sleep(1000);
 
 			Assert.IsTrue(
@@ -529,7 +529,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			// Ждем загрузки формы
 			WorkspaceCreateProjectDialog.WaitDialogDisplay();
 			// Загрузить файл
-			FillAddDocumentForm(TestFile.DocumentFile, UPLOAD_FILE_TO_NEW_PROJECT);
+			UploadFile(TestFile.DocumentFile, UPLOAD_FILE_TO_NEW_PROJECT);
 			Thread.Sleep(1000);
 
 			Assert.IsTrue(
@@ -560,7 +560,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			// Ждем загрузки формы
 			WorkspaceCreateProjectDialog.WaitDialogDisplay();
 			// Загрузить файл
-			FillAddDocumentForm(TestFile.DocumentFile, UPLOAD_FILE_TO_NEW_PROJECT);
+			UploadFile(TestFile.DocumentFile, UPLOAD_FILE_TO_NEW_PROJECT);
 			Thread.Sleep(1000);
 			// Удалить файл
 			WorkspaceCreateProjectDialog.ClickDeleteFile(fileName);

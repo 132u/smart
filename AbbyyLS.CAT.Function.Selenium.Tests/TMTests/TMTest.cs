@@ -151,8 +151,8 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.TM
 			TMPage.WaitUntilUploadDialog();
 
 			// Заполнить диалог загрузки документа
-			FillAddDocumentForm2(documentName, ADD_TMX);
-			FillAddDocumentForm(documentName, ADD_TMX2);
+			UploadFileThroughtImportField(documentName, ADD_TMX);
+			UploadFile(documentName, ADD_TMX2);
 			Console.WriteLine(documentName);
 
 			// Нажать на Импорт

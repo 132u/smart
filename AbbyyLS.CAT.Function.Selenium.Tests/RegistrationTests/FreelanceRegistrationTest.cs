@@ -246,7 +246,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Registration.Freelance
 		{
 			//процесс добавления фото
 			RegistrationPage.ClickLoadPhotoBtn();
-			FillAddDocumentForm(photo);
+			UploadFile(photo);
 		}
 
 		/// <summary>

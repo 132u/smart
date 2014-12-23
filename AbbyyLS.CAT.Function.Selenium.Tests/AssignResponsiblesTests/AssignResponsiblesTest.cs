@@ -109,7 +109,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			ProjectPage.WaitImportDialogDisplay();
 
 			// Добавляем документ
-			FillAddDocumentForm(TestFile.DocumentFileToConfirm, ADD_FILE_TO_PROJECT);
+			UploadFile(TestFile.DocumentFileToConfirm, ADD_FILE_TO_PROJECT);
 
 			ProjectPage.ClickNextImportDialog();
 			ProjectPage.ClickNextImportDialog();
@@ -208,7 +208,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			ProjectPage.WaitImportDialogDisplay();
 
 			// Добавляем документ
-			FillAddDocumentForm(TestFile.DocumentFileToConfirm, ADD_FILE_ON_PROJECT_PAGE);
+			UploadFile(TestFile.DocumentFileToConfirm, ADD_FILE_ON_PROJECT_PAGE);
 
 			ProjectPage.ClickNextImportDialog();
 			ProjectPage.ClickNextImportDialog();

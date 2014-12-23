@@ -434,7 +434,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			//Нажать Загрузить файл в диалоге редактирования TM
 			ProjectPage.ClickUploadTMBtn();
 			//Загрузить документ
-			FillAddDocumentForm(file);
+			UploadFileNativeAction(file);
 			//Подтвердить импорт
 			ProjectPage.ClickConfirmImportBtn();
 			// Сохранить изменения
@@ -902,7 +902,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			FirstStepProjectWizard(projectName);
 			if (downloadFile.Length > 0)
 			{
-				FillAddDocumentForm(downloadFile);
+				UploadFile(downloadFile);
 				WorkspaceCreateProjectDialog.WaitDocumentAppear(Path.GetFileName(downloadFile));
 			}
 			WorkspaceCreateProjectDialog.ClickNextStep();
@@ -1048,8 +1048,8 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 				WorkspaceCreateProjectDialog.WaitUploadTMXDialog();
 				WorkspaceCreateProjectDialog.FillTMNameDialog(tmName);
 
-				FillAddDocumentForm2(TmFileName, TM_UPLOAD);
-				FillAddDocumentForm(TmFileName, TM_UPLOAD2);
+				UploadFileThroughtImportField(TmFileName, TM_UPLOAD);
+				UploadFile(TmFileName, TM_UPLOAD2);
 
 				//Нажать на кнопку Import
 				WorkspaceCreateProjectDialog.ClickSaveTMXDialog();
@@ -1192,7 +1192,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			// ждем, когда загрузится окно для загрузки документа 
 			ProjectPage.WaitImportDialogDisplay();
 			// Заполнить диалог загрузки
-			FillAddDocumentForm(filePath, ADD_FILE_ON_PROJECT_PAGE);
+			UploadFile(filePath, ADD_FILE_ON_PROJECT_PAGE);
 
 			// Нажать Next
 			ProjectPage.ClickNextImportDialog();
@@ -1275,7 +1275,23 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// Работа с диалогом браузера: загрузка документа
 		/// </summary>
 		/// <param name="DocumentName">полный путь к документу</param>
-		protected void FillAddDocumentForm(string DocumentName, string file = UPLOAD_FILE_TO_NEW_PROJECT)
+		protected void UploadFileNativeAction(string DocumentName, string file = UPLOAD_FILE_TO_NEW_PROJECT)
+		{
+			Thread.Sleep(3000);
+
+			var txt = Regex.Replace(DocumentName, "[+^%~()]", "{$0}");
+
+			SendKeys.SendWait(txt);
+			Thread.Sleep(2000);
+			SendKeys.SendWait(@"{Enter}");
+			Thread.Sleep(2000);
+		}
+
+		/// <summary>
+		/// Работа с диалогом браузера: загрузка документа с помощью javascript
+		/// </summary>
+		/// <param name="DocumentName">полный путь к документу</param>
+		protected void UploadFile(string DocumentName, string file = UPLOAD_FILE_TO_NEW_PROJECT)
 		{
 			((IJavaScriptExecutor)Driver).ExecuteScript("document.evaluate('" + file + "', document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue.style.display = 'block';");
 			Driver.FindElement(By.XPath(file)).SendKeys(DocumentName);
@@ -1288,10 +1304,17 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <param name="DocumentName"> название документа </param>
 		/// <param name="xpath"> Xpath поля загрузки </param>
 		/// <param name="fileName"> навзание файла </param>
-		protected void FillAddDocumentForm2(string DocumentName, string xpath)
+		protected void UploadFileThroughtImportField(string DocumentName, string xpath)
 		{
 			((IJavaScriptExecutor)Driver).ExecuteScript("document.evaluate('" + xpath + "', document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue.style.display = 'block';");
 			((IJavaScriptExecutor)Driver).ExecuteScript("document.getElementsByClassName('js-submit-input g-hidden')[0].setAttribute('type', 'text');");
+			Driver.FindElement(By.XPath(xpath)).SendKeys(DocumentName);
+			((IJavaScriptExecutor)Driver).ExecuteScript("document.getElementsByClassName('g-iblock g-bold l-editgloss__filelink js-filename-link')[0].innerHTML = '" + Path.GetFileName(DocumentName) + "'");
+		}
+
+		protected void UploadFileGlossary(string DocumentName, string xpath)
+		{
+			((IJavaScriptExecutor)Driver).ExecuteScript("document.evaluate('" + xpath + "', document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue.style.display = 'block';");
 			Driver.FindElement(By.XPath(xpath)).SendKeys(DocumentName);
 			((IJavaScriptExecutor)Driver).ExecuteScript("document.getElementsByClassName('g-iblock g-bold l-editgloss__filelink js-filename-link')[0].innerHTML = '" + Path.GetFileName(DocumentName) + "'");
 		}

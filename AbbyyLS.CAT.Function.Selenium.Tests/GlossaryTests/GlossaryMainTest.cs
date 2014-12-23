@@ -330,6 +330,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			GlossaryPage.ClickImportFormImportBtn();
 			// Дождаться закрытия формы импорта
 			GlossaryPage.WaitUntilImportFormDisappear();
+
 			// Нажать Закрыть в сообщении об успешном добавлении
 			GlossaryPage.ClickCloseSuccessResult();
 			// TODO убрать sleep
@@ -565,10 +566,9 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			GlossaryPage.ClickImportBtn();
 			// Дождаться открытия формы
 			GlossaryPage.WaitImportForm();
-			// Нажать на Add для появления диалога загрузки документа
-			GlossaryPage.ClickUploadBtn();
+
 			// Заполнить форму загрузки документа
-			FillAddDocumentForm(TestFile.ImportGlossaryFile);
+			UploadFileGlossary(TestFile.ImportGlossaryFile, IMPORT_TERMS);
 		}
 
 		/// <summary>

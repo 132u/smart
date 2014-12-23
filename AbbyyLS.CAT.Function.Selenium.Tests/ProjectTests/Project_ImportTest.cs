@@ -155,7 +155,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			ProjectPage.WaitImportDialogDisplay();
 
 			// Заполнить диалог загрузки
-			FillAddDocumentForm(TestFile.DocumentFile, ADD_FILE_ON_PROJECT_PAGE);
+			UploadFile(TestFile.DocumentFile, ADD_FILE_ON_PROJECT_PAGE);
 
 			// Проверить появление оповещения об ошибке
 			Assert.IsTrue(
@@ -169,7 +169,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <param name="documentName">имя документа</param>
 		protected void ImportDocumentCreateProject(string documentName)
 		{
-			FillAddDocumentForm(documentName, UPLOAD_FILE_TO_NEW_PROJECT);
+			UploadFile(documentName, UPLOAD_FILE_TO_NEW_PROJECT);
 		}
 	}
 }
