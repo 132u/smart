@@ -26,13 +26,14 @@ namespace AbbyyLS.CAT.Function.Selenium.Admin
 		}
 
 		/// <summary>
-		/// Создание корпоративного аккаунта TestAccount и добавление бобби в TestAccount 
+		/// Создание корпоративного аккаунта TestAccount и добавление бобби и ринго в TestAccount 
 		/// </summary>
 		[Test]
 		public void CreateCorpAccount()
 		{
 			CreateCorpAccount("TestAccount", true);
 			AddUserToCorpAccount(Login);
+
 		}
 
 		/// <summary>
@@ -46,6 +47,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Admin
 			FindUser(Login2);
 			CheckAdminCheckbox();
 			CreateNewPersAcc("Personal", true);
+			AddUserToSpecifyAccount(Login2, "TestAccount");
 		}
 
 		/// <summary>

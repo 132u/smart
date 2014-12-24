@@ -431,12 +431,13 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			ProjectPage.FillTmNameDialog(tmName);
 			//Нажать Импорт в диалоге редактирования TM
 			ProjectPage.ClickSaveAndImportTMBtn();
-			//Нажать Загрузить файл в диалоге редактирования TM
+			////Нажать Загрузить файл в диалоге редактирования TM
 			ProjectPage.ClickUploadTMBtn();
 			//Загрузить документ
 			UploadFileNativeAction(file);
 			//Подтвердить импорт
 			ProjectPage.ClickConfirmImportBtn();
+			Assert.IsTrue(ProjectPage.ClickRadioBtm(),"TM не выбран");
 			// Сохранить изменения
 			ProjectPage.ClickSaveTMBtn();
 			// Дождаться окончания загрузки
@@ -1277,7 +1278,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <param name="DocumentName">полный путь к документу</param>
 		protected void UploadFileNativeAction(string DocumentName, string file = UPLOAD_FILE_TO_NEW_PROJECT)
 		{
-			Thread.Sleep(3000);
+			Thread.Sleep(3000); // слип необходим, так как не всегда успевает открыться окно загрузки
 
 			var txt = Regex.Replace(DocumentName, "[+^%~()]", "{$0}");
 

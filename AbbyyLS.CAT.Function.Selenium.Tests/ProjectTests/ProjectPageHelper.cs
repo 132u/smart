@@ -643,7 +643,12 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			return GetTextElement(By.XPath(XPath)).Trim();
 		}
 
-
+		public bool ClickRadioBtm()
+		{
+			
+			DoubleClickElement(By.XPath(RADIO_BTN));
+			return GetIsInputChecked(By.XPath(RADIO_BTN));
+		}
 
 		protected const string PROJECT_TABLE_XPATH = "//table[contains(@class,'l-project-panel-tbl')]";
 		protected const string PROGRESS_BTN_XPATH = "//span[contains(@class,'js-document-progress')]";
@@ -674,7 +679,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 
 		protected const string DOWNLOAD_LOGS_BTN_XPATH = "//span[contains(@class,'js-document-export-logs')]";
 
-		protected const string EDIT_TM_BTN_XPATH = "//div[contains(@class,'l-project-panel')]//span[contains(@class,'js-tm-edit')]";
+		protected const string EDIT_TM_BTN_XPATH = "html/body/div[6]/div[1]/div[2]/div[4]/div/form/div[5]/span[2]/span[2]/a";//"//span[@class='g-btn g-redbtn js-tm-edit l-corpr__btnmargin']//a[@class='g-redbtn__text g-btn__text' and text()='Edit']";//div[contains(@class,'l-project-panel')]//span[contains(@class,'js-tm-edit')]";
 		protected const string EDIT_TM_DIALOG_XPATH = "//div[contains(@class,'js-popup-tm')][2]";
 		protected const string EDIT_TM_CREATE_BTN_XPATH = EDIT_TM_DIALOG_XPATH + "//span[contains(@class,'js-tm-create')]";
 		protected const string EDIT_TM_SAVE_BTN_XPATH = EDIT_TM_DIALOG_XPATH + "//span[contains(@class,'js-submit-btn')]";
@@ -717,5 +722,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		protected const string SOURCE_PRETRANSLATE_BTN_XPATH = "//div[contains(@class,'pretranslate')]//span[contains(@class, 'js-dropdown')]";
 		protected const string TM_PRETRANSLATE_BTN_XPATH = "//span[contains(@class, 'js-dropdown')";
 		protected const string SAVE_PRETRANSLATE_BTN_XPATH = "//div[contains(@class,'pretranslate')][2]//span[contains(@class, 'js-save')]";
+		protected const string RADIO_BTN = "//table[@class='l-corpr__tbl js-tms-popup-table']//td[@class='l-corpr__td l-project-td radio']//input[@type='radio']";
 	}
 }

@@ -984,6 +984,15 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			return ParseStrToInt(targetMatchPercent.Remove(targetMatchPercent.IndexOf('%')));
 		}
 
+		/// <summary>
+		/// Кликнуть по последнему видимому сегменту
+		/// </summary>
+		public void ClickLastVisibleSegment()
+		{
+			var visibleSegmentsCount = GetElementList(By.XPath(SEGMENTS_TABLE_XPATH)).Count;
+			ClickElement(By.XPath(getLastVisiblElementXPath(visibleSegmentsCount)));
+		}
+
 		public void ScrollToRequiredSegment(int segmentNumber)
 		{
 			while (getIsSegmentVisible(segmentNumber) != true)
@@ -995,8 +1004,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 
 				if (firstVisibleSegment < segmentNumber)
 				{
-					var visibleSegmentsCount = GetElementList(By.XPath(SEGMENTS_TABLE_XPATH)).Count;
-					ClickElement(By.XPath(getLastVisiblElementXPath(visibleSegmentsCount)));
+					ClickLastVisibleSegment();
 				}
 				else
 				{
@@ -1081,7 +1089,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		protected const string LOCKED_ICO_CLASS = "fa-lock";
 		protected const string SEGMENT_CAT_SELECTED = "cat-selected";
 		protected const string TARGET_XPATH = "//td[3]//div";
-		protected const string SOURCE_CELL_XPATH = "//td[2]//div//div";
+		protected const string SOURCE_CELL_XPATH = "//td[2]//div//pre";
 		protected const string TARGET_CELL_XPATH = "//td[3]//div//pre";
 		protected const string FIRST_VISIBLE_SEGMENT_XPATH = "//div[@id='segments-body']//table[1]//td[1]";
 		protected const string SEGMENTS_TABLE_XPATH = "//div[@id='segments-body']//div//div[2]//table";
