@@ -141,7 +141,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Registration.Freelance
 		/// Тест для проверки, что кнопка SignUp неактивна, если этап для второй пары языков, не указан  PRX-5503 п 6.3.
 		/// </summary>
 		[Test]
-		[Category("PRX-6718")]
+		[Category("PRX_6718")]
 		public void CheckBtnIsDisableWhenLevelIsNotSet()
 		{
 			// Переход на страницу регистрации
