@@ -488,7 +488,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		protected const string COMPANY_TYPE_DD = ".//select[@id='company-type']";
 		protected const string OPTION_IN_COMPANY_TYPE_DD = "//option[@value='";
 		protected const string LOGIN_LINK_FROM_MSG = "//a[@ng-click='showSignIn()' and text()='log in']";
-		protected const string WRONG_PASSWORD = "//div[contains(@class, 'messagebox') and contains(@ng-show, 'wrongPassword')]";
+		protected const string WRONG_PASSWORD = "//div[@class='password-messages ng-active']//span[contains(text(),'Wrong')]";
 		protected const string CAPTCHA_LABEL = "//label[@for='captcha']";
 		protected const string CAPTCHA_INPUT = "//input[@id='captcha']";
 		protected const string SIGN_OUT_BTN = "//a[@id='btn-signout']"; // кнопка Sign out на странице corp-reg (2й шаг)
