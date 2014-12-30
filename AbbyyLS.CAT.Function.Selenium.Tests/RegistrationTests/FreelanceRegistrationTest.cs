@@ -44,7 +44,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Registration.Freelance
 			//Нажать кнопку выхода
 			WorkspacePage.ClickLogoff();
 			//Обновить страницу
-			RegistrationPage.RefreshLoginPage();
+			RefreshPage();
 			//Заполнить email
 			LoginPage.EnterLogin(RegistrationPage.Email);
 			//Заполнить пароль

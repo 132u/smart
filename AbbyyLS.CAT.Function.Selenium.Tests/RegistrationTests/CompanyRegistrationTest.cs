@@ -131,7 +131,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Registration.Company
 		{
 			RegisterUserWithCorpAccount();
 			WorkspacePage.ClickLogoff();
-			RegistrationPage.RefreshLoginPage();
+			RefreshPage();
 			//Заполнить email
 			LoginPage.EnterLogin(RegistrationPage.Email);
 			//Заполнить пароль

@@ -256,6 +256,16 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		}
 
 		/// <summary>
+		/// Навести курсор мыши на элемент
+		/// </summary>
+		protected void HoverElement(By by)
+		{
+			IWebElement el = Driver.FindElement(by);
+			Actions actionBuilder = new Actions(Driver);
+			actionBuilder.MoveToElement(el).Build().Perform();
+		}
+
+		/// <summary>
 		/// Очистить элемент
 		/// </summary>
 		/// <param name="by">by</param>
@@ -694,14 +704,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 				el.Clear();
 				el.SendKeys(txt);
 			}
-		}
-
-		/// <summary>
-		/// Обовить страницу
-		/// </summary>
-		public void RefreshPage()
-		{
-			Driver.Navigate().Refresh();
 		}
 
 		/// <summary>

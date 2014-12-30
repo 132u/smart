@@ -203,7 +203,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <summary>
 		/// Кликнуть сохранить при изменении термина
 		/// </summary>
-		public void ClickSaveEditTerm()
+		public void ClickSaveTerm()
 		{
 			ClickElement(By.XPath(SAVE_EDIT_TERM_XPATH));
 		}
@@ -241,7 +241,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		protected const string EDIT_TERM_BOX = "//div[contains(@class,'l-corprtree__langbox')]";
 		protected const string EDITOR_INPUT_XPATH = "//span[contains(@class,'js-term-editor')]//input";
 		protected const string VIEWER_XPATH = "//span[contains(@class,'js-term-viewer')]";
-		protected const string SAVE_EDIT_TERM_XPATH = "//span[contains(@class,'js-save-btn')]";
+		protected const string SAVE_EDIT_TERM_XPATH = "//a[contains(@class,'js-save-btn')]";
 		protected const string ADD_SYNONYM_XPATH = "//span[contains(@class,'js-add-term')]";
 	}
 }

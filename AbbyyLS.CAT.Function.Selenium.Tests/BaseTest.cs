@@ -17,6 +17,9 @@ using NConfiguration;
 using System.Text.RegularExpressions;
 using NLog;
 using OpenQA.Selenium.IE;
+using OpenQA.Selenium.Interactions;
+using OpenQA.Selenium;
+using OpenQA.Selenium.Interactions;
 
 namespace AbbyyLS.CAT.Function.Selenium.Tests
 {
@@ -165,6 +168,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 
 		protected RegistrationPageHelper RegistrationPage { get; private set; }
 		protected MyAccountPageHelper MyAccountPage { get; private set; }
+		protected GlossaryTermFilterHelper GlossaryTermFilterPage { get; private set; }
 
 		protected DateTime TestBeginTime { get; private set; }
 
@@ -301,6 +305,14 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		protected void CreateUniqueNamesByDatetime()
 		{
 			ProjectName = "Test Project" + "_" + DateTime.UtcNow.Ticks;
+		}
+
+		/// <summary>
+		/// Обовить страницу
+		/// </summary>
+		public void RefreshPage()
+		{
+			Driver.Navigate().Refresh();
 		}
 
 		/// <summary>
@@ -1534,6 +1546,22 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		}
 
 		/// <summary>
+		/// Создать глоссарий и вернуться к списку глоссариев
+		/// </summary>
+		/// <returns>название глоссария</returns>
+		protected string CreateGlossaryAndReturnToGlossaryList(List<CommonHelper.LANGUAGE> languagesList = null, bool bNeedWaitSuccessSave = true)
+		{
+			// Получить уникальное имя для глоссария
+			var glossaryName = GetUniqueGlossaryName();
+			// Создать глоссарий
+			CreateGlossaryByName(glossaryName,bNeedWaitSuccessSave, languagesList);
+			// Перейти к списку глоссариев
+			SwitchGlossaryTab();
+
+			return glossaryName;
+		}
+
+		/// <summary>
 		/// Перейти на страницу поиска
 		/// </summary>
 		protected void SwitchSearchTab()
@@ -2158,6 +2186,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			AddTermForm = new AddTermFormHelper(Driver, Wait);
 			RegistrationPage = new RegistrationPageHelper(Driver, Wait);
 			MyAccountPage = new MyAccountPageHelper(Driver, Wait);
+			GlossaryTermFilterPage = new GlossaryTermFilterHelper(Driver, Wait);
 		}
 
 		private void initializeUsersAndCompanyList()

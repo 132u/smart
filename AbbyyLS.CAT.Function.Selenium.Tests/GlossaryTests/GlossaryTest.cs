@@ -32,22 +32,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			// Переходим к странице глоссариев
 			GoToGlossaries();
 		}
-		
-		/// <summary>
-		/// Создать глоссарий и вернуться к списку глоссариев
-		/// </summary>
-		/// <returns>название глоссария</returns>
-		protected string CreateGlossaryAndReturnToGlossaryList()
-		{
-			// Получить уникальное имя для глоссария
-			var glossaryName = GetUniqueGlossaryName();
-			// Создать глоссарий
-			CreateGlossaryByName(glossaryName);
-			// Перейти к списку глоссариев
-			SwitchGlossaryTab();
-
-			return glossaryName;
-		}
 
 		/// <summary>
 		/// Открыть редактирование структуры

@@ -254,14 +254,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		}
 
 		/// <summary>
-		/// Обновить страницу Login
-		/// </summary>
-		public void RefreshLoginPage()
-		{
-			RefreshPage();
-		}
-
-		/// <summary>
 		/// Проверить что в поле фото отображается Label photo
 		/// </summary>
 		public bool CheckLabelForPhoto()

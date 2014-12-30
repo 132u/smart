@@ -180,7 +180,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Registration.Captcha
 			WorkspacePage.ClickLogoff();
 
 			// Обновить страницу
-			RegistrationPage.RefreshLoginPage();
+			RefreshPage();
 
 			// Заполнить email
 			LoginPage.EnterLogin(RegistrationPage.Email);

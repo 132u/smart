@@ -494,7 +494,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			GlossarySuggestPage.ClickEditTermItem(2);
 			GlossarySuggestPage.FillEditTermItem(2, newTermText);
 			// Принять термин
-			GlossarySuggestPage.ClickSaveEditTerm();
+			GlossarySuggestPage.ClickSaveTerm();
 			GlossarySuggestPage.WaitUntilEditTermFillDisappear();
 			// Перейти в глоссарий
 			SwitchGlossaryFromSuggestedTerm();
@@ -520,7 +520,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			GlossarySuggestPage.ClickAddSynonymEditTerm(2);
 			GlossarySuggestPage.FillEditTermItem(2, newTermText);
 			// Принять термин
-			GlossarySuggestPage.ClickSaveEditTerm();
+			GlossarySuggestPage.ClickSaveTerm();
 
 			Assert.IsTrue(
 				GlossarySuggestPage.WaitUntilEditTermFillDisappear(), 
@@ -578,7 +578,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			GlossarySuggestPage.ClickEditTermItem(2);
 			GlossarySuggestPage.FillEditTermItem(2, newTermText);
 			// Принять термин
-			GlossarySuggestPage.ClickSaveEditTerm();
+			GlossarySuggestPage.ClickSaveTerm();
 			GlossarySuggestPage.WaitUntilEditTermFillDisappear();
 			// Перейти к списку глоссариев
 			SwitchGlossaryTab();
