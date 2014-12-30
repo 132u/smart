@@ -437,7 +437,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Editor.Revisions
 
 			// Проверить, что тип последней ревизии - не Rollback
 			Assert.AreNotEqual(
-				Editor_RevisionPageHelper.RevisionType.Rollback,
+				Editor_RevisionPageHelper.RevisionType.Restored,
 				RevisionPage.GetRevisionType(1),
 				"Ошибка: появилась ревизия Rollback");
 		}
@@ -910,7 +910,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Editor.Revisions
 			}
 
 			// Проверить, что тип новой ревизии - Rollback
-			if (Editor_RevisionPageHelper.RevisionType.Rollback != RevisionPage.GetRevisionType(1))
+			if (Editor_RevisionPageHelper.RevisionType.Restored != RevisionPage.GetRevisionType(1))
 			{
 				isOk = false;
 				errorMessage += "Ошибка: тип ревизии неправильный";

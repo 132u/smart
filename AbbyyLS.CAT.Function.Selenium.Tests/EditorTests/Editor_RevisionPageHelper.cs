@@ -23,7 +23,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 				{REVISION_TYPE_CONFIRMED, RevisionType.Confirmed},
 				{REVISION_TYPE_INSERT_MT, RevisionType.InsertMT},
 				{REVISION_TYPE_INSERT_TM, RevisionType.InsertTM},
-				{REVISION_TYPE_ROLLBACK, RevisionType.Rollback},
+				{REVISION_TYPE_ROLLBACK, RevisionType.Restored},
 				{REVISION_TYPE_INSERT_TB, RevisionType.InsertTb},
 				{REVISION_TYPE_PRETRANSLATION, RevisionType.Pretranslation}
 			};
@@ -247,7 +247,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 
 
 
-		public enum RevisionType { AutoSave, Confirmed, InsertMT, InsertTM, Rollback, InsertTb, Pretranslation };
+		public enum RevisionType { AutoSave, Confirmed, InsertMT, InsertTM, Restored, InsertTb, Pretranslation};
 
 		protected const string REVISION_BTN_ID = "revisions-tab";
 		protected const string REVISION_TAB_ID = "revisions-body";
