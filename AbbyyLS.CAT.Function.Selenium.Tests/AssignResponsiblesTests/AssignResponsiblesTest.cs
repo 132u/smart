@@ -133,8 +133,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 
 			// Открываем окно прав исполнителей
 			ProjectPage.ClickDocumentProgress();
-			Thread.Sleep(1000);
-
+			
 			// Ожидание открытия диалога выбора исполнителя
 			Assert.IsTrue(ResponsiblesDialog.WaitUntilResponsiblesDialogDisplay(),
 				"Ошибка: Диалог выбора исполнителя не открылся.");
@@ -157,8 +156,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 
 			// Открываем окно прав исполнителей
 			ProjectPage.ClickAssignRessponsibleBtn();
-			Thread.Sleep(1000);
-
+			
 			// Ожидание открытия диалога выбора исполнителя
 			Assert.IsTrue(ResponsiblesDialog.WaitUntilResponsiblesDialogDisplay(),
 				"Ошибка: Диалог выбора исполнителя не открылся.");

@@ -82,9 +82,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			Assert.IsTrue(
 				WorkspacePage.ClickDeleteProjectDeleteMode(),
 				"Ошибка: нет кнопки Удалить проект");
-
-			Thread.Sleep(5000);
-
 			// Проверить, что проект удалился
 			Assert.IsTrue(
 				GetIsNotExistProject(ProjectName), 
@@ -319,11 +316,9 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			SelectDocumentInProject(1);
 			// Нажать удалить
 			ProjectPage.ClickDeleteBtn();
-			Thread.Sleep(1000);
 			// Подтвердить
 			ProjectPage.ConfirmClickYes();
-			Thread.Sleep(5000);
-
+			
 			// Проверить, что документа нет
 			Assert.IsFalse(
 				ProjectPage.GetIsExistDocument(1),
@@ -478,7 +473,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			WorkspaceCreateProjectDialog.WaitDialogDisplay();
 			// Загрузить файл
 			UploadFile(TestFile.DocumentFile, UPLOAD_FILE_TO_NEW_PROJECT);
-			Thread.Sleep(1000);
 
 			Assert.IsTrue(
 				WorkspaceCreateProjectDialog.CheckProjectName(fileName),
@@ -500,7 +494,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			WorkspaceCreateProjectDialog.WaitDialogDisplay();
 			// Загрузить файл
 			UploadFile(TestFile.DocumentFile, UPLOAD_FILE_TO_NEW_PROJECT);
-			Thread.Sleep(1000);
 
 			Assert.IsTrue(
 				WorkspaceCreateProjectDialog.CheckProjectName(fileName),
@@ -508,7 +501,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 
 			// Загрузить второй файл
 			UploadFile(TestFile.EditorTXTFile, UPLOAD_FILE_TO_NEW_PROJECT);
-			Thread.Sleep(1000);
 
 			Assert.IsTrue(
 				WorkspaceCreateProjectDialog.CheckProjectName(fileName),
@@ -530,7 +522,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			WorkspaceCreateProjectDialog.WaitDialogDisplay();
 			// Загрузить файл
 			UploadFile(TestFile.DocumentFile, UPLOAD_FILE_TO_NEW_PROJECT);
-			Thread.Sleep(1000);
 
 			Assert.IsTrue(
 				WorkspaceCreateProjectDialog.CheckProjectName(fileName),
@@ -561,7 +552,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			WorkspaceCreateProjectDialog.WaitDialogDisplay();
 			// Загрузить файл
 			UploadFile(TestFile.DocumentFile, UPLOAD_FILE_TO_NEW_PROJECT);
-			Thread.Sleep(1000);
+
 			// Удалить файл
 			WorkspaceCreateProjectDialog.ClickDeleteFile(fileName);
 

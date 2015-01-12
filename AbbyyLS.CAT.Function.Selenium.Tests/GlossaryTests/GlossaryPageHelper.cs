@@ -190,7 +190,9 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <returns>открылся</returns>
 		public bool WaitConceptSave()
 		{
-			return WaitUntilDisplayElement(By.XPath(OPENED_CONCEPT_ROW_XPATH));
+			return WaitUntilDisplayElement(
+				By.XPath(OPENED_CONCEPT_ROW_XPATH),
+				maxWait: 20);
 		}
 
 		///////////////////// Пользовательское поле Boolean

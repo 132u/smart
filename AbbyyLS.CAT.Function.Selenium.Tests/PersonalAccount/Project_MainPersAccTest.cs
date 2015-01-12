@@ -98,18 +98,22 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			CreateProject(ProjectName);
 
 			//Добавление документа
-			ImportDocumentProjectSettings(TestFile.DocumentFile, ProjectName, "Personal");
+			ImportDocumentProjectSettings(
+				TestFile.DocumentFile,
+				ProjectName, 
+				"Personal");
 
 			// Выбрать документ
 			SelectDocumentInProject(1);
 			// Нажать удалить
 			ProjectPage.ClickDeleteBtn();
-			Thread.Sleep(1000);
+			
 			// Подтвердить
 			ProjectPage.ConfirmClickYes();
-			Thread.Sleep(5000);
+			
 			// Проверить, что документа нет
-			Assert.IsFalse(ProjectPage.GetIsExistDocument(1),
+			Assert.IsFalse(
+				ProjectPage.GetIsExistDocument(1),
 				"Ошибка: документ не удалился");
 		}
 

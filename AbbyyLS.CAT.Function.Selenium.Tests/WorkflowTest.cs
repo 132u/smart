@@ -74,7 +74,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			// 5) Проверка workflow
 			// Изменение типа созданной задачи на Editing
 			WorkspaceCreateProjectDialog.SetWorkflowEditingTask(1);
-			Thread.Sleep(1000);
 			
 			var workflowList = WorkspaceCreateProjectDialog.GetWFTaskList();
 			// Проверка наличия только одной задачи
@@ -247,8 +246,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 
 			// Сохранение проекта
 			ProjectPage.ClickProjectSettingsSave();
-			Thread.Sleep(1000);
-
+			
 			//Открываем Workflow в настройках проекта
 			OpenWorkflowSettings();
 
@@ -291,12 +289,10 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 
 			// Изменение типа новой задачи
 			ProjectPage.SetWFTaskListProjectSettings(2, "Proofreading");
-			Thread.Sleep(1000);
-
+			
 			// Отмена сохранения проекта
 			ProjectPage.ClickProjectSettingsCancel();
-			Thread.Sleep(1000);
-
+			
 			//Открываем Workflow в настройках проекта
 			OpenWorkflowSettings();
 
@@ -330,8 +326,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 
 			// Удаление первой задачи Translation
 			WorkspaceCreateProjectDialog.ClickWorkflowDeleteTask(1);
-			Thread.Sleep(1000);
-
+			
 			var workflowList = WorkspaceCreateProjectDialog.GetWFTaskList();
 			
 			// Проверка наличия только одной задачи
@@ -375,8 +370,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 
 			// Удаление первой задачи Translation
 			ProjectPage.ClickProjectSettingsWFDeleteTask(1);
-			Thread.Sleep(1000);
-
+			
 			var workflowList = ProjectPage.GetWFTaskListProjectSettings();
 			// Проверка наличия только одной задачи
 			Assert.AreEqual(1, workflowList.Count,
@@ -447,12 +441,10 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 
 			// Удаление первой задачи
 			ProjectPage.ClickProjectSettingsWFDeleteTask(1);
-			Thread.Sleep(1000);
-
+			
 			// Отмена сохранения проекта
 			ProjectPage.ClickProjectSettingsCancel();
-			Thread.Sleep(1000);
-
+			
 			//Открываем Workflow в настройках проекта
 			OpenWorkflowSettings();
 
@@ -491,12 +483,10 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 
 			// Изменение типа новой задачи
 			ProjectPage.SetWFTaskListProjectSettings(1, "Proofreading");
-			Thread.Sleep(1000);
-
+			
 			// Сохранение проекта
 			ProjectPage.ClickProjectSettingsSave();
-			Thread.Sleep(1000);
-
+			
 			//Открываем Workflow в настройках проекта
 			OpenWorkflowSettings();
 
@@ -535,7 +525,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			// 6) Возврат к предыдущей странице мастера
 			WorkspaceCreateProjectDialog.ClickBackBtn();
 			Thread.Sleep(1000);
-
+			
 			// Проверка workflow
 			var workflowList = WorkspaceCreateProjectDialog.GetWFTaskList();
 			// Проверка наличия только двух задач
@@ -581,8 +571,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			// 5) Добавление новой задачи Editing
 			WorkspaceCreateProjectDialog.ClickWorkflowNewTask();
 			WorkspaceCreateProjectDialog.SetWorkflowEditingTask(3);
-			Thread.Sleep(1000);
-
+			
 			// Проверка workflow
 			var workflowCreateList = WorkspaceCreateProjectDialog.GetWFTaskList();
 			// Проверка наличия трех задач
@@ -645,16 +634,14 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 
 			// 5) Изменение задачи Proofreading на Editing
 			WorkspaceCreateProjectDialog.SetWorkflowEditingTask(2);
-			Thread.Sleep(1000);
-
+			
 			// 6) Возврат к предыдущей странице мастера
 			WorkspaceCreateProjectDialog.ClickBackBtn();
 			Thread.Sleep(1000);
 
 			// 5) Изменение задачи Proofreading на Editing
 			WorkspaceCreateProjectDialog.SetWFTaskList(2, "Editing");
-			Thread.Sleep(1000);
-
+			
 			// Проверка workflow
 			var workflowCreateList = WorkspaceCreateProjectDialog.GetWFTaskList();
 			// Проверка наличия трех задач
@@ -713,8 +700,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 
 			// 5) Удаление первой задачи Translation
 			WorkspaceCreateProjectDialog.ClickWorkflowDeleteTask(1);
-			Thread.Sleep(1000);
-
+			
 			// Проверка workflow
 			var workflowCreateList = WorkspaceCreateProjectDialog.GetWFTaskList();
 			// Проверка наличия трех задач

@@ -60,13 +60,15 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			_driver = driver;
 			_wait = wait;
 
-			languageID = new Dictionary<LANGUAGE, string>();
-			languageID.Add(LANGUAGE.English, STANDARD_LANG_ID_EN);
-			languageID.Add(LANGUAGE.Russian, STANDARD_LANG_ID_RU);
-			languageID.Add(LANGUAGE.German, STANDARD_LANG_ID_DE);
-			languageID.Add(LANGUAGE.French, STANDARD_LANG_ID_FR);
-			languageID.Add(LANGUAGE.Japanese, STANDARD_LANG_ID_JP);
-			languageID.Add(LANGUAGE.Lithuanian, STANDARD_LANG_ID_LT);
+			languageID = new Dictionary<LANGUAGE, string>
+			{
+				{LANGUAGE.English, STANDARD_LANG_ID_EN},
+				{LANGUAGE.Russian, STANDARD_LANG_ID_RU},
+				{LANGUAGE.German, STANDARD_LANG_ID_DE},
+				{LANGUAGE.French, STANDARD_LANG_ID_FR},
+				{LANGUAGE.Japanese, STANDARD_LANG_ID_JP},
+				{LANGUAGE.Lithuanian, STANDARD_LANG_ID_LT}
+			};
 		}
 
 		/// <summary>
@@ -82,13 +84,12 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 				throw new ArgumentNullException("by");
 			}
 			// Записываем таймаут, который был. чтобы вернуть его обратно
-			int timeout = _wait.Timeout.Seconds;
+			var timeout = _wait.Timeout.Seconds;
 			try
 			{
 				_wait.Timeout = TimeSpan.FromSeconds(maxWait);
 				_wait.Until((d) => d.FindElement(by).Displayed);
 				return true;
-
 			}
 			catch (StaleElementReferenceException)
 			{
@@ -145,7 +146,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// </summary>
 		protected void SwitchToFrame(By by)
 		{
-			IWebElement frame = Driver.FindElement(by);
+			var frame = Driver.FindElement(by);
 			Driver.SwitchTo().Frame(frame);
 		}
 
@@ -232,11 +233,11 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <param name="text">текст</param>
 		protected void ClearAndAddText(By by, string text)
 		{
-			string txt = Regex.Replace(text, "[+^%~()]", "{$0}");
+			var txt = Regex.Replace(text, "[+^%~()]", "{$0}");
 
 			try
 			{
-				IWebElement el = Driver.FindElement(by);
+				var el = Driver.FindElement(by);
 				el.Clear();
 				el.SendKeys(txt);
 			}
@@ -273,7 +274,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		{
 			try
 			{
-				IWebElement el = Driver.FindElement(by);
+				var el = Driver.FindElement(by);
 				el.Clear();
 			}
 			catch (StaleElementReferenceException)
@@ -298,11 +299,11 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <param name="text"></param>
 		protected void ClickAndSendTextElement(By by, string text)
 		{
-			string txt = Regex.Replace(text, "[+^%~()]", "{$0}");
+			var txt = Regex.Replace(text, "[+^%~()]", "{$0}");
 
 			try
 			{
-				IWebElement el = Driver.FindElement(by);
+				var el = Driver.FindElement(by);
 				el.Click();
 				el.SendKeys(txt);
 			}
@@ -328,11 +329,11 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <param name="text">тест</param>
 		protected void ClickClearAndAddText(By by, string text)
 		{
-			string txt = Regex.Replace(text, "[+^%~()]", "{$0}");
+			var txt = Regex.Replace(text, "[+^%~()]", "{$0}");
 
 			try
 			{
-				IWebElement el = Driver.FindElement(by);
+				var el = Driver.FindElement(by);
 				el.Click();
 				el.Clear();
 				el.SendKeys(txt);
@@ -359,7 +360,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <param name="text">текст</param>
 		protected void SendTextElement(By by, string text)
 		{
-			string txt = Regex.Replace(text, "[+^%~()]", "{$0}");
+			var txt = Regex.Replace(text, "[+^%~()]", "{$0}");
 
 			try
 			{
@@ -388,8 +389,8 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <returns>пропал</returns>
 		protected bool WaitUntilDisappearElement(By by, int maxWaitSeconds = 10)
 		{
-			bool isDisplayed = false;
-			TimeSpan timeBegin = DateTime.Now.TimeOfDay;
+			var isDisplayed = false;
+			var timeBegin = DateTime.Now.TimeOfDay;
 
 			SetDriverTimeoutMinimum();
 
@@ -544,10 +545,10 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		{
 			try
 			{
-				List<string> textList = new List<string>();
-				IList<IWebElement> elList = GetElementList(by);
+				var textList = new List<string>();
+				var elList = GetElementList(by);
 
-				foreach (IWebElement el in elList)
+				foreach (var el in elList)
 				{
 					textList.Add(el.Text);
 				}
@@ -576,7 +577,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			{
 				Thread.Sleep(2000);
 				// Двойной клик
-				Actions action = new Actions(Driver);
+				var action = new Actions(Driver);
 				action.DoubleClick(Driver.FindElement(by));
 				action.Perform();
 			}
@@ -601,14 +602,14 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			try
 			{
 				// Проверить где находится курсор, и если в поле source, то все ок
-				IWebElement a = Driver.FindElement(by);
-				IWebElement b = Driver.SwitchTo().ActiveElement();
+				var a = Driver.FindElement(by);
+				var b = Driver.SwitchTo().ActiveElement();
 
-				Point a_loc = a.Location;
-				Point b_loc = b.Location;
+				var a_loc = a.Location;
+				var b_loc = b.Location;
 
-				Size a_size = a.Size;
-				Size b_size = b.Size;
+				var a_size = a.Size;
+				var b_size = b.Size;
 
 				return (a_loc == b_loc) && (a_size == b_size);
 			}
@@ -657,7 +658,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		{
 			try
 			{
-				string result = Driver.FindElement(by).GetAttribute(attr);
+				var result = Driver.FindElement(by).GetAttribute(attr);
 				if (result == null)
 				{
 					result = "";
@@ -683,7 +684,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <returns>число</returns>
 		protected int ParseStrToInt(string text)
 		{
-			int result = 0;
+			var result = 0;
 			// Пытаемся преобразовать из строки в число
 			Assert.IsTrue(int.TryParse(text, out result), "Ошибка: невозможно преобразовать в число: " + text);
 			return result;
@@ -696,10 +697,10 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <param name="text">текст</param>
 		protected void ClearAndFillElementsList(By by, string text)
 		{
-			string txt = Regex.Replace(text, "[+^%~()]", "{$0}");
+			var txt = Regex.Replace(text, "[+^%~()]", "{$0}");
 
-			IList<IWebElement> termList = GetElementList(by);
-			foreach (IWebElement el in termList)
+			var termList = GetElementList(by);
+			foreach (var el in termList)
 			{
 				el.Clear();
 				el.SendKeys(txt);

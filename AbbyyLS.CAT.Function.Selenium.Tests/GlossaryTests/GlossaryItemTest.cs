@@ -462,8 +462,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 
 			// Сохранить
 			GlossaryPage.ClickSaveExtendedConcept();
-			Thread.Sleep(5000);
-
+			
 			// Проверить, что термин сохранился
 			Assert.IsTrue(
 				GlossaryPage.WaitConceptSave(), 

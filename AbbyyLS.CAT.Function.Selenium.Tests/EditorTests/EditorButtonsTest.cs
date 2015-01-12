@@ -540,8 +540,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 
 			// Сохранение проекта
 			ProjectPage.ClickProjectSettingsSave();
-			Thread.Sleep(1000);
-
+			
 			// Переходим на страницу проектов
 			SwitchWorkspaceTab();
 

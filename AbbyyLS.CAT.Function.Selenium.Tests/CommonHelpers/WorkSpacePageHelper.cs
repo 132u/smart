@@ -158,7 +158,9 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			SetDriverTimeoutMinimum();
 			
 			// Находим, существует ли проект в списке
-			var isExist = GetIsElementExist(By.XPath(GetProjectRefXPath(projectName)));
+			var isExist = WaitUntilDisplayElement(
+				By.XPath(GetProjectRefXPath(projectName)),
+				maxWait: 5);
 			
 			// Возвращаем дефолтное значение таймаута
 			SetDriverTimeoutDefault();
@@ -447,7 +449,9 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <returns>загрузился</returns>
 		public bool WaitDocumentProjectDownload(string projectName)
 		{
-			return WaitUntilDisappearElement(By.XPath(GetProjectRefXPath(projectName) + DOWNLOAD_IMG_XPATH), 50);
+			return WaitUntilDisappearElement(
+				By.XPath(GetProjectRefXPath(projectName) + DOWNLOAD_IMG_XPATH),
+				maxWaitSeconds: 50);
 		}
 
 		/// <summary>
@@ -518,7 +522,9 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 				Driver.Navigate().Refresh();
 				// Внова проверяем загрузился ли документ. Ожидаем пока загрузится.
 				if (!WaitDocumentProjectDownload(projectName))
+				{
 					return false;
+				}
 			}
 			return true;
 		}

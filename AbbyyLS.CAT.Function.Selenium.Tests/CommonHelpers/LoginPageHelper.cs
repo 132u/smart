@@ -70,7 +70,10 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <param name="waitmax">Максимальный таймаут</param>
 		/// <param name="dataServer">Расположение сервера</param>
 		/// <returns>Имя отображается</returns>
-		public bool WaitAccountExist(string accountName, int waitmax = 15, string dataServer = "Europe")
+		public bool WaitAccountExist(
+			string accountName, 
+			int waitmax = 15, 
+			string dataServer = "Europe")
 		{
 			return WaitUntilDisplayElement(By.XPath(GetAccountItemXPath(accountName, dataServer)), waitmax);
 		}

@@ -198,7 +198,9 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <returns>есть</returns>
 		public bool GetIsExistDocument(int documentNumber)
 		{
-			return GetIsElementExist(By.XPath(DOCUMENT_LIST_XPATH + "//tr[" + documentNumber + "]"));
+			return WaitUntilDisplayElement(
+				By.XPath(DOCUMENT_LIST_XPATH + "//tr[" + documentNumber + "]"),
+				maxWait: 5);
 		}
 
 		/// <summary>
@@ -445,6 +447,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		public void ClickDeleteBtn()
 		{
 			ClickElement(By.XPath(DELETE_BTN_XPATH));
+			Thread.Sleep(1000);
 		}
 
 		/// <summary>
@@ -556,6 +559,8 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 					break;
 				}
 			}
+			
+			Thread.Sleep(1000);
 		}
 
 		/// <summary>
@@ -572,6 +577,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		public void ClickProjectSettingsSave()
 		{
 			ClickElement(By.XPath(PROJECT_SETTINGS_SAVE_BTN));
+			Thread.Sleep(1000);
 		}
 
 		/// <summary>
@@ -580,6 +586,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		public void ClickProjectSettingsCancel()
 		{
 			ClickElement(By.XPath(PROJECT_SETTINGS_CANCEL_BTN));
+			Thread.Sleep(1000);
 		}
 
 		/// <summary>
@@ -588,6 +595,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		public void ClickProjectSettingsWFDeleteTask(int taskNumber)
 		{
 			ClickElement(By.XPath("//div[contains(@class,'js-popup-edit')]//tr[" + taskNumber.ToString() + "]" + PROJECT_SETTINGS_WF_DELETE_TASK_BTN));
+			Thread.Sleep(1000);
 		}
 
 		/// <summary>
@@ -610,6 +618,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		public void ClickDocumentProgress()
 		{
 			ClickElement(By.XPath(DOCUMENT_PROGRESS_XPATH));
+			Thread.Sleep(1000);
 		}
 
 		/// <summary>

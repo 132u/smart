@@ -53,8 +53,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 
 			// 4) Выбор МТ
 			WorkspaceCreateProjectDialog.ClickNextStep();
-			Thread.Sleep(1000);
-
+			
 			// 5) Проверка, что сразу открывается Pretranslation степ
 			Assert.IsTrue(ProjectPage.GetPretranslateTitleDisplay(), "Ошибка : Pretranslation степ не открылся");
 

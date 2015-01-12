@@ -527,8 +527,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			// Создать глоссарий
 			CreateGlossaryByName(glossaryName, true, langList);
 			SwitchGlossaryTab();
-			// TODO убрать sleep
-			Thread.Sleep(3000);
 
 			// Проверить, что глоссарий добавился в список
 			Assert.IsTrue(

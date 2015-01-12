@@ -660,6 +660,8 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 					break;
 				}
 			}
+			// Ожидание свертки дропдауна
+			Thread.Sleep(1000);
 		}
 		/// <summary>
 		/// Возвращает появилась ли задача Translation в списке
@@ -802,6 +804,9 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		{
 			ClickElement(By.XPath(CREATE_PROJECT_DIALOG_XPATH + "//tr[" 
 				+ taskNumber + "]" + WF_DELETE_TASK_BTN));
+
+			// Ожидание выполнения удаления
+			Thread.Sleep(1000);
 		}
 
 		/// <summary>

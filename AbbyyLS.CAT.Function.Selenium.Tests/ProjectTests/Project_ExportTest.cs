@@ -655,8 +655,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			Assert.IsTrue(
 				WorkspacePage.WaitNotifierAppear(2),
 				"Ошибка: не появилось второе сообщение об экспорте");
-			Thread.Sleep(2000);
-
+			
 			// Убрать галочку с проекта
 			SelectProjectInList(projectName2);
 			// Открыть информацию о проекте
@@ -670,8 +669,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			Assert.IsTrue(
 				WorkspacePage.WaitNotifierAppear(3),
 				"Ошибка: не появилось третье сообщение об экспорте");
-
-			Thread.Sleep(3000);
 
 			// Текст верхнего сообщения
 			var freshNotifierText = WorkspacePage.GetNotifierText();
@@ -731,7 +728,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			Assert.IsTrue(
 				WorkspacePage.WaitNotifierAppear(2),
 				"Ошибка: не появилось второе сообщение об экспорте");
-			Thread.Sleep(3000);
 
 			// Проверка, что во втором сообщении есть искомый текст
 			Assert.IsTrue(
@@ -745,8 +741,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			// Ждем третье сообщение об экспорте
 			Assert.IsTrue(WorkspacePage.WaitNotifierAppear(3),
 				"Ошибка: не появилось третье сообщение об экспорте");
-			Thread.Sleep(3000);
-
+			
 			// Проверка, что третьем сообщении нет текста, который мы будем искать при переключении на второе сообщение
 			Assert.IsFalse(WorkspacePage.GetNotifierText().Contains(secondNotifierDocName),
 				"Тестовая ошибка: в третьем сообщении об экспорте есть искомое название документа (должно быть только во втором)");
@@ -1057,8 +1052,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		{
 			// Кликнуть, чтобы переключить сообщения
 			WorkspacePage.ClickNotifier(notifierNumberFromTop);
-			// TODO проверить, можно ли без sleep
-			Thread.Sleep(3000);
 		}
 
 		/// <summary>

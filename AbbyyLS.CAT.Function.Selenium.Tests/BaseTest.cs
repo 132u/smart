@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Diagnostics;
 using System.Threading;
 using AbbyyLS.CAT.Function.Selenium.Tests.CommonDataStructures;
 using AbbyyLS.CAT.Function.Selenium.Tests.CommonHelpers;
@@ -587,10 +586,8 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 				LoginPage.EnterPassword(authPassword);
 				LoginPage.ClickSubmitCredentials();
 
-				Thread.Sleep(3000);
-
 				// Проверить, появился ли список аккаунтов
-				if (LoginPage.WaitAccountExist(accountName, 5))
+				if (LoginPage.WaitAccountExist(accountName, waitmax: 8))
 				{
 					// Выбрать аккаунт
 					LoginPage.ClickAccountName(accountName);
@@ -995,10 +992,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			if (isNeedCheckExist)
 			{
 				Assert.IsTrue(WorkspacePage.WaitProjectAppearInList(projectName), "Ошибка: проект не появился в списке Workspace");
-			}
-			else
-			{
-				Thread.Sleep(5000);
 			}
 
 			// Дождаться, пока документ догрузится
@@ -1408,13 +1401,23 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 
 			var txt = Regex.Replace(resultPath, "[+^%~()]", "{$0}");
 
-			Thread.Sleep(3000);
+			Thread.Sleep(1000);
 			SendKeys.SendWait(txt);
-			Thread.Sleep(2000);
+			Thread.Sleep(1000);
 			SendKeys.SendWait(@"{Enter}");
-			Thread.Sleep(5000);
 
-			Assert.IsTrue(File.Exists(resultPath), "Ошибка: файл не экспортировался\n" + resultPath);
+			bool isFileExitst;
+			var waitSeconds = 0;
+
+			do
+			{
+				isFileExitst = File.Exists(resultPath);
+				Thread.Sleep(1000);
+				waitSeconds++;
+
+			} while (!isFileExitst && (waitSeconds <= 6));
+
+			Assert.IsTrue(isFileExitst, "Ошибка: файл не экспортировался\n" + resultPath);
 		}
 
 		/// <summary>
