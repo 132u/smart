@@ -203,7 +203,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 
 			// Открыть глоссарий и проверить, есть ли термин
 			openCurrentGlossary();
-			Assert.IsTrue(GlossaryPage.GetIsSingleTargetTermExists("Земля"),
+			Assert.IsTrue(GlossaryPage.GetIsSingleTargetTermExists("Earth"),
 				"Ошибка: Не добавлен одиночный термин из таргета.");
 		}
 
