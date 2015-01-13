@@ -341,9 +341,9 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		protected const string USER_NAME_XPATH = ACCOUNT_XPATH + "//span[contains(@class,'nameuser')]";
 		protected const string ERROR_MESSAGE_USER_IS_ALREADY_EXIST = "//div[@ng-message='already-exists']"; //сообщение, что юзер уже существует
 		protected const string CREATE_ACCOUNT_IN_ABBYY_ONLINE_LINK = "//a[text()='account in ABBYY-Online']";
-		protected const string USER_NOT_EXIST_MESSAGE = "//p[@class='help-block messagebox ng-binding ng-scope' and contains(@ng-show,'[errors.userNotFound]')]";//сообщение ,что юзера не существует 
+		protected const string USER_NOT_EXIST_MESSAGE = "//span[contains(@translate, 'USER-NOT-FOUND-ERROR')]";//сообщение ,что юзера не существует 
 		protected const string EXIST_ACCOUNT_LINK_ABBY_ONLINE = "//a[@id='show-sign-in']";
-		protected const string WRONG_PASSWORD_MESSAGE = "//p[@class='help-block ng-binding' and contains(@ng-show,'[errors.wrongPassword]')]";
+		protected const string WRONG_PASSWORD_MESSAGE = "//span[contains(text(), 'Wrong password')]";
 		protected const string LOAD_PHOTO_BTN = "//input[@type='file']";
 		protected const string LABEL_WRONG_FORMAT = "//i[text()='Wrong format' and @class='ng-binding']";
 		protected const string LABEL_LOAD_PHOTO = "//i[text()='Load photo' and @class='ng-binding']";

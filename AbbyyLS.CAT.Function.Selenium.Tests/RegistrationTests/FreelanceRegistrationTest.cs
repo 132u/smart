@@ -66,7 +66,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Registration.Freelance
 		/// Тест для проверки,что кнопка Sign up неактивна если пароли разные п.5.1
 		/// </summary>
 		[Test]
-		public void CheckThatSignUpBtnIsDisable()
+		public void GetPasswordMismatchMsgIsDisplayed()
 		{
 			// Переход на страницу регистрации
 			GoToRegistrationPage(RegistrationType.User);
@@ -75,7 +75,8 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Registration.Freelance
 				RegistrationPage.Email,
 				RegistrationPage.Password,
 				"wrong password");
-			Assert.IsTrue(RegistrationPage.CheckThatSignUpButtonIsDisable(), "Ошибка: пароли разные, но кнопка активна!");
+			RegistrationPage.ClickSignUpButton();
+			Assert.IsTrue(RegistrationPage.GetPasswordMatchMsgIsDisplayed(), "Ошибка: сообщение о том, что пароли разные не появилось!");
 		}
 
 		/// <summary>
@@ -101,7 +102,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Registration.Freelance
 			// Переход на страницу регистрации
 			GoToRegistrationPage(RegistrationType.User);
 			// Заполняем все поля на первом шаге регистрации
-			RegistrationPage.FillRegistrationDataInFirstStep(RegistrationPage.Email, RegistrationPage.Password, "");
+			FillEmailAndPasswordInFirstStep(RegistrationPage.Email, RegistrationPage.Password);
 			Assert.IsTrue(RegistrationPage.CheckThatSignUpButtonIsDisable(), "Ошибка: Пароля нет, но кнопка активна!");
 		}
 
@@ -169,7 +170,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Registration.Freelance
 		[TestCase("“♣☺♂” , “”‘~!@#$%^&*()?>,.//*<!–“”, “${code}”;–>")]
 		[TestCase("asadsdsa,asddsa@asd.asd")]
 		[TestCase("ывавыааыва@ывааываыв.com")]
-		[TestCase("testsds@dsdom")]
 		[Test]
 		public void CheckInvalidEmails(string invalidEmail)
 		{
@@ -254,6 +254,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Registration.Freelance
 		/// </summary>
 		/// <param name="format">валидный или невалидный файл</param>
 		/// <param name="photo">имя файла фото</param>
+		[Ignore("Функционал загрузки фото закрыли")]
 		[TestCase(false, "txtfile.txt")]
 		[TestCase(true, "bmpfile.bmp")]
 		[TestCase(true, "giffile.gif")]
@@ -380,7 +381,18 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Registration.Freelance
 			Assert.IsTrue(RegistrationPage.CheckNameSurnameInWSPanel(), "Ошибка: имя фрилансера неправильно отображаются на странице WS");
 		}
 
-
+		/// <summary>
+		/// Заполнить email и пароль на певом шаге регистрации фрилансера
+		/// </summary>
+		/// <param name="email">email фрилансера</param>
+		/// <param name="password">пароль</param>
+		public void FillEmailAndPasswordInFirstStep(string email, string password)
+		{
+			//заполнить поле email
+			RegistrationPage.TypeTextInEmailField(email);
+			//заполнить поле пароля
+			RegistrationPage.TypeTextInPasswordField(password);
+		}
 
 		/// <summary>
 		///Тест регистрации юзера с существующим активным или неактивным аккаунтом в coursera/perevedem/aol
