@@ -461,7 +461,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <summary>
 		/// Проверка на автоматическое присвоение имени проекта при загрузке файла
 		/// </summary>
-		[Category("teamcity_upload")]
+		[Category("PRX_6987")]
 		[Test]
 		public void AutofillProjectName()
 		{
@@ -482,7 +482,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <summary>
 		/// Проверка, что автоматическое присвоенное имя не изменяется после повторного добавления файла
 		/// </summary>
-		[Category("teamcity_upload")]
+		[Category("PRX_6987")]
 		[Test]
 		public void AutofillProjectNameAddTwoFiles()
 		{
@@ -510,7 +510,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <summary>
 		/// Проверка, что автоматическое присвоенное имя не изменяется после удаления файла
 		/// </summary>
-		[Category("teamcity_upload")]
+		[Category("PRX_6987")]
 		[Test]
 		public void AutofillProjectNameDeleteFile()
 		{
@@ -540,7 +540,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <summary>
 		/// Удаление загруженного файла из визарда проекта
 		/// </summary>
-		[Category("teamcity_upload")]
+		[Category("PRX_6987")]
 		[Test]
 		public void DeleteFileFromWizard()
 		{

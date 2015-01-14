@@ -92,7 +92,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <summary>
 		/// Проверка отображения окна с правами пользователя при загрузке документа в проект
 		/// </summary>
-		[Category("teamcity_upload")]
+		[Category("PRX_6987")]
 		[Test]
 		public void ResponsiblesWorkspaceUploadDocument()
 		{
@@ -189,7 +189,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <summary>
 		/// Проверка отображения окна с правами пользователя при загрузке документа в окне проекта
 		/// </summary>
-		[Category("teamcity_upload")]
+		[Category("PRX_6987")]
 		[Test]
 		public void ResponsiblesProjectUploadDocument()
 		{
@@ -374,7 +374,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <summary>
 		/// Назначение пользователя на два этапа
 		/// </summary>
-		[Category("teamcity_upload")]
+		[Category("PRX_6987")]
 		[Test]
 		public void AssignUserFewTasks()
 		{

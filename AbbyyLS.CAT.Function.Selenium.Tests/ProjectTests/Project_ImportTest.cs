@@ -32,7 +32,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <summary>
 		/// метод тестирования загрузки rtf формата (неподдерживаемый формат)
 		/// </summary>
-		[Category("teamcity_upload")]
+		[Category("PRX_6987")]
 		[Test]
 		public void ImportWrongFileTest()
 		{
@@ -52,7 +52,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <summary>
 		/// метод тестирования загрузки нескольких файлов при создании проекта (docx+ttx)
 		/// </summary>
-		[Category("teamcity_upload")]
+		[Category("PRX_6987")]
 		[Test]
 		public void ImportSomeFilesTest()
 		{
@@ -72,7 +72,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <summary>
 		/// Импорт документа формата ttx (допустимый формат)
 		/// </summary>
-		[Category("teamcity_upload")]
+		[Category("PRX_6987")]
 		[Test]
 		public void ImportTtxFileTest()
 		{
@@ -90,7 +90,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <summary>
 		/// Импорт документа формата txt (допустимый формат)
 		/// </summary>
-		[Category("teamcity_upload")]
+		[Category("PRX_6987")]
 		[Test]
 		public void ImportTxtFileTest()
 		{
@@ -108,7 +108,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <summary>
 		/// Импорт документа формата Srt (допустимый формат)
 		/// </summary>
-		[Category("teamcity_upload")]
+		[Category("PRX_6987")]
 		[Test]
 		public void ImportSrtFileTest()
 		{
@@ -143,7 +143,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <summary>
 		/// Загрузка в проект документа, который уже был загружен
 		/// </summary>
-		[Category("teamcity_upload")]
+		[Category("PRX_6987")]
 		[Test]
 		public void ImportDuplicateDocumentTest()
 		{
