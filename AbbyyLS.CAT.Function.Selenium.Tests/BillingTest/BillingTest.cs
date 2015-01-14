@@ -51,29 +51,10 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		[Test]
 		public void DoubleUpgradeLicenseTest()
 		{
-			// Заходим в админку
 			LoginToAdminPage();
-
-			// Зайти в корпоративные аккаунты
-			SwitchEnterpriseAccountList();
-
-			// Нажать Создать
-			AdminPage.ClickAddAccount();
-			Driver.SwitchTo().Window(Driver.WindowHandles[1]);
-			var isWindowWithForm = AdminPage.GetIsAddAccountFormDisplay();
-
-			Assert.IsTrue(isWindowWithForm, "Ошибка: не нашли окно с формой создания аккаунта");
-
-			// Заполняем поля для создания корп аккаунта
-			string accountName = FillGeneralAccountFields();
-
-			// Нажать кнопку сохранить
-			AdminPage.ClickSaveBtn();
-
-			// Добавляем пользователя в корп аккаунт
-			AddUserToAccount(Login);
-
-			// Авторизуемся
+			// Создем корп аккаунт и авторизуемся на сайте
+			string accountName = CreateCorpAccount("", true);
+			AddUserToCorpAccount(Login);
 			Authorization(accountName);
 
 			// Два раза обновляем один и тот же пакет лицензий
@@ -83,6 +64,8 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 				LicenseUpgrade();
 			}
 		}
+
+
 
 		/// <summary>
 		/// Тест на продление лицензии
@@ -100,29 +83,10 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		[Test]
 		public void DoubleExtendLicenseTest()
 		{
-			// Заходим в админку
 			LoginToAdminPage();
-
-			// Зайти в корпоративные аккаунты
-			SwitchEnterpriseAccountList();
-
-			// Нажать Создать
-			AdminPage.ClickAddAccount();
-			Driver.SwitchTo().Window(Driver.WindowHandles[1]);
-			var isWindowWithForm = AdminPage.GetIsAddAccountFormDisplay();
-
-			Assert.IsTrue(isWindowWithForm, "Ошибка: не нашли окно с формой создания аккаунта");
-
-			// Заполняем поля для создания корп аккаунта
-			string accountName = FillGeneralAccountFields();
-
-			// Нажать кнопку сохранить
-			AdminPage.ClickSaveBtn();
-
-			// Добавляем пользователя в корп аккаунт
-			AddUserToAccount(Login);
-
-			// Авторизуемся
+			// Создем корп аккаунт и авторизуемся на сайте
+			string accountName = CreateCorpAccount("", true);
+			AddUserToCorpAccount(Login);
 			Authorization(accountName);
 
 			// Два раза продливаем один и тот же пакет лицензий
@@ -132,13 +96,100 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 				ExtendLicense();
 			}
 		}
+
+		/// <summary>
+		/// Продление и расширение пакета лицензий из разных локалей
+		/// </summary>
+		/// <param name="upgrade">Продление или апргрейд </param>
+		/// <param name="currency"> Валюта </param>
+		[TestCase(true, "RUB", WorkSpacePageHelper.LOCALE_LANGUAGE_SELECT.Russian, "(руб.)")] // Rub -> $
+		[TestCase(false, "$", WorkSpacePageHelper.LOCALE_LANGUAGE_SELECT.English, "$")] // $ -> Rub
+		[TestCase(true, "$", WorkSpacePageHelper.LOCALE_LANGUAGE_SELECT.English, "$")] // $ -> Rub
+		[TestCase(false, "RUB", WorkSpacePageHelper.LOCALE_LANGUAGE_SELECT.Russian, "(руб.)")] // Rub -> $
+		[Test]
+		public void LocaleCurrency(bool upgrade, string currency, WorkSpacePageHelper.LOCALE_LANGUAGE_SELECT language, string sign)
+		{
+			LoginToAdminPage();
+			// Создем корп аккаунт и авторизуемся на сайте
+			string accountName = CreateCorpAccount("", true);
+			AddUserToCorpAccount(Login);
+			Authorization(accountName);
+
+			// Выбираем язык в WS
+			WorkspacePage.SelectLocale(language);
+			// Переход в личный кабинет
+			GoToMyAccount();
+			// Проверка, что в таблице покупки лицензий указан верный знак валюты
+			Assert.IsTrue(
+				MyAccountPage.CheckCurrency(sign),
+				"Ошибка: в таблице покупки лицензий указана другая валюта, должно быть " + currency);
+
+			// Покупка лицензии
+			BuyLicense();
+			// Переход в WS
+			GoToWorkspace();
+			if (currency == "RUB")
+			{
+				// Выбираем английский язык в WS
+				WorkspacePage.SelectLocale(WorkSpacePageHelper.LOCALE_LANGUAGE_SELECT.English);
+			}
+			if (currency == "$")
+			{
+				// Выбираем русский язык в WS
+				WorkspacePage.SelectLocale(WorkSpacePageHelper.LOCALE_LANGUAGE_SELECT.Russian);
+			}
+			// Переход в личный кабинет
+			GoToMyAccount();
+			if (currency == "RUB")
+			{
+				// Проверка, что в таблице покупки лицензий указана верная валюта
+				Assert.IsTrue(
+					MyAccountPage.CheckCurrency("$"),
+					"Ошибка: в таблице покупки лицензий указана другая валюта, должен быть $");
+			}
+			if (currency == "$")
+			{
+				// Проверка, что в таблице покупки лицензий указана верная валюта
+				Assert.IsTrue(
+					MyAccountPage.CheckCurrency("(руб.)"),
+					"Ошибка: в таблице покупки лицензий указана другая валюта, должен быть RUB");
+			}
+			if (upgrade)
+			{
+				// Кликаем Upgrade кнопку
+				MyAccountPage.ClickUpgradeBtn();
+			}
+			else
+			{
+				// Кликаем Extend кнопку
+				MyAccountPage.ClickExtendBtn(1);
+			}
+
+			// Проверка валюты
+			Assert.IsTrue(
+				MyAccountPage.CheckAdditionalPaymentCurrency(currency),
+				"Ошибка: в окне Upgrade AdditionalPayment поле сожержит неверное значение валюты (должен быть " + currency);
+			Assert.IsTrue(
+				MyAccountPage.CheckPackagePriceCurrency(currency),
+				"Ошибка: в окне Upgrade AdditionalPayment поле сожержит неверное значение валюты (должен быть " + currency);
+			if (upgrade)
+			{
+				// Апгрейд лицензии
+				LicenseUpgrade();
+			}else 
+			{
+				// Продление лицензии
+				ExtendLicense();
+			}
+		}
+
 		/// <summary>
 		/// Заполнение данных карты
 		/// </summary>
 		/// <paraparam name="cardNumber"> Номер карты </paraparam>
 		/// <paparam name="cvv"> Cvv </paparam>
 		/// <paparam name="date"> Окончание срока действия </paparam>
-		public void EnterCardInfo(string cardNumber = "5555555555554444", string cvv = "123", string date = "11/17")
+		public void EnterCardInfo(string cardNumber = "4111111111111111", string cvv = "123", string date = "12/16")
 		{
 			// Перейти в фрейм
 			MyAccountPage.SwitchToPaymentFrame();
@@ -257,9 +308,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// </summary>
 		public void CheckAdditionalAmountUpgrade()
 		{
-			string packageCost = MyAccountPage.GetPackageCost(); // стоимость 1го пакета
 			string additionalPayment = MyAccountPage.GetAdditionalAmountCost(); // доплата
-			int licInPackage = MyAccountPage.GetLicNumberInPackage(); // сколько уже лицензий в пакете
 
 			// Выбираем новое кол-во лицензий
 			MyAccountPage.SelectLicAmountUpgrade();

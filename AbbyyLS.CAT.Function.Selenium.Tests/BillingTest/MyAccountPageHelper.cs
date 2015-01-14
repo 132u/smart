@@ -1,12 +1,13 @@
 ﻿using NUnit.Framework;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.UI;
-using System;
 using System.Collections.Generic;
-using System.Threading;
+using System.Linq;
 
 namespace AbbyyLS.CAT.Function.Selenium.Tests
 {
+
+
 	public class MyAccountPageHelper: CommonHelper
 	{
 		/// <summary>
@@ -331,14 +332,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		{
 			return ParseStrToInt(text);
 		}
-		/// <summary>
-		/// Получить стоимость пакета в окне апргрейда 
-		/// </summary>
-		/// <returns> Стоимость пакета </returns>
-		public string GetPackageCost()
-		{
-			return GetTextElement(By.XPath(PACKAGE_COST));
-		}
 
 		/// <summary>
 		/// Получить кол-во лицензии в пакете в окне апргрейда 
@@ -428,13 +421,38 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			return GetIsElementDisplay(By.XPath(MSG_TRIAL_POP_UP));
 		}
 
+		public bool CheckCurrency(string currency)
+		{
+			List<string> periodList = GetTextListElement(By.XPath(HEAD_COLUMN_BUY_TABLE));
+			return periodList.All(p => p.Contains(currency)); 
+		}
+
+		/// <summary>
+		/// Проверить содержит ли поле Package Price верный занк валюты
+		/// </summary>
+		/// <param name="currency"> Знак валюты </param>
+		public bool CheckPackagePriceCurrency(string currency)
+		{
+			string packagePrice = GetTextElement(By.XPath(PACKAGE_PRICE));
+			return packagePrice.Contains(currency);
+		}
+
+		/// <summary>
+		/// Проверить содержит ли поле Additional Payment верный занк валюты
+		/// </summary>
+		/// <param name="currency"> Знак валюты </param>
+		public bool CheckAdditionalPaymentCurrency(string currency)
+		{
+			string payment = GetTextElement(By.XPath(ADDITIONAL_PAYMENT));
+			return payment.Contains(currency);
+		}
 		public const string MY_ACCOUNT_LINK = "//a[contains(@href, 'Billing')]"; // My Account ссылка в панели WS
 		public const string ADD_LIC_TABLE = "//table[contains(@class, 'add-lic')]";
 		public const string ADD_LIC_COMBOBOX = ADD_LIC_TABLE + "//select[contains(@ng-model, 'selectedOption')]";
 		public const string BUY_ONE_MONTH_BTN = "//a[contains(@class, 'danger')]";
 		public const string MY_LIC_LINK = "//a[@href='#/licensepackages']";
 		public const string STORE_LINK = "//a[@href='#/paidservices']";
-
+		public const string HEAD_COLUMN_BUY_TABLE = "//table[@class='t-licenses add-lic']//th[contains(@ng-repeat, 'period')]";
 		public const string LIC_PURCHASE_POP_UP = "//div[contains(@class, 'popup')]";
 		public const string BUY_BTN_IN_LIC_POP_UP = "//div[@class='lic-popup ng-scope']//a[contains(@class, 'danger')]"; // кнопка Buy в License Purchase окне
 		public const string PAY_BTN_IN_LIC_POP_UP = "//footer[contains(@class, 'clearfix')]//a[contains(@abb-link-click, 'commitPayment')]"; // кнопка Pay в License Purchase окне
@@ -473,6 +491,10 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		public const string EXPIRE__DATE_COLUMN = "//td[contains(@ng-class,'willExpireSoon')]";
 		public const string DATE_IN_MSG_POP_UP = "//div[@class='b-popup-content ng-binding']";
 		public const string CONTINIUE_BTN_IN_POP_UP = "//div[contains(@class,'lic-popup message')]//footer//a[contains(@class,'btn btn-danger')]";
-		public const string MSG_TRIAL_POP_UP = "//div[contains(text(),'trial')]"; //As soon as the purchased license package comes into effect, the trial licenses will be cancelled.
+		public const string MSG_TRIAL_POP_UP = "//div[contains(text(),'trial') or contains(text(),'пробные лицензии будут аннулированы')]"; //As soon as the purchased license package comes into effect, the trial licenses will be cancelled.
+
+		public const string PACKAGE_PRICE = "//table[@class='t-licenses']//tr[3]/td[2]";
+		public const string ADDITIONAL_PAYMENT = "//div[@ng-hide='ctrl.isBuy() && ctrl.isPaying']//tr[2]/td[2]";
+
 	}
 }
