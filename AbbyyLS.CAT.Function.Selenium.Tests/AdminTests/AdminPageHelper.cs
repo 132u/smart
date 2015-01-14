@@ -213,6 +213,15 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		}
 
 		/// <summary>
+		/// Вернуть: существует ли уже такой корпоративный аккаунт
+		/// </summary>
+		/// <returns></returns>
+		public bool GetCorpAccountExists()
+		{
+			return GetIsElementDisplay(By.XPath(ACCOUNT_EXISTS_FROM_XPATH));
+		}
+
+		/// <summary>
 		/// Кликнуть Edit около аккаунта
 		/// </summary>
 		/// <param name="account"></param>
@@ -323,6 +332,23 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		{
 			ClickElement(By.XPath(CREATE_PERS_ACCOUNT_XPATH));
 		}
+
+		/// <summary>
+		/// переход по сылке Редактировать для редактирования перс. аккаунта для юзера
+		/// </summary>
+		public void ClickEditPersonalAccountBtn()
+		{
+			ClickElement(By.XPath(EDIT_PERS_ACCOUNT_XPATH));
+		}
+
+		/// <summary>
+		/// проверить наличие ссылки Редактировать (если ссылка есть, значит перс. аккаунт есть)
+		/// </summary>
+		public bool CheckEditPersonalAccountButtonExists()
+		{
+			return GetIsElementDisplay(By.XPath(EDIT_PERS_ACCOUNT_XPATH));
+		}
+
 
 		/// <summary>
 		/// Запонить поле фамилия , когда создается новый перс аккаунт
@@ -458,12 +484,32 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		{
 			ClickElement(By.XPath(SELCTED_DAY + "text()='" + day + "']"));
 		}
+		/// <summary>
+		/// Закрываем окно создания корп. аккаунта,если аккаунт с таким именем уже существует.
+		/// </summary>
+		public void CloseCurrentWindow()
+		{
+			//закрываем окно, если сообщение появилось
+			Driver.Close();
+			//переключаемся на старое окно
+			Driver.SwitchTo().Window(Driver.WindowHandles[0]);
+		}
+		
+		/// <summary>
+		/// Проверяет, появилось ли сообщение о том,что такой пользователь уже добавлен в аккаунт
+		/// </summary>
+		public bool CheckAccountAlreadyAdded()
+		{
+			return GetIsElementDisplay(By.XPath(THIS_USER_IS_INSIDE_ACCOUNT_XPATH));
+		}
+
 		protected const string LOGIN_FORM_XPATH = "//form[contains(@action,'/Home/Login')]";
 		protected const string LOGIN_FORM_LOGIN_XPATH = "//input[@name='email']";
 		protected const string LOGIN_FORM_PASSWORD_XPATH = "//input[@name='password']";
 		protected const string SUBMIT_BTN_XPATH = "//input[@type='submit']";
 		protected const string ENTERPRISE_ACCOUNTS_REF_XPATH = ".//a[@href='/EnterpriseAccounts']";
 		protected const string ADD_ACCOUNT_REF_XPATH = "//a[contains(@href,'/EnterpriseAccounts/Edit')]";
+		protected const string THIS_USER_IS_INSIDE_ACCOUNT_XPATH = "//div[2]/p";
 		protected const string SUCCESS_MESSAGE_XPATH = "//p[contains(@class,'b-success-message')]";
 		protected const string MANAGEMENT_USERS_REF_XPATH = "//a[contains(@href,'/EnterpriseAccounts/ManageUsers')]";
 		protected const string USER_SEARCH_ID = "searchText";
@@ -482,6 +528,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		protected const string ACCOUNT_NAME_XPATH = "//input[@name='Name']";
 		protected const string SUBDOMAIN_NAME_XPATH = "//input[@name='SubDomain']";
 		protected const string CREATE_ACCOUNT_FORM_XPATH = "//form[contains(@action,'Edit')]";
+		protected const string ACCOUNT_EXISTS_FROM_XPATH = "//div[2]/span[@class='field-validation-error']";//подпись о том, что аккаунт с таким именем уже есть. 
 		protected const string VENTURE_XPATH = "//select[@id='VentureId']";
 
 		protected const string CREATE_NEW_USER_XPATH = "//a[@href='/Users/Create']";
@@ -491,6 +538,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		protected const string PASSWORD2_FOR_NEW_USER_XPATH = "//div[8]/input[@class='inputField']";
 		protected const string SAVE_BTN_XPATH = "//p[@class='submit-area']/input";
 		protected const string CREATE_PERS_ACCOUNT_XPATH = "//form[@action='/Users/CreatePersonalAccount']/input[2]"; //кнопка создать перс акккаунт
+		protected const string EDIT_PERS_ACCOUNT_XPATH = "//div[@class='b-form']/p[1]/a[1]"; //ссылка Редактировать перс. аккаунт
 		protected const string SURNAME_FIELD_IN_PERS_ACC = ".//input[@id='Surname']"; // поле фамилия на стр создания перс аккаунта
 		protected const string SAVE_BTN_NEW_PEERS_ACC = "//p[@class='submit-area']/input"; //кнопка Сохранить при создании персонального аккаунта
 		protected const string ACTIVE_CHECKBOX_XPATH = "//input[@type='checkbox' and @id='IsActive']"; // чекбокс Active

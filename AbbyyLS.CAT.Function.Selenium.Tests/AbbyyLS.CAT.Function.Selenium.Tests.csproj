@@ -33,12 +33,15 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="NConfiguration">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\lib\Common\External\NConfiguration\NConfiguration.dll</HintPath>
     </Reference>
     <Reference Include="NLog">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\lib\Common\External\NLog\NLog.dll</HintPath>
     </Reference>
     <Reference Include="nunit.framework">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\lib\Common\External\NUnit\nunit.framework.dll</HintPath>
     </Reference>
     <Reference Include="System" />

@@ -30,6 +30,12 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			AdminPage.WaitSearchUserResult();
 			// Добавить
 			AdminPage.ClickAddUser();
+			//проверить, появилось ли сообщение о повторном добавлении пользователя в аккаунт
+			if (AdminPage.CheckAccountAlreadyAdded())
+			{
+				//если пользователь уже есть в аккаунте, пишем об этом в лог.
+ 				Logger.Trace("Попытка повторно добавить в аккаунт пользователя с логином: " + login);
+			}
 		}
 
 		/// <summary>
@@ -134,7 +140,15 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <param name="state">статус перс аккаунта (активный или неактивный)</param>
 		public void CreateNewPersAcc(string surname, bool state)
 		{
-			AdminPage.ClickCreatePersonalAccBtnForNewUser();
+			if (AdminPage.CheckEditPersonalAccountButtonExists())
+			{
+				Logger.Trace("Персональный аккаунт для пользователя " + surname + " уже существует.");
+				AdminPage.ClickEditPersonalAccountBtn();
+			}
+			else
+			{
+				AdminPage.ClickCreatePersonalAccBtnForNewUser();
+			}
 			AdminPage.FillSurname(surname);
 			if (state ^ AdminPage.IsSelectedActiveCheckbox())
 			{
@@ -200,6 +214,14 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			SelectExpDate();
 			// Нажать кнопку сохранить
 			AdminPage.ClickSaveBtn();
+			//проверяем,появилось ли сообщение о том,что такой аккаунт уже существует
+			if (AdminPage.GetCorpAccountExists())
+			{
+				//если существует, вызываем метод,который закрывает окно добавления аккаунта и переключается на старое окно
+				AdminPage.CloseCurrentWindow();
+				//пишем в лог, что аккаунт с таким именем уже есть
+				Logger.Trace("Корп. аккаунт с именем " + testAccount + " уже существует.");
+			}
 			return accountName;
 		}
 

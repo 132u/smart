@@ -46,7 +46,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Admin
 			CreateNewUserInAdminPage(Login2, UserName2, Password2, true);
 			FindUser(Login2);
 			CheckAdminCheckbox();
-			CreateNewPersAcc("Personal", true);
+			CreateNewPersAcc(Login2, true);
 			AddUserToSpecifyAccount(Login2, "TestAccount");
 		}
 
@@ -66,7 +66,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Admin
 		public void CreateCourseraUsers()
 		{
 			CreateCorpAccount("Coursera", true, "Coursera");
-
 			foreach(var user in CourseraUserList)
 			{
 				CreateNewUserInAdminPage(user.Login, user.Login, user.Password);
