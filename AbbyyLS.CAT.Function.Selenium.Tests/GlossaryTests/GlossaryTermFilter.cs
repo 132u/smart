@@ -19,11 +19,11 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Glossary
 
 		protected string _glossaryName;
 		protected static DateTime _todayDate = DateTime.Today;
-		protected string _today = _todayDate.ToString("M/d/yyyy").Replace(".", "/");
-		protected string _weekAgo = _todayDate.AddDays(-6).ToString("M/d/yyyy").Replace(".", "/");
-		protected string _monthAgo = _todayDate.AddMonths(-1).ToString("M/d/yyyy").Replace(".", "/");
-		protected string _yearAgo = _todayDate.AddYears(-1).ToString("M/d/yyyy").Replace(".", "/");
-		protected string _nextYear = _todayDate.AddYears(1).ToString("M/d/yyyy").Replace(".", "/");
+		protected string _today = _todayDate.ToString("MM/d/yyyy").Replace(".", "/");
+		protected string _weekAgo = _todayDate.AddDays(-6).ToString("MM/d/yyyy").Replace(".", "/");
+		protected string _monthAgo = _todayDate.AddMonths(-1).ToString("MM/d/yyyy").Replace(".", "/");
+		protected string _yearAgo = _todayDate.AddYears(-1).ToString("MM/d/yyyy").Replace(".", "/");
+		protected string _nextYear = _todayDate.AddYears(1).ToString("MM/d/yyyy").Replace(".", "/");
 		protected string _nextWeek = _todayDate.AddDays(6).ToString("M/d/yyyy").Replace(".", "/");
 
 		[SetUp]
@@ -625,8 +625,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Glossary
 
 				// Получить значение в начальной дате создания
 				startDateFilter = GlossaryTermFilterPage.GetStartCreatedDate();
-
-				//формируем ожидаемую строку
 				expectedRangeTitle = "Created: from " + startDate + " to " + endDate;
 			}
 
@@ -634,14 +632,10 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Glossary
 			{
 				// Ввести начальную дату изменения
 				GlossaryTermFilterPage.SendModifiedStartDate(startDate);
-
 				// Ввести конечную дату изменения
 				GlossaryTermFilterPage.SendModifiedEndDate(endDate);
-
 				// Получить значение в начальной дате изменения
 				startDateFilter = GlossaryTermFilterPage.GetStartModifiedDate();
-				
-				//формируем ожидаемую строку
 				expectedRangeTitle = "Modified: from " + startDate + " to " + endDate;
 			}
 
