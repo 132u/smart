@@ -438,6 +438,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <returns>есть</returns>
 		public bool GetIsErrorMessageInvalidDeadlineDate()
 		{
+			WaitUntilDisplayElement(By.XPath(ERROR_DEADLINE_DATE_XPATH));
 			return GetIsElementDisplay(By.XPath(ERROR_DEADLINE_DATE_XPATH));
 		}
 
