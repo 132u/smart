@@ -313,13 +313,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <returns>не пустая</returns>
 		public bool GetIsTMTableNotEmpty()
 		{
-			var isExist = WaitUntilDisplayElement(By.XPath(TM_TABLE_XPATH));
-
-			if (isExist)
-			{
-				isExist = GetIsElementDisplay(By.XPath(TM_TABLE_FIRST_ITEM_XPATH));
-			}
-			return isExist;
+			return WaitUntilDisplayElement(By.XPath(TM_TABLE_XPATH)) && GetIsElementExist(By.XPath(TM_TABLE_FIRST_ITEM_XPATH));
 		}
 
 		/// <summary>
