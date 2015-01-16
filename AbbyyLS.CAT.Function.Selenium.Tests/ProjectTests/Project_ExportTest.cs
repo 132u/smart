@@ -1128,7 +1128,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			// Создать проект, если его нет
 			if (isNotExistProject)
 			{
-				GoToWorkspace();
 				// Создать проект
 				CreateProject(currentProjectName);
 				// Загрузить документ

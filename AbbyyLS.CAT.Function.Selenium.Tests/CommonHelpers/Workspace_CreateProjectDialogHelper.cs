@@ -313,7 +313,13 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <returns>не пустая</returns>
 		public bool GetIsTMTableNotEmpty()
 		{
-			return WaitUntilDisplayElement(By.XPath(TM_TABLE_XPATH)) && GetIsElementExist(By.XPath(TM_TABLE_FIRST_ITEM_XPATH));
+			var isExist = WaitUntilDisplayElement(By.XPath(TM_TABLE_XPATH));
+
+			if (isExist)
+			{
+				isExist = GetIsElementDisplay(By.XPath(TM_TABLE_FIRST_ITEM_XPATH));
+			}
+			return isExist;
 		}
 
 		/// <summary>
@@ -438,7 +444,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <returns>есть</returns>
 		public bool GetIsErrorMessageInvalidDeadlineDate()
 		{
-			WaitUntilDisplayElement(By.XPath(ERROR_DEADLINE_DATE_XPATH));
 			return GetIsElementDisplay(By.XPath(ERROR_DEADLINE_DATE_XPATH));
 		}
 

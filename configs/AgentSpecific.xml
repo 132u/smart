@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <configuration>
 
-	<CatTargetServer Url="smartcat.stage2.als.local" Workspace=""/>
-	<CourseraTargetServer Url="http://coursera.stage2.als.local/en"/>
+	<CatTargetServer Url="smartcat.stage3.als.local" Workspace=""/>
+	<CourseraTargetServer Url="http://coursera.stage3.als.local/en"/>
 
 	<TestingFiles 
 		RootDirectory="../TestingFiles"
