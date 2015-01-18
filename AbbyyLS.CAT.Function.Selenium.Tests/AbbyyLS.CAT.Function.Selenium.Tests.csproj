@@ -130,6 +130,7 @@
     <Compile Include="TMTests\TMCreationTests.cs" />
     <Compile Include="TMTests\TMEditingTests.cs" />
     <Compile Include="TMTests\TMExportTests.cs" />
+    <Compile Include="TMTests\TMFiltering.cs" />
     <Compile Include="TMTests\TMInProjectTets.cs" />
     <Compile Include="TMTests\TMPageHelper.cs" />
     <Compile Include="TMTests\TMRemovingTests.cs" />

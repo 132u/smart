@@ -93,12 +93,15 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.TM
 		/// Создать ТМ, если его нет
 		/// </summary>
 		/// <param name="TMName">название ТМ</param>
-		public void CreateTMIfNotExist(string TMName)
+		public void CreateTMIfNotExist(
+			string TMName,
+			CommonHelper.LANGUAGE sourceLang = CommonHelper.LANGUAGE.English,
+			CommonHelper.LANGUAGE targetLang = CommonHelper.LANGUAGE.Russian)
 		{
 			if (!GetIsExistTM(TMName))
 			{
 				// Если нет такого ТМ, создать  его
-				CreateTMByNameAndSave(TMName);
+				CreateTMByNameAndSave(TMName, sourceLang, targetLang);
 			}
 		}
 
@@ -530,6 +533,108 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.TM
 
 			ExternalDialogSelectSaveDocument(resultPath);
 			Assert.IsTrue(File.Exists(resultPath), "Ошибка: файл не экспортировался\n" + resultPath);
+		}
+		#endregion
+
+		#region Методы создания фильтров ТМ
+
+		/// <summary>
+		/// Метод создания нового фильтра
+		/// </summary>
+		public void CreateNewTmFilter(
+			Action applyingFilter, 
+			bool clearFilters = true,
+			bool cancelFilterCreation = false
+			)
+		{
+			TMPage.OpenTmFilters();
+
+			if (clearFilters)
+			{
+				TMPage.ClearTmFilters();
+			}
+
+			applyingFilter();
+
+			if (cancelFilterCreation)
+			{
+				TMPage.CancelTmFiltersCreation();
+				return;
+			}
+
+			TMPage.ApplyTmFilters();
+		}
+
+		/// <summary>
+		/// Метод удаления фильтра с панели фильтров ТМ
+		/// </summary>
+		public void RemoveFilterfromTmPanel(string tmFilterName, string tmFilterValue)
+		{
+			var fullTextForfilter = string.Format("{0}: {1}", tmFilterName, tmFilterValue);
+
+			TMPage.RemoveTmFilterFromPanel(fullTextForfilter);
+		}
+
+		/// <summary>
+		/// Метод создания фильтра по исходному языку
+		/// </summary>
+		public void CreateSourceLanguageFilter(CommonHelper.LANGUAGE language)
+		{
+			TMPage.OpenSourceLanguagesTmFilters();
+			TMPage.SelectSourceLanguageTmFilter(language);
+		}
+
+		/// <summary>
+		/// Метод создания фильтра по языку перевода
+		/// </summary>
+		public void CreateTargetLanguageFilter(CommonHelper.LANGUAGE language)
+		{
+			TMPage.OpenTargetLanguagesTmFilters();
+			TMPage.SelectTargetLanguageTmFilter(language);
+		}
+
+		/// <summary>
+		/// Метод создания фильтра по автору
+		/// </summary>
+		public void CreateAutorFilter(string authorName)
+		{
+			TMPage.OpenAuthorsTmFilters();
+			TMPage.SelectAuthorTmFilter(authorName);
+		}
+
+		/// <summary>
+		/// Метод создания фильтра по дате создания TM
+		/// </summary>
+		public void CreateCreationDateFilter(DateTime creationDate)
+		{
+			TMPage.SetCreationDateTmFilters(creationDate);
+		}
+
+		/// <summary>
+		/// Метод создания фильтра по топику TM
+		/// </summary>
+		public void CreateTopicFilter(string topicName)
+		{
+			TMPage.OpenTopicsTmFilters();
+			TMPage.SelectTopicTmFilter(topicName);
+		}
+
+		/// <summary>
+		/// Метод создания фильтра TM по проектной группе
+		/// </summary>
+		public void CreateProjectGroupFilter(string projectGroupName)
+		{
+			TMPage.OpenProjectGroupTmFilters();
+			TMPage.SelectProjectGroupTmFilter(projectGroupName);
+		}
+
+		/// <summary>
+		/// Метод создания фильтра TM по клиенту
+		/// </summary>
+		public void CreateClientFilter(string clientName)
+		{
+			TMPage.OpenClientsTmFilters();
+			TMPage.SelectClientTmFilter(clientName);
 		}
 		#endregion
 

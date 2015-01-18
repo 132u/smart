@@ -223,7 +223,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			createClient(clientName);
 
 			// Удалить клиента
-			ClickDeleteClient(clientName);
+			clickDeleteClient(clientName);
 
 			// Проверить, что клиент удалился
 			Assert.IsTrue(
@@ -242,7 +242,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			createClient(clientName);
 
 			// Удалить клиента
-			ClickDeleteClient(clientName);
+			clickDeleteClient(clientName);
 
 			// Проверить, что клиента нет в списке при создании TM
 			Assert.IsTrue(
@@ -261,7 +261,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			createClient(clientName);
 
 			// Удалить клиента
-			ClickDeleteClient(clientName);
+			clickDeleteClient(clientName);
 
 			// Проверить, что клиента нет в списке при создании глоссария
 			Assert.IsTrue(
@@ -402,7 +402,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// Кликнуть Удалить
 		/// </summary>
 		/// <param name="clientName">название</param>
-		private void ClickDeleteClient(string clientName)
+		private void clickDeleteClient(string clientName)
 		{
 			ClientPage.ClickDelete(clientName);
 		}

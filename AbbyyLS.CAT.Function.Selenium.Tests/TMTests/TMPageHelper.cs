@@ -1,5 +1,5 @@
-﻿using System.Collections.Generic;
-using System.Threading.Tasks;
+﻿using System;
+using System.Collections.Generic;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.UI;
 
@@ -18,13 +18,15 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.TM
 		public TMPageHelper(IWebDriver driver, WebDriverWait wait) :
 			base(driver, wait)
 		{
-			TMButtonDict = new Dictionary<TM_BTN_TYPE,string>();
-			TMButtonDict.Add(TM_BTN_TYPE.Update, UPDATE_BTN_XPATH);
-			TMButtonDict.Add(TM_BTN_TYPE.Export, EXPORT_BTN_XPATH);
-			TMButtonDict.Add(TM_BTN_TYPE.Delete, DELETE_BTN_XPATH);
-			TMButtonDict.Add(TM_BTN_TYPE.Add, ADD_TMX_BTN_XPATH);
-			TMButtonDict.Add(TM_BTN_TYPE.Edit, EDIT_BTN_XPATH);
-			TMButtonDict.Add(TM_BTN_TYPE.Save, SAVE_BTN_XPATH);
+			TMButtonDict = new Dictionary<TM_BTN_TYPE,string>
+			{
+				{TM_BTN_TYPE.Update, UPDATE_BTN_XPATH},
+				{TM_BTN_TYPE.Export, EXPORT_BTN_XPATH},
+				{TM_BTN_TYPE.Delete, DELETE_BTN_XPATH},
+				{TM_BTN_TYPE.Add, ADD_TMX_BTN_XPATH},
+				{TM_BTN_TYPE.Edit, EDIT_BTN_XPATH},
+				{TM_BTN_TYPE.Save, SAVE_BTN_XPATH}
+			};
 			// TODO заполнить все
 		}
 
@@ -426,6 +428,14 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.TM
 			return GetTextElement(By.XPath(PROJECT_TO_ADD_ITEM_XPATH));
 		}
 
+		///<summary>
+		/// Добавить проект projectName к ТМ
+		/// </summary>
+		public void EditTMAddProject(string projectName)
+		{
+			ClickElement(By.XPath(DOMAIN_TO_ADD_XPATH + "[@title='" + projectName + "']"));
+		}
+
 		/// <summary>
 		/// Очистить комментарий в форме изменения ТМ
 		/// </summary>
@@ -461,6 +471,14 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.TM
 		public void InputEditTMComment(string tmComment)
 		{
 			SendTextElement(By.XPath(TM_EDIT_COMMENT_XPATH), tmComment);
+		}
+
+		/// <summary>
+		/// Получить имя проектной группы для ТМ
+		/// </summary>
+		public string GetProjectGroupNameForTm()
+		{
+			return GetTextElement(By.XPath("//div[contains(@class,'js-domains-multiselect')]//div//span"));
 		}
 
 		/// <summary>
@@ -552,6 +570,203 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.TM
 		}
 
 		/// <summary>
+		/// Кликнуть на список клиентов на форме редактирования ТМ
+		/// </summary>
+		public void ClickOpenClientListEditTm()
+		{
+			ClickElement(By.XPath(TM_EDIT_CLIENT_LIST_XPATH));
+		}
+
+		/// <summary>
+		///	Выбрать клиента в форме редактирования ТМ
+		/// </summary>
+		public void EditTmSelectClient(string clientName)
+		{
+			ClickElement(By.XPath(TM_EDIT_CLIENT_LIST_XPATH + "[@title='" + clientName + "']"));
+		}
+
+		/// <summary>
+		/// Кликнуть на список топиков на форме редактирования ТМ
+		/// </summary>
+		public void ClickTopicsListEditTm()
+		{
+			ClickElement(By.XPath(TM_EDIT_TOPIC_NAME_XPATH));
+		}
+
+		/// <summary>
+		/// Получить значение топика из формы редактирования ТМ
+		/// </summary>
+		public string GetTopicFromTmEditionDialog()
+		{
+			return GetTextElement(By.XPath(TM_EDIT_TOPIC_NAME_XPATH));
+		}
+
+		/// <summary>
+		///Выбрать топик в форме редактирования TM
+		/// </summary>
+		public void SelectTopicForTm(string topicName)
+		{
+			ClickElement(By.XPath("//span[contains(@class, 'ui-treeview_nodetext') and text()='" + topicName + "']"));
+		}
+
+		/// <summary>
+		/// Очистить все фильтры ТМ если они существуют
+		/// </summary>
+		public void ClearFiltersPanelIfExist()
+		{
+			if (GetIsElementExist(By.XPath(CLEAR_FILTERS_XPATH)))
+			{
+				ClickElement(By.XPath(CLEAR_FILTERS_XPATH));
+			}
+		}
+
+		/// <summary>
+		/// Открыть окно ТМ фильтров
+		/// </summary>
+		public void OpenTmFilters()
+		{
+			ClickElement(By.XPath(OPEN_FILTERS_XPATH));
+		}
+
+		/// <summary>
+		/// Очистить фильтры в окне ТМ фильтров
+		/// </summary>
+		public void ClearTmFilters()
+		{
+			ClickElement(By.XPath(CLEAR_FILTERS_IN_DIALOG_XPATH));
+		}
+
+		/// <summary>
+		/// Применить ТМ фильтры
+		/// </summary>
+		public void ApplyTmFilters()
+		{
+			ClickElement(By.XPath(APPLY_FILTERS_BTN));
+		}
+
+		/// <summary>
+		/// Применить ТМ фильтры
+		/// </summary>
+		public void CancelTmFiltersCreation()
+		{
+			ClickElement(By.XPath(CANCEL_FILTERS_BTN));
+		}
+
+		/// <summary>
+		/// Удалить ТМ фильтр с панели ТМ
+		/// </summary>
+		public void RemoveTmFilterFromPanel(string fullFilterName)
+		{
+			ClickElement(By.XPath(string.Format("//div[contains(@title, '{0}')]//em//img", fullFilterName)));
+		}
+
+		/// <summary>
+		/// Открыть доступные для выбора исходные языки в ТМ фильтрах
+		/// </summary>
+		public void OpenSourceLanguagesTmFilters()
+		{
+			ClickElement(By.XPath(SOURCE_LANG_FILTER_XPATH));
+		}
+
+		/// <summary>
+		/// Открыть доступные для выбора языки перевода ТМ фильтрах
+		/// </summary>
+		public void OpenTargetLanguagesTmFilters()
+		{
+			ClickElement(By.XPath(TARGET_LANG_FILTER_XPATH));
+		}
+
+		/// <summary>
+		/// Открыть доступных авторов в ТМ фильтрах
+		/// </summary>
+		public void OpenAuthorsTmFilters()
+		{
+			ClickElement(By.XPath(AUTHOR_FILTER_XPATH));
+		}
+
+		/// <summary>
+		/// Открыть топики в ТМ фильтрах
+		/// </summary>
+		public void OpenTopicsTmFilters()
+		{
+			ClickElement(By.XPath(TOPICS_XPATH));
+		}
+
+		/// <summary>
+		/// Открыть проектные группы в ТМ фильтрах
+		/// </summary>
+		public void OpenProjectGroupTmFilters()
+		{
+			ClickElement(By.XPath(PROJECT_GROUP_FILTER_XPATH));
+		}
+
+		/// <summary>
+		/// Открыть клиентов в ТМ фильтрах
+		/// </summary>
+		public void OpenClientsTmFilters()
+		{
+			ClickElement(By.XPath(CLIENTS_FILTER_XPATH));
+		}
+
+		/// <summary>
+		/// Задать дату создания в ТМ фильтрах
+		/// </summary>
+		public void SetCreationDateTmFilters(DateTime creationDate)
+		{
+			var stringDate = string.Format(@"{0}/{1}/{2}", creationDate.Month, creationDate.Day, creationDate.Year);
+
+			SendTextElement(By.XPath(CREATION_DATE_XPATH), stringDate);
+		}
+
+		/// <summary>
+		/// Выбрать исходный язык в ТМ фильтрах
+		/// </summary>
+		public void SelectSourceLanguageTmFilter(LANGUAGE language)
+		{
+			ClickElement(By.XPath("//input[contains(@id, 'ui-multiselect-SourceLanguages-option-" + languageID[language] + "')]"));
+		}
+
+		/// <summary>
+		/// Выбрать язык перевода в ТМ фильтрах
+		/// </summary>
+		public void SelectTargetLanguageTmFilter(LANGUAGE language)
+		{
+			ClickElement(By.XPath("//input[contains(@id, 'ui-multiselect-TargetLanguages-option-" + languageID[language] + "')]"));
+		}
+
+		/// <summary>
+		/// Выбрать автора в ТМ фильтрах
+		/// </summary>
+		public void SelectAuthorTmFilter(string authorName)
+		{
+			ClickElement(By.XPath("//span[contains(@class,'ui-multiselect-item-text') and contains(text(),'" + authorName + "')]"));
+		}
+
+		/// <summary>
+		/// Выбрать топик в ТМ фильтрах
+		/// </summary>
+		public void SelectTopicTmFilter(string topicName)
+		{
+			ClickElement(By.XPath("//span[contains(text(), '" + topicName + "')]/..//span[1]//input"));
+		}
+
+		/// <summary>
+		/// Выбрать проектную группу в ТМ фильтрах
+		/// </summary>
+		public void SelectProjectGroupTmFilter(string projectGroupName)
+		{
+			ClickElement(By.XPath("//span[text()='" + projectGroupName + "']"));
+		}
+
+		/// <summary>
+		/// Выбрать клиента в ТМ фильтрах
+		/// </summary>
+		public void SelectClientTmFilter(string clientName)
+		{
+			ClickElement(By.XPath("//span[text()='" + clientName + "']"));
+		}
+		
+		/// <summary>
 		/// Вернуть XPath строки с ТМ
 		/// </summary>
 		/// <param name="TMName">название ТМ</param>
@@ -578,6 +793,19 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.TM
 		protected const string CREATE_TM_DIALOG_SAVE_AND_IMPORT_BTN_XPATH = CREATE_TM_DIALOG_XPATH + "//a[contains(@class,'js-save-and-import')]";
 		protected const string UPLOAD_BTN_XPATH = "//a[contains(@class,'js-upload-btn')]";
 
+		protected const string CLEAR_FILTERS_XPATH = "//img[contains(@class, 'js-clear-filter')]";
+		protected const string OPEN_FILTERS_XPATH = "//span[contains(@class, 'js-set-filter')]";
+		protected const string CLEAR_FILTERS_IN_DIALOG_XPATH = "//a[contains(@class, 'js-clear-all')]";
+		protected const string APPLY_FILTERS_BTN = "//input[@type='submit' and @value='Apply']";
+		protected const string CANCEL_FILTERS_BTN = "//div[contains(@class,'l-filtersrc__section')]//a[contains(text(), 'Cancel')]";
+		protected const string SOURCE_LANG_FILTER_XPATH = "//p[text()='Source language']/..//div[contains(@class, 'ui-multiselect')]";
+		protected const string TARGET_LANG_FILTER_XPATH = "//p[text()='Target languages']/..//div[contains(@class, 'ui-multiselect')]";
+		protected const string PROJECT_GROUP_FILTER_XPATH = "//p[text()='Project groups']/..//div[contains(@class, 'ui-multiselect')]";
+		protected const string CLIENTS_FILTER_XPATH = "//p[text()='Clients']/..//div[contains(@class, 'ui-multiselect')]";
+		protected const string TOPICS_XPATH = "//p[text()='Topics']/..//div//div//div[1]";
+		protected const string AUTHOR_FILTER_XPATH = "//p[text()='Author']/..//div[contains(@class, 'ui-multiselect')]";
+		protected const string CREATION_DATE_XPATH = "//input[contains(@class, 'js-from-date')]";
+		
 		protected const string TM_ROW_XPATH = "//tr[contains(@class, 'js-tm-row')]/td/span/span";
 
 		protected const string BTN_ROW_XPATH = "//tr[@class='js-tm-panel']";
@@ -601,6 +829,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.TM
 		protected const string TARGET_LANG_ITEM_XPATH = "//div[contains(@class,'ui-multiselect-menu') and contains(@class,'js-languages-multiselect')]//li//input[@value='";
 
 		protected const string PROJECT_TO_ADD_ITEM_XPATH = "//div[contains(@class,'js-domains-multiselect')]//ul//li[2]//label//span[2]";
+		protected const string DOMAIN_TO_ADD_XPATH = "//div[contains(@class,'js-domains-multiselect')]//ul//input";
 
 		protected const string NEW_TM_NAME_XPATH = CREATE_TM_DIALOG_XPATH + "//input[contains(@class,'js-tm-name')]";
 		protected const string SAVE_TM_BTN_XPATH = CREATE_TM_DIALOG_XPATH + "//span[contains(@class,'js-save')]";
@@ -615,6 +844,9 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.TM
 		protected const string TM_EDIT_TARGET_LANGUAGE = TM_EDIT_FORM_XPATH + "//div[contains(@class,'js-languages-multiselect')]";
 		protected const string TM_EDIT_PROJECT = TM_EDIT_FORM_XPATH + "//div[contains(@class,'js-domains-multiselect')]";
 		protected const string TM_EDIT_CANCEL = TM_EDIT_FORM_XPATH + "//span[contains(@class,'js-cancel-btn')]";
+		protected const string TM_EDIT_CLIENT_LIST_XPATH = "//span[contains(@class, 'js-client-select')]";
+		protected const string TM_EDIT_TOPICS_LIST = "//div[contains (@class, 'js-topics')]";
+		protected const string TM_EDIT_TOPIC_NAME_XPATH = TM_EDIT_TOPICS_LIST + "//div//div[1]//span//span";
 		
 		protected const string NOTIFICATION_BALOON_XPATH = "//div[contains(@class,'g-notifications-container')]";
 		protected const string NOTIFICATION_BALOON_TEXT_XPATH = NOTIFICATION_BALOON_XPATH + "//span[1]";
