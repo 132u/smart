@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using NUnit.Framework;
 
 namespace AbbyyLS.CAT.Function.Selenium.Tests
@@ -200,7 +202,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			OpenCreateAccountForm();
 
 			// Заполнить форму аккаунта
-			string accountName = FillGeneralAccountFields();
+			var accountName = FillGeneralAccountFields();
 
 			// Добавить функцию Словари, но не добавлять список словарей
 			AddDictionaryAccount(false);
@@ -213,6 +215,8 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 
 			// Добавить пользователя в аккаунт
 			AddUserToAccount(Login);
+
+			var listOfDictionariesForSpecificPack = GetDictionaryList(DictionaryPackName);
 
 			// Перейти в CAT
 			Driver.Navigate().GoToUrl(Url);
@@ -227,10 +231,19 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			// Перейти на вкладку со словарями
 			MainHelperClass.ClickOpenDictionariesPage();
 
-			// Проверить, что список словарей пуст
+			var listOfDictionaries = DictionaryPage.GetDictionaryList();
+
 			Assert.IsTrue(
-				DictionaryPage.GetDictionaryListCount() == 0, 
-				"Ошибка: список словарей НЕ пуст");
+				listOfDictionariesForSpecificPack.Count == listOfDictionaries.Count,
+				"Количество словарей в админке и в кате различное.");
+
+			Assert.IsTrue(
+				listOfDictionariesForSpecificPack.Except(listOfDictionaries).ToList().Count == 0,
+				"Некоторые из словарей стандартного пакета не найдены.");
+
+			Assert.IsTrue(
+				listOfDictionaries.Except(listOfDictionariesForSpecificPack).ToList().Count == 0,
+				"Некоторые из словарей найденных в кате не являются словарями из стандартного пакета.");
 		}
 
 		/// <summary>
@@ -384,5 +397,18 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 				SearchPage.SelectEnTargetLanguage();
 			}
 		}
+
+		/// <summary>
+		/// Получить список словарей для пакета pack
+		/// </summary>
+		protected List<String> GetDictionaryList(string pack)
+		{
+			AdminPage.GotoDictionaryPackPage();
+			AdminPage.SelectDictionaryPack(pack);
+
+			return AdminPage.GetListOfDictionaries();
+		}
+
+		private const string DictionaryPackName = "Общедоступные";
 	}
 }

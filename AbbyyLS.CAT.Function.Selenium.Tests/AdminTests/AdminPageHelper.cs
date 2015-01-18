@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.UI;
 using System.Collections.Generic;
@@ -503,6 +505,34 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			return GetIsElementDisplay(By.XPath(THIS_USER_IS_INSIDE_ACCOUNT_XPATH));
 		}
 
+		/// <summary>
+		/// Зайти на страницу просмотра пакетов словарей 
+		/// </summary>
+		public void GotoDictionaryPackPage()
+		{
+			ClickElement(By.XPath(DICTIONARY_PAGE_PACK_LINK));
+		}
+
+		/// <summary>
+		/// Перейти на стриницу со списком словарей
+		/// </summary>
+		public void SelectDictionaryPack(string packName)
+		{
+			var requiredDictionaryName =
+				GetElementList(By.XPath(PATH_TO_LIST_OF_DICTIONARIES_NAMES))
+				.First(item => item.Text == packName);
+
+			requiredDictionaryName.Click();
+		}
+
+		/// <summary>
+		/// Вернуть список словарей
+		/// </summary>
+		public List<string> GetListOfDictionaries()
+		{
+			return GetTextListElement(By.XPath(PATH_TO_LIST_OF_DICTIONARIES));
+		}
+
 		protected const string LOGIN_FORM_XPATH = "//form[contains(@action,'/Home/Login')]";
 		protected const string LOGIN_FORM_LOGIN_XPATH = "//input[@name='email']";
 		protected const string LOGIN_FORM_PASSWORD_XPATH = "//input[@name='password']";
@@ -517,6 +547,10 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		protected const string ADD_USER_BTN_ID = "addUsersBtn";
 		protected const string DICTIONARY_DEADLINE_DATE_ID = "DictionariesExpirationDate";
 		protected const string DEADLINE_DATE_ID = "ExpirationDate";
+		protected const string DICTIONARY_PAGE_PACK_LINK = "//a[contains(@href,'/DictionariesPackages')]";
+		protected const string PATH_TO_LIST_OF_DICTIONARIES = "//table[contains(@name, 'dictionaries')]//select[contains(@id, 'right')]//option";
+		protected const string PATH_TO_LIST_OF_DICTIONARIES_NAMES =
+			"//table[contains(@class, 'js-sortable-table__activated')]//tbody//tr[contains(@class, 'b-alternate')]//td//a";
 
 		protected const string TABLE_FEATURES_XPATH = "//table[@name='Features']";
 		protected const string TABLE_DICTIONARIES_XPATH = "//table[@name='dictionariesPackages']";

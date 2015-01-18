@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.UI;
@@ -545,15 +546,9 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		{
 			try
 			{
-				var textList = new List<string>();
 				var elList = GetElementList(by);
-
-				foreach (var el in elList)
-				{
-					textList.Add(el.Text);
-				}
-
-				return textList;
+				
+				return elList.Select(el => el.Text).ToList();
 			}
 			catch (StaleElementReferenceException)
 			{
