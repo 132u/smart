@@ -3,6 +3,7 @@ using System.IO;
 using System.Threading;
 using System.Windows.Forms;
 using NUnit.Framework;
+using OpenQA.Selenium;
 
 namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.TM
 {
@@ -347,7 +348,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.TM
 			TMPage.ClickToProjectsListAtTmEdditForm();
 
 			// выбираем первую в списке группу проектов и возвращаем ее имя
-			var projectGroupName = TMPage.EditTMAddProject();
+			var projectGroupName = getProjectGroup(tmName);
 
 			// Сохранить изменение
 			TMPage.ClickEditSaveBtn();
@@ -582,6 +583,28 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.TM
 			// Создать уникальное имя для ТМ без проверки существова
 			return ConstTMName + DateTime.Now;
 		}
+
+		/// <summary>
+		/// Выбрать первую проектную группу (или создать, если таковой не имеется) и вернуть ее имя
+		/// </summary>
+		private string getProjectGroup(string tmName)
+		{
+			if (!TMPage.IsAnyProjectGroupExist())
+			{
+				TMPage.ClickCanselOnEditionForm();
+
+				GoToDomains();
+				CreateDomain("SingleDomain");
+
+				GoToTranslationMemories();
+				ClickButtonTMInfo(tmName, TMPageHelper.TM_BTN_TYPE.Edit);
+				TMPage.WaitUntilEditTMOpen();
+				TMPage.ClickToProjectsListAtTmEdditForm();
+			}
+
+			return TMPage.EditTMAddProject();
+		}
+
 		#endregion
 	}
 }

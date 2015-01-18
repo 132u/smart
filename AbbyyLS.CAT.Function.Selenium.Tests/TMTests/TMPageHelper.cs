@@ -326,6 +326,14 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.TM
 		}
 
 		/// <summary>
+		/// Нажать кнопку Cancel на форме редактирования ТМ
+		/// </summary>
+		public void ClickCanselOnEditionForm()
+		{
+			ClickElement(By.XPath(TM_EDIT_CANCEL));
+		}
+
+		/// <summary>
 		/// Вернуть, есть ли ТМ в списке
 		/// </summary>
 		/// <param name="TMName">название ТМ</param>
@@ -397,6 +405,15 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.TM
 		public void ClickToProjectsListAtTmEdditForm()
 		{
 			ClickElement(By.XPath(TM_EDIT_PROJECT));
+		}
+
+		/// <summary>
+		/// Вернуть true если при редактировании проекта доступна хотя бы одна проектная группа
+		/// </summary>
+		/// <returns></returns>
+		public bool IsAnyProjectGroupExist()
+		{
+			return GetIsElementExist(By.XPath(PROJECT_TO_ADD_ITEM_XPATH));
 		}
 
 		///<summary>
@@ -588,7 +605,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.TM
 		protected const string NEW_TM_NAME_XPATH = CREATE_TM_DIALOG_XPATH + "//input[contains(@class,'js-tm-name')]";
 		protected const string SAVE_TM_BTN_XPATH = CREATE_TM_DIALOG_XPATH + "//span[contains(@class,'js-save')]";
 		protected const string CANCEL_TM_SAVING_BTN_XPATH = CREATE_TM_DIALOG_XPATH + "//a[contains(@class,'js-cancel')]";
-
+		
 		protected const string TM_ROW_NAME = "//tr[contains(@class,'js-tm-row')]//td/span/span";
 		protected const string TM_ROW_LANGUAGES = "//tr[contains(@class,'js-tm-row')]//td[2]/span";
 		protected const string TM_EDIT_FORM_XPATH = "//tr[contains(@class,'js-tm-panel js-editing')]";
@@ -597,7 +614,8 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.TM
 		protected const string TM_EDIT_SAVE_BTN_XPATH = TM_EDIT_FORM_XPATH + "//span[contains(@class,'js-save-btn')]";
 		protected const string TM_EDIT_TARGET_LANGUAGE = TM_EDIT_FORM_XPATH + "//div[contains(@class,'js-languages-multiselect')]";
 		protected const string TM_EDIT_PROJECT = TM_EDIT_FORM_XPATH + "//div[contains(@class,'js-domains-multiselect')]";
-
+		protected const string TM_EDIT_CANCEL = TM_EDIT_FORM_XPATH + "//span[contains(@class,'js-cancel-btn')]";
+		
 		protected const string NOTIFICATION_BALOON_XPATH = "//div[contains(@class,'g-notifications-container')]";
 		protected const string NOTIFICATION_BALOON_TEXT_XPATH = NOTIFICATION_BALOON_XPATH + "//span[1]";
 		protected const string NOTIFICATION_BALOON_BUTTON_XPATH = NOTIFICATION_BALOON_XPATH + "//span[2]//a";
