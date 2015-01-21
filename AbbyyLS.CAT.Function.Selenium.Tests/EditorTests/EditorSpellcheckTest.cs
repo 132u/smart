@@ -255,6 +255,9 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			// Дважды кликаем на созданном слове
 			EditorPage.DoubleClickWordDictionary(wordFirst);
 			
+			//Очищаем поле
+			EditorPage.ClearInputWordDictionary(wordFirst);
+
 			// Добавляем в поле новое слово
 			EditorPage.AddWordDictionary(wordSecond);
 			Thread.Sleep(1000);
@@ -286,7 +289,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		{
 			// Нажать кнопку добавления нового слова в словарь
 			EditorPage.ClickAddWordDictionaryBtn();
-
 			// Добавляем в поле новое слово
 			EditorPage.AddWordDictionary(word);
 			Thread.Sleep(1000);
@@ -313,6 +315,9 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		{
 			// Открываем словарь
 			OpenEditorDictionary();
+
+			//Ждём, пока онзакончится загрузка словаря
+			WaitLoadDictionary();
 
 			// Добавляем новое слово
 			AddWordDictionaryOpened(word);

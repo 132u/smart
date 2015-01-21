@@ -743,6 +743,15 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		}
 
 		/// <summary>
+		/// Возвращает закончилась ли загрузка словаря
+		/// </summary>
+		/// <returns>Закончена загрузка слов</returns>
+		public bool WaitDictionaryLoadListWords()
+		{
+			return WaitUntilDisappearElement(By.XPath(DICTIONARY_LOADING_WORDS_XPATH));
+		}
+
+		/// <summary>
 		/// Возвращает открылась ли форма добавления термина
 		/// </summary>
 		/// <returns>Форма открылась</returns>
@@ -1014,6 +1023,14 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		}
 		
 		/// <summary>
+		/// Очищает поле со словом в словаре
+		/// </summary>
+		public void ClearInputWordDictionary(string word)
+		{
+			ClearElement(By.XPath(INPUT_WORD_XPATH));
+		}
+
+		/// <summary>
 		/// XPATH типа подстановки в колонке match таргета у конкретного сегмента
 		/// </summary>
 		/// <param name="segmentNumber">номер сегмента таргет</param> 
@@ -1074,13 +1091,14 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		protected const string CHAR_FORM_ID = "charmap";
 
 		protected const string DICTIONARY_FORM_XPATH = ".//div[@id='" + DICTIONARY_FORM_ID + "']";
-		protected const string CLOSE_DICTIONARY_BTN_XPATH = DICTIONARY_FORM_XPATH + "//span[contains(@class, 'fa-times')]";
+		protected const string CLOSE_DICTIONARY_BTN_XPATH = DICTIONARY_FORM_XPATH + "//span[contains(@class, 'x-tool-close')]";
 		protected const string ADD_WORD_BTN_XPATH = DICTIONARY_FORM_XPATH + "//span[contains(@id, 'btnInnerEl')]";
 		protected const string WORDS_TABLE_XPATH = DICTIONARY_FORM_XPATH + "//table";
 		protected const string WORD_XPATH = "//td[1]/div";
 		protected const string DELETE_WORD_XPATH = "//td[2]//span[contains(@class, 'fa-trash')]";
 		protected const string INPUT_WORD_XPATH = DICTIONARY_FORM_XPATH + "//input[contains(@id, 'textfield')]";
-		
+		protected const string DICTIONARY_LOADING_WORDS_XPATH = "//div[@id='dictionary-body']//div//div//div[contains(@id,'msgTextEl')]";
+
 		protected const string ERROR_MESSAGE_XPATH = ".//div[contains(@id, 'messagebox')][contains(text(), 'is already in the dictionary')]";
 
 		protected const string SEGMENTS_BODY_ID = "segments-body";
@@ -1094,7 +1112,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		protected const string FIRST_VISIBLE_SEGMENT_XPATH = "//div[@id='segments-body']//table[1]//td[1]";
 		protected const string SEGMENTS_TABLE_XPATH = "//div[@id='segments-body']//div//div[2]//table";
 
-		protected const string TARGET_TEXT_XPATH = TARGET_XPATH + "[string()='";
+		protected const string TARGET_TEXT_XPATH = TARGET_CELL_XPATH + "[text()='";
 		protected const string TAG_TARGET_XPATH = TARGET_XPATH + "//img[contains(@class,'tag')]";
 		protected const string SPELLCHECK_TARGET_XPATH = TARGET_XPATH + "//span[contains(@class,'spellcheck')]";
 		protected const string CONTEXT_MENU_SPELLCHECK_ADD_XPATH = "//span[contains(string(), 'Add to dictionary')]";

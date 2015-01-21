@@ -1932,6 +1932,17 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		}
 
 		/// <summary>
+		/// Ждём, пока словарь прогрузится
+		/// </summary>
+		protected void WaitLoadDictionary()
+		{
+			//Проверяем, что загрузка словаря закончилась 
+			Assert.IsTrue(
+				EditorPage.WaitDictionaryLoadListWords(),
+				"Ошибка: Не удалось дождаться окончания загрузки словаря.");
+		}
+		
+		/// <summary>
 		/// Создать уникальное имя
 		/// </summary>
 		/// <returns>имя</returns>

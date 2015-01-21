@@ -95,7 +95,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			catch (StaleElementReferenceException)
 			{
 				Logger.Trace("StaleElementReferenceException: WaitUntilDisplayElement: " + by.ToString());
-
 				return WaitUntilDisplayElement(by, maxWait);
 			}
 			catch (WebDriverTimeoutException)
@@ -327,7 +326,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// Кликнуть по элементу, очистить и ввести текст
 		/// </summary>
 		/// <param name="by">by</param>
-		/// <param name="text">тест</param>
+		/// <param name="text">текст</param>
 		protected void ClickClearAndAddText(By by, string text)
 		{
 			var txt = Regex.Replace(text, "[+^%~()]", "{$0}");
