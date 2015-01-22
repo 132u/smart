@@ -566,7 +566,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			GlossaryPage.WaitImportForm();
 
 			// Заполнить форму загрузки документа
-			UploadFileGlossary(TestFile.ImportGlossaryFile, IMPORT_TERMS);
+			GlossaryPage.UploadTerm(TestFile.ImportGlossaryFile);
 		}
 
 		/// <summary>

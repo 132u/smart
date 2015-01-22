@@ -520,6 +520,12 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			// Выйти из редактора
 			EditorPage.ClickHomeBtn();
 
+			// Дождаться загрузки воркспейса
+			WorkspacePage.WaitPageLoad();
+
+			// Перейти к проекту
+			OpenProjectPage(ProjectName);
+
 			// Дождаться открытия страницы проекта
 			ProjectPage.WaitPageLoad();
 
@@ -555,10 +561,8 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			ResponsiblesDialog.WaitUntilChooseTaskDialogDisplay();
 
 			// Выбор задачи Editing
-			EditorPage.ClickEditingTaskBtn();
-
-			//После выбора задачи жмём на Continue
-			EditorPage.ClickContBtn();
+			ResponsiblesDialog.ClickChoosenTask(2);
+			EditorPage.WaitPageLoad();
 
 			// Проверяем что нет замочка в сегменете
 			Assert.False(
