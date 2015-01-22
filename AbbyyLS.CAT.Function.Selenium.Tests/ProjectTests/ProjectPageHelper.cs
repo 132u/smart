@@ -4,9 +4,11 @@ using System.Linq;
 using System.Threading;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.UI;
+using AbbyyLS.CAT.Function.Selenium.Tests.CommonHelpers;
 
 namespace AbbyyLS.CAT.Function.Selenium.Tests
 {
+
 	/// <summary>
 	/// Хелпер страницы проекта
 	/// </summary>
@@ -658,6 +660,21 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			DoubleClickElement(By.XPath(RADIO_BTN));
 			return GetIsInputChecked(By.XPath(RADIO_BTN));
 		}
+
+		/// <summary>
+		/// Загрузка документа на странице проекта
+		/// </summary>
+		/// <param name="fileName"> название документа </param>
+		public void UploadFileOnProjectPage(string fileName)
+		{
+			UploadDocument(fileName, ADD_FILE_ON_PROJECT_PAGE);
+		}
+
+		public void UploadFileNativeAction(string fileName)
+		{
+			UploadDocNativeAction(fileName);
+		}
+		protected const string ADD_FILE_ON_PROJECT_PAGE = "html/body/div[14]/div[2]/div[2]/div[1]/div[1]/div/div[2]/div[5]/input"; // добавление документа уже сущестующему проекту на стр проекта
 
 		protected const string PROJECT_TABLE_XPATH = "//table[contains(@class,'l-project-panel-tbl')]";
 		protected const string PROGRESS_BTN_XPATH = "//span[contains(@class,'js-document-progress')]";

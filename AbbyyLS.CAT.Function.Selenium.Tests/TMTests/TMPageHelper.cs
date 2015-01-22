@@ -776,10 +776,18 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.TM
 			return TM_ROW_XPATH + "[text()='" + TMName + "']/parent::span/parent::td/parent::tr";
 		}
 
+		/// <summary>
+		/// Загрузка документ в TM
+		/// </summary>
+		public void UploadTMInDoc(string DocumentName)
+		{
+			UploadTM(DocumentName, ADD_TMX);
+		}
+
 		public enum TM_BTN_TYPE { Update, Export, Delete, Add, Edit, Save };
 
 		protected const string ADD_TM_BTN_XPATH = ".//span[contains(@class,'js-create-tm')]";
-
+		protected const string ADD_TMX = "html/body/div[11]/div[2]/div[2]/form/div[1]/div/div/input";
 		protected const string CREATE_TM_DIALOG_XPATH = ".//div[contains(@class,'js-popup-create-tm')][2]";
 		protected const string CREATE_TM_CLIENT_XPATH = ".//span[contains(@class,'js-client-select') and contains(@class,'js-dropdown')]";
 		protected const string CREATE_TM_CLIENT_LIST_XPATH = ".//span[contains(@class,'js-client-select') and contains(@class,'g-drpdwn__list')]";
