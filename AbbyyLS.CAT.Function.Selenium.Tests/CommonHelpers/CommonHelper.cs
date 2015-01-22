@@ -6,14 +6,12 @@ using OpenQA.Selenium;
 using OpenQA.Selenium.Support.UI;
 using NUnit.Framework;
 using OpenQA.Selenium.Interactions;
+using System.Drawing;
 using System.Text.RegularExpressions;
 using NLog;
-using System.Windows.Forms;
-using System.IO;
 
 namespace AbbyyLS.CAT.Function.Selenium.Tests
 {
-
 	/// <summary>
 	/// Общий хелпер
 	/// </summary>
@@ -709,44 +707,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		public bool IsSelected(By by)
 		{
 			return Driver.FindElement(by).Selected;
-		}
-
-		/// <summary>
-		/// Работа с диалогом браузера: загрузка документа с помощью javascript
-		/// </summary>
-		/// <param name="DocumentName">полный путь к документу</param>
-		protected void UploadDocument(string DocumentName, string file)
-		{
-			((IJavaScriptExecutor)Driver).ExecuteScript("document.evaluate('" + file + "', document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue.style.display = 'block';");
-			Driver.FindElement(By.XPath(file)).SendKeys(DocumentName);
-			Thread.Sleep(1000); // Sleep Не удалять! необходим для предотвращения появления окна загрузки
-		}
-
-		/// <summary>
-		/// Работа с диалогом браузера: загрузка документа
-		/// </summary>
-		/// <param name="DocumentName">полный путь к документу</param>
-		protected void UploadDocNativeAction(string DocumentName)
-		{
-			Thread.Sleep(3000); // слип необходим, так как не всегда успевает открыться окно загрузки
-
-			var txt = Regex.Replace(DocumentName, "[+^%~()]", "{$0}");
-
-			SendKeys.SendWait(txt);
-			Thread.Sleep(2000);
-			SendKeys.SendWait(@"{Enter}");
-			Thread.Sleep(2000);
-		}
-
-		/// <summary>
-		/// Загрузка TM во время создания проекта
-		/// </summary>
-		protected void UploadTM(string DocumentName, string file)
-		{
-			((IJavaScriptExecutor)Driver).ExecuteScript("document.getElementsByClassName('g-iblock g-bold l-editgloss__filelink js-filename-link')[0].innerHTML = '" + Path.GetFileName(DocumentName) + "'");
-			((IJavaScriptExecutor)Driver).ExecuteScript("document.evaluate('" + file + "', document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue.style.display = 'block';");
-			Driver.FindElement(By.XPath(file)).SendKeys(DocumentName);
-			Thread.Sleep(1000); // Sleep Не удалять! необходим для предотвращения появления окна загрузки
 		}
 
 		public enum LANGUAGE { English, Russian, German, French, Japanese, Lithuanian };

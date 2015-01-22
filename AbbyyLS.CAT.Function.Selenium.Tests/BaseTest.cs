@@ -445,7 +445,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			////Нажать Загрузить файл в диалоге редактирования TM
 			ProjectPage.ClickUploadTMBtn();
 			//Загрузить документ
-			ProjectPage.UploadFileNativeAction(file);
+			UploadFileNativeAction(file);
 			//Подтвердить импорт
 			ProjectPage.ClickConfirmImportBtn();
 			Assert.IsTrue(ProjectPage.ClickRadioBtm(),"TM не выбран");
@@ -912,7 +912,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			FirstStepProjectWizard(projectName);
 			if (downloadFile.Length > 0)
 			{
-				WorkspaceCreateProjectDialog.UploadFileToNewProject(downloadFile);
+				UploadFile(downloadFile);
 				WorkspaceCreateProjectDialog.WaitDocumentAppear(Path.GetFileName(downloadFile));
 			}
 			WorkspaceCreateProjectDialog.ClickNextStep();
@@ -1054,7 +1054,8 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 				WorkspaceCreateProjectDialog.WaitUploadTMXDialog();
 				WorkspaceCreateProjectDialog.FillTMNameDialog(tmName);
 
-				WorkspaceCreateProjectDialog.UploadTMInNewProject(TmFileName);
+				UploadFileThroughtImportField(TmFileName, TM_UPLOAD);
+				UploadFile(TmFileName, TM_UPLOAD2);
 
 				//Нажать на кнопку Import
 				WorkspaceCreateProjectDialog.ClickSaveTMXDialog();
@@ -1197,7 +1198,8 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			// ждем, когда загрузится окно для загрузки документа 
 			ProjectPage.WaitImportDialogDisplay();
 			// Заполнить диалог загрузки
-			ProjectPage.UploadFileOnProjectPage(filePath);
+			UploadFile(filePath, ADD_FILE_ON_PROJECT_PAGE);
+
 			// Нажать Next
 			ProjectPage.ClickNextImportDialog();
 
@@ -1275,6 +1277,53 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			Thread.Sleep(500);
 		}
 
+		/// <summary>
+		/// Работа с диалогом браузера: загрузка документа
+		/// </summary>
+		/// <param name="DocumentName">полный путь к документу</param>
+		protected void UploadFileNativeAction(string DocumentName, string file = UPLOAD_FILE_TO_NEW_PROJECT)
+		{
+			Thread.Sleep(3000); // слип необходим, так как не всегда успевает открыться окно загрузки
+
+			var txt = Regex.Replace(DocumentName, "[+^%~()]", "{$0}");
+
+			SendKeys.SendWait(txt);
+			Thread.Sleep(2000);
+			SendKeys.SendWait(@"{Enter}");
+			Thread.Sleep(2000);
+		}
+
+		/// <summary>
+		/// Работа с диалогом браузера: загрузка документа с помощью javascript
+		/// </summary>
+		/// <param name="DocumentName">полный путь к документу</param>
+		protected void UploadFile(string DocumentName, string file = UPLOAD_FILE_TO_NEW_PROJECT)
+		{
+			((IJavaScriptExecutor)Driver).ExecuteScript("document.evaluate('" + file + "', document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue.style.display = 'block';");
+			Driver.FindElement(By.XPath(file)).SendKeys(DocumentName);
+			Thread.Sleep(1000); // Sleep Не удалять! необходим для предотвращения появления окна загрузки
+		}
+
+		/// <summary>
+		/// Загрузка документа, когда необходимо заполнить поле Import file
+		/// </summary>
+		/// <param name="DocumentName"> название документа </param>
+		/// <param name="xpath"> Xpath поля загрузки </param>
+		/// <param name="fileName"> навзание файла </param>
+		protected void UploadFileThroughtImportField(string DocumentName, string xpath)
+		{
+			((IJavaScriptExecutor)Driver).ExecuteScript("document.evaluate('" + xpath + "', document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue.style.display = 'block';");
+			((IJavaScriptExecutor)Driver).ExecuteScript("document.getElementsByClassName('js-submit-input g-hidden')[0].setAttribute('type', 'text');");
+			Driver.FindElement(By.XPath(xpath)).SendKeys(DocumentName);
+			((IJavaScriptExecutor)Driver).ExecuteScript("document.getElementsByClassName('g-iblock g-bold l-editgloss__filelink js-filename-link')[0].innerHTML = '" + Path.GetFileName(DocumentName) + "'");
+		}
+
+		protected void UploadFileGlossary(string DocumentName, string xpath)
+		{
+			((IJavaScriptExecutor)Driver).ExecuteScript("document.evaluate('" + xpath + "', document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue.style.display = 'block';");
+			Driver.FindElement(By.XPath(xpath)).SendKeys(DocumentName);
+			((IJavaScriptExecutor)Driver).ExecuteScript("document.getElementsByClassName('g-iblock g-bold l-editgloss__filelink js-filename-link')[0].innerHTML = '" + Path.GetFileName(DocumentName) + "'");
+		}
 		/// <summary>
 		/// Закрываем диалог 2
 		/// </summary>
@@ -2224,5 +2273,14 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 
 		private string _pathTestFiles;
 		private FirefoxProfile _profile;
+		protected const string UPLOAD_FILE_TO_NEW_PROJECT = "//html/body/div[23]/div[2]/div[2]/div[1]/div[1]/div[1]/div[2]/div[1]/input"; // добавление документа при создании проекта
+		protected const string ADD_FILE_TO_PROJECT = "html/body/div[19]/div[2]/div[2]/div[1]/div[1]/div/div[2]/div[5]/input"; // добавление документа уже сущестующему проекту на стр WS
+		protected const string ADD_FILE_ON_PROJECT_PAGE = "html/body/div[14]/div[2]/div[2]/div[1]/div[1]/div/div[2]/div[5]/input"; // добавление документа уже сущестующему проекту на стр проекта
+		protected const string TM_UPLOAD = "html/body/div[17]/div[2]/div[2]/div/div[1]/form/div/div/input";
+		protected const string TM_UPLOAD2 = "html/body/div[17]/div[2]/div[2]/div/div[1]/form/input";
+		protected const string IMPORT_TERMS = "html/body/div[15]/div[2]/div[2]/form/div[1]/div[1]/div/input";
+		protected const string MEDIA_ENTRY = "html/body/div[6]/div[1]/div[2]/div[3]/div/table/tbody/tr[2]/td/div/div[2]/table/tbody/tr[2]/td[1]/div/div[2]/input"; // загрузка медиа файла в термин нас тр глоссари
+		protected const string ADD_TMX = "html/body/div[11]/div[2]/div[2]/form/div[1]/div/div/input";
+		protected const string ADD_TMX2 = "html/body/div[11]/div[2]/div[2]/form/input";
 	}
 }

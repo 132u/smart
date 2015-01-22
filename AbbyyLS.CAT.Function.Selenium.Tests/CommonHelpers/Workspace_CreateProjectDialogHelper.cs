@@ -4,11 +4,9 @@ using System.Linq;
 using System.Threading;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.UI;
-using System.IO;
 
 namespace AbbyyLS.CAT.Function.Selenium.Tests
 {
-
 	/// <summary>
 	/// Хелпер диалога создания проекта
 	/// </summary>
@@ -1009,29 +1007,10 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			ClearAndAddText(By.XPath(NEW_GLOSSARY_NAME_INPUT_XPATH), internalGlossaryName);
 		}
 
-		/// <summary>
-		/// Загрузка TM во время создания проекта
-		/// </summary>
-		public void UploadTMInNewProject(string DocumentName)
-		{
-			UploadTM(DocumentName, TM_UPLOAD);
-		}
-
-		/// <summary>
-		/// Загрузка документа во время создания проекта
-		/// </summary>
-		/// <param name="fileName"> название документа </param>
-		public void UploadFileToNewProject(string fileName)
-		{
-			UploadDocument(fileName, UPLOAD_FILE_TO_NEW_PROJECT);
-		}
-
-		protected const string UPLOAD_FILE_TO_NEW_PROJECT = "//html/body/div[23]/div[2]/div[2]/div[1]/div[1]/div[1]/div[2]/div[1]/input"; // добавление документа при создании проекта
-
 		public enum SetGlossary { New, First, ByName, None };
 		public enum MT_TYPE { DefaultMT, Google, Bing, Yandex, Moses, None };
 		protected Dictionary<MT_TYPE, string> MTTypeDict = new Dictionary<MT_TYPE, string>();
-		protected const string TM_UPLOAD = "html/body/div[17]/div[2]/div[2]/div/div[1]/form/div/div/input";
+
 		protected const string CREATE_PROJECT_DIALOG_XPATH = "//div[contains(@class,'js-popup-create-project')][2]";
 
 		protected const string DEADLINE_DATE_INPUT_XPATH = CREATE_PROJECT_DIALOG_XPATH + "//input[contains(@class, 'l-project__date')]";

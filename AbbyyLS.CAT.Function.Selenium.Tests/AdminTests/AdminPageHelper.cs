@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.UI;
-using System.Collections.Generic;
 
 namespace AbbyyLS.CAT.Function.Selenium.Tests
 {

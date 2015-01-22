@@ -92,6 +92,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <summary>
 		/// Проверка отображения окна с правами пользователя при загрузке документа в проект
 		/// </summary>
+		[Category("PRX_6987")]
 		[Test]
 		public void ResponsiblesWorkspaceUploadDocument()
 		{
@@ -108,7 +109,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			ProjectPage.WaitImportDialogDisplay();
 
 			// Добавляем документ
-			WorkspacePage.UploadFileInProjectSettings(TestFile.DocumentFileToConfirm);
+			UploadFile(TestFile.DocumentFileToConfirm, ADD_FILE_TO_PROJECT);
 
 			ProjectPage.ClickNextImportDialog();
 			ProjectPage.ClickNextImportDialog();
@@ -188,6 +189,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <summary>
 		/// Проверка отображения окна с правами пользователя при загрузке документа в окне проекта
 		/// </summary>
+		[Category("PRX_6987")]
 		[Test]
 		public void ResponsiblesProjectUploadDocument()
 		{
@@ -204,7 +206,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			ProjectPage.WaitImportDialogDisplay();
 
 			// Добавляем документ
-			ProjectPage.UploadFileOnProjectPage(TestFile.DocumentFileToConfirm);
+			UploadFile(TestFile.DocumentFileToConfirm, ADD_FILE_ON_PROJECT_PAGE);
 
 			ProjectPage.ClickNextImportDialog();
 			ProjectPage.ClickNextImportDialog();
@@ -372,6 +374,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <summary>
 		/// Назначение пользователя на два этапа
 		/// </summary>
+		[Category("PRX_6987")]
 		[Test]
 		public void AssignUserFewTasks()
 		{

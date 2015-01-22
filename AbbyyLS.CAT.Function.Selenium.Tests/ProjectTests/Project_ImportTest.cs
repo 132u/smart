@@ -32,6 +32,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <summary>
 		/// метод тестирования загрузки rtf формата (неподдерживаемый формат)
 		/// </summary>
+		[Category("PRX_6987")]
 		[Test]
 		public void ImportWrongFileTest()
 		{
@@ -51,6 +52,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <summary>
 		/// метод тестирования загрузки нескольких файлов при создании проекта (docx+ttx)
 		/// </summary>
+		[Category("PRX_6987")]
 		[Test]
 		public void ImportSomeFilesTest()
 		{
@@ -70,6 +72,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <summary>
 		/// Импорт документа формата ttx (допустимый формат)
 		/// </summary>
+		[Category("PRX_6987")]
 		[Test]
 		public void ImportTtxFileTest()
 		{
@@ -87,6 +90,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <summary>
 		/// Импорт документа формата txt (допустимый формат)
 		/// </summary>
+		[Category("PRX_6987")]
 		[Test]
 		public void ImportTxtFileTest()
 		{
@@ -104,6 +108,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <summary>
 		/// Импорт документа формата Srt (допустимый формат)
 		/// </summary>
+		[Category("PRX_6987")]
 		[Test]
 		public void ImportSrtFileTest()
 		{
@@ -138,6 +143,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <summary>
 		/// Загрузка в проект документа, который уже был загружен
 		/// </summary>
+		[Category("PRX_6987")]
 		[Test]
 		public void ImportDuplicateDocumentTest()
 		{
@@ -149,7 +155,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			ProjectPage.WaitImportDialogDisplay();
 
 			// Заполнить диалог загрузки
-			ProjectPage.UploadFileOnProjectPage(TestFile.DocumentFile);
+			UploadFile(TestFile.DocumentFile, ADD_FILE_ON_PROJECT_PAGE);
 
 			// Проверить появление оповещения об ошибке
 			Assert.IsTrue(
@@ -163,7 +169,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <param name="documentName">имя документа</param>
 		protected void ImportDocumentCreateProject(string documentName)
 		{
-			WorkspaceCreateProjectDialog.UploadFileToNewProject(documentName);
+			UploadFile(documentName, UPLOAD_FILE_TO_NEW_PROJECT);
 		}
 	}
 }

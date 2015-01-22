@@ -461,6 +461,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <summary>
 		/// Проверка на автоматическое присвоение имени проекта при загрузке файла
 		/// </summary>
+		[Category("PRX_6987")]
 		[Test]
 		public void AutofillProjectName()
 		{
@@ -471,7 +472,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			// Ждем загрузки формы
 			WorkspaceCreateProjectDialog.WaitDialogDisplay();
 			// Загрузить файл
-			WorkspaceCreateProjectDialog.UploadFileToNewProject(TestFile.DocumentFile);
+			UploadFile(TestFile.DocumentFile, UPLOAD_FILE_TO_NEW_PROJECT);
 
 			Assert.IsTrue(
 				WorkspaceCreateProjectDialog.CheckProjectName(fileName),
@@ -481,6 +482,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <summary>
 		/// Проверка, что автоматическое присвоенное имя не изменяется после повторного добавления файла
 		/// </summary>
+		[Category("PRX_6987")]
 		[Test]
 		public void AutofillProjectNameAddTwoFiles()
 		{
@@ -491,14 +493,14 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			// Ждем загрузки формы
 			WorkspaceCreateProjectDialog.WaitDialogDisplay();
 			// Загрузить файл
-			WorkspaceCreateProjectDialog.UploadFileToNewProject(TestFile.DocumentFile);
+			UploadFile(TestFile.DocumentFile, UPLOAD_FILE_TO_NEW_PROJECT);
 
 			Assert.IsTrue(
 				WorkspaceCreateProjectDialog.CheckProjectName(fileName),
 				"Ошибка: Имя проекта автоматически не присвоилось");
 
 			// Загрузить второй файл
-			WorkspaceCreateProjectDialog.UploadFileToNewProject(TestFile.DocumentFile);
+			UploadFile(TestFile.EditorTXTFile, UPLOAD_FILE_TO_NEW_PROJECT);
 
 			Assert.IsTrue(
 				WorkspaceCreateProjectDialog.CheckProjectName(fileName),
@@ -508,6 +510,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <summary>
 		/// Проверка, что автоматическое присвоенное имя не изменяется после удаления файла
 		/// </summary>
+		[Category("PRX_6987")]
 		[Test]
 		public void AutofillProjectNameDeleteFile()
 		{
@@ -518,7 +521,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			// Ждем загрузки формы
 			WorkspaceCreateProjectDialog.WaitDialogDisplay();
 			// Загрузить файл
-			WorkspaceCreateProjectDialog.UploadFileToNewProject(TestFile.DocumentFile);
+			UploadFile(TestFile.DocumentFile, UPLOAD_FILE_TO_NEW_PROJECT);
 
 			Assert.IsTrue(
 				WorkspaceCreateProjectDialog.CheckProjectName(fileName),
@@ -537,6 +540,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <summary>
 		/// Удаление загруженного файла из визарда проекта
 		/// </summary>
+		[Category("PRX_6987")]
 		[Test]
 		public void DeleteFileFromWizard()
 		{
@@ -547,7 +551,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			// Ждем загрузки формы
 			WorkspaceCreateProjectDialog.WaitDialogDisplay();
 			// Загрузить файл
-			WorkspaceCreateProjectDialog.UploadFileToNewProject(TestFile.DocumentFile);
+			UploadFile(TestFile.DocumentFile, UPLOAD_FILE_TO_NEW_PROJECT);
 
 			// Удалить файл
 			WorkspaceCreateProjectDialog.ClickDeleteFile(fileName);

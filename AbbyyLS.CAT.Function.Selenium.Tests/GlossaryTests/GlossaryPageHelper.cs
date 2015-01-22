@@ -1,7 +1,7 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.UI;
-using System.IO;
 
 namespace AbbyyLS.CAT.Function.Selenium.Tests
 {
@@ -1162,20 +1162,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			return CHOICE_DROPDOWN_LIST + "[@data-id='" + optionID + "']";
 		}
 
-		public void UploadFileInGlossary(string fileName)
-		{
-			UploadDocNativeAction(fileName);
-		}
 
-		public void UploadTerm(string DocumentName)
-		{
-			((IJavaScriptExecutor)Driver).ExecuteScript("document.evaluate('" + IMPORT_TERMS + "', document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue.style.display = 'block';");
-			Driver.FindElement(By.XPath(IMPORT_TERMS)).SendKeys(DocumentName);
-			((IJavaScriptExecutor)Driver).ExecuteScript("document.getElementsByClassName('g-iblock g-bold l-editgloss__filelink js-filename-link')[0].innerHTML = '" + Path.GetFileName(DocumentName) + "'");
-
-		}
-
-		protected const string IMPORT_TERMS = "html/body/div[15]/div[2]/div[2]/form/div[1]/div[1]/div/input";
 
 		protected const string ADD_CONCEPT_XPATH = "//span[contains(@class,'js-add-concept')]";
 		protected const string OPEN_EDIT_GLOSSARY_LIST_XPATH = "//span[contains(@class,'js-edit-submenu')]";

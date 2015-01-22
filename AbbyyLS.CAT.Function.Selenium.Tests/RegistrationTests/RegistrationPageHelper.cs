@@ -471,16 +471,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		{
 			return WaitUntilDisplayElement(By.XPath(EMAIL_INVALID_MSG));
 		}
-
-		/// <summary>
-		/// Загрузка фото
-		/// </summary>
-		/// <param name="photo"> название файла </param>
-		public void UploadPhoto(string photo)
-		{
-			UploadDocNativeAction(photo);
-		}
-
 		protected const string FIRST_NAME_COMPANY = ".//input[@id='firstname']";
 		protected const string LAST_NAME_COMPANY = ".//input[@id='lastname']";
 		protected const string COMPANY_NAME_COMPANY = ".//input[@id='company']";
