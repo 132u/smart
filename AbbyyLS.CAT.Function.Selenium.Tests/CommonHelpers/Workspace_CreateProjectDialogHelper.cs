@@ -1080,7 +1080,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		protected const string FIRST_GLOSSARY_XPATH =
 			CREATE_PROJECT_DIALOG_XPATH + "//table[contains(@class,'js-glossaries')]//tbody//tr[1]/*/span[contains(@class,'js-chckbx')]";
 		protected const string FIRST_GLOSSARY_NAME_XPATH = "//table[contains(@class,'js-glossaries')]//tbody//tr[1]//td[2]";
-		protected const string GLOSSARY_BY_NAME_XPATH = CREATE_PROJECT_DIALOG_XPATH + "//table[contains(@class,'js-glossaries')]//tbody//tr[contains(string(), '#')]/*/span[contains(@class,'js-chckbx')]";
+		protected const string GLOSSARY_BY_NAME_XPATH = CREATE_PROJECT_DIALOG_XPATH + "//table[contains(@class,'js-glossaries')]//tbody//tr[contains(string(), '#')]/*/span[contains(@class,'js-chckbx')]//input";
 		protected const string GLOSSARY_BY_NAME_TR_XPATH = CREATE_PROJECT_DIALOG_XPATH + "//table[contains(@class,'js-glossaries')]//tbody//tr[contains(string(), '#')]";
 		protected const string CREATE_GLOSSARY_DIALOG_XPATH = "//div[contains(@class,'js-popup-edit-glossary')][2]";
 		protected const string NEW_GLOSSARY_NAME_INPUT_XPATH = CREATE_GLOSSARY_DIALOG_XPATH + "//input[contains(@class,'js-glossary-name')]";
