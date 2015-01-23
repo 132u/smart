@@ -163,12 +163,12 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		}
 
 		/// <summary>
-		/// Дождаться закрытия редактирования термина
+		/// Дождаться добавления редактируемого термина
 		/// </summary>
-		/// <returns>закрылось</returns>
-		public bool WaitUntilEditTermFillDisappear()
+		/// <returns>появился</returns>
+		public bool WaitUntilEditTermAdded(string newTermText)
 		{
-			return WaitUntilDisappearElement(By.XPath(EDIT_TERM_BOX), 30);
+			return WaitUntilDisplayElement(By.XPath(GetNewTermAddedXpath(newTermText)), 30);
 		}
 
 		/// <summary>
@@ -201,11 +201,28 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		}
 
 		/// <summary>
-		/// Кликнуть сохранить при изменении термина
+		/// Кликнуть кнопку добавления термина
 		/// </summary>
 		public void ClickSaveTerm()
 		{
 			ClickElement(By.XPath(SAVE_EDIT_TERM_XPATH));
+		}
+
+		/// <summary>
+		/// Дождаться закрытия формы управления терминами
+		/// </summary>
+		/// <returns>закрылось</returns>
+		public bool WaitUntilEditTermFillDisappear()
+		{
+			return WaitUntilDisappearElement(By.XPath(EDIT_TERM_BOX), 30);
+		}
+
+		/// <summary>
+		/// Кликнуть кнопку Принять термин
+		/// </summary>
+		public void ClickAcceptTerm()
+		{
+			ClickElement(By.XPath(ACCEPT_TERM_XPATH));
 		}
 
 		/// <summary>
@@ -218,7 +235,15 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			return TERM_ROW_XPATH + "[" + rowNumber + "]" + "//td";
 		}
 
-
+		/// <summary>
+		/// Получить xPath элемента с новым добавленным термином
+		/// </summary>
+		/// <param name="rowNumber">номер строки</param>
+		/// <returns>xPath</returns>
+		protected string GetNewTermAddedXpath(string newTermText)
+		{
+			return NEW_TERM_ADDED_XPATH + newTermText + "']";
+		}
 
 		public enum BUTTON_ID { AcceptSuggestTerm, EditSuggestTerm, RejectSuggestTerm };
 
@@ -241,7 +266,9 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		protected const string EDIT_TERM_BOX = "//div[contains(@class,'l-corprtree__langbox')]";
 		protected const string EDITOR_INPUT_XPATH = "//span[contains(@class,'js-term-editor')]//input";
 		protected const string VIEWER_XPATH = "//span[contains(@class,'js-term-viewer')]";
-		protected const string SAVE_EDIT_TERM_XPATH = "//a[contains(@class,'js-save-btn')]";
+		protected const string SAVE_EDIT_TERM_XPATH = "//div[@class ='l-corprtree']/div[1]/div[3]/div[1]/span[3]";
 		protected const string ADD_SYNONYM_XPATH = "//span[contains(@class,'js-add-term')]";
+		protected const string NEW_TERM_ADDED_XPATH = "//div[@class ='l-corprtree']/div[1]/div[3]/div[3]/span/span[contains(@class,'js-text') and text()='";
+		protected const string ACCEPT_TERM_XPATH = "//span[@class = 'js-save-text']";
 	}
 }

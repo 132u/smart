@@ -2,7 +2,7 @@
 using System.Threading;
 using NUnit.Framework;
 
-namespace AbbyyLS.CAT.Function.Selenium.Tests
+namespace AbbyyLS.CAT.Function.Selenium.Tests.Glossary
 {
 	/// <summary>
 	/// Группа тестов для проверки терминов глоссария
@@ -493,8 +493,16 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			// Перейти в другому языку
 			GlossarySuggestPage.ClickEditTermItem(2);
 			GlossarySuggestPage.FillEditTermItem(2, newTermText);
-			// Принять термин
+			//Добавить термин 
 			GlossarySuggestPage.ClickSaveTerm();
+
+			Assert.IsTrue(
+				GlossarySuggestPage.WaitUntilEditTermAdded(newTermText),
+				"Ошибка: предложенный термин не сохранился");
+			
+			//Принять термин
+			GlossarySuggestPage.ClickAcceptTerm();
+			//Дождаться закрытия формы управления терминами
 			GlossarySuggestPage.WaitUntilEditTermFillDisappear();
 			// Перейти в глоссарий
 			SwitchGlossaryFromSuggestedTerm();
@@ -517,15 +525,18 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			
 			// Кликнуть добавить термин во второй язык
 			GlossarySuggestPage.ClickAddSynonymEditTerm(2);
-			GlossarySuggestPage.ClickAddSynonymEditTerm(2);
 			GlossarySuggestPage.FillEditTermItem(2, newTermText);
-			// Принять термин
+			//Добавить термин
 			GlossarySuggestPage.ClickSaveTerm();
 
 			Assert.IsTrue(
-				GlossarySuggestPage.WaitUntilEditTermFillDisappear(), 
+				GlossarySuggestPage.WaitUntilEditTermAdded(newTermText), 
 				"Ошибка: предложенный термин не сохранился");
 
+			//Принять термин
+			GlossarySuggestPage.ClickAcceptTerm();
+			//Дождаться закрытия формы управления терминами
+			GlossarySuggestPage.WaitUntilEditTermFillDisappear();
 			// Перейти в глоссарий
 			SwitchGlossaryFromSuggestedTerm();
 
@@ -575,10 +586,18 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			// Ввести в термин новое значение
 			GlossarySuggestPage.FillEditTermItem(1, newTermText);
 			// Перейти в другому языку
-			GlossarySuggestPage.ClickEditTermItem(2);
+			GlossarySuggestPage.ClickAddSynonymEditTerm(2);
 			GlossarySuggestPage.FillEditTermItem(2, newTermText);
-			// Принять термин
+			//Добавить термин
 			GlossarySuggestPage.ClickSaveTerm();
+
+			Assert.IsTrue(
+				GlossarySuggestPage.WaitUntilEditTermAdded(newTermText),
+				"Ошибка: предложенный термин не сохранился");
+
+			//Принять термин
+			GlossarySuggestPage.ClickAcceptTerm();
+			//Дождаться закрытия формы управления терминами
 			GlossarySuggestPage.WaitUntilEditTermFillDisappear();
 			// Перейти к списку глоссариев
 			SwitchGlossaryTab();
