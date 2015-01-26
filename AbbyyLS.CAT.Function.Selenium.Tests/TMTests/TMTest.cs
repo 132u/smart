@@ -209,21 +209,21 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.TM
 				// Получаем информацию о наличии\отсутствии плашки с предупреждением о том, 
 				// что информация обрабатывается была выведена
 				isProcessingInformationBaloonExist = TMPage.IsBaloonWithSpecificMessageExist(
-					string.Format("Importing translation units to \"{0}\" TM", tmName));
+					string.Format("Adding translation units from the file TMFile2.tmx to the translation memory \"{0}\"...", tmName));
 
 				// Проверяем, что плашка с информацией о количестве загруженных TU была выведена
 				// 20 - количество TU в файле TMFile2.tmx. Пока данный метод используется только в одном тесте, 
 				// поэтому 20 захардкожена.
 				isTUInformationBaloonExist = TMPage.IsBaloonWithSpecificMessageExist(
-					string.Format("20 translation units have been successfully imported into \"{0}\" TM.", tmName));
+					string.Format("20 out of 20 translation units imported from file TMFile2.tmx to the translation memory \"{0}\".", tmName));
 			}
 			else
 			{
 				isProcessingInformationBaloonExist = TMPage.IsBaloonWithSpecificMessageExist(
-					string.Format("Добавление единиц перевода в TM \"{0}\"", tmName));
+					string.Format("Добавление единиц перевода в память переводов \"{0}\" из файла TMFile2.tmx...", tmName));
 
 				isTUInformationBaloonExist = TMPage.IsBaloonWithSpecificMessageExist(
-					string.Format("В TM \"{0}\" успешно добавлено 20 единиц перевода.", tmName));
+					string.Format("Из файла TMFile2.tmx в память переводов \"{0}\" успешно добавлено 20 единиц перевода.", tmName));
 			}
 
 			Assert.IsTrue(isProcessingInformationBaloonExist,
