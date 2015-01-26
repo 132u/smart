@@ -606,6 +606,9 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			// Выходим из редактора
 			EditorClickHomeBtn();
 
+			//Переход на страницу WS 
+			GoToWorkspace();
+
 			// Открываем диалог выбора исполнителя
 			OpenAssignDialog(ProjectName);
 
