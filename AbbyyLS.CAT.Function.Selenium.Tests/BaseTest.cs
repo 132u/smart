@@ -1217,9 +1217,10 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			ProjectPage.WaitImportTMTableDisplay();
 			if (accountType != "TestAccount")
 			{
-				//Проверить, что кнопка Next отсутствует в диалоге импорта документа 
-				Assert.IsFalse(ProjectPage.GetNextBtnImportDialogDisplay(), "Ошибка : Next кнопка отображется в диалоге импорта документа ");
-
+				//Клик по кнопке Next
+				ProjectPage.ClickNextBtn();
+				// Проверка, что следующий шаг не открылся
+				Assert.IsFalse(ProjectPage.GetAssigneeTableDisplay(), "Ошибка : Next кнопка активна(кликабельна) в диалоге импорта документа");
 				// Нажать Finish
 				ProjectPage.ClickFinishImportDialog();
 

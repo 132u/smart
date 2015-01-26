@@ -287,11 +287,11 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			return GetIsElementDisplay(By.XPath(PRETRANSLATE_TITLE_IN_DIALOG_XPATH));
 		}
 		/// <summary>
-		/// Проверить есть ли Next кнопка в диалоге импорта
+		/// Кликнуть Next кнопка в диалоге импорта
 		/// </summary>
-		public bool GetNextBtnImportDialogDisplay()
+		public void ClickNextBtn()
 		{
-			return GetIsElementDisplay(By.XPath(IMPORT_NEXT_BTN_XPATH));
+			ClickElement(By.XPath(IMPORT_NEXT_BTN_XPATH));
 		}
 
 		/// <summary>
@@ -303,6 +303,15 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			return WaitUntilDisplayElement(By.XPath(IMPORT_TM_TABLE_XPATH));
 		}
 
+		/// <summary>
+		/// Проверить отображается ли таблица Assignee в диалоге импорта документа (на странице проект)
+		/// </summary>
+		/// <returns></returns>
+		public bool GetAssigneeTableDisplay()
+		{
+			return GetIsElementDisplay(By.XPath(ASSIGNEE_TABLE));
+		}
+		
 		/// <summary>
 		/// Кликнуть finish
 		/// </summary>
@@ -749,5 +758,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		protected const string TM_PRETRANSLATE_BTN_XPATH = "//span[contains(@class, 'js-dropdown')";
 		protected const string SAVE_PRETRANSLATE_BTN_XPATH = "//div[contains(@class,'pretranslate')][2]//span[contains(@class, 'js-save')]";
 		protected const string RADIO_BTN = "//table[@class='l-corpr__tbl js-tms-popup-table']//td[@class='l-corpr__td l-project-td radio']//input[@type='radio']";
+		protected const string ASSIGNEE_TABLE = ".//div[contains(@class,'js-popup-import-document')][2]//th[text()='Assignee']";
 	}
 }
