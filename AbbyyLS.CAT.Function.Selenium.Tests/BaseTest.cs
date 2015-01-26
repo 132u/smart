@@ -1900,7 +1900,8 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		protected string GetUniqueGlossaryName()
 		{
 			// Получить уникальное имя глоссария (т.к. добавляется точная дата и время, то не надо проверять, есть ли такой глоссарий в списке)
-			return GlossaryName + DateTime.Now;
+			// Явное приведение к строке стоит, чтобы не падал ArgumentOutOfRangeException. (неявное приведение даты иногда не отрабатывает корректно)
+			return GlossaryName + DateTime.Now.ToString();
 		}
 
 		/// <summary>

@@ -4,7 +4,7 @@ using NUnit.Framework;
 using System.Collections.Generic;
 using NLog;
 
-namespace AbbyyLS.CAT.Function.Selenium.Tests
+namespace AbbyyLS.CAT.Function.Selenium.Tests.Glossary
 {
 	/// <summary>
 	/// Группа тестов для общей проверки глоссриев
@@ -598,7 +598,8 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			// Создать дату в стандартном формате
 			var resDate = DateTime.Parse(day + "." + month + "." + year);
 			Logger.Trace("время в таблице resDate = " + resDate);
-			Logger.Trace("время создания глоссари curDay.Date = " + curDay.Date);
+			// Явное приведение к строке стоит, чтобы не падал ArgumentOutOfRangeException. (неявное приведение даты иногда не отрабатывает корректно)
+			Logger.Trace("время создания глоссари curDay.Date = " + curDay.Date.ToString());
 			Logger.Trace("сегодняшняя дата если тест проходит в полночь DateTime.Today.Date = " + DateTime.Today.Date);
 			// Сравнить с текущей датой или с сегодня (если тест проходит в полночь)
 			return curDay.Date == resDate || DateTime.Today.Date == resDate;
