@@ -657,7 +657,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		protected const string DOCUMENT_SETTINGS_BTN_XPATH = DOCUMENT_INFO_XPATH + "//span[contains(@class,'js-settings-btn')]";
 		protected const string DISABLED_BTN_CLASS = "disable";
 
-		protected const string EXPORT_TYPE_REF_BEGINING = "//div[contains(@class,'js-export-submenu-list') and not(contains(@class,'g-hidden'))]//div[contains(@data-download-type,'";
+		protected const string EXPORT_TYPE_REF_BEGINING = "//div[contains(@class,'js-export-submenu-list') and not(contains(@class,'g-hidden'))]//div[contains(@data-bind,'";
 		protected const string EXPORT_TYPE_NAME_ORIGINAL = "Source";
 		protected const string EXPORT_TYPE_NAME_TMX = "Tmx";
 		protected const string EXPORT_TYPE_NAME_TRANSLATED = "Target";
