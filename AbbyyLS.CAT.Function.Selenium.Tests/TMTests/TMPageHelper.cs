@@ -723,7 +723,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.TM
 		/// </summary>
 		public void SelectSourceLanguageTmFilter(LANGUAGE language)
 		{
-			ClickElement(By.XPath("//input[contains(@id, 'ui-multiselect-SourceLanguages-option-" + languageID[language] + "')]"));
+			ClickElement(By.XPath("//input[contains(@name, 'multiselect_SourceLanguages') and contains(@title, '" + language + "')]"));
 		}
 
 		/// <summary>
@@ -731,7 +731,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.TM
 		/// </summary>
 		public void SelectTargetLanguageTmFilter(LANGUAGE language)
 		{
-			ClickElement(By.XPath("//input[contains(@id, 'ui-multiselect-TargetLanguages-option-" + languageID[language] + "')]"));
+			ClickElement(By.XPath("//input[contains(@name, 'multiselect_TargetLanguages') and contains(@title, '" + language + "')]"));
 		}
 
 		/// <summary>

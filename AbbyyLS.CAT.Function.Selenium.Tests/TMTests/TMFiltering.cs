@@ -111,7 +111,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.TMTests
 		public void TmFiltrationTwoTargetLanguage()
 		{
 			CreateNewTmFilter(() => CreateTargetLanguageFilter(CommonHelper.LANGUAGE.German));
-			CreateNewTmFilter(() => CreateSourceLanguageFilter(CommonHelper.LANGUAGE.English), clearFilters: false);
+			CreateNewTmFilter(() => CreateTargetLanguageFilter(CommonHelper.LANGUAGE.English), clearFilters: false);
 
 			Assert.IsTrue(
 				GetIsExistTM(TMForFilteringName_1),
