@@ -188,6 +188,11 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 
 			// Добавить термин
 			AddTermForm.ClickAddSingleTerm();
+
+			// Если появилось сообщение 'Do you want to add the term anyway?', кликнуть Yes
+			if (AddTermForm.WaitAnyWayTermMessage())
+				AddTermForm.CliCkYesBtnInAnyWayTermMessage();
+
 			Assert.IsTrue(
 				AddTermForm.WaitTermSavedMessage(),
 				"Ошибка: Не было сообщения о сохранении термина.");
@@ -612,7 +617,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			// Открытие проекта
 			WorkspacePage.OpenProjectPage(projectNoChangesName);
 			// Открытие документа
-			ProjectPage.OpenDocument(1);
+			OpenDocument();
 			Thread.Sleep(500);
 			// Открытие формы
 			openAddTermForm();

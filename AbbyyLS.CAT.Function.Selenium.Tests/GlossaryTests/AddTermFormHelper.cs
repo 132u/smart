@@ -151,6 +151,22 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		}
 
 		/// <summary>
+		/// Получить, появилось ли сообщение 'Do you want to add the term anyway?'
+		/// </summary>
+		/// <returns></returns>
+		public bool WaitAnyWayTermMessage()
+		{
+			return WaitUntilDisplayElement(By.XPath(CONFIRM_ANYWAY_ADD_TERM_MESSAGE_XPATH), 5);
+		}
+
+		/// <summary>
+		/// Кликнуть Yes в сообщении 'Do you want to add the term anyway?'
+		/// </summary>
+		public void CliCkYesBtnInAnyWayTermMessage()
+		{
+			ClickElement(By.XPath(YES_BTN_XPATH));
+		}
+		/// <summary>
 		/// Получить, появилось ли сообщение о сохранении термина	 
 		/// </summary>
 		/// <returns>есть</returns>
@@ -187,5 +203,9 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		protected const string TERM_SAVED_MESSAGE_XPATH = "//div[contains(@id, 'messagebox') and contains(string(), 'The term has been saved')]";
 		protected const string CONTAINS_TERM_MESSAGE_XPATH = "//div[contains(@id, 'messagebox') and contains(string(), 'This glossary already contains term(s)')]";
 		protected const string CONFIRM_SINGLE_TERM_MESSAGE_XPATH = "//div[contains(@id, 'messagebox') and contains(string(), 'Do you want to add a term without translation?')]";
+		protected const string CONFIRM_ANYWAY_ADD_TERM_MESSAGE_XPATH = "//div[@id= 'messagebox' and contains(string(), 'Do you want to add the term anyway?')]";
+		protected const string YES_BTN_XPATH = "//div[@id= 'messagebox' and contains(string(), 'Do you want to add the term anyway?')]//span[text()='Yes']";
+
 	}
+
 }
