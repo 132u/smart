@@ -11,5 +11,8 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		[DataMember(Name = "Workspace")]
 		public string Workspace { get; set; }
 
+		[DataMember(Name = "Standalone")]
+		public bool Standalone { get; set; }
+
 	}
 }

@@ -15,6 +15,15 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 
 		}
 
+		[SetUp]
+		public void SetUp()
+		{
+			if (Standalone)
+			{
+				Assert.Ignore("Тест игнорируется, так как это отделяемое решение");
+			}
+		}
+
 		/// <summary>
 		/// Добавить пользователя в аккаунт
 		/// </summary>

@@ -50,11 +50,12 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 				TestFile = new TestFile(cfgRoot);
 				PathTestFiles = cfgRoot.Root;
 
-				createDriver();
+				
 				CreateUniqueNamesByDatetime();
 				initializeRelatedToServerFields(cfgAgentSpecific);
 				initializeRelatedToUserFields(cfgUserInfo);
 				initializeUsersAndCompanyList();
+				createDriver();
 			}
 			catch (Exception ex)
 			{
@@ -71,7 +72,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		protected string Url { get; private set; }
 
 		protected string WorkspaceUrl { get; private set; }
-		
+		protected bool Standalone { get; private set; }
 		protected string AdminUrl { get; private set; }
 
 		protected string Login { get; private set; }
@@ -333,6 +334,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 					_profile.SetPreference("browser.download.dir", PathTestResults);
 					_profile.SetPreference("browser.download.folderList", 2);
 					_profile.SetPreference("browser.download.useDownloadDir", false);
+					_profile.SetPreference("network.automatic-ntlm-auth.trusted-uris", Url);
 					//_profile.SetPreference("browser.download.manager.showWhenStarting", false);
 					_profile.SetPreference("browser.helperApps.alwaysAsk.force", false);
 					_profile.SetPreference
@@ -561,45 +563,54 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 				authPassword = Password2;
 			}
 
-			// Перейти на стартовую страницу
-			Driver.Navigate().GoToUrl(Url + "/sign-in");
-
-			if (Driver.Url.Contains("pro"))
+			if (Standalone)
 			{
-				// Проверить, загрузилась ли
-				Assert.IsTrue(LoginPage.WaitPageLoadLpro(),
-					"Не прогрузилась страница Login - возможно, сайт недоступен");
-
-				// Заполнить логин и пароль
-				LoginPage.EnterLoginLpro(authLogin);
-				LoginPage.EnterPasswordLpro(authPassword);
-				Thread.Sleep(1000);
-				LoginPage.ClickSubmitLpro();
+				// Перейти на стартовую страницу
+				Driver.Navigate().GoToUrl(Url);
 			}
 			else
 			{
-				// Проверить, загрузилась ли
-				Assert.IsTrue(LoginPage.WaitPageLoad(),
-					"Не прогрузилась страница Login - возможно, сайт недоступен");
-				// Заполнить логин и пароль
-				LoginPage.EnterLogin(authLogin);
-				LoginPage.EnterPassword(authPassword);
-				LoginPage.ClickSubmitCredentials();
+				// Перейти на стартовую страницу
+				Driver.Navigate().GoToUrl(Url + "/sign-in");
 
-				// Проверить, появился ли список аккаунтов
-				if (LoginPage.WaitAccountExist(accountName, waitmax: 8))
+				if (Driver.Url.Contains("pro"))
 				{
-					// Выбрать аккаунт
-					LoginPage.ClickAccountName(accountName);
-					// Зайти на сайт
-					//LoginPage.ClickSubmitAccount();
+					// Проверить, загрузилась ли
+					Assert.IsTrue(LoginPage.WaitPageLoadLpro(),
+						"Не прогрузилась страница Login - возможно, сайт недоступен");
+
+					// Заполнить логин и пароль
+					LoginPage.EnterLoginLpro(authLogin);
+					LoginPage.EnterPasswordLpro(authPassword);
+					Thread.Sleep(1000);
+					LoginPage.ClickSubmitLpro();
 				}
-				else if (LoginPage.GetIsErrorExist())
+				else
 				{
-					Assert.Fail("Появилась ошибка при входе! М.б.недоступен AOL.");
+					// Проверить, загрузилась ли
+					Assert.IsTrue(LoginPage.WaitPageLoad(),
+						"Не прогрузилась страница Login - возможно, сайт недоступен");
+					// Заполнить логин и пароль
+					LoginPage.EnterLogin(authLogin);
+					LoginPage.EnterPassword(authPassword);
+					LoginPage.ClickSubmitCredentials();
+
+					// Проверить, появился ли список аккаунтов
+					if (LoginPage.WaitAccountExist(accountName, waitmax: 8))
+					{
+						// Выбрать аккаунт
+						LoginPage.ClickAccountName(accountName);
+						// Зайти на сайт
+						//LoginPage.ClickSubmitAccount();
+					}
+					else if (LoginPage.GetIsErrorExist())
+					{
+						Assert.Fail("Появилась ошибка при входе! М.б.недоступен AOL.");
+					}
+					// иначе у пользователя только 1 аккаунт
 				}
-				// иначе у пользователя только 1 аккаунт
 			}
+
 			// Изменили язык на Английский
 			Assert.IsTrue(
 				WorkspacePage.WaitAppearLocaleBtn(), 
@@ -912,8 +923,8 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			FirstStepProjectWizard(projectName);
 			if (downloadFile.Length > 0)
 			{
-				WorkspaceCreateProjectDialog.UploadFileToNewProject(downloadFile);
-				WorkspaceCreateProjectDialog.WaitDocumentAppear(Path.GetFileName(downloadFile));
+					WorkspaceCreateProjectDialog.UploadFileToNewProject(downloadFile);
+					WorkspaceCreateProjectDialog.WaitDocumentAppear(Path.GetFileName(downloadFile));
 			}
 			WorkspaceCreateProjectDialog.ClickNextStep();
 
@@ -967,8 +978,8 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			WorkspaceCreateProjectDialog.ClickNextStep();
 
 			//4 шаг - выбор МТ
-			if (chooseMT && mtType != Workspace_CreateProjectDialogHelper.MT_TYPE.None)
-			{
+			if (!Standalone && (chooseMT && mtType != Workspace_CreateProjectDialogHelper.MT_TYPE.None))
+ 			{
 				WorkspaceCreateProjectDialog.ChooseMT(mtType);
 			}
 
@@ -2202,15 +2213,23 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 
 		private void initializeRelatedToServerFields(TargetServerConfig cfgAgentSpecific)
 		{
-			Url = "https://" + cfgAgentSpecific.Url;
 			WorkspaceUrl = cfgAgentSpecific.Workspace;
-
+			Standalone = cfgAgentSpecific.Standalone;
+			if (Standalone)
+			{
+				Url = cfgAgentSpecific.Url;
+			}
+			else
+			{
+				Url = "https://" + cfgAgentSpecific.Url;
+			}
+			
 			if (string.IsNullOrWhiteSpace(WorkspaceUrl))
 			{
-				WorkspaceUrl = "https://" + cfgAgentSpecific.Url + "/workspace";
+				WorkspaceUrl = Url + "/workspace";
 			}
 
-			AdminUrl = "http://" + cfgAgentSpecific.Url + ":81";
+			AdminUrl = cfgAgentSpecific.Url + ":81";
 		}
 
 		private void initializeRelatedToUserFields(UserInfoConfig cfgUserInfo)

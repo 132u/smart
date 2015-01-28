@@ -109,6 +109,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		[Test]
 		public void LocaleCurrency(bool upgrade, string currency, WorkSpacePageHelper.LOCALE_LANGUAGE_SELECT language, string sign)
 		{
+
 			LoginToAdminPage();
 			// Создем корп аккаунт и авторизуемся на сайте
 			string accountName = CreateCorpAccount("", true);

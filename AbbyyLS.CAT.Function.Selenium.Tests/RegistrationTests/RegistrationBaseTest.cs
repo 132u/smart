@@ -19,6 +19,15 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.RegistrationTests
 
 		}
 
+		[SetUp]
+		public void SetUp()
+		{
+			if (Standalone)
+			{
+				Assert.Ignore("Тест игнорируется, так как это отделяемое решение");
+			}
+		}
+
 		/// <summary>
 		/// Метод регистрации нового фрилансера
 		/// </summary>
