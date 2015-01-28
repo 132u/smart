@@ -155,7 +155,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <param name="segmentNumber">номер строки</param>
 		public void UndoByHotkey(int segmentNumber)
 		{
-			SendKeysTarget(segmentNumber, OpenQA.Selenium.Keys.Control + OpenQA.Selenium.Keys.Control + "z");
+			SendKeysTarget(segmentNumber, OpenQA.Selenium.Keys.Control + "z");
 		}
 
 		/// <summary>

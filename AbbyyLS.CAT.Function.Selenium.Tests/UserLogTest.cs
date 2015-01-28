@@ -105,7 +105,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 
 			var TMNumber = EditorPage.GetCATTranslationRowNumber(CatType);
 			Console.WriteLine("TMNumber: " + TMNumber);
-
 			if (useHotkey)
 			{
 				//Нажать хоткей для подстановки из TM перевода сегмента
@@ -461,20 +460,8 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			WriteLog(segmentNumber, "Переход в target", "Клик мыши", "-");
 			// Пишем в лог
 			WriteLog(segmentNumber, "Нажатие хоткея Undo", "Ctrl + Z", "-");
-			// Проверить, что 4 сегмент пуст
-			Assert.IsTrue(EditorPage.GetTargetText(segmentNumber) == "", "Ошибка: после хоткея отмены текст в 4 сегменте не удалился");
-
-			// Нажать хоткей отмены
-			Console.WriteLine("Нажать хоткей отмены");
-			segmentNumber = 3;
-			EditorPage.UndoByHotkey(segmentNumber);
-			// Пишем в лог
-			WriteLog(segmentNumber, "Переход в target", "Клик мыши", "-");
-			// Пишем в лог
-			WriteLog(segmentNumber, "Нажатие хоткея Undo", "Ctrl + Z", "-");
-			// Проверить, что 3 сегмент пуст
-			Assert.IsTrue(EditorPage.GetTargetText(segmentNumber) == "", "Ошибка: после хоткея отмены текст в 3 сегменте не удалился");
-
+			// Проверить, что последняя буква в 4 сегменте удалилась
+			Assert.IsTrue(EditorPage.GetTargetText(segmentNumber) == "Test for 4th segmen", "Ошибка: после хоткея отмены последняя буква в 4 сегменте не удалилась");
 			// Нажать хоткей восстановления
 			Console.WriteLine("Нажать хоткей восстановления");
 			EditorPage.RedoByHotkey(segmentNumber);
@@ -482,17 +469,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			WriteLog(segmentNumber, "Переход в target", "Клик мыши", "-");
 			// Пишем в лог
 			WriteLog(segmentNumber, "Нажатие хоткея Redo", "Ctrl + Y", "-");
-
-			segmentNumber = 5;
-			EditorPage.ClickTargetCell(segmentNumber);
-			// Пишем в лог
-			WriteLog(segmentNumber, "Переход в target", "Клик мыши", "-");
-
-			// Проверить, что 3 сегмент не пуст
-			Assert.AreEqual(
-				text3Segment, 
-				EditorPage.GetTargetText(3),
-				"Ошибка: после хоткея возврата текст в 3 сегменте не появился");
+			Assert.IsTrue(EditorPage.GetTargetText(segmentNumber) == "Test for 4th segment", "Ошибка: после хоткея восстановления последняя буква в 4 сегменте не восстановилась");
 			
 			// Дождаться автосохранения
 			AutoSave();
@@ -670,17 +647,17 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			// Проверяем подстановку САТ 1-го сегмента
 			PasteFromCAT(
 				segmentNumber: 1,
-				CatType: EditorPageHelper.CAT_TYPE.MT,
+				CatType: EditorPageHelper.CAT_TYPE.TM,
 				useHotkey: false);
 			// Проверяем подстановку САТ 2-го сегмента
 			PasteFromCAT(
 				segmentNumber: 2,
-				CatType: EditorPageHelper.CAT_TYPE.MT,
+				CatType: EditorPageHelper.CAT_TYPE.TM,
 				useHotkey: false);
 			// Проверяем подстановку САТ 4-го сегмента
 			PasteFromCAT(
 				segmentNumber: 4,
-				CatType: EditorPageHelper.CAT_TYPE.MT,
+				CatType: EditorPageHelper.CAT_TYPE.TM,
 				useHotkey: false);
 			// Нажать кнопку назад
 			EditorClickHomeBtn();
@@ -1080,6 +1057,8 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 				chooseGlossary: true,
 				glossaryName: uniqueGlossaryName);
 			WriteLog(0, "Открытие документа", "-", "-");
+
+			Thread.Sleep(2000);// Слип не убирать! без него не работает
 			// Проверяем подстановку TB из САТ в 1-ый сегмент
 			PasteFromCAT(1, EditorPageHelper.CAT_TYPE.TB, false);
 

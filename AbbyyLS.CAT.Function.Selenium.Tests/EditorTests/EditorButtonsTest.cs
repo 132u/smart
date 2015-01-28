@@ -190,7 +190,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			Assert.AreEqual(textundo, targetxt, "Ошибка: после Undo в Target не убрана одна буква");
 
 			// Нажать хоткей возврата отмененного действия
-			EditorPage.UndoByHotkey(segmentNumber);
+			EditorPage.RedoByHotkey(segmentNumber);
 
 			// Убедиться, что в текст соответствует введенному
 			targetxt = EditorPage.GetTargetText(segmentNumber);

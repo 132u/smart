@@ -4,11 +4,11 @@ using System.Linq;
 using System.Threading;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.UI;
-using AbbyyLS.CAT.Function.Selenium.Tests.CommonHelpers;
+using NUnit.Framework;
 
 namespace AbbyyLS.CAT.Function.Selenium.Tests
 {
-
+	
 	/// <summary>
 	/// Хелпер страницы проекта
 	/// </summary>
@@ -496,7 +496,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 				if (glossaryList[i].Text.Contains(nameGlossary))
 				{
 					// Включаем требуемый глоссарий
-					ClickElement(By.XPath(GLOSSARY_LIST_XPATH + "[" + (i + 1) + "]//td[1]"));
+					ClickElement(By.XPath(GLOSSARY_LIST_XPATH + "[" + (i + 1) + "]//td[1]//input"));
 					Thread.Sleep(1000);
 					ClickElement(By.XPath(EDIT_GLOSSARY_SAVE_BTN_XPATH));
 					Thread.Sleep(1000);
