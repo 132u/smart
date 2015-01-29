@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading;
 using NUnit.Framework;
+using System.Text;
 
 namespace AbbyyLS.CAT.Function.Selenium.Tests
 {
@@ -152,13 +153,8 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		[Test]
 		public void CreateProjectLimitNameTest()
 		{
-			var limitName = ProjectName + "1234567890123456789012345678901234567890123456789012345678901234567890";
-
-			// Проверить, что создалось имя максимальной длины
-			Assert.IsTrue(
-				limitName.Length == 100, 
-				"Измените тест: длина имени должна быть ровно 100");
-
+			//создаём имя, длинна которого равна 100 символам
+			var limitName = GenerateMaxLengthNameForProject(ProjectName, 100);
 			// Создать проект с максимальным возможным именем
 			CreateProject(limitName);
 			// Проверить, что проект создался
@@ -830,6 +826,27 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			{
 				setDriverTimeoutDefault();
 			}
+		}
+
+		/// <summary>
+		/// На основе стандартного имени проекта генерирует имя, длинна которого равна maxLength символов.
+		/// </summary>
+		/// <param name="projectName"> имя проекта </param>
+		/// /// <param name="maxLength"> длина возвращаемой строки </param>
+		public string GenerateMaxLengthNameForProject(string projectName, int maxLength)
+		{
+			int increment = maxLength - projectName.Length;
+			if (projectName.Length >= maxLength)
+				return projectName.Substring(0, maxLength);
+
+			var maxLengthProjectName = new StringBuilder(projectName);
+			var rand = new Random();
+			for (int i = 0; i < maxLength - projectName.Length; i++)
+			{
+				maxLengthProjectName.Append(rand.Next(9));
+			}
+
+			return maxLengthProjectName.ToString();
 		}
 	}
 }

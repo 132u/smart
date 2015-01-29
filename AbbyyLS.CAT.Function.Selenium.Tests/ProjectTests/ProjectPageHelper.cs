@@ -683,6 +683,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		{
 			UploadDocNativeAction(fileName);
 		}
+
 		protected const string ADD_FILE_ON_PROJECT_PAGE = "html/body/div[14]/div[2]/div[2]/div[1]/div[1]/div/div[2]/div[5]/input"; // добавление документа уже сущестующему проекту на стр проекта
 
 		protected const string PROJECT_TABLE_XPATH = "//table[contains(@class,'l-project-panel-tbl')]";
