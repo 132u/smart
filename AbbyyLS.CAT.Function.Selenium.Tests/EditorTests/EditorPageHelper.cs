@@ -854,7 +854,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		public void AddWordDictionary(string word)
 		{
 			SendTextElement(By.XPath(INPUT_WORD_XPATH), word);
-			SendKeys.SendWait(@"{Enter}");
+			ClickElement(By.XPath(DICTIONARY_FORM_XPATH));
 		}
 
 		/// <summary>
