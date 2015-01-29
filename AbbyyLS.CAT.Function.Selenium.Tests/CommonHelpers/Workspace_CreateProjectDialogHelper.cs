@@ -332,7 +332,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// </summary>
 		public void ClickFirstGlossaryInTable()
 		{
-			ClickElement(By.XPath(FIRST_GLOSSARY_XPATH));
+			ClickElement(By.XPath(FIRST_GLOSSARY_INPUT_XPATH));
 		}
 
 		/// <summary>
@@ -387,6 +387,8 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		public void ClickBackBtn()
 		{
 			ClickElement(By.XPath(BACK_BTN_XPATH));
+			//даём форме время обновиться, иначе может произойти клик по кнопке Next до реакции на кнопку Back.
+			Thread.Sleep(1000);
 		}
 
 		/// <summary>
@@ -501,7 +503,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <returns>отмечен</returns>
 		public bool GetIsFirstGlossaryChecked()
 		{
-			return GetIsInputChecked(By.XPath(FIRST_GLOSSARY_XPATH + "//input"));
+			return GetIsInputChecked(By.XPath(FIRST_GLOSSARY_INPUT_XPATH));
 		}
 
 		/// <summary>
@@ -1079,6 +1081,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 
 		protected const string FIRST_GLOSSARY_XPATH =
 			CREATE_PROJECT_DIALOG_XPATH + "//table[contains(@class,'js-glossaries')]//tbody//tr[1]/*/span[contains(@class,'js-chckbx')]";
+		protected const string FIRST_GLOSSARY_INPUT_XPATH = FIRST_GLOSSARY_XPATH + "//input";
 		protected const string FIRST_GLOSSARY_NAME_XPATH = "//table[contains(@class,'js-glossaries')]//tbody//tr[1]//td[2]";
 		protected const string GLOSSARY_BY_NAME_XPATH = CREATE_PROJECT_DIALOG_XPATH + "//table[contains(@class,'js-glossaries')]//tbody//tr[contains(string(), '#')]/*/span[contains(@class,'js-chckbx')]//input";
 		protected const string GLOSSARY_BY_NAME_TR_XPATH = CREATE_PROJECT_DIALOG_XPATH + "//table[contains(@class,'js-glossaries')]//tbody//tr[contains(string(), '#')]";

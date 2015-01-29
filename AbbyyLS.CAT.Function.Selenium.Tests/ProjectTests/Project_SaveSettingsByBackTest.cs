@@ -290,17 +290,9 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			// Значение Stage
 			var resultStage = WorkspaceCreateProjectDialog.GetCurrentStage();
 
-			var isError = false;
-			var errorMessage = "Ошибка: при возврате на шаг с выбором Stage не сохранились настройки:\n";
-
-			if (!resultStage.Contains(stageText))
-			{
-				isError = true;
-				errorMessage += "- stage не сохранился\n";
-			}
-
-			// Проверить ошибки
-			Assert.IsFalse(isError, errorMessage);
+			//Проверить ошибки.
+			Assert.AreEqual(stageText, resultStage.Trim(),
+				"Ошибка: при возврате на шаг с выбором Stage не сохранились настройки:\n - stage не сохранился\n");
 		}
 
 
@@ -342,17 +334,9 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			// Значение checkbox у глоссария
 			var isFirstGlossaryCheck = WorkspaceCreateProjectDialog.GetIsFirstGlossaryChecked();
 
-			var isError = false;
-			var errorMessage = "Ошибка: при возврате на шаг с выбором глоссария не сохранились настройки:\n";
-
-			if (!isFirstGlossaryCheck)
-			{
-				isError = true;
-				errorMessage += "- checkbox выбора глоссария не сохранился\n";
-			}
-
-			// Проверить ошибки
-			Assert.IsFalse(isError, errorMessage);
+			//Проверяем,что чекбокс чекнут
+			Assert.IsTrue(isFirstGlossaryCheck,
+				"Ошибка: при возврате на шаг с выбором глоссария не сохранились настройки:\n- checkbox выбора глоссария не сохранился\n");
 		}
 
 		/// <summary>
