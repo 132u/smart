@@ -73,8 +73,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// </summary>
 		public void OpenCreateAccountForm()
 		{
-			LoginToAdminPage();
-
 			// Зайти в корпоративные аккаунты
 			SwitchEnterpriseAccountList();
 

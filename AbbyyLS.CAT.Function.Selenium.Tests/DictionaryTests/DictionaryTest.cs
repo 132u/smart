@@ -29,6 +29,13 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			}
 		}
 
+		[SetUp]
+		public void Setup()
+		{
+			LoginToAdminPage();
+			CreateDictionaryPackIfItNotExist();
+		}
+
 		/// <summary>
 		/// Тест: проверка перевода со словарями
 		/// </summary>
@@ -418,6 +425,67 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			return AdminPage.GetListOfDictionaries();
 		}
 
+		/// <summary>
+		/// Создать общедоступный пакет словарей если он не существует
+		/// </summary>
+		protected void CreateDictionaryPackIfItNotExist()
+		{
+			AdminPage.GotoDictionaryPackPage();
+
+			if (!AdminPage.IsRequiredDictionaryPackExist(DictionaryPackName))
+			{
+				AdminPage.GoToDictionaryPackCreationPage();
+				AdminPage.AddDictionaryPackName(DictionaryPackName);
+				AdminPage.MakePublicDictionatyPack();
+				AdminPage.AddDictionariesToPack(PublicDictionaryList);
+				AdminPage.CreateDictionaryPack();
+			}
+		}
+
 		private const string DictionaryPackName = "Общедоступные";
+		private static readonly List<string> PublicDictionaryList = new List<string>
+		{
+			"Economics (De-Ru)", 
+			"Economics (Ru-De)",
+			"Explanatory (Uk-Uk)",
+			"ForumDictionaryEn-Ru",
+			"ForumDictionaryGe-Ru",
+			"Law (De-Ru)",
+			"Law (En-Ru)",
+			"Law (Fr-Ru)",
+			"Law (Ru-De)",
+			"Law (Ru-En)",
+			"Law (Ru-Fr)",
+			"LingvoComputer (En-Ru)",
+			"LingvoComputer (Ru-En)",
+			"LingvoEconomics (En-Ru)",
+			"LingvoEconomics (Ru-En)",
+			"LingvoScience (En-Ru)",
+			"LingvoScience (Ru-En)",
+			"LingvoThesaurus (Ru-Ru)",
+			"LingvoUniversal (En-Ru)",
+			"Marketing (En-Ru)",
+			"Medical (De-Ru)",
+			"Medical (En-Ru)",
+			"Medical (Ru-De)",
+			"Medical (Ru-En)",
+			"Polytechnical (It-Ru)",
+			"Polytechnical (Ru-It)",
+			"Pronouncing (Uk-Uk)",
+			"Universal (De-Ru)",
+			"Universal (En-Uk)",
+			"Universal (Es-Ru)",
+			"Universal (Fr-Ru)",
+			"Universal (It-Ru)",
+			"Universal (La-Ru)",
+			"Universal (Ru-De)",
+			"Universal (Ru-En)",
+			"Universal (Ru-Es)",
+			"Universal (Ru-Fr)",
+			"Universal (Ru-It)",
+			"Universal (Ru-Uk)",
+			"Universal (Uk-En)",
+			"Universal (Uk-Ru)"
+		};
 	}
 }

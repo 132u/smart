@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.UI;
@@ -513,6 +514,21 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		}
 
 		/// <summary>
+		/// Проверить, существует ли требуемый пакет словарей в списке
+		/// </summary>
+		public bool IsRequiredDictionaryPackExist(string packName)
+		{
+			if (!GetIsElementExist(By.XPath(DICTIONARIES_TABLE_XPATH)))
+			{
+				return false;
+			}
+
+			return GetElementList(By.XPath(PATH_TO_LIST_OF_DICTIONARIES_NAMES))
+				.Select(item => item.Text)
+				.Any(item => item == packName);
+		}
+
+		/// <summary>
 		/// Перейти на стриницу со списком словарей
 		/// </summary>
 		public void SelectDictionaryPack(string packName)
@@ -532,6 +548,50 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			return GetTextListElement(By.XPath(PATH_TO_LIST_OF_DICTIONARIES));
 		}
 
+		/// <summary>
+		/// Перейти на страницу создания пакета словарей
+		/// </summary>
+		public void GoToDictionaryPackCreationPage()
+		{
+			ClickElement(By.XPath(CREATE_DICTIONARY_PACK_MENU));
+		}
+
+		/// <summary>
+		/// Ввети имя пакета словарей
+		/// </summary>
+		public void AddDictionaryPackName(string dictionaryPackName)
+		{
+			ClickClearAndAddText(By.XPath(DICTIONARY_PACK_NAME), dictionaryPackName);
+		}
+
+		/// <summary>
+		/// Сделать пакет словарей общедоступным
+		/// </summary>
+		public void MakePublicDictionatyPack()
+		{
+			ClickElement(By.XPath(PUBLIC_DICTIONARY_CHECKBOX));
+		}
+
+		/// <summary>
+		/// Выбрать словари для пакета
+		/// </summary>
+		public void AddDictionariesToPack(List<string> dictionariesList)
+		{
+			dictionariesList.ForEach(item =>
+			{
+				ClickElement(By.XPath("//select[@id='left']//option[text()='" + item + "']"));
+				ClickElement(By.XPath(ADD_DICTIONARY_TO_PACK));
+			});
+		}
+
+		/// <summary>
+		/// Сохранить пакет словарей
+		/// </summary>
+		public void CreateDictionaryPack()
+		{
+			ClickElement(By.XPath(CREATE_DICTIONARY_PACK_BUTTON));
+		}
+
 		protected const string LOGIN_FORM_XPATH = "//form[contains(@action,'/Home/Login')]";
 		protected const string LOGIN_FORM_LOGIN_XPATH = "//input[@name='email']";
 		protected const string LOGIN_FORM_PASSWORD_XPATH = "//input[@name='password']";
@@ -546,10 +606,11 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		protected const string ADD_USER_BTN_ID = "addUsersBtn";
 		protected const string DICTIONARY_DEADLINE_DATE_ID = "DictionariesExpirationDate";
 		protected const string DEADLINE_DATE_ID = "ExpirationDate";
+		protected const string DICTIONARIES_TABLE_XPATH = "//table[contains(@class, 'js-sortable-table__activated')]";
 		protected const string DICTIONARY_PAGE_PACK_LINK = "//a[contains(@href,'/DictionariesPackages')]";
 		protected const string PATH_TO_LIST_OF_DICTIONARIES = "//table[contains(@name, 'dictionaries')]//select[contains(@id, 'right')]//option";
 		protected const string PATH_TO_LIST_OF_DICTIONARIES_NAMES =
-			"//table[contains(@class, 'js-sortable-table__activated')]//tbody//tr[contains(@class, 'b-alternate')]//td//a";
+			"//table[contains(@class, 'js-sortable-table__activated')]//tbody//tr//td//a";
 
 		protected const string TABLE_FEATURES_XPATH = "//table[@name='Features']";
 		protected const string TABLE_DICTIONARIES_XPATH = "//table[@name='dictionariesPackages']";
@@ -593,5 +654,11 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		protected const string CALENDAR = "//div[@id='ui-datepicker-div']";
 		protected const string SELCTED_YEAR = "//select[@class='ui-datepicker-year']/option[@value='";
 		protected const string SELCTED_DAY = "//table[@class='ui-datepicker-calendar']//tbody//td//a[";
+
+		protected const string CREATE_DICTIONARY_PACK_MENU = "//a[contains(@href, '/DictionariesPackages/New')]";
+		protected const string DICTIONARY_PACK_NAME = "//input[@id='packageSystemName']";
+		protected const string PUBLIC_DICTIONARY_CHECKBOX = "//input[@id='isPublic']";
+		protected const string ADD_DICTIONARY_TO_PACK = "//input[@name='toRight']";
+		protected const string CREATE_DICTIONARY_PACK_BUTTON = "//input[@data-ref='frmCreatePackage']";
 	}
 }
