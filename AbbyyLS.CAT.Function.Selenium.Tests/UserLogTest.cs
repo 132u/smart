@@ -104,7 +104,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			Assert.IsTrue(EditorPage.GetCATPanelNotEmpty(), "Ошибка: панель CAT пуста");
 
 			var TMNumber = EditorPage.GetCATTranslationRowNumber(CatType);
-			Console.WriteLine("TMNumber: " + TMNumber);
+			Logger.Trace("TMNumber: " + TMNumber);
 			if (useHotkey)
 			{
 				//Нажать хоткей для подстановки из TM перевода сегмента
@@ -434,7 +434,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			Assert.AreEqual(EditorPage.GetSourceText(segmentNumber), EditorPage.GetTargetText(segmentNumber), "Ошибка: после redo текст в target не восстановился");
 
 			// Написать текст в третьем сегменте
-			Console.WriteLine("Написать текст в третьем сегменте");
+			Logger.Trace("Написать текст в третьем сегменте");
 			segmentNumber = 3;
 			string text3Segment = "Test for 3d segment";
 			EditorPage.AddTextTarget(segmentNumber, text3Segment);
@@ -444,7 +444,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			WriteLog(segmentNumber, "Добавление текста", "Клавиатура", text3Segment);
 
 			// Написать текст в 4 сегменте
-			Console.WriteLine("Написать текст в 4 сегменте");
+			Logger.Trace("Написать текст в 4 сегменте");
 			segmentNumber = 4;
 			string text4Segment = "Test for 4th segment";
 			EditorPage.AddTextTarget(segmentNumber, text4Segment);
@@ -454,7 +454,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			WriteLog(segmentNumber, "Добавление текста", "Клавиатура", text4Segment);
 
 			// Нажать хоткей отмены
-			Console.WriteLine("Нажать хоткей отмены");
+			Logger.Trace("Нажать хоткей отмены");
 			EditorPage.UndoByHotkey(segmentNumber);
 			// Пишем в лог
 			WriteLog(segmentNumber, "Переход в target", "Клик мыши", "-");
@@ -463,7 +463,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			// Проверить, что последняя буква в 4 сегменте удалилась
 			Assert.IsTrue(EditorPage.GetTargetText(segmentNumber) == "Test for 4th segmen", "Ошибка: после хоткея отмены последняя буква в 4 сегменте не удалилась");
 			// Нажать хоткей восстановления
-			Console.WriteLine("Нажать хоткей восстановления");
+			Logger.Trace("Нажать хоткей восстановления");
 			EditorPage.RedoByHotkey(segmentNumber);
 			// Пишем в лог
 			WriteLog(segmentNumber, "Переход в target", "Клик мыши", "-");

@@ -189,8 +189,8 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			{
 				if (domainList[i].Text.Contains(domainName))
 				{
-					Console.WriteLine(domainList[i].Text);
-					Console.WriteLine(i);
+					Logger.Trace(domainList[i].Text);
+					Logger.Trace(i);
 					rowNum = i + 1;
 					break;
 				}

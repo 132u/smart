@@ -672,14 +672,14 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 
 			// Текст верхнего сообщения
 			var freshNotifierText = WorkspacePage.GetNotifierText();
-			Console.WriteLine("freshNotifierText: " + freshNotifierText);
+			Logger.Trace("freshNotifierText: " + freshNotifierText);
 
 			// Кликнуть, чтобы переключить сообщения - на первое
 			ChangeNotifier(1);
 
 			// Текст верхнего сообщения
 			var currentNotifierText = WorkspacePage.GetNotifierText();
-			Console.WriteLine("currentNotifierText: " + currentNotifierText);
+			Logger.Trace("currentNotifierText: " + currentNotifierText);
 			var docName = Path.GetFileNameWithoutExtension(_exportFilePath);
 
 			// Проверить, что появилось самое старое сообщение
@@ -748,14 +748,14 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 
 			// Текст верхнего сообщения
 			var freshNotifierText = WorkspacePage.GetNotifierText();
-			Console.WriteLine("freshNotifierText: " + freshNotifierText);
+			Logger.Trace("freshNotifierText: " + freshNotifierText);
 
 			// Кликнуть, чтобы переключить сообщения - на второе
 			ChangeNotifier(2);
 
 			// Текст верхнего сообщения
 			var currentNotifierText = WorkspacePage.GetNotifierText();
-			Console.WriteLine("currentNotifierText: " + currentNotifierText);
+			Logger.Trace("currentNotifierText: " + currentNotifierText);
 
 			// Проверить, что появилось второе сообщение
 			Assert.IsTrue(
@@ -998,8 +998,8 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		{
 			var notifierText = WorkspacePage.GetNotifierText();
 			var docName = Path.GetFileNameWithoutExtension(_exportFilePath);
-			Console.WriteLine("docName " + docName);
-			Console.WriteLine("notifierText: " + notifierText);
+			Logger.Trace("docName " + docName);
+			Logger.Trace("notifierText: " + notifierText);
 
 			// Есть ли в тексте сообщения название документа:
 			Assert.IsTrue(

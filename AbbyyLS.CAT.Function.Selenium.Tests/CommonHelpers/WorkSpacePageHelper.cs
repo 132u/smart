@@ -214,7 +214,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 
 			if (isEnabled)
 			{
-				Console.WriteLine("кликнуть красный экспорт\n" + EXPORT_BTN_XPATH);
+				Logger.Trace("кликнуть красный экспорт\n" + EXPORT_BTN_XPATH);
 				ClickElement(By.XPath(EXPORT_BTN_XPATH));
 			}
 
@@ -405,7 +405,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			var hour = notifierText.Substring(startIndex, 2);
 			startIndex += 3; // "hh:" = 3
 			var min = notifierText.Substring(startIndex, 2);
-			Console.WriteLine(month + "/" + day + "/" + year + " " + hour + ":" + min);
+			Logger.Trace(month + "/" + day + "/" + year + " " + hour + ":" + min);
 
 			// Получили дату
 			return new DateTime(int.Parse(year), int.Parse(month), int.Parse(day), int.Parse(hour), int.Parse(min), 0);

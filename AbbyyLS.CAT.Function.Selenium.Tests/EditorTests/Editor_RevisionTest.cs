@@ -185,7 +185,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Editor.Revisions
 			var revisionTextBefore = RevisionPage.GetRevisionText(1);
 			var revisionTimeBefore = RevisionPage.GetRevisionTime(1);
 
-			Console.WriteLine("до: " + revisionTextBefore + " " + revisionTimeBefore);
+			Logger.Trace("до: " + revisionTextBefore + " " + revisionTimeBefore);
 
 			// Кликнуть Time
 			RevisionPage.ClickTimeToSort();
@@ -194,7 +194,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Editor.Revisions
 			var revisionTextAfter = RevisionPage.GetRevisionText(1);
 			var revisionTimeAfter = RevisionPage.GetRevisionTime(1);
 
-			Console.WriteLine("после: " + revisionTextAfter + " " + revisionTimeAfter);
+			Logger.Trace("после: " + revisionTextAfter + " " + revisionTimeAfter);
 
 			// Изменился ли текст
 			var isTextChanged = revisionTextBefore != revisionTextAfter;
@@ -279,7 +279,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Editor.Revisions
 
 			// Получить количество ревизий
 			var revisionListCount = RevisionPage.GetRevisionListCount();
-			Console.WriteLine("количество строк в ревизиях: " + revisionListCount);
+			Logger.Trace("количество строк в ревизиях: " + revisionListCount);
 
 			// Проверить, что количество больше 0 (перевод появился в ревизиях)
 			Assert.IsTrue(
@@ -340,7 +340,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Editor.Revisions
 
 			// Получить количество ревизий
 			var revisionListCount = RevisionPage.GetRevisionListCount();
-			Console.WriteLine("количество строк в ревизиях: " + revisionListCount);
+			Logger.Trace("количество строк в ревизиях: " + revisionListCount);
 
 			// Проверить количество ревизий (== translationNumber)
 			Assert.AreEqual(
@@ -505,9 +505,9 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Editor.Revisions
 
 			// Ввести новый текст (старый, удалив часть текста)
 			var textToRemove = text.Substring(2, 5);
-			Console.WriteLine("textToRemove: " + textToRemove);
+			Logger.Trace("textToRemove: " + textToRemove);
 			text = text.Replace(textToRemove, "");
-			Console.WriteLine("text: " + text);
+			Logger.Trace("text: " + text);
 
 			AddTranslationAndConfirm(segmentNumber, text);
 
@@ -540,9 +540,9 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Editor.Revisions
 
 			// Ввести новый текст (старый, добавив часть нового текста)
 			var textToAdd = "newText";
-			Console.WriteLine("textToAdd: " + textToAdd);
+			Logger.Trace("textToAdd: " + textToAdd);
 			text = text.Insert(2, textToAdd);
-			Console.WriteLine("text: " + text);
+			Logger.Trace("text: " + text);
 			AddTranslationAndConfirm(segmentNumber, text);
 
 			// Вернуться в сегмент

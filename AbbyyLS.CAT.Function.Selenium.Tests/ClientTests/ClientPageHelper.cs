@@ -157,8 +157,8 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			{
 				if (clientList[i].Text.Contains(clientName))
 				{
-					Console.WriteLine(clientList[i].Text);
-					Console.WriteLine(i);
+					Logger.Trace(clientList[i].Text);
+					Logger.Trace(i);
 					rowNum = i + 1;
 					break;
 				}

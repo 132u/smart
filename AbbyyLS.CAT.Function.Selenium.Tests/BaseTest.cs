@@ -17,8 +17,7 @@ using System.Text.RegularExpressions;
 using NLog;
 using OpenQA.Selenium.IE;
 using OpenQA.Selenium.Interactions;
-using OpenQA.Selenium;
-using OpenQA.Selenium.Interactions;
+
 
 namespace AbbyyLS.CAT.Function.Selenium.Tests
 {
@@ -200,7 +199,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 
 			// Вывести время начала теста
 			TestBeginTime = DateTime.Now;
-			Console.WriteLine(TestContext.CurrentContext.Test.Name + "\nStart: " + TestBeginTime);
+			Logger.Info(TestContext.CurrentContext.Test.Name + "\nStart: " + TestBeginTime);
 
 			if (Driver == null)
 			{
@@ -271,7 +270,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			// Вывести информацию о прохождении теста
 			var testFinishTime = DateTime.Now;
 			// Время окончания теста
-			Console.WriteLine("Finish: " + testFinishTime);
+			Logger.Info("Finish: " + testFinishTime);
 			// Длительность теста
 			var duration = TimeSpan.FromTicks(testFinishTime.Ticks - TestBeginTime.Ticks);
 			var durResult = "Duration: ";
@@ -286,12 +285,12 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			}
 
 			durResult += " (" + duration.TotalMilliseconds + "ms).";
-			Console.WriteLine(durResult);
+			Logger.Info(durResult);
 
 			if (TestContext.CurrentContext.Result.Status.Equals(TestStatus.Failed))
 			{
 				// Если тест провалился
-				Console.WriteLine("Fail!");
+				Logger.Info("Fail!");
 			}
 		}
 
@@ -1213,7 +1212,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			// Нажать Next
 			ProjectPage.ClickNextImportDialog();
 
-			Console.WriteLine("кликнули Next");
+			Logger.Trace("кликнули Next");
 
 			// Если появилось сообщение, что не указали файл, значит, Enter не нажался
 			if (ProjectPage.GetIsExistNoFileError())

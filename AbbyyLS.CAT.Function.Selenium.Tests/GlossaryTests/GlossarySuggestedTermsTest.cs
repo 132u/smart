@@ -405,7 +405,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Glossary
 			GlossarySuggestPage.WaitChooseGlossaryForm();
 			// Выбрать нужный глоссарий
 			GlossarySuggestPage.ClickChooseGlossaryFormDropdownGlossaryList();
-			Console.WriteLine("выбрали глоссарий");
+			Logger.Trace("выбрали глоссарий");
 			GlossarySuggestPage.SelectDropdownItem(glossaryName);
 			// Сохранить
 			GlossarySuggestPage.ClickOkChooseGlossary();
@@ -732,7 +732,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Glossary
 			int rowNumber = 1)
 		{
 			var countBefore = GlossarySuggestPage.GetSuggestTermsCount();
-			Console.WriteLine(countBefore);
+			Logger.Trace(countBefore);
 			// Расширить окно, чтобы кнопка была видна, иначе Selenium ее "не видит" и выдает ошибку
 			Driver.Manage().Window.Maximize();
 			

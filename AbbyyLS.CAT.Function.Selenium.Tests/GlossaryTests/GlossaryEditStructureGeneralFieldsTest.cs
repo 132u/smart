@@ -87,7 +87,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			Assert.IsTrue(GlossaryPage.WaitConceptSave(), "Ошибка: термин не сохранился");
 
 			var text = GlossaryPage.GetTopicValue(fieldName);
-			Console.WriteLine("text:\n" + text + "...");
+			Logger.Trace("text:\n" + text + "...");
 
 			// Проверить, что значение в поле есть
 			Assert.IsTrue(GlossaryPage.GetTopicValue(fieldName).Length > 0, "Ошибка: значение не сохранилось");

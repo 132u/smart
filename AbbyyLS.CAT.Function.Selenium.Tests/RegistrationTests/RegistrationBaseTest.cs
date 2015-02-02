@@ -88,7 +88,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.RegistrationTests
 				"123123213123213");
 			RegistrationPage.ClickCreateAccountCompanyBtn();
 			Thread.Sleep(15);
-			Console.WriteLine("WorkspacePage.GetCompanyName() NEWUSER = " + WorkspacePage.GetCompanyName() + ";\nRegistrationPage.nameCompany NEW USER = " + RegistrationPage.NameCompany);
+			Logger.Trace("WorkspacePage.GetCompanyName() NEWUSER = " + WorkspacePage.GetCompanyName() + ";\nRegistrationPage.nameCompany NEW USER = " + RegistrationPage.NameCompany);
 			Assert.IsTrue(
 				(WorkspacePage.GetCompanyName() == RegistrationPage.NameCompany), "Ошибка: название компании неверно отображается в панели WS");
 			Assert.IsTrue(

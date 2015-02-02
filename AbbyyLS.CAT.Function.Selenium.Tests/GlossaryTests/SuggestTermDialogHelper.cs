@@ -73,7 +73,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		public void ClickSave()
 		{
 			ClickElement(By.XPath(SAVE_BTN_XPATH));
-			Console.WriteLine("кликнули сохранить");
+			Logger.Trace("кликнули сохранить");
 		}
 
 		/// <summary>

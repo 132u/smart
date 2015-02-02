@@ -71,8 +71,8 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			ClickClearAndAddText(By.XPath(GetTargetCellXPath(rowNum)), text);
 
 			WaitUntilDisplayElement(By.XPath(GetTargetWithTextXpath(rowNum, text)), 1);
-			
-			Console.WriteLine("добавили текст: " + text);
+
+			Logger.Trace("добавили текст: " + text);
 		}
 
 		/// <summary>
@@ -551,7 +551,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		{
 			var segmentCount = GetElementList(By.CssSelector(SEGMENTS_CSS)).Count;
 
-			Console.WriteLine("segmentCount: " + segmentCount);
+			Logger.Trace("segmentCount: " + segmentCount);
 
 			return segmentCount;
 		}

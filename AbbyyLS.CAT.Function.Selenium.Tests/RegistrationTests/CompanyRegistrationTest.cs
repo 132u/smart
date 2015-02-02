@@ -437,7 +437,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Registration.Company
 				domainName,
 				"123123213123213");
 			RegistrationPage.ClickCreateAccountCompanyBtn();
-			Console.WriteLine("WorkspacePage.GetUserName() = " + WorkspacePage.GetUserName() + " ; \n RegistrationPage.firstName & RegistrationPage.lastName = " + RegistrationPage.FirstName + " " + RegistrationPage.LastName);
+			Logger.Trace("WorkspacePage.GetUserName() = " + WorkspacePage.GetUserName() + " ; \n RegistrationPage.firstName & RegistrationPage.lastName = " + RegistrationPage.FirstName + " " + RegistrationPage.LastName);
 			WorkspacePage.ClickAccount();
 			Thread.Sleep(10);
 			Assert.IsTrue(

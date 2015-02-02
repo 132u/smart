@@ -156,7 +156,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.TM
 
 			// Заполнить диалог загрузки документа
 			TMPage.UploadTMInDoc(documentName);
-			Console.WriteLine(documentName);
+			Logger.Trace(documentName);
 
 			// Нажать на Импорт
 			TMPage.ClickImportBtn();
@@ -173,7 +173,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.TM
 				CheckTMInformationBaloonExisting(tmName, locale);
 			}
 
-			Console.WriteLine("кликнули импорт");
+			Logger.Trace("кликнули импорт");
 
 			if (TMPage.GetIsErrorMessageNotTMX())
 			{

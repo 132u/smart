@@ -19,7 +19,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		public CatPanelResultsTest(string browserName)
 			: base(browserName)
 		{
-			System.Console.WriteLine("CatPanelResultsTest");
 		}
 
 
@@ -88,7 +87,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		[Test]
 		public void CheckTM()
 		{
-			Console.WriteLine("CheckTM");
+			Logger.Trace("CheckTM");
 
 			// Создание проекта с файлом с МТ с файлом
 			CreateProject(ProjectName, TestFile.EditorTXTFile, true, TestFile.EditorTMXFile);
@@ -247,7 +246,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		[Test]
 		public void GlossaryFewSegments()
 		{
-			Console.WriteLine("GlossaryFewSegments");
+			Logger.Trace("GlossaryFewSegments");
 
 			var uniqueGlossaryName = GlossaryName + DateTime.Now;
 			var catSelectedTexts = new List<string>();

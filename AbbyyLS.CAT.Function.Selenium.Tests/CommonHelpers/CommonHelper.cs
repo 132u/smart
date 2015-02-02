@@ -94,19 +94,19 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 				_wait.Until((d) => d.FindElement(by).Displayed);
 				return true;
 			}
-			catch (StaleElementReferenceException)
+			catch (StaleElementReferenceException staleElementReferenceException)
 			{
-				Logger.Trace("StaleElementReferenceException: WaitUntilDisplayElement: " + by.ToString());
+				Logger.Warn("StaleElementReferenceException: WaitUntilDisplayElement: " + by.ToString(), staleElementReferenceException);
 				return WaitUntilDisplayElement(by, maxWait);
 			}
 			catch (WebDriverTimeoutException)
 			{
+				Logger.Trace("WebDriverTimeoutException: WaitUntilDisplayElement: " + by.ToString());
 				return false;
 			}
-			catch (Exception exType)
+			catch (Exception)
 			{
-				Assert.Fail("Произошла ошибка:\n" + exType.ToString());
-				return false;
+				throw;
 			}
 			finally
 			{
@@ -127,19 +127,19 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 				Driver.FindElement(by);
 				return true;
 			}
-			catch (StaleElementReferenceException)
+			catch (StaleElementReferenceException staleElementReferenceException)
 			{
-				Logger.Trace("StaleElementReferenceException: GetIsElementExist: " + by.ToString());
+				Logger.Warn("StaleElementReferenceException: GetIsElementExist: " + by.ToString(), staleElementReferenceException);
 				return GetIsElementExist(by);
 			}
 			catch (NoSuchElementException)
 			{
+				Logger.Trace("NoSuchElementException: GetIsElementExist: " + by.ToString());
 				return false;
 			}
-			catch (Exception exType)
+			catch (Exception)
 			{
-				Assert.Fail("Произошла ошибка:\n" + exType.ToString());
-				return false;
+				throw;
 			}
 		}
 
@@ -171,19 +171,19 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			{
 				return Driver.FindElement(by).Displayed;
 			}
-			catch (StaleElementReferenceException)
+			catch (StaleElementReferenceException staleElementReferenceException)
 			{
-				Logger.Trace("StaleElementReferenceException: GetIsElementDisplay: " + by.ToString());
+				Logger.Warn("StaleElementReferenceException: GetIsElementDisplay: " + by.ToString(), staleElementReferenceException);
 				return GetIsElementDisplay(by);
 			}
 			catch (NoSuchElementException)
 			{
+				Logger.Trace("NoSuchElementException: GetIsElementDisplay: " + by.ToString());
 				return false;
 			}
-			catch (Exception exType)
+			catch (Exception)
 			{
-				Assert.Fail("Произошла ошибка:\n" + exType.ToString());
-				return false;
+				throw;
 			}
 		}
 
@@ -197,18 +197,18 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			{
 				Driver.FindElement(by).Click();
 			}
-			catch (StaleElementReferenceException)
+			catch (StaleElementReferenceException staleElementReferenceException)
 			{
-				Logger.Trace("StaleElementReferenceException: ClickElement: " + by.ToString());
+				Logger.Warn("StaleElementReferenceException: ClickElement: " + by.ToString(), staleElementReferenceException);
 				ClickElement(by);
 			}
 			catch (NoSuchElementException)
 			{
-				Assert.Fail("Элемент не найден!\n" + by.ToString());
+				throw;
 			}
-			catch (Exception exType)
+			catch (Exception)
 			{
-				Assert.Fail("Произошла ошибка:\n" + exType.ToString() + "\n\n" + by.ToString());
+				throw;
 			}
 		}
 
@@ -243,18 +243,18 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 				el.Clear();
 				el.SendKeys(txt);
 			}
-			catch (StaleElementReferenceException)
+			catch (StaleElementReferenceException staleElementReferenceException)
 			{
-				Logger.Trace("StaleElementReferenceException: ClearAndAddText: " + by.ToString());
+				Logger.Warn("StaleElementReferenceException: ClearAndAddText: " + by.ToString(), staleElementReferenceException);
 				ClearAndAddText(by, text);
 			}
 			catch (NoSuchElementException)
 			{
-				Assert.Fail("Элемент не найден!\n" + by.ToString());
+				throw;
 			}
-			catch (Exception exType)
+			catch (Exception)
 			{
-				Assert.Fail("Произошла ошибка:\n" + exType.ToString());
+				throw;
 			}
 		}
 
@@ -279,18 +279,18 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 				var el = Driver.FindElement(by);
 				el.Clear();
 			}
-			catch (StaleElementReferenceException)
+			catch (StaleElementReferenceException staleElementReferenceException)
 			{
-				Logger.Trace("StaleElementReferenceException: ClearElement: " + by.ToString());
+				Logger.Warn("StaleElementReferenceException: ClearElement: " + by.ToString(), staleElementReferenceException);
 				ClearElement(by);
 			}
 			catch (NoSuchElementException)
 			{
-				Assert.Fail("Элемент не найден!\n" + by.ToString());
+				throw;
 			}
-			catch (Exception exType)
+			catch (Exception)
 			{
-				Assert.Fail("Произошла ошибка:\n" + exType.ToString());
+				throw;
 			}
 		}
 
@@ -309,18 +309,18 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 				el.Click();
 				el.SendKeys(txt);
 			}
-			catch (StaleElementReferenceException)
+			catch (StaleElementReferenceException staleElementReferenceException)
 			{
-				Logger.Trace("StaleElementReferenceException: ClickAndSendTextElement: " + by.ToString());
+				Logger.Warn("StaleElementReferenceException: ClickAndSendTextElement: " + by.ToString(), staleElementReferenceException);
 				ClickAndSendTextElement(by, text);
 			}
 			catch (NoSuchElementException)
 			{
-				Assert.Fail("Элемент не найден!\n" + by.ToString());
+				throw;
 			}
-			catch (Exception exType)
+			catch (Exception)
 			{
-				Assert.Fail("Произошла ошибка:\n" + exType.ToString());
+				throw;
 			}
 		}
 
@@ -340,18 +340,18 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 				el.Clear();
 				el.SendKeys(txt);
 			}
-			catch (StaleElementReferenceException)
+			catch (StaleElementReferenceException staleElementReferenceException)
 			{
-				Logger.Trace("StaleElementReferenceException: ClickAndSendTextElement: " + by.ToString());
+				Logger.Warn("StaleElementReferenceException: ClickAndSendTextElement: " + by.ToString(), staleElementReferenceException);
 				ClickAndSendTextElement(by, text);
 			}
 			catch (NoSuchElementException)
 			{
-				Assert.Fail("Элемент не найден!\n" + by.ToString());
+				throw;
 			}
-			catch (Exception exType)
+			catch (Exception)
 			{
-				Assert.Fail("Произошла ошибка:\n" + exType.ToString());
+				throw;
 			}
 		}
 
@@ -368,18 +368,18 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			{
 				Driver.FindElement(by).SendKeys(txt);
 			}
-			catch (StaleElementReferenceException)
+			catch (StaleElementReferenceException staleElementReferenceException)
 			{
-				Logger.Trace("StaleElementReferenceException: SendTextElement: " + by.ToString());
+				Logger.Warn("StaleElementReferenceException: SendTextElement: " + by.ToString(), staleElementReferenceException);
 				SendTextElement(by, text);
 			}
 			catch (NoSuchElementException)
 			{
-				Assert.Fail("Элемент не найден!\n" + by.ToString());
+				throw;
 			}
-			catch (Exception exType)
+			catch (Exception)
 			{
-				Assert.Fail("Произошла ошибка:\n" + exType.ToString());
+				throw;
 			}
 		}
 
@@ -424,20 +424,18 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			{
 				return Driver.FindElement(by).Text;
 			}
-			catch (StaleElementReferenceException)
+			catch (StaleElementReferenceException staleElementReferenceException)
 			{
-				Logger.Trace("StaleElementReferenceException: GetTextElement: " + by.ToString());
+				Logger.Warn("StaleElementReferenceException: GetTextElement: " + by.ToString(), staleElementReferenceException);
 				return GetTextElement(by);
 			}
 			catch (NoSuchElementException)
 			{
-				Assert.Fail("Элемент не найден!\n" + by.ToString());
-				return "";
+				throw;
 			}
-			catch (Exception exType)
+			catch (Exception)
 			{
-				Assert.Fail("Произошла ошибка:\n" + exType.ToString());
-				return "";
+				throw;
 			}
 		}
 
@@ -452,20 +450,18 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			{
 				return Driver.FindElement(by).GetAttribute("class");
 			}
-			catch (StaleElementReferenceException)
+			catch (StaleElementReferenceException staleElementReferenceException)
 			{
-				Logger.Trace("StaleElementReferenceException: GetElementClass: " + by.ToString());
+				Logger.Warn("StaleElementReferenceException: GetElementClass: " + by.ToString(), staleElementReferenceException);
 				return GetElementClass(by);
 			}
 			catch (NoSuchElementException)
 			{
-				Assert.Fail("Элемент не найден!\n" + by.ToString());
-				return "";
+				throw;
 			}
-			catch (Exception exType)
+			catch (Exception)
 			{
-				Assert.Fail("Произошла ошибка:\n" + exType.ToString());
-				return "";
+				throw;
 			}
 		}
 
@@ -480,15 +476,14 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			{
 				return Driver.FindElements(by);
 			}
-			catch (StaleElementReferenceException)
+			catch (StaleElementReferenceException staleElementReferenceException)
 			{
-				Logger.Trace("StaleElementReferenceException: GetElementList: " + by.ToString());
+				Logger.Warn("StaleElementReferenceException: GetElementList: " + by.ToString(), staleElementReferenceException);
 				return GetElementList(by);
 			}
-			catch (Exception exType)
+			catch (Exception)
 			{
-				Assert.Fail("Произошла ошибка:\n" + exType.ToString());
-				return null;
+				throw;
 			}
 		}
 
@@ -503,15 +498,14 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			{
 				return Driver.FindElement(by);
 			}
-			catch (StaleElementReferenceException)
+			catch (StaleElementReferenceException staleElementReferenceException)
 			{
-				Logger.Trace("StaleElementReferenceException: GetElementList: " + by.ToString());
+				Logger.Warn("StaleElementReferenceException: GetElementList: " + by.ToString(), staleElementReferenceException);
 				return GetElement(by);
 			}
-			catch (Exception exType)
+			catch (Exception)
 			{
-				Assert.Fail("Произошла ошибка:\n" + exType.ToString());
-				return null;
+				throw;
 			}
 		}
 
@@ -526,15 +520,14 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			{
 				return Driver.FindElements(by).Count;
 			}
-			catch (StaleElementReferenceException)
+			catch (StaleElementReferenceException staleElementReferenceException)
 			{
-				Logger.Trace("StaleElementReferenceException: GetElementCount: " + by.ToString());
+				Logger.Warn("StaleElementReferenceException: GetElementCount: " + by.ToString(), staleElementReferenceException);
 				return GetElementsCount(by);
 			}
-			catch (Exception exType)
+			catch (Exception)
 			{
-				Assert.Fail("Произошла ошибка:\n" + exType.ToString());
-				return 0;
+				throw;
 			}
 		}
 
@@ -551,15 +544,14 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 				
 				return elList.Select(el => el.Text).ToList();
 			}
-			catch (StaleElementReferenceException)
+			catch (StaleElementReferenceException staleElementReferenceException)
 			{
-				Logger.Trace("StaleElementReferenceException: GetTextListElement: " + by.ToString());
+				Logger.Warn("StaleElementReferenceException: GetTextListElement: " + by.ToString(), staleElementReferenceException);
 				return GetTextListElement(by);
 			}
-			catch (Exception exType)
+			catch (Exception)
 			{
-				Assert.Fail("Произошла ошибка:\n" + exType.ToString());
-				return null;
+				throw;
 			}
 		}
 
@@ -577,14 +569,14 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 				action.DoubleClick(Driver.FindElement(by));
 				action.Perform();
 			}
-			catch (StaleElementReferenceException)
+			catch (StaleElementReferenceException staleElementReferenceException)
 			{
-				Logger.Trace("StaleElementReferenceException: DoubleClickElement: " + by.ToString());
+				Logger.Warn("StaleElementReferenceException: DoubleClickElement: " + by.ToString(), staleElementReferenceException);
 				DoubleClickElement(by);
 			}
-			catch (Exception exType)
+			catch (Exception)
 			{
-				Assert.Fail("Произошла ошибка:\n" + exType.ToString());
+				throw;
 			}
 		}
 
@@ -609,15 +601,14 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 
 				return (a_loc == b_loc) && (a_size == b_size);
 			}
-			catch (StaleElementReferenceException)
+			catch (StaleElementReferenceException staleElementReferenceException)
 			{
-				Logger.Trace("StaleElementReferenceException: GetIsElementActive: " + by.ToString());
+				Logger.Warn("StaleElementReferenceException: GetIsElementActive: " + by.ToString(), staleElementReferenceException);
 				return GetIsElementActive(by);
 			}
-			catch (Exception exType)
+			catch (Exception)
 			{
-				Assert.Fail("Произошла ошибка:\n" + exType.ToString());
-				return false;
+				throw;
 			}
 		}
 
@@ -632,15 +623,14 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			{
 				return Driver.FindElement(by).GetAttribute("checked") == "true";
 			}
-			catch (StaleElementReferenceException)
+			catch (StaleElementReferenceException staleElementReferenceException)
 			{
-				Logger.Trace("StaleElementReferenceException: GetIsInputChecked: " + by.ToString());
+				Logger.Warn("StaleElementReferenceException: GetIsInputChecked: " + by.ToString(), staleElementReferenceException);
 				return GetIsInputChecked(by);
 			}
-			catch (Exception exType)
+			catch (Exception)
 			{
-				Assert.Fail("Произошла ошибка:\n" + exType.ToString() + "\n\nBy:\n" + by.ToString());
-				return false;
+				throw;
 			}
 		}
 
@@ -661,15 +651,14 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 				}
 				return result;
 			}
-			catch (StaleElementReferenceException)
+			catch (StaleElementReferenceException staleElementReferenceException)
 			{
-				Logger.Trace("StaleElementReferenceException: GetElementAttribute: " + by.ToString());
+				Logger.Warn("StaleElementReferenceException: GetElementAttribute: " + by.ToString(), staleElementReferenceException);
 				return GetElementAttribute(by, attr);
 			}
-			catch (Exception exType)
+			catch (Exception)
 			{
-				Assert.Fail("Произошла ошибка:\n" + exType.ToString() + "\n\nBy:\n" + by.ToString());
-				return "";
+				throw;
 			}
 		}
 
