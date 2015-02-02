@@ -185,6 +185,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		protected const string SUBMIT_LPRO_XPATH = "//button[@id='btn-sign-in']";
 		protected const string EUROPE_SERVER = "//li[text()='Europe']";
 		protected const string USA_SERVER = "//li[text()='USA']";
+		protected const string ENGLISH_LANGUAGE_IN_ACCOUNTS_LIST = "//a[@translate='switch-to-en']";
 
 		protected const string PRO_ELEMENT = "//div[@class='logo-description']";
 	}
