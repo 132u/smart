@@ -186,6 +186,14 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		}
 
 		/// <summary>
+		/// Выбрать ТМ источник по услочанию (ABBYY)
+		/// </summary>
+		public void ClickAbbyyMtForPretranslate()
+		{
+			ClickElement(By.XPath(ABBYY_MT_PRETRANSLATE_BTN_XPATH));
+		}
+
+		/// <summary>
 		/// Нажать кнопку сохранить настройки претранслейта
 		/// </summary>
 		public void ClickSavePretranslateBtn()
@@ -715,7 +723,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 
 		protected const string DOWNLOAD_LOGS_BTN_XPATH = "//span[contains(@class,'js-document-export-logs')]";
 
-		protected const string EDIT_TM_BTN_XPATH = "html/body/div[6]/div[1]/div[2]/div[4]/div/form/div[5]/span[2]/span[2]/a";//"//span[@class='g-btn g-redbtn js-tm-edit l-corpr__btnmargin']//a[@class='g-redbtn__text g-btn__text' and text()='Edit']";//div[contains(@class,'l-project-panel')]//span[contains(@class,'js-tm-edit')]";
+		protected const string EDIT_TM_BTN_XPATH = "/html/body/div[6]/div[1]/div[2]/div[3]/div/form/div[5]/span[2]/span[2]/a";
 		protected const string EDIT_TM_DIALOG_XPATH = "//div[contains(@class,'js-popup-tm')][2]";
 		protected const string EDIT_TM_CREATE_BTN_XPATH = EDIT_TM_DIALOG_XPATH + "//span[contains(@class,'js-tm-create')]";
 		protected const string EDIT_TM_SAVE_BTN_XPATH = EDIT_TM_DIALOG_XPATH + "//span[contains(@class,'js-submit-btn')]";
@@ -757,6 +765,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		protected const string NEW_RULE_BTN_XPATH = "//div[contains(@class,'pretranslate')][2]//span[contains(@class,'js-new-rule')]";
 		protected const string SOURCE_PRETRANSLATE_BTN_XPATH = "//div[contains(@class,'pretranslate')]//span[contains(@class, 'js-dropdown')]";
 		protected const string TM_PRETRANSLATE_BTN_XPATH = "//span[contains(@class, 'js-dropdown')";
+		protected const string ABBYY_MT_PRETRANSLATE_BTN_XPATH = "//span[contains(@data-id, '2_f42671d9-df7e-4678-a846-d9143011cd2c')]";
 		protected const string SAVE_PRETRANSLATE_BTN_XPATH = "//div[contains(@class,'pretranslate')][2]//span[contains(@class, 'js-save')]";
 		protected const string RADIO_BTN = "//table[@class='l-corpr__tbl js-tms-popup-table']//td[@class='l-corpr__td l-project-td radio']//input[@type='radio']";
 		protected const string ASSIGNEE_TABLE = ".//div[contains(@class,'js-popup-import-document')][2]//th[text()='Assignee']";

@@ -337,8 +337,9 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			{
 				var el = Driver.FindElement(by);
 				el.Click();
-				el.Clear();
-				el.SendKeys(txt);
+				el.SendKeys(OpenQA.Selenium.Keys.Home);
+				el.SendKeys(OpenQA.Selenium.Keys.Shift + OpenQA.Selenium.Keys.End);
+				el.SendKeys(text);
 			}
 			catch (StaleElementReferenceException staleElementReferenceException)
 			{

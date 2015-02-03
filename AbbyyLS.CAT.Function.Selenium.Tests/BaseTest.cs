@@ -459,10 +459,14 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		}
 
 		/// <summary>
-		/// Настройка претранслейта c Tm со страницы проекта
+		/// Настройка претранслейта со страницы проекта.
 		/// </summary>
-		/// <param name="tmName">название Тм для претранслейта</param>
-		public void SetTmPretranslate(string tmName)
+		/// <remarks>
+		/// tmName == null => выбирается деволтный МТ
+		/// tmName != null => выбирается TM с именем tmName
+		/// </remarks>
+		/// <param name="tmName">имя tm для претранслейта</param>
+		public void SetPretranslate(string tmName = null)
 		{
 			// нажать кнопку претранслейт
 			ProjectPage.ClickPretranslateBtn();
@@ -470,8 +474,17 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			ProjectPage.ClickNewRuleBtn();
 			// открыть меню источника претранслейта
 			ProjectPage.ClickSourcePretranslateBtn();
-			// выбрать ТМ как источник
-			ProjectPage.ClickTmForPretranslateBtn(tmName);
+
+			if (tmName == null)
+			{
+				ProjectPage.ClickAbbyyMtForPretranslate();
+			}
+			else
+			{
+				// выбрать ТМ как источник
+				ProjectPage.ClickTmForPretranslateBtn(tmName);
+			}
+			
 			// сохранить настройки и выполнить претранслейт
 			ProjectPage.ClickSavePretranslateBtn();
 		}

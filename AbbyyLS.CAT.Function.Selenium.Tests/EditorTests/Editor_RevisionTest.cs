@@ -1147,19 +1147,17 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Editor.Revisions
 				case EditorPageHelper.CAT_TYPE.TM:
 					var tmNameRevTest = "TmForPretranslateRevisionsTest" + "_" + DateTime.UtcNow.Ticks;
 					ProjectPageAddTmImportTmx(tmNameRevTest, TestFile.OneLineTmxFile);
-					SetTmPretranslate(tmNameRevTest);
+					SetPretranslate(tmNameRevTest);
 					break;
 
 				case EditorPageHelper.CAT_TYPE.MT:
-					const string mtName = "Default MT (MT)";
-					SetTmPretranslate(mtName);
+					SetPretranslate();
 					break;
 
 				default:
 					throw new InvalidEnumArgumentException();
 
 			}
-
 		}
 
 		protected const string ByHotkey = "byHotkey";

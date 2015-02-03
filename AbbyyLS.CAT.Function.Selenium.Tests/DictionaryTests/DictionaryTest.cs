@@ -36,6 +36,13 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			CreateDictionaryPackIfItNotExist();
 		}
 
+		[SetUp]
+		public void Setup()
+		{
+			LoginToAdminPage();
+			CreateDictionaryPackIfItNotExist();
+		}
+
 		/// <summary>
 		/// Тест: проверка перевода со словарями
 		/// </summary>
