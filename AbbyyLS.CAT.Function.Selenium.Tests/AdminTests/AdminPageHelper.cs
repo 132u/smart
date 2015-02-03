@@ -600,7 +600,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		protected const string ADD_ACCOUNT_REF_XPATH = "//a[contains(@href,'/EnterpriseAccounts/Edit')]";
 		protected const string THIS_USER_IS_INSIDE_ACCOUNT_XPATH = "//div[2]/p";
 		protected const string SUCCESS_MESSAGE_XPATH = "//p[contains(@class,'b-success-message')]";
-		protected const string MANAGEMENT_USERS_REF_XPATH = "//a[contains(@href,'/EnterpriseAccounts/ManageUsers')]";
+		protected const string MANAGEMENT_USERS_REF_XPATH = "//a[contains(@href,'/EnterpriseAccountUsers/Index')]";
 		protected const string USER_SEARCH_ID = "searchText";
 		protected const string USER_SEARCH_BTN_ID = "findUser";
 		protected const string ADD_USER_BTN_ID = "addUsersBtn";
@@ -637,7 +637,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		protected const string SAVE_BTN_NEW_PEERS_ACC = "//p[@class='submit-area']/input"; //кнопка Сохранить при создании персонального аккаунта
 		protected const string ACTIVE_CHECKBOX_XPATH = "//input[@type='checkbox' and @id='IsActive']"; // чекбокс Active
 		//все кнопки ManageUsers в таблице корпоративных аккаунтов
-		protected const string ALL_MANAGE_USER_BTN = "//preceding-sibling::td//a[contains(@href,'/EnterpriseAccounts/ManageUsers/')]";
+		protected const string ALL_MANAGE_USER_BTN = "//preceding-sibling::td//a[contains(@href,'/EnterpriseAccountUsers/Index/')]";
 		protected const string ACCOUNT_NAME_IN_LIST = "//td[text()='";
 		//td[text()='Coursera3']/preceding-sibling::td//div//a[contains(@href,'/EnterpriseAccounts/ManageUsers')]
 		protected const string IS_ADMIN_CHECKBOX = "//input[@id='isAdmin'] ";
