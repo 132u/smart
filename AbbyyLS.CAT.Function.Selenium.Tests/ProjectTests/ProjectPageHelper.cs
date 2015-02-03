@@ -690,13 +690,13 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		protected const string PROGRESS_BTN_XPATH = "//span[contains(@class,'js-document-progress')]";
 		protected const string PROGRESS_DIALOG_XPATH = "//div[contains(@class,'js-popup-progress')][2]";
 		protected const string PROGRESS_DIALOG_TABLE_USERNAME_XPATH =
-			".//table[contains(@class,'js-progress-table')]//tr[1]//td[3]//span";
+			".//table[contains(@class,'js-progress-table')]//tr[1]//td[3]//span/span";
 		protected const string PROGRESS_DIALOG_USERLIST_XPATH = "//span[contains(@class,'js-dropdown__list')]";
 		protected const string PROGRESS_DIALOG_USER_ITEM_LIST_XPATH = "//span[contains(@class,'js-dropdown__item')]";
-		protected const string PROGRESS_DIALOG_ASSIGN_SPAN_XPATH = "//td[contains(@class,'js-status')]//span[contains(@class,'js-assign')]";
+		protected const string PROGRESS_DIALOG_ASSIGN_SPAN_XPATH = "//div[@class='g-popup-bd js-popup-bd js-popup-assign'][2]//td[contains(@class,'js-status')]//span[contains(@class,'js-assign')]";
 		protected const string PROGRESS_DIALOG_ASSIGN_BTN_XPATH = PROGRESS_DIALOG_ASSIGN_SPAN_XPATH + "//a";
 		protected const string PROGRESS_DIALOG_CANCEL_BTN_XPATH = "//span[contains(@class,'js-assigned-cancel')]";
-		protected const string PROGRESS_DIALOG_CLOSE_BTN_XPATH = "//div[contains(@class,'js-popup-progress')][2]//span[contains(@class,'js-popup-close')]/span[1]";
+		protected const string PROGRESS_DIALOG_CLOSE_BTN_XPATH = "//div[@class='g-popup-bd js-popup-bd js-popup-assign'][2]//a[@data-bind='click: close']";
 
 		protected const string ACCEPT_BTN_XPATH = ".//span[contains(@class,'js-accept')]";
 
