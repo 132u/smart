@@ -679,7 +679,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		protected const string DOCUMENT_SETTINGS_SAVE_BTN_XPATH = DOCUMENT_SETTINGS_DIALOG_XPATH + "//span[contains(@class,'js-save')]";
 
 		protected const string DOCUMENT_PROGRESS_XPATH = "//div[@class='ui-progressbar__container']";
-		protected const string DOCUMENT_ASSIGN_RESPONSIBLES_BTN_XPATH = "//span[contains(@class,'js-assign-btn')]";
+		protected const string DOCUMENT_ASSIGN_RESPONSIBLES_BTN_XPATH = "//span[contains(@class, 'js-assign-btn') and @data-bind='click: assign']";
 		protected const string UPLOAD_DOCUMENT_BTN_XPATH = ".//span[contains(@class,'js-import-btn ')]";
 
 		protected const string USERS_RIGHTS_BTN_XPATH = ".//a[contains(@href,'/Users/Index')]";

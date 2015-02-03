@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.UI;
 
@@ -75,26 +76,13 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// </summary>
 		/// <param name="rowNumber">Номер строки задачи</param>
 		/// <returns>Список исполнителей</returns>
-		public List<string> GetResponsibleUsersListByRowNumber(int rowNumber)
+		public List<string> GetResponsibleUsersList()
 		{
-			var usersList = new List<string>();
+			var elementUsersList = GetElementList(By.XPath(PATH_TO_USERS_LIST));
 
-			var xPath = RESPONSIBLES_TABLE_XPATH + "//tr[" + rowNumber + "]" +
-				RESPONSIBLE_USERS_XPATH;
-
-			var elementUsersList = GetElementList(By.XPath(xPath));
-
-			foreach (var element in elementUsersList)
-			{
-				var attr = element.GetAttribute("text");
-
-				if ((attr != "") && (!attr.Contains("Group: ")))
-				{
-					usersList.Add(attr.Replace("  ", " "));
-				}
-			}
-
-			return usersList;
+			return (from element in elementUsersList
+					where !element.Text.Contains("Group: ")
+					select element.Text).ToList();
 		}
 
 		/// <summary>
@@ -102,24 +90,13 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// </summary>
 		/// <param name="rowNumber">Номер строки задачи</param>
 		/// <returns>Список групп</returns>
-		public List<string> GetResponsibleGroupsListByRowNumber(int rowNumber)
+		public List<string> GetResponsibleGroupsList()
 		{
-			var groupsList = new List<string>();
+			var elementUsersList = GetElementList(By.XPath(PATH_TO_USERS_LIST));
 
-			var xPath = RESPONSIBLES_TABLE_XPATH + "//tr[" + rowNumber + "]" +
-				RESPONSIBLE_USERS_XPATH;
-
-			var elementUsersList = GetElementList(By.XPath(xPath));
-
-			foreach (var element in elementUsersList)
-			{
-				var attr = element.GetAttribute("text");
-
-				if ((attr != "") && (attr.Contains("Group: ")))
-					groupsList.Add(attr.Replace("  ", " "));
-			}
-
-			return groupsList;
+			return (from element in elementUsersList
+					where element.Text.Contains("Group: ")
+					select element.Text).ToList();
 		}
 
 		/// <summary>
@@ -251,17 +228,17 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 
 
 
-		protected const string RESPONSIBLES_FORM_XPATH = ".//div[contains(@class, 'js-popup-progress')][*//select[@id='responsible']]";
-		protected const string RESPONSIBLES_TABLE_XPATH = ".//table[contains(@class, 'js-progress-table')][*//select[@id='responsible']]";
+		protected const string RESPONSIBLES_FORM_XPATH = "(//div[contains(@class, 'js-popup-assign')])[2]";
+		protected const string RESPONSIBLES_TABLE_XPATH = "(//table[contains(@class, 'js-progress-table')]//table)[2]";
 		
 		protected const string CHOOSE_TASK_STEP__XPATH = ".//div[contains(@class, 'js-popup-import-document')]";
-		
-		protected const string DROPDOWNLIST_XPATH = "//td[select[@id='responsible']]/span";
+
+		protected const string DROPDOWNLIST_XPATH = "//td[contains(@class, 'assineer')]/span";
 		protected const string RESPONSIBLE_USERS_XPATH = "//select[@id='responsible']/option";
 		protected const string VISIBLE_RESPONSIBLE_USERS_XPATH = "//span[contains(@class, 'js-dropdown__list')]/span";
-		protected const string ASSIGN_BTN_XPATH = "//span[contains(@class, 'js-assigned-block')]//a[contains(text(), 'Assign')]";
-		protected const string CANCEL_BTN_XPATH = "//span[contains(@class, 'js-assigned-block')]//a[contains(text(), 'Cancel')]";
-		protected const string CLOSE_BTN_XPATH = "//span[contains(@class, 'js-popup-close')]";
+		protected const string ASSIGN_BTN_XPATH = "//span[contains(@class, 'js-assign')]//a[contains(text(), 'Assign')]";
+		protected const string CANCEL_BTN_XPATH = "//span[contains(@class, 'js-assigned-cancel')]//a[contains(text(), 'Cancel')]";
+		protected const string CLOSE_BTN_XPATH = "//div[contains(@class, 'js-popup-buttons')]//a[@data-bind='click: close']";
 
 		protected const string YES_BTN_CONFIRM_XPATH = CONFIRM_RESET_ASSIGNMENT_FORM_XPATH + "//input[contains(@class, 'js-submit-btn ')]";
 
@@ -269,5 +246,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		
 		protected const string CONFIRM_RESET_ASSIGNMENT_FORM_XPATH = ".//div[contains(@class, 'js-popup-confirm')]";
 		protected const string INFO_FORM_XPATH = ".//div[contains(@class, 'js-info-popup')]";
+		protected const string PATH_TO_USERS_LIST = "//span[contains(@class, 'js-dropdown__list')]//span";
 	}
 }

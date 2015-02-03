@@ -41,14 +41,17 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Editor.Revisions
 				GoToWorkspace();
 
 				// создаем документ с нужным файлом, нужной ТМ, подкючаем МТ и глоссарий
-				CreateProject(_projectNameRevisionsTest, TestFile.LongTxtFile,
-				true, TestFile.LongTmxFile,
-					Workspace_CreateProjectDialogHelper.SetGlossary.New, "",
-					true, Workspace_CreateProjectDialogHelper.MT_TYPE.DefaultMT,
-					false,
-					2);
-
-				Thread.Sleep(2000);
+				CreateProject(
+					projectName: _projectNameRevisionsTest,
+					downloadFile: TestFile.LongTxtFile,
+					createNewTM: true,
+					tmFile: TestFile.LongTmxFile,
+					setGlossary: Workspace_CreateProjectDialogHelper.SetGlossary.New,
+					glossaryName: "",
+					chooseMT: true,
+					mtType: Workspace_CreateProjectDialogHelper.MT_TYPE.DefaultMT,
+					isNeedCheckExist: false,
+					translationTasksNumber: 2);
 
 				// Открываем диалог выбора исполнителя
 				OpenAssignDialog(_projectNameRevisionsTest);

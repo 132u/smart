@@ -224,22 +224,26 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			WorkspacePage.ClickUsersAndRightsBtn();
 
 			// Ожидание открытия страницы
-			Assert.IsTrue(UserRightsPage.WaitUntilUsersRightsDisplay(), "Ошибка: Страница прав пользователя не открылась.");
+			Assert.IsTrue(
+				UserRightsPage.WaitUntilUsersRightsDisplay(), 
+				"Ошибка: Страница прав пользователя не открылась.");
 
 			// Получаем список 
-			List<string> usersList = UserRightsPage.GetUserFullnameList();
+			var usersList = UserRightsPage.GetUserFullnameList();
 
 			// Открываем страницу групп пользователей
 			UserRightsPage.OpenGroups();
 
 			// Ожидание открытия страницы прав групп пользователей
-			Assert.IsTrue(UserRightsPage.WaitUntilGroupsRightsDisplay(), "Ошибка: Страница прав групп пользователей не открылась.");
+			Assert.IsTrue(
+				UserRightsPage.WaitUntilGroupsRightsDisplay(), 
+				"Ошибка: Страница прав групп пользователей не открылась.");
 
 			// Получаем список 
-			List<string> groupsList = UserRightsPage.GetGroupNameList();
+			var groupsList = UserRightsPage.GetGroupNameList();
 
 			// Добавляем в начало каждой строки слово Group как в списке диалога
-			for (int i= 0; i < groupsList.Count; i++)
+			for (var i= 0; i < groupsList.Count; i++)
 			{
 				groupsList[i] = "Group: " + groupsList[i];
 			}
@@ -258,29 +262,35 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			Thread.Sleep(1000);
 
 			// Получаем список из выпадающего списка исполнителей
-			List<string> responsibleUsersList = ResponsiblesDialog.GetResponsibleUsersListByRowNumber(1);
+			var responsibleUsersList = ResponsiblesDialog.GetResponsibleUsersList();
 
-			for (int i = 0; i < responsibleUsersList.Count; i++)
+			foreach (var item in responsibleUsersList)
 			{
-				Assert.IsTrue(usersList.Contains(responsibleUsersList[i]),
-					"Ошибка: Элемент выпадающего списка " + responsibleUsersList[i] + " отсутствует в списке пользователей.");
-				usersList.Remove(responsibleUsersList[i]);
+				Assert.IsTrue(
+					usersList.Contains(item),
+					"Ошибка: Элемент выпадающего списка " + item + " отсутствует в списке пользователей.");
+
+				usersList.Remove(item);
 			}
 
 			// Получаем список из выпадающего списка групп исполнителей
-			List<string> responsibleGroupList = ResponsiblesDialog.GetResponsibleGroupsListByRowNumber(1);
+			var responsibleGroupList = ResponsiblesDialog.GetResponsibleGroupsList();
 
-			for (int i = 0; i < responsibleGroupList.Count; i++)
+			foreach (var item in responsibleGroupList)
 			{
-				Assert.IsTrue(groupsList.Contains(responsibleGroupList[i]),
-					"Ошибка: Элемент выпадающего списка " + responsibleGroupList[i] + " отсутствует в списке групп пользователей.");
-				groupsList.Remove(responsibleGroupList[i]);
+				Assert.IsTrue(
+					groupsList.Contains(item),
+					"Ошибка: Элемент выпадающего списка " + item + " отсутствует в списке групп пользователей.");
+				
+				groupsList.Remove(item);
 			}
 
-			Assert.IsTrue(groupsList.Count == 0,
+			Assert.IsTrue(
+				groupsList.Count == 0,
 				"Ошибка: В выпадающем списке отсутсвуют " + groupsList.Count + " элемента списка групп пользователей.");
 
-			Assert.IsTrue(usersList.Count == 0,
+			Assert.IsTrue(
+				usersList.Count == 0,
 				"Ошибка: В выпадающем списке отсутсвуют " + usersList.Count + " элемента списка пользователей.");
 		}
 
@@ -323,7 +333,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			Thread.Sleep(1000);
 
 			// Получаем список из выпадающего списка исполнителей
-			responsibleGroupList = ResponsiblesDialog.GetResponsibleGroupsListByRowNumber(1);
+			responsibleGroupList = ResponsiblesDialog.GetResponsibleGroupsList();
 
 			foreach (string group in responsibleGroupList)
 			{				
