@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.UI;
+using System.Windows.Forms;
 
 namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.TM
 {
@@ -784,6 +785,25 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.TM
 			UploadTM(DocumentName, ADD_TMX);
 		}
 
+		/// <summary>
+		/// Закрыть все уведомления,которые показываются сейчас
+		/// </summary>
+		public void CloseAllErrorNotifications()
+		{
+			var notificationsCount = GetElementList(By.XPath(NOTIFICATION_XPATH + "//span[2]/a")).Count;
+			//закрываем сообщения от самого верхнего к нижнему.(по оси z)
+			for (int i = notificationsCount; i > 0; i--)
+			{
+				Logger.Trace("Закрываем сообщение:" + NOTIFICATION_XPATH + "[" + i + "]");
+				var currentElement = GetElement(By.XPath(NOTIFICATION_XPATH + "[" + i + "]//span[2]/a"));
+				currentElement.Click();
+				//даём открыться диалоговому окну загрузки файлов
+				System.Threading.Thread.Sleep(3000);
+				//отменяем загрузку, закрывая диалоговое окно
+				SendKeys.SendWait(@"{Esc}");
+			}
+		}
+
 		public enum TM_BTN_TYPE { Update, Export, Delete, Add, Edit, Save };
 
 		protected const string ADD_TM_BTN_XPATH = ".//span[contains(@class,'js-create-tm')]";
@@ -874,6 +894,8 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.TM
 
 		protected const string CONFIRM_XPATH = "//div[contains(@class,'js-popup-confirm')]//input[contains(@type,'submit')]";
 		protected const string NO_TMX_FILE_ERROR_XPATH = IMPORT_POPUP_XPATH + "//p[contains(@class,'js-error-invalid-file-extension')]";
+
+		protected const string NOTIFICATION_XPATH = "//div[@class='g-notifications-item']";
 
 		protected Dictionary<TM_BTN_TYPE, string> TMButtonDict;
 	}

@@ -96,6 +96,9 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.TM
 			//Выбираем необходимую для теста локализацию
 			WorkspacePage.SelectLocale(locale);
 
+			//закрыть все сообщения(сообщения о неудачных загрузках других файлов).
+			TMPage.CloseAllErrorNotifications();
+
 			//Формируем путь до TMX файла для загрузки
 			string tmxFileForBaloonChecking = Path.Combine(
 				PathTestFiles,
