@@ -258,7 +258,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 
 		protected const string PAGE_LINK_XPATH = "//a[contains(@href,'/Users/Index')]";
 		protected const string GROUP_LINK_XPATH = "//a[contains(@href,'/Groups/Index')]";
-		protected const string ADMIN_GROUP_XPATH = "//td[contains(@class,'js-group-name')][text()='Administrators']";
+		protected const string ADMIN_GROUP_XPATH = "//td[@data-bind='text: name' and text()='Administrators']";
 		protected const string EDIT_BTN_XPATH = "//span[contains(@class,'js-editgroup-btn')]";
 		protected const string ADD_RIGHTS_BTN_XPATH = "//span[contains(@class,'js-add-right-btn')]";
 		protected const string SUGGEST_WITHOUT_GLOSSARY_INPUT_XPATH = "//li[@data-type='AddSuggestsWithoutGlossary']//input";
@@ -269,12 +269,12 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		protected const string ALL_GLOSSARIES_SELECT_XPATH = "//div[contains(@class,'js-scope-section')][2]//input[contains(@name,'accessRightScopeType')]";
 		protected const string SAVE_BTN_XPATH = "//span[contains(@class,'js-save-btn')]";
 
-		protected const string CREATE_GROUP_BTN_XPATH = "//span[contains(@class,'js-addgroup-btn')]//a[contains(text(),'Create Group')]";
-		protected const string CREATE_GROUP_FORM_XPATH = "//form[contains(@action,'/Groups/Add')]";
+		protected const string CREATE_GROUP_BTN_XPATH = "//span[@data-bind='click: addGroup']//a[contains(text(),'Create Group')]";
+		protected const string CREATE_GROUP_FORM_XPATH = "//div[contains(@class,'l-add-group-popup')]";
 		protected const string NAME_NEW_GROUP_XPATH = CREATE_GROUP_FORM_XPATH + "//label/input";
-		protected const string CANCEL_NEW_GROUP_XPATH = CREATE_GROUP_FORM_XPATH + "//a[contains(@class,'js-popup')]";
-		protected const string SAVE_NEW_GROUP_XPATH = CREATE_GROUP_FORM_XPATH + "//input[contains(@value,'Create Group')]";
-		protected const string ERROR_NEW_GROUP_XPATH = CREATE_GROUP_FORM_XPATH + "//div[contains(@class,'js-error-message')]";
+		protected const string CANCEL_NEW_GROUP_XPATH = CREATE_GROUP_FORM_XPATH + "//a[contains(@class,'js-popup-close')]";
+		protected const string SAVE_NEW_GROUP_XPATH = CREATE_GROUP_FORM_XPATH + "//a[contains(text(),'Create Group')]";
+		protected const string ERROR_NEW_GROUP_XPATH = CREATE_GROUP_FORM_XPATH + "//div[@data-bind='visible: nameAlreadyExists' and @style='']";
 
 		protected const string USERS_RIGHTS_TABLE_XPATH = ".//table[contains(@class, 'js-users')]";
 		protected const string USERS_XPATH = USERS_RIGHTS_TABLE_XPATH + "//tr[contains(@class, 'js-users-trwork')]";

@@ -300,9 +300,8 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		[Test]
 		public void AddNewGroup()
 		{
-			List<string> responsibleGroupList = new List<string>();
-			string groupName = "GroupTest" + DateTime.Now.Ticks.ToString();
-			bool isPresent = false;
+			var groupName = "GroupTest" + DateTime.Now.Ticks.ToString();
+			var isPresent = false;
 
 			// Переходим к вкладке прав пользователей
 			WorkspacePage.ClickUsersAndRightsBtn();
@@ -333,12 +332,14 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			Thread.Sleep(1000);
 
 			// Получаем список из выпадающего списка исполнителей
-			responsibleGroupList = ResponsiblesDialog.GetResponsibleGroupsList();
+			var responsibleGroupList = ResponsiblesDialog.GetResponsibleGroupsList();
 
-			foreach (string group in responsibleGroupList)
-			{				
+			foreach (var group in responsibleGroupList)
+			{
 				if (group == "Group: " + groupName)
+				{
 					isPresent = true;
+				}
 			}
 
 			Assert.IsTrue(isPresent,
