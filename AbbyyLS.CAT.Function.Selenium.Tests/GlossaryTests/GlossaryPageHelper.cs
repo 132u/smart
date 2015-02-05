@@ -2,6 +2,8 @@
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.UI;
 using System.IO;
+using System.Net;
+using System;
 
 namespace AbbyyLS.CAT.Function.Selenium.Tests
 {
@@ -890,6 +892,14 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		}
 
 		/// <summary>
+		/// Получить сслку для скачивания файла
+		/// </summary>
+		/// <returns> Ссылка</returns>
+		public string GetHrefForExport()
+		{
+			return GetElementAttribute(By.XPath(HREF_EXPORT), "href");
+		}
+		/// <summary>
 		/// Кликнуть Add 
 		/// </summary>
 		/// <param name="langNumber">номер языка</param>
@@ -1175,6 +1185,26 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 
 		}
 
+		/// <summary>
+		/// Метод экспорта глоссари
+		/// </summary>
+		/// <param name="fileName"> Имя файла </param>
+		/// <param name="link"> Ссылка на файл </param>
+		public void ExportGlossary(string link, string fileName)
+		{
+			var cookies = Driver.Manage().Cookies.AllCookies;
+			using (var wc = new WebClient())
+			{
+				System.Net.ServicePointManager.CertificatePolicy = new TrustAllCertificatePolicy();
+				foreach (var cookie in cookies)
+				{
+					var cookieText = cookie.Name + "=" + cookie.Value;
+					wc.Headers.Add(HttpRequestHeader.Cookie, cookieText);
+				}
+				wc.DownloadFile(new Uri(link), fileName);
+			}
+		}
+
 		protected const string IMPORT_TERMS = "html/body/div[15]/div[2]/div[2]/form/div[1]/div[1]/div/input";
 
 		protected const string ADD_CONCEPT_XPATH = "//span[contains(@class,'js-add-concept')]";
@@ -1279,5 +1309,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		protected const string REPLACE_ALL_XPATH = IMPORT_FORM_XPATH + "//input[contains(@id,'needToClear')][@value='True']";
 		protected const string IMPORT_FORM_IMPORT_BTN_XPATH = IMPORT_FORM_XPATH + "//span[contains(@class,'js-import-button')]";
 		protected const string SUCCESS_RESULT_CLOSE_BTN_XPATH = "//a[contains(@class,'js-close-link')]";
+
+		protected const string HREF_EXPORT = "//a[@class='g-bold l-corprsubmn__text']";
 	}
 }

@@ -18,6 +18,7 @@ using NLog;
 using OpenQA.Selenium.IE;
 using OpenQA.Selenium.Interactions;
 
+using System.Net;
 
 namespace AbbyyLS.CAT.Function.Selenium.Tests
 {
@@ -333,12 +334,12 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 					_profile.SetPreference("intl.accept_languages", "en");
 					_profile.SetPreference("browser.download.dir", PathTestResults);
 					_profile.SetPreference("browser.download.folderList", 2);
-					_profile.SetPreference("browser.download.useDownloadDir", false);
+					_profile.SetPreference("browser.download.useDownloadDir", true);
 					_profile.SetPreference("network.automatic-ntlm-auth.trusted-uris", Url);
 					//_profile.SetPreference("browser.download.manager.showWhenStarting", false);
 					_profile.SetPreference("browser.helperApps.alwaysAsk.force", false);
 					_profile.SetPreference
-						("browser.helperApps.neverAsk.saveToDisk", "text/xml, text/csv, text/plain, text/log, application/zip, application/x-gzip, application/x-compressed, application/x-gtar, multipart/x-gzip, application/tgz, application/gnutar, application/x-tar, application/x-xliff+xml,  application/msword.docx, application/pdf, application/x-pdf, application/octetstream, application/x-ttx, application/x-tmx, application/octet-stream");
+						("browser.helperApps.neverAsk.saveToDisk", "application/xml, text/xml, text/csv, text/plain, text/log, application/zip, application/x-gzip, application/x-compressed, application/x-gtar, multipart/x-gzip, application/tgz, application/gnutar, application/x-tar, application/x-xliff+xml,  application/msword.docx, application/pdf, application/x-pdf, application/octetstream, application/x-ttx, application/x-tmx, application/octet-stream");
 					//_profile.SetPreference("pdfjs.disabled", true);
 
 					Driver = new FirefoxDriver(_profile);
@@ -1359,7 +1360,11 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			string fileExtension = "", 
 			string time = "")
 		{
-			// Заполнить форму для сохранения файла
+			Thread.Sleep(2000);// Sleep не убирать , так как после клика загрузки, файл не всегда успевает появиться в папке
+			string[] file = Directory.GetFiles(PathTestResults, "UserActivitiesLog*");
+
+			Assert.IsTrue(file.Length ==1 , "Ошибка: файл не экспортировался");
+
 			var resultPath = Path.Combine(PathTestResults, subFolderName, time);
 			Directory.CreateDirectory(resultPath);
 			var newFileName = "";
@@ -1376,26 +1381,10 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			var currentFileExtension = originalFileExtension ? Path.GetExtension(filePath) : fileExtension;
 
 			resultPath = Path.Combine(resultPath, newFileName + currentFileExtension);
-
-			var txt = Regex.Replace(resultPath, "[+^%~()]", "{$0}");
-
-			Thread.Sleep(1000);
-			SendKeys.SendWait(txt);
-			Thread.Sleep(1000);
-			SendKeys.SendWait(@"{Enter}");
-
-			bool isFileExitst;
-			var waitSeconds = 0;
-
-			do
-			{
-				isFileExitst = File.Exists(resultPath);
-				Thread.Sleep(1000);
-				waitSeconds++;
-
-			} while (!isFileExitst && (waitSeconds <= 6));
-
-			Assert.IsTrue(isFileExitst, "Ошибка: файл не экспортировался\n" + resultPath);
+			// Перемещаем файл в нужную папку
+			File.Move(file[0], resultPath);
+			// Удаляем файл из папки TestResults (PathTestResults)
+			File.Delete(file[0]);
 		}
 
 		/// <summary>
@@ -2260,5 +2249,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 
 		private string _pathTestFiles;
 		private FirefoxProfile _profile;
+
 	}
 }

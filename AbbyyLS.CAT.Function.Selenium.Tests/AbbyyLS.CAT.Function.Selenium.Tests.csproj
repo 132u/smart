@@ -146,6 +146,7 @@
     <Compile Include="UserLogTest.cs" />
     <Compile Include="PersonalAccount\WorkflowTestPersAcc.cs" />
     <Compile Include="WorkflowTest.cs" />
+    <Compile Include="TrustAllCertificatePolicy.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config">

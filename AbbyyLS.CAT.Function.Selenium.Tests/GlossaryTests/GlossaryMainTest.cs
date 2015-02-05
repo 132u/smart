@@ -3,6 +3,7 @@ using System.Threading;
 using NUnit.Framework;
 using System.Collections.Generic;
 using NLog;
+using System.Net;
 
 namespace AbbyyLS.CAT.Function.Selenium.Tests.Glossary
 {
@@ -362,15 +363,12 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Glossary
 			// Создать папку для экспорта
 			System.IO.Directory.CreateDirectory(resultPath);
 			uniqueGlossaryName = System.IO.Path.Combine(resultPath, uniqueGlossaryName);
+			var linkHref = GlossaryPage.GetHrefForExport();
+			// Экспорт глоссари
+			GlossaryPage.ExportGlossary(linkHref, uniqueGlossaryName + ".xlsx");
 
-			// Нажать Экспорт
-			GlossaryPage.ClickExportBtn();
-			// Сохранить документ
-			ExternalDialogSelectSaveDocument(uniqueGlossaryName);
-
-			// Проверить, экспортировался ли файл
 			Assert.IsTrue(
-				System.IO.File.Exists(uniqueGlossaryName + ".xlsx"), 
+				System.IO.File.Exists(uniqueGlossaryName + ".xlsx"),
 				"Ошибка: файл не экспортировался");
 		}
 

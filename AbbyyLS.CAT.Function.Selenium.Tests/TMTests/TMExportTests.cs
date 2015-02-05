@@ -27,7 +27,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.TM
 			// Отрыть информацию о ТМ и нажать кнопку
 			ClickButtonTMInfo(UniqueTmName, TMPageHelper.TM_BTN_TYPE.Export);
 			// Экспортировать - Assert внутри
-			ExportTM();
+			MoveTMFile();
 		}
 
 		/// <summary>
@@ -47,7 +47,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.TM
 			// Отрыть информацию о ТМ и нажать кнопку
 			ClickButtonTMInfo(UniqueTmName, TMPageHelper.TM_BTN_TYPE.Export);
 			// Экспортировать - Assert внутри
-			ExportTM();
+			MoveTMFile();
 		}
 
 		private static readonly string[] tmxFileList = Directory.GetFiles(

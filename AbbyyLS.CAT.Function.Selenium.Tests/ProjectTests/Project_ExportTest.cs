@@ -817,31 +817,46 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <param name="multiDoc">производится экспорт нескольких документов</param>
 		protected void WorkWithExport(string exportType, bool multiDoc = false)
 		{
+			string fileName = (exportType == EXPORT_TYPE_TMX) ? "testToConfirm.tmx" : "testToConfirm.txt";
 			// Дождаться появления Download в Notifier 
 			WaitExportDownloadBtn();
 			// Нажать Download
 			WorkspacePage.ClickDownloadNotifier();
-			var isNeedOriginalExtension = true;
-			var fileExtension = "";
 
-			if (multiDoc)
+			string clickTime = DateTime.Now.ToString("MM.dd.yyyy HH:mm:ss");
+			Logger.Trace("Время клика по кнопке Download = " + clickTime);
+
+			var waitSeconds = 0;
+			
+			while (!File.Exists(PathTestResults + "\\" + fileName) && (waitSeconds <= 6))
 			{
-				isNeedOriginalExtension = false;
-				fileExtension = ".zip";
+				File.Exists(PathTestResults + "\\" + fileName);
+				Thread.Sleep(1000); // Sleep не убирать! без него не работает
+				waitSeconds++;
+
 			}
+			
+			Assert.IsTrue(File.Exists(PathTestResults + "\\" + fileName), "Ошибка: файл не экспортировался");
 
-			switch (exportType)
+			DateTime lastChanged = File.GetLastWriteTime(PathTestResults + "\\" + fileName);
+			Logger.Trace("Время последнего изменения файла = " + lastChanged);
+			string subfolder = "";
+			switch(exportType)
 			{
-				case EXPORT_TYPE_SOURCE:
-					ExternalDialogSaveDocument("ExportedOriginalDocuments", true, _exportFilePath, isNeedOriginalExtension, fileExtension);
-					break;
-				case EXPORT_TYPE_TARGET:
-					ExternalDialogSaveDocument("ExportedTranslatedDocuments", true, _exportFilePath, isNeedOriginalExtension, fileExtension);
-					break;
 				case EXPORT_TYPE_TMX:
-					ExternalDialogSaveDocument("ExportedTMXDocuments", true, _exportFilePath, false, multiDoc ? fileExtension : ".tmx");
+					subfolder = "ExportedTMXDocuments";
+					break;
+
+				case EXPORT_TYPE_TARGET:
+					subfolder = "ExportedTranslatedDocuments";
+					break;
+
+				default:
+					subfolder = "ExportedOriginalDocuments";
 					break;
 			}
+			var pathToMove = PathTestResults + "\\" + subfolder + "\\" + Path.GetFileNameWithoutExtension(fileName) + DateTime.Now.Ticks + Path.GetExtension(fileName);
+			File.Move(PathTestResults + "\\" + fileName, pathToMove);
 		}
 
 		/// <summary>

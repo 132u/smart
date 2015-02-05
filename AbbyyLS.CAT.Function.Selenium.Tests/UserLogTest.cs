@@ -217,7 +217,8 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			WriteLog(segmentNum, "Переход в target", "Клик мыши", "-");
 			// Пишем в лог
 			WriteLog(segmentNum, "Добавление текста", "Клавиатура", text);
-
+			// Переместить курсор в конец строки
+			EditorPage.SendKeysTarget(segmentNum, OpenQA.Selenium.Keys.End);
 			//Удалить текст путем нажатия клавиши Backspace
 			while (EditorPage.GetTargetText(segmentNum).Length > 0)
 			{
@@ -333,8 +334,10 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			// Пишем в лог
 			WriteLog(0, "Открытие документа", "-", "-");
 			var segmentNum = 1;
-			//Копировать текст сегмента
+			// Копировать текст сегмента
 			ToTargetButton(segmentNum);
+			// Дождаться автосохранения сегментов
+			AutoSave();
 			// Пишем в лог
 			WriteLog(segmentNum, "Переход в source", "Клик мыши", "-");
 			// Пишем в лог
@@ -347,8 +350,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			EditorClickHomeBtn();
 			// Пишем в лог
 			WriteLog(0, "Нажатие кнопки Home", "Кнопка редактора", "-");
-			// Перейти к проекту
-			OpenProjectPage(projectName);
 			//Выгрузить логи
 			ExportLog();
 		}
@@ -379,6 +380,8 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 				"Нажатие хоткея копирования source в target",
 				"Ctrl + Insert",
 				EditorPage.GetSourceText(segmentNum));
+			// Дождаться автосохранения сегментов
+			AutoSave();
 			// Нажать кнопку назад
 			EditorClickHomeBtn();
 			// Пишем в лог

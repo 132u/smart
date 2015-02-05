@@ -520,17 +520,16 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.TM
 		/// <summary>
 		/// Экспортировать (работа с внешним диалогом)
 		/// </summary>
-		public void ExportTM()
+		public void MoveTMFile()
 		{
-			//ExternalDialogSaveDocument("TMExportTest", true, TMName, false, ".tmx");
-
+			string[] file = Directory.GetFiles(PathTestResults, "TestTM*");
 			string resultPath = Path.Combine(PathTestResults, "TMExportTest");
 			Directory.CreateDirectory(resultPath);
 
 			string newFileName = DateTime.Now.Ticks.ToString();
 			resultPath = Path.Combine(resultPath, newFileName + ".tmx");
 
-			ExternalDialogSelectSaveDocument(resultPath);
+			File.Move(file[0], resultPath);
 			Assert.IsTrue(File.Exists(resultPath), "Ошибка: файл не экспортировался\n" + resultPath);
 		}
 		#endregion
