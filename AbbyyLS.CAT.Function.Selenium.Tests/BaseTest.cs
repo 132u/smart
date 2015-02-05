@@ -351,7 +351,9 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			else if (BrowserName == "Chrome")
 			{
 				// драйвер работает некорректно
-				Driver = new ChromeDriver();
+				ChromeOptions options = new ChromeOptions();
+				options.AddArguments("--lang=en");
+				Driver = new ChromeDriver(options);
 			}
 			else if (BrowserName == "IE")
 			{
