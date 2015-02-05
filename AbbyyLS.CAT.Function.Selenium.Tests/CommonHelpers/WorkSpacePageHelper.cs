@@ -595,6 +595,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// </summary>
 		public void ClickLogoff()
 		{
+			//кликаем на ссылку "Sign Out"
 			ClickElement(By.XPath(LOGOFF_XPATH));
 		}
 

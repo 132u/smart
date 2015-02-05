@@ -23,17 +23,17 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Registration.Captcha
 		[Test]
 		public void CaptchaTestOnSignInPage()
 		{
-			CaptchaSignIn();
+			CaptchaSignIn(4);
 
-			// Ввводим неверный пароль 6й раз
+			// Ввводим неверный пароль 5й раз
 			LoginPage.EnterPassword(RegistrationPage.Password + "test");
 
 			// Кликаем Sign in 
 			RegistrationPage.ClickSignInButton();
 
-			// Проверяем, что после 6го ввода неправильного пароля появилась captcha
+			// Проверяем, что после 5го ввода неправильного пароля появилась captcha
 			Assert.IsTrue(RegistrationPage.GetCaptchaIsDisplayed(),
-				"Ошибка: captcha не появилась после 6й попытки ввода неверного пароля");
+				"Ошибка: captcha не появилась после 5й попытки ввода неверного пароля");
 		}
 
 		/// <summary>
@@ -43,7 +43,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Registration.Captcha
 		[Test]
 		public void CaptchaCounterIsNulledTestOnSignInPage()
 		{
-			CaptchaSignIn();
+			CaptchaSignIn(3);
 
 			// Ввод правильного пароля
 			LoginPage.EnterPassword(RegistrationPage.Password);
@@ -51,11 +51,10 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Registration.Captcha
 			// Кликаем Sign in 
 			RegistrationPage.ClickSignInButton();
 
-			// Кликаем Log off в WS
-			WorkspacePage.ClickAccount();
-			WorkspacePage.ClickLogoff();
+			// Выходим из системы
+			RegistrationPage.ClickSignOutBtn();
 
-			//Заполнить email
+			// Заполнить email
 			LoginPage.EnterLogin(RegistrationPage.Email);
 
 			// Ввод неправильного пароля
@@ -76,17 +75,17 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Registration.Captcha
 		[Test]
 		public void CaptchaTestOnFreelanceRegPage()
 		{
-			CaptchaFreelanceReg();
+			CaptchaFreelanceReg(4);
 
-			// Ввводим неверный пароль 6й раз
+			// Ввводим неверный пароль 5й раз
 			RegistrationPage.TypeTextInPasswordFieldSignIn(RegistrationPage.Password + "test");
 
 			// Кликаем Sign in 
 			RegistrationPage.ClickSignInButton();
 
-			// Проверяем, что после 6го ввода неправильного пароля появилась captcha
+			// Проверяем, что после 5го ввода неправильного пароля появилась captcha
 			Assert.IsTrue(RegistrationPage.GetCaptchaIsDisplayed(),
-				"Ошибка: captcha не появилась после 6й попытки ввода неверного пароля");
+				"Ошибка: captcha не появилась после 5й попытки ввода неверного пароля");
 		}
 
 		/// <summary>
@@ -96,22 +95,24 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Registration.Captcha
 		[Test]
 		public void CaptchaCounterIsNulledTestOnFreelanceRegPage()
 		{
-			CaptchaFreelanceReg();
+			CaptchaFreelanceReg(3);
 
 			// Ввводим верный пароль 
 			RegistrationPage.TypeTextInPasswordFieldSignIn(RegistrationPage.Password);
 
 			// Кликаем Sign in 
 			RegistrationPage.ClickSignInButton();
+			
+			// Выходим из системы			
+			RegistrationPage.ClickSignOutBtn();
 
-			// Кликнуть кнопку выхода
-			WorkspacePage.ClickAccount();
-			WorkspacePage.ClickLogoff();
+			// Ждём появления поля ввода пароля. Его появление означает,что мы вышли из системы
+			RegistrationPage.WaitShowPasswordInput();
 
 			// Переход на страницу регистрации фрилансеров
 			GoToRegistrationPage(RegistrationType.User);
 
-			// Переход на стр авторизации для уществующих пользователей freelance-reg
+			// Переход на стр авторизации для существующих пользователей freelance-reg
 			RegistrationPage.GoToLoginPageWithExistAccount();
 
 			// Заполнить поле email
@@ -128,7 +129,11 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Registration.Captcha
 				"Ошибка: счетчик количества ввода неправильного пароля не обнулился, captcha появилась");
 		}
 
-		private void CaptchaFreelanceReg()
+		/// <summary>
+		/// Регистрация фрилансера и count раз ввод неверного пароля
+		/// </summary>
+		/// <param name="count"> количество попыток войти </param>
+		private void CaptchaFreelanceReg(int count)
 		{
 			// Регистрируем нового фрилансера
 			RegistrationNewUser(RegistrationPage.Email, RegistrationPage.Password);
@@ -150,22 +155,23 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Registration.Captcha
 			// Заполнить поле email
 			RegistrationPage.TypeTextInEmailFieldSignIn(RegistrationPage.Email);
 
-			// Пять раз вводим неверный пароль 
-			for (int i = 1; i < 6; i++)
+			// count раз вводим неверный пароль 
+			for (int i = 0; i < count; i++)
 			{
 				//Заполнить пароль
 				RegistrationPage.TypeTextInPasswordFieldSignIn(RegistrationPage.Password + i);
 				RegistrationPage.ClickSignInButton();
 				Assert.IsTrue(!RegistrationPage.GetCaptchaIsDisplayed(),
-					"Ошибка: captcha появилась при попытке №" + i + " ввода неверного пароля");
+					"Ошибка: captcha появилась при попытке №" + (i + 1) + " ввода неверного пароля");
 			}
 
 		}
 
 		/// <summary>
-		/// Регистрация пользователя на freelance-reg и пять раз ввод неверного пароля
+		/// Регистрация пользователя на freelance-reg и count раз ввод неверного пароля
 		/// </summary>
-		private void CaptchaSignIn()
+		/// <param name="count"> количество попыток войти </param>
+		private void CaptchaSignIn(int count)
 		{
 			// Регистрируем нового фрилансера
 			RegistrationNewUser(RegistrationPage.Email, RegistrationPage.Password);
@@ -175,8 +181,8 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Registration.Captcha
 				"Ошибка: имя фрилансера неправильно отображается на странице WS");
 
 			WorkspacePage.ClickAccount();
-			//Нажать кнопку выхода
-
+			
+			// Нажать кнопку выхода
 			WorkspacePage.ClickLogoff();
 
 			// Обновить страницу
@@ -185,15 +191,15 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Registration.Captcha
 			// Заполнить email
 			LoginPage.EnterLogin(RegistrationPage.Email);
 
-			// Пять раз вводим неверный пароль 
-			for (int i = 1; i < 6; i++)
+			// count раз вводим неверный пароль 
+			for (int i = 0; i < count; i++)
 			{
 				//Заполнить пароль
 				LoginPage.EnterPassword(RegistrationPage.Password + i);
 				//Нажать кнопку Sign In
 				LoginPage.ClickSubmitCredentials();
 				Assert.IsTrue(!RegistrationPage.GetCaptchaIsDisplayed(),
-					"Ошибка: captcha появилась при попытке №" + i + " ввода неверного пароля");
+					"Ошибка: captcha появилась при попытке №" + (i + 1) + " ввода неверного пароля");
 			}
 		}
 
@@ -204,13 +210,15 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Registration.Captcha
 		[Test]
 		public void CaptchaTestCorpRegPage()
 		{
-			CaptchaCorpReg();
+			// Регистрируемся и 4 раза пробуем ввести неправильный пароль
+			CaptchaCorpReg(4);
 
+			// Ввод неправильного пароля
 			RegisterAsExistUserWithInCorrectPassword(RegistrationPage.Email, RegistrationPage.Password);
 
 			// Проверяем, что после 5го ввода неправильного пароля появилась captcha
 			Assert.IsTrue(RegistrationPage.GetCaptchaIsDisplayed(),
-	"			Ошибка: captcha не появилась после 5й попытки ввода неверного пароля");
+				"Ошибка: captcha не появилась после 5й попытки ввода неверного пароля");
 		}
 
 		/// <summary>
@@ -220,7 +228,8 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Registration.Captcha
 		[Test]
 		public void CaptchaCounterIsNulledTestCorpRegPage()
 		{
-			CaptchaCorpReg();
+			// Регистрируемся и 3 раза пробуем ввести неправильный пароль
+			CaptchaCorpReg(3);
 
 			// Ввод правильного пароля
 			RegisterAsExistUserWithCorrectPassword(RegistrationPage.Email, RegistrationPage.Password);
@@ -232,34 +241,37 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Registration.Captcha
 			RegisterAsExistUserWithInCorrectPassword(RegistrationPage.Email, RegistrationPage.Password);
 
 			// Проверяем, что счетчик обнулился, капча не должна появиться
-			Assert.IsTrue(RegistrationPage.GetCaptchaIsDisplayed(),
-	"			Ошибка: счетчик не обнулился");
+			Assert.IsTrue(!RegistrationPage.GetCaptchaIsDisplayed(),
+				"Ошибка: счетчик не обнулился. Captcha появилась.");
 		}
 
 		/// <summary>
-		/// Регистрация пользователя на Corp-reg и пять раз ввод неверного пароля
+		/// Регистрация пользователя на Corp-reg и count раз ввод неверного пароля
 		/// </summary>
-		private void CaptchaCorpReg()
+		/// <param name="count"> количество попыток войти </param>
+		private void CaptchaCorpReg(int count)
 		{
 			// Регистрируем новую компанию
 			RegisterNewUserWithCompanyAndCheckWS(RegistrationPage.Email, RegistrationPage.Password);
 
-			// Кликаем Log off в WS
+			// Разлогиниваемся
+			WorkspacePage.ClickAccount();
 			WorkspacePage.ClickLogoff();
 
-			//Переходим на страницу регистрации компаний
+			// Переходим на страницу регистрации компаний
 			GoToRegistrationPage(RegistrationType.Company);
 
 			// Переход на страницу входа для компаний
 			RegistrationPage.GoToLoginPageWithExistAccount();
 
-			// 3 раза вводим неверный пароль 
-			for (int i = 1; i < 6; i++)
+			// count раз вводим неверный пароль 
+			for (int i = 0; i < count; i++)
 			{
 				RegisterAsExistUserWithInCorrectPassword(RegistrationPage.Email, RegistrationPage.Password);
 				Assert.IsTrue(!RegistrationPage.GetCaptchaIsDisplayed(),
-					"Ошибка: captcha появилась при попытке №" + i + " ввода неверного пароля");
+					"Ошибка: captcha появилась при попытке №" + (i + 1) + " ввода неверного пароля");
 			}
+			
 		}
 
 	}

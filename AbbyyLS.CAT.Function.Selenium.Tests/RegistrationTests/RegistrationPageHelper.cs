@@ -342,7 +342,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		protected const string ERROR_MESSAGE_USER_IS_ALREADY_EXIST = "//div[@ng-message='already-exists']"; //сообщение, что юзер уже существует
 		protected const string CREATE_ACCOUNT_IN_ABBYY_ONLINE_LINK = "//a[text()='account in ABBYY-Online']";
 		protected const string USER_NOT_EXIST_MESSAGE = "//span[contains(@translate, 'USER-NOT-FOUND-ERROR')]";//сообщение ,что юзера не существует 
-		protected const string EXIST_ACCOUNT_LINK_ABBY_ONLINE = "//a[@id='show-sign-in']";
+		protected const string EXIST_ACCOUNT_LINK_ABBY_ONLINE = "//a[@id='btnLogin']";
 		protected const string WRONG_PASSWORD_MESSAGE = "//span[contains(text(), 'Wrong password')]";
 		protected const string LOAD_PHOTO_BTN = "//input[@type='file']";
 		protected const string LABEL_WRONG_FORMAT = "//i[text()='Wrong format' and @class='ng-binding']";
@@ -396,7 +396,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			DoubleClickElement(By.XPath(CREATE_ACCOUNT_COMPANY_BTN));
 		}
 
-
 		/// <summary>
 		/// Выбрать тип компании на 2м шаге стр регистрации компании 
 		/// </summary>
@@ -439,7 +438,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 
 		}
 
-
 		/// <summary>
 		/// Кликнуть Sign out на странице corp-reg (2й шаг)
 		/// </summary>
@@ -479,6 +477,14 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		public void UploadPhoto(string photo)
 		{
 			UploadDocNativeAction(photo);
+		}
+
+		/// <summary>
+		/// Ждём появления поля ввода пароля.
+		/// </summary>
+		public void WaitShowPasswordInput()
+		{
+			WaitUntilDisplayElement(By.XPath(PASSWORD_FIELD_IN_SIGN_IN));
 		}
 
 		protected const string FIRST_NAME_COMPANY = ".//input[@id='firstname']";
