@@ -1116,7 +1116,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 
 				if (!isNeedOpenProject)
 				{
-					GoToTranslationMemories();
+					GoToWorkspace();
 				}
 			}
 			else if (isNeedOpenProject)

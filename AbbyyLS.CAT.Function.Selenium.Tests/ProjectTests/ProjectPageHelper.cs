@@ -90,7 +90,8 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <param name="userName">имя пользователя</param>
 		public void ClickAssignUserListUser(string userName)
 		{
-			var xPath = PROGRESS_DIALOG_USER_ITEM_LIST_XPATH + "[contains(@title,'" + userName + "')]";
+			var name = userName.Substring(0, userName.IndexOf(' '));
+			var xPath = PROGRESS_DIALOG_USER_ITEM_LIST_XPATH + "[contains(@title,'" + name + "')]";
 			ClickElement(By.XPath(xPath));
 		}
 
@@ -692,7 +693,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			UploadDocNativeAction(fileName);
 		}
 
-		protected const string ADD_FILE_ON_PROJECT_PAGE = "html/body/div[14]/div[2]/div[2]/div[1]/div[1]/div/div[2]/div[5]/input"; // добавление документа уже сущестующему проекту на стр проекта
+		protected const string ADD_FILE_ON_PROJECT_PAGE = "html/body/div[13]/div[2]/div[2]/div[1]/div[1]/div/div[2]/div[5]/input"; // добавление документа уже сущестующему проекту на стр проекта
 
 		protected const string PROJECT_TABLE_XPATH = "//table[contains(@class,'l-project-panel-tbl')]";
 		protected const string PROGRESS_BTN_XPATH = "//span[contains(@class,'js-document-progress')]";
