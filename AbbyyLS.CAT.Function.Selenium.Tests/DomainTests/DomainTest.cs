@@ -121,21 +121,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		}
 
 		/// <summary>
-		/// Метод тестирования создания Проекта, проверка, что проект появился в списке при создании термина глоссария
-		/// </summary>
-		[Test]
-		public void CreateDomainCheckCreateGlossaryItemTest()
-		{
-			// Создать проект
-			string domainName = getDomainUniqueName();
-			CreateDomain(domainName);
-
-			// Проверить, что проект есть в списке при создании термина глоссария
-			Assert.IsTrue(getIsDomainExistCreateGlossaryItemTest(domainName),
-				"Ошибка: проекта нет в списке");
-		}
-
-		/// <summary>
 		/// Метод тестирования изменения имени Проекта
 		/// </summary>
 		[Test]
@@ -266,24 +251,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 				"Ошибка: проект остался в списке");
 		}
 
-		/// <summary>
-		/// Метод тестирования удаления Проекта, проверка списка при создании термина глоссария
-		/// </summary>
-		[Test]
-		public void DeleteDomainCheckCreateGlossaryItemTest()
-		{
-			// Создать проект с уникальным именем
-			string domainName = getDomainUniqueName();
-			CreateDomain(domainName);
-
-			// Удалить проект
-			DomainPage.ClickDeleteDomain(domainName);
-			// Проверить, что проекта нет в списке при создании термина глоссария
-			Assert.IsTrue(
-				!getIsDomainExistCreateGlossaryItemTest(domainName),
-				"Ошибка: проект остался в списке");
-		}
-		
 		/// <summary>
 		/// Изменить имя домена
 		/// </summary>

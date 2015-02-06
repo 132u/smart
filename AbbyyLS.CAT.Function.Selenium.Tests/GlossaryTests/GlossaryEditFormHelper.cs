@@ -280,24 +280,24 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 
 
 		protected const string DIALOG_XPATH = ".//div[contains(@class,'js-popup-edit-glossary')][2]";
-		protected const string GLOSSARY_NAME_XPATH = DIALOG_XPATH + "//input[contains(@class,'js-glossary-name')]";
-		protected const string GLOSSARY_COMMENT_XPATH = DIALOG_XPATH + "//textarea[contains(@name,'Comment')]";
-		protected const string GLOSSARY_SAVE_XPATH = DIALOG_XPATH + "//span[contains(@class,'js-save')]";
+		protected const string GLOSSARY_NAME_XPATH = DIALOG_XPATH + "//input[@class='g-bold l-editgloss__nmtext']";
+		protected const string GLOSSARY_COMMENT_XPATH = DIALOG_XPATH + "//div[@class='l-editgloss__cont last']//textarea";
+		protected const string GLOSSARY_SAVE_XPATH = DIALOG_XPATH + "//span[@class='g-btn g-redbtn ']";
 		protected const string SAVE_AND_EDIT_STRUCTURE_BTN_XPATH = DIALOG_XPATH + "//a[contains(@class,'js-save-and-edit-structure')]";
 
-		protected const string CLIENT_LIST_XPATH = DIALOG_XPATH + "//select[contains(@name,'Client')]/..//span[contains(@class,'js-dropdown')]"; // TODO пересмотреть
-		protected const string DOMAIN_LIST_XPATH = DIALOG_XPATH + "//input[contains(@name,'Domain')]/..//div[contains(@class,'ui-multiselect')]"; // TODO пересмотреть
+		protected const string CLIENT_LIST_XPATH = DIALOG_XPATH + "//select[contains(@name,'Client')]/..//span[contains(@class,'js-dropdown')]"; 
+		protected const string DOMAIN_LIST_XPATH = DIALOG_XPATH + "//div[@class='l-editgloss__contrbox'][3]//div"; 
 
 		protected const string DROPDOWNLIST_XPATH = ".//span[contains(@class,'js-dropdown__list')]";
 		protected const string DROPDOWNLIST_ITEM_XPATH = DROPDOWNLIST_XPATH + "//span[contains(@class,'js-dropdown__item')]";
 		protected const string MULTISELECT_LIST_XPATH = ".//ul[contains(@class,'ui-multiselect-checkboxes')]//span[contains(@class,'ui-multiselect-item-text')]";
 
-		protected const string ADD_LANG_BTN_XPATH = DIALOG_XPATH + "//span[contains(@class,'js-add-language-button')]";
+		protected const string ADD_LANG_BTN_XPATH = DIALOG_XPATH + "//span[@class='g-btn g-bluebtn addlang enabled']";
 		protected const string LANG_XPATH = "//span[contains(@class,'js-glossary-language')]";
-		protected const string LAST_LANG_LIST_DROPDOWN_XPATH = LANG_XPATH + "[last()]//span[contains(@class,'js-dropdown')]";
-		protected const string LANGUAGES_XPATH = "//div[contains(@class, 'js-glossary-languages')]";
-		protected const string LANG_LIST_LANG_XPATH = LANGUAGES_XPATH + LANG_XPATH;
-		protected const string DELETE_LANG_XPATH = LANGUAGES_XPATH + "//em[contains(@class, 'js-delete-language')]";
+		protected const string LAST_LANG_LIST_DROPDOWN_XPATH = DIALOG_XPATH + "//span[@class='g-btn g-bluebtn addlang enabled']//preceding-sibling::span[@class='g-iblock l-editgloss__control l-editgloss__lang'][1]//span/span";
+		protected const string LANGUAGES_XPATH = "//div[@class='l-editgloss__contrbox'][1]";
+		protected const string LANG_LIST_LANG_XPATH = "//div[@class='l-editgloss__contrbox'][1]//span[@class='g-iblock l-editgloss__control l-editgloss__lang']";
+		protected const string DELETE_LANG_XPATH = DIALOG_XPATH + LANGUAGES_XPATH + "//em";
 		protected const string WARNING_DELETE_LANGUAGE_XPATH = DIALOG_XPATH + "//a[contains(@class, 'js-undo-delete-language')]";
 		
 		protected const string DELETE_GLOSSARY_XPATH = DIALOG_XPATH + "//span[contains(@class, 'js-delete')]";
