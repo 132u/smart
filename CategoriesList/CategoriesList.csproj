@@ -41,6 +41,10 @@
     <Reference Include="NConfiguration">
       <HintPath>..\lib\Common\External\NConfiguration\NConfiguration.dll</HintPath>
     </Reference>
+    <Reference Include="NDesk.Options">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\lib\NDesk.Options.0.2.1\lib\NDesk.Options.dll</HintPath>
+    </Reference>
     <Reference Include="NLog">
       <HintPath>..\lib\Common\External\NLog\NLog.dll</HintPath>
     </Reference>

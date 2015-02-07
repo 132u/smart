@@ -8,15 +8,23 @@ using System.IO;
 
 namespace AbbyyLS.CAT.Function.Selenium.CategoriesList
 {
+	using NDesk.Options;
+
 	class Program
 	{
 		static void Main(string[] args)
 		{
 			Dictionary<string, string> issues = new Dictionary<string, string>();
 			List<string> testName = new List<string>();
+			string _assembly =null;
+			bool getFixedCategories = false;
+			OptionSet options = new OptionSet()
+				.Add( "a=|assembly=", a=>_assembly =a)
+				.Add("f", v => getFixedCategories = v != null);
+			options.Parse(args);
 
 			//Загрузить сборку
-			var assembly = Assembly.LoadFile(args[0]);
+			var assembly = Assembly.LoadFile(_assembly);
 
 			//Получить список testfixture классов из сборки
 			var testTypes = from t in assembly.GetTypes()
@@ -37,11 +45,20 @@ namespace AbbyyLS.CAT.Function.Selenium.CategoriesList
 					issues.Add(method.MethodName, method.CategoryName.Replace("_", "-"));
 				}
 			}
-
-			foreach (KeyValuePair<string, string> keyValue in issues)
+			// Получение категорий непофикшенных тикетов
+			if (!getFixedCategories)
 			{
-				if (GetIssueState(keyValue.Value) != "Fixed")
-					testName.Add(keyValue.Value);
+				foreach (KeyValuePair<string, string> keyValue in issues)
+				{
+					if (GetIssueState(keyValue.Value) != "Fixed") testName.Add(keyValue.Value);
+				}
+			}
+			else
+			{
+				foreach (KeyValuePair<string, string> keyValue in issues)
+				{
+					if (GetIssueState(keyValue.Value) == "Fixed") testName.Add(keyValue.Value);
+				}
 			}
 
 			var uniq = testName.Distinct();
