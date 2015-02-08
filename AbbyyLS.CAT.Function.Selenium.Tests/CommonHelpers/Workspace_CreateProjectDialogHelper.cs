@@ -231,15 +231,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		}
 
 		/// <summary>
-		/// Дождаться появления диалога загрузки ТМХ
-		/// </summary>
-		/// <returns>появился</returns>
-		public bool WaitUploadTMXDialog()
-		{
-			return WaitUntilDisplayElement(By.XPath(UPLOAG_TMX_DIALOG_XPATH));
-		}
-
-		/// <summary>
 		/// Кликнуть Import
 		/// </summary>
 		public void ClickImportBtn()
@@ -253,7 +244,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <returns>пропал</returns>
 		public bool WaitImportDialogDisappear()
 		{
-			return WaitUntilDisappearElement(By.XPath(UPLOAG_TMX_DIALOG_XPATH));
+			return WaitUntilDisappearElement(By.XPath(CREATE_TM_DIALOG_XPATH));
 		}
 
 		/// <summary>
@@ -869,31 +860,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		}
 
 		/// <summary>
-		/// Кликнуть Add TMX в окне диалога
-		/// </summary>
-		public void ClickAddTMXDialog()
-		{
-			ClickElement(By.XPath(ADD_TMX_BTN_XPATH));
-		}
-
-		/// <summary>
-		/// Кликнуть Save TMX в окне диалога
-		/// </summary>
-		public void ClickSaveTMXDialog()
-		{
-			ClickElement(By.XPath(SAVE_BTN_XPATH));
-		}
-
-		/// <summary>
-		/// Заполнить название ТМ в диалоге
-		/// </summary>
-		/// <param name="TMName">название</param>
-		public void FillTMNameDialog(string TMName)
-		{
-			ClearAndAddText(By.XPath(NAME_TM_XPATH), TMName);
-		}
-
-		/// <summary>
 		/// Кликнуть по кнопке "Удалить файл"
 		/// </summary>
 		/// <param name="fileName">имя файла</param>
@@ -1033,7 +999,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		public enum SetGlossary { New, First, ByName, None };
 		public enum MT_TYPE { DefaultMT, Google, Bing, Yandex, Moses, None };
 		protected Dictionary<MT_TYPE, string> MTTypeDict = new Dictionary<MT_TYPE, string>();
-		protected const string TM_UPLOAD = "html/body/div[17]/div[2]/div[2]/div/div[1]/form/div/div/input";
+		protected const string TM_UPLOAD = "//html/body/div[16]/div[2]/div[2]/div[1]/form/div/div/input";
 		protected const string CREATE_PROJECT_DIALOG_XPATH = "//div[contains(@class,'js-popup-create-project')][2]";
 
 		protected const string DEADLINE_DATE_INPUT_XPATH = CREATE_PROJECT_DIALOG_XPATH + "//input[contains(@class, 'l-project__date')]";
@@ -1057,19 +1023,14 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		
 		protected const string UPLOAD_TMX_BTN_XPATH = CREATE_PROJECT_DIALOG_XPATH + "//span[contains(@class,'js-tm-upload')]";
 		protected const string CREATE_GLOSSARY_BTN_XPATH = CREATE_PROJECT_DIALOG_XPATH + "//span[contains(@class,'js-glossary-create')]";
-		protected const string IMPORT_TMX_DIALOG_XPATH = "//div[contains(@class,'js-popup-import-tm')][2]";
-		protected const string ADD_TMX_BTN_XPATH = IMPORT_TMX_DIALOG_XPATH + "//a[contains(@class,'js-upload-btn')]";
-		protected const string SAVE_BTN_XPATH = IMPORT_TMX_DIALOG_XPATH + "//span[contains(@class,'js-save')]";
-		protected const string NAME_TM_XPATH = IMPORT_TMX_DIALOG_XPATH + "//input[contains(@class,'js-tm-name')]";
-
+		
 		protected const string CONFIRM_NOT_SELECTED_TM_DIALOG_XPATH = "//div[contains(@class,'js-incorrect-tm-popup')][2]";
 		protected const string CONFIRM_DIALOG_SKIP_BTN_XPATH = CONFIRM_NOT_SELECTED_TM_DIALOG_XPATH + "//input[contains(@class,'js-skip-btn')]";
 
 		protected const string CREATE_TM_DIALOG_XPATH = "//div[contains(@class,'js-popup-create-tm')][2]";
-		protected const string NEW_TM_NAME_INPUT_XPATH = CREATE_TM_DIALOG_XPATH +"//input[contains(@class,'js-tm-name')]";
-		protected const string UPLOAG_TMX_DIALOG_XPATH = ".//div[contains(@class,'js-popup-import-tm')][2]";
-		protected const string IMPORT_TMX_BTN_XPATH = UPLOAG_TMX_DIALOG_XPATH + "//span[contains(@class,'js-import-button')]";
-		protected const string SAVE_TM_BTN_XPATH = CREATE_TM_DIALOG_XPATH + "//span[contains(@class,'js-save')]";
+		protected const string NEW_TM_NAME_INPUT_XPATH = CREATE_TM_DIALOG_XPATH + "//input[contains(@class,'l-createtm__nmtext')]";
+		protected const string IMPORT_TMX_BTN_XPATH = CREATE_TM_DIALOG_XPATH + "//span[contains(@class,'js-import-button')]";
+		protected const string SAVE_TM_BTN_XPATH = CREATE_TM_DIALOG_XPATH + "//span[@data-bind='click: save']";
 		
 		protected const string BACK_BTN_XPATH = CREATE_PROJECT_DIALOG_XPATH + "//span[contains(@class,'js-back')]";
 
@@ -1086,8 +1047,8 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		protected const string GLOSSARY_BY_NAME_XPATH = CREATE_PROJECT_DIALOG_XPATH + "//table[contains(@class,'js-glossaries')]//tbody//tr[contains(string(), '#')]/*/span[contains(@class,'js-chckbx')]//input";
 		protected const string GLOSSARY_BY_NAME_TR_XPATH = CREATE_PROJECT_DIALOG_XPATH + "//table[contains(@class,'js-glossaries')]//tbody//tr[contains(string(), '#')]";
 		protected const string CREATE_GLOSSARY_DIALOG_XPATH = "//div[contains(@class,'js-popup-edit-glossary')][2]";
-		protected const string NEW_GLOSSARY_NAME_INPUT_XPATH = CREATE_GLOSSARY_DIALOG_XPATH + "//input[contains(@class,'js-glossary-name')]";
-		protected const string SAVE_GLOSSARY_BTN_XPATH = CREATE_GLOSSARY_DIALOG_XPATH + "//span[contains(@class,'js-save')]";
+		protected const string NEW_GLOSSARY_NAME_INPUT_XPATH = CREATE_GLOSSARY_DIALOG_XPATH + "//input[contains(@class,'l-editgloss__nmtext')]";
+		protected const string SAVE_GLOSSARY_BTN_XPATH = CREATE_GLOSSARY_DIALOG_XPATH + "//span[@data-bind='click: save']";
 
 		protected const string MT_TABLE_XPATH = CREATE_PROJECT_DIALOG_XPATH + "//table[contains(@class,'js-mts-body')]//tbody";
 
@@ -1099,7 +1060,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 
 		protected const string ERROR_NAME_EXISTS_XPATH = CREATE_PROJECT_DIALOG_XPATH + "//p[contains(@class,'js-error-name-exists')]";
 		protected const string ERROR_NO_NAME_XPATH = CREATE_PROJECT_DIALOG_XPATH + "//p[contains(@class,'js-error-name-required')]";
-		protected const string ERROR_FILE_TM_XPATH = UPLOAG_TMX_DIALOG_XPATH + "//p[contains(@class,'js-error-invalid-file-extension')]";
+		protected const string ERROR_FILE_TM_XPATH = CREATE_TM_DIALOG_XPATH + "//p[contains(@class,'js-error-invalid-file-extension')]";
 		protected const string ERROR_DUPLICATE_LANG_XPATH = CREATE_PROJECT_DIALOG_XPATH + "//p[contains(@class,'js-error-sourceLanguage-match-targetLanguage')]";
 		protected const string ERROR_FORBIDDEN_SYMBOLS_NAME = CREATE_PROJECT_DIALOG_XPATH + "//p[contains(@class,'js-error-name-invalid-chars')]";
 		protected const string ERROR_DEADLINE_DATE_XPATH = CREATE_PROJECT_DIALOG_XPATH + "//p[contains(@class,'js-error-date-incorrect')]";

@@ -281,11 +281,11 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		protected const string USER_SURNAME_XPATH = "//td[contains(@class, 'js-user-surname')]/p";
 		protected const string USER_NAME_XPATH = "//td[contains(@class, 'js-user-name')]/p";
 
-		protected const string GROUPS_RIGHTS_TABLE_XPATH = ".//table[contains(@class, 'js-groups')]";
-		protected const string GROUPS_XPATH = GROUPS_RIGHTS_TABLE_XPATH + "//tr[contains(@class, 'js-group-row')]";
-		protected const string GROUP_NAME_XPATH = "//td[contains(@class, 'js-group-name')]";
-		protected const string GROUP_USERS_XPATH = "//ul[contains(@class, 'js-users-list')]//span[contains(@class, 'js-user-name')]";
-		protected const string USER_NAME_INPUT_XPATH = "//input[contains(@class,'js-add-user')]";
-		protected const string MANAGE_ALL_GLOSSARIES_TEXT_XPATH = "//ul[contains(@class, 'js-rights-list')]//span[contains(string(), 'Manage all glossaries')]";
+		protected const string GROUPS_RIGHTS_TABLE_XPATH = "//tbody[@data-bind='foreach: filteredGroups']";
+		protected const string GROUPS_XPATH = GROUPS_RIGHTS_TABLE_XPATH + "//tr[contains(@class, 'clickable')]";
+		protected const string GROUP_NAME_XPATH = "//td[@data-bind='text: name']";
+		protected const string GROUP_USERS_XPATH = "//ul[@data-bind='foreach: users']//span[@data-bind='text: name')]";
+		protected const string USER_NAME_INPUT_XPATH = "//div[contains(@class,'l-corpr__tblgrp_finduserwrp')]//input";
+		protected const string MANAGE_ALL_GLOSSARIES_TEXT_XPATH = "//ul[@data-bind='foreach: accessRights']//span[contains(string(), 'Manage all glossaries')]";
 	}
 }

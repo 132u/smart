@@ -226,15 +226,12 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			return true;
 		}
 
-
-
 		protected const string RESPONSIBLES_FORM_XPATH = "(//div[contains(@class, 'js-popup-assign')])[2]";
 		protected const string RESPONSIBLES_TABLE_XPATH = "(//table[contains(@class, 'js-progress-table')]//table)[2]";
 		
 		protected const string CHOOSE_TASK_STEP__XPATH = ".//div[contains(@class, 'js-popup-import-document')]";
 
-		protected const string DROPDOWNLIST_XPATH = "//td[contains(@class, 'assineer')]/span";
-		protected const string RESPONSIBLE_USERS_XPATH = "//select[@id='responsible']/option";
+		protected const string DROPDOWNLIST_XPATH = "//td[contains(@class, 'assineer')]//span";
 		protected const string VISIBLE_RESPONSIBLE_USERS_XPATH = "//span[contains(@class, 'js-dropdown__list')]/span";
 		protected const string ASSIGN_BTN_XPATH = "//span[contains(@class, 'js-assign')]//a[contains(text(), 'Assign')]";
 		protected const string CANCEL_BTN_XPATH = "//span[contains(@class, 'js-assigned-cancel')]//a[contains(text(), 'Cancel')]";
@@ -246,6 +243,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		
 		protected const string CONFIRM_RESET_ASSIGNMENT_FORM_XPATH = ".//div[contains(@class, 'js-popup-confirm')]";
 		protected const string INFO_FORM_XPATH = ".//div[contains(@class, 'js-info-popup')]";
-		protected const string PATH_TO_USERS_LIST = "//span[contains(@class, 'js-dropdown__list')]//span";
+		protected const string PATH_TO_USERS_LIST = RESPONSIBLES_FORM_XPATH + DROPDOWNLIST_XPATH + "//option";
 	}
 }

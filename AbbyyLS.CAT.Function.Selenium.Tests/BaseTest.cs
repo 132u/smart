@@ -944,15 +944,14 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			}
 			WorkspaceCreateProjectDialog.ClickNextStep();
 
-			//2 шаг - настройка этапов workflow
+			// 2 шаг - настройка этапов workflow
 			SetUpWorkflow(translationTasksNumber,
 			editingTasksNumber,
 			proofreadingTasksNumber);
 
 			Thread.Sleep(500);
 			WorkspaceCreateProjectDialog.ClickNextStep();
-
-			//3 шаг - выбор ТМ
+			// 3 шаг - выбор ТМ
 			if (createNewTM)
 			{
 				// Создать новую ТМ, c файлом или чистую
@@ -976,7 +975,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 				}
 			}
 
-			//4 шаг - выбор глоссария
+			// 4 шаг - выбор глоссария
 			switch (setGlossary)
 			{
 				case Workspace_CreateProjectDialogHelper.SetGlossary.None:
@@ -1001,7 +1000,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 
 			WorkspaceCreateProjectDialog.ClickNextStep();
 
-			//5 шаг - выбор МТ
+			// 5 шаг - выбор МТ
 			if (!Standalone && (chooseMT && mtType != Workspace_CreateProjectDialogHelper.MT_TYPE.None))
  			{
 				WorkspaceCreateProjectDialog.ChooseMT(mtType);
@@ -1009,7 +1008,8 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 
 			WorkspaceCreateProjectDialog.ClickNextStep();
 
-			//6 шаг - настройка Pretranslate
+
+			// 6 шаг - настройка Pretranslate
 			//Pretranslate();
 			//Finish
 			Thread.Sleep(500);
@@ -1078,13 +1078,13 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			{
 				//Добавить тмх файл
 				WorkspaceCreateProjectDialog.ClickUploadTMX();
-				WorkspaceCreateProjectDialog.WaitUploadTMXDialog();
-				WorkspaceCreateProjectDialog.FillTMNameDialog(tmName);
-
+				WorkspaceCreateProjectDialog.WaitCreateTMDialog();
+				WorkspaceCreateProjectDialog.FillTMName(tmName);
+				
 				WorkspaceCreateProjectDialog.UploadTMInNewProject(TmFileName);
 
 				//Нажать на кнопку Import
-				WorkspaceCreateProjectDialog.ClickSaveTMXDialog();
+				WorkspaceCreateProjectDialog.ClickSaveTM();
 
 				//Дождаться пока ТМ появится в списке
 				WorkspaceCreateProjectDialog.WaitTmxAppear(tmName);
