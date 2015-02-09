@@ -62,7 +62,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 				// Выбор в качестве исполнителя для первой задачи первого юзера
 				SetResponsible(1, UserName, false);
 				ResponsiblesDialog.ClickCloseBtn();
-
+				Thread.Sleep(1000);// Sleep не убирать , проект не открывается
 				// Открытие страницы проекта
 				OpenProjectPage(_projectNameMatchTest);
 				

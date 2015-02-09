@@ -115,7 +115,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <param name="projectName">название проекта</param>
 		public void OpenProjectInfo(string projectName)
 		{
-			ClickElement(By.XPath(GetProjectRefXPath(projectName) + "/../../" + OPEN_CLOSE_TD_XPATH));
+			ClickElement(By.XPath(GetProjectRefXPath(projectName) + FOLDER_SIGN));
 		}
 
 		/// <summary>
@@ -126,7 +126,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		public bool OpenDocumentInfo(int documentNumber)
 		{
 			// Кликнуть на открытие информации о документе
-			var documentXPath = DOCUMENT_INFO_TR_XPATH + "[" + documentNumber + "]//" + OPEN_CLOSE_TD_XPATH;
+			var documentXPath = DOCUMENT_INFO_TR_XPATH + "[" + documentNumber + "]" + FOLDER_SIGN;
 			var isExistDocument = GetIsElementExist(By.XPath(documentXPath));
 			
 			if (isExistDocument)
@@ -636,9 +636,9 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 
 		protected const string PROJECTS_TABLE_XPATH = ".//table[contains(@class,'js-tasks-table')]";
 
-		protected const string DOCUMENT_INFO_TR_XPATH = PROJECT_INFO_XPATH + "//following-sibling::tr[contains(@class, 'js-document-row')]";
+		protected const string DOCUMENT_INFO_TR_XPATH = "//following-sibling::tr[contains(@class, 'js-document-row')]";
 		protected const string OPEN_CLOSE_TD_XPATH = "div[contains(@class,'l-corpr__threeDots')]";
-
+		protected const string FOLDER_SIGN = "//preceding-sibling::div//img";
 		protected const string NOTIFIER_XPATH = "//div[@id='notifications-block']";
 		protected const string NOTIFIER_ITEM_XPATH = NOTIFIER_XPATH + "//div[contains(@class,'notifications-item')]";
 		protected const string NOTIFIER_CANCEL_BTN_XPATH = NOTIFIER_VISIBLE_XPATH + "//a[contains(text(),'Close')]";

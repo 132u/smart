@@ -856,6 +856,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// </summary>
 		public void ClickCreateGlossary()
 		{
+			WaitUntilDisplayElement(By.XPath(CREATE_GLOSSARY_BTN_XPATH));
 			ClickElement(By.XPath(CREATE_GLOSSARY_BTN_XPATH));
 		}
 
@@ -974,6 +975,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// </summary>
 		public void SetNewGlossaryName(string internalGlossaryName)
 		{
+			WaitUntilDisplayElement(By.XPath(NEW_GLOSSARY_NAME_INPUT_XPATH));
 			ClearAndAddText(By.XPath(NEW_GLOSSARY_NAME_INPUT_XPATH), internalGlossaryName);
 		}
 

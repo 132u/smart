@@ -940,7 +940,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 					WorkspaceCreateProjectDialog.WaitDocumentAppear(Path.GetFileName(downloadFile));
 			}
 			WorkspaceCreateProjectDialog.ClickNextStep();
-
 			// 2 шаг - настройка этапов workflow
 			SetUpWorkflow(translationTasksNumber,
 			editingTasksNumber,
@@ -1076,9 +1075,10 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 				//Добавить тмх файл
 				WorkspaceCreateProjectDialog.ClickUploadTMX();
 				WorkspaceCreateProjectDialog.WaitCreateTMDialog();
-				WorkspaceCreateProjectDialog.FillTMName(tmName);
+				
 				
 				WorkspaceCreateProjectDialog.UploadTMInNewProject(TmFileName);
+				WorkspaceCreateProjectDialog.FillTMName(tmName);
 
 				//Нажать на кнопку Import
 				WorkspaceCreateProjectDialog.ClickSaveTM();

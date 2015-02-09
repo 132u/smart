@@ -1037,8 +1037,8 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <returns>xpath типа подстановки</returns>
 		private static string targetMatchColumnTextXpath(int segmentNumber)
 		{
-			return "//table[@data-recordindex='" + (segmentNumber - 1) 
-				+ "' and contains(@id, 'segment')]" + TARGET_MATCH_COLUMN_XPATH;
+			return "//table[@data-recordindex='" + (segmentNumber - 1)
+				+ "' and contains(@id, 'gridview')]" + TARGET_MATCH_COLUMN_XPATH;
 		}
 
 		/// <summary>
@@ -1048,8 +1048,8 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <returns>xpath процента совпадения</returns>
 		private static string targetMatchColumnPercentXpath(int segmentNumber)
 		{
-			return "//table[@data-recordindex='" + (segmentNumber - 1) 
-				+ "' and contains(@id, 'segment')]" + TARGET_MATCH_COLUMN_PERCENT_XPATH;
+			return "//table[@data-recordindex='" + (segmentNumber - 1)
+				+ "' and contains(@id, 'gridview')]" + TARGET_MATCH_COLUMN_PERCENT_XPATH;
 		}
 		
 		protected const string TARGET_MATCH_COLUMN_XPATH = "//td[5]//div";
