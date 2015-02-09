@@ -16,7 +16,6 @@ using NConfiguration;
 using System.Text.RegularExpressions;
 using NLog;
 using OpenQA.Selenium.IE;
-using OpenQA.Selenium.Interactions;
 
 using System.Net;
 
@@ -31,7 +30,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 	[TestFixture("IE")]
 	public class BaseTest
 	{
-
 		public static Logger Logger = LogManager.GetCurrentClassLogger();
 
 		/// <summary>
@@ -40,7 +38,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <param name="browserName">Название браузера</param>
 		public BaseTest(string browserName)
 		{
-
 			try
 			{
 				var cfgAgentSpecific = TestSettingDefinition.Instance.Get<TargetServerConfig>();

@@ -1,25 +1,34 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading;
 using NUnit.Framework;
-using System.Collections.Generic;
 
-namespace AbbyyLS.CAT.Function.Selenium.Tests
+namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.Glossary.UserRights
 {
 	/// <summary>
 	/// Группа тестов для проверки редактирования терминов глоссария
 	/// </summary>
+	[TestFixture]
 	public class GlossaryItemTest : GlossaryTest
 	{
 		/// <summary>
 		/// Конструктор теста
 		/// </summary>
-		 
-		 
 		/// <param name="browserName">Название браузера</param>
 		public GlossaryItemTest(string browserName)
 			: base(browserName)
 		{
+		}
 
+		/// <summary>
+		/// Предварительная подготовка группы тестов
+		/// </summary>
+		[TestFixtureSetUp]
+		public void SetupGlossaryItemTest()
+		{
+			QuitDriverAfterTest = false;
+			GoToGlossaries();
+			AddUserRights();
 		}
 
 		/// <summary>

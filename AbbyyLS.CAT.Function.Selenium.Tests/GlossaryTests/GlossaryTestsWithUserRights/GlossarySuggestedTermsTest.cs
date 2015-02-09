@@ -2,11 +2,12 @@
 using System.Threading;
 using NUnit.Framework;
 
-namespace AbbyyLS.CAT.Function.Selenium.Tests.Glossary
+namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.Glossary.UserRights
 {
 	/// <summary>
 	/// Группа тестов для проверки терминов глоссария
 	/// </summary>
+	[TestFixture]
 	public class GlossarySuggestedTermsTest : GlossaryTest
 	{
 		/// <summary>
@@ -17,6 +18,17 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Glossary
 			: base(browserName)
 		{
 
+		}
+
+		/// <summary>
+		/// Предварительная подготовка группы тестов
+		/// </summary>
+		[TestFixtureSetUp]
+		public void SetupGlossarySuggestedTermsTest()
+		{
+			QuitDriverAfterTest = false;
+			GoToGlossaries();
+			AddUserRights();
 		}
 
 		/// <summary>

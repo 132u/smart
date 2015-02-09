@@ -18,7 +18,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		public GlossaryTest(string browserName)
 			: base(browserName)
 		{
-
 		}
 		
 		/// <summary>
@@ -201,13 +200,15 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			GlossaryPage.EditTermsExtended(text);
 		}
 					  
-		protected void AddUserRights()
+		public void AddUserRights()
 		{
 			// хардкор!
 			// Проверить, что есть кнопка Предложить термин на странице со списком глоссариев
 			if (GlossaryListPage.GetIsAddSuggestExist())
 			{
-				Assert.Pass("Все хорошо - у пользователя права есть!");
+				Logger.Trace("Все хорошо - у пользователя права есть!");
+				
+				return;
 			}
 			// Иначе: добавляем права
 
