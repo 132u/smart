@@ -54,22 +54,18 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		}
 
 		/// <summary>
-		/// Проверка отображения окна с правами пользователя при нажатии прогресса в Workflow
+		/// Проверка отображения окна с правами пользователя при выборе документа и нажатии по кнопке Assign Task в панели
 		/// </summary>
 		[Test]
-		public void ResponsiblesWorkspaceOnProgressLink()
+		public void ResponsiblesWorkspaceOnAssignTaskBtn()
 		{
 			// Создание проекта
 			CreateProjectIfNotCreated(_projectNoChangesName, TestFile.EditorTXTFile);
-			
-			// Открываем инфо проекта
-			WorkspacePage.OpenProjectInfo(_projectNoChangesName);
 
-			// Открываем инфо документа 
-			WorkspacePage.OpenDocumentInfo(1);
+			// Открываем диалог выбора исполнителя
+			OpenAssignDialog(_projectNoChangesName);
 
-			// Открываем окно с правами пользователя через прогресс документа
-			WorkspacePage.ClickDocumentProgress();
+			ResponsiblesDialog.ClickResponsiblesDropboxByRowNumber(1);
 
 			// Ожидание открытия диалога выбора исполнителя
 			Assert.IsTrue(ResponsiblesDialog.WaitUntilResponsiblesDialogDisplay(),
@@ -119,7 +115,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		}
 
 		/// <summary>
-		/// Проверка отображения окна с правами пользователя при нажатии прогресса в окне проекта
+		/// Проверка отображения окна с правами пользователя при выборе документа и клике по кнопке Assign Task
 		/// </summary>
 		[Test]
 		public void ResponsiblesProjectOnProgressLink()
@@ -132,7 +128,12 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 
 			// Открываем окно прав исполнителей
 			ProjectPage.ClickDocumentProgress();
-			
+
+			Assert.IsTrue(ProjectPage.GetIsPanelDisplay(), "Ошибка: панель с кнопками (Assign Tasks, Delete, Download, Settings) не появилась");
+
+			// Клик по кнопке Assign Tasks
+			ProjectPage.ClickAssignRessponsibleBtn();
+
 			// Ожидание открытия диалога выбора исполнителя
 			Assert.IsTrue(ResponsiblesDialog.WaitUntilResponsiblesDialogDisplay(),
 				"Ошибка: Диалог выбора исполнителя не открылся.");
@@ -162,10 +163,10 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		}
 
 		/// <summary>
-		/// Проверка отображения окна с правами пользователя при нажатии кнопки Progress при выборе документа
+		/// Проверка отображения окна с правами пользователя при нажатии кнопки Assign Tasks
 		/// </summary>
 		[Test]
-		public void ResponsiblesProjectOnProgressBtn()
+		public void ResponsiblesProjectOnAssignTaskBtn()
 		{
 			// Создание проекта
 			CreateProjectIfNotCreated(_projectNoChangesName, TestFile.EditorTXTFile);
@@ -178,8 +179,9 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 
 			// Открываем окно прав исполнителей
 			ProjectPage.ClickProgressBtn();
-			Thread.Sleep(1000);
-
+			Assert.IsTrue(ProjectPage.GetIsPanelDisplay(), "Ошибка: панель с кнопками (Assign Tasks, Delete, Download, Settings) не появилась");
+			// Клик по кнопке Assign Tasks
+			ProjectPage.ClickAssignRessponsibleBtn();
 			// Ожидание открытия диалога выбора исполнителя
 			Assert.IsTrue(ResponsiblesDialog.WaitUntilResponsiblesDialogDisplay(),
 				"Ошибка: Диалог выбора исполнителя не открылся.");
@@ -553,26 +555,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			// Проверка задачи в редакторе
 			Assert.AreEqual("Translation (T):", EditorPage.GetStageName(),
 				"Ошибка: В шапке редактора отсутствует нужная задача.");
-		}
-
-		/// <summary>
-		/// Проверка назначения невыбранного пользователя
-		/// </summary>
-		[Test]
-		public void AssignNobody()
-		{
-			// Создание проекта
-			CreateProjectIfNotCreated(_projectNoChangesName, TestFile.EditorTXTFile);
-
-			// Открываем диалог выбора исполнителя
-			OpenAssignDialog(_projectNoChangesName);
-
-			// Кликнуть подтверждение для заданной задачи
-			ResponsiblesDialog.ClickAssignBtn(1);
-
-			// Ожидание открытия инфо
-			Assert.IsTrue(ResponsiblesDialog.WaitUntilInfoDisplay(),
-				"Ошибка: Форма инфо не открылась.");
 		}
 
 		/// <summary>

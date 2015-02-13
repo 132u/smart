@@ -2,6 +2,7 @@
 using System.Linq;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.UI;
+using System;
 
 namespace AbbyyLS.CAT.Function.Selenium.Tests
 {
@@ -48,7 +49,8 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <returns>xPath</returns>
 		protected string GetOurUserXpath(string name)
 		{
-			return VISIBLE_RESPONSIBLE_USERS_XPATH + "[@title ='" + name + "']";
+			string[] split = name.Split(' ');
+			return VISIBLE_RESPONSIBLE_USERS_XPATH + "[contains(@title , '" + split[0] + "')]";
 		}
 
 		/// <summary>
@@ -81,8 +83,8 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			var elementUsersList = GetElementList(By.XPath(PATH_TO_USERS_LIST));
 
 			return (from element in elementUsersList
-					where !element.Text.Contains("Group: ")
-					select element.Text).ToList();
+					where !element.GetAttribute("innerHTML").Contains("Group: ")
+					select element.GetAttribute("innerHTML")).ToList();
 		}
 
 		/// <summary>
@@ -95,8 +97,8 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			var elementUsersList = GetElementList(By.XPath(PATH_TO_USERS_LIST));
 
 			return (from element in elementUsersList
-					where element.Text.Contains("Group: ")
-					select element.Text).ToList();
+					where element.GetAttribute("innerHTML").Contains("Group: ")
+					select element.GetAttribute("innerHTML")).ToList();
 		}
 
 		/// <summary>
@@ -119,10 +121,10 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		public void SetVisibleResponsible(int rowNumber, string name)
 		{
 			var xPath = VISIBLE_RESPONSIBLE_USERS_XPATH;
-
+			string[] split = name.Split(' ');
 			foreach (var element in GetElementList(By.XPath(xPath)))
 			{
-				if (element.GetAttribute("title") == name)
+				if (element.GetAttribute("title").Contains(split[0]))
 				{
 					element.Click();
 					break;
@@ -243,6 +245,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		
 		protected const string CONFIRM_RESET_ASSIGNMENT_FORM_XPATH = ".//div[contains(@class, 'js-popup-confirm')]";
 		protected const string INFO_FORM_XPATH = ".//div[contains(@class, 'js-info-popup')]";
-		protected const string PATH_TO_USERS_LIST = RESPONSIBLES_FORM_XPATH + DROPDOWNLIST_XPATH + "//option";
+		protected const string PATH_TO_USERS_LIST = RESPONSIBLES_FORM_XPATH + "//td[contains(@class, 'assineer')]//select//option";
 	}
 }

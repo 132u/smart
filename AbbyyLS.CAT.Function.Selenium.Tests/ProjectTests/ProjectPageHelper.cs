@@ -66,6 +66,14 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			return GetIsElementExist(By.XPath(DOCUMENT_ASSIGN_RESPONSIBLES_BTN_XPATH));
 		}
 
+		/// <summary>
+		/// Проверить, что панель с кнопками (Assign Tasks, Delete, Download, Settings) отображается
+		/// </summary>
+		/// <returns></returns>
+		public bool GetIsPanelDisplay()
+		{
+			return this.GetIsElementExist(By.XPath(PANEL_BTNS_XPATH));
+		}
 
 		/// <summary>
 		/// Кликнуть по ячейке с пользователем в диалоге
@@ -614,7 +622,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// </summary>
 		public void ClickProjectSettingsWFDeleteTask(int taskNumber)
 		{
-			ClickElement(By.XPath("//div[contains(@class,'js-popup-edit')]//tr[" + taskNumber.ToString() + "]" + PROJECT_SETTINGS_WF_DELETE_TASK_BTN));
+			ClickElement(By.XPath(SETTING_POPUP + "//tr[" + taskNumber + "]" + PROJECT_SETTINGS_WF_DELETE_TASK_BTN));
 			Thread.Sleep(1000);
 		}
 
@@ -696,7 +704,8 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		protected const string ADD_FILE_ON_PROJECT_PAGE = "html/body/div[13]/div[2]/div[2]/div[1]/div[1]/div/div[2]/div[5]/input"; // добавление документа уже сущестующему проекту на стр проекта
 
 		protected const string PROJECT_TABLE_XPATH = "//table[contains(@class,'l-project-panel-tbl')]";
-		protected const string PROGRESS_BTN_XPATH = "//span[contains(@class,'js-document-progress')]";
+		protected const string PROGRESS_BTN_XPATH = "//div[@class='ui-progressbar__container']";
+		protected const string PANEL_BTNS_XPATH = "//div[@class='l-corpr__btnterm__left js-buttons-left']";
 		protected const string PROGRESS_DIALOG_XPATH = "//div[contains(@class,'js-popup-progress')][2]";
 		protected const string PROGRESS_DIALOG_TABLE_USERNAME_XPATH =
 			".//table[contains(@class,'js-progress-table')]//tr[1]//td[3]//span/span";
@@ -745,12 +754,12 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		protected const string EDIT_GLOSSARY_SAVE_BTN_XPATH = "//span[contains(@class,'js-glossaries-save')]";
 
 		protected const string PROJECT_SETTINGS_BTN_XPATH = "//span[contains(@class,'js-project-edit')]";
-		protected const string PROJECT_SETTINGS_WORKFLOW_XPATH = "//a[contains(@class,'js-workflow-tab')]";
-
+		protected const string PROJECT_SETTINGS_WORKFLOW_XPATH = SETTING_POPUP + "//a[contains(@data-bind, 'activeTab(workflowTab);')]";
+		protected const string SETTING_POPUP = "//div[contains(@class,'js-popup-edit')][2]";
 		protected const string PROJECT_SETTINGS_WF_TABLE_XPATH = "//table[contains(@class,'js-workflow-table')]//tbody";
 		protected const string PROJECT_SETTINGS_WF_DROPDOWNLIST_XPATH = "//span[contains(@class,'js-dropdown__item')]";
 		protected const string PROJECT_SETTINGS_WF_NEW_TASK_BTN = "//span[contains(@class,'js-new-stage')]";
-		protected const string PROJECT_SETTINGS_WF_DELETE_TASK_BTN = "//a[contains(@class,'js-delete-workflow')]";
+		protected const string PROJECT_SETTINGS_WF_DELETE_TASK_BTN = "//a[@class='g-iblock g-corprAction']";
 
 		protected const string PROJECT_SETTINGS_CANCEL_BTN = "//div[contains(@class,'js-popup-edit')]//a[contains(@class,'js-popup-close')]";
 		protected const string PROJECT_SETTINGS_SAVE_BTN = "//div[contains(@class,'js-popup-edit')]//span[contains(@class,'js-save')]";

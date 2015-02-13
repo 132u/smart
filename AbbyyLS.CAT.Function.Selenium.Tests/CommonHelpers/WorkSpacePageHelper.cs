@@ -621,7 +621,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			UploadDocument(fileName, ADD_FILE_TO_PROJECT);
 		}
 
-		protected const string ADD_FILE_TO_PROJECT = "html/body/div[19]/div[2]/div[2]/div[1]/div[1]/div/div[2]/div[5]/input"; // добавление документа уже сущестующему проекту на стр WS
+		protected const string ADD_FILE_TO_PROJECT = "html/body/div[18]/div[2]/div[2]/div[1]/div[1]/div/div[2]/div[5]/input"; // добавление документа уже сущестующему проекту на стр WS
 
 		public enum LOCALE_LANGUAGE_SELECT { English, Russian };
 		public enum EXPORT_TYPE { Original, TMX, Translated };

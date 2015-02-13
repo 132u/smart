@@ -1872,7 +1872,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 				fullName = name;
 			}
 
-			ResponsiblesDialog.WaitUntilUsersListDisplay(fullName);
+			Assert.IsTrue(ResponsiblesDialog.WaitUntilUsersListDisplay(fullName), "Ошибка: не нашли пользователя " + fullName + " в списке");
 
 			// Выбрать для заданной задачи имя исполнителя
 			ResponsiblesDialog.SetVisibleResponsible(rowNumber, fullName);
