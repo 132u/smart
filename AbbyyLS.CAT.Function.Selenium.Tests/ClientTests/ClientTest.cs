@@ -12,16 +12,12 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <summary>
 		/// Конструктор теста
 		/// </summary>
-		 
-		 
 		/// <param name="browserName">Название браузера</param>
 		public ClientTest(string browserName)
 			: base(browserName)
 		{
 
 		}
-
-
 
 		/// <summary>
 		/// Начальная подготовка для каждого теста
@@ -32,11 +28,9 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			// Не закрывать браузер
 			QuitDriverAfterTest = false;
 			
-			// Переходим к странице воркспейса
-			GoToClients();
+			// Переходим к странице клиентов
+			GoToUrl(RelativeUrlProvider.Clients);
 		}
-
-
 
 		/// <summary>
 		/// Метод тестирования создания Клиента
@@ -223,7 +217,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			createClient(clientName);
 
 			// Удалить клиента
-			clickDeleteClient(clientName);
+			deleteClient(clientName);
 
 			// Проверить, что клиент удалился
 			Assert.IsTrue(
@@ -242,7 +236,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			createClient(clientName);
 
 			// Удалить клиента
-			clickDeleteClient(clientName);
+			deleteClient(clientName);
 
 			// Проверить, что клиента нет в списке при создании TM
 			Assert.IsTrue(
@@ -261,14 +255,13 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			createClient(clientName);
 
 			// Удалить клиента
-			clickDeleteClient(clientName);
+			deleteClient(clientName);
 
 			// Проверить, что клиента нет в списке при создании глоссария
 			Assert.IsTrue(
 				!getIsClientExistCreateGlossaryTest(clientName),
 				"Ошибка: клиент остался в списке");
 		}
-
 
 		/// <summary>
 		/// Создать уникальное имя для клиента
@@ -402,9 +395,11 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// Кликнуть Удалить
 		/// </summary>
 		/// <param name="clientName">название</param>
-		private void clickDeleteClient(string clientName)
+		private void deleteClient(string clientName)
 		{
-			ClientPage.ClickDelete(clientName);
+			// Совершаем попытку удаления клиента и проверяем её успешность
+			Assert.IsTrue(ClientPage.DeleteClient(clientName),
+				"Ошибка: не удалось удалить клиента из списка клиентов");
 		}
 	}
 }

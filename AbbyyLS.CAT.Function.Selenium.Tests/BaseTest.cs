@@ -352,6 +352,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 				ChromeOptions options = new ChromeOptions();
 				options.AddArguments("--lang=en");
 				Driver = new ChromeDriver(options);
+				
 			}
 			else if (BrowserName == "IE")
 			{
@@ -584,7 +585,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			else
 			{
 				// Перейти на стартовую страницу
-				Driver.Navigate().GoToUrl(Url + "/sign-in");
+				Driver.Navigate().GoToUrl(Url + RelativeUrlProvider.SingIn);
 
 				if (Driver.Url.Contains("pro"))
 				{
@@ -632,49 +633,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		}
 
 		/// <summary>
-		/// Переход на вкладку workspace
-		/// Если переадресация на стартовую страницу, то авторизация
-		/// </summary>
-		public void GoToWorkspace(string accountName = "TestAccount")
-		{
-			// Отлавливаем Modal Dialog Exception
-			// В случае, если для завершения предыдущего теста нужно закрыть дополнительный диалог
-			try
-			{
-				// Перейти на страницу workspace
-				Driver.Navigate().GoToUrl(WorkspaceUrl);
-
-				// Если открылась страница логина
-				if (LoginPage.WaitPageLoad(1) || LoginPage.WaitPromoPageLoad())
-				{
-					
-					// Проходим процедуру авторизации
-					Authorization(accountName);
-				}
-			}
-			catch (Exception ex)
-			{
-				Logger.ErrorException("Ошибка при переходе на стр WS: " + ex.Message, ex);
-
-				Driver.Navigate().Refresh();
-
-				// Закрываем Modal Dialog
-				AcceptModalDialog();
-
-				// Перейти на страницу workspace второй раз
-				Driver.Navigate().GoToUrl(WorkspaceUrl);
-
-				// Если открылась страница логина
-				if (LoginPage.WaitPageLoad(1) || LoginPage.WaitPromoPageLoad())
-				{
-
-					// Проходим процедуру авторизации
-					Authorization(accountName);
-				}
-			}
-		}
-
-		/// <summary>
 		/// Переход на admin страницу
 		/// </summary>
 		public void GoToAdminPage()
@@ -698,140 +656,59 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		}
 
 		/// <summary>
-		/// Переход на вкладку глоссариев
+		/// Переход по переданному relativeUrl, который указывается без базовой части.
+		/// т.е. для перехода на smartcat.stageN.als.local/Workspace передаём аргумент "/Workspace".
 		/// Если переадресация на стартовую страницу, то авторизация и затем переход
 		/// </summary>
-		public void GoToGlossaries()
+		/// <param name="relativeUrl">адрес для перехода</param>
+		/// <param name="accountName">аккаунт для авторизации, если требуется авторизоваться</param>
+		public void GoToUrl(string relativeUrl, string accountName = "TestAccount")
 		{
 			// Отлавливаем Modal Dialog Exception
 			// В случае, если для завершения предыдущего теста нужно закрыть дополнительный диалог
 			try
 			{
-				// Перейти на страницу глоссариев
-				Driver.Navigate().GoToUrl(Url + "/Enterprise/Glossaries");
+				Logger.Info("Переходим на страницу:" + Url + relativeUrl);
 
-				// Если открылась страница логина
-				if (LoginPage.WaitPageLoad(1) || LoginPage.WaitPromoPageLoad())
-				{
-					// Проходим процедуру авторизации
-					Authorization();
-					// Пробуем перейти на глоссарии еще раз
-					GoToGlossaries();
-				}
-			}
-			catch
-			{
-				Driver.Navigate().Refresh();
-
-				// Закрываем Modal Dialog
-				AcceptModalDialog();
-
-				Thread.Sleep(2000);
-
-				// Пробуем перейти на глоссарии еще раз
-				GoToGlossaries();
-			}
-		}
-
-		/// <summary>
-		/// Переход на вкладку TM
-		/// Если переадресация на стартовую страницу, то авторизация и затем переход
-		/// </summary>
-		public void GoToTranslationMemories()
-		{
-			// Отлавливаем Modal Dialog Exception
-			// В случае, если для завершения предыдущего теста нужно закрыть дополнительный диалог
-			try
-			{
 				// Перейти на страницу
-				Driver.Navigate().GoToUrl(Url + "/TranslationMemories/Index");
+				Driver.Navigate().GoToUrl(Url + relativeUrl);
+
+				// Если открылась страница логина
+				if (LoginPage.WaitPageLoad(1) || LoginPage.WaitPromoPageLoad())
+				{
+
+					// Проходим процедуру авторизации
+					Authorization(accountName);
+
+					// Переходим на страницу
+					Driver.Navigate().GoToUrl(Url + relativeUrl);
+				}
+			}
+			catch (Exception ex)
+			{
+				Logger.ErrorException("Ошибка при переходе на стр " + Url + relativeUrl + ": " + ex.Message, ex);
+
+				// Если обновить в этом месте страницу в Google Chrome, тест упадёт, 
+				// т.к. Google Chrome сразу требует закрыть модальный диалог.
+				if (BrowserName != "Chrome")
+				{
+					Driver.Navigate().Refresh();
+				}
+
+				// Закрываем Modal Dialog
+				AcceptModalDialog();
+
+				// Перейти на страницу второй раз
+				Driver.Navigate().GoToUrl(Url + relativeUrl);
 
 				// Если открылась страница логина
 				if (LoginPage.WaitPageLoad(1) || LoginPage.WaitPromoPageLoad())
 				{
 					// Проходим процедуру авторизации
-					Authorization();
-					// Пробуем перейти на страницу еще раз
-					GoToTranslationMemories();
+					Authorization(accountName);
+					// Переходим на страницу
+					Driver.Navigate().GoToUrl(Url + relativeUrl);
 				}
-			}
-			catch
-			{
-				Driver.Navigate().Refresh();
-
-				// Закрываем Modal Dialog
-				AcceptModalDialog();
-
-				// Пробуем перейти на страницу еще раз
-				GoToTranslationMemories();
-			}
-		}
-
-		/// <summary>
-		/// Переход на вкладку Domains
-		/// Если переадресация на стартовую страницу, то авторизация и затем переход
-		/// </summary>
-		public void GoToDomains()
-		{
-			// Отлавливаем Modal Dialog Exception
-			// В случае, если для завершения предыдущего теста нужно закрыть дополнительный диалог
-			try
-			{
-				// Перейти на страницу
-				Driver.Navigate().GoToUrl(Url + "/Domains/Index");
-
-				// Если открылась страница логина
-				if (LoginPage.WaitPageLoad(1) || LoginPage.WaitPromoPageLoad())
-				{
-					// Проходим процедуру авторизации
-					Authorization();
-					// Пробуем перейти на страницу еще раз
-					GoToDomains();
-				}
-			}
-			catch
-			{
-				Driver.Navigate().Refresh();
-
-				// Закрываем Modal Dialog
-				AcceptModalDialog();
-
-				// Пробуем перейти на страницу еще раз
-				GoToDomains();
-			}
-		}
-
-		/// <summary>
-		/// Переход на вкладку Clients
-		/// Если переадресация на стартовую страницу, то авторизация и затем переход
-		/// </summary>
-		public void GoToClients()
-		{
-			// Отлавливаем Modal Dialog Exception
-			// В случае, если для завершения предыдущего теста нужно закрыть дополнительный диалог
-			try
-			{
-				// Перейти на страницу
-				Driver.Navigate().GoToUrl(Url + "/Clients/Index");
-
-				// Если открылась страница логина
-				if (LoginPage.WaitPageLoad(1) || LoginPage.WaitPromoPageLoad())
-				{
-					// Проходим процедуру авторизации
-					Authorization();
-					// Пробуем перейти на страницу еще раз
-					GoToClients();
-				}
-			}
-			catch
-			{
-				Driver.Navigate().Refresh();
-
-				// Закрываем Modal Dialog
-				AcceptModalDialog();
-
-				// Пробуем перейти на страницу еще раз
-				GoToClients();
 			}
 		}
 
@@ -842,7 +719,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		public void GoToMyAccount()
 		{
 			// Перейти на страницу
-			Driver.Navigate().GoToUrl(Url + "/Billing/LicensePackages/");
+			Driver.Navigate().GoToUrl(Url + RelativeUrlProvider.LicensePackages);
 
 			// Если открылась страница логина
 			if (LoginPage.WaitPageLoad(1) || LoginPage.WaitPromoPageLoad())
@@ -1960,10 +1837,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		{
 			try
 			{
-				if (Driver.SwitchTo().Alert().Text.
-					Contains("Эта страница просит вас подтвердить, что вы хотите уйти — при этом введённые вами данные могут не сохраниться.") ||
-					Driver.SwitchTo().Alert().Text.
-					Contains("This page is asking you to confirm that you want to leave - data you have entered may not be saved."))
+				if (IsModalDialogConfirmation() || IsModalDialogChangesNotSaved()) 
 					Driver.SwitchTo().Alert().Accept();
 
 				Thread.Sleep(500);
@@ -1977,6 +1851,32 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			{
 				TryCloseExternalDialog();
 			}
+		}
+
+		/// <summary>
+		/// Метод проверяет сообщение в модальном диалоге на содержание фразы:
+		/// "Эта страница просит вас подтвердить, что вы хотите уйти — при этом введённые вами данные могут не сохраниться."
+		/// (англ./рус.)
+		/// </summary>
+		protected bool IsModalDialogConfirmation()
+		{
+			return	Driver.SwitchTo().Alert().Text.
+						Contains("Эта страница просит вас подтвердить, что вы хотите уйти — при этом введённые вами данные могут не сохраниться.") ||
+					Driver.SwitchTo().Alert().Text.
+						Contains("This page is asking you to confirm that you want to leave - data you have entered may not be saved.");
+		}
+
+		/// <summary>
+		/// Метод проверяет сообщение в модальном диалоге на содержание фразы:
+		/// "Изменения не были сохранены."
+		/// (англ./рус.)
+		/// </summary>
+		protected bool IsModalDialogChangesNotSaved()
+		{
+			return	Driver.SwitchTo().Alert().Text.
+						Contains("Изменения не были сохранены.") ||
+					Driver.SwitchTo().Alert().Text.
+						Contains("Changes have not been saved.");
 		}
 
 		/// <summary>
@@ -1997,6 +1897,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 				TryCloseExternalDialog();
 			}
 		}
+
 		/// <summary>
 		/// Задает русский язык в Target при создании проекта
 		/// </summary>
@@ -2097,11 +1998,11 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			{
 				if (client == RegistrationType.Company)
 				{
-					Driver.Navigate().GoToUrl(Url + "/corp-reg");
+					Driver.Navigate().GoToUrl(Url + RelativeUrlProvider.CorpReg);
 				}
 				else
 				{
-					Driver.Navigate().GoToUrl(Url + "/freelance-reg");
+					Driver.Navigate().GoToUrl(Url + RelativeUrlProvider.FreelanceReg);
 				}
 			}
 			catch

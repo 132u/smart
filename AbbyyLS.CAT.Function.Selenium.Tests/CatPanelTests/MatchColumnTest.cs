@@ -40,7 +40,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 
 			if (!_projectCreated)
 			{
-				GoToWorkspace();
+				GoToUrl(RelativeUrlProvider.Workspace);
 				
 				// создаем документ с нужным файлом, нужной ТМ, подкючаем МТ и глоссарий
 				CreateProject(

@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.UI;
+using System.Linq;
 
 namespace AbbyyLS.CAT.Function.Selenium.Tests
 {
@@ -94,18 +95,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		{
 			// Получить список клиентов
 			var clientList = GetElementList(By.XPath(DROPDOWNLIST_ITEM_XPATH));
-			var bClientExist = false;
-
-			foreach (IWebElement el in clientList)
-			{
-				if (el.GetAttribute("title") == clientName)
-				{
-					// Если клиент в списке
-					bClientExist = true;
-					break;
-				}
-			}
-			return bClientExist;
+			return clientList.Any(e => e.GetAttribute("innerHTML") == clientName);
 		}
 
 		/// <summary>
@@ -285,11 +275,11 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		protected const string GLOSSARY_SAVE_XPATH = DIALOG_XPATH + "//span[@class='g-btn g-redbtn ']";
 		protected const string SAVE_AND_EDIT_STRUCTURE_BTN_XPATH = DIALOG_XPATH + "//a[contains(@class,'js-save-and-edit-structure')]";
 
-		protected const string CLIENT_LIST_XPATH = DIALOG_XPATH + "//select[contains(@name,'Client')]/..//span[contains(@class,'js-dropdown')]"; 
-		protected const string DOMAIN_LIST_XPATH = DIALOG_XPATH + "//div[@class='l-editgloss__contrbox'][3]//div"; 
+		protected const string CLIENT_LIST_XPATH = "//select[contains(@data-bind,'clientsList')]//following-sibling::span";
+		protected const string DOMAIN_LIST_XPATH = DIALOG_XPATH + "//div[@class='l-editgloss__contrbox'][3]//div";
 
-		protected const string DROPDOWNLIST_XPATH = ".//span[contains(@class,'js-dropdown__list')]";
-		protected const string DROPDOWNLIST_ITEM_XPATH = DROPDOWNLIST_XPATH + "//span[contains(@class,'js-dropdown__item')]";
+		protected const string DROPDOWNLIST_XPATH = CLIENT_LIST_XPATH + "[contains(@class,'active')]";
+		protected const string DROPDOWNLIST_ITEM_XPATH = "//select[contains(@data-bind,'clientsList')]/option";
 		protected const string MULTISELECT_LIST_XPATH = ".//ul[contains(@class,'ui-multiselect-checkboxes')]//span[contains(@class,'ui-multiselect-item-text')]";
 
 		protected const string ADD_LANG_BTN_XPATH = DIALOG_XPATH + "//span[@class='g-btn g-bluebtn addlang enabled']";

@@ -53,14 +53,12 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <param name="clientName">название</param>
 		public void ClickEdit(string clientName)
 		{
+			// Найти номер нужной строки
 			var clientXPath = GetClientRowXPath(clientName);
-			// Кликнуть по строке						
-			ClickElement(By.XPath(clientXPath));
-			var editXPath = clientXPath + EDIT_BTN_XPATH;
-			// Дождаться появления Edit
-			WaitUntilDisplayElement(By.XPath(editXPath));
+			// Навести курсор мыши на строку
+			HoverElement(By.XPath(clientXPath));
 			// Кликнуть Edit
-			ClickElement(By.XPath(editXPath));
+			ClickElement(By.XPath(clientXPath + EDIT_BTN_XPATH));
 		}
 
 		/// <summary>
@@ -69,26 +67,23 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <param name="newName">новое имя</param>
 		public void EnterNewName(string newName)
 		{
-			ClearAndAddText(By.XPath(ENTER_NAME_XPATH),
-				newName);
+			ClearAndAddText(By.XPath(CLIENT_INPUT_XPATH), newName);
 		}
 
 		/// <summary>
-		/// Кликнуть Удалить
+		/// Проявить кнопку Delete и кликнуть
 		/// </summary>
 		/// <param name="clientName">название</param>
-		public bool ClickDelete(string clientName)
+		public bool DeleteClient(string clientName)
 		{
+			// Найти номер нужной строки
 			var clientXPath = GetClientRowXPath(clientName);
-			// Кликнуть по строке
-			ClickElement(By.XPath(clientXPath));
-			var deleteXPath = clientXPath + DELETE_BTN_XPATH;
-			// Дождаться появления Delete
-			WaitUntilDisplayElement(By.XPath(deleteXPath));
+			// Навести курсор мыши на строку
+			HoverElement(By.XPath(clientXPath));
 			// Кликнуть Delete
-			ClickElement(By.XPath(deleteXPath));
-
-			return WaitUntilDisappearElement(By.XPath(deleteXPath));
+			ClickElement(By.XPath(clientXPath + DELETE_BTN_XPATH));
+			// Проверить, что клиент убран из списка клиентов
+			return WaitUntilDisappearElement(By.XPath(clientXPath + DELETE_BTN_XPATH));
 		}
 
 		/// <summary>
@@ -114,7 +109,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <returns>режим редактирования</returns>
 		public bool GetIsEditMode()
 		{
-			return GetIsElementDisplay(By.XPath(ENTER_NAME_XPATH));
+			return GetIsElementDisplay(By.XPath(CLIENT_INPUT_XPATH));
 		}
 
 		/// <summary>
@@ -123,7 +118,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <returns>режим нового клиента (не сохранился)</returns>
 		public bool GetIsNewClientEditMode()
 		{
-			return GetIsElementDisplay(By.XPath(NEW_CLIENT_INPUT_XPATH));			
+			return GetIsElementDisplay(By.XPath(CLIENT_INPUT_XPATH));			
 		}
 
 		/// <summary>
@@ -141,7 +136,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <param name="name"></param>
 		public void EnterNewClientName(string name)
 		{
-			SendTextElement(By.XPath(NEW_CLIENT_INPUT_XPATH), name);
+			SendTextElement(By.XPath(CLIENT_INPUT_XPATH), name);
 		}
 
 		/// <summary>
@@ -163,26 +158,20 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 					break;
 				}
 			}
-			return NOT_HIDDEN_TR + "[contains(@class,'js-row')][" + rowNum + "]";
+			return CLIENT_LIST_XPATH + "[" + rowNum + "]";
 		}
 
 
 
-		protected const string DELETE_BTN_XPATH = "//a[contains(@class,'js-delete-client')]";
-		protected const string EDIT_BTN_XPATH = "//a[contains(@class,'js-edit-client')]";
-		protected const string SAVE_BTN_XPATH = "//a[contains(@class,'js-save-client')]";
-		protected const string ADD_CLIENT_BTN_XPATH = "//span[contains(@class,'js-add-client')]";
+		protected const string DELETE_BTN_XPATH = "//img[contains(@class,'delete client')]";
+		protected const string EDIT_BTN_XPATH = "//img[contains(@class,'edit client')]";
+		protected const string ADD_CLIENT_BTN_XPATH = "//div[contains(@class,'js-clients')]/div/span";
+		protected const string SAVE_CLIENT_XPATH = "//img[contains(@class,'client save')]";
 
-		protected const string ENTER_NAME_XPATH = "//td[contains(@class,'clientEdit')]//div[contains(@class,'" + EDIT_CLIENT_CLASS + "')]" + NAME_INPUT_XPATH;
-		protected const string NAME_INPUT_XPATH = "//input[contains(@class,'js-client-name-input')]";
-		protected const string EDIT_CLIENT_CLASS = "js-edit-mode";
-		protected const string NOT_HIDDEN_TR = "//tr[not(contains(@class,'g-hidden'))]";
-		protected const string SAVE_CLIENT_XPATH = NOT_HIDDEN_TR + "//div[contains(@class,'" + EDIT_CLIENT_CLASS + "') and not(contains(@class,'g-hidden'))]" + SAVE_BTN_XPATH;
+		protected const string ERROR_NAME_XPATH = "//div[contains(@class,'clienterr') and text()='A client with the same name already exists.']";
 
-		protected const string ERROR_NAME_XPATH = "//div[contains(@class,'js-error-text g-hidden')]";
+		protected const string CLIENT_INPUT_XPATH = "//input[contains(@class,'clienttxtbox')]";
 
-		protected const string NEW_CLIENT_INPUT_XPATH = NOT_HIDDEN_TR + "//td[contains(@class,'clientNew')]//div[contains(@class,'" + EDIT_CLIENT_CLASS + "')]" + NAME_INPUT_XPATH;
-
-		protected const string CLIENT_LIST_XPATH = ".//table[contains(@class,'js-clients')]//tr[contains(@class,'js-row') and not(contains(@class,'g-hidden'))]";
+		protected const string CLIENT_LIST_XPATH = ".//table[contains(@class,'js-sortable-table')]//tr";
 	}
 }

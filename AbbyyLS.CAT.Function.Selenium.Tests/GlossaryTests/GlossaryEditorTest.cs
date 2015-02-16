@@ -35,7 +35,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			// Не выходить из браузера после теста
 			QuitDriverAfterTest = false;
 
-			GoToWorkspace();
+			GoToUrl(RelativeUrlProvider.Workspace);
 
 			if (!beforeTests)
 			{
@@ -69,7 +69,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		[TestFixtureTearDown]
 		public override void TeardownAllBase()
 		{
-			GoToGlossaries();
+			GoToUrl(RelativeUrlProvider.Glossaries);
 
 			// Зайти в глоссарий
 			SwitchCurrentGlossary(_glossaryName);

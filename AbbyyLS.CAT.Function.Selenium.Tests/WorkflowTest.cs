@@ -30,7 +30,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			QuitDriverAfterTest = false;
 
 			// 1. Переход на страницу workspace
-			GoToWorkspace();
+			GoToUrl(RelativeUrlProvider.Workspace);
 		}
 
 

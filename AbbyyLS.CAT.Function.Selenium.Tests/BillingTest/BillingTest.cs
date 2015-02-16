@@ -128,7 +128,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			// Покупка лицензии
 			BuyLicense();
 			// Переход в WS
-			GoToWorkspace();
+			GoToUrl(RelativeUrlProvider.Workspace);
 			if (currency == "RUB")
 			{
 				// Выбираем английский язык в WS

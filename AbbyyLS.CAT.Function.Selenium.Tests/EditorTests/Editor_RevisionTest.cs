@@ -38,7 +38,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Editor.Revisions
 
 			if (!_projectCreated)
 			{
-				GoToWorkspace();
+				GoToUrl(RelativeUrlProvider.Workspace);
 
 				// создаем документ с нужным файлом, нужной ТМ, подкючаем МТ и глоссарий
 				CreateProject(
@@ -568,7 +568,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Editor.Revisions
 			// название проекта для проведения тестов
 			var projectNameRevisionsTest3 = "RevisionsTestXlf" + "_" + DateTime.UtcNow.Ticks;
 
-			GoToWorkspace();
+			GoToUrl(RelativeUrlProvider.Workspace);
 
 			// создаем документ с нужным файлом
 			CreateProject(projectNameRevisionsTest3, TestFile.EditorXlfFile);

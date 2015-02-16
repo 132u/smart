@@ -33,7 +33,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Glossary
 			QuitDriverAfterTest = true;
 
 			// Переходим к странице глоссариев
-			GoToGlossaries();
+			GoToUrl(RelativeUrlProvider.Glossaries);
 			var languagesList = new List<CommonHelper.LANGUAGE>{CommonHelper.LANGUAGE.Lithuanian, CommonHelper.LANGUAGE.Japanese};
 
 			// Создать новый глоссарий
@@ -214,7 +214,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Glossary
 			Authorization("TestAccount", true);
 
 			// Перейти на стр словарей
-			GoToGlossaries();
+			GoToUrl(RelativeUrlProvider.Glossaries);
 
 			// Перейти на стр словаря
 			SwitchCurrentGlossary(_glossaryName);
@@ -263,7 +263,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Glossary
 			Authorization("TestAccount", true);
 
 			// Перейти на стр словарей
-			GoToGlossaries();
+			GoToUrl(RelativeUrlProvider.Glossaries);
 
 			// Перейти на стр словаря
 			SwitchCurrentGlossary(_glossaryName);

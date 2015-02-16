@@ -46,7 +46,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			QuitDriverAfterTest = false;
 
 			// 1. Переход на страницу workspace
-			GoToWorkspace();
+			GoToUrl(RelativeUrlProvider.Workspace);
 
 			// 2. Создание проекта с 1 документом внутри
 			// При проверке PreviousStage нужно создать новый проект с уникальным именем, т.к. необходимо внести изменения в задачи

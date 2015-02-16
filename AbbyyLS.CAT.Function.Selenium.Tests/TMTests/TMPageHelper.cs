@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.UI;
 using System.Windows.Forms;
+using System.Linq;
 
 namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.TM
 {
@@ -84,19 +85,8 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.TM
 		public bool GetIsClientExistCreateTM(string clientName)
 		{
 			// Получить список клиентов
-			IList<IWebElement> clientList = GetElementList(
-				By.XPath(CREATE_TM_CLIENT_LIST_XPATH + CREATE_TM_CLIENT_ITEM_XPATH));
-			bool bClientExist = false;
-			foreach (IWebElement el in clientList)
-			{
-				if (el.GetAttribute("title") == clientName)
-				{
-					// Если клиент в списке
-					bClientExist = true;
-					break;
-				}
-			}
-			return bClientExist;
+			var clientList = GetElementList(By.XPath(CREATE_TM_CLIENT_ITEM_XPATH));
+			return clientList.Any(e => e.GetAttribute("innerHTML") == clientName);
 		}
 
 		/// <summary>
@@ -806,12 +796,12 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.TM
 
 		public enum TM_BTN_TYPE { Update, Export, Delete, Add, Edit, Save };
 
-		protected const string ADD_TM_BTN_XPATH = ".//span[contains(@class,'js-create-tm')]";
+		protected const string ADD_TM_BTN_XPATH = "//span[contains(@data-bind,'createTm')]";
 		protected const string ADD_TMX = "html/body/div[11]/div[2]/div[2]/form/div[1]/div/div/input";
 		protected const string CREATE_TM_DIALOG_XPATH = ".//div[contains(@class,'js-popup-create-tm')][2]";
-		protected const string CREATE_TM_CLIENT_XPATH = ".//span[contains(@class,'js-client-select') and contains(@class,'js-dropdown')]";
-		protected const string CREATE_TM_CLIENT_LIST_XPATH = ".//span[contains(@class,'js-client-select') and contains(@class,'g-drpdwn__list')]";
-		protected const string CREATE_TM_CLIENT_ITEM_XPATH = "//span[contains(@class,'js-dropdown__item')]";
+		protected const string CREATE_TM_CLIENT_XPATH = "//select[contains(@data-bind,'allClientsList')]//following-sibling::span";
+		protected const string CREATE_TM_CLIENT_LIST_XPATH = CREATE_TM_CLIENT_XPATH +"[contains(@class,'active')]";
+		protected const string CREATE_TM_CLIENT_ITEM_XPATH = "//select[contains(@data-bind,'allClientsList')]/option";
 		protected const string CREATE_TM_DOMAIN_XPATH = ".//div[contains(@class,'js-domains-multiselect')]";
 		protected const string CREATE_TM_DOMAIN_LIST_XPATH = ".//div[contains(@class,'ui-multiselect-menu')][2]";
 		protected const string CREATE_TM_DOMAIN_ITEMS_XPATH = ".//div[contains(@class,'ui-multiselect-menu')][2]//ul[contains(@class,'ui-multiselect-checkboxes')]//li//label//span[contains(@class,'ui-multiselect-item-text')]"; // TODO пересмотреть

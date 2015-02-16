@@ -27,7 +27,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.Glossary.UserRights
 		public void SetupGlossarySuggestedTermsTest()
 		{
 			QuitDriverAfterTest = false;
-			GoToGlossaries();
+			GoToUrl(RelativeUrlProvider.Glossaries);
 			AddUserRights();
 		}
 

@@ -29,7 +29,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Editor
 			QuitDriverAfterTest = false;
 
 			// 1. Переходим к странице воркспейса
-			GoToWorkspace();
+			GoToUrl(RelativeUrlProvider.Workspace);
 
 			// 2. Создание проекта с 1 документом внутри
 			CreateProject(ProjectName, "", true);

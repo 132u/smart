@@ -25,7 +25,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		public void SetupTest()
 		{
 			// Переходим к странице воркспейса
-			GoToWorkspace();
+			GoToUrl(RelativeUrlProvider.Workspace);
 		}
 
 		/// <summary>

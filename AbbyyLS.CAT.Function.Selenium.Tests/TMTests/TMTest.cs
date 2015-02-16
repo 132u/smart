@@ -28,7 +28,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.TM
 			QuitDriverAfterTest = false;
 
 			// Переходим к странице воркспейса
-			GoToTranslationMemories();
+			GoToUrl(RelativeUrlProvider.TranslationMemories);
 
 			// Выбираем имя для ТМ, которое будет использовано в тесте
 			UniqueTmName = GetUniqueTMName();
@@ -696,10 +696,10 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.TM
 			{
 				TMPage.ClickCanselOnEditionForm();
 
-				GoToDomains();
+				GoToUrl(RelativeUrlProvider.Domains);
 				CreateDomain("SingleDomain");
 
-				GoToTranslationMemories();
+				GoToUrl(RelativeUrlProvider.TranslationMemories);
 				ClickButtonTMInfo(tmName, TMPageHelper.TM_BTN_TYPE.Edit);
 				TMPage.WaitUntilEditTMOpen();
 				TMPage.ClickToProjectsListAtTmEdditForm();

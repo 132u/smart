@@ -29,7 +29,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		public void SetupTest()
 		{
 			// Переходим к странице воркспейса
-			GoToWorkspace();
+			GoToUrl(RelativeUrlProvider.Workspace);
 		}
 
 		/// <summary>
@@ -1116,7 +1116,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 
 				if (!isNeedOpenProject)
 				{
-					GoToWorkspace();
+					GoToUrl(RelativeUrlProvider.TranslationMemories);
 				}
 			}
 			else if (isNeedOpenProject)
@@ -1143,7 +1143,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			// Создать проект, если его нет
 			if (isNotExistProject)
 			{
-				GoToWorkspace();
+				GoToUrl(RelativeUrlProvider.Workspace);
 				// Создать проект
 				CreateProject(currentProjectName);
 				// Загрузить документ
@@ -1156,7 +1156,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 				AddTranslationAndConfirm();
 				// Выйти из редактора
 				EditorClickHomeBtn();
-				GoToWorkspace();
+				GoToUrl(RelativeUrlProvider.Workspace);
 				// Загрузить второй документ
 				ImportDocumentProjectSettings(
 					TestFile.DocumentFileToConfirm2, 
@@ -1173,7 +1173,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 				if (!isNeedOpenProject)
 				{
 					// Перейти к проекту
-					GoToWorkspace();
+					GoToUrl(RelativeUrlProvider.Workspace);
 				}
 			}
 			else if (isNeedOpenProject)

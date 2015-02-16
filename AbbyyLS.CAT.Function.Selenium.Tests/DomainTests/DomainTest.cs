@@ -29,7 +29,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			QuitDriverAfterTest = false;
 
 			// Переходим к странице воркспейса
-			GoToDomains();
+			GoToUrl(RelativeUrlProvider.Domains);
 		}
 
 		/// <summary>

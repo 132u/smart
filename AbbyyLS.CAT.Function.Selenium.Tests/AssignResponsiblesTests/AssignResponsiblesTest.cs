@@ -50,7 +50,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			QuitDriverAfterTest = false;
 
 			// Переход на страницу workspace
-			GoToWorkspace();
+			GoToUrl(RelativeUrlProvider.Workspace);
 		}
 
 		/// <summary>
@@ -503,7 +503,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			EditorClickHomeBtn();
 
 			// Переход в WS
-			GoToWorkspace();
+			GoToUrl(RelativeUrlProvider.Workspace);
 
 			// Открываем диалог выбора исполнителя
 			OpenAssignDialog(ProjectName);
@@ -600,7 +600,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			EditorClickHomeBtn();
 
 			//Переход на страницу WS 
-			GoToWorkspace();
+			GoToUrl(RelativeUrlProvider.Workspace);
 
 			// Открываем диалог выбора исполнителя
 			OpenAssignDialog(ProjectName);

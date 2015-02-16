@@ -16,7 +16,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.TMTests
 		{
 			try
 			{
-				GoToTranslationMemories();
+				GoToUrl(RelativeUrlProvider.TranslationMemories);
 
 				CreateTMIfNotExist(
 					TMForFilteringName_1,
@@ -249,10 +249,10 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.TMTests
 			WorkspacePage.ClickLogoff();
 
 			Authorization("TestAccount", true);
-			GoToTranslationMemories();
+			GoToUrl(RelativeUrlProvider.TranslationMemories);
 
 			CreateTMIfNotExist(TMForFilteringName_3);
-			GoToTranslationMemories();
+			GoToUrl(RelativeUrlProvider.TranslationMemories);
 
 			CreateNewTmFilter(() => CreateAutorFilter("Ringo Star"));
 
@@ -382,7 +382,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.TMTests
 			string clientName,
 			string topicName)
 		{
-			GoToTranslationMemories();
+			GoToUrl(RelativeUrlProvider.TranslationMemories);
 
 			ClickButtonTMInfo(tmName, TMPageHelper.TM_BTN_TYPE.Edit);
 
@@ -406,7 +406,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.TMTests
 
 		private void checkProjectGroupExist(string projectGroupName)
 		{
-			GoToDomains();
+			GoToUrl(RelativeUrlProvider.Domains);
 
 			if (!GetIsDomainExist(projectGroupName))
 			{
@@ -416,7 +416,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.TMTests
 
 		private void checkClientExist(string clientName)
 		{
-			GoToClients();
+			GoToUrl(RelativeUrlProvider.Clients);
 
 			if (!ClientPage.GetIsClientExist(clientName))
 			{

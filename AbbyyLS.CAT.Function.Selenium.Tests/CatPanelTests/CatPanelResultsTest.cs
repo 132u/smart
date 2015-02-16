@@ -33,10 +33,8 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			QuitDriverAfterTest = false;
 
 			// Переход на страницу workspace
-			GoToWorkspace();
+			GoToUrl(RelativeUrlProvider.Workspace);
 		}
-
-
 
 		/// <summary>
 		/// ТЕСТ: Проверка выдач и переводов из МТ

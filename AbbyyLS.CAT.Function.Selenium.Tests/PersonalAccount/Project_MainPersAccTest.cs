@@ -26,7 +26,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		[SetUp]
 		public void SetupTest()
 		{
-			GoToWorkspace("Personal");
+			GoToUrl(RelativeUrlProvider.Workspace, "Personal");
 		}
 
 		/// <summary>
