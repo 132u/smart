@@ -2,7 +2,6 @@
 using System.Linq;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.UI;
-using System;
 
 namespace AbbyyLS.CAT.Function.Selenium.Tests
 {
@@ -50,7 +49,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		protected string GetOurUserXpath(string name)
 		{
 			string[] split = name.Split(' ');
-			return VISIBLE_RESPONSIBLE_USERS_XPATH + "[contains(@title , '" + split[0] + "')]";
+			return RESPONSIBLES_TABLE_XPATH + "//select/option[contains(text() , '" + split[0] + "') and contains(text() , '" + split[1] + "')]";
 		}
 
 		/// <summary>
@@ -84,7 +83,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 
 			return (from element in elementUsersList
 					where !element.GetAttribute("innerHTML").Contains("Group: ")
-					select element.GetAttribute("innerHTML")).ToList();
+					select element.GetAttribute("innerHTML").Replace("  ", " ")).ToList();
 		}
 
 		/// <summary>
@@ -98,7 +97,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 
 			return (from element in elementUsersList
 					where element.GetAttribute("innerHTML").Contains("Group: ")
-					select element.GetAttribute("innerHTML")).ToList();
+					select element.GetAttribute("innerHTML").Replace("  ", " ")).ToList();
 		}
 
 		/// <summary>
@@ -120,15 +119,14 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <param name="name">Имя исполнителя</param>
 		public void SetVisibleResponsible(int rowNumber, string name)
 		{
-			var xPath = VISIBLE_RESPONSIBLE_USERS_XPATH;
 			string[] split = name.Split(' ');
-			foreach (var element in GetElementList(By.XPath(xPath)))
+			var xPath = RESPONSIBLES_TABLE_XPATH + DROPDOWNLIST_XPATH + "/option";
+			var el = xPath + "[contains(text(),'"+split[0]+"') and contains(text(),'"+split[1]+"')]";
+			Driver.FindElement(By.XPath(RESPONSIBLES_TABLE_XPATH + DROPDOWNLIST_XPATH)).Click();
+
+			while (!Driver.FindElement(By.XPath(el)).Selected) 
 			{
-				if (element.GetAttribute("title").Contains(split[0]))
-				{
-					element.Click();
-					break;
-				}
+				Driver.FindElement(By.XPath(RESPONSIBLES_TABLE_XPATH + DROPDOWNLIST_XPATH)).SendKeys(Keys.Down);
 			}
 		}
 
@@ -233,11 +231,11 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		
 		protected const string CHOOSE_TASK_STEP__XPATH = ".//div[contains(@class, 'js-popup-import-document')]";
 
-		protected const string DROPDOWNLIST_XPATH = "//td[contains(@class, 'assineer')]//span";
+		protected const string DROPDOWNLIST_XPATH = "//td[contains(@class, 'assineer')]//select";
 		protected const string VISIBLE_RESPONSIBLE_USERS_XPATH = "//span[contains(@class, 'js-dropdown__list')]/span";
 		protected const string ASSIGN_BTN_XPATH = "//span[contains(@class, 'js-assign')]//a[contains(text(), 'Assign')]";
 		protected const string CANCEL_BTN_XPATH = "//span[contains(@class, 'js-assigned-cancel')]//a[contains(text(), 'Cancel')]";
-		protected const string CLOSE_BTN_XPATH = "//div[contains(@class, 'js-popup-buttons')]//a[@data-bind='click: close']";
+		protected const string CLOSE_BTN_XPATH = "//span/a[@class='h30 g-redbtn__text g-btn__text']";
 
 		protected const string YES_BTN_CONFIRM_XPATH = CONFIRM_RESET_ASSIGNMENT_FORM_XPATH + "//input[contains(@class, 'js-submit-btn ')]";
 
