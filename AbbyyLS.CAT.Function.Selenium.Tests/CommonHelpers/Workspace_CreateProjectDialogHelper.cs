@@ -996,7 +996,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			UploadDocument(fileName, UPLOAD_FILE_TO_NEW_PROJECT);
 		}
 
-		protected const string UPLOAD_FILE_TO_NEW_PROJECT = "//html/body/div[22]/div[2]/div[2]/div[1]/div[1]/div[1]/div[2]/div[1]/input"; // добавление документа при создании проекта
+		protected const string UPLOAD_FILE_TO_NEW_PROJECT = "html/body/div[21]/div[2]/div[2]/div[1]/div[1]/div[1]/div[2]/div[1]/input"; // добавление документа при создании проекта
 
 		public enum SetGlossary { New, First, ByName, None };
 		public enum MT_TYPE { DefaultMT, Google, Bing, Yandex, Moses, None };
