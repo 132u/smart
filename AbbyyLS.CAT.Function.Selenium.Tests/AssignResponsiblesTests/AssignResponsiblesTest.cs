@@ -35,6 +35,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			}
 			catch (Exception ex)
 			{
+				ExitDriver();
 				Logger.ErrorException("Ошибка в конструкторе : " + ex.Message, ex);
 				throw;
 			}

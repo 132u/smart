@@ -53,10 +53,12 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 				initializeRelatedToServerFields(cfgAgentSpecific);
 				initializeRelatedToUserFields(cfgUserInfo);
 				initializeUsersAndCompanyList();
+
 				createDriver();
 			}
 			catch (Exception ex)
 			{
+				ExitDriver();
 				Logger.ErrorException("Ошибка в конструкторе : " + ex.Message, ex);
 				throw;
 			}
@@ -1824,6 +1826,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			if (Driver != null)
 			{
 				// Закрыть драйвер
+				Logger.Info("Завершаем работу драйвера.");
 				Driver.Quit();
 				// Очистить, чтобы при следующем тесте пересоздавалось
 				Driver = null;

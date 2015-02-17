@@ -1,6 +1,7 @@
 ﻿using System.Threading;
 using NUnit.Framework;
 using System.Collections.Generic;
+using System;
 
 namespace AbbyyLS.CAT.Function.Selenium.Tests
 {
@@ -29,11 +30,20 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		[TestFixtureSetUp]
 		public void SetupAll()
 		{
-			// Создание уникального имени проекта
-			CreateUniqueNamesByDatetime();
+			try
+			{
+				// Создание уникального имени проекта
+				CreateUniqueNamesByDatetime();
 
-			// Запись имени для дальнейшего использования в группе тестов
-			_projectNoChangesName = ProjectName;
+				// Запись имени для дальнейшего использования в группе тестов
+				_projectNoChangesName = ProjectName;
+			}
+			catch(Exception ex)
+			{
+				ExitDriver();
+				Logger.ErrorException("Ошибка в конструкторе : " + ex.Message, ex);
+				throw;
+			}
 		}
 
 		/// <summary>

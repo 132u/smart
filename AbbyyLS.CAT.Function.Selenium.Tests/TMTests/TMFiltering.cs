@@ -43,6 +43,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.TMTests
 			}
 			catch (Exception e)
 			{
+				ExitDriver();
 				Logger.ErrorException("Исключение было сгенерировано на этапе подготовки группы тестов. Исключение:" + e.Message, e);
 				throw;
 			}

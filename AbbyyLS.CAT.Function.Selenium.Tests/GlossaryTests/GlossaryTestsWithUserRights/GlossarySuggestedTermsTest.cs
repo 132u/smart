@@ -26,9 +26,18 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.Glossary.UserRights
 		[TestFixtureSetUp]
 		public void SetupGlossarySuggestedTermsTest()
 		{
-			QuitDriverAfterTest = false;
-			GoToUrl(RelativeUrlProvider.Glossaries);
-			AddUserRights();
+			try
+			{
+				QuitDriverAfterTest = false;
+				GoToUrl(RelativeUrlProvider.Glossaries);
+				AddUserRights();
+			}
+			catch (Exception ex)
+			{
+				ExitDriver();
+				Logger.ErrorException("Ошибка в конструкторе : " + ex.Message, ex);
+				throw;
+			}
 		}
 
 		/// <summary>

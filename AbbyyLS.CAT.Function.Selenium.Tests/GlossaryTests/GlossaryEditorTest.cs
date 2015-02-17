@@ -22,11 +22,20 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		[TestFixtureSetUp]
 		public void BeforeClass()
 		{
-			// Создание уникального имени проекта
-			CreateUniqueNamesByDatetime();
+			try
+			{
+				// Создание уникального имени проекта
+				CreateUniqueNamesByDatetime();
 
-			// Запись имени для дальнейшего использования в группе тестов
-			projectNoChangesName = ProjectName;
+				// Запись имени для дальнейшего использования в группе тестов
+				projectNoChangesName = ProjectName;
+			}
+			catch (Exception ex)
+			{
+				ExitDriver();
+				Logger.ErrorException("Ошибка в конструкторе : " + ex.Message, ex);
+				throw;
+			}
 		}
 
 		[SetUp]
