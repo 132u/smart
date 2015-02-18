@@ -16,7 +16,7 @@ using NConfiguration;
 using System.Text.RegularExpressions;
 using NLog;
 using OpenQA.Selenium.IE;
-
+using System.Diagnostics;
 using System.Net;
 
 namespace AbbyyLS.CAT.Function.Selenium.Tests
@@ -1826,11 +1826,19 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			if (Driver != null)
 			{
 				// Закрыть драйвер
-				Logger.Info("Завершаем работу драйвера.");
 				Driver.Quit();
 				// Очистить, чтобы при следующем тесте пересоздавалось
 				Driver = null;
 			}
+			if (BrowserName == "IE")
+			{
+				Process[] explorerArray = Process.GetProcessesByName("iexplore");
+				foreach (var item in explorerArray)
+				{
+					item.Kill();
+				}
+			}
+			Logger.Info("Работа драйвера и браузера завершена.");
 		}
 
 		/// <summary>
