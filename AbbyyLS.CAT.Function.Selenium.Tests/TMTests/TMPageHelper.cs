@@ -270,9 +270,9 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.TM
 		public void SelectTargetLanguage(LANGUAGE lang)
 		{
 			string xPath = TARGET_LANG_ITEM_XPATH + languageID[lang] + "']";
-
 			ClickElement(By.XPath(xPath));
 		}
+
 
 		/// <summary>
 		/// Ввести название нового ТМ
@@ -764,7 +764,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.TM
 		/// <returns>xPath</returns>
 		protected string GetTMRow(string TMName)
 		{
-			return TM_ROW_XPATH + "[text()='" + TMName + "']/parent::span/parent::td/parent::tr";
+			return TM_ROW_XPATH + "[text()='" + TMName + "']/parent::td/parent::tr";
 		}
 
 		/// <summary>
@@ -797,7 +797,8 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.TM
 		public enum TM_BTN_TYPE { Update, Export, Delete, Add, Edit, Save };
 
 		protected const string ADD_TM_BTN_XPATH = "//span[contains(@data-bind,'createTm')]";
-		protected const string ADD_TMX = "html/body/div[11]/div[2]/div[2]/form/div[1]/div/div/input";
+		protected const string ADD_TMX = "//div[@class=\"g-popup-bd js-popup-bd js-popup-import\"][2]//div[@class=\"g-popupbox l-filtersrc\"]//input[@type=\"file\"]";
+
 		protected const string CREATE_TM_DIALOG_XPATH = ".//div[contains(@class,'js-popup-create-tm')][2]";
 		protected const string CREATE_TM_CLIENT_XPATH = "//select[contains(@data-bind,'allClientsList')]//following-sibling::span";
 		protected const string CREATE_TM_CLIENT_LIST_XPATH = CREATE_TM_CLIENT_XPATH +"[contains(@class,'active')]";
@@ -808,7 +809,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.TM
 
 		protected const string DOWNLOAD_TMX_IMG_PATH = "//img[contains(@class,'js-loading-image')]";
 
-		protected const string CREATE_TM_DIALOG_SAVE_AND_IMPORT_BTN_XPATH = CREATE_TM_DIALOG_XPATH + "//a[contains(@class,'js-save-and-import')]";
+		protected const string CREATE_TM_DIALOG_SAVE_AND_IMPORT_BTN_XPATH = CREATE_TM_DIALOG_XPATH + "//a[contains(text(),'Save')]";
 		protected const string UPLOAD_BTN_XPATH = "//a[contains(@class,'js-upload-btn')]";
 
 		protected const string CLEAR_FILTERS_XPATH = "//img[contains(@class, 'js-clear-filter')]";
@@ -824,7 +825,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.TM
 		protected const string AUTHOR_FILTER_XPATH = "//p[text()='Author']/..//div[contains(@class, 'ui-multiselect')]";
 		protected const string CREATION_DATE_XPATH = "//input[contains(@class, 'js-from-date')]";
 		
-		protected const string TM_ROW_XPATH = "//tr[contains(@class, 'js-tm-row')]/td/span/span";
+		protected const string TM_ROW_XPATH = "//td[@class='l-corpr__td tm']/span";
 
 		protected const string BTN_ROW_XPATH = "//tr[@class='js-tm-panel']";
 		protected const string UPDATE_BTN_XPATH = BTN_ROW_XPATH + "//span[contains(@class,'js-upload-btn')]//a";
@@ -840,16 +841,17 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.TM
 		protected const string IMPORT_POPUP_XPATH = "//div[contains(@class,'js-popup-import')][2]";
 		protected const string IMPORT_BTN_XPATH = IMPORT_POPUP_XPATH + "//span[contains(@class,'js-import-button')]";
 
-		protected const string OPEN_SRC_LANG_CREATE_TM_XPATH = CREATE_TM_DIALOG_XPATH + "//span[contains(@class,'l-createtm__srclnl_drpdwn')]";
-		protected const string OPEN_TRG_LANG_CREATE_TM_XPATH = CREATE_TM_DIALOG_XPATH + "//div[contains(@class,'js-languages-multiselect')]";
-
+		protected const string OPEN_SRC_LANG_CREATE_TM_XPATH = CREATE_TM_DIALOG_XPATH + "//div[@class='l-createtm__contrbox'][2]//span[contains(@class,'js-dropdown__text')]";
+		protected const string OPEN_TRG_LANG_CREATE_TM_XPATH = CREATE_TM_DIALOG_XPATH + "//div[@class='l-createtm__contrbox'][2]//div[@class='ui-multiselect-text']";
 		protected const string SOURCE_LANG_ITEM_XPATH = "//span[contains(@class,'js-dropdown__item')][@data-id='";
-		protected const string TARGET_LANG_ITEM_XPATH = "//div[contains(@class,'ui-multiselect-menu') and contains(@class,'js-languages-multiselect')]//li//input[@value='";
+		protected const string TARGET_LANG_DD_XPATH = CREATE_TM_DIALOG_XPATH + "//select[contains(@data-watermark,'Select language')]";
+
+		protected const string TARGET_LANG_LIST_XPATH =CREATE_TM_DIALOG_XPATH + "//select[contains(@data-watermark,'Select language')]/option";
 
 		protected const string PROJECT_TO_ADD_ITEM_XPATH = "//div[contains(@class,'js-domains-multiselect')]//ul//li[2]//label//span[2]";
 		protected const string DOMAIN_TO_ADD_XPATH = "//div[contains(@class,'js-domains-multiselect')]//ul//input";
 
-		protected const string NEW_TM_NAME_XPATH = CREATE_TM_DIALOG_XPATH + "//input[contains(@class,'js-tm-name')]";
+		protected const string NEW_TM_NAME_XPATH = CREATE_TM_DIALOG_XPATH + "//input[contains(@data-bind,'name')]";
 		protected const string SAVE_TM_BTN_XPATH = CREATE_TM_DIALOG_XPATH + "//span[contains(@class,'js-save')]";
 		protected const string CANCEL_TM_SAVING_BTN_XPATH = CREATE_TM_DIALOG_XPATH + "//a[contains(@class,'js-cancel')]";
 		
@@ -888,5 +890,8 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.TM
 		protected const string NOTIFICATION_XPATH = "//div[@class='g-notifications-item']";
 
 		protected Dictionary<TM_BTN_TYPE, string> TMButtonDict;
+
+		protected const string TARGET_LANG_ITEM_XPATH =
+			"//div[contains(@class,'ui-multiselect')][1]//ul[@class='ui-multiselect-checkboxes ui-helper-reset']//li//input[@value='";
 	}
 }

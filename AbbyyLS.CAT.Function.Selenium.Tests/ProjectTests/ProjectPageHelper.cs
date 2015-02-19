@@ -701,7 +701,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			UploadDocNativeAction(fileName);
 		}
 
-		protected const string ADD_FILE_ON_PROJECT_PAGE = "html/body/div[13]/div[2]/div[2]/div[1]/div[1]/div/div[2]/div[5]/input"; // добавление документа уже сущестующему проекту на стр проекта
+		protected const string ADD_FILE_ON_PROJECT_PAGE = "//div[contains(@class,\"js-popup-import-document\")][2]//input[@type=\"file\"]"; // добавление документа уже сущестующему проекту на стр проекта
 
 		protected const string PROJECT_TABLE_XPATH = "//table[contains(@class,'l-project-panel-tbl')]";
 		protected const string PROGRESS_BTN_XPATH = "//div[@class='ui-progressbar__container']";

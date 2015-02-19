@@ -996,12 +996,12 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			UploadDocument(fileName, UPLOAD_FILE_TO_NEW_PROJECT);
 		}
 
-		protected const string UPLOAD_FILE_TO_NEW_PROJECT = "html/body/div[21]/div[2]/div[2]/div[1]/div[1]/div[1]/div[2]/div[1]/input"; // добавление документа при создании проекта
+		protected const string UPLOAD_FILE_TO_NEW_PROJECT = "//div[contains(@class,\"js-popup-create-project\")][2]//input[@type=\"file\"]"; // добавление документа при создании проекта
 
 		public enum SetGlossary { New, First, ByName, None };
 		public enum MT_TYPE { DefaultMT, Google, Bing, Yandex, Moses, None };
 		protected Dictionary<MT_TYPE, string> MTTypeDict = new Dictionary<MT_TYPE, string>();
-		protected const string TM_UPLOAD = "//html/body/div[16]/div[2]/div[2]/div[1]/form/div/div/input";
+		protected const string TM_UPLOAD = "//div[contains(@class,\"js-popup-create-tm\")][2]//input[@type=\"file\"]";
 		protected const string CREATE_PROJECT_DIALOG_XPATH = "//div[contains(@class,'js-popup-create-project')][2]";
 
 		protected const string DEADLINE_DATE_INPUT_XPATH = CREATE_PROJECT_DIALOG_XPATH + "//input[contains(@class, 'l-project__date')]";
