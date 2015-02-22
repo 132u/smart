@@ -25,9 +25,9 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 	/// Базовый тест
 	/// </summary>
 
-	[TestFixture("Chrome")]
+	//[TestFixture("Chrome")]
 	[TestFixture("Firefox")]
-	[TestFixture("IE")]
+	//[TestFixture("IE")]
 	public class BaseTest
 	{
 		public static Logger Logger = LogManager.GetCurrentClassLogger();
