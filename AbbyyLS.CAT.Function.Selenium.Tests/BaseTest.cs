@@ -2142,7 +2142,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 				WorkspaceUrl = Url + "/workspace";
 			}
 
-			AdminUrl = cfgAgentSpecific.Url + ":81";
+			AdminUrl = "http://" + cfgAgentSpecific.Url + ":81";
 		}
 
 		private void initializeRelatedToUserFields(UserInfoConfig cfgUserInfo)
