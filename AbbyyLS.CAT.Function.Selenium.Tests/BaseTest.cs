@@ -73,6 +73,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 
 		protected string WorkspaceUrl { get; private set; }
 		protected bool Standalone { get; private set; }
+		protected bool EmailAuth { get; private set; }
 		protected string AdminUrl { get; private set; }
 
 		protected string Login { get; private set; }
@@ -581,8 +582,21 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 
 			if (Standalone)
 			{
-				// Перейти на стартовую страницу
-				Driver.Navigate().GoToUrl(Url);
+				if (EmailAuth)
+				{
+					// Перейти на стартовую страницу
+					Driver.Navigate().GoToUrl(Url + RelativeUrlProvider.LogIn);
+
+					// Заполнить логин пароль
+					LoginPage.EnterLoginAuthEmail(authLogin);
+					LoginPage.EnterPasswordAuthEmail(authPassword);
+					LoginPage.ClickSubmitAuthEmail();
+				}
+				else
+				{
+					// Перейти на стартовую страницу
+					Driver.Navigate().GoToUrl(Url);
+				}
 			}
 			else
 			{
@@ -2128,15 +2142,10 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		{
 			WorkspaceUrl = cfgAgentSpecific.Workspace;
 			Standalone = cfgAgentSpecific.Standalone;
-			if (Standalone)
-			{
-				Url = cfgAgentSpecific.Url;
-			}
-			else
-			{
-				Url = "https://" + cfgAgentSpecific.Url;
-			}
-			
+			EmailAuth = cfgAgentSpecific.EmailAuth;
+
+			Url = Standalone ? cfgAgentSpecific.Url : "https://" + cfgAgentSpecific.Url;
+
 			if (string.IsNullOrWhiteSpace(WorkspaceUrl))
 			{
 				WorkspaceUrl = Url + "/workspace";

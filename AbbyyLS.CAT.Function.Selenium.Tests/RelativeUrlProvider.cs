@@ -20,6 +20,14 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			}
 		}
 
+		public static string LogIn
+		{
+			get
+			{
+				return "/login";
+			}
+		}
+
 		public static string CorpReg
 		{
 			get

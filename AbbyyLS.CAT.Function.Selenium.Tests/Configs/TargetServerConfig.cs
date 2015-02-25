@@ -14,5 +14,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		[DataMember(Name = "Standalone")]
 		public bool Standalone { get; set; }
 
+		[DataMember(Name = "EmailAuth")]
+		public bool EmailAuth { get; set; }
 	}
 }

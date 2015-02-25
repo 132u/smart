@@ -28,6 +28,18 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 
 			return isDisplay;
 		}
+
+		/// <summary>
+		/// Дождаться загрузки страницы ОР авторизации по email
+		/// </summary>
+		/// <returns>загрузилась</returns>
+		public bool WaitPageEmailAuthLoad(int maxwait = 15)
+		{
+			var isDisplay = WaitUntilDisplayElement(By.XPath(EMAIL_AUTH_XPATH), maxwait);
+
+			return isDisplay;
+		}
+
 		/// <summary>
 		/// Дождаться загрузки страницы http://www.smartcat.pro/?backUrl=%2fworkspace
 		/// </summary>
@@ -63,6 +75,34 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			ClickElement(By.XPath(SUBMIT_BTN_CSS));
 
 		}
+
+		/// <summary>
+		/// Ввести логин авторизации по email
+		/// </summary>
+		/// <param name="login">логин</param>
+		public void EnterLoginAuthEmail(string login)
+		{
+			ClearAndAddText(By.XPath(EMAIL_AUTH_XPATH), login);
+		}
+
+		/// <summary>
+		/// Ввести пароль авторизации по email
+		/// </summary>
+		/// <param name="password">пароль</param>
+		public void EnterPasswordAuthEmail(string password)
+		{
+			ClearAndAddText(By.XPath(PASSWORD_AUTH_XPATH), password);
+		}
+
+		/// <summary>
+		/// Кликнуть Submit на странице авторизации по email
+		/// </summary>
+		public void ClickSubmitAuthEmail()
+		{
+			ClickElement(By.XPath(SUBMIT_BTN_AUTH_XPATH));
+
+		}
+
 		/// <summary>
 		/// Дождаться отображения названия аккаунта
 		/// </summary>
@@ -178,6 +218,10 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		protected const string SUBMIT_BTN_CSS = "//button[contains(@class, 'btn-danger')]";
 		protected const string SUBMIT_BTN_CSS2 = "//button[contains(@class, 'btn btn-danger ng-binding') and @ng-class='{ disabled: selectAccount.$invalid }']";
 		protected const string ERROR_XPATH = "//div[contains(@class,'js-dynamic-errors')]";
+
+		protected const string EMAIL_AUTH_XPATH = "//input[contains(@name,'email')]";
+		protected const string PASSWORD_AUTH_XPATH = "//input[contains(@name,'password')]";
+		protected const string SUBMIT_BTN_AUTH_XPATH = "//table[contains(@class,'g-loginbox__tablButt')]//input(@type,'submit')";
 
 		protected const string LOGIN_BTN_LPRO_XPATH = "//input[@id='email']";
 		protected const string EMAIL_LPRO_XPATH = "email";
