@@ -729,10 +729,13 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		}
 
 		/// <summary>
-		/// Загрузка TM во время создания проекта
+		/// Загрузка TMX во время создания проекта
+		/// Загрузка TMX при создании TM
 		/// </summary>
 		protected void UploadTM(string DocumentName, string file)
 		{
+			//Проверка, что элемент найден
+			Assert.IsTrue(GetIsElementExist(By.XPath(file)), "Ошибка: элемент input для загрузки TMX (во время создания ТМ или во вреям создания проекта) не найден, возможно xpath поменялся");
 			((IJavaScriptExecutor)Driver).ExecuteScript("$(\"input:file\").removeClass(\"g-hidden\").css(\"opacity\", 100)");
 			Driver.FindElement(By.XPath(file)).SendKeys(DocumentName);
 			((IJavaScriptExecutor)Driver).ExecuteScript("$(\".js-import-file-form .js-control\").data(\"controller\").filenameLink.text($(\".js-import-file-form .js-control\").data(\"controller\").fileInput.val());");

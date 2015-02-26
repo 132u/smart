@@ -38,6 +38,9 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.TM
 		[Test]
 		public void CancelNewTMCreation()
 		{
+			// Открыть форму создания ТМ
+			OpenCreateTMForm();
+
 			// Открыть окно создания новой ТМ и заполнить необходимые поля
 			CreateTMByName(UniqueTmName);
 
@@ -61,10 +64,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.TM
 
 			// Нажать кнопку Сохранить
 			TMPage.ClickSaveNewTM();
-
-			// Проверить выделение ошибки в поле Название
-			Assert.IsTrue(TMPage.GetIsCreateTMInputNameError(),
-				"Ошибка: поле Название не выделено ошибкой");
 
 			// Проверить появления сообщения об ошибке
 			Assert.IsTrue(TMPage.GetIsExistCreateTMErrorNoName(),
@@ -97,8 +96,11 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.TM
 		{
 			CreateTMIfNotExist(ConstTMName);
 			// Создать ТМ с тем же (уже существующим) именем
-			CreateTMByNameAndSave(ConstTMName);
-
+			OpenCreateTMForm();
+			// Создать ТМ без сохранения формы
+			CreateTMByName(ConstTMName);
+			// Нажать кнопку Сохранить
+			TMPage.ClickSaveNewTM();
 			// Проверить появление ошибки
 			Assert.IsTrue(TMPage.GetIsExistCreateTMErrorExistName(),
 				"Ошибка: не появилась ошибка создания ТМ с существующим именем");
@@ -133,7 +135,8 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.TM
 			Assert.IsTrue(
 				GetIsExistTMCreateProjectList(UniqueTmName, true),
 				"Ошибка: ТМ нет в списке при создании проекта");
-
+			// Закрыть диалог создания проекта
+			WorkspaceCreateProjectDialog.ClickCloseDialog();
 			// Перейти на вкладку Workspace и проверить, 
 			// что TM есть в списке при создании проекта (языки перевода English - Lithuanian)
 			Assert.IsTrue(

@@ -4,6 +4,8 @@ using OpenQA.Selenium;
 using OpenQA.Selenium.Support.UI;
 using System.Windows.Forms;
 using System.Linq;
+using System.IO;
+using NUnit.Framework;
 
 namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.TM
 {
@@ -138,9 +140,9 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.TM
 		/// <summary>
 		/// Кликнуть Сохранить и загрузить документ в диалоге создания ТМ
 		/// </summary>
-		public void ClickSaveAndImportCreateTM()
+		public void ClickSave()
 		{
-			ClickElement(By.XPath(CREATE_TM_DIALOG_SAVE_AND_IMPORT_BTN_XPATH));
+			ClickElement(By.XPath(SAVE_TM_BTN_XPATH));
 		}
 
 		/// <summary>
@@ -195,7 +197,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.TM
 		{
 			string segmentText = GetTextElement(By.XPath(SEGMENT_SPAN_XPATH));
 
-			// Нужно получить число сегментов из строки "Segments count: N", разделитель - ":"
+			// Нужно получить число сегментов из строки "Number of translation units: N", разделитель - ":"
 			int splitIndex = segmentText.IndexOf(":");
 			// Отступаем двоеточие и пробел
 			splitIndex += 2;
@@ -280,7 +282,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.TM
 		/// <param name="name">название</param>
 		public void InputNewTMName(string name)
 		{
-			SendTextElement(By.XPath(NEW_TM_NAME_XPATH), name);
+			ClearAndAddText(By.XPath(NEW_TM_NAME_XPATH), name);
 		}
 
 		/// <summary>
@@ -315,6 +317,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.TM
 		/// </summary>
 		public void ClickCancelButtonOnNotificationBaloon()
 		{
+			WaitUntilDisplayElement(By.XPath(NOTIFICATION_BALOON_BUTTON_XPATH));
 			ClickElement(By.XPath(NOTIFICATION_BALOON_BUTTON_XPATH));
 		}
 
@@ -334,7 +337,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.TM
 		public bool GetIsExistTM(string TMName)
 		{
 			// TODO проверить мб проверить циклом
-			return GetIsElementExist(By.XPath(TM_ROW_NAME + "[text()='" + TMName + "']"));
+			return GetIsElementExist(By.XPath(TM_ROW_NAME + "//span[text()='" + TMName + "']"));
 		}
 
 		/// <summary>
@@ -522,6 +525,11 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.TM
 		public void ConfirmTMEdition()
 		{
 			ClickElement(By.XPath(CONFIRM_XPATH));
+		}
+
+		public bool GetConfirmWindowExist()
+		{
+			return GetIsElementExist(By.XPath(CONFIRM_WINDOW));
 		}
 
 		/// <summary>
@@ -776,6 +784,29 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.TM
 		}
 
 		/// <summary>
+		/// Загрузка ТМХ в настройках ТМ (update pop-up)
+		/// </summary>
+		/// <param name="DocumentName"></param>
+		public void UploadTMXInUpdatePopUp(string DocumentName)
+		{
+			//Проверка, что элемент найден
+			Assert.IsTrue(GetIsElementExist(By.XPath(ADD_TMX)), "Ошибка: элемент input для загрузки TMX в TM настройках не найден, возможно xpath поменялся");
+			((IJavaScriptExecutor)Driver).ExecuteScript("$(\"input:file\").removeClass(\"g-hidden\").css(\"opacity\", 100)");
+			Driver.FindElement(By.XPath(ADD_TMX)).SendKeys(DocumentName);
+			((IJavaScriptExecutor)Driver).ExecuteScript("document.getElementsByClassName('g-iblock g-bold l-editgloss__filelink js-filename-link')[0].innerHTML= '"
+			+ Path.GetFileName(DocumentName) + "';");
+		}
+
+		/// <summary>
+		/// Загрузка ТМX файла во время создания создания ТМ на странице TranslationMemories
+		/// </summary>
+		/// <param name="DocumentName"></param>
+		public void UploadTMInCreateDialog(string DocumentName)
+		{
+			UploadTM(DocumentName, ADD_TMX_IN__CREATE_TM_DIALOG);
+		}
+
+		/// <summary>
 		/// Закрыть все уведомления,которые показываются сейчас
 		/// </summary>
 		public void CloseAllErrorNotifications()
@@ -794,11 +825,16 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.TM
 			}
 		}
 
+		public void ClickAddInPopUpUpload()
+		{
+			ClickElement(By.XPath(ADD_BTN_IN_UPLOAD_POP_UP));
+		}
+
 		public enum TM_BTN_TYPE { Update, Export, Delete, Add, Edit, Save };
 
 		protected const string ADD_TM_BTN_XPATH = "//span[contains(@data-bind,'createTm')]";
 		protected const string ADD_TMX = "//div[@class=\"g-popup-bd js-popup-bd js-popup-import\"][2]//div[@class=\"g-popupbox l-filtersrc\"]//input[@type=\"file\"]";
-
+		protected const string ADD_TMX_IN__CREATE_TM_DIALOG = ".//div[contains(@class,\"js-popup-create-tm\")][2]//input[@type=\"file\"]";
 		protected const string CREATE_TM_DIALOG_XPATH = ".//div[contains(@class,'js-popup-create-tm')][2]";
 		protected const string CREATE_TM_CLIENT_XPATH = "//select[contains(@data-bind,'allClientsList')]//following-sibling::span";
 		protected const string CREATE_TM_CLIENT_LIST_XPATH = CREATE_TM_CLIENT_XPATH +"[contains(@class,'active')]";
@@ -809,9 +845,9 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.TM
 
 		protected const string DOWNLOAD_TMX_IMG_PATH = "//img[contains(@class,'js-loading-image')]";
 
-		protected const string CREATE_TM_DIALOG_SAVE_AND_IMPORT_BTN_XPATH = CREATE_TM_DIALOG_XPATH + "//a[contains(text(),'Save')]";
-		protected const string UPLOAD_BTN_XPATH = "//a[contains(@class,'js-upload-btn')]";
-
+		protected const string CREATE_TM_DIALOG_SAVE_BTN_XPATH = CREATE_TM_DIALOG_XPATH + "//a[contains(text(),'Save')]";
+		protected const string UPLOAD_BTN_XPATH = "//div[@class='g-popup-bd js-popup-bd js-popup-import']//a[contains(@class,'js-upload-btn')]";
+		protected const string ADD_BTN_IN_UPLOAD_POP_UP = "//div[@class='g-popup-bd js-popup-bd js-popup-import']//a[contains(text(), 'Add')]";
 		protected const string CLEAR_FILTERS_XPATH = "//img[contains(@class, 'js-clear-filter')]";
 		protected const string OPEN_FILTERS_XPATH = "//span[contains(@class, 'js-set-filter')]";
 		protected const string CLEAR_FILTERS_IN_DIALOG_XPATH = "//a[contains(@class, 'js-clear-all')]";
@@ -828,12 +864,12 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.TM
 		protected const string TM_ROW_XPATH = "//td[@class='l-corpr__td tm']/span";
 
 		protected const string BTN_ROW_XPATH = "//tr[@class='js-tm-panel']";
-		protected const string UPDATE_BTN_XPATH = BTN_ROW_XPATH + "//span[contains(@class,'js-upload-btn')]//a";
-		protected const string EXPORT_BTN_XPATH = BTN_ROW_XPATH + "//span[contains(@class,'js-export-btn')]//a";
-		protected const string DELETE_BTN_XPATH = BTN_ROW_XPATH + "//span[contains(@class,'js-delete-btn')]";
-		protected const string ADD_TMX_BTN_XPATH = BTN_ROW_XPATH + "//span[contains(@class,'js-add-tmx-btn')]";
-		protected const string EDIT_BTN_XPATH = BTN_ROW_XPATH + "//span[contains(@class,'js-edit-btn')]";
-		protected const string SAVE_BTN_XPATH = BTN_ROW_XPATH + "//span[contains(@class,'js-save-btn')]";
+		protected const string UPDATE_BTN_XPATH = BTN_ROW_XPATH + "//span[contains(@title, 'Update')]";
+		protected const string EXPORT_BTN_XPATH = BTN_ROW_XPATH + "//span[contains(@title, 'Export')]";
+		protected const string DELETE_BTN_XPATH = BTN_ROW_XPATH + "//span[contains(@title, 'Delete')]";
+		protected const string ADD_TMX_BTN_XPATH = BTN_ROW_XPATH + "//span[contains(@title, 'Add')]";
+		protected const string EDIT_BTN_XPATH = BTN_ROW_XPATH + "//span[contains(@title, 'Edit')]";
+		protected const string SAVE_BTN_XPATH = BTN_ROW_XPATH + "//span[contains(@title, 'Save')]";
 		// TODO заменить id
 		protected const string PROJECT_GROUP_SPAN_XPATH = BTN_ROW_XPATH + "//table[@class='l-tmpanel__table']//div[1]";
 		protected const string SEGMENT_SPAN_XPATH = BTN_ROW_XPATH + "//table[@class='l-tmpanel__table']//div[4]";
@@ -841,8 +877,8 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.TM
 		protected const string IMPORT_POPUP_XPATH = "//div[contains(@class,'js-popup-import')][2]";
 		protected const string IMPORT_BTN_XPATH = IMPORT_POPUP_XPATH + "//span[contains(@class,'js-import-button')]";
 
-		protected const string OPEN_SRC_LANG_CREATE_TM_XPATH = CREATE_TM_DIALOG_XPATH + "//div[@class='l-createtm__contrbox'][2]//span[contains(@class,'js-dropdown__text')]";
-		protected const string OPEN_TRG_LANG_CREATE_TM_XPATH = CREATE_TM_DIALOG_XPATH + "//div[@class='l-createtm__contrbox'][2]//div[@class='ui-multiselect-text']";
+		protected const string OPEN_SRC_LANG_CREATE_TM_XPATH = CREATE_TM_DIALOG_XPATH + "//select[contains(@data-bind,'SourceLanguagesList')]/following-sibling::span";
+		protected const string OPEN_TRG_LANG_CREATE_TM_XPATH = CREATE_TM_DIALOG_XPATH + "//select[contains(@data-bind,'TargetLanguagesList')]/following-sibling::div";
 		protected const string SOURCE_LANG_ITEM_XPATH = "//span[contains(@class,'js-dropdown__item')][@data-id='";
 		protected const string TARGET_LANG_DD_XPATH = CREATE_TM_DIALOG_XPATH + "//select[contains(@data-watermark,'Select language')]";
 
@@ -852,10 +888,10 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.TM
 		protected const string DOMAIN_TO_ADD_XPATH = "//div[contains(@class,'js-domains-multiselect')]//ul//input";
 
 		protected const string NEW_TM_NAME_XPATH = CREATE_TM_DIALOG_XPATH + "//input[contains(@data-bind,'name')]";
-		protected const string SAVE_TM_BTN_XPATH = CREATE_TM_DIALOG_XPATH + "//span[contains(@class,'js-save')]";
-		protected const string CANCEL_TM_SAVING_BTN_XPATH = CREATE_TM_DIALOG_XPATH + "//a[contains(@class,'js-cancel')]";
-		
-		protected const string TM_ROW_NAME = "//tr[contains(@class,'js-tm-row')]//td/span/span";
+		protected const string SAVE_TM_BTN_XPATH = CREATE_TM_DIALOG_XPATH + "//span[contains(@data-bind, 'save')]";
+		protected const string CANCEL_TM_SAVING_BTN_XPATH = CREATE_TM_DIALOG_XPATH + "//a[text()='Cancel']";
+
+		protected const string TM_ROW_NAME = "//tr[@class='l-corpr__trhover clickable']";
 		protected const string TM_ROW_LANGUAGES = "//tr[contains(@class,'js-tm-row')]//td[2]/span";
 		protected const string TM_EDIT_FORM_XPATH = "//tr[contains(@class,'js-tm-panel js-editing')]";
 		protected const string TM_EDIT_NAME_XPATH = TM_EDIT_FORM_XPATH + "//input[contains(@class, 'js-tm-name')]";
@@ -879,13 +915,14 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.TM
 		protected const string ERROR_CREATE_TM_NO_NAME_XPATH = CREATE_TM_DIALOG_XPATH + ERROR_NO_NAME;
 		protected const string ERROR_CREATE_TM_NO_TARGET_XPATH = CREATE_TM_DIALOG_XPATH + ERROR_NO_TARGET;
 
-		protected const string ERROR_DIV = "//div[contains(@class,'js-dynamic-errors')]";
-		protected const string ERROR_EXIST_NAME = ERROR_DIV + "//p[contains(@class,'js-error-from-server') and @data-key='name']";
-		protected const string ERROR_NO_NAME = ERROR_DIV + "//p[contains(@class,'js-error-tm-name-required')]";
-		protected const string ERROR_NO_TARGET = ERROR_DIV + "//p[contains(@class,'js-error-targetLanguage-required')]";
+		protected const string ERROR_DIV = "//div[contains(@class,'g-popupbox__error l-createtm__error')]";
+		protected const string ERROR_EXIST_NAME = ERROR_DIV + "//p[contains(text(),'The name should be unique.')]";
+		protected const string ERROR_NO_NAME = ERROR_DIV + "//p[contains(@data-message-id, 'name-required')]";
+		protected const string ERROR_NO_TARGET = ERROR_DIV + "//p[contains(@data-message-id,'target-language-required')]";
 
-		protected const string CONFIRM_XPATH = "//div[contains(@class,'js-popup-confirm')]//input[contains(@type,'submit')]";
-		protected const string NO_TMX_FILE_ERROR_XPATH = IMPORT_POPUP_XPATH + "//p[contains(@class,'js-error-invalid-file-extension')]";
+		protected const string CONFIRM_XPATH = CONFIRM_WINDOW + "//input[contains(@type,'submit')]";
+
+		protected const string NO_TMX_FILE_ERROR_XPATH = CREATE_TM_DIALOG_XPATH + ERROR_DIV + "//p[contains(@data-message-id,'invalid-file-extension')]";
 
 		protected const string NOTIFICATION_XPATH = "//div[@class='g-notifications-item']";
 
@@ -893,5 +930,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.TM
 
 		protected const string TARGET_LANG_ITEM_XPATH =
 			"//div[contains(@class,'ui-multiselect')][1]//ul[@class='ui-multiselect-checkboxes ui-helper-reset']//li//input[@value='";
+		protected const string CONFIRM_WINDOW = "//div[@class='g-popupbox l-confirm']";
 	}
 }

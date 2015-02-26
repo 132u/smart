@@ -17,6 +17,8 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.TM
 		[Test]
 		public void AddTMXOnClearTMButtonTest()
 		{
+			// Открыть форму создания ТМ
+			OpenCreateTMForm();
 			CreateTMByNameAndSave(UniqueTmName);
 			// Загрузить ТМХ по кнопке в информации о ТМ
 			UploadDocumentToTMbyButton(UniqueTmName, TMPageHelper.TM_BTN_TYPE.Add, TestFile.SecondTmFile);

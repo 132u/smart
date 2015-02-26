@@ -55,6 +55,8 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.TM
 			CommonHelper.LANGUAGE targetLang = CommonHelper.LANGUAGE.Russian,
 			bool isMultilanguageTm = false)
 		{
+			// Открыть форму создания ТМ
+			OpenCreateTMForm();
 			// Создать ТМ без сохранения формы
 			CreateTMByName(TMName, sourceLang, targetLang, isMultilanguageTm);
 
@@ -79,9 +81,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.TM
 			CommonHelper.LANGUAGE targetLang = CommonHelper.LANGUAGE.Russian,
 			bool isMultilanguageTm = false)
 		{
-			// Открыть форму создания ТМ
-			OpenCreateTMForm();
-
 			// Ввести имя
 			TMPage.InputNewTMName(TMName);
 
@@ -115,14 +114,14 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.TM
 			string fileName,
 			bool checkBaloonExisting = false)
 		{
-			// Создать ТМ
-			CreateTMByName(uniqueTMName);
-
-			// Нажать на Сохранить и Импортировать TMX файл
-			TMPage.ClickSaveAndImportCreateTM();
+			// Открыть форму создания ТМ
+			OpenCreateTMForm();
 
 			// Загрузить TMX файл
-			UploadDocumentTM(fileName, uniqueTMName, checkBaloonExisting);
+			TMPage.UploadTMInCreateDialog(fileName);
+
+			Assert.IsTrue(TMPage.GetIsErrorMessageNotTMX(),
+				"Ошибка: не появилось сообщение о неверном расширении файла");
 		}
 
 		/// <summary>
@@ -153,9 +152,8 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.TM
 			var locale = WorkspacePage.GetCurrentLocale();
 
 			TMPage.WaitUntilUploadDialog();
-
 			// Заполнить диалог загрузки документа
-			TMPage.UploadTMInDoc(documentName);
+			TMPage.UploadTMXInUpdatePopUp(documentName);
 			Logger.Trace(documentName);
 
 			// Нажать на Импорт
@@ -164,9 +162,9 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.TM
 			// Подтверждаем, что согласны на перезатирание ТМ, если передан флаг acceptConfirmationMessage = true
 			if (acceptConfirmationMessage)
 			{
+				Assert.IsTrue(TMPage.GetConfirmWindowExist(), "Ошибка: Confirmation окно не появилось");
 				TMPage.ConfirmTMEdition();
 			}
-
 			// Проверяем наличие информационных плашек, если это необходимо
 			if (checkBaloonExisting)
 			{
@@ -263,6 +261,8 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.TM
 			TMPageHelper.TM_BTN_TYPE btnType,
 			bool isConfirmationQuestionExist = false)
 		{
+			// Необходим рефреш страницы, иначе загрузка ТМХ не работает
+			RefreshPage();
 			// Открыть информацию о ТМ
 			OpenTMInfo(TMName);
 
@@ -443,9 +443,10 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.TM
 				FirstStepProjectWizard(ProjectName);
 			}
 
-			// Next
+			// Переход в настройки Workflow
 			WorkspaceCreateProjectDialog.ClickNextStep();
-
+			// Переход в настройки TM
+			WorkspaceCreateProjectDialog.ClickNextStep();
 			// Проверить, что есть ТМ
 			return WorkspaceCreateProjectDialog.GetIsExistTM(TMName);
 		}
