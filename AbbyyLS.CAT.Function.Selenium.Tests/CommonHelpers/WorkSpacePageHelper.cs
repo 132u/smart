@@ -115,7 +115,8 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <param name="projectName">название проекта</param>
 		public void OpenProjectInfo(string projectName)
 		{
-			ClickElement(By.XPath(GetProjectRefXPath(projectName) + FOLDER_SIGN));
+			if (!GetClassAttrProjectInfo(projectName).Contains("opened"))
+				ClickElement(By.XPath(GetProjectRefXPath(projectName) + FOLDER_SIGN));
 		}
 
 		/// <summary>
@@ -128,7 +129,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			// Кликнуть на открытие информации о документе
 			var documentXPath = DOCUMENT_INFO_TR_XPATH + "[" + documentNumber + "]" + FOLDER_SIGN;
 			var isExistDocument = GetIsElementExist(By.XPath(documentXPath));
-			
+
 			if (isExistDocument)
 			{
 				ClickElement(By.XPath(documentXPath));
@@ -489,6 +490,11 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			return PROJECTS_TABLE_XPATH + "//tr//a[@class='js-name'][text()='" + projectName + "']";
 		}
 
+		public string GetClassAttrProjectInfo(string projectName)
+		{
+			return GetElementAttribute(By.XPath(GetProjectRefXPath(projectName) + "/ancestor-or-self::tr"), "class");
+		}
+
 		/// <summary>
 		/// Получить xPath конкретного сообщения об экспорте
 		/// </summary>
@@ -538,12 +544,52 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		}
 
 		/// <summary>
+		/// Получить xPath ссылки на документ
+		/// </summary>
+		/// <param name="projectName">название проекта</param>
+		/// <returns>xPath</returns>
+		protected string GetDocumentRefXPath(string projectName, int documentNumber=1)
+		{
+			return GetProjectRefXPath(projectName) + "/ancestor::tr/following-sibling::tr[" + (documentNumber * 2) +"]//a";
+		}
+
+		/// <summary>
+		/// Кликнуть Progress кнопку опредеденного документа и проекта
+		/// </summary>
+		/// <param name="projectName"> Название проекта </param>
+		/// <param name="documentNumber"> Номер документа </param>
+		public void ClickProgressDocument(string projectName, int documentNumber = 1)
+		{
+			ClickElement(By.XPath(GetProjectRefXPath(projectName) + "/ancestor::tr/following-sibling::tr[" + (documentNumber * 2) + "]" + DOCUMENT_PROGRESS_XPATH));
+		}
+		
+		/// <summary>
+		/// Получить открыта ли свертка документа
+		/// </summary>
+		/// <param name="projectName"></param>
+		/// <returns></returns>
+		public bool GetDocumentPanelIsOpened(string projectName)
+		{
+			return GetElementAttribute(By.XPath(GetProjectRefXPath(projectName) + "/ancestor::tr/following-sibling::tr[1][@class='js-project-panel']/following-sibling::tr[1]"), "class").Contains("opened");
+		}
+
+		/// <summary>
+		/// Раскрыть свертку документа
+		/// </summary>
+		/// <param name="projectName"> Имя проекта </param>
+		public void OpenDocumnetInfoForProject(string projectName)
+		{
+			// Если свертка документа не открыта - открываем
+			if (!GetDocumentPanelIsOpened(projectName)) ClickProgressDocument(projectName);
+		}
+
+		/// <summary>
 		/// Нажать на кнопку прав пользователя в инфо документа
 		/// </summary>
-		public void ClickDocumentAssignBtn()
+		public void ClickDocumentAssignBtn(string projectName, int documentNumber=1)
 		{
-			WaitUntilDisplayElement(By.XPath(DOCUMENT_ASSIGN_RESPONSIBLES_BTN_XPATH));
-			ClickElement(By.XPath(DOCUMENT_ASSIGN_RESPONSIBLES_BTN_XPATH));
+			ClickElement(By.XPath(GetProjectRefXPath(projectName) + "/ancestor::tr/following-sibling::tr[" + (documentNumber * 2) + "]/following-sibling::tr[1][@class='js-document-panel l-project__doc-panel']" + DOCUMENT_ASSIGN_RESPONSIBLES_BTN_XPATH));
+
 		}
 
 		/// <summary>

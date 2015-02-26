@@ -707,6 +707,8 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <param name="DocumentName">полный путь к документу</param>
 		protected void UploadDocument(string DocumentName, string file)
 		{
+			//Проверка, что элемент найден
+			Assert.IsTrue(GetIsElementExist(By.XPath(file)),"Ошибка: элемент input для загрузки документа не найден, возможно xpath поменялся");
 			((IJavaScriptExecutor)Driver).ExecuteScript("document.evaluate('" + file + "', document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue.style.display = 'block';");
 			Driver.FindElement(By.XPath(file)).SendKeys(DocumentName);
 			Thread.Sleep(1000); // Sleep Не удалять! необходим для предотвращения появления окна загрузки

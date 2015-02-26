@@ -102,14 +102,22 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 
 		/// <summary>
 		/// Открыть выпадающий список по номеру строки задачи
-		/// <param name="rowNumber">Номер строки задачи</param>
+		/// <param name="taskRowNumber">Номер строки задачи</param>
 		/// </summary>
-		public void ClickResponsiblesDropboxByRowNumber(int rowNumber)
+		public void ClickResponsiblesDropboxByRowNumber(int taskRowNumber)
 		{
-			var xPath = RESPONSIBLES_TABLE_XPATH + "//tr[" + rowNumber + "]" +
-				DROPDOWNLIST_XPATH;
+			ClickElement(By.XPath(GetResponsiblesDropboxByTaskNumberXpath(taskRowNumber)));
+		}
 
-			ClickElement(By.XPath(xPath));
+		/// <summary>
+		/// Получить XPath выпадающего списка в диалоге назначения пользователя
+		/// </summary>
+		/// <param name="taskRowNumber"> Номер строки таски</param>
+		/// <returns> XPath </returns>
+		public string GetResponsiblesDropboxByTaskNumberXpath(int taskRowNumber)
+		{
+			return RESPONSIBLES_TABLE_XPATH + "//tr[" + taskRowNumber + "]" +
+				DROPDOWNLIST_XPATH;
 		}
 
 		/// <summary>

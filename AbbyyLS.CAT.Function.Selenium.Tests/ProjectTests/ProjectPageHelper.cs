@@ -253,6 +253,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 				ClickElement(By.XPath(DOCUMENT_ROW_XPATH
 					+ "[" + documentNumber + "]"
 					+ DOCUMENT_ROW_EDITOR_LINK_XPATH));
+				Driver.SwitchTo().Window(Driver.WindowHandles[1]);
 			}
 
 			return isDocumentExist;

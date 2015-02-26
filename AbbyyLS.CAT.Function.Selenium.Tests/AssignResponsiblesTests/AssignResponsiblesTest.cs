@@ -49,6 +49,12 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		{
 			// Не выходить из браузера после теста
 			QuitDriverAfterTest = false;
+			// Проверка кол-во открытых окон браузера
+			if (Driver.WindowHandles.Count > 1)
+			{
+				Driver.SwitchTo().Window(Driver.WindowHandles[1]).Close();
+				Driver.SwitchTo().Window(Driver.WindowHandles[0]);
+			}
 
 			// Переход на страницу workspace
 			GoToUrl(RelativeUrlProvider.Workspace);
@@ -459,7 +465,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <summary>
 		/// Назначение/сброс пользователей на задачу
 		/// </summary>
-		[Category("PRX_6556")]
+		[Category("PRX_8283")]
 		[Test]
 		public void AssignDifferentUsersOneTask()
 		{
@@ -539,7 +545,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			// Разлогиниться
 			WorkspacePage.ClickAccount();
 			WorkspacePage.ClickLogoff();
-
+			Thread.Sleep(1000);// Sleep не убирать, в Chrome не успевает открыться страница Login
 			Authorization("TestAccount", true);
 
 			// Открытие страницы проекта
@@ -564,6 +570,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		[Test]
 		public void UnAssignUser()
 		{
+			QuitDriverAfterTest = true;
 			// Создание проекта
 			CreateProjectIfNotCreated(ProjectName, TestFile.EditorTXTFile);
 

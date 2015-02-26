@@ -360,6 +360,8 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		public void ClickHomeBtn()
 		{
 			ClickElement(By.Id(HOME_BTN_ID));
+			Driver.SwitchTo().Window(Driver.WindowHandles[1]).Close();
+			Driver.SwitchTo().Window(Driver.WindowHandles[0]);
 		}
 
 		/// <summary>

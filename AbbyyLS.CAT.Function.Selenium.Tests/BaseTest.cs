@@ -907,7 +907,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			// Дождаться проекта в списке проектов
 			if (isNeedCheckExist)
 			{
-				Assert.IsTrue(WorkspacePage.WaitProjectAppearInList(projectName), "Ошибка: проект не появился в списке Workspace");
+				Assert.IsTrue(WorkspacePage.WaitProjectAppearInList(projectName), "Ошибка: проект " + projectName + " не появился в списке Workspace");
 			}
 
 			// Дождаться, пока документ догрузится
@@ -1732,10 +1732,10 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			WorkspacePage.OpenProjectInfo(projectName);
 
 			// Открываем инфо документа 
-			WorkspacePage.OpenDocumentInfo(1);
+			WorkspacePage.OpenDocumnetInfoForProject(projectName);
 
 			// Открываем окно с правами пользователя через кнопку прав
-			WorkspacePage.ClickDocumentAssignBtn();
+			WorkspacePage.ClickDocumentAssignBtn(projectName);
 
 			// Ожидание открытия диалога выбора исполнителя
 			Assert.IsTrue(
