@@ -2144,7 +2144,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			Standalone = cfgAgentSpecific.Standalone;
 			EmailAuth = cfgAgentSpecific.EmailAuth;
 
-			Url = Standalone ? cfgAgentSpecific.Url : "https://" + cfgAgentSpecific.Url;
+			Url = Standalone ? "http://" + cfgAgentSpecific.Url : "https://" + cfgAgentSpecific.Url;
 
 			if (string.IsNullOrWhiteSpace(WorkspaceUrl))
 			{
