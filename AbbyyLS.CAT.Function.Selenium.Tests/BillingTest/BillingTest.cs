@@ -55,7 +55,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			// Создем корп аккаунт и авторизуемся на сайте
 			string accountName = CreateCorpAccount("", true);
 			AddUserToCorpAccount(Login);
-			Authorization(accountName);
+			Authorization(Login, Password, accountName);
 
 			// Два раза обновляем один и тот же пакет лицензий
 			for (int i = 0; i < 2; i++)
@@ -87,7 +87,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			// Создем корп аккаунт и авторизуемся на сайте
 			string accountName = CreateCorpAccount("", true);
 			AddUserToCorpAccount(Login);
-			Authorization(accountName);
+			Authorization(Login, Password, accountName);
 
 			// Два раза продливаем один и тот же пакет лицензий
 			for (int i = 0; i < 2; i++)
@@ -114,7 +114,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			// Создем корп аккаунт и авторизуемся на сайте
 			string accountName = CreateCorpAccount("", true);
 			AddUserToCorpAccount(Login);
-			Authorization(accountName);
+			Authorization(Login, Password, accountName);
 
 			// Выбираем язык в WS
 			WorkspacePage.SelectLocale(language);

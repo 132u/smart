@@ -184,6 +184,14 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		}
 
 		/// <summary>
+		/// Полный путь ко второму документу для загрузки
+		/// </summary>
+		public static string DocumentFile2
+		{
+			get { return Path.GetFullPath(CfgRoot.FilesDirectory + "/English.docx"); }
+		}
+
+		/// <summary>
 		/// Путь к тестовому ttx файлу
 		/// </summary>
 		public static string TtxFile 

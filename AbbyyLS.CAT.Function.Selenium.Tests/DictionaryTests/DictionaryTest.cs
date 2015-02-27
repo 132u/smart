@@ -160,7 +160,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			// Перейти в CAT
 			Driver.Navigate().GoToUrl(Url);
 			// Зайти пользователем
-			Authorization(accountName);
+			Authorization(Login, Password, accountName);
 
 			// Проверка, что вкладка LingvoDictionaries видна
 			Assert.IsTrue(
@@ -200,7 +200,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			// Перейти в CAT
 			Driver.Navigate().GoToUrl(Url);
 			// Зайти пользователем
-			Authorization(accountName);
+			Authorization(Login, Password, accountName);
 
 			// Проверка, что вкладка LingvoDictionaries не видна
 			Assert.IsFalse(
@@ -237,7 +237,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			// Перейти в CAT
 			Driver.Navigate().GoToUrl(Url);
 			// Зайти пользователем
-			Authorization(accountName);
+			Authorization(Login, Password, accountName);
 
 			// Проверка, что вкладка LingvoDictionaries видна
 			Assert.IsTrue(
@@ -298,7 +298,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			// Перейти в CAT
 			Driver.Navigate().GoToUrl(Url);
 			// Зайти пользователем
-			Authorization(accountName);
+			Authorization(Login, Password, accountName);
 
 			// Проверка, что вкладка LingvoDictionaries видна
 			Assert.IsTrue(
@@ -321,7 +321,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		public void CheckDefinitions()
 		{
 			// Зайти
-			Authorization();
+			Authorization(Login, Password);
 			SwitchSearchTab();
 			SearchPage.SelectEnSourceLanguage();
 			SearchPage.SelectEnTargetLanguage();
@@ -384,7 +384,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			// Перейти в CAT
 			Driver.Navigate().GoToUrl(Url);
 			// Зайти пользователем
-			Authorization(accountName);
+			Authorization(Login, Password, accountName);
 
 			// Проверка, что вкладка LingvoDictionaries видна
 			Assert.IsTrue(

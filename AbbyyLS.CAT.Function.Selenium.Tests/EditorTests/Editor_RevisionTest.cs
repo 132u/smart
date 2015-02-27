@@ -638,7 +638,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Editor.Revisions
 			Thread.Sleep(2000);
 
 			// войти другим пользователем
-			Authorization("TestAccount", true);
+			Authorization(Login2, Password2);
 
 			// Открытие страницы проекта
 			OpenProjectPage(_projectNameRevisionsTest);

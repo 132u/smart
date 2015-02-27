@@ -213,6 +213,14 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			return WaitUntilDisplayElement(By.XPath(USA_SERVER));
 		}
 
+		/// <summary>
+		/// Метод возвращает кол-во доступных для выбора аккаунтов
+		/// </summary>
+		public int GetAccountsCount()
+		{
+			return GetElementList(By.XPath(ACCOUNT_LIST)).Count;
+		}
+
 		protected const string EMAIL_CSS = "input[name=\"email\"]";
 		protected const string PASSWORD_CSS = "input[name=\"password\"]";
 		protected const string SUBMIT_BTN_CSS = "//button[contains(@class, 'btn-danger')]";
@@ -232,6 +240,8 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		protected const string ENGLISH_LANGUAGE_IN_ACCOUNTS_LIST = "//a[@translate='switch-to-en']";
 
 		protected const string PRO_ELEMENT = "//div[@class='logo-description']";
+
+		protected const string ACCOUNT_LIST = "//li[@class='ng-scope']";
 	}
 }
 

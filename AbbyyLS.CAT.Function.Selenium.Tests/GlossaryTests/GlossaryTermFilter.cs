@@ -211,7 +211,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Glossary
 			WorkspacePage.ClickLogoff();
 
 			// Зайти под вторым пользователем
-			Authorization("TestAccount", true);
+			Authorization(Login2, Password2);
 
 			// Перейти на стр словарей
 			GoToUrl(RelativeUrlProvider.Glossaries);
@@ -260,7 +260,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Glossary
 			WorkspacePage.ClickLogoff();
 
 			// Зайти под вторым пользователем
-			Authorization("TestAccount", true);
+			Authorization(Login2, Password2);
 
 			// Перейти на стр словарей
 			GoToUrl(RelativeUrlProvider.Glossaries);

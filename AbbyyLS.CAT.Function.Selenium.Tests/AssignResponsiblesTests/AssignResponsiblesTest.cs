@@ -546,7 +546,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			WorkspacePage.ClickAccount();
 			WorkspacePage.ClickLogoff();
 			Thread.Sleep(1000);// Sleep не убирать, в Chrome не успевает открыться страница Login
-			Authorization("TestAccount", true);
+			Authorization(Login2, Password2);
 
 			// Открытие страницы проекта
 			OpenProjectPage(ProjectName);

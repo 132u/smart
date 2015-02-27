@@ -24,6 +24,16 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		[DataMember(Name = "UserName2")]
 		public string UserName2 { get; set; }
 
+
+		[DataMember(Name = "TestRightsLogin")]
+		public string TestRightsLogin { get; set; }
+
+		[DataMember(Name = "TestRightsPassword")]
+		public string TestRightsPassword { get; set; }
+
+		[DataMember(Name = "TestRightsUserName")]
+		public string TestRightsUserName { get; set; }
+
 	}
 }
 

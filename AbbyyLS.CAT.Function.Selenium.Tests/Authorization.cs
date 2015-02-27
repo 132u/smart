@@ -16,6 +16,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		public AuthorizationTest(string browserName)
 			: base(browserName)
 		{
+			
 		}
 
 		/// <summary>
@@ -24,7 +25,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		[Test]
 		public void AuthorizationMethodTest()
 		{
-			Authorization();
+			Authorization(Login, Password);
 		}
 	}
 }

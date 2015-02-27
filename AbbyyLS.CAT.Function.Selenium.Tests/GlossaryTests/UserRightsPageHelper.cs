@@ -255,6 +255,143 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			return GetIsElementExist(By.XPath(MANAGE_ALL_GLOSSARIES_TEXT_XPATH));
 		}
 
+		/// <summary>
+		/// Метод позвращает true, если пользователь в группе. Иначе false.
+		/// </summary>
+		public bool CheckUserExistsInGroup(string userName)
+		{
+			// Получаем список элементов, содержащих имена пользователей группы  в виде IList<IWebElement>
+			var usersInGroup = GetElementList(By.XPath(USERS_IN_GROUP_NAME_XPATH));
+
+			//Возвращаем true, если среди пользователей есть искомый. Иначе false
+			return usersInGroup.Any(u => u.GetAttribute("innerHTML") == userName);
+		}
+
+		/// <summary>
+		/// Метод осуществляет клик по кнопке редактирования группы
+		/// </summary>
+		public void EditGroupClick()
+		{
+			ClickElement(By.XPath(BUTTON_EDIT_GROUP));
+		}
+
+		/// <summary>
+		/// Метод осуществляет клик по кнопке сохранения группы
+		/// </summary>
+		public void SaveGroupClick()
+		{
+			ClickElement(By.XPath(BUTTON_SAVE_GROUP));
+		}
+
+		/// <summary>
+		/// Метод возвращает текущеее кол-во групп
+		/// </summary>
+		/// <returns>кол-во групп</returns>
+		public int GetGroupsCount()
+		{
+			return GetElementList(By.XPath(GROUP_ROWS_XPATH)).Count;
+		}
+
+		/// <summary>
+		/// Кликнуть группу по номеру
+		/// </summary>
+		/// <param name="number">Номер(сверху. Отчёт от 0)</param>
+		public void GetGroupsCount(int number)
+		{
+			ClickElement(By.XPath(GROUP_ROWS_XPATH + "[" + number + "]"));
+		}
+
+		/// <summary>
+		/// Метод ожидает появления кнопки Edit в открытой группе
+		/// </summary>
+		public bool WaitUntilDisplayEdit()
+		{
+			return WaitUntilDisplayElement(By.XPath(BUTTON_EDIT_GROUP));
+		}
+
+		/// <summary>
+		/// Метод возвращает список пользователей в группе
+		/// </summary>
+		/// <returns>список пользователей</returns>
+		public IList<IWebElement> GetUserInGroupList()
+		{
+			return GetElementList(By.XPath(USERS_IN_GROUP_NAME_XPATH));
+		}
+
+		/// <summary>
+		/// Кликнуть кнопку удаления пользователя из группы по номеру
+		/// </summary>
+		/// <param name="number">Номер(сверху. Отчёт от 0)</param>
+		public void DeleteUserFromGroupClick(int number)
+		{
+			ClickElement(By.XPath(USERS_IN_GROUP_XPATH + "[" + number + "]" + USERS_IN_GROUP_BUTTON_DELETE_XPATH));
+		}
+
+		/// <summary>
+		/// Кликнуть по кнопке добавления прав для группы
+		/// </summary>
+		public void AddAccessRigthButtonClick()
+		{
+			ClickElement(By.XPath(ADD_ACCESS_RIGHT_BUTTON));
+		}
+
+		/// <summary>
+		/// Кликнуть по radio button с правом на создание проектов 
+		/// </summary>
+		public void RightCreateProjectClick()
+		{
+			ClickElement(By.XPath(RIGHT_CREATE_PROJECTS_XPATH));
+		}
+
+		/// <summary>
+		/// Кликнуть кнопку Next, чтобы перейти к следующему шагу назначения прав
+		/// </summary>
+		public void AddRightNextClick()
+		{
+			ClickElement(By.XPath(ADD_RIGHT_NEXT_BUTTON_POPUP));
+		}
+
+		/// <summary>
+		/// Кликнуть по radio button с дающий выбранные права для всех проектов
+		/// </summary>
+		public void ForAnyRpojectsClick()
+		{
+			ClickElement(By.XPath(FOR_ANY_PROJECTS_RADIO));
+		}
+
+		/// <summary>
+		/// Кликнуть кнопку добавления прав (Кнопка Add  - завершает диалог)
+		/// </summary>
+		public void AddRightDialogClick()
+		{
+			ClickElement(By.XPath(ADD_RIGHT_BUTTON_POPUP));
+		}
+
+		/// <summary>
+		/// Кликнуть по полю поиска пользователей
+		/// </summary>
+		public void FindUsersClick()
+		{
+			ClickElement(By.XPath(FIND_USERS_INPUT));
+		}
+
+		/// <summary>
+		/// Ввести имя пользователя в поле поиска пользователей для добавления в группу
+		/// </summary>
+		/// <param name="userName">имя пользователя</param>
+		public void FindUsersSendText(string userName)
+		{
+			ClickAndSendTextElement(By.XPath(FIND_USERS_INPUT), userName);
+		}
+
+		/// <summary>
+		/// Во всплывающем списке пользователей выбираем нужного по имени
+		/// </summary>
+		/// <param name="userName">имя пользователя</param>
+		public void AddUserInGroupClick(string userName)
+		{
+			ClickElement(By.XPath(ADD_USER_IN_GRORUP_BUTTON + userName + "']//following-sibling::*"));
+		}
 
 		protected const string PAGE_LINK_XPATH = "//a[contains(@href,'/Users/Index')]";
 		protected const string GROUP_LINK_XPATH = "//a[contains(@href,'/Groups/Index')]";
@@ -287,5 +424,19 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		protected const string GROUP_USERS_XPATH = "//ul[@data-bind='foreach: users']//span[@data-bind='text: name')]";
 		protected const string USER_NAME_INPUT_XPATH = "//div[contains(@class,'l-corpr__tblgrp_finduserwrp')]//input";
 		protected const string MANAGE_ALL_GLOSSARIES_TEXT_XPATH = "//ul[@data-bind='foreach: accessRights']//span[contains(string(), 'Manage all glossaries')]";
+
+		protected const string GROUP_ROWS_XPATH = "//tbody[contains(@data-bind,'filteredGroups')]//tr[contains(@class,'clickable')]";
+		protected const string BUTTON_EDIT_GROUP = "//span[contains(@data-bind,'click: edit')]";
+		protected const string USERS_IN_GROUP_XPATH = "//ul[contains(@data-bind,'users')]//li";
+		protected const string USERS_IN_GROUP_NAME_XPATH = USERS_IN_GROUP_XPATH + "//span[2]";
+		protected const string USERS_IN_GROUP_BUTTON_DELETE_XPATH = "//span[1]";
+		protected const string BUTTON_SAVE_GROUP = "//span[contains(@data-bind,'click: save')]";
+		protected const string ADD_ACCESS_RIGHT_BUTTON = "//span[contains(@data-bind,'addAccessRight')]";
+		protected const string RIGHT_CREATE_PROJECTS_XPATH = "//li[contains(@class,'add-access-right-popup')]/label/span[text()='Create projects']";
+		protected const string ADD_RIGHT_BUTTON_POPUP = "//div[contains(@class,'add-access-right')][2]//span[contains(@data-bind,'finishWizard')]";
+		protected const string ADD_RIGHT_NEXT_BUTTON_POPUP = "//div[contains(@class,'add-access-right')][2]//span[contains(@data-bind,'moveToNextStep')]";
+		protected const string FOR_ANY_PROJECTS_RADIO = "//div[contains(@class,'js-add-access-right-popup')][2]//span[contains(@data-bind, 'unrestricted')]";
+		protected const string FIND_USERS_INPUT = "//input[contains(@class,'finduser')]";
+		protected const string ADD_USER_IN_GRORUP_BUTTON = "//table[contains(@data-bind,'foundUsers')]//td[text()='";
 	}
 }

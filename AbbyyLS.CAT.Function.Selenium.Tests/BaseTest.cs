@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading;
+using AbbyyLS.CAT.Function.Selenium.Tests.CheckRights;
 using AbbyyLS.CAT.Function.Selenium.Tests.CommonDataStructures;
 using AbbyyLS.CAT.Function.Selenium.Tests.Workspace.TM;
 using NUnit.Framework;
@@ -83,6 +84,12 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 
 		protected string UserName2 { get; private set; }
 
+		protected string TestRightsLogin { get; private set; }
+
+		protected string TestRightsPassword { get; private set; }
+
+		protected string TestRightsUserName { get; private set; }
+
 		protected List<UserInfo> TestUserList { get; private set; }
 
 		protected List<UserInfo> TestCompanyList { get; private set; }
@@ -142,6 +149,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		protected MyAccountPageHelper MyAccountPage { get; private set; }
 		protected GlossaryTermFilterHelper GlossaryTermFilterPage { get; private set; }
 
+		protected CheckCreateProjectRightHelper CheckCreateProjectRightHelper { get; private set; }
 		protected DateTime TestBeginTime { get; private set; }
 
 		protected bool QuitDriverAfterTest { get; set; }
@@ -529,28 +537,16 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <summary>
 		/// Авторизация
 		/// </summary>
-		/// <param name="accountName">аккаунт</param>
-		/// <param name="alternativeUser">Использовать альтернативный аккаунт</param>
+		/// <param name="authLogin">логин пользователя</param>
+		/// <param name="authPassword">пароль пользователя</param>
+		/// <param name="accountName">Имя аккаунта</param>
 		/// <param name="dataServer">Расположение сервера</param>
 		public void Authorization(
-			string accountName = "TestAccount", 
-			bool alternativeUser = false, 
+			string authLogin,
+			string authPassword,
+			string accountName = "TestAccount",
 			string dataServer = "Europe")
 		{
-			string authLogin = "";
-			string authPassword = "";
-
-			if (!alternativeUser)
-			{
-				authLogin = Login;
-				authPassword = Password;
-			}
-			else
-			{
-				authLogin = Login2;
-				authPassword = Password2;
-			}
-
 			if (Standalone)
 			{
 				if (EmailAuth)
@@ -573,7 +569,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			{
 				// Перейти на стартовую страницу
 				Driver.Navigate().GoToUrl(Url + RelativeUrlProvider.SingIn);
-
 				if (Driver.Url.Contains("pro"))
 				{
 					// Проверить, загрузилась ли
@@ -596,17 +591,26 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 					LoginPage.EnterPassword(authPassword);
 					LoginPage.ClickSubmitCredentials();
 
-					// Проверить, появился ли список аккаунтов
-					if (LoginPage.WaitAccountExist(accountName, waitmax: 8))
-					{
-						// Выбрать аккаунт
-						LoginPage.ClickAccountName(accountName);
-						// Зайти на сайт
-						//LoginPage.ClickSubmitAccount();
-					}
-					else if (LoginPage.GetIsErrorExist())
+					if (LoginPage.GetIsErrorExist())
 					{
 						Assert.Fail("Появилась ошибка при входе! М.б.недоступен AOL.");
+					}
+					if (!LoginPage.WaitAccountExist(accountName, waitmax: 8, dataServer: dataServer))
+					{
+						Assert.Fail("В списке аккаунтов нет нужного.");
+					}
+					if (LoginPage.GetAccountsCount() == 1)
+					{
+						Assert.Fail("Если аккаунт единственный, должно сразу осуществляться перенапралвение  в него.");
+					}
+					// Выбрать аккаунт
+					LoginPage.ClickAccountName(accountName);
+					//проверка того,что мы в нужном аккаунте
+					//(на случай,когда у пользователя один аккаунт и это не нужный нам аккаунт)
+					var currentAccountName = WorkspacePage.GetCompanyName();
+					if (currentAccountName != accountName)
+					{
+						Assert.Fail("Ошибка: не зашли в аккаунт:" + accountName + ". У пользователя один аккаунт (" + currentAccountName + ") и произошло автоматическое перенаправление в него.");
 					}
 					// иначе у пользователя только 1 аккаунт
 				}
@@ -614,7 +618,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 
 			// Изменили язык на Английский
 			Assert.IsTrue(
-				WorkspacePage.WaitAppearLocaleBtn(), 
+				WorkspacePage.WaitAppearLocaleBtn(),
 				"Не дождались загрузки страницы со ссылкой для изменения языка");
 			WorkspacePage.SelectLocale(WorkSpacePageHelper.LOCALE_LANGUAGE_SELECT.English);
 		}
@@ -665,7 +669,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 				{
 
 					// Проходим процедуру авторизации
-					Authorization(accountName);
+					Authorization(Login, Password, accountName);
 
 					// Переходим на страницу
 					Driver.Navigate().GoToUrl(Url + relativeUrl);
@@ -692,7 +696,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 				if (LoginPage.WaitPageLoad(1) || LoginPage.WaitPromoPageLoad())
 				{
 					// Проходим процедуру авторизации
-					Authorization(accountName);
+					Authorization(Login, Password, accountName);
 					// Переходим на страницу
 					Driver.Navigate().GoToUrl(Url + relativeUrl);
 				}
@@ -712,7 +716,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			if (LoginPage.WaitPageLoad(1) || LoginPage.WaitPromoPageLoad())
 			{
 				// Проходим процедуру авторизации
-				Authorization();
+				Authorization(Login, Password);
 
 				// Кликаем MyAccount в панели WS
 				MyAccountPage.ClickMyAccountLink();
@@ -2063,6 +2067,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			RegistrationPage = new RegistrationPageHelper(Driver, Wait);
 			MyAccountPage = new MyAccountPageHelper(Driver, Wait);
 			GlossaryTermFilterPage = new GlossaryTermFilterHelper(Driver, Wait);
+			CheckCreateProjectRightHelper = new CheckCreateProjectRightHelper(Driver, Wait);
 		}
 
 		private void initializeUsersAndCompanyList()
@@ -2134,6 +2139,10 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			Login2 = cfgUserInfo.Login2;
 			Password2 = cfgUserInfo.Password2;
 			UserName2 = cfgUserInfo.UserName2;
+
+			TestRightsLogin = cfgUserInfo.TestRightsLogin;
+			TestRightsPassword = cfgUserInfo.TestRightsPassword;
+			TestRightsUserName = cfgUserInfo.TestRightsUserName;
 		}
 
 		private string _pathTestFiles;

@@ -249,7 +249,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.TMTests
 			WorkspacePage.ClickAccount();
 			WorkspacePage.ClickLogoff();
 
-			Authorization("TestAccount", true);
+			Authorization(Login2, Password2);
 			GoToUrl(RelativeUrlProvider.TranslationMemories);
 
 			CreateTMIfNotExist(TMForFilteringName_3);

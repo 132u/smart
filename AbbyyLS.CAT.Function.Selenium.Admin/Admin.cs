@@ -83,6 +83,20 @@ namespace AbbyyLS.CAT.Function.Selenium.Admin
 			FindUser(Login);
 			CreateNewPersAcc("Personal", true);
 		}
+
+		/// <summary>
+		/// Создание персонального аккаунта для batman
+		/// </summary>
+		[Test]
+		public void CreatePersAccountForBatman()
+		{
+			// Создаем ринго пользователя
+			CreateNewUserInAdminPage(TestRightsLogin, TestRightsUserName, TestRightsPassword, true);
+			FindUser(TestRightsLogin);
+			CheckAdminCheckbox();
+			CreateNewPersAcc(TestRightsLogin, true);
+			AddUserToSpecifyAccount(TestRightsLogin, "TestAccount");
+		}
 		
 	}
 }

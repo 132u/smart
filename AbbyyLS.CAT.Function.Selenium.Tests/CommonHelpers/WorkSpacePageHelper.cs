@@ -487,7 +487,8 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <returns>xPath</returns>
 		protected string GetProjectRefXPath(string projectName)
 		{
-			return PROJECTS_TABLE_XPATH + "//tr//a[@class='js-name'][text()='" + projectName + "']";
+			// В зависимости от права тег может быть равен "a" или "span"
+			return PROJECTS_TABLE_XPATH + "//tr//*[@class='js-name'][(local-name() ='a' or local-name() ='span') and text()='" + projectName + "']";
 		}
 
 		public string GetClassAttrProjectInfo(string projectName)
@@ -677,7 +678,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		public const string LOCALE_RU_LANG = "ru";
 		
 		protected const string LOCALE_REF_PATH = ".//a[contains(@class,'js-set-locale')]";
-		
+
 		protected const string CREATE_BTN_XPATH = ".//span[contains(@class,'js-project-create')]";
 
 		protected const string PROJECTS_TABLE_XPATH = ".//table[contains(@class,'js-tasks-table')]";
