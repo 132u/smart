@@ -64,7 +64,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		public void DeleteProjectWithFileTest()
 		{
 			// Создать проект
-			CreateProject(ProjectName, TestFile.DocumentFile);
+			CreateProject(ProjectName, PathProvider.DocumentFile);
 			
 			// Кликнуть по строке с проектом, чтобы открылась информация о нем (чтобы видно было документ)
 			WorkspacePage.OpenProjectInfo(ProjectName);
@@ -263,7 +263,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			//Создать пустой проект
 			CreateProject(ProjectName);
 			//Добавление документа
-			ImportDocumentProjectSettings(TestFile.DocumentFile, ProjectName);
+			ImportDocumentProjectSettings(PathProvider.DocumentFile, ProjectName);
 			//Назначение задачи на пользователя
 			AssignTask();
 			// Выбрать документ
@@ -307,7 +307,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		public void DeleteDocumentFromProject()
 		{
 			// Создать проект, загрузить документ
-			CreateProjectImportDocument(TestFile.DocumentFile);
+			CreateProjectImportDocument(PathProvider.DocumentFile);
 			// Выбрать документ
 			SelectDocumentInProject(1);
 			// Нажать удалить
@@ -467,7 +467,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			// Ждем загрузки формы
 			WorkspaceCreateProjectDialog.WaitDialogDisplay();
 			// Загрузить файл
-			WorkspaceCreateProjectDialog.UploadFileToNewProject(TestFile.DocumentFile);
+			WorkspaceCreateProjectDialog.UploadFileToNewProject(PathProvider.DocumentFile);
 
 			Assert.IsTrue(
 				WorkspaceCreateProjectDialog.CheckProjectName(fileName),
@@ -487,14 +487,14 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			// Ждем загрузки формы
 			WorkspaceCreateProjectDialog.WaitDialogDisplay();
 			// Загрузить файл
-			WorkspaceCreateProjectDialog.UploadFileToNewProject(TestFile.DocumentFile);
+			WorkspaceCreateProjectDialog.UploadFileToNewProject(PathProvider.DocumentFile);
 
 			Assert.IsTrue(
 				WorkspaceCreateProjectDialog.CheckProjectName(fileName),
 				"Ошибка: Имя проекта автоматически не присвоилось");
 
 			// Загрузить второй файл
-			WorkspaceCreateProjectDialog.UploadFileToNewProject(TestFile.DocumentFile);
+			WorkspaceCreateProjectDialog.UploadFileToNewProject(PathProvider.DocumentFile);
 
 			Assert.IsTrue(
 				WorkspaceCreateProjectDialog.CheckProjectName(fileName),
@@ -514,7 +514,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			// Ждем загрузки формы
 			WorkspaceCreateProjectDialog.WaitDialogDisplay();
 			// Загрузить файл
-			WorkspaceCreateProjectDialog.UploadFileToNewProject(TestFile.DocumentFile);
+			WorkspaceCreateProjectDialog.UploadFileToNewProject(PathProvider.DocumentFile);
 
 			Assert.IsTrue(
 				WorkspaceCreateProjectDialog.CheckProjectName(fileName),
@@ -543,7 +543,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			// Ждем загрузки формы
 			WorkspaceCreateProjectDialog.WaitDialogDisplay();
 			// Загрузить файл
-			WorkspaceCreateProjectDialog.UploadFileToNewProject(TestFile.DocumentFile);
+			WorkspaceCreateProjectDialog.UploadFileToNewProject(PathProvider.DocumentFile);
 
 			// Удалить файл
 			WorkspaceCreateProjectDialog.ClickDeleteFile(fileName);

@@ -67,7 +67,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		public void ResponsiblesWorkspaceOnAssignTaskBtn()
 		{
 			// Создание проекта
-			CreateProjectIfNotCreated(_projectNoChangesName, TestFile.EditorTXTFile);
+			CreateProjectIfNotCreated(_projectNoChangesName, PathProvider.EditorTxtFile);
 
 			// Открываем диалог выбора исполнителя
 			OpenAssignDialog(_projectNoChangesName);
@@ -86,7 +86,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		public void ResponsiblesWorkspaceOnAssignBtn()
 		{
 			// Создание проекта
-			CreateProjectIfNotCreated(_projectNoChangesName, TestFile.EditorTXTFile);
+			CreateProjectIfNotCreated(_projectNoChangesName, PathProvider.EditorTxtFile);
 
 			// Открываем диалог выбора исполнителя
 			OpenAssignDialog(_projectNoChangesName);
@@ -99,7 +99,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		public void ResponsiblesWorkspaceUploadDocument()
 		{
 			// Создание проекта
-			CreateProjectIfNotCreated(_projectNoChangesName, TestFile.EditorTXTFile);
+			CreateProjectIfNotCreated(_projectNoChangesName, PathProvider.EditorTxtFile);
 
 			//Открываем инфо проекта
 			WorkspacePage.OpenProjectInfo(_projectNoChangesName);
@@ -111,7 +111,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			ProjectPage.WaitImportDialogDisplay();
 
 			// Добавляем документ
-			WorkspacePage.UploadFileInProjectSettings(TestFile.DocumentFileToConfirm);
+			WorkspacePage.UploadFileInProjectSettings(PathProvider.DocumentFileToConfirm1);
 
 			ProjectPage.ClickNextImportDialog();
 			ProjectPage.ClickNextImportDialog();
@@ -128,7 +128,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		public void ResponsiblesProjectOnProgressLink()
 		{
 			// Создание проекта
-			CreateProjectIfNotCreated(_projectNoChangesName, TestFile.EditorTXTFile);
+			CreateProjectIfNotCreated(_projectNoChangesName, PathProvider.EditorTxtFile);
 			
 			// Открываем проект
 			OpenProjectPage(_projectNoChangesName);
@@ -153,7 +153,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		public void ResponsiblesProjectOnAssignBtn()
 		{
 			// Создание проекта
-			CreateProjectIfNotCreated(_projectNoChangesName, TestFile.EditorTXTFile);
+			CreateProjectIfNotCreated(_projectNoChangesName, PathProvider.EditorTxtFile);
 
 			// Открываем проект
 			OpenProjectPage(_projectNoChangesName);
@@ -176,7 +176,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		public void ResponsiblesProjectOnAssignTaskBtn()
 		{
 			// Создание проекта
-			CreateProjectIfNotCreated(_projectNoChangesName, TestFile.EditorTXTFile);
+			CreateProjectIfNotCreated(_projectNoChangesName, PathProvider.EditorTxtFile);
 			
 			// Открываем проект
 			OpenProjectPage(_projectNoChangesName);
@@ -201,7 +201,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		public void ResponsiblesProjectUploadDocument()
 		{
 			// Создание проекта
-			CreateProjectIfNotCreated(_projectNoChangesName, TestFile.EditorTXTFile);
+			CreateProjectIfNotCreated(_projectNoChangesName, PathProvider.EditorTxtFile);
 			
 			// Открываем проект
 			OpenProjectPage(_projectNoChangesName);
@@ -213,7 +213,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			ProjectPage.WaitImportDialogDisplay();
 
 			// Добавляем документ
-			ProjectPage.UploadFileOnProjectPage(TestFile.DocumentFileToConfirm);
+			ProjectPage.UploadFileOnProjectPage(PathProvider.DocumentFileToConfirm1);
 
 			ProjectPage.ClickNextImportDialog();
 			ProjectPage.ClickNextImportDialog();
@@ -261,7 +261,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			SwitchWorkspaceTab();
 
 			// Создание проекта
-			CreateProjectIfNotCreated(_projectNoChangesName, TestFile.EditorTXTFile);
+			CreateProjectIfNotCreated(_projectNoChangesName, PathProvider.EditorTxtFile);
 
 			// Открываем диалог выбора исполнителя
 			OpenAssignDialog(_projectNoChangesName);
@@ -331,7 +331,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			SwitchWorkspaceTab();
 
 			// Создание проекта
-			CreateProjectIfNotCreated(_projectNoChangesName, TestFile.EditorTXTFile);
+			CreateProjectIfNotCreated(_projectNoChangesName, PathProvider.EditorTxtFile);
 
 			// Открываем диалог выбора исполнителя
 			OpenAssignDialog(_projectNoChangesName);
@@ -362,7 +362,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		public void AssignUserOneTask()
 		{
 			// Создание проекта
-			CreateProjectIfNotCreated(ProjectName, TestFile.EditorTXTFile);
+			CreateProjectIfNotCreated(ProjectName, PathProvider.EditorTxtFile);
 
 			// Открываем диалог выбора исполнителя
 			OpenAssignDialog(ProjectName);
@@ -395,7 +395,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		[Test]
 		public void AssignUserFewTasks()
 		{
-			CreateProject(ProjectName, TestFile.EditorTXTFile, false, "", Workspace_CreateProjectDialogHelper.SetGlossary.None, "", false, Workspace_CreateProjectDialogHelper.MT_TYPE.None, true, 1, 1, 0);
+			CreateProject(ProjectName, PathProvider.EditorTxtFile, false, "", Workspace_CreateProjectDialogHelper.SetGlossary.None, "", false, Workspace_CreateProjectDialogHelper.MT_TYPE.None, true, 1, 1, 0);
 
 			// Открываем диалог выбора исполнителя
 			OpenAssignDialog(ProjectName);
@@ -433,7 +433,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		public void DeleteUserTask()
 		{
 			// Создание проекта
-			CreateProject(ProjectName, TestFile.EditorTXTFile);
+			CreateProject(ProjectName, PathProvider.EditorTxtFile);
 
 			// Открываем диалог выбора исполнителя
 			OpenAssignDialog(ProjectName);
@@ -476,7 +476,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			сheckUserPresent(UserName2);
 
 			// Создание проекта
-			CreateProjectIfNotCreated(ProjectName, TestFile.EditorTXTFile);
+			CreateProjectIfNotCreated(ProjectName, PathProvider.EditorTxtFile);
 
 			// Открываем диалог выбора исполнителя
 			OpenAssignDialog(ProjectName);
@@ -572,7 +572,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		{
 			QuitDriverAfterTest = true;
 			// Создание проекта
-			CreateProjectIfNotCreated(ProjectName, TestFile.EditorTXTFile);
+			CreateProjectIfNotCreated(ProjectName, PathProvider.EditorTxtFile);
 
 			// Открываем диалог выбора исполнителя
 			OpenAssignDialog(ProjectName);

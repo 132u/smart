@@ -13,38 +13,20 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <summary>
 		/// Конструктор теста
 		/// </summary>
-		 
-		 
+
+
 		/// <param name="browserName">Название браузера</param>
 		public NewProjectTest(string browserName)
 			: base(browserName)
 		{
-			_documentFileWrong = Path.Combine(PathTestFiles, "doc98.doc");
-			_ttxFile = Path.Combine(PathTestFiles, "test.ttx");
-			_txtFile = Path.Combine(PathTestFiles, "test.txt");
-			_srtFile = Path.Combine(PathTestFiles, "test.srt");
-
-			_xliffTC10 = Path.Combine(PathTestFiles, "TC-10En.xliff");
-
-			ResultFilePath = Path.Combine(PathTestFiles, "Result");
-			_exportFilePath = TestFile.DocumentFileToConfirm;
-
+			
 		}
-
-		protected string ResultFilePath;
 
 		public string ProjectNameCheck;
 		public string DuplicateProjectName;
 
-		public string _documentFileWrong;
-		public string _ttxFile;
-		public string _txtFile;
-		public string _srtFile;
-
-		public string _xliffTC10;
-
 		// Path документа для экспорта (для определения названия документа в сообщении об экспорте)
-		protected string _exportFilePath;
+
 		// В сообщении об экспорте при экспорте нескольких документов должно быть Documents
 		protected const string EXPORT_NOTIFIER_DOWNLOAD_DOCUMENTS = "Documents";
 

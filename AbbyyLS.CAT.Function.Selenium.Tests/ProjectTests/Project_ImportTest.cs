@@ -39,7 +39,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			FirstStepProjectWizard(ProjectName);
 
 			//процесс добавления файла
-			ImportDocumentCreateProject(TestFile.AudioFile);
+			ImportDocumentCreateProject(PathProvider.AudioFile);
 			Thread.Sleep(1000);
 
 			// Проверить, что появилось сообщение о неверном формате загружаемого документа
@@ -57,9 +57,9 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			//1 шаг - заполнение данных о проекте
 			FirstStepProjectWizard(ProjectName);
 			// Загрузить документ
-			ImportDocumentCreateProject(TestFile.DocumentFile);
+			ImportDocumentCreateProject(PathProvider.DocumentFile);
 			// Загрузить второй документ
-			ImportDocumentCreateProject(_ttxFile);
+			ImportDocumentCreateProject(PathProvider.TtxFile);
 
 			// Проверить, что не появилось сообщение о неверном формате загружаемого документа
 			Assert.IsFalse(
@@ -76,7 +76,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			//1 шаг - заполнение данных о проекте
 			FirstStepProjectWizard(ProjectName);
 			// Загрузить документ
-			ImportDocumentCreateProject(_ttxFile);
+			ImportDocumentCreateProject(PathProvider.TtxFile);
 
 			// Проверить, что не появилось сообщение о неверном формате загружаемого документа
 			Assert.IsFalse(
@@ -93,7 +93,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			//1 шаг - заполнение данных о проекте
 			FirstStepProjectWizard(ProjectName);
 			// Загрузить документ
-			ImportDocumentCreateProject(_txtFile);
+			ImportDocumentCreateProject(PathProvider.TxtFile);
 
 			// Проверить, что не появилось сообщение о неверном формате загружаемого документа
 			Assert.IsFalse(
@@ -110,7 +110,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			//1 шаг - заполнение данных о проекте
 			FirstStepProjectWizard(ProjectName);
 			// Загрузить документ
-			ImportDocumentCreateProject(_srtFile);
+			ImportDocumentCreateProject(PathProvider.SrtFile);
 
 			// Проверить, что не появилось сообщение о неверном формате загружаемого документа
 			Assert.IsFalse(
@@ -127,7 +127,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			// Создать проект
 			CreateProject(ProjectName);
 			// загрузить документ			
-			ImportDocumentProjectSettings(TestFile.DocumentFile, ProjectName);
+			ImportDocumentProjectSettings(PathProvider.DocumentFile, ProjectName);
 
 			// Проверить, что в проекте есть документ
 			Assert.IsTrue(
@@ -142,14 +142,14 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		public void ImportDuplicateDocumentTest()
 		{
 			// Создать проект, загрузить документ
-			CreateProjectImportDocument(TestFile.DocumentFile);
+			CreateProjectImportDocument(PathProvider.DocumentFile);
 			// Кликнуть по Импорт
 			ProjectPage.ClickImportBtn();
 			//ждем когда загрузится окно для загрузки документа 
 			ProjectPage.WaitImportDialogDisplay();
 
 			// Заполнить диалог загрузки
-			ProjectPage.UploadFileOnProjectPage(TestFile.DocumentFile);
+			ProjectPage.UploadFileOnProjectPage(PathProvider.DocumentFile);
 
 			// Проверить появление оповещения об ошибке
 			Assert.IsTrue(

@@ -77,7 +77,6 @@
     <Compile Include="Common\RegistrationField.cs" />
     <Compile Include="Common\RegistrationType.cs" />
     <Compile Include="Common\UserInfo.cs" />
-    <Compile Include="CommonHelpers\TestFile.cs" />
     <Compile Include="CommonHelpers\CommonHelper.cs" />
     <Compile Include="CommonHelpers\LoginPageHelper.cs" />
     <Compile Include="CommonHelpers\MainHelper.cs" />
@@ -116,6 +115,7 @@
     <Compile Include="GlossaryTests\GlossaryTestsWithUserRights\GlossarySuggestedTermsTest.cs" />
     <Compile Include="GlossaryTests\SuggestTermDialogHelper.cs" />
     <Compile Include="GlossaryTests\UserRightsPageHelper.cs" />
+    <Compile Include="PathProvider.cs" />
     <Compile Include="ProjectTests\NewProjectTest.cs" />
     <Compile Include="ProjectTests\ProjectPageHelper.cs" />
     <Compile Include="ProjectTests\Project_ExportTest.cs" />

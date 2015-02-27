@@ -274,7 +274,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Registration.Freelance
 			   RegistrationPage.Password,
 			   RegistrationPage.Password);
 			RegistrationPage.ClickSignUpButton();
-			ImportPhoto(TestFile.PhotoLoad + photo);
+			ImportPhoto(PathProvider.PhotoLoadFolder + photo);
 			if (format)
 			{
 				Assert.IsFalse(RegistrationPage.WrongFormatLabelISDisplay(), "Ошибка: Надпись Wrong Format появилась(не должна появляться)");

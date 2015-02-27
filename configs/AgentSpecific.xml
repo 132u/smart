@@ -5,7 +5,8 @@
 	<CourseraTargetServer Url="http://coursera.stage2.als.local/en"/>
 
 	<TestingFiles 
-		RootDirectory="../TestingFiles"
+		FilesDirectory="../TestingFiles"
+    ResultDirectory="../TestResults"
 		ConfigDirectory="../configs"
 	/>
 

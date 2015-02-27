@@ -50,10 +50,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.TM
 			MoveTMFile();
 		}
 
-		private static readonly string[] tmxFileList = Directory.GetFiles(
-														Path.Combine(
-															Environment.CurrentDirectory,
-															@"..\TestingFiles\",
-															"TMTestFiles"));
+		private static readonly string[] tmxFileList = Directory.GetFiles(PathProvider.TMTestFolder);
 	}
 }

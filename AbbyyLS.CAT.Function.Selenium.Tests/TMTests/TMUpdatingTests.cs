@@ -16,7 +16,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.TM
 		public void UpdateTMButtonTest()
 		{
 			// Создать ТМ и загрузить TMX файл
-			CreateTMWithUploadTMX(UniqueTmName, TestFile.EditorTMXFile);
+			CreateTMWithUploadTMX(UniqueTmName, PathProvider.EditorTmxFile);
 
 			// Получить количество сегментов
 			int segCountBefore = GetSegmentCount(UniqueTmName);
@@ -25,7 +25,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.TM
 			ClickButtonTMInfo(UniqueTmName, TMPageHelper.TM_BTN_TYPE.Update);
 
 			// Загрузить докумет, соглсившись на предложение переписать ТМ на новые
-			UploadDocumentTM(TestFile.SecondTmFile, UniqueTmName, acceptConfirmationMessage: true);
+			UploadDocumentTM(PathProvider.SecondTmFile, UniqueTmName, acceptConfirmationMessage: true);
 			
 			// Получить количество сегментов
 			int segCountAfter = GetSegmentCount(UniqueTmName);

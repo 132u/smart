@@ -45,9 +45,9 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 				// создаем документ с нужным файлом, нужной ТМ, подкючаем МТ и глоссарий
 				CreateProject(
 					projectName: _projectNameMatchTest,
-					downloadFile: TestFile.TxtFileForMatchTest,
-					createNewTM: true, 
-					tmFile: TestFile.TmxFileForMatchTest,
+					downloadFile: PathProvider.TxtFileForMatchTest,
+					createNewTM: true,
+					tmFile: PathProvider.TmxFileForMatchTest,
 					setGlossary: Workspace_CreateProjectDialogHelper.SetGlossary.New, 
 					glossaryName: "",
 					chooseMT:true,

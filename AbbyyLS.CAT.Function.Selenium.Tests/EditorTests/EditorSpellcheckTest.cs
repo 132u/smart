@@ -35,7 +35,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Editor
 			CreateProject(ProjectName, "", true);
 
 			// 3. Открытие настроек проекта
-			ImportDocumentProjectSettings(TestFile.DocumentFile, ProjectName);
+			ImportDocumentProjectSettings(PathProvider.DocumentFile, ProjectName);
 
 			// 4. Назначение задачи на пользователя
 			AssignTask();

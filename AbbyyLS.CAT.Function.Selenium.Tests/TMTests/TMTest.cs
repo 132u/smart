@@ -523,8 +523,8 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.TM
 		/// </summary>
 		public void MoveTMFile()
 		{
-			string[] file = Directory.GetFiles(PathTestResults, "TestTM*");
-			string resultPath = Path.Combine(PathTestResults, "TMExportTest");
+			string[] file = Directory.GetFiles(PathProvider.ResultsFolderPath, "TestTM*");
+			string resultPath = Path.Combine(PathProvider.ResultsFolderPath, "TMExportTest");
 			Directory.CreateDirectory(resultPath);
 
 			string newFileName = DateTime.Now.Ticks.ToString();
@@ -639,11 +639,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.TM
 
 		public string UniqueTmName { get; set; }
 
-		public static readonly string[] ImportTMXFileList = Directory.GetFiles(
-																Path.Combine(
-																	Environment.CurrentDirectory,
-																	@"..\TestingFiles\",
-																	"TMTestFiles"));
+		public static readonly string[] ImportTMXFileList = Directory.GetFiles(PathProvider.TMTestFolder);
 
 		#region Private методы
 		/// <summary>

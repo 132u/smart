@@ -49,7 +49,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		public void CheckMT(Workspace_CreateProjectDialogHelper.MT_TYPE mt_type)
 		{
 			// Создание проекта с файлом с ТМ без файла и с заданным МТ
-			CreateProject(ProjectName, TestFile.DocumentFile, true, "", Workspace_CreateProjectDialogHelper.SetGlossary.None, "", true, mt_type, true);
+			CreateProject(ProjectName, PathProvider.DocumentFile, true, "", Workspace_CreateProjectDialogHelper.SetGlossary.None, "", true, mt_type, true);
 			
 			// Открываем проект
 			OpenProjectPage(ProjectName);
@@ -88,7 +88,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			Logger.Trace("CheckTM");
 
 			// Создание проекта с файлом с МТ с файлом
-			CreateProject(ProjectName, TestFile.EditorTXTFile, true, TestFile.EditorTMXFile);
+			CreateProject(ProjectName, PathProvider.EditorTxtFile, true, PathProvider.EditorTmxFile);
 			
 			// Открываем проект
 			OpenProjectPage(ProjectName);
@@ -137,7 +137,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			// Создание проекта с файлом
 			SwitchWorkspaceTab();
 			// Создание проекта с файлом с ТМ без файла и с заданным МТ
-			CreateProject(ProjectName, TestFile.EditorTXTFile, true);
+			CreateProject(ProjectName, PathProvider.EditorTxtFile, true);
 			//CreateProject(ProjectName, EditorTXTFile);
 			
 			// Открываем проект
@@ -200,7 +200,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 
 			// Создание проекта с файлом
 			SwitchWorkspaceTab();
-			CreateProject(ProjectName, TestFile.EditorTXTFile, true);
+			CreateProject(ProjectName, PathProvider.EditorTxtFile, true);
 			
 			// Открываем проект
 			OpenProjectPage(ProjectName);
@@ -267,7 +267,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 
 			// Создание проекта с файлом
 			SwitchWorkspaceTab();
-			CreateProject(ProjectName, TestFile.EditorTXTFile, true);
+			CreateProject(ProjectName, PathProvider.EditorTxtFile, true);
 			
 			// Открываем проект
 			OpenProjectPage(ProjectName);

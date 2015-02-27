@@ -21,7 +21,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.TM
 			OpenCreateTMForm();
 			CreateTMByNameAndSave(UniqueTmName);
 			// Загрузить ТМХ по кнопке в информации о ТМ
-			UploadDocumentToTMbyButton(UniqueTmName, TMPageHelper.TM_BTN_TYPE.Add, TestFile.SecondTmFile);
+			UploadDocumentToTMbyButton(UniqueTmName, TMPageHelper.TM_BTN_TYPE.Add, PathProvider.SecondTmFile);
 			// Получить количество сегментов
 			int segmentCount = GetSegmentCount(UniqueTmName);
 			// Если количество сегментов = 0, возможно, не обновилась страница - принудительно обновить
@@ -42,13 +42,13 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.TM
 		public void AddTMXExistingTMButtonTest()
 		{
 			// Создать ТМ и загрузить ТМХ файл
-			CreateTMWithUploadTMX(UniqueTmName, TestFile.EditorTMXFile);
+			CreateTMWithUploadTMX(UniqueTmName, PathProvider.EditorTmxFile);
 
 			// Получить количество сегментов
 			int segCountBefore = GetSegmentCount(UniqueTmName);
 
 			// Загрузить TMX файл
-			UploadDocumentToTMbyButton(UniqueTmName, TMPageHelper.TM_BTN_TYPE.Add, TestFile.SecondTmFile);
+			UploadDocumentToTMbyButton(UniqueTmName, TMPageHelper.TM_BTN_TYPE.Add, PathProvider.SecondTmFile);
 			// Получить количество сегментов после загрузки TMX
 			int segCountAfter = GetSegmentCount(UniqueTmName);
 
@@ -101,16 +101,10 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.TM
 			//закрыть все сообщения(сообщения о неудачных загрузках других файлов).
 			TMPage.CloseAllErrorNotifications();
 
-			//Формируем путь до TMX файла для загрузки
-			string tmxFileForBaloonChecking = Path.Combine(
-				PathTestFiles,
-				"TMTestFiles",
-				"TMFile2.tmx");
-
 			// Создать ТМ с загрузкой ТМХ и передать флаг с проверкой существования всплывающего окна с информацией
 			CreateTMWithUploadTMX(
 				UniqueTmName,
-				tmxFileForBaloonChecking,
+				PathProvider.TMTestFile2,
 				checkBaloonExisting: true);
 
 			TMPage.ClickCancelButtonOnNotificationBaloon();
@@ -119,10 +113,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.TM
 				"Ошибка: плашка с информацией о загружаемых ТU не закрыта.");
 		}
 
-		private static readonly string[] tmxFileList = Directory.GetFiles(
-												Path.Combine(
-													Environment.CurrentDirectory,
-													@"..\TestingFiles\",
-													"TMTestFiles"));
+		private static readonly string[] tmxFileList = Directory.GetFiles(PathProvider.TMTestFolder);
 	}
 }

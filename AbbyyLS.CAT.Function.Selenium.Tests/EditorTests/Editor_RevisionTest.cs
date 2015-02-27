@@ -43,9 +43,9 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Editor.Revisions
 				// создаем документ с нужным файлом, нужной ТМ, подкючаем МТ и глоссарий
 				CreateProject(
 					projectName: _projectNameRevisionsTest,
-					downloadFile: TestFile.LongTxtFile,
+					downloadFile: PathProvider.LongTxtFile,
 					createNewTM: true,
-					tmFile: TestFile.LongTmxFile,
+					tmFile: PathProvider.LongTmxFile,
 					setGlossary: Workspace_CreateProjectDialogHelper.SetGlossary.New,
 					glossaryName: "",
 					chooseMT: true,
@@ -571,7 +571,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Editor.Revisions
 			GoToUrl(RelativeUrlProvider.Workspace);
 
 			// создаем документ с нужным файлом
-			CreateProject(projectNameRevisionsTest3, TestFile.EditorXlfFile);
+			CreateProject(projectNameRevisionsTest3, PathProvider.EditorXlfFile);
 
 			// Открываем диалог выбора исполнителя
 			OpenAssignDialog(projectNameRevisionsTest3);
@@ -1149,7 +1149,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Editor.Revisions
 			{
 				case EditorPageHelper.CAT_TYPE.TM:
 					var tmNameRevTest = "TmForPretranslateRevisionsTest" + "_" + DateTime.UtcNow.Ticks;
-					ProjectPageAddTmImportTmx(tmNameRevTest, TestFile.OneLineTmxFile);
+					ProjectPageAddTmImportTmx(tmNameRevTest, PathProvider.OneLineTmxFile);
 					SetPretranslate(tmNameRevTest);
 					break;
 

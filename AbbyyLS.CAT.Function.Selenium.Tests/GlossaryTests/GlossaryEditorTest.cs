@@ -59,7 +59,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 					glossaryName: _glossaryName);
 
 				//Открытие настроек проекта			
-				ImportDocumentProjectSettings(TestFile.DocumentFile, projectNoChangesName);
+				ImportDocumentProjectSettings(PathProvider.DocumentFile, projectNoChangesName);
 				//Назначение задачи на пользователя
 				AssignTask(1);
 
@@ -485,7 +485,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			// Создать проект с двумя глоссариями
 			createProjectWithTwoGlossaries();
 			//Открытие настроек проекта			
-			ImportDocumentProjectSettings(TestFile.DocumentFile, _projectName2);
+			ImportDocumentProjectSettings(PathProvider.DocumentFile, _projectName2);
 			//Назначение задачи на пользователя
 			AssignTask(1);
 			//Открытие документа
@@ -517,7 +517,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			// Создать проект с одним глоссарием
 			CreateProject(_projectName2, "", false, "", Workspace_CreateProjectDialogHelper.SetGlossary.ByName, _glossaryName);
 			//Открытие настроек проекта			
-			ImportDocumentProjectSettings(TestFile.DocumentFile, _projectName2);
+			ImportDocumentProjectSettings(PathProvider.DocumentFile, _projectName2);
 			//Назначение задачи на пользователя
 			AssignTask(1);
 			// Добавляем второй глоссарий
@@ -547,7 +547,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			// Создать проект с двумя глоссариями
 			createProjectWithTwoGlossaries();
 			//Открытие настроек проекта			
-			ImportDocumentProjectSettings(TestFile.DocumentFile, _projectName2);
+			ImportDocumentProjectSettings(PathProvider.DocumentFile, _projectName2);
 			//Назначение задачи на пользователя
 			AssignTask(1);
 			//Открытие документа

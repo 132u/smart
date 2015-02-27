@@ -680,7 +680,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			// Текст верхнего сообщения
 			var currentNotifierText = WorkspacePage.GetNotifierText();
 			Logger.Trace("currentNotifierText: " + currentNotifierText);
-			var docName = Path.GetFileNameWithoutExtension(_exportFilePath);
+			var docName = Path.GetFileNameWithoutExtension(PathProvider.DocumentFileToConfirm1);
 
 			// Проверить, что появилось самое старое сообщение
 			Assert.IsTrue(
@@ -695,7 +695,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		public void ExportChangeFirstToSecond()
 		{
 			// Название документа, которое будем искать во втором сообщении
-			var secondNotifierDocName = Path.GetFileNameWithoutExtension(_exportFilePath);
+			var secondNotifierDocName = Path.GetFileNameWithoutExtension(PathProvider.DocumentFileToConfirm1);
 			// Создать проект
 			var projectName = CreateProjectOneDocument(false);
 			// Создать второй проект
@@ -827,18 +827,18 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			Logger.Trace("Время клика по кнопке Download = " + clickTime);
 
 			var waitSeconds = 0;
-			
-			while (!File.Exists(PathTestResults + "\\" + fileName) && (waitSeconds <= 6))
+
+			while (!File.Exists(PathProvider.ResultsFolderPath + "\\" + fileName) && (waitSeconds <= 6))
 			{
-				File.Exists(PathTestResults + "\\" + fileName);
+				File.Exists(PathProvider.ResultsFolderPath + "\\" + fileName);
 				Thread.Sleep(1000); // Sleep не убирать! без него не работает
 				waitSeconds++;
 
 			}
-			
-			Assert.IsTrue(File.Exists(PathTestResults + "\\" + fileName), "Ошибка: файл не экспортировался");
 
-			DateTime lastChanged = File.GetLastWriteTime(PathTestResults + "\\" + fileName);
+			Assert.IsTrue(File.Exists(PathProvider.ResultsFolderPath + "\\" + fileName), "Ошибка: файл не экспортировался");
+
+			DateTime lastChanged = File.GetLastWriteTime(PathProvider.ResultsFolderPath + "\\" + fileName);
 			Logger.Trace("Время последнего изменения файла = " + lastChanged);
 			string subfolder = "";
 			switch(exportType)
@@ -855,8 +855,8 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 					subfolder = "ExportedOriginalDocuments";
 					break;
 			}
-			var pathToMove = PathTestResults + "\\" + subfolder + "\\" + Path.GetFileNameWithoutExtension(fileName) + DateTime.Now.Ticks + Path.GetExtension(fileName);
-			File.Move(PathTestResults + "\\" + fileName, pathToMove);
+			var pathToMove = PathProvider.ResultsFolderPath + "\\" + subfolder + "\\" + Path.GetFileNameWithoutExtension(fileName) + DateTime.Now.Ticks + Path.GetExtension(fileName);
+			File.Move(PathProvider.ResultsFolderPath + "\\" + fileName, pathToMove);
 		}
 
 		/// <summary>
@@ -1012,7 +1012,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		protected void AssertNotifierDocumentName()
 		{
 			var notifierText = WorkspacePage.GetNotifierText();
-			var docName = Path.GetFileNameWithoutExtension(_exportFilePath);
+			var docName = Path.GetFileNameWithoutExtension(PathProvider.DocumentFileToConfirm1);
 			Logger.Trace("docName " + docName);
 			Logger.Trace("notifierText: " + notifierText);
 
@@ -1108,7 +1108,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			if (isProjectNotExist)
 			{
 				// Создать проект с документом и открыть документ
-				CreateReadyProject(currentProjectName, false, false, _exportFilePath);
+				CreateReadyProject(currentProjectName, false, false, PathProvider.DocumentFileToConfirm1);
 				// Ввести текст и подтвердить
 				AddTranslationAndConfirm();
 				// Выйти
@@ -1147,7 +1147,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 				// Создать проект
 				CreateProject(currentProjectName);
 				// Загрузить документ
-				ImportDocumentProjectSettings(TestFile.DocumentFileToConfirm, currentProjectName);
+				ImportDocumentProjectSettings(PathProvider.DocumentFileToConfirm1, currentProjectName);
 				// Назначить
 				AssignTask();
 				// Открыть документ
@@ -1159,7 +1159,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 				GoToUrl(RelativeUrlProvider.Workspace);
 				// Загрузить второй документ
 				ImportDocumentProjectSettings(
-					TestFile.DocumentFileToConfirm2, 
+					PathProvider.DocumentFileToConfirm2, 
 					currentProjectName);
 				// Назначить второй
 				AssignTask(2);

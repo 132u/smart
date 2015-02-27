@@ -82,7 +82,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			CreateProject(ProjectName);
 
 			//Добавление документа
-			ImportDocumentProjectSettings(TestFile.DocumentFile, ProjectName, "Personal");
+			ImportDocumentProjectSettings(PathProvider.DocumentFile, ProjectName, "Personal");
 
 			//Проверка , что Assign task отсутствует на стр списка проектов
 			Assert.IsFalse(ProjectPage.GetIsAssignRessponsibleBtnExist(), "Ошибка: Assign task отобраается на стр списка проектов для песронального аккаунта");
@@ -99,7 +99,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 
 			//Добавление документа
 			ImportDocumentProjectSettings(
-				TestFile.DocumentFile,
+				PathProvider.DocumentFile,
 				ProjectName, 
 				"Personal");
 

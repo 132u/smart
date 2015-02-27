@@ -103,7 +103,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			CreateProject(ProjectName);
 
 			//Добавление документа
-			ImportDocumentProjectSettings(TestFile.DocumentFile, ProjectName, "Personal");
+			ImportDocumentProjectSettings(PathProvider.DocumentFile, ProjectName, "Personal");
 
 			//Открываем документ
 			ProjectPage.OpenDocument(1);

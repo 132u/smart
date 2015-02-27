@@ -113,7 +113,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.TM
 		public void CreateTMWithNotTMXTest()
 		{
 			// Создать ТМ с загрузкой НЕ(!) TMX файла
-			CreateTMWithUploadTMX(UniqueTmName, TestFile.DocumentFile);
+			CreateTMWithUploadTMX(UniqueTmName, PathProvider.DocumentFile);
 
 			// Проверить, что появилось сообщение о неверном расширении файла
 			Assert.IsTrue(TMPage.GetIsErrorMessageNotTMX(),

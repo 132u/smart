@@ -358,7 +358,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Glossary
 
 			// Создать уникальное название для экспортируемого файла
 			var uniqueGlossaryName = GlossaryName + DateTime.UtcNow.Ticks;
-			var resultPath = System.IO.Path.Combine(PathTestResults, "GlossaryExportTest");
+			var resultPath = System.IO.Path.Combine(PathProvider.ResultsFolderPath, "GlossaryExportTest");
 
 			// Создать папку для экспорта
 			System.IO.Directory.CreateDirectory(resultPath);
@@ -564,7 +564,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Glossary
 			GlossaryPage.WaitImportForm();
 
 			// Заполнить форму загрузки документа
-			GlossaryPage.UploadTerm(TestFile.ImportGlossaryFile);
+			GlossaryPage.UploadTerm(PathProvider.ImportGlossaryFile);
 		}
 
 		/// <summary>

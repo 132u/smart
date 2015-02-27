@@ -65,8 +65,8 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			{
 				// Создание проекта с уникальным именем
 				CreateProjectIfNotCreated(
-					ProjectName, 
-					TestFile.EditorTXTFile, 
+					ProjectName,
+					PathProvider.EditorTxtFile, 
 					false, 
 					"", 
 					Workspace_CreateProjectDialogHelper.SetGlossary.None, 
@@ -79,7 +79,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			else if (TestContext.CurrentContext.Test.Name.Contains("Tag"))
 			{
 				// Создание проекта с уникальным именем
-				CreateProjectIfNotCreated(ProjectName, TestFile.DocumentFile);
+				CreateProjectIfNotCreated(ProjectName, PathProvider.DocumentFile);
 				// Открытие настроек проекта
 				WorkspacePage.OpenProjectPage(ProjectName);
 			}
@@ -87,8 +87,8 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			{
 				// Создание проекта с неизменяемым именем, для проведения нескольких тестов
 				CreateProjectIfNotCreated(
-					_projectNoChangesName, 
-					TestFile.EditorTXTFile);
+					_projectNoChangesName,
+					PathProvider.EditorTxtFile);
 				// Открытие настроек проекта
 				WorkspacePage.OpenProjectPage(_projectNoChangesName);
 			}

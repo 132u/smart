@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Threading;
 using AbbyyLS.CAT.Function.Selenium.Tests.CommonDataStructures;
-using AbbyyLS.CAT.Function.Selenium.Tests.CommonHelpers;
 using AbbyyLS.CAT.Function.Selenium.Tests.Workspace.TM;
 using NUnit.Framework;
 using OpenQA.Selenium;
@@ -42,12 +41,8 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			{
 				var cfgAgentSpecific = TestSettingDefinition.Instance.Get<TargetServerConfig>();
 				var cfgUserInfo = TestSettingDefinition.Instance.Get<UserInfoConfig>();
-				var cfgRoot = TestSettingDefinition.Instance.Get<FilesRootCfg>();
 
 				BrowserName = browserName;
-				TestFile = new TestFile(cfgRoot);
-				PathTestFiles = cfgRoot.Root;
-
 				
 				CreateUniqueNamesByDatetime();
 				initializeRelatedToServerFields(cfgAgentSpecific);
@@ -94,31 +89,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		protected List<UserInfo> CourseraUserList { get; private set; }
 
 		protected string ProjectName { get; private set; }
-
-		protected string PathTestResults
-		{
-			get
-			{
-
-				return Directory.GetParent(@"..\TestResults\").ToString();
-			}
-		}
-
-		public string PathTestFiles
-		{
-			get
-			{
-				return _pathTestFiles;
-			}
-
-			private set
-			{
-				_pathTestFiles = Directory.GetParent(string.Concat(value, Path.DirectorySeparatorChar)).ToString();
-			}
-		}
 		
-		protected TestFile TestFile { get; private set; }
-
 		protected string BrowserName { get; private set; }
 
 		protected ProjectPageHelper ProjectPage { get; private set; }
@@ -238,7 +209,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 					var screenshot = screenshotDriver.GetScreenshot();
 
 					// Создать папку для скриншотов провалившихся тестов
-					var failResultPath = Path.Combine(PathTestResults, "FailedTests");
+					var failResultPath = Path.Combine(PathProvider.ResultsFolderPath, "FailedTests");
 					Directory.CreateDirectory(failResultPath);
 
 					// Создать имя скриншота по имени теста
@@ -297,7 +268,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 
 		public bool TestUserFileExist()
 		{
-			return File.Exists(TestFile.TestUserFile);
+			return File.Exists(PathProvider.TestUserFile);
 		}
 		
 		/// <summary>
@@ -332,7 +303,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 
 					// Изменение языка браузера на английский
 					_profile.SetPreference("intl.accept_languages", "en");
-					_profile.SetPreference("browser.download.dir", PathTestResults);
+					_profile.SetPreference("browser.download.dir", PathProvider.ResultsFolderPath);
 					_profile.SetPreference("browser.download.folderList", 2);
 					_profile.SetPreference("browser.download.useDownloadDir", true);
 					_profile.SetPreference("network.automatic-ntlm-auth.trusted-uris", Url);
@@ -1251,11 +1222,11 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			string time = "")
 		{
 			Thread.Sleep(2000);// Sleep не убирать , так как после клика загрузки, файл не всегда успевает появиться в папке
-			string[] file = Directory.GetFiles(PathTestResults, "UserActivitiesLog*");
+			string[] file = Directory.GetFiles(PathProvider.ResultsFolderPath, "UserActivitiesLog*");
 
 			Assert.IsTrue(file.Length ==1 , "Ошибка: файл не экспортировался");
 
-			var resultPath = Path.Combine(PathTestResults, subFolderName, time);
+			var resultPath = Path.Combine(PathProvider.ResultsFolderPath, subFolderName, time);
 			Directory.CreateDirectory(resultPath);
 			var newFileName = "";
 
@@ -1273,7 +1244,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			resultPath = Path.Combine(resultPath, newFileName + currentFileExtension);
 			// Перемещаем файл в нужную папку
 			File.Move(file[0], resultPath);
-			// Удаляем файл из папки TestResults (PathTestResults)
+			// Удаляем файл из папки TestResults (PathProvider.PathTestResults)
 			File.Delete(file[0]);
 		}
 
@@ -1703,10 +1674,10 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			string glossaryName = "")
 		{
 			// Создание проекта
-			CreateProject(projectName, "", withTM, TestFile.EditorTMXFile, Workspace_CreateProjectDialogHelper.SetGlossary.None, glossaryName, withMT, mtType);
+			CreateProject(projectName, "", withTM, PathProvider.EditorTmxFile, Workspace_CreateProjectDialogHelper.SetGlossary.None, glossaryName, withMT, mtType);
 
 			//открытие настроек проекта
-			uploadDocument = uploadDocument.Length == 0 ? TestFile.EditorTXTFile : uploadDocument;
+			uploadDocument = uploadDocument.Length == 0 ? PathProvider.EditorTxtFile : uploadDocument;
 			ImportDocumentProjectSettings(uploadDocument, projectName);
 
 			// 3. Назначение задачи на пользователя

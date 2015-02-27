@@ -154,7 +154,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			// Нажать на поле, чтобы открылся диалог загрузки документа
 			GlossaryPage.ClickImageToImport(fieldName);
 			// Заполнить диалог загрузки изображения
-			GlossaryPage.UploadFileInGlossary(TestFile.ImageFile);
+			GlossaryPage.UploadFileInGlossary(PathProvider.ImageFile);
 			// Сохранить термин
 			GlossaryPage.ClickSaveExtendedConcept();
 			
@@ -183,7 +183,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			GlossaryPage.ClickMediaToImport(fieldName);
 
 			// Загружать видео или звук
-			GlossaryPage.UploadFileInGlossary(TestFile.AudioFile);
+			GlossaryPage.UploadFileInGlossary(PathProvider.AudioFile);
 
 			// Сохранить термин
 			GlossaryPage.ClickSaveExtendedConcept();
