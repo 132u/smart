@@ -6,7 +6,7 @@
 
 	<TestingFiles 
 		FilesDirectory="../TestingFiles"
-    ResultDirectory="../TestResults"
+		="../TestResults"
 		ConfigDirectory="../configs"
 	/>
 
