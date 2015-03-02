@@ -548,6 +548,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			string accountName = "TestAccount",
 			string dataServer = "Europe")
 		{
+			var currentAccountName = "";
 			if (Standalone)
 			{
 				if (EmailAuth)
@@ -596,19 +597,24 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 					{
 						Assert.Fail("Появилась ошибка при входе! М.б.недоступен AOL.");
 					}
-					if (!LoginPage.WaitAccountExist(accountName, waitmax: 8, dataServer: dataServer))
-					{
-						Assert.Fail("В списке аккаунтов нет нужного.");
-					}
+
 					if (LoginPage.GetAccountsCount() == 1)
 					{
 						Assert.Fail("Если аккаунт единственный, должно сразу осуществляться перенапралвение  в него.");
 					}
-					// Выбрать аккаунт
-					LoginPage.ClickAccountName(accountName);
+					if (!WorkspacePage.WaitPageLoad())
+					{
+						if (!LoginPage.WaitAccountExist(accountName, waitmax: 8, dataServer: dataServer))
+						{
+							Assert.Fail("В списке аккаунтов нет нужного.");
+						}
+						// Выбрать аккаунт
+						LoginPage.ClickAccountName(accountName);
+					}
+					
 					//проверка того,что мы в нужном аккаунте
 					//(на случай,когда у пользователя один аккаунт и это не нужный нам аккаунт)
-					var currentAccountName = WorkspacePage.GetCompanyName();
+					currentAccountName = WorkspacePage.GetCompanyName();
 					if (currentAccountName != accountName)
 					{
 						Assert.Fail("Ошибка: не зашли в аккаунт:" + accountName + ". У пользователя один аккаунт (" + currentAccountName + ") и произошло автоматическое перенаправление в него.");

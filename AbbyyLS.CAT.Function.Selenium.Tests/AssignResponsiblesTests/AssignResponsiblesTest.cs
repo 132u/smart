@@ -536,8 +536,8 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			Thread.Sleep(1000);
 
 			// Проверка отсутсвия задачи в редакторе
-			Assert.AreEqual("View mode:", EditorPage.GetStageName(),
-				"Ошибка: В шапке редактора есть задача.");
+			Assert.AreEqual("", EditorPage.GetStageName(),
+				"Ошибка: В режиме менеджера в панели инструментов отображается название этапа");
 
 			// Выходим из редактора
 			EditorClickHomeBtn();
@@ -633,8 +633,8 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 
 			// Проверка отсутсвия задачи в редакторе
 			Assert.AreEqual(
-				"View mode:", EditorPage.GetStageName(),
-				"Ошибка: В шапке редактора есть задача.");
+				"", EditorPage.GetStageName(),
+				"Ошибка: В режиме менеджера в панели инструментов отображается название этапа");
 		}
 
 		/// <summary>

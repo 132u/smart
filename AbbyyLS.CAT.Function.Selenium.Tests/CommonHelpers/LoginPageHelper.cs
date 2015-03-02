@@ -1,5 +1,6 @@
 ﻿using OpenQA.Selenium;
 using OpenQA.Selenium.Support.UI;
+using System.Threading;
 
 namespace AbbyyLS.CAT.Function.Selenium.Tests
 {
@@ -218,6 +219,8 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// </summary>
 		public int GetAccountsCount()
 		{
+			// Sleep не убирать, необходим для авторизации пользователя  с одним аккаунтом
+			Thread.Sleep(1000);
 			return GetElementList(By.XPath(ACCOUNT_LIST)).Count;
 		}
 
