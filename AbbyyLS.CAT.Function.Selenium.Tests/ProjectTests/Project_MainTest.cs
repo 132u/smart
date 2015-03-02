@@ -352,13 +352,11 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			WorkspaceCreateProjectDialog.ClickNextStep();
 			// Нажать Back
 			WorkspaceCreateProjectDialog.ClickBackBtn();
-			// Подтвердить переход
-			SkipNotSelectedTM();
-
+			
 			// Проверили, что вернулись на первый шаг
 			Assert.IsTrue(
 				WorkspaceCreateProjectDialog.GetIsFirstStep(),
-				"Ошибка: по кнопке Back не вернулись на предыдущий шаг (где имя проекта)");
+				"Ошибка: по кнопке Back не вернулись на предыдущий первый шаг (выбор имени проекта)");
 
 			// Ввести название проекта
 			WorkspaceCreateProjectDialog.FillProjectName("TestProject" + DateTime.Now.Ticks);
@@ -367,10 +365,10 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			// Проверить, что ошибки не появилось
 			AssertErrorDuplicateName(false);
 
-			// Проверить, что перешли на шаг выбора ТМ
+			// Проверить, что перешли на шаг выбора workflow
 			Assert.IsTrue(
-				WorkspaceCreateProjectDialog.GetIsStepChooseTM(),
-				"Ошибка: не перешли на следующий шаг (выбора ТМ)");
+				WorkspaceCreateProjectDialog.GetIsStepWF(),
+				"Ошибка: после ввода нового имени проекта не перешли на следующий шаг (выбор WF)");
 		}
 
 		/// <summary>
@@ -390,9 +388,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			WorkspaceCreateProjectDialog.ClickNextStep();
 			// Нажать Back
 			WorkspaceCreateProjectDialog.ClickBackBtn();
-			// Подтвердить переход
-			SkipNotSelectedTM();
-
+			
 			// Проверили, что вернулись на первый шаг
 			Assert.IsTrue(
 				WorkspaceCreateProjectDialog.GetIsFirstStep(),
@@ -403,10 +399,11 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			// Next
 			WorkspaceCreateProjectDialog.ClickNextStep();
 			// Проверить, что ошибка появилась
-			AssertErrorDuplicateName(true);
-			// Проверить, что не перешли на шаг выбора ТМ
-			Assert.IsFalse(WorkspaceCreateProjectDialog.GetIsStepChooseTM(),
-				"Ошибка: перешли на следующий шаг (выбора ТМ)");
+			AssertErrorDuplicateName();
+			// Проверить, что не перешли на шаг выбора workflow
+			Assert.IsFalse(
+				WorkspaceCreateProjectDialog.GetIsStepWF(),
+				"Ошибка: после появления сообщения о об ошибке дублирования имени проекта, перешли на следующий шаг (выбор WF)");
 		}
 
 		/// <summary>
@@ -448,10 +445,10 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			AssertErrorDuplicateName(false);
 			Thread.Sleep(2000);
 
-			// Проверить, что перешли на шаг выбора ТМ
+			// Проверить, что перешли на шаг выбора workflow
 			Assert.IsTrue(
-				WorkspaceCreateProjectDialog.GetIsStepChooseTM(),
-				"Ошибка: перешли на следующий шаг (выбора ТМ)");
+				WorkspaceCreateProjectDialog.GetIsStepWF(),
+				"Ошибка: после ввода имени удаленного проекта не перешли на следующий шаг (выбор WF)");
 		}
 
 		/// <summary>
@@ -554,44 +551,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		}
 
 		/// <summary>
-		/// Сохранение проекта с пустым именем на первом шаге визарда
-		/// </summary>
-		[Test]
-		public void EmptyProjectNameFinishAfterFirstStep()
-		{			
-			// Нажать <Create>
-			WorkspacePage.ClickCreateProject();
-			// Ждем загрузки формы
-			WorkspaceCreateProjectDialog.WaitDialogDisplay();
-			// Нажимаем кнопку Готово
-			WorkspaceCreateProjectDialog.ClickFinishCreate();
-
-			// Проверить, что появилась ошибка и поле Имя выделено ошибкой
-			Assert.IsTrue(WorkspaceCreateProjectDialog.GetIsExistErrorMessageNoName(),
-				"Ошибка: Не появилось сообщение о существующем имени");
-			Assert.IsTrue(WorkspaceCreateProjectDialog.GetIsNameInputError(),
-				"Ошибка: Поле с именем не отмечено ошибкой");
-		}
-
-		/// <summary>
-		/// Создание проекта с одинаковыми source и target языками на первом шаге визарда
-		/// </summary>
-		[Test]
-		public void CreateProjectEqualLanguagesFinishAfterFirstStep()
-		{
-			//1 шаг - заполнение данных о проекте
-			FirstStepProjectWizard(ProjectName, false, CommonHelper.LANGUAGE.English, CommonHelper.LANGUAGE.English);
-			WorkspaceCreateProjectDialog.ClickFinishCreate();
-
-			// Проверить, что появилось сообщение о совпадающих языках
-			Assert.IsTrue(WorkspaceCreateProjectDialog.GetIsExistErrorDuplicateLanguage(),
-				"Ошибка: Не появилось сообщение о совпадающих языках");
-			// Проверить, что не перешли на следующий шаг
-			Assert.IsTrue(WorkspaceCreateProjectDialog.GetIsFirstStep(),
-				"Ошибка: Не остались на первом шаге");
-		}
-
-		/// <summary>
 		/// Создание проекта с текущей датой дедлайна
 		/// </summary>
 		[Test]
@@ -605,6 +564,8 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			WorkspaceCreateProjectDialog.FillProjectName(ProjectName);
 			// Наначить датой дедлайна текущую
 			ChooseCurrentDeadlineDate();
+			// Нажать следующий шаг
+			WorkspaceCreateProjectDialog.ClickNextStep();
 			// Нажать "Готово"
 			WorkspaceCreateProjectDialog.ClickFinishCreate();
 
@@ -623,11 +584,12 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			WorkspacePage.ClickCreateProject();
 			// Ждем загрузки формы
 			WorkspaceCreateProjectDialog.WaitDialogDisplay();
-
 			// Ввести название проекта
 			WorkspaceCreateProjectDialog.FillProjectName(ProjectName);
 			// Назначаем дедлайн позже текущей даты
 			ChooseFutureDeadlineDate();
+			// Нажать следующий шаг
+			WorkspaceCreateProjectDialog.ClickNextStep();
 			// Нажать "Готово"
 			WorkspaceCreateProjectDialog.ClickFinishCreate();
 
@@ -647,11 +609,12 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			WorkspacePage.ClickCreateProject();
 			// Ждем загрузки формы
 			WorkspaceCreateProjectDialog.WaitDialogDisplay();
-
 			// Ввести название проекта
 			WorkspaceCreateProjectDialog.FillProjectName(ProjectName);
 			// Назначить дедлайн на уже прошедшую дату
 			ChoosePastDeadlineDate();
+			// Нажать следующий шаг
+			WorkspaceCreateProjectDialog.ClickNextStep();
 			// Нажать "Готово"
 			WorkspaceCreateProjectDialog.ClickFinishCreate();
 
@@ -676,13 +639,13 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			WorkspaceCreateProjectDialog.FillProjectName(ProjectName);
 			// Назначить дедлайн (неверный формат даты)
 			WorkspaceCreateProjectDialog.FillDeadlineDate(dateFormat);
-			// Нажать "Готово"
-			WorkspaceCreateProjectDialog.ClickFinishCreate();
-
+			// Next
+			WorkspaceCreateProjectDialog.ClickNextStep();
+			
 			// Дождаться сообщения об ошибке			
 			Assert.IsTrue(
 				WorkspaceCreateProjectDialog.GetIsErrorMessageInvalidDeadlineDate(),
-				"Ошибка: Не было сообщения о неверном формате даты");
+				"Ошибка: При введении некорректной даты (" + dateFormat + ") не было сообщения о неверном формате даты");
 		}
 
 		//<add key="Login" value="bobby@mailforspam.com" />
@@ -711,121 +674,65 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <summary>
 		/// Выбрать текущую дату дедлайна в календаре
 		/// </summary>
-		 protected void ChooseCurrentDeadlineDate()
-		 {
-			 // Кликнуть по полю выбора даты дедлайна, чтобы появился календарь
-			 WorkspaceCreateProjectDialog.ClickDeadlineInput();
+		protected void ChooseCurrentDeadlineDate()
+		{
+			// Кликнуть по полю выбора даты дедлайна, чтобы появился календарь
+			WorkspaceCreateProjectDialog.ClickDeadlineInput();
 
-			 Assert.IsTrue(
-				 WorkspaceCreateProjectDialog.WaitUntilDisplayCalendar(),
-				 "Ошибка: Не появился календарь для выбора даты дедлайна");
+			Assert.IsTrue(
+				WorkspaceCreateProjectDialog.WaitUntilDisplayCalendar(),
+				"Ошибка: Не появился календарь для выбора даты дедлайна");
 
-			 // Выбрать в календаре текущую дату
-			 WorkspaceCreateProjectDialog.ClickDeadlineCurrentDate();
+			// Выбрать в календаре текущую дату
+			WorkspaceCreateProjectDialog.ClickDeadlineCurrentDate();
 
-			 Assert.IsNotNullOrEmpty(
-				 WorkspaceCreateProjectDialog.GetDeadlineValue(),
-				 "Ошибка: Дата дедлайна не выбрана");
-		 }
-
-		 /// <summary>
-		 /// Выбрать дату дедлайна в календаре после текущей
-		 /// </summary>
-		 protected void ChooseFutureDeadlineDate()
-		 {
-			 // Кликнуть по полю выбора даты дедлайна, чтобы появился календарь
-			 WorkspaceCreateProjectDialog.ClickDeadlineInput();
-
-			 Assert.IsTrue(
-				 WorkspaceCreateProjectDialog.WaitUntilDisplayCalendar(),
-				 "Ошибка: Не появился календарь для выбора даты дедлайна");
-
-			 // Перейти на следующий месяц календаря
-			 WorkspaceCreateProjectDialog.ClickNextMonthPicker();
-			 // Выбрать в календаре произвольную дату
-			 WorkspaceCreateProjectDialog.ClickDeadlineSomeDate();
-
-			 Assert.IsNotNullOrEmpty(
-				 WorkspaceCreateProjectDialog.GetDeadlineValue(),
-				 "Ошибка: Дата дедлайна не выбрана");
-		 }
-
-		 /// <summary>
-		 /// Выбрать прошедшую дату дедлайна в календаре 
-		 /// </summary>
-		 protected void ChoosePastDeadlineDate()
-		 {
-			 // Кликнуть по полю выбора даты дедлайна, чтобы появился календарь
-			 WorkspaceCreateProjectDialog.ClickDeadlineInput();
-
-			 Assert.IsTrue(
-				 WorkspaceCreateProjectDialog.WaitUntilDisplayCalendar(),
-				 "Ошибка: Не появился календарь для выбора даты дедлайна");
-
-			 // Перейти на предыдущий месяц календаря
-			 WorkspaceCreateProjectDialog.ClickPreviousMonthPicker();
-			 // Выбрать в календаре произвольную дату
-			 WorkspaceCreateProjectDialog.ClickDeadlineSomeDate();
-
-			 Assert.IsNotNullOrEmpty(
-				 WorkspaceCreateProjectDialog.GetDeadlineValue(),
-				 "Ошибка: Дата дедлайна не выбрана");
-		 }
+			Assert.IsNotNullOrEmpty(
+				WorkspaceCreateProjectDialog.GetDeadlineValue(),
+				"Ошибка: Дата дедлайна не выбрана");
+		}
 
 		/// <summary>
-		/// Проверка, есть ли ошибка существующего имени
+		/// Выбрать дату дедлайна в календаре после текущей
 		/// </summary>
-		/// <param name="shouldErrorExist">условие для результата проверки - должна ли быть ошибка</param>
-		protected void AssertErrorDuplicateName(bool shouldErrorExist = true)
+		protected void ChooseFutureDeadlineDate()
 		{
-			if (!shouldErrorExist){
-				// Т.к. ожидаем, что ошибка не появится, опускаем таймаут
-				setDriverTimeoutMinimum();
-			}
+			// Кликнуть по полю выбора даты дедлайна, чтобы появился календарь
+			WorkspaceCreateProjectDialog.ClickDeadlineInput();
 
-			// Проверить, что поле Имя отмечено ошибкой
-			var isExistErrorInput = WorkspaceCreateProjectDialog.GetIsNameInputError();
-			// Проверить, что есть сообщение, что имя существует
-			var isExistErrorMessage = WorkspaceCreateProjectDialog.GetIsExistErrorMessageNameExists();
-			var errorMessage = "\n";
-			var isError = false;
+			Assert.IsTrue(
+				WorkspaceCreateProjectDialog.WaitUntilDisplayCalendar(),
+				"Ошибка: Не появился календарь для выбора даты дедлайна");
 
-			// Ошибка должна появиться
-			if (shouldErrorExist)
-			{
-				if (!isExistErrorInput)
-				{
-					isError = true;
-					errorMessage += "Ошибка: поле Название не отмечено ошибкой\n";
-				}
-				if (!isExistErrorMessage)
-				{
-					isError = true;
-					errorMessage += "Ошибка: не появилось сообщение о существующем имени";
-				}
-			}
-			// Ошибка НЕ должна появиться
-			else
-			{
-				if (isExistErrorInput)
-				{
-					isError = true;
-					errorMessage += "Ошибка: поле Название отмечено ошибкой\n";
-				}
-				if (isExistErrorMessage)
-				{
-					isError = true;
-					errorMessage += "Ошибка: появилось сообщение о существующем имени";
-				}
-			}
+			// Перейти на следующий месяц календаря
+			WorkspaceCreateProjectDialog.ClickNextMonthPicker();
+			// Выбрать в календаре произвольную дату
+			WorkspaceCreateProjectDialog.ClickDeadlineSomeDate();
 
-			// Проверить условие
-			Assert.IsFalse(isError, errorMessage);
+			Assert.IsNotNullOrEmpty(
+				WorkspaceCreateProjectDialog.GetDeadlineValue(),
+				"Ошибка: Дата дедлайна не выбрана");
+		}
 
-			if (!shouldErrorExist)
-			{
-				setDriverTimeoutDefault();
-			}
+		/// <summary>
+		/// Выбрать прошедшую дату дедлайна в календаре 
+		/// </summary>
+		protected void ChoosePastDeadlineDate()
+		{
+			// Кликнуть по полю выбора даты дедлайна, чтобы появился календарь
+			WorkspaceCreateProjectDialog.ClickDeadlineInput();
+
+			Assert.IsTrue(
+				WorkspaceCreateProjectDialog.WaitUntilDisplayCalendar(),
+				"Ошибка: Не появился календарь для выбора даты дедлайна");
+
+			// Перейти на предыдущий месяц календаря
+			WorkspaceCreateProjectDialog.ClickPreviousMonthPicker();
+			// Выбрать в календаре произвольную дату
+			WorkspaceCreateProjectDialog.ClickDeadlineSomeDate();
+
+			Assert.IsNotNullOrEmpty(
+				WorkspaceCreateProjectDialog.GetDeadlineValue(),
+				"Ошибка: Дата дедлайна не выбрана");
 		}
 
 		/// <summary>
