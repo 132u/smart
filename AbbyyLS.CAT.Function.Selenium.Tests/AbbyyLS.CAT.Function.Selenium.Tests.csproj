@@ -70,6 +70,7 @@
     <Compile Include="BaseTest.cs" />
     <Compile Include="CatPanelTests\CatPanelResultsHelper.cs" />
     <Compile Include="CatPanelTests\CatPanelResultsTest.cs" />
+    <Compile Include="CatPanelTests\GlossaryTermSubstituionTest.cs" />
     <Compile Include="CatPanelTests\MatchColumnTest.cs" />
     <Compile Include="CheckCreateProjectRight.cs" />
     <Compile Include="CheckCreateProjectRightHelper.cs" />

@@ -145,8 +145,8 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <returns>есть</returns>
 		public bool GetIsExistLanguageInList(LANGUAGE lang)
 		{
-			return GetIsElementDisplay(By.XPath(DROPDOWNLIST_XPATH + 
-				"//span[@data-id='" + languageID[lang] + "']"));
+			return GetIsElementExist(By.XPath(DROPDOWNLIST_XPATH + 
+				"/span[@data-id='" + languageID[lang] + "']"));
 		}
 
 		/// <summary>
@@ -155,8 +155,11 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <param name="lang">язык</param>
 		public void SelectLanguage(LANGUAGE lang)
 		{
-			ClickElement(By.XPath(DROPDOWNLIST_XPATH + "//span[@data-id='" + 
-				languageID[lang] + "']"));
+			//Делаем видимым нужный элемент из списка
+			var lang_item = Driver.FindElement(By.XPath(DROPDOWNLIST_XPATH + "//span[@data-id='" + languageID[lang] + "']"));
+			((IJavaScriptExecutor)Driver).ExecuteScript("arguments[0].scrollIntoView(true);", lang_item);
+
+			ClickElement(By.XPath(DROPDOWNLIST_XPATH + "//span[@data-id='" + languageID[lang] + "']"));
 
 			WaitUntilDisappearElement(By.XPath(DROPDOWNLIST_XPATH));
 		}
@@ -278,7 +281,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		protected const string CLIENT_LIST_XPATH = "//select[contains(@data-bind,'clientsList')]//following-sibling::span";
 		protected const string DOMAIN_LIST_XPATH = DIALOG_XPATH + "//div[@class='l-editgloss__contrbox'][3]//div";
 
-		protected const string DROPDOWNLIST_XPATH = CLIENT_LIST_XPATH + "[contains(@class,'active')]";
+		protected const string DROPDOWNLIST_XPATH = "//body/span[contains(@class,'js-dropdown')]";
 		protected const string DROPDOWNLIST_ITEM_XPATH = "//select[contains(@data-bind,'clientsList')]/option";
 		protected const string MULTISELECT_LIST_XPATH = ".//ul[contains(@class,'ui-multiselect-checkboxes')]//span[contains(@class,'ui-multiselect-item-text')]";
 

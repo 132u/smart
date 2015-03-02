@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Threading;
 using NUnit.Framework;
 
-namespace AbbyyLS.CAT.Function.Selenium.Tests
+namespace AbbyyLS.CAT.Function.Selenium.Tests.Editor.Panel
 {
 	/// <summary>
 	/// Группа тестов для проверки панели выдачи переводов в редакторе
@@ -13,8 +13,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <summary>
 		/// Конструктор теста
 		/// </summary>
-		 
-		 
 		/// <param name="browserName">Название браузера</param>
 		public CatPanelResultsTest(string browserName)
 			: base(browserName)
@@ -110,195 +108,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			// Проверка процента
 			Assert.AreNotEqual(0, CatPanel.GetCATTranslationProcentMatch(0),
 				"Ошибка: Неверный процент совпадения. Неверный процент.");
-		}
-
-		/// <summary>
-		/// Тест: Проверка выдач и переводов из глоссария для первого сегмента
-		/// </summary>
-		[Test]
-		public void GlossaryFirstSegment()
-		{
-			var uniqueGlossaryName = GlossaryName + DateTime.Now;
-
-			// Добавление словаря для глоссария
-			var dictionary = new Dictionary<string, string>
-			{ 
-				{"first", "первый"},
-				{"sentence", "предложение"}
-			};
-
-			// Создание глоссария с уникальным именем
-			SwitchGlossaryTab();
-			CreateGlossaryByName(uniqueGlossaryName);
-
-			// Создание глоссария на основании словаря
-			SetGlossaryByDictinary(dictionary);
-
-			// Создание проекта с файлом
-			SwitchWorkspaceTab();
-			// Создание проекта с файлом с ТМ без файла и с заданным МТ
-			CreateProject(ProjectName, PathProvider.EditorTxtFile, true);
-			//CreateProject(ProjectName, EditorTXTFile);
-			
-			// Открываем проект
-			OpenProjectPage(ProjectName);
-
-			// Добавляем созданный глоссарий
-			ProjectPage.SetGlossaryByName(uniqueGlossaryName);
-
-			// Открываем документ
-			OpenDocument();
-			Thread.Sleep(1000);
-
-			EditorPage.ClickSourceCell(1);
-
-			// Проверка, что на CATpanel что-то есть
-			Assert.IsTrue(EditorPage.GetCATPanelNotEmpty(),
-				"Ошибка: нет переводов в панели САТ.");
-
-			// Проверка наличия TB
-			Assert.AreEqual(1, EditorPage.GetCATTranslationRowNumber(EditorPageHelper.CAT_TYPE.TB),
-				"Ошибка: ТB нет в списке или ТB не первая.");
-
-			// Проверка соответствия терминов САТ и подсвеченных слов сегмента
-			List<string> segmentTermins = EditorPage.GetSegmentSelectedTexts(1);
-			segmentTermins.Sort();
-
-			List<string> catTermins = CatPanel.GetCATTerms();
-			catTermins.Sort();
-
-			Assert.AreEqual(segmentTermins, catTermins,
-				"Ошибка: Подсвеченные слова в сегменте не соответствуют терминам САТ.");
-
-			// Проверка соответствия заданных терминов и подсвеченных слов сегмента
-			Assert.AreEqual(segmentTermins, dictionary.Keys,
-				"Ошибка: Подсвеченные слова в сегменте не соответствуют терминам САТ.");
-		}
-
-		/// <summary>
-		/// Тест: Проверка выдач и переводов из глоссария для одного сегмента
-		/// </summary>
-		[Test]
-		public void GlossaryThirdSegment()
-		{
-			var uniqueGlossaryName = GlossaryName + DateTime.Now;
-
-			// Добавление словаря для глоссария
-			var dictionary = new Dictionary<string, string>
-			{ 
-				{"more", "еще"},
-				{"one", "один"},
-				{"test", "тест"}
-			};
-
-			// Создание глоссария с уникальным именем
-			SwitchGlossaryTab();
-			CreateGlossaryByName(uniqueGlossaryName);
-
-			// Создание глоссария на основании словаря
-			SetGlossaryByDictinary(dictionary);
-
-			// Создание проекта с файлом
-			SwitchWorkspaceTab();
-			CreateProject(ProjectName, PathProvider.EditorTxtFile, true);
-			
-			// Открываем проект
-			OpenProjectPage(ProjectName);
-
-			// Добавляем созданный глоссарий
-			ProjectPage.SetGlossaryByName(uniqueGlossaryName);
-
-			// Открываем документ
-			OpenDocument();
-			Thread.Sleep(1000);
-
-			// Переходим на третий сегмент
-			EditorPage.ClickSourceCell(3);
-
-			// Проверка, что на CATpanel что-то есть
-			Assert.IsTrue(EditorPage.GetCATPanelNotEmpty(),
-				"Ошибка: нет переводов в панели САТ.");
-
-			// Проверка наличия TB
-			Assert.AreEqual(1, EditorPage.GetCATTranslationRowNumber(EditorPageHelper.CAT_TYPE.TB),
-				"Ошибка: ТB нет в списке или ТB не первая.");
-
-			// Проверка соответствия терминов САТ и подсвеченных слов сегмента
-			List<string> segmentTermins = EditorPage.GetSegmentSelectedTexts(3);
-			segmentTermins.Sort();
-
-			List<string> catTermins = CatPanel.GetCATTerms();
-			catTermins.Sort();
-
-			Assert.AreEqual(segmentTermins, catTermins,
-				"Ошибка: Подсвеченные слова в сегменте не соответствуют терминам САТ.");
-
-			// Проверка соответствия заданных терминов и подсвеченных слов сегмента
-			Assert.AreEqual(segmentTermins, dictionary.Keys,
-				"Ошибка: Подсвеченные слова в сегменте не соответствуют терминам САТ.");
-		}
-
-		/// <summary>
-		/// Тест: Проверка количества терминов в нескольких сегментах
-		/// </summary>
-		[Test]
-		public void GlossaryFewSegments()
-		{
-			Logger.Trace("GlossaryFewSegments");
-
-			var uniqueGlossaryName = GlossaryName + DateTime.Now;
-			var catSelectedTexts = new List<string>();
-
-			// Добавление словаря для глоссария
-			var dictionary = new Dictionary<string, string>
-			{ 
-				{"second", "второй"},
-				{"one", "один"},
-				{"more", "еще"},
-				{"test", "тест"}
-			};
-
-			// Создание глоссария с уникальным именем
-			SwitchGlossaryTab();
-			CreateGlossaryByName(uniqueGlossaryName);
-
-			// Создание глоссария на основании словаря
-			SetGlossaryByDictinary(dictionary);
-
-			// Создание проекта с файлом
-			SwitchWorkspaceTab();
-			CreateProject(ProjectName, PathProvider.EditorTxtFile, true);
-			
-			// Открываем проект
-			OpenProjectPage(ProjectName);
-
-			// Добавляем созданный глоссарий
-			ProjectPage.SetGlossaryByName(uniqueGlossaryName);
-
-			// Открываем документ
-			OpenDocument();
-
-			// Проверяем сегменты
-			// Второй сегмент
-			catSelectedTexts = EditorPage.GetSegmentSelectedTexts(2);
-
-			// Проверяем, что есть одно совпадение
-			Assert.AreEqual(1, catSelectedTexts.Count,
-				"Ошибка: количество совпадений второго сегмента не корректно.");
-
-			// Третий сегмент
-			catSelectedTexts = EditorPage.GetSegmentSelectedTexts(3);
-
-			// Проверяем, что есть три совпадения
-			Assert.AreEqual(3, catSelectedTexts.Count,
-				"Ошибка: количество совпадений третьего сегмента не корректно.");
-
-			// Четвертый сегмент
-			catSelectedTexts = EditorPage.GetSegmentSelectedTexts(4);
-
-			// Проверяем, что совпадения отсутствуют
-			Assert.AreEqual(0, catSelectedTexts.Count,
-				"Ошибка: количество совпадений четвертого сегмента не корректно.");
 		}
 	}
 }

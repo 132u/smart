@@ -37,7 +37,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			// Дождаться загрузки страницы
 			return Wait.Until((d) => d.Url.Contains(TITLE_TEXT));
 		}
-
+		
 		/// <summary>
 		/// Возвращает задачу
 		/// </summary>
