@@ -5,6 +5,7 @@ using NUnit.Framework;
 
 namespace AbbyyLS.CAT.Function.Selenium.Tests.Editor.Panel
 {
+	[Category("Standalone")]
 	class GlossaryTermSubstituionTest : BaseTest
 	{
 		/// <summary>
