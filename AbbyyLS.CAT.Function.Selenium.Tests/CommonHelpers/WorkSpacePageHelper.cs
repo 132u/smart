@@ -42,7 +42,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <returns>появилась</returns>
 		public bool WaitAppearLocaleBtn()
 		{
-			return WaitUntilDisplayElement(By.XPath(LOCALE_REF_PATH));
+			return WaitUntilDisplayElement(By.XPath(LANGUAGE_SWITCHER));
 		}
 
 		/// <summary>
@@ -56,7 +56,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 									: LOCALE_RU_LANG;
 			var xPath = LOCALE_REF_PATH + "[@data-locale='" + lang + "']";
 			SetDriverTimeoutMinimum();
-
+			ClickLanguagSwitcher();
 			if (GetIsElementExist(By.XPath(xPath)))
 			{
 				ClickElement(By.XPath(xPath));
@@ -673,6 +673,10 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		public enum LOCALE_LANGUAGE_SELECT { English, Russian };
 		public enum EXPORT_TYPE { Original, TMX, Translated };
 
+		public void ClickLanguagSwitcher()
+		{
+			Driver.FindElement(By.XPath(LANGUAGE_SWITCHER)).Click();
+		}
 
 		public const string LOCALE_EN_LANG = "en";
 		public const string LOCALE_RU_LANG = "ru";
@@ -737,6 +741,8 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		protected const string LOGOFF_XPATH = ".//a[contains(@href,'Logout')]";
 
 		protected const string TOP_BOX_COMPANY_NAME = "//div[@class='g-topbox__currentAccount__nickname']";
-		protected const string COMPANY_NAME_PANEL_WS = "//span[contains(@class,'selected-account')]";
+		protected const string COMPANY_NAME_PANEL_WS = "//span[contains(@class,'g-topbox__nameuser')]//small";
+
+		protected const string LANGUAGE_SWITCHER = "//div[@class='g-topbox__lang']";
 	}
 }
