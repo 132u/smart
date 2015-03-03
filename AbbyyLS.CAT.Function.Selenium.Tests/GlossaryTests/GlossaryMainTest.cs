@@ -46,10 +46,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Glossary
 			// Нажать сохранить
 			GlossaryEditForm.ClickSaveGlossary();
 
-			// Проверить, что поле Имя отмечено ошибкой
-			Assert.IsTrue(
-				GlossaryEditForm.GetIsExistGlossaryNameError(),
-				"Ошибка: поле имя не отмечено ошибкой");
 			// Проверить, что появилось сообщение о пустом имени
 			Assert.IsTrue(
 				GlossaryEditForm.GetIsExistErrorMessageEmptyGlossaryName(),
@@ -186,9 +182,8 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Glossary
 			var authorName = GlossaryListPage.GetGlossaryAuthor(glossaryName);
 
 			// Проверить, что текущий пользователь и есть автор
-			Assert.AreEqual(
-				userName, 
-				authorName, 
+			Assert.IsTrue(
+				userName.Contains(authorName), 
 				"Ошибка: автор нового глоссария - не текущий пользователь");
 		}
 
@@ -365,7 +360,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Glossary
 			var linkHref = GlossaryPage.GetHrefForExport();
 			// Экспорт глоссари
 			GlossaryPage.ExportGlossary(linkHref, uniqueGlossaryName + ".xlsx");
-
 			Assert.IsTrue(
 				System.IO.File.Exists(uniqueGlossaryName + ".xlsx"),
 				"Ошибка: файл не экспортировался");
@@ -444,11 +438,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Glossary
 			// Ввести имя
 			ChangeGlossaryNameToCurrent("");
 
-			// Проверить, что поле Имя отмечено ошибкой
-			Assert.IsTrue(
-				GlossaryEditForm.GetIsExistGlossaryNameError(),
-				"Ошибка: не появилось сообщение о пустом имени");
-
 			// Проверить, что появилось сообщение о пустом имени
 			Assert.IsTrue(
 				GlossaryEditForm.GetIsExistErrorMessageEmptyGlossaryName(),
@@ -470,10 +459,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Glossary
 			// Изменить имя глоссария и сохранить
 			ChangeGlossaryNameToCurrent(" ");
 
-			// Проверить, что поле Имя отмечено ошибкой
-			Assert.IsTrue(
-				GlossaryEditForm.GetIsExistGlossaryNameError(),
-				"Ошибка: не появилось сообщение о пустом имени");
 			// Проверить, что появилось сообщение о пустом имени
 			Assert.IsTrue(
 				GlossaryEditForm.GetIsExistErrorMessageEmptyGlossaryName(),

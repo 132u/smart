@@ -206,7 +206,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// </summary>
 		public void CancelDeleteLanguage()
 		{
-			ClickElement(By.XPath(WARNING_DELETE_LANGUAGE_XPATH));
+			ClickElement(By.XPath(DELETE_LANGUAGE_CANCEL_XPATH));
 		}
 
 		/// <summary>
@@ -232,16 +232,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		public void ClickConfirmDeleteGlossary()
 		{
 			ClickElement(By.XPath(CONFIRM_DELETE_GLOSSARY_XPAHT));
-		}
-
-		/// <summary>
-		/// Вернуть, есть ли ошибка имени глоссария
-		/// </summary>
-		/// <returns>есть</returns>
-		public bool GetIsExistGlossaryNameError()
-		{
-			return GetIsElementDisplay(By.XPath(GLOSSARY_NAME_XPATH + 
-				"[contains(@class,'error')]"));
 		}
 
 		/// <summary>
@@ -276,7 +266,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		protected const string GLOSSARY_NAME_XPATH = DIALOG_XPATH + "//input[@class='g-bold l-editgloss__nmtext']";
 		protected const string GLOSSARY_COMMENT_XPATH = DIALOG_XPATH + "//div[@class='l-editgloss__cont last']//textarea";
 		protected const string GLOSSARY_SAVE_XPATH = DIALOG_XPATH + "//span[@class='g-btn g-redbtn ']";
-		protected const string SAVE_AND_EDIT_STRUCTURE_BTN_XPATH = DIALOG_XPATH + "//a[contains(@class,'js-save-and-edit-structure')]";
+		protected const string SAVE_AND_EDIT_STRUCTURE_BTN_XPATH = DIALOG_XPATH + "//a[contains(@data-bind,'click: saveAndEditStructure')]";
 
 		protected const string CLIENT_LIST_XPATH = "//select[contains(@data-bind,'clientsList')]//following-sibling::span";
 		protected const string DOMAIN_LIST_XPATH = DIALOG_XPATH + "//div[@class='l-editgloss__contrbox'][3]//div";
@@ -291,13 +281,14 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		protected const string LANGUAGES_XPATH = "//div[@class='l-editgloss__contrbox'][1]";
 		protected const string LANG_LIST_LANG_XPATH = "//div[@class='l-editgloss__contrbox'][1]//span[@class='g-iblock l-editgloss__control l-editgloss__lang']";
 		protected const string DELETE_LANG_XPATH = DIALOG_XPATH + LANGUAGES_XPATH + "//em";
-		protected const string WARNING_DELETE_LANGUAGE_XPATH = DIALOG_XPATH + "//a[contains(@class, 'js-undo-delete-language')]";
-		
-		protected const string DELETE_GLOSSARY_XPATH = DIALOG_XPATH + "//span[contains(@class, 'js-delete')]";
-		protected const string WARNING_DELETE_GLOSSARY_XPATH = DIALOG_XPATH + "//p[contains(@class, 'js-error-confirm-delete-glossary')]";
-		protected const string CONFIRM_DELETE_GLOSSARY_XPAHT = DIALOG_XPATH + "//a[contains(@class, 'js-confirm-delete-glossary')]";
+		protected const string WARNING_DELETE_LANGUAGE_XPATH = DIALOG_XPATH + "//p[contains(@data-message-id, 'language-deleted-warning')]";
+		protected const string DELETE_LANGUAGE_CANCEL_XPATH = DIALOG_XPATH + "//a[contains(@data-bind, 'click: undoDeleteLanguage')]";
 
-		protected const string ERROR_EMPTY_NAME_XPATH = DIALOG_XPATH + "//p[contains(@class,'js-error-glossary-name-required')]";
-		protected const string ERROR_EXIST_NAME_XPATH = DIALOG_XPATH + "//p[contains(@class,'js-error-glossary-exists')]";
+		protected const string DELETE_GLOSSARY_XPATH = DIALOG_XPATH + "//span[contains(@data-bind, 'click: deleteGlossary')]";
+		protected const string WARNING_DELETE_GLOSSARY_XPATH = DIALOG_XPATH + "//p[contains(@data-message-id, 'confirm-delete-glossary')]";
+		protected const string CONFIRM_DELETE_GLOSSARY_XPAHT = DIALOG_XPATH + "//a[contains(@data-bind, 'click: deleteGlossary')]";
+
+		protected const string ERROR_EMPTY_NAME_XPATH = DIALOG_XPATH + "//p[contains(@data-message-id,'glossary-name-required')]";
+		protected const string ERROR_EXIST_NAME_XPATH = DIALOG_XPATH + "//p[contains(@data-message-id,'glossary-exists')]";
 	}
 }

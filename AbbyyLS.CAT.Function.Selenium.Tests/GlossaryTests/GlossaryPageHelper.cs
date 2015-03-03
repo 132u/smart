@@ -1179,7 +1179,11 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 
 		public void UploadTerm(string DocumentName)
 		{
-			((IJavaScriptExecutor)Driver).ExecuteScript("document.evaluate('" + IMPORT_TERMS + "', document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue.style.display = 'block';");
+			//((IJavaScriptExecutor)Driver).ExecuteScript("document.evaluate('" + IMPORT_TERMS + "', document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue.style.display = 'block';");
+			var input = Driver.FindElement(By.XPath(IMPORT_TERMS));
+			((IJavaScriptExecutor)Driver).ExecuteScript("arguments[0].style[\"display\"] = \"block\";" +
+				"arguments[0].style[\"visibility\"] = \"visible\";",
+				input);
 			Driver.FindElement(By.XPath(IMPORT_TERMS)).SendKeys(DocumentName);
 			((IJavaScriptExecutor)Driver).ExecuteScript("document.getElementsByClassName('g-iblock g-bold l-editgloss__filelink js-filename-link')[0].innerHTML = '" + Path.GetFileName(DocumentName) + "'");
 
@@ -1205,7 +1209,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			}
 		}
 
-		protected const string IMPORT_TERMS = "html/body/div[15]/div[2]/div[2]/form/div[1]/div[1]/div/input";
+		protected const string IMPORT_TERMS = "//input[@type = 'file']";
 
 		protected const string ADD_CONCEPT_XPATH = "//span[contains(@class,'js-add-concept')]";
 		protected const string OPEN_EDIT_GLOSSARY_LIST_XPATH = "//span[contains(@class,'js-edit-submenu')]";
@@ -1310,6 +1314,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		protected const string IMPORT_FORM_IMPORT_BTN_XPATH = IMPORT_FORM_XPATH + "//span[contains(@class,'js-import-button')]";
 		protected const string SUCCESS_RESULT_CLOSE_BTN_XPATH = "//a[contains(@class,'js-close-link')]";
 
-		protected const string HREF_EXPORT = "//a[@class='g-bold l-corprsubmn__text']";
+		protected const string HREF_EXPORT = "//a[contains(@class,'export-concepts')]";
 	}
 }

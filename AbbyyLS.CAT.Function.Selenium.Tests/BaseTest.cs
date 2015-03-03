@@ -1383,6 +1383,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// </summary>
 		protected void SwitchGlossaryTab()
 		{
+			MainHelperClass.ClickResourcesRef();
 			MainHelperClass.ClickOpenGlossaryPage();
 			GlossaryListPage.WaitPageLoad();
 		}

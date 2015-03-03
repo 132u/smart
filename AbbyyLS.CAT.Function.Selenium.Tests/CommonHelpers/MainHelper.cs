@@ -43,6 +43,17 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		}
 
 		/// <summary>
+		/// Кликнуть на ссылку "Ресурсы"
+		/// </summary>
+		public void ClickResourcesRef()
+		{
+			if (!GetIsElementDisplay(By.XPath(GLOSSARY_REF_XPATH)))
+			{
+				ClickElement(By.XPath(RESOURCES_REF_XPATH));
+			}
+		}
+
+		/// <summary>
 		/// Кликнуть для перехода на глоссарии
 		/// </summary>
 		public void ClickOpenGlossaryPage()
@@ -131,6 +142,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		protected const string DOMAIN_REF_XPATH = ".//a[contains(@href,'/Domains')]";
 		protected const string TM_REF_XPATH = ".//a[contains(@href,'/TranslationMemories/Index')]"; // TODO проверить ".//ul[@class='g-corprmenu__list']//a[contains(@href,'/Enterprise/TranslationMemories')]
 		protected const string GLOSSARY_REF_XPATH = ".//a[contains(@href,'/Glossaries')]";
+		protected const string RESOURCES_REF_XPATH = "//a[contains(@class, 'menuitem-Resources')]";
 		protected const string SUGGEST_TERMS_REF_XPATH = ".//a[contains(@href,'/Suggests')]";
 		protected const string SEARCH_REF_XPATH = ".//a[contains(@href,'/Start')]";
 		protected const string CLIENT_REF_XPATH = ".//a[contains(@href,'/Clients')]";
