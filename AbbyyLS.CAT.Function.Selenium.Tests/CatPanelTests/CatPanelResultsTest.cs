@@ -81,6 +81,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Editor.Panel
 		/// Тест: Проверка выдач и переводов из TM
 		/// </summary>
 		[Test]
+		[Category("Standalone")]
 		public void CheckTM()
 		{
 			Logger.Trace("CheckTM");

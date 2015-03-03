@@ -4,6 +4,7 @@ using NUnit.Framework;
 
 namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.TM
 {
+	[Category("Standalone")]
 	public class TMXUploadingTests : TMTest
 	{
 		public TMXUploadingTests(string browserName) 

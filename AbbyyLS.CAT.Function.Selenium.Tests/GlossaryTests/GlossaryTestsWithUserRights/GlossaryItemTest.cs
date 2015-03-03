@@ -9,6 +9,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.Glossary.UserRights
 	/// Группа тестов для проверки редактирования терминов глоссария
 	/// </summary>
 	[TestFixture]
+	[Category("Standalone")]
 	public class GlossaryItemTest : GlossaryTest
 	{
 		/// <summary>

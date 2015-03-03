@@ -9,6 +9,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 	/// <summary>
 	/// Группа тестов для проверки лога
 	/// </summary>
+	[Category("Standalone")]
 	public class UserLogTest : BaseTest
 	{
 		/// <summary>

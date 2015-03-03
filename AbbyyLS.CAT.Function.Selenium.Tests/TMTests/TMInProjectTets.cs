@@ -2,6 +2,7 @@
 
 namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.TM
 {
+	[Category("Standalone")]
 	class TMInProjectTets : TMTest 
 	{
 		/// <summary>

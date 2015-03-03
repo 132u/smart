@@ -7,6 +7,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 	/// <summary>
 	/// Группа тестов для проверки рабочего процесса
 	/// </summary>
+	[Category("Standalone")]
 	class WorkflowTest : BaseTest
 	{
 		/// <summary>

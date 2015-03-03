@@ -7,6 +7,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 	/// <summary>
 	/// Группа тестов для проверки редактирования структуры глоссариев
 	/// </summary>
+	[Category("Standalone")]
 	public class GlossaryEditStructureCustomFieldsTest : GlossaryTest
 	{
 		/// <summary>

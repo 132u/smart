@@ -4,6 +4,7 @@ using NUnit.Framework;
 
 namespace AbbyyLS.CAT.Function.Selenium.Tests.TMTests
 {
+	[Category("Standalone")]
 	public class TMFiltering : TMTest
 	{
 		public TMFiltering(string browserName) 

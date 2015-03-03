@@ -3,6 +3,7 @@ using NUnit.Framework;
 
 namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.TM
 {
+	[Category("Standalone")]
 	public class TMRemovingTests : TMTest
 	{
 		public TMRemovingTests(string browserName) : base(browserName)

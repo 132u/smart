@@ -1,13 +1,11 @@
-﻿using System;
+﻿using System.IO;
 using NUnit.Framework;
-using System.IO;
 
 namespace AbbyyLS.CAT.Function.Selenium.Tests
 {
 	/// <remarks>
 	/// Методы для тестирования Проектов
 	/// </remarks>
-
 	public class NewProjectTest : BaseTest
 	{
 		/// <summary>

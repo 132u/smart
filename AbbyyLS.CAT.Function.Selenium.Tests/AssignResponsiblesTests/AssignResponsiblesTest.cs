@@ -8,6 +8,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 	/// <summary>
 	/// Группа тестов для проверки назначения пользователя на задачу
 	/// </summary>
+	[Category("Standalone")]
 	class AssignResponsiblesTest : BaseTest
 	{
 		/// <summary>

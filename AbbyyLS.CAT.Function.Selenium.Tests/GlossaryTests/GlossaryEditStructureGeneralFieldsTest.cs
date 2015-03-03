@@ -1,11 +1,11 @@
-﻿using System;
-using NUnit.Framework;
+﻿using NUnit.Framework;
 
 namespace AbbyyLS.CAT.Function.Selenium.Tests
 {
 	/// <summary>
 	/// Группа тестов для проверки редактирования структуры глоссария
 	/// </summary>
+	[Category("Standalone")]
 	public class GlossaryEditStructureGeneralFieldsTest : GlossaryTest
 	{
 		/// <summary>

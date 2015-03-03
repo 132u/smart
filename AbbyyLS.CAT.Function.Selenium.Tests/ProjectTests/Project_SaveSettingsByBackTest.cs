@@ -36,6 +36,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// - Deadline дата
 		/// </summary>
 		[Test]
+		[Category("Standalone")]
 		public void BackFirstStep()
 		{
 			// Открыли форму создания проекта, заполнили поля
@@ -90,6 +91,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// - выбранный ТМ
 		/// </summary>
 		[Test]
+		[Category("Standalone")]
 		public void BackChooseTMStep()
 		{
 			// Открыли форму создания проекта, заполнили поля
@@ -112,6 +114,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// - выбранный ТМ
 		/// </summary>
 		[Test]
+		[Category("Standalone")]
 		public void BackNextChooseTMStep()
 		{
 			// Открыли форму создания проекта, заполнили поля
@@ -134,6 +137,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// - выбранный глоссарий
 		/// </summary>
 		[Test]
+		[Category("Standalone")]
 		public void BackChooseGlossaryStep()
 		{
 			// Открыли форму создания проекта, заполнили поля
@@ -160,6 +164,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// - выбранный глоссарий
 		/// </summary>
 		[Test]
+		[Category("Standalone")]
 		public void BackNextChooseGlossaryStep()
 		{
 			// Открыли форму создания проекта, заполнили поля

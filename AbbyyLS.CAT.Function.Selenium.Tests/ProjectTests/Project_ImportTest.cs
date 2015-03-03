@@ -6,6 +6,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 	/// <summary>
 	/// Группа тестов для проверки импорта проекта
 	/// </summary>
+	[Category("Standalone")]
 	public class Project_ImportTest : NewProjectTest
 	{
 		/// <summary>

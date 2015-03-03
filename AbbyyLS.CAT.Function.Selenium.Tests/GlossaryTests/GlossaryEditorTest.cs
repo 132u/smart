@@ -5,6 +5,7 @@ using NUnit.Framework;
 namespace AbbyyLS.CAT.Function.Selenium.Tests
 {
 	[TestFixture]
+	[Category("Standalone")]
 	class GlossaryEditorTest : BaseTest
 	{
 		/// <summary>

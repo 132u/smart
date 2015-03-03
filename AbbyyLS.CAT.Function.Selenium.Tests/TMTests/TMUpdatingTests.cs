@@ -2,6 +2,7 @@
 
 namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.TM
 {
+	[Category("Standalone")]
 	public class TMUpdatingTest : TMTest
 	{
 		public TMUpdatingTest(string browserName) 

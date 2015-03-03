@@ -2,14 +2,13 @@
 using System.Threading;
 using NUnit.Framework;
 using System.Collections.Generic;
-using NLog;
-using System.Net;
 
 namespace AbbyyLS.CAT.Function.Selenium.Tests.Glossary
 {
 	/// <summary>
 	/// Группа тестов для общей проверки глоссриев
 	/// </summary>
+	[Category("Standalone")]
 	public class GlossaryMainTest : GlossaryTest
 	{
 		/// <summary>

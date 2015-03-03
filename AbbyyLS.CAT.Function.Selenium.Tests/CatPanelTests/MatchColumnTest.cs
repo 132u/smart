@@ -253,6 +253,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// проверка: в таргете осталось значение в колонке match - ресурс TM
 		/// </summary>
 		[Test]
+		[Category("Standalone")]
 		public void CheckMatchAfterEditCell()
 		{
 			const int segmentNumber = 1;
@@ -290,6 +291,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// проверка: в таргете осталось значение в колонке match - ресурс TM
 		/// </summary>
 		[Test]
+		[Category("Standalone")]
 		public void CheckMatchAfterDelete()
 		{
 			const int segmentNumber = 1;
@@ -321,8 +323,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 				"процент совпадения в таргет не совпадает с процентом на панели CAT");
 		
 		}
-
-
 
 		/// <summary>
 		/// Подстановка в непустой сегмент: для одного сегмента подставляет значение из TM, MT
@@ -376,6 +376,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// проверка: в таргете исчезло значение в колонке match
 		/// </summary>
 		[Test]
+		[Category("Standalone")]
 		public void AfterGlossarySubstitutionCheckMatch()
 		{
 			const int segmentNumber = 1;

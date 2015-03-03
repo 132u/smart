@@ -7,6 +7,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 	/// <summary>
 	/// Группа тестов для проверки доменов
 	/// </summary>
+	[Category("Standalone")]
 	public class DomainTest : BaseTest
 	{
 		/// <summary>

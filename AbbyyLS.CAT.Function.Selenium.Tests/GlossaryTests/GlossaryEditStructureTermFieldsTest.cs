@@ -5,6 +5,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 	/// <summary>
 	/// Группа тестов дял проверки редактирования структуры глоссария (термины)
 	/// </summary>
+	[Category("Standalone")]
 	public class GlossaryEditStructureTermFieldsTest : GlossaryTest
 	{
 		/// <summary>

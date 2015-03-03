@@ -8,6 +8,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 	/// <summary>
 	/// Группа тестов кнопок редактора
 	/// </summary>
+	[NUnit.Framework.Category("Standalone")]
 	public class EditorButtonsTest : BaseTest
 	{
 		/// <summary>

@@ -8,6 +8,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 	/// <summary>
 	/// Группа основных тестов проекта с использованием корпаративного аккаунта
 	/// </summary>
+	[Category("Standalone")]
 	public class Project_MainTest : NewProjectTest
 	{
 		/// <summary>

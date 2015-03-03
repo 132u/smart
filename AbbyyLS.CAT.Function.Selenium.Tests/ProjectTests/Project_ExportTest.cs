@@ -8,6 +8,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 	/// <summary>
 	/// Группа тестов для проверки экспорта проекта
 	/// </summary>
+	[Category("Standalone")]
 	public class Project_ExportTest : NewProjectTest
 	{
 		/// <summary>

@@ -1,6 +1,4 @@
 ﻿using NUnit.Framework;
-using System;
-using System.Threading;
 
 namespace AbbyyLS.CAT.Function.Selenium.Tests
 {
