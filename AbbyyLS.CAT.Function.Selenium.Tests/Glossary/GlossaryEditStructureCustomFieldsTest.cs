@@ -2,7 +2,7 @@
 using NUnit.Framework;
 using System.Collections.Generic;
 
-namespace AbbyyLS.CAT.Function.Selenium.Tests
+namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.Glossary.EditStructure.Custom
 {
 	/// <summary>
 	/// Группа тестов для проверки редактирования структуры глоссариев
@@ -188,6 +188,11 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			GlossaryPage.ClickCustomFieldMedia(fieldName);
 			// Загрузить документ
 			GlossaryPage.UploadFileInGlossary(PathProvider.AudioFile);
+			
+			// Дождаться загрузки документа
+			Assert.IsTrue(
+				GlossaryPage.WaitUploadDocument(fieldName),
+				"Ошибка: документ не загрузился");
 
 			// Сохранить термин
 			GlossaryPage.ClickSaveExtendedConcept();
@@ -231,8 +236,14 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			// Загрузить документ
 			GlossaryPage.UploadFileInGlossary(PathProvider.AudioFile);
 
+			// Дождаться загрузки документа
+			Assert.IsTrue(
+				GlossaryPage.WaitUploadDocument(fieldName),
+				"Ошибка: документ не загрузился");
+
 			// Сохранить термин
 			GlossaryPage.ClickSaveExtendedConcept();
+
 			// Дождаться появления поля с сохраненным термином
 			Assert.IsTrue(
 				GlossaryPage.WaitConceptSave(), 
@@ -439,14 +450,19 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 				GlossaryEditStructureForm.GetIsExistCustomAttrErrorEmptyDefault(),
 				"Ошибка: не появилось оповещение о пустом значении по умолчанию для пользовательского поля");
 			
+			// Заполняем поле "Значение по умолчанию"
 			SetDefaultValueCustomField("0");
+
 			// Нажать "Добавить"
 			GlossaryEditStructureForm.ClickAddCustomAttribute();
 			// Сохранить
 			GlossaryEditStructureForm.ClickSaveStructureBtn();
 			// Дождаться закрытия формы
+			GlossaryEditStructureForm.WaitFormClose();
 			// Нажать New item
 			GlossaryPage.ClickNewItemBtn();
+			// Дождаться открытия формы добавления нового термина
+			GlossaryPage.WaitNewItemOpen();
 			// Заполнить термин
 			FillNewItemExtended();
 
@@ -638,6 +654,10 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 
 			// Нажать New item
 			GlossaryPage.ClickNewItemBtn();
+
+			// Дождаться открытия формы добавления нового термина
+			GlossaryPage.WaitNewItemOpen();
+			
 			// Заполнить термин
 			FillNewItemExtended();
 
@@ -676,6 +696,8 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			GlossaryEditStructureForm.WaitFormClose();
 			// Нажать New item
 			GlossaryPage.ClickNewItemBtn();
+			// Дождаться открытия формы добавления нового термина
+			GlossaryPage.WaitNewItemOpen();
 			// Заполнить термин
 			FillNewItemExtended();
 

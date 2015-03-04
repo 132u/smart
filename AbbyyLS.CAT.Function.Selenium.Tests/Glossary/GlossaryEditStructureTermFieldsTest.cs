@@ -1,6 +1,6 @@
 ﻿using NUnit.Framework;
 
-namespace AbbyyLS.CAT.Function.Selenium.Tests
+namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.Glossary.EditStructure.Terms
 {
 	/// <summary>
 	/// Группа тестов дял проверки редактирования структуры глоссария (термины)

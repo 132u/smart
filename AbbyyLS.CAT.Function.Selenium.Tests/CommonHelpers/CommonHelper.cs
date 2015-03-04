@@ -723,7 +723,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			Thread.Sleep(3000); // слип необходим, так как не всегда успевает открыться окно загрузки
 
 			var txt = Regex.Replace(DocumentName, "[+^%~()]", "{$0}");
-
 			SendKeys.SendWait(txt);
 			Thread.Sleep(2000);
 			SendKeys.SendWait(@"{Enter}");

@@ -197,6 +197,20 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 				maxWait: 20);
 		}
 
+		/// <summary>
+		/// Дождаться появление загруженного документа
+		/// </summary>
+		/// <param name="fieldName">название нового поля, куда записывается документ</param>
+		/// <returns>загрузился</returns>
+		public bool WaitUploadDocument(string fieldName)
+		{
+			var xPath = GetCustomFieldImageXPath(fieldName) + FIELD_MEDIA_CONTAINS_XPATH;
+
+			return WaitUntilDisplayElement(
+				By.XPath(xPath),
+				maxWait: 60);
+		}
+
 		///////////////////// Пользовательское поле Boolean
 		/// <summary>
 		/// Вернуть, есть ли пользовательское поле Boolean при создании термина
@@ -356,7 +370,25 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <param name="fieldName">название поля</param>
 		public void ClickCustomFieldImage(string fieldName)
 		{
-			ClickElement(By.XPath(GetCustomFieldImageXPath(fieldName) + FIELD_IMAGE_FIELD_XPATH));
+			//Работу можно продолжить дальше и визуально клик проходит, но падает исключение про timeout операции. 
+			try
+			{
+				ClickElement(By.XPath(GetCustomFieldImageXPath(fieldName) 
+					+ FIELD_IMAGE_FIELD_XPATH));
+			}
+			catch (WebDriverException ex)
+			{
+				// Такая проверка стоит, чтобы обрабатывать только одно конкретное исключение. 
+				// Но драйвер не выделяет это исключение в отдельный тип, поэтому приходится делать проверку сообщения.
+				if (ex.Message.Contains("timed out after 60 seconds"))
+				{
+					Logger.Warn(ex.Message);
+				}
+				else
+				{
+					throw;
+				}
+			}
 		}
 
 		/// <summary>
@@ -380,8 +412,25 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <param name="fieldName"></param>
 		public void ClickCustomFieldMedia(string fieldName)
 		{
-			ClickElement(By.XPath(GetCustomFieldImageXPath(fieldName) + 
-				CUSTOM_FIELD_MEDIA_REF_XPATH));
+			//Работу можно продолжить дальше и визуально клик проходит, но падает исключение про timeout операции. 
+			try
+			{
+				ClickElement(By.XPath(GetCustomFieldImageXPath(fieldName) 
+					+ CUSTOM_FIELD_MEDIA_REF_XPATH));
+			}
+			catch (WebDriverException ex)
+			{
+				// Такая проверка стоит, чтобы обрабатывать только одно конкретное исключение. 
+				// Но драйвер не выделяет это исключение в отдельный тип, поэтому приходится делать проверку сообщения.
+				if (ex.Message.Contains("timed out after 60 seconds"))
+				{
+					Logger.Warn(ex.Message);
+				}
+				else
+				{
+					throw;
+				}
+			}
 		}
 
 		/// <summary>
@@ -1209,7 +1258,16 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			}
 		}
 
-		protected const string IMPORT_TERMS = "//input[@type = 'file']";
+		/// <summary>
+		/// Дождаться открытия формы нового термина
+		/// </summary>
+		/// <returns>открылся</returns>
+		public bool WaitNewItemOpen()
+		{
+			return WaitUntilDisplayElement(By.XPath(NEW_ITEM_OPEN));
+		}
+
+		protected const string IMPORT_TERMS = "html/body/div[15]/div[2]/div[2]/form/div[1]/div[1]/div/input";
 
 		protected const string ADD_CONCEPT_XPATH = "//span[contains(@class,'js-add-concept')]";
 		protected const string OPEN_EDIT_GLOSSARY_LIST_XPATH = "//span[contains(@class,'js-edit-submenu')]";
@@ -1315,5 +1373,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		protected const string SUCCESS_RESULT_CLOSE_BTN_XPATH = "//a[contains(@class,'js-close-link')]";
 
 		protected const string HREF_EXPORT = "//a[contains(@class,'export-concepts')]";
+		protected const string NEW_ITEM_OPEN = "//div[@class='l-corprtree']";
 	}
 }
