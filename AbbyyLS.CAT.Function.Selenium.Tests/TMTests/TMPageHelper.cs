@@ -50,7 +50,8 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.TM
 		public bool ClickCreateTM()
 		{
 			// Нажать кнопку Создать TM
-			ClickElement(By.XPath(ADD_TM_BTN_XPATH));
+			ClickIfExistByXpath(ADD_TM_BTN_XPATH,
+				"На странице ТМ не найден элемент, соответствующий кнопке создания новой ТМ");
 			// ждем загрузку формы
 			return WaitUntilDisplayElement(By.XPath(CREATE_TM_DIALOG_XPATH));
 		}
@@ -62,7 +63,8 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.TM
 		public bool ClickOpenClientListCreateTM()
 		{
 			// Нажать на открытие списка клиентов
-			ClickElement(By.XPath(CREATE_TM_CLIENT_XPATH));
+			ClickIfExistByXpath(CREATE_TM_CLIENT_XPATH,
+				"На странице ТМ не найден элемент, открывающий выпадающий список клиентов при создании ТМ");
 			// Дождаться открытия
 			return WaitUntilDisplayElement(By.XPath(CREATE_TM_CLIENT_LIST_XPATH));
 		}
@@ -74,7 +76,8 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.TM
 		public bool ClickOpenDomainListCreateTM()
 		{
 			// Нажать на открытие списка domain
-			ClickElement(By.XPath(CREATE_TM_DOMAIN_XPATH));
+			ClickIfExistByXpath(CREATE_TM_DOMAIN_XPATH,
+				"На странице ТМ не найден элемент, открывающий выпадающий список групп проектов при создании ТМ");
 			// Дождаться открытия
 			return WaitUntilDisplayElement(By.XPath(CREATE_TM_DOMAIN_LIST_XPATH));
 		}
@@ -142,7 +145,8 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.TM
 		/// </summary>
 		public void ClickSave()
 		{
-			ClickElement(By.XPath(SAVE_TM_BTN_XPATH));
+			ClickIfExistByXpath(SAVE_TM_BTN_XPATH,
+				"На странице ТМ не найден элемент, соответствующий кнопке Save (Сохранить), в окне диалога создания новой ТМ");
 		}
 
 		/// <summary>
@@ -159,7 +163,8 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.TM
 		/// </summary>
 		public void ClickAddUploadBtn()
 		{
-			ClickElement(By.XPath(UPLOAD_BTN_XPATH));
+			ClickIfExistByXpath(UPLOAD_BTN_XPATH,
+				"На странице ТМ не найден элемент, соответствующий кнопке Add (Добавить) для импорта файла, в окне диалога создания новой ТМ");
 		}
 
 		/// <summary>
@@ -186,7 +191,8 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.TM
 		/// </summary>
 		public void ClickTMButton(TM_BTN_TYPE btnType)
 		{
-			ClickElement(By.XPath(TMButtonDict[btnType]));
+			ClickIfExistByXpath(TMButtonDict[btnType],
+				"На странице ТМ не найден элемент, соответствующий кнопке " + btnType + ", в свертке ТМ");
 		}
 
 		/// <summary>
@@ -236,7 +242,8 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.TM
 		/// </summary>
 		public void ClickImportBtn()
 		{
-			ClickElement(By.XPath(IMPORT_BTN_XPATH));
+			ClickIfExistByXpath(IMPORT_BTN_XPATH,
+				"На странице ТМ не найден элемент, соответствующий кнопке Import (Добавить) для добавления TMX файла, в свертке ТМ");
 		}
 
 		/// <summary>
@@ -839,7 +846,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.TM
 		protected const string CREATE_TM_CLIENT_XPATH = "//select[contains(@data-bind,'allClientsList')]//following-sibling::span";
 		protected const string CREATE_TM_CLIENT_LIST_XPATH = CREATE_TM_CLIENT_XPATH +"[contains(@class,'active')]";
 		protected const string CREATE_TM_CLIENT_ITEM_XPATH = "//select[contains(@data-bind,'allClientsList')]/option";
-		protected const string CREATE_TM_DOMAIN_XPATH = ".//div[contains(@class,'js-domains-multiselect')]";
+		protected const string CREATE_TM_DOMAIN_XPATH = ".//div[contains(@class,'ui-multiselect-text')]//span[contains(text(), 'Select project group')]";
 		protected const string CREATE_TM_DOMAIN_LIST_XPATH = ".//div[contains(@class,'ui-multiselect-menu')][2]";
 		protected const string CREATE_TM_DOMAIN_ITEMS_XPATH = ".//div[contains(@class,'ui-multiselect-menu')][2]//ul[contains(@class,'ui-multiselect-checkboxes')]//li//label//span[contains(@class,'ui-multiselect-item-text')]"; // TODO пересмотреть
 

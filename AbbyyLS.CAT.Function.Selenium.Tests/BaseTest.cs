@@ -3,6 +3,7 @@ using System.Threading;
 using AbbyyLS.CAT.Function.Selenium.Tests.CheckRights;
 using AbbyyLS.CAT.Function.Selenium.Tests.CommonDataStructures;
 using AbbyyLS.CAT.Function.Selenium.Tests.Editor.Panel;
+using AbbyyLS.CAT.Function.Selenium.Tests.Workspace.Domains;
 using AbbyyLS.CAT.Function.Selenium.Tests.Workspace.TM;
 using NUnit.Framework;
 using OpenQA.Selenium;

@@ -2,7 +2,7 @@
 using System.Threading;
 using NUnit.Framework;
 
-namespace AbbyyLS.CAT.Function.Selenium.Tests
+namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.Domains
 {
 	/// <summary>
 	/// Группа тестов для проверки доменов

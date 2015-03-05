@@ -1,9 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using OpenQA.Selenium;
+﻿using OpenQA.Selenium;
 using OpenQA.Selenium.Support.UI;
 
-namespace AbbyyLS.CAT.Function.Selenium.Tests
+namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.Domains
 {
 	/// <summary>
 	/// Хелпер вкладки домены

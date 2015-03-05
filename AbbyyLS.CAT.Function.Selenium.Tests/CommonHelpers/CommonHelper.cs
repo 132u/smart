@@ -704,25 +704,25 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <summary>
 		/// Работа с диалогом браузера: загрузка документа с помощью javascript
 		/// </summary>
-		/// <param name="DocumentName">полный путь к документу</param>
-		protected void UploadDocument(string DocumentName, string file)
+		/// <param name="documentName">полный путь к документу</param>
+		protected void UploadDocument(string documentName, string file)
 		{
 			//Проверка, что элемент найден
 			Assert.IsTrue(GetIsElementExist(By.XPath(file)),"Ошибка: элемент input для загрузки документа не найден, возможно xpath поменялся");
 			((IJavaScriptExecutor)Driver).ExecuteScript("document.evaluate('" + file + "', document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue.style.display = 'block';");
-			Driver.FindElement(By.XPath(file)).SendKeys(DocumentName);
+			Driver.FindElement(By.XPath(file)).SendKeys(documentName);
 			Thread.Sleep(1000); // Sleep Не удалять! необходим для предотвращения появления окна загрузки
 		}
 
 		/// <summary>
 		/// Работа с диалогом браузера: загрузка документа
 		/// </summary>
-		/// <param name="DocumentName">полный путь к документу</param>
-		protected void UploadDocNativeAction(string DocumentName)
+		/// <param name="documentName">полный путь к документу</param>
+		protected void UploadDocNativeAction(string documentName)
 		{
 			Thread.Sleep(3000); // слип необходим, так как не всегда успевает открыться окно загрузки
 
-			var txt = Regex.Replace(DocumentName, "[+^%~()]", "{$0}");
+			var txt = Regex.Replace(documentName, "[+^%~()]", "{$0}");
 			SendKeys.SendWait(txt);
 			Thread.Sleep(2000);
 			SendKeys.SendWait(@"{Enter}");
@@ -733,14 +733,27 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// Загрузка TMX во время создания проекта
 		/// Загрузка TMX при создании TM
 		/// </summary>
-		protected void UploadTM(string DocumentName, string file)
+		protected void UploadTM(string documentName, string file)
 		{
 			//Проверка, что элемент найден
 			Assert.IsTrue(GetIsElementExist(By.XPath(file)), "Ошибка: элемент input для загрузки TMX (во время создания ТМ или во вреям создания проекта) не найден, возможно xpath поменялся");
 			((IJavaScriptExecutor)Driver).ExecuteScript("$(\"input:file\").removeClass(\"g-hidden\").css(\"opacity\", 100)");
-			Driver.FindElement(By.XPath(file)).SendKeys(DocumentName);
+			Driver.FindElement(By.XPath(file)).SendKeys(documentName);
 			((IJavaScriptExecutor)Driver).ExecuteScript("$(\".js-import-file-form .js-control\").data(\"controller\").filenameLink.text($(\".js-import-file-form .js-control\").data(\"controller\").fileInput.val());");
 			((IJavaScriptExecutor)Driver).ExecuteScript("$(\".js-import-file-form .js-control\").data(\"controller\").trigger(\"valueChanged\");");
+		}
+
+		/// <summary>
+		/// Кликнуть существующий элемент (Assert внутри)
+		/// </summary>
+		/// <param name="xPath">XPath элемента</param>
+		/// <param name="exсeptionMessage">Сообщение, в случае если элемент не найден, с помощью Assert</param>
+		protected void ClickIfExistByXpath(string xPath, string exсeptionMessage)
+		{
+			if (GetIsElementExist(By.XPath(xPath)))
+				ClickElement(By.XPath(xPath));
+			else
+				Assert.Fail(exсeptionMessage);
 		}
 
 		public enum LANGUAGE { English, Russian, German, French, Japanese, Lithuanian };
