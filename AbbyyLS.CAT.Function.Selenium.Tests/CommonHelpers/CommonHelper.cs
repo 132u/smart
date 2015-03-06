@@ -709,7 +709,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		{
 			//Проверка, что элемент найден
 			Assert.IsTrue(GetIsElementExist(By.XPath(file)),"Ошибка: элемент input для загрузки документа не найден, возможно xpath поменялся");
-			((IJavaScriptExecutor)Driver).ExecuteScript("document.evaluate('" + file + "', document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue.style.display = 'block';");
+			((IJavaScriptExecutor)Driver).ExecuteScript("document.evaluate(\"" + file + "\", document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue.style.display = \"block\";");
 			Driver.FindElement(By.XPath(file)).SendKeys(documentName);
 			Thread.Sleep(1000); // Sleep Не удалять! необходим для предотвращения появления окна загрузки
 		}

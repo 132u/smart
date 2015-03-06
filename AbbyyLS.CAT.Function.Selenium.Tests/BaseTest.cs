@@ -320,7 +320,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 					//_profile.SetPreference("browser.download.manager.showWhenStarting", false);
 					_profile.SetPreference("browser.helperApps.alwaysAsk.force", false);
 					_profile.SetPreference
-						("browser.helperApps.neverAsk.saveToDisk", "application/xml, text/xml, text/csv, text/plain, text/log, application/zip, application/x-gzip, application/x-compressed, application/x-gtar, multipart/x-gzip, application/tgz, application/gnutar, application/x-tar, application/x-xliff+xml,  application/msword.docx, application/pdf, application/x-pdf, application/octetstream, application/x-ttx, application/x-tmx, application/octet-stream");
+						("browser.helperApps.neverAsk.saveToDisk", "application/xml, text/xml, text/csv, text/plain, text/log, application/zip, application/x-gzip, application/x-compressed, application/x-gtar, multipart/x-gzip, application/tgz, application/gnutar, application/x-tar, application/x-xliff+xml,  application/msword.docx, application/pdf, application/x-pdf, application/octetstream, application/x-ttx, application/x-tmx, application/octet-stream, application/vnd.openxmlformats-officedocument.wordprocessingml.document");
 					//_profile.SetPreference("pdfjs.disabled", true);
 
 					Driver = new FirefoxDriver(_profile);
@@ -1375,6 +1375,8 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// </summary>
 		protected void SwitchTMTab()
 		{
+			// Раскрыть выпадающее меню слева
+			WorkspacePage.ClickOpenResourcesInMenu();
 			// Нажать кнопку перехода на страницу Базы Translation memory
 			MainHelperClass.ClickOpenTMPage();
 			TMPage.WaitPageLoad();
@@ -2059,6 +2061,28 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			Thread.Sleep(2000);
 			// Термин сохранен, нажать ок
 			AddTermForm.ClickTermSaved();
+		}
+
+		/// <summary>
+		/// Метод возвращает список файлов, которые содержатся в папке dirName и подходят под маску mask
+		/// </summary>
+		/// <param name="mask">маска имени файла</param>
+		/// <param name="waitTime">время ождиания появления айлфа</param>
+		/// <param name="dirName">папка,в которой надо искать файлы</param>
+		/// <returns>Список файлов. Пустой список, если нет подходящих под маску файлов.</returns>
+		public string[] GetDownloadFiles(string mask, int waitTime, string dirName)
+		{
+			string[] files = null;
+			for (int i = 0; i < waitTime; i++)
+			{
+				files = Directory.GetFiles(dirName, mask, SearchOption.TopDirectoryOnly);
+				if (files.Length > 0)
+				{
+					break;
+				}
+				Thread.Sleep(1000);//Ждём секунду
+			}
+			return files;
 		}
 
 		/// <summary>

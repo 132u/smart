@@ -671,6 +671,14 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			UploadDocument(fileName, ADD_FILE_TO_PROJECT);
 		}
 
+		/// <summary>
+		/// Раскрыть пункт Resources в главном меню слева
+		/// </summary>
+		public void ClickOpenResourcesInMenu()
+		{
+			ClickElement(By.XPath(RESOURCES_IN_MENU_XPATH));
+		}
+
 		protected const string ADD_FILE_TO_PROJECT = "//div[@class=\"g-popup-bd js-popup-bd js-popup-import-document\"][2]//input[@type=\"file\"]"; // добавление документа уже сущестующему проекту на стр WS
 
 		public enum LOCALE_LANGUAGE_SELECT { English, Russian };
@@ -739,7 +747,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 
 		protected const string USERS_RIGHTS_BTN_XPATH = ".//a[contains(@href,'/Users/Index')]";
 
-		protected const string ACCOUNT_XPATH = ".//div[contains(@class,'js-corp-account')]";
+		protected const string ACCOUNT_XPATH = ".//div[contains(@class,'js-usermenu')]";
 		protected const string USER_NAME_XPATH = ACCOUNT_XPATH + "//span[contains(@class,'nameuser')]";
 		protected const string LOGOFF_XPATH = ".//a[contains(@href,'Logout')]";
 
@@ -747,5 +755,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		protected const string COMPANY_NAME_PANEL_WS = "//span[contains(@class,'g-topbox__nameuser')]//small";
 
 		protected const string LANGUAGE_SWITCHER = "//div[@class='g-topbox__lang']";
+		protected const string RESOURCES_IN_MENU_XPATH = "//li[contains(@class,'js-menuitem-Resources')]";
 	}
 }

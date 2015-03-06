@@ -120,8 +120,23 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.TM
 			// Загрузить TMX файл
 			TMPage.UploadTMInCreateDialog(fileName);
 
-			Assert.IsTrue(TMPage.GetIsErrorMessageNotTMX(),
-				"Ошибка: не появилось сообщение о неверном расширении файла");
+			// Заполнить поле, содержащее имя TM
+			TMPage.InputNewTMName(uniqueTMName);
+
+			// Выбрать язык target languages
+			TMPage.ClickTargetLangList();
+			TMPage.SelectTargetLanguage(CommonHelper.LANGUAGE.Russian);
+
+			// Сохранить TM
+			TMPage.ClickSaveNewTM();
+
+			Assert.IsFalse(TMPage.GetIsErrorMessageNotTMX(),
+				"Ошибка: появилось сообщение о неверном расширении файла");
+
+			//Дождаться, пока файл TMX загрузится в TM
+			Assert.IsTrue(TMPage.WaitUntilDisappearBaloonWithSpecificMessage(
+				"Adding translation units from the file " + fileName 
+				+ " to the translation memory \"" + uniqueTMName + "\"..."));
 		}
 
 		/// <summary>
@@ -497,9 +512,9 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.TM
 		{
 			// Открыть информацию о ТМ
 			OpenTMInfo(tmName);
-
+			
 			// Вернуть true, если проект с именем projectName указан для ТМ tmName
-			return TMPage.GetIsProjectExistInTmInformation(tmName, projectName);
+			return TMPage.GetIsProjectExistInTmInformation(projectName);
 		}
 
 		/// <summary>
@@ -523,14 +538,19 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.TM
 		/// </summary>
 		public void MoveTMFile()
 		{
-			string[] file = Directory.GetFiles(PathProvider.ResultsFolderPath, "TestTM*");
+			//Ждём появления загружаемого файла 30 секунд.
+			string[] files=GetDownloadFiles("TestTM*", 30, PathProvider.ResultsFolderPath);
+
+			Assert.IsTrue(files.Length > 0,
+				"Ошибка: файл не загрузился за отведённое время (30 секунд)");
+			
 			string resultPath = Path.Combine(PathProvider.ResultsFolderPath, "TMExportTest");
 			Directory.CreateDirectory(resultPath);
 
 			string newFileName = DateTime.Now.Ticks.ToString();
 			resultPath = Path.Combine(resultPath, newFileName + ".tmx");
 
-			File.Move(file[0], resultPath);
+			File.Move(files[0], resultPath);
 			Assert.IsTrue(File.Exists(resultPath), "Ошибка: файл не экспортировался\n" + resultPath);
 		}
 		#endregion

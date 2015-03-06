@@ -219,21 +219,10 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.TM
 		///<summary>
 		/// Вернуть true, если проект projectName указан в информации о ТМ
 		/// </summary>
-		public bool GetIsProjectExistInTmInformation(string tmName, string projectName)
+		public bool GetIsProjectExistInTmInformation(string projectName)
 		{
 			var projectText = GetTextElement(By.XPath(PROJECT_GROUP_SPAN_XPATH));
-
-			var splitIndex = projectText.IndexOf(":") + 3;
-
-			if (projectText.Length > splitIndex)
-			{
-				projectText = projectText.Substring(splitIndex);
-			}
-			else
-			{
-				projectText = string.Empty;
-			}
-
+			Logger.Trace("Полученные группы проектов:" + projectText + "; Ожидаемые группы проектов:" + projectName);
 			return projectText == projectName;
 		}
 
@@ -373,6 +362,18 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.TM
 				By.XPath(
 					NOTIFICATION_BALOON_TEXT_XPATH + "[text()='" + text + "']"), 
 					45);
+		}
+
+		/// <summary>
+		/// Вернуть true, если плашка с текстом text появилась в окне браузера
+		/// <param name="text">текст сообщения</param>
+		/// </summary>
+		public bool WaitUntilDisappearBaloonWithSpecificMessage(string text)
+		{
+			return WaitUntilDisappearElement(
+				By.XPath(
+					NOTIFICATION_BALOON_TEXT_XPATH + "[text()='" + text + "']"),
+					60);
 		}
 
 		/// <summary>
@@ -523,7 +524,8 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.TM
 		/// <returns></returns>
 		public bool GetIsCommentExist(string comment)
 		{
-			return GetTextElement(By.XPath(TM_COMMENT_SPAN_XPATH)) == comment;
+			var textarea  = GetElement(By.XPath(TM_EDIT_COMMENT_XPATH));
+			return textarea.GetAttribute("value") == comment;
 		}
 
 		/// <summary>
@@ -878,9 +880,8 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.TM
 		protected const string EDIT_BTN_XPATH = BTN_ROW_XPATH + "//span[contains(@title, 'Edit')]";
 		protected const string SAVE_BTN_XPATH = BTN_ROW_XPATH + "//span[contains(@title, 'Save')]";
 		// TODO заменить id
-		protected const string PROJECT_GROUP_SPAN_XPATH = BTN_ROW_XPATH + "//table[@class='l-tmpanel__table']//div[1]";
+		protected const string PROJECT_GROUP_SPAN_XPATH = BTN_ROW_XPATH + "//div[contains(@data-bind,'domainNames')]";
 		protected const string SEGMENT_SPAN_XPATH = BTN_ROW_XPATH + "//table[@class='l-tmpanel__table']//div[4]";
-		protected const string TM_COMMENT_SPAN_XPATH = BTN_ROW_XPATH + "//td[@class='l-tmpanel__td ']";
 		protected const string IMPORT_POPUP_XPATH = "//div[contains(@class,'js-popup-import')][2]";
 		protected const string IMPORT_BTN_XPATH = IMPORT_POPUP_XPATH + "//span[contains(@class,'js-import-button')]";
 
@@ -891,7 +892,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.TM
 
 		protected const string TARGET_LANG_LIST_XPATH =CREATE_TM_DIALOG_XPATH + "//select[contains(@data-watermark,'Select language')]/option";
 
-		protected const string PROJECT_TO_ADD_ITEM_XPATH = "//div[contains(@class,'js-domains-multiselect')]//ul//li[2]//label//span[2]";
+		protected const string PROJECT_TO_ADD_ITEM_XPATH = "//div[contains(@class,'ui-multiselect')]//ul//li[2]//label//span[2]";
 		protected const string DOMAIN_TO_ADD_XPATH = "//div[contains(@class,'js-domains-multiselect')]//ul//input";
 
 		protected const string NEW_TM_NAME_XPATH = CREATE_TM_DIALOG_XPATH + "//input[contains(@data-bind,'name')]";
@@ -900,12 +901,12 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.TM
 
 		protected const string TM_ROW_NAME = "//tr[@class='l-corpr__trhover clickable']";
 		protected const string TM_ROW_LANGUAGES = "//tr[contains(@class,'js-tm-row')]//td[2]/span";
-		protected const string TM_EDIT_FORM_XPATH = "//tr[contains(@class,'js-tm-panel js-editing')]";
-		protected const string TM_EDIT_NAME_XPATH = TM_EDIT_FORM_XPATH + "//input[contains(@class, 'js-tm-name')]";
+		protected const string TM_EDIT_FORM_XPATH = "//tr[contains(@class,'js-tm-panel')]";
+		protected const string TM_EDIT_NAME_XPATH = TM_EDIT_FORM_XPATH + "//input[contains(@data-bind, 'value: name')]";
 		protected const string TM_EDIT_COMMENT_XPATH = TM_EDIT_FORM_XPATH + "//textarea";
-		protected const string TM_EDIT_SAVE_BTN_XPATH = TM_EDIT_FORM_XPATH + "//span[contains(@class,'js-save-btn')]";
-		protected const string TM_EDIT_TARGET_LANGUAGE = TM_EDIT_FORM_XPATH + "//div[contains(@class,'js-languages-multiselect')]";
-		protected const string TM_EDIT_PROJECT = TM_EDIT_FORM_XPATH + "//div[contains(@class,'js-domains-multiselect')]";
+		protected const string TM_EDIT_SAVE_BTN_XPATH = TM_EDIT_FORM_XPATH + "//span[contains(@data-bind,'click: save')]";
+		protected const string TM_EDIT_TARGET_LANGUAGE = TM_EDIT_FORM_XPATH + "//td[2]//div[1]//div[contains(@class,'ui-multiselect')]/div";
+		protected const string TM_EDIT_PROJECT = TM_EDIT_FORM_XPATH + "//td[2]//div[3]//div[contains(@class,'ui-multiselect')]/div";
 		protected const string TM_EDIT_CANCEL = TM_EDIT_FORM_XPATH + "//span[contains(@class,'js-cancel-btn')]";
 		protected const string TM_EDIT_CLIENT_LIST_XPATH = "//span[contains(@class, 'js-client-select')]";
 		protected const string TM_EDIT_TOPICS_LIST = "//div[contains (@class, 'js-topics')]";
@@ -922,7 +923,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.TM
 		protected const string ERROR_CREATE_TM_NO_NAME_XPATH = CREATE_TM_DIALOG_XPATH + ERROR_NO_NAME;
 		protected const string ERROR_CREATE_TM_NO_TARGET_XPATH = CREATE_TM_DIALOG_XPATH + ERROR_NO_TARGET;
 
-		protected const string ERROR_DIV = "//div[contains(@class,'g-popupbox__error l-createtm__error')]";
+		protected const string ERROR_DIV = "//div[contains(@class,'g-popupbox__error l-tmpanel__error')]";
 		protected const string ERROR_EXIST_NAME = ERROR_DIV + "//p[contains(text(),'The name should be unique.')]";
 		protected const string ERROR_NO_NAME = ERROR_DIV + "//p[contains(@data-message-id, 'name-required')]";
 		protected const string ERROR_NO_TARGET = ERROR_DIV + "//p[contains(@data-message-id,'target-language-required')]";
@@ -936,7 +937,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.TM
 		protected Dictionary<TM_BTN_TYPE, string> TMButtonDict;
 
 		protected const string TARGET_LANG_ITEM_XPATH =
-			"//div[contains(@class,'ui-multiselect')][1]//ul[@class='ui-multiselect-checkboxes ui-helper-reset']//li//input[@value='";
+			"//div[contains(@class,'ui-multiselect')]//ul[@class='ui-multiselect-checkboxes ui-helper-reset']//li//input[@value='";
 		protected const string CONFIRM_WINDOW = "//div[@class='g-popupbox l-confirm']";
 	}
 }

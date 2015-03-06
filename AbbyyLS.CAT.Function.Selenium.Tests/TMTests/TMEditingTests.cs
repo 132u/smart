@@ -28,10 +28,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.TM
 			// Изменить имя на пустое и сохранить
 			EditTMFillName(UniqueTmName, "");
 
-			// Проверить, что поле Имя выделено ошибкой
-			Assert.IsTrue(TMPage.GetIsEditTMNameWithError(),
-				"Ошибка: поле Имя не отмечено ошибкой");
-
 			// Проверить, что появилось сообщение об ошибке в имени
 			Assert.IsTrue(TMPage.GetIsExistEditErrorNoName(),
 				"Ошибка: не появилось сообщение о пустом имени");
@@ -68,6 +64,9 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.TM
 
 			// Изменить имя на уникальное и сохранить
 			EditTMFillName(ConstTMName, UniqueTmName);
+
+			// Перезагрузим страницу
+			RefreshPage();
 
 			// Проверить, что ТМ со старым именем удалился, а с новым именем есть
 			Assert.IsTrue(!GetIsExistTM(ConstTMName), "Ошибка: не удалилось старое имя");

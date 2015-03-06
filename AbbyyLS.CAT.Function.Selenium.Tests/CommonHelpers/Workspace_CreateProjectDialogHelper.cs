@@ -996,7 +996,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			UploadDocument(fileName, UPLOAD_FILE_TO_NEW_PROJECT);
 		}
 
-		protected const string UPLOAD_FILE_TO_NEW_PROJECT = "//div[contains(@class,\"js-popup-create-project\")][2]//input[@type=\"file\"]"; // добавление документа при создании проекта
+		protected const string UPLOAD_FILE_TO_NEW_PROJECT = "//div[contains(@class,'js-popup-create-project')][2]//div[@class='js-files-uploader']//input"; // добавление документа при создании проекта
 
 		public enum SetGlossary { New, First, ByName, None };
 		public enum MT_TYPE { DefaultMT, Google, Bing, Yandex, Moses, None };
@@ -1040,7 +1040,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		protected const string TM_TABLE_FIRST_ITEM_XPATH = TM_TABLE_XPATH + "//tr[1]//td[1]//input";
 		protected const string TM_TABLE_CHECK_TD = "//td[contains(@class,'js-checkbox-area')]//input";
 		protected const string TM_TABLE_RADIO_TD = "//td[contains(@class,'radio')]//input";
-		protected const string TM_TABLE_TM_NAME_XPATH = TM_TABLE_XPATH + "//tr//td[contains(@class,'js-name')]/p";
+		protected const string TM_TABLE_TM_NAME_XPATH = TM_TABLE_XPATH + "//tr//td[contains(@class,'js-name')]";
 
 		protected const string FIRST_GLOSSARY_XPATH =
 			CREATE_PROJECT_DIALOG_XPATH + "//table[contains(@class,'js-glossaries')]//tbody//tr[1]/*/span[contains(@class,'js-chckbx')]";

@@ -505,26 +505,21 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.CheckRights
 			string clickTime = DateTime.Now.ToString("MM.dd.yyyy HH:mm:ss");
 			
 			Logger.Trace("Время клика по кнопке Download = " + clickTime);
-			var waitSeconds = 0;
 
-			while (!(Directory.GetFiles(PathProvider.ResultsFolderPath, fileMask, SearchOption.TopDirectoryOnly).Length > 0) && (waitSeconds <= 6))
-			{
-				System.Threading.Thread.Sleep(1000); // Ждём секунду.
-				waitSeconds++;
-			}
+			string[] files = GetDownloadFiles(fileMask, 6, PathProvider.ResultsFolderPath);
 
-			Assert.IsTrue(Directory.GetFiles(PathProvider.ResultsFolderPath, fileMask, SearchOption.TopDirectoryOnly).Length > 0, "Ошибка: файл не экспортировался");
+			Assert.IsTrue(files.Length > 0,
+				"Ошибка: файл не загрузился за отведённое время (6 секунд)");
 
 			var directoryInfo = Directory.CreateDirectory(PathProvider.ResultsFolderPath + "\\CreateRightsTest" + DateTime.Now.Ticks);
-			var fileName = Directory.GetFiles(PathProvider.ResultsFolderPath, fileMask, SearchOption.TopDirectoryOnly).FirstOrDefault();
 
-			DateTime lastChanged = File.GetLastWriteTime(fileName);
+			DateTime lastChanged = File.GetLastWriteTime(files[0]);
 			Logger.Trace("Время последнего изменения файла = " + lastChanged);
 
-			var pathToMove = PathProvider.ResultsFolderPath + "\\" + directoryInfo + "\\" + Path.GetFileNameWithoutExtension(fileName) + DateTime.Now.Ticks + Path.GetExtension(fileName);
+			var pathToMove = PathProvider.ResultsFolderPath + "\\" + directoryInfo + "\\" + Path.GetFileNameWithoutExtension(files[0]) + DateTime.Now.Ticks + Path.GetExtension(files[0]);
 
 			Logger.Trace(pathToMove);
-			File.Move(fileName, pathToMove);
+			File.Move(files[0], pathToMove);
 		}
 
 		/// <summary>
