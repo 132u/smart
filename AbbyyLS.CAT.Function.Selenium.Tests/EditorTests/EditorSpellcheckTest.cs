@@ -1,7 +1,7 @@
 ﻿using System.Threading;
 using NUnit.Framework;
 
-namespace AbbyyLS.CAT.Function.Selenium.Tests.Editor
+namespace AbbyyLS.CAT.Function.Selenium.Tests.Editor.Spellcheck
 {
 	/// <summary>
 	/// Группа тестов для проверки словаря орфографии в редакторе
@@ -127,6 +127,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Editor
 		/// <summary>
 		/// Тест: проверка, что новое слово подчеркнуто в сегменте
 		/// </summary>
+		[Category("PRX_8479")]
 		[Test]
 		public void UnderlineBeforeAddWord()
 		{
@@ -147,6 +148,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Editor
 		/// <summary>
 		/// Тест: проверка, что добавленное в словарь слово в сегменте не подчеркивается
 		/// </summary>
+		[Category("PRX_8479")]
 		[Test]
 		public void UnderlineAfterAddWord()
 		{
@@ -170,6 +172,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Editor
 		/// <summary>
 		/// Тест: проверка подчеркивания после удаления слова из словаря
 		/// </summary>
+		[Category("PRX_8479")]
 		[Test]
 		public void UnderlineAfterDeleteWord()
 		{
@@ -197,6 +200,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Editor
 		/// Тест: проверка подчеркивания слова с дефисом
 		/// </summary>
 		[Test]
+		[Category("PRX_8479")]
 		[TestCase(Word1)]
 		[TestCase(Word2)]
 		public void UnderlineWord(string word)

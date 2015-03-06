@@ -8,6 +8,8 @@ using System.Threading;
 
 namespace AbbyyLS.CAT.Function.Selenium.Tests
 {
+	using OpenQA.Selenium.Interactions;
+
 	/// <summary>
 	/// Хелпер страницы редактора
 	/// </summary>
@@ -69,10 +71,21 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		public void AddTextTarget(int rowNum, string text)
 		{
 			ClickClearAndAddText(By.XPath(GetTargetCellXPath(rowNum)), text);
-
 			WaitUntilDisplayElement(By.XPath(GetTargetWithTextXpath(rowNum, text)), 1);
-
 			Logger.Trace("добавили текст: " + text);
+		}
+
+		public void PressHotKey(int rowNumber, string hotKey)
+		{
+			Driver.FindElement(By.XPath(GetTargetCellXPath(rowNumber))).Click();
+			Actions actions = new Actions(Driver);
+			actions.SendKeys(hotKey);
+			actions.Perform();
+		}
+
+		public void ClickInSegment(int rowNumber)
+		{
+			Driver.FindElement(By.XPath(GetTargetCellXPath(rowNumber))).Click();
 		}
 
 		/// <summary>
@@ -122,13 +135,14 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		}
 
 		/// <summary>
-		/// Нажать хоткей для подстановки из кат перевода сегмента
+		/// Нажать хоткей для подстановки из кат перевода сегмента CTRL catLineNumber(цифра)
 		/// </summary>
 		/// <param name="segmentNumber">номер строки</param>
 		/// <param name="catLineNumber">номер строки панели кат</param>
 		public void PutCatMatchByHotkey(int segmentNumber, int catLineNumber)
 		{
-			SendKeysTarget(segmentNumber, OpenQA.Selenium.Keys.Control + catLineNumber.ToString());
+			ClickInSegment(segmentNumber);
+			SendKeys.SendWait(@"^{"+catLineNumber+"}");
 		}
 
 		/// <summary>
@@ -150,21 +164,23 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		}
 
 		/// <summary>
-		/// Нажать хоткей отмены
+		/// Нажать хоткей отмены CTRL z
 		/// </summary>
 		/// <param name="segmentNumber">номер строки</param>
 		public void UndoByHotkey(int segmentNumber)
 		{
-			SendKeysTarget(segmentNumber, OpenQA.Selenium.Keys.Control + "z");
+			ClickInSegment(segmentNumber);
+			SendKeys.SendWait(@"^{z}");
 		}
 
 		/// <summary>
-		/// Нажать хоткей возврата отмененного действия
+		/// Нажать хоткей возврата отмененного действия CTRL y
 		/// </summary>
 		/// <param name="segmentNumber">номер строки</param>
 		public void RedoByHotkey(int segmentNumber)
 		{
-			SendKeysTarget(segmentNumber, OpenQA.Selenium.Keys.Control + "y");
+			ClickInSegment(segmentNumber);
+			SendKeys.SendWait(@"^{y}");
 		}
 
 		/// <summary>
@@ -286,12 +302,13 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		}
 
 		/// <summary>
-		/// Нажать хоткей копирования из сорс
+		/// Нажать хоткей копирования из сорс CTRL Insert
 		/// </summary>
 		/// <param name="segmentNumber">номер строки</param>
 		public void CopySourceByHotkey(int segmentNumber)
 		{
-			SendKeysSource(segmentNumber, OpenQA.Selenium.Keys.Control + OpenQA.Selenium.Keys.Insert);
+			ClickInSegment(segmentNumber);
+			SendKeys.SendWait(@"^{INSERT}");
 		}
 
 		/// <summary>
@@ -360,8 +377,11 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		public void ClickHomeBtn()
 		{
 			ClickElement(By.Id(HOME_BTN_ID));
-			Driver.SwitchTo().Window(Driver.WindowHandles[1]).Close();
-			Driver.SwitchTo().Window(Driver.WindowHandles[0]);
+			if (Driver.WindowHandles.Count > 1)
+			{
+				Driver.SwitchTo().Window(Driver.CurrentWindowHandle).Close();
+				Driver.SwitchTo().Window(Driver.WindowHandles.Last());
+			}
 		}
 
 		/// <summary>
@@ -1070,10 +1090,10 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 
 		protected const string HOME_BTN_ID = "back-btn";
 		protected const string CONFIRM_BTN_ID = "confirm-btn";
-		protected const string UNDO_BTN_ID = "undo-btn";
-		protected const string REDO_BTN_ID = "redo-btn";
+		protected const string UNDO_BTN_ID = "undo-btn-btnEl";
+		protected const string REDO_BTN_ID = "redo-btn-btnEl";
 		protected const string UNFINISHED_BTN_ID = "unfinished-btn";
-		protected const string COPY_BTN_ID = "copy-btn";
+		protected const string COPY_BTN_ID = "copy-btn-btnEl";
 		protected const string TOGGLE_BTN_ID = "toggle-source-btn";
 		protected const string ROLLBACK_BTN_ID = "step-rollback-btn";
 		protected const string INSERT_TAG_BTN_ID = "tag-insert-btn";
@@ -1110,11 +1130,12 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		protected const string SEGMENT_CAT_SELECTED = "cat-selected";
 		protected const string TARGET_XPATH = "//td[3]//div";
 		protected const string SOURCE_CELL_XPATH = "//td[2]//div//pre";
-		protected const string TARGET_CELL_XPATH = "//td[3]//div//pre";
+		protected const string TARGET_CELL_XPATH = "//td[3]//div//div";
+		protected const string TARGET_CELL_TEXT_XPATH = "//td[3]//div//pre";
 		protected const string FIRST_VISIBLE_SEGMENT_XPATH = "//div[@id='segments-body']//table[1]//td[1]";
 		protected const string SEGMENTS_TABLE_XPATH = "//div[@id='segments-body']//div//div[2]//table";
 
-		protected const string TARGET_TEXT_XPATH = TARGET_CELL_XPATH + "[text()='";
+		protected const string TARGET_TEXT_XPATH = TARGET_CELL_TEXT_XPATH + "[text()='";
 		protected const string TAG_TARGET_XPATH = TARGET_XPATH + "//img[contains(@class,'tag')]";
 		protected const string SPELLCHECK_TARGET_XPATH = TARGET_XPATH + "//span[contains(@class,'spellcheck')]";
 		protected const string CONTEXT_MENU_SPELLCHECK_ADD_XPATH = "//span[contains(string(), 'Add to dictionary')]";

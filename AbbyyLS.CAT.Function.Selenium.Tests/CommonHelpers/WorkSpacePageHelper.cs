@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.UI;
 using System.Threading;
+using System.Linq;
 
 namespace AbbyyLS.CAT.Function.Selenium.Tests
 {
@@ -569,9 +570,10 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// </summary>
 		/// <param name="projectName"></param>
 		/// <returns></returns>
-		public bool GetDocumentPanelIsOpened(string projectName)
+		public bool GetDocumentPanelIsOpened(string projectName, int docNumber = 1)
 		{
-			return GetElementAttribute(By.XPath(GetProjectRefXPath(projectName) + "/ancestor::tr/following-sibling::tr[1][@class='js-project-panel']/following-sibling::tr[1]"), "class").Contains("opened");
+			return GetIsElementExist(By.XPath(GetProjectRefXPath(projectName)
+						+ "//ancestor::tr/following-sibling::tr[@class='js-document-row l-project-row l-corpr__trhover clickable']["+docNumber+"]//tr[@class='js-document-panel l-project__doc-panel']"));
 		}
 
 		/// <summary>
@@ -581,7 +583,8 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		public void OpenDocumnetInfoForProject(string projectName)
 		{
 			// Если свертка документа не открыта - открываем
-			if (!GetDocumentPanelIsOpened(projectName)) ClickProgressDocument(projectName);
+			if (!GetDocumentPanelIsOpened(projectName)) 
+				ClickProgressDocument(projectName);
 		}
 
 		/// <summary>
