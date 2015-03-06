@@ -35,10 +35,10 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// </summary>
 		/// <param name="name">Имя одного из исполнителей</param>
 		/// <returns>Список загрузился</returns>
-		public bool WaitUntilUsersListDisplay(string name)
+		public bool WaitUntilUserInListDisplay(string name)
 		{
 			// Ожидаем пока загрузится диалог
-			return WaitUntilDisplayElement(By.XPath(GetOurUserXpath(name)));
+			return WaitUntilDisplayElement(By.XPath(GetUserXpath(name)), 5);
 		}
 
 		/// <summary>
@@ -46,10 +46,9 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// </summary>
 		/// <param name="name">Имя одного из исполнителей</param>
 		/// <returns>xPath</returns>
-		protected string GetOurUserXpath(string name)
+		protected string GetUserXpath(string name)
 		{
-			string[] split = name.Split(' ');
-			return RESPONSIBLES_TABLE_XPATH + "//select/option[contains(text() , '" + split[0] + "') and contains(text() , '" + split[1] + "')]";
+			return RESPONSIBLES_TABLE_XPATH + "//select/option[contains(text() , '" + name + "')]";
 		}
 
 		/// <summary>
@@ -127,12 +126,13 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <param name="name">Имя исполнителя</param>
 		public void SetVisibleResponsible(int rowNumber, string name)
 		{
-			string[] split = name.Split(' ');
 			var xPath = RESPONSIBLES_TABLE_XPATH + DROPDOWNLIST_XPATH + "/option";
-			var el = xPath + "[contains(text(),'"+split[0]+"') and contains(text(),'"+split[1]+"')]";
-			Driver.FindElement(By.XPath(RESPONSIBLES_TABLE_XPATH + DROPDOWNLIST_XPATH)).Click();
+			var el1 = xPath + "[contains(text(),'" + name + "')]";
+			
+			ClickIfExistByXpath(RESPONSIBLES_TABLE_XPATH + DROPDOWNLIST_XPATH, 
+				"Не найден выпадающих список с назначением исполнителей на задачу");
 
-			while (!Driver.FindElement(By.XPath(el)).Selected) 
+			while (!Driver.FindElement(By.XPath(el1)).Selected)
 			{
 				Driver.FindElement(By.XPath(RESPONSIBLES_TABLE_XPATH + DROPDOWNLIST_XPATH)).SendKeys(Keys.Down);
 			}

@@ -103,9 +103,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			const string yellow = "yellow";
 			const string red = "red";
 
-			//кликаем в таргет, чтобы заполнилась панель CAT
-			EditorPage.ClickTargetCell(segmentNumber);
-
 			//ищем в кат номер строки с подходящим термином из ТМ, подставляем в таргет
 			//записываем номер строки CAT-панели, из которой выполнена подстановка
 			var catSubstitutionLineNumber = PasteFromCatReturnCatLineNumber(
@@ -125,7 +122,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			Assert.AreEqual(
 				CatPanel.GetCATTranslationProcentMatch(catSubstitutionLineNumber - 1), 
 				targetMatchPercent, 
-				"процент совпадения в таргет не совпадает с процентом на панели CAT"); 
+				"процент совпадения в таргет не совпадает с процентом на панели CAT");
 			
 			//проверка3: проверка цветового выделения
 			if (targetMatchPercent > yellowUpperBound)
@@ -178,15 +175,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 				_catSubstitutionMtType, 
 				EditorPage.GetTargetSubstitutionType(segmentNumber),
 				"в колонке match таргета не появилось значение ресурса - МТ");
-			
-			//проверяем, сколько процентов в колонке match таргета
-			var targetMatchPercent = EditorPage.GetTargetMatchPercent(segmentNumber);
-
-			//проверка2: проверка, что число совпадает с числом из СAT-панели
-			Assert.AreEqual(
-				CatPanel.GetCATTranslationProcentMatch(catSubstitutionLineNumber-1), 
-				targetMatchPercent,
-				"процент совпадения в таргет не совпадает с процентом на панели CAT");
 		}
 
 		/// <summary>
@@ -213,15 +201,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 				EditorPage.GetTargetSubstitutionType(segmentNumber),
 				"в колонке match таргета не появилось значение ресурса - МТ");
 			
-			//проверяем, сколько процентов в колонке match таргета
-			var targetMatchPercent = EditorPage.GetTargetMatchPercent(segmentNumber);
-
-			//проверка2: проверка, что число совпадает с числом из СAT-панели
-			Assert.AreEqual(
-				CatPanel.GetCATTranslationProcentMatch(catSubstitutionLineNumber - 1), 
-				targetMatchPercent,
-				"процент совпадения в таргет не совпадает с процентом на панели CAT");
-
 			//удаляем подставленный термин
 			EditorPage.AddTextTarget(segmentNumber, "");
 
@@ -238,7 +217,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 				"в колонке match таргета не появилось значение ресурса - ТМ");
 
 			//проверяем, сколько процентов в колонке match таргета
-			targetMatchPercent = EditorPage.GetTargetMatchPercent(segmentNumber);
+			var targetMatchPercent = EditorPage.GetTargetMatchPercent(segmentNumber);
 
 			//проверка2: проверка, что число совпадает с числом из СAT-панели
 			Assert.AreEqual(
@@ -266,7 +245,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			var catSubstitutionLineNumber = PasteFromCatReturnCatLineNumber(segmentNumber, EditorPageHelper.CAT_TYPE.TM);
 
 			//добавляем в таргет текст
-			EditorPage.ClickTargetCell(segmentNumber);
 			EditorPage.SendKeysTarget(segmentNumber, " hello ");
 
 			//проверка1: значение в колонке match прежнее - ресурс ТМ  
@@ -351,6 +329,15 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 					_catSubstitutionTmType,
 					EditorPage.GetTargetSubstitutionType(segmentNumber),
 					"в колонке match таргета не появилось значение ресурса - ТМ");
+
+				//проверяем, сколько процентов в колонке match таргета
+				var targetMatchPercent = EditorPage.GetTargetMatchPercent(segmentNumber);
+
+				//проверка2: проверка, что число совпадает с числом из СAT-панели
+				Assert.AreEqual(
+					CatPanel.GetCATTranslationProcentMatch(catSubstitutionLineNumber - 1),
+					targetMatchPercent,
+					"процент совпадения в таргет не совпадает с процентом на панели CAT");
 			}
 			else
 			{
@@ -359,16 +346,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 					EditorPage.GetTargetSubstitutionType(segmentNumber),
 					"в колонке match таргета не появилось значение ресурса - МТ");
 			}
-				
-			//проверяем, сколько процентов в колонке match таргета
-			var targetMatchPercent = EditorPage.GetTargetMatchPercent(segmentNumber);
-
-			//проверка2: проверка, что число совпадает с числом из СAT-панели
-			Assert.AreEqual(
-				CatPanel.GetCATTranslationProcentMatch(catSubstitutionLineNumber - 1), 
-				targetMatchPercent, 
-				"процент совпадения в таргет не совпадает с процентом на панели CAT");
-		
 		}
 
 		/// <summary>

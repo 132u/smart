@@ -142,7 +142,8 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		public void PutCatMatchByHotkey(int segmentNumber, int catLineNumber)
 		{
 			ClickInSegment(segmentNumber);
-			SendKeys.SendWait(@"^{"+catLineNumber+"}");
+			// Соответствует нажатию хоткея (CTRL + цифра)
+			SendKeys.SendWait(@"^{" + catLineNumber + "}");
 		}
 
 		/// <summary>

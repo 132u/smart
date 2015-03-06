@@ -869,7 +869,8 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 					WorkspaceCreateProjectDialog.ClickGlossaryByName(glossaryName);
 					break;
 			}
-
+			
+			Thread.Sleep(2000); // Периодически глоссарий не успевает подгружаться
 			WorkspaceCreateProjectDialog.ClickNextStep();
 
 			// 5 шаг - выбор МТ
@@ -1736,7 +1737,8 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		protected void SetResponsible(int rowNumber, string name, bool isGroup)
 		{
 			var fullName = "";
-
+			var rightFullName = "";
+			
 			// Открыть выпадающий список
 			ResponsiblesDialog.ClickResponsiblesDropboxByRowNumber(rowNumber);
 
@@ -1749,10 +1751,19 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 				fullName = name;
 			}
 
-			Assert.IsTrue(ResponsiblesDialog.WaitUntilUsersListDisplay(fullName), "Ошибка: не нашли пользователя " + fullName + " в списке");
+			if (!ResponsiblesDialog.WaitUntilUserInListDisplay(fullName))
+			{
+				if (!ResponsiblesDialog.WaitUntilUserInListDisplay(fullName.Replace(" ", "  ")))
+					Assert.Fail("Ошибка: пользователь " + fullName +
+					            " не найден в выпадающем списке при назначении исполнителя на задачу");
+				else
+					rightFullName = fullName.Replace(" ", "  ");
+			}
+			else
+				rightFullName = fullName;
 
 			// Выбрать для заданной задачи имя исполнителя
-			ResponsiblesDialog.SetVisibleResponsible(rowNumber, fullName);
+			ResponsiblesDialog.SetVisibleResponsible(rowNumber, rightFullName);
 
 			// Кликнуть подтверждение для заданной задачи
 			ResponsiblesDialog.ClickAssignBtn(rowNumber);
@@ -1961,13 +1972,18 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 
 			var catLineNumber = EditorPage.GetCATTranslationRowNumber(catType);
 
-			//Нажать хоткей для подстановки из TM перевода сегмента
+			//Нажать на перевод в САТ для подстановки
 			EditorPage.PutCatMatchByHotkey(segmentNumber, catLineNumber);
 
-			// Дождаться автосохранения
+			EditorPage.ClickConfirmBtn();
+
+			// Дождаться сохранения
 			Assert.IsTrue(
 				EditorPage.WaitUntilAllSegmentsSave(),
-				"Ошибка: Не проходит автосохранение.");
+				"Ошибка: Не проходит сохранение через Confirm в редакторе.");
+
+			// Вернуться в сегмент
+			EditorPage.ClickTargetCell(segmentNumber);
 
 			return catLineNumber;
 		}
