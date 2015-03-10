@@ -1,4 +1,5 @@
-﻿using OpenQA.Selenium;
+﻿using NLog;
+using OpenQA.Selenium;
 using OpenQA.Selenium.Support.UI;
 
 namespace AbbyyLS.CAT.Function.Selenium.Tests
@@ -96,91 +97,63 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			ClickClearAndAddText(By.XPath(TARGET_TERM_INPUT_XPATH), targetText);
 		}
 
-		/// <summary>
-		/// Набрать текст в  SourceTerm		
-		/// </summary>
-		/// <param name="sourceText">текст для ввода</param>
 		public void TypeSourceTermText(string sourceText)
 		{
+			Log.Trace(string.Format("Набрать текст в  SourceTerm. текст для ввода {0}", sourceText));
 			ClickClearAndAddText(By.XPath(SOURCE_TERM_INPUT_XPATH), sourceText);
 		}
 
-		/// <summary>
-		/// Набрать комментарий		
-		/// </summary>
-		/// <param name="commentText">текст комментария</param>
 		public void TypeCommentText(string commentText)
 		{
+			Log.Trace(string.Format("Набрать комментарий. текст комментария {0}", commentText));
 			SendTextElement(By.XPath(COMMENT_INPUT_XPATH), commentText);
 		}
 
-		/// <summary>
-		/// Раскрыть выпадающий список		
-		/// </summary>
 		public void OpenGlossaryList()
 		{
+			Log.Trace("Раскрыть выпадающий список");
 			ClickElement(By.XPath(TERM_BASE_COMBOBOX_TRIGGER_XPATH));
 		}
 
-		/// <summary>
-		/// Получить, есть ли словарь с заданным именем		
-		/// </summary>
-		/// <param name="glossaryName">имя словаря</param>
-		/// <returns>есть словарь</returns>
 		public bool CheckGlossaryByName(string glossaryName)
-		{			
+		{
+			Log.Trace(string.Format("Получить, есть ли словарь с заданным именем. имя словаря {0}", glossaryName));
 			return WaitUntilDisplayElement(By.XPath(TERM_BASE_BOUNDLIST_XPATH.Replace("#", glossaryName)));		
 		}
 
-		/// <summary>
-		/// Выбрать словарь из выпадающего списка
-		/// </summary>
-		/// <param name="glossaryName">имя словаря</param>
 		public void SelectGlossaryByName(string glossaryName)
 		{
+			Log.Trace(string.Format("Выбрать словарь из выпадающего списка. имя словаря {0}", glossaryName));
 			ClickElement(By.XPath(TERM_BASE_BOUNDLIST_XPATH.Replace("#", glossaryName)));
 		}
 
-		/// <summary>
-		/// Получить, появилось ли сообщение о добавлении одиночного термина	
-		/// </summary>
-		/// <returns>есть</returns>
 		public bool WaitConfirmSingleTermMessage()
 		{
+			Log.Trace("Получить, появилось ли сообщение о добавлении одиночного термина");
 			return WaitUntilDisplayElement(By.XPath(CONFIRM_SINGLE_TERM_MESSAGE_XPATH), 5);
 		}
 
-		/// <summary>
-		/// Получить, появилось ли сообщение 'Do you want to add the term anyway?'
-		/// </summary>
-		/// <returns></returns>
 		public bool WaitAnyWayTermMessage()
 		{
+			Log.Trace("Получить, появилось ли сообщение 'Do you want to add the term anyway?'");
 			return WaitUntilDisplayElement(By.XPath(CONFIRM_ANYWAY_ADD_TERM_MESSAGE_XPATH), 5);
 		}
 
-		/// <summary>
-		/// Кликнуть Yes в сообщении 'Do you want to add the term anyway?'
-		/// </summary>
 		public void CliCkYesBtnInAnyWayTermMessage()
 		{
+			Log.Trace("Кликнуть Yes в сообщении 'Do you want to add the term anyway?'");
 			ClickElement(By.XPath(YES_BTN_XPATH));
 		}
-		/// <summary>
-		/// Получить, появилось ли сообщение о сохранении термина	 
-		/// </summary>
-		/// <returns>есть</returns>
+
 		public bool WaitTermSavedMessage()
 		{
+			Log.Trace("Получить, появилось ли сообщение о сохранении термина");
 			return WaitUntilDisplayElement(By.XPath(TERM_SAVED_MESSAGE_XPATH), 15);
 		}
 
-		/// <summary>
-		/// Получить, появилось ли сообщение о повторном добавлении термина	
-		/// </summary>
-		/// <returns>есть</returns>
 		public bool WaitContainsTermMessage()
 		{
+			Log.Trace("Получить, появилось ли сообщение о повторном добавлении термин");
 			return WaitUntilDisplayElement(By.XPath(CONTAINS_TERM_MESSAGE_XPATH), 5);
 		}
 
@@ -206,6 +179,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		protected const string CONFIRM_ANYWAY_ADD_TERM_MESSAGE_XPATH = "//div[@id= 'messagebox' and contains(string(), 'Do you want to add the term anyway?')]";
 		protected const string YES_BTN_XPATH = "//div[@id= 'messagebox' and contains(string(), 'Do you want to add the term anyway?')]//span[text()='Yes']";
 
+		private static readonly Logger Log = LogManager.GetCurrentClassLogger();
 	}
 
 }

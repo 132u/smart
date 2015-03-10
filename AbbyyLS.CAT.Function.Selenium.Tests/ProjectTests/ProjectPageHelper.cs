@@ -145,12 +145,9 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			ClickElement(By.XPath(PROGRESS_DIALOG_CLOSE_BTN_XPATH));
 		}
 
-		/// <summary>
-		/// Нажать все Accept
-		/// </summary>
 		public void ClickAllAcceptBtns()
 		{
-			// Нажать на Accept
+			Logger.Trace("Нажать все кнопки Accept");
 			var acceptList = GetElementList(By.XPath(ACCEPT_BTN_XPATH));
 
 			foreach (var el in acceptList)
@@ -210,13 +207,9 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			ClickElement(By.XPath(SAVE_PRETRANSLATE_BTN_XPATH));
 		}
 
-		/// <summary>
-		/// Вернуть, есть ли такой документ
-		/// </summary>
-		/// <param name="documentNumber">номер документа</param>
-		/// <returns>есть</returns>
 		public bool GetIsExistDocument(int documentNumber)
 		{
+			Logger.Trace(string.Format("Проверка существования документа №{0}", documentNumber));
 			return WaitUntilDisplayElement(
 				By.XPath(DOCUMENT_LIST_XPATH + "//tr[" + documentNumber + "]"),
 				maxWait: 5);
@@ -246,6 +239,8 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <param name="documentNumber">номер документа</param>
 		public bool OpenDocument(int documentNumber)
 		{
+			Logger.Trace(string.Format("Открыть документ №{0} в редакторе", documentNumber));
+
 			var isDocumentExist = GetIsExistDocument(documentNumber);
 
 			if (isDocumentExist)

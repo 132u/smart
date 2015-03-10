@@ -104,7 +104,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			//Ждем пока загрузится CAT-панель
 			Assert.IsTrue(EditorPage.GetCATPanelNotEmpty(), "Ошибка: панель CAT пуста");
 
-			var TMNumber = EditorPage.GetCATTranslationRowNumber(CatType);
+			var TMNumber = EditorPage.GetCatTranslationRowNumber(CatType);
 			Logger.Trace("TMNumber: " + TMNumber);
 			if (useHotkey)
 			{

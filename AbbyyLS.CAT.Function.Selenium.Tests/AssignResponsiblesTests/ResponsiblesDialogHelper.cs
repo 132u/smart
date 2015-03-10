@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using NLog;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.UI;
 
@@ -20,13 +21,9 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		{
 		}
 
-		/// <summary>
-		/// Ожидание загрузки диалога выбора исполнителя
-		/// </summary>
-		/// <returns>Диалог загрузился</returns>
 		public bool WaitUntilResponsiblesDialogDisplay()
 		{
-			// Ожидаем пока загрузится диалог
+			Log.Trace("Ожидание загрузки диалога выбора исполнителя");
 			return WaitUntilDisplayElement(By.XPath(RESPONSIBLES_TABLE_XPATH));
 		}
 
@@ -99,12 +96,10 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 					select element.GetAttribute("innerHTML").Replace("  ", " ")).ToList();
 		}
 
-		/// <summary>
-		/// Открыть выпадающий список по номеру строки задачи
-		/// <param name="taskRowNumber">Номер строки задачи</param>
-		/// </summary>
 		public void ClickResponsiblesDropboxByRowNumber(int taskRowNumber)
 		{
+			Log.Trace(string.Format("Открытие выпадающего списка для задачи с номером строки {0}", taskRowNumber));
+			
 			ClickElement(By.XPath(GetResponsiblesDropboxByTaskNumberXpath(taskRowNumber)));
 		}
 
@@ -126,6 +121,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <param name="name">Имя исполнителя</param>
 		public void SetVisibleResponsible(int rowNumber, string name)
 		{
+			Log.Trace(string.Format("Выбираем исполнителя {0} для задачи №{1}", name, rowNumber));
 			var xPath = RESPONSIBLES_TABLE_XPATH + DROPDOWNLIST_XPATH + "/option";
 			var el1 = xPath + "[contains(text(),'" + name + "')]";
 			
@@ -138,15 +134,11 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			}
 		}
 
-		/// <summary>
-		/// Кликнуть кнопку Assign
-		/// </summary>
-		/// <param name="rowNumber">Номер строки задачи</param>
 		public void ClickAssignBtn(int rowNumber)
 		{
-			var xPath = RESPONSIBLES_TABLE_XPATH + "//tr[" + rowNumber + "]" +
-				ASSIGN_BTN_XPATH;
-			
+			Log.Trace(string.Format("Кликнуть кнопку Assign для задачи на строке {0}", rowNumber));
+
+			var xPath = RESPONSIBLES_TABLE_XPATH + "//tr[" + rowNumber + "]" + ASSIGN_BTN_XPATH;
 			ClickElement(By.XPath(xPath));
 		}
 
@@ -162,11 +154,9 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			ClickElement(By.XPath(xPath));
 		}
 
-		/// <summary>
-		/// Кликнуть кнопку закрытия диалога
-		/// </summary>
 		public void ClickCloseBtn()
 		{
+			Log.Trace("Кликнуть кнопку закрытия диалога");
 			ClickElement(By.XPath(RESPONSIBLES_FORM_XPATH + CLOSE_BTN_XPATH));
 		}
 
@@ -178,18 +168,10 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			ClickElement(By.XPath(YES_BTN_CONFIRM_XPATH));
 		}
 
-		/// <summary>
-		/// Ожидание загрузки диалога выбора задачи
-		/// </summary>
-		/// <returns>Диалог загрузился</returns>
 		public bool WaitUntilChooseTaskDialogDisplay()
 		{
-			// Ожидаем пока загрузится диалог
-			if (!WaitUntilDisplayElement(By.XPath(CHOOSE_TASK_FORM_XPATH)))
-			{
-				return false;
-			}
-			return true;
+			Log.Trace("Ожидание загрузки диалога выбора задачи");
+			return WaitUntilDisplayElement(By.XPath(CHOOSE_TASK_FORM_XPATH));
 		}
 		
 		/// <summary>
@@ -252,5 +234,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		protected const string CONFIRM_RESET_ASSIGNMENT_FORM_XPATH = ".//div[contains(@class, 'js-popup-confirm')]";
 		protected const string INFO_FORM_XPATH = ".//div[contains(@class, 'js-info-popup')]";
 		protected const string PATH_TO_USERS_LIST = RESPONSIBLES_FORM_XPATH + "//td[contains(@class, 'assineer')]//select//option";
+
+		private static readonly Logger Log = LogManager.GetCurrentClassLogger();
 	}
 }

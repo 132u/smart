@@ -493,7 +493,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <param name="taskId">Тип выполняемого задания: 1)перевод 2)редактура 3)корректура</param>
 		protected void OpenDocument(int documentNumber = 1, int taskId = 1)
 		{
-			// Открыть документ
 			Assert.IsTrue(
 				ProjectPage.OpenDocument(documentNumber),
 				"Ошибка: на странице проекта нет документа");
@@ -503,36 +502,31 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 				switch (taskId)
 				{
 					case 1:
-
-						Assert.True(EditorPage.GetTranslationTaskBtnIsExist(), "Ошибка: Неверный этап в окне выбора ");
-
-						//выбрать задачу перевода
+						Assert.True(EditorPage.GetTranslationTaskBtnIsExist(), 
+									"При открытии документа в окне выбора этапа нет этапа Translation");
 						EditorPage.ClickTranslationTaskBtn();
 						break;
 
 					case 2:
-						Assert.True(EditorPage.GetEditingTaskBtnIsExist(), "Ошибка: Неверный этап в окне выбора ");
-
-						//выбрать задачу редактуры
+						Assert.True(EditorPage.GetEditingTaskBtnIsExist(),
+									"При открытии документа в окне выбора этапа нет этапа Edition");
 						EditorPage.ClickEditingTaskBtn();
 						break;
 
 					case 3:
-						Assert.True(EditorPage.GetProofreadingTaskBtnIsExist(), "Ошибка: Неверный этап в окне выбора ");
-
-						//выбрать задачу корректуры
+						Assert.True(EditorPage.GetProofreadingTaskBtnIsExist(),
+									"При открытии документа в окне выбора этапа нет этапа Proofreading");
 						EditorPage.ClickProofreadingTaskBtn();
 						break;
 				}
 
 				EditorPage.ClickContBtn();
 			}
-			// Дождаться загрузки страницы
+			
 			EditorPage.WaitPageLoad();
 
 			Thread.Sleep(1000);
 
-			// Проверить, существует ли хотя бы один сегмент
 			Assert.IsTrue(EditorPage.GetSegmentsExist(), "Ошибка: нет сегментов");
 		}
 
@@ -747,22 +741,14 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			CommonHelper.LANGUAGE srcLang = CommonHelper.LANGUAGE.English,
 			CommonHelper.LANGUAGE trgLang = CommonHelper.LANGUAGE.Russian)
 		{
+			Logger.Debug("Заполнение полей на первой странице создания проекта.");
 			Assert.IsTrue(WorkspacePage.WaitPageLoad(), "Страница workspace не прогрузилась");
 
-			// Нажать <Create>
 			WorkspacePage.ClickCreateProject();
-			// Ждем загрузки формы
 			WorkspaceCreateProjectDialog.WaitDialogDisplay();
-
-			// Ввести название проекта
 			WorkspaceCreateProjectDialog.FillProjectName(projectName);
-			// Ввести deadline дату
 			WorkspaceCreateProjectDialog.FillDeadlineDate(DeadlineDate);
-
-			// Выбрать Source - en
 			WorkspaceCreateProjectDialog.SelectSourceLanguage(srcLang);
-
-			// Проверить, что в Target выставлен русский язык
 			SetRusLanguageTarget();
 
 			// Выбрать Target
@@ -790,7 +776,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <param name="glossaryName">имя глоссария, если выбирается по имени</param>
 		/// <param name="chooseMT">выбрать МТ</param>
 		/// <param name="mtType">тип МТ</param>
-		/// <param name="isNeedCheckExist">Нужна проверка проекта в списке</param>
+		/// <param name="isNeedCheckProjectAppearInList">Нужна проверка проекта в списке</param>
 		/// <param name="translationTasksNumber">количество заданий перевода</param>
 		/// <param name="editingTasksNumber">количество заданий редактуры</param>
 		/// <param name="proofreadingTasksNumber">количество заданий корректуры</param>
@@ -803,30 +789,32 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			string glossaryName = "",
 			bool chooseMT = false,
 			Workspace_CreateProjectDialogHelper.MT_TYPE mtType = Workspace_CreateProjectDialogHelper.MT_TYPE.None,
-			bool isNeedCheckExist = true,
+			bool isNeedCheckProjectAppearInList = true,
 			int translationTasksNumber = 1,
 			int editingTasksNumber = 0,
 			int proofreadingTasksNumber = 0)
 		{
-			// Заполнение полей на первом шаге
+			Logger.Info(string.Format("Создание нового проекта."));
+			
 			FirstStepProjectWizard(projectName);
+			
 			if (downloadFile.Length > 0)
 			{
 					WorkspaceCreateProjectDialog.UploadFileToNewProject(downloadFile);
 					WorkspaceCreateProjectDialog.WaitDocumentAppear(Path.GetFileName(downloadFile));
 			}
 			WorkspaceCreateProjectDialog.ClickNextStep();
-			// 2 шаг - настройка этапов workflow
-			SetUpWorkflow(translationTasksNumber,
-			editingTasksNumber,
-			proofreadingTasksNumber);
 
-			Thread.Sleep(500);
+			Logger.Debug("Вторая страница создания проекта - этап workflow.");
+			SetUpWorkflow(
+					translationTasksNumber,
+					editingTasksNumber,
+					proofreadingTasksNumber);
 			WorkspaceCreateProjectDialog.ClickNextStep();
-			// 3 шаг - выбор ТМ
+
+			Logger.Debug("Третяя страница создания проекта - выбор ТМ.");
 			if (createNewTM)
 			{
-				// Создать новую ТМ, c файлом или чистую
 				CreateNewTM(tmFile);
 				WorkspaceCreateProjectDialog.ClickNextStep();
 			}
@@ -834,38 +822,31 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			{
 				if (!WorkspaceCreateProjectDialog.GetIsTMTableNotEmpty())
 				{
-					// Кликаем Next
 					WorkspaceCreateProjectDialog.ClickNextStep();
-					// Кликаем Skip
 					SkipNotSelectedTM();
 				}
 				else
 				{
-					// Выбрать существующую ТМ
 					ChooseFirstTMInList();
 					WorkspaceCreateProjectDialog.ClickNextStep();
 				}
 			}
 
-			// 4 шаг - выбор глоссария
+			Logger.Debug("Четвертая страница создания проекта - выбор глоссария.");
 			switch (setGlossary)
 			{
 				case Workspace_CreateProjectDialogHelper.SetGlossary.None:
-
 					break;
 
 				case Workspace_CreateProjectDialogHelper.SetGlossary.First:
-
 					WorkspaceCreateProjectDialog.ClickFirstGlossaryInTable();
 					break;
 
 				case Workspace_CreateProjectDialogHelper.SetGlossary.New:
-
 					CreateAndAddGlossary();
 					break;
 
 				case Workspace_CreateProjectDialogHelper.SetGlossary.ByName:
-
 					WorkspaceCreateProjectDialog.ClickGlossaryByName(glossaryName);
 					break;
 			}
@@ -873,28 +854,26 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			Thread.Sleep(2000); // Периодически глоссарий не успевает подгружаться
 			WorkspaceCreateProjectDialog.ClickNextStep();
 
-			// 5 шаг - выбор МТ
+			Logger.Debug("Пятая страница создания проекта - выбор МТ.");
 			if (!Standalone && (chooseMT && mtType != Workspace_CreateProjectDialogHelper.MT_TYPE.None))
- 			{
+			{
 				WorkspaceCreateProjectDialog.ChooseMT(mtType);
 			}
 
 			WorkspaceCreateProjectDialog.ClickNextStep();
 
 
-			// 6 шаг - настройка Pretranslate
+			Logger.Debug("Шестая страница создания проекта - настройка Pretranslate.");
 			//Pretranslate();
-			//Finish
+			
 			Thread.Sleep(500);
 			WorkspaceCreateProjectDialog.ClickFinishCreate();
 
-			// Дождаться проекта в списке проектов
-			if (isNeedCheckExist)
+			if (isNeedCheckProjectAppearInList)
 			{
-				Assert.IsTrue(WorkspacePage.WaitProjectAppearInList(projectName), "Ошибка: проект " + projectName + " не появился в списке Workspace");
+				Assert.IsTrue(WorkspacePage.WaitProjectAppearInList(projectName), "Ошибка: проект не появился в списке Workspace");
 			}
 
-			// Дождаться, пока документ догрузится
 			Assert.IsTrue(WorkspacePage.WaitProjectLoad(projectName), "Ошибка: документ не загрузился");
 		}
 
@@ -904,7 +883,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <param name="projectName">название проекта</param>
 		protected void CreateProjectWithoutCheckExist(string projectName)
 		{
-			CreateProject(projectName, isNeedCheckExist: false);
+			CreateProject(projectName, isNeedCheckProjectAppearInList: false);
 		}
 
 		/// <summary>
@@ -940,35 +919,27 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <summary>
 		/// Создать новую ТМ в диалоге создания проекта
 		/// </summary>
-		/// <param name="TmFileName">файл для загрузки в ТМ</param>
+		/// <param name="tmFileName">файл для загрузки в ТМ</param>
 		/// <param name="fromWorkspaceOrProject">true - из workspace, false - из проекта</param>
-		public void CreateNewTM(string TmFileName, bool fromWorkspaceOrProject = true)
+		public void CreateNewTM(string tmFileName, bool fromWorkspaceOrProject = true)
 		{
-			string tmName = "TestTM" + DateTime.Now.Ticks;
+			Logger.Debug("Создание новой ТМ в диалоге создания проекта");
 
-			//Создание ТМ
-			if (TmFileName.Length > 0)
+			var tmName = "TestTM" + DateTime.Now.Ticks;
+
+			if (tmFileName.Length > 0)
 			{
-				//Добавить тмх файл
 				WorkspaceCreateProjectDialog.ClickUploadTMX();
 				WorkspaceCreateProjectDialog.WaitCreateTMDialog();
-				
-				
-				WorkspaceCreateProjectDialog.UploadTMInNewProject(TmFileName);
+				WorkspaceCreateProjectDialog.UploadTMInNewProject(tmFileName);
 				WorkspaceCreateProjectDialog.FillTMName(tmName);
-
-				//Нажать на кнопку Import
 				WorkspaceCreateProjectDialog.ClickSaveTM();
-
-				//Дождаться пока ТМ появится в списке
 				WorkspaceCreateProjectDialog.WaitTmxAppear(tmName);
 
 				if (WorkspaceCreateProjectDialog.GetIsExistErrorFileMessage())
 				{
 					// Диалог загрузки документа не закрылся - закрываем
 					TryCloseExternalDialog();
-
-					// кликаем Import снова
 					WorkspaceCreateProjectDialog.ClickImportBtn();
 				}
 				WorkspaceCreateProjectDialog.WaitImportDialogDisappear();
@@ -980,16 +951,14 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 				WorkspaceCreateProjectDialog.FillTMName(tmName);
 				WorkspaceCreateProjectDialog.ClickSaveTM();
 				WorkspaceCreateProjectDialog.WaitUntilCreateTMDialogDisappear();
-				//Дождаться пока ТМ появится в списке
 				WorkspaceCreateProjectDialog.WaitTmxAppear(tmName);
 			}
 		}
 
-		/// <summary>
-		/// Выбрать первую ТМ из списка доступных 
-		/// </summary>
 		public void ChooseFirstTMInList()
 		{
+			Logger.Debug("Выбрать первую ТМ из списка доступных ");
+
 			Assert.IsTrue(
 				WorkspaceCreateProjectDialog.GetIsTMTableNotEmpty(),
 				"Ошибка: пустая таблица TM");
@@ -997,11 +966,10 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			WorkspaceCreateProjectDialog.ClickFirstTMInTable();
 		}
 		
-		/// <summary>
-		/// Создание и подключение нового глоссария
-		/// </summary>
 		public void CreateAndAddGlossary()
 		{
+			Logger.Debug("Создание и подключение нового глоссария");
+
 			var internalGlossaryName = "InternalGlossaryName" + DateTime.UtcNow.Ticks;
 
 			WorkspaceCreateProjectDialog.ClickCreateGlossary();
@@ -1021,55 +989,50 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			int editingTasksNumber = 0,
 			int proofreadingTasksNumber = 0)
 		{
-
 			// если в документе нет задачи перевода, поменять стоящий по умолчанию перевод на редактуру
 			if (translationTasksNumber == 0 && editingTasksNumber != 0)
 			{
-				// меняем первый таск на редактуру
+				Logger.Debug("Меняем первую задачу на редактуру");
 				WorkspaceCreateProjectDialog.SetWorkflowEditingTask(1);
-				// количество заданий по редактуре уменьшаем на один - одно задание уже поставили
+
+				Logger.Trace("Количество заданий по редактуре уменьшаем на один - одно задание уже поставили");
 				editingTasksNumber--;
 			}
 			// если в документе нет задач перевода и редактуры, поменять стоящий по умолчанию перевод на корректуру
 			else if (translationTasksNumber == 0 && editingTasksNumber == 0)
 			{
-				// меняем первый таск на корректуру
+				Logger.Debug("Меняем первую задачу на корректуру");
 				WorkspaceCreateProjectDialog.SetWorkflowProofreadingTask(1);
-				// количество заданий по корректуре уменьшаем на один - одно задание уже поставили
+
+				Logger.Trace("Количество заданий по корректуре уменьшаем на один - одно задание уже поставили");
 				proofreadingTasksNumber--;
 			}
 
 			//номер этапа в списке этапов
-			int taskNumber = 2;
+			var taskNumber = 2;
 
-			//создать необходимое количество Translation
-			for (int i = 1; i < translationTasksNumber; i++)
+			Logger.Debug(string.Format("Cоздать необходимое количество заданий перевода: {0}", translationTasksNumber));
+			for (var i = 1; i < translationTasksNumber; i++)
 			{
-				// кликнуть создание нового задания
 				WorkspaceCreateProjectDialog.ClickWorkflowNewTask();
-				// установить новое задание - перевод
 				WorkspaceCreateProjectDialog.SetWorkflowTranslationTask(taskNumber);
 
 				taskNumber++;
 			}
 
-			//создать необходимое количество Editing
-			for (int i = 0; i < editingTasksNumber; i++)
+			Logger.Debug(string.Format("Cоздать необходимое количество заданий редактирования: {0}", editingTasksNumber));
+			for (var i = 0; i < editingTasksNumber; i++)
 			{
-				// кликнуть создание нового задания
 				WorkspaceCreateProjectDialog.ClickWorkflowNewTask();
-				// установить новое задание - редактура
 				WorkspaceCreateProjectDialog.SetWorkflowEditingTask(taskNumber);
 
 				taskNumber++;
 			}
 
-			//создать необходимое количество Proofreading
-			for (int i = 0; i < proofreadingTasksNumber; i++)
+			Logger.Debug(string.Format("Cоздать необходимое количество заданий Proofreading: {0}", proofreadingTasksNumber));
+			for (var i = 0; i < proofreadingTasksNumber; i++)
 			{
-				// кликнуть создание нового задания
 				WorkspaceCreateProjectDialog.ClickWorkflowNewTask();
-				// установить новое задание - корректура
 				WorkspaceCreateProjectDialog.SetWorkflowProofreadingTask(taskNumber);
 
 				taskNumber++;
@@ -1188,11 +1151,9 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			Thread.Sleep(1000);
 		}
 
-		/// <summary>
-		/// Закрываем диалог
-		/// </summary>
 		protected void TryCloseExternalDialog()
 		{
+			Logger.Debug("Закрываем открытый диалог");
 			SendKeys.SendWait(@"{Enter}");
 			Thread.Sleep(1000);
 		}
@@ -1709,12 +1670,9 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			OpenDocument();
 		}
 
-		/// <summary>
-		/// Открытие диалога выбора исполнителя
-		/// </summary>
-		/// <param name="projectName">Имя проекта</param>
 		protected void OpenAssignDialog(string projectName)
 		{
+			Logger.Debug(string.Format("Открытие диалога выбора исполнителя в проекте {0}", projectName));
 			// Открываем инфо проекта
 			WorkspacePage.OpenProjectInfo(projectName);
 
@@ -1738,10 +1696,11 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <param name="isGroup">Выбор группы</param>
 		protected void SetResponsible(int rowNumber, string name, bool isGroup)
 		{
-			var fullName = "";
-			var rightFullName = "";
-			
-			// Открыть выпадающий список
+			Logger.Debug(string.Format("Выбор в качестве исполнителя для задачи #{0} юзера {1}. Выбор группы: {2}", rowNumber, name, isGroup));
+
+			var fullName = string.Empty;
+			var rightFullName = string.Empty;
+
 			ResponsiblesDialog.ClickResponsiblesDropboxByRowNumber(rowNumber);
 
 			if (isGroup)
@@ -1920,39 +1879,29 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			}
 		}
 
-		/// <summary>
-		/// Задает русский язык в Target при создании проекта
-		/// </summary>
 		protected void SetRusLanguageTarget()
 		{
-			// Проверить, что в Target русский язык
+			Logger.Debug("Задание русского языка перевода (target) при создании проекта.");
+			
 			var langList = WorkspaceCreateProjectDialog.GetTargetLanguageList();
 
 			if (langList.Count != 1 || langList[0] != "Russian")
 			{
-				// Открыть список Target
 				WorkspaceCreateProjectDialog.ClickTargetList();
-				// Кликаем по всем выбранным языкам, чтобы снять галки
 				WorkspaceCreateProjectDialog.ClickAllSelectedTargetItems();
-				// Выбираем русский язык
 				WorkspaceCreateProjectDialog.ClickTargetItem(CommonHelper.LANGUAGE.Russian);
-				// Закрыть список Target
 				WorkspaceCreateProjectDialog.ClickTargetList();
 			}
 		}
 
-		/// <summary>
-		/// Пропуск подтверждения отсутствия TM при создании проекта
-		/// </summary>
 		protected void SkipNotSelectedTM()
 		{
-			// В случае, если диалог открыт
+			Logger.Debug("Пропуск подтверждения отсутствия TM при создании проекта");
+
 			if (WorkspaceCreateProjectDialog.WaitUntilConfirmTMDialogDisplay())
 			{
-				// Жмем Skip
 				WorkspaceCreateProjectDialog.ClickSkipBtn();
 
-				// Ждем пока диалог не пропадет
 				Assert.IsTrue(
 					WorkspaceCreateProjectDialog.WaitUntilConfirmTMDialogDisappear(),
 					"Ошибка: после нажатия кнопки Skip диалог подтверждения не выбранной ТМ не закрылся.");
@@ -1968,13 +1917,13 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 
 		protected int PasteFromCatReturnCatLineNumber(int segmentNumber, EditorPageHelper.CAT_TYPE catType)
 		{
-
-			//Выбираем сегмент
+			Logger.Trace(string.Format("Метод подстановки из САТ. Номер сегмента {0}, тип подстановки {1}", segmentNumber, catType));
+			
 			EditorPage.ClickTargetCell(segmentNumber);
 
-			var catLineNumber = EditorPage.GetCATTranslationRowNumber(catType);
-
-			//Нажать на перевод в САТ для подстановки
+			var catLineNumber = EditorPage.GetCatTranslationRowNumber(catType);
+			
+			//Нажать хоткей для подстановки из TM перевода сегмента
 			EditorPage.PutCatMatchByHotkey(segmentNumber, catLineNumber);
 
 			EditorPage.ClickConfirmBtn();
@@ -2044,14 +1993,10 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			}
 		}
 
-		/// <summary>
-		/// Добавляет сорс-таргет сегмента в глоссарий для теста
-		/// </summary>
-		///  <param name="sourceTerm">слово для внесения в словарь</param>
-		///  <param name="targetTerm">перевод слова словаря</param>
 		public void AddTermGlossary(string sourceTerm, string targetTerm)
 		{
-			// Добавить сорс
+			Logger.Debug(string.Format("Добавляем сорс-таргет сегмент в глоссарий для теста. Слово для внесения в словарь - {0}, перевод слова словаря - {1}", sourceTerm, targetTerm));
+			
 			AddTermForm.TypeSourceTermText(sourceTerm);
 			// Добавить термин в таргет
 			AddTermForm.TypeTargetTermText(targetTerm);

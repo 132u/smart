@@ -77,7 +77,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Editor.Panel
 				"Ошибка: нет переводов в панели САТ.");
 
 			// Проверка наличия TB
-			Assert.AreEqual(1, EditorPage.GetCATTranslationRowNumber(EditorPageHelper.CAT_TYPE.TB),
+			Assert.AreEqual(1, EditorPage.GetCatTranslationRowNumber(EditorPageHelper.CAT_TYPE.TB),
 				"Ошибка: ТB нет в списке или ТB не первая.");
 
 			// Проверка соответствия терминов САТ и подсвеченных слов сегмента
@@ -144,7 +144,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Editor.Panel
 				"Ошибка: нет переводов в панели САТ.");
 
 			// Проверка наличия TB
-			Assert.AreEqual(1, EditorPage.GetCATTranslationRowNumber(EditorPageHelper.CAT_TYPE.TB),
+			Assert.AreEqual(1, EditorPage.GetCatTranslationRowNumber(EditorPageHelper.CAT_TYPE.TB),
 				"Ошибка: ТB нет в списке или ТB не первая.");
 
 			// Проверка соответствия терминов САТ и подсвеченных слов сегмента

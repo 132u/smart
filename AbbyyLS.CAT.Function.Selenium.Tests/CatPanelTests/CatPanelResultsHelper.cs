@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using NLog;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.UI;
 
@@ -20,20 +21,16 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Editor.Panel
 		{
 		}
 		
-		/// <summary>
-		/// Возвращает процент совпадений в CAT
-		/// </summary>
-		/// <param name="rowNumber">Номер строки CAT</param>
-		/// <returns>Процент совпадений</returns>
-		public int GetCATTranslationProcentMatch(int rowNumber)
+		public int GetCatTranslationProcentMatch(int rowNumber)
 		{
-			int procentMatch = 0;
+			Log.Trace(string.Format("Возвращает процент совпадений в CAT. Номер строки CAT: {0}", rowNumber));
 
 			// Получение процента совпадений для всех элементов CAT
-			List<string> textList = GetTextListElement(By.XPath(CAT_PANEL_PROCENT_MATCH_XPATH));
+			var textList = GetTextListElement(By.XPath(CAT_PANEL_PROCENT_MATCH_XPATH));
 
 			// Переводим в int
-			procentMatch = Int32.Parse(textList[rowNumber].Remove(textList[rowNumber].IndexOf('%')));
+			var procentMatch = Int32.Parse(textList[rowNumber].Remove(textList[rowNumber].IndexOf('%')));
+			
 			return procentMatch;
 		}
 
@@ -53,7 +50,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Editor.Panel
 			return terms;
 		}
 
-
+		private static readonly Logger Log = LogManager.GetCurrentClassLogger();
 
 		protected const string CAT_PANEL_TERM_XPATH = ".//div[@id='cat-body']//table//tbody//tr//td[2]//div";
 		protected const string CAT_PANEL_PROCENT_MATCH_XPATH = ".//div[@id='cat-body']//table//tbody//tr//td[3]//div//span";

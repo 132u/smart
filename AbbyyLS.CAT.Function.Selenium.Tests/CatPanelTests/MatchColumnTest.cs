@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading;
+using NLog;
 using NUnit.Framework;
 
 namespace AbbyyLS.CAT.Function.Selenium.Tests
@@ -10,15 +11,9 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 	class MatchColumnTest 
 		: BaseTest
 	{
-
-		/// <summary>
-		/// Конструктор теста
-		/// </summary>
-		/// <param name="browserName">Название браузера</param>
 		public MatchColumnTest(string browserName)
 			: base (browserName)
 		{
-			
 		}
 
 		// название проекта для проведения тестов
@@ -28,21 +23,19 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		protected const string _catSubstitutionTmType = "TM";
 		protected const string _catSubstitutionMtType = "MT";
 		protected const string _catSubstitutionTbType = "";
-		
-		/// <summary>
-		/// Подготовка перед каждым тестом
-		/// </summary>
+
 		[SetUp]
 		public void SetUp()
 		{
-			// Не выходить из браузера после теста
+			Log.Info("Начало работы метода SetUp. Подготовка перед каждым тестом.");
+			
+			Log.Debug("Значение параметра QuitDriverAfterTest = false. Не закрывать браузер после каждого теста.");
 			QuitDriverAfterTest = false;
 
 			if (!_projectCreated)
 			{
 				GoToUrl(RelativeUrlProvider.Workspace);
 				
-				// создаем документ с нужным файлом, нужной ТМ, подкючаем МТ и глоссарий
 				CreateProject(
 					projectName: _projectNameMatchTest,
 					downloadFile: PathProvider.TxtFileForMatchTest,
@@ -52,25 +45,23 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 					glossaryName: "",
 					chooseMT:true,
 					mtType: Workspace_CreateProjectDialogHelper.MT_TYPE.DefaultMT,
-					isNeedCheckExist: false);
+					isNeedCheckProjectAppearInList: false);
 
 				Thread.Sleep(2000);
 
-				// Открываем диалог выбора исполнителя
 				OpenAssignDialog(_projectNameMatchTest);
 
-				// Выбор в качестве исполнителя для первой задачи первого юзера
 				SetResponsible(1, UserName, false);
 				ResponsiblesDialog.ClickCloseBtn();
-				Thread.Sleep(1000);// Sleep не убирать , проект не открывается
-				// Открытие страницы проекта
+
+				// Sleep не убирать , проект не открывается
+				Thread.Sleep(1000);
+				
 				OpenProjectPage(_projectNameMatchTest);
 				
-				// Подтверждение назначения
 				ProjectPage.ClickAllAcceptBtns();
 				Thread.Sleep(1000);
 				
-				// Открываем документ
 				OpenDocument();
 				Thread.Sleep(1000);
 
@@ -78,7 +69,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			}
 			else
 			{
-				
 				Thread.Sleep(1000);
 			}
 		}
@@ -89,13 +79,14 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// проверка2: проверка, что число совпадает с числом из СAT-панели
 		/// проверка3: проверка цветового выделения
 		/// </summary>
-		///  <param name="segmentNumber">номер сегмента таргет для подстановки из CAT</param>
-
+		/// <param name="segmentNumber">номер сегмента таргет для подстановки из CAT</param>
 		[Test]
 		public void CheckMatchAfterTmSubstitutionSegmentNumber(
 			[Values(1, 2, 3, 4, 5)]
 			int segmentNumber)
 		{
+			Log.Info(string.Format("Начало работы теста CheckMatchAfterTmSubstitutionSegmentNumber(). Сегмент №{0}", segmentNumber));
+
 			const int yellowUpperBound = 99;
 			const int yellowLowerBound = 76;
 
@@ -120,9 +111,9 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 
 			//проверка2: проверка, что число совпадает с числом из СAT-панели
 			Assert.AreEqual(
-				CatPanel.GetCATTranslationProcentMatch(catSubstitutionLineNumber - 1), 
+				CatPanel.GetCatTranslationProcentMatch(catSubstitutionLineNumber - 1), 
 				targetMatchPercent, 
-				"процент совпадения в таргет не совпадает с процентом на панели CAT");
+				"процент совпадения в таргет не совпадает с процентом на панели CAT"); 
 			
 			//проверка3: проверка цветового выделения
 			if (targetMatchPercent > yellowUpperBound)
@@ -135,7 +126,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 
 
 			if (targetMatchPercent <= yellowUpperBound &&
-			    targetMatchPercent >= yellowLowerBound)
+				targetMatchPercent >= yellowLowerBound)
 			{
 				Assert.AreEqual(
 					yellow,
@@ -161,7 +152,9 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		[Test]
 		public void CheckMatchAfterMtSubstitution()
 		{
-			var segmentNumber = 1;
+			Log.Info("Начало работы теста CheckMatchAfterMtSubstitution().");
+
+			const int segmentNumber = 1;
 			
 			// кликаем в таргет, чтобы заполнилась панель CAT 
 			EditorPage.ClickTargetCell(segmentNumber);
@@ -186,6 +179,8 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		[Test]
 		public void CheckMatchAfterBothSubstitutions()
 		{
+			Log.Info("Начало работы теста CheckMatchAfterBothSubstitutions().");
+
 			const int segmentNumber = 1;
 
 			// кликаем в таргет, чтобы заполнилась панель CAT 
@@ -221,7 +216,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 
 			//проверка2: проверка, что число совпадает с числом из СAT-панели
 			Assert.AreEqual(
-				CatPanel.GetCATTranslationProcentMatch(catSubstitutionLineNumber - 1), 
+				CatPanel.GetCatTranslationProcentMatch(catSubstitutionLineNumber - 1), 
 				targetMatchPercent, 
 				"процент совпадения в таргет не совпадает с процентом на панели CAT");
 		}
@@ -235,6 +230,8 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		[Category("Standalone")]
 		public void CheckMatchAfterEditCell()
 		{
+			Log.Info("Начало работы теста CheckMatchAfterEditCell().");
+
 			const int segmentNumber = 1;
 
 			// кликаем в таргет, чтобы заполнилась панель CAT 
@@ -258,7 +255,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 
 			//проверка2: проверка, что число совпадает с числом из СAT-панели
 			Assert.AreEqual(
-				CatPanel.GetCATTranslationProcentMatch(catSubstitutionLineNumber - 1), 
+				CatPanel.GetCatTranslationProcentMatch(catSubstitutionLineNumber - 1), 
 				targetMatchPercent, 
 				"процент совпадения в таргет не совпадает с процентом на панели CAT");
 		}
@@ -272,6 +269,8 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		[Category("Standalone")]
 		public void CheckMatchAfterDelete()
 		{
+			Log.Info("Начало работы теста CheckMatchAfterDelete().");
+
 			const int segmentNumber = 1;
 
 			// кликаем в таргет, чтобы заполнилась панель CAT
@@ -296,7 +295,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 
 			//проверка2: проверка, что число совпадает с числом из СAT-панели
 			Assert.AreEqual(
-				CatPanel.GetCATTranslationProcentMatch(catSubstitutionLineNumber - 1), 
+				CatPanel.GetCatTranslationProcentMatch(catSubstitutionLineNumber - 1), 
 				targetMatchPercent, 
 				"процент совпадения в таргет не совпадает с процентом на панели CAT");
 		
@@ -312,9 +311,10 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			[Values(EditorPageHelper.CAT_TYPE.TM, EditorPageHelper.CAT_TYPE.MT)] 
 			EditorPageHelper.CAT_TYPE catType)
 		{
+			Log.Info(string.Format("Начало работы теста CheckMatchAfterDelete(). Тип подстановки из CAT {0}", catType));
+			
 			const int segmentNumber = 1;
 
-			// пишем текст
 			EditorPage.ClickTargetCell(segmentNumber);
 			EditorPage.SendKeysTarget(1, " hello ");
 
@@ -335,7 +335,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 
 				//проверка2: проверка, что число совпадает с числом из СAT-панели
 				Assert.AreEqual(
-					CatPanel.GetCATTranslationProcentMatch(catSubstitutionLineNumber - 1),
+					CatPanel.GetCatTranslationProcentMatch(catSubstitutionLineNumber - 1),
 					targetMatchPercent,
 					"процент совпадения в таргет не совпадает с процентом на панели CAT");
 			}
@@ -356,17 +356,17 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		[Category("Standalone")]
 		public void AfterGlossarySubstitutionCheckMatch()
 		{
+			Log.Info("Начало работы теста AfterGlossarySubstitutionCheckMatch().");
+
 			const int segmentNumber = 1;
 
 			EditorPage.ClickTargetCell(segmentNumber);
 
 			var sourceTerm = EditorPage.GetSourceText(segmentNumber);
 
-			// Нажать кнопку вызова формы для добавления термина
+			
 			EditorPage.ClickAddTermBtn();
-
 			AddTermGlossary(sourceTerm, "термин глоссария");
-
 			EditorPage.ClickTargetCell(segmentNumber);
 
 			//ищем в кат номер строки с подходящим термином из глоссария, 
@@ -379,6 +379,8 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 				EditorPage.GetTargetSubstitutionType(segmentNumber),
 				"в колонке match таргета не пусто");
 		}
+
+		private static readonly Logger Log = LogManager.GetCurrentClassLogger();
 
 		// флаг создан ли проект (создается один раз перед всеми тестами)
 		private bool _projectCreated;

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using NLog;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.UI;
 using System.Threading;
@@ -84,11 +85,9 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			return LOCALE_LANGUAGE_SELECT.Russian;
 		}
 
-		/// <summary>
-		/// Кликнуть по Create Project
-		/// </summary>
 		public void ClickCreateProject()
 		{
+			Log.Debug("Кликнуть по кнопке Create Project");
 			ClickElement(By.XPath(CREATE_BTN_XPATH));
 		}
 
@@ -101,32 +100,27 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			ClickElement(By.XPath(GetProjectRefXPath(projectName) + "/../../../td[contains(@class,'checkbox')]"));
 		}
 		
-		/// <summary>
-		/// Кликнуть по проекту, чтобы зайти на страницу проекта
-		/// </summary>
-		/// <param name="projectName">название проекта</param>
 		public void OpenProjectPage(string projectName)
 		{
+			Log.Trace(string.Format("Кликнуть по проекту {0}, чтобы зайти на страницу проекта", projectName));
 			ClickElement(By.XPath(GetProjectRefXPath(projectName)));
 		}
 
-		/// <summary>
-		/// Кликнуть, чтобы открыть свертку проекта
-		/// </summary>
-		/// <param name="projectName">название проекта</param>
 		public void OpenProjectInfo(string projectName)
 		{
+			Log.Trace(string.Format("Октрытие свертки проекта {0}", projectName));
+			
 			if (!GetClassAttrProjectInfo(projectName).Contains("opened"))
+			{
 				ClickElement(By.XPath(GetProjectRefXPath(projectName) + FOLDER_SIGN));
+			}
+			
 		}
 
-		/// <summary>
-		/// Открыть свертку документа
-		/// </summary>
-		/// <param name="documentNumber">номер документа</param>
-		/// <returns>такой документ есть</returns>
 		public bool OpenDocumentInfo(int documentNumber)
 		{
+			Log.Trace(string.Format("Октрытие свертки документа {0}", documentNumber));
+
 			// Кликнуть на открытие информации о документе
 			var documentXPath = DOCUMENT_INFO_TR_XPATH + "[" + documentNumber + "]" + FOLDER_SIGN;
 			var isExistDocument = GetIsElementExist(By.XPath(documentXPath));
@@ -139,13 +133,9 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			return isExistDocument;
 		}
 
-		/// <summary>
-		/// Дождаться появления проекта в списке
-		/// </summary>
-		/// <param name="projectName">название проекта</param>
-		/// <returns>появился</returns>
 		public bool WaitProjectAppearInList(string projectName)
 		{
+			Log.Trace(string.Format("Дождаться появления проекта {0} в списке", projectName));
 			return WaitUntilDisplayElement(By.XPath(GetProjectRefXPath(projectName)));
 		}
 
@@ -517,31 +507,27 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			return EXPORT_TYPE_REF_BEGINING + exportTypeDict[type] + "')]//a";
 		}
 
-		/// <summary>
-		/// Ожидание ожидание загрузки проекта
-		/// </summary>
-		/// <param name="projectName">Имя проекта</param>
-		/// <returns>Загрузился ли проект</returns>
 		public bool WaitProjectLoad(string projectName)
 		{
+			Log.Debug(string.Format("Ожидание ожидание загрузки проекта {0}", projectName));
+
 			// Ожидаем пока загрузится документ. Обновляем страницу, если недождались
 			if (!WaitDocumentProjectDownload(projectName))
 			{
 				Driver.Navigate().Refresh();
-				// Внова проверяем загрузился ли документ. Ожидаем пока загрузится.
+				
 				if (!WaitDocumentProjectDownload(projectName))
 				{
 					return false;
 				}
 			}
+
 			return true;
 		}
 
-		/// <summary>
-		/// Нажать на прогресс в поле документа
-		/// </summary>
 		public void ClickDocumentProgress()
 		{
+			Log.Trace("Нажать на прогресс в поле документа");
 			ClickElement(By.XPath(DOCUMENT_INFO_TR_XPATH + DOCUMENT_PROGRESS_XPATH));
 		}
 
@@ -587,56 +573,42 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 				ClickProgressDocument(projectName);
 		}
 
-		/// <summary>
-		/// Нажать на кнопку прав пользователя в инфо документа
-		/// </summary>
 		public void ClickDocumentAssignBtn(string projectName, int documentNumber=1)
 		{
+			Log.Trace("Нажать на кнопку прав пользователя в инфо документа");
 			ClickElement(By.XPath(GetProjectRefXPath(projectName) + "/ancestor::tr/following-sibling::tr[" + (documentNumber * 2) + "]/following-sibling::tr[1][@class='js-document-panel l-project__doc-panel']" + DOCUMENT_ASSIGN_RESPONSIBLES_BTN_XPATH));
 
 		}
 
-		/// <summary>
-		/// Нажать на кнопку добавления документа в инфо проекта
-		/// </summary>
 		public void ClickDocumentUploadBtn()
 		{
+			Log.Trace("Нажать на кнопку добавления документа в инфо проекта");
 			ClickElement(By.XPath(UPLOAD_DOCUMENT_BTN_XPATH));
 		}
 
-		/// <summary>
-		/// Нажать на кнопку "Users and rights"	
-		/// </summary>
 		public void ClickUsersAndRightsBtn()
 		{
+			Log.Trace("Нажать на кнопку 'Users and rights'");
 			ClickElement(By.XPath(USERS_RIGHTS_BTN_XPATH));
 		}
 
-		/// <summary>
-		/// Возвращает имя текущего пользователя
-		/// </summary>
-		/// <returns>Имя пользователя</returns>
 		public string GetUserName()
 		{
+			Log.Trace("Возвращаем имя текущего пользователя");
 			WaitUntilDisplayElement(By.XPath(USER_NAME_XPATH));
 			return GetTextElement(By.XPath(USER_NAME_XPATH));
 		}
 
-		/// <summary>
-		/// Возвращает название компании в вехней панели рядом с именем текущего пользователя
-		/// </summary>
-		/// <returns>Название компании</returns>
 		public string GetCompanyName()
 		{
+			Log.Trace("Возвращаем название компании в вехней панели рядом с именем текущего пользователя");
 			WaitUntilDisplayElement(By.XPath(COMPANY_NAME_PANEL_WS));
 			return GetTextElement(By.XPath(COMPANY_NAME_PANEL_WS));
 		}
 
-		/// <summary>
-		/// Нажать на имя пользователя и аккаунт, чтобы появилась черная плашка Настройки профиля
-		/// </summary>
 		public void ClickAccount()
 		{
+			Log.Trace("Нажимаем на имя пользователя и аккаунт, чтобы появилась черная плашка Настройки профиля");
 			ClickElement(By.XPath(ACCOUNT_XPATH));
 		}
 
@@ -756,5 +728,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 
 		protected const string LANGUAGE_SWITCHER = "//div[@class='g-topbox__lang']";
 		protected const string RESOURCES_IN_MENU_XPATH = "//li[contains(@class,'js-menuitem-Resources')]";
+		
+		private static readonly Logger Log = LogManager.GetCurrentClassLogger();
 	}
 }

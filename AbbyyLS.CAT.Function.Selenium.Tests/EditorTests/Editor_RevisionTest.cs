@@ -50,7 +50,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Editor.Revisions
 					glossaryName: "",
 					chooseMT: true,
 					mtType: Workspace_CreateProjectDialogHelper.MT_TYPE.DefaultMT,
-					isNeedCheckExist: false,
+					isNeedCheckProjectAppearInList: false,
 					translationTasksNumber: 2);
 
 				// Открываем диалог выбора исполнителя
@@ -468,7 +468,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Editor.Revisions
 			// Проверить, что есть переводы MT
 			Assert.IsTrue(EditorPage.GetCATPanelNotEmpty(), "Ошибка: нет переводов в МТ");
 
-			var catTranslationNum = EditorPage.GetCATTranslationRowNumber(EditorPageHelper.CAT_TYPE.MT);
+			var catTranslationNum = EditorPage.GetCatTranslationRowNumber(EditorPageHelper.CAT_TYPE.MT);
 
 			Assert.IsTrue(catTranslationNum > 0, "Ошибка: перевод не МТ");
 			Assert.IsTrue(catTranslationNum < 10, "Ошибка: строка с TM должна быть ближе, чем 10 (для хоткея)");
@@ -772,7 +772,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Editor.Revisions
 			// Проверить, что есть переводы в панели CAT
 			Assert.IsTrue(EditorPage.GetCATPanelNotEmpty(), "Ошибка: нет переводов в панели САТ");
 
-			int catTranslationNum = EditorPage.GetCATTranslationRowNumber(EditorPageHelper.CAT_TYPE.MT);
+			int catTranslationNum = EditorPage.GetCatTranslationRowNumber(EditorPageHelper.CAT_TYPE.MT);
 
 			Assert.IsTrue(catTranslationNum > 0, "Ошибка: нет MT в CAT");
 			Assert.IsTrue(catTranslationNum < 10, "Ошибка: строка с MT должна быть ближе, чем 10 (для хоткея)");
@@ -823,7 +823,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Editor.Revisions
 			// Проверить, что есть переводы в панели CAT
 			Assert.IsTrue(EditorPage.GetCATPanelNotEmpty(), "Ошибка: нет переводов в панели САТ");
 
-			int catTranslationNum = EditorPage.GetCATTranslationRowNumber(EditorPageHelper.CAT_TYPE.TM);
+			int catTranslationNum = EditorPage.GetCatTranslationRowNumber(EditorPageHelper.CAT_TYPE.TM);
 
 			Assert.IsTrue(catTranslationNum > 0, "Ошибка: перевод не TM");
 			Assert.IsTrue(catTranslationNum < 10, "Ошибка: строка с TM должна быть ближе, чем 10 (для хоткея)");
@@ -976,7 +976,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Editor.Revisions
 			// Проверить, что есть переводы в панели CAT
 			Assert.IsTrue(EditorPage.GetCATPanelNotEmpty(), "Ошибка: нет переводов в панели САТ");
 
-			var catTranslationNum = EditorPage.GetCATTranslationRowNumber(EditorPageHelper.CAT_TYPE.TB);
+			var catTranslationNum = EditorPage.GetCatTranslationRowNumber(EditorPageHelper.CAT_TYPE.TB);
 
 			Assert.IsTrue(catTranslationNum > 0, "Ошибка: перевод не TB");
 			Assert.IsTrue(catTranslationNum < 10, "Ошибка: строка с TB должна быть ближе, чем 10 (для хоткея)");
@@ -1026,7 +1026,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Editor.Revisions
 				EditorPage.GetCATPanelNotEmpty(),
 				"Ошибка: нет переводов в панели САТ");
 
-			var catTranslationNum = EditorPage.GetCATTranslationRowNumber(catType);
+			var catTranslationNum = EditorPage.GetCatTranslationRowNumber(catType);
 
 			Assert.IsTrue(
 				catTranslationNum > 0,

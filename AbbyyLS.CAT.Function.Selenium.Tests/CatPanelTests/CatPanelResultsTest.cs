@@ -63,11 +63,11 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Editor.Panel
 				"Ошибка: нет переводов в панели САТ.");
 
 			// Проверка наличия MT
-			Assert.AreEqual(1, EditorPage.GetCATTranslationRowNumber(EditorPageHelper.CAT_TYPE.MT),
+			Assert.AreEqual(1, EditorPage.GetCatTranslationRowNumber(EditorPageHelper.CAT_TYPE.MT),
 				"Ошибка: МТ нет в списке или МТ не первая.");
 
 			// Проверка процента
-			Assert.AreNotEqual(0, CatPanel.GetCATTranslationProcentMatch(0),
+			Assert.AreNotEqual(0, CatPanel.GetCatTranslationProcentMatch(0),
 				"Ошибка: Неверный процент совпадения.");
 
 			// Проверка соответствия терминов САТ и подсвеченных слов сегмента
@@ -103,11 +103,11 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Editor.Panel
 				"Ошибка: нет переводов в панели САТ.");
 
 			// Проверка наличия TМ
-			Assert.AreEqual(1, EditorPage.GetCATTranslationRowNumber(EditorPageHelper.CAT_TYPE.TM),
+			Assert.AreEqual(1, EditorPage.GetCatTranslationRowNumber(EditorPageHelper.CAT_TYPE.TM),
 				"Ошибка: ТМ нет в списке или ТМ не первая.");
 
 			// Проверка процента
-			Assert.AreNotEqual(0, CatPanel.GetCATTranslationProcentMatch(0),
+			Assert.AreNotEqual(0, CatPanel.GetCatTranslationProcentMatch(0),
 				"Ошибка: Неверный процент совпадения. Неверный процент.");
 		}
 	}

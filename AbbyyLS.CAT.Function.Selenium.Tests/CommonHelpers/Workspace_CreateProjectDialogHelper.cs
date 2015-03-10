@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
+using NLog;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.UI;
 using System.IO;
@@ -34,12 +35,9 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		private const string editingTaskType = "Editing";
 		private const string proofreadingTaskType = "Proofreading";
 
-		/// <summary>
-		/// Дождаться появления диалога создания проекта
-		/// </summary>
-		/// <returns></returns>
 		public bool WaitDialogDisplay()
 		{
+			Logger.Debug("Ожидание появления диалога создания проекта");
 			return WaitUntilDisplayElement(By.XPath(CREATE_PROJECT_DIALOG_XPATH));
 		}
 
@@ -52,14 +50,10 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			return WaitUntilDisappearElement(By.XPath(CREATE_PROJECT_DIALOG_XPATH));
 		}
 
-		/// <summary>
-		/// Ввести deadline дату
-		/// </summary>
-		/// <param name="date">дата</param>
 		public void FillDeadlineDate(string date)
 		{
-			ClearAndAddText(By.XPath(DEADLINE_DATE_INPUT_XPATH),
-							date);
+			Logger.Debug(String.Format("Добавление deadline даты: {0}", date));
+			ClearAndAddText(By.XPath(DEADLINE_DATE_INPUT_XPATH), date);
 		}
 
 		/// <summary>
@@ -71,43 +65,35 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			return GetElementAttribute(By.XPath(DEADLINE_DATE_INPUT_XPATH), "value");
 		}
 
-		/// <summary>
-		/// Выбрать source язык
-		/// </summary>
-		/// <param name="langType">язык</param>
 		public void SelectSourceLanguage(LANGUAGE langType)
 		{
-			// Кликнуть, чтобы выпал список
+			Logger.Debug(string.Format("Выбор исходного (source) языка: {0}", langType));
+
+			Logger.Trace("Кликнуть на выпадающий список");
 			ClickElement(By.XPath(SOURCE_LANG_DROPDOWN_XPATH));
-			// Кликнуть по языку
+
+			Logger.Trace("В выпадающем списке выбрать необходимый язык");
 			ClickElement(By.XPath(SPAN_DROPDOWN_LIST_XPATH + LANG_ITEM_XPATH + GetLangByTypeWithBracket(langType)));
 		}
 
-		/// <summary>
-		/// Кликнуть по Target (открыть/закрыть список)
-		/// </summary>
 		public void ClickTargetList()
 		{
+			Logger.Trace("Кликнуть по Target (открыть/закрыть список)");
 			ClickElement(By.XPath(TARGET_MULTISELECT_XPATH));
 		}
 
-		/// <summary>
-		/// Кликнуть по элементу в списке Target (выбрать/снять выбор)
-		/// </summary>
-		/// <param name="langType">язык</param>
 		public void ClickTargetItem(LANGUAGE langType)
 		{
+			Logger.Debug(string.Format("Кликнуть по элементу в списке Target. Язык: {0}", langType));
 			ClickElement(By.XPath(TARGET_MULTISELECT_ITEM_XPATH + GetLangByTypeWithBracket(langType)));
 		}
 
-		/// <summary>
-		/// Кликнуть по всем выбранным элементам в списке Target (выбрать/снять выбор)
-		/// </summary>
 		public void ClickAllSelectedTargetItems()
 		{
+			Logger.Debug("Кликнуть по всем выбранным элементам в списке Target для отчистки поля");
+			
 			SetDriverTimeoutMinimum();
 
-			// Жмем на каждый выбранный элемент
 			foreach (var element in GetElementList(By.XPath(TARGET_MULTISELECT_ITEM_SELECTED_XPATH)))
 			{
 				element.Click();
@@ -116,21 +102,15 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			SetDriverTimeoutDefault();
 		}
 
-		/// <summary>
-		/// Вернуть значение Target
-		/// </summary>
-		/// <returns>target</returns>
 		public List<string> GetTargetLanguageList()
 		{
+			Logger.Trace("Получение значения языка перевода (target)");
 			return GetTextListElement(By.XPath(TARGET_LANG_VALUE_XPATH));
 		}
 
-		/// <summary>
-		/// Ввести название проекта
-		/// </summary>
-		/// <param name="projectName"></param>
 		public void FillProjectName(string projectName)
 		{
+			Logger.Debug(String.Format("Добавление имени проекта: {0}", projectName));
 			ClearAndAddText(By.XPath(PROJECT_NAME_INPUT_XPATH), projectName);
 		}
 		
@@ -160,11 +140,9 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			ClickElement(By.XPath(ADD_DOCUMENT_BTN_XPATH));
 		}
 
-		/// <summary>
-		/// Подождать пока загруженный документ появится в списке
-		/// </summary>
 		public bool WaitDocumentAppear(string file)
 		{
+			Logger.Debug(string.Format("Ожидание появления загруженного документа {0} в списке", file));
 			return WaitUntilDisplayElement(By.XPath(GetUploadedDocumentListXpath(file)));
 		}
 
@@ -177,11 +155,9 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			return UPLOADED_DOCUMENTS_LIST_XPATH + "//span[text()='" + file + "']";
 		}
 
-		/// <summary>
-		/// Кликнуть Next
-		/// </summary>
 		public void ClickNextStep()
 		{
+			Log.Trace("Переход к следующему шагу (NEXT).");
 			ClickElement(By.XPath(NEXT_BTN_XPATH));
 			Thread.Sleep(1000);
 		}
@@ -212,47 +188,33 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			return GetIsElementDisplay(By.XPath(FIRST_GLOSSARY_XPATH));
 		}
 
-		/// <summary>
-		/// Дождаться, пока появится диалог создания ТМ
-		/// </summary>
-		/// <returns>появился</returns>
 		public bool WaitCreateTMDialog()
 		{
+			Log.Trace("Дождаться, пока появится диалог создания ТМ");
 			return WaitUntilDisplayElement(By.XPath(CREATE_TM_DIALOG_XPATH));
 		}
 
-		/// <summary>
-		/// Заполнить название ТМ
-		/// </summary>
-		/// <param name="TMName">название</param>
-		public void FillTMName(string TMName)
+		public void FillTMName(string tmName)
 		{
-			ClearAndAddText(By.XPath(NEW_TM_NAME_INPUT_XPATH), TMName);
+			Log.Trace(string.Format("Заполнить имя ТМ. Имя: {0}", tmName));
+			ClearAndAddText(By.XPath(NEW_TM_NAME_INPUT_XPATH), tmName);
 		}
 
-		/// <summary>
-		/// Кликнуть Import
-		/// </summary>
 		public void ClickImportBtn()
 		{
+			Log.Trace("Кликаем по кнопке Import");
 			ClickElement(By.XPath(IMPORT_TMX_BTN_XPATH));
 		}
 
-		/// <summary>
-		/// Дождаться, пока диалог загрузки пропадет
-		/// </summary>
-		/// <returns>пропал</returns>
 		public bool WaitImportDialogDisappear()
 		{
+			Log.Trace("Дожидаемся закрытия диалога загрузки");
 			return WaitUntilDisappearElement(By.XPath(CREATE_TM_DIALOG_XPATH));
 		}
 
-		/// <summary>
-		/// Дождаться, пока новая ТМ появится в списке
-		/// </summary>
-		/// <returns>появилась</returns>
 		public bool WaitTmxAppear(string tmName)
 		{
+			Log.Trace(string.Format("Дожидаемся появления новой ТМ в списке. Имя ТМ: {0}", tmName));
 			return WaitUntilDisplayElement(By.XPath(GetTmxXpath(tmName)), 1);
 		}
 
@@ -265,12 +227,9 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			return TM_TABLE_TM_NAME_XPATH + "[text()='" + tmName + "']";
 		}
 
-		/// <summary>
-		/// Дождаться, пока новый глоссарий появится в списке
-		/// </summary>
-		/// <returns>появился</returns>
 		public bool WaitNewGlossaryAppear(string glossaryName)
 		{
+			Log.Trace(string.Format("Дождаться, пока новый глоссарий {0} появится в списке", glossaryName));
 			return WaitUntilDisplayElement(By.XPath(GetNewGlossaryXpath(glossaryName)), 1);
 		}
 
@@ -283,11 +242,9 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			return FIRST_GLOSSARY_NAME_XPATH + "//p[text()='" + glossaryName + "']";
 		}
 
-		/// <summary>
-		/// Кликнуть Сохранить ТМ
-		/// </summary>
 		public void ClickSaveTM()
 		{
+			Log.Trace("Кликнуть кнопку сохранить ТМ");
 			ClickElement(By.XPath(SAVE_TM_BTN_XPATH));
 		}
 
@@ -300,37 +257,29 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			return WaitUntilDisappearElement(By.XPath(CREATE_TM_DIALOG_XPATH));
 		}
 
-		/// <summary>
-		/// Получить: не пустая ли таблица TM
-		/// </summary>
-		/// <returns>не пустая</returns>
 		public bool GetIsTMTableNotEmpty()
 		{
+			Log.Trace("Получить: не пустая ли таблица TM");
 			return WaitUntilDisplayElement(By.XPath(TM_TABLE_XPATH)) && GetIsElementExist(By.XPath(TM_TABLE_FIRST_ITEM_XPATH));
 		}
 
-		/// <summary>
-		/// Выбрать первую ТМ из списка
-		/// </summary>
 		public void ClickFirstTMInTable()
-		{			
+		{
+			Log.Trace("Выбраем первую ТМ из списка");
 			ClickElement(By.XPath(TM_TABLE_FIRST_ITEM_XPATH));
 			Thread.Sleep(500);
 		}
 
-		/// <summary>
-		/// Выбрать первый глоссарий
-		/// </summary>
 		public void ClickFirstGlossaryInTable()
 		{
+			Log.Trace("Выбирается первый глоссарий в списке");
 			ClickElement(By.XPath(FIRST_GLOSSARY_INPUT_XPATH));
 		}
 
-		/// <summary>
-		/// Выбрать глоссарий по имени
-		/// </summary>
 		public void ClickGlossaryByName(string glossaryName)
 		{
+			Log.Trace("Выбрать глоссарий по имени");
+
 			//string xpath = GLOSSARY_BY_NAME_XPATH.Replace("#", glossaryName);			
 			 //((IJavaScriptExecutor)Driver).ExecuteScript("var el = document.getElementByXpath("+xpath+"); el.scrollIntoView(true);");  
 			ClickElement(By.XPath(GLOSSARY_BY_NAME_XPATH.Replace("#", glossaryName)));
@@ -364,11 +313,9 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			return GetIsInputChecked(By.XPath(GetMtXpath(mtType)));
 		}
 
-		/// <summary>
-		/// Нажать на Finish
-		/// </summary>
 		public void ClickFinishCreate()
 		{
+			Log.Trace("Нажать на кнопку Finish");
 			ClickElement(By.XPath(FINISH_BTN_XPATH));
 		}
 
@@ -704,21 +651,22 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <param name="taskNumber">Номер задачи</param>
 		public void SetWorkflowTranslationTask(int taskNumber)
 		{
-
-			// Получение выпадающего списка
+			Logger.Trace("Получение выпадающего списка");
 			ClickElement(By.XPath(GetWfTaskNumberXpath(taskNumber)));
-			IList<IWebElement> wfDropdownIList = GetElementList(By.XPath(WF_DROPDOWNLIST_XPATH));
+			var wfDropdownIList = GetElementList(By.XPath(WF_DROPDOWNLIST_XPATH));
 
-			// Выбираем заданный
-			foreach (IWebElement wfTaskType in wfDropdownIList)
+			Logger.Trace("Выбираем заданный workflow - перевод");
+			var wf = wfDropdownIList.FirstOrDefault(wfTaskType => wfTaskType.Text == translationTaskType);
+			if (wf != null)
 			{
-				if (wfTaskType.Text == translationTaskType)
-				{
-					wfTaskType.Click();
-					break;
-				}
+				wf.Click();
 			}
-
+			else
+			{
+				Logger.Error("Заданный workflow (перевод) не найден.");
+				throw new NullReferenceException("Невозможно найти необходимый workflow (перевод).");
+			}
+			
 			WaitUntilTranslationTaskDisplayed(taskNumber);
 		}
 
@@ -728,19 +676,20 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <param name="taskNumber">Номер задачи</param>
 		public void SetWorkflowEditingTask(int taskNumber)
 		{
-
-			// Получение выпадающего списка
+			Logger.Trace("Получение выпадающего списка");
 			ClickElement(By.XPath(GetWfTaskNumberXpath(taskNumber)));
 			var wfDropdownIList = GetElementList(By.XPath(WF_DROPDOWNLIST_XPATH));
 
-			// Выбираем заданный
-			foreach (var wfTaskType in wfDropdownIList)
+			Logger.Trace("Выбираем заданный workflow - редактура");
+			var wf = wfDropdownIList.FirstOrDefault(wfTaskType => wfTaskType.Text == editingTaskType);
+			if (wf != null)
 			{
-				if (wfTaskType.Text == editingTaskType)
-				{
-					wfTaskType.Click();
-					break;
-				}
+				wf.Click();
+			}
+			else
+			{
+				Logger.Error("Заданный workflow (редактура) не найден.");
+				throw new NullReferenceException("Невозможно найти необходимый workflow (редактура).");
 			}
 
 			WaitUntilEditingTaskDisplayed(taskNumber);
@@ -752,19 +701,20 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <param name="taskNumber">Номер задачи</param>
 		public void SetWorkflowProofreadingTask(int taskNumber)
 		{
-
-			// Получение выпадающего списка
+			Logger.Trace("Получение выпадающего списка");
 			ClickElement(By.XPath(GetWfTaskNumberXpath(taskNumber)));
-			IList<IWebElement> wfDropdownIList = GetElementList(By.XPath(WF_DROPDOWNLIST_XPATH));
+			var wfDropdownIList = GetElementList(By.XPath(WF_DROPDOWNLIST_XPATH));
 
-			// Выбираем заданный
-			foreach (IWebElement wfTaskType in wfDropdownIList)
+			Logger.Trace("Выбираем заданный workflow - proofreading");
+			var wf = wfDropdownIList.FirstOrDefault(wfTaskType => wfTaskType.Text == proofreadingTaskType);
+			if (wf != null)
 			{
-				if (wfTaskType.Text == proofreadingTaskType)
-				{
-					wfTaskType.Click();
-					break;
-				}
+				wf.Click();
+			}
+			else
+			{
+				Logger.Error("Заданный workflow (proofreading) не найден.");
+				throw new NullReferenceException("Невозможно найти необходимый workflow (proofreading).");
 			}
 
 			WaitUntilProofreadingTaskDisplayed(taskNumber);
@@ -779,11 +729,9 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			return WF_TABLE_XPATH + "//tr[" + taskNumber + "]//td[2]//span//span";
 		}
 
-		/// <summary>
-		/// Кликаем добавить новую задачу
-		/// </summary>
 		public void ClickWorkflowNewTask()
 		{
+			Logger.Trace("Кликаем добавить новую задачу");
 			ClickElement(By.XPath(WF_NEW_TASK_BTN));
 		}
 
@@ -843,19 +791,15 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			return GetIsElementDisplay(By.XPath(WF_NEW_TASK_BTN));
 		}
 
-		/// <summary>
-		/// Кликнуть Upload TMX
-		/// </summary>
 		public void ClickUploadTMX()
 		{
+			Log.Trace("Кликнуть кнопку Upload TMX");
 			ClickElement(By.XPath(UPLOAD_TMX_BTN_XPATH));
 		}
 
-		/// <summary>
-		/// Кликнуть Create Glossary
-		/// </summary>
 		public void ClickCreateGlossary()
 		{
+			Log.Trace("Кликнуть кнопку создания голоссария");
 			WaitUntilDisplayElement(By.XPath(CREATE_GLOSSARY_BTN_XPATH));
 			ClickElement(By.XPath(CREATE_GLOSSARY_BTN_XPATH));
 		}
@@ -936,63 +880,46 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			return WaitUntilDisappearElement(By.XPath(DELETE_FILE_BTN_XPATH.Replace("#", fileName)));			
 		}
 
-		/// <summary>
-		/// Дождаться, пока появится диалог подтверждения не выбранной ТМ
-		/// </summary>	   
-		/// <returns>появился диалог</returns>
 		public bool WaitUntilConfirmTMDialogDisplay()
 		{
+			Log.Trace("Дождаться, пока появится диалог подтверждения не выбранной ТМ");
 			return WaitUntilDisplayElement(By.XPath(CONFIRM_NOT_SELECTED_TM_DIALOG_XPATH), 3);
 		}
-
-		/// <summary>
-		/// Кликнуть по кнопке Skip
-		/// </summary>		
+	
 		public void ClickSkipBtn()
 		{
+			Log.Trace("Кликнуть по кнопке Skip");
 			ClickElement(By.XPath(CONFIRM_DIALOG_SKIP_BTN_XPATH));
 		}
 
-		/// <summary>
-		/// Дождаться, пока диалог подтверждения не выбранной ТМ исчезнет
-		/// </summary>	   
-		/// <returns>диалог исчез</returns>
 		public bool WaitUntilConfirmTMDialogDisappear()
 		{
+			Log.Trace("Дождаться, пока диалог подтверждения не выбранной ТМ исчезнет");
 			return WaitUntilDisappearElement(By.XPath(CONFIRM_NOT_SELECTED_TM_DIALOG_XPATH), 3);
 		}
 
-		/// <summary>
-		/// Кликнуть по кнопке сохранения словаря
-		/// </summary>
 		public void ClickSaveNewGlossary()
 		{
+			Log.Trace("Кликнуть по кнопке сохранения голоссария");
 			ClickElement(By.XPath(SAVE_GLOSSARY_BTN_XPATH));
 		}
 
-		/// <summary>
-		/// ввести имя словаря в поле new glossary name
-		/// </summary>
 		public void SetNewGlossaryName(string internalGlossaryName)
 		{
+			Log.Trace("Ввести имя голоссария");
 			WaitUntilDisplayElement(By.XPath(NEW_GLOSSARY_NAME_INPUT_XPATH));
 			ClearAndAddText(By.XPath(NEW_GLOSSARY_NAME_INPUT_XPATH), internalGlossaryName);
 		}
 
-		/// <summary>
-		/// Загрузка TM во время создания проекта
-		/// </summary>
-		public void UploadTMInNewProject(string DocumentName)
+		public void UploadTMInNewProject(string documentName)
 		{
-			UploadTM(DocumentName, TM_UPLOAD);
+			Log.Trace(string.Format("Загрузка TM во время создания проекта. Имя документа: {0}", documentName));
+			UploadTM(documentName, TM_UPLOAD);
 		}
 
-		/// <summary>
-		/// Загрузка документа во время создания проекта
-		/// </summary>
-		/// <param name="fileName"> название документа </param>
 		public void UploadFileToNewProject(string fileName)
 		{
+			Logger.Debug(string.Format("Загрузка документа во время создания проекта. Имя файла: {0}", fileName));
 			UploadDocument(fileName, UPLOAD_FILE_TO_NEW_PROJECT);
 		}
 
@@ -1081,5 +1008,8 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		protected const string WF_NEW_TASK_BTN = CREATE_PROJECT_DIALOG_XPATH + "//span[contains(@class,'js-new-stage')]";
 		protected const string WF_DELETE_TASK_BTN = "//a[contains(@class,'js-delete-workflow')]";
 		protected const string ERROR_WF_EMPTY = "//p[contains(@class,'js-error-workflow-empty')]";
+
+		private static readonly Logger Log = LogManager.GetCurrentClassLogger();
+
 	}
 }

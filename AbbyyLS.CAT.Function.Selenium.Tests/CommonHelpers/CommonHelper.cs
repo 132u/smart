@@ -414,13 +414,10 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			return !isDisplayed;
 		}
 
-		/// <summary>
-		/// Вернуть текст элемента
-		/// </summary>
-		/// <param name="by">by</param>
-		/// <returns>текст</returns>
 		protected string GetTextElement(By by)
 		{
+			Logger.Trace(string.Format("Вернуть текст элемента. Путь к элементу: {0}", by));
+
 			try
 			{
 				return Driver.FindElement(by).Text;
@@ -532,13 +529,10 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			}
 		}
 
-		/// <summary>
-		/// Вернуть список текстов элементов
-		/// </summary>
-		/// <param name="by">by</param>
-		/// <returns>список текстов</returns>
 		protected List<string> GetTextListElement(By by)
 		{
+			Logger.Trace("Вернуть список текстов элементов");
+
 			try
 			{
 				var elList = GetElementList(by);
@@ -707,6 +701,8 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <param name="documentName">полный путь к документу</param>
 		protected void UploadDocument(string documentName, string file)
 		{
+			Logger.Trace("Загрузка документа с помощью javascript");
+		
 			//Проверка, что элемент найден
 			Assert.IsTrue(GetIsElementExist(By.XPath(file)),"Ошибка: элемент input для загрузки документа не найден, возможно xpath поменялся");
 			((IJavaScriptExecutor)Driver).ExecuteScript("document.evaluate(\"" + file + "\", document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue.style.display = \"block\";");
