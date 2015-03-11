@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using NLog;
+using NUnit.Framework;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.UI;
 using System.Threading;
@@ -37,13 +38,13 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			return WaitUntilDisplayElement(By.XPath(CREATE_BTN_XPATH));
 		}
 
-		/// <summary>
-		/// Дождаться появления ссылки для изменения языка локали
-		/// </summary>
-		/// <returns>появилась</returns>
-		public bool WaitAppearLocaleBtn()
+		public void WaitAppearLocaleBtn()
 		{
-			return WaitUntilDisplayElement(By.XPath(LANGUAGE_SWITCHER));
+			Logger.Trace("Дождаемся появления ссылки для изменения языка локали");
+
+			Assert.IsTrue(
+				WaitUntilDisplayElement(By.XPath(LANGUAGE_SWITCHER)),
+				"Не дождались загрузки страницы со ссылкой для изменения языка");
 		}
 
 		/// <summary>
@@ -131,10 +132,13 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			return isExistDocument;
 		}
 
-		public bool WaitProjectAppearInList(string projectName)
+		public void WaitProjectAppearInList(string projectName)
 		{
-			Log.Trace(string.Format("Дождаться появления проекта {0} в списке", projectName));
-			return WaitUntilDisplayElement(By.XPath(GetProjectRefXPath(projectName)));
+			Logger.Trace(string.Format("Ожидаем появление проекта {0} в списке", projectName));
+
+			Assert.IsTrue(
+				WaitUntilDisplayElement(By.XPath(GetProjectRefXPath(projectName))), 
+				"Ошибка: проект " + projectName + " не появился в списке Workspace");
 		}
 
 		/// <summary>
@@ -413,23 +417,27 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// Потвердить удаление
 		/// </summary>
 		/// <returns>форма открылась</returns>
-		public bool ClickConfirmDelete()
+		public void ClickConfirmDelete()
 		{
 			var isExistForm = WaitUntilDisplayElement(By.XPath(CONFIRM_DELETE_FORM_XPATH));
+
 			if (isExistForm)
 			{
 				ClickElement(By.XPath(CONFIRM_DELETE_YES_XPATH));
 			}
-			return isExistForm;
+
+			Assert.IsTrue(isExistForm, "Ошибка: не появилась форма подтверждения удаления проекта");
 		}
 
 		/// <summary>
 		/// Дождаться пропадания форму подтверждения удаления
 		/// </summary>
 		/// <returns></returns>
-		public bool WaitUntilDeleteConfirmFormDisappear()
+		public void WaitUntilDeleteConfirmFormDisappear()
 		{
-			return WaitUntilDisappearElement(By.XPath(CONFIRM_DELETE_FORM_XPATH), 30);
+			Assert.IsTrue(
+				WaitUntilDisappearElement(By.XPath(CONFIRM_DELETE_FORM_XPATH), 30),
+				"Ошибка: не скрылась форма подтверждения удаления проекта");
 		}
 
 		/// <summary>
@@ -505,22 +513,22 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			return EXPORT_TYPE_REF_BEGINING + exportTypeDict[type] + "')]//a";
 		}
 
-		public bool WaitProjectLoad(string projectName)
+		public void WaitProjectLoad(string projectName)
 		{
-			Log.Debug(string.Format("Ожидание ожидание загрузки проекта {0}", projectName));
-
-			// Ожидаем пока загрузится документ. Обновляем страницу, если недождались
+			Logger.Trace(string.Format("Ожидание ожидание загрузки проекта {0}", projectName));
+			
 			if (!WaitDocumentProjectDownload(projectName))
 			{
 				Driver.Navigate().Refresh();
-				
+
 				if (!WaitDocumentProjectDownload(projectName))
 				{
-					return false;
+					var errorMessage = string.Format("Ошибка: документ не загрузился в проект {0}", projectName);
+
+					Logger.Error(errorMessage);
+					throw new NotFoundException(errorMessage);
 				}
 			}
-
-			return true;
 		}
 
 		public void ClickDocumentProgress()

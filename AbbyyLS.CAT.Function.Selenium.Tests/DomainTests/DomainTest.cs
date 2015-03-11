@@ -272,9 +272,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.Domains
 			DomainPage.ClickSaveDomain();
 			if (shouldSaveOk)
 			{
-				Assert.IsTrue(
-					DomainPage.WaitUntilSave(), 
-					"Ошибка: не пропала кнопка Save");
+				DomainPage.WaitUntilSave();
 			}
 			else
 			{

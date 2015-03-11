@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
+using System.IO;
 using NLog;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.UI;
@@ -891,10 +892,13 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			ClickElement(By.XPath(CONFIRM_DIALOG_SKIP_BTN_XPATH));
 		}
 
-		public bool WaitUntilConfirmTMDialogDisappear()
+		public void AssertionConfirmTMDialogDisappear()
 		{
-			Log.Trace("Дождаться, пока диалог подтверждения не выбранной ТМ исчезнет");
-			return WaitUntilDisappearElement(By.XPath(CONFIRM_NOT_SELECTED_TM_DIALOG_XPATH), 3);
+			Logger.Trace("Дожидаемся исчезновения диалога подтверждения не выбранной ТМ ");
+
+			Assert.IsTrue(
+				WaitUntilDisappearElement(By.XPath(CONFIRM_NOT_SELECTED_TM_DIALOG_XPATH), 3),
+				"Ошибка: после нажатия кнопки Skip диалог подтверждения не выбранной ТМ не закрылся.");
 		}
 
 		public void ClickSaveNewGlossary()

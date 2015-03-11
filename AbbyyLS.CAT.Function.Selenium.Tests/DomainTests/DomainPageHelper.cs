@@ -1,4 +1,7 @@
-﻿using OpenQA.Selenium;
+﻿using System;
+using System.Collections.Generic;
+using NUnit.Framework;
+using OpenQA.Selenium;
 using OpenQA.Selenium.Support.UI;
 
 namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.Domains
@@ -84,13 +87,13 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.Domains
 			ClickElement(By.XPath(CANCEL_DOMAIN_XPATH));
 		}
 
-		/// <summary>
-		/// Дождаться сохранения (пропадает кнопка Save)
-		/// </summary>
-		/// <returns></returns>
-		public bool WaitUntilSave()
+		public void WaitUntilSave()
 		{
-			return WaitUntilDisappearElement(By.XPath(SAVE_DOMAIN_XPATH));
+			Logger.Trace("Дождаться сохранения (пропадает кнопка Save)");
+
+			Assert.IsTrue(
+					WaitUntilDisappearElement(By.XPath(SAVE_DOMAIN_XPATH)),
+					"Ошибка: не пропала кнопка Save");
 		}
 
 		/// <summary>

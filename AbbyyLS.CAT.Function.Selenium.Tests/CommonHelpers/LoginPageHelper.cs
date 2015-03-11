@@ -1,4 +1,5 @@
-﻿using OpenQA.Selenium;
+﻿using NUnit.Framework;
+using OpenQA.Selenium;
 using OpenQA.Selenium.Support.UI;
 using System.Threading;
 
@@ -129,13 +130,13 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			ClickElement(By.XPath(GetAccountItemXPath(accountName, dataServer)));
 		}
 
-		/// <summary>
-		/// Дождаться загрузки страницы на lpro
-		/// </summary>
-		/// <returns>загрузилась</returns>
-		public bool WaitPageLoadLpro()
+		public void WaitPageLoadLpro()
 		{
-			return WaitUntilDisplayElement(By.XPath(LOGIN_BTN_LPRO_XPATH));
+			Logger.Trace("Дождаться загрузки страницы на lpro");
+
+			Assert.IsTrue(
+				WaitUntilDisplayElement(By.XPath(LOGIN_BTN_LPRO_XPATH)),
+				"Не прогрузилась страница Login - возможно, сайт недоступен");
 		}
 
 		/// <summary>

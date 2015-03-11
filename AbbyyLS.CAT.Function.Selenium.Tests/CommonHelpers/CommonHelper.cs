@@ -10,6 +10,7 @@ using System.Text.RegularExpressions;
 using NLog;
 using System.Windows.Forms;
 using System.IO;
+using Keys = OpenQA.Selenium.Keys;
 
 namespace AbbyyLS.CAT.Function.Selenium.Tests
 {
@@ -104,10 +105,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 				Logger.Trace("WebDriverTimeoutException: WaitUntilDisplayElement: " + by.ToString());
 				return false;
 			}
-			catch (Exception)
-			{
-				throw;
-			}
 			finally
 			{
 				// Возвращаем таймаут обратнно
@@ -136,10 +133,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			{
 				Logger.Trace("NoSuchElementException: GetIsElementExist: " + by.ToString());
 				return false;
-			}
-			catch (Exception)
-			{
-				throw;
 			}
 		}
 
@@ -181,10 +174,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 				Logger.Trace("NoSuchElementException: GetIsElementDisplay: " + by.ToString());
 				return false;
 			}
-			catch (Exception)
-			{
-				throw;
-			}
 		}
 
 		/// <summary>
@@ -204,11 +193,10 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			}
 			catch (NoSuchElementException)
 			{
-				throw;
-			}
-			catch (Exception)
-			{
-				throw;
+				var errorMessage = string.Format("Web-элемент не найден. Путь к элементу: {0}.", by);
+				Logger.Error(errorMessage);
+
+				throw new NoSuchElementException(errorMessage);
 			}
 		}
 
@@ -250,11 +238,10 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			}
 			catch (NoSuchElementException)
 			{
-				throw;
-			}
-			catch (Exception)
-			{
-				throw;
+				var errorMessage = string.Format("Web-элемент не найден. Путь к элементу: {0}.", by);
+				Logger.Error(errorMessage);
+
+				throw new NoSuchElementException(errorMessage);
 			}
 		}
 
@@ -263,8 +250,8 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// </summary>
 		protected void HoverElement(By by)
 		{
-			IWebElement el = Driver.FindElement(by);
-			Actions actionBuilder = new Actions(Driver);
+			var el = Driver.FindElement(by);
+			var actionBuilder = new Actions(Driver);
 			actionBuilder.MoveToElement(el).Build().Perform();
 		}
 
@@ -286,11 +273,10 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			}
 			catch (NoSuchElementException)
 			{
-				throw;
-			}
-			catch (Exception)
-			{
-				throw;
+				var errorMessage = string.Format("Web-элемент не найден. Путь к элементу: {0}.", by);
+				Logger.Error(errorMessage);
+
+				throw new NoSuchElementException(errorMessage);
 			}
 		}
 
@@ -316,11 +302,10 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			}
 			catch (NoSuchElementException)
 			{
-				throw;
-			}
-			catch (Exception)
-			{
-				throw;
+				var errorMessage = string.Format("Web-элемент не найден. Путь к элементу: {0}.", by);
+				Logger.Error(errorMessage);
+
+				throw new NoSuchElementException(errorMessage);
 			}
 		}
 
@@ -331,28 +316,27 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <param name="text">текст</param>
 		protected void ClickClearAndAddText(By by, string text)
 		{
-			var txt = Regex.Replace(text, "[+^%~()]", "{$0}");
+			var replacedText = Regex.Replace(text, "[+^%~()]", "{$0}");
 
 			try
 			{
 				var el = Driver.FindElement(by);
 				el.Click();
-				el.SendKeys(OpenQA.Selenium.Keys.Home);
-				el.SendKeys(OpenQA.Selenium.Keys.Shift + OpenQA.Selenium.Keys.End);
-				el.SendKeys(text);
+				el.SendKeys(Keys.Home);
+				el.SendKeys(Keys.Shift + Keys.End);
+				el.SendKeys(replacedText);
 			}
 			catch (StaleElementReferenceException staleElementReferenceException)
 			{
 				Logger.Warn("StaleElementReferenceException: ClickAndSendTextElement: " + by.ToString(), staleElementReferenceException);
-				ClickAndSendTextElement(by, text);
+				ClickAndSendTextElement(by, replacedText);
 			}
 			catch (NoSuchElementException)
 			{
-				throw;
-			}
-			catch (Exception)
-			{
-				throw;
+				var errorMessage = string.Format("Web-элемент не найден. Путь к элементу: {0}.", by);
+				Logger.Error(errorMessage);
+
+				throw new NoSuchElementException(errorMessage);
 			}
 		}
 
@@ -376,11 +360,10 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			}
 			catch (NoSuchElementException)
 			{
-				throw;
-			}
-			catch (Exception)
-			{
-				throw;
+				var errorMessage = string.Format("Web-элемент не найден. Путь к элементу: {0}.", by);
+				Logger.Error(errorMessage);
+
+				throw new NoSuchElementException(errorMessage);
 			}
 		}
 
@@ -429,11 +412,10 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			}
 			catch (NoSuchElementException)
 			{
-				throw;
-			}
-			catch (Exception)
-			{
-				throw;
+				var errorMessage = string.Format("Web-элемент не найден. Путь к элементу: {0}.", by);
+				Logger.Error(errorMessage);
+
+				throw new NoSuchElementException(errorMessage);
 			}
 		}
 
@@ -455,11 +437,10 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			}
 			catch (NoSuchElementException)
 			{
-				throw;
-			}
-			catch (Exception)
-			{
-				throw;
+				var errorMessage = string.Format("Web-элемент не найден. Путь к элементу: {0}.", by);
+				Logger.Error(errorMessage);
+
+				throw new NoSuchElementException(errorMessage);
 			}
 		}
 
@@ -479,10 +460,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 				Logger.Warn("StaleElementReferenceException: GetElementList: " + by.ToString(), staleElementReferenceException);
 				return GetElementList(by);
 			}
-			catch (Exception)
-			{
-				throw;
-			}
 		}
 
 		/// <summary>
@@ -500,10 +477,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			{
 				Logger.Warn("StaleElementReferenceException: GetElementList: " + by.ToString(), staleElementReferenceException);
 				return GetElement(by);
-			}
-			catch (Exception)
-			{
-				throw;
 			}
 		}
 
@@ -523,10 +496,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 				Logger.Warn("StaleElementReferenceException: GetElementCount: " + by.ToString(), staleElementReferenceException);
 				return GetElementsCount(by);
 			}
-			catch (Exception)
-			{
-				throw;
-			}
 		}
 
 		protected List<string> GetTextListElement(By by)
@@ -543,10 +512,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			{
 				Logger.Warn("StaleElementReferenceException: GetTextListElement: " + by.ToString(), staleElementReferenceException);
 				return GetTextListElement(by);
-			}
-			catch (Exception)
-			{
-				throw;
 			}
 		}
 
@@ -568,10 +533,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			{
 				Logger.Warn("StaleElementReferenceException: DoubleClickElement: " + by.ToString(), staleElementReferenceException);
 				DoubleClickElement(by);
-			}
-			catch (Exception)
-			{
-				throw;
 			}
 		}
 
@@ -601,10 +562,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 				Logger.Warn("StaleElementReferenceException: GetIsElementActive: " + by.ToString(), staleElementReferenceException);
 				return GetIsElementActive(by);
 			}
-			catch (Exception)
-			{
-				throw;
-			}
 		}
 
 		/// <summary>
@@ -622,10 +579,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			{
 				Logger.Warn("StaleElementReferenceException: GetIsInputChecked: " + by.ToString(), staleElementReferenceException);
 				return GetIsInputChecked(by);
-			}
-			catch (Exception)
-			{
-				throw;
 			}
 		}
 
@@ -650,10 +603,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			{
 				Logger.Warn("StaleElementReferenceException: GetElementAttribute: " + by.ToString(), staleElementReferenceException);
 				return GetElementAttribute(by, attr);
-			}
-			catch (Exception)
-			{
-				throw;
 			}
 		}
 

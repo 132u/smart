@@ -218,44 +218,42 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 				maxWait: 5);
 		}
 
-		/// <summary>
-		/// Выделить документ
-		/// </summary>
-		/// <param name="documentNumber">номер документа</param>
-		public bool SelectDocument(int documentNumber)
+		public void SelectDocument(int documentNumber)
 		{
-			var isDocumentExist = GetIsExistDocument(documentNumber);
+			Logger.Debug(string.Format("Нажать галку у документа №{0}", documentNumber));
 
-			if (isDocumentExist)
+			if (GetIsExistDocument(documentNumber))
 			{
-				Logger.Trace("Поставить галочку напротив документа под номером " + documentNumber);
 				ClickElement(By.XPath(DOCUMENT_LIST_XPATH
 					+ "//tr[" + documentNumber + "]//td[contains(@class,'checkbox')]//input"));
 			}
+			else
+			{
+				var errorMessage = string.Format("Ошибка: невозможно найти документ #{0}.", documentNumber);
 
-			return isDocumentExist;
+				Logger.Error(errorMessage);
+				throw new Exception(errorMessage);
+			}
 		}
 
-		/// <summary>
-		/// Открыть документ
-		/// </summary>
-		/// <param name="documentNumber">номер документа</param>
-		public bool OpenDocument(int documentNumber)
+		public void OpenDocument(int documentNumber)
 		{
-			Logger.Trace(string.Format("Открыть документ №{0} в редакторе", documentNumber));
+			Logger.Debug(string.Format("Открыть документ №{0}", documentNumber));
 
-			var isDocumentExist = GetIsExistDocument(documentNumber);
-
-			if (isDocumentExist)
+			if (GetIsExistDocument(documentNumber))
 			{
 				ClickElement(By.XPath(DOCUMENT_ROW_XPATH
 					+ "[" + documentNumber + "]"
 					+ DOCUMENT_ROW_EDITOR_LINK_XPATH));
-				Driver.SwitchTo().Window(Driver.CurrentWindowHandle).Close();
-				Driver.SwitchTo().Window(Driver.WindowHandles.Last());
+				Driver.SwitchTo().Window(Driver.WindowHandles[1]);
 			}
+			else
+			{
+				var errorMessage = string.Format("Ошибка: невозможно найти документ #{0}.", documentNumber);
 
-			return isDocumentExist;
+				Logger.Error(errorMessage);
+				throw new NoSuchElementException(errorMessage);
+			}
 		}
 
 		/// <summary>
@@ -351,7 +349,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// Дождаться загрузки
 		/// </summary>
 		/// <returns>загрузился документ</returns>
-		public bool WaitDocumentDownloadFinish()
+		public void WaitDocumentDownloadFinish()
 		{
 			var isDisappeared = true;
 
@@ -370,7 +368,8 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 					Driver.Navigate().Refresh();
 				}
 			}
-			return isDisappeared;
+
+			Assert.IsTrue(isDisappeared, "Ошибка: документ загружается слишком долго");
 		}
 
 		/// <summary>

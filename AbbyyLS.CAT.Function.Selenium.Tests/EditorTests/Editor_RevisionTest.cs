@@ -234,7 +234,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Editor.Revisions
 		[NUnit.Framework.Category("Standalone")]
 		public void AutoSaveTest()
 		{
-			var segmentNumber = 4;
+			const int segmentNumber = 4;
 			EditorPage.ScrollToRequiredSegment(segmentNumber);
 
 			// Добавить текст в Target
@@ -271,9 +271,9 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Editor.Revisions
 		{
 			// Добавить текст в Target
 			var text = "Text" + DateTime.Now.Ticks;
-			var segmentNumber = 7;
-			EditorPage.ScrollToRequiredSegment(segmentNumber);
+			const int segmentNumber = 7;
 
+			EditorPage.ScrollToRequiredSegment(segmentNumber);
 			AddTextTarget(segmentNumber, text);
 
 			// Дождаться автосохранения
@@ -395,8 +395,16 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Editor.Revisions
 			// Открыть вкладку Ревизии
 			OpenRevisionTab();
 
+			const int expectedRevisionsCount = 1;
+
 			// Проверить количество ревизий - должна быть 1
-			Assert.AreEqual(1, RevisionPage.GetRevisionListCount(), "Ошибка: неверное количество ревизий");
+			Assert.AreEqual(
+				expectedRevisionsCount, 
+				RevisionPage.GetRevisionListCount(), 
+				string.Format(
+					"Ошибка: неверное количество ревизий в окне редактора. Ожидаемое число ревизий - {0}, реальное - {1}",
+					expectedRevisionsCount,
+					RevisionPage.GetRevisionListCount()));
 
 			// Проверить тип ревизии
 			Assert.AreEqual(
@@ -413,7 +421,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Editor.Revisions
 		public void CancelRollback()
 		{
 			// Добавить текст в Target
-			int segmentNumber = 18;
+			const int segmentNumber = 18;
 			EditorPage.ScrollToRequiredSegment(segmentNumber);
 
 			AddTranslationAndConfirm(segmentNumber, "Text" + DateTime.Now.Ticks);
@@ -421,11 +429,11 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Editor.Revisions
 			// Вернуться в сегмент
 			ClickSegmentTarget(segmentNumber);
 
-			int revisionCountBefore = RevisionPage.GetRevisionListCount();
+			var revisionCountBefore = RevisionPage.GetRevisionListCount();
 
 			// Выделить ревизию
-			Assert.IsTrue(RevisionPage.ClickRevision(1), "Ошибка: такой ревизии нет");
-			Assert.IsTrue(RevisionPage.GetIsRollbackBtnEnabled(), "Ошибка: кнопка Rollback заблокирована");
+			Assert.IsTrue(RevisionPage.ClickRevision(1), "Ошибка: нет ревизии №1.");
+			Assert.IsTrue(RevisionPage.GetIsRollbackBtnEnabled(), "Ошибка: кнопка Rollback заблокирована.");
 
 			// Кликнуть Rollback
 			RevisionPage.ClickRollbackBtn();
@@ -459,19 +467,21 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Editor.Revisions
 		[Test]
 		public void ConfirmInsertedMtTest()
 		{
-			var segmentNumber = 19;
+			const int segmentNumber = 19;
 
 			EditorPage.ScrollToRequiredSegment(segmentNumber);
 
 			EditorPage.ClickSourceCell(segmentNumber);
 
-			// Проверить, что есть переводы MT
-			Assert.IsTrue(EditorPage.GetCATPanelNotEmpty(), "Ошибка: нет переводов в МТ");
+			// Проверить, что панель CAT не пуста
+			Assert.IsTrue(
+				EditorPage.GetCATPanelNotEmpty(),
+				"Ошибка: нет переводов в CAT панеле.");
 
 			var catTranslationNum = EditorPage.GetCatTranslationRowNumber(EditorPageHelper.CAT_TYPE.MT);
 
-			Assert.IsTrue(catTranslationNum > 0, "Ошибка: перевод не МТ");
-			Assert.IsTrue(catTranslationNum < 10, "Ошибка: строка с TM должна быть ближе, чем 10 (для хоткея)");
+			Assert.IsTrue(catTranslationNum > 0, "Ошибка: MT перевода нет в CAT панеле.");
+			Assert.IsTrue(catTranslationNum < 10, "Ошибка: строка с MT должна быть ближе, чем 10 (для хоткея).");
 
 			// Вставить из МТ
 			EditorPage.PutCatMatchByHotkey(segmentNumber, catTranslationNum);
@@ -530,8 +540,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Editor.Revisions
 			Assert.AreEqual(2, RevisionPage.GetRevisionListCount(), "Ошибка: должно быть две ревизии");
 
 			// Проверить, что в последней ревизии выделен удаленный текст
-			Assert.IsTrue(
-				RevisionPage.GetHasRevisionDeletedTextPart(1),
+			Assert.IsTrue(RevisionPage.GetHasRevisionDeletedTextPart(1),
 				"Ошибка: в ревизии нет пометки об удаленном тексте");
 		}
 
@@ -1084,13 +1093,9 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Editor.Revisions
 			EditorPage.AddTextTarget(rowNum, text);
 		}
 
-		/// <summary>
-		/// Кликнуть по Target сегмента
-		/// </summary>
-		/// <param name="segmentRowNumber">номер сегмента</param>
 		protected void ClickSegmentTarget(int segmentRowNumber)
 		{
-			// Кликнуть по Target
+			Logger.Trace(string.Format("Кликнуть по Target сегмента №{0}", segmentRowNumber));
 			EditorPage.ClickTargetCell(segmentRowNumber);
 		}
 

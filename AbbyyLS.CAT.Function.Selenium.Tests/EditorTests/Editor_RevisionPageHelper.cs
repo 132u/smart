@@ -147,17 +147,10 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			return isExistRevision;
 		}
 
-		/// <summary>
-		/// Вернуть количество ревизий
-		/// </summary>
-		/// <returns>количество</returns>
 		public int GetRevisionListCount()
 		{
-			var revisionXPath = "";
-
-			revisionXPath = REVISION_LIST_XPATH;
-
-			return GetElementList(By.XPath(revisionXPath)).Count;
+			Logger.Trace("Вернуть количество ревизий");
+			return GetElementList(By.XPath(REVISION_LIST_XPATH)).Count;
 		}
 
 		/// <summary>

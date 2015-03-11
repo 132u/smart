@@ -54,7 +54,7 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\lib\WebDriver.2.43.1\WebDriver.dll</HintPath>
     </Reference>
-    <Reference Include="WebDriver.Support">
+    <Reference Include="WebDriver.Support, Version=2.43.1.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\lib\WebDriver.2.43.1\WebDriver.Support.dll</HintPath>
     </Reference>

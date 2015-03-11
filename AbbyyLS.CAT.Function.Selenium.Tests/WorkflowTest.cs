@@ -93,9 +93,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 
 			// 6) Настройка Pretranslate. Проверка создания проекта
 			WorkspaceCreateProjectDialog.ClickFinishCreate();
-			Assert.IsTrue(
-				WorkspacePage.WaitProjectAppearInList(ProjectName),
-				"Ошибка: Проект не появился в списке.");
+			WorkspacePage.WaitProjectAppearInList(ProjectName);
 
 			// Открываем проект
 			OpenProjectPage(ProjectName);
@@ -595,8 +593,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 
 			// 6) Настройка Pretranslate. Проверка создания проекта
 			WorkspaceCreateProjectDialog.ClickFinishCreate();
-			Assert.IsTrue(WorkspacePage.WaitProjectAppearInList(ProjectName),
-				"Ошибка: Проект не появился в списке.");
+			WorkspacePage.WaitProjectAppearInList(ProjectName);
 
 			// Открываем проект
 			OpenProjectPage(ProjectName);
@@ -661,8 +658,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 
 			// 6) Настройка Pretranslate. Проверка создания проекта
 			WorkspaceCreateProjectDialog.ClickFinishCreate();
-			Assert.IsTrue(WorkspacePage.WaitProjectAppearInList(ProjectName),
-				"Ошибка: Проект не появился в списке.");
+			WorkspacePage.WaitProjectAppearInList(ProjectName);
 
 			// Открываем проект
 			OpenProjectPage(ProjectName);
@@ -716,8 +712,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 
 			// 6) Настройка Pretranslate. Проверка создания проекта
 			WorkspaceCreateProjectDialog.ClickFinishCreate();
-			Assert.IsTrue(WorkspacePage.WaitProjectAppearInList(ProjectName),
-				"Ошибка: Проект не появился в списке.");
+			WorkspacePage.WaitProjectAppearInList(ProjectName);
 
 			// Открываем проект
 			OpenProjectPage(ProjectName);

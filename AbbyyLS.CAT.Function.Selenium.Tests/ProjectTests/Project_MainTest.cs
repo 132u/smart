@@ -567,8 +567,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			WorkspaceCreateProjectDialog.ClickFinishCreate();
 
 			// Дождаться проекта в списке проектов
-			Assert.IsTrue(WorkspacePage.WaitProjectAppearInList(ProjectName),
-				"Ошибка: Проект не появился в списке Workspace");
+			WorkspacePage.WaitProjectAppearInList(ProjectName);
 		}
 
 		/// <summary>
@@ -591,9 +590,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			WorkspaceCreateProjectDialog.ClickFinishCreate();
 
 			// Дождаться проекта в списке проектов
-			Assert.IsTrue(
-				WorkspacePage.WaitProjectAppearInList(ProjectName),
-				"Ошибка: Проект не появился в списке Workspace");
+			WorkspacePage.WaitProjectAppearInList(ProjectName);
 		}
 
 		/// <summary>
@@ -614,11 +611,8 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			WorkspaceCreateProjectDialog.ClickNextStep();
 			// Нажать "Готово"
 			WorkspaceCreateProjectDialog.ClickFinishCreate();
-
 			// Дождаться проекта в списке проектов
-			Assert.IsTrue(
-				WorkspacePage.WaitProjectAppearInList(ProjectName),
-				"Ошибка: Проект не появился в списке Workspace");
+			WorkspacePage.WaitProjectAppearInList(ProjectName);
 		}
 
 		/// <summary>

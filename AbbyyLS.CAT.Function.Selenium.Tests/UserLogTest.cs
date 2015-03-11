@@ -683,9 +683,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			OpenProjectPage(projectName);
 
 			// Дождаться пропадания колеса ожидания
-			Assert.IsTrue(
-				ProjectPage.WaitDocumentDownloadFinish(),
-				"Ошибка: колесо ожидания долго не пропадает");
+			ProjectPage.WaitDocumentDownloadFinish();
 
 			// Выгрузить логи
 			ExportLog();

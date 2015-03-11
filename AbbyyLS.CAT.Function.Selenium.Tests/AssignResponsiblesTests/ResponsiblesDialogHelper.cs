@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using NLog;
+using NUnit.Framework;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.UI;
 
@@ -21,10 +22,13 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		{
 		}
 
-		public bool WaitUntilResponsiblesDialogDisplay()
+		public void WaitUntilResponsiblesDialogDisplay()
 		{
-			Log.Trace("Ожидание загрузки диалога выбора исполнителя");
-			return WaitUntilDisplayElement(By.XPath(RESPONSIBLES_TABLE_XPATH));
+			Logger.Trace("Ожидание загрузки диалога выбора исполнителя");
+
+			Assert.IsTrue(
+				WaitUntilDisplayElement(By.XPath(RESPONSIBLES_TABLE_XPATH)),
+				"Ошибка: Диалог выбора исполнителя не открылся.");
 		}
 
 		/// <summary>

@@ -19,7 +19,6 @@ using System.Text.RegularExpressions;
 using NLog;
 using OpenQA.Selenium.IE;
 using System.Diagnostics;
-using System.Net;
 
 namespace AbbyyLS.CAT.Function.Selenium.Tests
 {
@@ -70,8 +69,11 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		protected string Url { get; private set; }
 
 		protected string WorkspaceUrl { get; private set; }
+
 		protected bool Standalone { get; private set; }
+
 		protected bool EmailAuth { get; private set; }
+
 		protected string AdminUrl { get; private set; }
 
 		protected string Login { get; private set; }
@@ -95,6 +97,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		protected List<UserInfo> TestUserList { get; private set; }
 
 		protected List<UserInfo> TestCompanyList { get; private set; }
+
 		protected List<UserInfo> CourseraUserList { get; private set; }
 
 		protected string ProjectName { get; private set; }
@@ -148,10 +151,13 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		protected AddTermFormHelper AddTermForm { get; private set; }
 
 		protected RegistrationPageHelper RegistrationPage { get; private set; }
+
 		protected MyAccountPageHelper MyAccountPage { get; private set; }
+
 		protected GlossaryTermFilterHelper GlossaryTermFilterPage { get; private set; }
 
 		protected CheckCreateProjectRightHelper CheckCreateProjectRightHelper { get; private set; }
+
 		protected DateTime TestBeginTime { get; private set; }
 
 		protected bool QuitDriverAfterTest { get; set; }
@@ -333,7 +339,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			else if (BrowserName == "Chrome")
 			{
 				// драйвер работает некорректно
-				ChromeOptions options = new ChromeOptions();
+				var options = new ChromeOptions();
 				options.AddArguments("--lang=en");
 				Driver = new ChromeDriver(options);
 				
@@ -439,8 +445,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			// Сохранить изменения
 			ProjectPage.ClickSaveTMBtn();
 			// Дождаться окончания загрузки
-			Assert.IsTrue(ProjectPage.WaitDocumentDownloadFinish(),
-				"Ошибка: документ загружается слишком долго");
+			ProjectPage.WaitDocumentDownloadFinish();
 		}
 
 		/// <summary>
@@ -480,10 +485,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <param name="documentNumber"></param>
 		protected void SelectDocumentInProject(int documentNumber = 1)
 		{
-			// Нажать галочку у документа
-			Assert.IsTrue(
-				ProjectPage.SelectDocument(documentNumber),
-				"Ошибка: на странице проекта нет документа");
+			ProjectPage.SelectDocument(documentNumber);
 		}
 
 		/// <summary>
@@ -493,40 +495,36 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <param name="taskId">Тип выполняемого задания: 1)перевод 2)редактура 3)корректура</param>
 		protected void OpenDocument(int documentNumber = 1, int taskId = 1)
 		{
-			Assert.IsTrue(
-				ProjectPage.OpenDocument(documentNumber),
-				"Ошибка: на странице проекта нет документа");
+			ProjectPage.OpenDocument(documentNumber);
 
 			if (ResponsiblesDialog.WaitUntilChooseTaskDialogDisplay())
 			{
 				switch (taskId)
 				{
 					case 1:
-						Assert.True(EditorPage.GetTranslationTaskBtnIsExist(), 
-									"При открытии документа в окне выбора этапа нет этапа Translation");
+
+						EditorPage.AssertionTranslationTaskBtnIsExist();
 						EditorPage.ClickTranslationTaskBtn();
 						break;
 
 					case 2:
-						Assert.True(EditorPage.GetEditingTaskBtnIsExist(),
-									"При открытии документа в окне выбора этапа нет этапа Edition");
+						EditorPage.AssertionEditingTaskBtnIsExist();
 						EditorPage.ClickEditingTaskBtn();
 						break;
 
 					case 3:
-						Assert.True(EditorPage.GetProofreadingTaskBtnIsExist(),
-									"При открытии документа в окне выбора этапа нет этапа Proofreading");
+						EditorPage.AssertionProofreadingTaskBtnIsExist();
 						EditorPage.ClickProofreadingTaskBtn();
 						break;
 				}
 
 				EditorPage.ClickContBtn();
 			}
-			
-			EditorPage.WaitPageLoad();
 
+			EditorPage.AssertionIsPageLoad();
 			Thread.Sleep(1000);
 
+			// Проверить, существует ли хотя бы один сегмент
 			Assert.IsTrue(EditorPage.GetSegmentsExist(), "Ошибка: нет сегментов");
 		}
 
@@ -568,9 +566,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 				Driver.Navigate().GoToUrl(Url + RelativeUrlProvider.SingIn);
 				if (Driver.Url.Contains("pro"))
 				{
-					// Проверить, загрузилась ли
-					Assert.IsTrue(LoginPage.WaitPageLoadLpro(),
-						"Не прогрузилась страница Login - возможно, сайт недоступен");
+					LoginPage.WaitPageLoadLpro();
 
 					// Заполнить логин и пароль
 					LoginPage.EnterLoginLpro(authLogin);
@@ -619,9 +615,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			}
 
 			// Изменили язык на Английский
-			Assert.IsTrue(
-				WorkspacePage.WaitAppearLocaleBtn(),
-				"Не дождались загрузки страницы со ссылкой для изменения языка");
+			WorkspacePage.WaitAppearLocaleBtn();
 			WorkspacePage.SelectLocale(WorkSpacePageHelper.LOCALE_LANGUAGE_SELECT.English);
 		}
 
@@ -634,7 +628,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			{
 				// Перейти на  admin страницу
 				Driver.Navigate().GoToUrl(AdminUrl);
-				//Assert.IsTrue(AdminPage.WaitPageLoad(), "Ошибка: страница админки не загрузилась");
+				//Assert.IsTrue(AdminPage.AssertionIsPageLoad(), "Ошибка: страница админки не загрузилась");
 			}
 			catch
 			{
@@ -871,10 +865,10 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 
 			if (isNeedCheckProjectAppearInList)
 			{
-				Assert.IsTrue(WorkspacePage.WaitProjectAppearInList(projectName), "Ошибка: проект не появился в списке Workspace");
+				WorkspacePage.WaitProjectAppearInList(ProjectName);
 			}
 
-			Assert.IsTrue(WorkspacePage.WaitProjectLoad(projectName), "Ошибка: документ не загрузился");
+			WorkspacePage.WaitProjectLoad(projectName);
 		}
 
 		/// <summary>
@@ -1089,8 +1083,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 				ProjectPage.ClickFinishImportDialog();
 
 				// Дождаться окончания загрузки
-				Assert.IsTrue(ProjectPage.WaitDocumentDownloadFinish(),
-					"Ошибка: документ загружается слишком долго");
+				ProjectPage.WaitDocumentDownloadFinish();
 			}
 			else
 			{
@@ -1101,9 +1094,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 				ProjectPage.ClickFinishImportDialog();
 
 				// Дождаться окончания загрузки
-			Assert.IsTrue(
-				ProjectPage.WaitDocumentDownloadFinish(),
-					"Ошибка: документ загружается слишком долго");
+				ProjectPage.WaitDocumentDownloadFinish();
 			}
 		}
 
@@ -1128,14 +1119,10 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			// Нажать Удалить
 			WorkspacePage.ClickDeleteProjectBtn();
 			// Подтвердить
-			Assert.IsTrue(
-				WorkspacePage.ClickConfirmDelete(), 
-				"Ошибка: не появилась форма подтверждения удаления проекта");
+			WorkspacePage.ClickConfirmDelete();
 
 			// Дождаться, пока пропадет диалог подтверждения удаления
-			Assert.IsTrue(
-				WorkspacePage.WaitUntilDeleteConfirmFormDisappear(), 
-				"Ошибка: не появилась форма подтверждения удаления проекта");
+			WorkspacePage.WaitUntilDeleteConfirmFormDisappear();
 
 			Thread.Sleep(500);
 		}
@@ -1196,7 +1183,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			string time = "")
 		{
 			Thread.Sleep(2000);// Sleep не убирать , так как после клика загрузки, файл не всегда успевает появиться в папке
-			string[] file = Directory.GetFiles(PathProvider.ResultsFolderPath, "UserActivitiesLog*");
+			var file = Directory.GetFiles(PathProvider.ResultsFolderPath, "UserActivitiesLog*");
 
 			Assert.IsTrue(file.Length ==1 , "Ошибка: файл не экспортировался");
 
@@ -1222,28 +1209,20 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			File.Delete(file[0]);
 		}
 
-		/// <summary>
-		/// Добавить перевод и подтвердить
-		/// </summary>
 		public void AddTranslationAndConfirm(int segmentRowNumber = 1, string text = "Translation")
 		{
-			// Написать что-то в target
+			Logger.Debug("Добавить перевод и подтвердить");
+
 			EditorPage.AddTextTarget(segmentRowNumber, text);
-			// Нажать на кнопку подтвердить
 			EditorPage.ClickConfirmBtn();
 
-			// Убедиться что сегмент подтвержден
 			Assert.IsTrue(WaitSegmentConfirm(segmentRowNumber),
-				"Ошибка: подтверждение (Confirm) не прошло");
+				"Ошибка: подтверждение (Confirm) не прошло. Возле сегмента не появилась зеленая галка.");
 		}
 
-		/// <summary>
-		/// Дождаться, пока сегмент подтвердится
-		/// </summary>
-		/// <param name="segmentRowNumber">номер сегмента</param>
-		/// <returns>сегмент подтвердился</returns>
 		protected bool WaitSegmentConfirm(int segmentRowNumber)
 		{
+			Logger.Trace(string.Format("Дожидаемся подтверждения сегмента #{0}", segmentRowNumber));
 			return EditorPage.WaitSegmentConfirm(segmentRowNumber);
 		}
 
@@ -1312,13 +1291,14 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			EditorPage.ClickSourceCell(rowNumber);
 
 			// Текст source'a сегмента
-			string sourcetxt = EditorPage.GetSourceText(rowNumber);
+			var sourcetxt = EditorPage.GetSourceText(rowNumber);
 			// Нажать хоткей копирования
 			EditorPage.CopySourceByHotkey(rowNumber);
 
 
 			// Проверить, такой ли текст в target'те
-			string targetxt = EditorPage.GetTargetText(rowNumber);
+			var targetxt = EditorPage.GetTargetText(rowNumber);
+
 			Assert.AreEqual(sourcetxt, targetxt, "Ошибка: после хоткея Copy текст в Source и Target не совпадает");
 		}
 
@@ -1432,7 +1412,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			DomainPage.ClickSaveDomain();
 			if (shouldCreateOk)
 			{
-				Assert.IsTrue(DomainPage.WaitUntilSave(), "Ошибка: domain не сохранился!");
+				DomainPage.WaitUntilSave();
 			}
 			else
 			{
@@ -1598,9 +1578,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			GlossaryEditForm.ClickLastLangOpenCloseList();
 
 			// Выбрать язык
-			Assert.IsTrue(GlossaryEditForm.GetIsExistLanguageInList(lang),
-				"Ошибка: указанного языка нет в списке");
-
+			GlossaryEditForm.AssertionIsLanguageExistInList(lang);
 			GlossaryEditForm.SelectLanguage(lang);
 		}
 
@@ -1610,29 +1588,22 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		protected void AllLanguagesToDefaultCreateGlossary()
 		{
 			// Удалить все языки
-			for (int i = 1; i < GlossaryEditForm.GetGlossaryLanguageCount(); i++)
+			for (var i = 1; i < GlossaryEditForm.GetGlossaryLanguageCount(); i++)
 			{
 				GlossaryEditForm.ClickDeleteLanguage();
 			}
+
 			// Выставить первый английский
 			GlossaryEditForm.ClickLastLangOpenCloseList();
-
 			// Выбрать язык
-			Assert.IsTrue(
-				GlossaryEditForm.GetIsExistLanguageInList(CommonHelper.LANGUAGE.English),
-				"Ошибка: указанного языка нет в списке");
-
+			GlossaryEditForm.AssertionIsLanguageExistInList(CommonHelper.LANGUAGE.English);
 			GlossaryEditForm.SelectLanguage(CommonHelper.LANGUAGE.English);
 			// Кликнуть по Плюсу
 			GlossaryEditForm.ClickAddLanguage();
 			// Выставить второй русский
 			GlossaryEditForm.ClickLastLangOpenCloseList();
-
 			// Выбрать язык
-			Assert.IsTrue(
-				GlossaryEditForm.GetIsExistLanguageInList(CommonHelper.LANGUAGE.Russian),
-				"Ошибка: указанного языка нет в списке");
-
+			GlossaryEditForm.AssertionIsLanguageExistInList(CommonHelper.LANGUAGE.Russian);
 			GlossaryEditForm.SelectLanguage(CommonHelper.LANGUAGE.Russian);
 		}
 
@@ -1685,9 +1656,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			WorkspacePage.ClickDocumentAssignBtn(projectName);
 
 			// Ожидание открытия диалога выбора исполнителя
-			Assert.IsTrue(
-				ResponsiblesDialog.WaitUntilResponsiblesDialogDisplay(),
-				"Ошибка: Диалог выбора исполнителя не открылся.");
+			ResponsiblesDialog.WaitUntilResponsiblesDialogDisplay();
 		}
 
 		/// <summary>
@@ -1741,9 +1710,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			EditorPage.ClickDictionaryBtn();
 
 			// Проверка, что открылась форма
-			Assert.IsTrue(
-				EditorPage.WaitDictionaryFormDisplay(),
-				"Ошибка: Форма со словарем не открылась.");
+			EditorPage.AssertionIsDictionaryFormDisplayed();
 		}
 
 		/// <summary>
@@ -1752,9 +1719,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		protected void WaitLoadDictionary()
 		{
 			//Проверяем, что загрузка словаря закончилась 
-			Assert.IsTrue(
-				EditorPage.WaitDictionaryLoadListWords(),
-				"Ошибка: Не удалось дождаться окончания загрузки словаря.");
+			EditorPage.AssertionIsDictionaryListLoad();
 		}
 		
 		/// <summary>
@@ -1784,10 +1749,14 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// </summary>
 		protected void AutoSave()
 		{
-			// Дожидаемся сохранения сегментов
 			Assert.IsTrue(
 				EditorPage.WaitUntilAllSegmentsSave(),
-				"Ошибка: Не проходит автосохранение.");
+				"Ошибка: Не проходит автосохранение. Надпись 'Saving' по-прежнему имеется над окном с сегментами.");
+
+			Assert.AreEqual(
+				Editor_RevisionPageHelper.RevisionType.AutoSave,
+				RevisionPage.GetRevisionType(1),
+				"Ошибка: неверный тип последней ревизии после автосохранения.");
 		}
 
 		/// <summary>
@@ -1804,7 +1773,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			}
 			if (BrowserName == "IE")
 			{
-				Process[] explorerArray = Process.GetProcessesByName("iexplore");
+				var explorerArray = Process.GetProcessesByName("iexplore");
 				foreach (var item in explorerArray)
 				{
 					item.Kill();
@@ -1904,9 +1873,8 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			{
 				WorkspaceCreateProjectDialog.ClickSkipBtn();
 
-				Assert.IsTrue(
-					WorkspaceCreateProjectDialog.WaitUntilConfirmTMDialogDisappear(),
-					"Ошибка: после нажатия кнопки Skip диалог подтверждения не выбранной ТМ не закрылся.");
+				// Ждем пока диалог не пропадет
+				WorkspaceCreateProjectDialog.AssertionConfirmTMDialogDisappear();
 			}
 		}
 		

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using NLog;
+using NUnit.Framework;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.UI;
 using System.Windows.Forms;
@@ -32,10 +33,22 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			};
 		}
 
-		public bool WaitPageLoad()
+		public void AssertionIsPageLoad()
 		{
-			Log.Trace("Ожидание загрузки страницы");
-			return Wait.Until((d) => d.Url.Contains(TITLE_TEXT));
+			Logger.Debug("Проверяем, загрузилась ли страница");
+
+			bool isPageLoad;
+
+			try
+			{
+				isPageLoad = Wait.Until((d) => d.Url.Contains(TITLE_TEXT));
+			}
+			catch (WebDriverTimeoutException)
+			{
+				isPageLoad = false;
+			}
+
+			Assert.IsTrue(isPageLoad, "Ошибка: страница редактора не открылась.");
 		}
 		
 		/// <summary>
@@ -44,7 +57,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <returns>Задача</returns>
 		public string GetStageName()
 		{
-			string stage = "";
+			var stage = "";
 
 			if (GetIsElementExist(By.XPath(STAGE_NAME_XPATH)))
 				stage = GetTextElement(By.XPath(STAGE_NAME_XPATH));
@@ -58,14 +71,24 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			return GetIsElementExist(By.CssSelector(SEGMENTS_CSS));
 		}
 
-		/// <summary>
-		/// Ввести текст в target
-		/// </summary>
-		/// <param name="rowNum">номер строки</param>
-		/// <param name="text">текст</param>
 		public void AddTextTarget(int rowNum, string text)
 		{
-			ClickClearAndAddText(By.XPath(GetTargetCellXPath(rowNum)), text);
+			Logger.Trace(string.Format("Добавить текст {0} в таргет №{1}", text, rowNum));
+
+			var targerCellForInput = By.XPath(GetTargetCellXPath(rowNum));
+
+			if (!GetIsElementExist(targerCellForInput))
+			{
+				var errorMessage = string.Format(
+					"Не удается найти таргет сегмент для вставки текста. Путь к элементу: {0}",
+					targerCellForInput);
+
+				Logger.Error(errorMessage);
+
+				throw new NoSuchElementException(errorMessage);
+			}
+		
+			ClickClearAndAddText(targerCellForInput, text);
 			WaitUntilDisplayElement(By.XPath(GetTargetWithTextXpath(rowNum, text)), 1);
 			Logger.Trace("добавили текст: " + text);
 		}
@@ -278,7 +301,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 
 		public void ClickConfirmBtn()
 		{
-			Log.Trace("Кликнуть Confirm");
+			Logger.Debug("Кликнуть Confirm");
 			ClickElement(By.Id(CONFIRM_BTN_ID));
 		}
 
@@ -566,7 +589,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <returns>Css</returns>
 		protected string GetTargetCellXPath(int rowNumber)
 		{
-			return getSegmentRow(rowNumber) + TARGET_CELL_XPATH;
+			return getSegmentRow(rowNumber) + TARGET_CELL_XPATH_FOR_INPUT;
 		}
 		
 		/// <summary>
@@ -577,8 +600,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <returns>xPath</returns>
 		protected string GetTargetWithTextXpath(int segmentNumber, string text)
 		{
-			return "//table[@data-recordindex='" + (segmentNumber - 1) + 
-				"' and contains(@id, 'segment')]" + TARGET_TEXT_XPATH + text + "']";
+			return "//table[@data-recordindex='" + (segmentNumber - 1) + "']"+ TARGET_TEXT_XPATH + text + "']";
 		}
 
 		/// <summary>
@@ -651,22 +673,22 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			return WaitUntilDisplayElement(By.Id(CHAR_FORM_ID));
 		}
 
-		/// <summary>
-		/// Возвращает открылась ли форма словаря
-		/// </summary>
-		/// <returns>Форма открылась</returns>
-		public bool WaitDictionaryFormDisplay()
+		public void AssertionIsDictionaryFormDisplayed()
 		{
-			return WaitUntilDisplayElement(By.Id(DICTIONARY_FORM_ID));
+			Logger.Trace("Проверить, открылась ли форма словаря");
+
+			Assert.IsTrue(
+				WaitUntilDisplayElement(By.Id(DICTIONARY_FORM_ID)),
+				"Ошибка: Форма со словарем не открылась.");
 		}
 
-		/// <summary>
-		/// Возвращает закончилась ли загрузка словаря
-		/// </summary>
-		/// <returns>Закончена загрузка слов</returns>
-		public bool WaitDictionaryLoadListWords()
+		public void AssertionIsDictionaryListLoad()
 		{
-			return WaitUntilDisappearElement(By.XPath(DICTIONARY_LOADING_WORDS_XPATH));
+			Logger.Trace("Ожидание окончания загрузки словаря");
+
+			Assert.IsTrue(
+				WaitUntilDisappearElement(By.XPath(DICTIONARY_LOADING_WORDS_XPATH)),
+				"Ошибка: Не удалось дождаться окончания загрузки словаря.");
 		}
 
 		/// <summary>
@@ -793,10 +815,9 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 
 			return wordList;
 		}
-
 		public bool WaitUntilAllSegmentsSave()
 		{
-			Log.Trace("Вернуть, сохранились ли сегменты");
+			Logger.Trace("Возвращает, исчезла ли надпись 'Saving...' над окном с сегментами");
 			return WaitUntilDisappearElement(By.XPath(AUTOSAVING_XPATH));
 		}
 		
@@ -818,25 +839,22 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			ClickElement(By.XPath(TASK_PROOFREADING_BTN_XPATH));
 		}
 
-		public bool GetTranslationTaskBtnIsExist()
+		public void AssertionTranslationTaskBtnIsExist()
 		{
-			Logger.Trace("Получение наличия кнопки 'перевод'");
-			return GetIsElementExist(By.XPath(TASK_TRNSLT_BTN_XPATH));
+			Logger.Trace("Проверка наличия кнопки 'Перевод'");
+			Assert.True(GetIsElementExist(By.XPath(TASK_TRNSLT_BTN_XPATH)), "Ошибка: Неверный этап в окне выбора ");
 		}
 
-		public bool GetEditingTaskBtnIsExist()
+		public void AssertionEditingTaskBtnIsExist()
 		{
-			Logger.Trace("Получение наличия кнопки 'редактура'");
-			return GetIsElementExist(By.XPath(TASK_EDIT_BTN_XPATH));
+			Logger.Trace("Проверка наличия кнопки 'Редактура'");
+			Assert.True(GetIsElementExist(By.XPath(TASK_EDIT_BTN_XPATH)), "Ошибка: Неверный этап в окне выбора ");
 		}
 
-		/// <summary>
-		/// Убедиться, что появилась кнопка Корректура
-		/// </summary>
-		/// <returns>появилась</returns>
-		public bool GetProofreadingTaskBtnIsExist()
+		public void AssertionProofreadingTaskBtnIsExist()
 		{
-			return GetIsElementExist(By.XPath(TASK_PROOFREADING_BTN_XPATH));
+			Logger.Trace("Проверка наличия кнопки 'Корректура'");
+			Assert.True(GetIsElementExist(By.XPath(TASK_PROOFREADING_BTN_XPATH)), "Ошибка: Неверный этап в окне выбора ");
 		}
 
 		public void ClickContBtn()
@@ -874,19 +892,19 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			return ParseStrToInt(targetMatchPercent.Remove(targetMatchPercent.IndexOf('%')));
 		}
 
-		/// <summary>
-		/// Кликнуть по последнему видимому сегменту
-		/// </summary>
 		public void ClickLastVisibleSegment()
 		{
+			Logger.Trace("Кликнуть по последнему видимому сегменту");
 			var visibleSegmentsCount = GetElementList(By.XPath(SEGMENTS_TABLE_XPATH)).Count;
 			ClickElement(By.XPath(getLastVisiblElementXPath(visibleSegmentsCount)));
 		}
 
 		public void ScrollToRequiredSegment(int segmentNumber)
 		{
+			Logger.Debug(string.Format("Прокрутить до сегмента #{0}", segmentNumber));
 			while (getIsSegmentVisible(segmentNumber) != true)
 			{
+				Logger.Trace("Определить номер первого видимого сегмента");
 				var firstVisibleSegment = Convert.ToInt32(
 					Driver.FindElement(
 						By.XPath(
@@ -898,6 +916,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 				}
 				else
 				{
+					Logger.Trace("Кликнуть по первому видимому сегменту");
 					ClickElement(By.XPath(FIRST_VISIBLE_SEGMENT_XPATH));
 				}
 			}
@@ -963,7 +982,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		protected const string CHARACTER_BTN_ID = "charmap-btn";
 		protected const string ADD_TERM_BTN_ID = "add-term-btn";
 
-		protected const string AUTOSAVING_XPATH = ".//div[contains(text(), 'Saving')]";
+		protected const string AUTOSAVING_XPATH = "//div[contains(text(), 'Saving…')]";
 		
 		protected const string DICTIONARY_FORM_ID = "dictionary";
 		protected const string ADD_TERM_FORM_ID = "term-window";
@@ -989,7 +1008,8 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		protected const string SEGMENT_CAT_SELECTED = "cat-selected";
 		protected const string TARGET_XPATH = "//td[3]//div";
 		protected const string SOURCE_CELL_XPATH = "//td[2]//div//pre";
-		protected const string TARGET_CELL_XPATH = "//td[3]//div//div";
+		protected const string TARGET_CELL_XPATH_FOR_INPUT = "//td[3]//div//div";
+		protected const string TARGET_CELL_XPATH = "//td[3]//div//div//pre";
 		protected const string TARGET_CELL_TEXT_XPATH = "//td[3]//div//pre";
 		protected const string FIRST_VISIBLE_SEGMENT_XPATH = "//div[@id='segments-body']//table[1]//td[1]";
 		protected const string SEGMENTS_TABLE_XPATH = "//div[@id='segments-body']//div//div[2]//table";
@@ -1034,6 +1054,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 
 		private bool getIsSegmentVisible(int rowNumber)
 		{
+			Logger.Trace(string.Format("Определить видимость сегмента #{0}", rowNumber));
 			return GetIsElementExist(By.XPath(getSegmentRow(rowNumber)));
 		}
 
@@ -1043,5 +1064,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 				"//div[@id='segments-body']//table[{0}]//td[1]", 
 				tableElementsCount);
 		}
+
+		public static Logger Logger = LogManager.GetCurrentClassLogger();
 	}
 }

@@ -899,8 +899,8 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			// Настройка Pretranslate		  
 			WorkspaceCreateProjectDialog.ClickFinishCreate();
 
-			// Дождаться проекта в списке проектов		   
-			Assert.IsTrue(WorkspacePage.WaitProjectAppearInList(_projectName2), "Ошибка: проект не появился в списке Workspace");			
+			// Дождаться проекта в списке проектов
+			WorkspacePage.WaitProjectAppearInList(_projectName2);
 		}
 	}
 }

@@ -69,8 +69,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			Assert.IsTrue(ProjectPage.GetPretranslateTitleDisplay(), "Ошибка : Pretranslation степ не открылся");
 
 			WorkspaceCreateProjectDialog.ClickFinishCreate();
-			Assert.IsTrue(WorkspacePage.WaitProjectAppearInList(ProjectName),
-				"Ошибка: Проект не появился в списке.");
+			WorkspacePage.WaitProjectAppearInList(ProjectName);
 		}
 		
 		/// <summary>
@@ -111,7 +110,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			Assert.IsFalse(ResponsiblesDialog.WaitUntilChooseTaskDialogDisplay(), "Ошибка : окно выбора задачи отображается при входе в редактор с использованием персонального аккаунта ");
 			
 			//Ждем загрузки редактора
-			EditorPage.WaitPageLoad();
+			EditorPage.AssertionIsPageLoad();
 		}
 	}
 }

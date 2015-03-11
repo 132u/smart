@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using NUnit.Framework;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.UI;
 using System.Linq;
@@ -138,15 +139,15 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			ClickElement(By.XPath(LAST_LANG_LIST_DROPDOWN_XPATH));
 		}
 
-		/// <summary>
-		/// Вернуть, есть ли язык в списке
-		/// </summary>
-		/// <param name="lang">язык</param>
-		/// <returns>есть</returns>
-		public bool GetIsExistLanguageInList(LANGUAGE lang)
+		public void AssertionIsLanguageExistInList(LANGUAGE lang)
 		{
-			return GetIsElementExist(By.XPath(DROPDOWNLIST_XPATH + 
-				"/span[@data-id='" + languageID[lang] + "']"));
+			Logger.Trace(string.Format("Проверка наличия языка {0} в списке", lang));
+			
+			var elementXPath = DROPDOWNLIST_XPATH + "/span[@data-id='" + languageID[lang] + "']";
+
+			Assert.IsTrue(
+				GetIsElementExist(By.XPath(elementXPath)),
+				"Ошибка: указанного языка нет в списке");
 		}
 
 		/// <summary>

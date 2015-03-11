@@ -59,9 +59,8 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.CheckRights
 			WorkspacePage.ClickAccount();
 			WorkspacePage.ClickLogoff();
 
-			// Проверить, загрузилась ли
-			Assert.IsTrue(LoginPage.WaitPageLoadLpro(),
-				"Не прогрузилась страница Login - возможно, сайт недоступен");
+			// Дождаться загрузки страницы
+			LoginPage.WaitPageLoadLpro();
 			
 			// Авторизуемся под пользователем, для которого выставляли права
 			Authorization(TestRightsLogin, TestRightsPassword, accountName);
@@ -228,14 +227,10 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.CheckRights
 				WorkspacePage.ClickDeleteProjectBtn();
 
 				// Подтвердить
-				Assert.IsTrue(
-					WorkspacePage.ClickConfirmDelete(),
-					"Ошибка: не появилась форма подтверждения удаления проекта");
+				WorkspacePage.ClickConfirmDelete();
 
 				// Дождаться, пока пропадет диалог подтверждения удаления
-				Assert.IsTrue(
-					WorkspacePage.WaitUntilDeleteConfirmFormDisappear(),
-					"Ошибка: не скрылась форма подтверждения удаления проекта");
+				WorkspacePage.WaitUntilDeleteConfirmFormDisappear();
 			}
 			else
 			{
@@ -304,14 +299,10 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.CheckRights
 				CheckCreateProjectRightHelper.ClickDeleteButtonInProject();
 
 				// Подтвердить
-				Assert.IsTrue(
-					WorkspacePage.ClickConfirmDelete(),
-					"Ошибка: не появилась форма подтверждения удаления проекта");
+				WorkspacePage.ClickConfirmDelete();
 
 				// Дождаться, пока пропадет диалог подтверждения удаления
-				Assert.IsTrue(
-					WorkspacePage.WaitUntilDeleteConfirmFormDisappear(),
-					"Ошибка: не скрылась форма подтверждения удаления проекта");
+				WorkspacePage.WaitUntilDeleteConfirmFormDisappear();
 			}
 		}
 
@@ -483,9 +474,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.CheckRights
 			ProjectPage.ClickFinishImportDialog();
 
 			// Дождаться окончания загрузки
-			Assert.IsTrue(
-				ProjectPage.WaitDocumentDownloadFinish(),
-					"Ошибка: документ загружается слишком долго");
+			ProjectPage.WaitDocumentDownloadFinish();
 
 			// Проверка, что файл добавлен в проект
 			Assert.IsTrue(CheckCreateProjectRightHelper.GetIsFileInProjectExist(PathProvider.DocumentFile2),

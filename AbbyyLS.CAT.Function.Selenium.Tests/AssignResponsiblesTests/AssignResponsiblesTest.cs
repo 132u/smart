@@ -76,8 +76,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			ResponsiblesDialog.ClickResponsiblesDropboxByRowNumber(1);
 
 			// Ожидание открытия диалога выбора исполнителя
-			Assert.IsTrue(ResponsiblesDialog.WaitUntilResponsiblesDialogDisplay(),
-				"Ошибка: Диалог выбора исполнителя не открылся.");
+			ResponsiblesDialog.WaitUntilResponsiblesDialogDisplay();
 		}
 
 		/// <summary>
@@ -143,8 +142,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			ProjectPage.ClickAssignRessponsibleBtn();
 
 			// Ожидание открытия диалога выбора исполнителя
-			Assert.IsTrue(ResponsiblesDialog.WaitUntilResponsiblesDialogDisplay(),
-				"Ошибка: Диалог выбора исполнителя не открылся.");
+			ResponsiblesDialog.WaitUntilResponsiblesDialogDisplay();
 		}
 
 		/// <summary>
@@ -166,8 +164,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			ProjectPage.ClickAssignRessponsibleBtn();
 			
 			// Ожидание открытия диалога выбора исполнителя
-			Assert.IsTrue(ResponsiblesDialog.WaitUntilResponsiblesDialogDisplay(),
-				"Ошибка: Диалог выбора исполнителя не открылся.");
+			ResponsiblesDialog.WaitUntilResponsiblesDialogDisplay();
 		}
 
 		/// <summary>
@@ -191,8 +188,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			// Клик по кнопке Assign Tasks
 			ProjectPage.ClickAssignRessponsibleBtn();
 			// Ожидание открытия диалога выбора исполнителя
-			Assert.IsTrue(ResponsiblesDialog.WaitUntilResponsiblesDialogDisplay(),
-				"Ошибка: Диалог выбора исполнителя не открылся.");
+			ResponsiblesDialog.WaitUntilResponsiblesDialogDisplay();
 		}
 
 		/// <summary>
