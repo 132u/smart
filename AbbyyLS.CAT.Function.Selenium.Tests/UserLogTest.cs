@@ -572,7 +572,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// </summary>
 		[Test]
 		[Ignore("Temporarily not working")]
-		[TestCase(Workspace_CreateProjectDialogHelper.MT_TYPE.DefaultMT)]
+		[TestCase(Workspace_CreateProjectDialogHelper.MT_TYPE.ABBYY)]
 		[TestCase(Workspace_CreateProjectDialogHelper.MT_TYPE.Bing)]
 		[TestCase(Workspace_CreateProjectDialogHelper.MT_TYPE.Google)]
 		[TestCase(Workspace_CreateProjectDialogHelper.MT_TYPE.Moses)]
@@ -1057,7 +1057,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			CreateReadyProject(
 				projectName,
 				withMT: true,
-				mtType: Workspace_CreateProjectDialogHelper.MT_TYPE.DefaultMT,
+				mtType: Workspace_CreateProjectDialogHelper.MT_TYPE.ABBYY,
 				chooseGlossary: true,
 				glossaryName: uniqueGlossaryName);
 			WriteLog(0, "Открытие документа", "-", "-");

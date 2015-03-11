@@ -44,7 +44,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 					setGlossary: Workspace_CreateProjectDialogHelper.SetGlossary.New, 
 					glossaryName: "",
 					chooseMT:true,
-					mtType: Workspace_CreateProjectDialogHelper.MT_TYPE.DefaultMT,
+					mtType: Workspace_CreateProjectDialogHelper.MT_TYPE.ABBYY,
 					isNeedCheckProjectAppearInList: false);
 
 				Thread.Sleep(2000);

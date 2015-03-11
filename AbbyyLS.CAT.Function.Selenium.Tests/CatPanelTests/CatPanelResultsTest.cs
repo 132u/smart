@@ -39,7 +39,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Editor.Panel
 		/// </summary>
 		[Test]
 		[Ignore("Temporarily not working")]
-		[TestCase(Workspace_CreateProjectDialogHelper.MT_TYPE.DefaultMT)]
+		[TestCase(Workspace_CreateProjectDialogHelper.MT_TYPE.ABBYY)]
 		[TestCase(Workspace_CreateProjectDialogHelper.MT_TYPE.Bing)]
 		[TestCase(Workspace_CreateProjectDialogHelper.MT_TYPE.Google)]
 		[TestCase(Workspace_CreateProjectDialogHelper.MT_TYPE.Moses)]

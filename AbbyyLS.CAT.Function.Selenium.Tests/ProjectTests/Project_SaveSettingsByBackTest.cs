@@ -98,6 +98,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			FirstStepProjectWizard(ProjectName);
 			// Next
 			WorkspaceCreateProjectDialog.ClickNextStep();
+			WorkspaceCreateProjectDialog.ClickNextStep();
 			// Выбрать ТМ
 			WorkspaceCreateProjectDialog.ClickFirstTMInTable();
 			// Next
@@ -121,6 +122,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			FirstStepProjectWizard(ProjectName);
 			// Next
 			WorkspaceCreateProjectDialog.ClickNextStep();
+			WorkspaceCreateProjectDialog.ClickNextStep();
 			// Выбрать ТМ
 			WorkspaceCreateProjectDialog.ClickFirstTMInTable();
 			// Back
@@ -143,6 +145,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			// Открыли форму создания проекта, заполнили поля
 			FirstStepProjectWizard(ProjectName);
 			// Next
+			WorkspaceCreateProjectDialog.ClickNextStep();
 			WorkspaceCreateProjectDialog.ClickNextStep();
 			// Выбрать ТМ
 			WorkspaceCreateProjectDialog.ClickFirstTMInTable();
@@ -171,6 +174,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			FirstStepProjectWizard(ProjectName);
 			// Next
 			WorkspaceCreateProjectDialog.ClickNextStep();
+			WorkspaceCreateProjectDialog.ClickNextStep();
 			// Выбрать ТМ
 			WorkspaceCreateProjectDialog.ClickFirstTMInTable();
 			// Next
@@ -197,6 +201,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			FirstStepProjectWizard(ProjectName);
 			// Next
 			WorkspaceCreateProjectDialog.ClickNextStep();
+			WorkspaceCreateProjectDialog.ClickNextStep();
 			// Выбрать ТМ
 			WorkspaceCreateProjectDialog.ClickFirstTMInTable();
 			// Next
@@ -206,7 +211,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			// Next
 			WorkspaceCreateProjectDialog.ClickNextStep();
 			// Выбрать compreno
-			var mtType = Workspace_CreateProjectDialogHelper.MT_TYPE.DefaultMT;
+			var mtType = Workspace_CreateProjectDialogHelper.MT_TYPE.ABBYY;
 			WorkspaceCreateProjectDialog.ChooseMT(mtType);
 			// Next
 			WorkspaceCreateProjectDialog.ClickNextStep();
@@ -228,6 +233,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			FirstStepProjectWizard(ProjectName);
 			// Next
 			WorkspaceCreateProjectDialog.ClickNextStep();
+			WorkspaceCreateProjectDialog.ClickNextStep();
 			// Выбрать ТМ
 			WorkspaceCreateProjectDialog.ClickFirstTMInTable();
 			// Next
@@ -237,15 +243,14 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			// Next
 			WorkspaceCreateProjectDialog.ClickNextStep();
 			// Выбрать compreno
-			var mtType = Workspace_CreateProjectDialogHelper.MT_TYPE.DefaultMT;
-			WorkspaceCreateProjectDialog.ChooseMT(mtType);
+			WorkspaceCreateProjectDialog.ChooseMT(Workspace_CreateProjectDialogHelper.MT_TYPE.ABBYY);
 			// Нажать Back
 			WorkspaceCreateProjectDialog.ClickBackBtn();
 			// Next
 			WorkspaceCreateProjectDialog.ClickNextStep();
 
 			// Проверить, сохранился ли выбор МТ
-			CheckMTSettings(mtType);
+			CheckMTSettings(Workspace_CreateProjectDialogHelper.MT_TYPE.ABBYY);
 		}
 
 		/// <summary>
@@ -260,6 +265,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			FirstStepProjectWizard(ProjectName);
 			// Next
 			WorkspaceCreateProjectDialog.ClickNextStep();
+			WorkspaceCreateProjectDialog.ClickNextStep();
 			// Выбрать ТМ
 			WorkspaceCreateProjectDialog.ClickFirstTMInTable();
 			// Next
@@ -269,7 +275,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			// Next
 			WorkspaceCreateProjectDialog.ClickNextStep();
 			// Выбрать compreno
-			var mtType = Workspace_CreateProjectDialogHelper.MT_TYPE.DefaultMT;
+			var mtType = Workspace_CreateProjectDialogHelper.MT_TYPE.ABBYY;
 			WorkspaceCreateProjectDialog.ChooseMT(mtType);
 			// Next
 			WorkspaceCreateProjectDialog.ClickNextStep();

@@ -82,6 +82,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// </summary>
 		public void ClickUserNameCell()
 		{
+			Logger.Trace("Клик по комбобоксу в диалог. окне назначения пользователя");
 			ClickElement(By.XPath(PROGRESS_DIALOG_TABLE_USERNAME_XPATH));
 		}
 
@@ -500,6 +501,11 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			return GetElementClass(By.XPath(PROGRESS_DIALOG_ASSIGN_SPAN_XPATH)).Contains("notAssigned");
 		}
 
+		public string GetAssignName()
+		{
+			return GetElementClass(By.XPath(PROGRESS_DIALOG_ASSIGN_SPAN_XPATH));
+		}
+
 		/// <summary>
 		/// Находит глоссарий по имени и выбирает его
 		/// </summary>
@@ -705,10 +711,10 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			UploadDocNativeAction(fileName);
 		}
 
-		protected const string ADD_FILE_ON_PROJECT_PAGE = "//div[contains(@class,'js-popup-import-document')][2]//input[@type='file']"; // добавление документа уже сущестующему проекту на стр проекта
+		protected const string ADD_FILE_ON_PROJECT_PAGE = "//div[contains(@class, 'js-popup-import-document')][2]//input[@type='file']"; // добавление документа уже сущестующему проекту на стр проекта
 
 		protected const string PROJECT_TABLE_XPATH = "//table[contains(@class,'l-project-panel-tbl')]";
-		protected const string PROGRESS_BTN_XPATH = "//div[@class='ui-progressbar__container']";
+		protected const string PROGRESS_BTN_XPATH = "//td[contains(@class, progress)]//div[@class='ui-progressbar__container']";
 		protected const string PANEL_BTNS_XPATH = "//div[@class='l-corpr__btnterm__left js-buttons-left']";
 		protected const string PROGRESS_DIALOG_XPATH = "//div[contains(@style,'display: block')]//div[contains(@class,'g-popupbox l-editgloss l-progress')]";
 		protected const string PROGRESS_DIALOG_TABLE_USERNAME_XPATH =

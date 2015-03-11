@@ -68,7 +68,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Editor
 					Workspace_CreateProjectDialogHelper.SetGlossary.None, 
 					"", 
 					true, 
-					Workspace_CreateProjectDialogHelper.MT_TYPE.DefaultMT);
+					Workspace_CreateProjectDialogHelper.MT_TYPE.ABBYY);
 				// Открытие настроек проекта
 				WorkspacePage.OpenProjectPage(ProjectName);
 			}

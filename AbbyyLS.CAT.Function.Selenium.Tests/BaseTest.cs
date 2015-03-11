@@ -1648,7 +1648,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			bool withTM = true, 
 			bool withMT = false, 
 			string uploadDocument = "",
-			Workspace_CreateProjectDialogHelper.MT_TYPE mtType = Workspace_CreateProjectDialogHelper.MT_TYPE.DefaultMT, 
+			Workspace_CreateProjectDialogHelper.MT_TYPE mtType = Workspace_CreateProjectDialogHelper.MT_TYPE.ABBYY, 
 			bool chooseGlossary = false, 
 			string glossaryName = "")
 		{

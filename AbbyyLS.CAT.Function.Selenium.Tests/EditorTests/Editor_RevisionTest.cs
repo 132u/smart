@@ -49,7 +49,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Editor.Revisions
 					setGlossary: Workspace_CreateProjectDialogHelper.SetGlossary.New,
 					glossaryName: "",
 					chooseMT: true,
-					mtType: Workspace_CreateProjectDialogHelper.MT_TYPE.DefaultMT,
+					mtType: Workspace_CreateProjectDialogHelper.MT_TYPE.ABBYY,
 					isNeedCheckProjectAppearInList: false,
 					translationTasksNumber: 2);
 

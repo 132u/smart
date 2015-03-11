@@ -269,11 +269,8 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			AssignTask();
 			// Выбрать документ
 			SelectDocumentInProject(1);
-
-			// Открыть диалог Progress
-			ProjectPage.ClickProgressBtn();
+			ProjectPage.ClickAssignRessponsibleBtn();
 			ProjectPage.WaitProgressDialogOpen();
-
 			// Нажать Отмену назначения
 			ProjectPage.ClickCancelAssignBtn();
 			// Подтвердить
@@ -282,9 +279,8 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			Thread.Sleep(2000);
 
 			// Проверить, изменился ли статус на not Assigned
-			Assert.IsTrue(
-				ProjectPage.GetIsAssignStatusNotAssigned(),
-				"Статус назначения не изменился на notAssigned");
+			Assert.IsTrue(ProjectPage.GetAssignName() != UserName,
+				"Имя в дропдауне назначения пользователя не изменился");
 
 			// Назначить ответственного в окне Progress
 			ProjectPage.ClickUserNameCell();

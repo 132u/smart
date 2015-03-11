@@ -5,11 +5,10 @@ using System.Threading;
 using NLog;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.UI;
-using System.IO;
+using NUnit.Framework;
 
 namespace AbbyyLS.CAT.Function.Selenium.Tests
 {
-
 	/// <summary>
 	/// Хелпер диалога создания проекта
 	/// </summary>
@@ -23,7 +22,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		public Workspace_CreateProjectDialogHelper(IWebDriver driver, WebDriverWait wait) :
 			base(driver, wait)
 		{
-			MTTypeDict.Add(MT_TYPE.DefaultMT, DEFAULT_MT_TYPE);
+			MTTypeDict.Add(MT_TYPE.ABBYY, DEFAULT_MT_TYPE);
 			MTTypeDict.Add(MT_TYPE.Google, GOOGLE_MT_TYPE);
 			MTTypeDict.Add(MT_TYPE.Bing, BING_MT_TYPE);
 			MTTypeDict.Add(MT_TYPE.Yandex, YANDEX_MT_TYPE);
@@ -926,7 +925,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		protected const string UPLOAD_FILE_TO_NEW_PROJECT = "//div[contains(@class,'js-popup-create-project')][2]//div[@class='js-files-uploader']//input"; // добавление документа при создании проекта
 
 		public enum SetGlossary { New, First, ByName, None };
-		public enum MT_TYPE { DefaultMT, Google, Bing, Yandex, Moses, None };
+		public enum MT_TYPE { ABBYY, Google, Bing, Yandex, Moses, None };
 		protected Dictionary<MT_TYPE, string> MTTypeDict = new Dictionary<MT_TYPE, string>();
 		protected const string TM_UPLOAD = "//div[contains(@class,\"js-popup-create-tm\")][2]//input[@type=\"file\"]";
 		protected const string CREATE_PROJECT_DIALOG_XPATH = "//div[contains(@class,'js-popup-create-project')][2]";
