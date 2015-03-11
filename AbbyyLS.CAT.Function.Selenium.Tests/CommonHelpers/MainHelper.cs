@@ -23,6 +23,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// </summary>
 		public void ClickOpenWorkSpacePage()
 		{
+			Logger.Trace("Клик по пункту 'Projects' в вертикальном меню");
 			ClickElement(By.XPath(WORKSPACE_REF_XPATH));
 		}
 

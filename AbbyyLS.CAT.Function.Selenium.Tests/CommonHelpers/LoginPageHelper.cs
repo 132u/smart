@@ -220,7 +220,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		public int GetAccountsCount()
 		{
 			// Sleep не убирать, необходим для авторизации пользователя  с одним аккаунтом
-			Thread.Sleep(1000);
+			Thread.Sleep(2000);
 			return GetElementList(By.XPath(ACCOUNT_LIST)).Count;
 		}
 

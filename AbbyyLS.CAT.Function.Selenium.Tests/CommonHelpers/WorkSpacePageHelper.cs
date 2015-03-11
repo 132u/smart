@@ -4,7 +4,6 @@ using NLog;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.UI;
 using System.Threading;
-using System.Linq;
 
 namespace AbbyyLS.CAT.Function.Selenium.Tests
 {
@@ -114,7 +113,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			{
 				ClickElement(By.XPath(GetProjectRefXPath(projectName) + FOLDER_SIGN));
 			}
-			
 		}
 
 		public bool OpenDocumentInfo(int documentNumber)
@@ -542,7 +540,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		}
 
 		/// <summary>
-		/// Кликнуть Progress кнопку опредеденного документа и проекта
+		/// Кликнуть Progress кнопку определенного документа и проекта
 		/// </summary>
 		/// <param name="projectName"> Название проекта </param>
 		/// <param name="documentNumber"> Номер документа </param>
@@ -558,8 +556,9 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <returns></returns>
 		public bool GetDocumentPanelIsOpened(string projectName, int docNumber = 1)
 		{
-			return GetIsElementExist(By.XPath(GetProjectRefXPath(projectName)
-						+ "//ancestor::tr/following-sibling::tr[@class='js-document-row l-project-row l-corpr__trhover clickable']["+docNumber+"]//tr[@class='js-document-panel l-project__doc-panel']"));
+			string xpath = GetProjectRefXPath(projectName)
+						+ "//ancestor::tr/following-sibling::tr[contains(@class,'js-document-row l-project-row l-corpr__trhover')][" + docNumber + "]";
+			return GetElementAttribute(By.XPath(xpath), "class").Contains("opened");
 		}
 
 		/// <summary>
@@ -588,10 +587,23 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 
 		public void ClickUsersAndRightsBtn()
 		{
-			Log.Trace("Нажать на кнопку 'Users and rights'");
+			if (!GetIsLeftMenuDisplay())
+			{
+				Logger.Trace("Главное меню скрыто");
+				OpenHideMenu();
+			}
+			Logger.Trace("Клик по пункту 'Users and rights' в меню слева");
 			ClickElement(By.XPath(USERS_RIGHTS_BTN_XPATH));
 		}
 
+		/// Открыть скрытое меню
+		/// </summary>
+		public void OpenHideMenu()
+		{
+			Driver.FindElement(By.XPath(MENU_OPEN_BTN)).Click();
+		}
+
+		/// <summary>
 		public string GetUserName()
 		{
 			Log.Trace("Возвращаем имя текущего пользователя");
@@ -651,7 +663,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			ClickElement(By.XPath(RESOURCES_IN_MENU_XPATH));
 		}
 
-		protected const string ADD_FILE_TO_PROJECT = "//div[@class=\"g-popup-bd js-popup-bd js-popup-import-document\"][2]//input[@type=\"file\"]"; // добавление документа уже сущестующему проекту на стр WS
+		protected const string ADD_FILE_TO_PROJECT = "//div[@class='g-popup-bd js-popup-bd js-popup-import-document'][2]//input[@type='file']"; // добавление документа уже сущестующему проекту на стр WS
 
 		public enum LOCALE_LANGUAGE_SELECT { English, Russian };
 		public enum EXPORT_TYPE { Original, TMX, Translated };
@@ -659,6 +671,11 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		public void ClickLanguagSwitcher()
 		{
 			Driver.FindElement(By.XPath(LANGUAGE_SWITCHER)).Click();
+		}
+
+		public bool GetIsLeftMenuDisplay()
+		{
+			return GetIsElementDisplay(By.XPath(LEFT_MENU));
 		}
 
 		public const string LOCALE_EN_LANG = "en";
@@ -715,7 +732,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 
 		protected const string DOCUMENT_PROGRESS_XPATH = "//div[@class='ui-progressbar__container']";
 		protected const string DOCUMENT_ASSIGN_RESPONSIBLES_BTN_XPATH = "//span[contains(@class, 'js-assign-btn') and @data-bind='click: assign']";
-		protected const string UPLOAD_DOCUMENT_BTN_XPATH = ".//span[contains(@class,'js-import-btn ')]";
+		protected const string UPLOAD_DOCUMENT_BTN_XPATH = "//a[contains(text(), 'Add File')]";
 
 		protected const string USERS_RIGHTS_BTN_XPATH = ".//a[contains(@href,'/Users/Index')]";
 
@@ -730,5 +747,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		protected const string RESOURCES_IN_MENU_XPATH = "//li[contains(@class,'js-menuitem-Resources')]";
 		
 		private static readonly Logger Log = LogManager.GetCurrentClassLogger();
+		protected const string MENU_OPEN_BTN = "//h2[@class='g-topbox__header']/a";
+		protected const string LEFT_MENU = "//div[contains(@class, 'js-mainmenu')]";
 	}
 }

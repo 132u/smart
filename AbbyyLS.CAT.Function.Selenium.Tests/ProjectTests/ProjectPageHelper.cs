@@ -38,6 +38,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// </summary>
 		public void ClickProgressBtn()
 		{
+			Logger.Trace("Клик по кнопке 'Progress' на странице проекта");
 			ClickElement(By.XPath(PROGRESS_BTN_XPATH));
 		}
 
@@ -55,6 +56,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// </summary>
 		public void ClickAssignRessponsibleBtn()
 		{
+			Logger.Trace("Клик по кнопке 'Assign Tasks' в свертке документа на странице проекта");
 			ClickElement(By.XPath(DOCUMENT_ASSIGN_RESPONSIBLES_BTN_XPATH));
 		}
 
@@ -225,7 +227,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 
 			if (isDocumentExist)
 			{
-				// Нажать галочку у документа
+				Logger.Trace("Поставить галочку напротив документа под номером " + documentNumber);
 				ClickElement(By.XPath(DOCUMENT_LIST_XPATH
 					+ "//tr[" + documentNumber + "]//td[contains(@class,'checkbox')]//input"));
 			}
@@ -260,6 +262,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// </summary>
 		public void ClickImportBtn()
 		{
+			Logger.Trace("Клик по кнопке 'Import' на странице проекта");
 			ClickElement(By.XPath(IMPORT_DOCUMENT_BTN_XPATH));
 			// TODO проверить, в оригинале:
 			//ждем когда окно с настройками загрузится
@@ -290,6 +293,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// </summary>
 		public void ClickNextImportDialog()
 		{
+			Logger.Trace("Клик по кнопке 'Next' в диалоге импорта");
 			ClickElement(By.XPath(IMPORT_NEXT_BTN_XPATH));
 		}
 
@@ -642,6 +646,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// </summary>
 		public void ClickDocumentProgress()
 		{
+			Logger.Trace("Клик по кнопке 'Progress' документа на странице проекта");
 			ClickElement(By.XPath(DOCUMENT_PROGRESS_XPATH));
 			Thread.Sleep(1000);
 		}
@@ -655,9 +660,11 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		{
 			// Кликнуть на открытие информации о документе
 			var documentXPath = DOCUMENT_ROW_XPATH + "[" + documentNumber + "]//" + OPEN_CLOSE_TD_XPATH;
+			Logger.Trace("Прокерка, что документ есть на странице проекта");
 			var isExistDocument = GetIsElementExist(By.XPath(documentXPath));
 			if (isExistDocument)
 			{
+				Logger.Trace("Клик по документу на странице проекта");
 				ClickElement(By.XPath(documentXPath));
 			}
 
@@ -698,7 +705,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			UploadDocNativeAction(fileName);
 		}
 
-		protected const string ADD_FILE_ON_PROJECT_PAGE = "//div[contains(@class,\"js-popup-import-document\")][2]//input[@type=\"file\"]"; // добавление документа уже сущестующему проекту на стр проекта
+		protected const string ADD_FILE_ON_PROJECT_PAGE = "//div[contains(@class,'js-popup-import-document')][2]//input[@type='file']"; // добавление документа уже сущестующему проекту на стр проекта
 
 		protected const string PROJECT_TABLE_XPATH = "//table[contains(@class,'l-project-panel-tbl')]";
 		protected const string PROGRESS_BTN_XPATH = "//div[@class='ui-progressbar__container']";
@@ -720,7 +727,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		protected const string DOCUMENT_ROW_XPATH = ".//tr[contains(@class,'js-document-row')]";
 		protected const string DOCUMENT_ROW_EDITOR_LINK_XPATH = "//td[2]//a[contains(@class,'js-name l-project__doc-link')]";
 
-		protected const string IMPORT_DOCUMENT_BTN_XPATH = ".//span[contains(@class,'js-document-import')]";
+		protected const string IMPORT_DOCUMENT_BTN_XPATH = "//a[contains(text(), 'Add File')]";
 		protected const string IMPORT_DIALOG_XPATH = ".//div[contains(@class,'js-popup-import-document')][2]";
 		protected const string IMPORT_ADD_BTN_XPATH = IMPORT_DIALOG_XPATH + "//a[contains(@class,'js-add-file')]";
 		protected const string IMPORT_NEXT_BTN_XPATH = IMPORT_DIALOG_XPATH + "//span[contains(@class,'js-next')]";

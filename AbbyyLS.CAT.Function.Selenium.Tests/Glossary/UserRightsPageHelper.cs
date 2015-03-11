@@ -26,6 +26,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// </summary>
 		public void OpenGroups()
 		{
+			Logger.Trace("Клик по пункту 'Groups and Access Rights' в горизонтальном меню");
 			// TODO попробовать через link text
 			ClickElement(By.XPath(GROUP_LINK_XPATH));
 		}
@@ -156,6 +157,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// </summary>
 		public void ClickCreateGroup()
 		{
+			Logger.Trace("Клик по кнопке 'Create Group'");
 			ClickElement(By.XPath(CREATE_GROUP_BTN_XPATH));
 		}
 
@@ -185,6 +187,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <param name="groupName">Имя новой группы</param>
 		public void AddGroupName(string groupName)
 		{
+			Logger.Trace("Ввод заданного имени в поле 'Group name' в диалог окне создания группы");
 			ClickAndSendTextElement(By.XPath(NAME_NEW_GROUP_XPATH), groupName);
 		}
 
@@ -193,6 +196,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// </summary>
 		public void ClickSaveGroup()
 		{
+			Logger.Trace("Клик по кнопке 'Create Group' в диалог окне создания группы");
 			ClickElement(By.XPath(SAVE_NEW_GROUP_XPATH));
 		}
 

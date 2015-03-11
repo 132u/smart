@@ -64,7 +64,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <returns>Диалог загрузился</returns>
 		public bool WaitUntilMasterResponsiblesDialogDisplay()
 		{
-			// Ожидаем пока загрузится диалог
+			Logger.Trace("Ожидаем, пока загрузится диалог выбора исполнителя");
 			return WaitUntilDisplayElement(By.XPath(CHOOSE_TASK_STEP__XPATH + "[2]"));
 		}
 
@@ -89,6 +89,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <returns>Список групп</returns>
 		public List<string> GetResponsibleGroupsList()
 		{
+			Logger.Trace("Получаем список групп исполнителей из выпадающего списка");
 			var elementUsersList = GetElementList(By.XPath(PATH_TO_USERS_LIST));
 
 			return (from element in elementUsersList

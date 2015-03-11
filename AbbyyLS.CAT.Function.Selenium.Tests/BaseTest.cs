@@ -1383,6 +1383,8 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// </summary>
 		protected void SwitchWorkspaceTab()
 		{
+			if (!WorkspacePage.GetIsLeftMenuDisplay())
+				WorkspacePage.OpenHideMenu();
 			MainHelperClass.ClickOpenWorkSpacePage();
 			WorkspacePage.WaitPageLoad();
 		}
