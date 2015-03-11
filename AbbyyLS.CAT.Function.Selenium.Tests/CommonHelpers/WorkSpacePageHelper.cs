@@ -11,7 +11,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 	/// <summary>
 	/// Хелпер страницы workspace
 	/// </summary>
-	public class WorkSpacePageHelper : CommonHelper
+	public class WorkSpacePageHelper : MainHelper
 	{
 		/// <summary>
 		/// Конструктор хелпера
@@ -596,19 +596,9 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		public void ClickUsersAndRightsBtn()
 		{
 			if (!GetIsLeftMenuDisplay())
-			{
-				Logger.Trace("Главное меню скрыто");
 				OpenHideMenu();
-			}
 			Logger.Trace("Клик по пункту 'Users and rights' в меню слева");
 			ClickElement(By.XPath(USERS_RIGHTS_BTN_XPATH));
-		}
-
-		/// Открыть скрытое меню
-		/// </summary>
-		public void OpenHideMenu()
-		{
-			Driver.FindElement(By.XPath(MENU_OPEN_BTN)).Click();
 		}
 
 		/// <summary>
@@ -668,6 +658,9 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// </summary>
 		public void ClickOpenResourcesInMenu()
 		{
+			if (!GetIsLeftMenuDisplay())
+				OpenHideMenu();
+			Logger.Trace("Раскрыть пункт Resources в главном меню слева");
 			ClickElement(By.XPath(RESOURCES_IN_MENU_XPATH));
 		}
 
@@ -679,11 +672,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		public void ClickLanguagSwitcher()
 		{
 			Driver.FindElement(By.XPath(LANGUAGE_SWITCHER)).Click();
-		}
-
-		public bool GetIsLeftMenuDisplay()
-		{
-			return GetIsElementDisplay(By.XPath(LEFT_MENU));
 		}
 
 		public const string LOCALE_EN_LANG = "en";
@@ -755,7 +743,5 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		protected const string RESOURCES_IN_MENU_XPATH = "//li[contains(@class,'js-menuitem-Resources')]";
 		
 		private static readonly Logger Log = LogManager.GetCurrentClassLogger();
-		protected const string MENU_OPEN_BTN = "//h2[@class='g-topbox__header']/a";
-		protected const string LEFT_MENU = "//div[contains(@class, 'js-mainmenu')]";
 	}
 }
