@@ -1870,7 +1870,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			try
 			{
 				if (Driver.SwitchTo().Alert().Text.
-					Contains("Включение функции workflow для аккаунта необратимо, обратное выключение будет невозможно. Продолжить?"));// ||
+					Contains("Включение функции workflow для аккаунта необратимо, обратное выключение будет невозможно. Продолжить?"))
 					Driver.SwitchTo().Alert().Accept();
 
 				Thread.Sleep(500);
