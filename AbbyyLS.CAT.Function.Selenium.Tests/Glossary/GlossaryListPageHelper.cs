@@ -1,4 +1,5 @@
-﻿using NUnit.Framework;
+﻿using System;
+using NUnit.Framework;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.UI;
 
@@ -67,13 +68,24 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			return WaitUntilDisplayElement(By.XPath(GetGlossaryRowXPath(glossaryName)));
 		}
 
-		/// <summary>
-		/// Кликнуть по строке глоссария
-		/// </summary>
-		/// <param name="glossaryName">имя глоссария</param>
 		public void ClickGlossaryRow(string glossaryName)
 		{
-			ClickElement(By.XPath(GetGlossaryRowXPath(glossaryName)));
+			Logger.Trace(string.Format("Кликнуть по глоссарию с именем {0}", glossaryName));
+
+			var pathToGlossaryName = GetGlossaryRowXPath(glossaryName);
+
+			try
+			{
+				ClickElement(By.XPath(pathToGlossaryName));
+			}
+			catch (Exception e)
+			{
+				var errorMessage = string.Format(
+					"Невозможно кликнуть по глоссарию с именем {0}. Текст сообщения: {1}.", glossaryName, e);
+				Logger.Error(errorMessage);
+
+				throw new Exception(errorMessage);
+			}
 		}
 
 		/// <summary>

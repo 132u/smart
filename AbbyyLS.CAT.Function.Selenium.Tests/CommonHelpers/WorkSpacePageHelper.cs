@@ -601,12 +601,27 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			ClickElement(By.XPath(USERS_RIGHTS_BTN_XPATH));
 		}
 
-		/// <summary>
 		public string GetUserName()
 		{
-			Log.Trace("Возвращаем имя текущего пользователя");
-			WaitUntilDisplayElement(By.XPath(USER_NAME_XPATH));
-			return GetTextElement(By.XPath(USER_NAME_XPATH));
+			Logger.Trace("Возвращаем имя текущего пользователя");
+
+			if (!WaitUntilDisplayElement(By.XPath(USER_NAME_XPATH)))
+			{
+				var errorMessage = string.Format("Невозможно получить имя текущего пользователя. Путь к искомому элементу: {0}", USER_NAME_XPATH);
+				Logger.Error(errorMessage);
+
+				throw new NoSuchElementException(errorMessage);
+			}
+
+			var textFromAccountField =  GetTextElement(By.XPath(USER_NAME_XPATH));
+			var index = textFromAccountField.IndexOf("\r", StringComparison.Ordinal);
+
+			if (index > 0)
+			{
+				textFromAccountField = textFromAccountField.Substring(0, index);
+			}
+
+			return textFromAccountField;
 		}
 
 		public string GetCompanyName()
@@ -732,8 +747,8 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 
 		protected const string USERS_RIGHTS_BTN_XPATH = ".//a[contains(@href,'/Users/Index')]";
 
-		protected const string ACCOUNT_XPATH = ".//div[contains(@class,'js-usermenu')]";
-		protected const string USER_NAME_XPATH = ACCOUNT_XPATH + "//span[contains(@class,'nameuser')]";
+		protected const string ACCOUNT_XPATH = "//div[contains(@class,'js-usermenu')]";
+		protected const string USER_NAME_XPATH = ACCOUNT_XPATH + "//span[contains(@class,'g-topbox__nameuser')]//b";
 		protected const string LOGOFF_XPATH = ".//a[contains(@href,'Logout')]";
 
 		protected const string TOP_BOX_COMPANY_NAME = "//div[@class='g-topbox__currentAccount__nickname']";

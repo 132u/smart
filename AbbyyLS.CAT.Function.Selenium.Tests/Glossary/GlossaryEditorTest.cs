@@ -25,11 +25,22 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		{
 			try
 			{
-				// Создание уникального имени проекта
 				CreateUniqueNamesByDatetime();
 
 				// Запись имени для дальнейшего использования в группе тестов
 				projectNoChangesName = ProjectName;
+
+				checkAddUserRights();
+				createNewGlossary();
+				
+				CreateProjectIfNotCreated(
+					projectNoChangesName,
+					setGlossary: Workspace_CreateProjectDialogHelper.SetGlossary.ByName,
+					glossaryName: _glossaryName);
+
+				ImportDocumentProjectSettings(PathProvider.DocumentFile, projectNoChangesName);
+
+				AssignTask(1);
 			}
 			catch (Exception ex)
 			{
@@ -42,37 +53,11 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		[SetUp]
 		public void Setup()
 		{
-			// Не выходить из браузера после теста
 			QuitDriverAfterTest = false;
 
 			GoToUrl(RelativeUrlProvider.Workspace);
-
-			if (!beforeTests)
-			{
-				//Проверка прав пользователя
-				checkAddUserRights();
-				//Создание нового словаря
-				createNewGlossary();
-				//Создание проекта	
-				CreateProjectIfNotCreated(
-					projectNoChangesName, 
-					setGlossary: Workspace_CreateProjectDialogHelper.SetGlossary.ByName,
-					glossaryName: _glossaryName);
-
-				//Открытие настроек проекта			
-				ImportDocumentProjectSettings(PathProvider.DocumentFile, projectNoChangesName);
-				//Назначение задачи на пользователя
-				AssignTask(1);
-
-				beforeTests = true;
-			}
-			else
-			{
-				// Открыть проект
-				WorkspacePage.OpenProjectPage(projectNoChangesName);
-			}
-
-			//Открытие документа
+			
+			WorkspacePage.OpenProjectPage(projectNoChangesName);
 			OpenDocument();
 		}
 
@@ -131,7 +116,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		public void AutofillAddTermFormSourceWordSelected()
 		{
 			//Автозаполнение формы
-			autofillFormSourceWordSelected();		
+			autofillFormSourceWordSelected();
 		}
 
 		/// <summary>
@@ -145,7 +130,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			// Удаляем текст из таргета и подтверждаем 
 			// (чтобы не всплывало PopUp окно, AutoSave иногда очень тормозит)
 			AddTermForm.ClickCancelBtn();
-			EditorPage.ClearTarget(1);		   
+			EditorPage.ClearTarget(1);
 			AutoSave();
 			Thread.Sleep(7000);
 		}
@@ -655,8 +640,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		// Имя проекта, использующегося в нескольких тестах
 		// Проект не изменяется при проведении тестов
 		private string projectNoChangesName = "";
-		private bool beforeTests = false;
-
+		
 		/// <summary>
 		/// Проверяем, что там у пользователя с правами
 		/// </summary>
@@ -753,14 +737,9 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		{
 			const int segmentNumber = 1;
 
-			// Курсор в Source
-			EditorPage.ClickToggleBtn();
-			// Нажать хоткей перехода в начало строки
-			EditorPage.CursorToSourceLineBeginningByHotkey(segmentNumber);
-			// Нажать хоткей выделения первого слова
 			EditorPage.SelectFirstWordSourceByHotkey(segmentNumber);
-			//Открываем форму добавления термина
 			openAddTermForm();
+			
 			Assert.IsTrue(AddTermForm.GetSourceTermText("Earth"), "Ошибка: Нет автозаполнения сорса.");
 		}
 
@@ -885,6 +864,8 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			// Заполнение полей на первом шаге
 			FirstStepProjectWizard(_projectName2);
 			WorkspaceCreateProjectDialog.ClickNextStep();
+			// Настройка этапов workflow		 
+			WorkspaceCreateProjectDialog.ClickNextStep();
 			// Выбрать существующую ТМ
 			ChooseFirstTMInList();
 			WorkspaceCreateProjectDialog.ClickNextStep();
@@ -894,8 +875,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			WorkspaceCreateProjectDialog.ClickNextStep();
 			// Выбор МТ
 			WorkspaceCreateProjectDialog.ClickNextStep();			
-			// Настройка этапов workflow		 
-			WorkspaceCreateProjectDialog.ClickNextStep();
 			// Настройка Pretranslate		  
 			WorkspaceCreateProjectDialog.ClickFinishCreate();
 

@@ -2,9 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
+using System.Windows.Forms;
 using OpenQA.Selenium;
+using OpenQA.Selenium.Interactions;
 using OpenQA.Selenium.Support.UI;
 using NUnit.Framework;
+using Keys = OpenQA.Selenium.Keys;
 
 namespace AbbyyLS.CAT.Function.Selenium.Tests
 {
@@ -92,7 +95,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <returns>появился</returns>
 		public bool WaitAssignUserList()
 		{
-			return WaitUntilDisplayElement(By.XPath(PROGRESS_DIALOG_TABLE_USERNAME_XPATH));
+			return WaitUntilDisplayElement(By.XPath(PROGRESS_DIALOG_USERLIST_XPATH));
 		}
 
 		/// <summary>
@@ -101,9 +104,16 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <param name="userName">имя пользователя</param>
 		public void ClickAssignUserListUser(string userName)
 		{
-			var name = userName.Replace(" ","  ");
-			var xPath = PROGRESS_DIALOG_TABLE_USERNAME_XPATH + "[text()='" + name + "']";
-			ClickElement(By.XPath(xPath));
+			var split = userName.Split(' ');
+			var xPath = PROGRESS_DIALOG_TABLE_USERNAME_XPATH + "/option";
+			var el = xPath + "[contains(text(),'" + split[0] + "') and contains(text(),'" + split[1] + "')]";
+
+			Driver.FindElement(By.XPath(PROGRESS_DIALOG_TABLE_USERNAME_XPATH)).Click();
+
+			while (!Driver.FindElement(By.XPath(el)).Selected)
+			{
+				Driver.FindElement(By.XPath(PROGRESS_DIALOG_TABLE_USERNAME_XPATH)).SendKeys(Keys.Down);
+			}
 		}
 
 		/// <summary>
@@ -238,6 +248,8 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 
 		public void OpenDocument(int documentNumber)
 		{
+			SendKeys.SendWait("{HOME}");
+
 			Logger.Debug(string.Format("Открыть документ №{0}", documentNumber));
 
 			if (GetIsExistDocument(documentNumber))
@@ -514,16 +526,31 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		{
 			// Выборка имен глоссариев
 			var glossaryList = GetElementList(By.XPath(GLOSSARY_LIST_XPATH + "//td[2]"));
+			var glossaryWasSet = false;
+
 			for (var i = 0; i < glossaryList.Count; ++i)
 			{
 				if (glossaryList[i].Text.Contains(nameGlossary))
 				{
-					// Включаем требуемый глоссарий
-					ClickElement(By.XPath(GLOSSARY_LIST_XPATH + "[" + (i + 1) + "]//td[1]//input"));
-					Thread.Sleep(1000);
-					ClickElement(By.XPath(EDIT_GLOSSARY_SAVE_BTN_XPATH));
-					Thread.Sleep(1000);
+					var builder = new Actions(Driver);
+
+					var glossaryWebElement = Driver.FindElement(By.XPath(GLOSSARY_LIST_XPATH + "[" + (i + 1) + "]//td[1]//input"));
+					builder.MoveByOffset(glossaryWebElement.Location.X, glossaryWebElement.Location.Y).Perform();
+					glossaryWebElement.Click();
+
+					SendKeys.SendWait("{HOME}");
+					
+					var saveButtonWebElement = Driver.FindElement(By.XPath(EDIT_GLOSSARY_SAVE_BTN_XPATH));
+					builder.MoveByOffset(saveButtonWebElement.Location.X, saveButtonWebElement.Location.Y).Perform();
+					saveButtonWebElement.Click();
+					
+					glossaryWasSet = true;
 				}
+			}
+
+			if (!glossaryWasSet)
+			{
+				throw new NoSuchElementException("ERROR: Glossary wasn't set.");
 			}
 		}
 
@@ -713,18 +740,16 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		protected const string ADD_FILE_ON_PROJECT_PAGE = "//div[contains(@class, 'js-popup-import-document')][2]//input[@type='file']"; // добавление документа уже сущестующему проекту на стр проекта
 
 		protected const string PROJECT_TABLE_XPATH = "//table[contains(@class,'l-project-panel-tbl')]";
-		protected const string PROGRESS_BTN_XPATH = "//td[contains(@class, progress)]//div[@class='ui-progressbar__container']";
+		protected const string PROGRESS_BTN_XPATH = "//div[@class='ui-progressbar__container']";
 		protected const string PANEL_BTNS_XPATH = "//div[@class='l-corpr__btnterm__left js-buttons-left']";
-		protected const string PROGRESS_DIALOG_XPATH = "//div[contains(@style,'display: block')]//div[contains(@class,'g-popupbox l-editgloss l-progress')]";
-		protected const string PROGRESS_DIALOG_TABLE_USERNAME_XPATH =
-			".//table[contains(@class,'js-progress-table')]//tr[1]//td[3]//select/option";
-
+		protected const string PROGRESS_DIALOG_XPATH = "(//table[contains(@class,'js-progress-table')])[2]";
+		protected const string PROGRESS_DIALOG_TABLE_USERNAME_XPATH = PROGRESS_DIALOG_XPATH + "//td[contains(@class, 'assineer')]//select";
 		protected const string PROGRESS_DIALOG_USERLIST_XPATH = "//span[contains(@class,'js-dropdown__list')]";
 		protected const string PROGRESS_DIALOG_USER_ITEM_LIST_XPATH = "//span[contains(@class,'js-dropdown__item')]";
-		protected const string PROGRESS_DIALOG_ASSIGN_SPAN_XPATH = "//div[@class='g-popup-bd js-popup-bd js-popup-assign'][2]//div[@class='g-popupbox__ft js-popup-buttons']//span";
-		protected const string PROGRESS_DIALOG_ASSIGN_BTN_XPATH = "//div[@class='g-popup-bd js-popup-bd js-popup-assign'][2]//span/a[contains(@data-bind, 'assign')]";
-		protected const string PROGRESS_DIALOG_CANCEL_BTN_XPATH = "//div[@class='g-popup-bd js-popup-bd js-popup-assign'][2]//span/a[@data-bind='click: cancel']";
-		protected const string PROGRESS_DIALOG_CLOSE_BTN_XPATH = "//div[@class='g-popup-bd js-popup-bd js-popup-assign'][2]//div[@class='g-popupbox__ft js-popup-buttons']//span/a";
+		protected const string PROGRESS_DIALOG_ASSIGN_SPAN_XPATH = "//div[@class='g-popup-bd js-popup-bd js-popup-assign'][2]//td[contains(@class,'js-status')]//span[contains(@class,'js-assign')]";
+		protected const string PROGRESS_DIALOG_ASSIGN_BTN_XPATH = PROGRESS_DIALOG_XPATH + "//span[contains(@class, 'js-assign')]//a[contains(text(), 'Assign')]";
+		protected const string PROGRESS_DIALOG_CANCEL_BTN_XPATH = PROGRESS_DIALOG_XPATH + "//span[contains(@class, 'js-assigned-cancel')]//a[contains(text(), 'Cancel')]";
+		protected const string PROGRESS_DIALOG_CLOSE_BTN_XPATH = PROGRESS_DIALOG_XPATH + "//..//..//..//span/a[@class='h30 g-redbtn__text g-btn__text']";
 
 		protected const string ACCEPT_BTN_XPATH = ".//span[contains(@class,'js-accept')]";
 

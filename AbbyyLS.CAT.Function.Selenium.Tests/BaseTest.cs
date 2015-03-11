@@ -393,8 +393,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 
 			// Назначить ответственного в окне Progress
 			ProjectPage.ClickUserNameCell();
-			ProjectPage.WaitAssignUserList();
-
+			
 			// Выбрать нужное имя
 			ProjectPage.ClickAssignUserListUser(UserName);
 			ProjectPage.WaitAssignBtnDisplay();

@@ -4,6 +4,7 @@ using System.Linq;
 using NLog;
 using NUnit.Framework;
 using OpenQA.Selenium;
+using OpenQA.Selenium.Interactions;
 using OpenQA.Selenium.Support.UI;
 using System.Windows.Forms;
 using System.Threading;
@@ -203,7 +204,8 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		public void CursorToSourceLineBeginningByHotkey(int segmentNumber)
 		{
 			Log.Trace(string.Format("Нажать хоткей  перехода в начало строки сорс. Номер строки: {0}", segmentNumber));
-			SendKeysSource(segmentNumber, OpenQA.Selenium.Keys.Control + OpenQA.Selenium.Keys.Home);
+			ClickInSourceSegment(segmentNumber);
+			SendKeys.SendWait("^{HOME}");
 		}
 
 		public void SelectLastWordByHotkey(int segmentNumber)
@@ -221,7 +223,10 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		public void SelectFirstWordSourceByHotkey(int segmentNumber)
 		{
 			Log.Trace(string.Format("Нажать хоткей выделения первого слова сорс. Номер строки: {0}", segmentNumber));
-			SendKeysSource(segmentNumber, OpenQA.Selenium.Keys.Shift + OpenQA.Selenium.Keys.Control + OpenQA.Selenium.Keys.ArrowRight);
+			var segment = Driver.FindElement(By.XPath(GetSourceCellXPath(segmentNumber)));
+			
+			var builder = new Actions(Driver);
+			builder.MoveToElement(segment, 0, 0).DoubleClick().Perform();
 		}
 
 		public void PutCursorAfterThirdWordByHotkey(int segmentNumber)
@@ -928,6 +933,11 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		public void ClearInputWordDictionary(string word)
 		{
 			ClearElement(By.XPath(INPUT_WORD_XPATH));
+		}
+
+		public void ClickInSourceSegment(int rowNumber)
+		{
+			Driver.FindElement(By.XPath(GetSourceCellXPath(rowNumber))).Click();
 		}
 
 		/// <summary>

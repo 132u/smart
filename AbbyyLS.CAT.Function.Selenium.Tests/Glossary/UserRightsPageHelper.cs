@@ -399,7 +399,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		protected const string PAGE_LINK_XPATH = "//a[contains(@href,'/Users/Index')]";
 		protected const string GROUP_LINK_XPATH = "//a[contains(@href,'/Groups/Index')]";
 		protected const string ADMIN_GROUP_XPATH = "//td[@data-bind='text: name' and text()='Administrators']";
-		protected const string EDIT_BTN_XPATH = "//span[contains(@class,'js-editgroup-btn')]";
+		protected const string EDIT_BTN_XPATH = "//a[text()='Edit Group']";
 		protected const string ADD_RIGHTS_BTN_XPATH = "//span[contains(@class,'js-add-right-btn')]";
 		protected const string SUGGEST_WITHOUT_GLOSSARY_INPUT_XPATH = "//li[@data-type='AddSuggestsWithoutGlossary']//input";
 		protected const string MANAGE_GLOSSARIES_INPUT_XPATH = "//li[@data-type='GlossaryManagement']//input";
@@ -424,7 +424,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		protected const string GROUPS_RIGHTS_TABLE_XPATH = "//tbody[@data-bind='foreach: filteredGroups']";
 		protected const string GROUPS_XPATH = GROUPS_RIGHTS_TABLE_XPATH + "//tr[contains(@class, 'clickable')]";
 		protected const string GROUP_NAME_XPATH = "//td[@data-bind='text: name']";
-		protected const string GROUP_USERS_XPATH = "//ul[@data-bind='foreach: users']//span[@data-bind='text: name')]";
+		protected const string GROUP_USERS_XPATH = "//ul[@data-bind='foreach: users']//span[2]";
 		protected const string USER_NAME_INPUT_XPATH = "//div[contains(@class,'l-corpr__tblgrp_finduserwrp')]//input";
 		protected const string MANAGE_ALL_GLOSSARIES_TEXT_XPATH = "//ul[@data-bind='foreach: accessRights']//span[contains(string(), 'Manage all glossaries')]";
 
