@@ -1238,24 +1238,10 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 
 		}
 
-		/// <summary>
-		/// Метод экспорта глоссари
-		/// </summary>
-		/// <param name="fileName"> Имя файла </param>
-		/// <param name="link"> Ссылка на файл </param>
-		public void ExportGlossary(string link, string fileName)
+		public void ClickExportGlossary()
 		{
-			var cookies = Driver.Manage().Cookies.AllCookies;
-			using (var wc = new WebClient())
-			{
-				System.Net.ServicePointManager.CertificatePolicy = new TrustAllCertificatePolicy();
-				foreach (var cookie in cookies)
-				{
-					var cookieText = cookie.Name + "=" + cookie.Value;
-					wc.Headers.Add(HttpRequestHeader.Cookie, cookieText);
-				}
-				wc.DownloadFile(new Uri(link), fileName);
-			}
+			Logger.Debug("Нажать на кнопку экспорта глоссария");
+			ClickElement(By.XPath(HREF_EXPORT));
 		}
 
 		/// <summary>
@@ -1372,7 +1358,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		protected const string IMPORT_FORM_IMPORT_BTN_XPATH = IMPORT_FORM_XPATH + "//span[contains(@class,'js-import-button')]";
 		protected const string SUCCESS_RESULT_CLOSE_BTN_XPATH = "//a[contains(@class,'js-close-link')]";
 
-		protected const string HREF_EXPORT = "//a[contains(@class,'export-concepts')]";
+		protected const string HREF_EXPORT = "//a[contains(@class,'js-export-concepts')]";
 		protected const string NEW_ITEM_OPEN = "//div[@class='l-corprtree']";
 	}
 }

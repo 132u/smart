@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading;
 using OpenQA.Selenium;
@@ -9,7 +10,6 @@ using OpenQA.Selenium.Interactions;
 using System.Text.RegularExpressions;
 using NLog;
 using System.Windows.Forms;
-using System.IO;
 using Keys = OpenQA.Selenium.Keys;
 
 namespace AbbyyLS.CAT.Function.Selenium.Tests
@@ -699,6 +699,20 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 				ClickElement(By.XPath(xPath));
 			else
 				Assert.Fail(exсeptionMessage);
+		}
+
+		public static void AssertionFileDownloaded(string pathToFile, int timeout = 10)
+		{
+			var time = 0;
+			
+			while (!File.Exists(pathToFile) && (time < timeout))
+			{
+				time++;
+				Thread.Sleep(1000);
+			}
+
+			Assert.IsTrue(File.Exists(pathToFile),
+				string.Format("Ошибка: файл {0} не был скачен за отведенный таймаут {1} сек.", pathToFile, timeout));
 		}
 
 		public enum LANGUAGE { English, Russian, German, French, Japanese, Lithuanian };

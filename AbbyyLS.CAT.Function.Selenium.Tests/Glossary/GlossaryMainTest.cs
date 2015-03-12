@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Threading;
 using NUnit.Framework;
 using System.Collections.Generic;
@@ -350,19 +351,12 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Glossary
 			CreateItemAndSave();
 			CreateItemAndSave();
 
-			// Создать уникальное название для экспортируемого файла
-			var uniqueGlossaryName = GlossaryName + DateTime.UtcNow.Ticks;
-			var resultPath = System.IO.Path.Combine(PathProvider.ResultsFolderPath, "GlossaryExportTest");
-
-			// Создать папку для экспорта
-			System.IO.Directory.CreateDirectory(resultPath);
-			uniqueGlossaryName = System.IO.Path.Combine(resultPath, uniqueGlossaryName);
-			var linkHref = GlossaryPage.GetHrefForExport();
+			var uniqueGlossaryName = Path.Combine(PathProvider.ResultsFolderPath, glossaryName.Replace(":", "_"));
+			
 			// Экспорт глоссари
-			GlossaryPage.ExportGlossary(linkHref, uniqueGlossaryName + ".xlsx");
-			Assert.IsTrue(
-				System.IO.File.Exists(uniqueGlossaryName + ".xlsx"),
-				"Ошибка: файл не экспортировался");
+			GlossaryPage.ClickExportGlossary();
+
+			CommonHelper.AssertionFileDownloaded(uniqueGlossaryName + ".xlsx");
 		}
 
 		/// <summary>
