@@ -540,29 +540,27 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			string accountName = "TestAccount",
 			string dataServer = "Europe")
 		{
-			var currentAccountName = "";
+			Logger.Debug("Прохождение процедуры авторизации пользователя");
+
 			if (Standalone)
 			{
 				if (EmailAuth)
 				{
-					// Перейти на стартовую страницу
 					Driver.Navigate().GoToUrl(Url + RelativeUrlProvider.LogIn);
 
-					// Заполнить логин пароль
 					LoginPage.EnterLoginAuthEmail(authLogin);
 					LoginPage.EnterPasswordAuthEmail(authPassword);
 					LoginPage.ClickSubmitAuthEmail();
 				}
 				else
 				{
-					// Перейти на стартовую страницу
 					Driver.Navigate().GoToUrl(Url);
 				}
 			}
 			else
 			{
-				// Перейти на стартовую страницу
 				Driver.Navigate().GoToUrl(Url + RelativeUrlProvider.SingIn);
+
 				if (Driver.Url.Contains("pro"))
 				{
 					LoginPage.WaitPageLoadLpro();
@@ -604,7 +602,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 					
 					//проверка того,что мы в нужном аккаунте
 					//(на случай,когда у пользователя один аккаунт и это не нужный нам аккаунт)
-					currentAccountName = WorkspacePage.GetCompanyName();
+					var currentAccountName = WorkspacePage.GetCompanyName();
 					if (currentAccountName != accountName)
 					{
 						Assert.Fail("Ошибка: не зашли в аккаунт:" + accountName + ". У пользователя один аккаунт (" + currentAccountName + ") и произошло автоматическое перенаправление в него.");
@@ -656,17 +654,12 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			{
 				Logger.Info("Переходим на страницу:" + Url + relativeUrl);
 
-				// Перейти на страницу
 				Driver.Navigate().GoToUrl(Url + relativeUrl);
 
 				// Если открылась страница логина
 				if (LoginPage.WaitPageLoad(1) || LoginPage.WaitPromoPageLoad())
 				{
-
-					// Проходим процедуру авторизации
 					Authorization(Login, Password, accountName);
-
-					// Переходим на страницу
 					Driver.Navigate().GoToUrl(Url + relativeUrl);
 				}
 			}
@@ -1381,34 +1374,18 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			SearchPage.WaitUntilShowResults();
 		}
 
-		/// <summary>
-		/// Есть ли такой domain
-		/// </summary>
-		/// <param name="domainName">название</param>
-		/// <returns>есть</returns>
-		protected bool GetIsDomainExist(string domainName)
-		{
-			// TODO мб заменить вызов
-			return DomainPage.GetIsDomainExist(domainName);
-		}
-
-		/// <summary>
-		/// Создать Domain
-		/// </summary>
-		/// <param name="domainName">имя</param>
-		/// <param name="shouldCreateOk">должен сохраниться</param>
 		protected void CreateDomain(string domainName, bool shouldCreateOk = true)
 		{
-			// Нажать "Добавить проект"
+			Logger.Debug(string.Format("Создание домена. Имя домена: {0}, домен должен сохраниться: {1}", domainName, shouldCreateOk));
+			
 			DomainPage.ClickCreateDomainBtn();
-			// Ввести имя
 			DomainPage.EnterNameCreateDomain(domainName);
 
 			// Расширить окно, чтобы кнопка была видна, иначе она недоступна для Selenium
 			Driver.Manage().Window.Maximize();
 
-			// Сохранить новый проект
 			DomainPage.ClickSaveDomain();
+			
 			if (shouldCreateOk)
 			{
 				DomainPage.WaitUntilSave();
@@ -1461,11 +1438,9 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			Thread.Sleep(1000);
 		}
 
-		/// <summary>
-		/// Открыть диалог создания глоссария
-		/// </summary>
 		protected void OpenCreateGlossary()
 		{
+			Logger.Debug("Открытие диалога создания глоссария");
 			GlossaryListPage.ClickCreateGlossary();
 			GlossaryEditForm.WaitPageLoad();
 		}

@@ -133,7 +133,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		public void WaitPageLoadLpro()
 		{
 			Logger.Trace("Дождаться загрузки страницы на lpro");
-
 			Assert.IsTrue(
 				WaitUntilDisplayElement(By.XPath(LOGIN_BTN_LPRO_XPATH)),
 				"Не прогрузилась страница Login - возможно, сайт недоступен");

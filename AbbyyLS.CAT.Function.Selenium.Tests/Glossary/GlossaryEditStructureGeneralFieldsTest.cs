@@ -272,7 +272,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.Glossary.EditStructure.T
 		/// <param name="domainName"></param>
 		protected void CreateDomainIfNotExist(string domainName)
 		{
-			if (!GetIsDomainExist(domainName))
+			if (!DomainPage.GetIsDomainExist(domainName))
 			{
 				// Если проект не найден, создать его
 				CreateDomain(domainName);

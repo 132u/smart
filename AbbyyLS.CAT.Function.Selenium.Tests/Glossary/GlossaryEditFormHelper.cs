@@ -76,15 +76,13 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			return WaitUntilDisplayElement(By.XPath(DROPDOWNLIST_XPATH));
 		}
 
-		/// <summary>
-		/// Открыть список domain
-		/// </summary>
-		/// <returns>открылся</returns>
-		public bool ClickOpenDomainList()
+		public void ClickOpenDomainList()
 		{
+			Logger.Debug("Открыть список доменов");
 			ClickElement(By.XPath(DOMAIN_LIST_XPATH));
 
-			return WaitUntilDisplayElement(By.XPath(MULTISELECT_LIST_XPATH));
+			Assert.IsTrue(WaitUntilDisplayElement(By.XPath(MULTISELECT_LIST_XPATH)),
+				"Ошибка: спсиок доменов не открылся");
 		}
 
 		/// <summary>

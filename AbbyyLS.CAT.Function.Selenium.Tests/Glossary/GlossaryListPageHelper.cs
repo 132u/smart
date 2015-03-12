@@ -29,11 +29,9 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			return WaitUntilDisplayElement(By.XPath(CREATE_GLOSSARY_BTN_XPATH));
 		}
 
-		/// <summary>
-		/// Кликнуть Создать глоссарий
-		/// </summary>
 		public void ClickCreateGlossary()
 		{
+			Logger.Debug("Нажать кнопку создания глоссария");
 			ClickElement(By.XPath(CREATE_GLOSSARY_BTN_XPATH));
 		}
 

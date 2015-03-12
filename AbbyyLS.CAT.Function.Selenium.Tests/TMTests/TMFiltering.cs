@@ -410,7 +410,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.TMTests
 		{
 			GoToUrl(RelativeUrlProvider.Domains);
 
-			if (!GetIsDomainExist(projectGroupName))
+			if (!DomainPage.GetIsDomainExist(projectGroupName))
 			{
 				CreateDomain(projectGroupName);
 			}
