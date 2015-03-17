@@ -260,10 +260,10 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		{
 			if (GetIsElementDisplay(By.XPath(VENTURE_XPATH)))
 			{
+				var option = "//option[contains(@value,'" + name + "')]";
 				ClickElement(By.XPath(VENTURE_XPATH));
-				WaitUntilDisplayElement(By.XPath(VENTURE_XPATH + "//option[contains(@value,'" + name + "')]"));
-				SendTextElement(By.XPath(VENTURE_XPATH), name);
-				ClickElement(By.XPath(VENTURE_XPATH));
+				WaitUntilDisplayElement(By.XPath(VENTURE_XPATH + option));
+				ClickElement(By.XPath(VENTURE_XPATH + option));
 			}
 		}
 

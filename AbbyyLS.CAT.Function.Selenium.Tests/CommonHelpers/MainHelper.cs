@@ -58,11 +58,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		{
 			if (!GetIsLeftMenuDisplay())
 				OpenHideMenu();
-			if (!GetIsElementDisplay(By.XPath(GLOSSARY_REF_XPATH)))
-			{
-				Logger.Trace("Клик по 'Resources' в главном меню слева");
-				ClickElement(By.XPath(RESOURCES_REF_XPATH));
-			}
+			ExpandResourcesMenu(GLOSSARY_REF_XPATH);
 		}
 
 		/// <summary>
@@ -92,8 +88,19 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		{
 			if (!GetIsLeftMenuDisplay())
 				OpenHideMenu();
+			ExpandResourcesMenu(SEARCH_REF_XPATH);
+
 			Logger.Trace("Клик по логотипу 'ABBYY SmartCat' в главном меню слева");
 			ClickElement(By.XPath(SEARCH_REF_XPATH));
+		}
+
+		protected void ExpandResourcesMenu(string xpath)
+		{
+			if (!GetIsElementDisplay(By.XPath(xpath)))
+			{
+				Logger.Trace("Клик по 'Resources' в главном меню слева");
+				ClickElement(By.XPath(RESOURCES_REF_XPATH));
+			}
 		}
 
 		/// <summary>
@@ -114,6 +121,8 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		{
 			if (!GetIsLeftMenuDisplay())
 				OpenHideMenu();
+			ExpandResourcesMenu(DICTIONARIES_REF_XPATH);
+
 			Logger.Trace("Клик по 'Lingvo Dictionaries' в главном меню слева");
 			ClickElement(By.XPath(DICTIONARIES_REF_XPATH));
 		}
@@ -124,6 +133,10 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <returns>видна</returns>
 		public bool GetIsRefDictionariesVisible()
 		{
+			if (!GetIsLeftMenuDisplay())
+				OpenHideMenu();
+			ExpandResourcesMenu(DICTIONARIES_REF_XPATH);
+
 			Logger.Trace("Вернуть, видна ли ссылка на странице словарей");
 			return GetIsElementDisplay(By.XPath(DICTIONARIES_REF_XPATH));
 		}
@@ -133,7 +146,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// </summary>
 		public void OpenProfile()
 		{
-			Logger.Trace("Клик по ''");
+			Logger.Trace("Клик по 'Profile settings'");
 			ClickElement(By.XPath(OPEN_PROFILE_XPATH));
 		}
 
@@ -174,8 +187,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 
 		public void OpenHideMenu()
 		{
-			Logger.Trace("Главное меню слева скрыто");
-			Logger.Trace("Клик по кнопке открытия меню");
+			Logger.Trace("Главное меню слева скрыто. Клик по кнопке открытия меню");
 			Driver.FindElement(By.XPath(MENU_OPEN_BTN)).Click();
 		}
 
@@ -188,7 +200,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		protected const string GLOSSARY_REF_XPATH = ".//a[contains(@href,'/Glossaries')]";
 		protected const string RESOURCES_REF_XPATH = "//a[contains(@class, 'menuitem-Resources')]";
 		protected const string SUGGEST_TERMS_REF_XPATH = ".//a[contains(@href,'/Suggests')]";
-		protected const string SEARCH_REF_XPATH = ".//a[contains(@href,'/Start')]";
+		protected const string SEARCH_REF_XPATH = "//div[contains(@class, 'menu-wrapper')]//a[contains(@href,'/Start')]";
 		protected const string CLIENT_REF_XPATH = ".//a[contains(@href,'/Clients')]";
 		protected const string DICTIONARIES_REF_XPATH = ".//a[contains(@href,'/LingvoDictionaries')]";
 
