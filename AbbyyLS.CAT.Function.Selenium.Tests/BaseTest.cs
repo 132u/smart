@@ -857,7 +857,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 
 			if (isNeedCheckProjectAppearInList)
 			{
-				WorkspacePage.WaitProjectAppearInList(ProjectName);
+				WorkspacePage.WaitProjectAppearInList(projectName);
 			}
 
 			WorkspacePage.WaitProjectLoad(projectName);
