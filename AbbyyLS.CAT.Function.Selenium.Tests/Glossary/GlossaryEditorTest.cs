@@ -28,7 +28,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 				CreateUniqueNamesByDatetime();
 
 				// Запись имени для дальнейшего использования в группе тестов
-				projectNoChangesName = ProjectName;
+				projectNoChangesName = ProjectUniqueName;
 
 				checkAddUserRights();
 				createNewGlossary();
@@ -494,7 +494,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		[Test]
 		public void CheckGlossaryListInProjectCreatedWithOneGlossary()
 		{
-			_projectName2 = ProjectName + "_" + DateTime.UtcNow.Ticks + "2";
+			_projectName2 = ProjectUniqueName + "2";
 
 			// Нажать кнопку Назад
 			EditorPage.ClickHomeBtn();
@@ -858,7 +858,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// </summary>
 		private void createProjectWithTwoGlossaries()
 		{
-			_projectName2 = ProjectName + "_" + DateTime.UtcNow.Ticks + "2";		 
+			_projectName2 = ProjectUniqueName + "_" + DateTime.UtcNow.Ticks + "2";		 
 			// Создать второй словарь
 			createNewGlossary(false);					
 			// Заполнение полей на первом шаге

@@ -451,11 +451,11 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.TM
 			// Заполнить создание проекта на первом шаге
 			if (isNeedChangeLanguages)
 			{
-				FirstStepProjectWizard(ProjectName, false, srcLang, trgLang);
+				FirstStepProjectWizard(ProjectUniqueName, false, srcLang, trgLang);
 			}
 			else
 			{
-				FirstStepProjectWizard(ProjectName);
+				FirstStepProjectWizard(ProjectUniqueName);
 			}
 
 			// Переход в настройки Workflow

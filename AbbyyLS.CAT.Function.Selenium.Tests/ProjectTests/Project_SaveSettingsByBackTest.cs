@@ -40,7 +40,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		public void BackFirstStep()
 		{
 			// Открыли форму создания проекта, заполнили поля
-			FirstStepProjectWizard(ProjectName);
+			FirstStepProjectWizard(ProjectUniqueName);
 			// Next
 			WorkspaceCreateProjectDialog.ClickNextStep();
 			// Нажать Back
@@ -63,7 +63,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			var isError = false;
 			var errorMessage = "Ошибка: при возврате на первый шаг не сохранились настройки:\n";
 
-			if (resultProjectName != ProjectName)
+			if (resultProjectName != ProjectUniqueName)
 			{
 				isError = true;
 				errorMessage += "- имя проекта не сохранилось\n";
@@ -95,7 +95,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		public void BackChooseTMStep()
 		{
 			// Открыли форму создания проекта, заполнили поля
-			FirstStepProjectWizard(ProjectName);
+			FirstStepProjectWizard(ProjectUniqueName);
 			// Next
 			WorkspaceCreateProjectDialog.ClickNextStep();
 			WorkspaceCreateProjectDialog.ClickNextStep();
@@ -119,7 +119,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		public void BackNextChooseTMStep()
 		{
 			// Открыли форму создания проекта, заполнили поля
-			FirstStepProjectWizard(ProjectName);
+			FirstStepProjectWizard(ProjectUniqueName);
 			// Next
 			WorkspaceCreateProjectDialog.ClickNextStep();
 			WorkspaceCreateProjectDialog.ClickNextStep();
@@ -143,7 +143,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		public void BackChooseGlossaryStep()
 		{
 			// Открыли форму создания проекта, заполнили поля
-			FirstStepProjectWizard(ProjectName);
+			FirstStepProjectWizard(ProjectUniqueName);
 			// Next
 			WorkspaceCreateProjectDialog.ClickNextStep();
 			WorkspaceCreateProjectDialog.ClickNextStep();
@@ -171,7 +171,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		public void BackNextChooseGlossaryStep()
 		{
 			// Открыли форму создания проекта, заполнили поля
-			FirstStepProjectWizard(ProjectName);
+			FirstStepProjectWizard(ProjectUniqueName);
 			// Next
 			WorkspaceCreateProjectDialog.ClickNextStep();
 			WorkspaceCreateProjectDialog.ClickNextStep();
@@ -198,7 +198,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		public void BackChooseMTStep()
 		{
 			// Открыли форму создания проекта, заполнили поля
-			FirstStepProjectWizard(ProjectName);
+			FirstStepProjectWizard(ProjectUniqueName);
 			// Next
 			WorkspaceCreateProjectDialog.ClickNextStep();
 			WorkspaceCreateProjectDialog.ClickNextStep();
@@ -230,7 +230,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		public void BackNextChooseMTStep()
 		{
 			// Открыли форму создания проекта, заполнили поля
-			FirstStepProjectWizard(ProjectName);
+			FirstStepProjectWizard(ProjectUniqueName);
 			// Next
 			WorkspaceCreateProjectDialog.ClickNextStep();
 			WorkspaceCreateProjectDialog.ClickNextStep();
@@ -262,7 +262,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		public void BackNextChooseStage()
 		{
 			// Открыли форму создания проекта, заполнили поля
-			FirstStepProjectWizard(ProjectName);
+			FirstStepProjectWizard(ProjectUniqueName);
 			// Next
 			WorkspaceCreateProjectDialog.ClickNextStep();
 			WorkspaceCreateProjectDialog.ClickNextStep();

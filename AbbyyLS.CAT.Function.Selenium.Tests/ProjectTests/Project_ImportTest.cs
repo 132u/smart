@@ -37,7 +37,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		public void ImportWrongFileTest()
 		{
 			//1 шаг - заполнение данных о проекте
-			FirstStepProjectWizard(ProjectName);
+			FirstStepProjectWizard(ProjectUniqueName);
 
 			//процесс добавления файла
 			ImportDocumentCreateProject(PathProvider.AudioFile);
@@ -56,7 +56,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		public void ImportSomeFilesTest()
 		{
 			//1 шаг - заполнение данных о проекте
-			FirstStepProjectWizard(ProjectName);
+			FirstStepProjectWizard(ProjectUniqueName);
 			// Загрузить документ
 			ImportDocumentCreateProject(PathProvider.DocumentFile);
 			// Загрузить второй документ
@@ -75,7 +75,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		public void ImportTtxFileTest()
 		{
 			//1 шаг - заполнение данных о проекте
-			FirstStepProjectWizard(ProjectName);
+			FirstStepProjectWizard(ProjectUniqueName);
 			// Загрузить документ
 			ImportDocumentCreateProject(PathProvider.TtxFile);
 
@@ -92,7 +92,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		public void ImportTxtFileTest()
 		{
 			//1 шаг - заполнение данных о проекте
-			FirstStepProjectWizard(ProjectName);
+			FirstStepProjectWizard(ProjectUniqueName);
 			// Загрузить документ
 			ImportDocumentCreateProject(PathProvider.TxtFile);
 
@@ -109,7 +109,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		public void ImportSrtFileTest()
 		{
 			//1 шаг - заполнение данных о проекте
-			FirstStepProjectWizard(ProjectName);
+			FirstStepProjectWizard(ProjectUniqueName);
 			// Загрузить документ
 			ImportDocumentCreateProject(PathProvider.SrtFile);
 
@@ -126,9 +126,9 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		public void ImportDocumentAfterCreationTest()
 		{
 			// Создать проект
-			CreateProject(ProjectName);
+			CreateProject(ProjectUniqueName);
 			// загрузить документ			
-			ImportDocumentProjectSettings(PathProvider.DocumentFile, ProjectName);
+			ImportDocumentProjectSettings(PathProvider.DocumentFile, ProjectUniqueName);
 
 			// Проверить, что в проекте есть документ
 			Assert.IsTrue(

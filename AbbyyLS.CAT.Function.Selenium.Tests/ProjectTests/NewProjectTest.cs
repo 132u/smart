@@ -46,10 +46,10 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		protected void CreateProjectImportDocument(string filePath)
 		{
 			//Создать пустой проект		  
-			CreateProject(ProjectName);
+			CreateProject(ProjectUniqueName);
 
 			//Добавление документа
-			ImportDocumentProjectSettings(filePath, ProjectName);
+			ImportDocumentProjectSettings(filePath, ProjectUniqueName);
 		}
 
 		/// <summary>

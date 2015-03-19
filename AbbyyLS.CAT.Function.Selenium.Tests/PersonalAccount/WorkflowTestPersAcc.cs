@@ -41,7 +41,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		{
 			// Создание проекта
 			// 1) Заполнение полей
-			FirstStepProjectWizard(ProjectName);
+			FirstStepProjectWizard(ProjectUniqueName);
 			WorkspaceCreateProjectDialog.ClickNextStep();
 
 			// 2) Выбор ТМ
@@ -69,7 +69,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			Assert.IsTrue(ProjectPage.GetPretranslateTitleDisplay(), "Ошибка : Pretranslation степ не открылся");
 
 			WorkspaceCreateProjectDialog.ClickFinishCreate();
-			WorkspacePage.WaitProjectAppearInList(ProjectName);
+			WorkspacePage.WaitProjectAppearInList(ProjectUniqueName);
 		}
 		
 		/// <summary>
@@ -82,7 +82,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			CheckThatWorkflowStepIsNotExistInDialogProjectCreation();
 
 			// Открываем проект
-			OpenProjectPage(ProjectName);
+			OpenProjectPage(ProjectUniqueName);
 
 			//Открываем настройки проекта
 			ProjectPage.ClickProjectSettings();
@@ -99,10 +99,10 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		public void CheckChooseTaskDialogDisplay()
 		{
 			//Создать пустой проект		  
-			CreateProject(ProjectName);
+			CreateProject(ProjectUniqueName);
 
 			//Добавление документа
-			ImportDocumentProjectSettings(PathProvider.DocumentFile, ProjectName, "Personal");
+			ImportDocumentProjectSettings(PathProvider.DocumentFile, ProjectUniqueName, "Personal");
 
 			//Открываем документ
 			ProjectPage.OpenDocument(1);

@@ -32,10 +32,10 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Editor.Spellcheck
 			GoToUrl(RelativeUrlProvider.Workspace);
 
 			// 2. Создание проекта с 1 документом внутри
-			CreateProject(ProjectName, "", true);
+			CreateProject(ProjectUniqueName, "", true);
 
 			// 3. Открытие настроек проекта
-			ImportDocumentProjectSettings(PathProvider.DocumentFile, ProjectName);
+			ImportDocumentProjectSettings(PathProvider.DocumentFile, ProjectUniqueName);
 
 			// 4. Назначение задачи на пользователя
 			AssignTask();

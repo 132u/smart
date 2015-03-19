@@ -32,7 +32,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 				CreateUniqueNamesByDatetime();
 
 				// Запись имени для дальнейшего использования в группе тестов
-				_projectNoChangesName = ProjectName;
+				_projectNoChangesName = ProjectUniqueName;
 			}
 			catch (Exception ex)
 			{
@@ -359,10 +359,10 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		public void AssignUserOneTask()
 		{
 			// Создание проекта
-			CreateProjectIfNotCreated(ProjectName, PathProvider.EditorTxtFile);
+			CreateProjectIfNotCreated(ProjectUniqueName, PathProvider.EditorTxtFile);
 
 			// Открываем диалог выбора исполнителя
-			OpenAssignDialog(ProjectName);
+			OpenAssignDialog(ProjectUniqueName);
 
 			// Выбор в качестве исполнителя для первой задачи группы Administrator
 			SetResponsible(1, UserName, false);
@@ -375,7 +375,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 				"Ошибка: Диалог выбора исполнителя не закрылся.");
 
 			// Открытие страницы проекта
-			OpenProjectPage(ProjectName);
+			OpenProjectPage(ProjectUniqueName);
 
 			// Открываем документ
 			OpenDocument();
@@ -392,10 +392,10 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		[Test]
 		public void AssignUserFewTasks()
 		{
-			CreateProject(ProjectName, PathProvider.EditorTxtFile, false, "", Workspace_CreateProjectDialogHelper.SetGlossary.None, "", false, Workspace_CreateProjectDialogHelper.MT_TYPE.None, true, 1, 1, 0);
+			CreateProject(ProjectUniqueName, PathProvider.EditorTxtFile, false, "", Workspace_CreateProjectDialogHelper.SetGlossary.None, "", false, Workspace_CreateProjectDialogHelper.MT_TYPE.None, true, 1, 1, 0);
 
 			// Открываем диалог выбора исполнителя
-			OpenAssignDialog(ProjectName);
+			OpenAssignDialog(ProjectUniqueName);
 
 			// Выбор в качестве исполнителя для первой задачи группы Administrator
 			SetResponsible(1, UserName, false);
@@ -411,7 +411,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 				"Ошибка: Диалог выбора исполнителя не закрылся.");
 
 			// Открытие страницы проекта
-			OpenProjectPage(ProjectName);
+			OpenProjectPage(ProjectUniqueName);
 
 			// Кликаем открытие первого документа
 			ProjectPage.OpenDocument(1);
@@ -430,10 +430,10 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		public void DeleteUserTask()
 		{
 			// Создание проекта
-			CreateProject(ProjectName, PathProvider.EditorTxtFile);
+			CreateProject(ProjectUniqueName, PathProvider.EditorTxtFile);
 
 			// Открываем диалог выбора исполнителя
-			OpenAssignDialog(ProjectName);
+			OpenAssignDialog(ProjectUniqueName);
 
 			// Выбор в качестве исполнителя для первой задачи группы Administrator
 			SetResponsible(1, UserName, false);
@@ -446,7 +446,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 				"Ошибка: Диалог выбора исполнителя не закрылся.");
 
 			// Открытие страницы проекта
-			OpenProjectPage(ProjectName);
+			OpenProjectPage(ProjectUniqueName);
 
 			//Открываем Workflow в настройках проекта
 			OpenWorkflowSettings();
@@ -473,10 +473,10 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			сheckUserPresent(UserName2);
 
 			// Создание проекта
-			CreateProjectIfNotCreated(ProjectName, PathProvider.EditorTxtFile);
+			CreateProjectIfNotCreated(ProjectUniqueName, PathProvider.EditorTxtFile);
 
 			// Открываем диалог выбора исполнителя
-			OpenAssignDialog(ProjectName);
+			OpenAssignDialog(ProjectUniqueName);
 
 			// Выбор в качестве исполнителя для первой задачи первого юзера
 			SetResponsible(1, UserName, false);
@@ -489,7 +489,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 				"Ошибка: Диалог выбора исполнителя не закрылся.");
 
 			// Открытие страницы проекта
-			OpenProjectPage(ProjectName);
+			OpenProjectPage(ProjectUniqueName);
 
 			// Подтверждение назначения
 			ProjectPage.ClickAllAcceptBtns();
@@ -510,7 +510,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			GoToUrl(RelativeUrlProvider.Workspace);
 
 			// Открываем диалог выбора исполнителя
-			OpenAssignDialog(ProjectName);
+			OpenAssignDialog(ProjectUniqueName);
 
 			// Отменяем исполнителя
 			сancelAssignUser(1);
@@ -526,7 +526,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 				"Ошибка: Диалог выбора исполнителя не закрылся.");
 
 			// Открытие страницы проекта
-			OpenProjectPage(ProjectName);
+			OpenProjectPage(ProjectUniqueName);
 
 			// Открываем документ
 			OpenDocument();
@@ -546,7 +546,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			Authorization(Login2, Password2);
 
 			// Открытие страницы проекта
-			OpenProjectPage(ProjectName);
+			OpenProjectPage(ProjectUniqueName);
 
 			// Подтверждение назначения
 			ProjectPage.ClickAllAcceptBtns();
@@ -569,10 +569,10 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		{
 			QuitDriverAfterTest = true;
 			// Создание проекта
-			CreateProjectIfNotCreated(ProjectName, PathProvider.EditorTxtFile);
+			CreateProjectIfNotCreated(ProjectUniqueName, PathProvider.EditorTxtFile);
 
 			// Открываем диалог выбора исполнителя
-			OpenAssignDialog(ProjectName);
+			OpenAssignDialog(ProjectUniqueName);
 
 			// Выбор в качестве исполнителя для первой задачи первого юзера
 			SetResponsible(1, UserName, false);
@@ -586,7 +586,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 				"Ошибка: Диалог выбора исполнителя не закрылся.");
 
 			// Открытие страницы проекта
-			OpenProjectPage(ProjectName);
+			OpenProjectPage(ProjectUniqueName);
 
 			// Подтверждение назначения
 			ProjectPage.ClickAllAcceptBtns();
@@ -608,7 +608,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			GoToUrl(RelativeUrlProvider.Workspace);
 
 			// Открываем диалог выбора исполнителя
-			OpenAssignDialog(ProjectName);
+			OpenAssignDialog(ProjectUniqueName);
 
 			// Отменяем исполнителя
 			сancelAssignUser(1);
@@ -622,7 +622,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 				"Ошибка: Диалог выбора исполнителя не закрылся.");
 
 			// Открытие страницы проекта
-			OpenProjectPage(ProjectName);
+			OpenProjectPage(ProjectUniqueName);
 
 			// Открываем документ
 			OpenDocument();

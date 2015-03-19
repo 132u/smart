@@ -108,8 +108,8 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.CheckRights
 
 			// Проверка, что ссылка на вход в проект отсутствует. (Название проекта является не ссылкой, а обычным текстом)
 			Assert.IsFalse(
-				CheckCreateProjectRightHelper.LinkProjectExists(ProjectName),
-				"Ошибка: появилась ссылка на проект:" + ProjectName);
+				CheckCreateProjectRightHelper.LinkProjectExists(ProjectUniqueName),
+				"Ошибка: появилась ссылка на проект:" + ProjectUniqueName);
 		}
 
 		/// <summary>
@@ -169,7 +169,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.CheckRights
 			addDocumentInProject();
 
 			// Кликаем чекбокс рядом с проектом
-			CheckCreateProjectRightHelper.CheckBoxProjectClick(ProjectName);
+			CheckCreateProjectRightHelper.CheckBoxProjectClick(ProjectUniqueName);
 
 			// Кликаем Download в нужном месте(свёртка или главное меню)
 			if (dowloadInProjectClick)
@@ -215,13 +215,13 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.CheckRights
 			createNewProjectWithDocument();
 
 			// Кликаем чекбокс рядом с проектом
-			CheckCreateProjectRightHelper.CheckBoxProjectClick(ProjectName);
+			CheckCreateProjectRightHelper.CheckBoxProjectClick(ProjectUniqueName);
 			
 			if (closeProject)
 			{
 				// Во время создания проекта свёртка открылась
 				// Вызов этого метода повторно закрывает её.
-				WorkspacePage.OpenProjectInfo(ProjectName);
+				WorkspacePage.OpenProjectInfo(ProjectUniqueName);
 
 				// Нажать Удалить
 				WorkspacePage.ClickDeleteProjectBtn();
@@ -330,8 +330,8 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.CheckRights
 			createNewProjectWithDocument();
 
 			// Проверяем, что свёртка действительно открыта
-			Assert.IsTrue(CheckCreateProjectRightHelper.CheckOpenProject(ProjectName),
-				"Ошибка: свёртка не открыта для проекта:" + ProjectName);
+			Assert.IsTrue(CheckCreateProjectRightHelper.CheckOpenProject(ProjectUniqueName),
+				"Ошибка: свёртка не открыта для проекта:" + ProjectUniqueName);
 		}
 		
 		/// <summary>
@@ -430,12 +430,12 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.CheckRights
 		private void createNewProject()
 		{
 			// Создаём проект
-			CreateProject(ProjectName);
+			CreateProject(ProjectUniqueName);
 
 			// Проверка, что проект с именем ProjectName есть на странице
 			Assert.IsTrue(
-				GetIsExistProject(ProjectName),
-				"Ошибка: проекта " + ProjectName + " нет в списке");
+				GetIsExistProject(ProjectUniqueName),
+				"Ошибка: проекта " + ProjectUniqueName + " нет в списке");
 		}
 
 		/// <summary>
@@ -444,15 +444,15 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.CheckRights
 		private void createNewProjectWithDocument()
 		{
 			// Создаём проект с документом
-			CreateProject(ProjectName, PathProvider.DocumentFile);
+			CreateProject(ProjectUniqueName, PathProvider.DocumentFile);
 
 			// Проверка, что проект с именем ProjectName есть на странице
 			Assert.IsTrue(
-				GetIsExistProject(ProjectName),
-				"Ошибка: проекта " + ProjectName + " нет в списке.");
+				GetIsExistProject(ProjectUniqueName),
+				"Ошибка: проекта " + ProjectUniqueName + " нет в списке.");
 
 			// Открытие свёртки проекта
-			WorkspacePage.OpenProjectInfo(ProjectName);
+			WorkspacePage.OpenProjectInfo(ProjectUniqueName);
 
 			// Проверка, что файл добавлен в проект
 			Assert.IsTrue(CheckCreateProjectRightHelper.GetIsFileInProjectExist(PathProvider.DocumentFile),

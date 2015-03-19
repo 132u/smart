@@ -100,7 +100,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 
 		protected List<UserInfo> CourseraUserList { get; private set; }
 
-		protected string ProjectName { get; private set; }
+		protected string ProjectUniqueName { get; private set; }
 		
 		protected string BrowserName { get; private set; }
 
@@ -292,7 +292,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// </summary>
 		protected void CreateUniqueNamesByDatetime()
 		{
-			ProjectName = "Test Project" + "_" + DateTime.UtcNow.Ticks;
+			ProjectUniqueName = "Test Project" + "_" + DateTime.UtcNow.Ticks;
 		}
 
 		/// <summary>

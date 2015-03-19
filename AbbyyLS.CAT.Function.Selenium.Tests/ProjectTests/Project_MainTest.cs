@@ -39,9 +39,9 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		public void CreateProjectNoFile()
 		{
 			// Создать проект
-			CreateProject(ProjectName);
+			CreateProject(ProjectUniqueName);
 			//проверить что проект появился с списке проектов
-			CheckProjectInList(ProjectName);
+			CheckProjectInList(ProjectUniqueName);
 		}
 
 		/// <summary>
@@ -51,11 +51,11 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		public void DeleteProjectNoFileTest()
 		{
 			//создать проект, который будем удалять
-			CreateProject(ProjectName);
+			CreateProject(ProjectUniqueName);
 			// Удалить проект
-			DeleteProjectFromList(ProjectName);
+			DeleteProjectFromList(ProjectUniqueName);
 
-			Assert.IsTrue(GetIsNotExistProject(ProjectName), "Ошибка: проект не удалился");
+			Assert.IsTrue(GetIsNotExistProject(ProjectUniqueName), "Ошибка: проект не удалился");
 		}
 
 		/// <summary>
@@ -65,14 +65,14 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		public void DeleteProjectWithFileTest()
 		{
 			// Создать проект
-			CreateProject(ProjectName, PathProvider.DocumentFile);
+			CreateProject(ProjectUniqueName, PathProvider.DocumentFile);
 			
 			// Кликнуть по строке с проектом, чтобы открылась информация о нем (чтобы видно было документ)
-			WorkspacePage.OpenProjectInfo(ProjectName);
+			WorkspacePage.OpenProjectInfo(ProjectUniqueName);
 			// TODO Sleep
 			Thread.Sleep(2000);
 			// Выделить галочку проекта
-			SelectProjectInList(ProjectName);
+			SelectProjectInList(ProjectUniqueName);
 			// Нажать кнопку удалить
 			WorkspacePage.ClickDeleteProjectBtn();
 
@@ -86,7 +86,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 				"Ошибка: нет кнопки Удалить проект");
 			// Проверить, что проект удалился
 			Assert.IsTrue(
-				GetIsNotExistProject(ProjectName), 
+				GetIsNotExistProject(ProjectUniqueName), 
 				"Ошибка: проект не удалился");
 		}
 
@@ -97,15 +97,15 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		public void CreateProjectDeletedNameTest()
 		{
 			// Создать проект
-			CreateProject(ProjectName);
+			CreateProject(ProjectUniqueName);
 			// Удалить проект
-			DeleteProjectFromList(ProjectName);
+			DeleteProjectFromList(ProjectUniqueName);
 
 			// Проверить, остался ли проект в списке
-			Assert.IsTrue(GetIsNotExistProject(ProjectName), "Ошибка: проект не удалился");
+			Assert.IsTrue(GetIsNotExistProject(ProjectUniqueName), "Ошибка: проект не удалился");
 
 			//создание нового проекта с именем удаленного
-			FirstStepProjectWizard(ProjectName);
+			FirstStepProjectWizard(ProjectUniqueName);
 			// Проверить, что не появилось сообщение о существующем имени
 			AssertErrorDuplicateName(false);
 		}
@@ -117,10 +117,10 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		public void CreateProjectDuplicateNameTest()
 		{
 			// Создать проект
-			CreateProject(ProjectName);
+			CreateProject(ProjectUniqueName);
 			Thread.Sleep(1000);
 			// Начать создание проекта с этим же именем
-			FirstStepProjectWizard(ProjectName);
+			FirstStepProjectWizard(ProjectUniqueName);
 			WorkspaceCreateProjectDialog.ClickNextStep();
 			// Проверить, что появилась ошибка и поле Имя выделено ошибкой - ASSERT внутри
 			AssertErrorDuplicateName();
@@ -132,7 +132,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		[Test]
 		public void CreateProjectBigNameTest()//Переделать тест, теперь поле с ограничением символов
 		{
-			var bigName = ProjectName + "12345678901234567890123456789012345678901234567890123456789012345678901";
+			var bigName = ProjectUniqueName + "12345678901234567890123456789012345678901234567890123456789012345678901";
 
 			// Проверить, что создалось имя длиннее 100 символов
 			Assert.IsTrue(
@@ -155,7 +155,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		public void CreateProjectLimitNameTest()
 		{
 			//создаём имя, длинна которого равна 100 символам
-			var limitName = GenerateMaxLengthNameForProject(ProjectName, 100);
+			var limitName = GenerateMaxLengthNameForProject(ProjectUniqueName, 100);
 			// Создать проект с максимальным возможным именем
 			CreateProject(limitName);
 			// Проверить, что проект создался
@@ -169,7 +169,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		public void CreateProjectEqualLanguagesTest()
 		{
 			//1 шаг - заполнение данных о проекте
-			FirstStepProjectWizard(ProjectName, false, CommonHelper.LANGUAGE.English, CommonHelper.LANGUAGE.English);
+			FirstStepProjectWizard(ProjectUniqueName, false, CommonHelper.LANGUAGE.English, CommonHelper.LANGUAGE.English);
 			WorkspaceCreateProjectDialog.ClickNextStep();
 
 			// Проверить, что появилось сообщение о совпадающих языках
@@ -190,7 +190,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		public void CreateProjectForbiddenSymbolsTest()
 		{
 			// Создать имя с недопустимыми символами
-			var projectNameForbidden = ProjectName + " *|\\:\"<\\>?/ ";
+			var projectNameForbidden = ProjectUniqueName + " *|\\:\"<\\>?/ ";
 
 			// Создать проект
 			FirstStepProjectWizard(projectNameForbidden);
@@ -249,7 +249,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		[Test]
 		public void CreateProjectSpacePlusSymbolsNameTest()
 		{
-			var projectName = ProjectName + "  " + "SpacePlusSymbols";
+			var projectName = ProjectUniqueName + "  " + "SpacePlusSymbols";
 
 			// Создаем проект (проверка внутри)
 			CreateProject(projectName);
@@ -262,9 +262,9 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		public void ReassignDocumentToUserTest()
 		{
 			//Создать пустой проект
-			CreateProject(ProjectName);
+			CreateProject(ProjectUniqueName);
 			//Добавление документа
-			ImportDocumentProjectSettings(PathProvider.DocumentFile, ProjectName);
+			ImportDocumentProjectSettings(PathProvider.DocumentFile, ProjectUniqueName);
 			//Назначение задачи на пользователя
 			AssignTask();
 			// Выбрать документ
@@ -341,7 +341,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		public void ChangeProjectNameOnNew()
 		{
 			// Открыли форму создания проекта, заполнили поля
-			FirstStepProjectWizard(ProjectName);
+			FirstStepProjectWizard(ProjectUniqueName);
 			// Next
 			WorkspaceCreateProjectDialog.ClickNextStep();
 			// Нажать Back
@@ -372,7 +372,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		public void ChangeProjectNameOnExist()
 		{
 			// Создать проект
-			CreateProject(ProjectName);
+			CreateProject(ProjectUniqueName);
 			Thread.Sleep(1000);
 
 			// Открыли форму создания проекта, заполнили поля
@@ -389,7 +389,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 				"Ошибка: по кнопке Back не вернулись на предыдущий шаг (где имя проекта)");
 
 			// Изменить имя
-			WorkspaceCreateProjectDialog.FillProjectName(ProjectName);
+			WorkspaceCreateProjectDialog.FillProjectName(ProjectUniqueName);
 			// Next
 			WorkspaceCreateProjectDialog.ClickNextStep();
 			// Проверить, что ошибка появилась
@@ -407,13 +407,13 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		public void ChangeProjectNameOnDeleted()
 		{
 			// Создать проект
-			CreateProject(ProjectName);
+			CreateProject(ProjectUniqueName);
 			// Удалить проект
-			DeleteProjectFromList(ProjectName);
+			DeleteProjectFromList(ProjectUniqueName);
 
 			// Проверить, остался ли проект в списке
 			Assert.IsTrue(
-				GetIsNotExistProject(ProjectName),
+				GetIsNotExistProject(ProjectUniqueName),
 				"Ошибка: проект не удалился");
 
 			//создание нового проекта с именем удаленного
@@ -432,7 +432,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 				"Ошибка: по кнопке Back не вернулись на предыдущий шаг (где имя проекта)");
 
 			// Изменить имя
-			WorkspaceCreateProjectDialog.FillProjectName(ProjectName);
+			WorkspaceCreateProjectDialog.FillProjectName(ProjectUniqueName);
 			// Next
 			WorkspaceCreateProjectDialog.ClickNextStep();
 			// Проверить, что ошибка не появилась
@@ -555,7 +555,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			// Ждем загрузки формы
 			WorkspaceCreateProjectDialog.WaitDialogDisplay();
 			// Ввести название проекта
-			WorkspaceCreateProjectDialog.FillProjectName(ProjectName);
+			WorkspaceCreateProjectDialog.FillProjectName(ProjectUniqueName);
 			// Наначить датой дедлайна текущую
 			ChooseCurrentDeadlineDate();
 			// Нажать следующий шаг
@@ -564,7 +564,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			WorkspaceCreateProjectDialog.ClickFinishCreate();
 
 			// Дождаться проекта в списке проектов
-			WorkspacePage.WaitProjectAppearInList(ProjectName);
+			WorkspacePage.WaitProjectAppearInList(ProjectUniqueName);
 		}
 
 		/// <summary>
@@ -578,7 +578,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			// Ждем загрузки формы
 			WorkspaceCreateProjectDialog.WaitDialogDisplay();
 			// Ввести название проекта
-			WorkspaceCreateProjectDialog.FillProjectName(ProjectName);
+			WorkspaceCreateProjectDialog.FillProjectName(ProjectUniqueName);
 			// Назначаем дедлайн позже текущей даты
 			ChooseFutureDeadlineDate();
 			// Нажать следующий шаг
@@ -587,7 +587,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			WorkspaceCreateProjectDialog.ClickFinishCreate();
 
 			// Дождаться проекта в списке проектов
-			WorkspacePage.WaitProjectAppearInList(ProjectName);
+			WorkspacePage.WaitProjectAppearInList(ProjectUniqueName);
 		}
 
 		/// <summary>
@@ -601,7 +601,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			// Ждем загрузки формы
 			WorkspaceCreateProjectDialog.WaitDialogDisplay();
 			// Ввести название проекта
-			WorkspaceCreateProjectDialog.FillProjectName(ProjectName);
+			WorkspaceCreateProjectDialog.FillProjectName(ProjectUniqueName);
 			// Назначить дедлайн на уже прошедшую дату
 			ChoosePastDeadlineDate();
 			// Нажать следующий шаг
@@ -609,7 +609,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			// Нажать "Готово"
 			WorkspaceCreateProjectDialog.ClickFinishCreate();
 			// Дождаться проекта в списке проектов
-			WorkspacePage.WaitProjectAppearInList(ProjectName);
+			WorkspacePage.WaitProjectAppearInList(ProjectUniqueName);
 		}
 
 		/// <summary>
@@ -624,7 +624,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			// Ждем загрузки формы
 			WorkspaceCreateProjectDialog.WaitDialogDisplay();
 			// Ввести название проекта
-			WorkspaceCreateProjectDialog.FillProjectName(ProjectName);
+			WorkspaceCreateProjectDialog.FillProjectName(ProjectUniqueName);
 			// Назначить дедлайн (неверный формат даты)
 			WorkspaceCreateProjectDialog.FillDeadlineDate(dateFormat);
 			// Next

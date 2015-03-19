@@ -57,10 +57,10 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Editor.Panel
 			// Создание проекта с файлом
 			Logger.Info("Создаём проект с файлом с ТМ без файла и с заданным МТ.");
 			SwitchWorkspaceTab();
-			CreateProject(ProjectName, PathProvider.EditorTxtFile, true);
+			CreateProject(ProjectUniqueName, PathProvider.EditorTxtFile, true);
 
 			// Открываем проект
-			OpenProjectPage(ProjectName);
+			OpenProjectPage(ProjectUniqueName);
 
 			// Добавляем созданный глоссарий
 			Logger.Info("Добавляем созданный глоссарий(перешли внутрь проекта).");
@@ -123,10 +123,10 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Editor.Panel
 			// Создание проекта с файлом
 			Logger.Info("Создаём проект с файлом с ТМ без файла и с заданным МТ.");
 			SwitchWorkspaceTab();
-			CreateProject(ProjectName, PathProvider.EditorTxtFile, true);
+			CreateProject(ProjectUniqueName, PathProvider.EditorTxtFile, true);
 
 			// Открываем проект
-			OpenProjectPage(ProjectName);
+			OpenProjectPage(ProjectUniqueName);
 
 			// Добавляем созданный глоссарий
 			Logger.Info("Добавляем созданный глоссарий(перешли внутрь проекта).");
@@ -194,10 +194,10 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Editor.Panel
 			// Создание проекта с файлом
 			Logger.Info("Создаём проект с файлом с ТМ без файла и с заданным МТ.");
 			SwitchWorkspaceTab();
-			CreateProject(ProjectName, PathProvider.EditorTxtFile, true);
+			CreateProject(ProjectUniqueName, PathProvider.EditorTxtFile, true);
 
 			// Открываем проект
-			OpenProjectPage(ProjectName);
+			OpenProjectPage(ProjectUniqueName);
 
 			// Добавляем созданный глоссарий
 			Logger.Info("Добавляем созданный глоссарий(перешли внутрь проекта).");

@@ -43,7 +43,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		public void DefaultTaskType()
 		{
 			// Создание проекта до этапа воркфлоу
-			FillFourStepsProjectWizard(ProjectName);
+			FillFourStepsProjectWizard(ProjectUniqueName);
 
 			// 5) Проверка workflow
 			var workflowCreateList = WorkspaceCreateProjectDialog.GetWFTaskList();
@@ -70,7 +70,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		public void ChangeTaskType()
 		{
 			// Создание проекта до этапа воркфлоу
-			FillFourStepsProjectWizard(ProjectName);
+			FillFourStepsProjectWizard(ProjectUniqueName);
 
 			// 5) Проверка workflow
 			// Изменение типа созданной задачи на Editing
@@ -93,10 +93,10 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 
 			// 6) Настройка Pretranslate. Проверка создания проекта
 			WorkspaceCreateProjectDialog.ClickFinishCreate();
-			WorkspacePage.WaitProjectAppearInList(ProjectName);
+			WorkspacePage.WaitProjectAppearInList(ProjectUniqueName);
 
 			// Открываем проект
-			OpenProjectPage(ProjectName);
+			OpenProjectPage(ProjectUniqueName);
 
 			//Открываем Workflow в настройках проекта
 			OpenWorkflowSettings();
@@ -121,7 +121,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		public void NewTaskTypesOnCreate()
 		{
 			// Создание проекта до этапа воркфлоу
-			FillFourStepsProjectWizard(ProjectName);
+			FillFourStepsProjectWizard(ProjectUniqueName);
 
 			// 5) Добавление новой задачи Workflow
 			WorkspaceCreateProjectDialog.ClickWorkflowNewTask();
@@ -151,7 +151,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		public void NewTask()
 		{
 			// Создание проекта
-			CreateProject(ProjectName, "",
+			CreateProject(ProjectUniqueName, "",
 				false, "",
 				Workspace_CreateProjectDialogHelper.SetGlossary.None, "",
 				false, Workspace_CreateProjectDialogHelper.MT_TYPE.None,
@@ -159,7 +159,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 				1, 0, 1);
 
 			// Открываем проект
-			OpenProjectPage(ProjectName);
+			OpenProjectPage(ProjectUniqueName);
 
 			//Открываем Workflow в настройках проекта
 			OpenWorkflowSettings();
@@ -190,7 +190,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		public void NewTaskSameType()
 		{
 			// Создание проекта
-			CreateProject(ProjectName, "",
+			CreateProject(ProjectUniqueName, "",
 				false, "",
 				Workspace_CreateProjectDialogHelper.SetGlossary.None, "",
 				false, Workspace_CreateProjectDialogHelper.MT_TYPE.None,
@@ -198,7 +198,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 				2);
 
 			// Открываем проект
-			OpenProjectPage(ProjectName);
+			OpenProjectPage(ProjectUniqueName);
 
 			//Открываем Workflow в настройках проекта
 			OpenWorkflowSettings();
@@ -229,10 +229,10 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		public void AddingTask()
 		{
 			// Создание проекта
-			CreateProject(ProjectName);
+			CreateProject(ProjectUniqueName);
 
 			// Открываем проект
-			OpenProjectPage(ProjectName);
+			OpenProjectPage(ProjectUniqueName);
 
 			//Открываем Workflow в настройках проекта
 			OpenWorkflowSettings();
@@ -275,10 +275,10 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		public void CancelAddingTask()
 		{
 			// Создание проекта
-			CreateProject(ProjectName);
+			CreateProject(ProjectUniqueName);
 
 			// Открываем проект
-			OpenProjectPage(ProjectName);
+			OpenProjectPage(ProjectUniqueName);
 
 			//Открываем Workflow в настройках проекта
 			OpenWorkflowSettings();
@@ -316,7 +316,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		public void DeleteTaskOnCreate()
 		{
 			// Создание проекта до этапа воркфлоу
-			FillFourStepsProjectWizard(ProjectName);
+			FillFourStepsProjectWizard(ProjectUniqueName);
 
 			// 5) Добавление новой задачи Proofreading
 			WorkspaceCreateProjectDialog.ClickWorkflowNewTask();
@@ -354,7 +354,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		public void DeleteTask()
 		{
 			// Создание проекта
-			CreateProject(ProjectName, "",
+			CreateProject(ProjectUniqueName, "",
 				false, "",
 				Workspace_CreateProjectDialogHelper.SetGlossary.None, "",
 				false, Workspace_CreateProjectDialogHelper.MT_TYPE.None,
@@ -362,7 +362,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 				1, 0, 1);
 
 			// Открываем проект
-			OpenProjectPage(ProjectName);
+			OpenProjectPage(ProjectUniqueName);
 
 			//Открываем Workflow в настройках проекта
 			OpenWorkflowSettings();
@@ -393,7 +393,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		public void DeleteAllTasksOnCreate()
 		{
 			// Создание проекта до этапа воркфлоу
-			FillFourStepsProjectWizard(ProjectName);
+			FillFourStepsProjectWizard(ProjectUniqueName);
 
 			// 5) Удаление первой задачи Translation
 			WorkspaceCreateProjectDialog.ClickWorkflowDeleteTask(1);
@@ -422,7 +422,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		public void CancelDeleteTask()
 		{
 			// Создание проекта
-			CreateProject(ProjectName, "",
+			CreateProject(ProjectUniqueName, "",
 				false, "",
 				Workspace_CreateProjectDialogHelper.SetGlossary.None, "",
 				false, Workspace_CreateProjectDialogHelper.MT_TYPE.None,
@@ -430,7 +430,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 				1, 0, 1);
 
 			// Открываем проект
-			OpenProjectPage(ProjectName);
+			OpenProjectPage(ProjectUniqueName);
 
 			//Открываем Workflow в настройках проекта
 			OpenWorkflowSettings();
@@ -468,10 +468,10 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			var workflowTaskAfter = "";
 
 			// Создание проекта
-			CreateProject(ProjectName);
+			CreateProject(ProjectUniqueName);
 
 			// Открываем проект
-			OpenProjectPage(ProjectName);
+			OpenProjectPage(ProjectUniqueName);
 
 			//Открываем Workflow в настройках проекта
 			OpenWorkflowSettings();
@@ -513,7 +513,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		public void BackOnCreate()
 		{
 			// Создание проекта до этапа воркфлоу
-			FillFourStepsProjectWizard(ProjectName);
+			FillFourStepsProjectWizard(ProjectUniqueName);
 
 			// 5) Добавление новой задачи Proofreading
 			WorkspaceCreateProjectDialog.ClickWorkflowNewTask();
@@ -555,7 +555,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		public void AddingTaskAfterBack()
 		{
 			// Создание проекта до этапа воркфлоу
-			FillFourStepsProjectWizard(ProjectName);
+			FillFourStepsProjectWizard(ProjectUniqueName);
 
 			// 5) Добавление новой задачи Proofreading
 			WorkspaceCreateProjectDialog.ClickWorkflowNewTask();
@@ -593,10 +593,10 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 
 			// 6) Настройка Pretranslate. Проверка создания проекта
 			WorkspaceCreateProjectDialog.ClickFinishCreate();
-			WorkspacePage.WaitProjectAppearInList(ProjectName);
+			WorkspacePage.WaitProjectAppearInList(ProjectUniqueName);
 
 			// Открываем проект
-			OpenProjectPage(ProjectName);
+			OpenProjectPage(ProjectUniqueName);
 
 			//Открываем Workflow в настройках проекта
 			OpenWorkflowSettings();
@@ -618,7 +618,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		public void ChangingTaskAfterBack()
 		{
 			// Создание проекта до этапа воркфлоу
-			FillFourStepsProjectWizard(ProjectName);
+			FillFourStepsProjectWizard(ProjectUniqueName);
 
 			// 5) Добавление новой задачи Proofreading
 			WorkspaceCreateProjectDialog.ClickWorkflowNewTask();
@@ -658,10 +658,10 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 
 			// 6) Настройка Pretranslate. Проверка создания проекта
 			WorkspaceCreateProjectDialog.ClickFinishCreate();
-			WorkspacePage.WaitProjectAppearInList(ProjectName);
+			WorkspacePage.WaitProjectAppearInList(ProjectUniqueName);
 
 			// Открываем проект
-			OpenProjectPage(ProjectName);
+			OpenProjectPage(ProjectUniqueName);
 
 			//Открываем Workflow в настройках проекта
 			OpenWorkflowSettings();
@@ -683,7 +683,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		public void DeletingTaskAfterBack()
 		{
 			// Создание проекта до этапа воркфлоу
-			FillFourStepsProjectWizard(ProjectName);
+			FillFourStepsProjectWizard(ProjectUniqueName);
 
 			// 5) Добавление новой задачи Proofreading
 			WorkspaceCreateProjectDialog.ClickWorkflowNewTask();
@@ -712,10 +712,10 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 
 			// 6) Настройка Pretranslate. Проверка создания проекта
 			WorkspaceCreateProjectDialog.ClickFinishCreate();
-			WorkspacePage.WaitProjectAppearInList(ProjectName);
+			WorkspacePage.WaitProjectAppearInList(ProjectUniqueName);
 
 			// Открываем проект
-			OpenProjectPage(ProjectName);
+			OpenProjectPage(ProjectUniqueName);
 
 			//Открываем Workflow в настройках проекта
 			OpenWorkflowSettings();

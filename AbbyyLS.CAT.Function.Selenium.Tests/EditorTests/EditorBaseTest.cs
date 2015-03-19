@@ -32,7 +32,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Editor
 				CreateUniqueNamesByDatetime();
 
 				// Запись имени для дальнейшего использования в группе тестов
-				_projectNoChangesName = ProjectName;
+				_projectNoChangesName = ProjectUniqueName;
 			}
 			catch(Exception ex)
 			{
@@ -61,7 +61,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Editor
 			{
 				// Создание проекта с уникальным именем
 				CreateProjectIfNotCreated(
-					ProjectName,
+					ProjectUniqueName,
 					PathProvider.EditorTxtFile, 
 					false, 
 					"", 
@@ -70,14 +70,14 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Editor
 					true, 
 					Workspace_CreateProjectDialogHelper.MT_TYPE.ABBYY);
 				// Открытие настроек проекта
-				WorkspacePage.OpenProjectPage(ProjectName);
+				WorkspacePage.OpenProjectPage(ProjectUniqueName);
 			}
 			else if (TestContext.CurrentContext.Test.Name.Contains("Tag"))
 			{
 				// Создание проекта с уникальным именем
-				CreateProjectIfNotCreated(ProjectName, PathProvider.DocumentFile);
+				CreateProjectIfNotCreated(ProjectUniqueName, PathProvider.DocumentFile);
 				// Открытие настроек проекта
-				WorkspacePage.OpenProjectPage(ProjectName);
+				WorkspacePage.OpenProjectPage(ProjectUniqueName);
 			}
 			else
 			{

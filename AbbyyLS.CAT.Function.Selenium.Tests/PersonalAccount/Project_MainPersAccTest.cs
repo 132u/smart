@@ -36,9 +36,9 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		public void CreateProjectNoFilePersAcc()
 		{
 			// Создать проект
-			CreateProject(ProjectName, "", true);
+			CreateProject(ProjectUniqueName, "", true);
 			//проверить что проект появился с списке проектов
-			CheckProjectInList(ProjectName);
+			CheckProjectInList(ProjectUniqueName);
 		}
 
 		/// <summary>
@@ -48,10 +48,10 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		public void CreateProjectDuplicateNameTestPersAcc()
 		{
 			// Создать проект
-			CreateProject(ProjectName);
+			CreateProject(ProjectUniqueName);
 			Thread.Sleep(1000);
 			// Начать создание проекта с этим же именем
-			FirstStepProjectWizard(ProjectName);
+			FirstStepProjectWizard(ProjectUniqueName);
 			WorkspaceCreateProjectDialog.ClickNextStep();
 			// Проверить, что появилась ошибка и поле Имя выделено ошибкой - ASSERT внутри
 			AssertErrorDuplicateName();
@@ -63,7 +63,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		[Test]
 		public void CreateProjectBigNameTestPersAcc()//Переделать тест, теперь поле с ограничением символов
 		{
-			string bigName = ProjectName + "12345678901234567890123456789012345678901234567890123456789012345678901";
+			string bigName = ProjectUniqueName + "12345678901234567890123456789012345678901234567890123456789012345678901";
 			// Проверить, что создалось имя длиннее 100 символов
 			Assert.IsTrue(bigName.Length > 100, "Измените тест: длина имени должна быть больше 100");
 			// Создать проект с превышающим лимит именем
@@ -79,10 +79,10 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		public void AssignTaskBtnTest()
 		{
 			//Создать пустой проект
-			CreateProject(ProjectName);
+			CreateProject(ProjectUniqueName);
 
 			//Добавление документа
-			ImportDocumentProjectSettings(PathProvider.DocumentFile, ProjectName, "Personal");
+			ImportDocumentProjectSettings(PathProvider.DocumentFile, ProjectUniqueName, "Personal");
 
 			//Проверка , что Assign task отсутствует на стр списка проектов
 			Assert.IsFalse(ProjectPage.GetIsAssignRessponsibleBtnExist(), "Ошибка: Assign task отобраается на стр списка проектов для песронального аккаунта");
@@ -95,12 +95,12 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		public void DeleteDocumentFromProjectPersAcc()
 		{
 			//Создать пустой проект		  
-			CreateProject(ProjectName);
+			CreateProject(ProjectUniqueName);
 
 			//Добавление документа
 			ImportDocumentProjectSettings(
 				PathProvider.DocumentFile,
-				ProjectName, 
+				ProjectUniqueName, 
 				"Personal");
 
 			// Выбрать документ

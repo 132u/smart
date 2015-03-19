@@ -45,7 +45,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Editor.PreviousStage
 			SwitchWorkspaceTab();
 
 			// Открываем диалог выбора исполнителя
-			OpenAssignDialog(ProjectName);
+			OpenAssignDialog(ProjectUniqueName);
 
 			// Выбор в качестве исполнителя для второй задачи группы Administrator
 			SetResponsible(2, UserName, false);
@@ -55,7 +55,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Editor.PreviousStage
 
 			RefreshPage();
 			// Открытие страницы проекта
-			OpenProjectPage(ProjectName);
+			OpenProjectPage(ProjectUniqueName);
 
 			// Открытие документа
 			ProjectPage.OpenDocument(1);
