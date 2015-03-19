@@ -1866,9 +1866,12 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			EditorPage.ClickTargetCell(segmentNumber);
 
 			var catLineNumber = EditorPage.GetCatTranslationRowNumber(catType);
-			
-			//Нажать хоткей для подстановки из TM перевода сегмента
+
 			EditorPage.PutCatMatchByHotkey(segmentNumber, catLineNumber);
+
+			Assert.IsTrue(EditorPage.GetTargetText(segmentNumber) == EditorPage.GetCatPanelText(catLineNumber),
+				"Ошибка: хоткей подстановки " + catType
+				+ " не сработал, текст в таргет и текст в панели CAT не совпадает");
 
 			EditorPage.ClickConfirmBtn();
 

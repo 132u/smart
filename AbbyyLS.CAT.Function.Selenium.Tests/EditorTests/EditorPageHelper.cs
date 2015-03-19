@@ -88,8 +88,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 
 				throw new NoSuchElementException(errorMessage);
 			}
-		
-			ClickClearAndAddText(targerCellForInput, text);
+			ClearAndAddText(targerCellForInput, text);
 			WaitUntilDisplayElement(By.XPath(GetTargetWithTextXpath(rowNum, text)), 1);
 			Logger.Trace("добавили текст: " + text);
 		}
@@ -104,6 +103,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 
 		public void ClickInSegment(int rowNumber)
 		{
+			Logger.Trace("Клик по сегменту № " + rowNumber);
 			Driver.FindElement(By.XPath(GetTargetCellXPath(rowNumber))).Click();
 		}
 
@@ -149,9 +149,10 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 
 		public void PutCatMatchByHotkey(int segmentNumber, int catLineNumber)
 		{
-			Log.Trace(string.Format("Нажать хоткей для подстановки из кат перевода сегмента. Номер строки: {0}, номер строки панели кат: {1}", segmentNumber, catLineNumber));
 			ClickInSegment(segmentNumber);
-			// Соответствует нажатию хоткея (CTRL + цифра)
+			Logger.Trace(string.Format("Нажать хоткей Ctrl " + catLineNumber
+				+ " для подстановки из кат перевода сегмента. Номер строки: {0}, номер строки панели кат: {1}",
+				segmentNumber, catLineNumber));
 			SendKeys.SendWait(@"^{" + catLineNumber + "}");
 		}
 
@@ -420,7 +421,9 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		public string GetTargetText(int rowNumber)
 		{
 			Log.Trace(string.Format("Получить текст Target из строки №{0}", rowNumber));
-			return GetTextElement(By.XPath(GetTargetCellXPath(rowNumber))).Trim();
+			var targetText = GetTextElement(By.XPath(GetTargetCellXPath(rowNumber))).Trim();
+			Logger.Trace("Текст в таргете #" + rowNumber + " = " + targetText);
+			return targetText;
 		}
 
 		/// <summary>
@@ -543,6 +546,8 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 					break;
 				}
 			}
+
+			Assert.IsTrue(rowNum != 0, "Ошибка: нужная " + type + " подстановка отсутствует в CAT панели");
 			return rowNum;
 		}
 
@@ -564,7 +569,9 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <returns>текст</returns>
 		public string GetCatPanelText(int rowNumber)
 		{
-			return GetTextElement(By.XPath(CAT_PANEL_TEXT_COLUMN_XPATH));
+			var catText = GetTextElement(By.XPath(CAT_PANEL_EXISTENCE_XPATH + "[" + rowNumber + "]" + CAT_PANEL_TEXT_COL_PART));
+			Logger.Trace("Текст в CAT панели #" + rowNumber + " = " + catText);
+			return catText;
 		}
 
 		/// <summary>
