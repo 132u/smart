@@ -113,7 +113,13 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			Logger.Debug(String.Format("Добавление имени проекта: {0}", projectName));
 			ClearAndAddText(By.XPath(PROJECT_NAME_INPUT_XPATH), projectName);
 		}
-		
+
+		public string GetProjectName()
+		{
+			Logger.Trace("Получить название проекта, введенное в поле 'Name'");
+			return GetElementAttribute(By.XPath(PROJECT_NAME_INPUT_XPATH), "value");
+		}
+
 		/// <summary>
 		/// Вернуть, отображается ли первый шаг
 		/// </summary>

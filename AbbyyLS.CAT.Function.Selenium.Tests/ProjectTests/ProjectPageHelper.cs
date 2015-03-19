@@ -230,10 +230,11 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 
 		public void SelectDocument(int documentNumber)
 		{
-			Logger.Debug(string.Format("Нажать галку у документа №{0}", documentNumber));
-
+			Logger.Trace("Проверка, есть ли документ в проекте");
 			if (GetIsExistDocument(documentNumber))
 			{
+				Logger.Trace("Документ есть в проекте");
+				Logger.Trace(string.Format("Нажать галку у документа №{0}", documentNumber));
 				ClickElement(By.XPath(DOCUMENT_LIST_XPATH
 					+ "//tr[" + documentNumber + "]//td[contains(@class,'checkbox')]//input"));
 			}
@@ -254,13 +255,17 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 
 			if (GetIsExistDocument(documentNumber))
 			{
+				Logger.Trace("Клик по документу");
 				ClickElement(By.XPath(DOCUMENT_ROW_XPATH
 					+ "[" + documentNumber + "]"
 					+ DOCUMENT_ROW_EDITOR_LINK_XPATH));
 				if (Driver.WindowHandles.Count > 1)
 				{
+					Logger.Trace("Открылось новое окно браузера");
 					Driver.SwitchTo().Window(Driver.CurrentWindowHandle).Close();
+					Logger.Trace("Закрыли текущее окно браузера");
 					Driver.SwitchTo().Window(Driver.WindowHandles.Last());
+					Logger.Trace("Перешли в новое окно браузера");
 				}
 			}
 			else
@@ -292,6 +297,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <returns></returns>
 		public bool WaitImportDialogDisplay()
 		{
+			Logger.Trace("Ожидание открытия диалога импорта");
 			return WaitUntilDisplayElement(By.XPath(IMPORT_DIALOG_XPATH));
 		}
 
@@ -324,6 +330,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// </summary>
 		public void ClickNextBtn()
 		{
+			Logger.Trace("Клик по кнопке 'Next'");
 			ClickElement(By.XPath(IMPORT_NEXT_BTN_XPATH));
 		}
 
@@ -333,6 +340,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <returns></returns>
 		public bool WaitImportTMTableDisplay()
 		{
+			Logger.Trace("Ожидание появления таблицы ТМ в диалоге импорта");
 			return WaitUntilDisplayElement(By.XPath(IMPORT_TM_TABLE_XPATH));
 		}
 
@@ -350,6 +358,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// </summary>
 		public void ClickFinishImportDialog()
 		{
+			Logger.Trace("Клик по кнопке 'Finish' в диалоге импорта");
 			ClickElement(By.XPath(IMPORT_FINISH_BTN_XPATH));
 		}
 
@@ -368,19 +377,22 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		public void WaitDocumentDownloadFinish()
 		{
 			var isDisappeared = true;
-
+			Logger.Trace("Проверка, что крутилка не крутится");
 			if (GetIsElementDisplay(By.XPath(DOWNLOAD_DOC_IMG_XPATH)))
 			{
+				Logger.Trace("Крутилка крутится");
 				isDisappeared = false;
 				for (var i = 0; i < 5; ++i)
 				{
+					Logger.Trace("Ждем, когда крутилка остановится");
 					isDisappeared = WaitUntilDisappearElement(By.XPath(DOWNLOAD_DOC_IMG_XPATH), 40);
 					
 					if (isDisappeared)
 					{
+						Logger.Trace("Крутилка исчезла, документ загрузился");
 						break;
 					}
-
+					Logger.Trace("Обновили страницу");
 					Driver.Navigate().Refresh();
 				}
 			}
@@ -480,6 +492,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		public bool GetIsExistNoFileError()
 		{
 			SetDriverTimeoutMinimum();
+			Logger.Trace("Проверка, появилось ли сообщение, что файл не указан (при загрузке)");
 			var isExistError = GetIsElementDisplay(By.XPath(NO_FILE_ERROR_XPATH));
 			SetDriverTimeoutDefault();
 
@@ -696,7 +709,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		{
 			// Кликнуть на открытие информации о документе
 			var documentXPath = DOCUMENT_ROW_XPATH + "[" + documentNumber + "]//" + OPEN_CLOSE_TD_XPATH;
-			Logger.Trace("Прокерка, что документ есть на странице проекта");
+			Logger.Trace("Проверка, что документ есть на странице проекта");
 			var isExistDocument = GetIsElementExist(By.XPath(documentXPath));
 			if (isExistDocument)
 			{

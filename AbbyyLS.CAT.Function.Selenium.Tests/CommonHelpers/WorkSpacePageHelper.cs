@@ -168,7 +168,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <param name="notifierNumberFromTop">номер сообщения об экспорте сверху (сверху самое старой позади остальных новых)</param>
 		public void ClickNotifier(int notifierNumberFromTop)
 		{
-			ClickElement(By.XPath(GetNotifierXPath(notifierNumberFromTop)));
+			((IJavaScriptExecutor)Driver).ExecuteScript("arguments[0].click()", Driver.FindElement(By.XPath(GetNotifierXPath(notifierNumberFromTop))));
 		}
 
 		/// <summary>
@@ -192,9 +192,9 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <summary>
 		/// Кликнуть Экспорт в свертке проекта
 		/// </summary>
-		public void ClickExportBtnProjectInfo()
+		public void ClickExportBtnProjectInfo(string projectName)
 		{
-			ClickElement(By.XPath(EXPORT_PROJECT_INFO_XPATH));
+			ClickElement(By.XPath(GetProjectRefXPath(projectName) + "/ancestor::tr/following-sibling::tr[1]//li[@class='l-project-export-block']"));
 		}
 
 		/// <summary>
@@ -203,12 +203,13 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <returns>кнопка не заблокирована</returns>
 		public bool ClickExportRedBtn()
 		{
-			// Кнопка не заблокирована?
+			Logger.Trace("Проверка, активна ли красная кнопка экспорта");
 			var isEnabled = !GetElementClass(By.XPath(EXPORT_BTN_XPATH)).Contains(DISABLED_BTN_CLASS);
 
 			if (isEnabled)
 			{
-				Logger.Trace("кликнуть красный экспорт\n" + EXPORT_BTN_XPATH);
+				Logger.Trace("Красная кнопка экспорта активна");
+				Logger.Trace("Клик по красной кнопке экспорт, XPath = " + EXPORT_BTN_XPATH);
 				ClickElement(By.XPath(EXPORT_BTN_XPATH));
 			}
 
@@ -221,6 +222,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <param name="type">тип</param>
 		public void SelectExportType(EXPORT_TYPE type)
 		{
+			Logger.Trace("Выбрали тип экспорта " + type);
 			ClickElement(By.XPath(GetExportTypeRefXPath(type)));
 		}
 
@@ -229,6 +231,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// </summary>
 		public void ClickCancelNotifier()
 		{
+			Logger.Trace("Клик по кнопке Cancel в окне сообщения экспорта");
 			ClickElement(By.XPath(NOTIFIER_CANCEL_BTN_XPATH));
 		}
 
@@ -237,7 +240,9 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// </summary>
 		public void ClickDownloadNotifier()
 		{
+			Logger.Trace("Клик по кнопке Download в окне сообщения о экспорте");
 			ClickElement(By.XPath(NOTIFIER_DOWNLOAD_BTN_XPATH));
+			Logger.Trace("Время клика по кнопке Download = " + DateTime.Now.ToString("MM.dd.yyyy HH:mm:ss"));
 		}
 
 		/// <summary>
@@ -245,6 +250,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// </summary>
 		public void ClickRestartNotifier()
 		{
+			Logger.Trace("Клик по кнопке 'Restart'");
 			ClickElement(By.XPath(NOTIFIER_RESTART_BTN_XPATH));
 		}
 
@@ -254,6 +260,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <returns></returns>
 		public bool WaitUntilDisappearPrepareNotifier()
 		{
+			Logger.Trace("Ожидание, когда пропадет сообщение 'Prepare...'");
 			return WaitUntilDisappearElement(By.XPath(NOTIFIER_PREPARE_XPATH), 40);
 		}
 
@@ -263,16 +270,20 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <returns>видно</returns>
 		public bool GetIsPrepareNotifierDisplayed()
 		{
+			Logger.Trace("Получить, видно ли сообщение о подготовке к экспорту");
 			return GetIsElementDisplay(By.XPath(NOTIFIER_PREPARE_XPATH));
 		}
 
 		/// <summary>
 		/// Получить, видна ли кнопка Загрузить в сообщении об экспорте
 		/// </summary>
+		/// <param name="numberNotification"> номер сообщения о экспорте </param>
 		/// <returns>видна</returns>
-		public bool GetIsDownloadBtnNotifierDisplayed()
+		public bool GetIsDownloadBtnNotifierDisplayed(int numberNotification = 1)
 		{
-			return GetIsElementDisplay(By.XPath(NOTIFIER_DOWNLOAD_BTN_XPATH));
+			Logger.Trace("Проверка появилась ли кнопка 'Download' в сообщении о экспорте");
+			return GetIsElementDisplay(By.XPath(NOTIFIER_XPATH
+				+ ONE_NOTIFIER_POP_UP + "[" + numberNotification + "]" + DOWNLOAD_BTN_IN_POP_UP));
 		}
 
 		/// <summary>
@@ -281,6 +292,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <returns>видна</returns>
 		public bool GetIsRestartBtnNotifierDisplayed()
 		{
+			Logger.Trace("Проверка, есть ли кнопка 'Restart' в сообщение о экспорте");
 			return GetIsElementDisplay(By.XPath(NOTIFIER_RESTART_BTN_XPATH));
 		}
 
@@ -290,6 +302,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <returns>видно</returns>
 		public bool GetIsExistNotifier()
 		{
+			Logger.Trace("Проверка, появилось ли сообщение о экспорте");
 			return GetIsElementDisplay(By.XPath(NOTIFIER_ITEM_XPATH));
 		}
 
@@ -308,6 +321,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <returns>текст</returns>
 		public string GetNotifierText()
 		{
+			Logger.Trace("Получить текст из сообщения о экспорте");
 			return GetTextElement(By.XPath(NOTIFIER_TEXT_XPATH));
 		}
 
@@ -317,12 +331,15 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		public void CancelAllNotifiers()
 		{
 			SetDriverTimeoutMinimum();
+			Logger.Trace("Проверка, есть ли сообщения экспорта");
 			var isExist = GetIsElementDisplay(By.XPath(NOTIFIER_CANCEL_BTN_XPATH));
 
 			while (isExist)
 			{
+				Logger.Trace("Сообщения экспорта есть на странице");
 				ClickCancelNotifier();
 				Thread.Sleep(2000);
+				Logger.Trace("Проверка, есть ли еще сообщения экспорта");
 				isExist = GetIsElementDisplay(By.XPath(NOTIFIER_CANCEL_BTN_XPATH));
 			}
 
@@ -370,7 +387,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <param name="name">название</param>
 		public void DocumentSettingsAddName(string name)
 		{
-			SendTextElement(By.XPath(DOCUMENT_SETTINGS_NAME_XPATH), name);
+			ClickClearAndAddText(By.XPath(DOCUMENT_SETTINGS_NAME_XPATH), name);
 		}
 
 		/// <summary>
@@ -399,7 +416,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			var hour = notifierText.Substring(startIndex, 2);
 			startIndex += 3; // "hh:" = 3
 			var min = notifierText.Substring(startIndex, 2);
-			Logger.Trace(month + "/" + day + "/" + year + " " + hour + ":" + min);
+			Logger.Trace("Распарсили дату из сообщения о экспорте = " + month + "/" + day + "/" + year + " " + hour + ":" + min);
 
 			// Получили дату
 			return new DateTime(int.Parse(year), int.Parse(month), int.Parse(day), int.Parse(hour), int.Parse(min), 0);
@@ -500,8 +517,9 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <returns>xPath</returns>
 		protected string GetNotifierXPath(int notifierNumberFromTop)
 		{
-			return NOTIFIER_ITEM_XPATH + "[" + notifierNumberFromTop + "]";
+			return NOTIFIER_ITEM_XPATH + "[contains(@style, 'top: " + (notifierNumberFromTop - 1) * 10 + "px')]";////preceding-sibling::div[" + notifierNumberFromTop + "]";
 		}
+
 
 		/// <summary>
 		/// Вернуть xPath строки с типом экспорта
@@ -702,6 +720,8 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		protected const string OPEN_CLOSE_TD_XPATH = "div[contains(@class,'l-corpr__threeDots')]";
 		protected const string FOLDER_SIGN = "//preceding-sibling::div//img";
 		protected const string NOTIFIER_XPATH = "//div[@id='notifications-block']";
+		protected const string DOWNLOAD_BTN_IN_POP_UP = "//a[1]";
+		protected const string ONE_NOTIFIER_POP_UP= "//div[@class='g-notifications-item']";
 		protected const string NOTIFIER_ITEM_XPATH = NOTIFIER_XPATH + "//div[contains(@class,'notifications-item')]";
 		protected const string NOTIFIER_CANCEL_BTN_XPATH = NOTIFIER_VISIBLE_XPATH + "//a[contains(text(),'Close')]";
 		protected const string NOTIFIER_DOWNLOAD_BTN_XPATH = NOTIFIER_XPATH + "//a[contains(text(),'Download')]";
@@ -738,8 +758,8 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		protected Dictionary<EXPORT_TYPE, string> exportTypeDict;
 
 		protected const string DOCUMENT_SETTINGS_DIALOG_XPATH = ".//div[contains(@class,'js-popup-document-settings')][2]";
-		protected const string DOCUMENT_SETTINGS_NAME_XPATH = DOCUMENT_SETTINGS_DIALOG_XPATH + "//input[contains(@class,'js-name')]";
-		protected const string DOCUMENT_SETTINGS_SAVE_BTN_XPATH = DOCUMENT_SETTINGS_DIALOG_XPATH + "//span[contains(@class,'js-save')]";
+		protected const string DOCUMENT_SETTINGS_NAME_XPATH = DOCUMENT_SETTINGS_DIALOG_XPATH + "//input[contains(@class,'nmtext')]";
+		protected const string DOCUMENT_SETTINGS_SAVE_BTN_XPATH = DOCUMENT_SETTINGS_DIALOG_XPATH + "//a[contains(text(), 'Save')]";
 
 		protected const string DOCUMENT_PROGRESS_XPATH = "//div[@class='ui-progressbar__container']";
 		protected const string DOCUMENT_ASSIGN_RESPONSIBLES_BTN_XPATH = "//span[contains(@class, 'js-assign-btn') and @data-bind='click: assign']";

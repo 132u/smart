@@ -406,11 +406,8 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			// Нажать на Close
 			ProjectPage.CloseAssignDialogClick();
 			Thread.Sleep(1000);// Sleep не убирать, необходим для корректной работы в Chrome
+
 			SelectDocumentInProject(documentRowNum);
-
-			// Обновить страницу, чтобы активен был переход в редактор
-			Driver.Navigate().Refresh();
-
 			// Нажать на Accept
 			ProjectPage.ClickAllAcceptBtns();
 		}
@@ -789,6 +786,8 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 					WorkspaceCreateProjectDialog.UploadFileToNewProject(downloadFile);
 					WorkspaceCreateProjectDialog.WaitDocumentAppear(Path.GetFileName(downloadFile));
 			}
+			if (WorkspaceCreateProjectDialog.GetProjectName() != projectName)
+				WorkspaceCreateProjectDialog.FillProjectName(projectName);
 			WorkspaceCreateProjectDialog.ClickNextStep();
 
 			Logger.Debug("Вторая страница создания проекта - этап workflow.");
@@ -1051,8 +1050,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			// Нажать Next
 			ProjectPage.ClickNextImportDialog();
 
-			Logger.Trace("кликнули Next");
-
 			// Если появилось сообщение, что не указали файл, значит, Enter не нажался
 			if (ProjectPage.GetIsExistNoFileError())
 			{
@@ -1097,6 +1094,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <returns>есть</returns>
 		protected bool GetIsExistProject(string projectName)
 		{
+			Logger.Trace("Проверка, есть ли проект " + projectName + " в списке на странице Workspace");
 			return WorkspacePage.GetIsProjectInList(projectName);
 		}
 
@@ -1412,7 +1410,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		protected void OpenProjectPage(string projectName)
 		{
 			WorkspacePage.OpenProjectPage(projectName);
-			ProjectPage.WaitPageLoad();
+			Assert.IsTrue(ProjectPage.WaitPageLoad(), "Ошибка: страница проекта " + projectName + " не открылась");
 		}
 
 		/// <summary>
