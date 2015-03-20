@@ -64,7 +64,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Registration.Captcha
 			RegistrationPage.ClickSignInButton();
 
 			// Проверяем, что счетчик обнулился, captcha не появилась
-			Assert.IsTrue(!RegistrationPage.GetCaptchaIsDisplayed(),
+			Assert.IsFalse(RegistrationPage.GetCaptchaIsDisplayed(),
 				"Ошибка: счетчик количества ввода неправильного пароля не обнулился, captcha появилась");
 		}
 
@@ -125,7 +125,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Registration.Captcha
 			RegistrationPage.ClickSignInButton();
 
 			// Проверяем, что captcha не появилась
-			Assert.IsTrue(!RegistrationPage.GetCaptchaIsDisplayed(),
+			Assert.IsFalse(RegistrationPage.GetCaptchaIsDisplayed(),
 				"Ошибка: счетчик количества ввода неправильного пароля не обнулился, captcha появилась");
 		}
 
@@ -161,7 +161,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Registration.Captcha
 				//Заполнить пароль
 				RegistrationPage.TypeTextInPasswordFieldSignIn(RegistrationPage.Password + i);
 				RegistrationPage.ClickSignInButton();
-				Assert.IsTrue(!RegistrationPage.GetCaptchaIsDisplayed(),
+				Assert.IsFalse(RegistrationPage.GetCaptchaIsDisplayed(),
 					"Ошибка: captcha появилась при попытке №" + (i + 1) + " ввода неверного пароля");
 			}
 
@@ -198,7 +198,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Registration.Captcha
 				LoginPage.EnterPassword(RegistrationPage.Password + i);
 				//Нажать кнопку Sign In
 				LoginPage.ClickSubmitCredentials();
-				Assert.IsTrue(!RegistrationPage.GetCaptchaIsDisplayed(),
+				Assert.IsFalse(RegistrationPage.GetCaptchaIsDisplayed(),
 					"Ошибка: captcha появилась при попытке №" + (i + 1) + " ввода неверного пароля");
 			}
 		}
@@ -241,7 +241,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Registration.Captcha
 			RegisterAsExistUserWithInCorrectPassword(RegistrationPage.Email, RegistrationPage.Password);
 
 			// Проверяем, что счетчик обнулился, капча не должна появиться
-			Assert.IsTrue(!RegistrationPage.GetCaptchaIsDisplayed(),
+			Assert.IsFalse(RegistrationPage.GetCaptchaIsDisplayed(),
 				"Ошибка: счетчик не обнулился. Captcha появилась.");
 		}
 
@@ -268,7 +268,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Registration.Captcha
 			for (int i = 0; i < count; i++)
 			{
 				RegisterAsExistUserWithInCorrectPassword(RegistrationPage.Email, RegistrationPage.Password);
-				Assert.IsTrue(!RegistrationPage.GetCaptchaIsDisplayed(),
+				Assert.IsFalse(RegistrationPage.GetCaptchaIsDisplayed(),
 					"Ошибка: captcha появилась при попытке №" + (i + 1) + " ввода неверного пароля");
 			}
 			

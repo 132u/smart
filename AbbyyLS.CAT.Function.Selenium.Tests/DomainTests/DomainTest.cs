@@ -124,7 +124,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.Domains
 			var newDomainName = getDomainUniqueName();
 			setDomainNewName(domainName, newDomainName);
 
-			Assert.IsTrue(!DomainPage.GetIsDomainExist(domainName), "Ошибка: старый проект не удалился");
+			Assert.IsFalse(DomainPage.GetIsDomainExist(domainName), "Ошибка: старый проект не удалился");
 			Assert.IsTrue(DomainPage.GetIsDomainExist(newDomainName), "Ошибка: новый проект не сохранился");
 		}
 

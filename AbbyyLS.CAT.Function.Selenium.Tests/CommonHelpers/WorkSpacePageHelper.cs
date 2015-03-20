@@ -67,17 +67,12 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			SetDriverTimeoutDefault();
 		}
 
-		/// <summary>
-		/// Узнать текущую локализацию
-		/// </summary>
 		public LOCALE_LANGUAGE_SELECT GetCurrentLocale()
 		{
-			if (GetIsElementExist(
-				By.XPath(
-					string.Format(
-						"{0}[@data-locale='{1}']",
-						LOCALE_REF_PATH,
-						LOCALE_RU_LANG))))
+			Logger.Debug("Получение текущей локализации");
+
+			if (GetIsElementExist(By.XPath(string.Format(
+						"{0}[@data-locale='{1}']", LOCALE_REF_PATH, LOCALE_RU_LANG))))
 			{
 				return LOCALE_LANGUAGE_SELECT.English;
 			}

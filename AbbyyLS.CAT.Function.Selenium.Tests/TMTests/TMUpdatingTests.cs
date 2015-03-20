@@ -16,11 +16,12 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.TM
 		[Test]
 		public void UpdateTMButtonTest()
 		{
-			// Создать ТМ и загрузить TMX файл
+			Logger.Info("Начало работы теста UpdateTMButtonTest().");
+
 			CreateTMWithUploadTMX(UniqueTmName, PathProvider.EditorTmxFile);
 
 			// Получить количество сегментов
-			int segCountBefore = GetSegmentCount(UniqueTmName);
+			var segCountBefore = GetSegmentCount(UniqueTmName);
 
 			// Отрыть информацию о ТМ и нажать кнопку Update
 			ClickButtonTMInfo(UniqueTmName, TMPageHelper.TM_BTN_TYPE.Update);
@@ -29,7 +30,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.TM
 			UploadDocumentTM(PathProvider.SecondTmFile, UniqueTmName, acceptConfirmationMessage: true);
 			
 			// Получить количество сегментов
-			int segCountAfter = GetSegmentCount(UniqueTmName);
+			var segCountAfter = GetSegmentCount(UniqueTmName);
 
 			// Если количество не изменилось, возможно, просто не обновилась страница - принудительно обновить
 			if (segCountAfter == segCountBefore)
@@ -37,7 +38,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.TM
 				ReopenTMInfo(UniqueTmName);
 				segCountAfter = GetSegmentCount(UniqueTmName);
 			}
-			// Проверить, что количество сегментов изменилось
+
 			Assert.IsTrue(segCountBefore != segCountAfter, "Ошибка: количество сегментов должно измениться");
 		}
 	}

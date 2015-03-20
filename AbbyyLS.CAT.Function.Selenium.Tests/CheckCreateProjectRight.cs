@@ -139,7 +139,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.CheckRights
 			
 			// Дожидаемся появления плашки, говорящей, что документ готов к загрузке
 			Assert.IsTrue(
-				TMPage.IsBaloonWithSpecificMessageExist(
+				TMPage.IsTextExistInBaloon(
 					"Document \"" + date + "\" is ready for download. " + fileName),
 				"Ошибка: плашка о том, что документ готов к загрузке не появилась.");
 
@@ -189,7 +189,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.CheckRights
 			
 			// Дожидаемся появления плашки, говорящей, что документ готов к загрузке
 			Assert.IsTrue(
-				TMPage.IsBaloonWithSpecificMessageExist(
+				TMPage.IsTextExistInBaloon(
 					"Documents are ready for download. " + date),
 				"Ошибка: плашка о том, что документ готов к загрузке не появилась.");
 			

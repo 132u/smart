@@ -5,10 +5,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.TM
 	[Category("Standalone")]
 	public class TMEditingTests: TMTest 
 	{
-		/// <summary>
-		/// Конструктор теста
-		/// </summary>
-		/// <param name="browserName">Название браузера</param>
 		public TMEditingTests(string browserName)
 			: base(browserName)
 		{
@@ -22,15 +18,14 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.TM
 		[Test]
 		public void EditTMSaveWithoutNameTest(TmxFileExisting tmxFileExisting)
 		{
-			// Создать ТМ с/без ТМХ файла
-			CrateNewTmForTest(tmxFileExisting);
-
+			Logger.Info(string.Format("Начало работы теста CreateTMWithExistingNameTest(). Значение параметра tmxFileExisting: {0}", tmxFileExisting));
+			
+			createNewTmForTest(tmxFileExisting);
 			// Изменить имя на пустое и сохранить
-			EditTMFillName(UniqueTmName, "");
+			EditTMName(UniqueTmName, "");
 
 			// Проверить, что появилось сообщение об ошибке в имени
-			Assert.IsTrue(TMPage.GetIsExistEditErrorNoName(),
-				"Ошибка: не появилось сообщение о пустом имени");
+			TMPage.AssertionIsExistEditErrorNoNameAppear();
 		}
 
 		/// <summary>
@@ -39,18 +34,16 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.TM
 		[Test]
 		public void EditTMSaveExistingNameTest()
 		{
-			// Создать ТМ с таким именем, если его еще нет
-			CreateTMIfNotExist(ConstTMName);
+			Logger.Info("Начало работы теста EditTMSaveExistingNameTest().");
 
-			// Создать ТМ
+			CreateTMIfNotExist(ConstTMName);
 			CreateTMByNameAndSave(UniqueTmName);
 
 			// Изменить имя на существующее и сохранить
-			EditTMFillName(UniqueTmName, ConstTMName);
+			EditTMName(UniqueTmName, ConstTMName);
 
 			// Проверить, что появилось сообщение об ошибке в имени
-			Assert.IsTrue(TMPage.GetIsExistEditErrorExistName(),
-				"Ошибка: не появилось сообщение об ошибке в имени");
+			TMPage.AssertionIsErrorExistingNameAppear();
 		}
 
 		/// <summary>
@@ -59,18 +52,16 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.TM
 		[Test]
 		public void EditTMSaveUniqueNameTest()
 		{
-			// Создать ТМ с таким именем, если его еще нет
+			Logger.Info("Начало работы теста EditTMSaveExistingNameTest().");
+
 			CreateTMIfNotExist(ConstTMName);
+			EditTMName(ConstTMName, UniqueTmName);
 
-			// Изменить имя на уникальное и сохранить
-			EditTMFillName(ConstTMName, UniqueTmName);
-
-			// Перезагрузим страницу
 			RefreshPage();
 
 			// Проверить, что ТМ со старым именем удалился, а с новым именем есть
-			Assert.IsTrue(!GetIsExistTM(ConstTMName), "Ошибка: не удалилось старое имя");
-			Assert.IsTrue(GetIsExistTM(UniqueTmName), "Ошибка: нет ТМ с новым именем");
+			Assert.IsFalse(TMPage.GetIsExistTM(ConstTMName), "Ошибка: не удалилось старое имя");
+			Assert.IsTrue(TMPage.GetIsExistTM(UniqueTmName), "Ошибка: нет ТМ с новым именем");
 		}
 
 		/// <summary>
@@ -81,15 +72,13 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.TM
 		[Test]
 		public void EditTMSaveWhiteSpacesNameTest(TmxFileExisting tmxFileExisting)
 		{
-			// Создать ТМ с/без ТМХ файла
-			CrateNewTmForTest(tmxFileExisting);
+			Logger.Info(string.Format("Начало работы теста EditTMSaveWhiteSpacesNameTest(). Значение параметра tmxFileExisting: {0}", tmxFileExisting));
 
-			// Изменить имя на существующее и сохранить
-			EditTMFillName(UniqueTmName, "     ");
+			createNewTmForTest(tmxFileExisting);
+			// Изменить имя на пробельное и сохранить
+			EditTMName(UniqueTmName, "     ");
 
-			// Проверить, что появилось сообщение об ошибке в имени
-			Assert.IsTrue(TMPage.GetIsExistEditErrorNoName(),
-				"Ошибка: не появилось сообщение об ошибке в имени");
+			TMPage.AssertionIsExistEditErrorNoNameAppear();
 		} 
 
 		/// <summary>
@@ -100,32 +89,32 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.TM
 		[Test]
 		public void EditTMNameAndCheckChangesOnProjectWizard(TmxFileExisting tmxFileExisting)
 		{
+			Logger.Info(string.Format("Начало работы теста EditTMNameAndCheckChangesOnProjectWizard(). Значение параметра tmxFileExisting: {0}", tmxFileExisting));
+
 			// Для облегчения теста создадим имя ТМ таким, чтобы при создании проекта
 			// его можно было выбрать, не прибегая к прокрутке
 			UniqueTmName = string.Concat("!", UniqueTmName);
 
-			// Создать ТМ с именем UniqueTmName
-			CrateNewTmForTest(tmxFileExisting);
+			createNewTmForTest(tmxFileExisting);
 
 			Assert.IsTrue(
-				GetIsExistTMCreateProjectList(UniqueTmName, true),
+				GetIsExistTmInListDuringProjectCreation(UniqueTmName, true),
 				string.Format("Ошибка: ТМ {0} нет в списке при создании проекта.", UniqueTmName));
 
-			// Перейти на страницу TM
 			SwitchTMTab();
 
 			// Измененное имя ТМ
 			var tmChangedName = UniqueTmName + "_changed";
 
 			// Изменить имя на уникальное и сохранить
-			EditTMFillName(UniqueTmName, tmChangedName);
+			EditTMName(UniqueTmName, tmChangedName);
 
 			Assert.IsTrue(
-				GetIsExistTMCreateProjectList(tmChangedName, true),
+				GetIsExistTmInListDuringProjectCreation(tmChangedName, true),
 				string.Format("Ошибка: ТМ {0} нет в списке при создании проекта.", tmChangedName));
 
 			Assert.IsFalse(
-				GetIsExistTMCreateProjectList(UniqueTmName, true),
+				GetIsExistTmInListDuringProjectCreation(UniqueTmName, true),
 				string.Format("Ошибка: ТМ {0} имеется в списке при создании проекта, когда ее быть не должно.", UniqueTmName));
 		}
 
@@ -137,11 +126,10 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.TM
 		[Test]
 		public void EditTMComment(TmxFileExisting tmxFileExisting)
 		{
-			// Создать ТМ с/без ТМХ файла
-			CrateNewTmForTest(tmxFileExisting);
+			Logger.Info(string.Format("Начало работы теста EditTMComment(). Значение параметра tmxFileExisting: {0}", tmxFileExisting));
 
-			// Заполняем поле комментарий строкой _initialComment
-			FillingCommentForm(UniqueTmName, InitialComment);
+			createNewTmForTest(tmxFileExisting);
+			FillCommentForm(UniqueTmName, InitialComment);
 
 			Assert.IsTrue(
 				GetIsCommentExist(UniqueTmName, InitialComment),
@@ -150,8 +138,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.TM
 						InitialComment, 
 						UniqueTmName));
 
-			// Заполняем поле комментарий строкой _initialComment
-			FillingCommentForm(UniqueTmName, FinalComment);
+			FillCommentForm(UniqueTmName, FinalComment);
 
 			Assert.IsTrue(
 				GetIsCommentExist(UniqueTmName, FinalComment),
@@ -167,30 +154,25 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.TM
 		[Test]
 		public void EditTmLanguages()
 		{
-			var srcLang = CommonHelper.LANGUAGE.English;
-			var trgLang = CommonHelper.LANGUAGE.Russian;
+			Logger.Info("Начало работы теста EditTmLanguages().");
 
-			CreateTMByNameAndSave(UniqueTmName, srcLang, trgLang);
+			CreateTMByNameAndSave(UniqueTmName);
 
-			Assert.IsTrue(
-				GetIsCorrectLanguagesForTm(
-					UniqueTmName,
-					EnglishLanguage,
-					new[] { RussianLanguage }),
-					"Ошибка: для ТМ неверно отображены исходный язык и язык перевода.");
+			TMPage.AssertionIsCorrectLanguagesForTm(
+				UniqueTmName,
+				EnglishLanguage,
+				new[] {RussianLanguage});
 
 			EditTMAddTargetLanguage(UniqueTmName, CommonHelper.LANGUAGE.Lithuanian);
 
-			Assert.IsTrue(
-				GetIsCorrectLanguagesForTm(
-					UniqueTmName,
-					EnglishLanguage,
-					new[]
-					{
-						RussianLanguage, 
-						LithuanianLanguage
-					}),
-					"Ошибка: для ТМ неверно отображены исходный язык и язык перевода.");
+			TMPage.AssertionIsCorrectLanguagesForTm(
+				UniqueTmName,
+				EnglishLanguage,
+				new[]
+				{
+					RussianLanguage,
+					LithuanianLanguage
+				});
 		}
 
 		/// <summary>
@@ -201,26 +183,22 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.TM
 		[Test]
 		public void EditTmProjects(TmxFileExisting tmxFileExisting)
 		{
-			// Создать ТМ с/без ТМХ файла
-			CrateNewTmForTest(tmxFileExisting);
+			Logger.Info(string.Format("Начало работы теста EditTmProjects(). Значение параметра tmxFileExisting: {0}", tmxFileExisting));
 
-			Assert.IsTrue(
-				GetIsProjectExistForTm(UniqueTmName, string.Empty),
-				"Ошибка: неверно указан проект для ТМ.");
+			createNewTmForTest(tmxFileExisting);
+
+			CheckProjectExistForTm(UniqueTmName, string.Empty);
 
 			// Добавляем проект ProjectName дл ТМ и возвращаем имя группы проектов
 			var projectGroupName = AddProjectToTmAndGetProjectName(UniqueTmName);
 
-			Assert.IsTrue(
-				GetIsProjectExistForTm(UniqueTmName, projectGroupName),
-				"Ошибка: неверно указан проект для ТМ.");
+			CheckProjectExistForTm(UniqueTmName, projectGroupName);
 		}
 
-		/// <summary>
-		/// создать новую ТМ для теста 
-		/// </summary>
-		private void CrateNewTmForTest(TmxFileExisting tmWithTmxUploading)
+		private void createNewTmForTest(TmxFileExisting tmWithTmxUploading)
 		{
+			Logger.Debug("Создание новой ТМ для теста");
+
 			if (tmWithTmxUploading == TmxFileExisting.TmWithoutTmxFile)
 			{
 				CreateTMIfNotExist(UniqueTmName);

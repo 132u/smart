@@ -5,10 +5,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.TM
 	[Category("Standalone")]
 	class TMInProjectTets : TMTest 
 	{
-		/// <summary>
-		/// Конструктор теста
-		/// </summary>
-		/// <param name="browserName">Название браузера</param>
 		public TMInProjectTets(string browserName)
 			: base(browserName)
 		{
@@ -20,13 +16,15 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.TM
 		[Test]
 		public void CreateTMCheckProjectCreateTMListTest()
 		{
+			Logger.Info("Начало работы теста CreateTMCheckProjectCreateTMListTest().");
+
 			// Создать ТМ
-			CommonHelper.LANGUAGE srcLang = CommonHelper.LANGUAGE.English;
-			CommonHelper.LANGUAGE trgLang = CommonHelper.LANGUAGE.Russian;
+			var srcLang = CommonHelper.LANGUAGE.English;
+			var trgLang = CommonHelper.LANGUAGE.Russian;
+
 			CreateTMByNameAndSave(UniqueTmName, srcLang, trgLang);
 
-			// Перейти на вкладку Workspace и проверить, что TM есть в списке при создании проекта
-			Assert.IsTrue(GetIsExistTMCreateProjectList(UniqueTmName), "Ошибка: ТМ нет в списке при создании проекта");
+			Assert.IsTrue(GetIsExistTmInListDuringProjectCreation(UniqueTmName), "Ошибка: ТМ нет в списке при создании проекта");
 		}
 
 		/// <summary>
@@ -35,13 +33,15 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.TM
 		[Test]
 		public void CreateTMAnotherLangCheckProjectCreateTMListTest()
 		{
-			// Создать ТМ
-			CommonHelper.LANGUAGE srcLang = CommonHelper.LANGUAGE.French;
-			CommonHelper.LANGUAGE trgLang = CommonHelper.LANGUAGE.German;
-			CreateTMByNameAndSave(UniqueTmName, srcLang, trgLang);
+			Logger.Info("Начало работы теста CreateTMAnotherLangCheckProjectCreateTMListTest().");
 
-			// Перейти на вкладку Workspace и проверить, что TM есть в списке при создании проекта
-			Assert.IsTrue(GetIsExistTMCreateProjectList(UniqueTmName, true, srcLang, trgLang), "Ошибка: ТМ нет в списке при создании проекта");
+			// Создать ТМ
+			var srcLang = CommonHelper.LANGUAGE.French;
+			var trgLang = CommonHelper.LANGUAGE.German;
+			
+			CreateTMByNameAndSave(UniqueTmName, srcLang, trgLang);
+			
+			Assert.IsTrue(GetIsExistTmInListDuringProjectCreation(UniqueTmName, true, srcLang, trgLang), "Ошибка: ТМ нет в списке при создании проекта");
 		}
 	}
 }

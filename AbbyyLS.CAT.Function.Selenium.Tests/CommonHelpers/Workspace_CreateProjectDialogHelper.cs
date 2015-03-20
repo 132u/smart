@@ -495,14 +495,11 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			return GetElementAttribute(By.XPath(STAGE_BTN_XPATH), "title");
 		}
 
-		/// <summary>
-		/// Вернуть, есть ли ТМ
-		/// </summary>
-		/// <param name="TMName">название ТМ</param>
-		/// <returns>есть</returns>
-		public bool GetIsExistTM(string TMName)
+		public bool GetIsExistTM(string tmName)
 		{
-			return GetIsElementExist(By.XPath(TM_TABLE_TM_NAME_XPATH + "[text()='" + TMName + "']"));
+			Logger.Debug(string.Format("Вернуть, существует ли ТМ {0}", tmName));
+
+			return GetIsElementExist(By.XPath(TM_TABLE_TM_NAME_XPATH + "[text()='" + tmName + "']"));
 		}
 
 		/// <summary>

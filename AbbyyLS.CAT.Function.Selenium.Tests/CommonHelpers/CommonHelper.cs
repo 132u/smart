@@ -613,9 +613,11 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <returns>число</returns>
 		protected int ParseStrToInt(string text)
 		{
-			var result = 0;
-			// Пытаемся преобразовать из строки в число
+			Logger.Debug(string.Format("Преобразование строки {0} в число", text));
+			int result;
+			
 			Assert.IsTrue(int.TryParse(text, out result), "Ошибка: невозможно преобразовать в число: " + text);
+			
 			return result;
 		}
 
@@ -686,19 +688,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			Driver.FindElement(By.XPath(file)).SendKeys(documentName);
 			((IJavaScriptExecutor)Driver).ExecuteScript("$(\".js-import-file-form .js-control\").data(\"controller\").filenameLink.text($(\".js-import-file-form .js-control\").data(\"controller\").fileInput.val());");
 			((IJavaScriptExecutor)Driver).ExecuteScript("$(\".js-import-file-form .js-control\").data(\"controller\").trigger(\"valueChanged\");");
-		}
-
-		/// <summary>
-		/// Кликнуть существующий элемент (Assert внутри)
-		/// </summary>
-		/// <param name="xPath">XPath элемента</param>
-		/// <param name="exсeptionMessage">Сообщение, в случае если элемент не найден, с помощью Assert</param>
-		protected void ClickIfExistByXpath(string xPath, string exсeptionMessage)
-		{
-			if (GetIsElementExist(By.XPath(xPath)))
-				ClickElement(By.XPath(xPath));
-			else
-				Assert.Fail(exсeptionMessage);
 		}
 
 		public static void AssertionFileDownloaded(string pathToFile, int timeout = 10)

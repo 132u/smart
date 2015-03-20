@@ -16,6 +16,8 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.TM
 		[Test]
 		public void DeleteTMCheckTMListTest()
 		{
+			Logger.Info("Начало работы теста DeleteTMCheckTMListTest().");
+
 			CreateTMIfNotExist(ConstTMName);
 
 			// Отрыть информацию о ТМ, нажать кнопку Delete и сголаситься с предупреждением об удалении ТМ
@@ -28,8 +30,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.TM
 			// TODO убрать sleep
 			Thread.Sleep(1000);
 
-			// Проверить, что ТМ удалилась из списка
-			Assert.IsTrue(!GetIsExistTM(ConstTMName), "Ошибка: ТМ не удалилась из списка");
+			Assert.IsFalse(TMPage.GetIsExistTM(ConstTMName), "Ошибка: ТМ не удалилась из списка");
 		}
 
 		/// <summary>
@@ -38,6 +39,8 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.TM
 		[Test]
 		public void DeleteTMAndCreateTMWithTheSameName()
 		{
+			Logger.Info("Начало работы теста DeleteTMAndCreateTMWithTheSameName().");
+
 			CreateTMIfNotExist(ConstTMName);
 
 			// Отрыть информацию о ТМ, нажать кнопку Delete и сголаситься с предупреждением об удалении ТМ
@@ -51,13 +54,13 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.TM
 			Thread.Sleep(1000);
 
 			// Проверить, что ТМ удалилась из списка
-			Assert.IsTrue(!GetIsExistTM(ConstTMName), "Ошибка: ТМ не удалилась из списка.");
+			Assert.IsFalse(TMPage.GetIsExistTM(ConstTMName), "Ошибка: ТМ не удалилась из списка.");
 
 			// Создание ТМ с именем, идентичным только удаленной
 			CreateTMIfNotExist(ConstTMName);
 
 			// Проверить, что ТМ появилась в списке
-			Assert.IsTrue(GetIsExistTM(ConstTMName), "Ошибка: ТМ не появилась в списке.");
+			Assert.IsTrue(TMPage.GetIsExistTM(ConstTMName), "Ошибка: ТМ не появилась в списке.");
 		}
 
 		/// <summary>
@@ -66,15 +69,18 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.TM
 		[Test]
 		public void DeleteTMCheckProjectCreateTMListTest()
 		{
+			Logger.Info("Начало работы теста DeleteTMCheckProjectCreateTMListTest().");
+
 			CreateTMByNameAndSave(UniqueTmName);
-			// Отрыть информацию о ТМ и нажать кнопку
+
+			// Отрыть информацию о ТМ и нажать кнопку Delete
 			ClickButtonTMInfo(
 				UniqueTmName,
 				TMPageHelper.TM_BTN_TYPE.Delete,
 				isConfirmationQuestionExist: true);
 
 			// Перейти на вкладку Workspace и проверить, что TM нет в списке при создании проекта
-			Assert.IsTrue(!GetIsExistTMCreateProjectList(UniqueTmName), "Ошибка: ТМ не удалилась из списка при создании проекта");
+			Assert.IsFalse(GetIsExistTmInListDuringProjectCreation(UniqueTmName), "Ошибка: ТМ не удалилась из списка при создании проекта");
 		}
 	}
 }

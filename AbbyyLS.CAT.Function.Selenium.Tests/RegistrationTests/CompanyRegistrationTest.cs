@@ -257,7 +257,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Registration.Company
 			if(!valid)
 				Assert.IsTrue(RegistrationPage.GetInvalidEmailMsgIsDisplayed(), "Ошибка: Сообщение \"Invalid e-mail\" не появилось, но email невалидный");
 			else
-				Assert.IsTrue(!RegistrationPage.GetInvalidEmailMsgIsDisplayed(), "Ошибка: Сообщение \"Invalid e-mail\" появилось, но email валидный");
+				Assert.IsFalse(RegistrationPage.GetInvalidEmailMsgIsDisplayed(), "Ошибка: Сообщение \"Invalid e-mail\" появилось, но email валидный");
 		}
 
 		/// <summary>

@@ -17,15 +17,17 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.TM
 		[Test]
 		public void ExportClearTMButtonTest()
 		{
+			Logger.Info("Начало работы теста ExportClearTMButtonTest().");
+
 			// После теста с экспортом необходимо выйти из брайзера,
 			// чтобы сбросить выбор в диалоге экспорта (сохранить или открыть файл)
 			QuitDriverAfterTest = true;
 
-			// Создать ТМ
 			CreateTMByNameAndSave(UniqueTmName);
 
-			// Отрыть информацию о ТМ и нажать кнопку
+			// Отрыть информацию о ТМ и нажать кнопку экспорт
 			ClickButtonTMInfo(UniqueTmName, TMPageHelper.TM_BTN_TYPE.Export);
+
 			// Экспортировать - Assert внутри
 			MoveTMFile();
 		}
@@ -37,6 +39,8 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.TM
 		[Test, TestCaseSource("tmxFileList")]
 		public void ExportTMXTest(string importTMXFile)
 		{
+			Logger.Info(string.Format("Начало работы теста ExportTMXTest(). Путь к файлу, импортируемому в проект {0}", importTMXFile));
+			
 			// После теста с экспортом необходимо выйти из брайзера,
 			// чтобы сбросить выбор в диалоге экспорта (сохранить или открыть файл)
 			QuitDriverAfterTest = true;
@@ -44,7 +48,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.TM
 			// Создать ТМ с загрузкой файла ТМХ
 			CreateTMWithUploadTMX(UniqueTmName, importTMXFile);
 
-			// Отрыть информацию о ТМ и нажать кнопку
+			// Отрыть информацию о ТМ и нажать кнопку Экспорт
 			ClickButtonTMInfo(UniqueTmName, TMPageHelper.TM_BTN_TYPE.Export);
 
 			// Экспортировать - Assert внутри

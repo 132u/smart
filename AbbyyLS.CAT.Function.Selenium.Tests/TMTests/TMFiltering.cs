@@ -15,6 +15,8 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.TMTests
 		[TestFixtureSetUp]
 		public void TestFixtureSetUp()
 		{
+			Logger.Info("Начало работы метода TestFixtureSetUp. Подготовка перед каждым тест-сетом TMFiltering.");
+
 			try
 			{
 				GoToUrl(RelativeUrlProvider.TranslationMemories);
@@ -62,13 +64,15 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.TMTests
 		[Test]
 		public void TmFiltrationOneSourceLanguage()
 		{
+			Logger.Info("Начало работы теста TmFiltrationOneSourceLanguage()");
+
 			CreateNewTmFilter(() => CreateSourceLanguageFilter(CommonHelper.LANGUAGE.French));
 
 			Assert.IsTrue(
-				GetIsExistTM(TMForFilteringName_1), 
+				TMPage.GetIsExistTM(TMForFilteringName_1),
 				string.Format("Ошибка фильтрации: ТМ {0} не найдена в списке ТМ.", TMForFilteringName_1));
 			Assert.IsFalse(
-				GetIsExistTM(TMForFilteringName_2),
+				TMPage.GetIsExistTM(TMForFilteringName_2),
 				string.Format("Ошибка фильтрации: ТМ {0} найдена в списке ТМ.", TMForFilteringName_2));
 		}
 
@@ -78,14 +82,16 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.TMTests
 		[Test]
 		public void TmFiltrationTwoSourceLanguage()
 		{
+			Logger.Info("Начало работы теста TmFiltrationTwoSourceLanguage()");
+
 			CreateNewTmFilter(() => CreateSourceLanguageFilter(CommonHelper.LANGUAGE.French));
 			CreateNewTmFilter(() => CreateSourceLanguageFilter(CommonHelper.LANGUAGE.German), clearFilters: false);
 
 			Assert.IsTrue(
-				GetIsExistTM(TMForFilteringName_1),
+				TMPage.GetIsExistTM(TMForFilteringName_1),
 				string.Format("Ошибка фильтрации: ТМ {0} не найдена в списке ТМ.", TMForFilteringName_1));
 			Assert.IsTrue(
-				GetIsExistTM(TMForFilteringName_2),
+				TMPage.GetIsExistTM(TMForFilteringName_2),
 				string.Format("Ошибка фильтрации: ТМ {0} не найдена в списке ТМ.", TMForFilteringName_2));
 		}
 
@@ -95,13 +101,15 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.TMTests
 		[Test]
 		public void TmFiltrationOneTargetLanguage()
 		{
+			Logger.Info("Начало работы теста TmFiltrationOneTargetLanguage()");
+
 			CreateNewTmFilter(() => CreateTargetLanguageFilter(CommonHelper.LANGUAGE.German));
 
 			Assert.IsTrue(
-				GetIsExistTM(TMForFilteringName_1),
+				TMPage.GetIsExistTM(TMForFilteringName_1),
 				string.Format("Ошибка фильтрации: ТМ {0} не найдена в списке ТМ.", TMForFilteringName_1));
 			Assert.IsFalse(
-				GetIsExistTM(TMForFilteringName_2),
+				TMPage.GetIsExistTM(TMForFilteringName_2),
 				string.Format("Ошибка фильтрации: ТМ {0} найдена в списке ТМ.", TMForFilteringName_2));
 		}
 
@@ -112,14 +120,16 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.TMTests
 		[Test]
 		public void TmFiltrationTwoTargetLanguage()
 		{
+			Logger.Info("Начало работы теста TmFiltrationTwoTargetLanguage()");
+
 			CreateNewTmFilter(() => CreateTargetLanguageFilter(CommonHelper.LANGUAGE.German));
 			CreateNewTmFilter(() => CreateTargetLanguageFilter(CommonHelper.LANGUAGE.English), clearFilters: false);
 
 			Assert.IsTrue(
-				GetIsExistTM(TMForFilteringName_1),
+				TMPage.GetIsExistTM(TMForFilteringName_1),
 				string.Format("Ошибка фильтрации: ТМ {0} не найдена в списке ТМ.", TMForFilteringName_1));
 			Assert.IsTrue(
-				GetIsExistTM(TMForFilteringName_2),
+				TMPage.GetIsExistTM(TMForFilteringName_2),
 				string.Format("Ошибка фильтрации: ТМ {0} не найдена в списке ТМ.", TMForFilteringName_2));
 		}
 
@@ -129,15 +139,17 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.TMTests
 		[Test]
 		public void TmFiltrationCreationDateNotExist()
 		{
+			Logger.Info("Начало работы теста TmFiltrationCreationDateNotExist()");
+
 			var futureDate = DateTime.Now.AddDays(1);
 
 			CreateNewTmFilter(() => CreateCreationDateFilter(futureDate));
 
 			Assert.IsFalse(
-				GetIsExistTM(TMForFilteringName_1),
+				TMPage.GetIsExistTM(TMForFilteringName_1),
 				string.Format("Ошибка фильтрации: ТМ {0} найдена в списке ТМ.", TMForFilteringName_1));
 			Assert.IsFalse(
-				GetIsExistTM(TMForFilteringName_2),
+				TMPage.GetIsExistTM(TMForFilteringName_2),
 				string.Format("Ошибка фильтрации: ТМ {0} найдена в списке ТМ.", TMForFilteringName_2));
 		}
 
@@ -147,13 +159,15 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.TMTests
 		[Test]
 		public void TmFiltrationSpecificTopic()
 		{
+			Logger.Info("Начало работы теста TmFiltrationSpecificTopic()");
+
 			CreateNewTmFilter(() => CreateTopicFilter(TopicName_1));
 
 			Assert.IsTrue(
-				GetIsExistTM(TMForFilteringName_1),
+				TMPage.GetIsExistTM(TMForFilteringName_1),
 				string.Format("Ошибка фильтрации: ТМ {0} не найдена в списке ТМ.", TMForFilteringName_1));
 			Assert.IsFalse(
-				GetIsExistTM(TMForFilteringName_2),
+				TMPage.GetIsExistTM(TMForFilteringName_2),
 				string.Format("Ошибка фильтрации: ТМ {0} найдена в списке ТМ.", TMForFilteringName_2));
 		}
 
@@ -163,13 +177,15 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.TMTests
 		[Test]
 		public void TmFiltrationCommonTopic()
 		{
+			Logger.Info("Начало работы теста TmFiltrationCommonTopic()");
+
 			CreateNewTmFilter(() => CreateTopicFilter(CommonTopicName));
 
 			Assert.IsTrue(
-				GetIsExistTM(TMForFilteringName_1),
+				TMPage.GetIsExistTM(TMForFilteringName_1),
 				string.Format("Ошибка фильтрации: ТМ {0} не найдена в списке ТМ.", TMForFilteringName_1));
 			Assert.IsTrue(
-				GetIsExistTM(TMForFilteringName_2),
+				TMPage.GetIsExistTM(TMForFilteringName_2),
 				string.Format("Ошибка фильтрации: ТМ {0} не найдена в списке ТМ.", TMForFilteringName_2));
 		}
 
@@ -179,13 +195,15 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.TMTests
 		[Test]
 		public void TmFiltrationOneProjectGroup()
 		{
+			Logger.Info("Начало работы теста TmFiltrationOneProjectGroup()");
+
 			CreateNewTmFilter(() => CreateProjectGroupFilter(ProjectGroupName_1));
 
 			Assert.IsTrue(
-				GetIsExistTM(TMForFilteringName_1),
+				TMPage.GetIsExistTM(TMForFilteringName_1),
 				string.Format("Ошибка фильтрации: ТМ {0} не найдена в списке ТМ.", TMForFilteringName_1));
 			Assert.IsFalse(
-				GetIsExistTM(TMForFilteringName_2),
+				TMPage.GetIsExistTM(TMForFilteringName_2),
 				string.Format("Ошибка фильтрации: ТМ {0} найдена в списке ТМ.", TMForFilteringName_2));
 		}
 
@@ -195,14 +213,16 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.TMTests
 		[Test]
 		public void TmFiltrationTwoProjectGroup()
 		{
+			Logger.Info("Начало работы теста TmFiltrationTwoProjectGroup()");
+
 			CreateNewTmFilter(() => CreateProjectGroupFilter(ProjectGroupName_1));
 			CreateNewTmFilter(() => CreateProjectGroupFilter(ProjectGroupName_2), clearFilters: false);
 
 			Assert.IsTrue(
-				GetIsExistTM(TMForFilteringName_1),
+				TMPage.GetIsExistTM(TMForFilteringName_1),
 				string.Format("Ошибка фильтрации: ТМ {0} не найдена в списке ТМ.", TMForFilteringName_1));
 			Assert.IsTrue(
-				GetIsExistTM(TMForFilteringName_2),
+				TMPage.GetIsExistTM(TMForFilteringName_2),
 				string.Format("Ошибка фильтрации: ТМ {0} не найдена в списке ТМ.", TMForFilteringName_2));
 		}
 
@@ -212,13 +232,15 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.TMTests
 		[Test]
 		public void TmFiltrationOneClient()
 		{
+			Logger.Info("Начало работы теста TmFiltrationOneClient()");
+
 			CreateNewTmFilter(() => CreateClientFilter(ClientName_1));
 
 			Assert.IsTrue(
-				GetIsExistTM(TMForFilteringName_1),
+				TMPage.GetIsExistTM(TMForFilteringName_1),
 				string.Format("Ошибка фильтрации: ТМ {0} не найдена в списке ТМ.", TMForFilteringName_1));
 			Assert.IsFalse(
-				GetIsExistTM(TMForFilteringName_2),
+				TMPage.GetIsExistTM(TMForFilteringName_2),
 				string.Format("Ошибка фильтрации: ТМ {0} найдена в списке ТМ.", TMForFilteringName_2));
 		}
 
@@ -228,14 +250,16 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.TMTests
 		[Test]
 		public void TmFiltrationTwoClients()
 		{
+			Logger.Info("Начало работы теста TmFiltrationTwoClients()");
+
 			CreateNewTmFilter(() => CreateClientFilter(ClientName_1));
 			CreateNewTmFilter(() => CreateClientFilter(ClientName_2), clearFilters: false);
 
 			Assert.IsTrue(
-				GetIsExistTM(TMForFilteringName_1),
+				TMPage.GetIsExistTM(TMForFilteringName_1),
 				string.Format("Ошибка фильтрации: ТМ {0} не найдена в списке ТМ.", TMForFilteringName_1));
 			Assert.IsTrue(
-				GetIsExistTM(TMForFilteringName_2),
+				TMPage.GetIsExistTM(TMForFilteringName_2),
 				string.Format("Ошибка фильтрации: ТМ {0} не найдена в списке ТМ.", TMForFilteringName_2));
 		}
 		
@@ -245,6 +269,8 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.TMTests
 		[Test]
 		public void TmFiltrationAuthor()
 		{
+			Logger.Info("Начало работы теста TmFiltrationAuthor()");
+
 			QuitDriverAfterTest = true;
 
 			WorkspacePage.ClickAccount();
@@ -259,13 +285,13 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.TMTests
 			CreateNewTmFilter(() => CreateAutorFilter("Ringo Star"));
 
 			Assert.IsFalse(
-				GetIsExistTM(TMForFilteringName_1),
+				TMPage.GetIsExistTM(TMForFilteringName_1),
 				string.Format("Ошибка фильтрации: ТМ {0} найдена в списке ТМ.", TMForFilteringName_1));
 			Assert.IsFalse(
-				GetIsExistTM(TMForFilteringName_2),
+				TMPage.GetIsExistTM(TMForFilteringName_2),
 				string.Format("Ошибка фильтрации: ТМ {0} найдена в списке ТМ.", TMForFilteringName_2));
 			Assert.IsTrue(
-				GetIsExistTM(TMForFilteringName_3),
+				TMPage.GetIsExistTM(TMForFilteringName_3),
 				string.Format("Ошибка фильтрации: ТМ {0} не найдена в списке ТМ.", TMForFilteringName_3));
 		}
 
@@ -275,22 +301,24 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.TMTests
 		[Test]
 		public void CancelTmFiltration()
 		{
+			Logger.Info("Начало работы теста CancelTmFiltration()");
+
 			CreateNewTmFilter(() => CreateSourceLanguageFilter(CommonHelper.LANGUAGE.French));
 
 			Assert.IsTrue(
-				GetIsExistTM(TMForFilteringName_1),
+				TMPage.GetIsExistTM(TMForFilteringName_1),
 				string.Format("Ошибка фильтрации: ТМ {0} не найдена в списке ТМ.", TMForFilteringName_1));
 			Assert.IsFalse(
-				GetIsExistTM(TMForFilteringName_2),
+				TMPage.GetIsExistTM(TMForFilteringName_2),
 				string.Format("Ошибка фильтрации: ТМ {0} найдена в списке ТМ.", TMForFilteringName_2));
 
 			TMPage.ClearFiltersPanelIfExist();
 
 			Assert.IsTrue(
-				GetIsExistTM(TMForFilteringName_1),
+				TMPage.GetIsExistTM(TMForFilteringName_1),
 				string.Format("Ошибка фильтрации: ТМ {0} не найдена в списке ТМ.", TMForFilteringName_1));
 			Assert.IsTrue(
-				GetIsExistTM(TMForFilteringName_2),
+				TMPage.GetIsExistTM(TMForFilteringName_2),
 				string.Format("Ошибка фильтрации: ТМ {0} не найдена в списке ТМ.", TMForFilteringName_2));
 		}
 
@@ -300,13 +328,15 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.TMTests
 		[Test]
 		public void CheckCancelTmFiltrationButton()
 		{
+			Logger.Info("Начало работы теста CheckCancelTmFiltrationButton()");
+
 			CreateNewTmFilter(() => CreateSourceLanguageFilter(CommonHelper.LANGUAGE.French), cancelFilterCreation: true);
 
 			Assert.IsTrue(
-				GetIsExistTM(TMForFilteringName_1),
+				TMPage.GetIsExistTM(TMForFilteringName_1),
 				string.Format("Ошибка фильтрации: ТМ {0} не найдена в списке ТМ.", TMForFilteringName_1));
 			Assert.IsTrue(
-				GetIsExistTM(TMForFilteringName_2),
+				TMPage.GetIsExistTM(TMForFilteringName_2),
 				string.Format("Ошибка фильтрации: ТМ {0} не найдена в списке ТМ.", TMForFilteringName_2));
 		}
 
@@ -316,31 +346,33 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.TMTests
 		[Test]
 		public void CheckDifferentTmFiltersApplying()
 		{
+			Logger.Info("Начало работы теста CheckDifferentTmFiltersApplying()");
+
 			CreateNewTmFilter(() => CreateTopicFilter(CommonTopicName));
 
 			Assert.IsTrue(
-				GetIsExistTM(TMForFilteringName_1),
+				TMPage.GetIsExistTM(TMForFilteringName_1),
 				string.Format("Ошибка фильтрации: ТМ {0} не найдена в списке ТМ.", TMForFilteringName_1));
 			Assert.IsTrue(
-				GetIsExistTM(TMForFilteringName_2),
+				TMPage.GetIsExistTM(TMForFilteringName_2),
 				string.Format("Ошибка фильтрации: ТМ {0} не найдена в списке ТМ.", TMForFilteringName_2));
 
 			CreateNewTmFilter(() => CreateSourceLanguageFilter(CommonHelper.LANGUAGE.French), clearFilters: false);
 
 			Assert.IsTrue(
-				GetIsExistTM(TMForFilteringName_1),
+				TMPage.GetIsExistTM(TMForFilteringName_1),
 				string.Format("Ошибка фильтрации: ТМ {0} не найдена в списке ТМ.", TMForFilteringName_1));
 			Assert.IsFalse(
-				GetIsExistTM(TMForFilteringName_2),
+				TMPage.GetIsExistTM(TMForFilteringName_2),
 				string.Format("Ошибка фильтрации: ТМ {0} найдена в списке ТМ.", TMForFilteringName_2));
 
 			CreateNewTmFilter(() => CreateClientFilter(ClientName_2), clearFilters: false);
 
 			Assert.IsFalse(
-				GetIsExistTM(TMForFilteringName_1),
+				TMPage.GetIsExistTM(TMForFilteringName_1),
 				string.Format("Ошибка фильтрации: ТМ {0} найдена в списке ТМ.", TMForFilteringName_1));
 			Assert.IsFalse(
-				GetIsExistTM(TMForFilteringName_2),
+				TMPage.GetIsExistTM(TMForFilteringName_2),
 				string.Format("Ошибка фильтрации: ТМ {0} найдена в списке ТМ.", TMForFilteringName_2));
 		}
 
@@ -350,23 +382,25 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.TMTests
 		[Test]
 		public void TmFiltersCheckOneOfManyFilterRemoving()
 		{
+			Logger.Info("Начало работы теста TmFiltersCheckOneOfManyFilterRemoving()");
+
 			CreateNewTmFilter(() => CreateSourceLanguageFilter(CommonHelper.LANGUAGE.French));
 			CreateNewTmFilter(() => CreateClientFilter(ClientName_2), clearFilters: false);
 
 			Assert.IsFalse(
-				GetIsExistTM(TMForFilteringName_1),
+				TMPage.GetIsExistTM(TMForFilteringName_1),
 				string.Format("Ошибка фильтрации: ТМ {0} найдена в списке ТМ.", TMForFilteringName_1));
 			Assert.IsFalse(
-				GetIsExistTM(TMForFilteringName_2),
+				TMPage.GetIsExistTM(TMForFilteringName_2),
 				string.Format("Ошибка фильтрации: ТМ {0} найдена в списке ТМ.", TMForFilteringName_2));
 
 			RemoveFilterfromTmPanel("Client", ClientName_2);
 
 			Assert.IsTrue(
-				GetIsExistTM(TMForFilteringName_1),
+				TMPage.GetIsExistTM(TMForFilteringName_1),
 				string.Format("Ошибка фильтрации: ТМ {0} не найдена в списке ТМ.", TMForFilteringName_1));
 			Assert.IsFalse(
-				GetIsExistTM(TMForFilteringName_2),
+				TMPage.GetIsExistTM(TMForFilteringName_2),
 				string.Format("Ошибка фильтрации: ТМ {0} найдена в списке ТМ.", TMForFilteringName_2));
 		}
 

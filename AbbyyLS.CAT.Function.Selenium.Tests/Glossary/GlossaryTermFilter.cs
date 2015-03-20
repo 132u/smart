@@ -477,8 +477,8 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Glossary
 				// Проверяем, что поля очистились
 				Assert.IsTrue(GlossaryTermFilterPage.GetCreatedSetValue() == "Anytime", "Ошибка: в Created комбобоксе неверное значение (должно быть Anytime)");
 				Assert.IsTrue(GlossaryTermFilterPage.GetModifiedSetValue() == "Anytime", "Ошибка: в Modified комбобоксе неверное значение (должно быть Anytime)");
-				Assert.IsTrue(!GlossaryTermFilterPage.GetCheckboxesAuthor(), "Ошибка: комбобокс авторов не очистился");
-				Assert.IsTrue(!GlossaryTermFilterPage.GetCheckboxesModifier(), "Ошибка: Modified комбобокс не очистился");
+				Assert.IsFalse(GlossaryTermFilterPage.GetCheckboxesAuthor(), "Ошибка: комбобокс авторов не очистился");
+				Assert.IsFalse(GlossaryTermFilterPage.GetCheckboxesModifier(), "Ошибка: Modified комбобокс не очистился");
 				Assert.IsTrue(GlossaryTermFilterPage.LangCheckboxesInFilterForm(), "Ошибка: в фильтре выбраны не все языки");
 				// Кликнуть Apply кнопку
 				GlossaryTermFilterPage.ClickApplyBtnInFilterForm();

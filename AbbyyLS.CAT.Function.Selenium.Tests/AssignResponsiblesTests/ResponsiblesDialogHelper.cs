@@ -129,9 +129,8 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			Log.Trace(string.Format("Выбираем исполнителя {0} для задачи №{1}", name, rowNumber));
 			var xPath = RESPONSIBLES_TABLE_XPATH + DROPDOWNLIST_XPATH + "/option";
 			var el1 = xPath + "[contains(text(),'" + name + "')]";
-			
-			ClickIfExistByXpath(RESPONSIBLES_TABLE_XPATH + DROPDOWNLIST_XPATH, 
-				"Не найден выпадающих список с назначением исполнителей на задачу");
+
+			ClickElement(By.XPath(RESPONSIBLES_TABLE_XPATH + DROPDOWNLIST_XPATH));
 
 			while (!Driver.FindElement(By.XPath(el1)).Selected)
 			{

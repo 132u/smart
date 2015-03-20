@@ -1,5 +1,4 @@
-﻿using System;
-using System.IO;
+﻿using System.IO;
 using NUnit.Framework;
 
 namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.TM
@@ -18,13 +17,16 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.TM
 		[Test]
 		public void AddTMXOnClearTMButtonTest()
 		{
-			// Открыть форму создания ТМ
-			OpenCreateTMForm();
+			Logger.Info("Начало работы теста AddTMXOnClearTMButtonTest().");
+
+			TMPage.OpenCreateTMDialog();
 			CreateTMByNameAndSave(UniqueTmName);
+
 			// Загрузить ТМХ по кнопке в информации о ТМ
 			UploadDocumentToTMbyButton(UniqueTmName, TMPageHelper.TM_BTN_TYPE.Add, PathProvider.SecondTmFile);
 			// Получить количество сегментов
-			int segmentCount = GetSegmentCount(UniqueTmName);
+			var segmentCount = GetSegmentCount(UniqueTmName);
+
 			// Если количество сегментов = 0, возможно, не обновилась страница - принудительно обновить
 			if (segmentCount == 0)
 			{
@@ -42,16 +44,16 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.TM
 		[Test]
 		public void AddTMXExistingTMButtonTest()
 		{
+			Logger.Info("Начало работы теста AddTMXExistingTMButtonTest().");
+
 			// Создать ТМ и загрузить ТМХ файл
 			CreateTMWithUploadTMX(UniqueTmName, PathProvider.EditorTmxFile);
-
 			// Получить количество сегментов
-			int segCountBefore = GetSegmentCount(UniqueTmName);
-
+			var segCountBefore = GetSegmentCount(UniqueTmName);
 			// Загрузить TMX файл
 			UploadDocumentToTMbyButton(UniqueTmName, TMPageHelper.TM_BTN_TYPE.Add, PathProvider.SecondTmFile);
 			// Получить количество сегментов после загрузки TMX
-			int segCountAfter = GetSegmentCount(UniqueTmName);
+			var segCountAfter = GetSegmentCount(UniqueTmName);
 
 			// Если количество сегментов не изменилось, возможно, страница не обновилась - принудительно обновить
 			if (segCountAfter <= segCountBefore)
@@ -67,21 +69,23 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.TM
 		/// <summary>
 		/// Создание ТМ с загрузкой ТМХ (по списку ТМХ файлов), проверка, что ТМХ загрузился
 		/// </summary>
-		/// <param name="TMXFileImport">путь в файлу, импортируемого в проект</param>
+		/// <param name="tmxFileImport">путь в файлу, импортируемого в проект</param>
 		[Test, TestCaseSource("tmxFileList")]
-		public void ImportTMXTest(string TMXFileImport)
+		public void ImportTMXTest(string tmxFileImport)
 		{
-			// Создать ТМ с загрузкой ТМХ
-			CreateTMWithUploadTMX(UniqueTmName, TMXFileImport);
+			Logger.Info(string.Format("Начало работы теста ImportTMXTest(). Путь к файлу: {0}", tmxFileImport));
 
+			// Создать ТМ с загрузкой ТМХ
+			CreateTMWithUploadTMX(UniqueTmName, tmxFileImport);
 			// Необходим рефреш страницы, иначе загрузка ТМХ не работает
 			RefreshPage();
 
 			// Проверить, сохранился ли ТМ
-			Assert.IsTrue(GetIsExistTM(UniqueTmName), 
+			Assert.IsTrue(TMPage.GetIsExistTM(UniqueTmName), 
 				"Ошибка: ТМ не сохранился (не появился в списке)");
 
-			int segmentCount = GetSegmentCount(UniqueTmName);
+			var segmentCount = GetSegmentCount(UniqueTmName);
+
 			// Если количество сегментов = 0, возможно, не обновилась страница - принудительно обновить
 			if (segmentCount == 0)
 			{
@@ -100,12 +104,12 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.TM
 		[TestCase(WorkSpacePageHelper.LOCALE_LANGUAGE_SELECT.English)]
 		public void CheckNotificationDuringTMXFileUploading(WorkSpacePageHelper.LOCALE_LANGUAGE_SELECT locale)
 		{
+			Logger.Info(string.Format("Начало работы теста CheckNotificationDuringTMXFileUploading(). Локализация: {0}", locale));
+
 			//Выбираем необходимую для теста локализацию
 			WorkspacePage.SelectLocale(locale);
-
 			//закрыть все сообщения(сообщения о неудачных загрузках других файлов).
 			TMPage.CloseAllErrorNotifications();
-
 			// Создать ТМ с загрузкой ТМХ и передать флаг с проверкой существования всплывающего окна с информацией
 			CreateTMWithUploadTMX(
 				UniqueTmName,
@@ -113,9 +117,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.TM
 				checkBaloonExisting: true);
 
 			TMPage.ClickCancelButtonOnNotificationBaloon();
-
-			Assert.IsFalse(TMPage.IsInformationBaloonExist(),
-				"Ошибка: плашка с информацией о загружаемых ТU не закрыта.");
+			TMPage.AssertionIsInformationBaloonNotExist();
 		}
 
 		private static readonly string[] tmxFileList = Directory.GetFiles(PathProvider.TMTestFolder);

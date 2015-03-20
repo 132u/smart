@@ -14,11 +14,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.TM
 	/// </summary>
 	public class TMPageHelper : CommonHelper
 	{
-		/// <summary>
-		/// Конструктор хелпера
-		/// </summary>
-		/// <param name="driver">Драйвер</param>
-		/// <param name="wait">Таймаут</param>
 		public TMPageHelper(IWebDriver driver, WebDriverWait wait) :
 			base(driver, wait)
 		{
@@ -34,79 +29,59 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.TM
 			// TODO заполнить все
 		}
 
-		/// <summary>
-		/// Дождаться загрузки страницы
-		/// </summary>
-		/// <returns>загрузилась</returns>
-		public bool WaitPageLoad()
+		public void WaitPageLoad()
 		{
-			return WaitUntilDisplayElement(By.XPath(ADD_TM_BTN_XPATH));
+			Logger.Debug("Ожидание загрузки страницы");
+
+			Assert.IsTrue(WaitUntilDisplayElement(By.XPath(ADD_TM_BTN_XPATH)),
+				"Ошибка: страница не загрузилась");
 		}
 
-		/// <summary>
-		/// Кликнуть Создать TM
-		/// </summary>
-		/// <returns>форма создания открылась</returns>
-		public bool ClickCreateTM()
+		public void ClickCreateTM()
 		{
-			// Нажать кнопку Создать TM
-			ClickIfExistByXpath(ADD_TM_BTN_XPATH,
-				"На странице ТМ не найден элемент, соответствующий кнопке создания новой ТМ");
-			// ждем загрузку формы
-			return WaitUntilDisplayElement(By.XPath(CREATE_TM_DIALOG_XPATH));
+			Logger.Debug("Нажатие кнопки создания ТМ");
+			ClickElement(By.XPath(ADD_TM_BTN_XPATH));
+			
+			Assert.IsTrue(WaitUntilDisplayElement(By.XPath(CREATE_TM_DIALOG_XPATH)),
+				"Ошибка: форма создания ТМ не загрузилась");
 		}
 
-		/// <summary>
-		/// Кликнуть для открытия списка клиентов
-		/// </summary>
-		/// <returns>открылся</returns>
-		public bool ClickOpenClientListCreateTM()
+		public void ClickOpenClientListCreateTM()
 		{
-			// Нажать на открытие списка клиентов
-			ClickIfExistByXpath(CREATE_TM_CLIENT_XPATH,
-				"На странице ТМ не найден элемент, открывающий выпадающий список клиентов при создании ТМ");
-			// Дождаться открытия
-			return WaitUntilDisplayElement(By.XPath(CREATE_TM_CLIENT_LIST_XPATH));
+			Logger.Debug("Нажатие кнопки открытия списка клиентов");
+			ClickElement(By.XPath(CREATE_TM_CLIENT_XPATH));
+
+			Assert.IsTrue(WaitUntilDisplayElement(By.XPath(CREATE_TM_CLIENT_LIST_XPATH)),
+				"Ошибка: список клиентов не открылся");
 		}
 
-		/// <summary>
-		/// Кликнуть для открытия списка domain
-		/// </summary>
-		/// <returns>открылся</returns>
-		public bool ClickOpenDomainListCreateTM()
+		public void ClickOpenDomainListCreateTM()
 		{
-			// Нажать на открытие списка domain
-			ClickIfExistByXpath(CREATE_TM_DOMAIN_XPATH,
-				"На странице ТМ не найден элемент, открывающий выпадающий список групп проектов при создании ТМ");
-			// Дождаться открытия
-			return WaitUntilDisplayElement(By.XPath(CREATE_TM_DOMAIN_LIST_XPATH));
+			Logger.Debug("Нажатие кнопки открытия списка domain");
+			ClickElement(By.XPath(CREATE_TM_DOMAIN_XPATH));
+
+			Assert.IsTrue(WaitUntilDisplayElement(By.XPath(CREATE_TM_DOMAIN_LIST_XPATH)),
+				"Ошибка: список domain не открылся");
 		}
 
-		/// <summary>
-		/// Вернуть: есть ли клиент в списке клиентов при создании ТМ
-		/// </summary>
-		/// <param name="clientName">название</param>
-		/// <returns>есть</returns>
 		public bool GetIsClientExistCreateTM(string clientName)
 		{
-			// Получить список клиентов
+			Logger.Debug(string.Format("Вернуть: есть ли клиент {0} в списке клиентов при создании ТМ", clientName));
 			var clientList = GetElementList(By.XPath(CREATE_TM_CLIENT_ITEM_XPATH));
+
 			return clientList.Any(e => e.GetAttribute("innerHTML") == clientName);
 		}
 
-		/// <summary>
-		/// Вернуть, есть ли domain в списке
-		/// </summary>
-		/// <param name="domainName">название</param>
-		/// <returns>есть</returns>
 		public bool GetIsDomainExistCreateTM(string domainName)
 		{
-			// Получить список проектов
-			IList<IWebElement> DomainList = GetElementList(By.XPath(CREATE_TM_DOMAIN_ITEMS_XPATH));
-			bool isDomainExist = false;
-			foreach (IWebElement el in DomainList)
+			Logger.Debug(string.Format("Вернуть: есть ли домен {0} в списке доменов при создании ТМ", domainName));
+
+			var domains = GetElementList(By.XPath(CREATE_TM_DOMAIN_ITEMS_XPATH));
+			var isDomainExist = false;
+
+			foreach (var domain in domains)
 			{
-				if (el.Text == domainName)
+				if (domain.Text == domainName)
 				{
 					// Если проект в списке
 					isDomainExist = true;
@@ -117,17 +92,16 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.TM
 			return isDomainExist;
 		}
 
-		/// <summary>
-		/// Дождаться загрузки
-		/// </summary>
-		/// <returns>загрузился документ</returns>
-		public bool WaitDocumentDownloadFinish()
+		public void AssertionDocumentDownloadFinish()
 		{
-			bool isDisappeared = true;
+			Logger.Debug("Ожидание загрузки документа");
+
+			var isDisappeared = true;
+
 			if (GetIsElementDisplay(By.XPath(DOWNLOAD_TMX_IMG_PATH)))
 			{
 				isDisappeared = false;
-				for (int i = 0; i < 5; ++i)
+				for (var i = 0; i < 5; ++i)
 				{
 					isDisappeared = WaitUntilDisappearElement(By.XPath(DOWNLOAD_TMX_IMG_PATH), 40);
 					if (isDisappeared)
@@ -137,74 +111,57 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.TM
 					Driver.Navigate().Refresh();
 				}
 			}
-			return isDisappeared;
+
+			Assert.IsTrue(isDisappeared, "Ошибка: документ загружается слишком долго");
 		}
 
-		/// <summary>
-		/// Кликнуть Сохранить и загрузить документ в диалоге создания ТМ
-		/// </summary>
 		public void ClickSave()
 		{
-			ClickIfExistByXpath(SAVE_TM_BTN_XPATH,
-				"На странице ТМ не найден элемент, соответствующий кнопке Save (Сохранить), в окне диалога создания новой ТМ");
+			Logger.Debug("Кликнуть Сохранить и загрузить документ в диалоге создания ТМ");
+			ClickElement(By.XPath(SAVE_TM_BTN_XPATH));
 		}
 
-		/// <summary>
-		/// Дождаться открытия диалога загрузки документа
-		/// </summary>
-		/// <returns>открылся</returns>
-		public bool WaitUntilUploadDialog()
+		public void WaitUntilUploadDialog()
 		{
-			return WaitUntilDisplayElement(By.XPath(UPLOAD_BTN_XPATH));
+			Logger.Debug("Ожидание открытия диалога загрузки документа");
+
+			Assert.IsTrue(WaitUntilDisplayElement(By.XPath(UPLOAD_BTN_XPATH)), 
+				"Ошибка: диалог загрузки документа не загрузился");
 		}
 
-		/// <summary>
-		/// Кликнуть Add в диалоге загрузки документа
-		/// </summary>
 		public void ClickAddUploadBtn()
 		{
-			ClickIfExistByXpath(UPLOAD_BTN_XPATH,
-				"На странице ТМ не найден элемент, соответствующий кнопке Add (Добавить) для импорта файла, в окне диалога создания новой ТМ");
+			Logger.Debug("Кликнуть Add в диалоге загрузки документа");
+			ClickElement(By.XPath(UPLOAD_BTN_XPATH));
 		}
 
-		/// <summary>
-		/// Получить: открыта ли информация о ТМ
-		/// </summary>
-		/// <param name="TMName"></param>
-		/// <returns></returns>
-		public bool GetIsTMOpened(string TMName)
+		public bool GetIsTMOpened(string tmName)
 		{
-			return GetElementClass(By.XPath(GetTMRow(TMName))).Contains("opened");
+			Logger.Trace(string.Format("Получить: открыта ли информация о ТМ {0}", tmName));
+
+			return GetElementClass(By.XPath(GetTMRow(tmName))).Contains("opened");
 		}
 
-		/// <summary>
-		/// Кликнуть по строке с ТМ
-		/// </summary>
-		/// <param name="TMName">название ТМ</param>
-		public void ClickTMRow(string TMName)
+		public void ClickTMRow(string tmName)
 		{
-			ClickElement(By.XPath(GetTMRow(TMName)));
+			Logger.Debug(string.Format("Кликнуть по строке с ТМ {0}", tmName));
+			ClickElement(By.XPath(GetTMRow(tmName)));
 		}
 
-		/// <summary>
-		/// Кликнуть кнопку в информации о ТМ
-		/// </summary>
 		public void ClickTMButton(TM_BTN_TYPE btnType)
 		{
-			ClickIfExistByXpath(TMButtonDict[btnType],
-				"На странице ТМ не найден элемент, соответствующий кнопке " + btnType + ", в свертке ТМ");
+			Logger.Debug(string.Format("Кликнуть кнопку {0} в информации о ТМ.", btnType));
+			ClickElement(By.XPath(TMButtonDict[btnType]));
 		}
 
-		/// <summary>
-		/// Получить количество сегментов
-		/// </summary>
-		/// <returns>количество</returns>
 		public int GetSegmentCount()
 		{
-			string segmentText = GetTextElement(By.XPath(SEGMENT_SPAN_XPATH));
+			Logger.Trace("Получить количество сегментов");
 
+			var segmentText = GetTextElement(By.XPath(SEGMENT_SPAN_XPATH));
+			Logger.Trace(string.Format("Полученный текст из сегмента: {0}", segmentText));
 			// Нужно получить число сегментов из строки "Number of translation units: N", разделитель - ":"
-			int splitIndex = segmentText.IndexOf(":");
+			var splitIndex = segmentText.IndexOf(":");
 			// Отступаем двоеточие и пробел
 			splitIndex += 2;
 			if (segmentText.Length > splitIndex)
@@ -216,323 +173,249 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.TM
 			return ParseStrToInt(segmentText);
 		}
 
-		///<summary>
-		/// Вернуть true, если проект projectName указан в информации о ТМ
-		/// </summary>
 		public bool GetIsProjectExistInTmInformation(string projectName)
 		{
+			Logger.Debug(string.Format("Проверка наличия проекта {0} в информации о ТМ", projectName));
 			var projectText = GetTextElement(By.XPath(PROJECT_GROUP_SPAN_XPATH));
 			Logger.Trace("Полученные группы проектов:" + projectText + "; Ожидаемые группы проектов:" + projectName);
+
 			return projectText == projectName;
 		}
 
-		/// <summary>
-		/// Кликнуть Импорт
-		/// </summary>
 		public void ClickImportBtn()
 		{
-			ClickIfExistByXpath(IMPORT_BTN_XPATH,
-				"На странице ТМ не найден элемент, соответствующий кнопке Import (Добавить) для добавления TMX файла, в свертке ТМ");
+			Logger.Debug("Кликнуть кнопку импорт");
+			ClickElement(By.XPath(IMPORT_BTN_XPATH));
 		}
 
-		/// <summary>
-		/// Кликнуть для открытия списка языков Source
-		/// </summary>
 		public void ClickOpenSourceLangList()
 		{
+			Logger.Debug("Кликнуть кнопку открытия списка языков Source");
 			ClickElement(By.XPath(OPEN_SRC_LANG_CREATE_TM_XPATH));
 		}
 
-		/// <summary>
-		/// Выбрать язык Source
-		/// </summary>
-		/// <param name="lang">язык</param>
 		public void SelectSourceLanguage(LANGUAGE lang)
 		{
-			string xPath = SOURCE_LANG_ITEM_XPATH + languageID[lang] + "']";
+			Logger.Debug(string.Format("Выбрать язык Source {0}", lang));
+			var xPath = SOURCE_LANG_ITEM_XPATH + languageID[lang] + "']";
 			ClickElement(By.XPath(xPath));
 		}
 
-		/// <summary>
-		/// Кликнуть открыть/закрыть список target
-		/// </summary>
 		public void ClickTargetLangList()
 		{
+			Logger.Debug("Кликнуть открыть/закрыть список target");
 			ClickElement(By.XPath(OPEN_TRG_LANG_CREATE_TM_XPATH));
 		}
 
-		/// <summary>
-		/// Выбрать язык Target
-		/// </summary>
-		/// <param name="lang">язык</param>
 		public void SelectTargetLanguage(LANGUAGE lang)
 		{
-			string xPath = TARGET_LANG_ITEM_XPATH + languageID[lang] + "']";
+			Logger.Debug(string.Format("Выбрать язык Target {0}", lang));
+			var xPath = TARGET_LANG_ITEM_XPATH + languageID[lang] + "']";
 			ClickElement(By.XPath(xPath));
 		}
 
 
-		/// <summary>
-		/// Ввести название нового ТМ
-		/// </summary>
-		/// <param name="name">название</param>
 		public void InputNewTMName(string name)
 		{
+			Logger.Debug("Ввести имя новой ТМ");
 			ClearAndAddText(By.XPath(NEW_TM_NAME_XPATH), name);
 		}
 
-		/// <summary>
-		/// Вернуть, в форме создания ТМ поле имя отмечено ошибкой?
-		/// </summary>
-		/// <returns>отмечено</returns>
 		public bool GetIsCreateTMInputNameError()
 		{
+			Logger.Debug("Вернуть, отмечено ли поле имя в форме создания ТМ ошибкой");
+
 			return GetElementClass(By.XPath(NEW_TM_NAME_XPATH)).Contains("error");
 		}
 
-		/// <summary>
-		/// Нажать Сохранить новый ТМ
-		/// </summary>
 		public void ClickSaveNewTM()
 		{
-			// Нажать кнопку Сохранить
+			Logger.Debug("Нажать кнопку Сохранить");
 			ClickElement(By.XPath(SAVE_TM_BTN_XPATH));
 		}
 
-		/// <summary>
-		/// Отменить сохранение новой ТМ
-		/// </summary>
 		public void ClickCancelSavingNewTM()
 		{
-			// Нажать кнопку Сохранить
+			Logger.Debug("Нажать кнопку отмены сохранения новой ТМ");
 			ClickElement(By.XPath(CANCEL_TM_SAVING_BTN_XPATH));
 		}
 
-		/// <summary>
-		/// Нажать кнопку Cancel на информационной плашке
-		/// </summary>
 		public void ClickCancelButtonOnNotificationBaloon()
 		{
-			WaitUntilDisplayElement(By.XPath(NOTIFICATION_BALOON_BUTTON_XPATH));
+			Logger.Debug("Нажать кнопку Cancel на информационной плашке");
+
+			Assert.IsTrue(WaitUntilDisplayElement(By.XPath(NOTIFICATION_BALOON_BUTTON_XPATH)),
+				"Ошибка: информационная плашка не была найдена");
+			
 			ClickElement(By.XPath(NOTIFICATION_BALOON_BUTTON_XPATH));
 		}
 
-		/// <summary>
-		/// Нажать кнопку Cancel на форме редактирования ТМ
-		/// </summary>
 		public void ClickCanselOnEditionForm()
 		{
+			Logger.Debug("Нажать кнопку Cancel на форме редактирования ТМ");
 			ClickElement(By.XPath(TM_EDIT_CANCEL));
 		}
 
-		/// <summary>
-		/// Вернуть, есть ли ТМ в списке
-		/// </summary>
-		/// <param name="TMName">название ТМ</param>
-		/// <returns>есть</returns>
-		public bool GetIsExistTM(string TMName)
+		public bool GetIsExistTM(string tmName)
 		{
+			Logger.Debug(string.Format("Вернуть, есть ли ТМ {0} в списке", tmName));
 			// TODO проверить мб проверить циклом
-			return GetIsElementExist(By.XPath(TM_ROW_NAME + "//span[text()='" + TMName + "']"));
+			return GetIsElementExist(By.XPath(TM_ROW_NAME + "//span[text()='" + tmName + "']"));
 		}
 
-		/// <summary>
-		/// Вернуть, если для данной ТМ указаны корректные языки
-		/// </summary>
-		public bool GetIsCorrectLanguagesForTm(string TMName, string formattedLanguagesString)
+		public void AssertionIsCorrectLanguagesForTm(
+			string tmName,
+			string sourceLanguage,
+			string[] targetLanguages)
 		{
-			return GetTextElement(By.XPath(GetTMRow(TMName))).Contains(formattedLanguagesString);
+			var formattedLanguagesString = string.Concat(sourceLanguage, " > ", string.Join(", ", targetLanguages));
+
+			Logger.Debug(string.Format("Проверить, указанны ли для ТМ {0} корректные языки {1}", tmName, formattedLanguagesString));
+
+			Assert.IsTrue(GetTextElement(By.XPath(GetTMRow(tmName))).Contains(formattedLanguagesString),
+				"Ошибка: для ТМ неверно отображены исходный язык и язык перевода.");
 		}
 
-		/// <summary>
-		/// Вернуть true, если информационная плашка существует
-		/// </summary>
-		public bool IsInformationBaloonExist()
+		public void AssertionIsInformationBaloonNotExist()
 		{
-			return GetIsElementExist(By.XPath(NOTIFICATION_BALOON_TEXT_XPATH));
+			Logger.Trace("Проверка отсутствия информационной плашки");
+
+			Assert.IsFalse(GetIsElementExist(By.XPath(NOTIFICATION_BALOON_TEXT_XPATH)),
+				"Ошибка: плашка с информацией о загружаемых ТU не закрыта.");
 		}
 
-		/// <summary>
-		/// Вернуть true, если плашка с текстом text появилась в окне браузера
-		/// <param name="text">текст сообщения</param>
-		/// </summary>
-		public bool IsBaloonWithSpecificMessageExist(string text)
+		public bool IsTextExistInBaloon(string text)
 		{
+			Logger.Debug(string.Format("Вернуть, есть ли плашка с текстом {0} в окне браузера", text));
+
 			return WaitUntilDisplayElement(
-				By.XPath(
-					NOTIFICATION_BALOON_TEXT_XPATH + "[text()='" + text + "']"), 
-					45);
+				By.XPath(getNotificationTextXPath(text)), 45);
 		}
 
-		/// <summary>
-		/// Вернуть true, если плашка с текстом text появилась в окне браузера
-		/// <param name="text">текст сообщения</param>
-		/// </summary>
-		public bool WaitUntilDisappearBaloonWithSpecificMessage(string text)
+		public void AssertionBaloonWithSpecificMessageDisappear(string text)
 		{
-			return WaitUntilDisappearElement(
-				By.XPath(
-					NOTIFICATION_BALOON_TEXT_XPATH + "[text()='" + text + "']"),
-					60);
+			Logger.Trace(string.Format("Проверить, исчезла ли плашка с текстом {0} из окна браузера", text));
+
+			Assert.IsTrue(WaitUntilDisappearElement(By.XPath(getNotificationTextXPath(text)),60),
+				"Ошибка: информационная плашка не исчезла из окна браузера");
 		}
 
-		/// <summary>
-		/// Открыть диалог создания ТМ
-		/// </summary>
-		/// <returns>открылся</returns>
-		public bool OpenCreateTMDialog()
+		public void OpenCreateTMDialog()
 		{
+			Logger.Debug("Нажать кнопку открытия диалога создания ТМ");
 			ClickElement(By.XPath(ADD_TM_BTN_XPATH));
-			return WaitUntilDisplayElement(By.XPath(CREATE_TM_DIALOG_XPATH));
+
+			Assert.IsTrue(WaitUntilDisplayElement(By.XPath(CREATE_TM_DIALOG_XPATH)), 
+				"Ошибка: не открылась форма создания ТМ");
 		}
 
-		/// <summary>
-		/// Дождаться открытия форму редактирования ТМ
-		/// </summary>
-		/// <returns>открылась</returns>
-		public bool WaitUntilEditTMOpen()
+		public void AssertionEditTMFormIsOpen()
 		{
-			return WaitUntilDisplayElement(By.XPath(TM_EDIT_FORM_XPATH));
+			Logger.Trace("Дождаться открытия формы редактирования ТМ");
+
+			Assert.IsTrue(WaitUntilDisplayElement(By.XPath(TM_EDIT_FORM_XPATH)),
+				"Ошибка: форма редактирования ТМ не была открыта");
 		}
 
-		/// <summary>
-		/// Очистить имя в форме изменения ТМ
-		/// </summary>
 		public void EditTMClearName()
 		{
+			Logger.Trace("Очистка имени в форме изменения ТМ");
 			ClearElement(By.XPath(TM_EDIT_NAME_XPATH));
 		}
 
-		///<summary>
-		/// Кликнуть на поле с проектом в форме редактирования ТМ
-		/// </summary>
 		public void ClickToProjectsListAtTmEdditForm()
 		{
+			Logger.Debug("Кликнуть на поле с проектом в форме редактирования ТМ");
 			ClickElement(By.XPath(TM_EDIT_PROJECT));
 		}
 
-		/// <summary>
-		/// Вернуть true если при редактировании проекта доступна хотя бы одна проектная группа
-		/// </summary>
-		/// <returns></returns>
 		public bool IsAnyProjectGroupExist()
 		{
+			Logger.Trace("Вернуть, если при редактировании проекта доступна хотя бы одна проектная группа");
 			return GetIsElementExist(By.XPath(PROJECT_TO_ADD_ITEM_XPATH));
 		}
 
-		///<summary>
-		/// Добавить проект projectName к ТМ
-		/// </summary>
 		public string EditTMAddProject()
 		{
+			Logger.Debug("Добавить первую проектную группу в проекте и вернуть ее имя");
 			ClickElement(By.XPath(PROJECT_TO_ADD_ITEM_XPATH));
 
 			return GetTextElement(By.XPath(PROJECT_TO_ADD_ITEM_XPATH));
 		}
 
-		///<summary>
-		/// Добавить проект projectName к ТМ
-		/// </summary>
 		public void EditTMAddProject(string projectName)
 		{
+			Logger.Debug(string.Format("Добавить проект {0} к ТМ", projectName));
 			ClickElement(By.XPath(DOMAIN_TO_ADD_XPATH + "[@title='" + projectName + "']"));
 		}
 
-		/// <summary>
-		/// Очистить комментарий в форме изменения ТМ
-		/// </summary>
 		public void EditTMClearComment()
 		{
+			Logger.Debug("Очистить комментарий в форме изменения ТМ");
+
 			if (GetIsElementExist(By.XPath(TM_EDIT_COMMENT_XPATH)))
 			{
 				ClearElement(By.XPath(TM_EDIT_COMMENT_XPATH));
 			}
 		}
 
-		///<summary>
-		/// Кликнуть на поле с языком перевода в форме редактирования ТМ
-		/// </summary>
 		public void ClickToTargetLanguagesAtTmEdditForm()
 		{
+			Logger.Debug("Кликнуть на поле с языком перевода в форме редактирования ТМ");
 			ClickElement(By.XPath(TM_EDIT_TARGET_LANGUAGE));
 		}
 
-		/// <summary>
-		/// Ввести имя Тм в форме редактирования ТМ
-		/// </summary>
-		/// <param name="TMName">название ТМ</param>
-		public void InputEditTMName(string TMName)
+		public void InputEditTMName(string tmName)
 		{
-			SendTextElement(By.XPath(TM_EDIT_NAME_XPATH), TMName);
+			Logger.Debug(string.Format("Ввести имя {0} в форме редактирования ТМ", tmName));
+			SendTextElement(By.XPath(TM_EDIT_NAME_XPATH), tmName);
 		}
 
-		/// <summary>
-		/// Ввести комментарий Тм в форме редактирования ТМ
-		/// </summary>
-		/// <param name="tmComment">комментарий к ТМ</param>
 		public void InputEditTMComment(string tmComment)
 		{
+			Logger.Debug(string.Format("Ввести комменатрий {0} в форме редактирования ТМ", tmComment));
 			SendTextElement(By.XPath(TM_EDIT_COMMENT_XPATH), tmComment);
 		}
 
-		/// <summary>
-		/// Получить имя проектной группы для ТМ
-		/// </summary>
 		public string GetProjectGroupNameForTm()
 		{
+			Logger.Trace("Получить имя проектной группы для ТМ");
+
 			return GetTextElement(By.XPath("//div[contains(@class,'js-domains-multiselect')]//div//span"));
 		}
 
-		/// <summary>
-		/// Вернуть, отмечено ли поле имя в форме редактирования ТМ ошибкой
-		/// </summary>
-		/// <returns>отмечено</returns>
-		public bool GetIsEditTMNameWithError()
-		{
-			return GetElementClass(By.XPath(TM_EDIT_NAME_XPATH)).Contains("error");
-		}
-
-		/// <summary>
-		/// Кликнуть Сохранить в форме редактирования
-		/// </summary>
 		public void ClickEditSaveBtn()
 		{
+			Logger.Debug("Кликнуть кнопку сохранить в форме редактирования");
 			ClickElement(By.XPath(TM_EDIT_SAVE_BTN_XPATH));
 		}
 
-		/// <summary>
-		/// Вернуть, есть ли ошибка при редактировании ТМ существующего имени
-		/// </summary>
-		/// <returns>есть</returns>
-		public bool GetIsExistEditErrorExistName()
+		public void AssertionIsErrorExistingNameAppear()
 		{
-			return GetIsElementDisplay(By.XPath(ERROR_EDIT_EXIST_NAME_XPATH));
+			Logger.Debug("Проверить, что появилось предупреждение о существующем имени при редактировании ТМ");
+
+			Assert.IsTrue(GetIsElementDisplay(By.XPath(ERROR_EDIT_EXIST_NAME_XPATH)),
+				"Ошибка: не появилось сообщение о существующем имени при редактировании ТМ");
 		}
 
-		/// <summary>
-		/// Вернуть, есть ли ошибка при редактировании ТМ пустого имени
-		/// </summary>
-		/// <returns></returns>
-		public bool GetIsExistEditErrorNoName()
+		public void AssertionIsExistEditErrorNoNameAppear()
 		{
-			return GetIsElementDisplay(By.XPath(ERROR_EDIT_NO_NAME_XPATH));
+			Logger.Trace("Проверить наличие ошибки при некорректном редактировании имени ТМ");
+
+			Assert.IsTrue(GetIsElementDisplay(By.XPath(ERROR_EDIT_NO_NAME_XPATH)),
+				"Ошибка: не появилось сообщение об ошибке в имени при редактировании ТМ");
 		}
 
-		/// <summary>
-		/// Вернуть true, если для машины tmName найден комментарий comment
-		/// </summary>
-		/// <returns></returns>
 		public bool GetIsCommentExist(string comment)
 		{
-			var textarea  = GetElement(By.XPath(TM_EDIT_COMMENT_XPATH));
-			return textarea.GetAttribute("value") == comment;
+			Logger.Debug(string.Format("Вернуть, есть ли на странице комментарий {0}", comment));
+
+			return GetElementAttribute(By.XPath(TM_EDIT_COMMENT_XPATH), "value") == comment;
 		}
 
-		/// <summary>
-		/// Подтвердить удаление
-		/// </summary>
 		public void ConfirmTMEdition()
 		{
+			Logger.Debug("Нажать кнопку подтверждения редактирования ТМ");
 			ClickElement(By.XPath(CONFIRM_XPATH));
 		}
 
@@ -541,302 +424,245 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.TM
 			return GetIsElementExist(By.XPath(CONFIRM_WINDOW));
 		}
 
-		/// <summary>
-		/// Вернуть, есть ли ошибка о неправильном ТМХ
-		/// </summary>
-		/// <returns>есть</returns>
-		public bool GetIsErrorMessageNotTMX()
+		public bool GetIsErrorMessageNotTmx()
 		{
+			Logger.Trace("Запрос на наличие ошибки о неправильном TMX");
+
 			return WaitUntilDisplayElement(By.XPath(NO_TMX_FILE_ERROR_XPATH));
 		}
 
-		/// <summary>
-		/// Вернуть, есть ли ошибка при создании ТМ существующего имени
-		/// </summary>
-		/// <returns>есть</returns>
-		public bool GetIsExistCreateTMErrorExistName()
+		public void AssertionIsExistNameErrorAppearDuringTmCreation()
 		{
-			return GetIsElementDisplay(By.XPath(ERROR_CREATE_TM_EXIST_NAME_XPATH));
+			Logger.Trace("Проверка наличия ошибки при создании ТМ с существующим именем");
+
+			Assert.IsTrue(GetIsElementDisplay(By.XPath(ERROR_CREATE_TM_EXIST_NAME_XPATH)),
+				"Ошибка: не появилась ошибка создания ТМ с существующим именем");
 		}
 
-		/// <summary>
-		/// Вернуть, есть ли ошибка при создании ТМ пустого имени
-		/// </summary>
-		/// <returns>есть</returns>
-		public bool GetIsExistCreateTMErrorNoName()
+		public void AssertionNoNameErrorAppearDuringTmCreation()
 		{
-			return GetIsElementDisplay(By.XPath(ERROR_CREATE_TM_NO_NAME_XPATH));
+			Logger.Trace("Проверить, что при создании ТМ с пустым именем появилась ошибка");
+
+			Assert.IsTrue(GetIsElementDisplay(By.XPath(ERROR_CREATE_TM_NO_NAME_XPATH)),
+				"Ошибка: не появилось сообщение об ошибке при создании ТМ с пустым именем");
 		}
 
-		/// <summary>
-		/// Вернуть, есть ли ошибка отсутствия таргета
-		/// </summary>
-		/// <returns>есть</returns>
-		public bool GetIsExistCreateTMErrorNoTarget()
+		public void AssertionIsNoTargetErrorAppearDuringTmCreation()
 		{
-			return GetIsElementDisplay(By.XPath(ERROR_CREATE_TM_NO_TARGET_XPATH));
+			Logger.Trace("Проверить наличие об ошибке отсутствия таргета");
+
+			Assert.IsTrue(GetIsElementDisplay(By.XPath(ERROR_CREATE_TM_NO_TARGET_XPATH)),
+				"Ошибка: не появилось сообщение об ошибке отсутствия таргета");
 		}
 
-		/// <summary>
-		/// Кликнуть на список клиентов на форме редактирования ТМ
-		/// </summary>
 		public void ClickOpenClientListEditTm()
 		{
+			Logger.Debug("Кликнуть на список клиентов на форме редактирования ТМ");
 			ClickElement(By.XPath(TM_EDIT_CLIENT_LIST_XPATH));
 		}
 
-		/// <summary>
-		///	Выбрать клиента в форме редактирования ТМ
-		/// </summary>
 		public void EditTmSelectClient(string clientName)
 		{
+			Logger.Debug(string.Format("Выбрать клиента {0} в форме редактирования ТМ", clientName));
 			ClickElement(By.XPath(TM_EDIT_CLIENT_LIST_XPATH + "[@title='" + clientName + "']"));
 		}
 
-		/// <summary>
-		/// Кликнуть на список топиков на форме редактирования ТМ
-		/// </summary>
 		public void ClickTopicsListEditTm()
 		{
+			Logger.Debug("Кликнуть на список топиков на форме редактирования ТМ");
 			ClickElement(By.XPath(TM_EDIT_TOPIC_NAME_XPATH));
 		}
 
-		/// <summary>
-		/// Получить значение топика из формы редактирования ТМ
-		/// </summary>
 		public string GetTopicFromTmEditionDialog()
 		{
+			Logger.Debug("Получить значение топика из формы редактирования ТМ");
+
 			return GetTextElement(By.XPath(TM_EDIT_TOPIC_NAME_XPATH));
 		}
 
-		/// <summary>
-		///Выбрать топик в форме редактирования TM
-		/// </summary>
 		public void SelectTopicForTm(string topicName)
 		{
+			Logger.Debug(string.Format("Выбрать топик {0} в форме редактирования TM", topicName));
 			ClickElement(By.XPath("//span[contains(@class, 'ui-treeview_nodetext') and text()='" + topicName + "']"));
 		}
 
-		/// <summary>
-		/// Очистить все фильтры ТМ если они существуют
-		/// </summary>
 		public void ClearFiltersPanelIfExist()
 		{
+			Logger.Debug("Очистить все фильтры ТМ, если они существуют");
+
 			if (GetIsElementExist(By.XPath(CLEAR_FILTERS_XPATH)))
 			{
 				ClickElement(By.XPath(CLEAR_FILTERS_XPATH));
 			}
 		}
 
-		/// <summary>
-		/// Открыть окно ТМ фильтров
-		/// </summary>
 		public void OpenTmFilters()
 		{
+			Logger.Debug("Нажать кнопку открытия окна ТМ фильтров");
 			ClickElement(By.XPath(OPEN_FILTERS_XPATH));
 		}
 
-		/// <summary>
-		/// Очистить фильтры в окне ТМ фильтров
-		/// </summary>
 		public void ClearTmFilters()
 		{
+			Logger.Debug("Нажать кнопку отчистки фильтров в окне ТМ фильтров");
 			ClickElement(By.XPath(CLEAR_FILTERS_IN_DIALOG_XPATH));
 		}
 
-		/// <summary>
-		/// Применить ТМ фильтры
-		/// </summary>
 		public void ApplyTmFilters()
 		{
+			Logger.Debug("Нажать кнопку применения ТМ фильтров");
 			ClickElement(By.XPath(APPLY_FILTERS_BTN));
 		}
 
-		/// <summary>
-		/// Применить ТМ фильтры
-		/// </summary>
 		public void CancelTmFiltersCreation()
 		{
+			Logger.Debug("Нажать кнопку отмены применения ТМ фильтров");
 			ClickElement(By.XPath(CANCEL_FILTERS_BTN));
 		}
 
-		/// <summary>
-		/// Удалить ТМ фильтр с панели ТМ
-		/// </summary>
 		public void RemoveTmFilterFromPanel(string fullFilterName)
 		{
+			Logger.Debug(string.Format("Удалить фильтр {0} c панели ТМ", fullFilterName));
 			ClickElement(By.XPath(string.Format("//div[contains(@title, '{0}')]//em//img", fullFilterName)));
 		}
 
-		/// <summary>
-		/// Открыть доступные для выбора исходные языки в ТМ фильтрах
-		/// </summary>
 		public void OpenSourceLanguagesTmFilters()
 		{
+			Logger.Debug("Нажать кнопку открытия доступных для выбора исходных языков в ТМ фильтрах");
 			ClickElement(By.XPath(SOURCE_LANG_FILTER_XPATH));
 		}
 
-		/// <summary>
-		/// Открыть доступные для выбора языки перевода ТМ фильтрах
-		/// </summary>
 		public void OpenTargetLanguagesTmFilters()
 		{
+			Logger.Debug("Нажать кнопку открытия доступных для выбора языков перевода в ТМ фильтрах");
 			ClickElement(By.XPath(TARGET_LANG_FILTER_XPATH));
 		}
 
-		/// <summary>
-		/// Открыть доступных авторов в ТМ фильтрах
-		/// </summary>
 		public void OpenAuthorsTmFilters()
 		{
+			Logger.Debug("Нажать кнопку открытия доступных авторов в ТМ фильтрах");
 			ClickElement(By.XPath(AUTHOR_FILTER_XPATH));
 		}
 
-		/// <summary>
-		/// Открыть топики в ТМ фильтрах
-		/// </summary>
 		public void OpenTopicsTmFilters()
 		{
+			Logger.Debug("Нажать кнопку открытия топиков в ТМ фильтрах");
 			ClickElement(By.XPath(TOPICS_XPATH));
 		}
 
-		/// <summary>
-		/// Открыть проектные группы в ТМ фильтрах
-		/// </summary>
 		public void OpenProjectGroupTmFilters()
 		{
+			Logger.Debug("Нажать кнопку открытия проектных групп в ТМ фильтрах");
 			ClickElement(By.XPath(PROJECT_GROUP_FILTER_XPATH));
 		}
 
-		/// <summary>
-		/// Открыть клиентов в ТМ фильтрах
-		/// </summary>
 		public void OpenClientsTmFilters()
 		{
+			Logger.Debug("Нажать кнопку открытия клиентов в ТМ фильтрах");
 			ClickElement(By.XPath(CLIENTS_FILTER_XPATH));
 		}
 
-		/// <summary>
-		/// Задать дату создания в ТМ фильтрах
-		/// </summary>
 		public void SetCreationDateTmFilters(DateTime creationDate)
 		{
 			var stringDate = string.Format(@"{0}/{1}/{2}", creationDate.Month, creationDate.Day, creationDate.Year);
-
+			Logger.Debug(string.Format("Задать дату создания в ТМ фильтрах. Дата: {0}", stringDate));
 			SendTextElement(By.XPath(CREATION_DATE_XPATH), stringDate);
 		}
 
-		/// <summary>
-		/// Выбрать исходный язык в ТМ фильтрах
-		/// </summary>
 		public void SelectSourceLanguageTmFilter(LANGUAGE language)
 		{
+			Logger.Debug(string.Format("Выбрать исходный язык {0} в ТМ фильтрах", language));
 			ClickElement(By.XPath("//input[contains(@name, 'multiselect_SourceLanguages') and contains(@title, '" + language + "')]"));
 		}
 
-		/// <summary>
-		/// Выбрать язык перевода в ТМ фильтрах
-		/// </summary>
 		public void SelectTargetLanguageTmFilter(LANGUAGE language)
 		{
+			Logger.Debug(string.Format("Выбрать язык перевода {0} в ТМ фильтрах", language));
 			ClickElement(By.XPath("//input[contains(@name, 'multiselect_TargetLanguages') and contains(@title, '" + language + "')]"));
 		}
 
-		/// <summary>
-		/// Выбрать автора в ТМ фильтрах
-		/// </summary>
 		public void SelectAuthorTmFilter(string authorName)
 		{
+			Logger.Debug(string.Format("Выбрать автора {0} в ТМ фильтрах", authorName));
 			ClickElement(By.XPath("//span[contains(@class,'ui-multiselect-item-text') and contains(text(),'" + authorName + "')]"));
 		}
 
-		/// <summary>
-		/// Выбрать топик в ТМ фильтрах
-		/// </summary>
 		public void SelectTopicTmFilter(string topicName)
 		{
+			Logger.Debug(string.Format("Выбрать топик {0} в ТМ фильтрах", topicName));
 			ClickElement(By.XPath("//span[contains(text(), '" + topicName + "')]/..//span[1]//input"));
 		}
 
-		/// <summary>
-		/// Выбрать проектную группу в ТМ фильтрах
-		/// </summary>
 		public void SelectProjectGroupTmFilter(string projectGroupName)
 		{
+			Logger.Debug(string.Format("Выбрать проектную группу {0} в ТМ фильтрах", projectGroupName));
 			ClickElement(By.XPath("//span[text()='" + projectGroupName + "']"));
 		}
 
-		/// <summary>
-		/// Выбрать клиента в ТМ фильтрах
-		/// </summary>
 		public void SelectClientTmFilter(string clientName)
 		{
+			Logger.Debug(string.Format("Выбрать клиента {0} в ТМ фильтрах", clientName));
 			ClickElement(By.XPath("//span[text()='" + clientName + "']"));
 		}
 		
-		/// <summary>
-		/// Вернуть XPath строки с ТМ
-		/// </summary>
-		/// <param name="TMName">название ТМ</param>
-		/// <returns>xPath</returns>
-		protected string GetTMRow(string TMName)
+		protected string GetTMRow(string tmName)
 		{
-			return TM_ROW_XPATH + "[text()='" + TMName + "']/parent::td/parent::tr";
+			Logger.Debug(string.Format("Вернуть XPath строки с ТМ. Имя ТМ: {0}", tmName));
+
+			return TM_ROW_XPATH + "[text()='" + tmName + "']/parent::td/parent::tr";
 		}
 
-		/// <summary>
-		/// Загрузка документ в TM
-		/// </summary>
-		public void UploadTMInDoc(string DocumentName)
+		public void UploadTMInDoc(string documentName)
 		{
-			UploadTM(DocumentName, ADD_TMX);
+			Logger.Debug(string.Format("Загрузка документа {0} в ТМ", documentName));
+			UploadTM(documentName, ADD_TMX);
 		}
 
-		/// <summary>
-		/// Загрузка ТМХ в настройках ТМ (update pop-up)
-		/// </summary>
-		/// <param name="DocumentName"></param>
-		public void UploadTMXInUpdatePopUp(string DocumentName)
+		public void UploadTMXInUpdatePopUp(string documentName)
 		{
-			//Проверка, что элемент найден
+			Logger.Debug(string.Format("Загрузка ТМХ документа {0} в настройках ТМ (update pop-up)", documentName));
+
 			Assert.IsTrue(GetIsElementExist(By.XPath(ADD_TMX)), "Ошибка: элемент input для загрузки TMX в TM настройках не найден, возможно xpath поменялся");
+
 			((IJavaScriptExecutor)Driver).ExecuteScript("$(\"input:file\").removeClass(\"g-hidden\").css(\"opacity\", 100)");
-			Driver.FindElement(By.XPath(ADD_TMX)).SendKeys(DocumentName);
+			
+			Driver.FindElement(By.XPath(ADD_TMX)).SendKeys(documentName);
+			
 			((IJavaScriptExecutor)Driver).ExecuteScript("document.getElementsByClassName('g-iblock g-bold l-editgloss__filelink js-filename-link')[0].innerHTML= '"
-			+ Path.GetFileName(DocumentName) + "';");
+				+ Path.GetFileName(documentName) + "';");
 		}
 
-		/// <summary>
-		/// Загрузка ТМX файла во время создания создания ТМ на странице TranslationMemories
-		/// </summary>
-		/// <param name="DocumentName"></param>
-		public void UploadTMInCreateDialog(string DocumentName)
+		public void UploadTmxInCreateDialog(string documentName)
 		{
-			UploadTM(DocumentName, ADD_TMX_IN__CREATE_TM_DIALOG);
+			Logger.Debug(string.Format("Загрузка ТМX документа {0} во время создания создания ТМ на странице TranslationMemories", documentName));
+			UploadTM(documentName, ADD_TMX_IN__CREATE_TM_DIALOG);
 		}
 
-		/// <summary>
-		/// Закрыть все уведомления,которые показываются сейчас
-		/// </summary>
 		public void CloseAllErrorNotifications()
 		{
+			Logger.Debug("Закрыть все показанные уведомления");
+
 			var notificationsCount = GetElementList(By.XPath(NOTIFICATION_XPATH + "//span[2]/a")).Count;
+
 			//закрываем сообщения от самого верхнего к нижнему.(по оси z)
-			for (int i = notificationsCount; i > 0; i--)
+			for (var i = notificationsCount; i > 0; i--)
 			{
 				Logger.Trace("Закрываем сообщение:" + NOTIFICATION_XPATH + "[" + i + "]");
+
 				var currentElement = GetElement(By.XPath(NOTIFICATION_XPATH + "[" + i + "]//span[2]/a"));
 				currentElement.Click();
+
 				//даём открыться диалоговому окну загрузки файлов
 				System.Threading.Thread.Sleep(3000);
+
 				//отменяем загрузку, закрывая диалоговое окно
 				SendKeys.SendWait(@"{Esc}");
 			}
 		}
 
-		public void ClickAddInPopUpUpload()
+		private string getNotificationTextXPath(string text)
 		{
-			ClickElement(By.XPath(ADD_BTN_IN_UPLOAD_POP_UP));
+			return NOTIFICATION_BALOON_TEXT_XPATH + "[text()='" + text + "']";
 		}
 
 		public enum TM_BTN_TYPE { Update, Export, Delete, Add, Edit, Save };
