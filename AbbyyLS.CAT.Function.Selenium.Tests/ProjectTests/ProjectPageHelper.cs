@@ -261,12 +261,10 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 					+ DOCUMENT_ROW_EDITOR_LINK_XPATH));
 				if (Driver.WindowHandles.Count > 1)
 				{
-					Logger.Trace("Открылось новое окно браузера");
 					Driver.SwitchTo().Window(Driver.CurrentWindowHandle).Close();
-					Logger.Trace("Закрыли текущее окно браузера");
 					Driver.SwitchTo().Window(Driver.WindowHandles.Last());
-					Logger.Trace("Перешли в новое окно браузера");
 				}
+
 			}
 			else
 			{

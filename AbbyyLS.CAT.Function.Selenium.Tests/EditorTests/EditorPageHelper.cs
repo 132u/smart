@@ -116,9 +116,10 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		public string RightClickSpellcheck(int rowNum, int variantRow)
 		{
 			var xPath = getSegmentRow(rowNum) + SPELLCHECK_TARGET_XPATH;
+		
 			var result = "";
-			var actions = new OpenQA.Selenium.Interactions.Actions(Driver);
-			
+			var actions = new Actions(Driver);
+			Driver.FindElement(By.XPath(getSegmentRow(rowNum) + TARGET_XPATH)).Click();
 			actions.MoveToElement(GetElement(By.XPath(xPath)), 1, 1).ContextClick().Build().Perform();
 
 			var elements = GetElementList(By.XPath(CONTEXT_MENU_SPELLCHECK_ADD_XPATH + "/../../div[" + variantRow + "]/span"));
