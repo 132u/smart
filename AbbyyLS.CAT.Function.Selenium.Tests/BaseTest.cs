@@ -791,7 +791,14 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 				WorkspaceCreateProjectDialog.FillProjectName(projectName);
 			WorkspaceCreateProjectDialog.ClickNextStep();
 
-			Logger.Debug("Вторая страница создания проекта - выбор ТМ.");
+			Logger.Debug("Вторая страница создания проекта - этап workflow.");
+			SetUpWorkflow(
+					translationTasksNumber,
+					editingTasksNumber,
+					proofreadingTasksNumber);
+			WorkspaceCreateProjectDialog.ClickNextStep();
+
+			Logger.Debug("Третяя страница создания проекта - выбор ТМ.");
 			if (createNewTM)
 			{
 				CreateNewTM(tmFile);
@@ -811,12 +818,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 				}
 			}
 
-			Logger.Debug("Третяя страница создания проекта - этап workflow.");
-			SetUpWorkflow(
-					translationTasksNumber,
-					editingTasksNumber,
-					proofreadingTasksNumber);
-			WorkspaceCreateProjectDialog.ClickNextStep();
 
 			Logger.Debug("Четвертая страница создания проекта - выбор глоссария.");
 			switch (setGlossary)
