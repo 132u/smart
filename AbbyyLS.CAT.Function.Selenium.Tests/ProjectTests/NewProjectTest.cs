@@ -92,12 +92,12 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			}
 
 			// Проверить, что поле Имя отмечено ошибкой
-			bool isExistErrorInput = WorkspaceCreateProjectDialog.GetIsNameInputError();
+			var isExistErrorInput = WorkspaceCreateProjectDialog.GetIsNameInputError();
 			// Проверить, что есть сообщение, что имя существует
-			bool isExistErrorMessage = WorkspaceCreateProjectDialog.GetIsExistErrorMessageNameExists();
+			var isExistErrorMessage = WorkspaceCreateProjectDialog.GetIsExistErrorMessageNameExists();
+			var errorMessage = "\n";
+			var isError = false;
 
-			string errorMessage = "\n";
-			bool isError = false;
 			// Ошибка должна появиться
 			if (shouldErrorExist)
 			{

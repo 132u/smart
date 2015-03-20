@@ -107,7 +107,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			//создание нового проекта с именем удаленного
 			FirstStepProjectWizard(ProjectUniqueName);
 			// Проверить, что не появилось сообщение о существующем имени
-			AssertErrorDuplicateName(false);
+			AssertErrorDuplicateName(shouldErrorExist: false);
 		}
 
 		/// <summary>
@@ -357,7 +357,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			// Next
 			WorkspaceCreateProjectDialog.ClickNextStep();
 			// Проверить, что ошибки не появилось
-			AssertErrorDuplicateName(false);
+			AssertErrorDuplicateName(shouldErrorExist: false);
 
 			// Проверить, что перешли на шаг выбора workflow
 			Assert.IsTrue(
@@ -436,7 +436,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			// Next
 			WorkspaceCreateProjectDialog.ClickNextStep();
 			// Проверить, что ошибка не появилась
-			AssertErrorDuplicateName(false);
+			AssertErrorDuplicateName(shouldErrorExist: false);
 			Thread.Sleep(2000);
 
 			// Проверить, что перешли на шаг выбора workflow

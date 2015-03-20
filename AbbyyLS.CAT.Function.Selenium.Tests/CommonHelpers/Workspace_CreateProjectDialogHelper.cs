@@ -350,7 +350,10 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <returns>отмечено ошибкой</returns>
 		public bool GetIsNameInputError()
 		{
-			return GetElementClass(By.XPath(PROJECT_NAME_INPUT_XPATH)).Contains("error");
+			var nameInputWebElement = By.XPath(PROJECT_NAME_INPUT_XPATH);
+			WaitUntilDisplayElement(nameInputWebElement);
+
+			return GetElementClass(nameInputWebElement).Contains("error");
 		}
 
 		/// <summary>
@@ -359,7 +362,10 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <returns>есть</returns>
 		public bool GetIsExistErrorMessageNameExists()
 		{
-			return GetIsElementDisplay(By.XPath(ERROR_NAME_EXISTS_XPATH));
+			var errorMessageWebElement = By.XPath(ERROR_NAME_EXISTS_XPATH);
+			WaitUntilDisplayElement(errorMessageWebElement);
+
+			return GetIsElementDisplay(errorMessageWebElement);
 		}
 
 		/// <summary>
