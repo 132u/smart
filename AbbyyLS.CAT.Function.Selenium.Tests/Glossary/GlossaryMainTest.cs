@@ -33,7 +33,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Glossary
 			var glossaryName = CreateGlossaryAndReturnToGlossaryList();
 
 			// Проверить, что глоссарий сохранился
-			Assert.IsTrue(GetIsExistGlossary(glossaryName), "Ошибка: глоссарий не создался");
+			Assert.IsTrue(GlossaryListPage.GetIsExistGlossary(glossaryName), "Ошибка: глоссарий не создался");
 		}
 
 		/// <summary>
@@ -48,9 +48,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Glossary
 			GlossaryEditForm.ClickSaveGlossary();
 
 			// Проверить, что появилось сообщение о пустом имени
-			Assert.IsTrue(
-				GlossaryEditForm.GetIsExistErrorMessageEmptyGlossaryName(),
-				"Ошибка: не появилось сообщение о пустом имени");
+			GlossaryEditForm.AssertionIsExistErrorMessageEmptyGlossaryName();
 		}
 
 		/// <summary>
@@ -68,9 +66,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Glossary
 			CreateGlossaryByName(glossaryName, false);
 
 			// Проверить, что появилось сообщение о существующем имени
-			Assert.IsTrue(
-				GlossaryEditForm.GetIsExistErrorMessageExistGlossaryName(),
-				"Ошибка: не появилось сообщение о существующем имени");
+			GlossaryEditForm.AssertionIsExistErrorMessageExistGlossaryName();
 		}
 
 		/// <summary>
@@ -92,9 +88,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Glossary
 			GlossaryEditForm.ClickLastLangOpenCloseList();
 
 			// Проверить, что языка нет в списке для добавления языка
-			Assert.IsTrue(
-				!GlossaryEditForm.GetIsExistLanguageInLangList(CommonHelper.LANGUAGE.German), 
-				"Ошибка: уже выбранный язык остался в списке для добавления");
+			GlossaryEditForm.AssertionIsLanguageInLangListNotExist(CommonHelper.LANGUAGE.German);
 		}
 
 		/// <summary>
@@ -154,9 +148,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Glossary
 			// Создать термин (изменение глоссария)
 			CreateItemAndSave();
 
-			Assert.IsTrue(
-				GlossaryPage.WaitConceptGeneralSave(), 
-				"Ошибка: термин не сохранился");
+			GlossaryPage.AssertionConceptGeneralSave();
 
 			// Перейти к списку глоссариев
 			SwitchGlossaryTab();
@@ -203,16 +195,14 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Glossary
 			GlossaryEditForm.ClickDeleteGlossary();
 
 			// Проверить, что появилось предупреждение об удалении глоссария
-			Assert.IsTrue(
-				GlossaryEditForm.GetIsExistWarningDeleteGlossary(),
-				"Ошибка: не появилось предупреждение об удалении глоссария");
+			GlossaryEditForm.AssertionIsExistWarningDeleteGlossary();
 
 			// Нажать Да (удалить)
 			GlossaryEditForm.ClickConfirmDeleteGlossary();
 
 			// Проверить, что глоссария нет
 			Assert.IsTrue(
-				!GetIsExistGlossary(glossaryName), 
+				!GlossaryListPage.GetIsExistGlossary(glossaryName), 
 				"Ошибка: глоссарий не удалился");
 		}
 
@@ -234,10 +224,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Glossary
 			// Удалить язык
 			GlossaryEditForm.ClickDeleteLanguage();
 
-			// Проверить, появилось ли предупреждение об удалении языка на котором уже есть термин
-			Assert.IsTrue(
-				GlossaryEditForm.GetIsExistWarningDeleteLanguage(),
-				"Ошибка: не появилось предупреждение, что есть термин на удаленном языке");
+			GlossaryEditForm.AssertionIsExistWarningDeleteLanguage();
 
 			// Отменить удаление
 			GlossaryEditForm.CancelDeleteLanguage();
@@ -269,9 +256,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Glossary
 			GlossaryPage.ClickNewItemBtn();
 
 			// Проверить, что появилось поле добавления нового термина в расширенном виде
-			Assert.IsTrue(
-				GlossaryPage.GetIsExistNewItemExtendedMode(),
-				"Ошибка: не появилось расширенного режима добавления термина");
+			GlossaryPage.AssertionIsExistNewItemExtendedMode();
 		}
 
 		/// <summary>
@@ -289,7 +274,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Glossary
 			// Нажать Импорт
 			GlossaryPage.ClickImportFormImportBtn();
 			// Дождаться закрытия формы импорта
-			GlossaryPage.WaitUntilImportFormDisappear();
+			GlossaryPage.AssertionImportFormDisappear();
 			// Нажать Закрыть в сообщении об успешном добавлении
 			GlossaryPage.ClickCloseSuccessResult();
 			// TODO убрать sleep
@@ -297,7 +282,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Glossary
 
 			// Проверить, что количество терминов больше нуля
 			Assert.IsTrue(
-				GetCountOfItems() > 0, 
+				GlossaryPage.GetConceptCount() > 0, 
 				"Ошибка: количество терминов должно быть больше нуля");
 		}
 
@@ -315,7 +300,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Glossary
 			CreateItemAndSave();
 
 			Assert.IsTrue(
-				GetCountOfItems() == 2, 
+				GlossaryPage.GetConceptCount() == 2, 
 				"Ошибка: должно сохраниться 2 термина");
 
 			// Открыть Импорт, указать документ для импорта
@@ -325,7 +310,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Glossary
 			// Нажать Импорт
 			GlossaryPage.ClickImportFormImportBtn();
 			// Дождаться закрытия формы импорта
-			GlossaryPage.WaitUntilImportFormDisappear();
+			GlossaryPage.AssertionImportFormDisappear();
 
 			// Нажать Закрыть в сообщении об успешном добавлении
 			GlossaryPage.ClickCloseSuccessResult();
@@ -334,7 +319,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Glossary
 
 			// Проверить, что количество терминов изменилось (количество терминов должно быть равно 1 для этого импортируемого файла)
 			Assert.IsTrue(
-				GetCountOfItems() == 1, 
+				GlossaryPage.GetConceptCount() == 1, 
 				"Ошибка: количество терминов должно быть равно 1");
 		}
 
@@ -381,11 +366,11 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Glossary
 
 			// Проверить, что нет глоссария со старым именем
 			Assert.IsTrue(
-				!GetIsExistGlossary(glossaryName), 
+				!GlossaryListPage.GetIsExistGlossary(glossaryName), 
 				"Ошибка: старое имя глоссария не удалилось");
 			// Проверить, что появился глоссарий с новым именем
 			Assert.IsTrue(
-				GetIsExistGlossary(uniqueGlossaryName), 
+				GlossaryListPage.GetIsExistGlossary(uniqueGlossaryName), 
 				"Ошибка: новое имя глоссария не появилось");
 		}
 
@@ -412,9 +397,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Glossary
 			ChangeGlossaryNameToCurrent(glossaryName);
 
 			// Проверить, что появилось сообщение о существующем имени
-			Assert.IsTrue(
-				GlossaryEditForm.GetIsExistErrorMessageExistGlossaryName(),
-				"Ошибка: не появилось сообщение о существующем имени");
+			GlossaryEditForm.AssertionIsExistErrorMessageExistGlossaryName();
 		}
 
 		/// <summary>
@@ -433,9 +416,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Glossary
 			ChangeGlossaryNameToCurrent("");
 
 			// Проверить, что появилось сообщение о пустом имени
-			Assert.IsTrue(
-				GlossaryEditForm.GetIsExistErrorMessageEmptyGlossaryName(),
-				"Ошибка: не появилось сообщение о пустом имени");
+			GlossaryEditForm.AssertionIsExistErrorMessageEmptyGlossaryName();
 		}
 
 		/// <summary>
@@ -454,9 +435,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Glossary
 			ChangeGlossaryNameToCurrent(" ");
 
 			// Проверить, что появилось сообщение о пустом имени
-			Assert.IsTrue(
-				GlossaryEditForm.GetIsExistErrorMessageEmptyGlossaryName(),
-				"Ошибка: не появилось сообщение о пустом имени");
+			GlossaryEditForm.AssertionIsExistErrorMessageEmptyGlossaryName();
 		}
 
 		/// <summary>
@@ -474,12 +453,10 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Glossary
 
 			// Нажать Изменить структуру
 			GlossaryEditForm.ClickSaveAndEditStructureBtn();
-			GlossaryEditForm.WaitPageClose();
+			GlossaryEditForm.AssertionPageClose();
 
 			// Проверить, что открылся редактор структуры
-			Assert.IsTrue(
-				GlossaryPage.WaitPageLoad(),
-				"Ошибка: редактор структуры не открылся");
+			GlossaryPage.WaitPageLoad();
 		}
 
 		/// <summary>
@@ -505,8 +482,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Glossary
 			SwitchGlossaryTab();
 
 			// Проверить, что глоссарий добавился в список
-			Assert.IsTrue(
-				GetIsExistGlossary(glossaryName), 
+			Assert.IsTrue(GlossaryListPage.GetIsExistGlossary(glossaryName), 
 				"Ошибка: глоссарий не добавился" + glossaryName);
 
 			// Зайти в глоссарий

@@ -1,4 +1,4 @@
-﻿using NLog;
+﻿using NUnit.Framework;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.UI;
 
@@ -9,151 +9,125 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 	/// </summary>
 	public class AddTermFormHelper : EditorPageHelper
 	{
-		/// <summary>
-		/// Конструктор хелпера
-		/// </summary>
-		/// <param name="driver">Драйвер</param>
-		/// <param name="wait">Таймаут</param>
 		public AddTermFormHelper(IWebDriver driver, WebDriverWait wait):
 			base (driver, wait)
 		{
-
 		}
-
-		/// <summary>
-		/// Нажать кнопку "Отмена"
-		/// </summary>
 		public void ClickCancelBtn()
 		{
+			Logger.Debug("Нажать кнопку Отмена");
 			ClickElement(By.XPath(CANCEL_BTN_XPATH));
 		}
 
-		/// <summary>
-		/// Нажать кнопку "Сохранить"
-		/// </summary>
 		public void ClickAddBtn()
 		{
+			Logger.Debug("Нажать кнопку Сохранить");
 			ClickElement(By.XPath(ADD_BTN_XPATH));
 		}
 
-		/// <summary>
-		/// Подтвердить добавление одиночного термина
-		/// </summary>
 		public void ClickAddSingleTerm()
 		{
+			Logger.Debug("Нажать кнопку подтверждения одиночного элемента");
 			ClickElement(By.XPath(СONFIRM_SINGLE_TERM_BTN_XPATH));
 		}
 
-		/// <summary>
-		/// Форма "Термин добавлен", нажать ОК
-		/// </summary>
 		public void ClickTermSaved()
 		{
+			Logger.Debug("Нажать кнопку Ок в форме 'Термин добавлен'");
 			ClickElement(By.XPath(TERM_SAVED_OK_BTN_XPATH));
 		}
 
-		/// <summary>
-		/// Подтвердить добавление уже существующего термина
-		/// </summary>
 		public void ClickContainsTermYes()
 		{
+			Logger.Debug("Нажать кнопку подтверждения добавления термина");
 			ClickElement(By.XPath(CONTAINS_TERM_YES_BTN_XPATH));
 		}
 
-		/// <summary>
-		/// Отменить добавление уже существующего термина
-		/// </summary>
 		public void ClickContainsTermNo()
 		{
+			Logger.Debug("Нажать кнопку отмены добавления уже существующего термина");
 			ClickElement(By.XPath(CONTAINS_TERM_NO_BTN_XPATH));
 		}
 
-		/// <summary>
-		/// Вернуть присуствует ли заданный текст в SourceTerm	
-		/// </summary>
-		/// <param name="text">текст</param>
-		/// <returns>есть</returns>
-		public bool GetSourceTermText(string text)
+		public void AssertionIsTextExistInSourceTerm(string text)
 		{
-			return GetIsElementExist(By.XPath(SOURCE_TERM_VALUE_XPATH.Replace("#", text)));
+			Logger.Trace(string.Format("Проверить, что сработало автозаполнение текста {0} в SourceTerm", text));
+
+			Assert.IsTrue(GetIsElementExist(By.XPath(SOURCE_TERM_VALUE_XPATH.Replace("#", text))),
+				"Ошибка: Нет автозаполнения сорса.");
 		}
 
-		/// <summary>
-		/// Вернуть присуствует ли заданный текст в TargetTerm
-		/// </summary>
-		/// <param name="text">текст</param>
-		/// <returns>есть</returns>
-		public bool GetTargetTermText(string text)
+		public void AssertionIsTextExistInTargetTerm(string text)
 		{
-			return GetIsElementExist(By.XPath(TARGET_TERM_VALUE_XPATH.Replace("#", text)));
+			Logger.Trace(string.Format("Проверить, что сработало автозаполнение текста {0} в TargetTerm", text));
+
+			Assert.IsTrue(GetIsElementExist(By.XPath(TARGET_TERM_VALUE_XPATH.Replace("#", text))), 
+				"Ошибка: Нет автозаполнения таргета.");
 		}
 
-		/// <summary>
-		/// Набрать текст в  TargetTerm		
-		/// </summary>
-		/// <param name="targetText">текст для ввода</param>
 		public void TypeTargetTermText(string targetText)
 		{
+			Logger.Debug(string.Format("Добавить текст {0} в TargetTerm", targetText));
 			ClickClearAndAddText(By.XPath(TARGET_TERM_INPUT_XPATH), targetText);
 		}
 
 		public void TypeSourceTermText(string sourceText)
 		{
-			Log.Trace(string.Format("Набрать текст в  SourceTerm. текст для ввода {0}", sourceText));
+			Logger.Trace(string.Format("Набрать текст в  SourceTerm. текст для ввода {0}", sourceText));
 			ClickClearAndAddText(By.XPath(SOURCE_TERM_INPUT_XPATH), sourceText);
 		}
 
 		public void TypeCommentText(string commentText)
 		{
-			Log.Trace(string.Format("Набрать комментарий. текст комментария {0}", commentText));
+			Logger.Trace(string.Format("Набрать комментарий. текст комментария {0}", commentText));
 			SendTextElement(By.XPath(COMMENT_INPUT_XPATH), commentText);
 		}
 
 		public void OpenGlossaryList()
 		{
-			Log.Trace("Раскрыть выпадающий список");
+			Logger.Trace("Раскрыть выпадающий список");
 			ClickElement(By.XPath(TERM_BASE_COMBOBOX_TRIGGER_XPATH));
 		}
 
 		public bool CheckGlossaryByName(string glossaryName)
 		{
-			Log.Trace(string.Format("Получить, есть ли словарь с заданным именем. имя словаря {0}", glossaryName));
+			Logger.Trace(string.Format("Получить, есть ли словарь с заданным именем. имя словаря {0}", glossaryName));
 			return WaitUntilDisplayElement(By.XPath(TERM_BASE_BOUNDLIST_XPATH.Replace("#", glossaryName)));		
 		}
 
 		public void SelectGlossaryByName(string glossaryName)
 		{
-			Log.Trace(string.Format("Выбрать словарь из выпадающего списка. имя словаря {0}", glossaryName));
+			Logger.Trace(string.Format("Выбрать словарь из выпадающего списка. имя словаря {0}", glossaryName));
 			ClickElement(By.XPath(TERM_BASE_BOUNDLIST_XPATH.Replace("#", glossaryName)));
 		}
 
 		public bool WaitConfirmSingleTermMessage()
 		{
-			Log.Trace("Получить, появилось ли сообщение о добавлении одиночного термина");
+			Logger.Trace("Получить, появилось ли сообщение о добавлении одиночного термина");
 			return WaitUntilDisplayElement(By.XPath(CONFIRM_SINGLE_TERM_MESSAGE_XPATH), 5);
 		}
 
 		public bool WaitAnyWayTermMessage()
 		{
-			Log.Trace("Получить, появилось ли сообщение 'Do you want to add the term anyway?'");
+			Logger.Trace("Получить, появилось ли сообщение 'Do you want to add the term anyway?'");
 			return WaitUntilDisplayElement(By.XPath(CONFIRM_ANYWAY_ADD_TERM_MESSAGE_XPATH), 5);
 		}
 
 		public void CliCkYesBtnInAnyWayTermMessage()
 		{
-			Log.Trace("Кликнуть Yes в сообщении 'Do you want to add the term anyway?'");
+			Logger.Trace("Кликнуть Yes в сообщении 'Do you want to add the term anyway?'");
 			ClickElement(By.XPath(YES_BTN_XPATH));
 		}
 
 		public bool WaitTermSavedMessage()
 		{
-			Log.Trace("Получить, появилось ли сообщение о сохранении термина");
+			Logger.Trace("Получить, появилось ли сообщение о сохранении термина");
 			return WaitUntilDisplayElement(By.XPath(TERM_SAVED_MESSAGE_XPATH), 15);
 		}
 
 		public bool WaitContainsTermMessage()
 		{
-			Log.Trace("Получить, появилось ли сообщение о повторном добавлении термин");
+			Logger.Trace("Получить, появилось ли сообщение о повторном добавлении термин");
 			return WaitUntilDisplayElement(By.XPath(CONTAINS_TERM_MESSAGE_XPATH), 5);
 		}
 
@@ -178,8 +152,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		protected const string CONFIRM_SINGLE_TERM_MESSAGE_XPATH = "//div[contains(@id, 'messagebox') and contains(string(), 'Do you want to add a term without translation?')]";
 		protected const string CONFIRM_ANYWAY_ADD_TERM_MESSAGE_XPATH = "//div[@id= 'messagebox' and contains(string(), 'Do you want to add the term anyway?')]";
 		protected const string YES_BTN_XPATH = "//div[@id= 'messagebox' and contains(string(), 'Do you want to add the term anyway?')]//span[text()='Yes']";
-
-		private static readonly Logger Log = LogManager.GetCurrentClassLogger();
 	}
 
 }

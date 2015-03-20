@@ -81,9 +81,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			ClickElement(By.XPath(SUGGEST_TERMS_REF_XPATH));
 		}
 
-		/// <summary>
-		/// Кликнуть для перехода на страницу поиска
-		/// </summary>
 		public void ClickOpenSearchPage()
 		{
 			if (!GetIsLeftMenuDisplay())

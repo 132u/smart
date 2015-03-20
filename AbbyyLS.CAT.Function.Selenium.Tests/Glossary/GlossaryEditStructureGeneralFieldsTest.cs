@@ -77,14 +77,14 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.Glossary.EditStructure.T
 			GlossaryPage.ClickTopicDropdown(fieldName);
 
 			// Проверить, что список открылся
-			Assert.IsTrue(GlossaryPage.GetIsTopicListVisible(), "Ошибка: список не открылся");
+			GlossaryPage.AssertionTopicListVisible();
 
 			// Выбрать Все
 			GlossaryPage.SelectTopicItem();
 			// Сохранить термин
 			GlossaryPage.ClickSaveExtendedConcept();
 
-			Assert.IsTrue(GlossaryPage.WaitConceptSave(), "Ошибка: термин не сохранился");
+			GlossaryPage.AssertionConceptSave();
 
 			var text = GlossaryPage.GetTopicValue(fieldName);
 			Logger.Trace("text:\n" + text + "...");
@@ -120,14 +120,14 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.Glossary.EditStructure.T
 			// Нажать на поле, чтобы открылся список
 			GlossaryPage.ClickSelectDropdown(fieldName);
 			// Проверить, что список открылся
-			Assert.IsTrue(GlossaryPage.GetIsSelectListVisible(), "Ошибка: список не открылся");
+			GlossaryPage.AssertionIsSelectListVisible();
 
 			GlossaryPage.SelectChoiceItem(domainName);
 
 			// Сохранить термин
 			GlossaryPage.ClickSaveExtendedConcept();
 			// Дождаться появления поля с сохраненным термином
-			Assert.IsTrue(GlossaryPage.WaitConceptSave(), "Ошибка: термин не сохранился");
+			GlossaryPage.AssertionConceptSave();
 
 			// Проверить, что значение в поле есть
 			Assert.AreEqual(
@@ -159,7 +159,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.Glossary.EditStructure.T
 			GlossaryPage.ClickSaveExtendedConcept();
 			
 			// Дождаться появления поля с сохраненным термином
-			Assert.IsTrue(GlossaryPage.WaitConceptSave(), "Ошибка: термин не сохранился");
+			GlossaryPage.AssertionConceptSave();
 
 			// Проверить, что изображение загрузилось
 			Assert.IsTrue(GlossaryPage.GetFieldImageFilled(fieldName), "Ошибка: изображение не загрузилось");
@@ -189,7 +189,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.Glossary.EditStructure.T
 			GlossaryPage.ClickSaveExtendedConcept();
 
 			// Дождаться появления поля с сохраненным термином
-			Assert.IsTrue(GlossaryPage.WaitConceptSave(), "Ошибка: термин не сохранился");
+			GlossaryPage.AssertionConceptSave();
 
 			// Проверить, что файл загрузился
 			Assert.IsTrue(
@@ -217,7 +217,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.Glossary.EditStructure.T
 
 			// Сохранить термин
 			GlossaryPage.ClickSaveExtendedConcept();
-			Assert.IsTrue(GlossaryPage.WaitConceptSave(), "Ошибка: термин не сохранился");
+			GlossaryPage.AssertionConceptSave();
 
 			// Проверить, что текст в поле сохранился
 			var text = GlossaryPage.GetTextareaValue(fieldName).Trim();
@@ -232,7 +232,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.Glossary.EditStructure.T
 			// Имя глоссария для тестирования структуры, чтобы не создавать лишний раз
 			const string glossaryName = "TestGlossaryEditStructureUniqueName";
 
-			if (!GetIsExistGlossary(glossaryName))
+			if (!GlossaryListPage.GetIsExistGlossary(glossaryName))
 			{
 				// Создать глоссарий
 				CreateGlossaryByName(glossaryName);

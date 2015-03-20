@@ -1,4 +1,4 @@
-﻿using System;
+﻿using NUnit.Framework;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.UI;
 
@@ -9,130 +9,97 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 	/// </summary>
 	public class SuggestTermDialogHelper : CommonHelper
 	{
-		/// <summary>
-		/// Конструктор хелпера
-		/// </summary>
-		/// <param name="driver">Драйвер</param>
-		/// <param name="wait">Таймаут</param>
 		public SuggestTermDialogHelper(IWebDriver driver, WebDriverWait wait)
 			: base(driver, wait)
 		{
 		}
 
-		/// <summary>
-		/// Дождаться появления диалога
-		/// </summary>
-		/// <returns>появился</returns>
-		public bool WaitPageLoad()
+		public void WaitPageLoad()
 		{
-			return WaitUntilDisplayElement(By.XPath(DIALOG_XPATH));
+			Logger.Trace("Проверка появления диалога");
+
+			Assert.IsTrue(WaitUntilDisplayElement(By.XPath(DIALOG_XPATH)),
+				"Ошибка: диалог не появился");
 		}
 
-		/// <summary>
-		/// Ждем закрытия формы
-		/// </summary>
-		/// <returns>закрылась</returns>
-		public bool WaitPageClose()
+		public void WaitPageClose()
 		{
-			return WaitUntilDisappearElement(By.XPath(DIALOG_XPATH));
+			Logger.Trace("Ожидание закрытия формы");
+			WaitUntilDisappearElement(By.XPath(DIALOG_XPATH));
 		}
 
-		/// <summary>
-		/// Заполнить термин
-		/// </summary>
-		/// <param name="termNumber">номер термина</param>
-		/// <param name="text">текст</param>
 		public void FillTerm(int termNumber, string text)
 		{
+			Logger.Debug(string.Format("Заполнить термин #{0} текстом {1}", termNumber, text));
 			SendTextElement(By.XPath(TERM_XPATH + "[" + termNumber + "]" + TERM_INPUT_XPATH), text);
 		}
 
-		/// <summary>
-		/// Открыть список глоссариев
-		/// </summary>
-		/// <returns>открылся</returns>
-		public bool OpenGlossaryList()
+		public void OpenGlossaryList()
 		{
+			Logger.Debug("Открыть список глоссариев");
 			ClickElement(By.XPath(OPEN_GLOSSARY_LIST_XPATH));
 
-			return WaitUntilDisplayElement(By.XPath(LIST_XPATH));
+			Logger.Trace("Проверка: открыт список глоссариев");
+
+			Assert.IsTrue(WaitUntilDisplayElement(By.XPath(LIST_XPATH)),
+				"Ошибка: список глоссариев не открылся");
 		}
 
-		/// <summary>
-		/// Выбрать глоссарий
-		/// </summary>
-		/// <param name="glossaryName">название глоссария</param>
 		public void SelectGlossary(string glossaryName)
 		{
+			Logger.Debug(string.Format("Выбрать глоссарий {0} из списка", glossaryName));
 			ClickElement(By.XPath(GLOSSARY_ITEM_XPATH + glossaryName + "']"));
 		}
 
-		/// <summary>
-		/// Кликнуть Save
-		/// </summary>
 		public void ClickSave()
 		{
+			Logger.Debug("Нажать кнопку сохранения");
 			ClickElement(By.XPath(SAVE_BTN_XPATH));
-			Logger.Trace("кликнули сохранить");
 		}
 
-		/// <summary>
-		/// Вернуть, есть ли ошибка при создании термина
-		/// </summary>
-		/// <returns>есть</returns>
-		public bool GetIsExistCreateTermError()
+		public void AssertionIsExistCreateTermError()
 		{
-			return WaitUntilDisplayElement(By.XPath(ERROR_MESSAGE_XPATH));
+			Logger.Trace("Проверка наличия ошибки при создании термина");
+
+			Assert.IsTrue(WaitUntilDisplayElement(By.XPath(ERROR_MESSAGE_XPATH)),
+				"Ошибка: не появилась ошибка пустого термина");
 		}
 
-		/// <summary>
-		/// Получить id языка
-		/// </summary>
-		/// <param name="termNumber">номер термина</param>
-		/// <returns>id языка</returns>
 		public string GetLanguageId(int termNumber)
 		{
+			Logger.Debug(string.Format("Получить id языка для термина #{0}", termNumber));
 			return GetElementAttribute(By.XPath(TERM_XPATH + "[" + termNumber + "]" + LANGUAGE_XPATH), "data-id");
 		}
 
-		/// <summary>
-		/// Кликнуть по языку
-		/// </summary>
-		/// <param name="termNumber">номер языка</param>
-		/// <returns>открылся список</returns>
 		public bool OpenLanguageList(int termNumber)
 		{
+			Logger.Debug(string.Format("Кликнуть по языку #{0}", termNumber));
+
 			ClickElement(By.XPath(TERM_XPATH + "[" + termNumber + "]" + LANGUAGE_XPATH));
 
 			return WaitUntilDisplayElement(By.XPath(LIST_XPATH));
 		}
 
-		/// <summary>
-		/// Выбрать язык
-		/// </summary>
-		/// <param name="id">id языка</param>
-		/// <returns>закрылся список</returns>
 		public bool SelectLanguage(string id)
 		{
+			Logger.Debug(string.Format("Выбрать язык. Id языка {0}", id));
+
 			ClickElement(By.XPath(LANGUAGE_ITEM_XPATH + id + "']"));
 
 			return WaitUntilDisappearElement(By.XPath(LIST_XPATH));
 		}
 
-		/// <summary>
-		/// Вернуть, есть ли предупреждение о дубликате
-		/// </summary>
-		/// <returns>есть</returns>
-		public bool GetIsExistDuplicateWarning()
+		public void AssertionIsExistDuplicateWarning()
 		{
-			return GetIsElementDisplay(By.XPath(DUPLICATE_WARNING_XPATH));
+			Logger.Trace("Проверка существования предупреждения о существующем термине");
+
+			Assert.IsTrue(GetIsElementDisplay(By.XPath(DUPLICATE_WARNING_XPATH)),
+				"Ошибка: не появилось предупреждение о существующем термине");
 		}
 
-		/// <summary>
-		/// Нажать отмену
-		/// </summary>
 		public void ClickCancel()
 		{
+			Logger.Debug("Нажать кнопку отмены");
 			ClickElement(By.XPath(CANCEL_BTN_XPATH));
 		}
 

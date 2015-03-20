@@ -230,9 +230,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			WorkspacePage.ClickUsersAndRightsBtn();
 
 			// Ожидание открытия страницы
-			Assert.IsTrue(
-				UserRightsPage.WaitUntilUsersRightsDisplay(), 
-				"Ошибка: Страница прав пользователя не открылась.");
+			UserRightsPage.AssertionUsersRightsPageDisplayed();
 
 			// Получаем список 
 			var usersList = UserRightsPage.GetUserFullnameList();
@@ -313,7 +311,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			WorkspacePage.ClickUsersAndRightsBtn();
 
 			// Ожидание открытия страницы
-			Assert.IsTrue(UserRightsPage.WaitUntilUsersRightsDisplay(), "Ошибка: Страница прав пользователя не открылась.");
+			UserRightsPage.AssertionUsersRightsPageDisplayed();
 
 			// Открываем страницу групп пользователей
 			UserRightsPage.OpenGroups();
@@ -663,49 +661,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		}
 
 		/// <summary>
-		/// Проверка, что текущий пользователь входит в группу Administrators
-		/// </summary>
-		private void CheckUserInAdministratorsGroup()
-		{
-			string userName = "";
-			List<string> usersInGroup = new List<string>();
-			
-			// Переходим к вкладке прав пользователей
-			WorkspacePage.ClickUsersAndRightsBtn();
-
-			// Ожидание открытия страницы
-			Assert.IsTrue(
-				UserRightsPage.WaitUntilUsersRightsDisplay(), 
-				"Ошибка: Страница прав пользователя не открылась.");
-
-			// Открываем страницу групп пользователей
-			UserRightsPage.OpenGroups();
-
-			// Ожидание открытия страницы прав групп пользователей
-			Assert.IsTrue(
-				UserRightsPage.WaitUntilGroupsRightsDisplay(), 
-				"Ошибка: Страница прав групп пользователей не открылась.");
-
-			// Получение имени пользователя
-			userName = WorkspacePage.GetUserName();
-
-			// Окрытие группы Administrators
-			UserRightsPage.ClickGroupByName("Administrators");
-
-			Thread.Sleep(1000);
-
-			// Получение списка пользователей в группе Administrators
-			usersInGroup = UserRightsPage.GetDisplayUsersInGroup();
-
-			Assert.IsTrue(
-				usersInGroup.Contains(userName), 
-				"Ошибка: Текущего пользователя нет в группе Administrators.");
-
-			// Возвращаемся на страницу проектов
-			SwitchWorkspaceTab();
-		}
-
-		/// <summary>
 		/// Проверка, что текущий пользователь присутствует
 		/// </summary>
 		private void сheckUserPresent(string userName)
@@ -713,13 +668,10 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			// Переходим к вкладке прав пользователей
 			WorkspacePage.ClickUsersAndRightsBtn();
 
-			// Ожидание открытия страницы
-			Assert.IsTrue(
-				UserRightsPage.WaitUntilUsersRightsDisplay(), 
-				"Ошибка: Страница прав пользователя не открылась.");
+			UserRightsPage.AssertionUsersRightsPageDisplayed();
 
 			// Получение списка пользователей
-			List<string> usersList = UserRightsPage.GetUserFullnameList();
+			var usersList = UserRightsPage.GetUserFullnameList();
 
 			Assert.IsTrue(
 				usersList.Contains(userName), 

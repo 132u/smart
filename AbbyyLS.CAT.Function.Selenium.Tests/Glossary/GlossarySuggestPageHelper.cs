@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using NUnit.Framework;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.UI;
 
@@ -10,11 +11,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 	/// </summary>
 	public class GlossarySuggestPageHelper : CommonHelper
 	{
-		/// <summary>
-		/// Конструктор хелпера
-		/// </summary>
-		/// <param name="driver">Драйвер</param>
-		/// <param name="wait">Таймаут</param>
 		public GlossarySuggestPageHelper(IWebDriver driver, WebDriverWait wait)
 			: base(driver, wait)
 		{
@@ -26,29 +22,20 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			};
 		}
 
-		/// <summary>
-		/// Дождаться загрузки страницы
-		/// </summary>
-		/// <returns></returns>
 		public bool WaitPageLoad()
 		{
 			return WaitUntilDisplayElement(By.XPath(SUGGEST_TABLE_XPATH));
 		}
 
-		/// <summary>
-		/// Открыть текущий глоссарий
-		/// </summary>
 		public void OpenCurrentGlossary()
 		{
+			Logger.Debug("Открыть текущий глоссарий");
 			ClickElement(By.XPath(CURRENT_GLOSSARY_REF_XPATH));
 		}
 
-		/// <summary>
-		/// Вернуть количество предложенных терминов
-		/// </summary>
-		/// <returns>количество</returns>
 		public int GetSuggestTermsCount()
 		{
+			Logger.Debug("Получить количество предложенных терминов");
 			SetDriverTimeoutMinimum();
 			var count = GetElementsCount(By.XPath(TERM_ROW_XPATH));
 			SetDriverTimeoutDefault();
@@ -56,24 +43,20 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			return count;
 		}
 
-		/// <summary>
-		/// Вернуть количество терминов с нужным глоссарием
-		/// </summary>
-		/// <returns>количество</returns>
 		public int GetSuggestTermsCurrentGlossaryCount(string glossaryName)
 		{
+			Logger.Trace("Получить список имен глоссариев");
 			var glossaryNameList = GetTextListElement(By.XPath(ROW_GLOSSARY_NAME_XPATH));
 
+			Logger.Debug(string.Format("Вернуть количество терминов с глоссарием {0}", glossaryName));
 			return glossaryNameList.Count(glName => glName.Trim() == glossaryName);
 		}
 
-		/// <summary>
-		/// Вернуть номер строки термина с нужным глоссарием
-		/// </summary>
-		/// <param name="glossaryName">название глоссария</param>
-		/// <returns>номер термина</returns>
 		public int GetTermRowNumberByGlossaryName(string glossaryName)
 		{
+			Logger.Debug(string.Format("Получить номер строки термина с глоссарием {0}", glossaryName));
+
+			Logger.Trace("Получить список имен глоссариев");
 			var glossaryNameList = GetTextListElement(By.XPath(ROW_GLOSSARY_NAME_XPATH));
 			var rowNumber = 0;
 
@@ -88,140 +71,105 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			return rowNumber;
 		}
 
-		/// <summary>
-		/// Выделить строку
-		/// </summary>
-		/// <param name="rowNumber">номер строки</param>
 		public void SelectRow(int rowNumber)
 		{
+			Logger.Trace(string.Format("Выделить строку #{0}", rowNumber));
+
 			// Если списко длинный - первый клик прокручивает страницу
 			ClickElement(By.XPath(GetRowXPath(rowNumber)));
-			// А второй клик выделяет
+			// Второй клик выделяет
 			ClickElement(By.XPath(GetRowXPath(rowNumber)));
 		}
 
-		/// <summary>
-		/// Нажать на кнопку в строке
-		/// </summary>
-		/// <param name="rowNumber">номер строки</param>
-		/// <param name="btn">id кнопки</param>
 		public void ClickRowButton(int rowNumber, BUTTON_ID btn)
 		{
-			ClickElement(By.XPath(GetRowXPath(rowNumber) +
-				"//a[contains(@class, '" + buttonsDict[btn] + "')]"));
+			Logger.Debug(string.Format("Нажать на кнопку {0} в строке #{1}", btn, rowNumber));
+			ClickElement(By.XPath(GetRowXPath(rowNumber) + "//a[contains(@class, '" + buttonsDict[btn] + "')]"));
 		}
 
-		/// <summary>
-		/// Дождаться появления форму выбора глоссария
-		/// </summary>
-		/// <returns>появилась</returns>
-		public bool WaitChooseGlossaryForm()
+		public void WaitChooseGlossaryForm()
 		{
-			return WaitUntilDisplayElement(By.XPath(CHOOSE_GLOSSARY_FORM_XPATH));
+			Logger.Trace("Проверка появления формы выбора глоссария");
+
+			Assert.IsTrue(WaitUntilDisplayElement(By.XPath(CHOOSE_GLOSSARY_FORM_XPATH)),
+				"Ошибка: форма выбора глоссария не появилась");
 		}
 
-		/// <summary>
-		/// В форме назначения глоссария нажать для выпадения списка глоссариев
-		/// </summary>
 		public void ClickChooseGlossaryFormDropdownGlossaryList()
 		{
+			Logger.Debug("В форме назначения глоссария нажать кнопку выпадения списка глоссариев");
 			ClickElement(By.XPath(CLICK_GLOSSARY_LIST_DROPDOWN));
 		}
 
-		/// <summary>
-		/// Кликнуть для выпадения списка
-		/// </summary>
 		public void ClickDropdown()
 		{
+			Logger.Debug("Нажать конпку выпадения списка");
 			ClickElement(By.XPath(DROPDOWN_XPATH));
 		}
 
-		/// <summary>
-		/// Выбрать элемент выпадающего списка
-		/// </summary>
-		/// <param name="item">текст элемента</param>
 		public void SelectDropdownItem(string item)
 		{
+			Logger.Debug(string.Format("Выбрать элемент {0} выпадающего списка", item));
 			ClickElement(By.XPath(DROPDOWN_ITEM + "[contains(text(),'" + item + "')]"));
 		}
 
-		/// <summary>
-		/// Кликнуть Ok при выборе глоссария
-		/// </summary>
 		public void ClickOkChooseGlossary()
 		{
+			Logger.Debug("Нажать конпку Ok при выборе глоссария");
 			ClickElement(By.XPath(CHOOSE_GLOSSARY_OK_BTN_XPATH));
 		}
 
-		/// <summary>
-		/// Дождаться открытия редактирования термина
-		/// </summary>
-		/// <returns>открылось</returns>
-		public bool WaitEditTermFillAppear()
+		public void AssertionEditTermFillAppear()
 		{
-			return WaitUntilDisplayElement(By.XPath(EDIT_TERM_BOX), 30);
+			Logger.Trace("Проверить, что окно редактирования термина открыто");
+
+			Assert.IsTrue(WaitUntilDisplayElement(By.XPath(EDIT_TERM_BOX), 30),
+				"Ошибка: окно редактирования термина не открылось");
 		}
 
-		/// <summary>
-		/// Дождаться добавления редактируемого термина
-		/// </summary>
-		/// <returns>появился</returns>
-		public bool WaitUntilEditTermAdded(string newTermText)
+		public void AssertionEditTermAdded(string newTermText)
 		{
-			return WaitUntilDisplayElement(By.XPath(GetNewTermAddedXpath(newTermText)), 30);
+			Logger.Trace("Проверить, что редактируемый термин был добавлен");
+
+			Assert.IsTrue(WaitUntilDisplayElement(By.XPath(GetNewTermAddedXpath(newTermText)), 30),
+				"Ошибка: редактируемый термин не был добавлен");
 		}
 
-		/// <summary>
-		/// При редактировании термина заполнить текст
-		/// </summary>
-		/// <param name="itemNumber">номер языка</param>
-		/// <param name="text">текст</param>
 		public void FillEditTermItem(int itemNumber, string text)
 		{
-			ClearAndAddText(By.XPath(EDIT_TERM_BOX 
-				+ "[" + itemNumber + "]" + EDITOR_INPUT_XPATH), text);
+			Logger.Debug(string.Format("При редактировании термина заполнить текст. Номер языка: {0}, текст: {1}", itemNumber, text));
+			ClearAndAddText(By.XPath(EDIT_TERM_BOX + "[" + itemNumber + "]" + EDITOR_INPUT_XPATH), text);
 		}
 
-		/// <summary>
-		/// При редактировании термина - кликнуть по термину
-		/// </summary>
-		/// <param name="itemNumber">номер языка</param>
 		public void ClickEditTermItem(int itemNumber)
 		{
+			Logger.Debug(string.Format("При редактировании термина - кликнуть по термину. Номер языка: {0}", itemNumber));
 			ClickElement(By.XPath(EDIT_TERM_BOX + "[" + itemNumber + "]" + VIEWER_XPATH));
 		}
 
-		/// <summary>
-		/// Кликнуть Добавить синоним при редактирования термина
-		/// </summary>
-		/// <param name="itemNumber">номер языка</param>
 		public void ClickAddSynonymEditTerm(int itemNumber)
 		{
+			Logger.Debug(string.Format("Кликнуть Добавить синоним при редактирования термина. Номер языка: {0}", itemNumber));
 			ClickElement(By.XPath(EDIT_TERM_BOX + "[" + itemNumber + "]" + ADD_SYNONYM_XPATH));
 		}
 
-		/// <summary>
-		/// Кликнуть кнопку добавления термина
-		/// </summary>
 		public void ClickSaveTerm()
 		{
+			Logger.Debug("Кликнуть кнопку добавления термина");
 			ClickElement(By.XPath(SAVE_EDIT_TERM_XPATH));
 		}
 
-		/// <summary>
-		/// Дождаться закрытия формы управления терминами
-		/// </summary>
-		/// <returns>закрылось</returns>
-		public bool WaitUntilEditTermFillDisappear()
+		public void AssertionEditTermFillDisappear()
 		{
-			return WaitUntilDisappearElement(By.XPath(EDIT_TERM_BOX), 30);
+			Logger.Trace("Проверка закрытия формы управления терминами");
+
+			Assert.IsTrue(WaitUntilDisappearElement(By.XPath(EDIT_TERM_BOX), 30),
+				"Ошибка: форма управления терминами не закрылась");
 		}
 
-		/// <summary>
-		/// Кликнуть кнопку Принять термин
-		/// </summary>
 		public void ClickAcceptTerm()
 		{
+			Logger.Trace("Кликнуть кнопку Принять термин");
 			ClickElement(By.XPath(ACCEPT_TERM_XPATH));
 		}
 

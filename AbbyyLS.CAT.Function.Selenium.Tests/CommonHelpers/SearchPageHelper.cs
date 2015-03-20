@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using NUnit.Framework;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.UI;
 using System.Windows.Forms;
@@ -10,49 +11,37 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 	/// </summary>
 	public class SearchPageHelper : CommonHelper
 	{
-		/// <summary>
-		/// Конструктор хелпера
-		/// </summary>
-		/// <param name="driver">Драйвер</param>
-		/// <param name="wait">Таймаут</param>
 		public SearchPageHelper(IWebDriver driver, WebDriverWait wait)
 			: base(driver, wait)
 		{
 		}
 
-		/// <summary>
-		/// Дождаться загрузки страницы
-		/// </summary>
-		/// <returns>загрузилась</returns>
-		public bool WaitPageLoad()
+		public void WaitPageLoad()
 		{
-			return WaitUntilDisplayElement(By.XPath(SEARCH_FORM_XPATH));
+			Logger.Debug("Ожидание загрузки страницы поиска");
+
+			Assert.IsTrue(WaitUntilDisplayElement(By.XPath(SEARCH_FORM_XPATH)),
+				"Ошибка: страница поиска не загрузилась");
 		}
 
-		/// <summary>
-		/// Ввести текст для поиска
-		/// </summary>
-		/// <param name="text"></param>
 		public void AddTextSearch(string text)
 		{
+			Logger.Debug(string.Format("Ввести текст {0} для поиска", text));
 			ClearAndAddText(By.Id(SEARCH_TEXT_ID), text);
 		}
 
-		/// <summary>
-		/// Кликнуть Translate/Search
-		/// </summary>
 		public void ClickTranslateBtn()
 		{
+			Logger.Debug("Нажать кнопку Translate/Search");
 			ClickElement(By.XPath(SEARCH_BTN_XPATH));
 		}
 
-		/// <summary>
-		/// Дождаться появления результатов
-		/// </summary>
-		/// <returns>появились</returns>
-		public bool WaitUntilShowResults()
+		public void WaitUntilShowResults()
 		{
-			return WaitUntilDisplayElement(By.XPath(SEARCH_RESULT_XPATH));
+			Logger.Debug("Проверка успешного появления результаов");
+
+			Assert.IsTrue(WaitUntilDisplayElement(By.XPath(SEARCH_RESULT_XPATH)),
+				"Ошибка: результаты не появились");
 		}
 
 		/// <summary>
@@ -209,17 +198,11 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			return GetTextListElement(By.XPath(GLOSSARY_RESULT_GLOSSARY_ITEM_XPATH));
 		}
 
-		/// <summary>
-		/// Вернуть текст src найденного перевода глоссария
-		/// </summary>
-		/// <param name="resultNumber">номер результата</param>
-		/// <returns>текст Src</returns>
 		public string GetGlossaryResultSrcText(int resultNumber)
 		{
+			Logger.Debug(string.Format("Вернуть текст src найденного перевода глоссария. Номер результата: {0}", resultNumber));
 			return GetTextElement(By.XPath("//table[" + resultNumber + "]" + GLOSSARY_RESULT_TEXT_TD));
 		}
-
-
 
 		protected const string SEARCH_FORM_XPATH = "//form[contains(@class,'js-search-form')]";
 		protected const string SEARCH_TEXT_ID = "searchText";

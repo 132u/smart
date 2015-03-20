@@ -126,8 +126,8 @@
     <Compile Include="Glossary\GlossarySuggestPageHelper.cs" />
     <Compile Include="Glossary\GlossaryTermFilter.cs" />
     <Compile Include="Glossary\GlossaryTest.cs" />
-    <Compile Include="Glossary\GlossaryTestsWithUserRights\GlossaryItemTest.cs" />
-    <Compile Include="Glossary\GlossaryTestsWithUserRights\GlossarySuggestedTermsTest.cs" />
+    <Compile Include="Glossary\UserRights\ManageTermsTest.cs" />
+    <Compile Include="Glossary\UserRights\SuggestTermsTest.cs" />
     <Compile Include="Glossary\SuggestTermDialogHelper.cs" />
     <Compile Include="Glossary\UserRightsPageHelper.cs" />
     <Compile Include="PathProvider.cs" />

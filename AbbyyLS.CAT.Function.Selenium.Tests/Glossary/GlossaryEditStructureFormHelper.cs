@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using NUnit.Framework;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.UI;
 
@@ -59,34 +60,25 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			return WaitUntilDisplayElement(By.XPath(FORM_XPATH));
 		}
 
-		/// <summary>
-		/// Дождаться закрытия формы
-		/// </summary>
-		/// <returns>закрылась</returns>
 		public bool WaitFormClose()
 		{
+			Logger.Debug("Дождаться закрытия формы");
 			return WaitUntilDisappearElement(By.XPath(FORM_XPATH));
 		}
 
-		/// <summary>
-		/// Вернуть, видна ли таблица Concept
-		/// </summary>
-		/// <returns>видна</returns>
-		public bool GetIsConceptTableDisplay()
+		public void AssertionIsConceptTableDisplay()
 		{
-			return GetIsElementDisplay(By.XPath(GetTableXPath(CONCEPT_TABLE_CLASS)));
+			Logger.Trace("Проверить, что таблица Concept видна");
+
+			Assert.IsTrue(GetIsElementDisplay(By.XPath(GetTableXPath(CONCEPT_TABLE_CLASS))),
+				"Ошибка: в редакторе структуры отображается не та таблица");
 		}
 
-		/// <summary>
-		/// Кликнуть по полю для добавления
-		/// </summary>
-		/// <param name="attr">поле</param>
-		/// <returns>поле выделено</returns>
 		public bool ClickFieldToAdd(ATTRIBUTE_TYPE attr)
 		{
-			var xpath = GetAttributeXPath(CONCEPT_TABLE_CLASS, attr);
+			Logger.Debug(string.Format("Кликнуть по полю добавления {0}", attr));
 
-			var isDisplayed = GetIsElementDisplay(By.XPath(xpath));
+			var isDisplayed = GetIsElementDisplay(By.XPath(GetAttributeXPath(CONCEPT_TABLE_CLASS, attr)));
 
 			if (isDisplayed)
 			{
@@ -96,120 +88,100 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			return isDisplayed && GetIsElementDisplay(By.XPath(SELECTED_ROW_XPATH));
 		}
 
-		/// <summary>
-		/// Кликнуть Добавить в список
-		/// </summary>
 		public void ClickAddToListBtn()
 		{
+			Logger.Debug("Нажать кнопку добавления в список");
 			ClickElement(By.XPath(ADD_TO_LIST_BTN_XPATH));
 		}
 
-		/// <summary>
-		/// Кликнуть Сохранить
-		/// </summary>
 		public void ClickSaveStructureBtn()
 		{
+			Logger.Debug("Нажать кнопку сохранения");
 			ClickElement(By.XPath(SAVE_STRUCTURE_BTN_XPATH));
 		}
 
-		/// <summary>
-		/// Выбрать все поля таблицы
-		/// </summary>
 		public void SelectAllFields()
 		{
-			// Список видимых элементов таблицы
+			Logger.Trace("Выбрать все поля таблицы");
+
 			SetDriverTimeoutMinimum();
+
+			Logger.Debug("Получить список видимых элементов таблицы");
 			var attrList = GetElementList(By.XPath(GetVisibleTableXPath() + TABLE_NOT_HIDDEN_TR_XPATH));
+			
 			SetDriverTimeoutDefault();
 
 			foreach(var el in attrList)
 			{
-				// Кликнуть по элементу
+				Logger.Debug("Кликнуть на элемент талицы");
 				el.Click();
-				// Кликнуть добавить
+				Logger.Debug("Кликнуть добавить");
 				ClickAddToListBtn();
 			}
 		}
 
-		/// <summary>
-		/// Ввести значение по умолчанию
-		/// </summary>
-		/// <param name="value">значение</param>
 		public void AddDefaultValue(string value)
 		{
+			Logger.Debug(string.Format("Ввести значение по умолчанию {0}", value));
 			ClearAndAddText(By.XPath(DEFAULT_INPUT_XPATH), value);
 		}
 
-		/// <summary>
-		/// Перейти на вкладку Пользовательские
-		/// </summary>
-		/// <returns>открылась</returns>
-		public bool SwitchCustomTab()
+		public void SwitchCustomTab()
 		{
+			Logger.Debug("Перейти на вкладку пользовательские поля");
 			ClickElement(By.XPath(CUSTOM_TAB_REF_XPATH));
-			return WaitUntilDisplayElement(By.XPath(CUSTOM_TABLE_XPATH));
+
+			Assert.IsTrue(WaitUntilDisplayElement(By.XPath(CUSTOM_TABLE_XPATH)),
+				"Ошибка: вкладка пользовательские поля не была открыта");
 		}
 
-		/// <summary>
-		/// Заполнить название пользовательского поля
-		/// </summary>
-		/// <param name="name">название</param>
 		public void FillNameCustomField(string name)
 		{
+			Logger.Debug(string.Format("Заполнить название пользовательского поля: {0}", name));
 			SendTextElement(By.XPath(CUSTOM_FIELD_NAME_XPATH), name);
 		}
 
-		/// <summary>
-		/// Выбрать тип поля в пользовательских настройках
-		/// </summary>
-		/// <param name="field">поле</param>
 		public void SelectCustomFieldType(FIELD_TYPE field)
 		{
+			Logger.Debug(string.Format("Выбрать тип поля {0} в пользовательских настройках", field));
 			ClickElement(By.XPath(CUSTOM_TYPE_DROPDOWN_XPATH));
 			ClickElement(By.XPath(CUSTOM_TYPE_ITEM_XPATH + "[@data-id='" + fieldTypeDict[field] + "']"));
 		}
 
-		/// <summary>
-		/// Кликнуть галочку Required Field
-		/// </summary>
 		public void SelectRequiredCheckbox()
 		{
+			Logger.Debug("Кликнуть галку Required Field");
 			ClickElement(By.XPath(REQUIRED_CHECKBOX_XPATH));
 		}
 
-		/// <summary>
-		/// Кликнуть добавить пользовательское поле
-		/// </summary>
 		public void ClickAddCustomAttribute()
 		{
+			Logger.Debug("Кликнуть добавить пользовательское поле");
 			ClickElement(By.XPath(ADD_CUSTOM_BTN_XPATH));
 		}
 
-		/// <summary>
-		/// Вернуть, есть ли ошибка пустого списка выбора
-		/// </summary>
-		/// <returns>есть</returns>
-		public bool GetIsDisplayedErrorEmptyChoice()
+		public void AssertionIsDisplayedErrorEmptyChoice()
 		{
-			return GetIsElementDisplay(By.XPath(CUSTOM_ATTR_ERROR_EMPTY_CHOICE_XPATH));
+			Logger.Trace("Проверить, что появилась ошибка пустого списка выбора");
+
+			Assert.IsTrue(
+				GetIsElementDisplay(By.XPath(CUSTOM_ATTR_ERROR_EMPTY_CHOICE_XPATH)),
+				"Ошибка: не появилось сообщение, что нужно добавить элементы списка");
 		}
 
-		/// <summary>
-		/// Заполнить список выбора
-		/// </summary>
-		/// <param name="values">значения списка</param>
 		public void FillChoiceValues(string values)
 		{
+			Logger.Debug(string.Format("Заполнить список выбора значением {0}", values));
 			SendTextElement(By.XPath(CUSTOM_CHOICE_VALUE_XPATH), values);
 		}
 
-		/// <summary>
-		/// Вернуть, есть ли ошибка пользовательского поля: пустое значение по умолчанию
-		/// </summary>
-		/// <returns>есть</returns>
-		public bool GetIsExistCustomAttrErrorEmptyDefault()
+		public void AssertionIsExistCustomAttrErrorEmptyDefault()
 		{
-			return GetIsElementDisplay(By.XPath(CUSTOM_ATTR_ERROR_EMPTY_DEFAULT_XPATH));
+			Logger.Trace("Проверить наличие оповещения о пустом значении по умолчанию для пользовательского поля");
+
+			Assert.IsTrue(
+				GetIsElementDisplay(By.XPath(CUSTOM_ATTR_ERROR_EMPTY_DEFAULT_XPATH)),
+				"Ошибка: не появилось оповещение о пустом значении по умолчанию для пользовательского поля");
 		}
 
 		/// <summary>

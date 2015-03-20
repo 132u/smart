@@ -9,26 +9,22 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.Glossary.UserRights
 	/// </summary>
 	[TestFixture]
 	[Category("Standalone")]
-	public class GlossarySuggestedTermsTest : GlossaryTest
+	public class SuggestTermsTest : GlossaryTest
 	{
-		/// <summary>
-		/// Конструктор теста
-		/// </summary>
-		/// <param name="browserName">Названеи браузера</param>
-		public GlossarySuggestedTermsTest(string browserName)
+		public SuggestTermsTest(string browserName)
 			: base(browserName)
 		{
 
 		}
 
-		/// <summary>
-		/// Предварительная подготовка группы тестов
-		/// </summary>
 		[TestFixtureSetUp]
 		public void SetupGlossarySuggestedTermsTest()
 		{
+			Logger.Info("Начало работы метода SetupGlossarySuggestedTermsTest(). Подготовка перед каждым тест-сетом.");
+
 			try
 			{
+				Logger.Debug("Значение параметра QuitDriverAfterTest = false. Не закрывать браузер после каждого теста.");
 				QuitDriverAfterTest = false;
 				GoToUrl(RelativeUrlProvider.Glossaries);
 				AddUserRights();
@@ -47,10 +43,12 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.Glossary.UserRights
 		[Test]
 		public void SuggestWithoutGlossaryFromGlossaryListTest()
 		{
+			Logger.Info("Начало работы теста SuggestWithoutGlossaryFromGlossaryListTest().");
+
 			// Перейти к списку предложенных терминов
 			SwitchSuggestTermsTab();
 			// Получить количество терминов без указанного глоссария
-			var unglossaryTermsCountBefore = GetCountSuggestTermsWithoutGlossary();
+			var unglossaryTermsCountBefore = GlossarySuggestPage.GetSuggestTermsCurrentGlossaryCount("");
 			// Перейти к списку глоссариев
 			SwitchGlossaryTab();
 			// Предложить термин
@@ -58,11 +56,10 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.Glossary.UserRights
 			// Перейти к списку предложенных терминов
 			SwitchSuggestTermsTab();
 			// Получить количество терминов без глоссария
-			var unglossaryTermsCountAfter = GetCountSuggestTermsWithoutGlossary();
+			var unglossaryTermsCountAfter = GlossarySuggestPage.GetSuggestTermsCurrentGlossaryCount("");
 
 			// Проверить, что таких терминов стало больше
-			Assert.IsTrue(
-				unglossaryTermsCountAfter > unglossaryTermsCountBefore, 
+			Assert.IsTrue(unglossaryTermsCountAfter > unglossaryTermsCountBefore, 
 				"Ошибка: предложенный термин не сохранился");
 		}
 
@@ -72,6 +69,8 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.Glossary.UserRights
 		[Test]
 		public void SuggestWithGlossaryFromGlossaryListTest()
 		{
+			Logger.Info("Начало работы теста SuggestWithGlossaryFromGlossaryListTest().");
+
 			// Создать глоссарий
 			var glossaryName = GetUniqueGlossaryName();
 			CreateGlossaryByName(glossaryName);
@@ -80,12 +79,10 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.Glossary.UserRights
 			SwitchGlossaryTab();
 			// Предложить термин для этого глоссария
 			SuggestTermSetGlossary(glossaryName);
-
 			// Перейти к списку предложенных терминов
 			SwitchSuggestTermsTab();
 			// Проверить, что терминов для этого глоссария больше нуля
-			Assert.IsTrue(
-				GetCountSuggestTermsGlossary(glossaryName) > 0,
+			Assert.IsTrue(GlossarySuggestPage.GetSuggestTermsCurrentGlossaryCount(glossaryName) > 0,
 				"Ошибка: нет предложенного термина для этого глоссария");
 		}
 
@@ -95,6 +92,8 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.Glossary.UserRights
 		[Test]
 		public void SuggestWithGlossaryFromGlossaryTest()
 		{
+			Logger.Info("Начало работы теста SuggestWithGlossaryFromGlossaryTest().");
+
 			// Создать глоссарий
 			var glossaryName = GetUniqueGlossaryName();
 			CreateGlossaryByName(glossaryName);
@@ -106,8 +105,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.Glossary.UserRights
 			SwitchSuggestTermsTab();
 
 			// Проверить, что терминов для этого глоссария больше нуля
-			Assert.IsTrue(
-				GetCountSuggestTermsGlossary(glossaryName) > 0, 
+			Assert.IsTrue(GlossarySuggestPage.GetSuggestTermsCurrentGlossaryCount(glossaryName) > 0, 
 				"Ошибка: нет предложенного термина для этого глоссария");
 		}
 
@@ -117,24 +115,23 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.Glossary.UserRights
 		[Test]
 		public void SuggestWithGlossaryFromAnotherGlossaryTest()
 		{
+			Logger.Info("Начало работы теста SuggestWithGlossaryFromAnotherGlossaryTest().");
+
 			// Создать один глоссарий
 			var firstGlossaryName = CreateGlossaryAndReturnToGlossaryList();
 
 			// Создать другой глоссарий
 			var secondGlossaryName = GetUniqueGlossaryName();
 			CreateGlossaryByName(secondGlossaryName);
-
 			// Предложить термин для первого глоссария на странице второго глоссария
 			SuggestTermSetGlossary(firstGlossaryName);
-
 			// Перейти к списку глоссариев
 			SwitchGlossaryTab();
 			// Перейти к списку предложенных терминов
 			SwitchSuggestTermsTab();
 
 			// Проверить, что терминов для первого глоссария больше нуля
-			Assert.IsTrue(
-				GetCountSuggestTermsGlossary(firstGlossaryName) > 0, 
+			Assert.IsTrue(GlossarySuggestPage.GetSuggestTermsCurrentGlossaryCount(firstGlossaryName) > 0, 
 				"Ошибка: нет предложенного термина для первого глоссария");
 		}
 
@@ -144,10 +141,12 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.Glossary.UserRights
 		[Test]
 		public void SuggestWithoutGlossaryFromAnotherGlossaryTest()
 		{
+			Logger.Info("Начало работы теста SuggestWithoutGlossaryFromAnotherGlossaryTest().");
+
 			// Перейти к списку предложенных терминов
 			SwitchSuggestTermsTab();
 			// Получить количество терминов без указанного глоссария
-			var unglossaryTermsCountBefore = GetCountSuggestTermsWithoutGlossary();
+			var unglossaryTermsCountBefore = GlossarySuggestPage.GetSuggestTermsCurrentGlossaryCount("");
 			// Перейти к списку глоссариев
 			SwitchGlossaryTab();
 			// Создать  глоссарий
@@ -159,11 +158,10 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.Glossary.UserRights
 			// Перейти к списку предложенных терминов
 			SwitchSuggestTermsTab();
 			// Получить количество терминов без указанного глоссария
-			var unglossaryTermsCountAfter = GetCountSuggestTermsWithoutGlossary();
+			var unglossaryTermsCountAfter = GlossarySuggestPage.GetSuggestTermsCurrentGlossaryCount("");
 
 			// Проверить, что количество терминов без глоссария увеличилось
-			Assert.IsTrue(
-				unglossaryTermsCountAfter > unglossaryTermsCountBefore, 
+			Assert.IsTrue(unglossaryTermsCountAfter > unglossaryTermsCountBefore, 
 				"Ошибка: термин без указанного глоссария не сохранился");
 		}
 
@@ -173,6 +171,8 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.Glossary.UserRights
 		[Test]
 		public void SuggestExistingTermWarningFromGlossaryTest()
 		{
+			Logger.Info("Начало работы теста SuggestExistingTermWarningFromGlossaryTest().");
+
 			// Создать  глоссарий
 			var glossaryName = GetUniqueGlossaryName();
 			CreateGlossaryByName(glossaryName);
@@ -188,9 +188,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.Glossary.UserRights
 			Thread.Sleep(2000);
 
 			// Проверить, что появилось предупреждение
-			Assert.IsTrue(
-				SuggestTermDialog.GetIsExistDuplicateWarning(),
-				"Ошибка: не появилось предупреждение о существующем термине");
+			SuggestTermDialog.AssertionIsExistDuplicateWarning();
 
 			// Нажать отмену
 			SuggestTermDialog.ClickCancel();
@@ -198,8 +196,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.Glossary.UserRights
 			SwitchSuggestTermsTab();
 
 			// Проверить, что нет предложенных терминов
-			Assert.IsTrue(
-				GlossarySuggestPage.GetSuggestTermsCount() == 0, 
+			Assert.IsTrue(GlossarySuggestPage.GetSuggestTermsCount() == 0, 
 				"Ошибка: предложенный термин сохранился");
 		}
 
@@ -209,6 +206,8 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.Glossary.UserRights
 		[Test]
 		public void SuggestExistingTermAcceptFromGlossaryTest()
 		{
+			Logger.Info("Начало работы теста SuggestExistingTermAcceptFromGlossaryTest().");
+
 			// Создать  глоссарий
 			var glossaryName = GetUniqueGlossaryName();
 			CreateGlossaryByName(glossaryName);
@@ -230,8 +229,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.Glossary.UserRights
 			Thread.Sleep(2000);
 
 			// Проверить, что предложенный термин сохранился
-			Assert.IsTrue(
-				GlossarySuggestPage.GetSuggestTermsCount() > 0, 
+			Assert.IsTrue(GlossarySuggestPage.GetSuggestTermsCount() > 0, 
 				"Ошибка: предложенный термин не сохранился");
 		}
 
@@ -241,6 +239,8 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.Glossary.UserRights
 		[Test]
 		public void SuggestExistingTermWarningFromGlossaryListTest()
 		{
+			Logger.Info("Начало работы теста SuggestExistingTermWarningFromGlossaryListTest().");
+
 			// Создать  глоссарий
 			var glossaryName = GetUniqueGlossaryName();
 			CreateGlossaryByName(glossaryName);
@@ -260,9 +260,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.Glossary.UserRights
 			Thread.Sleep(2000);
 
 			// Проверить, что появилось предупреждение
-			Assert.IsTrue(
-				SuggestTermDialog.GetIsExistDuplicateWarning(),
-				"Ошибка: не появилось предупреждение о существующем термине");
+			SuggestTermDialog.AssertionIsExistDuplicateWarning();
 
 			// Нажать отмену
 			SuggestTermDialog.ClickCancel();
@@ -274,8 +272,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.Glossary.UserRights
 			SwitchSuggestTermsTab();
 
 			// Проверить, что нет предложенных терминов
-			Assert.IsTrue(
-				GlossarySuggestPage.GetSuggestTermsCount() == 0, 
+			Assert.IsTrue(GlossarySuggestPage.GetSuggestTermsCount() == 0, 
 				"Ошибка: предложенный термин сохранился");
 		}
 
@@ -285,6 +282,8 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.Glossary.UserRights
 		[Test]
 		public void SuggestExistingTermAcceptFromGlossaryListTest()
 		{
+			Logger.Info("Начало работы теста SuggestExistingTermAcceptFromGlossaryListTest().");
+
 			// Создать  глоссарий
 			var glossaryName = GetUniqueGlossaryName();
 			CreateGlossaryByName(glossaryName);
@@ -310,8 +309,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.Glossary.UserRights
 			SwitchSuggestTermsTab();
 
 			// Проверить, что предложенный термин сохранился
-			Assert.IsTrue(
-				GlossarySuggestPage.GetSuggestTermsCount() > 0, 
+			Assert.IsTrue(GlossarySuggestPage.GetSuggestTermsCount() > 0, 
 				"Ошибка: предложенный термин не сохранился");
 		}
 
@@ -321,6 +319,8 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.Glossary.UserRights
 		[Test]
 		public void AcceptWithGlossaryFromGlossaryListTest()
 		{
+			Logger.Info("Начало работы теста AcceptWithGlossaryFromGlossaryListTest().");
+
 			// Создать  глоссарий
 			var glossaryName = GetUniqueGlossaryName();
 			CreateGlossaryByName(glossaryName);
@@ -341,7 +341,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.Glossary.UserRights
 			SwitchCurrentGlossary(glossaryName);
 
 			// Проверить количество терминов
-			Assert.IsTrue(GetCountOfItems() > 0, "Ошибка: термин не добавился");
+			Assert.IsTrue(GlossaryPage.GetConceptCount() > 0, "Ошибка: термин не добавился");
 		}
 
 		/// <summary>
@@ -350,6 +350,8 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.Glossary.UserRights
 		[Test]
 		public void AcceptWithGlossaryFromGlossaryTest()
 		{
+			Logger.Info("Начало работы теста AcceptWithGlossaryFromGlossaryTest().");
+
 			// Создать  глоссарий
 			var glossaryName = GetUniqueGlossaryName();
 			CreateGlossaryByName(glossaryName);
@@ -363,7 +365,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.Glossary.UserRights
 			SwitchGlossaryFromSuggestedTerm();
 
 			// Проверить количество терминов
-			Assert.IsTrue(GetCountOfItems() > 0, "Ошибка: термин не добавился");
+			Assert.IsTrue(GlossaryPage.GetConceptCount() > 0, "Ошибка: термин не добавился");
 		}
 
 		/// <summary>
@@ -372,12 +374,13 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.Glossary.UserRights
 		[Test]
 		public void AcceptWithGlossaryFromAnotherGlossaryTest()
 		{
+			Logger.Info("Начало работы теста AcceptWithGlossaryFromAnotherGlossaryTest().");
+
 			// Создать глоссарий
 			var glossaryNameWithSuggestTerm = GetUniqueGlossaryName();
 			CreateGlossaryByName(glossaryNameWithSuggestTerm);
 			// Предложить термин
 			CreateSuggestTerm();
-
 			// Перейти к списку глоссариев
 			SwitchGlossaryTab();
 			// Создать другой глоссарий
@@ -385,22 +388,19 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.Glossary.UserRights
 			CreateGlossaryByName(glossaryName);
 			// Перейти в предложенные термины для этого глоссария
 			SwitchSuggestTermsTab();
-
 			// Открыть выпадающий список с выбором глоссария
 			GlossarySuggestPage.ClickDropdown();
 			GlossarySuggestPage.SelectDropdownItem(glossaryNameWithSuggestTerm);
 			Thread.Sleep(500);
-
 			// Одобрить термин
 			ClickButtonSuggestTermRow(GlossarySuggestPageHelper.BUTTON_ID.AcceptSuggestTerm);
-			
 			// Перейти к списку глоссариев
 			SwitchGlossaryTab();
 			// Перейти в наш первый глоссарий
 			SwitchCurrentGlossary(glossaryNameWithSuggestTerm);
 
 			// Проверить количество терминов
-			Assert.IsTrue(GetCountOfItems() > 0, "Ошибка: термин не добавился");
+			Assert.IsTrue(GlossaryPage.GetConceptCount() > 0, "Ошибка: термин не добавился");
 		}
 
 		/// <summary>
@@ -409,17 +409,17 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.Glossary.UserRights
 		[Test]
 		public void AcceptWithoutGlossaryFromGlossaryListTest()
 		{
+			Logger.Info("Начало работы теста AcceptWithoutGlossaryFromGlossaryListTest().");
+
 			// Создать глоссарий
 			var glossaryName = GetUniqueGlossaryName();
 			CreateGlossaryByName(glossaryName);
 			// Перейти к списку глоссариев
 			SwitchGlossaryTab();
-
 			// Предложить термин
 			CreateSuggestTerm();
 			// Перейти к списку предложенных терминов
 			SwitchSuggestTermsTab();
-
 		   // Найти термин без указанного глоссария
 			var termNumber = GlossarySuggestPage.GetTermRowNumberByGlossaryName("");
 			ClickButtonSuggestTermRow(GlossarySuggestPageHelper.BUTTON_ID.AcceptSuggestTerm, termNumber);
@@ -427,20 +427,18 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.Glossary.UserRights
 			GlossarySuggestPage.WaitChooseGlossaryForm();
 			// Выбрать нужный глоссарий
 			GlossarySuggestPage.ClickChooseGlossaryFormDropdownGlossaryList();
-			Logger.Trace("выбрали глоссарий");
 			GlossarySuggestPage.SelectDropdownItem(glossaryName);
 			// Сохранить
 			GlossarySuggestPage.ClickOkChooseGlossary();
 			// TODO никак не убрать
 			Thread.Sleep(5000);
-
 			// Перейти к списку глоссариев
 			SwitchGlossaryTab();
 			// Перейти в глоссарий
 			SwitchCurrentGlossary(glossaryName);
 
 			// Проверить количество терминов
-			Assert.IsTrue(GetCountOfItems() > 0, "Ошибка: термин не добавился");
+			Assert.IsTrue(GlossaryPage.GetConceptCount() > 0, "Ошибка: термин не добавился");
 		}
 
 		/// <summary>
@@ -449,10 +447,13 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.Glossary.UserRights
 		[Test]
 		public void DeleteWithoutGlossaryTest()
 		{
+			Logger.Info("Начало работы теста DeleteWithoutGlossaryTest().");
+
 			// Перейти к списку предложенных терминов
 			SwitchSuggestTermsTab();
 			// Получить количество терминов без указанного глоссария
-			var unglossaryTermsCount = GetCountSuggestTermsWithoutGlossary();
+			var unglossaryTermsCount = GlossarySuggestPage.GetSuggestTermsCurrentGlossaryCount("");
+
 			if (unglossaryTermsCount == 0)
 			{
 				// Перейти к списку глоссариев
@@ -462,7 +463,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.Glossary.UserRights
 				// Перейти к списку предложенных терминов
 				SwitchSuggestTermsTab();
 				// Получить количество терминов без указанного глоссария
-				unglossaryTermsCount = GetCountSuggestTermsWithoutGlossary();
+				unglossaryTermsCount = GlossarySuggestPage.GetSuggestTermsCurrentGlossaryCount("");
 			}
 
 			// Удалить термин без указанного глоссария
@@ -471,9 +472,8 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.Glossary.UserRights
 			Thread.Sleep(2000);
 
 			// Проверить количество терминов без указанного глоссария
-			var unglossaryTermsCountAfter = GetCountSuggestTermsWithoutGlossary();
-			Assert.IsTrue(
-				unglossaryTermsCountAfter < unglossaryTermsCount, 
+			var unglossaryTermsCountAfter = GlossarySuggestPage.GetSuggestTermsCurrentGlossaryCount("");
+			Assert.IsTrue(unglossaryTermsCountAfter < unglossaryTermsCount, 
 				"Ошибка: предложенный термин не удалился");
 		}
 
@@ -483,20 +483,20 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.Glossary.UserRights
 		[Test]
 		public void DeleteWithGlossaryTest()
 		{
+			Logger.Info("Начало работы теста DeleteWithGlossaryTest().");
+
 			// Создать глоссарий
 			var glossaryName = GetUniqueGlossaryName();
 			CreateGlossaryByName(glossaryName);
 			// Предложить термин
 			CreateSuggestTerm();
-
 			// Перейти к списку предложенных терминов
 			SwitchSuggestTermsTab();
 			// Удалить термин
 			ClickButtonSuggestTermRow(GlossarySuggestPageHelper.BUTTON_ID.RejectSuggestTerm);
 
 			// Проверить количество предложенных терминов глоссария
-			Assert.IsTrue(
-				GlossarySuggestPage.GetSuggestTermsCount() == 0, 
+			Assert.IsTrue(GlossarySuggestPage.GetSuggestTermsCount() == 0, 
 				"Ошибка: термин не удалился");
 		}
 
@@ -506,6 +506,8 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.Glossary.UserRights
 		[Test]
 		public void EditFromGlossaryTest()
 		{
+			Logger.Info("Начало работы теста EditFromGlossaryTest().");
+
 			// Предложить термин глоссарию и открыть редактирование
 			SuggestWithGlossaryClickEdit();
 			var newTermText = "New Term Text" + DateTime.UtcNow;
@@ -518,14 +520,12 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.Glossary.UserRights
 			//Добавить термин 
 			GlossarySuggestPage.ClickSaveTerm();
 
-			Assert.IsTrue(
-				GlossarySuggestPage.WaitUntilEditTermAdded(newTermText),
-				"Ошибка: предложенный термин не сохранился");
+			GlossarySuggestPage.AssertionEditTermAdded(newTermText);
 			
 			//Принять термин
 			GlossarySuggestPage.ClickAcceptTerm();
 			//Дождаться закрытия формы управления терминами
-			GlossarySuggestPage.WaitUntilEditTermFillDisappear();
+			GlossarySuggestPage.AssertionEditTermFillDisappear();
 			// Перейти в глоссарий
 			SwitchGlossaryFromSuggestedTerm();
 
@@ -541,9 +541,11 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.Glossary.UserRights
 		[Test]
 		public void EditFromGlossaryAddSynonymTest()
 		{
+			Logger.Info("Начало работы теста EditFromGlossaryAddSynonymTest().");
+
 			// Предложить термин глоссарию и открыть редактирование
 			SuggestWithGlossaryClickEdit();
-			var newTermText = "New Term Text" + DateTime.UtcNow.ToString();
+			var newTermText = "New Term Text" + DateTime.UtcNow;
 			
 			// Кликнуть добавить термин во второй язык
 			GlossarySuggestPage.ClickAddSynonymEditTerm(2);
@@ -551,14 +553,12 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.Glossary.UserRights
 			//Добавить термин
 			GlossarySuggestPage.ClickSaveTerm();
 
-			Assert.IsTrue(
-				GlossarySuggestPage.WaitUntilEditTermAdded(newTermText), 
-				"Ошибка: предложенный термин не сохранился");
+			GlossarySuggestPage.AssertionEditTermAdded(newTermText);
 
 			//Принять термин
 			GlossarySuggestPage.ClickAcceptTerm();
 			//Дождаться закрытия формы управления терминами
-			GlossarySuggestPage.WaitUntilEditTermFillDisappear();
+			GlossarySuggestPage.AssertionEditTermFillDisappear();
 			// Перейти в глоссарий
 			SwitchGlossaryFromSuggestedTerm();
 
@@ -574,6 +574,8 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.Glossary.UserRights
 		[Test]
 		public void EditWithoutGlossaryTest()
 		{
+			Logger.Info("Начало работы теста EditWithoutGlossaryTest().");
+
 			// Создать глоссарий
 			var glossaryName = GetUniqueGlossaryName();
 			CreateGlossaryByName(glossaryName);
@@ -589,9 +591,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.Glossary.UserRights
 			var rowNumber = GlossarySuggestPage.GetTermRowNumberByGlossaryName("");
 
 			// Проверить, что термин есть
-			Assert.IsTrue(
-				rowNumber > 0, 
-				"Ошибка: термин не предложился (глоссарий: " + glossaryName + ")");
+			Assert.IsTrue(rowNumber > 0, "Ошибка: термин не предложился (глоссарий: " + glossaryName + ")");
 
 			// Расширить окно, чтобы кнопка была видна, иначе она недоступна для Selenium
 			Driver.Manage().Window.Maximize();
@@ -604,7 +604,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.Glossary.UserRights
 			GlossarySuggestPage.SelectDropdownItem(glossaryName);
 			// Сохранить
 			GlossarySuggestPage.ClickOkChooseGlossary();
-			GlossarySuggestPage.WaitEditTermFillAppear();
+			GlossarySuggestPage.AssertionEditTermFillAppear();
 			// Ввести в термин новое значение
 			GlossarySuggestPage.FillEditTermItem(1, newTermText);
 			// Перейти в другому языку
@@ -613,14 +613,12 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.Glossary.UserRights
 			//Добавить термин
 			GlossarySuggestPage.ClickSaveTerm();
 
-			Assert.IsTrue(
-				GlossarySuggestPage.WaitUntilEditTermAdded(newTermText),
-				"Ошибка: предложенный термин не сохранился");
+			GlossarySuggestPage.AssertionEditTermAdded(newTermText);
 
 			//Принять термин
 			GlossarySuggestPage.ClickAcceptTerm();
 			//Дождаться закрытия формы управления терминами
-			GlossarySuggestPage.WaitUntilEditTermFillDisappear();
+			GlossarySuggestPage.AssertionEditTermFillDisappear();
 			// Перейти к списку глоссариев
 			SwitchGlossaryTab();
 			// Перейти в глоссарий
@@ -643,6 +641,8 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.Glossary.UserRights
 		[Test]
 		public void AutoSwitchingLanguageTest()
 		{
+			Logger.Info("Начало работы теста AutoSwitchingLanguageTest().");
+
 			// Создать глоссарий
 			var glossaryName = GetUniqueGlossaryName();
 			CreateGlossaryByName(glossaryName);
@@ -675,6 +675,8 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.Glossary.UserRights
 		[Test]
 		public void SuggestEmptyTermFromGlossaryListTest()
 		{
+			Logger.Info("Начало работы теста SuggestEmptyTermFromGlossaryListTest().");
+
 			// Нажать Предложить термин
 			GlossaryListPage.ClickAddSuggest();
 			SuggestTermDialog.WaitPageLoad();
@@ -683,9 +685,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.Glossary.UserRights
 			SuggestTermDialog.ClickSave();
 			
 			// Проверить, что появилась ошибка
-			Assert.IsTrue(
-				SuggestTermDialog.GetIsExistCreateTermError(),
-				"Ошибка: не появилась ошибка пустого термина");
+			SuggestTermDialog.AssertionIsExistCreateTermError();
 		}
 
 		/// <summary>
@@ -695,6 +695,8 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.Glossary.UserRights
 		[Test]
 		public void SuggestEmptyTermFromGlossaryTest()
 		{
+			Logger.Info("Начало работы теста SuggestEmptyTermFromGlossaryTest().");
+
 			// Создать глоссарий
 			var glossaryName = GetUniqueGlossaryName();
 			CreateGlossaryByName(glossaryName);
@@ -707,53 +709,28 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.Glossary.UserRights
 			SuggestTermDialog.ClickSave();
 			
 			// Проверить, что появилась ошибка
-			Assert.IsTrue(
-				SuggestTermDialog.GetIsExistCreateTermError(),
-				"Ошибка: не появилась ошибка пустого термина");
+			SuggestTermDialog.AssertionIsExistCreateTermError();
 		}
 
-		/// <summary>
-		/// Не тест: перед выполнением остальных тестов нужно проверить права пользователя
-		/// Если нет прав на предложение терминов без указания глоссария,
-		/// добавить права
-		/// </summary>
-		[Test]
-		public void aaaaaFirstTestCheckUserRights()
-		{
-			AddUserRights();
-		}
-
-
-
-		/// <summary>
-		/// Кликнуть кнопку термина по имени глоссария
-		/// </summary>
-		/// <param name="glossaryName">название глоссария</param>
-		/// <param name="btnId">id кнопки</param>
 		protected void ClickButtonSuggestTermRowByGlossary(string glossaryName, GlossarySuggestPageHelper.BUTTON_ID btnId)
 		{
-			// Получить номер строки термина с нужным глоссарием
+			Logger.Debug(string.Format("Кликнуть кнопку {0} термина по имени глоссария {1}", btnId, glossaryName));
+
 			var termNumber = GlossarySuggestPage.GetTermRowNumberByGlossaryName(glossaryName);
 
-			// Проверить, что такой термин есть
-			Assert.IsTrue(
-				termNumber > 0, 
-				"Ошибка: нет термина с глоссарием " + glossaryName);
+			Assert.IsTrue(termNumber > 0, "Ошибка: нет термина с глоссарием " + glossaryName);
 
 			// Кликнуть кнопку в этой строке
 			ClickButtonSuggestTermRow(btnId, termNumber);
 		}
 
-		/// <summary>
-		/// Кликнуть по кнопке в строке
-		/// </summary>
-		/// <param name="btnId">кнопка</param>
-		/// <param name="rowNumber">строка</param>
 		protected void ClickButtonSuggestTermRow(
 			GlossarySuggestPageHelper.BUTTON_ID btnId, 
 			int rowNumber = 1)
 		{
+			Logger.Debug(string.Format("Кликнуть по кнопке {0} в строке {1}", btnId, rowNumber));
 			var countBefore = GlossarySuggestPage.GetSuggestTermsCount();
+
 			Logger.Trace(countBefore);
 			// Расширить окно, чтобы кнопка была видна, иначе Selenium ее "не видит" и выдает ошибку
 			Driver.Manage().Window.Maximize();
@@ -770,81 +747,49 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.Glossary.UserRights
 			}
 		}
 
-		/// <summary>
-		/// Предложить термин с указанием глоссария
-		/// </summary>
-		/// <param name="glossaryName"></param>
 		protected void SuggestTermSetGlossary(string glossaryName)
 		{
-			// Предложить термин и выбрать другой глоссарий
+			Logger.Debug(string.Format("Предложить термин с указанием глоссария {0}", glossaryName));
+
 			SuggestTermAndSave("Suggest Term 1", "Suggest Term 2", true, glossaryName);
 			SuggestTermDialog.WaitPageClose();
 		}
 
-		/// <summary>
-		/// Предложить термин
-		/// </summary>
 		protected void CreateSuggestTerm()
 		{
-			// Предложить термин
+			Logger.Debug("Предложить термин");
+
 			SuggestTermAndSave("Suggest Term 1", "Suggest Term 2");
 			SuggestTermDialog.WaitPageClose();
 		}
 
-		/// <summary>
-		/// Получить количество предложенных терминов без указанного глоссария
-		/// </summary>
-		/// <returns>количество</returns>
-		protected int GetCountSuggestTermsWithoutGlossary()
-		{
-			return GlossarySuggestPage.GetSuggestTermsCurrentGlossaryCount("");
-		}
-
-		/// <summary>
-		/// Вернуть количество терминов с указанным глоссарием
-		/// </summary>
-		/// <param name="glossaryName"></param>
-		/// <returns></returns>
-		protected int GetCountSuggestTermsGlossary(string glossaryName)
-		{
-			return GlossarySuggestPage.GetSuggestTermsCurrentGlossaryCount(glossaryName);
-		}
-
-		/// <summary>
-		/// Перейти в текущий глоссарий из предложенных терминов
-		/// </summary>
 		protected void SwitchGlossaryFromSuggestedTerm()
 		{
-			// Перейти в глоссарий из его предложенных терминов
+			Logger.Debug("Переход в текущий глоссарий из предложенных терминов");
+
 			GlossarySuggestPage.OpenCurrentGlossary();
 			GlossaryPage.WaitPageLoad();
 		}
 
-		/// <summary>
-		/// Перейти на страницу Предложенных терминов
-		/// </summary>
 		protected void SwitchSuggestTermsTab()
 		{
+			Logger.Debug("Переход на страницу предложенных терминов");
+
 			MainHelperClass.ClickOpenSuggestTermsPage();
 			GlossarySuggestPage.WaitPageLoad();
 		}
 
-		/// <summary>
-		/// Создать глоссарий, предложить термин, нажать редактирование
-		/// </summary>
 		protected void SuggestWithGlossaryClickEdit()
 		{
-			// Создать глоссарий
 			var glossaryName = GetUniqueGlossaryName();
+			
 			CreateGlossaryByName(glossaryName);
-
-			// Предложить термин
 			CreateSuggestTerm();
-			// Перейти к списку предложенных терминов
 			SwitchSuggestTermsTab();
 
 			// Расширить окно, чтобы кнопка была видна, иначе она недоступна для Selenium
 			Driver.Manage().Window.Maximize();
+
 			// Нажать на редактирование
 			ClickButtonSuggestTermRow(GlossarySuggestPageHelper.BUTTON_ID.EditSuggestTerm);
 		}

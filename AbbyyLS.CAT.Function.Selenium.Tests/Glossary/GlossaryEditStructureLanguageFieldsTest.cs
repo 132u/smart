@@ -58,7 +58,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.Glossary.EditStructure.L
 			// Имя глоссария для тестирования структуры уровня Language, чтобы не создавать лишний раз
 			const string glossaryName = "TestGlossaryEditStructureLanguageLevelUniqueName";
 
-			if (!GetIsExistGlossary(glossaryName))
+			if (!GlossaryListPage.GetIsExistGlossary(glossaryName))
 			{
 				// Создать глоссарий
 				CreateGlossaryByName(glossaryName);
@@ -79,9 +79,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.Glossary.EditStructure.L
 			GlossaryPage.OpenLanguageAttributes();
 
 			// Проверить, что поле есть			
-			Assert.IsTrue(
-				GlossaryPage.GetIsExistDetailsTextarea(fieldName), 
-				"Ошибка: поле не появилось!");
+			GlossaryPage.AssertionIsExistDetailsTextarea(fieldName);
 
 			// Ввести текст в поле
 			var fieldExample = fieldName + " Example";
@@ -90,7 +88,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.Glossary.EditStructure.L
 			GlossaryPage.ClickSaveExtendedConcept();
 
 			// Дождаться появления поля с сохраненным термином
-			Assert.IsTrue(GlossaryPage.WaitConceptSave(), "Ошибка: термин не сохранился");
+			GlossaryPage.AssertionConceptSave();
 
 			// Нажать на язык, чтобы появились поля для Language
 			GlossaryPage.OpenLanguageAttributes();

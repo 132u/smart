@@ -11,69 +11,52 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 	/// </summary>
 	public class GlossaryEditFormHelper : CommonHelper
 	{
-		/// <summary>
-		/// Конструктор хелпера
-		/// </summary>
-		/// <param name="driver">Драйвер</param>
-		/// <param name="wait">Таймаут</param>
 		public GlossaryEditFormHelper(IWebDriver driver, WebDriverWait wait) :
 			base(driver, wait)
 		{
 		}
 
-		/// <summary>
-		/// Дождаться открытия формы
-		/// </summary>
-		/// <returns></returns>
-		public bool WaitPageLoad()
+		public void AssertionPageLoad()
 		{
-			return WaitUntilDisplayElement(By.XPath(DIALOG_XPATH));
+			Logger.Trace("Проверка открытия диалога создания глоссария");
+
+			Assert.IsTrue(WaitUntilDisplayElement(By.XPath(DIALOG_XPATH)),
+					"Ошибка: диалог создания глоссария не открылся");
 		}
 
-		/// <summary>
-		/// Дождаться закрытия формы
-		/// </summary>
-		/// <returns>закрылась</returns>
-		public bool WaitPageClose()
+		public void AssertionPageClose()
 		{
-			return WaitUntilDisappearElement(By.XPath(DIALOG_XPATH));
+			Logger.Trace("Проверка закрытия формы редактора глоссария");
+
+			Assert.IsTrue(WaitUntilDisappearElement(By.XPath(DIALOG_XPATH)),
+				"Ошибка: форма редактора глоссария не закрылась");
 		}
 
-		/// <summary>
-		/// Ввести название глоссария
-		/// </summary>
-		/// <param name="name">название</param>
 		public void EnterGlossaryName(string name)
 		{
+			Logger.Debug(string.Format("Ввести имя глоссария: {0}", name));
 			ClearAndAddText(By.XPath(GLOSSARY_NAME_XPATH), name);
 		}
 
-		/// <summary>
-		/// Ввести комментаний для глоссария
-		/// </summary>
-		/// <param name="comment">комментарий</param>
 		public void EnterComment(string comment)
 		{
+			Logger.Debug(string.Format("Ввести комментарий {0} для глоссария", comment));
 			SendTextElement(By.XPath(GLOSSARY_COMMENT_XPATH), comment);
 		}
 
-		/// <summary>
-		/// Кликнуть Сохранить
-		/// </summary>
 		public void ClickSaveGlossary()
 		{
+			Logger.Debug("Нажать кнопку сохранения глоссария");
 			ClickElement(By.XPath(GLOSSARY_SAVE_XPATH));
 		}
 
-		/// <summary>
-		/// Открыть список клиентов
-		/// </summary>
-		/// <returns>>открылся</returns>
-		public bool ClickOpenClientList()
+		public void ClickOpenClientList()
 		{
+			Logger.Debug("Открыть список клиентов");
 			ClickElement(By.XPath(CLIENT_LIST_XPATH));
 
-			return WaitUntilDisplayElement(By.XPath(DROPDOWNLIST_XPATH));
+			Assert.IsTrue(WaitUntilDisplayElement(By.XPath(DROPDOWNLIST_XPATH)),
+				"Ошибка: список клиентов не открылся");
 		}
 
 		public void ClickOpenDomainList()
@@ -85,30 +68,26 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 				"Ошибка: спсиок доменов не открылся");
 		}
 
-		/// <summary>
-		/// Вернуть: есть ли клиент в списке
-		/// </summary>
-		/// <param name="clientName">название</param>
-		/// <returns>есть</returns>
 		public bool GetIsClientInList(string clientName)
 		{
-			// Получить список клиентов
+			Logger.Debug(string.Format("Вернуть: есть ли клиент {0} в списке", clientName));
+			
+			Logger.Trace("Получить список клиентов");
 			var clientList = GetElementList(By.XPath(DROPDOWNLIST_ITEM_XPATH));
+
 			return clientList.Any(e => e.GetAttribute("innerHTML") == clientName);
 		}
 
-		/// <summary>
-		/// Вернуть: есть ли domain в списке
-		/// </summary>
-		/// <param name="domainName">название</param>
-		/// <returns>есть</returns>
 		public bool GetIsDomainInList(string domainName)
 		{
-			// Получить список клиентов
-			var DomainList = GetElementList(By.XPath(MULTISELECT_LIST_XPATH));
+			Logger.Debug(string.Format("Вернуть: есть ли домен {0} в списке доменов", domainName));
+
+			Logger.Trace("Получить список доменов");
+			var domainList = GetElementList(By.XPath(MULTISELECT_LIST_XPATH));
+			
 			var isDomainExist = false;
 
-			foreach (IWebElement el in DomainList)
+			foreach (var el in domainList)
 			{
 				if (el.Text == domainName)
 				{
@@ -121,19 +100,15 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			return isDomainExist;
 		}
 
-		/// <summary>
-		/// Кликнуть Add для добавления языка
-		/// </summary>
 		public void ClickAddLanguage()
 		{
+			Logger.Debug("Кликнуть кнопку Add для добавления языка");
 			ClickElement(By.XPath(ADD_LANG_BTN_XPATH));
 		}
 
-		/// <summary>
-		/// Кликнуть для открытия/закрытия списка языка для последнего языка
-		/// </summary>
 		public void ClickLastLangOpenCloseList()
 		{
+			Logger.Debug("Кликнуть для открытия/закрытия списка для последнего языка");
 			ClickElement(By.XPath(LAST_LANG_LIST_DROPDOWN_XPATH));
 		}
 
@@ -148,115 +123,98 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 				"Ошибка: указанного языка нет в списке");
 		}
 
-		/// <summary>
-		/// Выбрать язык в выпадающем списке
-		/// </summary>
-		/// <param name="lang">язык</param>
 		public void SelectLanguage(LANGUAGE lang)
 		{
+			Logger.Debug(string.Format("Выбираем язык {0} в выпадающем списке", lang));
+
 			//Делаем видимым нужный элемент из списка
-			var lang_item = Driver.FindElement(By.XPath(DROPDOWNLIST_XPATH + "//span[@data-id='" + languageID[lang] + "']"));
-			((IJavaScriptExecutor)Driver).ExecuteScript("arguments[0].scrollIntoView(true);", lang_item);
+			var langItem = Driver.FindElement(By.XPath(DROPDOWNLIST_XPATH + "//span[@data-id='" + languageID[lang] + "']"));
+			((IJavaScriptExecutor)Driver).ExecuteScript("arguments[0].scrollIntoView(true);", langItem);
 
 			ClickElement(By.XPath(DROPDOWNLIST_XPATH + "//span[@data-id='" + languageID[lang] + "']"));
 
 			WaitUntilDisappearElement(By.XPath(DROPDOWNLIST_XPATH));
 		}
 
-		/// <summary>
-		/// Вернуть, есть ли язык в списке для добавления языка
-		/// </summary>
-		/// <param name="lang">язык</param>
-		/// <returns>есть</returns>
-		public bool GetIsExistLanguageInLangList(LANGUAGE lang)
+		public void AssertionIsLanguageInLangListNotExist(LANGUAGE lang)
 		{
-			return GetIsElementDisplay(By.XPath(DROPDOWNLIST_XPATH + 
-				"//span[@data-id='" + languageID[lang] + "']"));
+			Logger.Debug(string.Format("Проверить наличие языка {0} в списке для добавления языка", lang));
+
+			Assert.IsTrue(
+				!GetIsElementDisplay(By.XPath(DROPDOWNLIST_XPATH + "//span[@data-id='" + languageID[lang] + "']")),
+				"Ошибка: уже выбранный язык остался в списке для добавления");
 		}
 
-		/// <summary>
-		/// Вернуть количество языков в глоссарии
-		/// </summary>
-		/// <returns>количество</returns>
 		public int GetGlossaryLanguageCount()
 		{
+			Logger.Trace("Получить количество языков в глоссарии");
 			return GetElementsCount(By.XPath(LANG_LIST_LANG_XPATH));
 		}
 
-		/// <summary>
-		/// Кликнуть Удалить язык
-		/// </summary>
 		public void ClickDeleteLanguage()
 		{
+			Logger.Debug("Нажать кнопку удаления языка");
 			ClickElement(By.XPath(DELETE_LANG_XPATH));
 		}
 
-		/// <summary>
-		/// Вернуть, есть ли предупреждение об удалении языка, на котором уже есть термины
-		/// </summary>
-		/// <returns>есть</returns>
-		public bool GetIsExistWarningDeleteLanguage()
+		public void AssertionIsExistWarningDeleteLanguage()
 		{
-			return GetIsElementDisplay(By.XPath(WARNING_DELETE_LANGUAGE_XPATH));
+			Logger.Trace("Проверить наличие предупреждения об удалении языка, на котором уже есть термины");
+
+			Assert.IsTrue(
+				GetIsElementDisplay(By.XPath(WARNING_DELETE_LANGUAGE_XPATH)),
+				"Ошибка: не появилось предупреждение, что есть термин на удаленном языке");
 		}
 
-		/// <summary>
-		/// Отменить удаление языка
-		/// </summary>
 		public void CancelDeleteLanguage()
 		{
+			Logger.Debug("Нажать кнопку отмены удаления языка");
 			ClickElement(By.XPath(DELETE_LANGUAGE_CANCEL_XPATH));
 		}
 
-		/// <summary>
-		/// Кликнуть Удалить глоссарий
-		/// </summary>
 		public void ClickDeleteGlossary()
 		{
+			Logger.Debug("Нажать кнопку удаления глоссария");
 			ClickElement(By.XPath(DELETE_GLOSSARY_XPATH));
 		}
 
-		/// <summary>
-		/// Вернуть, есть ли предупреждение об удалении глоссария
-		/// </summary>
-		/// <returns>есть</returns>
-		public bool GetIsExistWarningDeleteGlossary()
+		public void AssertionIsExistWarningDeleteGlossary()
 		{
-			return GetIsElementDisplay(By.XPath(WARNING_DELETE_GLOSSARY_XPATH));
+			Logger.Debug("Проверить наличие предупреждения об удалении глоссария");
+
+			Assert.IsTrue(
+				GetIsElementDisplay(By.XPath(WARNING_DELETE_GLOSSARY_XPATH)),
+				"Ошибка: не появилось предупреждение об удалении глоссария");
 		}
 
-		/// <summary>
-		/// Подтвердить удаление глоссария
-		/// </summary>
 		public void ClickConfirmDeleteGlossary()
 		{
+			Logger.Debug("Нажать кнопку подтверждения удаления глоссария");
 			ClickElement(By.XPath(CONFIRM_DELETE_GLOSSARY_XPAHT));
 		}
 
-		/// <summary>
-		/// В форме редактора глоссария кликнуть Сохранить и Изменить Структуру
-		/// </summary>
 		public void ClickSaveAndEditStructureBtn()
 		{
+			Logger.Debug("В форме редактора глоссария кликнуть Сохранить и Изменить Структуру");
 			ClickElement(By.XPath(SAVE_AND_EDIT_STRUCTURE_BTN_XPATH));
 		}
 
-		/// <summary>
-		/// Вернуть, появилось ли сообщение об ошибке (пустое имя глоссария)
-		/// </summary>
-		/// <returns>появилось</returns>
-		public bool GetIsExistErrorMessageEmptyGlossaryName()
+		public void AssertionIsExistErrorMessageEmptyGlossaryName()
 		{
-			return GetIsElementDisplay(By.XPath(ERROR_EMPTY_NAME_XPATH));
+			Logger.Trace("Проверить наличие сообщения об ошибке о пустом имени глоссария");
+
+			Assert.IsTrue(
+				GetIsElementDisplay(By.XPath(ERROR_EMPTY_NAME_XPATH)),
+				"Ошибка: не появилось сообщение о пустом имени глоссария");
 		}
 
-		/// <summary>
-		/// Вернуть, появилось ли сообщение об ошибке (существующее имя глоссария)
-		/// </summary>
-		/// <returns>появилось</returns>
-		public bool GetIsExistErrorMessageExistGlossaryName()
+		public void AssertionIsExistErrorMessageExistGlossaryName()
 		{
-			return GetIsElementDisplay(By.XPath(ERROR_EXIST_NAME_XPATH));
+			Logger.Trace("Проверить существование сообщения об ошибке о существующем имени глоссария");
+
+			Assert.IsTrue(
+				GetIsElementDisplay(By.XPath(ERROR_EXIST_NAME_XPATH)),
+				"Ошибка: не появилось сообщение о существующем имени");
 		}
 
 

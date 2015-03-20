@@ -9,61 +9,45 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 	/// </summary>
 	public class GlossaryTest : BaseTest
 	{
-		/// <summary>
-		/// Конструктор
-		/// </summary>
-		/// <param name="url"></param>
-		/// <param name="workspaceUrl"></param>
-		/// <param name="browserName"></param>
 		public GlossaryTest(string browserName)
 			: base(browserName)
 		{
 		}
 		
-		/// <summary>
-		/// Предварительная подготовка группы тестов
-		/// </summary>
 		[SetUp]
 		public void SetupGlossary()
 		{
-			// Не закрывать браузер
+			Logger.Info("Начало работы метода SetupGlossary. Подготовка перед каждым тест-сетом.");
+
+			Logger.Debug("Значение параметра QuitDriverAfterTest = false. Не закрывать браузер после каждого теста.");
 			QuitDriverAfterTest = false;
-			// Переходим к странице глоссариев
+
 			GoToUrl(RelativeUrlProvider.Glossaries);
 		}
 
-		/// <summary>
-		/// Открыть редактирование структуры
-		/// </summary>
 		protected void OpenEditGlossaryStructure()
 		{
-			// Открыть Редактирование глоссария
+			Logger.Debug("Открытие редактирования структуры");
+			
 			GlossaryPage.OpenEditGlossaryList();
-			// Открыть форму Редактирование структуры
 			GlossaryPage.OpenEditStructureForm();
 			GlossaryEditStructureForm.WaitPageLoad();
 		}
 
-		/// <summary>
-		/// Добавить поле в структуру глоссария
-		/// </summary>
 		protected void EditGlossaryStructureAddField()
 		{
+			Logger.Debug("Добавить поле в структуру глоссария");
+
 			OpenEditGlossaryStructure();
 
-			// Проверить, что открыта нужнная таблица
-			Assert.IsTrue(
-				GlossaryEditStructureForm.GetIsConceptTableDisplay(), 
-				"Ошибка: в редакторе структуры отображается не та таблица");
+			GlossaryEditStructureForm.AssertionIsConceptTableDisplay();
 
 			// Нажать на поле Domain
 			if (GlossaryEditStructureForm.ClickFieldToAdd(GlossaryEditStructureFormHelper.ATTRIBUTE_TYPE.Domain))
 			{
-				// Добавить
 				GlossaryEditStructureForm.ClickAddToListBtn();
 			}
 
-			// Сохранить
 			GlossaryEditStructureForm.ClickSaveStructureBtn();
 			// Дождаться закрытия формы
 			GlossaryEditStructureForm.WaitFormClose();
@@ -71,43 +55,36 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			Thread.Sleep(1000);
 		}
 
-		/// <summary>
-		/// Создать термин и сохранить
-		/// </summary>
-		/// <param name="firstTerm">текст 1 термина/языка</param>
-		/// <param name="secondTerm">текст 2 термина/языка</param>
-		/// <param name="shouldSaveOk">Должно сохраниться (проверить сохранение)</param>
 		protected void CreateItemAndSave(
-			string firstTerm = "", 
+			string firstTerm = "",
 			string secondTerm = "", 
 			bool shouldSaveOk = true)
 		{
+			Logger.Debug(string.Format("Создать и сохранить термин. Текст первого термина: {0}, текст второго термина: {1}, сохранять термин: {2}",
+				firstTerm, secondTerm, shouldSaveOk));
+
 			// Открыть форму добавления термина и заполнить поля
 			FillCreateItem(firstTerm, secondTerm);
 			// Расширить окно, чтобы кнопка была видна, иначе Selenium ее "не видит" и выдает ошибку
 			Driver.Manage().Window.Maximize();
-			// Нажать Сохранить
+
 			GlossaryPage.ClickSaveTermin();
+
 			if (shouldSaveOk)
 			{
 				// TODO проверить!
-				Assert.IsTrue(
-					GlossaryPage.WaitConceptGeneralSave(), 
-					"Ошибка: термин не сохранился");
+				GlossaryPage.AssertionConceptGeneralSave();
 			}
 		}
 
-		/// <summary>
-		/// Создать новый термин и заполнить
-		/// </summary>
-		/// <param name="firstTerm">текст для первого термина</param>
-		/// <param name="secondTerm">текст для второго термина</param>
 		protected void FillCreateItem(string firstTerm = "", string secondTerm = "")
 		{
+			Logger.Debug(string.Format("Создать новый термин. Текст первого термина {0}, текст второго термина {1}", firstTerm, secondTerm));
+			
 			// Нажать New item
 			GlossaryPage.ClickNewItemBtn();
 			// Дождаться появления строки для ввода
-			GlossaryPage.WaitConceptTableAppear();
+			GlossaryPage.AssertionConceptTableAppear();
 
 			// Заполнить термин
 			if (firstTerm.Length == 0)
@@ -183,11 +160,9 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			SuggestTermDialog.FillTerm(2, suggestTermSecond);
 		}
 
-		/// <summary>
-		/// Заполнить термин в расширенной форме
-		/// </summary>
 		protected void FillNewItemExtended()
 		{
+			Logger.Debug("Заполнить термин в расширенной форме");
 			GlossaryPage.FillItemTermsExtended("Example Term Text " + DateTime.Now);
 		}
 
@@ -216,9 +191,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			WorkspacePage.ClickUsersAndRightsBtn();
 
 			// Ожидание открытия страницы
-			Assert.IsTrue(
-				UserRightsPage.WaitUntilUsersRightsDisplay(),
-				"Ошибка: Страница прав пользователя не открылась.");
+			UserRightsPage.AssertionUsersRightsPageDisplayed();
 
 			// Перейти в группы
 			UserRightsPage.OpenGroups();

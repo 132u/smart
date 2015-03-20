@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using NUnit.Framework;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.UI;
 
@@ -111,14 +112,12 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			ClickElement(By.XPath(SAVE_BTN_XPATH));
 		}
 
-		/// <summary>
-		/// Ожидание ожидание загрузки страницы прав пользователя
-		/// </summary>
-		/// <returns>Страница загрузилась</returns>
-		public bool WaitUntilUsersRightsDisplay()
+		public void AssertionUsersRightsPageDisplayed()
 		{
-			// Ожидаем пока загрузится страница
-			return WaitUntilDisplayElement(By.XPath(USERS_RIGHTS_TABLE_XPATH));
+			Logger.Trace("Проверка успешной загрузки страницы прав пользователя");
+
+			Assert.IsTrue(WaitUntilDisplayElement(By.XPath(USERS_RIGHTS_TABLE_XPATH)),
+				"Ошибка: Страница прав пользователя не открылась.");
 		}
 
 		/// <summary>

@@ -134,17 +134,17 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.Glossary.EditStructure.T
 				GlossaryPage.GetIsExistDetailsSelect(fieldName), 
 				"Ошибка: поле не появилось!");
 
-			var optionId = GlossaryPage.GetDetailsSelectOptionID(fieldName, 2);
+			var optionId = GlossaryPage.GetDetailsSelectOptionId(fieldName, 2);
 			// Нажать, чтобы список открылся
 			GlossaryPage.ClickDetailsSelectDropdown(fieldName);
 			// Выбрать значение
 			var optionText = GlossaryPage.GetListItemText(optionId);
-			GlossaryPage.ClickListItemByID(optionId);
+			GlossaryPage.ClickListItemById(optionId);
 
 			// Сохранить термин
 			GlossaryPage.ClickSaveExtendedConcept();
 			// Дождаться появления поля с сохраненным термином
-			Assert.IsTrue(GlossaryPage.WaitConceptSave(), "Ошибка: термин не сохранился");
+			GlossaryPage.AssertionConceptSave();
 			// Нажать на термин, чтобы появились поля для Term
 			GlossaryPage.OpenTermLevel();
 			var fieldText = GlossaryPage.GetDetailsSelectValue(fieldName);
@@ -162,9 +162,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.Glossary.EditStructure.T
 			EditGlossaryTermStructure();
 
 			// Проверить, что поле есть			
-			Assert.IsTrue(
-				GlossaryPage.GetIsExistDetailsTextarea(fieldName), 
-				"Ошибка: поле не появилось!");
+			GlossaryPage.AssertionIsExistDetailsTextarea(fieldName);
 
 			// Ввести текст в поле
 			var fieldExample = fieldName + " Example";
@@ -173,7 +171,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.Glossary.EditStructure.T
 			GlossaryPage.ClickSaveExtendedConcept();
 
 			// Дождаться появления поля с сохраненным термином
-			Assert.IsTrue(GlossaryPage.WaitConceptSave(), "Ошибка: термин не сохранился");
+			GlossaryPage.AssertionConceptSave();
 
 			// Нажать на термин, чтобы появились поля для Term
 			GlossaryPage.OpenTermLevel();
@@ -190,18 +188,15 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.Glossary.EditStructure.T
 		/// </summary>
 		protected void EditGlossaryTermStructure()
 		{
-			// Имя глоссария для тестирования структуры уровня Language, чтобы не создавать лишний раз
-			const string glossaryName = "TestGlossaryEditStructureTermLevelUniqueName";
-
-			if (!GetIsExistGlossary(glossaryName))
+			if (!GlossaryListPage.GetIsExistGlossary(GlossaryUniqueName))
 			{
 				// Создать глоссарий
-				CreateGlossaryByName(glossaryName);
+				CreateGlossaryByName(GlossaryUniqueName);
 			}
 			else
 			{
 				// Открыть глоссарий
-				SwitchCurrentGlossary(glossaryName);
+				SwitchCurrentGlossary(GlossaryUniqueName);
 			}
 
 			// Добавить все поля в структуру

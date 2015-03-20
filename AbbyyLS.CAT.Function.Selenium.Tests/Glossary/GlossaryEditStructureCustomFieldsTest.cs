@@ -30,9 +30,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.Glossary.EditStructure.C
 			var fieldName = SetCustomFieldGlossaryStructure(GlossaryEditStructureFormHelper.FIELD_TYPE.Text, true);
 
 			// Проверить, что поле появилось
-			Assert.IsTrue(
-				GlossaryPage.GetIsExistCustomField(fieldName), 
-				"Ошибка: поле не появилось");
+			GlossaryPage.AssertionIsExistCustomField(fieldName);
 
 			// Ввести текст в поле
 			var interpretationExample = fieldName + " Example";
@@ -41,7 +39,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.Glossary.EditStructure.C
 			// Сохранить термин
 			GlossaryPage.ClickSaveExtendedConcept();
 			// Дождаться появления поля с сохраненным термином
-			Assert.IsTrue(GlossaryPage.WaitConceptSave(), "Ошибка: термин не сохранился");
+			GlossaryPage.AssertionConceptSave();
 
 			// Проверить, что в термине выбранные элементы
 			var text = GlossaryPage.GetCustomFieldValue(fieldName);
@@ -61,17 +59,13 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.Glossary.EditStructure.C
 			var fieldName = SetCustomFieldGlossaryStructure(GlossaryEditStructureFormHelper.FIELD_TYPE.Text, true);
 
 			// Проверить, что поле появилось
-			Assert.IsTrue(
-				GlossaryPage.GetIsExistCustomField(fieldName), 
-				"Ошибка: поле не появилось");
+			GlossaryPage.AssertionIsExistCustomField(fieldName);
 
 			// Сохранить термин
 			GlossaryPage.ClickSaveExtendedConcept();
 
 			// Проверить, что поле отмечено ошибкой - поле обязательное, поэтому не может сохраняться пустым			
-			Assert.IsTrue(
-				GlossaryPage.GetIsExistCustomFieldError(fieldName),
-				"Ошибка: обязательное поле не отмечено ошибкой");
+			GlossaryPage.AssertionIsExistCustomFieldError(fieldName);
 
 			// Ввести текст в поле
 			var interpretationExample = fieldName + " Example";
@@ -80,7 +74,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.Glossary.EditStructure.C
 			// Сохранить термин
 			GlossaryPage.ClickSaveExtendedConcept();
 			// Дождаться появления поля с сохраненным термином
-			Assert.IsTrue(GlossaryPage.WaitConceptSave(), "Ошибка: термин не сохранился");
+			GlossaryPage.AssertionConceptSave();
 
 			// Проверить, что в термине выбранные элементы
 			var text = GlossaryPage.GetCustomFieldValue(fieldName);
@@ -97,17 +91,13 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.Glossary.EditStructure.C
 			var fieldName = SetCustomFieldGlossaryStructure(GlossaryEditStructureFormHelper.FIELD_TYPE.Date);
 
 			// Проверить, что поле появилось
-			Assert.IsTrue(
-				GlossaryPage.GetIsExistCustomField(fieldName), 
-				"Ошибка: поле не появилось");
+			GlossaryPage.AssertionIsExistCustomField(fieldName);
 
 			// Кликнуть по полю
 			GlossaryPage.ClickCustomFieldDate(fieldName);
 
 			// Проверить, что календарь открылся
-			Assert.IsTrue(
-				GlossaryPage.GetIsExistCalendar(),
-				"Ошибка: календарь не появился");
+			GlossaryPage.AssertionIsCalendarExist();
 			// Выбрать текущую дату
 			GlossaryPage.SelectCalendarToday();
 
@@ -115,9 +105,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.Glossary.EditStructure.C
 			GlossaryPage.ClickSaveExtendedConcept();
 
 			// Дождаться появления поля с сохраненным термином
-			Assert.IsTrue(
-				GlossaryPage.WaitConceptSave(), 
-				"Ошибка: термин не сохранился");
+			GlossaryPage.AssertionConceptSave();
 
 			// Проверить, что в термине выбранные элементы
 			var text = GlossaryPage.GetCustomFieldValue(fieldName);
@@ -134,25 +122,19 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.Glossary.EditStructure.C
 			var fieldName = SetCustomFieldGlossaryStructure(GlossaryEditStructureFormHelper.FIELD_TYPE.Date, true);
 
 			// Проверить, что поле появилось
-			Assert.IsTrue(
-				GlossaryPage.GetIsExistCustomField(fieldName), 
-				"Ошибка: поле не появилось");
+			GlossaryPage.AssertionIsExistCustomField(fieldName);
 
 			// Сохранить термин
 			GlossaryPage.ClickSaveExtendedConcept();
 
 			// Проверить, что поле отмечено ошибкой - поле обязательное, поэтому не может сохраняться пустым			
-			Assert.IsTrue(
-				GlossaryPage.GetIsExistCustomFieldError(fieldName),
-				"Ошибка: обязательное поле не отмечено ошибкой");
+			GlossaryPage.AssertionIsExistCustomFieldError(fieldName);
 
 			// Кликнуть по полю
 			GlossaryPage.ClickCustomFieldDate(fieldName);
 
 			// Проверить, что календарь открылся
-			Assert.IsTrue(
-				GlossaryPage.GetIsExistCalendar(),
-				"Ошибка: календарь не появился");
+			GlossaryPage.AssertionIsCalendarExist();
 
 			// Выбрать текущую дату
 			GlossaryPage.SelectCalendarToday();
@@ -160,9 +142,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.Glossary.EditStructure.C
 			// Сохранить термин
 			GlossaryPage.ClickSaveExtendedConcept();
 			// Дождаться появления поля с сохраненным термином
-			Assert.IsTrue(
-				GlossaryPage.WaitConceptSave(), 
-				"Ошибка: термин не сохранился");
+			GlossaryPage.AssertionConceptSave();
 
 			// Проверить, что в термине выбранные элементы
 			var text = GlossaryPage.GetCustomFieldValue(fieldName);
@@ -180,9 +160,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.Glossary.EditStructure.C
 			var fieldName = SetCustomFieldGlossaryStructure(GlossaryEditStructureFormHelper.FIELD_TYPE.Media);
 
 			// Проверить, что поле появилось
-			Assert.IsTrue(
-				GlossaryPage.GetIsCustomFieldImageExist(fieldName), 
-				"Ошибка: поле не появилось");
+			GlossaryPage.AssertionIsCustomFieldImageExist(fieldName);
 
 			// Кликнуть по полю
 			GlossaryPage.ClickCustomFieldMedia(fieldName);
@@ -190,17 +168,13 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.Glossary.EditStructure.C
 			GlossaryPage.UploadFileInGlossary(PathProvider.AudioFile);
 			
 			// Дождаться загрузки документа
-			Assert.IsTrue(
-				GlossaryPage.WaitUploadDocument(fieldName),
-				"Ошибка: документ не загрузился");
+			GlossaryPage.AssertionDocumentUploaded(fieldName);
 
 			// Сохранить термин
 			GlossaryPage.ClickSaveExtendedConcept();
 
 			// Дождаться появления поля с сохраненным термином
-			Assert.IsTrue(
-				GlossaryPage.WaitConceptSave(), 
-				"Ошибка: термин не сохранился");
+			GlossaryPage.AssertionConceptSave();
 
 			// Проверить, что изображение загрузилось
 			Assert.IsTrue(
@@ -218,17 +192,13 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.Glossary.EditStructure.C
 			var fieldName = SetCustomFieldGlossaryStructure(GlossaryEditStructureFormHelper.FIELD_TYPE.Media, true);
 
 			// Проверить, что поле появилось
-			Assert.IsTrue(
-				GlossaryPage.GetIsCustomFieldImageExist(fieldName), 
-				"Ошибка: поле не появилось");
+			GlossaryPage.AssertionIsCustomFieldImageExist(fieldName);
 
 			// Сохранить термин
 			GlossaryPage.ClickSaveExtendedConcept();
 
 			// Проверить, что поле отмечено ошибкой - поле обязательное, поэтому не может сохраняться пустым			
-			Assert.IsTrue(
-				GlossaryPage.GetIsExistCustomFieldImageError(fieldName),
-				"Ошибка: обязательное поле не отмечено ошибкой");
+			GlossaryPage.AssertionIsExistCustomFieldImageError(fieldName);
 
 			// Кликнуть по полю
 			GlossaryPage.ClickCustomFieldMedia(fieldName);
@@ -237,17 +207,13 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.Glossary.EditStructure.C
 			GlossaryPage.UploadFileInGlossary(PathProvider.AudioFile);
 
 			// Дождаться загрузки документа
-			Assert.IsTrue(
-				GlossaryPage.WaitUploadDocument(fieldName),
-				"Ошибка: документ не загрузился");
+			GlossaryPage.AssertionDocumentUploaded(fieldName);
 
 			// Сохранить термин
 			GlossaryPage.ClickSaveExtendedConcept();
 
 			// Дождаться появления поля с сохраненным термином
-			Assert.IsTrue(
-				GlossaryPage.WaitConceptSave(), 
-				"Ошибка: термин не сохранился");
+			GlossaryPage.AssertionConceptSave();
 
 			// Проверить, что изображение загрузилось
 			Assert.IsTrue(
@@ -265,9 +231,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.Glossary.EditStructure.C
 			var fieldName = SetCustomFieldGlossaryStructure(GlossaryEditStructureFormHelper.FIELD_TYPE.Image);
 
 			// Проверить, что поле появилось
-			Assert.IsTrue(
-				GlossaryPage.GetIsCustomFieldImageExist(fieldName), 
-				"Ошибка: поле не появилось");
+			GlossaryPage.AssertionIsCustomFieldImageExist(fieldName);
 
 			// Кликнуть по полю
 			GlossaryPage.ClickCustomFieldImage(fieldName);
@@ -277,9 +241,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.Glossary.EditStructure.C
 			// Сохранить термин
 			GlossaryPage.ClickSaveExtendedConcept();
 			// Дождаться появления поля с сохраненным термином
-			Assert.IsTrue(
-				GlossaryPage.WaitConceptSave(), 
-				"Ошибка: термин не сохранился");
+			GlossaryPage.AssertionConceptSave();
 
 			// Проверить, что изображение загрузилось
 			Assert.IsTrue(
@@ -297,17 +259,13 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.Glossary.EditStructure.C
 			var fieldName = SetCustomFieldGlossaryStructure(GlossaryEditStructureFormHelper.FIELD_TYPE.Image, true);
 
 			// Проверить, что поле появилось
-			Assert.IsTrue(
-				GlossaryPage.GetIsCustomFieldImageExist(fieldName), 
-				"Ошибка: поле не появилось");
+			GlossaryPage.AssertionIsCustomFieldImageExist(fieldName);
 
 			// Сохранить термин
 			GlossaryPage.ClickSaveExtendedConcept();
 
 			// Проверить, что поле отмечено ошибкой - поле обязательное, поэтому не может сохраняться пустым			
-			Assert.IsTrue(
-				GlossaryPage.GetIsExistCustomFieldImageError(fieldName),
-				"Ошибка: обязательное поле не отмечено ошибкой");
+			GlossaryPage.AssertionIsExistCustomFieldImageError(fieldName);
 
 			// Кликнуть по полю
 			GlossaryPage.ClickCustomFieldImage(fieldName);
@@ -317,7 +275,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.Glossary.EditStructure.C
 			// Сохранить термин
 			GlossaryPage.ClickSaveExtendedConcept();
 			// Дождаться появления поля с сохраненным термином
-			Assert.IsTrue(GlossaryPage.WaitConceptSave(), "Ошибка: термин не сохранился");
+			GlossaryPage.AssertionConceptSave();
 
 			// Проверить, что изображение загрузилось
 			Assert.IsTrue(
@@ -338,9 +296,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.Glossary.EditStructure.C
 			var fieldName = SetCustomGlossaryStructureAddList(GlossaryEditStructureFormHelper.FIELD_TYPE.Choice, choiceList);
 
 			// Проверить, что поле появилось
-			Assert.IsTrue(
-				GlossaryPage.GetIsExistCustomField(fieldName), 
-				"Ошибка: поле не появилось");
+			GlossaryPage.AssertionIsExistCustomField(fieldName);
 
 			// Кликнуть по полю
 			GlossaryPage.ClickCustomFieldChoice(fieldName);
@@ -349,7 +305,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.Glossary.EditStructure.C
 			// Сохранить термин
 			GlossaryPage.ClickSaveExtendedConcept();
 			// Дождаться появления поля с сохраненным термином
-			Assert.IsTrue(GlossaryPage.WaitConceptSave(), "Ошибка: термин не сохранился");
+			GlossaryPage.AssertionConceptSave();
 
 			// Проверить, что в термине сохранился выбранный элемент
 			Assert.AreEqual(
@@ -375,17 +331,13 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.Glossary.EditStructure.C
 			var fieldName = SetCustomGlossaryStructureAddList(GlossaryEditStructureFormHelper.FIELD_TYPE.Choice, choiceList, true);
 
 			// Проверить, что поле появилось
-			Assert.IsTrue(
-				GlossaryPage.GetIsExistCustomField(fieldName), 
-				"Ошибка: поле не появилось");
+			GlossaryPage.AssertionIsExistCustomField(fieldName);
 
 			// Сохранить термин
 			GlossaryPage.ClickSaveExtendedConcept();
 
 			// Проверить, что поле отмечено ошибкой - поле обязательное, поэтому не может сохраняться пустым			
-			Assert.IsTrue(
-				GlossaryPage.GetIsExistCustomFieldError(fieldName),
-				"Ошибка: обязательное поле не отмечено ошибкой");
+			GlossaryPage.AssertionIsExistCustomFieldError(fieldName);
 
 			// Кликнуть по полю
 			GlossaryPage.ClickCustomFieldChoice(fieldName);
@@ -395,9 +347,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.Glossary.EditStructure.C
 			GlossaryPage.ClickSaveExtendedConcept();
 
 			// Дождаться появления поля с сохраненным термином
-			Assert.IsTrue(
-				GlossaryPage.WaitConceptSave(), 
-				"Ошибка: термин не сохранился");
+			GlossaryPage.AssertionConceptSave();
 
 			// Проверить, что в термине сохранился выбранный элемент
 			Assert.AreEqual(
@@ -416,9 +366,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.Glossary.EditStructure.C
 			var fieldName = SetCustomFieldGlossaryStructure(GlossaryEditStructureFormHelper.FIELD_TYPE.Number, false, true, "0");
 
 			// Проверить, что поле появилось
-			Assert.IsTrue(
-				GlossaryPage.GetIsExistCustomField(fieldName), 
-				"Ошибка: поле не появилось");
+			GlossaryPage.AssertionIsExistCustomField(fieldName);
 
 			// Ввести в поле текст
 			GlossaryPage.FillCustomFieldNumber(fieldName, "Text 123 another text 0123");
@@ -426,7 +374,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.Glossary.EditStructure.C
 			// Сохранить термин
 			GlossaryPage.ClickSaveExtendedConcept();
 			// Дождаться появления поля с сохраненным термином
-			Assert.IsTrue(GlossaryPage.WaitConceptSave(), "Ошибка: термин не сохранился");
+			GlossaryPage.AssertionConceptSave();
 
 			// Проверить, что в поле осталось число
 			var text = GlossaryPage.GetCustomFieldNumberValue(fieldName);
@@ -446,12 +394,10 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.Glossary.EditStructure.C
 			GlossaryEditStructureForm.ClickAddCustomAttribute();
 
 			// Дождаться появления ошибки о необходимости ввести значение по умолчанию
-			Assert.IsTrue(
-				GlossaryEditStructureForm.GetIsExistCustomAttrErrorEmptyDefault(),
-				"Ошибка: не появилось оповещение о пустом значении по умолчанию для пользовательского поля");
+			GlossaryEditStructureForm.AssertionIsExistCustomAttrErrorEmptyDefault();
 			
 			// Заполняем поле "Значение по умолчанию"
-			SetDefaultValueCustomField("0");
+			GlossaryEditStructureForm.AddDefaultValue("0");
 
 			// Нажать "Добавить"
 			GlossaryEditStructureForm.ClickAddCustomAttribute();
@@ -467,9 +413,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.Glossary.EditStructure.C
 			FillNewItemExtended();
 
 			// Проверить, что поле появилось
-			Assert.IsTrue(
-				GlossaryPage.GetIsExistCustomField(fieldName), 
-				"Ошибка: поле не появилось");
+			GlossaryPage.AssertionIsExistCustomField(fieldName);
 
 			// Ввести в поле текст
 			GlossaryPage.FillCustomFieldNumber(
@@ -479,7 +423,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.Glossary.EditStructure.C
 			GlossaryPage.ClickSaveExtendedConcept();
 
 			// Дождаться появления поля с сохраненным термином
-			Assert.IsTrue(GlossaryPage.WaitConceptSave(), "Ошибка: термин не сохранился");
+			GlossaryPage.AssertionConceptSave();
 
 			// Проверить, что в поле осталось число
 			var text = GlossaryPage.GetCustomFieldNumberValue(fieldName);
@@ -505,9 +449,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.Glossary.EditStructure.C
 				choiceList);
 
 			// Проверить, что поле появилось
-			Assert.IsTrue(
-				GlossaryPage.GetIsExistCustomField(fieldName), 
-				"Ошибка: поле не появилось");
+			GlossaryPage.AssertionIsExistCustomField(fieldName);
 
 			// Кликнуть по полю
 			GlossaryPage.ClickCustomFieldMultiSelect(fieldName);
@@ -519,7 +461,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.Glossary.EditStructure.C
 			GlossaryPage.ClickSaveExtendedConcept();
 
 			// Дождаться появления поля с сохраненным термином
-			Assert.IsTrue(GlossaryPage.WaitConceptSave(), "Ошибка: термин не сохранился");
+			GlossaryPage.AssertionConceptSave();
 
 			// Проверить, что в термине выбранные элементы
 			Assert.AreEqual(
@@ -548,16 +490,13 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.Glossary.EditStructure.C
 				isRequired: true);
 
 			// Проверить, что поле появилось
-			Assert.IsTrue(
-				GlossaryPage.GetIsExistCustomField(fieldName), 
-				"Ошибка: поле не появилось");
+			GlossaryPage.AssertionIsExistCustomField(fieldName);
 
 			// Сохранить термин
 			GlossaryPage.ClickSaveExtendedConcept();
 
 			// Проверить, что поле отмечено ошибкой - поле обязательное, поэтому не может сохраняться пустым			
-			Assert.IsTrue(GlossaryPage.GetIsExistCustomFieldError(fieldName),
-				"Ошибка: обязательное поле не отмечено ошибкой");
+			GlossaryPage.AssertionIsExistCustomFieldError(fieldName);
 
 			// Кликнуть по полю
 			GlossaryPage.ClickCustomFieldMultiSelect(fieldName);
@@ -571,7 +510,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.Glossary.EditStructure.C
 			GlossaryPage.ClickSaveExtendedConcept();
 
 			// Дождаться появления поля с сохраненным термином
-			Assert.IsTrue(GlossaryPage.WaitConceptSave(), "Ошибка: термин не сохранился");
+			GlossaryPage.AssertionConceptSave();
 
 			// Проверить, что в термине выбранные элементы
 			Assert.AreEqual(
@@ -590,9 +529,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.Glossary.EditStructure.C
 			var fieldName = SetCustomFieldGlossaryStructure(GlossaryEditStructureFormHelper.FIELD_TYPE.Boolean);
 
 			// Проверить, что поле появилось
-			Assert.IsTrue(
-				GlossaryPage.GetIsExistCustomFieldBool(fieldName), 
-				"Ошибка: поле не появилось");
+			GlossaryPage.AssertionIsExistCustomFieldBool(fieldName);
 
 			// Отметить галочку
 			GlossaryPage.ClickCustomFieldBool(fieldName);
@@ -600,9 +537,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.Glossary.EditStructure.C
 			// Сохранить термин
 			GlossaryPage.ClickSaveExtendedConcept();
 			// Проверить значение в поле
-			Assert.IsTrue(
-				GlossaryPage.GetIsCustomBooleanChecked(fieldName), 
-				"Ошибка: в поле неверное значение");
+			GlossaryPage.AssertionIsCustomBooleanChecked(fieldName);
 		}
 
 		/// <summary>
@@ -624,9 +559,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.Glossary.EditStructure.C
 			GlossaryEditStructureForm.ClickAddCustomAttribute();
 
 			// Проверить, что появилась ошибка пустого списка
-			Assert.IsTrue(
-				GlossaryEditStructureForm.GetIsDisplayedErrorEmptyChoice(), 
-				"Ошибка: не появилось сообщение, что нужно добавить элементы списка");
+			GlossaryEditStructureForm.AssertionIsDisplayedErrorEmptyChoice();
 			
 			// Элементы списка, регистр важен - маленькие!
 			var choiceListText = "";
@@ -684,7 +617,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.Glossary.EditStructure.C
 			if (isNeedDefaultValue)
 			{
 				// Ввести значение по умолчанию
-				SetDefaultValueCustomField(defaultValue);
+				GlossaryEditStructureForm.AddDefaultValue(defaultValue);
 			}
 
 			// Нажать "Добавить"
@@ -737,15 +670,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.Glossary.EditStructure.C
 			}
 
 			return fieldName;
-		}
-
-		/// <summary>
-		/// Ввести значение по умолчанию
-		/// </summary>
-		/// <param name="defaultValue">значение</param>
-		protected void SetDefaultValueCustomField(string defaultValue)
-		{
-			GlossaryEditStructureForm.AddDefaultValue(defaultValue);
 		}
 	}
 }

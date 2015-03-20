@@ -33,10 +33,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.CheckRights
 			WorkspacePage.ClickUsersAndRightsBtn();
 
 			// Ожидание открытия страницы
-			Assert.IsTrue(
-				UserRightsPage.WaitUntilUsersRightsDisplay(),
-				"Ошибка: Страница прав пользователя не открылась.");
-
+			UserRightsPage.AssertionUsersRightsPageDisplayed();
 			// Перейти в подраздел "Группы и права"
 			UserRightsPage.OpenGroups();
 

@@ -1,9 +1,8 @@
 ﻿using System.Linq;
+using NUnit.Framework;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.UI;
 using System.IO;
-using System.Net;
-using System;
 
 namespace AbbyyLS.CAT.Function.Selenium.Tests
 {
@@ -12,165 +11,122 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 	/// </summary>
 	public class GlossaryPageHelper : CommonHelper
 	{
-		/// <summary>
-		/// Конструктор хелпера
-		/// </summary>
-		/// <param name="driver">Драйвер</param>
-		/// <param name="wait">Таймаут</param>
 		public GlossaryPageHelper(IWebDriver driver, WebDriverWait wait)
 			: base(driver, wait)
 		{
 		}
 
-		/// <summary>
-		/// Дождаться загрузки страницы
-		/// </summary>
-		/// <returns>загрузилась</returns>
-		public bool WaitPageLoad()
+		public void WaitPageLoad()
 		{
-			return WaitUntilDisplayElement(By.XPath(ADD_CONCEPT_XPATH));
+			Logger.Trace("Проверка успешной загрузки страницы глоссария");
+
+			Assert.IsTrue(WaitUntilDisplayElement(By.XPath(ADD_CONCEPT_XPATH)), 
+				"Ошибка: не зашли в глоссарий");
 		}
 
-		/// <summary>
-		/// Открыть редактирование глоссария
-		/// </summary>
 		public void OpenEditGlossaryList()
 		{
+			Logger.Debug("Открыть редактирование глоссария");
 			ClickElement(By.XPath(OPEN_EDIT_GLOSSARY_LIST_XPATH));
 		}
 
-		/// <summary>
-		/// Открыть форму редактирования структуры
-		/// </summary>
 		public void OpenEditStructureForm()
 		{
+			Logger.Debug("Открыть форму редактирования структуры");
 			ClickElement(By.XPath(OPEN_EDIT_STRUCTURE_FORM_BTN_XPATH));
 		}
 
-		/// <summary>
-		/// Кликнуть New Item
-		/// </summary>
 		public void ClickNewItemBtn()
 		{
+			Logger.Debug("Нажать кнопку New Item");
 			ClickElement(By.XPath(ADD_CONCEPT_XPATH));
 		}
 
-		/// <summary>
-		/// Кликнуть по полю Domain в новом термине
-		/// </summary>
 		public void NewItemClickDomainField()
 		{
+			Logger.Debug("Кликнуть по полю Domain в новом термине");
 			ClickElement(By.XPath(NEW_ITEM_DOMAIN_FIELD_XPATH));
 		}
 
-		/// <summary>
-		/// Вернуть, есть ли domain в списке в термине
-		/// </summary>
-		/// <param name="domainName">название</param>
-		/// <returns>есть</returns>
-		public bool GetIsDomainExistInItemDomainList(string domainName)
-		{
-			// Получить список проектов в списке
-			var domainList = GetElementList(By.XPath(CHOICE_LIST_XPATH));
 
-			return domainList.Any(el => el.Text == domainName);
-		}
-
-		/// <summary>
-		/// Кликнуть открыть настройки
-		/// </summary>
 		public void ClickOpenProperties()
 		{
+			Logger.Debug("Кликнуть кнопку открытия настроеки");
 			ClickElement(By.XPath(OPEN_EDIT_PROPERTIES_FORM_BTN_XPATH));
 		}
 
-		/// <summary>
-		/// Заполнить термины в расширенной версии
-		/// </summary>
-		/// <param name="text">текст</param>
 		public void FillItemTermsExtended(string text)
 		{
-			// Поля языков
+			Logger.Debug(string.Format("Заполнить термины в расширенной версии. Текст термина: {0}", text));
+
+			Logger.Trace("Получение списка языков");
 			var termList = GetElementList(By.XPath(ITEM_ADD_EXTENDED_XPATH));
 
 			for (var i = 0; i < termList.Count; ++i)
 			{
-				// Нажать Add
+				Logger.Debug("Нажать кнопку Add");
 				termList[i].Click();
-				// Ввести термин
+				Logger.Debug("Очистить поле и ввести термин");
 				ClearAndAddText(By.XPath(ITEM_TERMS_EXTENDED_XPATH + "[" + (i + 1) + "]" + ITEM_EDITOR_INPUT_XPATH), text);
 			}
 		}
 
-		/// <summary>
-		/// Изменить термины в расширенной версии
-		/// </summary>
-		/// <param name="text">текст</param>
 		public void EditTermsExtended(string text)
 		{
-			// Поля языков
+			Logger.Debug(string.Format("Изменить термины в расширенной версии. Текст термина: {0}", text));
+
+			Logger.Trace("Получение списка языков");
 			var termList = GetElementList(By.XPath(ITEM_TERMS_EXTENDED_XPATH + TERM_ROW_XPATH));
 
 			for (var i = 0; i < termList.Count; ++i)
 			{
-				// Нажать Add
+				Logger.Debug("Нажать кнопку Add");
 				termList[i].Click();
-				// Ввести термин
+				Logger.Debug("Очистить поле и ввести термин");
 				ClearAndAddText(By.XPath(ITEM_TERMS_EXTENDED_XPATH + "[" + (i + 1) + "]" + ITEM_EDITOR_INPUT_XPATH), text);
 			}
 		}
 
-		/// <summary>
-		/// Дождаться появления таблицы для ввода нового термина в нерасширенном режиме
-		/// </summary>
-		/// <returns>появилась</returns>
-		public bool WaitConceptTableAppear()
+		public void AssertionConceptTableAppear()
 		{
-			return WaitUntilDisplayElement(By.XPath(CONCEPT_TABLE_XPATH));
+			Logger.Debug("Проверка появления таблицы для ввода нового термина в нерасширенном режиме");
+
+			Assert.IsTrue(WaitUntilDisplayElement(By.XPath(CONCEPT_TABLE_XPATH)),
+				"Ошибка: таблица для ввода нового термина в нерасширенном режиме не появилась");
 		}
 
-		/// <summary>
-		/// Заполнить термин
-		/// </summary>
-		/// <param name="termNum">номер (первый язык или второй)</param>
-		/// <param name="text">текст</param>
 		public void FillTerm(int termNum, string text)
 		{
+			Logger.Debug(string.Format("Заполнить термин. Номер (первый язык или второй): {0}; текст: {1}", termNum, text));
 			ClearAndAddText(By.XPath(CONCEPT_EDITING_TD_XPATH + "[" + termNum + "]" + INPUT_TERM_XPATH), text);
 		}
 
-		/// <summary>
-		/// Кликнуть сохранить термин
-		/// </summary>
 		public void ClickSaveTermin()
 		{
+			Logger.Debug("Кликнуть кнопку сохранения термина");
 			ClickElement(By.XPath(EDIT_CONCEPT_SAVE_BTN_XPATH));
 		}
 
-		/// <summary>
-		/// Дождаться сохранения термина в обычном режиме
-		/// </summary>
-		/// <returns></returns>
-		public bool WaitConceptGeneralSave()
+		public void AssertionConceptGeneralSave()
 		{
-			return WaitUntilDisappearElement(By.XPath(EDIT_CONCEPT_SAVE_BTN_XPATH));
+			Logger.Trace("Ожидание сохранения термина в обычном режиме");
+
+			Assert.IsTrue(WaitUntilDisappearElement(By.XPath(EDIT_CONCEPT_SAVE_BTN_XPATH)), 
+				"Ошибка: термин не сохранился");
 		}
 
-		/// <summary>
-		/// Дождаться удаления термина в обычном режиме
-		/// </summary>
-		/// <returns></returns>
-		public bool WaitConceptGeneralDelete()
+		public void AssertionConceptGeneralDelete()
 		{
-			return WaitUntilDisappearElement(By.XPath(DELETE_CONCEPT_BTN_XPATH));
+			Logger.Trace("Проверка успешного удаления термина в обычном режиме");
+
+			Assert.IsTrue(WaitUntilDisappearElement(By.XPath(DELETE_CONCEPT_BTN_XPATH)),
+				"Ошибка: термин не был удален");
 		}
 
-		/// <summary>
-		/// Вернуть количество терминов
-		/// </summary>
-		/// <returns>количество</returns>
 		public int GetConceptCount()
 		{
+			Logger.Debug("Получить количество терминов");
+
 			SetDriverTimeoutMinimum();
 			var result = GetElementsCount(By.XPath(CONCEPT_ROW_XPATH));
 			SetDriverTimeoutDefault();
@@ -178,198 +134,137 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			return result;
 		}
 
-		/// <summary>
-		/// Кликнить Сохранить в расширенной форме термина
-		/// </summary>
 		public void ClickSaveExtendedConcept()
 		{
+			Logger.Debug("Кликнить Сохранить в расширенной форме термина");
 			ClickElement(By.XPath(SAVE_EXTENDED_BTN_XPATH));
 		}
 
-		/// <summary>
-		/// Дождаться появление открытого сохраненного термина
-		/// </summary>
-		/// <returns>открылся</returns>
-		public bool WaitConceptSave()
+		public void AssertionConceptSave()
 		{
-			return WaitUntilDisplayElement(
-				By.XPath(OPENED_CONCEPT_ROW_XPATH),
-				maxWait: 20);
+			Logger.Trace("Проверка появления открытого сохраненного термина");
+
+			Assert.IsTrue(WaitUntilDisplayElement(By.XPath(OPENED_CONCEPT_ROW_XPATH), maxWait: 20), "Ошибка: термин не сохранился");
 		}
 
-		/// <summary>
-		/// Дождаться появление загруженного документа
-		/// </summary>
-		/// <param name="fieldName">название нового поля, куда записывается документ</param>
-		/// <returns>загрузился</returns>
-		public bool WaitUploadDocument(string fieldName)
+		public void AssertionDocumentUploaded(string fieldName)
 		{
+			Logger.Debug(string.Format("Проверить, что документ успешно загружен. Поле, куда записывается документ: {0}", fieldName));
+
 			var xPath = GetCustomFieldImageXPath(fieldName) + FIELD_MEDIA_CONTAINS_XPATH;
 
-			return WaitUntilDisplayElement(
-				By.XPath(xPath),
-				maxWait: 60);
+			Assert.IsTrue(
+				WaitUntilDisplayElement(By.XPath(xPath), maxWait: 60),
+				"Ошибка: документ не загрузился");
 		}
 
-		///////////////////// Пользовательское поле Boolean
-		/// <summary>
-		/// Вернуть, есть ли пользовательское поле Boolean при создании термина
-		/// </summary>
-		/// <param name="fieldName">название поля</param>
-		/// <returns>есть</returns>
-		public bool GetIsExistCustomFieldBool(string fieldName)
+		public void AssertionIsExistCustomFieldBool(string fieldName)
 		{
-			return GetIsElementDisplay(By.XPath(GetCustomFieldBoolXPath(fieldName)));
+			Logger.Trace(string.Format("Проверить, что пользовательское поле {0} существует при создании термина", fieldName));
+				
+			Assert.IsTrue(
+				GetIsElementDisplay(By.XPath(GetCustomFieldBoolXPath(fieldName))),
+				"Ошибка: поле не появилось");
 		}
 
-		/// <summary>
-		/// Нажать checkbox пользовательского поля Boolean
-		/// </summary>
-		/// <param name="fieldName">название поля</param>
 		public void ClickCustomFieldBool(string fieldName)
 		{
-			ClickElement(By.XPath(GetCustomFieldBoolXPath(fieldName) + 
-				CUSTOM_FIELD_BOOL_CHECKBOX_XPATH));
+			Logger.Debug(string.Format("Нажать checkbox пользовательского поля {0}", fieldName));
+
+			ClickElement(By.XPath(GetCustomFieldBoolXPath(fieldName) + CUSTOM_FIELD_BOOL_CHECKBOX_XPATH));
 		}
 
-		/// <summary>
-		/// Вернуть, отмечена ли галочка пользовательского поля Boolean
-		/// </summary>
-		/// <param name="fieldName">название поля</param>
-		/// <returns>отмечена</returns>
-		public bool GetIsCustomBooleanChecked(string fieldName)
+		public void AssertionIsCustomBooleanChecked(string fieldName)
 		{
-			return GetElementAttribute(By.XPath(GetCustomFieldBoolXPath(fieldName) + 
-				INPUT_FIELD_VALUE_XPATH), "value") == "true";
+			Logger.Trace(string.Format("Проверить, что пользовательское поле {0} отмечена галкой", fieldName));
+
+			Assert.IsTrue(GetElementAttribute(By.XPath(GetCustomFieldBoolXPath(fieldName) + INPUT_FIELD_VALUE_XPATH), "value") == "true",
+				"Ошибка: в поле неверное значение");
 		}
 
-		///////////////////// Пользовательское поле Boolean
-		/// <summary>
-		/// Вернуть, есть ли пользовательское поле
-		/// </summary>
-		/// <param name="fieldName">название поля</param>
-		/// <returns>есть</returns>
-		public bool GetIsExistCustomField(string fieldName)
+		public void AssertionIsExistCustomField(string fieldName)
 		{
-			return GetIsElementDisplay(By.XPath(GetCustomFieldXPath(fieldName)));
+			Logger.Trace(string.Format("Проверить, что существует пользовательское поле {0}", fieldName));
+
+			Assert.IsTrue(GetIsElementDisplay(By.XPath(GetCustomFieldXPath(fieldName))),
+				"Ошибка: пользовательское поле не появилось");
 		}
 
-		/// <summary>
-		/// Вернуть: отмечено ли поле ошибкой
-		/// </summary>
-		/// <param name="fieldName">название поля</param>
-		/// <returns>отмечено</returns>
-		public bool GetIsExistCustomFieldError(string fieldName)
+		public void AssertionIsExistCustomFieldError(string fieldName)
 		{
-			return GetIsElementDisplay(By.XPath(GetCustomFieldErrorXPath(fieldName)));
+			Logger.Trace(string.Format("Проверить, что поле {0} отмечено ошибкой", fieldName));
+
+			Assert.IsTrue(GetIsElementDisplay(By.XPath(GetCustomFieldErrorXPath(fieldName))),
+				"Ошибка: обязательное поле не отмечено ошибкой");
 		}
 
-		//////////////////////////////////// Пользовательское поле MultiSelect
-		/// <summary>
-		/// Кликнуть на поле множественного выбора
-		/// </summary>
-		/// <param name="fieldName">название поля</param>
 		public void ClickCustomFieldMultiSelect(string fieldName)
 		{
+			Logger.Debug(string.Format("Кликнуть на поле множественного выбора. Имя поля {0}", fieldName));
 			ClickElement(By.XPath(GetCustomFieldXPath(fieldName) +
 				MULTISELECT_FIELD_VALUE_XPATH));
 		}
 
-		/// <summary>
-		/// Выбрать элемент множественного выбора
-		/// </summary>
-		/// <param name="item">элемент</param>
 		public void SelectItemMultiSelect(string item)
 		{
+			Logger.Debug(string.Format("Выбрать элемент {0} множественного выбора", item));
 			ClickElement(By.XPath(MULTISELECT_ITEM_XPATH + "[text()='" + item + "']"));
 		}
-		
-		//////////////////////////////////// Пользовательское поле MultiSelect
-		/// <summary>
-		/// Получить значение пользовательского поля
-		/// </summary>
-		/// <param name="fieldName">название поля</param>
-		/// <returns>значение</returns>
+
 		public string GetCustomFieldValue(string fieldName)
 		{
+			Logger.Debug(string.Format("Получить значение пользовательского поля. Название поля {0}", fieldName));
+
 			return GetTextElement(By.XPath(GetCustomFieldXPath(fieldName) +
 				FIELD_DIV_VALUE_XPATH));
 		}
 
-		//////////////////////////////////// Пользовательское поле Number
-		/// <summary>
-		/// Ввести значение в пользовательское поле нового термина - Number
-		/// </summary>
-		/// <param name="fieldName">название поля</param>
-		/// <param name="value">значение</param>
 		public void FillCustomFieldNumber(string fieldName, string value)
 		{
-			SendTextElement(By.XPath(GetCustomFieldXPath(fieldName) + 
-				INPUT_FIELD_VALUE_XPATH), value);
+			Logger.Debug(string.Format("Ввести значение в пользовательское поле Number нового термина. Название поля {0}; значение {1}", 
+				fieldName, value));
+			SendTextElement(By.XPath(GetCustomFieldXPath(fieldName) + INPUT_FIELD_VALUE_XPATH), value);
 		}
 
-		/// <summary>
-		/// Вернуть значение из пользовательского поля Number
-		/// </summary>
-		/// <param name="fieldName">поле</param>
-		/// <returns>значение</returns>
 		public string GetCustomFieldNumberValue(string fieldName)
 		{
-			return GetTextElement(By.XPath(GetCustomFieldViewXPath(fieldName) +
-				NUMBER_FIELD_VALUE_XPATH));
+			Logger.Debug(string.Format("Вернуть значение из пользовательского поля Number. Название поля {0}", fieldName));
+			return GetTextElement(By.XPath(GetCustomFieldViewXPath(fieldName) + NUMBER_FIELD_VALUE_XPATH));
 		}
-		
-		//////////////////////////////////// Пользовательское поле Number
 
-		//////////////////////////////////// Пользовательское поле List/Choice
-		/// <summary>
-		/// Кликнуть по пользовательскому полю выбора
-		/// </summary>
-		/// <param name="fieldName">название поля</param>
 		public void ClickCustomFieldChoice(string fieldName)
 		{
-			ClickElement(By.XPath(GetCustomFieldXPath(fieldName) + 
-				CHOICE_FIELD_DROPDOWN_XPATH));
+			Logger.Debug(string.Format("Кликнуть по пользовательскому полю выбора. Название поля {0}", fieldName));
+			ClickElement(By.XPath(GetCustomFieldXPath(fieldName) + CHOICE_FIELD_DROPDOWN_XPATH));
 		}
 
-		/// <summary>
-		/// Выбрать элемент списка
-		/// </summary>
-		/// <param name="item">элемент</param>
 		public void SelectChoiceItem(string item)
 		{
+			Logger.Debug(string.Format("Выбрать элемент {0} списка", item));
 			ClickElement(By.XPath(CHOICE_LIST_XPATH + "[@title='" + item + "']"));
 		}
 		
-		//////////////////////////////////// Пользовательское поле List/Choice
-
-		//////////////////////////////////// Пользовательское поле Image
-		/// <summary>
-		/// Вернуть, есть ли пользовательское поле Изображение
-		/// </summary>
-		/// <param name="fieldName">название поля</param>
-		/// <returns>есть</returns>
-		public bool GetIsCustomFieldImageExist(string fieldName)
+		public void AssertionIsCustomFieldImageExist(string fieldName)
 		{
-			return GetIsElementDisplay(By.XPath(GetCustomFieldImageXPath(fieldName)));
+			Logger.Debug(string.Format("Вернуть, есть ли пользовательское поле Изображение. Имя поля {0}", fieldName));
+
+			Assert.IsTrue(GetIsElementDisplay(By.XPath(GetCustomFieldImageXPath(fieldName))),
+				"Ошибка: поле не появилось");
 		}
 
-		/// <summary>
-		/// Вернуть: отмечено ли пользовательское поле Изображение ошибкой
-		/// </summary>
-		/// <param name="fieldName">название поля</param>
-		/// <returns>отмечено</returns>
-		public bool GetIsExistCustomFieldImageError(string fieldName)
+		public void AssertionIsExistCustomFieldImageError(string fieldName)
 		{
-			return GetIsElementDisplay(By.XPath(GetCustomFieldImageErrorXPath(fieldName)));
+			Logger.Trace("Проверить, что пользовательское поле изображение отмечено ошибкой");
+
+			Assert.IsTrue(
+				GetIsElementDisplay(By.XPath(GetCustomFieldImageErrorXPath(fieldName))),
+				"Ошибка: обязательное поле не отмечено ошибкой");
 		}
 
-		/// <summary>
-		/// Кликнуть по пользовательскому полю Изображение
-		/// </summary>
-		/// <param name="fieldName">название поля</param>
 		public void ClickCustomFieldImage(string fieldName)
 		{
+			Logger.Debug(string.Format("Кликнуть по пользовательскому полю Изображение. Имя поля {0}", fieldName));
+
 			//Работу можно продолжить дальше и визуально клик проходит, но падает исключение про timeout операции. 
 			try
 			{
@@ -391,32 +286,23 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			}
 		}
 
-		/// <summary>
-		/// Вернуть, заполнено ли поле Изображение
-		/// </summary>
-		/// <param name="fieldName">название поля</param>
-		/// <returns>есть изображение</returns>
 		public bool GetCustomFieldImageFilled(string fieldName)
 		{
+			Logger.Debug(string.Format("Вернуть, заполнено ли поле Изображение. Имя поля {0}", fieldName));
+
 			var xPath = GetCustomFieldImageXPath(fieldName) + CUSTOM_IMAGE_EXIT_XPATH;
 
 			return GetElementAttribute(By.XPath(xPath), "src").Trim().Length > 0;
 		}
-		//////////////////////////////////// Пользовательское поле Image
 
-		//////////////////////////////////// Пользовательское поле Media
-
-		/// <summary>
-		/// Кликнуть по пользовательскому полю Media
-		/// </summary>
-		/// <param name="fieldName"></param>
 		public void ClickCustomFieldMedia(string fieldName)
 		{
+			Logger.Debug(string.Format("Кликнуть по пользовательскому полю Media. Имя поля {0}", fieldName));
+
 			//Работу можно продолжить дальше и визуально клик проходит, но падает исключение про timeout операции. 
 			try
 			{
-				ClickElement(By.XPath(GetCustomFieldImageXPath(fieldName) 
-					+ CUSTOM_FIELD_MEDIA_REF_XPATH));
+				ClickElement(By.XPath(GetCustomFieldImageXPath(fieldName) + CUSTOM_FIELD_MEDIA_REF_XPATH));
 			}
 			catch (WebDriverException ex)
 			{
@@ -433,346 +319,241 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			}
 		}
 
-		/// <summary>
-		/// Получить, заполнено ли пользовательское поле Media
-		/// </summary>
-		/// <param name="fieldName">название поля</param>
-		/// <returns>заполнено</returns>
 		public bool GetIsCustomFieldMediaFilled(string fieldName)
 		{
+			Logger.Debug(string.Format("Получить, заполнено ли пользовательское поле Media. Имя поля {0}", fieldName));
+
 			var xPath = GetCustomFieldImageXPath(fieldName) + FIELD_MEDIA_CONTAINS_XPATH;
 
 			return GetElementAttribute(By.XPath(xPath), "href").Trim().Length > 0;
 		}
-		//////////////////////////////////// Пользовательское поле Media
-
-		/////////////////////////////////// Пользовательское поле Дата
-
-		/// <summary>
-		/// Кликнуть по пользовательское поле Дата
-		/// </summary>
-		/// <param name="fieldName">название поля</param>
+		
 		public void ClickCustomFieldDate(string fieldName)
 		{
+			Logger.Debug(string.Format("Кликнуть по пользовательскому полю Дата {0}", fieldName));
+
 			ClickElement(By.XPath(GetCustomFieldXPath(fieldName) + CUSTOM_FIELD_DATE_XPATH));
 		}
 
-		/// <summary>
-		/// Вернуть - показывается ли календарь
-		/// </summary>
-		/// <returns>показывается</returns>
-		public bool GetIsExistCalendar()
+		public void AssertionIsCalendarExist()
 		{
-			return GetIsElementDisplay(By.XPath(CALEDNAR_XPATH));
+			Logger.Trace("Проверить, что календарь появился");
+
+			Assert.IsTrue(GetIsElementDisplay(By.XPath(CALEDNAR_XPATH)),
+				"Ошибка: календарь не появился");
 		}
 		
-		/// <summary>
-		/// Выбрать текущую дату
-		/// </summary>
 		public void SelectCalendarToday()
 		{
+			Logger.Debug("Выбрать текущую дату");
 			ClickElement(By.XPath(CALENDAR_TODAY_XPATH));
 		}
-		/////////////////////////////////// Пользовательское поле Дата
-		
-		/////////////////////////////////// Пользовательское поле Текст
 
-		/// <summary>
-		/// Заполнить пользовательское поле Текст
-		/// </summary>
-		/// <param name="fieldName">название поля</param>
-		/// <param name="text">текст</param>
 		public void FillCustomFieldText(string fieldName, string text)
 		{
-			SendTextElement(
-				By.XPath(GetCustomFieldXPath(fieldName) + CUSTOM_FIELD_TEXT_XPATH), 
-				text);
+			Logger.Debug(string.Format("Заполнить пользовательское поле Текст. Название поля: {0}, текст: {1}", fieldName, text));
+			SendTextElement(By.XPath(GetCustomFieldXPath(fieldName) + CUSTOM_FIELD_TEXT_XPATH), text);
 		}
-		/////////////////////////////////// Пользовательское поле Текст
 
-		/// <summary>
-		/// Вернуть: есть ли textarea
-		/// </summary>
-		/// <param name="fieldName">название поля</param>
-		/// <returns>есть</returns>
 		public bool GetIsExistTextarea(string fieldName)
 		{
+			Logger.Debug(string.Format("Получить, есть ли textarea {0}", fieldName));
+
 			return GetIsElementDisplay(By.XPath(GetTextareaXPath(fieldName)));
 		}
 
-		/// <summary>
-		/// Заполнить textarea
-		/// </summary>
-		/// <param name="fieldName">название поля</param>
-		/// <param name="text">текст</param>
 		public void FillTextarea(string fieldName, string text)
 		{
+			Logger.Debug(string.Format("Заполнение textarea. Название поля: {0}, текст {1}", fieldName, text));
 			SendTextElement(By.XPath(GetTextareaXPath(fieldName)), text);
 		}
 
-		/// <summary>
-		/// Вернуть значение textarea
-		/// </summary>
-		/// <param name="fieldName">название поля</param>
-		/// <returns>текст</returns>
 		public string GetTextareaValue(string fieldName)
 		{
+			Logger.Debug(string.Format("Получить значение textarea для поля {0}", fieldName));
+
 			return GetTextElement(By.XPath(GetTextareaValueXPath(fieldName)));
 		}
 
-		/// <summary>
-		/// Вернуть: есть ли input
-		/// </summary>
-		/// <param name="fieldName">название поля</param>
-		/// <returns>есть</returns>
 		public bool GetIsExistInput(string fieldName)
 		{
+			Logger.Debug(string.Format("Получить, есть ли input в поле: {0}", fieldName));
+
 			return GetIsElementExist(By.XPath(GetInputXPath(fieldName)));
 		}
 
-		/// <summary>
-		/// Кликнуть по полю Media для загрузки
-		/// </summary>
 		public void ClickMediaToImport(string fieldName)
 		{
+			Logger.Debug("Кликнуть по полю Media для загрузки");
 			ClickElement(By.XPath(GetInputXPath(fieldName) + INPUT_IMPORT_LINK_XPATH));
 		}
 
-		/// <summary>
-		/// Получить, заполнено ли поле Media
-		/// </summary>
-		/// <param name="fieldName">название поля</param>
-		/// <returns>заполнено</returns>
 		public bool GetIsFieldMediaFilled(string fieldName)
 		{
+			Logger.Debug(string.Format("Получить, заполнено ли поле Media. Имя поля: {0}", fieldName));
+
 			var xPath = GetInputXPath(fieldName) + FIELD_MEDIA_CONTAINS_XPATH;
 
 			return GetElementAttribute(By.XPath(xPath), "href").Trim().Length > 0;
 		}
 
-		/// <summary>
-		/// Кликнуть по полю Image для загрузки
-		/// </summary>
 		public void ClickImageToImport(string fieldName)
 		{
+			Logger.Debug(string.Format("Кликнуть по полю Image для загрузки. Имя поля: {0}", fieldName));
 			ClickElement(By.XPath(GetInputXPath(fieldName) + FIELD_IMAGE_FIELD_XPATH));
 		}
 
-		/// <summary>
-		/// Вернуть, заполнено ли поле Изображение
-		/// </summary>
-		/// <param name="fieldName">название поля</param>
-		/// <returns>есть изображение</returns>
 		public bool GetFieldImageFilled(string fieldName)
 		{
+			Logger.Debug(string.Format("Вернуть, заполнено ли поле Изображение. Название поля {0}", fieldName));
+
 			var xPath = GetInputXPath(fieldName) + CUSTOM_IMAGE_EXIT_XPATH;
 
 			return GetElementAttribute(By.XPath(xPath), "src").Trim().Length > 0;
 		}
 
-		/// <summary>
-		/// Вернуть, есть ли поле Select
-		/// </summary>
-		/// <param name="fieldName">название поля</param>
-		/// <returns>есть</returns>
 		public bool GetIsExistSelect(string fieldName)
 		{
+			Logger.Debug(string.Format("Вернуть, есть ли поле Select. Название поля {0}", fieldName));
+
 			return GetIsElementExist(By.XPath(GetSelectXPath(fieldName)));
 		}
 
-		/// <summary>
-		/// Кликнуть Select для выпадения списка
-		/// </summary>
-		/// <param name="fieldName">название поля</param>
 		public void ClickSelectDropdown(string fieldName)
 		{
+			Logger.Debug(string.Format("Кликнуть Select для выпадения списка. Название поля {0}", fieldName));
 			ClickElement(By.XPath(GetSelectXPath(fieldName) + CHOICE_FIELD_DROPDOWN_XPATH));
 		}
 
-		/// <summary>
-		/// Вернуть, раскрылся ли список
-		/// </summary>
-		/// <returns>открылся</returns>
-		public bool GetIsSelectListVisible()
+		public void AssertionIsSelectListVisible()
 		{
-			return GetIsElementDisplay(By.XPath(CHOICE_LIST_XPATH));
+			Logger.Debug("Проверить, раскрылся ли список выбора домена");
+
+			Assert.IsTrue(GetIsElementDisplay(By.XPath(CHOICE_LIST_XPATH)), "Ошибка: список выбора домена не открылся");
 		}
 
-		/// <summary>
-		/// Получить значение поля Select
-		/// </summary>
-		/// <param name="fieldName">название поля</param>
-		/// <returns>значение</returns>
 		public string GetSelectValue(string fieldName)
 		{
+			Logger.Debug(string.Format("Получить значение поля Select. Название поля {0}", fieldName));
+
 			return GetTextElement(By.XPath(GetSelectXPath(fieldName) + FIELD_DIV_VALUE_XPATH));
 		}
 
-		/// <summary>
-		/// Кликнуть по полю Topic для выпадения списка
-		/// </summary>
-		/// <param name="fieldName">название поля</param>
 		public void ClickTopicDropdown(string fieldName)
 		{
+			Logger.Debug("Кликнуть по полю Topic для выпадения списка");
 			ClickElement(By.XPath(GetInputXPath(fieldName) + TOPIC_FIELD_DROPDOWN_XPATH));
 		}
 
-		/// <summary>
-		/// Вернуть, виден ли список для Topic
-		/// </summary>
-		/// <returns>виден</returns>
-		public bool GetIsTopicListVisible()
+		public void AssertionTopicListVisible()
 		{
-			return GetIsElementDisplay(By.XPath(TOPIC_CHOICE_XPATH));
+			Logger.Debug("Проверить, что виден список для Topic");
+
+			Assert.IsTrue(GetIsElementDisplay(By.XPath(TOPIC_CHOICE_XPATH)), "Ошибка: список для Topic не открылся");
 		}
 
-		/// <summary>
-		/// Выбрать элемент Topic
-		/// </summary>
 		public void SelectTopicItem()
 		{
+			Logger.Debug("Нажать кнопку выбора элемента Topic");
 			ClickElement(By.XPath(TOPIC_ITEM_XPATH));
 		}
 
-		/// <summary>
-		/// Вернуть значение Topic
-		/// </summary>
-		/// <param name="fieldName">название поля</param>
-		/// <returns>значение</returns>
 		public string GetTopicValue(string fieldName)
 		{
+			Logger.Debug(string.Format("Вернуть значение Topic поля {0}", fieldName));
+
 			return GetTextElement(By.XPath(GetInputXPath(fieldName) + FIELD_DIV_VALUE_XPATH));
 		}
 
-		/// <summary>
-		/// Открыть атрибуты языка
-		/// </summary>
+
 		public void OpenLanguageAttributes()
 		{
+			Logger.Debug("Нажать кнопку открытия атрибутов языка");
 			ClickElement(By.XPath(LANGUAGE_ROW_XPATH));
 		}
 
-		/// <summary>
-		/// Вернуть, отображается ли поле в детальных атрибутах
-		/// </summary>
-		/// <param name="fieldName">название поля</param>
-		/// <returns>отображается</returns>
-		public bool GetIsExistDetailsTextarea(string fieldName)
+		public void AssertionIsExistDetailsTextarea(string fieldName)
 		{
-			return GetIsElementDisplay(By.XPath(GetDetailsTextareaXPath(fieldName)));
+			Logger.Debug(string.Format("Получить, отображается ли поле {0} в детальных атрибутах", fieldName));
+
+			Assert.IsTrue(GetIsElementDisplay(By.XPath(GetDetailsTextareaXPath(fieldName))),
+				"Ошибка: в детальных атрибутах поле не появилось!");
 		}
 
-		/// <summary>
-		/// Заполнить textarea в детальных атрибутах
-		/// </summary>
-		/// <param name="fieldName">название поля</param>
-		/// <param name="text">текст</param>
 		public void FillDetailTextarea(string fieldName, string text)
 		{
+			Logger.Debug(string.Format("Заполнить textarea детальных атрибутов. Название поля {0}, текст {1}", fieldName, text));
+
 			SendTextElement(By.XPath(GetDetailsTextareaXPath(fieldName)), text);
 		}
 
-		/// <summary>
-		/// Получить значение textarea детальных атрибутов
-		/// </summary>
-		/// <param name="fieldName">название поля</param>
-		/// <returns>значение</returns>
 		public string GetDetailTextareaValue(string fieldName)
 		{
-			return GetTextElement(By.XPath(GetDetailsTextareaXPath(fieldName) + 
-				DETAILS_TEXTAREA_VALUE));
+			Logger.Debug(string.Format("Получить значение textarea детальных атрибутов. Название поля {0}", fieldName));
+
+			return GetTextElement(By.XPath(GetDetailsTextareaXPath(fieldName) + DETAILS_TEXTAREA_VALUE));
 		}
 
-		/// <summary>
-		/// Открыть атрибуты уровня Term
-		/// </summary>
 		public void OpenTermLevel()
 		{
+			Logger.Debug("Нажать кнопку открытия атрибутов уровня Term");
 			ClickElement(By.XPath(TERM_ROW_XPATH));
 		}
 
-		/// <summary>
-		/// Вернуть, отображается ли поле Select в детальных атрибутах
-		/// </summary>
-		/// <param name="fieldName">название поля</param>
-		/// <returns>отображается</returns>
 		public bool GetIsExistDetailsSelect(string fieldName)
 		{
+			Logger.Trace(string.Format("Вернуть, отображается ли поле Select в детальных атрибутах. Название поля {0}", fieldName));
+
 			return GetIsElementExist(By.XPath(GetDetailsSelectXPath(fieldName)));
 		}
 
-		/// <summary>
-		/// Вернуть id из списка select детальных атрибутов
-		/// </summary>
-		/// <param name="fieldName">название поля</param>
-		/// <param name="optionNumber">номер элемента списка</param>
-		/// <returns>id</returns>
-		public string GetDetailsSelectOptionID(string fieldName, int optionNumber)
+		public string GetDetailsSelectOptionId(string fieldName, int optionNumber)
 		{
-			var xPath = GetDetailsSelectXPath(fieldName) 
-				+ DETAILS_SELECT_OPTION_XPATH + "[" + optionNumber + "]";
+			Logger.Debug(string.Format("Вернуть id из списка select детальных атрибутов. Название поля {0}, номер элемента списка {1}", 
+				fieldName, optionNumber));
+
+			var xPath = GetDetailsSelectXPath(fieldName) + DETAILS_SELECT_OPTION_XPATH + "[" + optionNumber + "]";
 
 			return GetElementAttribute(By.XPath(xPath), "value");
 		}
 
-		/// <summary>
-		/// Кликнуть по Select в детальных атрибутах для открытия списка
-		/// </summary>
-		/// <param name="fieldName">название поля</param>
 		public void ClickDetailsSelectDropdown(string fieldName)
 		{
-			ClickElement(By.XPath(GetDetailsSelectXPath(fieldName) + 
-				CHOICE_FIELD_DROPDOWN_XPATH));
+			Logger.Debug(string.Format("Кликнуть по Select в детальных атрибутах для открытия списка. Название поля {0}", fieldName));
+			ClickElement(By.XPath(GetDetailsSelectXPath(fieldName) + CHOICE_FIELD_DROPDOWN_XPATH));
 		}
 
-		/// <summary>
-		/// Кликнуть по элементу списка
-		/// </summary>
-		/// <param name="optionID">id</param>
-		public void ClickListItemByID(string optionID)
+		public void ClickListItemById(string optionId)
 		{
-			ClickElement(By.XPath(GetSelectOptionText(optionID)));
+			Logger.Debug(string.Format("Кликнуть по элементу списка. Id {0}", optionId));
+			ClickElement(By.XPath(GetSelectOptionText(optionId)));
 		}
 
-		/// <summary>
-		/// Получить текст элемента списка
-		/// </summary>
-		/// <param name="optionID">id</param>
-		/// <returns>текст</returns>
-		public string GetListItemText(string optionID)
+		public string GetListItemText(string optionId)
 		{
-			return GetTextElement(By.XPath(GetSelectOptionText(optionID)));
+			Logger.Trace(string.Format("Получить текст элемента списка. Id {0}", optionId));
+
+			return GetTextElement(By.XPath(GetSelectOptionText(optionId)));
 		}
 
-		/// <summary>
-		/// Вернуть значение поля Select детальных атрибутов
-		/// </summary>
-		/// <param name="fieldName">название поля</param>
-		/// <returns>значение</returns>
 		public string GetDetailsSelectValue(string fieldName)
 		{
-			return GetTextElement(By.XPath(GetDetailsSelectXPath(fieldName) + 
-				DETAILS_TEXTAREA_VALUE));
+			Logger.Trace(string.Format("Вернуть значение поля Select детальных атрибутов. Название поля {0}", fieldName));
+
+			return GetTextElement(By.XPath(GetDetailsSelectXPath(fieldName) + DETAILS_TEXTAREA_VALUE));
 		}
 
-		/// <summary>
-		/// Вернуть, есть ли термин с таким названием
-		/// </summary>
-		/// <param name="text"></param>
-		/// <returns></returns>
 		public bool GetIsTermExistByText(string text)
 		{
-			return GetIsElementDisplay(By.XPath(CONCEPT_ROW_XPATH + 
-				"//p[contains(text(),'" + text + "')]"));
+			Logger.Trace(string.Format("Получить, есть ли термин с названием {0}", text));
+
+			return GetIsElementDisplay(By.XPath(CONCEPT_ROW_XPATH + "//p[contains(text(),'" + text + "')]"));
 		}
 
-		/// <summary>
-		/// Вернуть, есть ли данный одиночный сорс термин
-		/// </summary>
-		/// <param name="text">текст</param>
-		/// <returns>есть</returns>
 		public bool GetIsSingleSourceTermExists(string text)
 		{
+			Logger.Trace(string.Format("Получить, есть ли данный одиночный сорс термин {0}", text));
+
 			if (GetIsExistTerm(text))
 			{
 				return !GetIsElementDisplay(By.XPath(SINGLE_SOURCE_TERM_XPATH.Replace("#", text)));
@@ -783,55 +564,35 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			}
 		}
 
-		/// <summary>
-		/// Вернуть, есть ли данный одиночный таргет термин
-		/// </summary>
-		/// <param name="text">текст</param>
-		/// <returns>есть</returns>
-		public bool GetIsSingleTargetTermExists(string text)
+		public void AssertionIsSingleTargetTermExists(string text)
 		{
-			if (GetIsExistTerm(text))
-			{
-				return !GetIsElementDisplay(By.XPath(SINGLE_TARGET_TERM_XPATH.Replace("#", text)));
-			}
-			else
-			{
-				return false;
-			}
+			Logger.Trace(string.Format("Проверитьналичие одиночного таргет термина {0}", text));
+
+			Assert.IsTrue(!GetIsElementDisplay(By.XPath(SINGLE_TARGET_TERM_XPATH.Replace("#", text))),
+				"Ошибка: Не добавлен одиночный термин из таргета.");
 		}
 
-		/// <summary>
-		/// Вернуть, есть ли термин с заданными сорсом и таргетом
-		/// </summary>
-		/// <param name="sourceText">текст сорса</param>
-		/// <param name="targetText">текст таргета</param>
-		/// <returns>есть</returns>
 		public bool GetIsSourceTargetTermExists(string sourceText, string targetText)
 		{
+			Logger.Debug(string.Format("Получить, есть ли термин с сорсом {0} и таргетом {1}", sourceText, targetText));
+
 			return GetIsElementDisplay(By.XPath(SOURCE_TARGET_TERM_XPATH.Replace("#", sourceText).Replace("**", targetText)));
 		}
 
-		/// <summary>
-		/// Вернуть, есть ли термин с заданным комментарием
-		/// </summary>
-		/// <param name="text">текст комментария</param>	   
-		/// <returns>есть</returns>
 		public bool GetIsCommentExists(string text)
 		{
+			Logger.Debug(string.Format("Получить, есть ли термин с комментарием {0}", text));
+
 			return GetIsElementDisplay(By.XPath(COMMENT_XPATH.Replace("#", text)));
 		}
 
-		/// <summary>
-		/// Вернуть, есть ли два одинаковых заданных термина
-		/// </summary>
-		/// <param name="sourceText">текст сорса</param>
-		/// <param name="targetText">текст таргета</param>
-		/// <returns>есть</returns>
 		public bool GetAreTwoEqualTermsExist(string sourceText, string targetText)
 		{
+			Logger.Debug(string.Format("Получить, есть ли два одинаковых термина. Текст сорса {0}, текст таргета {1}", sourceText, targetText));
+
 			var terms = Driver.FindElements(
-			   By.XPath(
-				   SOURCE_TARGET_TERM_XPATH
+				By.XPath(
+					SOURCE_TARGET_TERM_XPATH
 						.Replace("#", sourceText)
 						.Replace("**", targetText)))
 						.ToList();
@@ -839,249 +600,207 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			return terms.Count > 1;
 		}
 
-		/// <summary>
-		/// Кликнуть Edit
-		/// </summary>
 		public void ClickEditBtn()
 		{
+			Logger.Debug("Нажать кнопку Edit");
 			ClickElement(By.XPath(EDIT_BTN_XPATH));
 		}
 
-		/// <summary>
-		/// Кликнуть на строку термина
-		/// </summary>
 		public void ClickTermRow()
 		{
+			Logger.Debug("Кликнуть на строку термина");
 			ClickElement(By.XPath(CONCEPT_ROW_XPATH + TERM_COMMENT_TD));
 		}
 
-		/// <summary>
-		/// Кликнуть на заданную строку термина
-		/// </summary>
 		public void ClickTermRowByNameOfTerm(string source, string target)
 		{
+			Logger.Debug("Кликнуть на заданную строку термина");
 			ClickElement(By.XPath(SOURCE_TARGET_TERM_COMMENT_RAW_XPATH.Replace("#", source).Replace("**", target)));
 		}
 
-		/// <summary>
-		/// Кликнуть на Edit в строке термина
-		/// </summary>
 		public void ClickEditTermBtn()
 		{
+			Logger.Debug("Кликнуть на кнопку Edit в строке термина");
 			ClickElement(By.XPath(CONCEPT_ROW_XPATH + EDIT_TERM_BTN_XPATH));
 		}
 
-		/// <summary>
-		/// Заполнить все термины в обычном режиме
-		/// </summary>
-		/// <param name="text">текст</param>
 		public void FillTermGeneralMode(string text)
 		{
+			Logger.Debug(string.Format("Заполнить все термины в обычном режиме. Текст термина: {0}", text));
 			ClearAndFillElementsList(By.XPath(INPUT_TERM_XPATH), text);
 		}
 
-		/// <summary>
-		/// Кликнуть кнопку Свернуть
-		/// </summary>
 		public void ClickTurnOffBtn()
 		{
+			Logger.Debug("Кликнуть кнопку Свернуть");
 			ClickElement(By.XPath(TURN_OFF_BTN_XPATH));
 		}
 
-		/// <summary>
-		/// Заполнить поле Поиск
-		/// </summary>
-		/// <param name="text">текст</param>
 		public void FillSearchField(string text)
 		{
+			Logger.Debug(string.Format("Заполнить поле поиск. Текст поля: {0}", text));
 			ClearAndAddText(By.XPath(SEARCH_INPUT_XPATH), text);
 		}
 
-		/// <summary>
-		/// Кликнуть кнопку Search
-		/// </summary>
 		public void ClickSearchBtn()
 		{
+			Logger.Debug("Кликнуть кнопку Search");
 			ClickElement(By.XPath(SEARCH_BTN_XPATH));
 		}
 
-		/// <summary>
-		/// Вернуть текст первого термина
-		/// </summary>
-		/// <returns>текст термина</returns>
 		public string GetFirstTermText()
 		{
+			Logger.Debug("Получить текст первого термина");
 			return GetTextElement(By.XPath(TERM_TEXT_XPATH)).Trim();
 		}
 
-		/// <summary>
-		/// Вернуть, есть ли такой термин
-		/// </summary>
-		/// <param name="termText">текст термина</param>
-		/// <returns>есть</returns>
 		public bool GetIsExistTerm(string termText)
 		{
+			Logger.Debug(string.Format("Получить, есть ли термин {0} среди остальных терминов", termText));
 			return GetIsElementExist(By.XPath(TERM_TEXT_XPATH + "[contains(text(),'" + termText + "')]"));
 		}
 
-		/// <summary>
-		/// Кликнуть Cancel
-		/// </summary>
 		public void ClickCancelEditBtn()
 		{
+			Logger.Debug("Нажать кнопку Cancel");
 			ClickElement(By.XPath(CANCEL_EDIT_CONCEPT_BTN_XPATH));
 		}
 
-		/// <summary>
-		/// Кликнуть Delete
-		/// </summary>
 		public void ClickDeleteBtn()
 		{
+			Logger.Debug("Нажать кнопку Delete");
 			ClickElement(By.XPath(DELETE_CONCEPT_BTN_XPATH));
 		}
 
-		/// <summary>
-		/// Получить сслку для скачивания файла
-		/// </summary>
-		/// <returns> Ссылка</returns>
 		public string GetHrefForExport()
 		{
+			Logger.Debug("Получить сслку для скачивания файла");
 			return GetElementAttribute(By.XPath(HREF_EXPORT), "href");
 		}
-		/// <summary>
-		/// Кликнуть Add 
-		/// </summary>
-		/// <param name="langNumber">номер языка</param>
+
 		public void ClickAddSynonym(int langNumber)
 		{
+			Logger.Debug(string.Format("Нажать кнопку Add для языка #{0}", langNumber));
 			ClickElement(By.XPath(CONCEPT_EDITING_TD_XPATH + 
 				"[" + langNumber + "]" + ADD_SYNONYM_BTN_XPATH));
 		}
 
-		/// <summary>
-		/// Заполнить язык термина
-		/// </summary>
-		/// <param name="langNumber">номер языка</param>
-		/// <param name="text">текст</param>
 		public void FillSynonymTermLanguage(int langNumber, string text)
 		{
-			ClearAndAddText(By.XPath(CONCEPT_EDITING_TD_XPATH + 
-				"[" + langNumber + "]" + SYNONYM_INPUT_XPATH), text);
+			Logger.Debug(string.Format("Заполнить язык термина. Язык №{0}, текст {1}", langNumber, text));
+			ClearAndAddText(By.XPath(CONCEPT_EDITING_TD_XPATH + "[" + langNumber + "]" + SYNONYM_INPUT_XPATH), text);
 		}
 
-		/// <summary>
-		/// Вернуть, отмечен ли термин ошибкой
-		/// </summary>
-		/// <param name="langNumber">номер языка</param>
-		/// <returns>отмечен</returns>
-		public bool GetIsTermErrorExist(int langNumber)
+		public void AssertionIsTermErrorExist(int langNumber)
 		{
-			return GetIsElementExist(By.XPath(CONCEPT_EDITING_TD_XPATH + 
-				"[" + langNumber + "]" + TERM_ERROR_XPATH));
+			Logger.Debug(string.Format("Проверить, что термин отмечен ошибкой. Номер языка: {0}", langNumber));
+
+			Assert.IsTrue(
+				GetIsElementExist(By.XPath(CONCEPT_EDITING_TD_XPATH + "[" + langNumber + "]" + TERM_ERROR_XPATH)),
+				"Ошибка: поле с совпадающим термином не отмечено ошибкой");
 		}
 
-		/// <summary>
-		/// Вернуть, появилось ли сообщение об ошибке в термине
-		/// </summary>
-		/// <param name="langNumber">номер языка</param>
-		/// <returns>есть</returns>
-		public bool GetIsTermErrorMessageExist(int langNumber)
+		public void AssertionIsTermErrorMessageExist(int langNumber)
 		{
-			return GetIsElementExist(By.XPath(CONCEPT_EDITING_TD_XPATH + 
-				"[" + langNumber + "]" + TERM_ERROR_MESSAGE_XPATH));
+			Logger.Debug(string.Format("Проверить, что появилось сообщение об ошибке в термине. Номер языка {0}", langNumber));
+
+			Assert.IsTrue(
+				GetIsElementExist(By.XPath(CONCEPT_EDITING_TD_XPATH + "[" + langNumber + "]" + TERM_ERROR_MESSAGE_XPATH)),
+				"Ошибка: поле с совпадающим термином не отмечено ошибкой");
 		}
 
-		/// <summary>
-		/// Вернуть, есть ли ошибка глоссария
-		/// </summary>
-		/// <returns>есть</returns>
-		public bool GetIsGlossaryErrorExist()
+		public void AssertionIsGlossaryErrorExist()
 		{
-			return GetIsElementExist(By.XPath(GLOSSARY_ERROR_XPATH));
+			Logger.Trace("Проверить, что появилась ошибка глоссария");
+
+			Assert.IsTrue(GetIsElementExist(By.XPath(GLOSSARY_ERROR_XPATH)),
+				"Ошибка: должно появиться предупреждение о добавлении пустого термина");
 		}
 
-		/// <summary>
-		/// Дождаться ошибки дубликата
-		/// </summary>
-		/// <returns>появилась</returns>
-		public bool WaitDuplicateErrorAppear()
+		public void AssertionDuplicateErrorAppear()
 		{
-			return WaitUntilDisplayElement(By.XPath(DUPLICATE_ERROR_XPATH));
+			Logger.Debug("Проверить существование ошибки дубликата");
+
+			Assert.IsTrue(WaitUntilDisplayElement(By.XPath(DUPLICATE_ERROR_XPATH)),
+				"Ошибка: должно появиться предупреждение о добавлении существующего термина");
 		}
 
-		/// <summary>
-		/// Кликнуть Import
-		/// </summary>
 		public void ClickImportBtn()
 		{
+			Logger.Debug("Нажать кнопку Import");
 			ClickElement(By.XPath(IMPORT_BTN_XPATH));
 		}
 
-		/// <summary>
-		///  Дождаться появления формы импорта
-		/// </summary>
-		/// <returns>появилась</returns>
-		public bool WaitImportForm()
+		public void WaitImportForm()
 		{
-			return WaitUntilDisplayElement(By.XPath(IMPORT_FORM_XPATH));
+			Logger.Trace("Проверка появления формы импорта");
+
+			Assert.IsTrue(WaitUntilDisplayElement(By.XPath(IMPORT_FORM_XPATH)),
+				"Ошибка: форма импорта не появилась");
 		}
 
-		/// <summary>
-		///  Дождаться закрытия формы импорта
-		/// </summary>
-		/// <returns>закрылась</returns>
-		public bool WaitUntilImportFormDisappear()
+		public void AssertionImportFormDisappear()
 		{
-			return WaitUntilDisappearElement(By.XPath(IMPORT_FORM_XPATH));
+			Logger.Trace("Проверить, что форма импорта закрылась");
+
+			Assert.IsTrue(WaitUntilDisappearElement(By.XPath(IMPORT_FORM_XPATH)),
+				"Ошибка: форма импорта не была закрыта");
 		}
 
-		/// <summary>
-		/// Кликнуть кнопку Upload
-		/// </summary>
-		public void ClickUploadBtn()
-		{
-			ClickElement(By.XPath(UPLOAD_BTN_XPATH));
-		}
-
-		/// <summary>
-		/// Кликнуть кнопку Export
-		/// </summary>
-		public void ClickExportBtn()
-		{
-			ClickElement(By.XPath(EXPORT_BTN_XPATH));
-		}
-
-		/// <summary>
-		/// Кликнуть Replace All
-		/// </summary>
 		public void ClickReplaceAll()
 		{
+			Logger.Debug("Нажать кнопку ReplaceAll");
 			ClickElement(By.XPath(REPLACE_ALL_XPATH));
 		}
 
-		/// <summary>
-		/// Кликнуть импорт в форме импорта
-		/// </summary>
 		public void ClickImportFormImportBtn()
 		{
+			Logger.Debug("Кликнуть импорт в форме импорта");
 			ClickElement(By.XPath(IMPORT_FORM_IMPORT_BTN_XPATH));
 		}
 
-		/// <summary>
-		/// Закрыть сообщение об успешном добавлении
-		/// </summary>
 		public void ClickCloseSuccessResult()
 		{
+			Logger.Debug("Кликнуть кнопку закрытия сообщения об успешном добавлении");
 			ClickElement(By.XPath(SUCCESS_RESULT_CLOSE_BTN_XPATH));
 		}
 
-		/// <summary>
-		/// Вернуть, есть ли добавление термина в расширенном режиме
-		/// </summary>
-		/// <returns>есть</returns>
-		public bool GetIsExistNewItemExtendedMode()
+		public void AssertionIsExistNewItemExtendedMode()
 		{
-			return GetIsElementDisplay(By.XPath(CONCEPT_EDITING_TD_XPATH));
+			Logger.Trace("Проверить сущестоввание расширенного режима добавления термина");
+			
+			Assert.IsTrue(GetIsElementDisplay(By.XPath(CONCEPT_EDITING_TD_XPATH)),
+				"Ошибка: не появилось расширенного режима добавления термина");
+		}
+
+		public void UploadFileInGlossary(string fileName)
+		{
+			UploadDocNativeAction(fileName);
+		}
+
+		public void UploadTerm(string DocumentName)
+		{
+			var input = Driver.FindElement(By.XPath(IMPORT_TERMS));
+			((IJavaScriptExecutor)Driver).ExecuteScript("arguments[0].style[\"display\"] = \"block\";" +
+				"arguments[0].style[\"visibility\"] = \"visible\";",
+				input);
+			Driver.FindElement(By.XPath(IMPORT_TERMS)).SendKeys(DocumentName);
+			((IJavaScriptExecutor)Driver).ExecuteScript("document.getElementsByClassName('g-iblock g-bold l-editgloss__filelink js-filename-link')[0].innerHTML = '" + Path.GetFileName(DocumentName) + "'");
+
+		}
+
+		public void ClickExportGlossary()
+		{
+			Logger.Debug("Нажать на кнопку экспорта глоссария");
+			ClickElement(By.XPath(HREF_EXPORT));
+		}
+
+		public void WaitNewItemOpen()
+		{
+			Logger.Trace("Проверить, что форма добавления нового термина открылась");
+
+			Assert.IsTrue(WaitUntilDisplayElement(By.XPath(NEW_ITEM_OPEN)),
+				"Ошибка: форма добавления нового термина не была открыта");
 		}
 
 		/// <summary>
@@ -1219,38 +938,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		protected string GetSelectOptionText(string optionID)
 		{
 			return CHOICE_DROPDOWN_LIST + "[@data-id='" + optionID + "']";
-		}
-
-		public void UploadFileInGlossary(string fileName)
-		{
-			UploadDocNativeAction(fileName);
-		}
-
-		public void UploadTerm(string DocumentName)
-		{
-			//((IJavaScriptExecutor)Driver).ExecuteScript("document.evaluate('" + IMPORT_TERMS + "', document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue.style.display = 'block';");
-			var input = Driver.FindElement(By.XPath(IMPORT_TERMS));
-			((IJavaScriptExecutor)Driver).ExecuteScript("arguments[0].style[\"display\"] = \"block\";" +
-				"arguments[0].style[\"visibility\"] = \"visible\";",
-				input);
-			Driver.FindElement(By.XPath(IMPORT_TERMS)).SendKeys(DocumentName);
-			((IJavaScriptExecutor)Driver).ExecuteScript("document.getElementsByClassName('g-iblock g-bold l-editgloss__filelink js-filename-link')[0].innerHTML = '" + Path.GetFileName(DocumentName) + "'");
-
-		}
-
-		public void ClickExportGlossary()
-		{
-			Logger.Debug("Нажать на кнопку экспорта глоссария");
-			ClickElement(By.XPath(HREF_EXPORT));
-		}
-
-		/// <summary>
-		/// Дождаться открытия формы нового термина
-		/// </summary>
-		/// <returns>открылся</returns>
-		public bool WaitNewItemOpen()
-		{
-			return WaitUntilDisplayElement(By.XPath(NEW_ITEM_OPEN));
 		}
 
 		protected const string IMPORT_TERMS = "html/body/div[15]/div[2]/div[2]/form/div[1]/div[1]/div/input";

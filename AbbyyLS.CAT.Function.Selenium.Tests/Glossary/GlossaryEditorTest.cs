@@ -73,7 +73,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			DeleteGlossary();
 
 			// Удалить второй глоссарий
-			if (_glossaryName2 != null && GetIsExistGlossary(_glossaryName2))
+			if (_glossaryName2 != null && GlossaryListPage.GetIsExistGlossary(_glossaryName2))
 			{
 				SwitchCurrentGlossary(_glossaryName2);
 				// Удалить глоссарий
@@ -203,8 +203,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 
 			// Открыть глоссарий и проверить, есть ли термин
 			openCurrentGlossary();
-			Assert.IsTrue(GlossaryPage.GetIsSingleTargetTermExists("Earth"),
-				"Ошибка: Не добавлен одиночный термин из таргета.");
+			GlossaryPage.AssertionIsSingleTargetTermExists("Earth");
 		}
 
 		/// <summary>
@@ -641,23 +640,18 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		// Проект не изменяется при проведении тестов
 		private string projectNoChangesName = "";
 		
-		/// <summary>
-		/// Проверяем, что там у пользователя с правами
-		/// </summary>
 		private void checkAddUserRights()
-		{			
+		{	
+			Logger.Trace("Проверка прав пользователей");
 			// Переходим к вкладке прав пользователей
 			WorkspacePage.ClickUsersAndRightsBtn();
 			// Ожидание открытия страницы
-			Assert.IsTrue(
-				UserRightsPage.WaitUntilUsersRightsDisplay(), 
-				"Ошибка: Страница прав пользователя не открылась.");
-
+			UserRightsPage.AssertionUsersRightsPageDisplayed();
 			// Открываем страницу групп пользователей
 			UserRightsPage.OpenGroups();
+
 			// Ожидание открытия страницы прав групп пользователей
-			Assert.IsTrue(
-				UserRightsPage.WaitUntilGroupsRightsDisplay(), 
+			Assert.IsTrue(UserRightsPage.WaitUntilGroupsRightsDisplay(), 
 				"Ошибка: Страница прав групп пользователей не открылась.");
 
 			// Открываем страницу групп пользователей
@@ -670,7 +664,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 
 			// Получение имени пользователя
 			var userName = WorkspacePage.GetUserName();
-
 			// Окрытие группы Administrators
 			UserRightsPage.ClickGroupByName("Administrators");
 			Thread.Sleep(1000);
@@ -719,56 +712,29 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 				// Получение списка пользователей в группе Administrators
 				usersInGroup = UserRightsPage.GetDisplayUsersInGroup();
 
-				Assert.IsTrue(
-					usersInGroup.Contains(userName), 
+				Assert.IsTrue(usersInGroup.Contains(userName), 
 					"Ошибка: Пользователя не удалось добавить.");
-				Assert.IsTrue(
-					UserRightsPage.IsManageAllGlossariesRightIsPresent(), 
+				Assert.IsTrue(UserRightsPage.IsManageAllGlossariesRightIsPresent(), 
 					"Ошибка: Право управления глоссариями не удалось добавить.");
 
 				SwitchWorkspaceTab();
 			}
 		}
 
-		/// <summary>
-		/// Автозаполнение сорса
-		/// </summary>
 		private void autofillFormSourceWordSelected()
 		{
+			Logger.Debug("Автозаполнение сорса");
 			const int segmentNumber = 1;
-
 			EditorPage.SelectFirstWordSourceByHotkey(segmentNumber);
 			openAddTermForm();
-			
-			Assert.IsTrue(AddTermForm.GetSourceTermText("Earth"), "Ошибка: Нет автозаполнения сорса.");
+
+			AddTermForm.AssertionIsTextExistInSourceTerm("Earth");
 		}
 
-		/// <summary>
-		/// Автозаполнение таргета
-		/// </summary>
-		private void AutofillFormTargetWordSelected()
-		{
-			const int segmentNumber = 1;
-
-			// Удаляем старый текст из таргета
-			EditorPage.ClearTarget(segmentNumber);
-			// Написать что-то в target
-			EditorPage.AddTextTarget(segmentNumber, "Земля это такая планета.");
-			// Нажать хоткей перехода в начало строки
-			EditorPage.CursorToTargetLineBeginningByHotkey(segmentNumber);
-			// Нажать хоткей выделения первого слова
-			EditorPage.SelectFirstWordTargetByHotkey(segmentNumber);
-			//Открываем форму добавления термина
-			openAddTermForm();
-			Assert.IsTrue(AddTermForm.GetTargetTermText("Земля"), "Ошибка: Нет автозаполнения таргета.");
-		}
-
-		/// <summary>
-		/// Создаем новый словарь с заданным именем		 
-		/// </summary>
-		/// <param name="firstGlossary">словарь номер один или два</param> 
 		private void createNewGlossary(bool firstGlossary = true)
 		{
+			Logger.Debug(string.Format("Создаем новый словарь. Первый словарь: {0}", firstGlossary));
+
 			string glossaryName;
 
 			SwitchGlossaryTab();
@@ -781,7 +747,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			}
 			else
 			{
-				if (GetIsExistGlossary(_glossaryName2))
+				if (GlossaryListPage.GetIsExistGlossary(_glossaryName2))
 				{
 					SwitchWorkspaceTab();
 					return;
@@ -796,7 +762,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			SwitchGlossaryTab();			
 
 			// Проверить, что глоссарий сохранился
-			Assert.IsTrue(GetIsExistGlossary(glossaryName), "Ошибка: глоссарий не создался " + glossaryName);
+			Assert.IsTrue(GlossaryListPage.GetIsExistGlossary(glossaryName), "Ошибка: глоссарий не создался " + glossaryName);
 
 			SwitchWorkspaceTab();
 		}
@@ -808,7 +774,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <param name="target">таргет</param>  
 		private void deleteTermByName(string source, string target)
 		{
-			var itemsCount = GetCountOfItems();
+			var itemsCount = GlossaryPage.GetConceptCount();
 
 			// Расширить окно, чтобы "корзинка" была видна, иначе Selenium ее "не видит" и выдает ошибку
 			Driver.Manage().Window.Maximize();
@@ -816,35 +782,28 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			GlossaryPage.ClickTermRowByNameOfTerm(source, target);
 			// Нажать на "корзинку"
 			GlossaryPage.ClickDeleteBtn();
-			GlossaryPage.WaitConceptGeneralDelete();
+			GlossaryPage.AssertionConceptGeneralDelete();
 			Thread.Sleep(1000);
 
 			// Сравнить количество терминов
-			var itemsCountAfter = GetCountOfItems();
+			var itemsCountAfter = GlossaryPage.GetConceptCount();
 			Assert.IsTrue(
 				itemsCountAfter < itemsCount, 
 				"Ошибка: количество терминов не уменьшилось");
 		}
 
-		/// <summary>
-		/// Открыть форму добавления термина	  
-		/// </summary>
 		private void openAddTermForm()
 		{
-			// Нажать кнопку вызова формы для добавления термина
+			Logger.Debug("Открытие формы добавления термина");
 			EditorPage.ClickAddTermBtn();
 
-			// Проверка, что открылась форма
-			Assert.IsTrue(
-				EditorPage.WaitAddTermFormDisplay(),
+			Assert.IsTrue(EditorPage.WaitAddTermFormDisplay(),
 				"Ошибка: Форма для добавления термина не открылась.");
 		}
 
-		/// <summary>
-		/// Открыть текущий словарь	  
-		/// </summary>
 		private void openCurrentGlossary()
 		{
+			Logger.Debug("Открытие текущего словаря");
 			// Нажать кнопку Назад
 			EditorPage.ClickHomeBtn();
 			// Перейти к списку глоссариев
@@ -853,11 +812,9 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			SwitchCurrentGlossary(_glossaryName);			
 		}
 
-		/// <summary>
-		/// Создать проект с двумя глоссариями	 
-		/// </summary>
 		private void createProjectWithTwoGlossaries()
 		{
+			Logger.Debug("Создание проекта с двумя глоссариями");
 			_projectName2 = ProjectUniqueName + "_" + DateTime.UtcNow.Ticks + "2";		 
 			// Создать второй словарь
 			createNewGlossary(false);					

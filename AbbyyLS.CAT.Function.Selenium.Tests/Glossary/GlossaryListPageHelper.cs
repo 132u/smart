@@ -10,23 +10,17 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 	/// </summary>
 	public class GlossaryListPageHelper : CommonHelper
 	{
-		/// <summary>
-		/// Конструктор хелпера
-		/// </summary>
-		/// <param name="driver">Драйвер</param>
-		/// <param name="wait">Таймаут</param>
 		public GlossaryListPageHelper(IWebDriver driver, WebDriverWait wait)
 			: base(driver, wait)
 		{
 		}
 
-		/// <summary>
-		/// Дождаться загрузки страницы
-		/// </summary>
-		/// <returns>загрузилась</returns>
-		public bool WaitPageLoad()
+		public void WaitPageLoad()
 		{
-			return WaitUntilDisplayElement(By.XPath(CREATE_GLOSSARY_BTN_XPATH));
+			Logger.Trace("Проверка успешной загрузки страницы глоссария");
+
+			Assert.IsTrue(WaitUntilDisplayElement(By.XPath(CREATE_GLOSSARY_BTN_XPATH)), 
+				"Ошибка: не удалось перейти на страницу глоссария");
 		}
 
 		public void ClickCreateGlossary()
@@ -35,12 +29,10 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			ClickElement(By.XPath(CREATE_GLOSSARY_BTN_XPATH));
 		}
 
-		/// <summary>
-		/// Вернуть, есть ли кнопка предложения термина
-		/// </summary>
-		/// <returns>есть</returns>
 		public bool GetIsAddSuggestExist()
 		{
+			Logger.Debug("Получить, есть ли кнопка предложения термина");
+
 			SetDriverTimeoutMinimum();
 			var isExist = GetIsElementDisplay(By.XPath(ADD_SUGGEST_BTN_XPATH));
 			SetDriverTimeoutDefault();
@@ -48,21 +40,16 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			return isExist;
 		}
 
-		/// <summary>
-		/// Кликнуть Добавить предложенный термин
-		/// </summary>
 		public void ClickAddSuggest()
 		{
+			Logger.Debug("Кликнуть кнопку добавления предложенного термина");
 			ClickElement(By.XPath(ADD_SUGGEST_BTN_XPATH));
 		}
 
-		/// <summary>
-		/// Вернуть, есть ли глоссарий с таким именем
-		/// </summary>
-		/// <param name="glossaryName">название глоссария</param>
-		/// <returns>есть</returns>
 		public bool GetIsExistGlossary(string glossaryName)
 		{
+			Logger.Trace(string.Format("Получить существование глоссария {0}", glossaryName));
+
 			return WaitUntilDisplayElement(By.XPath(GetGlossaryRowXPath(glossaryName)));
 		}
 

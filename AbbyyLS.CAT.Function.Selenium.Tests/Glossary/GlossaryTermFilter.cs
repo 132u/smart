@@ -1,5 +1,4 @@
 ﻿using NUnit.Framework;
-using NLog;
 using System;
 using System.Threading;
 using System.Collections.Generic;
@@ -40,7 +39,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Glossary
 			_glossaryName = CreateGlossaryAndReturnToGlossaryList(languagesList);
 
 			// Проверить, что глоссарий сохранился
-			Assert.IsTrue(GetIsExistGlossary(_glossaryName), "Ошибка: глоссарий не создался");
+			Assert.IsTrue(GlossaryListPage.GetIsExistGlossary(_glossaryName), "Ошибка: глоссарий не создался");
 
 			// Перейти на стр словаря
 			SwitchCurrentGlossary(_glossaryName);
