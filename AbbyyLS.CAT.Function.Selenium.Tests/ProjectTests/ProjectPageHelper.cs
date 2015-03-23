@@ -797,12 +797,12 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		protected const string PROJECT_SETTINGS_BTN_XPATH = "//span[contains(@class,'js-project-edit')]";
 		protected const string PROJECT_SETTINGS_WORKFLOW_XPATH = SETTING_POPUP + "//a[contains(@data-bind, 'activeTab(workflowTab);')]";
 		protected const string SETTING_POPUP = "//div[contains(@class,'js-popup-edit')][2]";
-		protected const string PROJECT_SETTINGS_WF_TABLE_XPATH = "//table[contains(@class,'l-corpr__tbl')]//tbody[@data-bind='foreach: workflowStages']";
+		protected const string PROJECT_SETTINGS_WF_TABLE_XPATH = "//div[contains(@class,'js-popup-edit')][2]//tbody[@data-bind='foreach: workflowStages']";
 		protected const string PROJECT_SETTINGS_WF_DROPDOWNLIST_XPATH = "//span[contains(@class,'js-dropdown__item')]";
 		protected const string PROJECT_SETTINGS_WF_NEW_TASK_BTN = "//div[@class='g-popup-bd js-popup-bd js-popup-edit'][2]//span[contains(@data-bind, 'addWorkflowStage')]";
 		protected const string PROJECT_SETTINGS_WF_DELETE_TASK_BTN = "//a[@class='g-iblock g-corprAction']";
 
-		protected const string PROJECT_SETTINGS_CANCEL_BTN = "//div[contains(@class,'js-popup-edit')]//a[contains(@class,'js-popup-close')]";
+		protected const string PROJECT_SETTINGS_CANCEL_BTN = "//div[contains(@class,'js-popup-edit')][2]//a[contains(@class,'js-popup-close')]";
 		protected const string PROJECT_SETTINGS_SAVE_BTN = "//div[@class='g-popup-bd js-popup-bd js-popup-edit'][2]//div[@class='g-popupbox__ft']//span//span/a";
 
 		protected const string DOCUMENT_PROGRESS_XPATH = "//div[contains(@class,'ui-progressbar__container')]";
