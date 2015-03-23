@@ -584,7 +584,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 						Assert.Fail("Появилась ошибка при входе! М.б.недоступен AOL.");
 					}
 
-					if (LoginPage.GetAccountsCount() == 1)
+					if (LoginPage.GetAccountsCount() == 1 && !LoginPage.IsOneOfServersNotRespondingErrorExist())
 					{
 						Assert.Fail("Если аккаунт единственный, должно сразу осуществляться перенапралвение  в него.");
 					}

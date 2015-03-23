@@ -224,11 +224,17 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			return GetElementList(By.XPath(ACCOUNT_LIST)).Count;
 		}
 
+		public bool IsOneOfServersNotRespondingErrorExist()
+		{
+			return WaitUntilDisplayElement(By.XPath(ERROR_NOT_RESPONDING_MESSAGE_XPATH), maxWait: 5);
+		}
+
 		protected const string EMAIL_CSS = "input[name=\"email\"]";
 		protected const string PASSWORD_CSS = "input[name=\"password\"]";
 		protected const string SUBMIT_BTN_CSS = "//button[contains(@class, 'btn-danger')]";
 		protected const string SUBMIT_BTN_CSS2 = "//button[contains(@class, 'btn btn-danger ng-binding') and @ng-class='{ disabled: selectAccount.$invalid }']";
 		protected const string ERROR_XPATH = "//div[contains(@class,'js-dynamic-errors')]";
+		protected const string ERROR_NOT_RESPONDING_MESSAGE_XPATH = "//div[@ng-show='accountServerNotResponding']//span";
 
 		protected const string EMAIL_AUTH_XPATH = "//input[contains(@name,'email')]";
 		protected const string PASSWORD_AUTH_XPATH = "//input[contains(@name,'password')]";

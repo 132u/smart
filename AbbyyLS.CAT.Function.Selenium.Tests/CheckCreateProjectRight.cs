@@ -57,7 +57,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.CheckRights
 			WorkspacePage.ClickLogoff();
 
 			// Дождаться загрузки страницы
-			LoginPage.WaitPageLoadLpro();
+			LoginPage.WaitPageLoad();
 			
 			// Авторизуемся под пользователем, для которого выставляли права
 			Authorization(TestRightsLogin, TestRightsPassword, accountName);
