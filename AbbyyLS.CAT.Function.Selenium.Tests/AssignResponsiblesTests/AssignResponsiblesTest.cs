@@ -108,7 +108,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			WorkspacePage.ClickDocumentUploadBtn();
 
 			//Ожидаем пока загрузится диалог
-			ProjectPage.WaitImportDialogDisplay();
+			Assert.IsTrue(ProjectPage.WaitImportDialogDisplay(), "Ошибка: диалог импорта документа не открылся");
 
 			// Добавляем документ
 			WorkspacePage.UploadFileInProjectSettings(PathProvider.DocumentFileToConfirm1);
@@ -207,7 +207,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			ProjectPage.ClickImportBtn();
 
 			//// Ожидаем пока загрузится диалог
-			ProjectPage.WaitImportDialogDisplay();
+			Assert.IsTrue(ProjectPage.WaitImportDialogDisplay(), "Ошибка: диалог импорта документа не открылся");
 
 			// Добавляем документ
 			ProjectPage.UploadFileOnProjectPage(PathProvider.DocumentFileToConfirm1);
