@@ -692,7 +692,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			ClickElement(By.XPath(RESOURCES_IN_MENU_XPATH));
 		}
 
-		protected const string ADD_FILE_TO_PROJECT = "//div[@class='g-popup-bd js-popup-bd js-popup-import-document'][2]//input[@type='file']"; // добавление документа уже сущестующему проекту на стр WS
+		protected const string ADD_FILE_TO_PROJECT = "//div[contains(@class, 'popup-import-document')][2]//input[@type='file']"; // добавление документа уже сущестующему проекту на стр WS
 
 		public enum LOCALE_LANGUAGE_SELECT { English, Russian };
 		public enum EXPORT_TYPE { Original, TMX, Translated };
