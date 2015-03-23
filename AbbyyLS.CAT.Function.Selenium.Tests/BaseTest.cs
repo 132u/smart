@@ -791,12 +791,15 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 				WorkspaceCreateProjectDialog.FillProjectName(projectName);
 			WorkspaceCreateProjectDialog.ClickNextStep();
 
-			Logger.Debug("Вторая страница создания проекта - этап workflow.");
-			SetUpWorkflow(
-					translationTasksNumber,
-					editingTasksNumber,
-					proofreadingTasksNumber);
-			WorkspaceCreateProjectDialog.ClickNextStep();
+			if (WorkspaceCreateProjectDialog.IsWorkflowStepPresented())
+			{
+				Logger.Debug("Вторая страница создания проекта - этап workflow.");
+				SetUpWorkflow(
+						translationTasksNumber,
+						editingTasksNumber,
+						proofreadingTasksNumber);
+				WorkspaceCreateProjectDialog.ClickNextStep();
+			}
 
 			Logger.Debug("Третяя страница создания проекта - выбор ТМ.");
 			if (createNewTM)

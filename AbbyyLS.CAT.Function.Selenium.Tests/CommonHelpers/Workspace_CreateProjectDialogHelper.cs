@@ -935,6 +935,11 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			UploadDocument(fileName, UPLOAD_FILE_TO_NEW_PROJECT);
 		}
 
+		public bool IsWorkflowStepPresented()
+		{
+			return GetIsElementDisplay(By.XPath(WORKFLOW_SETUP_XPATH));
+		}
+
 		protected const string UPLOAD_FILE_TO_NEW_PROJECT = "//div[contains(@class,'js-popup-create-project')][2]//div[@class='js-files-uploader']//input"; // добавление документа при создании проекта
 
 		public enum SetGlossary { New, First, ByName, None };
@@ -961,6 +966,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		protected const string DEADLINE_DATE_NEXT_MONTH_XPATH = "//div[contains(@id, 'ui-datepicker-div')]//a[contains(@class, 'ui-datepicker-next')]";
 		protected const string DEADLINE_DATE_PREV_MONTH_XPATH = "//div[contains(@id, 'ui-datepicker-div')]//a[contains(@class, 'ui-datepicker-prev')]";
 		protected const string DEADLINE_DATE_XPATH = "//div[contains(@id, 'ui-datepicker-div')]//table[contains(@class, 'ui-datepicker-calendar')]//tr[2]//td[2]";
+		protected const string WORKFLOW_SETUP_XPATH = CREATE_PROJECT_DIALOG_XPATH + "//div[@data-step-id='workflow']";
 		
 		protected const string UPLOAD_TMX_BTN_XPATH = CREATE_PROJECT_DIALOG_XPATH + "//span[contains(@class,'js-tm-upload')]";
 		protected const string CREATE_GLOSSARY_BTN_XPATH = CREATE_PROJECT_DIALOG_XPATH + "//span[contains(@class,'js-glossary-create')]";
