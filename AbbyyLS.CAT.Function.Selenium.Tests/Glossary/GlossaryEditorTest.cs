@@ -725,7 +725,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		{
 			Logger.Debug("Автозаполнение сорса");
 			const int segmentNumber = 1;
-			EditorPage.SelectFirstWordSourceByHotkey(segmentNumber);
+			EditorPage.SelectFirstWordSourceByAction(segmentNumber);
 			openAddTermForm();
 
 			AddTermForm.AssertionIsTextExistInSourceTerm("Earth");

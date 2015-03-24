@@ -716,10 +716,8 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <returns>Задача</returns>
 		public string GetDocumentTask(int documentNumber)
 		{
-			// Кликнуть на открытие информации о документе
-			var XPath = DOCUMENT_ROW_XPATH + "[" + documentNumber + "]//" + TASK_NAME_XPATH;
-
-			return GetTextElement(By.XPath(XPath)).Trim();
+			Logger.Trace("Получить название задачи документа №" + documentNumber);
+			return GetTextElement(By.XPath(DOCUMENT_ROW_XPATH + "[" + documentNumber + "]//" + TASK_NAME_XPATH)).Trim();
 		}
 
 		public bool ClickRadioBtm()

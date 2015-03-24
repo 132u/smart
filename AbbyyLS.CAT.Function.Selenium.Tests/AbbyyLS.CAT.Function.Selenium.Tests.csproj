@@ -130,6 +130,7 @@
     <Compile Include="Glossary\UserRights\SuggestTermsTest.cs" />
     <Compile Include="Glossary\SuggestTermDialogHelper.cs" />
     <Compile Include="Glossary\UserRightsPageHelper.cs" />
+    <Compile Include="HotKey.cs" />
     <Compile Include="PathProvider.cs" />
     <Compile Include="ProjectTests\NewProjectTest.cs" />
     <Compile Include="ProjectTests\ProjectPageHelper.cs" />

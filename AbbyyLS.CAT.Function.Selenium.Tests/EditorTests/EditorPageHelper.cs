@@ -8,11 +8,10 @@ using OpenQA.Selenium.Interactions;
 using OpenQA.Selenium.Support.UI;
 using System.Windows.Forms;
 using System.Threading;
+using OpenQA.Selenium.Interactions;
 
 namespace AbbyyLS.CAT.Function.Selenium.Tests
 {
-	using OpenQA.Selenium.Interactions;
-
 	/// <summary>
 	/// Хелпер страницы редактора
 	/// </summary>
@@ -72,6 +71,25 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			return GetIsElementExist(By.CssSelector(SEGMENTS_CSS));
 		}
 
+		public void SelectWordPartBeforeSpaceByShiftArrowRight(string text)
+		{
+			Logger.Trace("Выделение части строки до первого пробела");
+			HotKey.Home();
+			var arr = text.Split(' ');
+			for (int i = 0; i <= arr[0].Length; i++)
+				HotKey.ShiftRight();
+		}
+
+		public void SelectSecondThirdWordsByShiftArrowRight(string text)
+		{
+			Logger.Trace("Выделение второго и третьего слова");
+			HotKey.Home();
+			HotKey.CtrlRight();
+			var arr = text.Split(' ');
+			for (int i = 0; i <= arr[1].Length + arr[2].Length; i++)
+				HotKey.ShiftRight();
+		}
+
 		public void AddTextTarget(int rowNum, string text)
 		{
 			Logger.Trace(string.Format("Добавить текст {0} в таргет №{1}", text, rowNum));
@@ -83,9 +101,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 				var errorMessage = string.Format(
 					"Не удается найти таргет сегмент для вставки текста. Путь к элементу: {0}",
 					targerCellForInput);
-
 				Logger.Error(errorMessage);
-
 				throw new NoSuchElementException(errorMessage);
 			}
 			ClearAndAddText(targerCellForInput, text);
@@ -148,25 +164,31 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			AddTextTarget(segmentNumber, OpenQA.Selenium.Keys.Control + "k");
 		}
 
-		public void PutCatMatchByHotkey(int segmentNumber, int catLineNumber)
+		protected void SendHotKey(int segmentNumber, string hotKey)
 		{
 			ClickInSegment(segmentNumber);
+			SendKeys.SendWait(hotKey);
+		}
+
+		public void PutCatMatchByHotkey(int segmentNumber, int catLineNumber)
+		{
 			Logger.Trace(string.Format("Нажать хоткей Ctrl " + catLineNumber
 				+ " для подстановки из кат перевода сегмента. Номер строки: {0}, номер строки панели кат: {1}",
 				segmentNumber, catLineNumber));
-			SendKeys.SendWait(@"^{" + catLineNumber + "}");
+			SendHotKey(segmentNumber, @"^{" + catLineNumber + "}");
 		}
 
 		public void ConfirmByHotkey(int segmentNumber)
 		{
 			Log.Trace(string.Format("Нажать хоткей для Confirm. Номер строки: {0}", segmentNumber));
-			SendKeysTarget(segmentNumber, OpenQA.Selenium.Keys.Control + OpenQA.Selenium.Keys.Return);
+			ClickInSegment(segmentNumber);
+			HotKey.CtrlEnter();
 		}
 
 		public void ChangeCaseByHotkey(int segmentNumber)
 		{
-			Log.Trace(string.Format("Нажать хоткей для изменения регистра. Номер строки: {0}", segmentNumber));
-			SendKeysTarget(segmentNumber, OpenQA.Selenium.Keys.Shift + OpenQA.Selenium.Keys.F3);
+			Log.Trace(string.Format("Нажать хоткей Shift F3 для изменения регистра. Номер строки: {0}", segmentNumber));
+			HotKey.ShiftF3();
 		}
 
 		/// <summary>
@@ -177,7 +199,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		{
 			Log.Trace(string.Format("Нажать хоткей отмены. Номер строки: {0}", segmentNumber));
 			ClickInSegment(segmentNumber);
-			SendKeys.SendWait(@"^{z}");
+			HotKey.CtrlZ();
 		}
 
 		/// <summary>
@@ -188,41 +210,44 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		{
 			Log.Trace(string.Format("Нажать хоткей возврата отмененного действия. Номер строки: {0}", segmentNumber));
 			ClickInSegment(segmentNumber);
-			SendKeys.SendWait(@"^{y}");
+			HotKey.CtrlY();
 		}
 
 		public void TabByHotkey(int segmentNumber)
 		{
 			Log.Trace(string.Format("Нажать хоткей Tab. Номер строки: {0}", segmentNumber));
-			SendKeysTarget(segmentNumber, OpenQA.Selenium.Keys.Tab);
+			ClickInSegment(segmentNumber);
+			HotKey.Tab();
 		}
 
 		public void CursorToTargetLineBeginningByHotkey(int segmentNumber)
 		{
 			Log.Trace(string.Format("Нажать хоткей  перехода в начало строки таргет. Номер строки: {0}", segmentNumber));
-			SendKeysTarget(segmentNumber, OpenQA.Selenium.Keys.Control + OpenQA.Selenium.Keys.Home);
+			this.SendKeysTarget(segmentNumber, OpenQA.Selenium.Keys.Home);
 		}
 
 		public void CursorToSourceLineBeginningByHotkey(int segmentNumber)
 		{
 			Log.Trace(string.Format("Нажать хоткей  перехода в начало строки сорс. Номер строки: {0}", segmentNumber));
-			ClickInSourceSegment(segmentNumber);
-			SendKeys.SendWait("^{HOME}");
+			ClickInSegment(segmentNumber);
+			HotKey.CtrlHome();
 		}
 
 		public void SelectLastWordByHotkey(int segmentNumber)
 		{
 			Log.Trace(string.Format("Нажать хоткей выделения последнего слова. Номер строки: {0}", segmentNumber));
-			SendKeysTarget(segmentNumber, OpenQA.Selenium.Keys.Shift + OpenQA.Selenium.Keys.Control + OpenQA.Selenium.Keys.ArrowLeft);
+			ClickInSegment(segmentNumber);
+			HotKey.CtrlShiftLeft();
 		}
 
 		public void SelectFirstWordTargetByHotkey(int segmentNumber)
 		{
 			Log.Trace(string.Format("Нажать хоткей выделения первого слова таргет. Номер строки: {0}", segmentNumber));
-			SendKeysTarget(segmentNumber, OpenQA.Selenium.Keys.Shift + OpenQA.Selenium.Keys.Control + OpenQA.Selenium.Keys.ArrowRight);
+			ClickInSegment(segmentNumber);
+			HotKey.CtrlShiftRight();
 		}
 
-		public void SelectFirstWordSourceByHotkey(int segmentNumber)
+		public void SelectFirstWordSourceByAction(int segmentNumber)
 		{
 			Log.Trace(string.Format("Нажать хоткей выделения первого слова сорс. Номер строки: {0}", segmentNumber));
 			var segment = Driver.FindElement(By.XPath(GetSourceCellXPath(segmentNumber)));
@@ -231,56 +256,53 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			builder.MoveToElement(segment, 0, 0).DoubleClick().Perform();
 		}
 
-		public void PutCursorAfterThirdWordByHotkey(int segmentNumber)
+		public void SelectFirstWordTargetByAction(int segmentNumber)
 		{
-			Log.Trace(string.Format("Нажать хоткей перемещения курсора после третьего слова от начала строки. Номер строки: {0}", segmentNumber));
-			SendKeysTarget(segmentNumber, 
-				OpenQA.Selenium.Keys.Control + 
-				OpenQA.Selenium.Keys.Home + 
-				OpenQA.Selenium.Keys.ArrowRight + 
-				OpenQA.Selenium.Keys.ArrowRight + 
-				OpenQA.Selenium.Keys.ArrowRight);
+			Log.Trace(string.Format("Нажать хоткей выделения первого слова в таргете. Номер строки: {0}", segmentNumber));
+			var segment = Driver.FindElement(By.XPath(this.GetTargetCellXPath(segmentNumber)));
+
+			var builder = new Actions(Driver);
+			builder.MoveToElement(segment, 0, 0).DoubleClick().Perform();
 		}
 
 		public void SelectNextThreeSymbolsByHotkey(int segmentNumber)
 		{
 			Log.Trace(string.Format("Нажать хоткей выделения следующих трех символов. Номер строки: {0}", segmentNumber));
-			SendKeysTarget(segmentNumber,
-				OpenQA.Selenium.Keys.ArrowRight + 
-				OpenQA.Selenium.Keys.Shift + 
-				OpenQA.Selenium.Keys.ArrowRight + 
-				OpenQA.Selenium.Keys.ArrowRight + 
-				OpenQA.Selenium.Keys.ArrowRight);
+			HotKey.ShiftRight(3);
 		}
 
 		public void EndHotkey(int segmentNumber)
 		{
 			Log.Trace(string.Format("Нажать хоткей End. Номер строки: {0}", segmentNumber));
-			SendKeysTarget(segmentNumber, OpenQA.Selenium.Keys.End);
+			ClickInSegment(segmentNumber);
+			HotKey.End();
 		}
 
 		public void AddTermFormByHotkey(int segmentNumber)
 		{
 			Log.Trace(string.Format("Нажать хоткей вызова формы для добавления термина. Номер строки: {0}", segmentNumber));
-			SendKeysTarget(segmentNumber, OpenQA.Selenium.Keys.Control + "e");
+			ClickInSegment(segmentNumber);
+			HotKey.CtrlE();
 		}
 
 		public void SelectSecondThirdWordsByHotkey(int segmentNumber)
 		{
 			Log.Trace(string.Format("Нажать хоткей выделения второго и третьего слов. Номер строки: {0}", segmentNumber));
-			SendKeysTarget(segmentNumber, OpenQA.Selenium.Keys.Home + OpenQA.Selenium.Keys.Control + OpenQA.Selenium.Keys.ArrowRight + OpenQA.Selenium.Keys.Shift + OpenQA.Selenium.Keys.ArrowRight + OpenQA.Selenium.Keys.ArrowRight);
+			SendHotKey(segmentNumber, @"{RIGHT}^{RIGHT}+{RIGHT}{RIGHT}");
 		}
 
 		public void NextUnfinishedSegmentByHotkey(int segmentNumber)
 		{
 			Log.Trace(string.Format("Нажать хоткей поиска следующего незаконченного сегмента. Номер строки: {0}", segmentNumber));
-			SendKeysTarget(segmentNumber, OpenQA.Selenium.Keys.F9);
+			ClickInSegment(segmentNumber);
+			HotKey.F9();
 		}
 
 		public void SelectAlltextByHotkey(int segmentNumber)
 		{
 			Log.Trace(string.Format("Нажать хоткей выделения всего содержимого ячейки. Номер строки: {0}", segmentNumber));
-			SendKeysTarget(segmentNumber, OpenQA.Selenium.Keys.Shift + OpenQA.Selenium.Keys.Control + OpenQA.Selenium.Keys.Home);
+			ClickInSegment(segmentNumber);
+			HotKey.CtrlShiftHome();
 		}
 
 		/// <summary>
@@ -291,7 +313,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		{
 			Log.Trace(string.Format("Нажать хоткей копирования из сорс. Номер строки: {0}", segmentNumber));
 			ClickInSegment(segmentNumber);
-			SendKeys.SendWait(@"^{INSERT}");
+			HotKey.CtrlInsert();
 		}
 
 		public void SendKeysTarget(int row, string keys)
@@ -385,7 +407,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 
 		public void ClickChangeCaseBtn()
 		{
-			Log.Trace("Кликнуть изменить регистр");
+			Logger.Trace("Кликнуть кнопку изменения регистра");
 			ClickElement(By.Id(CHANGE_CASE_BTN_ID));
 		}
 
@@ -969,7 +991,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			return "//table[@data-recordindex='" + (segmentNumber - 1)
 				+ "' and contains(@id, 'gridview')]" + TARGET_MATCH_COLUMN_PERCENT_XPATH;
 		}
-		
+
 		protected const string TARGET_MATCH_COLUMN_XPATH = "//td[5]//div";
 		protected const string TARGET_MATCH_COLUMN_PERCENT_XPATH = TARGET_MATCH_COLUMN_XPATH + "//span";
 

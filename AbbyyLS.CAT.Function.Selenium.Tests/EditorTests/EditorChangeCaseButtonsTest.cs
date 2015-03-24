@@ -1,5 +1,6 @@
 ﻿using NUnit.Framework;
 using System.Collections.Generic;
+using System.Windows.Forms;
 
 namespace AbbyyLS.CAT.Function.Selenium.Tests.Editor.ChangeCase
 {
@@ -96,7 +97,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Editor.ChangeCase
 			// Нажать хоткей перехода в начало строки
 			EditorPage.CursorToTargetLineBeginningByHotkey(segmentNumber);
 			// Нажать хоткей выделения первого слова
-			EditorPage.SelectFirstWordTargetByHotkey(segmentNumber);
+			EditorPage.SelectFirstWordTargetByAction(segmentNumber);
 			// Запустить проверку по хоткею
 			CheckChangeCase("some words for example", "Some words for example", "SOME words for example", false, segmentNumber);
 
@@ -112,7 +113,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Editor.ChangeCase
 			// Нажать хоткей перехода в начало строки
 			EditorPage.CursorToTargetLineBeginningByHotkey(segmentNumber);
 			// Нажать хоткей выделения первого слова
-			EditorPage.SelectFirstWordTargetByHotkey(segmentNumber);
+			EditorPage.SelectFirstWordTargetByAction(segmentNumber);
 			// Запустить проверку по кнопке
 			CheckChangeCase("some words for example", "Some words for example", "SOME words for example", true, segmentNumber);
 		}
@@ -124,14 +125,8 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Editor.ChangeCase
 		public void ChangeCaseHyphenWordTestByHotKey()
 		{
 			int segmentNumber = 1;
-
-			// Написать текст в первом сегменте в target
 			EditorPage.AddTextTarget(segmentNumber, "some-words for example");
-			// Нажать хоткей перехода в начало строки
-			EditorPage.CursorToTargetLineBeginningByHotkey(segmentNumber);
-			// Нажать хоткей выделения первого слова
-			EditorPage.SelectFirstWordTargetByHotkey(segmentNumber);
-			// Запустить проверку по хоткею
+			EditorPage.SelectWordPartBeforeSpaceByShiftArrowRight("some-words for example");
 			CheckChangeCase("some-words for example", "Some-Words for example", "SOME-WORDS for example", false, segmentNumber);
 		}
 
@@ -142,14 +137,8 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Editor.ChangeCase
 		public void ChangeCaseHyphenWordTestByBtn()
 		{
 			int segmentNumber = 1;
-
-			// Написать текст в первом сегменте в target
 			EditorPage.AddTextTarget(segmentNumber, "some-words for example");
-			// Нажать хоткей перехода в начало строки
-			EditorPage.CursorToTargetLineBeginningByHotkey(segmentNumber);
-			// Нажать хоткей выделения первого слова
-			EditorPage.SelectFirstWordTargetByHotkey(segmentNumber);
-			// Запустить проверку по хоткею
+			EditorPage.SelectWordPartBeforeSpaceByShiftArrowRight("some-words for example");
 			CheckChangeCase("some-words for example", "Some-Words for example", "SOME-WORDS for example", true, segmentNumber);
 		}
 
@@ -160,15 +149,13 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Editor.ChangeCase
 		public void ChangeCasePartWordTestByBtn()
 		{
 			int segmentNumber = 1;
-
-			// Написать текст в первом сегменте в target
-			EditorPage.AddTextTarget(segmentNumber, "some-words for example");
-			// Нажать хоткей перемещения курсора к четвертому слову
-			EditorPage.PutCursorAfterThirdWordByHotkey(segmentNumber);
-			// Нажать хоткей выделения трех символов в слове
+			EditorPage.AddTextTarget(segmentNumber, "some words for example");
+			Logger.Trace("Клик Ctrl ArrowLeft");
+			HotKey.CtrlLeft();
+			Logger.Trace("Клик ArrowRight");
+			HotKey.ArrowRight();
 			EditorPage.SelectNextThreeSymbolsByHotkey(segmentNumber);
-			// Запустить проверку по кнопке
-			CheckChangeCase("some words for example", "some words for eXample", "some words for eXAMple", true, segmentNumber);
+			CheckChangeCase("some words for eXAMple", "some words for eXAMple", "some words for example", true, segmentNumber);
 		}
 
 		/// <summary>
@@ -178,56 +165,19 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Editor.ChangeCase
 		public void ChangeCasePartWordTestByHotKey()
 		{
 			int segmentNumber = 1;
-
-			// Написать текст в первом сегменте в target
 			EditorPage.AddTextTarget(segmentNumber, "some words for example");
-			// Нажать хоткей перемещения курсора к четвертому слову
-			EditorPage.PutCursorAfterThirdWordByHotkey(segmentNumber);
-			// Нажать хоткей выделения трех символов в слове
+			Logger.Trace("Клик Ctrl ArrowLeft");
+			HotKey.CtrlLeft();
+			Logger.Trace("Клик ArrowRight");
+			HotKey.ArrowRight();
 			EditorPage.SelectNextThreeSymbolsByHotkey(segmentNumber);
-			// Запустить проверку по хоткею
-			CheckChangeCase("some words for example", "some words for eXample", "some words for eXAMple", false, segmentNumber);
-		}
-
-		/// <summary>
-		/// Метод тестирования хоткея изменения регистра для части слова ЭТО ВРЕМЕННЫЙ ТЕСТ ПОКА НЕ БУДЕТ ПОФИКШЕН БАГ PRX-4037
-		/// </summary>
-		[Test]
-		public void ChangeCasePartWordTestByHotKeyCurentRealization()
-		{
-			int segmentNumber = 1;
-
-			// Написать текст в первом сегменте в target
-			EditorPage.AddTextTarget(segmentNumber, "some words for example");
-			// Нажать хоткей перемещения курсора к четвертому слову
-			EditorPage.PutCursorAfterThirdWordByHotkey(segmentNumber);
-			// Нажать хоткей выделения трех символов в слове
-			EditorPage.SelectNextThreeSymbolsByHotkey(segmentNumber);
-			// Запустить проверку по хоткею
 			CheckChangeCase("some words for eXAMple", "some words for eXAMple", "some words for example", false, segmentNumber);
-		}
-
-		/// <summary>
-		/// Метод тестирования кнопки изменения регистра для части слова  ЭТО ВРЕМЕННЫЙ ТЕСТ ПОКА НЕ БУДЕТ ПОФИКШЕН БАГ PRX-4037
-		/// </summary>
-		[Test]
-		public void ChangeCasePartWordTestByBtnCurentRealization()
-		{
-			int segmentNumber = 1;
-
-			// Написать текст в первом сегменте в target
-			EditorPage.AddTextTarget(segmentNumber, "some words for example");
-			// Нажать хоткей перемещения курсора к четвертому слову
-			EditorPage.PutCursorAfterThirdWordByHotkey(segmentNumber);
-			// Нажать хоткей выделения трех символов в слове
-			EditorPage.SelectNextThreeSymbolsByHotkey(segmentNumber);
-			// Запустить проверку по хоткею
-			CheckChangeCase("some words for eXAMple", "some words for eXAMple", "some words for example", true, segmentNumber);
 		}
 
 		/// <summary>
 		/// Метод тестирования кнопки изменения регистра для слова (не первого) 
 		/// </summary>
+		[Category("PRX_8449")]
 		[Test]
 		public void ChangeCaseSomeWordButtonNonStandardTest()
 		{
@@ -243,6 +193,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Editor.ChangeCase
 		/// <summary>
 		/// Метод тестирования хоткея изменения регистра для слова (не первого)
 		/// </summary>
+		[Category("PRX_8449")]
 		[Test]
 		public void ChangeCaseSomeWordHotkeyNonStandardTest()
 		{
@@ -268,7 +219,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Editor.ChangeCase
 			// Написать текст в первом сегменте в target
 			EditorPage.AddTextTarget(segmentNumber, "sOMe words for example");
 			EditorPage.CursorToTargetLineBeginningByHotkey(segmentNumber);
-			EditorPage.SelectFirstWordTargetByHotkey(segmentNumber);
+			EditorPage.SelectFirstWordTargetByAction(segmentNumber);
 			// Запустить проверку
 			CheckChangeCase("some words for example", "Some words for example", "SOME Words For example", true, segmentNumber);
 		}
@@ -276,6 +227,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Editor.ChangeCase
 		/// <summary>
 		/// Метод тестирования хоткея изменения регистра для слова первого
 		/// </summary>
+		[Category("PRX_8449")]
 		[Test]
 		public void ChangeCaseFirstWordHotkeyNonStandardTest()
 		{
@@ -283,7 +235,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Editor.ChangeCase
 
 			// Написать текст в первом сегменте в target
 			EditorPage.AddTextTarget(segmentNumber, "sOMe words for example");
-			EditorPage.SelectFirstWordTargetByHotkey(segmentNumber);
+			EditorPage.SelectFirstWordTargetByAction(segmentNumber);
 			// Запустить проверку
 			CheckChangeCase("some words for example", "Some words for example", "SOME Words For example", true, segmentNumber);
 		}
@@ -299,7 +251,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Editor.ChangeCase
 			// Написать текст в первом сегменте в target
 			EditorPage.AddTextTarget(segmentNumber, "some wOrDs fOr example");
 			// Нажать хоткей выделения последнего слова
-			EditorPage.SelectSecondThirdWordsByHotkey(segmentNumber);
+			EditorPage.SelectSecondThirdWordsByShiftArrowRight("some wOrDs fOr example");
 			// Запустить проверку
 			CheckChangeCase("some Words For example", "some WORDS FOR example", "some words for example", true, segmentNumber);
 		}
@@ -314,14 +266,14 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Editor.ChangeCase
 
 			// Написать текст в первом сегменте в target
 			EditorPage.AddTextTarget(segmentNumber, "some wOrDs fOr example");
-			// Нажать хоткей выделения последнего слова
-			EditorPage.SelectSecondThirdWordsByHotkey(segmentNumber);
+			EditorPage.SelectSecondThirdWordsByShiftArrowRight("some wOrDs fOr example");
 			// Запустить проверку
 			CheckChangeCase("some Words For example", "some WORDS FOR example", "some words for example", true, segmentNumber);
 		}
 
 		/// <summary>
-		/// Метод тестирования кнопки изменения регистра для слова первого текущая реализация
+		/// Метод тестирования кнопки изменения регистра для первого слова
+		/// Текущая реализация (отличается от требований)
 		/// </summary>
 		[Test]
 		public void ChangeCaseFirstWordButtonNonStandardTestCurrentRealization()
@@ -331,7 +283,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Editor.ChangeCase
 			// Написать текст в первом сегменте в target
 			EditorPage.AddTextTarget(segmentNumber, "sOMe words for example");
 			EditorPage.CursorToTargetLineBeginningByHotkey(segmentNumber);
-			EditorPage.SelectFirstWordTargetByHotkey(segmentNumber);
+			EditorPage.SelectFirstWordTargetByAction(segmentNumber);
 			// Запустить проверку
 			CheckChangeCase("Some words for example", "SOME words for example", "some words for example", true, segmentNumber);
 		}
@@ -347,7 +299,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Editor.ChangeCase
 			// Написать текст в первом сегменте в target
 			EditorPage.AddTextTarget(segmentNumber, "sOMe words for example");
 			EditorPage.CursorToTargetLineBeginningByHotkey(segmentNumber);
-			EditorPage.SelectFirstWordTargetByHotkey(segmentNumber);
+			EditorPage.SelectFirstWordTargetByAction(segmentNumber);
 			// Запустить проверку
 			CheckChangeCase("Some words for example", "SOME words for example", "some words for example", true, segmentNumber);
 		}
