@@ -16,8 +16,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <summary>
 		/// Конструктор теста
 		/// </summary>
-		 
-		 
 		/// <param name="browserName">Название браузера</param>
 		public Project_ExportTest(string browserName)
 			: base(browserName)
@@ -902,6 +900,8 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			DateTime lastChanged = File.GetLastWriteTime(PathProvider.ResultsFolderPath + "\\" + fileName);
 			Logger.Trace("Время последнего изменения файла = " + lastChanged);
 
+			if (!File.Exists(PathProvider.ResultsFolderPath + "\\" + subfolder))
+				Directory.CreateDirectory(PathProvider.ResultsFolderPath + "\\" + subfolder);
 			File.Move(PathProvider.ResultsFolderPath + "\\" + fileName, pathToMove);
 		}
 
@@ -1126,7 +1126,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			// Кликнуть на открытие информации о документе
 			Assert.IsTrue(
 				WorkspacePage.OpenDocumentInfo(documentNumber), 
-				"Ошибка: нет такого документа N " + documentNumber);
+				"Ошибка: нет такого документа №" + documentNumber);
 		}
 
 		/// <summary>
