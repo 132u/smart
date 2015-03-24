@@ -425,11 +425,11 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		}
 
 		/// <summary>
-		/// Нажать Create в диалоге редактирования TM
+		/// Нажать Upload в диалоге редактирования TM
 		/// </summary>
-		public void ClickCreateTMBtn()
+		public void ClickUploadTmButton()
 		{
-			ClickElement(By.XPath(EDIT_TM_CREATE_BTN_XPATH));
+			ClickElement(By.XPath(EDIT_TM_UPLOAD_BTN_XPATH));
 		}
 
 		/// <summary>
@@ -449,28 +449,9 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			ClearAndAddText(By.XPath(EDIT_TM_NAME_INPUT), tmName);
 		}
 
-		/// <summary>
-		/// Нажать Загрузить файл в диалоге редактирования TM
-		/// </summary>
-		public void ClickUploadTMBtn()
+		public void ClickConfirmTmCreation()
 		{
-			ClickElement(By.XPath(EDIT_TM_UPLOAD));
-		}
-
-		/// <summary>
-		/// Нажать Импорт в диалоге редактирования TM
-		/// </summary>
-		public void ClickSaveAndImportTMBtn()
-		{
-			ClickElement(By.XPath(EDIT_TM_SAVE_AND_IMPORT_BTN_XPATH));
-		}
-
-		/// <summary>
-		/// Нажать Подтверждение импортирования в диалоге редактирования TM
-		/// </summary>
-		public void ClickConfirmImportBtn()
-		{
-			ClickElement(By.XPath(EDIT_TM_IMPORT_BTN));
+			ClickElement(By.XPath(EDIT_TM_SAVE_BTN));
 		}
 
 		/// <summary>
@@ -736,13 +717,14 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			UploadDocument(fileName, ADD_FILE_ON_PROJECT_PAGE);
 		}
 
-		public void UploadFileNativeAction(string fileName)
+		public void UploadTmxFile(string fileName)
 		{
-			UploadDocNativeAction(fileName);
+			UploadTM(fileName, TM_UPLOAD);
 		}
 
 		protected const string ADD_FILE_ON_PROJECT_PAGE = "//div[contains(@class, 'js-popup-import-document')][2]//input[@type='file']"; // добавление документа уже сущестующему проекту на стр проекта
 
+		protected const string TM_UPLOAD = "//div[contains(@class,\"js-popup-create-tm\")][2]//input[@type=\"file\"]";
 		protected const string PROJECT_TABLE_XPATH = "//table[contains(@class,'l-project-panel-tbl')]";
 		protected const string PROGRESS_BTN_XPATH = "//div[@class='ui-progressbar__container']";
 		protected const string PANEL_BTNS_XPATH = "//div[@class='l-corpr__btnterm__left js-buttons-left']";
@@ -772,16 +754,16 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 
 		protected const string DOWNLOAD_LOGS_BTN_XPATH = "//span[contains(@class,'js-document-export-logs')]";
 
-		protected const string EDIT_TM_BTN_XPATH = "/html/body/div[6]/div[1]/div[2]/div[3]/div/form/div[5]/span[2]/span[2]/a";
+		protected const string EDIT_TM_BTN_XPATH = "//span[@data-bind='click: editTranslationMemories']//a";
 		protected const string EDIT_TM_DIALOG_XPATH = "//div[contains(@class,'js-popup-tm')][2]";
-		protected const string EDIT_TM_CREATE_BTN_XPATH = EDIT_TM_DIALOG_XPATH + "//span[contains(@class,'js-tm-create')]";
+		protected const string EDIT_TM_UPLOAD_BTN_XPATH = EDIT_TM_DIALOG_XPATH + "//span[contains(@class,'js-tm-upload')]";
 		protected const string EDIT_TM_SAVE_BTN_XPATH = EDIT_TM_DIALOG_XPATH + "//span[contains(@class,'js-submit-btn')]";
 		protected const string EDIT_TM_CREATE_TM_XPATH = "//div[contains(@class,'js-popup-create-tm')][2]";
-		protected const string EDIT_TM_NAME_INPUT = EDIT_TM_CREATE_TM_XPATH + "//input[contains(@class,'js-tm-name')]";
+		protected const string EDIT_TM_NAME_INPUT = EDIT_TM_CREATE_TM_XPATH + "//input[contains(@class,'l-createtm')]";
 		protected const string EDIT_TM_SAVE_AND_IMPORT_BTN_XPATH = EDIT_TM_CREATE_TM_XPATH + "//a[contains(@class,'js-save-and-import')]";
 		protected const string EDIT_TM_IMPORT_DIALOG_XPATH = "//div[contains(@class,'js-popup-import')][2]";
 		protected const string EDIT_TM_UPLOAD = EDIT_TM_IMPORT_DIALOG_XPATH + "//a[contains(@class,'js-upload-btn')]";
-		protected const string EDIT_TM_IMPORT_BTN = EDIT_TM_IMPORT_DIALOG_XPATH + "//input[contains(@value, 'Import')]";
+		protected const string EDIT_TM_SAVE_BTN = EDIT_TM_CREATE_TM_XPATH + "//span[@data-bind='click: save']";
 
 		protected const string IMPORT_DOCUMENT_ERROR_XPATH = "//div[contains(@class,'js-info-popup')]";
 		protected const string DELETE_BTN_XPATH = "//span[contains(@class,'js-document-delete')]";

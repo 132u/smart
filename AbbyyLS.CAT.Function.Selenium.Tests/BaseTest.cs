@@ -427,17 +427,13 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			//Дождаться появления диалога изменения ТМ
 			ProjectPage.WaitEditTMDialogAppear();
 			//Нажать Create в диалоге редактирования TM
-			ProjectPage.ClickCreateTMBtn();
+			ProjectPage.ClickUploadTmButton();
 			//Заполнить название ТМ в диалоге
 			ProjectPage.FillTmNameDialog(tmName);
-			//Нажать Импорт в диалоге редактирования TM
-			ProjectPage.ClickSaveAndImportTMBtn();
-			////Нажать Загрузить файл в диалоге редактирования TM
-			ProjectPage.ClickUploadTMBtn();
 			//Загрузить документ
-			ProjectPage.UploadFileNativeAction(file);
-			//Подтвердить импорт
-			ProjectPage.ClickConfirmImportBtn();
+			ProjectPage.UploadTmxFile(file);
+			//Подтвердить создание ТМ
+			ProjectPage.ClickConfirmTmCreation();
 			Assert.IsTrue(ProjectPage.ClickRadioBtm(),"TM не выбран");
 			// Сохранить изменения
 			ProjectPage.ClickSaveTMBtn();
@@ -1904,8 +1900,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			AddTermForm.ClickAddBtn();
 
 			Thread.Sleep(2000);
-			// Термин сохранен, нажать ок
-			AddTermForm.ClickTermSaved();
 		}
 
 		/// <summary>

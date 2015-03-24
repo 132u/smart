@@ -417,6 +417,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Editor.Revisions
 		/// ТЕСТ: отмена Rollback
 		/// </summary>
 		[Test]
+		[Ignore("Процесс восстановления ревизии был упрощен (восстановление без подтверждения.) Тикет PRX-6309")]
 		[NUnit.Framework.Category("Standalone")]
 		public void CancelRollback()
 		{
@@ -908,15 +909,9 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Editor.Revisions
 			// Кликнуть Rollback
 			RevisionPage.ClickRollbackBtn();
 
-			// Дождаться открытия диалога подтверждения отката
-			Assert.IsTrue(RevisionPage.WaitRollbackDialogAppear(), "Ошибка: не появился диалог подтверждения отката");
 
-			// Нажать да
-			RevisionPage.ClickYesRollbackDlg();
-			RevisionPage.WaitUntilRollbackDialogDisappear();
-
-			bool isOk = true;
-			string errorMessage = "\n";
+			var isOk = true;
+			var errorMessage = "\n";
 
 			EditorPage.WaitUntilDisplayTargetText(segmentNumber, revisionText);
 
@@ -928,12 +923,13 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Editor.Revisions
 				isOk = false;
 				errorMessage += "Ошибка: в сегменте неправильный текст (д.б. " + revisionText + ")\n";
 			}
+			var revisionCount = RevisionPage.GetRevisionListCount();
 
 			// Проверить, что добавилась новая ревизия
-			if (RevisionPage.GetRevisionListCount() != (translationNumber + 1))
+			if (revisionCount != (translationNumber + 1))
 			{
 				isOk = false;
-				errorMessage += "Ошибка: количество ревизий не увеличилось\n";
+				errorMessage += string.Format("Ошибка: количество ревизий ожидаемое: {0}, реальное {1}\n", translationNumber + 1, revisionCount);
 			}
 
 			// Проверить, что тип новой ревизии - Rollback
@@ -1045,9 +1041,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Editor.Revisions
 				"Ошибка: строка с типом должна быть ближе, чем 10 (для хоткея)");
 
 			// Ctrl+N - для вставки перевода из CAT (N - номер в панели)
-			EditorPage.SendKeysTarget(
-				segmentNumber,
-				OpenQA.Selenium.Keys.Control + catTranslationNum);
+			EditorPage.PasteTranslationToTargetByHotkey(segmentNumber, catTranslationNum.ToString());
 
 			// Проверить текст
 			Assert.IsTrue(

@@ -188,14 +188,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		}
 
 		/// <summary>
-		/// Кликнуть Yes в диалоге rollback
-		/// </summary>
-		public void ClickYesRollbackDlg()
-		{
-			ClickElement(By.XPath(ROLLBACK_DLG_YES_BTN_XPATH));
-		}
-
-		/// <summary>
 		/// Кликнуть No в диалоге rollback
 		/// </summary>
 		public void ClickNoRollbackDlg()

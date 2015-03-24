@@ -4,7 +4,6 @@ using System.Linq;
 using NLog;
 using NUnit.Framework;
 using OpenQA.Selenium;
-using OpenQA.Selenium.Interactions;
 using OpenQA.Selenium.Support.UI;
 using System.Windows.Forms;
 using System.Threading;
@@ -104,7 +103,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 				Logger.Error(errorMessage);
 				throw new NoSuchElementException(errorMessage);
 			}
-			ClearAndAddText(targerCellForInput, text);
+			ClickClearAndAddText(targerCellForInput, text);
 			WaitUntilDisplayElement(By.XPath(GetTargetWithTextXpath(rowNum, text)), 1);
 			Logger.Trace("добавили текст: " + text);
 		}
@@ -175,7 +174,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			Logger.Trace(string.Format("Нажать хоткей Ctrl " + catLineNumber
 				+ " для подстановки из кат перевода сегмента. Номер строки: {0}, номер строки панели кат: {1}",
 				segmentNumber, catLineNumber));
-			SendHotKey(segmentNumber, @"^{" + catLineNumber + "}");
+			SendKeys.SendWait(@"^{" + catLineNumber + "}");
 		}
 
 		public void ConfirmByHotkey(int segmentNumber)
@@ -183,6 +182,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			Log.Trace(string.Format("Нажать хоткей для Confirm. Номер строки: {0}", segmentNumber));
 			ClickInSegment(segmentNumber);
 			HotKey.CtrlEnter();
+
 		}
 
 		public void ChangeCaseByHotkey(int segmentNumber)
@@ -320,6 +320,13 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		{
 			Log.Trace(string.Format("Отправить keys в target. Номер строки: {0}, keys: {1}", row, keys));
 			ClickAndSendTextElement(By.XPath(GetTargetCellXPath(row)), keys);
+		}
+
+		public void PasteTranslationToTargetByHotkey(int row, string catPanelRowNumber)
+		{
+			Log.Trace(string.Format("Отправить перевод в target из CAT-панели с помощью хоткея. Номер строки: {0}, номер строки в CAT - панеле: {1}", row, catPanelRowNumber));
+			ClickElement(By.XPath(GetTargetCellXPath(row)));
+			SendKeys.SendWait(@"^{" + catPanelRowNumber + "}");
 		}
 
 		public void SendKeysSource(int row, string keys)
