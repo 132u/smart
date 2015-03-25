@@ -74,6 +74,24 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		}
 
 		/// <summary>
+		/// Метод скроллит до того момента,чтобы глоссарий стал видимым
+		/// </summary>
+		/// <param name="glossaryName"></param>
+		public void ScrollToGlossary(string glossaryName)
+		{
+			try
+			{
+				Logger.Trace(string.Format("Скроллим, чтобы глоссарий {0} стал видимым", glossaryName));
+				var glossaryItem = Driver.FindElement(By.XPath(GetGlossaryRowXPath(glossaryName)));
+				((IJavaScriptExecutor)Driver).ExecuteScript("arguments[0].scrollIntoView(true); window.scrollBy(0,-200);", glossaryItem);
+			}
+			catch (Exception ex)
+			{
+				Assert.Fail("При попытке скроллинга страницы произошла ошибка: " + ex.Message);
+			}
+		}
+
+		/// <summary>
 		/// Получить автора глоссария
 		/// </summary>
 		/// <param name="glossaryName">название глоссария</param>

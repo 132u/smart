@@ -208,6 +208,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Glossary
 			// Выйти
 			WorkspacePage.ClickAccount();
 			WorkspacePage.ClickLogoff();
+			LoginPage.WaitPageLoad();
 
 			// Зайти под вторым пользователем
 			Authorization(Login2, Password2);
@@ -257,6 +258,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Glossary
 			// Выйти
 			WorkspacePage.ClickAccount();
 			WorkspacePage.ClickLogoff();
+			LoginPage.WaitPageLoad();
 
 			// Зайти под вторым пользователем
 			Authorization(Login2, Password2);
@@ -294,7 +296,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Glossary
 				string[] termsAfterFilter = GlossaryTermFilterPage.GetSortedTerms();
 
 				// Проверить, что в таблице только термины, созданые и измененные Ринго
-				Assert.AreEqual(4, termsAfterFilter.Length, "Ошибка: список терминов после фильтрации некорректный");
+				Assert.AreEqual(8, termsAfterFilter.Length, "Ошибка: список терминов после фильтрации некорректный");
 			}
 			else
 			{
@@ -520,10 +522,10 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Glossary
 			// Выбрать язык
 			GlossaryTermFilterPage.CheckOnlyOneLanguage("English");
 
-			// Выбрат автора создания
+			// Выбрать автора создания
 			GlossaryTermFilterPage.SelectAuthor(UserName);
 
-			// Выбрат автора изменения
+			// Выбрать автора изменения
 			GlossaryTermFilterPage.SelectModifier(UserName);
 
 			// Выбрать дату создания "7 дней назад"
@@ -573,7 +575,8 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Glossary
 		/// <summary>
 		/// ТС-2542 Варианты задания дат
 		/// </summary>
-		[Category("PRX_6924")]
+		[Category("PRX_7565")]
+		[Category("PRX_8781")]
 		[TestCase("modified", "nextYear", "yearAgo", false)] // начальная дата изменения больше конечной
 		[TestCase("created", "nextYear", "yearAgo", false)] // начальная дата создания больше конечной
 		[TestCase("modified", "weekAgo", "nextWeek", true)]
@@ -616,11 +619,12 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Glossary
 
 			if (calendar == "created")
 			{
-				// Ввести начальную дату создания
-				GlossaryTermFilterPage.SendCreatedStartDate(startDate);
-
+				//Вводим в таком порядке из-за предполагаемого бага с перескакиванием курсора.
 				// Ввести конечную дату создания
 				GlossaryTermFilterPage.SendCreatedEndDate(endDate);
+				
+				// Ввести начальную дату создания
+				GlossaryTermFilterPage.SendCreatedStartDate(startDate);
 
 				// Получить значение в начальной дате создания
 				startDateFilter = GlossaryTermFilterPage.GetStartCreatedDate();
@@ -631,15 +635,20 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Glossary
 
 			if (calendar == "modified")
 			{
-				// Ввести начальную дату изменения
-				GlossaryTermFilterPage.SendModifiedStartDate(startDate);
-
+				//Вводим в таком порядке из-за предполагаемого бага с перескакиванием курсора.
 				// Ввести конечную дату изменения
 				GlossaryTermFilterPage.SendModifiedEndDate(endDate);
 
+				// Ввести начальную дату изменения
+				GlossaryTermFilterPage.SendModifiedStartDate(startDate);
+
 				// Получить значение в начальной дате изменения
 				startDateFilter = GlossaryTermFilterPage.GetStartModifiedDate();
-				
+
+				// Кликнуть на значок календаря начальной даты создания
+				// Необходимо,чтобы раскрытый календарь даты изменеия закрылся и перестал закрывать кнопку Apply
+				GlossaryTermFilterPage.ClickStartDayInLeftCalendar();
+
 				//формируем ожидаемую строку
 				expectedRangeTitle = "Modified: from " + startDate + " to " + endDate;
 			}
@@ -743,8 +752,8 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Glossary
 		/// <paparam name="text"> Текст </paparam>
 		private void editTerm(string text, int rowNumber = 1)
 		{
-			// Кликнуть по строек термина
-			GlossaryTermFilterPage.ClickTermRow();
+			// Кликнуть по строке термина
+			GlossaryTermFilterPage.HoverTermRow();
 
 			// Кликнуть кнопку редактирования термина
 			GlossaryTermFilterPage.ClickEditBtn();
@@ -754,6 +763,9 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Glossary
 
 			// Сохранить
 			GlossaryTermFilterPage.ClickSaveTerm();
+
+			//Дождаться сохранения
+			GlossaryTermFilterPage.WaitSaveTerm();
 		}
 
 		/// <summary>
@@ -806,6 +818,9 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Glossary
 
 			// Получить кол-во языков в фильтре
 			int count = languagesList.Count;
+
+			// Закрыть фильтр
+			GlossaryTermFilterPage.ClickCancelFilter();
 
 			return count;
 		}

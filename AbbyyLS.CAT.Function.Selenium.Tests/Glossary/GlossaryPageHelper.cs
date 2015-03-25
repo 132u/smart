@@ -940,7 +940,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			return CHOICE_DROPDOWN_LIST + "[@data-id='" + optionID + "']";
 		}
 
-		protected const string IMPORT_TERMS = "html/body/div[15]/div[2]/div[2]/form/div[1]/div[1]/div/input";
+		protected const string IMPORT_TERMS = "//form[contains(@action,'Enterprise/Glossaries/Import')]//input[contains(@class,'js-submit-input')]";
 
 		protected const string ADD_CONCEPT_XPATH = "//span[contains(@class,'js-add-concept')]";
 		protected const string OPEN_EDIT_GLOSSARY_LIST_XPATH = "//span[contains(@class,'js-edit-submenu')]";

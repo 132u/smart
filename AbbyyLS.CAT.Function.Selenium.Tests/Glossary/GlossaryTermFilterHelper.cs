@@ -113,6 +113,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 				if((checkbox.GetAttribute("title") != language) && (checkbox.GetAttribute("checked") == "true"))
 					checkbox.Click();
 			}
+			ClickLangDropDownInFilterForm();
 		}
 
 		/// <summary>
@@ -223,7 +224,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <param name="number"> Номер языка </param>
 		public void DeleteLanguageInProperties(int number)
 		{
-			ClickElement(By.XPath("//span["+ number + "]"+DELETELANG_BTN));
+			ClickElement(By.XPath(GLOSSARY_DIALOG_XPATH + "//span["+ number + "]"+DELETELANG_BTN));
 		}
 
 		/// <summary>
@@ -285,11 +286,11 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		}
 
 		/// <summary>
-		/// Кликнуть по строке термина
+		/// Навести курсор на строку термина
 		/// </summary>
-		public void ClickTermRow()
+		public void HoverTermRow()
 		{
-			ClickElement(By.XPath(TERMIN_ROW));
+			HoverElement(By.XPath(TERMIN_ROW));
 		}
 
 		/// <summary>
@@ -578,6 +579,14 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		}
 
 		/// <summary>
+		/// Кликнуть на значок календаря начальной даты создания
+		/// </summary>
+		public void ClickStartDayInLeftCalendar()
+		{
+			ClickElement(By.XPath(START_CREATED_CALENDAR));
+		}
+
+		/// <summary>
 		/// Установить конечную дату создания с помощью календаря
 		/// </summary>
 		public void SetEndDayInLeftCalendar()
@@ -629,11 +638,11 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		protected const string LANG_TERM_IN_TABLE = "//th[@class='l-corpr__th']//a[@class='g-block l-corpr__thsort' and contains(@href,'orderBy=Language')]"; // колонки языков в таблице на стр одного глоссари
 		protected const string SELECTED_LANGIN_FILTER_FORM = "//span[@class='g-iblock g-bold ui-multiselect-value']"; // выбранные язки в фильтре
 		protected const string EMPTY_LANG_BLOCK_MSG = "//div[@style='display: block;']//p[text()='The \"Language\" field cannot be empty.']";
-		protected const string DELETELANG_BTN = "//em[contains(@class, 'js-delete-language')]";
+		protected const string DELETELANG_BTN = "//em[contains(@data-bind, 'deleteLanguage')]";
 		protected const string NEW_ENTRY_BTN = "//span[contains(@title,'new entry')]";
 		protected const string NEW_RNTRY_ROW = "//tr[contains(@class, 'js-editing opened')]";
 		protected const string TERM_EDITABLE_FIELDS = "//p[contains(@class, 'js-term-box')]//input";
-		protected const string SAVE_BTN_IN_ROW ="//a[@title='Save']"; // галка в строке при добавлении Entry
+		protected const string SAVE_BTN_IN_ROW = "//a[contains(@class,'js-save-btn')]"; // галка в строке при добавлении Entry
 		protected const string ALL_TERMS = "//tr[@class='l-corpr__trhover js-concept-row']//td[contains(@class, 'g-bold')]//p";
 		protected const string AUTHOR_DROPDOWN = "//div[@class='l-filtersrc__control creator']//div[@class='ui-multiselect-text']";
 		protected const string AUTHOR_CHECKBOXES = "//input[contains(@id,'ui-multiselect-creator-option')]";
@@ -679,6 +688,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		protected const string DAY_IN_CALENDAR = "//table[@class='ui-datepicker-calendar']//tr[3]/td[1]/a";
 		protected const string DATE_DD_CREATED = LEFT_CALENDAR + "//span[@class='js-dropdown filterDate g-drpdwn g-iblock ']//span";
 		protected const string DATE_DD_MODIFIED = RIGHT_CALENDAR + "//span[@class='js-dropdown filterDate g-drpdwn g-iblock ']//span";
+		protected const string GLOSSARY_DIALOG_XPATH = "//div[contains(@class,'js-popup-edit-glossary')][2]";
 	}
 
 }

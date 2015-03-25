@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using System.IO;
 using System.Threading;
 using NUnit.Framework;
@@ -337,7 +338,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Glossary
 			CreateItemAndSave();
 
 			var uniqueGlossaryName = Path.Combine(PathProvider.ResultsFolderPath, glossaryName.Replace(":", "_"));
-			
 			// Экспорт глоссари
 			GlossaryPage.ClickExportGlossary();
 
@@ -548,7 +548,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Glossary
 			var year = dateTimeString.Substring(beginIndex, splitIndex - beginIndex);
 
 			// Создать дату в стандартном формате
-			var resDate = DateTime.Parse(day + "." + month + "." + year);
+			var resDate = DateTime.ParseExact(day + "/" + month + "/" + year, "d/M/yyyy", new CultureInfo("en-US")).Date;
 			Logger.Trace("время в таблице resDate = " + resDate);
 			// Явное приведение к строке стоит, чтобы не падал ArgumentOutOfRangeException. (неявное приведение даты иногда не отрабатывает корректно)
 			Logger.Trace("время создания глоссари curDay.Date = " + curDay.Date.ToString());

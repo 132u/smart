@@ -1480,7 +1480,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		protected void SwitchCurrentGlossary(string glossaryName)
 		{
 			Logger.Debug(string.Format("Зайти в глоссарий {0}", glossaryName));
-
+			GlossaryListPage.ScrollToGlossary(glossaryName);
 			GlossaryListPage.ClickGlossaryRow(glossaryName);
 			GlossaryPage.WaitPageLoad();
 		}
@@ -1488,7 +1488,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		protected void OpenGlossaryProperties()
 		{
 			Logger.Debug("Открытие свойства глоссария");
-
 			GlossaryPage.OpenEditGlossaryList();
 			GlossaryPage.ClickOpenProperties();
 		}
@@ -1664,7 +1663,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		{
 			// Получить уникальное имя глоссария (т.к. добавляется точная дата и время, то не надо проверять, есть ли такой глоссарий в списке)
 			// Явное приведение к строке стоит, чтобы не падал ArgumentOutOfRangeException. (неявное приведение даты иногда не отрабатывает корректно)
-			return GlossaryName + DateTime.Now;
+			return GlossaryName + DateTime.Now.ToString("MM.dd.yyyy HH:mm");
 		}
 
 		/// <summary>

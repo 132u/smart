@@ -159,6 +159,14 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			ClickElement(By.XPath(SAVE_EDIT_TERM_XPATH));
 		}
 
+		/// <summary>
+		/// Дождаться окончания сохранения термина.
+		/// </summary>
+		public void WaitSaveTerm()
+		{
+			WaitUntilDisappearElement(By.XPath(SAVE_EDIT_TERM_XPATH));
+		}
+
 		public void AssertionEditTermFillDisappear()
 		{
 			Logger.Trace("Проверка закрытия формы управления терминами");
@@ -214,7 +222,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		protected const string EDIT_TERM_BOX = "//div[contains(@class,'l-corprtree__langbox')]";
 		protected const string EDITOR_INPUT_XPATH = "//span[contains(@class,'js-term-editor')]//input";
 		protected const string VIEWER_XPATH = "//span[contains(@class,'js-term-viewer')]";
-		protected const string SAVE_EDIT_TERM_XPATH = "//div[@class ='l-corprtree']/div[1]/div[3]/div[1]/span[3]";
+		protected const string SAVE_EDIT_TERM_XPATH = "//a[contains(@class,'js-save-btn')]";
 		protected const string ADD_SYNONYM_XPATH = "//span[contains(@class,'js-add-term')]";
 		protected const string NEW_TERM_ADDED_XPATH = "//div[@class ='l-corprtree']/div[1]/div[3]/div[3]/span/span[contains(@class,'js-text') and text()='";
 		protected const string ACCEPT_TERM_XPATH = "//span[@class = 'js-save-text']";
