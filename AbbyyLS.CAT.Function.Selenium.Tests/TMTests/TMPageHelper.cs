@@ -749,7 +749,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.TM
 		protected const string ERROR_CREATE_TM_NO_NAME_XPATH = CREATE_TM_DIALOG_XPATH + ERROR_NO_NAME;
 		protected const string ERROR_CREATE_TM_NO_TARGET_XPATH = CREATE_TM_DIALOG_XPATH + ERROR_NO_TARGET;
 
-		protected const string ERROR_DIV = "//div[contains(@class,'g-popupbox__error l-tmpanel__error')]";
+		protected const string ERROR_DIV = "//div[contains(@class,'createtm__error')]";
 		protected const string ERROR_EXIST_NAME = ERROR_DIV + "//p[contains(text(),'The name should be unique.')]";
 		protected const string ERROR_NO_NAME = ERROR_DIV + "//p[contains(@data-message-id, 'name-required')]";
 		protected const string ERROR_NO_TARGET = ERROR_DIV + "//p[contains(@data-message-id,'target-language-required')]";

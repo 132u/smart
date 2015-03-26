@@ -74,7 +74,8 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.TM
 		public void CreateTMWithUploadTMX(
 			string uniqueTMName,
 			string fileName,
-			bool checkBaloonExisting = false)
+			bool checkBaloonExisting = false,
+			bool needToSave = true)
 		{
 			Logger.Debug(string.Format("Создание ТМ {0} с файлом для загрузки {1}. Проверять наличие информационной плашки: {2}", uniqueTMName, fileName, checkBaloonExisting));
 
@@ -83,10 +84,14 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.TM
 			TMPage.InputNewTMName(uniqueTMName);
 			TMPage.ClickTargetLangList();
 			TMPage.SelectTargetLanguage(CommonHelper.LANGUAGE.Russian);
-			TMPage.ClickSaveNewTM();
 
-			Assert.IsFalse(TMPage.GetIsErrorMessageNotTmx(),
-				"Ошибка: появилось сообщение о неверном расширении файла");
+			if (needToSave)
+			{
+				TMPage.ClickSaveNewTM();
+
+				Assert.IsFalse(TMPage.GetIsErrorMessageNotTmx(),
+					"Ошибка: появилось сообщение о неверном расширении файла");
+			}
 
 			if (checkBaloonExisting)
 			{

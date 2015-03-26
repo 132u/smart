@@ -93,9 +93,9 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.TM
 		[Test]
 		public void CreateTMWithNotTMXTest()
 		{
-			Logger.Info("Начало работы теста CreateTMWithExistingNameTest().");
+			Logger.Info("Начало работы теста CreateTMWithNotTMXTest().");
 
-			CreateTMWithUploadTMX(UniqueTmName, PathProvider.DocumentFile);
+			CreateTMWithUploadTMX(UniqueTmName, PathProvider.DocumentFile, needToSave: false);
 
 			Assert.IsTrue(TMPage.GetIsErrorMessageNotTmx(),
 				"Ошибка: не появилось сообщение о неверном расширении файла");
