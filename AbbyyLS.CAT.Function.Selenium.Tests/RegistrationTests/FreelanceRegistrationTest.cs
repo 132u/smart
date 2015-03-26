@@ -43,8 +43,8 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Registration.Freelance
 			WorkspacePage.ClickAccount();
 			//Нажать кнопку выхода
 			WorkspacePage.ClickLogoff();
-			//Обновить страницу
-			RefreshPage();
+			
+			Driver.Navigate().GoToUrl(Url + RelativeUrlProvider.SingIn);
 			//Заполнить email
 			LoginPage.EnterLogin(RegistrationPage.Email);
 			//Заполнить пароль
@@ -53,7 +53,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Registration.Freelance
 			LoginPage.ClickSubmitCredentials();
 
 			// Если открылась страница выбора аккаунта, то кликаем по названию аккаунта
-			if (LoginPage.CheckEuropeServerIsDisplayed() && LoginPage.CheckUsaServerIsDisplayed())
+			if (LoginPage.CheckEuropeServerIsDisplayed() || LoginPage.CheckUsaServerIsDisplayed())
 				LoginPage.ClickAccountName("Personal");
 
 			//Проверить что имя и фамилия фрилансера отображается в панели на стр WS

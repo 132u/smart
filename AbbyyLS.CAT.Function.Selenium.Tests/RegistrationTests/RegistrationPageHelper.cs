@@ -196,8 +196,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// </summary>
 		public bool CheckNameSurnameInWSPanel()
 		{
-			if (GetTextElement(By.XPath(USER_NAME_XPATH)) == this.FirstName + ' ' + this.LastName) return true;
-			else return false;
+			return GetTextElement(By.XPath(USER_NAME_XPATH)).Contains(string.Format("{0} {1}", FirstName, LastName));
 		}
 
 		/// <summary>
@@ -337,12 +336,12 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		protected const string LANG_LEVEL2 = "//tr[@class='ng-scope']//td[@class='service_select']";
 		protected const string FIRST_STEP_LABEL = "//strong[@class='ng-binding']";
 		protected const string SECOND_STEP_LABEL = "//div[@class='panel-heading']/h4";
-		protected const string ACCOUNT_XPATH = ".//div[contains(@class,'js-corp-account')]";
+		protected const string ACCOUNT_XPATH = ".//div[contains(@class,'js-usermenu')]";
 		protected const string USER_NAME_XPATH = ACCOUNT_XPATH + "//span[contains(@class,'nameuser')]";
 		protected const string ERROR_MESSAGE_USER_IS_ALREADY_EXIST = "//div[@ng-message='already-exists']"; //сообщение, что юзер уже существует
 		protected const string CREATE_ACCOUNT_IN_ABBYY_ONLINE_LINK = "//a[text()='account in ABBYY-Online']";
 		protected const string USER_NOT_EXIST_MESSAGE = "//span[contains(@translate, 'USER-NOT-FOUND-ERROR')]";//сообщение ,что юзера не существует 
-		protected const string EXIST_ACCOUNT_LINK_ABBY_ONLINE = "//a[@id='btnLogin']";
+		protected const string EXIST_ACCOUNT_LINK_ABBY_ONLINE = "//a[@id='show-sign-in']";
 		protected const string WRONG_PASSWORD_MESSAGE = "//span[contains(text(), 'Wrong password')]";
 		protected const string LOAD_PHOTO_BTN = "//input[@type='file']";
 		protected const string LABEL_WRONG_FORMAT = "//i[text()='Wrong format' and @class='ng-binding']";
