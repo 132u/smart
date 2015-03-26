@@ -359,6 +359,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// Метод тестирования копирования текста из source в target по хоткею
 		/// </summary>
 		[Test]
+		[Category("SCAT_102")]
 		public void CopySourceSegmentHotkey()
 		{
 			// Открыть документ
@@ -395,6 +396,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// Метод тестирования Undo/Redo
 		/// </summary>
 		[Test]
+		[Category("SCAT_102")]
 		public void UndoRedoActions()
 		{
 			// Открыть документ
@@ -519,6 +521,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// Метод тестирования кнопки перемещения курсора между полями source и target по хоткею
 		/// </summary>
 		[Test]
+		[Category("SCAT_102")]
 		public void SourceTargetSegmentsSwitchHotkey()
 		{
 			// Открыть документ
@@ -548,6 +551,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// Метод тестирования подстановки перевода сегмента из MT по хоткею
 		/// </summary>
 		[Test]
+		[Category("SCAT_102")]
 		public void SubstituteTranslationMTHotkey()
 		{
 			// Открыть документ
@@ -571,6 +575,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// Метод тестирования подстановки перевода сегмента из MT по клику на сегмент в САТ-панели
 		/// </summary>
 		[Test]
+		[Category("SCAT_102")]
 		[Ignore("Temporarily not working")]
 		[TestCase(Workspace_CreateProjectDialogHelper.MT_TYPE.ABBYY)]
 		[TestCase(Workspace_CreateProjectDialogHelper.MT_TYPE.Bing)]
@@ -606,6 +611,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// Метод тестирования подстановки перевода сегмента из TM по клику на сегмент в САТ-панели
 		/// </summary>
 		[Test]
+		[Category("SCAT_102")]
 		public void SubstituteTranslationTMHotkey()
 		{
 			// Открыть документ
@@ -642,6 +648,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// Метод тестирования подстановки перевода сегмента из TM по клику на сегмент в САТ-панели
 		/// </summary>
 		[Test]
+		[Category("SCAT_102")]
 		public void SubstituteTranslationTMDoubleClick()
 		{
 			// Открыть документ
@@ -782,6 +789,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// Метод тестирования перемещения по target
 		/// </summary>
 		[Ignore("Тест пропускаем, так как с помощью хоткея нельзя выделить слово в сегменте (в тесте)")]
+		[Category("SCAT_102")]
 		[Test]
 		public void MovingInTarget()
 		{
@@ -956,6 +964,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// Метод тестирования подстановки перевода сегмента из MT по клику на сегмент в САТ-панели вместо существующего
 		/// </summary>
 		[Test]
+		[Category("SCAT_102")]
 		public void SubstituteTranslationTextTmMt()
 		{
 			// Открыть документ
@@ -1000,6 +1009,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// Метод тестирования подстановки перевода сегмента из TM по клику на сегмент в САТ-панели вместо существующего
 		/// </summary>
 		[Test]
+		[Category("SCAT_102")]
 		public void SubstituteTranslationTextMtTm()
 		{
 			CreateReadyProject(projectName, withMT: true);
@@ -1038,6 +1048,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// Метод тестирования подстановки перевода сегмента из TB по клику на сегмент в САТ-панели
 		/// </summary>
 		[Category("PRX_8681")]
+		[Category("SCAT_102")]
 		[Test]
 		public void SubstituteTranslationTB()
 		{

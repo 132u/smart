@@ -157,12 +157,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			ClearElement(By.XPath((GetTargetCellXPath(rowNum))));
 		}
 
-		public void SearchByHotkey(int segmentNumber)
-		{
-			Log.Trace(string.Format("Нажать хоткей поиска. Номер строки: {0}", segmentNumber));
-			AddTextTarget(segmentNumber, OpenQA.Selenium.Keys.Control + "k");
-		}
-
 		protected void SendHotKey(int segmentNumber, string hotKey)
 		{
 			ClickInSegment(segmentNumber);
@@ -223,28 +217,14 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		public void CursorToTargetLineBeginningByHotkey(int segmentNumber)
 		{
 			Log.Trace(string.Format("Нажать хоткей  перехода в начало строки таргет. Номер строки: {0}", segmentNumber));
-			this.SendKeysTarget(segmentNumber, OpenQA.Selenium.Keys.Home);
+			SendKeysTarget(segmentNumber, OpenQA.Selenium.Keys.Home);
 		}
-
-		public void CursorToSourceLineBeginningByHotkey(int segmentNumber)
-		{
-			Log.Trace(string.Format("Нажать хоткей  перехода в начало строки сорс. Номер строки: {0}", segmentNumber));
-			ClickInSegment(segmentNumber);
-			HotKey.CtrlHome();
-		}
-
+		
 		public void SelectLastWordByHotkey(int segmentNumber)
 		{
 			Log.Trace(string.Format("Нажать хоткей выделения последнего слова. Номер строки: {0}", segmentNumber));
 			ClickInSegment(segmentNumber);
 			HotKey.CtrlShiftLeft();
-		}
-
-		public void SelectFirstWordTargetByHotkey(int segmentNumber)
-		{
-			Log.Trace(string.Format("Нажать хоткей выделения первого слова таргет. Номер строки: {0}", segmentNumber));
-			ClickInSegment(segmentNumber);
-			HotKey.CtrlShiftRight();
 		}
 
 		public void SelectFirstWordSourceByAction(int segmentNumber)

@@ -32,6 +32,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Editor.Confirm
 		/// Проверка работы в редакторе Confirm по хоткею Ctrl+Enter
 		/// </summary>
 		[Test]
+		[Category("SCAT_102")]
 		public void ConfirmHotkeyTest()
 		{
 			// Написать текст в первом сегменте в target

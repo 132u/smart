@@ -35,6 +35,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Editor.Character
 		/// Проверка работы в редакторе хоткея вставки спецсимвола
 		/// </summary>
 		[Test]
+		[Category("SCAT_102")]
 		public void CharacterHotkeyTest()
 		{
 			// Клик в сегменте

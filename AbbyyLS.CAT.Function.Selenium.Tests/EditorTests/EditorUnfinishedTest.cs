@@ -48,6 +48,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Editor.Concordance
 		/// Метод тестирования хоткея поиска следующего незаконченного сегмента
 		/// </summary>
 		[Test]
+		[Category("SCAT_102")]
 		public void UnfinishedHotkeyNextSegmentTest()
 		{
 			EditorPage.ClearTarget(2);
@@ -100,6 +101,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Editor.Concordance
 		/// Метод тестирования хоткея поиска следующего незаконченного сегмента
 		/// </summary>
 		[Test]
+		[Category("SCAT_102")]
 		public void UnfinishedHotkeySkipSegmentTest()
 		{
 			// Добавить текст во второй сегмент, подтвердить, проверка подтверждвения

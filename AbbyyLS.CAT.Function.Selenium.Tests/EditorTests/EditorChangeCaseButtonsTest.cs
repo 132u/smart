@@ -1,6 +1,5 @@
 ﻿using NUnit.Framework;
 using System.Collections.Generic;
-using System.Windows.Forms;
 
 namespace AbbyyLS.CAT.Function.Selenium.Tests.Editor.ChangeCase
 {
@@ -8,6 +7,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Editor.ChangeCase
 	/// Группа тестов кнопок редактора
 	/// </summary>
 	[Category("Standalone")]
+	[Category("SCAT_102")]
 	public class EditorChangeCaseButtonsTest : EditorBaseTest
 	{
 		/// <summary>
@@ -178,6 +178,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Editor.ChangeCase
 		/// Метод тестирования кнопки изменения регистра для слова (не первого) 
 		/// </summary>
 		[Category("PRX_8449")]
+		[Category("SCAT_102")]
 		[Test]
 		public void ChangeCaseSomeWordButtonNonStandardTest()
 		{
@@ -194,6 +195,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Editor.ChangeCase
 		/// Метод тестирования хоткея изменения регистра для слова (не первого)
 		/// </summary>
 		[Category("PRX_8449")]
+		[Category("SCAT_102")]
 		[Test]
 		public void ChangeCaseSomeWordHotkeyNonStandardTest()
 		{
@@ -211,6 +213,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Editor.ChangeCase
 		/// Метод тестирования кнопки изменения регистра для слова первого
 		/// </summary>
 		[Category("PRX_8449")]
+		[Category("SCAT_102")]
 		[Test]
 		public void ChangeCaseFirstWordButtonNonStandardTest()
 		{
@@ -260,6 +263,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Editor.ChangeCase
 		/// Метод тестирования хоткея изменения регистра для слова (не первого) текущая реализация
 		/// </summary>
 		[Test]
+		[Category("SCAT_102")]
 		public void ChangeCaseSomeWordHotkeyNonStandardTestCurrentRealization()
 		{
 			int segmentNumber = 1;
@@ -292,6 +296,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Editor.ChangeCase
 		/// Метод тестирования хоткея изменения регистра для слова первого текущая реализация
 		/// </summary>
 		[Test]
+		[Category("SCAT_102")]
 		public void ChangeCaseFirstWordHotkeyNonStandardTestCurrentRealization()
 		{
 			int segmentNumber = 1;

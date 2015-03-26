@@ -39,6 +39,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Editor.Tab
 		/// Метод тестирования хоткея перемещения курсора между полями source и target
 		/// </summary>
 		[Test]
+		[Category("SCAT_102")]
 		public void TabHotkeyTest()
 		{
 			var segmentNumber = 1;

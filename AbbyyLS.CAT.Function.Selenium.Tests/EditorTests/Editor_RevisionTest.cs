@@ -466,6 +466,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Editor.Revisions
 		/// ТЕСТ: подтвердить вставленный из МТ перевод (должно быть две ревизии)
 		/// </summary>
 		[Test]
+		[NUnit.Framework.Category("SCAT_102")]
 		public void ConfirmInsertedMtTest()
 		{
 			const int segmentNumber = 19;
@@ -716,6 +717,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Editor.Revisions
 		/// <param name="segmentNumber">номер сегмента</param>
 		/// <param name="byHotkeyOrButton">хоткей или кнопка</param>
 		[Test, Sequential]
+		[NUnit.Framework.Category("SCAT_102")]
 		[NUnit.Framework.Category("Standalone")]
 		public void ConfirmTest(
 			[Values(5, 6)] 
@@ -768,6 +770,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Editor.Revisions
 		/// </summary>
 		/// <param name="segmentNumber">номер сегмента</param>
 		/// <param name="byHotkeyOrDoubleClick">хоткей или даблклик</param>
+		[NUnit.Framework.Category("SCAT_102")]
 		[Test, Sequential]
 		public void PasteFromMTTest(
 			[Values(8, 9)] 
@@ -819,6 +822,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Editor.Revisions
 		/// <param name="byHotkeyOrDoubleClick">хоткей или даблклик</param>
 		[Test, Sequential]
 		[NUnit.Framework.Category("Standalone")]
+		[NUnit.Framework.Category("SCAT_102")]
 		public void PasteFromTMTest(
 			[Values(11, 12)] 
 			int segmentNumber,
@@ -1014,6 +1018,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Editor.Revisions
 		/// <param name="catType">тип подстановки МТ или ТМ</param>
 		/// <param name="expectedRevisionType">тип ревизии в соответствии с подстановкой из кат панели</param>
 		[Test, Sequential]
+		[NUnit.Framework.Category("SCAT_102")]
 		public void RevisionsAfterPretranslate(
 			[Values(EditorPageHelper.CAT_TYPE.TM, EditorPageHelper.CAT_TYPE.MT)] 
 			EditorPageHelper.CAT_TYPE catType,

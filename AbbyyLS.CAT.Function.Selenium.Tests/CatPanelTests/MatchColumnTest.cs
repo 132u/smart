@@ -8,8 +8,8 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 	/// <summary>
 	/// Группа тестов для проверки колонки match в таргете при выдачах из cat-панели
 	/// </summary>
-	class MatchColumnTest 
-		: BaseTest
+	[Category("SCAT_102")]
+	class MatchColumnTest : BaseTest
 	{
 		public MatchColumnTest(string browserName)
 			: base (browserName)
@@ -161,7 +161,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			
 			//ищем в кат номер строки с подходящим термином из MT, подставляем в таргет
 			//записываем номер строки CAT-панели, из которой выполнена подстановка
-			var catSubstitutionLineNumber = PasteFromCatReturnCatLineNumber(segmentNumber, EditorPageHelper.CAT_TYPE.MT);
+			PasteFromCatReturnCatLineNumber(segmentNumber, EditorPageHelper.CAT_TYPE.MT);
 			
 			//проверка1: появилось значение в колонке match - ресурс MT  
 			Assert.AreEqual(

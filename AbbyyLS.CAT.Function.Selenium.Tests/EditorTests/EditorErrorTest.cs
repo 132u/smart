@@ -33,6 +33,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Editor.Error
 		/// Проверка работы в редакторе хоткея поиска ошибки терминологии
 		/// </summary>
 		[Test]
+		[Category("SCAT_102")]
 		public void FindErrorHotkeyTest()
 		{
 			// Нажать хоткей

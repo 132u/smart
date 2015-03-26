@@ -98,6 +98,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// Открывает форму добавления термина в редакторе по хоткею
 		/// </summary>
 		[Test]
+		[Category("SCAT_102")]
 		public void OpenAddTermFormHotKey()
 		{
 			// Нажать хоткей вызова формы для добавления термина

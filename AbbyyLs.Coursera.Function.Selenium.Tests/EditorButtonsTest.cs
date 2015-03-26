@@ -1,21 +1,9 @@
-﻿using System;
-using System.Threading;
+﻿using System.Threading;
 using NUnit.Framework;
 using OpenQA.Selenium;
-using OpenQA.Selenium.Firefox;
-using OpenQA.Selenium.Chrome;
-using OpenQA.Selenium.IE;
-using OpenQA.Selenium.Support.UI;
-using System.IO;
-using System.Text;
-using System.Configuration;
-using System.Diagnostics;
 using System.Collections.Generic;
 using System.Windows.Forms;
 using System.Drawing;
-using System.Drawing.Imaging;
-
-using OpenQA.Selenium.Interactions;
 
 namespace AbbyyLS.Coursera.Function.Selenium.Tests
 {
@@ -61,6 +49,7 @@ namespace AbbyyLS.Coursera.Function.Selenium.Tests
 		/// Проверка работы в редакторе функционала кнопки Toggle
 		/// </summary>
 		[Test]
+		[Category("SCAT_102")]
 		public void SourceTargetSwitchButton()
 		{
 			SourceTargetSwitchCheck(true);
@@ -70,6 +59,7 @@ namespace AbbyyLS.Coursera.Function.Selenium.Tests
 		/// Проверка работы в редакторе функционала хоткея Toggle
 		/// </summary>
 		[Test]
+		[Category("SCAT_102")]
 		public void SourceTargetSwitchHotkey()
 		{
 			SourceTargetSwitchCheck(false);
@@ -79,6 +69,7 @@ namespace AbbyyLS.Coursera.Function.Selenium.Tests
 		/// Проверка работы в редакторе функционала кнопки Copy To Target
 		/// </summary>
 		[Test]
+		[Category("SCAT_102")]
 		public void ToTargetButton()
 		{
 			ToTargetCheck(true);
@@ -88,6 +79,7 @@ namespace AbbyyLS.Coursera.Function.Selenium.Tests
 		/// Проверка работы в редакторе функционала хоткея Copy To Target
 		/// </summary>
 		[Test]
+		[Category("SCAT_102")]
 		public void ToTargetHotkey()
 		{
 			ToTargetCheck(false);
@@ -97,6 +89,7 @@ namespace AbbyyLS.Coursera.Function.Selenium.Tests
 		/// Проверка работы в редакторе изменения регистра предложения по кнопке
 		/// </summary>
 		[Test]
+		[Category("SCAT_102")]
 		public void ChangeCaseTextButton()
 		{
 			// Написать текст в первом сегменте в target
@@ -113,6 +106,7 @@ namespace AbbyyLS.Coursera.Function.Selenium.Tests
 		/// Проверка работы в редакторе изменения регистра предложения по хоткею
 		/// </summary>
 		[Test]
+		[Category("SCAT_102")]
 		public void ChangeCaseTextHotkey()
 		{
 			// Написать текст в первом сегменте в target
@@ -129,6 +123,7 @@ namespace AbbyyLS.Coursera.Function.Selenium.Tests
 		/// Проверка работы в редакторе изменения регистра последнего слова по кнопке
 		/// </summary>
 		[Test]
+		[Category("SCAT_102")]
 		public void ChangeCaseSomeWordButton()
 		{
 			// Написать текст в первом сегменте в target
@@ -145,6 +140,7 @@ namespace AbbyyLS.Coursera.Function.Selenium.Tests
 		/// Проверка работы в редакторе изменения регистра последнего слова по хоткею
 		/// </summary>
 		[Test]
+		[Category("SCAT_102")]
 		public void ChangeCaseSomeWordHotkey()
 		{
 			// Написать текст в первом сегменте в target
@@ -161,6 +157,7 @@ namespace AbbyyLS.Coursera.Function.Selenium.Tests
 		/// Проверка работы в редакторе изменения регистра первого слова по кнопке
 		/// </summary>
 		[Test]
+		[Category("SCAT_102")]
 		public void ChangeCaseFirstWordButton()
 		{
 			// Написать текст в первом сегменте в target
@@ -180,6 +177,7 @@ namespace AbbyyLS.Coursera.Function.Selenium.Tests
 		/// Проверка работы в редакторе изменения регистра первого слова по хоткею
 		/// </summary>
 		[Test]
+		[Category("SCAT_102")]
 		public void ChangeCaseFirstWordHotkey()
 		{
 			// Написать текст в первом сегменте в target
@@ -214,6 +212,7 @@ namespace AbbyyLS.Coursera.Function.Selenium.Tests
 		/// Проверка работы в редакторе добавления символа переноса строки по хоткею
 		/// </summary>
 		[Test]
+		[Category("SCAT_102")]
 		public void AddLineBreakHotkey()
 		{
 			// Хоткей добавления символа переноса строки
@@ -262,6 +261,7 @@ namespace AbbyyLS.Coursera.Function.Selenium.Tests
 		/// Проверка работы в редакторе Confirm по хоткею Ctrl+Enter
 		/// </summary>
 		[Test]
+		[Category("SCAT_102")]
 		public void ConfirmHotkeyCtrlEnterTest()
 		{
 			// Написать текст в первом сегменте в target

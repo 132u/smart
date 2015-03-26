@@ -38,6 +38,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Editor.Concordance
 		/// Проверка работы в редакторе хоткея конкордного поиска
 		/// </summary>
 		[Test]
+		[Category("SCAT_102")]
 		public void ConcordanceSearchHotkeyTest()
 		{
 			// Клик в сегменте

@@ -48,6 +48,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Editor.UndoRedo
 		/// Метод тестирования хоткея Undo и Redo при вводе текста
 		/// </summary>
 		[Test]
+		[Category("SCAT_102")]
 		public void UndoRedoHotkeyTextTest()
 		{
 			const int segmentNumber = 1;
@@ -123,6 +124,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Editor.UndoRedo
 		/// Метод тестирования хоткея Undo и Redo при подтверждении сегмента
 		/// </summary>
 		[Test]
+		[Category("SCAT_102")]
 		public void UndoRedoHotkeySegmentTest()
 		{
 			const int segmentNumber = 1;
@@ -166,6 +168,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Editor.UndoRedo
 		/// Метод тестирования кнопки Undo и Redo при подстановке из CAT-панели
 		/// </summary>
 		[Test]
+		[Category("SCAT_102")]
 		public void UndoRedoButtonCatTest()
 		{
 			var segmentNumber = 1;
@@ -198,6 +201,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Editor.UndoRedo
 		/// Метод тестирования хоткея Undo и Redo при подстановке из CAT-панели
 		/// </summary>
 		[Test]
+		[Category("SCAT_102")]
 		public void UndoRedoHotkeyCatTest()
 		{
 			var segmentNumber = 1;

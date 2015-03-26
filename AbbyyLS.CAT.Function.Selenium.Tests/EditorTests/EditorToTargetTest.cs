@@ -28,6 +28,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Editor.ToTarget
 		/// Метод тестирования хоткея копирования оригинала в перевод
 		/// </summary>
 		[Test]
+		[Category("SCAT_102")]
 		public void ToTargetHotkeyTest()
 		{
 			// Хоткей Copy, проверить содержимое Target
