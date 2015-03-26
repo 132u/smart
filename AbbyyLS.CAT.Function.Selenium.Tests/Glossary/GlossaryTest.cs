@@ -43,7 +43,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			GlossaryEditStructureForm.AssertionIsConceptTableDisplay();
 
 			// Нажать на поле Domain
-			if (GlossaryEditStructureForm.ClickFieldToAdd(GlossaryEditStructureFormHelper.ATTRIBUTE_TYPE.Domain))
+			if (GlossaryEditStructureForm.ClickFieldToAdd(GlossaryEditStructureFormHelper.ATTRIBUTE_TYPE.Topic))
 			{
 				GlossaryEditStructureForm.ClickAddToListBtn();
 			}

@@ -94,50 +94,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.Glossary.EditStructure.T
 		}
 
 		/// <summary>
-		/// Метод тестирования изменения структуры - Project/Domain
-		/// </summary>
-		[Test]
-		public void AddDomainFieldTest()
-		{
-			// Перейти на вкладку проектов
-			SwitchDomainTab();
-
-			// Проверить, есть ли проект с таким именем
-			const string domainName = "TestDomainGlossaryEditStructure";
-			CreateDomainIfNotExist(domainName);
-
-			// Вернуться к глоссариям
-			SwitchGlossaryTab();
-
-			// Изменить структуру глоссария, открыть создание нового термина
-			EditGlossaryGeneralStructure();
-
-			var fieldName = GlossaryEditStructureForm.attributeDict[GlossaryEditStructureFormHelper.ATTRIBUTE_TYPE.Domain];
-
-			// Проверить, что поле появилось
-			Assert.IsTrue(GlossaryPage.GetIsExistSelect(fieldName), "Ошибка: поле не появилось");
-
-			// Нажать на поле, чтобы открылся список
-			GlossaryPage.ClickSelectDropdown(fieldName);
-			// Проверить, что список открылся
-			GlossaryPage.AssertionIsSelectListVisible();
-
-			GlossaryPage.SelectChoiceItem(domainName);
-
-			// Сохранить термин
-			GlossaryPage.ClickSaveExtendedConcept();
-			// Дождаться появления поля с сохраненным термином
-			GlossaryPage.AssertionConceptSave();
-
-			// Проверить, что значение в поле есть
-			Assert.AreEqual(
-				domainName,
-				GlossaryPage.GetSelectValue(fieldName), 
-				"Ошибка: проект не сохранился в поле");
-
-		}
-
-		/// <summary>
 		/// Метод тестирования изменения структуры - Image
 		/// </summary>
 		[Test]
@@ -184,6 +140,9 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.Glossary.EditStructure.T
 
 			// Загружать видео или звук
 			GlossaryPage.UploadFileInGlossary(PathProvider.AudioFile);
+
+			// Дождаться окончания загрузки
+			GlossaryPage.WaitFileMediaLoad(fieldName);
 
 			// Сохранить термин
 			GlossaryPage.ClickSaveExtendedConcept();
@@ -264,19 +223,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.Glossary.EditStructure.T
 			GlossaryEditStructureForm.ClickSaveStructureBtn();
 			// Дождаться закрытия формы
 			GlossaryEditStructureForm.WaitFormClose();
-		}
-
-		/// <summary>
-		/// Создать Domain, есть его нет
-		/// </summary>
-		/// <param name="domainName"></param>
-		protected void CreateDomainIfNotExist(string domainName)
-		{
-			if (!DomainPage.GetIsDomainExist(domainName))
-			{
-				// Если проект не найден, создать его
-				CreateDomain(domainName);
-			}
 		}
 	}
 }

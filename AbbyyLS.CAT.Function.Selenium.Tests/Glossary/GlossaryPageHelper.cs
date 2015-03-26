@@ -265,7 +265,8 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		{
 			Logger.Debug(string.Format("Кликнуть по пользовательскому полю Изображение. Имя поля {0}", fieldName));
 
-			//Работу можно продолжить дальше и визуально клик проходит, но падает исключение про timeout операции. 
+			//Работу можно продолжить дальше и визуально клик проходит, но падает исключение про timeout операции.
+			//TODO проверить exception
 			try
 			{
 				ClickElement(By.XPath(GetCustomFieldImageXPath(fieldName) 
@@ -299,7 +300,8 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		{
 			Logger.Debug(string.Format("Кликнуть по пользовательскому полю Media. Имя поля {0}", fieldName));
 
-			//Работу можно продолжить дальше и визуально клик проходит, но падает исключение про timeout операции. 
+			//Работу можно продолжить дальше и визуально клик проходит, но падает исключение про timeout операции.
+			//TODO проверить exception
 			try
 			{
 				ClickElement(By.XPath(GetCustomFieldImageXPath(fieldName) + CUSTOM_FIELD_MEDIA_REF_XPATH));
@@ -385,7 +387,25 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		public void ClickMediaToImport(string fieldName)
 		{
 			Logger.Debug("Кликнуть по полю Media для загрузки");
-			ClickElement(By.XPath(GetInputXPath(fieldName) + INPUT_IMPORT_LINK_XPATH));
+			//Работу можно продолжить дальше и визуально клик проходит, но падает исключение про timeout операции.
+			//TODO проверить exception
+			try
+			{
+				ClickElement(By.XPath(GetInputXPath(fieldName) + INPUT_IMPORT_LINK_XPATH));
+			}
+			catch (WebDriverException ex)
+			{
+				// Такая проверка стоит, чтобы обрабатывать только одно конкретное исключение. 
+				// Но драйвер не выделяет это исключение в отдельный тип, поэтому приходится делать проверку сообщения.
+				if (ex.Message.Contains("timed out after 60 seconds"))
+				{
+					Logger.Warn(ex.Message);
+				}
+				else
+				{
+					throw;
+				}
+			}
 		}
 
 		public bool GetIsFieldMediaFilled(string fieldName)
@@ -397,10 +417,39 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			return GetElementAttribute(By.XPath(xPath), "href").Trim().Length > 0;
 		}
 
+		/// <summary>
+		/// Метод ожидает окончания загрузки файла в поле Media
+		/// </summary>
+		/// <param name="fieldName">название поля</param>
+		public bool WaitFileMediaLoad(string fieldName)
+		{
+			Logger.Debug(string.Format("Ожидаем окончания загрузки файла в поле Media. Имя поля: {0}", fieldName));
+			var xPath = GetInputXPath(fieldName) + FIELD_MEDIA_CONTAINS_XPATH;
+			return WaitUntilDisplayElement(By.XPath(xPath));
+		}
+
 		public void ClickImageToImport(string fieldName)
 		{
 			Logger.Debug(string.Format("Кликнуть по полю Image для загрузки. Имя поля: {0}", fieldName));
-			ClickElement(By.XPath(GetInputXPath(fieldName) + FIELD_IMAGE_FIELD_XPATH));
+			//Работу можно продолжить дальше и визуально клик проходит, но падает исключение про timeout операции.
+			//TODO проверить exception
+			try
+			{
+				ClickElement(By.XPath(GetInputXPath(fieldName) + FIELD_IMAGE_FIELD_XPATH));
+			}
+			catch (WebDriverException ex)
+			{
+				// Такая проверка стоит, чтобы обрабатывать только одно конкретное исключение. 
+				// Но драйвер не выделяет это исключение в отдельный тип, поэтому приходится делать проверку сообщения.
+				if (ex.Message.Contains("timed out after 60 seconds"))
+				{
+					Logger.Warn(ex.Message);
+				}
+				else
+				{
+					throw;
+				}
+			}
 		}
 
 		public bool GetFieldImageFilled(string fieldName)

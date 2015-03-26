@@ -23,7 +23,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 				{ATTRIBUTE_TYPE.Interpretation, ATTRIBUTE_INTERPRETATION},
 				{ATTRIBUTE_TYPE.InterpretationSource, ATTRIBUTE_INTERPRETATION_SRC},
 				{ATTRIBUTE_TYPE.Topic, ATTRIBUTE_TOPIC},
-				{ATTRIBUTE_TYPE.Domain, ATTRIBUTE_DOMAIN},
 				{ATTRIBUTE_TYPE.Comment, ATTRIBUTE_COMMENT},
 				{ATTRIBUTE_TYPE.Multimedia, ATTRIBUTE_MEDIA},
 				{ATTRIBUTE_TYPE.Image, ATTRIBUTE_IMAGE},
@@ -242,7 +241,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 
 		public enum ATTRIBUTE_TYPE
 		{
-			Interpretation, InterpretationSource, Topic, Domain, Comment,
+			Interpretation, InterpretationSource, Topic, Comment,
 			Multimedia, Image, Example, Source, Gender, Number, PartOfSpeech, Context, ContextSource, Status, Label
 		};
 		public enum FIELD_TYPE

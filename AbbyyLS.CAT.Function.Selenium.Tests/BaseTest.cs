@@ -1294,15 +1294,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		}
 
 		/// <summary>
-		/// Перейти на страницу Domain
-		/// </summary>
-		protected void SwitchDomainTab()
-		{
-			MainHelperClass.ClickOpenDomainPage();
-			DomainPage.WaitPageLoad();
-		}
-
-		/// <summary>
 		/// Перейти на страницу TM
 		/// </summary>
 		protected void SwitchTMTab()
