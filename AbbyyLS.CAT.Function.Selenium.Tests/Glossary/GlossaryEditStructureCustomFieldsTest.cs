@@ -154,6 +154,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.Glossary.EditStructure.C
 		/// Метод тестирования изменения структуры: добавление пользовательского поля Аудио/Видео
 		/// </summary>
 		[Test]
+		[Category("ForLocalRun")]
 		public void AddMediaFieldTest()
 		{
 			// Создать глоссарий, изменить структуру, открыть добавление нового термина
@@ -186,6 +187,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.Glossary.EditStructure.C
 		/// Метод тестирования изменения структуры: добавление ОБЯЗАТЕЛЬНОГО пользовательского поля Аудио/Видео
 		/// </summary>
 		[Test]
+		[Category("ForLocalRun")]
 		public void AddMediaRequiredFieldTest()
 		{
 			// Создать глоссарий, изменить структуру, открыть добавление нового термина
@@ -225,6 +227,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.Glossary.EditStructure.C
 		/// Метод тестирования изменения структуры: добавление пользовательского поля Image
 		/// </summary>
 		[Test]
+		[Category("ForLocalRun")]
 		public void AddImageFieldTest()
 		{
 			// Создать глоссарий, изменить структуру, открыть добавление нового термина
@@ -253,6 +256,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.Glossary.EditStructure.C
 		/// Метод тестирования изменения структуры: добавление ОБЯЗАТЕЛЬНОГО пользовательского поля Изображение
 		/// </summary>
 		[Test]
+		[Category("ForLocalRun")]
 		public void AddImageRequiredFieldTest()
 		{
 			// Создать глоссарий, изменить структуру, открыть добавление нового термина
