@@ -1655,7 +1655,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		{
 			// Получить уникальное имя глоссария (т.к. добавляется точная дата и время, то не надо проверять, есть ли такой глоссарий в списке)
 			// Явное приведение к строке стоит, чтобы не падал ArgumentOutOfRangeException. (неявное приведение даты иногда не отрабатывает корректно)
-			return GlossaryName + DateTime.Now.ToString("MM.dd.yyyy HH:mm");
+			return GlossaryName + DateTime.Now.ToString("MM.dd.yyyy HH:mm:ss");
 		}
 
 		/// <summary>
