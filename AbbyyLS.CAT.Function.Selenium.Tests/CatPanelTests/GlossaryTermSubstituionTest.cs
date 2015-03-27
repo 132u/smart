@@ -65,6 +65,10 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Editor.Panel
 			// Добавляем созданный глоссарий
 			Logger.Info("Добавляем созданный глоссарий(перешли внутрь проекта).");
 			ProjectPage.SetGlossaryByName(uniqueGlossaryName);
+			ProjectPage.WaitDocumentDownloadFinish();
+
+			// Выставляем права на редактирование
+			AssignTask();
 
 			// Открываем документ
 			OpenDocument();
@@ -131,6 +135,10 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Editor.Panel
 			// Добавляем созданный глоссарий
 			Logger.Info("Добавляем созданный глоссарий(перешли внутрь проекта).");
 			ProjectPage.SetGlossaryByName(uniqueGlossaryName);
+			ProjectPage.WaitDocumentDownloadFinish();
+			
+			// Выставляем права на редактирование
+			AssignTask();
 
 			// Открываем документ
 			OpenDocument();
@@ -202,6 +210,10 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Editor.Panel
 			// Добавляем созданный глоссарий
 			Logger.Info("Добавляем созданный глоссарий(перешли внутрь проекта).");
 			ProjectPage.SetGlossaryByName(uniqueGlossaryName);
+			ProjectPage.WaitDocumentDownloadFinish();
+
+			// Выставляем права на редактирование
+			AssignTask();
 
 			// Открываем документ
 			OpenDocument();

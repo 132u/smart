@@ -106,7 +106,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		{
 			var split = userName.Split(' ');
 			var xPath = PROGRESS_DIALOG_TABLE_USERNAME_XPATH + "/option";
-			var el = xPath + "[contains(text(),'" + split[0] + "') and contains(text(),'" + split[1] + "')]";
+			var el = split.Aggregate(xPath, (current, str) => current + ("[contains(text(),'" + str + "')]"));
 
 			Driver.FindElement(By.XPath(PROGRESS_DIALOG_TABLE_USERNAME_XPATH)).Click();
 
@@ -522,14 +522,16 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 					var builder = new Actions(Driver);
 
 					var glossaryWebElement = Driver.FindElement(By.XPath(GLOSSARY_LIST_XPATH + "[" + (i + 1) + "]//td[1]//input"));
-					builder.MoveByOffset(glossaryWebElement.Location.X, glossaryWebElement.Location.Y).Perform();
+					// смещаемся на 100 единиц по вертикали выше расположения искомого чекбокса, чтобы он не скрывался под хедером Projects
+					builder.MoveToElement(glossaryWebElement, 0, -100).Build().Perform();
 					glossaryWebElement.Click();
 
-					SendKeys.SendWait("{HOME}");
-					
 					var saveButtonWebElement = Driver.FindElement(By.XPath(EDIT_GLOSSARY_SAVE_BTN_XPATH));
-					builder.MoveByOffset(saveButtonWebElement.Location.X, saveButtonWebElement.Location.Y).Perform();
+					// для кнопки Save делаем аналогичное чекбоксу смещение
+					builder.MoveToElement(saveButtonWebElement, 0, -100).Build().Perform();
 					saveButtonWebElement.Click();
+
+					SendTextElement(By.XPath(GLOSSARY_LIST_XPATH), Keys.Home);
 					
 					glossaryWasSet = true;
 				}
