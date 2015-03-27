@@ -260,10 +260,10 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		{
 			if (GetIsElementDisplay(By.XPath(VENTURE_XPATH)))
 			{
-				var option = "//option[contains(@value,'" + name + "')]";
 				ClickElement(By.XPath(VENTURE_XPATH));
-				WaitUntilDisplayElement(By.XPath(VENTURE_XPATH + option));
-				ClickElement(By.XPath(VENTURE_XPATH + option));
+				WaitUntilDisplayElement(By.XPath(VENTURE_XPATH + "//option[contains(@value,'" + name + "')]"));
+				SendTextElement(By.XPath(VENTURE_XPATH), name);
+				SendTextElement(By.XPath(VENTURE_XPATH), Keys.Tab);
 			}
 		}
 
@@ -389,7 +389,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <summary>
 		/// Чекнуть чекбокс Администратор
 		/// </summary>
-		public void ChechIsAdminCheckbox()
+		public void CheckIsAdminCheckbox()
 		{
 			ClickElement(By.XPath(IS_ADMIN_CHECKBOX));
 		}
@@ -434,7 +434,10 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <returns></returns>
 		public bool GetIsUserIsExistMsgDisplay()
 		{
-			return GetIsElementDisplay(By.XPath(USER_IS_EXIST_MSG));
+			SetDriverTimeoutMinimum();
+			var isDisplay = GetIsElementDisplay(By.XPath(USER_IS_EXIST_MSG));
+			SetDriverTimeoutDefault();
+			return isDisplay;
 		}
 
 		/// <summary>
@@ -468,9 +471,10 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		public void SetDictionariesExpirationDate()
 		{
 			DateTime today = DateTime.Today;
-			string nextWeek = today.AddYears(1).ToString("dd/MM/yyyy");
+			string nextWeek = today.AddYears(1).ToString("dd.MM.yyyy");
 			SendTextElement(By.XPath(DICTIONARIES_EXP_DATE), nextWeek);
 		}
+
 		public void ClickCalendar()
 		{
 			ClickElement(By.XPath(DICTIONARIES_EXP_DATE));

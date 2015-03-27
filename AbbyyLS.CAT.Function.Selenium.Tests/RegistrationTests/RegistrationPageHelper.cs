@@ -1,4 +1,5 @@
-﻿using OpenQA.Selenium;
+﻿using System;
+using OpenQA.Selenium;
 using OpenQA.Selenium.Support.UI;
 
 namespace AbbyyLS.CAT.Function.Selenium.Tests
@@ -105,7 +106,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <returns>загрузилась</returns>
 		public bool WaitSecondStepPageLoad()
 		{
-			return WaitUntilDisplayElement(By.Id(SECOND_STEP_LABEL));
+			return WaitUntilDisplayElement(By.XPath(SECOND_STEP_LABEL));
 		}
 
 		/// <summary>
@@ -115,6 +116,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		{
 			ClickElement(By.XPath(SIGN_UP_BUTTON));
 		}
+
 		/// <summary>
 		/// Кликнуть по кнопке Sign In в форме Sign in
 		/// </summary>
@@ -122,12 +124,13 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		{
 			ClickElement(By.XPath(SIGN_IN_BUTTON));
 		}
+
 		/// <summary>
 		/// Ввод текста в поле email - на странице регистрации в форме Sign up
 		/// </summary>
 		public void TypeTextInEmailField(string email)
 		{
-			ClearAndAddText(By.XPath(EMAIL_FIELD_IN_SIGN_UP), email);
+			ClickClearAndAddText(By.XPath(EMAIL_FIELD_IN_SIGN_UP), email);
 		}
 
 		/// <summary>
@@ -138,6 +141,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		{
 			ClearAndAddText(By.XPath(PASSWORD_FIELD_IN_SIGN_IN), password);
 		}
+
 		/// <summary>
 		/// Ввод текста в поле email в форме Sign In
 		/// </summary>
@@ -154,15 +158,16 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		///  <param name="password">пароль</param>
 		public void TypeTextInPasswordField(string password)
 		{
-			ClearAndAddText(By.XPath(PASSWORD_FIELD_IN_SIGN_UP), password);
+			ClickClearAndAddText(By.XPath(PASSWORD_FIELD_IN_SIGN_UP), password);
 		}
+
 		/// <summary>
 		/// Ввод текста в поле подтверждения пароля  в форме Sign Up
 		/// </summary>
 		///  <param name="password">пароль</param>
 		public void TypeTextInConfirmPasswordField(string password)
 		{
-			ClearAndAddText(By.XPath(CONFIRM_PASSWORD_FIELD), password);
+			ClickClearAndAddText(By.XPath(CONFIRM_PASSWORD_FIELD), password);
 		}
 
 		/// <summary>
@@ -207,6 +212,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			if (GetTextElement(By.XPath(USER_NAME_XPATH)) == this.FirstName) return true;
 			else return false;
 		}
+
 		/// <summary>
 		/// Создать рандомную строку
 		/// </summary>
@@ -220,7 +226,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// </summary>
 		private string GetUniqueEmail()
 		{
-			return "TestEmail@" + RandomString.Generate(10) + ".com";
+			return RandomString.Generate(10) + "@mailforspam.com";
 		}
 
 		/// <summary>
@@ -236,8 +242,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// </summary>
 		public bool CheckThatSignUpButtonIsDisable()
 		{
-			if (GetElementAttribute(By.XPath(SIGN_UP_BUTTON), "disabled") == "true") return true;
-			else return false;
+			return GetElementAttribute(By.XPath(SIGN_UP_BUTTON), "disabled") == "true";
 		}
 
 		/// <summary>
@@ -245,11 +250,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// </summary>
 		public bool CheckThatCreateAccountBtnIsDisable()
 		{
-			if (GetElementAttribute(By.XPath(CREATE_ACCOUNT_BUTTON), "disabled") == "true") return true;
-			else
-			{
-				return false;
-			}
+			return GetElementAttribute(By.XPath(CREATE_ACCOUNT_BUTTON), "disabled") == "true";
 		}
 
 		/// <summary>
@@ -268,6 +269,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			WaitUntilDisplayElement(By.XPath(ERROR_MESSAGE_USER_IS_ALREADY_EXIST));
 			return GetIsElementDisplay(By.XPath(ERROR_MESSAGE_USER_IS_ALREADY_EXIST));
 		}
+
 		/// <summary>
 		/// Открыть страницу авторизация для существующих юзеров (форма Sign In)
 		/// </summary>
@@ -296,8 +298,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		{
 			ClickElement(By.XPath(LABEL_LOAD_PHOTO));
 		}
-
-
+		
 		/// <summary>
 		/// Проверить,что сообщение Wrong format появляется , когда загружен неверный формат фото
 		/// </summary>
@@ -313,6 +314,8 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		{
 			ClickElement(By.XPath(LOAD_PHOTO_BTN));
 		}
+
+
 		protected const string EMAIL_FIELD_IN_SIGN_UP = "//form[@name='signupForm']//input[@id='email']";
 		protected const string PASSWORD_FIELD_IN_SIGN_UP = "//form[@name='signupForm']//input[@id='password']";
 		protected const string EMAIL_FIELD_IN_SIGN_IN = "//form[@name='signinForm']//input[@id='email']";
@@ -486,6 +489,33 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			WaitUntilDisplayElement(By.XPath(PASSWORD_FIELD_IN_SIGN_IN));
 		}
 
+		/// <summary>
+		/// Возвращает отображается ли сообщение о неверном пароле (пустой пароль)
+		/// </summary>
+		/// <returns>Сообщение отображается</returns>
+		public bool GetIsMsgWrongPasswordRequiredDisplay()
+		{
+			return WaitUntilDisplayElement(By.XPath(PASSWORD_FIELD + WRONG_PASSWORD_MSG_REQUIRED));
+		}
+
+		/// <summary>
+		/// Возвращает отображается ли сообщение о неверном пароле (минимальная длина)
+		/// </summary>
+		/// <returns>Сообщение отображается</returns>
+		public bool GetIsMsgWrongPasswordMinLenghtDisplay()
+		{
+			return WaitUntilDisplayElement(By.XPath(PASSWORD_FIELD + WRONG_PASSWORD_MSG_MINLENGHT));
+		}
+
+		/// <summary>
+		/// Возвращает отображается ли сообщение о неверном пароле (одни пробелы)
+		/// </summary>
+		/// <returns>Сообщение отображается</returns>
+		public bool GetIsMsgWrongPasswordSpacesDisplay()
+		{
+			return WaitUntilDisplayElement(By.XPath(PASSWORD_FIELD + WRONG_PASSWORD_MSG_SPACES));
+		}
+
 		protected const string FIRST_NAME_COMPANY = ".//input[@id='firstname']";
 		protected const string LAST_NAME_COMPANY = ".//input[@id='lastname']";
 		protected const string COMPANY_NAME_COMPANY = ".//input[@id='company']";
@@ -502,5 +532,9 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		protected const string ADD_SERVICE = "//div[@class='add-item']//a";
 		protected const string PASSWORD_ERROR_MATCH = "//span[contains(@ng-show, 'error.match ')]";
 		protected const string EMAIL_INVALID_MSG = "//span[contains(@ng-show,'signupForm.email')]";
+		protected const string PASSWORD_FIELD = "//fieldset[contains(@valid,'password')]";
+		protected const string WRONG_PASSWORD_MSG_REQUIRED = "//div[contains(@ng-message,'required')]//span[not(contains(@class,'ng-hide'))]";
+		protected const string WRONG_PASSWORD_MSG_MINLENGHT = "//div[contains(@ng-message,'minlength')]//span[not(contains(@class,'ng-hide'))]";
+		protected const string WRONG_PASSWORD_MSG_SPACES = "//div[contains(@ng-message,'pattern')]//span[not(contains(@class,'ng-hide'))]";
 	}
 }

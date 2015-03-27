@@ -1798,7 +1798,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <param name="segmentNumber">номер сегмента таргет для подстановки  в него</param>
 		/// <param name="catType">тип подстановки из CAT</param>
 		/// <returns>номер строки CAT из которой произвели подстановку</returns>
-
 		protected int PasteFromCatReturnCatLineNumber(int segmentNumber, EditorPageHelper.CAT_TYPE catType)
 		{
 			Logger.Trace(string.Format("Метод подстановки из САТ. Номер сегмента {0}, тип подстановки {1}", segmentNumber, catType));

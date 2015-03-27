@@ -2,7 +2,7 @@
 <configuration>
 
 	<CatTargetServer Url="smartcat.stage3.als.local" Workspace="" Standalone= "false" EmailAuth="false"/>
-	<CourseraTargetServer Url="http://coursera.stage2.als.local/en"/>
+	<CourseraTargetServer Url="http://coursera.stage3.als.local/en"/>
 
 	<TestingFiles 
 		FilesDirectory="../TestingFiles"

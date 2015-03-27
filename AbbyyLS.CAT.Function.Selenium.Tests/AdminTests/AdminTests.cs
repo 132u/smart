@@ -1,4 +1,5 @@
-﻿using NUnit.Framework;
+﻿using System.Threading;
+using NUnit.Framework;
 using System;
 
 namespace AbbyyLS.CAT.Function.Selenium.Tests
@@ -65,7 +66,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		public void CheckAdminCheckbox()
 		{
 			if (!AdminPage.GetIsAdminCheckboxIsChecked())
-				AdminPage.ChechIsAdminCheckbox();
+				AdminPage.CheckIsAdminCheckbox();
 		}
 
 		/// <summary>
@@ -97,8 +98,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// Заполнить основные поля создания аккаунта
 		/// </summary>
 		/// <param name="testAccount"> Аккаунт для бобби или обычный корп аккаунт </param>
-		/// <param name="ventureId"> Имя затеи </param>
-		/// <param name="workFlow"> Workflow чекбокс </param>
+		/// <param name="workFlow"> Включение функции workflow для аккаунта </param>
 		/// <param name="venture"> Затея </param>
 		/// <returns>имя аккаунта</returns>
 		public string FillGeneralAccountFields(string testAccount = "", bool workFlow = false, string venture = "SmartCAT")
@@ -179,14 +179,13 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			AdminPage.FillPasswordForNewUser(password);
 			AdminPage.FillConfirmPasswordForNewUser(password);
 			AdminPage.ClickSubmitBtnNewUser();
-			if (!AdminPage.GetIsUserIsExistMsgDisplay() && admin)
+			
+			if (AdminPage.GetIsUserIsExistMsgDisplay())
+				Logger.Trace("Пользователь " + emailForNewUser + " уже есть в AOL, добавлен в БД");
+			else if (admin)
 			{
-				AdminPage.ChechIsAdminCheckbox();
+				AdminPage.CheckIsAdminCheckbox();
 				AdminPage.ClickSubmitBtnNewUser();
-			}
-			else if (AdminPage.GetIsUserIsExistMsgDisplay())
-			{
-				Logger.Trace("Пользователь "+emailForNewUser+" уже есть в AOL, добавлен в БД");
 			}
 		}
 
@@ -203,32 +202,28 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// Создание корпоративного аккаунта
 		/// </summary>
 		/// <param name="testAccount"> Аккаунт для бобби или обычный корп аккаунт </param>
+		/// <param name="workflow"> Включение функции workflow для аккаунта </param>
+		/// <param name="venture">Затея</param>
 		/// <returns></returns>
 		public string CreateCorpAccount(string testAccount = "", bool workflow = false, string venture = "SmartCAT")
 		{
 			SwitchEnterpriseAccountList();
-			// Нажать Создать
 			AdminPage.ClickAddAccount();
 			// Переключаемся в новое окно браузера
 			Driver.SwitchTo().Window(Driver.WindowHandles[1]);
-			bool isWindowWithForm = AdminPage.GetIsAddAccountFormDisplay();
-			Assert.IsTrue(isWindowWithForm, "Ошибка: не нашли окно с формой создания аккаунта");
-			// Заполняем поля для создания корп аккаунта
-			string accountName = FillGeneralAccountFields(testAccount, workflow, venture);
+			Assert.IsTrue(AdminPage.GetIsAddAccountFormDisplay(), "Ошибка: не нашли окно с формой создания аккаунта");
+			var accountName = FillGeneralAccountFields(testAccount, workflow, venture);
 			// Выбрать функции
 			SelectFeatures();
 			// Выбрать дату окончания действия словаря
 			SelectExpDate();
-			// Нажать кнопку сохранить
 			AdminPage.ClickSaveBtn();
-			//проверяем,появилось ли сообщение о том,что такой аккаунт уже существует
-			if (AdminPage.GetCorpAccountExists())
-			{
-				//если существует, вызываем метод,который закрывает окно добавления аккаунта и переключается на старое окно
-				AdminPage.CloseCurrentWindow();
-				//пишем в лог, что аккаунт с таким именем уже есть
-				Logger.Trace("Корп. аккаунт с именем " + testAccount + " уже существует.");
-			}
+
+			if (!AdminPage.GetCorpAccountExists()) 
+				return accountName;
+
+			AdminPage.CloseCurrentWindow();
+			Logger.Trace("Корп. аккаунт с именем " + testAccount + " уже существует.");
 			return accountName;
 		}
 
@@ -260,9 +255,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 
 		public void SelectExpDate()
 		{
-			AdminPage.ClickCalendar();
-			AdminPage.SelectYear("2015");
-			AdminPage.SelectDay("14");
+			AdminPage.SetDictionariesExpirationDate();
 		}
 	}
 }
