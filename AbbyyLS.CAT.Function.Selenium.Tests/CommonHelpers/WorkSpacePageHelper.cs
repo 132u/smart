@@ -651,6 +651,15 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		}
 
 		/// <summary>
+		/// Выбрать пункт для перехода к управлению лицензиями в меню профиля
+		/// </summary>
+		public void ClickLicensesAndServices()
+		{
+			Log.Trace("Выбираем в меню профиля пунтк для управления лицензиями.");
+			ClickElement(By.XPath(LICENSES_AND_SERVICES_MENU_ITEM));
+		}
+
+		/// <summary>
 		/// Разлогинится
 		/// </summary>
 		public void ClickLogoff()
@@ -769,9 +778,10 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		protected const string TOP_BOX_COMPANY_NAME = "//div[@class='g-topbox__currentAccount__nickname']";
 		protected const string COMPANY_NAME_PANEL_WS = "//span[contains(@class,'g-topbox__nameuser')]//small";
 
-		protected const string LANGUAGE_SWITCHER = "//div[@class='g-topbox__lang']";
+		protected const string LANGUAGE_SWITCHER = "//span[contains(@class,'js-language-button')]";
 		protected const string RESOURCES_IN_MENU_XPATH = "//li[contains(@class,'js-menuitem-Resources')]";
-		
+		protected const string LICENSES_AND_SERVICES_MENU_ITEM = "//a[contains(@class,'billing')]";
+
 		private static readonly Logger Log = LogManager.GetCurrentClassLogger();
 	}
 }

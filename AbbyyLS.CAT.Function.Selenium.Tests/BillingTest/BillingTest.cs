@@ -114,6 +114,8 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			AddUserToCorpAccount(Login);
 			Authorization(Login, Password, accountName);
 
+			// Закрываем панель выбора языка
+			WorkspacePage.ClickLanguagSwitcher();
 			// Выбираем язык в WS
 			WorkspacePage.SelectLocale(language);
 			// Переход в личный кабинет

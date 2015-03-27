@@ -700,8 +700,9 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 				// Проходим процедуру авторизации
 				Authorization(Login, Password);
 
-				// Кликаем MyAccount в панели WS
-				MyAccountPage.ClickMyAccountLink();
+				// Переходим к лицензиям
+				WorkspacePage.ClickAccount();
+				WorkspacePage.ClickLicensesAndServices();
 
 				// Перешли в новое открытое окно браузера
 				Driver.SwitchTo().Window(Driver.WindowHandles[1]);
