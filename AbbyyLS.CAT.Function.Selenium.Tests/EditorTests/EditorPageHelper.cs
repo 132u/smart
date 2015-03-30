@@ -826,8 +826,11 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <returns>Список подчеркнутых слов</returns>
 		public List<string> GetWordListSpellcheck(int rowNumber)
 		{
-			var xPath = getSegmentRow(rowNumber) + SPELLCHECK_TARGET_XPATH;
+			var segmentRow = getSegmentRow(rowNumber);
 
+			ClickElement(By.XPath(segmentRow));
+
+			var xPath = segmentRow + SPELLCHECK_TARGET_XPATH;
 			var wordList = new List<string>();
 
 			if (GetIsElementExist(By.XPath(xPath)))
@@ -1021,7 +1024,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		protected const string CLOSE_DICTIONARY_BTN_XPATH = DICTIONARY_FORM_XPATH + "//span[contains(@class, 'x-tool-close')]";
 		protected const string ADD_WORD_BTN_XPATH = DICTIONARY_FORM_XPATH + "//span[contains(@id, 'btnInnerEl')]";
 		protected const string WORDS_TABLE_XPATH = DICTIONARY_FORM_XPATH + "//table";
-		protected const string WORD_XPATH = "//td[1]/div";
+		protected const string WORD_XPATH = "//tr//td[1]//div";
 		protected const string DELETE_WORD_XPATH = "//td[2]//span[contains(@class, 'fa-trash')]";
 		protected const string INPUT_WORD_XPATH = DICTIONARY_FORM_XPATH + "//input[contains(@id, 'textfield')]";
 		protected const string DICTIONARY_LOADING_WORDS_XPATH = "//div[@id='dictionary-body']//div//div//div[contains(@id,'msgTextEl')]";
@@ -1075,7 +1078,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		private static string getSegmentRow(int rowNumber)
 		{
 			return String.Format(
-				"//div[contains(text(), '{0}')]//..//..//..//..//tbody//tr",
+				"//div[contains(text(), '{0}')]//..//..//..//..//tbody//tr[1]",
 				rowNumber);
 		}
 

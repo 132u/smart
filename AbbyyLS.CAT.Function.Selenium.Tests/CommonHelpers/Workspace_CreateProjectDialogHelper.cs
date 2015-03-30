@@ -977,7 +977,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		protected const string CREATE_TM_DIALOG_XPATH = "//div[contains(@class,'js-popup-create-tm')][2]";
 		protected const string NEW_TM_NAME_INPUT_XPATH = CREATE_TM_DIALOG_XPATH + "//input[contains(@class,'l-createtm__nmtext')]";
 		protected const string IMPORT_TMX_BTN_XPATH = CREATE_TM_DIALOG_XPATH + "//span[contains(@class,'js-import-button')]";
-		protected const string SAVE_TM_BTN_XPATH = CREATE_TM_DIALOG_XPATH + "//span[@data-bind='click: save']";
+		protected const string SAVE_TM_BTN_XPATH = CREATE_TM_DIALOG_XPATH + "//span[contains(@data-bind,'click: save')]";
 		
 		protected const string BACK_BTN_XPATH = CREATE_PROJECT_DIALOG_XPATH + "//span[contains(@class,'js-back')]";
 
