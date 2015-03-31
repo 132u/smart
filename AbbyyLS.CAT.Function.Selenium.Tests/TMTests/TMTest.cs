@@ -3,6 +3,7 @@ using System.IO;
 using System.Threading;
 using System.Windows.Forms;
 using NUnit.Framework;
+using OpenQA.Selenium;
 
 namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.TM
 {
@@ -215,6 +216,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.TM
 			// Необходим рефреш страницы, иначе загрузка ТМХ не работает
 			RefreshPage();
 
+			TMPage.ScrollToRequiredTm(tmName);
 			OpenTMInfo(tmName);
 			TMPage.ClickTMButton(btnType);
 
@@ -391,6 +393,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.TM
 
 			return TMPage.GetSegmentCount();
 		}
+
 		#endregion
 
 		#region Методы экспорта/импорта ТМХ

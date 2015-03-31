@@ -101,6 +101,8 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.TM
 				GetIsExistTmInListDuringProjectCreation(UniqueTmName, true),
 				string.Format("Ошибка: ТМ {0} нет в списке при создании проекта.", UniqueTmName));
 
+			WorkspaceCreateProjectDialog.ClickCloseDialog();
+
 			SwitchTMTab();
 
 			// Измененное имя ТМ
@@ -112,6 +114,8 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.TM
 			Assert.IsTrue(
 				GetIsExistTmInListDuringProjectCreation(tmChangedName, true),
 				string.Format("Ошибка: ТМ {0} нет в списке при создании проекта.", tmChangedName));
+
+			WorkspaceCreateProjectDialog.ClickCloseDialog();
 
 			Assert.IsFalse(
 				GetIsExistTmInListDuringProjectCreation(UniqueTmName, true),
@@ -170,8 +174,8 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.TM
 				EnglishLanguage,
 				new[]
 				{
-					RussianLanguage,
-					LithuanianLanguage
+					LithuanianLanguage,
+					RussianLanguage
 				});
 		}
 

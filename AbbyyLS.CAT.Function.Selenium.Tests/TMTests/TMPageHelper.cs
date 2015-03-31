@@ -148,6 +148,13 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.TM
 			ClickElement(By.XPath(GetTMRow(tmName)));
 		}
 
+		public void ScrollToRequiredTm(string tmName)
+		{
+			Logger.Debug(string.Format("Прокрутка до необходимой ТМ {0}", tmName));
+			var tmItem = Driver.FindElement(By.XPath(GetTMRow(tmName)));
+			((IJavaScriptExecutor)Driver).ExecuteScript("arguments[0].scrollIntoView(true); window.scrollBy(0,-200);", tmItem);
+		}
+
 		public void ClickTMButton(TM_BTN_TYPE btnType)
 		{
 			Logger.Debug(string.Format("Кликнуть кнопку {0} в информации о ТМ.", btnType));
@@ -742,21 +749,28 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.TM
 		protected const string NOTIFICATION_BALOON_TEXT_XPATH = NOTIFICATION_BALOON_XPATH + "//span[1]";
 		protected const string NOTIFICATION_BALOON_BUTTON_XPATH = NOTIFICATION_BALOON_XPATH + "//span[2]//a";
 
-		protected const string ERROR_EDIT_EXIST_NAME_XPATH = TM_EDIT_FORM_XPATH + ERROR_EXIST_NAME;
-		protected const string ERROR_EDIT_NO_NAME_XPATH = TM_EDIT_FORM_XPATH + ERROR_NO_NAME;
+		protected const string ERROR_EDIT_EXIST_NAME_XPATH = TM_EDIT_FORM_XPATH + ERROR_EXIST_NAME_EDITION_PANEL;
+		protected const string ERROR_EDIT_NO_NAME_XPATH = TM_EDIT_FORM_XPATH + ERROR_NO_NAME_EDITION_PANEL;
 
-		protected const string ERROR_CREATE_TM_EXIST_NAME_XPATH = CREATE_TM_DIALOG_XPATH + ERROR_EXIST_NAME;
-		protected const string ERROR_CREATE_TM_NO_NAME_XPATH = CREATE_TM_DIALOG_XPATH + ERROR_NO_NAME;
-		protected const string ERROR_CREATE_TM_NO_TARGET_XPATH = CREATE_TM_DIALOG_XPATH + ERROR_NO_TARGET;
+		protected const string ERROR_CREATE_TM_EXIST_NAME_XPATH = CREATE_TM_DIALOG_XPATH + ERROR_EXIST_NAME_CREATION_PANEL;
+		protected const string ERROR_CREATE_TM_NO_NAME_XPATH = CREATE_TM_DIALOG_XPATH + ERROR_NO_NAME_CREATION_PANEL;
+		protected const string ERROR_CREATE_TM_NO_TARGET_XPATH = CREATE_TM_DIALOG_XPATH + ERROR_NO_TARGET_CREATION_PANEL;
 
-		protected const string ERROR_DIV = "//div[contains(@class,'createtm__error')]";
-		protected const string ERROR_EXIST_NAME = ERROR_DIV + "//p[contains(text(),'The name should be unique.')]";
-		protected const string ERROR_NO_NAME = ERROR_DIV + "//p[contains(@data-message-id, 'name-required')]";
-		protected const string ERROR_NO_TARGET = ERROR_DIV + "//p[contains(@data-message-id,'target-language-required')]";
+		protected const string ERROR_EXIST_NAME_TEXT = "//p[contains(text(),'The name should be unique.')]";
+		protected const string ERROR_NO_NAME_TEXT = "//p[contains(@data-message-id, 'name-required')]";
+		protected const string ERROR_NO_TARGET_TEXT = "//p[contains(@data-message-id,'target-language-required')]";
+
+		protected const string ERROR_DIV_CREATION_PANEL = "//div[contains(@class,'createtm__error')]";
+		protected const string ERROR_DIV_EDITION_PANEL = "//div[contains(@class,'tmpanel__error')]";
+		protected const string ERROR_EXIST_NAME_CREATION_PANEL = ERROR_DIV_CREATION_PANEL + ERROR_EXIST_NAME_TEXT;
+		protected const string ERROR_NO_NAME_CREATION_PANEL = ERROR_DIV_CREATION_PANEL + ERROR_NO_NAME_TEXT;
+		protected const string ERROR_NO_TARGET_CREATION_PANEL = ERROR_DIV_CREATION_PANEL + ERROR_NO_NAME_TEXT;
+		protected const string ERROR_EXIST_NAME_EDITION_PANEL = ERROR_DIV_EDITION_PANEL + ERROR_EXIST_NAME_TEXT;
+		protected const string ERROR_NO_NAME_EDITION_PANEL = ERROR_DIV_EDITION_PANEL + ERROR_NO_NAME_TEXT;
+
+		protected const string NO_TMX_FILE_ERROR_XPATH = CREATE_TM_DIALOG_XPATH + ERROR_DIV_CREATION_PANEL + "//p[contains(@data-message-id,'invalid-file-extension')]";
 
 		protected const string CONFIRM_XPATH = CONFIRM_WINDOW + "//input[contains(@type,'submit')]";
-
-		protected const string NO_TMX_FILE_ERROR_XPATH = CREATE_TM_DIALOG_XPATH + ERROR_DIV + "//p[contains(@data-message-id,'invalid-file-extension')]";
 
 		protected const string NOTIFICATION_XPATH = "//div[@class='g-notifications-item']";
 
