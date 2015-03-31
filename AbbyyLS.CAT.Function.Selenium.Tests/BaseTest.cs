@@ -19,6 +19,7 @@ using System.Text.RegularExpressions;
 using NLog;
 using OpenQA.Selenium.IE;
 using System.Diagnostics;
+using System.Linq;
 
 namespace AbbyyLS.CAT.Function.Selenium.Tests
 {
@@ -1179,11 +1180,13 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			string fileExtension = "", 
 			string time = "")
 		{
-			Thread.Sleep(2000);// Sleep не убирать , так как после клика загрузки, файл не всегда успевает появиться в папке
-			var file = Directory.GetFiles(PathProvider.ResultsFolderPath, "UserActivitiesLog*");
-
-			Assert.IsTrue(file.Length ==1 , "Ошибка: файл не экспортировался");
-
+			for (int i = 0; i < 5; i++)
+			{
+				if (Directory.GetFiles(PathProvider.ResultsFolderPath, "UserActivitiesLog*").Any())
+					break;
+			}
+			var files = Directory.GetFiles(PathProvider.ResultsFolderPath, "UserActivitiesLog*");
+			Assert.IsTrue(files.Length == 1, "Ошибка: файл не экспортировался после пяти секунд ожидания");
 			var resultPath = Path.Combine(PathProvider.ResultsFolderPath, subFolderName, time);
 			Directory.CreateDirectory(resultPath);
 			var newFileName = "";
@@ -1198,12 +1201,11 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			}
 
 			var currentFileExtension = originalFileExtension ? Path.GetExtension(filePath) : fileExtension;
-
 			resultPath = Path.Combine(resultPath, newFileName + currentFileExtension);
 			// Перемещаем файл в нужную папку
-			File.Move(file[0], resultPath);
+			File.Move(files[0], resultPath);
 			// Удаляем файл из папки TestResults (PathProvider.PathTestResults)
-			File.Delete(file[0]);
+			File.Delete(files[0]);
 		}
 
 		public void AddTranslationAndConfirm(int segmentRowNumber = 1, string text = "Translation")

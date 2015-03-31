@@ -458,10 +458,8 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			WriteLog(segmentNumber, "Переход в target", "Клик мыши", "-");
 			// Пишем лог ввод текста
 			WriteLog(segmentNumber, "Добавление текста", "Клавиатура", text4Segment);
-
-			// Нажать хоткей отмены
-			Logger.Trace("Нажать хоткей отмены");
-			EditorPage.UndoByHotkey(segmentNumber);
+			Logger.Trace(string.Format("Нажать хоткей отмены Ctrl z. Номер строки: {0}", segmentNumber));
+			HotKey.CtrlZ();
 			// Пишем в лог
 			WriteLog(segmentNumber, "Переход в target", "Клик мыши", "-");
 			// Пишем в лог
@@ -470,8 +468,8 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			Assert.IsTrue(EditorPage.GetTargetText(segmentNumber) == "Test for 4th segmen", "Ошибка: после хоткея отмены последняя буква в 4 сегменте не удалилась");
 			// Нажать хоткей восстановления
 			Logger.Trace("Нажать хоткей восстановления");
-			EditorPage.RedoByHotkey(segmentNumber);
-			// Пишем в лог
+			Logger.Trace(string.Format("Нажать хоткей возврата отмененного действия Ctrl z. Номер строки: {0}", segmentNumber));
+			HotKey.CtrlY();
 			WriteLog(segmentNumber, "Переход в target", "Клик мыши", "-");
 			// Пишем в лог
 			WriteLog(segmentNumber, "Нажатие хоткея Redo", "Ctrl + Y", "-");
@@ -621,19 +619,19 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			// Проверяем подстановку САТ 1-го сегмента
 			PasteFromCAT(
 				segmentNumber: 1,
-				CatType: EditorPageHelper.CAT_TYPE.MT,
+				CatType: EditorPageHelper.CAT_TYPE.TM,
 				useHotkey: true);
 
 			// Проверяем подстановку САТ 2-го сегмента
 			PasteFromCAT(
 				segmentNumber: 2,
-				CatType: EditorPageHelper.CAT_TYPE.MT,
+				CatType: EditorPageHelper.CAT_TYPE.TM,
 				useHotkey: true);
 
 			// Проверяем подстановку САТ 4-го сегмента
 			PasteFromCAT(
 				segmentNumber: 4,
-				CatType: EditorPageHelper.CAT_TYPE.MT,
+				CatType: EditorPageHelper.CAT_TYPE.TM,
 				useHotkey: true);
 
 			// Нажать кнопку назад
