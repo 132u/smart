@@ -35,10 +35,9 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <returns>открылась</returns>
 		public bool OpenRevisionTab()
 		{
-			// Открыть вкладку Ревизии
+			Logger.Trace("Открыть вкладку Ревизии");
 			ClickElement(By.Id(REVISION_BTN_ID));
-
-			// Дождаться открытия
+			Logger.Trace("Ожидание октрыти вкладки Ревизии");
 			return WaitUntilDisplayElement(By.Id(REVISION_TAB_ID));
 		}
 
@@ -48,6 +47,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <returns>открыта</returns>
 		public bool GetIsRevisionTabDisplay()
 		{
+			Logger.Trace("Проверить, открыта ли вкладка Ревизии");
 			return GetIsElementDisplay(By.Id(REVISION_TAB_ID));
 		}
 
@@ -58,11 +58,8 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <returns>появилась</returns>
 		public bool WaitRevisionAppear(int revisionNumber)
 		{
-			var revisionXPath = "";
-
-			revisionXPath = REVISION_LIST_XPATH;
-
-			return WaitUntilDisplayElement(By.XPath(revisionXPath + "[" + revisionNumber + "]"));
+			Logger.Trace("Ождиание появления ревизии №" + revisionNumber);
+			return WaitUntilDisplayElement(By.XPath(REVISION_LIST_XPATH + "[" + revisionNumber + "]"));
 		}
 
 		/// <summary>
@@ -72,6 +69,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <returns>время (текст в столбце Время)</returns>
 		public string GetRevisionTime(int revisionNumber)
 		{
+			Logger.Trace(" Получить время ревизии №" + revisionNumber);
 			return GetTextElement(By.XPath(GetRevisionCellXPath(revisionNumber, TIME_COLUMN_XPATH)));
 		}
 
@@ -82,6 +80,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <returns>текст</returns>
 		public string GetRevisionText(int revisionNumber)
 		{
+			Logger.Trace("Получить текст ревизии №" + revisionNumber);
 			return GetTextElement(By.XPath(GetRevisionCellXPath(revisionNumber, TEXT_COLUMN_XPATH)));
 		}
 		
@@ -90,6 +89,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// </summary>
 		public void ClickRollbackBtn()
 		{
+			Logger.Trace("Кликнуть по кнопке Rollback");
 			ClickElement(By.Id(ROLLBACK_BTN_ID));
 		}
 
@@ -99,6 +99,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <returns>доступна</returns>
 		public bool GetIsRollbackBtnEnabled()
 		{
+			Logger.Trace("Проверить, доступна ли кнопка Rollback");
 			return !GetElementClass(By.Id(ROLLBACK_BTN_ID)).Contains(ROLLBACK_DISABLED_CLASS);
 		}
 
@@ -109,8 +110,8 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <returns>тип</returns>
 		public RevisionType GetRevisionType(int revisionNumber)
 		{
+			Logger.Trace("Получить тип ревизии №" + revisionNumber);
 			var typeStr = GetTextElement(By.XPath(GetRevisionCellXPath(revisionNumber, TYPE_COLUMN_XPATH)));
-			
 			return revisionTypeList[typeStr];
 		}
 
@@ -121,6 +122,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <returns>имя</returns>
 		public string GetRevisionUser(int revisionNumber)
 		{
+			Logger.Trace("Получить имя создателя ревизии №" + revisionNumber);
 			return GetTextElement(By.XPath(GetRevisionCellXPath(revisionNumber, USER_COLUMN_XPATH)));
 		}
 
@@ -135,12 +137,12 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			
 			revisionXPath = REVISION_LIST_XPATH + "[" + revisionNumber + "]//td";
 
-			// Есть ли ревизия
+			Logger.Trace("Проверить есть ли ревизия №" + revisionNumber);
 			var isExistRevision = GetIsElementExist(By.XPath(revisionXPath));
 			
 			if (isExistRevision)
 			{
-				// Кликнуть ревизию
+				Logger.Trace("Клик по ревизии №" + revisionNumber);
 				ClickElement(By.XPath(revisionXPath));
 			}
 
@@ -149,8 +151,8 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 
 		public int GetRevisionListCount()
 		{
-			Logger.Trace("Вернуть количество ревизий");
-			return GetElementList(By.XPath(REVISION_LIST_XPATH)).Count;
+			Logger.Trace("Получить количество ревизий");
+			return GetElementsCount(By.XPath(REVISION_LIST_XPATH));
 		}
 
 		/// <summary>
@@ -158,6 +160,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// </summary>
 		public void ClickTimeToSort()
 		{
+			Logger.Trace("Кликнуть Time для сортировки");
 			ClickElement(By.XPath(TIME_COLUMN_BTN_XPATH));
 		}
 
@@ -166,6 +169,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// </summary>
 		public void ClickUserToSort()
 		{
+			Logger.Trace("Кликнуть User для сортировки");
 			ClickElement(By.XPath(USER_COLUMN_BTN_XPATH));
 		}
 
@@ -175,6 +179,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <returns>появился</returns>
 		public bool WaitRollbackDialogAppear()
 		{
+			Logger.Trace("Ожидание появления диалога Rollback");
 			return WaitUntilDisplayElement(By.Id(ROLLBACK_DIALOG_ID));
 		}
 
@@ -184,6 +189,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <returns>пропал</returns>
 		public bool WaitUntilRollbackDialogDisappear()
 		{
+			Logger.Trace("Ожидание закрытия диалога Rollback");
 			return WaitUntilDisappearElement(By.Id(ROLLBACK_DIALOG_ID));
 		}
 
@@ -192,6 +198,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// </summary>
 		public void ClickNoRollbackDlg()
 		{
+			Logger.Trace("Кликнуть No в диалоге Rollback");
 			ClickElement(By.XPath(ROLLBACK_DLG_NO_BTN_XPATH));
 		}
 
@@ -202,6 +209,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <returns>отмечен</returns>
 		public bool GetHasRevisionDeletedTextPart(int revisionNumber)
 		{
+			Logger.Trace("Проверить, что в ячейке отмечен удаленный текст, ревизия №" + revisionNumber);
 			return GetIsElementExist(By.XPath(GetRevisionCellXPath(revisionNumber, TEXT_COLUMN_XPATH) + "//del"));
 		}
 
@@ -212,6 +220,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <returns>отмечен</returns>
 		public bool GetHasRevisionInsertedTextPart(int revisionNumber)
 		{
+			Logger.Trace("Проверить, что в ячейке отмечен добавленный текст, ревизия №" + revisionNumber);
 			return GetIsElementExist(By.XPath(GetRevisionCellXPath(revisionNumber, TEXT_COLUMN_XPATH) + "//ins"));
 		}
 
@@ -223,14 +232,8 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <returns>xPath</returns>
 		protected string GetRevisionCellXPath(int revisionNumber, string column)
 		{
-			var revisionXPath = "";
-
-			revisionXPath = REVISION_LIST_XPATH;
-
-			return revisionXPath + "[" + revisionNumber + "]" + column;
+			return REVISION_LIST_XPATH + "[" + revisionNumber + "]" + column;
 		}
-
-
 
 		public enum RevisionType { AutoSave, Confirmed, InsertMT, InsertTM, Restored, InsertTb, Pretranslation};
 

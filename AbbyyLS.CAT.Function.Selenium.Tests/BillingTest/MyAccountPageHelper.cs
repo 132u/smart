@@ -6,8 +6,6 @@ using System.Linq;
 
 namespace AbbyyLS.CAT.Function.Selenium.Tests
 {
-
-
 	public class MyAccountPageHelper: CommonHelper
 	{
 		/// <summary>
@@ -27,15 +25,17 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <param name="i"> Период на который покупается лицензия </param>
 		public void ClickBuyBtn(int i)
 		{
+			Logger.Trace("Кликнуть Buy кнопку");
 			ClickElement(By.XPath("//td[" + i + "]" +BUY_ONE_MONTH_BTN));
 		}
 
 		/// <summary>
-		/// Выбрать кол-во лицензий
+		/// Выбрать количество лицензий
 		/// </summary>
-		/// <param name="i"> Кол-во лицензий</param>
+		/// <param name="i"> количество лицензий</param>
 		public void SelectLicenseNumber(string i)
 		{
+			Logger.Trace("Выбираем " + i + " лицензий");
 			ClickElement(By.XPath(ADD_LIC_COMBOBOX + "//option[text()='" + i + "']"));
 		}
 
@@ -45,6 +45,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <param name="period"> </param>
 		public void SelectExtendPeriod(string period)
 		{
+			Logger.Trace("Выбираем период продления лицензии = " + period);
 			ClickElement(By.XPath(EXTEND_PERIOD_IN_POP_UP + "//option[contains(text(),'" + period + "')]"));
 		}
 
@@ -53,6 +54,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// </summary>
 		public void WaitLicPurchasePopUp()
 		{
+			Logger.Trace("Ожидание появления License Purchase окна");
 			WaitUntilDisplayElement(By.XPath(LIC_PURCHASE_POP_UP));
 		}
 
@@ -61,6 +63,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// </summary>
 		public void ClickBuyBtnInLicPopUp()
 		{
+			Logger.Trace("Кликнуть Buy кнопку в License Purchase окне");
 			ClickElement(By.XPath(BUY_BTN_IN_LIC_POP_UP));
 		}
 
@@ -69,6 +72,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// </summary>
 		public void ClickPayBtnInLicPopUp()
 		{
+			Logger.Trace("Кликнуть Pay кнопку в License Purchase окне");
 			ClickElement(By.XPath(PAY_BTN_IN_LIC_POP_UP));
 		}
 
@@ -77,6 +81,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// </summary>
 		public void ClickCancelBtnInLicPopUp()
 		{
+			Logger.Trace("Кликнуть Cancel кнопку в License Purchase окне");
 			ClickElement(By.XPath(CANCEL_BTN_IN_LIC_POP_UP));
 		}
 
@@ -85,15 +90,18 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// </summary>
 		public void EnterCardNumber(string cardNumber)
 		{
+			Logger.Trace("Ожидание появления поля для ввода номера карты");
 			WaitUntilDisplayElement(By.XPath(CREDIT_CARD_NUMBER));
+			Logger.Trace("Ввод номера карты " + cardNumber);
 			SendTextElement(By.XPath(CREDIT_CARD_NUMBER), cardNumber);
 		}
 
 		/// <summary>
-		/// Перейти в iframe платежной системы
+		/// Перейти в Frame платежной системы
 		/// </summary>
 		public void SwitchToPaymentFrame()
 		{
+			Logger.Trace("Переключение в Frame платежной системы");
 			SwitchToFrame(By.XPath(PAYMENT_IFRAME));
 		}
 
@@ -102,6 +110,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// </summary>
 		public void SwitchToDefaultContentFromPaymentIFrame()
 		{
+			Logger.Trace("Переключение к основному контенту");
 			SwitchToDefaultContent();
 		}
 
@@ -111,7 +120,9 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <param name="cvv"> Cvv </param>
 		public void EnterCvv(string cvv)
 		{
+			Logger.Trace("Ожидание появления поля для ввода CVV");
 			WaitUntilDisplayElement(By.XPath(CVV));
+			Logger.Trace("Ввод CVV");
 			SendTextElement(By.XPath(CVV), cvv);
 		}
 
@@ -121,16 +132,19 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <param name="date"> Дата окончания срока действия </param>
 		public void EnterExpDate(string date)
 		{
+			Logger.Trace("Ожидание появления поля даты окончания срока действия карты");
 			WaitUntilDisplayElement(By.XPath(EXPIRATION_DATE));
+			Logger.Trace("Ввод даты окончания срока действия карты");
 			SendTextElement(By.XPath(EXPIRATION_DATE), date);
 		}
 
 		/// <summary>
-		/// Получить кол-во всех кнопок Upgrade(видимых и невидимых)
+		/// Получитьсписок всех кнопок Upgrade(видимых и невидимых)
 		/// </summary>
 		/// <returns> Список кнопок Upgrade </returns>
 		public IList<IWebElement> GetUpgradeButtons()
 		{
+			Logger.Trace("Получить список кнопок Upgrade(видимых и невидимых)");
 			return GetElementList(By.XPath(UPGRADE_BTNS));
 		}
 
@@ -198,12 +212,14 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			}
 			return number;
 		}
+
 		/// <summary>
 		/// Получить список видимых Upgrade кнопкок
 		/// </summary>
 		/// <returns> Cписок видимых Upgrade кнопкок </returns>
 		public IList<IWebElement> GetVisibleUpgradeButtons()
 		{
+			Logger.Trace("Получить список видимых кнопок Upgrade");
 			IList<IWebElement> allUpgradeBtns = GetUpgradeButtons();
 			IList<IWebElement> vilibleUpgradeBtns = new List<IWebElement>();
 
@@ -217,11 +233,12 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		}
 
 		/// <summary>
-		/// Посчитать кол-во видимых Upgrade кнопок
+		/// Посчитать количество видимых Upgrade кнопок
 		/// </summary>
-		/// <returns> Кол-во Upgrade кнопок </returns>
-		public int UpgradeBtnCount()
+		/// <returns> количество Upgrade кнопок </returns>
+		public int GetUpgradeBtnCount()
 		{
+			Logger.Trace("Получить количество всех видимых кнопок Upgrade");
 			return GetVisibleUpgradeButtons().Count;
 		}
 
@@ -231,6 +248,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		public void ClickUpgradeBtn(int i = 0)
 		{
 			IList<IWebElement> buttons = GetVisibleUpgradeButtons();
+			Logger.Trace("Кликнуть Upgrade кнопку №" + i);
 			buttons[i].Click();
 
 			// Проверить, что Upgrade окно открылось
@@ -242,8 +260,9 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// Кликнуть Extend кнопку в таблице с купленными лизензиями
 		/// </summary>
 		/// <param name="i"> Номер строки </param>
-		public void ClickExtendBtn(int i)
+		public void OpenExtendPopUp(int i)
 		{
+			Logger.Trace("Кликнуть Extend кнопку в таблице с купленными лизензиями");
 			ClickElement(By.XPath(ROW_IN_TABLE + i + "]" + EXTEND_BTN));
 			GetExtendPopUpDisplayed();
 		}
@@ -253,73 +272,80 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// </summary>
 		public void ClickCloseBtn()
 		{
+			Logger.Trace("Кликнуть Close кнопку в окне благодарности за покупку лицензии");
 			ClickElement(By.XPath(CLOSE_BTN));
 		}
 
 		/// <summary>
 		/// Вернуть, показано ли окно с сообщением после покупки лицензии
 		/// </summary>
-		public bool GetMsgPopUpDisplayed()
+		public bool GetPaymentPopUpDisplayed()
 		{
+			Logger.Trace("Определить, показано ли окно с сообщением после покупки лицензии");
 			return GetIsElementDisplay(By.XPath(MSG_POP_UP));
 		}
 
 		/// <summary>
-		/// Вернуть, показано ли Upgrade pop up
+		/// Вернуть, показано ли Upgrade pop-up
 		/// </summary>
 		public bool GetUpgradePopUpDisplayed()
 		{
-			WaitUntilDisplayElement(By.XPath(UPGRADE_HEADER_POP_UP));
-			return GetIsElementDisplay(By.XPath(UPGRADE_HEADER_POP_UP));
+			Logger.Trace("Ожидание открытия Upgrade pop-up");
+			return WaitUntilDisplayElement(By.XPath(UPGRADE_HEADER_POP_UP));
 		}
 
 		/// <summary>
-		/// Вернуть, показано ли Upgrade pop up
+		/// Вернуть, показано ли Extend pop-up
 		/// </summary>
 		public bool GetExtendPopUpDisplayed()
 		{
-			WaitUntilDisplayElement(By.XPath(EXTEND_HEADER_POP_UP));
-			return GetIsElementDisplay(By.XPath(EXTEND_HEADER_POP_UP));
+			Logger.Trace("Ожидание открытия Extend pop-up");
+			return WaitUntilDisplayElement(By.XPath(EXTEND_HEADER_POP_UP));
 		}
 
 		/// <summary>
-		/// Кликнуть Cancel кнопку в Upgrade pop up
+		/// Кликнуть Cancel кнопку в Upgrade pop-up
 		/// </summary>
 		public void ClickCancelBtnInUpgradePopUp()
 		{
+			Logger.Trace("Кликнуть Cancel кнопку в Upgrade pop-up");
 			ClickElement(By.XPath(CANCEL_BTN_IN_UPGRADE_POP_UP));
 		}
 
 		/// <summary>
-		/// Кликнуть Buy кнопку в pop up окне
+		/// Кликнуть Buy кнопку в pop-up окне
 		/// </summary>
 		public void ClickBuyBtnInPopUp()
 		{
+			Logger.Trace("Кликнуть Buy кнопку в pop-up");
 			ClickElement(By.XPath(BUY_BTN_IN_UPGRADE_POP_UP));
 		}
 
 		/// <summary>
-		/// Выбрать новое кол-во лицензий в Upgrade pop up
+		/// Выбрать новое количество лицензий в Upgrade pop-up
 		/// </summary>
-		/// <param name="i"> Кол-во лицензий </param>
+		/// <param name="i"> количество лицензий </param>
 		public void SelectNewNumberLicInUpgradePopUp(int i)
 		{
+			Logger.Trace("Выбрать новое количество лицензий в Upgrade pop-up");
 			ClickElement(By.XPath(NEW_NUMBER_DROPDOWN + "//option[text() ='" + i + "']"));
 		}
 
 		/// <summary>
-		/// Вернуть, показано ли Upgrade pop up
+		/// Вернуть, показано ли Upgrade pop-up
 		/// </summary>
 		public bool GetPaymentFrameDisplayed()
 		{
+			Logger.Trace("Проверить показано ли Upgrade pop-up");
 			return GetIsElementDisplay(By.XPath(PAYMENT_IFRAME));
 		}
 
 		/// <summary>
-		/// Получить сумму доплаты для апргрейда лицензии
+		/// Получить сумму доплаты для Upgrade лицензии
 		/// </summary>
 		public string  GetAdditionalAmountCost()
 		{
+			Logger.Trace("Получить сумму доплаты для Upgrade лицензии");
 			return GetTextElement(By.XPath(ADDITIONAL_AMOUNT));
 		}
 
@@ -334,10 +360,11 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		}
 
 		/// <summary>
-		/// Получить кол-во лицензии в пакете в окне апргрейда 
+		/// Получить количество лицензии в пакете в окне Upgrade 
 		/// </summary>
 		public int GetLicNumberInPackage()
 		{
+			Logger.Trace("Получить количество лицензии в пакете в окне Upgrade");
 			string licNumber = GetTextElement(By.XPath(LIC_NUMBER_IN_PACKAGE));
 
 			if (licNumber.EndsWith("лицензий"))
@@ -363,10 +390,11 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		}
 
 		/// <summary>
-		/// Выбрать кол-во лицензий при апргрейде
+		/// Выбрать количество лицензий при Upgrade
 		/// </summary>
 		public void SelectLicAmountUpgrade()
 		{
+			Logger.Trace("Выбрать количество лицензий при Upgrade");
 			ClickElement(By.XPath(NEW_LIC_AMOUNT + "//option[@value='1']"));
 		}
 
@@ -375,15 +403,17 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// </summary>
 		public void ClickMyAccountLink()
 		{
+			Logger.Trace("Кликнуть MyAccount в панели WS");
 			ClickElement(By.XPath(MY_ACCOUNT_LINK));
 		}
 
 		/// <summary>
-		/// Посчитать кол-во лицензий в таблице на стр личного кабинета
+		/// Посчитать количество лицензий в таблице на стр личного кабинета
 		/// </summary>
-		/// <returns> Кол-во строк в таблице лицензий </returns>
+		/// <returns> количество строк в таблице лицензий </returns>
 		public int GetLicQuantity()
 		{
+			Logger.Trace("Посчитать количество лицензий в таблице на стр личного кабинета");
 			return GetElementsCount(By.XPath(LIC_QUANTITY));
 		}
 
@@ -392,24 +422,27 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// </summary>
 		public string GetDateFromMsgPopUP()
 		{
+			Logger.Trace("Получить дату окончания действия пакета лицензии");
 			string msg = GetTextElement(By.XPath(DATE_IN_MSG_POP_UP));
 			return msg.Substring(msg.Length - 10, 9);
 		}
 
 		/// <summary>
-		/// Получить кол-во кнопок Extend
+		/// Получить количество кнопок Extend
 		/// </summary>
 		/// <returns>Kол-во кнопок Extend</returns>
 		public int GetExtendBtnsCount()
 		{
+			Logger.Trace("Получить количество кнопок Extend");
 			 return GetElementList(By.XPath(EXTEND_BTN)).Count;
 		}
 
 		/// <summary>
-		/// Кликнуть кнопку Continue в поп-апе
+		/// Кликнуть кнопку Continue в pop-up
 		/// </summary>
 		public void ClickContinueBtnInPopUp()
 		{
+			Logger.Trace("Кликнуть кнопку Continue в pop-up");
 			ClickElement(By.XPath(CONTINIUE_BTN_IN_POP_UP));
 		}
 
@@ -418,6 +451,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// </summary>
 		public bool GetTrialPopUpDisplayed()
 		{
+			Logger.Trace("Проверить, что сообщение о триале появилось");
 			return GetIsElementDisplay(By.XPath(MSG_TRIAL_POP_UP));
 		}
 
@@ -433,6 +467,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <param name="currency"> Знак валюты </param>
 		public bool CheckPackagePriceCurrency(string currency)
 		{
+			Logger.Trace("Проверить, содержит ли поле Package Price занк валюты " + currency);
 			string packagePrice = GetTextElement(By.XPath(PACKAGE_PRICE));
 			return packagePrice.Contains(currency);
 		}
@@ -443,6 +478,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <param name="currency"> Знак валюты </param>
 		public bool CheckAdditionalPaymentCurrency(string currency)
 		{
+			Logger.Trace("Проверить, содержит ли поле Additional Payment занк валюты " + currency);
 			string payment = GetTextElement(By.XPath(ADDITIONAL_PAYMENT));
 			return payment.Contains(currency);
 		}
@@ -479,12 +515,12 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		public const string BUY_BTN_IN_UPGRADE_POP_UP = POP_UP_WINDOW + "//a[contains(@abb-link-click, 'BuyClick')]";
 		public const string NEW_NUMBER_DROPDOWN = "//select[contains(@class, 'ng-pristine ng-untouched ng-valid')]";
 
-		public const string NEW_LIC_AMOUNT = "//tr[contains(@ng-if, 'ctrl.isIncrease')]//select[contains(@ng-options, 'option.amount')]"; // Новое кол-во лицензий при апргрейде
-		public const string ADDITIONAL_AMOUNT = "//tr[@ng-if='ctrl.isIncrease() || ctrl.isProlongation()']//td[2]"; // Доплата при апргрейде лицензии
-		public const string LIC_NUMBER_IN_PACKAGE = "//table[@class='t-licenses']//td[contains(text(),'Количество лицензий') or contains(text(),'Number of Licenses')]/following-sibling::td"; // Кол-во лицензий в пакете в окне Upgrade
+		public const string NEW_LIC_AMOUNT = "//tr[contains(@ng-if, 'ctrl.isIncrease')]//select[contains(@ng-options, 'option.amount')]"; // Новое количество лицензий при Upgrade
+		public const string ADDITIONAL_AMOUNT = "//tr[@ng-if='ctrl.isIncrease() || ctrl.isProlongation()']//td[2]"; // Доплата при Upgrade лицензии
+		public const string LIC_NUMBER_IN_PACKAGE = "//table[@class='t-licenses']//td[contains(text(),'Количество лицензий') or contains(text(),'Number of Licenses')]/following-sibling::td"; // количество лицензий в пакете в окне Upgrade
 		public const string PACKAGE_COST = "//table[@class='t-licenses']//td[contains(text(),'Стоимость пакета') or contains(text(),'Package cost')]/following-sibling::td"; // Стоимость пакета в окне Upgrade
 		public const string LIC_TITLE = "//td[contains(text(),'license') or contains(text(),' licenses')]"; 
-		public const string LIC_QUANTITY = "//table[@class='t-licenses ng-scope']/tbody/tr"; // Кол-во лицензий в таблице на стр личного кабинета
+		public const string LIC_QUANTITY = "//table[@class='t-licenses ng-scope']/tbody/tr"; // количество лицензий в таблице на стр личного кабинета
 
 		public const string EXTEND_HEADER_POP_UP = "//h3[contains(text(), 'Extention') or contains(text(), 'Продление')]";
 		public const string EXTEND_PERIOD_IN_POP_UP = "//select[contains(@ng-options, 'optionsPrices')]";

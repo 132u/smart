@@ -279,18 +279,14 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <param name="shouldSaveOk">должен успешно сохраниться</param>
 		private void createClient(string clientName, bool shouldSaveOk = true)
 		{
-			// Нажать "Новый клиент"
+			Logger.Trace("Создать нового клиента " + clientName);
 			ClientPage.ClickCreateClientBtn();
-			// Ввести имя
 			ClientPage.EnterNewClientName(clientName);
-
-			// Расширить окно, чтобы кнопка была видна, 
-			// иначе она недоступна для Selenium
 			Driver.Manage().Window.Maximize();
-			// Сохранить клиента
 			ClientPage.ClickSaveBtn();
 			if (shouldSaveOk)
 			{
+				Logger.Trace("Сохранение должно пройти");
 				Assert.IsTrue(
 					ClientPage.WaitSaveBtnDisappear(), 
 					"Ошибка: клиент не сохранился");
@@ -372,7 +368,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			bool shouldSaveOk = true)
 		{
 			// Нажать Изменить
-			ClientPage.ClickEdit(clientName);
+			ClientPage.HoverAndClickEdit(ClientPage.GetClientRowXPath(clientName));
 
 			// Ввести новое имя клиента
 			ClientPage.EnterNewName(newClientName);
@@ -381,12 +377,14 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			ClientPage.ClickSaveBtn();
 			if (shouldSaveOk)
 			{
+				Logger.Trace("Сохранение должно пройти");
 				Assert.IsTrue(
 					ClientPage.WaitSaveBtnDisappear(),
 					"Ошибка: клиент не сохранился");
 			}
 			else
 			{
+				Logger.Trace("Сохранение не должно пройти");
 				Thread.Sleep(1000);
 			}
 		}
@@ -397,7 +395,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <param name="clientName">название</param>
 		private void deleteClient(string clientName)
 		{
-			// Совершаем попытку удаления клиента и проверяем её успешность
+			Logger.Trace("Удаляем клиента " + clientName);
 			Assert.IsTrue(ClientPage.DeleteClient(clientName),
 				"Ошибка: не удалось удалить клиента из списка клиентов");
 		}

@@ -163,7 +163,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			else
 			{
 				// Кликаем Extend кнопку
-				MyAccountPage.ClickExtendBtn(1);
+				MyAccountPage.OpenExtendPopUp(1);
 			}
 
 			// Проверка валюты
@@ -242,7 +242,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			MyAccountPage.ClickPayBtnInLicPopUp();
 
 			// Проверить, что сообщение после покупки лицензии появилось
-			Assert.IsTrue(MyAccountPage.GetMsgPopUpDisplayed(),
+			Assert.IsTrue(MyAccountPage.GetPaymentPopUpDisplayed(),
 				"Ошибка: сообщение после покупки лицензии не появилось");
 
 			// Кликнуть Close кнопку в сообщении
@@ -263,7 +263,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		public void LicenseUpgrade(int i = 0)
 		{
 			// Если нет ни одой кнопки Upgrade
-			if (MyAccountPage.UpgradeBtnCount() == 0)
+			if (MyAccountPage.GetUpgradeBtnCount() == 0)
 			{
 				// Купить лицензию
 				BuyLicense();
@@ -272,7 +272,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 
 			// Информация о кол-ве видимых и невидимых кнопках Upgrade
 			Logger.Info("Количество кнопок upgrade  = " + MyAccountPage.GetUpgradeButtons().Count);
-			Logger.Info("Количество видимых кнопок upgrade  = " + MyAccountPage.UpgradeBtnCount());
+			Logger.Info("Количество видимых кнопок upgrade  = " + MyAccountPage.GetUpgradeBtnCount());
 
 			// Кликнуть кнопку Upgrade 
 			MyAccountPage.ClickUpgradeBtn();
@@ -297,7 +297,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			MyAccountPage.ClickBuyBtnInLicPopUp();
 
 			// Проверить, что сообщение после апргрейда лицензии появилось
-			Assert.IsTrue(MyAccountPage.GetMsgPopUpDisplayed(),
+			Assert.IsTrue(MyAccountPage.GetPaymentPopUpDisplayed(),
 				"Ошибка: сообщение после апргрейда лицензии не появилось");
 
 			// Кликнуть Close кнопку в сообщении
@@ -346,7 +346,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		public void SelestLicenceWithNotMaxPackage()
 		{
 			// Если нет ни одой видимой кнопки Upgrade
-			if (MyAccountPage.UpgradeBtnCount() == 0)
+			if (MyAccountPage.GetUpgradeBtnCount() == 0)
 			{
 				// Купить лицензию
 				BuyLicense();
@@ -355,9 +355,9 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 
 			// Информация о кол-ве видимых и невидимых кнопках Upgrade
 			Logger.Info("Количество кнопок upgrade  = " + MyAccountPage.GetUpgradeButtons().Count);
-			Logger.Info("Количество видимых кнопок upgrade  = " + MyAccountPage.UpgradeBtnCount());
+			Logger.Info("Количество видимых кнопок upgrade  = " + MyAccountPage.GetUpgradeBtnCount());
 
-			for (int i = 0; i < MyAccountPage.UpgradeBtnCount(); i++)
+			for (int i = 0; i < MyAccountPage.GetUpgradeBtnCount(); i++)
 			{
 				// Кликнуть кнопку Upgrade 
 				MyAccountPage.ClickUpgradeBtn(i);
@@ -375,7 +375,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 					MyAccountPage.ClickBuyBtnInLicPopUp();
 
 					// Проверить, что сообщение после апргрейда лицензии появилось
-					Assert.IsTrue(MyAccountPage.GetMsgPopUpDisplayed(),
+					Assert.IsTrue(MyAccountPage.GetPaymentPopUpDisplayed(),
 						"Ошибка: сообщение после апргрейда лицензии не появилось");
 
 					// Кликнуть Close кнопку в сообщении
@@ -385,7 +385,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 				else
 				{
 					MyAccountPage.ClickCancelBtnInUpgradePopUp();
-					if (MyAccountPage.UpgradeBtnCount() == 1)
+					if (MyAccountPage.GetUpgradeBtnCount() == 1)
 					{
 						BuyLicense();
 					}
@@ -406,7 +406,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 				GoToMyAccount();
 			}
 			// Кликнуть по Extend кнопке
-			MyAccountPage.ClickExtendBtn(rowNumber);
+			MyAccountPage.OpenExtendPopUp(rowNumber);
 
 			// Проверка,что после смены периода продления лицензии, доплата именилась
 			CheckAdditionalAmountExtend();
@@ -422,7 +422,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			MyAccountPage.ClickBuyBtnInLicPopUp();
 
 			// Проверить, что сообщение после апргрейда лицензии появилось
-			Assert.IsTrue(MyAccountPage.GetMsgPopUpDisplayed(),
+			Assert.IsTrue(MyAccountPage.GetPaymentPopUpDisplayed(),
 				"Ошибка: сообщение после продления лицензии не появилось");
 
 			// Получить дату окончания действия пакета из сообщения

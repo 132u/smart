@@ -38,9 +38,9 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Editor.Revisions
 
 			if (!_projectCreated)
 			{
+				Logger.Trace("Переход на стр WS");
 				GoToUrl(RelativeUrlProvider.Workspace);
 
-				// создаем документ с нужным файлом, нужной ТМ, подкючаем МТ и глоссарий
 				CreateProject(
 					projectName: _projectNameRevisionsTest,
 					downloadFile: PathProvider.LongTxtFile,

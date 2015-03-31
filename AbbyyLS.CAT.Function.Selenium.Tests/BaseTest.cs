@@ -775,7 +775,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			int editingTasksNumber = 0,
 			int proofreadingTasksNumber = 0)
 		{
-			Logger.Info(string.Format("Создание нового проекта."));
+			Logger.Info(string.Format("Создание нового проекта {0}", projectName));
 			
 			FirstStepProjectWizard(projectName);
 			

@@ -26,6 +26,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <returns>загрузилась</returns>
 		public bool WaitPageLoad()
 		{
+			Logger.Trace("Ожидание открытия страницы Clients");
 			return WaitUntilDisplayElement(By.XPath(ADD_CLIENT_BTN_XPATH));
 		}
 
@@ -36,6 +37,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <returns>есть</returns>
 		public bool GetIsClientExist(string clientName)
 		{
+			Logger.Trace("Проверка, есть ли клиент " + clientName);
 			return GetIsElementDisplay(By.XPath(GetClientRowXPath(clientName)));
 		}
 
@@ -44,6 +46,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// </summary>
 		public void ClickCreateClientBtn()
 		{
+			Logger.Trace("Клик по кнопке Create Client");
 			ClickElement(By.XPath(ADD_CLIENT_BTN_XPATH));
 		}
 
@@ -51,14 +54,12 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// Проявить кнопку Edit и кликнуть
 		/// </summary>
 		/// <param name="clientName">название</param>
-		public void ClickEdit(string clientName)
+		public void HoverAndClickEdit(string xpathClientRow)
 		{
-			// Найти номер нужной строки
-			var clientXPath = GetClientRowXPath(clientName);
-			// Навести курсор мыши на строку
-			HoverElement(By.XPath(clientXPath));
-			// Кликнуть Edit
-			ClickElement(By.XPath(clientXPath + EDIT_BTN_XPATH));
+			Logger.Trace("Поместить курсор мыши на нужной строке");
+			HoverElement(By.XPath(xpathClientRow));
+			Logger.Trace("Клик по кнопке Edit клиента ");
+			ClickElement(By.XPath(xpathClientRow + EDIT_BTN_XPATH));
 		}
 
 		/// <summary>
@@ -67,6 +68,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <param name="newName">новое имя</param>
 		public void EnterNewName(string newName)
 		{
+			Logger.Trace("Ввод имени " + newName);
 			ClearAndAddText(By.XPath(CLIENT_INPUT_XPATH), newName);
 		}
 
@@ -76,13 +78,13 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <param name="clientName">название</param>
 		public bool DeleteClient(string clientName)
 		{
-			// Найти номер нужной строки
+			Logger.Trace("Получение xPath клиента " + clientName);
 			var clientXPath = GetClientRowXPath(clientName);
-			// Навести курсор мыши на строку
+			Logger.Trace("Поместить курсор мыши на нужной строке");
 			HoverElement(By.XPath(clientXPath));
-			// Кликнуть Delete
+			Logger.Trace("Клик по кнопке Delete");
 			ClickElement(By.XPath(clientXPath + DELETE_BTN_XPATH));
-			// Проверить, что клиент убран из списка клиентов
+			Logger.Trace("Ожидание удаления строки");
 			return WaitUntilDisappearElement(By.XPath(clientXPath + DELETE_BTN_XPATH));
 		}
 
@@ -91,6 +93,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// </summary>
 		public void ClickSaveBtn()
 		{
+			Logger.Trace("Кликнуть Save");
 			ClickElement(By.XPath(SAVE_CLIENT_XPATH));
 		}
 
@@ -100,6 +103,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <returns>пропала</returns>
 		public bool WaitSaveBtnDisappear()
 		{
+			Logger.Trace("Дождаться, пока пропадет кнопка Save");
 			return WaitUntilDisappearElement(By.XPath(SAVE_CLIENT_XPATH));
 		}
 
@@ -109,6 +113,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <returns>режим редактирования</returns>
 		public bool GetIsEditMode()
 		{
+			Logger.Trace("Проверить, остался ли режим редактирования");
 			return GetIsElementDisplay(By.XPath(CLIENT_INPUT_XPATH));
 		}
 
@@ -118,6 +123,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <returns>режим нового клиента (не сохранился)</returns>
 		public bool GetIsNewClientEditMode()
 		{
+			Logger.Trace("Проверить, закончилось ли редактирование клиента");
 			return GetIsElementDisplay(By.XPath(CLIENT_INPUT_XPATH));			
 		}
 
@@ -127,6 +133,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <returns>отображается</returns>
 		public bool GetIsNameErrorExist()
 		{
+			Logger.Trace("Проверка, отображается ли сообщение 'A client with the same name already exists.'");
 			return WaitUntilDisplayElement(By.XPath(ERROR_NAME_XPATH));
 		}
 
@@ -136,6 +143,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <param name="name"></param>
 		public void EnterNewClientName(string name)
 		{
+			Logger.Trace("Ввод имени при создании клиента");
 			SendTextElement(By.XPath(CLIENT_INPUT_XPATH), name);
 		}
 
@@ -144,16 +152,15 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// </summary>
 		/// <param name="clientName">название</param>
 		/// <returns>XPath</returns>
-		protected string GetClientRowXPath(string clientName)
+		public string GetClientRowXPath(string clientName)
 		{
+			Logger.Trace("Получить xPath строки клиента");
 			var rowNum = 0;
 			IList<IWebElement> clientList = GetElementList(By.XPath(CLIENT_LIST_XPATH));
 			for (int i = 0; i < clientList.Count; ++i )
 			{
 				if (clientList[i].Text.Contains(clientName))
 				{
-					Logger.Trace(clientList[i].Text);
-					Logger.Trace(i);
 					rowNum = i + 1;
 					break;
 				}

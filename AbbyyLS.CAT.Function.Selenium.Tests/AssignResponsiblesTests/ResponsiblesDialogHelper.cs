@@ -38,7 +38,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <returns>Список загрузился</returns>
 		public bool WaitUntilUserInListDisplay(string name)
 		{
-			// Ожидаем пока загрузится диалог
+			Logger.Trace("Ожидаем, пока раскроется список пользователей");
 			return WaitUntilDisplayElement(By.XPath(GetUserXpath(name)), 5);
 		}
 
@@ -58,7 +58,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <returns>Диалог закрылся</returns>
 		public bool WaitUntilResponsiblesDialogDissapear()
 		{
-			// Ожидаем пока загрузится диалог
+			Logger.Trace("Ожидаем закрытия диалога назначения пользователей");
 			return WaitUntilDisappearElement(By.XPath(RESPONSIBLES_TABLE_XPATH));
 		}
 
@@ -79,6 +79,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <returns>Список исполнителей</returns>
 		public List<string> GetResponsibleUsersList()
 		{
+			Logger.Trace("Получаем список исполнителей из выпадающего списка, исключая группы");
 			var elementUsersList = GetElementList(By.XPath(PATH_TO_USERS_LIST));
 
 			return (from element in elementUsersList
@@ -103,7 +104,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 
 		public void ClickResponsiblesDropboxByRowNumber(int taskRowNumber)
 		{
-			Log.Trace(string.Format("Открытие выпадающего списка для задачи с номером строки {0}", taskRowNumber));
+			Logger.Trace(string.Format("Открытие выпадающего списка для задачи с номером строки {0}", taskRowNumber));
 			
 			ClickElement(By.XPath(GetResponsiblesDropboxByTaskNumberXpath(taskRowNumber)));
 		}
@@ -115,8 +116,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <returns> XPath </returns>
 		public string GetResponsiblesDropboxByTaskNumberXpath(int taskRowNumber)
 		{
-			return RESPONSIBLES_TABLE_XPATH + "//tr[" + taskRowNumber + "]" +
-				DROPDOWNLIST_XPATH;
+			return RESPONSIBLES_TABLE_XPATH + "//tr[" + taskRowNumber + "]" + DROPDOWNLIST_XPATH;
 		}
 
 		/// <summary>
@@ -126,7 +126,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <param name="name">Имя исполнителя</param>
 		public void SetVisibleResponsible(int rowNumber, string name)
 		{
-			Log.Trace(string.Format("Выбираем исполнителя {0} для задачи №{1}", name, rowNumber));
+			Logger.Trace(string.Format("Выбираем исполнителя {0} для задачи №{1}", name, rowNumber));
 			var xPath = RESPONSIBLES_TABLE_XPATH + DROPDOWNLIST_XPATH + "/option";
 			var el1 = xPath + "[contains(text(),'" + name + "')]";
 
@@ -154,6 +154,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		{
 			var xPath = RESPONSIBLES_TABLE_XPATH + "//tr[" + rowNumber + "]" +
 				CANCEL_BTN_XPATH;
+			Logger.Trace(string.Format("Кликнуть кнопку Cancel для задачи на строке {0}", rowNumber));
 
 			ClickElement(By.XPath(xPath));
 		}
@@ -169,6 +170,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// </summary>
 		public void ClickYesBtn()
 		{
+			Logger.Trace("Кликнуть кнопку Yes");
 			ClickElement(By.XPath(YES_BTN_CONFIRM_XPATH));
 		}
 
@@ -184,9 +186,10 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <returns>Диалог загрузился</returns>
 		public bool WaitUntilConfirmDialogDisplay()
 		{
-			// Ожидаем пока загрузится диалог
+			Logger.Trace("Ожидаем пока загрузится диалог подтверждения");
 			if (!WaitUntilDisplayElement(By.XPath(CONFIRM_RESET_ASSIGNMENT_FORM_XPATH)))
 			{
+				Logger.Trace("Диалог подтверждения не загрузился");
 				return false;
 			}
 			return true;
@@ -198,9 +201,10 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <returns>Диалог закрылся</returns>
 		public bool WaitUntilConfirmDialogDissapear()
 		{
-			// Ожидаем пока загрузится диалог
+			Logger.Trace("Ожидаем пока исчезнет диалог подтверждения");
 			if (!WaitUntilDisappearElement(By.XPath(CONFIRM_RESET_ASSIGNMENT_FORM_XPATH)))
 			{
+				Logger.Trace("Диалог подтверждения не исчез");
 				return false;
 			}
 			return true;
@@ -212,9 +216,10 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <returns>Форма загрузилась</returns>
 		public bool WaitUntilInfoDisplay()
 		{
-			// Ожидаем пока загрузится диалог
+			Logger.Trace("Ожидание загрузки формы инфо");
 			if (!WaitUntilDisplayElement(By.XPath(INFO_FORM_XPATH)))
 			{
+				Logger.Trace("Форма инфо не загрузилась");
 				return false;
 			}
 			return true;
