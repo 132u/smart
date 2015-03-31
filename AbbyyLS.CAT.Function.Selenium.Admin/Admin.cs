@@ -31,7 +31,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Admin
 		[Test]
 		public void CreateCorpAccount()
 		{
-			CreateCorpAccount("TestAccount", true);
+			CreateCorporateAccount("TestAccount", true);
 			AddUserToCorpAccount(Login);
 
 		}
@@ -46,7 +46,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Admin
 			CreateNewUserInAdminPage(Login2, UserName2, Password2, true);
 			FindUser(Login2);
 			CheckAdminCheckbox();
-			CreateNewPersAcc(Login2, true);
+			CreateNewPersonalAccount(Login2, true);
 			AddUserToSpecifyAccount(Login2, "TestAccount");
 		}
 
@@ -56,7 +56,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Admin
 		[Test]
 		public void CreatePerevedemCorpAccount()
 		{
-			CreateCorpAccount("Perevedem", true, "Perevedem.ru");
+			CreateCorporateAccount("Perevedem", true, "Perevedem.ru");
 		}
 
 		/// <summary>
@@ -65,7 +65,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Admin
 		[Test]
 		public void CreateCourseraUsers()
 		{
-			CreateCorpAccount("Coursera", true, "Coursera");
+			CreateCorporateAccount("Coursera", true, "Coursera");
 			foreach(var user in CourseraUserList)
 			{
 				CreateNewUserInAdminPage(user.Login, user.Login, user.Password);
@@ -81,7 +81,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Admin
 		public void CreatePersAccountForBobby()
 		{
 			FindUser(Login);
-			CreateNewPersAcc("Personal", true);
+			CreateNewPersonalAccount("Personal", true);
 		}
 
 		/// <summary>
@@ -94,7 +94,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Admin
 			CreateNewUserInAdminPage(TestRightsLogin, TestRightsUserName, TestRightsPassword, true);
 			FindUser(TestRightsLogin);
 			CheckAdminCheckbox();
-			CreateNewPersAcc(TestRightsLogin, true);
+			CreateNewPersonalAccount(TestRightsLogin, true);
 			AddUserToSpecifyAccount(TestRightsLogin, "TestAccount");
 		}
 		

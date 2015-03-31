@@ -37,7 +37,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Registration.Company
 		{
 			LoginToAdminPage();
 			CreateNewUserInAdminPage(RegistrationPage.Email, RegistrationPage.NickName, RegistrationPage.Password);
-			_corpAccountNameInAdmin = CreateCorpAccount("", true);
+			_corpAccountNameInAdmin = CreateCorporateAccount("", true);
 			AddUserToCorpAccount(RegistrationPage.Email);
 			RegisterExistUserAndCheckWS(RegistrationPage.Email, RegistrationPage.Password, RegistrationPage.NameCompany, RegistrationPage.DomainName);
 		}
@@ -77,7 +77,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Registration.Company
 		{
 			LoginToAdminPage();
 			CreateNewUserInAdminPage(RegistrationPage.Email, RegistrationPage.NickName, RegistrationPage.Password);
-			CreateNewPersAcc(RegistrationPage.LastName, true);
+			CreateNewPersonalAccount(RegistrationPage.LastName, true);
 			RegisterExistUserAndCheckWS(RegistrationPage.Email, RegistrationPage.Password, RegistrationPage.NameCompany, RegistrationPage.DomainName);
 		}
 
@@ -89,7 +89,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Registration.Company
 		{
 			LoginToAdminPage();
 			CreateNewUserInAdminPage(RegistrationPage.Email, RegistrationPage.NickName, RegistrationPage.Password);
-			CreateNewPersAcc(RegistrationPage.LastName, false);
+			CreateNewPersonalAccount(RegistrationPage.LastName, false);
 			RegisterExistUserAndCheckWS(RegistrationPage.Email, RegistrationPage.Password, RegistrationPage.NameCompany, RegistrationPage.DomainName);
 		}
 

@@ -265,7 +265,15 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			get { return Path.GetFullPath(CfgRoot.ConfigDirectory + "/TestUsers.xml"); }
 		}
 
+		public static string AolUserFile
+		{
+			get { return Path.GetFullPath(CfgRoot.ConfigDirectory + "/AolUsers.xml"); }
+		}
 
+		public static string CourseraUserFile
+		{
+			get { return Path.GetFullPath(CfgRoot.ConfigDirectory + "/CourseraUsers.xml"); }
+		}
 
 		/// <summary>
 		/// Путь к папке результатов тестов

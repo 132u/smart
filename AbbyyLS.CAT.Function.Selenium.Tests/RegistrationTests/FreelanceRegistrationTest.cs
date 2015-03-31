@@ -325,7 +325,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Registration.Freelance
 			// Создать нового юзера
 			CreateNewUserInAdminPage(RegistrationPage.Email, RegistrationPage.FirstName, RegistrationPage.Password);
 			// Создать персональный аккаунт активный
-			CreateNewPersAcc(RegistrationPage.LastName, true);
+			CreateNewPersonalAccount(RegistrationPage.LastName, true);
 			GoToRegistrationPage(RegistrationType.User);
 			LoginAsExistUser();
 			Assert.True(RegistrationPage.CheckNameInWSPanel(), "Ошибка: имя фрилансера неправильно отображается на странице WS");
@@ -350,7 +350,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Registration.Freelance
 		{
 			LoginToAdminPage();
 			CreateNewUserInAdminPage(RegistrationPage.Email, RegistrationPage.NickName, RegistrationPage.Password);
-			CreateNewPersAcc(RegistrationPage.LastName, false);
+			CreateNewPersonalAccount(RegistrationPage.LastName, false);
 			GoToRegistrationPage(RegistrationType.User);
 			LoginAsExistUser();
 			// Заполняем все поля на втором шаге регистрации

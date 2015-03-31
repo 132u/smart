@@ -100,7 +100,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		protected List<UserInfo> TestCompanyList { get; private set; }
 
 		protected List<UserInfo> CourseraUserList { get; private set; }
-
+		protected List<UserInfo> AolUserList { get; private set; }
 		protected string ProjectUniqueName { get; private set; }
 		
 		protected string BrowserName { get; private set; }
@@ -156,7 +156,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		protected MyAccountPageHelper MyAccountPage { get; private set; }
 
 		protected GlossaryTermFilterHelper GlossaryTermFilterPage { get; private set; }
-
+		protected SocialNetworkHelper SocialNetworkPage { get; private set; }
 		protected CheckCreateProjectRightHelper CheckCreateProjectRightHelper { get; private set; }
 
 		protected DateTime TestBeginTime { get; private set; }
@@ -288,7 +288,17 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		{
 			return File.Exists(PathProvider.TestUserFile);
 		}
-		
+
+		public bool CourseraUserFileExist()
+		{
+			return File.Exists(PathProvider.CourseraUserFile);
+		}
+
+		public bool AolUserFileExist()
+		{
+			return File.Exists(PathProvider.AolUserFile);
+		}
+
 		/// <summary>
 		/// Обновить уникальные имена для нового теста
 		/// </summary>
@@ -618,18 +628,15 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		{
 			try
 			{
-				// Перейти на  admin страницу
+				Logger.Trace("Переход в админку");
 				Driver.Navigate().GoToUrl(AdminUrl);
-				//Assert.IsTrue(AdminPage.AssertionIsPageLoad(), "Ошибка: страница админки не загрузилась");
 			}
 			catch
 			{
+				Logger.Trace("Обновляем страницу");
 				Driver.Navigate().Refresh();
-
-				// Закрываем Modal Dialog
+				Logger.Trace("Закрываем модальное диалоговое окно");
 				AcceptModalDialog();
-
-				// Пробуем перейти на страницу еще раз
 				GoToAdminPage();
 			}
 		}
@@ -1955,6 +1962,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			MyAccountPage = new MyAccountPageHelper(Driver, Wait);
 			GlossaryTermFilterPage = new GlossaryTermFilterHelper(Driver, Wait);
 			CheckCreateProjectRightHelper = new CheckCreateProjectRightHelper(Driver, Wait);
+			SocialNetworkPage = new SocialNetworkHelper(Driver, Wait);
 		}
 
 		private void initializeUsersAndCompanyList()
@@ -1962,13 +1970,11 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			if (TestUserFileExist())
 			{
 				var cfgTestUser = TestSettingDefinition.Instance.Get<TestUserConfig>();
-				var cfgTestCompany = TestSettingDefinition.Instance.Get<TestUserConfig>();
-				var cfgCourseraUser = TestSettingDefinition.Instance.Get<TestUserConfig>();
-
 
 				TestUserList = new List<UserInfo>();
 				TestCompanyList = new List<UserInfo>();
 				CourseraUserList = new List<UserInfo>();
+				AolUserList = new List<UserInfo>();
 
 				foreach (var user in cfgTestUser.Users)
 				{
@@ -1979,8 +1985,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 							user.Activated));
 				}
 
-
-				foreach (var user in cfgTestCompany.Companies)
+				foreach (var user in cfgTestUser.Companies)
 				{
 					TestCompanyList.Add(
 						new UserInfo(
@@ -1989,7 +1994,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 							user.Activated));
 				}
 
-				foreach (var user in cfgCourseraUser.CourseraUsers)
+				foreach (var user in cfgTestUser.CourseraUsers)
 				{
 					CourseraUserList.Add(
 						new UserInfo(
@@ -1998,6 +2003,14 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 							user.Activated));
 				}
 
+				foreach (var user in cfgTestUser.AolUsers)
+				{
+					AolUserList.Add(
+						new UserInfo(
+							user.Login,
+							user.Password,
+							user.Activated));
+				}
 			}
 		}
 

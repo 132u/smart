@@ -143,6 +143,7 @@
     <Compile Include="RegistrationTests\CompanyRegistrationTest.cs" />
     <Compile Include="RegistrationTests\RandomString.cs" />
     <Compile Include="RegistrationTests\RegistrationBaseTest.cs" />
+    <Compile Include="SocialNetworkHelper.cs" />
     <Compile Include="TMTests\TMCreationTests.cs" />
     <Compile Include="TMTests\TMEditingTests.cs" />
     <Compile Include="TMTests\TMExportTests.cs" />

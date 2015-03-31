@@ -10,6 +10,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "configs", "configs", "{A63C7CD2-0E87-4A6C-8B47-0AA9D76961CC}"
 	ProjectSection(SolutionItems) = preProject
 		configs\AgentSpecific.xml = configs\AgentSpecific.xml
+		configs\AolUsers.xml = configs\AolUsers.xml
 		configs\CourseraUsers.xml = configs\CourseraUsers.xml
 		configs\TestUsers.xml = configs\TestUsers.xml
 	EndProjectSection

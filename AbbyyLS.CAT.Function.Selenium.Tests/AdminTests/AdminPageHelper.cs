@@ -37,6 +37,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <param name="login">логин</param>
 		public void FillLogin(string login)
 		{
+			Logger.Trace("Ввод логина на странице авторизации в админке");
 			SendTextElement(By.XPath(LOGIN_FORM_LOGIN_XPATH), login);
 		}
 
@@ -46,6 +47,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <param name="pass">пароль</param>
 		public void FillPassword(string pass)
 		{
+			Logger.Trace("Ввод пароля на странице авторизации в админке");
 			SendTextElement(By.XPath(LOGIN_FORM_PASSWORD_XPATH), pass);
 		}
 
@@ -85,7 +87,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		{
 			Logger.Trace("Клик по ссылке 'Управление пользователями'");
 			ClickElement(By.XPath(MANAGEMENT_USERS_REF_XPATH));
-			Logger.Trace("Ожидание появления поля поиска");
 			return WaitUntilDisplayElement(By.Id(USER_SEARCH_ID));
 		}
 
@@ -94,17 +95,8 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// </summary>
 		public void ClickUserAddBtnInCorpList(string account)
 		{
+			Logger.Trace("Клик по кнопке управления пользователями корпоративного аккаунта " + account + " в таблице аккаунтов");
 			ClickElement(By.XPath(ACCOUNT_NAME_IN_LIST + account + "']" + ALL_MANAGE_USER_BTN));
-		}
-		/// <summary>
-		/// Кликнуть для перехода на страницу управления пользователями определенного аккаунта
-		/// </summary>
-		/// <param name="accountName">имя аккаунта</param>
-		public bool OpenUserManagementPageForAccount(string accountName)
-		{
-			ClickElement(By.XPath("//td[text()='" + accountName + "']"+ALL_MANAGE_USER_BTN));
-
-			return WaitUntilDisplayElement(By.Id(USER_SEARCH_ID));
 		}
 
 		/// <summary>
@@ -141,7 +133,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// </summary>
 		public void ClickAddUser()
 		{
-			Logger.Trace("Клик по кнопке 'Добавить'");
+			Logger.Trace("Клик по кнопке 'Добавить пользователя'");
 			ClickElement(By.Id(ADD_USER_BTN_ID));
 		}
 
@@ -208,7 +200,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <param name="name">название</param>
 		public void FillSubdomainName(string name)
 		{
-			Logger.Trace("Ввод названия поддомена");
+			Logger.Trace("Ввод названия поддомена " + name);
 			SendTextElement(By.XPath(SUBDOMAIN_NAME_XPATH), name);
 		}
 		
@@ -217,7 +209,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// </summary>
 		public void ClickAddAccount()
 		{
-			Logger.Trace("Клик по 'Создать'");
+			Logger.Trace("Клик по кнопке 'Создать аккаунт'");
 			ClickElement(By.XPath(ADD_ACCOUNT_REF_XPATH));
 		}
 
@@ -237,6 +229,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <returns></returns>
 		public bool GetCorpAccountExists()
 		{
+			Logger.Trace("Проверяем, появилось ли сообщение о том, что аккаунт уже существует");
 			return GetIsElementDisplay(By.XPath(ACCOUNT_EXISTS_FROM_XPATH));
 		}
 
@@ -246,6 +239,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <param name="account"></param>
 		public void ClickEditAccount(string account)
 		{
+			Logger.Trace("Клик по кнопке'Edit' около аккаунта " + account);
 			ClickElement(By.XPath(GetAccountEditBtnXPath(account)));
 		}
 
@@ -256,6 +250,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <returns>XPath</returns>
 		protected string GetAccountEditBtnXPath(string accountName)
 		{
+			Logger.Trace("Вернуть XPath кнопки Edit около акканта " + accountName);
 			return "//td[text()='" + accountName + "']/../td[1]" + ADD_ACCOUNT_REF_XPATH;
 		}
 
@@ -287,19 +282,21 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		}
 
 		/// <summary>
-		/// Нажать кнопку Создать нового юзера
+		/// Нажать кнопку Создать пользователя
 		/// </summary>
 		public void ClickCreateNewUserBtn()
 		{
+			Logger.Trace("Клик по кнопке 'Создать пользователя'");
 			ClickElement(By.XPath(CREATE_NEW_USER_XPATH));
 		}
 
 		/// <summary>
-		/// Заполнить поле email для нового юзера
+		/// Заполнить поле email для нового пользователя
 		/// </summary>
 		/// <param name="emailForNewUser">email</param>
 		public void FillEmailForNewUser(string emailForNewUser)
 		{
+			Logger.Trace("Ввод email " + emailForNewUser + " для нового пользователя");
 			ClearAndAddText(By.XPath(EMAIL_FOR_NEW_USER_XPATH), emailForNewUser);
 		}
 
@@ -309,6 +306,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <param name="nickNameForNewUser">Nickname</param>
 		public void FillNickNameForNewUser(string nickNameForNewUser)
 		{
+			Logger.Trace("Ввод Nickname " + nickNameForNewUser + " для нового пользователя");
 			ClearAndAddText(By.XPath(NICKNAME_FOR_NEW_USER_XPATH), nickNameForNewUser);
 		}
 
@@ -318,6 +316,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <param name="password">пароль</param>
 		public void FillPasswordForNewUser(string password)
 		{
+			Logger.Trace("Ввод пароля " + password + " для нового пользователя");
 			ClearAndAddText(By.XPath(PASSWORD_FOR_NEW_USER_XPATH), password);
 		}
 
@@ -327,6 +326,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <param name="confirmPassword">пароль</param>
 		public void FillConfirmPasswordForNewUser(string confirmPassword)
 		{
+			Logger.Trace("Ввод подтверждения пароля " + confirmPassword + " для нового пользователя");
 			ClearAndAddText(By.XPath(PASSWORD2_FOR_NEW_USER_XPATH), confirmPassword);
 		}
 
@@ -335,6 +335,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// </summary>
 		public void ClickSubmitBtnNewUser()
 		{
+			Logger.Trace("Клик по кнопке Submit");
 			ClickElement(By.XPath(SAVE_BTN_XPATH));
 		}
 
@@ -343,6 +344,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// </summary>
 		public void ClickSaveBtn()
 		{
+			Logger.Trace("Клик по кнопке Save");
 			ClickElement(By.XPath(SAVE_BTN_XPATH));
 		}
 
@@ -351,14 +353,16 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// </summary>
 		public void ClickCreatePersonalAccBtnForNewUser()
 		{
+			Logger.Trace("Клик по кнопке 'Создать персональный аккаунт'");
 			ClickElement(By.XPath(CREATE_PERS_ACCOUNT_XPATH));
 		}
 
 		/// <summary>
-		/// переход по сылке Редактировать для редактирования перс. аккаунта для юзера
+		/// Клик по ссылке Редактировать персонального аккаунта
 		/// </summary>
 		public void ClickEditPersonalAccountBtn()
 		{
+			Logger.Trace("Клик по ссылке Редактировать персонального аккаунта");
 			ClickElement(By.XPath(EDIT_PERS_ACCOUNT_XPATH));
 		}
 
@@ -367,6 +371,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// </summary>
 		public bool CheckEditPersonalAccountButtonExists()
 		{
+			Logger.Trace("Проверка наличия ссылки Редактировать");
 			return GetIsElementDisplay(By.XPath(EDIT_PERS_ACCOUNT_XPATH));
 		}
 
@@ -377,6 +382,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <param name="surname">фамилия</param>
 		public void FillSurname(string surname)
 		{
+			Logger.Trace("Ввод фамилии " + surname + " при создании персонального аккаунта");
 			ClickClearAndAddText(By.XPath(SURNAME_FIELD_IN_PERS_ACC), surname);
 		}
 
@@ -385,48 +391,53 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// </summary>
 		public void ClickSaveBtnPersAcc()
 		{
+			Logger.Trace("Клик по кнопке 'Save' при создании персонального аккаунта");
 			ClickElement(By.XPath(SAVE_BTN_NEW_PEERS_ACC));
 		}
 
 		/// <summary>
-		/// Проверить чексбокс Active 
+		/// Проверка стоит ли галочка в чекбоксе Active
 		/// </summary>
-		/// <returns>чекнут(true) или не чекнут чекбокс(false)</returns>
 		public bool IsSelectedActiveCheckbox()
 		{
+			Logger.Trace("Проверка стоит ли галочка в чекбоксе 'Active'");
 			return IsSelected(By.XPath(ACTIVE_CHECKBOX_XPATH));
 		}
 
 		/// <summary>
-		/// Чекнуть Active чебкбокс 
+		/// Клик по чекбоксу Active
 		/// </summary>
 		public void SelectCheckbox()
 		{
+			Logger.Trace("Клик по чекбоксу 'Active'");
 			ClickElement(By.XPath(ACTIVE_CHECKBOX_XPATH));
 		}
 
 		/// <summary>
-		/// Чекнуть чекбокс Администратор
+		/// Клик по чекбоксу 'Администратор'
 		/// </summary>
 		public void CheckIsAdminCheckbox()
 		{
+			Logger.Trace("Клик по чекбоксу 'Администратор'");
 			ClickElement(By.XPath(IS_ADMIN_CHECKBOX));
 		}
 
 		/// <summary>
-		/// Определить чекунт ли Admin чекбокс
+		/// Проверка стоит ли галочка в чекбоксе 'Администратор'
 		/// </summary>
 		public bool GetIsAdminCheckboxIsChecked()
 		{
+			Logger.Trace("Проверка стоит ли галочка в чекбоксе 'Администратор'");
 			return GetIsInputChecked(By.XPath(IS_ADMIN_CHECKBOX));
 		}
 
 
 		/// <summary>
-		/// Кликнуть по ссылке Поиск пользователей в меню слева
+		/// Кликнуть по ссылке Поиск пользователей в меню
 		/// </summary>
 		public void ClickSearchUserLink()
 		{
+			Logger.Trace("Клик по ссылке Поиск пользователей в меню");
 			ClickElement(By.XPath(SERACH_USER_LINK));
 			WaitUntilDisplayElement(By.XPath(SERACH_USER_LINK));
 		}
@@ -436,6 +447,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// </summary>
 		public void ClickFindBtn()
 		{
+			Logger.Trace("Клик по кнопке Найти рядом с полем поиска");
 			ClickElement(By.XPath(FIND_BTN));
 		}
 
@@ -444,6 +456,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// </summary>
 		public void ClickEmailInSearchResultTable(string email)
 		{
+			Logger.Trace("Клик по email " + email + " в таблице результатов поиска");
 			ClickElement(By.XPath(EMAIL_IN_SEARCH_RES_TABLE + email + "']"));
 		}
 
@@ -464,7 +477,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// </summary>
 		public void CheckWorkflowCheckbox()
 		{
-			Logger.Trace("Клик по чекбоксу Workflow");
+			Logger.Trace("Поставили галочку в  Workflow чекбокс");
 			ClickElement(By.XPath(WORKFLOW_CHECKBOX));
 		}
 		
@@ -473,6 +486,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// </summary>
 		public void SelectFeature(string feature)
 		{
+			Logger.Trace("Выбрали функцию " + feature);
 			ClickElement(By.XPath(FEATURES_OPTIONS + feature+ "']"));
 		}
 
@@ -481,6 +495,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// </summary>
 		public void ClickRightArrowToAddFeature()
 		{
+			Logger.Trace("Клик по стрелке, чтоб добавить функцию");
 			ClickElement(By.XPath(FEATURES_TO_RIGHT_ARROW));
 		}
 
@@ -492,22 +507,25 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		{
 			DateTime today = DateTime.Today;
 			string nextWeek = today.AddYears(1).ToString("dd.MM.yyyy");
+			Logger.Trace("Установка даты " + nextWeek);
 			SendTextElement(By.XPath(DICTIONARIES_EXP_DATE), nextWeek);
 		}
 
 		public void ClickCalendar()
 		{
+			Logger.Trace("Клик, чтоб раскрыть календарь");
 			ClickElement(By.XPath(DICTIONARIES_EXP_DATE));
-			//ClickElement(By.XPath(CALENDAR));
 		}
 
 		public void SelectYear(string year)
 		{
+			Logger.Trace("Выбрали год " + year);
 			ClickElement(By.XPath(SELCTED_YEAR + year + "']"));
 		}
 
 		public void SelectDay(string day)
 		{
+			Logger.Trace("Выбрали день " + day);
 			ClickElement(By.XPath(SELCTED_DAY + "text()='" + day + "']"));
 		}
 		/// <summary>
@@ -515,9 +533,9 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// </summary>
 		public void CloseCurrentWindow()
 		{
-			//закрываем окно, если сообщение появилось
+			Logger.Trace("Закрыли окно создания корпоративного аккаунта");
 			Driver.Close();
-			//переключаемся на старое окно
+			Logger.Trace("Переключились в первое окно");
 			Driver.SwitchTo().Window(Driver.WindowHandles[0]);
 		}
 		
@@ -581,6 +599,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// </summary>
 		public void GoToDictionaryPackCreationPage()
 		{
+			Logger.Trace("Клик по 'Создать новый пакет' в меню");
 			ClickElement(By.XPath(CREATE_DICTIONARY_PACK_MENU));
 		}
 
@@ -589,14 +608,16 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// </summary>
 		public void AddDictionaryPackName(string dictionaryPackName)
 		{
+			Logger.Trace("Ввод названия " + dictionaryPackName + " словаря");
 			ClickClearAndAddText(By.XPath(DICTIONARY_PACK_NAME), dictionaryPackName);
 		}
 
 		/// <summary>
-		/// Сделать пакет словарей общедоступным
+		/// Поставить галочку в чекбоксе 'Общедоступный пакет'
 		/// </summary>
 		public void MakePublicDictionatyPack()
 		{
+			Logger.Trace("Поставить галочку в чекбоксе 'Общедоступный пакет'");
 			ClickElement(By.XPath(PUBLIC_DICTIONARY_CHECKBOX));
 		}
 
@@ -607,6 +628,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		{
 			dictionariesList.ForEach(item =>
 			{
+				Logger.Trace("Добавляем словарь " + item + " в пакет");
 				ClickElement(By.XPath("//select[@id='left']//option[text()='" + item + "']"));
 				ClickElement(By.XPath(ADD_DICTIONARY_TO_PACK));
 			});
@@ -617,6 +639,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// </summary>
 		public void CreateDictionaryPack()
 		{
+			Logger.Trace("Клик по кнопке 'Создать пакет'");
 			ClickElement(By.XPath(CREATE_DICTIONARY_PACK_BUTTON));
 		}
 

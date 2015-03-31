@@ -460,7 +460,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <summary>
 		/// Назначение/сброс пользователей на задачу
 		/// </summary>
-		[Category("PRX_8283")]
 		[Test]
 		public void AssignDifferentUsersOneTask()
 		{

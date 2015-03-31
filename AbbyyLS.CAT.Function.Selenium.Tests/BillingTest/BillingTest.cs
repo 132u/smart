@@ -51,7 +51,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		{
 			LoginToAdminPage();
 			// Создем корп аккаунт и авторизуемся на сайте
-			string accountName = CreateCorpAccount("", true);
+			string accountName = CreateCorporateAccount("", true);
 			AddUserToCorpAccount(Login);
 			Authorization(Login, Password, accountName);
 
@@ -83,7 +83,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		{
 			LoginToAdminPage();
 			// Создем корп аккаунт и авторизуемся на сайте
-			string accountName = CreateCorpAccount("", true);
+			string accountName = CreateCorporateAccount("", true);
 			AddUserToCorpAccount(Login);
 			Authorization(Login, Password, accountName);
 
@@ -110,7 +110,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 
 			LoginToAdminPage();
 			// Создем корп аккаунт и авторизуемся на сайте
-			string accountName = CreateCorpAccount("", true);
+			string accountName = CreateCorporateAccount("", true);
 			AddUserToCorpAccount(Login);
 			Authorization(Login, Password, accountName);
 

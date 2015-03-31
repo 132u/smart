@@ -35,6 +35,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <returns>загрузилась</returns>
 		public bool WaitPageLoad()
 		{
+			Logger.Trace("Ожидаем загрузку страницы WS");
 			return WaitUntilDisplayElement(By.XPath(CREATE_BTN_XPATH));
 		}
 
@@ -664,7 +665,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// </summary>
 		public void ClickLogoff()
 		{
-			//кликаем на ссылку "Sign Out"
+			Logger.Trace("Клик по кнопке 'Sign Out'");
 			ClickElement(By.XPath(LOGOFF_XPATH));
 		}
 
@@ -779,7 +780,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 
 		protected const string ACCOUNT_XPATH = "//div[contains(@class,'js-usermenu')]";
 		protected const string USER_NAME_XPATH = ACCOUNT_XPATH + "//span[contains(@class,'g-topbox__nameuser')]//b";
-		protected const string LOGOFF_XPATH = ".//a[contains(@href,'Logout')]";
+		protected const string LOGOFF_XPATH = "//div[@class='g-topbox__popup accountTools']//a[contains(@class, 'logout')]";
 
 		protected const string TOP_BOX_COMPANY_NAME = "//div[@class='g-topbox__currentAccount__nickname']";
 		protected const string COMPANY_NAME_PANEL_WS = "//span[contains(@class,'g-topbox__nameuser')]//small";

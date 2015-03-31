@@ -57,7 +57,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <param name="login">логин</param>
 		public void EnterLogin(string login)
 		{
-			Logger.Trace("Ввод логина " + login);
+			Logger.Trace("Ввод логина " + login + " на странице авторизации");
 			ClearAndAddText(By.CssSelector(EMAIL_CSS), login);
 		}
 
@@ -67,7 +67,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <param name="password">пароль</param>
 		public void EnterPassword(string password)
 		{
-			Logger.Trace("Ввод пароля " + password);
+			Logger.Trace("Ввод пароля " + password + " на странице авторизации");
 			ClearAndAddText(By.CssSelector(PASSWORD_CSS), password);
 		}
 
@@ -103,8 +103,8 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// </summary>
 		public void ClickSubmitAuthEmail()
 		{
+			Logger.Trace("Клик по кнопке 'Submit' на странице авторизации");
 			ClickElement(By.XPath(SUBMIT_BTN_AUTH_XPATH));
-
 		}
 
 		/// <summary>
@@ -119,6 +119,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			int waitmax = 15, 
 			string dataServer = "Europe")
 		{
+			Logger.Trace("Ждем появления названия аккаунта " + accountName + " на странице выбора аккаунта");
 			return WaitUntilDisplayElement(By.XPath(GetAccountItemXPath(accountName, dataServer)), waitmax);
 		}
 
@@ -138,6 +139,15 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			Assert.IsTrue(
 				WaitUntilDisplayElement(By.XPath(LOGIN_BTN_LPRO_XPATH)),
 				"Не прогрузилась страница Login - возможно, сайт недоступен");
+		}
+
+		/// <summary>
+		/// Дождаться появления заголовка SIGN IN на странице выбора аккаунта
+		///  </summary>
+		public bool GetSignInHeaderDisplay()
+		{
+			Logger.Trace("Ожидаем появления заголовка SIGN IN на странице выбора аккаунта");
+			return WaitUntilDisplayElement(By.XPath(SIGN_IN_HEADER));
 		}
 
 		/// <summary>
@@ -204,6 +214,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <returns></returns>
 		public bool CheckEuropeServerIsDisplayed()
 		{
+			Logger.Trace("Ожидаем появления 'Europe' на странице выбора аккаунта");
 			return WaitUntilDisplayElement(By.XPath(EUROPE_SERVER));
 		}
 
@@ -213,6 +224,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <returns></returns>
 		public bool CheckUsaServerIsDisplayed()
 		{
+			Logger.Trace("Ожидаем появления 'USA' на странице выбора аккаунта");
 			return WaitUntilDisplayElement(By.XPath(USA_SERVER));
 		}
 
@@ -225,10 +237,91 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			Thread.Sleep(2000);
 			return GetElementList(By.XPath(ACCOUNT_LIST)).Count;
 		}
-
+		
 		public bool IsOneOfServersNotRespondingErrorExist()
 		{
 			return WaitUntilDisplayElement(By.XPath(ERROR_NOT_RESPONDING_MESSAGE_XPATH), maxWait: 5);
+		}
+		
+		public void ClickFacebookIcon()
+		{
+			Logger.Trace("Клик по иконке Facebook"); 
+			ClickElement(By.XPath(FACEBOOK_ICON));
+		}
+		
+		public void ClickGoogleIcon()
+		{
+			Logger.Trace("Клик по иконке Google"); 
+			ClickElement(By.XPath(GOOGLE_ICON));
+		}
+
+		public void ClickLinkedInIcon()
+		{
+			Logger.Trace("Клик по иконке LinkedIn"); 
+			ClickElement(By.XPath(LINKED_IN_ICON));
+		}
+
+		public bool GetEmailFieldIsDisplay()
+		{
+			return WaitUntilDisplayElement(By.XPath(EMAIL_AUTH_XPATH));
+		}
+
+		public bool GetPasswordFieldIsDisplay()
+		{
+			return WaitUntilDisplayElement(By.XPath(PASSWORD_AUTH_XPATH));
+		}
+
+		public bool GetErrorNoEmailDisplay()
+		{
+			return GetIsElementDisplay(By.XPath(ERROR_NO_EMAIL));
+		}
+
+		public bool GetErrorNoFoundEmailDisplay()
+		{
+			return GetIsElementDisplay(By.XPath(ERROR_USER_NOT_FOUND));
+		}
+
+		public bool GetErrorNoPasswordDisplay()
+		{
+			return GetIsElementDisplay(By.XPath(ERROR_NO_PASSWORD));
+		}
+
+		public bool GetErrorWrongPasswordDisplay()
+		{
+			return GetIsElementDisplay(By.XPath(ERROR_WRONG_PASSWORD));
+		}
+
+		public bool GetErrorInvalidEmailDisplay()
+		{
+			return GetIsElementDisplay(By.XPath(ERROR_INVALID_EMAIL));
+		}
+
+		public bool GetMessageAccountNotFoundDisplay()
+		{
+			WaitUntilDisplayElement(By.XPath(MESSAGE_ACCOUNT_NOT_FOUND));
+			return GetIsElementDisplay(By.XPath(MESSAGE_ACCOUNT_NOT_FOUND));
+		}
+
+		public bool GetSignUpFreelanceBtnDisplay()
+		{
+			WaitUntilDisplayElement(By.XPath(SIGN_UP_FREELANCE_BTN));
+			return GetIsElementDisplay(By.XPath(SIGN_UP_FREELANCE_BTN));
+		}
+
+		public bool GetSignUpCompanyBtnDisplay()
+		{
+			WaitUntilDisplayElement(By.XPath(SIGN_UP_COMPANY_BTN));
+			return GetIsElementDisplay(By.XPath(SIGN_UP_COMPANY_BTN));
+		}
+
+		public bool GetErrorNoServerDisplay()
+		{
+			return GetIsElementDisplay(By.XPath(ERROR_NO_SERVER));
+		}
+
+		public string GetErrorNoServerMessage()
+		{
+			return GetElementAttribute(By.XPath(ERROR_NO_SERVER), "innerHTML");
 		}
 
 		protected const string EMAIL_CSS = "input[name=\"email\"]";
@@ -239,8 +332,8 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		protected const string ERROR_NOT_RESPONDING_MESSAGE_XPATH = "//div[@ng-show='accountServerNotResponding']//span";
 
 		protected const string EMAIL_AUTH_XPATH = "//input[contains(@name,'email')]";
-		protected const string PASSWORD_AUTH_XPATH = "//input[contains(@name,'password')]";
-		protected const string SUBMIT_BTN_AUTH_XPATH = "//table[contains(@class,'g-loginbox__tablButt')]//input(@type,'submit')";
+		protected const string PASSWORD_AUTH_XPATH = "//input[@id='password']";
+		protected const string SUBMIT_BTN_AUTH_XPATH = "//button[@id='btn-sign-in']";
 
 		protected const string LOGIN_BTN_LPRO_XPATH = "//input[@id='email']";
 		protected const string EMAIL_LPRO_XPATH = "email";
@@ -253,6 +346,20 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		protected const string PRO_ELEMENT = "//div[@class='logo-description']";
 
 		protected const string ACCOUNT_LIST = "//li[@class='ng-scope']";
+		protected const string SIGN_IN_HEADER ="//h1/span[text()='Sign In']";
+
+		protected const string FACEBOOK_ICON = "//a[@class='fb']";
+		protected const string GOOGLE_ICON = "//a[@class='gplus']";
+		protected const string LINKED_IN_ICON = "//a[@class='linkedin']";
+		protected const string ERROR_USER_NOT_FOUND = "//span[@translate='USER-NOT-FOUND-ERROR']";
+		protected const string ERROR_NO_EMAIL = "//span[@translate='ENTER-EMAIL']";
+		protected const string ERROR_WRONG_PASSWORD = "//span[@translate='ERR-WRONG-PASSWORD']";
+		protected const string ERROR_NO_PASSWORD = "//span[@translate='ERR-NO-PASSWORD']";
+		protected const string ERROR_INVALID_EMAIL = "//span[@translate='EMAIL-INVALID']";
+		protected const string MESSAGE_ACCOUNT_NOT_FOUND = "//b[@translate='ACCOUNT-NOT-FOUND-SIGNED']";
+		protected const string SIGN_UP_FREELANCE_BTN = "//a[@translate='FREELANCE']";
+		protected const string SIGN_UP_COMPANY_BTN = "//a[@translate='CORPORATE']";
+		protected const string ERROR_NO_SERVER = "//span[@translate='ACCOUNT-SERVER-NOT-RESPONDING']";
 	}
 }
 

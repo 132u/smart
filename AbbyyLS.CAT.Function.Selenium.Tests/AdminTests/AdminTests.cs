@@ -139,7 +139,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// </summary>
 		/// <param name="surname">фамилия</param>
 		/// <param name="state">статус перс аккаунта (активный или неактивный)</param>
-		public void CreateNewPersAcc(string surname, bool state)
+		public void CreateNewPersonalAccount(string surname, bool state)
 		{
 			if (AdminPage.CheckEditPersonalAccountButtonExists())
 			{
@@ -199,7 +199,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <param name="workflow"> Включение функции workflow для аккаунта </param>
 		/// <param name="venture">Затея</param>
 		/// <returns></returns>
-		public string CreateCorpAccount(string testAccount = "", bool workflow = false, string venture = "SmartCAT")
+		public string CreateCorporateAccount(string testAccount = "", bool workflow = false, string venture = "SmartCAT")
 		{
 			SwitchEnterpriseAccountList();
 			AdminPage.ClickAddAccount();
