@@ -16,61 +16,84 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		{
 		}
 
-		// название проекта для проведения тестов
-		protected string _projectNameMatchTest = "MatchTest" + "_" + DateTime.UtcNow.Ticks;
-
-		// строка, обозначающая тип подстановки в колонке match в таргет
-		protected const string _catSubstitutionTmType = "TM";
-		protected const string _catSubstitutionMtType = "MT";
-		protected const string _catSubstitutionTbType = "";
-
 		[SetUp]
 		public void SetUp()
 		{
-			Log.Info("Начало работы метода SetUp. Подготовка перед каждым тестом.");
+			Logger.Info("Начало работы метода SetUp. Подготовка перед каждым тестом.");
 			
-			Log.Debug("Значение параметра QuitDriverAfterTest = false. Не закрывать браузер после каждого теста.");
+			Logger.Debug("Значение параметра QuitDriverAfterTest = false. Не закрывать браузер после каждого теста.");
 			QuitDriverAfterTest = false;
-
-			if (!_projectCreated)
+			if (
+				!(TestContext.CurrentContext.Test.Name.Contains("MtSubstitution")
+				  || TestContext.CurrentContext.Test.Name.Contains("GlossarySubstitution")))
 			{
-				GoToUrl(RelativeUrlProvider.Workspace);
-				
-				CreateProject(
-					projectName: _projectNameMatchTest,
-					downloadFile: PathProvider.TxtFileForMatchTest,
-					createNewTM: true,
-					tmFile: PathProvider.TmxFileForMatchTest,
-					setGlossary: Workspace_CreateProjectDialogHelper.SetGlossary.New, 
-					glossaryName: "",
-					chooseMT:true,
-					mtType: Workspace_CreateProjectDialogHelper.MT_TYPE.ABBYY,
-					isNeedCheckProjectAppearInList: false);
+				if (!_projectTmCreated)
+				{
+					GoToUrl(RelativeUrlProvider.Workspace);
 
-				Thread.Sleep(2000);
+					CreateProject(
+						projectName: _projectNameTmMatchTest,
+						downloadFile: PathProvider.TxtFileForMatchTest,
+						createNewTM: true,
+						tmFile: PathProvider.TmxFileForMatchTest,
+						setGlossary: Workspace_CreateProjectDialogHelper.SetGlossary.New,
+						glossaryName: "",
+						chooseMT: true,
+						mtType: Workspace_CreateProjectDialogHelper.MT_TYPE.ABBYY,
+						isNeedCheckProjectAppearInList: false);
 
-				OpenAssignDialog(_projectNameMatchTest);
+					OpenAssignDialog(_projectNameTmMatchTest);
 
-				SetResponsible(1, UserName, false);
-				ResponsiblesDialog.ClickCloseBtn();
+					SetResponsible(1, UserName, false);
+					ResponsiblesDialog.ClickCloseBtn();
 
-				// Sleep не убирать , проект не открывается
-				Thread.Sleep(1000);
-				
-				OpenProjectPage(_projectNameMatchTest);
-				
-				ProjectPage.ClickAllAcceptBtns();
-				Thread.Sleep(1000);
-				
-				OpenDocument();
-				Thread.Sleep(1000);
+					// Sleep не убирать , проект не открывается
+					Thread.Sleep(1000);
 
-				_projectCreated = true;
+					OpenProjectPage(_projectNameTmMatchTest);
+					ProjectPage.ClickAllAcceptBtns();
+					Thread.Sleep(1000);
+
+					OpenDocument();
+					Thread.Sleep(1000);
+					_projectTmCreated = true;
+				}
 			}
 			else
 			{
-				Thread.Sleep(1000);
+				if (!_projectMtCreated)
+				{
+					GoToUrl(RelativeUrlProvider.Workspace);
+
+					CreateProject(
+						projectName: _projectNameMtMatchTest,
+						downloadFile: PathProvider.TxtFileForMatchTest,
+						createNewTM: false,
+						tmFile: "",
+						setGlossary: Workspace_CreateProjectDialogHelper.SetGlossary.New,
+						glossaryName: "",
+						chooseMT: true,
+						mtType: Workspace_CreateProjectDialogHelper.MT_TYPE.ABBYY,
+						isNeedCheckProjectAppearInList: false);
+
+					OpenAssignDialog(_projectNameMtMatchTest);
+
+					SetResponsible(1, UserName, false);
+					ResponsiblesDialog.ClickCloseBtn();
+
+					// Sleep не убирать , проект не открывается
+					Thread.Sleep(1000);
+
+					OpenProjectPage(_projectNameMtMatchTest);
+					ProjectPage.ClickAllAcceptBtns();
+					Thread.Sleep(1000);
+
+					OpenDocument();
+					Thread.Sleep(1000);
+					_projectMtCreated = true;
+				}
 			}
+
 		}
 
 		/// <summary>
@@ -85,7 +108,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			[Values(1, 2, 3, 4, 5)]
 			int segmentNumber)
 		{
-			Log.Info(string.Format("Начало работы теста CheckMatchAfterTmSubstitutionSegmentNumber(). Сегмент №{0}", segmentNumber));
+			Logger.Info(string.Format("Начало работы теста CheckMatchAfterTmSubstitutionSegmentNumber(). Сегмент №{0}", segmentNumber));
 
 			const int yellowUpperBound = 99;
 			const int yellowLowerBound = 76;
@@ -152,7 +175,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		[Test]
 		public void CheckMatchAfterMtSubstitution()
 		{
-			Log.Info("Начало работы теста CheckMatchAfterMtSubstitution().");
+			Logger.Info("Начало работы теста CheckMatchAfterMtSubstitution().");
 
 			const int segmentNumber = 1;
 			
@@ -179,7 +202,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		[Test]
 		public void CheckMatchAfterBothSubstitutions()
 		{
-			Log.Info("Начало работы теста CheckMatchAfterBothSubstitutions().");
+			Logger.Info("Начало работы теста CheckMatchAfterBothSubstitutions().");
 
 			const int segmentNumber = 1;
 
@@ -230,7 +253,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		[Category("Standalone")]
 		public void CheckMatchAfterEditCell()
 		{
-			Log.Info("Начало работы теста CheckMatchAfterEditCell().");
+			Logger.Info("Начало работы теста CheckMatchAfterEditCell().");
 
 			const int segmentNumber = 1;
 
@@ -269,7 +292,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		[Category("Standalone")]
 		public void CheckMatchAfterDelete()
 		{
-			Log.Info("Начало работы теста CheckMatchAfterDelete().");
+			Logger.Info("Начало работы теста CheckMatchAfterDelete().");
 
 			const int segmentNumber = 1;
 
@@ -311,7 +334,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			[Values(EditorPageHelper.CAT_TYPE.TM, EditorPageHelper.CAT_TYPE.MT)] 
 			EditorPageHelper.CAT_TYPE catType)
 		{
-			Log.Info(string.Format("Начало работы теста CheckMatchAfterDelete(). Тип подстановки из CAT {0}", catType));
+			Logger.Info(string.Format("Начало работы теста CheckMatchAfterDelete(). Тип подстановки из CAT {0}", catType));
 			
 			const int segmentNumber = 1;
 
@@ -356,7 +379,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		[Category("Standalone")]
 		public void AfterGlossarySubstitutionCheckMatch()
 		{
-			Log.Info("Начало работы теста AfterGlossarySubstitutionCheckMatch().");
+			Logger.Info("Начало работы теста AfterGlossarySubstitutionCheckMatch().");
 
 			const int segmentNumber = 1;
 
@@ -380,10 +403,15 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 				"в колонке match таргета не пусто");
 		}
 
-		private static readonly Logger Log = LogManager.GetCurrentClassLogger();
+		protected string _projectNameTmMatchTest = "TmMatchTest" + "_" + DateTime.UtcNow.Ticks;
+		protected string _projectNameMtMatchTest = "MtTbMatchTest" + "_" + DateTime.UtcNow.Ticks;
 
-		// флаг создан ли проект (создается один раз перед всеми тестами)
-		private bool _projectCreated;
+		protected const string _catSubstitutionTmType = "TM";
+		protected const string _catSubstitutionMtType = "MT";
+		protected const string _catSubstitutionTbType = "";
+
+		private bool _projectTmCreated;
+		private bool _projectMtCreated;
 	}
 }
 

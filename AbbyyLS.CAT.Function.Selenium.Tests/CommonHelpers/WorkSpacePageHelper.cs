@@ -82,7 +82,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 
 		public void ClickCreateProject()
 		{
-			Log.Debug("Кликнуть по кнопке Create Project");
+			Logger.Debug("Кликнуть по кнопке Create Project");
 			ClickElement(By.XPath(CREATE_BTN_XPATH));
 		}
 
@@ -97,13 +97,13 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		
 		public void OpenProjectPage(string projectName)
 		{
-			Log.Trace(string.Format("Кликнуть по проекту {0}, чтобы зайти на страницу проекта", projectName));
+			Logger.Trace(string.Format("Кликнуть по проекту {0}, чтобы зайти на страницу проекта", projectName));
 			ClickElement(By.XPath(GetProjectRefXPath(projectName)));
 		}
 
 		public void OpenProjectInfo(string projectName)
 		{
-			Log.Trace(string.Format("Октрытие свертки проекта {0}", projectName));
+			Logger.Trace(string.Format("Открытие свертки проекта {0}", projectName));
 			
 			if (!GetClassAttrProjectInfo(projectName).Contains("opened"))
 			{
@@ -113,7 +113,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 
 		public bool OpenDocumentInfo(int documentNumber)
 		{
-			Log.Trace(string.Format("Октрытие свертки документа {0}", documentNumber));
+			Logger.Trace(string.Format("Открытие свертки документа {0}", documentNumber));
 
 			// Кликнуть на открытие информации о документе
 			var documentXPath = DOCUMENT_INFO_TR_XPATH + "[" + documentNumber + "]" + FOLDER_SIGN;
@@ -546,7 +546,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 
 		public void ClickDocumentProgress()
 		{
-			Log.Trace("Нажать на прогресс в поле документа");
+			Logger.Trace("Нажать на прогресс в поле документа");
 			ClickElement(By.XPath(DOCUMENT_INFO_TR_XPATH + DOCUMENT_PROGRESS_XPATH));
 		}
 
@@ -595,14 +595,14 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 
 		public void ClickDocumentAssignBtn(string projectName, int documentNumber=1)
 		{
-			Log.Trace("Нажать на кнопку прав пользователя в инфо документа");
+			Logger.Trace("Нажать на кнопку прав пользователя в свертке документа");
 			ClickElement(By.XPath(GetProjectRefXPath(projectName) + "/ancestor::tr/following-sibling::tr[" + (documentNumber * 2) + "]/following-sibling::tr[1][@class='js-document-panel l-project__doc-panel']" + DOCUMENT_ASSIGN_RESPONSIBLES_BTN_XPATH));
 
 		}
 
 		public void ClickDocumentUploadBtn()
 		{
-			Log.Trace("Нажать на кнопку добавления документа в инфо проекта");
+			Logger.Trace("Нажать на кнопку добавления документа в свертке проекта");
 			ClickElement(By.XPath(UPLOAD_DOCUMENT_BTN_XPATH));
 		}
 
@@ -639,14 +639,14 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 
 		public string GetCompanyName()
 		{
-			Log.Trace("Возвращаем название компании в вехней панели рядом с именем текущего пользователя");
+			Logger.Trace("Возвращаем название компании в вехней панели рядом с именем текущего пользователя");
 			WaitUntilDisplayElement(By.XPath(COMPANY_NAME_PANEL_WS));
 			return GetTextElement(By.XPath(COMPANY_NAME_PANEL_WS));
 		}
 
 		public void ClickAccount()
 		{
-			Log.Trace("Нажимаем на имя пользователя и аккаунт, чтобы появилась черная плашка Настройки профиля");
+			Logger.Trace("Нажимаем на имя пользователя и аккаунт, чтобы появилась черная плашка Настройки профиля");
 			ClickElement(By.XPath(ACCOUNT_XPATH));
 		}
 
@@ -655,7 +655,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// </summary>
 		public void ClickLicensesAndServices()
 		{
-			Log.Trace("Выбираем в меню профиля пунтк для управления лицензиями.");
+			Logger.Trace("Выбираем в меню профиля пунтк для управления лицензиями.");
 			ClickElement(By.XPath(LICENSES_AND_SERVICES_MENU_ITEM));
 		}
 
@@ -709,6 +709,12 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		public void ClickLanguagSwitcher()
 		{
 			Driver.FindElement(By.XPath(LANGUAGE_SWITCHER)).Click();
+		}
+
+		public bool GetWarningIsDisplayForProject(string projectName)
+		{
+			Logger.Trace("Проверка, отображается ли треуголник с восклицательным знаком рядом с названием проекта");
+			return GetIsElementDisplay(By.XPath(GetProjectRefXPath(projectName) + "//preceding-sibling::" + WARNING_SIGN_TRIANGLE));
 		}
 
 		public const string LOCALE_EN_LANG = "en";
@@ -782,6 +788,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		protected const string RESOURCES_IN_MENU_XPATH = "//li[contains(@class,'js-menuitem-Resources')]";
 		protected const string LICENSES_AND_SERVICES_MENU_ITEM = "//a[contains(@class,'billing')]";
 
-		private static readonly Logger Log = LogManager.GetCurrentClassLogger();
+		protected const string WARNING_SIGN_TRIANGLE = "img[contains(@class, 'doc__error')]";
 	}
 }

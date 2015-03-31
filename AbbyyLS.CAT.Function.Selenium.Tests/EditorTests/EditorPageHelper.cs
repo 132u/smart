@@ -543,7 +543,8 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		public int GetCatTranslationRowNumber(CAT_TYPE type)
 		{
 			Log.Trace(string.Format("Получить номер строки с нужным типом перевода. Искомый тип - {0}", type));
-			
+			// Не убирать Sleep, так как термин не сразу появляется в CAT-панели
+			Thread.Sleep(2000);
 			var rowNum = 0;
 			var textList = GetTextListElement(By.XPath(CAT_PANEL_TYPE_COLUMN_XPATH));
 			var typeStr = CATTypeDict[type];

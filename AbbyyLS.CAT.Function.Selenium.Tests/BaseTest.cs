@@ -862,6 +862,12 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			}
 
 			WorkspacePage.WaitProjectLoad(projectName);
+
+			// НЕ удалять! требует дальнейшей отладки, которая возможна,
+			// только когда МТ/ТМ/TB не будут загружаться в документ
+			//Assert.IsTrue(
+			//	!WorkspacePage.GetWarningIsDisplayForProject(projectName),
+			//	"Ошибка: при создании проекта не загрузился TB/TM/MT(появился Warning треугольник около названия проекта)");
 		}
 
 		/// <summary>
@@ -1026,7 +1032,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			}
 		}
 
-		// TODO
 		/// <summary>
 		/// Шаг Pretranslate диалога создания проекта
 		/// </summary>
@@ -1892,8 +1897,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			AddTermForm.TypeTargetTermText(targetTerm);
 			// Нажать сохранить
 			AddTermForm.ClickAddBtn();
-
-			Thread.Sleep(2000);
 		}
 
 		/// <summary>
