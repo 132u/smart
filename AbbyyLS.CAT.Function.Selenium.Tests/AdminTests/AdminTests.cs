@@ -30,20 +30,13 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// </summary>
 		protected void AddUserToAccount(string login)
 		{
-			// Перейти в управление пользователями
 			AdminPage.OpenUserManagementPage();
-			// Ввести логин пользователя
 			AdminPage.FillUserNameSearch(login);
-			// Найти
 			AdminPage.ClickSearchUserBtn();
-			// Дождаться появления пользователя
 			AdminPage.WaitSearchUserResult();
-			// Добавить
 			AdminPage.ClickAddUser();
-			//проверить, появилось ли сообщение о повторном добавлении пользователя в аккаунт
 			if (AdminPage.CheckAccountAlreadyAdded())
 			{
-				//если пользователь уже есть в аккаунте, пишем об этом в лог.
  				Logger.Trace("Попытка повторно добавить в аккаунт пользователя с логином: " + login);
 			}
 		}
@@ -79,6 +72,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 
 			// Нажать Создать
 			AdminPage.ClickAddAccount();
+			Logger.Trace("Переход в новое открывшееся окно браузера");
 			Driver.SwitchTo().Window(Driver.WindowHandles[1]);
 			var isWindowWithForm = AdminPage.GetIsAddAccountFormDisplay();
 

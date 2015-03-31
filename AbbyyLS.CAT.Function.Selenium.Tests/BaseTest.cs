@@ -588,7 +588,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 					{
 						if (!LoginPage.WaitAccountExist(accountName, waitmax: 8, dataServer: dataServer))
 						{
-							Assert.Fail("В списке аккаунтов нет нужного.");
+							Assert.Fail("В списке аккаунтов нет нужного " + accountName);
 						}
 						// Выбрать аккаунт
 						LoginPage.ClickAccountName(accountName);
@@ -1752,9 +1752,13 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		{
 			try
 			{
-				if (Driver.SwitchTo().Alert().Text.
-					Contains("Включение функции workflow для аккаунта необратимо, обратное выключение будет невозможно. Продолжить?"))
+				if (Driver.SwitchTo().Alert().Text
+						.Contains("Включение функции workflow для аккаунта необратимо, обратное выключение будет невозможно. Продолжить?"))
+				{
+					Logger.Trace("Закрыть модальное диалоговое окно");
 					Driver.SwitchTo().Alert().Accept();
+				}
+
 
 				Thread.Sleep(500);
 			}

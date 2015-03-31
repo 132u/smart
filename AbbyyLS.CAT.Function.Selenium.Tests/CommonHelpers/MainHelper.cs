@@ -45,8 +45,9 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// </summary>
 		public void ClickOpenTMPage()
 		{
-			if (!GetIsLeftMenuDisplay())
-				OpenHideMenu();
+			Logger.Trace("Проверка, что подменю Resources раскрыто");
+			if (!GetIsElementDisplay(By.XPath(TM_REF_XPATH)))
+				ClickResourcesRef();
 			Logger.Trace("Клик по 'Translation Memories' в главном меню слева");
 			ClickElement(By.XPath(TM_REF_XPATH));
 		}
@@ -83,11 +84,10 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 
 		public void ClickOpenSearchPage()
 		{
-			if (!GetIsLeftMenuDisplay())
-				OpenHideMenu();
+			Logger.Trace("Проверка, что подменю Resources раскрыто");
+			if (!GetIsElementDisplay(By.XPath(SEARCH_REF_XPATH)))
 			ExpandResourcesMenu(SEARCH_REF_XPATH);
 
-			Logger.Trace("Клик по логотипу 'ABBYY SmartCat' в главном меню слева");
 			ClickElement(By.XPath(SEARCH_REF_XPATH));
 		}
 
@@ -116,8 +116,8 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// </summary>
 		public void ClickOpenDictionariesPage()
 		{
-			if (!GetIsLeftMenuDisplay())
-				OpenHideMenu();
+			if (!GetIsElementDisplay(By.XPath(DICTIONARIES_REF_XPATH)))
+				ClickResourcesRef();
 			ExpandResourcesMenu(DICTIONARIES_REF_XPATH);
 
 			Logger.Trace("Клик по 'Lingvo Dictionaries' в главном меню слева");

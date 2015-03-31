@@ -24,9 +24,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		public void SetUp()
 		{
 			if (Standalone)
-			{
 				Assert.Ignore("Тест игнорируется, так как это отделяемое решение");
-			}
 		}
 
 		[SetUp]
@@ -140,37 +138,21 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		[Test]
 		public void AccountExistDictionaryList()
 		{
-			// Открыть форму создания аккаунта
 			OpenCreateAccountForm();
-
-			// Заполнить форму аккаунта
 			string accountName = FillGeneralAccountFields();
-			// Добавить словари
 			AddDictionaryAccount();
-
-			// Сохранить
 			AdminPage.ClickSubmit();
-
-			// Дождаться успеха
 			AdminPage.WaitSuccessAnswer();
-
-			// Добавить пользователя в аккаунт
 			AddUserToAccount(Login);
-
-			// Перейти в CAT
+			Logger.Trace("Переход  в SmartCat");
 			Driver.Navigate().GoToUrl(Url);
-			// Зайти пользователем
 			Authorization(Login, Password, accountName);
-
-			// Проверка, что вкладка LingvoDictionaries видна
 			Assert.IsTrue(
 				MainHelperClass.GetIsRefDictionariesVisible(),
 				"Ошибка: не показывается вкладка Lingvo Dictionaries");
 
-			// Перейти на вкладку со словарями
 			MainHelperClass.ClickOpenDictionariesPage();
 
-			// Проверить список словарей
 			Assert.IsTrue(
 				DictionaryPage.GetDictionaryListCount() > 0, 
 				"Ошибка: список словарей пуст");
@@ -234,7 +216,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 
 			var listOfDictionariesForSpecificPack = GetDictionaryList(DictionaryPackName);
 
-			// Перейти в CAT
+			Logger.Trace("Переход в SmartCat");
 			Driver.Navigate().GoToUrl(Url);
 			// Зайти пользователем
 			Authorization(Login, Password, accountName);

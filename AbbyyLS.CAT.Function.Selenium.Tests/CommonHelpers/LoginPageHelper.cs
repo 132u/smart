@@ -57,6 +57,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <param name="login">логин</param>
 		public void EnterLogin(string login)
 		{
+			Logger.Trace("Ввод логина " + login);
 			ClearAndAddText(By.CssSelector(EMAIL_CSS), login);
 		}
 
@@ -66,6 +67,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <param name="password">пароль</param>
 		public void EnterPassword(string password)
 		{
+			Logger.Trace("Ввод пароля " + password);
 			ClearAndAddText(By.CssSelector(PASSWORD_CSS), password);
 		}
 
@@ -74,8 +76,8 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// </summary>
 		public void ClickSubmitCredentials()
 		{
+			Logger.Trace("Клик по кнопке 'Submit'");
 			ClickElement(By.XPath(SUBMIT_BTN_CSS));
-
 		}
 
 		/// <summary>

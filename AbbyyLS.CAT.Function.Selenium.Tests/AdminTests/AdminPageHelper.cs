@@ -54,6 +54,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// </summary>
 		public void ClickSubmit()
 		{
+			Logger.Trace("Нажать кнопку 'Сохранить'");
 			ClickElement(By.XPath(SUBMIT_BTN_XPATH));
 		}
 
@@ -62,6 +63,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// </summary>
 		public void ClickOpenEntepriseAccounts()
 		{
+			Logger.Trace("Клик по пункту 'Корпоративные' в меню слева");
 			ClickElement(By.XPath(ENTERPRISE_ACCOUNTS_REF_XPATH));
 		}
 
@@ -71,6 +73,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <returns>появилось сообщение</returns>
 		public bool WaitSuccessAnswer()
 		{
+			Logger.Trace("Ожидание сообщения 'Изменения сохранены'");
 			return WaitUntilDisplayElement(By.XPath(SUCCESS_MESSAGE_XPATH));
 		}
 
@@ -80,8 +83,9 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <returns>страница открыта</returns>
 		public bool OpenUserManagementPage()
 		{
+			Logger.Trace("Клик по ссылке 'Управление пользователями'");
 			ClickElement(By.XPath(MANAGEMENT_USERS_REF_XPATH));
-
+			Logger.Trace("Ожидание появления поля поиска");
 			return WaitUntilDisplayElement(By.Id(USER_SEARCH_ID));
 		}
 
@@ -109,6 +113,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <param name="userName">имя пользователя</param>
 		public void FillUserNameSearch(string userName)
 		{
+			Logger.Trace("Ввод имени пользователя " + userName + " в поле поиска");
 			SendTextElement(By.Id(USER_SEARCH_ID), userName);
 		}
 
@@ -117,6 +122,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// </summary>
 		public void ClickSearchUserBtn()
 		{
+			Logger.Trace("Клик по кнопке 'Найти'");
 			ClickElement(By.Id(USER_SEARCH_BTN_ID));
 		}
 
@@ -126,6 +132,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <returns>появилась</returns>
 		public bool WaitSearchUserResult()
 		{
+			Logger.Trace("Ожидание появления кнопки 'Добавить'");
 			return WaitUntilDisplayElement(By.Id(ADD_USER_BTN_ID));
 		}
 
@@ -134,6 +141,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// </summary>
 		public void ClickAddUser()
 		{
+			Logger.Trace("Клик по кнопке 'Добавить'");
 			ClickElement(By.Id(ADD_USER_BTN_ID));
 		}
 
@@ -143,6 +151,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <returns>есть</returns>
 		public bool GetAvailableAddDictionaryFeature()
 		{
+			Logger.Trace("Проверка есть ли Словарь в таблице функций");
 			return GetIsElementExist(By.XPath(DICTIONARY_OPTION_XPATH));
 		}
 
@@ -151,6 +160,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// </summary>
 		public void ClickDictioaryInFeatures()
 		{
+			Logger.Trace("Клик по 'Lingvo Dictionaries' в таблице функций");
 			ClickElement(By.XPath(DICTIONARY_OPTION_XPATH));
 		}
 
@@ -159,6 +169,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// </summary>
 		public void ClickToRightFeatureTable()
 		{
+			Logger.Trace("Клик по стрелке вправо в таблице функций");
 			ClickElement(By.XPath(TABLE_FEATURES_XPATH + TO_RIGHT_BTN_XPATH));
 		}
 
@@ -167,6 +178,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// </summary>
 		public void AddAllDictionaries()
 		{
+			Logger.Trace("Клик по стрелке 'Добавить все словари' в таблице 'Пакеты словарей'");
 			ClickElement(By.XPath(TABLE_DICTIONARIES_XPATH + ALL_TO_RIGHT_BTN_XPATH));
 		}
 
@@ -176,6 +188,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <param name="date">дата</param>
 		public void FillDictionaryDeadlineDate(DateTime date)
 		{
+			Logger.Trace("Установка Deadline даты " + date);
 			ClearAndAddText(By.Id(DICTIONARY_DEADLINE_DATE_ID), GetDateString(date));
 		}
 
@@ -185,6 +198,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <param name="name">имя</param>
 		public void FillAccountName(string name)
 		{
+			Logger.Trace("Ввод названия аккаунта " + name);
 			SendTextElement(By.XPath(ACCOUNT_NAME_XPATH), name);
 		}
 
@@ -194,6 +208,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <param name="name">название</param>
 		public void FillSubdomainName(string name)
 		{
+			Logger.Trace("Ввод названия поддомена");
 			SendTextElement(By.XPath(SUBDOMAIN_NAME_XPATH), name);
 		}
 		
@@ -202,6 +217,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// </summary>
 		public void ClickAddAccount()
 		{
+			Logger.Trace("Клик по 'Создать'");
 			ClickElement(By.XPath(ADD_ACCOUNT_REF_XPATH));
 		}
 
@@ -211,6 +227,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <returns></returns>
 		public bool GetIsAddAccountFormDisplay()
 		{
+			Logger.Trace("Проверка, видна ли форма создания аккаунта");
 			return GetIsElementDisplay(By.XPath(CREATE_ACCOUNT_FORM_XPATH));
 		}
 
@@ -258,12 +275,14 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <param name="name">название</param>
 		public void SetVenture(string name)
 		{
+			Logger.Trace("Проверка, что комбобокс Затея есть на странице");
 			if (GetIsElementDisplay(By.XPath(VENTURE_XPATH)))
 			{
+				Logger.Trace("Клик по комбобоксу Затея");
 				ClickElement(By.XPath(VENTURE_XPATH));
 				WaitUntilDisplayElement(By.XPath(VENTURE_XPATH + "//option[contains(@value,'" + name + "')]"));
-				SendTextElement(By.XPath(VENTURE_XPATH), name);
-				SendTextElement(By.XPath(VENTURE_XPATH), Keys.Tab);
+				Logger.Trace("Клик нужной Затеи " + name);
+				ClickElement(By.XPath(VENTURE_XPATH + "//option[contains(@value,'" + name + "')]"));
 			}
 		}
 
@@ -445,6 +464,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// </summary>
 		public void CheckWorkflowCheckbox()
 		{
+			Logger.Trace("Клик по чекбоксу Workflow");
 			ClickElement(By.XPath(WORKFLOW_CHECKBOX));
 		}
 		
@@ -506,6 +526,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// </summary>
 		public bool CheckAccountAlreadyAdded()
 		{
+			Logger.Trace("Проверка, появилось ли сообщение 'Изменения не сохранены. Этот пользователь уже есть в этом аккаунте.'");
 			return GetIsElementDisplay(By.XPath(THIS_USER_IS_INSIDE_ACCOUNT_XPATH));
 		}
 
@@ -514,6 +535,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// </summary>
 		public void GotoDictionaryPackPage()
 		{
+			Logger.Trace("Клик по 'Просмотреть пакеты словарей' в меню");
 			ClickElement(By.XPath(DICTIONARY_PAGE_PACK_LINK));
 		}
 
@@ -537,10 +559,11 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// </summary>
 		public void SelectDictionaryPack(string packName)
 		{
+			Logger.Trace("Проверка, что появился список пакетов словарей");
 			var requiredDictionaryName =
 				GetElementList(By.XPath(PATH_TO_LIST_OF_DICTIONARIES_NAMES))
 				.First(item => item.Text == packName);
-
+			Logger.Trace("Клик по пакету " + packName);
 			requiredDictionaryName.Click();
 		}
 
@@ -549,6 +572,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// </summary>
 		public List<string> GetListOfDictionaries()
 		{
+			Logger.Trace("Получить список словарей в пакете");
 			return GetTextListElement(By.XPath(PATH_TO_LIST_OF_DICTIONARIES));
 		}
 
