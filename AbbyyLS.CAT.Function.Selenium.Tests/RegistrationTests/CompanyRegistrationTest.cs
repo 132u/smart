@@ -1,7 +1,6 @@
 ﻿using AbbyyLS.CAT.Function.Selenium.Tests.CommonDataStructures;
 using NUnit.Framework;
 using System.Threading;
-using System;
 using AbbyyLS.CAT.Function.Selenium.Tests.RegistrationTests;
 
 namespace AbbyyLS.CAT.Function.Selenium.Tests.Registration.Company
@@ -9,7 +8,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Registration.Company
 	internal class CompanyRegistrationTest : RegistrationBaseTest
 	{
 		private string _corpAccountNameInAdmin = "";
-		
+
 		/// <summary>
 		/// Конструктор теста регистрации компании
 		/// </summary>
@@ -360,7 +359,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Registration.Company
 		/// <param name="state">валидное или не валидное значение</param>
 		[Test]
 		[TestCase("s", false)]
-		[TestCase("WwwwwwwwwwwwwwwwwwwwWwwwwwwasdsadsadasdd1", false)] //41 symbols - max
 		[TestCase("1kjgkjg", false)]
 		[TestCase("'kjgkjg", false)]
 		public void CheckCompanyNameValidation(string companyName, bool state) 
@@ -377,10 +375,32 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Registration.Company
 				companyName,
 				RegistrationPage.DomainName,
 				"123123213123213");
-			if(!state)
-				Assert.IsTrue(CheckCreateAccBtnDisable(), WARNING_MESSAGE_BUTTON_IS_DISABLE);
-			else
-				Assert.IsFalse(CheckCreateAccBtnDisable(), WARNING_MESSAGE_BUTTON_IS_ABLE);
+			Assert.IsTrue(CheckCreateAccBtnDisable(), WARNING_MESSAGE_BUTTON_IS_DISABLE);
+		}
+
+		
+		/// <summary>
+		/// Проверяем, что название компании обрезается после ввода
+		/// </summary>
+		[Test]
+		public void CompanyNameMaxLenght()
+		{
+			var companyName = RandomString.GenerateString(41);
+			GoToRegistrationPage(RegistrationType.Company);
+			RegistrationPage.FillRegistrationDataInFirstStep(
+				RegistrationPage.Email,
+				RegistrationPage.Password,
+				RegistrationPage.Password);
+			RegistrationPage.ClickSignUpButton();
+			FillAllFieldsSecondStepCompanyRegistration(
+				RegistrationPage.FirstName,
+				RegistrationPage.LastName,
+				companyName,
+				RegistrationPage.DomainName,
+				"123123213123213");
+			Assert.AreEqual(RegistrationPage.GetCompanyName(), companyName.Substring(0, companyName.Length - 1),
+				"Ошибка: название компании не обрезается до 40 символов");
+			Assert.IsFalse(CheckCreateAccBtnDisable(), WARNING_MESSAGE_BUTTON_IS_ABLE);
 		}
 
 		/// <summary>

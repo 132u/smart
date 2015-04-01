@@ -1,5 +1,4 @@
-﻿using System;
-using OpenQA.Selenium;
+﻿using OpenQA.Selenium;
 using OpenQA.Selenium.Support.UI;
 
 namespace AbbyyLS.CAT.Function.Selenium.Tests
@@ -24,6 +23,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			NickName = GetUniqueString();
 			NameCompany = "CN" + RandomString.Generate(8);
 			DomainName = "D" + RandomString.GenerateRandomString();
+			
 		}
 
 		public  string FirstName;
@@ -372,6 +372,12 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		public void FillNameCompany(string nameCompany)
 		{
 			ClearAndAddText(By.XPath(COMPANY_NAME_COMPANY), nameCompany);
+		}
+
+		public string GetCompanyName()
+		{
+			Logger.Trace("Получаем название компании из поля ввода на странице регистрации");
+			return GetElementAttribute(By.XPath(COMPANY_NAME_COMPANY), "value");
 		}
 
 		/// <summary>
