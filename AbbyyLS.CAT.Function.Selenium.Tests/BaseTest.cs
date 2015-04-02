@@ -1842,10 +1842,12 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			{
 				if (client == RegistrationType.Company)
 				{
+					Logger.Trace("Переход на страницу регистарции компаний");
 					Driver.Navigate().GoToUrl(Url + RelativeUrlProvider.CorpReg);
 				}
 				else
 				{
+					Logger.Trace("Переход на страницу регистарции фрилансеров");
 					Driver.Navigate().GoToUrl(Url + RelativeUrlProvider.FreelanceReg);
 				}
 			}

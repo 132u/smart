@@ -8,11 +8,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 	/// </summary>
 	public class RegistrationPageHelper : CommonHelper
 	{
-		/// <summary>
-		/// Конструктор хелпера страницы регистрации 
-		/// </summary>
-		/// <param name="driver">Драйвер</param>
-		/// <param name="wait">Таймаут</param>
 		public RegistrationPageHelper(IWebDriver driver, WebDriverWait wait) :
 			base(driver, wait)
 		{
@@ -42,11 +37,9 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <param name="confirmPassword">подтверждение пароля</param>
 		public void FillRegistrationDataInFirstStep(string email, string password, string confirmPassword)
 		{
-			//заполнить поле email
+			Logger.Trace("Заполняем данные на первом шаге регистрации");
 			TypeTextInEmailField(email);
-			//заполнить поле пароля
 			TypeTextInPasswordField(password);
-			//заполнить поле подтверждения пароля
 			TypeTextInConfirmPasswordField(confirmPassword);
 		}
 
@@ -57,26 +50,22 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <param name="lastName">фамилия фридансера</param>
 		public void FillRegistrationDataInSecondStep(string firstName, string lastName)
 		{
-			//запомнить имя фрилансера
-			this.FirstName = firstName;
-			//запомнить фамилию фрилансера
-			this.LastName = lastName;
-			//заполнить поле имя
+			Logger.Trace("Заполняем данные на втором шаге регистрации");
+			FirstName = firstName;
+			LastName = lastName;
 			TypeTextInFirstNameField(firstName);
-			//заполнить поле фамилии
 			TypeTextInLastNameField(lastName);
-			// выбрать страну
+			Logger.Trace("Выбираем Country");
 			ClickElement(By.XPath(COUNTRY2));
-			// выбрать язык
+			Logger.Trace("Выбираем Native language");
 			ClickElement(By.XPath(NATIVE_LANGUAGE));
-			//this.SelectItemInDropDownByText(By.XPath(NATIVE_LANGUAGE), "Akan");
-			// выбрать сервис(язык)
+			Logger.Trace("Выбираем Language 1");
 			ClickElement(By.XPath(SERVICE_PROVIDE));
-			// выбрать сервис2(язык)
+			Logger.Trace("Выбираем Language 2");
 			ClickElement(By.XPath(SERVICE_PROVIDE2));
-			// выбрать таймзону
+			Logger.Trace("Выбираем Time zone");
 			ClickElement(By.XPath(TIMEZONE));
-			// выбрать уровень языка(этап)
+			Logger.Trace("Выбираем Service");
 			ClickElement(By.XPath(LANG_LEVEL));
 		}
 
@@ -85,9 +74,10 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// </summary>
 		public void SelectSecondService()
 		{
-			// Кликнуть кнопку Add
 			ClickAddServiceBtn();
+			Logger.Trace("Выбираем Language 1 во второй паре языков");
 			ClickElement(By.XPath(SERVICE_PROVID3));
+			Logger.Trace("Выбираем Language 2 во второй паре языков");
 			ClickElement(By.XPath(SERVICE_PROVIDE4));
 		}
 
@@ -114,6 +104,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// </summary>
 		public void ClickSignUpButton()
 		{
+			Logger.Trace("Нажать кнопку Sign up");
 			ClickElement(By.XPath(SIGN_UP_BUTTON));
 		}
 
@@ -122,6 +113,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// </summary>
 		public void ClickSignInButton()
 		{
+			Logger.Trace("Нажать кнопку Sign in");
 			ClickElement(By.XPath(SIGN_IN_BUTTON));
 		}
 
@@ -130,6 +122,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// </summary>
 		public void TypeTextInEmailField(string email)
 		{
+			Logger.Trace("Ввод email " + email + " на странице регистрации фрилансеров");
 			ClickClearAndAddText(By.XPath(EMAIL_FIELD_IN_SIGN_UP), email);
 		}
 
@@ -139,6 +132,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <param name="password">пароль</param>
 		public void TypeTextInPasswordFieldSignIn(string password)
 		{
+			Logger.Trace("Ввод пароля " + password + " на странице Sign In");
 			ClearAndAddText(By.XPath(PASSWORD_FIELD_IN_SIGN_IN), password);
 		}
 
@@ -148,7 +142,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <param name="email">email</param>
 		public void TypeTextInEmailFieldSignIn(string email)
 		{
-
+			Logger.Trace("Ввод email " + email + " на странице Sign In");
 			ClearAndAddText(By.XPath(EMAIL_FIELD_IN_SIGN_IN), email);
 		}
 
@@ -158,6 +152,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		///  <param name="password">пароль</param>
 		public void TypeTextInPasswordField(string password)
 		{
+			Logger.Trace("Ввод пароля " + password + " на странице Sign Up");
 			ClickClearAndAddText(By.XPath(PASSWORD_FIELD_IN_SIGN_UP), password);
 		}
 
@@ -167,6 +162,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		///  <param name="password">пароль</param>
 		public void TypeTextInConfirmPasswordField(string password)
 		{
+			Logger.Trace("Ввод пароля " + password + " в поле подтверждения пароля на странице Sign Up");
 			ClickClearAndAddText(By.XPath(CONFIRM_PASSWORD_FIELD), password);
 		}
 
@@ -176,6 +172,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <param name="firstName">имя</param>
 		public void TypeTextInFirstNameField(string firstName)
 		{
+			Logger.Trace("Ввод имени " + firstName + " на втором шаге регистрации");
 			ClearAndAddText(By.XPath(FIRST_NAME_FIELD), firstName);
 		}
 
@@ -185,6 +182,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <param name="lastName">фамилия</param>
 		public void TypeTextInLastNameField(string lastName)
 		{
+			Logger.Trace("Ввод фамилии " + lastName + " на втором шаге регистрации");
 			ClearAndAddText(By.XPath(LAST_NAME_FIELD), lastName);
 		}
 
@@ -193,6 +191,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// </summary>
 		public void ClickCreateAccountButton()
 		{
+			Logger.Trace("Нажать кнопку Create account на втором шаге регистрации");
 			ClickElement(By.XPath(CREATE_ACCOUNT_BUTTON));
 		}
 
@@ -201,6 +200,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// </summary>
 		public bool CheckNameSurnameInWSPanel()
 		{
+			Logger.Trace(string.Format("Проверить, что в панели WS отображается имя {0} и фамилия {1} пользователя "), FirstName, LastName);
 			return GetTextElement(By.XPath(USER_NAME_XPATH)).Contains(string.Format("{0} {1}", FirstName, LastName));
 		}
 
@@ -209,7 +209,8 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// </summary>
 		public bool CheckNameInWSPanel()
 		{
-			if (GetTextElement(By.XPath(USER_NAME_XPATH)) == this.FirstName) return true;
+			Logger.Trace("Проверить, что в панели WS отображается имя пользователя " + FirstName);
+			if (GetTextElement(By.XPath(USER_NAME_XPATH)) == FirstName) return true;
 			else return false;
 		}
 
@@ -275,6 +276,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// </summary>
 		public void GoToLoginPageWithExistAccount()
 		{
+			Logger.Trace("Переход по ссылке 'or sign in with an existing ABBYY account'");
 			ClickElement(By.XPath(EXIST_ACCOUNT_LINK_ABBY_ONLINE));
 		}
 
@@ -294,11 +296,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			return GetIsElementDisplay(By.XPath(WRONG_PASSWORD_MESSAGE));
 		}
 
-		public void PressLoadPhoto()
-		{
-			ClickElement(By.XPath(LABEL_LOAD_PHOTO));
-		}
-		
 		/// <summary>
 		/// Проверить,что сообщение Wrong format появляется , когда загружен неверный формат фото
 		/// </summary>
@@ -312,6 +309,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// </summary>
 		public void ClickLoadPhotoBtn()
 		{
+			Logger.Trace("Нажать кнопку загрузки фото");
 			ClickElement(By.XPath(LOAD_PHOTO_BTN));
 		}
 
@@ -355,6 +353,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// </summary>
 		public void FillFirstNameCompany(string firstNameCompany)
 		{
+			Logger.Trace("Ввод имени " + firstNameCompany + " на втором шаге регистрации компаний");
 			ClearAndAddText(By.XPath(FIRST_NAME_COMPANY), firstNameCompany);
 		}
 
@@ -363,6 +362,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// </summary>
 		public void FillLastNameCompany(string lastNameCompany)
 		{
+			Logger.Trace("Ввод фамилии " + lastNameCompany + " на втором шаге регистрации компаний");
 			ClearAndAddText(By.XPath(LAST_NAME_COMPANY), lastNameCompany);
 		}
 
@@ -371,6 +371,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// </summary>
 		public void FillNameCompany(string nameCompany)
 		{
+			Logger.Trace("Ввод названия компании " + nameCompany + " на втором шаге регистрации компаний");
 			ClearAndAddText(By.XPath(COMPANY_NAME_COMPANY), nameCompany);
 		}
 
@@ -385,6 +386,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// </summary>
 		public void FillDomainNameCompany(string domainNameCompany)
 		{
+			Logger.Trace("Ввод домена " + domainNameCompany + " на втором шаге регистрации компаний");
 			ClearAndAddText(By.XPath(DOMAIN_NAME_COMPANY), domainNameCompany);
 		}
 
@@ -393,6 +395,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// </summary>
 		public void FillPhoneNumberCompany(string phoneNumber)
 		{
+			Logger.Trace("Ввод телефона " + phoneNumber + " на втором шаге регистрации компаний");
 			ClearAndAddText(By.XPath(PHONE_NUMBER), phoneNumber);
 		}
 
@@ -401,6 +404,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// </summary>
 		public void ClickCreateAccountCompanyBtn()
 		{
+			Logger.Trace("Нажать кнопку Create account на втором шаге регистрации компаний");
 			DoubleClickElement(By.XPath(CREATE_ACCOUNT_COMPANY_BTN));
 		}
 
@@ -410,6 +414,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <param name="option"> Номер опции в комбобоксе тип компании </param>
 		public void SelectCompanyType(int option)
 		{
+			Logger.Trace("Выбираем тип компании №" + option);
 			ClickElement(By.XPath(COMPANY_TYPE_DD + OPTION_IN_COMPANY_TYPE_DD + option + "']"));
 		}
 
@@ -428,6 +433,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 
 		public void ClickLogInFromMsg()
 		{
+			Logger.Trace("Нажать Log In в сообщение о том, что пользователь уже зарегистрирован");
 			ClickElement(By.XPath(LOGIN_LINK_FROM_MSG));
 		}
 
@@ -451,6 +457,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// </summary>
 		public void ClickSignOutBtn()
 		{
+			Logger.Trace("Нажать Sign out на втором шаге регистрации компаний");
 			ClickElement(By.XPath(SIGN_OUT_BTN));
 		}
 
@@ -459,6 +466,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// </summary>
 		public void ClickAddServiceBtn()
 		{
+			Logger.Trace("Нажать кнопку Add для добавления второй пары языков");
 			ClickElement(By.XPath(ADD_SERVICE));
 		}
 
@@ -484,6 +492,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <param name="photo"> название файла </param>
 		public void UploadPhoto(string photo)
 		{
+			Logger.Trace("Загрузка фото");
 			UploadDocNativeAction(photo);
 		}
 

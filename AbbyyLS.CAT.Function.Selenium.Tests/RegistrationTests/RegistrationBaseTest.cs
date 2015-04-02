@@ -22,15 +22,11 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.RegistrationTests
 		/// </summary>
 		public void RegistrationNewUser(string email, string password)
 		{
-			// Переход на страницу регистрации
+			Logger.Trace("Регистрация фрилансера");
 			GoToRegistrationPage(RegistrationType.User);
-			// Заполняем все поля на первом шаге регистрации
 			RegistrationPage.FillRegistrationDataInFirstStep(email, password, password);
-			// Нажимаем кнопку Sign up
 			RegistrationPage.ClickSignUpButton();
-			// Заполняем все поля на втором шаге регистрации
 			RegistrationPage.FillRegistrationDataInSecondStep(RegistrationPage.FirstName, RegistrationPage.LastName);
-			// Нажимаем кнопку Create Account
 			RegistrationPage.ClickCreateAccountButton();
 		}
 
@@ -52,6 +48,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.RegistrationTests
 		/// </summary>
 		public void RegisterAsExistUserWithCorrectPassword(string email, string password)
 		{
+			Logger.Trace("Авторизация, как существующий пользователь по ссылке 'your ABBYY Online account'");
 			RegistrationPage.TypeTextInEmailFieldSignIn(email);
 			RegistrationPage.TypeTextInPasswordFieldSignIn(password);
 			RegistrationPage.ClickSignInButton();
@@ -64,6 +61,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.RegistrationTests
 		/// <param name="password"></param>
 		public void RegisterNewUserWithCompanyAndCheckWS(string email, string password)
 		{
+			Logger.Trace("Регистрация новой компании");
 			GoToRegistrationPage(RegistrationType.Company);
 			RegistrationPage.FillRegistrationDataInFirstStep(email, password, password);
 			RegistrationPage.ClickSignUpButton();
@@ -101,6 +99,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.RegistrationTests
 			string phoneNumber, 
 			CompanyType companyType = CompanyType.LanguageServiceProvider)
 		{
+			Logger.Trace("Заполненяем поля на втором шаге регистрации компаний");
 			RegistrationPage.FillFirstNameCompany(firstName);
 			RegistrationPage.FillLastNameCompany(lastName);
 			RegistrationPage.FillNameCompany(companyName);
