@@ -155,6 +155,13 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.TM
 			((IJavaScriptExecutor)Driver).ExecuteScript("arguments[0].scrollIntoView(true); window.scrollBy(0,-200);", tmItem);
 		}
 
+		public void ScrollToCreateTmBtn()
+		{
+			Logger.Debug("Прокрутка до кнопки Create TM");
+			var createTmBtn = Driver.FindElement(By.XPath(ADD_TM_BTN_XPATH));
+			((IJavaScriptExecutor)Driver).ExecuteScript("arguments[0].scrollIntoView(true); window.scrollBy(0,-200);", createTmBtn);
+		}
+
 		public void ClickTMButton(TM_BTN_TYPE btnType)
 		{
 			Logger.Debug(string.Format("Кликнуть кнопку {0} в информации о ТМ.", btnType));
@@ -310,8 +317,8 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.TM
 		public void OpenCreateTMDialog()
 		{
 			Logger.Debug("Нажать кнопку открытия диалога создания ТМ");
+			ScrollToCreateTmBtn();
 			ClickElement(By.XPath(ADD_TM_BTN_XPATH));
-
 			Assert.IsTrue(WaitUntilDisplayElement(By.XPath(CREATE_TM_DIALOG_XPATH)), 
 				"Ошибка: не открылась форма создания ТМ");
 		}
@@ -457,7 +464,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.TM
 		public void AssertionIsNoTargetErrorAppearDuringTmCreation()
 		{
 			Logger.Trace("Проверить наличие об ошибке отсутствия таргета");
-
 			Assert.IsTrue(GetIsElementDisplay(By.XPath(ERROR_CREATE_TM_NO_TARGET_XPATH)),
 				"Ошибка: не появилось сообщение об ошибке отсутствия таргета");
 		}
@@ -764,7 +770,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.TM
 		protected const string ERROR_DIV_EDITION_PANEL = "//div[contains(@class,'tmpanel__error')]";
 		protected const string ERROR_EXIST_NAME_CREATION_PANEL = ERROR_DIV_CREATION_PANEL + ERROR_EXIST_NAME_TEXT;
 		protected const string ERROR_NO_NAME_CREATION_PANEL = ERROR_DIV_CREATION_PANEL + ERROR_NO_NAME_TEXT;
-		protected const string ERROR_NO_TARGET_CREATION_PANEL = ERROR_DIV_CREATION_PANEL + ERROR_NO_NAME_TEXT;
+		protected const string ERROR_NO_TARGET_CREATION_PANEL = ERROR_DIV_CREATION_PANEL + ERROR_NO_TARGET_TEXT;
 		protected const string ERROR_EXIST_NAME_EDITION_PANEL = ERROR_DIV_EDITION_PANEL + ERROR_EXIST_NAME_TEXT;
 		protected const string ERROR_NO_NAME_EDITION_PANEL = ERROR_DIV_EDITION_PANEL + ERROR_NO_NAME_TEXT;
 

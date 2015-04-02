@@ -240,13 +240,9 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.TM
 		public void OpenTMInfo(string tmName)
 		{
 			Logger.Debug(string.Format("Открыть информацию о ТМ {0}", tmName));
-
+			TMPage.ScrollToRequiredTm(tmName);
 			if (!TMPage.GetIsTMOpened(tmName))
-			{
 				TMPage.ClickTMRow(tmName);
-				// TODO проверить sleep
-				Thread.Sleep(500);
-			}
 		}
 		#endregion
 
