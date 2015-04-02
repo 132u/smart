@@ -13,7 +13,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Driver
 		public IEWebDriverSettings()
 		{
 			Driver = new InternetExplorerDriver();
-			ProcessNames = new[] { "IEDriverServer", "conhost" };
+			ProcessNames = new[] { "IEDriverServer", "conhost", "iexplore"};
 		}
 	}
 }
