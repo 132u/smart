@@ -318,6 +318,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		public void SelectModifier(string userName = "All")
 		{
 			ExpandModifierDropDown();
+
 			if (userName == "All")
 			{
 				foreach (var modifier in GetElementList(By.XPath(MODIFIER_CHECKBOXES)))
@@ -327,15 +328,16 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			}
 			else
 			{
-				var modifier = GetElementList(By.XPath(MODIFIER_CHECKBOXES)).FirstOrDefault();
-				if (modifier == null)
+				var modifier = GetElementList(By.XPath(MODIFIER_CHECKBOXES));
+				
+				var authorCheckbox = modifier.FirstOrDefault(item => item.GetAttribute("title") == userName);
+
+				if (authorCheckbox == null)
 				{
-					throw new ArgumentNullException("modifier");
+					throw new NullReferenceException("Невозможно найти чекбокс соответствующий автору " + userName);
 				}
-				else
-				{
-					modifier.Click();
-				}
+
+				authorCheckbox.Click();
 
 			}
 		}

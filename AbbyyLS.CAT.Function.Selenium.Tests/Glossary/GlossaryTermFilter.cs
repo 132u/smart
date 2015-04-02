@@ -253,7 +253,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Glossary
 		public void ModifierAuthorFilter(string authourModified)
 		{
 			// Зайти под первым пользователем и добавить термин в новый глоссари
-			string[] termsFirstAuthor = addTerm();
+			addTerm();
 			
 			// Выйти
 			WorkspacePage.ClickAccount();
@@ -279,7 +279,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Glossary
 			RefreshPage();
 
 			// Список терминов до фильтрации
-			string[] termsBeforeFilter = GlossaryTermFilterPage.GetSortedTerms();
+			var termsBeforeFilter = GlossaryTermFilterPage.GetSortedTerms();
 
 			// Открыть фильтр
 			GlossaryTermFilterPage.OpenFilterForm();
@@ -293,7 +293,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Glossary
 				GlossaryTermFilterPage.ClickApplyBtnInFilterForm();
 
 				// Получить массив терминов из таблицы после фильтрации
-				string[] termsAfterFilter = GlossaryTermFilterPage.GetSortedTerms();
+				var termsAfterFilter = GlossaryTermFilterPage.GetSortedTerms();
 
 				// Проверить, что в таблице только термины, созданые и измененные Ринго
 				Assert.AreEqual(8, termsAfterFilter.Length, "Ошибка: список терминов после фильтрации некорректный");
@@ -307,7 +307,8 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Glossary
 				GlossaryTermFilterPage.ClickApplyBtnInFilterForm();
 
 				// Получить массив терминов из таблицы после фильтрации
-				string[] termsAfterFilter = GlossaryTermFilterPage.GetSortedTerms();
+				var termsAfterFilter = GlossaryTermFilterPage.GetSortedTerms();
+
 				// Проверить, что в таблице только термины, созданые и измененные Ринго
 				Assert.AreEqual(termsBeforeFilter, termsAfterFilter, "Ошибка: списки терминов до и после фильтрации не совпадают");
 
@@ -614,8 +615,8 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Glossary
 					break;
 			}
 
-			string startDateFilter ="";
-			string expectedRangeTitle = "";
+			var startDateFilter ="";
+			var expectedRangeTitle = "";
 
 			if (calendar == "created")
 			{
@@ -662,7 +663,8 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Glossary
 			{
 				// Кликнуть Apply кнопку
 				GlossaryTermFilterPage.ClickApplyBtnInFilterForm();
-				string actualRangeTitle = GlossaryTermFilterPage.GetRangeFilterPanel();
+				var actualRangeTitle = GlossaryTermFilterPage.GetRangeFilterPanel();
+
 				Assert.AreEqual(actualRangeTitle, expectedRangeTitle, "Ошибка: диапазон дат в желтой панели неверен");
 			}
 
