@@ -30,7 +30,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		public void ExportLog()
 		{
 			//Выбрать документ
-			SelectDocumentInProject();
+			ProjectPage.SelectDocument();
 
 			//Нажать кнопку выгрузки логов
 			ProjectPage.ClickDownloadLogs();

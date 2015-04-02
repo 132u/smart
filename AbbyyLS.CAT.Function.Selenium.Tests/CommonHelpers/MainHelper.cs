@@ -57,6 +57,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// </summary>
 		public void ClickResourcesRef()
 		{
+			Logger.Trace("Кликаем на ссылку Ресурсы.");
 			if (!GetIsLeftMenuDisplay())
 				OpenHideMenu();
 			ExpandResourcesMenu(GLOSSARY_REF_XPATH);

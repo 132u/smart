@@ -95,7 +95,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 				"Personal");
 
 			// Выбрать документ
-			SelectDocumentInProject(1);
+			ProjectPage.SelectDocument(1);
 			// Нажать удалить
 			ProjectPage.ClickDeleteBtn();
 			

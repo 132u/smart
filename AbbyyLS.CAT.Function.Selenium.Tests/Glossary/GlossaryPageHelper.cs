@@ -615,7 +615,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 
 		public void AssertionIsSingleTargetTermExists(string text)
 		{
-			Logger.Trace(string.Format("Проверитьналичие одиночного таргет термина {0}", text));
+			Logger.Trace(string.Format("Проверить наличие одиночного таргет термина {0}", text));
 
 			Assert.IsTrue(!GetIsElementDisplay(By.XPath(SINGLE_TARGET_TERM_XPATH.Replace("#", text))),
 				"Ошибка: Не добавлен одиночный термин из таргета.");

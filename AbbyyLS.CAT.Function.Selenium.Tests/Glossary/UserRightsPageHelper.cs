@@ -45,6 +45,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// </summary>
 		public void ClickEdit()
 		{
+			Logger.Trace("Кликаем по кнопке редактирования группы.");
 			ClickElement(By.XPath(EDIT_BTN_XPATH));
 		}
 
@@ -53,6 +54,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// </summary>
 		public void ClickAddRights()
 		{
+			Logger.Trace("Кликаем по кнопке Add Rights.");
 			ClickElement(By.XPath(ADD_RIGHTS_BTN_XPATH));
 		}
 
@@ -77,6 +79,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// </summary>
 		public void ClickNext()
 		{
+			Logger.Trace("Кликаем по кнопке Next.");
 			ClickElement(By.XPath(NEXT_BTN_XPATH));
 		}
 
@@ -85,6 +88,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// </summary>
 		public void ClickAdd()
 		{
+			Logger.Trace("Кликаем по кнопке Add.");
 			ClickElement(By.XPath(ADD_BTN_XPATH));
 		}
 
@@ -93,6 +97,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// </summary>
 		public void SelectAllGlossaries()
 		{
+			Logger.Trace("Выбираем Все глоссарии.");
 			ClickElement(By.XPath(ALL_GLOSSARIES_SELECT_XPATH));
 		}
 
@@ -101,6 +106,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// </summary>
 		public void SelectManageGlossaries()
 		{
+			Logger.Trace("Выбираем Управление глоссариями.");
 			ClickElement(By.XPath(MANAGE_GLOSSARIES_INPUT_XPATH));
 		}
 
@@ -109,6 +115,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// </summary>
 		public void ClickSave()
 		{
+			Logger.Trace("Кликаем на кнопку сохранения.");
 			ClickElement(By.XPath(SAVE_BTN_XPATH));
 		}
 
@@ -126,7 +133,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <returns>Страница загрузилась</returns>
 		public bool WaitUntilGroupsRightsDisplay()
 		{
-			// Ожидаем пока загрузится страница
+			Logger.Trace("Ожидаем открытия страницы прав групп пользователей.");
 			return WaitUntilDisplayElement(By.XPath(ADMIN_GROUP_XPATH));
 		}
 
@@ -213,6 +220,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// </summary>
 		public void ClickGroupByName(string groupName)
 		{
+			Logger.Trace(string.Format("Окрытие группы {0}.", groupName));
 			ClickElement(By.XPath(GROUPS_XPATH + GROUP_NAME_XPATH + 
 				"[contains(text(), '" + groupName + "')]"));
 		}
@@ -223,6 +231,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <returns>Список пользователей</returns>
 		public List<string> GetDisplayUsersInGroup()
 		{
+			Logger.Trace("Получаем список пользователей в открытой группе.");
 			var usersInGroup = new List<string>();
 
 			var xPath = GROUPS_RIGHTS_TABLE_XPATH + GROUP_USERS_XPATH;
@@ -246,6 +255,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <param name="userName">Имя нового пользователя</param>
 		public void AddUserToGroup(string userName)
 		{
+			Logger.Trace(string.Format("Вводим имя нового пользователя: {0}", userName));
 			ClearAndAddText(By.XPath(USER_NAME_INPUT_XPATH), userName);
 		}
 
@@ -254,6 +264,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// </summary>
 		public bool IsManageAllGlossariesRightIsPresent()
 		{
+			Logger.Trace("Проверяем есть ли Управление всеми глоссариями в списке прав группы.");
 			return GetIsElementExist(By.XPath(MANAGE_ALL_GLOSSARIES_TEXT_XPATH));
 		}
 

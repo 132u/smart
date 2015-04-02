@@ -35,7 +35,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <returns>загрузилась</returns>
 		public bool WaitPageLoad()
 		{
-			Logger.Trace("Ожидаем загрузку страницы WS");
+			Logger.Trace("Ожидаем загрузки страницы Workspace.");
 			return WaitUntilDisplayElement(By.XPath(CREATE_BTN_XPATH));
 		}
 

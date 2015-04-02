@@ -64,7 +64,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			WorkspacePage.CancelAllNotifiers();
 
 			// Нажать галочку у документа
-			SelectDocumentInProject();
+			ProjectPage.SelectDocument();
 			// Нажать "красный" экспорт
 			ClickExportBtnRed(exportType);
 			// Экспортировать документ
@@ -255,7 +255,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			WorkspacePage.CancelAllNotifiers();
 
 			// Выделить документ
-			SelectDocumentInProject();
+			ProjectPage.SelectDocument();
 			// Нажать экспорт Original
 			ClickExportBtnRed(EXPORT_TYPE_SOURCE);
 			// Дождаться появления Doqnload
@@ -309,7 +309,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			// Открыть первый проект
 			OpenProjectPage(projectName);
 			// Выделить документ
-			SelectDocumentInProject();
+			ProjectPage.SelectDocument();
 			// Нажать экспорт Original
 			ClickExportBtnRed(EXPORT_TYPE_SOURCE);
 			// Дождаться Download
@@ -338,7 +338,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			WorkspacePage.CancelAllNotifiers();
 
 			// Выбрать документ
-			SelectDocumentInProject();
+			ProjectPage.SelectDocument();
 			// Нажать экспорт Original
 			ClickExportBtnRed(EXPORT_TYPE_SOURCE);
 			// Дождаться кнопки Download
@@ -359,8 +359,8 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			// Закрыть все открытые сообщения об экспорте
 			WorkspacePage.CancelAllNotifiers();
 			// Выделить оба документа
-			SelectDocumentInProject(1);
-			SelectDocumentInProject(2);
+			ProjectPage.SelectDocument(1);
+			ProjectPage.SelectDocument(2);
 			// Нажать Экспорт Original
 			ClickExportBtnRed(EXPORT_TYPE_SOURCE);
 			// Дождаться Download
@@ -472,7 +472,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			// Закрыть все открытые сообщения об экспорте
 			WorkspacePage.CancelAllNotifiers();
 			// Выбрать документ
-			SelectDocumentInProject();
+			ProjectPage.SelectDocument();
 			// Нажать Экспорт Original
 			ClickExportBtnRed(EXPORT_TYPE_SOURCE);
 			// Дождаться Download

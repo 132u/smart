@@ -260,7 +260,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			//Назначение задачи на пользователя
 			AssignTask();
 			// Выбрать документ
-			SelectDocumentInProject(1);
+			ProjectPage.SelectDocument(1);
 			ProjectPage.ClickAssignRessponsibleBtn();
 			ProjectPage.WaitProgressDialogOpen();
 			// Нажать Отмену назначения
@@ -295,7 +295,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			// Создать проект, загрузить документ
 			CreateProjectImportDocument(PathProvider.DocumentFile);
 			// Выбрать документ
-			SelectDocumentInProject(1);
+			ProjectPage.SelectDocument(1);
 			// Нажать удалить
 			ProjectPage.ClickDeleteBtn();
 			// Подтвердить

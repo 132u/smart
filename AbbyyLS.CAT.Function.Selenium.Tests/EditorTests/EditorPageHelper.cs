@@ -232,8 +232,8 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		{
 			Log.Trace(string.Format("Нажать хоткей выделения первого слова сорс. Номер строки: {0}", segmentNumber));
 			var segment = Driver.FindElement(By.XPath(GetSourceCellXPath(segmentNumber)));
-			
 			var builder = new Actions(Driver);
+			Logger.Trace("Произвести двойной клик по сегменту.");
 			builder.MoveToElement(segment, 0, 0).DoubleClick().Perform();
 		}
 
@@ -721,6 +721,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <returns>Форма открылась</returns>
 		public bool WaitAddTermFormDisplay()
 		{
+			Logger.Trace("Ожидаем открытия формы добавления термина.");
 			return WaitUntilDisplayElement(By.Id(ADD_TERM_FORM_ID));
 		}
 

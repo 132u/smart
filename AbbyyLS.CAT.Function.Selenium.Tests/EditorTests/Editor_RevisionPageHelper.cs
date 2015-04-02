@@ -110,7 +110,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <returns>тип</returns>
 		public RevisionType GetRevisionType(int revisionNumber)
 		{
-			Logger.Trace("Получить тип ревизии №" + revisionNumber);
+			Logger.Trace(string.Format("Получаем тип ревизии с номером {0}", revisionNumber));
 			var typeStr = GetTextElement(By.XPath(GetRevisionCellXPath(revisionNumber, TYPE_COLUMN_XPATH)));
 			return revisionTypeList[typeStr];
 		}

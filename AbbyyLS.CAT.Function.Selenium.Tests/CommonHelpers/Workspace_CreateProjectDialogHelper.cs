@@ -284,10 +284,8 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 
 		public void ClickGlossaryByName(string glossaryName)
 		{
-			Log.Trace("Выбрать глоссарий по имени");
+			Log.Trace(string.Format("Выбрать глоссарий с именем {0}", glossaryName));
 
-			//string xpath = GLOSSARY_BY_NAME_XPATH.Replace("#", glossaryName);			
-			 //((IJavaScriptExecutor)Driver).ExecuteScript("var el = document.getElementByXpath("+xpath+"); el.scrollIntoView(true);");  
 			ClickElement(By.XPath(GLOSSARY_BY_NAME_XPATH.Replace("#", glossaryName)));
 		}
 
@@ -982,7 +980,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		protected const string BACK_BTN_XPATH = CREATE_PROJECT_DIALOG_XPATH + "//span[contains(@class,'js-back')]";
 
 		protected const string TM_TABLE_XPATH = CREATE_PROJECT_DIALOG_XPATH + "//table[contains(@class,'js-tms-popup-table')]//tbody";
-		protected const string TM_TABLE_FIRST_ITEM_XPATH = TM_TABLE_XPATH + "//tr[1]//td[1]//span";
+		protected const string TM_TABLE_FIRST_ITEM_XPATH = TM_TABLE_XPATH + "//tr[1]//td[1]//span//input";
 		protected const string TM_TABLE_CHECK_TD = "//td[contains(@class,'js-checkbox-area')]//input";
 		protected const string TM_TABLE_RADIO_TD = "//td[contains(@class,'radio')]//input";
 		protected const string TM_TABLE_TM_NAME_XPATH = TM_TABLE_XPATH + "//tr//td[contains(@class,'js-name')]";

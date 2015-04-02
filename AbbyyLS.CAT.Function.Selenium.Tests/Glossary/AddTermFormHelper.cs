@@ -31,12 +31,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			ClickElement(By.XPath(СONFIRM_SINGLE_TERM_BTN_XPATH));
 		}
 
-		public void ClickTermSaved()
-		{
-			Logger.Debug("Нажать кнопку Ок в форме 'Термин добавлен'");
-			ClickElement(By.XPath(TERM_SAVED_OK_BTN_XPATH));
-		}
-
 		public void ClickContainsTermYes()
 		{
 			Logger.Debug("Нажать кнопку подтверждения добавления термина");
@@ -103,7 +97,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 
 		public bool WaitConfirmSingleTermMessage()
 		{
-			Logger.Trace("Получить, появилось ли сообщение о добавлении одиночного термина");
+			Logger.Trace("Получить, появилось ли сообщение о добавлении одиночного термина.");
 			return WaitUntilDisplayElement(By.XPath(CONFIRM_SINGLE_TERM_MESSAGE_XPATH), 5);
 		}
 
@@ -134,7 +128,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		protected const string CANCEL_BTN_XPATH = "//div[contains(@id, 'term-window')]//span[contains(string(), 'Cancel')]";
 		protected const string ADD_BTN_XPATH = "//div[contains(@id, 'term-window')]//span[contains(string(), 'Add')]";
 		protected const string СONFIRM_SINGLE_TERM_BTN_XPATH = CONFIRM_SINGLE_TERM_MESSAGE_XPATH + "//span[contains(string(), 'Yes')]";
-		protected const string TERM_SAVED_OK_BTN_XPATH = TERM_SAVED_MESSAGE_XPATH + "//span[contains(string(), 'OK')]";
 		protected const string CONTAINS_TERM_NO_BTN_XPATH = CONTAINS_TERM_MESSAGE_XPATH + "//span[contains(string(), 'No')]";
 		protected const string CONTAINS_TERM_YES_BTN_XPATH = CONTAINS_TERM_MESSAGE_XPATH + "//span[contains(string(), 'Yes')]";
 
@@ -147,7 +140,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		protected const string TERM_BASE_COMBOBOX_TRIGGER_XPATH = "//div[contains(@id, 'term-window')]//div[contains(@id, 'trigger-picker')]";
 		protected const string TERM_BASE_BOUNDLIST_XPATH = "//ul[contains(@id, 'boundlist')]//li[contains(string(), '#')]";
 
-		protected const string TERM_SAVED_MESSAGE_XPATH = "//div[contains(@id, 'messagebox') and contains(string(), 'The term has been saved')]";
+		protected const string TERM_SAVED_MESSAGE_XPATH = "//div[contains(@id, 'innerCt') and contains(string(), 'The term has been saved')]";
 		protected const string CONTAINS_TERM_MESSAGE_XPATH = "//div[contains(@id, 'messagebox') and contains(string(), 'This glossary already contains term(s)')]";
 		protected const string CONFIRM_SINGLE_TERM_MESSAGE_XPATH = "//div[contains(@id, 'messagebox') and contains(string(), 'Do you want to add a term without translation?')]";
 		protected const string CONFIRM_ANYWAY_ADD_TERM_MESSAGE_XPATH = "//div[@id= 'messagebox' and contains(string(), 'Do you want to add the term anyway?')]";

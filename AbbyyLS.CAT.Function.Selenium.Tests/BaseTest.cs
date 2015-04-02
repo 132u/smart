@@ -356,11 +356,8 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 
 			// Открываем окно прав исполнителей
 			ProjectPage.ClickAssignRessponsibleBtn();
-
-			//// нажать галочку около документа
-			//SelectDocumentInProject(documentRowNum);
-			//// нажать на Progress
-			//ProjectPage.ClickProgressBtn();
+			
+			// Ожидаем появления диалога Progress
 			ProjectPage.WaitProgressDialogOpen();
 
 			// Назначить ответственного в окне Progress
@@ -379,7 +376,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			ProjectPage.CloseAssignDialogClick();
 			Thread.Sleep(1000);// Sleep не убирать, необходим для корректной работы в Chrome
 
-			SelectDocumentInProject(documentRowNum);
+			ProjectPage.SelectDocument(documentRowNum);
 			// Нажать на Accept
 			ProjectPage.ClickAllAcceptBtns();
 		}
@@ -439,15 +436,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			
 			// сохранить настройки и выполнить претранслейт
 			ProjectPage.ClickSavePretranslateBtn();
-		}
-
-		/// <summary>
-		/// Нажать галочку у документа в проекте
-		/// </summary>
-		/// <param name="documentNumber"></param>
-		protected void SelectDocumentInProject(int documentNumber = 1)
-		{
-			ProjectPage.SelectDocument(documentNumber);
 		}
 
 		/// <summary>
@@ -1012,15 +1000,14 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <param name="projectName">имя проекта</param>
 		protected void ImportDocumentProjectSettings(string filePath, string projectName, string accountType = "TestAccount")
 		{
-			// Зайти в проект
 			OpenProjectPage(projectName);
-			// Кликнуть Import
+
 			ProjectPage.ClickImportBtn();
-			// ждем, когда загрузится окно для загрузки документа 
+
 			ProjectPage.WaitImportDialogDisplay();
-			// Заполнить диалог загрузки
+
 			ProjectPage.UploadFileOnProjectPage(filePath);
-			// Нажать Next
+
 			ProjectPage.ClickNextImportDialog();
 
 			// Если появилось сообщение, что не указали файл, значит, Enter не нажался
@@ -1067,7 +1054,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <returns>есть</returns>
 		protected bool GetIsExistProject(string projectName)
 		{
-			Logger.Trace("Проверка, есть ли проект " + projectName + " в списке на странице Workspace");
+			Logger.Trace(string.Format("Проверка, есть ли проект {0} в списке на странице Workspace.", projectName));
 			return WorkspacePage.GetIsProjectInList(projectName);
 		}
 
@@ -1281,8 +1268,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 
 		protected void SwitchGlossaryTab()
 		{
-			Logger.Debug("Переход на старницу глоссария");
-
+			Logger.Debug("Переход на старницу глоссария.");
 			MainHelperClass.ClickResourcesRef();
 			MainHelperClass.ClickOpenGlossaryPage();
 			GlossaryListPage.WaitPageLoad();
@@ -1316,6 +1302,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// </summary>
 		protected void SwitchWorkspaceTab()
 		{
+			Logger.Trace("Переходим на страницу Workspace.");
 			if (!WorkspacePage.GetIsLeftMenuDisplay())
 				WorkspacePage.OpenHideMenu();
 			MainHelperClass.ClickOpenWorkSpacePage();
@@ -1369,7 +1356,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		protected void OpenProjectPage(string projectName)
 		{
 			WorkspacePage.OpenProjectPage(projectName);
-			Assert.IsTrue(ProjectPage.WaitPageLoad(), "Ошибка: страница проекта " + projectName + " не открылась");
+			Assert.IsTrue(ProjectPage.WaitPageLoad(), string.Format("Ошибка: страница проекта {0} не открылась", projectName));
 		}
 
 		/// <summary>

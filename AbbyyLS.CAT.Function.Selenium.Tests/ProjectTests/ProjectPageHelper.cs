@@ -33,6 +33,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <returns></returns>
 		public bool WaitPageLoad()
 		{
+			Logger.Trace("Ожидаем загрузки страницы проекта.");
 			return WaitUntilDisplayElement(By.XPath(PROJECT_TABLE_XPATH));
 		}
 
@@ -51,6 +52,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <returns>открылся</returns>
 		public bool WaitProgressDialogOpen()
 		{
+			Logger.Trace("Ождидаем появления диалога Progress.");
 			return WaitUntilDisplayElement(By.XPath(PROGRESS_DIALOG_XPATH));
 		}
 
@@ -104,6 +106,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <param name="userName">имя пользователя</param>
 		public void ClickAssignUserListUser(string userName)
 		{
+			Logger.Trace(string.Format("Выбираем пользователя с именем: {0}.", userName));
 			var split = userName.Split(' ');
 			var xPath = PROGRESS_DIALOG_TABLE_USERNAME_XPATH + "/option";
 			var el = split.Aggregate(xPath, (current, str) => current + ("[contains(text(),'" + str + "')]"));
@@ -121,6 +124,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// </summary>
 		public void ClickAssignBtn()
 		{
+			Logger.Trace("Кликаем на кнопку Assign.");
 			ClickElement(By.XPath(PROGRESS_DIALOG_ASSIGN_BTN_XPATH));
 		}
 
@@ -130,6 +134,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <returns></returns>
 		public bool WaitAssignBtnDisplay()
 		{
+			Logger.Trace("Ожидаем появления кнопки Assign.");
 			return WaitUntilDisplayElement(By.XPath(PROGRESS_DIALOG_ASSIGN_BTN_XPATH));
 		}
 
@@ -139,6 +144,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <returns></returns>
 		public bool WaitCancelAssignBtnDisplay()
 		{
+			Logger.Trace("Ожидаем появления кнопки Cancel.");
 			return WaitUntilDisplayElement(By.XPath(PROGRESS_DIALOG_CANCEL_BTN_XPATH));
 		}
 
@@ -155,6 +161,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// </summary>
 		public void CloseAssignDialogClick()
 		{
+			Logger.Trace("Кликаем по кнопке Close.");
 			ClickElement(By.XPath(PROGRESS_DIALOG_CLOSE_BTN_XPATH));
 		}
 
@@ -228,9 +235,9 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 				maxWait: 5);
 		}
 
-		public void SelectDocument(int documentNumber)
+		public void SelectDocument(int documentNumber = 1)
 		{
-			Logger.Trace("Проверка, есть ли документ в проекте");
+			Logger.Trace(string.Format("Проверка, есть ли документ №{0} в проекте.", documentNumber));
 			if (GetIsExistDocument(documentNumber))
 			{
 				Logger.Trace("Документ есть в проекте");
@@ -240,7 +247,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			}
 			else
 			{
-				var errorMessage = string.Format("Ошибка: невозможно найти документ #{0}.", documentNumber);
+				var errorMessage = string.Format("Ошибка: невозможно найти документ №{0}.", documentNumber);
 
 				Logger.Error(errorMessage);
 				throw new Exception(errorMessage);
@@ -343,11 +350,12 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		}
 
 		/// <summary>
-		/// Проверить отображается ли таблица Assignee в диалоге импорта документа (на странице проект)
+		/// Проверить отображается ли таблица Assignee в диалоге импорта документа
 		/// </summary>
 		/// <returns></returns>
 		public bool GetAssigneeTableDisplay()
 		{
+			Logger.Trace("Проверяем, отображается ли таблица Assignee в диалоге импорта документа.");
 			return GetIsElementDisplay(By.XPath(ASSIGNEE_TABLE));
 		}
 		
@@ -512,6 +520,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		public void SetGlossaryByName(string nameGlossary)
 		{
 			// Выборка имен глоссариев
+			Logger.Trace("Получаем список имён глоссариев.");
 			var glossaryList = GetElementList(By.XPath(GLOSSARY_LIST_XPATH + "//td[2]"));
 			var glossaryWasSet = false;
 
@@ -520,15 +529,17 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 				if (glossaryList[i].Text.Contains(nameGlossary))
 				{
 					var builder = new Actions(Driver);
-
+					
 					var glossaryWebElement = Driver.FindElement(By.XPath(GLOSSARY_LIST_XPATH + "[" + (i + 1) + "]//td[1]//input"));
 					// смещаемся на 100 единиц по вертикали выше расположения искомого чекбокса, чтобы он не скрывался под хедером Projects
 					builder.MoveToElement(glossaryWebElement, 0, -100).Build().Perform();
+					Logger.Trace(string.Format("Кликаем по глоссарию с именем {0}", nameGlossary));
 					glossaryWebElement.Click();
 
 					var saveButtonWebElement = Driver.FindElement(By.XPath(EDIT_GLOSSARY_SAVE_BTN_XPATH));
 					// для кнопки Save делаем аналогичное чекбоксу смещение
 					builder.MoveToElement(saveButtonWebElement, 0, -100).Build().Perform();
+					Logger.Trace(string.Format("Сохраняем выбор глоссария с именем {0}", nameGlossary));
 					saveButtonWebElement.Click();
 
 					SendTextElement(By.XPath(GLOSSARY_LIST_XPATH), Keys.Home);
