@@ -1,4 +1,6 @@
-﻿using System;
+﻿using System.Windows.Forms;
+using NUnit.Framework;
+using System;
 using System.IO;
 using System.Linq;
 
@@ -51,7 +53,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.CheckRights
 
 			// Дождаться загрузки страницы
 			LoginPage.WaitPageLoad();
-			
+
 			// Авторизуемся под пользователем, для которого выставляли права
 			Authorization(TestRightsLogin, TestRightsPassword, accountName);
 
@@ -382,6 +384,8 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.CheckRights
 		/// <param name="userName">userName пользователя</param>
 		private void createGroupForThisTest(string groupName)
 		{
+			SendKeys.SendWait("{HOME}");
+
 			// Кликаем кнопку создания новой группы
 			UserRightsPage.ClickCreateGroup();
 			

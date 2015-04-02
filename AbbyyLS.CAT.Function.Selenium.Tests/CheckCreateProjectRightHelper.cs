@@ -113,7 +113,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.CheckRights
 		/// <param name="docName">имя проекта</param>
 		public void CheckBoxProjectClick(string projectName)
 		{
-			ClickElement(By.XPath(PROJECT_CHECKBOX + projectName + "']]]]//td[1]/input"));
+			ClickElement(By.XPath(getProjectRowXPath(projectName) + "td[1]//input"));
 		}
 		
 		/// <summary>
@@ -180,7 +180,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.CheckRights
 		///<param name="projectName">имя проекта</param>
 		public bool CheckOpenProject(string projectName)
 		{
-			return WaitUntilDisplayElement(By.XPath(PROJECT_CHECKBOX + projectName + "']]]]//following-sibling::tr[1][@class='js-project-panel']"));
+			return WaitUntilDisplayElement(By.XPath(getProjectRowXPath(projectName) + "following-sibling::tr[contains(@class, 'js-document-row')][1]"));
 		}
 		
 		/// <summary>
@@ -223,7 +223,12 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.CheckRights
 			return WaitUntilDisplayElement(By.XPath(ANALYSIS_FORM));
 		}
 
-		
+		private string getProjectRowXPath(string projectName)
+		{
+			return string.Format("//span[contains(text(),'{0}')]//..//..//..//", projectName);
+		}
+
+
 		public enum DELETE_MODE { Files, Project };
 		
 		protected const string FILE_IN_PROJECT = "//a[contains(@class,'doc-link')][text()='";
@@ -235,16 +240,15 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.CheckRights
 		protected const string ADD_FILES_BUTTON = "//span[contains(@data-bind,'importJob')]";
 		protected const string ADD_FILE_ON_WORKSPACE_PAGE = "//div[contains(@class,'js-popup-import-document')][2]//div[@class='js-files-uploader']//input";
 		protected const string DOCUMENT_CHECKBOX = "//tr[td[div[a[contains(@class,'doc-link')][text()='";
-		protected const string PROJECT_CHECKBOX = "//tr[td[div[span[contains(@class,'js-name')][text()='";
 		protected const string SIGN_TO_CONNECTOR_BUTTON = "//a[text()='Sign In to Connector']";
 		protected const string DELETE_PROJECT_OR_FILES = "//div[text()='Delete project(s) or document(s)?']";
 		protected const string DELETE_ALL_FILES_BUTON = "//input[contains(@class,'js-delete-document-btn')]";
 		protected const string DELETE_PROJECT_BUTTON = "//input[contains(@class,'js-delete-project-btn')]";
 		protected const string DELETE_BUTTON_IN_PROJECT = "//span[contains(@class,'js-delete-project-btn')]";
-		protected const string QA_CHECK_BUTTON = "//span[contains(@class,'js-qa-check-btn')]";
-		protected const string SETTINGS_BUTTON_IN_PROJECT = "//span[contains(@class,'js-settings-btn')]";
+		protected const string QA_CHECK_BUTTON = "//span[contains(@data-bind,'click: qaCheck')]";
+		protected const string SETTINGS_BUTTON_IN_PROJECT = "//span[@data-bind='click: edit']";
 		protected const string SETTINGS_FORM = "//div[contains(@class,'js-popup-edit')][2]";
-		protected const string ANALYSIS_BUTTON_IN_PROJECT = "//span[contains(@class,'js-analysis-btn')]";
+		protected const string ANALYSIS_BUTTON_IN_PROJECT = "//span[contains(@data-bind,'click: analysis')]";
 		protected const string ANALYSIS_FORM = "//div[contains(@class,'js-popup-analyse')][2]";
 
 	}

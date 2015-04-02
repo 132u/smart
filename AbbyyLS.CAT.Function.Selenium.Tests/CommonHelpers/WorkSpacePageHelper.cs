@@ -756,9 +756,9 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		protected const string EXPORT_TYPE_NAME_TMX = "Tmx";
 		protected const string EXPORT_TYPE_NAME_TRANSLATED = "Target";
 
-		protected const string DELETE_BTN_XPATH = "//span[contains(@class,'js-delete-btn')]";
-		protected const string CONFIRM_DELETE_FORM_XPATH = "//div[contains(@class,'js-popup-confirm')]";
-		protected const string CONFIRM_DELETE_YES_XPATH = CONFIRM_DELETE_FORM_XPATH + "//input[contains(@class,'js-submit-btn')]";
+		protected const string DELETE_BTN_XPATH = "//span[contains(@class,'js-delete-project-btn')]";
+		protected const string CONFIRM_DELETE_FORM_XPATH = "//div[contains(@class,'js-popup-delete-mode')]";
+		protected const string CONFIRM_DELETE_YES_XPATH = CONFIRM_DELETE_FORM_XPATH + "//input[contains(@class,'js-delete-project')]";
 
 		protected const string DOWNLOAD_IMG_XPATH = "/..//img[contains(@class,'l-project-doc__progress')]";
 
