@@ -1,15 +1,12 @@
 ﻿using NUnit.Framework;
 
+using AbbyyLS.CAT.Function.Selenium.Tests.Driver;
+
 namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.TM
 {
 	[Category("Standalone")]
-	public class TMCreationTests : TMTest 
+	public class TMCreationTests<TWebDriverSettings> : TMTest<TWebDriverSettings> where TWebDriverSettings : IWebDriverSettings, new()
 	{
-		public TMCreationTests(string browserName) 
-			: base(browserName)
-		{
-		}
-
 		/// <summary>
 		/// Метод тестирования создания ТМ (без TMX)
 		/// </summary>

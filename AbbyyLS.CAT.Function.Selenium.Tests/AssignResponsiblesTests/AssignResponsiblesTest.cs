@@ -1,7 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using NUnit.Framework;
 using System.Threading;
+
+using NUnit.Framework;
+
+using AbbyyLS.CAT.Function.Selenium.Tests.Driver;
 
 namespace AbbyyLS.CAT.Function.Selenium.Tests
 {
@@ -9,17 +12,8 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 	/// Группа тестов для проверки назначения пользователя на задачу
 	/// </summary>
 	[Category("Standalone")]
-	class AssignResponsiblesTest : BaseTest
+	class AssignResponsiblesTest<TWebDriverSettings> : BaseTest<TWebDriverSettings> where TWebDriverSettings : IWebDriverSettings, new()
 	{
-		/// <summary>
-		/// Конструктор теста
-		/// </summary>
-		/// <param name="browserName">Название браузера</param>
-		public AssignResponsiblesTest(string browserName)
-			: base (browserName)
-		{
-		}
-
 		/// <summary>
 		/// Подготовка для группы тестов
 		/// </summary>

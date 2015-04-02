@@ -1,21 +1,15 @@
-﻿using NUnit.Framework;
-using System;
+﻿using System;
 using System.Threading;
 using System.Collections.Generic;
 
+using NUnit.Framework;
+
+using AbbyyLS.CAT.Function.Selenium.Tests.Driver;
+
 namespace AbbyyLS.CAT.Function.Selenium.Tests.Glossary
 {
-	public class GlossaryTermFilter : BaseTest
+	public class GlossaryTermFilter<TWebDriverSettings> : BaseTest<TWebDriverSettings> where TWebDriverSettings : IWebDriverSettings, new()
 	{
-		/// <summary>
-		/// Группа тестов для проверки фильтра терминов
-		/// </summary>
-		public GlossaryTermFilter(string browserName)
-			: base(browserName)
-		{
-
-		}
-
 		protected string _glossaryName;
 		protected static DateTime _todayDate = DateTime.Today;
 		protected string _today = _todayDate.ToString("M/d/yyyy").Replace(".", "/");

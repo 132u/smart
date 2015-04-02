@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Windows.Forms;
+using System.Threading;
+
 using NLog;
 using NUnit.Framework;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.UI;
-using System.Windows.Forms;
-using System.Threading;
 using OpenQA.Selenium.Interactions;
 
 namespace AbbyyLS.CAT.Function.Selenium.Tests
@@ -1095,7 +1096,5 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 				"//div[@id='segments-body']//table[{0}]//td[1]", 
 				tableElementsCount);
 		}
-
-		public static Logger Logger = LogManager.GetCurrentClassLogger();
 	}
 }

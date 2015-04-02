@@ -1,5 +1,7 @@
-﻿using AbbyyLS.CAT.Function.Selenium.Tests.CommonDataStructures;
-using NUnit.Framework;
+﻿using NUnit.Framework;
+
+using AbbyyLS.CAT.Function.Selenium.Tests.CommonDataStructures;
+using AbbyyLS.CAT.Function.Selenium.Tests.Driver;
 using AbbyyLS.CAT.Function.Selenium.Tests.RegistrationTests;
 
 namespace AbbyyLS.CAT.Function.Selenium.Tests.Registration.Freelance
@@ -7,23 +9,12 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Registration.Freelance
 	/// <summary>
 	/// Тесты регистрации фрилансера
 	/// </summary>
-	public class FreelanceRegistrationTest : RegistrationBaseTest
+	public class FreelanceRegistrationTest<TWebDriverSettings> : RegistrationBaseTest<TWebDriverSettings> where TWebDriverSettings : IWebDriverSettings, new()
 	{
-		/// <summary>
-		/// Конструктор теста регистрации фрилансера
-		/// </summary>
-		/// <param name="browserName">Название браузера</param>
-		public FreelanceRegistrationTest(string browserName)
-			: base(browserName)
-		{
-
-		}
-
 		/// <summary>
 		/// Тест регистрации нового юзера
 		/// </summary>
 		[Test]
-
 		public void RegistrationNewUserTest()
 		{
 			RegistrationNewUser(RegistrationPage.Email,RegistrationPage.Password);

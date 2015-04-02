@@ -1,18 +1,11 @@
 ﻿using NUnit.Framework;
 
+using AbbyyLS.CAT.Function.Selenium.Tests.Driver;
+
 namespace AbbyyLS.CAT.Function.Selenium.Tests.Editor.Tag
 {
-	class EditorTagTest : EditorBaseTest
+	class EditorTagTest<TWebDriverSettings> : BaseTest<TWebDriverSettings> where TWebDriverSettings : IWebDriverSettings, new()
 	{
-				/// <summary>
-		/// Конструктор теста
-		/// </summary>
-		/// <param name="browserName">Название браузера</param>
-		public EditorTagTest(string browserName)
-			: base(browserName)
-		{
-
-		}
 		/// <summary>
 		/// Проверка работы в редакторе добавления символа переноса строки по кнопке
 		/// </summary>

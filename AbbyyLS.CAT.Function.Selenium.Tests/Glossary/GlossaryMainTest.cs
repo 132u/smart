@@ -2,8 +2,11 @@
 using System.Globalization;
 using System.IO;
 using System.Threading;
-using NUnit.Framework;
 using System.Collections.Generic;
+
+using NUnit.Framework;
+
+using AbbyyLS.CAT.Function.Selenium.Tests.Driver;
 
 namespace AbbyyLS.CAT.Function.Selenium.Tests.Glossary
 {
@@ -11,19 +14,8 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Glossary
 	/// Группа тестов для общей проверки глоссриев
 	/// </summary>
 	[Category("Standalone")]
-	public class GlossaryMainTest : GlossaryTest
+	public class GlossaryMainTest<TWebDriverSettings> : GlossaryTest<TWebDriverSettings> where TWebDriverSettings : IWebDriverSettings, new()
 	{
-		/// <summary>
-		/// Конструктор теста
-		/// </summary>
-		 
-		/// <param name="browserName">Название браузера</param>
-		public GlossaryMainTest(string browserName)
-			: base(browserName)
-		{
-
-		}
-
 		/// <summary>
 		/// Метод тестирования создания Глоссария
 		/// </summary>

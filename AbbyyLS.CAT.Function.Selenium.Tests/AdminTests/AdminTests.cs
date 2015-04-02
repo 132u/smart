@@ -1,23 +1,15 @@
-﻿using System.Threading;
+﻿using System;
+
 using NUnit.Framework;
-using System;
+
+using AbbyyLS.CAT.Function.Selenium.Tests.Driver;
 
 namespace AbbyyLS.CAT.Function.Selenium.Tests
 {
-	public class AdminTest : BaseTest
+	public class AdminTest<TWebDriverSettings> : BaseTest<TWebDriverSettings> where TWebDriverSettings : IWebDriverSettings, new()
 	{
-		/// <summary>
-		/// Конструктор теста
-		/// </summary>
-		/// <param name="browserName">Название браузера</param>
-		public AdminTest(string browserName)
-			: base(browserName)
-		{
-
-		}
-
 		[SetUp]
-		public void SetUp()
+		public void SetUpCommonTest()
 		{
 			if (Standalone)
 			{

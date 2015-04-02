@@ -1,26 +1,17 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Threading;
+
 using NUnit.Framework;
+
+using AbbyyLS.CAT.Function.Selenium.Tests.Driver;
 
 namespace AbbyyLS.CAT.Function.Selenium.Tests.Editor.Panel
 {
 	/// <summary>
 	/// Группа тестов для проверки панели выдачи переводов в редакторе
 	/// </summary>
-	class CatPanelResultsTest : BaseTest
+	class CatPanelResultsTest<TWebDriverSettings> : BaseTest<TWebDriverSettings> where TWebDriverSettings : IWebDriverSettings, new()
 	{
-		/// <summary>
-		/// Конструктор теста
-		/// </summary>
-		/// <param name="browserName">Название браузера</param>
-		public CatPanelResultsTest(string browserName)
-			: base(browserName)
-		{
-		}
-
-
-
 		/// <summary>
 		/// Подготовка для каждого теста
 		/// </summary>

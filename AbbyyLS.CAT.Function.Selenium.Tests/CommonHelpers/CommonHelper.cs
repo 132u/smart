@@ -25,11 +25,11 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <summary>
 		/// Драйвер
 		/// </summary>
-		private IWebDriver _driver;
+		private static IWebDriver _driver;
 		/// <summary>
 		/// Драйвер
 		/// </summary>
-		protected IWebDriver Driver
+		protected static IWebDriver Driver
 		{
 			get
 			{

@@ -85,7 +85,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		public void ClickTargetItem(LANGUAGE langType)
 		{
 			Logger.Debug(string.Format("Кликнуть по элементу в списке Target. Язык: {0}", langType));
-			ClickElement(By.XPath(TARGET_MULTISELECT_ITEM_XPATH + GetLangByTypeWithBracket(langType)));
+			ClickElement(By.XPath(TARGET_MULTISELECT_ITEM_XPATH + GetLangByTypeWithBracket(langType) + "]"));
 		}
 
 		public void ClickAllSelectedTargetItems()
@@ -953,7 +953,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		protected const string SPAN_DROPDOWN_LIST_XPATH = "//span[contains(@class,'js-dropdown__list')]";
 		protected const string LANG_ITEM_XPATH = "//span[@data-id='";
 		protected const string TARGET_MULTISELECT_XPATH = CREATE_PROJECT_DIALOG_XPATH + "//div[contains(@class,'js-languages-multiselect')]";
-		protected const string TARGET_MULTISELECT_ITEM_XPATH = ".//ul[contains(@class,'ui-multiselect-checkboxes')]//li//span[contains(@class,'js-chckbx')]//input[@value='";
+		protected const string TARGET_MULTISELECT_ITEM_XPATH = ".//ul[contains(@class,'ui-multiselect-checkboxes')]//li//span[contains(@class,'js-chckbx')][input[@value='";
 		protected const string TARGET_MULTISELECT_ITEM_SELECTED_XPATH = ".//ul[contains(@class,'ui-multiselect-checkboxes')]//li//span[contains(@class,'js-chckbx')]//input[@aria-selected='true']";
 		protected const string TARGET_LANG_VALUE_XPATH = CREATE_PROJECT_DIALOG_XPATH + "//span[contains(@class,'ui-multiselect-value')]";
 		protected const string PROJECT_NAME_INPUT_XPATH = CREATE_PROJECT_DIALOG_XPATH + "//input[@name='name']";
@@ -982,7 +982,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		protected const string BACK_BTN_XPATH = CREATE_PROJECT_DIALOG_XPATH + "//span[contains(@class,'js-back')]";
 
 		protected const string TM_TABLE_XPATH = CREATE_PROJECT_DIALOG_XPATH + "//table[contains(@class,'js-tms-popup-table')]//tbody";
-		protected const string TM_TABLE_FIRST_ITEM_XPATH = TM_TABLE_XPATH + "//tr[1]//td[1]//input";
+		protected const string TM_TABLE_FIRST_ITEM_XPATH = TM_TABLE_XPATH + "//tr[1]//td[1]//span";
 		protected const string TM_TABLE_CHECK_TD = "//td[contains(@class,'js-checkbox-area')]//input";
 		protected const string TM_TABLE_RADIO_TD = "//td[contains(@class,'radio')]//input";
 		protected const string TM_TABLE_TM_NAME_XPATH = TM_TABLE_XPATH + "//tr//td[contains(@class,'js-name')]";

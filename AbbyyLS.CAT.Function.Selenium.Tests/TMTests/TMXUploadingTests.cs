@@ -1,16 +1,14 @@
 ﻿using System.IO;
+
 using NUnit.Framework;
+
+using AbbyyLS.CAT.Function.Selenium.Tests.Driver;
 
 namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.TM
 {
 	[Category("Standalone")]
-	public class TMXUploadingTests : TMTest
+	public class TMXUploadingTests<TWebDriverSettings> : TMTest<TWebDriverSettings> where TWebDriverSettings : IWebDriverSettings, new()
 	{
-		public TMXUploadingTests(string browserName) 
-			: base(browserName)
-		{
-		}
-
 		/// <summary>
 		/// Метод тестирования кнопки Add TMX для пустого ТМ
 		/// </summary>

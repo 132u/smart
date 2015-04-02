@@ -1,6 +1,9 @@
 ﻿﻿using System;
-﻿using System.Threading;
+using System.Threading;
+
 ﻿using NUnit.Framework;
+ 
+ ﻿using AbbyyLS.CAT.Function.Selenium.Tests.Driver;
 
 namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.Domains
 {
@@ -8,13 +11,11 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.Domains
 	/// Группа тестов для проверки доменов
 	/// </summary>
 	[Category("Standalone")]
-	public class DomainTest : BaseTest
+	public class DomainTest<TWebDriverSettings> : BaseTest<TWebDriverSettings> where TWebDriverSettings : IWebDriverSettings, new()
 	{
-		public DomainTest(string browserName)
-			: base(browserName)
-		{
-		}
-
+		/// <summary>
+		/// Начальная подготовка для каждого теста
+		/// </summary>
 		[SetUp]
 		public void Setup()
 		{

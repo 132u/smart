@@ -1,25 +1,16 @@
 ﻿using System;
 using System.Threading;
+
 using NUnit.Framework;
+
+using AbbyyLS.CAT.Function.Selenium.Tests.Driver;
 
 namespace AbbyyLS.CAT.Function.Selenium.Tests
 {
 	[TestFixture]
 	[Category("Standalone")]
-	class GlossaryEditorTest : BaseTest
+	class GlossaryEditorTest<TWebDriverSettings> : BaseTest<TWebDriverSettings> where TWebDriverSettings : IWebDriverSettings, new()
 	{
-		/// <summary>
-		/// Конструктор теста
-		/// </summary>
-		 
-		 
-		/// <param name="browserName">Название браузера</param>
-		public GlossaryEditorTest(string browserName)
-			: base (browserName)
-		{
-		}
-		
-
 		[TestFixtureSetUp]
 		public void BeforeClass()
 		{

@@ -1,17 +1,15 @@
 ﻿using System;
-using AbbyyLS.CAT.Function.Selenium.Tests.Workspace.TM;
+
 using NUnit.Framework;
+
+using AbbyyLS.CAT.Function.Selenium.Tests.Driver;
+using AbbyyLS.CAT.Function.Selenium.Tests.Workspace.TM;
 
 namespace AbbyyLS.CAT.Function.Selenium.Tests.TMTests
 {
 	[Category("Standalone")]
-	public class TMFiltering : TMTest
+	public class TMFiltering<TWebDriverSettings> : TMTest<TWebDriverSettings> where TWebDriverSettings : IWebDriverSettings, new()
 	{
-		public TMFiltering(string browserName) 
-			: base(browserName)
-		{
-		}
-
 		[TestFixtureSetUp]
 		public void TestFixtureSetUp()
 		{

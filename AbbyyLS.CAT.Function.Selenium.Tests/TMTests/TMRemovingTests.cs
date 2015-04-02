@@ -1,15 +1,14 @@
 ﻿using System.Threading;
+
 using NUnit.Framework;
+
+using AbbyyLS.CAT.Function.Selenium.Tests.Driver;
 
 namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.TM
 {
 	[Category("Standalone")]
-	public class TMRemovingTests : TMTest
+	public class TMRemovingTests<TWebDriverSettings> : TMTest<TWebDriverSettings> where TWebDriverSettings : IWebDriverSettings, new()
 	{
-		public TMRemovingTests(string browserName) : base(browserName)
-		{
-		}
-
 		/// <summary>
 		/// Метод тестирования Delete с проверкой списка TM
 		/// </summary>

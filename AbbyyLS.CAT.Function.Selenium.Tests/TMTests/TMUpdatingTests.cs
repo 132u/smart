@@ -1,15 +1,12 @@
 ﻿using NUnit.Framework;
 
+using AbbyyLS.CAT.Function.Selenium.Tests.Driver;
+
 namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.TM
 {
 	[Category("Standalone")]
-	public class TMUpdatingTest : TMTest
+	public class TMUpdatingTest<TWebDriverSettings> : TMTest<TWebDriverSettings> where TWebDriverSettings : IWebDriverSettings, new()
 	{
-		public TMUpdatingTest(string browserName) 
-			: base(browserName)
-		{
-		}
-
 		/// <summary>
 		/// Метод тестирования кнопки Update TM в открывающейся информации о ТМ
 		/// </summary>

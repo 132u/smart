@@ -1,23 +1,15 @@
 ﻿using NUnit.Framework;
 
+using AbbyyLS.CAT.Function.Selenium.Tests.Driver;
+
 namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.Glossary.EditStructure.Terms
 {
 	/// <summary>
 	/// Группа тестов дял проверки редактирования структуры глоссария (термины)
 	/// </summary>
 	[Category("Standalone")]
-	public class GlossaryEditStructureTermFieldsTest : GlossaryTest
+	public class GlossaryEditStructureTermFieldsTest<TWebDriverSettings> : GlossaryTest<TWebDriverSettings> where TWebDriverSettings : IWebDriverSettings, new()
 	{
-		/// <summary>
-		/// Конструктор теста
-		/// </summary>
-		/// <param name="browserName">Название браузера</param>
-		public GlossaryEditStructureTermFieldsTest(string browserName)
-			: base(browserName)
-		{
-
-		}
-
 		/// <summary>
 		/// Метод тестирования изменения структуры на уровне Term - поле Source
 		/// </summary>

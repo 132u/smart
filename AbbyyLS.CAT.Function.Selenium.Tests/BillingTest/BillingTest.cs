@@ -1,22 +1,14 @@
 ﻿using NUnit.Framework;
 
+using AbbyyLS.CAT.Function.Selenium.Tests.Driver;
+
 namespace AbbyyLS.CAT.Function.Selenium.Tests
 {
 	/// <summary>
 	/// Группа тестов на на продление и Upgrade пакета лицензий
 	/// </summary>
-	public class BillingTest : AdminTest
+	public class BillingTest<TWebDriverSettings> : AdminTest<TWebDriverSettings> where TWebDriverSettings : IWebDriverSettings, new()
 	{
-		/// <summary>
-		/// Конструктор теста
-		/// </summary>
-		/// <param name="browserName">Название браузера</param>
-		public BillingTest(string browserName)
-			: base(browserName)
-		{
-
-		}
-
 		/// <summary>
 		/// Тест покупка лицензии
 		/// </summary>

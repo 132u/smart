@@ -1,19 +1,11 @@
 ﻿using NUnit.Framework;
 
+using AbbyyLS.CAT.Function.Selenium.Tests.Driver;
+
 namespace AbbyyLS.CAT.Function.Selenium.Tests.Editor.ToTarget
 {
-	class EditorToTargetTest : EditorBaseTest
+	class EditorToTargetTest<TWebDriverSettings> : BaseTest<TWebDriverSettings> where TWebDriverSettings : IWebDriverSettings, new()
 	{
-		/// <summary>
-		/// Конструктор теста
-		/// </summary>
-		/// <param name="browserName">Название браузера</param>
-		public EditorToTargetTest(string browserName)
-			: base(browserName)
-		{
-
-		}
-
 		/// <summary>
 		/// Метод тестирования кнопки копирования оригинала в перевод
 		/// </summary>

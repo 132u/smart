@@ -1,5 +1,8 @@
-﻿using NUnit.Framework;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+
+using NUnit.Framework;
+
+using AbbyyLS.CAT.Function.Selenium.Tests.Driver;
 
 namespace AbbyyLS.CAT.Function.Selenium.Tests.Editor.ChangeCase
 {
@@ -8,18 +11,8 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Editor.ChangeCase
 	/// </summary>
 	[Category("Standalone")]
 	[Category("SCAT_102")]
-	public class EditorChangeCaseButtonsTest : EditorBaseTest
+	public class EditorChangeCaseButtonsTest<TWebDriverSettings> : EditorBaseTest<TWebDriverSettings> where TWebDriverSettings : IWebDriverSettings, new()
 	{
-		/// <summary>
-		/// Конструктор теста
-		/// </summary>
-		/// <param name="browserName">Название браузера</param>
-		public EditorChangeCaseButtonsTest(string browserName)
-			: base(browserName)
-		{
-
-		}
-
 		/// <summary>
 		/// Метод тестирования кнопки изменения регистра для всего текста
 		/// </summary>

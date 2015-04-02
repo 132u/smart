@@ -1,21 +1,13 @@
-﻿using AbbyyLS.CAT.Function.Selenium.Tests.CommonDataStructures;
+﻿using NUnit.Framework;
+
+using AbbyyLS.CAT.Function.Selenium.Tests.CommonDataStructures;
+using AbbyyLS.CAT.Function.Selenium.Tests.Driver;
 using AbbyyLS.CAT.Function.Selenium.Tests.RegistrationTests;
-using NUnit.Framework;
 
 namespace AbbyyLS.CAT.Function.Selenium.Tests.Registration.Captcha
 {
-	class CaptchaTest : RegistrationBaseTest
+	class CaptchaTest<TWebDriverSettings> : RegistrationBaseTest<TWebDriverSettings> where TWebDriverSettings : IWebDriverSettings, new()
 	{
-		/// <summary>
-		/// Конструктор тестов проверки captcha
-		/// </summary>
-		/// <param name="browserName">Название браузера</param>
-		public CaptchaTest(string browserName)
-			: base(browserName)
-		{
-			
-		}
-
 		/// <summary>
 		/// Проверка, что после пяти попыток ввода неправильного пароля, появляется captcha на странице Sign-in
 		/// </summary>

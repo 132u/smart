@@ -1,26 +1,19 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Threading;
+
 using NUnit.Framework;
-using System.Collections.Generic;
+
+using AbbyyLS.CAT.Function.Selenium.Tests.Driver;
 
 namespace AbbyyLS.CAT.Function.Selenium.Tests.Editor.Revisions
 {
 	/// <summary>
 	/// Группа тестов для проверки истории версий в редакторе
 	/// </summary>
-	public class Editor_RevisionTest : BaseTest
+	public class Editor_RevisionTest<TWebDriverSettings> : BaseTest<TWebDriverSettings> where TWebDriverSettings : IWebDriverSettings, new()
 	{
-		/// <summary>
-		/// Конструктор теста
-		/// </summary>
-		/// <param name="browserName">Название браузера</param>
-		public Editor_RevisionTest(string browserName)
-			: base(browserName)
-		{
-
-		}
-
 		// название проекта для проведения тестов
 		protected string _projectNameRevisionsTest = "RevisionsTest" + "_" + DateTime.UtcNow.Ticks;
 

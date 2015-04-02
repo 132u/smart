@@ -1,4 +1,5 @@
 ﻿using NUnit.Framework;
+using AbbyyLS.CAT.Function.Selenium.Tests.Driver;
 
 namespace AbbyyLS.CAT.Function.Selenium.Tests.Editor.Tab
 {
@@ -6,18 +7,8 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Editor.Tab
 	/// Группа тестов кнопок редактора
 	/// </summary>
 	[Category("Standalone")]
-	public class EditorTabTest : EditorBaseTest
+	public class EditorTabTest<TWebDriverSettings> : BaseTest<TWebDriverSettings> where TWebDriverSettings : IWebDriverSettings, new()
 	{
-		/// <summary>
-		/// Конструктор теста
-		/// </summary>
-		/// <param name="browserName">Название браузера</param>
-		public EditorTabTest(string browserName)
-			: base(browserName)
-		{
-
-		}
-
 		/// <summary>
 		/// Метод тестирования кнопки перемещения курсора между полями source и target без хоткея
 		/// </summary>

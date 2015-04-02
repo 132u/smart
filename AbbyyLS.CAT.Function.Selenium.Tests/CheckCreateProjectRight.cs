@@ -1,22 +1,15 @@
-﻿using NUnit.Framework;
-using System;
+﻿using System;
 using System.IO;
 using System.Linq;
 
+using NUnit.Framework;
+
+using AbbyyLS.CAT.Function.Selenium.Tests.Driver;
+
 namespace AbbyyLS.CAT.Function.Selenium.Tests.CheckRights
 {
-	public class CheckCreateProjectRight : BaseTest
+	public class CheckCreateProjectRight<TWebDriverSettings> : BaseTest<TWebDriverSettings> where TWebDriverSettings : IWebDriverSettings, new()
 	{
-		/// <summary>
-		/// Конструктор теста
-		/// </summary>
-		/// <param name="browserName">Название браузера</param>
-		public CheckCreateProjectRight(string browserName)
-			: base(browserName)
-		{
-
-		}
-
 		/// <summary>
 		/// Начальная подготовка для каждого теста
 		/// </summary>

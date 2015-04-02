@@ -1,25 +1,16 @@
-﻿using System;
+﻿using System.Threading;
+
 using NUnit.Framework;
-using System.Threading;
+
+using AbbyyLS.CAT.Function.Selenium.Tests.Driver;
 
 namespace AbbyyLS.CAT.Function.Selenium.Tests
 {
 	/// <summary>
 	/// Группа тестов для проверки рабочего процесса с использованием персонального аккаунта
 	/// </summary>
-	class WorkflowTestPersAcc : BaseTest
+	class WorkflowTestPersAcc<TWebDriverSettings> : BaseTest<TWebDriverSettings> where TWebDriverSettings : IWebDriverSettings, new()
 	{
-				/// <summary>
-		/// Конструктор теста
-		/// </summary>
-		 
-		 
-		/// <param name="browserName">Название браузера</param>
-		public WorkflowTestPersAcc(string browserName)
-			: base (browserName)
-		{
-		}
-
 		/// <summary>
 		/// Старт тестов. Авторизация
 		/// </summary>

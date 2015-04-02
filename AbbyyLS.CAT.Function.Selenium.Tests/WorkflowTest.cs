@@ -1,6 +1,9 @@
 ﻿using System.Collections.Generic;
-using NUnit.Framework;
 using System.Threading;
+
+using NUnit.Framework;
+
+using AbbyyLS.CAT.Function.Selenium.Tests.Driver;
 
 namespace AbbyyLS.CAT.Function.Selenium.Tests
 {
@@ -8,19 +11,8 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 	/// Группа тестов для проверки рабочего процесса
 	/// </summary>
 	[Category("Standalone")]
-	class WorkflowTest : BaseTest
+	class WorkflowTest<TWebDriverSettings> : BaseTest<TWebDriverSettings> where TWebDriverSettings : IWebDriverSettings, new()
 	{
-		/// <summary>
-		/// Конструктор теста
-		/// </summary>
-		/// <param name="browserName">Название браузера</param>
-		public WorkflowTest(string browserName)
-			: base (browserName)
-		{
-		}
-
-
-
 		/// <summary>
 		/// Старт тестов. Авторизация
 		/// </summary>

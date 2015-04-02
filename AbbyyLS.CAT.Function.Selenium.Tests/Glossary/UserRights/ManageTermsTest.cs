@@ -1,7 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading;
+
 using NUnit.Framework;
+
+using AbbyyLS.CAT.Function.Selenium.Tests.Driver;
 
 namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.Glossary.UserRights
 {
@@ -10,13 +13,8 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.Glossary.UserRights
 	/// </summary>
 	[TestFixture]
 	[Category("Standalone")]
-	public class ManageTermsTest : GlossaryTest
+	public class ManageTermsTest<TWebDriverSettings> : GlossaryTest<TWebDriverSettings> where TWebDriverSettings : IWebDriverSettings, new()
 	{
-		public ManageTermsTest(string browserName)
-			: base(browserName)
-		{
-		}
-
 		[TestFixtureSetUp]
 		public void SetupGlossaryItemTest()
 		{

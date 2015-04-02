@@ -1,58 +1,52 @@
 ﻿using System;
+using System.IO;
+using System.Collections.Generic;
+using System.Linq;
+using System.Windows.Forms;
+using System.Drawing.Imaging;
 using System.Threading;
+using System.Diagnostics;
+using System.Text.RegularExpressions;
+
+using OpenQA.Selenium;
+using OpenQA.Selenium.Support.UI;
+using NUnit.Framework;
+using NConfiguration;
+using NLog;
+
 using AbbyyLS.CAT.Function.Selenium.Tests.CheckRights;
 using AbbyyLS.CAT.Function.Selenium.Tests.CommonDataStructures;
+using AbbyyLS.CAT.Function.Selenium.Tests.Driver;
 using AbbyyLS.CAT.Function.Selenium.Tests.Editor.Panel;
 using AbbyyLS.CAT.Function.Selenium.Tests.Workspace.Domains;
 using AbbyyLS.CAT.Function.Selenium.Tests.Workspace.TM;
-using NUnit.Framework;
-using OpenQA.Selenium;
-using OpenQA.Selenium.Firefox;
-using OpenQA.Selenium.Chrome;
-using OpenQA.Selenium.Support.UI;
-using System.IO;
-using System.Collections.Generic;
-using System.Windows.Forms;
-using System.Drawing.Imaging;
-using NConfiguration;
-using System.Text.RegularExpressions;
-using NLog;
-using OpenQA.Selenium.IE;
-using System.Diagnostics;
-using System.Linq;
 
 namespace AbbyyLS.CAT.Function.Selenium.Tests
 {
 	/// <summary>
 	/// Базовый тест
 	/// </summary>
-
-	//[TestFixture("Chrome")]
-	[TestFixture("Firefox")]
-	//[TestFixture("IE")]
-	public class BaseTest
+	//[TestFixture(typeof(ChromeWebDriverSettings))]
+	//[TestFixture(typeof(IEWebDriverSettings))]
+	[TestFixture(typeof(FirefoxWebDriverSettings))]
+	public class BaseTest<TWebDriverSettings> where TWebDriverSettings : IWebDriverSettings, new()
 	{
 		public static Logger Logger = LogManager.GetCurrentClassLogger();
 
 		/// <summary>
 		/// Конструктор базового теста
 		/// </summary>
-		/// <param name="browserName">Название браузера</param>
-		public BaseTest(string browserName)
+		public BaseTest()
 		{
 			try
 			{
 				var cfgAgentSpecific = TestSettingDefinition.Instance.Get<TargetServerConfig>();
 				var cfgUserInfo = TestSettingDefinition.Instance.Get<UserInfoConfig>();
 
-				BrowserName = browserName;
-				
 				CreateUniqueNamesByDatetime();
 				initializeRelatedToServerFields(cfgAgentSpecific);
 				initializeRelatedToUserFields(cfgUserInfo);
 				initializeUsersAndCompanyList();
-
-				createDriver();
 			}
 			catch (Exception ex)
 			{
@@ -62,10 +56,11 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			}
 		}
 		
-
-		protected IWebDriver Driver { get; private set; }
+		protected static IWebDriver Driver { get; private set; }
 
 		protected WebDriverWait Wait { get; private set; }
+
+		protected static string[] ProcessNames { get; private set; }
 
 		protected string Url { get; private set; }
 
@@ -103,8 +98,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		protected List<UserInfo> AolUserList { get; private set; }
 		protected string ProjectUniqueName { get; private set; }
 		
-		protected string BrowserName { get; private set; }
-
 		protected ProjectPageHelper ProjectPage { get; private set; }
 
 		protected EditorPageHelper EditorPage { get; private set; }
@@ -176,6 +169,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		[TestFixtureSetUp]
 		public void SetupAllBase()
 		{
+			createDriver();
 		}
 
 		/// <summary>
@@ -320,48 +314,14 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// </summary>
 		private void createDriver()
 		{
-			if (BrowserName == "Firefox")
+			if (Driver == null)
 			{
-				if (Driver == null)
-				{
-					_profile = new FirefoxProfile
-					{
-						AcceptUntrustedCertificates = true
-					};
-
-					// Изменение языка браузера на английский
-					_profile.SetPreference("intl.accept_languages", "en");
-					_profile.SetPreference("browser.download.dir", PathProvider.ResultsFolderPath);
-					_profile.SetPreference("browser.download.folderList", 2);
-					_profile.SetPreference("browser.download.useDownloadDir", true);
-					_profile.SetPreference("network.automatic-ntlm-auth.trusted-uris", Url);
-					//_profile.SetPreference("browser.download.manager.showWhenStarting", false);
-					_profile.SetPreference("browser.helperApps.alwaysAsk.force", false);
-					_profile.SetPreference
-						("browser.helperApps.neverAsk.saveToDisk", "application/xml, text/xml, text/csv, text/plain, text/log, application/zip, application/x-gzip, application/x-compressed, application/x-gtar, multipart/x-gzip, application/tgz, application/gnutar, application/x-tar, application/x-xliff+xml,  application/msword.docx, application/pdf, application/x-pdf, application/octetstream, application/x-ttx, application/x-tmx, application/octet-stream, application/vnd.openxmlformats-officedocument.wordprocessingml.document, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
-					//_profile.SetPreference("pdfjs.disabled", true);
-
-					Driver = new FirefoxDriver(_profile);
-					//string profiledir = "../../../Profile";
-					// string profiledir = "TestingFiles/Profile";
-					//_profile = new FirefoxProfile(profiledir);
-					//Driver = new FirefoxDriver(_profile);
-				}
+				var webDriverSettings = new TWebDriverSettings();
+				Driver = webDriverSettings.Driver;
+				ProcessNames = webDriverSettings.ProcessNames;
 			}
-			else if (BrowserName == "Chrome")
-			{
-				// драйвер работает некорректно
-				var options = new ChromeOptions();
-				options.AddArguments("--lang=en");
-				Driver = new ChromeDriver(options);
-				
-			}
-			else if (BrowserName == "IE")
-			{
-				Driver = new InternetExplorerDriver();
-			}
-
-			setDriverTimeoutDefault();
+			
+			SetDriverTimeoutDefault();
 			Wait = new WebDriverWait(Driver, TimeSpan.FromSeconds(15));
 
 			Driver.Manage().Window.Maximize();
@@ -372,7 +332,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <summary>
 		/// Установить время ожидания драйвера в минимум (для поиска элементов, которых по ожиданию нет)
 		/// </summary>
-		protected void setDriverTimeoutMinimum()
+		protected void SetDriverTimeoutMinimum()
 		{
 			Driver.Manage().Timeouts().ImplicitlyWait(TimeSpan.FromSeconds(3));
 		}
@@ -380,7 +340,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <summary>
 		/// Установить стандартное время ожидание драйвера
 		/// </summary>
-		protected void setDriverTimeoutDefault()
+		protected void SetDriverTimeoutDefault()
 		{
 			Driver.Manage().Timeouts().ImplicitlyWait(TimeSpan.FromSeconds(15));
 		}
@@ -423,9 +383,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			// Нажать на Accept
 			ProjectPage.ClickAllAcceptBtns();
 		}
-
-
-
+		
 		/// <summary>
 		/// Создание Тм с импортом файла со страницы проекта
 		/// </summary>
@@ -595,6 +553,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 					{
 						Assert.Fail("Если аккаунт единственный, должно сразу осуществляться перенапралвение  в него.");
 					}
+					
 					if (!WorkspacePage.WaitPageLoad())
 					{
 						if (!LoginPage.WaitAccountExist(accountName, waitmax: 8, dataServer: dataServer))
@@ -671,7 +630,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 
 				// Если обновить в этом месте страницу в Google Chrome, тест упадёт, 
 				// т.к. Google Chrome сразу требует закрыть модальный диалог.
-				if (BrowserName != "Chrome")
+				if (typeof(TWebDriverSettings) == typeof(ChromeWebDriverSettings))
 				{
 					Driver.Navigate().Refresh();
 				}
@@ -825,7 +784,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 					WorkspaceCreateProjectDialog.ClickNextStep();
 				}
 			}
-
 
 			Logger.Debug("Четвертая страница создания проекта - выбор глоссария.");
 			switch (setGlossary)
@@ -1179,6 +1137,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <param name="filePath">название исходного файла</param>
 		/// <param name="originalFileExtension">использовать исходное расширение</param>
 		/// <param name="fileExtension">расширение</param>
+		/// <param name="time">время выгрузки</param>
 		protected void ExternalDialogSaveDocument(
 			string subFolderName,
 			bool useFileName = false, 
@@ -1326,7 +1285,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 
 			MainHelperClass.ClickResourcesRef();
 			MainHelperClass.ClickOpenGlossaryPage();
-
 			GlossaryListPage.WaitPageLoad();
 		}
 
@@ -1699,14 +1657,20 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 				// Очистить, чтобы при следующем тесте пересоздавалось
 				Driver = null;
 			}
-			if (BrowserName == "IE")
+
+			foreach (var item in ProcessNames.Select(Process.GetProcessesByName).SelectMany(processArray => processArray))
 			{
-				var explorerArray = Process.GetProcessesByName("iexplore");
-				foreach (var item in explorerArray)
+				try
 				{
-					item.Kill();
+					if (!item.HasExited)
+						item.Kill();
+				}
+				catch (Exception ex)
+				{
+					Logger.ErrorException("Ошибка при завершении процесса (" + item.ProcessName + "): "  + ex.Message, ex);
 				}
 			}
+
 			Logger.Info("Работа драйвера и браузера завершена.");
 		}
 
@@ -2044,9 +2008,5 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			TestRightsPassword = cfgUserInfo.TestRightsPassword;
 			TestRightsUserName = cfgUserInfo.TestRightsUserName;
 		}
-
-		private string _pathTestFiles;
-		private FirefoxProfile _profile;
-
 	}
 }

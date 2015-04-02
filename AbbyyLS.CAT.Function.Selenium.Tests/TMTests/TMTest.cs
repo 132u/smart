@@ -2,20 +2,18 @@
 using System.IO;
 using System.Threading;
 using System.Windows.Forms;
+
 using NUnit.Framework;
 using OpenQA.Selenium;
 
+using AbbyyLS.CAT.Function.Selenium.Tests.Driver;
+
 namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.TM
 {
-	public class TMTest : BaseTest
+	public class TMTest<TWebDriverSettings> : BaseTest<TWebDriverSettings> where TWebDriverSettings : IWebDriverSettings, new()
 	{
-		public TMTest(string browserName)
-			: base(browserName)
-		{
-		} 
-
 		[SetUp]
-		public void Setup()
+		public void SetupCommonTest()
 		{
 			Logger.Info("Начало работы метода SetUp. Подготовка перед каждым тестом.");
 			

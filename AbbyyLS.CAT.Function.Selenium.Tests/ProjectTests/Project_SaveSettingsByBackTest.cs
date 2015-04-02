@@ -1,23 +1,14 @@
 ﻿using NUnit.Framework;
-using System.Collections.Generic;
+
+using AbbyyLS.CAT.Function.Selenium.Tests.Driver;
 
 namespace AbbyyLS.CAT.Function.Selenium.Tests
 {
 	/// <summary>
 	/// Группа тестов для проверки сохранения шагов при создании проекта
 	/// </summary>
-	public class Project_SaveSettingsByBackTest : NewProjectTest
+	public class Project_SaveSettingsByBackTest<TWebDriverSettings> : NewProjectTest<TWebDriverSettings> where TWebDriverSettings : IWebDriverSettings, new()
 	{
-		/// <summary>
-		/// Конструктор теста
-		/// </summary>
-		/// <param name="browserName">Название браузера</param>
-		public Project_SaveSettingsByBackTest(string browserName)
-			: base(browserName)
-		{
-
-		}
-
 		/// <summary>
 		/// Старт тестов
 		/// </summary>

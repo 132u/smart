@@ -1,5 +1,8 @@
 ﻿using System.Threading;
+
 using NUnit.Framework;
+
+using AbbyyLS.CAT.Function.Selenium.Tests.Driver;
 
 namespace AbbyyLS.CAT.Function.Selenium.Tests.Editor.Spellcheck
 {
@@ -7,18 +10,8 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Editor.Spellcheck
 	/// Группа тестов для проверки словаря орфографии в редакторе
 	/// </summary>
 	[Category("Standalone")]
-	public class EditorSpellcheckTest : BaseTest
+	public class EditorSpellcheckTest<TWebDriverSettings> : BaseTest<TWebDriverSettings> where TWebDriverSettings : IWebDriverSettings, new()
 	{
-		/// <summary>
-		/// Конструктор теста
-		/// </summary>
-		/// <param name="browserName">Название браузера</param>
-		public EditorSpellcheckTest(string browserName)
-			: base(browserName)
-		{
-
-		}
-
 		/// <summary>
 		/// Начальная подготовка для каждого теста
 		/// </summary>

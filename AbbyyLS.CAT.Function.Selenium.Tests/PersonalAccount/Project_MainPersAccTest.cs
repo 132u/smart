@@ -1,25 +1,16 @@
-﻿using NUnit.Framework;
-using OpenQA.Selenium;
-using System.IO;
-using System.Threading;
+﻿using System.Threading;
+
+using NUnit.Framework;
+
+using AbbyyLS.CAT.Function.Selenium.Tests.Driver;
 
 namespace AbbyyLS.CAT.Function.Selenium.Tests
 {
 	/// <summary>
 	/// Группа основных тестов проекта с использованием персонального аккаунта
 	/// </summary>
-	public class Project_MainPersAccTest : NewProjectTest
+	public class Project_MainPersAccTest<TWebDriverSettings> : NewProjectTest<TWebDriverSettings> where TWebDriverSettings : IWebDriverSettings, new()
 	{
-				/// <summary>
-		/// Конструктор теста
-		/// </summary>
-		/// <param name="browserName">Название браузера</param>
-		public Project_MainPersAccTest(string browserName)
-			: base(browserName)
-		{
-
-		}
-
 		/// <summary>
 		/// Предварительная подготовка группы тестов
 		/// </summary>

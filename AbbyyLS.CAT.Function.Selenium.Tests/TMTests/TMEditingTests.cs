@@ -1,26 +1,26 @@
-﻿using NUnit.Framework;
+﻿using System.Collections.Generic;
+
+using NUnit.Framework;
+
+using AbbyyLS.CAT.Function.Selenium.Tests.Driver;
 
 namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.TM
 {
 	[Category("Standalone")]
-	public class TMEditingTests: TMTest 
+	public class TMEditingTests<TWebDriverSettings> : TMTest<TWebDriverSettings> where TWebDriverSettings : IWebDriverSettings, new()
 	{
-		public TMEditingTests(string browserName)
-			: base(browserName)
-		{
-		}
-
 		/// <summary>
 		/// Тестирование редактирования ТМ: изменение имени на пустое
 		/// </summary>
-		[TestCase(TmxFileExisting.TmWithTmxFile)]
-		[TestCase(TmxFileExisting.TmWithoutTmxFile)]
+		/// <param name="isNeedTmxUpload">Нужно ли загружать TMX файл при создании ТМ</param>
 		[Test]
-		public void EditTMSaveWithoutNameTest(TmxFileExisting tmxFileExisting)
+		[TestCase(true)]
+		[TestCase(false)]
+		public void EditTMSaveWithoutNameTest(bool isNeedTmxUpload)
 		{
-			Logger.Info(string.Format("Начало работы теста CreateTMWithExistingNameTest(). Значение параметра tmxFileExisting: {0}", tmxFileExisting));
+			Logger.Info(string.Format("Начало работы теста CreateTMWithExistingNameTest(). Значение параметра isNeedTmxUpload: {0}", isNeedTmxUpload));
 			
-			createNewTmForTest(tmxFileExisting);
+			createNewTmForTest(isNeedTmxUpload);
 			// Изменить имя на пустое и сохранить
 			EditTMName(UniqueTmName, "");
 
@@ -67,14 +67,15 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.TM
 		/// <summary>
 		/// Тестирование редактирования ТМ: изменение имени на пробельное
 		/// </summary>
-		[TestCase(TmxFileExisting.TmWithTmxFile)]
-		[TestCase(TmxFileExisting.TmWithoutTmxFile)]
+		/// <param name="isNeedTmxUpload">Нужно ли загружать TMX файл при создании ТМ</param>
 		[Test]
-		public void EditTMSaveWhiteSpacesNameTest(TmxFileExisting tmxFileExisting)
+		[TestCase(true)]
+		[TestCase(false)]
+		public void EditTMSaveWhiteSpacesNameTest(bool isNeedTmxUpload)
 		{
-			Logger.Info(string.Format("Начало работы теста EditTMSaveWhiteSpacesNameTest(). Значение параметра tmxFileExisting: {0}", tmxFileExisting));
+			Logger.Info(string.Format("Начало работы теста EditTMSaveWhiteSpacesNameTest(). Значение параметра isNeedTmxUpload: {0}", isNeedTmxUpload));
 
-			createNewTmForTest(tmxFileExisting);
+			createNewTmForTest(isNeedTmxUpload);
 			// Изменить имя на пробельное и сохранить
 			EditTMName(UniqueTmName, "     ");
 
@@ -84,18 +85,19 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.TM
 		/// <summary>
 		/// Редактирование имени ТМ: проверка изменения имени в визарде проектов
 		/// </summary>
-		[TestCase(TmxFileExisting.TmWithTmxFile)]
-		[TestCase(TmxFileExisting.TmWithoutTmxFile)]
+		/// <param name="isNeedTmxUpload">Нужно ли загружать TMX файл при создании ТМ</param>
 		[Test]
-		public void EditTMNameAndCheckChangesOnProjectWizard(TmxFileExisting tmxFileExisting)
+		[TestCase(true)]
+		[TestCase(false)]
+		public void EditTMNameAndCheckChangesOnProjectWizard(bool isNeedTmxUpload)
 		{
-			Logger.Info(string.Format("Начало работы теста EditTMNameAndCheckChangesOnProjectWizard(). Значение параметра tmxFileExisting: {0}", tmxFileExisting));
+			Logger.Info(string.Format("Начало работы теста EditTMNameAndCheckChangesOnProjectWizard(). Значение параметра isNeedTmxUpload: {0}", isNeedTmxUpload));
 
 			// Для облегчения теста создадим имя ТМ таким, чтобы при создании проекта
 			// его можно было выбрать, не прибегая к прокрутке
 			UniqueTmName = string.Concat("!", UniqueTmName);
 
-			createNewTmForTest(tmxFileExisting);
+			createNewTmForTest(isNeedTmxUpload);
 
 			Assert.IsTrue(
 				GetIsExistTmInListDuringProjectCreation(UniqueTmName, true),
@@ -125,14 +127,15 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.TM
 		/// <summary>
 		/// Редактирования коментария ТМ
 		/// </summary>
-		[TestCase(TmxFileExisting.TmWithTmxFile)]
-		[TestCase(TmxFileExisting.TmWithoutTmxFile)]
+		/// <param name="isNeedTmxUpload">Нужно ли загружать TMX файл при создании ТМ</param>
 		[Test]
-		public void EditTMComment(TmxFileExisting tmxFileExisting)
+		[TestCase(true)]
+		[TestCase(false)]
+		public void EditTMComment(bool isNeedTmxUpload)
 		{
-			Logger.Info(string.Format("Начало работы теста EditTMComment(). Значение параметра tmxFileExisting: {0}", tmxFileExisting));
+			Logger.Info(string.Format("Начало работы теста EditTMComment(). Значение параметра isNeedTmxUpload: {0}", isNeedTmxUpload));
 
-			createNewTmForTest(tmxFileExisting);
+			createNewTmForTest(isNeedTmxUpload);
 			FillCommentForm(UniqueTmName, InitialComment);
 
 			Assert.IsTrue(
@@ -182,14 +185,15 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.TM
 		/// <summary>
 		/// Редактирование проектов ТМ
 		/// </summary>
-		[TestCase(TmxFileExisting.TmWithTmxFile)]
-		[TestCase(TmxFileExisting.TmWithoutTmxFile)]
+		/// <param name="isNeedTmxUpload">Нужно ли загружать TMX файл при создании ТМ</param>
 		[Test]
-		public void EditTmProjects(TmxFileExisting tmxFileExisting)
+		[TestCase(true)]
+		[TestCase(false)]
+		public void EditTmProjects(bool isNeedTmxUpload)
 		{
-			Logger.Info(string.Format("Начало работы теста EditTmProjects(). Значение параметра tmxFileExisting: {0}", tmxFileExisting));
+			Logger.Info(string.Format("Начало работы теста EditTmProjects(). Значение параметра isNeedTmxUpload: {0}", isNeedTmxUpload));
 
-			createNewTmForTest(tmxFileExisting);
+			createNewTmForTest(isNeedTmxUpload);
 
 			CheckProjectExistForTm(UniqueTmName, string.Empty);
 
@@ -199,24 +203,14 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.TM
 			CheckProjectExistForTm(UniqueTmName, projectGroupName);
 		}
 
-		private void createNewTmForTest(TmxFileExisting tmWithTmxUploading)
+		private void createNewTmForTest(bool isNeedTmxUpload)
 		{
 			Logger.Debug("Создание новой ТМ для теста");
 
-			if (tmWithTmxUploading == TmxFileExisting.TmWithoutTmxFile)
-			{
-				CreateTMIfNotExist(UniqueTmName);
-			}
-			else
-			{
+			if (isNeedTmxUpload)
 				CreateTMWithUploadTMX(UniqueTmName, ImportTMXFileList[0]);
-			}
-		}
-
-		public enum TmxFileExisting
-		{
-			TmWithTmxFile, 
-			TmWithoutTmxFile
+			else
+				CreateTMIfNotExist(UniqueTmName);
 		}
 
 		private const string InitialComment = "_initialComment";
@@ -225,6 +219,5 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.TM
 		private const string RussianLanguage = "ru";
 		private const string EnglishLanguage = "en";
 		private const string LithuanianLanguage = "lt";
-
 	}
 }

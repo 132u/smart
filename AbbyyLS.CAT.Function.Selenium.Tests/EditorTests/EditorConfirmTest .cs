@@ -1,23 +1,15 @@
 ﻿using NUnit.Framework;
 
+using AbbyyLS.CAT.Function.Selenium.Tests.Driver;
+
 namespace AbbyyLS.CAT.Function.Selenium.Tests.Editor.Confirm
 {
 	/// <summary>
 	/// Группа тестов кнопок редактора
 	/// </summary>
 	[Category("Standalone")]
-	public class EditorConfirmTest : EditorBaseTest
+	public class EditorConfirmTest<TWebDriverSettings> : EditorBaseTest<TWebDriverSettings> where TWebDriverSettings : IWebDriverSettings, new()
 	{
-		/// <summary>
-		/// Конструктор теста
-		/// </summary>
-		/// <param name="browserName">Название браузера</param>
-		public EditorConfirmTest(string browserName)
-			: base(browserName)
-		{
-
-		}
-
 		/// <summary>
 		/// Метод тестирования кнопки подтвеждения сегмента
 		/// </summary>

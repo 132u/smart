@@ -1,21 +1,12 @@
-﻿using AbbyyLS.CAT.Function.Selenium.Tests;
-using NUnit.Framework;
-using NLog;
+﻿using NUnit.Framework;
+
+using AbbyyLS.CAT.Function.Selenium.Tests;
+using AbbyyLS.CAT.Function.Selenium.Tests.Driver;
 
 namespace AbbyyLS.CAT.Function.Selenium.Admin
 {
-	public class Admin : AdminTest
+	public class Admin<TWebDriverSettings> : AdminTest<TWebDriverSettings> where TWebDriverSettings : IWebDriverSettings, new()
 	{
-		/// <summary>
-		/// Конструктор теста
-		/// </summary> 
-		/// <param name="browserName">Название браузера</param>
-		public Admin(string browserName)
-			: base(browserName)
-		{
-
-		}
-
 		/// <summary>
 		/// Старт тестов
 		/// </summary>

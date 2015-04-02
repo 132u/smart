@@ -1,25 +1,14 @@
-﻿using System.IO;
-using NUnit.Framework;
+﻿using NUnit.Framework;
+
+using AbbyyLS.CAT.Function.Selenium.Tests.Driver;
 
 namespace AbbyyLS.CAT.Function.Selenium.Tests
 {
 	/// <remarks>
 	/// Методы для тестирования Проектов
 	/// </remarks>
-	public class NewProjectTest : BaseTest
+	public class NewProjectTest<TWebDriverSettings> : BaseTest<TWebDriverSettings> where TWebDriverSettings : IWebDriverSettings, new()
 	{
-		/// <summary>
-		/// Конструктор теста
-		/// </summary>
-
-
-		/// <param name="browserName">Название браузера</param>
-		public NewProjectTest(string browserName)
-			: base(browserName)
-		{
-			
-		}
-
 		public string ProjectNameCheck;
 		public string DuplicateProjectName;
 
@@ -32,11 +21,10 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// Старт тестов, переменные
 		/// </summary>
 		[SetUp]
-		public void SetupTest()
+		public void SetupCommonTest()
 		{
 			// Не закрывать браузер
 			QuitDriverAfterTest = false;
-
 		}
 
 		/// <summary>
@@ -71,10 +59,10 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <returns>нет в списке</returns>
 		protected bool GetIsNotExistProject(string projectNameCheck)
 		{
-			setDriverTimeoutMinimum();
+			SetDriverTimeoutMinimum();
 			// Проекта нет?
 			var isNotExist = !GetIsExistProject(projectNameCheck);
-			setDriverTimeoutDefault();
+			SetDriverTimeoutDefault();
 
 			return isNotExist;
 		}
@@ -88,7 +76,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			if (!shouldErrorExist)
 			{
 				// Т.к. ожидаем, что ошибка не появится, опускаем таймаут
-				setDriverTimeoutMinimum();
+				SetDriverTimeoutMinimum();
 			}
 
 			// Проверить, что поле Имя отмечено ошибкой
@@ -132,7 +120,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 
 			if (!shouldErrorExist)
 			{
-				setDriverTimeoutDefault();
+				SetDriverTimeoutDefault();
 			}
 		}
 	}

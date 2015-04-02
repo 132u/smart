@@ -1,19 +1,17 @@
 ﻿using System;
 using System.Threading;
+
 using NUnit.Framework;
+
+using AbbyyLS.CAT.Function.Selenium.Tests.Driver;
 
 namespace AbbyyLS.CAT.Function.Selenium.Tests
 {
 	/// <summary>
 	/// Тесты глоссариев
 	/// </summary>
-	public class GlossaryTest : BaseTest
+	public class GlossaryTest<TWebDriverSettings> : BaseTest<TWebDriverSettings> where TWebDriverSettings : IWebDriverSettings, new()
 	{
-		public GlossaryTest(string browserName)
-			: base(browserName)
-		{
-		}
-		
 		[SetUp]
 		public void SetupGlossary()
 		{

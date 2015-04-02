@@ -1,19 +1,10 @@
 ﻿using NUnit.Framework;
+using AbbyyLS.CAT.Function.Selenium.Tests.Driver;
 
 namespace AbbyyLS.CAT.Function.Selenium.Tests.Editor.PreviousStage
 {
-	public class EditorPreviousStageTest : EditorBaseTest
+	public class EditorPreviousStageTest<TWebDriverSettings> : EditorBaseTest<TWebDriverSettings> where TWebDriverSettings : IWebDriverSettings, new()
 	{
-		/// <summary>
-		/// Конструктор теста
-		/// </summary>
-		/// <param name="browserName">Название браузера</param>
-		public EditorPreviousStageTest(string browserName)
-			: base(browserName)
-		{
-
-		}
-
 		/// <summary>
 		/// Тестирование кнопки отката на предыдущее состояние сегмента
 		/// </summary>

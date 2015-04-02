@@ -1,22 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading;
+
 using NUnit.Framework;
+
+using AbbyyLS.CAT.Function.Selenium.Tests.Driver;
 
 namespace AbbyyLS.CAT.Function.Selenium.Tests.Editor.Panel
 {
 	[Category("Standalone")]
-	class GlossaryTermSubstituionTest : BaseTest
+	class GlossaryTermSubstituionTest<TWebDriverSettings> : BaseTest<TWebDriverSettings> where TWebDriverSettings : IWebDriverSettings, new()
 	{
-		/// <summary>
-		/// Конструктор теста
-		/// </summary>
-		/// <param name="browserName">Название браузера</param>
-		public GlossaryTermSubstituionTest(string browserName)
-			: base(browserName)
-		{
-		}
-
 		/// <summary>
 		/// Подготовка для каждого теста
 		/// </summary>

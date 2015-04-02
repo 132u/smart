@@ -1,5 +1,8 @@
 ﻿using System.Threading;
+
 using NUnit.Framework;
+
+using AbbyyLS.CAT.Function.Selenium.Tests.Driver;
 
 namespace AbbyyLS.CAT.Function.Selenium.Tests.Editor.Concordance
 {
@@ -7,18 +10,8 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Editor.Concordance
 	/// Группа тестов кнопок редактора
 	/// </summary>
 	[Category("Standalone")]
-	public class EditorUnfinishedTest : EditorBaseTest
+	public class EditorUnfinishedTest<TWebDriverSettings> : BaseTest<TWebDriverSettings> where TWebDriverSettings : IWebDriverSettings, new()
 	{
-		/// <summary>
-		/// Конструктор теста
-		/// </summary>
-		/// <param name="browserName">Название браузера</param>
-		public EditorUnfinishedTest(string browserName)
-			: base(browserName)
-		{
-
-		}
-
 		/// <summary>
 		/// Метод тестирования кнопки поиска следующего незаконченного сегмента
 		/// </summary>

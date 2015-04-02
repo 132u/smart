@@ -1,21 +1,14 @@
 ﻿using System;
+
 using NUnit.Framework;
+
+using AbbyyLS.CAT.Function.Selenium.Tests.Driver;
 
 namespace AbbyyLS.CAT.Function.Selenium.Tests.Editor
 {
 	[Category("Standalone")]
-	public class EditorBaseTest : BaseTest
+	public class EditorBaseTest<TWebDriverSettings> : BaseTest<TWebDriverSettings> where TWebDriverSettings : IWebDriverSettings, new()
 	{
-		/// <summary>
-		/// Конструктор теста
-		/// </summary>
-		/// <param name="browserName">Название браузера</param>
-		public EditorBaseTest(string browserName)
-			: base(browserName)
-		{
-
-		}
-
 		// Имя проекта, использующегося в нескольких тестах
 		// Проект не изменяется при проведении тестов
 		private string _projectNoChangesName = "";
@@ -96,22 +89,5 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Editor
 			// 4. Открытие документа
 			OpenDocument();
 		}
-
-		/// <summary>
-		/// Конечные действия для каждого теста
-		/// </summary>
-		[TearDown]
-		public void TearDown()
-		{
-			try
-			{
-				// Дождаться сохранения сегментов
-				EditorPage.WaitUntilAllSegmentsSave();
-			}
-			catch
-			{
-			}
-		}
-
 	}
 }

@@ -1,21 +1,14 @@
 ﻿using NUnit.Framework;
 
+using AbbyyLS.CAT.Function.Selenium.Tests.Driver;
+
 namespace AbbyyLS.CAT.Function.Selenium.Tests.Editor.UndoRedo
 {
 	/// <summary>
 	/// Группа тестов кнопок редактора
 	/// </summary>
-	public class EditorUndoRedoButtonsTest : EditorBaseTest
+	public class EditorUndoRedoButtonsTest<TWebDriverSettings> : BaseTest<TWebDriverSettings> where TWebDriverSettings : IWebDriverSettings, new()
 	{
-		/// <summary>
-		/// Конструктор теста
-		/// </summary>
-		/// <param name="browserName">Название браузера</param>
-		public EditorUndoRedoButtonsTest(string browserName)
-			: base(browserName)
-		{
-
-		}
 		/// <summary>
 		/// Метод тестирования кнопки Undo и Redo при вводе текста
 		/// </summary>

@@ -1,8 +1,9 @@
-﻿using NUnit.Framework;
+﻿using System.Collections.Generic;
+using System.Linq;
+
+using NUnit.Framework;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.UI;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace AbbyyLS.CAT.Function.Selenium.Tests
 {
@@ -154,15 +155,10 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <returns> Номер строки </returns>
 		public int GetRowNumberPackageInTable()
 		{
-			IList<IWebElement> tdList = GetElementList(By.XPath(LIC_TITLE));
-			List<string> titles = new List<string>();
-			int number = -1;
-			foreach (IWebElement td in tdList)
-			{
-				titles.Add(td.Text);
-			}
+			var tdList = GetElementList(By.XPath(LIC_TITLE));
+			var titles = tdList.Select(td => td.Text).ToList();
 
-			for (int t = 0; t < titles.Count;t++ )
+			for (var t = 0; t < titles.Count;t++ )
 			{
 				if (titles[t].EndsWith(" licenses"))
 				{
@@ -172,14 +168,11 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 				{
 					titles[t] = titles[t].Replace(" лицензий", "");
 				}
-				int n = ParseNumberStrToInt(titles[t]);
-				if (n < 30)
-				{
-					return number = t;
-					break;
-				}
+				
+				if (ParseNumberStrToInt(titles[t]) < 30)
+					return t;
 			}
-			return number;
+			return -1;
 		}
 
 		/// <summary>
@@ -190,27 +183,18 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <returns> Номер строки</returns>
 		public int GetRowNumberOfLicense(string titleLicense, string date = "")
 		{
-			IList<IWebElement> titleList = GetElementList(By.XPath(LIC_TITLE));
-			IList<IWebElement> dateList = GetElementList(By.XPath(EXPIRE__DATE_COLUMN));
+			var titleList = GetElementList(By.XPath(LIC_TITLE));
+			var dateList = GetElementList(By.XPath(EXPIRE__DATE_COLUMN));
 
-			List<string> rows = new List<string>();
-			int number = -1;
-			for (int i = 0; i < titleList.Count; i++)
-			{
-					string text = titleList[i].Text + " = " + dateList[i].Text;
-					rows.Add(text);
-			}
+			var rows = titleList.Select((t, i) => t.Text + " = " + dateList[i].Text).ToList();
 
 			for (int i = 0; i < rows.Count; i++)
 			{
 				if (rows[i].Contains(titleLicense) && rows[i].Contains(date))
-				{
-					return number = i;
-					break;
-				}
-					
+					return i;
 			}
-			return number;
+
+			return -1;
 		}
 
 		/// <summary>
@@ -220,16 +204,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		public IList<IWebElement> GetVisibleUpgradeButtons()
 		{
 			Logger.Trace("Получить список видимых кнопок Upgrade");
-			IList<IWebElement> allUpgradeBtns = GetUpgradeButtons();
-			IList<IWebElement> vilibleUpgradeBtns = new List<IWebElement>();
-
-			foreach (IWebElement btn in allUpgradeBtns)
-			{
-				if (btn.Displayed)
-					vilibleUpgradeBtns.Add(btn);
-			}
-
-			return vilibleUpgradeBtns;
+			return GetUpgradeButtons().Where(btn => btn.Displayed).ToList();
 		}
 
 		/// <summary>
@@ -247,7 +222,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// </summary>
 		public void ClickUpgradeBtn(int i = 0)
 		{
-			IList<IWebElement> buttons = GetVisibleUpgradeButtons();
+			var buttons = GetVisibleUpgradeButtons();
 			Logger.Trace("Кликнуть Upgrade кнопку №" + i);
 			buttons[i].Click();
 

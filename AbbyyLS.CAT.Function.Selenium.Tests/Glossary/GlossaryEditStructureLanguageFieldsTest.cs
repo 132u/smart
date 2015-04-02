@@ -1,24 +1,15 @@
 ﻿using NUnit.Framework;
 
+using AbbyyLS.CAT.Function.Selenium.Tests.Driver;
+
 namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.Glossary.EditStructure.Language
 {
 	/// <summary>
 	/// Группа тестов дял проверки редактирования структуры глоссария (язык)
 	/// </summary>
 	[Category("Standalone")]
-	public class GlossaryEditStructureLanguageFieldsTest : GlossaryTest
+	public class GlossaryEditStructureLanguageFieldsTest<TWebDriverSettings> : GlossaryTest<TWebDriverSettings> where TWebDriverSettings : IWebDriverSettings, new()
 	{
-		/// <summary>
-		/// Конструктор теста
-		/// </summary>
-		 
-		/// <param name="browserName">Название браузера</param>
-		public GlossaryEditStructureLanguageFieldsTest(string browserName)
-			: base(browserName)
-		{
-
-		}
-
 		/// <summary>
 		/// Метод тестирования изменения структуры на уровне Languages - поле Comment
 		/// </summary>

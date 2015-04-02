@@ -1,6 +1,9 @@
-﻿using System.Threading;
+﻿using System.Collections.Generic;
+using System.Threading;
+
 using NUnit.Framework;
-using System.Collections.Generic;
+
+using AbbyyLS.CAT.Function.Selenium.Tests.Driver;
 
 namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.Glossary.EditStructure.Custom
 {
@@ -8,18 +11,8 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.Glossary.EditStructure.C
 	/// Группа тестов для проверки редактирования структуры глоссариев
 	/// </summary>
 	[Category("Standalone")]
-	public class GlossaryEditStructureCustomFieldsTest : GlossaryTest
+	public class GlossaryEditStructureCustomFieldsTest<TWebDriverSettings> : GlossaryTest<TWebDriverSettings> where TWebDriverSettings : IWebDriverSettings, new()
 	{
-		/// <summary>
-		/// Конструктор теста
-		/// </summary>
-		/// <param name="browserName">Название браузера</param>
-		public GlossaryEditStructureCustomFieldsTest(string browserName)
-			: base(browserName)
-		{
-
-		}
-
 		/// <summary>
 		/// Метод тестирования изменения структуры: добавление пользовательского текстового поля
 		/// </summary>

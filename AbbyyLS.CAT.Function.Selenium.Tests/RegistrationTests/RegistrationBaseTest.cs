@@ -1,22 +1,13 @@
 ﻿using NUnit.Framework;
 
 using AbbyyLS.CAT.Function.Selenium.Tests.CommonDataStructures;
+using AbbyyLS.CAT.Function.Selenium.Tests.Driver;
 
 namespace AbbyyLS.CAT.Function.Selenium.Tests.RegistrationTests
 {
 
-	public class RegistrationBaseTest : AdminTest
+	public class RegistrationBaseTest<TWebDriverSettings> : AdminTest<TWebDriverSettings> where TWebDriverSettings : IWebDriverSettings, new()
 	{
-		/// <summary>
-		/// Конструктор теста регистрации фрилансера
-		/// </summary>
-		/// <param name="browserName">Название браузера</param>
-		public RegistrationBaseTest(string browserName)
-			: base(browserName)
-		{
-
-		}
-
 		[SetUp]
 		public void SetUp()
 		{

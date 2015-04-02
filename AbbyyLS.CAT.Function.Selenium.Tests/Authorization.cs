@@ -1,17 +1,16 @@
-﻿using NUnit.Framework;
-using System;
+﻿using System;
+
+using NUnit.Framework;
+
+using AbbyyLS.CAT.Function.Selenium.Tests.Driver;
 
 namespace AbbyyLS.CAT.Function.Selenium.Tests
 {
 	/// <summary>
 	/// Группа тестов для проверки формы входа
 	/// </summary>
-	class AuthorizationTest : AdminTest
+	class AuthorizationTest<TWebDriverSettings> : AdminTest<TWebDriverSettings> where TWebDriverSettings : IWebDriverSettings, new()
 	{
-		public AuthorizationTest(string browserName)
-			: base(browserName)
-		{}
-
 		[SetUp]
 		public void SetUp()
 		{
@@ -19,14 +18,13 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			{
 				Assert.Ignore("Тест игнорируется, так как это отделяемое решение");
 			}
-
+			
 			_email = "TestEmail@" + RandomString.Generate(10) + ".com";
 			_password = "TestPassword" + RandomString.Generate(10);
 			_nickName = "TestNickName" + RandomString.Generate(10);
 			_persAccount = "PersAccount" + RandomString.Generate(10);
 			_corpAccount = "CorpAccount" + RandomString.Generate(10);
 		}
-
 		private string _email;
 
 		private string _password;

@@ -1,18 +1,16 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading;
+
+using NUnit.Framework;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.UI;
-using System;
-using NLog;
-using System.Threading;
-using NUnit.Framework;
-using System.Linq;
 
 namespace AbbyyLS.CAT.Function.Selenium.Tests
 {
 	public class GlossaryTermFilterHelper : GlossarySuggestPageHelper
 	{
-		public static Logger Logger = LogManager.GetCurrentClassLogger();
-
 		public GlossaryTermFilterHelper(IWebDriver driver, WebDriverWait wait)
 			: base(driver, wait)
 		{

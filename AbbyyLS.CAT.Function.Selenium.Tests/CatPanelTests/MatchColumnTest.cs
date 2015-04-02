@@ -1,7 +1,10 @@
 ﻿using System;
 using System.Threading;
 using NLog;
+
 using NUnit.Framework;
+
+using AbbyyLS.CAT.Function.Selenium.Tests.Driver;
 
 namespace AbbyyLS.CAT.Function.Selenium.Tests
 {
@@ -9,13 +12,8 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 	/// Группа тестов для проверки колонки match в таргете при выдачах из cat-панели
 	/// </summary>
 	[Category("SCAT_102")]
-	class MatchColumnTest : BaseTest
+	class MatchColumnTest<TWebDriverSettings> : BaseTest<TWebDriverSettings> where TWebDriverSettings : IWebDriverSettings, new()
 	{
-		public MatchColumnTest(string browserName)
-			: base (browserName)
-		{
-		}
-
 		[SetUp]
 		public void SetUp()
 		{

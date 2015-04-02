@@ -1,5 +1,6 @@
 ﻿using NUnit.Framework;
 using System.Windows.Forms;
+using AbbyyLS.CAT.Function.Selenium.Tests.Driver;
 
 namespace AbbyyLS.CAT.Function.Selenium.Tests.Editor.Concordance
 {
@@ -7,18 +8,8 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Editor.Concordance
 	/// Группа тестов кнопок редактора
 	/// </summary>
 	[Category("Standalone")]
-	public class EditorConcordanceTest : EditorBaseTest
+	public class EditorConcordanceTest<TWebDriverSettings> : EditorBaseTest<TWebDriverSettings> where TWebDriverSettings : IWebDriverSettings, new()
 	{
-		/// <summary>
-		/// Конструктор теста
-		/// </summary>
-		/// <param name="browserName">Название браузера</param>
-		public EditorConcordanceTest(string browserName)
-			: base(browserName)
-		{
-
-		}
-
 		/// <summary>
 		/// Проверка работы в редакторе кнопки конкордного поиска
 		/// </summary>

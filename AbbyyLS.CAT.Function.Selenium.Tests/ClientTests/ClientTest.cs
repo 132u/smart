@@ -1,24 +1,17 @@
 ﻿﻿using System;
 using System.Threading;
-using NUnit.Framework;
+
+﻿using NUnit.Framework;﻿
+ 
+ using AbbyyLS.CAT.Function.Selenium.Tests.Driver;
 
 namespace AbbyyLS.CAT.Function.Selenium.Tests
 {
 	/// <summary>
 	/// Группа тестов для проверки клиентов
 	/// </summary>
-	public class ClientTest : BaseTest
+	public class ClientTest<TWebDriverSettings> : BaseTest<TWebDriverSettings> where TWebDriverSettings : IWebDriverSettings, new()
 	{
-		/// <summary>
-		/// Конструктор теста
-		/// </summary>
-		/// <param name="browserName">Название браузера</param>
-		public ClientTest(string browserName)
-			: base(browserName)
-		{
-
-		}
-
 		/// <summary>
 		/// Начальная подготовка для каждого теста
 		/// </summary>

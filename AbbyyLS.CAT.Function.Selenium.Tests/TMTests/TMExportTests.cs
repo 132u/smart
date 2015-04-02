@@ -1,16 +1,14 @@
 ﻿using System.IO;
+
 using NUnit.Framework;
+
+using AbbyyLS.CAT.Function.Selenium.Tests.Driver;
 
 namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.TM
 {
 	[Category("Standalone")]
-	public class TMExportTests : TMTest
+	public class TMExportTests<TWebDriverSettings> : TMTest<TWebDriverSettings> where TWebDriverSettings : IWebDriverSettings, new()
 	{
-		public TMExportTests(string browserName) 
-			: base(browserName)
-		{
-		}
-
 		/// <summary>
 		/// Метод тестирования кнопки Export в открывающейся информации о пустой ТМ
 		/// </summary>

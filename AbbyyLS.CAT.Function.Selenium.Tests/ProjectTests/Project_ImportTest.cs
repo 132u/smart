@@ -1,5 +1,8 @@
 ﻿using System.Threading;
+
 using NUnit.Framework;
+
+using AbbyyLS.CAT.Function.Selenium.Tests.Driver;
 
 namespace AbbyyLS.CAT.Function.Selenium.Tests
 {
@@ -7,19 +10,8 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 	/// Группа тестов для проверки импорта проекта
 	/// </summary>
 	[Category("Standalone")]
-	public class Project_ImportTest : NewProjectTest
+	public class Project_ImportTest<TWebDriverSettings> : NewProjectTest<TWebDriverSettings> where TWebDriverSettings : IWebDriverSettings, new()
 	{
-		/// <summary>
-		/// Конструктор теста
-		/// </summary>
-		 
-		 
-		/// <param name="browserName">Название браузера</param>
-		public Project_ImportTest(string browserName)
-			: base(browserName)
-		{
-		}
-
 		/// <summary>
 		/// Старт тестов
 		/// </summary>

@@ -1,23 +1,19 @@
-﻿using AbbyyLS.CAT.Function.Selenium.Tests.CommonDataStructures;
+﻿using System.Threading;
+
 using NUnit.Framework;
-using System.Threading;
+
+using AbbyyLS.CAT.Function.Selenium.Tests.CommonDataStructures;
+using AbbyyLS.CAT.Function.Selenium.Tests.Driver;
 using AbbyyLS.CAT.Function.Selenium.Tests.RegistrationTests;
 
 namespace AbbyyLS.CAT.Function.Selenium.Tests.Registration.Company
 {
-	internal class CompanyRegistrationTest : RegistrationBaseTest
+	/// <summary>
+	/// Тесты регистрации компании
+	/// </summary>
+	public class CompanyRegistrationTest<TWebDriverSettings> : RegistrationBaseTest<TWebDriverSettings> where TWebDriverSettings : IWebDriverSettings, new()
 	{
 		private string _corpAccountNameInAdmin = "";
-
-		/// <summary>
-		/// Конструктор теста регистрации компании
-		/// </summary>
-		/// <param name="browserName">Название браузера</param>
-		public CompanyRegistrationTest(string browserName)
-			: base(browserName)
-		{
-			
-		}
 
 		/// <summary>
 		/// Тест - регистрация нововoй компании п 1.1
