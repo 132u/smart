@@ -1014,7 +1014,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		protected const string CANCEL_EDIT_CONCEPT_BTN_XPATH = CONCEPT_EDITING_OPENED + "//a[contains(@class, 'js-cancel-btn')]";
 		protected const string DELETE_CONCEPT_BTN_XPATH = CONCEPT_ROW_XPATH + "//a[contains(@class, 'js-delete-btn')]";
 		protected const string CONCEPT_ROW_XPATH = "//tr[contains(@class, 'js-concept-row')]";
-		protected const string OPENED_CONCEPT_ROW_XPATH = "//tr[contains(@class,'js-concept-row opened')]";
+		protected const string OPENED_CONCEPT_ROW_XPATH = "//tr[@class='js-concept-panel']/preceding-sibling::tr[1]";
 		protected const string SAVE_EXTENDED_BTN_XPATH = CONCEPT_TABLE_XPATH + "//span[contains(@class,'js-save-btn')]";
 		
 		protected const string CUSTOM_FIELD_BOOL_EDIT_CONCEPT_XPATH = NEW_ITEM_CONCEPT_PART_XPATH + NEW_ITEM_EDIT_DIV_XPATH + "//span[contains(@class,'l-editgloss__name')]";
