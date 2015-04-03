@@ -158,14 +158,14 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Glossary
 		/// Метод проверки автора при добавлении глоссария
 		/// </summary>
 		[Test]
-		public void CheckAuthorCreatedGlossaryTest()
+		public void CheckAuthorLastModificationGlossaryTest()
 		{
 			// Получить имя пользователя из панели WS 
 			var userName = WorkspacePage.GetUserName();
 			// Создать глоссарий
 			var glossaryName = CreateGlossaryAndReturnToGlossaryList();
 			// Получить имя автора глоссария
-			var authorName = GlossaryListPage.GetGlossaryAuthor(glossaryName);
+			var authorName = GlossaryListPage.GetGlossaryModificationAuthor(glossaryName);
 
 			// Проверить, что текущий пользователь и есть автор
 			Assert.IsTrue(
