@@ -47,6 +47,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <summary>
 		/// Авторизация пользователя через соц сети
 		/// </summary>
+		[Category("ForLocalRun")]
 		[TestCase("Facebook", "margarita.kolly@yandex.ru", "0onWolkap")]
 		[TestCase("Google", "smaartcat@gmail.com", "smaartcattest")]
 		[TestCase("LinkedIn", "margarita.kolly@yandex.ru", "0onWolkap")]
@@ -280,6 +281,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <summary>
 		/// Авторизация пользователя с неактивированным аккаунтом в aol
 		/// </summary>
+		[Category("ForLocalRun")]
 		[TestCase(0, "active")]
 		[TestCase(1, "inactive")]
 		[Test]

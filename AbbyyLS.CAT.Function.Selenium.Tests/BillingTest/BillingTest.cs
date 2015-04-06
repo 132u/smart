@@ -7,6 +7,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 	/// <summary>
 	/// Группа тестов на на продление и Upgrade пакета лицензий
 	/// </summary>
+	[Category("ForLocalRun")]
 	public class BillingTest<TWebDriverSettings> : AdminTest<TWebDriverSettings> where TWebDriverSettings : IWebDriverSettings, new()
 	{
 		/// <summary>

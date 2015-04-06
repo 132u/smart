@@ -91,6 +91,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Registration.Company
 		/// <summary>
 		/// Тест регистрации юзера с существующим активным или неактивным аккаунтом в coursera/aol ( or log in with your ABBYY Online account )
 		/// </summary>
+		[Category("ForLocalRun")]
 		[TestCase(0, "active AOL user - 1st row in  TestUsers.xml file")]
 		[TestCase(1, "inactive AOL user - 2nd row in  TestUsers.xml file")]
 		[TestCase(2, "active Coursera user - 3th row in  TestUsers.xml file")]

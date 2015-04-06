@@ -342,6 +342,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Registration.Freelance
 		/// <summary>
 		///Тест регистрации юзера с существующим активным или неактивным аккаунтом в coursera/perevedem/aol
 		/// </summary>
+		[Category("ForLocalRun")]
 		[TestCase(0, "active AOL user (1st row in TestUsers.xml file)")]
 		[TestCase(1, "inactive AOL user (2nd row in TestUsers.xml file)")]
 		[TestCase(2, "active Coursera user (3th row in TestUsers.xml in file)")]
