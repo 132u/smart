@@ -88,6 +88,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Editor.Revisions
 		/// ТЕСТ: проверка неактивности кнопки Rollback , если ни одна из ревизий не выбрана
 		/// </summary>
 		[Test]
+		[Ignore]
 		[NUnit.Framework.Category("Standalone")]
 		public void RollbackBtnDisabledTest()
 		{
@@ -121,6 +122,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Editor.Revisions
 		/// ТЕСТ: проверка активности кнопки Rollback , если ревизия выбрана
 		/// </summary>
 		[Test]
+		[Ignore]
 		[NUnit.Framework.Category("Standalone")]
 		public void RollbackBtnEnabledTest()
 		{
@@ -157,73 +159,10 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Editor.Revisions
 		}
 
 		/// <summary>
-		/// ТЕСТ: проверка сортировки по дате/времени по кнопке Time
-		/// </summary>
-		[Test]
-		[NUnit.Framework.Category("Standalone")]
-		public void TimeBtnTest()
-		{
-			_projectNameRevisionsTest = "RevisionsTest1" + "_" + DateTime.UtcNow.Ticks;
-
-			_projectCreated = false;
-			const int segmentNumber = 3;
-			EditorPage.ScrollToRequiredSegment(segmentNumber);
-
-			// Количество 
-			const int revisionNumberCount = 3;
-
-			// Добавить ревизии
-			AddTranslationsToSegment(segmentNumber, revisionNumberCount);
-
-			// Проверить количество ревизий
-			Assert.IsTrue(
-				RevisionPage.GetRevisionListCount() >= revisionNumberCount,
-				"Ошибка: количество ревизий не совпадает");
-
-			// Текст и время первой ревизии До
-			var revisionTextBefore = RevisionPage.GetRevisionText(1);
-			var revisionTimeBefore = RevisionPage.GetRevisionTime(1);
-
-			Logger.Trace("до: " + revisionTextBefore + " " + revisionTimeBefore);
-
-			// Кликнуть Time
-			RevisionPage.ClickTimeToSort();
-
-			// Текст и время первой ревизии После
-			var revisionTextAfter = RevisionPage.GetRevisionText(1);
-			var revisionTimeAfter = RevisionPage.GetRevisionTime(1);
-
-			Logger.Trace("после: " + revisionTextAfter + " " + revisionTimeAfter);
-
-			// Изменился ли текст
-			var isTextChanged = revisionTextBefore != revisionTextAfter;
-			// Изменилось ли время
-			var isTimeChanged = revisionTimeBefore != revisionTimeAfter;
-
-			var isOk = isTextChanged && isTimeChanged;
-			var errorMessage = "";
-
-			// Проверить, что текст изменился
-			if (!isTextChanged)
-			{
-				errorMessage += "Ошибка: текст не изменился\n";
-			}
-
-			// Проверить, что время изменилось
-			if (!isTimeChanged)
-			{
-				errorMessage += "Ошибка: время не изменилось\n";
-			}
-
-			// Вывести ошибки
-			Assert.IsTrue(isOk, errorMessage);
-
-		}
-
-		/// <summary>
 		/// ТЕСТ: проверка хоткея Автосохранение
 		/// </summary>
 		[Test]
+		[Ignore]
 		[NUnit.Framework.Category("Standalone")]
 		public void AutoSaveTest()
 		{
@@ -259,6 +198,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Editor.Revisions
 		/// ТЕСТ: подтвердить после автосохранения
 		/// </summary>
 		[Test]
+		[Ignore]
 		[NUnit.Framework.Category("Standalone")]
 		public void ConfirmAfterSaveTest()
 		{
@@ -326,6 +266,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Editor.Revisions
 		/// ТЕСТ: подтверждение нескольких переводов одного сегмента (несколько ревизий)
 		/// </summary>
 		[Test]
+		[Ignore]
 		[NUnit.Framework.Category("Standalone")]
 		public void ConfirmSomeTranslations()
 		{
@@ -364,6 +305,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Editor.Revisions
 		/// ТЕСТ: автосохранение несколько переводов в одну ревизию
 		/// </summary>
 		[Test]
+		[Ignore]
 		[NUnit.Framework.Category("Standalone")]
 		public void AutosaveSomeTranslations()
 		{
@@ -459,6 +401,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Editor.Revisions
 		/// ТЕСТ: подтвердить вставленный из МТ перевод (должно быть две ревизии)
 		/// </summary>
 		[Test]
+		[Ignore]
 		[NUnit.Framework.Category("SCAT_102")]
 		public void ConfirmInsertedMtTest()
 		{
@@ -506,6 +449,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Editor.Revisions
 		/// ТЕСТ: удаление части подвержденного текста, проверка в ревизии пометки об удалении
 		/// </summary>
 		[Test]
+		[Ignore]
 		[NUnit.Framework.Category("Standalone")]
 		public void RemovePartTextTest()
 		{
@@ -543,6 +487,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Editor.Revisions
 		/// ТЕСТ: добавление текста в подтвержденный, проверка в ревизии пометки о добавлении
 		/// </summary>
 		[Test]
+		[Ignore]
 		[NUnit.Framework.Category("Standalone")]
 		public void AddPartTextTest()
 		{
@@ -577,6 +522,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Editor.Revisions
 		/// ТЕСТ: проверка типа ревизии в xliff
 		/// </summary>
 		[Test]
+		[Ignore]
 		[NUnit.Framework.Category("Standalone")]
 		public void RevisionsInXlf()
 		{
@@ -710,6 +656,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Editor.Revisions
 		/// <param name="segmentNumber">номер сегмента</param>
 		/// <param name="byHotkeyOrButton">хоткей или кнопка</param>
 		[Test, Sequential]
+		[Ignore]
 		[NUnit.Framework.Category("SCAT_102")]
 		[NUnit.Framework.Category("Standalone")]
 		public void ConfirmTest(
@@ -764,6 +711,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Editor.Revisions
 		/// <param name="segmentNumber">номер сегмента</param>
 		/// <param name="byHotkeyOrDoubleClick">хоткей или даблклик</param>
 		[NUnit.Framework.Category("SCAT_102")]
+		[Ignore]
 		[Test, Sequential]
 		public void PasteFromMTTest(
 			[Values(8, 9)] 
@@ -814,6 +762,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Editor.Revisions
 		/// <param name="segmentNumber">номер сегмента</param>
 		/// <param name="byHotkeyOrDoubleClick">хоткей или даблклик</param>
 		[Test, Sequential]
+		[Ignore]
 		[NUnit.Framework.Category("Standalone")]
 		[NUnit.Framework.Category("SCAT_102")]
 		public void PasteFromTMTest(
@@ -865,7 +814,9 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Editor.Revisions
 		/// <param name="segmentNumber">номер строки таргет</param>
 		/// <param name="rollbackNumber">номер ревизии для отката (нумерация с 1 - первый добавленный перевод)</param>
 		[Test, Sequential]
+		[Ignore]
 		[NUnit.Framework.Category("Standalone")]
+		[NUnit.Framework.Category("PRX-1835")]
 		public void RollbackTest([Values(15, 16, 17)] int segmentNumber, [Values(3, 2, 1)] int rollbackNumber)
 		{
 			const int translationNumber = 3;
@@ -946,6 +897,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Editor.Revisions
 		/// <param name="segmentNumber">номер сегмента</param>
 		/// <param name="byHotkey">хоткей или даблклик</param>
 		[Test, Sequential]
+		[Ignore]
 		[NUnit.Framework.Category("Standalone")]
 		public void PasteFromTBTest(
 			[Values(22, 23)] int segmentNumber,
@@ -1011,7 +963,9 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Editor.Revisions
 		/// <param name="catType">тип подстановки МТ или ТМ</param>
 		/// <param name="expectedRevisionType">тип ревизии в соответствии с подстановкой из кат панели</param>
 		[Test, Sequential]
+		[Ignore]
 		[NUnit.Framework.Category("SCAT_102")]
+		[NUnit.Framework.Category("PRX-1835")]
 		public void RevisionsAfterPretranslate(
 			[Values(EditorPageHelper.CAT_TYPE.TM, EditorPageHelper.CAT_TYPE.MT)] 
 			EditorPageHelper.CAT_TYPE catType,
