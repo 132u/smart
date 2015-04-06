@@ -52,6 +52,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			{
 				ExitDriver();
 				Logger.ErrorException("Ошибка в конструкторе : " + ex.Message, ex);
+
 				throw;
 			}
 		}
@@ -211,40 +212,13 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		[TearDown]
 		public void TeardownBase()
 		{
-			// При вылете браузера возникает ошибка, пытаемся ее словить
-			try
+			if (TestContext.CurrentContext.Result.Status.Equals(TestStatus.Failed))
 			{
-				if (TestContext.CurrentContext.Result.Status.Equals(TestStatus.Failed))
-				{
-					// Сделать скриншот
-					var screenshotDriver = Driver as ITakesScreenshot;
-					var screenshot = screenshotDriver.GetScreenshot();
-
-					// Создать папку для скриншотов провалившихся тестов
-					var failResultPath = Path.Combine(PathProvider.ResultsFolderPath, "FailedTests");
-					Directory.CreateDirectory(failResultPath);
-
-					// Создать имя скриншота по имени теста
-					var screenName = TestContext.CurrentContext.Test.Name;
-					
-					if (screenName.Contains("("))
-					{
-						// Убрать из названия теста аргументы (файлы)
-						screenName = screenName.Substring(0, screenName.IndexOf("("));
-					}
-					screenName += DateTime.Now.Ticks + ".png";
-					// Создать полное имя файла
-					screenName = Path.Combine(failResultPath, screenName);
-					// Сохранить скриншот
-					screenshot.SaveAsFile(screenName, ImageFormat.Png);
-				}
+				// Если при попытке сделать скриншот вылетела ошибка, закрываем драйвер
+				if (!takeScreenshot())
+					ExitDriver();
 			}
-			catch (Exception)
-			{
-				// Закрыть драйвер
-				ExitDriver();
-			}
-
+			
 			// Выходим из браузера, если нужно
 			if (QuitDriverAfterTest)
 			{
@@ -275,6 +249,46 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			{
 				// Если тест провалился
 				Logger.Info("Fail!");
+			}
+		}
+
+		/// <summary>
+		/// Снимаем скриншот
+		/// </summary>
+		/// <returns>Возвращает: получилось или нет сделать скриншот</returns>
+		private static bool takeScreenshot()
+		{
+			try
+			{
+				var screenshotDriver = Driver as ITakesScreenshot;
+				
+				var failResultPath = Path.Combine(PathProvider.ResultsFolderPath, "FailedTests");
+				Directory.CreateDirectory(failResultPath);
+
+				var nameParts = TestContext.CurrentContext.Test.FullName.Split('.');
+				var className = nameParts[nameParts.Length - 2].Replace('<', '(').Replace('>', ')');
+
+				var screenName = TestContext.CurrentContext.Test.Name;
+				// Убрать из названия теста аргументы (файлы)
+				if (screenName.Contains("("))
+					screenName = screenName.Substring(0, screenName.IndexOf("("));
+
+				screenName = className + "." + screenName + DateTime.Now.ToString(" yyyy.MM.dd HH.mm.ss") + ".png";
+				screenName = Path.Combine(failResultPath, screenName);
+
+				var screenshot = screenshotDriver.GetScreenshot();
+				screenshot.SaveAsFile(screenName, ImageFormat.Png);
+
+				return true;
+			}
+			catch (Exception ex)
+			{
+				Logger.ErrorException(String.Format("Произошла ошибка при попытке сделать скриншот. Тест: {0} Ошибка: {1}",
+					TestContext.CurrentContext.Test.Name,
+					ex.Message), 
+					ex);
+
+				return false;
 			}
 		}
 
