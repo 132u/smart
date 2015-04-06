@@ -4,7 +4,7 @@ using AbbyyLS.CAT.Function.Selenium.Tests.Driver;
 
 namespace AbbyyLS.CAT.Function.Selenium.Tests.Editor.Tag
 {
-	class EditorTagTest<TWebDriverSettings> : BaseTest<TWebDriverSettings> where TWebDriverSettings : IWebDriverSettings, new()
+	class EditorTagTest<TWebDriverSettings> : EditorBaseTest<TWebDriverSettings> where TWebDriverSettings : IWebDriverSettings, new()
 	{
 		/// <summary>
 		/// Проверка работы в редакторе добавления символа переноса строки по кнопке

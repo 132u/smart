@@ -10,7 +10,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Editor.Concordance
 	/// Группа тестов кнопок редактора
 	/// </summary>
 	[Category("Standalone")]
-	public class EditorUnfinishedTest<TWebDriverSettings> : BaseTest<TWebDriverSettings> where TWebDriverSettings : IWebDriverSettings, new()
+	public class EditorUnfinishedTest<TWebDriverSettings> : EditorBaseTest<TWebDriverSettings> where TWebDriverSettings : IWebDriverSettings, new()
 	{
 		/// <summary>
 		/// Метод тестирования кнопки поиска следующего незаконченного сегмента

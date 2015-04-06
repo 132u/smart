@@ -7,7 +7,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Editor.Tab
 	/// Группа тестов кнопок редактора
 	/// </summary>
 	[Category("Standalone")]
-	public class EditorTabTest<TWebDriverSettings> : BaseTest<TWebDriverSettings> where TWebDriverSettings : IWebDriverSettings, new()
+	public class EditorTabTest<TWebDriverSettings> : EditorBaseTest<TWebDriverSettings> where TWebDriverSettings : IWebDriverSettings, new()
 	{
 		/// <summary>
 		/// Метод тестирования кнопки перемещения курсора между полями source и target без хоткея

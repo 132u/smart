@@ -4,7 +4,7 @@ using AbbyyLS.CAT.Function.Selenium.Tests.Driver;
 
 namespace AbbyyLS.CAT.Function.Selenium.Tests.Editor.ToTarget
 {
-	class EditorToTargetTest<TWebDriverSettings> : BaseTest<TWebDriverSettings> where TWebDriverSettings : IWebDriverSettings, new()
+	class EditorToTargetTest<TWebDriverSettings> : EditorBaseTest<TWebDriverSettings> where TWebDriverSettings : IWebDriverSettings, new()
 	{
 		/// <summary>
 		/// Метод тестирования кнопки копирования оригинала в перевод

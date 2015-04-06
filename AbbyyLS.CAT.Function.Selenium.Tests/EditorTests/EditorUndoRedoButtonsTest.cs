@@ -7,7 +7,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Editor.UndoRedo
 	/// <summary>
 	/// Группа тестов кнопок редактора
 	/// </summary>
-	public class EditorUndoRedoButtonsTest<TWebDriverSettings> : BaseTest<TWebDriverSettings> where TWebDriverSettings : IWebDriverSettings, new()
+	public class EditorUndoRedoButtonsTest<TWebDriverSettings> : EditorBaseTest<TWebDriverSettings> where TWebDriverSettings : IWebDriverSettings, new()
 	{
 		/// <summary>
 		/// Метод тестирования кнопки Undo и Redo при вводе текста
