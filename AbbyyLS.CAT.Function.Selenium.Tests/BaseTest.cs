@@ -619,6 +619,8 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 
 				Driver.Navigate().GoToUrl(Url + relativeUrl);
 
+				if (IsModalDialogConfirmation() || IsModalDialogChangesNotSaved())
+					Driver.SwitchTo().Alert().Accept();
 				// Если открылась страница логина
 				if (LoginPage.WaitPageLoad(1) || LoginPage.WaitPromoPageLoad())
 				{
