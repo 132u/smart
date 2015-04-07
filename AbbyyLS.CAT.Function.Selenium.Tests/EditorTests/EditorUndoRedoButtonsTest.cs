@@ -18,13 +18,12 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Editor.UndoRedo
 			const int segmentNumber = 1;
 			const string text = "some text";
 			const string textundo = "";
-
+			EditorPage.ClearTarget(segmentNumber);
 			// Вводим текст в первый сегмент
 			EditorPage.AddTextTarget(segmentNumber, text);
-
+			EditorPage.ClickTargetCell(segmentNumber);
 			// Нажать кнопку отмены
 			EditorPage.ClickUndoBtn();
-
 			// Проверить, что в target убралась одна буква
 			var targetxt = EditorPage.GetTargetText(segmentNumber);
 			Assert.AreEqual(textundo, targetxt, "Ошибка: Target не очистился после клика по кнопке Undo.");
@@ -47,13 +46,12 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Editor.UndoRedo
 			const int segmentNumber = 1;
 			const string text = "some text";
 			const string textundo = "";
-
+			EditorPage.ClearTarget(segmentNumber);
 			// Вводим текст в первый сегмент
 			EditorPage.AddTextTarget(segmentNumber, text);
-
+			EditorPage.ClickTargetCell(segmentNumber);
 			// Нажать хоткей отмены
 			EditorPage.UndoByHotkey(segmentNumber);
-
 			// Убедиться, что в target нет текста
 			var targetxt = EditorPage.GetTargetText(segmentNumber);
 
@@ -177,7 +175,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Editor.UndoRedo
 
 			// Нажать кнопку отмены
 			EditorPage.ClickUndoBtn();
-
+			EditorPage.ClickUndoBtn();
 			// Проверить, что в target пусто
 			var targetxt = EditorPage.GetTargetText(segmentNumber);
 			Assert.AreEqual("", targetxt, "Ошибка: после Undo в Target есть текст");
@@ -198,9 +196,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Editor.UndoRedo
 		public void UndoRedoHotkeyCatTest()
 		{
 			var segmentNumber = 1;
-
-			// Почистить таргет
-			EditorPage.AddTextTarget(segmentNumber, "");
+			EditorPage.ClearTarget(segmentNumber);
 
 			//Выбираем первый сегмент
 			EditorPage.ClickTargetCell(segmentNumber);
@@ -210,7 +206,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Editor.UndoRedo
 
 			// Нажать хоткей отмены
 			EditorPage.UndoByHotkey(segmentNumber);
-
+			EditorPage.UndoByHotkey(segmentNumber);
 			// Проверить, что в target пусто
 			var targetxt = EditorPage.GetTargetText(segmentNumber);
 			Assert.AreEqual("", targetxt, "Ошибка: после Undo в Target есть текст");
@@ -221,9 +217,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Editor.UndoRedo
 			// Проверить, что в target не пусто
 			targetxt = EditorPage.GetTargetText(segmentNumber);
 			Assert.AreNotEqual("", targetxt, "Ошибка: после Redo в Target нет текста");
-
-			// Почистить таргет
-			EditorPage.AddTextTarget(segmentNumber, "");
 		}
 	}
 }
