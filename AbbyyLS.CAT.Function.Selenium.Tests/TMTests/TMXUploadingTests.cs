@@ -77,9 +77,9 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.TM
 			CreateTMWithUploadTMX(UniqueTmName, tmxFileImport);
 			// Необходим рефреш страницы, иначе загрузка ТМХ не работает
 			RefreshPage();
-
+			SearchTM(UniqueTmName);
 			// Проверить, сохранился ли ТМ
-			Assert.IsTrue(TMPage.GetIsExistTM(UniqueTmName), 
+			Assert.IsTrue(TMPage.GetIsExistTM(UniqueTmName),
 				"Ошибка: ТМ не сохранился (не появился в списке)");
 
 			var segmentCount = GetSegmentCount(UniqueTmName);

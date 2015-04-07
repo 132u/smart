@@ -63,11 +63,12 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.TM
 			CommonHelper.LANGUAGE targetLang = CommonHelper.LANGUAGE.Russian)
 		{
 			Logger.Debug(string.Format("Создание ТМ с именем {0}, если такой не найдено", tmName));
-
+			SearchTM(tmName);
 			if (!TMPage.GetIsExistTM(tmName))
 			{
 				CreateTMByNameAndSave(tmName, sourceLang, targetLang);
 			}
+			ClearSearch();
 		}
 
 		public void CreateTMWithUploadTMX(
@@ -151,6 +152,26 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.TM
 			TMPage.AssertionDocumentDownloadFinish();
 		}
 
+		public bool FindTM(string tmName)
+		{
+			SearchTM(tmName);
+			var result = TMPage.GetIsExistTM(tmName);
+			ClearSearch();
+			return result;
+		}
+
+		public void SearchTM(string tmName)
+		{
+			TMPage.InputInTMSearch(tmName);
+			TMPage.ClickSearchBtn();
+		}
+
+		public void ClearSearch()
+		{
+			TMPage.ClearSearchField();
+			TMPage.ClickSearchBtn();
+		}
+
 		public void CheckTMInformationBaloonExisting(
 			string tmName,
 			WorkSpacePageHelper.LOCALE_LANGUAGE_SELECT locale)
@@ -214,7 +235,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.TM
 			// Необходим рефреш страницы, иначе загрузка ТМХ не работает
 			RefreshPage();
 
-			TMPage.ScrollToRequiredTm(tmName);
+			SearchTM(tmName);
 			OpenTMInfo(tmName);
 			TMPage.ClickTMButton(btnType);
 
@@ -457,16 +478,18 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.TM
 		{
 			Logger.Debug(string.Format("Создание фильтра по исходному языку {0}", language));
 
-			TMPage.OpenSourceLanguagesTmFilters();
+			TMPage.ClickSourceLanguagesTmFilters();
 			TMPage.SelectSourceLanguageTmFilter(language);
+			TMPage.ClickSourceLanguagesTmFilters();
 		}
 
 		public void CreateTargetLanguageFilter(CommonHelper.LANGUAGE language)
 		{
 			Logger.Debug(string.Format("Создание фильтра по языку перевода {0}", language));
 
-			TMPage.OpenTargetLanguagesTmFilters();
+			TMPage.ClickTargetLanguagesTmFilters();
 			TMPage.SelectTargetLanguageTmFilter(language);
+			TMPage.ClickTargetLanguagesTmFilters();
 		}
 
 		public void CreateAutorFilter(string authorName)
@@ -487,24 +510,27 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.TM
 		{
 			Logger.Debug(string.Format("Создание фильтра по топику TM {0}", topicName));
 
-			TMPage.OpenTopicsTmFilters();
+			TMPage.ClickTopicsTmFilters();
 			TMPage.SelectTopicTmFilter(topicName);
+			TMPage.ClickTopicsTmFilters();
 		}
 
 		public void CreateProjectGroupFilter(string projectGroupName)
 		{
 			Logger.Debug(string.Format("Создание фильтра по проектной группе {0}", projectGroupName));
 
-			TMPage.OpenProjectGroupTmFilters();
+			TMPage.ClickProjectGroupTmFilters();
 			TMPage.SelectProjectGroupTmFilter(projectGroupName);
+			TMPage.ClickProjectGroupTmFilters();
 		}
 
 		public void CreateClientFilter(string clientName)
 		{
 			Logger.Debug(string.Format("Создание фильтра по клиенту {0}", clientName));
 
-			TMPage.OpenClientsTmFilters();
+			TMPage.ClickClientsTmFilters();
 			TMPage.SelectClientTmFilter(clientName);
+			TMPage.ClickClientsTmFilters();
 		}
 		#endregion
 

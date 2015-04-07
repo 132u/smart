@@ -228,7 +228,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.TM
 			ClickElement(By.XPath(xPath));
 		}
 
-
 		public void InputNewTMName(string name)
 		{
 			Logger.Debug("Ввести имя новой ТМ");
@@ -240,6 +239,24 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.TM
 			Logger.Debug("Вернуть, отмечено ли поле имя в форме создания ТМ ошибкой");
 
 			return GetElementClass(By.XPath(NEW_TM_NAME_XPATH)).Contains("error");
+		}
+
+		public void InputInTMSearch(string tmName)
+		{
+			Logger.Trace("Ввод названия ТМ в поиске");
+			ClearAndAddText(By.XPath(SEARCH), tmName);
+		}
+
+		public void ClearSearchField()
+		{
+			Logger.Trace("Очистить поле поиска");
+			ClearElement(By.XPath(SEARCH));
+		}
+
+		public void ClickSearchBtn()
+		{
+			Logger.Trace("Нажать кнопку поиска (лупа)");
+			ClickElement(By.XPath(SEARCH_BTN));
 		}
 
 		public void ClickSaveNewTM()
@@ -360,7 +377,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.TM
 		public void EditTMAddProject(string projectName)
 		{
 			Logger.Debug(string.Format("Добавить проект {0} к ТМ", projectName));
-			ClickElement(By.XPath(DOMAIN_TO_ADD_XPATH + "[@title='" + projectName + "']"));
+			ClickElement(By.XPath(DOMAIN_TO_ADD_XPATH + "//li//span[text()='" + projectName + "']"));
 		}
 
 		public void EditTMClearComment()
@@ -395,7 +412,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.TM
 		{
 			Logger.Trace("Получить имя проектной группы для ТМ");
 
-			return GetTextElement(By.XPath("//div[contains(@class,'js-domains-multiselect')]//div//span"));
+			return GetTextElement(By.XPath(PROJECT_GROUP_FIELD));
 		}
 
 		public void ClickEditSaveBtn()
@@ -477,13 +494,13 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.TM
 		public void EditTmSelectClient(string clientName)
 		{
 			Logger.Debug(string.Format("Выбрать клиента {0} в форме редактирования ТМ", clientName));
-			ClickElement(By.XPath(TM_EDIT_CLIENT_LIST_XPATH + "[@title='" + clientName + "']"));
+			ClickElement(By.XPath(TM_EDIT_CLIENT_LIST_XPATH + "//span[@title='" + clientName + "']"));
 		}
 
 		public void ClickTopicsListEditTm()
 		{
 			Logger.Debug("Кликнуть на список топиков на форме редактирования ТМ");
-			ClickElement(By.XPath(TM_EDIT_TOPIC_NAME_XPATH));
+			ClickElement(By.XPath(TM_EDIT_TOPICS_LIST));
 		}
 
 		public string GetTopicFromTmEditionDialog()
@@ -539,13 +556,13 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.TM
 			ClickElement(By.XPath(string.Format("//div[contains(@title, '{0}')]//em//img", fullFilterName)));
 		}
 
-		public void OpenSourceLanguagesTmFilters()
+		public void ClickSourceLanguagesTmFilters()
 		{
 			Logger.Debug("Нажать кнопку открытия доступных для выбора исходных языков в ТМ фильтрах");
 			ClickElement(By.XPath(SOURCE_LANG_FILTER_XPATH));
 		}
 
-		public void OpenTargetLanguagesTmFilters()
+		public void ClickTargetLanguagesTmFilters()
 		{
 			Logger.Debug("Нажать кнопку открытия доступных для выбора языков перевода в ТМ фильтрах");
 			ClickElement(By.XPath(TARGET_LANG_FILTER_XPATH));
@@ -557,19 +574,19 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.TM
 			ClickElement(By.XPath(AUTHOR_FILTER_XPATH));
 		}
 
-		public void OpenTopicsTmFilters()
+		public void ClickTopicsTmFilters()
 		{
 			Logger.Debug("Нажать кнопку открытия топиков в ТМ фильтрах");
 			ClickElement(By.XPath(TOPICS_XPATH));
 		}
 
-		public void OpenProjectGroupTmFilters()
+		public void ClickProjectGroupTmFilters()
 		{
 			Logger.Debug("Нажать кнопку открытия проектных групп в ТМ фильтрах");
 			ClickElement(By.XPath(PROJECT_GROUP_FILTER_XPATH));
 		}
 
-		public void OpenClientsTmFilters()
+		public void ClickClientsTmFilters()
 		{
 			Logger.Debug("Нажать кнопку открытия клиентов в ТМ фильтрах");
 			ClickElement(By.XPath(CLIENTS_FILTER_XPATH));
@@ -712,12 +729,12 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.TM
 		protected const string TM_ROW_XPATH = "//td[@class='l-corpr__td tm']/span";
 
 		protected const string BTN_ROW_XPATH = "//tr[@class='js-tm-panel']";
-		protected const string UPDATE_BTN_XPATH = BTN_ROW_XPATH + "//span[contains(@title, 'Update')]";
-		protected const string EXPORT_BTN_XPATH = BTN_ROW_XPATH + "//span[contains(@title, 'Export')]";
-		protected const string DELETE_BTN_XPATH = BTN_ROW_XPATH + "//span[contains(@title, 'Delete')]";
-		protected const string ADD_TMX_BTN_XPATH = BTN_ROW_XPATH + "//span[contains(@title, 'Add')]";
-		protected const string EDIT_BTN_XPATH = BTN_ROW_XPATH + "//span[contains(@title, 'Edit')]";
-		protected const string SAVE_BTN_XPATH = BTN_ROW_XPATH + "//span[contains(@title, 'Save')]";
+		protected const string UPDATE_BTN_XPATH = BTN_ROW_XPATH + "//span[contains(@data-bind, 'switchToEditing')]";
+		protected const string EXPORT_BTN_XPATH = BTN_ROW_XPATH + "//a[contains(@href, 'Export')]";
+		protected const string DELETE_BTN_XPATH = BTN_ROW_XPATH + "//span[contains(@data-bind, 'deleteTranslationMemory')]";
+		protected const string ADD_TMX_BTN_XPATH = BTN_ROW_XPATH + "//span[contains(@data-bind, 'appendImportFile')]";
+		protected const string EDIT_BTN_XPATH = BTN_ROW_XPATH + "//span[contains(@data-bind, 'switchToEditing')]";
+		protected const string SAVE_BTN_XPATH = BTN_ROW_XPATH + "//span[contains(@data-bind, 'save')]";
 		// TODO заменить id
 		protected const string PROJECT_GROUP_SPAN_XPATH = BTN_ROW_XPATH + "//div[contains(@data-bind,'domainNames')]";
 		protected const string SEGMENT_SPAN_XPATH = BTN_ROW_XPATH + "//table[@class='l-tmpanel__table']//div[4]";
@@ -732,7 +749,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.TM
 		protected const string TARGET_LANG_LIST_XPATH =CREATE_TM_DIALOG_XPATH + "//select[contains(@data-watermark,'Select language')]/option";
 
 		protected const string PROJECT_TO_ADD_ITEM_XPATH = "//div[contains(@class,'ui-multiselect')]//ul//li[2]//label//span[2]";
-		protected const string DOMAIN_TO_ADD_XPATH = "//div[contains(@class,'js-domains-multiselect')]//ul//input";
+		protected const string DOMAIN_TO_ADD_XPATH = "//div[contains(@class, 'ui-multiselect-menu')][1]//ul[contains(@class, 'multiselect-checkboxes')]";
 
 		protected const string NEW_TM_NAME_XPATH = CREATE_TM_DIALOG_XPATH + "//input[contains(@data-bind,'name')]";
 		protected const string SAVE_TM_BTN_XPATH = CREATE_TM_DIALOG_XPATH + "//span[contains(@data-bind, 'save')]";
@@ -747,9 +764,9 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.TM
 		protected const string TM_EDIT_TARGET_LANGUAGE = TM_EDIT_FORM_XPATH + "//td[2]//div[1]//div[contains(@class,'ui-multiselect')]/div";
 		protected const string TM_EDIT_PROJECT = TM_EDIT_FORM_XPATH + "//td[2]//div[3]//div[contains(@class,'ui-multiselect')]/div";
 		protected const string TM_EDIT_CANCEL = TM_EDIT_FORM_XPATH + "//span[contains(@class,'js-cancel-btn')]";
-		protected const string TM_EDIT_CLIENT_LIST_XPATH = "//span[contains(@class, 'js-client-select')]";
-		protected const string TM_EDIT_TOPICS_LIST = "//div[contains (@class, 'js-topics')]";
-		protected const string TM_EDIT_TOPIC_NAME_XPATH = TM_EDIT_TOPICS_LIST + "//div//div[1]//span//span";
+		protected const string TM_EDIT_CLIENT_LIST_XPATH = "//select[contains(@data-bind, 'allClientsList')]/following::span[contains(@class, 'dropdown')]";
+		protected const string TM_EDIT_TOPICS_LIST = "//tr[contains(@class, 'tm-panel')]//div[contains(@data-bind, 'topicDropdown')]";
+		protected const string TM_EDIT_TOPIC_NAME_XPATH = TM_EDIT_TOPICS_LIST + "//div[contains(@class, 'treeview_mainWidget')]";
 		
 		protected const string NOTIFICATION_BALOON_XPATH = "//div[contains(@class,'g-notifications-container')]";
 		protected const string NOTIFICATION_BALOON_TEXT_XPATH = NOTIFICATION_BALOON_XPATH + "//span[1]";
@@ -785,5 +802,8 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.TM
 		protected const string TARGET_LANG_ITEM_XPATH =
 			"//div[contains(@class,'ui-multiselect')]//ul[@class='ui-multiselect-checkboxes ui-helper-reset']//li//input[@value='";
 		protected const string CONFIRM_WINDOW = "//div[@class='g-popupbox l-confirm']";
+		protected const string SEARCH = "//input[contains(@class, 'search-tm')]";
+		protected const string SEARCH_BTN = "//a[contains(@class, 'search-by-name')]";
+		protected const string PROJECT_GROUP_FIELD = "//select[contains(@data-bind, 'allDomainsList')]/following::div[contains(@class, 'multiselect-choice-block')]";
 	}
 }
