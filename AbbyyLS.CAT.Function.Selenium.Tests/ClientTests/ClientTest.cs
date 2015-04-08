@@ -19,7 +19,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		public void Setup()
 		{
 			// Не закрывать браузер
-			QuitDriverAfterTest = false;
+			QuitDriverAfterTest = true;
 			
 			// Переходим к странице клиентов
 			GoToUrl(RelativeUrlProvider.Clients);

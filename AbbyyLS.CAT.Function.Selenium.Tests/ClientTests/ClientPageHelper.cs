@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Windows.Forms;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.UI;
 
@@ -47,6 +48,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		public void ClickCreateClientBtn()
 		{
 			Logger.Trace("Клик по кнопке Create Client");
+			SendKeys.SendWait("{HOME}");
 			ClickElement(By.XPath(ADD_CLIENT_BTN_XPATH));
 		}
 
