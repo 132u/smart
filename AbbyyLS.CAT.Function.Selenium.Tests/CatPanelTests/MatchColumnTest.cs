@@ -11,7 +11,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 	/// <summary>
 	/// Группа тестов для проверки колонки match в таргете при выдачах из cat-панели
 	/// </summary>
-	[Category("SCAT_102")]
+	[Category("ForLocalRun")]
 	class MatchColumnTest<TWebDriverSettings> : BaseTest<TWebDriverSettings> where TWebDriverSettings : IWebDriverSettings, new()
 	{
 		[SetUp]
