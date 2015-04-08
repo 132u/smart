@@ -210,15 +210,15 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <param name="langType">язык</param>
 		public void SelectLocale(LOCALE_LANGUAGE_SELECT langType)
 		{
-			Logger.Debug(string.Format("Меняем язык интерфейса на {0}"), langType);
+			Logger.Debug(string.Format("Меняем язык интерфейса на {0}", langType));
 			var lang = langType == LOCALE_LANGUAGE_SELECT.English
 									? LOCALE_EN_LANG
 									: LOCALE_RU_LANG;
 			var xPath = LOCALE_REF_PATH + lang + "']";
-			Logger.Trace(string.Format("Проверяем, что можем выбрать {0} язык."), langType);
+			Logger.Trace(string.Format("Проверяем, что можем выбрать {0} язык.", langType));
 			if (WaitUntilDisplayElement(By.XPath(xPath), 1))
 			{
-				Logger.Trace(string.Format("Выбираем {0} язык."), langType);
+				Logger.Trace(string.Format("Выбираем {0} язык.", langType));
 				ClickElement(By.XPath(xPath));
 			}
 		}
