@@ -327,9 +327,8 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			else
 			{
 				var modifier = GetElementList(By.XPath(MODIFIER_CHECKBOXES));
-				
-				var authorCheckbox = modifier.FirstOrDefault(item => item.GetAttribute("title") == userName);
-
+				var split = userName.Split(' ');
+				var authorCheckbox = modifier.FirstOrDefault(item => split.Count(word => item.GetAttribute("title").Contains(word)) == split.Count());
 				if (authorCheckbox == null)
 				{
 					throw new NullReferenceException("Невозможно найти чекбокс соответствующий автору " + userName);
