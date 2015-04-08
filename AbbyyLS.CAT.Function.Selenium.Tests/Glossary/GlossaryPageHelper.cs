@@ -142,9 +142,9 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 
 		public void AssertionConceptSave()
 		{
-			Logger.Trace("Проверка появления открытого сохраненного термина");
-
-			Assert.IsTrue(WaitUntilDisplayElement(By.XPath(OPENED_CONCEPT_ROW_XPATH), maxWait: 20), "Ошибка: термин не сохранился");
+			Logger.Trace("Проверка появления открытого сохраненного термина"); 
+			// Не стали использовать WaitUntilDisplayElement,т.к. на тимсити элемент закрывается сползающим хэдером. 
+			Assert.IsTrue(GetIsElementExist(By.XPath(OPENED_CONCEPT_ROW_XPATH)), "Ошибка: термин не сохранился");
 		}
 
 		public void AssertionDocumentUploaded(string fieldName)
