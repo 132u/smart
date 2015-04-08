@@ -108,7 +108,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		public void CheckAutoReverse()
 		{
 			AddAccountWithDictionaries();
-
 			// Поменять языки на странице поиска, если надо
 			ChangeLanguages();
 
