@@ -93,12 +93,12 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// </summary>
 		/// <param name="upgrade">Продление или апргрейд </param>
 		/// <param name="currency"> Валюта </param>
-		[TestCase(true, "RUB", WorkSpacePageHelper.LOCALE_LANGUAGE_SELECT.Russian, "(руб.)")] // Rub -> $
-		[TestCase(false, "$", WorkSpacePageHelper.LOCALE_LANGUAGE_SELECT.English, "$")] // $ -> Rub
-		[TestCase(true, "$", WorkSpacePageHelper.LOCALE_LANGUAGE_SELECT.English, "$")] // $ -> Rub
-		[TestCase(false, "RUB", WorkSpacePageHelper.LOCALE_LANGUAGE_SELECT.Russian, "(руб.)")] // Rub -> $
+		[TestCase(true, "RUB", LOCALE_LANGUAGE_SELECT.Russian, "(руб.)")] // Rub -> $
+		[TestCase(false, "$", LOCALE_LANGUAGE_SELECT.English, "$")] // $ -> Rub
+		[TestCase(true, "$", LOCALE_LANGUAGE_SELECT.English, "$")] // $ -> Rub
+		[TestCase(false, "RUB", LOCALE_LANGUAGE_SELECT.Russian, "(руб.)")] // Rub -> $
 		[Test]
-		public void LocaleCurrency(bool upgrade, string currency, WorkSpacePageHelper.LOCALE_LANGUAGE_SELECT language, string sign)
+		public void LocaleCurrency(bool upgrade, string currency, LOCALE_LANGUAGE_SELECT language, string sign)
 		{
 
 			LoginToAdminPage();
@@ -107,8 +107,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			AddUserToCorpAccount(Login);
 			Authorization(Login, Password, accountName);
 
-			// Закрываем панель выбора языка
-			WorkspacePage.ClickLanguagSwitcher();
 			// Выбираем язык в WS
 			WorkspacePage.SelectLocale(language);
 			// Переход в личный кабинет
@@ -125,12 +123,12 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			if (currency == "RUB")
 			{
 				// Выбираем английский язык в WS
-				WorkspacePage.SelectLocale(WorkSpacePageHelper.LOCALE_LANGUAGE_SELECT.English);
+				WorkspacePage.SelectLocale(LOCALE_LANGUAGE_SELECT.English);
 			}
 			if (currency == "$")
 			{
 				// Выбираем русский язык в WS
-				WorkspacePage.SelectLocale(WorkSpacePageHelper.LOCALE_LANGUAGE_SELECT.Russian);
+				WorkspacePage.SelectLocale(LOCALE_LANGUAGE_SELECT.Russian);
 			}
 			// Переход в личный кабинет
 			GoToMyAccount();

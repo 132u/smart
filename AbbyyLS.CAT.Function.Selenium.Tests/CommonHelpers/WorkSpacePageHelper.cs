@@ -58,14 +58,11 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 									? LOCALE_EN_LANG 
 									: LOCALE_RU_LANG;
 			var xPath = LOCALE_REF_PATH + "[@data-locale='" + lang + "']";
-			SetDriverTimeoutMinimum();
 			ClickLanguagSwitcher();
-			if (GetIsElementExist(By.XPath(xPath)))
+			if (WaitUntilDisplayElement(By.XPath(xPath), 1))
 			{
 				ClickElement(By.XPath(xPath));
 			}
-
-			SetDriverTimeoutDefault();
 		}
 
 		public LOCALE_LANGUAGE_SELECT GetCurrentLocale()
@@ -704,7 +701,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 
 		protected const string ADD_FILE_TO_PROJECT = "//div[contains(@class, 'popup-import-document')][2]//input[@type='file']"; // добавление документа уже сущестующему проекту на стр WS
 
-		public enum LOCALE_LANGUAGE_SELECT { English, Russian };
 		public enum EXPORT_TYPE { Original, TMX, Translated };
 
 		public void ClickLanguagSwitcher()

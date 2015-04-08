@@ -133,14 +133,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			ClickElement(By.XPath(GetAccountItemXPath(accountName, dataServer)));
 		}
 
-		public void WaitPageLoadLpro()
-		{
-			Logger.Trace("Дождаться загрузки страницы на lpro");
-			Assert.IsTrue(
-				WaitUntilDisplayElement(By.XPath(LOGIN_BTN_LPRO_XPATH)),
-				"Не прогрузилась страница Login - возможно, сайт недоступен");
-		}
-
 		/// <summary>
 		/// Дождаться появления заголовка SIGN IN на странице выбора аккаунта
 		///  </summary>
@@ -148,32 +140,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		{
 			Logger.Trace("Ожидаем появления заголовка SIGN IN на странице выбора аккаунта");
 			return WaitUntilDisplayElement(By.XPath(SIGN_IN_HEADER));
-		}
-
-		/// <summary>
-		/// Ввести логин на lpro
-		/// </summary>
-		/// <param name="login">логин</param>
-		public void EnterLoginLpro(string login)
-		{
-			ClearAndAddText(By.Id(EMAIL_LPRO_XPATH), login);
-		}
-
-		/// <summary>
-		/// Ввести пароль на lpro
-		/// </summary>
-		/// <param name="password">пароль</param>
-		public void EnterPasswordLpro(string password)
-		{
-			ClearAndAddText(By.Id(PASSWORD_LPRO_XPATH), password);
-		}
-
-		/// <summary>
-		/// Кликнуть кнопку Login на странице авторизации
-		/// </summary>
-		public void ClickSubmitLpro()
-		{
-			ClickElement(By.XPath(SUBMIT_LPRO_XPATH));
 		}
 
 		/// <summary>
@@ -237,7 +203,26 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			Thread.Sleep(2000);
 			return GetElementList(By.XPath(ACCOUNT_LIST)).Count;
 		}
-		
+
+		/// <summary>
+		/// Выбрать язык локали
+		/// </summary>
+		/// <param name="langType">язык</param>
+		public void SelectLocale(LOCALE_LANGUAGE_SELECT langType)
+		{
+			Logger.Debug(string.Format("Меняем язык интерфейса на {0}"), langType);
+			var lang = langType == LOCALE_LANGUAGE_SELECT.English
+									? LOCALE_EN_LANG
+									: LOCALE_RU_LANG;
+			var xPath = LOCALE_REF_PATH + lang + "']";
+			Logger.Trace(string.Format("Проверяем, что можем выбрать {0} язык."), langType);
+			if (WaitUntilDisplayElement(By.XPath(xPath), 1))
+			{
+				Logger.Trace(string.Format("Выбираем {0} язык."), langType);
+				ClickElement(By.XPath(xPath));
+			}
+		}
+
 		public bool IsOneOfServersNotRespondingErrorExist()
 		{
 			return WaitUntilDisplayElement(By.XPath(ERROR_NOT_RESPONDING_MESSAGE_XPATH), maxWait: 5);
@@ -360,6 +345,9 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		protected const string SIGN_UP_FREELANCE_BTN = "//a[@translate='FREELANCE']";
 		protected const string SIGN_UP_COMPANY_BTN = "//a[@translate='CORPORATE']";
 		protected const string ERROR_NO_SERVER = "//span[@translate='ACCOUNT-SERVER-NOT-RESPONDING']";
+		protected const string LOCALE_REF_PATH = "//a[@translate='switch-to-";
+		protected const string LOCALE_EN_LANG = "en";
+		protected const string LOCALE_RU_LANG = "ru";
 	}
 }
 

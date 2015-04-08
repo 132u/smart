@@ -98,9 +98,9 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.TM
 		/// <summary>
 		/// Проверка повляения уведамлений при загрузке TMX файла
 		/// </summary>
-		[TestCase(WorkSpacePageHelper.LOCALE_LANGUAGE_SELECT.Russian)]
-		[TestCase(WorkSpacePageHelper.LOCALE_LANGUAGE_SELECT.English)]
-		public void CheckNotificationDuringTMXFileUploading(WorkSpacePageHelper.LOCALE_LANGUAGE_SELECT locale)
+		[TestCase(LOCALE_LANGUAGE_SELECT.Russian)]
+		[TestCase(LOCALE_LANGUAGE_SELECT.English)]
+		public void CheckNotificationDuringTMXFileUploading(LOCALE_LANGUAGE_SELECT locale)
 		{
 			Logger.Info(string.Format("Начало работы теста CheckNotificationDuringTMXFileUploading(). Локализация: {0}", locale));
 

@@ -174,14 +174,14 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.TM
 
 		public void CheckTMInformationBaloonExisting(
 			string tmName,
-			WorkSpacePageHelper.LOCALE_LANGUAGE_SELECT locale)
+			LOCALE_LANGUAGE_SELECT locale)
 		{
 			Logger.Debug(string.Format("Проверка существования необходимых плашек. Имя ТМ: {0}, локализация: {1}", tmName, locale));
 			
 			bool isProcessingInformationBaloonExist;
 			bool isTUInformationBaloonExist;
 
-			if (locale == WorkSpacePageHelper.LOCALE_LANGUAGE_SELECT.English)
+			if (locale == LOCALE_LANGUAGE_SELECT.English)
 			{
 				// Получаем информацию о наличии\отсутствии плашки с предупреждением о том, 
 				// что информация обрабатывается была выведена

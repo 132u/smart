@@ -526,60 +526,49 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			{
 				Driver.Navigate().GoToUrl(Url + RelativeUrlProvider.SingIn);
 
-				if (Driver.Url.Contains("pro"))
+				// Проверить, загрузилась ли
+				Assert.IsTrue(LoginPage.WaitPageLoad(),
+					"Не прогрузилась страница Login - возможно, сайт недоступен");
+				LoginPage.SelectLocale(LOCALE_LANGUAGE_SELECT.English);
+				// Заполнить логин и пароль
+				LoginPage.EnterLogin(authLogin);
+				LoginPage.EnterPassword(authPassword);
+				LoginPage.ClickSubmitCredentials();
+
+				if (LoginPage.GetIsErrorExist())
 				{
-					LoginPage.WaitPageLoadLpro();
-
-					// Заполнить логин и пароль
-					LoginPage.EnterLoginLpro(authLogin);
-					LoginPage.EnterPasswordLpro(authPassword);
-					Thread.Sleep(1000);
-					LoginPage.ClickSubmitLpro();
+					Assert.Fail("Появилась ошибка при входе! М.б.недоступен AOL.");
 				}
-				else
+
+				if (LoginPage.GetAccountsCount() == 1 && !LoginPage.IsOneOfServersNotRespondingErrorExist())
 				{
-					// Проверить, загрузилась ли
-					Assert.IsTrue(LoginPage.WaitPageLoad(),
-						"Не прогрузилась страница Login - возможно, сайт недоступен");
-					// Заполнить логин и пароль
-					LoginPage.EnterLogin(authLogin);
-					LoginPage.EnterPassword(authPassword);
-					LoginPage.ClickSubmitCredentials();
-
-					if (LoginPage.GetIsErrorExist())
-					{
-						Assert.Fail("Появилась ошибка при входе! М.б.недоступен AOL.");
-					}
-
-					if (LoginPage.GetAccountsCount() == 1 && !LoginPage.IsOneOfServersNotRespondingErrorExist())
-					{
-						Assert.Fail("Если аккаунт единственный, должно сразу осуществляться перенапралвение  в него.");
-					}
-					
-					if (!WorkspacePage.WaitPageLoad())
-					{
-						if (!LoginPage.WaitAccountExist(accountName, waitmax: 8, dataServer: dataServer))
-						{
-							Assert.Fail("В списке аккаунтов нет нужного " + accountName);
-						}
-						// Выбрать аккаунт
-						LoginPage.ClickAccountName(accountName);
-					}
-					
-					//проверка того,что мы в нужном аккаунте
-					//(на случай,когда у пользователя один аккаунт и это не нужный нам аккаунт)
-					var currentAccountName = WorkspacePage.GetCompanyName();
-					if (currentAccountName != accountName)
-					{
-						Assert.Fail("Ошибка: не зашли в аккаунт:" + accountName + ". У пользователя один аккаунт (" + currentAccountName + ") и произошло автоматическое перенаправление в него.");
-					}
-					// иначе у пользователя только 1 аккаунт
+					Assert.Fail("Если аккаунт единственный, должно сразу осуществляться перенапралвение  в него.");
 				}
+					
+				if (!WorkspacePage.WaitPageLoad())
+				{
+					if (!LoginPage.WaitAccountExist(accountName, waitmax: 8, dataServer: dataServer))
+					{
+						Assert.Fail("В списке аккаунтов нет нужного " + accountName);
+					}
+					// Выбрать аккаунт
+					LoginPage.ClickAccountName(accountName);
+				}
+					
+				//проверка того,что мы в нужном аккаунте
+				//(на случай,когда у пользователя один аккаунт и это не нужный нам аккаунт)
+				var currentAccountName = WorkspacePage.GetCompanyName();
+				if (currentAccountName != accountName)
+				{
+					Assert.Fail("Ошибка: не зашли в аккаунт:" + accountName + ". У пользователя один аккаунт (" + currentAccountName + ") и произошло автоматическое перенаправление в него.");
+				}
+				// иначе у пользователя только 1 аккаунт
 			}
 
-			// Изменили язык на Английский
+			// Проверяем, что выставлен Английский язык
 			WorkspacePage.WaitAppearLocaleBtn();
-			WorkspacePage.SelectLocale(WorkSpacePageHelper.LOCALE_LANGUAGE_SELECT.English);
+			Assert.AreEqual(LOCALE_LANGUAGE_SELECT.English, WorkspacePage.GetCurrentLocale(),
+				string.Format("Ошибка: Должен быть выставлен {0} язык.", LOCALE_LANGUAGE_SELECT.English));
 		}
 
 		/// <summary>
