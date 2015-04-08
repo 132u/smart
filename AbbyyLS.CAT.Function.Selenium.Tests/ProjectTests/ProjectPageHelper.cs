@@ -787,7 +787,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		protected const string GLOSSARY_LIST_XPATH = "//div[@class='g-page']//table//tbody[@data-bind='foreach: glossaries']//tr";
 		protected const string EDIT_GLOSSARY_SAVE_BTN_XPATH = "//span[contains(@data-bind,'click: saveGlossaries')]";
 
-		protected const string PROJECT_SETTINGS_BTN_XPATH = "//span[contains(@class,'js-project-edit')]";
+		protected const string PROJECT_SETTINGS_BTN_XPATH = "//span[contains(@data-bind,'click: edit')]";
 		protected const string PROJECT_SETTINGS_WORKFLOW_XPATH = SETTING_POPUP + "//a[contains(@data-bind, 'activeTab(workflowTab);')]";
 		protected const string SETTING_POPUP = "//div[contains(@class,'js-popup-edit')][2]";
 		protected const string PROJECT_SETTINGS_WF_TABLE_XPATH = "//div[contains(@class,'js-popup-edit')][2]//tbody[@data-bind='foreach: workflowStages']";
