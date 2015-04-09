@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using System.IO;
 using System.Collections.Generic;
 using System.Linq;
@@ -1620,7 +1621,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		{
 			// Получить уникальное имя глоссария (т.к. добавляется точная дата и время, то не надо проверять, есть ли такой глоссарий в списке)
 			// Явное приведение к строке стоит, чтобы не падал ArgumentOutOfRangeException. (неявное приведение даты иногда не отрабатывает корректно)
-			return GlossaryName + DateTime.Now.ToString("MM.dd.yyyy HH:mm:ss");
+			return GlossaryName + DateTime.Now.ToString("MM.dd.yyyy HH:mm:ss", new CultureInfo("en-US"));
 		}
 
 		/// <summary>
