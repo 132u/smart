@@ -273,11 +273,8 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			Logger.Trace("Проверка, что комбобокс Затея есть на странице");
 			if (GetIsElementDisplay(By.XPath(VENTURE_XPATH)))
 			{
-				Logger.Trace("Клик по комбобоксу Затея");
-				ClickElement(By.XPath(VENTURE_XPATH));
-				WaitUntilDisplayElement(By.XPath(VENTURE_XPATH + "//option[contains(@value,'" + name + "')]"));
-				Logger.Trace("Клик нужной Затеи " + name);
-				ClickElement(By.XPath(VENTURE_XPATH + "//option[contains(@value,'" + name + "')]"));
+				Logger.Trace("Выбор нужной затеи: " + name);
+				SendTextElement(By.XPath(VENTURE_XPATH), name);
 			}
 		}
 
@@ -430,7 +427,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			Logger.Trace("Проверка стоит ли галочка в чекбоксе 'Администратор'");
 			return GetIsInputChecked(By.XPath(IS_ADMIN_CHECKBOX));
 		}
-
 
 		/// <summary>
 		/// Кликнуть по ссылке Поиск пользователей в меню

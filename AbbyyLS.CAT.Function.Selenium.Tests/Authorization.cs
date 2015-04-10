@@ -25,6 +25,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			_persAccount = "PersAccount" + RandomString.Generate(10);
 			_corpAccount = "CorpAccount" + RandomString.Generate(10);
 		}
+
 		private string _email;
 
 		private string _password;
@@ -51,7 +52,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		[TestCase("Facebook", "margarita.kolly@yandex.ru", "0onWolkap")]
 		[TestCase("Google", "smaartcat@gmail.com", "smaartcattest")]
 		[TestCase("LinkedIn", "margarita.kolly@yandex.ru", "0onWolkap")]
-		[Test]
 		public void LoginViaSocialNetwork(string site, string email, string password)
 		{
 			GoToSignInPage();
@@ -111,7 +111,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		[TestCase("", "YrdyNpnnu", "emptyEmail")] // пустой email
 		[TestCase("noFoundEmail@mailforspam.com", "YrdyNpnnu", "notFoundEmail")] // несуществующий email
 		[TestCase("invalidEmail", "YrdyNpnnu", "invalidEmail")] // неправильный email, без символа @
-		[Test]
 		public void LoginIncorrectCredentials(string email, string password, string error)
 		{
 			LogIn(email, password);
@@ -233,39 +232,41 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		}
 
 		/// <summary>
-		/// Проверка возможности выбирать аккаунт
+		/// Проверка возможности выбирать аккаунт Coursera
 		/// </summary>
-		[TestCase("Perevedem.ru")]
 		[TestCase("Coursera")]
-		[Test]
+		[TestCase("Perevedem")]
 		public void LoginVenture(string venture)
 		{
-			if (venture == "Coursera")
-			{
-				if (!CourseraUserFileExist() || (CourseraUserList.Count == 0))
-				{
-					Assert.Ignore("Файл CourseraUsers.xml с тестовыми пользователями отсутствует или в файле нет данных о юзере");
-				}
-				LogIn(CourseraUserList[0].Login, CourseraUserList[0].Password);
-			}
-			else
-			{
-				LoginToAdminPage();
-				CreateNewUserInAdminPage(_email, _nickName, _password);
-				CreateCorporateAccount(_corpAccount, true, venture);
-				AddUserToSpecifyAccount(_email, _corpAccount);
-				LogIn(_email, _password);
-			}
+			LoginToAdminPage();
+			CreateNewUserInAdminPage(_email, _nickName, _password);
+			AddUserToSpecifyAccount(_email, venture);
+			LogIn(_email, _password);
 
-			Assert.IsTrue(
-				LoginPage.WaitAccountExist(_corpAccount),
-				"Ошибка: название аккаунта не отображается на странице выбора аккаунта");
+			switch (venture)
+			{
+				case "Coursera":
+					Assert.IsTrue(GetStartSignUpPageDisplay(),
+						"Ошибка: не открылось окно выбора аккаунта для регистрации (фрилансер или корпоративный).");
+					break;
+
+				case "Perevedem":
+					Assert.IsTrue(WorkspacePage.WaitPageLoad(),
+						"Ошибка: Не загрузилась страница workspace (т.к. аккаунт один, должна произойти автоматическая переадресация).");
+					var companyName = WorkspacePage.GetCompanyName();
+					Assert.IsTrue(companyName == venture,
+						"Ошибка: Имя компании не соответствует ожидаемому.");
+					break;
+
+				default:
+					Assert.Fail("В тест передан не верный аргумент, который не предусмотрен!");
+					break;
+			}
 		}
 
 		/// <summary>
 		/// Авторизация пользователя с неактивными аккаунтом
 		/// </summary>
-		/// <param name="account"></param>
 		[Test]
 		public void LoginInactiveAccount()
 		{
@@ -284,7 +285,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		[Category("ForLocalRun")]
 		[TestCase(0, "active")]
 		[TestCase(1, "inactive")]
-		[Test]
 		public void LoginActiveAolAccount(int userNumber, string active)
 		{
 			if (!AolUserFileExist() || (AolUserList.Count == 0))
