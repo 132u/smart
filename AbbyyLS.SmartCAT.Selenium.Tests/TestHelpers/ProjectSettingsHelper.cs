@@ -3,10 +3,8 @@ using AbbyyLS.SmartCAT.Selenium.Tests.TestFramework;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 {
-	public class ProjectSettingsHelper
+	public class ProjectSettingsHelper : WorkspaceHelper
 	{
-		private readonly ProjectSettingsPage _projectPage = new ProjectSettingsPage();
-
 		/// <summary>
 		/// Назначить ответственного на документ
 		/// </summary>
@@ -95,5 +93,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 			return loginHelper;
 		}
+
+		private readonly ProjectSettingsPage _projectPage = new ProjectSettingsPage();
 	}
 }

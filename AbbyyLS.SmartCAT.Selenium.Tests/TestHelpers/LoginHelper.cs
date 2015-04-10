@@ -3,10 +3,8 @@ using AbbyyLS.SmartCAT.Selenium.Tests.TestFramework;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 {
-	public class LoginHelper
+	public class LoginHelper 
 	{
-		private readonly SignInPage _signInPage = new SignInPage();
-
 		/// <summary>
 		/// Авторизация
 		/// </summary>
@@ -32,5 +30,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 			return this;
 		}
+
+		private readonly SignInPage _signInPage = new SignInPage();
 	}
 }

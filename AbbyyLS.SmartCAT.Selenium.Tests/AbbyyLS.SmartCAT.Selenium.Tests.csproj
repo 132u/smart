@@ -18,7 +18,7 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
+    <OutputPath>..\bin\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -37,9 +37,11 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="NConfiguration">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\lib\Common\External\NConfiguration\NConfiguration.dll</HintPath>
     </Reference>
     <Reference Include="NLog">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\lib\Common\External\NLog\NLog.dll</HintPath>
     </Reference>
     <Reference Include="nunit.framework, Version=2.6.3.13283, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77, processorArchitecture=MSIL">
@@ -69,10 +71,15 @@
     <Compile Include="Pages\Admin\AdminLettersSearchPage.cs" />
     <Compile Include="Pages\Admin\AdminLingvoProPage.cs" />
     <Compile Include="Pages\Admin\AdminSignInPage.cs" />
+    <Compile Include="Pages\Client\ClientsPage.cs" />
     <Compile Include="Pages\Editor\EditorPage.cs" />
     <Compile Include="Pages\Editor\SelectTaskDialog.cs" />
+    <Compile Include="Pages\Glossaries\GlossariesPage.cs" />
+    <Compile Include="Pages\Glossaries\NewGlossaryDialog.cs" />
     <Compile Include="Pages\Login\SelectAccountForm.cs" />
     <Compile Include="Pages\Login\SignInPage.cs" />
+    <Compile Include="Pages\TranslationMemories\NewTranslationMemoryDialog.cs" />
+    <Compile Include="Pages\TranslationMemories\TranslationMemoriesPage.cs" />
     <Compile Include="Pages\Workspace\CreateProjectDialog\CreateTMDialog.cs" />
     <Compile Include="Pages\Workspace\CreateProjectDialog\NewProjectGeneralInformationDialog.cs" />
     <Compile Include="Pages\Workspace\CreateProjectDialog\NewProjectSelectGlossariesDialog.cs" />
@@ -93,26 +100,47 @@
     <Compile Include="TestFramework\WebDriverExtensions.cs" />
     <Compile Include="TestFramework\WebElementExtensions.cs" />
     <Compile Include="TestHelpers\AdminHelper.cs" />
+    <Compile Include="TestHelpers\ClientsHelper.cs" />
     <Compile Include="TestHelpers\CreateProjectHelper.cs" />
     <Compile Include="TestHelpers\EditorHelper.cs" />
+    <Compile Include="TestHelpers\GlossariesHelper.cs" />
     <Compile Include="TestHelpers\LoginHelper.cs" />
     <Compile Include="TestHelpers\ProjectSettingsHelper.cs" />
+    <Compile Include="TestHelpers\TranslationMemoriesHelper.cs" />
     <Compile Include="TestHelpers\UsersRightsHelper.cs" />
+    <Compile Include="TestHelpers\WorkspaceHelper.cs" />
     <Compile Include="TestSettingDefinition.cs" />
     <Compile Include="Tests\BaseTest.cs" />
     <Compile Include="Tests\ClientTests.cs" />
     <Compile Include="UserInfoConfig.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config" />
-    <None Include="NLog.config" />
+    <None Include="App.config">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="NLog.config">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="..\lib\chromedriver.exe">
+      <Link>chromedriver.exe</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="..\lib\IEDriverServer.exe">
+      <Link>IEDriverServer.exe</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
-       Other similar extension points exist, see Microsoft.Common.targets.
+	   Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
   </Target>
   <Target Name="AfterBuild">

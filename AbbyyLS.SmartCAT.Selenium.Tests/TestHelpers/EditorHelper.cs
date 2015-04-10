@@ -4,11 +4,8 @@ using NUnit.Framework;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 {
-	public class EditorHelper
+	public class EditorHelper 
 	{
-		private readonly SelectTaskDialog _selectTask = new SelectTaskDialog();
-		private readonly EditorPage _editorPage = new EditorPage();
-
 		/// <summary>
 		/// Выбрать задание (перевод или просмотр)
 		/// </summary>
@@ -134,5 +131,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 			return this;
 		}
+
+		private readonly SelectTaskDialog _selectTask = new SelectTaskDialog();
+		private readonly EditorPage _editorPage = new EditorPage();
+
 	}
 }

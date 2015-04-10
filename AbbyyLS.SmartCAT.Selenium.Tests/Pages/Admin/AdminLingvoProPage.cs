@@ -15,6 +15,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Admin
 			var adminLingvoProPage = new AdminLingvoProPage();
 			InitPage(adminLingvoProPage);
 			LoadPage();
+
 			return adminLingvoProPage;
 		}
 		
@@ -32,9 +33,10 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Admin
 		/// </summary>
 		public AdminEnterpriseAccountsPage ClickEnterpriseAccountsRef()
 		{
-			Logger.Trace("Кликаем по ссылке 'Корпоративные аккаунты'.");
+			Logger.Debug("Кликаем по ссылке 'Корпоративные аккаунты'.");
 			EnterpriseAccountsRef.Click();
 			var adminEnterpriseAccountsPage = new AdminEnterpriseAccountsPage();
+
 			return adminEnterpriseAccountsPage.GetPage();
 		}
 
@@ -43,9 +45,10 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Admin
 		/// </summary>
 		public AdminEmailsSearchPage ClickAdminLettersSearchRef()
 		{
-			Logger.Trace("Кликаем по ссылке 'Поиск писем'.");
+			Logger.Debug("Кликаем по ссылке 'Поиск писем'.");
 			LettersSearchRef.Click();
 			var adminEmailsSearchPage = new AdminEmailsSearchPage();
+
 			return adminEmailsSearchPage.GetPage();
 		}
 

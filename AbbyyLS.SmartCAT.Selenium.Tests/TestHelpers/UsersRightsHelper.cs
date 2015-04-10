@@ -4,10 +4,8 @@ using AbbyyLS.SmartCAT.Selenium.Tests.TestFramework;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 {
-	public class UsersRightsHelper
+	public class UsersRightsHelper : WorkspaceHelper
 	{
-		private readonly UsersRightsPage _usersRightsPage = new UsersRightsPage();
-
 		/// <summary>
 		/// Проверяем, существует ли нужная нам группа, если нет, то создаем
 		/// </summary>
@@ -110,5 +108,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 			return this;
 		}
+
+		private readonly UsersRightsPage _usersRightsPage = new UsersRightsPage();
 	}
 }

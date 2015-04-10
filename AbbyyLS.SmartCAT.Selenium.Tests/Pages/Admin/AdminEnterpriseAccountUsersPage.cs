@@ -35,11 +35,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Admin
 		public bool IsUserAddedIntoAccount(string userEmail)
 		{
 			Logger.Trace("Проверяем, добавлен ли пользователь {0} в аккаунт.", userEmail);
-			if (Driver.ElementIsPresent(By.XPath(ADDED_ACCOUNT_USERS_XPATH.Replace("*#*", userEmail))))
-			{
-				return true;
-			}
-			return false;
+			
+			return Driver.ElementIsPresent(By.XPath(ADDED_ACCOUNT_USERS_XPATH.Replace("*#*", userEmail)));
 		}
 
 		/// <summary>
@@ -48,8 +45,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Admin
 		/// <param name="userEmail">email пользователя</param>
 		public AdminEnterpriseAccountUsersPage SetEmailToFindUserInput(string userEmail)
 		{
-			Logger.Trace("Вводим email пользователя {0} в строку для поиска.", userEmail);
+			Logger.Debug("Вводим email пользователя {0} в строку для поиска.", userEmail);
 			FindUserInput.SetText(userEmail);
+
 			return GetPage();
 		}
 
@@ -58,8 +56,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Admin
 		/// </summary>
 		public AdminEnterpriseAccountUsersPage ClickFindUserBtn()
 		{
-			Logger.Trace("Нажимаем кнопку 'Найти'.(пользователя)");
+			Logger.Debug("Нажимаем кнопку 'Найти'.(пользователя)");
 			FindUserBtn.Click();
+
 			return GetPage();
 		}
 
@@ -72,6 +71,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Admin
 			Assert.IsTrue(Driver.WaitUntilElementIsPresent
 				(By.XPath(FOUND_USER_SURNAME_INPUT_XPATH.Replace("*#*", userEmail))),
 				"Ошибка: не удалось найти пользователя." + userEmail);
+
 			return GetPage();
 		}
 
@@ -82,9 +82,10 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Admin
 		/// <param name="surname">фамилия</param>
 		public AdminEnterpriseAccountUsersPage SetUserSurname(string userEmail, string surname)
 		{
-			Logger.Trace("Вводим фамилию {0} нового пользователя.", surname);
+			Logger.Debug("Вводим фамилию {0} нового пользователя.", surname);
 			FoundUserSurnameInput = Driver.SetDynamicValue(How.XPath, FOUND_USER_SURNAME_INPUT_XPATH, userEmail);
 			FoundUserSurnameInput.SetText(surname);
+
 			return GetPage();
 		}
 
@@ -95,9 +96,10 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Admin
 		/// <param name="name">имя</param>
 		public AdminEnterpriseAccountUsersPage SetUserName(string userEmail, string name)
 		{
-			Logger.Trace("Вводим имя {0} нового пользователя.", name);
+			Logger.Debug("Вводим имя {0} нового пользователя.", name);
 			FoundUserNameInput = Driver.SetDynamicValue(How.XPath, FOUND_USER_NAME_INPUT_XPATH, userEmail);
 			FoundUserNameInput.SetText(name);
+
 			return GetPage();
 		}
 
@@ -106,8 +108,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Admin
 		/// </summary>
 		public AdminEnterpriseAccountUsersPage ClickAddUserBtn()
 		{
-			Logger.Trace("Нажимаем на кнопку 'Добавить' (администратора в аккаунт).");
+			Logger.Debug("Нажимаем на кнопку 'Добавить' (администратора в аккаунт).");
 			AddUserBtn.Click();
+
 			return GetPage();
 		}
 

@@ -15,6 +15,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace
 			var projectPage = new ProjectsPage();
 			InitPage(projectPage);
 			LoadPage();
+
 			return projectPage;
 		}
 
@@ -34,6 +35,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace
 		{
 			Assert.IsTrue(Driver.WaitUntilElementIsDissapeared(By.XPath(PROJECT_LOAD_IMG_XPATH.Replace("*#*", projectName)), 50),
 				"Произошла ошибка:\n проект {0} не загрузился.", projectName);
+
 			return GetPage();
 		}
 
@@ -43,7 +45,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace
 		/// <param name="projectName">имя проекта</param>
 		public ProjectSettingsPage ClickProjectRef(string projectName)
 		{
-			Logger.Trace("Кликаем по ссылке проекта {0}.", projectName);
+			Logger.Debug("Кликаем по ссылке проекта {0}.", projectName);
 			//TODO: убрать слип, если можно (похоже на временные глюки, раньше был не нужен)
 			Thread.Sleep(1000);
 			ProjectRef = Driver.SetDynamicValue(How.XPath, PROJECT_REF_XPATH, projectName);
@@ -57,6 +59,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace
 				ClickProjectRef(projectName);
 			}
 			var projectSettingsPage = new ProjectSettingsPage();
+
 			return projectSettingsPage.GetPage();
 		}
 
@@ -65,9 +68,10 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace
 		/// </summary>
 		public NewProjectGeneralInformationDialog ClickCreateProjectBtn()
 		{
-			Logger.Trace("Нажимаем на кнопку 'Создать проект'.");
+			Logger.Debug("Нажимаем на кнопку 'Создать проект'.");
 			CreateProjectBtn.Click();
 			var createProjectDialog = new NewProjectGeneralInformationDialog();
+
 			return createProjectDialog.GetPage();
 		}
 

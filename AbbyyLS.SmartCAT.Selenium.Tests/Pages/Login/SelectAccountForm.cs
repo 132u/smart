@@ -32,7 +32,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Login
 		/// <param name="dataServer">расположение сервера</param>
 		public WorkspacePage SelectAccount(string accountName, string dataServer)
 		{
-			Logger.Trace("Выбираем аккаунт {0} на сервере {1}.", accountName, dataServer);
+			Logger.Debug("Выбираем аккаунт {0} на сервере {1}.", accountName, dataServer);
 			AccountRef = Driver.SetDynamicValue
 				(How.XPath, dataServer.ToLower() == "europe" ? RU_ACCOUNT_REF_XPATH : US_ACCOUNT_REF_XPATH, accountName);
 

@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing.Imaging;
+using NLog;
 using NUnit.Framework;
 using OpenQA.Selenium;
+using OpenQA.Selenium.Support.PageObjects;
 using OpenQA.Selenium.Support.UI;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.TestFramework
@@ -12,6 +14,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestFramework
 	/// </summary>
 	public static class WebDriverExtensions
 	{
+		public static Logger Logger = LogManager.GetCurrentClassLogger();
 		public static readonly TimeSpan ImplicitWait = new TimeSpan(0, 0, 0, 5);
 		public static readonly TimeSpan NoWait = new TimeSpan(0, 0, 0, 0);
 
@@ -24,6 +27,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestFramework
 		{
 			var present = false;
 			driver.Manage().Timeouts().ImplicitlyWait(NoWait);
+
 			try
 			{
 				present = driver.FindElement(by).Displayed;
@@ -31,6 +35,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestFramework
 			catch (NoSuchElementException)
 			{
 			}
+
 			driver.Manage().Timeouts().ImplicitlyWait(ImplicitWait);
 
 			return present;
@@ -56,7 +61,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestFramework
 			}
 			catch (StaleElementReferenceException)
 			{
-				Console.WriteLine("StaleElementReferenceException: WaitUntilElementIsPresent: " + by);
+				Logger.Warn("StaleElementReferenceException: WaitUntilElementIsPresent: " + by);
 
 				return WaitUntilElementIsPresent(driver, by, timeout);
 			}
@@ -82,7 +87,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestFramework
 			}
 			catch (StaleElementReferenceException)
 			{
-				Console.WriteLine("StaleElementReferenceException: WaitUntilElementIsDissapeared: " + by);
+				Logger.Warn("StaleElementReferenceException: WaitUntilElementIsDissapeared: " + by);
 
 				return WaitUntilElementIsDissapeared(driver, by, timeout);
 			}
@@ -120,6 +125,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestFramework
 		public static bool WaitUntilElementIsEnabled(this IWebDriver driver, By by, int timeout = 10)
 		{
 			var wait = new WebDriverWait(driver, TimeSpan.FromSeconds(timeout));
+
 			try
 			{
 				return wait.Until(d => d.ElementIsEnabled(by));
@@ -131,7 +137,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestFramework
 			}
 			catch (StaleElementReferenceException)
 			{
-				Console.WriteLine("StaleElementReferenceException: WaitUntilElementIsEnabled: " + by);
+				Logger.Warn("StaleElementReferenceException: WaitUntilElementIsEnabled: " + by);
 				
 				return WaitUntilElementIsEnabled(driver, by, timeout);
 			}
@@ -150,7 +156,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestFramework
 			}
 			catch (StaleElementReferenceException)
 			{
-				Console.WriteLine("StaleElementReferenceException: GetElementList: " + @by);
+				Logger.Warn("StaleElementReferenceException: GetElementList: " + @by);
+
 				return GetElementList(driver, by);
 			}
 			catch (Exception ex)
@@ -182,6 +189,107 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestFramework
 			screenShot.SaveAsFile(fileName, ImageFormat.Png);
 			
 			return fileName;
+		}
+
+		/// <summary>
+		/// Присваиваем значение элементу с динамическим локатором
+		/// </summary>
+		/// <param name="driver">драйвер</param>
+		/// <param name="how">как ищем (Xpath и т.д.)</param>
+		/// <param name="locator">динамический локатор</param>
+		/// <param name="value">значение, на которое меняем часть локатора</param>
+		/// <param name="value2">второе значение, на которое меняем часть локатора</param>
+		public static IWebElement SetDynamicValue(this IWebDriver driver, How how, string locator, string value, string value2 = "")
+		{
+			IWebElement webElement = null;
+
+			try
+			{
+				switch (how)
+				{
+					case How.XPath:
+						webElement = driver.FindElement(By.XPath(locator.Replace("*#*", value).Replace("*##*", value2)));
+						break;
+					case How.CssSelector:
+						webElement = driver.FindElement(By.CssSelector(locator.Replace("*#*", value).Replace("*##*", value2)));
+						break;
+					case How.Id:
+						webElement = driver.FindElement(By.Id(locator.Replace("*#*", value).Replace("*##*", value2)));
+						break;
+					case How.ClassName:
+						webElement = driver.FindElement(By.ClassName(locator.Replace("*#*", value).Replace("*##*", value2)));
+						break;
+					case How.LinkText:
+						webElement = driver.FindElement(By.LinkText(locator.Replace("*#*", value).Replace("*##*", value2)));
+						break;
+					case How.PartialLinkText:
+						webElement = driver.FindElement(By.PartialLinkText(locator.Replace("*#*", value).Replace("*##*", value2)));
+						break;
+					case How.Name:
+						webElement = driver.FindElement(By.Name(locator.Replace("*#*", value).Replace("*##*", value2)));
+						break;
+					case How.TagName:
+						webElement = driver.FindElement(By.TagName(locator.Replace("*#*", value).Replace("*##*", value2)));
+						break;
+					default:
+						throw new Exception(
+							"Нельзя определить как искать элемент " + how);
+				}
+			}
+			catch (NoSuchElementException)
+			{
+				Assert.Fail("Ошибка: не удалось найти элемент How " +
+					how + " Using " + locator.Replace("*#*", value).Replace("*##*", value2));
+			}
+			catch (StaleElementReferenceException)
+			{
+				Logger.Warn("StaleElementReferenceException: GetIsElementDisplay: " + "How " +
+					how + " Using " + locator.Replace("*#*", value).Replace("*##*", value2));
+				return SetDynamicValue(driver, how, locator, value);
+			}
+			catch (Exception ex)
+			{
+				Assert.Fail("Ошибка: " + ex.Message + "How " +
+					how + " Using " + locator.Replace("*#*", value).Replace("*##*", value2));
+			}
+
+			return webElement;
+		}
+
+		/// <summary>
+		/// Прокрутить и кликнуть на элемент
+		/// </summary>
+		public static void ScrollAndClick(this IWebDriver driver, IWebElement webElement)
+		{
+			driver.scrollToWebElement(webElement);
+
+			try
+			{
+				webElement.Click();
+			}
+			catch (Exception ex)
+			{
+				Assert.Fail("Произошла ошибка при попытки клика на web-элемент: {0}", ex.Message);
+			}
+		}
+
+		/// <summary>
+		/// Метод скроллит до того момента, пока web-элемент не станет видимым
+		/// </summary>
+		/// <param name="driver"></param>
+		/// <param name="webElement"></param>
+		private static void scrollToWebElement(this IWebDriver driver, IWebElement webElement)
+		{
+			Logger.Debug("Скролинг страницы до того момента, пока web-элемент не станет видимым");
+
+			try
+			{
+				driver.Scripts().ExecuteScript("arguments[0].scrollIntoView(true); window.scrollBy(0,-200);", webElement);
+			}
+			catch (Exception ex)
+			{
+				Assert.Fail("При попытке скроллинга страницы произошла ошибка: " + ex.Message);
+			}
 		}
 	}
 }

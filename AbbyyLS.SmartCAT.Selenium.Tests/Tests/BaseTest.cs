@@ -41,17 +41,13 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests
 
 		protected string ProjectName { get; private set; }
 
+		protected bool QuitDriverAfterTest { get; set; }
+
 		protected AdminHelper AdminHelper { get; private set; }
 
 		protected LoginHelper LoginHelper { get; private set; }
 
-		protected UsersRightsHelper UsersRightsHelper { get; private set; }
-
-		protected CreateProjectHelper CreateProjectsHelper { get; private set; }
-
-		protected ProjectSettingsHelper ProjectSettingsHelper { get; private set; }
-
-		protected  EditorHelper EditorHelper { get; private set; }
+		protected WorkspaceHelper WorkspaceHelper { get; private set; }
 
 		protected DateTime TestBeginTime { get; private set; }
 
@@ -71,8 +67,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests
 		[SetUp]
 		public virtual void BeforeTest()
 		{
+			QuitDriverAfterTest = true;
 			TestBeginTime = DateTime.Now;
-			Console.WriteLine(TestContext.CurrentContext.Test.Name + "\nStart: " + TestBeginTime);
+			Logger.Info("Начало работы теста {0} \nВремя начала: {1}", TestContext.CurrentContext.Test.Name, TestBeginTime);
 
 			if (Driver == null)
 			{
@@ -80,7 +77,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests
 				createDriver();
 			}
 
-			Driver.Navigate().GoToUrl(Url);
+			Driver.Navigate().GoToUrl(Url + "/sign-in");
 			LoginHelper.SignIn(Login, Password);
 		}
 
@@ -118,8 +115,13 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests
 				ExitDriver();
 			}
 
+			if (QuitDriverAfterTest)
+			{
+				ExitDriver();
+			}
+
 			var testFinishTime = DateTime.Now;
-			Console.WriteLine("Finish: " + testFinishTime);
+			Logger.Info("Время окончания теста: {0}", testFinishTime);
 			var duration = TimeSpan.FromTicks(testFinishTime.Ticks - TestBeginTime.Ticks);
 			var durResult = "Duration: ";
 
@@ -133,12 +135,11 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests
 			}
 
 			durResult += " (" + duration.TotalMilliseconds + "ms).";
-			Console.WriteLine(durResult);
+			Logger.Info("Продолжительность теста {0}", durResult);
 
 			if (TestContext.CurrentContext.Result.Status.Equals(TestStatus.Failed))
 			{
-				// Если тест провалился
-				Console.WriteLine("Fail!");
+				Logger.Error("Test Failed!");
 			}
 		}
 
@@ -158,7 +159,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests
 			}
 		}
 
-		private void createDriver()
+		private static void createDriver()
 		{
 			var profile = new FirefoxProfile { AcceptUntrustedCertificates = true };
 			profile.SetPreference("intl.accept_languages", "en");
@@ -204,10 +205,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests
 		{
 			AdminHelper = new AdminHelper();
 			LoginHelper = new LoginHelper();
-			UsersRightsHelper = new UsersRightsHelper();
-			CreateProjectsHelper = new CreateProjectHelper();
-			ProjectSettingsHelper = new ProjectSettingsHelper();
-			EditorHelper = new EditorHelper();
+			WorkspaceHelper = new WorkspaceHelper();
 		}
 	}
 }

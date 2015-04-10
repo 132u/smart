@@ -15,6 +15,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Admin
 			var adminEnterpriseAccountsPage = new AdminEnterpriseAccountsPage();
 			InitPage(adminEnterpriseAccountsPage);
 			LoadPage();
+
 			return adminEnterpriseAccountsPage;
 		}
 
@@ -32,8 +33,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Admin
 		/// <param name="venture">затея</param>
 		public AdminEnterpriseAccountsPage ChooseVenture(string venture)
 		{
-			Logger.Trace("Выбираем затею {0}.", venture);
+			Logger.Debug("Выбираем затею {0}.", venture);
 			SelectVenture.SelectOptionByText(venture);
+
 			return GetPage();
 		}
 
@@ -43,10 +45,11 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Admin
 		/// <param name="accountName">имя аккаунта</param>
 		public AdminEnterpriseAccountUsersPage ClickManageUsersRef(string accountName)
 		{
-			Logger.Trace("Нажимаем ссылку для редактирования пользователей аккаунта {0}.", accountName);
+			Logger.Debug("Нажимаем ссылку для редактирования пользователей аккаунта {0}.", accountName);
 			ManageUsersRef = Driver.SetDynamicValue(How.XPath, MANAGE_USERS_REF_XPATH, accountName);
 			ManageUsersRef.Click();
 			var adminEnterpriseAccountUsersPage = new AdminEnterpriseAccountUsersPage();
+
 			return adminEnterpriseAccountUsersPage.GetPage();
 		}
 
@@ -57,11 +60,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Admin
 		public bool IsAccountExists(string accountName)
 		{
 			Logger.Trace("Проверяем, есть ли в таблице аккаунтов аккаунт с именем {0}.", accountName);
-			if (Driver.ElementIsPresent(By.XPath(MANAGE_USERS_REF_XPATH.Replace("*#*", accountName))))
-			{
-				return true;
-			}
-			return false;
+			
+			return Driver.ElementIsPresent(By.XPath(MANAGE_USERS_REF_XPATH.Replace("*#*", accountName)));
 		}
 
 		[FindsBy(How = How.XPath, Using = SELECT_VENTURE_XPATH)]

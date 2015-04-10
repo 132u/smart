@@ -12,6 +12,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace.ProjectSettings
 			var importDialog = new ImportDialog();
 			InitPage(importDialog);
 			LoadPage();
+
 			return importDialog;
 		}
 
@@ -33,6 +34,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace.ProjectSettings
 				"arguments[0].style[\"visibility\"] = \"visible\";",
 				UploadFileInput);
 			UploadFileInput.SendKeys(pathFile);
+
 			return GetPage();
 		}
 
@@ -44,6 +46,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace.ProjectSettings
 		{
 			Assert.IsTrue(Driver.WaitUntilElementIsPresent(By.XPath(UPLOADED_FILE_XPATH.Replace("*#*", fileName))),
 				"Произошла ошибка:\n не удалось загрузить файл.");
+
 			return GetPage();
 		}
 
@@ -52,7 +55,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace.ProjectSettings
 		/// </summary>
 		public ProjectSettingsPage ClickFinishBtn()
 		{
+			Logger.Debug("Нажать кнопку 'Готово'");
 			FinishBtn.Click();
+
 			return GetPage();
 		}
 

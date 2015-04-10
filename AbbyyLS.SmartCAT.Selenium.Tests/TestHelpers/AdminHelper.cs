@@ -5,11 +5,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 {
 	public class AdminHelper
 	{
-		private readonly AdminSignInPage _adminSignInPage = new AdminSignInPage();
-		private readonly AdminLingvoProPage _adminLingvoProPage = new AdminLingvoProPage();
-		private readonly AdminEnterpriseAccountsPage _adminEnterpriseAccountsPage = new AdminEnterpriseAccountsPage();
-		private readonly AdminEnterpriseAccountUsersPage _adminEnterpriseAccountUsersPage = new AdminEnterpriseAccountUsersPage();
-
 		/// <summary>
 		/// Логинимся в админку
 		/// </summary>
@@ -63,5 +58,10 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 			return this;
 		}
+
+		private readonly AdminSignInPage _adminSignInPage = new AdminSignInPage();
+		private readonly AdminLingvoProPage _adminLingvoProPage = new AdminLingvoProPage();
+		private readonly AdminEnterpriseAccountsPage _adminEnterpriseAccountsPage = new AdminEnterpriseAccountsPage();
+		private readonly AdminEnterpriseAccountUsersPage _adminEnterpriseAccountUsersPage = new AdminEnterpriseAccountUsersPage();
 	}
 }

@@ -15,6 +15,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Admin
 			var adminSignInPage = new AdminSignInPage();
 			InitPage(adminSignInPage);
 			LoadPage();
+
 			return adminSignInPage;
 		}
 
@@ -30,8 +31,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Admin
 		/// <param name="login">логин (адрес электронной почты)</param>
 		public AdminSignInPage SetLogin(string login)
 		{
-			Logger.Trace("Вводим логин пользователя в админку: {0}.", login);
+			Logger.Debug("Вводим логин пользователя в админку: {0}.", login);
 			Login.SetText(login);
+
 			return GetPage();
 		}
 
@@ -41,8 +43,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Admin
 		/// <param name="password">пароль</param>
 		public AdminSignInPage SetPassword(string password)
 		{
-			Logger.Trace("Вводим пароль пользователя в админку: {0}.", password);
+			Logger.Debug("Вводим пароль пользователя в админку: {0}.", password);
 			Password.SetText(password);
+
 			return GetPage();
 		}
 
@@ -51,9 +54,10 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Admin
 		/// </summary>
 		public AdminLingvoProPage ClickSubmitBtn()
 		{
-			Logger.Trace("Нажимаем кнопку 'login'.");
+			Logger.Debug("Нажимаем кнопку 'Submit'.");
 			SubmitBtn.Click();
 			var adminLingvoProPage = new AdminLingvoProPage();
+
 			return adminLingvoProPage.GetPage();
 		}
 

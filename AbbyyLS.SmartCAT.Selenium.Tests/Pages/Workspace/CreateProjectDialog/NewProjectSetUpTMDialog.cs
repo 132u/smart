@@ -29,7 +29,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace.CreateProjectDialog
 		/// </summary>
 		public bool IsTMTableNotEmpty()
 		{
-			Logger.Trace("Проверяем пустая ли таблица с ТМ.");
+			Logger.Debug("Проверяем пустая ли таблица с ТМ.");
+
 			return Driver.WaitUntilElementIsEnabled(By.XPath(TM_TABLE_FIRST_ITEM_XPATH));
 		}
 
@@ -40,6 +41,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace.CreateProjectDialog
 		{
 			Assert.IsTrue(Driver.WaitUntilElementIsPresent(By.XPath(TM_TABLE_FIRST_ITEM_XPATH), 15),
 				"Произошла ошибка:\n не удалось добавить ТМ при создании проекта.");
+
 			return GetPage();
 		}
 
@@ -48,8 +50,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace.CreateProjectDialog
 		/// </summary>
 		public NewProjectSetUpTMDialog ClickTMTableFirstItem()
 		{
-			Logger.Trace("Выбираем первую ТМ из таблицы.");
+			Logger.Debug("Выбираем первую ТМ из таблицы.");
 			TMTableFirstItem.Click();
+
 			return GetPage();
 		}
 
@@ -58,9 +61,10 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace.CreateProjectDialog
 		/// </summary>
 		public CreateTMDialog ClickCreateTMBtn()
 		{
-			Logger.Trace("Нажимаем кнопку 'Создать ТМ'.");
+			Logger.Debug("Нажимаем кнопку 'Создать ТМ'.");
 			CreateTMBtn.Click();
 			var createTMDialog = new CreateTMDialog();
+
 			return createTMDialog.GetPage();
 		}
 
@@ -69,9 +73,10 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace.CreateProjectDialog
 		/// </summary>
 		public NewProjectSelectGlossariesDialog ClickNextBtn()
 		{
-			Logger.Trace("Нажимаем кнопку 'Далее'.");
+			Logger.Debug("Нажимаем кнопку 'Далее'.");
 			NextBtn.Click();
 			var newProjectSelectGlossariesDialog = new NewProjectSelectGlossariesDialog();
+
 			return newProjectSelectGlossariesDialog.GetPage();
 		}
 
@@ -80,8 +85,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace.CreateProjectDialog
 		/// </summary>
 		public ProjectsPage ClickFinishBtn()
 		{
-			Logger.Trace("Нажимаем кнопку 'Готово'.");
+			Logger.Debug("Нажимаем кнопку 'Готово'.");
 			FinishBtn.Click();
+
 			return GetPage();
 		}
 

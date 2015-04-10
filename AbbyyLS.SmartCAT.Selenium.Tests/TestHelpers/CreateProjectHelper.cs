@@ -4,12 +4,8 @@ using AbbyyLS.SmartCAT.Selenium.Tests.TestFramework;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 {
-	public class CreateProjectHelper
+	public class CreateProjectHelper : WorkspaceHelper
 	{
-		private readonly ProjectsPage _projectsPage = new ProjectsPage();
-
-		private readonly NewProjectGeneralInformationDialog _newProjectGeneralInformationDialog = new NewProjectGeneralInformationDialog();
-		private readonly NewProjectSetUpTMDialog _newProjectSetUpTMDialog = new NewProjectSetUpTMDialog();
 
 		/// <summary>
 		/// Заполняем основную информацию о проекте (1 шаг создания)
@@ -76,18 +72,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 			return this;
 		}
 
-		/// <summary>
-		/// Переходим на вкладку проекта
-		/// </summary>
-		/// <param name="projectName">имя проекта</param>
-		public ProjectSettingsHelper GoToProjectSettings(string projectName)
-		{
-			BaseObject.InitPage(_newProjectSetUpTMDialog);
-			_projectsPage.AssertIsProjectLoaded(projectName)
-				.ClickProjectRef(projectName);
-			var projectSettingsHelper = new ProjectSettingsHelper();
-
-			return projectSettingsHelper;
-		}
+		private readonly ProjectsPage _projectsPage = new ProjectsPage();
+		private readonly NewProjectGeneralInformationDialog _newProjectGeneralInformationDialog = new NewProjectGeneralInformationDialog();
+		private readonly NewProjectSetUpTMDialog _newProjectSetUpTMDialog = new NewProjectSetUpTMDialog();
 	}
 }

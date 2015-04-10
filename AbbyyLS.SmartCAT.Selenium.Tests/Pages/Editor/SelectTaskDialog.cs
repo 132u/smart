@@ -12,6 +12,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 			var selectTaskDialog = new SelectTaskDialog();
 			InitPage(selectTaskDialog);
 			LoadPage();
+
 			return selectTaskDialog;
 		}
 
@@ -28,8 +29,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		/// </summary>
 		public SelectTaskDialog ClickTranslateBtn()
 		{
-			Logger.Trace("Нажимаем кнопку 'Перевод'.");
+			Logger.Debug("Нажимаем кнопку 'Перевод'.");
 			//TODO: вставить нажатие кнопки 'перевод'
+
 			return GetPage();
 		}
 
@@ -48,9 +50,10 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		/// </summary>
 		public EditorPage ClickContinueBtn()
 		{
-			Logger.Trace("Нажимаем кнопку 'Продолжить'.");
+			Logger.Debug("Нажимаем кнопку 'Продолжить'.");
 			ContinueBtn.Click();
 			var editorPage = new EditorPage();
+
 			return editorPage.GetPage();
 		}
 

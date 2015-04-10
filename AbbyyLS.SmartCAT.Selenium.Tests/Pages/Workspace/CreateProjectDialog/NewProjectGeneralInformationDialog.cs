@@ -31,8 +31,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace.CreateProjectDialog
 		/// </summary>
 		public NewProjectGeneralInformationDialog ClickAddFileBtn()
 		{
-			Logger.Trace("Нажимаем на кнопку 'Добавить' (документ).");
+			Logger.Debug("Нажимаем на кнопку 'Добавить' (документ).");
 			AddFileBtn.Click();
+
 			return GetPage();
 		}
 
@@ -42,12 +43,13 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace.CreateProjectDialog
 		/// <param name="pathFile">путь к файлу</param>
 		public NewProjectGeneralInformationDialog UploadFile(string pathFile)
 		{
-			Logger.Trace("Загружаем файл: {0}.", pathFile);
+			Logger.Debug("Загружаем файл: {0}.", pathFile);
 			UploadFileInput = Driver.SetDynamicValue(How.XPath, UPLOAD_FILE_INPUT, "");
 			Driver.Scripts().ExecuteScript("arguments[0].style[\"display\"] = \"block\";" +
 				"arguments[0].style[\"visibility\"] = \"visible\";",
 				UploadFileInput);
 			UploadFileInput.SendKeys(pathFile);
+
 			return GetPage();
 		}
 
@@ -59,6 +61,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace.CreateProjectDialog
 		{
 			Assert.IsTrue(Driver.WaitUntilElementIsPresent(By.XPath(UPLOADED_FILE_XPATH.Replace("*#*", fileName))),
 				"Произошла ошибка:\n не удалось загрузить файл {0}.", fileName);
+
 			return GetPage();
 		}
 
@@ -67,8 +70,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace.CreateProjectDialog
 		/// </summary>
 		public NewProjectGeneralInformationDialog ClickDeadlineDateInput()
 		{
-			Logger.Trace("Кликаем на поле для ввода даты, чтобы появился всплывающий календарь.");
+			Logger.Debug("Кликаем на поле для ввода даты, чтобы появился всплывающий календарь.");
 			DeadlineDateInput.Click();
+
 			return GetPage();
 		}
 
@@ -79,6 +83,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace.CreateProjectDialog
 		{
 			Assert.IsTrue(Driver.ElementIsPresent(By.XPath(DEADLINE_DATE_CURRENT_XPATH)),
 				"Произошла ошибка:\n не отображается календарь, нельзя выбрать дату дедлайна.");
+
 			return GetPage();
 		}
 
@@ -87,8 +92,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace.CreateProjectDialog
 		/// </summary>
 		public NewProjectGeneralInformationDialog ClickDeadlineDateCurrent()
 		{
-			Logger.Trace("Выбираем текущую дату дедлайна в календаре.");
+			Logger.Debug("Выбираем текущую дату дедлайна в календаре.");
 			DeadlineDateCurrent.Click();
+
 			return GetPage();
 		}
 
@@ -97,8 +103,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace.CreateProjectDialog
 		/// </summary>
 		public NewProjectGeneralInformationDialog ClickSourceLangDropdown()
 		{
-			Logger.Trace("Кликаем по полю исходного языка, чтобы появился выпадающий список.");
+			Logger.Debug("Кликаем по полю исходного языка, чтобы появился выпадающий список.");
 			SourceLangDropdown.Click();
+
 			return GetPage();
 		}
 
@@ -108,9 +115,10 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace.CreateProjectDialog
 		/// <param name="lang">исходный язык</param>
 		public NewProjectGeneralInformationDialog SelectSourceLanguage(string lang)
 		{
-			Logger.Trace("Выбираем исходный язык {0}", lang);
+			Logger.Debug("Выбираем исходный язык {0}", lang);
 			SourceLangItem = Driver.SetDynamicValue(How.XPath, SOURCE_LANG_ITEM_XPATH, lang);
 			SourceLangItem.Click();
+
 			return GetPage();
 		}
 
@@ -119,8 +127,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace.CreateProjectDialog
 		/// </summary>
 		public NewProjectGeneralInformationDialog ClickTargetMultiselect()
 		{
-			Logger.Trace("Кликаем по полю языка перевода, чтобы выпал появился список.");
+			Logger.Debug("Кликаем по полю языка перевода, чтобы выпал появился список.");
 			TargetMultiselect.Click();
+
 			return GetPage();
 		}
 
@@ -129,7 +138,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace.CreateProjectDialog
 		/// </summary>
 		public NewProjectGeneralInformationDialog DeselectAllTargetLanguages()
 		{
-			Logger.Trace("Снимаем выделение для всех таргет языков.");
+			Logger.Debug("Снимаем выделение для всех таргет языков.");
 			TargetLangItemsSelected = Driver.GetElementList(By.XPath(TARGET_LANG_MULTISELECT_ITEMS_SELECTED_XPATH));
 			foreach (var e in TargetLangItemsSelected)
 			{
@@ -144,9 +153,10 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace.CreateProjectDialog
 		/// <param name="lang">язык перевода</param>
 		public NewProjectGeneralInformationDialog SelectTargetLanguage(string lang)
 		{
-			Logger.Trace("Выбираем язык перевода {0} из списка.", lang);
+			Logger.Debug("Выбираем язык перевода {0} из списка.", lang);
 			TargetLangItem = Driver.SetDynamicValue(How.XPath, TARGET_MULTISELECT_ITEM_XPATH, lang);
 			TargetLangItem.Click();
+
 			return GetPage();
 		}
 
@@ -156,8 +166,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace.CreateProjectDialog
 		/// <param name="projectName">имя проекта</param>
 		public NewProjectGeneralInformationDialog SetProjectName(string projectName)
 		{
-			Logger.Trace("Вводим имя проекта: {0}.", projectName);
+			Logger.Debug("Вводим имя проекта: {0}.", projectName);
 			ProjectNameInput.SetText(projectName);
+
 			return GetPage();
 		}
 
@@ -166,9 +177,10 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace.CreateProjectDialog
 		/// </summary>
 		public NewProjectSetUpWorkflowDialog ClickNextBtn()
 		{
-			Logger.Trace("Нажимаем кнопку 'Далее'.");
+			Logger.Debug("Нажимаем кнопку 'Далее'.");
 			NextBtn.Click();
 			var newProjectSetUpWorkflowDialog = new NewProjectSetUpWorkflowDialog();
+
 			return newProjectSetUpWorkflowDialog.GetPage();
 		}
 

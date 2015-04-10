@@ -16,6 +16,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Admin
 			var adminEmailsSearchPage = new AdminEmailsSearchPage();
 			InitPage(adminEmailsSearchPage);
 			LoadPage();
+
 			return adminEmailsSearchPage;
 		}
 
@@ -33,8 +34,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Admin
 		/// <param name="email">емаил</param>
 		public AdminEmailsSearchPage SetEmail(string email)
 		{
-			Logger.Trace("Вводим email пользователя {0} в поле для поиска.", email);
+			Logger.Debug("Вводим email пользователя {0} в поле для поиска.", email);
 			SearchEmailInput.SetText(email);
+
 			return GetPage();
 		}
 
@@ -44,8 +46,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Admin
 		/// <param name="limit">количество писем (последние письма)</param>
 		public AdminEmailsSearchPage SetLimitCount(int limit)
 		{
-			Logger.Trace("Вводим ограничение по поиску писем: {0}.", limit);
+			Logger.Debug("Вводим ограничение по поиску писем: {0}.", limit);
 			LimitCountInput.SetText(Convert.ToString(limit));
+
 			return GetPage();
 		}
 
@@ -54,8 +57,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Admin
 		/// </summary>
 		public AdminEmailsSearchPage ClickFindBtn()
 		{
-			Logger.Trace("Кликнуть на кнопку 'Найти'.");
+			Logger.Debug("Кликнуть на кнопку 'Найти'.");
 			FindBtn.Click();
+
 			return GetPage();
 		}
 
@@ -66,6 +70,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Admin
 		{
 			Assert.IsTrue(Driver.WaitUntilElementIsPresent(By.XPath(FOUND_EMAILS_TABLE_XPATH), 7),
 				"Произошла ошибка:\n не появилась таблица с найденными письмами.");
+
 			return GetPage();
 		}
 

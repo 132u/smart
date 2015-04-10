@@ -31,11 +31,12 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		/// </summary>
 		public ProjectSettingsPage ClickHomeBtn()
 		{
-			Logger.Trace("Нажимаем кнопку 'Домой'.");
+			Logger.Debug("Нажимаем кнопку 'Домой'.");
 			HomeBtn.Click();
 			Driver.SwitchTo().Window(Driver.WindowHandles[1]).Close();
 			Driver.SwitchTo().Window(Driver.WindowHandles[0]);
 			var projectSettingsPage = new ProjectSettingsPage();
+
 			return projectSettingsPage.GetPage();
 		}
 
@@ -46,6 +47,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		public bool IsSegmentLocked(int rowNumber)
 		{
 			Logger.Trace("Проверяем, заблокирован ли сегмент {0}.", rowNumber);
+
 			return Driver.ElementIsPresent(By.XPath(LOCK_ICO_XPATH.Replace("*#*", (rowNumber - 1).ToString())));
 		}
 
@@ -54,8 +56,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		/// </summary>
 		public EditorPage ClickConfirmBtn()
 		{
-			Logger.Trace("Нажимаем кнопку 'Подтвердить сегмент'.");
+			Logger.Debug("Нажимаем кнопку 'Подтвердить сегмент'.");
 			ConfirmBtn.Click();
+
 			return GetPage();
 		}
 
@@ -65,10 +68,12 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		/// <param name="rowNumber">номер сегмента</param>
 		public EditorPage AssertIsSegmentConfirmed(int rowNumber)
 		{
-			Logger.Trace("Проверяем, подтвердился ли сегмент {0}.", rowNumber);
+			Logger.Debug("Проверяем, подтвердился ли сегмент {0}.", rowNumber);
+
 			Assert.IsTrue(Driver.WaitUntilElementIsPresent
 				(By.XPath(CONFIRMED_ICO_XPATH.Replace("*#*", (rowNumber - 1).ToString())), 6),
 				"Произошла ошибка:\n не удалось подтвердить сегмент с номером {0}.", rowNumber);
+
 			return GetPage();
 		}
 
@@ -79,6 +84,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		{
 			Assert.IsTrue(Driver.WaitUntilElementIsDissapeared(By.XPath(AUTOSAVING_XPATH)),
 				"Произошла ошибка:\n не удалось дождаться сохранения сегментаю");
+
 			return GetPage();
 		}
 
@@ -87,6 +93,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		/// </summary>
 		public int GetRowNumberActiveSegment()
 		{
+			Logger.Debug("Получить номер активного сегмента.");
 			return Convert.ToInt32(Driver.SetDynamicValue(How.XPath, ROW_NUMBER_ACTIVE_XPATH, "").Text);
 		}
 
@@ -95,6 +102,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		/// </summary>
 		public int GetRowNumberFirstVisibleSegment()
 		{
+			Logger.Debug("Получить номер первого видимого сегмента.");
 			try
 			{
 				return Convert.ToInt32(Driver.SetDynamicValue(How.XPath, FIRST_VISIBLE_SEGMENT_XPATH, "").Text);
@@ -107,12 +115,14 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		}
 
 		/// <summary>
-		/// Кликнуть по пеорвому видимому элементу
+		/// Кликнуть по первому видимому элементу
 		/// </summary>
 		public EditorPage ClickFirstVisibleSegment()
 		{
+			Logger.Debug("Кликнуть по первому видимому элементу.");
 			FirstVisibleSegment = Driver.SetDynamicValue(How.XPath, FIRST_VISIBLE_SEGMENT_XPATH, "");
 			FirstVisibleSegment.Click();
+
 			return GetPage();
 		}
 
@@ -121,9 +131,11 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		/// </summary>
 		public EditorPage ClickLastVisibleSegment()
 		{
+			Logger.Debug("Кликнуть по последнему видимому элементу.");
 			var visibleSegmentsCount = Driver.GetElementList(By.XPath(SEGMENTS_TABLE_XPATH)).Count;
 			LastVisibleSegment = Driver.SetDynamicValue(How.XPath, LAST_VISIBLE_SEGMENT_XPATH, visibleSegmentsCount.ToString());
 			LastVisibleSegment.Click();
+
 			return GetPage();
 		}
 
@@ -133,10 +145,11 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		/// <param name="rowNumber">номер сегмента</param>
 		public EditorPage ClickTargetCell(int rowNumber)
 		{
-			Logger.Trace("Кликаем по таргету сегмента {0}.", rowNumber);
+			Logger.Debug("Кликаем по таргету сегмента {0}.", rowNumber);
 			TargetCell = Driver.SetDynamicValue(How.XPath,
 				TARGET_CELL_XPATH, (rowNumber - 1).ToString());
 			TargetCell.Click();
+
 			return GetPage();
 		}
 
@@ -145,8 +158,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		/// </summary>
 		public EditorPage ClickUnfinishedBtn()
 		{
-			Logger.Trace("Жмем кнопку перехода к следующему неподтвержденному сегменту.");
+			Logger.Debug("Жмем кнопку перехода к следующему неподтвержденному сегменту.");
 			UnfinishedBtn.Click();
+
 			return GetPage();
 		}
 
@@ -155,9 +169,10 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		/// </summary>
 		public SelectTaskDialog RefreshPage()
 		{
-			Logger.Trace("Обновляем страницу.");
+			Logger.Debug("Обновляем страницу.");
 			Driver.Navigate().Refresh();
 			var taskDialog = new SelectTaskDialog();
+
 			return taskDialog.GetPage();
 		}
 
@@ -168,8 +183,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		public bool IsSegmentVisible(int rowNumber)
 		{
 			Logger.Trace("Проверяем, виден ли сегмент {0}.", rowNumber);
-			return Driver.ElementIsPresent
-				(By.XPath(TARGET_CELL_XPATH.Replace("*#*", (rowNumber - 1).ToString())));
+
+			return Driver.ElementIsPresent(By.XPath(TARGET_CELL_XPATH.Replace("*#*", (rowNumber - 1).ToString())));
 		}
 
 		/// <summary>
@@ -178,9 +193,10 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		/// <param name="rowNumber">номер сегмента</param>
 		public EditorPage CursorToTargetLineEndingByHotkey(int rowNumber)
 		{
-			Logger.Trace("Переводим курсор в конец строки сегмента {0}.", rowNumber);
+			Logger.Debug("Переводим курсор в конец строки сегмента {0}.", rowNumber);
 			TargetCell = Driver.SetDynamicValue(How.XPath, TARGET_CELL_XPATH, (rowNumber - 1).ToString());
 			TargetCell.SendKeys(Keys.Control + Keys.End);
+
 			return GetPage();
 		}
 
@@ -191,9 +207,10 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		/// <param name="rowNumber">номер сегмента</param>
 		public EditorPage SendTargetText(string text, int rowNumber)
 		{
-			Logger.Trace("Вводим текст в таргет сегмента {0}.", rowNumber);
+			Logger.Debug("Вводим текст в таргет сегмента {0}.", rowNumber);
 			TargetCell = Driver.SetDynamicValue(How.XPath, TARGET_CELL_XPATH, (rowNumber - 1).ToString());
 			TargetCell.SendKeys(text);
+
 			return GetPage();
 		}
 
@@ -204,6 +221,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		public bool IsCatPanelNotEmpty()
 		{
 			Logger.Trace("Проверяем, что панель CAT не пустая.");
+
 			return Driver.WaitUntilElementIsPresent(By.XPath(CAT_PANEL_EXISTENCE_XPATH), 180);
 		}
 

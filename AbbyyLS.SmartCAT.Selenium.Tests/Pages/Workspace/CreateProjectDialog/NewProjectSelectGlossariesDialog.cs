@@ -29,7 +29,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace.CreateProjectDialog
 		/// </summary>
 		public NewProjectSetUpMTDialog ClickNextBtn()
 		{
-			Logger.Trace("Нажимаем кнопку 'Далее'.");
+			Logger.Debug("Нажимаем кнопку 'Далее'.");
 			NextBtn.Click();
 			var newProjectSetUpMTDialog = new NewProjectSetUpMTDialog();
 

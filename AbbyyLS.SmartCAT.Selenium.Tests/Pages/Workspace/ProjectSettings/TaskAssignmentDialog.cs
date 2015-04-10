@@ -12,6 +12,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace.ProjectSettings
 			var taskAssignmentDialog = new TaskAssignmentDialog();
 			InitPage(taskAssignmentDialog);
 			LoadPage();
+
 			return taskAssignmentDialog;
 		}
 
@@ -29,6 +30,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace.ProjectSettings
 		public bool IsAssignStatusNotAssigned()
 		{
 			Logger.Trace("Проверяем, назначен ли пользователь на задачу.");
+
 			return AssignSpan.GetAttribute("class").Contains("notAssigned");
 		}
 
@@ -37,8 +39,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace.ProjectSettings
 		/// </summary>
 		public TaskAssignmentDialog ClickAssignBtn()
 		{
-			Logger.Trace("Нажимаем на кнопку 'Назначить'.");
+			Logger.Debug("Нажимаем на кнопку 'Назначить'.");
 			AssignBtn.Click();
+
 			return GetPage();
 		}
 
@@ -48,8 +51,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace.ProjectSettings
 		/// <param name="userName">имя исполнителя</param>
 		public TaskAssignmentDialog SelectAssignee(string userName)
 		{
-			Logger.Trace("Выбираем исполнителя {0} из списка.", userName);
+			Logger.Debug("Выбираем исполнителя {0} из списка.", userName);
 			UserList.SelectOptionByText(userName);
+
 			return GetPage();
 		}
 
@@ -60,6 +64,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace.ProjectSettings
 		{
 			Assert.IsTrue(Driver.WaitUntilElementIsPresent(By.XPath(CLOSE_BTN_XPATH)),
 				"Произошла ошибка:\n не удалось назначить исполнителя на задачу.");
+
 			return GetPage();
 		}
 
@@ -68,9 +73,10 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace.ProjectSettings
 		/// </summary>
 		public ProjectSettingsPage ClickCloseBtn()
 		{
-			Logger.Trace("Закрываем диалог назначения пользователя.");
+			Logger.Debug("Закрываем диалог назначения пользователя.");
 			CloseBtn.Click();
 			var projectSettingsPage = new ProjectSettingsPage();
+
 			return projectSettingsPage.GetPage();
 		}
 
