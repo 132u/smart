@@ -1,11 +1,7 @@
-﻿using System;
-using System.Reflection;
-using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace;
+﻿using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace;
 using AbbyyLS.SmartCAT.Selenium.Tests.TestFramework;
 using NUnit.Framework;
 using OpenQA.Selenium;
-using OpenQA.Selenium.Firefox;
-using OpenQA.Selenium.Internal;
 using OpenQA.Selenium.Support.PageObjects;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Client

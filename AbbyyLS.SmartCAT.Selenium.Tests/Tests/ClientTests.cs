@@ -2,7 +2,7 @@
 using AbbyyLS.SmartCAT.Selenium.Tests.Tests;
 using NUnit.Framework;
 
-namespace AbbyyLS.SmartCAT.Selenium.Tests.ClientTests
+namespace AbbyyLS.SmartCAT.Selenium.Tests.Clients
 {
 	[TestFixture]
 	class ClientTests : BaseTest
@@ -34,19 +34,12 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.ClientTests
 				.AssertClientNameErrorExist();
 		}
 
-		[Test]
-		public void CreateClientEmptyNameTest()
+		[TestCase("")]
+		[TestCase(" ")]
+		public void CreateClientInvalidNameTest(string invalidName)
 		{
 			_clientsHelper
-				.CreateNewClient(string.Empty)
-				.AssertClienEditModeEnabled();
-		}
-
-		[Test]
-		public void CreateClientSpaceNameTest()
-		{
-			_clientsHelper
-				.CreateNewClient(" ")
+				.CreateNewClient(invalidName)
 				.AssertClienEditModeEnabled();
 		}
 
@@ -85,7 +78,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.ClientTests
 				.AssertClientNotExist(clientName);
 		}
 
-		[Test]
 		[TestCase("")]
 		[TestCase(" ")]
 		public void ChangeClientInvalidNameTest(string invalidName)
