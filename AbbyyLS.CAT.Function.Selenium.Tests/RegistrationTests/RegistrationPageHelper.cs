@@ -1,5 +1,6 @@
 ﻿using OpenQA.Selenium;
 using OpenQA.Selenium.Support.UI;
+using System;
 
 namespace AbbyyLS.CAT.Function.Selenium.Tests
 {
@@ -18,10 +19,10 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			NickName = GetUniqueString();
 			NameCompany = "CN" + RandomString.Generate(8);
 			DomainName = "D" + RandomString.GenerateRandomString();
-			
+
 		}
 
-		public  string FirstName;
+		public string FirstName;
 		public string LastName;
 		public string Email;
 		public string Password;
@@ -200,7 +201,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// </summary>
 		public bool CheckNameSurnameInWSPanel()
 		{
-			Logger.Trace(string.Format("Проверить, что в панели WS отображается имя {0} и фамилия {1} пользователя "), FirstName, LastName);
+			Logger.Trace(string.Format("Проверить, что в панели WS отображается имя {0} и фамилия {1} пользователя ", FirstName, LastName));
 			return GetTextElement(By.XPath(USER_NAME_XPATH)).Contains(string.Format("{0} {1}", FirstName, LastName));
 		}
 
@@ -209,9 +210,9 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// </summary>
 		public bool CheckNameInWSPanel()
 		{
-			Logger.Trace("Проверить, что в панели WS отображается имя пользователя " + FirstName);
-			if (GetTextElement(By.XPath(USER_NAME_XPATH)) == FirstName) return true;
-			else return false;
+			Logger.Trace("Проверить, что в панели WS отображается имя пользователя " + FirstName );
+			var accountName = Environment.NewLine + GetTextElement(By.XPath(USER_NAME_XPATH +"/small"));
+			return GetTextElement(By.XPath(USER_NAME_XPATH)).Replace(accountName, "") == FirstName;
 		}
 
 		/// <summary>
@@ -277,6 +278,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		public void GoToLoginPageWithExistAccount()
 		{
 			Logger.Trace("Переход по ссылке 'or sign in with an existing ABBYY account'");
+			WaitUntilDisplayElement(By.XPath(EXIST_ACCOUNT_LINK_ABBY_ONLINE));
 			ClickElement(By.XPath(EXIST_ACCOUNT_LINK_ABBY_ONLINE));
 		}
 
@@ -320,7 +322,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		protected const string PASSWORD_FIELD_IN_SIGN_IN = "//form[@name='signinForm']//input[@id='password']";
 		protected const string CONFIRM_PASSWORD_FIELD = "//input[@id='confirm']";
 		protected const string SIGN_UP_BUTTON = "//button[@id='btn-sign-up']";
-		protected const string SIGN_IN_BUTTON = "//button[contains(text(),'Sign In')]";
+		protected const string SIGN_IN_BUTTON = "//button[@id='btn-sign-in']";
 		protected const string FIRST_NAME_FIELD = "//input[@id='firstname']";
 		protected const string LAST_NAME_FIELD = "//input[@id='lastname']";
 		protected const string COUNTRY = "//select[@id='country']";
@@ -338,12 +340,12 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		protected const string FIRST_STEP_LABEL = "//strong[@class='ng-binding']";
 		protected const string SECOND_STEP_LABEL = "//div[@class='panel-heading']/h4";
 		protected const string ACCOUNT_XPATH = ".//div[contains(@class,'js-usermenu')]";
-		protected const string USER_NAME_XPATH = ACCOUNT_XPATH + "//span[contains(@class,'nameuser')]";
+		protected const string USER_NAME_XPATH = ACCOUNT_XPATH + "//span[contains(@class,'nameuser')]//b";
 		protected const string ERROR_MESSAGE_USER_IS_ALREADY_EXIST = "//div[@ng-message='already-exists']"; //сообщение, что юзер уже существует
 		protected const string CREATE_ACCOUNT_IN_ABBYY_ONLINE_LINK = "//a[text()='account in ABBYY-Online']";
 		protected const string USER_NOT_EXIST_MESSAGE = "//span[contains(@translate, 'USER-NOT-FOUND-ERROR')]";//сообщение ,что юзера не существует 
 		protected const string EXIST_ACCOUNT_LINK_ABBY_ONLINE = "//a[@id='show-sign-in']";
-		protected const string WRONG_PASSWORD_MESSAGE = "//span[contains(text(), 'Wrong password')]";
+		protected const string WRONG_PASSWORD_MESSAGE = "//div[@ng-message='wrong-password']";
 		protected const string LOAD_PHOTO_BTN = "//input[@type='file']";
 		protected const string LABEL_WRONG_FORMAT = "//i[text()='Wrong format' and @class='ng-binding']";
 		protected const string LABEL_LOAD_PHOTO = "//i[text()='Load photo' and @class='ng-binding']";
@@ -540,7 +542,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		protected const string COMPANY_TYPE_DD = ".//select[@id='company-type']";
 		protected const string OPTION_IN_COMPANY_TYPE_DD = "//option[@value='";
 		protected const string LOGIN_LINK_FROM_MSG = "//a[@ng-click='showSignIn()' and text()='log in']";
-		protected const string WRONG_PASSWORD = "//div[@class='password-messages ng-active']//span[contains(text(),'Wrong')]";
+		protected const string WRONG_PASSWORD = "//div[@ng-message='wrong-password']";
 		protected const string CAPTCHA_LABEL = "//label[@for='captcha']";
 		protected const string CAPTCHA_INPUT = "//input[@id='captcha']";
 		protected const string SIGN_OUT_BTN = "//a[@id='btn-signout']"; // кнопка Sign out на странице corp-reg (2й шаг)

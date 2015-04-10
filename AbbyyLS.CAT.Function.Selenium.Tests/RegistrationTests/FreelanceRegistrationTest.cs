@@ -99,7 +99,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Registration.Freelance
 		[Test]
 		public void CheckPhotoLabel()
 		{
-			Assert.Ignore("Тест инорируем, так как поле для загрузки фото убрали со стр регистрации фрилансеров");
+			Assert.Ignore("Функционал загрузки фото закрыли");
 
 			GoToRegistrationPage(RegistrationType.User);
 			// Заполняем все поля на первом шаге регистрации
