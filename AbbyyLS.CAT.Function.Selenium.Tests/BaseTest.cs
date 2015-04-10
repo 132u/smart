@@ -1123,48 +1123,52 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		}
 
 		/// <summary>
-		/// Работа с диалогом браузера: сохранение документа
+		/// Проверка сохраненного документа и перемещение его в папку для выгрузки
 		/// </summary>
 		/// <param name="subFolderName">название папки для выгрузки</param>
-		/// <param name="useFileName">использовать название исходного файла</param>
-		/// <param name="filePath">название исходного файла</param>
-		/// <param name="originalFileExtension">использовать исходное расширение</param>
 		/// <param name="fileExtension">расширение</param>
 		/// <param name="time">время выгрузки</param>
-		protected void ExternalDialogSaveDocument(
+		protected void CheckAndMoveUserLogs(
 			string subFolderName,
-			bool useFileName = false, 
-			string filePath = "",
-			bool originalFileExtension = true, 
-			string fileExtension = "", 
-			string time = "")
+			string fileExtension, 
+			string time)
 		{
-			for (int i = 0; i < 5; i++)
+			string logFile = null;
+			
+			for (var i = 0; i < 5; i++)
 			{
-				if (Directory.GetFiles(PathProvider.ResultsFolderPath, "UserActivitiesLog*").Any())
+				var logFiles = Directory.GetFiles(PathProvider.ResultsFolderPath, "UserActivitiesLog*");
+
+				if (logFiles.Any())
+				{
+					logFile = logFiles.First();
 					break;
+				}
+
+				Thread.Sleep(1000);
 			}
-			var files = Directory.GetFiles(PathProvider.ResultsFolderPath, "UserActivitiesLog*");
-			Assert.IsTrue(files.Length == 1, "Ошибка: файл не экспортировался после пяти секунд ожидания");
+
+			Assert.IsTrue(logFile != null, "Ошибка: файл не экспортировался после пяти секунд ожидания");
+
+			var newFileName = DateTime.Now.Ticks.ToString();
 			var resultPath = Path.Combine(PathProvider.ResultsFolderPath, subFolderName, time);
+
 			Directory.CreateDirectory(resultPath);
-			var newFileName = "";
+			
+			resultPath = Path.Combine(resultPath, newFileName + fileExtension);
+			
+			File.Move(logFile, resultPath);
+			File.Delete(logFile);
+		}
 
-			if (useFileName)
-			{
-				newFileName = Path.GetFileNameWithoutExtension(filePath) + "_" + DateTime.Now.Ticks.ToString();
-			}
-			else
-			{
-				newFileName = DateTime.Now.Ticks.ToString();
-			}
+		public void CleanResultFolderFromActivityLogs()
+		{
+			var activityLogs = Directory.GetFiles(PathProvider.ResultsFolderPath, "UserActivitiesLog*");
 
-			var currentFileExtension = originalFileExtension ? Path.GetExtension(filePath) : fileExtension;
-			resultPath = Path.Combine(resultPath, newFileName + currentFileExtension);
-			// Перемещаем файл в нужную папку
-			File.Move(files[0], resultPath);
-			// Удаляем файл из папки TestResults (PathProvider.PathTestResults)
-			File.Delete(files[0]);
+			foreach (var log in activityLogs)
+			{
+				File.Delete(log);
+			}
 		}
 
 		public void AddTranslationAndConfirm(int segmentRowNumber = 1, string text = "Translation")

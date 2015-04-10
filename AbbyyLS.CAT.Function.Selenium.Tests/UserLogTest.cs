@@ -29,16 +29,13 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// </summary>		
 		public void ExportLog()
 		{
-			//Выбрать документ
+			CleanResultFolderFromActivityLogs();
 			ProjectPage.SelectDocument();
-
-			//Нажать кнопку выгрузки логов
 			ProjectPage.ClickDownloadLogs();
 
 			// Экспортировать и проверить, что файл сохранен
-			ExternalDialogSaveDocument(
+			CheckAndMoveUserLogs(
 				subFolderName: "UserLogTests\\" + TestContext.CurrentContext.Test.Name,
-				originalFileExtension: false, 
 				fileExtension: ".zip",
 				time: time);
 		}
@@ -70,25 +67,8 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <summary>
 		/// Метод проверки подстановки из САТ
 		/// </summary>
-		public void PasteFromCAT(int segmentNumber, EditorPageHelper.CAT_TYPE CatType, bool useHotkey)
+		public void PasteFromCAT(int segmentNumber, EditorPageHelper.CAT_TYPE catType, bool useHotkey)
 		{
-			string catType = "";
-
-			switch (CatType)
-			{
-				case EditorPageHelper.CAT_TYPE.MT:
-					catType = "MT";
-					break;
-				case EditorPageHelper.CAT_TYPE.TM:
-					catType = "TM";
-					break;
-				case EditorPageHelper.CAT_TYPE.TB:
-					catType = "TB";
-					break;
-				default:
-					break;
-			}
-
 			//Выбираем сегмент
 			EditorPage.ClickTargetCell(segmentNumber);
 			// Пишем в лог
@@ -97,19 +77,19 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			//Ждем пока загрузится CAT-панель
 			Assert.IsTrue(EditorPage.GetCATPanelNotEmpty(), "Ошибка: панель CAT пуста");
 
-			var TMNumber = EditorPage.GetCatTranslationRowNumber(CatType);
-			Logger.Trace("TMNumber: " + TMNumber);
+			var tmNumber = EditorPage.GetCatTranslationRowNumber(catType);
+			Logger.Trace("TMNumber: " + tmNumber);
 			if (useHotkey)
 			{
 				//Нажать хоткей для подстановки из TM перевода сегмента
-				EditorPage.PutCatMatchByHotkey(segmentNumber, TMNumber);
+				EditorPage.PutCatMatchByHotkey(segmentNumber, tmNumber);
 				// Пишем в лог
-				WriteLog(segmentNumber, "Вставка из панели САТ (" + catType + ")", "Ctrl + " + TMNumber.ToString(), EditorPage.GetTargetText(segmentNumber));
+				WriteLog(segmentNumber, "Вставка из панели САТ (" + catType + ")", "Ctrl + " + tmNumber, EditorPage.GetTargetText(segmentNumber));
 			}
 			else
 			{
 				// Двойной клик
-				EditorPage.DoubleClickCATPanel(TMNumber);
+				EditorPage.DoubleClickCATPanel(tmNumber);
 				// Пишем в лог
 				WriteLog(segmentNumber, "Вставка из панели САТ (" + catType + ")", "Двойной клик мыши", EditorPage.GetTargetText(segmentNumber));
 			}
@@ -353,6 +333,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// </summary>
 		[Test]
 		[Category("SCAT_102")]
+		[Category("ForLocalRun")]
 		public void CopySourceSegmentHotkey()
 		{
 			// Открыть документ
@@ -390,6 +371,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// </summary>
 		[Test]
 		[Category("SCAT_102")]
+		[Category("ForLocalRun")]
 		public void UndoRedoActions()
 		{
 			// Открыть документ
@@ -543,6 +525,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// </summary>
 		[Test]
 		[Category("SCAT_102")]
+		[Category("ForLocalRun")]
 		public void SubstituteTranslationMTHotkey()
 		{
 			// Открыть документ
@@ -552,7 +535,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			// Проверяем подстановку САТ 1-го сегмента
 			PasteFromCAT(
 				segmentNumber: 1,
-				CatType: EditorPageHelper.CAT_TYPE.MT,
+				catType: EditorPageHelper.CAT_TYPE.MT,
 				useHotkey: true);
 			// Нажать кнопку назад
 			EditorClickHomeBtn();
@@ -587,7 +570,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			// Проверяем подстановку САТ 1-го сегмента
 			PasteFromCAT(
 				segmentNumber: 1,
-				CatType: EditorPageHelper.CAT_TYPE.MT,
+				catType: EditorPageHelper.CAT_TYPE.MT,
 				useHotkey: false);
 
 			// Нажать кнопку назад
@@ -603,6 +586,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// </summary>
 		[Test]
 		[Category("SCAT_102")]
+		[Category("ForLocalRun")]
 		public void SubstituteTranslationTMHotkey()
 		{
 			// Открыть документ
@@ -612,19 +596,19 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			// Проверяем подстановку САТ 1-го сегмента
 			PasteFromCAT(
 				segmentNumber: 1,
-				CatType: EditorPageHelper.CAT_TYPE.TM,
+				catType: EditorPageHelper.CAT_TYPE.TM,
 				useHotkey: true);
 
 			// Проверяем подстановку САТ 2-го сегмента
 			PasteFromCAT(
 				segmentNumber: 2,
-				CatType: EditorPageHelper.CAT_TYPE.TM,
+				catType: EditorPageHelper.CAT_TYPE.TM,
 				useHotkey: true);
 
 			// Проверяем подстановку САТ 4-го сегмента
 			PasteFromCAT(
 				segmentNumber: 4,
-				CatType: EditorPageHelper.CAT_TYPE.TM,
+				catType: EditorPageHelper.CAT_TYPE.TM,
 				useHotkey: true);
 
 			// Нажать кнопку назад
@@ -640,6 +624,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// </summary>
 		[Test]
 		[Category("SCAT_102")]
+		[Category("ForLocalRun")]
 		public void SubstituteTranslationTMDoubleClick()
 		{
 			// Открыть документ
@@ -649,17 +634,17 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			// Проверяем подстановку САТ 1-го сегмента
 			PasteFromCAT(
 				segmentNumber: 1,
-				CatType: EditorPageHelper.CAT_TYPE.TM,
+				catType: EditorPageHelper.CAT_TYPE.TM,
 				useHotkey: false);
 			// Проверяем подстановку САТ 2-го сегмента
 			PasteFromCAT(
 				segmentNumber: 2,
-				CatType: EditorPageHelper.CAT_TYPE.TM,
+				catType: EditorPageHelper.CAT_TYPE.TM,
 				useHotkey: false);
 			// Проверяем подстановку САТ 4-го сегмента
 			PasteFromCAT(
 				segmentNumber: 4,
-				CatType: EditorPageHelper.CAT_TYPE.TM,
+				catType: EditorPageHelper.CAT_TYPE.TM,
 				useHotkey: false);
 			// Нажать кнопку назад
 			EditorClickHomeBtn();
@@ -956,6 +941,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// </summary>
 		[Test]
 		[Category("SCAT_102")]
+		[Category("ForLocalRun")]
 		public void SubstituteTranslationTextTmMt()
 		{
 			// Открыть документ
@@ -979,13 +965,13 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			// Проверяем подстановку TМ из САТ в 1-ый сегмент
 			PasteFromCAT(
 				segmentNumber: 1,
-				CatType: EditorPageHelper.CAT_TYPE.TM, 
+				catType: EditorPageHelper.CAT_TYPE.TM, 
 				useHotkey: false);
 
 			// Проверяем подстановку MT из САТ в 1-ый сегмент
 			PasteFromCAT(
 				segmentNumber: 1,
-				CatType: EditorPageHelper.CAT_TYPE.MT,
+				catType: EditorPageHelper.CAT_TYPE.MT,
 				useHotkey: false);
 
 			// Нажать кнопку назад
@@ -1001,6 +987,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// </summary>
 		[Test]
 		[Category("SCAT_102")]
+		[Category("ForLocalRun")]
 		public void SubstituteTranslationTextMtTm()
 		{
 			CreateReadyProject(projectName, withMT: true);
@@ -1018,12 +1005,12 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			// Проверяем подстановку MT из САТ в 1-ый сегмент
 			PasteFromCAT(
 				segmentNumber: 1,
-				CatType: EditorPageHelper.CAT_TYPE.MT,
+				catType: EditorPageHelper.CAT_TYPE.MT,
 				useHotkey: false);
 			// Проверяем подстановку TМ из САТ в 1-ый сегмент
 			PasteFromCAT(
 				segmentNumber: 1,
-				CatType: EditorPageHelper.CAT_TYPE.TM,
+				catType: EditorPageHelper.CAT_TYPE.TM,
 				useHotkey: false);
 
 			// Нажать кнопку назад
@@ -1040,6 +1027,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// </summary>
 		[Category("PRX_8681")]
 		[Category("SCAT_102")]
+		[Category("ForLocalRun")]
 		[Test]
 		public void SubstituteTranslationTB()
 		{
@@ -1077,31 +1065,31 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			// Проверяем подстановку TB из САТ в 2-ой сегмент
 			PasteFromCAT(
 				segmentNumber: 2,
-				CatType: EditorPageHelper.CAT_TYPE.TM,
+				catType: EditorPageHelper.CAT_TYPE.TM,
 				useHotkey: false);
 
 			// Проверяем подстановку MT из САТ в 3-ий сегмент
 			PasteFromCAT(
 				segmentNumber: 3,
-				CatType: EditorPageHelper.CAT_TYPE.TM,
+				catType: EditorPageHelper.CAT_TYPE.TM,
 				useHotkey: false);
 
 			// Проверяем подстановку TB из САТ в 3-ый сегмент
 			PasteFromCAT(
 				segmentNumber: 3,
-				CatType: EditorPageHelper.CAT_TYPE.TB,
+				catType: EditorPageHelper.CAT_TYPE.TB,
 				useHotkey: false);
 
 			// Проверяем подстановку TМ из САТ в 4-ый сегмент
 			PasteFromCAT(
 				segmentNumber: 4,
-				CatType: EditorPageHelper.CAT_TYPE.TM,
+				catType: EditorPageHelper.CAT_TYPE.TM,
 				useHotkey: false);
 
 			// Проверяем подстановку TB из САТ в 4-ый сегмент
 			PasteFromCAT(
 				segmentNumber: 4,
-				CatType: EditorPageHelper.CAT_TYPE.TB,
+				catType: EditorPageHelper.CAT_TYPE.TB,
 				useHotkey: false);
 
 			// Нажать кнопку назад
