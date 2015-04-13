@@ -30,18 +30,18 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories
 		/// </summary>
 		public NewTranslationMemoryDialog ClickOpenClientsList()
 		{
-			Logger.Debug("Нажатие кнопки открытия списка клиентов");
+			Logger.Debug("Нажать кнопку открытия списка клиентов");
 			CreateClientDropDown.Click();
 
 			return GetPage();
 		}
 
 		/// <summary>
-		/// Проверка отображения списка клиентов
+		/// Проверить отображения списка клиентов
 		/// </summary>
 		public NewTranslationMemoryDialog AssertClientsListDisplayed()
 		{
-			Logger.Trace("Проверка отображения списка клиентов");
+			Logger.Trace("Проверить отображения списка клиентов");
 			
 			Assert.IsTrue(CreateClientList.Displayed,
 				"Произошла ошибка:\n не отображен список клиентов.");
@@ -55,7 +55,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories
 		/// <param name="clientName">имя клиента</param>
 		public NewTranslationMemoryDialog AssertClientExistInTmCreationDialog(string clientName)
 		{
-			Logger.Trace("Проеверить, что клиент {0} имеется в списке клиентов при создании ТМ", clientName);
+			Logger.Trace("Проверить, что клиент {0} имеется в списке клиентов при создании ТМ", clientName);
 
 			Assert.IsTrue(GetIsClientExist(clientName),
 				"Произошла ошибка:\n клиент {0} не отображен в списке клиентов.", clientName);
@@ -69,7 +69,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories
 		/// <param name="clientName">имя клиента</param>
 		public NewTranslationMemoryDialog AssertClientNotExistInTmCreationDialog(string clientName)
 		{
-			Logger.Trace("Проеверить, что клиент {0} отсутствует в списке клиентов при создании ТМ", clientName);
+			Logger.Trace("Проверить, что клиент {0} отсутствует в списке клиентов при создании ТМ", clientName);
 
 			Assert.IsFalse(GetIsClientExist(clientName),
 				"Произошла ошибка:\n клиент {0} имеется в списке клиентов.", clientName);

@@ -26,35 +26,35 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Admin
 		}
 
 		/// <summary>
-		/// Вводим логин
+		/// Ввести логин
 		/// </summary>
 		/// <param name="login">логин (адрес электронной почты)</param>
 		public AdminSignInPage SetLogin(string login)
 		{
-			Logger.Debug("Вводим логин пользователя в админку: {0}.", login);
+			Logger.Debug("Ввести логин пользователя в админку: {0}.", login);
 			Login.SetText(login);
 
 			return GetPage();
 		}
 
 		/// <summary>
-		/// Вводим пароль
+		/// Ввести пароль
 		/// </summary>
 		/// <param name="password">пароль</param>
 		public AdminSignInPage SetPassword(string password)
 		{
-			Logger.Debug("Вводим пароль пользователя в админку: {0}.", password);
+			Logger.Debug("Ввести пароль пользователя в админку: {0}.", password);
 			Password.SetText(password);
 
 			return GetPage();
 		}
 
 		/// <summary>
-		/// Нажимаем сабмит
+		/// Нажать сабмит
 		/// </summary>
 		public AdminLingvoProPage ClickSubmitBtn()
 		{
-			Logger.Debug("Нажимаем кнопку 'Submit'.");
+			Logger.Debug("Нажать кнопку 'Submit'.");
 			SubmitBtn.Click();
 			var adminLingvoProPage = new AdminLingvoProPage();
 

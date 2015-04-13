@@ -28,24 +28,24 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Admin
 		}
 
 		/// <summary>
-		/// Выбираем затею
+		/// Выбрать затею
 		/// </summary>
 		/// <param name="venture">затея</param>
 		public AdminEnterpriseAccountsPage ChooseVenture(string venture)
 		{
-			Logger.Debug("Выбираем затею {0}.", venture);
+			Logger.Debug("Выбрать затею {0}.", venture);
 			SelectVenture.SelectOptionByText(venture);
 
 			return GetPage();
 		}
 
 		/// <summary>
-		/// Нажимаем ссылку редактирование пользователей аккаунта
+		/// Нажать ссылку редактирование пользователей аккаунта
 		/// </summary>
 		/// <param name="accountName">имя аккаунта</param>
 		public AdminEnterpriseAccountUsersPage ClickManageUsersRef(string accountName)
 		{
-			Logger.Debug("Нажимаем ссылку для редактирования пользователей аккаунта {0}.", accountName);
+			Logger.Debug("Нажать ссылку для редактирования пользователей аккаунта {0}.", accountName);
 			ManageUsersRef = Driver.SetDynamicValue(How.XPath, MANAGE_USERS_REF_XPATH, accountName);
 			ManageUsersRef.Click();
 			var adminEnterpriseAccountUsersPage = new AdminEnterpriseAccountUsersPage();
@@ -54,12 +54,12 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Admin
 		}
 
 		/// <summary>
-		/// Проверяем, есть ли в таблице аккаунтов аккаунт с заданным именем
+		/// Проверить, есть ли в таблице аккаунтов аккаунт с заданным именем
 		/// </summary>
 		/// <param name="accountName">имя аккаунта</param>
 		public bool IsAccountExists(string accountName)
 		{
-			Logger.Trace("Проверяем, есть ли в таблице аккаунтов аккаунт с именем {0}.", accountName);
+			Logger.Trace("Проверить, есть ли в таблице аккаунтов аккаунт с именем {0}.", accountName);
 			
 			return Driver.ElementIsPresent(By.XPath(MANAGE_USERS_REF_XPATH.Replace("*#*", accountName)));
 		}

@@ -30,7 +30,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Client
 		/// </summary>
 		public ClientsPage ScrollAndClickCreateClientButton()
 		{
-			Logger.Debug("Нажтмаем кнопку создания клиента");
+			Logger.Debug("Нажать кнопку создания клиента");
 
 			Driver.ScrollAndClick(AddClientButton);
 			
@@ -44,7 +44,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Client
 		/// <param name="clearFirst">предварительно отчистить поле</param>
 		public ClientsPage FillClientName(string clientName, bool clearFirst = false)
 		{
-			Logger.Debug("Ввести имя клиента {0}. Предварительно отчистить поле: {1}.", clientName, clearFirst);
+			Logger.Debug("Ввести имя клиента {0}. Предварительно очистить поле: {1}.", clientName, clearFirst);
 			ClientNameField.SetText(clientName, clearFirst);
 
 			return GetPage();
@@ -101,11 +101,11 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Client
 		}
 
 		/// <summary>
-		/// Проверяем, что кнопка сохранения клиента исчезла
+		/// Проверить, что кнопка сохранения клиента исчезла
 		/// </summary>
 		public ClientsPage AssertSaveButtonDisapear()
 		{
-			Logger.Trace("Проверяем, что кнопка сохранения клиента исчезла");
+			Logger.Trace("Проверить, что кнопка сохранения клиента исчезла");
 
 			Assert.IsTrue(Driver.WaitUntilElementIsDissapeared(By.XPath(SAVE_CLIENT_XPATH)),
 				"Произошла ошибка:\n кнопка сохранения клиента не исчезла после сохранения.");
@@ -114,11 +114,11 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Client
 		}
 
 		/// <summary>
-		/// Проверяем, что кнопка сохранения клиента исчезла
+		/// Проверить, что кнопка сохранения клиента исчезла
 		/// </summary>
 		public ClientsPage AssertDeleteButtonDisapear()
 		{
-			Logger.Trace("Проверяем, что кнопка сохранения клиента исчезла");
+			Logger.Trace("Проверить, что кнопка сохранения клиента исчезла");
 
 			Assert.IsTrue(Driver.WaitUntilElementIsDissapeared(By.XPath(DELETE_BTN_XPATH.Replace("#", string.Empty))),
 				"Произошла ошибка:\n кнопка сохранения клиента не исчезла после сохранения.");
@@ -127,12 +127,12 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Client
 		}
 
 		/// <summary>
-		/// Проверяем, что клиент присутствует в списке клиентов
+		/// Проверить, что клиент присутствует в списке клиентов
 		/// </summary>
 		/// <param name="clientName">имя клиента</param>
 		public ClientsPage AssertClientExist(string clientName)
 		{
-			Logger.Trace("Проверяем, что клиент {0} присутствует в списке клиентов", clientName);
+			Logger.Trace("Проверить, что клиент {0} присутствует в списке клиентов", clientName);
 
 			Assert.IsTrue(getIsClientExist(clientName),
 				"Произошла ошибка:\n клиент {0} не найден в списке клиентов", clientName);
@@ -141,12 +141,12 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Client
 		}
 
 		/// <summary>
-		/// Проверяем, что клиент отсутствует в списке клиентов
+		/// Проверить, что клиент отсутствует в списке клиентов
 		/// </summary>
 		/// <param name="clientName">имя клиента</param>
 		public ClientsPage AssertClientNotExist(string clientName)
 		{
-			Logger.Trace("Проверяем, что клиент {0} отсутствует в списке клиентов", clientName);
+			Logger.Trace("Проверить, что клиент {0} отсутствует в списке клиентов", clientName);
 
 			Assert.IsFalse(getIsClientExist(clientName),
 				"Произошла ошибка:\n клиент {0} найден в списке клиентов", clientName);
@@ -155,11 +155,11 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Client
 		}
 
 		/// <summary>
-		/// Проверяем, что появилась ошибка в имени клиента при создании
+		/// Проверить, что появилась ошибка в имени клиента при создании
 		/// </summary>
 		public ClientsPage AssertClientNameErrorExist()
 		{
-			Logger.Trace("Проверяем, что появилась ошибка в имени клиента при создании");
+			Logger.Trace("Проверить, что появилась ошибка в имени клиента при создании");
 
 			Assert.IsTrue(ErrorClientName.Displayed,
 				"Произошла ошибка:\n не появилась ошибка при создании клиента с некорректным именем");
@@ -170,7 +170,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Client
 		/// <summary>
 		/// Проверить, что мы находимся в режиме редактирования
 		/// </summary>
-		public ClientsPage AssertClienEditModeEnabled()
+		public ClientsPage AssertClientEditModeEnabled()
 		{
 			Logger.Trace("Проверить, что мы находимся в режиме редактирования");
 
@@ -186,7 +186,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Client
 		/// <param name="clientName">имя клиента</param>
 		private static bool getIsClientExist(string clientName)
 		{
-			Logger.Trace("Полчить bool значение о наличии клиента {0} ", clientName);
+			Logger.Trace("Получить bool значение о наличии клиента {0} ", clientName);
 			
 			return Driver.ElementIsPresent(By.XPath(CLIENT_ROW_XPATH.Replace("*#*", clientName)));
 		}

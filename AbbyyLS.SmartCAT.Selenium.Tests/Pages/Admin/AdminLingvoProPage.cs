@@ -33,7 +33,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Admin
 		/// </summary>
 		public AdminEnterpriseAccountsPage ClickEnterpriseAccountsRef()
 		{
-			Logger.Debug("Кликаем по ссылке 'Корпоративные аккаунты'.");
+			Logger.Debug("Кликнуть по ссылке 'Корпоративные аккаунты'.");
 			EnterpriseAccountsRef.Click();
 			var adminEnterpriseAccountsPage = new AdminEnterpriseAccountsPage();
 
@@ -45,7 +45,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Admin
 		/// </summary>
 		public AdminEmailsSearchPage ClickAdminLettersSearchRef()
 		{
-			Logger.Debug("Кликаем по ссылке 'Поиск писем'.");
+			Logger.Debug("Кликнуть по ссылке 'Поиск писем'.");
 			LettersSearchRef.Click();
 			var adminEmailsSearchPage = new AdminEmailsSearchPage();
 

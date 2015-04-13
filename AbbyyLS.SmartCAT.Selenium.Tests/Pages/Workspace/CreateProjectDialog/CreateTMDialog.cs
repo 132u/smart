@@ -30,7 +30,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace.CreateProjectDialog
 		/// <param name="newTMName">имя ТМ</param>
 		public CreateTMDialog SetNewTMName(string newTMName)
 		{
-			Logger.Debug("Вводим имя новой ТМ: {0}.", newTMName);
+			Logger.Debug("Ввести имя новой ТМ: {0}.", newTMName);
 			NewTMNameInput.SetText(newTMName);
 
 			return GetPage();
@@ -41,7 +41,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace.CreateProjectDialog
 		/// </summary>
 		public NewProjectSetUpTMDialog ClickSaveBtn()
 		{
-			Logger.Debug("Нажимаем кнопку 'Сохранить'.");
+			Logger.Debug("Нажать кнопку 'Сохранить'.");
 			SaveTMBtn.Click();
 
 			return GetPage();

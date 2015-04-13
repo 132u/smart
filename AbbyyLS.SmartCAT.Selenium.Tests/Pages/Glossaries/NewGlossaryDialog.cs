@@ -37,11 +37,11 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 		}
 
 		/// <summary>
-		/// Проверка, что список клиентов открылся
+		/// Проверить, что список клиентов открылся
 		/// </summary>
 		public NewGlossaryDialog AssertClientsListOpened()
 		{
-			Logger.Trace("Проверка, что список клиентов открылся");
+			Logger.Trace("Проверить, что список клиентов открылся");
 			
 			Assert.IsTrue(ClientsListDropDown.Displayed,
 				"Произошла ошибка:\n список клиентов не открылся.");

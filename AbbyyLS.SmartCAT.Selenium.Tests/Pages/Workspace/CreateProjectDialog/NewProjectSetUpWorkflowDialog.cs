@@ -25,11 +25,11 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace.CreateProjectDialog
 		}
 
 		/// <summary>
-		/// Нажимаем на первую задачу в проекте (чтобы выпал выбадающий список с заданиями )
+		/// Нажать на первую задачу в проекте (чтобы выпал выбадающий список с заданиями )
 		/// </summary>
 		public NewProjectSetUpWorkflowDialog ClickFirstTask()
 		{
-			Logger.Debug("Нажимаем на первую задачу в проекте (чтобы выпал выбадающий список с заданиями ).");
+			Logger.Debug("Нажать на первую задачу в проекте (чтобы выпал выбадающий список с заданиями ).");
 			WFTableFirstTask.Click();
 
 			return GetPage();
@@ -40,7 +40,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace.CreateProjectDialog
 		/// </summary>
 		public ProjectsPage ClickFinishBtn()
 		{
-			Logger.Debug("Нажимаем кнопку 'Готово'.");
+			Logger.Debug("Нажать кнопку 'Готово'.");
 			FinishBtn.Click();
 
 			return GetPage();
@@ -51,7 +51,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace.CreateProjectDialog
 		/// </summary>
 		public NewProjectSetUpTMDialog ClickNextBtn()
 		{
-			Logger.Debug("Нажимаем кнопку 'Далее'.");
+			Logger.Debug("Нажать кнопку 'Далее'.");
 			NextBtn.Click();
 			var newProjectSetUpTMDialog = new NewProjectSetUpTMDialog();
 

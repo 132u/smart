@@ -99,7 +99,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 		}
 
 		/// <summary>
-		/// Проверка, заблокирован ли сегмент
+		/// Проверить, заблокирован ли сегмент
 		/// </summary>
 		/// <param name="rowNumber">номер сегмента</param>
 		/// <param name="locked">должен ли быть заблокирован</param>
@@ -120,7 +120,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 		}
 
 		/// <summary>
-		/// Проверка, нужный ли номер имеет активный сегмент
+		/// Проверить, нужный ли номер имеет активный сегмент
 		/// </summary>
 		/// <param name="rowNumber">номер сегмента</param>
 		public EditorHelper AssertActiveSegmentHasRequiredNumber(int rowNumber)

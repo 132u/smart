@@ -19,7 +19,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 		}
 
 		/// <summary>
-		/// Проверяем, есть нужный аккаунт с заданной затеей, если нет создаем
+		/// Проверить, есть нужный аккаунт с заданной затеей, если нет создаем
 		/// </summary>
 		/// <param name="venture">затея (Perevedem)</param>
 		/// <param name="accountName">имя аккаунта</param>
@@ -38,7 +38,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 		}
 
 		/// <summary>
-		/// Проверяем, есть ли пользователь в аккаунте, если нет, добавляем его как администратора (пользователь есть в базе)
+		/// Проверить, есть ли пользователь в аккаунте, если нет, добавляем его как администратора (пользователь есть в базе)
 		/// </summary>
 		/// <param name="userEmail">email пользователя</param>
 		/// <param name="userName">имя пользователя</param>

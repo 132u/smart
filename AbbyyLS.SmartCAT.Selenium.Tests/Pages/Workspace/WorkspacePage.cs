@@ -33,7 +33,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace
 		/// </summary>
 		public UsersRightsPage ClickUsersRightsBtn()
 		{
-			Logger.Debug("Нажимаем кнопку 'Пользователи и права'.");
+			Logger.Debug("Нажать кнопку 'Пользователи и права'.");
 			openHideMenuIfClosed();
 			UsersRightsBtn.Click();
 			var usersRightPage = new UsersRightsPage();
@@ -46,7 +46,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace
 		/// </summary>
 		public WorkspacePage ClickProjectsBtn()
 		{
-			Logger.Debug("Нажимаем кнопку 'Проекты'.");
+			Logger.Debug("Нажать кнопку 'Проекты'.");
 			openHideMenuIfClosed();
 			ProjectsBtn = Driver.SetDynamicValue(How.XPath, PROJECTS_BTN_XPATH, "");
 			ProjectsBtn.Click();
@@ -60,7 +60,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace
 		/// </summary>
 		public ClientsPage ClickClientsBtn()
 		{
-			Logger.Debug("Нажимаем кнопку 'Клиенты'.");
+			Logger.Debug("Нажать кнопку 'Клиенты'.");
 			openHideMenuIfClosed();
 			ClientsBtn.Click();
 			var clientsPage = new ClientsPage();
@@ -73,7 +73,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace
 		/// </summary>
 		public TranslationMemoriesPage ClickTranslationMemoriesBtn()
 		{
-			Logger.Debug("Нажимаем кнопку 'Память переводов'");
+			Logger.Debug("Нажать кнопку 'Память переводов'.");
 			openHideMenuIfClosed();
 			TranslationMemoriesBtn.Click();
 			var translationMemoriesPage = new TranslationMemoriesPage();
@@ -86,7 +86,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace
 		/// </summary>
 		public GlossariesPage ClickGlossariesBtn()
 		{
-			Logger.Debug("Нажимаем кнопку 'Глоссарии'");
+			Logger.Debug("Нажать кнопку 'Глоссарии'.");
 			openHideMenuIfClosed();
 			GlossariesBtn.Click();
 			var glossariesPage = new GlossariesPage();
@@ -99,7 +99,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace
 		/// </summary>
 		public WorkspacePage ExpandResourcesIfNotExpanded()
 		{
-			Logger.Debug("Развернуть меню ресурсов, если оно свернуто");
 			openHideMenuIfClosed();
 
 			if (!ResourcesMenu.GetAttribute("class").Contains("nested-expanded"))
@@ -115,7 +114,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace
 		/// </summary>
 		public WorkspacePage ClickAccount()
 		{
-			Logger.Debug("Нажимаем на имя пользователя и аккаунт, чтобы появилась плашка 'Настройки профиля'.");
+			Logger.Debug("Нажать на имя пользователя и аккаунт, чтобы появилась плашка 'Настройки профиля'.");
 			Account.Click();
 
 			return GetPage();
@@ -126,7 +125,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace
 		/// </summary>
 		public SignInPage ClickLogOffRef()
 		{
-			Logger.Debug("Выходим из смартката.");
+			Logger.Debug("Выйти из смартката.");
 			LogOffRef.Click();
 			var signInPage = new SignInPage();
 
@@ -139,7 +138,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace
 		/// <param name="language">желаемый язык</param>
 		public WorkspacePage SelectLocale(string language)
 		{
-			Logger.Debug("Меняем язык локали на {0}, если необходимо.", language);
+			Logger.Debug("Сменить язык локали на {0}, если необходимо.", language);
 			if (language.ToLower() == "english")
 			{
 				if (Driver.WaitUntilElementIsPresent(By.XPath(LOCALE_REF_XPATH.Replace("*#*", "en")), 1))
@@ -162,10 +161,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace
 
 		private void openHideMenuIfClosed()
 		{
-			Logger.Trace("Открыть CAT меню слева, если оно скрыто");
-
 			if (!getIsLeftMenuDisplay())
 			{
+				Logger.Debug("Открыть CAT меню слева.");
 				CatMenuOpenButton.Click();
 			}
 		}
@@ -175,7 +173,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace
 		/// </summary>
 		private bool getIsLeftMenuDisplay()
 		{
-			Logger.Trace("Вернуть раскрыто ли главное меню слева");
+			Logger.Trace("Вернуть раскрыто ли главное меню слева.");
 			
 			return CatMenu.Displayed;
 		}

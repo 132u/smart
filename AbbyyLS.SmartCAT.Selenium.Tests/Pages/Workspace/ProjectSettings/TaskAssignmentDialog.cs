@@ -25,11 +25,11 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace.ProjectSettings
 		}
 
 		/// <summary>
-		/// Проверка, назначен ли пользователь на задачу
+		/// Проверить, назначен ли пользователь на задачу
 		/// </summary>
 		public bool IsAssignStatusNotAssigned()
 		{
-			Logger.Trace("Проверяем, назначен ли пользователь на задачу.");
+			Logger.Trace("Проверить, назначен ли пользователь на задачу.");
 
 			return AssignSpan.GetAttribute("class").Contains("notAssigned");
 		}
@@ -39,7 +39,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace.ProjectSettings
 		/// </summary>
 		public TaskAssignmentDialog ClickAssignBtn()
 		{
-			Logger.Debug("Нажимаем на кнопку 'Назначить'.");
+			Logger.Debug("Нажать на кнопку 'Назначить'.");
 			AssignBtn.Click();
 
 			return GetPage();
@@ -51,14 +51,14 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace.ProjectSettings
 		/// <param name="userName">имя исполнителя</param>
 		public TaskAssignmentDialog SelectAssignee(string userName)
 		{
-			Logger.Debug("Выбираем исполнителя {0} из списка.", userName);
+			Logger.Debug("Выбрать исполнителя {0} из списка.", userName);
 			UserList.SelectOptionByText(userName);
 
 			return GetPage();
 		}
 
 		/// <summary>
-		/// Проверка, удалось ли назначить исполнителя
+		/// Проверить, удалось ли назначить исполнителя
 		/// </summary>
 		public TaskAssignmentDialog AssertIsUserAssigned()
 		{
@@ -73,7 +73,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace.ProjectSettings
 		/// </summary>
 		public ProjectSettingsPage ClickCloseBtn()
 		{
-			Logger.Debug("Закрываем диалог назначения пользователя.");
+			Logger.Debug("Закрыть диалог назначения пользователя.");
 			CloseBtn.Click();
 			var projectSettingsPage = new ProjectSettingsPage();
 

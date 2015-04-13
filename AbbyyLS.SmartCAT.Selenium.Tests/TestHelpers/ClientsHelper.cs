@@ -70,7 +70,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 		public ClientsHelper AssertClienEditModeEnabled()
 		{
 			BaseObject.InitPage(_clientsPage);
-			_clientsPage.AssertClienEditModeEnabled();
+			_clientsPage.AssertClientEditModeEnabled();
 
 			return this;
 		}

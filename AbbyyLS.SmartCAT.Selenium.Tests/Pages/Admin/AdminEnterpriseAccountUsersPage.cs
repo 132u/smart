@@ -29,41 +29,41 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Admin
 		}
 
 		/// <summary>
-		/// Проверяем, добавлен ли пользователь в аккаунт
+		/// Проверить, добавлен ли пользователь в аккаунт
 		/// </summary>
 		/// <param name="userEmail">логин пользователя</param>
 		public bool IsUserAddedIntoAccount(string userEmail)
 		{
-			Logger.Trace("Проверяем, добавлен ли пользователь {0} в аккаунт.", userEmail);
+			Logger.Trace("Проверить, добавлен ли пользователь {0} в аккаунт.", userEmail);
 			
 			return Driver.ElementIsPresent(By.XPath(ADDED_ACCOUNT_USERS_XPATH.Replace("*#*", userEmail)));
 		}
 
 		/// <summary>
-		/// Вводим email пользователя в строку для поиска
+		/// Ввести email пользователя в строку для поиска
 		/// </summary>
 		/// <param name="userEmail">email пользователя</param>
 		public AdminEnterpriseAccountUsersPage SetEmailToFindUserInput(string userEmail)
 		{
-			Logger.Debug("Вводим email пользователя {0} в строку для поиска.", userEmail);
+			Logger.Debug("Ввести email пользователя {0} в строку для поиска.", userEmail);
 			FindUserInput.SetText(userEmail);
 
 			return GetPage();
 		}
 
 		/// <summary>
-		/// Нажимаем кнопку "Найти" (пользователя)
+		/// Нажать кнопку "Найти" (пользователя)
 		/// </summary>
 		public AdminEnterpriseAccountUsersPage ClickFindUserBtn()
 		{
-			Logger.Debug("Нажимаем кнопку 'Найти'.(пользователя)");
+			Logger.Debug("Нажать кнопку 'Найти'.(пользователя)");
 			FindUserBtn.Click();
 
 			return GetPage();
 		}
 
 		/// <summary>
-		/// Проверка, появился ли запрашиваемый пользователь в списке найденных
+		/// Проверить, появился ли запрашиваемый пользователь в списке найденных
 		/// </summary>
 		/// <param name="userEmail">email пользователя</param>
 		public AdminEnterpriseAccountUsersPage AssertUserFound(string userEmail)
@@ -76,13 +76,13 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Admin
 		}
 
 		/// <summary>
-		/// Вводим фамилию пользователя
+		/// Ввести фамилию пользователя
 		/// </summary>
 		/// <param name="userEmail">email пользователя</param>
 		/// <param name="surname">фамилия</param>
 		public AdminEnterpriseAccountUsersPage SetUserSurname(string userEmail, string surname)
 		{
-			Logger.Debug("Вводим фамилию {0} нового пользователя.", surname);
+			Logger.Debug("Ввести фамилию {0} нового пользователя.", surname);
 			FoundUserSurnameInput = Driver.SetDynamicValue(How.XPath, FOUND_USER_SURNAME_INPUT_XPATH, userEmail);
 			FoundUserSurnameInput.SetText(surname);
 
@@ -90,13 +90,13 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Admin
 		}
 
 		/// <summary>
-		/// Вводим имя пользователя
+		/// Ввести имя пользователя
 		/// </summary>
 		/// <param name="userEmail">email пользователя</param>
 		/// <param name="name">имя</param>
 		public AdminEnterpriseAccountUsersPage SetUserName(string userEmail, string name)
 		{
-			Logger.Debug("Вводим имя {0} нового пользователя.", name);
+			Logger.Debug("Ввести имя {0} нового пользователя.", name);
 			FoundUserNameInput = Driver.SetDynamicValue(How.XPath, FOUND_USER_NAME_INPUT_XPATH, userEmail);
 			FoundUserNameInput.SetText(name);
 
@@ -108,7 +108,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Admin
 		/// </summary>
 		public AdminEnterpriseAccountUsersPage ClickAddUserBtn()
 		{
-			Logger.Debug("Нажимаем на кнопку 'Добавить' (администратора в аккаунт).");
+			Logger.Debug("Нажать на кнопку 'Добавить' (администратора в аккаунт).");
 			AddUserBtn.Click();
 
 			return GetPage();

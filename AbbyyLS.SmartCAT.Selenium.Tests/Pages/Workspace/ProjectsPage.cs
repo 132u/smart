@@ -28,7 +28,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace
 		}
 
 		/// <summary>
-		/// Проверка, загрузился ли проект
+		/// Проверить, загрузился ли проект
 		/// </summary>
 		/// <param name="projectName">имя проекта</param>
 		public ProjectsPage AssertIsProjectLoaded(string projectName)
@@ -45,7 +45,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace
 		/// <param name="projectName">имя проекта</param>
 		public ProjectSettingsPage ClickProjectRef(string projectName)
 		{
-			Logger.Debug("Кликаем по ссылке проекта {0}.", projectName);
+			Logger.Debug("Кликнуть по ссылке проекта {0}.", projectName);
 			//TODO: убрать слип, если можно (похоже на временные глюки, раньше был не нужен)
 			Thread.Sleep(1000);
 			ProjectRef = Driver.SetDynamicValue(How.XPath, PROJECT_REF_XPATH, projectName);
@@ -68,7 +68,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace
 		/// </summary>
 		public NewProjectGeneralInformationDialog ClickCreateProjectBtn()
 		{
-			Logger.Debug("Нажимаем на кнопку 'Создать проект'.");
+			Logger.Debug("Нажать на кнопку 'Создать проект'.");
 			CreateProjectBtn.Click();
 			var createProjectDialog = new NewProjectGeneralInformationDialog();
 

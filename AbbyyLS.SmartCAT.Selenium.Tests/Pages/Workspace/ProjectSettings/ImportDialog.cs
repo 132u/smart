@@ -39,7 +39,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace.ProjectSettings
 		}
 
 		/// <summary>
-		/// Проверка, загрузился ли файл
+		/// Проверить, загрузился ли файл
 		/// </summary>
 		/// <param name="fileName">имя файла (с расширением)</param>
 		public ImportDialog AssertIfFileUploaded(string fileName)

@@ -70,7 +70,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 		}
 
 		/// <summary>
-		/// Проверка, переведен ли документ
+		/// Проверить, переведен ли документ
 		/// </summary>
 		/// <param name="documentName">имя документа</param>
 		public ProjectSettingsHelper AssertIsDocumentTranslated(string documentName)

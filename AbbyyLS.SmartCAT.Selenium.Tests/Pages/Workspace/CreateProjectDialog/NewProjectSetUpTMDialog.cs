@@ -25,17 +25,17 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace.CreateProjectDialog
 		}
 
 		/// <summary>
-		/// Проверка, пустая ли таблица с ТМ
+		/// Проверить, пустая ли таблица с ТМ
 		/// </summary>
 		public bool IsTMTableNotEmpty()
 		{
-			Logger.Debug("Проверяем пустая ли таблица с ТМ.");
+			Logger.Trace("Проверить пустая ли таблица с ТМ.");
 
 			return Driver.WaitUntilElementIsEnabled(By.XPath(TM_TABLE_FIRST_ITEM_XPATH));
 		}
 
 		/// <summary>
-		/// Проверка, удалось ли добавить в проект ТМ (если ТМ не было вообще)
+		/// Проверить, удалось ли добавить в проект ТМ (если ТМ не было вообще)
 		/// </summary>
 		public NewProjectSetUpTMDialog AssertIsTMTableNotEmpty()
 		{
@@ -50,7 +50,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace.CreateProjectDialog
 		/// </summary>
 		public NewProjectSetUpTMDialog ClickTMTableFirstItem()
 		{
-			Logger.Debug("Выбираем первую ТМ из таблицы.");
+			Logger.Debug("Выбрать первую ТМ из таблицы.");
 			TMTableFirstItem.Click();
 
 			return GetPage();
@@ -61,7 +61,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace.CreateProjectDialog
 		/// </summary>
 		public CreateTMDialog ClickCreateTMBtn()
 		{
-			Logger.Debug("Нажимаем кнопку 'Создать ТМ'.");
+			Logger.Debug("Нажать кнопку 'Создать ТМ'.");
 			CreateTMBtn.Click();
 			var createTMDialog = new CreateTMDialog();
 
@@ -73,7 +73,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace.CreateProjectDialog
 		/// </summary>
 		public NewProjectSelectGlossariesDialog ClickNextBtn()
 		{
-			Logger.Debug("Нажимаем кнопку 'Далее'.");
+			Logger.Debug("Нажать кнопку 'Далее'.");
 			NextBtn.Click();
 			var newProjectSelectGlossariesDialog = new NewProjectSelectGlossariesDialog();
 
@@ -85,7 +85,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace.CreateProjectDialog
 		/// </summary>
 		public ProjectsPage ClickFinishBtn()
 		{
-			Logger.Debug("Нажимаем кнопку 'Готово'.");
+			Logger.Debug("Нажать кнопку 'Готово'.");
 			FinishBtn.Click();
 
 			return GetPage();

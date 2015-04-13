@@ -48,7 +48,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 		}
 
 		/// <summary>
-		/// Выбираем существующую, либо создаем новую ТМ
+		/// Выбрать существующую, либо создаем новую ТМ
 		/// </summary>
 		/// <param name="newTMName">имя новой ТМ</param>
 		public CreateProjectHelper SelectTM(string newTMName)

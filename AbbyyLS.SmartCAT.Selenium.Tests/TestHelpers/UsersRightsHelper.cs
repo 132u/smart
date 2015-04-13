@@ -7,7 +7,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 	public class UsersRightsHelper : WorkspaceHelper
 	{
 		/// <summary>
-		/// Проверяем, существует ли нужная нам группа, если нет, то создаем
+		/// Проверить, существует ли нужная нам группа, если нет, то создаем
 		/// </summary>
 		/// <param name="groupName">имя группы</param>
 		public UsersRightsHelper CheckOrCreateGroup(string groupName)
@@ -27,7 +27,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 		}
 
 		/// <summary>
-		/// Проверяем, есть ли в группе пользователь, если нет, то добавляем
+		/// Проверить, есть ли в группе пользователь, если нет, то добавляем
 		/// </summary>
 		/// <param name="groupName">имя группы</param>
 		/// <param name="userName">имя пользователя</param>
@@ -52,7 +52,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 		}
 
 		/// <summary>
-		/// Проверяем есть у группы права на создание, управление и просмотр проектов, если нет, добавляем
+		/// Проверить есть у группы права на создание, управление и просмотр проектов, если нет, добавляем
 		/// </summary>
 		/// <param name="groupName">имя группы</param>
 		public UsersRightsHelper CheckOrAddRightsToGroup(string groupName)
@@ -97,7 +97,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 		}
 
 		/// <summary>
-		/// Сохраняем новые настройки группы и переходим на вкладку Workspace
+		/// Сохранить новые настройки группы и переходим на вкладку Workspace
 		/// </summary>
 		/// <param name="groupName">имя группы</param>
 		public UsersRightsHelper SaveNewGroupSettings(string groupName)

@@ -34,7 +34,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Admin
 		/// <param name="email">емаил</param>
 		public AdminEmailsSearchPage SetEmail(string email)
 		{
-			Logger.Debug("Вводим email пользователя {0} в поле для поиска.", email);
+			Logger.Debug("Ввести email пользователя {0} в поле для поиска.", email);
 			SearchEmailInput.SetText(email);
 
 			return GetPage();
@@ -46,7 +46,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Admin
 		/// <param name="limit">количество писем (последние письма)</param>
 		public AdminEmailsSearchPage SetLimitCount(int limit)
 		{
-			Logger.Debug("Вводим ограничение по поиску писем: {0}.", limit);
+			Logger.Debug("Ввести ограничение по поиску писем: {0}.", limit);
 			LimitCountInput.SetText(Convert.ToString(limit));
 
 			return GetPage();
@@ -64,7 +64,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Admin
 		}
 
 		/// <summary>
-		/// Проверка, сработал ли поиск и появилась ли таблица с письмами
+		/// Проверить, сработал ли поиск и появилась ли таблица с письмами
 		/// </summary>
 		public AdminEmailsSearchPage AssertFoundEmailesAppeared()
 		{

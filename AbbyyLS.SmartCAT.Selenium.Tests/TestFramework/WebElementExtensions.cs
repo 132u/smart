@@ -32,7 +32,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestFramework
 		}
 
 		/// <summary>
-		/// Выбираем вариант из списка (использовать только для тэга Select!)
+		/// Выбрать вариант из списка (использовать только для тэга Select!)
 		/// </summary>
 		/// <param name="webElement">элемент Select</param>
 		/// <param name="text">текст</param>

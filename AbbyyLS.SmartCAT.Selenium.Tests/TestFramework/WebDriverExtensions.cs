@@ -19,7 +19,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestFramework
 		public static readonly TimeSpan NoWait = new TimeSpan(0, 0, 0, 0);
 
 		/// <summary>
-		/// Проверяем, присуствует ли элемент на странице
+		/// Проверить, присуствует ли элемент на странице
 		/// </summary>
 		/// <param name="driver">драйвер</param>
 		/// <param name="by">локатор</param>
@@ -94,7 +94,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestFramework
 		}
 
 		/// <summary>
-		/// Проверяем, доступен ли элемент на странице
+		/// Проверить, доступен ли элемент на странице
 		/// </summary>
 		/// <param name="driver">драйвер</param>
 		/// <param name="by">локатор</param>
@@ -280,7 +280,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestFramework
 		/// <param name="webElement"></param>
 		private static void scrollToWebElement(this IWebDriver driver, IWebElement webElement)
 		{
-			Logger.Debug("Скролинг страницы до того момента, пока web-элемент не станет видимым");
+			Logger.Trace("Скроллинг страницы до того момента, пока web-элемент не станет видимым");
 
 			try
 			{

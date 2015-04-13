@@ -29,7 +29,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace
 		/// </summary>
 		public UsersRightsPage ClickGroupsBtn()
 		{
-			Logger.Debug("Переходим на вкладку 'Группы и права'.");
+			Logger.Debug("Перейти на вкладку 'Группы и права'.");
 			GroupsBtn.Click();
 
 			return GetPage();
@@ -41,7 +41,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace
 		/// <param name="groupName">имя группы</param>
 		public bool IsGroupExists(string groupName)
 		{
-			Logger.Debug("Проверяем существует ли группа {0}.", groupName);
+			Logger.Trace("Проверить, существует ли группа {0}.", groupName);
 
 			return Driver.ElementIsPresent(By.XPath(GROUP_XPATH.Replace("*#*", groupName)));
 		}
@@ -51,18 +51,18 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace
 		/// </summary>
 		public UsersRightsPage ClickCreateGroupBtn()
 		{
-			Logger.Debug("Нажимаем на кнопку 'Создать группу'.");
+			Logger.Debug("Нажать на кнопку 'Создать группу'.");
 			CreateGroupBtn.Click();
 
 			return GetPage();
 		}
 
 		/// <summary>
-		/// Проверяем, появилась ли форма для добавления новой группы
+		/// Проверить, появилась ли форма для добавления новой группы
 		/// </summary>
 		public UsersRightsPage AssertAddNewGroupForm()
 		{
-			Logger.Debug("Проверяем, появилась ли форма для добавления новой группы.");
+			Logger.Trace("Проверить, появилась ли форма для добавления новой группы.");
 			Assert.IsTrue(Driver.WaitUntilElementIsPresent(By.XPath(NEW_GROUP_NAME_INPUT_XPATH)),
 				"Произошла ошибка:\n не появилась форма для добавления новой группы.");
 
@@ -75,7 +75,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace
 		/// <param name="groupName">имя группы</param>
 		public UsersRightsPage SetNewGroupName(string groupName)
 		{
-			Logger.Debug("Вводим имя создаваемой группы: {0}.", groupName);
+			Logger.Debug("Ввести имя создаваемой группы: {0}.", groupName);
 			NewGroupNameInput.SetText(groupName);
 
 			return GetPage();
@@ -86,14 +86,14 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace
 		/// </summary>
 		public UsersRightsPage ClickSaveNewGroupBtn()
 		{
-			Logger.Debug("Сохраняем новую группу.");
+			Logger.Debug("Сохранить новую группу.");
 			SaveNewGroupBtn.Click();
 
 			return GetPage();
 		}
 
 		/// <summary>
-		/// Проверка, создалась ли новая группа
+		/// Проверить, создалась ли новая группа
 		/// </summary>
 		/// <param name="groupName">имя группы</param>
 		public UsersRightsPage AssertIsGroupCreated(string groupName)
@@ -105,12 +105,12 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace
 		}
 
 		/// <summary>
-		/// Кликаем на нужную группу в таблице
+		/// Кликнуть на нужную группу в таблице
 		/// </summary>
 		/// <param name="groupName">имя группы</param>
 		public UsersRightsPage SelectGroup(string groupName)
 		{
-			Logger.Debug("Кликаем на группу {0} в таблице, чтобы появился выпадающий список с пользователями и правами.", groupName);
+			Logger.Debug("Кликнуть на группу {0} в таблице, чтобы появился выпадающий список с пользователями и правами.", groupName);
 			Group = Driver.SetDynamicValue(How.XPath, GROUP_XPATH, groupName);
 			Group.Click();
 
@@ -118,7 +118,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace
 		}
 
 		/// <summary>
-		/// Проверка, присуствует ли кнопка "Редактировать группу"
+		/// Проверить, присуствует ли кнопка "Редактировать группу"
 		/// </summary>
 		/// <param name="groupName">имя группы</param>
 		public bool IsEditGroupBtnDisplayed(string groupName)
@@ -132,7 +132,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace
 		/// <param name="groupName">имя группы</param>
 		public UsersRightsPage ClickEditGroupBtn(string groupName)
 		{
-			Logger.Debug("Нажимаем кнопку 'Редактировать группу'.");
+			Logger.Debug("Нажать кнопку 'Редактировать группу'.");
 			EditGroupBtn = Driver.SetDynamicValue(How.XPath, EDIT_GROUP_BTN_XPATH, groupName);
 			EditGroupBtn.Click();
 
@@ -140,19 +140,19 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace
 		}
 
 		/// <summary>
-		/// Проверка, есть ли пользователь в группе
+		/// Проверить, есть ли пользователь в группе
 		/// </summary>
 		/// <param name="userName">имя пользователя</param>
 		/// <param name="groupName">имя группы</param>
 		public bool IsGroupUserAdded(string groupName, string userName)
 		{
-			Logger.Debug("Проверяем, есть ли пользователь {0} в группе {1}.", userName, groupName);
+			Logger.Trace("Проверить, есть ли пользователь {0} в группе {1}.", userName, groupName);
 
 			return Driver.ElementIsPresent(By.XPath(GROUP_USER_XPATH.Replace("*#*", groupName).Replace("*##*", userName)));
 		}
 
 		/// <summary>
-		/// Проверка, удалось ли добавить пользователя в группу
+		/// Проверить, удалось ли добавить пользователя в группу
 		/// </summary>
 		/// <param name="userName">имя пользователя</param>
 		/// <param name="groupName">имя группы</param>
@@ -170,7 +170,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace
 		/// <param name="groupName">имя группы</param>
 		public UsersRightsPage ClickAddRightsBtn(string groupName)
 		{
-			Logger.Debug("Нажимаем на кнопку 'Добавить права' для группы {0}.", groupName);
+			Logger.Debug("Нажать на кнопку 'Добавить права' для группы {0}.", groupName);
 			AddRightsBtn = Driver.SetDynamicValue(How.XPath, ADD_RIGHTS_BTN_XPATH, groupName);
 			AddRightsBtn.Click();
 
@@ -178,11 +178,11 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace
 		}
 
 		/// <summary>
-		/// Кликаем по строке поиска пользователей для появления выпадающего списка с пользователями аккаунта
+		/// Кликнуть по строке поиска пользователей для появления выпадающего списка с пользователями аккаунта
 		/// </summary>
 		public UsersRightsPage ClickAddUsersSearchbox(string groupName)
 		{
-			Logger.Debug("Кликаем по строке поиска пользователей для появления выпадающего списка с пользователями аккаунта.");
+			Logger.Debug("Кликнуть по строке поиска пользователей для появления выпадающего списка с пользователями аккаунта.");
 			AddGroupUsersInput = Driver.SetDynamicValue(How.XPath, ADD_GROUP_USERS_INPUT_XPATH, groupName);
 			AddGroupUsersInput.Click();
 
@@ -190,7 +190,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace
 		}
 
 		/// <summary>
-		/// Проверка, что данный пользователь есть в списке с пользователями аккаунта
+		/// Проверить, что данный пользователь есть в списке с пользователями аккаунта
 		/// </summary>
 		/// <param name="userName">имя пользователя</param>
 		/// <param name="groupName">имя группы</param>
@@ -209,7 +209,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace
 		/// <param name="groupName">имя группы</param>
 		public UsersRightsPage ClickAddGroupUserBtn(string groupName, string userName)
 		{
-			Logger.Debug("Выбираем пользователя {0} из списка и нажать кнопку 'Добавить' в группу {1}.", userName, groupName);
+			Logger.Debug("Выбрать пользователя {0} из списка и нажать кнопку 'Добавить' в группу {1}.", userName, groupName);
 			AddGroupUserBtn = Driver.SetDynamicValue(How.XPath, ADD_GROUP_USER_BTN_XPATH, groupName, userName);
 			AddGroupUserBtn.Click();
 
@@ -217,17 +217,17 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace
 		}
 
 		/// <summary>
-		/// Проверка, есть у группы право на управление проектами
+		/// Проверить, есть у группы право на управление проектами
 		/// </summary>
 		/// <param name="groupName">имя группы</param>
 		public bool IsManageProjectsRightAdded(string groupName)
 		{
-			Logger.Debug("Проверяем, есть у группы {0} право на управление проектами.", groupName);
+			Logger.Debug("Проверить, есть у группы {0} право на управление проектами.", groupName);
 
 			return Driver.ElementIsPresent(By.XPath(MANAGE_PROJECTS_RIGHT_TEXT_XPATH.Replace("*#*", groupName)));
 		}
 		/// <summary>
-		/// Проверка, удалось ли добавить группе право на управление проектами
+		/// Проверить, удалось ли добавить группе право на управление проектами
 		/// </summary>
 		/// <param name="groupName">имя группы</param>
 		public UsersRightsPage AssertIsManageProjectsRightAdded(string groupName)
@@ -239,18 +239,18 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace
 		}
 
 		/// <summary>
-		/// Проверка, есть у группы право на просмотр проектов
+		/// Проверить, есть у группы право на просмотр проектов
 		/// </summary>
 		/// <param name="groupName">имя группы</param>
 		public bool IsViewProjectsRightAdded(string groupName)
 		{
-			Logger.Debug("Проверяем, есть у группы {0} право на просмотр проектов.", groupName);
+			Logger.Trace("Проверить, есть у группы {0} право на просмотр проектов.", groupName);
 
 			return Driver.ElementIsPresent(By.XPath(VIEW_PROJECTS_RIGHT_TEXT_XPATH.Replace("*#*", groupName)));
 		}
 
 		/// <summary>
-		/// Проверка, удалось ли добавить группе право на просмотр проектов
+		/// Проверить, удалось ли добавить группе право на просмотр проектов
 		/// </summary>
 		/// <param name="groupName">имя группы</param>
 		public UsersRightsPage AssertIsViewProjectsRightAdded(string groupName)
@@ -262,18 +262,18 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace
 		}
 
 		/// <summary>
-		/// Проверка, есть у группы право на создание проектов
+		/// Проверить, есть у группы право на создание проектов
 		/// </summary>
 		/// <param name="groupName">имя группы</param>
 		public bool IsCreateProjectsRightAdded(string groupName)
 		{
-			Logger.Debug("Проверяем, есть у группы {0} право на создание проектов.", groupName);
+			Logger.Trace("Проверить, есть у группы {0} право на создание проектов.", groupName);
 
 			return Driver.ElementIsPresent(By.XPath(CREATE_PROJECTS_RIGHT_TEXT_XPATH.Replace("*#*", groupName)));
 		}
 
 		/// <summary>
-		/// Проверка, удалось ли добавить группе право на создание проектов
+		/// Проверить, удалось ли добавить группе право на создание проектов
 		/// </summary>
 		/// <param name="groupName">имя группы</param>
 		public UsersRightsPage AssertIsCreateProjectsRightAdded(string groupName)
@@ -289,7 +289,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace
 		/// </summary>
 		public UsersRightsPage ClickCreateProjectsRadio()
 		{
-			Logger.Debug("Выбираем из списка право на создание проектов.");
+			Logger.Debug("Выбрать из списка право на создание проектов.");
 			CreateProjectRadio.Click();
 
 			return GetPage();
@@ -300,7 +300,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace
 		/// </summary>
 		public UsersRightsPage ClickManageProjectsRadio()
 		{
-			Logger.Debug("Выбираем из списка право на управление проектами.");
+			Logger.Debug("Выбрать из списка право на управление проектами.");
 			ManageProjectRadio.Click();
 
 			return GetPage();
@@ -311,7 +311,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace
 		/// </summary>
 		public UsersRightsPage ClickViewProjectsRadio()
 		{
-			Logger.Debug("Выбираем из списка право на просмотр проектов.");
+			Logger.Debug("Выбрать из списка право на просмотр проектов.");
 			ViewProjectRadio.Click();
 
 			return GetPage();
@@ -322,7 +322,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace
 		/// </summary>
 		public UsersRightsPage ClickDefinedByConditionRadio()
 		{
-			Logger.Debug("Выбираем набор 'для всех проектов'.");
+			Logger.Debug("Выбрать набор 'для всех проектов'.");
 
 			if (Driver.ElementIsPresent(By.XPath(FOR_ANY_PROJECT_RADIO_XPATH)) && Driver.ElementIsEnabled(By.XPath(FOR_ANY_PROJECT_RADIO_XPATH)))
 			{
@@ -337,7 +337,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace
 		/// </summary>
 		public UsersRightsPage ClickNextBtn()
 		{
-			Logger.Debug("Нажимаем кнопку далее (при добавлении прав пользователя).");
+			Logger.Debug("Нажать кнопку далее (при добавлении прав пользователя).");
 			NextBtn.Click();
 
 			return GetPage();
@@ -348,7 +348,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace
 		/// </summary>
 		public UsersRightsPage ClickAddRightBtn()
 		{
-			Logger.Debug("Нажимаем кнопку 'Добавить' (право).");
+			Logger.Debug("Нажать кнопку 'Добавить' (право).");
 			AddRightBtn.Click();
 
 			return GetPage();
@@ -360,7 +360,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace
 		/// <param name="groupName">имя группы</param>
 		public UsersRightsPage ClickSaveBtn(string groupName)
 		{
-			Logger.Debug("Нажимаем кнопку 'Сохранить' ( настройки группы {0}).", groupName);
+			Logger.Debug("Нажать кнопку 'Сохранить' ( настройки группы {0}).", groupName);
 			SaveBtn = Driver.SetDynamicValue(How.XPath, SAVE_BTN_XPATH, groupName);
 			SaveBtn.Click();
 

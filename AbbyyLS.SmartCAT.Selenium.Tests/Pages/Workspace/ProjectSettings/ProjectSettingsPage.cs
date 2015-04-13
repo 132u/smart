@@ -32,7 +32,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace.ProjectSettings
 		/// </summary>
 		public ImportDialog ClickAddFilesBtn()
 		{
-			Logger.Trace("Нажимаем на кнопку 'Загрузить файлы'.");
+			Logger.Debug("Нажать на кнопку 'Загрузить файлы'.");
 			AddFilesBtn.Click();
 			var importDialig = new ImportDialog();
 
@@ -40,11 +40,11 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace.ProjectSettings
 		}
 
 		/// <summary>
-		/// Проверка, загрузился ли документ
+		/// Проверить, загрузился ли документ
 		/// </summary>
 		public ProjectSettingsPage AssertIsDocumentProcessed()
 		{
-			Logger.Trace("Проверяем загрузился ли документ.");
+			Logger.Trace("Проверить загрузился ли документ.");
 			if (!Driver.WaitUntilElementIsDissapeared(By.XPath(LOAD_DOC_IMG_XPATH), 320))
 			{
 				Driver.Navigate().Refresh();
@@ -62,7 +62,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace.ProjectSettings
 		/// <param name="documentName">имя документа</param>
 		public ProjectSettingsPage ClickProjectsTableCheckbox(string documentName)
 		{
-			Logger.Trace("Нажимаем на чекбокс напротив документа {0}.", documentName);
+			Logger.Debug("Нажать на чекбокс напротив документа {0}.", documentName);
 			Thread.Sleep(1000);
 			ProjectsTableCheckbox = Driver.SetDynamicValue(How.XPath, PROJECTS_TABLE_CHECKBOX_XPATH, documentName);
 			ProjectsTableCheckbox.Click();
@@ -71,7 +71,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace.ProjectSettings
 		}
 
 		/// <summary>
-		/// Проверка, завершен ли перевод документа
+		/// Проверить, завершен ли перевод документа
 		/// </summary>
 		/// <param name="documentName">имя документа</param>
 		public ProjectSettingsPage AssertIsStatusCompleted(string documentName)
@@ -87,18 +87,18 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace.ProjectSettings
 		/// </summary>
 		public ProjectSettingsPage RefreshPage()
 		{
-			Logger.Debug("Обновляем страницу.");
+			Logger.Debug("Обновить страницу.");
 			Driver.Navigate().Refresh();
 
 			return GetPage();
 		}
 
 		/// <summary>
-		/// Проверка, выбран ли движок МТ
+		/// Проверить, выбран ли движок МТ
 		/// </summary>
 		public bool IsDefaultMTSelected()
 		{
-			Logger.Debug("Проверяем выбран ли движок МТ.");
+			Logger.Debug("Проверить выбран ли движок МТ.");
 
 			return Driver.ElementIsPresent(By.XPath(DEFAULT_MT_CHECKBOX_STATE_XPATH));
 		}
@@ -108,7 +108,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace.ProjectSettings
 		/// </summary>
 		public ProjectSettingsPage ClickDefaultMTCheckbox()
 		{
-			Logger.Debug("Выбираем ABBYY из таблицы МТ движков.");
+			Logger.Debug("Выбрать ABBYY из таблицы МТ движков.");
 			Thread.Sleep(1000);
 			DefaultMTCheckbox.Click();
 
@@ -120,7 +120,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace.ProjectSettings
 		/// </summary>
 		public ProjectSettingsPage ClickSaveMtBtn()
 		{
-			Logger.Debug("Нажимаем кнопку 'Сохранить МТ'.");
+			Logger.Debug("Нажать кнопку 'Сохранить МТ'.");
 			SaveMTBtn.Click();
 
 			return GetPage();
@@ -131,7 +131,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace.ProjectSettings
 		/// </summary>
 		public TaskAssignmentDialog ClickAssignBtn()
 		{
-			Logger.Debug("Нажимаем кнопку 'Назначить задачу'.");
+			Logger.Debug("Нажать кнопку 'Назначить задачу'.");
 			AssignTasksBtn.Click();
 			var taskAssigmentDialog = new TaskAssignmentDialog();
 
@@ -180,7 +180,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace.ProjectSettings
 		/// <param name="documentName">имя документа</param>
 		public ProjectSettingsPage ClickAcceptBtn(string documentName)
 		{
-			Logger.Debug("Нажимаем кнопку 'Принять задачу'.");
+			Logger.Debug("Нажать кнопку 'Принять задачу'.");
 			Driver.Navigate().Refresh();
 			AcceptBtn = Driver.SetDynamicValue(How.XPath, ACCEPT_BTN_XPATH, documentName);
 			AcceptBtn.Click();

@@ -29,7 +29,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Login
 		/// <param name="email">емаил пользователя</param>
 		public SignInPage SetLogin(string email)
 		{
-			Logger.Debug("Логинимся в кат, вводим логин пользователя {0}.", email);
+			Logger.Debug("Залогиниться в кат, ввести логин пользователя {0}.", email);
 			Login.SetText(email);
 
 			return GetPage();
@@ -41,7 +41,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Login
 		/// <param name="password">пароль пользователя</param>
 		public SignInPage SetPassword(string password)
 		{
-			Logger.Debug("Вводим пароль пользователя {0}.", password);
+			Logger.Debug("Ввести пароль пользователя {0}.", password);
 			Password.SetText(password);
 
 			return GetPage();
@@ -52,7 +52,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Login
 		/// </summary>
 		public SelectAccountForm ClickSubmitBtn()
 		{
-			Logger.Trace("Нажимаем сабмит.");
+			Logger.Trace("Нажать сабмит.");
 			SubmitBtn.Click();
 			var selectAccountForm = new SelectAccountForm();
 
