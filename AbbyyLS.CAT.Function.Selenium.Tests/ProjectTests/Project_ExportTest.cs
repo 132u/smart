@@ -127,9 +127,10 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		public void ExportDocumentFromProjectListDocumentSettingsTest(string exportType)
 		{
 			// Создать проект с документом (если его нет)
-			var projectName = CreateProjectOneDocument(false);
+			var projectName = CreateProjectOneDocument(isNeedOpenProject: false);
 			// Закрыть все открытые сообщения об экспорте
 			WorkspacePage.CancelAllNotifiers();
+			GoToUrl(RelativeUrlProvider.Workspace);
 			// Открыть информацию о проекте
 			OpenProjectInfo(projectName);
 			// Открыть информацию о документе (свертку документа)

@@ -1442,8 +1442,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		protected void SwitchCurrentGlossary(string glossaryName)
 		{
 			Logger.Debug(string.Format("Зайти в глоссарий {0}", glossaryName));
-			GlossaryListPage.ScrollToGlossary(glossaryName);
-			GlossaryListPage.ClickGlossaryRow(glossaryName);
+			GlossaryListPage.ScrollAndClickGlossaryRow(glossaryName);
 			GlossaryPage.WaitPageLoad();
 		}
 

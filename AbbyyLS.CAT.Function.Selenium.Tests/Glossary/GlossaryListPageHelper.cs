@@ -53,12 +53,14 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			return WaitUntilDisplayElement(By.XPath(GetGlossaryRowXPath(glossaryName)));
 		}
 
-		public void ClickGlossaryRow(string glossaryName)
+		public void ScrollAndClickGlossaryRow(string glossaryName)
 		{
-			Logger.Trace(string.Format("Кликнуть по глоссарию с именем {0}", glossaryName));
-
 			var pathToGlossaryName = GetGlossaryRowXPath(glossaryName);
 
+			Logger.Trace(string.Format("Скроллим, чтобы глоссарий {0} стал видимым", glossaryName));
+			ScrollToElement(By.XPath(pathToGlossaryName));
+
+			Logger.Trace(string.Format("Кликнуть по глоссарию с именем {0}", glossaryName));
 			try
 			{
 				ClickElement(By.XPath(pathToGlossaryName));
@@ -70,24 +72,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 				Logger.Error(errorMessage);
 
 				throw new Exception(errorMessage);
-			}
-		}
-
-		/// <summary>
-		/// Метод скроллит до того момента,чтобы глоссарий стал видимым
-		/// </summary>
-		/// <param name="glossaryName"></param>
-		public void ScrollToGlossary(string glossaryName)
-		{
-			try
-			{
-				Logger.Trace(string.Format("Скроллим, чтобы глоссарий {0} стал видимым", glossaryName));
-				var glossaryItem = Driver.FindElement(By.XPath(GetGlossaryRowXPath(glossaryName)));
-				((IJavaScriptExecutor)Driver).ExecuteScript("arguments[0].scrollIntoView(true); window.scrollBy(0,-200);", glossaryItem);
-			}
-			catch (Exception ex)
-			{
-				Assert.Fail("При попытке скроллинга страницы произошла ошибка: " + ex.Message);
 			}
 		}
 

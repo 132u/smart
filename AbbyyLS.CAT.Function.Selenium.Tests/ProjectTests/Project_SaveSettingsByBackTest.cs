@@ -245,48 +245,27 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		}
 
 		/// <summary>
-		/// Тест: создание проекта, выбор stage, возврат к предудыщему, обратно к stage
+		/// Тест: создание проекта, этап workflow, возврат к предудыщему, обратно к workflow
 		/// Проверка, что настройки сохранились
-		/// - выбранный Stage
 		/// </summary>
 		[Test]
 		public void BackNextChooseStage()
 		{
-			// Открыли форму создания проекта, заполнили поля
-			FirstStepProjectWizard(ProjectUniqueName);
-			// Next
-			WorkspaceCreateProjectDialog.ClickNextStep();
-			WorkspaceCreateProjectDialog.ClickNextStep();
-			// Выбрать ТМ
-			WorkspaceCreateProjectDialog.ClickFirstTMInTable();
-			// Next
-			WorkspaceCreateProjectDialog.ClickNextStep();
-			// Выбрать глоссарий
-			WorkspaceCreateProjectDialog.ClickFirstGlossaryInTable();
-			// Next
-			WorkspaceCreateProjectDialog.ClickNextStep();
-			// Выбрать compreno
-			var mtType = Workspace_CreateProjectDialogHelper.MT_TYPE.ABBYY;
-			WorkspaceCreateProjectDialog.ChooseMT(mtType);
-			// Next
-			WorkspaceCreateProjectDialog.ClickNextStep();
-			// Выбрать Stage
 			var stageText = "Editing";
+
+			FirstStepProjectWizard(ProjectUniqueName);
+			WorkspaceCreateProjectDialog.ClickNextStep();
 			WorkspaceCreateProjectDialog.OpenStageList();
 
-			Assert.IsTrue(
-				WorkspaceCreateProjectDialog.SelectStage(stageText),
+			Assert.IsTrue(WorkspaceCreateProjectDialog.SelectStage(stageText),
 				"Ошибка: нет такого stage: " + stageText);
 
-			// Нажать Back
 			WorkspaceCreateProjectDialog.ClickBackBtn();
-			WorkspaceCreateProjectDialog.GetIsStepChooseMT();
-			// Next
+			WorkspaceCreateProjectDialog.GetIsGeneralInformationStep();
 			WorkspaceCreateProjectDialog.ClickNextStep();
 
 			// Проверили, что вернулись на шаг выбора stage
-			Assert.IsTrue(
-				WorkspaceCreateProjectDialog.GetIsStepChooseStage(),
+			Assert.IsTrue(WorkspaceCreateProjectDialog.GetIsStepChooseStage(),
 				"Ошибка: не вернулись на предыдущий шаг (выбор Stage)");
 
 			// Значение Stage

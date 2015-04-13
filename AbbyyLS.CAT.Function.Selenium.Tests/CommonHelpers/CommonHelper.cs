@@ -18,7 +18,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 	/// <summary>
 	/// Общий хелпер
 	/// </summary>
-	public class CommonHelper
+	public  class CommonHelper
 	{
 		public static Logger Logger = LogManager.GetCurrentClassLogger();
 
@@ -702,6 +702,21 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 
 			Assert.IsTrue(File.Exists(pathToFile),
 				string.Format("Ошибка: файл {0} не был скачен за отведенный таймаут {1} сек.", pathToFile, timeout));
+		}
+
+		public static void ScrollToElement(By by)
+		{
+			Logger.Trace("Скроллим до web-элемента");
+			var webElement = Driver.FindElement(by);
+
+			try
+			{
+				((IJavaScriptExecutor)Driver).ExecuteScript("arguments[0].scrollIntoView(true); window.scrollBy(0,-200);", webElement);
+			}
+			catch (Exception ex)
+			{
+				Assert.Fail("При попытке скроллинга страницы произошла ошибка: " + ex.Message);
+			}
 		}
 
 		public enum LANGUAGE { English, Russian, German, French, Japanese, Lithuanian };

@@ -85,12 +85,14 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		}
 
 		/// <summary>
-		/// Кликнуть галочку у проекта
+		/// Прокрутить до проекта и кликнуть галочку
 		/// </summary>
 		/// <param name="projectName">название проекта</param>
 		public void SelectProject(string projectName)
 		{
-			ClickElement(By.XPath(GetProjectRefXPath(projectName) + "/../../../td[contains(@class,'checkbox')]"));
+			var projectPath = GetProjectRefXPath(projectName) + "/../../../td[contains(@class,'checkbox')]";
+			ScrollToElement(By.XPath(projectPath));
+			ClickElement(By.XPath(projectPath));
 		}
 		
 		public void OpenProjectPage(string projectName)
@@ -143,12 +145,19 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		{
 			// Выставляем минимальный таймаут
 			SetDriverTimeoutMinimum();
-			
+
+			var projectSearchField = Driver.FindElement(By.XPath(PROJECT_SEARCH_FIELD));
+			var projectSearchButton = Driver.FindElement(By.XPath(SEARCH_PROJECT_BUTTON));
+			projectSearchField.SendKeys(projectName);
+			projectSearchButton.Click();
+
 			// Находим, существует ли проект в списке
-			var isExist = WaitUntilDisplayElement(
-				By.XPath(GetProjectRefXPath(projectName)),
-				maxWait: 5);
-			
+			var isExist = WaitUntilDisplayElement(By.XPath(GetProjectRefXPath(projectName)), maxWait: 5);
+
+			projectSearchField = Driver.FindElement(By.XPath(PROJECT_SEARCH_FIELD));
+			projectSearchButton = Driver.FindElement(By.XPath(SEARCH_PROJECT_BUTTON));
+			projectSearchField.Clear();
+			projectSearchButton.Click();
 			// Возвращаем дефолтное значение таймаута
 			SetDriverTimeoutDefault();
 			
@@ -752,9 +761,9 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		protected const string EXPORT_TYPE_NAME_TMX = "Tmx";
 		protected const string EXPORT_TYPE_NAME_TRANSLATED = "Target";
 
-		protected const string DELETE_BTN_XPATH = "//span[contains(@class,'js-delete-project-btn')]";
-		protected const string CONFIRM_DELETE_FORM_XPATH = "//div[contains(@class,'js-popup-delete-mode')]";
-		protected const string CONFIRM_DELETE_YES_XPATH = CONFIRM_DELETE_FORM_XPATH + "//input[contains(@class,'js-delete-project')]";
+		protected const string DELETE_BTN_XPATH = "//span[contains(@class,'js-delete-btn')]";
+		protected const string CONFIRM_DELETE_FORM_XPATH = "//div[contains(@class,'js-popup-confirm')]";
+		protected const string CONFIRM_DELETE_YES_XPATH = CONFIRM_DELETE_FORM_XPATH + "//input[contains(@class,'js-submit-btn')]";
 
 		protected const string DOWNLOAD_IMG_XPATH = "/..//img[contains(@class,'l-project-doc__progress')]";
 
@@ -786,5 +795,8 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		protected const string LICENSES_AND_SERVICES_MENU_ITEM = "//a[contains(@class,'billing')]";
 
 		protected const string WARNING_SIGN_TRIANGLE = "img[contains(@class, 'doc__error')]";
+
+		protected const string PROJECT_SEARCH_FIELD = "//input[@name='searchName']";
+		protected const string SEARCH_PROJECT_BUTTON = "//a[contains(@class, 'js-search-btn')]/img";
 	}
 }

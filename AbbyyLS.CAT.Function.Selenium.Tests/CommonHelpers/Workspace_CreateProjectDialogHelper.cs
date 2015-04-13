@@ -308,6 +308,15 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		}
 
 		/// <summary>
+		/// Вернуть: текущий шаг - шаг заполнения основной информации
+		/// </summary>
+		/// <returns>текущий шаг - шаг заполнения основной информации</returns>
+		public bool GetIsGeneralInformationStep()
+		{
+			return GetIsElementDisplay(By.XPath(PROJECT_NAME_INPUT_XPATH));
+		}
+
+		/// <summary>
 		/// Вернуть: отмечена ли МТ
 		/// </summary>
 		/// <param name="mtType">тип МТ</param>

@@ -263,7 +263,9 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.TM
 			Logger.Debug(string.Format("Открыть информацию о ТМ {0}", tmName));
 			TMPage.ScrollToRequiredTm(tmName);
 			if (!TMPage.GetIsTMOpened(tmName))
+			{
 				TMPage.ClickTMRow(tmName);
+			}
 		}
 		#endregion
 

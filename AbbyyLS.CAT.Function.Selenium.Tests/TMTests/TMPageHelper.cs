@@ -151,15 +151,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.TM
 		public void ScrollToRequiredTm(string tmName)
 		{
 			Logger.Debug(string.Format("Прокрутка до необходимой ТМ {0}", tmName));
-			var tmItem = Driver.FindElement(By.XPath(GetTMRow(tmName)));
-			((IJavaScriptExecutor)Driver).ExecuteScript("arguments[0].scrollIntoView(true); window.scrollBy(0,-200);", tmItem);
-		}
-
-		public void ScrollToCreateTmBtn()
-		{
-			Logger.Debug("Прокрутка до кнопки Create TM");
-			var createTmBtn = Driver.FindElement(By.XPath(ADD_TM_BTN_XPATH));
-			((IJavaScriptExecutor)Driver).ExecuteScript("arguments[0].scrollIntoView(true); window.scrollBy(0,-200);", createTmBtn);
+			ScrollToElement(By.XPath(GetTMRow(tmName)));
 		}
 
 		public void ClickTMButton(TM_BTN_TYPE btnType)
@@ -334,7 +326,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.TM
 		public void OpenCreateTMDialog()
 		{
 			Logger.Debug("Нажать кнопку открытия диалога создания ТМ");
-			ScrollToCreateTmBtn();
+			ScrollToElement(By.XPath(ADD_TM_BTN_XPATH));
 			ClickElement(By.XPath(ADD_TM_BTN_XPATH));
 			Assert.IsTrue(WaitUntilDisplayElement(By.XPath(CREATE_TM_DIALOG_XPATH)), 
 				"Ошибка: не открылась форма создания ТМ");
