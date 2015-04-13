@@ -125,6 +125,12 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			return WaitUntilDisplayElement(By.XPath(CONTAINS_TERM_MESSAGE_XPATH), 5);
 		}
 
+		public void ClickCloseBtnInTermSavedMsg()
+		{
+			Logger.Debug("Нажать крестик в сообщении 'The term has been saved'");
+			ClickElement(By.XPath(CLOSE_BTN_IN_TERM_SAVED_MESSAGE_XPATH));
+		}
+
 		protected const string CANCEL_BTN_XPATH = "//div[contains(@id, 'term-window')]//span[contains(string(), 'Cancel')]";
 		protected const string ADD_BTN_XPATH = "//div[contains(@id, 'term-window')]//span[contains(string(), 'Add')]";
 		protected const string СONFIRM_SINGLE_TERM_BTN_XPATH = CONFIRM_SINGLE_TERM_MESSAGE_XPATH + "//span[contains(string(), 'Yes')]";
@@ -139,7 +145,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 
 		protected const string TERM_BASE_COMBOBOX_TRIGGER_XPATH = "//div[contains(@id, 'term-window')]//div[contains(@id, 'trigger-picker')]";
 		protected const string TERM_BASE_BOUNDLIST_XPATH = "//ul[contains(@id, 'boundlist')]//li[contains(string(), '#')]";
-
+		protected const string CLOSE_BTN_IN_TERM_SAVED_MESSAGE_XPATH = "//span[contains(@id, 'toolEl') and contains(@class, 'x-tool-close')]";
 		protected const string TERM_SAVED_MESSAGE_XPATH = "//div[contains(@id, 'innerCt') and contains(string(), 'The term has been saved')]";
 		protected const string CONTAINS_TERM_MESSAGE_XPATH = "//div[contains(@id, 'messagebox') and contains(string(), 'This glossary already contains term(s)')]";
 		protected const string CONFIRM_SINGLE_TERM_MESSAGE_XPATH = "//div[contains(@id, 'messagebox') and contains(string(), 'Do you want to add a term without translation?')]";

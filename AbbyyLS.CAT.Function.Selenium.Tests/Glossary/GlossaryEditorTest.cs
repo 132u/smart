@@ -18,6 +18,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			{
 				Authorization(Login, Password);
 
+
 				CreateUniqueNamesByDatetime();
 
 				// Запись имени для дальнейшего использования в группе тестов
@@ -25,7 +26,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 
 				checkAddUserRights();
 				createNewGlossary();
-				
+
 				CreateProjectIfNotCreated(
 					projectNoChangesName,
 					setGlossary: Workspace_CreateProjectDialogHelper.SetGlossary.ByName,
@@ -49,7 +50,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			QuitDriverAfterTest = false;
 
 			GoToUrl(RelativeUrlProvider.Workspace);
-			
+
 			WorkspacePage.OpenProjectPage(projectNoChangesName);
 			OpenDocument();
 		}
@@ -272,7 +273,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			Assert.IsTrue(
 				AddTermForm.WaitTermSavedMessage(),
 				"Ошибка: Не было сообщения о сохранении термина.");
-
+			AddTermForm.ClickCloseBtnInTermSavedMsg();
 			openAddTermForm();
 
 			AddTermForm.TypeSourceTermText("planet");
@@ -340,7 +341,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			AddTermForm.ClickAddBtn();
 			Assert.IsTrue(AddTermForm.WaitTermSavedMessage(),
 				"Ошибка: Не было сообщения о сохранении термина.");
-
+			AddTermForm.ClickCloseBtnInTermSavedMsg();
 			openAddTermForm();
 
 			AddTermForm.TypeSourceTermText("Sun");
@@ -448,7 +449,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			EditorPage.ClickHomeBtn();
 
 			createProjectWithTwoGlossaries();
-	
+
 			ImportDocumentProjectSettings(PathProvider.DocumentFile, _projectName2);
 
 			AssignTask(1);
@@ -472,7 +473,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			AddTermForm.ClickAddBtn();
 			Assert.IsTrue(AddTermForm.WaitTermSavedMessage(),
 				"Ошибка: Не было сообщения о сохранении термина.");
-
+			AddTermForm.ClickCloseBtnInTermSavedMsg();
 			openAddTermForm();
 
 			AddTermForm.OpenGlossaryList();
@@ -500,7 +501,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 
 			AddTermForm.TypeTargetTermText("Галактика");
 
-			AddTermForm.ClickAddBtn();			
+			AddTermForm.ClickAddBtn();
 			Assert.IsTrue(AddTermForm.WaitTermSavedMessage(),
 			   "Ошибка: Не было сообщения о сохранении термина.");
 
