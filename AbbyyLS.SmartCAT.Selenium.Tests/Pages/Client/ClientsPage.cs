@@ -30,7 +30,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Client
 		/// </summary>
 		public ClientsPage ScrollAndClickCreateClientButton()
 		{
-			Logger.Debug("Нажать кнопку создания клиента");
+			Logger.Debug("Нажать кнопку создания клиента.");
 
 			Driver.ScrollAndClick(AddClientButton);
 			

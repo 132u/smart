@@ -173,7 +173,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace
 		/// </summary>
 		private bool getIsLeftMenuDisplay()
 		{
-			Logger.Trace("Вернуть раскрыто ли главное меню слева.");
+			Logger.Trace("Вернуть, раскрыто ли главное меню слева.");
 			
 			return CatMenu.Displayed;
 		}

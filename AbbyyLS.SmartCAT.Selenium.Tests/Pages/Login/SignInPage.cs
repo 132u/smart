@@ -52,7 +52,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Login
 		/// </summary>
 		public SelectAccountForm ClickSubmitBtn()
 		{
-			Logger.Trace("Нажать сабмит.");
+			Logger.Debug("Нажать 'Sign In'.");
 			SubmitBtn.Click();
 			var selectAccountForm = new SelectAccountForm();
 
