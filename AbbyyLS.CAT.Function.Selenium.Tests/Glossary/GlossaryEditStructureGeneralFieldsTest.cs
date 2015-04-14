@@ -86,6 +86,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.Glossary.EditStructure.T
 		/// <summary>
 		/// Метод тестирования изменения структуры - Image
 		/// </summary>
+		[Explicit]
 		[Test]
 		public void AddImageFieldTest()
 		{
@@ -114,6 +115,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.Glossary.EditStructure.T
 		/// <summary>
 		/// Метод тестирования изменения структуры - Multimedia
 		/// </summary>
+		[Explicit]
 		[Test]
 		public void AddMultimediaFieldTest()
 		{

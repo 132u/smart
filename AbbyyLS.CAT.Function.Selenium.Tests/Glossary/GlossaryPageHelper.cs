@@ -136,6 +136,9 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 
 		public void ClickSaveExtendedConcept()
 		{
+			Logger.Debug("Прокручиваем страницу вверх, чтобы стало видно кнопку сохранения термина.");
+			var saveButton = Driver.FindElement(By.XPath(SAVE_EXTENDED_BTN_XPATH));
+			((IJavaScriptExecutor)Driver).ExecuteScript("arguments[0].scrollIntoView(true);  window.scrollBy(0,-200);", saveButton);
 			Logger.Debug("Кликнить Сохранить в расширенной форме термина");
 			ClickElement(By.XPath(SAVE_EXTENDED_BTN_XPATH));
 		}
