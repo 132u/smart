@@ -255,41 +255,5 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestFramework
 
 			return webElement;
 		}
-
-		/// <summary>
-		/// Прокрутить и кликнуть на элемент
-		/// </summary>
-		public static void ScrollAndClick(this IWebDriver driver, IWebElement webElement)
-		{
-			driver.scrollToWebElement(webElement);
-
-			try
-			{
-				webElement.Click();
-			}
-			catch (Exception ex)
-			{
-				Assert.Fail("Произошла ошибка при попытки клика на web-элемент: {0}", ex.Message);
-			}
-		}
-
-		/// <summary>
-		/// Метод скроллит до того момента, пока web-элемент не станет видимым
-		/// </summary>
-		/// <param name="driver"></param>
-		/// <param name="webElement"></param>
-		private static void scrollToWebElement(this IWebDriver driver, IWebElement webElement)
-		{
-			Logger.Trace("Скроллинг страницы до того момента, пока web-элемент не станет видимым");
-
-			try
-			{
-				driver.Scripts().ExecuteScript("arguments[0].scrollIntoView(true); window.scrollBy(0,-200);", webElement);
-			}
-			catch (Exception ex)
-			{
-				Assert.Fail("При попытке скроллинга страницы произошла ошибка: " + ex.Message);
-			}
-		}
 	}
 }

@@ -2,7 +2,6 @@
 using NLog;
 using NUnit.Framework;
 using OpenQA.Selenium;
-using OpenQA.Selenium.Firefox;
 using OpenQA.Selenium.Interactions;
 using OpenQA.Selenium.Internal;
 using OpenQA.Selenium.Support.UI;
@@ -59,8 +58,65 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestFramework
 		/// </summary>
 		public static void HoverElement(this IWebElement webElement)
 		{
-			var actionBuilder = new Actions(((IWrapsDriver)webElement).WrappedDriver);
+			var actionBuilder = new Actions(getDriverFromWebElement(webElement));
 			actionBuilder.MoveToElement(webElement).Build().Perform();
+		}
+
+		/// <summary>
+		/// Прокрутить и кликнуть на элемент
+		/// </summary>
+		public static void ScrollAndClick(this IWebElement webElement)
+		{
+			webElement.scrollToWebElement();
+
+			try
+			{
+				webElement.Click();
+			}
+			catch (Exception ex)
+			{
+				Assert.Fail("Произошла ошибка при попытки клика на web-элемент: {0}", ex.Message);
+			}
+		}
+
+		/// <summary>
+		/// Метод скроллит до того момента, пока web-элемент не станет видимым
+		/// </summary>
+		/// <param name="webElement"></param>
+		private static void scrollToWebElement(this IWebElement webElement)
+		{
+			Logger.Trace("Скроллинг страницы до того момента, пока web-элемент не станет видимым");
+			var driver = getDriverFromWebElement(webElement);
+
+			try
+			{
+				driver.Scripts().ExecuteScript("arguments[0].scrollIntoView(true); window.scrollBy(0,-200);", webElement);
+			}
+			catch (Exception ex)
+			{
+				Assert.Fail("При попытке скроллинга страницы произошла ошибка: " + ex.Message);
+			}
+		}
+
+		/// <summary>
+		/// Получить драйвер из web-элемента
+		/// </summary>
+		/// <param name="webElement"></param>
+		private static IWebDriver getDriverFromWebElement(this IWebElement webElement)
+		{
+			IWebDriver wrappedDriver;
+
+			try
+			{
+				wrappedDriver = ((IWrapsDriver)webElement).WrappedDriver;
+			}
+			catch (InvalidCastException)
+			{
+				var wrappedElement = ((IWrapsElement)webElement).WrappedElement;
+				wrappedDriver = ((IWrapsDriver)wrappedElement).WrappedDriver;
+			}
+			
+			return wrappedDriver;
 		}
 	}
 }

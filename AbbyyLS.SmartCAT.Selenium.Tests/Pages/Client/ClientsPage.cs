@@ -31,9 +31,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Client
 		public ClientsPage ScrollAndClickCreateClientButton()
 		{
 			Logger.Debug("Нажать кнопку создания клиента.");
+			AddClientButton.ScrollAndClick();
 
-			Driver.ScrollAndClick(AddClientButton);
-			
 			return GetPage();
 		}
 
@@ -83,7 +82,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Client
 			Logger.Debug("Нажать кнопку 'Редактировать' клиента {0}", clientName);
 			EditClientButton = Driver.SetDynamicValue(How.XPath, EDIT_BTN_XPATH, clientName);
 			EditClientButton.Click();
-
+			
 			return GetPage();
 		}
 
