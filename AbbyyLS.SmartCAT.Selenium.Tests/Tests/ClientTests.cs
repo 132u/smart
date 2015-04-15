@@ -1,10 +1,12 @@
-﻿using AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers;
+﻿using AbbyyLS.SmartCAT.Selenium.Tests.TestFramework;
+using AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers;
 using AbbyyLS.SmartCAT.Selenium.Tests.Tests;
 using NUnit.Framework;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.Clients
 {
 	[TestFixture]
+	[PriorityMajor]
 	class ClientTests : BaseTest
 	{
 		[SetUp]

@@ -97,6 +97,9 @@
     <Compile Include="TargetServerConfig.cs" />
     <Compile Include="TestFramework\BaseObject.cs" />
     <Compile Include="TestFramework\IAbstractPage.cs" />
+    <Compile Include="TestFramework\PriorityMajorAttribute.cs" />
+    <Compile Include="TestFramework\PriorityMinorAttribute.cs" />
+    <Compile Include="TestFramework\PriorityNormalAttribute.cs" />
     <Compile Include="TestFramework\WebDriverExtensions.cs" />
     <Compile Include="TestFramework\WebElementExtensions.cs" />
     <Compile Include="TestHelpers\AdminHelper.cs" />
