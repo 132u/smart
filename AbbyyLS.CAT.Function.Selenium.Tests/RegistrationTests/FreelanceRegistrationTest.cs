@@ -116,8 +116,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Registration.Freelance
 		/// Тест для проверки, что кнопка SignUp неактивна, если этап для второй пары языков, не указан  PRX-5503 п 6.3.
 		/// </summary>
 		[Test]
-		[Category("PRX_6718")]
-		public void CheckBtnIsDisableWhenLevelIsNotSet()
+		public void ServiceTypeRequiredMsg()
 		{
 			GoToRegistrationPage(RegistrationType.User);
 			RegistrationPage.FillRegistrationDataInFirstStep(
@@ -127,7 +126,8 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Registration.Freelance
 			RegistrationPage.ClickSignUpButton();
 			RegistrationPage.FillRegistrationDataInSecondStep(RegistrationPage.FirstName, RegistrationPage.LastName);
 			RegistrationPage.SelectSecondService();
-			Assert.IsTrue(RegistrationPage.CheckThatCreateAccountBtnIsDisable(), "Ошибка: Этап для второй пары языков не указан, но кнопка активна!");
+			RegistrationPage.ClickCreateAccountButton();
+			Assert.IsTrue(RegistrationPage.CheckSecondProvidedServiveNameIsRequired(), "Ошибка: сообщение 'Select the service type' не появилось");
 		}
 
 		/// <summary>

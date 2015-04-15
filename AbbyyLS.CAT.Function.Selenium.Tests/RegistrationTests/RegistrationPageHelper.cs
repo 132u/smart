@@ -49,7 +49,15 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// </summary>
 		/// <param name="firstName">имя фрилансера</param>
 		/// <param name="lastName">фамилия фридансера</param>
-		public void FillRegistrationDataInSecondStep(string firstName, string lastName)
+		public void FillRegistrationDataInSecondStep(
+			string firstName,
+			string lastName,
+			string firstlanguage = "Arabic",
+			string secondLanguage = "Albanian",
+			string serviceType = "Translation",
+			string nativeLanguage = "Bosnian",
+			string country = "Belarus",
+			string timezone = "(UTC-03:00) Greenland")
 		{
 			Logger.Trace("Заполняем данные на втором шаге регистрации");
 			FirstName = firstName;
@@ -57,29 +65,29 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			TypeTextInFirstNameField(firstName);
 			TypeTextInLastNameField(lastName);
 			Logger.Trace("Выбираем Country");
-			ClickElement(By.XPath(COUNTRY2));
+			ClickElement(By.XPath(COUNTRY + "//option[@label='" + country + "']"));
 			Logger.Trace("Выбираем Native language");
-			ClickElement(By.XPath(NATIVE_LANGUAGE));
+			ClickElement(By.XPath(NATIVE_LANGUAGE + "//option[@label='" + nativeLanguage + "']"));
 			Logger.Trace("Выбираем Language 1");
-			ClickElement(By.XPath(SERVICE_PROVIDE));
+			ClickElement(By.XPath(SERVICE_PROVIDE + "//option[@label='" + firstlanguage + "']"));
 			Logger.Trace("Выбираем Language 2");
-			ClickElement(By.XPath(SERVICE_PROVIDE2));
+			ClickElement(By.XPath(SERVICE_PROVIDE2 + "//option[@label='" + secondLanguage + "']"));
 			Logger.Trace("Выбираем Time zone");
-			ClickElement(By.XPath(TIMEZONE));
+			ClickElement(By.XPath(TIMEZONE + "//option[@label='" + timezone + "']"));
 			Logger.Trace("Выбираем Service");
-			ClickElement(By.XPath(LANG_LEVEL));
+			ClickElement(By.XPath(LANG_LEVEL + "//option[@label='" + serviceType + "']"));
 		}
 
 		/// <summary>
 		/// Выбрать вторую пару языков на втором шаге регистрации
 		/// </summary>
-		public void SelectSecondService()
+		public void SelectSecondService(string firstlanguage = "Armenian", string secondLanguage = "Macedonian")
 		{
 			ClickAddServiceBtn();
 			Logger.Trace("Выбираем Language 1 во второй паре языков");
-			ClickElement(By.XPath(SERVICE_PROVID3));
+			ClickElement(By.XPath(SERVICE_PROVID3 + "//option[@label='" + firstlanguage + "']"));
 			Logger.Trace("Выбираем Language 2 во второй паре языков");
-			ClickElement(By.XPath(SERVICE_PROVIDE4));
+			ClickElement(By.XPath(SERVICE_PROVIDE4 + "//option[@label='" + secondLanguage + "']"));
 		}
 
 		/// <summary>
@@ -326,16 +334,14 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		protected const string FIRST_NAME_FIELD = "//input[@id='firstname']";
 		protected const string LAST_NAME_FIELD = "//input[@id='lastname']";
 		protected const string COUNTRY = "//select[@id='country']";
-		protected const string COUNTRY2 = "//select[@id='country']/option[@value='2']";
-		protected const string TIMEZONE = "//select[@id='timezone']/option[@value='3']";
-		protected const string NATIVE_LANGUAGE =
-			"//select[contains(@class, 'multi-select-item ')]//option[@value='4']";
-		protected const string SERVICE_PROVIDE = "//table[@class='t-servSelect']//td[1]/select/option[@value='2']";
-		protected const string SERVICE_PROVIDE2 = "//table[@class='t-servSelect']//td[3]/select/option[@value='6']";
-		protected const string SERVICE_PROVID3 = "//table[@class='t-servSelect']//tbody[3]//select//option[@value='6']";
-		protected const string SERVICE_PROVIDE4 = "//table[@class='t-servSelect']//tbody[3]//td[3]/select/option[@value='9']";
+		protected const string TIMEZONE = "//select[@id='timezone']";
+		protected const string NATIVE_LANGUAGE = "//select[contains(@class, 'multi-select-item ')]";
+		protected const string SERVICE_PROVIDE = "//table[@class='t-servSelect']//td[1]/select";
+		protected const string SERVICE_PROVIDE2 = "//table[@class='t-servSelect']//td[3]/select";
+		protected const string SERVICE_PROVID3 = "//table[@class='t-servSelect']//tbody[3]//select";
+		protected const string SERVICE_PROVIDE4 = "//table[@class='t-servSelect']//tbody[3]//td[3]/select";
 		protected const string CREATE_ACCOUNT_BUTTON = "//button[@id='btn-create-account']";
-		protected const string LANG_LEVEL = "//tr[contains(@name,'serviceSelectForm')]/td[4]//select/option[@value='0']";
+		protected const string LANG_LEVEL = "//tr[contains(@name,'serviceSelectForm')]/td[4]//select";
 		protected const string LANG_LEVEL2 = "//tr[@class='ng-scope']//td[@class='service_select']";
 		protected const string FIRST_STEP_LABEL = "//strong[@class='ng-binding']";
 		protected const string SECOND_STEP_LABEL = "//div[@class='panel-heading']/h4";
@@ -533,6 +539,10 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			return WaitUntilDisplayElement(By.XPath(PASSWORD_FIELD + WRONG_PASSWORD_MSG_SPACES));
 		}
 
+		public bool CheckSecondProvidedServiveNameIsRequired()
+		{
+			return WaitUntilDisplayElement(By.XPath(WRONG_PASSWORD_MSG_SERVICE_TYPE));
+		}
 		protected const string FIRST_NAME_COMPANY = ".//input[@id='firstname']";
 		protected const string LAST_NAME_COMPANY = ".//input[@id='lastname']";
 		protected const string COMPANY_NAME_COMPANY = ".//input[@id='company']";
@@ -553,5 +563,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		protected const string WRONG_PASSWORD_MSG_REQUIRED = "//div[contains(@ng-message,'required')]//span[not(contains(@class,'ng-hide'))]";
 		protected const string WRONG_PASSWORD_MSG_MINLENGHT = "//div[contains(@ng-message,'minlength')]//span[not(contains(@class,'ng-hide'))]";
 		protected const string WRONG_PASSWORD_MSG_SPACES = "//div[contains(@ng-message,'pattern')]//span[not(contains(@class,'ng-hide'))]";
+		protected const string WRONG_PASSWORD_MSG_SERVICE_TYPE = "//tr[3]//span[@translate='SELECT-SERVICE-TYPE']";
 	}
 }
