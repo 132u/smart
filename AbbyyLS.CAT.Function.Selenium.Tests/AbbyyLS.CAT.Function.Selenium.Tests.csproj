@@ -143,7 +143,6 @@
     <Compile Include="ProjectTests\Project_ImportTest.cs" />
     <Compile Include="ProjectTests\Project_MainTest.cs" />
     <Compile Include="ProjectTests\Project_SaveSettingsByBackTest.cs" />
-    <Compile Include="RegistrationTests\CaptchaTest.cs" />
     <Compile Include="PersonalAccount\Project_MainPersAccTest.cs" />
     <Compile Include="RegistrationTests\CompanyRegistrationTest.cs" />
     <Compile Include="RegistrationTests\RandomString.cs" />
