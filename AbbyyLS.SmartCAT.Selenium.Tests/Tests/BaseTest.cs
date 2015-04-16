@@ -11,7 +11,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests
 	public class BaseTest : BaseObject
 	{
 		
-		protected static readonly string PathTestResults = Directory.GetParent(@"..\..\TestResults\").ToString();
+		protected static readonly string PathTestResults = Directory.GetParent(@"..\TestResults\").ToString();
 
 		protected string Url { get; private set; }
 
@@ -107,6 +107,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests
 						// Убрать из названия теста аргументы (файлы)
 						screenName = screenName.Substring(0, screenName.IndexOf("("));
 					}
+					screenName = Path.Combine(failResultPath, screenName);
 					Driver.TakeScreenshot(screenName);
 				}
 			}
