@@ -212,6 +212,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			{
 				Logger.Trace("Красная кнопка экспорта активна");
 				Logger.Trace("Клик по красной кнопке экспорт, XPath = " + EXPORT_BTN_XPATH);
+				ScrollToElement(By.XPath(EXPORT_BTN_XPATH));
 				ClickElement(By.XPath(EXPORT_BTN_XPATH));
 			}
 

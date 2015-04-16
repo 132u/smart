@@ -8,8 +8,6 @@ using AbbyyLS.CAT.Function.Selenium.Tests.Driver;
 
 namespace AbbyyLS.CAT.Function.Selenium.Tests
 {
-	using System.Runtime.CompilerServices;
-
 	/// <summary>
 	/// Группа тестов для проверки экспорта проекта
 	/// </summary>
@@ -707,8 +705,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			WaitExportDownloadBtn();
 
 			// Проверка, что первом сообщении нет названия документа, так как мы экспортировали неск-ко документов из проекта
-			Assert.IsFalse(
-				WorkspacePage.GetNotifierText().Contains(secondNotifierDocName),
+			Assert.IsFalse(WorkspacePage.GetNotifierText().Contains(secondNotifierDocName),
 				"Ошибка: в первом сообщении об экспорте есть название документа");
 
 			// Убрать галочку с проекта
@@ -721,13 +718,11 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			SelectProjectInList(projectName);
 			WaitExportDownloadBtn(2);
 			// Ждем второе сообщение об экспорте
-			Assert.IsTrue(
-				WorkspacePage.WaitNotifierAppear(2),
+			Assert.IsTrue(WorkspacePage.WaitNotifierAppear(2),
 				"Ошибка: не появилось второе сообщение об экспорте");
 
 			// Проверка, что во втором сообщении есть искомый текст
-			Assert.IsTrue(
-				WorkspacePage.GetNotifierText().Contains(secondNotifierDocName),
+			Assert.IsTrue(WorkspacePage.GetNotifierText().Contains(secondNotifierDocName),
 				"Ошибка: во втором сообщении об экспорте нет нужного названия документа");
 
 			// Экспортировать второй проект (с 2 документами)
@@ -754,8 +749,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			Logger.Trace("currentNotifierText: " + currentNotifierText);
 
 			// Проверить, что появилось второе сообщение
-			Assert.IsTrue(
-				currentNotifierText.Contains(secondNotifierDocName),
+			Assert.IsTrue(currentNotifierText.Contains(secondNotifierDocName),
 				"Ошибка: кликнули по верхнему сообщению - появилось не второе!");
 		}
 
@@ -1159,8 +1153,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 
 				if (!isNeedOpenProject)
 				{
-					Logger.Trace("Переход на страницу TM");
-					GoToUrl(RelativeUrlProvider.TranslationMemories);
+					GoToUrl(RelativeUrlProvider.Workspace);
 				}
 			}
 			else if (isNeedOpenProject)
@@ -1202,9 +1195,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 				EditorClickHomeBtn();
 				GoToUrl(RelativeUrlProvider.Workspace);
 				// Загрузить второй документ
-				ImportDocumentProjectSettings(
-					PathProvider.DocumentFileToConfirm2, 
-					currentProjectName);
+				ImportDocumentProjectSettings(PathProvider.DocumentFileToConfirm2, currentProjectName);
 				// Назначить второй
 				AssignTask(2);
 				// Открыть второй документ
