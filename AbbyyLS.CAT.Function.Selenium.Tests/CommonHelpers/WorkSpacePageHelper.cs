@@ -586,7 +586,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		public bool GetDocumentPanelIsOpened(string projectName, int docNumber = 1)
 		{
 			string xpath = GetProjectRefXPath(projectName)
-						+ "//ancestor::tr/following-sibling::tr[contains(@class,'js-document-row l-project-row l-corpr__trhover')][" + docNumber + "]";
+						+ "//ancestor::tr/following-sibling::tr[contains(@class,'js-document-row')][" + docNumber + "]";
 			return GetElementAttribute(By.XPath(xpath), "class").Contains("opened");
 		}
 
