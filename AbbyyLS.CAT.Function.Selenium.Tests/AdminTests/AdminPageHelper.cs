@@ -37,8 +37,8 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <param name="login">логин</param>
 		public void FillLogin(string login)
 		{
-			Logger.Trace("Ввод логина на странице авторизации в админке");
-			SendTextElement(By.XPath(LOGIN_FORM_LOGIN_XPATH), login);
+			Logger.Trace(string.Format("Ввод логина {0} на странице авторизации в админке", login));
+			ClearAndAddText(By.XPath(LOGIN_FORM_LOGIN_XPATH), login);
 		}
 
 		/// <summary>
@@ -47,8 +47,8 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <param name="pass">пароль</param>
 		public void FillPassword(string pass)
 		{
-			Logger.Trace("Ввод пароля на странице авторизации в админке");
-			SendTextElement(By.XPath(LOGIN_FORM_PASSWORD_XPATH), pass);
+			Logger.Trace(string.Format("Ввод пароля {0} на странице авторизации в админке", pass));
+			ClearAndAddText(By.XPath(LOGIN_FORM_PASSWORD_XPATH), pass);
 		}
 
 		/// <summary>
