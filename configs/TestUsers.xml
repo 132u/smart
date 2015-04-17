@@ -17,16 +17,16 @@
 			
 			P.S: проверка для неактивных: пока получается такая же, как и для активных. (тут заведен тикет с уточнением требований, пока не решен вопрос - PRX-5519)
 		-->
-		<TestUser Login = "ssssssss213123s@mail.ru"	Password = "aol3mailru@mail.ru" Activated = "false" /> <!--активный юзер аол-->
-		<TestUser Login = "testuserivanpetrov2@mailforspam.com"	Password = "12trC89p" Activated = "false" /> <!--неактивный юзер аол-->
-		<TestUser Login = "testuserivanpetrov3@mailforspam.com"	Password = "12trC89p" Activated = "true" />  <!--активный юзер курсера-->
+		<TestUser Login = "testuserivanpetrov1@mailforspam.com"	Password = "12trC89p" Activated = "true" />   <!--активный юзер аол-->
+		<TestUser Login = "testuserivanpetrov2@mailforspam.com"	Password = "12trC89p" Activated = "false" />  <!--неактивный юзер аол-->
+		<TestUser Login = "testuserivanpetrov3@mailforspam.com"	Password = "12trC89p" Activated = "true" />   <!--активный юзер курсера-->
 		<TestUser Login = "testuserivanpetrov4@mailforspam.com"	Password = "12trC89p" Activated = "false" />  <!--неактивный юзер курсера-->
-		<TestUser Login = "testuserivanpetrov5@mailforspam.com"	Password = "12trC89p" Activated = "false" /> <!--активный юзер переведем-->
-		<TestUser Login = "testuserivanpetrov6@mailforspam.com"	Password = "12trC89p" Activated = "false" /> <!--неактивный юзер переведем-->
+		<TestUser Login = "testuserivanpetrov5@mailforspam.com"	Password = "12trC89p" Activated = "false" />  <!--активный юзер переведем-->
+		<TestUser Login = "testuserivanpetrov6@mailforspam.com"	Password = "12trC89p" Activated = "false" />  <!--неактивный юзер переведем-->
 
-		<TestCompany login = "testcompanyivanpetrov1@mailforspam.com"	password = "123123123" activated = "true" /> <!--активный юзер аол-->
+		<TestCompany login = "testcompanyivanpetrov1@mailforspam.com"	password = "123123123" activated = "true" />  <!--активный юзер аол-->
 		<TestCompany login = "testcompanyivanpetrov2@mailforspam.com"	password = "123123123" activated = "false" /> <!--неактивный юзер аол-->
-		<TestCompany login = "testcompanyivanpetrov3@mailforspam.com"	password = "123123123" activated = "true" /> <!--активный юзер курсера-->
+		<TestCompany login = "testcompanyivanpetrov3@mailforspam.com"	password = "123123123" activated = "true" />  <!--активный юзер курсера-->
 		<TestCompany login = "testcompanyivanpetrov4@mailforspam.com"	password = "123123123" activated = "false" /> <!--неактивный юзер курсера-->
 
 	</TestUsers>

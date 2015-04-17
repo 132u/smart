@@ -331,7 +331,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		protected const string PRO_ELEMENT = "//div[@class='logo-description']";
 
 		protected const string ACCOUNT_LIST = "//li[@class='ng-scope']";
-		protected const string SIGN_IN_HEADER ="//h1/span[text()='Sign In']";
+		protected const string SIGN_IN_HEADER = "//h1/span[@translate='SIGN-IN-HEADER']";
 
 		protected const string FACEBOOK_ICON = "//a[@class='fb']";
 		protected const string GOOGLE_ICON = "//a[@class='gplus']";

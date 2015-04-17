@@ -61,7 +61,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		public bool WaitFacebookIsLoad()
 		{
 			Logger.Trace("Ожидаем загрузку страницы авторизации Facebook");
-			return WaitUntilDisplayElement(By.XPath(FACEBOOK_HEADER));
+			return WaitUntilDisplayElement(By.XPath(SUBMIT_BTN_FB));
 		}
 
 		#endregion
@@ -94,9 +94,8 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 
 		//XPaths Facebook
 		protected const string EMAIL_FIELD_FB = "//input[@id='email']";
-		protected const string SUBMIT_BTN_FB = "//input[@id='u_0_1']";
+		protected const string SUBMIT_BTN_FB = "//input[@id='u_0_2']";
 		protected const string PASSWORD_FIELD_FB = "//input[@id='pass']";
-		protected const string FACEBOOK_HEADER= "//a[@title='Go to Facebook Home']";
 
 		//XPaths LinkedIn
 		protected const string PASSWORD_FIELD_LINKED_IN = "//input[@id='session_password-oauth2SAuthorizeForm']";

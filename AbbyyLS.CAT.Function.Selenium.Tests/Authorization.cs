@@ -1,5 +1,5 @@
 ﻿using System;
-
+using System.Windows.Forms.VisualStyles;
 using NUnit.Framework;
 
 using AbbyyLS.CAT.Function.Selenium.Tests.Driver;
@@ -55,6 +55,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		public void LoginViaSocialNetwork(string site, string email, string password)
 		{
 			GoToSignInPage();
+			
 			switch (site)
 			{
 				case "Facebook":
@@ -251,10 +252,13 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 					break;
 
 				case "Perevedem":
+					if (!WorkspacePage.WaitPageLoad() && LoginPage.GetAccountsCount() > 1)
+						LoginPage.ClickAccountName(venture);
+
 					Assert.IsTrue(WorkspacePage.WaitPageLoad(),
 						"Ошибка: Не загрузилась страница workspace (т.к. аккаунт один, должна произойти автоматическая переадресация).");
-					var companyName = WorkspacePage.GetCompanyName();
-					Assert.IsTrue(companyName == venture,
+
+					Assert.IsTrue(WorkspacePage.GetCompanyName() == venture,
 						"Ошибка: Имя компании не соответствует ожидаемому.");
 					break;
 
@@ -293,10 +297,14 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			}
 
 			LogIn(AolUserList[userNumber].Login, AolUserList[userNumber].Password);
-			Assert.IsTrue(
-				GetStartSignUpPageDisplay(),
-				"Ошибка: страница предложения создать аккаунт не открылась после авторизации"
-				+ " (для пользователя с " + active + " AOL аккаунтом)");
+			
+			if (GetStartSignUpPageDisplay()) 
+				Assert.Pass();
+
+			RefreshPage();
+			Assert.IsTrue(GetStartSignUpPageDisplay(),
+				"Ошибка: страница предложения создать аккаунт не открылась после авторизации" + 
+				" (для пользователя с " + active + " AOL аккаунтом)");
 		}
 
 		/// <summary>
@@ -382,6 +390,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		{
 			Logger.Trace("Переход на страницу Sign In");
 			Driver.Navigate().GoToUrl(Url + RelativeUrlProvider.SingIn);
+			LoginPage.SelectLocale(LOCALE_LANGUAGE_SELECT.English);
 			Assert.IsTrue(GetLoginPageDisplay(), "Ошибка: страница авторизации не открылась");
 		}
 	}
