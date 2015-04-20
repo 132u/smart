@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<configuration>
+
+	<CatTargetServer Url="smartcat.stage5.als.local" Workspace="" Standalone= "false" EmailAuth="false"/>
+	<CourseraTargetServer Url="http://coursera.stage5.als.local/en"/>
+
+	<TestingFiles 
+		FilesDirectory="../TestingFiles"
+		ResultDirectory="../TestResults"
+		ConfigDirectory="../configs"
+	/>
+
+</configuration>
