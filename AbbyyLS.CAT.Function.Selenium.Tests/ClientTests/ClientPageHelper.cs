@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Windows.Forms;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.UI;
@@ -19,16 +18,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		public ClientPageHelper(IWebDriver driver, WebDriverWait wait) :
 			base(driver, wait)
 		{
-		}
-
-		/// <summary>
-		/// Дождаться загрузки страницы
-		/// </summary>
-		/// <returns>загрузилась</returns>
-		public bool WaitPageLoad()
-		{
-			Logger.Trace("Ожидание открытия страницы Clients");
-			return WaitUntilDisplayElement(By.XPath(ADD_CLIENT_BTN_XPATH));
 		}
 
 		/// <summary>
@@ -65,78 +54,12 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		}
 
 		/// <summary>
-		/// Ввести новое имя
-		/// </summary>
-		/// <param name="newName">новое имя</param>
-		public void EnterNewName(string newName)
-		{
-			Logger.Trace("Ввод имени " + newName);
-			ClearAndAddText(By.XPath(CLIENT_INPUT_XPATH), newName);
-		}
-
-		/// <summary>
-		/// Проявить кнопку Delete и кликнуть
-		/// </summary>
-		/// <param name="clientName">название</param>
-		public bool DeleteClient(string clientName)
-		{
-			Logger.Trace("Получение xPath клиента " + clientName);
-			var clientXPath = GetClientRowXPath(clientName);
-			Logger.Trace("Поместить курсор мыши на нужной строке");
-			HoverElement(By.XPath(clientXPath));
-			Logger.Trace("Клик по кнопке Delete");
-			ClickElement(By.XPath(clientXPath + DELETE_BTN_XPATH));
-			Logger.Trace("Ожидание удаления строки");
-			return WaitUntilDisappearElement(By.XPath(clientXPath + DELETE_BTN_XPATH));
-		}
-
-		/// <summary>
 		/// Кликнуть Save
 		/// </summary>
 		public void ClickSaveBtn()
 		{
 			Logger.Trace("Кликнуть Save");
 			ClickElement(By.XPath(SAVE_CLIENT_XPATH));
-		}
-
-		/// <summary>
-		/// Дождаться, пока пропадет кнопка Сохранить
-		/// </summary>
-		/// <returns>пропала</returns>
-		public bool WaitSaveBtnDisappear()
-		{
-			Logger.Trace("Дождаться, пока пропадет кнопка Save");
-			return WaitUntilDisappearElement(By.XPath(SAVE_CLIENT_XPATH));
-		}
-
-		/// <summary>
-		/// Вернуть, остался ли режим редактирования
-		/// </summary>
-		/// <returns>режим редактирования</returns>
-		public bool GetIsEditMode()
-		{
-			Logger.Trace("Проверить, остался ли режим редактирования");
-			return GetIsElementDisplay(By.XPath(CLIENT_INPUT_XPATH));
-		}
-
-		/// <summary>
-		/// Вернуть, не сохранился новый клиент
-		/// </summary>
-		/// <returns>режим нового клиента (не сохранился)</returns>
-		public bool GetIsNewClientEditMode()
-		{
-			Logger.Trace("Проверить, закончилось ли редактирование клиента");
-			return GetIsElementDisplay(By.XPath(CLIENT_INPUT_XPATH));			
-		}
-
-		/// <summary>
-		/// Вернуть, отображается ли строка с ошибкой
-		/// </summary>
-		/// <returns>отображается</returns>
-		public bool GetIsNameErrorExist()
-		{
-			Logger.Trace("Проверка, отображается ли сообщение 'A client with the same name already exists.'");
-			return WaitUntilDisplayElement(By.XPath(ERROR_NAME_XPATH));
 		}
 
 		/// <summary>
@@ -170,14 +93,9 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			return CLIENT_LIST_XPATH + "[" + rowNum + "]";
 		}
 
-
-
-		protected const string DELETE_BTN_XPATH = "//img[contains(@class,'delete client')]";
 		protected const string EDIT_BTN_XPATH = "//img[contains(@class,'edit client')]";
 		protected const string ADD_CLIENT_BTN_XPATH = "//div[contains(@class,'js-clients')]/div/span";
 		protected const string SAVE_CLIENT_XPATH = "//img[contains(@class,'client save')]";
-
-		protected const string ERROR_NAME_XPATH = "//div[contains(@class,'clienterr') and text()='A client with the same name already exists.']";
 
 		protected const string CLIENT_INPUT_XPATH = "//input[contains(@class,'clienttxtbox')]";
 

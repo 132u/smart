@@ -19,7 +19,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Login
 
 		public void LoadPage()
 		{
-			if (!Driver.WaitUntilElementIsPresent(By.Id(SIGN_OUT_BTN_ID)))
+			if (!Driver.WaitUntilElementIsPresent(By.XPath(ACCOUNT_SELECTION_FORM)))
 			{
 				Assert.Fail("Произошла ошибка:\n не загрузилась форма выбора аккаунта.");
 			}
@@ -44,7 +44,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Login
 
 		protected IWebElement AccountRef { get; set; }
 
-		protected const string SIGN_OUT_BTN_ID = "btn-signout";
+		protected const string ACCOUNT_SELECTION_FORM = "//form[contains(@name, 'selectAccount')]";
 		protected const string US_ACCOUNT_REF_XPATH = "//li[@translate = 'region-us']/following-sibling::li[@class='ng-scope']//span[contains(string(), '*#*')]";
 		protected const string RU_ACCOUNT_REF_XPATH = "//li[@translate = 'region-ru']/following-sibling::li[@class='ng-scope']//span[string() = '*#*']";
 	}

@@ -133,7 +133,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Client
 		{
 			Logger.Trace("Проверить, что клиент {0} присутствует в списке клиентов", clientName);
 
-			Assert.IsTrue(getIsClientExist(clientName),
+			Assert.IsTrue(Driver.WaitUntilElementIsPresent(By.XPath(getClientPath(clientName))),
 				"Произошла ошибка:\n клиент {0} не найден в списке клиентов", clientName);
 
 			return GetPage();
@@ -147,7 +147,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Client
 		{
 			Logger.Trace("Проверить, что клиент {0} отсутствует в списке клиентов", clientName);
 
-			Assert.IsFalse(getIsClientExist(clientName),
+			Assert.IsTrue(Driver.WaitUntilElementIsDissapeared(By.XPath(getClientPath(clientName))),
 				"Произошла ошибка:\n клиент {0} найден в списке клиентов", clientName);
 
 			return GetPage();
@@ -180,14 +180,14 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Client
 		}
 		
 		/// <summary>
-		/// Полчить bool значение о наличии клиента
+		/// Получить xPath клиента
 		/// </summary>
 		/// <param name="clientName">имя клиента</param>
-		private static bool getIsClientExist(string clientName)
+		private static string getClientPath(string clientName)
 		{
-			Logger.Trace("Получить bool значение о наличии клиента {0} ", clientName);
-			
-			return Driver.ElementIsPresent(By.XPath(CLIENT_ROW_XPATH.Replace("*#*", clientName)));
+			Logger.Trace("Получить xPath клиента {0} ", clientName);
+
+			return CLIENT_ROW_XPATH.Replace("*#*", clientName);
 		}
 
 		[FindsBy(How = How.XPath, Using = ADD_CLIENT_BTN)]

@@ -75,7 +75,6 @@
     <Compile Include="CheckCreateProjectRight.cs" />
     <Compile Include="CheckCreateProjectRightHelper.cs" />
     <Compile Include="ClientTests\ClientPageHelper.cs" />
-    <Compile Include="ClientTests\ClientTest.cs" />
     <Compile Include="Common\CompanyType.cs" />
     <Compile Include="Common\RegistrationField.cs" />
     <Compile Include="Common\RegistrationType.cs" />
