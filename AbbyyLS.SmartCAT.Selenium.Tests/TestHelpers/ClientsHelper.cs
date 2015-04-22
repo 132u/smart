@@ -24,7 +24,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 			_clientsPage
 				.HoverCursorToClient(clientName)
 				.ClickDeleteClientButton(clientName)
-				.AssertDeleteButtonDisapear();
+				.AssertDeleteButtonDisappear();
 
 			return this;
 		}
@@ -45,7 +45,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 		{
 			BaseObject.InitPage(_clientsPage);
 			_clientsPage
-				.AssertSaveButtonDisapear()
+				.AssertSaveButtonDisappear()
 				.AssertClientExist(clientName);
 
 			return this;

@@ -9,7 +9,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 		{
 			BaseObject.InitPage(_translationMemoriesPage);
 			_translationMemoriesPage
-				.ClickTranslationMemoriesBtn()
+				.ClickTranslationMemoriesButton()
 				.ClickCreateNewTmButton()
 				.ClickOpenClientsList()
 				.AssertClientsListDisplayed()
@@ -22,11 +22,37 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 		{
 			BaseObject.InitPage(_translationMemoriesPage);
 			_translationMemoriesPage
-				.ClickTranslationMemoriesBtn()
+				.ClickTranslationMemoriesButton()
 				.ClickCreateNewTmButton()
 				.ClickOpenClientsList()
 				.AssertClientsListDisplayed()
 				.AssertClientNotExistInTmCreationDialog(clientName);
+
+			return this;
+		}
+
+		public TranslationMemoriesHelper AssertProjectGroupExist(string projectGroup)
+		{
+			BaseObject.InitPage(_translationMemoriesPage);
+			_translationMemoriesPage
+				.ClickTranslationMemoriesButton()
+				.ClickCreateNewTmButton()
+				.OpenProjectGroupsList()
+				.AssertProjectGroupListDisplayed()
+				.AssertProjectGroupExist(projectGroup);
+
+			return this;
+		}
+
+		public TranslationMemoriesHelper AssertProjectGroupNotExist(string projectGroup)
+		{
+			BaseObject.InitPage(_translationMemoriesPage);
+			_translationMemoriesPage
+				.ClickTranslationMemoriesButton()
+				.ClickCreateNewTmButton()
+				.OpenProjectGroupsList()
+				.AssertProjectGroupListDisplayed()
+				.AssertProjectGroupNotExist(projectGroup);
 
 			return this;
 		}

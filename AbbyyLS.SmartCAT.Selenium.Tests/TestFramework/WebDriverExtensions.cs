@@ -6,6 +6,8 @@ using NUnit.Framework;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.PageObjects;
 using OpenQA.Selenium.Support.UI;
+using System.Threading;
+using System.Windows.Forms;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.TestFramework
 {

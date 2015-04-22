@@ -13,7 +13,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 		public UsersRightsHelper CheckOrCreateGroup(string groupName)
 		{
 			BaseObject.InitPage(_usersRightsPage);
-			_usersRightsPage.ClickUsersRightsBtn().ClickGroupsBtn();
+			_usersRightsPage.ClickUsersRightsButton().ClickGroupsBtn();
 			if (!_usersRightsPage.IsGroupExists(groupName))
 			{
 				_usersRightsPage.ClickCreateGroupBtn()
@@ -104,7 +104,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 		{
 			BaseObject.InitPage(_usersRightsPage);
 			Thread.Sleep(1000);
-			_usersRightsPage.ClickSaveBtn(groupName).ClickProjectsBtn();
+			_usersRightsPage.ClickSaveBtn(groupName).ClickProjectsButton();
 
 			return this;
 		}

@@ -52,6 +52,7 @@
     <Reference Include="System.Core" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -72,6 +73,7 @@
     <Compile Include="Pages\Admin\AdminLingvoProPage.cs" />
     <Compile Include="Pages\Admin\AdminSignInPage.cs" />
     <Compile Include="Pages\Client\ClientsPage.cs" />
+    <Compile Include="Pages\ProjectGroups\ProjectGroupsPage.cs" />
     <Compile Include="Pages\Editor\EditorPage.cs" />
     <Compile Include="Pages\Editor\SelectTaskDialog.cs" />
     <Compile Include="Pages\Glossaries\GlossariesPage.cs" />
@@ -105,6 +107,7 @@
     <Compile Include="TestHelpers\AdminHelper.cs" />
     <Compile Include="TestHelpers\ClientsHelper.cs" />
     <Compile Include="TestHelpers\CreateProjectHelper.cs" />
+    <Compile Include="TestHelpers\ProjectGroupsHelper.cs" />
     <Compile Include="TestHelpers\EditorHelper.cs" />
     <Compile Include="TestHelpers\GlossariesHelper.cs" />
     <Compile Include="TestHelpers\LoginHelper.cs" />
@@ -115,6 +118,7 @@
     <Compile Include="TestSettingDefinition.cs" />
     <Compile Include="Tests\BaseTest.cs" />
     <Compile Include="Tests\ClientTests.cs" />
+    <Compile Include="Tests\ProjectGroupsTest.cs" />
     <Compile Include="UserInfoConfig.cs" />
   </ItemGroup>
   <ItemGroup>

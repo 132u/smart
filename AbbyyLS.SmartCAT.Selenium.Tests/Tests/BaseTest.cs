@@ -1,10 +1,12 @@
 ﻿using System;
 using System.IO;
-using AbbyyLS.SmartCAT.Selenium.Tests.TestFramework;
-using AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers;
+
 using NConfiguration;
 using NUnit.Framework;
 using OpenQA.Selenium.Firefox;
+
+using AbbyyLS.SmartCAT.Selenium.Tests.TestFramework;
+using AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests
 {
@@ -62,6 +64,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests
 			initializeRelatedToServerFields(cfgAgentSpecific);
 			initializeRelatedToUserFields(cfgUserInfo);
 			initializeHelpers();
+
+			authorization();
 		}
 
 		[SetUp]
@@ -73,12 +77,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests
 
 			if (Driver == null)
 			{
-				// Если конструктор заново не вызывался, то надо заполнить Driver
 				createDriver();
+				authorization();
 			}
-
-			Driver.Navigate().GoToUrl(Url + "/sign-in");
-			LoginHelper.SignIn(Login, Password);
 		}
 
 		[TestFixtureTearDown]
@@ -153,9 +154,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests
 		{
 			if (Driver != null)
 			{
-				// Закрыть драйвер
 				Driver.Quit();
-				// Очистить, чтобы при следующих тестах пересоздавалось
 				Driver = null;
 			}
 		}
@@ -172,6 +171,12 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests
 			Driver = new FirefoxDriver(profile);
 			Driver.Manage().Timeouts().ImplicitlyWait(TimeSpan.FromSeconds(5));
 			Driver.Manage().Window.Maximize();
+		}
+
+		private void authorization()
+		{
+			Driver.Navigate().GoToUrl(Url + "/sign-in");
+			LoginHelper.SignIn(Login, Password);
 		}
 
 		private void initializeRelatedToServerFields(TargetServerConfig cfgAgentSpecific)

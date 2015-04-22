@@ -19,14 +19,14 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Client
 
 		public new void LoadPage()
 		{
-			if (!Driver.WaitUntilElementIsPresent(By.XPath(CLIENTS_TABLE_BODY_XPATH)))
+			if (!Driver.WaitUntilElementIsPresent(By.XPath(CLIENTS_TABLE_BODY)))
 			{
 				Assert.Fail("Произошла ошибка:\n не загрузилась страница с клиентами.");
 			}
 		}
 
 		/// <summary>
-		/// Прокручиваем страницу(если необходимо) и нажтмаем кнопку создания клиента
+		/// Прокручиваем страницу(если необходимо) и нажимаем кнопку создания клиента
 		/// </summary>
 		public ClientsPage ScrollAndClickCreateClientButton()
 		{
@@ -67,7 +67,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Client
 		public ClientsPage HoverCursorToClient(string clientName)
 		{
 			Logger.Debug("Навести курсор на клиент {0}", clientName);
-			ClientRow = Driver.SetDynamicValue(How.XPath, CLIENT_ROW_XPATH, clientName);
+			ClientRow = Driver.SetDynamicValue(How.XPath, CLIENT_ROW, clientName);
 			ClientRow.HoverElement();
 
 			return GetPage();
@@ -80,7 +80,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Client
 		public ClientsPage ClickEditClientButton(string clientName)
 		{
 			Logger.Debug("Нажать кнопку 'Редактировать' клиента {0}", clientName);
-			EditClientButton = Driver.SetDynamicValue(How.XPath, EDIT_BTN_XPATH, clientName);
+			EditClientButton = Driver.SetDynamicValue(How.XPath, EDIT_BUTTON, clientName);
 			EditClientButton.Click();
 			
 			return GetPage();
@@ -93,7 +93,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Client
 		public ClientsPage ClickDeleteClientButton(string clientName)
 		{
 			Logger.Debug("Нажать кнопку 'Удалить' клиента {0}", clientName);
-			EditClientButton = Driver.SetDynamicValue(How.XPath, DELETE_BTN_XPATH, clientName);
+			EditClientButton = Driver.SetDynamicValue(How.XPath, DELETE_BUTTON, clientName);
 			EditClientButton.Click();
 
 			return GetPage();
@@ -102,25 +102,25 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Client
 		/// <summary>
 		/// Проверить, что кнопка сохранения клиента исчезла
 		/// </summary>
-		public ClientsPage AssertSaveButtonDisapear()
+		public ClientsPage AssertSaveButtonDisappear()
 		{
 			Logger.Trace("Проверить, что кнопка сохранения клиента исчезла");
 
-			Assert.IsTrue(Driver.WaitUntilElementIsDissapeared(By.XPath(SAVE_CLIENT_XPATH)),
+			Assert.IsTrue(Driver.WaitUntilElementIsDissapeared(By.XPath(SAVE_CLIENT)),
 				"Произошла ошибка:\n кнопка сохранения клиента не исчезла после сохранения.");
 
 			return GetPage();
 		}
 
 		/// <summary>
-		/// Проверить, что кнопка сохранения клиента исчезла
+		/// Проверить, что кнопка удаления клиента исчезла
 		/// </summary>
-		public ClientsPage AssertDeleteButtonDisapear()
+		public ClientsPage AssertDeleteButtonDisappear()
 		{
-			Logger.Trace("Проверить, что кнопка сохранения клиента исчезла");
+			Logger.Trace("Проверить, что кнопка удаления клиента исчезла");
 
-			Assert.IsTrue(Driver.WaitUntilElementIsDissapeared(By.XPath(DELETE_BTN_XPATH.Replace("#", string.Empty))),
-				"Произошла ошибка:\n кнопка сохранения клиента не исчезла после сохранения.");
+			Assert.IsTrue(Driver.WaitUntilElementIsDissapeared(By.XPath(DELETE_BUTTON.Replace("#", string.Empty))),
+				"Произошла ошибка:\n кнопка удаления клиента не исчезла после сохранения.");
 
 			return GetPage();
 		}
@@ -167,14 +167,14 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Client
 		}
 
 		/// <summary>
-		/// Проверить, что мы находимся в режиме редактирования
+		/// Проверить, что мы находимся в режиме редактирования клиента
 		/// </summary>
 		public ClientsPage AssertClientEditModeEnabled()
 		{
-			Logger.Trace("Проверить, что мы находимся в режиме редактирования");
+			Logger.Trace("Проверить, что мы находимся в режиме редактирования клиента");
 
 			Assert.IsTrue(ClientNameField.Displayed,
-				"Произошла ошибка:\n произошел выход из режима редактирования.");
+				"Произошла ошибка:\n произошел выход из режима редактирования клиента.");
 
 			return GetPage();
 		}
@@ -187,19 +187,19 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Client
 		{
 			Logger.Trace("Получить xPath клиента {0} ", clientName);
 
-			return CLIENT_ROW_XPATH.Replace("*#*", clientName);
+			return CLIENT_ROW.Replace("*#*", clientName);
 		}
 
-		[FindsBy(How = How.XPath, Using = ADD_CLIENT_BTN)]
+		[FindsBy(How = How.XPath, Using = ADD_CLIENT_BUTTON)]
 		protected IWebElement AddClientButton { get; set; }
 
-		[FindsBy(How = How.XPath, Using = CLIENT_INPUT_NAME_XPATH)]
+		[FindsBy(How = How.XPath, Using = CLIENT_INPUT_NAME)]
 		protected IWebElement ClientNameField { get; set; }
 
-		[FindsBy(How = How.XPath, Using = SAVE_CLIENT_XPATH)]
+		[FindsBy(How = How.XPath, Using = SAVE_CLIENT)]
 		protected IWebElement SaveClientButton { get; set; }
 
-		[FindsBy(How = How.XPath, Using = ERROR_NAME_XPATH)]
+		[FindsBy(How = How.XPath, Using = ERROR_NAME)]
 		protected IWebElement ErrorClientName { get; set; }
 
 		protected IWebElement EditClientButton { get; set; }
@@ -208,16 +208,16 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Client
 
 		protected IWebElement ClientRow { get; set; }
 
-		protected const string CLIENTS_TABLE_BODY_XPATH = "//table[contains(@class,'js-sortable-table')]";
+		protected const string CLIENTS_TABLE_BODY = "//table[contains(@class,'js-sortable-table')]";
 
-		protected const string CLIENT_ROW_XPATH = "//table[contains(@class,'js-sortable-table')]//p[contains(string(), '*#*')]//..";
-		protected const string DELETE_BTN_XPATH = "//table[contains(@class,'js-sortable-table')]//p[contains(string(), '*#*')]//..//img[contains(@class,'delete client')]";
-		protected const string EDIT_BTN_XPATH = "//table[contains(@class,'js-sortable-table')]//p[contains(string(), '*#*')]//..//img[contains(@class,'edit client')]";
+		protected const string CLIENT_ROW = "//table[contains(@class,'js-sortable-table')]//p[contains(string(), '*#*')]//..";
+		protected const string DELETE_BUTTON = "//table[contains(@class,'js-sortable-table')]//p[contains(string(), '*#*')]//..//img[contains(@class,'delete client')]";
+		protected const string EDIT_BUTTON = "//table[contains(@class,'js-sortable-table')]//p[contains(string(), '*#*')]//..//img[contains(@class,'edit client')]";
 
-		protected const string ADD_CLIENT_BTN = "//div[@data-bind='click: addNewClient']//span";
-		protected const string SAVE_CLIENT_XPATH = "//img[contains(@class,'client save')]";
-		protected const string ERROR_NAME_XPATH = "//div[contains(@class,'clienterr') and string()='A client with the same name already exists.']";
-		protected const string CLIENT_INPUT_NAME_XPATH = "//input[contains(@class,'clienttxtbox')]";
-		protected const string CLIENT_LIST_XPATH = ".//table[contains(@class,'js-sortable-table')]//tr";
+		protected const string ADD_CLIENT_BUTTON = "//div[@data-bind='click: addNewClient']//span";
+		protected const string SAVE_CLIENT = "//img[contains(@class,'client save')]";
+		protected const string ERROR_NAME = "//div[contains(@class,'clienterr') and string()='A client with the same name already exists.']";
+		protected const string CLIENT_INPUT_NAME = "//input[contains(@class,'clienttxtbox')]";
+		protected const string CLIENT_LIST = ".//table[contains(@class,'js-sortable-table')]//tr";
 	}
 }

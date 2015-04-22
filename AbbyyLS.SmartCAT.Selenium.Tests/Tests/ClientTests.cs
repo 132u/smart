@@ -20,6 +20,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Clients
 		public void CreateClientTest()
 		{
 			var clientName = ClientsHelper.GetClientUniqueName();
+
 			_clientsHelper
 				.CreateNewClient(clientName)
 				.AssertClientSuccessfullyCreated(clientName);
@@ -29,6 +30,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Clients
 		public void CreateClientExistingNameTest()
 		{
 			var clientName = ClientsHelper.GetClientUniqueName();
+
 			_clientsHelper
 				.CreateNewClient(clientName)
 				.AssertClientSuccessfullyCreated(clientName)
@@ -49,6 +51,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Clients
 		public void CreateClientCheckCreateTMTest()
 		{
 			var clientName = ClientsHelper.GetClientUniqueName();
+
 			_clientsHelper
 				.CreateNewClient(clientName)
 				.AssertClientSuccessfullyCreated(clientName)
@@ -60,6 +63,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Clients
 		public void CreateClientCheckCreateGlossaryTest()
 		{
 			var clientName = ClientsHelper.GetClientUniqueName();
+
 			_clientsHelper
 				.CreateNewClient(clientName)
 				.AssertClientSuccessfullyCreated(clientName)
@@ -72,6 +76,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Clients
 		{
 			var clientName = ClientsHelper.GetClientUniqueName();
 			var clientNewName = ClientsHelper.GetClientUniqueName();
+
 			_clientsHelper
 				.CreateNewClient(clientName)
 				.AssertClientSuccessfullyCreated(clientName)
@@ -85,6 +90,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Clients
 		public void ChangeClientInvalidNameTest(string invalidName)
 		{
 			var clientName = ClientsHelper.GetClientUniqueName();
+
 			_clientsHelper
 				.CreateNewClient(clientName)
 				.AssertClientSuccessfullyCreated(clientName)
@@ -97,6 +103,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Clients
 		{
 			var clientName = ClientsHelper.GetClientUniqueName();
 			var clientSecondName = ClientsHelper.GetClientUniqueName();
+
 			_clientsHelper
 				.CreateNewClient(clientName)
 				.AssertClientSuccessfullyCreated(clientName)
@@ -110,6 +117,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Clients
 		public void DeleteClientTest()
 		{
 			var clientName = ClientsHelper.GetClientUniqueName();
+
 			_clientsHelper
 				.CreateNewClient(clientName)
 				.AssertClientSuccessfullyCreated(clientName)
@@ -121,6 +129,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Clients
 		public void DeleteClientCheckCreateTM()
 		{
 			var clientName = ClientsHelper.GetClientUniqueName();
+
 			_clientsHelper
 				.CreateNewClient(clientName)
 				.AssertClientSuccessfullyCreated(clientName)
@@ -134,6 +143,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Clients
 		public void DeleteClientCheckCreateGlossaryTest()
 		{
 			var clientName = ClientsHelper.GetClientUniqueName();
+
 			_clientsHelper
 				.CreateNewClient(clientName)
 				.AssertClientSuccessfullyCreated(clientName)

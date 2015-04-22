@@ -8,7 +8,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 		public GlossariesHelper AssertClientExistInClientsList(string clientName)
 		{
 			BaseObject.InitPage(_glossariesPage);
-			_glossariesPage.ClickCreateGlossaryBtn()
+			_glossariesPage
+				.ClickCreateGlossaryBtn()
 				.OpenClientsList()
 				.AssertClientsListOpened()
 				.AssertClientExistInList(clientName);
@@ -19,10 +20,35 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 		public GlossariesHelper AssertClientNotExistInClientsList(string clientName)
 		{
 			BaseObject.InitPage(_glossariesPage);
-			_glossariesPage.ClickCreateGlossaryBtn()
+			_glossariesPage
+				.ClickCreateGlossaryBtn()
 				.OpenClientsList()
 				.AssertClientsListOpened()
 				.AssertClientNotExistInList(clientName);
+
+			return this;
+		}
+
+		public GlossariesHelper AssertProjectGroupExist (string projectGroupName)
+		{
+			BaseObject.InitPage(_glossariesPage);
+			_glossariesPage
+				.ClickCreateGlossaryBtn()
+				.OpenProjectGroupsList()
+				.AssertProjectGroupsListOpened()
+				.AssertProjectGroupExistInList(projectGroupName);
+
+			return this;
+		}
+
+		public GlossariesHelper AssertProjectGroupNotExist(string projectGroupName)
+		{
+			BaseObject.InitPage(_glossariesPage);
+			_glossariesPage
+				.ClickCreateGlossaryBtn()
+				.OpenProjectGroupsList()
+				.AssertProjectGroupsListOpened()
+				.AssertProjectGroupNotExistInList(projectGroupName);
 
 			return this;
 		}

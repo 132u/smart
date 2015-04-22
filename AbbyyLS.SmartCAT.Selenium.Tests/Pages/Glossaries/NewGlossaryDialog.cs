@@ -1,8 +1,10 @@
 ﻿using System.Linq;
-using AbbyyLS.SmartCAT.Selenium.Tests.TestFramework;
+
 using NUnit.Framework;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.PageObjects;
+
+using AbbyyLS.SmartCAT.Selenium.Tests.TestFramework;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 {
@@ -19,18 +21,18 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 
 		public new void LoadPage()
 		{
-			if (!Driver.WaitUntilElementIsPresent(By.XPath(SAVE_GLOSSARY_BUTTON_XPATH)))
+			if (!Driver.WaitUntilElementIsPresent(By.XPath(SAVE_GLOSSARY_BUTTON)))
 			{
 				Assert.Fail("Произошла ошибка:\n не загрузилась страница создания глоссария.");
 			}
 		}
 
 		/// <summary>
-		/// Открыть список клиентов
+		/// Открыть список клиентов при создании глоссария
 		/// </summary>
 		public NewGlossaryDialog OpenClientsList()
 		{
-			Logger.Debug("Открыть список клиентов");
+			Logger.Debug("Открыть список клиентов при создании глоссария");
 			ClientsList.Click();
 
 			return GetPage();
@@ -55,11 +57,11 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 		/// <param name="clientName">имя клиента</param>
 		public NewGlossaryDialog AssertClientExistInList(string clientName)
 		{
-			Logger.Trace("Проверить, что клиент {0} есть в списке", clientName);
-			var clientList = Driver.GetElementList(By.XPath(DROPDOWN_LIST_XPATH));
+			Logger.Trace("Проверить, что клиент {0} есть в списке при создании глоссария.", clientName);
+			var clientList = Driver.GetElementList(By.XPath(DROPDOWN_LIST));
 
 			Assert.IsTrue(clientList.First().Text.Contains(clientName),
-				"Произошла ошибка:\n клиент {0} не отображается в списке клиентов.", clientName);
+				"Произошла ошибка:\n клиент {0} не отображается в списке клиентов при создании глоссария.", clientName);
 
 			return GetPage();
 		}
@@ -70,23 +72,86 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 		/// <param name="clientName">имя клиента</param>
 		public NewGlossaryDialog AssertClientNotExistInList(string clientName)
 		{
-			Logger.Trace("Проверить, что клиент {0} есть в списке", clientName);
-			var clientList = Driver.GetElementList(By.XPath(DROPDOWN_LIST_XPATH));
+			Logger.Trace("Проверить, что клиент {0} есть в списке при создании глоссария.", clientName);
+			var clientList = Driver.GetElementList(By.XPath(DROPDOWN_LIST));
 
 			Assert.IsFalse(clientList.Any(e => e.GetAttribute("innerHTML") == clientName),
-				"Произошла ошибка:\n клиент {0} не отображается в списке клиентов.");
+				"Произошла ошибка:\n клиент {0} не отображается в списке клиентов при создании глоссария.");
 
 			return GetPage();
 		}
 
-		[FindsBy(How = How.XPath, Using = CLIENT_LIST_XPATH)]
+		/// <summary>
+		/// Открыть список групп проектов
+		/// </summary>
+		public NewGlossaryDialog OpenProjectGroupsList()
+		{
+			Logger.Debug("Открыть список групп проектов при создании глоссария.");
+			ProjectGroupsDropDown.Click();
+
+			return GetPage();
+		}
+
+		/// <summary>
+		/// Проверить, что список групп проектов открылся
+		/// </summary>
+		public NewGlossaryDialog AssertProjectGroupsListOpened()
+		{
+			Logger.Trace("Проверить, что список групп проектов открылся при создании глоссария.");
+
+			Assert.IsTrue(ProjectGroupsList.Displayed,
+				"Произошла ошибка:\n список групп проектов не открылся при создании глоссария.");
+
+			return GetPage();
+		}
+
+		/// <summary>
+		/// Проверить, что группа проектов есть в списке при создании глоссария
+		/// </summary>
+		/// <param name="projectGroupName">имя группы проектов</param>
+		public NewGlossaryDialog AssertProjectGroupExistInList(string projectGroupName)
+		{
+			Logger.Trace("Проверить, что группа проектов {0} присутствует в списке при создании глоссария.", projectGroupName);
+			var projectGroupsList = Driver.GetElementList(By.XPath(MULTISELECT_LIST));
+			var projectGroupExist = projectGroupsList.Any(e => e.GetAttribute("innerHTML") == projectGroupName);
+
+			Assert.IsTrue(projectGroupExist, "Произошла ошибка:\n  группа проектов {0} отсутствует в списке при создании глоссария.", projectGroupName);
+
+			return GetPage();
+		}
+
+		/// <summary>
+		/// Проверить, что группа проектов отсутствует в списке при создании глоссария
+		/// </summary>
+		public NewGlossaryDialog AssertProjectGroupNotExistInList(string projectGroupName)
+		{
+			Logger.Trace("Проверить, что группа проектов {0} отсутствует в списке при создании глоссария.", projectGroupName);
+			var projectGroupsList = Driver.GetElementList(By.XPath(MULTISELECT_LIST));
+			var projectGroupExist = projectGroupsList.Any(e => e.GetAttribute("innerHTML") == projectGroupName);
+
+			Assert.IsFalse(projectGroupExist, "Произошла ошибка:\n  группа проектов {0} присутствует в списке при создании глоссария.", projectGroupName);
+
+			return GetPage();
+		}
+
+		[FindsBy(How = How.XPath, Using = CLIENT_LIST)]
 		protected IWebElement ClientsList { get; set; }
 
-		[FindsBy(How = How.XPath, Using = DROPDOWN_LIST_XPATH)]
+		[FindsBy(How = How.XPath, Using = DROPDOWN_LIST)]
 		protected IWebElement ClientsListDropDown { get; set; }
 
-		protected const string CLIENT_LIST_XPATH = "//select[contains(@data-bind,'clientsList')]//following-sibling::span";
-		protected const string DROPDOWN_LIST_XPATH = "//body/span[contains(@class,'js-dropdown')]";
-		protected const string SAVE_GLOSSARY_BUTTON_XPATH = GLOSSARY_CREATION_DIALOG_XPATH + "//span[@data-bind='click: save']";
+
+		[FindsBy(How = How.XPath, Using = PROJECT_GROUPS_LIST)]
+		protected IWebElement ProjectGroupsDropDown { get; set; }
+
+		[FindsBy(How = How.XPath, Using = MULTISELECT_LIST)]
+		protected IWebElement ProjectGroupsList { get; set; }
+
+		protected const string CLIENT_LIST= "//select[contains(@data-bind,'clientsList')]//following-sibling::span";
+		protected const string DROPDOWN_LIST= "//body/span[contains(@class,'js-dropdown')]";
+		protected const string SAVE_GLOSSARY_BUTTON= ".//div[contains(@class,'js-popup-edit-glossary')][2]//span[@data-bind='click: save']";
+		protected const string PROJECT_GROUPS_LIST = ".//div[contains(@class,'js-popup-edit-glossary')][2]//div[@class='l-editgloss__contrbox'][3]//div";
+		protected const string DIALOG = ".//div[contains(@class,'js-popup-edit-glossary')][2]";
+		protected const string MULTISELECT_LIST = ".//ul[contains(@class,'ui-multiselect-checkboxes')]//span[contains(@class,'ui-multiselect-item-text')]";
 	}
 }

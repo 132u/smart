@@ -1,11 +1,13 @@
-﻿using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Client;
+﻿using NUnit.Framework;
+using OpenQA.Selenium;
+using OpenQA.Selenium.Support.PageObjects;
+
+using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Client;
+using AbbyyLS.SmartCAT.Selenium.Tests.Pages.ProjectGroups;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories;
 using AbbyyLS.SmartCAT.Selenium.Tests.TestFramework;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Login;
-using NUnit.Framework;
-using OpenQA.Selenium;
-using OpenQA.Selenium.Support.PageObjects;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace
 {
@@ -22,7 +24,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace
 
 		public void LoadPage()
 		{
-			if (!Driver.WaitUntilElementIsPresent(By.XPath(ACCOUNT_XPATH), 15))
+			if (!Driver.WaitUntilElementIsPresent(By.XPath(ACCOUNT), 15))
 			{
 				Assert.Fail("Произошла ошибка:\n не загрузилась страница с workspace.");
 			}
@@ -31,25 +33,24 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace
 		/// <summary>
 		/// Нажать на кнопку "пользователи и права"
 		/// </summary>
-		public UsersRightsPage ClickUsersRightsBtn()
+		public UsersRightsPage ClickUsersRightsButton()
 		{
 			Logger.Debug("Нажать кнопку 'Пользователи и права'.");
 			openHideMenuIfClosed();
-			UsersRightsBtn.Click();
-			var usersRightPage = new UsersRightsPage();
+			UsersRightsButton.Click();
 
-			return usersRightPage.GetPage();
+			return new UsersRightsPage().GetPage();
 		}
 
 		/// <summary>
 		/// Выбрать вкладку "Проекты"
 		/// </summary>
-		public WorkspacePage ClickProjectsBtn()
+		public WorkspacePage ClickProjectsButton()
 		{
 			Logger.Debug("Нажать кнопку 'Проекты'.");
 			openHideMenuIfClosed();
-			ProjectsBtn = Driver.SetDynamicValue(How.XPath, PROJECTS_BTN_XPATH, "");
-			ProjectsBtn.Click();
+			ProjectsButton = Driver.SetDynamicValue(How.XPath, PROJECTS_BUTTON, "");
+			ProjectsButton.Click();
 
 			return GetPage();
 		}
@@ -58,40 +59,49 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace
 		/// <summary>
 		/// Выбрать вкладку "Клиенты"
 		/// </summary>
-		public ClientsPage ClickClientsBtn()
+		public ClientsPage ClickClientsButton()
 		{
 			Logger.Debug("Нажать кнопку 'Клиенты'.");
 			openHideMenuIfClosed();
-			ClientsBtn.Click();
-			var clientsPage = new ClientsPage();
+			ClientsButton.Click();
 
-			return clientsPage.GetPage();
+			return new ClientsPage().GetPage();
+		}
+
+		/// <summary>
+		/// Выбрать вкладку "Группы проектов"
+		/// </summary>
+		public ProjectGroupsPage ClickProjectGroupsButton()
+		{
+			Logger.Debug("Нажать кнопку 'Группы проектов'.");
+			openHideMenuIfClosed();
+			ProjectGroupsButton.Click();
+
+			return new ProjectGroupsPage().GetPage();
 		}
 
 		/// <summary>
 		/// Выбрать вкладку "Память переводов"
 		/// </summary>
-		public TranslationMemoriesPage ClickTranslationMemoriesBtn()
+		public TranslationMemoriesPage ClickTranslationMemoriesButton()
 		{
 			Logger.Debug("Нажать кнопку 'Память переводов'.");
 			openHideMenuIfClosed();
-			TranslationMemoriesBtn.Click();
-			var translationMemoriesPage = new TranslationMemoriesPage();
+			TranslationMemoriesButton.Click();
 
-			return translationMemoriesPage.GetPage();
+			return new TranslationMemoriesPage().GetPage();
 		}
 
 		/// <summary>
 		/// Выбрать вкладку "Глоссарии"
 		/// </summary>
-		public GlossariesPage ClickGlossariesBtn()
+		public GlossariesPage ClickGlossariesButton()
 		{
 			Logger.Debug("Нажать кнопку 'Глоссарии'.");
 			openHideMenuIfClosed();
-			GlossariesBtn.Click();
-			var glossariesPage = new GlossariesPage();
+			GlossariesButton.Click();
 
-			return glossariesPage.GetPage();
+			return new GlossariesPage().GetPage();
 		}
 
 		/// <summary>
@@ -127,9 +137,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace
 		{
 			Logger.Debug("Выйти из смартката.");
 			LogOffRef.Click();
-			var signInPage = new SignInPage();
 
-			return signInPage.GetPage();
+			return new SignInPage().GetPage();
 		}
 
 		/// <summary>
@@ -178,55 +187,59 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace
 			return CatMenu.Displayed;
 		}
 
-		[FindsBy(How = How.XPath, Using = USERS_RIGHTS_BTN_XPATH)]
-		protected IWebElement UsersRightsBtn { get; set; }
+		[FindsBy(How = How.XPath, Using = USERS_RIGHTS_BUTTON)]
+		protected IWebElement UsersRightsButton { get; set; }
 
-		[FindsBy(How = How.XPath, Using = CLIENTS_BTN_XPATH)]
-		protected IWebElement ClientsBtn { get; set; }
+		[FindsBy(How = How.XPath, Using = CLIENTS_BUTTON)]
+		protected IWebElement ClientsButton { get; set; }
 
-		[FindsBy(How = How.XPath, Using = TRANSLATION_MEMORIES_BTN_XPATH)]
-		protected IWebElement TranslationMemoriesBtn { get; set; }
+		[FindsBy(How = How.XPath, Using = TRANSLATION_MEMORIES_BUTTON)]
+		protected IWebElement TranslationMemoriesButton { get; set; }
 
-		[FindsBy(How = How.XPath, Using = GLOSSARY_XPATH)]
-		protected IWebElement GlossariesBtn { get; set; }
+		[FindsBy(How = How.XPath, Using = GLOSSARY)]
+		protected IWebElement GlossariesButton { get; set; }
 
-		[FindsBy(How = How.XPath, Using = ACCOUNT_XPATH)]
+		[FindsBy(How = How.XPath, Using = DOMAIN_REF)]
+		protected IWebElement ProjectGroupsButton { get; set; }
+
+		[FindsBy(How = How.XPath, Using = ACCOUNT)]
 		protected IWebElement Account { get; set; }
 
-		[FindsBy(How = How.XPath, Using = LOGOFF_XPATH)]
+		[FindsBy(How = How.XPath, Using = LOGOFF)]
 		protected IWebElement LogOffRef { get; set; }
 
 
-		[FindsBy(How = How.XPath, Using = RESOURCES_MENU_XPATH)]
+		[FindsBy(How = How.XPath, Using = RESOURCES_MENU)]
 		protected IWebElement ResourcesMenu { get; set; }
 
-		[FindsBy(How = How.XPath, Using = EXPAND_RESOURCES_MENU_XPATH)]
+		[FindsBy(How = How.XPath, Using = EXPAND_RESOURCES_MENU)]
 		protected IWebElement ExpandResourcesMenuButton { get; set; }
 
 		[FindsBy(How = How.XPath, Using = CAT_MENU)]
 		protected IWebElement CatMenu { get; set; }
 
-		[FindsBy(How = How.XPath, Using = CAT_MENU_OPEN_BTN)]
+		[FindsBy(How = How.XPath, Using = CAT_MENU_OPEN_BUTTON)]
 		protected IWebElement CatMenuOpenButton { get; set; }
 
 		protected IWebElement LocaleRef { get; set; }
 
-		protected IWebElement ProjectsBtn { get; set; }
+		protected IWebElement ProjectsButton { get; set; }
 
 		protected const string CAT_MENU = "//div[contains(@class, 'js-mainmenu')]";
-		protected const string CAT_MENU_OPEN_BTN = "//h2[@class='g-topbox__header']/a";
+		protected const string CAT_MENU_OPEN_BUTTON = "//h2[@class='g-topbox__header']/a";
 
-		protected const string RESOURCES_MENU_XPATH ="//ul[contains(@class, 'serviceMenu')]//li[contains(@class, 'js-menuitem-Resources')]";
-		protected const string EXPAND_RESOURCES_MENU_XPATH = RESOURCES_MENU_XPATH + "//a";
-		protected const string PROJECTS_BTN_XPATH = "//a[contains(@href,'/Workspace')]";
-		protected const string USERS_RIGHTS_BTN_XPATH = "//a[contains(@href,'/Users/Index')]";
-		protected const string CLIENTS_BTN_XPATH = "//a[contains(@href,'/Clients/Index')]";
-		protected const string TRANSLATION_MEMORIES_BTN_XPATH = "//a[contains(@href,'/TranslationMemories/Index')]";
-		protected const string GLOSSARY_XPATH = ".//a[contains(@href,'/Glossaries')]";
+		protected const string RESOURCES_MENU ="//ul[contains(@class, 'serviceMenu')]//li[contains(@class, 'js-menuitem-Resources')]";
+		protected const string EXPAND_RESOURCES_MENU = "//ul[contains(@class, 'serviceMenu')]//li[contains(@class, 'js-menuitem-Resources')]//a";
+		protected const string PROJECTS_BUTTON = "//a[contains(@href,'/Workspace')]";
+		protected const string USERS_RIGHTS_BUTTON = "//a[contains(@href,'/Users/Index')]";
+		protected const string CLIENTS_BUTTON = "//a[contains(@href,'/Clients/Index')]";
+		protected const string TRANSLATION_MEMORIES_BUTTON = "//a[contains(@href,'/TranslationMemories/Index')]";
+		protected const string GLOSSARY = ".//a[contains(@href,'/Glossaries')]";
+		protected const string DOMAIN_REF = ".//a[contains(@href,'/Domains')]";
 
 		protected const string LOCALE_REF_XPATH = "//a[contains(@class,'js-set-locale') and contains(@data-locale, '*#*')]";
-		protected const string ACCOUNT_XPATH = "//div[contains(@class,'js-usermenu')]";
-		protected const string USER_NAME_XPATH = ACCOUNT_XPATH + "//span[contains(@class,'nameuser')]";
-		protected const string LOGOFF_XPATH = ".//a[contains(@href,'Logout')]";
+		protected const string ACCOUNT = "//div[contains(@class,'js-usermenu')]";
+		protected const string USER_NAME = "//div[contains(@class,'js-usermenu')]//span[contains(@class,'nameuser')]";
+		protected const string LOGOFF = ".//a[contains(@href,'Logout')]";
 	}
 }
