@@ -35,7 +35,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 			_clientsPage
 				.HoverCursorToClient(clientName)
 				.ClickEditClientButton(clientName)
-				.FillClientName(clientNewName, clearFirst: true)
+				.FillClientName(clientNewName)
 				.ClickSaveClientButton();
 
 			return this;

@@ -40,11 +40,10 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Client
 		/// Ввести имя клиента
 		/// </summary>
 		/// <param name="clientName">имя клиента</param>
-		/// <param name="clearFirst">предварительно отчистить поле</param>
-		public ClientsPage FillClientName(string clientName, bool clearFirst = false)
+		public ClientsPage FillClientName(string clientName)
 		{
-			Logger.Debug("Ввести имя клиента {0}. Предварительно очистить поле: {1}.", clientName, clearFirst);
-			ClientNameField.SetText(clientName, clearFirst);
+			Logger.Debug("Ввести имя клиента {0}.", clientName);
+			ClientNameField.SetText(clientName);
 
 			return GetPage();
 		}

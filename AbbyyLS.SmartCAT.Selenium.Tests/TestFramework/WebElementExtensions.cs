@@ -16,18 +16,20 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestFramework
 		public static Logger Logger = LogManager.GetCurrentClassLogger();
 
 		/// <summary>
-		/// Удаляем старый текст и вводим новый
+		/// Вводим текст, предварительно отчистив поле web-элемента
 		/// </summary>
 		/// <param name="webElement">элемент</param>
 		/// <param name="text">текст</param>
-		/// <param name="clearFirst">нужно ли удалять предыдущий текст</param>
-		public static void SetText(this IWebElement webElement, string text, bool clearFirst = true)
+		public static void SetText(this IWebElement webElement, string text)
 		{
-			if (clearFirst)
-			{
-				webElement.Clear();
-			}
+			webElement.Clear();
 			webElement.SendKeys(text);
+
+			if (webElement.GetAttribute("value") != text)
+			{
+				webElement.SetText(text);
+			}
+
 		}
 
 		/// <summary>
