@@ -37,6 +37,15 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestFramework
 			catch (NoSuchElementException)
 			{
 			}
+			catch (InvalidOperationException exception)
+			{
+				// Exception является багой возникающей в Selenium 2.43.1
+				// https://code.google.com/p/selenium/issues/detail?id=7977
+
+				Logger.Warn("InvalidOperationException: ElementIsPresent {0}", exception.Message);
+				Logger.Debug("Обновить страницу браузера.");
+				driver.Navigate().Refresh();
+			}
 
 			driver.Manage().Timeouts().ImplicitlyWait(ImplicitWait);
 
