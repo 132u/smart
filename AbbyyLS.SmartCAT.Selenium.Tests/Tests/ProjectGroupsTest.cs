@@ -3,10 +3,11 @@
 using AbbyyLS.SmartCAT.Selenium.Tests.TestFramework;
 using AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers;
 
-namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests
+namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.ProjectGroups
 {
 	[TestFixture]
 	[PriorityMajor]
+	[Standalone]
 	class ProjectGroupsTest : BaseTest
 	{
 		[SetUp]
