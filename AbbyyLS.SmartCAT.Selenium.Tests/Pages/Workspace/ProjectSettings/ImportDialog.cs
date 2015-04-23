@@ -18,7 +18,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace.ProjectSettings
 
 		public new void LoadPage()
 		{
-			if (!Driver.WaitUntilElementIsPresent(By.XPath(ADD_BTN_XPATH)))
+			if (!Driver.WaitUntilElementIsDisplay(By.XPath(ADD_BTN_XPATH)))
 			{
 				Assert.Fail("Произошла ошибка:\n не открылся диалог загрузки файла.");
 			}
@@ -44,7 +44,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace.ProjectSettings
 		/// <param name="fileName">имя файла (с расширением)</param>
 		public ImportDialog AssertIfFileUploaded(string fileName)
 		{
-			Assert.IsTrue(Driver.WaitUntilElementIsPresent(By.XPath(UPLOADED_FILE_XPATH.Replace("*#*", fileName))),
+			Assert.IsTrue(Driver.WaitUntilElementIsDisplay(By.XPath(UPLOADED_FILE_XPATH.Replace("*#*", fileName))),
 				"Произошла ошибка:\n не удалось загрузить файл.");
 
 			return GetPage();

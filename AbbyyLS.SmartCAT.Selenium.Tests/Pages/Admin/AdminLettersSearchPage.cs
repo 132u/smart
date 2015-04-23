@@ -22,7 +22,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Admin
 
 		public new void LoadPage()
 		{
-			if (!Driver.WaitUntilElementIsPresent(By.Id(SEARCH_EMAIL_INPUT_ID), 7))
+			if (!Driver.WaitUntilElementIsDisplay(By.Id(SEARCH_EMAIL_INPUT_ID), 7))
 			{
 				Assert.Fail("Произошла ошибка:\n не загружена страничка AdminEmailsSearchPage (Поиск писем в админке).");
 			}
@@ -68,7 +68,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Admin
 		/// </summary>
 		public AdminEmailsSearchPage AssertFoundEmailesAppeared()
 		{
-			Assert.IsTrue(Driver.WaitUntilElementIsPresent(By.XPath(FOUND_EMAILS_TABLE_XPATH), 7),
+			Assert.IsTrue(Driver.WaitUntilElementIsDisplay(By.XPath(FOUND_EMAILS_TABLE_XPATH), 7),
 				"Произошла ошибка:\n не появилась таблица с найденными письмами.");
 
 			return GetPage();

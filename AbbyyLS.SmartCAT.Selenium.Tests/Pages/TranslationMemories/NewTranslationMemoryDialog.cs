@@ -21,7 +21,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories
 
 		public new void LoadPage()
 		{
-			if (!Driver.WaitUntilElementIsPresent(By.XPath(SAVE_TM_BUTTON)))
+			if (!Driver.WaitUntilElementIsDisplay(By.XPath(SAVE_TM_BUTTON)))
 			{
 				Assert.Fail("Произошла ошибка:\n не загрузилась форма создания ТМ.");
 			}

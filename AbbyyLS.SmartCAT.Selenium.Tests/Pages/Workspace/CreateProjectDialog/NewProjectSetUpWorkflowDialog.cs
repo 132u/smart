@@ -18,7 +18,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace.CreateProjectDialog
 
 		public new void LoadPage()
 		{
-			if (!Driver.WaitUntilElementIsPresent(By.XPath(WF_TABLE_FIRST_TASK_XPATH), 7))
+			if (!Driver.WaitUntilElementIsDisplay(By.XPath(WF_TABLE_FIRST_TASK_XPATH), 7))
 			{
 				Assert.Fail("Произошла ошибка:\n не удалось перейти к этапу Workflow создания проекта.");
 			}

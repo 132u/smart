@@ -21,7 +21,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace
 
 		public new void LoadPage()
 		{
-			if (!Driver.WaitUntilElementIsPresent(By.XPath(CREATE_PROJECT_BTN_XPATH)))
+			if (!Driver.WaitUntilElementIsDisplay(By.XPath(CREATE_PROJECT_BTN_XPATH)))
 			{
 				Assert.Fail("Произошла ошибка:\n не удалось перейти на вкладку \"Проекты\".");
 			}

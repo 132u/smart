@@ -18,7 +18,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace.CreateProjectDialog
 
 		public new void LoadPage()
 		{
-			if (!Driver.WaitUntilElementIsPresent(By.XPath(CREATE_TM_BTN_XPATH), 10))
+			if (!Driver.WaitUntilElementIsDisplay(By.XPath(CREATE_TM_BTN_XPATH), 10))
 			{
 				Assert.Fail("Произошла ошибка:\n не удалось перейти к следующему шагу создания проекта (выбор ТМ).");
 			}
@@ -39,7 +39,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace.CreateProjectDialog
 		/// </summary>
 		public NewProjectSetUpTMDialog AssertIsTMTableNotEmpty()
 		{
-			Assert.IsTrue(Driver.WaitUntilElementIsPresent(By.XPath(TM_TABLE_FIRST_ITEM_XPATH), 15),
+			Assert.IsTrue(Driver.WaitUntilElementIsDisplay(By.XPath(TM_TABLE_FIRST_ITEM_XPATH), 15),
 				"Произошла ошибка:\n не удалось добавить ТМ при создании проекта.");
 
 			return GetPage();

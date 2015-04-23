@@ -21,7 +21,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Admin
 
 		public new void LoadPage()
 		{
-			if (!Driver.WaitUntilElementIsPresent(By.XPath(SELECT_VENTURE_XPATH)))
+			if (!Driver.WaitUntilElementIsDisplay(By.XPath(SELECT_VENTURE_XPATH)))
 			{
 				Assert.Fail("Произошла ошибка:\n не загружена страничка AdminEnterpriseAccountsPage (Корпоративные аккаунты).");
 			}
@@ -61,7 +61,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Admin
 		{
 			Logger.Trace("Проверить, есть ли в таблице аккаунтов аккаунт с именем {0}.", accountName);
 			
-			return Driver.ElementIsPresent(By.XPath(MANAGE_USERS_REF_XPATH.Replace("*#*", accountName)));
+			return Driver.ElementIsDisplayed(By.XPath(MANAGE_USERS_REF_XPATH.Replace("*#*", accountName)));
 		}
 
 		[FindsBy(How = How.XPath, Using = SELECT_VENTURE_XPATH)]

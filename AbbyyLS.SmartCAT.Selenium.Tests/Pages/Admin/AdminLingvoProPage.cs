@@ -21,7 +21,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Admin
 		
 		public void LoadPage()
 		{
-			if (!Driver.WaitUntilElementIsPresent(By.XPath(ENTERPRISE_ACCOUNTS_REF_XPATH)))
+			if (!Driver.WaitUntilElementIsDisplay(By.XPath(ENTERPRISE_ACCOUNTS_REF_XPATH)))
 			{
 				Assert.Fail("Произошла ошибка:\n не удалось зайти в админку.\n" +
 					" Не загружена страничка AdminLingvoProPage (Lingvo.Pro Admin).");

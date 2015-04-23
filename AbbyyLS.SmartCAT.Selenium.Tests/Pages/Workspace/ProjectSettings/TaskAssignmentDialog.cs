@@ -18,7 +18,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace.ProjectSettings
 
 		public new void LoadPage()
 		{
-			if (!Driver.WaitUntilElementIsPresent(By.XPath(TABLE_USERNAME_XPATH)))
+			if (!Driver.WaitUntilElementIsDisplay(By.XPath(TABLE_USERNAME_XPATH)))
 			{
 				Assert.Fail("Произошла ошибка:\n не появился диалог назначения задачи на пользователя.");
 			}
@@ -62,7 +62,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace.ProjectSettings
 		/// </summary>
 		public TaskAssignmentDialog AssertIsUserAssigned()
 		{
-			Assert.IsTrue(Driver.WaitUntilElementIsPresent(By.XPath(CLOSE_BTN_XPATH)),
+			Assert.IsTrue(Driver.WaitUntilElementIsDisplay(By.XPath(CLOSE_BTN_XPATH)),
 				"Произошла ошибка:\n не удалось назначить исполнителя на задачу.");
 
 			return GetPage();

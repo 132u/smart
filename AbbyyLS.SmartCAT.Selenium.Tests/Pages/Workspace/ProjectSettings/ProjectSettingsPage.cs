@@ -21,7 +21,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace.ProjectSettings
 
 		public new void LoadPage()
 		{
-			if (!Driver.WaitUntilElementIsPresent(By.XPath(ADD_FILES_BTN_XPATH)))
+			if (!Driver.WaitUntilElementIsDisplay(By.XPath(ADD_FILES_BTN_XPATH)))
 			{
 				Assert.Fail("Произошла ошибка:\n не удалось перейти на вкладку проекта.");
 			}
@@ -49,7 +49,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace.ProjectSettings
 			{
 				Driver.Navigate().Refresh();
 
-				Assert.IsFalse(Driver.ElementIsPresent(By.XPath(LOAD_DOC_IMG_XPATH)),
+				Assert.IsFalse(Driver.ElementIsDisplayed(By.XPath(LOAD_DOC_IMG_XPATH)),
 					"Произошла ошибка:\n документ загружается слишком долго.");
 			}
 
@@ -76,7 +76,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace.ProjectSettings
 		/// <param name="documentName">имя документа</param>
 		public ProjectSettingsPage AssertIsStatusCompleted(string documentName)
 		{
-			Assert.IsTrue(Driver.ElementIsPresent(By.XPath(PROJECTS_TABLE_STATUS_COMPLITED_XPATH.Replace("*#*", documentName))),
+			Assert.IsTrue(Driver.ElementIsDisplayed(By.XPath(PROJECTS_TABLE_STATUS_COMPLITED_XPATH.Replace("*#*", documentName))),
 				"Произошла ошибка:\n перевод документа {0} не завершен.", documentName);
 
 			return GetPage();
@@ -100,7 +100,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace.ProjectSettings
 		{
 			Logger.Debug("Проверить выбран ли движок МТ.");
 
-			return Driver.ElementIsPresent(By.XPath(DEFAULT_MT_CHECKBOX_STATE_XPATH));
+			return Driver.ElementIsDisplayed(By.XPath(DEFAULT_MT_CHECKBOX_STATE_XPATH));
 		}
 
 		/// <summary>

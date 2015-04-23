@@ -19,7 +19,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Client
 
 		public new void LoadPage()
 		{
-			if (!Driver.WaitUntilElementIsPresent(By.XPath(CLIENTS_TABLE_BODY)))
+			if (!Driver.WaitUntilElementIsDisplay(By.XPath(CLIENTS_TABLE_BODY)))
 			{
 				Assert.Fail("Произошла ошибка:\n не загрузилась страница с клиентами.");
 			}
@@ -68,7 +68,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Client
 			Logger.Debug("Навести курсор на клиент {0}", clientName);
 			ClientRow = Driver.SetDynamicValue(How.XPath, CLIENT_ROW, clientName);
 			ClientRow.HoverElement();
-
+			
 			return GetPage();
 		}
 
@@ -112,13 +112,61 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Client
 		}
 
 		/// <summary>
+		/// Проверить, что кнопка удаления клиента появилась
+		/// </summary>
+		public ClientsPage AssertDeleteButtonAppear(string clientName)
+		{
+			Logger.Trace("Проверить, что кнопка удаления клиента появилась");
+			var isDeleteButtonDisplayed = Driver.WaitUntilElementIsDisplay(
+				By.XPath(DELETE_BUTTON.Replace("*#*", clientName)));
+
+			if (!isDeleteButtonDisplayed)
+			{
+				Logger.Warn("Необходимо повторно навести курсор на клиента {0}, чтобы кнопка удаления стала видна",
+					clientName);
+				HoverCursorToClient(clientName);
+
+				isDeleteButtonDisplayed = Driver.WaitUntilElementIsDisplay(
+					By.XPath(DELETE_BUTTON.Replace("*#*", clientName)));
+			}
+
+			Assert.IsTrue(isDeleteButtonDisplayed,
+				"Произошла ошибка:\n кнопка удаления клиента не появилась после наведения курсора.");
+
+			return GetPage();
+		}
+
+		/// <summary>
+		/// Проверить, что кнопка редактирования клиента появилась
+		/// </summary>
+		public ClientsPage AssertEditButtonAppear(string clientName)
+		{
+			Logger.Trace("Проверить, что кнопка редактирования клиента появилась");
+
+			var isEditButtonDisplayed = Driver.WaitUntilElementIsDisplay(By.XPath(EDIT_BUTTON.Replace("*#*", clientName)));
+
+			if (!isEditButtonDisplayed)
+			{
+				Logger.Warn("Необходимо повторно навести курсор на клиента {0}, чтобы кнопка редактирования стала видна", 
+					clientName);
+				HoverCursorToClient(clientName);
+				isEditButtonDisplayed = Driver.WaitUntilElementIsDisplay(By.XPath(EDIT_BUTTON.Replace("*#*", clientName)));
+			}
+
+			Assert.IsTrue(isEditButtonDisplayed,
+				"Произошла ошибка:\n кнопка редактирования клиента не появилась после наведения курсора.");
+
+			return GetPage();
+		}
+
+		/// <summary>
 		/// Проверить, что кнопка удаления клиента исчезла
 		/// </summary>
-		public ClientsPage AssertDeleteButtonDisappear()
+		public ClientsPage AssertDeleteButtonDisappear(string clientName)
 		{
 			Logger.Trace("Проверить, что кнопка удаления клиента исчезла");
 
-			Assert.IsTrue(Driver.WaitUntilElementIsDissapeared(By.XPath(DELETE_BUTTON.Replace("#", string.Empty))),
+			Assert.IsTrue(Driver.WaitUntilElementIsDissapeared(By.XPath(DELETE_BUTTON.Replace("*#*", clientName))),
 				"Произошла ошибка:\n кнопка удаления клиента не исчезла после сохранения.");
 
 			return GetPage();
@@ -132,7 +180,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Client
 		{
 			Logger.Trace("Проверить, что клиент {0} присутствует в списке клиентов", clientName);
 
-			Assert.IsTrue(Driver.WaitUntilElementIsPresent(By.XPath(getClientPath(clientName))),
+			Assert.IsTrue(Driver.WaitUntilElementIsDisplay(By.XPath(getClientPath(clientName))),
 				"Произошла ошибка:\n клиент {0} не найден в списке клиентов", clientName);
 
 			return GetPage();

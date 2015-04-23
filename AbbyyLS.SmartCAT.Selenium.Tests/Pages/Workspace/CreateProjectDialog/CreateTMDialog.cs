@@ -18,7 +18,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace.CreateProjectDialog
 
 		public new void LoadPage()
 		{
-			if (!Driver.ElementIsPresent(By.XPath(NEW_TM_NAME_INPUT_XPATH)))
+			if (!Driver.ElementIsDisplayed(By.XPath(NEW_TM_NAME_INPUT_XPATH)))
 			{
 				Assert.Fail("Произошла ошибка:\n не появился диалог создания ТМ.");
 			}

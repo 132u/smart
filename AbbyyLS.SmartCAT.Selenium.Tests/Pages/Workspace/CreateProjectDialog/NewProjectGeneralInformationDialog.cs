@@ -20,7 +20,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace.CreateProjectDialog
 
 		public new void LoadPage()
 		{
-			if (!Driver.ElementIsPresent(By.XPath(ADD_FILE_BTN_XPATH)))
+			if (!Driver.ElementIsDisplayed(By.XPath(ADD_FILE_BTN_XPATH)))
 			{
 				Assert.Fail("Произошла ошибка:\n не появился диалог создания проекта.");
 			}
@@ -59,7 +59,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace.CreateProjectDialog
 		/// <param name="fileName">имя файла (с расширением)</param>
 		public NewProjectGeneralInformationDialog AssertIfFileUploaded(string fileName)
 		{
-			Assert.IsTrue(Driver.WaitUntilElementIsPresent(By.XPath(UPLOADED_FILE_XPATH.Replace("*#*", fileName))),
+			Assert.IsTrue(Driver.WaitUntilElementIsDisplay(By.XPath(UPLOADED_FILE_XPATH.Replace("*#*", fileName))),
 				"Произошла ошибка:\n не удалось загрузить файл {0}.", fileName);
 
 			return GetPage();
@@ -81,7 +81,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace.CreateProjectDialog
 		/// </summary>
 		public NewProjectGeneralInformationDialog AssertIsCalendarDisplayed()
 		{
-			Assert.IsTrue(Driver.ElementIsPresent(By.XPath(DEADLINE_DATE_CURRENT_XPATH)),
+			Assert.IsTrue(Driver.ElementIsDisplayed(By.XPath(DEADLINE_DATE_CURRENT_XPATH)),
 				"Произошла ошибка:\n не отображается календарь, нельзя выбрать дату дедлайна.");
 
 			return GetPage();

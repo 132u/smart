@@ -18,7 +18,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace.CreateProjectDialog
 
 		public new void LoadPage()
 		{
-			if (!Driver.WaitUntilElementIsPresent(By.XPath(MT_TABLE_XPATH), 8))
+			if (!Driver.WaitUntilElementIsDisplay(By.XPath(MT_TABLE_XPATH), 8))
 			{
 				Assert.Fail("Произошла ошибка:\n не удалось перейти к четвертому шагу создания проекта (выбор МТ).");
 			}

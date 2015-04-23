@@ -21,7 +21,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Admin
 
 		public void LoadPage()
 		{
-			Assert.IsTrue(Driver.WaitUntilElementIsPresent(By.XPath(LOGIN_FORM_XPATH)),
+			Assert.IsTrue(Driver.WaitUntilElementIsDisplay(By.XPath(LOGIN_FORM_XPATH)),
 				"Произошла ошибка:\n не загрузилась страница AdminSignInPage (вход в админку).");
 		}
 

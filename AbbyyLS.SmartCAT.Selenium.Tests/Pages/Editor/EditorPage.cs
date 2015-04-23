@@ -19,7 +19,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 
 		public void LoadPage()
 		{
-			if (!Driver.WaitUntilElementIsPresent(By.XPath(SEGMENTS_BODY_XPATH)))
+			if (!Driver.WaitUntilElementIsDisplay(By.XPath(SEGMENTS_BODY_XPATH)))
 			{
 				Assert.Fail("Произошла ошибка:\n не удалось открыть документ в редакторе.");
 			}
@@ -48,7 +48,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		{
 			Logger.Trace("Проверить, заблокирован ли сегмент {0}.", rowNumber);
 
-			return Driver.ElementIsPresent(By.XPath(LOCK_ICO_XPATH.Replace("*#*", (rowNumber - 1).ToString())));
+			return Driver.ElementIsDisplayed(By.XPath(LOCK_ICO_XPATH.Replace("*#*", (rowNumber - 1).ToString())));
 		}
 
 		/// <summary>
@@ -70,7 +70,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		{
 			Logger.Debug("Проверить, подтвердился ли сегмент {0}.", rowNumber);
 
-			Assert.IsTrue(Driver.WaitUntilElementIsPresent
+			Assert.IsTrue(Driver.WaitUntilElementIsDisplay
 				(By.XPath(CONFIRMED_ICO_XPATH.Replace("*#*", (rowNumber - 1).ToString())), 6),
 				"Произошла ошибка:\n не удалось подтвердить сегмент с номером {0}.", rowNumber);
 
@@ -184,7 +184,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		{
 			Logger.Trace("Проверить, виден ли сегмент {0}.", rowNumber);
 
-			return Driver.ElementIsPresent(By.XPath(TARGET_CELL_XPATH.Replace("*#*", (rowNumber - 1).ToString())));
+			return Driver.ElementIsDisplayed(By.XPath(TARGET_CELL_XPATH.Replace("*#*", (rowNumber - 1).ToString())));
 		}
 
 		/// <summary>
@@ -222,7 +222,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		{
 			Logger.Trace("Проверить, что панель CAT не пустая.");
 
-			return Driver.WaitUntilElementIsPresent(By.XPath(CAT_PANEL_EXISTENCE_XPATH), 180);
+			return Driver.WaitUntilElementIsDisplay(By.XPath(CAT_PANEL_EXISTENCE_XPATH), 180);
 		}
 
 		[FindsBy(Using = CONFIRM_BTN_ID)]

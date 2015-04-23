@@ -18,7 +18,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 
 		public void LoadPage()
 		{
-			if (!Driver.WaitUntilElementIsPresent(By.XPath(TRANSLATE_BTN_XPATH)))
+			if (!Driver.WaitUntilElementIsDisplay(By.XPath(TRANSLATE_BTN_XPATH)))
 			{
 				Assert.Fail("Произошла ошибка:\n не появился диалог с выбором задания в редакторе.");
 			}

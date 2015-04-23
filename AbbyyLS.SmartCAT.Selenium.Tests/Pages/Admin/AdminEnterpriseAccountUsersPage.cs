@@ -21,7 +21,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Admin
 
 		public new void LoadPage()
 		{
-			if (!Driver.WaitUntilElementIsPresent(By.Id(FIND_USER_INPUT_ID)))
+			if (!Driver.WaitUntilElementIsDisplay(By.Id(FIND_USER_INPUT_ID)))
 			{
 				Assert.Fail
 					("Произошла ошибка:\n не загружена страничка AdminEnterpriseAccountUsersPage (Пользователи корпоративного аккаунта).");
@@ -36,7 +36,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Admin
 		{
 			Logger.Trace("Проверить, добавлен ли пользователь {0} в аккаунт.", userEmail);
 			
-			return Driver.ElementIsPresent(By.XPath(ADDED_ACCOUNT_USERS_XPATH.Replace("*#*", userEmail)));
+			return Driver.ElementIsDisplayed(By.XPath(ADDED_ACCOUNT_USERS_XPATH.Replace("*#*", userEmail)));
 		}
 
 		/// <summary>
@@ -68,7 +68,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Admin
 		/// <param name="userEmail">email пользователя</param>
 		public AdminEnterpriseAccountUsersPage AssertUserFound(string userEmail)
 		{
-			Assert.IsTrue(Driver.WaitUntilElementIsPresent
+			Assert.IsTrue(Driver.WaitUntilElementIsDisplay
 				(By.XPath(FOUND_USER_SURNAME_INPUT_XPATH.Replace("*#*", userEmail))),
 				"Ошибка: не удалось найти пользователя." + userEmail);
 

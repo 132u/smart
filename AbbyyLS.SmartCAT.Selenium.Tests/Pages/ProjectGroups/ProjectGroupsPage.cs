@@ -20,7 +20,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.ProjectGroups
 
 		public new void LoadPage()
 		{
-			if (!Driver.WaitUntilElementIsPresent(By.XPath(ADD_PROJECT_GROUP_BUTTON)))
+			if (!Driver.WaitUntilElementIsDisplay(By.XPath(ADD_PROJECT_GROUP_BUTTON)))
 			{
 				Assert.Fail("Произошла ошибка:\n не загрузилась страница 'Группы проектов'.");
 			}
@@ -163,12 +163,22 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.ProjectGroups
 		public ProjectGroupsPage AssertDeleteButtonDisplay(string projectGroupName)
 		{
 			Logger.Trace("Проверить, что кнопка удаления появилась.");
+			var isDeleteButtonDisplayed = Driver.WaitUntilElementIsDisplay(
+				By.XPath(DELETE_PROJECT_GROUP_BUTTON.Replace("*#*", projectGroupName)));
 
-			Assert.IsTrue(Driver.WaitUntilElementIsPresent(By.XPath(DELETE_PROJECT_GROUP_BUTTON.Replace("*#*", projectGroupName))),
-				"Произошла ошибка:\nКнопка удаления не появилась для группы проектов {0}.", projectGroupName);
+			if (!isDeleteButtonDisplayed)
+			{
+				Logger.Warn("Необходимо повторно навести курсор на группу проектов {0}, чтобы кнопка удаления стала видна",
+					projectGroupName);
+				HoverCursorToProjectGroup(projectGroupName);
+
+				isDeleteButtonDisplayed = Driver.WaitUntilElementIsDisplay(
+					By.XPath(DELETE_PROJECT_GROUP_BUTTON.Replace("*#*", projectGroupName)));
+			}
+
+			Assert.IsTrue(isDeleteButtonDisplayed, "Произошла ошибка:\nКнопка удаления не появилась для группы проектов.");
 
 			return GetPage();
-
 		}
 
 		/// <summary>
@@ -202,9 +212,20 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.ProjectGroups
 		public ProjectGroupsPage AssertEditButtonDisplay(string projectGroupName)
 		{
 			Logger.Trace("Проверить, что кнопка редактирования группы проектов {0} появилась.", projectGroupName);
+			var isEditButtonDisplayed = Driver.WaitUntilElementIsDisplay(
+				By.XPath(EDIT_PROJECT_GROUP_BUTTON.Replace("*#*", projectGroupName)));
 
-			Assert.IsTrue(Driver.WaitUntilElementIsPresent(By.XPath(EDIT_PROJECT_GROUP_BUTTON.Replace("*#*", projectGroupName))),
-				"Произошла ошибка:\nКнопка редактирования группы проектов не появилась.");
+			if (!isEditButtonDisplayed)
+			{
+				Logger.Warn("Необходимо повторно навести курсор на группу проектов {0}, чтобы кнопка редактирования стала видна",
+					projectGroupName);
+				HoverCursorToProjectGroup(projectGroupName);
+
+			isEditButtonDisplayed = Driver.WaitUntilElementIsDisplay(
+				By.XPath(EDIT_PROJECT_GROUP_BUTTON.Replace("*#*", projectGroupName)));
+			}
+
+			Assert.IsTrue(isEditButtonDisplayed, "Произошла ошибка:\nКнопка редактирования группы проектов не появилась.");
 
 			return GetPage();
 		}
@@ -255,9 +276,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.ProjectGroups
 		private bool projectGroupIsPresent(string projectGroupName)
 		{
 			Logger.Trace("Определить, что группа проектов {0} присутствует в списке.", projectGroupName);
-			Driver.WaitUntilElementIsPresent(By.XPath(PROJECT_GROUP_ROW.Replace("*#*", projectGroupName)));
+			Driver.WaitUntilElementIsDisplay(By.XPath(PROJECT_GROUP_ROW.Replace("*#*", projectGroupName)));
 
-			return Driver.ElementIsPresent(By.XPath(PROJECT_GROUP_ROW.Replace("*#*", projectGroupName)));
+			return Driver.ElementIsDisplayed(By.XPath(PROJECT_GROUP_ROW.Replace("*#*", projectGroupName)));
 		}
 
 		[FindsBy(How = How.XPath, Using = CANCEL_PROJECT_GROUP)]

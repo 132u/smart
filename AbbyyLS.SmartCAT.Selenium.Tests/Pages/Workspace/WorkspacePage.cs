@@ -24,7 +24,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace
 
 		public void LoadPage()
 		{
-			if (!Driver.WaitUntilElementIsPresent(By.XPath(ACCOUNT), 15))
+			if (!Driver.WaitUntilElementIsDisplay(By.XPath(ACCOUNT), 15))
 			{
 				Assert.Fail("Произошла ошибка:\n не загрузилась страница с workspace.");
 			}
@@ -150,7 +150,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace
 			Logger.Debug("Сменить язык локали на {0}, если необходимо.", language);
 			if (language.ToLower() == "english")
 			{
-				if (Driver.WaitUntilElementIsPresent(By.XPath(LOCALE_REF_XPATH.Replace("*#*", "en")), 1))
+				if (Driver.WaitUntilElementIsDisplay(By.XPath(LOCALE_REF_XPATH.Replace("*#*", "en")), 1))
 				{
 					LocaleRef = Driver.SetDynamicValue(How.XPath, LOCALE_REF_XPATH, "en");
 					LocaleRef.Click();
@@ -158,7 +158,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace
 			}
 			else if (language.ToLower() == "russian")
 			{
-				if (Driver.WaitUntilElementIsPresent(By.XPath(LOCALE_REF_XPATH.Replace("*#*", "ru")), 1))
+				if (Driver.WaitUntilElementIsDisplay(By.XPath(LOCALE_REF_XPATH.Replace("*#*", "ru")), 1))
 				{
 					LocaleRef = Driver.SetDynamicValue(How.XPath, LOCALE_REF_XPATH, "ru");
 					LocaleRef.Click();

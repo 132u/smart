@@ -18,7 +18,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace.CreateProjectDialog
 
 		public new void LoadPage()
 		{
-			if (!Driver.WaitUntilElementIsPresent(By.XPath(CREATE_GLOSSARY_BTN_XPATH), 7))
+			if (!Driver.WaitUntilElementIsDisplay(By.XPath(CREATE_GLOSSARY_BTN_XPATH), 7))
 			{
 				Assert.Fail("Произошла ошибка:\n не удалось перейти к третьему шагу создания проекта (выбор глоссария).");
 			}

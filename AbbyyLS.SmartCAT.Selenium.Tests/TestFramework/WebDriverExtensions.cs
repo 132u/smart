@@ -6,8 +6,6 @@ using NUnit.Framework;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.PageObjects;
 using OpenQA.Selenium.Support.UI;
-using System.Threading;
-using System.Windows.Forms;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.TestFramework
 {
@@ -25,7 +23,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestFramework
 		/// </summary>
 		/// <param name="driver">драйвер</param>
 		/// <param name="by">локатор</param>
-		public static bool ElementIsPresent(this IWebDriver driver, By by)
+		public static bool ElementIsDisplayed(this IWebDriver driver, By by)
 		{
 			var present = false;
 			driver.Manage().Timeouts().ImplicitlyWait(NoWait);
@@ -58,13 +56,13 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestFramework
 		/// <param name="driver">драйвер</param>
 		/// <param name="by">локатор</param>
 		/// <param name="timeout">время ожидания</param>
-		public static bool WaitUntilElementIsPresent(this IWebDriver driver, By by, int timeout = 10)
+		public static bool WaitUntilElementIsDisplay(this IWebDriver driver, By by, int timeout = 10)
 		{
 			var wait = new WebDriverWait(driver, TimeSpan.FromSeconds(timeout));
 
 			try
 			{
-				return wait.Until(d => d.ElementIsPresent(by));
+				return wait.Until(d => d.ElementIsDisplayed(by));
 			}
 			catch (WebDriverTimeoutException)
 			{
@@ -72,9 +70,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestFramework
 			}
 			catch (StaleElementReferenceException)
 			{
-				Logger.Warn("StaleElementReferenceException: WaitUntilElementIsPresent: " + by);
+				Logger.Warn("StaleElementReferenceException: WaitUntilElementIsDisplayed: " + by);
 
-				return WaitUntilElementIsPresent(driver, by, timeout);
+				return WaitUntilElementIsDisplay(driver, by, timeout);
 			}
 		}
 
@@ -90,7 +88,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestFramework
 
 			try
 			{
-				return wait.Until(d => !d.ElementIsPresent(by));
+				return wait.Until(d => !d.ElementIsDisplayed(by));
 			}
 			catch (WebDriverTimeoutException)
 			{

@@ -19,7 +19,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories
 
 		public new void LoadPage()
 		{
-			if (!Driver.WaitUntilElementIsPresent(By.XPath(ADD_TM_BTN_XPATH)))
+			if (!Driver.WaitUntilElementIsDisplay(By.XPath(ADD_TM_BTN_XPATH)))
 			{
 				Assert.Fail("Произошла ошибка:\n не загрузилась страница с памятью переводов.");
 			}

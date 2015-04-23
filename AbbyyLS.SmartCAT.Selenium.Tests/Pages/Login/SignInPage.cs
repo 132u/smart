@@ -17,7 +17,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Login
 
 		public void LoadPage()
 		{
-			if (!Driver.WaitUntilElementIsPresent(By.XPath(LOGIN_FORM_XPATH)))
+			if (!Driver.WaitUntilElementIsDisplay(By.XPath(LOGIN_FORM_XPATH)))
 			{
 				Assert.Fail("Произошла ошибка:\n не загрузилась страница SignInPage (вход в смарткат).");
 			}
