@@ -100,6 +100,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests
 					var failResultPath = Path.Combine(PathTestResults, "FailedTests");
 					Directory.CreateDirectory(failResultPath);
 
+					var nameParts = TestContext.CurrentContext.Test.FullName.Split('.');
+					var className = nameParts[nameParts.Length - 2].Replace('<', '(').Replace('>', ')');
 					// Создать имя скриншота по имени теста
 					var screenName = TestContext.CurrentContext.Test.Name;
 
@@ -108,6 +110,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests
 						// Убрать из названия теста аргументы (файлы)
 						screenName = screenName.Substring(0, screenName.IndexOf("("));
 					}
+
+					screenName = className + "." + screenName;
 					screenName = Path.Combine(failResultPath, screenName);
 					Driver.TakeScreenshot(screenName);
 				}

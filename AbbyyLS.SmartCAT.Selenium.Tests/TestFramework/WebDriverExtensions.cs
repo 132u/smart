@@ -193,7 +193,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestFramework
 		/// <param name="prefix">префикс файла, к нему добавляем дату и расширение</param>
 		public static string TakeScreenshot(this IWebDriver driver, string prefix)
 		{
-			var fileName = String.Format("{0}{1}{2}", prefix, DateTime.Now.ToString("HHmmss"), ".png");
+			var fileName = String.Format("{0} {1}{2}", prefix, DateTime.Now.ToString("yyyy.MM.dd HH.mm.ss"), ".png");
 			var screenShot = ((ITakesScreenshot)driver).GetScreenshot();
 			screenShot.SaveAsFile(fileName, ImageFormat.Png);
 			
