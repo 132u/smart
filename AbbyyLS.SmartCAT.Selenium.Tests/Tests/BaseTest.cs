@@ -56,16 +56,23 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests
 		[TestFixtureSetUp]
 		public void BeforeClass()
 		{
-			var cfgAgentSpecific = TestSettingDefinition.Instance.Get<TargetServerConfig>();
-			var cfgUserInfo = TestSettingDefinition.Instance.Get<UserInfoConfig>();
+			try
+			{
+				var cfgAgentSpecific = TestSettingDefinition.Instance.Get<TargetServerConfig>();
+				var cfgUserInfo = TestSettingDefinition.Instance.Get<UserInfoConfig>();
+				createDriver();
+				CreateUniqueNamesByDatetime();
+				initializeRelatedToServerFields(cfgAgentSpecific);
+				initializeRelatedToUserFields(cfgUserInfo);
+				initializeHelpers();
 
-			createDriver();
-			CreateUniqueNamesByDatetime();
-			initializeRelatedToServerFields(cfgAgentSpecific);
-			initializeRelatedToUserFields(cfgUserInfo);
-			initializeHelpers();
-
-			authorization();
+				authorization();
+			}
+			catch (Exception ex)
+			{
+				Logger.ErrorException("Произошла ошибка в TestFixtureSetUp:\n", ex); 
+				throw;
+			}
 		}
 
 		[SetUp]
