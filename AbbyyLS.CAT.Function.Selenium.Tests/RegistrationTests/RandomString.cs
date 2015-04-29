@@ -1,6 +1,5 @@
 ﻿using System;
-using System.Text.RegularExpressions;
-using System.Text;
+using System.Linq;
 
 namespace AbbyyLS.CAT.Function.Selenium.Tests
 {
@@ -8,25 +7,29 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 	{
 		private static Random _random = new Random(Environment.TickCount);
 
-		public static string GenerateRandomString()
+		public static string GetDigits(int length)
 		{
-			return Guid.NewGuid().ToString().Replace("-", string.Empty);
+			string digits = "0123456789";
+
+			return buildString(digits, length);
 		}
 
-		public static string Generate(int numberOfDigits)
+		public static string GetLetters(int length)
 		{
-			return Regex.Replace(GenerateRandomString(), "[A-Za-z ]", string.Empty).Substring(0, numberOfDigits);
+			string letters = "abcdefghijklmnopqrstuvwxyz";
+
+			return buildString(letters, length);
 		}
-		
-		public static string GenerateString(int length)
+
+		private static string buildString(string chars, int length) 
 		{
-			string chars = "abcdefghijklmnopqrstuvwxyz";
-			StringBuilder builder = new StringBuilder(length);
+			var random = new Random();
+			var result = new string(
+				Enumerable.Repeat(chars, length)
+						  .Select(s => s[random.Next(s.Length)])
+						  .ToArray());
 
-			for (int i = 0; i < length; ++i)
-				builder.Append(chars[_random.Next(chars.Length)]);
-
-			return builder.ToString();
+			return result;
 		}
 	}
 }

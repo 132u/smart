@@ -382,7 +382,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Registration.Company
 		[Test]
 		public void CompanyNameMaxLenght()
 		{
-			var companyName = RandomString.GenerateString(41);
+			var companyName = RandomString.GetLetters(41);
 			GoToRegistrationPage(RegistrationType.Company);
 			RegistrationPage.FillRegistrationDataInFirstStep(
 				RegistrationPage.Email,

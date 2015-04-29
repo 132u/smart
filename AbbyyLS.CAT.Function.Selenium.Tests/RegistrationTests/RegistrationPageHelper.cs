@@ -17,9 +17,8 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			Email = GetUniqueEmail();
 			Password = GetUniquePassword();
 			NickName = GetUniqueString();
-			NameCompany = "CN" + RandomString.Generate(8);
-			DomainName = "D" + RandomString.GenerateRandomString();
-
+			NameCompany = "CN" + RandomString.GetDigits(8);
+			DomainName = "D" + RandomString.GetLetters(8);
 		}
 
 		public string FirstName;
@@ -228,7 +227,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// </summary>
 		public string GetUniqueString()
 		{
-			return "Test_" + RandomString.Generate(10);
+			return "Test_" + RandomString.GetDigits(10);
 		}
 
 		/// <summary>
@@ -236,7 +235,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// </summary>
 		private string GetUniqueEmail()
 		{
-			return RandomString.Generate(10) + "@mailforspam.com";
+			return RandomString.GetDigits(10) + "@mailforspam.com";
 		}
 
 		/// <summary>
@@ -244,7 +243,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// </summary>
 		private string GetUniquePassword()
 		{
-			return "TestPassword" + RandomString.Generate(10);
+			return "TestPassword" + RandomString.GetDigits(10);
 		}
 
 		/// <summary>

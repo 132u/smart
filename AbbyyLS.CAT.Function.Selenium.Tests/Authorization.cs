@@ -18,12 +18,12 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			{
 				Assert.Ignore("Тест игнорируется, так как это отделяемое решение");
 			}
-			
-			_email = "TestEmail@" + RandomString.Generate(10) + ".com";
-			_password = "TestPassword" + RandomString.Generate(10);
-			_nickName = "TestNickName" + RandomString.Generate(10);
-			_persAccount = "PersAccount" + RandomString.Generate(10);
-			_corpAccount = "CorpAccount" + RandomString.Generate(10);
+
+			_email = "TestEmail@" + RandomString.GetDigits(10) + ".com";
+			_password = "TestPassword" + RandomString.GetDigits(10);
+			_nickName = "TestNickName" + RandomString.GetDigits(10);
+			_persAccount = "PersAccount" + RandomString.GetDigits(10);
+			_corpAccount = "CorpAccount" + RandomString.GetDigits(10);
 		}
 
 		private string _email;

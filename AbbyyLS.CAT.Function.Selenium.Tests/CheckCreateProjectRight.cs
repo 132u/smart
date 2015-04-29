@@ -4,8 +4,6 @@ using System;
 using System.IO;
 using System.Linq;
 
-using NUnit.Framework;
-
 using AbbyyLS.CAT.Function.Selenium.Tests.Driver;
 
 namespace AbbyyLS.CAT.Function.Selenium.Tests.CheckRights
