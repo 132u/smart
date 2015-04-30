@@ -38,6 +38,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 			BaseObject.InitPage(_projectGroupsPage);
 			_projectGroupsPage
 				.ScrollAndClickCreateProjectGroupsButton()
+				.АssertGroupProjectEmptyRowDisplayed()
 				.FillProjectGroupName(projectGroup)
 				.ClickSaveProjectGroups();
 

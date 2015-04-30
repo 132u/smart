@@ -73,6 +73,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.ProjectGroups
 		public ProjectGroupsPage FillProjectGroupName(string projectGroupName)
 		{
 			Logger.Debug("Ввести имя группы проектов {0}.", projectGroupName);
+
 			NewProjectGroupRow.SetText(projectGroupName);
 
 			return GetPage();
@@ -263,8 +264,20 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.ProjectGroups
 		public ProjectGroupsPage FillNewName(string newProjectGroupName)
 		{
 			Logger.Debug("Ввести новое имя группы проектов {0}.", newProjectGroupName);
-
 			EditNameField.SetText(newProjectGroupName);
+
+			return GetPage();
+		}
+
+		/// <summary>
+		/// Проверить, что пустая строка для создания группы проектов появилась
+		/// </summary>
+		public ProjectGroupsPage АssertGroupProjectEmptyRowDisplayed()
+		{
+			Logger.Trace("Проверить, что пустая строка для создания группы проектов появилась.");
+
+			Assert.IsTrue(Driver.WaitUntilElementIsDisplay(By.XPath(NEW_PROJECT_GROUP_ROW)),
+				"Произошла ошибка:\n не появилась пустая строка для создания группы проектов.");
 
 			return GetPage();
 		}
