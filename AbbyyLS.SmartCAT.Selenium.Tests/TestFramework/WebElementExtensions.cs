@@ -22,14 +22,22 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestFramework
 		/// <param name="text">текст</param>
 		public static void SetText(this IWebElement webElement, string text)
 		{
+
 			webElement.Clear();
-			webElement.SendKeys(text);
+
+			try
+			{
+				webElement.SendKeys(text);
+			}
+			catch (ElementNotVisibleException exception)
+			{
+				Logger.Warn("ElementNotVisibleException: SendKeys {0}", exception.Message);
+			}
 
 			if (webElement.GetAttribute("value") != text)
 			{
 				webElement.SetText(text);
 			}
-
 		}
 
 		/// <summary>
