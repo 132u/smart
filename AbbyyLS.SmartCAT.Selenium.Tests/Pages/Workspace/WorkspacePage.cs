@@ -24,7 +24,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace
 
 		public void LoadPage()
 		{
-			if (!Driver.WaitUntilElementIsDisplay(By.XPath(ACCOUNT), 15))
+			if (!Driver.WaitUntilElementIsEnabled(By.XPath(USER_PICTURE), 15))
 			{
 				Assert.Fail("Произошла ошибка:\n не загрузилась страница с workspace.");
 			}
@@ -237,6 +237,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace
 		protected const string GLOSSARY = ".//a[contains(@href,'/Glossaries')]";
 		protected const string DOMAIN_REF = ".//a[contains(@href,'/Domains')]";
 
+		protected const string USER_PICTURE = "//i[contains(@class, 'upic')]";
 		protected const string LOCALE_REF_XPATH = "//a[contains(@class,'js-set-locale') and contains(@data-locale, '*#*')]";
 		protected const string ACCOUNT = "//div[contains(@class,'js-usermenu')]";
 		protected const string USER_NAME = "//div[contains(@class,'js-usermenu')]//span[contains(@class,'nameuser')]";

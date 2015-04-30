@@ -1,4 +1,6 @@
-﻿using NLog;
+﻿using AbbyyLS.SmartCAT.Selenium.Tests.DriversAndSettings;
+using NLog;
+using NUnit.Framework;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.PageObjects;
 

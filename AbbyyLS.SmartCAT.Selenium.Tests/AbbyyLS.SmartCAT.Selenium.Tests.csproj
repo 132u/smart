@@ -66,6 +66,10 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DriversAndSettings\ChromeWebDriverSettings.cs" />
+    <Compile Include="DriversAndSettings\FirefoxWebDriverSettings.cs" />
+    <Compile Include="DriversAndSettings\IWebDriverSettings.cs" />
+    <Compile Include="DriversAndSettings\InternetExplorerWebDriverSettings.cs" />
     <Compile Include="FilesRootConfig.cs" />
     <Compile Include="Pages\Admin\AdminEnterpriseAccountsPage.cs" />
     <Compile Include="Pages\Admin\AdminEnterpriseAccountUsersPage.cs" />
@@ -131,21 +135,12 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="..\lib\chromedriver.exe">
-      <Link>chromedriver.exe</Link>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="..\lib\IEDriverServer.exe">
-      <Link>IEDriverServer.exe</Link>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-  </ItemGroup>
-  <ItemGroup>
     <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Content Include="DriversAndSettings\Drivers\chromedriver.exe" />
+    <Content Include="DriversAndSettings\Drivers\IEDriverServer.exe" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
 	   Other similar extension points exist, see Microsoft.Common.targets.

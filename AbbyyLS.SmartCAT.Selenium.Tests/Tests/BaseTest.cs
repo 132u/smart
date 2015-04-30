@@ -1,19 +1,25 @@
 ﻿using System;
+using System.Diagnostics;
 using System.IO;
-
+using System.Linq;
 using NConfiguration;
 using NUnit.Framework;
-using OpenQA.Selenium.Firefox;
-
+using AbbyyLS.SmartCAT.Selenium.Tests.DriversAndSettings;
 using AbbyyLS.SmartCAT.Selenium.Tests.TestFramework;
 using AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests
 {
-	public class BaseTest : BaseObject
+	[TestFixture(typeof(ChromeWebDriverSettings))]
+	public class BaseTest<TWebDriverSettings> : BaseObject where TWebDriverSettings : IWebDriverSettings, new()
 	{
-		
-		protected static readonly string PathTestResults = Directory.GetParent(@"..\TestResults\").ToString();
+		protected string PathTestResults
+		{
+			get
+			{
+				return Directory.GetParent(@"..\TestResults\").ToString();
+			}
+		}
 
 		protected string Url { get; private set; }
 
@@ -44,6 +50,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests
 		protected string ProjectName { get; private set; }
 
 		protected bool QuitDriverAfterTest { get; set; }
+
+		protected string[] ProcessNames { get; private set; }
 
 		protected AdminHelper AdminHelper { get; private set; }
 
@@ -168,19 +176,33 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests
 				Driver.Quit();
 				Driver = null;
 			}
+
+			foreach (var item in ProcessNames.Select(Process.GetProcessesByName).SelectMany(processArray => processArray))
+			{
+				try
+				{
+					if (!item.HasExited)
+					{
+						item.Kill();
+					}
+				}
+				catch (Exception ex)
+				{
+					Logger.ErrorException("Ошибка при завершении процесса (" + item.ProcessName + "): " + ex.Message, ex);
+				}
+			}
 		}
 
-		private static void createDriver()
+		private void createDriver()
 		{
-			var profile = new FirefoxProfile { AcceptUntrustedCertificates = true };
-			profile.SetPreference("intl.accept_languages", "en");
-			profile.SetPreference("browser.download.dir", PathTestResults);
-			profile.SetPreference("browser.download.folderList", 2);
-			profile.SetPreference("browser.download.useDownloadDir", false);
-			profile.SetPreference
-				("browser.helperApps.neverAsk.saveToDisk", "text/xml, text/csv, text/plain, text/log, application/zip, application/x-gzip, application/x-compressed, application/vnd.openxmlformats-officedocument.wordprocessingml.document, application/msword, application/octet-stream");
-			Driver = new FirefoxDriver(profile);
-			Driver.Manage().Timeouts().ImplicitlyWait(TimeSpan.FromSeconds(5));
+			if (Driver == null)
+			{
+				var webDriverSettings = new TWebDriverSettings();
+				Driver = webDriverSettings.Driver;
+				ProcessNames = webDriverSettings.ProcessNames;
+			}
+
+			Driver.Manage().Timeouts().ImplicitlyWait(TimeSpan.FromSeconds(15));
 			Driver.Manage().Window.Maximize();
 		}
 
