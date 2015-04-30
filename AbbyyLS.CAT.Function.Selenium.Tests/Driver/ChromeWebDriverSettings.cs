@@ -14,7 +14,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Driver
 			var options = new ChromeOptions();
 			options.AddArguments("--lang=en");
 			Driver = new ChromeDriver(options);
-			ProcessNames = new[] { "chrome", "chromedriver", "conhost" };
+			ProcessNames = new[] { "chrome", "chromedriver" };
 		}
 	}
 }
