@@ -27,9 +27,9 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 	/// <summary>
 	/// Базовый тест
 	/// </summary>
-	//[TestFixture(typeof(ChromeWebDriverSettings))]
+	[TestFixture(typeof(ChromeWebDriverSettings))]
 	//[TestFixture(typeof(IEWebDriverSettings))]
-	[TestFixture(typeof(FirefoxWebDriverSettings))]
+	//[TestFixture(typeof(FirefoxWebDriverSettings))]
 	public class BaseTest<TWebDriverSettings> where TWebDriverSettings : IWebDriverSettings, new()
 	{
 		public static Logger Logger = LogManager.GetCurrentClassLogger();

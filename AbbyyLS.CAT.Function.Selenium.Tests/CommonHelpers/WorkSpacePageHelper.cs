@@ -655,6 +655,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		public void ClickAccount()
 		{
 			Logger.Trace("Нажимаем на имя пользователя и аккаунт, чтобы появилась черная плашка Настройки профиля");
+			WaitUntilDisplayElement(By.XPath(ACCOUNT_XPATH));
 			ClickElement(By.XPath(ACCOUNT_XPATH));
 		}
 

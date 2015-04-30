@@ -181,6 +181,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		public void TypeTextInFirstNameField(string firstName)
 		{
 			Logger.Trace("Ввод имени " + firstName + " на втором шаге регистрации");
+			WaitUntilDisplayElement(By.XPath(FIRST_NAME_FIELD));
 			ClearAndAddText(By.XPath(FIRST_NAME_FIELD), firstName);
 		}
 
@@ -361,6 +362,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		public void FillFirstNameCompany(string firstNameCompany)
 		{
 			Logger.Trace("Ввод имени " + firstNameCompany + " на втором шаге регистрации компаний");
+			WaitUntilDisplayElement(By.XPath(FIRST_NAME_COMPANY));
 			ClearAndAddText(By.XPath(FIRST_NAME_COMPANY), firstNameCompany);
 		}
 
