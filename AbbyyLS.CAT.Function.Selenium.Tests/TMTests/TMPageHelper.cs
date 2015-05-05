@@ -723,7 +723,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.TM
 
 		protected const string BTN_ROW_XPATH = "//tr[@class='js-tm-panel']";
 		protected const string UPDATE_BTN_XPATH = BTN_ROW_XPATH + "//span[contains(@data-bind, 'switchToEditing')]";
-		protected const string EXPORT_BTN_XPATH = BTN_ROW_XPATH + "//a[contains(@href, 'Export')]";
+		protected const string EXPORT_BTN_XPATH = "//tr[@class='js-tm-panel']//a[contains(@data-bind, 'exportTmx')]";
 		protected const string DELETE_BTN_XPATH = BTN_ROW_XPATH + "//span[contains(@data-bind, 'deleteTranslationMemory')]";
 		protected const string ADD_TMX_BTN_XPATH = BTN_ROW_XPATH + "//span[contains(@data-bind, 'appendImportFile')]";
 		protected const string EDIT_BTN_XPATH = BTN_ROW_XPATH + "//span[contains(@data-bind, 'switchToEditing')]";
