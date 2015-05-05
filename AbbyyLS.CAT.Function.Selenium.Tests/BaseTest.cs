@@ -1451,6 +1451,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			Logger.Debug("Открытие свойства глоссария");
 			GlossaryPage.OpenEditGlossaryList();
 			GlossaryPage.ClickOpenProperties();
+			GlossaryPage.WaitOpenGlossaryProperties();
 		}
 
 		protected void DeleteGlossary()

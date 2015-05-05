@@ -769,7 +769,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Glossary
 			Thread.Sleep(1000);
 			// Открыть свойства глоссари
 			OpenGlossaryProperties();
-			GlossaryPage.WaitOpenGlossaryProperties();
 			
 			// Добавить язык
 			GlossaryEditForm.ClickAddLanguage();

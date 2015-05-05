@@ -329,7 +329,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Glossary
 			CreateItemAndSave();
 			CreateItemAndSave();
 
-			var uniqueGlossaryName = Path.Combine(PathProvider.ResultsFolderPath, glossaryName.Replace(":", "_"));
+			var uniqueGlossaryName = Path.Combine(PathProvider.ResultsFolderPath, glossaryName.Replace(":", "-"));
 			// Экспорт глоссари
 			GlossaryPage.ClickExportGlossary();
 

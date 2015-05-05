@@ -13,6 +13,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Driver
 		{
 			var options = new ChromeOptions();
 			options.AddArguments("--lang=en");
+			options.AddUserProfilePreference("download.default_directory", PathProvider.ResultsFolderPath);
 			Driver = new ChromeDriver(options);
 			ProcessNames = new[] { "chrome", "chromedriver" };
 		}
