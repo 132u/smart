@@ -1,7 +1,4 @@
-﻿using System.Collections.Generic;
-
-using NUnit.Framework;
-
+﻿using NUnit.Framework;
 using AbbyyLS.CAT.Function.Selenium.Tests.Driver;
 
 namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.TM
@@ -74,7 +71,8 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.TM
 		public void EditTMSaveWhiteSpacesNameTest(bool isNeedTmxUpload)
 		{
 			Logger.Info(string.Format("Начало работы теста EditTMSaveWhiteSpacesNameTest(). Значение параметра isNeedTmxUpload: {0}", isNeedTmxUpload));
-
+			// Закрываем поп-ап сообщения, т.к. селениум не может найти поле поиска в Chrome 
+			TMPage.CloseAllErrorNotifications();
 			createNewTmForTest(isNeedTmxUpload);
 			// Изменить имя на пробельное и сохранить
 			EditTMName(UniqueTmName, "     ");
@@ -86,7 +84,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.TM
 		/// Редактирование имени ТМ: проверка изменения имени в визарде проектов
 		/// </summary>
 		/// <param name="isNeedTmxUpload">Нужно ли загружать TMX файл при создании ТМ</param>
-		[Test]
+		[Category("PRX_9476")]
 		[TestCase(true)]
 		[TestCase(false)]
 		public void EditTMNameAndCheckChangesOnProjectWizard(bool isNeedTmxUpload)

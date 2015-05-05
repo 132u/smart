@@ -609,8 +609,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 
 				Driver.Navigate().GoToUrl(Url + relativeUrl);
 
-				if (IsModalDialogConfirmation() || IsModalDialogChangesNotSaved())
-					Driver.SwitchTo().Alert().Accept();
+				AcceptModalDialog();
 				// Если открылась страница логина
 				if (LoginPage.WaitPageLoad(1) || LoginPage.WaitPromoPageLoad())
 				{
@@ -1679,7 +1678,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		{
 			try
 			{
-				if (IsModalDialogConfirmation() || IsModalDialogChangesNotSaved()) 
+				if (IsModalDialogConfirmation() || IsModalDialogChangesNotSaved() || IsModalDialogTMNotSaved()) 
 					Driver.SwitchTo().Alert().Accept();
 
 				Thread.Sleep(500);
@@ -1715,10 +1714,19 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// </summary>
 		protected bool IsModalDialogChangesNotSaved()
 		{
-			return	Driver.SwitchTo().Alert().Text.
-						Contains("Изменения не были сохранены.") ||
-					Driver.SwitchTo().Alert().Text.
-						Contains("Changes have not been saved.");
+			return Driver.SwitchTo().Alert().Text.Contains("Изменения не были сохранены.")
+				|| Driver.SwitchTo().Alert().Text.Contains("Changes have not been saved.");
+		}
+
+		/// <summary>
+		/// Метод проверяет сообщение в модальном диалоге на содержание фразы:
+		/// "Some TMs are being edited. Please save TMs or cancel editing."
+		/// "Are you sure you want to leave this page?"
+		/// </summary>
+		protected bool IsModalDialogTMNotSaved()
+		{
+			return Driver.SwitchTo().Alert().Text.
+						Contains("Some TMs are being edited. Please save TMs or cancel editing.");
 		}
 
 		/// <summary>

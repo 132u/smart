@@ -6,6 +6,7 @@ using System.Windows.Forms;
 using System.Linq;
 using System.IO;
 using NUnit.Framework;
+using System.Threading;
 
 namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.TM
 {
@@ -663,7 +664,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.TM
 		public void CloseAllErrorNotifications()
 		{
 			Logger.Debug("Закрыть все показанные уведомления");
-
+			WaitUntilDisplayElement(By.XPath(NOTIFICATION_XPATH +"//span[2]/a" ));
 			var notificationsCount = GetElementList(By.XPath(NOTIFICATION_XPATH + "//span[2]/a")).Count;
 
 			//закрываем сообщения от самого верхнего к нижнему.(по оси z)

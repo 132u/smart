@@ -234,7 +234,8 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.TM
 
 			// Необходим рефреш страницы, иначе загрузка ТМХ не работает
 			RefreshPage();
-
+			// Закрываем поп-ап сообщения, т.к. селениум не может найти поле поиска в Chrome 
+			TMPage.CloseAllErrorNotifications();
 			SearchTM(tmName);
 			OpenTMInfo(tmName);
 			TMPage.ClickTMButton(btnType);
