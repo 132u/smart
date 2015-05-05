@@ -48,13 +48,18 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			ClickElement(By.XPath(NEW_ITEM_DOMAIN_FIELD_XPATH));
 		}
 
-
 		public void ClickOpenProperties()
 		{
-			Logger.Debug("Кликнуть кнопку открытия настроеки");
+			Logger.Debug("Кликнуть кнопку открытия настроек");
 			ClickElement(By.XPath(OPEN_EDIT_PROPERTIES_FORM_BTN_XPATH));
 		}
 
+		public void WaitOpenGlossaryProperties()
+		{
+			Logger.Debug("Дождаться открытия настроек");
+			WaitUntilDisplayElement(By.XPath(EDIT_PROPERTIES_FORM));
+		}
+		
 		public void FillItemTermsExtended(string text)
 		{
 			Logger.Debug(string.Format("Заполнить термины в расширенной версии. Текст термина: {0}", text));
@@ -1099,5 +1104,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 
 		protected const string HREF_EXPORT = "//a[contains(@class,'js-export-concepts')]";
 		protected const string NEW_ITEM_OPEN = "//div[@class='l-corprtree']";
+		protected const string EDIT_PROPERTIES_FORM = ".//div[contains(@class,'js-popup-edit-glossary')][2]";
 	}
 }

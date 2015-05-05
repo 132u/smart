@@ -165,9 +165,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Glossary
 			// Добавить немецкий язык
 			addLanguageToFilter(CommonHelper.LANGUAGE.German);
 
-			// Открыть фильтр
-			Assert.IsTrue(GlossaryTermFilterPage.OpenFilterForm(), "Ошибка: Filter поп-ап не открылся");
-
 			// Получить кол-во языков в фильтре после добавления нового языка
 			int countAfter = getSelectedLanguageCountInFilter();
 
@@ -772,7 +769,8 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Glossary
 			Thread.Sleep(1000);
 			// Открыть свойства глоссари
 			OpenGlossaryProperties();
-
+			GlossaryPage.WaitOpenGlossaryProperties();
+			
 			// Добавить язык
 			GlossaryEditForm.ClickAddLanguage();
 
