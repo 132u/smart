@@ -451,7 +451,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.TM
 				clearFilters, cancelFilterCreation));
 
 			TMPage.OpenTmFilters();
-
+			TMPage.WaitTmFiltersFormIsOpen();
 			if (clearFilters)
 			{
 				TMPage.ClearTmFilters();

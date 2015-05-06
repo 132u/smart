@@ -16,7 +16,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.TMTests
 			try
 			{
 				GoToUrl(RelativeUrlProvider.TranslationMemories);
-
+				TMPage.CloseAllErrorNotifications();
 				CreateTMIfNotExist(
 					TMForFilteringName_1,
 					CommonHelper.LANGUAGE.French,
@@ -207,6 +207,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.TMTests
 		/// <summary>
 		/// Метод тестирования ТМ фильтра по проектной группе: две проектные группы
 		/// </summary>
+		[Category("PRX_9539")]
 		[Category("PRX_8976")]
 		[Test]
 		public void TmFiltrationTwoProjectGroup()
@@ -245,7 +246,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.TMTests
 		/// <summary>
 		/// Метод тестирования ТМ фильтра по клиенту: два клиента
 		/// </summary>
-		[Category("PRX_8974")]
+		[Category("PRX_9539")]
 		[Test]
 		public void TmFiltrationTwoClients()
 		{

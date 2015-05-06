@@ -621,9 +621,9 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			{
 				Logger.ErrorException("Ошибка при переходе на стр " + Url + relativeUrl + ": " + ex.Message, ex);
 
-				// Если обновить в этом месте страницу в Google Chrome, тест упадёт, 
-				// т.к. Google Chrome сразу требует закрыть модальный диалог.
-				if (typeof(TWebDriverSettings) == typeof(ChromeWebDriverSettings))
+				//// Если обновить в этом месте страницу в Google Chrome, тест упадёт, 
+				//// т.к. Google Chrome сразу требует закрыть модальный диалог.
+				if (typeof(TWebDriverSettings) != typeof(ChromeWebDriverSettings))
 				{
 					Driver.Navigate().Refresh();
 				}

@@ -531,6 +531,12 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.TM
 			ClickElement(By.XPath(CLEAR_FILTERS_IN_DIALOG_XPATH));
 		}
 
+		public void WaitTmFiltersFormIsOpen()
+		{
+			Logger.Debug("Дождаться открытия формы фильтров ТМ");
+			WaitUntilDisplayElement(By.XPath(CLEAR_FILTERS_IN_DIALOG_XPATH));
+		}
+
 		public void ApplyTmFilters()
 		{
 			Logger.Debug("Нажать кнопку применения ТМ фильтров");
@@ -607,7 +613,8 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.TM
 		public void SelectAuthorTmFilter(string authorName)
 		{
 			Logger.Debug(string.Format("Выбрать автора {0} в ТМ фильтрах", authorName));
-			ClickElement(By.XPath("//span[contains(@class,'ui-multiselect-item-text') and contains(text(),'" + authorName + "')]"));
+			var authorArray = authorName.Split(' ');
+			ClickElement(By.XPath("//span[contains(@class,'ui-multiselect-item-text') and contains(text(),'" + authorArray[0] + "') and contains(text(),'" + authorArray[1] + "')]"));
 		}
 
 		public void SelectTopicTmFilter(string topicName)
