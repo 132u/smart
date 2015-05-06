@@ -1,10 +1,9 @@
 ﻿using AbbyyLS.SmartCAT.Selenium.Tests.DriversAndSettings;
 using AbbyyLS.SmartCAT.Selenium.Tests.TestFramework;
 using AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers;
-using AbbyyLS.SmartCAT.Selenium.Tests.Tests;
 using NUnit.Framework;
 
-namespace AbbyyLS.SmartCAT.Selenium.Tests.Clients
+namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Clients
 {
 	[TestFixture]
 	[PriorityMajor]
