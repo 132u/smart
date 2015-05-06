@@ -947,7 +947,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			return GetIsElementDisplay(By.XPath(WORKFLOW_SETUP_XPATH));
 		}
 
-		protected const string UPLOAD_FILE_TO_NEW_PROJECT = "//div[contains(@class,'js-popup-create-project')][2]//div[@class='js-files-uploader']//input"; // добавление документа при создании проекта
+		protected const string UPLOAD_FILE_TO_NEW_PROJECT = "//div[contains(@class,'js-popup-create-project')][2]//div[contains(@class,'js-files-uploader')]//input"; // добавление документа при создании проекта
 
 		public enum SetGlossary { New, First, ByName, None };
 		public enum MT_TYPE { ABBYY, Google, Bing, Yandex, Moses, None };
