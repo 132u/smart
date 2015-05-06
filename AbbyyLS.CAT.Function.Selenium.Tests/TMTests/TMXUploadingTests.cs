@@ -17,7 +17,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.TM
 		{
 			Logger.Info("Начало работы теста AddTMXOnClearTMButtonTest().");
 
-			TMPage.OpenCreateTMDialog();
+			TMPage.WaitPageLoad();
 			CreateTMByNameAndSave(UniqueTmName);
 
 			// Загрузить ТМХ по кнопке в информации о ТМ
@@ -77,6 +77,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.TM
 			CreateTMWithUploadTMX(UniqueTmName, tmxFileImport);
 			// Необходим рефреш страницы, иначе загрузка ТМХ не работает
 			RefreshPage();
+			TMPage.CloseAllErrorNotifications();
 			SearchTM(UniqueTmName);
 			// Проверить, сохранился ли ТМ
 			Assert.IsTrue(TMPage.GetIsExistTM(UniqueTmName),
