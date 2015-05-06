@@ -126,6 +126,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Registration.Company
 				LoginPage.ClickAccountName(_corpAccountNameInAdmin);
 			else if (LoginPage.GetIsErrorExist())
 				Assert.Fail("Появилась ошибка при входе! М.б.недоступен AOL.");
+
 			WorkspacePage.ClickAccount();
 			Assert.IsTrue(
 				(WorkspacePage.GetCompanyName() == _corpAccountNameInAdmin), "Ошибка: название компании неверно отображается в панели WS");
@@ -501,6 +502,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Registration.Company
 			RegistrationPage.ClickCreateAccountCompanyBtn();
 			Assert.IsTrue(WorkspacePage.WaitPageLoad(), "Страница workspace не прогрузилась");
 			Logger.Trace("WorkspacePage.GetUserName() = " + WorkspacePage.GetUserName() + " ; \n RegistrationPage.firstName & RegistrationPage.lastName = " + RegistrationPage.FirstName + " " + RegistrationPage.LastName);
+			WorkspacePage.CloseTour();
 			WorkspacePage.ClickAccount();
 			Assert.IsTrue(
 				(WorkspacePage.GetCompanyName() == nameCompany), "Ошибка: название компании неверно отображается в панели WS");

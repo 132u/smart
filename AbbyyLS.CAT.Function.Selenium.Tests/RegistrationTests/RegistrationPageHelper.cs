@@ -204,6 +204,11 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			ClickElement(By.XPath(CREATE_ACCOUNT_BUTTON));
 		}
 
+		public bool IsActiveCreateAccountButton()
+		{
+			return GetElementAttribute(By.XPath(CREATE_ACCOUNT_BUTTON), "disabled").Contains("disabled");
+		}
+
 		/// <summary>
 		/// Проверить , что в панели WS отображается имя и фамилия юзера
 		/// </summary>

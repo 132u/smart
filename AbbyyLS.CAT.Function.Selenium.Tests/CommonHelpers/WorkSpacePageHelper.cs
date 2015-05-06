@@ -725,6 +725,26 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			return GetIsElementDisplay(By.XPath(GetProjectRefXPath(projectName) + "//preceding-sibling::" + WARNING_SIGN_TRIANGLE));
 		}
 
+		public void CloseTour()
+		{
+			if (isTourOpen())
+			{
+				clickCloseTourButton();
+			}
+		}
+
+		private void clickCloseTourButton()
+		{
+			Logger.Debug("Нажать кноку закрытия Инструкции");
+			Driver.FindElement(By.XPath(CLOSE_TOUR_BUTTON)).Click();
+		}
+
+		private bool isTourOpen()
+		{
+			Logger.Trace("Проверка, что окно инструкции открыто");
+			return GetIsElementExist(By.XPath(CLOSE_TOUR_BUTTON));
+		}
+
 		public const string LOCALE_EN_LANG = "en";
 		public const string LOCALE_RU_LANG = "ru";
 		
@@ -800,5 +820,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 
 		protected const string PROJECT_SEARCH_FIELD = "//input[@name='searchName']";
 		protected const string SEARCH_PROJECT_BUTTON = "//a[contains(@class, 'js-search-btn')]/img";
+		protected const string CLOSE_TOUR_BUTTON = "//div[contains(@class, 'hopscotch-bubble')]//div[@class='hopscotch-actions']/button[contains(@class, 'cta')]";
 	}
 }

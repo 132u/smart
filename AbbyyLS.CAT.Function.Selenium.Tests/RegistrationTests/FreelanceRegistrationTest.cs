@@ -29,6 +29,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Registration.Freelance
 		public void LoginNewUserAfterRegistration()
 		{
 			RegistrationNewUser(RegistrationPage.Email,RegistrationPage.Password);
+			WorkspacePage.CloseTour();
 			WorkspacePage.ClickAccount();
 			WorkspacePage.ClickLogoff();
 			Logger.Trace("Переход на страницу регистрации фрилансеров");
@@ -126,7 +127,11 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Registration.Freelance
 			RegistrationPage.ClickSignUpButton();
 			RegistrationPage.FillRegistrationDataInSecondStep(RegistrationPage.FirstName, RegistrationPage.LastName);
 			RegistrationPage.SelectSecondService();
+
+			Assert.IsFalse(RegistrationPage.IsActiveCreateAccountButton(), "Ошибка: кнопка 'Create account' не активна");
+
 			RegistrationPage.ClickCreateAccountButton();
+
 			Assert.IsTrue(RegistrationPage.CheckSecondProvidedServiveNameIsRequired(), "Ошибка: сообщение 'Select the service type' не появилось");
 		}
 
