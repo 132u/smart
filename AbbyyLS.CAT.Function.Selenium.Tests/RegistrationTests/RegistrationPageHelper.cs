@@ -186,6 +186,15 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		}
 
 		/// <summary>
+		/// Нажать в поле имени - второй шаг регистрации
+		/// </summary>
+		public void ClickInFirstNameField()
+		{
+			Logger.Trace("Нажать в поле имени - второй шаг регистрации");
+			ClickElement(By.XPath(FIRST_NAME_FIELD));
+		}
+
+		/// <summary>
 		/// Ввод текста в поле фамилия - второй шаг регистрации
 		/// </summary>
 		/// <param name="lastName">фамилия</param>
@@ -204,9 +213,9 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			ClickElement(By.XPath(CREATE_ACCOUNT_BUTTON));
 		}
 
-		public bool IsActiveCreateAccountButton()
+		public bool IsDisableCreateAccountButton()
 		{
-			return GetElementAttribute(By.XPath(CREATE_ACCOUNT_BUTTON), "disabled").Contains("disabled");
+			return GetIsElementDisplay(By.XPath(DISABLED_CREATE_ACCOUNT_BUTTON));
 		}
 
 		/// <summary>
@@ -346,6 +355,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		protected const string SERVICE_PROVID3 = "//table[@class='t-servSelect']//tbody[3]//select";
 		protected const string SERVICE_PROVIDE4 = "//table[@class='t-servSelect']//tbody[3]//td[3]/select";
 		protected const string CREATE_ACCOUNT_BUTTON = "//button[@id='btn-create-account']";
+		protected const string DISABLED_CREATE_ACCOUNT_BUTTON = "//button[@id='btn-create-account' and @disabled='disabled']";
 		protected const string LANG_LEVEL = "//tr[contains(@name,'serviceSelectForm')]/td[4]//select";
 		protected const string LANG_LEVEL2 = "//tr[@class='ng-scope']//td[@class='service_select']";
 		protected const string FIRST_STEP_LABEL = "//strong[@class='ng-binding']";

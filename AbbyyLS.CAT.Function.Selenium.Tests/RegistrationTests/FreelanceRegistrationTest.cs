@@ -128,9 +128,14 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Registration.Freelance
 			RegistrationPage.FillRegistrationDataInSecondStep(RegistrationPage.FirstName, RegistrationPage.LastName);
 			RegistrationPage.SelectSecondService();
 
-			Assert.IsFalse(RegistrationPage.IsActiveCreateAccountButton(), "Ошибка: кнопка 'Create account' не активна");
-
-			RegistrationPage.ClickCreateAccountButton();
+			if (RegistrationPage.IsDisableCreateAccountButton())
+			{
+				RegistrationPage.ClickInFirstNameField();
+			}
+			else
+			{
+				RegistrationPage.ClickCreateAccountButton();
+			}
 
 			Assert.IsTrue(RegistrationPage.CheckSecondProvidedServiveNameIsRequired(), "Ошибка: сообщение 'Select the service type' не появилось");
 		}
