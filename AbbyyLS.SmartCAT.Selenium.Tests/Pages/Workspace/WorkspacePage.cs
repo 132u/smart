@@ -175,10 +175,10 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace
 		/// <returns></returns>
 		public WorkspacePage ClickCloseHelp()
 		{
-			Logger.Trace("Проверить, открыто ли окно помощи при входе в SmartCAT.");
+			Logger.Trace("Проверить, открыта ли подсказка при входе в SmartCAT.");
 			if (Driver.WaitUntilElementIsDisplay(By.XPath(CLOSE_HELP_BUTTON), timeout:3))
 			{
-				Logger.Debug("Закрыть окно помощи сразу после входа в SmartCAT");
+				Logger.Debug("Закрыть окно подсказки сразу после входа в SmartCAT");
 				CloseHelpButton.Click();
 			}
 
@@ -247,7 +247,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace
 
 		protected const string CAT_MENU = "//div[contains(@class, 'js-mainmenu')]";
 		protected const string CAT_MENU_OPEN_BUTTON = "//h2[@class='g-topbox__header']/a";
-		protected const string CLOSE_HELP_BUTTON = "//button[contains(@class,'hopscotch-cta')]";
+		protected const string CLOSE_HELP_BUTTON = "//div[@class='hopscotch-bubble animated']//button[contains(@class,'hopscotch-cta')]";
 
 		protected const string RESOURCES_MENU ="//ul[contains(@class, 'serviceMenu')]//li[contains(@class, 'js-menuitem-Resources')]";
 		protected const string EXPAND_RESOURCES_MENU = "//ul[contains(@class, 'serviceMenu')]//li[contains(@class, 'js-menuitem-Resources')]//a";
