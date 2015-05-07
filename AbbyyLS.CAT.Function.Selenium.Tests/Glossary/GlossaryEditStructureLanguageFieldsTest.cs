@@ -64,6 +64,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.Glossary.EditStructure.L
 			AddAllSystemLanguageFieldStructure();
 			// Нажать New item
 			GlossaryPage.ClickNewItemBtn();
+			GlossaryPage.WaitUntilTermsDisplay();
 			// Заполнить термин
 			FillNewItemExtended();
 			// Нажать на язык, чтобы появились поля для Language

@@ -30,6 +30,14 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			ClickElement(By.XPath(OPEN_EDIT_GLOSSARY_LIST_XPATH));
 		}
 
+		public void WaitOpenEditGlossaryList()
+		{
+			Logger.Trace("Дождаться открытия меню редактирования глоссария");
+
+			Assert.IsTrue(WaitUntilDisplayElement(By.XPath(EDIT_GLOSSARY_LIST_XPATH)),
+				"Ошибка: не открылось меню редактирования глоссария");
+		}
+
 		public void OpenEditStructureForm()
 		{
 			Logger.Debug("Открыть форму редактирования структуры");
@@ -40,6 +48,14 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		{
 			Logger.Debug("Нажать кнопку New Item");
 			ClickElement(By.XPath(ADD_CONCEPT_XPATH));
+		}
+
+		public void WaitUntilTermsDisplay()
+		{
+			Logger.Trace("Дождаться появления полей языков для заполнения терминов.");
+
+			Assert.IsTrue(WaitUntilDisplayElement(By.XPath(GLOSSARY_TERM)),
+				"Ошибка: поля языков для заполнения терминов не появились.");
 		}
 
 		public void NewItemClickDomainField()
@@ -1105,5 +1121,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		protected const string HREF_EXPORT = "//a[contains(@class,'js-export-concepts')]";
 		protected const string NEW_ITEM_OPEN = "//div[@class='l-corprtree']";
 		protected const string EDIT_PROPERTIES_FORM = ".//div[contains(@class,'js-popup-edit-glossary')][2]";
+		protected const string GLOSSARY_TERM = "//div[@class='l-corprtree__langbox'][2]";
+		protected const string EDIT_GLOSSARY_LIST_XPATH = "//div[contains(@class,'js-edit-submenu-list')]";
 	}
 }

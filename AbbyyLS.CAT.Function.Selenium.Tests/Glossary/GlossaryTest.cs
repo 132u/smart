@@ -28,6 +28,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			Logger.Debug("Открытие редактирования структуры");
 			
 			GlossaryPage.OpenEditGlossaryList();
+			GlossaryPage.WaitOpenEditGlossaryList();
 			GlossaryPage.OpenEditStructureForm();
 			GlossaryEditStructureForm.WaitPageLoad();
 		}
