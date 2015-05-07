@@ -554,6 +554,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 					}
 					// Выбрать аккаунт
 					LoginPage.ClickAccountName(accountName);
+					WorkspacePage.WaitPageLoad();
 				}
 					
 				//проверка того,что мы в нужном аккаунте
@@ -1461,6 +1462,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			GlossaryEditForm.ClickDeleteGlossary();
 
 			// Нажать Да (удалить)
+			GlossaryEditForm.WaitUntilDeleteGlossaryButtonDisplay();
 			GlossaryEditForm.ClickConfirmDeleteGlossary();
 			GlossaryListPage.WaitPageLoad();
 		}

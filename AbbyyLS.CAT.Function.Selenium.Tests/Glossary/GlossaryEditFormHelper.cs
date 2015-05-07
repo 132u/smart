@@ -159,11 +159,11 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 
 		public void AssertionIsExistWarningDeleteLanguage()
 		{
-			Logger.Trace("Проверить наличие предупреждения об удалении языка, на котором уже есть термины");
+			Logger.Trace("Дождаться появления кнопки отмены удаления языка.");
 
 			Assert.IsTrue(
-				GetIsElementDisplay(By.XPath(WARNING_DELETE_LANGUAGE_XPATH)),
-				"Ошибка: не появилось предупреждение, что есть термин на удаленном языке");
+				WaitUntilDisplayElement(By.XPath(DELETE_LANGUAGE_CANCEL_XPATH)),
+				"Ошибка: не появилась кнопка отмены удаления языка.");
 		}
 
 		public void CancelDeleteLanguage()
@@ -178,19 +178,18 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			ClickElement(By.XPath(DELETE_GLOSSARY_XPATH));
 		}
 
-		public void AssertionIsExistWarningDeleteGlossary()
-		{
-			Logger.Debug("Проверить наличие предупреждения об удалении глоссария");
-
-			Assert.IsTrue(
-				GetIsElementDisplay(By.XPath(WARNING_DELETE_GLOSSARY_XPATH)),
-				"Ошибка: не появилось предупреждение об удалении глоссария");
-		}
-
 		public void ClickConfirmDeleteGlossary()
 		{
 			Logger.Debug("Нажать кнопку подтверждения удаления глоссария");
-			ClickElement(By.XPath(CONFIRM_DELETE_GLOSSARY_XPAHT));
+			ClickElement(By.XPath(CONFIRM_DELETE_GLOSSARY_XPATH));
+		}
+
+		public void WaitUntilDeleteGlossaryButtonDisplay()
+		{
+			Logger.Debug("Дождаться появления кнопки подтверждения удаления глоссария");
+			
+			Assert.IsTrue(WaitUntilDisplayElement(By.XPath(CONFIRM_DELETE_GLOSSARY_XPATH)),
+				"Ошибка: не появилась кнопка подтверждения удаления глоссария.");
 		}
 
 		public void ClickSaveAndEditStructureBtn()
@@ -238,12 +237,10 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		protected const string LANGUAGES_XPATH = "//div[@class='l-editgloss__contrbox'][1]";
 		protected const string LANG_LIST_LANG_XPATH = "//div[@class='l-editgloss__contrbox'][1]//span[@class='g-iblock l-editgloss__control l-editgloss__lang']";
 		protected const string DELETE_LANG_XPATH = DIALOG_XPATH + LANGUAGES_XPATH + "//em";
-		protected const string WARNING_DELETE_LANGUAGE_XPATH = DIALOG_XPATH + "//p[contains(@data-message-id, 'language-deleted-warning')]";
 		protected const string DELETE_LANGUAGE_CANCEL_XPATH = DIALOG_XPATH + "//a[contains(@data-bind, 'click: undoDeleteLanguage')]";
 
 		protected const string DELETE_GLOSSARY_XPATH = DIALOG_XPATH + "//span[contains(@data-bind, 'click: deleteGlossary')]";
-		protected const string WARNING_DELETE_GLOSSARY_XPATH = DIALOG_XPATH + "//p[contains(@data-message-id, 'confirm-delete-glossary')]";
-		protected const string CONFIRM_DELETE_GLOSSARY_XPAHT = DIALOG_XPATH + "//a[contains(@data-bind, 'click: deleteGlossary')]";
+		protected const string CONFIRM_DELETE_GLOSSARY_XPATH = DIALOG_XPATH + "//a[contains(@data-bind, 'click: deleteGlossary')]";
 
 		protected const string ERROR_EMPTY_NAME_XPATH = DIALOG_XPATH + "//p[contains(@data-message-id,'glossary-name-required')]";
 		protected const string ERROR_EXIST_NAME_XPATH = DIALOG_XPATH + "//p[contains(@data-message-id,'glossary-exists')]";

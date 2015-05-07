@@ -187,8 +187,8 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Glossary
 			// Нажать Удалить глоссарий 
 			GlossaryEditForm.ClickDeleteGlossary();
 
-			// Проверить, что появилось предупреждение об удалении глоссария
-			GlossaryEditForm.AssertionIsExistWarningDeleteGlossary();
+			// Проверить, что появилась кнопка подтверждения удаления глоссария
+			GlossaryEditForm.WaitUntilDeleteGlossaryButtonDisplay();
 
 			// Нажать Да (удалить)
 			GlossaryEditForm.ClickConfirmDeleteGlossary();
