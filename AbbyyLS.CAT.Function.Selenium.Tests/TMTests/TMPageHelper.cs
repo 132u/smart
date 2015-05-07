@@ -737,7 +737,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.TM
 		protected const string SAVE_BTN_XPATH = BTN_ROW_XPATH + "//span[contains(@data-bind, 'save')]";
 		// TODO заменить id
 		protected const string PROJECT_GROUP_SPAN_XPATH = BTN_ROW_XPATH + "//div[contains(@data-bind,'domainNames')]";
-		protected const string SEGMENT_SPAN_XPATH = BTN_ROW_XPATH + "//table[@class='l-tmpanel__table']//div[3]";
+		protected const string SEGMENT_SPAN_XPATH = BTN_ROW_XPATH + "//table[@class='l-tmpanel__table']//div[4]";
 		protected const string IMPORT_POPUP_XPATH = "//div[contains(@class,'js-popup-import')][2]";
 		protected const string IMPORT_BTN_XPATH = IMPORT_POPUP_XPATH + "//span[contains(@class,'js-import-button')]";
 
