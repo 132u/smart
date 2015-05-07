@@ -5,9 +5,10 @@ using OpenQA.Selenium.Support.PageObjects;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Client;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.ProjectGroups;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries;
-using AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories;
-using AbbyyLS.SmartCAT.Selenium.Tests.TestFramework;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Login;
+using AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories;
+using AbbyyLS.SmartCAT.Selenium.Tests.Pages.UsersRights;
+using AbbyyLS.SmartCAT.Selenium.Tests.TestFramework;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace
 {
@@ -18,7 +19,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace
 		{
 			var workspacePage = new WorkspacePage();
 			InitPage(workspacePage);
-			LoadPage();
+
 			return workspacePage;
 		}
 
@@ -168,6 +169,22 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace
 			return GetPage();
 		}
 
+		/// <summary>
+		/// Закрыть подсказку (если она открыта) сразу после входа в SmartCAT
+		/// </summary>
+		/// <returns></returns>
+		public WorkspacePage ClickCloseHelp()
+		{
+			Logger.Trace("Проверить, открыто ли окно помощи при входе в SmartCAT.");
+			if (Driver.WaitUntilElementIsDisplay(By.XPath(CLOSE_HELP_BUTTON), timeout:3))
+			{
+				Logger.Debug("Закрыть окно помощи сразу после входа в SmartCAT");
+				CloseHelpButton.Click();
+			}
+
+			return GetPage();
+		}
+
 		private void openHideMenuIfClosed()
 		{
 			if (!getIsLeftMenuDisplay())
@@ -221,12 +238,16 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace
 		[FindsBy(How = How.XPath, Using = CAT_MENU_OPEN_BUTTON)]
 		protected IWebElement CatMenuOpenButton { get; set; }
 
+		[FindsBy(How = How.XPath, Using = CLOSE_HELP_BUTTON)]
+		protected IWebElement CloseHelpButton { get; set; }
+
 		protected IWebElement LocaleRef { get; set; }
 
 		protected IWebElement ProjectsButton { get; set; }
 
 		protected const string CAT_MENU = "//div[contains(@class, 'js-mainmenu')]";
 		protected const string CAT_MENU_OPEN_BUTTON = "//h2[@class='g-topbox__header']/a";
+		protected const string CLOSE_HELP_BUTTON = "//button[contains(@class,'hopscotch-cta')]";
 
 		protected const string RESOURCES_MENU ="//ul[contains(@class, 'serviceMenu')]//li[contains(@class, 'js-menuitem-Resources')]";
 		protected const string EXPAND_RESOURCES_MENU = "//ul[contains(@class, 'serviceMenu')]//li[contains(@class, 'js-menuitem-Resources')]//a";

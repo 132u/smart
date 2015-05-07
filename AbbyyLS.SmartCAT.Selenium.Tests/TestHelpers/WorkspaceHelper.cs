@@ -2,8 +2,8 @@
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.ProjectGroups;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories;
-using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace;
-using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace.CreateProjectDialog;
+using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects;
+using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog;
 using AbbyyLS.SmartCAT.Selenium.Tests.TestFramework;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
@@ -48,12 +48,20 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 		public ProjectSettingsHelper GoToProjectSettingsPage(string projectName)
 		{
-			BaseObject.InitPage(_newProjectSetUpTMDialog);
+			BaseObject.InitPage(_projectsPage);
 			_projectsPage
 				.AssertIsProjectLoaded(projectName)
-				.ClickProjectRef(projectName);
+				.ClickProject(projectName);
 
 			return new ProjectSettingsHelper();
+		}
+
+		public ProjectsHelper GoToProjectsPage() 
+		{
+			BaseObject.InitPage(_projectsPage);
+			_projectsPage.ClickProjectsButton();
+
+			return new ProjectsHelper();
 		}
 
 		private readonly ClientsPage _clientsPage = new ClientsPage();

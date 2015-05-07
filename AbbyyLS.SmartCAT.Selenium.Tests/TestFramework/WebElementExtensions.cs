@@ -1,4 +1,5 @@
 ﻿using System;
+
 using NLog;
 using NUnit.Framework;
 using OpenQA.Selenium;
@@ -20,7 +21,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestFramework
 		/// </summary>
 		/// <param name="webElement">элемент</param>
 		/// <param name="text">текст</param>
-		public static void SetText(this IWebElement webElement, string text)
+		/// <param name="expectedText">текст,который ожидается увидеть в поле после окончания ввода</param>
+		public static void SetText(this IWebElement webElement, string text, string expectedText = null)
 		{
 
 			webElement.Clear();
@@ -34,7 +36,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestFramework
 				Logger.Warn("ElementNotVisibleException: SendKeys {0}", exception.Message);
 			}
 
-			if (webElement.GetAttribute("value") != text)
+			expectedText = expectedText ?? text;
+			if (webElement.GetAttribute("value") != expectedText)
 			{
 				webElement.SetText(text);
 			}
@@ -70,6 +73,26 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestFramework
 		{
 			var actionBuilder = new Actions(getDriverFromWebElement(webElement));
 			actionBuilder.MoveToElement(webElement).Build().Perform();
+		}
+
+		/// <summary>
+		/// Вернуть значение атрибута элемента
+		/// </summary>
+		/// <param name="webElement">элемент,у которого ищется значение атрибута</param>
+		/// <param name="attr">атрибут</param>
+		/// <returns>значение атрибута</returns>
+		public static string GetElementAttribute(this IWebElement webElement, string attr)
+		{
+			try
+			{
+				return webElement.GetAttribute(attr) ?? string.Empty;
+			}
+			catch (StaleElementReferenceException staleElementReferenceException)
+			{
+				Logger.Warn("StaleElementReferenceException: GetElementAttribute: " + webElement.TagName, staleElementReferenceException);
+
+				return GetElementAttribute(webElement, attr);
+			}
 		}
 
 		/// <summary>

@@ -14,7 +14,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Admin
 		{
 			var adminEnterpriseAccountsPage = new AdminEnterpriseAccountsPage();
 			InitPage(adminEnterpriseAccountsPage);
-			LoadPage();
 
 			return adminEnterpriseAccountsPage;
 		}

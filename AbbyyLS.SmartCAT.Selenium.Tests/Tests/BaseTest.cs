@@ -59,6 +59,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests
 
 		protected WorkspaceHelper WorkspaceHelper { get; private set; }
 
+		protected CreateProjectHelper CreateProjectHelper { get; private set; }
+
 		protected DateTime TestBeginTime { get; private set; }
 
 		[TestFixtureSetUp]
@@ -245,6 +247,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests
 			AdminHelper = new AdminHelper();
 			LoginHelper = new LoginHelper();
 			WorkspaceHelper = new WorkspaceHelper();
+			CreateProjectHelper = new CreateProjectHelper();
 		}
 	}
 }

@@ -15,7 +15,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Admin
 		{
 			var adminEmailsSearchPage = new AdminEmailsSearchPage();
 			InitPage(adminEmailsSearchPage);
-			LoadPage();
 
 			return adminEmailsSearchPage;
 		}
@@ -55,10 +54,10 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Admin
 		/// <summary>
 		/// Кликнуть на кнопку "Найти"
 		/// </summary>
-		public AdminEmailsSearchPage ClickFindBtn()
+		public AdminEmailsSearchPage ClickFindButton()
 		{
 			Logger.Debug("Кликнуть на кнопку 'Найти'.");
-			FindBtn.Click();
+			FindButton.Click();
 
 			return GetPage();
 		}
@@ -81,7 +80,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Admin
 		protected IWebElement LimitCountInput { get; set; }
 
 		[FindsBy(How = How.XPath, Using = FIND_BTN_XPATH)]
-		protected IWebElement FindBtn { get; set; }
+		protected IWebElement FindButton { get; set; }
 
 		protected const string SEARCH_EMAIL_INPUT_ID = "SearchEmail";
 		protected const string LIMIT_COUNT_INPUT_ID = "LimitCount";

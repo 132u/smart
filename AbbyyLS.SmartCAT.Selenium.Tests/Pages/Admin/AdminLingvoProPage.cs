@@ -14,7 +14,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Admin
 		{
 			var adminLingvoProPage = new AdminLingvoProPage();
 			InitPage(adminLingvoProPage);
-			LoadPage();
 
 			return adminLingvoProPage;
 		}

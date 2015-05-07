@@ -1,4 +1,6 @@
-﻿using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace.ProjectSettings;
+﻿using System.IO;
+
+using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings;
 using AbbyyLS.SmartCAT.Selenium.Tests.TestFramework;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
@@ -15,11 +17,11 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 			BaseObject.InitPage(_projectPage);
 			_projectPage.UncheckAllChecboxesDocumentsTable()
 				.ClickProjectsTableCheckbox(documentName)
-				.ClickAssignBtn()
+				.ClickAssignButton()
 				.SelectAssignee(userName)
-				.ClickAssignBtn()
+				.ClickAssignButton()
 				.AssertIsUserAssigned()
-				.ClickCloseBtn();
+				.ClickCloseButton();
 
 			return this;
 		}
@@ -47,7 +49,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 			if (!_projectPage.IsDefaultMTSelected())
 			{
 				_projectPage.ClickDefaultMTCheckbox()
-					.ClickSaveMtBtn();
+					.ClickSaveMtButton();
 			}
 
 			return this;
@@ -57,14 +59,13 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 		/// Загрузить файл в проект
 		/// </summary>
 		/// <param name="filePath">путь к файлу</param>
-		/// <param name="fileName">имя файла с расширением</param>
-		public ProjectSettingsHelper UploadDocument(string filePath, string fileName)
+		public ProjectSettingsHelper UploadDocument(string filePath)
 		{
 			BaseObject.InitPage(_projectPage);
-			_projectPage.ClickAddFilesBtn()
+			_projectPage.ClickAddFilesButton()
 				.UploadFile(filePath)
-				.AssertIfFileUploaded(fileName)
-				.ClickFinishBtn();
+				.AssertIfFileUploaded(Path.GetFileName(PathProvider.DocumentFile))
+				.ClickFinishButton();
 
 			return this;
 		}
@@ -92,6 +93,23 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 			var loginHelper = new LoginHelper();
 
 			return loginHelper;
+		}
+
+		/// <summary>
+		/// Удалить документ из проекта
+		/// </summary>
+		/// <param name="fileName">имя документа</param>
+		public ProjectSettingsHelper DeleteDocument(string documentName)
+		{
+			BaseObject.InitPage(_projectPage);
+			_projectPage
+				.ClickProjectsTableCheckbox(Path.GetFileNameWithoutExtension(documentName))
+				.ClickDeleteButton()
+				.ConfirmDelete()
+				.WaitDeleteDocumentDialogDissappeared()
+				.AssertDocumentNotExist(Path.GetFileNameWithoutExtension(documentName));
+
+			return this;
 		}
 
 		private readonly ProjectSettingsPage _projectPage = new ProjectSettingsPage();

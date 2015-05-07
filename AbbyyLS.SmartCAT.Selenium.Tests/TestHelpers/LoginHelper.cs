@@ -24,9 +24,10 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 			_signInPage.SetLogin(login)
 				.SetPassword(password)
-				.ClickSubmitBtn()
+				.ClickSubmitButton()
 				.SelectAccount(accountName, dataServer)
-				.SelectLocale(language);
+				.SelectLocale(language)
+				.ClickCloseHelp();
 
 			return this;
 		}

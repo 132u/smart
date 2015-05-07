@@ -14,7 +14,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 		{
 			var glossaryCreationPage = new NewGlossaryDialog();
 			InitPage(glossaryCreationPage);
-			LoadPage();
 
 			return glossaryCreationPage;
 		}

@@ -14,7 +14,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Admin
 		{
 			var adminEnterpriseAccountUsersPage = new AdminEnterpriseAccountUsersPage();
 			InitPage(adminEnterpriseAccountUsersPage);
-			LoadPage();
 
 			return adminEnterpriseAccountUsersPage;
 		}
@@ -54,10 +53,10 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Admin
 		/// <summary>
 		/// Нажать кнопку "Найти" (пользователя)
 		/// </summary>
-		public AdminEnterpriseAccountUsersPage ClickFindUserBtn()
+		public AdminEnterpriseAccountUsersPage ClickFindUserButton()
 		{
 			Logger.Debug("Нажать кнопку 'Найти'.(пользователя)");
-			FindUserBtn.Click();
+			FindUserButton.Click();
 
 			return GetPage();
 		}
@@ -106,10 +105,10 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Admin
 		/// <summary>
 		/// Нажать на кнопку "Добавить" (администратора в аккаунт)
 		/// </summary>
-		public AdminEnterpriseAccountUsersPage ClickAddUserBtn()
+		public AdminEnterpriseAccountUsersPage ClickAddUserButton()
 		{
 			Logger.Debug("Нажать на кнопку 'Добавить' (администратора в аккаунт).");
-			AddUserBtn.Click();
+			AddUserButton.Click();
 
 			return GetPage();
 		}
@@ -118,10 +117,10 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Admin
 		protected IWebElement FindUserInput { get; set; }
 
 		[FindsBy(Using = FIND_USER_BTN_ID)]
-		protected IWebElement FindUserBtn { get; set; }
+		protected IWebElement FindUserButton { get; set; }
 
 		[FindsBy(Using = ADD_USER_BTN_ID)]
-		protected IWebElement AddUserBtn { get; set; }
+		protected IWebElement AddUserButton { get; set; }
 
 		protected IWebElement FoundUserSurnameInput { get; set; }
 

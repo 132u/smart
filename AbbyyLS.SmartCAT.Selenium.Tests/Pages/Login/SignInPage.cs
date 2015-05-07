@@ -11,7 +11,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Login
 		{
 			var signInPage = new SignInPage();
 			InitPage(signInPage);
-			LoadPage();
+
 			return signInPage;
 		}
 
@@ -50,10 +50,10 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Login
 		/// <summary>
 		/// Нажать сабмит
 		/// </summary>
-		public SelectAccountForm ClickSubmitBtn()
+		public SelectAccountForm ClickSubmitButton()
 		{
 			Logger.Debug("Нажать 'Sign In'.");
-			SubmitBtn.Click();
+			SubmitButton.Click();
 			var selectAccountForm = new SelectAccountForm();
 
 			return selectAccountForm.GetPage();
@@ -66,7 +66,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Login
 		protected IWebElement Password { get; set; }
 
 		[FindsBy(Using = SUBMIT_BTN_ID)]
-		protected IWebElement SubmitBtn { get; set; }
+		protected IWebElement SubmitButton { get; set; }
 
 		protected const string LOGIN_FORM_XPATH = "//form[contains(@class, 'corp-login-form')]";
 		protected const string EMAIL_INPUT_ID = "email";

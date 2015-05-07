@@ -1,11 +1,14 @@
 ﻿using System.Threading;
-using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor;
-using AbbyyLS.SmartCAT.Selenium.Tests.TestFramework;
+
 using NUnit.Framework;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.PageObjects;
 
-namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace.ProjectSettings
+using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor;
+using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace;
+using AbbyyLS.SmartCAT.Selenium.Tests.TestFramework;
+
+namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings
 {
 	public class ProjectSettingsPage : WorkspacePage, IAbstractPage<ProjectSettingsPage>
 	{
@@ -14,7 +17,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace.ProjectSettings
 		{
 			var projectSettingsPage = new ProjectSettingsPage();
 			InitPage(projectSettingsPage);
-			LoadPage();
 
 			return projectSettingsPage;
 		}
@@ -30,10 +32,10 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace.ProjectSettings
 		/// <summary>
 		/// Нажать кнопку "Загрузить файлы"
 		/// </summary>
-		public ImportDialog ClickAddFilesBtn()
+		public ImportDialog ClickAddFilesButton()
 		{
 			Logger.Debug("Нажать на кнопку 'Загрузить файлы'.");
-			AddFilesBtn.Click();
+			AddFilesButton.Click();
 			var importDialig = new ImportDialog();
 
 			return importDialig.GetPage();
@@ -118,10 +120,10 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace.ProjectSettings
 		/// <summary>
 		/// Нажать кнопку "Сохранить МТ"
 		/// </summary>
-		public ProjectSettingsPage ClickSaveMtBtn()
+		public ProjectSettingsPage ClickSaveMtButton()
 		{
 			Logger.Debug("Нажать кнопку 'Сохранить МТ'.");
-			SaveMTBtn.Click();
+			SaveMTButton.Click();
 
 			return GetPage();
 		}
@@ -129,10 +131,10 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace.ProjectSettings
 		/// <summary>
 		/// Нажать на кнопку "Назначить задачу"
 		/// </summary>
-		public TaskAssignmentDialog ClickAssignBtn()
+		public TaskAssignmentDialog ClickAssignButton()
 		{
 			Logger.Debug("Нажать кнопку 'Назначить задачу'.");
-			AssignTasksBtn.Click();
+			AssignTasksButton.Click();
 			var taskAssigmentDialog = new TaskAssignmentDialog();
 
 			return taskAssigmentDialog.GetPage();
@@ -175,36 +177,77 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace.ProjectSettings
 		}
 
 		/// <summary>
-		/// Нажать кнопку " Принять задачу"
+		/// Нажать кнопку 'Принять задачу'
 		/// </summary>
 		/// <param name="documentName">имя документа</param>
-		public ProjectSettingsPage ClickAcceptBtn(string documentName)
+		public ProjectSettingsPage ClickAcceptButton(string documentName)
 		{
 			Logger.Debug("Нажать кнопку 'Принять задачу'.");
 			Driver.Navigate().Refresh();
-			AcceptBtn = Driver.SetDynamicValue(How.XPath, ACCEPT_BTN_XPATH, documentName);
-			AcceptBtn.Click();
+			AcceptButton = Driver.SetDynamicValue(How.XPath, ACCEPT_BTN_XPATH, documentName);
+			AcceptButton.Click();
 
 			return GetPage();
 		}
 
+		/// <summary>
+		/// Нажать кнопку 'Удалить'
+		/// </summary>
+		public DeleteDocumentDialog ClickDeleteButton()
+		{
+			Logger.Debug("Нажать кнопку 'Удалить'.");
+			DeleteButton.Click();
+
+			return new DeleteDocumentDialog().GetPage();
+		}
+		
+		/// <summary>
+		/// Проверить, что документа нет в проекте
+		/// </summary>
+		/// <param name="documentName">имя документа</param>
+		public ProjectSettingsPage AssertDocumentNotExist(string documentName)
+		{
+			Logger.Debug(string.Format("Проверка существования документа {0}", documentName));
+
+			Assert.IsFalse(Driver.WaitUntilElementIsEnabled(By.XPath(DOCUMENT_LIST_XPATH + documentName + "']"), 5),
+				string.Format("Произошла ошибка:\n документ {0} присутствует в проекте.", documentName));
+
+			return GetPage();
+		}
+
+		/// <summary>
+		/// Ожидаем закрытия диалога удаления документа
+		/// </summary>
+		public ProjectSettingsPage WaitDeleteDocumentDialogDissappeared()
+		{
+			Logger.Trace("Дождаться закрытия диалога удаления документа.");
+
+			Assert.IsTrue(Driver.WaitUntilElementIsDissapeared(By.XPath(DELETE_DOCUMENT_DIALOG)),
+				"Произошла ошибка:\n диалог удаления документа не закрылся.");
+
+			return new ProjectSettingsPage();
+		}
+
 		[FindsBy(How = How.XPath, Using = ADD_FILES_BTN_XPATH)]
-		protected IWebElement AddFilesBtn { get; set; }
+		protected IWebElement AddFilesButton { get; set; }
 
 		[FindsBy(How = How.XPath, Using = ASSIGN_TASKS_BTN_XPATH)]
-		protected IWebElement AssignTasksBtn { get; set; }
+		protected IWebElement AssignTasksButton { get; set; }
 
 		[FindsBy(How = How.XPath, Using = DEFAULT_MT_CHECKBOX_XPATH)]
 		protected IWebElement DefaultMTCheckbox { get; set; }
 
 		[FindsBy(How = How.XPath, Using = SAVE_MT_BTN)]
-		protected IWebElement SaveMTBtn { get; set; }
+		protected IWebElement SaveMTButton { get; set; }
+
+		[FindsBy(How = How.XPath, Using = DELETE_BTN_XPATH)]
+		protected IWebElement DeleteButton { get; set; }
 
 		protected IWebElement AllCheckoxes { get; set; }
 
 		protected IWebElement DocumentRef { get; set; }
 
-		protected IWebElement AcceptBtn { get; set; }
+		protected IWebElement AcceptButton { get; set; }
 
 		protected IWebElement ProjectsTableCheckbox { get; set; }
 
@@ -221,5 +264,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace.ProjectSettings
 		protected const string SAVE_MT_BTN = ".//span[contains(@data-bind, 'click: saveMTEngines')]//a";
 		protected const string DEFAULT_MT_CHECKBOX_XPATH = "//tbody[contains(@data-bind,'foreach: machineTranslators')]//tr[contains(string(), 'ABBYY')]//td[1]//input";
 		protected const string DEFAULT_MT_CHECKBOX_STATE_XPATH = "//tbody[contains(@data-bind,'foreach: machineTranslators')]//tr[contains(string(), 'ABBYY')]//td[1]//input[@data-value='true']";
+		protected const string DELETE_BTN_XPATH = "//span[contains(@class,'js-document-delete')]";
+		protected const string DOCUMENT_LIST_XPATH = ".//table[contains(@class,'js-documents-table')]//tbody//tr//a[text()='";
+		protected const string DELETE_DOCUMENT_DIALOG = "//div[contains(@class,'js-popup-confirm')]";
 	}
 }

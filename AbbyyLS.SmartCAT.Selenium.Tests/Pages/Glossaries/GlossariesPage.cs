@@ -12,7 +12,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 		{
 			var glossariesPage = new GlossariesPage();
 			InitPage(glossariesPage);
-			LoadPage();
 
 			return glossariesPage;
 		}
@@ -28,7 +27,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 		/// <summary>
 		/// Нажать кнопку создания глоссария
 		/// </summary>
-		public NewGlossaryDialog ClickCreateGlossaryBtn()
+		public NewGlossaryDialog ClickCreateGlossaryButton()
 		{
 			Logger.Debug("Нажать кнопку создания глоссария");
 			CreateGlossaryButton.Click();

@@ -51,7 +51,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestFramework
 		}
 
 		/// <summary>
-		/// Ждем, отобразиться ли элемент
+		/// Ждем, отобразится ли элемент
 		/// </summary>
 		/// <param name="driver">драйвер</param>
 		/// <param name="by">локатор</param>

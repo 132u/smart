@@ -9,7 +9,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 		{
 			BaseObject.InitPage(_glossariesPage);
 			_glossariesPage
-				.ClickCreateGlossaryBtn()
+				.ClickCreateGlossaryButton()
 				.OpenClientsList()
 				.AssertClientsListOpened()
 				.AssertClientExistInList(clientName);
@@ -21,7 +21,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 		{
 			BaseObject.InitPage(_glossariesPage);
 			_glossariesPage
-				.ClickCreateGlossaryBtn()
+				.ClickCreateGlossaryButton()
 				.OpenClientsList()
 				.AssertClientsListOpened()
 				.AssertClientNotExistInList(clientName);
@@ -33,7 +33,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 		{
 			BaseObject.InitPage(_glossariesPage);
 			_glossariesPage
-				.ClickCreateGlossaryBtn()
+				.ClickCreateGlossaryButton()
 				.OpenProjectGroupsList()
 				.AssertProjectGroupsListOpened()
 				.AssertProjectGroupExistInList(projectGroupName);
@@ -45,7 +45,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 		{
 			BaseObject.InitPage(_glossariesPage);
 			_glossariesPage
-				.ClickCreateGlossaryBtn()
+				.ClickCreateGlossaryButton()
 				.OpenProjectGroupsList()
 				.AssertProjectGroupsListOpened()
 				.AssertProjectGroupNotExistInList(projectGroupName);

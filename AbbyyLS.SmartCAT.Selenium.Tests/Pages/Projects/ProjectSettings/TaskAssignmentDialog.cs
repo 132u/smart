@@ -1,9 +1,10 @@
-﻿using AbbyyLS.SmartCAT.Selenium.Tests.TestFramework;
-using NUnit.Framework;
+﻿using NUnit.Framework;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.PageObjects;
 
-namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace.ProjectSettings
+using AbbyyLS.SmartCAT.Selenium.Tests.TestFramework;
+
+namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings
 {
 	public class TaskAssignmentDialog : ProjectSettingsPage, IAbstractPage<TaskAssignmentDialog>
 	{
@@ -11,7 +12,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace.ProjectSettings
 		{
 			var taskAssignmentDialog = new TaskAssignmentDialog();
 			InitPage(taskAssignmentDialog);
-			LoadPage();
 
 			return taskAssignmentDialog;
 		}
@@ -37,10 +37,10 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace.ProjectSettings
 		/// <summary>
 		/// Кликнуть на кнопку "Назначить"
 		/// </summary>
-		public TaskAssignmentDialog ClickAssignBtn()
+		public new TaskAssignmentDialog ClickAssignButton()
 		{
 			Logger.Debug("Нажать на кнопку 'Назначить'.");
-			AssignBtn.Click();
+			AssignButton.Click();
 
 			return GetPage();
 		}
@@ -71,10 +71,10 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace.ProjectSettings
 		/// <summary>
 		/// Закрыть диалог
 		/// </summary>
-		public ProjectSettingsPage ClickCloseBtn()
+		public ProjectSettingsPage ClickCloseButton()
 		{
 			Logger.Debug("Закрыть диалог назначения пользователя.");
-			CloseBtn.Click();
+			CloseButton.Click();
 			var projectSettingsPage = new ProjectSettingsPage();
 
 			return projectSettingsPage.GetPage();
@@ -84,13 +84,13 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace.ProjectSettings
 		protected IWebElement AssignSpan { get; set; }
 
 		[FindsBy(How = How.XPath, Using = ASSIGN_BTN_XPATH)]
-		protected IWebElement AssignBtn { get; set; }
+		protected IWebElement AssignButton { get; set; }
 
 		[FindsBy(How = How.XPath, Using = TABLE_USERNAME_XPATH)]
 		protected IWebElement TableUsername { get; set; }
 
 		[FindsBy(How = How.XPath, Using = CLOSE_BTN_XPATH)]
-		protected IWebElement CloseBtn { get; set; }
+		protected IWebElement CloseButton { get; set; }
 
 		[FindsBy(How = How.XPath, Using = USERLIST_SELECT_XPATH)]
 		protected IWebElement UserList { get; set; }

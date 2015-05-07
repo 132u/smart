@@ -12,7 +12,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Login
 		{
 			var selectAccountForm = new SelectAccountForm();
 			InitPage(selectAccountForm);
-			LoadPage();
 
 			return selectAccountForm;
 		}

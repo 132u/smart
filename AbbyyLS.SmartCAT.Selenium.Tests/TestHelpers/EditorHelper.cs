@@ -1,6 +1,10 @@
-﻿using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor;
-using AbbyyLS.SmartCAT.Selenium.Tests.TestFramework;
+﻿using System;
+
 using NUnit.Framework;
+
+using AbbyyLS.SmartCAT.Selenium.Tests.DataStructures;
+using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor;
+using AbbyyLS.SmartCAT.Selenium.Tests.TestFramework;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 {
@@ -10,19 +14,27 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 		/// Выбрать задание (перевод или просмотр)
 		/// </summary>
 		/// <param name="mode">задание</param>
-		public EditorHelper SelectTask(string mode = "translate")
+		public EditorHelper SelectTask(TaskMode mode = TaskMode.Translation)
 		{
 			BaseObject.InitPage(_selectTask);
-			if (mode.Contains("translate"))
+			switch (mode)
 			{
-				_selectTask.ClickTranslateBtn()
-					.ClickContinueBtn();
+ 				case TaskMode.Translation:
+					_selectTask
+						.ClickTranslateButton()
+						.ClickContinueButton();
+					break;
+
+				case TaskMode.Manager:
+					_selectTask
+						.ClickManagerButton()
+						.ClickContinueButton();
+					break;
+
+				default:
+					throw new Exception(string.Format("Передан аргумент, который не предусмотрен! Значение аргумента:'{0}'", mode.ToString()));
 			}
-			else
-			{
-				_selectTask.ClickManagerBtn()
-					.ClickContinueBtn();
-			}
+
 
 			return this;
 		}
@@ -34,7 +46,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 		public EditorHelper ConfirmTranslation(int rowNumber)
 		{
 			BaseObject.InitPage(_editorPage);
-			_editorPage.ClickConfirmBtn()
+			_editorPage
+				.ClickConfirmButton()
 				.AssertIsSegmentConfirmed(rowNumber);
 
 			return this;
@@ -46,7 +59,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 		public int MoveToNextSegmentGetRowNumber()
 		{
 			BaseObject.InitPage(_editorPage);
-			_editorPage.ClickUnfinishedBtn();
+			_editorPage.ClickUnfinishedButton();
 
 			return _editorPage.GetRowNumberActiveSegment();
 		}
@@ -92,7 +105,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 		public ProjectSettingsHelper GoBack()
 		{
 			BaseObject.InitPage(_editorPage);
-			_editorPage.ClickHomeBtn();
+			_editorPage.ClickHomeButton();
 			var projectSettingsHelper = new ProjectSettingsHelper();
 
 			return projectSettingsHelper;

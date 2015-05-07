@@ -1,9 +1,11 @@
 ﻿using System;
-using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace.ProjectSettings;
-using AbbyyLS.SmartCAT.Selenium.Tests.TestFramework;
+
 using NUnit.Framework;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.PageObjects;
+
+using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings;
+using AbbyyLS.SmartCAT.Selenium.Tests.TestFramework;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 {
@@ -13,7 +15,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		{
 			var editorPage = new EditorPage();
 			InitPage(editorPage);
-			LoadPage();
+
 			return editorPage;
 		}
 
@@ -29,10 +31,10 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		/// <summary>
 		/// Нажать кнопку "Домой"
 		/// </summary>
-		public ProjectSettingsPage ClickHomeBtn()
+		public ProjectSettingsPage ClickHomeButton()
 		{
 			Logger.Debug("Нажать кнопку 'Домой'.");
-			HomeBtn.Click();
+			HomeButton.Click();
 			Driver.SwitchTo().Window(Driver.WindowHandles[1]).Close();
 			Driver.SwitchTo().Window(Driver.WindowHandles[0]);
 			var projectSettingsPage = new ProjectSettingsPage();
@@ -54,10 +56,10 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		/// <summary>
 		/// Нажать на кнопку "Подтвердить сегмент"
 		/// </summary>
-		public EditorPage ClickConfirmBtn()
+		public EditorPage ClickConfirmButton()
 		{
 			Logger.Debug("Нажать кнопку 'Подтвердить сегмент'.");
-			ConfirmBtn.Click();
+			ConfirmButton.Click();
 
 			return GetPage();
 		}
@@ -156,10 +158,10 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		/// <summary>
 		/// Нажать кнопку перехода к следующему неподтвержденному сегменту
 		/// </summary>
-		public EditorPage ClickUnfinishedBtn()
+		public EditorPage ClickUnfinishedButton()
 		{
 			Logger.Debug("Нажать кнопку перехода к следующему неподтвержденному сегменту.");
-			UnfinishedBtn.Click();
+			UnfinishedButton.Click();
 
 			return GetPage();
 		}
@@ -226,13 +228,13 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		}
 
 		[FindsBy(Using = CONFIRM_BTN_ID)]
-		protected IWebElement ConfirmBtn { get; set; }
+		protected IWebElement ConfirmButton { get; set; }
 
 		[FindsBy(Using = UNFINISHED_BTN_ID)]
-		protected IWebElement UnfinishedBtn { get; set; }
+		protected IWebElement UnfinishedButton { get; set; }
 
 		[FindsBy(Using = HOME_BTN_ID)]
-		protected IWebElement HomeBtn { get; set; }
+		protected IWebElement HomeButton { get; set; }
 		
 		protected IWebElement TargetCell { get; set; }
 

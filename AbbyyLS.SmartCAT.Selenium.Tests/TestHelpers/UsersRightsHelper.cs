@@ -1,4 +1,6 @@
 ﻿using System.Threading;
+
+using AbbyyLS.SmartCAT.Selenium.Tests.Pages.UsersRights;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace;
 using AbbyyLS.SmartCAT.Selenium.Tests.TestFramework;
 
@@ -13,13 +15,13 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 		public UsersRightsHelper CheckOrCreateGroup(string groupName)
 		{
 			BaseObject.InitPage(_usersRightsPage);
-			_usersRightsPage.ClickUsersRightsButton().ClickGroupsBtn();
+			_usersRightsPage.ClickUsersRightsButton().ClickGroupsButton();
 			if (!_usersRightsPage.IsGroupExists(groupName))
 			{
-				_usersRightsPage.ClickCreateGroupBtn()
+				_usersRightsPage.ClickCreateGroupButton()
 					.AssertAddNewGroupForm()
 					.SetNewGroupName(groupName)
-					.ClickSaveNewGroupBtn()
+					.ClickSaveNewGroupButton()
 					.AssertIsGroupCreated(groupName);
 			}
 
@@ -35,15 +37,15 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 		{
 			BaseObject.InitPage(_usersRightsPage);
 			_usersRightsPage.SelectGroup(groupName);
-			if (_usersRightsPage.IsEditGroupBtnDisplayed(groupName))
+			if (_usersRightsPage.IsEditGroupButtonDisplayed(groupName))
 			{
-				_usersRightsPage.ClickEditGroupBtn(groupName);
+				_usersRightsPage.ClickEditGroupButton(groupName);
 			}
 			if (!_usersRightsPage.IsGroupUserAdded(groupName, userName))
 			{
 				_usersRightsPage.ClickAddUsersSearchbox(groupName)
-					.AssertIsAddGroupUserBtnExists(groupName, userName)
-					.ClickAddGroupUserBtn(groupName, userName)
+					.AssertIsAddGroupUserButtonExists(groupName, userName)
+					.ClickAddGroupUserButton(groupName, userName)
 					.SelectGroup(groupName)
 					.AssertIsGroupUserAdded(groupName, userName);
 			}
@@ -59,37 +61,37 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 		{
 			BaseObject.InitPage(_usersRightsPage);
 			_usersRightsPage.SelectGroup(groupName);
-			if (_usersRightsPage.IsEditGroupBtnDisplayed(groupName))
+			if (_usersRightsPage.IsEditGroupButtonDisplayed(groupName))
 			{
-				_usersRightsPage.ClickEditGroupBtn(groupName);
+				_usersRightsPage.ClickEditGroupButton(groupName);
 			}
 			if (!_usersRightsPage.IsCreateProjectsRightAdded(groupName))
 			{
-				_usersRightsPage.ClickAddRightsBtn(groupName)
+				_usersRightsPage.ClickAddRightsButton(groupName)
 					.ClickCreateProjectsRadio()
-					.ClickNextBtn()
+					.ClickNextButton()
 					.ClickDefinedByConditionRadio()
-					.ClickAddRightBtn()
+					.ClickAddRightButton()
 					.AssertIsCreateProjectsRightAdded(groupName);
 			}
 			if (!_usersRightsPage.IsManageProjectsRightAdded(groupName))
 			{
 				Thread.Sleep(1000);
-				_usersRightsPage.ClickAddRightsBtn(groupName)
+				_usersRightsPage.ClickAddRightsButton(groupName)
 					.ClickManageProjectsRadio()
-					.ClickNextBtn()
+					.ClickNextButton()
 					.ClickDefinedByConditionRadio()
-					.ClickAddRightBtn()
+					.ClickAddRightButton()
 					.AssertIsManageProjectsRightAdded(groupName);
 			}
 			if (!_usersRightsPage.IsViewProjectsRightAdded(groupName))
 			{
 				Thread.Sleep(1000);
-				_usersRightsPage.ClickAddRightsBtn(groupName)
+				_usersRightsPage.ClickAddRightsButton(groupName)
 					.ClickViewProjectsRadio()
-					.ClickNextBtn()
+					.ClickNextButton()
 					.ClickDefinedByConditionRadio()
-					.ClickAddRightBtn()
+					.ClickAddRightButton()
 					.AssertIsViewProjectsRightAdded(groupName);
 			}
 
@@ -104,7 +106,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 		{
 			BaseObject.InitPage(_usersRightsPage);
 			Thread.Sleep(1000);
-			_usersRightsPage.ClickSaveBtn(groupName).ClickProjectsButton();
+			_usersRightsPage
+				.ClickSaveButton(groupName)
+				.ClickProjectsButton();
 
 			return this;
 		}

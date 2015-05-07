@@ -1,9 +1,11 @@
-﻿using AbbyyLS.SmartCAT.Selenium.Tests.TestFramework;
-using NUnit.Framework;
+﻿using NUnit.Framework;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.PageObjects;
 
-namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace
+using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace;
+using AbbyyLS.SmartCAT.Selenium.Tests.TestFramework;
+
+namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.UsersRights
 {
 	public class UsersRightsPage : WorkspacePage, IAbstractPage<UsersRightsPage>
 	{
@@ -11,7 +13,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace
 		{
 			var usersRightsPage = new UsersRightsPage();
 			InitPage(usersRightsPage);
-			LoadPage();
 
 			return usersRightsPage;
 		}
@@ -27,10 +28,10 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace
 		/// <summary>
 		/// Перейти на вкладку "Группы и права"
 		/// </summary>
-		public UsersRightsPage ClickGroupsBtn()
+		public UsersRightsPage ClickGroupsButton()
 		{
 			Logger.Debug("Перейти на вкладку 'Группы и права'.");
-			GroupsBtn.Click();
+			GroupsButton.Click();
 
 			return GetPage();
 		}
@@ -49,10 +50,10 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace
 		/// <summary>
 		/// Нажать кнопку "Создать группу"
 		/// </summary>
-		public UsersRightsPage ClickCreateGroupBtn()
+		public UsersRightsPage ClickCreateGroupButton()
 		{
 			Logger.Debug("Нажать на кнопку 'Создать группу'.");
-			CreateGroupBtn.Click();
+			CreateGroupButton.Click();
 
 			return GetPage();
 		}
@@ -84,10 +85,10 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace
 		/// <summary>
 		/// Сохранить новую группу
 		/// </summary>
-		public UsersRightsPage ClickSaveNewGroupBtn()
+		public UsersRightsPage ClickSaveNewGroupButton()
 		{
 			Logger.Debug("Сохранить новую группу.");
-			SaveNewGroupBtn.Click();
+			SaveNewGroupButton.Click();
 
 			return GetPage();
 		}
@@ -121,7 +122,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace
 		/// Проверить, присуствует ли кнопка "Редактировать группу"
 		/// </summary>
 		/// <param name="groupName">имя группы</param>
-		public bool IsEditGroupBtnDisplayed(string groupName)
+		public bool IsEditGroupButtonDisplayed(string groupName)
 		{
 			return Driver.ElementIsDisplayed(By.XPath(EDIT_GROUP_BTN_XPATH.Replace("*#*", groupName))) && Driver.ElementIsEnabled(By.XPath(EDIT_GROUP_BTN_XPATH.Replace("*#*", groupName)));
 		}
@@ -130,11 +131,11 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace
 		/// Нажать кнопку "Редактировать группу"
 		/// </summary>
 		/// <param name="groupName">имя группы</param>
-		public UsersRightsPage ClickEditGroupBtn(string groupName)
+		public UsersRightsPage ClickEditGroupButton(string groupName)
 		{
 			Logger.Debug("Нажать кнопку 'Редактировать группу'.");
-			EditGroupBtn = Driver.SetDynamicValue(How.XPath, EDIT_GROUP_BTN_XPATH, groupName);
-			EditGroupBtn.Click();
+			EditGroupButton = Driver.SetDynamicValue(How.XPath, EDIT_GROUP_BTN_XPATH, groupName);
+			EditGroupButton.Click();
 
 			return GetPage();
 		}
@@ -168,11 +169,11 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace
 		/// Нажать кнопку "Добавить права"
 		/// </summary>
 		/// <param name="groupName">имя группы</param>
-		public UsersRightsPage ClickAddRightsBtn(string groupName)
+		public UsersRightsPage ClickAddRightsButton(string groupName)
 		{
 			Logger.Debug("Нажать на кнопку 'Добавить права' для группы {0}.", groupName);
-			AddRightsBtn = Driver.SetDynamicValue(How.XPath, ADD_RIGHTS_BTN_XPATH, groupName);
-			AddRightsBtn.Click();
+			AddRightsButton = Driver.SetDynamicValue(How.XPath, ADD_RIGHTS_BTN_XPATH, groupName);
+			AddRightsButton.Click();
 
 			return GetPage();
 		}
@@ -194,7 +195,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace
 		/// </summary>
 		/// <param name="userName">имя пользователя</param>
 		/// <param name="groupName">имя группы</param>
-		public UsersRightsPage AssertIsAddGroupUserBtnExists(string groupName, string userName)
+		public UsersRightsPage AssertIsAddGroupUserButtonExists(string groupName, string userName)
 		{
 			Assert.IsTrue(Driver.ElementIsDisplayed(By.XPath(ADD_GROUP_USER_BTN_XPATH.Replace("*#*", groupName).Replace("*##*", userName))),
 				"Произошла ошибка:\n не появился выпадающий список с пользователями аккаунта, либо {0} нет в списке", userName);
@@ -207,11 +208,11 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace
 		/// </summary>
 		/// <param name="userName">имя пользователя</param>
 		/// <param name="groupName">имя группы</param>
-		public UsersRightsPage ClickAddGroupUserBtn(string groupName, string userName)
+		public UsersRightsPage ClickAddGroupUserButton(string groupName, string userName)
 		{
 			Logger.Debug("Выбрать пользователя {0} из списка и нажать кнопку 'Добавить' в группу {1}.", userName, groupName);
-			AddGroupUserBtn = Driver.SetDynamicValue(How.XPath, ADD_GROUP_USER_BTN_XPATH, groupName, userName);
-			AddGroupUserBtn.Click();
+			AddGroupUserButton = Driver.SetDynamicValue(How.XPath, ADD_GROUP_USER_BTN_XPATH, groupName, userName);
+			AddGroupUserButton.Click();
 
 			return GetPage();
 		}
@@ -335,10 +336,10 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace
 		/// <summary>
 		/// Нажать кнопку далее (при добавлении прав пользователя)
 		/// </summary>
-		public UsersRightsPage ClickNextBtn()
+		public UsersRightsPage ClickNextButton()
 		{
 			Logger.Debug("Нажать кнопку далее (при добавлении прав пользователя).");
-			NextBtn.Click();
+			NextButton.Click();
 
 			return GetPage();
 		}
@@ -346,10 +347,10 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace
 		/// <summary>
 		/// Нажать кнопку "Добавить" (право)
 		/// </summary>
-		public UsersRightsPage ClickAddRightBtn()
+		public UsersRightsPage ClickAddRightButton()
 		{
 			Logger.Debug("Нажать кнопку 'Добавить' (право).");
-			AddRightBtn.Click();
+			AddRightButton.Click();
 
 			return GetPage();
 		}
@@ -358,26 +359,26 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace
 		/// Нажать кнопку "Сохранить"
 		/// </summary>
 		/// <param name="groupName">имя группы</param>
-		public UsersRightsPage ClickSaveBtn(string groupName)
+		public UsersRightsPage ClickSaveButton(string groupName)
 		{
 			Logger.Debug("Нажать кнопку 'Сохранить' ( настройки группы {0}).", groupName);
-			SaveBtn = Driver.SetDynamicValue(How.XPath, SAVE_BTN_XPATH, groupName);
-			SaveBtn.Click();
+			SaveButton = Driver.SetDynamicValue(How.XPath, SAVE_BTN_XPATH, groupName);
+			SaveButton.Click();
 
 			return GetPage();
 		}
 
 		[FindsBy(How = How.XPath, Using = GROUPS_RIGHTS_BTN_XPATH)]
-		protected IWebElement GroupsBtn { get; set; }
+		protected IWebElement GroupsButton { get; set; }
 
 		[FindsBy(How = How.XPath, Using = CREATE_GROUP_BTN_XPATH)]
-		protected IWebElement CreateGroupBtn { get; set; }
+		protected IWebElement CreateGroupButton { get; set; }
 
 		[FindsBy(How = How.XPath, Using = NEW_GROUP_NAME_INPUT_XPATH)]
 		protected IWebElement NewGroupNameInput { get; set; }
 
 		[FindsBy(How = How.XPath, Using = SAVE_NEW_GROUP_BTN_XPATH)]
-		protected IWebElement SaveNewGroupBtn { get; set; }
+		protected IWebElement SaveNewGroupButton { get; set; }
 
 		[FindsBy(How = How.XPath, Using = CREATE_PROJECTS_RIGHT_RADIO_XPATH)]
 		protected IWebElement CreateProjectRadio { get; set; }
@@ -392,22 +393,22 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace
 		protected IWebElement ForAnyProjectRadio { get; set; }
 
 		[FindsBy(How = How.XPath, Using = NEXT_BTN_XPATH)]
-		protected IWebElement NextBtn { get; set; }
+		protected IWebElement NextButton { get; set; }
 
 		[FindsBy(How = How.XPath, Using = ADD_RIGHT_BTN_XPATH)]
-		protected IWebElement AddRightBtn { get; set; }
+		protected IWebElement AddRightButton { get; set; }
 
-		protected IWebElement SaveBtn { get; set; }
+		protected IWebElement SaveButton { get; set; }
 
-		protected IWebElement EditGroupBtn { get; set; }
+		protected IWebElement EditGroupButton { get; set; }
 
 		protected IWebElement Group { get; set; }
 
-		protected IWebElement AddRightsBtn { get; set; }
+		protected IWebElement AddRightsButton { get; set; }
 
 		protected IWebElement AddGroupUsersInput { get; set; }
 
-		protected IWebElement AddGroupUserBtn { get; set; }
+		protected IWebElement AddGroupUserButton { get; set; }
 
 		protected const string GROUPS_RIGHTS_BTN_XPATH = "//a[contains(@href,'/Groups/Index')]";
 		protected const string GROUP_XPATH = "//td[contains(@data-bind, 'text: name')][string()='*#*']";

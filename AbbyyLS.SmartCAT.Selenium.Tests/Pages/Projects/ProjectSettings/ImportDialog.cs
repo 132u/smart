@@ -1,9 +1,10 @@
-﻿using AbbyyLS.SmartCAT.Selenium.Tests.TestFramework;
-using NUnit.Framework;
+﻿using NUnit.Framework;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.PageObjects;
 
-namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace.ProjectSettings
+using AbbyyLS.SmartCAT.Selenium.Tests.TestFramework;
+
+namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings
 {
 	public class ImportDialog : ProjectSettingsPage, IAbstractPage<ImportDialog>
 	{
@@ -11,14 +12,13 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace.ProjectSettings
 		{
 			var importDialog = new ImportDialog();
 			InitPage(importDialog);
-			LoadPage();
 
 			return importDialog;
 		}
 
 		public new void LoadPage()
 		{
-			if (!Driver.WaitUntilElementIsDisplay(By.XPath(ADD_BTN_XPATH)))
+			if (!Driver.WaitUntilElementIsDisplay(By.XPath(ADD_BTN)))
 			{
 				Assert.Fail("Произошла ошибка:\n не открылся диалог загрузки файла.");
 			}
@@ -44,7 +44,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace.ProjectSettings
 		/// <param name="fileName">имя файла (с расширением)</param>
 		public ImportDialog AssertIfFileUploaded(string fileName)
 		{
-			Assert.IsTrue(Driver.WaitUntilElementIsDisplay(By.XPath(UPLOADED_FILE_XPATH.Replace("*#*", fileName))),
+			Assert.IsTrue(Driver.WaitUntilElementIsDisplay(By.XPath(UPLOADED_FILE.Replace("*#*", fileName))),
 				"Произошла ошибка:\n не удалось загрузить файл.");
 
 			return GetPage();
@@ -53,23 +53,23 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace.ProjectSettings
 		/// <summary>
 		/// Нажать кнопку "Готово"
 		/// </summary>
-		public ProjectSettingsPage ClickFinishBtn()
+		public ProjectSettingsPage ClickFinishButton()
 		{
 			Logger.Debug("Нажать кнопку 'Готово'");
-			FinishBtn.Click();
+			FinishButton.Click();
 
 			return GetPage();
 		}
 
-		[FindsBy(How = How.XPath, Using = UPLOAD_FILE_INPUT_XPATH)]
+		[FindsBy(How = How.XPath, Using = UPLOAD_FILE_INPUT)]
 		protected IWebElement UploadFileInput { get; set; }
 
-		[FindsBy(How = How.XPath, Using = FINISH_BTN_XPATH)]
-		protected IWebElement FinishBtn { get; set; }
+		[FindsBy(How = How.XPath, Using = FINISH_BTN)]
+		protected IWebElement FinishButton { get; set; }
 
-		protected const string ADD_BTN_XPATH = IMPORT_DIALOG_XPATH + "//a[contains(@class,'js-add-file')]";
-		protected const string UPLOAD_FILE_INPUT_XPATH = IMPORT_DIALOG_XPATH + "//input[@type = 'file']";
-		protected const string FINISH_BTN_XPATH = IMPORT_DIALOG_XPATH + "//span[contains(@class,'js-finish js-upload-btn')]";
-		protected const string UPLOADED_FILE_XPATH = IMPORT_DIALOG_XPATH + "//li[@class='js-file-list-item']//span[contains(string(), '*#*')]";
+		protected const string ADD_BTN = ".//div[contains(@class,'js-popup-import-document')][2]//a[contains(@class,'js-add-file')]";
+		protected const string UPLOAD_FILE_INPUT = ".//div[contains(@class,'js-popup-import-document')][2]//input[@type = 'file']";
+		protected const string FINISH_BTN = ".//div[contains(@class,'js-popup-import-document')][2]//span[contains(@class,'js-finish js-upload-btn')]";
+		protected const string UPLOADED_FILE = ".//div[contains(@class,'js-popup-import-document')][2]//li[@class='js-file-list-item']//span[contains(string(), '*#*')]";
 	}
 }

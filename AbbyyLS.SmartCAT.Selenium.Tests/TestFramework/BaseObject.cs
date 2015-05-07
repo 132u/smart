@@ -11,8 +11,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestFramework
 		public static Logger Logger = LogManager.GetCurrentClassLogger();
 		public static IWebDriver Driver;
 
-		public static void InitPage<T>(T pageClass) where T : BaseObject
+		public static void InitPage<T>(T pageClass) where T : BaseObject, IAbstractPage<T>
 		{
+			pageClass.LoadPage();
 			PageFactory.InitElements(Driver, pageClass);
 		}
 	}

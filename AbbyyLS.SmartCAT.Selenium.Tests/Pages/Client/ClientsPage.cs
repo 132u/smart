@@ -12,7 +12,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Client
 		{
 			var clientsPage = new ClientsPage();
 			InitPage(clientsPage);
-			LoadPage();
 
 			return clientsPage;
 		}

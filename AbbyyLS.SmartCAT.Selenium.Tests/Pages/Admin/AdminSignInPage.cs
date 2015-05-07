@@ -14,7 +14,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Admin
 		{
 			var adminSignInPage = new AdminSignInPage();
 			InitPage(adminSignInPage);
-			LoadPage();
 
 			return adminSignInPage;
 		}
@@ -52,10 +51,10 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Admin
 		/// <summary>
 		/// Нажать сабмит
 		/// </summary>
-		public AdminLingvoProPage ClickSubmitBtn()
+		public AdminLingvoProPage ClickSubmitButton()
 		{
 			Logger.Debug("Нажать кнопку 'Submit'.");
-			SubmitBtn.Click();
+			SubmitButton.Click();
 			var adminLingvoProPage = new AdminLingvoProPage();
 
 			return adminLingvoProPage.GetPage();
@@ -68,7 +67,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Admin
 		protected IWebElement Password { get; set; }
 
 		[FindsBy(How = How.XPath, Using = SUBMIT_BTN_XPATH)]
-		protected IWebElement SubmitBtn { get; set; }
+		protected IWebElement SubmitButton { get; set; }
 
 		protected const string LOGIN_FORM_XPATH = "//form[contains(@action,'/Home/Login')]";
 		protected const string LOGIN_XPATH = "//input[@name='email']";

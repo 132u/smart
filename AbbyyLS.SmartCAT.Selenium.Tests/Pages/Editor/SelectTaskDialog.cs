@@ -11,7 +11,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		{
 			var selectTaskDialog = new SelectTaskDialog();
 			InitPage(selectTaskDialog);
-			LoadPage();
 
 			return selectTaskDialog;
 		}
@@ -27,7 +26,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		/// <summary>
 		/// Нажать на кнопку "Перевод"
 		/// </summary>
-		public SelectTaskDialog ClickTranslateBtn()
+		public SelectTaskDialog ClickTranslateButton()
 		{
 			Logger.Debug("Нажать кнопку 'Перевод'.");
 			//TODO: вставить нажатие кнопки 'перевод'
@@ -38,33 +37,33 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		/// <summary>
 		/// Нажать на кнопку "Менеджер"
 		/// </summary>
-		public SelectTaskDialog ClickManagerBtn()
+		public SelectTaskDialog ClickManagerButton()
 		{
 			Logger.Debug("Нажать кнопку 'Менеджер'.");
-			ManagerBtn.Click();
+			ManagerButton.Click();
 			return GetPage();
 		}
 
 		/// <summary>
 		/// Нажать на кнопку "Продолжить"
 		/// </summary>
-		public EditorPage ClickContinueBtn()
+		public EditorPage ClickContinueButton()
 		{
 			Logger.Debug("Нажать кнопку 'Продолжить'.");
-			ContinueBtn.Click();
+			ContinueButton.Click();
 			var editorPage = new EditorPage();
 
 			return editorPage.GetPage();
 		}
 
 		[FindsBy(How = How.XPath, Using = TRANSLATE_BTN_XPATH)]
-		protected IWebElement TranslateBtn { get; set; }
+		protected IWebElement TranslateButton { get; set; }
 
 		[FindsBy(How = How.XPath, Using = MANAGER_BTN_XPATH)]
-		protected IWebElement ManagerBtn { get; set; }
+		protected IWebElement ManagerButton { get; set; }
 
 		[FindsBy(How = How.XPath, Using = CONTINUE_BTN_XPATH)]
-		protected IWebElement ContinueBtn { get; set; }
+		protected IWebElement ContinueButton { get; set; }
 
 		protected const string TRANSLATE_BTN_XPATH = "//span[contains(@id, 'stagenumber-1')]";
 		protected const string MANAGER_BTN_XPATH = "//span[contains(@id, 'manager')]";

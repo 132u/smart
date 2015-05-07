@@ -14,7 +14,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories
 		{
 			var tmCreationPage = new NewTranslationMemoryDialog();
 			InitPage(tmCreationPage);
-			LoadPage();
 
 			return tmCreationPage;
 		}

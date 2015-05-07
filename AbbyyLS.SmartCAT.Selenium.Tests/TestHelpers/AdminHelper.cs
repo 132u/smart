@@ -13,7 +13,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 		public AdminHelper SignIn(string login, string password)
 		{
 			BaseObject.InitPage(_adminSignInPage);
-			_adminSignInPage.SetLogin(login).SetPassword(password).ClickSubmitBtn();
+			_adminSignInPage.SetLogin(login).SetPassword(password).ClickSubmitButton();
 
 			return this;
 		}
@@ -49,11 +49,11 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 			if (!_adminEnterpriseAccountUsersPage.IsUserAddedIntoAccount(userEmail))
 			{
 				_adminEnterpriseAccountUsersPage.SetEmailToFindUserInput(userEmail)
-					.ClickFindUserBtn()
+					.ClickFindUserButton()
 					.AssertUserFound(userEmail)
 					.SetUserSurname(userEmail, userSurname)
 					.SetUserName(userEmail, userName)
-					.ClickAddUserBtn();
+					.ClickAddUserButton();
 			}
 
 			return this;

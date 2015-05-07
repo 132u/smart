@@ -1,38 +1,40 @@
-﻿using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace;
-using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace.CreateProjectDialog;
+﻿using System;
+using System.IO;
+using System.Threading;
+
+using AbbyyLS.SmartCAT.Selenium.Tests.DataStructures;
+using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects;
+using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog;
 using AbbyyLS.SmartCAT.Selenium.Tests.TestFramework;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 {
-	public class CreateProjectHelper : WorkspaceHelper
+	public class CreateProjectHelper : ProjectsHelper
 	{
 
 		/// <summary>
 		/// Заполняем основную информацию о проекте (1 шаг создания)
 		/// </summary>
+		/// <param name="projectName">имя проекта</param>
 		/// <param name="filePath">путь к файлу</param>
-		/// <param name="fileName">имя файла с расширением</param>
 		/// <param name="sourceLanguage">исходный язык</param>
 		/// <param name="targetLanguage">язык перевода</param>
-		/// <param name="projectName">имя проекта</param>
-		/// <param name="noFile">надо ли загружать файл</param>
-		public CreateProjectHelper FillGeneralProjectInformation(
-			string filePath, 
-			string fileName, 
-			string sourceLanguage,
-			string targetLanguage, 
-			string projectName, 
-			bool noFile = false)
+		public CreateProjectHelper FillGeneralProjectInformation( 
+			string projectName,
+			string filePath = null,
+			Language sourceLanguage = Language.English,
+			Language targetLanguage = Language.Russian)
 		{
-			BaseObject.InitPage(_projectsPage);
-			_projectsPage.ClickCreateProjectBtn();
-			if (!noFile)
-			{
-				_newProjectGeneralInformationDialog.UploadFile(filePath)
-					.AssertIfFileUploaded(fileName);
-			}
 			BaseObject.InitPage(_newProjectGeneralInformationDialog);
-			_newProjectGeneralInformationDialog.ClickDeadlineDateInput()
+			if (filePath != null)
+			{
+				_newProjectGeneralInformationDialog
+					.UploadFile(filePath)
+					.AssertIfFileUploaded(Path.GetFileNameWithoutExtension(filePath));
+			}
+
+			_newProjectGeneralInformationDialog
+				.ClickDeadlineDateInput()
 				.AssertIsCalendarDisplayed()
 				.ClickDeadlineDateCurrent()
 				.ClickSourceLangDropdown()
@@ -41,8 +43,23 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 				.DeselectAllTargetLanguages()
 				.SelectTargetLanguage(targetLanguage)
 				.ClickTargetMultiselect()
-				.SetProjectName(projectName)
-				.ClickNextBtn();
+				.SetProjectName(projectName);
+
+			return this;
+		}
+
+		public CreateProjectHelper ClickNextOnGeneralProjectInformationPage()
+		{
+			BaseObject.InitPage(_newProjectGeneralInformationDialog);
+			_newProjectGeneralInformationDialog.ClickNext();
+
+			return this;
+		}
+
+		public CreateProjectHelper CheckInputsOnGeneralProjectInformationPage()
+		{
+			BaseObject.InitPage(_newProjectGeneralInformationDialog);
+			_newProjectGeneralInformationDialog.CheckInputs();
 
 			return this;
 		}
@@ -55,25 +72,162 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 		{
 			BaseObject.InitPage(_newProjectSetUpTMDialog);
 
-			if (_newProjectSetUpTMDialog.IsTMTableNotEmpty())
+			if (_newProjectSetUpTMDialog.IsTMTableEmpty())
 			{
-				_newProjectSetUpTMDialog.ClickTMTableFirstItem()
-					.ClickFinishBtn();
+				_newProjectSetUpTMDialog
+					.ClickTMTableFirstItem()
+					.ClickFinishButton();
 			}
 			else
 			{
-				_newProjectSetUpTMDialog.ClickCreateTMBtn()
+				_newProjectSetUpTMDialog
+					.ClickCreateTMButton()
 					.SetNewTMName(newTMName)
-					.ClickSaveBtn()
+					.ClickSaveButton()
 					.AssertIsTMTableNotEmpty()
-					.ClickFinishBtn();
+					.ClickFinishButton();
 			}
 
 			return this;
 		}
 
+		/// <summary>
+		/// Создаём новый проект
+		/// </summary>
+		/// <param name="projectName">имя проекта</param>
+		/// <param name="filePath">путь к файлу</param>
+		/// <param name="sourceLanguage">исходный язык</param>
+		/// <param name="targetLanguage">язык перевода</param>
+		public ProjectsHelper CreateNewProject(
+			string projectName,
+			string filePath = null,
+			Language sourceLanguage = Language.English,
+			Language targetLanguage = Language.Russian)
+		{
+			ClickCreateProjectButton();
+			FillGeneralProjectInformation(projectName, filePath, sourceLanguage, targetLanguage);
+			ClickNextOnGeneralProjectInformationPage();
+
+			BaseObject.InitPage(_newProjectSetUpWorkflowDialog);
+			_newProjectSetUpWorkflowDialog
+				.ClickFinishCreate()
+				.WaitCreateProjectDialogDissapeared();
+
+			return this;
+		}
+
+		/// <summary>
+		/// Проверить, что есть ошибка о повторяющемся имени проекта
+		/// </summary>
+		public CreateProjectHelper AssertErrorDuplicateName()
+		{
+			BaseObject.InitPage(_newProjectGeneralInformationDialog);
+			_newProjectGeneralInformationDialog
+				.AssertErrorDuplicateName()
+				.AssertNameInputError();
+
+			return this;
+		}
+
+		/// <summary>
+		/// Проверить, что есть ошибка о совпадении source и target языков
+		/// </summary>
+		public CreateProjectHelper AssertErrorDuplicateLanguage()
+		{
+			BaseObject.InitPage(_newProjectGeneralInformationDialog);
+			_newProjectGeneralInformationDialog.AssertDuplicateLanguageError();
+
+			return this;
+		}
+
+		/// <summary>
+		/// Проверить, что есть ошибка о недопустимых символах в имени проекта
+		/// </summary>
+		public CreateProjectHelper AssertErrorForbiddenSymbols()
+		{
+			BaseObject.InitPage(_newProjectGeneralInformationDialog);
+			_newProjectGeneralInformationDialog
+				.AssertErrorForbiddenSymbols()
+				.AssertNameInputError();
+
+			return this;
+		}
+
+		/// <summary>
+		/// Провреить, что есть ошибка о пустом имени проекта
+		/// </summary>
+		public CreateProjectHelper AssertErrorNoName()
+		{
+			BaseObject.InitPage(_newProjectGeneralInformationDialog);
+			_newProjectGeneralInformationDialog
+				.AssertErrorNoName()
+				.AssertNameInputError();
+
+			return this;
+		}
+
+		/// <summary>
+		/// Открыть даилог создания проекта
+		/// </summary>
+		public CreateProjectHelper OpenCreateProjectDialog()
+		{
+			BaseObject.InitPage(_projectsPage);
+			_projectsPage.ClickCreateProjectButton();
+
+			return this;
+		}
+
+		/// <summary>
+		/// Отменить создание проекта
+		/// </summary>
+		public ProjectsHelper CancelCreateProject()
+		{
+			BaseObject.InitPage(_newProjectGeneralInformationDialog);
+			_newProjectGeneralInformationDialog
+				.ClickCloseDialog()
+				.WaitCreateProjectDialogDissapeared();
+
+			return this;
+		}
+
+		/// <summary>
+		/// Метод добавляет файл в диалоге создания проекта
+		/// </summary>
+		/// <param name="filePath">путь к файлу</param>
+		public CreateProjectHelper AddFileFromWizard(string filePath)
+		{
+			BaseObject.InitPage(_newProjectGeneralInformationDialog);
+			_newProjectGeneralInformationDialog
+				.UploadFile(filePath)
+				.AssertIfFileUploaded(Path.GetFileName(filePath));
+
+			return this;
+		}
+
+		/// <summary>
+		/// Метод удаляет файл в диалоге создания проекта
+		/// </summary>
+		/// <param name="filePath">путь к файлу</param>
+		public CreateProjectHelper DeleteFileFromWizard(string filePath)
+		{
+			BaseObject.InitPage(_newProjectGeneralInformationDialog);
+			_newProjectGeneralInformationDialog
+				.ClickDeleteFile(Path.GetFileName(filePath))
+				.AssertFileDeleted(Path.GetFileName(filePath));
+
+			return this;
+		}
+
+		public string GetProjectUniqueName()
+		{
+			// Sleep необходим, чтобы имена были уникальными, когда создаём несколько имён подряд. Чтобы не вышло, что кол-во тиков одинаковое.
+			Thread.Sleep(10);
+			return "Test Project" + "_" + DateTime.UtcNow.Ticks;
+		}
+
 		private readonly ProjectsPage _projectsPage = new ProjectsPage();
 		private readonly NewProjectGeneralInformationDialog _newProjectGeneralInformationDialog = new NewProjectGeneralInformationDialog();
 		private readonly NewProjectSetUpTMDialog _newProjectSetUpTMDialog = new NewProjectSetUpTMDialog();
+		private readonly NewProjectSetUpWorkflowDialog _newProjectSetUpWorkflowDialog = new NewProjectSetUpWorkflowDialog();
 	}
 }
