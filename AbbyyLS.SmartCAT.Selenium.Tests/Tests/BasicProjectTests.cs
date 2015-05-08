@@ -8,7 +8,7 @@ using AbbyyLS.SmartCAT.Selenium.Tests.Tests;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 {
-	[Standalone]
+	[PriorityMajor]
 	[TestFixture]
 	class BasicProjectTests<TWebDriverSettings> : BaseTest<TWebDriverSettings> where TWebDriverSettings : IWebDriverSettings, new()
 	{
