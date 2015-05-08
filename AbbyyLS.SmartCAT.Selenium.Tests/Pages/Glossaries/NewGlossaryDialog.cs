@@ -133,6 +133,16 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 			return GetPage();
 		}
 
+		public NewGlossaryDialog AssertNewGlossaryDialogAppear()
+		{
+			Logger.Trace("Проверить, что диалог создания глоссария открылся");
+			
+			Assert.IsTrue(Driver.WaitUntilElementIsDisplay(By.XPath(NEW_GLOSSARY_DIALOG)),
+				"Произошла ошибка:\n диалог создания глоссария не открылся.");
+
+			return GetPage();
+		}
+
 		[FindsBy(How = How.XPath, Using = CLIENT_LIST)]
 		protected IWebElement ClientsList { get; set; }
 
@@ -150,7 +160,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 		protected const string DROPDOWN_LIST= "//body/span[contains(@class,'js-dropdown')]";
 		protected const string SAVE_GLOSSARY_BUTTON= ".//div[contains(@class,'js-popup-edit-glossary')][2]//span[@data-bind='click: save']";
 		protected const string PROJECT_GROUPS_LIST = ".//div[contains(@class,'js-popup-edit-glossary')][2]//div[@class='l-editgloss__contrbox'][3]//div";
-		protected const string DIALOG = ".//div[contains(@class,'js-popup-edit-glossary')][2]";
+		protected const string NEW_GLOSSARY_DIALOG = ".//div[contains(@class,'js-popup-edit-glossary')][2]";
 		protected const string MULTISELECT_LIST = ".//ul[contains(@class,'ui-multiselect-checkboxes')]//span[contains(@class,'ui-multiselect-item-text')]";
 	}
 }

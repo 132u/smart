@@ -40,7 +40,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 				.ScrollAndClickCreateProjectGroupsButton()
 				.АssertGroupProjectEmptyRowDisplayed()
 				.FillProjectGroupName(projectGroup)
-				.ClickSaveProjectGroups();
+				.ClickSaveProjectGroups()
+				.AssertSaveButtonDisappear();
 
 			return this;
 		}

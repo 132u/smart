@@ -34,6 +34,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 			BaseObject.InitPage(_glossariesPage);
 			_glossariesPage
 				.ClickCreateGlossaryButton()
+				.AssertNewGlossaryDialogAppear()
 				.OpenProjectGroupsList()
 				.AssertProjectGroupsListOpened()
 				.AssertProjectGroupExistInList(projectGroupName);
