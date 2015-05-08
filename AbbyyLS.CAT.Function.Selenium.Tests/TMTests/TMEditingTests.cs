@@ -102,7 +102,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.TM
 				string.Format("Ошибка: ТМ {0} нет в списке при создании проекта.", UniqueTmName));
 
 			WorkspaceCreateProjectDialog.ClickCloseDialog();
-
+			WorkspaceCreateProjectDialog.WaitDialogDisappear();
 			SwitchTMTab();
 
 			// Измененное имя ТМ
