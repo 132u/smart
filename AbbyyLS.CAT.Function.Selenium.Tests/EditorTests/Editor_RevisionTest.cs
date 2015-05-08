@@ -189,7 +189,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Editor.Revisions
 
 			// Проверить тип
 			Assert.AreEqual(
-				Editor_RevisionPageHelper.RevisionType.AutoSave,
+				Editor_RevisionPageHelper.RevisionType.ManualInput,
 				RevisionPage.GetRevisionType(1),
 				"Ошибка: тип ревизии не совпадает");
 		}
@@ -229,7 +229,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Editor.Revisions
 
 			// Проверить тип
 			Assert.AreEqual(
-				Editor_RevisionPageHelper.RevisionType.AutoSave,
+				Editor_RevisionPageHelper.RevisionType.ManualInput,
 				RevisionPage.GetRevisionType(1),
 				"Ошибка: тип ревизии не совпадает");
 
@@ -343,7 +343,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Editor.Revisions
 
 			// Проверить тип ревизии
 			Assert.AreEqual(
-				Editor_RevisionPageHelper.RevisionType.AutoSave,
+				Editor_RevisionPageHelper.RevisionType.ManualInput,
 				RevisionPage.GetRevisionType(1),
 				"Ошибка: неправильный тип ревизии");
 		}

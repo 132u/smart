@@ -341,6 +341,9 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 
 			Driver.Manage().Window.Maximize();
 
+			// TODO убрать после прогона в тимсити (нужно для информации)
+			Logger.Trace("Размер окна браузера =" + Driver.Manage().Window.Size);
+
 			recreateDrivers();
 		}
 
@@ -1176,7 +1179,13 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			Logger.Debug("Добавить перевод и подтвердить");
 
 			EditorPage.AddTextTarget(segmentRowNumber, text);
+			
 			EditorPage.ClickConfirmBtn();
+
+			if (EditorPage.IsMessageBoxDisplay())
+			{
+				EditorPage.ClickConfirmButtonInMessageBox();
+			}
 
 			Assert.IsTrue(WaitSegmentConfirm(segmentRowNumber),
 				"Ошибка: подтверждение (Confirm) не прошло. Возле сегмента не появилась зеленая галка.");
@@ -1634,12 +1643,8 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// </summary>
 		protected void AutoSave()
 		{
-			Assert.IsTrue(
-				EditorPage.WaitUntilAllSegmentsSave(),
-				"Ошибка: Не проходит автосохранение. Надпись 'Saving' по-прежнему имеется над окном с сегментами.");
-
 			Assert.AreEqual(
-				Editor_RevisionPageHelper.RevisionType.AutoSave,
+				Editor_RevisionPageHelper.RevisionType.ManualInput,
 				RevisionPage.GetRevisionType(1),
 				"Ошибка: неверный тип последней ревизии после автосохранения.");
 		}

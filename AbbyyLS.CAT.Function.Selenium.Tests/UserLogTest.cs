@@ -133,6 +133,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			QuitDriverAfterTest = false;
 			// Переходим к странице воркспейса
 			GoToUrl(RelativeUrlProvider.Workspace);
+			WorkspacePage.CloseTour();
 		}
 
 		/// <summary>

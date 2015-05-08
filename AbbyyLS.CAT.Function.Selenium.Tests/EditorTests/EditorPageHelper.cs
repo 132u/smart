@@ -328,6 +328,18 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			ClickElement(By.Id(UNDO_BTN_ID));
 		}
 
+		public bool IsMessageBoxDisplay()
+		{
+			Logger.Trace("Проверить, появилось ли сообщение 'Translation is different from the context match in the TM'");
+			return GetIsElementDisplay(By.XPath(MESSAGE_BOX));
+		}
+
+		public void ClickConfirmButtonInMessageBox()
+		{
+			Logger.Debug("Нажать Confirm в сообщении");
+			ClickElement(By.XPath(CONFIRM_BUTTON_MESSAGE_BOX));
+		}
+
 		public void ClickRedoBtn()
 		{
 			Log.Trace("Кликнуть Redo");
@@ -1073,6 +1085,8 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 
 		protected const string CONTINUE_BTN_IN_WORKFLOW_SELECT_WINDOW = "//a[@id='wf-continue-btn']";
 
+		protected const string MESSAGE_BOX = ".//div[@id='messagebox']";
+		protected const string CONFIRM_BUTTON_MESSAGE_BOX = "//div[@id='messagebox-toolbar-targetEl']//a[@id='button-1020']";
 		public bool GetTaskBtnIsExist()
 		{
 			return GetIsElementExist(By.XPath(TASK_TRNSLT_BTN_XPATH));

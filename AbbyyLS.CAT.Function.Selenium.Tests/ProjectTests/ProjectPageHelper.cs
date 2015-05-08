@@ -697,6 +697,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			if (isExistDocument)
 			{
 				Logger.Trace("Клик по документу на странице проекта");
+				WaitUntilDisplayElement(By.XPath(documentXPath));
 				ClickElement(By.XPath(documentXPath));
 			}
 

@@ -19,7 +19,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		{
 			revisionTypeList = new Dictionary<string,RevisionType>
 			{
-				{REVISION_TYPE_AUTOSAVE, RevisionType.AutoSave},
+				{REVISION_TYPE_MANUAL_INPUT, RevisionType.ManualInput},
 				{REVISION_TYPE_CONFIRMED, RevisionType.Confirmed},
 				{REVISION_TYPE_INSERT_MT, RevisionType.InsertMT},
 				{REVISION_TYPE_INSERT_TM, RevisionType.InsertTM},
@@ -235,7 +235,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			return REVISION_LIST_XPATH + "[" + revisionNumber + "]" + column;
 		}
 
-		public enum RevisionType { AutoSave, Confirmed, InsertMT, InsertTM, Restored, InsertTb, Pretranslation};
+		public enum RevisionType { ManualInput, Confirmed, InsertMT, InsertTM, Restored, InsertTb, Pretranslation};
 
 		protected const string REVISION_BTN_ID = "revisions-tab";
 		protected const string REVISION_TAB_ID = "revisions-body";
@@ -253,7 +253,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		protected const string ROLLBACK_DISABLED_CLASS = "x-btn-disabled";
 
 		protected Dictionary<string, RevisionType> revisionTypeList;
-		protected const string REVISION_TYPE_AUTOSAVE = "Autosave";
+		protected const string REVISION_TYPE_MANUAL_INPUT = "Manual input";
 		protected const string REVISION_TYPE_CONFIRMED = "Confirmation";
 		protected const string REVISION_TYPE_INSERT_MT = "MT insertion";
 		protected const string REVISION_TYPE_INSERT_TM = "TM insertion";
