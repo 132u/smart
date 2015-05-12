@@ -195,6 +195,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.Glossary.EditStructure.T
 			AddAllSystemTermFieldStructure();
 			// Нажать New item
 			GlossaryPage.ClickNewItemBtn();
+			GlossaryPage.WaitUntilTermsDisplay();
 			// Заполнить термин
 			FillNewItemExtended();
 			// Нажать на термин, чтобы появились поля для Term
