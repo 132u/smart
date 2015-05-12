@@ -47,6 +47,8 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Editor
 			// 1. Переход на страницу workspace
 			GoToUrl(RelativeUrlProvider.Workspace);
 
+			WorkspacePage.CloseTour();
+
 			// 2. Создание проекта с 1 документом внутри
 			// При проверке PreviousStage нужно создать новый проект с уникальным именем, т.к. необходимо внести изменения в задачи
 			// При проверке Tag нужно чтобы в документе проекта присутствовал tag
