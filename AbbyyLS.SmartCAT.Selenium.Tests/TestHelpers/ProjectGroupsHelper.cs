@@ -18,6 +18,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 				.HoverCursorToProjectGroup(projectGroupsName)
 				.AssertEditButtonDisplay(projectGroupsName)
 				.ClickEditButton(projectGroupsName)
+				.AssertIsEditMode()
 				.FillNewName(newProjectGroupName)
 				.ClickSaveProjectGroups();
 
@@ -36,12 +37,18 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 		public ProjectGroupsHelper CreateProjectGroup(string projectGroup)
 		{
 			BaseObject.InitPage(_projectGroupsPage);
-			_projectGroupsPage
-				.ScrollAndClickCreateProjectGroupsButton()
+			_projectGroupsPage.ScrollAndClickCreateProjectGroupsButton()
 				.АssertGroupProjectEmptyRowDisplayed()
 				.FillProjectGroupName(projectGroup)
-				.ClickSaveProjectGroups()
-				.AssertSaveButtonDisappear();
+				.ClickSaveProjectGroups();
+
+			return this;
+		}
+
+		public ProjectGroupsHelper AssertSaveButtonDisappear()
+		{
+			BaseObject.InitPage(_projectGroupsPage);
+			_projectGroupsPage.AssertSaveButtonDisappear();
 
 			return this;
 		}

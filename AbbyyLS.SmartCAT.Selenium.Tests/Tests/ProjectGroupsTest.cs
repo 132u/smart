@@ -25,6 +25,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.ProjectGroups
 
 			_projectGroupHelper
 				.CreateProjectGroup(projectGroup)
+				.AssertSaveButtonDisappear()
 				.AssertProjectGroupExist(projectGroup);
 		}
 
@@ -35,6 +36,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.ProjectGroups
 
 			_projectGroupHelper
 				.CreateProjectGroup(projectGroup)
+				.AssertSaveButtonDisappear()
 				.CreateProjectGroup(projectGroup)
 				.AssertNameErrorExist();
 		}
@@ -55,6 +57,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.ProjectGroups
 
 			_projectGroupHelper
 				.CreateProjectGroup(projectGroup)
+				.AssertSaveButtonDisappear()
 				.GoToTranslationMemoriesPage()
 				.AssertProjectGroupExist(projectGroup);
 		}
@@ -66,6 +69,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.ProjectGroups
 
 			_projectGroupHelper
 				.CreateProjectGroup(projectGroup)
+				.AssertSaveButtonDisappear()
 				.GoToGlossariesPage()
 				.AssertProjectGroupExist(projectGroup);
 		}
@@ -78,6 +82,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.ProjectGroups
 
 			_projectGroupHelper
 				.CreateProjectGroup(projectGroup)
+				.AssertSaveButtonDisappear()
 				.RenameProjectGroup(projectGroup, newProjectGroupsName)
 				.AssertProjectGroupNotExist(projectGroup)
 				.AssertProjectGroupExist(newProjectGroupsName);
@@ -91,6 +96,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.ProjectGroups
 
 			_projectGroupHelper
 				.CreateProjectGroup(projectGroup)
+				.AssertSaveButtonDisappear()
 				.RenameProjectGroup(projectGroup, projectGroupName)
 				.AssertIsEditMode();
 		}
@@ -103,7 +109,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.ProjectGroups
 
 			_projectGroupHelper
 				.CreateProjectGroup(projectGroup)
+				.AssertSaveButtonDisappear()
 				.CreateProjectGroup(secondProjectGroupName)
+				.AssertSaveButtonDisappear()
 				.RenameProjectGroup(secondProjectGroupName, projectGroup)
 				.AssertNameErrorExist();
 		}
@@ -115,6 +123,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.ProjectGroups
 
 			_projectGroupHelper
 				.CreateProjectGroup(projectGroup)
+				.AssertSaveButtonDisappear()
 				.DeleteProjectGroup(projectGroup)
 				.AssertProjectGroupNotExist(projectGroup);
 		}
@@ -126,6 +135,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.ProjectGroups
 
 			_projectGroupHelper
 				.CreateProjectGroup(projectGroup)
+				.AssertSaveButtonDisappear()
 				.DeleteProjectGroup(projectGroup)
 				.GoToTranslationMemoriesPage()
 				.AssertProjectGroupNotExist(projectGroup);
@@ -138,6 +148,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.ProjectGroups
 
 			_projectGroupHelper
 				.CreateProjectGroup(projectGroup)
+				.AssertSaveButtonDisappear()
 				.DeleteProjectGroup(projectGroup)
 				.GoToGlossariesPage()
 				.AssertProjectGroupNotExist(projectGroup);
