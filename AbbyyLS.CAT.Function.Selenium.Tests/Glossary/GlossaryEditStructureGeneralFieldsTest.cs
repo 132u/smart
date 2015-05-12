@@ -198,6 +198,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.Glossary.EditStructure.T
 			AddAllSystemGeneralFieldStructure();
 			// Нажать New item
 			GlossaryPage.ClickNewItemBtn();
+			GlossaryPage.WaitUntilTermsDisplay();
 			// Заполнить термин
 			FillNewItemExtended();
 		}
