@@ -742,7 +742,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		private bool isTourOpen()
 		{
 			Logger.Trace("Проверка, что окно инструкции открыто");
-			return GetIsElementExist(By.XPath(CLOSE_TOUR_BUTTON));
+			return GetIsElementDisplay(By.XPath(CLOSE_TOUR_BUTTON));
 		}
 
 		public const string LOCALE_EN_LANG = "en";

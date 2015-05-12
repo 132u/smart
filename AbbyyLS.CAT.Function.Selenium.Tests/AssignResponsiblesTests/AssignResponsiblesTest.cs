@@ -53,6 +53,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 
 			// Переход на страницу workspace
 			GoToUrl(RelativeUrlProvider.Workspace);
+			WorkspacePage.CloseTour();
 		}
 
 		/// <summary>

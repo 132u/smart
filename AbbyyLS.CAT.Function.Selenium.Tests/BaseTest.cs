@@ -341,9 +341,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 
 			Driver.Manage().Window.Maximize();
 
-			// TODO убрать после прогона в тимсити (нужно для информации)
-			Logger.Trace("Размер окна браузера =" + Driver.Manage().Window.Size);
-
 			recreateDrivers();
 		}
 
