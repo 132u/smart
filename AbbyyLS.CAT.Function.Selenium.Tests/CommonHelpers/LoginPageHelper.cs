@@ -281,6 +281,14 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			return GetIsElementDisplay(By.XPath(ERROR_INVALID_EMAIL));
 		}
 
+		public bool GetSubmitButtonDisable()
+		{
+			var submitButton = GetElement(By.XPath(SUBMIT_BTN_AUTH_XPATH));
+			
+			return submitButton.GetAttribute("disabled") == null ? false : true;
+
+		}
+
 		public bool GetMessageAccountNotFoundDisplay()
 		{
 			WaitUntilDisplayElement(By.XPath(MESSAGE_ACCOUNT_NOT_FOUND));

@@ -114,7 +114,11 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		[TestCase("invalidEmail", "YrdyNpnnu", "invalidEmail")] // неправильный email, без символа @
 		public void LoginIncorrectCredentials(string email, string password, string error)
 		{
-			LogIn(email, password);
+			FillLogInForm(email, password);
+			if (error != "emptyEmail" && error != "invalidEmail")
+			{
+				LoginPage.ClickSubmitAuthEmail();
+			}
 			switch (error)
 			{
 				case "wrongPassword":
@@ -129,7 +133,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 
 				case "emptyEmail":
 					Assert.IsTrue(
-						LoginPage.GetErrorNoEmailDisplay(), "Ошибка: сообщение о пустом email не появилось");
+						LoginPage.GetSubmitButtonDisable(), "Ошибка: кнопка отправки формы доступна");
 					break;
 
 				case "notFoundEmail":
@@ -139,7 +143,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 
 				case "invalidEmail":
 					Assert.IsTrue(
-						LoginPage.GetErrorInvalidEmailDisplay(), "Ошибка: сообщение о невалидном email не появилось");
+						LoginPage.GetSubmitButtonDisable(), "Ошибка: кнопка отправки формы доступна");
 					break;
 			}
 		}
@@ -376,14 +380,22 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		}
 
 		/// <summary>
-		/// Ввод данных на странице авторизации
+		/// Залогиниться
 		/// </summary>
 		protected void LogIn(string email, string password)
+		{
+			FillLogInForm(email, password);
+			LoginPage.ClickSubmitAuthEmail();
+		}
+
+		/// <summary>
+		/// Ввод данных на странице авторизации
+		/// </summary>
+		protected void FillLogInForm(string email, string password)
 		{
 			GoToSignInPage();
 			LoginPage.EnterLogin(email);
 			LoginPage.EnterPassword(password);
-			LoginPage.ClickSubmitAuthEmail();
 		}
 
 		protected void GoToSignInPage()
