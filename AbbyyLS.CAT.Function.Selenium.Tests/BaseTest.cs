@@ -687,7 +687,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			Assert.IsTrue(WorkspacePage.WaitPageLoad(), "Страница workspace не прогрузилась");
 
 			WorkspacePage.ClickCreateProject();
-			WorkspaceCreateProjectDialog.WaitDialogDisplay();
+			Assert.IsTrue(WorkspaceCreateProjectDialog.WaitDialogDisplay(), "Произошла ошибка:\n диалог создания проекта не открылся.");
 			WorkspaceCreateProjectDialog.FillProjectName(projectName);
 			WorkspaceCreateProjectDialog.FillDeadlineDate(DeadlineDate);
 			WorkspaceCreateProjectDialog.SelectSourceLanguage(srcLang);

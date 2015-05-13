@@ -820,6 +820,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 
 		protected const string PROJECT_SEARCH_FIELD = "//input[@name='searchName']";
 		protected const string SEARCH_PROJECT_BUTTON = "//a[contains(@class, 'js-search-btn')]/img";
-		protected const string CLOSE_TOUR_BUTTON = "//div[contains(@class, 'hopscotch-bubble')]//div[@class='hopscotch-actions']/button[contains(@class, 'cta')]";
+		protected const string CLOSE_TOUR_BUTTON = "//div[@class='hopscotch-bubble animated']//button[contains(@class, 'cta')]";
 	}
 }
