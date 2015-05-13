@@ -71,6 +71,19 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			return GetIsElementExist(By.CssSelector(SEGMENTS_CSS));
 		}
 
+		public void CloseTutorial()
+		{
+			if (tutorialExist())
+			{
+				Driver.FindElement(By.XPath(FINISH_TUTORIAL_BUTTON)).Click();
+			}
+		}
+
+		private bool tutorialExist()
+		{
+			return GetIsElementDisplay(By.XPath(FINISH_TUTORIAL_BUTTON));
+		}
+
 		public void SelectWordPartBeforeSpaceByShiftArrowRight(string text)
 		{
 			Logger.Trace("Выделение части строки до первого пробела");
@@ -1074,6 +1087,8 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		protected const string CAT_PANEL_TEXT_COLUMN_XPATH = CAT_PANEL_EXISTENCE_XPATH + CAT_PANEL_TEXT_COL_PART;
 		protected const string CAT_PANEL_TYPE_COLUMN_MATCH_XPATH = CAT_PANEL_EXISTENCE_XPATH + "//td[3]//div//span";
 
+		protected const string FINISH_TUTORIAL_BUTTON = "//span[contains(text(),'Finish') and contains(@id, 'button')]";
+		
 		private static readonly Logger Log = LogManager.GetCurrentClassLogger();
 
 		public enum CAT_TYPE { MT, TM, TB };

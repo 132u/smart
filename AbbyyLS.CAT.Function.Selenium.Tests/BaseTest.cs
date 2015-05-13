@@ -489,6 +489,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			EditorPage.AssertionIsPageLoad();
 			Thread.Sleep(1000);
 
+			EditorPage.CloseTutorial();
 			// Проверить, существует ли хотя бы один сегмент
 			Assert.IsTrue(EditorPage.GetSegmentsExist(), "Ошибка: нет сегментов");
 		}
