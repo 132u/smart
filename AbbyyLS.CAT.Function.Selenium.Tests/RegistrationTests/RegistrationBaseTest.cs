@@ -73,6 +73,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.RegistrationTests
 				RegistrationPage.DomainName,
 				"123123213123213");
 			RegistrationPage.ClickCreateAccountCompanyBtn();
+			WorkspacePage.CloseTour();
 			Assert.IsTrue(WorkspacePage.WaitPageLoad(), "Страница workspace не прогрузилась");
 			Logger.Trace("WorkspacePage.GetCompanyName() NEWUSER = " + WorkspacePage.GetCompanyName() + ";\nRegistrationPage.nameCompany NEW USER = " + RegistrationPage.NameCompany);
 			Assert.IsTrue(
