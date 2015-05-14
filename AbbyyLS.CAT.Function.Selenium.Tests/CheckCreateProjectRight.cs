@@ -21,7 +21,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.CheckRights
 
 			// Переходим к странице воркспейса
 			GoToUrl(RelativeUrlProvider.Workspace);
-
+			WorkspacePage.CloseTour();
 			// Переходим к вкладке "Пользователи и права"
 			WorkspacePage.ClickUsersAndRightsBtn();
 
@@ -55,8 +55,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.CheckRights
 			// Авторизуемся под пользователем, для которого выставляли права
 			Authorization(TestRightsLogin, TestRightsPassword, accountName);
 
-			//Временная мера. Перегружаем страницу. (PRX-8283)
-			RefreshPage();
+			WorkspacePage.CloseTour();
 		}
 
 
