@@ -226,6 +226,15 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		}
 
 		/// <summary>
+		/// Дождаться открытия группы
+		/// </summary>
+		public void WaitUntilGroupOpen()
+		{
+			Assert.IsTrue(WaitUntilDisplayElement(By.XPath(BUTTON_EDIT_GROUP)),
+				"Ошибка: группа не открылась.");
+		}
+
+		/// <summary>
 		/// Возвращает список пользователей в открытой группе
 		/// </summary>
 		/// <returns>Список пользователей</returns>
@@ -349,6 +358,28 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		}
 
 		/// <summary>
+		/// Дождаться появления формы добавления прав для группы
+		/// </summary>
+		public void WaitUntilAddRightsFormDisplay()
+		{
+			Logger.Trace("Дождаться появления формы добавления прав для группы.");
+
+			Assert.IsTrue(WaitUntilDisplayElement(By.XPath(ADD_RIGHTS_FORM)),
+				"Ошибка: форма добавления прав для группы не появилась.");
+		}
+
+		/// <summary>
+		/// Дождаться закрытия формы добавления прав для группы
+		/// </summary>
+		public void WaitUntilAddRightsFormDisappear()
+		{
+			Logger.Trace("Дождаться закрытия формы добавления прав для группы.");
+
+			Assert.IsTrue(WaitUntilDisappearElement(By.XPath(ADD_RIGHTS_FORM)),
+				"Ошибка: форма добавления прав для группы не закрылась.");
+		}
+
+		/// <summary>
 		/// Кликнуть по radio button с правом на создание проектов 
 		/// </summary>
 		public void RightCreateProjectClick()
@@ -451,5 +482,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		protected const string FOR_ANY_PROJECTS_RADIO = "//div[contains(@class,'js-add-access-right-popup')][2]//span[contains(@data-bind, 'unrestricted')]";
 		protected const string FIND_USERS_INPUT = "//input[contains(@class,'finduser')]";
 		protected const string ADD_USER_IN_GRORUP_BUTTON = "//table[contains(@data-bind,'foundUsers')]//td[text()='";
+		protected const string ADD_RIGHTS_FORM = "//div[contains(@class,'js-add-access-right-popup')][2]";
 	}
 }

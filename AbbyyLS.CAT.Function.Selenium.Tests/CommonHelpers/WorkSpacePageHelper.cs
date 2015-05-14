@@ -111,6 +111,16 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			}
 		}
 
+		public void CloseProjectInfo(string projectName)
+		{
+			Logger.Trace(string.Format("Закрытие свертки проекта {0}", projectName));
+
+			if (GetClassAttrProjectInfo(projectName).Contains("opened"))
+			{
+				ClickElement(By.XPath(GetProjectRefXPath(projectName) + FOLDER_SIGN));
+			}
+		}
+
 		public bool OpenDocumentInfo(int documentNumber)
 		{
 			Logger.Trace(string.Format("Открытие свертки документа {0}", documentNumber));

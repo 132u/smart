@@ -18,7 +18,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.CheckRights
 		{
 			var groupName = "GroupTest" + DateTime.Now.Ticks.ToString();
 			var accountName = "TestAccount";
-			
+
 			// Переходим к странице воркспейса
 			GoToUrl(RelativeUrlProvider.Workspace);
 
@@ -189,7 +189,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.CheckRights
 			// Формируем имя загружаемого архива.
 			Logger.Trace(DateTime.UtcNow.ToString("yyyy-MM-dd_HH"));
 			var postfix = menuItem == "Original" ? "Source" : "Target";
-			workWithExport("Documents_" + DateTime.UtcNow.ToString("yyyy-MM-dd_HH_mm") + "*." + postfix + ".zip");
+			workWithExport("Documents_" + DateTime.UtcNow.ToString("yyyy-MM-dd_HH-mm") + "*." + postfix + ".zip");
 		}
 
 		/// <summary>
@@ -211,7 +211,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.CheckRights
 			{
 				// Во время создания проекта свёртка открылась
 				// Вызов этого метода повторно закрывает её.
-				WorkspacePage.OpenProjectInfo(ProjectUniqueName);
+				WorkspacePage.CloseProjectInfo(ProjectUniqueName);
 
 				// Нажать Удалить
 				WorkspacePage.ClickDeleteProjectBtn();
@@ -411,6 +411,8 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.CheckRights
 			// Кликаем на нужную группу
 			UserRightsPage.ClickGroupByName(groupName);
 
+			UserRightsPage.WaitUntilGroupOpen();
+
 			// Добавляем нужные для этого теста права
 			addRightsCreateProjects();
 		}
@@ -577,6 +579,8 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.CheckRights
 			// Кликаем по кнопке добавления прав для группы
 			UserRightsPage.AddAccessRigthButtonClick();
 
+			UserRightsPage.WaitUntilAddRightsFormDisplay();
+
 			// Кликаем по radio button с правом на создание проектов 
 			UserRightsPage.RightCreateProjectClick();
 
@@ -588,6 +592,8 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.CheckRights
 
 			// Кликаем кнопку добавления прав (Кнопка Add  - завершает диалог)
 			UserRightsPage.AddRightDialogClick();
+
+			UserRightsPage.WaitUntilAddRightsFormDisappear();
 		}
 
 		/// <summary>

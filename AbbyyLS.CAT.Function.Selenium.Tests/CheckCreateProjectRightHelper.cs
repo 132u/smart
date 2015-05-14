@@ -233,12 +233,12 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.CheckRights
 		
 		protected const string FILE_IN_PROJECT = "//a[contains(@class,'doc-link')][text()='";
 		protected const string PROJECT_PANEL_XPATH = "//div[@class='js-panel-container']";
-		protected const string DOWNLOAD_BUTTON_IN_PROJECT = PROJECT_PANEL_XPATH + "//li[@class='l-project-export-block']";
+		protected const string DOWNLOAD_BUTTON_IN_PROJECT = PROJECT_PANEL_XPATH + "//li[@class='g-buttonmenu-block']";
 		protected const string DOWNLOAD_BUTTON_IN_MENU = "//div[contains(@class,'hd')]//span[contains(@class,'js-document-export')]";
-		protected const string MENU_ITEM_IN_PROJECT = PROJECT_PANEL_XPATH + "//a[@class='l-project-export-link' and text()='";
+		protected const string MENU_ITEM_IN_PROJECT = PROJECT_PANEL_XPATH + "//a[@class='g-buttonmenu-item-link' and text()='";
 		protected const string MENU_ITEM_IN_MENU = "//div[contains(@class,'hd')]//a[text()='";
 		protected const string ADD_FILES_BUTTON = "//span[contains(@data-bind,'importJob')]";
-		protected const string ADD_FILE_ON_WORKSPACE_PAGE = "//div[contains(@class,'js-popup-import-document')][2]//div[@class='js-files-uploader']//input";
+		protected const string ADD_FILE_ON_WORKSPACE_PAGE = "//div[contains(@class,'js-popup-import-document')][2]//div[contains(@class,'js-files-uploader')]//input";
 		protected const string DOCUMENT_CHECKBOX = "//tr[td[div[a[contains(@class,'doc-link')][text()='";
 		protected const string SIGN_TO_CONNECTOR_BUTTON = "//a[text()='Sign In to Connector']";
 		protected const string DELETE_PROJECT_OR_FILES = "//div[text()='Delete project(s) or document(s)?']";
