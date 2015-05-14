@@ -9,5 +9,11 @@
 		ResultDirectory="../TestResults"
 		ConfigDirectory="../configs"
 	/>
+	
+	<UserInfo
+		Login ="bobby@mailforspam.com"
+		Password ="YrdyNpnnu"
+		UserName ="Bobby Test"
+	/>
 
 </configuration>
