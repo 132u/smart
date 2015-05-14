@@ -189,7 +189,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			Driver.FindElement(By.XPath(MENU_OPEN_BTN)).Click();
 		}
 
-		protected const string MENU_OPEN_BTN = "//h2[@class='g-topbox__header']/a";
+		protected const string MENU_OPEN_BTN = "//h2[contains(@class,'g-topbox__header')]/a";
 		protected const string LEFT_MENU = "//div[contains(@class, 'js-mainmenu')]";
 
 		protected const string WORKSPACE_REF_XPATH = ".//a[contains(@href,'/Workspace')]";
