@@ -203,7 +203,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			Logger.Trace("Проверить наличие сообщения об ошибке о пустом имени глоссария");
 
 			Assert.IsTrue(
-				GetIsElementDisplay(By.XPath(ERROR_EMPTY_NAME_XPATH)),
+				WaitUntilDisplayElement(By.XPath(ERROR_EMPTY_NAME_XPATH)),
 				"Ошибка: не появилось сообщение о пустом имени глоссария");
 		}
 
