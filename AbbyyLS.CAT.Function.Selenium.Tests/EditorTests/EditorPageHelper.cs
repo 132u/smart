@@ -344,6 +344,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		public bool IsMessageBoxDisplay()
 		{
 			Logger.Trace("Проверить, появилось ли сообщение 'Translation is different from the context match in the TM'");
+			WaitUntilDisplayElement(By.XPath(MESSAGE_BOX));
 			return GetIsElementDisplay(By.XPath(MESSAGE_BOX));
 		}
 
