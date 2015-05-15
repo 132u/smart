@@ -10,4 +10,10 @@
 		ConfigDirectory="../configs"
 	/>
 
+	<UserInfo
+			Login ="teamcity@mailforspam.com"
+			Password ="teamcity"
+			UserName ="Teamcity Test"
+	/>
+	
 </configuration>
