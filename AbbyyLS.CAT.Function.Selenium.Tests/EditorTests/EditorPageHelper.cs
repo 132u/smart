@@ -37,18 +37,8 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		{
 			Logger.Debug("Проверяем, загрузилась ли страница");
 
-			bool isPageLoad;
-
-			try
-			{
-				isPageLoad = Wait.Until((d) => d.Url.Contains(TITLE_TEXT));
-			}
-			catch (WebDriverTimeoutException)
-			{
-				isPageLoad = false;
-			}
-
-			Assert.IsTrue(isPageLoad, "Ошибка: страница редактора не открылась.");
+			Assert.IsTrue(WaitUntilDisplayElement(By.Id(HOME_BTN_ID)),
+				"Ошибка: страница редактора не открылась.");
 		}
 		
 		/// <summary>
