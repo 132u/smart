@@ -306,6 +306,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Glossary
 			GlossaryPage.AssertionImportFormDisappear();
 
 			// Нажать Закрыть в сообщении об успешном добавлении
+			GlossaryPage.WaitUntilCloseSuccessButtonDisplay();
 			GlossaryPage.ClickCloseSuccessResult();
 			// TODO убрать sleep
 			Thread.Sleep(1000);

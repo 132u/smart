@@ -1,4 +1,5 @@
-﻿using OpenQA.Selenium;
+﻿using NUnit.Framework;
+using OpenQA.Selenium;
 using OpenQA.Selenium.Support.UI;
 
 namespace AbbyyLS.CAT.Function.Selenium.Tests
@@ -24,7 +25,10 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		public void ClickOpenWorkSpacePage()
 		{
 			if (!GetIsLeftMenuDisplay())
+			{
 				OpenHideMenu();
+				WaitUntilOpenHideMenu();
+			}
 			Logger.Trace("Клик по 'Projects' в главном меню слева");
 			ClickElement(By.XPath(WORKSPACE_REF_XPATH));
 		}
@@ -35,7 +39,10 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		public void ClickOpenDomainPage()
 		{
 			if (!GetIsLeftMenuDisplay())
+			{
 				OpenHideMenu();
+				WaitUntilOpenHideMenu();
+			}
 			Logger.Trace("Клик по 'Project Groups' в главном меню слева");
 			ClickElement(By.XPath(DOMAIN_REF_XPATH));
 		}
@@ -59,8 +66,20 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		{
 			Logger.Trace("Кликаем на ссылку Ресурсы.");
 			if (!GetIsLeftMenuDisplay())
+			{
 				OpenHideMenu();
+				WaitUntilOpenHideMenu();
+			}
 			ExpandResourcesMenu(GLOSSARY_REF_XPATH);
+		}
+
+		
+
+		public void WaitResourcesOpen()
+		{
+			Logger.Trace("Ожидаем раскрытия вкладки 'Ресурсы'.");
+			Assert.IsTrue(WaitUntilDisplayElement(By.XPath(SEARCH_REF_XPATH)),
+				"Ошибка: вкладка 'Ресурсы' не раскрылась.");
 		}
 
 		/// <summary>
@@ -69,7 +88,10 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		public void ClickOpenGlossaryPage()
 		{
 			if (!GetIsLeftMenuDisplay())
+			{
 				OpenHideMenu();
+				WaitUntilOpenHideMenu();
+			}
 			Logger.Trace("Клик по 'Glossaries' в главном меню слева");
 			ClickElement(By.XPath(GLOSSARY_REF_XPATH));
 		}
@@ -107,7 +129,10 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		public void ClickOpenClientPage()
 		{
 			if (!GetIsLeftMenuDisplay())
+			{
 				OpenHideMenu();
+				WaitUntilOpenHideMenu();
+			}
 			Logger.Trace("Клик по 'Clients' в главном меню слева");
 			ClickElement(By.XPath(CLIENT_REF_XPATH));
 		}
@@ -132,7 +157,10 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		public bool GetIsRefDictionariesVisible()
 		{
 			if (!GetIsLeftMenuDisplay())
+			{
 				OpenHideMenu();
+				WaitUntilOpenHideMenu();
+			}
 			ExpandResourcesMenu(DICTIONARIES_REF_XPATH);
 
 			Logger.Trace("Вернуть, видна ли ссылка на странице словарей");
@@ -187,6 +215,13 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		{
 			Logger.Trace("Главное меню слева скрыто. Клик по кнопке открытия меню");
 			Driver.FindElement(By.XPath(MENU_OPEN_BTN)).Click();
+		}
+
+		public void WaitUntilOpenHideMenu()
+		{
+			Logger.Trace("Дождаться открыти меню слева");
+			Assert.IsTrue(WaitUntilDisplayElement(By.XPath(RESOURCES_REF_XPATH)),
+				"Ошибка меню слева не открылось.");
 		}
 
 		protected const string MENU_OPEN_BTN = "//h2[contains(@class,'g-topbox__header')]/a";

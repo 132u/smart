@@ -1286,7 +1286,10 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		protected void SwitchGlossaryTab()
 		{
 			Logger.Debug("Переход на старницу глоссария.");
+			//ожидание стоит,т.к. иначе почему-то не нажимается 'Ресурсы' в меню слева
+			Thread.Sleep(2000);
 			MainHelperClass.ClickResourcesRef();
+			MainHelperClass.WaitResourcesOpen();
 			MainHelperClass.ClickOpenGlossaryPage();
 			GlossaryListPage.WaitPageLoad();
 		}

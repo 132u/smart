@@ -838,6 +838,13 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			ClickElement(By.XPath(SUCCESS_RESULT_CLOSE_BTN_XPATH));
 		}
 
+		public void WaitUntilCloseSuccessButtonDisplay()
+		{
+			Logger.Trace("Дождаться появления кнопки закрытия сообщения об успешном добавлении.");
+			Assert.IsTrue(WaitUntilDisplayElement(By.XPath(SUCCESS_RESULT_CLOSE_BTN_XPATH)),
+				"Ошибка: кнопка закрытия сообщения об успешном добавлении не появилась");
+		}
+
 		public void AssertionIsExistNewItemExtendedMode()
 		{
 			Logger.Trace("Проверить сущестоввание расширенного режима добавления термина");
@@ -1031,7 +1038,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		protected const string ITEM_ADD_EXTENDED_XPATH = ITEM_TERMS_EXTENDED_XPATH + "//span[contains(@class,'js-add-term')]";
 		protected const string ITEM_EDITOR_INPUT_XPATH = "//span[contains(@class,'js-term-editor')]//input";
 
-		protected const string CONCEPT_TABLE_XPATH = "//table[contains(@class,'js-concepts')]";
+		protected const string CONCEPT_TABLE_XPATH = "//td[1]//span[contains(@class,'js-add-term')]";
 		protected const string CONCEPT_EDITING_TD_XPATH = "//tr[contains(@class, 'js-concept')]//td";
 		protected const string CONCEPT_EDITING_OPENED = "//tr[contains(@class, 'js-concept-row js-editing opened')]";
 		protected const string EDIT_CONCEPT_SAVE_BTN_XPATH = CONCEPT_EDITING_OPENED + "//a[contains(@class, 'js-save-btn')]";
@@ -1039,7 +1046,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		protected const string DELETE_CONCEPT_BTN_XPATH = CONCEPT_ROW_XPATH + "//a[contains(@class, 'js-delete-btn')]";
 		protected const string CONCEPT_ROW_XPATH = "//tr[contains(@class, 'js-concept-row')]";
 		protected const string OPENED_CONCEPT_ROW_XPATH = "//tr[@class='js-concept-panel']/preceding-sibling::tr[1]";
-		protected const string SAVE_EXTENDED_BTN_XPATH = CONCEPT_TABLE_XPATH + "//span[contains(@class,'js-save-btn')]";
+		protected const string SAVE_EXTENDED_BTN_XPATH = "//table[contains(@class,'js-concepts')]//span[contains(@class,'js-save-btn')]";
 		
 		protected const string CUSTOM_FIELD_BOOL_EDIT_CONCEPT_XPATH = NEW_ITEM_CONCEPT_PART_XPATH + NEW_ITEM_EDIT_DIV_XPATH + "//span[contains(@class,'l-editgloss__name')]";
 		protected const string CUSTOM_FIELD_BOOL_CHECKBOX_XPATH = "/..//span[contains(@class,'js-chckbx')]//input[contains(@class,'js-chckbx__orig')]";

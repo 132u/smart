@@ -29,6 +29,8 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Glossary
 			GoToUrl(RelativeUrlProvider.Glossaries);
 			var languagesList = new List<CommonHelper.LANGUAGE>{CommonHelper.LANGUAGE.Lithuanian, CommonHelper.LANGUAGE.Japanese};
 
+			GlossaryListPage.WaitPageLoad();
+			
 			// Создать новый глоссарий
 			_glossaryName = CreateGlossaryAndReturnToGlossaryList(languagesList);
 
