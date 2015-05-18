@@ -1,4 +1,5 @@
-﻿using NUnit.Framework;
+﻿using System.Threading;
+using NUnit.Framework;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.UI;
 
@@ -73,15 +74,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			ExpandResourcesMenu(GLOSSARY_REF_XPATH);
 		}
 
-		
-
-		public void WaitResourcesOpen()
-		{
-			Logger.Trace("Ожидаем раскрытия вкладки 'Ресурсы'.");
-			Assert.IsTrue(WaitUntilDisplayElement(By.XPath(SEARCH_REF_XPATH)),
-				"Ошибка: вкладка 'Ресурсы' не раскрылась.");
-		}
-
 		/// <summary>
 		/// Кликнуть для перехода на глоссарии
 		/// </summary>
@@ -120,6 +112,13 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			{
 				Logger.Trace("Клик по 'Resources' в главном меню слева");
 				ClickElement(By.XPath(RESOURCES_REF_XPATH));
+				Logger.Trace("Ожидаем раскрытия вкладки 'Ресурсы'.");
+				if (!WaitUntilDisplayElement(By.XPath(SEARCH_REF_XPATH)))
+				{
+					Logger.Trace("Не дождались раскрытия вкладки 'Ресурсы'. Ждём 2 секунды и пробуем снова.");
+					Thread.Sleep(2000);
+					ClickElement(By.XPath(RESOURCES_REF_XPATH));
+				}
 			}
 		}
 
