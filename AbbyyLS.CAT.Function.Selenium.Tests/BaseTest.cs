@@ -1312,7 +1312,10 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 
 		protected void SwitchSearchTab()
 		{
-			MainHelperClass.OpenHideMenu();
+			if (!WorkspacePage.GetIsLeftMenuDisplay())
+			{
+				MainHelperClass.OpenHideMenu();
+			}
 			Logger.Trace("Переход на стараницу поиска");
 			MainHelperClass.ClickOpenSearchPage();
 			SearchPage.WaitPageLoad();

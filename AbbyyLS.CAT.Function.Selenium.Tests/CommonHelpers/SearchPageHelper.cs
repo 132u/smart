@@ -227,7 +227,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		protected const string TRANSLATION_FORM_XPATH = "//div[contains(@class,'js-window-examples-data')]";
 		protected const string TRANSLATION_FORM_REF_XPATH = TRANSLATION_FORM_XPATH + "//a[contains(@class,'g-winexamp__reverse')]";
 		protected const string WORD_BY_WORD_TRANSLATION_XPATH = ".//div[contains(@class,'l-wordbyword')]";
-		protected const string TRANSLATION_TABLE_REF_XPATH = "//table//td//a[contains(@href,'Translate/ru-en')]";
+		protected const string TRANSLATION_TABLE_REF_XPATH = "//table//td//a[contains(@href,'Translate/ru/en')]";
 
 		protected const string DICTIONARY_SEARCH_RESULT_XPATH = SEARCH_RESULT_XPATH + "//div[contains(@class,'l-articles')]/div/span[2]";
 
