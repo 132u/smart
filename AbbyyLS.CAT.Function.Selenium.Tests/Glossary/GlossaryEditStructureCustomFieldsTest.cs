@@ -624,6 +624,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.Glossary.EditStructure.C
 			GlossaryEditStructureForm.ClickSaveStructureBtn();
 			// Дождаться закрытия формы
 			GlossaryEditStructureForm.WaitFormClose();
+			MainHelperClass.WaitUntilCloseDialogBackground();
 			// Нажать New item
 			GlossaryPage.ClickNewItemBtn();
 			// Дождаться появления полей языков нового термина

@@ -110,6 +110,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.Glossary.EditStructure.L
 			GlossaryEditStructureForm.ClickSaveStructureBtn();
 			// Дождаться закрытия формы
 			GlossaryEditStructureForm.WaitFormClose();
+			MainHelperClass.WaitUntilCloseDialogBackground();
 		}
 	}
 }

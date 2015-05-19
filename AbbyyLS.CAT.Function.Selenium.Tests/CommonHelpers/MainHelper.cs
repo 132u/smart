@@ -223,6 +223,13 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 				"Ошибка меню слева не открылось.");
 		}
 
+		public void WaitUntilCloseDialogBackground()
+		{
+			Logger.Trace("Дождаться закрытия фона диалога.");
+			Assert.IsTrue(WaitUntilDisappearElement(By.XPath(DIALOG_BACKGROUND)),
+				"Ошибка: фон диалога не закрылся.");
+		}
+
 		protected const string MENU_OPEN_BTN = "//h2[contains(@class,'g-topbox__header')]/a";
 		protected const string LEFT_MENU = "//div[contains(@class, 'js-mainmenu')]";
 
@@ -240,5 +247,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		protected const string PROFILE_FORM_XPATH = "//div[contains(@class,'g-popupbox g-profile')]";
 		protected const string PROFILE_USER_NAME_XPATH = PROFILE_FORM_XPATH + "//p[contains(@class, 'name')]//input";
 		protected const string CLOSE_PROFILE_XPATH = PROFILE_FORM_XPATH + "//span[contains(@class, 'js-popup-close')]//a";
+		protected const string DIALOG_BACKGROUND = "//div[contains(@class,'js-popup-bg')]";
 	}
 }
