@@ -62,10 +62,12 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 		public ProjectSettingsHelper UploadDocument(string filePath)
 		{
 			BaseObject.InitPage(_projectPage);
-			_projectPage.ClickAddFilesButton()
+			_projectPage
+				.ClickAddFilesButton()
 				.UploadFile(filePath)
 				.AssertIfFileUploaded(Path.GetFileName(PathProvider.DocumentFile))
-				.ClickFinishButton();
+				.ClickFinishButton()
+				.WaitUntilUploadDocumentDialogDissapeared();
 
 			return this;
 		}

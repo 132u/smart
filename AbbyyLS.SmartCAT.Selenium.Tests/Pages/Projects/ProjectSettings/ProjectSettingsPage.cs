@@ -65,7 +65,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings
 		public ProjectSettingsPage ClickProjectsTableCheckbox(string documentName)
 		{
 			Logger.Debug("Нажать на чекбокс напротив документа {0}.", documentName);
-			Thread.Sleep(1000);
 			ProjectsTableCheckbox = Driver.SetDynamicValue(How.XPath, PROJECTS_TABLE_CHECKBOX_XPATH, documentName);
 			ProjectsTableCheckbox.Click();
 
@@ -226,6 +225,19 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings
 				"Произошла ошибка:\n диалог удаления документа не закрылся.");
 
 			return new ProjectSettingsPage();
+		}
+
+		/// <summary>
+		/// Дождаться закрытия диалога импорта документа
+		/// </summary>
+		public ProjectSettingsPage WaitUntilUploadDocumentDialogDissapeared()
+		{
+			Logger.Trace("Дождаться закрытия диалога импорта документа.");
+
+			Assert.IsTrue(Driver.WaitUntilElementIsDissapeared(By.XPath(IMPORT_DIALOG_XPATH)),
+				"Произошла ошибка:\n диалог импорта документа не закрылся.");
+
+			return new ProjectSettingsPage().GetPage();
 		}
 
 		[FindsBy(How = How.XPath, Using = ADD_FILES_BTN_XPATH)]
