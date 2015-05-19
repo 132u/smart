@@ -1,4 +1,6 @@
-﻿using NUnit.Framework;
+﻿using System.Linq;
+
+using NUnit.Framework;
 
 using AbbyyLS.CAT.Function.Selenium.Tests.Driver;
 
@@ -131,7 +133,9 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 				WorkspacePage.SelectLocale(LOCALE_LANGUAGE_SELECT.Russian);
 			}
 			// Переход в личный кабинет
-			GoToMyAccount();
+			WorkspacePage.ClickAccount();
+			WorkspacePage.ClickLicensesAndServices();
+			Driver.SwitchTo().Window(Driver.WindowHandles.Last());
 			if (currency == "RUB")
 			{
 				// Проверка, что в таблице покупки лицензий указана верная валюта
@@ -164,8 +168,12 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			Assert.IsTrue(
 				MyAccountPage.CheckPackagePriceCurrency(currency),
 				"Ошибка: в окне Upgrade AdditionalPayment поле сожержит неверное значение валюты (должен быть " + currency);
+			MyAccountPage.ClickCancelBtnInUpgradePopUp();
+			MyAccountPage.WaitPopUpClosed();
+		
 			if (upgrade)
 			{
+				
 				// Апгрейд лицензии
 				LicenseUpgrade();
 			}else 
@@ -235,7 +243,8 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			// Проверить, что сообщение после покупки лицензии появилось
 			Assert.IsTrue(MyAccountPage.GetPaymentPopUpDisplayed(),
 				"Ошибка: сообщение после покупки лицензии не появилось");
-
+			Assert.IsTrue(MyAccountPage.CloseButtonDisplay(),
+				"Произошла ошибка:\n кнопка закрытия не появилась.");
 			// Кликнуть Close кнопку в сообщении
 			MyAccountPage.ClickCloseBtn();
 
@@ -290,6 +299,9 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			// Проверить, что сообщение после апргрейда лицензии появилось
 			Assert.IsTrue(MyAccountPage.GetPaymentPopUpDisplayed(),
 				"Ошибка: сообщение после апргрейда лицензии не появилось");
+
+			Assert.IsTrue(MyAccountPage.CloseButtonDisplay(),
+				"Произошла ошибка:\n кнопка закрытия не появилась.");
 
 			// Кликнуть Close кнопку в сообщении
 			MyAccountPage.ClickCloseBtn();
@@ -419,6 +431,8 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			// Получить дату окончания действия пакета из сообщения
 			string expireDate = MyAccountPage.GetDateFromMsgPopUP();
 
+			Assert.IsTrue(MyAccountPage.CloseButtonDisplay(),
+				"Произошла ошибка:\n кнопка закрытия не появилась.");
 			// Кликнуть Close кнопку в сообщении
 			MyAccountPage.ClickCloseBtn();
 

@@ -251,6 +251,12 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			ClickElement(By.XPath(CLOSE_BTN));
 		}
 
+		public bool CloseButtonDisplay()
+		{
+			Logger.Trace("проверить, что кнопка закрытия появилась");
+			return WaitUntilDisplayElement(By.XPath(CLOSE_BTN));
+		}
+
 		/// <summary>
 		/// Вернуть, показано ли окно с сообщением после покупки лицензии
 		/// </summary>
@@ -276,6 +282,11 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		{
 			Logger.Trace("Ожидание открытия Extend pop-up");
 			return WaitUntilDisplayElement(By.XPath(EXTEND_HEADER_POP_UP));
+		}
+
+		public void WaitPopUpClosed()
+		{
+			WaitUntilDisappearElement(By.XPath(POP_UP_WINDOW));
 		}
 
 		/// <summary>
@@ -474,7 +485,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		public const string CVV = "//input[@id='cvv']";
 		public const string CALENDAR_CONTROL = "//button[contains(@class, 'calendar')]"; // кнопка для открытия календаря
 		public const string DATE_FIELD = "//input[contains(@class, 'date')]"; // поле даты
-		public const string PAYMENT_IFRAME = "//iframe";
+		public const string PAYMENT_IFRAME = "//form[@id='checkoutForm']//iframe";
 
 		public const string LIC_TABLE = "//tbody[@class='ng-scope']//tr[@class='ng-scope']";
 		public const string LIC_ROW_IN_TABLE = "//td[contains(text(), '"; // строка в таблице с купленными лизензиями
@@ -486,7 +497,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 
 		public const string POP_UP_WINDOW = "//div[@class='lic-popup ng-scope']";
 		public const string UPGRADE_HEADER_POP_UP = "//h3[contains(text(), 'Upgrade') or contains(text(), 'Расширение')]";
-		public const string CANCEL_BTN_IN_UPGRADE_POP_UP = POP_UP_WINDOW + "//a[contains(@abb-link-click, 'close')]";
+		public const string CANCEL_BTN_IN_UPGRADE_POP_UP = POP_UP_WINDOW + "//a[contains(@abb-link-click, 'close') and contains(@class, 'btn')]";
 		public const string BUY_BTN_IN_UPGRADE_POP_UP = POP_UP_WINDOW + "//a[contains(@abb-link-click, 'BuyClick')]";
 		public const string NEW_NUMBER_DROPDOWN = "//select[contains(@class, 'ng-pristine ng-untouched ng-valid')]";
 
