@@ -110,12 +110,12 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		{
 			if (!GetIsElementDisplay(By.XPath(xpath)))
 			{
-				Logger.Trace("Клик по 'Resources' в главном меню слева");
+				Logger.Trace("Кликнуть по 'Resources' в главном меню слева");
 				ClickElement(By.XPath(RESOURCES_REF_XPATH));
-				Logger.Trace("Ожидаем раскрытия вкладки 'Ресурсы'.");
+				Logger.Trace("Дождаться раскрытия вкладки 'Ресурсы'.");
 				if (!WaitUntilDisplayElement(By.XPath(SEARCH_REF_XPATH)))
 				{
-					Logger.Trace("Не дождались раскрытия вкладки 'Ресурсы'. Ждём 2 секунды и пробуем снова.");
+					Logger.Trace("Вкладка 'Ресурсы' не раскрылась. Подождать 2 секунды и попробовать снова.");
 					Thread.Sleep(2000);
 					ClickElement(By.XPath(RESOURCES_REF_XPATH));
 				}
