@@ -92,7 +92,6 @@
     <Compile Include="DictionaryTests\DictionaryPageHelper.cs" />
     <Compile Include="DictionaryTests\DictionaryTest.cs" />
     <Compile Include="DomainTests\DomainPageHelper.cs" />
-    <Compile Include="DomainTests\DomainTest.cs" />
     <Compile Include="Driver\ChromeWebDriverSettings.cs" />
     <Compile Include="Driver\FirefoxWebDriverSettings.cs" />
     <Compile Include="Driver\IEWebDriverSettings.cs" />
