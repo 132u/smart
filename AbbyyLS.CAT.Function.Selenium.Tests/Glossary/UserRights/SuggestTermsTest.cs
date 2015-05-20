@@ -189,6 +189,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.Glossary.UserRights
 
 			// Нажать отмену
 			SuggestTermDialog.ClickCancel();
+			SuggestTermDialog.AssertSuggestTermDialogClosed();
 			// Перейти в предложенные термины
 			SwitchSuggestTermsTab();
 
@@ -516,12 +517,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.Glossary.UserRights
 			GlossarySuggestPage.FillEditTermItem(2, newTermText);
 			//Добавить термин 
 			GlossarySuggestPage.ClickSaveTerm();
-
-			GlossarySuggestPage.AssertionEditTermAdded(newTermText);
-			
-			//Принять термин
-			GlossarySuggestPage.ClickAcceptTerm();
-			//Дождаться закрытия формы управления терминами
 			GlossarySuggestPage.AssertionEditTermFillDisappear();
 			// Перейти в глоссарий
 			SwitchGlossaryFromSuggestedTerm();
@@ -550,11 +545,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.Glossary.UserRights
 			//Добавить термин
 			GlossarySuggestPage.ClickSaveTerm();
 
-			GlossarySuggestPage.AssertionEditTermAdded(newTermText);
-
-			//Принять термин
-			GlossarySuggestPage.ClickAcceptTerm();
-			//Дождаться закрытия формы управления терминами
 			GlossarySuggestPage.AssertionEditTermFillDisappear();
 			// Перейти в глоссарий
 			SwitchGlossaryFromSuggestedTerm();
@@ -610,11 +600,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.Glossary.UserRights
 			//Добавить термин
 			GlossarySuggestPage.ClickSaveTerm();
 
-			GlossarySuggestPage.AssertionEditTermAdded(newTermText);
-
-			//Принять термин
-			GlossarySuggestPage.ClickAcceptTerm();
-			//Дождаться закрытия формы управления терминами
 			GlossarySuggestPage.AssertionEditTermFillDisappear();
 			// Перейти к списку глоссариев
 			SwitchGlossaryTab();
@@ -731,10 +716,10 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.Glossary.UserRights
 			Logger.Trace(countBefore);
 			// Расширить окно, чтобы кнопка была видна, иначе Selenium ее "не видит" и выдает ошибку
 			Driver.Manage().Window.Maximize();
-			
+	
 			// Нажать на строку
 			GlossarySuggestPage.SelectRow(rowNumber);
-			// Нажать кнопку
+
 			GlossarySuggestPage.ClickRowButton(rowNumber, btnId);
 
 			// Если не дождаться обновления списка предложенных терминов - появляется модальное окно с ошибкой, которое отлавливает Selenium

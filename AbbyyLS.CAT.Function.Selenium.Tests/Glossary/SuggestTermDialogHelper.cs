@@ -26,6 +26,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		{
 			Logger.Trace("Ожидание закрытия формы");
 			WaitUntilDisappearElement(By.XPath(DIALOG_XPATH));
+			WaitUntilDisappearElement(By.XPath(GRAY_BACKGROUND));
 		}
 
 		public void FillTerm(int termNumber, string text)
@@ -97,6 +98,14 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 				"Ошибка: не появилось предупреждение о существующем термине");
 		}
 
+		public void AssertSuggestTermDialogClosed()
+		{
+			Logger.Trace("Проверить, что диалог создания термина закрылся");
+
+			Assert.IsTrue(WaitUntilDisappearElement(By.XPath(CANCEL_BTN_XPATH)),
+				"Произошла ошибка:\n диалог создания термина не закрылся");
+		}
+
 		public void ClickCancel()
 		{
 			Logger.Debug("Нажать кнопку отмены");
@@ -104,7 +113,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		}
 
 
-
+		protected const string GRAY_BACKGROUND = "//div[@class='g-popup-bg js-popup-bg']";
 		protected const string DIALOG_XPATH = "//div[contains(@class,'js-add-suggest-popup')]";
 		protected const string TERM_XPATH = "//div[contains(@class, 'l-addsugg__contr lang js-language')]";
 		protected const string TERM_INPUT_XPATH = "//input[contains(@class, 'js-addsugg-term')]";

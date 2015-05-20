@@ -75,10 +75,9 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		{
 			Logger.Trace(string.Format("Выделить строку #{0}", rowNumber));
 
-			// Если списко длинный - первый клик прокручивает страницу
+			// Если список длинный - первый клик прокручивает страницу
 			ClickElement(By.XPath(GetRowXPath(rowNumber)));
-			// Второй клик выделяет
-			ClickElement(By.XPath(GetRowXPath(rowNumber)));
+			HoverElement(By.XPath(GetRowXPath(rowNumber)));
 		}
 
 		public void ClickRowButton(int rowNumber, BUTTON_ID btn)
@@ -222,7 +221,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		protected const string EDIT_TERM_BOX = "//div[contains(@class,'l-corprtree__langbox')]";
 		protected const string EDITOR_INPUT_XPATH = "//span[contains(@class,'js-term-editor')]//input";
 		protected const string VIEWER_XPATH = "//span[contains(@class,'js-term-viewer')]";
-		protected const string SAVE_EDIT_TERM_XPATH = "//a[contains(@class,'js-save-btn')]";
+		protected const string SAVE_EDIT_TERM_XPATH = "//span[contains(@class, 'js-save-text')]";
 		protected const string ADD_SYNONYM_XPATH = "//span[contains(@class,'js-add-term')]";
 		protected const string NEW_TERM_ADDED_XPATH = "//div[@class ='l-corprtree']/div[1]/div[3]/div[3]/span/span[contains(@class,'js-text') and text()='";
 		protected const string ACCEPT_TERM_XPATH = "//span[@class = 'js-save-text']";
