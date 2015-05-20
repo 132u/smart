@@ -1692,7 +1692,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 
 				Thread.Sleep(500);
 
-				if (Driver.SwitchTo().Alert().Text.Contains("Failed to send the request to the server. An error occurred while contacting the server."))
+				if (Driver.SwitchTo().Alert().Text.Contains("The entry containing the terms is currently open for editing. The changes have not been saved."))
 					Driver.SwitchTo().Alert().Accept();
 
 				Thread.Sleep(500);

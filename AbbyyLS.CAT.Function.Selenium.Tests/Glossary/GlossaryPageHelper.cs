@@ -81,6 +81,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			Logger.Debug(string.Format("Заполнить термины в расширенной версии. Текст термина: {0}", text));
 
 			Logger.Trace("Получение списка языков");
+			WaitUntilDisplayElement(By.XPath(ITEM_ADD_EXTENDED_XPATH));
 			var termList = GetElementList(By.XPath(ITEM_ADD_EXTENDED_XPATH));
 
 			for (var i = 0; i < termList.Count; ++i)

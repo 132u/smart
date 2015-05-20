@@ -15,7 +15,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.Glossary.UserRights
 	[Category("Standalone")]
 	public class ManageTermsTest<TWebDriverSettings> : GlossaryTest<TWebDriverSettings> where TWebDriverSettings : IWebDriverSettings, new()
 	{
-		[TestFixtureSetUp]
+		[SetUp]
 		public void SetupGlossaryItemTest()
 		{
 			Logger.Info("Начало работы метода SetupGlossaryItemTest(). Подготовка перед каждым тест-сетом.");
@@ -23,7 +23,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.Glossary.UserRights
 			try
 			{
 				Logger.Debug("Значение параметра QuitDriverAfterTest = false. Не закрывать браузер после каждого теста.");
-				QuitDriverAfterTest = false;
+				QuitDriverAfterTest = true;
 
 				GoToUrl(RelativeUrlProvider.Glossaries);
 				AddUserRights();
