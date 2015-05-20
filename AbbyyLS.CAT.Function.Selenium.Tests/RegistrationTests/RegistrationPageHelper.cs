@@ -278,14 +278,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		}
 
 		/// <summary>
-		/// Проверить что в поле фото отображается Label photo
-		/// </summary>
-		public bool CheckLabelForPhoto()
-		{
-			return GetIsElementDisplay(By.XPath(LABEL_LOAD_PHOTO));
-		}
-
-		/// <summary>
 		/// Проверить сообщение, что юзер уже существует
 		/// </summary>
 		public bool CheckErrorMessageThatUserIsAlreadyExist()
@@ -320,24 +312,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			return GetIsElementDisplay(By.XPath(WRONG_PASSWORD_MESSAGE));
 		}
 
-		/// <summary>
-		/// Проверить,что сообщение Wrong format появляется , когда загружен неверный формат фото
-		/// </summary>
-		public bool WrongFormatLabelISDisplay()
-		{
-			return GetIsElementDisplay(By.XPath(LABEL_WRONG_FORMAT));
-		}
-
-		/// <summary>
-		/// Нажать кнопку загрузки фото
-		/// </summary>
-		public void ClickLoadPhotoBtn()
-		{
-			Logger.Trace("Нажать кнопку загрузки фото");
-			ClickElement(By.XPath(LOAD_PHOTO_BTN));
-		}
-
-
 		protected const string EMAIL_FIELD_IN_SIGN_UP = "//form[@name='signupForm']//input[@id='email']";
 		protected const string PASSWORD_FIELD_IN_SIGN_UP = "//form[@name='signupForm']//input[@id='password']";
 		protected const string EMAIL_FIELD_IN_SIGN_IN = "//form[@name='signinForm']//input[@id='email']";
@@ -367,9 +341,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		protected const string USER_NOT_EXIST_MESSAGE = "//span[contains(@translate, 'USER-NOT-FOUND-ERROR')]";//сообщение ,что юзера не существует 
 		protected const string EXIST_ACCOUNT_LINK_ABBY_ONLINE = "//a[@id='show-sign-in']";
 		protected const string WRONG_PASSWORD_MESSAGE = "//div[@ng-message='wrong-password']";
-		protected const string LOAD_PHOTO_BTN = "//input[@type='file']";
-		protected const string LABEL_WRONG_FORMAT = "//i[text()='Wrong format' and @class='ng-binding']";
-		protected const string LABEL_LOAD_PHOTO = "//i[text()='Load photo' and @class='ng-binding']";
 
 		/// <summary>
 		/// Заполнить поле имя на 2м шаге стр регистрации компании 
@@ -508,16 +479,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		public bool GetInvalidEmailMsgIsDisplayed()
 		{
 			return WaitUntilDisplayElement(By.XPath(EMAIL_INVALID_MSG));
-		}
-
-		/// <summary>
-		/// Загрузка фото
-		/// </summary>
-		/// <param name="photo"> название файла </param>
-		public void UploadPhoto(string photo)
-		{
-			Logger.Trace("Загрузка фото");
-			UploadDocNativeAction(photo);
 		}
 
 		/// <summary>

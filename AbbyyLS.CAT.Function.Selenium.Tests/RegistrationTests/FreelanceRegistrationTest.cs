@@ -95,25 +95,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Registration.Freelance
 		}
 
 		/// <summary>
-		/// Тест для проверки, что Load photo отображается в поле для фото файла 6.1.
-		/// </summary>
-		[Test]
-		public void CheckPhotoLabel()
-		{
-			Assert.Ignore("Функционал загрузки фото закрыли");
-
-			GoToRegistrationPage(RegistrationType.User);
-			// Заполняем все поля на первом шаге регистрации
-			RegistrationPage.FillRegistrationDataInFirstStep(
-				RegistrationPage.Email,
-				RegistrationPage.Password,
-				RegistrationPage.Password);
-			RegistrationPage.ClickSignUpButton();
-			RegistrationPage.FillRegistrationDataInSecondStep(RegistrationPage.FirstName, RegistrationPage.LastName);
-			Assert.IsTrue(RegistrationPage.CheckLabelForPhoto(), "Ошибка: Load photo не отображается в секции для фото");
-		}
-
-		/// <summary>
 		/// Тест для проверки, что кнопка SignUp неактивна, если этап для второй пары языков, не указан  PRX-5503 п 6.3.
 		/// </summary>
 		[Test]
@@ -212,50 +193,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Registration.Freelance
 			RegistrationPage.ClickSignInButton();
 			Assert.IsTrue(RegistrationPage.CheckThatErrorMeassageThatUserIsNotExistIsDisplay(), "Ошибка: Сообщение 'Пользователя не существует' не появилось");
 
-		}
-
-		/// <summary>
-		/// Метод загрузки фото на втором шаге регистрации
-		/// </summary>
-		/// <param name="photo">фото</param>
-		protected void ImportPhoto(string photo)
-		{
-			RegistrationPage.ClickLoadPhotoBtn();
-			RegistrationPage.UploadPhoto(photo);
-		}
-
-		/// <summary>
-		/// Проверка загрузки фото на втором шаге регистрации
-		/// </summary>
-		/// <param name="format">валидный или невалидный файл</param>
-		/// <param name="photo">имя файла фото</param>
-		[Ignore("Функционал загрузки фото закрыли")]
-		[TestCase(false, "txtfile.txt")]
-		[TestCase(true, "bmpfile.bmp")]
-		[TestCase(true, "giffile.gif")]
-		[TestCase(true, "dibfile.dib")]
-		[TestCase(true, "jpgfile.jpg")]
-		[TestCase(true, "jpgfile2.jpg")]
-		[TestCase(true, "jpgfile3.jpg")]
-		[TestCase(true, "pngfile.png")]
-		[Test]
-		public void LoadPhotoTest(bool format, string photo)
-		{
-			GoToRegistrationPage(RegistrationType.User);
-			RegistrationPage.FillRegistrationDataInFirstStep(
-			   RegistrationPage.Email,
-			   RegistrationPage.Password,
-			   RegistrationPage.Password);
-			RegistrationPage.ClickSignUpButton();
-			ImportPhoto(PathProvider.PhotoLoadFolder + photo);
-			if (format)
-			{
-				Assert.IsFalse(RegistrationPage.WrongFormatLabelISDisplay(), "Ошибка: Надпись Wrong Format появилась(не должна появляться)");
-			}
-			else
-			{
-				Assert.IsTrue(RegistrationPage.WrongFormatLabelISDisplay(), "Ошибка: Надпись Wrong Format не появилась(должна появляться)");
-			}
 		}
 
 		/// <summary>
