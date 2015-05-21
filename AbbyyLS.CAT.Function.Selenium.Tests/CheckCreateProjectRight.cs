@@ -56,6 +56,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.CheckRights
 			Authorization(TestRightsLogin, TestRightsPassword, accountName);
 
 			WorkspacePage.CloseTour();
+			WorkspacePage.CancelAllNotifiers();
 		}
 
 

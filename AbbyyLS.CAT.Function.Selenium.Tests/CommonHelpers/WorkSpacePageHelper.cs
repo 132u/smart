@@ -254,6 +254,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		public void ClickDownloadNotifier()
 		{
 			Logger.Trace("Клик по кнопке Download в окне сообщения о экспорте");
+			WaitUntilDisplayElement(By.XPath(NOTIFIER_DOWNLOAD_BTN_XPATH));
 			ClickElement(By.XPath(NOTIFIER_DOWNLOAD_BTN_XPATH));
 			Logger.Trace("Время клика по кнопке Download = " + DateTime.Now.ToString("MM.dd.yyyy HH:mm:ss"));
 		}
