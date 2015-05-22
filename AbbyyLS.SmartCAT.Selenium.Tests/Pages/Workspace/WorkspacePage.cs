@@ -190,6 +190,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace
 			if (!getIsLeftMenuDisplay())
 			{
 				Logger.Debug("Открыть CAT меню слева.");
+				Driver.WaitUntilElementIsDisplay(By.XPath(CAT_MENU_OPEN_BUTTON));
 				CatMenuOpenButton.Click();
 			}
 		}
