@@ -285,10 +285,26 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 			Logger.Trace("Проверить, что файл удалён");
 
 			Assert.IsTrue(Driver.WaitUntilElementIsDissapeared(By.XPath(DELETE_FILE_BTN_XPATH.Replace("*#*", fileName))),
-				string.Format("Произошла ошибка\n файл {0} не удалился.", fileName));
+				string.Format("Произошла ошибка:\n файл {0} не удалился.", fileName));
 
 			return GetPage();
 		}
+
+		/// <summary>
+		/// Проверить, что имя проекта совпадает с ожидаемым
+		/// </summary>
+		/// <param name="expectedProjectName">ожидаемое имя проекта</param>
+		public NewProjectGeneralInformationDialog AssertProjectNameMatch(string expectedProjectName)
+		{
+			Logger.Trace("Проверить, что имя проекта = '{0}'", expectedProjectName);
+			var actualProjectName = ProjectNameInput.GetAttribute("value");
+
+			Assert.AreEqual(actualProjectName, expectedProjectName,
+				"Произошла ошибка:\n имя проекта не совпадает с ожидаемым");
+
+			return GetPage();
+		}
+
 
 		[FindsBy(How = How.XPath, Using = ADD_FILE_BTN_XPATH)]
 		protected IWebElement AddFileButton { get; set; }

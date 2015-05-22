@@ -218,6 +218,18 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 			return this;
 		}
 
+		/// <summary>
+		/// Проверить, что имя проекта совпадает с ожидаемым
+		/// </summary>
+		/// <param name="expectedProjectName">ожидаемое имя проекта</param>
+		public CreateProjectHelper AssertProjectNameMatch(string expectedProjectName)
+		{
+			BaseObject.InitPage(_newProjectGeneralInformationDialog);
+			_newProjectGeneralInformationDialog.AssertProjectNameMatch(expectedProjectName);
+
+			return this;
+		}
+
 		public string GetProjectUniqueName()
 		{
 			// Sleep необходим, чтобы имена были уникальными, когда создаём несколько имён подряд. Чтобы не вышло, что кол-во тиков одинаковое.
