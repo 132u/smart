@@ -13,6 +13,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 	/// Группа тестов для проверки лога
 	/// </summary>
 	[Category("Standalone")]
+	[Explicit("Фукционал User activities отключен")]
 	public class UserLogTest<TWebDriverSettings> : BaseTest<TWebDriverSettings> where TWebDriverSettings : IWebDriverSettings, new()
 	{
 		/// <summary>

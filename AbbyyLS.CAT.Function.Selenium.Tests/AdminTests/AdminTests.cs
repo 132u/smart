@@ -237,7 +237,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			}
 		}
 
-		public string[] Features = {"Clients", "LingvoDictionaries", "Crowd", "Domains", "LiveChat", "TranslateConnector", "UserActivities" };
+		public string[] Features = {"Clients", "LingvoDictionaries", "Crowd", "Domains", "LiveChat", "TranslateConnector" };
 
 		public void SelectExpDate()
 		{
