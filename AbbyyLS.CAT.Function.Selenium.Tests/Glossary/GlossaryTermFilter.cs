@@ -571,8 +571,8 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Glossary
 		/// </summary>
 		[Category("PRX_7565")]
 		[Category("PRX_8781")]
-		[TestCase("modified", "nextYear", "yearAgo", false)] // начальная дата изменения больше конечной
-		[TestCase("created", "nextYear", "yearAgo", false)] // начальная дата создания больше конечной
+		[TestCase("modified", "nextYear", "yearAgo", false, Explicit = true)] // начальная дата изменения больше конечной
+		[TestCase("created", "nextYear", "yearAgo", false, Explicit = true)] // начальная дата создания больше конечной
 		[TestCase("modified", "weekAgo", "nextWeek", true)]
 		[TestCase("created", "weekAgo", "nextWeek", true)]
 		[TestCase("modified", "weekAgo", "today", true)]
