@@ -273,7 +273,11 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			Assert.IsTrue(
 				AddTermForm.WaitTermSavedMessage(),
 				"Ошибка: Не было сообщения о сохранении термина.");
+
 			AddTermForm.ClickCloseBtnInTermSavedMsg();
+
+			AddTermForm.WaitTermSavedMessageDisappear();
+
 			openAddTermForm();
 
 			AddTermForm.TypeSourceTermText("planet");
@@ -308,6 +312,10 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			Assert.IsTrue(AddTermForm.WaitTermSavedMessage(),
 				"Ошибка: Не было сообщения о сохранении термина.");
 
+			AddTermForm.ClickCloseBtnInTermSavedMsg();
+
+			AddTermForm.WaitTermSavedMessageDisappear();
+
 			openAddTermForm();
 
 			AddTermForm.TypeSourceTermText("the Asteroid");
@@ -339,9 +347,14 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			AddTermForm.TypeTargetTermText("солнце");
 
 			AddTermForm.ClickAddBtn();
+			
 			Assert.IsTrue(AddTermForm.WaitTermSavedMessage(),
 				"Ошибка: Не было сообщения о сохранении термина.");
+
 			AddTermForm.ClickCloseBtnInTermSavedMsg();
+
+			AddTermForm.WaitTermSavedMessageDisappear();
+
 			openAddTermForm();
 
 			AddTermForm.TypeSourceTermText("Sun");
@@ -473,7 +486,11 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			AddTermForm.ClickAddBtn();
 			Assert.IsTrue(AddTermForm.WaitTermSavedMessage(),
 				"Ошибка: Не было сообщения о сохранении термина.");
+
 			AddTermForm.ClickCloseBtnInTermSavedMsg();
+
+			AddTermForm.WaitTermSavedMessageDisappear();
+
 			openAddTermForm();
 
 			AddTermForm.OpenGlossaryList();
@@ -665,7 +682,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			// Расширить окно, чтобы "корзинка" была видна, иначе Selenium ее "не видит" и выдает ошибку
 			Driver.Manage().Window.Maximize();
 			// Выделить ячейку, чтобы "корзинка" появилась
-			GlossaryPage.ClickTermRowByNameOfTerm(source, target);
+			GlossaryPage.HoverOnTermRowByNameOfTerm(source, target);
 
 			GlossaryPage.ClickDeleteBtn();
 

@@ -719,6 +719,40 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			}
 		}
 
+		/// <summary>
+		/// Дождаться, пока страница полностью загрузится
+		/// </summary>
+		/// <param name="maxWait">таймаут</param>
+		/// <returns>появился элемент</returns>
+		protected bool WaitPageTotalLoad(int maxWait = 15)
+		{
+			// Записываем таймаут, который был. чтобы вернуть его обратно
+			var timeout = _wait.Timeout.Seconds;
+			try
+			{
+				_wait.Timeout = TimeSpan.FromSeconds(maxWait);
+				_wait.Until(d => ((IJavaScriptExecutor)Driver)
+					.ExecuteScript("return document.readyState")
+					.Equals("complete"));
+				return true;
+			}
+			catch (WebDriverTimeoutException)
+			{
+				Logger.Trace("Не удалось дождаться загрузки страницы.");
+				return false;
+			}
+			catch (Exception ex)
+			{
+				Logger.Trace("Во время ожидания загрузки страницы произошла ошибка:" + ex.Message);
+				return false;
+			}
+			finally
+			{
+				// Возвращаем таймаут обратно
+				_wait.Timeout = TimeSpan.FromSeconds(timeout);
+			}
+		}
+
 		public enum LANGUAGE { English, Russian, German, French, Japanese, Lithuanian };
 
 		protected Dictionary<LANGUAGE, string> languageID;

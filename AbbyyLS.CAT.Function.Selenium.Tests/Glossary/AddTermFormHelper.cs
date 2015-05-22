@@ -119,6 +119,13 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			return WaitUntilDisplayElement(By.XPath(TERM_SAVED_MESSAGE_XPATH), 15);
 		}
 
+		public void WaitTermSavedMessageDisappear()
+		{
+			Logger.Trace("Дождаться закрытия сообщения о сохранении термина.");
+			Assert.IsTrue(WaitUntilDisappearElement(By.XPath(TERM_SAVED_MESSAGE_XPATH), 15),
+				"Ошибка: сообщение о сохранении термин не закрылось.");
+		}
+
 		public bool WaitContainsTermMessage()
 		{
 			Logger.Trace("Получить, появилось ли сообщение о повторном добавлении термин");

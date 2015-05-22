@@ -1035,23 +1035,20 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 				ProjectPage.ClickNextBtn();
 				// Проверка, что следующий шаг не открылся
 				Assert.IsFalse(ProjectPage.GetAssigneeTableDisplay(), "Ошибка : Next кнопка активна(кликабельна) в диалоге импорта документа");
-				// Нажать Finish
-				ProjectPage.ClickFinishImportDialog();
-
-				// Дождаться окончания загрузки
-				ProjectPage.WaitDocumentDownloadFinish();
 			}
 			else
 			{
 				// Next
 				ProjectPage.ClickNextImportDialog();
-
-				// Нажать Finish
-				ProjectPage.ClickFinishImportDialog();
-
-				// Дождаться окончания загрузки
-				ProjectPage.WaitDocumentDownloadFinish();
 			}
+
+			// Нажать Finish
+			ProjectPage.ClickFinishImportDialog();
+			
+			MainHelperClass.WaitUntilCloseDialogBackground();
+
+			// Дождаться окончания загрузки
+			ProjectPage.WaitDocumentDownloadFinish();
 		}
 
 		/// <summary>
@@ -1286,7 +1283,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		protected void SwitchGlossaryTab()
 		{
 			Logger.Debug("Переход на старницу глоссария.");
-			//ожидание стоит,т.к. иначе почему-то не нажимается 'Ресурсы' в меню слева
 			MainHelperClass.ClickResourcesRef();
 			MainHelperClass.ClickOpenGlossaryPage();
 			GlossaryListPage.WaitPageLoad();

@@ -17,6 +17,11 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 
 		public void WaitPageLoad()
 		{
+			Logger.Trace("Дождаться полной загрузки страницы списка глоссариев");
+
+			Assert.IsTrue(WaitPageTotalLoad(),
+				"Ошибка: не дождались полной загрузки страницы списка глоссариев.");
+
 			Logger.Trace("Проверка успешной загрузки страницы глоссария");
 
 			Assert.IsTrue(WaitUntilDisplayElement(By.XPath(CREATE_GLOSSARY_BTN_XPATH)), 
@@ -104,8 +109,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		{
 			return GLOSSARY_NAME_XPATH + "[text()='" + glossaryName + "']";
 		}
-
-
 
 		protected const string CREATE_GLOSSARY_BTN_XPATH = ".//span[contains(@class,'js-create-glossary-button')]//a";
 		protected const string ADD_SUGGEST_BTN_XPATH = "//span[contains(@class,'js-add-suggest')]";

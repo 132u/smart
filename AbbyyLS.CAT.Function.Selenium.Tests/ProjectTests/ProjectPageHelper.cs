@@ -542,7 +542,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 					Logger.Trace(string.Format("Сохраняем выбор глоссария с именем {0}", nameGlossary));
 					saveButtonWebElement.Click();
 
-					SendTextElement(By.XPath(GLOSSARY_LIST_XPATH), Keys.Home);
+					CommonHelper.ScrollToElement(By.XPath(PRETRANSLATE_BTN_XPATH));
 					
 					glossaryWasSet = true;
 				}
@@ -806,7 +806,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		protected const string UPLOAD_DOCUMENT_BTN_XPATH = ".//span[contains(@class,'js-import-btn ')]";
 		protected const string PRETRANSLATE_TITLE_IN_DIALOG_XPATH = "//span[text()='Set Up Pretranslation']";
 
-		protected const string PRETRANSLATE_BTN_XPATH = "//span[contains(@class,'js-project-pretranslate')]";
+		protected const string PRETRANSLATE_BTN_XPATH = "//span[contains(@data-bind,'click: pretranslate')]";
 		protected const string NEW_RULE_BTN_XPATH = "//div[contains(@class,'pretranslate')][2]//span[contains(@class,'js-new-rule')]";
 		protected const string SOURCE_PRETRANSLATE_BTN_XPATH = "//div[contains(@class,'pretranslate')]//span[contains(@class, 'js-dropdown')]";
 		protected const string TM_PRETRANSLATE_BTN_XPATH = "//span[contains(@class, 'js-dropdown')";

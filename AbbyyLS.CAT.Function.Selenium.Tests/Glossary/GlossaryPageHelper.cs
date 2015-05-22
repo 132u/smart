@@ -686,10 +686,10 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			ClickElement(By.XPath(CONCEPT_ROW_XPATH + TERM_COMMENT_TD));
 		}
 
-		public void ClickTermRowByNameOfTerm(string source, string target)
+		public void HoverOnTermRowByNameOfTerm(string source, string target)
 		{
-			Logger.Debug("Кликнуть на заданную строку термина");
-			ClickElement(By.XPath(SOURCE_TARGET_TERM_COMMENT_RAW_XPATH.Replace("#", source).Replace("**", target)));
+			Logger.Debug("Навести курсор мыши на заданную строку термина");
+			HoverElement(By.XPath(SOURCE_TARGET_TERM_COMMENT_RAW_XPATH.Replace("#", source).Replace("**", target)));
 		}
 
 		public void ClickEditTermBtn()
