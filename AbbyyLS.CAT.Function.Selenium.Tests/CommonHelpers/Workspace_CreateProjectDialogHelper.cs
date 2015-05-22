@@ -37,16 +37,13 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 
 		public bool WaitDialogDisplay()
 		{
-			Logger.Debug("Ожидание появления диалога создания проекта");
+			Logger.Debug("Дождаться появления диалога создания проекта");
 			return WaitUntilDisplayElement(By.XPath(CREATE_PROJECT_DIALOG_XPATH));
 		}
 
-		/// <summary>
-		/// Дождаться, пока диалог пропадет
-		/// </summary>
-		/// <returns>пропал</returns>
 		public bool WaitDialogDisappear()
 		{
+			Logger.Debug("Дождаться, пока пропадет диалог создания проекта.");
 			return WaitUntilDisappearElement(By.XPath(CREATE_PROJECT_DIALOG_XPATH));
 		}
 

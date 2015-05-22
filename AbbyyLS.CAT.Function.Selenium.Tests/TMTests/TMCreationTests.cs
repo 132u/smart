@@ -118,6 +118,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.TM
 
 			// Закрыть диалог создания проекта
 			WorkspaceCreateProjectDialog.ClickCloseDialog();
+			WorkspaceCreateProjectDialog.WaitDialogDisappear();
 
 			// Перейти на вкладку Workspace и проверить, 
 			// что TM есть в списке при создании проекта (языки перевода English - Lithuanian)

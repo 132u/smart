@@ -157,7 +157,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.TM
 
 		public void ClickTMButton(TM_BTN_TYPE btnType)
 		{
-			Logger.Debug(string.Format("Кликнуть кнопку {0} в информации о ТМ.", btnType));
+			Logger.Debug("Кликнуть кнопку {0} в информации о ТМ.", btnType);
 			ClickElement(By.XPath(TMButtonDict[btnType]));
 		}
 
@@ -435,6 +435,19 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.TM
 			Logger.Debug(string.Format("Вернуть, есть ли на странице комментарий {0}", comment));
 
 			return GetElementAttribute(By.XPath(TM_EDIT_COMMENT_XPATH), "value") == comment;
+		}
+
+		public bool IsConfirmationDialogWasPresented()
+		{
+			Logger.Debug(@"Дождаться появления диалога подтверждения редактирования\удаления");
+
+			return WaitUntilDisplayElement(By.XPath(CONFIRM_XPATH));
+		}
+
+		public void AssertConfirmationDialogPresented()
+		{
+			Assert.IsTrue(IsConfirmationDialogWasPresented(),
+				@"Ошибка: диалог подтверждения редактирования\удаления не появился.");
 		}
 
 		public void ConfirmTMEdition()
@@ -729,7 +742,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.TM
 		protected const string TM_ROW_XPATH = "//td[@class='l-corpr__td tm']/span";
 
 		protected const string BTN_ROW_XPATH = "//tr[@class='js-tm-panel']";
-		protected const string UPDATE_BTN_XPATH = BTN_ROW_XPATH + "//span[contains(@data-bind, 'switchToEditing')]";
+		protected const string UPDATE_BTN_XPATH = BTN_ROW_XPATH + "//span[contains(@data-bind, 'replaceImportFile')]";
 		protected const string EXPORT_BTN_XPATH = "//tr[@class='js-tm-panel']//a[contains(@data-bind, 'exportTmx')]";
 		protected const string DELETE_BTN_XPATH = BTN_ROW_XPATH + "//span[contains(@data-bind, 'deleteTranslationMemory')]";
 		protected const string ADD_TMX_BTN_XPATH = BTN_ROW_XPATH + "//span[contains(@data-bind, 'appendImportFile')]";
@@ -737,7 +750,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.TM
 		protected const string SAVE_BTN_XPATH = BTN_ROW_XPATH + "//span[contains(@data-bind, 'save')]";
 		// TODO заменить id
 		protected const string PROJECT_GROUP_SPAN_XPATH = BTN_ROW_XPATH + "//div[contains(@data-bind,'domainNames')]";
-		protected const string SEGMENT_SPAN_XPATH = BTN_ROW_XPATH + "//table[@class='l-tmpanel__table']//div[4]";
+		protected const string SEGMENT_SPAN_XPATH = BTN_ROW_XPATH + "//table[@class='l-tmpanel__table']//div[3]";
 		protected const string IMPORT_POPUP_XPATH = "//div[contains(@class,'js-popup-import')][2]";
 		protected const string IMPORT_BTN_XPATH = IMPORT_POPUP_XPATH + "//span[contains(@class,'js-import-button')]";
 

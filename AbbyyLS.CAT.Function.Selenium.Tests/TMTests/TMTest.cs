@@ -4,7 +4,6 @@ using System.Threading;
 using System.Windows.Forms;
 
 using NUnit.Framework;
-using OpenQA.Selenium;
 
 using AbbyyLS.CAT.Function.Selenium.Tests.Driver;
 
@@ -242,6 +241,13 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.TM
 
 			if (isConfirmationQuestionExist)
 			{
+				// в случае если не появился диалог после первого нажатия, пробуем нажать кнопку повторно
+				if (!TMPage.IsConfirmationDialogWasPresented())
+				{
+					TMPage.ClickTMButton(btnType);
+					TMPage.AssertConfirmationDialogPresented();
+				}
+
 				TMPage.ConfirmTMEdition();
 			}
 		}
@@ -363,7 +369,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.TM
 			CommonHelper.LANGUAGE srcLang = CommonHelper.LANGUAGE.English,
 			CommonHelper.LANGUAGE trgLang = CommonHelper.LANGUAGE.Russian)
 		{
-			Logger.Debug(string.Format("Получить, есть ли TM {0} в списке при создании проекта. Менять язык: {1}", tmName, isNeedChangeLanguages));
+			Logger.Debug("Получить, есть ли TM {0} в списке при создании проекта. Менять язык: {1}", tmName, isNeedChangeLanguages);
 
 			SwitchWorkspaceTab();
 

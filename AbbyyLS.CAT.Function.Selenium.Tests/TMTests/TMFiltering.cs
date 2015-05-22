@@ -209,7 +209,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.TMTests
 		/// </summary>
 		[Category("PRX_9539")]
 		[Category("PRX_8976")]
-		[Test]
+		[Test, Explicit("Тест исключен в связи с багой PRX-9539")]
 		public void TmFiltrationTwoProjectGroup()
 		{
 			Logger.Info("Начало работы теста TmFiltrationTwoProjectGroup()");
@@ -247,7 +247,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.TMTests
 		/// Метод тестирования ТМ фильтра по клиенту: два клиента
 		/// </summary>
 		[Category("PRX_9539")]
-		[Test]
+		[Test, Explicit("Тест исключен в связи с багой PRX_9539")]
 		public void TmFiltrationTwoClients()
 		{
 			Logger.Info("Начало работы теста TmFiltrationTwoClients()");
