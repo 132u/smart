@@ -108,7 +108,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			string accountName = CreateCorporateAccount("", true);
 			AddUserToCorpAccount(Login);
 			Authorization(Login, Password, accountName);
-
+			WorkspacePage.CloseTour();
 			// Выбираем язык в WS
 			WorkspacePage.SelectLocale(language);
 			// Переход в личный кабинет
@@ -133,7 +133,9 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 				WorkspacePage.SelectLocale(LOCALE_LANGUAGE_SELECT.Russian);
 			}
 			// Переход в личный кабинет
+			WorkspacePage.WaitWorkspacePageTotalLoad();
 			WorkspacePage.ClickAccount();
+			WorkspacePage.WaitAccountMenuOpen();
 			WorkspacePage.ClickLicensesAndServices();
 			Driver.SwitchTo().Window(Driver.WindowHandles.Last());
 			if (currency == "RUB")

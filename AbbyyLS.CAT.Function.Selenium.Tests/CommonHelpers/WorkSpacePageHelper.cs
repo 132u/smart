@@ -671,6 +671,28 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		}
 
 		/// <summary>
+		/// Дождаться раскрытия меню аккаунта
+		/// </summary>
+		public void WaitAccountMenuOpen()
+		{
+			Logger.Trace("Дождаться раскрытия меню аккаунта");
+
+			Assert.IsTrue(ElementIsDisplayed(By.XPath(LOGOFF_XPATH)),
+				"Ошибка: меню аккаунта на раскрылось.");
+		}
+
+		/// <summary>
+		/// Дождаться полной загруи страницы
+		/// </summary>
+		public void WaitWorkspacePageTotalLoad()
+		{
+			Logger.Trace("Дождаться полной загрузки страницы workspace.");
+
+			Assert.IsTrue(WaitPageTotalLoad(),
+				"Ошибка: не дождались полной загрузки страницы workspace");
+		}
+
+		/// <summary>
 		/// Выбрать пункт для перехода к управлению лицензиями в меню профиля
 		/// </summary>
 		public void ClickLicensesAndServices()
