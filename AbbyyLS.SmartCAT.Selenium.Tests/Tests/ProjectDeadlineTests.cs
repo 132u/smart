@@ -20,46 +20,19 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 		}
 
 		[Test]
-		public void CreateProjectCurrentDeadlineDate()
+		[TestCase(Deadline.CurrentDate)]
+		[TestCase(Deadline.NextMonth)]
+		[TestCase(Deadline.PreviousMonth)]
+		public void CreateProjectWithDeadline(Deadline deadline)
 		{
 			var projectUniqueName = _createProjectHelper.GetProjectUniqueName();
 
 			_createProjectHelper
 				.ClickCreateProjectButton()
-				.FillGeneralProjectInformation(projectUniqueName)
+				.FillGeneralProjectInformation(projectUniqueName, deadline: deadline)
 				.ClickNextOnGeneralProjectInformationPage()
 				.ClickFinishOnProjectSetUpWorkflowDialog()
-				.WaitCreateProjectDialogDissapear();
-
-			_projectsHelper.CheckProjectAppearInList(projectUniqueName);
-		}
-
-		[Test]
-		public void CreateProjectFutureDeadlineDate()
-		{
-			var projectUniqueName = _createProjectHelper.GetProjectUniqueName();
-
-			_createProjectHelper
-				.ClickCreateProjectButton()
-				.FillGeneralProjectInformation(projectUniqueName, deadline: Deadline.NextMonth)
-				.ClickNextOnGeneralProjectInformationPage()
-				.ClickFinishOnProjectSetUpWorkflowDialog()
-				.WaitCreateProjectDialogDissapear();
-
-			_projectsHelper.CheckProjectAppearInList(projectUniqueName);
-		}
-
-		[Test]
-		public void CreateProjectPastDeadlineDate()
-		{
-			var projectUniqueName = _createProjectHelper.GetProjectUniqueName();
-
-			_createProjectHelper
-				.ClickCreateProjectButton()
-				.FillGeneralProjectInformation(projectUniqueName, deadline: Deadline.PreviousMonth)
-				.ClickNextOnGeneralProjectInformationPage()
-				.ClickFinishOnProjectSetUpWorkflowDialog()
-				.WaitCreateProjectDialogDissapear();
+				.WaitCreateProjectDialogDisappear();
 
 			_projectsHelper.CheckProjectAppearInList(projectUniqueName);
 		}

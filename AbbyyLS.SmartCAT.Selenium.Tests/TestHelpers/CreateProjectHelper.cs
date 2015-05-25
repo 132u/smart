@@ -269,7 +269,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 			return this;
 		}
 
-		public ProjectsHelper WaitCreateProjectDialogDissapear()
+		public ProjectsHelper WaitCreateProjectDialogDisappear()
 		{
 			BaseObject.InitPage(_newProjectSetUpWorkflowDialog);
 			_newProjectSetUpWorkflowDialog.WaitCreateProjectDialogDissapear();
