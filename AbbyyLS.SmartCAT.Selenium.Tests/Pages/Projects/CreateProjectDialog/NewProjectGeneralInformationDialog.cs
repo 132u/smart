@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 using NUnit.Framework;
 using OpenQA.Selenium;
@@ -68,34 +69,68 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 		}
 
 		/// <summary>
-		/// Кликнуть на поле для ввода даты, чтобы появился всплывающий календарь
+		/// Выбрать дату дэдлайна
 		/// </summary>
-		public NewProjectGeneralInformationDialog ClickDeadlineDateInput()
+		/// <param name="deadline">тип дэдлайна</param>
+		/// <param name="date">дата дэдлайна. Используется только с типом 'FillDeadlineDate'</param>
+		public NewProjectGeneralInformationDialog SetDeadline(Deadline deadline, string date = null)
 		{
-			Logger.Debug("Кликнуть на поле для ввода даты, чтобы появился всплывающий календарь.");
-			DeadlineDateInput.Click();
+			Logger.Debug("Выбрать дату дэдлайна.");
+
+			clickDeadlineDateInput();
+			assertIsCalendarDisplayed();
+
+			switch (deadline)
+			{
+ 				case Deadline.CurrentDate:
+					clickDeadlineDateCurrent();
+					break;
+
+				case Deadline.NextMonth:
+					clickNextMonth();
+					clickDeadlineSomeDate();
+					break;
+
+				case Deadline.PreviousMonth:
+					clickPreviousMonth();
+					clickDeadlineSomeDate();
+					break;
+
+				case Deadline.FillDeadlineDate:
+					fillDeadlineDate(date);
+					break;
+
+				default:
+					throw new Exception(string.Format("Передан аргумент, который не предусмотрен! Значение аргумента:'{0}'", deadline.ToString()));
+			}
+
+			AssertSetDeadlineDate();
 
 			return GetPage();
 		}
 
 		/// <summary>
-		/// Проверить, появился ли календарь
+		/// Проверить, что дата дэдлайна выбрана
 		/// </summary>
-		public NewProjectGeneralInformationDialog AssertIsCalendarDisplayed()
+		public NewProjectGeneralInformationDialog AssertSetDeadlineDate()
 		{
-			Assert.IsTrue(Driver.ElementIsDisplayed(By.XPath(DEADLINE_DATE_CURRENT_XPATH)),
-				"Произошла ошибка:\n не отображается календарь, нельзя выбрать дату дедлайна.");
+			Logger.Trace("Проверить, что дата дэдлайна выбрана.");
+			Assert.IsNotNullOrEmpty(DeadlineDateInput.GetAttribute("value"),
+				 "Ошибка: Дата дедлайна не выбрана");
 
 			return GetPage();
 		}
 
 		/// <summary>
-		/// Выбрать текущую дату дедлайна в календаре
+		/// Проверить наличие сообщения о неверном формате даты
 		/// </summary>
-		public NewProjectGeneralInformationDialog ClickDeadlineDateCurrent()
+		/// <param name="dateFormat">дата в неверном формате</param>
+		public NewProjectGeneralInformationDialog AssertErrorDeadlineDate(string dateFormat)
 		{
-			Logger.Debug("Выбрать текущую дату дедлайна в календаре.");
-			DeadlineDateCurrent.Click();
+			Logger.Trace("Проверить наличие сообщения о неверном формате даты.");
+
+			Assert.IsTrue(Driver.WaitUntilElementIsDisplay(By.XPath(ERROR_DEADLINE_DATE_XPATH)),
+				string.Format("Произошла ошибка:\n При введении некорректной даты '{0}' не было сообщения о неверном формате даты", dateFormat));
 
 			return GetPage();
 		}
@@ -319,6 +354,70 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 			return GetPage();
 		}
 
+		/// <summary>
+		/// Кликнуть на поле для ввода даты, чтобы появился всплывающий календарь
+		/// </summary>
+		private void clickDeadlineDateInput()
+		{
+			Logger.Debug("Кликнуть на поле для ввода даты, чтобы появился всплывающий календарь.");
+			DeadlineDateInput.Click();
+		}
+
+		/// <summary>
+		/// Проверить, появился ли календарь
+		/// </summary>
+		private void assertIsCalendarDisplayed()
+		{
+			Assert.IsTrue(Driver.ElementIsDisplayed(By.XPath(DEADLINE_DATE_CURRENT_XPATH)),
+				"Произошла ошибка:\n не отображается календарь, нельзя выбрать дату дедлайна.");
+		}
+
+		/// <summary>
+		/// Выбрать текущую дату дедлайна в календаре
+		/// </summary>
+		private void clickDeadlineDateCurrent()
+		{
+			Logger.Debug("Выбрать текущую дату дедлайна в календаре.");
+			DeadlineDateCurrent.Click();
+		}
+
+		/// <summary>
+		/// Перейти на следующий месяц календаря
+		/// </summary>		
+		private void clickNextMonth()
+		{
+			Logger.Debug("Перейти на следующий месяц календаря.");
+			DeadlineDateNextMonth.Click();
+		}
+
+		/// <summary>
+		/// Перейти на предыдущий месяц календаря
+		/// </summary>		
+		private void clickPreviousMonth()
+		{
+			Logger.Debug("Перейти на предыдущий месяц календаря.");
+			DeadlineDatePrevMonth.Click();
+		}
+
+		/// <summary>
+		/// Кликнуть по произвольной дате в календаре
+		/// </summary>		
+		private void clickDeadlineSomeDate()
+		{
+			Logger.Debug("Кликнуть по произвольной дате в календаре.");
+			DeadlineDate.Click();
+		}
+
+		/// <summary>
+		/// Вписать дату дэдлайна
+		/// </summary>
+		/// <param name="date">дата</param>
+		private void fillDeadlineDate(string date)
+		{
+			Logger.Debug("Вписать дату дэдлайна: {0}", date);
+			DeadlineDateInput.SetText(date, date.Replace(" ", ""));
+		}
+
 		[FindsBy(How = How.XPath, Using = ADD_FILE_BTN_XPATH)]
 		protected IWebElement AddFileButton { get; set; }
 
@@ -330,6 +429,15 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 
 		[FindsBy(How = How.XPath, Using = DEADLINE_DATE_CURRENT_XPATH)]
 		protected IWebElement DeadlineDateCurrent { get; set; }
+
+		[FindsBy(How = How.XPath, Using = DEADLINE_DATE_NEXT_MONTH_XPATH)]
+		protected IWebElement DeadlineDateNextMonth { get; set; }
+
+		[FindsBy(How = How.XPath, Using = DEADLINE_DATE_XPATH)]
+		protected IWebElement DeadlineDate { get; set; }
+
+		[FindsBy(How = How.XPath, Using = DEADLINE_DATE_PREV_MONTH_XPATH)]
+		protected IWebElement DeadlineDatePrevMonth { get; set; }
 
 		[FindsBy(How = How.XPath, Using = SOURCE_LANG_DROPDOWN_XPATH)]
 		protected IWebElement SourceLangDropdown { get; set; }
@@ -350,7 +458,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 
 		protected const string UPLOAD_FILE_INPUT = "//div[contains(@class,'js-popup-create-project')][2]//input[@type = 'file']";
 		protected const string UPLOADED_FILE_XPATH = ".//li[@class='js-file-list-item']//span[contains(string(), '*#*')]";
-		protected const string DEADLINE_DATE_CURRENT_XPATH = ".//div[contains(@id, 'ui-datepicker-div')]//table[contains(@class, 'ui-datepicker-calendar')]//td[contains(@class, 'ui-datepicker-today')]//a";
 		protected const string SOURCE_LANG_ITEM_XPATH = ".//span[contains(@class,'js-dropdown__list')]//span[@title = '*#*']";
 		protected const string TARGET_LANG_MULTISELECT_ITEMS_SELECTED_XPATH = ".//ul[contains(@class,'ui-multiselect-checkboxes')]//li//span[contains(@class,'js-chckbx')]//input[@aria-selected='true']";
 		protected const string TARGET_MULTISELECT_ITEM_XPATH = ".//ul[contains(@class,'ui-multiselect-checkboxes')]//span[contains(@class,'js-chckbx')]//input[@title='*#*']";
@@ -365,5 +472,12 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 		protected const string DEADLINE_DATE_INPUT_XPATH = "//div[contains(@class,'js-popup-create-project')][2]//input[contains(@class, 'l-project__date')]";
 		protected const string PROJECT_NAME_INPUT_XPATH = "//div[contains(@class,'js-popup-create-project')][2]//input[@name='name']";
 		protected const string ERROR_NAME_EXISTS_XPATH = "//div[contains(@class,'js-popup-create-project')][2]//p[contains(@class,'js-error-name-exists')]";
+		protected const string ERROR_DEADLINE_DATE_XPATH = "//div[contains(@class,'js-popup-create-project')][2]//p[contains(@class,'js-error-date-incorrect')]";
+
+
+		protected const string DEADLINE_DATE_NEXT_MONTH_XPATH = "//div[contains(@id, 'ui-datepicker-div')]//a[contains(@class, 'ui-datepicker-next')]";
+		protected const string DEADLINE_DATE_XPATH = "//div[contains(@id, 'ui-datepicker-div')]//table[contains(@class, 'ui-datepicker-calendar')]//tr[1]//td[count(a)!=0][1]";
+		protected const string DEADLINE_DATE_CURRENT_XPATH = ".//div[contains(@id, 'ui-datepicker-div')]//table[contains(@class, 'ui-datepicker-calendar')]//td[contains(@class, 'ui-datepicker-today')]//a";
+		protected const string DEADLINE_DATE_PREV_MONTH_XPATH = "//div[contains(@id, 'ui-datepicker-div')]//a[contains(@class, 'ui-datepicker-prev')]";
 	}
 }

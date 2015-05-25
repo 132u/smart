@@ -23,7 +23,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 			string projectName,
 			string filePath = null,
 			Language sourceLanguage = Language.English,
-			Language targetLanguage = Language.Russian)
+			Language targetLanguage = Language.Russian,
+			Deadline deadline = Deadline.CurrentDate,
+			string date = null)
 		{
 			BaseObject.InitPage(_newProjectGeneralInformationDialog);
 			if (filePath != null)
@@ -34,9 +36,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 			}
 
 			_newProjectGeneralInformationDialog
-				.ClickDeadlineDateInput()
-				.AssertIsCalendarDisplayed()
-				.ClickDeadlineDateCurrent()
+				.SetDeadline(deadline, date)
 				.ClickSourceLangDropdown()
 				.SelectSourceLanguage(sourceLanguage)
 				.ClickTargetMultiselect()
@@ -68,6 +68,14 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 			{
 				_newProjectGeneralInformationDialog.ClickNext<NewProjectGeneralInformationDialog>();
 			}
+
+			return this;
+		}
+
+		public CreateProjectHelper ClickFinishOnProjectSetUpWorkflowDialog()
+		{
+			BaseObject.InitPage(_newProjectSetUpWorkflowDialog);
+			_newProjectSetUpWorkflowDialog.ClickFinishButton();
 
 			return this;
 		}
@@ -127,7 +135,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 			BaseObject.InitPage(_newProjectSetUpWorkflowDialog);
 			_newProjectSetUpWorkflowDialog
 				.ClickFinishCreate()
-				.WaitCreateProjectDialogDissapeared();
+				.WaitCreateProjectDialogDissapear();
 
 			return this;
 		}
@@ -201,7 +209,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 			BaseObject.InitPage(_newProjectGeneralInformationDialog);
 			_newProjectGeneralInformationDialog
 				.ClickCloseDialog()
-				.WaitCreateProjectDialogDissapeared();
+				.WaitCreateProjectDialogDissapear();
 
 			return this;
 		}
@@ -251,6 +259,22 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 			// Sleep необходим, чтобы имена были уникальными, когда создаём несколько имён подряд. Чтобы не вышло, что кол-во тиков одинаковое.
 			Thread.Sleep(10);
 			return "Test Project" + "_" + DateTime.UtcNow.Ticks;
+		}
+
+		public CreateProjectHelper AssertErrorDeadlineDate(string dateFormat)
+		{
+			BaseObject.InitPage(_newProjectGeneralInformationDialog);
+			_newProjectGeneralInformationDialog.AssertErrorDeadlineDate(dateFormat);
+
+			return this;
+		}
+
+		public ProjectsHelper WaitCreateProjectDialogDissapear()
+		{
+			BaseObject.InitPage(_newProjectSetUpWorkflowDialog);
+			_newProjectSetUpWorkflowDialog.WaitCreateProjectDialogDissapear();
+
+			return new ProjectsHelper();
 		}
 
 		private readonly ProjectsPage _projectsPage = new ProjectsPage();

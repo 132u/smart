@@ -90,7 +90,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 		/// <summary>
 		/// Дождаться закрытия диалога создания проекта
 		/// </summary>
-		public ProjectsPage WaitCreateProjectDialogDissapeared()
+		public ProjectsPage WaitCreateProjectDialogDissapear()
 		{
 			Logger.Trace("Дождаться закрытия диалога создания проекта.");
 

@@ -66,6 +66,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DataStructures\Deadline.cs" />
     <Compile Include="DataStructures\TaskMode.cs" />
     <Compile Include="DriversAndSettings\ChromeWebDriverSettings.cs" />
     <Compile Include="DriversAndSettings\FirefoxWebDriverSettings.cs" />
@@ -134,6 +135,7 @@
     <Compile Include="Tests\BaseTest.cs" />
     <Compile Include="Tests\ChangeProjectNameTests.cs" />
     <Compile Include="Tests\ClientTests.cs" />
+    <Compile Include="Tests\ProjectDeadlineTests.cs" />
     <Compile Include="Tests\ProjectGroupsTest.cs" />
     <Compile Include="UserInfoConfig.cs" />
   </ItemGroup>
