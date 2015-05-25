@@ -156,7 +156,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 		public void CancelCreateProjectOnFirstStepTest()
 		{
 			_createProjectHelper
-				.OpenCreateProjectDialog()
+				.ClickCreateProjectButton()
 				.CancelCreateProject();
 		}
 
@@ -164,7 +164,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 		public void DeleteFileFromWizard()
 		{
 			_createProjectHelper
-				.OpenCreateProjectDialog()
+				.ClickCreateProjectButton()
 				.AddFileFromWizard(PathProvider.DocumentFile)
 				.DeleteFileFromWizard(PathProvider.DocumentFile);
 		}

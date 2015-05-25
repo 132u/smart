@@ -60,6 +60,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 			return this;
 		}
 
+		/// <summary>
+		/// Открыть диалог создания проекта
+		/// </summary>
 		public CreateProjectHelper ClickCreateProjectButton()
 		{
 			BaseObject.InitPage(_projectsPage);

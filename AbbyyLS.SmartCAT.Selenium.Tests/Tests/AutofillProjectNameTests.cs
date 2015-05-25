@@ -24,7 +24,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 		public void AutofillProjectName()
 		{
 			_createProjectHelper
-				.OpenCreateProjectDialog()
+				.ClickCreateProjectButton()
 				.AddFileFromWizard(_filePath)
 				.AssertProjectNameMatch(_fileName);
 		}
@@ -33,7 +33,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 		public void AutofillProjectNameAddTwoFiles()
 		{
 			 _createProjectHelper
-				.OpenCreateProjectDialog()
+				.ClickCreateProjectButton()
 				.AddFileFromWizard(_filePath)
 				.AssertProjectNameMatch(_fileName)
 				.AddFileFromWizard(_filePath)
@@ -44,7 +44,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 		public void AutofillProjectNameDeleteFile()
 		{
 			_createProjectHelper
-				.OpenCreateProjectDialog()
+				.ClickCreateProjectButton()
 				.AddFileFromWizard(_filePath)
 				.AssertProjectNameMatch(_fileName)
 				.DeleteFileFromWizard(_filePath)

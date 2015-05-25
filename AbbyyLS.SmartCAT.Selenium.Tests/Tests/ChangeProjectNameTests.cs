@@ -25,7 +25,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 			var newProjectName = _createProjectHelper.GetProjectUniqueName();
 
 			_createProjectHelper
-				.OpenCreateProjectDialog()
+				.ClickCreateProjectButton()
 				.FillGeneralProjectInformation(projectUniqueName)
 				.ClickNextOnGeneralProjectInformationPage()
 				.ClickBackButtonOnWorkflowStep()
@@ -41,10 +41,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 
 			_createProjectHelper
 				.CreateNewProject(projectUniqueName)
-				.CheckProjectAppearInList(projectUniqueName);
-
-			_createProjectHelper
-				.OpenCreateProjectDialog()
+				.CheckProjectAppearInList(projectUniqueName)
+				.ClickCreateProjectButton()
 				.FillGeneralProjectInformation(newProjectName)
 				.ClickNextOnGeneralProjectInformationPage()
 				.ClickBackButtonOnWorkflowStep()
@@ -64,10 +62,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 				.CheckProjectAppearInList(projectUniqueName)
 				.SelectProjectInList(projectUniqueName)
 				.DeleteProjectFromList()
-				.AssertProjectSuccessfullyDeleted(projectUniqueName);
-
-			_createProjectHelper
-				.OpenCreateProjectDialog()
+				.AssertProjectSuccessfullyDeleted(projectUniqueName)
+				.ClickCreateProjectButton()
 				.FillGeneralProjectInformation(newProjectName)
 				.ClickNextOnGeneralProjectInformationPage()
 				.ClickBackButtonOnWorkflowStep()

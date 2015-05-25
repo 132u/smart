@@ -191,17 +191,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 		}
 
 		/// <summary>
-		/// Открыть даилог создания проекта
-		/// </summary>
-		public CreateProjectHelper OpenCreateProjectDialog()
-		{
-			BaseObject.InitPage(_projectsPage);
-			_projectsPage.ClickCreateProjectButton();
-
-			return this;
-		}
-
-		/// <summary>
 		/// Отменить создание проекта
 		/// </summary>
 		public ProjectsHelper CancelCreateProject()
