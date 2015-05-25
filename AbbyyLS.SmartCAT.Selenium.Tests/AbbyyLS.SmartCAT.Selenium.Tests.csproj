@@ -132,6 +132,7 @@
     <Compile Include="Tests\AutofillProjectNameTests.cs" />
     <Compile Include="Tests\BasicProjectTests.cs" />
     <Compile Include="Tests\BaseTest.cs" />
+    <Compile Include="Tests\ChangeProjectNameTests.cs" />
     <Compile Include="Tests\ClientTests.cs" />
     <Compile Include="Tests\ProjectGroupsTest.cs" />
     <Compile Include="UserInfoConfig.cs" />

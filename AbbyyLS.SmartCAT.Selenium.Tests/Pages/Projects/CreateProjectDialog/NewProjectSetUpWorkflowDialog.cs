@@ -58,10 +58,26 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 			return newProjectSetUpTMDialog.GetPage();
 		}
 
+
+		/// <summary>
+		/// Нажать кнопку 'Назад'
+		/// </summary>
+		public NewProjectGeneralInformationDialog ClickBack()
+		{
+			Logger.Debug("Нажать кнопку 'Назад'.");
+			BackButton.Click();
+
+			return new NewProjectGeneralInformationDialog().GetPage();
+		}
+
+		[FindsBy(How = How.XPath, Using = BACK_BUTTON)]
+		protected IWebElement BackButton { get; set; }
+
 		[FindsBy(How = How.XPath, Using = WF_TABLE_FIRST_TASK)]
 		protected IWebElement WFTableFirstTask { get; set; }
 
 		protected const string WF_TABLE_FIRST_TASK = "//div[contains(@class,'js-popup-create-project')][2]//table[contains(@class,'js-workflow-table')]//tr[1]/td[2]//span//span";
-		
+		protected const string BACK_BUTTON = "//div[contains(@class,'js-popup-create-project')][2]//span[contains(@class,'js-back')]";
+
 	}
 }

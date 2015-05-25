@@ -48,18 +48,34 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 			return this;
 		}
 
-		public CreateProjectHelper ClickNextOnGeneralProjectInformationPage()
+		public CreateProjectHelper FillProjectName(string projectName)
 		{
 			BaseObject.InitPage(_newProjectGeneralInformationDialog);
-			_newProjectGeneralInformationDialog.ClickNext();
+			_newProjectGeneralInformationDialog.SetProjectName(projectName);
 
 			return this;
 		}
 
-		public CreateProjectHelper CheckInputsOnGeneralProjectInformationPage()
+		public CreateProjectHelper ClickNextOnGeneralProjectInformationPage(bool errorExpected = false)
 		{
 			BaseObject.InitPage(_newProjectGeneralInformationDialog);
-			_newProjectGeneralInformationDialog.CheckInputs();
+
+			if (!errorExpected)
+			{
+				_newProjectGeneralInformationDialog.ClickNext<NewProjectSetUpWorkflowDialog>();
+			}
+			else
+			{
+				_newProjectGeneralInformationDialog.ClickNext<NewProjectGeneralInformationDialog>();
+			}
+
+			return this;
+		}
+
+		public CreateProjectHelper ClickBackButtonOnWorkflowStep()
+		{
+			BaseObject.InitPage(_newProjectSetUpWorkflowDialog);
+			_newProjectSetUpWorkflowDialog.ClickBack();
 
 			return this;
 		}

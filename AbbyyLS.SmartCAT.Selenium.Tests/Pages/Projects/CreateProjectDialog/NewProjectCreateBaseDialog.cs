@@ -35,9 +35,10 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 
 		[FindsBy(How = How.XPath, Using = NEXT_BTN)]
 		protected IWebElement NextButton { get; set; }
-
+		
 		protected const string CREATE_PROJECT_FINISH_BUTTON = "//div[contains(@class,'js-popup-create-project')][2]//span[contains(@class,'js-finish js-upload-btn')]";
 		protected const string CLOSE_DIALOG_BTN_XPATH = "//div[contains(@class,'js-popup-create-project')][2]//img[contains(@class,'js-popup-close')]";
 		protected const string NEXT_BTN = "//div[contains(@class,'js-popup-create-project')][2]//span[contains(@class,'js-next')]";
+
 	}
 }

@@ -78,7 +78,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 				.CheckProjectAppearInList(projectUniqueName)
 				.ClickCreateProjectButton()
 				.FillGeneralProjectInformation(projectUniqueName)
-				.CheckInputsOnGeneralProjectInformationPage()
+				.ClickNextOnGeneralProjectInformationPage(errorExpected: true)
 				.AssertErrorDuplicateName();
 		}
 
@@ -99,7 +99,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 				.ClickCreateProjectButton()
 				.FillGeneralProjectInformation(projectUniqueName, 
 					sourceLanguage: Language.English, targetLanguage: Language.English)
-				.CheckInputsOnGeneralProjectInformationPage()
+				.ClickNextOnGeneralProjectInformationPage(errorExpected: true)
 				.AssertErrorDuplicateLanguage();
 		}
 
@@ -117,7 +117,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 			_createProjectHelper
 				.ClickCreateProjectButton()
 				.FillGeneralProjectInformation(projectUniqueNameForbidden)
-				.CheckInputsOnGeneralProjectInformationPage()
+				.ClickNextOnGeneralProjectInformationPage(errorExpected: true)
 				.AssertErrorForbiddenSymbols();
 		}
 
@@ -128,7 +128,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 			_createProjectHelper
 				.ClickCreateProjectButton()
 				.FillGeneralProjectInformation(projectName)
-				.CheckInputsOnGeneralProjectInformationPage()
+				.ClickNextOnGeneralProjectInformationPage(errorExpected: true)
 				.AssertErrorNoName();
 		}
 

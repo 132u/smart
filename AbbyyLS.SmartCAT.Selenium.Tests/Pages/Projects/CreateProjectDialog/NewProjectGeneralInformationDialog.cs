@@ -179,23 +179,12 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 		/// <summary>
 		/// Нажать кнопку 'Далее'
 		/// </summary>
-		public NewProjectSetUpWorkflowDialog ClickNext()
+		public T ClickNext<T>() where T: class, IAbstractPage<T>, new()
 		{
 			Logger.Debug("Нажать кнопку 'Далее'.");
 			NextButton.Click();
 
-			return new NewProjectSetUpWorkflowDialog().GetPage();
-		}
-
-		/// <summary>
-		/// Нажать кнопку 'Далее', но не инициализировать страницу следующего шага.
-		/// </summary>
-		public NewProjectGeneralInformationDialog CheckInputs()
-		{
-			Logger.Debug("Нажать кнопку 'Далее' для проверки валидности полей.");
-			NextButton.Click();
-
-			return new NewProjectGeneralInformationDialog().GetPage();
+			return new T().GetPage();
 		}
 
 		/// <summary>
@@ -207,6 +196,19 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 
 			Assert.IsTrue(Driver.WaitUntilElementIsDisplay(By.XPath(ERROR_NAME_EXISTS_XPATH)),
 				"Произошла ошибка:\n не появилось сообщение о существующем имени");
+
+			return GetPage();
+		}
+
+		/// <summary>
+		/// Проверить, что нет ошибки существующего имени
+		/// </summary>
+		public NewProjectGeneralInformationDialog AssertNoErrorDuplicateName()
+		{
+			Logger.Trace("Проверить, что нет ошибки существующего имени.");
+
+			Assert.IsFalse(Driver.WaitUntilElementIsDisplay(By.XPath(ERROR_NAME_EXISTS_XPATH)),
+				"Произошла ошибка:\n появилась ошибка существующего имени.");
 
 			return GetPage();
 		}
@@ -264,6 +266,18 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 		}
 
 		/// <summary>
+		/// Проверить, что поле 'Название проекта' не выделенно ошибкой
+		/// </summary>
+		public NewProjectGeneralInformationDialog AssertNoNameInputError()
+		{
+			Logger.Trace("Проверить, что поле 'Название проекта' не выделенно ошибкой.");
+
+			Assert.IsFalse(Driver.FindElement(By.XPath(PROJECT_NAME_INPUT_XPATH)).GetElementAttribute("class").Contains("error"),
+				"Произошла ошибка:\n поле 'Название проекта' отмечено ошибкой");
+
+			return GetPage();
+		}
+		/// <summary>
 		/// Нажать 'Удалить файл'
 		/// </summary>
 		/// <param name="fileName">имя файла</param>
@@ -304,7 +318,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 
 			return GetPage();
 		}
-
 
 		[FindsBy(How = How.XPath, Using = ADD_FILE_BTN_XPATH)]
 		protected IWebElement AddFileButton { get; set; }
