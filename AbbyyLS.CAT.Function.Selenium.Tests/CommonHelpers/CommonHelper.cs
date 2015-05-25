@@ -758,16 +758,15 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <summary>
 		/// Проверить, присуствует ли элемент на странице
 		/// </summary>
-		/// <param name="driver">драйвер</param>
 		/// <param name="by">локатор</param>
-		public static bool ElementIsDisplayed(this IWebDriver driver, By by)
+		public static bool ElementIsDisplayed(By by)
 		{
 			var present = false;
-			driver.Manage().Timeouts().ImplicitlyWait(NoWait);
+			Driver.Manage().Timeouts().ImplicitlyWait(NoWait);
 
 			try
 			{
-				present = driver.FindElement(by).Displayed;
+				present = Driver.FindElement(by).Displayed;
 			}
 			catch (NoSuchElementException)
 			{
@@ -779,10 +778,10 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 
 				Logger.Warn("InvalidOperationException: ElementIsPresent {0}", exception.Message);
 				Logger.Debug("Обновить страницу браузера.");
-				driver.Navigate().Refresh();
+				Driver.Navigate().Refresh();
 			}
 
-			driver.Manage().Timeouts().ImplicitlyWait(ImplicitWait);
+			Driver.Manage().Timeouts().ImplicitlyWait(ImplicitWait);
 
 			return present;
 		}
