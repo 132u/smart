@@ -21,6 +21,8 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 	public  class CommonHelper
 	{
 		public static Logger Logger = LogManager.GetCurrentClassLogger();
+		public static readonly TimeSpan ImplicitWait = new TimeSpan(0, 0, 0, 5);
+		public static readonly TimeSpan NoWait = new TimeSpan(0, 0, 0, 0);
 
 		/// <summary>
 		/// Драйвер
@@ -751,6 +753,38 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 				// Возвращаем таймаут обратно
 				_wait.Timeout = TimeSpan.FromSeconds(timeout);
 			}
+		}
+
+		/// <summary>
+		/// Проверить, присуствует ли элемент на странице
+		/// </summary>
+		/// <param name="driver">драйвер</param>
+		/// <param name="by">локатор</param>
+		public static bool ElementIsDisplayed(this IWebDriver driver, By by)
+		{
+			var present = false;
+			driver.Manage().Timeouts().ImplicitlyWait(NoWait);
+
+			try
+			{
+				present = driver.FindElement(by).Displayed;
+			}
+			catch (NoSuchElementException)
+			{
+			}
+			catch (InvalidOperationException exception)
+			{
+				// Exception является багой возникающей в Selenium 2.43.1
+				// https://code.google.com/p/selenium/issues/detail?id=7977
+
+				Logger.Warn("InvalidOperationException: ElementIsPresent {0}", exception.Message);
+				Logger.Debug("Обновить страницу браузера.");
+				driver.Navigate().Refresh();
+			}
+
+			driver.Manage().Timeouts().ImplicitlyWait(ImplicitWait);
+
+			return present;
 		}
 
 		public enum LANGUAGE { English, Russian, German, French, Japanese, Lithuanian };
