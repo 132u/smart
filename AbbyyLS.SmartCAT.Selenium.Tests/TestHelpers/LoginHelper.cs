@@ -33,5 +33,17 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 		}
 
 		private readonly SignInPage _signInPage = new SignInPage();
+
+		public const string TestAccountName = "TestAccount";
+		public const string PerevedemAccountName = "Perevedem";
+		public const string CourseraAccountName = "Coursera";
+
+		public const string PerevedemVenture = "Perevedem.ru";
+		public const string SmartCATVenture = "SmartCAT";
+		public const string CourseraVenture = "Coursera";
+
+		public const string PersonalAccountSurname = "PersAccount";
+		
+
 	}
 }

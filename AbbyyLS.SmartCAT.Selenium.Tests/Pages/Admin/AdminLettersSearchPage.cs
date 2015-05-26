@@ -21,7 +21,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Admin
 
 		public new void LoadPage()
 		{
-			if (!Driver.WaitUntilElementIsDisplay(By.Id(SEARCH_EMAIL_INPUT_ID), 7))
+			if (!Driver.WaitUntilElementIsDisplay(By.Id(SEARCH_EMAIL_INPUT_ID), timeout: 7))
 			{
 				Assert.Fail("Произошла ошибка:\n не загружена страничка AdminEmailsSearchPage (Поиск писем в админке).");
 			}
@@ -67,7 +67,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Admin
 		/// </summary>
 		public AdminEmailsSearchPage AssertFoundEmailesAppeared()
 		{
-			Assert.IsTrue(Driver.WaitUntilElementIsDisplay(By.XPath(FOUND_EMAILS_TABLE_XPATH), 7),
+			Assert.IsTrue(Driver.WaitUntilElementIsDisplay(By.XPath(FOUND_EMAILS_TABLE), timeout: 7),
 				"Произошла ошибка:\n не появилась таблица с найденными письмами.");
 
 			return GetPage();
@@ -85,6 +85,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Admin
 		protected const string SEARCH_EMAIL_INPUT_ID = "SearchEmail";
 		protected const string LIMIT_COUNT_INPUT_ID = "LimitCount";
 		protected const string FIND_BTN_XPATH = "//input[contains(@class, 'button initializeSearch')]";
-		protected const string FOUND_EMAILS_TABLE_XPATH = "//table[contains(@class, 'foundEmails')]";
+		protected const string FOUND_EMAILS_TABLE = "//table[contains(@class, 'foundEmails')]";
 	}
 }

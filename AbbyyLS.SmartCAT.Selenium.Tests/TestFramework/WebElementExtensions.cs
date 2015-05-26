@@ -113,6 +113,24 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestFramework
 		}
 
 		/// <summary>
+		/// Проверить, отмечен ли checkbox или radio
+		/// </summary>
+		/// <param name="webElement">элемент</param>
+		/// <returns>отмечен (стоит галочка или точка)</returns>
+		public static bool GetIsInputChecked(this IWebElement webElement)
+		{
+			try
+			{
+				return webElement.GetAttribute("checked") == "true";
+			}
+			catch (StaleElementReferenceException staleElementReferenceException)
+			{
+				Logger.Warn("StaleElementReferenceException: GetIsInputChecked: " + webElement.TagName, staleElementReferenceException);
+				return GetIsInputChecked(webElement);
+			}
+		}
+
+		/// <summary>
 		/// Метод скроллит до того момента, пока web-элемент не станет видимым
 		/// </summary>
 		/// <param name="webElement"></param>
@@ -134,7 +152,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestFramework
 		/// <summary>
 		/// Получить драйвер из web-элемента
 		/// </summary>
-		/// <param name="webElement"></param>
+		/// <param name="webElement">элемент</param>
 		private static IWebDriver getDriverFromWebElement(this IWebElement webElement)
 		{
 			IWebDriver wrappedDriver;

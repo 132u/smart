@@ -1,9 +1,11 @@
-﻿using System;
+﻿﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using NConfiguration;
 using NUnit.Framework;
+using AbbyyLS.SmartCAT.Selenium.Tests.DataStructures;
 using AbbyyLS.SmartCAT.Selenium.Tests.DriversAndSettings;
 using AbbyyLS.SmartCAT.Selenium.Tests.TestFramework;
 using AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers;
@@ -47,9 +49,29 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests
 
 		protected string UserSurname2 { get; private set; }
 
+		protected string RightsTestLogin { get; private set; }
+
+		protected string RightsTestPassword { get; private set; }
+
+		protected string RightsTestUserName { get; private set; }
+
+		protected string RightsTestFirstName { get; private set; }
+
+		protected string RightsTestSurname { get; private set; }
+
 		protected string ProjectName { get; private set; }
 
 		protected bool QuitDriverAfterTest { get; set; }
+
+		protected bool AdminLoginPage { get; set; }
+
+		protected List<TestUser> TestUserList { get; private set; }
+
+		protected List<TestUser> TestCompanyList { get; private set; }
+
+		protected List<TestUser> CourseraUserList { get; private set; }
+
+		protected List<TestUser> AolUserList { get; private set; }
 
 		protected string[] ProcessNames { get; private set; }
 
@@ -74,6 +96,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests
 				CreateUniqueNamesByDatetime();
 				initializeRelatedToServerFields(cfgAgentSpecific);
 				initializeRelatedToUserFields(cfgUserInfo);
+				initializeUsersAndCompanyList();
 				initializeHelpers();
 
 				authorization();
@@ -166,6 +189,11 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests
 			}
 		}
 
+		public bool TestUserFileExist()
+		{
+			return File.Exists(PathProvider.TestUserFile);
+		}
+
 		protected void CreateUniqueNamesByDatetime()
 		{
 			ProjectName = "Selenium Project" + "_" + DateTime.Now.ToString("HHmmss");
@@ -209,9 +237,17 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests
 		}
 
 		private void authorization()
-		{
-			Driver.Navigate().GoToUrl(Url + "/sign-in");
-			LoginHelper.SignIn(Login, Password);
+		{			
+			if (AdminLoginPage)
+			{
+				Driver.Navigate().GoToUrl(AdminUrl);
+				AdminHelper.SignIn(Login, Password);
+			}
+			else 
+			{
+				Driver.Navigate().GoToUrl(Url + "/sign-in");
+				LoginHelper.SignIn(Login, Password);
+			}
 		}
 
 		private void initializeRelatedToServerFields(TargetServerConfig cfgAgentSpecific)
@@ -240,6 +276,12 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests
 			UserName2 = cfgUserInfo.UserName2;
 			UserFirstName2 = UserName2.Substring(0, UserName2.IndexOf(' '));
 			UserSurname2 = UserName2.Substring(UserName2.IndexOf(' ') + 1);
+
+			RightsTestLogin = cfgUserInfo.TestRightsLogin;
+			RightsTestPassword = cfgUserInfo.TestRightsPassword;
+			RightsTestUserName = cfgUserInfo.TestRightsUserName;
+			RightsTestFirstName = RightsTestUserName.Substring(0, UserName.IndexOf(' '));
+			RightsTestSurname = RightsTestUserName.Substring(UserName.IndexOf(' ') + 1);
 		}
 
 		private void initializeHelpers()
@@ -248,6 +290,25 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests
 			LoginHelper = new LoginHelper();
 			WorkspaceHelper = new WorkspaceHelper();
 			CreateProjectHelper = new CreateProjectHelper();
+		}
+
+		private void initializeUsersAndCompanyList()
+		{
+			var cfgTestUser = TestSettingDefinition.Instance.TryGet<TestUsersConfig>();
+			if (cfgTestUser != null)
+			{
+				TestUserList = cfgTestUser.Users;
+				TestCompanyList = cfgTestUser.Companies;
+				CourseraUserList = cfgTestUser.CourseraUsers;
+				AolUserList = cfgTestUser.AolUsers;
+			}
+			else
+			{
+				TestUserList = new List<TestUser>();
+				TestCompanyList = new List<TestUser>();
+				CourseraUserList = new List<TestUser>();
+				AolUserList = new List<TestUser>();
+			}
 		}
 	}
 }

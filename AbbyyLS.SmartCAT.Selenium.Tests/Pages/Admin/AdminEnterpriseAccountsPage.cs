@@ -1,7 +1,7 @@
-﻿using AbbyyLS.SmartCAT.Selenium.Tests.TestFramework;
-using NUnit.Framework;
+﻿using NUnit.Framework;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.PageObjects;
+using AbbyyLS.SmartCAT.Selenium.Tests.TestFramework;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Admin
 {
@@ -20,7 +20,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Admin
 
 		public new void LoadPage()
 		{
-			if (!Driver.WaitUntilElementIsDisplay(By.XPath(SELECT_VENTURE_XPATH)))
+			if (!Driver.WaitUntilElementIsDisplay(By.XPath(SELECT_VENTURE)))
 			{
 				Assert.Fail("Произошла ошибка:\n не загружена страничка AdminEnterpriseAccountsPage (Корпоративные аккаунты).");
 			}
@@ -42,14 +42,13 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Admin
 		/// Нажать ссылку редактирование пользователей аккаунта
 		/// </summary>
 		/// <param name="accountName">имя аккаунта</param>
-		public AdminEnterpriseAccountUsersPage ClickManageUsersRef(string accountName)
+		public AdminEnterpriseAccountUsersPage ClickManageUsersReference(string accountName)
 		{
 			Logger.Debug("Нажать ссылку для редактирования пользователей аккаунта {0}.", accountName);
-			ManageUsersRef = Driver.SetDynamicValue(How.XPath, MANAGE_USERS_REF_XPATH, accountName);
+			ManageUsersRef = Driver.SetDynamicValue(How.XPath, MANAGE_USERS_REF, accountName);
 			ManageUsersRef.Click();
-			var adminEnterpriseAccountUsersPage = new AdminEnterpriseAccountUsersPage();
 
-			return adminEnterpriseAccountUsersPage.GetPage();
+			return new AdminEnterpriseAccountUsersPage().GetPage();
 		}
 
 		/// <summary>
@@ -60,16 +59,42 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Admin
 		{
 			Logger.Trace("Проверить, есть ли в таблице аккаунтов аккаунт с именем {0}.", accountName);
 			
-			return Driver.ElementIsDisplayed(By.XPath(MANAGE_USERS_REF_XPATH.Replace("*#*", accountName)));
+			return Driver.ElementIsDisplayed(By.XPath(MANAGE_USERS_REF.Replace("*#*", accountName)));
 		}
 
-		[FindsBy(How = How.XPath, Using = SELECT_VENTURE_XPATH)]
+		/// <summary>
+		/// Нажать 'Создать аккаунт'
+		/// </summary>
+		public AdminEnterpriseAccountsPage ClickCreateAccount()
+		{
+			Logger.Trace("Нажать 'Создать аккаунт'");
+			AddAccountRef.Click();
+			
+
+			return GetPage();
+		}
+
+		/// <summary>
+		/// Переключиться в окно создания нового аккаунта
+		/// </summary>
+		public AdminCreateAccountPage SwitchToAdminCreateAccountWindow()
+		{
+			Logger.Trace("Переключиться в окно создания нового аккаунта.");
+			Driver.SwitchTo().Window(Driver.WindowHandles[1]);
+
+			return new AdminCreateAccountPage().GetPage();
+		}
+
+		[FindsBy(How = How.XPath, Using = SELECT_VENTURE)]
 		protected IWebElement SelectVenture { get; set; }
+
+		[FindsBy(How = How.XPath, Using = ADD_ACCOUNT_REF)]
+		protected IWebElement AddAccountRef { get; set; }
 
 		protected IWebElement ManageUsersRef { get; set; }
 
-		protected const string SELECT_VENTURE_XPATH = "//select[@id='VentureId']";
-		protected const string ADD_ACCOUNT_REF_XPATH = "//a[contains(@href,'/EnterpriseAccounts/Edit')]";
-		protected const string MANAGE_USERS_REF_XPATH = "//table//tr[contains(string(), '*#*')]//a[contains(@href,'/EnterpriseAccountUsers')]";
+		protected const string SELECT_VENTURE = "//select[@id='VentureId']";
+		protected const string ADD_ACCOUNT_REF = "//a[contains(@href,'/EnterpriseAccounts/Edit')]";
+		protected const string MANAGE_USERS_REF = "//table//tr[contains(string(), '*#*')]//a[contains(@href,'/EnterpriseAccountUsers')]";
 	}
 }

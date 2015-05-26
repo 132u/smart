@@ -1,7 +1,7 @@
-﻿using AbbyyLS.SmartCAT.Selenium.Tests.TestFramework;
-using NUnit.Framework;
+﻿using NUnit.Framework;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.PageObjects;
+using AbbyyLS.SmartCAT.Selenium.Tests.TestFramework;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Admin
 {
@@ -20,7 +20,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Admin
 		
 		public void LoadPage()
 		{
-			if (!Driver.WaitUntilElementIsDisplay(By.XPath(ENTERPRISE_ACCOUNTS_REF_XPATH)))
+			if (!Driver.WaitUntilElementIsDisplay(By.XPath(ENTERPRISE_ACCOUNTS_REF)))
 			{
 				Assert.Fail("Произошла ошибка:\n не удалось зайти в админку.\n" +
 					" Не загружена страничка AdminLingvoProPage (Lingvo.Pro Admin).");
@@ -28,36 +28,65 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Admin
 		}
 
 		/// <summary>
-		/// Кликнуть по ссылке "Корпоративные аккаунты"
+		/// Кликнуть по ссылке 'Корпоративные аккаунты'
 		/// </summary>
-		public AdminEnterpriseAccountsPage ClickEnterpriseAccountsRef()
+		public AdminEnterpriseAccountsPage ClickEnterpriseAccountsReference()
 		{
 			Logger.Debug("Кликнуть по ссылке 'Корпоративные аккаунты'.");
-			EnterpriseAccountsRef.Click();
-			var adminEnterpriseAccountsPage = new AdminEnterpriseAccountsPage();
+			EnterpriseAccountsReference.Click();
 
-			return adminEnterpriseAccountsPage.GetPage();
+			return new AdminEnterpriseAccountsPage().GetPage();
 		}
 
 		/// <summary>
-		/// Кликнуть по ссылке "Поиск писем"
+		/// Кликнуть по ссылке 'Поиск писем'
 		/// </summary>
-		public AdminEmailsSearchPage ClickAdminLettersSearchRef()
+		public AdminEmailsSearchPage ClickAdminLettersSearchReference()
 		{
 			Logger.Debug("Кликнуть по ссылке 'Поиск писем'.");
-			LettersSearchRef.Click();
-			var adminEmailsSearchPage = new AdminEmailsSearchPage();
+			LettersSearchReference.Click();
 
-			return adminEmailsSearchPage.GetPage();
+			return new AdminEmailsSearchPage().GetPage();
 		}
 
-		[FindsBy(How = How.XPath, Using = ENTERPRISE_ACCOUNTS_REF_XPATH)]
-		protected IWebElement EnterpriseAccountsRef { get; set; }
+		/// <summary>
+		/// Кликнуть по ссылке 'Создать пользователя'
+		/// </summary>
+		public AdminCreateUserPage ClickCreateUserReference()
+		{
+			Logger.Debug("Кликнуть по ссылке 'Создать пользователя'.");
+			CreateUserReference.Click();
+			var adminCreateUserPage = new AdminCreateUserPage();
 
-		[FindsBy(How = How.XPath, Using = LETTERS_SEARCH_REF_XPATH)]
-		protected IWebElement LettersSearchRef { get; set; }
+			return adminCreateUserPage.GetPage();
+		}
 
-		protected const string ENTERPRISE_ACCOUNTS_REF_XPATH = "//a[@href='/EnterpriseAccounts']";
-		protected const string LETTERS_SEARCH_REF_XPATH = "//a[@href='/EMailTaskList']";
+		/// <summary>
+		/// Кликнуть по ссылке Поиск пользователей в меню
+		/// </summary>
+		public AdminFindUserPage ClickSearchUserReference()
+		{
+			Logger.Trace("Клик по ссылке Поиск пользователей в меню");
+			SearchUserReference.Click();
+
+			return new AdminFindUserPage().GetPage();
+		}
+
+		[FindsBy(How = How.XPath, Using = ENTERPRISE_ACCOUNTS_REF)]
+		protected IWebElement EnterpriseAccountsReference { get; set; }
+
+		[FindsBy(How = How.XPath, Using = LETTERS_SEARCH_REF)]
+		protected IWebElement LettersSearchReference { get; set; }
+
+		[FindsBy(How = How.XPath, Using = CREATE_USER_REF)]
+		protected IWebElement CreateUserReference { get; set; }
+
+		[FindsBy(How = How.XPath, Using = SERACH_USER_LINK)]
+		protected IWebElement SearchUserReference { get; set; }
+
+		protected const string ENTERPRISE_ACCOUNTS_REF = "//a[@href='/EnterpriseAccounts']";
+		protected const string LETTERS_SEARCH_REF = "//a[@href='/EMailTaskList']";
+		protected const string CREATE_USER_REF = "//a[@href='/Users/Create']";
+		protected const string SERACH_USER_LINK = "//a[@href='/Users']";
 	}	
 }
