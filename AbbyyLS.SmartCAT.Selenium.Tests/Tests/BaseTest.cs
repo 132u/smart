@@ -280,8 +280,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests
 			RightsTestLogin = cfgUserInfo.TestRightsLogin;
 			RightsTestPassword = cfgUserInfo.TestRightsPassword;
 			RightsTestUserName = cfgUserInfo.TestRightsUserName;
-			RightsTestFirstName = RightsTestUserName.Substring(0, UserName.IndexOf(' '));
-			RightsTestSurname = RightsTestUserName.Substring(UserName.IndexOf(' ') + 1);
+			RightsTestFirstName = RightsTestUserName.Substring(0, RightsTestUserName.IndexOf(' '));
+			RightsTestSurname = RightsTestUserName.Substring(RightsTestUserName.IndexOf(' ') + 1);
 		}
 
 		private void initializeHelpers()
