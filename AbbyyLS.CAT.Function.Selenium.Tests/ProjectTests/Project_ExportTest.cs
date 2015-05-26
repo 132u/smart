@@ -1,5 +1,8 @@
 ﻿using System;
+using System.Diagnostics;
 using System.IO;
+using System.Linq;
+using System.Text.RegularExpressions;
 using System.Threading;
 
 using NUnit.Framework;
@@ -20,7 +23,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		[SetUp]
 		public void SetupTest()
 		{
-			// Переходим к странице воркспейса
 			GoToUrl(RelativeUrlProvider.Workspace);
 		}
 
@@ -156,7 +158,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			// Выделить проект
 			SelectProjectInList(projectName);
 			// Нажать на "красный" экспорт
-			ClickExportBtnRed(exportType);
+			ClickExportBtnRed(exportType); 
 			// Экспортировать документ
 			WorkWithExport(exportType, true);
 		}
@@ -802,95 +804,72 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		}
 
 		/// <summary>
-		/// Получить название скаченного архива
-		/// </summary>
-		/// <param name="fileNameStart"> Подстрока названия архива до секунд </param>
-		/// <param name="fileNameEnd"> Подстрока названия архива после секунд </param>
-		/// <returns></returns>
-		protected string GetAchiveName(string fileNameStart, string fileNameEnd)
-		{
-			//Sleep не убирать, архив не всегда сразу появляется в папке
-			Thread.Sleep(2000);
-			Logger.Trace("Получаем список архивов в папке " + PathProvider.ResultsFolderPath);
-			string[] dirs = Directory.GetFiles(PathProvider.ResultsFolderPath, "*.zip");
-			foreach (string dir in dirs)
-			{
-				if (dir.Contains(fileNameStart) && dir.Contains(fileNameEnd)) return Path.GetFileName(dir);
-			}
-			return null;
-		}
-
-		/// <summary>
 		/// Экспортировать после появления сообщения Download
 		/// </summary>
 		/// <param name="exportType">тип экспорта</param>
 		/// <param name="multiDoc">производится экспорт нескольких документов</param>
 		protected void WorkWithExport(string exportType, bool multiDoc = false)
 		{
-			string fileName;
-			string fileNameStart;
-			string fileNameEnd;
+			Regex fileNamePattern;
 			string pathToMove;
-			string subfolder;
 			string prefix;
+			const string subfolder = "ExportedDocuments";
+			const int maxDownloadSeconds = 30;
+
 			switch (exportType)
 			{
 				case EXPORT_TYPE_TMX:
-					subfolder = "ExportedTMXDocuments";
 					prefix = "Tmx";
 					break;
 
 				case EXPORT_TYPE_TARGET:
-					subfolder = "ExportedTranslatedDocuments";
 					prefix = "Target";
 					break;
 
 				default:
-					subfolder = "ExportedOriginalDocuments";
 					prefix = "Source";
 					break;
 			}
 
-			// Дождаться появления Download в Notifier 
-			WaitExportDownloadBtn();
-			// Нажать Download
-			WorkspacePage.ClickDownloadNotifier();
-
 			if (!multiDoc)
 			{
-				fileName = (exportType == EXPORT_TYPE_TMX) ? "testToConfirm.tmx" : "testToConfirm.txt";
-				pathToMove = PathProvider.ResultsFolderPath + "\\" + subfolder + "\\"
-					 + Path.GetFileNameWithoutExtension(fileName) + DateTime.Now.Ticks + Path.GetExtension(fileName);
+				fileNamePattern = new Regex((exportType == EXPORT_TYPE_TMX) ? "testToConfirm.*.tmx" : "testToConfirm.*.txt");
+				var newFileName = string.Format("{0}{1}", Guid.NewGuid(), Path.GetExtension(fileNamePattern.ToString()));
+				pathToMove = Path.Combine(PathProvider.ResultsFolderPath, string.Format(@"{0}\{1}", subfolder, newFileName));
 			}
 			else
 			{
-				// Время в монго ДБ отличается на 3 часа 30 секунд
-				fileNameStart = "Documents_" + DateTime.Now.AddHours(-3).ToString("yyyy-MM-dd_HH_mm_");
-				fileNameEnd = "." + prefix + ".zip";
-				fileName = GetAchiveName(fileNameStart, fileNameEnd);
-				Logger.Debug("\nЧасть названия архива до секунд = " + fileNameStart
-					+ "\nЧасть названия архива после секунд = "+ fileNameEnd
-					+ "\nПолное название архива = " + fileName);
-				pathToMove = PathProvider.ResultsFolderPath + "\\" + subfolder + "\\" + fileName;
+				fileNamePattern = new Regex(string.Format("Documents_.*{0}.zip", prefix));
+				pathToMove = PathProvider.ResultsFolderPath + "\\" + subfolder + "\\" + fileNamePattern.ToString().Replace("*", Guid.NewGuid().ToString());
 			}
 
-			var waitSeconds = 0;
+			var timeBeforeDownload = DateTime.Now;
+			var stopwatch = new Stopwatch();
+			
+			createExportSubfolderIfNotCreated(subfolder);
+			stopwatch.Start();
+			WaitExportDownloadBtn();
+			WorkspacePage.ClickDownloadNotifier();
 
-			while (!File.Exists(PathProvider.ResultsFolderPath + "\\" + fileName) && (waitSeconds <= 6))
+			while (getLastFileAtDirectory(PathProvider.ResultsFolderPath, fileNamePattern).LastWriteTime < timeBeforeDownload
+				&& stopwatch.Elapsed.Seconds < maxDownloadSeconds)
 			{
-				File.Exists(PathProvider.ResultsFolderPath + "\\" + fileName);
-				Thread.Sleep(1000); // Sleep не убирать! без него не работает
-				waitSeconds++;
+				Thread.Sleep(1000);
 			}
 
-			Assert.IsTrue(File.Exists(PathProvider.ResultsFolderPath + "\\" + fileName), "Ошибка: файл " + fileName + " не экспортировался");
+			stopwatch.Stop();
 
-			DateTime lastChanged = File.GetLastWriteTime(PathProvider.ResultsFolderPath + "\\" + fileName);
-			Logger.Trace("Время последнего изменения файла = " + lastChanged);
+			Assert.IsTrue(stopwatch.Elapsed.Seconds < maxDownloadSeconds,
+				string.Format("Ошибка: файл не был экспортирован спустя установленный таймаут {0} сек. после нажатия кнопки экспорта.", maxDownloadSeconds));
 
-			if (!File.Exists(PathProvider.ResultsFolderPath + "\\" + subfolder))
-				Directory.CreateDirectory(PathProvider.ResultsFolderPath + "\\" + subfolder);
-			File.Move(PathProvider.ResultsFolderPath + "\\" + fileName, pathToMove);
+			var lastFile = getLastFileAtDirectory(PathProvider.ResultsFolderPath, fileNamePattern);
+
+			Assert.IsTrue(fileNamePattern.IsMatch(lastFile.Name),
+				"Ошибка: последний измененный файл в папке загрузок" + lastFile.Name + " не соответствует искомому паттерну" + fileNamePattern);
+
+			Logger.Debug("Копирование файла {0} в {1}", lastFile.FullName, pathToMove);
+			File.Move(lastFile.FullName, pathToMove);
+			File.Delete(lastFile.FullName);
 		}
 
 		/// <summary>
@@ -1227,6 +1206,24 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		public void Teardown()
 		{
 			WorkspacePage.CancelAllNotifiers();
+		}
+
+		private static void createExportSubfolderIfNotCreated(string subfolderName)
+		{
+			var pathToSubfolder = Path.Combine(PathProvider.ResultsFolderPath, subfolderName);
+
+			if (!Directory.Exists(pathToSubfolder))
+			{
+				Directory.CreateDirectory(pathToSubfolder);
+			}
+		}
+
+		private static FileInfo getLastFileAtDirectory(string pathToDirectory, Regex fileNamePattern)
+		{
+			var directory = new DirectoryInfo(pathToDirectory);
+			var filesMatches = directory.GetFiles().Where(file => fileNamePattern.IsMatch(file.Name)).ToList();
+
+			return !filesMatches.Any() ? new FileInfo("NoSutableFiles") : filesMatches.OrderByDescending(item => item.LastWriteTime).First();
 		}
 
 		const int MaxNotifierNumber = 5;

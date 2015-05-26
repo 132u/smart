@@ -206,7 +206,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// </summary>
 		public void ClickExportBtnProjectInfo(string projectName)
 		{
-			ClickElement(By.XPath(GetProjectRefXPath(projectName) + "/ancestor::tr/following-sibling::tr[1]//li[@class='l-project-export-block']"));
+			ClickElement(By.XPath(GetProjectRefXPath(projectName) + "/ancestor::tr/following-sibling::tr[1]//li"));
 		}
 
 		/// <summary>

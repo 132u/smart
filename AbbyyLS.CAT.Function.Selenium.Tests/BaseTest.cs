@@ -325,26 +325,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		}
 
 		/// <summary>
-		/// Метод создания Driver 
-		/// </summary>
-		private void createDriver()
-		{
-			if (Driver == null)
-			{
-				var webDriverSettings = new TWebDriverSettings();
-				Driver = webDriverSettings.Driver;
-				ProcessNames = webDriverSettings.ProcessNames;
-			}
-			
-			SetDriverTimeoutDefault();
-			Wait = new WebDriverWait(Driver, TimeSpan.FromSeconds(15));
-
-			Driver.Manage().Window.Maximize();
-
-			recreateDrivers();
-		}
-
-		/// <summary>
 		/// Установить время ожидания драйвера в минимум (для поиска элементов, которых по ожиданию нет)
 		/// </summary>
 		protected void SetDriverTimeoutMinimum()
@@ -607,17 +587,14 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			// В случае, если для завершения предыдущего теста нужно закрыть дополнительный диалог
 			try
 			{
-				Logger.Info("Переходим на страницу:" + Url + relativeUrl);
-
-				Driver.Navigate().GoToUrl(Url + relativeUrl);
-
-				AcceptModalDialog();
-				// Если открылась страница логина
-				if (LoginPage.WaitPageLoad(1) || LoginPage.WaitPromoPageLoad())
-				{
-					Authorization(Login, Password, accountName);
-					Driver.Navigate().GoToUrl(Url + relativeUrl);
-				}
+				tryOpenUrlAndAuthorizeUser(relativeUrl, accountName);
+			}
+			catch (WebDriverException)
+			{
+				Logger.Error("Возникла ошибка веб-драйвера. Для продолжения работы перезапустим драйвер.");
+				ExitDriver();
+				createDriver();
+				tryOpenUrlAndAuthorizeUser(relativeUrl, accountName);
 			}
 			catch (Exception ex)
 			{
@@ -1909,6 +1886,42 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 				Thread.Sleep(1000);//Ждём секунду
 			}
 			return files;
+		}
+
+		/// <summary>
+		/// Метод создания Driver 
+		/// </summary>
+		private void createDriver()
+		{
+			if (Driver == null)
+			{
+				var webDriverSettings = new TWebDriverSettings();
+				Driver = webDriverSettings.Driver;
+				ProcessNames = webDriverSettings.ProcessNames;
+			}
+
+			SetDriverTimeoutDefault();
+			Wait = new WebDriverWait(Driver, TimeSpan.FromSeconds(15));
+
+			Driver.Manage().Window.Maximize();
+
+			recreateDrivers();
+		}
+
+		private void tryOpenUrlAndAuthorizeUser(string relativeUrl, string accountName = "TestAccount")
+		{
+			Logger.Info("Переходим на страницу:" + Url + relativeUrl);
+
+			Driver.Navigate().GoToUrl(Url + relativeUrl);
+
+			AcceptModalDialog();
+
+			if (LoginPage.WaitPageLoad(1) || LoginPage.WaitPromoPageLoad())
+			{
+				Authorization(Login, Password, accountName);
+				Logger.Info("Переходим на страницу:" + Url + relativeUrl);
+				Driver.Navigate().GoToUrl(Url + relativeUrl);
+			}
 		}
 
 		/// <summary>
