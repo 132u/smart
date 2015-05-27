@@ -237,6 +237,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.ProjectGroups
 		public ProjectGroupsPage AssertProjectGrouptNameErrorExist()
 		{
 			Logger.Trace("Проверить, что появилась ошибка в имени группы проектов при создании группы проектов.");
+			Driver.WaitUntilElementIsDisplay(By.XPath(ERROR_NAME));
 
 			Assert.IsTrue(NameError.Displayed,
 				"Произошла ошибка:\n не появилась ошибка при создании группы проектов с некорректным именем.");
