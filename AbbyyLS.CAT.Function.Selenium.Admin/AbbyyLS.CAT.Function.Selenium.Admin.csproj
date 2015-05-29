@@ -72,7 +72,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="..\lib\chromedriver.exe">
+    <Content Include="..\lib\ChromeDriver2.15\chromedriver.exe">
       <Link>chromedriver.exe</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

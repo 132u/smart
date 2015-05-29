@@ -158,7 +158,10 @@
     <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="DriversAndSettings\Drivers\chromedriver.exe" />
+    <Content Include="..\lib\ChromeDriver2.15\chromedriver.exe">
+      <Link>DriversAndSettings\Drivers\chromedriver.exe</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="DriversAndSettings\Drivers\IEDriverServer.exe" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
