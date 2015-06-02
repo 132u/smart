@@ -1,4 +1,0 @@
-[submodule "lib/Common"]
-	path = lib/Common
-	url = git@gitlab.als.local:binarydependency/commonlibs.git
-	branch = master
