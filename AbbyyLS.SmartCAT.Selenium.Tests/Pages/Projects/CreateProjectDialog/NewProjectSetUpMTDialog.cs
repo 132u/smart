@@ -24,18 +24,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 			}
 		}
 
-		/// <summary>
-		/// Нажать кнопку "Далее"
-		/// </summary>
-		public NewProjectSetUpWorkflowDialog ClickNextButton()
-		{
-			Logger.Debug("Нажать кнопку 'Далее'.");
-			NextButton.Click();
-			var newProjectSetUpWorkflowDialog= new NewProjectSetUpWorkflowDialog();
-
-			return newProjectSetUpWorkflowDialog.GetPage();
-		}
-
 		[FindsBy(How = How.XPath, Using = FINISH_BTN)]
 		protected IWebElement FinishButton { get; set; }
 

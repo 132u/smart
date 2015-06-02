@@ -1,4 +1,5 @@
-﻿using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Login;
+﻿using AbbyyLS.SmartCAT.Selenium.Tests.DataStructures;
+using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Login;
 using AbbyyLS.SmartCAT.Selenium.Tests.TestFramework;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
@@ -18,7 +19,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 			string password, 
 			string accountName = "TestAccount", 
 			string dataServer = "Europe", 
-			string language = "English")
+			Language language = Language.English)
 		{
 			BaseObject.InitPage(_signInPage);
 

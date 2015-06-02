@@ -73,6 +73,7 @@
     <Compile Include="DriversAndSettings\FirefoxWebDriverSettings.cs" />
     <Compile Include="DriversAndSettings\IWebDriverSettings.cs" />
     <Compile Include="DriversAndSettings\InternetExplorerWebDriverSettings.cs" />
+    <Compile Include="DataStructures\DialogButtonType.cs" />	
     <Compile Include="Configs\FilesRootConfig.cs" />
     <Compile Include="Pages\Admin\AdminCreateAccountPage.cs" />
     <Compile Include="Pages\Admin\AdminCreateUserPage.cs" />
@@ -144,6 +145,8 @@
     <Compile Include="Configs\UserInfoConfig.cs" />
     <Compile Include="Tests\ProjectDeadlineTests.cs" />
     <Compile Include="Tests\ProjectGroupsTest.cs" />
+    <Compile Include="Tests\TranslationMemories\BaseTmTest.cs" />
+    <Compile Include="Tests\TranslationMemories\CreateTmTest.cs" />
     <Compile Include="TestUser.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -1,4 +1,8 @@
-﻿using NUnit.Framework;
+﻿using System;
+using System.ComponentModel;
+using AbbyyLS.SmartCAT.Selenium.Tests.DataStructures;
+using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects;
+using NUnit.Framework;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.PageObjects;
 
@@ -46,14 +50,13 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace
 		/// <summary>
 		/// Выбрать вкладку "Проекты"
 		/// </summary>
-		public WorkspacePage ClickProjectsButton()
+		public ProjectsPage ClickProjectsButton()
 		{
 			Logger.Debug("Нажать кнопку 'Проекты'.");
 			openHideMenuIfClosed();
-			ProjectsButton = Driver.SetDynamicValue(How.XPath, PROJECTS_BUTTON, "");
 			ProjectsButton.Click();
 
-			return GetPage();
+			return new ProjectsPage().GetPage();
 		}
 
 
@@ -134,10 +137,10 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace
 		/// <summary>
 		/// Выйти из смартката
 		/// </summary>
-		public SignInPage ClickLogOffRef()
+		public SignInPage ClickLogOff()
 		{
 			Logger.Debug("Выйти из смартката.");
-			LogOffRef.Click();
+			LogOff.Click();
 
 			return new SignInPage().GetPage();
 		}
@@ -145,25 +148,28 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace
 		/// <summary>
 		/// Смена языка локали
 		/// </summary>
-		/// <param name="language">желаемый язык</param>
-		public WorkspacePage SelectLocale(string language)
+		public WorkspacePage SelectLocale(Language language)
 		{
 			Logger.Debug("Сменить язык локали на {0}, если необходимо.", language);
-			if (language.ToLower() == "english")
+
+			switch (language)
 			{
-				if (Driver.WaitUntilElementIsDisplay(By.XPath(LOCALE_REF_XPATH.Replace("*#*", "en")), 1))
-				{
-					LocaleRef = Driver.SetDynamicValue(How.XPath, LOCALE_REF_XPATH, "en");
-					LocaleRef.Click();
-				}
-			}
-			else if (language.ToLower() == "russian")
-			{
-				if (Driver.WaitUntilElementIsDisplay(By.XPath(LOCALE_REF_XPATH.Replace("*#*", "ru")), 1))
-				{
-					LocaleRef = Driver.SetDynamicValue(How.XPath, LOCALE_REF_XPATH, "ru");
-					LocaleRef.Click();
-				}
+				case Language.English:
+					if (Driver.WaitUntilElementIsDisplay(By.XPath(LOCALE_REF.Replace("*#*", "en")), timeout: 1))
+					{
+						LocaleRef = Driver.SetDynamicValue(How.XPath, LOCALE_REF, "en");
+						LocaleRef.Click();
+					}
+					break;
+				case Language.Russian:
+					if (Driver.WaitUntilElementIsDisplay(By.XPath(LOCALE_REF.Replace("*#*", "ru")), timeout: 1))
+					{
+						LocaleRef = Driver.SetDynamicValue(How.XPath, LOCALE_REF, "ru");
+						LocaleRef.Click();
+					}
+					break;
+				default:
+					throw new InvalidEnumArgumentException("Ошибка: локализация может бить только русской или английской.");
 			}
 
 			return GetPage();
@@ -172,10 +178,10 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace
 		/// <summary>
 		/// Закрыть подсказку (если она открыта) сразу после входа в SmartCAT
 		/// </summary>
-		/// <returns></returns>
 		public WorkspacePage ClickCloseHelp()
 		{
 			Logger.Trace("Проверить, открыта ли подсказка при входе в SmartCAT.");
+
 			if (Driver.WaitUntilElementIsDisplay(By.XPath(CLOSE_HELP_BUTTON), timeout:3))
 			{
 				Logger.Debug("Закрыть окно подсказки сразу после входа в SmartCAT");
@@ -201,7 +207,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace
 		private bool getIsLeftMenuDisplay()
 		{
 			Logger.Trace("Вернуть, раскрыто ли главное меню слева.");
-			
+
 			return CatMenu.Displayed;
 		}
 
@@ -214,6 +220,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace
 		[FindsBy(How = How.XPath, Using = TRANSLATION_MEMORIES_BUTTON)]
 		protected IWebElement TranslationMemoriesButton { get; set; }
 
+		[FindsBy(How = How.XPath, Using = PROJECTS_BUTTON)]
+		protected IWebElement ProjectsButton { get; set; }
+
 		[FindsBy(How = How.XPath, Using = GLOSSARY)]
 		protected IWebElement GlossariesButton { get; set; }
 
@@ -224,7 +233,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace
 		protected IWebElement Account { get; set; }
 
 		[FindsBy(How = How.XPath, Using = LOGOFF)]
-		protected IWebElement LogOffRef { get; set; }
+		protected IWebElement LogOff { get; set; }
 
 
 		[FindsBy(How = How.XPath, Using = RESOURCES_MENU)]
@@ -244,8 +253,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace
 
 		protected IWebElement LocaleRef { get; set; }
 
-		protected IWebElement ProjectsButton { get; set; }
-
 		protected const string CAT_MENU = "//div[contains(@class, 'js-mainmenu')]";
 		protected const string CAT_MENU_OPEN_BUTTON = "//h2[contains(@class,'g-topbox__header')]/a";
 		protected const string CLOSE_HELP_BUTTON = "//div[@class='hopscotch-bubble animated']//button[contains(@class,'hopscotch-cta')]";
@@ -260,7 +267,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace
 		protected const string DOMAIN_REF = ".//a[contains(@href,'/Domains')]";
 
 		protected const string USER_PICTURE = "//i[contains(@class, 'upic')]";
-		protected const string LOCALE_REF_XPATH = "//a[contains(@class,'js-set-locale') and contains(@data-locale, '*#*')]";
+		protected const string LOCALE_REF = "//a[contains(@class,'js-set-locale') and contains(@data-locale, '*#*')]";
 		protected const string ACCOUNT = "//div[contains(@class,'js-usermenu')]";
 		protected const string USER_NAME = "//div[contains(@class,'js-usermenu')]//span[contains(@class,'nameuser')]";
 		protected const string LOGOFF = ".//a[contains(@href,'Logout')]";

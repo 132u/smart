@@ -1,10 +1,28 @@
-﻿using OpenQA.Selenium;
+﻿using AbbyyLS.SmartCAT.Selenium.Tests.TestFramework;
+using NUnit.Framework;
+using OpenQA.Selenium;
 using OpenQA.Selenium.Support.PageObjects;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 {
-	public abstract class NewProjectCreateBaseDialog : ProjectsPage
+	public class NewProjectCreateBaseDialog : ProjectsPage, IAbstractPage<NewProjectCreateBaseDialog>
 	{
+		public new NewProjectCreateBaseDialog GetPage()
+		{
+			var createProjectDialog = new NewProjectCreateBaseDialog();
+			InitPage(createProjectDialog);
+
+			return createProjectDialog;
+		}
+
+		public new void LoadPage()
+		{
+			if (!Driver.WaitUntilElementIsDisplay(By.XPath(CREATE_PROJECT_DIALOG)))
+			{
+				Assert.Fail("Произошла ошибка:\n не удалось загрузить диалог создания проекта.");
+			}
+		}
+
 		/// <summary>
 		/// Нажать 'Finish' в диалоге создания проекта.
 		/// </summary>
@@ -27,18 +45,29 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 			return new ProjectsPage().GetPage();
 		}
 
+		/// <summary>
+		/// Нажать 'Next'
+		/// </summary>
+		public T ClickNextButton<T>() where T: class, IAbstractPage<T>, new()
+		{
+			Logger.Debug("Нажать 'Next'.");
+			NextButton.Click();
+
+			return new T().GetPage();
+		}
+
 		[FindsBy(How = How.XPath, Using = CREATE_PROJECT_FINISH_BUTTON)]
 		protected IWebElement CreateProjectFinishButton { get; set; }
 
-		[FindsBy(How = How.XPath, Using = CLOSE_DIALOG_BTN_XPATH)]
+		[FindsBy(How = How.XPath, Using = CLOSE_DIALOG_BTN)]
 		protected IWebElement CloseDialogButton { get; set; }
 
 		[FindsBy(How = How.XPath, Using = NEXT_BTN)]
 		protected IWebElement NextButton { get; set; }
-		
-		protected const string CREATE_PROJECT_FINISH_BUTTON = "//div[contains(@class,'js-popup-create-project')][2]//span[contains(@class,'js-finish js-upload-btn')]";
-		protected const string CLOSE_DIALOG_BTN_XPATH = "//div[contains(@class,'js-popup-create-project')][2]//img[contains(@class,'js-popup-close')]";
-		protected const string NEXT_BTN = "//div[contains(@class,'js-popup-create-project')][2]//span[contains(@class,'js-next')]";
 
+		protected const string CREATE_PROJECT_DIALOG = "//div[contains(@class,'js-popup-create-project')][2]";
+		protected const string CREATE_PROJECT_FINISH_BUTTON = "//div[contains(@class,'js-popup-create-project')][2]//span[contains(@class,'js-finish js-upload-btn')]";
+		protected const string CLOSE_DIALOG_BTN = "//div[contains(@class,'js-popup-create-project')][2]//img[contains(@class,'js-popup-close')]";
+		protected const string NEXT_BTN = "//div[contains(@class,'js-popup-create-project')][2]//span[contains(@class,'js-next')]";
 	}
 }

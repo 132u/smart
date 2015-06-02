@@ -52,6 +52,14 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 		{
 			BaseObject.InitPage(_newProjectGeneralInformationDialog);
 			_newProjectGeneralInformationDialog.SetProjectName(projectName);
+			
+			return this;
+		}
+
+		public CreateProjectHelper ClickNextOnWorkflowPage()
+		{
+			BaseObject.InitPage(_newProjectSetUpWorkflowDialog);
+			_newProjectSetUpWorkflowDialog.ClickNextButton<NewProjectSetUpTMDialog>();
 
 			return this;
 		}
@@ -195,8 +203,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 		/// </summary>
 		public ProjectsHelper CancelCreateProject()
 		{
-			BaseObject.InitPage(_newProjectGeneralInformationDialog);
-			_newProjectGeneralInformationDialog
+			BaseObject.InitPage(_newProjectCreateBaseDialog);
+			_newProjectCreateBaseDialog
 				.ClickCloseDialog()
 				.WaitCreateProjectDialogDissapear();
 
@@ -242,6 +250,14 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 			return this;
 		}
+		
+		public CreateProjectHelper AssertTranslationMemoryExist(string translationMemoryName)
+		{
+			BaseObject.InitPage(_newProjectSetUpTMDialog);
+			_newProjectSetUpTMDialog.AssertTranslationMemoryExist(translationMemoryName);
+
+			return this;
+		}
 
 		public string GetProjectUniqueName()
 		{
@@ -267,6 +283,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 		}
 
 		private readonly ProjectsPage _projectsPage = new ProjectsPage();
+		private readonly NewProjectCreateBaseDialog _newProjectCreateBaseDialog = new NewProjectCreateBaseDialog();
 		private readonly NewProjectGeneralInformationDialog _newProjectGeneralInformationDialog = new NewProjectGeneralInformationDialog();
 		private readonly NewProjectSetUpTMDialog _newProjectSetUpTMDialog = new NewProjectSetUpTMDialog();
 		private readonly NewProjectSetUpWorkflowDialog _newProjectSetUpWorkflowDialog = new NewProjectSetUpWorkflowDialog();

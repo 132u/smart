@@ -47,19 +47,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 		}
 
 		/// <summary>
-		/// Нажать кнопку "Далее"
-		/// </summary>
-		public NewProjectSetUpTMDialog ClickNextButton()
-		{
-			Logger.Debug("Нажать кнопку 'Далее'.");
-			NextButton.Click();
-			var newProjectSetUpTMDialog = new NewProjectSetUpTMDialog();
-
-			return newProjectSetUpTMDialog.GetPage();
-		}
-
-
-		/// <summary>
 		/// Нажать кнопку 'Назад'
 		/// </summary>
 		public NewProjectGeneralInformationDialog ClickBack()
@@ -72,6 +59,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 
 		[FindsBy(How = How.XPath, Using = BACK_BUTTON)]
 		protected IWebElement BackButton { get; set; }
+
 
 		[FindsBy(How = How.XPath, Using = WF_TABLE_FIRST_TASK)]
 		protected IWebElement WFTableFirstTask { get; set; }

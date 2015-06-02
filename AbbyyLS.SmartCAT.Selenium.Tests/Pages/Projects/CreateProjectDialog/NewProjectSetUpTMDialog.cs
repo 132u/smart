@@ -46,6 +46,19 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 		}
 
 		/// <summary>
+		/// Проверить, существует ли ТМ при созданиие проекта
+		/// </summary>
+		public NewProjectSetUpTMDialog AssertTranslationMemoryExist(string translationMemoryName)
+		{
+			TranslationMemoryItem = Driver.SetDynamicValue(How.XPath, TM_ITEM, translationMemoryName);
+
+			Assert.IsTrue(TranslationMemoryItem.Enabled,
+				"Произошла ошибка:\n ТМ {0} не существует при создании проекта.", translationMemoryName);
+
+			return GetPage();
+		}
+
+		/// <summary>
 		/// Выбрать первую ТМ из таблицы
 		/// </summary>
 		public NewProjectSetUpTMDialog ClickTMTableFirstItem()
@@ -69,18 +82,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 		}
 
 		/// <summary>
-		/// Нажать кнопку "Далее"
-		/// </summary>
-		public NewProjectSelectGlossariesDialog ClickNextButton()
-		{
-			Logger.Debug("Нажать кнопку 'Далее'.");
-			NextButton.Click();
-			var newProjectSelectGlossariesDialog = new NewProjectSelectGlossariesDialog();
-
-			return newProjectSelectGlossariesDialog.GetPage();
-		}
-
-		/// <summary>
 		/// Нажать кнопку "Готово"
 		/// </summary>
 		public ProjectsPage ClickFinishButton()
@@ -97,7 +98,10 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 		[FindsBy(How = How.XPath, Using = TM_TABLE_FIRST_ITEM)]
 		protected IWebElement TMTableFirstItem { get; set; }
 
+		protected IWebElement TranslationMemoryItem { get; set; }
+
 		protected const string CREATE_TM_BTN = "//div[contains(@class,'js-popup-create-project')][2]//span[contains(@class,'js-tm-create')]";
 		protected const string TM_TABLE_FIRST_ITEM = "//div[contains(@class,'js-popup-create-project')][2]//table[contains(@class,'js-tms-popup-table')]//tbody//tr[1]//td[1]//input";
+		protected const string TM_ITEM = "//div[contains(@class,'js-popup-create-project')][2]//table[contains(@class,'js-tms-popup-table')]//tbody//tr//td[contains(@class,'js-name')][text()='*#*']";
 	}
 }

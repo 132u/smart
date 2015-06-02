@@ -91,7 +91,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 		{
 			BaseObject.InitPage(_projectPage);
 			_projectPage.ClickAccount()
-				.ClickLogOffRef();
+				.ClickLogOff();
 			var loginHelper = new LoginHelper();
 
 			return loginHelper;
