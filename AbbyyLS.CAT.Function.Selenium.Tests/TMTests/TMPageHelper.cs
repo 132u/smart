@@ -705,7 +705,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.TM
 
 		private string getNotificationTextXPath(string text)
 		{
-			return NOTIFICATION_BALOON_TEXT_XPATH + "[text()='" + text + "']";
+			return NOTIFICATION_BALOON_TEXT_XPATH + "[contains(text(),'" + text + "')]";
 		}
 
 		public enum TM_BTN_TYPE { Update, Export, Delete, Add, Edit, Save };

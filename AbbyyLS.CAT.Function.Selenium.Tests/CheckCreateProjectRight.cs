@@ -133,7 +133,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.CheckRights
 			// Дожидаемся появления плашки, говорящей, что документ готов к загрузке
 			Assert.IsTrue(
 				TMPage.IsTextExistInBaloon(
-					"Document \"" + date + "\" is ready for download. " + fileName),
+					"Document \"" + fileName + "\" is ready for download. " + date),
 				"Ошибка: плашка о том, что документ готов к загрузке не появилась.");
 
 			workWithExport(fileName);
@@ -489,6 +489,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.CheckRights
 			
 			Logger.Trace("Время клика по кнопке Download = " + clickTime);
 
+			Directory.CreateDirectory(PathProvider.ResultsFolderPath);
 			string[] files = GetDownloadFiles(fileMask, 6, PathProvider.ResultsFolderPath);
 
 			Assert.IsTrue(files.Length > 0,
