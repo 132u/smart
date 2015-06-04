@@ -224,6 +224,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		public bool CheckNameSurnameInWSPanel()
 		{
 			Logger.Trace(string.Format("Проверить, что в панели WS отображается имя {0} и фамилия {1} пользователя ", FirstName, LastName));
+			WaitUntilDisplayElement(By.XPath(USER_NAME_XPATH));
 			return GetTextElement(By.XPath(USER_NAME_XPATH)).Contains(string.Format("{0} {1}", FirstName, LastName));
 		}
 
