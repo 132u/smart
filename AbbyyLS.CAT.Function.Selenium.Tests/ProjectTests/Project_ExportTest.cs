@@ -236,7 +236,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 
 			// Проверить, что есть окно с экпортом
 			Assert.IsTrue(
-				WorkspacePage.GetIsExistNotifier(),
+				WorkspacePage.WaitUntilNotifierDisplay(),
 				"Ошибка: информационное окно об экспорте пропало после обновления страницы");
 		}
 
@@ -290,7 +290,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 
 			// Проверить, что есть окно с экпортом
 			Assert.IsTrue(
-				WorkspacePage.GetIsExistNotifier(),
+				WorkspacePage.WaitUntilNotifierDisplay(),
 				"Ошибка: информационное окно об экспорте пропало после обновления страницы");
 		}
 
@@ -323,7 +323,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 
 			// Проверить, что есть окно с экпортом
 			Assert.IsTrue(
-				WorkspacePage.GetIsExistNotifier(),
+				WorkspacePage.WaitUntilNotifierDisplay(),
 				"Ошибка: информационное окно об экспорте пропало после обновления страницы");
 		}
 
@@ -879,7 +879,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		{
 			// Дождаться появления информационного окна
 			Assert.IsTrue(
-				WorkspacePage.GetIsExistNotifier(),
+				WorkspacePage.WaitUntilNotifierDisplay(),
 				"Ошибка: не появилось информационное окно об экспорте");
 
 			// Дождаться появления кнопки Download

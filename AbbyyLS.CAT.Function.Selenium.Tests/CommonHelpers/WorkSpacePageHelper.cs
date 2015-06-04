@@ -314,10 +314,10 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// Вернуть, видно ли сообщение об экспорте
 		/// </summary>
 		/// <returns>видно</returns>
-		public bool GetIsExistNotifier()
+		public bool WaitUntilNotifierDisplay()
 		{
 			Logger.Trace("Проверка, появилось ли сообщение о экспорте");
-			return GetIsElementDisplay(By.XPath(NOTIFIER_ITEM_XPATH));
+			return WaitUntilDisplayElement(By.XPath(NOTIFIER_ITEM_XPATH));
 		}
 
 		/// <summary>
@@ -344,7 +344,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// </summary>
 		public void CancelAllNotifiers()
 		{
-			SetDriverTimeoutMinimum();
 			Logger.Trace("Проверка, есть ли сообщения экспорта");
 			var isExist = GetIsElementDisplay(By.XPath(NOTIFIER_CANCEL_BTN_XPATH));
 
@@ -356,8 +355,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 				Logger.Trace("Проверка, есть ли еще сообщения экспорта");
 				isExist = GetIsElementDisplay(By.XPath(NOTIFIER_CANCEL_BTN_XPATH));
 			}
-
-			SetDriverTimeoutDefault();
 		}
 
 		/// <summary>
