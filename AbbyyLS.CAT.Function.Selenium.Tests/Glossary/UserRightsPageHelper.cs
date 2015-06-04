@@ -448,7 +448,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		protected const string NEXT_BTN_XPATH = "//span[contains(@class,'js-next')]";
 		protected const string ADD_BTN_XPATH = "//span[contains(@class,'js-add')]//a[contains(text(),'Add')]";
 		protected const string ALL_GLOSSARIES_SELECT_XPATH = "//div[contains(@class,'js-scope-section')][2]//input[contains(@name,'accessRightScopeType')]";
-		protected const string SAVE_BTN_XPATH = "//span[contains(@class,'js-save-btn')]";
+		protected const string SAVE_BTN_XPATH = "//span[contains(@data-bind,'click: save')]//a";
 
 		protected const string CREATE_GROUP_BTN_XPATH = "//span[@data-bind='click: addGroup']//a[contains(text(),'Create Group')]";
 		protected const string CREATE_GROUP_FORM_XPATH = "//div[contains(@class,'l-add-group')]";
