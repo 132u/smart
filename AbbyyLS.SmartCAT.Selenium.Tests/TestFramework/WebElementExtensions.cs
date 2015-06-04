@@ -66,6 +66,18 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestFramework
 		}
 
 		/// <summary>
+		/// Кликнуть по веб-элементу с использованием Action - класса
+		/// </summary>
+		/// <remarks> 
+		/// Приментяется в тех случаях, когда обычный клик отрабатывает нестабильно
+		/// </remarks>
+		public static void AdvancedClick(this IWebElement webElement)
+		{
+			var actionBuilder = new Actions(getDriverFromWebElement(webElement));
+			actionBuilder.Click(webElement).Build().Perform();
+		}
+
+		/// <summary>
 		/// Навести курсор мыши на элемент
 		/// </summary>
 		public static void HoverElement(this IWebElement webElement)
