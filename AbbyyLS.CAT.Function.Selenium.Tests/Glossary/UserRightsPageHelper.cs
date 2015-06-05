@@ -164,6 +164,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		public void ClickCreateGroup()
 		{
 			Logger.Trace("Клик по кнопке 'Create Group'");
+			ScrollToElement(By.XPath(CREATE_GROUP_BTN_XPATH));
 			ClickElement(By.XPath(CREATE_GROUP_BTN_XPATH));
 		}
 

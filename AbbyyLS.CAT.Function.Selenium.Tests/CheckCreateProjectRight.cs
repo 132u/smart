@@ -125,7 +125,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.CheckRights
 			CheckCreateProjectRightHelper.DownloadInProjectClick();
 
 			string date = DateTime.Now.ToString("MM/dd/yyyy HH:mm").Replace(".", "/");
-			string fileName = CheckCreateProjectRightHelper.GetFileName(PathProvider.DocumentFile2);
+			string fileName = CheckCreateProjectRightHelper.GetFileNameWithoutExtension(PathProvider.DocumentFile2);
 
 			// Выбираем menuItem во всплывающем меню
 			CheckCreateProjectRightHelper.ExportClickMenuItemInProject(menuItem);
@@ -133,10 +133,10 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.CheckRights
 			// Дожидаемся появления плашки, говорящей, что документ готов к загрузке
 			Assert.IsTrue(
 				TMPage.IsTextExistInBaloon(
-					"Document \"" + fileName + "\" is ready for download. " + date),
+					"Document \"" + fileName + "(ru).docx\" is ready for download. " + date),
 				"Ошибка: плашка о том, что документ готов к загрузке не появилась.");
 
-			workWithExport(fileName);
+			workWithExport(fileName + "(ru).docx");
 		}
 
 		/// <summary>
