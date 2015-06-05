@@ -1,11 +1,13 @@
 ﻿﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.IO;
+﻿using System.IO;
 using System.Linq;
+
 using NConfiguration;
+
 using NUnit.Framework;
-using AbbyyLS.SmartCAT.Selenium.Tests.DataStructures;
+
 using AbbyyLS.SmartCAT.Selenium.Tests.DriversAndSettings;
 using AbbyyLS.SmartCAT.Selenium.Tests.TestFramework;
 using AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers;
@@ -58,7 +60,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests
 		protected string RightsTestFirstName { get; private set; }
 
 		protected string RightsTestSurname { get; private set; }
-
 		protected string ProjectName { get; private set; }
 
 		protected bool QuitDriverAfterTest { get; set; }
@@ -92,14 +93,11 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests
 			{
 				var cfgAgentSpecific = TestSettingDefinition.Instance.Get<TargetServerConfig>();
 				var cfgUserInfo = TestSettingDefinition.Instance.Get<UserInfoConfig>();
-				createDriver();
 				CreateUniqueNamesByDatetime();
 				initializeRelatedToServerFields(cfgAgentSpecific);
 				initializeRelatedToUserFields(cfgUserInfo);
 				initializeUsersAndCompanyList();
 				initializeHelpers();
-
-				authorization();
 			}
 			catch (Exception ex)
 			{
@@ -194,9 +192,26 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests
 			return File.Exists(PathProvider.TestUserFile);
 		}
 
+		protected void LogInAdmin(
+			string login,
+			string password)
+		{
+			Driver.Navigate().GoToUrl(AdminUrl);
+			AdminHelper.SignIn(Login, Password);
+		}
+
 		protected void CreateUniqueNamesByDatetime()
 		{
 			ProjectName = "Selenium Project" + "_" + DateTime.Now.ToString("HHmmss");
+		}
+
+		protected void LogInSmartCat(
+			string login,
+			string password,
+			string accountName = "TestAccount")
+		{
+			Driver.Navigate().GoToUrl(Url + "/sign-in");
+			LoginHelper.SignIn(Login, Password, accountName);
 		}
 
 		protected void ExitDriver()
@@ -240,13 +255,11 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests
 		{			
 			if (AdminLoginPage)
 			{
-				Driver.Navigate().GoToUrl(AdminUrl);
-				AdminHelper.SignIn(Login, Password);
+				LogInAdmin(Login, Password);
 			}
 			else 
 			{
-				Driver.Navigate().GoToUrl(Url + "/sign-in");
-				LoginHelper.SignIn(Login, Password);
+				LogInSmartCat(Login, Password);
 			}
 		}
 

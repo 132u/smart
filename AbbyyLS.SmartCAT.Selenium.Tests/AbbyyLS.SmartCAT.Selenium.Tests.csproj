@@ -67,6 +67,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Configs\TestsUserConfig.cs" />
+    <Compile Include="DataStructures\LicenseOperation.cs" />
     <Compile Include="DataStructures\Deadline.cs" />
     <Compile Include="DataStructures\TaskMode.cs" />
     <Compile Include="DriversAndSettings\ChromeWebDriverSettings.cs" />
@@ -86,6 +87,16 @@
     <Compile Include="Pages\Admin\AdminLingvoProPage.cs" />
     <Compile Include="Pages\Admin\AdminPersonalAccountPage.cs" />
     <Compile Include="Pages\Admin\AdminSignInPage.cs" />
+    <Compile Include="Pages\Billing\BillingPage.cs" />
+    <Compile Include="Pages\Billing\LicenseDialog\LicenseBaseDialog.cs" />
+    <Compile Include="Pages\Billing\LicenseDialog\LicenseExtendCompleteDialog.cs" />
+    <Compile Include="Pages\Billing\LicenseDialog\LicenseExtendDialog.cs" />
+    <Compile Include="Pages\Billing\LicenseDialog\LicensePurchaseCompleteDialog.cs" />
+    <Compile Include="Pages\Billing\LicenseDialog\LicensePurchaseDialog.cs" />
+    <Compile Include="Pages\Billing\LicenseDialog\LicensePaymentDialog.cs" />
+    <Compile Include="Pages\Billing\LicenseDialog\LicenseTrialDialog.cs" />
+    <Compile Include="Pages\Billing\LicenseDialog\LicenseUpgradeCompleteDialog.cs" />
+    <Compile Include="Pages\Billing\LicenseDialog\LicenseUpgradeDialog.cs" />
     <Compile Include="Pages\Client\ClientsPage.cs" />
     <Compile Include="Pages\ProjectGroups\ProjectGroupsPage.cs" />
     <Compile Include="Pages\Editor\EditorPage.cs" />
@@ -125,8 +136,10 @@
     <Compile Include="TestFramework\WebDriverExtensions.cs" />
     <Compile Include="TestFramework\WebElementExtensions.cs" />
     <Compile Include="TestHelpers\AdminHelper.cs" />
+    <Compile Include="TestHelpers\BillingHelper.cs" />
     <Compile Include="TestHelpers\ClientsHelper.cs" />
     <Compile Include="TestHelpers\CreateProjectHelper.cs" />
+    <Compile Include="TestHelpers\LicenseDialogHelper.cs" />
     <Compile Include="TestHelpers\ProjectGroupsHelper.cs" />
     <Compile Include="TestHelpers\EditorHelper.cs" />
     <Compile Include="TestHelpers\GlossariesHelper.cs" />
@@ -140,6 +153,7 @@
     <Compile Include="Tests\AutofillProjectNameTests.cs" />
     <Compile Include="Tests\BasicProjectTests.cs" />
     <Compile Include="Tests\BaseTest.cs" />
+    <Compile Include="Tests\BillingTests.cs" />
     <Compile Include="Tests\ChangeProjectNameTests.cs" />
     <Compile Include="Tests\ClientTests.cs" />
     <Compile Include="Configs\UserInfoConfig.cs" />

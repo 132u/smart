@@ -233,6 +233,11 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 			return this;
 		}
 
+		public static string GetAccountUniqueName()
+		{
+			return "AccountUniqueName" + DateTime.UtcNow.Ticks;
+		}
+
 		private readonly AdminSignInPage _adminSignInPage = new AdminSignInPage();
 		private readonly AdminLingvoProPage _adminLingvoProPage = new AdminLingvoProPage();
 		private readonly AdminEnterpriseAccountsPage _adminEnterpriseAccountsPage = new AdminEnterpriseAccountsPage();

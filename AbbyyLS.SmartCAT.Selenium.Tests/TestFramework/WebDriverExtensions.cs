@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing.Imaging;
+using System.Linq;
+
 using NLog;
 using NUnit.Framework;
 using OpenQA.Selenium;
@@ -178,6 +180,46 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestFramework
 		}
 
 		/// <summary>
+		/// Получить список текстов из элементов
+		/// </summary>
+		/// <param name="driver">драйвер</param>
+		/// <param name="by">локатор</param>
+		/// <returns>список текстов</returns>
+		public static List<string> GetTextListElement(this IWebDriver driver, By by)
+		{
+			Logger.Trace("Вернуть список текстов элементов");
+
+			try
+			{
+				var elList = GetElementList(driver, by);
+
+				return elList.Select(el => el.Text).ToList();
+			}
+			catch (StaleElementReferenceException staleElementReferenceException)
+			{
+				Logger.Warn("StaleElementReferenceException: GetTextListElement: " + by.ToString(), staleElementReferenceException);
+				return GetTextListElement(driver, by);
+			}
+		}
+
+		/// <summary>
+		/// Вернуть количество элементов
+		/// </summary>
+		/// <param name="driver">драйвер</param>
+		/// <param name="by">локатор</param>
+		public static int GetElementsCount(this IWebDriver driver, By by)
+		{
+			try
+			{
+				return driver.FindElements(by).Count;
+			}
+			catch (StaleElementReferenceException staleElementReferenceException)
+			{
+				Logger.Warn("StaleElementReferenceException: GetElementsCount: " + by.ToString(), staleElementReferenceException);
+				return GetElementsCount(driver, by);
+			}
+		}
+		/// <summary>
 		/// Исполнить JavaScript
 		/// </summary>
 		/// <param name="driver">драйвер</param>
@@ -276,6 +318,23 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestFramework
 			}
 
 			return webElement;
+		}
+
+		/// <summary>
+		/// Перейти в IFrame
+		/// </summary>
+		public static void SwitchToIFrame(this IWebDriver driver, By by)
+		{
+			var frame = driver.FindElement(by);
+			driver.SwitchTo().Frame(frame);
+		}
+
+		/// <summary>
+		/// Выйти из iframe 
+		/// </summary>
+		public static void SwitchToDefaultContent(this IWebDriver driver)
+		{
+			driver.SwitchTo().DefaultContent();
 		}
 	}
 }

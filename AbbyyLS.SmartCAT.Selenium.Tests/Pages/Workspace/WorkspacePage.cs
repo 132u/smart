@@ -1,8 +1,11 @@
 ﻿using System;
 using System.ComponentModel;
+using System.Linq;
+
 using AbbyyLS.SmartCAT.Selenium.Tests.DataStructures;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects;
 using NUnit.Framework;
+
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.PageObjects;
 
@@ -13,12 +16,12 @@ using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Login;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.UsersRights;
 using AbbyyLS.SmartCAT.Selenium.Tests.TestFramework;
+using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Billing;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace
 {
 	public class WorkspacePage : BaseObject, IAbstractPage<WorkspacePage>
 	{
-
 		public WorkspacePage GetPage()
 		{
 			var workspacePage = new WorkspacePage();
@@ -129,11 +132,45 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace
 		public WorkspacePage ClickAccount()
 		{
 			Logger.Debug("Нажать на имя пользователя и аккаунт, чтобы появилась плашка 'Настройки профиля'.");
+			Driver.WaitUntilElementIsDisplay(By.XPath(ACCOUNT));
 			Account.Click();
 
 			return GetPage();
 		}
 
+		/// <summary>
+		/// Нажать на 'Licenses and Services'
+		/// </summary>
+		public BillingPage ClickLicenseAndServices()
+		{
+			Logger.Debug("Нажать на 'Licenses and Services'.");
+			LicenseAndServices.Click();
+
+			return new BillingPage();
+		}
+
+		/// <summary>
+		/// Дождаться появления 'Licenses and Services'
+		/// </summary>
+		public WorkspacePage WaitLicenseAndServicesButton()
+		{
+			Logger.Debug("Дождаться появления 'Licenses and Services'.");
+			Driver.WaitUntilElementIsDisplay(By.XPath(LICENSES_AND_SERVICES));
+
+			return GetPage();
+		}
+
+		public BillingPage SwitchToLicenseAndServicesWindow()
+		{
+			Logger.Trace("Переключиться  в окно 'Управление лицензиями'");
+			if (Driver.WindowHandles.Count > 1)
+			{
+				Driver.SwitchTo().Window(Driver.WindowHandles.First()).Close();
+				Driver.SwitchTo().Window(Driver.WindowHandles.Last());
+			}
+
+			return new BillingPage();
+		}
 		/// <summary>
 		/// Выйти из смартката
 		/// </summary>
@@ -151,7 +188,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace
 		public WorkspacePage SelectLocale(Language language)
 		{
 			Logger.Debug("Сменить язык локали на {0}, если необходимо.", language);
-
+			LanguageButton.Click();
 			switch (language)
 			{
 				case Language.English:
@@ -251,6 +288,12 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace
 		[FindsBy(How = How.XPath, Using = CLOSE_HELP_BUTTON)]
 		protected IWebElement CloseHelpButton { get; set; }
 
+		[FindsBy(How = How.XPath, Using = LICENSES_AND_SERVICES)]
+		protected IWebElement LicenseAndServices { get; set; }
+
+		[FindsBy(How = How.XPath, Using = LANGUAGE_BUTTON)]
+		protected IWebElement LanguageButton { get; set; }
+
 		protected IWebElement LocaleRef { get; set; }
 
 		protected const string CAT_MENU = "//div[contains(@class, 'js-mainmenu')]";
@@ -268,8 +311,10 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace
 
 		protected const string USER_PICTURE = "//i[contains(@class, 'upic')]";
 		protected const string LOCALE_REF = "//a[contains(@class,'js-set-locale') and contains(@data-locale, '*#*')]";
+		protected const string LANGUAGE_BUTTON = "//div[contains(@class, 'language-menu')]//span[contains(@class, 'language-button')]//i";
 		protected const string ACCOUNT = "//div[contains(@class,'js-usermenu')]";
 		protected const string USER_NAME = "//div[contains(@class,'js-usermenu')]//span[contains(@class,'nameuser')]";
 		protected const string LOGOFF = ".//a[contains(@href,'Logout')]";
+		protected const string LICENSES_AND_SERVICES = "//a[contains(@class,'billing')]";
 	}
 }

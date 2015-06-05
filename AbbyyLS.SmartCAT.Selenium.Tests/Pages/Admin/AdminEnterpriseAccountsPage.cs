@@ -1,6 +1,10 @@
-﻿using NUnit.Framework;
+﻿using System.Linq;
+
+using NUnit.Framework;
+
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.PageObjects;
+
 using AbbyyLS.SmartCAT.Selenium.Tests.TestFramework;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Admin
@@ -80,7 +84,11 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Admin
 		public AdminCreateAccountPage SwitchToAdminCreateAccountWindow()
 		{
 			Logger.Trace("Переключиться в окно создания нового аккаунта.");
-			Driver.SwitchTo().Window(Driver.WindowHandles[1]);
+			if (Driver.WindowHandles.Count > 1)
+			{
+				Driver.SwitchTo().Window(Driver.WindowHandles.First()).Close();
+				Driver.SwitchTo().Window(Driver.WindowHandles.Last());
+			}
 
 			return new AdminCreateAccountPage().GetPage();
 		}

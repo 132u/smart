@@ -1,9 +1,5 @@
-﻿using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Client;
-using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries;
-using AbbyyLS.SmartCAT.Selenium.Tests.Pages.ProjectGroups;
-using AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories;
+﻿using AbbyyLS.SmartCAT.Selenium.Tests.DataStructures;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects;
-using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace;
 using AbbyyLS.SmartCAT.Selenium.Tests.TestFramework;
 
@@ -63,6 +59,26 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 			_workspacePage.ClickProjectsButton();
 
 			return new ProjectsHelper();
+		}
+
+		public BillingHelper GoToBillingPage()
+		{
+			BaseObject.InitPage(_workspacePage);
+			_workspacePage
+				.ClickAccount()
+				.ClickLicenseAndServices()
+				.WaitLicenseAndServicesButton()
+				.SwitchToLicenseAndServicesWindow();
+
+			return new BillingHelper();
+		}
+
+		public WorkspaceHelper SelectLocale(Language language)
+		{
+			BaseObject.InitPage(_workspacePage);
+			_workspacePage.SelectLocale(language);
+
+			return this;
 		}
 
 		private readonly ProjectsPage _projectsPage = new ProjectsPage();
