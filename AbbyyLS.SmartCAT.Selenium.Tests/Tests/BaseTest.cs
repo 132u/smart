@@ -93,6 +93,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests
 			{
 				var cfgAgentSpecific = TestSettingDefinition.Instance.Get<TargetServerConfig>();
 				var cfgUserInfo = TestSettingDefinition.Instance.Get<UserInfoConfig>();
+				createDriver();
 				CreateUniqueNamesByDatetime();
 				initializeRelatedToServerFields(cfgAgentSpecific);
 				initializeRelatedToUserFields(cfgUserInfo);
@@ -116,8 +117,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests
 			if (Driver == null)
 			{
 				createDriver();
-				authorization();
 			}
+
+			authorization();
 		}
 
 		[TestFixtureTearDown]
