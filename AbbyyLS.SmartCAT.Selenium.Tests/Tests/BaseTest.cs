@@ -1,6 +1,7 @@
 ﻿﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+﻿using System.Drawing;
 ﻿using System.IO;
 using System.Linq;
 
@@ -250,6 +251,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests
 			}
 
 			Driver.Manage().Timeouts().ImplicitlyWait(TimeSpan.FromSeconds(15));
+			Driver.Manage().Timeouts().SetPageLoadTimeout(TimeSpan.FromSeconds(60));
 			Driver.Manage().Window.Maximize();
 		}
 
