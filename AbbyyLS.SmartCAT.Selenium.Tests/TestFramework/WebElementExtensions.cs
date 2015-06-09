@@ -78,6 +78,22 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestFramework
 		}
 
 		/// <summary>
+		/// Кликнуть по веб-элементу с использованием JavaScript
+		/// </summary>
+		public static void JavaScriptClick(this IWebElement webElement)
+		{
+			var driver = webElement.getDriverFromWebElement();
+			try
+			{
+				driver.Scripts().ExecuteScript("arguments[0].click();", webElement);
+			}
+			catch (Exception ex)
+			{
+				Assert.Fail("Произошла ошибка при попытке клика с помощью JavaScript на web-элемент: {0}", ex.Message);
+			}
+		}
+
+		/// <summary>
 		/// Навести курсор мыши на элемент
 		/// </summary>
 		public static void HoverElement(this IWebElement webElement)

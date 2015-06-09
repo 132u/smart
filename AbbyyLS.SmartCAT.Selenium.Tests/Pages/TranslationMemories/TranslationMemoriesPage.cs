@@ -30,7 +30,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories
 		public NewTranslationMemoryDialog ClickCreateNewTmButton()
 		{
 			Logger.Debug("Нажать кнопку создания новой ТМ");
-			CreateNewTmButton.AdvancedClick();
+			CreateNewTmButton.JavaScriptClick();
 			
 			return new NewTranslationMemoryDialog().GetPage();
 		}
