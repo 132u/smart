@@ -148,8 +148,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 
 		protected RegistrationPageHelper RegistrationPage { get; private set; }
 
-		protected MyAccountPageHelper MyAccountPage { get; private set; }
-
 		protected GlossaryTermFilterHelper GlossaryTermFilterPage { get; private set; }
 		protected SocialNetworkHelper SocialNetworkPage { get; private set; }
 		protected CheckCreateProjectRightHelper CheckCreateProjectRightHelper { get; private set; }
@@ -1953,7 +1951,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			ResponsiblesDialog = new ResponsiblesDialogHelper(Driver, Wait);
 			AddTermForm = new AddTermFormHelper(Driver, Wait);
 			RegistrationPage = new RegistrationPageHelper(Driver, Wait);
-			MyAccountPage = new MyAccountPageHelper(Driver, Wait);
 			GlossaryTermFilterPage = new GlossaryTermFilterHelper(Driver, Wait);
 			CheckCreateProjectRightHelper = new CheckCreateProjectRightHelper(Driver, Wait);
 			SocialNetworkPage = new SocialNetworkHelper(Driver, Wait);

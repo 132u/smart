@@ -16,15 +16,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.Domains
 		{
 		}
 
-		public void WaitPageLoad()
-		{
-			Logger.Trace("Ожидание загрузки страницы domain");
-
-			Assert.IsTrue(
-				WaitUntilDisplayElement(By.XPath(ADD_DOMAIN_BTN_XPATH)),
-				"Ошибка: страница domain не загрузилась");
-		}
-
 		public bool GetIsDomainExist(string domainName)
 		{
 			Logger.Trace(string.Format("Определение существования домена {0}", domainName));
@@ -49,12 +40,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.Domains
 			ClickElement(By.XPath(SAVE_DOMAIN_XPATH));
 		}
 
-		public void ClickCancelDomain()
-		{
-			Logger.Debug("Кликаем кнопку Cancel");
-			ClickElement(By.XPath(CANCEL_DOMAIN_XPATH));
-		}
-
 		public void WaitUntilSave()
 		{
 			Logger.Trace("Дождаться сохранения (пропадает кнопка Save)");
@@ -62,77 +47,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.Domains
 			Assert.IsTrue(
 				WaitUntilDisappearElement(By.XPath(SAVE_DOMAIN_XPATH)),
 				"Ошибка: не пропала кнопка Save после сохранения домена");
-		}
-
-		public void AssertionIsEditMode()
-		{
-			Logger.Trace("Проверка, что мы находимся в режиме редактирования");
-
-			Assert.IsTrue(GetIsElementDisplay(By.XPath(ENTER_NAME_XPATH)),
-				"Ошибка: после попытки изменения имени на недопустимое мы вышли из режима редактирования (должны остаться).");
-		}
-
-		public void AssertionIsNewDomainEditMode()
-		{
-			Logger.Trace("Проверка, что домен не сохранился, а остался в режиме редактирования");
-
-			Assert.IsTrue(GetIsElementDisplay(By.XPath(NEW_DOMAIN_TD_XPATH)),
-				"Ошибка: после попытки создания домена с недопустимым именем мы вышли из режима редактирования (должны остаться).");
-		}
-
-		public void ClickDeleteDomain(string domainName)
-		{
-			Logger.Debug(string.Format("Удаление домена {0}...", domainName));
-
-			var domainXPath = GetDomainRowXPath(domainName);
-
-			Logger.Debug(string.Format("Кликнуть по строке с доменом {0}", domainName));
-			ClickElement(By.XPath(domainXPath));
-
-			var deleteXPath = domainXPath + DELETE_DOMAIN_BTN_XPATH;
-
-			Logger.Trace("Дождаться появления кнопки Delete");
-			WaitUntilDisplayElement(By.XPath(deleteXPath));
-			
-			Logger.Debug("Кликнуть кнопку Delete");
-			ClickElement(By.XPath(deleteXPath));
-
-			Assert.IsTrue(WaitUntilDisappearElement(By.XPath(deleteXPath)),
-				"Кнопка DELETE не пропала после удаления домена");
-			
-		}
-
-		public void ClickEditDomainBtn(string domainName)
-		{
-			Logger.Debug(string.Format("Редактирование домена {0}...", domainName));
-
-			var domainXPath = GetDomainRowXPath(domainName);
-
-			Logger.Debug(string.Format("Кликнуть по строке с доменом {0}", domainName));
-			ClickElement(By.XPath(domainXPath));
-
-			var editXPath = domainXPath + EDIT_DOMAIN_BTN_XPATH;
-
-			Logger.Trace("Дождаться появления кнопки Edit");
-			WaitUntilDisplayElement(By.XPath(editXPath));
-
-			Logger.Debug("Нажать кнопку Edit");
-			ClickElement(By.XPath(editXPath));
-		}
-
-		public void EnterNewName(string domainName, string newName)
-		{
-			Logger.Debug(string.Format("Ввести новое имя домена. Старое имя: {0}, новое имя: {1}", domainName, newName));
-			ClearAndAddText(By.XPath(ENTER_NAME_XPATH), newName);
-		}
-
-		public void AssertionIsNameErrorExist()
-		{
-			Logger.Trace("Проверить, появилась ли ошибка существующего имени");
-
-			Assert.IsTrue(
-				WaitUntilDisplayElement(By.XPath(ERROR_NAME_XPATH)),
-				"Ошибка: не появилась ошибка существующего имени");
 		}
 
 		protected string GetDomainRowXPath(string domainName)

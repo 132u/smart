@@ -42,18 +42,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		}
 
 		/// <summary>
-		/// Проявить кнопку Edit и кликнуть
-		/// </summary>
-		/// <param name="clientName">название</param>
-		public void HoverAndClickEdit(string xpathClientRow)
-		{
-			Logger.Trace("Поместить курсор мыши на нужной строке");
-			HoverElement(By.XPath(xpathClientRow));
-			Logger.Trace("Клик по кнопке Edit клиента ");
-			ClickElement(By.XPath(xpathClientRow + EDIT_BTN_XPATH));
-		}
-
-		/// <summary>
 		/// Кликнуть Save
 		/// </summary>
 		public void ClickSaveBtn()

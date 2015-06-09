@@ -92,15 +92,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		}
 
 		/// <summary>
-		/// Дождаться появления списка пользователей
-		/// </summary>
-		/// <returns>появился</returns>
-		public bool WaitAssignUserList()
-		{
-			return WaitUntilDisplayElement(By.XPath(PROGRESS_DIALOG_USERLIST_XPATH));
-		}
-
-		/// <summary>
 		/// Кликнуть по пользователю в списке
 		/// </summary>
 		/// <param name="userName">имя пользователя</param>
