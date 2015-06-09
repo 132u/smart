@@ -34,7 +34,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Admin
 		public void CreatePersAccountForRingo()
 		{
 			// Создаем ринго пользователя
-			CreateNewUserInAdminPage(Login2, UserName2, Password2, true);
+			CreateNewUserInAdminPage(Login2, NickName2, Password2, true);
 			FindUser(Login2);
 			CheckAdminCheckbox();
 			CreateNewPersonalAccount(Login2, true);
@@ -82,7 +82,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Admin
 		public void CreatePersAccountForBatman()
 		{
 			// Создаем ринго пользователя
-			CreateNewUserInAdminPage(TestRightsLogin, TestRightsUserName, TestRightsPassword, true);
+			CreateNewUserInAdminPage(TestRightsLogin, TestRightsNickName, TestRightsPassword, true);
 			FindUser(TestRightsLogin);
 			CheckAdminCheckbox();
 			CreateNewPersonalAccount(TestRightsLogin, true);

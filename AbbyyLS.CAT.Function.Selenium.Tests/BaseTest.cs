@@ -78,19 +78,19 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 
 		protected string Password { get; private set; }
 
-		protected string UserName { get; private set; }
+		protected string NickName { get; private set; }
 
 		protected string Login2 { get; private set; }
 
 		protected string Password2 { get; private set; }
 
-		protected string UserName2 { get; private set; }
+		protected string NickName2 { get; private set; }
 
 		protected string TestRightsLogin { get; private set; }
 
 		protected string TestRightsPassword { get; private set; }
 
-		protected string TestRightsUserName { get; private set; }
+		protected string TestRightsNickName { get; private set; }
 
 		protected List<UserInfo> TestUserList { get; private set; }
 
@@ -357,7 +357,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			ProjectPage.ClickUserNameCell();
 			
 			// Выбрать нужное имя
-			ProjectPage.ClickAssignUserListUser(UserName);
+			ProjectPage.ClickAssignUserListUser(NickName);
 			ProjectPage.WaitAssignBtnDisplay();
 
 			// Нажать на Assign
@@ -2025,15 +2025,15 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		{
 			Login = cfgUserInfo.Login;
 			Password = cfgUserInfo.Password;
-			UserName = cfgUserInfo.UserName;
+			NickName = cfgUserInfo.NickName;
 
 			Login2 = cfgUserInfo.Login2;
 			Password2 = cfgUserInfo.Password2;
-			UserName2 = cfgUserInfo.UserName2;
+			NickName2 = cfgUserInfo.NickName2;
 
 			TestRightsLogin = cfgUserInfo.TestRightsLogin;
 			TestRightsPassword = cfgUserInfo.TestRightsPassword;
-			TestRightsUserName = cfgUserInfo.TestRightsUserName;
+			TestRightsNickName = cfgUserInfo.TestRightsNickName;
 		}
 	}
 }

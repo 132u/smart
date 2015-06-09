@@ -48,12 +48,12 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			Thread.Sleep(2000);
 
 			// Проверить, изменился ли статус на not Assigned
-			Assert.IsTrue(ProjectPage.GetAssignName() != UserName,
+			Assert.IsTrue(ProjectPage.GetAssignName() != NickName,
 				"Имя в дропдауне назначения пользователя не изменился");
 
 			// Назначить ответственного в окне Progress
 			ProjectPage.ClickUserNameCell();
-			ProjectPage.ClickAssignUserListUser(UserName);
+			ProjectPage.ClickAssignUserListUser(NickName);
 
 			// Нажать на Assign
 			ProjectPage.ClickAssignBtn();

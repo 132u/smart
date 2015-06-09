@@ -39,7 +39,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Editor.PreviousStage
 			OpenAssignDialog(ProjectUniqueName);
 
 			// Выбор в качестве исполнителя для второй задачи группы Administrator
-			SetResponsible(2, UserName, false);
+			SetResponsible(2, NickName, false);
 
 			// Закрываем форму
 			ResponsiblesDialog.ClickCloseBtn();

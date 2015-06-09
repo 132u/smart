@@ -34,7 +34,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.CheckRights
 			UserRightsPage.WaitUntilGroupsRightsDisplay();
 
 			// Удалить пользователя из всех групп.
-			removeUserFromAllGroups(TestRightsUserName);
+			removeUserFromAllGroups(TestRightsNickName);
 
 			// Создать группу для этого теста.
 			createGroupForThisTest(groupName);
@@ -43,7 +43,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.CheckRights
 			addRightsForGroup(groupName);
 
 			// Добавляем пользователя в группу.
-			addUserInGroup(TestRightsUserName);
+			addUserInGroup(TestRightsNickName);
 
 			// Выходим из учётной записи
 			WorkspacePage.ClickAccount();

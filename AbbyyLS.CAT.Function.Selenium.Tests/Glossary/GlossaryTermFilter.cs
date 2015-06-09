@@ -219,7 +219,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Glossary
 			GlossaryTermFilterPage.OpenFilterForm();
 
 			// Выбрать Бобби
-			GlossaryTermFilterPage.SelectAuthor(UserName);
+			GlossaryTermFilterPage.SelectAuthor(NickName);
 
 			// Кликнуть Apply кнопку в фильтре
 			GlossaryTermFilterPage.ClickApplyBtnInFilterForm();
@@ -241,7 +241,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Glossary
 		/// </summary>
 		/// <param name="authourModified"> Один или все авторы изменения </param>
 		[TestCase("All")]
-		[TestCase("UserName2")]
+		[TestCase("NickName2")]
 		[Test]
 		public void ModifierAuthorFilter(string authourModified)
 		{
@@ -277,10 +277,10 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Glossary
 			// Открыть фильтр
 			GlossaryTermFilterPage.OpenFilterForm();
 
-			if (authourModified == "UserName2")
+			if (authourModified == "NickName2")
 			{
 				// Выбрать авторa Ринго в Modified dropdown
-				GlossaryTermFilterPage.SelectModifier(UserName2);
+				GlossaryTermFilterPage.SelectModifier(NickName2);
 
 				// Кликнуть Apply кнопку в фильтре
 				GlossaryTermFilterPage.ClickApplyBtnInFilterForm();
@@ -460,7 +460,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Glossary
 			GlossaryTermFilterPage.SelectModifiedDate("last month");
 
 			// Выбрать Бобби
-			GlossaryTermFilterPage.SelectAuthor(UserName);
+			GlossaryTermFilterPage.SelectAuthor(NickName);
 
 			// Выбрать всех авторов в Modified dropdown
 			GlossaryTermFilterPage.SelectModifier();
@@ -517,10 +517,10 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Glossary
 			GlossaryTermFilterPage.CheckOnlyOneLanguage("English");
 
 			// Выбрать автора создания
-			GlossaryTermFilterPage.SelectAuthor(UserName);
+			GlossaryTermFilterPage.SelectAuthor(NickName);
 
 			// Выбрать автора изменения
-			GlossaryTermFilterPage.SelectModifier(UserName);
+			GlossaryTermFilterPage.SelectModifier(NickName);
 
 			// Выбрать дату создания "7 дней назад"
 			GlossaryTermFilterPage.SelectCreatedDate("7");
@@ -534,8 +534,8 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Glossary
 			// Проверка, что все фильтре на месте
 			Assert.IsTrue(GlossaryTermFilterPage.GetCreatedPanelIsDislay("Over the last 7 days"), "Ошибка: фильтр создания даты не появился в желтой панели");
 			Assert.IsTrue(GlossaryTermFilterPage.GetModifiedPanelIsDislay("Over the last month"), "Ошибка: фильтр изменения даты не появился в желтой панели");
-			Assert.IsTrue(GlossaryTermFilterPage.GetCreatedPanelIsDislay(UserName), "Ошибка: фильтр автор создания не появился в желтой панели");
-			Assert.IsTrue(GlossaryTermFilterPage.GetModifiedPanelIsDislay(UserName), "Ошибка: фильтр автор изменения не появился в желтой панели");
+			Assert.IsTrue(GlossaryTermFilterPage.GetCreatedPanelIsDislay(NickName), "Ошибка: фильтр автор создания не появился в желтой панели");
+			Assert.IsTrue(GlossaryTermFilterPage.GetModifiedPanelIsDislay(NickName), "Ошибка: фильтр автор изменения не появился в желтой панели");
 
 			switch (filter)
 			{
@@ -550,12 +550,12 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Glossary
 					break;
 
 				case "author":
-					GlossaryTermFilterPage.DeleteCreatedPanel(UserName);
+					GlossaryTermFilterPage.DeleteCreatedPanel(NickName);
 					Assert.IsFalse(GlossaryTermFilterPage.GetCreatedPanelIsDislay(filter), "Ошибка: фильтр автора создания не удалился из желтой панели");
 					break;
 
 				case "modifier":
-					GlossaryTermFilterPage.DeleteModifiedPanel(UserName);
+					GlossaryTermFilterPage.DeleteModifiedPanel(NickName);
 					Assert.IsFalse(GlossaryTermFilterPage.GetModifiedPanelIsDislay(filter), "Ошибка: фильтр автора изменения не удалился из желтой панели");
 					break;
 

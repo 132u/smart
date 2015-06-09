@@ -358,7 +358,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			OpenAssignDialog(ProjectUniqueName);
 
 			// Выбор в качестве исполнителя для первой задачи группы Administrator
-			SetResponsible(1, UserName, false);
+			SetResponsible(1, NickName, false);
 
 			// Закрываем форму
 			ResponsiblesDialog.ClickCloseBtn();
@@ -391,10 +391,10 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			OpenAssignDialog(ProjectUniqueName);
 
 			// Выбор в качестве исполнителя для первой задачи группы Administrator
-			SetResponsible(1, UserName, false);
+			SetResponsible(1, NickName, false);
 
 			// Выбор в качестве исполнителя для второй задачи группы Administrator
-			SetResponsible(2, UserName, false);
+			SetResponsible(2, NickName, false);
 
 			// Закрываем форму
 			ResponsiblesDialog.ClickCloseBtn();
@@ -429,7 +429,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			OpenAssignDialog(ProjectUniqueName);
 
 			// Выбор в качестве исполнителя для первой задачи группы Administrator
-			SetResponsible(1, UserName, false);
+			SetResponsible(1, NickName, false);
 
 			// Закрываем форму
 			ResponsiblesDialog.ClickCloseBtn();
@@ -462,7 +462,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			QuitDriverAfterTest = true;
 			
 			// Проверка второго пользователя
-			сheckUserPresent(UserName2);
+			сheckUserPresent(NickName2);
 
 			// Создание проекта
 			CreateProjectIfNotCreated(ProjectUniqueName, PathProvider.EditorTxtFile);
@@ -471,7 +471,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			OpenAssignDialog(ProjectUniqueName);
 
 			// Выбор в качестве исполнителя для первой задачи первого юзера
-			SetResponsible(1, UserName, false);
+			SetResponsible(1, NickName, false);
 
 			// Закрываем форму
 			ResponsiblesDialog.ClickCloseBtn();
@@ -508,7 +508,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			сancelAssignUser(1);
 
 			// Выбор в качестве исполнителя для первой задачи второго юзера
-			SetResponsible(1, UserName2, false);
+			SetResponsible(1, NickName2, false);
 
 			// Закрываем форму
 			ResponsiblesDialog.ClickCloseBtn();
@@ -567,7 +567,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			OpenAssignDialog(ProjectUniqueName);
 
 			// Выбор в качестве исполнителя для первой задачи первого юзера
-			SetResponsible(1, UserName, false);
+			SetResponsible(1, NickName, false);
 
 			// Закрываем форму
 			ResponsiblesDialog.ClickCloseBtn();

@@ -11,8 +11,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests
 		[DataMember(Name = "Password")]
 		public string Password { get; set; }
 
-		[DataMember(Name = "UserName")]
-		public string UserName { get; set; }
+		[DataMember(Name = "NickName")]
+		public string NickName { get; set; }
 
 		[DataMember(Name = "Login2")]
 		public string Login2 { get; set; }
@@ -20,8 +20,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests
 		[DataMember(Name = "Password2")]
 		public string Password2 { get; set; }
 
-		[DataMember(Name = "UserName2")]
-		public string UserName2 { get; set; }
+		[DataMember(Name = "NickName2")]
+		public string NickName2 { get; set; }
 
 		[DataMember(Name = "TestRightsLogin")]
 		public string TestRightsLogin { get; set; }
@@ -29,8 +29,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests
 		[DataMember(Name = "TestRightsPassword")]
 		public string TestRightsPassword { get; set; }
 
-		[DataMember(Name = "TestRightsUserName")]
-		public string TestRightsUserName { get; set; }
+		[DataMember(Name = "TestRightsNickName")]
+		public string TestRightsNickName { get; set; }
 
 	}
 }

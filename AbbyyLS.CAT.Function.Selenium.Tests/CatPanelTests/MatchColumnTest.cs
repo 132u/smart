@@ -42,7 +42,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 
 					OpenAssignDialog(_projectNameTmMatchTest);
 
-					SetResponsible(1, UserName, false);
+					SetResponsible(1, NickName, false);
 					ResponsiblesDialog.ClickCloseBtn();
 
 					// Sleep не убирать , проект не открывается
@@ -76,7 +76,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 
 					OpenAssignDialog(_projectNameMtMatchTest);
 
-					SetResponsible(1, UserName, false);
+					SetResponsible(1, NickName, false);
 					ResponsiblesDialog.ClickCloseBtn();
 
 					// Sleep не убирать , проект не открывается

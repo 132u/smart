@@ -30,7 +30,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.InitialData
 		public void CreatePersAccountForRingo()
 		{
 			_adminHelper
-				.CreateNewUser(Login2, UserName2, Password2, admin: true)
+				.CreateNewUser(Login2, NickName2, Password2, admin: true)
 				.FindUser(Login2)
 				.CheckAdminCheckbox()
 				.CreateNewPersonalAccount(Login2, state: true)
@@ -68,7 +68,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.InitialData
 		public void CreatePersAccountForBatman()
 		{
 			_adminHelper
-				.CreateNewUser(RightsTestLogin, RightsTestUserName, RightsTestPassword, admin: true)
+				.CreateNewUser(RightsTestLogin, RightsTestNickName, RightsTestPassword, admin: true)
 				.FindUser(RightsTestLogin)
 				.CheckAdminCheckbox()
 				.CreateNewPersonalAccount(RightsTestLogin, state: true)

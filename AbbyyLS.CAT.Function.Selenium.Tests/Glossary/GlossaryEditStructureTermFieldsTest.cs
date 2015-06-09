@@ -193,6 +193,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.Glossary.EditStructure.T
 
 			// Добавить все поля в структуру
 			AddAllSystemTermFieldStructure();
+			MainHelperClass.WaitUntilCloseDialogBackground();
 			// Нажать New item
 			GlossaryPage.ClickNewItemBtn();
 			GlossaryPage.WaitUntilTermsDisplay();

@@ -36,9 +36,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests
 
 		protected string Password { get; private set; }
 
-		protected string UserName { get; private set; }
+		protected string NickName { get; private set; }
 
-		protected string UserFirstName { get; private set; }
+		protected string UserName { get; private set; }
 
 		protected string UserSurname { get; private set; }
 
@@ -46,9 +46,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests
 
 		protected string Password2 { get; private set; }
 
-		protected string UserName2 { get; private set; }
+		protected string NickName2 { get; private set; }
 
-		protected string UserFirstName2 { get; private set; }
+		protected string UserName2 { get; private set; }
 
 		protected string UserSurname2 { get; private set; }
 
@@ -56,9 +56,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests
 
 		protected string RightsTestPassword { get; private set; }
 
-		protected string RightsTestUserName { get; private set; }
+		protected string RightsTestNickName { get; private set; }
 
-		protected string RightsTestFirstName { get; private set; }
+		protected string RightsTestUserName { get; private set; }
 
 		protected string RightsTestSurname { get; private set; }
 		protected string ProjectName { get; private set; }
@@ -284,21 +284,21 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests
 		{
 			Login = cfgUserInfo.Login;
 			Password = cfgUserInfo.Password;
-			UserName = cfgUserInfo.UserName;
-			UserFirstName = UserName.Substring(0, UserName.IndexOf(' '));
-			UserSurname = UserName.Substring(UserName.IndexOf(' ') + 1);
+			NickName = cfgUserInfo.NickName;
+			UserName = NickName.Substring(0, NickName.IndexOf(' '));
+			UserSurname = NickName.Substring(NickName.IndexOf(' ') + 1);
 
 			Login2 = cfgUserInfo.Login2;
 			Password2 = cfgUserInfo.Password2;
-			UserName2 = cfgUserInfo.UserName2;
-			UserFirstName2 = UserName2.Substring(0, UserName2.IndexOf(' '));
-			UserSurname2 = UserName2.Substring(UserName2.IndexOf(' ') + 1);
+			NickName2 = cfgUserInfo.NickName2;
+			UserName2 = NickName2.Substring(0, NickName2.IndexOf(' '));
+			UserSurname2 = NickName2.Substring(NickName2.IndexOf(' ') + 1);
 
 			RightsTestLogin = cfgUserInfo.TestRightsLogin;
 			RightsTestPassword = cfgUserInfo.TestRightsPassword;
-			RightsTestUserName = cfgUserInfo.TestRightsUserName;
-			RightsTestFirstName = RightsTestUserName.Substring(0, RightsTestUserName.IndexOf(' '));
-			RightsTestSurname = RightsTestUserName.Substring(RightsTestUserName.IndexOf(' ') + 1);
+			RightsTestNickName = cfgUserInfo.TestRightsNickName;
+			RightsTestUserName = RightsTestNickName.Substring(0, RightsTestNickName.IndexOf(' '));
+			RightsTestSurname = RightsTestNickName.Substring(RightsTestNickName.IndexOf(' ') + 1);
 		}
 
 		private void initializeHelpers()

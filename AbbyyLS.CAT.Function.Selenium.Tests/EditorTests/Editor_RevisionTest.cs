@@ -50,10 +50,10 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Editor.Revisions
 				OpenAssignDialog(_projectNameRevisionsTest);
 
 				// Выбор в качестве исполнителя для первой задачи первого юзера
-				SetResponsible(1, UserName, false);
+				SetResponsible(1, NickName, false);
 
 				// Выбор в качестве исполнителя для второй задачи второго юзера
-				SetResponsible(2, UserName2, false);
+				SetResponsible(2, NickName2, false);
 				ResponsiblesDialog.ClickCloseBtn();
 
 				// Открытие страницы проекта
@@ -538,7 +538,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Editor.Revisions
 			OpenAssignDialog(projectNameRevisionsTest3);
 
 			// Выбор в качестве исполнителя для первой задачи первого юзера
-			SetResponsible(1, UserName, false);
+			SetResponsible(1, NickName, false);
 			ResponsiblesDialog.ClickCloseBtn();
 
 			// Открытие страницы проекта
@@ -629,7 +629,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Editor.Revisions
 
 			// Проверить автора первой ревизии в списке
 			Assert.AreEqual(
-				UserName2,
+				NickName2,
 				RevisionPage.GetRevisionUser(1),
 				"Ошибка: ревизия последнего пользователя не первая после первой сортировки");
 
@@ -638,7 +638,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Editor.Revisions
 
 			// Проверить автора первой ревизии в списке
 			Assert.AreEqual(
-				UserName,
+				NickName,
 				RevisionPage.GetRevisionUser(1),
 				"Ошибка: ревизия первого пользователя не первая после второй сортировки");
 
