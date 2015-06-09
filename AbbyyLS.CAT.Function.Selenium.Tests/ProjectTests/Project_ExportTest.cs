@@ -51,6 +51,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// ТЕСТ: экспорт документа из проекта
 		/// </summary>
 		/// <param name="exportType">тип экспорта</param>
+		[Category("OnlyWithGUI")]
 		[Test]
 		[TestCase(EXPORT_TYPE_SOURCE)]
 		[TestCase(EXPORT_TYPE_TMX)]
@@ -75,6 +76,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// ТЕСТ: экспорт проекта из списка проектов по "красной кнопке"
 		/// </summary>
 		/// <param name="exportType">тип экспорт</param>
+		[Category("OnlyWithGUI")]
 		[Test]
 		[TestCase(EXPORT_TYPE_SOURCE)]
 		[TestCase(EXPORT_TYPE_TMX)]
@@ -98,6 +100,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// ТЕСТ: экспорт проекта из списка проектов из свертки проекта
 		/// </summary>
 		/// <param name="exportType">тип экспорта</param>
+		[Category("OnlyWithGUI")]
 		[Test]
 		[TestCase(EXPORT_TYPE_SOURCE)]
 		[TestCase(EXPORT_TYPE_TMX)]
