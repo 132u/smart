@@ -13,7 +13,7 @@
 	<UserInfo
 			Login ="teamcity@mailforspam.com"
 			Password ="teamcity"
-			UserName ="Teamcity Test"
+			NickName ="Teamcity Test"
 	/>
 	
 </configuration>
