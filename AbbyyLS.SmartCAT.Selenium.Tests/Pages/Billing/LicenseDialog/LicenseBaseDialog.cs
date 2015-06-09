@@ -65,6 +65,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Billing.LicenseDialog
 		public LicensePaymentDialog SwitchToPaymentIFrame()
 		{
 			Logger.Trace("Перейти в IFrame платежной системы.");
+			Driver.WaitUntilElementIsDisplay(By.XPath(PAYMENT_IFRAME));
 			Driver.SwitchToIFrame(By.XPath(PAYMENT_IFRAME));
 
 			return new LicensePaymentDialog().GetPage();
@@ -101,7 +102,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Billing.LicenseDialog
 		[FindsBy(How = How.XPath, Using = CANCEL_BUTTON)]
 		protected IWebElement CancelButton { get; set; }
 
-		[FindsBy(How = How.XPath, Using = BUY_BUTTON)]
+		[FindsBy(How = How.XPath, Using = BUY_BUTTON_IN_DIALOG)]
 		protected IWebElement BuyButton { get; set; }
 
 		[FindsBy(How = How.XPath, Using = ADDITIONAL_PAYMENT)]
@@ -110,7 +111,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Billing.LicenseDialog
 		public const string ADDITIONAL_PAYMENT = "//tr[@ng-if='ctrl.isIncrease() || ctrl.isProlongation()']//td[2]";
 		public const string CLOSE_BUTTON = "//a[contains(@abb-link-click, 'close')]";
 		public const string CANCEL_BUTTON = "//footer[contains(@class, 'clearfix')]//a[contains(@abb-link-click, 'close')]";
-		public const string BUY_BUTTON = "//div[@class='lic-popup ng-scope']//a[contains(@class, 'danger')]";
+		public const string BUY_BUTTON_IN_DIALOG = "//div[@class='lic-popup ng-scope']//a[contains(@class, 'danger')]";
 		public const string PAYMENT_IFRAME = "//form[@id='checkoutForm']//iframe";
 	}
 }

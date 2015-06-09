@@ -144,20 +144,10 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace
 		public BillingPage ClickLicenseAndServices()
 		{
 			Logger.Debug("Нажать на 'Licenses and Services'.");
+			Driver.WaitUntilElementIsDisplay(By.XPath(LICENSES_AND_SERVICES));
 			LicenseAndServices.Click();
 
 			return new BillingPage();
-		}
-
-		/// <summary>
-		/// Дождаться появления 'Licenses and Services'
-		/// </summary>
-		public WorkspacePage WaitLicenseAndServicesButton()
-		{
-			Logger.Debug("Дождаться появления 'Licenses and Services'.");
-			Driver.WaitUntilElementIsDisplay(By.XPath(LICENSES_AND_SERVICES));
-
-			return GetPage();
 		}
 
 		public BillingPage SwitchToLicenseAndServicesWindow()

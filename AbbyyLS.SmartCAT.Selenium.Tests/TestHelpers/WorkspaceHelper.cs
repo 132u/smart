@@ -67,7 +67,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 			_workspacePage
 				.ClickAccount()
 				.ClickLicenseAndServices()
-				.WaitLicenseAndServicesButton()
 				.SwitchToLicenseAndServicesWindow();
 
 			return new BillingHelper();
