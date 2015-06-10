@@ -2,8 +2,8 @@
 
 namespace AbbyyLS.CAT.Function.Selenium.Tests
 {
-	[DataContract(Name = "CatTargetServer")]
-	class TargetServerConfig
+	[DataContract(Name = "CatServer")]
+	class CatServerConfig
 	{
 		[DataMember(Name = "Url")]
 		public string Url { get; set; }
@@ -11,10 +11,13 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		[DataMember(Name = "Workspace")]
 		public string Workspace { get; set; }
 
+		/// <summary>
+		/// На стенде включен https
+		/// </summary>
+		[DataMember(Name = "IsHttpsEnabled")]
+		public bool IsHttpsEnabled { get; set; }
+
 		[DataMember(Name = "Standalone")]
 		public bool Standalone { get; set; }
-
-		[DataMember(Name = "EmailAuth")]
-		public bool EmailAuth { get; set; }
 	}
 }

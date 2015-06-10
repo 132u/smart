@@ -84,7 +84,7 @@
     <Compile Include="CommonHelpers\WorkSpacePageHelper.cs" />
     <Compile Include="CommonHelpers\Workspace_CreateProjectDialogHelper.cs" />
     <Compile Include="Configs\FilesRootCfg.cs" />
-    <Compile Include="Configs\TargetServerConfig.cs" />
+    <Compile Include="Configs\CatServerConfig.cs" />
     <Compile Include="Configs\TestUserConfig.cs" />
     <Compile Include="Configs\UserInfoConfig.cs" />
     <Compile Include="DictionaryTests\DictionaryPageHelper.cs" />

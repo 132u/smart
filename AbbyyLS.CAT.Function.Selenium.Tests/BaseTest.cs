@@ -41,7 +41,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		{
 			try
 			{
-				var cfgAgentSpecific = TestSettingDefinition.Instance.Get<TargetServerConfig>();
+				var cfgAgentSpecific = TestSettingDefinition.Instance.Get<CatServerConfig>();
 				var cfgUserInfo = TestSettingDefinition.Instance.Get<UserInfoConfig>();
 
 				CreateUniqueNamesByDatetime();
@@ -2005,11 +2005,10 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			}
 		}
 
-		private void initializeRelatedToServerFields(TargetServerConfig cfgAgentSpecific)
+		private void initializeRelatedToServerFields(CatServerConfig cfgAgentSpecific)
 		{
 			WorkspaceUrl = cfgAgentSpecific.Workspace;
 			Standalone = cfgAgentSpecific.Standalone;
-			EmailAuth = cfgAgentSpecific.EmailAuth;
 
 			Url = Standalone ? "http://" + cfgAgentSpecific.Url : "https://" + cfgAgentSpecific.Url;
 
@@ -2021,19 +2020,19 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			AdminUrl = "http://" + cfgAgentSpecific.Url + ":81";
 		}
 
-		private void initializeRelatedToUserFields(UserInfoConfig cfgUserInfo)
+		private void initializeRelatedToUserFields(UserInfoConfig config)
 		{
-			Login = cfgUserInfo.Login;
-			Password = cfgUserInfo.Password;
-			NickName = cfgUserInfo.NickName;
+			Login = config.Login;
+			Password = config.Password;
+			NickName = (config.Name ?? string.Empty) + " " + (config.Surname ?? string.Empty);
 
-			Login2 = cfgUserInfo.Login2;
-			Password2 = cfgUserInfo.Password2;
-			NickName2 = cfgUserInfo.NickName2;
+			Login2 = config.Login2;
+			Password2 = config.Password2;
+			NickName2 = config.NickName2;
 
-			TestRightsLogin = cfgUserInfo.TestRightsLogin;
-			TestRightsPassword = cfgUserInfo.TestRightsPassword;
-			TestRightsNickName = cfgUserInfo.TestRightsNickName;
+			TestRightsLogin = config.TestRightsLogin;
+			TestRightsPassword = config.TestRightsPassword;
+			TestRightsNickName = config.TestRightsNickName;
 		}
 	}
 }

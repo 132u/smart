@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <configuration>
 
-	<CatTargetServer Url="smartcat.stage5.als.local" Workspace="" Standalone= "false" EmailAuth="false"/>
+	<CatServer Url="smartcat.stage5.als.local" Workspace="" IsHttpsEnabled="true" Standalone="false"/>
 	<CourseraTargetServer Url="http://coursera.stage5.als.local/en"/>
 
 	<TestingFiles 
@@ -11,9 +11,10 @@
 	/>
 
 	<UserInfo
-			Login ="teamcity@mailforspam.com"
-			Password ="teamcity"
-			NickName ="Teamcity Test"
+			Login="teamcity@mailforspam.com"
+			Password="teamcity"
+			Name="Teamcity"
+			Surname="Test"
 	/>
 	
 </configuration>

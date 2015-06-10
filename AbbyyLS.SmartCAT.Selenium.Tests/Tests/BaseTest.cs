@@ -92,12 +92,12 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests
 		{
 			try
 			{
-				var cfgAgentSpecific = TestSettingDefinition.Instance.Get<TargetServerConfig>();
+				var cfgAgentSpecific = TestSettingDefinition.Instance.Get<CatServerConfig>();
 				var cfgUserInfo = TestSettingDefinition.Instance.Get<UserInfoConfig>();
 				createDriver();
 				CreateUniqueNamesByDatetime();
-				initializeRelatedToServerFields(cfgAgentSpecific);
 				initializeRelatedToUserFields(cfgUserInfo);
+				initializeRelatedToServerFields(cfgAgentSpecific);
 				initializeUsersAndCompanyList();
 				initializeHelpers();
 			}
@@ -256,7 +256,15 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests
 		}
 
 		private void authorization()
-		{			
+		{
+			if (_standalone)
+			{
+				// Тесты запускаются на ОР
+				Driver.Navigate().GoToUrl(WorkspaceUrl);
+
+				return;
+			}
+
 			if (AdminLoginPage)
 			{
 				LogInAdmin(Login, Password);
@@ -267,36 +275,48 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests
 			}
 		}
 
-		private void initializeRelatedToServerFields(TargetServerConfig cfgAgentSpecific)
+		private void initializeRelatedToServerFields(CatServerConfig config)
 		{
-			Url = "https://" + cfgAgentSpecific.Url;
-			WorkspaceUrl = cfgAgentSpecific.Workspace;
+			var prefix = config.IsHttpsEnabled ? "https://" : "http://";
+
+			_standalone = config.Standalone;
+			WorkspaceUrl = config.Workspace;
+
+			if (_standalone)
+			{
+				// доменная авторизация в ОР
+				var domainName = Login.Contains("@") ? Login.Substring(0, Login.IndexOf("@")) : Login;
+				WorkspaceUrl = string.Format("{0}{1}:{2}@{3}/workspace", prefix, domainName, Password, config.Url);
+			}
+			else
+			{
+				Url = prefix + config.Url;
+				AdminUrl = "http://" + config.Url + ":81";
+			}
 
 			if (string.IsNullOrWhiteSpace(WorkspaceUrl))
 			{
-				WorkspaceUrl = "https://" + cfgAgentSpecific.Url + "/workspace";
+				WorkspaceUrl = Url + "/workspace";
 			}
-
-			AdminUrl = "http://" + cfgAgentSpecific.Url + ":81";
 		}
 
-		private void initializeRelatedToUserFields(UserInfoConfig cfgUserInfo)
+		private void initializeRelatedToUserFields(UserInfoConfig config)
 		{
-			Login = cfgUserInfo.Login;
-			Password = cfgUserInfo.Password;
-			NickName = cfgUserInfo.NickName;
-			UserName = NickName.Substring(0, NickName.IndexOf(' '));
-			UserSurname = NickName.Substring(NickName.IndexOf(' ') + 1);
+			Login = config.Login;
+			Password = config.Password;
+			UserName = config.Name ?? string.Empty;
+			UserSurname = config.Surname ?? string.Empty;
+			NickName = UserName + " " + UserSurname;
 
-			Login2 = cfgUserInfo.Login2;
-			Password2 = cfgUserInfo.Password2;
-			NickName2 = cfgUserInfo.NickName2;
+			Login2 = config.Login2;
+			Password2 = config.Password2;
+			NickName2 = config.NickName2;
 			UserName2 = NickName2.Substring(0, NickName2.IndexOf(' '));
 			UserSurname2 = NickName2.Substring(NickName2.IndexOf(' ') + 1);
 
-			RightsTestLogin = cfgUserInfo.TestRightsLogin;
-			RightsTestPassword = cfgUserInfo.TestRightsPassword;
-			RightsTestNickName = cfgUserInfo.TestRightsNickName;
+			RightsTestLogin = config.TestRightsLogin;
+			RightsTestPassword = config.TestRightsPassword;
+			RightsTestNickName = config.TestRightsNickName;
 			RightsTestUserName = RightsTestNickName.Substring(0, RightsTestNickName.IndexOf(' '));
 			RightsTestSurname = RightsTestNickName.Substring(RightsTestNickName.IndexOf(' ') + 1);
 		}
@@ -327,5 +347,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests
 				AolUserList = new List<TestUser>();
 			}
 		}
+
+		private bool _standalone;
 	}
 }
