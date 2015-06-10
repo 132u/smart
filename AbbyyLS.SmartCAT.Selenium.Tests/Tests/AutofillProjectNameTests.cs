@@ -17,6 +17,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 		public void SetUpBaseProjectTest()
 		{
 			QuitDriverAfterTest = true;
+			WorkspaceHelper.GoToProjectsPage();
 			_createProjectHelper = new CreateProjectHelper();
 		}
 
