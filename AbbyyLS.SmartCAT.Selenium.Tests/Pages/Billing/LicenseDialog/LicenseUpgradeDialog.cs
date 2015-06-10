@@ -36,9 +36,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Billing.LicenseDialog
 			return GetPage();
 		}
 
-		[FindsBy(How = How.XPath, Using = UPGRADE_LICENSE_NUMBER)]
-		protected IWebElement LicenseNumber { get; set; }
-
 		[FindsBy(How = How.XPath, Using = NEW_LICENSE_NUMBER)]
 		protected IWebElement NewLicenseNumber { get; set; }
 

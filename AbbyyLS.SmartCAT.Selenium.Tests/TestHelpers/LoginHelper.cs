@@ -23,7 +23,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 		{
 			BaseObject.InitPage(_signInPage);
 
-			_signInPage.SetLogin(login)
+			_signInPage
+				.SetLogin(login)
 				.SetPassword(password)
 				.ClickSubmitButton()
 				.SelectAccount(accountName, dataServer)

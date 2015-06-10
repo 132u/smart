@@ -50,9 +50,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 		public BillingHelper CloseCompleteDialog()
 		{
 			BaseObject.InitPage(_licenseBaseDialog);
-			_licenseBaseDialog
-				.ClickCloseButton()
-				.WaitUntilCloseButtonDissappear();
+			_licenseBaseDialog.ClickCloseButton();
 
 			return this;
 		}

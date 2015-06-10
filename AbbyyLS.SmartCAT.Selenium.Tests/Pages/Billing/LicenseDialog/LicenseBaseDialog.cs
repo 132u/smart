@@ -39,21 +39,10 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Billing.LicenseDialog
 		/// <summary>
 		/// Нажать кнопку Close
 		/// </summary>
-		public LicenseBaseDialog ClickCloseButton()
+		public BillingPage ClickCloseButton()
 		{
 			Logger.Debug("Нажать кнопку Close.");
 			CloseButton.Click();
-
-			return GetPage();
-		}
-
-		/// <summary>
-		/// Дождаться исчезновения кнопки Close
-		/// </summary>
-		/// <returns></returns>
-		public BillingPage WaitUntilCloseButtonDissappear()
-		{
-			Logger.Trace("Дождаться исчезновения кнопки Close.");
 			Driver.WaitUntilElementIsDissapeared(By.XPath(CLOSE_BUTTON));
 
 			return new BillingPage().GetPage();

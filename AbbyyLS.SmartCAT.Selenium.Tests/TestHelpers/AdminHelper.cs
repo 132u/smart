@@ -76,13 +76,10 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 				_adminCreateAccountPage
 					.SelectExpirationDate()
-					.ClickSaveButton()
-					.ClickEnterpriseAccountsReference()
-					.ClickManageUsersReference(accountName);
+					.ClickSaveButton();
 
 				return this;
 			}
-			_adminEnterpriseAccountsPage.ClickManageUsersReference(accountName);
 
 			return this;
 		}
@@ -96,6 +93,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 		public AdminHelper CreateAccountAdminIfNotExist(string userEmail, string userName, string userSurname)
 		{
 			BaseObject.InitPage(_adminEnterpriseAccountUsersPage);
+
+			goToManageUsersPage(LoginHelper.TestAccountName);
 
 			if (!_adminEnterpriseAccountUsersPage.IsUserAddedIntoAccount(userEmail))
 			{
@@ -214,10 +213,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 		/// <param name="account"> название аккаунта </param>
 		public AdminHelper AddUserToSpecificAccount(string login, string account)
 		{
-			BaseObject.InitPage(_adminLingvoProPage);
-			_adminLingvoProPage
-				.ClickEnterpriseAccountsReference()
-				.ClickManageUsersReference(account);
+			goToManageUsersPage(account);
 
 			BaseObject.InitPage(_adminEnterpriseAccountUsersPage);
 
@@ -236,6 +232,20 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 		public static string GetAccountUniqueName()
 		{
 			return "AccountUniqueName" + DateTime.UtcNow.Ticks;
+		}
+
+		/// <summary>
+		/// Переход на страницу редактирования пользователей
+		/// </summary>
+		/// <param name="accountName">имя аккаунта</param>
+		private AdminHelper goToManageUsersPage(string accountName)
+		{
+			BaseObject.InitPage(_adminLingvoProPage);
+			_adminLingvoProPage
+					.ClickEnterpriseAccountsReference()
+					.ClickManageUsersReference(accountName);
+
+			return this;
 		}
 
 		private readonly AdminSignInPage _adminSignInPage = new AdminSignInPage();
