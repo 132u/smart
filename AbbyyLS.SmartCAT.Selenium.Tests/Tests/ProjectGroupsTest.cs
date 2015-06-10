@@ -36,7 +36,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.ProjectGroups
 			var projectGroup = ProjectGroupsHelper.GetProjectGroupUniqueName();
 
 			_projectGroupHelper
-				.CreateProjectGroup(projectGroup)
 				.AssertSaveButtonDisappear()
 				.AssertProjectGroupExist(projectGroup);
 		}
