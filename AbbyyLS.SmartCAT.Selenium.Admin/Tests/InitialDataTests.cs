@@ -23,7 +23,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.InitialData
 		{
 			_adminHelper
 				.CreateAccountIfNotExist(LoginHelper.SmartCATVenture, LoginHelper.TestAccountName, workflow: true)
-				.CreateAccountAdminIfNotExist(Login, UserName, UserSurname);
+				.CreateAccountAdminIfNotExist(Login, UserName, UserSurname, LoginHelper.TestAccountName);
 		}
 
 		[Test]

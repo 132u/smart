@@ -90,11 +90,12 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 		/// <param name="userEmail">email пользователя</param>
 		/// <param name="userName">имя пользователя</param>
 		/// <param name="userSurname">фамилия пользователя</param>
-		public AdminHelper CreateAccountAdminIfNotExist(string userEmail, string userName, string userSurname)
+		/// <param name="accountName">имя аккааунта</param>
+		public AdminHelper CreateAccountAdminIfNotExist(string userEmail, string userName, string userSurname, string accountName)
 		{
-			BaseObject.InitPage(_adminEnterpriseAccountUsersPage);
+			goToManageUsersPage(accountName);
 
-			goToManageUsersPage(LoginHelper.TestAccountName);
+			BaseObject.InitPage(_adminEnterpriseAccountUsersPage);
 
 			if (!_adminEnterpriseAccountUsersPage.IsUserAddedIntoAccount(userEmail))
 			{
