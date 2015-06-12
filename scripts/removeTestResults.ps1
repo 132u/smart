@@ -1,4 +1,6 @@
-if(Test-Path "%teamcity.build.checkoutDir%\TestResults")
+$checkoutDir=$args[0]
+
+if(Test-Path "$checkoutDir\TestResults")
 {
-	Remove-Item %teamcity.build.checkoutDir%\TestResults -Recurse
+	Get-ChildItem -Path "$checkoutDir\TestResults" -Include *.png -recurse | foreach ($_) {Remove-Item $_.fullname}
 }
