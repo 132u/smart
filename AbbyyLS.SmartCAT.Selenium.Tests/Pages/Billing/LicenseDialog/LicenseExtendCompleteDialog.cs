@@ -18,7 +18,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Billing.LicenseDialog
 
 		public new void LoadPage()
 		{
-			if (!Driver.WaitUntilElementIsDisplay(By.XPath(EXTEND_COMPLETE_DIALOG)))
+			if (!Driver.WaitUntilElementIsDisplay(By.XPath(EXTEND_COMPLETE_DIALOG), timeout: 20))
 			{
 				Assert.Fail("Произошла ошибка:\n сообщение о завершении продления лицензии не открылось.");
 			}
