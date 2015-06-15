@@ -278,15 +278,13 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests
 		private void initializeRelatedToServerFields(CatServerConfig config)
 		{
 			var prefix = config.IsHttpsEnabled ? "https://" : "http://";
-
 			_standalone = config.Standalone;
-			WorkspaceUrl = config.Workspace;
 
 			if (_standalone)
 			{
 				// доменная авторизация в ОР
 				var domainName = Login.Contains("@") ? Login.Substring(0, Login.IndexOf("@")) : Login;
-				WorkspaceUrl = string.Format("{0}{1}:{2}@{3}/workspace", prefix, domainName, Password, config.Url);
+				Url = string.Format("{0}{1}:{2}@{3}", prefix, domainName, Password, config.Url);
 			}
 			else
 			{
@@ -294,10 +292,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests
 				AdminUrl = "http://" + config.Url + ":81";
 			}
 
-			if (string.IsNullOrWhiteSpace(WorkspaceUrl))
-			{
-				WorkspaceUrl = Url + "/workspace";
-			}
+			WorkspaceUrl = string.IsNullOrWhiteSpace(config.Workspace) ? Url + "/workspace" : config.Workspace;
 		}
 
 		private void initializeRelatedToUserFields(UserInfoConfig config)

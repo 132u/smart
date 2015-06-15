@@ -45,8 +45,8 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 				var cfgUserInfo = TestSettingDefinition.Instance.Get<UserInfoConfig>();
 
 				CreateUniqueNamesByDatetime();
-				initializeRelatedToServerFields(cfgAgentSpecific);
 				initializeRelatedToUserFields(cfgUserInfo);
+				initializeRelatedToServerFields(cfgAgentSpecific);
 				initializeUsersAndCompanyList();
 			}
 			catch (Exception ex)
@@ -499,6 +499,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 				}
 				else
 				{
+
 					Driver.Navigate().GoToUrl(Url);
 				}
 			}
@@ -2005,19 +2006,25 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			}
 		}
 
-		private void initializeRelatedToServerFields(CatServerConfig cfgAgentSpecific)
+		private void initializeRelatedToServerFields(CatServerConfig config)
 		{
-			WorkspaceUrl = cfgAgentSpecific.Workspace;
-			Standalone = cfgAgentSpecific.Standalone;
+			var prefix = config.IsHttpsEnabled ? "https://" : "http://";
 
-			Url = Standalone ? "http://" + cfgAgentSpecific.Url : "https://" + cfgAgentSpecific.Url;
+			Standalone = config.Standalone;
 
-			if (string.IsNullOrWhiteSpace(WorkspaceUrl))
+			if (Standalone)
 			{
-				WorkspaceUrl = Url + "/workspace";
+				// доменная авторизация в ОР
+				var domainName = Login.Contains("@") ? Login.Substring(0, Login.IndexOf("@")) : Login;
+				Url = string.Format("{0}{1}:{2}@{3}", prefix, domainName, Password, config.Url);
+			}
+			else
+			{
+				Url = prefix + config.Url;
+				AdminUrl = "http://" + config.Url + ":81";
 			}
 
-			AdminUrl = "http://" + cfgAgentSpecific.Url + ":81";
+			WorkspaceUrl = string.IsNullOrWhiteSpace(config.Workspace) ? Url + "/workspace" : config.Workspace;
 		}
 
 		private void initializeRelatedToUserFields(UserInfoConfig config)
