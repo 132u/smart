@@ -2,6 +2,7 @@
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.PageObjects;
 
+using AbbyyLS.SmartCAT.Selenium.Tests.DataStructures;
 using AbbyyLS.SmartCAT.Selenium.Tests.TestFramework;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
@@ -47,6 +48,17 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 		}
 
 		/// <summary>
+		/// Нажать кнопку "Далее"
+		/// </summary>
+		public NewProjectSetUpTMDialog ClickNextButton()
+		{
+			Logger.Debug("Нажать кнопку 'Далее'.");
+			NextButton.Click();
+
+			return new NewProjectSetUpTMDialog().GetPage();
+		}
+
+		/// <summary>
 		/// Нажать кнопку 'Назад'
 		/// </summary>
 		public NewProjectGeneralInformationDialog ClickBack()
@@ -57,6 +69,17 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 			return new NewProjectGeneralInformationDialog().GetPage();
 		}
 
+		/// <summary>
+		/// Нажать кнопку 'Новая задача'
+		/// </summary>
+		public NewProjectSetUpWorkflowDialog ClickNewTaskButton()
+		{
+			Logger.Debug("Нажать кнопку 'Новая задача'");
+			NewTaskButton.Click();
+
+			return GetPage();
+		}
+
 		[FindsBy(How = How.XPath, Using = BACK_BUTTON)]
 		protected IWebElement BackButton { get; set; }
 
@@ -64,8 +87,12 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 		[FindsBy(How = How.XPath, Using = WF_TABLE_FIRST_TASK)]
 		protected IWebElement WFTableFirstTask { get; set; }
 
+		[FindsBy(How = How.XPath, Using = NEW_TASK_BUTTON)]
+		protected IWebElement NewTaskButton { get; set; }
+
 		protected const string WF_TABLE_FIRST_TASK = "//div[contains(@class,'js-popup-create-project')][2]//table[contains(@class,'js-workflow-table')]//tr[1]/td[2]//span//span";
 		protected const string BACK_BUTTON = "//div[contains(@class,'js-popup-create-project')][2]//span[contains(@class,'js-back')]";
+		protected const string NEW_TASK_BUTTON = "//div[contains(@class,'js-popup-create-project')][2]//span[contains(@class,'js-new-stage')]";
 
 	}
 }

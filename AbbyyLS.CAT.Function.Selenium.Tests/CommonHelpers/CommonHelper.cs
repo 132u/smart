@@ -447,7 +447,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		}
 
 		/// <summary>
-		/// Вернуть список эелементов
+		/// Вернуть список элементов
 		/// </summary>
 		/// <param name="by">by</param>
 		/// <returns>список</returns>

@@ -1,4 +1,7 @@
-﻿using NUnit.Framework;
+﻿using System.Collections.Generic;
+using System.Linq;
+
+using NUnit.Framework;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.PageObjects;
 
@@ -19,7 +22,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.UsersRights
 
 		public new void LoadPage()
 		{
-			if (!Driver.ElementIsDisplayed(By.XPath(GROUPS_RIGHTS_BTN_XPATH)))
+			if (!Driver.WaitUntilElementIsDisplay(By.XPath(GROUPS_RIGHTS_BTN_XPATH)))
 			{
 				Assert.Fail("Произошла ошибка:\n не удалось перейти на вкладку 'Пользователи и права'.");
 			}
@@ -227,6 +230,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.UsersRights
 
 			return Driver.ElementIsDisplayed(By.XPath(MANAGE_PROJECTS_RIGHT_TEXT_XPATH.Replace("*#*", groupName)));
 		}
+
 		/// <summary>
 		/// Проверить, удалось ли добавить группе право на управление проектами
 		/// </summary>
@@ -368,6 +372,43 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.UsersRights
 			return GetPage();
 		}
 
+		/// <summary>
+		/// Получить список пользователей
+		/// </summary>
+		public List<string> GetUserNameList()
+		{
+			Logger.Trace("Получить список пользователей");
+
+			var nameList = Driver.GetTextListElement(By.XPath(USER_NAME_LIST));
+			var surnameList = Driver.GetTextListElement(By.XPath(USER_SURNAME_LIST));
+
+			Assert.IsTrue(nameList.Count == surnameList.Count,
+				"Произошла ошибка:\n размеры списка фамилий и списка имён не совпадают.");
+
+			return nameList.Select((t, i) => (t + " " + surnameList[i]).Trim()).ToList();
+		}
+
+		/// <summary>
+		/// Получить список имен групп пользователей
+		/// </summary>
+		public List<string> GetGroupNameList()
+		{
+			Logger.Trace("Получить список имен групп пользователей");
+			return Driver.GetTextListElement(By.XPath(GROUP_NAME_LIST));
+		}
+
+		/// <summary>
+		/// Проверить, что пользователь есть в списке
+		/// </summary>
+		/// <param name="username">имя пользователя</param>
+		public UsersRightsPage AssertIsUserExist(string username)
+		{
+			Assert.IsTrue(GetUserNameList().Contains(username),
+				string.Format("Произошла ошибка:\n пользователь '{0}' не найден в списке.", username));
+
+			return GetPage();
+		}
+		
 		[FindsBy(How = How.XPath, Using = GROUPS_RIGHTS_BTN_XPATH)]
 		protected IWebElement GroupsButton { get; set; }
 
@@ -430,5 +471,10 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.UsersRights
 		protected const string MANAGE_PROJECTS_RIGHT_TEXT_XPATH = "//tr[contains(string(),'*#*')]//following-sibling::tr[contains(@data-bind, 'if: isExpanded')]//li[contains(string(), 'Manage all projects')]";
 		protected const string CREATE_PROJECTS_RIGHT_TEXT_XPATH = "//tr[contains(string(),'*#*')]//following-sibling::tr[contains(@data-bind, 'if: isExpanded')]//li[contains(string(), 'Create any projects')]";
 		protected const string SAVE_BTN_XPATH = "//tr[contains(string(),'*#*')]//following-sibling::tr[contains(@data-bind, 'if: isExpanded')]//span[contains(@data-bind,'click: save')]//a";
+
+		protected const string USER_SURNAME_LIST = ".//table[contains(@class, 'js-users')]//tr[contains(@class, 'js-users-trwork')]//td[contains(@class, 'js-user-surname')]/p";
+		protected const string USER_NAME_LIST = ".//table[contains(@class, 'js-users')]//tr[contains(@class, 'js-users-trwork')]//td[contains(@class, 'js-user-name')]/p";
+
+		protected const string GROUP_NAME_LIST = "//tbody[@data-bind='foreach: filteredGroups']//tr[contains(@class, 'clickable')]//td[@data-bind='text: name']";
 	}
 }

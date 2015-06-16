@@ -1,4 +1,6 @@
-﻿using System.Threading;
+﻿using System;
+using System.Collections.Generic;
+using System.Threading;
 
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.UsersRights;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace;
@@ -15,10 +17,14 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 		public UsersRightsHelper CheckOrCreateGroup(string groupName)
 		{
 			BaseObject.InitPage(_usersRightsPage);
-			_usersRightsPage.ClickUsersRightsButton().ClickGroupsButton();
+			_usersRightsPage
+				.ClickUsersRightsButton()
+				.ClickGroupsButton();
+
 			if (!_usersRightsPage.IsGroupExists(groupName))
 			{
-				_usersRightsPage.ClickCreateGroupButton()
+				_usersRightsPage
+					.ClickCreateGroupButton()
 					.AssertAddNewGroupForm()
 					.SetNewGroupName(groupName)
 					.ClickSaveNewGroupButton()
@@ -111,6 +117,41 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 				.ClickProjectsButton();
 
 			return this;
+		}
+
+		public List<string> GetUserNameList()
+		{
+			BaseObject.InitPage(_usersRightsPage);
+			return _usersRightsPage.GetUserNameList();
+		}
+
+		public List<string> GetGroupNameList()
+		{
+			BaseObject.InitPage(_usersRightsPage);
+			return _usersRightsPage.GetGroupNameList();
+		}
+		
+		public UsersRightsHelper ClickGroupsButton()
+		{
+			BaseObject.InitPage(_usersRightsPage);
+			_usersRightsPage.ClickGroupsButton();
+
+			return this;
+		}
+
+		public UsersRightsHelper AssertIsUserExist(string username)
+		{
+			BaseObject.InitPage(_usersRightsPage);
+			_usersRightsPage.AssertIsUserExist(username);
+
+			return this;
+		}
+
+		public string GetGroupUniqueName()
+		{
+			// Sleep необходим, чтобы имена были уникальными, когда создаём несколько имён подряд. Чтобы не вышло, что кол-во тиков одинаковое.
+			Thread.Sleep(10);
+			return "GroupTest" + DateTime.Now.Ticks.ToString();
 		}
 
 		private readonly UsersRightsPage _usersRightsPage = new UsersRightsPage();

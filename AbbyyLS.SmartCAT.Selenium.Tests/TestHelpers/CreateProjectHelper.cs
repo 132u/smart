@@ -32,7 +32,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 			{
 				_newProjectGeneralInformationDialog
 					.UploadFile(filePath)
-					.AssertIfFileUploaded(Path.GetFileNameWithoutExtension(filePath));
+					.AssertFileUploaded(Path.GetFileNameWithoutExtension(filePath));
 			}
 
 			_newProjectGeneralInformationDialog
@@ -220,7 +220,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 			BaseObject.InitPage(_newProjectGeneralInformationDialog);
 			_newProjectGeneralInformationDialog
 				.UploadFile(filePath)
-				.AssertIfFileUploaded(Path.GetFileName(filePath));
+				.AssertFileUploaded(Path.GetFileName(filePath));
 
 			return this;
 		}
@@ -280,6 +280,14 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 			_newProjectSetUpWorkflowDialog.WaitCreateProjectDialogDissapear();
 
 			return new ProjectsHelper();
+		}
+
+		public CreateProjectHelper ClickNewTaskButton()
+		{
+			BaseObject.InitPage(_newProjectSetUpWorkflowDialog);
+			_newProjectSetUpWorkflowDialog.ClickNewTaskButton();
+			
+			return this;
 		}
 
 		private readonly ProjectsPage _projectsPage = new ProjectsPage();

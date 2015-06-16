@@ -21,20 +21,19 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 			{
  				case TaskMode.Translation:
 					_selectTask
-						.ClickTranslateButton()
-						.ClickContinueButton();
+						.ClickTranslateButton();
 					break;
 
 				case TaskMode.Manager:
 					_selectTask
-						.ClickManagerButton()
-						.ClickContinueButton();
+						.ClickManagerButton();
 					break;
 
 				default:
 					throw new Exception(string.Format("Передан аргумент, который не предусмотрен! Значение аргумента:'{0}'", mode.ToString()));
 			}
 
+			_selectTask.ClickContinueButton();
 
 			return this;
 		}
@@ -102,13 +101,12 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 		/// <summary>
 		/// Вернуться на страницу проекта
 		/// </summary>
-		public ProjectSettingsHelper GoBack()
+		public ProjectSettingsHelper ClickHomeButton()
 		{
 			BaseObject.InitPage(_editorPage);
 			_editorPage.ClickHomeButton();
-			var projectSettingsHelper = new ProjectSettingsHelper();
 
-			return projectSettingsHelper;
+			return new ProjectSettingsHelper();
 		}
 
 		/// <summary>
@@ -141,6 +139,32 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 			Assert.AreEqual(_editorPage.GetRowNumberActiveSegment(), rowNumber,
 				"Произошла ошибка:\n номер активного сегмента {0} отличен от предпологаемого {1}.",
 				_editorPage.GetRowNumberActiveSegment(), rowNumber);
+
+			return this;
+		}
+
+		public EditorHelper CheckStage(string stage)
+		{
+			BaseObject.InitPage(_editorPage);
+
+			Assert.AreEqual(stage, _editorPage.GetStage(),
+				"Произошла ошибка:\n В шапке редактора отсутствует нужная задача.");
+
+			return this;
+		}
+
+		public EditorHelper AssertStageNameIsEmpty()
+		{
+			BaseObject.InitPage(_editorPage);
+			_editorPage.AssertStageNameIsEmpty();
+
+			return this;
+		}
+
+		public EditorHelper CloseTutorialIfExist()
+		{
+			BaseObject.InitPage(_editorPage);
+			_editorPage.CloseTutorialIfExist();
 
 			return this;
 		}

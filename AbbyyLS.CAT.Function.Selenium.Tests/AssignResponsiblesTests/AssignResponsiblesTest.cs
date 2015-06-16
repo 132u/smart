@@ -128,7 +128,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			// Открываем проект
 			OpenProjectPage(_projectNoChangesName);
 
-			// Открываем окно прав исполнителей
+			// Открываем свёртку документа
 			ProjectPage.ClickDocumentProgress();
 
 			Assert.IsTrue(ProjectPage.GetIsPanelDisplay(), "Ошибка: панель с кнопками (Assign Tasks, Delete, Download, Settings) не появилась");
@@ -315,7 +315,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			Assert.IsTrue(UserRightsPage.WaitUntilGroupsRightsDisplay(), "Ошибка: Страница прав групп пользователей не открылась.");
 
 			// Добавляем новую группу
-			CreateNewGroup(groupName);
+			createNewGroup(groupName);
 
 			// Перейти на страницу проектов
 			SwitchWorkspaceTab();
@@ -630,7 +630,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// Создает новую группу с заданным именем
 		/// </summary>
 		/// <param name="groupName">Имя группы</param>
-		private void CreateNewGroup(string groupName)
+		private void createNewGroup(string groupName)
 		{
 			// Добавляем новую группу
 			UserRightsPage.ClickCreateGroup();

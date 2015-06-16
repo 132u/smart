@@ -37,9 +37,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 			HomeButton.Click();
 			Driver.SwitchTo().Window(Driver.WindowHandles[1]).Close();
 			Driver.SwitchTo().Window(Driver.WindowHandles[0]);
-			var projectSettingsPage = new ProjectSettingsPage();
 
-			return projectSettingsPage.GetPage();
+			return new ProjectSettingsPage().GetPage();
 		}
 
 		/// <summary>
@@ -173,9 +172,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		{
 			Logger.Debug("Обновить страницу.");
 			Driver.Navigate().Refresh();
-			var taskDialog = new SelectTaskDialog();
 
-			return taskDialog.GetPage();
+			return new SelectTaskDialog().GetPage();
 		}
 
 		/// <summary>
@@ -227,15 +225,67 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 			return Driver.WaitUntilElementIsDisplay(By.XPath(CAT_PANEL_EXISTENCE_XPATH), 180);
 		}
 
-		[FindsBy(Using = CONFIRM_BTN_ID)]
+		/// <summary>
+		/// Получить название этапа
+		/// </summary>
+		public string GetStage()
+		{
+			Logger.Trace("Получить название этапа");
+
+			return StageName.Text;
+		}
+
+		/// <summary>
+		/// Проверить, что название этапа пустое.
+		/// </summary>
+		public EditorPage AssertStageNameIsEmpty()
+		{
+			Logger.Trace("Проверить, что название этапа пустое.");
+
+			Assert.IsFalse(Driver.ElementIsDisplayed(By.XPath(STAGE_NAME)),
+				"Произошла ошибка:\n название этапа проставлено.");
+
+			return GetPage();
+		}
+
+		/// <summary>
+		/// Закрыть подсказку, если она существует
+		/// </summary>
+		public EditorPage CloseTutorialIfExist()
+		{
+			if (tutorialExist())
+			{
+				Logger.Debug("Закрыть подсказку.");
+				FinishTutorialButton.Click();
+			}
+
+			return GetPage();
+		}
+
+		/// <summary>
+		/// Проверить наличие подсказки
+		/// </summary>
+		private bool tutorialExist()
+		{
+			Logger.Trace("Проверить наличие подсказки");
+			return Driver.WaitUntilElementIsDisplay(By.XPath(FINISH_TUTORIAL_BUTTON), timeout: 5);
+		}
+
+		[FindsBy(How = How.XPath, Using = CONFIRM_BTN_ID)]
 		protected IWebElement ConfirmButton { get; set; }
 
-		[FindsBy(Using = UNFINISHED_BTN_ID)]
+		[FindsBy(How = How.XPath, Using = UNFINISHED_BTN_ID)]
 		protected IWebElement UnfinishedButton { get; set; }
 
-		[FindsBy(Using = HOME_BTN_ID)]
+		[FindsBy(How = How.Id, Using = HOME_BTN_ID)]
 		protected IWebElement HomeButton { get; set; }
-		
+
+		[FindsBy(How = How.XPath, Using = STAGE_NAME)]
+		protected IWebElement StageName { get; set; }
+
+		[FindsBy(Using = FINISH_TUTORIAL_BUTTON, How = How.XPath)]
+		protected IWebElement FinishTutorialButton { get; set; }
+
 		protected IWebElement TargetCell { get; set; }
 
 		protected IWebElement FirstVisibleSegment { get; set; }
@@ -261,5 +311,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		protected const string LAST_VISIBLE_SEGMENT_XPATH = "//div[@id='segments-body']//table[*#*]//td[1]//div[contains(@class, 'row-numberer')]";
 		protected const string TARGET_CELL_XPATH = "//div[@id='segments-body']//table[@data-recordindex = '*#*']//td[3]//div//pre";
 		protected const string SEGMENTS_TABLE_XPATH = "//div[@id='segments-body']//div//div[2]//table";
+		protected const string STAGE_NAME = ".//h1/span[contains(@class, 'workflow')]";
+		protected const string FINISH_TUTORIAL_BUTTON = "//span[contains(text(),'Finish') and contains(@id, 'button')]";
 	}
 }

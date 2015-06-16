@@ -18,7 +18,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings
 
 		public new void LoadPage()
 		{
-			if (!Driver.WaitUntilElementIsDisplay(By.XPath(TABLE_USERNAME_XPATH)))
+			if (!Driver.WaitUntilElementIsDisplay(By.XPath(TABLE_USERNAME)))
 			{
 				Assert.Fail("Произошла ошибка:\n не появился диалог назначения задачи на пользователя.");
 			}
@@ -37,7 +37,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings
 		/// <summary>
 		/// Кликнуть на кнопку "Назначить"
 		/// </summary>
-		public new TaskAssignmentDialog ClickAssignButton()
+		public TaskAssignmentDialog ClickAssignButton()
 		{
 			Logger.Debug("Нажать на кнопку 'Назначить'.");
 			AssignButton.Click();
@@ -62,7 +62,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings
 		/// </summary>
 		public TaskAssignmentDialog AssertIsUserAssigned()
 		{
-			Assert.IsTrue(Driver.WaitUntilElementIsDisplay(By.XPath(CLOSE_BTN_XPATH)),
+			Assert.IsTrue(Driver.WaitUntilElementIsDisplay(By.XPath(CLOSE_BTN)),
 				"Произошла ошибка:\n не удалось назначить исполнителя на задачу.");
 
 			return GetPage();
@@ -80,27 +80,28 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings
 			return projectSettingsPage.GetPage();
 		}
 
-		[FindsBy(How = How.XPath, Using = ASSIGN_SPAN_XPATH)]
+		[FindsBy(How = How.XPath, Using = ASSIGN_SPAN)]
 		protected IWebElement AssignSpan { get; set; }
 
-		[FindsBy(How = How.XPath, Using = ASSIGN_BTN_XPATH)]
+		[FindsBy(How = How.XPath, Using = ASSIGN_BTN)]
 		protected IWebElement AssignButton { get; set; }
 
-		[FindsBy(How = How.XPath, Using = TABLE_USERNAME_XPATH)]
+		[FindsBy(How = How.XPath, Using = TABLE_USERNAME)]
 		protected IWebElement TableUsername { get; set; }
 
-		[FindsBy(How = How.XPath, Using = CLOSE_BTN_XPATH)]
+		[FindsBy(How = How.XPath, Using = CLOSE_BTN)]
 		protected IWebElement CloseButton { get; set; }
 
-		[FindsBy(How = How.XPath, Using = USERLIST_SELECT_XPATH)]
+		[FindsBy(How = How.XPath, Using = USERLIST_SELECT)]
 		protected IWebElement UserList { get; set; }
 
-		protected const string ASSIGN_SPAN_XPATH = ASSIGN_DIALOG_XPATH + "//td//span[contains(@class,'js-assign')]";
-		protected const string USERLIST_SELECT_XPATH = TABLE_USERNAME_XPATH + "//select[contains(@data-bind , 'value: assignment')]";
-		protected const string TABLE_USERNAME_XPATH = ASSIGN_DIALOG_XPATH + "//table[contains(@class,'js-progress-table')]//tbody[contains(@data-bind, 'foreach: workflowStages')]";
-		protected const string ASSIGN_BTN_XPATH = ASSIGN_SPAN_XPATH + "//a";
-		protected const string USER_ITEM_LIST_XPATH = "//span[contains(@class,'js-dropdown__item') and contains(@title,'*#*')]";
-		protected const string CANCEL_BTN_XPATH = "//span[contains(@class,'js-assigned-cancel')]";
-		protected const string CLOSE_BTN_XPATH = ASSIGN_DIALOG_XPATH + "//span[contains(@class,'js-popup-close')]/span[1]";
+		protected const string ASSIGN_SPAN = "//div[contains(@class,'js-popup-assign')][2]//td//span[contains(@class,'js-assign')]";
+		protected const string TABLE_USERNAME = "//div[contains(@class,'js-popup-assign')][2]//table[contains(@class,'js-progress-table')]//tbody[contains(@data-bind, 'foreach: workflowStages')]";
+		protected const string CLOSE_BTN = "//div[contains(@class,'js-popup-assign')][2]//span[contains(@class,'js-popup-close')]/span[1]";
+		protected const string ASSIGN_BTN = "//div[contains(@class,'js-popup-assign')][2]//td//span[contains(@class,'js-assign')]//a";
+		protected const string USERLIST_SELECT = "//div[contains(@class,'js-popup-assign')][2]//table[contains(@class,'js-progress-table')]//tbody[contains(@data-bind, 'foreach: workflowStages')]//select[contains(@data-bind , 'value: assignment')]";
+		
+		protected const string USER_ITEM_LIST = "//span[contains(@class,'js-dropdown__item') and contains(@title,'*#*')]";
+		protected const string CANCEL_BTN = "//span[contains(@class,'js-assigned-cancel')]";
 	}
 }

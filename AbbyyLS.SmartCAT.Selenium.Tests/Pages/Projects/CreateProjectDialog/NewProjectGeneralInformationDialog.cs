@@ -57,10 +57,10 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 		}
 
 		/// <summary>
-		/// Проверить, загрузился ли файл
+		/// Проверить, что файл загрузился
 		/// </summary>
 		/// <param name="fileName">имя файла (с расширением)</param>
-		public NewProjectGeneralInformationDialog AssertIfFileUploaded(string fileName)
+		public NewProjectGeneralInformationDialog AssertFileUploaded(string fileName)
 		{
 			Assert.IsTrue(Driver.WaitUntilElementIsDisplay(By.XPath(UPLOADED_FILE_XPATH.Replace("*#*", fileName))),
 				"Произошла ошибка:\n не удалось загрузить файл {0}.", fileName);
@@ -368,7 +368,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 		/// </summary>
 		private void assertIsCalendarDisplayed()
 		{
-			Assert.IsTrue(Driver.ElementIsDisplayed(By.XPath(DEADLINE_DATE_CURRENT_XPATH)),
+			Assert.IsTrue(Driver.WaitUntilElementIsDisplay(By.XPath(DEADLINE_DATE_CURRENT_XPATH)),
 				"Произошла ошибка:\n не отображается календарь, нельзя выбрать дату дедлайна.");
 		}
 

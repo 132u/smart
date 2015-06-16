@@ -10,14 +10,15 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 		/// <summary>
 		/// Назначить ответственного на документ
 		/// </summary>
-		/// <param name="documentName">имя документа</param>
+		/// <param name="filePath">путь до документа</param>
 		/// <param name="userName">имя назначаемого пользователя</param>
-		public ProjectSettingsHelper AssignResponsible(string documentName, string userName)
+		public ProjectSettingsHelper AssignResponsible(string filePath, string userName)
 		{
 			BaseObject.InitPage(_projectPage);
-			_projectPage.UncheckAllChecboxesDocumentsTable()
-				.ClickProjectsTableCheckbox(documentName)
-				.ClickAssignButton()
+			_projectPage
+				.UncheckAllChecboxesDocumentsTable()
+				.ClickProjectsTableCheckbox(Path.GetFileNameWithoutExtension(filePath))
+				.ClickAssignButtonOnPanel()
 				.SelectAssignee(userName)
 				.ClickAssignButton()
 				.AssertIsUserAssigned()
@@ -26,18 +27,42 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 			return this;
 		}
 
+		public ProjectSettingsHelper ClickDocumentProgress(string filePath)
+		{
+			BaseObject.InitPage(_projectPage);
+			_projectPage.ClickDocumentProgress(Path.GetFileNameWithoutExtension(filePath));
+
+			return this;
+		}
+
+		public ResponsiblesDialogHelper ClickAssignButtonInDocumentInfo()
+		{
+			BaseObject.InitPage(_projectPage);
+			_projectPage.ClickAssignButtonInDocumentInfo();
+
+			return new ResponsiblesDialogHelper();
+		}
+
+		public ProjectSettingsHelper SelectDocument(string filePath)
+		{
+			BaseObject.InitPage(_projectPage);
+			_projectPage.ClickProjectsTableCheckbox(Path.GetFileNameWithoutExtension(filePath));
+
+			return this;
+		}
+
 		/// <summary>
 		/// Открыть документ в редакторе
 		/// </summary>
-		/// <param name="documentName">имя документа</param>
-		public EditorHelper OpenDocument(string documentName)
+		/// <param name="filePath">путь до документа</param>
+		public EditorHelper OpenDocument<T>(string filePath) where T : class , IAbstractPage<T>, new()
 		{
 			BaseObject.InitPage(_projectPage);
-			_projectPage.AssertIsDocumentProcessed()
-				.ClickDocumentRef(documentName);
-			var editorHelper = new EditorHelper();
+			_projectPage
+				.AssertIsDocumentProcessed()
+				.ClickDocument<T>(Path.GetFileNameWithoutExtension(filePath));
 
-			return editorHelper;
+			return new EditorHelper();
 		}
 
 		/// <summary>
@@ -63,13 +88,21 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 		{
 			BaseObject.InitPage(_projectPage);
 			_projectPage
-				.ClickAddFilesButton()
-				.UploadFile(filePath)
-				.AssertIfFileUploaded(Path.GetFileName(PathProvider.DocumentFile))
-				.ClickFinishButton()
+				.ClickDocumentUploadButton()
+				.UploadDocument(filePath)
+				.AssertFileUploaded(Path.GetFileName(filePath))
+				.ClickFinish<ProjectSettingsPage>()
 				.WaitUntilUploadDocumentDialogDissapeared();
 
 			return this;
+		}
+
+		public UploadDocumentHelper ClickDocumentUploadButton()
+		{
+			BaseObject.InitPage(_projectPage);
+			_projectPage.ClickDocumentUploadButton();
+
+			return new UploadDocumentHelper();
 		}
 
 		/// <summary>
@@ -90,11 +123,11 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 		public LoginHelper LogOff()
 		{
 			BaseObject.InitPage(_projectPage);
-			_projectPage.ClickAccount()
+			_projectPage
+				.ClickAccount()
 				.ClickLogOff();
-			var loginHelper = new LoginHelper();
 
-			return loginHelper;
+			return new LoginHelper();;
 		}
 
 		/// <summary>
@@ -114,6 +147,49 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 			return this;
 		}
 
+		public ProjectSettingsHelper OpenWorkflowSettings()
+		{
+			BaseObject.InitPage(_projectPage);
+			_projectPage
+				.ClickSettingsButton()
+				.ClickWorkflowTab();
+
+			return this;
+		}
+
+		public ProjectSettingsHelper ClickDeleteTaskButton(int taskNumber = 1)
+		{
+			BaseObject.InitPage(_settingsDialog);
+			_settingsDialog.ClickDeleteTaskButton(taskNumber);
+
+			return this;
+		}
+
+		public ProjectSettingsHelper AssertConfirmDeleteDialogDisplay()
+		{
+			BaseObject.InitPage(_settingsDialog);
+			_settingsDialog.AssertConfirmDeleteDialogDislpay();
+
+			return this;
+		}
+
+		public ProjectSettingsHelper AcceptAllTasks(string filePath)
+		{
+			BaseObject.InitPage(_projectPage);
+			_projectPage.AcceptAllTasksForDocument(Path.GetFileNameWithoutExtension(filePath));
+
+			return this;
+		}
+
+		public ProjectSettingsHelper RefreshPage()
+		{
+			BaseObject.InitPage(_projectPage);
+			_projectPage.RefreshPage();
+
+			return this;
+		}
+
 		private readonly ProjectSettingsPage _projectPage = new ProjectSettingsPage();
+		private readonly SettingsDialog _settingsDialog = new SettingsDialog();
 	}
 }

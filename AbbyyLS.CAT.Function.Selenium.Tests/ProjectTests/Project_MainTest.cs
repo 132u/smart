@@ -49,7 +49,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 
 			// Проверить, изменился ли статус на not Assigned
 			Assert.IsTrue(ProjectPage.GetAssignName() != NickName,
-				"Имя в дропдауне назначения пользователя не изменился");
+				"Имя в дропдауне назначения пользователя не изменилось");
 
 			// Назначить ответственного в окне Progress
 			ProjectPage.ClickUserNameCell();

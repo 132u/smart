@@ -70,6 +70,7 @@
     <Compile Include="DataStructures\LicenseOperation.cs" />
     <Compile Include="DataStructures\Deadline.cs" />
     <Compile Include="DataStructures\TaskMode.cs" />
+    <Compile Include="DataStructures\WorkflowTask.cs" />
     <Compile Include="Drivers\ChromeDriverProvider.cs" />
     <Compile Include="Drivers\FirefoxWebDriverProvider.cs" />
     <Compile Include="Drivers\WebDriver.cs" />
@@ -106,6 +107,11 @@
     <Compile Include="Pages\Login\SelectAccountForm.cs" />
     <Compile Include="Pages\Login\SignInPage.cs" />
     <Compile Include="Pages\Projects\CreateProjectDialog\NewProjectCreateBaseDialog.cs" />
+    <Compile Include="Pages\Projects\DocumentUploadDialog\DocumentUploadAssignResponsiblesDialog.cs" />
+    <Compile Include="Pages\Projects\DocumentUploadDialog\DocumentUploadBaseDialog.cs" />
+    <Compile Include="Pages\Projects\DocumentUploadDialog\DocumentUploadSetUpTMDialog.cs" />
+    <Compile Include="Pages\Projects\ProjectSettings\SettingsDialog.cs" />
+    <Compile Include="Pages\Projects\ResponsiblesDialog.cs" />
     <Compile Include="Pages\TranslationMemories\NewTranslationMemoryDialog.cs" />
     <Compile Include="Pages\TranslationMemories\TranslationMemoriesPage.cs" />
     <Compile Include="Pages\Projects\CreateProjectDialog\NewProjectCreateTMDialog.cs" />
@@ -117,7 +123,7 @@
     <Compile Include="Pages\Projects\DeleteOpenProjectWithFileDialog.cs" />
     <Compile Include="Pages\Projects\DeleteProjectDialog.cs" />
     <Compile Include="Pages\Projects\ProjectSettings\DeleteDocumentDialog.cs" />
-    <Compile Include="Pages\Projects\ProjectSettings\ImportDialog.cs" />
+    <Compile Include="Pages\Projects\DocumentUploadDialog\DocumentUploadGeneralInformationDialog.cs" />
     <Compile Include="Pages\Projects\ProjectSettings\ProjectSettingsPage.cs" />
     <Compile Include="Pages\Projects\ProjectSettings\TaskAssignmentDialog.cs" />
     <Compile Include="Pages\Projects\ProjectsPage.cs" />
@@ -146,10 +152,13 @@
     <Compile Include="TestHelpers\LoginHelper.cs" />
     <Compile Include="TestHelpers\ProjectSettingsHelper.cs" />
     <Compile Include="TestHelpers\ProjectsHelper.cs" />
+    <Compile Include="TestHelpers\ResponsiblesDialogHelper.cs" />
     <Compile Include="TestHelpers\TranslationMemoriesHelper.cs" />
+    <Compile Include="TestHelpers\UploadDocumentHelper.cs" />
     <Compile Include="TestHelpers\UsersRightsHelper.cs" />
     <Compile Include="TestHelpers\WorkspaceHelper.cs" />
     <Compile Include="TestSettingDefinition.cs" />
+    <Compile Include="Tests\AssignResponsiblesTest.cs" />
     <Compile Include="Tests\AutofillProjectNameTests.cs" />
     <Compile Include="Tests\BasicProjectTests.cs" />
     <Compile Include="Tests\BaseTest.cs" />
@@ -185,6 +194,7 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
 	   Other similar extension points exist, see Microsoft.Common.targets.
