@@ -27,29 +27,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.ProjectGroups
 				.AssertProjectGroupExist(projectGroup);
 		}
 
-		[Category("artefacts")]
-		[Test]
-		public void CreateProjectGroupFailedTest()
-		{
-			var projectGroup = ProjectGroupsHelper.GetProjectGroupUniqueName();
-
-			_projectGroupHelper
-				.AssertSaveButtonDisappear()
-				.AssertProjectGroupExist(projectGroup);
-		}
-
-		[Category("artefacts")]
-		[Test]
-		public void CreateProjectGroupCorrectTest()
-		{
-			var projectGroup = ProjectGroupsHelper.GetProjectGroupUniqueName();
-
-			_projectGroupHelper
-				.CreateProjectGroup(projectGroup)
-				.AssertSaveButtonDisappear()
-				.AssertProjectGroupExist(projectGroup);
-		}
-
 		[Test]
 		public void CreateProjectGroupExistingNameTest()
 		{
