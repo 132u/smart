@@ -6,8 +6,8 @@ using System.Diagnostics;
 using System.Windows.Forms;
 
 using NConfiguration;
-
-using NUnit.Framework;
+﻿using NLog.Fluent;
+﻿using NUnit.Framework;
 
 using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
 using AbbyyLS.SmartCAT.Selenium.Tests.TestFramework;
@@ -62,8 +62,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests
 
 		protected string RightsTestSurname { get; private set; }
 
-		protected bool RecreateDriverAfterTest { get; set; }
-
 		protected bool AdminLoginPage { get; set; }
 
 		protected List<TestUser> TestUserList { get; private set; }
@@ -91,8 +89,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests
 		{
 			try
 			{
-				RecreateDriverAfterTest = true;
-
 				initializeRelatedToUserFields();
 				initializeRelatedToServerFields();
 				initializeUsersAndCompanyList();
@@ -112,27 +108,15 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests
 				TestBeginTime = DateTime.Now;
 				Logger.Info("Начало работы теста {0} \nВремя начала: {1}", TestContext.CurrentContext.Test.Name, TestBeginTime);
 
-				if (Driver == null || RecreateDriverAfterTest)
-				{
-					Driver = new WebDriver(new TWebDriverProvider(), PathProvider.DriversTemporaryFolder);
+				Driver = new WebDriver(new TWebDriverProvider(), PathProvider.DriversTemporaryFolder);
 
-					initializeHelpers();
-					authorize();
-				}
+				initializeHelpers();
+				authorize();
 			}
 			catch (Exception ex)
 			{
 				Logger.ErrorException("Произошла ошибка в SetUp", ex); 
 				throw;
-			}
-		}
-
-		[TestFixtureTearDown]
-		public virtual void AfterClass()
-		{
-			if (Driver != null)
-			{
-				Driver.Dispose();
 			}
 		}
 
@@ -147,23 +131,17 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests
 					Driver.TakeScreenshot(Path.Combine(PathTestResults, "FailedTests"));
 				}
 			}
-			catch (Exception)
+			catch (Exception ex)
 			{
-				if (Driver != null)
-				{
-					Driver.Dispose();
-				}
-			}
-
-			if (RecreateDriverAfterTest)
-			{
-				if (Driver != null)
-				{
-					Driver.Dispose();
-				}
+				Logger.WarnException("Ошибка при снятии скриншота", ex);
 			}
 
 			logTestSummary();
+
+			if (Driver != null)
+			{
+				Driver.Dispose();
+			}
 		}
 
 		protected void LogInSmartCat(
