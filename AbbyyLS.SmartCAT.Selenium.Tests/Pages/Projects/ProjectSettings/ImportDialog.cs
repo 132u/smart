@@ -30,7 +30,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings
 		/// <param name="pathFile">путь к файлу</param>
 		public ImportDialog UploadFile(string pathFile)
 		{
-			Driver.Scripts().ExecuteScript("arguments[0].style[\"display\"] = \"block\";" +
+			Driver.ExecuteScript("arguments[0].style[\"display\"] = \"block\";" +
 				"arguments[0].style[\"visibility\"] = \"visible\";",
 				UploadFileInput);
 			UploadFileInput.SendKeys(pathFile);

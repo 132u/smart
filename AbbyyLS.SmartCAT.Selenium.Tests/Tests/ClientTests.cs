@@ -1,18 +1,17 @@
-﻿using AbbyyLS.SmartCAT.Selenium.Tests.DriversAndSettings;
+﻿using NUnit.Framework;
+using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
 using AbbyyLS.SmartCAT.Selenium.Tests.TestFramework;
 using AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers;
-using NUnit.Framework;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Clients
 {
 	[TestFixture]
 	[PriorityMajor]
-	class ClientTests<TWebDriverSettings> : BaseTest<TWebDriverSettings> where TWebDriverSettings : IWebDriverSettings, new()
+	class ClientTests<TWebDriverProvider> : BaseTest<TWebDriverProvider> where TWebDriverProvider : IWebDriverProvider, new()
 	{
 		[SetUp]
 		public void SetUpClientTest()
 		{
-			QuitDriverAfterTest = true;
 			_clientsHelper = WorkspaceHelper.GoToClientsPage();
 		}
 

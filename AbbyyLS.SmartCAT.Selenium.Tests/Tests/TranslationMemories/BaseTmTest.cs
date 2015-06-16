@@ -1,10 +1,10 @@
 ﻿using NUnit.Framework;
-using AbbyyLS.SmartCAT.Selenium.Tests.DriversAndSettings;
+using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
 using AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.TranslationMemories
 {
-	class BaseTmTest<TWebDriverSettings> : BaseTest<TWebDriverSettings> where TWebDriverSettings : IWebDriverSettings, new()
+	class BaseTmTest<TWebDriverProvider> : BaseTest<TWebDriverProvider> where TWebDriverProvider : IWebDriverProvider, new()
 	{
 		[SetUp]
 		public void SetUpTmTests()

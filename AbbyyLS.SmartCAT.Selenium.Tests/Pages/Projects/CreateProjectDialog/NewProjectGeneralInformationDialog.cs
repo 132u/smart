@@ -48,7 +48,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 		{
 			Logger.Debug("Загрузить файл: {0}.", pathFile);
 			UploadFileInput = Driver.SetDynamicValue(How.XPath, UPLOAD_FILE_INPUT, "");
-			Driver.Scripts().ExecuteScript("arguments[0].style[\"display\"] = \"block\";" +
+			Driver.ExecuteScript("arguments[0].style[\"display\"] = \"block\";" +
 				"arguments[0].style[\"visibility\"] = \"visible\";",
 				UploadFileInput);
 			UploadFileInput.SendKeys(pathFile);

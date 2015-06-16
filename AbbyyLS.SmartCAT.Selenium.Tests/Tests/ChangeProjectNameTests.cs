@@ -1,6 +1,6 @@
 ﻿using NUnit.Framework;
 
-using AbbyyLS.SmartCAT.Selenium.Tests.DriversAndSettings;
+using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
 using AbbyyLS.SmartCAT.Selenium.Tests.TestFramework;
 using AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers;
 
@@ -9,12 +9,11 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 	[TestFixture]
 	[PriorityMajor]
 	[Standalone]
-	class ChangeProjectNameTests<TWebDriverSettings> : BaseTest<TWebDriverSettings> where TWebDriverSettings : IWebDriverSettings, new()
+	class ChangeProjectNameTests<TWebDriverProvider> : BaseTest<TWebDriverProvider> where TWebDriverProvider : IWebDriverProvider, new()
 	{
 		[SetUp]
 		public void SetUpBaseProjectTest()
 		{
-			QuitDriverAfterTest = true;
 			_createProjectHelper = new CreateProjectHelper();
 		}
 

@@ -1,10 +1,10 @@
 ﻿using AbbyyLS.SmartCAT.Selenium.Tests.DataStructures;
-using AbbyyLS.SmartCAT.Selenium.Tests.DriversAndSettings;
+using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
 using NUnit.Framework;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.TranslationMemories
 {
-	class CreateTmTest<TWebDriverSettings> : BaseTmTest<TWebDriverSettings> where TWebDriverSettings : IWebDriverSettings, new()
+	class CreateTmTest<TWebDriverProvider> : BaseTmTest<TWebDriverProvider> where TWebDriverProvider : IWebDriverProvider, new()
 	{
 		[TestCaseSource("TranslationMemoryNamesList")]
 		public void CreateNewTmTest(string tmName)
@@ -72,7 +72,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.TranslationMemories
 				.AssertTranslationMemoryExist(UniqueTranslationMemoryName)
 				.GoToProjectsPage()
 				.ClickCreateProjectButton()
-				.FillGeneralProjectInformation(ProjectName)
+				.FillGeneralProjectInformation(CreateProjectHelper.GetProjectUniqueName())
 				.ClickNextOnGeneralProjectInformationPage()
 				.ClickNextOnWorkflowPage()
 				.AssertTranslationMemoryExist(UniqueTranslationMemoryName)

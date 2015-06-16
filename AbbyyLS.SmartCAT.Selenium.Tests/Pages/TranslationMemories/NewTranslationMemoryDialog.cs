@@ -164,7 +164,18 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories
 		public NewTranslationMemoryDialog UploadFile(string pathToFile)
 		{
 			Logger.Debug(string.Format("Загрузить ТМX документ {0} во время создания создания ТМ", pathToFile));
-			UploadFileField.UploadFile(pathToFile);
+
+			try
+			{
+				Driver.ExecuteScript("$(\"input:file\").removeClass(\"g-hidden\").css(\"opacity\", 100)");
+				UploadFileField.SendKeys(pathToFile);
+				Driver.ExecuteScript("$(\".js-import-file-form .js-control\").data(\"controller\").filenameLink.text($(\".js-import-file-form .js-control\").data(\"controller\").fileInput.val());");
+				Driver.ExecuteScript("$(\".js-import-file-form .js-control\").data(\"controller\").trigger(\"valueChanged\");");
+			}
+			catch (Exception ex)
+			{
+				throw new Exception(string.Format("Произошла ошибка при попытке загрузки файла: {0}", ex.Message));
+			}
 
 			return GetPage();
 		}

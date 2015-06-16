@@ -1,21 +1,18 @@
 ﻿using NUnit.Framework;
-
+using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
 using AbbyyLS.SmartCAT.Selenium.Tests.DataStructures;
-using AbbyyLS.SmartCAT.Selenium.Tests.DriversAndSettings;
 using AbbyyLS.SmartCAT.Selenium.Tests.TestFramework;
 using AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers;
-using AbbyyLS.SmartCAT.Selenium.Tests.Tests;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 {
 	[PriorityMajor]
 	[TestFixture]
-	class BasicProjectTests<TWebDriverSettings> : BaseTest<TWebDriverSettings> where TWebDriverSettings : IWebDriverSettings, new()
+	class BasicProjectTests<TWebDriverProvider> : BaseTest<TWebDriverProvider> where TWebDriverProvider : IWebDriverProvider, new()
 	{
 		[SetUp]
 		public void SetUpBaseProjectTest()
 		{
-			QuitDriverAfterTest = true;
 			WorkspaceHelper.GoToProjectsPage();
 			_createProjectHelper = new CreateProjectHelper();
 		}

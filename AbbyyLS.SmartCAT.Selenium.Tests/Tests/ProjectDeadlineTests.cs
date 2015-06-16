@@ -1,19 +1,18 @@
 ﻿using NUnit.Framework;
 
 using AbbyyLS.SmartCAT.Selenium.Tests.DataStructures;
-using AbbyyLS.SmartCAT.Selenium.Tests.DriversAndSettings;
+using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
 using AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 {
 	[TestFixture]
 	[Category("Standalone")]
-	class ProjectDeadlineTests<TWebDriverSettings> : BaseTest<TWebDriverSettings> where TWebDriverSettings : IWebDriverSettings, new()
+	class ProjectDeadlineTests<TWebDriverProvider> : BaseTest<TWebDriverProvider> where TWebDriverProvider : IWebDriverProvider, new()
 	{
 		[SetUp]
 		public void SetUpProjectDeadlineTest()
 		{
-			QuitDriverAfterTest = true;
 			WorkspaceHelper.GoToProjectsPage();
 			_createProjectHelper = new CreateProjectHelper();
 			_projectsHelper = new ProjectsHelper();

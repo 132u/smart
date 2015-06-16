@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Drawing.Imaging;
 using System.Linq;
-
+using System.IO;
 using NLog;
 using NUnit.Framework;
 using OpenQA.Selenium;
@@ -232,11 +232,24 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestFramework
 		/// Делаем скриншот
 		/// </summary>
 		/// <param name="driver">драйвер</param>
-		/// <param name="prefix">префикс файла, к нему добавляем дату и расширение</param>
-		public static string TakeScreenshot(this IWebDriver driver, string prefix)
+		/// <param name="path">путь к папке со скриншотами</param>
+		public static string TakeScreenshot(this IWebDriver driver, string path)
 		{
+			Directory.CreateDirectory(path);
+
+			var nameParts = TestContext.CurrentContext.Test.FullName.Split('.');
+			var className = nameParts[nameParts.Length - 2].Replace('<', '(').Replace('>', ')');
+
+			var screenName = TestContext.CurrentContext.Test.Name;
+			if (screenName.Contains("("))
+			{
+				// Убрать из названия теста аргументы (файлы)
+				screenName = screenName.Substring(0, screenName.IndexOf("(", StringComparison.InvariantCulture));
+			}
+
+			var fileName = String.Format("{0} {1}{2}", 
+				Path.Combine(path, className + "." + screenName), DateTime.Now.ToString("yyyy.MM.dd HH.mm.ss"), ".png");
 			Screenshot screenShot;
-			var fileName = String.Format("{0} {1}{2}", prefix, DateTime.Now.ToString("yyyy.MM.dd HH.mm.ss"), ".png");
 
 			try
 			{

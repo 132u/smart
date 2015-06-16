@@ -70,10 +70,10 @@
     <Compile Include="DataStructures\LicenseOperation.cs" />
     <Compile Include="DataStructures\Deadline.cs" />
     <Compile Include="DataStructures\TaskMode.cs" />
-    <Compile Include="DriversAndSettings\ChromeWebDriverSettings.cs" />
-    <Compile Include="DriversAndSettings\FirefoxWebDriverSettings.cs" />
-    <Compile Include="DriversAndSettings\IWebDriverSettings.cs" />
-    <Compile Include="DriversAndSettings\InternetExplorerWebDriverSettings.cs" />
+    <Compile Include="Drivers\ChromeDriverProvider.cs" />
+    <Compile Include="Drivers\FirefoxWebDriverProvider.cs" />
+    <Compile Include="Drivers\WebDriver.cs" />
+    <Compile Include="Drivers\IWebDriverProvider.cs" />
     <Compile Include="DataStructures\DialogButtonType.cs" />
     <Compile Include="Configs\FilesRootConfig.cs" />
     <Compile Include="Pages\Admin\AdminCreateAccountPage.cs" />
@@ -177,10 +177,11 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="..\lib\ChromeDriver2.15\chromedriver.exe">
-      <Link>DriversAndSettings\Drivers\chromedriver.exe</Link>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <Link>chromedriver.exe</Link>
     </Content>
-    <Content Include="DriversAndSettings\Drivers\IEDriverServer.exe" />
+    <Content Include="..\lib\IEDriverServer.exe">
+      <Link>IEDriverServer.exe</Link>
+    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

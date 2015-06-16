@@ -1,11 +1,11 @@
-﻿using AbbyyLS.SmartCAT.Selenium.Tests.DriversAndSettings;
+﻿using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
 using AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers;
 using NUnit.Framework;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.InitialData
 {
 	[TestFixture]
-	public class InitialDataTests<TWebDriverSettings> : BaseTest<TWebDriverSettings> where TWebDriverSettings : IWebDriverSettings, new()
+	public class InitialDataTests<TWebDriverProvider> : BaseTest<TWebDriverProvider> where TWebDriverProvider : IWebDriverProvider, new()
 	{
 		public InitialDataTests() 
 		{

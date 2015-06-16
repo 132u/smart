@@ -286,6 +286,15 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests
 			}
 		}
 
+		public static string DriversTemporaryFolder
+		{
+			get
+			{
+				return Path.Combine(Directory.GetCurrentDirectory(), "WebDrivers");
+
+			}
+		}
+
 		/// <summary>
 		/// Путь к папке тестовых "длинных" файлов
 		/// </summary>

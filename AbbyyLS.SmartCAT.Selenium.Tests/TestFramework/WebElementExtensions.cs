@@ -158,26 +158,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestFramework
 		}
 
 		/// <summary>
-		/// Загрузить документ
-		/// </summary>
-		public static void UploadFile(this IWebElement webElement, string pathToFile)
-		{
-			var driver = webElement.getDriverFromWebElement();
-
-			try
-			{
-				((IJavaScriptExecutor)driver).ExecuteScript("$(\"input:file\").removeClass(\"g-hidden\").css(\"opacity\", 100)");
-				webElement.SendKeys(pathToFile);
-				((IJavaScriptExecutor)driver).ExecuteScript("$(\".js-import-file-form .js-control\").data(\"controller\").filenameLink.text($(\".js-import-file-form .js-control\").data(\"controller\").fileInput.val());");
-				((IJavaScriptExecutor)driver).ExecuteScript("$(\".js-import-file-form .js-control\").data(\"controller\").trigger(\"valueChanged\");");
-			}
-			catch (Exception ex)
-			{
-				throw new Exception(string.Format("Произошла ошибка при попытке загрузки файла: {0}", ex.Message));
-			}
-		}
-
-		/// <summary>
 		/// Метод скроллит до того момента, пока web-элемент не станет видимым
 		/// </summary>
 		/// <param name="webElement"></param>

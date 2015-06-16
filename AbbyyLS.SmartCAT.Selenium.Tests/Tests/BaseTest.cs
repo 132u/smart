@@ -3,20 +3,20 @@ using System.Collections.Generic;
 using System.Diagnostics;
 ﻿using System.Drawing;
 ﻿using System.IO;
-using System.Linq;
+using System.Windows.Forms;
 
 using NConfiguration;
 
 using NUnit.Framework;
 
-using AbbyyLS.SmartCAT.Selenium.Tests.DriversAndSettings;
+using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
 using AbbyyLS.SmartCAT.Selenium.Tests.TestFramework;
 using AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests
 {
-	[TestFixture(typeof(ChromeWebDriverSettings))]
-	public class BaseTest<TWebDriverSettings> : BaseObject where TWebDriverSettings : IWebDriverSettings, new()
+	[TestFixture(typeof(ChromeDriverProvider))]
+	public class BaseTest<TWebDriverProvider> : BaseObject where TWebDriverProvider : IWebDriverProvider, new()
 	{
 		protected string PathTestResults
 		{
@@ -61,9 +61,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests
 		protected string RightsTestUserName { get; private set; }
 
 		protected string RightsTestSurname { get; private set; }
-		protected string ProjectName { get; private set; }
 
-		protected bool QuitDriverAfterTest { get; set; }
+		protected bool RecreateDriverAfterTest { get; set; }
 
 		protected bool AdminLoginPage { get; set; }
 
@@ -92,18 +91,15 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests
 		{
 			try
 			{
-				var cfgAgentSpecific = TestSettingDefinition.Instance.Get<CatServerConfig>();
-				var cfgUserInfo = TestSettingDefinition.Instance.Get<UserInfoConfig>();
-				createDriver();
-				CreateUniqueNamesByDatetime();
-				initializeRelatedToUserFields(cfgUserInfo);
-				initializeRelatedToServerFields(cfgAgentSpecific);
+				RecreateDriverAfterTest = true;
+
+				initializeRelatedToUserFields();
+				initializeRelatedToServerFields();
 				initializeUsersAndCompanyList();
-				initializeHelpers();
 			}
 			catch (Exception ex)
 			{
-				Logger.ErrorException("Произошла ошибка в TestFixtureSetUp:\n", ex); 
+				Logger.ErrorException("Произошла ошибка в TestFixtureSetUp", ex);
 				throw;
 			}
 		}
@@ -111,22 +107,30 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests
 		[SetUp]
 		public virtual void BeforeTest()
 		{
-			QuitDriverAfterTest = true;
-			TestBeginTime = DateTime.Now;
-			Logger.Info("Начало работы теста {0} \nВремя начала: {1}", TestContext.CurrentContext.Test.Name, TestBeginTime);
-
-			if (Driver == null)
+			try
 			{
-				createDriver();
-			}
+				TestBeginTime = DateTime.Now;
+				Logger.Info("Начало работы теста {0} \nВремя начала: {1}", TestContext.CurrentContext.Test.Name, TestBeginTime);
 
-			authorization();
+				if (Driver == null || RecreateDriverAfterTest)
+				{
+					Driver = new WebDriver(new TWebDriverProvider(), PathProvider.DriversTemporaryFolder);
+
+					initializeHelpers();
+					authorize();
+				}
+			}
+			catch (Exception ex)
+			{
+				Logger.ErrorException("Произошла ошибка в SetUp", ex); 
+				throw;
+			}
 		}
 
 		[TestFixtureTearDown]
 		public virtual void AfterClass()
 		{
-			ExitDriver();
+			Driver.Dispose();
 		}
 
 		[TearDown]
@@ -137,36 +141,61 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests
 			{
 				if (TestContext.CurrentContext.Result.Status.Equals(TestStatus.Failed))
 				{
-					// Создать папку для скриншотов провалившихся тестов
-					var failResultPath = Path.Combine(PathTestResults, "FailedTests");
-					Directory.CreateDirectory(failResultPath);
-
-					var nameParts = TestContext.CurrentContext.Test.FullName.Split('.');
-					var className = nameParts[nameParts.Length - 2].Replace('<', '(').Replace('>', ')');
-					// Создать имя скриншота по имени теста
-					var screenName = TestContext.CurrentContext.Test.Name;
-
-					if (screenName.Contains("("))
-					{
-						// Убрать из названия теста аргументы (файлы)
-						screenName = screenName.Substring(0, screenName.IndexOf("("));
-					}
-
-					screenName = className + "." + screenName;
-					screenName = Path.Combine(failResultPath, screenName);
-					Driver.TakeScreenshot(screenName);
+					Driver.TakeScreenshot(Path.Combine(PathTestResults, "FailedTests"));
 				}
 			}
 			catch (Exception)
 			{
-				ExitDriver();
+				Driver.Dispose();
 			}
 
-			if (QuitDriverAfterTest)
+			if (RecreateDriverAfterTest)
 			{
-				ExitDriver();
+				Driver.Dispose();
 			}
 
+			logTestSummary();
+		}
+
+		protected void LogInSmartCat(
+			string login,
+			string password,
+			string accountName = "TestAccount")
+		{
+			Driver.Navigate().GoToUrl(Url + "/sign-in");
+			LoginHelper.SignIn(Login, Password, accountName);
+		}
+
+		protected void LogInAdmin(
+			string login,
+			string password)
+		{
+			Driver.Navigate().GoToUrl(AdminUrl);
+			AdminHelper.SignIn(Login, Password);
+		}
+
+		private void authorize()
+		{
+			if (_standalone)
+			{
+				// Тесты запускаются на ОР
+				Driver.Navigate().GoToUrl(WorkspaceUrl);
+
+				return;
+			}
+
+			if (AdminLoginPage)
+			{
+				LogInAdmin(Login, Password);
+			}
+			else
+			{
+				LogInSmartCat(Login, Password);
+			}
+		}
+
+		private void logTestSummary()
+		{
 			var testFinishTime = DateTime.Now;
 			Logger.Info("Время окончания теста: {0}", testFinishTime);
 			var duration = TimeSpan.FromTicks(testFinishTime.Ticks - TestBeginTime.Ticks);
@@ -190,93 +219,10 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests
 			}
 		}
 
-		public bool TestUserFileExist()
+		private void initializeRelatedToServerFields()
 		{
-			return File.Exists(PathProvider.TestUserFile);
-		}
+			var config = TestSettingDefinition.Instance.Get<CatServerConfig>();
 
-		protected void LogInAdmin(
-			string login,
-			string password)
-		{
-			Driver.Navigate().GoToUrl(AdminUrl);
-			AdminHelper.SignIn(Login, Password);
-		}
-
-		protected void CreateUniqueNamesByDatetime()
-		{
-			ProjectName = "Selenium Project" + "_" + DateTime.Now.ToString("HHmmss");
-		}
-
-		protected void LogInSmartCat(
-			string login,
-			string password,
-			string accountName = "TestAccount")
-		{
-			Driver.Navigate().GoToUrl(Url + "/sign-in");
-			LoginHelper.SignIn(Login, Password, accountName);
-		}
-
-		protected void ExitDriver()
-		{
-			if (Driver != null)
-			{
-				Driver.Quit();
-				Driver = null;
-			}
-
-			foreach (var item in ProcessNames.Select(Process.GetProcessesByName).SelectMany(processArray => processArray))
-			{
-				try
-				{
-					if (!item.HasExited)
-					{
-						item.Kill();
-					}
-				}
-				catch (Exception ex)
-				{
-					Logger.ErrorException("Ошибка при завершении процесса (" + item.ProcessName + "): " + ex.Message, ex);
-				}
-			}
-		}
-
-		private void createDriver()
-		{
-			if (Driver == null)
-			{
-				var webDriverSettings = new TWebDriverSettings();
-				Driver = webDriverSettings.Driver;
-				ProcessNames = webDriverSettings.ProcessNames;
-			}
-
-			Driver.Manage().Timeouts().ImplicitlyWait(TimeSpan.FromSeconds(15));
-			Driver.Manage().Timeouts().SetPageLoadTimeout(TimeSpan.FromSeconds(60));
-			Driver.Manage().Window.Maximize();
-		}
-
-		private void authorization()
-		{
-			if (_standalone)
-			{
-				// Тесты запускаются на ОР
-				Driver.Navigate().GoToUrl(WorkspaceUrl);
-
-				return;
-			}
-
-			if (AdminLoginPage)
-			{
-				LogInAdmin(Login, Password);
-			}
-			else 
-			{
-				LogInSmartCat(Login, Password);
-			}
-		}
-
-		private void initializeRelatedToServerFields(CatServerConfig config)
-		{
 			var prefix = config.IsHttpsEnabled ? "https://" : "http://";
 			_standalone = config.Standalone;
 
@@ -295,8 +241,10 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests
 			WorkspaceUrl = string.IsNullOrWhiteSpace(config.Workspace) ? Url + "/workspace" : config.Workspace;
 		}
 
-		private void initializeRelatedToUserFields(UserInfoConfig config)
+		private void initializeRelatedToUserFields()
 		{
+			var config = TestSettingDefinition.Instance.Get<UserInfoConfig>();
+
 			Login = config.Login;
 			Password = config.Password;
 			UserName = config.Name ?? string.Empty;

@@ -1,6 +1,5 @@
-﻿using AbbyyLS.SmartCAT.Selenium.Tests.DriversAndSettings;
-using NUnit.Framework;
-
+﻿using NUnit.Framework;
+using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
 using AbbyyLS.SmartCAT.Selenium.Tests.TestFramework;
 using AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers;
 
@@ -9,12 +8,11 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.ProjectGroups
 	[TestFixture]
 	[PriorityMajor]
 	[Standalone]
-	class ProjectGroupsTest<TWebDriverSettings> : BaseTest<TWebDriverSettings> where TWebDriverSettings : IWebDriverSettings, new()
+	class ProjectGroupsTest<TWebDriverProvider> : BaseTest<TWebDriverProvider> where TWebDriverProvider : IWebDriverProvider, new()
 	{
 		[SetUp]
 		public void Setup()
 		{
-			QuitDriverAfterTest = true;
 			_projectGroupHelper = WorkspaceHelper.GoToProjectGroupsPage();
 		}
 
