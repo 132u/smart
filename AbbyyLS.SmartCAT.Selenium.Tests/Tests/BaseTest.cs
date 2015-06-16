@@ -130,7 +130,10 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests
 		[TestFixtureTearDown]
 		public virtual void AfterClass()
 		{
-			Driver.Dispose();
+			if (Driver != null)
+			{
+				Driver.Dispose();
+			}
 		}
 
 		[TearDown]
@@ -146,12 +149,18 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests
 			}
 			catch (Exception)
 			{
-				Driver.Dispose();
+				if (Driver != null)
+				{
+					Driver.Dispose();
+				}
 			}
 
 			if (RecreateDriverAfterTest)
 			{
-				Driver.Dispose();
+				if (Driver != null)
+				{
+					Driver.Dispose();
+				}
 			}
 
 			logTestSummary();

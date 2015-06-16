@@ -178,9 +178,11 @@
   <ItemGroup>
     <Content Include="..\lib\ChromeDriver2.15\chromedriver.exe">
       <Link>chromedriver.exe</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="..\lib\IEDriverServer.exe">
       <Link>IEDriverServer.exe</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
