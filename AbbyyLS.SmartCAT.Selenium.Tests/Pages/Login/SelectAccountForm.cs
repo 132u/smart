@@ -31,14 +31,20 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Login
 		/// <param name="dataServer">расположение сервера</param>
 		public WorkspacePage SelectAccount(string accountName, string dataServer)
 		{
-			Logger.Debug("Выбрать аккаунт {0} на сервере {1}.", accountName, dataServer);
-			AccountRef = Driver.SetDynamicValue
-				(How.XPath, dataServer.ToLower() == "europe" ? RU_ACCOUNT_REF_XPATH : US_ACCOUNT_REF_XPATH, accountName);
+			Logger.Trace("Проверить кол-во ссылок на аккаунты на всех серверах.");
+			var accountsCount = Driver.GetElementsCount(By.XPath(ACCOUNT_REF_LIST));
+			Logger.Trace("Ссылок на аккаунты на всех серверах '{0}'", accountsCount);
 
-			AccountRef.Click();
-			var workspacePage = new WorkspacePage();
+			if (accountsCount > 1)
+			{
+				Logger.Debug("Выбрать аккаунт {0} на сервере {1}.", accountName, dataServer);
+				AccountRef = Driver.SetDynamicValue
+					(How.XPath, dataServer.ToLower() == "europe" ? RU_ACCOUNT_REF_XPATH : US_ACCOUNT_REF_XPATH, accountName);
 
-			return workspacePage.GetPage();
+				AccountRef.Click();
+			}
+
+			return new WorkspacePage().GetPage();
 		}
 
 		protected IWebElement AccountRef { get; set; }
@@ -46,5 +52,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Login
 		protected const string ACCOUNT_SELECTION_FORM = "//form[contains(@name, 'selectAccount')]";
 		protected const string US_ACCOUNT_REF_XPATH = "//li[@translate = 'region-us']/following-sibling::li[@class='ng-scope']//span[contains(string(), '*#*')]";
 		protected const string RU_ACCOUNT_REF_XPATH = "//li[@translate = 'region-ru']/following-sibling::li[@class='ng-scope']//span[string() = '*#*']";
+		protected const string ACCOUNT_REF_LIST = "//a[contains(@ng-click,'signInAccount')]";
 	}
 }

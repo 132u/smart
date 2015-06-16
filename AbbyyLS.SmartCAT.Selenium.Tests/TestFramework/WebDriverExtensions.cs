@@ -219,6 +219,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestFramework
 				return GetElementsCount(driver, by);
 			}
 		}
+
 		/// <summary>
 		/// Исполнить JavaScript
 		/// </summary>
