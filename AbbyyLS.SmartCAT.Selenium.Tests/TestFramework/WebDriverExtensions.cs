@@ -229,46 +229,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestFramework
 		}
 
 		/// <summary>
-		/// Делаем скриншот
-		/// </summary>
-		/// <param name="driver">драйвер</param>
-		/// <param name="path">путь к папке со скриншотами</param>
-		public static string TakeScreenshot(this IWebDriver driver, string path)
-		{
-			Directory.CreateDirectory(path);
-
-			var nameParts = TestContext.CurrentContext.Test.FullName.Split('.');
-			var className = nameParts[nameParts.Length - 2].Replace('<', '(').Replace('>', ')');
-
-			var screenName = TestContext.CurrentContext.Test.Name;
-			if (screenName.Contains("("))
-			{
-				// Убрать из названия теста аргументы (файлы)
-				screenName = screenName.Substring(0, screenName.IndexOf("(", StringComparison.InvariantCulture));
-			}
-
-			var fileName = String.Format("{0} {1}{2}", 
-				Path.Combine(path, className + "." + screenName), DateTime.Now.ToString("yyyy.MM.dd HH.mm.ss"), ".png");
-			Screenshot screenShot;
-
-			try
-			{
-				screenShot = ((ITakesScreenshot)driver).GetScreenshot();
-			}
-			catch (UnhandledAlertException)
-			{
-				var alert = driver.SwitchTo().Alert();
-				Logger.Error("Ошибка: необработанный алерт. Текст алерта: {0}.", alert.Text);
-				alert.Accept();
-				screenShot = ((ITakesScreenshot)driver).GetScreenshot();
-			}
-
-			screenShot.SaveAsFile(fileName, ImageFormat.Png);
-			
-			return fileName;
-		}
-
-		/// <summary>
 		/// Присваиваем значение элементу с динамическим локатором
 		/// </summary>
 		/// <param name="driver">драйвер</param>

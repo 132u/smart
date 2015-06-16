@@ -1,12 +1,8 @@
 ﻿﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
-﻿using System.Drawing;
-﻿using System.IO;
-using System.Windows.Forms;
+using System.IO;
 
 using NConfiguration;
-﻿using NLog.Fluent;
 ﻿using NUnit.Framework;
 
 using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;

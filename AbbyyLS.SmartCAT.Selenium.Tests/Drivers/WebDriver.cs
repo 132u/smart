@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.ObjectModel;
+using System.Drawing.Imaging;
 using System.IO;
 using NLog;
+using NUnit.Framework;
 using OpenQA.Selenium;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.Drivers
@@ -23,7 +25,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Drivers
 		}
 
 
-		#region Проксирование действий над драйвером
+		#region Реализация интерфейса IWebDriver
 
 		public string CurrentWindowHandle
 		{
@@ -88,9 +90,49 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Drivers
 
 		#endregion
 
+
 		public object ExecuteScript(string script, params object[] args)
 		{
 			return ((IJavaScriptExecutor)_driver).ExecuteScript(script, args);
+		}
+
+		/// <summary>
+		/// Делаем скриншот
+		/// </summary>
+		/// <param name="path">путь к папке со скриншотами</param>
+		public string TakeScreenshot(string path)
+		{
+			Directory.CreateDirectory(path);
+
+			var nameParts = TestContext.CurrentContext.Test.FullName.Split('.');
+			var className = nameParts[nameParts.Length - 2].Replace('<', '(').Replace('>', ')');
+
+			var screenName = TestContext.CurrentContext.Test.Name;
+			if (screenName.Contains("("))
+			{
+				// Убрать из названия теста аргументы (файлы)
+				screenName = screenName.Substring(0, screenName.IndexOf("(", StringComparison.InvariantCulture));
+			}
+
+			var fileName = String.Format("{0} {1}{2}",
+				Path.Combine(path, className + "." + screenName), DateTime.Now.ToString("yyyy.MM.dd HH.mm.ss"), ".png");
+			Screenshot screenShot;
+
+			try
+			{
+				screenShot = ((ITakesScreenshot)_driver).GetScreenshot();
+			}
+			catch (UnhandledAlertException)
+			{
+				var alert = _driver.SwitchTo().Alert();
+				Logger.Error("Ошибка: необработанный алерт. Текст алерта: {0}.", alert.Text);
+				alert.Accept();
+				screenShot = ((ITakesScreenshot)_driver).GetScreenshot();
+			}
+
+			screenShot.SaveAsFile(fileName, ImageFormat.Png);
+
+			return fileName;
 		}
 
 		public void Dispose()
