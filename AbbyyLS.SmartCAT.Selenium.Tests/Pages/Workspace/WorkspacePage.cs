@@ -139,6 +139,19 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace
 		}
 
 		/// <summary>
+		/// Проверить, что настройки профиля открылись.
+		/// </summary>
+		public WorkspacePage AssertAccountProfileDisplayed()
+		{
+			Logger.Debug("Проверить, что настройки профиля открылись.");
+
+			Assert.IsTrue(Driver.WaitUntilElementIsDisplay(By.XPath(LOGOFF)),
+				"Произошла ошибка:\n настройки профиля не открылись.");
+
+			return GetPage();
+		}
+
+		/// <summary>
 		/// Нажать на 'Licenses and Services'
 		/// </summary>
 		public BillingPage ClickLicenseAndServices()
@@ -186,6 +199,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace
 					{
 						LocaleRef = Driver.SetDynamicValue(How.XPath, LOCALE_REF, "en");
 						LocaleRef.Click();
+						Driver.WaitUntilElementIsDisplay(By.XPath(LANGUAGE_PICTURE.Replace("*#*", "en")));
 					}
 					break;
 				case Language.Russian:
@@ -193,10 +207,11 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace
 					{
 						LocaleRef = Driver.SetDynamicValue(How.XPath, LOCALE_REF, "ru");
 						LocaleRef.Click();
+						Driver.WaitUntilElementIsDisplay(By.XPath(LANGUAGE_PICTURE.Replace("*#*", "ru")));
 					}
 					break;
 				default:
-					throw new InvalidEnumArgumentException("Ошибка: локализация может бить только русской или английской.");
+					throw new InvalidEnumArgumentException("Произошла ошибка:\n локализация может быть только русской или английской.");
 			}
 
 			return GetPage();
@@ -306,5 +321,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace
 		protected const string USER_NAME = "//div[contains(@class,'js-usermenu')]//span[contains(@class,'nameuser')]";
 		protected const string LOGOFF = ".//a[contains(@href,'Logout')]";
 		protected const string LICENSES_AND_SERVICES = "//a[contains(@class,'billing')]";
+
+		protected const string LANGUAGE_PICTURE = "//i[text()='*#*']";
 	}
 }

@@ -74,6 +74,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 			BaseObject.InitPage(_workspacePage);
 			_workspacePage
 				.ClickAccount()
+				.AssertAccountProfileDisplayed()
 				.ClickLicenseAndServices()
 				.SwitchToLicenseAndServicesWindow();
 
