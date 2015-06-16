@@ -94,7 +94,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 		{
 			Logger.Trace("Дождаться закрытия диалога создания проекта.");
 
-			Assert.IsTrue(Driver.WaitUntilElementIsDissapeared(By.XPath(CREATE_PROJECT_DIALOG_XPATH)),
+			Assert.IsTrue(Driver.WaitUntilElementIsDissapeared(By.XPath(CREATE_PROJECT_DIALOG_XPATH), timeout: 20),
 				"Произошла ошибка:\n диалог создания проекта не закрылся.");
 
 			return GetPage();
