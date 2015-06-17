@@ -1,4 +1,6 @@
-﻿using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings;
+﻿using System.IO;
+
+using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.DocumentUploadDialog;
 using AbbyyLS.SmartCAT.Selenium.Tests.TestFramework;
 
@@ -6,10 +8,12 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 {
 	public class UploadDocumentHelper : ProjectsHelper 
 	{
-		public UploadDocumentHelper UploadDocument(string fileName)
+		public UploadDocumentHelper UploadDocument(string filePath)
 		{
 			BaseObject.InitPage(_documentUploadGeneralInformationDialog);
-			_documentUploadGeneralInformationDialog.UploadDocument(fileName);
+			_documentUploadGeneralInformationDialog
+				.UploadDocument(filePath)
+				.AssertFileUploaded(Path.GetFileName(filePath));
 
 			return this;
 		}

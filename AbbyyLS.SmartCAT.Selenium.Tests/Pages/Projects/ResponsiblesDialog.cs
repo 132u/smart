@@ -92,7 +92,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 		{
 			Logger.Debug("Выбрать из выпадающего списка {1}. Это группа: {2}", name, isGroup);
 
-			name = name.Replace(" ", "  ");
 			var fullName = isGroup ? "Group: " + name : name;
 
 			Assert.IsTrue(Driver.WaitUntilElementIsDisplay(By.XPath(RESPONSIBLES_LIST.Replace("*#*", fullName))),
