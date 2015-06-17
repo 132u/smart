@@ -146,7 +146,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 				.CreateNewProject(_projectUniqueName, PathProvider.EditorTxtFile)
 				.OpenAssignDialog(_projectUniqueName)
 				.OpenTaskResponsibles()
-				.SetResponsible(UserName, false)
+				.SetResponsible(NickName, false)
 				.ClickCloseAssignDialog<ProjectsPage>()
 				.GoToProjectSettingsPage(_projectUniqueName)
 				.OpenDocument<SelectTaskDialog>(PathProvider.EditorTxtFile)
@@ -166,9 +166,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 				.ClickFinishOnProjectSetUpWorkflowDialog()
 				.OpenAssignDialog(_projectUniqueName)
 				.OpenTaskResponsibles()
-				.SetResponsible(UserName, false)
+				.SetResponsible(NickName, false)
 				.OpenTaskResponsibles(2)
-				.SetResponsible(UserName, false)
+				.SetResponsible(NickName, false)
 				.ClickCloseAssignDialog<ProjectsPage>()
 				.GoToProjectSettingsPage(_projectUniqueName)
 				.OpenDocument<SelectTaskDialog>(PathProvider.EditorTxtFile);
@@ -181,7 +181,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 				.CreateNewProject(_projectUniqueName, PathProvider.EditorTxtFile)
 				.OpenAssignDialog(_projectUniqueName)
 				.OpenTaskResponsibles()
-				.SetResponsible(UserName, false)
+				.SetResponsible(NickName, false)
 				.ClickCloseAssignDialog<ProjectsPage>()
 				.GoToProjectSettingsPage(_projectUniqueName)
 				.OpenWorkflowSettings()
@@ -194,14 +194,14 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 		{
 			_projectsHelper
 				.GoToUsersRightsPage()
-				.AssertIsUserExist(UserName2)
+				.AssertIsUserExist(NickName2)
 				.GoToProjectsPage();
 
 			_createProjectHelper
 				.CreateNewProject(_projectUniqueName, PathProvider.EditorTxtFile)
 				.OpenAssignDialog(_projectUniqueName)
 				.OpenTaskResponsibles()
-				.SetResponsible(UserName, false)
+				.SetResponsible(NickName, false)
 				.ClickCloseAssignDialog<ProjectsPage>()
 				.GoToProjectSettingsPage(_projectUniqueName)
 				.AcceptAllTasks(PathProvider.EditorTxtFile)
@@ -215,7 +215,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 				.ClickCancelAssignButton()
 				.ConfirmCancel()
 				.OpenTaskResponsibles()
-				.SetResponsible(UserName2, false)
+				.SetResponsible(NickName2, false)
 				.ClickCloseAssignDialog<ProjectsPage>()
 				.GoToProjectSettingsPage(_projectUniqueName)
 				.OpenDocument<EditorPage>(PathProvider.EditorTxtFile)
@@ -240,7 +240,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 				.CreateNewProject(_projectUniqueName, PathProvider.EditorTxtFile)
 				.OpenAssignDialog(_projectUniqueName)
 				.OpenTaskResponsibles()
-				.SetResponsible(UserName, false)
+				.SetResponsible(NickName, false)
 				.ClickCloseAssignDialog<ProjectsPage>()
 				.GoToProjectSettingsPage(_projectUniqueName)
 				.AcceptAllTasks(PathProvider.EditorTxtFile)
@@ -271,7 +271,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 				.ClickDocumentProgress(PathProvider.DocumentFile)
 				.ClickAssignButtonInDocumentInfo()
 				.OpenTaskResponsibles()
-				.SetResponsible(UserName, false)
+				.SetResponsible(NickName, false)
 				.ClickCloseAssignDialog<ProjectSettingsPage>()
 				.RefreshPage()
 				.AcceptAllTasks(PathProvider.DocumentFile)
@@ -280,7 +280,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 				.ConfirmCancel()
 				.AssertAssignStatus("Not assigned")
 				.OpenTaskResponsibles()
-				.SetResponsible(UserName, false)
+				.SetResponsible(NickName, false)
 				.AssertCancelAssignButtonExist()
 				.ClickCloseAssignDialog<ProjectSettingsPage>();
 		}
