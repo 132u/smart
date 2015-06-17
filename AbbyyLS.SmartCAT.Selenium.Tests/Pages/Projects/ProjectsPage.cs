@@ -1,4 +1,5 @@
-﻿using NUnit.Framework;
+﻿using System.IO;
+using NUnit.Framework;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.PageObjects;
 
@@ -140,6 +141,10 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 		public ProjectsPage AssertProjectNotExist(string projectName)
 		{
 			Logger.Trace("Проверить, что проект {0} отсутствует в списке проектов", projectName);
+			if (!Driver.WaitUntilElementIsDissapeared(By.XPath(PROJECT_REF_XPATH.Replace("*#*", projectName)), timeout: 20))
+			{
+				Assert.Fail("Произошла ошибка:\n проект {0} не удалился.", projectName);
+			}
 
 			Assert.IsFalse(getIsProjectExist(projectName: projectName),
 				"Произошла ошибка:\n проект {0} найден в списке проектов", projectName);
@@ -244,7 +249,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 		private bool getIsProjectExist(string projectName)
 		{
 			Logger.Debug("Ввести в поле поиска по проектам '{0}'", projectName);
-			ProjectSearchField.SendKeys(projectName);
+			ProjectSearchField.SetText(projectName);
 			Logger.Debug("Нажать 'Поиск'");
 			ProjectSearchButton.Click();
 
