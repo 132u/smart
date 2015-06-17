@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 
 using NUnit.Framework;
 using OpenQA.Selenium;
@@ -47,11 +48,22 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 		public NewProjectGeneralInformationDialog UploadFile(string pathFile)
 		{
 			Logger.Debug("Загрузить файл: {0}.", pathFile);
-			UploadFileInput = Driver.SetDynamicValue(How.XPath, UPLOAD_FILE_INPUT, "");
 			Driver.ExecuteScript("arguments[0].style[\"display\"] = \"block\";" +
 				"arguments[0].style[\"visibility\"] = \"visible\";",
 				UploadFileInput);
 			UploadFileInput.SendKeys(pathFile);
+
+			if (!Driver.WaitUntilElementIsDisplay(By.XPath(UPLOADED_FILE_XPATH.Replace(
+				"*#*", 
+				Path.GetFileName(pathFile)))))
+			{
+				Logger.Trace("Первая попытка добавить файл была неудачной. Попробовать ещё раз.");
+
+				Driver.ExecuteScript("arguments[0].style[\"display\"] = \"block\";" +
+					"arguments[0].style[\"visibility\"] = \"visible\";",
+					UploadFileInput);
+				UploadFileInput.SendKeys(pathFile);
+			}
 
 			return GetPage();
 		}
