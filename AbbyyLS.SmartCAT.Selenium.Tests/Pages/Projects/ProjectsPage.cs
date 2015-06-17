@@ -206,14 +206,14 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 		/// </summary>
 		/// <param name="projectName"> Название проекта </param>
 		/// <param name="documentNumber"> Номер документа </param>
-		public ResponsiblesDialog ClickDocumentAssignButton(string projectName, int documentNumber = 1)
+		public TaskAssignmentDialog ClickDocumentAssignButton(string projectName, int documentNumber = 1)
 		{
 			Logger.Debug("Нажать на кнопку прав пользователя в свертке документа");
 
-			DocumentAssignResponsiblesButton = Driver.SetDynamicValue(How.XPath, DOCUMENT_ASSIGN_RESPONSIBLES_BUTTON, projectName, (documentNumber + 1).ToString());
-			DocumentAssignResponsiblesButton.Click();
+			DocumentTaskAssignButton = Driver.SetDynamicValue(How.XPath, DOCUMENT_TASK_ASSIGN_BUTTON, projectName, (documentNumber + 1).ToString());
+			DocumentTaskAssignButton.Click();
 
-			return new ResponsiblesDialog().GetPage();
+			return new TaskAssignmentDialog().GetPage();
 		}
 
 		/// <summary>
@@ -324,7 +324,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 
 		protected IWebElement DocumentProgress { get; set; }
 
-		protected IWebElement DocumentAssignResponsiblesButton {get; set;}
+		protected IWebElement DocumentTaskAssignButton {get; set;}
 
 		protected const string CREATE_PROJECT_BTN_XPATH = "//span[contains(@class,'js-project-create')]";
 		protected const string CREATE_PROJECT_DIALOG_XPATH = "//div[contains(@class,'js-popup-create-project')][2]";
@@ -343,7 +343,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 		protected const string OPEN_PROJECT = ".//table[contains(@class,'js-tasks-table')]//tr//*[@class='js-name'][(local-name() ='a' or local-name() ='span') and text()='*#*']/ancestor-or-self::tr";
 		protected const string DOCUMENT_ROW = ".//table[contains(@class,'js-tasks-table')]//tr//*[@class='js-name'][(local-name() ='a' or local-name() ='span') and text()='*#*']//ancestor::tr/following-sibling::tr[contains(@class,'js-document-row')][*##*]";
 		protected const string DOCUMENT_PROGRESS = ".//table[contains(@class,'js-tasks-table')]//tr//*[@class='js-name'][(local-name() ='a' or local-name() ='span') and text()='*#*']//ancestor::tr/following-sibling::tr[contains(@class,'js-document-row')][*##*]//div[@class='ui-progressbar__container']";
-		protected const string DOCUMENT_ASSIGN_RESPONSIBLES_BUTTON = ".//table[contains(@class,'js-tasks-table')]//tr//*[@class='js-name'][(local-name() ='a' or local-name() ='span') and text()='*#*']/ancestor::tr/following-sibling::tr[*##*]/following-sibling::tr[1][@class='js-document-panel l-project__doc-panel']//span[contains(@class, 'js-assign-btn') and @data-bind='click: assign']";
+		protected const string DOCUMENT_TASK_ASSIGN_BUTTON = ".//table[contains(@class,'js-tasks-table')]//tr//*[@class='js-name'][(local-name() ='a' or local-name() ='span') and text()='*#*']/ancestor::tr/following-sibling::tr[*##*]/following-sibling::tr[1][@class='js-document-panel l-project__doc-panel']//span[contains(@class, 'js-assign-btn') and @data-bind='click: assign']";
 
 		protected const string UPLOAD_DOCUMENT_BUTTON = "//span[contains(@data-bind, 'click: importJob')]";
 	}

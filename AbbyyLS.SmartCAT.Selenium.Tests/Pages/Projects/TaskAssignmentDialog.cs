@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-
+using NLog.Fluent;
 using NUnit.Framework;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.PageObjects;
@@ -9,19 +9,19 @@ using AbbyyLS.SmartCAT.Selenium.Tests.TestFramework;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 {
-	public class ResponsiblesDialog : ProjectsPage, IAbstractPage<ResponsiblesDialog>
+	public class TaskAssignmentDialog : ProjectsPage, IAbstractPage<TaskAssignmentDialog>
 	{
-		public new ResponsiblesDialog GetPage()
+		public new TaskAssignmentDialog GetPage()
 		{
-			var responsiblesDialog = new ResponsiblesDialog();
-			InitPage(responsiblesDialog);
+			var taskAssignmentDialog = new TaskAssignmentDialog();
+			InitPage(taskAssignmentDialog);
 
-			return responsiblesDialog;
+			return taskAssignmentDialog;
 		}
 
 		public new void LoadPage()
 		{
-			if (!Driver.WaitUntilElementIsDisplay(By.XPath(RESPONSIBLES_TABLE)))
+			if (!Driver.WaitUntilElementIsDisplay(By.XPath(TASK_ASSIGN_TABLE)))
 			{
 				Assert.Fail("Произошла ошибка:\n не удалось открыть диалог выбора исполнителя.");
 			}
@@ -31,12 +31,12 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 		/// Открыть выпадющий список для задачи с заданным номером
 		/// </summary>
 		/// <param name="taskRowNumber"> номер задачи</param>
-		public ResponsiblesDialog OpenTaskResponsibles(int taskRowNumber = 1)
+		public TaskAssignmentDialog OpenAssigneeDropbox(int taskRowNumber = 1)
 		{
 			Logger.Trace("Открыть выпадающий список для задачи с номером строки {0}", taskRowNumber);
 
-			ResponsiblesDropbox = Driver.SetDynamicValue(How.XPath, RESPONSIBLES_DROPBOX, taskRowNumber.ToString());
-			ResponsiblesDropbox.Click();
+			AssigneeDropbox = Driver.SetDynamicValue(How.XPath, TASK_ASSIGN_DROPBOX, taskRowNumber.ToString());
+			AssigneeDropbox.Click();
 
 			return GetPage();
 		}
@@ -45,11 +45,11 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 		/// Подтвердить, что открылся выпадающий список для задачи
 		/// </summary>
 		/// <param name="taskRowNumber">номер задачи</param>
-		public ResponsiblesDialog AssertTaskResponsiblesListDisplay(int taskRowNumber = 1)
+		public TaskAssignmentDialog AssertTaskAssigneeListDisplay(int taskRowNumber = 1)
 		{
 			Logger.Trace("Подтвердить, что открылся выпадающий список для задачи с номером строки {0}", taskRowNumber);
 
-			Assert.IsTrue(Driver.WaitUntilElementIsDisplay(By.XPath(RESPONSIBLES_DROPBOX_OPTION.Replace("*#*", taskRowNumber.ToString()))),
+			Assert.IsTrue(Driver.WaitUntilElementIsDisplay(By.XPath(TASK_ASSIGN_DROPBOX_OPTION.Replace("*#*", taskRowNumber.ToString()))),
 				"Произошла ошибка:\n список исполнителей не открылся");
 
 			return GetPage();
@@ -62,7 +62,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 		{
 			Logger.Trace("Получить список исполнителей.");
 
-			var elementUsersList = Driver.GetTextListElement(By.XPath(RESPONSIBLES_LIST.Replace("*#*","")));
+			var elementUsersList = Driver.GetTextListElement(By.XPath(ASSIGNEE_LIST.Replace("*#*", "")));
 
 			return (from element in elementUsersList
 					where !element.Contains("Group: ")
@@ -76,7 +76,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 		{
 			Logger.Trace("Получить список групп исполнителей.");
 
-			var elementUsersList = Driver.GetTextListElement(By.XPath(RESPONSIBLES_LIST.Replace("*#*", "")));
+			var elementUsersList = Driver.GetTextListElement(By.XPath(ASSIGNEE_LIST.Replace("*#*", "")));
 
 			return (from element in elementUsersList
 					where element.Contains("Group: ")
@@ -88,17 +88,17 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 		/// </summary>
 		/// <param name="name">Имя пользователя или группы</param>
 		/// <param name="isGroup">Выбор группы</param>
-		public ResponsiblesDialog SelectResponsible(string name, bool isGroup)
+		public TaskAssignmentDialog SelectResponsible(string name, bool isGroup)
 		{
 			Logger.Debug("Выбрать из выпадающего списка {1}. Это группа: {2}", name, isGroup);
 
 			var fullName = isGroup ? "Group: " + name : name;
 
-			Assert.IsTrue(Driver.WaitUntilElementIsDisplay(By.XPath(RESPONSIBLES_LIST.Replace("*#*", fullName))),
+			Assert.IsTrue(Driver.WaitUntilElementIsDisplay(By.XPath(ASSIGNEE_LIST.Replace("*#*", fullName))),
 				"Произошла ошибка:\n пользователь {0} не найден в выпадающем"
 				+ " списке при назначении исполнителя на задачу", fullName);
 
-			ResponsiblesDropbox.SelectOptionByText(fullName);
+			AssigneeDropbox.SelectOptionByText(fullName);
 
 			return GetPage();
 		}
@@ -107,7 +107,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 		/// Нажать кнопку 'Назначить'
 		/// </summary>
 		/// <param name="taskNumber">номер задачи</param>
-		public ResponsiblesDialog ClickAssignButton(int taskNumber = 1)
+		public TaskAssignmentDialog ClickAssignButton(int taskNumber = 1)
 		{
 			Logger.Debug("Нажать кнопку 'Назначить'");
 
@@ -120,8 +120,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 		/// <summary>
 		/// Нажать кнопку 'Закрыть'
 		/// </summary>
-		/// <returns></returns>
-		public T ClickCloseAssignDialog<T>() where T: class, IAbstractPage<T>, new()
+		public T ClickCloseTaskAssignmentDialog<T>() where T : class, IAbstractPage<T>, new()
 		{
 			Logger.Debug("Нажать кнопку 'Закрыть'");
 			CloseButton.Click();
@@ -130,10 +129,23 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 		}
 
 		/// <summary>
+		/// Дождаться закрытия диалога назначения пользователей
+		/// </summary>
+		public T AssertTaskAssignmentDialogDisappear<T>() where T : class, IAbstractPage<T>, new()
+		{
+			Logger.Debug("Дождаться закрытия диалога назначения пользователей.");
+
+			Assert.IsTrue(Driver.WaitUntilElementIsDissapeared(By.XPath(TASK_ASSIGN_TABLE)),
+				"Произошла ошибка:\n диалог назначения пользователей не закрылся.");
+
+			return new T().GetPage();
+		}
+
+		/// <summary>
 		/// Нажать кнопку отмены назначения исполнителя задачи
 		/// </summary>
 		/// <param name="taskNumber"> номер задачи </param>
-		public ResponsiblesDialog ClickCancelAssignButton(int taskNumber = 1)
+		public TaskAssignmentDialog ClickCancelAssignButton(int taskNumber = 1)
 		{
 			Logger.Trace("Нажать кнопку отмены назначения исполнителя для задачи с номером '{0}'", taskNumber);
 
@@ -146,7 +158,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 		/// <summary>
 		/// Дождаться поялвения кнопки подтверждения удаления назначения пользователя
 		/// </summary>
-		public ResponsiblesDialog WaitCancelConfirmButtonDisplay()
+		public TaskAssignmentDialog WaitCancelConfirmButtonDisplay()
 		{
 			Logger.Trace("Дождаться появления кнопки подтверждения удаления назначения пользователя");
 
@@ -159,7 +171,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 		/// <summary>
 		/// Нажать кнопку подтверждения удаления назначения пользователя
 		/// </summary>
-		public ResponsiblesDialog ClickConfirmCancelButton()
+		public TaskAssignmentDialog ClickConfirmCancelButton()
 		{
 			Logger.Trace("Нажать кнопку подтверждения удаления назначения пользователя");
 			ConfirmCancelButton.Click();
@@ -168,19 +180,24 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 		}
 
 		/// <summary>
-		/// Получить статус назначения на задачу
+		/// Подтвердить, что стоит ожидаемый статус задачи.
 		/// </summary>
-		public string GetAssignStatus()
+		/// <param name="expectedStatus">ожидаемый статус</param>
+		/// <param name="taskNumber">номер задачи</param>
+		public TaskAssignmentDialog AssertAssignStatus(string expectedStatus, int taskNumber)
 		{
-			Logger.Trace("Получить статус назначения на задачу");
+			Logger.Trace("Подтвердить, что статус задачи: '{0}'", expectedStatus);
 
-			return AssignStatus.Text;
+			Assert.IsTrue(Driver.WaitUntilElementIsDisplay(By.XPath(ASSIGN_STATUS.Replace("*#*", expectedStatus).Replace("*##*",taskNumber.ToString()))),
+				"Произошла ошибка:\n статус задачи не {0}", expectedStatus);
+
+			return GetPage();
 		}
 
 		/// <summary>
 		/// Проверить, что кнопка отмены назначения на задачу появилась
 		/// </summary>
-		public ResponsiblesDialog AssertCancelAssignButtonExist(int taskNumber = 1)
+		public TaskAssignmentDialog AssertCancelAssignButtonExist(int taskNumber = 1)
 		{
 			Logger.Trace("Проверить, что кнопка отмены назначения на задачу появилась");
 
@@ -196,23 +213,20 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 		[FindsBy(How = How.XPath, Using = CONFIRM_CANCEL_BUTTON)]
 		protected IWebElement ConfirmCancelButton { get; set; }
 
-		[FindsBy(How = How.XPath, Using = ASSIGN_STATUS)]
-		protected IWebElement AssignStatus { get; set; }
-
-		protected IWebElement ResponsiblesDropbox { get; set; }
+		protected IWebElement AssigneeDropbox { get; set; }
 
 		protected IWebElement AssignButton { get; set; }
 
 		protected IWebElement CancelAssignButton { get; set; }
 
-		protected const string RESPONSIBLES_TABLE = "(//table[contains(@class, 'js-progress-table')]//table)[2]";
-		protected const string RESPONSIBLES_DROPBOX = "(//table[contains(@class, 'js-progress-table')]//table)[2]//tr[*#*]//td[contains(@class, 'assineer')]//select";
-		protected const string RESPONSIBLES_LIST = "(//div[contains(@class, 'js-popup-assign')])[2]//td[contains(@class, 'assineer')]//select//option[contains(text() , '*#*')]";
+		protected const string TASK_ASSIGN_TABLE = "(//table[contains(@class, 'js-progress-table')]//table)[2]";
+		protected const string TASK_ASSIGN_DROPBOX = "(//table[contains(@class, 'js-progress-table')]//table)[2]//tr[*#*]//td[contains(@class, 'assineer')]//select";
+		protected const string ASSIGNEE_LIST = "(//div[contains(@class, 'js-popup-assign')])[2]//td[contains(@class, 'assineer')]//select//option[contains(text() , '*#*')]";
 		protected const string ASSIGN_BUTTON = "((//table[contains(@class, 'js-progress-table')]//table)[2]//a[contains(@data-bind, 'click: assign')])[*#*]";
 		protected const string CLOSE_BUTTON = "(//div[contains(@class, 'js-popup-assign')])[2]//span[contains(@class, 'js-popup-close')]";
 		protected const string CANCEL_ASSIGN_BUTTON = "((//table[contains(@class, 'js-progress-table')]//table)[2]//span[contains(@class,'js-assigned-cancel')])[*#*]";
 		protected const string CONFIRM_CANCEL_BUTTON = "//div[contains(@class,'l-confirm')]//span[span[input[@value='Cancel Assignment']]]";
-		protected const string ASSIGN_STATUS = "(//span[@data-bind='text: status()'])[2]";
-		protected const string RESPONSIBLES_DROPBOX_OPTION = "(//table[contains(@class, 'js-progress-table')]//table)[2]//tr[1]//td[contains(@class, 'assineer')]//select/option[1]";
+		protected const string ASSIGN_STATUS = "(//span[@data-bind='text: status()' and text()='*#*'])[*##*]";
+		protected const string TASK_ASSIGN_DROPBOX_OPTION = "(//table[contains(@class, 'js-progress-table')]//table)[2]//tr[1]//td[contains(@class, 'assineer')]//select/option[1]";
 	}
 }

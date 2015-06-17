@@ -111,7 +111,7 @@
     <Compile Include="Pages\Projects\DocumentUploadDialog\DocumentUploadBaseDialog.cs" />
     <Compile Include="Pages\Projects\DocumentUploadDialog\DocumentUploadSetUpTMDialog.cs" />
     <Compile Include="Pages\Projects\ProjectSettings\SettingsDialog.cs" />
-    <Compile Include="Pages\Projects\ResponsiblesDialog.cs" />
+    <Compile Include="Pages\Projects\TaskAssignmentDialog.cs" />
     <Compile Include="Pages\TranslationMemories\NewTranslationMemoryDialog.cs" />
     <Compile Include="Pages\TranslationMemories\TranslationMemoriesPage.cs" />
     <Compile Include="Pages\Projects\CreateProjectDialog\NewProjectCreateTMDialog.cs" />
@@ -125,7 +125,6 @@
     <Compile Include="Pages\Projects\ProjectSettings\DeleteDocumentDialog.cs" />
     <Compile Include="Pages\Projects\DocumentUploadDialog\DocumentUploadGeneralInformationDialog.cs" />
     <Compile Include="Pages\Projects\ProjectSettings\ProjectSettingsPage.cs" />
-    <Compile Include="Pages\Projects\ProjectSettings\TaskAssignmentDialog.cs" />
     <Compile Include="Pages\Projects\ProjectsPage.cs" />
     <Compile Include="Pages\UsersRights\UsersRightsPage.cs" />
     <Compile Include="Pages\Workspace\WorkspacePage.cs" />
@@ -152,7 +151,7 @@
     <Compile Include="TestHelpers\LoginHelper.cs" />
     <Compile Include="TestHelpers\ProjectSettingsHelper.cs" />
     <Compile Include="TestHelpers\ProjectsHelper.cs" />
-    <Compile Include="TestHelpers\ResponsiblesDialogHelper.cs" />
+    <Compile Include="TestHelpers\TaskAssignmentDialogHelper.cs" />
     <Compile Include="TestHelpers\TranslationMemoriesHelper.cs" />
     <Compile Include="TestHelpers\UploadDocumentHelper.cs" />
     <Compile Include="TestHelpers\UsersRightsHelper.cs" />

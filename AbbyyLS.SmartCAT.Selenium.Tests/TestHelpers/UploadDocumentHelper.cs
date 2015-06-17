@@ -29,7 +29,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 		public UploadDocumentHelper ClickNextOnSetUpTMPage()
 		{
 			BaseObject.InitPage(_documentUploadSetUpTMDialog);
-			_documentUploadSetUpTMDialog.ClickNext<DocumentUploadAssignResponsiblesDialog>();
+			_documentUploadSetUpTMDialog.ClickNext<DocumentUploadTaskAssignmentDialog>();
 
 			return this;
 		}

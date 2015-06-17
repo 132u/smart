@@ -233,6 +233,16 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace
 			return GetPage();
 		}
 
+		public T AssertDialogBackgroundDissapeared<T>() where T : class, IAbstractPage<T>, new()
+		{
+			Logger.Trace("Дождаться закрытия фона диалога.");
+
+			Assert.IsTrue(Driver.WaitUntilElementIsDissapeared(By.XPath(DIALOG_BACKGROUND)),
+				"Ошибка: фон диалога не закрылся.");
+			
+			return new T().GetPage();
+		}
+
 		private void openHideMenuIfClosed()
 		{
 			if (!getIsLeftMenuDisplay())
@@ -323,5 +333,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace
 		protected const string LICENSES_AND_SERVICES = "//a[contains(@class,'billing')]";
 
 		protected const string LANGUAGE_PICTURE = "//i[text()='*#*']";
+		protected const string DIALOG_BACKGROUND = "//div[contains(@class,'js-popup-bg')]";
 	}
 }

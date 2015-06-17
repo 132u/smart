@@ -7,26 +7,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 {
 	public class ProjectSettingsHelper : WorkspaceHelper
 	{
-		/// <summary>
-		/// Назначить ответственного на документ
-		/// </summary>
-		/// <param name="filePath">путь до документа</param>
-		/// <param name="userName">имя назначаемого пользователя</param>
-		public ProjectSettingsHelper AssignResponsible(string filePath, string userName)
-		{
-			BaseObject.InitPage(_projectPage);
-			_projectPage
-				.UncheckAllChecboxesDocumentsTable()
-				.ClickProjectsTableCheckbox(Path.GetFileNameWithoutExtension(filePath))
-				.ClickAssignButtonOnPanel()
-				.SelectAssignee(userName)
-				.ClickAssignButton()
-				.AssertIsUserAssigned()
-				.ClickCloseButton();
-
-			return this;
-		}
-
 		public ProjectSettingsHelper ClickDocumentProgress(string filePath)
 		{
 			BaseObject.InitPage(_projectPage);
@@ -35,12 +15,12 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 			return this;
 		}
 
-		public ResponsiblesDialogHelper ClickAssignButtonInDocumentInfo()
+		public TaskAssignmentDialogHelper ClickAssignButtonInDocumentInfo()
 		{
 			BaseObject.InitPage(_projectPage);
 			_projectPage.ClickAssignButtonInDocumentInfo();
 
-			return new ResponsiblesDialogHelper();
+			return new TaskAssignmentDialogHelper();
 		}
 
 		public ProjectSettingsHelper SelectDocument(string filePath)

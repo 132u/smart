@@ -5,24 +5,24 @@ using AbbyyLS.SmartCAT.Selenium.Tests.TestFramework;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.DocumentUploadDialog
 {
-	class DocumentUploadAssignResponsiblesDialog : DocumentUploadBaseDialog, IAbstractPage<DocumentUploadAssignResponsiblesDialog>
+	class DocumentUploadTaskAssignmentDialog : DocumentUploadBaseDialog, IAbstractPage<DocumentUploadTaskAssignmentDialog>
 	{
-		public DocumentUploadAssignResponsiblesDialog GetPage()
+		public DocumentUploadTaskAssignmentDialog GetPage()
 		{
-			var documentUploadAssignResponsiblesDialog = new DocumentUploadAssignResponsiblesDialog();
-			InitPage(documentUploadAssignResponsiblesDialog);
+			var documentUploadTaskAssignmentDialog = new DocumentUploadTaskAssignmentDialog();
+			InitPage(documentUploadTaskAssignmentDialog);
 
-			return documentUploadAssignResponsiblesDialog;
+			return documentUploadTaskAssignmentDialog;
 		}
 
 		public void LoadPage()
 		{
-			if (!Driver.WaitUntilElementIsDisplay(By.XPath(ASSING_RESPONSIBLES_TABLE)))
+			if (!Driver.WaitUntilElementIsDisplay(By.XPath(TASK_ASSING_TABLE)))
 			{
 				Assert.Fail("Произошла ошибка:\n не на шаг назначения пользователей на задачу.");
 			}
 		}
 
-		protected const string ASSING_RESPONSIBLES_TABLE = ".//div[contains(@class,'js-popup-import-document')][2]//div[@class='js-step last active']";
+		protected const string TASK_ASSING_TABLE = ".//div[contains(@class,'js-popup-import-document')][2]//div[@class='js-step last active']";
 	}
 }

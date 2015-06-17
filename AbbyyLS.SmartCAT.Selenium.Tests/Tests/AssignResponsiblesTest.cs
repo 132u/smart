@@ -20,7 +20,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 			_createProjectHelper = new CreateProjectHelper();
 			_usersRightsHelper = new UsersRightsHelper();
 			_projectsHelper = new ProjectsHelper();
-			_responsiblesDialogHelper = new ResponsiblesDialogHelper();
+			_taskAssignmentDialogHelper = new TaskAssignmentDialogHelper();
 			_projectUniqueName = _createProjectHelper.GetProjectUniqueName();
 		}
 
@@ -30,8 +30,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 			_createProjectHelper
 				.CreateNewProject(_projectUniqueName, PathProvider.EditorTxtFile)
 				.OpenAssignDialog(_projectUniqueName)
-				.OpenTaskResponsibles()
-				.AssertTaskResponsiblesListDisplay();
+				.OpenAssigneeDropbox()
+				.AssertTaskAssigneeListDisplay();
 		}
 
 		[Test]
@@ -107,10 +107,10 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 			var responsibleUsersList = _createProjectHelper
 				.CreateNewProject(_projectUniqueName, PathProvider.EditorTxtFile)
 				.OpenAssignDialog(_projectUniqueName)
-				.OpenTaskResponsibles()
+				.OpenAssigneeDropbox()
 				.GetResponsibleUsersList();
 
-			var responsibleGroupList = _responsiblesDialogHelper.GetResponsibleGroupsList();
+			var responsibleGroupList = _taskAssignmentDialogHelper.GetResponsibleGroupsList();
 
 			Assert.IsFalse(
 				responsibleGroupList.Except(groupsList).Any(),
@@ -135,7 +135,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 			_createProjectHelper
 				.CreateNewProject(_projectUniqueName, PathProvider.EditorTxtFile)
 				.OpenAssignDialog(_projectUniqueName)
-				.OpenTaskResponsibles()
+				.OpenAssigneeDropbox()
 				.AssertGroupExist(groupName);
 		}
 
@@ -145,9 +145,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 			_createProjectHelper
 				.CreateNewProject(_projectUniqueName, PathProvider.EditorTxtFile)
 				.OpenAssignDialog(_projectUniqueName)
-				.OpenTaskResponsibles()
+				.OpenAssigneeDropbox()
 				.SetResponsible(NickName, false)
-				.ClickCloseAssignDialog<ProjectsPage>()
+				.CloseTaskAssignmentDialog<ProjectsPage>()
 				.GoToProjectSettingsPage(_projectUniqueName)
 				.OpenDocument<SelectTaskDialog>(PathProvider.EditorTxtFile)
 				.SelectTask()
@@ -166,11 +166,11 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 				.ClickFinishOnProjectSetUpWorkflowDialog()
 				.WaitCreateProjectDialogDisappear()
 				.OpenAssignDialog(_projectUniqueName)
-				.OpenTaskResponsibles()
+				.OpenAssigneeDropbox()
 				.SetResponsible(NickName, false)
-				.OpenTaskResponsibles(2)
+				.OpenAssigneeDropbox(2)
 				.SetResponsible(NickName, false)
-				.ClickCloseAssignDialog<ProjectsPage>()
+				.CloseTaskAssignmentDialog<ProjectsPage>()
 				.GoToProjectSettingsPage(_projectUniqueName)
 				.OpenDocument<SelectTaskDialog>(PathProvider.EditorTxtFile);
 		}
@@ -181,9 +181,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 			_createProjectHelper
 				.CreateNewProject(_projectUniqueName, PathProvider.EditorTxtFile)
 				.OpenAssignDialog(_projectUniqueName)
-				.OpenTaskResponsibles()
+				.OpenAssigneeDropbox()
 				.SetResponsible(NickName, false)
-				.ClickCloseAssignDialog<ProjectsPage>()
+				.CloseTaskAssignmentDialog<ProjectsPage>()
 				.GoToProjectSettingsPage(_projectUniqueName)
 				.OpenWorkflowSettings()
 				.ClickDeleteTaskButton()
@@ -201,9 +201,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 			_createProjectHelper
 				.CreateNewProject(_projectUniqueName, PathProvider.EditorTxtFile)
 				.OpenAssignDialog(_projectUniqueName)
-				.OpenTaskResponsibles()
+				.OpenAssigneeDropbox()
 				.SetResponsible(NickName, false)
-				.ClickCloseAssignDialog<ProjectsPage>()
+				.CloseTaskAssignmentDialog<ProjectsPage>()
 				.GoToProjectSettingsPage(_projectUniqueName)
 				.AcceptAllTasks(PathProvider.EditorTxtFile)
 				.OpenDocument<SelectTaskDialog>(PathProvider.EditorTxtFile)
@@ -215,9 +215,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 				.OpenAssignDialog(_projectUniqueName)
 				.ClickCancelAssignButton()
 				.ConfirmCancel()
-				.OpenTaskResponsibles()
+				.OpenAssigneeDropbox()
 				.SetResponsible(NickName2, false)
-				.ClickCloseAssignDialog<ProjectsPage>()
+				.CloseTaskAssignmentDialog<ProjectsPage>()
 				.GoToProjectSettingsPage(_projectUniqueName)
 				.OpenDocument<EditorPage>(PathProvider.EditorTxtFile)
 				.AssertStageNameIsEmpty()
@@ -240,9 +240,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 			_createProjectHelper
 				.CreateNewProject(_projectUniqueName, PathProvider.EditorTxtFile)
 				.OpenAssignDialog(_projectUniqueName)
-				.OpenTaskResponsibles()
+				.OpenAssigneeDropbox()
 				.SetResponsible(NickName, false)
-				.ClickCloseAssignDialog<ProjectsPage>()
+				.CloseTaskAssignmentDialog<ProjectsPage>()
 				.GoToProjectSettingsPage(_projectUniqueName)
 				.AcceptAllTasks(PathProvider.EditorTxtFile)
 				.OpenDocument<SelectTaskDialog>(PathProvider.EditorTxtFile)
@@ -254,7 +254,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 				.OpenAssignDialog(_projectUniqueName)
 				.ClickCancelAssignButton()
 				.ConfirmCancel()
-				.ClickCloseAssignDialog<ProjectsPage>()
+				.CloseTaskAssignmentDialog<ProjectsPage>()
 				.GoToProjectSettingsPage(_projectUniqueName)
 				.OpenDocument<EditorPage>(PathProvider.EditorTxtFile)
 				.AssertStageNameIsEmpty();
@@ -271,25 +271,25 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 				.ClickFihishUploadOnProjectSettingsPage()
 				.ClickDocumentProgress(PathProvider.DocumentFile)
 				.ClickAssignButtonInDocumentInfo()
-				.OpenTaskResponsibles()
+				.OpenAssigneeDropbox()
 				.SetResponsible(NickName, false)
-				.ClickCloseAssignDialog<ProjectSettingsPage>()
+				.CloseTaskAssignmentDialog<ProjectSettingsPage>()
 				.RefreshPage()
 				.AcceptAllTasks(PathProvider.DocumentFile)
 				.ClickAssignButtonInDocumentInfo()
 				.ClickCancelAssignButton()
 				.ConfirmCancel()
 				.AssertAssignStatus("Not assigned")
-				.OpenTaskResponsibles()
+				.OpenAssigneeDropbox()
 				.SetResponsible(NickName, false)
 				.AssertCancelAssignButtonExist()
-				.ClickCloseAssignDialog<ProjectSettingsPage>();
+				.CloseTaskAssignmentDialog<ProjectSettingsPage>();
 		}
 
 		private string _projectUniqueName;
 		private CreateProjectHelper _createProjectHelper;
 		private ProjectsHelper _projectsHelper;
 		private UsersRightsHelper _usersRightsHelper;
-		private ResponsiblesDialogHelper _responsiblesDialogHelper;
+		private TaskAssignmentDialogHelper _taskAssignmentDialogHelper;
 	}
 }
