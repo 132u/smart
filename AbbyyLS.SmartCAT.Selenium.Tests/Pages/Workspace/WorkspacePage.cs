@@ -1,22 +1,23 @@
-﻿using System;
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using System.Linq;
 
-using AbbyyLS.SmartCAT.Selenium.Tests.DataStructures;
-using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects;
 using NUnit.Framework;
 
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.PageObjects;
 
+using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Billing;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Client;
-using AbbyyLS.SmartCAT.Selenium.Tests.Pages.ProjectGroups;
+using AbbyyLS.SmartCAT.Selenium.Tests.DataStructures;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries;
+using AbbyyLS.SmartCAT.Selenium.Tests.Pages.LingvoDictionaries;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Login;
+using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects;
+using AbbyyLS.SmartCAT.Selenium.Tests.Pages.ProjectGroups;
+using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Search;
+using AbbyyLS.SmartCAT.Selenium.Tests.TestFramework;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.UsersRights;
-using AbbyyLS.SmartCAT.Selenium.Tests.TestFramework;
-using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Billing;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace
 {
@@ -109,6 +110,18 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace
 			GlossariesButton.Click();
 
 			return new GlossariesPage().GetPage();
+		}
+
+		/// <summary>
+		/// Нажать кнопку 'Lingvo Dictionaries'
+		/// </summary>
+		public LingvoDictionariesPage ClickLingvoDictionariesButton()
+		{
+			Logger.Debug("Нажать кнопку 'Lingvo Dictionaries'.");
+			openHideMenuIfClosed();
+			LingvoDictionaries.Click();
+
+			return new LingvoDictionariesPage().GetPage();
 		}
 
 		/// <summary>
@@ -243,6 +256,44 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace
 			return new T().GetPage();
 		}
 
+		/// <summary>
+		/// Проверить, что 'Lingvo Dictionaries' отсутствует в меню
+		/// </summary>
+		public WorkspacePage AssertLingvoDictionariesMenuIsNotDisplayed()
+		{
+			Logger.Trace("Проверить, что 'Lingvo Dictionaries' отсутствует в меню.");
+
+			Assert.IsFalse(Driver.GetIsElementExist(By.XPath(LINGVO_DICTIONARIES_MENU)),
+				"Произошла ошибка:\n 'Lingvo Dictionaries' присутствует в меню.");
+
+			return GetPage();
+		}
+
+		/// <summary>
+		/// Проверить, что 'Lingvo Dictionaries' присутствует в меню
+		/// </summary>
+		public WorkspacePage AssertLingvoDictionariesDisplayed()
+		{
+			Logger.Trace("Проверить, существует ли 'Lingvo Dictionaries' в меню.");
+
+			Assert.IsTrue(LingvoDictionaries.Displayed,
+				"Произошла ошибка:\n в меню отсутствует 'Lingvo Dictionaries'.");
+
+			return GetPage();
+		}
+
+		/// <summary>
+		/// Нажать Search в меню.
+		/// </summary>
+		public SearchPage ClickSearchButton()
+		{
+			Logger.Debug("Нажать Search в меню.");
+			openHideMenuIfClosed();
+			SearchMenu.Click();
+
+			return new SearchPage().GetPage();
+		}
+
 		private void openHideMenuIfClosed()
 		{
 			if (!getIsLeftMenuDisplay())
@@ -305,6 +356,13 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace
 
 		[FindsBy(How = How.XPath, Using = LICENSES_AND_SERVICES)]
 		protected IWebElement LicenseAndServices { get; set; }
+		[FindsBy(How = How.XPath, Using = LINGVO_DICTIONARIES_MENU)]
+
+		protected IWebElement LingvoDictionaries { get; set; }
+
+		[FindsBy(How = How.XPath, Using = SEARCH_MENU)]
+		protected IWebElement SearchMenu { get; set; }
+
 
 		[FindsBy(How = How.XPath, Using = LANGUAGE_BUTTON)]
 		protected IWebElement LanguageButton { get; set; }
@@ -323,6 +381,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace
 		protected const string TRANSLATION_MEMORIES_BUTTON = "//a[contains(@href,'/TranslationMemories/Index')]";
 		protected const string GLOSSARY = ".//a[contains(@href,'/Glossaries')]";
 		protected const string DOMAIN_REF = ".//a[contains(@href,'/Domains')]";
+		protected const string LINGVO_DICTIONARIES_MENU = ".//a[contains(@href,'/LingvoDictionaries')]";
+		protected const string SEARCH_MENU = "//div[contains(@class, 'menu-wrapper')]//a[contains(@href,'/Start')]";
 
 		protected const string USER_PICTURE = "//i[contains(@class, 'upic')]";
 		protected const string LOCALE_REF = "//a[contains(@class,'js-set-locale') and contains(@data-locale, '*#*')]";

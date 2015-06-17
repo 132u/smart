@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using System.Windows.Forms;
 
@@ -148,6 +150,27 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Admin
 		}
 
 		/// <summary>
+		/// Нажать на кнопку добавления всех пакетов словарей
+		/// </summary>
+		public AdminCreateAccountPage AddAllPackages()
+		{
+			Logger.Debug("Нажать на кнопку добавления всех пакетов словарей.");
+			AddAllDictionariesPackagesButton.Click();
+
+			return GetPage();
+		}
+
+		/// <summary>
+		/// Получить список включенных в аккаунт фич из правой таблицы.
+		/// </summary>
+		public List<string> FeaturesListInAccount()
+		{
+			Logger.Trace("Получить список включенных в аккаунт фич из правой таблицы.");
+
+			return Driver.GetTextListElement(By.XPath(FEATURES_OPTIONS_IN_RIGHT_TABLE));
+		}
+
+		/// <summary>
 		/// Закрыть открытый диалог
 		/// </summary>
 		private static void tryCloseExternalDialog()
@@ -182,14 +205,18 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Admin
 		[FindsBy(How = How.XPath, Using = WORKFLOW_CHECKBOX)]
 		protected IWebElement WorkflowCheckbox { get; set; }
 
+		[FindsBy(How = How.XPath, Using = ADD_ALL_DICTIONARIES_PACKAGES_BUTTON)]
+		protected IWebElement AddAllDictionariesPackagesButton { get; set; }
+
 		protected const string INPUT_NAME = "//input[(@id='Name')]";
 		protected const string FEATURES_OPTIONS = "//table[@name='Features']//select[@id='left']//option[@value='*#*']";
+		protected const string FEATURES_OPTIONS_IN_RIGHT_TABLE = "//table[@name='Features']//select[@id='right']//option";
 		protected const string FEATURES_TO_RIGHT_ARROW = "//table[@name='Features']//input[@name='toRight']";
 		protected const string DICTIONARIES_EXP_DATE = "//input[@id='DictionariesExpirationDate']";
 		protected const string SAVE_BUTTON = "//p[@class='submit-area']/input";
 		protected const string INPUT_VENTURE = "//select[@id='VentureId']";
 		protected const string SUBDOMAIN_NAME = "//input[@name='SubDomain']";
 		protected const string WORKFLOW_CHECKBOX = "//input[@id='WorkflowEnabled']";
-		protected const string ACCOUNT_EXISTS_FROM = "//div[2]/span[@class='field-validation-error']";
+		protected const string ADD_ALL_DICTIONARIES_PACKAGES_BUTTON = "//table[@name='dictionariesPackages']//input[@name='allToRight']";
 	}
 }

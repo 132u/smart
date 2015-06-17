@@ -1,4 +1,6 @@
-﻿using System.Linq;
+﻿using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
 
 using NUnit.Framework;
 
@@ -93,6 +95,18 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Admin
 			return new AdminCreateAccountPage().GetPage();
 		}
 
+		/// <summary>
+		/// Нажать кнопку редактирования аккаунта
+		/// </summary>
+		/// <param name="accountName">имя аккаунта</param>
+		public AdminCreateAccountPage ClickEditAccount(string accountName)
+		{
+			Logger.Debug("Нажать кнопку редактирования аккаунта {0}.", accountName);
+			Driver.SetDynamicValue(How.XPath, EDIT_BUTTON, accountName).Click();
+
+			return new AdminCreateAccountPage().GetPage();
+		}
+
 		[FindsBy(How = How.XPath, Using = SELECT_VENTURE)]
 		protected IWebElement SelectVenture { get; set; }
 
@@ -104,5 +118,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Admin
 		protected const string SELECT_VENTURE = "//select[@id='VentureId']";
 		protected const string ADD_ACCOUNT_REF = "//a[contains(@href,'/EnterpriseAccounts/Edit')]";
 		protected const string MANAGE_USERS_REF = "//table//tr[contains(string(), '*#*')]//a[contains(@href,'/EnterpriseAccountUsers')]";
+		protected const string EDIT_BUTTON = "//td[text()='*#*']/../td[1]//a[contains(@href,'/EnterpriseAccounts/Edit')]";
+
 	}
 }

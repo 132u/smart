@@ -20,7 +20,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Admin
 		
 		public void LoadPage()
 		{
-			if (!Driver.WaitUntilElementIsDisplay(By.XPath(ENTERPRISE_ACCOUNTS_REF)))
+			if (!Driver.WaitUntilElementIsDisplay(By.XPath(ENTERPRISE_ACCOUNTS_LINK)))
 			{
 				Assert.Fail("Произошла ошибка:\n не удалось зайти в админку.\n" +
 					" Не загружена страничка AdminLingvoProPage (Lingvo.Pro Admin).");
@@ -30,10 +30,10 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Admin
 		/// <summary>
 		/// Кликнуть по ссылке 'Корпоративные аккаунты'
 		/// </summary>
-		public AdminEnterpriseAccountsPage ClickEnterpriseAccountsReference()
+		public AdminEnterpriseAccountsPage ClickEnterpriseAccountsLink()
 		{
 			Logger.Debug("Кликнуть по ссылке 'Корпоративные аккаунты'.");
-			EnterpriseAccountsReference.Click();
+			EnterpriseAccountsLink.Click();
 
 			return new AdminEnterpriseAccountsPage().GetPage();
 		}
@@ -72,8 +72,16 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Admin
 			return new AdminFindUserPage().GetPage();
 		}
 
-		[FindsBy(How = How.XPath, Using = ENTERPRISE_ACCOUNTS_REF)]
-		protected IWebElement EnterpriseAccountsReference { get; set; }
+		/// <summary>
+		/// Нажать на ссылку 'Просмотреть пакеты словарей'
+		/// </summary>
+		public AdminDictionariesPackagesPage ClickDictionariesPackagesLink()
+		{
+			Logger.Debug("Нажать на ссылку 'Просмотреть пакеты словарей'.");
+			DictionaryPackagesLink.Click();
+
+			return new AdminDictionariesPackagesPage().GetPage();
+		}
 
 		[FindsBy(How = How.XPath, Using = LETTERS_SEARCH_REF)]
 		protected IWebElement LettersSearchReference { get; set; }
@@ -81,12 +89,20 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Admin
 		[FindsBy(How = How.XPath, Using = CREATE_USER_REF)]
 		protected IWebElement CreateUserReference { get; set; }
 
-		[FindsBy(How = How.XPath, Using = SERACH_USER_LINK)]
+		[FindsBy(How = How.XPath, Using = SEARCH_USER_LINK)]
 		protected IWebElement SearchUserReference { get; set; }
 
-		protected const string ENTERPRISE_ACCOUNTS_REF = "//a[@href='/EnterpriseAccounts']";
+		[FindsBy(How = How.XPath, Using = DICTIONARY_PACKAGES_LINK)]
+		protected IWebElement DictionaryPackagesLink { get; set; }
+
+		[FindsBy(How = How.XPath, Using = ENTERPRISE_ACCOUNTS_LINK)]
+		protected IWebElement EnterpriseAccountsLink { get; set; }
+
 		protected const string LETTERS_SEARCH_REF = "//a[@href='/EMailTaskList']";
 		protected const string CREATE_USER_REF = "//a[@href='/Users/Create']";
-		protected const string SERACH_USER_LINK = "//a[@href='/Users']";
+		protected const string SEARCH_USER_LINK = "//a[@href='/Users']";
+		protected const string DICTIONARY_PACKAGES_LINK = "//a[contains(@href,'/DictionariesPackages')]";
+		protected const string ENTERPRISE_ACCOUNTS_LINK = ".//a[@href='/EnterpriseAccounts']";
+
 	}	
 }

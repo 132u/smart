@@ -1,4 +1,7 @@
-﻿using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
+﻿using System.Collections.Generic;
+
+using AbbyyLS.SmartCAT.Selenium.Tests.DataStructures;
+using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
 using AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers;
 using NUnit.Framework;
 
@@ -22,8 +25,18 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.InitialData
 		public void CreateCorpAccount()
 		{
 			_adminHelper
-				.CreateAccountIfNotExist(LoginHelper.SmartCATVenture, LoginHelper.TestAccountName, workflow: true)
-				.CreateAccountAdminIfNotExist(Login, UserName, UserSurname, LoginHelper.TestAccountName);
+				.CreateAccountIfNotExist(
+					LoginHelper.SmartCATVenture,
+					LoginHelper.TestAccountName,
+					workflow: true,
+					features: new List<string>
+						{
+							Feature.Clients.ToString(),
+							Feature.Domains.ToString(),
+							Feature.TranslateConnector.ToString(),
+							Feature.LingvoDictionaries.ToString(),
+						})
+					.CreateAccountAdminIfNotExist(Login, UserName, UserSurname, LoginHelper.TestAccountName);
 		}
 
 		[Test]
@@ -40,13 +53,34 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.InitialData
 		[Test]
 		public void CreatePerevedemCorpAccount()
 		{
-			_adminHelper.CreateAccountIfNotExist(LoginHelper.PerevedemVenture, LoginHelper.PerevedemAccountName, workflow: true);
+			_adminHelper.CreateAccountIfNotExist(
+				LoginHelper.PerevedemVenture,
+				LoginHelper.PerevedemAccountName,
+				workflow: true,
+				features: new List<string>
+						{
+							Feature.Clients.ToString(),
+							Feature.TranslateConnector.ToString(),
+							Feature.LingvoDictionaries.ToString(),
+						}
+				);
 		}
 
 		[Test]
 		public void CreateCourseraUsers()
 		{
-			_adminHelper.CreateAccountIfNotExist(LoginHelper.CourseraVenture, LoginHelper.CourseraAccountName, workflow: true);
+			_adminHelper.CreateAccountIfNotExist(
+				LoginHelper.CourseraVenture,
+				LoginHelper.CourseraAccountName,
+				workflow: true,
+				features: new List<string>
+					{
+						Feature.Clients.ToString(),
+						Feature.Crowd.ToString(),
+						Feature.TranslateConnector.ToString(),
+						Feature.LingvoDictionaries.ToString(),
+					}
+				);
 
 			foreach (var user in CourseraUserList)
 			{
@@ -73,6 +107,12 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.InitialData
 				.CheckAdminCheckbox()
 				.CreateNewPersonalAccount(RightsTestLogin, state: true)
 				.AddUserToSpecificAccount(RightsTestLogin, LoginHelper.TestAccountName);
+		}
+
+		[Test]
+		public void CreateDefaultDictionaryPackage()
+		{
+			_adminHelper.CreateDictionaryPackageIfNotExist();
 		}
 
 		private AdminHelper _adminHelper;

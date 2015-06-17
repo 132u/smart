@@ -44,7 +44,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			return convertLinksToDictionaryNames(dictionaryLinks);
 		}
 
-		private static List<string> convertLinksToDictionaryNames(IEnumerable<string> links)
+		private static List<string> convertLinksToDictionaryNames(IList<string> links)
 		{
 			if (links.Any(item => item == null))
 			{

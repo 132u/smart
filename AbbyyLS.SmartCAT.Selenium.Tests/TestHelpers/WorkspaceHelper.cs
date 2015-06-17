@@ -33,6 +33,36 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 			return new GlossariesHelper();
 		}
 
+		public WorkspaceHelper AssertLingvoDictionariesDisplayed()
+		{
+			BaseObject.InitPage(_workspacePage);
+			_workspacePage
+				.ExpandResourcesIfNotExpanded()
+				.AssertLingvoDictionariesDisplayed();
+
+			return this;
+		}
+
+		public WorkspaceHelper AssertLingvoDictionariesIsNotDisplayed()
+		{
+			BaseObject.InitPage(_workspacePage);
+			_workspacePage
+				.ExpandResourcesIfNotExpanded()
+				.AssertLingvoDictionariesMenuIsNotDisplayed();
+
+			return this;
+		}
+
+		public LingvoDictionariesHelper GoToLingvoDictionariesPage()
+		{
+			BaseObject.InitPage(_workspacePage);
+			_workspacePage
+				.ExpandResourcesIfNotExpanded()
+				.ClickLingvoDictionariesButton();
+
+			return new LingvoDictionariesHelper();
+		}
+
 		public TranslationMemoriesHelper GoToTranslationMemoriesPage()
 		{
 			BaseObject.InitPage(_workspacePage);
@@ -89,7 +119,19 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 			return this;
 		}
 
+		public SearchHelper GotToSearchPage()
+		{
+			BaseObject.InitPage(_workspacePage);
+			_workspacePage
+				.ExpandResourcesIfNotExpanded()
+				.ClickSearchButton();
+
+			return new SearchHelper();
+		}
+
 		private readonly ProjectsPage _projectsPage = new ProjectsPage();
 		private readonly WorkspacePage _workspacePage = new WorkspacePage();
+
+
 	}
 }

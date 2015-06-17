@@ -310,5 +310,28 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestFramework
 		{
 			driver.SwitchTo().DefaultContent();
 		}
+
+		/// <summary>
+		/// Вернуть, существует ли элемент
+		/// </summary>
+		public static bool GetIsElementExist(this IWebDriver driver, By by)
+		{
+			try
+			{
+				driver.FindElement(by);
+				return true;
+			}
+			catch (StaleElementReferenceException staleElementReferenceException)
+			{
+				Logger.Warn("StaleElementReferenceException: GetIsElementExist: " + by.ToString(), staleElementReferenceException);
+				return GetIsElementExist(driver, by);
+			}
+			catch (NoSuchElementException)
+			{
+				Logger.Trace("NoSuchElementException: GetIsElementExist: " + by.ToString());
+				return false;
+			}
+		}
+
 	}
 }

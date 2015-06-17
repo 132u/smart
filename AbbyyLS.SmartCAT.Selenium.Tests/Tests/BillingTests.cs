@@ -1,4 +1,6 @@
-﻿using NUnit.Framework;
+﻿using System.Collections.Generic;
+
+using NUnit.Framework;
 
 using AbbyyLS.SmartCAT.Selenium.Tests.DataStructures;
 using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
@@ -19,7 +21,16 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Billing
 			var accountUniqueName = AdminHelper.GetAccountUniqueName();
 
 			_adminHelper
-				.CreateAccountIfNotExist(accountName: accountUniqueName, workflow: true)
+				.CreateAccountIfNotExist(
+					accountName: accountUniqueName,
+					workflow: true,
+					features: new List<string>
+					{
+						Feature.Clients.ToString(),
+						Feature.Domains.ToString(),
+						Feature.TranslateConnector.ToString(),
+						Feature.LingvoDictionaries.ToString(),
+					})
 				.AddUserToSpecificAccount(Login, accountUniqueName);
 
 			LogInSmartCat(Login, Password, accountUniqueName);
