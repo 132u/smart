@@ -594,6 +594,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			// 5) Настройка Pretranslate. Проверка создания проекта
 			WorkspaceCreateProjectDialog.ClickFinishCreate();
 			WorkspacePage.WaitProjectAppearInList(ProjectUniqueName);
+			MainHelperClass.WaitUntilCloseDialogBackground();
 
 			// Открываем проект
 			OpenProjectPage(ProjectUniqueName);

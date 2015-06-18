@@ -1373,7 +1373,8 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		{
 			//Открываем настройки проекта
 			ProjectPage.ClickProjectSettings();
-			Thread.Sleep(1000);
+
+			ProjectPage.WaitOpenProjectSettings();
 
 			//Переходим на вкладку Workflow
 			ProjectPage.ClickProjectSettingsWorkflow();

@@ -562,6 +562,17 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		}
 
 		/// <summary>
+		/// Дождаться открытия настроек проекта
+		/// </summary>
+		public void WaitOpenProjectSettings()
+		{
+			Logger.Trace("Дождаться открытия настроек проекта");
+
+			Assert.IsTrue(WaitUntilDisplayElement(By.XPath(PROJECT_SETTINGS_WORKFLOW_XPATH)),
+				"Произошла ошибка:\n окно настроек проекта не открылось.");
+		}
+
+		/// <summary>
 		/// Проверить отображеются ли Workflow в настройках проекта 
 		/// </summary>
 		public bool GetSettingsWorkflowDisplay()
