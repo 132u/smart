@@ -128,8 +128,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 
 		protected GlossaryEditStructureFormHelper GlossaryEditStructureForm { get; private set; }
 
-		protected DictionaryPageHelper DictionaryPage { get; private set; }
-
 		protected Editor_RevisionPageHelper RevisionPage { get; private set; }
 
 		protected UserRightsPageHelper UserRightsPage { get; private set; }
@@ -1943,7 +1941,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			ClientPage = new ClientPageHelper(Driver, Wait);
 			AdminPage = new AdminPageHelper(Driver, Wait);
 			GlossaryEditStructureForm = new GlossaryEditStructureFormHelper(Driver, Wait);
-			DictionaryPage = new DictionaryPageHelper(Driver, Wait);
 			RevisionPage = new Editor_RevisionPageHelper(Driver, Wait);
 			UserRightsPage = new UserRightsPageHelper(Driver, Wait);
 			SuggestTermDialog = new SuggestTermDialogHelper(Driver, Wait);

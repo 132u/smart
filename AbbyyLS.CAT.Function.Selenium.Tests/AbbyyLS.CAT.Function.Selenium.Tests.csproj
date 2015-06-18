@@ -86,8 +86,6 @@
     <Compile Include="Configs\CatServerConfig.cs" />
     <Compile Include="Configs\TestUserConfig.cs" />
     <Compile Include="Configs\UserInfoConfig.cs" />
-    <Compile Include="DictionaryTests\DictionaryPageHelper.cs" />
-    <Compile Include="DictionaryTests\DictionaryTest.cs" />
     <Compile Include="DomainTests\DomainPageHelper.cs" />
     <Compile Include="Driver\ChromeWebDriverSettings.cs" />
     <Compile Include="Driver\FirefoxWebDriverSettings.cs" />
@@ -186,6 +184,7 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
 	   Other similar extension points exist, see Microsoft.Common.targets.  
