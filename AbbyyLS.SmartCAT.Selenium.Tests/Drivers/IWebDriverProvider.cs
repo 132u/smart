@@ -1,9 +1,9 @@
-﻿using OpenQA.Selenium;
+﻿using OpenQA.Selenium.Remote;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.Drivers
 {
 	public interface IWebDriverProvider
 	{
-		IWebDriver GetWebDriver(string tempFolder);
+		RemoteWebDriver GetWebDriver(string tempFolder);
 	}
 }

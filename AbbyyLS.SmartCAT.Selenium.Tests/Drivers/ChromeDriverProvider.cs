@@ -1,18 +1,18 @@
 ﻿using System;
 using System.IO;
 using NLog;
-using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
+using OpenQA.Selenium.Remote;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.Drivers
 {
 	public class ChromeDriverProvider : IWebDriverProvider
 	{
-		public static Logger Logger = LogManager.GetCurrentClassLogger();
+		public static Logger Log = LogManager.GetCurrentClassLogger();
 
 		private string _driverCopyPath;
 
-		public IWebDriver GetWebDriver(string tempFolder)
+		public RemoteWebDriver GetWebDriver(string tempFolder)
 		{
 			var defaultDriverPath = Path.Combine(Directory.GetCurrentDirectory(), "chromedriver.exe");
 
@@ -29,15 +29,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Drivers
 			var options = new ChromeOptions();
 			options.AddArguments("--lang=en");
 
-			var driver = new ChromeDriver(tempFolder, options);
+			Log.Info("Настройки браузера {0}", String.Join(" ", options.Arguments));
 
-			Logger.Info("Браузер {0}", driver.Capabilities.BrowserName);
-			Logger.Info("Ключи {0}", String.Join(" ", options.Arguments));
-			Logger.Info("Версия {0}", driver.Capabilities.Version);
-			Logger.Info("Платформа {0}", driver.Capabilities.Platform);
-			Logger.Info("JavaScript enabled {0}", driver.Capabilities.IsJavaScriptEnabled);
-
-			return driver;
+			return new ChromeDriver(tempFolder, options);
 		}
 	}
 }

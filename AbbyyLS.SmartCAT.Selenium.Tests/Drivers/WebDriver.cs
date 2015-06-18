@@ -5,6 +5,7 @@ using System.IO;
 using NLog;
 using NUnit.Framework;
 using OpenQA.Selenium;
+using OpenQA.Selenium.Remote;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.Drivers
 {
@@ -20,6 +21,11 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Drivers
 			_driver.Manage().Timeouts().ImplicitlyWait(TimeSpan.FromSeconds(15));
 			_driver.Manage().Timeouts().SetPageLoadTimeout(TimeSpan.FromSeconds(60));
 			_driver.Manage().Window.Maximize();
+			
+			Logger.Info("Браузер {0}", _driver.Capabilities.BrowserName);
+			Logger.Info("Версия {0}", _driver.Capabilities.Version);
+			Logger.Info("Платформа {0}", _driver.Capabilities.Platform);
+			Logger.Info("JavaScript enabled {0}", _driver.Capabilities.IsJavaScriptEnabled);
 
 			Logger.Info("Браузер создан");
 		}
@@ -162,7 +168,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Drivers
 			Dispose();
 		}
 
-		private readonly IWebDriver _driver;
+		private readonly RemoteWebDriver _driver;
 		private readonly string _tempFolder;
 	}
 }
