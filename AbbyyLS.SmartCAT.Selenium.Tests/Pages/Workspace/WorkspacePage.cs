@@ -45,7 +45,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace
 		public UsersRightsPage ClickUsersRightsButton()
 		{
 			Logger.Debug("Нажать кнопку 'Пользователи и права'.");
-			openHideMenuIfClosed();
 			UsersRightsButton.Click();
 
 			return new UsersRightsPage().GetPage();
@@ -57,7 +56,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace
 		public ProjectsPage ClickProjectsButton()
 		{
 			Logger.Debug("Нажать кнопку 'Проекты'.");
-			openHideMenuIfClosed();
 			ProjectsButton.Click();
 
 			return new ProjectsPage().GetPage();
@@ -70,7 +68,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace
 		public ClientsPage ClickClientsButton()
 		{
 			Logger.Debug("Нажать кнопку 'Клиенты'.");
-			openHideMenuIfClosed();
 			ClientsButton.Click();
 
 			return new ClientsPage().GetPage();
@@ -82,7 +79,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace
 		public ProjectGroupsPage ClickProjectGroupsButton()
 		{
 			Logger.Debug("Нажать кнопку 'Группы проектов'.");
-			openHideMenuIfClosed();
 			ProjectGroupsButton.Click();
 
 			return new ProjectGroupsPage().GetPage();
@@ -94,7 +90,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace
 		public TranslationMemoriesPage ClickTranslationMemoriesButton()
 		{
 			Logger.Debug("Нажать кнопку 'Память переводов'.");
-			openHideMenuIfClosed();
 			TranslationMemoriesButton.Click();
 
 			return new TranslationMemoriesPage().GetPage();
@@ -106,7 +101,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace
 		public GlossariesPage ClickGlossariesButton()
 		{
 			Logger.Debug("Нажать кнопку 'Глоссарии'.");
-			openHideMenuIfClosed();
 			GlossariesButton.Click();
 
 			return new GlossariesPage().GetPage();
@@ -118,7 +112,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace
 		public LingvoDictionariesPage ClickLingvoDictionariesButton()
 		{
 			Logger.Debug("Нажать кнопку 'Lingvo Dictionaries'.");
-			openHideMenuIfClosed();
 			LingvoDictionaries.Click();
 
 			return new LingvoDictionariesPage().GetPage();
@@ -129,8 +122,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace
 		/// </summary>
 		public WorkspacePage ExpandResourcesIfNotExpanded()
 		{
-			openHideMenuIfClosed();
-
 			if (!ResourcesMenu.GetAttribute("class").Contains("nested-expanded"))
 			{
 				ExpandResourcesMenuButton.Click();
@@ -288,13 +279,12 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace
 		public SearchPage ClickSearchButton()
 		{
 			Logger.Debug("Нажать Search в меню.");
-			openHideMenuIfClosed();
 			SearchMenu.Click();
 
 			return new SearchPage().GetPage();
 		}
 
-		private void openHideMenuIfClosed()
+		public WorkspacePage OpenHideMenuIfClosed()
 		{
 			if (!getIsLeftMenuDisplay())
 			{
@@ -302,6 +292,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace
 				Driver.WaitUntilElementIsDisplay(By.XPath(CAT_MENU_OPEN_BUTTON));
 				CatMenuOpenButton.JavaScriptClick();
 			}
+
+			return GetPage();
 		}
 
 		/// <summary>

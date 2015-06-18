@@ -18,6 +18,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 		{
 			BaseObject.InitPage(_usersRightsPage);
 			_usersRightsPage
+				.OpenHideMenuIfClosed()
 				.ClickUsersRightsButton()
 				.ClickGroupsButton();
 
@@ -114,6 +115,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 			Thread.Sleep(1000);
 			_usersRightsPage
 				.ClickSaveButton(groupName)
+				.OpenHideMenuIfClosed()
 				.ClickProjectsButton();
 
 			return this;

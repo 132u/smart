@@ -10,7 +10,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 		public ClientsHelper GoToClientsPage()
 		{
 			BaseObject.InitPage(_workspacePage);
-			_workspacePage.ClickClientsButton();
+			_workspacePage
+				.OpenHideMenuIfClosed()
+				.ClickClientsButton();
 
 			return new ClientsHelper();
 		}
@@ -18,7 +20,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 		public ProjectGroupsHelper GoToProjectGroupsPage()
 		{
 			BaseObject.InitPage(_workspacePage);
-			_workspacePage.ClickProjectGroupsButton();
+			_workspacePage
+				.OpenHideMenuIfClosed()
+				.ClickProjectGroupsButton();
 
 			return new ProjectGroupsHelper();
 		}
@@ -27,6 +31,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 		{
 			BaseObject.InitPage(_workspacePage);
 			_workspacePage
+				.OpenHideMenuIfClosed()
 				.ExpandResourcesIfNotExpanded()
 				.ClickGlossariesButton();
 
@@ -37,6 +42,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 		{
 			BaseObject.InitPage(_workspacePage);
 			_workspacePage
+				.OpenHideMenuIfClosed()
 				.ExpandResourcesIfNotExpanded()
 				.AssertLingvoDictionariesDisplayed();
 
@@ -47,6 +53,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 		{
 			BaseObject.InitPage(_workspacePage);
 			_workspacePage
+				.OpenHideMenuIfClosed()
 				.ExpandResourcesIfNotExpanded()
 				.AssertLingvoDictionariesMenuIsNotDisplayed();
 
@@ -57,6 +64,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 		{
 			BaseObject.InitPage(_workspacePage);
 			_workspacePage
+				.OpenHideMenuIfClosed()
 				.ExpandResourcesIfNotExpanded()
 				.ClickLingvoDictionariesButton();
 
@@ -67,6 +75,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 		{
 			BaseObject.InitPage(_workspacePage);
 			_workspacePage
+				.OpenHideMenuIfClosed()
 				.ExpandResourcesIfNotExpanded()
 				.ClickTranslationMemoriesButton();
 
@@ -86,7 +95,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 		public ProjectsHelper GoToProjectsPage() 
 		{
 			BaseObject.InitPage(_workspacePage);
-			_workspacePage.ClickProjectsButton();
+			_workspacePage
+				.OpenHideMenuIfClosed()
+				.ClickProjectsButton();
 
 			return new ProjectsHelper();
 		}
@@ -94,7 +105,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 		public UsersRightsHelper GoToUsersRightsPage()
 		{
 			BaseObject.InitPage(_workspacePage);
-			_workspacePage.ClickUsersRightsButton();
+			_workspacePage
+				.OpenHideMenuIfClosed()
+				.ClickUsersRightsButton();
 
 			return new UsersRightsHelper();
 		}
@@ -123,6 +136,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 		{
 			BaseObject.InitPage(_workspacePage);
 			_workspacePage
+				.OpenHideMenuIfClosed()
 				.ExpandResourcesIfNotExpanded()
 				.ClickSearchButton();
 
