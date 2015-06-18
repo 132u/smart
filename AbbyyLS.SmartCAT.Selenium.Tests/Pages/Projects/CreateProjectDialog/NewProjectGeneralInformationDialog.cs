@@ -55,7 +55,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 
 			if (!Driver.WaitUntilElementIsDisplay(By.XPath(UPLOADED_FILE_XPATH.Replace(
 				"*#*", 
-				Path.GetFileName(pathFile)))))
+				Path.GetFileName(pathFile))), 60))
 			{
 				Logger.Trace("Первая попытка добавить файл была неудачной. Попробовать ещё раз.");
 
