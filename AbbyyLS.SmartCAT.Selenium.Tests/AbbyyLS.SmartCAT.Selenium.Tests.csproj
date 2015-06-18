@@ -113,7 +113,7 @@
     <Compile Include="Pages\Login\SelectAccountForm.cs" />
     <Compile Include="Pages\Login\SignInPage.cs" />
     <Compile Include="Pages\Projects\CreateProjectDialog\NewProjectCreateBaseDialog.cs" />
-    <Compile Include="Pages\Projects\DocumentUploadDialog\DocumentUploadAssignResponsiblesDialog.cs" />
+    <Compile Include="Pages\Projects\DocumentUploadDialog\DocumentUploadTaskAssignmentDialog.cs" />
     <Compile Include="Pages\Projects\DocumentUploadDialog\DocumentUploadBaseDialog.cs" />
     <Compile Include="Pages\Projects\DocumentUploadDialog\DocumentUploadSetUpTMDialog.cs" />
     <Compile Include="Pages\Projects\ProjectSettings\SettingsDialog.cs" />

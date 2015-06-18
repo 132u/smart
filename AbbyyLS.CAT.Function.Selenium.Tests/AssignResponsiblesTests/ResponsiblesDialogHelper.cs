@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using NLog;
+﻿using NLog;
 using NUnit.Framework;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.UI;
@@ -52,56 +50,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			return RESPONSIBLES_TABLE_XPATH + "//select/option[contains(text() , '" + name + "')]";
 		}
 
-		/// <summary>
-		/// Ожидание закрытия диалога выбора исполнителя
-		/// </summary>
-		/// <returns>Диалог закрылся</returns>
-		public bool WaitUntilResponsiblesDialogDissapear()
-		{
-			Logger.Trace("Ожидаем закрытия диалога назначения пользователей");
-			return WaitUntilDisappearElement(By.XPath(RESPONSIBLES_TABLE_XPATH));
-		}
-
-		/// <summary>
-		/// Ожидание загрузки диалога выбора исполнителя (мастер)
-		/// </summary>
-		/// <returns>Диалог загрузился</returns>
-		public bool WaitUntilMasterResponsiblesDialogDisplay()
-		{
-			Logger.Trace("Ожидаем, пока загрузится диалог выбора исполнителя");
-			return WaitUntilDisplayElement(By.XPath(CHOOSE_TASK_STEP__XPATH + "[2]"));
-		}
-
-		/// <summary>
-		/// Возвращает список исполнителей из выпадающего списка (не включает группы)
-		/// </summary>
-		/// <param name="rowNumber">Номер строки задачи</param>
-		/// <returns>Список исполнителей</returns>
-		public List<string> GetResponsibleUsersList()
-		{
-			Logger.Trace("Получаем список исполнителей из выпадающего списка, исключая группы");
-			var elementUsersList = GetElementList(By.XPath(PATH_TO_USERS_LIST));
-
-			return (from element in elementUsersList
-					where !element.GetAttribute("innerHTML").Contains("Group: ")
-					select element.GetAttribute("innerHTML").Replace("  ", " ")).ToList();
-		}
-
-		/// <summary>
-		/// Возвращает список групп исполнителей из выпадающего списка
-		/// </summary>
-		/// <param name="rowNumber">Номер строки задачи</param>
-		/// <returns>Список групп</returns>
-		public List<string> GetResponsibleGroupsList()
-		{
-			Logger.Trace("Получаем список групп исполнителей из выпадающего списка");
-			var elementUsersList = GetElementList(By.XPath(PATH_TO_USERS_LIST));
-
-			return (from element in elementUsersList
-					where element.GetAttribute("innerHTML").Contains("Group: ")
-					select element.GetAttribute("innerHTML").Replace("  ", " ")).ToList();
-		}
-
 		public void ClickResponsiblesDropboxByRowNumber(int taskRowNumber)
 		{
 			Logger.Trace(string.Format("Открытие выпадающего списка для задачи с номером строки {0}", taskRowNumber));
@@ -146,32 +94,10 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			ClickElement(By.XPath(xPath));
 		}
 
-		/// <summary>
-		/// Кликнуть кнопку Cancel
-		/// </summary>
-		/// <param name="rowNumber">Номер строки задачи</param>
-		public void ClickCancelBtn(int rowNumber)
-		{
-			var xPath = RESPONSIBLES_TABLE_XPATH + "//tr[" + rowNumber + "]" +
-				CANCEL_BTN_XPATH;
-			Logger.Trace(string.Format("Кликнуть кнопку Cancel для задачи на строке {0}", rowNumber));
-
-			ClickElement(By.XPath(xPath));
-		}
-
 		public void ClickCloseBtn()
 		{
 			Log.Trace("Кликнуть кнопку закрытия диалога");
 			ClickElement(By.XPath(RESPONSIBLES_FORM_XPATH + CLOSE_BTN_XPATH));
-		}
-
-		/// <summary>
-		/// Кликнуть кнопку YES
-		/// </summary>
-		public void ClickYesBtn()
-		{
-			Logger.Trace("Кликнуть кнопку Yes");
-			ClickElement(By.XPath(YES_BTN_CONFIRM_XPATH));
 		}
 
 		public bool WaitUntilChooseTaskDialogDisplay()
@@ -179,69 +105,13 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			Log.Trace("Ожидание загрузки диалога выбора задачи");
 			return WaitUntilDisplayElement(By.XPath(CHOOSE_TASK_FORM_XPATH));
 		}
-		
-		/// <summary>
-		/// Ожидание загрузки диалога подтверждения
-		/// </summary>
-		/// <returns>Диалог загрузился</returns>
-		public bool WaitUntilConfirmDialogDisplay()
-		{
-			Logger.Trace("Ожидаем пока загрузится диалог подтверждения");
-			if (!WaitUntilDisplayElement(By.XPath(CONFIRM_RESET_ASSIGNMENT_FORM_XPATH)))
-			{
-				Logger.Trace("Диалог подтверждения не загрузился");
-				return false;
-			}
-			return true;
-		}
-
-		/// <summary>
-		/// Ожидание закрытия диалога подтверждения
-		/// </summary>
-		/// <returns>Диалог закрылся</returns>
-		public bool WaitUntilConfirmDialogDissapear()
-		{
-			Logger.Trace("Ожидаем пока исчезнет диалог подтверждения");
-			if (!WaitUntilDisappearElement(By.XPath(CONFIRM_RESET_ASSIGNMENT_FORM_XPATH)))
-			{
-				Logger.Trace("Диалог подтверждения не исчез");
-				return false;
-			}
-			return true;
-		}
-
-		/// <summary>
-		/// Ожидание загрузки формы инфо
-		/// </summary>
-		/// <returns>Форма загрузилась</returns>
-		public bool WaitUntilInfoDisplay()
-		{
-			Logger.Trace("Ожидание загрузки формы инфо");
-			if (!WaitUntilDisplayElement(By.XPath(INFO_FORM_XPATH)))
-			{
-				Logger.Trace("Форма инфо не загрузилась");
-				return false;
-			}
-			return true;
-		}
 
 		protected const string RESPONSIBLES_FORM_XPATH = "(//div[contains(@class, 'js-popup-assign')])[2]";
 		protected const string RESPONSIBLES_TABLE_XPATH = "(//table[contains(@class, 'js-progress-table')]//table)[2]";
-		
-		protected const string CHOOSE_TASK_STEP__XPATH = ".//div[contains(@class, 'js-popup-import-document')]";
-
 		protected const string DROPDOWNLIST_XPATH = "//td[contains(@class, 'assineer')]//select";
 		protected const string ASSIGN_BTN_XPATH = "//span[contains(@class, 'js-assign')]//a[contains(text(), 'Assign')]";
-		protected const string CANCEL_BTN_XPATH = "//span[contains(@class, 'js-assigned-cancel')]//a[contains(text(), 'Cancel')]";
 		protected const string CLOSE_BTN_XPATH = "//span/a[@class='h30 g-redbtn__text g-btn__text']";
-
-		protected const string YES_BTN_CONFIRM_XPATH = CONFIRM_RESET_ASSIGNMENT_FORM_XPATH + "//input[contains(@class, 'js-submit-btn ')]";
-
 		protected const string CHOOSE_TASK_FORM_XPATH = ".//div[@id='workflow-select-window']";
-		
-		protected const string CONFIRM_RESET_ASSIGNMENT_FORM_XPATH = ".//div[contains(@class, 'js-popup-confirm')]";
-		protected const string INFO_FORM_XPATH = ".//div[contains(@class, 'js-info-popup')]";
-		protected const string PATH_TO_USERS_LIST = RESPONSIBLES_FORM_XPATH + "//td[contains(@class, 'assineer')]//select//option";
 
 		private static readonly Logger Log = LogManager.GetCurrentClassLogger();
 	}
