@@ -340,32 +340,44 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// Метод назначения задачи на пользователя 
 		/// </summary>
 		/// <param name="documentRowNum">номер документа</param>
-		protected void AssignTask(int documentRowNum = 1)
+		/// <param name="projectName">имя проекта</param>//временный параметр. PRX-10298
+		protected void AssignTask(string projectName, int documentRowNum = 1)
 		{
 			// Открываем инфо документа 
 			ProjectPage.OpenDocumentInfo(documentRowNum);
 
 			// Открываем окно прав исполнителей
 			ProjectPage.ClickAssignRessponsibleBtn();
-			
-			// Ожидаем появления диалога Progress
-			ProjectPage.WaitProgressDialogOpen();
 
-			// Назначить ответственного в окне Progress
-			ProjectPage.ClickUserNameCell();
-			
-			// Выбрать нужное имя
-			ProjectPage.ClickAssignUserListUser(NickName);
-			ProjectPage.WaitAssignBtnDisplay();
+			ResponsiblesDialog.WaitUntilTaskAssignPageLoad();
 
-			// Нажать на Assign
-			ProjectPage.ClickAssignBtn();
-			// Дождаться появления Cancel
-			ProjectPage.WaitCancelAssignBtnDisplay();
+			ResponsiblesDialog.ClickSelectAssigneesButton();
 
-			// Нажать на Close
-			ProjectPage.CloseAssignDialogClick();
-			Thread.Sleep(1000);// Sleep не убирать, необходим для корректной работы в Chrome
+			ResponsiblesDialog.ClickAssigneesForEntireDocumentButton();
+
+			ResponsiblesDialog.WaitUntilTaskAssignEditingPageLoad();
+
+			ResponsiblesDialog.ClickAnotherAssigneeButton();
+
+			ResponsiblesDialog.OpenAssignList();
+
+			ResponsiblesDialog.SelectAssigned(NickName);
+
+			ResponsiblesDialog.ClickAssignButton();
+
+			ResponsiblesDialog.WaitUntilCancelButtonDisplay();
+
+			ResponsiblesDialog.ClickCloseButton();
+
+			ResponsiblesDialog.WaitUntilTaskAssignPageLoad();
+
+			ResponsiblesDialog.ClickSaveButton();
+
+			WorkspacePage.WaitPageLoad();
+
+			WorkspacePage.OpenProjectPage(projectName);
+
+			ProjectPage.WaitPageLoad();
 
 			ProjectPage.SelectDocument(documentRowNum);
 			// Нажать на Accept
@@ -1513,7 +1525,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			ImportDocumentProjectSettings(uploadDocument, projectName);
 
 			// 3. Назначение задачи на пользователя
-			AssignTask();
+			AssignTask(projectName);
 
 			// Добавляем созданный глоссарий
 			if (glossaryName != "")

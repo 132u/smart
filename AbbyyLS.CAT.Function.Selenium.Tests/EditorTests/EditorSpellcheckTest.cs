@@ -31,7 +31,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Editor.Spellcheck
 			ImportDocumentProjectSettings(PathProvider.DocumentFile, ProjectUniqueName);
 
 			// 4. Назначение задачи на пользователя
-			AssignTask();
+			AssignTask(ProjectUniqueName);
 
 			// 5. Открытие документа
 			OpenDocument();

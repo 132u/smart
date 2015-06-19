@@ -34,7 +34,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 
 				ImportDocumentProjectSettings(PathProvider.DocumentFile, projectNoChangesName);
 
-				AssignTask(1);
+				AssignTask(projectNoChangesName, 1);
 			}
 			catch (Exception ex)
 			{
@@ -407,7 +407,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		
 			ImportDocumentProjectSettings(PathProvider.DocumentFile, _projectName2);
 
-			AssignTask(1);
+			AssignTask(_projectName2, 1);
 
 			OpenDocument();
 
@@ -437,7 +437,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 	
 			ImportDocumentProjectSettings(PathProvider.DocumentFile, _projectName2);
 
-			AssignTask(1);
+			AssignTask(_projectName2, 1);
 
 			ProjectPage.SetGlossaryByName(_glossaryName2);
 
@@ -465,7 +465,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 
 			ImportDocumentProjectSettings(PathProvider.DocumentFile, _projectName2);
 
-			AssignTask(1);
+			AssignTask(_projectName2, 1);
 
 			OpenDocument();
 
@@ -573,15 +573,13 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 				UserRightsPage.WaitUntilGroupsRightsDisplay(), 
 				"Ошибка: Страница прав групп пользователей не открылась.");
 
-			var userName = WorkspacePage.GetUserName();
-
 			UserRightsPage.ClickGroupByName("Administrators");
 			Thread.Sleep(1000);
 
 			// Получение списка пользователей в группе Administrators
 			var usersInGroup = UserRightsPage.GetDisplayUsersInGroup();
 
-			if (!usersInGroup.Contains(userName) || !UserRightsPage.IsManageAllGlossariesRightIsPresent())
+			if (!usersInGroup.Contains(NickName) || !UserRightsPage.IsManageAllGlossariesRightIsPresent())
 			{
 				UserRightsPage.ClickEdit();
 
@@ -603,9 +601,9 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 					Assert.IsTrue(UserRightsPage.IsManageAllGlossariesRightIsPresent(), 
 						"Ошибка: Право управления глоссариями не удалось добавить.");
 				}
-				if (!usersInGroup.Contains(userName))
+				if (!usersInGroup.Contains(NickName))
 				{
-					UserRightsPage.AddUserToGroup(userName);
+					UserRightsPage.AddUserToGroup(NickName);
 				}
 
 				UserRightsPage.ClickSave();
@@ -617,7 +615,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 				// Получение списка пользователей в группе Administrators
 				usersInGroup = UserRightsPage.GetDisplayUsersInGroup();
 
-				Assert.IsTrue(usersInGroup.Contains(userName), 
+				Assert.IsTrue(usersInGroup.Contains(NickName), 
 					"Ошибка: Пользователя не удалось добавить.");
 				Assert.IsTrue(UserRightsPage.IsManageAllGlossariesRightIsPresent(), 
 					"Ошибка: Право управления глоссариями не удалось добавить.");

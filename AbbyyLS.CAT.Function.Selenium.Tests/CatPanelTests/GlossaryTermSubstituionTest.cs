@@ -62,7 +62,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Editor.Panel
 			ProjectPage.WaitDocumentDownloadFinish();
 
 			// Выставляем права на редактирование
-			AssignTask();
+			AssignTask(ProjectUniqueName);
 
 			// Открываем документ
 			OpenDocument();
@@ -132,7 +132,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Editor.Panel
 			ProjectPage.WaitDocumentDownloadFinish();
 			
 			// Выставляем права на редактирование
-			AssignTask();
+			AssignTask(ProjectUniqueName);
 
 			// Открываем документ
 			OpenDocument();
@@ -207,7 +207,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Editor.Panel
 			ProjectPage.WaitDocumentDownloadFinish();
 
 			// Выставляем права на редактирование
-			AssignTask();
+			AssignTask(ProjectUniqueName);
 
 			// Открываем документ
 			OpenDocument();

@@ -49,6 +49,8 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Editor
 
 			WorkspacePage.CloseTour();
 
+			string projectName = ProjectUniqueName;
+
 			// 2. Создание проекта с 1 документом внутри
 			// При проверке PreviousStage нужно создать новый проект с уникальным именем, т.к. необходимо внести изменения в задачи
 			// При проверке Tag нужно чтобы в документе проекта присутствовал tag
@@ -82,11 +84,12 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Editor
 					PathProvider.EditorTxtFile);
 				// Открытие настроек проекта
 				WorkspacePage.OpenProjectPage(_projectNoChangesName);
+				projectName = _projectNoChangesName;
 			}
 			
 			// 3. Назначение задачи на пользователя
 			if (ProjectPage.GetDocumentTask(1) == "")
-				AssignTask();
+				AssignTask(projectName);
 
 			// 4. Открытие документа
 			OpenDocument();

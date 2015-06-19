@@ -35,7 +35,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			//Добавление документа
 			ImportDocumentProjectSettings(PathProvider.DocumentFile, ProjectUniqueName);
 			//Назначение задачи на пользователя
-			AssignTask();
+			AssignTask(ProjectUniqueName);
 			// Выбрать документ
 			ProjectPage.SelectDocument(1);
 			ProjectPage.ClickAssignRessponsibleBtn();

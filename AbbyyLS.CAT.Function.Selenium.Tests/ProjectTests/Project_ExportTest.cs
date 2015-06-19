@@ -1168,7 +1168,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 				// Загрузить документ
 				ImportDocumentProjectSettings(PathProvider.DocumentFileToConfirm1, currentProjectName);
 				// Назначить
-				AssignTask();
+				AssignTask(currentProjectName);
 				// Открыть документ
 				OpenDocument();
 				// Добавить перевод и подтвердить
@@ -1179,7 +1179,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 				// Загрузить второй документ
 				ImportDocumentProjectSettings(PathProvider.DocumentFileToConfirm2, currentProjectName);
 				// Назначить второй
-				AssignTask(2);
+				AssignTask(currentProjectName, 2);
 				// Открыть второй документ
 				OpenDocument(2);
 				// Добавить перевод и подтвердить

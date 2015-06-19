@@ -106,12 +106,128 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			return WaitUntilDisplayElement(By.XPath(CHOOSE_TASK_FORM_XPATH));
 		}
 
+		/// <summary>
+		/// Дождаться загрузки страницы назначения пользователей
+		/// </summary>
+		public void WaitUntilTaskAssignPageLoad()
+		{
+			Logger.Trace("Дождаться загрузки страницы назначения пользователей");
+
+			Assert.IsTrue(WaitUntilDisplayElement(By.XPath(SELECT_ASSIGNEES_DROPDOWN)),
+				"Произошла ошибка:\n страница назначения пользователей не загрузилась.");
+		}
+
+		/// <summary>
+		/// Нажать кнопку 'SelectAssignees'
+		/// </summary>
+		public void ClickSelectAssigneesButton()
+		{
+			Logger.Debug("Нажать кнопку 'SelectAssignees'");
+			ClickElement(By.XPath(SELECT_ASSIGNEES_DROPDOWN));
+		}
+
+		/// <summary>
+		/// Нажать кнопку назначения на весь документ
+		/// </summary>
+		public void ClickAssigneesForEntireDocumentButton()
+		{
+			Logger.Debug("Нажать кнопку назначения на весь документ");
+			ClickElement(By.XPath(ASSIGNEES_FOR_ENTIRE_DOCUMENT));
+		}
+
+		/// <summary>
+		/// Дождаться загрузки страницы выбора пользователей для назначения
+		/// </summary>
+		public void WaitUntilTaskAssignEditingPageLoad()
+		{
+			Logger.Trace("Дождаться загрузки страницы выбора пользователей для назначения");
+
+			Assert.IsTrue(WaitUntilDisplayElement(By.XPath(ANOTHER_ASSIGNEE)),
+				"Произошла ошибка:\n страница выбора пользователей для назначения не загрузилась.");
+		}
+
+		/// <summary>
+		/// Нажать кнопку добавления пользователей
+		/// </summary>
+		public void ClickAnotherAssigneeButton()
+		{
+			Logger.Debug("Нажать кнопку добавления пользователей");
+			ClickElement(By.XPath(ANOTHER_ASSIGNEE));
+		}
+
+		/// <summary>
+		/// Развернуть список исполнителей
+		/// </summary>
+		public void OpenAssignList()
+		{
+			Logger.Debug("Развернуть список исполнителей.");
+			ClickElement(By.XPath(ASSIGN_LIST));
+		}
+
+		/// <summary>
+		/// Выбрать исполнителя
+		/// </summary>
+		/// <param name="name">имя исполнителя</param>
+		public void SelectAssigned(string name)
+		{
+			Logger.Debug("Выбрать исполнителя по имени:'{0}'", name);
+			ClickElement(By.XPath(ASSIGN_LIST_ITEM.Replace("*#*", name)));
+		}
+
+		/// <summary>
+		/// Нажать кнопку назначения пользователя.
+		/// </summary>
+		public void ClickAssignButton()
+		{
+			Logger.Debug("Нажать кнопку назначения пользователя.");
+			ClickElement(By.XPath(ASSIGN_BUTTON));
+		}
+
+		/// <summary>
+		/// Дождаться появления кнопки отмены
+		/// </summary>
+		public void WaitUntilCancelButtonDisplay()
+		{
+			Logger.Trace("Дождаться появления кнопки отмены");
+
+			Assert.IsTrue(WaitUntilDisplayElement(By.XPath(CANCEL_BUTTON)),
+				"Произошла ошибка:\n кнопка отмены назначения не появилась.");
+		}
+
+		/// <summary>
+		/// Нажать кнопку 'Закрыть'
+		/// </summary>
+		public void ClickCloseButton()
+		{
+			Logger.Debug("Нажать кнопку 'Закрыть'");
+			ClickElement(By.XPath(CLOSE_BUTTON));
+		}
+
+		/// <summary>
+		/// Нажать кнопку сохранения на странице Task Assignment
+		/// </summary>
+		public void ClickSaveButton()
+		{
+			Logger.Debug("Нажать кнопку сохранения на странице Task Assignment");
+			ClickElement(By.XPath(SAVE_BUTTON));
+			
+		}
+
 		protected const string RESPONSIBLES_FORM_XPATH = "(//div[contains(@class, 'js-popup-assign')])[2]";
 		protected const string RESPONSIBLES_TABLE_XPATH = "(//table[contains(@class, 'js-progress-table')]//table)[2]";
 		protected const string DROPDOWNLIST_XPATH = "//td[contains(@class, 'assineer')]//select";
 		protected const string ASSIGN_BTN_XPATH = "//span[contains(@class, 'js-assign')]//a[contains(text(), 'Assign')]";
 		protected const string CLOSE_BTN_XPATH = "//span/a[@class='h30 g-redbtn__text g-btn__text']";
 		protected const string CHOOSE_TASK_FORM_XPATH = ".//div[@id='workflow-select-window']";
+		protected const string SELECT_ASSIGNEES_DROPDOWN = "//a[contains(@data-bind,'setAssignmentsButtonTitle')]";
+		protected const string ASSIGNEES_FOR_ENTIRE_DOCUMENT = "//a[contains(@data-bind,'setSimpleAssignment')]";
+		protected const string ANOTHER_ASSIGNEE = "//a[contains(@data-bind,'addExecutive')]";
+		protected const string ASSIGN_LIST = "//input[contains(@class,'newDropdown')]";
+		protected const string ASSIGN_LIST_ITEM = "//li[contains(@class,'newDropdown') and text()='*#*']";
+		protected const string ASSIGN_BUTTON = "//a[contains(@data-bind,'parent.assign')]";
+		protected const string CANCEL_BUTTON = "//a[contains(@data-bind,'$parent.removeExecutive')]";
+		protected const string CLOSE_BUTTON = "(//span[contains(@data-bind,'click: close')])[1]";
+		protected const string SAVE_BUTTON = "(//span[contains(@data-bind,'saveDeadlines')])";
 
 		private static readonly Logger Log = LogManager.GetCurrentClassLogger();
 	}
