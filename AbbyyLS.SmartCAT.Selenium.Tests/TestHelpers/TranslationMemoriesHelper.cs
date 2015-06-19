@@ -77,7 +77,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 		{
 			BaseObject.InitPage(_translationMemoriesPage);
 			_translationMemoriesPage
-				.ClickTranslationMemoriesButton()
 				.ClickCreateNewTmButton()
 				.ClickOpenClientsList()
 				.AssertClientsListDisplayed()
@@ -90,7 +89,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 		{
 			BaseObject.InitPage(_translationMemoriesPage);
 			_translationMemoriesPage
-				.ClickTranslationMemoriesButton()
 				.ClickCreateNewTmButton()
 				.ClickOpenClientsList()
 				.AssertClientsListDisplayed()
@@ -115,7 +113,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 		{
 			BaseObject.InitPage(_translationMemoriesPage);
 			_translationMemoriesPage
-				.ClickTranslationMemoriesButton()
 				.ClickCreateNewTmButton()
 				.OpenProjectGroupsList()
 				.AssertProjectGroupListDisplayed()

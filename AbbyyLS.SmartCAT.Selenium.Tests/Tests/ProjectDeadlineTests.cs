@@ -18,7 +18,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 			_projectsHelper = new ProjectsHelper();
 		}
 
-		[Test]
 		[TestCase(Deadline.CurrentDate)]
 		[TestCase(Deadline.NextMonth)]
 		[TestCase(Deadline.PreviousMonth)]
