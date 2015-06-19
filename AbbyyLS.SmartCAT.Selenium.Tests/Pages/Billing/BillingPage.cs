@@ -26,7 +26,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Billing
 
 		public new void LoadPage()
 		{
-			if (!Driver.WaitUntilElementIsDisplay(By.XPath(LICENSE_NUMBER)))
+			if (!Driver.WaitUntilElementIsDisplay(By.XPath(LICENSE_NUMBER), timeout: 20))
 			{
 				Assert.Fail("Произошла ошибка:\n не загрузилась страница управления лицензиями.");
 			}
