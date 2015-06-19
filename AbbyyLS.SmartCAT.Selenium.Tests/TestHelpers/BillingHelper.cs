@@ -1,5 +1,6 @@
 ﻿using System;
-
+using NLog;
+using NUnit.Framework;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Billing;
 using AbbyyLS.SmartCAT.Selenium.Tests.TestFramework;
 
@@ -7,6 +8,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 {
 	public class BillingHelper
 	{
+		public static Logger Log = LogManager.GetCurrentClassLogger();
+
 		public LicenseDialogHelper OpenLicensePurchaseDialog(int licenseNumber = 5, int period = 3)
 		{
 			BaseObject.InitPage(_billingPage);
@@ -25,43 +28,54 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 			return new LicenseDialogHelper();
 		}
 
-		public int PackagesQuantity()
+		public int PackagesCount()
 		{
 			BaseObject.InitPage(_billingPage);
 
 			return _billingPage.PackagesCount();
 		}
 
-		public BillingHelper AssertPackagesQuantityMatch(int expectedLicenseQuantity)
+		public BillingHelper AssertPackagesCountChanged(int expectedCount)
 		{
 			BaseObject.InitPage(_billingPage);
-			_billingPage.ComparePackageQuantity(expectedLicenseQuantity);
+			var actualCount = _billingPage.PackagesCount();
+
+			Log.Trace("Проверить, что количество пакетов лицензий изменилось.");
+			Assert.AreEqual(expectedCount, actualCount,
+				"Произошла ошибка:\n количество пакетов лицензий не изменилось.");
 
 			return this;
 		}
 
-		public BillingHelper AssertLicensesQuantityMatch(int expectedNumber)
+		public BillingHelper AssertLicensesCountChanged(int expectedCount)
 		{
 			BaseObject.InitPage(_billingPage);
-			_billingPage.AssertLicenseQuantityMatch(expectedNumber);
+			var actualCount = _billingPage.LicenseCountInPackage();
+
+			Log.Trace("Проверить, что количество лицензий в пакете изменилось.");
+			Assert.AreEqual(expectedCount, actualCount,
+				"Произошла ошибка:\n количество лицензий в пакете не соответствует ожидаемому.");
 
 			return this;
 		}
 
-		public BillingHelper AssertEndDateIncremented(DateTime beforeExtendDate, DateTime afterExtendDate, int months)
+		public BillingHelper AssertEndDateChanged(DateTime expectedEndDate)
 		{
 			BaseObject.InitPage(_billingPage);
+			var actualEndDate = _billingPage.GetEndDate();
 
-			_billingPage.AssertEndDateChangedAfterExtend(beforeExtendDate, afterExtendDate, months);
+			Log.Trace("Проверить, что срок действия пакета изменился.");
+			Assert.AreEqual(expectedEndDate, actualEndDate,
+				"Произошла ошибка:\n срок действия пакета лицензий не соответствует ожидаемому.");
 
 			return this;
 		}
 
-		public DateTime EndDate()
+		public DateTime GetEndDate()
 		{
 			BaseObject.InitPage(_billingPage);
 
-			return _billingPage.EndDate();
+			return _billingPage.GetEndDate();
 		}
 
 		public LicenseDialogHelper OpenLicenseUpgradeDialog(int rowNumber = 1)

@@ -44,6 +44,18 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Billing
 		}
 
 		/// <summary>
+		/// Получить количество лицензий в пакете из первой колонки верхней таблицы
+		/// </summary>
+		/// <returns>количество лицензий в пакете</returns>
+		public int LicenseCountInPackage()
+		{
+			Logger.Trace("Получить количество лицензий в пакете из первой колонки верхней таблицы.");
+			var licenseNumber = LicenseQuantityColumn.Text.Split(' ');
+
+			return int.Parse(licenseNumber[0]);
+		}
+
+		/// <summary>
 		/// Выбрать количество лицензий для покупки
 		/// </summary>
 		/// <param name="licenseNumber">количество лицензий</param>
@@ -65,18 +77,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Billing
 			Driver.SetDynamicValue(How.XPath, BUY_BUTTON, monthPeriod.ToString()).Click();
 
 			return new LicensePurchaseDialog().GetPage();
-		}
-
-		/// <summary>
-		/// Проверить, что количество лицензий увеличилось после покупки
-		/// </summary>
-		/// <param name="licenseNumberBefore">количество лицензий до покупки</param>
-		public BillingPage ComparePackageQuantity(int licenseNumberBefore)
-		{
-			Assert.AreEqual(licenseNumberBefore + 1, PackagesCount(),
-				"Произошла ошибка:\n количество лицензий не увеличилось.");
-
-			return GetPage();
 		}
 
 		/// <summary>
@@ -123,41 +123,11 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Billing
 		/// Получить конечную дату пакета лицензий.
 		/// </summary>
 		/// <returns>конечная дата</returns>
-		public DateTime EndDate()
+		public DateTime GetEndDate()
 		{
 			Logger.Trace("Получить конечную дату пакета лицензий.");
 
 			return DateTime.ParseExact(EndDateColumn.Text, "M/d/yyyy", CultureInfo.InvariantCulture);
-		}
-
-		/// <summary>
-		/// Проверить, что дата окончания изменилась после продления пакета лицензий
-		/// </summary>
-		/// <param name="dateBeforeExtend">дата окончания до продления</param>
-		/// <param name="dateAfterExtend">дата окончания после продления</param>
-		/// <param name="months">количество месяцев на которое продлили пакет</param>
-		public BillingPage AssertEndDateChangedAfterExtend(DateTime dateBeforeExtend, DateTime dateAfterExtend, int months)
-		{
-			Logger.Trace("Проверить, что дата окончания изменилась после продления пакета лицензий.");
-
-			Assert.AreEqual(dateBeforeExtend.AddMonths(months), dateAfterExtend,
-				"Произошла ошибка:\n после продления пакета лицензий дата окончания не изменилась.");
-
-			return GetPage();
-		}
-
-		/// <summary>
-		/// Проверить, что после обновления количество лицензий в пакете увеличилось
-		/// </summary>
-		/// <param name="licenseQuantityExpected">ожидаемое количество</param>
-		public BillingPage AssertLicenseQuantityMatch(int licenseQuantityExpected)
-		{
-			Logger.Trace("Проверить, что после обновления в пакете {0} лицензий.", licenseQuantityInPackage());
-
-			Assert.AreEqual(licenseQuantityExpected, licenseQuantityInPackage(),
-				"Произошла ошибка:\n количество лицензий после обновления не изменилось");
-
-			return GetPage();
 		}
 
 		/// <summary>
@@ -193,18 +163,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Billing
 			return upgradeButtonsList().Where(btn => btn.Displayed).ToList();
 		}
 
-		/// <summary>
-		/// Получить количество лицензий в пакете из первой колонки верхней таблицы
-		/// </summary>
-		/// <returns>количество лицензий в пакете</returns>
-		private int licenseQuantityInPackage()
-		{
-			Logger.Trace("Получить количество лицензий в пакете из первой колонки верхней таблицы.");
-			var licenseNumber = LicenseQuantityColumn.Text.Split(' ');
-
-			return int.Parse(licenseNumber[0]);
-		}
-
 		[FindsBy(How = How.XPath, Using = LICENSE_NUMBER)]
 		protected IWebElement LicenseNumber { get; set; }
 
@@ -219,13 +177,10 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Billing
 
 		public const string UPGRADE_BUTTONS = "//tr[@class='ng-scope']//td[contains(@ng-if, 'ManuallyCreated')]//a[contains(@ng-show, 'ctrl.canIncrease')]";
 		public const string LICENSES_LIST = "//table[@class='t-licenses ng-scope']/tbody/tr[not(@ng-if='ctrl.demoPackage')]";
-		public string LICENSES_TABLE = "//table[contains(@class, 'licenses ng-scope')]";
 		public const string LICENSE_NUMBER = "//table[contains(@class, 'add-lic')]//select[contains(@ng-model, 'selectedOption')]";
 		public const string BUY_BUTTON = "//td['*#*']//a[contains(@class, 'danger')]";
 		public const string EXTEND_BUTTON = "//tbody//tr['*#*']//a[contains(@abb-link-click, 'editLicensePackage(package, false)')]";
-		public const string EXTEND_BUTTONS = "//a[contains(@abb-link-click, 'editLicensePackage(package, false)')]";
 		public const string TABLE_HEADER = "//table[@class='t-licenses add-lic']//th[contains(@ng-repeat, 'period')]";
-		public const string LICENCE_TITLE = "//td[contains(text(),'license') or contains(text(),' licenses')]";
 		public const string END_DATE_COLUMN = "//td[contains(@ng-class,'willExpireSoon')]";
 		public const string LICENSE_QUANTITY_COLUMN = "//td[contains(text(),'license') or contains(text(),' licenses')]"; 
 		public const string LOGO = "//a[@id='logo']";

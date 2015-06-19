@@ -1,6 +1,7 @@
 ﻿using AbbyyLS.SmartCAT.Selenium.Tests.DataStructures;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Billing.LicenseDialog;
 using AbbyyLS.SmartCAT.Selenium.Tests.TestFramework;
+using NUnit.Framework;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 {
@@ -92,28 +93,32 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 			return this;
 		}
 
-		public LicenseDialogHelper SelectNewLicenseNumber(int newLicenseNumber)
+		public LicenseDialogHelper SelectNewLicenseNumber(int licenseNumber)
 		{
  			BaseObject.InitPage(_licenseUpgradeDialog);
-			_licenseUpgradeDialog.SelectLiceneQuantityToUpgrade(newLicenseNumber);
+			_licenseUpgradeDialog.SelectLiceneQuantityToUpgrade(licenseNumber);
 
 			return this;
 		}
 
-		public LicenseDialogHelper AssertAdditionalAmountChanged(string amountBefore)
+		public LicenseDialogHelper AssertAdditionalPaymentChanged(string previousAdditionalPayment)
 		{
 			BaseObject.InitPage(_licenseBaseDialog);
-			_licenseBaseDialog.AssertAdditionalAmountChanged(amountBefore);
+			var currentAdditionalPayment = GetAdditionalPayment();
+
+			Log.Trace("Проверить, что дополнительная сумма оплаты до ({0}) и после ({1}) обновления/продления изменилась.",
+				previousAdditionalPayment, currentAdditionalPayment);
+			Assert.AreNotEqual(previousAdditionalPayment, currentAdditionalPayment,
+				"Произошла ошибка:\n дополнительная сумма оплаты не изменилась.");
 
 			return this;
 		}
 
-		public LicenseDialogHelper AdditionalAmountPayment(out string additionalPayment)
+		public string GetAdditionalPayment()
 		{
 			BaseObject.InitPage(_licenseBaseDialog);
-			additionalPayment = _licenseBaseDialog.GetAdditionalPayment();
 
-			return this;
+			return _licenseBaseDialog.GetAdditionalPayment();
 		}
 
 		private LicenseDialogHelper switchToPaymentIFrame()

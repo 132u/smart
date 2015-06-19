@@ -1,7 +1,5 @@
 ﻿using System.Collections.Generic;
-
 using NUnit.Framework;
-
 using AbbyyLS.SmartCAT.Selenium.Tests.DataStructures;
 using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
 using AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers;
@@ -19,8 +17,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Billing
 		public void SetUpBillingTests()
 		{
 			var accountUniqueName = AdminHelper.GetAccountUniqueName();
-
-			_adminHelper
+			
+			new AdminHelper()
 				.CreateAccountIfNotExist(
 					accountName: accountUniqueName,
 					workflow: true,
@@ -49,7 +47,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Billing
 		[Test]
 		public void BuyLicenseTest()
 		{
-			var licenseNumberBefore = _billingHelper.PackagesQuantity();
+			var licenseCountBefore = _billingHelper.PackagesCount();
 
 			_licenseDialogHelper
 				.OpenLicensePurchaseDialog()
@@ -57,51 +55,51 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Billing
 				.FillCreditCardData()
 				.ClickPayButton()
 				.CloseCompleteDialog()
-				.AssertPackagesQuantityMatch(licenseNumberBefore);
+				.AssertPackagesCountChanged(licenseCountBefore + 1);
 		}
 
 		[Test]
 		public void UpgradeLicenseTest()
 		{
-			var newlicenseQuantity = 20;
+			var newlicenseCount = 20;
 
 			_licenseDialogHelper
 				.OpenLicenseUpgradeDialog()
-				.SelectNewLicenseNumber(newlicenseQuantity)
+				.SelectNewLicenseNumber(newlicenseCount)
 				.ClickBuyButtonInDialog()
 				.FillCreditCardData()
 				.ClickPayButton(LicenseOperation.Upgrade)
 				.CloseCompleteDialog()
-				.AssertLicensesQuantityMatch(newlicenseQuantity);
+				.AssertLicensesCountChanged(newlicenseCount);
 		}
 
 		[Test]
 		public void DoubleUpgradeLicenseTest()
 		{
-			var firstNewlicenseQuantity = 20;
-			var secondNewlicenseQuantity = 30;
+			var firstLicenseCount = 20;
+			var secondLicenseCount = 30;
 
 			_licenseDialogHelper
 				.OpenLicenseUpgradeDialog()
-				.SelectNewLicenseNumber(firstNewlicenseQuantity)
+				.SelectNewLicenseNumber(firstLicenseCount)
 				.ClickBuyButtonInDialog()
 				.FillCreditCardData()
 				.ClickPayButton(LicenseOperation.Upgrade)
 				.CloseCompleteDialog()
-				.AssertLicensesQuantityMatch(firstNewlicenseQuantity)
+				.AssertLicensesCountChanged(firstLicenseCount)
 				.OpenLicenseUpgradeDialog()
-				.SelectNewLicenseNumber(secondNewlicenseQuantity)
+				.SelectNewLicenseNumber(secondLicenseCount)
 				.ClickBuyButtonInDialog()
 				.FillCreditCardData()
 				.ClickPayButton(LicenseOperation.Upgrade)
 				.CloseCompleteDialog()
-				.AssertLicensesQuantityMatch(secondNewlicenseQuantity);
+				.AssertLicensesCountChanged(secondLicenseCount);
 		}
 
 		[Test]
 		public void ExtendLicenseTest()
 		{
-			var endDateBeforeExtend = _billingHelper.EndDate();
+			var endDateBeforeExtend = _billingHelper.GetEndDate();
 			var months = 3;
 
 			_licenseDialogHelper
@@ -111,15 +109,16 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Billing
 				.FillCreditCardData()
 				.ClickPayButton(LicenseOperation.Extend)
 				.CloseCompleteDialog()
-				.AssertEndDateIncremented(endDateBeforeExtend, _billingHelper.EndDate(), months);
+				.AssertEndDateChanged(endDateBeforeExtend.AddMonths(months));
 		}
 
 		[Test]
 		public void DoubleExtendLicenseTest()
 		{
-			var endDateBeforeFirstExtend = _billingHelper.EndDate();
 			var firstDuration = 3;
 			var secondDuration = 6;
+			var endDateBeforeFirstExtend = _billingHelper.GetEndDate();
+			var endDateBeforeSecondExtend = endDateBeforeFirstExtend.AddMonths(firstDuration);
 
 			_licenseDialogHelper
 				.OpenLicenseExtendDialog()
@@ -128,42 +127,38 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Billing
 				.FillCreditCardData()
 				.ClickPayButton(LicenseOperation.Extend)
 				.CloseCompleteDialog()
-				.AssertEndDateIncremented(endDateBeforeFirstExtend, _billingHelper.EndDate(), firstDuration);
-
-			var endDateBeforeSecondExtend = _billingHelper.EndDate();
-
-			_licenseDialogHelper
+				.AssertEndDateChanged(endDateBeforeSecondExtend)
 				.OpenLicenseExtendDialog()
 				.SelectDuration(secondDuration)
 				.ClickBuyButtonInDialog()
 				.FillCreditCardData()
 				.ClickPayButton(LicenseOperation.Extend)
 				.CloseCompleteDialog()
-				.AssertEndDateIncremented(endDateBeforeSecondExtend, _billingHelper.EndDate(), secondDuration);
+				.AssertEndDateChanged(endDateBeforeSecondExtend.AddMonths(secondDuration));
 		}
 
 		[Test]
 		public void AdditionalPaymentUpgradeTest()
 		{
-			var additionalPaymentBefore = string.Empty;
+			var additionalPaymentBefore = _licenseDialogHelper
+				.OpenLicenseUpgradeDialog()
+				.GetAdditionalPayment();
 
 			_licenseDialogHelper
-				.OpenLicenseUpgradeDialog()
-				.AdditionalAmountPayment(out additionalPaymentBefore)
 				.SelectNewLicenseNumber(30)
-				.AssertAdditionalAmountChanged(additionalPaymentBefore);
+				.AssertAdditionalPaymentChanged(additionalPaymentBefore);
 		}
 
 		[Test]
 		public void AdditionalPaymentExtendTest()
 		{
-			var additionalPaymentBefore = string.Empty;
+			var additionalPaymentBefore = _licenseDialogHelper
+				.OpenLicenseExtendDialog()
+				.GetAdditionalPayment();
 
 			_licenseDialogHelper
-				.OpenLicenseExtendDialog()
-				.AdditionalAmountPayment(out additionalPaymentBefore)
 				.SelectDuration(6)
-				.AssertAdditionalAmountChanged(additionalPaymentBefore);
+				.AssertAdditionalPaymentChanged(additionalPaymentBefore);
 		}
 
 		[TestCase(Language.Russian, Language.English, "руб", "$")]
@@ -182,7 +177,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Billing
 		}
 
 		private BillingHelper _billingHelper;
-		private AdminHelper _adminHelper = new AdminHelper();
-		private LicenseDialogHelper _licenseDialogHelper = new LicenseDialogHelper();
+		private readonly LicenseDialogHelper _licenseDialogHelper = new LicenseDialogHelper();
 	}
 }

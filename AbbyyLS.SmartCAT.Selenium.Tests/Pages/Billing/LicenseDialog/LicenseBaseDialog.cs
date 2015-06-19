@@ -69,27 +69,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Billing.LicenseDialog
 			return AdditionalPayment.Text;
 		}
 
-		/// <summary>
-		/// Проверить, что дополнительная сумма оплаты изменилась после выбора нового количества лицензий или продления пакета срока действия.
-		/// </summary>
-		/// <param name="amountBefore"></param>
-		/// <param name="amountaAfter"></param>
-		public LicenseBaseDialog AssertAdditionalAmountChanged(string amountBefore)
-		{
-			Logger.Trace("Проверить, что дополнительная сумма оплаты до ({0}) и после ({1}) обновления/продления изменилась.",
-				amountBefore, GetAdditionalPayment());
-
-			Assert.AreNotEqual(amountBefore, GetAdditionalPayment(),
-				"Произошла ошибка:\n дополнительная сумма оплаты не изменилась.");
-
-			return GetPage();
-		}
-
 		[FindsBy(How = How.XPath, Using = CLOSE_BUTTON)]
 		protected IWebElement CloseButton { get; set; }
-
-		[FindsBy(How = How.XPath, Using = CANCEL_BUTTON)]
-		protected IWebElement CancelButton { get; set; }
 
 		[FindsBy(How = How.XPath, Using = BUY_BUTTON_IN_DIALOG)]
 		protected IWebElement BuyButton { get; set; }
