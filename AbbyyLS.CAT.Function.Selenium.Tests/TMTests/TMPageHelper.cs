@@ -441,7 +441,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.TM
 		{
 			Logger.Debug(@"Дождаться появления диалога подтверждения редактирования\удаления");
 
-			return WaitUntilDisplayElement(By.XPath(CONFIRM_XPATH));
+			return WaitUntilDisplayElement(By.XPath(CONFIRM_MESSAGE));
 		}
 
 		public void AssertConfirmationDialogPresented()
@@ -750,7 +750,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.TM
 		protected const string SAVE_BTN_XPATH = BTN_ROW_XPATH + "//span[contains(@data-bind, 'save')]";
 		// TODO заменить id
 		protected const string PROJECT_GROUP_SPAN_XPATH = BTN_ROW_XPATH + "//div[contains(@data-bind,'domainNames')]";
-		protected const string SEGMENT_SPAN_XPATH = BTN_ROW_XPATH + "//table[@class='l-tmpanel__table']//div[3]";
+		protected const string SEGMENT_SPAN_XPATH = BTN_ROW_XPATH + "//table[@class='l-tmpanel__table']//div[4]";
 		protected const string IMPORT_POPUP_XPATH = "//div[contains(@class,'js-popup-import')][2]";
 		protected const string IMPORT_BTN_XPATH = IMPORT_POPUP_XPATH + "//span[contains(@class,'js-import-button')]";
 
@@ -805,9 +805,9 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.TM
 		protected const string ERROR_NO_NAME_EDITION_PANEL = ERROR_DIV_EDITION_PANEL + ERROR_NO_NAME_TEXT;
 
 		protected const string NO_TMX_FILE_ERROR_XPATH = CREATE_TM_DIALOG_XPATH + ERROR_DIV_CREATION_PANEL + "//p[contains(@data-message-id,'invalid-file-extension')]";
-
+		
 		protected const string CONFIRM_XPATH = CONFIRM_WINDOW + "//input[contains(@type,'submit')]";
-
+		protected const string CONFIRM_MESSAGE = "//div[contains(@class,'js-confirm-text')]";
 		protected const string NOTIFICATION_XPATH = "//div[@class='g-notifications-item']";
 
 		protected Dictionary<TM_BTN_TYPE, string> TMButtonDict;

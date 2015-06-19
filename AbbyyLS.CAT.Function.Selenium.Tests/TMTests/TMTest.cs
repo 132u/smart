@@ -249,6 +249,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.TM
 				}
 
 				TMPage.ConfirmTMEdition();
+				MainHelperClass.WaitUntilCloseDialogBackground();
 			}
 		}
 

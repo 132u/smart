@@ -36,7 +36,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.TM
 				segCountAfter = GetSegmentCount(UniqueTmName);
 			}
 
-			Assert.IsTrue(segCountBefore != segCountAfter, "Ошибка: количество сегментов должно измениться");
+			Assert.IsTrue(segCountBefore != segCountAfter, "Ошибка: количество сегментов не изменилось.");
 		}
 	}
 }
