@@ -51,13 +51,13 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.LingvoDictionariesTests
 				.AddUserToSpecificAccount(Login, _accountUniqueName)
 				.GoToDictionaryPackagePage(AdminHelper.PublicDictionaryPackageName);
 
-			IList<string> includedDictionaryList = _adminHelper.GetIncludedDictionariesList();
+			List<string> includedDictionaryList = _adminHelper.GetIncludedDictionariesList();
 
 			LogInSmartCat(Login, Password, _accountUniqueName);
 
 			_workspaceHelper
 				.GoToLingvoDictionariesPage()
-				.AssertLingvoDictionariesListsMatch(includedDictionaryList);
+				.AssertLingvoDictionariesListCorrect(includedDictionaryList);
 		}
 
 		[Test]

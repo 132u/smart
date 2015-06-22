@@ -32,23 +32,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.LingvoDictionaries
 		}
 
 		/// <summary>
-		/// Проверить, что cловари из стандартного пакета и словари из SmartCat совпадают
-		/// </summary>
-		/// <param name="dictionariesList">ожидаемый список словарей</param>
-		public LingvoDictionariesPage AssertDictionariesListsMatch(IList<string> dictionariesList)
-		{
-			Logger.Trace("Проверить, что cловари из стандартного пакета и словари из SmartCat совпадают.");
-			var actualDictionariesList = getDictionariesList();
-
-			Assert.IsTrue(
-				dictionariesList.Count() == actualDictionariesList.Count()
-				&& !dictionariesList.Except(actualDictionariesList).Any(),
-				"Произошла ошибка:\n Словари из стандартного пакета и словари из SmartCat не совпадают.");
-
-			return GetPage();
-		}
-
-		/// <summary>
 		/// Проверить, что список словарей не пуст
 		/// </summary>
 		public LingvoDictionariesPage AssertLingvoDictionariesListIsNotEmpty()
@@ -110,7 +93,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.LingvoDictionaries
 		/// <summary>
 		/// Вернуть список словарей на странице
 		/// </summary>
-		private List<string> getDictionariesList()
+		public List<string> GetDictionariesList()
 		{
 			Logger.Trace("Получить список словарей на странице");
 			var dictionaryLinks = Driver.GetElementList(By.XPath(DICTIONARY_LIST_LINKS))
