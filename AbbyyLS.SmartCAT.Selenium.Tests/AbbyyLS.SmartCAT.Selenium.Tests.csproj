@@ -78,6 +78,9 @@
     <Compile Include="Drivers\IWebDriverProvider.cs" />
     <Compile Include="DataStructures\DialogButtonType.cs" />
     <Compile Include="Configs\FilesRootConfig.cs" />
+    <Compile Include="FeatureAttributes\LingvoDictionariesAttribute.cs" />
+    <Compile Include="FeatureAttributes\ProjectGroupsAttribute.cs" />
+    <Compile Include="FeatureAttributes\ClientsAttribute.cs" />
     <Compile Include="Pages\Admin\AdminCreateAccountPage.cs" />
     <Compile Include="Pages\Admin\AdminCreateDictionaryPackagePage.cs" />
     <Compile Include="Pages\Admin\AdminCreateUserPage.cs" />
