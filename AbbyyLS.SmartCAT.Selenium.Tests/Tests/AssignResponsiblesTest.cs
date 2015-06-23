@@ -10,7 +10,6 @@ using AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 {
-	[Standalone]
 	class AssignResponsiblesTest<TWebDriverSettings> : BaseTest<TWebDriverSettings> where TWebDriverSettings : IWebDriverProvider, new()
 	{
 		[SetUp]
@@ -25,6 +24,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 		}
 
 		[Test]
+		[Standalone]
 		public void ResponsiblesWorkspaceOnAssignTaskButtonTest()
 		{
 			_createProjectHelper
@@ -35,6 +35,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 		}
 
 		[Test]
+		[Standalone]
 		public void AssignDialogInWorkspaceVisibleTest()
 		{
 			_createProjectHelper
@@ -43,6 +44,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 		}
 
 		[Test]
+		[Standalone]
 		public void WorkflowStepVisibleForAddedDocumentTest()
 		{
 			_createProjectHelper
@@ -55,6 +57,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 		}
 
 		[Test]
+		[Standalone]
 		public void ResponsiblesProjectOnProgressLinkTest()
 		{
 			_createProjectHelper
@@ -65,6 +68,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 		}
 
 		[Test]
+		[Standalone]
 		public void ResponsiblesProjectOnAssignButtonTest()
 		{
 			_createProjectHelper
@@ -75,6 +79,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 		}
 
 		[Test]
+		[Standalone]
 		public void ResponsiblesProjectUploadDocumentTest()
 		{
 			_createProjectHelper
@@ -87,6 +92,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 		}
 
 		[Test]
+		[Standalone]
 		public void VerifyUsersAndGroupsListsTest()
 		{
 			var usersList = _projectsHelper
@@ -122,6 +128,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 		}
 
 		[Test]
+		[Standalone]
 		public void AddNewGroupTest()
 		{
 			var groupName = _usersRightsHelper.GetGroupUniqueName();
@@ -140,6 +147,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 		}
 
 		[Test]
+		[Standalone]
 		public void AssignUserOneTaskTest()
 		{
 			_createProjectHelper
@@ -156,6 +164,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 		}
 
 		[Test]
+		[Standalone]
 		public void AssignUserFewTasksTest()
 		{
 			_createProjectHelper
@@ -176,6 +185,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 		}
 
 		[Test]
+		[Standalone]
 		public void DeleteUserTaskTest()
 		{
 			_createProjectHelper
@@ -235,6 +245,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 		}
 
 		[Test]
+		[Standalone]
 		public void UnAssignUserTest()
 		{
 			_createProjectHelper
@@ -261,6 +272,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 		}
 
 		[Test]
+		[Standalone]
 		public void ReassignDocumentToUserTest()
 		{
 			_createProjectHelper

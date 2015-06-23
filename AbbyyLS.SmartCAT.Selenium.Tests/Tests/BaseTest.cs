@@ -234,7 +234,11 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests
 			Password = config.Password;
 			UserName = config.Name ?? string.Empty;
 			UserSurname = config.Surname ?? string.Empty;
-			NickName = UserName + " " + UserSurname;
+			NickName = UserName;
+			if (!string.IsNullOrEmpty(UserSurname))
+			{
+				NickName += " " + UserSurname;
+			}
 
 			Login2 = config.Login2;
 			Password2 = config.Password2;

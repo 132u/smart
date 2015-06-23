@@ -90,7 +90,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 		/// <param name="isGroup">Выбор группы</param>
 		public TaskAssignmentDialog SelectResponsible(string name, bool isGroup)
 		{
-			Logger.Debug("Выбрать из выпадающего списка {1}. Это группа: {2}", name, isGroup);
+			Logger.Debug("Выбрать из выпадающего списка '{0}'. Это группа: {1}", name, isGroup);
 
 			var fullName = isGroup ? "Group: " + name : name;
 
