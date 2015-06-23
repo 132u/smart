@@ -65,9 +65,11 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Search
 		/// <summary>
 		/// Кликнуть по слову-переводу
 		/// </summary>
-		public SearchPage ClickTranslationWord()
+		/// <param name="text">текст перевода</param>
+		public SearchPage ClickTranslationWord(string text)
 		{
 			Logger.Debug("Кликнуть по слову-переводу");
+			TranslationWord = Driver.SetDynamicValue(How.XPath, TRANSLATION_WORD, text);
 			TranslationWord.Click();
 
 			return GetPage();
@@ -127,11 +129,12 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Search
 		/// <summary>
 		/// Проверить, есть ли ссылка на перевод
 		/// </summary>
-		public SearchPage AssertTranslationReferenceExist()
+		/// <param name="text">слово, у которого должна быть ссылка на перевод</param>
+		public SearchPage AssertTranslationReferenceExist(string text)
 		{
 			Logger.Trace("Проверить, есть ли ссылка на перевод.");
 
-			Assert.IsTrue(Driver.ElementIsDisplayed(By.XPath(TRANSLATION_WORD)),
+			Assert.IsTrue(Driver.ElementIsDisplayed(By.XPath(TRANSLATION_WORD.Replace("*#*", text))),
 				"Произошла ошибка:\n ссылка на перевод отсутствует.");
 
 			return GetPage();
@@ -213,16 +216,15 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Search
 		[FindsBy(How = How.XPath, Using = TRANSLATION_FORM_REFERENCE)]
 		protected IWebElement TranslationFormReference { get; set; }
 
-		[FindsBy(How = How.XPath, Using = TRANSLATION_WORD)]
-		protected IWebElement TranslationWord { get; set; }
-
 		[FindsBy(How = How.XPath, Using = DEFINITION_TAB)]
 		protected IWebElement DefinitionTab { get; set; }
 
 		[FindsBy(How = How.XPath, Using = TRANSLATE_BUTTON)]
 		protected IWebElement TranslateButton { get; set; }
 
-		protected const string TRANSLATION_WORD = "//a[contains(@class,'js-show-examples')]//span[contains(@class,'translation')]";
+		protected IWebElement TranslationWord { get; set; }
+
+		protected const string TRANSLATION_WORD = "//a[contains(@class,'js-show-examples')]//span[contains(@class,'translation') and contains(text(),'*#*')]";
 		protected const string SEARCH_FORM_XPATH = "//form[contains(@class,'js-search-form')]";
 		protected const string SEARCH_FIELD= "searchText";
 		protected const string TRANSLATE_BUTTON = "//form[contains(@class,'js-search-form')]//span[contains(@class,'g-redbtn search')]//input";

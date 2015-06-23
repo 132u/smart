@@ -40,18 +40,18 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 			return this;
 		}
 
-		public SearchHelper ClickTranslationWord()
+		public SearchHelper ClickTranslationWord(string text)
 		{
 			BaseObject.InitPage(_searchPage);
-			_searchPage.ClickTranslationWord();
+			_searchPage.ClickTranslationWord(text);
 
 			return this;
 		}
 
-		public SearchHelper AssertTranslationReferenceExist()
+		public SearchHelper AssertTranslationReferenceExist(string text)
 		{
 			BaseObject.InitPage(_searchPage);
-			_searchPage.AssertTranslationReferenceExist();
+			_searchPage.AssertTranslationReferenceExist(text);
 
 			return this;
 		}

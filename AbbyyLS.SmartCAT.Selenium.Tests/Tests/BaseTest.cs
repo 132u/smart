@@ -22,6 +22,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests
 			}
 		}
 
+		protected bool Standalone { get; private set; }
+
 		protected string Url { get; private set; }
 
 		protected string WorkspaceUrl { get; private set; }
@@ -159,7 +161,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests
 
 		private void authorize()
 		{
-			if (_standalone)
+			if (Standalone)
 			{
 				// Тесты запускаются на ОР
 				Driver.Navigate().GoToUrl(WorkspaceUrl);
@@ -207,9 +209,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests
 			var config = TestSettingDefinition.Instance.Get<CatServerConfig>();
 
 			var prefix = config.IsHttpsEnabled ? "https://" : "http://";
-			_standalone = config.Standalone;
+			Standalone = config.Standalone;
 
-			if (_standalone)
+			if (Standalone)
 			{
 				// доменная авторизация в ОР
 				var domainName = Login.Contains("@") ? Login.Substring(0, Login.IndexOf("@")) : Login;
@@ -273,7 +275,5 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests
 				AolUserList = new List<TestUser>();
 			}
 		}
-
-		private bool _standalone;
 	}
 }

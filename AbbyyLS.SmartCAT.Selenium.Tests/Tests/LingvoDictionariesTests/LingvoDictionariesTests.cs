@@ -8,8 +8,8 @@ using AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.LingvoDictionariesTests
 {
-	[Standalone]
 	[LingvoDictionaries]
+	[Standalone]
 	class LingvoDictionariesTests<TWebDriverProvider> : BaseTest<TWebDriverProvider> where TWebDriverProvider : IWebDriverProvider, new()
 	{
 		public LingvoDictionariesTests()
@@ -20,22 +20,25 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.LingvoDictionariesTests
 		[SetUp]
 		public void LingvoDictionariesSetUp()
 		{
-			var accountUniqueName = AdminHelper.GetAccountUniqueName();
+			if (!Standalone)
+			{
+				var accountUniqueName = AdminHelper.GetAccountUniqueName();
 
-			_adminHelper
-				.CreateAccountIfNotExist(
-					accountName: accountUniqueName,
-					workflow: true,
-					features: new List<string>
+				_adminHelper
+					.CreateAccountIfNotExist(
+						accountName: accountUniqueName,
+						workflow: true,
+						features: new List<string>
 					{
 						Feature.Clients.ToString(),
 						Feature.Domains.ToString(),
 						Feature.TranslateConnector.ToString(),
 						Feature.LingvoDictionaries.ToString(),
 					})
-				.AddUserToSpecificAccount(Login, accountUniqueName);
+					.AddUserToSpecificAccount(Login, accountUniqueName);
 
-			LogInSmartCat(Login, Password, accountUniqueName);
+				LogInSmartCat(Login, Password, accountUniqueName);
+			}
 
 			_workspaceHelper
 				.AssertLingvoDictionariesDisplayed()
@@ -50,7 +53,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.LingvoDictionariesTests
 		{
 			_searchHelper
 				.InitSearch("tester")
-				.AssertTranslationReferenceExist();
+				.AssertTranslationReferenceExist("тестировщик");
 		}
 
 		[Test]
@@ -68,7 +71,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.LingvoDictionariesTests
 		{
 			_searchHelper
 				.InitSearch("tester")
-				.ClickTranslationWord()
+				.ClickTranslationWord("испытательное устройство")
 				.OpenWordByWordTranslation()
 				.AssertReverseTranslationListExist();
 		}
