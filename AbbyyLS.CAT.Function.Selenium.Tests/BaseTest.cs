@@ -1163,13 +1163,17 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			
 			EditorPage.ClickConfirmBtn();
 
-			if (EditorPage.IsMessageBoxDisplay())
+			if (!EditorPage.IsMessageBoxDisplay())
+			{
+				Assert.IsTrue(WaitSegmentConfirm(segmentRowNumber),
+					"Ошибка: подтверждение (Confirm) не прошло. Возле сегмента не появилась зеленая галка.");
+			}
+			else
 			{
 				EditorPage.ClickConfirmButtonInMessageBox();
+				Assert.IsTrue(!WaitSegmentConfirm(segmentRowNumber),
+					"Ошибка: подтверждение (Confirm) прошло. Возле сегмента появилась зеленая галка.");
 			}
-
-			Assert.IsTrue(WaitSegmentConfirm(segmentRowNumber),
-				"Ошибка: подтверждение (Confirm) не прошло. Возле сегмента не появилась зеленая галка.");
 		}
 
 		protected bool WaitSegmentConfirm(int segmentRowNumber)

@@ -244,10 +244,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 				AddTermForm.WaitTermSavedMessage(),
 				"Ошибка: Не было сообщения о сохранении термина.");
 
-			// Удаляем текст из таргета и подтверждаем 
-			// (чтобы не всплывало PopUp окно, AutoSave иногда очень тормозит)
-			EditorPage.ClearTarget(1);
-			EditorPage.ClickConfirmBtn();
+			AddTranslationAndConfirm(1, "text");
 			AutoSave();
 
 			openCurrentGlossary();
