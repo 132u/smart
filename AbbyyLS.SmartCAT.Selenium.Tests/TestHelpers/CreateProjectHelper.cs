@@ -3,6 +3,7 @@ using System.IO;
 using System.Threading;
 
 using AbbyyLS.SmartCAT.Selenium.Tests.DataStructures;
+using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog;
 using AbbyyLS.SmartCAT.Selenium.Tests.TestFramework;
 
@@ -38,7 +39,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 			BaseObject.InitPage(_newProjectSetUpTMDialog);
 			_newProjectSetUpTMDialog
 				.AssertFinishButtonEnabled()
-				.ClickFinishButton();
+				.ClickFinishButton()
+				.AssertDialogBackgroundDissapeared<ProjectsPage>();
 
 			return this;
 		}
