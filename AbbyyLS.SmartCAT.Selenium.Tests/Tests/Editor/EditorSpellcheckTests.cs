@@ -13,7 +13,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Editor
 		[SetUp]
 		public void SetupTest()
 		{
-			var nameForAssignment = NickName.Replace(" ", "  ");
 			var projectName = CreateProjectHelper.GetProjectUniqueName();
 
 			_createProjectHelper
@@ -23,7 +22,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Editor
 				.ClickDocumentProgress(Path.GetFileNameWithoutExtension(PathProvider.DocumentFile))
 				.ClickAssignButtonInDocumentInfo()
 				.SelectAssignmentType()
-				.SelectAssignee(nameForAssignment)
+				.SelectAssignee(NickName)
 				.CloseTaskAssignmentDialog()
 				.ClickSaveButton()
 				.GoToProjectSettingsPage(projectName)

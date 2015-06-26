@@ -32,6 +32,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 					.ClickSaveButton();
 			}
 
+			// TODO: Без Sleep тесты падают из-за невозможности нажать на кнопку "ГОТОВО". Необходимо разобраться с проблемой
+			Thread.Sleep(3000);
+
 			BaseObject.InitPage(_newProjectSetUpTMDialog);
 			_newProjectSetUpTMDialog
 				.AssertFinishButtonEnabled()

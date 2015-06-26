@@ -14,6 +14,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Editor
 		}
 
 		[Test]
+		[Explicit("Тест использует хоткеи и не прогоняется в тимсити")]
 		public void FindErrorHotkeyTest()
 		{
 			EditorHelper
