@@ -1,6 +1,4 @@
-﻿using System.Threading;
-
-using NUnit.Framework;
+﻿using NUnit.Framework;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.PageObjects;
 
@@ -12,7 +10,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings
 {
 	public class ProjectSettingsPage : WorkspacePage, IAbstractPage<ProjectSettingsPage>
 	{
-		//TODO: дописать функционал по назначению задачи на пользователя 
 		public new ProjectSettingsPage GetPage()
 		{
 			var projectSettingsPage = new ProjectSettingsPage();
@@ -46,6 +43,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings
 		public ProjectSettingsPage AssertIsDocumentProcessed()
 		{
 			Logger.Trace("Проверить загрузился ли документ.");
+
 			if (!Driver.WaitUntilElementIsDissapeared(By.XPath(LOAD_DOC_IMG), 320))
 			{
 				Driver.Navigate().Refresh();
@@ -71,18 +69,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings
 		}
 
 		/// <summary>
-		/// Проверить, завершен ли перевод документа
-		/// </summary>
-		/// <param name="documentName">имя документа</param>
-		public ProjectSettingsPage AssertIsStatusCompleted(string documentName)
-		{
-			Assert.IsTrue(Driver.ElementIsDisplayed(By.XPath(PROJECTS_TABLE_STATUS_COMPLITED.Replace("*#*", documentName))),
-				"Произошла ошибка:\n перевод документа {0} не завершен.", documentName);
-
-			return GetPage();
-		}
-
-		/// <summary>
 		/// Обновить страницу проекта
 		/// </summary>
 		public ProjectSettingsPage RefreshPage()
@@ -92,81 +78,16 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings
 
 			return GetPage();
 		}
-
-		/// <summary>
-		/// Проверить, выбран ли движок МТ
-		/// </summary>
-		public bool IsDefaultMTSelected()
-		{
-			Logger.Debug("Проверить выбран ли движок МТ.");
-
-			return Driver.ElementIsDisplayed(By.XPath(DEFAULT_MT_CHECKBOX_STATE));
-		}
-
-		/// <summary>
-		/// Выбрать ABBYY из таблицы движков
-		/// </summary>
-		public ProjectSettingsPage ClickDefaultMTCheckbox()
-		{
-			Logger.Debug("Выбрать ABBYY из таблицы МТ движков.");
-			Thread.Sleep(1000);
-			DefaultMTCheckbox.Click();
-
-			return GetPage();
-		}
-
-		/// <summary>
-		/// Нажать кнопку "Сохранить МТ"
-		/// </summary>
-		public ProjectSettingsPage ClickSaveMtButton()
-		{
-			Logger.Debug("Нажать кнопку 'Сохранить МТ'.");
-			SaveMTButton.Click();
-
-			return GetPage();
-		}
-
-		/// <summary>
-		/// Нажать на кнопку 'Назначить задачу' на панели
-		/// </summary>
-		public TaskAssignmentDialog ClickAssignButtonOnPanel()
-		{
-			Logger.Debug("Нажать кнопку 'Назначить задачу'.");
-			AssignTasksButtonOnPanel.Click();
-
-			return new TaskAssignmentDialog().GetPage();
-		}
-
+		
 		/// <summary>
 		/// Нажать на кнопку 'Назначить задачу' в открытой свёртке документа
 		/// </summary>
-		public TaskAssignmentDialog ClickAssignButtonInDocumentInfo()
+		public TaskAssignmentPage ClickAssignButtonInDocumentInfo()
 		{
 			Logger.Debug("Нажать на кнопку 'Назначить задачу' в открытой свёртке документа.");
 			AssignTasksButtonInDocumentInfo.Click();
 
-			return new TaskAssignmentDialog().GetPage();
-		}
-
-		/// <summary>
-		/// Снять выделение с документов, если выделены все
-		/// </summary>
-		public ProjectSettingsPage UncheckAllChecboxesDocumentsTable()
-		{
-			Logger.Debug("Снять выделение с документов, если выделены все.");
-			AllCheckoxes = Driver.SetDynamicValue(How.XPath, PROJECTS_TABLE_ALL_CHECKBOXES, "");
-
-			if (AllCheckoxes.Selected)
-			{
-				AllCheckoxes.Click();
-			}
-			else
-			{
-				AllCheckoxes.Click();
-				AllCheckoxes.Click();
-			}
-
-			return GetPage();
+			return new TaskAssignmentPage().GetPage();
 		}
 
 		/// <summary>
@@ -176,25 +97,11 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings
 		public T ClickDocument<T>(string documentName) where T: class, IAbstractPage<T>, new()
 		{
 			Logger.Debug("Кликнуть по ссылке на документ {0} (открыть его).", documentName);
-			DocumentRef = Driver.SetDynamicValue(How.XPath, DOCUMENT_REF, documentName);
-			DocumentRef.Click();
+			DocumentRefference = Driver.SetDynamicValue(How.XPath, DOCUMENT_REF, documentName);
+			DocumentRefference.Click();
 			Driver.SwitchTo().Window(Driver.WindowHandles[1]);
 
 			return new T().GetPage();
-		}
-
-		/// <summary>
-		/// Нажать кнопку 'Принять задачу'
-		/// </summary>
-		/// <param name="documentName">имя документа</param>
-		public ProjectSettingsPage ClickAcceptButton(string documentName)
-		{
-			Logger.Debug("Нажать кнопку 'Принять задачу'.");
-			Driver.Navigate().Refresh();
-			AcceptButton = Driver.SetDynamicValue(How.XPath, ACCEPT_BTN, documentName);
-			AcceptButton.Click();
-
-			return GetPage();
 		}
 
 		/// <summary>
@@ -217,7 +124,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings
 			Logger.Debug(string.Format("Проверка существования документа {0}", documentName));
 
 			Assert.IsFalse(Driver.WaitUntilElementIsEnabled(By.XPath(DOCUMENT_LIST + documentName + "']"), 5),
-				string.Format("Произошла ошибка:\n документ {0} присутствует в проекте.", documentName));
+				"Произошла ошибка:\n документ {0} присутствует в проекте.", documentName);
 
 			return GetPage();
 		}
@@ -311,15 +218,20 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings
 		[FindsBy(How = How.XPath, Using = SETTINGS_BUTTON)]
 		protected IWebElement SettingsButton { get; set; }
 
+		[FindsBy(How = How.XPath, Using = PROJECTS_TABLE_ALL_CHECKBOXES)]
+		protected IWebElement AllCheckoxes { get; set; }
+		
+		protected IWebElement AssignButton { get; set; }
+
 		protected IWebElement DocumentProgress { get; set; }
 
-		protected IWebElement AllCheckoxes { get; set; }
-
-		protected IWebElement DocumentRef { get; set; }
+		protected IWebElement DocumentRefference { get; set; }
 
 		protected IWebElement AcceptButton { get; set; }
 
 		protected IWebElement ProjectsTableCheckbox { get; set; }
+
+		protected IWebElement TaskAssigment { get; set; }
 
 		protected const string ADD_FILES_BTN = ".//span[contains(@class,'js-document-import')]";
 		protected const string IMPORT_DIALOG = ".//div[contains(@class,'js-popup-import-document')][2]";

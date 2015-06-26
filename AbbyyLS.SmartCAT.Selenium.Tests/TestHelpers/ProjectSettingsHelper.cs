@@ -15,22 +15,14 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 			return this;
 		}
 
-		public TaskAssignmentDialogHelper ClickAssignButtonInDocumentInfo()
+		public TaskAssignmentPageHelper ClickAssignButtonInDocumentInfo()
 		{
 			BaseObject.InitPage(_projectPage);
 			_projectPage.ClickAssignButtonInDocumentInfo();
 
-			return new TaskAssignmentDialogHelper();
+			return new TaskAssignmentPageHelper();
 		}
-
-		public ProjectSettingsHelper SelectDocument(string filePath)
-		{
-			BaseObject.InitPage(_projectPage);
-			_projectPage.ClickProjectsTableCheckbox(Path.GetFileNameWithoutExtension(filePath));
-
-			return this;
-		}
-
+		
 		/// <summary>
 		/// Открыть документ в редакторе
 		/// </summary>
@@ -43,21 +35,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 				.ClickDocument<T>(Path.GetFileNameWithoutExtension(filePath));
 
 			return new EditorHelper();
-		}
-
-		/// <summary>
-		/// Выбрать движок МТ компрено
-		/// </summary>
-		public ProjectSettingsHelper SelectDefaultMT()
-		{
-			BaseObject.InitPage(_projectPage);
-			if (!_projectPage.IsDefaultMTSelected())
-			{
-				_projectPage.ClickDefaultMTCheckbox()
-					.ClickSaveMtButton();
-			}
-
-			return this;
 		}
 
 		/// <summary>
@@ -86,18 +63,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 		}
 
 		/// <summary>
-		/// Проверить, переведен ли документ
-		/// </summary>
-		/// <param name="documentName">имя документа</param>
-		public ProjectSettingsHelper AssertIsDocumentTranslated(string documentName)
-		{
-			BaseObject.InitPage(_projectPage);
-			_projectPage.AssertIsStatusCompleted(documentName);
-
-			return this;
-		}
-
-		/// <summary>
 		/// Выйти из смартката
 		/// </summary>
 		public LoginHelper LogOff()
@@ -107,22 +72,22 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 				.ClickAccount()
 				.ClickLogOff();
 
-			return new LoginHelper();;
+			return new LoginHelper();
 		}
 
 		/// <summary>
 		/// Удалить документ из проекта
 		/// </summary>
-		/// <param name="fileName">имя документа</param>
+		/// <param name="documentName">имя документа</param>
 		public ProjectSettingsHelper DeleteDocument(string documentName)
 		{
 			BaseObject.InitPage(_projectPage);
 			_projectPage
-				.ClickProjectsTableCheckbox(Path.GetFileNameWithoutExtension(documentName))
+				.ClickProjectsTableCheckbox(documentName)
 				.ClickDeleteButton()
 				.ConfirmDelete()
 				.WaitDeleteDocumentDialogDissappeared()
-				.AssertDocumentNotExist(Path.GetFileNameWithoutExtension(documentName));
+				.AssertDocumentNotExist(documentName);
 
 			return this;
 		}

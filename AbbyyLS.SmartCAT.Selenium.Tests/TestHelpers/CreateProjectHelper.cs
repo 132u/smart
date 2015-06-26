@@ -3,7 +3,6 @@ using System.IO;
 using System.Threading;
 
 using AbbyyLS.SmartCAT.Selenium.Tests.DataStructures;
-using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog;
 using AbbyyLS.SmartCAT.Selenium.Tests.TestFramework;
 
@@ -11,14 +10,39 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 {
 	public class CreateProjectHelper : ProjectsHelper
 	{
+		public ProjectsHelper CreateNewProject(
+			string projectName,
+			string filePath = null,
+			bool createNewTm = false,
+			Language sourceLanguage = Language.English,
+			Language targetLanguage = Language.Russian)
+		{
+			ClickCreateProjectButton();
+			FillGeneralProjectInformation(projectName, filePath, sourceLanguage, targetLanguage);
+			ClickNextOnGeneralProjectInformationPage();
+
+			BaseObject.InitPage(_newProjectSetUpWorkflowDialog);
+			_newProjectSetUpTMDialog = _newProjectSetUpWorkflowDialog.ClickNextButton();
+
+			if (createNewTm)
+			{
+				_newProjectSetUpTMDialog
+					.ClickCreateTMButton()
+					.SetNewTMName("TM_" + Guid.NewGuid())
+					.ClickSaveButton();
+			}
+
+			BaseObject.InitPage(_newProjectSetUpTMDialog);
+			_newProjectSetUpTMDialog
+				.AssertFinishButtonEnabled()
+				.ClickFinishButton();
+
+			return this;
+		}
 
 		/// <summary>
 		/// Заполняем основную информацию о проекте (1 шаг создания)
 		/// </summary>
-		/// <param name="projectName">имя проекта</param>
-		/// <param name="filePath">путь к файлу</param>
-		/// <param name="sourceLanguage">исходный язык</param>
-		/// <param name="targetLanguage">язык перевода</param>
 		public CreateProjectHelper FillGeneralProjectInformation( 
 			string projectName,
 			string filePath = null,
@@ -92,58 +116,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 		{
 			BaseObject.InitPage(_newProjectSetUpWorkflowDialog);
 			_newProjectSetUpWorkflowDialog.ClickBack();
-
-			return this;
-		}
-
-		/// <summary>
-		/// Выбрать существующую, либо создаем новую ТМ
-		/// </summary>
-		/// <param name="newTMName">имя новой ТМ</param>
-		public CreateProjectHelper SelectTM(string newTMName)
-		{
-			BaseObject.InitPage(_newProjectSetUpTMDialog);
-
-			if (_newProjectSetUpTMDialog.IsTMTableEmpty())
-			{
-				_newProjectSetUpTMDialog
-					.ClickTMTableFirstItem()
-					.ClickFinishButton();
-			}
-			else
-			{
-				_newProjectSetUpTMDialog
-					.ClickCreateTMButton()
-					.SetNewTMName(newTMName)
-					.ClickSaveButton()
-					.AssertIsTMTableNotEmpty()
-					.ClickFinishButton();
-			}
-
-			return this;
-		}
-
-		/// <summary>
-		/// Создаём новый проект
-		/// </summary>
-		/// <param name="projectName">имя проекта</param>
-		/// <param name="filePath">путь к файлу</param>
-		/// <param name="sourceLanguage">исходный язык</param>
-		/// <param name="targetLanguage">язык перевода</param>
-		public ProjectsHelper CreateNewProject(
-			string projectName,
-			string filePath = null,
-			Language sourceLanguage = Language.English,
-			Language targetLanguage = Language.Russian)
-		{
-			ClickCreateProjectButton();
-			FillGeneralProjectInformation(projectName, filePath, sourceLanguage, targetLanguage);
-			ClickNextOnGeneralProjectInformationPage();
-
-			BaseObject.InitPage(_newProjectSetUpWorkflowDialog);
-			_newProjectSetUpWorkflowDialog
-				.ClickFinishCreate()
-				.WaitCreateProjectDialogDissapear();
 
 			return this;
 		}
@@ -290,10 +262,10 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 			return this;
 		}
 
-		private readonly ProjectsPage _projectsPage = new ProjectsPage();
+		private NewProjectSetUpTMDialog _newProjectSetUpTMDialog = new NewProjectSetUpTMDialog();
+
 		private readonly NewProjectCreateBaseDialog _newProjectCreateBaseDialog = new NewProjectCreateBaseDialog();
 		private readonly NewProjectGeneralInformationDialog _newProjectGeneralInformationDialog = new NewProjectGeneralInformationDialog();
-		private readonly NewProjectSetUpTMDialog _newProjectSetUpTMDialog = new NewProjectSetUpTMDialog();
 		private readonly NewProjectSetUpWorkflowDialog _newProjectSetUpWorkflowDialog = new NewProjectSetUpWorkflowDialog();
 	}
 }

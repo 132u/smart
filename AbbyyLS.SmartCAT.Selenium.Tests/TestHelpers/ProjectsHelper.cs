@@ -55,14 +55,11 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 		public ProjectsHelper CheckProjectAppearInList(string projectName)
 		{
 			BaseObject.InitPage(_projectsPage);
-			_projectsPage.CheckProjectAppearInList(projectName);
+			_projectsPage.AssertProjectAppearInList(projectName);
 
 			return this;
 		}
 
-		/// <summary>
-		/// Открыть диалог создания проекта
-		/// </summary>
 		public CreateProjectHelper ClickCreateProjectButton()
 		{
 			BaseObject.InitPage(_projectsPage);

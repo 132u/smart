@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Threading;
 
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.UsersRights;
-using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace;
 using AbbyyLS.SmartCAT.Selenium.Tests.TestFramework;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers

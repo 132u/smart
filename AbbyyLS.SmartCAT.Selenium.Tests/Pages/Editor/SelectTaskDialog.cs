@@ -1,13 +1,14 @@
-﻿using AbbyyLS.SmartCAT.Selenium.Tests.TestFramework;
-using NUnit.Framework;
+﻿using NUnit.Framework;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.PageObjects;
 
+using AbbyyLS.SmartCAT.Selenium.Tests.TestFramework;
+
 namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 {
-	public class SelectTaskDialog : BaseObject, IAbstractPage<SelectTaskDialog>
+	public class SelectTaskDialog : EditorPage, IAbstractPage<SelectTaskDialog>
 	{
-		public SelectTaskDialog GetPage()
+		public new SelectTaskDialog GetPage()
 		{
 			var selectTaskDialog = new SelectTaskDialog();
 			InitPage(selectTaskDialog);
@@ -15,9 +16,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 			return selectTaskDialog;
 		}
 
-		public void LoadPage()
+		public new void LoadPage()
 		{
-			if (!Driver.WaitUntilElementIsDisplay(By.XPath(TRANSLATE_BTN_XPATH), timeout: 20))
+			if (!Driver.WaitUntilElementIsDisplay(By.XPath(TRANSLATE_BTN_XPATH)))
 			{
 				Assert.Fail("Произошла ошибка:\n не появился диалог с выбором задания в редакторе.");
 			}
@@ -41,6 +42,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		{
 			Logger.Debug("Нажать кнопку 'Менеджер'.");
 			ManagerButton.Click();
+
 			return GetPage();
 		}
 
@@ -64,8 +66,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		[FindsBy(How = How.XPath, Using = CONTINUE_BTN_XPATH)]
 		protected IWebElement ContinueButton { get; set; }
 
-		protected const string TRANSLATE_BTN_XPATH = "//span[contains(@id, 'stagenumber-1-btn-btnInnerEl')]";
-		protected const string MANAGER_BTN_XPATH = "//span[contains(@id, 'manager-btn-btnInnerEl')]";
-		protected const string CONTINUE_BTN_XPATH = "//span[contains(@id, 'continue-btn-btnInnerEl')]";
+		protected const string TRANSLATE_BTN_XPATH = "//span[contains(string(), 'Translation')]";
+		protected const string MANAGER_BTN_XPATH = "//span[contains(@id, 'manager')]";
+		protected const string CONTINUE_BTN_XPATH = "//span[contains(string(), 'Continue')]";
 	}
 }

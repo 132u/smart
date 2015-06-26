@@ -1,5 +1,4 @@
-﻿using System.IO;
-using NUnit.Framework;
+﻿using NUnit.Framework;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.PageObjects;
 
@@ -35,12 +34,14 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 		/// <param name="projectName">имя проекта</param>
 		public ProjectsPage AssertIsProjectLoaded(string projectName)
 		{
+			Logger.Debug("Проверить, загрузился ли проект {0}.", projectName);
+
 			Assert.IsTrue(Driver.WaitUntilElementIsDissapeared(By.XPath(PROJECT_LOAD_IMG_XPATH.Replace("*#*", projectName)), 50),
 				"Произошла ошибка:\n проект {0} не загрузился.", projectName);
 
 			return GetPage();
 		}
-
+		
 		/// <summary>
 		/// Кликнуть по ссылке проекта
 		/// </summary>
@@ -49,6 +50,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 		{
 			Logger.Debug("Кликнуть по ссылке проекта {0}.", projectName);
 			ProjectRef = Driver.SetDynamicValue(How.XPath, PROJECT_REF_XPATH, projectName);
+
 			try
 			{
 				ProjectRef.Click();
@@ -76,7 +78,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 		/// Проверить, что проект появился в списке проектов
 		/// </summary>
 		/// <param name="projectName">имя проекта</param>
-		public ProjectsPage CheckProjectAppearInList(string projectName)
+		public ProjectsPage AssertProjectAppearInList(string projectName)
 		{
 			Logger.Trace("Дождаться появления проекта {0} в списке", projectName);
 			ProjectRef = Driver.SetDynamicValue(How.XPath, PROJECT_REF_XPATH, projectName);
@@ -141,6 +143,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 		public ProjectsPage AssertProjectNotExist(string projectName)
 		{
 			Logger.Trace("Проверить, что проект {0} отсутствует в списке проектов", projectName);
+
 			if (!Driver.WaitUntilElementIsDissapeared(By.XPath(PROJECT_REF_XPATH.Replace("*#*", projectName)), timeout: 20))
 			{
 				Assert.Fail("Произошла ошибка:\n проект {0} не удалился.", projectName);
@@ -206,14 +209,14 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 		/// </summary>
 		/// <param name="projectName"> Название проекта </param>
 		/// <param name="documentNumber"> Номер документа </param>
-		public TaskAssignmentDialog ClickDocumentAssignButton(string projectName, int documentNumber = 1)
+		public TaskAssignmentPage ClickDocumentAssignButton(string projectName, int documentNumber = 1)
 		{
 			Logger.Debug("Нажать на кнопку прав пользователя в свертке документа");
 
 			DocumentTaskAssignButton = Driver.SetDynamicValue(How.XPath, DOCUMENT_TASK_ASSIGN_BUTTON, projectName, (documentNumber + 1).ToString());
 			DocumentTaskAssignButton.Click();
 
-			return new TaskAssignmentDialog().GetPage();
+			return new TaskAssignmentPage().GetPage();
 		}
 
 		/// <summary>
@@ -328,9 +331,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 
 		protected const string CREATE_PROJECT_BTN_XPATH = "//span[contains(@class,'js-project-create')]";
 		protected const string CREATE_PROJECT_DIALOG_XPATH = "//div[contains(@class,'js-popup-create-project')][2]";
-		protected const string PROJECT_REF_XPATH = ".//table[contains(@class,'js-tasks-table')]//tr//a[@class='js-name'][string()='*#*']";
-		protected const string PROJECT_LOAD_IMG_XPATH = ".//table[contains(@class,'js-tasks-table')]//tr//a[@class='js-name'][string()='*#*']/..//img[contains(@class,'l-project-doc__progress')]";
-		protected const string PROJECTS_TABLE_XPATH = ".//table[contains(@class,'js-tasks-table')]";
+		protected const string PROJECT_REF_XPATH = "//table[contains(@class,'js-tasks-table')]//tr//a[@class='js-name'][string()='*#*']";
+		protected const string PROJECT_LOAD_IMG_XPATH = "//table[contains(@class,'js-tasks-table')]//tr//a[@class='js-name'][string()='*#*']/..//img[contains(@class,'l-project-doc__progress')]";
+		protected const string PROJECTS_TABLE_XPATH = "//table[contains(@class,'js-tasks-table')]";
 		protected const string DELETE_BUTTON = "//span[contains(@class,'js-delete-btn')]";
 		protected const string PROJECT_SEARCH_FIELD = "//input[@name='searchName']";
 		protected const string SEARCH_PROJECT_BUTTON = "//a[contains(@class, 'js-search-btn')]/img";

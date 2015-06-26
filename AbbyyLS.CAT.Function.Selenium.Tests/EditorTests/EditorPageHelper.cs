@@ -63,13 +63,13 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 
 		public void CloseTutorial()
 		{
-			if (tutorialExist())
+			if (isTutorialExist())
 			{
 				Driver.FindElement(By.XPath(FINISH_TUTORIAL_BUTTON)).Click();
 			}
 		}
 
-		private bool tutorialExist()
+		private bool isTutorialExist()
 		{
 			return GetIsElementDisplay(By.XPath(FINISH_TUTORIAL_BUTTON));
 		}

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading;
 
 using NUnit.Framework;
 
@@ -10,16 +11,20 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 {
 	public class EditorHelper 
 	{
-		/// <summary>
-		/// Выбрать задание (перевод или просмотр)
-		/// </summary>
-		/// <param name="mode">задание</param>
+		public ProjectSettingsHelper ClickHomeButton()
+		{
+			BaseObject.InitPage(_editorPage);
+			_editorPage.ClickHomeButton();
+
+			return new ProjectSettingsHelper();
+		}
+
 		public EditorHelper SelectTask(TaskMode mode = TaskMode.Translation)
 		{
 			BaseObject.InitPage(_selectTask);
 			switch (mode)
 			{
- 				case TaskMode.Translation:
+				case TaskMode.Translation:
 					_selectTask
 						.ClickTranslateButton();
 					break;
@@ -38,70 +43,67 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 			return this;
 		}
 
-		/// <summary>
-		/// Подтвердить перевод сегмента
-		/// </summary>
-		/// <param name="rowNumber">номер сегмента</param>
-		public EditorHelper ConfirmTranslation(int rowNumber)
+		public EditorHelper CloseTutorialIfExist()
+		{
+			BaseObject.InitPage(_editorPage);
+			_editorPage.CloseTutorialIfExist();
+
+			return this;
+		}
+
+		public EditorHelper AddTextToSegment(string text = "Translation", int rowNumber = 1)
+		{
+			BaseObject.InitPage(_editorPage);
+			_editorPage.SendTargetText(text, rowNumber);
+
+			return this;
+		}
+
+		public EditorHelper ConfirmTranslation()
+		{
+			BaseObject.InitPage(_editorPage);
+			// Без слипа не отрабатывает. Ожидание элемента вставлять смысла нет. Причины не совсем ясны.
+			Thread.Sleep(5000);
+			_editorPage.ClickConfirmButton();
+
+			return this;
+		}
+
+		public EditorHelper ConfirmTranslationByHotkeys(int rowNumber = 1)
 		{
 			BaseObject.InitPage(_editorPage);
 			_editorPage
-				.ClickConfirmButton()
-				.AssertIsSegmentConfirmed(rowNumber);
+				.ClickTargetCell(rowNumber)
+				.ConfirmSegmentByHotkeys();
 
 			return this;
 		}
 
-		/// <summary>
-		/// Перемещаемся к следующему неподтвержденному сегменту  и получаем его номер
-		/// </summary>
-		public int MoveToNextSegmentGetRowNumber()
+		public EditorHelper ClickFindErrorsButton()
 		{
 			BaseObject.InitPage(_editorPage);
-			_editorPage.ClickUnfinishedButton();
-
-			return _editorPage.GetRowNumberActiveSegment();
-		}
-
-		/// <summary>
-		/// Прокрутка до нужного сегмента
-		/// </summary>
-		/// <param name="rowNumber">номер сегмента</param>
-		public EditorHelper ScrollToRequaredElement(int rowNumber)
-		{
-			while (!_editorPage.IsSegmentVisible(rowNumber))
-			{
-				var firstVisibleSegment = _editorPage.GetRowNumberFirstVisibleSegment();
-				if (firstVisibleSegment < rowNumber)
-				{
-					_editorPage.ClickLastVisibleSegment();
-				}
-				else
-				{
-					_editorPage.ClickFirstVisibleSegment();
-				}
-			}
+			_editorPage.ClickFindErrorButton();
 
 			return this;
 		}
 
-
-		/// <summary>
-		/// Выбрать таргет сегмента
-		/// </summary>
-		/// <param name="rowNumber">номер сегмента</param>
-		public EditorHelper SelectSegmentTarget(int rowNumber = 1)
+		public EditorHelper FindErrorsByHotkeys()
 		{
 			BaseObject.InitPage(_editorPage);
-			_editorPage.ClickTargetCell(rowNumber);
+			_editorPage.FindErrorByHotkey();
 
 			return this;
 		}
 
-		/// <summary>
-		/// Вернуться на страницу проекта
-		/// </summary>
-		public ProjectSettingsHelper ClickHomeButton()
+		public EditorHelper AssertIsSegmentConfirmed(int rowNumber = 1)
+		{
+			BaseObject.InitPage(_editorPage);
+			_editorPage.AssertIsSegmentConfirmed(rowNumber);
+
+			return this;
+		}
+
+		public ProjectSettingsHelper GoBackAtProjectPage()
 		{
 			BaseObject.InitPage(_editorPage);
 			_editorPage.ClickHomeButton();
@@ -109,36 +111,116 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 			return new ProjectSettingsHelper();
 		}
 
-		/// <summary>
-		/// Проверить, заблокирован ли сегмент
-		/// </summary>
-		/// <param name="rowNumber">номер сегмента</param>
-		/// <param name="locked">должен ли быть заблокирован</param>
-		public EditorHelper AssertSegmentIsLocked(int rowNumber, bool locked = true)
+		public EditorHelper RemoveAllWordsFromDictionary()
 		{
-			if (locked)
+			BaseObject.InitPage(_editorPage);
+
+			_spellcheckDictionaryDialog = _editorPage.ClickSpelcheckDictionaryButton();
+			var wordsList = _spellcheckDictionaryDialog.GetWordsList();
+
+			wordsList.ForEach(word => _spellcheckDictionaryDialog.ClickDeleteWordButton(word));
+
+			_spellcheckDictionaryDialog.ClickCloseDictionaryButton();
+
+			return this;
+		}
+
+		public EditorHelper AddWordToDictionary(string word)
+		{
+			BaseObject.InitPage(_editorPage);
+			_editorPage
+				.ClickSpelcheckDictionaryButton()
+				.ClickAddWordButton()
+				.AddWordToDictionary(word)
+				.ConfirmWord<SpellcheckDictionaryDialog>()
+				.ClickCloseDictionaryButton();
+
+			return this;
+		}
+
+		public EditorHelper ReplaceWordInDictionary(string oldWord, string newWord)
+		{
+			BaseObject.InitPage(_editorPage);
+			_editorPage
+				.ClickSpelcheckDictionaryButton()
+				.CleanWordInDictionary(oldWord)
+				.AddWordToDictionary(newWord)
+				.ConfirmWord<SpellcheckDictionaryDialog>()
+				.ClickCloseDictionaryButton();
+
+			return this;
+		}
+
+		public EditorHelper DeleteWordFromDictionary(string word)
+		{
+			BaseObject.InitPage(_editorPage);
+			_editorPage
+				.ClickSpelcheckDictionaryButton()
+				.ClickDeleteWordButton(word)
+				.ClickCloseDictionaryButton();
+
+			return this;
+		}
+
+		public EditorHelper AssertWordInDictionary(string word, bool shouldExist)
+		{
+			BaseObject.InitPage(_editorPage);
+
+			switch (shouldExist)
 			{
-				Assert.IsTrue(_editorPage.IsSegmentLocked(rowNumber),
-					"Произошла ошибка:\n сегмент с номером {0} не заблокирован.", rowNumber);
-			}
-			else
-			{
-				Assert.IsFalse(_editorPage.IsSegmentLocked(rowNumber),
-					"Произошла ошибка:\n сегмент с номером {0} заблокирован.", rowNumber);
+				case true:
+					_editorPage
+						.ClickSpelcheckDictionaryButton()
+						.AssertWordExistInDictionary(word)
+						.ClickCloseDictionaryButton();
+					break;
+				case false:
+					_editorPage
+						.ClickSpelcheckDictionaryButton()
+						.AssertWordNotExistInDictionary(word)
+						.ClickCloseDictionaryButton();
+					break;
 			}
 
 			return this;
 		}
 
-		/// <summary>
-		/// Проверить, нужный ли номер имеет активный сегмент
-		/// </summary>
-		/// <param name="rowNumber">номер сегмента</param>
-		public EditorHelper AssertActiveSegmentHasRequiredNumber(int rowNumber)
+		public EditorHelper AssertAutosaveWasComplete()
 		{
-			Assert.AreEqual(_editorPage.GetRowNumberActiveSegment(), rowNumber,
-				"Произошла ошибка:\n номер активного сегмента {0} отличен от предпологаемого {1}.",
-				_editorPage.GetRowNumberActiveSegment(), rowNumber);
+			BaseObject.InitPage(_editorPage);
+			_editorPage.AssertLastRevisionEqualTo(RevisionType.ManualInput);
+
+			return this;
+		}
+
+		public EditorHelper AssertUnderlineForWord(string word, bool shouldExist)
+		{
+			BaseObject.InitPage(_editorPage);
+
+			switch (shouldExist)
+			{
+				case true:
+					_editorPage.AssertUnderlineForWordExist(word);
+					break;
+				case false:
+					_editorPage.AssertUnderlineForWordNotExist(word);
+					break;
+			}
+			
+			return this;
+		}
+
+		public EditorHelper AssertSameTerminAdditionNotAllowed(string word)
+		{
+			BaseObject.InitPage(_editorPage);
+			_editorPage
+				.ClickSpelcheckDictionaryButton()
+				.AssertAddWordButtinEnabled()
+				.ClickAddWordButton()
+				.AddWordToDictionary(word)
+				.ConfirmWord<SpellcheckErrorDialog>()
+				.ClickOkButton()
+				.ClickCloseDictionaryButton();
 
 			return this;
 		}
@@ -160,17 +242,10 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 			return this;
 		}
-
-		public EditorHelper CloseTutorialIfExist()
-		{
-			BaseObject.InitPage(_editorPage);
-			_editorPage.CloseTutorialIfExist();
-
-			return this;
-		}
-
+		
 		private readonly SelectTaskDialog _selectTask = new SelectTaskDialog();
 		private readonly EditorPage _editorPage = new EditorPage();
-
+		
+		private SpellcheckDictionaryDialog _spellcheckDictionaryDialog = new SpellcheckDictionaryDialog();
 	}
 }

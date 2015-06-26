@@ -2,6 +2,7 @@
 
 using NLog;
 using NUnit.Framework;
+
 using OpenQA.Selenium;
 using OpenQA.Selenium.Interactions;
 using OpenQA.Selenium.Internal;
@@ -37,7 +38,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestFramework
 			}
 
 			expectedText = expectedText ?? text;
-			if (webElement.GetAttribute("value") != expectedText)
+
+			// TrimEnd(' ') используется в связи с тем что иногда редактор добаляет в конце слова пробел
+			if (webElement.GetAttribute("value") != expectedText && webElement.Text.TrimEnd(' ') != expectedText)
 			{
 				webElement.SetText(text);
 			}
@@ -155,6 +158,16 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestFramework
 				Logger.Warn("StaleElementReferenceException: GetIsInputChecked: " + webElement.TagName, staleElementReferenceException);
 				return GetIsInputChecked(webElement);
 			}
+		}
+
+		/// <summary>
+		/// Двойной клик по элементу
+		/// </summary>
+		/// <param name="webElement"></param>
+		public static void DoubleClick(this IWebElement webElement)
+		{
+			var actionBuilder = new Actions(getDriverFromWebElement(webElement));
+			actionBuilder.DoubleClick(webElement).Perform();
 		}
 
 		/// <summary>

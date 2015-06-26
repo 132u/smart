@@ -86,6 +86,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 		{
 			BaseObject.InitPage(_projectsPage);
 			_projectsPage
+				.AssertProjectAppearInList(projectName)
 				.AssertIsProjectLoaded(projectName)
 				.ClickProject(projectName);
 

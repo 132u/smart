@@ -18,35 +18,14 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 
 		public new void LoadPage()
 		{
-			if (!Driver.WaitUntilElementIsDisplay(By.XPath(CREATE_TM_BTN), 10))
+			if (!Driver.WaitUntilElementIsDisplay(By.XPath(CREATE_TM_BTN)))
 			{
 				Assert.Fail("Произошла ошибка:\n не удалось перейти к следующему шагу создания проекта (выбор ТМ).");
 			}
 		}
 
 		/// <summary>
-		/// Проверить, пустая ли таблица с ТМ
-		/// </summary>
-		public bool IsTMTableEmpty()
-		{
-			Logger.Trace("Проверить пустая ли таблица с ТМ.");
-
-			return Driver.WaitUntilElementIsEnabled(By.XPath(TM_TABLE_FIRST_ITEM));
-		}
-
-		/// <summary>
-		/// Проверить, удалось ли добавить в проект ТМ (если ТМ не было вообще)
-		/// </summary>
-		public NewProjectSetUpTMDialog AssertIsTMTableNotEmpty()
-		{
-			Assert.IsTrue(Driver.WaitUntilElementIsDisplay(By.XPath(TM_TABLE_FIRST_ITEM), 15),
-				"Произошла ошибка:\n не удалось добавить ТМ при создании проекта.");
-
-			return GetPage();
-		}
-
-		/// <summary>
-		/// Проверить, существует ли ТМ при созданиие проекта
+		/// Подтвердить, существует ли ТМ при созданиие проекта
 		/// </summary>
 		public NewProjectSetUpTMDialog AssertTranslationMemoryExist(string translationMemoryName)
 		{
@@ -59,26 +38,27 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 		}
 
 		/// <summary>
-		/// Выбрать первую ТМ из таблицы
-		/// </summary>
-		public NewProjectSetUpTMDialog ClickTMTableFirstItem()
-		{
-			Logger.Debug("Выбрать первую ТМ из таблицы.");
-			TMTableFirstItem.Click();
-
-			return GetPage();
-		}
-
-		/// <summary>
 		/// Нажать на кнопку "Создать ТМ"
 		/// </summary>
 		public NewProjectCreateTMDialog ClickCreateTMButton()
 		{
 			Logger.Debug("Нажать кнопку 'Создать ТМ'.");
 			CreateTMButton.Click();
-			var createTMDialog = new NewProjectCreateTMDialog();
 
-			return createTMDialog.GetPage();
+			return new NewProjectCreateTMDialog().GetPage();
+		}
+
+		/// <summary>
+		/// Подтвердить, что кнопка "Готова" доступна
+		/// </summary>
+		public NewProjectSetUpTMDialog AssertFinishButtonEnabled()
+		{
+			Logger.Debug("Подтвердить, что кнопка 'Готово' доступна");
+
+			Assert.IsTrue(Driver.WaitUntilElementIsEnabled(By.XPath(CREATE_PROJECT_FINISH_BUTTON)) && Driver.WaitUntilElementIsDisplay(By.XPath(CREATE_PROJECT_FINISH_BUTTON)),
+				"Ошибка: \n кнопка 'Готово' недоступна.");
+
+			return GetPage();
 		}
 
 		/// <summary>
@@ -87,9 +67,10 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 		public ProjectsPage ClickFinishButton()
 		{
 			Logger.Debug("Нажать кнопку 'Готово'.");
+			CreateProjectFinishButton.HoverElement();
 			CreateProjectFinishButton.Click();
 
-			return GetPage();
+			return new ProjectsPage().GetPage();
 		}
 
 		[FindsBy(How = How.XPath, Using = CREATE_TM_BTN)]

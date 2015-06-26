@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Drawing.Imaging;
 using System.Linq;
-using System.IO;
+
 using NLog;
 using NUnit.Framework;
+
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.PageObjects;
 using OpenQA.Selenium.Support.UI;
@@ -332,6 +332,5 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestFramework
 				return false;
 			}
 		}
-
 	}
 }

@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
+
 using NUnit.Framework;
 
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects;
@@ -23,9 +23,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 		public ProjectSettingsHelper CloseTaskAssignmentDialog<T>() where T : class, IAbstractPage<T>, new()
 		{
 			BaseObject.InitPage(_taskAssignmentDialog);
-			_taskAssignmentDialog.ClickCloseTaskAssignmentDialog<T>();
-			_taskAssignmentDialog.AssertTaskAssignmentDialogDisappear<T>();
-			_taskAssignmentDialog.AssertDialogBackgroundDissapeared<T>();
+			// TODO: дописать метод 
 
 			return new ProjectSettingsHelper();
 		}
@@ -83,23 +81,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 			return this;
 		}
-
-		public TaskAssignmentDialogHelper AssertAssignStatus(string expectedStatus, int taskNumber = 1)
-		{
-			BaseObject.InitPage(_taskAssignmentDialog);
-			_taskAssignmentDialog.AssertAssignStatus(expectedStatus, taskNumber);
-
-			return this;
-		}
-
-		public TaskAssignmentDialogHelper AssertCancelAssignButtonExist(int taskNumber = 1)
-		{
-			BaseObject.InitPage(_taskAssignmentDialog);
-			_taskAssignmentDialog.AssertCancelAssignButtonExist();
-
-			return this;
-		}
-
-		private readonly TaskAssignmentDialog _taskAssignmentDialog = new TaskAssignmentDialog();
+		
+		private readonly TaskAssignmentPage _taskAssignmentDialog = new TaskAssignmentPage();
 	}
 }

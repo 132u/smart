@@ -1,4 +1,7 @@
-﻿using NUnit.Framework;
+﻿using System.IO;
+
+using NUnit.Framework;
+
 using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
 using AbbyyLS.SmartCAT.Selenium.Tests.DataStructures;
 using AbbyyLS.SmartCAT.Selenium.Tests.TestFramework;
@@ -147,7 +150,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 				.CreateNewProject(projectUniqueName)
 				.GoToProjectSettingsPage(projectUniqueName)
 				.UploadDocument(PathProvider.DocumentFile)
-				.DeleteDocument(PathProvider.DocumentFile);
+				.DeleteDocument(Path.GetFileNameWithoutExtension(PathProvider.DocumentFile));
 		}
 
 		[Test]

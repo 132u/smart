@@ -18,7 +18,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 
 		public new void LoadPage()
 		{
-			if (!Driver.ElementIsDisplayed(By.XPath(NEW_TM_NAME_INPUT)))
+			if (!Driver.WaitUntilElementIsDisplay(By.XPath(NEW_TM_NAME_INPUT)))
 			{
 				Assert.Fail("Произошла ошибка:\n не появился диалог создания ТМ.");
 			}
@@ -53,7 +53,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 		[FindsBy(How = How.XPath, Using = SAVE_TM_BTN)]
 		protected IWebElement SaveTMButton { get; set; }
 
-		protected const string NEW_TM_NAME_INPUT = "//div[contains(@class,'js-popup-create-tm')][2]//input[contains(@class,'js-tm-name')]";
-		protected const string SAVE_TM_BTN = "//div[contains(@class,'js-popup-create-tm')][2]//span[contains(@class,'js-save')]";
+		protected const string NEW_TM_NAME_INPUT = "//div[contains(@class,'js-popup-create-tm')][2]//input[contains(@data-bind,'value: name')]";
+		protected const string SAVE_TM_BTN = "//div[contains(@class,'js-popup-create-tm')][2]//a[contains(@class,'js-tour-tm-save')]";
 	}
 }

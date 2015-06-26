@@ -193,7 +193,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Editor.Spellcheck
 		/// Тест: проверка подчеркивания слова с дефисом
 		/// </summary>
 		[Test]
-		[Category("PRX_8479")]
 		[TestCase(Word1)]
 		[TestCase(Word2)]
 		public void UnderlineWord(string word)

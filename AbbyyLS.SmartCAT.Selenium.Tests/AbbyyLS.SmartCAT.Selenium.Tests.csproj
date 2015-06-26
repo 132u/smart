@@ -67,9 +67,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Configs\TestsUserConfig.cs" />
+    <Compile Include="DataStructures\AssignmentType.cs" />
     <Compile Include="DataStructures\Feature.cs" />
     <Compile Include="DataStructures\LicenseOperation.cs" />
     <Compile Include="DataStructures\Deadline.cs" />
+    <Compile Include="DataStructures\DataDictionaries.cs" />
+    <Compile Include="DataStructures\RevisionType.cs" />
     <Compile Include="DataStructures\TaskMode.cs" />
     <Compile Include="DataStructures\WorkflowTask.cs" />
     <Compile Include="Drivers\ChromeDriverProvider.cs" />
@@ -107,7 +110,11 @@
     <Compile Include="Pages\Billing\LicenseDialog\LicenseUpgradeDialog.cs" />
     <Compile Include="Pages\Client\ClientsPage.cs" />
     <Compile Include="Pages\LingvoDictionaries\LingvoDictionariesPage.cs" />
+    <Compile Include="Pages\Projects\SelectAssigneePage.cs" />
     <Compile Include="Pages\Search\SearchPage.cs" />
+    <Compile Include="Pages\Editor\ErrorsDialog.cs" />
+    <Compile Include="Pages\Editor\SpellcheckDictionaryDialog.cs" />
+    <Compile Include="Pages\Editor\SpellcheckErrorDialog.cs" />
     <Compile Include="Pages\ProjectGroups\ProjectGroupsPage.cs" />
     <Compile Include="Pages\Editor\EditorPage.cs" />
     <Compile Include="Pages\Editor\SelectTaskDialog.cs" />
@@ -120,7 +127,7 @@
     <Compile Include="Pages\Projects\DocumentUploadDialog\DocumentUploadBaseDialog.cs" />
     <Compile Include="Pages\Projects\DocumentUploadDialog\DocumentUploadSetUpTMDialog.cs" />
     <Compile Include="Pages\Projects\ProjectSettings\SettingsDialog.cs" />
-    <Compile Include="Pages\Projects\TaskAssignmentDialog.cs" />
+    <Compile Include="Pages\Projects\TaskAssignmentPage.cs" />
     <Compile Include="Pages\TranslationMemories\NewTranslationMemoryDialog.cs" />
     <Compile Include="Pages\TranslationMemories\TranslationMemoriesPage.cs" />
     <Compile Include="Pages\Projects\CreateProjectDialog\NewProjectCreateTMDialog.cs" />
@@ -164,6 +171,7 @@
     <Compile Include="TestHelpers\ProjectsHelper.cs" />
     <Compile Include="TestHelpers\TaskAssignmentDialogHelper.cs" />
     <Compile Include="TestHelpers\SearchHelper.cs" />
+    <Compile Include="TestHelpers\TaskAssignmentPageHelper.cs" />
     <Compile Include="TestHelpers\TranslationMemoriesHelper.cs" />
     <Compile Include="TestHelpers\UploadDocumentHelper.cs" />
     <Compile Include="TestHelpers\UsersRightsHelper.cs" />
@@ -183,6 +191,10 @@
     <Compile Include="Tests\ProjectGroupsTest.cs" />
     <Compile Include="Tests\TranslationMemories\BaseTmTest.cs" />
     <Compile Include="Tests\TranslationMemories\CreateTmTest.cs" />
+    <Compile Include="Tests\Editor\EditorBaseTest.cs" />
+    <Compile Include="Tests\Editor\EditorConfirmTests.cs" />
+    <Compile Include="Tests\Editor\EditorErrorTests.cs" />
+    <Compile Include="Tests\Editor\EditorSpellcheckTests.cs" />
     <Compile Include="TestUser.cs" />
   </ItemGroup>
   <ItemGroup>
