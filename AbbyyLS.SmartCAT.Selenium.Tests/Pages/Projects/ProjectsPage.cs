@@ -53,7 +53,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 
 			try
 			{
-				ProjectRef.Click();
+				ProjectRef.JavaScriptClick();
 			}
 			catch (StaleElementReferenceException)
 			{
