@@ -30,6 +30,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.DocumentUploadDialog
 		/// <param name="pathFile">путь к файлу</param>
 		public DocumentUploadGeneralInformationDialog UploadDocument(string pathFile)
 		{
+			Logger.Debug("Загрузить файл {0}", pathFile);
+
 			Driver.ExecuteScript("arguments[0].style[\"display\"] = \"block\";" +
 				"arguments[0].style[\"visibility\"] = \"visible\";",
 				UploadFileInput);
@@ -44,6 +46,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.DocumentUploadDialog
 		/// <param name="fileName">имя файла (с расширением)</param>
 		public DocumentUploadGeneralInformationDialog AssertFileUploaded(string fileName)
 		{
+			Logger.Trace("Проверить, что файл {0} загрузился", fileName);
+
 			Assert.IsTrue(Driver.WaitUntilElementIsDisplay(By.XPath(UPLOADED_FILE.Replace("*#*", fileName))),
 				"Произошла ошибка:\n не удалось загрузить файл.");
 
