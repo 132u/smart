@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel;
+
 using AbbyyLS.SmartCAT.Selenium.Tests.DataStructures;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories;
 using AbbyyLS.SmartCAT.Selenium.Tests.TestFramework;
@@ -81,6 +82,70 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 				.ClickOpenClientsList()
 				.AssertClientsListDisplayed()
 				.AssertClientExistInTmCreationDialog(clientName);
+
+			return this;
+		}
+
+		public TranslationMemoriesHelper RenameTranslationMemory(string oldName, string newName)
+		{
+			BaseObject.InitPage(_translationMemoriesPage);
+
+			if (!_translationMemoriesPage.IsTranslationMemoryInformationOpen(oldName))
+			{
+				_translationMemoriesPage.OpenTranslationMemoryInformation(oldName);
+			}
+
+			_translationMemoriesPage
+				.ClickEditButton()
+				.CleanTranslationMemoryName()
+				.AddTranslationMemoryName(newName)
+				.ClickSaveTranslationMemoryButton();
+
+			return this;
+		}
+
+		public TranslationMemoriesHelper EditComment(string tmName, string text)
+		{
+			BaseObject.InitPage(_translationMemoriesPage);
+
+			if (!_translationMemoriesPage.IsTranslationMemoryInformationOpen(tmName))
+			{
+				_translationMemoriesPage.OpenTranslationMemoryInformation(tmName);
+			}
+
+			_translationMemoriesPage
+				.ClickEditButton()
+				.CleanComment()
+				.AddComment(text)
+				.ClickSaveTranslationMemoryButton()
+				.AssertEditionFormDisappear();
+
+			return this;
+		}
+
+		public TranslationMemoriesHelper AssertCommentExist(string text)
+		{
+			BaseObject.InitPage(_translationMemoriesPage);
+			_translationMemoriesPage.AssertCommentExist(text);
+
+			return this;
+		}
+
+		public TranslationMemoriesHelper FindTranslationMemory(string tmName)
+		{
+			BaseObject.InitPage(_translationMemoriesPage);
+			
+			_translationMemoriesPage
+				.AddTranslationMemoryNameToSearch(tmName)
+				.ClickSearchButton();
+
+			return this;
+		}
+
+		public TranslationMemoriesHelper CloseAllNotifications()
+		{
+			BaseObject.InitPage(_translationMemoriesPage);
+			_translationMemoriesPage.CloseAllNotifications<TranslationMemoriesPage>();
 
 			return this;
 		}
@@ -169,9 +234,78 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 			return this;
 		}
 
+		public TranslationMemoriesHelper AssertNoNameErrorAppearDuringEdition()
+		{
+			BaseObject.InitPage(_translationMemoriesPage);
+			_translationMemoriesPage.AssertNoNameErrorAppear();
+
+			return this;
+		}
+
+		public TranslationMemoriesHelper AssertExistNameErrorAppearDuringEdition()
+		{
+			BaseObject.InitPage(_translationMemoriesPage);
+			_translationMemoriesPage.AssertExistingNameErrorAppear();
+
+			return this;
+		}
+
 		public TranslationMemoriesHelper GetTranslationMemoryUniqueName(ref string baseTranslationMemoryName)
 		{
 			baseTranslationMemoryName = baseTranslationMemoryName + DateTime.UtcNow.Ticks;
+
+			return this;
+		}
+
+		public TranslationMemoriesHelper AddTargetLanguageToTranslationMemory(string translationMemoryName, Language language)
+		{
+			BaseObject.InitPage(_translationMemoriesPage);
+			_translationMemoriesPage
+				.OpenTranslationMemoryInformation(translationMemoryName)
+				.ClickEditButton()
+				.ClickToTargetLanguages()
+				.SelectTargetLanguage(language)
+				.ClickSaveTranslationMemoryButton();
+
+			return this;
+		}
+
+		public TranslationMemoriesHelper AssertLanguagesForTranslationMemory(
+			string translationMemoryName, 
+			string sourceLanguage, 
+			string[] targetlanguages)
+		{
+			BaseObject.InitPage(_translationMemoriesPage);
+			_translationMemoriesPage.AssertLanguagesForTranslationMemory(translationMemoryName, sourceLanguage, targetlanguages);
+
+			return this;
+		}
+
+		public TranslationMemoriesHelper AddFirstProjectGroupToTranslationMemory(string translationMemoryName, out string projectGroupName)
+		{
+			BaseObject.InitPage(_translationMemoriesPage);
+			_translationMemoriesPage
+				.ClickEditButton()
+				.ClickToProjectsFieldAtTmEdditForm()
+				.SelectFirstProjectGroupAndGetName(out projectGroupName)
+				.ClickSaveTranslationMemoryButton();
+
+			return this;
+		}
+
+		public TranslationMemoriesHelper AssertProjectGroupExistForTranslationMemory(
+			string translationMemoryName,
+			string projectGroup)
+		{
+			BaseObject.InitPage(_translationMemoriesPage);
+
+			if (!_translationMemoriesPage.IsTranslationMemoryInformationOpen(translationMemoryName))
+			{
+				_translationMemoriesPage.OpenTranslationMemoryInformation(translationMemoryName);
+			}			
+			
+			_translationMemoriesPage
+				.AssertProjectGroupExistForTranslationMemory(translationMemoryName, projectGroup);
 
 			return this;
 		}

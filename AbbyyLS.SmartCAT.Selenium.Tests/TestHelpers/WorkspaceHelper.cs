@@ -104,6 +104,16 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 			return new ProjectsHelper();
 		}
+		
+		public THelper RefreshPage<TAbstractPage, THelper>() where TAbstractPage : class, IAbstractPage<TAbstractPage>, new()
+															 where THelper : class, new()
+		{
+			BaseObject.InitPage(_workspacePage);
+			_workspacePage.RefreshPage<TAbstractPage>();
+			
+			return new THelper();
+		}
+			
 
 		public UsersRightsHelper GoToUsersRightsPage()
 		{
