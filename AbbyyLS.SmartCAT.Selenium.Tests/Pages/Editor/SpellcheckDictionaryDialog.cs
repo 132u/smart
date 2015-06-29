@@ -102,16 +102,16 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		}
 
 		/// <summary>
-		/// Очистить слово в словаре
+		/// Выделить слово в словаре
 		/// </summary>
-		public SpellcheckDictionaryDialog CleanWordInDictionary(string word)
+		public SpellcheckDictionaryDialog HilightWordInDictionary(string word)
 		{
-			Logger.Debug("Очистить слово {0} в словаре", word);
 			Word = Driver.SetDynamicValue(How.XPath, WORD_PATH, word);
+			Logger.Debug("Установить курсор в конце слова {0} в словаре", word);
 			Word.DoubleClick();
-			SendKeys.SendWait(@"+{HOME}");
-			SendKeys.SendWait(@"{DEL}");
-
+			Logger.Debug("Выделить слово {0}", word);
+			Word.DoubleClick();
+			
 			return GetPage();
 		}
 
@@ -132,8 +132,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		public T ConfirmWord<T>() where T: class, IAbstractPage<T>, new()
 		{
 			Logger.Debug("Подтвердить ввод слова в словарь");
-			SendKeys.SendWait(@"{Enter}");
-
+			DictionaryForm.Click();
+			
 			return new T().GetPage();
 		}
 
@@ -156,6 +156,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 
 		[FindsBy(How = How.XPath, Using = ADD_WORD_BTN)]
 		protected IWebElement AddWordButton { get; set; }
+
+		[FindsBy(How = How.XPath, Using = DICTIONARY_FORM)]
+		protected IWebElement DictionaryForm { get; set; }
 
 		protected IWebElement DeleteWordButton { get; set; }
 

@@ -143,7 +143,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 			BaseObject.InitPage(_editorPage);
 			_editorPage
 				.ClickSpelcheckDictionaryButton()
-				.CleanWordInDictionary(oldWord)
+				.HilightWordInDictionary(oldWord)
 				.AddWordToDictionary(newWord)
 				.ConfirmWord<SpellcheckDictionaryDialog>()
 				.ClickCloseDictionaryButton();
