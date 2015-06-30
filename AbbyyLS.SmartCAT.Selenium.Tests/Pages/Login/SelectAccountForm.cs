@@ -41,7 +41,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Login
 				AccountRef = Driver.SetDynamicValue
 					(How.XPath, dataServer.ToLower() == "europe" ? RU_ACCOUNT_REF_XPATH : US_ACCOUNT_REF_XPATH, accountName);
 
-				AccountRef.Click();
+				AccountRef.JavaScriptClick();
 			}
 
 			return new WorkspacePage().GetPage();

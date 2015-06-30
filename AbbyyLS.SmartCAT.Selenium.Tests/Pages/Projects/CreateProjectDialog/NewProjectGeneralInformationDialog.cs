@@ -229,7 +229,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 		public T ClickNext<T>() where T: class, IAbstractPage<T>, new()
 		{
 			Logger.Debug("Нажать кнопку 'Далее'.");
-			NextButton.Click();
+			// Вернуть NextButton.Click(), если тесты будут падать из-за неотрабатывающего клика
+			Driver.FindElement(By.XPath(NEXT_BUTTON)).Click();
 
 			return new T().GetPage();
 		}
