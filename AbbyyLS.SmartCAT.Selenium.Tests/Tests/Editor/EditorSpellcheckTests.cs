@@ -25,7 +25,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Editor
 				.SelectAssignee(NickName)
 				.CloseTaskAssignmentDialog()
 				.ClickSaveButton()
-				.GoToProjectSettingsPage(projectName)
 				.OpenDocument<SelectTaskDialog>(Path.GetFileNameWithoutExtension(PathProvider.DocumentFile))
 				.SelectTask()
 				.CloseTutorialIfExist()

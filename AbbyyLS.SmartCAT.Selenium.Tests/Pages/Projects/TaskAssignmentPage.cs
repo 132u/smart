@@ -6,6 +6,7 @@ using OpenQA.Selenium;
 using OpenQA.Selenium.Support.PageObjects;
 
 using AbbyyLS.SmartCAT.Selenium.Tests.DataStructures;
+using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings;
 using AbbyyLS.SmartCAT.Selenium.Tests.TestFramework;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
@@ -159,12 +160,12 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 		/// <summary>
 		/// Нажать кнопку сохранения исполнителя задачи
 		/// </summary>
-		public ProjectsPage ClicSaveAssignButton()
+		public ProjectSettingsPage ClicSaveAssignButton()
 		{
 			Logger.Debug("Нажать кнопку сохранения исполнителя задачи");
 			SaveButton.Click();
 
-			return new ProjectsPage().GetPage();
+			return new ProjectSettingsPage().GetPage();
 		}
 
 		/// <summary>
