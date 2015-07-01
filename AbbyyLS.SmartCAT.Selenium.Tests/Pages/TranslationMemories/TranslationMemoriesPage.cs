@@ -67,7 +67,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories
 		protected IWebElement CreateNewTmButton { get; set; }
 
 		protected const string CREATE_TM_DIALOG = "//div[contains(@class,'js-popup-create-tm')][2]";
-		protected const string ADD_TM_BTN = "//span[contains(@data-bind,'createTm')]";
+		protected const string ADD_TM_BTN = "//span[contains(@data-bind,'createTm')]//a";
 		protected const string TM_TABLE_BODY = "//table[contains(@class,'js-sortable-table')]";
 		protected const string TM_ROW = "//tr[@class='l-corpr__trhover clickable']//span[text()='*#*']";
 	}
