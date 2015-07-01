@@ -44,7 +44,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings
 		{
 			Logger.Trace("Проверить загрузился ли документ.");
 
-			if (!Driver.WaitUntilElementIsDissapeared(By.XPath(LOAD_DOC_IMG), 320))
+			if (!Driver.WaitUntilElementIsDisappeared(By.XPath(LOAD_DOC_IMG), 320))
 			{
 				Driver.Navigate().Refresh();
 
@@ -136,7 +136,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings
 		{
 			Logger.Trace("Дождаться закрытия диалога удаления документа.");
 
-			Assert.IsTrue(Driver.WaitUntilElementIsDissapeared(By.XPath(DELETE_DOCUMENT_DIALOG)),
+			Assert.IsTrue(Driver.WaitUntilElementIsDisappeared(By.XPath(DELETE_DOCUMENT_DIALOG)),
 				"Произошла ошибка:\n диалог удаления документа не закрылся.");
 
 			return new ProjectSettingsPage();
@@ -149,7 +149,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings
 		{
 			Logger.Trace("Дождаться закрытия диалога импорта документа.");
 
-			Assert.IsTrue(Driver.WaitUntilElementIsDissapeared(By.XPath(IMPORT_DIALOG)),
+			Assert.IsTrue(Driver.WaitUntilElementIsDisappeared(By.XPath(IMPORT_DIALOG)),
 				"Произошла ошибка:\n диалог импорта документа не закрылся.");
 
 			return GetPage();

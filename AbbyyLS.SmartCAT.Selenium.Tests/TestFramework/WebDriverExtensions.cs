@@ -84,7 +84,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestFramework
 		/// <param name="driver">драйвер</param>
 		/// <param name="by">локатор</param>
 		/// <param name="timeout">время ожидания</param>
-		public static bool WaitUntilElementIsDissapeared(this IWebDriver driver, By by, int timeout = 10)
+		public static bool WaitUntilElementIsDisappeared(this IWebDriver driver, By by, int timeout = 10)
 		{
 			var wait = new WebDriverWait(driver, TimeSpan.FromSeconds(timeout));
 
@@ -100,7 +100,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestFramework
 			{
 				Logger.Warn("StaleElementReferenceException: WaitUntilElementIsDissapeared: " + by);
 
-				return WaitUntilElementIsDissapeared(driver, by, timeout);
+				return WaitUntilElementIsDisappeared(driver, by, timeout);
 			}
 		}
 

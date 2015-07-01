@@ -346,7 +346,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 		{
 			Logger.Trace("Проверить, что файл удалён");
 
-			Assert.IsTrue(Driver.WaitUntilElementIsDissapeared(By.XPath(DELETE_FILE_BTN_XPATH.Replace("*#*", fileName))),
+			Assert.IsTrue(Driver.WaitUntilElementIsDisappeared(By.XPath(DELETE_FILE_BTN_XPATH.Replace("*#*", fileName))),
 				string.Format("Произошла ошибка:\n файл {0} не удалился.", fileName));
 
 			return GetPage();

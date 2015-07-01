@@ -36,7 +36,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 		{
 			Logger.Debug("Проверить, загрузился ли проект {0}.", projectName);
 
-			Assert.IsTrue(Driver.WaitUntilElementIsDissapeared(By.XPath(PROJECT_LOAD_IMG_XPATH.Replace("*#*", projectName)), 50),
+			Assert.IsTrue(Driver.WaitUntilElementIsDisappeared(By.XPath(PROJECT_LOAD_IMG_XPATH.Replace("*#*", projectName)), 50),
 				"Произошла ошибка:\n проект {0} не загрузился.", projectName);
 
 			return GetPage();
@@ -96,7 +96,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 		{
 			Logger.Trace("Дождаться закрытия диалога создания проекта.");
 
-			Assert.IsTrue(Driver.WaitUntilElementIsDissapeared(By.XPath(CREATE_PROJECT_DIALOG_XPATH), timeout: 20),
+			Assert.IsTrue(Driver.WaitUntilElementIsDisappeared(By.XPath(CREATE_PROJECT_DIALOG_XPATH), timeout: 20),
 				"Произошла ошибка:\n диалог создания проекта не закрылся.");
 
 			return GetPage();
@@ -144,7 +144,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 		{
 			Logger.Trace("Проверить, что проект {0} отсутствует в списке проектов", projectName);
 
-			if (!Driver.WaitUntilElementIsDissapeared(By.XPath(PROJECT_REF_XPATH.Replace("*#*", projectName)), timeout: 20))
+			if (!Driver.WaitUntilElementIsDisappeared(By.XPath(PROJECT_REF_XPATH.Replace("*#*", projectName)), timeout: 20))
 			{
 				Assert.Fail("Произошла ошибка:\n проект {0} не удалился.", projectName);
 			}
@@ -226,7 +226,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 		{
 			Logger.Trace("Дождаться закрытия диалога удаления проекта.");
 
-			Assert.IsTrue(Driver.WaitUntilElementIsDissapeared(By.XPath(DELETE_DIALOG_WITH_FILE)),
+			Assert.IsTrue(Driver.WaitUntilElementIsDisappeared(By.XPath(DELETE_DIALOG_WITH_FILE)),
 				"Произошла ошибка:\n диалог удаления проекта не закрылся.");
 
 			return GetPage();
@@ -239,7 +239,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 		{
 			Logger.Trace("Дождаться закрытия диалога удаления проекта.");
 
-			Assert.IsTrue(Driver.WaitUntilElementIsDissapeared(By.XPath(DELETE_DIALOG)),
+			Assert.IsTrue(Driver.WaitUntilElementIsDisappeared(By.XPath(DELETE_DIALOG)),
 				"Произошла ошибка:\n диалог удаления проекта не закрылся.");
 
 			return GetPage();

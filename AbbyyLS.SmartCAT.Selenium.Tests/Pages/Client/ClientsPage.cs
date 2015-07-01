@@ -104,7 +104,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Client
 		{
 			Logger.Trace("Проверить, что кнопка сохранения клиента исчезла");
 
-			Assert.IsTrue(Driver.WaitUntilElementIsDissapeared(By.XPath(SAVE_CLIENT)),
+			Assert.IsTrue(Driver.WaitUntilElementIsDisappeared(By.XPath(SAVE_CLIENT)),
 				"Произошла ошибка:\n кнопка сохранения клиента не исчезла после сохранения.");
 
 			return GetPage();
@@ -165,7 +165,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Client
 		{
 			Logger.Trace("Проверить, что кнопка удаления клиента исчезла");
 
-			Assert.IsTrue(Driver.WaitUntilElementIsDissapeared(By.XPath(DELETE_BUTTON.Replace("*#*", clientName))),
+			Assert.IsTrue(Driver.WaitUntilElementIsDisappeared(By.XPath(DELETE_BUTTON.Replace("*#*", clientName))),
 				"Произошла ошибка:\n кнопка удаления клиента не исчезла после сохранения.");
 
 			return GetPage();
@@ -193,7 +193,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Client
 		{
 			Logger.Trace("Проверить, что клиент {0} отсутствует в списке клиентов", clientName);
 
-			Assert.IsTrue(Driver.WaitUntilElementIsDissapeared(By.XPath(getClientPath(clientName))),
+			Assert.IsTrue(Driver.WaitUntilElementIsDisappeared(By.XPath(getClientPath(clientName))),
 				"Произошла ошибка:\n клиент {0} найден в списке клиентов", clientName);
 
 			return GetPage();

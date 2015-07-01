@@ -18,6 +18,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Login
 
 		public void LoadPage()
 		{
+			Driver.WaitUntilElementIsDisappeared(By.XPath(WAITING_SERVER_RESPONSE_MESSAGE));
+
 			if (!Driver.WaitUntilElementIsDisplay(By.XPath(ACCOUNT_SELECTION_FORM)))
 			{
 				Assert.Fail("Произошла ошибка:\n не загрузилась форма выбора аккаунта.");
@@ -53,5 +55,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Login
 		protected const string US_ACCOUNT_REF_XPATH = "//li[@translate = 'region-us']/following-sibling::li[@class='ng-scope']//span[contains(string(), '*#*')]";
 		protected const string RU_ACCOUNT_REF_XPATH = "//li[@translate = 'region-ru']/following-sibling::li[@class='ng-scope']//span[string() = '*#*']";
 		protected const string ACCOUNT_REF_LIST = "//a[contains(@ng-click,'signInAccount')]";
+		
+		protected const string WAITING_SERVER_RESPONSE_MESSAGE = "//div[@ng-show='accountWatitngServerResponse']/span";
 	}
 }

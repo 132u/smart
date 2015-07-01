@@ -241,7 +241,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace
 		{
 			Logger.Trace("Дождаться закрытия фона диалога.");
 
-			Assert.IsTrue(Driver.WaitUntilElementIsDissapeared(By.XPath(DIALOG_BACKGROUND)),
+			Assert.IsTrue(Driver.WaitUntilElementIsDisappeared(By.XPath(DIALOG_BACKGROUND)),
 				"Ошибка: фон диалога не закрылся.");
 			
 			return new T().GetPage();
@@ -288,8 +288,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace
 		{
 			if (!getIsLeftMenuDisplay())
 			{
+				assertCatMenuButtonDisplay();
+
 				Logger.Debug("Открыть CAT меню слева.");
-				Driver.WaitUntilElementIsDisplay(By.XPath(CAT_MENU_OPEN_BUTTON));
 				CatMenuOpenButton.JavaScriptClick();
 			}
 
@@ -304,6 +305,16 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace
 			Logger.Trace("Вернуть, раскрыто ли главное меню слева.");
 
 			return CatMenu.Displayed;
+		}
+
+		private WorkspacePage assertCatMenuButtonDisplay()
+		{
+			Logger.Trace("Проверить, что кнопка открытия меню отображается на странице.");
+
+			Assert.IsTrue(Driver.WaitUntilElementIsDisplay(By.XPath(CAT_MENU_OPEN_BUTTON), 20),
+				"Произошла ошибка:\n кнопка открытия меню не отображается на странице.");
+
+			return GetPage();
 		}
 
 		[FindsBy(How = How.XPath, Using = USERS_RIGHTS_BUTTON)]

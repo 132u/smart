@@ -47,7 +47,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.ProjectGroups
 		public ProjectGroupsPage AssertProjectGroupNotExist(string projectGroupName)
 		{
 			Logger.Trace("Проверить, что группа проектов {0} отсутствует в списке.", projectGroupName);
-			Driver.WaitUntilElementIsDissapeared(By.XPath(PROJECT_GROUP_ROW.Replace("*#*", projectGroupName)));
+			Driver.WaitUntilElementIsDisappeared(By.XPath(PROJECT_GROUP_ROW.Replace("*#*", projectGroupName)));
 
 			Assert.IsFalse(projectGroupIsPresent(projectGroupName),
 				"Произошла ошибка:\n Группа проектов {0} найдена.", projectGroupName);
@@ -108,7 +108,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.ProjectGroups
 		{
 			Logger.Trace("Проверить, что кнопка сохранения группы проектов исчезла.");
 
-			Assert.IsTrue(Driver.WaitUntilElementIsDissapeared(By.XPath(SAVE_PROJECT_GROUP)),
+			Assert.IsTrue(Driver.WaitUntilElementIsDisappeared(By.XPath(SAVE_PROJECT_GROUP)),
 				"Произошла ошибка:\n кнопка сохранения группы проектов не исчезла после сохранения.");
 
 			return GetPage();
@@ -151,7 +151,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.ProjectGroups
 
 			Driver.FindElement(By.XPath(deleteXPath)).Click();
 
-			Assert.IsTrue(Driver.WaitUntilElementIsDissapeared(By.XPath(deleteXPath)),
+			Assert.IsTrue(Driver.WaitUntilElementIsDisappeared(By.XPath(deleteXPath)),
 				"Произошла ошибка:\nКнопка удаления не исчезла после удаления группы проектов.");
 
 			return GetPage();
