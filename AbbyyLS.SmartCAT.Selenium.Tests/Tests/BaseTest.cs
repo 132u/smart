@@ -2,10 +2,11 @@
 using System.Collections.Generic;
 using System.IO;
 
-using NConfiguration;
-﻿using NUnit.Framework;
+﻿using NConfiguration;
+using NUnit.Framework;
 
 using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
+﻿using AbbyyLS.SmartCAT.Selenium.Tests.DataStructures;
 using AbbyyLS.SmartCAT.Selenium.Tests.TestFramework;
 using AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers;
 
@@ -22,6 +23,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests
 			}
 		}
 
+		protected StartPage StartPage = StartPage.SignIn;
+		
 		protected bool Standalone { get; private set; }
 
 		protected string Url { get; private set; }
@@ -59,8 +62,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests
 		protected string RightsTestUserName { get; private set; }
 
 		protected string RightsTestSurname { get; private set; }
-
-		protected bool AdminLoginPage { get; set; }
 
 		protected List<TestUser> TestUserList { get; private set; }
 
@@ -148,7 +149,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests
 			string accountName = "TestAccount")
 		{
 			Driver.Navigate().GoToUrl(Url + "/sign-in");
-			LoginHelper.SignIn(Login, Password, accountName);
+			LoginHelper.SignIn(login, password, accountName);
 		}
 
 		protected void LogInAdmin(
@@ -169,16 +170,27 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests
 				return;
 			}
 
-			if (AdminLoginPage)
+			switch (StartPage)
 			{
-				LogInAdmin(Login, Password);
-			}
-			else
-			{
-				LogInSmartCat(Login, Password);
+				case StartPage.Admin:
+					LogInAdmin(Login, Password);
+					break;
+
+				case StartPage.CompanyRegistration:
+					GoToCompanyRegistration();
+					break;
+
+				default:
+					LogInSmartCat(Login, Password);
+					break;
 			}
 		}
 
+		protected void GoToCompanyRegistration()
+		{
+			Driver.Navigate().GoToUrl(Url + "/corp-reg");
+		}
+		
 		private void logTestSummary()
 		{
 			var testFinishTime = DateTime.Now;

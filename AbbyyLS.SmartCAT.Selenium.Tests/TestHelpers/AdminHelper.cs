@@ -173,7 +173,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 				.FillConfirmPassword(password)
 				.ClickSubmitButton();
 
-			BaseObject.InitPage(_adminCreateUserPage);
+			BaseObject.InitPage(_adminEditUserPage);
 
 			if (!_adminCreateUserPage.GetIsUserExistMessageDisplay() && admin)
 			{

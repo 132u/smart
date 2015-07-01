@@ -12,7 +12,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "configs", "configs", "{A63C
 		configs\AgentSpecific.xml = configs\AgentSpecific.xml
 		configs\AolUsers.xml = configs\AolUsers.xml
 		configs\CourseraUsers.xml = configs\CourseraUsers.xml
-		configs\TestUsers.xml = configs\TestUsers.xml
+		configs\RegistrationTestUsers.xml = configs\RegistrationTestUsers.xml
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CategoriesList", "CategoriesList\CategoriesList.csproj", "{28C1A53F-4597-413F-91F7-B622AEB3AE53}"

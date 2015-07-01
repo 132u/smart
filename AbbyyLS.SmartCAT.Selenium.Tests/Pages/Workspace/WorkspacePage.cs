@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿using System;
+using System.ComponentModel;
 using System.Linq;
 
 using NUnit.Framework;
@@ -6,13 +7,14 @@ using NUnit.Framework;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.PageObjects;
 
+
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Billing;
-using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Client;
 using AbbyyLS.SmartCAT.Selenium.Tests.DataStructures;
+using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects;
+using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Client;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.LingvoDictionaries;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Login;
-using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.ProjectGroups;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Search;
 using AbbyyLS.SmartCAT.Selenium.Tests.TestFramework;
@@ -181,10 +183,10 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace
 		/// <summary>
 		/// Выйти из смартката
 		/// </summary>
-		public SignInPage ClickLogOff()
+		public SignInPage ClickSignOut()
 		{
 			Logger.Debug("Выйти из смартката.");
-			LogOff.Click();
+			SignOutButton.Click();
 
 			return new SignInPage().GetPage();
 		}
@@ -284,6 +286,50 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace
 			return new SearchPage().GetPage();
 		}
 
+		/// <summary>
+		/// Проверить, что имя пользователя в черной плашке совпадает с ожидаемым
+		/// </summary>
+		/// <param name="expectedUserName">ожидаемое имя</param>
+		public WorkspacePage AssertUserNameMatch(string expectedUserName)
+		{
+			Logger.Trace("Проверить, что имя {0} пользователя в черной плашке совпадает с ожидаемым именем {1}.",
+				currentUserName(), expectedUserName);
+
+			Assert.AreEqual(expectedUserName, currentUserName(),
+				"Произошла ошибка:\n имя пользователя в черной плашке не совпадает с ожидаемым именем.");
+
+			return GetPage();
+		}
+
+		/// <summary>
+		/// Проверить, что название аккаунта в черной плашке совпадает с ожидаемым
+		/// </summary>
+		/// <param name="expectedAccountName">ожидаемое имя</param>
+		public WorkspacePage AssertAccountNameMatch(string expectedAccountName)
+		{
+			Logger.Trace("Проверить, что название {0} аккаунта в черной плашке совпадает с ожидаемым именем {1}.",
+				currentAccount(), expectedAccountName);
+
+			Assert.AreEqual(expectedAccountName, currentAccount(),
+				"Произошла ошибка:\n название аккаунта в черной плашке не совпадает с ожидаемым именем.");
+
+			return GetPage();
+		}
+
+		/// <summary>
+		/// Проверить, что список аккаунтов содержит нужный аккаунт
+		/// </summary>
+		/// <param name="accountName">имя аккаунт</param>
+		public WorkspacePage AssertAccountListContainsAccountName(string accountName)
+		{
+			Logger.Trace("Проверить, что список аккаунтов содержит {0} аккаунт.", accountName);
+
+			Assert.IsTrue(Driver.SetDynamicValue(How.XPath, ACCOUNT_NAME_IN_LIST, accountName).Displayed,
+				"Произошла ошибка:\n список аккаунтов не содержит {0} аккаунт.", accountName);
+
+			return GetPage();
+		}
+
 		public WorkspacePage OpenHideMenuIfClosed()
 		{
 			if (!getIsLeftMenuDisplay())
@@ -328,6 +374,36 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace
 			return GetPage();
 		}
 
+		/// <summary>
+		/// Получить имя пользователя из черной плашки
+		/// </summary>
+		/// <returns>имя пользователя</returns>
+		private string currentUserName()
+		{
+			Logger.Trace("Получить имя пользователя из черной плашки.");
+
+			var accountName = UserName.Text;
+			var index = accountName.IndexOf("\r", StringComparison.Ordinal);
+
+			if (index > 0)
+			{
+				accountName = accountName.Substring(0, index);
+			}
+
+			return accountName;
+		}
+
+		/// <summary>
+		/// Получить имя текущего аккаунта
+		/// </summary>
+		/// <returns>имя текущего аккаунта</returns>
+		private string currentAccount()
+		{
+			Logger.Trace("Получить имя текущего аккаунта.");
+
+			return CurrentAccountName.Text;
+		}
+
 		[FindsBy(How = How.XPath, Using = USERS_RIGHTS_BUTTON)]
 		protected IWebElement UsersRightsButton { get; set; }
 
@@ -349,8 +425,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace
 		[FindsBy(How = How.XPath, Using = ACCOUNT)]
 		protected IWebElement Account { get; set; }
 
-		[FindsBy(How = How.XPath, Using = LOGOFF)]
-		protected IWebElement LogOff { get; set; }
+		[FindsBy(How = How.XPath, Using = SIGN_OUT_BUTTON)]
+		protected IWebElement SignOutButton { get; set; }
 
 
 		[FindsBy(How = How.XPath, Using = RESOURCES_MENU)]
@@ -376,12 +452,20 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace
 
 		[FindsBy(How = How.XPath, Using = SEARCH_MENU)]
 		protected IWebElement SearchMenu { get; set; }
-
-
+		
 		[FindsBy(How = How.XPath, Using = LANGUAGE_BUTTON)]
 		protected IWebElement LanguageButton { get; set; }
 
 		protected IWebElement LocaleRef { get; set; }
+
+		[FindsBy(How = How.XPath, Using = CURRENT_ACCOUNT_NAME)]
+		protected IWebElement CurrentAccountName { get; set; }
+
+		[FindsBy(How = How.XPath, Using = USER_NAME)]
+		protected IWebElement UserName { get; set; }
+
+		[FindsBy(How = How.XPath, Using = ACCOUNT_NAME_IN_LIST)]
+		protected IWebElement AccountNameInList { get; set; }
 
 		protected const string CAT_MENU = "//div[contains(@class, 'js-mainmenu')]";
 		protected const string CAT_MENU_OPEN_BUTTON = "//h2[contains(@class,'g-topbox__header')]/a";
@@ -404,9 +488,12 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace
 		protected const string ACCOUNT = "//div[contains(@class,'js-usermenu')]";
 		protected const string USER_NAME = "//div[contains(@class,'js-usermenu')]//span[contains(@class,'nameuser')]";
 		protected const string LOGOFF = ".//a[contains(@href,'Logout')]";
+		protected const string SIGN_OUT_BUTTON = ".//a[contains(@href,'Logout')]";
 		protected const string LICENSES_AND_SERVICES = "//a[contains(@class,'billing')]";
 
 		protected const string LANGUAGE_PICTURE = "//i[text()='*#*']";
 		protected const string DIALOG_BACKGROUND = "//div[contains(@class,'js-popup-bg')]";
+		protected const string CURRENT_ACCOUNT_NAME = "//span[contains(@class,'g-topbox__nameuser')]//small";
+		protected const string ACCOUNT_NAME_IN_LIST = "//li[@class='g-topbox__corpitem' and @title='*#*']";
 	}
 }

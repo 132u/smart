@@ -10,7 +10,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Billing
 	{
 		public BillingTests()
 		{
-			AdminLoginPage = true;
+			StartPage = StartPage.Admin;
 		}
 
 		[SetUp]

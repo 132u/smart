@@ -150,10 +150,46 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 			return new SearchHelper();
 		}
+		
+		public WorkspaceHelper AssertUserNameAndAccountNameCorrect(string userName, string accountName)
+		{
+			BaseObject.InitPage(_workspacePage);
+			_workspacePage
+				.AssertUserNameMatch(userName)
+				.AssertAccountNameMatch(accountName);
+
+			return this;
+		}
+		
+		public WorkspaceHelper CloseTour()
+		{
+			BaseObject.InitPage(_workspacePage);
+			_workspacePage.ClickCloseHelp();
+
+			return this;
+		}
+
+		public LoginHelper SignOut()
+		{
+			BaseObject.InitPage(_workspacePage);
+			_workspacePage
+				.ClickAccount()
+				.ClickSignOut();
+
+			return new LoginHelper();
+		}
+
+		public WorkspaceHelper AssertAccountExistInList(string account)
+		{
+			BaseObject.InitPage(_workspacePage);
+			_workspacePage
+				.ClickAccount()
+				.AssertAccountListContainsAccountName(account);
+
+			return this;
+		}
 
 		private readonly ProjectsPage _projectsPage = new ProjectsPage();
 		private readonly WorkspacePage _workspacePage = new WorkspacePage();
-
-
 	}
 }

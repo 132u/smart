@@ -14,7 +14,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 		/// <param name="accountName">название аккаунта</param>
 		/// <param name="dataServer">расположение сервера</param>
 		/// <param name="language">язык локали</param>
-		public LoginHelper SignIn(
+		public WorkspaceHelper SignIn(
 			string login, 
 			string password, 
 			string accountName = "TestAccount", 
@@ -31,7 +31,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 				.SelectLocale(language)
 				.ClickCloseHelp();
 
-			return this;
+			return new WorkspaceHelper();
 		}
 
 		private readonly SignInPage _signInPage = new SignInPage();

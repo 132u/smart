@@ -233,7 +233,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 				.OpenDocument<EditorPage>(PathProvider.EditorTxtFile)
 				.AssertStageNameIsEmpty()
 				.ClickHomeButton()
-				.LogOff()
+				.SignOut()
 				.SignIn(Login2, Password2);
 
 			_projectsHelper

@@ -36,6 +36,12 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Billing.LicenseDialog
 			return GetPage();
 		}
 
+		[FindsBy(How = How.XPath, Using = CANCEL_BUTTON)]
+		protected new IWebElement CancelButton { get; set; }
+
+		[FindsBy(How = How.XPath, Using = LICENSE_NUMBER)]
+		protected new IWebElement LicenseNumber { get; set; }
+
 		[FindsBy(How = How.XPath, Using = NEW_LICENSE_NUMBER)]
 		protected IWebElement NewLicenseNumber { get; set; }
 
@@ -48,6 +54,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Billing.LicenseDialog
 		public const string LICENSE_NUMBER_IN_PACKAGE = "//table[@class='t-licenses']//td[contains(text(),'Количество лицензий') or contains(text(),'Number of Licenses')]/following-sibling::td";
 		public const string PACKAGE_PRICE = "//table[@class='t-licenses']//tr[3]/td[2]";
 		public const string NEW_LICENSE_NUMBER = "//tr[contains(@ng-if, 'ctrl.isIncrease')]//select[contains(@ng-options, 'option.amount')]";
+		public new const string CANCEL_BUTTON = "//div[@class='lic-popup ng-scope']//a[contains(@abb-link-click, 'close') and contains(@class, 'btn')]";
+		public new const string LICENSE_NUMBER = "//select[contains(@class, 'ng-pristine ng-untouched ng-valid')]";
 		public const string UPGRADE_LICENSE_NUMBER = "//select[contains(@class, 'ng-pristine ng-untouched ng-valid')]";
 	}
 }

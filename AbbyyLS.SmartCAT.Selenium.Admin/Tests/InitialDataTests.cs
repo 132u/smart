@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+﻿﻿using System.Collections.Generic;
 
 using AbbyyLS.SmartCAT.Selenium.Tests.DataStructures;
 using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
@@ -12,7 +12,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.InitialData
 	{
 		public InitialDataTests() 
 		{
-			AdminLoginPage = true;
+			StartPage = StartPage.Admin;
 		}
 
 		[SetUp]

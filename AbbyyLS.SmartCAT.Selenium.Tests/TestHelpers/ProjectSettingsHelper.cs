@@ -63,19 +63,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 		}
 
 		/// <summary>
-		/// Выйти из смартката
-		/// </summary>
-		public LoginHelper LogOff()
-		{
-			BaseObject.InitPage(_projectPage);
-			_projectPage
-				.ClickAccount()
-				.ClickLogOff();
-
-			return new LoginHelper();
-		}
-
-		/// <summary>
 		/// Удалить документ из проекта
 		/// </summary>
 		/// <param name="documentName">имя документа</param>

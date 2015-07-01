@@ -15,7 +15,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.LingvoDictionariesTests
 	{
 		public LingvoDictionariesAdminTests() 
 		{
-			AdminLoginPage = true;
+			StartPage = StartPage.Admin;
 		}
 
 		[SetUp]

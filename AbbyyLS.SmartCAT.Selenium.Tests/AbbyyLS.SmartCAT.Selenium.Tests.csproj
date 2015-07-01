@@ -69,6 +69,9 @@
     <Compile Include="Configs\TestsUserConfig.cs" />
     <Compile Include="DataStructures\AssignmentType.cs" />
     <Compile Include="DataStructures\Feature.cs" />
+    <Compile Include="DataStructures\CompanyRegistrationField.cs" />
+    <Compile Include="DataStructures\CompanyType.cs" />
+    <Compile Include="DataStructures\StartPage.cs" />
     <Compile Include="DataStructures\LicenseOperation.cs" />
     <Compile Include="DataStructures\Deadline.cs" />
     <Compile Include="DataStructures\DataDictionaries.cs" />
@@ -76,6 +79,7 @@
     <Compile Include="DataStructures\TaskMode.cs" />
     <Compile Include="DataStructures\WorkflowTask.cs" />
     <Compile Include="Drivers\ChromeDriverProvider.cs" />
+    <Compile Include="TestFramework\EnumExtensions.cs" />
     <Compile Include="Drivers\FirefoxWebDriverProvider.cs" />
     <Compile Include="Drivers\WebDriver.cs" />
     <Compile Include="Drivers\IWebDriverProvider.cs" />
@@ -111,6 +115,8 @@
     <Compile Include="Pages\Client\ClientsPage.cs" />
     <Compile Include="Pages\LingvoDictionaries\LingvoDictionariesPage.cs" />
     <Compile Include="Pages\Projects\SelectAssigneePage.cs" />
+    <Compile Include="Pages\Registration\CompanyRegistrationFirstPage.cs" />
+    <Compile Include="Pages\Registration\CompanyRegistrationSecondPage.cs" />
     <Compile Include="Pages\Search\SearchPage.cs" />
     <Compile Include="Pages\Editor\ErrorsDialog.cs" />
     <Compile Include="Pages\Editor\SpellcheckDictionaryDialog.cs" />
@@ -124,6 +130,7 @@
     <Compile Include="Pages\Login\SignInPage.cs" />
     <Compile Include="Pages\Projects\CreateProjectDialog\NewProjectCreateBaseDialog.cs" />
     <Compile Include="Pages\Projects\DocumentUploadDialog\DocumentUploadTaskAssignmentDialog.cs" />
+    <Compile Include="Pages\Registration\CompanyRegistrationSignInPage.cs" />
     <Compile Include="Pages\Projects\DocumentUploadDialog\DocumentUploadBaseDialog.cs" />
     <Compile Include="Pages\Projects\DocumentUploadDialog\DocumentUploadSetUpTMDialog.cs" />
     <Compile Include="Pages\Projects\ProjectSettings\SettingsDialog.cs" />
@@ -160,6 +167,7 @@
     <Compile Include="TestHelpers\AdminHelper.cs" />
     <Compile Include="TestHelpers\BillingHelper.cs" />
     <Compile Include="TestHelpers\ClientsHelper.cs" />
+    <Compile Include="TestHelpers\CompanyRegistrationHelper.cs" />
     <Compile Include="TestHelpers\CreateProjectHelper.cs" />
     <Compile Include="TestHelpers\LicenseDialogHelper.cs" />
     <Compile Include="TestHelpers\LingvoDictionariesHelper.cs" />
@@ -187,6 +195,8 @@
     <Compile Include="Configs\UserInfoConfig.cs" />
     <Compile Include="Tests\LingvoDictionariesTests\LingvoDictionariesAdminTests.cs" />
     <Compile Include="Tests\LingvoDictionariesTests\LingvoDictionariesTests.cs" />
+    <Compile Include="Tests\CompanyRegistration\AdminCompanyRegistrationTests.cs" />
+    <Compile Include="Tests\CompanyRegistration\CompanyRegistrationTests.cs" />
     <Compile Include="Tests\ProjectDeadlineTests.cs" />
     <Compile Include="Tests\ProjectGroupsTest.cs" />
     <Compile Include="Tests\TranslationMemories\BaseTmTest.cs" />

@@ -143,6 +143,27 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestFramework
 		}
 
 		/// <summary>
+		/// Двойной клик по элементу
+		/// </summary>
+		/// <param name="webElement">элемент</param>
+		public static void DoubleClick(this IWebElement webElement)
+		{
+			var driver = getDriverFromWebElement(webElement);
+
+			try
+			{
+				var action = new Actions(driver);
+				action.DoubleClick(webElement);
+				action.Perform();
+			}
+			catch (StaleElementReferenceException staleElementReferenceException)
+			{
+				Logger.Warn("StaleElementReferenceException: DoubleClickElement: " + webElement.TagName, staleElementReferenceException);
+				DoubleClick(webElement);
+			}
+		}
+
+		/// <summary>
 		/// Проверить, отмечен ли checkbox или radio
 		/// </summary>
 		/// <param name="webElement">элемент</param>
@@ -158,16 +179,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestFramework
 				Logger.Warn("StaleElementReferenceException: GetIsInputChecked: " + webElement.TagName, staleElementReferenceException);
 				return GetIsInputChecked(webElement);
 			}
-		}
-
-		/// <summary>
-		/// Двойной клик по элементу
-		/// </summary>
-		/// <param name="webElement"></param>
-		public static void DoubleClick(this IWebElement webElement)
-		{
-			var actionBuilder = new Actions(getDriverFromWebElement(webElement));
-			actionBuilder.DoubleClick(webElement).Perform();
 		}
 
 		/// <summary>
