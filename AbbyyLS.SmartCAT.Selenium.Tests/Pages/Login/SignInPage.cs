@@ -53,10 +53,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Login
 		public SelectAccountForm ClickSubmitButton()
 		{
 			Logger.Debug("Нажать 'Sign In'.");
-			SubmitButton.Click();
-			var selectAccountForm = new SelectAccountForm();
+			SubmitButton.JavaScriptClick();
 
-			return selectAccountForm.GetPage();
+			return new SelectAccountForm().GetPage();
 		}
 
 		[FindsBy(Using = EMAIL_INPUT_ID)]

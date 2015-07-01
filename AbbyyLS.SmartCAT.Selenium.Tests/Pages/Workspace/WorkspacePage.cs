@@ -137,7 +137,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace
 		{
 			Logger.Debug("Нажать на имя пользователя и аккаунт, чтобы появилась плашка 'Настройки профиля'.");
 			Driver.WaitUntilElementIsDisplay(By.XPath(ACCOUNT));
-			Account.Click();
+			Account.JavaScriptClick();
 
 			return GetPage();
 		}
@@ -295,6 +295,17 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace
 			}
 
 			return GetPage();
+		}
+
+		/// <summary>
+		/// Обновить страницу
+		/// </summary>
+		public T RefreshPage<T>() where T: class, IAbstractPage<T>, new()
+		{
+			Logger.Debug("Обновить страницу.");
+			Driver.Navigate().Refresh();
+
+			return new T().GetPage();
 		}
 
 		/// <summary>

@@ -1,4 +1,6 @@
-﻿using AbbyyLS.SmartCAT.Selenium.Tests.DataStructures;
+﻿using System.Threading;
+
+using AbbyyLS.SmartCAT.Selenium.Tests.DataStructures;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace;
 using AbbyyLS.SmartCAT.Selenium.Tests.TestFramework;
@@ -129,6 +131,11 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 		{
 			BaseObject.InitPage(_workspacePage);
 			_workspacePage.SelectLocale(language);
+
+			if (language == Language.Russian)
+			{
+				_workspacePage.RefreshPage<WorkspacePage>();
+			}
 
 			return this;
 		}
