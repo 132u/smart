@@ -236,6 +236,14 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 			return this;
 		}
 
+		public CreateProjectHelper AssertTranslationMemoryNotExist(string translationMemoryName)
+		{
+			BaseObject.InitPage(_newProjectSetUpTMDialog);
+			_newProjectSetUpTMDialog.AssertTranslationMemoryNotExist(translationMemoryName);
+
+			return this;
+		}
+
 		public string GetProjectUniqueName()
 		{
 			// Sleep необходим, чтобы имена были уникальными, когда создаём несколько имён подряд. Чтобы не вышло, что кол-во тиков одинаковое.

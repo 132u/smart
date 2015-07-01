@@ -23,7 +23,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 				.SetTranslationMemoryName(translationMemoryName)
 				.ClickOpenSourceLanguageList()
 				.SelectSourceLanguage(sourceLanguage);
-			
+
 			BaseObject.InitPage(_newTranslationMemoryDialog);
 
 			if (targetLanguage != Language.NoLanguage)
@@ -56,23 +56,57 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 					}
 					else
 					{
-						_newTranslationMemoryDialog.ClickSaveTranslationMemory<TranslationMemoriesPage>();
+						_newTranslationMemoryDialog
+							.ClickSaveTranslationMemory<TranslationMemoriesPage>()
+							.AssertNewTranslationMemoryDialogDisappear()
+							.AssertDialogBackgroundDissapeared<TranslationMemoriesPage>();
 					}
-					
+
 					break;
 				case DialogButtonType.Cancel:
-					_newTranslationMemoryDialog.ClickCancelTranslationMemoryCreation();
+					_newTranslationMemoryDialog
+						.ClickCancelTranslationMemoryCreation()
+						.AssertNewTranslationMemoryDialogDisappear()
+						.AssertDialogBackgroundDissapeared<TranslationMemoriesPage>();
 					break;
 				case DialogButtonType.None:
 					break;
 				default:
 					throw new InvalidEnumArgumentException();
 			}
-			
 
 			return this;
 		}
 
+		public TranslationMemoriesHelper CreateTranslationMemoryIfNotExist(
+			string translationMemoryName,
+			Language sourceLanguage = Language.English,
+			Language targetLanguage = Language.Russian,
+			Language secondTargetLanguage = Language.NoLanguage,
+			string importFilePath = null,
+			DialogButtonType finalButtonType = DialogButtonType.Save,
+			bool isCreationErrorExpected = false)
+		{
+			BaseObject.InitPage(_translationMemoriesPage);
+			_translationMemoriesPage
+				.FillSearch(translationMemoryName)
+				.ClickSearchButton();
+
+			if (!_translationMemoriesPage.TranslationMemoryExists(translationMemoryName))
+			{
+				CreateTranslationMemory(
+					translationMemoryName,
+					sourceLanguage,
+					targetLanguage,
+					secondTargetLanguage,
+					importFilePath,
+					finalButtonType,
+					isCreationErrorExpected);
+			}
+
+			return this;
+		}
+		
 		public TranslationMemoriesHelper AssertClientExistInClientsList(string clientName)
 		{
 			BaseObject.InitPage(_translationMemoriesPage);
@@ -172,6 +206,26 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 		public TranslationMemoriesHelper GetTranslationMemoryUniqueName(ref string baseTranslationMemoryName)
 		{
 			baseTranslationMemoryName = baseTranslationMemoryName + DateTime.UtcNow.Ticks;
+
+			return this;
+		}
+
+		public TranslationMemoriesHelper OpenTranslationMemoryInformation(string translationMemoryName)
+		{
+			BaseObject.InitPage(_translationMemoriesPage);
+			_translationMemoriesPage.ClickTranslationMemoryRow(translationMemoryName);
+
+			return this;
+		}
+
+		public TranslationMemoriesHelper DeleteTranslationMemory(string translationMemoryName)
+		{
+			BaseObject.InitPage(_translationMemoriesPage);
+			_translationMemoriesPage
+				.ClickDeleteButtonInTMInfo()
+				.AssertDeleteConfirmatonDialogPresent()
+				.ClickDeleteButtonInConfirmationDialog()
+				.AssertDeleteConfirmatonDialogDisappear();
 
 			return this;
 		}

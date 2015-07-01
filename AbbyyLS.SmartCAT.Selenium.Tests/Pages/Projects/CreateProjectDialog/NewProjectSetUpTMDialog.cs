@@ -23,16 +23,29 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 				Assert.Fail("Произошла ошибка:\n не удалось перейти к следующему шагу создания проекта (выбор ТМ).");
 			}
 		}
-
 		/// <summary>
-		/// Подтвердить, существует ли ТМ при созданиие проекта
+		/// Проверить, что ТМ представлена в списке при создании проекта
 		/// </summary>
 		public NewProjectSetUpTMDialog AssertTranslationMemoryExist(string translationMemoryName)
 		{
+			Logger.Trace("Проверить, что ТМ {0} представлена в списке при создании проекта.", translationMemoryName);
 			TranslationMemoryItem = Driver.SetDynamicValue(How.XPath, TM_ITEM, translationMemoryName);
 
 			Assert.IsTrue(TranslationMemoryItem.Enabled,
-				"Произошла ошибка:\n ТМ {0} не существует при создании проекта.", translationMemoryName);
+				"Произошла ошибка:\n ТМ {0} не представлена в списке при создании проекта.", translationMemoryName);
+
+			return GetPage();
+		}
+
+		/// <summary>
+		/// Проверить, что ТМ отсутствует при создании проекта
+		/// </summary>
+		public NewProjectSetUpTMDialog AssertTranslationMemoryNotExist(string translationMemoryName)
+		{
+			Logger.Trace("Проверить, что ТМ {0} отсутствует при создании проекта.", translationMemoryName);
+
+			Assert.IsFalse(Driver.GetIsElementExist(By.XPath(TM_ITEM.Replace("*#*", translationMemoryName))),
+				"Произошла ошибка:\n ТМ {0} присутствует при создании проекта.", translationMemoryName);
 
 			return GetPage();
 		}
