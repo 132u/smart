@@ -34,10 +34,13 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Login
 		public WorkspacePage SelectAccount(string accountName, string dataServer)
 		{
 			Logger.Trace("Проверить кол-во ссылок на аккаунты на всех серверах.");
-			var accountsCount = Driver.GetElementsCount(By.XPath(ACCOUNT_REF_LIST));
-			Logger.Trace("Ссылок на аккаунты на всех серверах '{0}'", accountsCount);
+			var europeAccountsCount = Driver.GetElementsCount(By.XPath(EUROPE_ACCOUNT_LIST));
+			var usaAccountsCount = Driver.GetElementsCount(By.XPath(USA_ACCOUNT_LIST));
+			var totalAccountCount = europeAccountsCount + usaAccountsCount;
 
-			if (accountsCount > 1)
+			Logger.Trace("Ссылок на аккаунты на всех серверах '{0}'", totalAccountCount);
+
+			if (totalAccountCount > 1)
 			{
 				Logger.Debug("Выбрать аккаунт {0} на сервере {1}.", accountName, dataServer);
 				AccountRef = Driver.SetDynamicValue
@@ -54,8 +57,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Login
 		protected const string ACCOUNT_SELECTION_FORM = "//form[contains(@name, 'selectAccount')]";
 		protected const string US_ACCOUNT_REF_XPATH = "//li[@translate = 'region-us']/following-sibling::li[@class='ng-scope']//span[contains(string(), '*#*')]";
 		protected const string RU_ACCOUNT_REF_XPATH = "//li[@translate = 'region-ru']/following-sibling::li[@class='ng-scope']//span[string() = '*#*']";
-		protected const string ACCOUNT_REF_LIST = "//a[contains(@ng-click,'signInAccount')]";
-		
+		protected const string EUROPE_ACCOUNT_LIST = "//li[@translate='region-ru']//following-sibling::li//a[contains(@ng-click,'signInAccount')]";
+		protected const string USA_ACCOUNT_LIST = "//li[@translate='region-us']//following-sibling::li//a[contains(@ng-click,'signInAccount')]";
 		protected const string WAITING_SERVER_RESPONSE_MESSAGE = "//div[@ng-show='accountWatitngServerResponse']/span";
 	}
 }
