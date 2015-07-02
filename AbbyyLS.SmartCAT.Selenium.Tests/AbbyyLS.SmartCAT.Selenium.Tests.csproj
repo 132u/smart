@@ -167,7 +167,6 @@
     <Compile Include="TestFramework\StandaloneAttribute.cs" />
     <Compile Include="TestFramework\PriorityMinorAttribute.cs" />
     <Compile Include="TestFramework\PriorityNormalAttribute.cs" />
-    <Compile Include="TestFramework\WebDriverExtensions.cs" />
     <Compile Include="TestFramework\WebElementExtensions.cs" />
     <Compile Include="TestHelpers\AdminHelper.cs" />
     <Compile Include="TestHelpers\BillingHelper.cs" />

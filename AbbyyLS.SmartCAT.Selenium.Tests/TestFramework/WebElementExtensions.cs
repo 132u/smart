@@ -88,7 +88,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestFramework
 			var driver = webElement.getDriverFromWebElement();
 			try
 			{
-				driver.Scripts().ExecuteScript("arguments[0].click();", webElement);
+				((IJavaScriptExecutor)driver).ExecuteScript("arguments[0].click();", webElement);
 			}
 			catch (Exception ex)
 			{
@@ -192,7 +192,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestFramework
 
 			try
 			{
-				driver.Scripts().ExecuteScript("arguments[0].scrollIntoView(true); window.scrollBy(0,-200);", webElement);
+				((IJavaScriptExecutor)driver).ExecuteScript("arguments[0].scrollIntoView(true); window.scrollBy(0,-200);", webElement);
 			}
 			catch (Exception ex)
 			{
