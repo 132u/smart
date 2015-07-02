@@ -186,7 +186,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace
 		public SignInPage ClickSignOut()
 		{
 			Logger.Debug("Выйти из смартката.");
-			SignOutButton.Click();
+			SignOutButton.JavaScriptClick();
 
 			return new SignInPage().GetPage();
 		}

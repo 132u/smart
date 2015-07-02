@@ -216,7 +216,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.CompanyRegistration
 		{
 			_companyRegistrationHelper
 				.FillCompanyDataFirstStep(email, _password, _password)
-				.ClickContinueButton();
+				.ClickContinueButton(errorExpected:true)
+				.AssertAlreadySignUpMessageDisplayed();
 		}
 
 		[TestCase("'@a")]
