@@ -13,10 +13,10 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Drivers
 	{
 		public static Logger Logger = LogManager.GetCurrentClassLogger();
 
-		public WebDriver(IWebDriverProvider provider, string tempFolder)
+		public WebDriver(IWebDriverProvider provider, string tempFolder, string downloadDirectory)
 		{
 			_tempFolder = Path.Combine(tempFolder, Guid.NewGuid().ToString());
-			_driver = provider.GetWebDriver(_tempFolder);
+			_driver = provider.GetWebDriver(_tempFolder, downloadDirectory);
 
 			_driver.Manage().Timeouts().ImplicitlyWait(TimeSpan.FromSeconds(15));
 			_driver.Manage().Timeouts().SetPageLoadTimeout(TimeSpan.FromSeconds(60));

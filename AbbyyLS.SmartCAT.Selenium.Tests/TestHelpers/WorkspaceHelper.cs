@@ -105,6 +105,14 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 			return new ProjectsHelper();
 		}
 
+		public WorkspaceHelper RefreshPage()
+		{
+			BaseObject.InitPage(_workspacePage);
+			_workspacePage.RefreshPage();
+
+			return this;
+		}
+
 		public UsersRightsHelper GoToUsersRightsPage()
 		{
 			BaseObject.InitPage(_workspacePage);

@@ -239,6 +239,27 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace
 			return GetPage();
 		}
 
+		/// <summary>
+		/// Обновить страницу(не использовать в редакторе)
+		/// </summary>
+		public WorkspacePage RefreshPage()
+		{
+			Logger.Debug("Обновить страницу.");
+			Driver.Navigate().Refresh();
+
+			return GetPage();
+		}
+
+		/// <summary>
+		/// Вернуть количество уведомлений об экспорте
+		/// </summary>
+		public int GetCountExportNotifiers()
+		{
+			Logger.Trace("Узнать, сколько уведомлений есть на данный момент.");
+
+			return Driver.GetElementList(By.XPath(NOTIFIER_LIST)).Count;
+		}
+
 		public T AssertDialogBackgroundDissapeared<T>() where T : class, IAbstractPage<T>, new()
 		{
 			Logger.Trace("Дождаться закрытия фона диалога.");
@@ -488,6 +509,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace
 		protected const string ACCOUNT = "//div[contains(@class,'js-usermenu')]";
 		protected const string USER_NAME = "//div[contains(@class,'js-usermenu')]//span[contains(@class,'nameuser')]";
 		protected const string LOGOFF = ".//a[contains(@href,'Logout')]";
+		protected const string NOTIFIER_LIST = "//div[@id='notifications-block']//div[contains(@class,'notifications-item')]";
 		protected const string SIGN_OUT_BUTTON = ".//a[contains(@href,'Logout')]";
 		protected const string LICENSES_AND_SERVICES = "//a[contains(@class,'billing')]";
 

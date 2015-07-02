@@ -12,7 +12,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Drivers
 
 		private string _driverCopyPath;
 
-		public RemoteWebDriver GetWebDriver(string tempFolder)
+		public RemoteWebDriver GetWebDriver(string tempFolder, string downloadDirectory)
 		{
 			var defaultDriverPath = Path.Combine(Directory.GetCurrentDirectory(), "chromedriver.exe");
 
@@ -28,7 +28,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Drivers
 
 			var options = new ChromeOptions();
 			options.AddArguments("--lang=en");
-
+			options.AddUserProfilePreference("download.default_directory", downloadDirectory);
 			Log.Info("Настройки браузера {0}", String.Join(" ", options.Arguments));
 
 			return new ChromeDriver(tempFolder, options);

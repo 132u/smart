@@ -37,7 +37,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Editor
 			_editorHelper
 				.AddWordToDictionary(_wordsToAdd[0])
 				.AssertWordInDictionary(_wordsToAdd[0], shouldExist: true)
-				.GoBackAtProjectPage()
+				.ClickHomeButton()
 				.OpenDocument<SelectTaskDialog>(Path.GetFileNameWithoutExtension(PathProvider.DocumentFile))
 				.SelectTask()
 				.AssertWordInDictionary(_wordsToAdd[0], shouldExist: true);
@@ -50,7 +50,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Editor
 				.AddWordToDictionary(_wordsToAdd[1])
 				.DeleteWordFromDictionary(_wordsToAdd[1])
 				.AssertWordInDictionary(_wordsToAdd[1], shouldExist: false)
-				.GoBackAtProjectPage()
+				.ClickHomeButton()
 				.OpenDocument<SelectTaskDialog>(Path.GetFileNameWithoutExtension(PathProvider.DocumentFile))
 				.SelectTask()
 				.AssertWordInDictionary(_wordsToAdd[1], shouldExist: false);

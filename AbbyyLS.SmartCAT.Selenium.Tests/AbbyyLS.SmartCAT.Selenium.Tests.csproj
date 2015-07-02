@@ -74,6 +74,8 @@
     <Compile Include="DataStructures\StartPage.cs" />
     <Compile Include="DataStructures\LicenseOperation.cs" />
     <Compile Include="DataStructures\Deadline.cs" />
+    <Compile Include="DataStructures\ExportType.cs" />
+    <Compile Include="DataStructures\PlaceSearchNotifier.cs" />
     <Compile Include="DataStructures\DataDictionaries.cs" />
     <Compile Include="DataStructures\RevisionType.cs" />
     <Compile Include="DataStructures\TaskMode.cs" />
@@ -129,6 +131,9 @@
     <Compile Include="Pages\Login\SelectAccountForm.cs" />
     <Compile Include="Pages\Login\SignInPage.cs" />
     <Compile Include="Pages\Projects\CreateProjectDialog\NewProjectCreateBaseDialog.cs" />
+    <Compile Include="Pages\Projects\DocumentSettings.cs" />
+    <Compile Include="Pages\Projects\ExportMenu.cs" />
+    <Compile Include="Pages\Projects\ExportNotification.cs" />
     <Compile Include="Pages\Projects\DocumentUploadDialog\DocumentUploadTaskAssignmentDialog.cs" />
     <Compile Include="Pages\Registration\CompanyRegistrationSignInPage.cs" />
     <Compile Include="Pages\Projects\DocumentUploadDialog\DocumentUploadBaseDialog.cs" />
@@ -169,6 +174,7 @@
     <Compile Include="TestHelpers\ClientsHelper.cs" />
     <Compile Include="TestHelpers\CompanyRegistrationHelper.cs" />
     <Compile Include="TestHelpers\CreateProjectHelper.cs" />
+    <Compile Include="TestHelpers\ExportFileHelper.cs" />
     <Compile Include="TestHelpers\LicenseDialogHelper.cs" />
     <Compile Include="TestHelpers\LingvoDictionariesHelper.cs" />
     <Compile Include="TestHelpers\ProjectGroupsHelper.cs" />
@@ -193,11 +199,14 @@
     <Compile Include="Tests\ChangeProjectNameTests.cs" />
     <Compile Include="Tests\ClientTests.cs" />
     <Compile Include="Configs\UserInfoConfig.cs" />
+    <Compile Include="Tests\ExportProjectTests\ExportProjectBaseTests.cs" />
+    <Compile Include="Tests\ExportProjectTests\ExportProjectSettingsPageTests.cs" />
     <Compile Include="Tests\LingvoDictionariesTests\LingvoDictionariesAdminTests.cs" />
     <Compile Include="Tests\LingvoDictionariesTests\LingvoDictionariesTests.cs" />
     <Compile Include="Tests\CompanyRegistration\AdminCompanyRegistrationTests.cs" />
     <Compile Include="Tests\CompanyRegistration\CompanyRegistrationTests.cs" />
     <Compile Include="Tests\ProjectDeadlineTests.cs" />
+    <Compile Include="Tests\ExportProjectTests\ExportProjectListTests.cs" />
     <Compile Include="Tests\ProjectGroupsTest.cs" />
     <Compile Include="Tests\TranslationMemories\BaseTmTest.cs" />
     <Compile Include="Tests\TranslationMemories\CreateTmTest.cs" />

@@ -9,9 +9,10 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Drivers
 	{
 		public static Logger Log = LogManager.GetCurrentClassLogger();
 
-		public RemoteWebDriver GetWebDriver(string tempFolder)
+		public RemoteWebDriver GetWebDriver(string tempFolder, string downloadDirectory)
 		{
 			var profile = new FirefoxProfile { AcceptUntrustedCertificates = true };
+			profile.SetPreference("browser.download.dir", downloadDirectory);
 			profile.SetPreference("browser.download.folderList", 2);
 			profile.SetPreference("browser.download.useDownloadDir", true);
 			profile.SetPreference("browser.helperApps.alwaysAsk.force", false);

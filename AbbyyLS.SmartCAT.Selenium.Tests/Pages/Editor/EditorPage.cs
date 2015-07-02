@@ -187,20 +187,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		}
 
 		/// <summary>
-		/// Закрыть подсказку, если она существует
-		/// </summary>
-		public EditorPage CloseTutorialIfExist()
-		{
-			if (tutorialExist())
-			{
-				Logger.Debug("Закрыть подсказку");
-				FinishTutorialButton.Click();
-			}
-
-			return GetPage();
-		}
-
-		/// <summary>
 		/// Получить название этапа
 		/// </summary>
 		public string GetStage()
@@ -208,6 +194,20 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 			Logger.Trace("Получить название этапа");
 
 			return StageName.Text;
+		}
+
+		/// <summary>
+		/// Проверить, что таргет сегмента виден
+		/// </summary>
+		/// <param name="rowNumber">номер сегмента</param>
+		public EditorPage AssertTargetDisplayed(int rowNumber)
+		{
+			Logger.Trace("Проверить, что таргет сегмента №{0} виден", rowNumber);
+
+			Assert.IsTrue(Driver.WaitUntilElementIsDisplay(By.XPath(TARGET_CELL_XPATH.Replace("*#*", (rowNumber - 1).ToString()))),
+				"Произошла ошибка:\n сегмент с номером {0} не появился.", rowNumber);
+
+			return GetPage();
 		}
 
 		/// <summary>
@@ -219,6 +219,22 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 
 			Assert.IsFalse(Driver.ElementIsDisplayed(By.XPath(STAGE_NAME)),
 				"Произошла ошибка:\n название этапа проставлено.");
+
+			return GetPage();
+		}
+
+		/// <summary>
+		/// Закрыть туториал, если он виден.
+		/// </summary>
+		public EditorPage CloseTutorialIfExist()
+		{
+			Logger.Trace("Проверить, видна ли подсказка.");
+
+			if (tutorialExist())
+			{
+				Logger.Debug("Закрыть подсказку.");
+				FinishTutorialButton.Click();
+			}
 
 			return GetPage();
 		}
@@ -238,7 +254,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		[FindsBy(How = How.Id, Using = HOME_BTN_ID)]
 		protected IWebElement HomeButton { get; set; }
 
-		[FindsBy(Using = FINISH_TUTORIAL_BUTTON, How = How.XPath)]
+		[FindsBy(How = How.XPath, Using = FINISH_TUTORIAL_BUTTON)]
 		protected IWebElement FinishTutorialButton { get; set; }
 
 		[FindsBy(Using = DICTIONARY_BTN_ID)]
@@ -262,6 +278,11 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		protected const string REVISION_PATH = "//div[@id='revisions-body']//table[1]//td[contains(@class,'revision-type-cell')]";
 		protected const string STAGE_NAME = "//h1/span[contains(@class, 'workflow')]";
 
+		protected const string ROW_NUMBER_ACTIVE_XPATH = ".//div[@id='segments-body']//table//td[contains(@class, 'x-grid-item-focused')]/../td[1]//div[contains(@class, 'row-numberer')]";
+		protected const string FIRST_VISIBLE_SEGMENT_XPATH = "//div[@id='segments-body']//table[1]//td[1]//div[contains(@class, 'row-numberer')]";
+		protected const string LAST_VISIBLE_SEGMENT_XPATH = "//div[@id='segments-body']//table[*#*]//td[1]//div[contains(@class, 'row-numberer')]";
+		protected const string TARGET_CELL_XPATH = "//div[@id='segments-body']//table[@data-recordindex = '*#*']//td[3]//div//div";
+		protected const string SEGMENTS_TABLE_XPATH = "//div[@id='segments-body']//div//div[2]//table";
 		protected const string SEGMENTS_BODY = "//div[@id='segments-body']//table";
 		protected const string CONFIRMED_ICO = "//div[@id='segments-body']//table[@data-recordindex = '*#*']//td[contains(@class,'info-cell')]//span[contains(@class,'fa-check')]";
 		protected const string TARGET_CELL = "//div[@id='segments-body']//table[@data-recordindex = '*#*']//td[3]//div//div";

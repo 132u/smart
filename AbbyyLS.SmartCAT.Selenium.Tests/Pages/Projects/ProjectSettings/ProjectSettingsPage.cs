@@ -67,17 +67,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings
 
 			return GetPage();
 		}
-
-		/// <summary>
-		/// Обновить страницу проекта
-		/// </summary>
-		public ProjectSettingsPage RefreshPage()
-		{
-			Logger.Debug("Обновить страницу.");
-			Driver.Navigate().Refresh();
-
-			return GetPage();
-		}
 		
 		/// <summary>
 		/// Нажать на кнопку 'Назначить задачу' в открытой свёртке документа
@@ -86,6 +75,17 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings
 		{
 			Logger.Debug("Нажать на кнопку 'Назначить задачу' в открытой свёртке документа.");
 			AssignTasksButtonInDocumentInfo.Click();
+
+			return new TaskAssignmentPage().GetPage();
+		}
+
+		/// <summary>
+		/// Нажать на кнопку "Назначить задачу" на панели
+		/// </summary>
+		public TaskAssignmentPage ClickAssignButtonOnPanel()
+		{
+			Logger.Debug("Нажать кнопку 'Назначить задачу' на панели");
+			AssignTasksButtonOnPanel.Click();
 
 			return new TaskAssignmentPage().GetPage();
 		}
@@ -156,6 +156,31 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings
 		}
 
 		/// <summary>
+		/// Нажать кнопку экспорта в главном меню
+		/// </summary>
+		public ProjectSettingsPage ClickDownloadInMainMenuButton()
+		{
+			Logger.Debug("Нажать кнопку экспорта в главном меню");
+			DownloadInMainMenuButton.Click();
+
+			return GetPage();
+		}
+
+		/// <summary>
+		/// Кликнуть чекбокс у документа
+		/// </summary>
+		/// <param name="documentName">имя документа</param>
+		public ProjectSettingsPage ClickDocumentCheckbox(string documentName)
+		{
+			Logger.Debug("Кликнуть чекбокс у документа");
+			
+			DocumentCheckbox = Driver.SetDynamicValue(How.XPath, DOCUMENT_CHECKBOX, documentName);
+			DocumentCheckbox.Click();
+
+			return GetPage();
+		}
+
+		/// <summary>
 		/// Нажать на прогресс в строке документа
 		/// </summary>
 		/// <param name="documentName">имя документа(без расширения)</param>
@@ -197,6 +222,27 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings
 			return GetPage();
 		}
 
+		/// <summary>
+		/// Снять выделение с документов, если выделены все
+		/// </summary>
+		public ProjectSettingsPage UncheckAllChecboxesDocumentsTable()
+		{
+			Logger.Debug("Снять выделение с документов, если выделены все.");
+			AllCheckoxes = Driver.SetDynamicValue(How.XPath, PROJECTS_TABLE_ALL_CHECKBOXES, "");
+
+			if (AllCheckoxes.Selected)
+			{
+				AllCheckoxes.Click();
+			}
+			else
+			{
+				AllCheckoxes.Click();
+				AllCheckoxes.Click();
+			}
+
+			return GetPage();
+		}
+
 		[FindsBy(How = How.XPath, Using = ADD_FILES_BTN)]
 		protected IWebElement AddFilesButton { get; set; }
 
@@ -214,6 +260,11 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings
 
 		[FindsBy(How = How.XPath, Using = DELETE_BTN)]
 		protected IWebElement DeleteButton { get; set; }
+
+		[FindsBy(How = How.XPath, Using = DOWNLOAD_MAIN_MENU_BUTTON)]
+		protected IWebElement DownloadInMainMenuButton { get; set; }
+
+		protected IWebElement DocumentCheckbox { get; set; }
 
 		[FindsBy(How = How.XPath, Using = SETTINGS_BUTTON)]
 		protected IWebElement SettingsButton { get; set; }
@@ -250,6 +301,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings
 		protected const string DELETE_BTN = "//span[contains(@class,'js-document-delete')]";
 		protected const string DOCUMENT_LIST = ".//table[contains(@class,'js-documents-table')]//tbody//tr//a[text()='";
 		protected const string DELETE_DOCUMENT_DIALOG = "//div[contains(@class,'js-popup-confirm')]";
+		protected const string DOWNLOAD_MAIN_MENU_BUTTON = "//span[contains(@class,'js-document-export-block')]";
+		protected const string DOCUMENT_CHECKBOX = ".//table[contains(@id,'JColResizer')]//tr[contains(string(), '*#*')]//td[2]//a//ancestor::td//preceding-sibling::td/input";
 		protected const string DOCUMENT_PROGRESS = "//td[div[a[text()='*#*']]]//following-sibling::td//div[contains(@class,'ui-progressbar__container')]";
 		protected const string SETTINGS_BUTTON = "(//span[contains(@data-bind,'click: edit')])[1]";
 		protected const string ACCEPT_BUTTONS_LIST_FOR_DOCUMENT = "//tr[td[div[a[text()='*#*']]]]//following-sibling::tr[1]//span[contains(@data-bind,'click: $parent.accept')]";

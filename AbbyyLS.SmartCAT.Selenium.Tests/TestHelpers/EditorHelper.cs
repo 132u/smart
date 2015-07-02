@@ -11,13 +11,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 {
 	public class EditorHelper 
 	{
-		public ProjectSettingsHelper ClickHomeButton()
-		{
-			BaseObject.InitPage(_editorPage);
-			_editorPage.ClickHomeButton();
-
-			return new ProjectSettingsHelper();
-		}
 
 		public EditorHelper SelectTask(TaskMode mode = TaskMode.Translation)
 		{
@@ -103,7 +96,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 			return this;
 		}
 
-		public ProjectSettingsHelper GoBackAtProjectPage()
+		public ProjectSettingsHelper ClickHomeButton()
 		{
 			BaseObject.InitPage(_editorPage);
 			_editorPage.ClickHomeButton();
@@ -243,6 +236,32 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 			return this;
 		}
 		
+		public EditorHelper ClickConfirmButton()
+		{
+			BaseObject.InitPage(_editorPage);
+			_editorPage.ClickConfirmButton();
+
+			return this;
+		}
+
+		public EditorHelper FillTarget(string text = "Translation", int rowNumber = 1)
+		{
+			BaseObject.InitPage(_editorPage);
+			_editorPage
+				.ClickTargetCell(rowNumber)
+				.SendTargetText(text, rowNumber);
+
+			return this;
+		}
+
+		public EditorHelper AssertTargetDisplayed(int rowNumber = 1)
+		{
+			BaseObject.InitPage(_editorPage);
+			_editorPage.AssertTargetDisplayed(rowNumber);
+
+			return this;
+		}
+
 		private readonly SelectTaskDialog _selectTask = new SelectTaskDialog();
 		private readonly EditorPage _editorPage = new EditorPage();
 		

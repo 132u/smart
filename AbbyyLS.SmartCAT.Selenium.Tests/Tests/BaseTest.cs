@@ -107,7 +107,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests
 				TestBeginTime = DateTime.Now;
 				Logger.Info("Начало работы теста {0} \nВремя начала: {1}", TestContext.CurrentContext.Test.Name, TestBeginTime);
 
-				Driver = new WebDriver(new TWebDriverProvider(), PathProvider.DriversTemporaryFolder);
+				Driver = new WebDriver(new TWebDriverProvider(), PathProvider.DriversTemporaryFolder, PathProvider.ResultsFolderPath);
 
 				initializeHelpers();
 				authorize();

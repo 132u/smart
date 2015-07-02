@@ -3,6 +3,7 @@
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings;
 using AbbyyLS.SmartCAT.Selenium.Tests.TestFramework;
 
+
 namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 {
 	public class ProjectSettingsHelper : WorkspaceHelper
@@ -22,7 +23,15 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 			return new TaskAssignmentPageHelper();
 		}
-		
+
+		public TaskAssignmentPageHelper ClickAssignButtonOnPanel()
+		{
+			BaseObject.InitPage(_projectPage);
+			_projectPage.ClickAssignButtonOnPanel();
+
+			return new TaskAssignmentPageHelper();
+		}
+
 		/// <summary>
 		/// Открыть документ в редакторе
 		/// </summary>
@@ -79,6 +88,22 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 			return this;
 		}
 
+		public ExportFileHelper ClickDownloadInMainMenuButton()
+		{
+			BaseObject.InitPage(_projectPage);
+			_projectPage.ClickDownloadInMainMenuButton();
+
+			return new ExportFileHelper();
+		}
+
+		public ProjectSettingsHelper ClickDocumentCheckbox(string filePath)
+		{
+			BaseObject.InitPage(_projectPage);
+			_projectPage.ClickDocumentCheckbox(Path.GetFileNameWithoutExtension(filePath));
+
+			return this;
+		}
+
 		public ProjectSettingsHelper OpenWorkflowSettings()
 		{
 			BaseObject.InitPage(_projectPage);
@@ -109,14 +134,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 		{
 			BaseObject.InitPage(_projectPage);
 			_projectPage.AcceptAllTasksForDocument(Path.GetFileNameWithoutExtension(filePath));
-
-			return this;
-		}
-
-		public ProjectSettingsHelper RefreshPage()
-		{
-			BaseObject.InitPage(_projectPage);
-			_projectPage.RefreshPage();
 
 			return this;
 		}

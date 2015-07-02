@@ -2,6 +2,7 @@
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.PageObjects;
 
+using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.DocumentUploadDialog;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings;
@@ -173,23 +174,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 		}
 
 		/// <summary>
-		/// Открыть свёртку документа
-		/// </summary>
-		/// <param name="projectName">имя проекта</param>
-		/// <param name="documentNumber">номер документа</param>
-		public ProjectsPage OpenDocumentInfoForProject(string projectName, int documentNumber = 1)
-		{
-			Logger.Debug("Открыть свёртку документа №{0} в проекте '{1}'", documentNumber, projectName);
-
-			if (!getDocumentPanelIsOpened(projectName, documentNumber))
-			{
-				ClickProgressDocument(projectName);
-			}
-
-			return GetPage();
-		}
-
-		/// <summary>
 		/// Нажать кнопку Progress определенного документа в проекте
 		/// </summary>
 		/// <param name="projectName"> Название проекта </param>
@@ -246,6 +230,93 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 		}
 
 		/// <summary>
+		/// Кликнуть по ссылке на документ (открыть его)
+		/// </summary>
+		public SelectTaskDialog ClickDocumentRef(string documentName)
+		{
+			Logger.Debug("Кликнуть по ссылке на документ {0} (открыть его).", documentName);
+			DocumentRef = Driver.SetDynamicValue(How.XPath, DOCUMENT_REF, documentName);
+			DocumentRef.Click();
+			Driver.SwitchTo().Window(Driver.WindowHandles[1]);
+
+			return new SelectTaskDialog();
+		}
+
+		/// <summary>
+		/// Нажать кнопку экспорта в главном меню
+		/// </summary>
+		public ProjectsPage ClickDownloadInMainMenuButton()
+		{
+			Logger.Debug("Нажать кнопку экспорта в главном меню");
+			DownloadInMainMenuButton.Click();
+
+			return GetPage();
+		}
+
+		/// <summary>
+		/// Нажать кнопку экспорта в меню проекта
+		/// </summary>
+		/// <param name="projectName">имя проекта</param>
+		public ProjectsPage ClickDownloadInProjectButton(string projectName)
+		{
+			Logger.Debug("Нажать кнопку экспорта в меню проекта");
+
+			DownloadInProjectButton = Driver.SetDynamicValue(How.XPath, DOWNLOAD_IN_PROJECT_BUTTON, projectName);
+			DownloadInProjectButton.Click();
+
+			return GetPage();
+		}
+
+		/// <summary>
+		/// Нажать кнопку экспорта в меню документа
+		/// </summary>
+		/// <param name="projectName">имя проекта</param>
+		/// <param name="documentNumber">номер документа</param>
+		public ProjectsPage ClickDownloadInDocumentButton(string projectName, int documentNumber = 1)
+		{
+			Logger.Debug("Нажать кнопку экспорта в меню документа");
+
+			DownloadInDocumentButton = Driver.SetDynamicValue(How.XPath, DOWNLOAD_IN_DOCUMENT_BUTTON, projectName, documentNumber.ToString());
+			DownloadInDocumentButton.Click();
+
+			return GetPage();
+		}
+		
+		/// <summary>
+		/// Открыть свёртку документа
+		/// </summary>
+		/// <param name="projectName">имя проекта</param>
+		/// <param name="documentNumber">номер документа</param>
+		public ProjectsPage OpenDocumentInfoForProject(string projectName, int documentNumber = 1)
+		{
+			Logger.Debug("Открыть свёртку документа №{0} в проекте '{1}'", documentNumber, projectName);
+
+			if (!getDocumentPanelIsOpened(projectName, documentNumber))
+			{
+				ClickProgressDocument(projectName, documentNumber);
+			}
+
+			return GetPage();
+		}
+
+		/// <summary>
+		/// Нажать кнопку настроек в меню документа
+		/// </summary>
+		/// <param name="projectName">имя проекта</param>
+		/// <param name="documentNumber">номер документа</param>
+		public DocumentSettings ClickDocumentSettings(string projectName, int documentNumber = 1)
+		{
+			Logger.Debug("Нажать кнопку настроек в меню документа №{0} в проекте '{1}'", documentNumber, projectName);
+			
+			DocumentSettings = Driver.SetDynamicValue(How.XPath, DOCUMENT_SETTINGS, projectName, documentNumber.ToString());
+			DocumentSettings.Click();
+
+			return new DocumentSettings().GetPage();
+		}
+
+		/// <summary>
+		/// Получить класс элемента, где отображается имя проекта.
+		/// Используется, чтобы понять, открыта ли свёртка проекта.
 		/// Проверить наличие проекта с помощью поиска по имени
 		/// </summary>
 		/// <param name="projectName">имя проекта</param>
@@ -317,6 +388,16 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 		[FindsBy(How = How.XPath, Using = UPLOAD_DOCUMENT_BUTTON)]
 		protected IWebElement UploadDocumentButton { get; set; }
 
+		[FindsBy(How = How.XPath, Using = DOWNLOAD_MAIN_MENU_BUTTON)]
+		protected IWebElement DownloadInMainMenuButton { get; set; }
+
+		[FindsBy(How = How.XPath, Using = DOCUMENT_SETTINGS)]
+		protected IWebElement DocumentSettings { get; set; }
+
+		protected IWebElement DownloadInProjectButton { get; set; }
+
+		protected IWebElement DownloadInDocumentButton { get; set; }
+
 		protected IWebElement ProjectRef { get; set; }
 
 		protected IWebElement ProjectCheckbox { get; set; }
@@ -329,6 +410,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 
 		protected IWebElement DocumentTaskAssignButton {get; set;}
 
+		protected IWebElement DocumentRef { get; set; }
+
 		protected const string CREATE_PROJECT_BTN_XPATH = "//span[contains(@class,'js-project-create')]";
 		protected const string CREATE_PROJECT_DIALOG_XPATH = "//div[contains(@class,'js-popup-create-project')][2]";
 		protected const string PROJECT_REF_XPATH = "//table[contains(@class,'js-tasks-table')]//tr//a[@class='js-name'][string()='*#*']";
@@ -339,15 +422,18 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 		protected const string SEARCH_PROJECT_BUTTON = "//a[contains(@class, 'js-search-btn')]/img";
 		protected const string DELETE_DIALOG_WITH_FILE = "//div[contains(@class,'js-popup-delete-mode')]";
 		protected const string DELETE_DIALOG = "//div[contains(@class,'js-popup-confirm')]";
-
 		protected const string PROJECT_REF = ".//table[contains(@class,'js-tasks-table')]//tr//*[@class='js-name'][(local-name() ='a' or local-name() ='span') and text()='*#*']";
 		protected const string OPEN_PROJECT_FOLDER = ".//table[contains(@class,'js-tasks-table')]//tr//*[@class='js-name'][(local-name() ='a' or local-name() ='span') and text()='*#*']//preceding-sibling::div//img";
 		protected const string PROJECT_CHECKBOX = ".//table[contains(@class,'js-tasks-table')]//tr//*[@class='js-name'][(local-name() ='a' or local-name() ='span') and text()='*#*']/../../../td[contains(@class,'checkbox')]";
 		protected const string OPEN_PROJECT = ".//table[contains(@class,'js-tasks-table')]//tr//*[@class='js-name'][(local-name() ='a' or local-name() ='span') and text()='*#*']/ancestor-or-self::tr";
+		protected const string DOCUMENT_REF = "//tr[contains(@class,'js-document-row')]//a[text()='*#*']";
+		protected const string DOWNLOAD_MAIN_MENU_BUTTON = "//span[contains(@class,'js-document-export-block')]";
+		protected const string DOWNLOAD_IN_PROJECT_BUTTON = "//table[contains(@class,'js-tasks-table')]//tr//a[@class='js-name'][string()='*#*']//ancestor::tr//following-sibling::tr[1]//div[contains(@class,'js-buttons-left')]//li/span";
+		protected const string DOWNLOAD_IN_DOCUMENT_BUTTON =".//table[contains(@class,'js-tasks-table')]//tr//*[@class='js-name'][(local-name() ='a' or local-name() ='span') and text()='*#*']//ancestor::tr/following-sibling::tr[contains(@class,'js-document-row')][*##*]//following-sibling::tr[1]//div[contains(@class,'js-buttons-left')]//li";
 		protected const string DOCUMENT_ROW = ".//table[contains(@class,'js-tasks-table')]//tr//*[@class='js-name'][(local-name() ='a' or local-name() ='span') and text()='*#*']//ancestor::tr/following-sibling::tr[contains(@class,'js-document-row')][*##*]";
 		protected const string DOCUMENT_PROGRESS = ".//table[contains(@class,'js-tasks-table')]//tr//*[@class='js-name'][(local-name() ='a' or local-name() ='span') and text()='*#*']//ancestor::tr/following-sibling::tr[contains(@class,'js-document-row')][*##*]//div[@class='ui-progressbar__container']";
+		protected const string DOCUMENT_SETTINGS = ".//table[contains(@class,'js-tasks-table')]//tr//*[@class='js-name'][(local-name() ='a' or local-name() ='span') and text()='*#*']//ancestor::tr/following-sibling::tr[contains(@class,'js-document-row')][*##*]//following-sibling::tr[1]//span[3]";
 		protected const string DOCUMENT_TASK_ASSIGN_BUTTON = ".//table[contains(@class,'js-tasks-table')]//tr//*[@class='js-name'][(local-name() ='a' or local-name() ='span') and text()='*#*']/ancestor::tr/following-sibling::tr[*##*]/following-sibling::tr[1][@class='js-document-panel l-project__doc-panel']//span[contains(@class, 'js-assign-btn') and @data-bind='click: assign']";
-
 		protected const string UPLOAD_DOCUMENT_BUTTON = "//span[contains(@data-bind, 'click: importJob')]";
 	}
 }

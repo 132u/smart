@@ -11,7 +11,7 @@ using AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers;
 namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 {
 	[Ignore("Требуют актуализации в связи с большим изменением функциональности")]
-	class AssignResponsiblesTest<TWebDriverSettings> : BaseTest<TWebDriverSettings> where TWebDriverSettings : IWebDriverProvider, new()
+	class AssignResponsiblesTest<TWebDriverProvider> : BaseTest<TWebDriverProvider> where TWebDriverProvider : IWebDriverProvider, new()
 	{
 		[SetUp]
 		public void Setup()
@@ -288,7 +288,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 				.SetResponsible(NickName, false)
 				.CloseTaskAssignmentDialog()
 				.ClickSaveButton()
-				.RefreshPage()
+				.RefreshPage();
+
+			_projectSettingsHelper
 				.AcceptAllTasks(PathProvider.DocumentFile)
 				.ClickAssignButtonInDocumentInfo()
 				.ClickCancelAssignButton();
@@ -299,5 +301,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 		private ProjectsHelper _projectsHelper;
 		private UsersRightsHelper _usersRightsHelper;
 		private TaskAssignmentDialogHelper _taskAssignmentDialogHelper;
+		private readonly ProjectSettingsHelper _projectSettingsHelper = new ProjectSettingsHelper();
 	}
 }
