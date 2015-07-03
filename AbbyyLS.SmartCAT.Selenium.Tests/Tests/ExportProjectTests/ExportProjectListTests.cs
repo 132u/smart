@@ -560,9 +560,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 			var message = _projectsHelper
 				.OpenProjectInfo(_projectUniqueName)
 				.OpenDocumentInfoForProject(_projectUniqueName)
-				.ClickDocumentSettings(_projectUniqueName)
-				.SetDocumentName(newDocumentName)
-				.ClickSaveButton()
+				.RenameDocumnet(_projectUniqueName, newDocumentName)
 				.ClickDownloadInDocumentButton(_projectUniqueName)
 				.SelectExportType<ProjectsPage>(exportType)
 				.GetTextNotificationByNumber(1);

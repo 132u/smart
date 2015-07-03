@@ -132,18 +132,14 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 			return this;
 		}
 
-		public ProjectsHelper SetDocumentName(string name)
+		public ProjectsHelper RenameDocumnet(string projectName, string newName, int documentNumber = 1)
 		{
-			BaseObject.InitPage(_documentSettings);
-			_documentSettings.SetDocumentName(name);
-
-			return this;
-		}
-
-		public ProjectsHelper ClickSaveButton()
-		{
-			BaseObject.InitPage(_documentSettings);
-			_documentSettings.ClickSaveButton();
+			BaseObject.InitPage(_projectsPage);
+			_projectsPage
+				.ClickDocumentSettings(projectName, documentNumber)
+				.SetDocumentName(newName)
+				.ClickSaveButton()
+				.AssertDialogBackgroundDissapeared<ProjectsPage>();
 
 			return this;
 		}
