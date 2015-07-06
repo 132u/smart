@@ -20,7 +20,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Registration
 
 		public new void LoadPage()
 		{
-			if (!Driver.WaitUntilElementIsDisplay(By.XPath(COMPANY_TYPE_COMBOBOX)))
+			if (!Driver.WaitUntilElementIsDisplay(By.XPath(COMPANY_TYPE_COMBOBOX), timeout: 20))
 			{
 				Assert.Fail("Произошла ошибка:\n не загрузилась вторая страница регистрации компаний.");
 			}
