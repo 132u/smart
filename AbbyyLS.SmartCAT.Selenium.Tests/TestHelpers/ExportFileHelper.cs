@@ -1,7 +1,6 @@
 ﻿using System;
 using System.IO;
 using System.Threading;
-
 using NUnit.Framework;
 
 using AbbyyLS.SmartCAT.Selenium.Tests.DataStructures;

@@ -256,8 +256,10 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace
 		public int GetCountExportNotifiers()
 		{
 			Logger.Trace("Узнать, сколько уведомлений есть на данный момент.");
+			var countExportNotifiers = Driver.GetElementList(By.XPath(NOTIFIER_LIST)).Count;
+			Logger.Trace("Обнаружено {0} уведомлений.", countExportNotifiers);
 
-			return Driver.GetElementList(By.XPath(NOTIFIER_LIST)).Count;
+			return countExportNotifiers;
 		}
 
 		public T AssertDialogBackgroundDissapeared<T>() where T : class, IAbstractPage<T>, new()

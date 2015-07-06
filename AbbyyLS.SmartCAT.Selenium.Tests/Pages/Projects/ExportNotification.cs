@@ -33,7 +33,16 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 		public T ClickDownloadNotifier<T>() where T : class, IAbstractPage<T>, new()
 		{
 			Logger.Debug("Кликнуть кнопку загрузки в сообщении об экспорте");
-			DownloadNotifierButton.Click();
+			try
+			{
+				DownloadNotifierButton.JavaScriptClick();
+			}
+			catch (StaleElementReferenceException)
+			{
+				Logger.Warn("Не удалось кликнуть на кнопку загрузки. Предпринять повторную попытка.");
+				DownloadNotifierButton.JavaScriptClick();
+			}
+			
 
 			return new T().GetPage();
 		}
@@ -120,6 +129,11 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 			{
 				Driver.ExecuteScript("arguments[0].click()", NotificationByNumber);
 			}
+			catch (StaleElementReferenceException)
+			{
+				Logger.Warn("Не удалось переключиться на сообщение {0}. Предпринять повторную попытку.", notificationNumber);
+				SwitchToNotificationByNumber(notificationNumber);
+			}
 			catch (Exception ex)
 			{
 				Assert.Fail("Произошла ошибка:\n не удалось кликнуть на сообщение '{0}'. Текст ошибки: {1}",
@@ -127,7 +141,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 					ex.Message);
 			}
 
-			return this;
+			return GetPage();
 		}
 
 		/// <summary>
