@@ -35,7 +35,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace
 
 		public void LoadPage()
 		{
-			if (!Driver.WaitUntilElementIsEnabled(By.XPath(USER_PICTURE), 20))
+			if (!Driver.WaitUntilElementIsDisplay(By.XPath(USER_PICTURE), 30))
 			{
 				Assert.Fail("Произошла ошибка:\n не загрузилась страница с workspace.");
 			}
