@@ -276,6 +276,17 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests
 		}
 
 		/// <summary>
+		/// Путь к экспортированным файлам
+		/// </summary>
+		public static string ExportFiles
+		{
+			get
+			{
+				return Path.GetFullPath(_pathConfig.ResultDirectory + "/ExportFiles");
+			}
+		}
+
+		/// <summary>
 		/// Путь к папке результатов тестов
 		/// </summary>
 		public static string ResultsFolderPath 

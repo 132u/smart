@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 using System.IO;
 
-﻿using NConfiguration;
+using NConfiguration;
 using NUnit.Framework;
 
 using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
-﻿using AbbyyLS.SmartCAT.Selenium.Tests.DataStructures;
+using AbbyyLS.SmartCAT.Selenium.Tests.DataStructures;
 using AbbyyLS.SmartCAT.Selenium.Tests.TestFramework;
 using AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers;
 
@@ -107,7 +107,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests
 				TestBeginTime = DateTime.Now;
 				Logger.Info("Начало работы теста {0} \nВремя начала: {1}", TestContext.CurrentContext.Test.Name, TestBeginTime);
 
-				Driver = new WebDriver(new TWebDriverProvider(), PathProvider.DriversTemporaryFolder, PathProvider.ResultsFolderPath);
+				Driver = new WebDriver(new TWebDriverProvider(), PathProvider.DriversTemporaryFolder, PathProvider.ExportFiles);
 
 				initializeHelpers();
 				authorize();

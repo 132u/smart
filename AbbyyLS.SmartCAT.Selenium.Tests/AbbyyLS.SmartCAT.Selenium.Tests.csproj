@@ -70,6 +70,7 @@
     <Compile Include="DataStructures\AssignmentType.cs" />
     <Compile Include="DataStructures\Feature.cs" />
     <Compile Include="DataStructures\CompanyRegistrationField.cs" />
+    <Compile Include="DataStructures\GlossarySystemField.cs" />
     <Compile Include="DataStructures\CompanyType.cs" />
     <Compile Include="DataStructures\StartPage.cs" />
     <Compile Include="DataStructures\LicenseOperation.cs" />
@@ -115,6 +116,11 @@
     <Compile Include="Pages\Billing\LicenseDialog\LicenseUpgradeCompleteDialog.cs" />
     <Compile Include="Pages\Billing\LicenseDialog\LicenseUpgradeDialog.cs" />
     <Compile Include="Pages\Client\ClientsPage.cs" />
+    <Compile Include="Pages\Glossaries\GlossaryImportDialog.cs" />
+    <Compile Include="Pages\Glossaries\GlossaryPage.cs" />
+    <Compile Include="Pages\Glossaries\GlossaryPropertiesDialog.cs" />
+    <Compile Include="Pages\Glossaries\GlossaryStructureDialog.cs" />
+    <Compile Include="Pages\Glossaries\GlossarySuccessImportDialog.cs" />
     <Compile Include="Pages\LingvoDictionaries\LingvoDictionariesPage.cs" />
     <Compile Include="Pages\Projects\SelectAssigneePage.cs" />
     <Compile Include="Pages\Registration\CompanyRegistrationFirstPage.cs" />
@@ -198,6 +204,7 @@
     <Compile Include="Tests\ChangeProjectNameTests.cs" />
     <Compile Include="Tests\ClientTests.cs" />
     <Compile Include="Configs\UserInfoConfig.cs" />
+    <Compile Include="Tests\GlossaryTests\BasicGlossaryTests.cs" />
     <Compile Include="Tests\ExportProjectTests\ExportProjectBaseTests.cs" />
     <Compile Include="Tests\ExportProjectTests\ExportProjectSettingsPageTests.cs" />
     <Compile Include="Tests\LingvoDictionariesTests\LingvoDictionariesAdminTests.cs" />
