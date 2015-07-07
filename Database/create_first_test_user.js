@@ -1,4 +1,4 @@
-db.Auth.Users.insert({ 
+db.Auth.Users.save({ 
     "_id" : BinData(3, "Yop29JSggUCbrxaXzCDLsA=="), 
     "email" : "teamcity@mailforspam.com", 
     "nickName" : "Teamcity Test", 
