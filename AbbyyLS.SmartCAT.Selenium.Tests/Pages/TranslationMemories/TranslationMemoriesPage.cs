@@ -32,6 +32,11 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories
 			Logger.Debug("Нажать кнопку создания новой ТМ");
 			CreateNewTmButton.JavaScriptClick();
 
+			if (!Driver.WaitUntilElementIsDisplay(By.XPath(SAVE_TM_BUTTON), timeout: 20))
+			{
+				CreateNewTmButton.JavaScriptClick();
+			}
+
 			return new NewTranslationMemoryDialog().GetPage();
 		}
 
@@ -216,5 +221,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories
 		protected const string DELETE_CONFIRMATION_DIALOG = "//form[contains(@action,'Delete')]";
 		protected const string DELETE_BUTTON_IN_CONFIRMATION_DIALOG = "//form[contains(@action,'Delete')]//input[@value='Delete']";
 
+		protected const string SAVE_TM_BUTTON = ".//div[contains(@class,'js-popup-create-tm')][2]//span[contains(@data-bind, 'click: save')]";
 	}
 }
