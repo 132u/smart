@@ -427,7 +427,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 			return this;
 		}
 
-		public GlossariesHelper AssertGllosaryContainsCorrectTermsCount(int termsCount)
+		public GlossariesHelper AssertGlossaryContainsCorrectTermsCount(int termsCount)
 		{
 			BaseObject.InitPage(_glossaryPage);
 			_glossaryPage.AssertGlossaryContainsCorrectTermsCount(termsCount);

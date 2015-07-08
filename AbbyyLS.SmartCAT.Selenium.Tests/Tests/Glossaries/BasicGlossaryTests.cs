@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
 using System.Threading;
 
@@ -161,7 +160,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 			_glossaryHelper
 				.CreateGlossary(_glossaryUniqueName)
 				.ImportGlossary(PathProvider.ImportGlossaryFile)
-				.AssertGllosaryContainsCorrectTermsCount(termsCount: 1);
+				.AssertGlossaryContainsCorrectTermsCount(termsCount: 1);
 		}
 
 		[Test]
@@ -171,9 +170,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 				.CreateGlossary(_glossaryUniqueName)
 				.CreateTerm()
 				.CreateTerm("termsecond", "termsecond")
-				.AssertGllosaryContainsCorrectTermsCount(termsCount: 2)
+				.AssertGlossaryContainsCorrectTermsCount(termsCount: 2)
 				.ImportGlossaryWithReplaceTerms(PathProvider.ImportGlossaryFile)
-				.AssertGllosaryContainsCorrectTermsCount(termsCount: 1);
+				.AssertGlossaryContainsCorrectTermsCount(termsCount: 1);
 		}
 
 		[Test]
