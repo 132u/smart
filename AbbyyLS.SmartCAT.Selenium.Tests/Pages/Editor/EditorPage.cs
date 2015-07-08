@@ -150,7 +150,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		/// <summary>
 		/// Нажать кнопку открытия словаря
 		/// </summary>
-		public SpellcheckDictionaryDialog ClickSpelcheckDictionaryButton()
+		public SpellcheckDictionaryDialog ClickSpellcheckDictionaryButton()
 		{
 			Logger.Debug("Нажать кнопку открытия словаря");
 			SpellcheckDictionaryButton.Click();

@@ -108,7 +108,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 		{
 			BaseObject.InitPage(_editorPage);
 
-			_spellcheckDictionaryDialog = _editorPage.ClickSpelcheckDictionaryButton();
+			_spellcheckDictionaryDialog = _editorPage.ClickSpellcheckDictionaryButton();
 			var wordsList = _spellcheckDictionaryDialog.GetWordsList();
 
 			wordsList.ForEach(word => _spellcheckDictionaryDialog.ClickDeleteWordButton(word));
@@ -122,7 +122,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 		{
 			BaseObject.InitPage(_editorPage);
 			_editorPage
-				.ClickSpelcheckDictionaryButton()
+				.ClickSpellcheckDictionaryButton()
 				.ClickAddWordButton()
 				.AddWordToDictionary(word)
 				.ConfirmWord<SpellcheckDictionaryDialog>()
@@ -135,7 +135,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 		{
 			BaseObject.InitPage(_editorPage);
 			_editorPage
-				.ClickSpelcheckDictionaryButton()
+				.ClickSpellcheckDictionaryButton()
 				.HilightWordInDictionary(oldWord)
 				.AddWordToDictionary(newWord)
 				.ConfirmWord<SpellcheckDictionaryDialog>()
@@ -148,7 +148,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 		{
 			BaseObject.InitPage(_editorPage);
 			_editorPage
-				.ClickSpelcheckDictionaryButton()
+				.ClickSpellcheckDictionaryButton()
 				.ClickDeleteWordButton(word)
 				.ClickCloseDictionaryButton();
 
@@ -163,13 +163,13 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 			{
 				case true:
 					_editorPage
-						.ClickSpelcheckDictionaryButton()
+						.ClickSpellcheckDictionaryButton()
 						.AssertWordExistInDictionary(word)
 						.ClickCloseDictionaryButton();
 					break;
 				case false:
 					_editorPage
-						.ClickSpelcheckDictionaryButton()
+						.ClickSpellcheckDictionaryButton()
 						.AssertWordNotExistInDictionary(word)
 						.ClickCloseDictionaryButton();
 					break;
@@ -207,7 +207,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 		{
 			BaseObject.InitPage(_editorPage);
 			_editorPage
-				.ClickSpelcheckDictionaryButton()
+				.ClickSpellcheckDictionaryButton()
 				.AssertAddWordButtinEnabled()
 				.ClickAddWordButton()
 				.AddWordToDictionary(word)
