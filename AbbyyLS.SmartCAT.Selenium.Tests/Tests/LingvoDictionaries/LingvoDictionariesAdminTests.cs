@@ -6,7 +6,7 @@ using AbbyyLS.SmartCAT.Selenium.Tests.FeatureAttributes;
 ﻿using AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers;
 ﻿using AbbyyLS.SmartCAT.Selenium.Tests.TestFramework;
 
-namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.LingvoDictionariesTests
+namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.LingvoDictionaries
 {
 	[TestFixture]
 	[LingvoDictionaries]

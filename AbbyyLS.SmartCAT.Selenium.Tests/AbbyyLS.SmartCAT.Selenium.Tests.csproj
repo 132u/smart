@@ -207,8 +207,8 @@
     <Compile Include="Tests\Glossaries\BasicGlossaryTests.cs" />
     <Compile Include="Tests\Projects\Export\ExportProjectBaseTests.cs" />
     <Compile Include="Tests\Projects\Export\ExportProjectSettingsPageTests.cs" />
-    <Compile Include="Tests\LingvoDictionariesTests\LingvoDictionariesAdminTests.cs" />
-    <Compile Include="Tests\LingvoDictionariesTests\LingvoDictionariesTests.cs" />
+    <Compile Include="Tests\LingvoDictionaries\LingvoDictionariesAdminTests.cs" />
+    <Compile Include="Tests\LingvoDictionaries\LingvoDictionariesTests.cs" />
     <Compile Include="Tests\CompanyRegistration\AdminCompanyRegistrationTests.cs" />
     <Compile Include="Tests\CompanyRegistration\CompanyRegistrationTests.cs" />
     <Compile Include="Tests\Projects\ProjectDeadlineTests.cs" />
