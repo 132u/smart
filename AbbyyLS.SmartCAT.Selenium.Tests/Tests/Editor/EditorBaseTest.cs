@@ -8,7 +8,6 @@ using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Editor
 {
-	[TestFixture]
 	public class EditorBaseTest<TWebDriverProvider> : BaseTest<TWebDriverProvider> where TWebDriverProvider : IWebDriverProvider, new()
 	{
 		[SetUp]
