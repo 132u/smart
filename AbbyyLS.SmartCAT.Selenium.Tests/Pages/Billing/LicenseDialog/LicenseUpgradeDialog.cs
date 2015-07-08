@@ -37,7 +37,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Billing.LicenseDialog
 		}
 
 		[FindsBy(How = How.XPath, Using = CANCEL_BUTTON)]
-		protected new IWebElement CancelButton { get; set; }
+		protected IWebElement CancelButton { get; set; }
 
 		[FindsBy(How = How.XPath, Using = LICENSE_NUMBER)]
 		protected new IWebElement LicenseNumber { get; set; }

@@ -315,7 +315,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 
 		protected const string CLIENT_LIST= "//select[contains(@data-bind,'clientsList')]//following-sibling::span";
 		protected const string DROPDOWN_LIST= "//body/span[contains(@class,'js-dropdown')]";
-		protected const string SAVE_GLOSSARY_BUTTON= ".//div[contains(@class,'js-popup-edit-glossary')][2]//span[@data-bind='click: save']";
 		protected const string PROJECT_GROUPS_LIST = ".//div[contains(@class,'js-popup-edit-glossary')][2]//div[@class='l-editgloss__contrbox'][3]//div";
 		protected const string NEW_GLOSSARY_DIALOG = ".//div[contains(@class,'js-popup-edit-glossary')][2]";
 		protected const string MULTISELECT_LIST = ".//ul[contains(@class,'ui-multiselect-checkboxes')]//span[contains(@class,'ui-multiselect-item-text')]";
