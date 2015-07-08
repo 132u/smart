@@ -132,7 +132,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 			return this;
 		}
 
-		public ProjectsHelper RenameDocumnet(string projectName, string newName, int documentNumber = 1)
+		public ProjectsHelper RenameDocument(string projectName, string newName, int documentNumber = 1)
 		{
 			BaseObject.InitPage(_projectsPage);
 			_projectsPage

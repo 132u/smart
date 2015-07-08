@@ -93,12 +93,22 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 			return this;
 		}
 
-		public string GetTextNotificationByNumber(int notificationNumer)
+		/// <summary>
+		/// Перелючиться на уведомление по его номеру
+		/// </summary>
+		/// <remarks>
+		/// Уведомления считаются по оси z
+		/// 1-е - дальнее, скрытое
+		/// Последнее - ближнее, видимое целиком
+		/// </remarks>
+		/// <param name="notificationNumber">Номер уведомления</param>
+		/// <returns>Текст верхнего сообщения уведомления</returns>
+		public string GetTextNotificationByNumber(int notificationNumber)
 		{
 			BaseObject.InitPage(_exportNotification);
 
 			return _exportNotification
-				.SwitchToNotificationByNumber(notificationNumer)
+				.SwitchToNotificationByNumber(notificationNumber)
 				.GetTextUpperNotification();	
 		}
 

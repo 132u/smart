@@ -15,7 +15,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 	[Standalone]
 	internal class ExportProjectSettingsPageTests<TWebDriverProvider> : ExportProjectBaseTests<TWebDriverProvider> where TWebDriverProvider : IWebDriverProvider, new()
 	{
-
 		[TestCase(ExportType.Source)]
 		[TestCase(ExportType.Tmx)]
 		[TestCase(ExportType.Target)]
