@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.IO;
+using System.Linq;
 
 using NUnit.Framework;
 
@@ -158,7 +159,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 				.SetResponsible(NickName, false)
 				.CloseTaskAssignmentDialog<ProjectsPage>()
 				.GoToProjectSettingsPage(_projectUniqueName)
-				.OpenDocument<SelectTaskDialog>(PathProvider.EditorTxtFile)
+				.OpenDocument<SelectTaskDialog>(Path.GetFileNameWithoutExtension(PathProvider.EditorTxtFile))
 				.SelectTask()
 				.CloseTutorialIfExist()
 				.CheckStage("Translation (T):");
@@ -182,7 +183,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 				.SetResponsible(NickName, false)
 				.CloseTaskAssignmentDialog<ProjectsPage>()
 				.GoToProjectSettingsPage(_projectUniqueName)
-				.OpenDocument<SelectTaskDialog>(PathProvider.EditorTxtFile);
+				.OpenDocument<SelectTaskDialog>(Path.GetFileNameWithoutExtension(PathProvider.EditorTxtFile));
 		}
 
 		[Test]
@@ -217,7 +218,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 				.CloseTaskAssignmentDialog<ProjectsPage>()
 				.GoToProjectSettingsPage(_projectUniqueName)
 				.AcceptAllTasks(PathProvider.EditorTxtFile)
-				.OpenDocument<SelectTaskDialog>(PathProvider.EditorTxtFile)
+				.OpenDocument<SelectTaskDialog>(Path.GetFileNameWithoutExtension(PathProvider.EditorTxtFile))
 				.SelectTask()
 				.CloseTutorialIfExist()
 				.CheckStage("Translation (T):")
@@ -230,7 +231,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 				.SetResponsible(NickName2, false)
 				.CloseTaskAssignmentDialog<ProjectsPage>()
 				.GoToProjectSettingsPage(_projectUniqueName)
-				.OpenDocument<EditorPage>(PathProvider.EditorTxtFile)
+				.OpenDocument<EditorPage>(Path.GetFileNameWithoutExtension(PathProvider.EditorTxtFile))
 				.AssertStageNameIsEmpty()
 				.ClickHomeButton()
 				.SignOut()
@@ -239,7 +240,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 			_projectsHelper
 				.GoToProjectSettingsPage(_projectUniqueName)
 				.AcceptAllTasks(PathProvider.EditorTxtFile)
-				.OpenDocument<SelectTaskDialog>(PathProvider.EditorTxtFile)
+				.OpenDocument<SelectTaskDialog>(Path.GetFileNameWithoutExtension(PathProvider.EditorTxtFile))
 				.SelectTask()
 				.CloseTutorialIfExist()
 				.CheckStage("Translation (T):");
@@ -257,7 +258,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 				.CloseTaskAssignmentDialog<ProjectsPage>()
 				.GoToProjectSettingsPage(_projectUniqueName)
 				.AcceptAllTasks(PathProvider.EditorTxtFile)
-				.OpenDocument<SelectTaskDialog>(PathProvider.EditorTxtFile)
+				.OpenDocument<SelectTaskDialog>(Path.GetFileNameWithoutExtension(PathProvider.EditorTxtFile))
 				.SelectTask()
 				.CloseTutorialIfExist()
 				.CheckStage("Translation (T):")
@@ -268,7 +269,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 				.ConfirmCancel()
 				.CloseTaskAssignmentDialog<ProjectsPage>()
 				.GoToProjectSettingsPage(_projectUniqueName)
-				.OpenDocument<EditorPage>(PathProvider.EditorTxtFile)
+				.OpenDocument<EditorPage>(Path.GetFileNameWithoutExtension(PathProvider.EditorTxtFile))
 				.AssertStageNameIsEmpty();
 		}
 

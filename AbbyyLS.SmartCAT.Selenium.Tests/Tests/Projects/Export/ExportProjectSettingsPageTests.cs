@@ -78,31 +78,11 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 				.CreateNewProject(projectUniqueName2, PathProvider.DocumentFileToConfirm1)
 				.AssertIsProjectLoaded(projectUniqueName2)
 				.GoToProjectSettingsPage(projectUniqueName2)
-				.ClickDocumentProgress(Path.GetFileNameWithoutExtension(PathProvider.DocumentFileToConfirm1))
-				.ClickAssignButtonInDocumentInfo()
-				.SelectAssignmentType()
-				.SelectAssignee(NickName)
-				.CloseTaskAssignmentDialog()
-				.ClickSaveButton()
-				.OpenDocument<SelectTaskDialog>(PathProvider.DocumentFileToConfirm1)
-				.SelectTask()
-				.AssertTargetDisplayed()
-				.FillTarget()
-				.ClickConfirmButton()
-				.ClickHomeButton()
+				.AssignTasksOnDocument(Path.GetFileNameWithoutExtension(PathProvider.DocumentFileToConfirm1), NickName)
+				.CreateRevision(Path.GetFileNameWithoutExtension(PathProvider.DocumentFileToConfirm1))
 				.UploadDocument(PathProvider.DocumentFileToConfirm2)
-				.ClickDocumentProgress(Path.GetFileNameWithoutExtension(PathProvider.DocumentFileToConfirm2))
-				.ClickAssignButtonInDocumentInfo()
-				.SelectAssignmentType()
-				.SelectAssignee(NickName)
-				.CloseTaskAssignmentDialog()
-				.ClickSaveButton()
-				.OpenDocument<SelectTaskDialog>(PathProvider.DocumentFileToConfirm2)
-				.SelectTask()
-				.AssertTargetDisplayed()
-				.FillTarget()
-				.ClickConfirmButton()
-				.ClickHomeButton()
+				.AssignTasksOnDocument(Path.GetFileNameWithoutExtension(PathProvider.DocumentFileToConfirm2), NickName)
+				.CreateRevision(Path.GetFileNameWithoutExtension(PathProvider.DocumentFileToConfirm2))
 				.GoToProjectsPage();
 
 			_exportFileHelper.CancelAllNotifiers<ProjectsPage>();
@@ -136,18 +116,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 		{
 			_projectSettingsHelper
 				.UploadDocument(PathProvider.DocumentFileToConfirm2)
-				.ClickDocumentProgress(Path.GetFileNameWithoutExtension(PathProvider.DocumentFileToConfirm2))
-				.ClickAssignButtonInDocumentInfo()
-				.SelectAssignmentType()
-				.SelectAssignee(NickName)
-				.CloseTaskAssignmentDialog()
-				.ClickSaveButton()
-				.OpenDocument<SelectTaskDialog>(PathProvider.DocumentFileToConfirm2)
-				.SelectTask()
-				.AssertTargetDisplayed()
-				.FillTarget()
-				.ClickConfirmButton()
-				.ClickHomeButton();
+				.AssignTasksOnDocument(Path.GetFileNameWithoutExtension(PathProvider.DocumentFileToConfirm2), NickName)
+				.CreateRevision(Path.GetFileNameWithoutExtension(PathProvider.DocumentFileToConfirm2));
 
 			_exportFileHelper.CancelAllNotifiers<ProjectSettingsPage>();
 

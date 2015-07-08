@@ -18,12 +18,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Editor
 			_createProjectHelper
 				.CreateNewProject(projectUniqueName, PathProvider.EditorTxtFile)
 				.GoToProjectSettingsPage(projectUniqueName)
-				.ClickDocumentProgress(Path.GetFileNameWithoutExtension(PathProvider.EditorTxtFile))
-				.ClickAssignButtonInDocumentInfo()
-				.SelectAssignmentType()
-				.SelectAssignee(NickName)
-				.CloseTaskAssignmentDialog()
-				.ClickSaveButton()
+				.AssignTasksOnDocument(Path.GetFileNameWithoutExtension(PathProvider.EditorTxtFile), NickName)
 				.OpenDocument<SelectTaskDialog>(Path.GetFileNameWithoutExtension(PathProvider.EditorTxtFile))
 				.SelectTask()
 				.CloseTutorialIfExist();

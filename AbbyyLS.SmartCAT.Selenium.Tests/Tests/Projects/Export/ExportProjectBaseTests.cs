@@ -21,19 +21,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 				.CreateNewProject(_projectUniqueName, PathProvider.DocumentFileToConfirm1)
 				.AssertIsProjectLoaded(_projectUniqueName)
 				.GoToProjectSettingsPage(_projectUniqueName)
-				.ClickDocumentProgress(Path.GetFileNameWithoutExtension(PathProvider.DocumentFileToConfirm1))
-				.ClickAssignButtonInDocumentInfo()
-				.SelectAssignmentType()
-				.SelectAssignee(NickName)
-				.CloseTaskAssignmentDialog()
-				.ClickSaveButton()
-				.OpenDocument<SelectTaskDialog>(PathProvider.DocumentFileToConfirm1)
-				.SelectTask()
-				.CloseTutorialIfExist()
-				.AssertTargetDisplayed()
-				.FillTarget()
-				.ClickConfirmButton()
-				.ClickHomeButton();
+				.AssignTasksOnDocument(Path.GetFileNameWithoutExtension(PathProvider.DocumentFileToConfirm1), NickName)
+				.CreateRevision(Path.GetFileNameWithoutExtension(PathProvider.DocumentFileToConfirm1));
 		}
 
 		[TearDown]

@@ -1,5 +1,6 @@
 ﻿using System.IO;
-
+using AbbyyLS.SmartCAT.Selenium.Tests.DataStructures;
+using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings;
 using AbbyyLS.SmartCAT.Selenium.Tests.TestFramework;
 
@@ -12,6 +13,33 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 		{
 			BaseObject.InitPage(_projectPage);
 			_projectPage.ClickDocumentProgress(Path.GetFileNameWithoutExtension(filePath));
+
+			return this;
+		}
+
+		public ProjectSettingsHelper AssignTasksOnDocument(string documentName, string nickName)
+		{
+			this
+				.ClickDocumentProgress(documentName)
+				.ClickAssignButtonInDocumentInfo()
+				.SelectAssignmentType()
+				.SelectAssignee(nickName)
+				.CloseTaskAssignmentDialog()
+				.ClickSaveButton();
+
+			return this;
+		}
+
+		public ProjectSettingsHelper CreateRevision(string documentName)
+		{
+			this
+				.OpenDocument<SelectTaskDialog>(documentName)
+				.SelectTask()
+				.CloseTutorialIfExist()
+				.AssertTargetDisplayed()
+				.FillTarget()
+				.ClickConfirmButton()
+				.ClickHomeButton();
 
 			return this;
 		}
@@ -35,13 +63,13 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 		/// <summary>
 		/// Открыть документ в редакторе
 		/// </summary>
-		/// <param name="filePath">путь до документа</param>
-		public EditorHelper OpenDocument<T>(string filePath) where T : class , IAbstractPage<T>, new()
+		/// <param name="documentName">название документа</param>
+		public EditorHelper OpenDocument<T>(string documentName) where T : class , IAbstractPage<T>, new()
 		{
 			BaseObject.InitPage(_projectPage);
 			_projectPage
 				.AssertIsDocumentProcessed()
-				.ClickDocument<T>(Path.GetFileNameWithoutExtension(filePath));
+				.ClickDocument<T>(documentName);
 
 			return new EditorHelper();
 		}
