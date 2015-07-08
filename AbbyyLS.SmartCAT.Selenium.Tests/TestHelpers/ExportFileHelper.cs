@@ -117,7 +117,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 		public ExportFileHelper AssertFileDownloaded(string fileMask)
 		{
-			var files = getDownloadedFiles(fileMask, 15, PathProvider.ResultsFolderPath);
+			var files = getDownloadedFiles(fileMask, 15, PathProvider.ExportFiles);
 
 			Assert.IsTrue(files.Length > 0,
 				"Ошибка: файл не загрузился за отведённое время (15 секунд)");
