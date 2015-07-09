@@ -77,7 +77,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 			return this;
 		}
 
-
 		public static string GetClientUniqueName()
 		{
 			// Sleep вставлен для того, чтобы избежать вероятность генерации одинаковых имен
@@ -85,6 +84,14 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 			Thread.Sleep(10);
 
 			return "TestClient" + DateTime.UtcNow.Ticks;
+		}
+
+		public ClientsHelper ClickSortByName()
+		{
+			BaseObject.InitPage(_clientsPage);
+			_clientsPage.ClickSortByName();
+
+			return this;
 		}
 
 		private readonly ClientsPage _clientsPage = new ClientsPage();

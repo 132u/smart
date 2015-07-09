@@ -158,6 +158,41 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 			return GetPage();
 		}
 
+		/// <summary>
+		/// Нажать кнопку сортировки по английским терминам
+		/// </summary>
+		public GlossaryPage ClickSortByEnglishTerm()
+		{
+			Logger.Debug("Нажать кнопку сортировки по английским терминам.");
+
+			SortByEnglishTerm.Click();
+
+			return GetPage();
+		}
+
+		/// <summary>
+		/// Нажать кнопку сортировки по русским терминам
+		/// </summary>
+		public GlossaryPage ClickSortByRussianTerm()
+		{
+			Logger.Debug("Нажать кнопку сортировки по русским терминам.");
+
+			SortByRussianTerm.Click();
+
+			return GetPage();
+		}
+
+		/// <summary>
+		/// Нажать кнопку сортировки по дате изменения
+		/// </summary>
+		public GlossaryPage ClickSortByDateModified()
+		{
+			Logger.Debug("Нажать кнопку сортировки по дате изменения");
+			SortByDateModified.Click();
+
+			return GetPage();
+		}
+
 		[FindsBy(How = How.XPath, Using = NEW_ENTRY_BUTTON)]
 		protected IWebElement NewEntryButton { get; set; }
 
@@ -188,6 +223,14 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 		[FindsBy(How = How.XPath, Using = IMPORT_BUTTON)]
 		protected IWebElement ImportButton { get; set; }
 
+		[FindsBy(How = How.XPath, Using = SORT_BY_ENGLISH_TERM)]
+		protected IWebElement SortByEnglishTerm { get; set; }
+
+		[FindsBy(How = How.XPath, Using = SORT_BY_RUSSIAN_TERM)]
+		protected IWebElement SortByRussianTerm { get; set; }
+
+		[FindsBy(How = How.XPath, Using = SORT_BY_DATE_MODIFIED)]
+		protected IWebElement SortByDateModified { get; set; }
 
 		protected const string GLOSSARY_SAVE_BUTTON = ".//div[contains(@class,'js-popup-edit-glossary')][2]//span[@class='g-btn g-redbtn ']";
 		protected const string GLOSSARY_PROPERTIES = "//div[contains(@class,'js-edit-glossary-btn')]";
@@ -201,5 +244,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 		protected const string IMPORT_BUTTON = "//span[contains(@class,'js-import-concepts')]";
 		protected const string EXPORT_BUTTON = "//a[contains(@class,'js-export-concepts')]";
 		protected const string TERM_ROW = "//tr[contains(@class, 'js-concept-row')]";
+
+		protected const string SORT_BY_ENGLISH_TERM = "//th[contains(@data-sort-by,'Language1')]//a";
+		protected const string SORT_BY_RUSSIAN_TERM = "//th[contains(@data-sort-by,'Language2')]//a";
+		protected const string SORT_BY_DATE_MODIFIED = "//th[contains(@data-sort-by,'LastModifiedDate')]//a";
 	}
 }

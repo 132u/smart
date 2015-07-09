@@ -73,6 +73,105 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 		}
 
 		/// <summary>
+		/// Нажать кнопку сортировки по названию
+		/// </summary>
+		public GlossariesPage ClickSortByName()
+		{
+			Logger.Debug("Нажать кнопку сортировки по названию");
+			SortByName.Click();
+
+			return GetPage();
+		}
+
+		/// <summary>
+		/// Нажать кнопку сортировки по языкам
+		/// </summary>
+		public GlossariesPage ClickSortByLanguages()
+		{
+			Logger.Debug("Нажать кнопку сортировки по языкам");
+			SortByLanguages.Click();
+
+			return GetPage();
+		}
+
+		/// <summary>
+		/// Нажать кнопку сортировки по кол-ву добавленных терминов
+		/// </summary>
+		public GlossariesPage ClickSortByTermsAdded()
+		{
+			Logger.Debug("Нажать кнопку сортировки по кол-ву добавленных терминов");
+			SortByTermsAdded.Click();
+
+			return GetPage();
+		}
+
+		/// <summary>
+		/// Нажать кнопку сортировки по кол-ву терминов на рассмотрении
+		/// </summary>
+		public GlossariesPage ClickSortByTermsUnderReview()
+		{
+			Logger.Debug("Нажать кнопку сортировки по кол-ву терминов на рассмотрении");
+			SortByTermsUnderReview.Click();
+
+			return GetPage();
+		}
+
+		/// <summary>
+		/// Нажать кнопку сортировки по комментариям
+		/// </summary>
+		public GlossariesPage ClickSortByComment()
+		{
+			Logger.Debug("Нажать кнопку сортировки по комментариям");
+			SortByComment.Click();
+
+			return GetPage();
+		}
+
+		/// <summary>
+		/// Нажать кнопку сортировки по группа проектов
+		/// </summary>
+		public GlossariesPage ClickSortByProjectGroups()
+		{
+			Logger.Debug("Нажать кнопку сортировки по группа проектов");
+			SortByProjectGroups.Click();
+
+			return GetPage();
+		}
+
+		/// <summary>
+		/// Нажать кнопку сортировки по клиенту
+		/// </summary>
+		public GlossariesPage ClickSortByClient()
+		{
+			Logger.Debug("Нажать кнопку сортировки по клиенту");
+			SortByClient.Click();
+
+			return GetPage();
+		}
+
+		/// <summary>
+		/// Нажать кнопку сортировки по дате изменения
+		/// </summary>
+		public GlossariesPage ClickSortByDateModified()
+		{
+			Logger.Debug("Нажать кнопку сортировки по дате изменения");
+			SortByDateModified.Click();
+
+			return GetPage();
+		}
+
+		/// <summary>
+		/// Нажать кнопку сортировки по автору изменения
+		/// </summary>
+		public GlossariesPage ClickSortByModifiedBy()
+		{
+			Logger.Debug("Нажать кнопку сортировки по автору изменения");
+			SortByModifiedBy.Click();
+
+			return GetPage();
+		}
+
+		/// <summary>
 		/// Нажать по имени глоссария
 		/// </summary>
 		public GlossaryPage ClickGlossaryRow(string glossaryName)
@@ -111,6 +210,33 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 			return author.Text;
 		}
 
+		[FindsBy(How = How.XPath, Using = SORT_BY_NAME)]
+		protected IWebElement SortByName { get; set; }
+
+		[FindsBy(How = How.XPath, Using = SORT_BY_LANGUAGES)]
+		protected IWebElement SortByLanguages { get; set; }
+
+		[FindsBy(How = How.XPath, Using = SORT_BY_TERMS_ADDED)]
+		protected IWebElement SortByTermsAdded { get; set; }
+
+		[FindsBy(How = How.XPath, Using = SORT_BY_TERMS_UNDER_REVIEW)]
+		protected IWebElement SortByTermsUnderReview { get; set; }
+
+		[FindsBy(How = How.XPath, Using = SORT_BY_COMMENT)]
+		protected IWebElement SortByComment { get; set; }
+
+		[FindsBy(How = How.XPath, Using = SORT_BY_PROJECT_GROUPS)]
+		protected IWebElement SortByProjectGroups { get; set; }
+
+		[FindsBy(How = How.XPath, Using = SORT_BY_CLIENT)]
+		protected IWebElement SortByClient { get; set; }
+
+		[FindsBy(How = How.XPath, Using = SORT_BY_DATE_MODIFIED)]
+		protected IWebElement SortByDateModified { get; set; }
+
+		[FindsBy(How = How.XPath, Using = SORT_BY_MODIFIED_BY)]
+		protected IWebElement SortByModifiedBy { get; set; }
+
 		[FindsBy(How = How.XPath, Using = CREATE_GLOSSARY_BUTTON)]
 		protected IWebElement CreateGlossaryButton { get; set; }
 
@@ -122,5 +248,15 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 		protected const string AUTHOR = "//tr[contains(@class, 'js-glossary-row')]/td[1]/p[text() = '*#*']/../../td[last()]/p";
 
 		protected const string SAVE_GLOSSARY_BUTTON = ".//div[contains(@class,'js-popup-edit-glossary')][2]//span[@data-bind='click: save']";
+
+		protected const string SORT_BY_NAME = "//th[contains(@data-sort-by,'Name')]//a";
+		protected const string SORT_BY_LANGUAGES = "//th[contains(@data-sort-by,'Languages')]//a";
+		protected const string SORT_BY_TERMS_ADDED = "//th[contains(@data-sort-by,'TermsCount')]//a";
+		protected const string SORT_BY_TERMS_UNDER_REVIEW = "//th[contains(@data-sort-by,'SuggestsCount')]//a";
+		protected const string SORT_BY_COMMENT = "//th[contains(@data-sort-by,'Comment')]//a";
+		protected const string SORT_BY_PROJECT_GROUPS = "//th[contains(@data-sort-by,'Domains')]//a";
+		protected const string SORT_BY_CLIENT = "//th[contains(@data-sort-by,'Client')]//a";
+		protected const string SORT_BY_DATE_MODIFIED = "//th[contains(@data-sort-by,'LastModifiedDate')]//a";
+		protected const string SORT_BY_MODIFIED_BY = "//th[contains(@data-sort-by,'LastModifiedBy')]//a";
 	}
 }

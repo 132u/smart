@@ -155,6 +155,62 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 			return "GroupTest" + DateTime.Now.Ticks.ToString();
 		}
 
+		public UsersRightsHelper ClickSortByFirstName()
+		{
+			BaseObject.InitPage(_usersRightsPage);
+			_usersRightsPage.ClickSortByFirstName();
+
+			return this;
+		}
+
+		public UsersRightsHelper ClickSortByLastName()
+		{
+			BaseObject.InitPage(_usersRightsPage);
+			_usersRightsPage.ClickSortByLastName();
+
+			return this;
+		}
+
+		public UsersRightsHelper ClickSortByShortName()
+		{
+			BaseObject.InitPage(_usersRightsPage);
+			_usersRightsPage.ClickSortByShortName();
+
+			return this;
+		}
+
+		public UsersRightsHelper ClickSortByEmailAddress()
+		{
+			BaseObject.InitPage(_usersRightsPage);
+			_usersRightsPage.ClickSortByEmailAddress();
+
+			return this;
+		}
+
+		public UsersRightsHelper ClickSortByGroups()
+		{
+			BaseObject.InitPage(_usersRightsPage);
+			_usersRightsPage.ClickSortByGroups();
+
+			return this;
+		}
+
+		public UsersRightsHelper ClickSortByCreated()
+		{
+			BaseObject.InitPage(_usersRightsPage);
+			_usersRightsPage.ClickSortByCreated();
+
+			return this;
+		}
+
+		public UsersRightsHelper ClickSortByStatus()
+		{
+			BaseObject.InitPage(_usersRightsPage);
+			_usersRightsPage.ClickSortByStatus();
+
+			return this;
+		}
+
 		private readonly UsersRightsPage _usersRightsPage = new UsersRightsPage();
 	}
 }

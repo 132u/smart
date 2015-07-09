@@ -202,7 +202,7 @@
     <Compile Include="Tests\BaseTest.cs" />
     <Compile Include="Tests\BillingTests.cs" />
     <Compile Include="Tests\Projects\ChangeProjectNameTests.cs" />
-    <Compile Include="Tests\ClientsTests.cs" />
+    <Compile Include="Tests\Clients\ClientsTests.cs" />
     <Compile Include="Configs\UserInfoConfig.cs" />
     <Compile Include="Tests\Glossaries\BasicGlossaryTests.cs" />
     <Compile Include="Tests\Projects\Export\ExportProjectBaseTests.cs" />
@@ -215,6 +215,13 @@
     <Compile Include="Tests\Projects\Export\ExportProjectListTests.cs" />
     <Compile Include="Tests\ProjectGroupsTest.cs" />
     <Compile Include="Tests\ProjectImportTests.cs" />
+    <Compile Include="Tests\Glossaries\SortingInSuggestedTermsTests.cs" />
+    <Compile Include="Tests\UsersRights\SortingInUsersRightsTests.cs" />
+    <Compile Include="Tests\Clients\SortingInClientsTests.cs" />
+    <Compile Include="Tests\Glossaries\SortingInGlossariesTests.cs" />
+    <Compile Include="Tests\ProjectGroups\SortingInProjectGroups.cs" />
+    <Compile Include="Tests\Projects\SortingInProjectsTests.cs" />
+    <Compile Include="Tests\TranslationMemories\SortingInTranslationMemoriesTests.cs" />
     <Compile Include="Tests\TranslationMemories\BaseTmTest.cs" />
     <Compile Include="Tests\TranslationMemories\CreateTmTest.cs" />
     <Compile Include="Tests\Editor\EditorBaseTest.cs" />

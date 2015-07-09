@@ -106,6 +106,14 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 			return this;
 		}
 
+		public ProjectGroupsHelper ClickSortByName()
+		{
+			BaseObject.InitPage(_projectGroupsPage);
+			_projectGroupsPage.ClickSortByName();
+
+			return this;
+		}
+
 		private readonly ProjectGroupsPage _projectGroupsPage = new ProjectGroupsPage();
 	}
 }

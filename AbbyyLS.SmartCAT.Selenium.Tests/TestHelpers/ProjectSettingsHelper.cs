@@ -174,6 +174,62 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 			return this;
 		}
 
+		public ProjectSettingsHelper ClickSortByTranslationDocument()
+		{
+			BaseObject.InitPage(_projectPage);
+			_projectPage.ClickSortByTranslationDocument();
+
+			return this;
+		}
+
+		public ProjectSettingsHelper ClickSortByType()
+		{
+			BaseObject.InitPage(_projectPage);
+			_projectPage.ClickSortByType();
+
+			return this;
+		}
+
+		public ProjectSettingsHelper ClickSortByStatus()
+		{
+			BaseObject.InitPage(_projectPage);
+			_projectPage.ClickSortByStatus();
+
+			return this;
+		}
+
+		public ProjectSettingsHelper ClickSortByTarget()
+		{
+			BaseObject.InitPage(_projectPage);
+			_projectPage.ClickSortByTarget();
+
+			return this;
+		}
+
+		public ProjectSettingsHelper ClickSortByAuthor()
+		{
+			BaseObject.InitPage(_projectPage);
+			_projectPage.ClickSortByAuthor();
+
+			return this;
+		}
+
+		public ProjectSettingsHelper ClickSortByCreated()
+		{
+			BaseObject.InitPage(_projectPage);
+			_projectPage.ClickSortByCreated();
+
+			return this;
+		}
+
+		public ProjectSettingsHelper ClickSortByQA()
+		{
+			BaseObject.InitPage(_projectPage);
+			_projectPage.ClickSortByQA();
+
+			return this;
+		}
+
 		private readonly ProjectSettingsPage _projectPage = new ProjectSettingsPage();
 		private readonly SettingsDialog _settingsDialog = new SettingsDialog();
 	}

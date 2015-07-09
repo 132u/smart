@@ -284,6 +284,17 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.ProjectGroups
 		}
 
 		/// <summary>
+		/// Нажать кнопку сортировки по именам
+		/// </summary>
+		public ProjectGroupsPage ClickSortByName()
+		{
+			Logger.Debug("Нажать кнопку сортировки по именам");
+			SortByName.Click();
+
+			return GetPage();
+		}
+
+		/// <summary>
 		/// Определить, что группа проектов присутствует в списке
 		/// </summary>
 		/// <param name="projectGroupName">имя группы проектов</param>
@@ -313,6 +324,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.ProjectGroups
 		[FindsBy(How = How.XPath, Using = ERROR_NAME)]
 		protected IWebElement NameError { get; set; }
 
+		[FindsBy(How = How.XPath, Using = SORT_BY_NAME)]
+		protected IWebElement SortByName { get; set; }
+
 		protected IWebElement ProjectGroupRow { get; set; }
 
 		protected const string PROJECT_GROUP_ROW = "//table[contains(@class,'js-sortable-table')]//p[contains(string(), '*#*')]//..";
@@ -329,5 +343,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.ProjectGroups
 		protected const string NAME_INPUT = "//input[contains(@class,'js-domain-name-input')]";
 		protected const string EDIT_NAME_FIELD = "//td[contains(@class,'domainEdit')]//div[contains(@class,'js-edit-mode')]//input[contains(@class,'js-domain-name-input')]";
 		protected const string ERROR_NAME = "//div[contains(@class,'js-error-text g-hidden')]";
+		protected const string SORT_BY_NAME = "//th[contains(@data-sort-by,'Name')]//a";
 	}
 }

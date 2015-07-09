@@ -197,6 +197,14 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 			return this;
 		}
 
+		public WorkspaceHelper AssertAlertNoExist()
+		{
+			BaseObject.InitPage(_workspacePage);
+			_workspacePage.AssertAlertNoExist();
+
+			return this;
+		}
+
 		private readonly ProjectsPage _projectsPage = new ProjectsPage();
 		private readonly WorkspacePage _workspacePage = new WorkspacePage();
 	}

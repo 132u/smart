@@ -224,7 +224,18 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Client
 
 			return GetPage();
 		}
-		
+
+		/// <summary>
+		/// Нажать кнопку сортировки по имени
+		/// </summary>
+		public ClientsPage ClickSortByName()
+		{
+			Logger.Debug("Нажать кнопку сортировки по имени");
+			SortByName.Click();
+
+			return GetPage();
+		}
+
 		/// <summary>
 		/// Получить xPath клиента
 		/// </summary>
@@ -244,6 +255,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Client
 
 		[FindsBy(How = How.XPath, Using = SAVE_CLIENT)]
 		protected IWebElement SaveClientButton { get; set; }
+
+		[FindsBy(How = How.XPath, Using = SORT_BY_NAME)]
+		protected IWebElement SortByName { get; set; }
 
 		[FindsBy(How = How.XPath, Using = ERROR_NAME)]
 		protected IWebElement ErrorClientName { get; set; }
@@ -265,5 +279,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Client
 		protected const string ERROR_NAME = "//div[contains(@class,'clienterr') and string()='A client with the same name already exists.']";
 		protected const string CLIENT_INPUT_NAME = "//input[contains(@class,'clienttxtbox')]";
 		protected const string CLIENT_LIST = ".//table[contains(@class,'js-sortable-table')]//tr";
+		protected const string SORT_BY_NAME = "//th[contains(@data-sort-by,'Name')]//a";
 	}
 }

@@ -257,6 +257,83 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings
 			return GetPage();
 		}
 
+		/// <summary>
+		/// Нажать на кнопку сортировки по имени документов.
+		/// </summary>
+		public ProjectSettingsPage ClickSortByTranslationDocument()
+		{
+			Logger.Debug("Нажать на кнопку сортировки по имени документов.");
+			SortByTranslationDocument.Click();
+
+			return GetPage();
+		}
+
+		/// <summary>
+		/// Нажать кнопку сортировки по типу документа
+		/// </summary>
+		public ProjectSettingsPage ClickSortByType()
+		{
+			Logger.Debug("Нажать кнопку сортировки по типу документа");
+			SortByType.Click();
+
+			return GetPage();
+		}
+
+		/// <summary>
+		/// Нажать кнопку сортировки по статусу документа
+		/// </summary>
+		public ProjectSettingsPage ClickSortByStatus()
+		{
+			Logger.Debug("Нажать кнопку сортировки по статусу документа");
+			SortByStatus.Click();
+
+			return GetPage();
+		}
+
+		/// <summary>
+		/// Нажать кнопку сортировки по Target-языку документа
+		/// </summary>
+		public ProjectSettingsPage ClickSortByTarget()
+		{
+			Logger.Debug("Нажать кнопку сортировки по Target-языку документа");
+			SortByTarget.Click();
+
+			return GetPage();
+		}
+
+		/// <summary>
+		/// Нажать кнопку сортировки по автору документа
+		/// </summary>
+		public ProjectSettingsPage ClickSortByAuthor()
+		{
+			Logger.Debug("Нажать кнопку сортировки по автору документа");
+			SortByAuthor.Click();
+
+			return GetPage();
+		}
+
+		/// <summary>
+		/// Нажать кнопку сортировки по дате создания документа
+		/// </summary>
+		public ProjectSettingsPage ClickSortByCreated()
+		{
+			Logger.Debug("Нажать кнопку сортировки по дате создания документа");
+			SortByCreated.Click();
+
+			return GetPage();
+		}
+
+		/// <summary>
+		/// Нажать кнопку сортировки по QA документа
+		/// </summary>
+		public ProjectSettingsPage ClickSortByQA()
+		{
+			Logger.Debug("Нажать кнопку сортировки по QA документа");
+			SortByQA.Click();
+
+			return GetPage();
+		}
+
 		[FindsBy(How = How.XPath, Using = ADD_FILES_BTN)]
 		protected IWebElement AddFilesButton { get; set; }
 
@@ -285,7 +362,28 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings
 
 		[FindsBy(How = How.XPath, Using = PROJECTS_TABLE_ALL_CHECKBOXES)]
 		protected IWebElement AllCheckoxes { get; set; }
-		
+
+		[FindsBy(How = How.XPath, Using = SORT_BY_TRANSLATION_DOCUMENT)]
+		protected IWebElement SortByTranslationDocument { get; set; }
+
+		[FindsBy(How = How.XPath, Using = SORT_BY_TYPE)]
+		protected IWebElement SortByType { get; set; }
+
+		[FindsBy(How = How.XPath, Using = SORT_BY_STATUS)]
+		protected IWebElement SortByStatus { get; set; }
+
+		[FindsBy(How = How.XPath, Using = SORT_BY_TARGET)]
+		protected IWebElement SortByTarget { get; set; }
+
+		[FindsBy(How = How.XPath, Using = SORT_BY_AUTHOR)]
+		protected IWebElement SortByAuthor { get; set; }
+
+		[FindsBy(How = How.XPath, Using = SORT_BY_CREATED)]
+		protected IWebElement SortByCreated { get; set; }
+
+		[FindsBy(How = How.XPath, Using = SORT_BY_QA)]
+		protected IWebElement SortByQA { get; set; }
+
 		protected IWebElement AssignButton { get; set; }
 
 		protected IWebElement DocumentProgress { get; set; }
@@ -320,5 +418,13 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings
 		protected const string DOCUMENT_PROGRESS = "//td[div[a[text()='*#*']]]//following-sibling::td//div[contains(@class,'ui-progressbar__container')]";
 		protected const string SETTINGS_BUTTON = "(//span[contains(@data-bind,'click: edit')])[1]";
 		protected const string ACCEPT_BUTTONS_LIST_FOR_DOCUMENT = "//tr[td[div[a[text()='*#*']]]]//following-sibling::tr[1]//span[contains(@data-bind,'click: $parent.accept')]";
+
+		protected const string SORT_BY_TRANSLATION_DOCUMENT = "//th[contains(@data-sort-by,'name')]//a";
+		protected const string SORT_BY_TYPE = "//th[contains(@data-sort-by,'fileExtension')]//a";
+		protected const string SORT_BY_STATUS = "//th[contains(@data-sort-by,'workflowStatus')]//a";
+		protected const string SORT_BY_TARGET = "//th[contains(@data-sort-by,'targetLanguagesString')]//a";
+		protected const string SORT_BY_AUTHOR = "//th[contains(@data-sort-by,'createdByUserName')]//a";
+		protected const string SORT_BY_CREATED = "//th[contains(@data-sort-by,'creationDate')]//a";
+		protected const string SORT_BY_QA = "//th[contains(@data-sort-by,'qaErrorCount')]//a";
 	}
 }

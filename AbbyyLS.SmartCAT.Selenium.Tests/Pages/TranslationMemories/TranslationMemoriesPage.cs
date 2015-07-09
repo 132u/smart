@@ -1,8 +1,9 @@
-﻿using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace;
-using AbbyyLS.SmartCAT.Selenium.Tests.TestFramework;
-using NUnit.Framework;
+﻿using NUnit.Framework;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.PageObjects;
+
+using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace;
+using AbbyyLS.SmartCAT.Selenium.Tests.TestFramework;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories
 {
@@ -193,6 +194,62 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories
 			return Driver.FindElement(By.XPath(translationMemoryRow)).GetElementAttribute("class").Contains("opened");
 		}
 
+		/// <summary>
+		/// Нажать кнопку сортировки по именам
+		/// </summary>
+		public TranslationMemoriesPage ClickSortByTMName()
+		{
+			Logger.Debug("Нажать кнопку сортировки по именам");
+			TMName.Click();
+
+			return GetPage();
+		}
+
+		/// <summary>
+		/// Нажать кнопку сортировки по языкам
+		/// </summary>
+		public TranslationMemoriesPage ClickSortByLanguages()
+		{
+			Logger.Debug("Нажать кнопку сортировки по языкам");
+			Languages.Click();
+
+			return GetPage();
+		}
+
+		/// <summary>
+		/// Нажать кнопку сортировки по авторам
+		/// </summary>
+		public TranslationMemoriesPage ClickSortByAuthor()
+		{
+			Logger.Debug("Нажать кнопку сортировки по авторам");
+			Author.Click();
+
+			return GetPage();
+		}
+
+		/// <summary>
+		/// Нажать кнопку сортировки по дате создания
+		/// </summary>
+		public TranslationMemoriesPage ClickSortByCreationDate()
+		{
+			Logger.Debug("Нажать кнопку сортировки по дате создания.");
+			CreationDate.Click();
+
+			return GetPage();
+		}
+
+		[FindsBy(How = How.XPath, Using = TM_NAME)]
+		protected IWebElement TMName { get; set; }
+
+		[FindsBy(How = How.XPath, Using = LANGUAGES)]
+		protected IWebElement Languages { get; set; }
+
+		[FindsBy(How = How.XPath, Using = AUTHOR)]
+		protected IWebElement Author { get; set; }
+
+		[FindsBy(How = How.XPath, Using = CREATION_DATE)]
+		protected IWebElement CreationDate { get; set; }
+
 		[FindsBy(How = How.XPath, Using = ADD_TM_BTN)]
 		protected IWebElement CreateNewTmButton { get; set; }
 
@@ -220,7 +277,11 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories
 		protected const string DELETE_BUTTON = "//tr[@class='js-tm-panel']//span[contains(@data-bind, 'deleteTranslationMemory')]";
 		protected const string DELETE_CONFIRMATION_DIALOG = "//form[contains(@action,'Delete')]";
 		protected const string DELETE_BUTTON_IN_CONFIRMATION_DIALOG = "//form[contains(@action,'Delete')]//input[@value='Delete']";
-
 		protected const string SAVE_TM_BUTTON = ".//div[contains(@class,'js-popup-create-tm')][2]//span[contains(@data-bind, 'click: save')]";
+
+		protected const string TM_NAME = "(//th[contains(@data-sort-by,'Name')]//a)[1]";
+		protected const string LANGUAGES = "//th[contains(@data-sort-by,'Languages')]//a";
+		protected const string AUTHOR = "//th[contains(@data-sort-by,'CreatorName')]//a";
+		protected const string CREATION_DATE = "//th[contains(@data-sort-by,'CreatedDate')]//a";
 	}
 }

@@ -408,7 +408,84 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.UsersRights
 
 			return GetPage();
 		}
-		
+
+		/// <summary>
+		/// Нажать кнопку сортировки по имени
+		/// </summary>
+		public UsersRightsPage ClickSortByFirstName()
+		{
+			Logger.Debug("Нажать кнопку сортировки по имени.");
+			SortByFirstName.Click();
+
+			return GetPage();
+		}
+
+		/// <summary>
+		/// Нажать кнопку сортировки фамилии
+		/// </summary>
+		public UsersRightsPage ClickSortByLastName()
+		{
+			Logger.Debug("Нажать кнопку сортировки фамилии");
+			SortByLastName.Click();
+
+			return GetPage();
+		}
+
+		/// <summary>
+		/// Нажать кнопку сортировки по ShortName
+		/// </summary>
+		public UsersRightsPage ClickSortByShortName()
+		{
+			Logger.Debug("Нажать кнопку сортировки по ShortName");
+			SortByShortName.Click();
+
+			return GetPage();
+		}
+
+		/// <summary>
+		/// Нажать кнопку сортировки по адресу почты
+		/// </summary>
+		public UsersRightsPage ClickSortByEmailAddress()
+		{
+			Logger.Debug("Нажать кнопку сортировки по адресу почты");
+			SortByEmail.Click();
+
+			return GetPage();
+		}
+
+		/// <summary>
+		/// Нажать кнопку сортировки по группе
+		/// </summary>
+		public UsersRightsPage ClickSortByGroups()
+		{
+			Logger.Debug("Нажать кнопку сортировки по группе");
+			SortByGroups.Click();
+
+			return GetPage();
+		}
+
+		/// <summary>
+		/// Нажать кнопку сортировки по дате создания
+		/// </summary>
+		public UsersRightsPage ClickSortByCreated()
+		{
+			Logger.Debug("Нажать кнопку сортировки по дате создания");
+			SortByCreated.Click();
+
+			return GetPage();
+		}
+
+		/// <summary>
+		/// Нажать кнопку сортировки по статусу
+		/// </summary>
+		public UsersRightsPage ClickSortByStatus()
+		{
+			Logger.Trace("Нажать кнопку сортировки по статусу");
+			SortByStatus.Click();
+
+			return GetPage();
+		}
+
 		[FindsBy(How = How.XPath, Using = GROUPS_RIGHTS_BTN_XPATH)]
 		protected IWebElement GroupsButton { get; set; }
 
@@ -435,6 +512,27 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.UsersRights
 
 		[FindsBy(How = How.XPath, Using = NEXT_BTN_XPATH)]
 		protected IWebElement NextButton { get; set; }
+
+		[FindsBy(How = How.XPath, Using = SORT_BY_FIRST_NAME)]
+		protected IWebElement SortByFirstName { get; set; }
+
+		[FindsBy(How = How.XPath, Using = SORT_BY_LAST_NAME)]
+		protected IWebElement SortByLastName { get; set; }
+
+		[FindsBy(How = How.XPath, Using = SORT_BY_SHORT_NANE)]
+		protected IWebElement SortByShortName { get; set; }
+
+		[FindsBy(How = How.XPath, Using = SORT_BY_EMAIL)]
+		protected IWebElement SortByEmail { get; set; }
+
+		[FindsBy(How = How.XPath, Using = SORT_BY_GROUPS)]
+		protected IWebElement SortByGroups { get; set; }
+
+		[FindsBy(How = How.XPath, Using = SORT_BY_CREATED)]
+		protected IWebElement SortByCreated { get; set; }
+
+		[FindsBy(How = How.XPath, Using = SORT_BY_STATUS)]
+		protected IWebElement SortByStatus { get; set; }
 
 		[FindsBy(How = How.XPath, Using = ADD_RIGHT_BTN_XPATH)]
 		protected IWebElement AddRightButton { get; set; }
@@ -476,5 +574,13 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.UsersRights
 		protected const string USER_NAME_LIST = ".//table[contains(@class, 'js-users')]//tr[contains(@class, 'js-users-trwork')]//td[contains(@class, 'js-user-name')]/p";
 
 		protected const string GROUP_NAME_LIST = "//tbody[@data-bind='foreach: filteredGroups']//tr[contains(@class, 'clickable')]//td[@data-bind='text: name']";
+
+		protected const string SORT_BY_FIRST_NAME = "(//th[contains(@data-sort-by,'Name')]//a)[1]";
+		protected const string SORT_BY_LAST_NAME = "//th[contains(@data-sort-by,'Surname')]//a";
+		protected const string SORT_BY_SHORT_NANE = "(//th[contains(@data-sort-by,'Name')]//a)[2]";
+		protected const string SORT_BY_EMAIL = "//th[contains(@data-sort-by,'EMail')]//a";
+		protected const string SORT_BY_GROUPS = "";
+		protected const string SORT_BY_CREATED = "//th[contains(@data-sort-by,'CreatedDate')]//a";
+		protected const string SORT_BY_STATUS = "//th[contains(@data-sort-by,'Status')]//a";
 	}
 }

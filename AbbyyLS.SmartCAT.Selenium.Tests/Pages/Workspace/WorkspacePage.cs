@@ -378,6 +378,19 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace
 		}
 
 		/// <summary>
+		/// Подтвердить, что на странице нет алертов.
+		/// </summary>
+		public WorkspacePage AssertAlertNoExist()
+		{
+			Logger.Trace("Подтвердить, что на странице нет алертов.");
+
+			Assert.Throws<NoAlertPresentException>(() => Driver.SwitchTo().Alert().Accept(), 
+				"Произошла ошибка:\n алерт не должен появляться.");
+
+			return GetPage();
+		}
+
+		/// <summary>
 		/// Вернуть раскрыто ли главное меню слева
 		/// </summary>
 		private bool getIsLeftMenuDisplay()

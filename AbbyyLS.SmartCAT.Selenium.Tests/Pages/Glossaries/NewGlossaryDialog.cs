@@ -85,10 +85,24 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 		/// <summary>
 		/// Открыть список групп проектов
 		/// </summary>
-		public NewGlossaryDialog OpenProjectGroupsList()
+		public NewGlossaryDialog ClickProjectGroupsList()
 		{
 			Logger.Debug("Открыть список групп проектов при создании глоссария.");
 			ProjectGroupsDropDown.Click();
+
+			return GetPage();
+		}
+
+		/// <summary>
+		/// Выбрать группу проектов списке
+		/// </summary>
+		/// <param name="projectGroupName">имя группы проектов</param>
+		public NewGlossaryDialog SelectProjectGroup(string projectGroupName)
+		{
+			Logger.Debug("Выбрать группу проектов списке");
+
+			ProjectGroupsItem = Driver.SetDynamicValue(How.XPath, PROJECT_GROUPS_ITEM, projectGroupName);
+			ProjectGroupsItem.Click();
 
 			return GetPage();
 		}
@@ -300,6 +314,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 		[FindsBy(How = How.XPath, Using = ERROR_EXIST_NAME)]
 		protected IWebElement ErrorExistName { get; set; }
 
+		protected IWebElement ProjectGroupsItem { get; set; }
+
 		protected const string LANGUAGES_LIST = "//body/span[contains(@class,'js-dropdown')]//span[@title='*#*']";
 		protected const string GLOSSARY_NAME = ".//div[contains(@class,'js-popup-edit-glossary')][2]//input[@class='g-bold l-editgloss__nmtext']";
 		protected const string GLOSSARY_COMMENT = ".//div[contains(@class,'js-popup-edit-glossary')][2]//div[@class='l-editgloss__cont last']//textarea";
@@ -318,5 +334,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 		protected const string PROJECT_GROUPS_LIST = ".//div[contains(@class,'js-popup-edit-glossary')][2]//div[@class='l-editgloss__contrbox'][3]//div";
 		protected const string NEW_GLOSSARY_DIALOG = ".//div[contains(@class,'js-popup-edit-glossary')][2]";
 		protected const string MULTISELECT_LIST = ".//ul[contains(@class,'ui-multiselect-checkboxes')]//span[contains(@class,'ui-multiselect-item-text')]";
+		protected const string PROJECT_GROUPS_ITEM = ".//ul[contains(@class,'ui-multiselect-checkboxes')]//span[text()='*#*']";
 	}
 }
