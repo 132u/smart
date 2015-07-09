@@ -54,6 +54,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 				.OpenProjectInfo(_projectUniqueName)
 				.ClickDocumentUploadButton()
 				.UploadDocument(PathProvider.DocumentFileToConfirm1)
+				.AssertFileUploaded(PathProvider.DocumentFileToConfirm1)
 				.ClickNextOnGeneralInformationPage()
 				.ClickNextOnSetUpTMPage();
 		}
@@ -89,6 +90,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 				.GoToProjectSettingsPage(_projectUniqueName)
 				.ClickDocumentUploadButton()
 				.UploadDocument(PathProvider.DocumentFileToConfirm1)
+				.AssertFileUploaded(PathProvider.DocumentFileToConfirm1)
 				.ClickNextOnGeneralInformationPage()
 				.ClickNextOnSetUpTMPage();
 		}
@@ -282,6 +284,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 				.GoToProjectSettingsPage(_projectUniqueName)
 				.ClickDocumentUploadButton()
 				.UploadDocument(PathProvider.DocumentFile)
+				.AssertFileUploaded(PathProvider.DocumentFile)
 				.ClickFihishUploadOnProjectSettingsPage()
 				.ClickDocumentProgress(PathProvider.DocumentFile)
 				.ClickAssignButtonInDocumentInfo()

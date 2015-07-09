@@ -368,6 +368,32 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 		}
 
 		/// <summary>
+		/// Проверить, что возникла ошибка, указывающая на неверный формат загружаемого файла.
+		/// </summary>
+		public NewProjectGeneralInformationDialog AssertErrorFormatDocument()
+		{
+			Logger.Trace("Проверить, что возникла ошибка, указывающая на неверный формат загружаемого файла.");
+
+			Assert.IsTrue(Driver.WaitUntilElementIsDisplay(By.XPath(ERROR_FORMAT_DOCUMENT_MESSAGE_XPATH)),
+				"Произошла ошибка:\n не появилось сообщение о неверном формате загружаемого документа.");
+
+			return GetPage();
+		}
+
+		/// <summary>
+		/// Проверить, что нет ошибки, указывающей на неверный формат загружаемого файла.
+		/// </summary>
+		public NewProjectGeneralInformationDialog AssertNoErrorFormatDocument()
+		{
+			Logger.Trace("Проверить, что нет ошибки, указывающей на неверный формат загружаемого файла.");
+
+			Assert.IsFalse(Driver.WaitUntilElementIsDisplay(By.XPath(ERROR_FORMAT_DOCUMENT_MESSAGE_XPATH), 5),
+				"Произошла ошибка:\n появилось сообщение о неверном формате загружаемого документа.");
+
+			return GetPage();
+		}
+
+		/// <summary>
 		/// Кликнуть на поле для ввода даты, чтобы появился всплывающий календарь
 		/// </summary>
 		private void clickDeadlineDateInput()
@@ -474,7 +500,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 		protected const string SOURCE_LANG_ITEM_XPATH = ".//span[contains(@class,'js-dropdown__list')]//span[@title = '*#*']";
 		protected const string TARGET_LANG_MULTISELECT_ITEMS_SELECTED_XPATH = ".//ul[contains(@class,'ui-multiselect-checkboxes')]//li//span[contains(@class,'js-chckbx')]//input[@aria-selected='true']";
 		protected const string TARGET_MULTISELECT_ITEM_XPATH = ".//ul[contains(@class,'ui-multiselect-checkboxes')]//span[contains(@class,'js-chckbx')]//input[@title='*#*']";
-		
+		protected const string ERROR_FORMAT_DOCUMENT_MESSAGE_XPATH = "//div[contains(@class,'js-info-popup')]//span[contains(string(),'These files are not supported')]";
+
 		protected const string ERROR_DUPLICATE_LANG_XPATH = "//div[contains(@class,'js-popup-create-project')][2]//p[contains(@class,'js-error-sourceLanguage-match-targetLanguage')]";
 		protected const string ERROR_FORBIDDEN_SYMBOLS_NAME = "//div[contains(@class,'js-popup-create-project')][2]//p[contains(@class,'js-error-name-invalid-chars')]";
 		protected const string ERROR_NO_NAME_XPATH = "//div[contains(@class,'js-popup-create-project')][2]//p[contains(@class,'js-error-name-required')]";

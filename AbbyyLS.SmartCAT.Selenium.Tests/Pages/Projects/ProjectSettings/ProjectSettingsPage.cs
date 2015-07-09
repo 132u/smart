@@ -121,10 +121,24 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings
 		/// <param name="documentName">имя документа</param>
 		public ProjectSettingsPage AssertDocumentNotExist(string documentName)
 		{
-			Logger.Debug(string.Format("Проверка существования документа {0}", documentName));
+			Logger.Debug("Проверить, что документа '{0}' нет в проекте.", documentName);
 
-			Assert.IsFalse(Driver.WaitUntilElementIsEnabled(By.XPath(DOCUMENT_LIST + documentName + "']"), 5),
+			Assert.IsFalse(Driver.WaitUntilElementIsEnabled(By.XPath(DOCUMENT_LIST.Replace("*#*", documentName)), 5),
 				"Произошла ошибка:\n документ {0} присутствует в проекте.", documentName);
+
+			return GetPage();
+		}
+
+		/// <summary>
+		/// Проверить, что документ есть в проекте
+		/// </summary>
+		/// <param name="documentName">имя документа</param>
+		public ProjectSettingsPage AssertDocumentExist(string documentName)
+		{
+			Logger.Debug("Проверить, что документ '{0}' есть в проекте.", documentName);
+
+			Assert.IsTrue(Driver.WaitUntilElementIsEnabled(By.XPath(DOCUMENT_LIST.Replace("*#*", documentName)), 5),
+				"Произошла ошибка:\n документ {0} отсутствует в проекте.", documentName);
 
 			return GetPage();
 		}
@@ -299,7 +313,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings
 		protected const string DEFAULT_MT_CHECKBOX = "//tbody[contains(@data-bind,'foreach: machineTranslators')]//tr[contains(string(), 'ABBYY')]//td[1]//input";
 		protected const string DEFAULT_MT_CHECKBOX_STATE = "//tbody[contains(@data-bind,'foreach: machineTranslators')]//tr[contains(string(), 'ABBYY')]//td[1]//input[@data-value='true']";
 		protected const string DELETE_BTN = "//span[contains(@class,'js-document-delete')]";
-		protected const string DOCUMENT_LIST = ".//table[contains(@class,'js-documents-table')]//tbody//tr//a[text()='";
+		protected const string DOCUMENT_LIST = ".//table[contains(@class,'js-documents-table')]//tbody//tr//a[text()='*#*']";
 		protected const string DELETE_DOCUMENT_DIALOG = "//div[contains(@class,'js-popup-confirm')]";
 		protected const string DOWNLOAD_MAIN_MENU_BUTTON = "//span[contains(@class,'js-document-export-block')]";
 		protected const string DOCUMENT_CHECKBOX = ".//table[contains(@id,'JColResizer')]//tr[contains(string(), '*#*')]//td[2]//a//ancestor::td//preceding-sibling::td/input";

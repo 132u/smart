@@ -11,9 +11,15 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 		public UploadDocumentHelper UploadDocument(string filePath)
 		{
 			BaseObject.InitPage(_documentUploadGeneralInformationDialog);
-			_documentUploadGeneralInformationDialog
-				.UploadDocument(filePath)
-				.AssertFileUploaded(Path.GetFileName(filePath));
+			_documentUploadGeneralInformationDialog.UploadDocument(filePath);
+
+			return this;
+		}
+
+		public UploadDocumentHelper AssertFileUploaded(string filePath)
+		{
+			BaseObject.InitPage(_documentUploadGeneralInformationDialog);
+			_documentUploadGeneralInformationDialog.AssertFileUploaded(Path.GetFileName(filePath));
 
 			return this;
 		}
@@ -42,6 +48,13 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 			return new ProjectSettingsHelper();
 		}
 
+		public UploadDocumentHelper AssertErrorDuplicateDocumentNameExist()
+		{
+			BaseObject.InitPage(_documentUploadGeneralInformationDialog);
+			_documentUploadGeneralInformationDialog.AssertErrorDuplicateDocumentNameExist();
+
+			return this;
+		}
 
 		private readonly DocumentUploadGeneralInformationDialog _documentUploadGeneralInformationDialog = new DocumentUploadGeneralInformationDialog();
 		private readonly DocumentUploadSetUpTMDialog _documentUploadSetUpTMDialog = new DocumentUploadSetUpTMDialog();

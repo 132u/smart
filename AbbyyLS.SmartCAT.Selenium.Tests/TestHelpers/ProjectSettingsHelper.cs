@@ -166,6 +166,14 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 			return this;
 		}
 
+		public ProjectSettingsHelper AssertDocumentExist(string fileName)
+		{
+			BaseObject.InitPage(_projectPage);
+			_projectPage.AssertDocumentExist(fileName);
+
+			return this;
+		}
+
 		private readonly ProjectSettingsPage _projectPage = new ProjectSettingsPage();
 		private readonly SettingsDialog _settingsDialog = new SettingsDialog();
 	}

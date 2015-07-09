@@ -77,6 +77,30 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 			return this;
 		}
 
+		public CreateProjectHelper UploadFile(string filePath)
+		{
+			BaseObject.InitPage(_newProjectGeneralInformationDialog);
+			_newProjectGeneralInformationDialog.UploadFile(filePath);
+
+			return this;
+		}
+
+		public CreateProjectHelper AssertErrorFormatDocument()
+		{
+			BaseObject.InitPage(_newProjectGeneralInformationDialog);
+			_newProjectGeneralInformationDialog.AssertErrorFormatDocument();
+
+			return this;
+		}
+
+		public CreateProjectHelper AssertNoErrorFormatDocument()
+		{
+			BaseObject.InitPage(_newProjectGeneralInformationDialog);
+			_newProjectGeneralInformationDialog.AssertNoErrorFormatDocument();
+
+			return this;
+		}
+
 		public CreateProjectHelper FillProjectName(string projectName)
 		{
 			BaseObject.InitPage(_newProjectGeneralInformationDialog);

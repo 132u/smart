@@ -214,6 +214,7 @@
     <Compile Include="Tests\Projects\ProjectDeadlineTests.cs" />
     <Compile Include="Tests\Projects\Export\ExportProjectListTests.cs" />
     <Compile Include="Tests\ProjectGroupsTest.cs" />
+    <Compile Include="Tests\ProjectImportTests.cs" />
     <Compile Include="Tests\TranslationMemories\BaseTmTest.cs" />
     <Compile Include="Tests\TranslationMemories\CreateTmTest.cs" />
     <Compile Include="Tests\Editor\EditorBaseTest.cs" />
