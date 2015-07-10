@@ -36,10 +36,15 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 		public ProjectsPage AssertIsProjectLoaded(string projectName)
 		{
 			Logger.Debug("Проверить, загрузился ли проект {0}.", projectName);
+			if (!Driver.WaitUntilElementIsDisappeared(By.XPath(PROJECT_LOAD_IMG_XPATH.Replace("*#*", projectName)), 120))
+			{
+				Logger.Debug("Обновить страницу.");
+				Driver.Navigate().Refresh();
 
-			Assert.IsTrue(Driver.WaitUntilElementIsDisappeared(By.XPath(PROJECT_LOAD_IMG_XPATH.Replace("*#*", projectName)), 50),
+				Assert.IsTrue(Driver.WaitUntilElementIsDisappeared(By.XPath(PROJECT_LOAD_IMG_XPATH.Replace("*#*", projectName)), 3),
 				"Произошла ошибка:\n проект {0} не загрузился.", projectName);
-
+			}
+			
 			return GetPage();
 		}
 		

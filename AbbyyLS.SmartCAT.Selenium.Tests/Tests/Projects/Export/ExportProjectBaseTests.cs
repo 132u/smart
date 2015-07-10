@@ -3,7 +3,6 @@
 using NUnit.Framework;
 
 using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
-using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects;
 using AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers;
 
@@ -15,6 +14,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 		public void SetUpProjectExportTests()
 		{
 			WorkspaceHelper.GoToProjectsPage();
+			_exportFileHelper.CancelAllNotifiers<ProjectsPage>();
 			_projectUniqueName = _createProjectHelper.GetProjectUniqueName();
 
 			_createProjectHelper
@@ -23,13 +23,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 				.GoToProjectSettingsPage(_projectUniqueName)
 				.AssignTasksOnDocument(Path.GetFileNameWithoutExtension(PathProvider.DocumentFileToConfirm1), NickName)
 				.CreateRevision(Path.GetFileNameWithoutExtension(PathProvider.DocumentFileToConfirm1));
-		}
-
-		[TearDown]
-		public void Teardown()
-		{
-			_projectsHelper.GoToProjectsPage();
-			_exportFileHelper.CancelAllNotifiers<ProjectsPage>();
 		}
 
 		protected string _projectUniqueName;

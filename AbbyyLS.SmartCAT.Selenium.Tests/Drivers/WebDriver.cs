@@ -442,6 +442,39 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Drivers
 			return fileName;
 		}
 
+		/// <summary>
+		/// Дождаться, пока страница полностью загрузится
+		/// </summary>
+		/// <param name="maxWait">таймаут</param>
+		/// <returns>загрузится ли страница</returns>
+		public bool WaitPageTotalLoad(int maxWait = 15)
+		{
+			var wait = new WebDriverWait(_driver, ImplicitWait);
+			var timeout = wait.Timeout.Seconds;
+			try
+			{
+				wait.Timeout = TimeSpan.FromSeconds(maxWait);
+				wait.Until(d => ((IJavaScriptExecutor)_driver)
+					.ExecuteScript("return document.readyState")
+					.Equals("complete"));
+				return true;
+			}
+			catch (WebDriverTimeoutException)
+			{
+				Logger.Trace("Не удалось дождаться загрузки страницы.");
+				return false;
+			}
+			catch (Exception ex)
+			{
+				Logger.Trace("Во время ожидания загрузки страницы произошла ошибка:" + ex.Message);
+				return false;
+			}
+			finally
+			{
+				wait.Timeout = TimeSpan.FromSeconds(timeout);
+			}
+		}
+
 		public void Dispose()
 		{
 			_driver.Quit();
