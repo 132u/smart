@@ -23,22 +23,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.TranslationMemories
 		}
 
 		[Test]
-		public void SortByLanguagesTest()
-		{
-			_translationMemoriesHelper
-				.ClickSortByLanguages()
-				.AssertAlertNoExist();
-		}
-
-		[Test]
-		public void SortByAuthorTest()
-		{
-			_translationMemoriesHelper
-				.ClickSortByAuthor()
-				.AssertAlertNoExist();
-		}
-
-		[Test]
 		public void SortByCreationDateTest()
 		{
 			_translationMemoriesHelper

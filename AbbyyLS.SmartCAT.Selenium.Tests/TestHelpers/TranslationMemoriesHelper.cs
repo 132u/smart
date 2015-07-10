@@ -383,22 +383,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 			return this;
 		}
 
-		public TranslationMemoriesHelper ClickSortByLanguages()
-		{
-			BaseObject.InitPage(_translationMemoriesPage);
-			_translationMemoriesPage.ClickSortByLanguages();
-
-			return this;
-		}
-
-		public TranslationMemoriesHelper ClickSortByAuthor()
-		{
-			BaseObject.InitPage(_translationMemoriesPage);
-			_translationMemoriesPage.ClickSortByAuthor();
-
-			return this;
-		}
-
 		public TranslationMemoriesHelper ClickSortByCreationDate()
 		{
 			BaseObject.InitPage(_translationMemoriesPage);
