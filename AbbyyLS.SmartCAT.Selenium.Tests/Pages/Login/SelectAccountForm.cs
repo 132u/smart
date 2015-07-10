@@ -52,13 +52,25 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Login
 			return new WorkspacePage().GetPage();
 		}
 
-		protected IWebElement AccountRef { get; set; }
+		public SelectAccountForm AssertEuropeServerRespond()
+		{
+			Logger.Trace("Проверить, что сервер Europe отвечает.");
 
+			Assert.IsTrue(Driver.WaitUntilElementIsDisplay(By.XPath(EUROPE_HEADER)),
+				"Произошла ошибка:\n сервер Europe не отвечает.");
+
+			return GetPage();
+		}
+
+		protected IWebElement AccountRef { get; set; }
+		
 		protected const string ACCOUNT_SELECTION_FORM = "//form[contains(@name, 'selectAccount')]";
 		protected const string US_ACCOUNT_REF_XPATH = "//li[@translate = 'region-us']/following-sibling::li[@class='ng-scope']//span[contains(string(), '*#*')]";
 		protected const string RU_ACCOUNT_REF_XPATH = "//li[@translate = 'region-ru']/following-sibling::li[@class='ng-scope']//span[string() = '*#*']";
 		protected const string EUROPE_ACCOUNT_LIST = "//li[@translate='region-ru']//following-sibling::li//a[contains(@ng-click,'signInAccount')]";
 		protected const string USA_ACCOUNT_LIST = "//li[@translate='region-us']//following-sibling::li//a[contains(@ng-click,'signInAccount')]";
 		protected const string WAITING_SERVER_RESPONSE_MESSAGE = "//div[@ng-show='accountWatitngServerResponse']/span";
+
+		protected const string EUROPE_HEADER = "//li[@translate='region-ru']";
 	}
 }

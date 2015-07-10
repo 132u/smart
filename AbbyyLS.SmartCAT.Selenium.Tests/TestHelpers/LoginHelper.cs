@@ -27,6 +27,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 				.SetLogin(login)
 				.SetPassword(password)
 				.ClickSubmitButton()
+				.AssertEuropeServerRespond()
 				.SelectAccount(accountName, dataServer)
 				.SelectLocale(language)
 				.ClickCloseHelp();
