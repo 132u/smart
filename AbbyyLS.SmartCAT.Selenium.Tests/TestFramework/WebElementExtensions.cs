@@ -1,5 +1,5 @@
 ﻿using System;
-
+using System.Threading;
 using NLog;
 using NUnit.Framework;
 
@@ -184,11 +184,11 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestFramework
 		/// <summary>
 		/// Метод скроллит до того момента, пока web-элемент не станет видимым
 		/// </summary>
-		/// <param name="webElement"></param>
 		private static void scrollToWebElement(this IWebElement webElement)
 		{
-			Logger.Trace("Скроллинг страницы до того момента, пока web-элемент не станет видимым");
 			var driver = getDriverFromWebElement(webElement);
+
+			Logger.Trace("Скроллинг страницы до того момента, пока web-элемент не станет видимым");
 
 			try
 			{

@@ -224,6 +224,7 @@
     <Compile Include="Tests\TranslationMemories\SortingInTranslationMemoriesTests.cs" />
     <Compile Include="Tests\TranslationMemories\BaseTmTest.cs" />
     <Compile Include="Tests\TranslationMemories\CreateTmTest.cs" />
+    <Compile Include="Tests\TranslationMemories\EditTmTests.cs" />
     <Compile Include="Tests\Editor\EditorBaseTest.cs" />
     <Compile Include="Tests\Editor\EditorConfirmTests.cs" />
     <Compile Include="Tests\TranslationMemories\DeleteTMTests.cs" />

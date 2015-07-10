@@ -53,7 +53,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 			return this;
 		}
-
+		
 		public ProjectGroupsHelper AssertProjectGroupExist(string projectGroupName)
 		{
 			BaseObject.InitPage(_projectGroupsPage);

@@ -240,17 +240,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace
 		}
 
 		/// <summary>
-		/// Обновить страницу(не использовать в редакторе)
-		/// </summary>
-		public WorkspacePage RefreshPage()
-		{
-			Logger.Debug("Обновить страницу.");
-			Driver.Navigate().Refresh();
-
-			return GetPage();
-		}
-
-		/// <summary>
 		/// Вернуть количество уведомлений об экспорте
 		/// </summary>
 		public int GetCountExportNotifiers()
@@ -365,7 +354,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace
 
 			return GetPage();
 		}
-
+		
 		/// <summary>
 		/// Обновить страницу
 		/// </summary>
@@ -388,6 +377,25 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace
 				"Произошла ошибка:\n алерт не должен появляться.");
 
 			return GetPage();
+		}
+
+		/// <summary>
+		/// Закрыть все показанные уведомления
+		/// </summary>
+		public T CloseAllNotifications<T>() where T : class, IAbstractPage<T>, new()
+		{
+			Logger.Debug("Закрыть все показанные уведомления.");
+			Driver.WaitUntilElementIsDisplay(By.XPath(ALL_NOTIFICATIONS), timeout: 30);
+			var notificationsCount = Driver.GetElementList(By.XPath(ALL_NOTIFICATIONS)).Count;
+
+			for (var i = notificationsCount; i > 0; i--)
+			{
+				Logger.Debug("Закрыть сообщение №{0}.", i);
+				Notification = Driver.SetDynamicValue(How.XPath, NOTIFICATION, i.ToString());
+				Notification.Click();
+			}
+
+			return new T().GetPage();
 		}
 
 		/// <summary>
@@ -503,6 +511,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace
 		[FindsBy(How = How.XPath, Using = ACCOUNT_NAME_IN_LIST)]
 		protected IWebElement AccountNameInList { get; set; }
 
+		protected IWebElement Notification { get; set; }
+		
 		protected const string CAT_MENU = "//div[contains(@class, 'js-mainmenu')]";
 		protected const string CAT_MENU_OPEN_BUTTON = "//h2[contains(@class,'g-topbox__header')]/a";
 		protected const string CLOSE_HELP_BUTTON = "//div[@class='hopscotch-bubble animated']//button[contains(@class,'hopscotch-cta')]";
@@ -532,5 +542,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace
 		protected const string DIALOG_BACKGROUND = "//div[contains(@class,'js-popup-bg')]";
 		protected const string CURRENT_ACCOUNT_NAME = "//span[contains(@class,'g-topbox__nameuser')]//small";
 		protected const string ACCOUNT_NAME_IN_LIST = "//li[@class='g-topbox__corpitem' and @title='*#*']";
+		
+		protected const string ALL_NOTIFICATIONS = "//div[@class='g-notifications-item']//span[2]/a";
+		protected const string NOTIFICATION = "//div[@class='g-notifications-item'][*#*]//span[2]/a";
 	}
 }

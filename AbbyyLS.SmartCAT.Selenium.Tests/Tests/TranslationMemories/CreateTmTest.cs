@@ -1,7 +1,10 @@
-﻿using NUnit.Framework;
+﻿using System.IO;
+using NUnit.Framework;
 using AbbyyLS.SmartCAT.Selenium.Tests.DataStructures;
 using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
+using AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories;
 using AbbyyLS.SmartCAT.Selenium.Tests.TestFramework;
+using AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.TranslationMemories
 {
@@ -14,7 +17,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.TranslationMemories
 			TranslationMemoriesHelper
 				.GetTranslationMemoryUniqueName(ref tmName)
 				.CreateTranslationMemory(tmName)
-				.AssertTranslationMemoryExist(tmName);
+				.AssertTranslationMemoryExists(tmName);
 		}
 
 		[Test]
@@ -22,7 +25,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.TranslationMemories
 		{
 			TranslationMemoriesHelper
 				.CreateTranslationMemory(UniqueTranslationMemoryName, finalButtonType: DialogButtonType.Cancel)
-				.AssertTranslationMemoryNotExist(UniqueTranslationMemoryName);
+				.AssertTranslationMemoryNotExists(UniqueTranslationMemoryName);
 		}
 
 		[Test]
@@ -30,7 +33,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.TranslationMemories
 		{
 			TranslationMemoriesHelper
 				.CreateTranslationMemory(string.Empty, isCreationErrorExpected: true)
-				.AssertNoNameErrorAppear();
+				.AssertNoNameErrorAppearedInCreationDialog();
 		}
 
 		[Test]
@@ -38,9 +41,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.TranslationMemories
 		{
 			TranslationMemoriesHelper
 				.CreateTranslationMemory(UniqueTranslationMemoryName)
-				.AssertTranslationMemoryExist(UniqueTranslationMemoryName)
+				.AssertTranslationMemoryExists(UniqueTranslationMemoryName)
 				.CreateTranslationMemory(UniqueTranslationMemoryName, isCreationErrorExpected: true)
-				.AssertExistNameErrorAppear();
+				.AssertExistNameErrorAppearedInCreationDialog();
 		}
 
 		[Test]
@@ -51,7 +54,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.TranslationMemories
 					UniqueTranslationMemoryName, 
 					targetLanguage: Language.NoLanguage, 
 					isCreationErrorExpected: true)
-				.AssertNoTargetErrorAppear();
+				.AssertNoTargetErrorAppearedInCreationDialog();
 		}
 
 		[Test]
@@ -63,7 +66,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.TranslationMemories
 					importFilePath: PathProvider.DocumentFile,
 					finalButtonType: DialogButtonType.None,
 					isCreationErrorExpected: true)
-				.AssertNotTmxFileErrorAppear();
+				.AssertNotTmxFileErrorAppearedInCreationDialog();
 		}
 
 		[Test]
@@ -71,7 +74,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.TranslationMemories
 		{
 			TranslationMemoriesHelper
 				.CreateTranslationMemory(UniqueTranslationMemoryName, secondTargetLanguage: Language.Lithuanian)
-				.AssertTranslationMemoryExist(UniqueTranslationMemoryName)
+				.AssertTranslationMemoryExists(UniqueTranslationMemoryName)
 				.GoToProjectsPage()
 				.ClickCreateProjectButton()
 				.FillGeneralProjectInformation(CreateProjectHelper.GetProjectUniqueName())
@@ -84,6 +87,22 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.TranslationMemories
 				.ClickNextOnGeneralProjectInformationPage()
 				.ClickNextOnWorkflowPage()
 				.AssertTranslationMemoryExist(UniqueTranslationMemoryName);
+		}
+
+		[Test]
+		[TestCase(true)]
+		[TestCase(false)]
+		public void CreateTMSearchTM(bool uploadFile)
+		{
+			var importFilePath = uploadFile ? Directory.GetFiles(PathProvider.TMTestFolder)[1] : null;
+
+			TranslationMemoriesHelper
+				.CreateTranslationMemory(UniqueTranslationMemoryName, importFilePath: importFilePath)
+				.AssertTranslationMemoryExists(UniqueTranslationMemoryName)
+				.RefreshPage<TranslationMemoriesPage, TranslationMemoriesHelper>()
+				.CloseAllNotifications()
+				.FindTranslationMemory(UniqueTranslationMemoryName)
+				.AssertTranslationMemoryExists(UniqueTranslationMemoryName);
 		}
 
 		private static readonly string[] TranslationMemoryNamesList =

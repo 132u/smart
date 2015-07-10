@@ -108,10 +108,22 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 		public WorkspaceHelper RefreshPage()
 		{
 			BaseObject.InitPage(_workspacePage);
-			_workspacePage.RefreshPage();
+			_workspacePage.RefreshPage<WorkspacePage>();
 
 			return this;
 		}
+		
+		public THelper RefreshPage<TAbstractPage, THelper>() where TAbstractPage : class, IAbstractPage<TAbstractPage>, new()
+															 where THelper : class, new()
+		{
+			BaseObject.InitPage(_workspacePage);
+			// Sleep нужен для предотвращения появления unexpected alert
+			Thread.Sleep(1000);
+			_workspacePage.RefreshPage<TAbstractPage>();
+			
+			return new THelper();
+		}
+			
 
 		public UsersRightsHelper GoToUsersRightsPage()
 		{

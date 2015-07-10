@@ -16,7 +16,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.TranslationMemories
 				.CreateTranslationMemoryIfNotExist(_translationMemoryName)
 				.OpenTranslationMemoryInformation(_translationMemoryName)
 				.DeleteTranslationMemory(_translationMemoryName)
-				.AssertTranslationMemoryNotExist(_translationMemoryName);
+				.AssertTranslationMemoryNotExists(_translationMemoryName);
 		}
 
 		[Test]
@@ -26,9 +26,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.TranslationMemories
 				.CreateTranslationMemoryIfNotExist(_translationMemoryName)
 				.OpenTranslationMemoryInformation(_translationMemoryName)
 				.DeleteTranslationMemory(_translationMemoryName)
-				.AssertTranslationMemoryNotExist(_translationMemoryName)
+				.AssertTranslationMemoryNotExists(_translationMemoryName)
 				.CreateTranslationMemory(_translationMemoryName)
-				.AssertTranslationMemoryExist(_translationMemoryName);
+				.AssertTranslationMemoryExists(_translationMemoryName);
 		}
 
 		[Test]
@@ -36,7 +36,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.TranslationMemories
 		{
 			TranslationMemoriesHelper
 				.CreateTranslationMemory(UniqueTranslationMemoryName)
-				.AssertTranslationMemoryExist(UniqueTranslationMemoryName)
+				.AssertTranslationMemoryExists(UniqueTranslationMemoryName)
 				.OpenTranslationMemoryInformation(UniqueTranslationMemoryName)
 				.DeleteTranslationMemory(UniqueTranslationMemoryName)
 				.GoToProjectsPage()

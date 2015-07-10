@@ -13,7 +13,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.TranslationMemories
 			TranslationMemoriesHelper = WorkspaceHelper.GoToTranslationMemoriesPage();
 		}
 
-		public string UniqueTranslationMemoryName { get; private set; }
+		public string UniqueTranslationMemoryName { get; set; }
 
 		public TranslationMemoriesHelper TranslationMemoriesHelper { get; private set; }
 	}
