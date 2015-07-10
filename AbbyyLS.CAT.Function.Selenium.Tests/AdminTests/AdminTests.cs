@@ -34,44 +34,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		}
 
 		/// <summary>
-		/// Найти пользователя по email
-		/// </summary>
-		/// <param name="email"> email </param>
-		public void FindUser(string email)
-		{
-			AdminPage.ClickSearchUserLink();
-			AdminPage.FillUserNameSearch(email);
-			AdminPage.ClickFindBtn();
-			AdminPage.ClickEmailInSearchResultTable(email);
-		}
-
-		/// <summary>
-		/// Чекнуть Admin чекбокс
-		/// </summary>
-		public void CheckAdminCheckbox()
-		{
-			if (!AdminPage.GetIsAdminCheckboxIsChecked())
-				AdminPage.CheckIsAdminCheckbox();
-		}
-
-		/// <summary>
-		/// Открыть форму создания корпоративного аккаунта
-		/// </summary>
-		public void OpenCreateAccountForm()
-		{
-			// Зайти в корпоративные аккаунты
-			SwitchEnterpriseAccountList();
-
-			// Нажать Создать
-			AdminPage.ClickAddAccount();
-			Logger.Trace("Переход в новое открывшееся окно браузера");
-			Driver.SwitchTo().Window(Driver.WindowHandles[1]);
-			var isWindowWithForm = AdminPage.GetIsAddAccountFormDisplay();
-
-			Assert.IsTrue(isWindowWithForm, "Ошибка: не нашли окно с формой создания аккаунта");
-		}
-
-		/// <summary>
 		/// Перейти на страницу корпоративных аккаунтов
 		/// </summary>
 		protected void SwitchEnterpriseAccountList()

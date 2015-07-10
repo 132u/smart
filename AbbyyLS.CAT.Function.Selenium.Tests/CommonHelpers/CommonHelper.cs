@@ -43,19 +43,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// Таймаут
 		/// </summary>
 		private WebDriverWait _wait;
-		/// <summary>
-		/// Таймаут
-		/// </summary>
-		protected WebDriverWait Wait
-		{
-			get
-			{
-				return _wait;
-			}
-		}
-
-		// TODO очень аккуратно проверить StaleElementReferenceException: ввела рекурсию!
-
+		
 		/// <summary>
 		/// Конструктор
 		/// </summary>
@@ -136,23 +124,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 				Logger.Trace("NoSuchElementException: GetIsElementExist: " + by.ToString());
 				return false;
 			}
-		}
-
-		/// <summary>
-		/// Перейти в iframe
-		/// </summary>
-		protected void SwitchToFrame(By by)
-		{
-			var frame = Driver.FindElement(by);
-			Driver.SwitchTo().Frame(frame);
-		}
-
-		/// <summary>
-		/// Выйти из iframe 
-		/// </summary>
-		protected void SwitchToDefaultContent()
-		{
-			Driver.SwitchTo().DefaultContent();
 		}
 
 		/// <summary>
@@ -690,20 +661,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			Driver.FindElement(By.XPath(file)).SendKeys(documentName);
 			((IJavaScriptExecutor)Driver).ExecuteScript("$(\".js-import-file-form .js-control\").data(\"controller\").filenameLink.text($(\".js-import-file-form .js-control\").data(\"controller\").fileInput.val());");
 			((IJavaScriptExecutor)Driver).ExecuteScript("$(\".js-import-file-form .js-control\").data(\"controller\").trigger(\"valueChanged\");");
-		}
-
-		public static void AssertionFileDownloaded(string pathToFile, int timeout = 10)
-		{
-			var time = 0;
-			
-			while (!File.Exists(pathToFile) && (time < timeout))
-			{
-				time++;
-				Thread.Sleep(1000);
-			}
-
-			Assert.IsTrue(File.Exists(pathToFile),
-				string.Format("Ошибка: файл {0} не был скачен за отведенный таймаут {1} сек.", pathToFile, timeout));
 		}
 
 		public static void ScrollToElement(By by)

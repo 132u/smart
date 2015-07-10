@@ -58,12 +58,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 				"Ошибка: поля языков для заполнения терминов не появились.");
 		}
 
-		public void NewItemClickDomainField()
-		{
-			Logger.Debug("Кликнуть по полю Domain в новом термине");
-			ClickElement(By.XPath(NEW_ITEM_DOMAIN_FIELD_XPATH));
-		}
-
 		public void ClickOpenProperties()
 		{
 			Logger.Debug("Кликнуть кнопку открытия настроек");
@@ -488,33 +482,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			return GetElementAttribute(By.XPath(xPath), "src").Trim().Length > 0;
 		}
 
-		public bool GetIsExistSelect(string fieldName)
-		{
-			Logger.Debug(string.Format("Вернуть, есть ли поле Select. Название поля {0}", fieldName));
-
-			return GetIsElementExist(By.XPath(GetSelectXPath(fieldName)));
-		}
-
-		public void ClickSelectDropdown(string fieldName)
-		{
-			Logger.Debug(string.Format("Кликнуть Select для выпадения списка. Название поля {0}", fieldName));
-			ClickElement(By.XPath(GetSelectXPath(fieldName) + CHOICE_FIELD_DROPDOWN_XPATH));
-		}
-
-		public void AssertionIsSelectListVisible()
-		{
-			Logger.Debug("Проверить, раскрылся ли список выбора домена");
-
-			Assert.IsTrue(GetIsElementDisplay(By.XPath(CHOICE_LIST_XPATH)), "Ошибка: список выбора домена не открылся");
-		}
-
-		public string GetSelectValue(string fieldName)
-		{
-			Logger.Debug(string.Format("Получить значение поля Select. Название поля {0}", fieldName));
-
-			return GetTextElement(By.XPath(GetSelectXPath(fieldName) + FIELD_DIV_VALUE_XPATH));
-		}
-
 		public void ClickTopicDropdown(string fieldName)
 		{
 			Logger.Debug("Кликнуть по полю Topic для выпадения списка");
@@ -748,12 +715,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			ClickElement(By.XPath(DELETE_CONCEPT_BTN_BY_SOURCE_AND_TARGET.Replace("#", source).Replace("**", target)));
 		}
 
-		public string GetHrefForExport()
-		{
-			Logger.Debug("Получить сслку для скачивания файла");
-			return GetElementAttribute(By.XPath(HREF_EXPORT), "href");
-		}
-
 		public void ClickAddSynonym(int langNumber)
 		{
 			Logger.Debug(string.Format("Нажать кнопку Add для языка #{0}", langNumber));
@@ -801,81 +762,9 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 				"Ошибка: должно появиться предупреждение о добавлении существующего термина");
 		}
 
-		public void ClickImportBtn()
-		{
-			Logger.Debug("Нажать кнопку Import");
-			ClickElement(By.XPath(IMPORT_BTN_XPATH));
-		}
-
-		public void WaitImportForm()
-		{
-			Logger.Trace("Проверка появления формы импорта");
-
-			Assert.IsTrue(WaitUntilDisplayElement(By.XPath(IMPORT_FORM_XPATH)),
-				"Ошибка: форма импорта не появилась");
-		}
-
-		public void AssertionImportFormDisappear()
-		{
-			Logger.Trace("Проверить, что форма импорта закрылась");
-
-			Assert.IsTrue(WaitUntilDisappearElement(By.XPath(IMPORT_FORM_XPATH)),
-				"Ошибка: форма импорта не была закрыта");
-		}
-
-		public void ClickReplaceAll()
-		{
-			Logger.Debug("Нажать кнопку ReplaceAll");
-			ClickElement(By.XPath(REPLACE_ALL_XPATH));
-		}
-
-		public void ClickImportFormImportBtn()
-		{
-			Logger.Debug("Кликнуть импорт в форме импорта");
-			ClickElement(By.XPath(IMPORT_FORM_IMPORT_BTN_XPATH));
-		}
-
-		public void ClickCloseSuccessResult()
-		{
-			Logger.Debug("Кликнуть кнопку закрытия сообщения об успешном добавлении");
-			ClickElement(By.XPath(SUCCESS_RESULT_CLOSE_BTN_XPATH));
-		}
-
-		public void WaitUntilCloseSuccessButtonDisplay()
-		{
-			Logger.Trace("Дождаться появления кнопки закрытия сообщения об успешном добавлении.");
-			Assert.IsTrue(WaitUntilDisplayElement(By.XPath(SUCCESS_RESULT_CLOSE_BTN_XPATH)),
-				"Ошибка: кнопка закрытия сообщения об успешном добавлении не появилась");
-		}
-
-		public void AssertionIsExistNewItemExtendedMode()
-		{
-			Logger.Trace("Проверить сущестоввание расширенного режима добавления термина");
-			
-			Assert.IsTrue(GetIsElementDisplay(By.XPath(CONCEPT_EDITING_TD_XPATH)),
-				"Ошибка: не появилось расширенного режима добавления термина");
-		}
-
 		public void UploadFileInGlossary(string fileName)
 		{
 			UploadDocNativeAction(fileName);
-		}
-
-		public void UploadTerm(string DocumentName)
-		{
-			var input = Driver.FindElement(By.XPath(IMPORT_TERMS));
-			((IJavaScriptExecutor)Driver).ExecuteScript("arguments[0].style[\"display\"] = \"block\";" +
-				"arguments[0].style[\"visibility\"] = \"visible\";",
-				input);
-			Driver.FindElement(By.XPath(IMPORT_TERMS)).SendKeys(DocumentName);
-			((IJavaScriptExecutor)Driver).ExecuteScript("document.getElementsByClassName('g-iblock g-bold l-editgloss__filelink js-filename-link')[0].innerHTML = '" + Path.GetFileName(DocumentName) + "'");
-
-		}
-
-		public void ClickExportGlossary()
-		{
-			Logger.Debug("Нажать на кнопку экспорта глоссария");
-			ClickElement(By.XPath(HREF_EXPORT));
 		}
 
 		public void WaitNewItemOpen()
@@ -981,16 +870,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		protected string GetInputXPath(string fieldName)
 		{
 			return INPUT_FIELD_XPATH + "[@name='" + fieldName + "']";
-		}
-
-		/// <summary>
-		/// Вернуть xPath Select
-		/// </summary>
-		/// <param name="fieldName">название поля</param>
-		/// <returns>xPath</returns>
-		protected string GetSelectXPath(string fieldName)
-		{
-			return SELECT_FIELD_XPATH + "[@name='" + fieldName + "']";
 		}
 
 		/// <summary>

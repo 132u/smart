@@ -90,24 +90,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		}
 
 		/// <summary>
-		/// Дождаться загрузки страницы - первый шаг регистрации
-		/// </summary>
-		/// <returns>загрузилась</returns>
-		public bool WaitFirstStepPageLoad()
-		{
-			return WaitUntilDisplayElement(By.XPath(EMAIL_FIELD_IN_SIGN_IN));
-		}
-
-		/// <summary>
-		/// Дождаться загрузки страницы - втрой шаг регистрации
-		/// </summary>
-		/// <returns>загрузилась</returns>
-		public bool WaitSecondStepPageLoad()
-		{
-			return WaitUntilDisplayElement(By.XPath(SECOND_STEP_LABEL));
-		}
-
-		/// <summary>
 		/// Кликнуть по кнопке Sign up - на странице регистрации в форме Sign up
 		/// </summary>
 		public void ClickSignUpButton()
@@ -268,14 +250,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		public bool CheckThatSignUpButtonIsDisable()
 		{
 			return GetElementAttribute(By.XPath(SIGN_UP_BUTTON), "disabled") == "true";
-		}
-
-		/// <summary>
-		/// Проверить активна ли кнопка Create new account - второй шаг регистрации
-		/// </summary>
-		public bool CheckThatCreateAccountBtnIsDisable()
-		{
-			return GetElementAttribute(By.XPath(CREATE_ACCOUNT_BUTTON), "disabled") == "true";
 		}
 
 		/// <summary>

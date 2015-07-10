@@ -41,20 +41,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 				"Ошибка: страница редактора не открылась.");
 		}
 		
-		/// <summary>
-		/// Возвращает задачу
-		/// </summary>
-		/// <returns>Задача</returns>
-		public string GetStageName()
-		{
-			var stage = "";
-
-			if (GetIsElementExist(By.XPath(STAGE_NAME_XPATH)))
-				stage = GetTextElement(By.XPath(STAGE_NAME_XPATH));
-
-			return stage;
-		}
-
 		public bool GetSegmentsExist()
 		{
 			Log.Trace("Получение существования сегментов");
@@ -110,14 +96,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			ClickClearAndAddText(targerCellForInput, text);
 			WaitUntilDisplayElement(By.XPath(GetTargetWithTextXpath(rowNum, text)), 1);
 			Logger.Trace("добавили текст: " + text);
-		}
-
-		public void PressHotKey(int rowNumber, string hotKey)
-		{
-			Driver.FindElement(By.XPath(GetTargetCellXPath(rowNumber))).Click();
-			Actions actions = new Actions(Driver);
-			actions.SendKeys(hotKey);
-			actions.Perform();
 		}
 
 		public void ClickInSegment(int rowNumber)
@@ -403,12 +381,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			ClickElement(By.Id(DICTIONARY_BTN_ID));
 		}
 
-		public void ClickFindErrorBtn()
-		{
-			Log.Trace("Кликнуть поиск ошибки");
-			ClickElement(By.Id(FIND_ERROR_BTN_ID));
-		}
-
 		public void ClickChangeCaseBtn()
 		{
 			Logger.Trace("Кликнуть кнопку изменения регистра");
@@ -463,16 +435,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			var xPath = getSegmentRow(rowNumber) + TAG_TARGET_XPATH;
 
 			return GetIsElementExist(By.XPath(xPath));
-		}
-
-		/// <summary>
-		/// Получить элемент Source
-		/// </summary>
-		/// <param name="rowNumber">номер строки</param>
-		/// <returns>Элемент</returns>
-		public IWebElement GetSource(int rowNumber)
-		{
-			return GetElement(By.XPath(GetSourceCellXPath(rowNumber)));
 		}
 
 		/// <summary>
@@ -613,16 +575,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		}
 
 		/// <summary>
-		/// Проверить, активен ли Target
-		/// </summary>
-		/// <param name="segmentNumber">номер сегмента</param>
-		/// <returns>активен</returns>
-		public bool GetIsCursorInTargetCell(int segmentNumber)
-		{
-			return GetIsElementActive(By.XPath(GetTargetCellXPath(segmentNumber)));
-		}
-
-		/// <summary>
 		/// Получить Css Target
 		/// </summary>
 		/// <param name="rowNumber">номер строки</param>
@@ -687,15 +639,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		}
 
 		/// <summary>
-		/// Возвращает открылась ли форма сообщения
-		/// </summary>
-		/// <returns>Форма открылась</returns>
-		public bool WaitMessageFormDisplay()
-		{
-			return WaitUntilDisplayElement(By.Id(MESSAGEBOX_FORM_ID));
-		}
-
-		/// <summary>
 		/// Возвращает открылся ли поиск
 		/// </summary>
 		/// <returns>Поиск открылся</returns>
@@ -742,24 +685,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		}
 
 		/// <summary>
-		/// Возвращает закрылась ли форма словаря
-		/// </summary>
-		/// <returns>Форма закрылась</returns>
-		public bool WaitDictionaryFormDisappear()
-		{
-			return WaitUntilDisappearElement(By.Id(DICTIONARY_FORM_ID));
-		}
-
-		/// <summary>
-		/// Возвращает открылось ли сообщение об ошибке повторного добавления слова
-		/// </summary>
-		/// <returns>Сообщение открылось</returns>
-		public bool WaitAlreadyExistInDictionaryMessageDisplay()
-		{
-			return WaitUntilDisplayElement(By.XPath(ERROR_MESSAGE_XPATH));
-		}
-
-		/// <summary>
 		/// Возвращает появился ли в таргете новый текст
 		/// </summary>
 		/// <param name="segmentNumber">номер строки таргет</param>
@@ -770,95 +695,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			return WaitUntilDisplayElement(By.XPath(GetTargetWithTextXpath(segmentNumber, text)), 1);
 		}
 
-		/// <summary>
-		/// Кликнуть кнопку добавления слова в словарь
-		/// </summary>
-		public void ClickAddWordDictionaryBtn()
-		{
-			ClickElement(By.XPath(ADD_WORD_BTN_XPATH));
-		}
-
-		/// <summary>
-		/// Кликнуть кнопку закрытия словаря
-		/// </summary>
-		public void ClickCloseDictionaryBtn()
-		{
-			ClickElement(By.XPath(CLOSE_DICTIONARY_BTN_XPATH));
-		}
-
-		/// <summary>
-		/// Кликнуть кнопку удаления слова из словаря
-		/// </summary>
-		/// <param name="word">Слово, которое необходимо удалить</param>
-		public void ClickDeleteWordDictionaryBtn(string word)
-		{
-			// Получение xpath кнопки удаления для заданного слова
-			string xPath = WORDS_TABLE_XPATH + WORD_XPATH +
-				"[text()='" + word + "']/../.." + DELETE_WORD_XPATH;
-
-			ClickElement(By.XPath(xPath));
-		}
-
-		/// <summary>
-		/// Дважды кликнуть по слове из словаря
-		/// </summary>
-		/// <param name="word">Слово</param>
-		public void DoubleClickWordDictionary(string word)
-		{
-			// Получение xpath заданного слова
-			string xPath = WORDS_TABLE_XPATH + WORD_XPATH +
-				"[text()='" + word + "']";
-
-			DoubleClickElement(By.XPath(xPath));
-		}
-
-		/// <summary>
-		/// Возвращает список слов из словаря
-		/// </summary>
-		/// <returns>Список слов из словаря</returns>
-		public List<string> GetWordListDictionary()
-		{
-			const string xPath = WORDS_TABLE_XPATH + WORD_XPATH;
-
-			var wordList = new List<string>();
-
-			if (GetIsElementExist(By.XPath(xPath)))
-				wordList = GetTextListElement(By.XPath(xPath));
-
-			return wordList;
-		}
-
-		/// <summary>
-		/// Добавляет слово в словарь
-		/// </summary>
-		/// <param name="word">Слово</param>
-		public void AddWordDictionary(string word)
-		{
-			SendTextElement(By.XPath(INPUT_WORD_XPATH), word);
-			ClickElement(By.XPath(DICTIONARY_FORM_XPATH));
-		}
-
-		/// <summary>
-		/// Возвращает список подчеркнутых слов
-		/// </summary>
-		/// <param name="rowNumber">Номер строки сегмента</param>
-		/// <returns>Список подчеркнутых слов</returns>
-		public List<string> GetWordListSpellcheck(int rowNumber)
-		{
-			var segmentRow = getSegmentRow(rowNumber);
-
-			ClickElement(By.XPath(segmentRow));
-
-			var xPath = segmentRow + SPELLCHECK_TARGET_XPATH;
-			var wordList = new List<string>();
-
-			if (GetIsElementExist(By.XPath(xPath)))
-			{
-				wordList = GetTextListElement(By.XPath(xPath));
-			}
-
-			return wordList;
-		}
 		public bool WaitUntilAllSegmentsSave()
 		{
 			Logger.Trace("Возвращает, исчезла ли надпись 'Saving...' над окном с сегментами");
@@ -966,19 +802,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			}
 		}
 		
-		/// <summary>
-		/// Очищает поле со словом в словаре
-		/// </summary>
-		public void ClearInputWordDictionary(string word)
-		{
-			ClearElement(By.XPath(INPUT_WORD_XPATH));
-		}
-
-		public void ClickInSourceSegment(int rowNumber)
-		{
-			Driver.FindElement(By.XPath(GetSourceCellXPath(rowNumber))).Click();
-		}
-
 		/// <summary>
 		/// XPATH типа подстановки в колонке match таргета у конкретного сегмента
 		/// </summary>

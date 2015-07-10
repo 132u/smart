@@ -81,26 +81,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		}
 
 		/// <summary>
-		/// Получить автора глоссария
-		/// </summary>
-		/// <param name="glossaryName">название глоссария</param>
-		/// <returns>автор</returns>
-		public string GetGlossaryModificationAuthor(string glossaryName)
-		{
-			return GetTextElement(By.XPath(GLOSSARY_NAME_XPATH + "[text() = '" + glossaryName + "']/../../td[8]/p"));
-		}
-
-		/// <summary>
-		/// Получить дату изменения глоссария
-		/// </summary>
-		/// <param name="glossaryName">название глоссария</param>
-		/// <returns>дата изменения</returns>
-		public string GetGlossaryDateModified(string glossaryName)
-		{
-			return GetTextElement(By.XPath(GLOSSARY_NAME_XPATH + "[text() = '" + glossaryName + "']/../../td[7]"));
-		}
-
-		/// <summary>
 		/// Получить xPath глоссария
 		/// </summary>
 		/// <param name="glossaryName">название глоссария</param>

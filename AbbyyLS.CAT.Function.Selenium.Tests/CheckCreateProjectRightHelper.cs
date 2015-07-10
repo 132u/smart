@@ -126,15 +126,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.CheckRights
 		}
 
 		/// <summary>
-		/// Метод принимает на вход путь до файла и возвращает имя файла.
-		/// </summary>
-		/// <param name="docName">путь до документа</param>
-		public string GetFileName(string filePath)
-		{
-			return Path.GetFileName(filePath);
-		}
-
-		/// <summary>
 		/// Метод (в зависимости от параметра выбирает удалить все файлы или проект целиком).
 		/// </summary>
 		/// <param name="mode">что удалять: все файлы или проект целиком</param>

@@ -128,14 +128,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		}
 
 		/// <summary>
-		/// Открыть Suggested Terms страницу на стр словаря
-		/// </summary>
-		public void OpenSuggestedTermsForGlossary()
-		{
-			ClickElement(By.XPath(SUGGESTED_TERMS_LINK));
-		}
-
-		/// <summary>
 		/// Кликнуть Apply кнопку в Filter форме
 		/// </summary>
 		public void ClickApplyBtnInFilterForm()

@@ -22,15 +22,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		}
 
 		/// <summary>
-		/// Дождаться загрузки страницы
-		/// </summary>
-		/// <returns>загрузилась</returns>
-		public bool WaitPageLoad()
-		{
-			return WaitUntilDisplayElement(By.XPath(LOGIN_FORM_XPATH));
-		}
-
-		/// <summary>
 		/// Ввести логин
 		/// </summary>
 		/// <param name="login">логин</param>
@@ -66,16 +57,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		{
 			Logger.Trace("Клик по пункту 'Корпоративные' в меню слева");
 			ClickElement(By.XPath(ENTERPRISE_ACCOUNTS_REF_XPATH));
-		}
-
-		/// <summary>
-		/// Дождаться появления сообщения об успехе
-		/// </summary>
-		/// <returns>появилось сообщение</returns>
-		public bool WaitSuccessAnswer()
-		{
-			Logger.Trace("Ожидание сообщения 'Изменения сохранены'");
-			return WaitUntilDisplayElement(By.XPath(SUCCESS_MESSAGE_XPATH));
 		}
 
 		/// <summary>
@@ -137,53 +118,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		}
 
 		/// <summary>
-		/// Вернуть, есть ли Словарь в таблице функций слева
-		/// </summary>
-		/// <returns>есть</returns>
-		public bool GetAvailableAddDictionaryFeature()
-		{
-			Logger.Trace("Проверка есть ли Словарь в таблице функций");
-			return GetIsElementExist(By.XPath(DICTIONARY_OPTION_XPATH));
-		}
-
-		/// <summary>
-		/// Кликнуть по словарям в функциях
-		/// </summary>
-		public void ClickDictioaryInFeatures()
-		{
-			Logger.Trace("Клик по 'Lingvo Dictionaries' в таблице функций");
-			ClickElement(By.XPath(DICTIONARY_OPTION_XPATH));
-		}
-
-		/// <summary>
-		/// Кликнуть по To right в таблице Функции
-		/// </summary>
-		public void ClickToRightFeatureTable()
-		{
-			Logger.Trace("Клик по стрелке вправо в таблице функций");
-			ClickElement(By.XPath(TABLE_FEATURES_XPATH + TO_RIGHT_BTN_XPATH));
-		}
-
-		/// <summary>
-		/// Добавить все словари
-		/// </summary>
-		public void AddAllDictionaries()
-		{
-			Logger.Trace("Клик по стрелке 'Добавить все словари' в таблице 'Пакеты словарей'");
-			ClickElement(By.XPath(TABLE_DICTIONARIES_XPATH + ALL_TO_RIGHT_BTN_XPATH));
-		}
-
-		/// <summary>
-		/// Добавить Dealine дату для словарей
-		/// </summary>
-		/// <param name="date">дата</param>
-		public void FillDictionaryDeadlineDate(DateTime date)
-		{
-			Logger.Trace("Установка Deadline даты " + date);
-			ClearAndAddText(By.Id(DICTIONARY_DEADLINE_DATE_ID), GetDateString(date));
-		}
-
-		/// <summary>
 		/// Ввести имя аккаунта
 		/// </summary>
 		/// <param name="name">имя</param>
@@ -230,37 +164,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		{
 			Logger.Trace("Проверяем, появилось ли сообщение о том, что аккаунт уже существует");
 			return GetIsElementDisplay(By.XPath(ACCOUNT_EXISTS_FROM_XPATH));
-		}
-
-		/// <summary>
-		/// Кликнуть Edit около аккаунта
-		/// </summary>
-		/// <param name="account"></param>
-		public void ClickEditAccount(string account)
-		{
-			Logger.Trace("Клик по кнопке'Edit' около аккаунта " + account);
-			ClickElement(By.XPath(GetAccountEditBtnXPath(account)));
-		}
-
-		/// <summary>
-		/// Вернуть xPath кнопки Edit около акканта
-		/// </summary>
-		/// <param name="accountName">название аккаунта</param>
-		/// <returns>XPath</returns>
-		protected string GetAccountEditBtnXPath(string accountName)
-		{
-			Logger.Trace("Вернуть XPath кнопки Edit около акканта " + accountName);
-			return "//td[text()='" + accountName + "']/../td[1]" + ADD_ACCOUNT_REF_XPATH;
-		}
-
-		/// <summary>
-		/// Получить строку с датой нужном формате
-		/// </summary>
-		/// <param name="date">дата</param>
-		/// <returns>строка с датой в нужном формате</returns>
-		protected string GetDateString(DateTime date)
-		{
-			return date.Day + "." + date.Month + "." + date.Year;
 		}
 
 		/// <summary>
@@ -506,23 +409,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			SendTextElement(By.XPath(DICTIONARIES_EXP_DATE), nextWeek);
 		}
 
-		public void ClickCalendar()
-		{
-			Logger.Trace("Клик, чтоб раскрыть календарь");
-			ClickElement(By.XPath(DICTIONARIES_EXP_DATE));
-		}
-
-		public void SelectYear(string year)
-		{
-			Logger.Trace("Выбрали год " + year);
-			ClickElement(By.XPath(SELCTED_YEAR + year + "']"));
-		}
-
-		public void SelectDay(string day)
-		{
-			Logger.Trace("Выбрали день " + day);
-			ClickElement(By.XPath(SELCTED_DAY + "text()='" + day + "']"));
-		}
 		/// <summary>
 		/// Закрываем окно создания корп. аккаунта,если аккаунт с таким именем уже существует.
 		/// </summary>
@@ -541,101 +427,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		{
 			Logger.Trace("Проверка, появилось ли сообщение 'Изменения не сохранены. Этот пользователь уже есть в этом аккаунте.'");
 			return GetIsElementDisplay(By.XPath(THIS_USER_IS_INSIDE_ACCOUNT_XPATH));
-		}
-
-		/// <summary>
-		/// Зайти на страницу просмотра пакетов словарей 
-		/// </summary>
-		public void GotoDictionaryPackPage()
-		{
-			Logger.Trace("Клик по 'Просмотреть пакеты словарей' в меню");
-			ClickElement(By.XPath(DICTIONARY_PAGE_PACK_LINK));
-		}
-
-		/// <summary>
-		/// Проверить, существует ли требуемый пакет словарей в списке
-		/// </summary>
-		public bool IsRequiredDictionaryPackExist(string packName)
-		{
-			if (!GetIsElementExist(By.XPath(DICTIONARIES_TABLE_XPATH)))
-			{
-				return false;
-			}
-
-			return GetElementList(By.XPath(PATH_TO_LIST_OF_DICTIONARIES_NAMES))
-				.Select(item => item.Text)
-				.Any(item => item == packName);
-		}
-
-		/// <summary>
-		/// Перейти на стриницу со списком словарей
-		/// </summary>
-		public void SelectDictionaryPack(string packName)
-		{
-			Logger.Trace("Проверка, что появился список пакетов словарей");
-			var requiredDictionaryName =
-				GetElementList(By.XPath(PATH_TO_LIST_OF_DICTIONARIES_NAMES))
-				.First(item => item.Text == packName);
-			Logger.Trace("Клик по пакету " + packName);
-			requiredDictionaryName.Click();
-		}
-
-		/// <summary>
-		/// Вернуть список словарей
-		/// </summary>
-		public List<string> GetListOfDictionaries()
-		{
-			Logger.Trace("Получить список словарей в пакете");
-			return GetTextListElement(By.XPath(PATH_TO_LIST_OF_DICTIONARIES));
-		}
-
-		/// <summary>
-		/// Перейти на страницу создания пакета словарей
-		/// </summary>
-		public void GoToDictionaryPackCreationPage()
-		{
-			Logger.Trace("Клик по 'Создать новый пакет' в меню");
-			ClickElement(By.XPath(CREATE_DICTIONARY_PACK_MENU));
-		}
-
-		/// <summary>
-		/// Ввети имя пакета словарей
-		/// </summary>
-		public void AddDictionaryPackName(string dictionaryPackName)
-		{
-			Logger.Trace("Ввод названия " + dictionaryPackName + " словаря");
-			ClickClearAndAddText(By.XPath(DICTIONARY_PACK_NAME), dictionaryPackName);
-		}
-
-		/// <summary>
-		/// Поставить галочку в чекбоксе 'Общедоступный пакет'
-		/// </summary>
-		public void MakePublicDictionatyPack()
-		{
-			Logger.Trace("Поставить галочку в чекбоксе 'Общедоступный пакет'");
-			ClickElement(By.XPath(PUBLIC_DICTIONARY_CHECKBOX));
-		}
-
-		/// <summary>
-		/// Выбрать словари для пакета
-		/// </summary>
-		public void AddDictionariesToPack(List<string> dictionariesList)
-		{
-			dictionariesList.ForEach(item =>
-			{
-				Logger.Trace("Добавляем словарь " + item + " в пакет");
-				ClickElement(By.XPath("//select[@id='left']//option[text()='" + item + "']"));
-				ClickElement(By.XPath(ADD_DICTIONARY_TO_PACK));
-			});
-		}
-
-		/// <summary>
-		/// Сохранить пакет словарей
-		/// </summary>
-		public void CreateDictionaryPack()
-		{
-			Logger.Trace("Клик по кнопке 'Создать пакет'");
-			ClickElement(By.XPath(CREATE_DICTIONARY_PACK_BUTTON));
 		}
 
 		protected const string LOGIN_FORM_XPATH = "//form[contains(@action,'/Home/Login')]";

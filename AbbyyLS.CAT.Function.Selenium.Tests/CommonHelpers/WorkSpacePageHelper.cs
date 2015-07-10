@@ -121,22 +121,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			}
 		}
 
-		public bool OpenDocumentInfo(int documentNumber)
-		{
-			Logger.Trace(string.Format("Открытие свертки документа {0}", documentNumber));
-
-			// Кликнуть на открытие информации о документе
-			var documentXPath = DOCUMENT_INFO_TR_XPATH + "[" + documentNumber + "]" + FOLDER_SIGN;
-			var isExistDocument = GetIsElementExist(By.XPath(documentXPath));
-
-			if (isExistDocument)
-			{
-				ClickElement(By.XPath(documentXPath));
-			}
-
-			return isExistDocument;
-		}
-
 		public void WaitProjectAppearInList(string projectName)
 		{
 			Logger.Trace(string.Format("Ожидаем появление проекта {0} в списке", projectName));
@@ -175,71 +159,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		}
 
 		/// <summary>
-		/// Кликнуть по сообщению об экспорте
-		/// </summary>
-		/// <param name="notifierNumberFromTop">номер сообщения об экспорте сверху (сверху самое старой позади остальных новых)</param>
-		public void ClickNotifier(int notifierNumberFromTop)
-		{
-			((IJavaScriptExecutor)Driver).ExecuteScript("arguments[0].click()", Driver.FindElement(By.XPath(GetNotifierXPath(notifierNumberFromTop))));
-		}
-
-		/// <summary>
-		/// Дождаться появления сообщения об экспорте под номером N
-		/// </summary>
-		/// <param name="notifierNumber">номер сообщения об экспорте</param>
-		/// <returns>появилось</returns>
-		public bool WaitNotifierAppear(int notifierNumber)
-		{
-			return WaitUntilDisplayElement(By.XPath(GetNotifierXPath(notifierNumber)));
-		}
-
-		/// <summary>
-		/// Кликнуть Экспорт в свертке документа
-		/// </summary>
-		public void ClickExportBtnDocumentInfo()
-		{
-			ClickElement(By.XPath(EXPORT_DOCUMENT_INFO_BTN_XPATH));
-		}
-
-		/// <summary>
-		/// Кликнуть Экспорт в свертке проекта
-		/// </summary>
-		public void ClickExportBtnProjectInfo(string projectName)
-		{
-			ClickElement(By.XPath(GetProjectRefXPath(projectName) + "/ancestor::tr/following-sibling::tr[1]//li"));
-		}
-
-		/// <summary>
-		/// Кликнуть красный Export
-		/// </summary>
-		/// <returns>кнопка не заблокирована</returns>
-		public bool ClickExportRedBtn()
-		{
-			Logger.Trace("Проверка, активна ли красная кнопка экспорта");
-			var isEnabled = !GetElementClass(By.XPath(EXPORT_BTN_XPATH)).Contains(DISABLED_BTN_CLASS);
-
-			if (isEnabled)
-			{
-				Logger.Trace("Красная кнопка экспорта активна");
-				Logger.Trace("Клик по красной кнопке экспорт, XPath = " + EXPORT_BTN_XPATH);
-				ScrollToElement(By.XPath(EXPORT_BTN_XPATH));
-				ClickElement(By.XPath(EXPORT_BTN_XPATH));
-			}
-
-			return isEnabled;
-		}
-
-		/// <summary>
-		/// Выбрать тип экспорта
-		/// </summary>
-		/// <param name="type">тип</param>
-		public void SelectExportType(EXPORT_TYPE type)
-		{
-			Logger.Trace("Выбрали тип экспорта " + type);
-			ClickElement(By.XPath(GetExportTypeRefXPath(type)));
-		}
-
-		/// <summary>
 		/// Кликнуть Cancel в сообщении об экспорте
 		/// </summary>
 		public void ClickCancelNotifier()
@@ -257,76 +176,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			WaitUntilDisplayElement(By.XPath(NOTIFIER_DOWNLOAD_BTN_XPATH));
 			ClickElement(By.XPath(NOTIFIER_DOWNLOAD_BTN_XPATH));
 			Logger.Trace("Время клика по кнопке Download = " + DateTime.Now.ToString("MM.dd.yyyy HH:mm:ss"));
-		}
-
-		/// <summary>
-		/// Кликнуть Restart в сообщении об экспорте
-		/// </summary>
-		public void ClickRestartNotifier()
-		{
-			Logger.Trace("Клик по кнопке 'Restart'");
-			ClickElement(By.XPath(NOTIFIER_RESTART_BTN_XPATH));
-		}
-
-		/// <summary>
-		/// Дождаться, пока пропадет сообщение о подготовке к экспорту
-		/// </summary>
-		/// <returns></returns>
-		public bool WaitUntilDisappearPrepareNotifier()
-		{
-			Logger.Trace("Ожидание, когда пропадет сообщение 'Prepare...'");
-			return WaitUntilDisappearElement(By.XPath(NOTIFIER_PREPARE_XPATH), 40);
-		}
-
-		/// <summary>
-		/// Получить, видно ли сообщение о подготовке к экспорту
-		/// </summary>
-		/// <returns>видно</returns>
-		public bool GetIsPrepareNotifierDisplayed()
-		{
-			Logger.Trace("Получить, видно ли сообщение о подготовке к экспорту");
-			return GetIsElementDisplay(By.XPath(NOTIFIER_PREPARE_XPATH));
-		}
-
-		/// <summary>
-		/// Получить, видна ли кнопка Загрузить в сообщении об экспорте
-		/// </summary>
-		/// <param name="numberNotification"> номер сообщения о экспорте </param>
-		/// <returns>видна</returns>
-		public bool GetIsDownloadBtnNotifierDisplayed(int numberNotification = 1)
-		{
-			Logger.Trace("Проверка появилась ли кнопка 'Download' в сообщении о экспорте");
-			return GetIsElementDisplay(By.XPath(NOTIFIER_XPATH
-				+ ONE_NOTIFIER_POP_UP + "[" + numberNotification + "]" + DOWNLOAD_BTN_IN_POP_UP));
-		}
-
-		/// <summary>
-		/// Получить, видна ли кнопка Restart в сообщении об экспорте
-		/// </summary>
-		/// <returns>видна</returns>
-		public bool GetIsRestartBtnNotifierDisplayed()
-		{
-			Logger.Trace("Проверка, есть ли кнопка 'Restart' в сообщение о экспорте");
-			return GetIsElementDisplay(By.XPath(NOTIFIER_RESTART_BTN_XPATH));
-		}
-
-		/// <summary>
-		/// Вернуть, видно ли сообщение об экспорте
-		/// </summary>
-		/// <returns>видно</returns>
-		public bool WaitUntilNotifierDisplay()
-		{
-			Logger.Trace("Проверка, появилось ли сообщение о экспорте");
-			return WaitUntilDisplayElement(By.XPath(NOTIFIER_ITEM_XPATH));
-		}
-
-		/// <summary>
-		/// Дождаться, пока пропадет сообщение об экспорте
-		/// </summary>
-		/// <returns>пропало</returns>
-		public bool WaitUntilDisappearNotifier()
-		{
-			return WaitUntilDisappearElement(By.XPath(NOTIFIER_ITEM_XPATH));
 		}
 
 		/// <summary>
@@ -355,82 +204,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 				Logger.Trace("Проверка, есть ли еще сообщения экспорта");
 				isExist = GetIsElementDisplay(By.XPath(NOTIFIER_CANCEL_BTN_XPATH));
 			}
-		}
-
-		/// <summary>
-		/// Получить количество сообщений об экспорте
-		/// </summary>
-		/// <returns>количество</returns>
-		public int GetNotifierNumber()
-		{
-			return GetElementsCount(By.XPath(NOTIFIER_ITEM_XPATH));
-		}
-
-		/// <summary>
-		/// Кликнуть кнопку настроек документа
-		/// </summary>
-		public void ClickDocumentSettingsBtn()
-		{
-			ClickElement(By.XPath(DOCUMENT_SETTINGS_BTN_XPATH));
-		}
-
-		/// <summary>
-		/// Дождаться открытия диалога настройки документа
-		/// </summary>
-		/// <returns>открылся</returns>
-		public bool WaitDocumentSettingsDialogAppear()
-		{
-			return WaitUntilDisplayElement(By.XPath(DOCUMENT_SETTINGS_DIALOG_XPATH));
-		}
-
-		/// <summary>
-		/// Дождаться закрытия диалога настроек документа
-		/// </summary>
-		/// <returns></returns>
-		public bool WaitUntilDocumentSettingsDialogDisappear()
-		{
-			return WaitUntilDisappearElement(By.XPath(DOCUMENT_SETTINGS_DIALOG_XPATH));
-		}
-
-		/// <summary>
-		/// Ввести название документа (в диалоге изменения документа)
-		/// </summary>
-		/// <param name="name">название</param>
-		public void DocumentSettingsAddName(string name)
-		{
-			ClickClearAndAddText(By.XPath(DOCUMENT_SETTINGS_NAME_XPATH), name);
-		}
-
-		/// <summary>
-		/// Кликнуть Сохранить
-		/// </summary>
-		public void DocumentSettingsClickSave()
-		{
-			ClickElement(By.XPath(DOCUMENT_SETTINGS_SAVE_BTN_XPATH));
-		}
-
-		/// <summary>
-		/// Распарсить дату из сообщения об экспорте
-		/// </summary>
-		/// <returns>дата (в DateTime)</returns>
-		public DateTime GetDateFromNotifier()
-		{
-			var notifierText = GetNotifierText();
-			// Распарсим дату в сообщении об экспорте
-			var startIndex = notifierText.IndexOf("/") - 2;
-			var month = notifierText.Substring(startIndex, 2);
-			startIndex += 3; // "mm/" = 3
-			var day = notifierText.Substring(startIndex, 2);
-			startIndex += 3; // "dd/" = 3
-			var year = notifierText.Substring(startIndex, 4);
-			startIndex += 5; // "yyyy " = 5;
-			var hour = notifierText.Substring(startIndex, 2);
-			startIndex += 3; // "hh:" = 3
-			var min = notifierText.Substring(startIndex, 2);
-			Logger.Trace("Распарсили дату из сообщения о экспорте = " + month + "/" + day + "/" + year + " " + hour + ":" + min);
-
-			// Получили дату
-			return new DateTime(int.Parse(year), int.Parse(month), int.Parse(day), int.Parse(hour), int.Parse(min), 0);
 		}
 
 		/// <summary>
@@ -481,31 +254,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		}
 
 		/// <summary>
-		/// Дождаться открытия диалога выбора режима удаления проекта
-		/// </summary>
-		/// <returns></returns>
-		public bool WaitDeleteModeDialog()
-		{
-			return WaitUntilDisplayElement(By.XPath(DELETE_MODE_DIALOG_XPATH));
-		}
-
-		/// <summary>
-		/// Кликнуть удалить проект
-		/// </summary>
-		/// <returns>кнопка Удалить проекта есть</returns>
-		public bool ClickDeleteProjectDeleteMode()
-		{
-			var isBtnExist = GetIsElementExist(By.XPath(DELETE_MODE_DIALOG_DELETE_PROJECT_XPATH));
-			
-			if (isBtnExist)
-			{
-				ClickElement(By.XPath(DELETE_MODE_DIALOG_DELETE_PROJECT_XPATH));
-				WaitUntilDisappearElement(By.XPath(DELETE_MODE_DIALOG_XPATH));
-			}
-			return isBtnExist;
-		}
-
-		/// <summary>
 		/// Получить xPath ссылки на проект
 		/// </summary>
 		/// <param name="projectName">название проекта</param>
@@ -519,27 +267,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		public string GetClassAttrProjectInfo(string projectName)
 		{
 			return GetElementAttribute(By.XPath(GetProjectRefXPath(projectName) + "/ancestor-or-self::tr"), "class");
-		}
-
-		/// <summary>
-		/// Получить xPath конкретного сообщения об экспорте
-		/// </summary>
-		/// <param name="notifierNumberFromTop">номер сообщения сверху</param>
-		/// <returns>xPath</returns>
-		protected string GetNotifierXPath(int notifierNumberFromTop)
-		{
-			return NOTIFIER_ITEM_XPATH + "[contains(@style, 'top: " + (notifierNumberFromTop - 1) * 10 + "px')]";////preceding-sibling::div[" + notifierNumberFromTop + "]";
-		}
-
-
-		/// <summary>
-		/// Вернуть xPath строки с типом экспорта
-		/// </summary>
-		/// <param name="type">тип</param>
-		/// <returns>xPath</returns>
-		protected string GetExportTypeRefXPath(EXPORT_TYPE type)
-		{
-			return EXPORT_TYPE_REF_BEGINING + exportTypeDict[type] + "')]//a";
 		}
 
 		public void WaitProjectLoad(string projectName)
@@ -558,22 +285,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 					throw new NotFoundException(errorMessage);
 				}
 			}
-		}
-
-		public void ClickDocumentProgress()
-		{
-			Logger.Trace("Нажать на прогресс в поле документа");
-			ClickElement(By.XPath(DOCUMENT_INFO_TR_XPATH + DOCUMENT_PROGRESS_XPATH));
-		}
-
-		/// <summary>
-		/// Получить xPath ссылки на документ
-		/// </summary>
-		/// <param name="projectName">название проекта</param>
-		/// <returns>xPath</returns>
-		protected string GetDocumentRefXPath(string projectName, int documentNumber=1)
-		{
-			return GetProjectRefXPath(projectName) + "/ancestor::tr/following-sibling::tr[" + (documentNumber * 2) +"]//a";
 		}
 
 		/// <summary>
@@ -614,12 +325,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			Logger.Trace("Нажать на кнопку прав пользователя в свертке документа");
 			ClickElement(By.XPath(GetProjectRefXPath(projectName) + "/ancestor::tr/following-sibling::tr[" + (documentNumber * 2) + "]/following-sibling::tr[1][@class='js-document-panel l-project__doc-panel']" + DOCUMENT_ASSIGN_RESPONSIBLES_BTN_XPATH));
 
-		}
-
-		public void ClickDocumentUploadBtn()
-		{
-			Logger.Trace("Нажать на кнопку добавления документа в свертке проекта");
-			ClickElement(By.XPath(UPLOAD_DOCUMENT_BTN_XPATH));
 		}
 
 		public void ClickUsersAndRightsBtn()
@@ -668,28 +373,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		}
 
 		/// <summary>
-		/// Дождаться раскрытия меню аккаунта
-		/// </summary>
-		public void WaitAccountMenuOpen()
-		{
-			Logger.Trace("Дождаться раскрытия меню аккаунта");
-
-			Assert.IsTrue(ElementIsDisplayed(By.XPath(LOGOFF_XPATH)),
-				"Ошибка: меню аккаунта на раскрылось.");
-		}
-
-		/// <summary>
-		/// Дождаться полной загруи страницы
-		/// </summary>
-		public void WaitWorkspacePageTotalLoad()
-		{
-			Logger.Trace("Дождаться полной загрузки страницы workspace.");
-
-			Assert.IsTrue(WaitPageTotalLoad(),
-				"Ошибка: не дождались полной загрузки страницы workspace");
-		}
-
-		/// <summary>
 		/// Выбрать пункт для перехода к управлению лицензиями в меню профиля
 		/// </summary>
 		public void ClickLicensesAndServices()
@@ -721,15 +404,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		}
 
 		/// <summary>
-		/// Загрузка документа в настройках проекта (на стр WS)
-		/// </summary>
-		/// <param name="fileName"></param>
-		public void UploadFileInProjectSettings(string fileName)
-		{
-			UploadDocument(fileName, ADD_FILE_TO_PROJECT);
-		}
-
-		/// <summary>
 		/// Раскрыть пункт Resources в главном меню слева
 		/// </summary>
 		public void ClickOpenResourcesInMenu()
@@ -747,12 +421,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		public void ClickLanguagSwitcher()
 		{
 			Driver.FindElement(By.XPath(LANGUAGE_SWITCHER)).Click();
-		}
-
-		public bool GetWarningIsDisplayForProject(string projectName)
-		{
-			Logger.Trace("Проверка, отображается ли треуголник с восклицательным знаком рядом с названием проекта");
-			return GetIsElementDisplay(By.XPath(GetProjectRefXPath(projectName) + "//preceding-sibling::" + WARNING_SIGN_TRIANGLE));
 		}
 
 		public void CloseTour()

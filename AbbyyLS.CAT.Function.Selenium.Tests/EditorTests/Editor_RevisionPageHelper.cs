@@ -52,39 +52,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		}
 
 		/// <summary>
-		/// Дождаться появления ревизии
-		/// </summary>
-		/// <param name="revisionNumber">номер ревизии, которую ожидаем</param>
-		/// <returns>появилась</returns>
-		public bool WaitRevisionAppear(int revisionNumber)
-		{
-			Logger.Trace("Ождиание появления ревизии №" + revisionNumber);
-			return WaitUntilDisplayElement(By.XPath(REVISION_LIST_XPATH + "[" + revisionNumber + "]"));
-		}
-
-		/// <summary>
-		/// Получить время ревизии
-		/// </summary>
-		/// <param name="revisionNumber">номер ревизии</param>
-		/// <returns>время (текст в столбце Время)</returns>
-		public string GetRevisionTime(int revisionNumber)
-		{
-			Logger.Trace(" Получить время ревизии №" + revisionNumber);
-			return GetTextElement(By.XPath(GetRevisionCellXPath(revisionNumber, TIME_COLUMN_XPATH)));
-		}
-
-		/// <summary>
-		/// Получить текст ревизии
-		/// </summary>
-		/// <param name="revisionNumber">номер ревизии</param>
-		/// <returns>текст</returns>
-		public string GetRevisionText(int revisionNumber)
-		{
-			Logger.Trace("Получить текст ревизии №" + revisionNumber);
-			return GetTextElement(By.XPath(GetRevisionCellXPath(revisionNumber, TEXT_COLUMN_XPATH)));
-		}
-		
-		/// <summary>
 		/// Кликнуть по кнопке Rollback
 		/// </summary>
 		public void ClickRollbackBtn()
@@ -153,15 +120,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		{
 			Logger.Trace("Получить количество ревизий");
 			return GetElementsCount(By.XPath(REVISION_LIST_XPATH));
-		}
-
-		/// <summary>
-		/// Кликнуть Time для сортировки
-		/// </summary>
-		public void ClickTimeToSort()
-		{
-			Logger.Trace("Кликнуть Time для сортировки");
-			ClickElement(By.XPath(TIME_COLUMN_BTN_XPATH));
 		}
 
 		/// <summary>

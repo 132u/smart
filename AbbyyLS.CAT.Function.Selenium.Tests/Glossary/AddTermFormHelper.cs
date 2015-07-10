@@ -37,26 +37,12 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			ClickElement(By.XPath(CONTAINS_TERM_YES_BTN_XPATH));
 		}
 
-		public void ClickContainsTermNo()
-		{
-			Logger.Debug("Нажать кнопку отмены добавления уже существующего термина");
-			ClickElement(By.XPath(CONTAINS_TERM_NO_BTN_XPATH));
-		}
-
 		public void AssertionIsTextExistInSourceTerm(string text)
 		{
 			Logger.Trace(string.Format("Проверить, что сработало автозаполнение текста {0} в SourceTerm", text));
 
 			Assert.IsTrue(GetIsElementExist(By.XPath(SOURCE_TERM_VALUE_XPATH.Replace("#", text))),
 				"Ошибка: Нет автозаполнения сорса.");
-		}
-
-		public void AssertionIsTextExistInTargetTerm(string text)
-		{
-			Logger.Trace(string.Format("Проверить, что сработало автозаполнение текста {0} в TargetTerm", text));
-
-			Assert.IsTrue(GetIsElementExist(By.XPath(TARGET_TERM_VALUE_XPATH.Replace("#", text))), 
-				"Ошибка: Нет автозаполнения таргета.");
 		}
 
 		public void TypeTargetTermText(string targetText)

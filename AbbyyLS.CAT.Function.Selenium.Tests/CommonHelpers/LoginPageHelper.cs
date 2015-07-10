@@ -32,17 +32,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		}
 
 		/// <summary>
-		/// Дождаться загрузки страницы ОР авторизации по email
-		/// </summary>
-		/// <returns>загрузилась</returns>
-		public bool WaitPageEmailAuthLoad(int maxwait = 15)
-		{
-			var isDisplay = WaitUntilDisplayElement(By.XPath(EMAIL_AUTH_XPATH), maxwait);
-
-			return isDisplay;
-		}
-
-		/// <summary>
 		/// Дождаться загрузки страницы http://www.smartcat.pro/?backUrl=%2fworkspace
 		/// </summary>
 		/// <returns>загрузилась</returns>
@@ -141,14 +130,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			Logger.Trace("Ожидаем появления заголовка SIGN IN на странице выбора аккаунта");
 			return WaitUntilDisplayElement(By.XPath(SIGN_IN_HEADER));
 		}
-
-		/// <summary>
-		/// Кликнуть кнопку Login на странице выбора аккаунта
-		/// </summary>
-		public void ClickSubmitAccount()
-		{
-			ClickElement(By.XPath(SUBMIT_BTN_CSS2));
-		} 
 
 		/// <summary>
 		/// Вернуть, появилась ли ошибка
@@ -254,11 +235,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		public bool GetPasswordFieldIsDisplay()
 		{
 			return WaitUntilDisplayElement(By.XPath(PASSWORD_AUTH_XPATH));
-		}
-
-		public bool GetErrorNoEmailDisplay()
-		{
-			return GetIsElementDisplay(By.XPath(ERROR_NO_EMAIL));
 		}
 
 		public bool GetErrorNoFoundEmailDisplay()

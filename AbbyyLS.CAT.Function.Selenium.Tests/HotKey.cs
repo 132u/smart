@@ -61,22 +61,10 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			SendKeys.SendWait("{TAB}");
 		}
 
-		public static void CtrlHome()
-		{
-			Logger.Trace("Hotkey клик 'Ctrl Home'");
-			SendKeys.SendWait("^{HOME}");
-		}
-
 		public static void CtrlShiftLeft()
 		{
 			Logger.Trace("Hotkey клик 'Ctrl Shift Left'");
 			SendKeys.SendWait("^+{LEFT}");
-		}
-
-		public static void CtrlShiftRight()
-		{
-			Logger.Trace("Hotkey клик 'Ctrl Shift Right'");
-			SendKeys.SendWait("^+{RIGHT}");
 		}
 
 		public static void ShiftRight(int count = 1)

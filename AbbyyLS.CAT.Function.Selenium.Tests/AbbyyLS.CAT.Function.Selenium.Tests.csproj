@@ -22,6 +22,7 @@
     <WarningLevel>4</WarningLevel>
     <DocumentationFile>
     </DocumentationFile>
+    <RunCodeAnalysis>false</RunCodeAnalysis>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -73,7 +74,6 @@
     <Compile Include="CheckCreateProjectRightHelper.cs" />
     <Compile Include="ClientTests\ClientPageHelper.cs" />
     <Compile Include="Common\CompanyType.cs" />
-    <Compile Include="Common\RegistrationField.cs" />
     <Compile Include="Common\RegistrationType.cs" />
     <Compile Include="Common\UserInfo.cs" />
     <Compile Include="CommonHelpers\CommonHelper.cs" />
@@ -150,7 +150,6 @@
     <Compile Include="UserLogTest.cs" />
     <Compile Include="PersonalAccount\WorkflowTestPersAcc.cs" />
     <Compile Include="WorkflowTest.cs" />
-    <Compile Include="TrustAllCertificatePolicy.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config">

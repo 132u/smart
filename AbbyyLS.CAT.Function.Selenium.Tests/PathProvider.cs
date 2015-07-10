@@ -48,22 +48,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		}
 
 		/// <summary>
-		/// Полный путь ко второму документу без тегов
-		/// </summary>
-		public static string DocumentFileToConfirm2
-		{
-			get { return Path.Combine(FilesForConfirmFolder, "testToConfirm2.txt"); }
-		}
-
-		/// <summary>
-		/// Путь к папке тестовых файлов для проверки фото при регистрации
-		/// </summary>
-		public static string PhotoLoadFolder
-		{
-			get { return Path.GetFullPath(CfgRoot.FilesDirectory + "/FilesForLoadPhotoInRegistration/"); }
-		}
-
-		/// <summary>
 		/// Путь к папке тестовых файлов на match'и
 		/// </summary>
 		public static string FilesForMatchTestFolder
@@ -128,27 +112,11 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		}
 
 		/// <summary>
-		/// Путь к первому тестовому tmx файлу
-		/// </summary>
-		public static string TMTestFile1
-		{
-			get { return Path.Combine(TMTestFolder, "TMFile1.tmx"); }
-		}
-
-		/// <summary>
 		/// Путь ко второму тестовому tmx файлу
 		/// </summary>
 		public static string TMTestFile2 
 		{
 			get { return Path.Combine(TMTestFolder, "TMFile2.tmx"); }
-		}
-
-		/// <summary>
-		/// Путь к третьему тестовому tmx файлу
-		/// </summary>
-		public static string TMTestFile3 
-		{
-			get { return Path.Combine(TMTestFolder, "TMFile1.tmx"); }
 		}
 
 		/// <summary>
@@ -168,14 +136,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		}
 
 		/// <summary>
-		/// Путь к поврежденному doc-файлу
-		/// </summary>
-		public static string DocumentFileWrong
-		{
-			get { return Path.GetFullPath(CfgRoot.FilesDirectory + "/doc98.doc"); }
-		}
-
-		/// <summary>
 		/// Полный путь к документу для загрузки
 		/// </summary>
 		public static string DocumentFile 
@@ -192,38 +152,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		}
 
 		/// <summary>
-		/// Путь к тестовому ttx файлу
-		/// </summary>
-		public static string TtxFile 
-		{
-			get { return Path.GetFullPath(CfgRoot.FilesDirectory + "/test.ttx"); }
-		}
-
-		/// <summary>
-		/// Путь к тестовому txt файлу
-		/// </summary>
-		public static string TxtFile 
-		{
-			get { return Path.GetFullPath(CfgRoot.FilesDirectory + "/test.txt"); }
-		}
-
-		/// <summary>
-		/// Путь к тестовому srt файлу
-		/// </summary>
-		public static string SrtFile 
-		{
-			get { return Path.GetFullPath(CfgRoot.FilesDirectory + "/test.srt"); }
-		}
-
-		/// <summary>
-		/// Путь к тестовому xliff файлу
-		/// </summary>
-		public static string XliffFile 
-		{
-			get { return Path.GetFullPath(CfgRoot.FilesDirectory + "/TC-10En.xliff"); }
-		}
-
-		/// <summary>
 		/// Путь к тестовому файлу tmx
 		/// </summary>
 		public static string SecondTmFile 
@@ -231,14 +159,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			get { return Path.GetFullPath(CfgRoot.FilesDirectory + "/TextEngTestAddTMX.tmx"); }
 		}
 
-		/// <summary>
-		/// Путь к тестовому файлу xlsx
-		/// </summary>
-		public static string ImportGlossaryFile 
-		{
-			get { return Path.GetFullPath(CfgRoot.FilesDirectory + "/TestGlossary.xlsx"); }
-		}
-		
 		/// <summary>
 		/// Путь к тестовому файлу jpg
 		/// </summary>
@@ -268,11 +188,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		public static string AolUserFile
 		{
 			get { return Path.GetFullPath(CfgRoot.ConfigDirectory + "/AolUsers.xml"); }
-		}
-
-		public static string CourseraUserFile
-		{
-			get { return Path.GetFullPath(CfgRoot.ConfigDirectory + "/CourseraUsers.xml"); }
 		}
 
 		/// <summary>

@@ -38,25 +38,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		}
 
 		/// <summary>
-		/// Нажать на кнопку Progress
-		/// </summary>
-		public void ClickProgressBtn()
-		{
-			Logger.Trace("Клик по кнопке 'Progress' на странице проекта");
-			ClickElement(By.XPath(PROGRESS_BTN_XPATH));
-		}
-
-		/// <summary>
-		/// Дождаться, пока появится диалог Progress
-		/// </summary>
-		/// <returns>открылся</returns>
-		public bool WaitProgressDialogOpen()
-		{
-			Logger.Trace("Ождидаем появления диалога Progress.");
-			return WaitUntilDisplayElement(By.XPath(PROGRESS_DIALOG_XPATH));
-		}
-
-		/// <summary>
 		/// Кликнуть по Assign Responsibles документа
 		/// </summary>
 		public void ClickAssignRessponsibleBtn()
@@ -71,89 +52,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		public bool GetIsAssignRessponsibleBtnExist()
 		{
 			return GetIsElementExist(By.XPath(DOCUMENT_ASSIGN_RESPONSIBLES_BTN_XPATH));
-		}
-
-		/// <summary>
-		/// Проверить, что панель с кнопками (Assign Tasks, Delete, Download, Settings) отображается
-		/// </summary>
-		/// <returns></returns>
-		public bool GetIsPanelDisplay()
-		{
-			return this.GetIsElementExist(By.XPath(PANEL_BTNS_XPATH));
-		}
-
-		/// <summary>
-		/// Кликнуть по ячейке с пользователем в диалоге
-		/// </summary>
-		public void ClickUserNameCell()
-		{
-			Logger.Trace("Клик по комбобоксу в диалог. окне назначения пользователя");
-			ClickElement(By.XPath(PROGRESS_DIALOG_TABLE_USERNAME_XPATH));
-		}
-
-		/// <summary>
-		/// Кликнуть по пользователю в списке
-		/// </summary>
-		/// <param name="userName">имя пользователя</param>
-		public void ClickAssignUserListUser(string userName)
-		{
-			Logger.Trace(string.Format("Выбираем пользователя с именем: {0}.", userName));
-			var split = userName.Split(' ');
-			var xPath = PROGRESS_DIALOG_TABLE_USERNAME_XPATH + "/option";
-			var el = split.Aggregate(xPath, (current, str) => current + ("[contains(text(),'" + str + "')]"));
-
-			Driver.FindElement(By.XPath(PROGRESS_DIALOG_TABLE_USERNAME_XPATH)).Click();
-
-			while (!Driver.FindElement(By.XPath(el)).Selected)
-			{
-				Driver.FindElement(By.XPath(PROGRESS_DIALOG_TABLE_USERNAME_XPATH)).SendKeys(Keys.Down);
-			}
-		}
-
-		/// <summary>
-		/// Кликнуть по Assign
-		/// </summary>
-		public void ClickAssignBtn()
-		{
-			Logger.Trace("Кликаем на кнопку Assign.");
-			ClickElement(By.XPath(PROGRESS_DIALOG_ASSIGN_BTN_XPATH));
-		}
-
-		/// <summary>
-		/// Дождаться появления кнопки Assign
-		/// </summary>
-		/// <returns></returns>
-		public bool WaitAssignBtnDisplay()
-		{
-			Logger.Trace("Ожидаем появления кнопки Assign.");
-			return WaitUntilDisplayElement(By.XPath(PROGRESS_DIALOG_ASSIGN_BTN_XPATH));
-		}
-
-		/// <summary>
-		/// Дождаться появления кнопки Cancel
-		/// </summary>
-		/// <returns></returns>
-		public bool WaitCancelAssignBtnDisplay()
-		{
-			Logger.Trace("Ожидаем появления кнопки Cancel.");
-			return WaitUntilDisplayElement(By.XPath(PROGRESS_DIALOG_CANCEL_BTN_XPATH));
-		}
-
-		/// <summary>
-		/// Кликнуть Отмену назначения
-		/// </summary>
-		public void ClickCancelAssignBtn()
-		{
-			ClickElement(By.XPath(PROGRESS_DIALOG_CANCEL_BTN_XPATH));
-		}
-
-		/// <summary>
-		/// Кликнуть Close в диалоге
-		/// </summary>
-		public void CloseAssignDialogClick()
-		{
-			Logger.Trace("Кликаем по кнопке Close.");
-			ClickElement(By.XPath(PROGRESS_DIALOG_CLOSE_BTN_XPATH));
 		}
 
 		public void ClickAllAcceptBtns()
@@ -298,14 +196,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		}
 
 		/// <summary>
-		/// Кликнуть Add в диалоге Импорт
-		/// </summary>
-		public void ClickAddDocumentInImport()
-		{
-			ClickElement(By.XPath(IMPORT_ADD_BTN_XPATH));
-		}
-
-		/// <summary>
 		/// Кликнуть Next в диалоге импорта
 		/// </summary>
 		public void ClickNextImportDialog()
@@ -415,15 +305,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		}
 
 		/// <summary>
-		/// Дождаться, пока диалога изменения ТМ пропадет
-		/// </summary>
-		/// <returns>пропал</returns>
-		public bool WaitUntilEditTMDialogDisappear()
-		{
-			return WaitUntilDisappearElement(By.XPath(EDIT_TM_DIALOG_XPATH));
-		}
-
-		/// <summary>
 		/// Нажать Upload в диалоге редактирования TM
 		/// </summary>
 		public void ClickUploadTmButton()
@@ -451,16 +332,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		public void ClickConfirmTmCreation()
 		{
 			ClickElement(By.XPath(EDIT_TM_SAVE_BTN));
-		}
-
-		/// <summary>
-		/// Дождаться появления сообщение об ошибке при импорте документа
-		/// </summary>
-		/// <returns>появилось</returns>
-		public bool WaitImportDocumentErrorMessage()
-		{
-			// TODO плохой id
-			return WaitUntilDisplayElement(By.XPath(IMPORT_DOCUMENT_ERROR_XPATH));
 		}
 
 		/// <summary>
@@ -496,11 +367,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 				ClickElement(By.XPath(CONFIRM_YES_XPATH));
 				WaitUntilDisappearElement(By.XPath(CONFIRM_DIALOG_XPATH));
 			}
-		}
-
-		public string GetAssignName()
-		{
-			return GetElementClass(By.XPath(PROGRESS_DIALOG_ASSIGN_USER_XPATH));
 		}
 
 		/// <summary>
@@ -673,16 +539,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 
 			// Получение номера
 			return Int32.Parse(GetTextElement(By.XPath(workflowXPath)));
-		}
-
-		/// <summary>
-		/// Нажать на прогресс в поле документа
-		/// </summary>
-		public void ClickDocumentProgress()
-		{
-			Logger.Trace("Клик по кнопке 'Progress' документа на странице проекта");
-			ClickElement(By.XPath(DOCUMENT_PROGRESS_XPATH));
-			Thread.Sleep(1000);
 		}
 
 		/// <summary>

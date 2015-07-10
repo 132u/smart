@@ -28,19 +28,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		}
 
 		/// <summary>
-		/// Создать проект, добавить документ
-		/// </summary>
-		/// <param name="filePath"></param>
-		protected void CreateProjectImportDocument(string filePath)
-		{
-			//Создать пустой проект		  
-			CreateProject(ProjectUniqueName);
-
-			//Добавление документа
-			ImportDocumentProjectSettings(filePath, ProjectUniqueName);
-		}
-
-		/// <summary>
 		/// Проверить, что проект есть в списке
 		/// </summary>
 		/// <param name="projectName">Имя проекта, которое ищем в списке проектов</param>

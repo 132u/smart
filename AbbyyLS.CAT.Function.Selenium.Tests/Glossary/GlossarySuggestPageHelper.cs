@@ -126,14 +126,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 				"Ошибка: окно редактирования термина не открылось");
 		}
 
-		public void AssertionEditTermAdded(string newTermText)
-		{
-			Logger.Trace("Проверить, что редактируемый термин был добавлен");
-
-			Assert.IsTrue(WaitUntilDisplayElement(By.XPath(GetNewTermAddedXpath(newTermText)), 30),
-				"Ошибка: редактируемый термин не был добавлен");
-		}
-
 		public void FillEditTermItem(int itemNumber, string text)
 		{
 			Logger.Debug(string.Format("При редактировании термина заполнить текст. Номер языка: {0}, текст: {1}", itemNumber, text));
@@ -188,16 +180,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		protected string GetRowXPath(int rowNumber)
 		{
 			return TERM_ROW_XPATH + "[" + rowNumber + "]" + "//td";
-		}
-
-		/// <summary>
-		/// Получить xPath элемента с новым добавленным термином
-		/// </summary>
-		/// <param name="rowNumber">номер строки</param>
-		/// <returns>xPath</returns>
-		protected string GetNewTermAddedXpath(string newTermText)
-		{
-			return NEW_TERM_ADDED_XPATH + newTermText + "']";
 		}
 
 		public enum BUTTON_ID { AcceptSuggestTerm, EditSuggestTerm, RejectSuggestTerm };

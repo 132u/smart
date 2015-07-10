@@ -38,61 +38,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.TM
 				"Ошибка: страница не загрузилась");
 		}
 
-		public void ClickCreateTM()
-		{
-			Logger.Debug("Нажатие кнопки создания ТМ");
-			ClickElement(By.XPath(ADD_TM_BTN_XPATH));
-			
-			Assert.IsTrue(WaitUntilDisplayElement(By.XPath(CREATE_TM_DIALOG_XPATH)),
-				"Ошибка: форма создания ТМ не загрузилась");
-		}
-
-		public void ClickOpenClientListCreateTM()
-		{
-			Logger.Debug("Нажатие кнопки открытия списка клиентов");
-			ClickElement(By.XPath(CREATE_TM_CLIENT_XPATH));
-
-			Assert.IsTrue(WaitUntilDisplayElement(By.XPath(CREATE_TM_CLIENT_LIST_XPATH)),
-				"Ошибка: список клиентов не открылся");
-		}
-
-		public void ClickOpenDomainListCreateTM()
-		{
-			Logger.Debug("Нажатие кнопки открытия списка domain");
-			ClickElement(By.XPath(CREATE_TM_DOMAIN_XPATH));
-
-			Assert.IsTrue(WaitUntilDisplayElement(By.XPath(CREATE_TM_DOMAIN_LIST_XPATH)),
-				"Ошибка: список domain не открылся");
-		}
-
-		public bool GetIsClientExistCreateTM(string clientName)
-		{
-			Logger.Debug(string.Format("Вернуть: есть ли клиент {0} в списке клиентов при создании ТМ", clientName));
-			var clientList = GetElementList(By.XPath(CREATE_TM_CLIENT_ITEM_XPATH));
-
-			return clientList.Any(e => e.GetAttribute("innerHTML") == clientName);
-		}
-
-		public bool GetIsDomainExistCreateTM(string domainName)
-		{
-			Logger.Debug(string.Format("Вернуть: есть ли домен {0} в списке доменов при создании ТМ", domainName));
-
-			var domains = GetElementList(By.XPath(CREATE_TM_DOMAIN_ITEMS_XPATH));
-			var isDomainExist = false;
-
-			foreach (var domain in domains)
-			{
-				if (domain.Text == domainName)
-				{
-					// Если проект в списке
-					isDomainExist = true;
-					break;
-				}
-			}
-
-			return isDomainExist;
-		}
-
 		public void AssertionDocumentDownloadFinish()
 		{
 			Logger.Debug("Ожидание загрузки документа");
@@ -116,24 +61,12 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.TM
 			Assert.IsTrue(isDisappeared, "Ошибка: документ загружается слишком долго");
 		}
 
-		public void ClickSave()
-		{
-			Logger.Debug("Кликнуть Сохранить и загрузить документ в диалоге создания ТМ");
-			ClickElement(By.XPath(SAVE_TM_BTN_XPATH));
-		}
-
 		public void WaitUntilUploadDialog()
 		{
 			Logger.Debug("Ожидание открытия диалога загрузки документа");
 
 			Assert.IsTrue(WaitUntilDisplayElement(By.XPath(UPLOAD_BTN_XPATH)), 
 				"Ошибка: диалог загрузки документа не загрузился");
-		}
-
-		public void ClickAddUploadBtn()
-		{
-			Logger.Debug("Кликнуть Add в диалоге загрузки документа");
-			ClickElement(By.XPath(UPLOAD_BTN_XPATH));
 		}
 
 		public bool GetIsTMOpened(string tmName)
@@ -227,13 +160,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.TM
 			ClearAndAddText(By.XPath(NEW_TM_NAME_XPATH), name);
 		}
 
-		public bool GetIsCreateTMInputNameError()
-		{
-			Logger.Debug("Вернуть, отмечено ли поле имя в форме создания ТМ ошибкой");
-
-			return GetElementClass(By.XPath(NEW_TM_NAME_XPATH)).Contains("error");
-		}
-
 		public void InputInTMSearch(string tmName)
 		{
 			Logger.Trace("Ввод названия ТМ в поиске");
@@ -256,12 +182,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.TM
 		{
 			Logger.Debug("Нажать кнопку Сохранить");
 			ClickElement(By.XPath(SAVE_TM_BTN_XPATH));
-		}
-
-		public void ClickCancelSavingNewTM()
-		{
-			Logger.Debug("Нажать кнопку отмены сохранения новой ТМ");
-			ClickElement(By.XPath(CANCEL_TM_SAVING_BTN_XPATH));
 		}
 
 		public void ClickCancelButtonOnNotificationBaloon()
@@ -468,29 +388,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.TM
 			return WaitUntilDisplayElement(By.XPath(NO_TMX_FILE_ERROR_XPATH));
 		}
 
-		public void AssertionIsExistNameErrorAppearDuringTmCreation()
-		{
-			Logger.Trace("Проверка наличия ошибки при создании ТМ с существующим именем");
-
-			Assert.IsTrue(GetIsElementDisplay(By.XPath(ERROR_CREATE_TM_EXIST_NAME_XPATH)),
-				"Ошибка: не появилась ошибка создания ТМ с существующим именем");
-		}
-
-		public void AssertionNoNameErrorAppearDuringTmCreation()
-		{
-			Logger.Trace("Проверить, что при создании ТМ с пустым именем появилась ошибка");
-
-			Assert.IsTrue(GetIsElementDisplay(By.XPath(ERROR_CREATE_TM_NO_NAME_XPATH)),
-				"Ошибка: не появилось сообщение об ошибке при создании ТМ с пустым именем");
-		}
-
-		public void AssertionIsNoTargetErrorAppearDuringTmCreation()
-		{
-			Logger.Trace("Проверить наличие об ошибке отсутствия таргета");
-			Assert.IsTrue(GetIsElementDisplay(By.XPath(ERROR_CREATE_TM_NO_TARGET_XPATH)),
-				"Ошибка: не появилось сообщение об ошибке отсутствия таргета");
-		}
-
 		public void ClickOpenClientListEditTm()
 		{
 			Logger.Debug("Кликнуть на список клиентов на форме редактирования ТМ");
@@ -653,12 +550,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.TM
 			Logger.Debug(string.Format("Вернуть XPath строки с ТМ. Имя ТМ: {0}", tmName));
 
 			return TM_ROW_XPATH + "[text()='" + tmName + "']/parent::td/parent::tr";
-		}
-
-		public void UploadTMInDoc(string documentName)
-		{
-			Logger.Debug(string.Format("Загрузка документа {0} в ТМ", documentName));
-			UploadTM(documentName, ADD_TMX);
 		}
 
 		public void UploadTMXInUpdatePopUp(string documentName)

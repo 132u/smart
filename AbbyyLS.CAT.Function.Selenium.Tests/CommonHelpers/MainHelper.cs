@@ -35,20 +35,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		}
 
 		/// <summary>
-		/// Кликнуть для перехода на Domain
-		/// </summary>
-		public void ClickOpenDomainPage()
-		{
-			if (!GetIsLeftMenuDisplay())
-			{
-				OpenHideMenu();
-				WaitUntilOpenHideMenu();
-			}
-			Logger.Trace("Клик по 'Project Groups' в главном меню слева");
-			ClickElement(By.XPath(DOMAIN_REF_XPATH));
-		}
-
-		/// <summary>
 		/// Кликнуть для перехода на TM
 		/// </summary>
 		public void ClickOpenTMPage()
@@ -120,88 +106,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 					ClickElement(By.XPath(RESOURCES_REF_XPATH));
 				}
 			}
-		}
-
-		/// <summary>
-		/// Кликнуть для перехода на страницу клиентов
-		/// </summary>
-		public void ClickOpenClientPage()
-		{
-			if (!GetIsLeftMenuDisplay())
-			{
-				OpenHideMenu();
-				WaitUntilOpenHideMenu();
-			}
-			Logger.Trace("Клик по 'Clients' в главном меню слева");
-			ClickElement(By.XPath(CLIENT_REF_XPATH));
-		}
-
-		/// <summary>
-		/// Кликнуть для перехода на страницу словарей
-		/// </summary>
-		public void ClickOpenDictionariesPage()
-		{
-			if (!GetIsElementDisplay(By.XPath(DICTIONARIES_REF_XPATH)))
-				ClickResourcesRef();
-			ExpandResourcesMenu(DICTIONARIES_REF_XPATH);
-
-			Logger.Trace("Клик по 'Lingvo Dictionaries' в главном меню слева");
-			ClickElement(By.XPath(DICTIONARIES_REF_XPATH));
-		}
-
-		/// <summary>
-		/// Вернуть, видна ли ссылка на странице словарей
-		/// </summary>
-		/// <returns>видна</returns>
-		public bool GetIsRefDictionariesVisible()
-		{
-			if (!GetIsLeftMenuDisplay())
-			{
-				OpenHideMenu();
-				WaitUntilOpenHideMenu();
-			}
-			ExpandResourcesMenu(DICTIONARIES_REF_XPATH);
-
-			Logger.Trace("Вернуть, видна ли ссылка на странице словарей");
-			return GetIsElementDisplay(By.XPath(DICTIONARIES_REF_XPATH));
-		}
-
-		/// <summary>
-		/// Открыть профиль
-		/// </summary>
-		public void OpenProfile()
-		{
-			Logger.Trace("Клик по 'Profile settings'");
-			ClickElement(By.XPath(OPEN_PROFILE_XPATH));
-		}
-
-		/// <summary>
-		/// Дождаться открытия профиля
-		/// </summary>
-		/// <returns>открылся</returns>
-		public bool WaitProfileOpen()
-		{
-			Logger.Trace("Вернуть открылось ли диалоговое окно настройки профиля");
-			return WaitUntilDisplayElement(By.XPath(PROFILE_FORM_XPATH));
-		}
-
-		/// <summary>
-		/// Получить имя пользователя из профиля
-		/// </summary>
-		/// <returns>имя</returns>
-		public string GetUserNameProfile()
-		{
-			Logger.Trace("Получить имя пользователя из профиля");
-			return GetElementAttribute(By.XPath(PROFILE_USER_NAME_XPATH), "value");
-		}
-
-		/// <summary>
-		/// Закрыть профиль
-		/// </summary>
-		public void CloseProfile()
-		{
-			Logger.Trace("Клик по кнопке 'Close' в диалоговом окне настройки профиля");
-			ClickElement(By.XPath(CLOSE_PROFILE_XPATH));
 		}
 
 		public bool GetIsLeftMenuDisplay()

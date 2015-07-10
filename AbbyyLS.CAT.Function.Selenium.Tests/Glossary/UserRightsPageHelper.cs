@@ -138,27 +138,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		}
 
 		/// <summary>
-		/// Возвращает список имен пользователей
-		/// </summary>
-		/// <returns>Список имен пользователей</returns>
-		public List<string> GetUserFullnameList()
-		{
-			var nameList = GetTextListElement(By.XPath(USERS_XPATH + USER_NAME_XPATH));
-			var surnameList = GetTextListElement(By.XPath(USERS_XPATH + USER_SURNAME_XPATH));
-
-			return nameList.Select((t, i) => (t + " " + surnameList[i]).Trim()).ToList();
-		}
-
-		/// <summary>
-		/// Возвращает список имен групп пользователей
-		/// </summary>
-		/// <returns>Список имен групп пользователей</returns>
-		public List<string> GetGroupNameList()
-		{
-			return GetTextListElement(By.XPath(GROUPS_XPATH + GROUP_NAME_XPATH));
-		}
-
-		/// <summary>
 		/// Кликнуть создать группу
 		/// </summary>
 		public void ClickCreateGroup()
@@ -205,15 +184,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		{
 			Logger.Trace("Клик по кнопке 'Create Group' в диалог окне создания группы");
 			ClickElement(By.XPath(SAVE_NEW_GROUP_XPATH));
-		}
-
-		/// <summary>
-		/// Возвращает отображается ли сообщение об ошибке имени группы
-		/// </summary>
-		/// <returns>Сообщение об ошибке отображается</returns>
-		public bool ErrorMessageDisplay()
-		{
-			return GetIsElementDisplay(By.XPath(ERROR_NEW_GROUP_XPATH));
 		}
 
 		/// <summary>

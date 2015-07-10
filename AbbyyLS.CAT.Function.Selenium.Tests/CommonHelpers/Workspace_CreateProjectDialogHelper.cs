@@ -135,14 +135,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			return GetElementAttribute(By.XPath(PROJECT_NAME_INPUT_XPATH), "value");
 		}
 
-		/// <summary>
-		/// Кликнуть по Add для загрузки документа на первом шаге
-		/// </summary>
-		public void ClickAddDocumentBtn()
-		{
-			ClickElement(By.XPath(ADD_DOCUMENT_BTN_XPATH));
-		}
-
 		public bool WaitDocumentAppear(string file)
 		{
 			Logger.Debug(string.Format("Ожидание появления загруженного документа {0} в списке", file));
@@ -340,15 +332,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		}
 
 		/// <summary>
-		/// Вернуть, есть ли сообщение о неверном формате загружаемого документа
-		/// </summary>
-		/// <returns>есть</returns>
-		public bool GetIsExistErrorFormatDocumentMessage()
-		{
-			return GetIsElementDisplay(By.XPath(ERROR_FORMAT_DOCUMENT_MESSAGE_XPATH));
-		}
-
-		/// <summary>
 		/// Вернуть, отмечено ли поле Имя ошибкой
 		/// </summary>
 		/// <returns>отмечено ошибкой</returns>
@@ -370,43 +353,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			WaitUntilDisplayElement(errorMessageWebElement);
 
 			return GetIsElementDisplay(errorMessageWebElement);
-		}
-
-		/// <summary>
-		/// Вернуть, есть ли сообщение о пустом имени
-		/// </summary>
-		/// <returns>есть</returns>
-		public bool GetIsExistErrorMessageNoName()
-		{
-			return GetIsElementDisplay(By.XPath(ERROR_NO_NAME_XPATH));
-		}
-
-		/// <summary>
-		/// Вернуть, есть ли сообщение о запрещенных символах в имени
-		/// </summary>
-		/// <returns>есть</returns>
-		public bool GetIsExistErrorForbiddenSymbols()
-		{
-			return GetIsElementDisplay(By.XPath(ERROR_FORBIDDEN_SYMBOLS_NAME));
-		}
-
-		/// <summary>
-		/// Вернуть, есть ли сообщение о неверной дате дедлайна
-		/// </summary>
-		/// <returns>есть</returns>
-		public bool GetIsErrorMessageInvalidDeadlineDate()
-		{
-			WaitUntilDisplayElement(By.XPath(ERROR_DEADLINE_DATE_XPATH));
-			return GetIsElementDisplay(By.XPath(ERROR_DEADLINE_DATE_XPATH));
-		}
-
-		/// <summary>
-		/// Вернуть, есть ли ошибка 
-		/// </summary>
-		/// <returns></returns>
-		public bool GetIsExistErrorDuplicateLanguage()
-		{
-			return GetIsElementDisplay(By.XPath(ERROR_DUPLICATE_LANG_XPATH));
 		}
 
 		/// <summary>
@@ -775,18 +721,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		}
 
 		/// <summary>
-		/// Проверяет имя проекта
-		/// </summary>
-		/// <param name="projectName">Имя проекта</param>
-		/// <returns>Нужное ли имя</returns>
-		public bool CheckProjectName(string projectName)
-		{
-			var name = GetElementAttribute(By.XPath(PROJECT_NAME_INPUT_XPATH), "value");
-			
-				return (name == projectName);			
-		}
-
-		/// <summary>
 		/// Возвращает, отображается ли сообщение о пустом Workflow
 		/// </summary>
 		/// <returns>Отображение сообщения об ошибке</returns>
@@ -815,82 +749,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			Log.Trace("Кликнуть кнопку создания голоссария");
 			WaitUntilDisplayElement(By.XPath(CREATE_GLOSSARY_BTN_XPATH));
 			ClickElement(By.XPath(CREATE_GLOSSARY_BTN_XPATH));
-		}
-
-		/// <summary>
-		/// Кликнуть по кнопке "Удалить файл"
-		/// </summary>
-		/// <param name="fileName">имя файла</param>
-		public void ClickDeleteFile(string fileName)
-		{
-			ClickElement(By.XPath(DELETE_FILE_BTN_XPATH.Replace("#", fileName)));
-		}
-
-		/// <summary>
-		/// Кликнуть по полю Имя
-		/// </summary>	   
-		public void ClickProjectNameInput()
-		{
-			ClickElement(By.XPath(PROJECT_NAME_INPUT_XPATH));
-		}
-
-		/// <summary>
-		/// Кликнуть по полю Дедлайн, чтобы появился календарь
-		/// </summary>		
-		public void ClickDeadlineInput()
-		{
-			ClickElement(By.XPath(DEADLINE_DATE_INPUT_XPATH));
-		}
-
-		/// <summary>
-		/// Кликнуть по текущей дате в календаре
-		/// </summary>		
-		public void ClickDeadlineCurrentDate()
-		{
-			ClickElement(By.XPath(DEADLINE_DATE_CURRENT_XPATH));
-		}
-
-		/// <summary>
-		/// Перейти на следующий месяц календаря
-		/// </summary>		
-		public void ClickNextMonthPicker()
-		{
-			ClickElement(By.XPath(DEADLINE_DATE_NEXT_MONTH_XPATH));
-		}
-
-		/// <summary>
-		/// Перейти на предыдущий месяц календаря
-		/// </summary>		
-		public void ClickPreviousMonthPicker()
-		{
-			ClickElement(By.XPath(DEADLINE_DATE_PREV_MONTH_XPATH));
-		}
-
-		/// <summary>
-		/// Кликнуть по произвольной дате в календаре
-		/// </summary>		
-		public void ClickDeadlineSomeDate()
-		{
-			ClickElement(By.XPath(DEADLINE_DATE_XPATH));
-		}
-
-		/// <summary>
-		/// Дождаться, пока появится календарь
-		/// </summary>	   
-		/// <returns>появился календарь</returns>
-		public bool WaitUntilDisplayCalendar()
-		{
-			return WaitUntilDisplayElement(By.XPath(DEADLINE_DATE_CURRENT_XPATH));
-		}
-
-		/// <summary>
-		/// Дождаться, пока заданный файл исчезнет из списка загруженных файлов
-		/// </summary>
-		/// <param name="fileName">имя файла</param>
-		/// <returns>файла в списке нет</returns>
-		public bool WaitUntilFileDisappear(string fileName)
-		{
-			return WaitUntilDisappearElement(By.XPath(DELETE_FILE_BTN_XPATH.Replace("#", fileName)));			
 		}
 
 		public bool WaitUntilConfirmTMDialogDisplay()

@@ -294,11 +294,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			return File.Exists(PathProvider.TestUserFile);
 		}
 
-		public bool CourseraUserFileExist()
-		{
-			return File.Exists(PathProvider.CourseraUserFile);
-		}
-
 		public bool AolUserFileExist()
 		{
 			return File.Exists(PathProvider.AolUserFile);
@@ -630,30 +625,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		}
 
 		/// <summary>
-		/// Переход на страницу My Account
-		/// Если переадресация на стартовую страницу, то авторизация и затем переход по клику MyAccount в панели WS
-		/// </summary>
-		public void GoToMyAccount()
-		{
-			// Перейти на страницу
-			Driver.Navigate().GoToUrl(Url + RelativeUrlProvider.LicensePackages);
-
-			// Если открылась страница логина
-			if (LoginPage.WaitPageLoad(1) || LoginPage.WaitPromoPageLoad())
-			{
-				// Проходим процедуру авторизации
-				Authorization(Login, Password);
-
-				// Переходим к лицензиям
-				WorkspacePage.ClickAccount();
-				WorkspacePage.ClickLicensesAndServices();
-
-				// Перешли в новое открытое окно браузера
-				Driver.SwitchTo().Window(Driver.WindowHandles[1]);
-			}
-		}
-
-		/// <summary>
 		/// Заполнение первого шага создания проекта
 		/// </summary>
 		/// <param name="projectName">название проекта</param>
@@ -976,13 +947,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		}
 
 		/// <summary>
-		/// Шаг Pretranslate диалога создания проекта
-		/// </summary>
-		public void Pretranslate()
-		{
-		}
-
-		/// <summary>
 		/// метод открытия настроек проекта и загрузки нового документа с помощью  корпоративного аккаунта
 		/// </summary>
 		/// <param name="filePath">путь в файлу, импортируемого в проект</param>
@@ -1044,60 +1008,9 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			return WorkspacePage.GetIsProjectInList(projectName);
 		}
 
-		/// <summary>
-		/// Удаление проект на вкладке проектов по имени
-		/// </summary>
-		/// <param name="ProjectNameToDelete">имя проекта, который надо удалить</param>
-		protected void DeleteProjectFromList(string ProjectNameToDelete)
-		{
-			// Выбрать этот проект
-			SelectProjectInList(ProjectNameToDelete);
-			// Нажать Удалить
-			WorkspacePage.ClickDeleteProjectBtn();
-			// Подтвердить
-			WorkspacePage.ClickConfirmDelete();
-
-			// Дождаться, пока пропадет диалог подтверждения удаления
-			WorkspacePage.WaitUntilDeleteConfirmFormDisappear();
-
-			Thread.Sleep(500);
-		}
-
-		/// <summary>
-		/// Закрываем диалог 2
-		/// </summary>
-		protected void TryCloseExternalDialog2()
-		{
-			SendKeys.SendWait(@"{Tab}");
-			Thread.Sleep(1000);
-			SendKeys.SendWait(@"{Enter}");
-			Thread.Sleep(1000);
-		}
-
 		protected void TryCloseExternalDialog()
 		{
 			Logger.Debug("Закрываем открытый диалог");
-			SendKeys.SendWait(@"{Enter}");
-			Thread.Sleep(1000);
-		}
-
-		/// <summary>
-		/// Работа с диалогом браузера: сохранение документа
-		/// </summary>
-		/// <param name="documentName">имя документа</param>
-		protected void ExternalDialogSelectSaveDocument(string documentName)
-		{
-			var txt = Regex.Replace(documentName, "[+^%~()]", "{$0}");
-
-			Thread.Sleep(2000);
-			// В открывшемся диалоге выбираем "Сохранить"
-			SendKeys.SendWait(@"{DOWN}");
-			Thread.Sleep(1000);
-			SendKeys.SendWait(@"{Enter}");
-			Thread.Sleep(2000);
-			// Ввести адрес
-			SendKeys.SendWait(txt);
-			Thread.Sleep(1000);
 			SendKeys.SendWait(@"{Enter}");
 			Thread.Sleep(1000);
 		}
@@ -1349,15 +1262,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		}
 
 		/// <summary>
-		/// Кликнуть галочку около проекта в списке проектов
-		/// </summary>
-		/// <param name="projectName">название проекта</param>
-		protected void SelectProjectInList(string projectName)
-		{
-			WorkspacePage.SelectProject(projectName);
-		}
-
-		/// <summary>
 		/// Открыть проект (со страницы Workflow)
 		/// </summary>
 		/// <param name="projectName">название проекта</param>
@@ -1365,15 +1269,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		{
 			WorkspacePage.OpenProjectPage(projectName);
 			Assert.IsTrue(ProjectPage.WaitPageLoad(), string.Format("Ошибка: страница проекта {0} не открылась", projectName));
-		}
-
-		/// <summary>
-		/// Открыть свертку проекта
-		/// </summary>
-		/// <param name="projectName">название проекта</param>
-		protected void OpenProjectInfo(string projectName)
-		{
-			WorkspacePage.OpenProjectInfo(projectName);
 		}
 
 		/// <summary>
