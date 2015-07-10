@@ -214,7 +214,7 @@
     <Compile Include="Tests\Projects\ProjectDeadlineTests.cs" />
     <Compile Include="Tests\Projects\Export\ExportProjectListTests.cs" />
     <Compile Include="Tests\ProjectGroupsTest.cs" />
-    <Compile Include="Tests\ProjectImportTests.cs" />
+    <Compile Include="Tests\Projects\ProjectImportTests.cs" />
     <Compile Include="Tests\Glossaries\SortingInSuggestedTermsTests.cs" />
     <Compile Include="Tests\UsersRights\SortingInUsersRightsTests.cs" />
     <Compile Include="Tests\Clients\SortingInClientsTests.cs" />
