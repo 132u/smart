@@ -213,17 +213,21 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.Glossary.UserRights
 			var glossaryName = GetUniqueGlossaryName();
 			CreateGlossaryByName(glossaryName);
 
+			var firstTerm = "Term First Language" + DateTime.Now;
+
+			var secondTerm = "Term Second Language" + DateTime.Now;
+
 			// Создать термин
-			CreateItemAndSave();
+			CreateItemAndSave(firstTerm, secondTerm);
 			var itemsCount = GlossaryPage.GetConceptCount();
 
 			// Расширить окно, чтобы "корзинка" была видна, иначе Selenium ее "не видит" и выдает ошибку
 			Driver.Manage().Window.Maximize();
 			// Выделить ячейку, чтобы "корзинка" появилась
-			GlossaryPage.ClickTermRow();
+			GlossaryPage.HoverOnTermRowByNameOfTerm(firstTerm, secondTerm);
 			// Нажать на "корзинку"
-			GlossaryPage.ClickDeleteBtn();
-			GlossaryPage.AssertionConceptGeneralDelete();
+			GlossaryPage.ClickDeleteBtnBySourceAndTarget(firstTerm, secondTerm);
+			GlossaryPage.AssertionConceptGeneralDeleteBySourceAndTarget(firstTerm, secondTerm);
 
 			// Сравнить количество терминов
 			Assert.IsTrue(GlossaryPage.GetConceptCount() < itemsCount, 

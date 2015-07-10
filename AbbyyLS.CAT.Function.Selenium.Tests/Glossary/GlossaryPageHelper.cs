@@ -137,11 +137,11 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 				"Ошибка: термин не сохранился");
 		}
 
-		public void AssertionConceptGeneralDelete()
+		public void AssertionConceptGeneralDeleteBySourceAndTarget(string source, string target)
 		{
-			Logger.Trace("Проверка успешного удаления термина в обычном режиме");
+			Logger.Trace("Проверка успешного удаления термина в обычном режиме.  Термин с sourse:{0}, target:{1}", source, target);
 
-			Assert.IsTrue(WaitUntilDisappearElement(By.XPath(DELETE_CONCEPT_BTN_XPATH)),
+			Assert.IsTrue(WaitUntilDisappearElement(By.XPath(DELETE_CONCEPT_BTN_BY_SOURCE_AND_TARGET.Replace("#", source).Replace("**", target))),
 				"Ошибка: термин не был удален");
 		}
 
@@ -152,6 +152,8 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			SetDriverTimeoutMinimum();
 			var result = GetElementsCount(By.XPath(CONCEPT_ROW_XPATH));
 			SetDriverTimeoutDefault();
+
+			Logger.Trace("Количество терминов: {0}", result);
 
 			return result;
 		}
@@ -688,7 +690,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 
 		public void HoverOnTermRowByNameOfTerm(string source, string target)
 		{
-			Logger.Debug("Навести курсор мыши на заданную строку термина");
+			Logger.Debug("Навести курсор мыши на заданную строку термина.  Термин с sourse:{0}, target:{1}", source, target);
 			HoverElement(By.XPath(SOURCE_TARGET_TERM_COMMENT_RAW_XPATH.Replace("#", source).Replace("**", target)));
 		}
 
@@ -740,10 +742,10 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			ClickElement(By.XPath(CANCEL_EDIT_CONCEPT_BTN_XPATH));
 		}
 
-		public void ClickDeleteBtn()
+		public void ClickDeleteBtnBySourceAndTarget(string source, string target)
 		{
-			Logger.Debug("Нажать кнопку Delete");
-			ClickElement(By.XPath(DELETE_CONCEPT_BTN_XPATH));
+			Logger.Debug("Нажать кнопку Delete. Термин с sourse:{0}, target:{1}", source, target);
+			ClickElement(By.XPath(DELETE_CONCEPT_BTN_BY_SOURCE_AND_TARGET.Replace("#", source).Replace("**", target)));
 		}
 
 		public string GetHrefForExport()
@@ -1045,6 +1047,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		protected const string EDIT_CONCEPT_SAVE_BTN_XPATH = CONCEPT_EDITING_OPENED + "//a[contains(@class, 'js-save-btn')]";
 		protected const string CANCEL_EDIT_CONCEPT_BTN_XPATH = CONCEPT_EDITING_OPENED + "//a[contains(@class, 'js-cancel-btn')]";
 		protected const string DELETE_CONCEPT_BTN_XPATH = CONCEPT_ROW_XPATH + "//a[contains(@class, 'js-delete-btn')]";
+		protected const string DELETE_CONCEPT_BTN_BY_SOURCE_AND_TARGET = "//tr[contains(@class, 'js-concept-row') and contains(string(), '#') and contains(string(), '**')]//a[contains(@class, 'js-delete-btn')]";
 		protected const string CONCEPT_ROW_XPATH = "//tr[contains(@class, 'js-concept-row')]";
 		protected const string OPENED_CONCEPT_ROW_XPATH = "//tr[@class='js-concept-panel']/preceding-sibling::tr[1]";
 		protected const string SAVE_EXTENDED_BTN_XPATH = "//table[contains(@class,'js-concepts')]//span[contains(@class,'js-save-btn')]";

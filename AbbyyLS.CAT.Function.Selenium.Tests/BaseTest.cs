@@ -373,10 +373,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 
 			ResponsiblesDialog.ClickSaveButton();
 
-			WorkspacePage.WaitPageLoad();
-
-			WorkspacePage.OpenProjectPage(projectName);
-
 			ProjectPage.WaitPageLoad();
 
 			ProjectPage.SelectDocument(documentRowNum);

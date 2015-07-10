@@ -18,7 +18,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			{
 				Authorization(Login, Password);
 
-
 				CreateUniqueNamesByDatetime();
 
 				// Запись имени для дальнейшего использования в группе тестов
@@ -31,6 +30,8 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 					projectNoChangesName,
 					setGlossary: Workspace_CreateProjectDialogHelper.SetGlossary.ByName,
 					glossaryName: _glossaryName);
+
+				MainHelperClass.WaitUntilCloseDialogBackground();
 
 				ImportDocumentProjectSettings(PathProvider.DocumentFile, projectNoChangesName);
 
@@ -52,6 +53,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			GoToUrl(RelativeUrlProvider.Workspace);
 
 			WorkspacePage.OpenProjectPage(projectNoChangesName);
+
 			OpenDocument();
 		}
 
@@ -677,11 +679,17 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			// Расширить окно, чтобы "корзинка" была видна, иначе Selenium ее "не видит" и выдает ошибку
 			Driver.Manage().Window.Maximize();
 			// Выделить ячейку, чтобы "корзинка" появилась
+
+			//дождаться завершения "растягивания экрана"
+			Thread.Sleep(2000);
+
 			GlossaryPage.HoverOnTermRowByNameOfTerm(source, target);
 
-			GlossaryPage.ClickDeleteBtn();
+			Thread.Sleep(1000);
 
-			GlossaryPage.AssertionConceptGeneralDelete();
+			GlossaryPage.ClickDeleteBtnBySourceAndTarget(source, target);
+
+			GlossaryPage.AssertionConceptGeneralDeleteBySourceAndTarget(source, target);
 			Thread.Sleep(1000);
 
 			var itemsCountAfter = GlossaryPage.GetConceptCount();

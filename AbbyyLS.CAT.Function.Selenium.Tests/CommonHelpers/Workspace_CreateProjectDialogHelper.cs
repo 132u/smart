@@ -282,7 +282,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		public void ClickGlossaryByName(string glossaryName)
 		{
 			Log.Trace(string.Format("Выбрать глоссарий с именем {0}", glossaryName));
-
+			ScrollToElement(By.XPath(GLOSSARY_BY_NAME_XPATH.Replace("#", glossaryName)));
 			ClickElement(By.XPath(GLOSSARY_BY_NAME_XPATH.Replace("#", glossaryName)));
 		}
 
