@@ -1,6 +1,7 @@
 ﻿using System;
 using System.ComponentModel;
 using System.Linq;
+using System.Threading;
 
 using NUnit.Framework;
 
@@ -198,6 +199,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace
 		public WorkspacePage SelectLocale(Language language)
 		{
 			Logger.Debug("Сменить язык локали на {0}, если необходимо.", language);
+			// Sleep нужен для предотвращения ошибки "unknown error: Element is not clickable at point"
+			Thread.Sleep(1000);
 			LanguageButton.Click();
 			switch (language)
 			{

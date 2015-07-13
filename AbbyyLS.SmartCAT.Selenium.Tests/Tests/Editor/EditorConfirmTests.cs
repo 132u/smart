@@ -14,6 +14,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Editor
 		{
 			EditorHelper
 				.AddTextToSegment()
+				.CloseTutorialIfExist()
 				.ConfirmTranslation()
 				.AssertIsSegmentConfirmed();
 		}
