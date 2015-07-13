@@ -161,7 +161,20 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Registration
 
 			return GetPage();
 		}
-		
+
+		/// <summary>
+		/// Проверить, что сообщение 'The password must have at least 6 characters.' появилось
+		/// </summary>
+		public CompanyRegistrationFirstPage AssertInvalidPasswordMessageDisplayed()
+		{
+			Logger.Trace("Проверить, что сообщение 'The password must have at least 6 characters.' появилось.");
+
+			Assert.IsTrue(InvalidPasswordMessage.Displayed,
+				"Произошла ошибка:\n сообщение 'The password must have at least 6 characters.' не появилось.");
+
+			return GetPage();
+		}
+
 		[FindsBy(How = How.Id, Using = CONTINUE_BUTTON)]
 		protected IWebElement ContinueButton { get; set; }
 
@@ -192,6 +205,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Registration
 		[FindsBy(How = How.XPath, Using = PASSWORD_MATCH_MESSAGE)]
 		protected IWebElement PasswordMatchMessage { get; set; }
 
+		[FindsBy(How = How.XPath, Using = INVALID_PASSWORD_MESSAGE)]
+		protected IWebElement InvalidPasswordMessage { get; set; }
+
 		protected const string CONTINUE_BUTTON = "btn-sign-up";
 		protected const string EMAIL = "//form[@name='signupForm']//input[@id='email']";
 		protected const string PASSWORD = "//form[@name='signupForm']//input[@id='password']";
@@ -203,5 +219,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Registration
 		protected const string ONLY_SPACES_PASSWORD_MESSAGE = "//div[contains(@ng-message,'pattern')]//span[not(contains(@class,'ng-hide'))]";
 		protected const string PASSWORD_MATCH_MESSAGE = "//span[contains(@ng-show, 'error.match ')]";
 		protected const string ALREADY_SIGN_UP_MESSAGE = "//div[@ng-message='already-exists']";
+		protected const string INVALID_PASSWORD_MESSAGE = "//span[@translate='PASSWORD-INVALID']";
 	}
 }

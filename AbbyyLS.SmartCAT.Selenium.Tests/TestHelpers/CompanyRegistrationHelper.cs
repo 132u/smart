@@ -1,5 +1,8 @@
-﻿using AbbyyLS.SmartCAT.Selenium.Tests.DataStructures;
+﻿using System.Windows.Forms;
+
+using AbbyyLS.SmartCAT.Selenium.Tests.DataStructures;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Registration;
+using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace;
 using AbbyyLS.SmartCAT.Selenium.Tests.TestFramework;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
@@ -43,6 +46,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 		public CompanyRegistrationHelper ClickContinueButton(bool errorExpected = false)
 		{
 			BaseObject.InitPage(_companyRegistrationFirstPage);
+
 			if (errorExpected)
 			{
 				_companyRegistrationFirstPage.ClickContinueButton<CompanyRegistrationFirstPage>();
@@ -88,7 +92,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 			BaseObject.InitPage(_companyRegistrationSecondPage);
 			_companyRegistrationSecondPage
 				.WaitCreateCorporateAccountButtonBecomeActive()
-				.ClickCreateCorporateAccountButton();
+				.ClickCreateCorporateAccountButton<WorkspacePage>();
 
 			return new WorkspaceHelper();
 		}
@@ -97,6 +101,14 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 		{
 			BaseObject.InitPage(_companyRegistrationSecondPage);
 			_companyRegistrationSecondPage.AssertCreateCorporateAccountButtonInactive();
+
+			return this;
+		}
+
+		public CompanyRegistrationHelper AssertCompanyNameMessageDisplayed()
+		{
+			BaseObject.InitPage(_companyRegistrationSecondPage);
+			_companyRegistrationSecondPage.AssertEnterCompanyNameMessageDisplayed();
 
 			return this;
 		}
@@ -148,11 +160,119 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 			return this;
 		}
+		
+		public CompanyRegistrationHelper AssertInvalidPasswordMessageDisplayed()
+		{
+			BaseObject.InitPage(_companyRegistrationFirstPage);
+			_companyRegistrationFirstPage.AssertInvalidPasswordMessageDisplayed();
+
+			return this;
+		}
 
 		public CompanyRegistrationHelper AssertCompanyNameLenght(int maximumCompanyNameLenght = 40)
 		{
 			BaseObject.InitPage(_companyRegistrationSecondPage);
 			_companyRegistrationSecondPage.AssertCompanyNameLenght(maximumCompanyNameLenght);
+
+			return this;
+		}
+
+		public CompanyRegistrationHelper AssertSubdomainMinimumLenghtMessageDisplayed()
+		{
+			BaseObject.InitPage(_companyRegistrationSecondPage);
+			_companyRegistrationSecondPage.AssertSubdomainLenghtMessageDisplayed();
+
+			return this;
+		}
+
+		public CompanyRegistrationHelper AssertCompanyNamePatternInvalidMessageDisplayed()
+		{
+			BaseObject.InitPage(_companyRegistrationSecondPage);
+			_companyRegistrationSecondPage.AssertCompanyNamePatternMessageDisplayed();
+
+			return this;
+		}
+
+		public CompanyRegistrationHelper AssertCompanyNameLengthInvalidMessageDisplayed()
+		{
+			BaseObject.InitPage(_companyRegistrationSecondPage);
+			_companyRegistrationSecondPage.AssertCompanyNameLengthInvalidMessageDisplayed();
+
+			return this;
+		}
+
+		public CompanyRegistrationHelper AssertSubdomainPatternMessageDisplayed()
+		{
+			BaseObject.InitPage(_companyRegistrationSecondPage);
+			_companyRegistrationSecondPage.AssertSubdomainPatternMessageDisplayed();
+
+			return this;
+		}
+
+		public CompanyRegistrationHelper AssertEnterDomainMessageDisplayed()
+		{
+			BaseObject.InitPage(_companyRegistrationSecondPage);
+			_companyRegistrationSecondPage.AssertEnterDomainMessageDisplayed();
+
+			return this;
+		}
+
+		public CompanyRegistrationHelper AssertEnterNameMessageDisplayed()
+		{
+			BaseObject.InitPage(_companyRegistrationSecondPage);
+			_companyRegistrationSecondPage.AssertEnterNameMessageDisplayed();
+
+			return this;
+		}
+
+		public CompanyRegistrationHelper AssertEnterLastNameMessageDisplayed()
+		{
+			BaseObject.InitPage(_companyRegistrationSecondPage);
+			_companyRegistrationSecondPage.AssertEnterLastNameMessageDisplayed();
+
+			return this;
+		}
+
+		public CompanyRegistrationHelper AssertEnterCompanyNameMessageDisplayed()
+		{
+			BaseObject.InitPage(_companyRegistrationSecondPage);
+			_companyRegistrationSecondPage.AssertEnterCompanyNameMessageDisplayed();
+
+			return this;
+		}
+
+		public CompanyRegistrationHelper AssertEnterPhoneMessageDisplayed()
+		{
+			BaseObject.InitPage(_companyRegistrationSecondPage);
+			_companyRegistrationSecondPage.AssertEnterPhoneMessageDisplayed();
+
+			return this;
+		}
+
+		public CompanyRegistrationHelper DoubleClickCompanyTypeDropdown()
+		{
+			BaseObject.InitPage(_companyRegistrationSecondPage);
+			_companyRegistrationSecondPage
+				.ClickCompanyTypeDropdown()
+				.ClickCompanyTypeDropdown();
+
+			return this;
+		}
+
+		public CompanyRegistrationHelper AssertSelectCompanyTypeMessageDisplayed()
+		{
+			BaseObject.InitPage(_companyRegistrationSecondPage);
+			_companyRegistrationSecondPage.AssertSelectCompanyTypeMessageDisplayed();
+
+			return this;
+		}
+
+		public CompanyRegistrationHelper ClickCorporateAccountButton()
+		{
+			BaseObject.InitPage(_companyRegistrationSecondPage);
+			_companyRegistrationSecondPage
+				.WaitCreateCorporateAccountButtonBecomeActive()
+				.ClickCreateCorporateAccountButton<CompanyRegistrationSecondPage>();
 
 			return this;
 		}

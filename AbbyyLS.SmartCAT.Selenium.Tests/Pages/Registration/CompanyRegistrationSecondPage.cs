@@ -112,12 +112,12 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Registration
 		/// <summary>
 		/// Нажать кнопку 'Create Corporate Account' на втором шаге регистрации компании 
 		/// </summary>
-		public WorkspacePage ClickCreateCorporateAccountButton()
+		public T ClickCreateCorporateAccountButton<T>() where T : class, IAbstractPage<T>, new()
 		{
 			Logger.Debug("Нажать кнопку 'Create Corporate Account' на втором шаге регистрации компании.");
 			CreateAccountCompanyButton.Click();
 
-			return new WorkspacePage().GetPage();
+			return new T().GetPage();
 		}
 
 		/// <summary>
@@ -139,6 +139,17 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Registration
 		{
 			Logger.Trace("Выбрать {0} тип компании на втором шаге регистрации компании", companyType);
 			CompanyTypeCombobox.SelectOptionByText(companyType);
+
+			return GetPage();
+		}
+
+		/// <summary>
+		/// Кликнуть по Company Type комбобоксу
+		/// </summary>
+		public CompanyRegistrationSecondPage ClickCompanyTypeDropdown()
+		{
+			Logger.Debug("Кликнуть по Company Type комбобоксу");
+			CompanyTypeCombobox.Click();
 
 			return GetPage();
 		}
@@ -166,7 +177,151 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Registration
 
 			return CompanyName.GetElementAttribute("value").Length;
 		}
-	
+
+		/// <summary>
+		/// Проверить, что появилось сообщение 
+		/// 'Use only latin letters, digits, hyphen and underscope. The domain name cannot start with "www", digit, hyphen or underscope.'
+		/// </summary>
+		public CompanyRegistrationSecondPage AssertSubdomainPatternMessageDisplayed()
+		{
+			Logger.Trace("Проверить, что появилось сообщение 'Use only latin letters, digits, hyphen and underscope...'.");
+
+			Assert.IsTrue(SubdomainPatternMessage.Displayed,
+				"Произошла ошибка:\n сообщение 'Use only latin letters, digits, hyphen and underscope...' не появилось.");
+
+			return GetPage();
+		}
+
+		/// <summary>
+		/// Проверить, что появилось сообщение 'The domain name must contain at least 3 characters'
+		/// </summary>
+		public CompanyRegistrationSecondPage AssertSubdomainLenghtMessageDisplayed()
+		{
+			Logger.Trace("Проверить, что появилось сообщение 'The domain name must contain at least 3 characters'.");
+
+			Assert.IsTrue(SubdomainLenghtMessage.Displayed,
+				"Произошла ошибка:\n сообщение 'The domain name must contain at least 3 characters' не появилось.");
+
+			return GetPage();
+		}
+
+		/// <summary>
+		/// Проверить, что появилось сообщение 'A company with this name already exists'
+		/// </summary>
+		public CompanyRegistrationSecondPage AssertCompanyNameMessageDisplayed()
+		{
+			Logger.Trace("Проверить, что появилось сообщение 'A company with this name already exists'.");
+
+			Assert.IsTrue(CompanyNameMessage.Displayed,
+				"Произошла ошибка:\n сообщение 'A company with this name already exists' не появилось.");
+
+			return GetPage();
+		}
+
+		/// <summary>
+		/// Проверить, что появилось сообщение 'Enter your domain name'
+		/// </summary>
+		public CompanyRegistrationSecondPage AssertEnterDomainMessageDisplayed()
+		{
+			Logger.Trace("Проверить, что появилось сообщение 'Enter your domain name'.");
+
+			Assert.IsTrue(EnterDomaineMessage.Displayed,
+				"Произошла ошибка:\n сообщение 'Enter your domain name' не появилось.");
+
+			return GetPage();
+		}
+
+		/// <summary>
+		/// Проверить, что появилось сообщение 'Enter your name'
+		/// </summary>
+		public CompanyRegistrationSecondPage AssertEnterNameMessageDisplayed()
+		{
+			Logger.Trace("Проверить, что появилось сообщение 'Enter your name'.");
+
+			Assert.IsTrue(EnterNameMessage.Displayed,
+				"Произошла ошибка:\n сообщение 'Enter your name' не появилось.");
+
+			return GetPage();
+		}
+
+		/// <summary>
+		/// Проверить, что появилось сообщение 'Enter your last name'
+		/// </summary>
+		public CompanyRegistrationSecondPage AssertEnterLastNameMessageDisplayed()
+		{
+			Logger.Trace("Проверить, что появилось сообщение 'Enter your last name'.");
+
+			Assert.IsTrue(EnterLastNameMessage.Displayed,
+				"Произошла ошибка:\n сообщение 'Enter your last name' не появилось.");
+
+			return GetPage();
+		}
+
+		/// <summary>
+		/// Проверить, что появилось сообщение 'Enter your company name'
+		/// </summary>
+		public CompanyRegistrationSecondPage AssertEnterCompanyNameMessageDisplayed()
+		{
+			Logger.Trace("Проверить, что появилось сообщение 'Enter your company name'.");
+
+			Assert.IsTrue(EnterCompanyNameMessage.Displayed,
+				"Произошла ошибка:\n сообщение 'Enter your company name' не появилось.");
+
+			return GetPage();
+		}
+
+		/// <summary>
+		/// Проверить, что появилось сообщение 'Enter your international phone number'
+		/// </summary>
+		public CompanyRegistrationSecondPage AssertEnterPhoneMessageDisplayed()
+		{
+			Logger.Trace("Проверить, что появилось сообщение 'Enter your international phone number'.");
+
+			Assert.IsTrue(EnterPhoneMessage.Displayed,
+				"Произошла ошибка:\n сообщение 'Enter your international phone number' не появилось.");
+
+			return GetPage();
+		}
+
+		/// <summary>
+		/// Проверить, что появилось сообщение 'Enter your company type'
+		/// </summary>
+		public CompanyRegistrationSecondPage AssertSelectCompanyTypeMessageDisplayed()
+		{
+			Logger.Trace("Проверить, что появилось сообщение 'Enter your company type'.");
+
+			Assert.IsTrue(SelectCompanyTypeMessage.Displayed,
+				"Произошла ошибка:\n сообщение 'Enter your company type' не появилось.");
+
+			return GetPage();
+		}
+		
+		/// <summary>
+		/// Проверить, что сообщение 'The company name must contain at least 2 characters' появилось
+		/// </summary>
+		public CompanyRegistrationSecondPage AssertCompanyNameLengthInvalidMessageDisplayed()
+		{
+			Logger.Trace("Проверить, что сообщение 'The company name must contain at least 2 characters' появилось.");
+
+			Assert.IsTrue(CompanyNameLengthInvalidMessage.Displayed,
+				"Произошла ошибка:\n сообщение 'The company name must contain at least 2 characters.' не появилось.");
+
+			return GetPage();
+		}
+
+		/// <summary>
+		/// Проверить, что сообщение 'The company name must begin with a letter or a quotation mark' появилось
+		/// </summary>
+		public CompanyRegistrationSecondPage AssertCompanyNamePatternMessageDisplayed()
+		{
+			Logger.Trace("Проверить, что сообщение 'The company name must begin with a letter or a quotation mark' появилось.");
+
+			Assert.IsTrue(InvalidPatternCompanyNameMessage.Displayed,
+				"Произошла ошибка:\n сообщение 'The company name must begin with a letter or a quotation mark' не появилось.");
+
+			return GetPage();
+		}
+
 		[FindsBy(How = How.Id, Using = FIRST_NAME)]
 		protected IWebElement FirstName { get; set; }
 
@@ -209,6 +364,39 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Registration
 		[FindsBy(How = How.XPath, Using = EMPTY_PASSWORD_MESSAGE)]
 		protected IWebElement EmptyPasswordMessage { get; set; }
 
+		[FindsBy(How = How.XPath, Using = SUBDOMAIN_PATTERN_MESSAGE)]
+		protected IWebElement SubdomainPatternMessage { get; set; }
+
+		[FindsBy(How = How.XPath, Using = SUBDOMAIN_LENGHT_MESSAGE)]
+		protected IWebElement SubdomainLenghtMessage { get; set; }
+
+		[FindsBy(How = How.XPath, Using = COMPANY_NAME_MESSAGE)]
+		protected IWebElement CompanyNameMessage { get; set; }
+
+		[FindsBy(How = How.XPath, Using = ENTER_DOMAIN_MESSAGE)]
+		protected IWebElement EnterDomaineMessage { get; set; }
+
+		[FindsBy(How = How.XPath, Using = ENTER_NAME_MESSAGE)]
+		protected IWebElement EnterNameMessage { get; set; }
+
+		[FindsBy(How = How.XPath, Using = ENTER_LASTNAME_MESSAGE)]
+		protected IWebElement EnterLastNameMessage { get; set; }
+
+		[FindsBy(How = How.XPath, Using = ENTER_COMPANY_NAME_MESSAGE)]
+		protected IWebElement EnterCompanyNameMessage { get; set; }
+
+		[FindsBy(How = How.XPath, Using = ENTER_PHONE_MESSAGE)]
+		protected IWebElement EnterPhoneMessage { get; set; }
+
+		[FindsBy(How = How.XPath, Using = SELECT_COMPANY_TYPE_MESSAGE)]
+		protected IWebElement SelectCompanyTypeMessage { get; set; }
+
+		[FindsBy(How = How.XPath, Using = INVALID_PATTERN_COMPANY_NAME_MESSAGE)]
+		protected IWebElement InvalidPatternCompanyNameMessage { get; set; }
+
+		[FindsBy(How = How.XPath, Using = COMPANY_NAME_LENGTH_INVALID_MESSAGE)]
+		protected IWebElement CompanyNameLengthInvalidMessage { get; set; }
+
 		protected const string FIRST_NAME = "firstname";
 		protected const string LAST_NAME = "lastname";
 		protected const string COMPANY_NAME = "company";
@@ -225,5 +413,18 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Registration
 		protected const string REQUIRED_PASSWORD_MESSAGE = "//div[contains(@ng-message,'required')]//span[not(contains(@class,'ng-hide'))]";
 		protected const string MINIMUM_LENGHT_PASSWORD_MESSAGE = "//fieldset[contains(@valid,'password')]//div[contains(@ng-message,'minlength')]//span[not(contains(@class,'ng-hide'))]";
 		protected const string EMPTY_PASSWORD_MESSAGE = "//fieldset[contains(@valid,'password')]//div[contains(@ng-message,'required')]//span[not(contains(@class,'ng-hide'))]";
+
+		protected const string SUBDOMAIN_LENGHT_MESSAGE = "//span[@translate='DOMAIN-LENGTH-INVALID']";
+		protected const string SUBDOMAIN_PATTERN_MESSAGE = "//span[@translate='DOMAIN-PATTERN-INVALID']";
+		protected const string COMPANY_NAME_MESSAGE = "//span[@translate='COMPANY-NAME-ALREADY-IN-USE']";
+		protected const string ENTER_DOMAIN_MESSAGE = "//span[@translate='ENTER-DOMAIN']";
+		protected const string ENTER_NAME_MESSAGE = "//span[@translate='ENTER-NAME']";
+		protected const string ENTER_LASTNAME_MESSAGE = "//span[@translate='ENTER-LASTNAME']";
+		protected const string ENTER_COMPANY_NAME_MESSAGE = "//span[@translate='ENTER-COMPANY-NAME']";
+		protected const string ENTER_PHONE_MESSAGE = "//span[@translate='ENTER-TELEPHONE']";
+		protected const string SELECT_COMPANY_TYPE_MESSAGE = "//span[@translate='SELECT-COMPANY-TYPE']";
+		protected const string INVALID_PATTERN_COMPANY_NAME_MESSAGE = "//span[@translate='COMPANY-NAME-PATTERN-INVALID']";
+		protected const string COMPANY_NAME_LENGTH_INVALID_MESSAGE = "//span[@translate='COMPANY-NAME-LENGTH-INVALID']";
+
 	}
 }
