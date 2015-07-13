@@ -23,6 +23,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 
 		public new void LoadPage()
 		{
+			Driver.WaitPageTotalLoad();
 			if (!Driver.WaitUntilElementIsDisplay(By.XPath(GLOSSARY_TABLE)))
 			{
 				Assert.Fail("Произошла ошибка:\n не загрузилась страница с глоссариями.");

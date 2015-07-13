@@ -20,6 +20,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 
 		public new void LoadPage()
 		{
+			Driver.WaitPageTotalLoad();
 			if (!Driver.WaitUntilElementIsDisplay(By.XPath(NEW_ENTRY_BUTTON)))
 			{
 				Assert.Fail("Произошла ошибка:\n не загрузилась страница глоссария.");
