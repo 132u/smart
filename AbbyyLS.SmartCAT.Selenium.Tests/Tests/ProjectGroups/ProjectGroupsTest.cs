@@ -1,4 +1,6 @@
-﻿using NUnit.Framework;
+﻿using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace;
+
+using NUnit.Framework;
 using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
 using AbbyyLS.SmartCAT.Selenium.Tests.FeatureAttributes;
 using AbbyyLS.SmartCAT.Selenium.Tests.TestFramework;
@@ -137,6 +139,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.ProjectGroups
 				.CreateProjectGroup(projectGroup)
 				.AssertSaveButtonDisappear()
 				.DeleteProjectGroup(projectGroup)
+				.AssertProjectGroupNotExist(projectGroup)
 				.GoToTranslationMemoriesPage()
 				.AssertProjectGroupNotExist(projectGroup);
 		}
@@ -150,6 +153,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.ProjectGroups
 				.CreateProjectGroup(projectGroup)
 				.AssertSaveButtonDisappear()
 				.DeleteProjectGroup(projectGroup)
+				.RefreshPage<WorkspacePage, WorkspaceHelper>()
 				.GoToGlossariesPage()
 				.AssertProjectGroupNotExist(projectGroup);
 		}

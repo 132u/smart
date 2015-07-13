@@ -1,4 +1,6 @@
-﻿using NUnit.Framework;
+﻿using System.Threading;
+
+using NUnit.Framework;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.PageObjects;
 
@@ -47,9 +49,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.ProjectGroups
 		public ProjectGroupsPage AssertProjectGroupNotExist(string projectGroupName)
 		{
 			Logger.Trace("Проверить, что группа проектов {0} отсутствует в списке.", projectGroupName);
-			Driver.WaitUntilElementIsDisappeared(By.XPath(PROJECT_GROUP_ROW.Replace("*#*", projectGroupName)));
 
-			Assert.IsFalse(projectGroupIsPresent(projectGroupName),
+			Assert.IsTrue(Driver.WaitUntilElementIsDisappeared(By.XPath(PROJECT_GROUP_ROW.Replace("*#*", projectGroupName))),
 				"Произошла ошибка:\n Группа проектов {0} найдена.", projectGroupName);
 
 			return GetPage();
@@ -149,8 +150,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.ProjectGroups
 			Logger.Debug("Нажать кнопку удаления.");
 			var deleteXPath = DELETE_PROJECT_GROUP_BUTTON.Replace("*#*", projectGroupName);
 
-			Driver.FindElement(By.XPath(deleteXPath)).Click();
-
+			Driver.FindElement(By.XPath(deleteXPath)).JavaScriptClick();
+			//Sleep нужен для предотвращения появления unexpected alert
+			Thread.Sleep(1000);
 			Assert.IsTrue(Driver.WaitUntilElementIsDisappeared(By.XPath(deleteXPath)),
 				"Произошла ошибка:\nКнопка удаления не исчезла после удаления группы проектов.");
 
