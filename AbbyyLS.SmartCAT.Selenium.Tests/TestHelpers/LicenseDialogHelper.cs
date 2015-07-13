@@ -1,13 +1,21 @@
-﻿using AbbyyLS.SmartCAT.Selenium.Tests.DataStructures;
+﻿using System;
+using System.Globalization;
+
+using NLog;
+
+using NUnit.Framework;
+
+using AbbyyLS.SmartCAT.Selenium.Tests.DataStructures;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Billing.LicenseDialog;
 using AbbyyLS.SmartCAT.Selenium.Tests.TestFramework;
-using NUnit.Framework;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 {
 	public class LicenseDialogHelper : BillingHelper
 	{
-		public LicenseDialogHelper SelectDuration(int duration)
+		public static Logger Logger = LogManager.GetCurrentClassLogger();
+
+		public LicenseDialogHelper SelectDuration(Period duration)
 		{
 			BaseObject.InitPage(_licenseExtendDialog);
 			_licenseExtendDialog.SelectExtendDuration(duration);
@@ -101,24 +109,50 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 			return this;
 		}
 
-		public LicenseDialogHelper AssertAdditionalPaymentChanged(string previousAdditionalPayment)
+		public LicenseDialogHelper AssertCurrentLicenseNumberOptionNotExistInDropdown(int licenseNumber)
 		{
-			BaseObject.InitPage(_licenseBaseDialog);
-			var currentAdditionalPayment = GetAdditionalPayment();
-
-			Log.Trace("Проверить, что дополнительная сумма оплаты до ({0}) и после ({1}) обновления/продления изменилась.",
-				previousAdditionalPayment, currentAdditionalPayment);
-			Assert.AreNotEqual(previousAdditionalPayment, currentAdditionalPayment,
-				"Произошла ошибка:\n дополнительная сумма оплаты не изменилась.");
+			BaseObject.InitPage(_licenseUpgradeDialog);
+			_licenseUpgradeDialog
+				.OpenLicenseNumberDropdown()
+				.AssertLicenseNumberNotExistInDropdown(licenseNumber);
 
 			return this;
 		}
 
-		public string GetAdditionalPayment()
+		public LicenseDialogHelper AssertAdditionalPaymentIsCorrect(int newPackagePrice, Period monthsPeriod)
+		{
+			var expectedAdditionalPayment = calculateAdditionalPayment(CurrentPackagePrice(), newPackagePrice, monthsPeriod);
+
+			Logger.Trace("Проверить, что дополнительная сумма оплаты при апгрейде пакета равна {0}.", expectedAdditionalPayment);
+
+			Assert.AreEqual(expectedAdditionalPayment, AdditionalPayment(),
+				"Произошла ошибка:\n дополнительная сумма оплаты при апгрейде пакета вычислена неверно.");
+
+			return this;
+		}
+
+		public LicenseDialogHelper AdditionalPaymentForPackageExtend(int expectedAdditionalPayment)
+		{
+			Logger.Trace("Проверить, что дополнительная сумма оплаты при продлении пакета равна {0}.", expectedAdditionalPayment);
+
+			Assert.AreEqual(expectedAdditionalPayment, AdditionalPayment(),
+				"Произошла ошибка:\n дополнительная сумма оплаты при продлении пакета вычислена неверно.");
+
+			return this;
+		}
+
+		public int AdditionalPayment()
 		{
 			BaseObject.InitPage(_licenseBaseDialog);
 
 			return _licenseBaseDialog.GetAdditionalPayment();
+		}
+
+		public int CurrentPackagePrice()
+		{
+			BaseObject.InitPage(_licenseBaseDialog);
+
+			return _licenseBaseDialog.CurrentPackagePrice();
 		}
 
 		private LicenseDialogHelper switchToPaymentIFrame()
@@ -135,6 +169,42 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 			_licensePaymentDialog.SwitchToDefaultContentFromPaymentIFrame();
 
 			return this;
+		}
+
+		/// <summary>
+		/// Посчитать количество оставшихся дней действия текущего пакета лицензий
+		/// </summary>
+		private int calculateLeftDays()
+		{
+			Logger.Trace("Посчитать количество оставшихся дней действия текущего пакета лицензий.");
+			BaseObject.InitPage(_licenseUpgradeDialog);
+
+			var period = _licenseUpgradeDialog.PackageValidityPeriod();
+			var periodArray = period.Split('—');
+
+			DateTime startDate = DateTime.ParseExact(periodArray[0], "M/d/yyyy", CultureInfo.InvariantCulture);
+			DateTime endDate = DateTime.ParseExact(periodArray[1], "M/d/yyyy", CultureInfo.InvariantCulture);
+
+			return (endDate - startDate).Days;
+		}
+
+		/// <summary>
+		/// Посчитать дополнительную плату за продление/обновление пакета лицензий
+		/// </summary>
+		/// <param name="currentPackagePrice">стоимость нового пакета лицензий</param>
+		/// <param name="newPackagePrice"> стоимость старого пакета лицензий</param>
+		/// <param name="totalPeriod">общий срок действия текущего пакета лицензий</param>
+		private int calculateAdditionalPayment(int currentPackagePrice, int newPackagePrice, Period totalPeriod)
+		{
+			Logger.Trace("Посчитать дополнительную плату за продление/обновление пакета лицензий по формуле:"
+						 + "\n Стоимость = n*(y-x)/k, Где n – количество оставшихся дней действия текущего пакета лицензий,"
+						 + " k – общий срок действия текущего пакета лицензий, y – стоимость нового пакета лицензий, x – стоимость старого пакета лицензий.");
+
+			var totalCountDays = (DateTime.Now.AddMonths((int)totalPeriod) - DateTime.Now).Days;
+
+			return calculateLeftDays() * (newPackagePrice - currentPackagePrice) / totalCountDays;
+
+
 		}
 
 		private readonly LicenseExtendDialog _licenseExtendDialog = new LicenseExtendDialog();

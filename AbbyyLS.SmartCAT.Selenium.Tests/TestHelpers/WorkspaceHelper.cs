@@ -138,6 +138,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 		public BillingHelper GoToBillingPage()
 		{
 			BaseObject.InitPage(_workspacePage);
+			BaseObject.InitPage(_projectsPage);
+
 			_workspacePage
 				.ClickAccount()
 				.AssertAccountProfileDisplayed()

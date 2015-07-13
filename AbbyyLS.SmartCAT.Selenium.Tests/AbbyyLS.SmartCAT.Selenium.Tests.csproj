@@ -72,6 +72,7 @@
     <Compile Include="DataStructures\CompanyRegistrationField.cs" />
     <Compile Include="DataStructures\GlossarySystemField.cs" />
     <Compile Include="DataStructures\CompanyType.cs" />
+    <Compile Include="DataStructures\Period.cs" />
     <Compile Include="DataStructures\StartPage.cs" />
     <Compile Include="DataStructures\LicenseOperation.cs" />
     <Compile Include="DataStructures\Deadline.cs" />
@@ -200,9 +201,11 @@
     <Compile Include="Tests\Projects\AutofillProjectNameTests.cs" />
     <Compile Include="Tests\Projects\BasicProjectTests.cs" />
     <Compile Include="Tests\BaseTest.cs" />
-    <Compile Include="Tests\BillingTests.cs" />
+    <Compile Include="Tests\Billing\BaseBillingTests.cs" />
     <Compile Include="Tests\Projects\ChangeProjectNameTests.cs" />
     <Compile Include="Tests\Clients\ClientsTests.cs" />
+    <Compile Include="Tests\Billing\BillingTests.cs" />
+    <Compile Include="Tests\Billing\BuyLicensePackageTests.cs" />
     <Compile Include="Configs\UserInfoConfig.cs" />
     <Compile Include="Tests\Glossaries\BasicGlossaryTests.cs" />
     <Compile Include="Tests\Projects\Export\ExportProjectBaseTests.cs" />

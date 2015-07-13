@@ -3,6 +3,7 @@
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.PageObjects;
 
+using AbbyyLS.SmartCAT.Selenium.Tests.DataStructures;
 using AbbyyLS.SmartCAT.Selenium.Tests.TestFramework;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Billing.LicenseDialog
@@ -29,10 +30,11 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Billing.LicenseDialog
 		/// Выбрать период для продления лицензии
 		/// </summary>
 		/// <param name="duration">период</param>
-		public LicenseExtendDialog SelectExtendDuration(int duration)
+		public LicenseExtendDialog SelectExtendDuration(Period duration)
 		{
-			Logger.Debug("Выбрать {0} месяц(а/ев) для продления пакета лицензий.", duration);
-			ExtendPeriod.SelectOptionByText(duration + " months");
+			Logger.Debug("Выбрать {0} месяц(а/ев) для продления пакета лицензий.", duration.Description());
+
+			ExtendPeriod.SelectOptionByText((int)duration + " months");
 
 			return GetPage();
 		}
@@ -43,7 +45,5 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Billing.LicenseDialog
 		public const string EXTEND_PERIOD = "//select[contains(@ng-options, 'optionsPrices')]";
 		public const string EXTEND_HEADER = "//h3[contains(text(), 'Extention') or contains(text(), 'Продление')]";
 		public const string UPGRADE_COMPLETE_DIALOG = "//div[contains(@class, 'message-popup ng-scope')]//div[contains(@class, 'content') and (contains(text(), 'Thank you') or contains(text(), 'Спасибо, что увеличили'))]";
-
-
 	}
 }

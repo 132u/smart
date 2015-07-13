@@ -9,6 +9,7 @@ using OpenQA.Selenium;
 using OpenQA.Selenium.Support.PageObjects;
 
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Billing.LicenseDialog;
+using AbbyyLS.SmartCAT.Selenium.Tests.DataStructures;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace;
 using AbbyyLS.SmartCAT.Selenium.Tests.TestFramework;
 
@@ -71,11 +72,11 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Billing
 		/// Нажать кнопку Buy для определенного периода
 		/// </summary>
 		/// <param name="monthPeriod">период, на который покупается лицензия</param>
-		public LicensePurchaseDialog ClickBuyButton(int monthPeriod)
+		public LicensePurchaseDialog ClickBuyButton(Period monthPeriod)
 		{
 			Logger.Debug("Нажать кнопку Buy для периода {0} месяцев.", monthPeriod);
-			Driver.SetDynamicValue(How.XPath, BUY_BUTTON, monthPeriod.ToString()).Click();
-
+			Driver.FindElement(By.XPath(BUY_BUTTON.Replace("'*#*'", monthPeriod.Description()))).Click();
+			
 			return new LicensePurchaseDialog().GetPage();
 		}
 
@@ -142,6 +143,21 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Billing
 		}
 
 		/// <summary>
+		/// Получить стоимость пакета лицензий из нижней таблицы
+		/// </summary>
+		/// <param name="period">период 1/3/6/12 месяцев</param>
+		public int PackagePrice(Period period)
+		{
+			Logger.Trace("Получить стоимость пакета лицензий за {0} месяцев.", period.Description());
+			var priceWithDot = Driver.FindElement(By.XPath(PACKAGE_PRICE.Replace("'*#*'", period.Description()))).Text;
+			var price = priceWithDot.Substring(0, priceWithDot.IndexOf(".")).Replace(",","");
+			int resultPrice;
+			int.TryParse(price, out resultPrice);
+
+			return resultPrice;
+		}
+
+		/// <summary>
 		/// Получить список всех кнопок Upgrade(видимых и невидимых)
 		/// </summary>
 		/// <returns>cписок кнопок Upgrade</returns>
@@ -176,7 +192,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Billing
 		protected IWebElement Logo { get; set; }
 
 		public const string UPGRADE_BUTTONS = "//tr[@class='ng-scope']//td[contains(@ng-if, 'ManuallyCreated')]//a[contains(@ng-show, 'ctrl.canIncrease')]";
-		public const string LICENSES_LIST = "//table[@class='t-licenses ng-scope']/tbody/tr[not(@ng-if='ctrl.demoPackage')]";
+		public const string LICENSES_LIST = "//table[@class='t-licenses ng-scope']/tbody/tr[not(@ng-if='ctrl.demoPackage')]//td[contains(@ng-bind, 'LicensesAmountText')]";
 		public const string LICENSE_NUMBER = "//table[contains(@class, 'add-lic')]//select[contains(@ng-model, 'selectedOption')]";
 		public const string BUY_BUTTON = "//td['*#*']//a[contains(@class, 'danger')]";
 		public const string EXTEND_BUTTON = "//tbody//tr['*#*']//a[contains(@abb-link-click, 'editLicensePackage(package, false)')]";
@@ -184,5 +200,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Billing
 		public const string END_DATE_COLUMN = "//td[contains(@ng-class,'willExpireSoon')]";
 		public const string LICENSE_QUANTITY_COLUMN = "//td[contains(text(),'license') or contains(text(),' licenses')]"; 
 		public const string LOGO = "//a[@id='logo']";
+		public const string PACKAGE_PRICE = "//table[contains(@class, ' add-lic')]//tbody//tr[1]//td['*#*']";
 	}
 }

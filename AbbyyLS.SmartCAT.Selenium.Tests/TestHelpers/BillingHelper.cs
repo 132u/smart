@@ -1,8 +1,12 @@
 ﻿using System;
+
 using NLog;
+
 using NUnit.Framework;
+
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Billing;
 using AbbyyLS.SmartCAT.Selenium.Tests.TestFramework;
+using AbbyyLS.SmartCAT.Selenium.Tests.DataStructures;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 {
@@ -10,7 +14,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 	{
 		public static Logger Log = LogManager.GetCurrentClassLogger();
 
-		public LicenseDialogHelper OpenLicensePurchaseDialog(int licenseNumber = 5, int period = 3)
+		public LicenseDialogHelper OpenLicensePurchaseDialog(int licenseNumber = 5, Period period = Period.ThreeMonth)
 		{
 			BaseObject.InitPage(_billingPage);
 			_billingPage
@@ -35,12 +39,13 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 			return _billingPage.PackagesCount();
 		}
 
-		public BillingHelper AssertPackagesCountChanged(int expectedCount)
+		public BillingHelper AssertPackagesCountEquals(int expectedCount)
 		{
 			BaseObject.InitPage(_billingPage);
 			var actualCount = _billingPage.PackagesCount();
 
-			Log.Trace("Проверить, что количество пакетов лицензий изменилось.");
+			Log.Trace("Проверить, что количество пакетов лицензий равно {0}.", expectedCount);
+
 			Assert.AreEqual(expectedCount, actualCount,
 				"Произошла ошибка:\n количество пакетов лицензий не изменилось.");
 
@@ -52,7 +57,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 			BaseObject.InitPage(_billingPage);
 			var actualCount = _billingPage.LicenseCountInPackage();
 
-			Log.Trace("Проверить, что количество лицензий в пакете изменилось.");
+			Log.Trace("Проверить, что количество лицензий в пакете изменилось и равно {0}.", expectedCount);
+
 			Assert.AreEqual(expectedCount, actualCount,
 				"Произошла ошибка:\n количество лицензий в пакете не соответствует ожидаемому.");
 
@@ -64,7 +70,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 			BaseObject.InitPage(_billingPage);
 			var actualEndDate = _billingPage.GetEndDate();
 
-			Log.Trace("Проверить, что срок действия пакета изменился.");
+			Log.Trace("Проверить, что срок действия пакета равен {0}.", expectedEndDate);
+
 			Assert.AreEqual(expectedEndDate, actualEndDate,
 				"Произошла ошибка:\n срок действия пакета лицензий не соответствует ожидаемому.");
 
@@ -100,6 +107,15 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 			_billingPage.AssertCurrencyInPurchaseTable(currency);
 
 			return this;
+		}
+
+		public int PackagePrice(Period period, int numberLicenses)
+		{
+			BaseObject.InitPage(_billingPage);
+
+			return _billingPage
+				.SelectLicenseNumber(numberLicenses)
+				.PackagePrice(period);
 		}
 
 		private readonly BillingPage _billingPage = new BillingPage();
