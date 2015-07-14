@@ -20,7 +20,14 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.TranslationMemories
 			var importFilePath = needUploadTmx ? _importTmxFile : null;
 			
 			TranslationMemoriesHelper
-				.CreateTranslationMemory(UniqueTranslationMemoryName, importFilePath: importFilePath)
+				.CreateTranslationMemory(UniqueTranslationMemoryName, importFilePath: importFilePath);
+
+			if (needUploadTmx)
+			{
+				TranslationMemoriesHelper.AssertTMXFileIsImported();
+			}
+
+			TranslationMemoriesHelper
 				.AssertTranslationMemoryExists(UniqueTranslationMemoryName)
 				.RenameTranslationMemory(UniqueTranslationMemoryName, string.Empty)
 				.AssertNoNameErrorAppearInEditionForm();
@@ -92,9 +99,15 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.TranslationMemories
 		{
 			var importFilePath = needUploadTmx ? _importTmxFile : null;
 
-			TranslationMemoriesHelper
-				.CreateTranslationMemory(UniqueTranslationMemoryName, importFilePath: importFilePath)
-				.AssertTranslationMemoryExists(UniqueTranslationMemoryName)
+			TranslationMemoriesHelper.CreateTranslationMemory(UniqueTranslationMemoryName, importFilePath: importFilePath);
+
+			if (needUploadTmx)
+			{
+				TranslationMemoriesHelper.AssertTMXFileIsImported();
+			}
+
+			TranslationMemoriesHelper.
+				AssertTranslationMemoryExists(UniqueTranslationMemoryName)
 				.EditComment(UniqueTranslationMemoryName, InitialComment)
 				.AssertCommentExist(InitialComment)
 				.EditComment(UniqueTranslationMemoryName, FinalComment)
