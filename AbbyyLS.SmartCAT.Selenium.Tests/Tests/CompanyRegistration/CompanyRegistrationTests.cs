@@ -440,7 +440,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.CompanyRegistration
 				.ClickSignInButton()
 				.FillCompanyDataSecondStep(_firstName, _lastName, _maximumCompanyName, _subDomain, companyType: CompanyType.LanguageServiceProvider)
 				.AssertCreateCorporateAccountButtonInactive()
-				.AssertCompanyNameMessageDisplayed();
+				.AssertCompanyNameAlreadyInUseMessageDisplayed();
 		}
 
 		[Test]

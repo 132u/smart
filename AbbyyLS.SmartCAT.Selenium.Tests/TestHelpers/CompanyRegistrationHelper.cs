@@ -209,6 +209,14 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 			return this;
 		}
 
+		public CompanyRegistrationHelper AssertCompanyNameAlreadyInUseMessageDisplayed()
+		{
+			BaseObject.InitPage(_companyRegistrationSecondPage);
+			_companyRegistrationSecondPage.AssertCompanyNameMessageDisplayed();
+
+			return this;
+		}
+
 		public CompanyRegistrationHelper AssertEnterDomainMessageDisplayed()
 		{
 			BaseObject.InitPage(_companyRegistrationSecondPage);
