@@ -53,6 +53,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 			Logger.Debug("Нажать кнопку Import в диалоге импорта глоссария.");
 			ImportButton.Click();
 
+			Driver.WaitUntilElementIsDisappeared(By.XPath(IMPORT_IN_PROGRESS_MESSAGE), timeout: 20);
+
 			return new GlossarySuccessImportDialog().GetPage();
 		}
 
@@ -76,5 +78,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 		protected const string IMPORT_GLOSSARY_INPUT = "//form[contains(@action,'Enterprise/Glossaries/Import')]//input[contains(@class,'js-submit-input')]";
 		protected const string IMPORT_BUTTON = "//div[contains(@class,'js-popup-import')][2]//span[contains(@class,'js-import-button')]";
 		protected const string REPLACE_ALL_BUTTON = "//div[contains(@class,'js-popup-import')][2]//input[contains(@id,'needToClear')][@value='True']";
+		protected const string IMPORT_IN_PROGRESS_MESSAGE = "//div[contains(@class, 'js-please-wait')]";
 	}
 }

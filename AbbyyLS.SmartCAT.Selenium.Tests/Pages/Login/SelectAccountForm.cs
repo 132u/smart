@@ -20,7 +20,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Login
 		{
 			Driver.WaitUntilElementIsDisappeared(By.XPath(WAITING_SERVER_RESPONSE_MESSAGE));
 
-			if (!Driver.WaitUntilElementIsDisplay(By.XPath(ACCOUNT_SELECTION_FORM)))
+			if (!Driver.WaitUntilElementIsDisplay(By.XPath(ACCOUNT_SELECTION_FORM), timeout: 30))
 			{
 				Assert.Fail("Произошла ошибка:\n не загрузилась форма выбора аккаунта.");
 			}

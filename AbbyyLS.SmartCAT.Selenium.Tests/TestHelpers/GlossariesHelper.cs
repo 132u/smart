@@ -328,7 +328,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 			DateTime convertModifiedDate = _glossariesPage.GlossaryDateModified(glossaryName);
 			TimeSpan result = DateTime.Now - convertModifiedDate;
 
-			Assert.IsTrue(result.TotalMinutes < 2,
+			Assert.IsTrue(result.TotalMinutes < 5,
 				"Произошла ошибка:\n дата создания {0} глоссария {1} не совпадет с текущей датой.", convertModifiedDate.ToShortDateString(), glossaryName);
 
 			return this;
