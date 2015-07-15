@@ -27,7 +27,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.CompanyRegistration
 			_lastName = "lastName" + Guid.NewGuid();
 			_maximumCompanyName = ("companyName" + Guid.NewGuid()).Substring(0, _companyNameMaxLenght);
 			_subDomain = "subDomainl" + Guid.NewGuid();
-			_minimumCompanyName = ("c" + Guid.NewGuid()).Substring(0, 2);
+			_minimumCompanyName = Guid.NewGuid().ToString().Substring(0, 2);
 		}
 
 		[Test]

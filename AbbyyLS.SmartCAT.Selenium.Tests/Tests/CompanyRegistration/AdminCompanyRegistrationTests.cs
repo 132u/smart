@@ -22,7 +22,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.CompanyRegistration
 		public void SetUpAdminCompanyRegistration()
 		{
 			_accountUniqueName = "AccountUniqueName" + Guid.NewGuid().ToString().Substring(0, 5);
-			_email = "email" + Guid.NewGuid().ToString().Substring(0, 4) + "@mailforspam.com";
+			_email = Guid.NewGuid().ToString().Substring(0, 8) + "@mailforspam.com";
 			_password = "password" + Guid.NewGuid();
 			_firstName = "firstName" + Guid.NewGuid();
 			_lastName = "lastName" + Guid.NewGuid();
