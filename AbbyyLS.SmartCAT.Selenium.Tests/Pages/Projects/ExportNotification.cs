@@ -21,7 +21,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 
 		public void LoadPage()
 		{
-			if (!Driver.WaitUntilElementIsDisplay(By.XPath(NOTIFIER_DOWNLOAD_BTN)))
+			if (!Driver.WaitUntilElementIsDisplay(By.XPath(NOTIFIER_DOWNLOAD_BTN), timeout: 30))
 			{
 				Assert.Fail("Произошла ошибка:\n уведомление не появилось.");
 			}
@@ -32,18 +32,21 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 		/// </summary>
 		public T ClickDownloadNotifier<T>() where T : class, IAbstractPage<T>, new()
 		{
-			Logger.Debug("Кликнуть кнопку загрузки в сообщении об экспорте");
+			Logger.Debug("Кликнуть кнопку загрузки в сообщении об экспорте.");
+			IWebElement element;
+
 			try
 			{
-				DownloadNotifierButton.JavaScriptClick();
+				element = Driver.FindElement(By.XPath(NOTIFIER_DOWNLOAD_BTN));
 			}
 			catch (StaleElementReferenceException)
 			{
-				Logger.Warn("Не удалось кликнуть на кнопку загрузки. Предпринять повторную попытка.");
-				DownloadNotifierButton.JavaScriptClick();
+				Logger.Warn("Не удалось найти кнопку загрузки в сообщении об экспорте. Предпринять повторную попытка.");
+				element = Driver.FindElement(By.XPath(NOTIFIER_DOWNLOAD_BTN));
 			}
-			
 
+			element.Click();
+			
 			return new T().GetPage();
 		}
 
