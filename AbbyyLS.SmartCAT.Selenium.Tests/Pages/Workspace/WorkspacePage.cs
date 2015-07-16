@@ -125,7 +125,18 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace
 		/// </summary>
 		public WorkspacePage ExpandResourcesIfNotExpanded()
 		{
-			if (!ResourcesMenu.GetAttribute("class").Contains("nested-expanded"))
+			IWebElement resourcesMenu;
+			try
+			{
+				resourcesMenu = Driver.FindElement(By.XPath(RESOURCES_MENU));
+			}
+			catch (StaleElementReferenceException)
+			{
+				Logger.Warn("StaleElementReferenceException: Не удалось найти элемент. Предпринять повторную попытку.");
+				resourcesMenu = Driver.FindElement(By.XPath(RESOURCES_MENU));
+			}
+
+			if (!resourcesMenu.GetAttribute("class").Contains("nested-expanded"))
 			{
 				ExpandResourcesMenuButton.Click();
 			}
