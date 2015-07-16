@@ -52,8 +52,14 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Billing
 		{
 			Logger.Trace("Получить количество лицензий в пакете из первой колонки верхней таблицы.");
 			var licenseNumber = LicenseQuantityColumn.Text.Split(' ');
+			int licenseNumberInteger;
 
-			return int.Parse(licenseNumber[0]);
+			if (!int.TryParse(licenseNumber[0], out licenseNumberInteger))
+			{
+				Assert.Fail("Произошла ошибка:\n не удалось преобразование количества лицензий в пакете из первой колонки верхней таблицы {0} в число.", licenseNumber[0]);
+			}
+
+			return licenseNumberInteger;
 		}
 
 		/// <summary>
