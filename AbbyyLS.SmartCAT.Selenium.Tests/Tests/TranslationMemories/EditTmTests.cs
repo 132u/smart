@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System.Collections.Generic;
+using System.IO;
 
 using NUnit.Framework;
 
@@ -120,12 +121,12 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.TranslationMemories
 			TranslationMemoriesHelper
 				.CreateTranslationMemory(UniqueTranslationMemoryName)
 				.AssertTranslationMemoryExists(UniqueTranslationMemoryName)
-				.AssertLanguagesForTranslationMemory(UniqueTranslationMemoryName, EnglishLanguage, new[] {RussianLanguage})
+				.AssertLanguagesForTranslationMemory(UniqueTranslationMemoryName, EnglishLanguage, new List<string> {RussianLanguage})
 				.AddTargetLanguageToTranslationMemory(UniqueTranslationMemoryName, Language.Lithuanian)
 				.RefreshPage<TranslationMemoriesPage, TranslationMemoriesHelper>()
 				.FindTranslationMemory(UniqueTranslationMemoryName)
 				.AssertLanguagesForTranslationMemory(
-					UniqueTranslationMemoryName, EnglishLanguage,new[] {RussianLanguage, LithuanianLanguage});
+					UniqueTranslationMemoryName, EnglishLanguage, new List<string> { RussianLanguage, LithuanianLanguage });
 		}
 
 		[TestCase(true)]

@@ -1,4 +1,6 @@
-﻿using System.Threading;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 
 using NUnit.Framework;
 
@@ -361,17 +363,27 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories
 		public TranslationMemoriesPage AssertLanguagesForTranslationMemory(
 			string translationMemoryName,
 			string sourceLanguage,
-			string[] targetLanguages)
+			List<string> targetLanguages)
 		{
-			var formattedLanguagesString = string.Concat(sourceLanguage, " > ", string.Join(", ", targetLanguages));
+			Logger.Trace("Проверить, указаны ли для ТМ {0} корректные языки: source = {1}, target = {2}.",
+				translationMemoryName, sourceLanguage, targetLanguages);
+			var TM = Driver.FindElement(By.XPath(TM_LANGUAGES_IN_TABLE.Replace("*#*", translationMemoryName)));
+			var languagesColumn = TM.Text;
+			var languagesList = languagesColumn.Split(new[] { '>' }).ToList();
 
-			Logger.Trace("Проверить, указаны ли для ТМ {0} корректные языки {1}", translationMemoryName, formattedLanguagesString);
-			var translationMemoryLanguages = TM_LANGUAGES
-				.Replace("*#*", translationMemoryName)
-				.Replace("*##*", formattedLanguagesString);
+			Assert.AreEqual(2, languagesList.Count(), "Произошла ошибка:\n неверное количество элементов в списке с source и target языками.");
+			
+			var actualSource = languagesList[0].Trim();
+			var actualTargetList = languagesList[1].Split(new[] { ',', ' ' }, StringSplitOptions.RemoveEmptyEntries).ToList();
+			
+			Assert.AreEqual(sourceLanguage, actualSource,
+				"Произошла ошибка:\n source языки не совпали.");
 
-			Assert.IsTrue(Driver.WaitUntilElementIsDisplay(By.XPath(translationMemoryLanguages)),
-				"Произошла ошибка:\n для ТМ неверно отображены исходный язык и язык перевода.");
+			Assert.IsFalse(targetLanguages.Except(actualTargetList).Any(),
+				"Произошла ошибка:\nСписки target языков не совпали. Ожидаемый список target языков содержит больше элементов чем фактический список.");
+
+			Assert.IsFalse(actualTargetList.Except(targetLanguages).Any(),
+				"Произошла ошибка:\nСписки target языков не совпали. Фактический список target языков содержит больше элементов чем ожидаемый список.");
 
 			return GetPage();
 		}
@@ -478,9 +490,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories
 
 		[FindsBy(How = How.XPath, Using = TM_EDIT_TARGET_LANGUAGE_LIST)]
 		protected IWebElement TranslationMemoryTargetLanguagesList { get; set; }
-
 		protected IWebElement TargetLanguage { get; set; }
-
 
 		protected const string ADD_TM_BTN = "//span[contains(@data-bind,'createTm')]//a";
 		protected const string CREATE_TM_DIALOG = "//div[contains(@class,'js-popup-create-tm')][2]";
@@ -495,6 +505,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories
 		protected const string TM_NAME = "(//th[contains(@data-sort-by,'Name')]//a)[1]";
 		protected const string CREATION_DATE = "//th[contains(@data-sort-by,'CreatedDate')]//a";
 		protected const string TM_LANGUAGES = "//td[@class='l-corpr__td tm']//span[string()='*#*']/parent::td/parent::tr//td[2]//span[string()='*##*']";
+		protected const string TM_LANGUAGES_IN_TABLE = "//td[@class='l-corpr__td tm']//span[string()='*#*']/parent::td/parent::tr//td[2]//span";
 		protected const string TARGET_LANG_ITEM = "//div[contains(@class,'ui-multiselect')][2]//ul[@class='ui-multiselect-checkboxes ui-helper-reset']//li//input[@value='*#*']";
 
 		protected const string TM_EDIT_BUTTON = "//tr[@class='js-tm-panel']//span[contains(@data-bind, 'switchToEditing')]//a";

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 
 using AbbyyLS.SmartCAT.Selenium.Tests.DataStructures;
@@ -304,7 +305,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 		public TranslationMemoriesHelper AssertLanguagesForTranslationMemory(
 			string translationMemoryName, 
 			string sourceLanguage, 
-			string[] targetlanguages)
+			List<string> targetlanguages)
 		{
 			BaseObject.InitPage(_translationMemoriesPage);
 			_translationMemoriesPage.AssertLanguagesForTranslationMemory(translationMemoryName, sourceLanguage, targetlanguages);
