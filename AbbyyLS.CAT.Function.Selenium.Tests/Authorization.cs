@@ -275,7 +275,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		/// <summary>
 		/// Авторизация пользователя с неактивными аккаунтом
 		/// </summary>
-		[Test]
+		[Explicit("PRX-10821"), Test]
 		public void LoginInactiveAccount()
 		{
 			LoginToAdminPage();
