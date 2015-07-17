@@ -32,7 +32,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Registration
 		public T ClickContinueButton<T>() where T : class, IAbstractPage<T>, new()
 		{
 			Logger.Debug("Нажать кнопку Continue.");
-			ContinueButton.Click();
+			ContinueButton.JavaScriptClick();
 
 			return new T().GetPage();
 		}

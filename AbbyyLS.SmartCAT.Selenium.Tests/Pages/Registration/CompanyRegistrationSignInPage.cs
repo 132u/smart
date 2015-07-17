@@ -57,7 +57,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Registration
 		public CompanyRegistrationSecondPage ClickSignInButton()
 		{
 			Logger.Debug("Нажать кнопку 'Sign In'.");
-			SignInButton.Click();
+			SignInButton.JavaScriptClick();
 
 			return new CompanyRegistrationSecondPage().GetPage();
 		}
