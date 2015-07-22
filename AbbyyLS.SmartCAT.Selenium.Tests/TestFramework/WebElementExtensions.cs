@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Threading;
+
 using NLog;
 using NUnit.Framework;
 
@@ -134,6 +134,11 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestFramework
 
 			try
 			{
+				webElement.Click();
+			}
+			catch (StaleElementReferenceException)
+			{
+				Logger.Warn("StaleElementReferenceException: Не удалось кликнуть по элементу после скроллинга. Предпринять повторную попытку.");
 				webElement.Click();
 			}
 			catch (Exception ex)

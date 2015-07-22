@@ -45,7 +45,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 				element = Driver.FindElement(By.XPath(NOTIFIER_DOWNLOAD_BTN));
 			}
 
-			element.Click();
+			element.JavaScriptClick();
 			
 			return new T().GetPage();
 		}

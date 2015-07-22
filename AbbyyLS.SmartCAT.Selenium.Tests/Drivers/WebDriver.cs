@@ -7,6 +7,7 @@ using System.Linq;
 
 using NLog;
 using NUnit.Framework;
+
 using OpenQA.Selenium;
 using OpenQA.Selenium.Remote;
 using OpenQA.Selenium.Support.PageObjects;
@@ -68,7 +69,19 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Drivers
 
 		public IWebElement FindElement(By by)
 		{
-			return _driver.FindElement(by);
+			IWebElement element;
+
+			try
+			{
+				element = _driver.FindElement(by);
+			}
+			catch (StaleElementReferenceException)
+			{
+				Logger.Warn("StaleElementReferenceException: Не удалось найти элемент {0}. Предпринять повторную попытку поиска.", by);
+				element = _driver.FindElement(by);
+			}
+
+			return element;
 		}
 
 		public ReadOnlyCollection<IWebElement> FindElements(By by)
