@@ -14,3 +14,5 @@ if (!(Test-Path -path $destFolder\TestResults\log\ModuleHosting))
 Get-ChildItem \\$deployServerName.als.local\ABBYYLS\CAT\log\Web -Exclude debug.log, info.log |Copy-Item -Destination $destFolder\TestResults\log\Web
 
 Get-ChildItem \\$deployServerName.als.local\ABBYYLS\CAT\log\ModuleHosting -Exclude debug.log, info.log |Copy-Item -Destination $destFolder\TestResults\log\ModuleHosting
+
+Get-ChildItem \\$deployServerName.als.local\ABBYYLS\CAT\log\Web.Admin -Exclude debug.log, info.log |Copy-Item -Destination $destFolder\TestResults\log\Web.Admin
