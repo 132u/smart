@@ -85,7 +85,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.InitialData
 			foreach (var user in CourseraUserList)
 			{
 				_adminHelper
-					.CreateNewUser(user.Login, user.Login, user.Password)
+					.CreateNewUser(user.Login, user.Login, user.Password, aolUser: true)
 					.AddUserToSpecificAccount(user.Login, LoginHelper.CourseraAccountName);
 			}
 		}
