@@ -41,9 +41,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		{
 			Logger.Debug("Нажать кнопку 'Домой'.");
 			HomeButton.Click();
-			Driver.SwitchTo().Window(Driver.WindowHandles[1]).Close();
-			Driver.SwitchTo().Window(Driver.WindowHandles[0]);
-
+		
 			return new ProjectSettingsPage().GetPage();
 		}
 
