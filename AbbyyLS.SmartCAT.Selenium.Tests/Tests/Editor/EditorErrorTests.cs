@@ -11,16 +11,14 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Editor
 		[Test]
 		public void FindErrorButtonTest()
 		{
-			EditorHelper
-				.ClickFindErrorsButton();
+			EditorHelper.ClickFindErrorsButton();
 		}
 
 		[Test]
 		[Explicit("Тест использует хоткеи и не прогоняется в тимсити")]
 		public void FindErrorHotkeyTest()
 		{
-			EditorHelper
-				.FindErrorsByHotkeys();
+			EditorHelper.FindErrorsByHotkeys();
 		}
 	}
 }
