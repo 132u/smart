@@ -72,12 +72,12 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Admin
 		/// <summary>
 		/// Нажать кнопку 'Submit' при создании нового юзера
 		/// </summary>
-		public AdminEditUserPage ClickSubmitButton()
+		public T ClickSubmitButton<T>()where T: class, IAbstractPage<T>, new()
 		{
 			Logger.Trace("Нажать кнопку 'Submit'.");
 			SaveButton.Click();
 
-			return new AdminEditUserPage();
+			return new T().GetPage();
 		}
 
 		/// <summary>

@@ -26,7 +26,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Admin
 
 		public new void LoadPage()
 		{
-			if (!Driver.WaitUntilElementIsDisplay(By.XPath(SELECT_VENTURE)))
+			if (!Driver.WaitUntilElementIsDisplay(By.XPath(SELECT_VENTURE), timeout: 25))
 			{
 				Assert.Fail("Произошла ошибка:\n не загружена страничка AdminEnterpriseAccountsPage (Корпоративные аккаунты).");
 			}

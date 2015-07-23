@@ -162,7 +162,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 			string email,
 			string nickName,
 			string password,
-			bool admin = false)
+			bool admin = false,
+			bool aolUser = false)
 		{
 			BaseObject.InitPage(_adminLingvoProPage);
 			_adminLingvoProPage
@@ -170,8 +171,18 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 				.FillEmail(email)
 				.FillNickName(nickName)
 				.FillPassword(password)
-				.FillConfirmPassword(password)
-				.ClickSubmitButton();
+				.FillConfirmPassword(password);
+
+			BaseObject.InitPage(_adminCreateUserPage);
+
+			if (aolUser)
+			{
+				_adminCreateUserPage.ClickSubmitButton<AdminCreateUserPage>();
+			}
+			else
+			{
+				_adminCreateUserPage.ClickSubmitButton<AdminEditUserPage>();
+			}
 			
 			if (!_adminCreateUserPage.GetIsUserExistMessageDisplay() && admin)
 			{

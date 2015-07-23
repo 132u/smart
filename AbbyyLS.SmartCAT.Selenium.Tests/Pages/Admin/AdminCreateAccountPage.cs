@@ -61,6 +61,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Admin
 		{
 			try
 			{
+				// sleep нужен, чтоб диалог успел появиться
+				Thread.Sleep(1000);
 				if (Driver.SwitchTo().Alert().Text.Contains("Включение функции"
 					+ " workflow для аккаунта необратимо, обратное выключение "
 					+ "будет невозможно. Продолжить?"))
