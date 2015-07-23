@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 
 using NUnit.Framework;
 
@@ -86,6 +87,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Admin
 		public AdminCreateAccountPage SwitchToAdminCreateAccountWindow()
 		{
 			Logger.Trace("Переключиться в окно создания нового аккаунта.");
+			Thread.Sleep(1000);
 			if (Driver.WindowHandles.Count > 1)
 			{
 				Driver.SwitchTo().Window(Driver.WindowHandles.First()).Close();

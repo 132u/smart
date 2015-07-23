@@ -1,4 +1,7 @@
-﻿using NUnit.Framework;
+﻿using System.Linq;
+using System.Threading;
+
+using NUnit.Framework;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.PageObjects;
 
@@ -243,7 +246,13 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 			Logger.Debug("Кликнуть по ссылке на документ {0} (открыть его).", documentName);
 			DocumentRef = Driver.SetDynamicValue(How.XPath, DOCUMENT_REF, documentName);
 			DocumentRef.Click();
-			Driver.SwitchTo().Window(Driver.WindowHandles[1]);
+			// Sleep нужен, чтоб вторая вкладка успела открыться, иначе количество открытых вкладок посчитается неправильно 
+			Thread.Sleep(1000);
+			if (Driver.WindowHandles.Count > 1)
+			{
+				Driver.SwitchTo().Window(Driver.WindowHandles.First()).Close();
+				Driver.SwitchTo().Window(Driver.WindowHandles.Last());
+			}
 
 			return new SelectTaskDialog();
 		}
