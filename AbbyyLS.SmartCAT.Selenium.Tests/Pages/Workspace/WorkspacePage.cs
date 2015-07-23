@@ -184,6 +184,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace
 		public BillingPage SwitchToLicenseAndServicesWindow()
 		{
 			Logger.Trace("Переключиться  в окно 'Управление лицензиями'");
+			// Sleep нужен, чтоб вторая вкладка успела открыться, иначе количество открытых вкладок посчитается неправильно 
+			Thread.Sleep(1000);
 			if (Driver.WindowHandles.Count > 1)
 			{
 				Driver.SwitchTo().Window(Driver.WindowHandles.First()).Close();
