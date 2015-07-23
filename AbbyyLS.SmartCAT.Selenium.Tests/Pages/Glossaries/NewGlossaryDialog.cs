@@ -321,7 +321,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 		protected const string GLOSSARY_COMMENT = ".//div[contains(@class,'js-popup-edit-glossary')][2]//div[@class='l-editgloss__cont last']//textarea";
 		protected const string LANGUAGE_DROPDOWN = "//div[contains(@class,'edit-glossary')][2]//span[*#*][contains(@class, 'l-editgloss__lang')]/span[2]";
 		protected const string LANGUAGE_DROPDOWN_SELECT = "//div[contains(@class,'edit-glossary')][2]//span[*#*][contains(@class, 'l-editgloss__lang')]//select";
-		protected const string ADD_BUTTON = ".//div[contains(@class,'js-popup-edit-glossary')][2]//span[@class='g-btn g-bluebtn addlang enabled']";
+		protected const string ADD_BUTTON = ".//div[contains(@class,'js-popup-edit-glossary')][2]//span[@class='g-btn g-bluebtn addlang']";
 		protected const string GLOSSARY_SAVE_BUTTON = ".//div[contains(@class,'js-popup-edit-glossary')][2]//span[@class='g-btn g-redbtn ']";
 		protected const string ERROR_EMPTY_NAME = ".//div[contains(@class,'js-popup-edit-glossary')][2]//p[contains(@data-message-id,'glossary-name-required')]";
 		protected const string DELETE_LANGUAGE_BUTTON = ".//div[contains(@class,'js-popup-edit-glossary')][2]//div[@class='l-editgloss__contrbox'][1]//span[*#*]//em";
