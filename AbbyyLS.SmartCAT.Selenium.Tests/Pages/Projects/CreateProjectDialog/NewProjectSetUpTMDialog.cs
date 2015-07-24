@@ -65,18 +65,10 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 		/// <summary>
 		/// Выбрать первую ТМ в списке
 		/// </summary>
-		public NewProjectSetUpTMDialog ClickTMRow()
+		public NewProjectSetUpTMDialog ClickFirstTMRow()
 		{
 			Logger.Trace("Выбрать первую ТМ в списке.");
-
-			if (firstTMRowExist())
-			{
-				TMTableFirstItem.Click();
-			}
-			else
-			{
-				Assert.Fail("Произошла ошибка:\nНет ни одной ТМ в списке при создании проекта.");
-			}
+			TMTableFirstItem.Click();
 			
 			return GetPage();
 		}
@@ -96,7 +88,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 		/// <summary>
 		/// Вернуть, что хотя бы одна ТМ существует в таблице
 		/// </summary>
-		private bool firstTMRowExist()
+		public bool FirstTMRowExist()
 		{
 			Logger.Trace("Вернуть, что хотя бы одна ТМ существует в таблице.");
 

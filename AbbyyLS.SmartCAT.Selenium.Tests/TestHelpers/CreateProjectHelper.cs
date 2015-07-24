@@ -52,10 +52,18 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 			}
 			else
 			{
-				SelectFirstTM();
+				if (_newProjectSetUpTMDialog.FirstTMRowExist())
+				{
+					SelectFirstTM();
+					BaseObject.InitPage(_newProjectSetUpTMDialog);
+				}
+				else
+				{
+					_newProjectSetUpTMDialog.ClickNextButton<NewProjectSelectGlossariesDialog>();
+					BaseObject.InitPage(_newProjectSelectGlossariesDialog);
+				}
+				
 			}
-
-			BaseObject.InitPage(_newProjectSetUpTMDialog);
 
 			if (createGlossary)
 			{
@@ -342,7 +350,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 		public CreateProjectHelper SelectFirstTM()
 		{
 			BaseObject.InitPage(_newProjectSetUpTMDialog);
-			_newProjectSetUpTMDialog.ClickTMRow();
+			_newProjectSetUpTMDialog.ClickFirstTMRow();
 			
 			return this;
 		}
