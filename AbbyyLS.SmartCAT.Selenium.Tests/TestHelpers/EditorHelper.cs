@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Threading;
 
+using NLog;
+
 using NUnit.Framework;
 
 using AbbyyLS.SmartCAT.Selenium.Tests.DataStructures;
@@ -11,6 +13,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 {
 	public class EditorHelper 
 	{
+		public static Logger Logger = LogManager.GetCurrentClassLogger();
 
 		public EditorHelper SelectTask(TaskMode mode = TaskMode.Translation)
 		{
@@ -52,6 +55,22 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 			return this;
 		}
 
+		public EditorHelper ClickLastUnconfirmedButton()
+		{
+			BaseObject.InitPage(_editorPage);
+			_editorPage.ClickLastUnconfirmedButton();
+
+			return this;
+		}
+
+		public EditorHelper ClickLastUnconfirmedButtonByHotKey()
+		{
+			BaseObject.InitPage(_editorPage);
+			_editorPage.ClickF9HotKey();
+
+			return this;
+		}
+		
 		public EditorHelper ConfirmTranslation()
 		{
 			BaseObject.InitPage(_editorPage);
@@ -92,6 +111,14 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 		{
 			BaseObject.InitPage(_editorPage);
 			_editorPage.AssertIsSegmentConfirmed(rowNumber);
+
+			return this;
+		}
+
+		public EditorHelper AssertSegmentIsSelected(int rowNumber)
+		{
+			BaseObject.InitPage(_editorPage);
+			_editorPage.AssertSegmentIsSelected(rowNumber);
 
 			return this;
 		}
@@ -254,6 +281,14 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 			return this;
 		}
 
+		public EditorHelper ClickTargetCell(int rowNumber = 1)
+		{
+			BaseObject.InitPage(_editorPage);
+			_editorPage.ClickTargetCell(rowNumber);
+
+			return this;
+		}
+
 		public EditorHelper AssertTargetDisplayed(int rowNumber = 1)
 		{
 			BaseObject.InitPage(_editorPage);
@@ -264,7 +299,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 		private readonly SelectTaskDialog _selectTask = new SelectTaskDialog();
 		private readonly EditorPage _editorPage = new EditorPage();
-		
+
 		private SpellcheckDictionaryDialog _spellcheckDictionaryDialog = new SpellcheckDictionaryDialog();
 	}
 }

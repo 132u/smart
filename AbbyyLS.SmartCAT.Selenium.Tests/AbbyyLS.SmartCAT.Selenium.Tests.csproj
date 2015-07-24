@@ -197,6 +197,7 @@
     <Compile Include="TestHelpers\UsersRightsHelper.cs" />
     <Compile Include="TestHelpers\WorkspaceHelper.cs" />
     <Compile Include="TestSettingDefinition.cs" />
+    <Compile Include="Tests\Editor\EditorLastUnconfirmedButtonTests.cs" />
     <Compile Include="Tests\Projects\AssignResponsiblesTest.cs" />
     <Compile Include="Tests\Projects\AutofillProjectNameTests.cs" />
     <Compile Include="Tests\Projects\BasicProjectTests.cs" />

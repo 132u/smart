@@ -157,6 +157,28 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		}
 
 		/// <summary>
+		/// Нажать кнопку 'Go to Last Unconfirmed Segment'
+		/// </summary>
+		public EditorPage ClickLastUnconfirmedButton()
+		{
+			Logger.Debug("Нажать кнопку 'Go to Last Unconfirmed Segment'.");
+			LastUnconfirmedButton.Click();
+
+			return GetPage();
+		}
+
+		/// <summary>
+		/// Нажать хоткей F9
+		/// </summary>
+		public EditorPage ClickF9HotKey()
+		{
+			Logger.Debug("Нажать хоткей F9.");
+			SendKeys.SendWait("{F9}");
+
+			return GetPage();
+		}
+
+		/// <summary>
 		/// Проверить, что слово подчеркнуто в сегменте
 		/// </summary>
 		public EditorPage AssertUnderlineForWordExist(string word)
@@ -220,6 +242,19 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 
 			return GetPage();
 		}
+		
+		/// <summary>
+		/// Проверить, что сегмент активен (подсвечен голубым цветом)
+		/// </summary>
+		public EditorPage AssertSegmentIsSelected(int segmentNumber)
+		{
+			Logger.Trace("Проверить, что сегмент №{0} активен (подсвечен голубым цветом).", segmentNumber);
+
+			Assert.IsTrue(Driver.GetIsElementExist(By.XPath(SELECTED_SEGMENT.Replace("*#*", segmentNumber.ToString()))),
+				"Произошла ошибка:\n сегмент №{0} не выделен, не подсвечен голубым цветом.", segmentNumber);
+
+			return GetPage();
+		}
 
 		/// <summary>
 		/// Закрыть туториал, если он виден.
@@ -262,8 +297,11 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		protected IWebElement RevisionType { get; set; }
 		
 		[FindsBy(How = How.XPath, Using = STAGE_NAME)]
-		protected IWebElement StageName { get; set; }	
+		protected IWebElement StageName { get; set; }
 
+		[FindsBy(How = How.Id, Using = LAST_CONFIRMED_BUTTON)]
+		protected IWebElement LastUnconfirmedButton { get; set; }
+		
 		protected IWebElement TargetCell { get; set; }
 
 		protected const string HOME_BTN_ID = "back-btn";
@@ -275,6 +313,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		protected const string SPELLCHECK_PATH = "//div[contains(text(), '1')]//..//..//..//..//tbody//tr[1]//span[contains(@class,'spellcheck') and contains(string(), '*#*')]";
 		protected const string REVISION_PATH = "//div[@id='revisions-body']//table[1]//td[contains(@class,'revision-type-cell')]";
 		protected const string STAGE_NAME = "//h1/span[contains(@class, 'workflow')]";
+		protected const string LAST_CONFIRMED_BUTTON = "unfinished-btn";
+		protected const string SELECTED_SEGMENT = "//table[2]//tr[@aria-selected='true']";
 
 		protected const string ROW_NUMBER_ACTIVE_XPATH = ".//div[@id='segments-body']//table//td[contains(@class, 'x-grid-item-focused')]/../td[1]//div[contains(@class, 'row-numberer')]";
 		protected const string FIRST_VISIBLE_SEGMENT_XPATH = "//div[@id='segments-body']//table[1]//td[1]//div[contains(@class, 'row-numberer')]";
