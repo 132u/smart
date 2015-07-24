@@ -2,6 +2,7 @@
 using System.Threading;
 
 using NUnit.Framework;
+
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.PageObjects;
 
@@ -343,6 +344,18 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings
 			return GetPage();
 		}
 
+		/// <summary>
+		/// Проверить, что диалог настроек проекта закрылся
+		/// </summary>
+		public ProjectSettingsPage AssertSettingsDialogDissappear()
+		{
+			Logger.Debug("Проверить, что диалог настроек проекта закрылся.");
+
+			Assert.IsTrue(Driver.WaitUntilElementIsDisappeared(By.XPath(PROJECT_SETTIGS_HEADER)), "Произошла ошибка:\n Диалог настроек проекта не закрылся.");
+
+			return GetPage();
+		}
+
 		[FindsBy(How = How.XPath, Using = ADD_FILES_BTN)]
 		protected IWebElement AddFilesButton { get; set; }
 
@@ -392,19 +405,13 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings
 
 		[FindsBy(How = How.XPath, Using = SORT_BY_QA)]
 		protected IWebElement SortByQA { get; set; }
-
-		protected IWebElement AssignButton { get; set; }
-
+		
 		protected IWebElement DocumentProgress { get; set; }
 
 		protected IWebElement DocumentRefference { get; set; }
-
-		protected IWebElement AcceptButton { get; set; }
-
+		
 		protected IWebElement ProjectsTableCheckbox { get; set; }
-
-		protected IWebElement TaskAssigment { get; set; }
-
+		
 		protected const string ADD_FILES_BTN = ".//span[contains(@class,'js-document-import')]";
 		protected const string IMPORT_DIALOG = ".//div[contains(@class,'js-popup-import-document')][2]";
 		protected const string ASSIGN_DIALOG = "//div[contains(@class,'js-popup-assign')][2]";
@@ -435,5 +442,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings
 		protected const string SORT_BY_AUTHOR = "//th[contains(@data-sort-by,'createdByUserName')]//a";
 		protected const string SORT_BY_CREATED = "//th[contains(@data-sort-by,'creationDate')]//a";
 		protected const string SORT_BY_QA = "//th[contains(@data-sort-by,'qaErrorCount')]//a";
+
+		protected const string PROJECT_SETTIGS_HEADER = "//div[contains(@class, 'popup-edit')][2]//h2[text()='Project Settings']";
 	}
 }

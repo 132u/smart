@@ -185,10 +185,10 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 		/// Выбрать тип назначения
 		/// </summary>
 		/// <param name="assignmentType">тип назначения</param>
-		public SelectAssigneePage SelectAssignmentType(AssignmentType assignmentType)
+		public SelectAssigneePage SelectAssignmentType(AssignmentType assignmentType, int taskNumber)
 		{
 			Logger.Debug("Выбрать {0} тип назначения.", assignmentType);
-			var assignmentTypeOption = Driver.SetDynamicValue(How.XPath, ASSIGNMENT_TYPE_OPTION, assignmentType.ToString());
+			var assignmentTypeOption = Driver.FindElement(By.XPath(ASSIGNMENT_TYPE_OPTION.Replace("taskNumber", taskNumber.ToString()).Replace("*#*", assignmentType.ToString())));
 
 			assignmentTypeOption.Click();
 
@@ -209,7 +209,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 
 		protected const string SAVE_BUTTON = "//span[contains(@data-bind, 'click: saveDeadlines')]//a"; 
 		protected const string SELECT_ASSIGNEES_DROPDOWN = "//tr[*#*]//td[2]//span[contains(@class, 'bluebtn expandable')]";
-		protected const string ASSIGNMENT_TYPE_OPTION = "//div[contains(@class, 'sublist assignExecutives')]//a[contains(@data-bind, '*#*')]";
+		protected const string ASSIGNMENT_TYPE_OPTION = "//tr[taskNumber]//div[contains(@class, 'sublist assignExecutives')]//a[contains(@data-bind, '*#*')]";
 		protected const string CHANGE_ASSIGNEES_BUTTON = "//tr[*#*]//a[contains(@data-bind, 'setAssignmentsButtonTitle')]";
 		protected const string TASK_ASSIGNMENT_TABLE = "//table[contains(@class, 'assignment-table')]";
 		protected const string TASK_ASSIGN_DROPBOX = "(//table[contains(@class, 'js-progress-table')]//table)[2]//tr[*#*]//td[contains(@class, 'assineer')]//select";

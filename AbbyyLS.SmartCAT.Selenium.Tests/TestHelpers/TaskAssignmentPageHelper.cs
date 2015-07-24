@@ -65,7 +65,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 			BaseObject.InitPage(_taskAssignmenPage);
 			_taskAssignmenPage
 				.ExpandSelectAssigneesDropdown(taskNumber)
-				.SelectAssignmentType(assignmentType);
+				.SelectAssignmentType(assignmentType, taskNumber);
 
 			return this;
 		}

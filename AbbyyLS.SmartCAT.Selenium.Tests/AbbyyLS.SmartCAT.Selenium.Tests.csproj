@@ -83,6 +83,7 @@
     <Compile Include="DataStructures\TaskMode.cs" />
     <Compile Include="DataStructures\WorkflowTask.cs" />
     <Compile Include="Drivers\ChromeDriverProvider.cs" />
+    <Compile Include="Pages\Editor\SpecialCharactersForm.cs" />
     <Compile Include="TestFramework\EnumExtensions.cs" />
     <Compile Include="Drivers\FirefoxWebDriverProvider.cs" />
     <Compile Include="Drivers\WebDriver.cs" />
@@ -198,6 +199,12 @@
     <Compile Include="TestHelpers\WorkspaceHelper.cs" />
     <Compile Include="TestSettingDefinition.cs" />
     <Compile Include="Tests\Editor\EditorLastUnconfirmedButtonTests.cs" />
+    <Compile Include="Tests\Editor\EditorHomeButtonTests.cs" />
+    <Compile Include="Tests\Editor\EditorCharacterTests.cs" />
+    <Compile Include="Tests\Editor\EditorConcordanceTests.cs" />
+    <Compile Include="Tests\Editor\EditorPreviousStageTests.cs" />
+    <Compile Include="Tests\Editor\EditorTagTests.cs" />
+    <Compile Include="Tests\Editor\EditorToTargetTests.cs" />
     <Compile Include="Tests\Projects\AssignResponsiblesTest.cs" />
     <Compile Include="Tests\Projects\AutofillProjectNameTests.cs" />
     <Compile Include="Tests\Projects\BasicProjectTests.cs" />

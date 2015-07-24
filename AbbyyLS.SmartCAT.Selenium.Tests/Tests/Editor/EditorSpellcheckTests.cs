@@ -115,6 +115,12 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Editor
 				.AssertWordInDictionary(_wordsToAdd[6], shouldExist: false)
 				.AssertWordInDictionary(_wordsToAdd[7], shouldExist: true);
 		}
+		
+		[Test]
+		public void SpellcheckButtonTest()
+		{
+			_editorHelper.OpenSpellcheckDictionary();
+		}
 
 		private static readonly string[] _wordsToAdd =
 		{

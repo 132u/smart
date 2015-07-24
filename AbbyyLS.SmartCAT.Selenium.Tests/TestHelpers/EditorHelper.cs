@@ -1,5 +1,8 @@
 ﻿using System;
 using System.Threading;
+using System.Windows.Forms;
+
+using NLog;
 
 using NLog;
 
@@ -30,6 +33,11 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 						.ClickManagerButton();
 					break;
 
+				case TaskMode.Editing:
+					_selectTask
+						.ClickEditingButton();
+					break;
+
 				default:
 					throw new Exception(string.Format("Передан аргумент, который не предусмотрен! Значение аргумента:'{0}'", mode.ToString()));
 			}
@@ -43,6 +51,30 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 		{
 			BaseObject.InitPage(_editorPage);
 			_editorPage.CloseTutorialIfExist();
+
+			return this;
+		}
+
+		public EditorHelper CopySourceToTarget(int segmentNumber = 1)
+		{
+			BaseObject.InitPage(_editorPage);
+			var source = _editorPage.SourceText(segmentNumber);
+			_editorPage.ClickCopyButton();
+			var target = _editorPage.TargetText(segmentNumber);
+
+			Assert.AreEqual(source, target, "Произошла ошибка:\n текст в источнике не совпадает с текстом в таргете.");
+
+			return this;
+		}
+
+		public EditorHelper CopySourceToTargetByHotKey(int segmentNumber = 1)
+		{
+			BaseObject.InitPage(_editorPage);
+			var source = _editorPage.SourceText(segmentNumber);
+			_editorPage.ClickCopyButtonByHotkey();
+			var target = _editorPage.TargetText(segmentNumber);
+
+			Assert.AreEqual(source, target, "Произошла ошибка:\n текст в источнике не совпадает с текстом в таргете.");
 
 			return this;
 		}
@@ -122,6 +154,14 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 			return this;
 		}
+		
+		public EditorHelper AssertSaveingStatusIsDisappeared()
+		{
+			BaseObject.InitPage(_editorPage);
+			_editorPage.AssertSaveingStatusIsDisappeared();
+
+			return this;
+		}
 
 		public ProjectSettingsHelper ClickHomeButton()
 		{
@@ -145,6 +185,25 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 			return this;
 		}
 
+		public EditorHelper RollBack(int segmentNumber = 1)
+		{
+			BaseObject.InitPage(_editorPage);
+			_editorPage
+				.ClickTargetCell(segmentNumber)
+				.ClickRollbackButton()
+				.AssertSegmentIsLocked(segmentNumber);
+
+			return this;
+		}
+
+		public EditorHelper AssertSegmentIsNotLocked(int segmentNumber = 1)
+		{
+			BaseObject.InitPage(_editorPage);
+			_editorPage.AssertSegmentIsNotLocked(segmentNumber);
+
+			return this;
+		}
+
 		public EditorHelper AddWordToDictionary(string word)
 		{
 			BaseObject.InitPage(_editorPage);
@@ -154,6 +213,42 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 				.AddWordToDictionary(word)
 				.ConfirmWord<SpellcheckDictionaryDialog>()
 				.ClickCloseDictionaryButton();
+
+			return this;
+		}
+
+		public EditorHelper OpenSpecialCharacters()
+		{
+			BaseObject.InitPage(_editorPage);
+			_editorPage.ClickCharacterButton();
+
+			return this;
+		}
+
+		public EditorHelper OpenSpecialCharactersByHotKey()
+		{
+			BaseObject.InitPage(_editorPage);
+			_editorPage.ClickCharacterButtonByHotKey();
+
+			return this;
+		}
+
+		public EditorHelper OpenConcordanceSearch()
+		{
+			BaseObject.InitPage(_editorPage);
+			_editorPage
+				.ClickConcordanceButton()
+				.AssertConcordanceSearchIsDisplayed();
+
+			return this;
+		}
+
+		public EditorHelper OpenConcordanceSearchByHotKey()
+		{
+			BaseObject.InitPage(_editorPage);
+			_editorPage
+				.ClickConcordanceButtonByHotKey()
+				.AssertConcordanceSearchIsDisplayed();
 
 			return this;
 		}
@@ -230,6 +325,14 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 			return this;
 		}
 
+		public EditorHelper OpenSpellcheckDictionary()
+		{
+			BaseObject.InitPage(_editorPage);
+			_editorPage.ClickSpellcheckDictionaryButton();
+
+			return this;
+		}
+		
 		public EditorHelper AssertSameTerminAdditionNotAllowed(string word)
 		{
 			BaseObject.InitPage(_editorPage);
@@ -241,6 +344,26 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 				.ConfirmWord<SpellcheckErrorDialog>()
 				.ClickOkButton()
 				.ClickCloseDictionaryButton();
+
+			return this;
+		}
+
+		public EditorHelper InsertTag(int segmentNumber = 1)
+		{
+			BaseObject.InitPage(_editorPage);
+			_editorPage
+				.ClickInsertTagButton()
+				.AssertTagIsDisplayed(segmentNumber);
+
+			return this;
+		}
+
+		public EditorHelper InsertTagByHotKey(int segmentNumber = 1)
+		{
+			BaseObject.InitPage(_editorPage);
+			_editorPage
+				.ClickF8HotKey()
+				.AssertTagIsDisplayed(segmentNumber);
 
 			return this;
 		}
@@ -270,7 +393,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 			return this;
 		}
-
+		
 		public EditorHelper FillTarget(string text = "Translation", int rowNumber = 1)
 		{
 			BaseObject.InitPage(_editorPage);

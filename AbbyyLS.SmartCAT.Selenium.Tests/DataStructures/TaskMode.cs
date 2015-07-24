@@ -3,6 +3,7 @@
 	public enum TaskMode
 	{
 		Translation,
-		Manager
+		Manager,
+		Editing
 	};
 }

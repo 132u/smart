@@ -17,12 +17,12 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 			return this;
 		}
 
-		public ProjectSettingsHelper AssignTasksOnDocument(string documentName, string nickName)
+		public ProjectSettingsHelper AssignTasksOnDocument(string documentName, string nickName, int taskNumber = 1)
 		{
 			this
 				.ClickDocumentProgress(documentName)
 				.ClickAssignButtonInDocumentInfo()
-				.SelectAssignmentType()
+				.SelectAssignmentType(taskNumber)
 				.SelectAssignee(nickName)
 				.CloseTaskAssignmentDialog()
 				.ClickSaveButton();
@@ -141,7 +141,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 			return this;
 		}
-
+		
 		public ProjectSettingsHelper ClickDeleteTaskButton(int taskNumber = 1)
 		{
 			BaseObject.InitPage(_settingsDialog);
@@ -162,6 +162,19 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 		{
 			BaseObject.InitPage(_projectPage);
 			_projectPage.AcceptAllTasksForDocument(Path.GetFileNameWithoutExtension(filePath));
+
+			return this;
+		}
+
+		public ProjectSettingsHelper AddTask(TaskMode task)
+		{
+			BaseObject.InitPage(_settingsDialog);
+			_settingsDialog
+				.ClickNewTaskButton()
+				.ExpandTask(2)
+				.ClickTaskInDropdown(task)
+				.ClickSaveButton()
+				.AssertSettingsDialogDissappear();
 
 			return this;
 		}

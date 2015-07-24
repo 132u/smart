@@ -47,6 +47,17 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		}
 
 		/// <summary>
+		/// Нажать на кнопку "Editing"
+		/// </summary>
+		public SelectTaskDialog ClickEditingButton()
+		{
+			Logger.Debug("Нажать кнопку 'Editing'.");
+			EditingButton.Click();
+
+			return GetPage();
+		}
+
+		/// <summary>
 		/// Нажать на кнопку "Продолжить"
 		/// </summary>
 		public EditorPage ClickContinueButton()
@@ -66,8 +77,12 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		[FindsBy(How = How.XPath, Using = CONTINUE_BTN_XPATH)]
 		protected IWebElement ContinueButton { get; set; }
 
+		[FindsBy(How = How.XPath, Using = EDITING_BUTTON)]
+		protected IWebElement EditingButton { get; set; }
+
 		protected const string TRANSLATE_BTN_XPATH = "//span[contains(string(), 'Translation')]";
 		protected const string MANAGER_BTN_XPATH = "//span[contains(@id, 'manager')]";
 		protected const string CONTINUE_BTN_XPATH = "//span[contains(string(), 'Continue')]";
+		protected const string EDITING_BUTTON = "//span[contains(string(), 'Editing')]";
 	}
 }
