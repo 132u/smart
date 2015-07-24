@@ -15,11 +15,14 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 			string projectName,
 			string filePath = null,
 			bool createNewTm = false,
+			string tmxFilePath = "",
+			bool useMachineTranslation = false,
+			bool createGlossary = false,
 			Language sourceLanguage = Language.English,
 			Language targetLanguage = Language.Russian)
 		{
 			ClickCreateProjectButton();
-			FillGeneralProjectInformation(projectName, filePath, sourceLanguage, targetLanguage);
+			FillGeneralProjectInformation(projectName, filePath, sourceLanguage, targetLanguage, useMT: useMachineTranslation);
 			ClickNextOnGeneralProjectInformationPage();
 
 			BaseObject.InitPage(_newProjectSetUpWorkflowDialog);
@@ -27,17 +30,45 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 			if (createNewTm)
 			{
-				_newProjectSetUpTMDialog
-					.ClickCreateTMButton()
-					.SetNewTMName("TM_" + Guid.NewGuid())
-					.ClickSaveButton();
+				var translationMemoryName = "TM_" + Guid.NewGuid();
+
+				if (!string.IsNullOrEmpty(tmxFilePath))
+				{
+					_newProjectSetUpTMDialog
+						.ClickUploadTMButton()
+						.UploadTmxFile(tmxFilePath)
+						.SetNewTMName(translationMemoryName)
+						.ClickSaveButton()
+						.AssertTranslationMemoryExist(translationMemoryName);
+				}
+				else
+				{
+					_newProjectSetUpTMDialog
+						.ClickCreateTMButton()
+						.SetNewTMName(translationMemoryName)
+						.ClickSaveButton()
+						.AssertTranslationMemoryExist(translationMemoryName);
+				}
+			}
+			else
+			{
+				SelectFirstTM();
+			}
+
+			BaseObject.InitPage(_newProjectSetUpTMDialog);
+
+			if (createGlossary)
+			{
+				var glossaryUniqueName = "Glossary" + "_" + DateTime.UtcNow.Ticks;
+
+				_newProjectSetUpTMDialog.ClickNextButton<NewProjectSelectGlossariesDialog>();
+				CreateGllosary(glossaryUniqueName);
 			}
 
 			// TODO: Без Sleep тесты падают из-за невозможности нажать на кнопку "ГОТОВО". Необходимо разобраться с проблемой
 			Thread.Sleep(3000);
 
-			BaseObject.InitPage(_newProjectSetUpTMDialog);
-			_newProjectSetUpTMDialog
+			_newProjectCreateBaseDialog
 				.AssertFinishButtonEnabled()
 				.ClickFinishButton()
 				.AssertDialogBackgroundDissapeared<ProjectsPage>();
@@ -54,7 +85,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 			Language sourceLanguage = Language.English,
 			Language targetLanguage = Language.Russian,
 			Deadline deadline = Deadline.CurrentDate,
-			string date = null)
+			string date = null,
+			bool useMT = false)
 		{
 			BaseObject.InitPage(_newProjectGeneralInformationDialog);
 			if (filePath != null)
@@ -74,6 +106,11 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 				.ClickTargetMultiselect()
 				.SetProjectName(projectName);
 
+			if (useMT)
+			{
+				_newProjectGeneralInformationDialog.SelectMachineTranslationCheckbox();
+			}
+
 			return this;
 		}
 
@@ -81,6 +118,17 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 		{
 			BaseObject.InitPage(_newProjectGeneralInformationDialog);
 			_newProjectGeneralInformationDialog.UploadFile(filePath);
+
+			return this;
+		}
+
+		public CreateProjectHelper CreateGllosary(string glossaryName)
+		{
+			BaseObject.InitPage(_newProjectSelectGlossariesDialog);
+			_newProjectSelectGlossariesDialog
+				.ClickCreateGlossary()
+				.SetGlossaryName(glossaryName)
+				.ClickSaveButton();
 
 			return this;
 		}
@@ -291,10 +339,18 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 			return this;
 		}
 
-		private NewProjectSetUpTMDialog _newProjectSetUpTMDialog = new NewProjectSetUpTMDialog();
+		public CreateProjectHelper SelectFirstTM()
+		{
+			BaseObject.InitPage(_newProjectSetUpTMDialog);
+			_newProjectSetUpTMDialog.ClickTMRow();
+			
+			return this;
+		}
 
 		private readonly NewProjectCreateBaseDialog _newProjectCreateBaseDialog = new NewProjectCreateBaseDialog();
 		private readonly NewProjectGeneralInformationDialog _newProjectGeneralInformationDialog = new NewProjectGeneralInformationDialog();
 		private readonly NewProjectSetUpWorkflowDialog _newProjectSetUpWorkflowDialog = new NewProjectSetUpWorkflowDialog();
+		private NewProjectSetUpTMDialog _newProjectSetUpTMDialog = new NewProjectSetUpTMDialog();
+		private readonly NewProjectSelectGlossariesDialog _newProjectSelectGlossariesDialog = new NewProjectSelectGlossariesDialog();
 	}
 }

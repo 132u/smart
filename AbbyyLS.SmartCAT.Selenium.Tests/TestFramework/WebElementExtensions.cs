@@ -148,6 +148,14 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestFramework
 		}
 
 		/// <summary>
+		/// Прокрутить до элемента
+		/// </summary>
+		public static void Scroll(this IWebElement webElement)
+		{
+			webElement.scrollToWebElement();
+		}
+
+		/// <summary>
 		/// Двойной клик по элементу
 		/// </summary>
 		/// <param name="webElement">элемент</param>

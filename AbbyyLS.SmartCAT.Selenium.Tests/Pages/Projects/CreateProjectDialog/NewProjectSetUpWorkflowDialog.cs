@@ -36,17 +36,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 		}
 
 		/// <summary>
-		/// Нажать кнопку "Готово"
-		/// </summary>
-		public ProjectsPage ClickFinishButton()
-		{
-			Logger.Debug("Нажать кнопку 'Готово'.");
-			CreateProjectFinishButton.Click();
-
-			return GetPage();
-		}
-
-		/// <summary>
 		/// Нажать кнопку "Далее"
 		/// </summary>
 		public NewProjectSetUpTMDialog ClickNextButton()

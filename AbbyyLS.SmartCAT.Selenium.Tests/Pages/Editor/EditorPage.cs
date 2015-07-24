@@ -1,14 +1,15 @@
 ﻿using System.Linq;
+using System.Threading;
 using System.Windows.Forms;
 
 using NUnit.Framework;
+
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.PageObjects;
 
 using AbbyyLS.SmartCAT.Selenium.Tests.DataStructures;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings;
 using AbbyyLS.SmartCAT.Selenium.Tests.TestFramework;
-
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 {
@@ -174,6 +175,20 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		}
 
 		/// <summary>
+		/// Ввести текст в таргет сегмента без очистки сегмента
+		/// </summary>
+		public EditorPage AddText(string text, int rowNumber)
+		{
+			Logger.Debug("Ввести {0} в таргет сегмента без очистки сегмента.", rowNumber);
+			TargetCell = Driver.SetDynamicValue(How.XPath, TARGET_CELL, (rowNumber - 1).ToString());
+
+			TargetCell.Click();
+			TargetCell.SendKeys(text);
+
+			return GetPage();
+		}
+
+		/// <summary>
 		/// Нажать кнопку открытия словаря
 		/// </summary>
 		public SpellcheckDictionaryDialog ClickSpellcheckDictionaryButton()
@@ -258,13 +273,13 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		/// <summary>
 		/// Проверить, что таргет сегмента виден
 		/// </summary>
-		/// <param name="rowNumber">номер сегмента</param>
-		public EditorPage AssertTargetDisplayed(int rowNumber)
+		/// <param name="segmentNumber">номер сегмента</param>
+		public EditorPage AssertTargetDisplayed(int segmentNumber)
 		{
-			Logger.Trace("Проверить, что таргет сегмента №{0} виден", rowNumber);
+			Logger.Trace("Проверить, что таргет сегмента №{0} виден", segmentNumber);
 
-			Assert.IsTrue(Driver.WaitUntilElementIsDisplay(By.XPath(TARGET_CELL_XPATH.Replace("*#*", (rowNumber - 1).ToString()))),
-				"Произошла ошибка:\n сегмент с номером {0} не появился.", rowNumber);
+			Assert.IsTrue(Driver.WaitUntilElementIsDisplay(By.XPath(TARGET_CELL_XPATH.Replace("*#*", (segmentNumber - 1).ToString()))),
+				"Произошла ошибка:\n сегмент с номером {0} не появился.", segmentNumber);
 
 			return GetPage();
 		}
@@ -294,7 +309,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 
 			return GetPage();
 		}
-
+		
 		/// <summary>
 		/// Проверить, что появился тег в таргете
 		/// </summary>
@@ -308,6 +323,135 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 			return GetPage();
 		}
 		
+		/// <summary>
+		/// Вернуть процент совпадения в таргет
+		/// </summary>
+		public int TargetMatchPercent(int segmentNumber)
+		{
+			Logger.Trace("Вернуть процент совпадения в таргет №{0}.", segmentNumber);
+			var percentMatchColumn = Driver.SetDynamicValue(How.XPath, TARGET_MATCH_COLUMN_PERCENT, (segmentNumber - 1).ToString()).Text.Replace("%", "");
+			int result;
+
+			if (!int.TryParse(percentMatchColumn, out result))
+			{
+				Assert.Fail("Произошла ошибка:\n не удалось преобразование процента совпадения {0} в число.", percentMatchColumn);
+			}
+
+			return result;
+		}
+
+		/// <summary>
+		/// Получить номер строки в CAT-панели
+		/// </summary>
+		/// <param name="catType">тип перевода</param>
+		/// <returns>номер строки в CAT-панели</returns>
+		public int CatTypeRowNumber(CatType catType)
+		{
+			Logger.Trace("Получить номер строки для {0} в CAT-панели.", catType);
+			var rowNumber = 0;
+			var catTypeList = Driver.GetTextListElement(By.XPath(CAT_TYPE_LIST_IN_PANEL));
+
+			for (var i = 0; i < catTypeList.Count; ++i)
+			{
+				if (catTypeList[i].Contains(catType.ToString()))
+				{
+					rowNumber = i + 1;
+					break;
+				}
+			}
+
+			Assert.AreNotEqual(rowNumber, 0, "Произошла ошибка:\n подстановка {0} отсутствует в CAT-панели.", catType);
+
+			return rowNumber;
+		}
+
+		/// <summary>
+		/// Двойной клик по переводу в CAT-панели
+		/// </summary>
+		/// <param name="rowNumber">номер строки в CAT-панели</param>
+		public EditorPage DoubleClickCatPanel(int rowNumber)
+		{
+			Logger.Debug("Двойной клик по строке №{0} с переводом в CAT-панели.", rowNumber);
+			var cat = Driver.SetDynamicValue(How.XPath, CAT_TRANSLATION, rowNumber.ToString());
+
+			cat.Scroll();
+			// Sleep не убирать, без него не скролится
+			Thread.Sleep(1000);
+			cat.HoverElement();
+			cat.DoubleClick();
+
+			return GetPage();
+		}
+
+		/// <summary>
+		/// Нажать кнопку 'Add Term'
+		/// </summary>
+		/// <returns></returns>
+		public AddTermDialog ClickAddTermButton()
+		{
+			Logger.Trace("Нажать кнопку 'Add Term'.");
+			AddTermButton.Click();
+
+			return new AddTermDialog().GetPage();
+		}
+
+		/// <summary>
+		/// Проверить, что новый термин сохранен
+		/// </summary>
+		public EditorPage AssertTermIsSaved()
+		{
+			Logger.Trace("Проверить, что новый термин сохранен.");
+
+			Assert.IsTrue(Driver.WaitUntilElementIsDisplay(By.XPath(TERM_SAVED_MESSAGE)),
+				"Произошла ошибка:\n сообщение о том, что термин сохранен, не появилось.");
+
+			return new EditorPage().GetPage();
+		}
+
+		/// <summary>
+		/// Получить текст из таргет сегмента
+		/// </summary>
+		/// <param name="segmentNumber">номер строки сегмента</param>
+		public string TargetText(int segmentNumber)
+		{
+			Logger.Trace("Получить текст из таргет сегмента №{0}.", segmentNumber);
+
+			return Driver.SetDynamicValue(How.XPath, TARGET_CELL, (segmentNumber - 1).ToString()).Text;
+		}
+
+		/// <summary>
+		/// Получить текст из source сегмента
+		/// </summary>
+		/// <param name="rowNumber">номер строки сегмента</param>
+		public string SourceText(int rowNumber)
+		{
+			Logger.Trace("Получить текст из source сегмента №{0}.", rowNumber);
+			
+			return Driver.SetDynamicValue(How.XPath, SOURCE_CELL, rowNumber.ToString()).Text;
+		}
+
+		/// <summary>
+		/// Получить текст из CAT-панели
+		/// </summary>
+		/// <param name="rowNumber">номер строки</param>
+		public string CATTranslationText(int rowNumber)
+		{
+			Logger.Trace("Получить текст из CAT-панели, строка №{0}.", rowNumber);
+			
+			return Driver.SetDynamicValue(How.XPath, CAT_TRANSLATION, rowNumber.ToString()).Text;
+		}
+
+		/// <summary>
+		/// Получить текст из колонки MatchColumn
+		/// </summary>
+		/// <param name="segmentNumber">номер строки</param>
+		public string MatchColumnText(int segmentNumber)
+		{
+			Logger.Trace("Получить текст из колонки MatchColumn, строка №{0}.", segmentNumber);
+
+			return Driver.SetDynamicValue(How.XPath, MATCH_COLUMN, segmentNumber.ToString()).Text;
+		}
+
 		/// <summary>
 		/// Закрыть туториал, если он виден.
 		/// </summary>
@@ -323,18 +467,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 
 			return GetPage();
 		}
-
-
-		/// <summary>
-		/// Получить текст из оригинала
-		/// </summary>
-		public string SourceText(int segmentNumber)
-		{
-			Logger.Trace("Получить текст из оригинала №{0}.", segmentNumber);
-
-			return Driver.SetDynamicValue(How.XPath, SOURCE_CELL, segmentNumber.ToString()).Text;
-		}
-
+		
 		/// <summary>
 		/// Нажать кнопку 'Копировать оригинал в перевод'
 		/// </summary>
@@ -357,6 +490,35 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 			return GetPage();
 		}
 
+		/// <summary>
+		/// Вернуть процент совпадений в CAT-панели
+		/// </summary>
+		public int CatTranslationMatchPercent(int rowNumber)
+		{
+			Logger.Trace("Вернуть процент совпадений в CAT-панели. Номер строки CAT: {0}.", rowNumber);
+			var catPanelPercentMatch = Driver.SetDynamicValue(How.XPath, CAT_PANEL_PERCENT_MATCH, rowNumber.ToString()).Text.Replace("%", "");
+			int result;
+
+			if (!int.TryParse(catPanelPercentMatch, out result))
+			{
+				Assert.Fail("Произошла ошибка:\n не удалось преобразование процента совпадения {0} в CAT-панели в число.", catPanelPercentMatch);
+			}
+		
+			return result;
+		}
+
+		/// <summary>
+		/// Вернуть цвет процента совпадения в колонке Match
+		/// </summary>
+		public string TargetMatchColor(int segmentNumber)
+		{
+			Logger.Trace("Вернуть цвет процента совпадения в колонке Match в сегменте №{0}.", segmentNumber);
+			var percentColor = Driver.SetDynamicValue(How.XPath, PERCENT_COLOR, (segmentNumber - 1).ToString());
+
+			return percentColor.GetAttribute("class");
+		}
+
+		
 		/// <summary>
 		/// Проверить, что Конкордансный поиск появился
 		/// </summary>
@@ -440,19 +602,10 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 			return GetPage();
 		}
 
-		/// <summary>
-		/// Получить текст из таргета
-		/// </summary>
-		public string TargetText(int segmentNumber)
-		{
-			Logger.Trace("Получить текст из таргета №{0}.", segmentNumber);
-
-			return Driver.SetDynamicValue(How.XPath, TARGET_CELL, (segmentNumber-1).ToString()).Text;
-		}
-
 		private static bool tutorialExist()
 		{
-			Logger.Trace("Проверить, открыта ли подсказка");
+			Logger.Trace("Проверить, открыта ли подсказка.");
+
 			return Driver.WaitUntilElementIsDisplay(By.XPath(FINISH_TUTORIAL_BUTTON), timeout: 5);
 		}
 
@@ -476,14 +629,19 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		
 		[FindsBy(How = How.XPath, Using = STAGE_NAME)]
 		protected IWebElement StageName { get; set; }
-
+		
 		[FindsBy(How = How.Id, Using = LAST_CONFIRMED_BUTTON)]
 		protected IWebElement LastUnconfirmedButton { get; set; }
 		
 		[FindsBy(How = How.Id, Using = CHARACTER_BUTTON)]
 		protected IWebElement CharacterButton { get; set; }
+		
+		[FindsBy(How = How.Id, Using = ADD_TERM_BUTTON)]
+		protected IWebElement AddTermButton { get; set; }
 
-
+		[FindsBy(How = How.Id, Using = TARGET_CELL)]
+		protected IWebElement TargetCell { get; set; }
+		
 		[FindsBy(How = How.Id, Using = CHARACTER_FORM)]
 		protected IWebElement CharacterForm { get; set; }
 
@@ -508,10 +666,13 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		[FindsBy(How = How.Id, Using = SAVING_STATUS)]
 		protected IWebElement SavingStatus { get; set; }
 
-		protected IWebElement TargetCell { get; set; }
+		[FindsBy(How = How.Id, Using = CAT_PANEL_PERCENT_MATCH)]
+		protected IWebElement CatPanelPercentMatch { get; set; }
+		
 
-		protected const string HOME_BUTTON = "back-btn";
-		protected const string DICTIONARY_BUTTON = "dictionary-btn";
+		[FindsBy(How = How.Id, Using = PERCENT_COLOR)]
+		protected IWebElement PercentColor { get; set; }
+
 		protected const string CONFIRM_BTN = "//a[@id='confirm-btn']";
 		protected const string FIND_ERROR_BTN_ID = "qa-error-btn";
 		protected const string FINISH_TUTORIAL_BUTTON = "//span[contains(text(),'Finish') and contains(@id, 'button')]";
@@ -520,13 +681,15 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		protected const string REVISION_PATH = "//div[@id='revisions-body']//table[1]//td[contains(@class,'revision-type-cell')]";
 		protected const string STAGE_NAME = "//h1/span[contains(@class, 'workflow')]";
 		protected const string LAST_CONFIRMED_BUTTON = "unfinished-btn";
+		protected const string ADD_TERM_BUTTON = "add-term-btn";
 		protected const string SELECTED_SEGMENT = "//table[2]//tr[@aria-selected='true']";
 		protected const string CHARACTER_BUTTON = "charmap-btn";
 		protected const string INSERT_TAG_BUTTON = "tag-insert-btn";
 		protected const string COPY_BUTTON = "copy-btn-btnEl";
 		protected const string CONCORDANCE_BUTTON = "concordance-search-btn";
 		protected const string ROLLBACK_BUTTON = "step-rollback-btn";
-
+		protected const string HOME_BUTTON = "back-btn";
+		protected const string DICTIONARY_BUTTON = "dictionary-btn";
 
 		protected const string ROW_NUMBER_ACTIVE_XPATH = ".//div[@id='segments-body']//table//td[contains(@class, 'x-grid-item-focused')]/../td[1]//div[contains(@class, 'row-numberer')]";
 		protected const string FIRST_VISIBLE_SEGMENT_XPATH = "//div[@id='segments-body']//table[1]//td[1]//div[contains(@class, 'row-numberer')]";
@@ -544,5 +707,14 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		protected const string CONCORDANCE_SEARCH= "concordance-search";
 
 		protected const string SAVING_STATUS = "//div[@id='segmentsavingindicator-1048-innerCt' and contains(text(),'Saving')]";
+		protected const string MATCH_COLUMN = "//div[@id='segments-body']//table[*#*]//tbody//td[contains(@class,'matchcolum')]";
+		protected const string TARGET_MATCH_COLUMN_PERCENT = "//table[@data-recordindex='*#*' and contains(@id, 'tableview')]//td[5]//div//span";
+		protected const string CAT_PANEL_PERCENT_MATCH = ".//div[@id='cat-body']//table[*#*]//tbody//tr//td[3]//div//span";
+
+		protected const string CAT_TYPE_LIST_IN_PANEL = ".//div[@id='cat-body']//table//td[3]/div";
+		protected const string CAT_TRANSLATION = ".//div[@id='cat-body']//table[*#*]//td[4]/div";
+		protected const string PERCENT_COLOR = " //table[@data-recordindex='*#*' and contains(@id, 'tableview')]//td[5]//div//span";
+
+		protected const string TERM_SAVED_MESSAGE = ".//div[text()='The term has been saved.']";
 	}
 }

@@ -87,6 +87,14 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 			return this;
 		}
 
+		public EditorHelper AddTextWithoutClearing(string text = "Translation", int rowNumber = 1)
+		{
+			BaseObject.InitPage(_editorPage);
+			_editorPage.AddText(text, rowNumber);
+
+			return this;
+		}
+		
 		public EditorHelper ClickLastUnconfirmedButton()
 		{
 			BaseObject.InitPage(_editorPage);
@@ -123,6 +131,121 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 			return this;
 		}
 
+		public EditorHelper ClickTargetSegment(int rowNumber)
+		{
+			BaseObject.InitPage(_editorPage);
+			_editorPage.ClickTargetCell(rowNumber);
+
+			return this;
+		}
+
+		public EditorHelper PasteTranslationFromCAT(CatType catType, int targetRowNumber = 1)
+		{
+			BaseObject.InitPage(_editorPage);
+			var catRowNumber = _editorPage
+									.ClickTargetCell(targetRowNumber)
+									.CatTypeRowNumber(catType);
+
+			_editorPage.DoubleClickCatPanel(catRowNumber);
+
+			AssertTargetTextAndCatTextMatch(targetRowNumber, catRowNumber);
+
+			return this;
+		}
+
+		public int CarRowNumber(int targetRowNumber, CatType catType)
+		{
+			BaseObject.InitPage(_editorPage);
+
+			return _editorPage
+						.ClickTargetCell(targetRowNumber)
+						.CatTypeRowNumber(catType);
+		}
+
+		public int CATRowNumber(CatType catType)
+		{
+			BaseObject.InitPage(_editorPage);
+
+			return _editorPage.CatTypeRowNumber(catType);
+		}
+
+		public EditorHelper AssertMatchColumnCatTypeMatch(CatType catType, int rowNumber = 1)
+		{
+			Logger.Trace("Проверить, что текст в колонке MatchColumn совпадает с {0}.", catType);
+			var catTypeColumn = catType != CatType.TB ? catType.ToString() : string.Empty;
+
+			var textInMacthColumn = _editorPage.MatchColumnText(rowNumber).Trim();
+
+			if (textInMacthColumn.Contains("%"))
+			{
+				textInMacthColumn = textInMacthColumn.Substring(0, 2);
+			}
+
+			Assert.AreEqual(textInMacthColumn.Trim(), catTypeColumn,
+				"Произошла ошибка:\n тип подстановки в колонке Match Column не совпал с типом перевода {0}.", catType);
+
+			return this;
+		}
+
+		public EditorHelper AssertCATPercentMatchTargetPercent(int segmentNumber = 1, int catRowNumber = 1)
+		{
+			Logger.Trace("Проверить, что процент совпадения в CAT-панели и в таргете совпадает. Строка в CAT-панели {0}, строка в таргет {1}.", catRowNumber, segmentNumber);
+			
+			Assert.AreEqual(_editorPage.CatTranslationMatchPercent(catRowNumber),_editorPage.TargetMatchPercent(segmentNumber),
+				"Произошла ошибка:\n Процент совпадения в CAT-панели и в таргете не совпадает.");
+
+			return this;
+		}
+
+		public EditorHelper AssertTargetTextAndCatTextMatch(int segmentNumber, int catRowNumber)
+		{
+			Logger.Trace("Проверить, что текст из таргет сегмента совпадает с текстом перевода из CAT-панели.");
+			
+			Assert.AreEqual(_editorPage.TargetText(segmentNumber), _editorPage.CATTranslationText(catRowNumber),
+				"Произошла ошибка:\n текст из таргет сегмента не совпадает с текстом перевода из CAT-панели.");
+
+			return this;
+		}
+
+		public string SourceText(int rowNumber)
+		{
+			Logger.Trace("Получить текст из Source сегмента №{0}.", rowNumber);
+
+			return _editorPage.SourceText(rowNumber);
+		}
+
+		public EditorHelper AssertTargetMatchPercenrCollorCorrect(int segmentNumber = 1)
+		{
+			const int yellowUpperBound = 99;
+			const int yellowLowerBound = 76;
+
+			const string green = "green";
+			const string yellow = "yellow";
+			const string red = "red";
+
+			var targetMatchPercent = _editorPage.TargetMatchPercent(segmentNumber);
+		 
+			if (targetMatchPercent > yellowUpperBound)
+			{
+				Assert.AreEqual(green, _editorPage.TargetMatchColor(segmentNumber),
+					"Произошла ошибка:\n неправильный цвет процента совпадения в сегменте №{0}.", segmentNumber);
+			}
+			
+			if (targetMatchPercent <= yellowUpperBound && targetMatchPercent >= yellowLowerBound)
+			{
+				Assert.AreEqual(yellow, _editorPage.TargetMatchColor(segmentNumber),
+					"Произошла ошибка:\n неправильный цвет процента совпадения в сегменте №{0}.", segmentNumber);
+			}
+
+			if (targetMatchPercent < yellowLowerBound)
+			{
+				Assert.AreEqual(red, _editorPage.TargetMatchColor(segmentNumber),
+					"Произошла ошибка:\n неправильный цвет процента совпадения в сегменте №{0}.", segmentNumber);
+			}
+		 
+			return this;
+		}
+
 		public EditorHelper ClickFindErrorsButton()
 		{
 			BaseObject.InitPage(_editorPage);
@@ -146,7 +269,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 			return this;
 		}
-
+		
 		public EditorHelper AssertSegmentIsSelected(int rowNumber)
 		{
 			BaseObject.InitPage(_editorPage);
@@ -163,6 +286,19 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 			return this;
 		}
 
+		public EditorHelper AddNewTerm(string sourceTerm, string targetTerm)
+		{
+			BaseObject.InitPage(_editorPage);
+			_editorPage
+				.ClickAddTermButton()
+				.FillSourceTerm(sourceTerm)
+				.FillTargetTerm(targetTerm)
+				.ClickAddButton()
+				.AssertTermIsSaved();
+
+			return this;
+		}
+		
 		public ProjectSettingsHelper ClickHomeButton()
 		{
 			BaseObject.InitPage(_editorPage);
@@ -422,7 +558,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 		private readonly SelectTaskDialog _selectTask = new SelectTaskDialog();
 		private readonly EditorPage _editorPage = new EditorPage();
-
+		private readonly AddTermDialog _addTermDialog = new AddTermDialog();
 		private SpellcheckDictionaryDialog _spellcheckDictionaryDialog = new SpellcheckDictionaryDialog();
 	}
 }

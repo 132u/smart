@@ -394,6 +394,21 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 		}
 
 		/// <summary>
+		/// Кликнуть по чекбоксу 'Use Machine Translation'
+		/// </summary>
+		public NewProjectGeneralInformationDialog SelectMachineTranslationCheckbox()
+		{
+			Logger.Debug("Кликнуть по чекбоксу 'Use Machine Translation'.");
+
+			if (!UseMachineTranslationCheckbox.Selected)
+			{
+				UseMachineTranslationCheckbox.Click();
+			}
+
+			return GetPage();
+		}
+
+		/// <summary>
 		/// Кликнуть на поле для ввода даты, чтобы появился всплывающий календарь
 		/// </summary>
 		private void clickDeadlineDateInput()
@@ -487,6 +502,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 		[FindsBy(How = How.XPath, Using = PROJECT_NAME_INPUT_XPATH)]
 		protected IWebElement ProjectNameInput { get; set; }
 
+		[FindsBy(How = How.XPath, Using = USE_MACHINE_TRANSLATION_CHECKBOX)]
+		protected IWebElement UseMachineTranslationCheckbox { get; set; }
+
 		protected IWebElement SourceLangItem { get; set; }
 
 		protected IWebElement TargetLangItem { get; set; }
@@ -519,5 +537,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 		protected const string DEADLINE_DATE_XPATH = "//div[contains(@id, 'ui-datepicker-div')]//table[contains(@class, 'ui-datepicker-calendar')]//tr[1]//td[count(a)!=0][1]";
 		protected const string DEADLINE_DATE_CURRENT_XPATH = ".//div[contains(@id, 'ui-datepicker-div')]//table[contains(@class, 'ui-datepicker-calendar')]//td[contains(@class, 'ui-datepicker-today')]//a";
 		protected const string DEADLINE_DATE_PREV_MONTH_XPATH = "//div[contains(@id, 'ui-datepicker-div')]//a[contains(@class, 'ui-datepicker-prev')]";
+
+		protected const string USE_MACHINE_TRANSLATION_CHECKBOX = "//div[@class='g-popup-bd js-popup-bd js-popup-create-project'][2]//input[@id='mts-checkbox']";
 	}
 }

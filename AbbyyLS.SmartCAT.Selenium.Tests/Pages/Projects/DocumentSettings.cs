@@ -1,7 +1,9 @@
 ﻿using NUnit.Framework;
+
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.PageObjects;
 
+using AbbyyLS.SmartCAT.Selenium.Tests.DataStructures;
 using AbbyyLS.SmartCAT.Selenium.Tests.TestFramework;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
@@ -46,14 +48,35 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 			return new ProjectsPage().GetPage();
 		}
 
+		/// <summary>
+		/// Выбрать МТ {0} в настройках документа
+		/// </summary>
+		public DocumentSettings SelectMachineTranslation(MachineTranslationType machineTranslationType)
+		{
+			Logger.Debug("Выбрать Мachine Тranslation {0} в настройках документа.");
+			var machineTranslationCheckbox = Driver.SetDynamicValue(How.XPath, MT_CHECKBOX, machineTranslationType.Description());
+
+			if (!machineTranslationCheckbox.Selected)
+			{
+				machineTranslationCheckbox.Click();
+			}
+
+			return GetPage();
+		}
+
 		[FindsBy(How = How.XPath, Using = NAME_INPUT)]
 		protected IWebElement Name { get; set; }
 
 		[FindsBy(How = How.XPath, Using = SAVE_BUTTON)]
 		protected IWebElement SaveButton { get; set; }
 
+		[FindsBy(How = How.XPath, Using = MT_CHECKBOX)]
+		protected IWebElement MTCheckbox { get; set; }
+
 		protected const string NAME_INPUT = "//div[contains(@class,'js-popup-document-settings')][2]//input[contains(@data-bind,'value: name')]";
 
 		protected const string SAVE_BUTTON = "//div[contains(@class,'js-popup-document-settings')][2]//span[contains(@data-bind,'click: save')]";
+
+		protected const string MT_CHECKBOX = "//div[@class='g-popup-bd js-popup-bd js-popup-document-settings'][2]//tbody[contains(@data-bind, 'machineTranslators')]//p[text() = '*#*']//preceding::td[1]//input";
 	}
 }

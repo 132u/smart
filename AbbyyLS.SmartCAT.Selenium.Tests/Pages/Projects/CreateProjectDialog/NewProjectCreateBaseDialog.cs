@@ -56,6 +56,32 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 			return new T().GetPage();
 		}
 
+		/// <summary>
+		/// Проверить, что кнопка 'Готова' доступна
+		/// </summary>
+		public NewProjectCreateBaseDialog AssertFinishButtonEnabled()
+		{
+			Logger.Debug("Проверить, что кнопка 'Готово' доступна");
+
+			Assert.IsTrue(Driver.WaitUntilElementIsEnabled(By.XPath(CREATE_PROJECT_FINISH_BUTTON)) && Driver.WaitUntilElementIsDisplay(By.XPath(CREATE_PROJECT_FINISH_BUTTON)),
+				"Ошибка: \n кнопка 'Готово' недоступна.");
+
+			return GetPage();
+		}
+
+
+		/// <summary>
+		/// Нажать кнопку 'Готово'
+		/// </summary>
+		public ProjectsPage ClickFinishButton()
+		{
+			Logger.Debug("Нажать кнопку 'Готово'.");
+			CreateProjectFinishButton.HoverElement();
+			CreateProjectFinishButton.JavaScriptClick();
+
+			return new ProjectsPage().GetPage();
+		}
+
 		[FindsBy(How = How.XPath, Using = CREATE_PROJECT_FINISH_BUTTON)]
 		protected IWebElement CreateProjectFinishButton { get; set; }
 

@@ -47,13 +47,30 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 			return new NewProjectSetUpTMDialog().GetPage();
 		}
 
+		public NewProjectCreateTMDialog UploadTmxFile(string tmxFilePath)
+		{
+			Logger.Debug("Загрузить файл {0}.", tmxFilePath);
+			Driver.ExecuteScript("$(\"input:file\").removeClass(\"g-hidden\").css(\"opacity\", 100)");
+
+			UploadTmxInput.SendKeys(tmxFilePath);
+
+			Driver.ExecuteScript("$(\".js-import-file-form .js-control\").data(\"controller\").filenameLink.text($(\".js-import-file-form .js-control\").data(\"controller\").fileInput.val());");
+			Driver.ExecuteScript("$(\".js-import-file-form .js-control\").data(\"controller\").trigger(\"valueChanged\");");
+
+			return GetPage();
+		}
+
 		[FindsBy(How = How.XPath, Using = NEW_TM_NAME_INPUT)]
 		protected IWebElement NewTMNameInput { get; set; }
 
 		[FindsBy(How = How.XPath, Using = SAVE_TM_BTN)]
 		protected IWebElement SaveTMButton { get; set; }
 
+		[FindsBy(How = How.XPath, Using = UPLOAD_TMX_INPUT)]
+		protected IWebElement UploadTmxInput { get; set; }
+
 		protected const string NEW_TM_NAME_INPUT = "//div[contains(@class,'js-popup-create-tm')][2]//input[contains(@data-bind,'value: name')]";
 		protected const string SAVE_TM_BTN = "//div[contains(@class,'js-popup-create-tm')][2]//a[contains(@class,'js-tour-tm-save')]";
+		protected const string UPLOAD_TMX_INPUT = ".//div[contains(@class,\"js-popup-create-tm\")][2]//input[@type=\"file\"]";
 	}
 }

@@ -68,10 +68,12 @@
   <ItemGroup>
     <Compile Include="Configs\TestsUserConfig.cs" />
     <Compile Include="DataStructures\AssignmentType.cs" />
+    <Compile Include="DataStructures\CatType.cs" />
     <Compile Include="DataStructures\Feature.cs" />
     <Compile Include="DataStructures\CompanyRegistrationField.cs" />
     <Compile Include="DataStructures\GlossarySystemField.cs" />
     <Compile Include="DataStructures\CompanyType.cs" />
+    <Compile Include="DataStructures\MachineTranslationType.cs" />
     <Compile Include="DataStructures\Period.cs" />
     <Compile Include="DataStructures\StartPage.cs" />
     <Compile Include="DataStructures\LicenseOperation.cs" />
@@ -84,6 +86,8 @@
     <Compile Include="DataStructures\WorkflowTask.cs" />
     <Compile Include="Drivers\ChromeDriverProvider.cs" />
     <Compile Include="Pages\Editor\SpecialCharactersForm.cs" />
+    <Compile Include="Pages\Editor\AddTermDialog.cs" />
+    <Compile Include="Pages\Projects\CreateProjectDialog\NewGlossaryDialog.cs" />
     <Compile Include="TestFramework\EnumExtensions.cs" />
     <Compile Include="Drivers\FirefoxWebDriverProvider.cs" />
     <Compile Include="Drivers\WebDriver.cs" />
@@ -201,6 +205,8 @@
     <Compile Include="Tests\Editor\EditorLastUnconfirmedButtonTests.cs" />
     <Compile Include="Tests\Editor\EditorHomeButtonTests.cs" />
     <Compile Include="Tests\Editor\EditorCharacterTests.cs" />
+    <Compile Include="Tests\Editor\MatchColumnTests\EditorMatchColumnSubstitutionTypeTests.cs" />
+    <Compile Include="Tests\Editor\MatchColumnTests\EditorMatchColumnMtAndTmSubstitutionTests.cs" />
     <Compile Include="Tests\Editor\EditorConcordanceTests.cs" />
     <Compile Include="Tests\Editor\EditorPreviousStageTests.cs" />
     <Compile Include="Tests\Editor\EditorTagTests.cs" />

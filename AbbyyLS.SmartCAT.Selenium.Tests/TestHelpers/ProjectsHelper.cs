@@ -1,5 +1,6 @@
 ﻿using System.IO;
 
+using AbbyyLS.SmartCAT.Selenium.Tests.DataStructures;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects;
 using AbbyyLS.SmartCAT.Selenium.Tests.TestFramework;
 
@@ -138,6 +139,18 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 			_projectsPage
 				.ClickDocumentSettings(projectName, documentNumber)
 				.SetDocumentName(newName)
+				.ClickSaveButton()
+				.AssertDialogBackgroundDissapeared<ProjectsPage>();
+
+			return this;
+		}
+
+		public ProjectsHelper AddMachineTranslationToDocument(string projectName, int documentNumber = 1, MachineTranslationType machineTranslation = MachineTranslationType.DefaultMT)
+		{
+			BaseObject.InitPage(_projectsPage);
+			_projectsPage
+				.ClickDocumentSettings(projectName, documentNumber)
+				.SelectMachineTranslation(machineTranslation)
 				.ClickSaveButton()
 				.AssertDialogBackgroundDissapeared<ProjectsPage>();
 

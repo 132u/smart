@@ -1,4 +1,5 @@
 ﻿using NUnit.Framework;
+
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.PageObjects;
 
@@ -62,28 +63,44 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 		}
 
 		/// <summary>
-		/// Подтвердить, что кнопка "Готова" доступна
+		/// Выбрать первую ТМ в списке
 		/// </summary>
-		public NewProjectSetUpTMDialog AssertFinishButtonEnabled()
+		public NewProjectSetUpTMDialog ClickTMRow()
 		{
-			Logger.Debug("Подтвердить, что кнопка 'Готово' доступна");
+			Logger.Trace("Выбрать первую ТМ в списке.");
 
-			Assert.IsTrue(Driver.WaitUntilElementIsEnabled(By.XPath(CREATE_PROJECT_FINISH_BUTTON)) && Driver.WaitUntilElementIsDisplay(By.XPath(CREATE_PROJECT_FINISH_BUTTON)),
-				"Ошибка: \n кнопка 'Готово' недоступна.");
-
+			if (firstTMRowExist())
+			{
+				TMTableFirstItem.Click();
+			}
+			else
+			{
+				Assert.Fail("Произошла ошибка:\nНет ни одной ТМ в списке при создании проекта.");
+			}
+			
 			return GetPage();
 		}
 
 		/// <summary>
-		/// Нажать кнопку "Готово"
+		/// Нажать кнопку 'Upload TM'
 		/// </summary>
-		public ProjectsPage ClickFinishButton()
+		public NewProjectCreateTMDialog ClickUploadTMButton()
 		{
-			Logger.Debug("Нажать кнопку 'Готово'.");
-			CreateProjectFinishButton.HoverElement();
-			CreateProjectFinishButton.JavaScriptClick();
+			Logger.Trace("Нажать кнопку 'Upload TM'.");
+			UploadTMButton.Click();
 
-			return new ProjectsPage().GetPage();
+			return new NewProjectCreateTMDialog().GetPage();
+		}
+
+
+		/// <summary>
+		/// Вернуть, что хотя бы одна ТМ существует в таблице
+		/// </summary>
+		private bool firstTMRowExist()
+		{
+			Logger.Trace("Вернуть, что хотя бы одна ТМ существует в таблице.");
+
+			return Driver.GetIsElementExist(By.XPath(TM_TABLE_FIRST_ITEM));
 		}
 
 		[FindsBy(How = How.XPath, Using = CREATE_TM_BTN)]
@@ -92,10 +109,15 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 		[FindsBy(How = How.XPath, Using = TM_TABLE_FIRST_ITEM)]
 		protected IWebElement TMTableFirstItem { get; set; }
 
+		[FindsBy(How = How.XPath, Using = UPLOAD_TM_BUTTON)]
+		protected IWebElement UploadTMButton { get; set; }
+
 		protected IWebElement TranslationMemoryItem { get; set; }
 
 		protected const string CREATE_TM_BTN = "//div[contains(@class,'js-popup-create-project')][2]//span[contains(@class,'js-tm-create')]";
 		protected const string TM_TABLE_FIRST_ITEM = "//div[contains(@class,'js-popup-create-project')][2]//table[contains(@class,'js-tms-popup-table')]//tbody//tr[1]//td[1]//input";
 		protected const string TM_ITEM = "//div[contains(@class,'js-popup-create-project')][2]//table[contains(@class,'js-tms-popup-table')]//tbody//tr//td[contains(@class,'js-name')][text()='*#*']";
+
+		protected const string UPLOAD_TM_BUTTON = "//div[contains(@class,'js-popup-create-project')][2]//span[contains(@class,'js-tm-upload')]";
 	}
 }
