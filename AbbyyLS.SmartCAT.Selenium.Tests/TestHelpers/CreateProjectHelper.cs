@@ -50,25 +50,12 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 						.AssertTranslationMemoryExist(translationMemoryName);
 				}
 			}
-			else
-			{
-				if (_newProjectSetUpTMDialog.FirstTMRowExist())
-				{
-					SelectFirstTM();
-					BaseObject.InitPage(_newProjectSetUpTMDialog);
-				}
-				else
-				{
-					_newProjectSetUpTMDialog.ClickNextButton<NewProjectSelectGlossariesDialog>();
-					BaseObject.InitPage(_newProjectSelectGlossariesDialog);
-				}
-				
-			}
 
 			if (createGlossary)
 			{
 				var glossaryUniqueName = "Glossary" + "_" + DateTime.UtcNow.Ticks;
-
+				//Sleep нужен, иначе кнопка Next некликабельна
+				Thread.Sleep(1000);
 				_newProjectSetUpTMDialog.ClickNextButton<NewProjectSelectGlossariesDialog>();
 				CreateGllosary(glossaryUniqueName);
 			}
