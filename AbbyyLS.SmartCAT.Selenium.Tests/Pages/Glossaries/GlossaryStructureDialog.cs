@@ -65,6 +65,23 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 		}
 
 		/// <summary>
+		/// Добавить все поля уровня Language
+		/// </summary>
+		public GlossaryStructureDialog AddLanguageFields()
+		{
+			Logger.Debug("Добавить все поля уровня Language.");
+			var fieldList = Driver.GetElementList(By.XPath(LANGUAGE_FIELDS_LIST));
+
+			foreach (var field in fieldList)
+			{
+				field.Click();
+				AddToListButton.Click();
+			}
+			
+			return GetPage();
+		}
+
+		/// <summary>
 		/// Проверить, что поле добавлено
 		/// </summary>
 		public GlossaryStructureDialog AssertSystemFieldIsAdded(GlossarySystemField systemField)
@@ -77,15 +94,46 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 			return GetPage();
 		}
 
+		/// <summary>
+		/// Раскрыть комбобокс с уровнями полей
+		/// </summary>
+		public GlossaryStructureDialog ExpandLevelDropdown()
+		{
+			Logger.Debug("Раскрыть комбобокс с уровнями полей.");
+			LevelDropdown.Click();
+
+			return GetPage();
+		}
+
+		/// <summary>
+		/// Выбрать уровень полей
+		/// </summary>
+		/// <param name="level">уровень</param>
+		public GlossaryStructureDialog SelectLevel(GlossaryStructureLevel level)
+		{
+			Logger.Debug("Выбрать {0} уровень полей.", level);
+			var levelOption = Driver.SetDynamicValue(How.XPath, LEVEL_OPTION, level.ToString());
+
+			levelOption.Click();
+
+			return GetPage();
+		}
+
 		[FindsBy(How = How.XPath, Using = ADD_TO_LIST_BUTTON)]
 		protected IWebElement AddToListButton { get; set; }
 
 		[FindsBy(How = How.XPath, Using = SAVE_BUTTON)]
 		protected IWebElement SaveButton { get; set; }
-		
+
+		[FindsBy(How = How.XPath, Using = LEVEL_DROPDOWN)]
+		protected IWebElement LevelDropdown { get; set; }
+
 		protected const string SAVE_BUTTON = "//div[contains(@class, 'js-popup-buttons')]//span[contains(@class, 'js-save')]";
 		protected const string ADD_TO_LIST_BUTTON = "//span[contains(@class,'js-add-tbx-attribute')]";
 		protected const string SYSTEM_FIELD = "//table[contains(@class, 'table concept')]//tr[@data-attr-type='*#*']";
 		protected const string ADDED_SYSTEM_FIELD = "//div[@class='l-editgloss__tbxreslt']//td[contains(text(), '*#*')]";
+		protected const string LEVEL_DROPDOWN = "//span[contains(@class, 'js-dropdown__text level')]";
+		protected const string LANGUAGE_FIELDS_LIST = "//table[contains(@class, 'language')]/tbody//tr";
+		protected const string LEVEL_OPTION = "//span[contains(@class, 'js-dropdown__item level') and @title='*#*']";
 	}
 }

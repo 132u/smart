@@ -189,6 +189,64 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 			return this;
 		}
 
+		public GlossariesHelper FillLanguageComment(string comment)
+		{
+			BaseObject.InitPage(_glossaryPage);
+			_glossaryPage
+				.OpenLanguageAndTermDetailsEditMode()
+				.FillLanguageComment(comment);
+
+			return this;
+		}
+
+		public GlossariesHelper FillDefinitionSource(string definitionSource)
+		{
+			BaseObject.InitPage(_glossaryPage);
+			_glossaryPage
+				.OpenLanguageAndTermDetailsEditMode()
+				.FillDefinitionSource(definitionSource);
+
+			return this;
+		}
+
+		public GlossariesHelper ClickSaveTermButton()
+		{
+			BaseObject.InitPage(_glossaryPage);
+			_glossaryPage.ClickSaveTermButton();
+
+			return this;
+		}
+
+		public GlossariesHelper AssertLanguageCommentIsFilled(string text)
+		{
+			BaseObject.InitPage(_glossaryPage);
+			_glossaryPage
+				.OpenLanguageAndTermDetailsViewMode()
+				.AssertCommentIsFilled(text);
+
+			return this;
+		}
+		
+		public GlossariesHelper AssertDefinitionFilled(string definition)
+		{
+			BaseObject.InitPage(_glossaryPage);
+			_glossaryPage
+				.OpenLanguageAndTermDetailsViewMode()
+				.AssertDefinitionIsFilled(definition);
+
+			return this;
+		}
+
+		public GlossariesHelper AssertDefinitionSourceFilled(string definition)
+		{
+			BaseObject.InitPage(_glossaryPage);
+			_glossaryPage
+				.OpenLanguageAndTermDetailsViewMode()
+				.AssertDefinitionSourceIsFilled(definition);
+
+			return this;
+		}
+
 		public GlossariesHelper CreateTerm(
 			string firstTerm = "firstTerm",
 			string secondTerm = "secondTerm")
@@ -199,7 +257,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 				.FillTerm(1, firstTerm)
 				.FillTerm(2, secondTerm)
 				.ClickSaveTermButton();
-
+			
 			return this;
 		}
 
@@ -495,6 +553,35 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 			return this;
 		}
 
+		public GlossariesHelper SelectLevelGlossaryStructure(GlossaryStructureLevel level)
+		{
+			BaseObject.InitPage(_glossaryStructureDialog);
+			_glossaryStructureDialog
+				.ExpandLevelDropdown()
+				.SelectLevel(level);
+
+			return this;
+		}
+
+		public GlossariesHelper AddLanguageFields()
+		{
+			BaseObject.InitPage(_glossaryStructureDialog);
+			_glossaryStructureDialog
+				.AddLanguageFields()
+				.ClickSaveButton()
+				.AssertDialogBackgroundDissapeared<GlossaryPage>();
+
+			return this;
+		}
+
+		public GlossariesHelper FillTermInLanguagesAndTermsSection(string text = "text")
+		{
+			BaseObject.InitPage(_glossaryPage);
+			_glossaryPage.FillTermInLanguagesAndTermsSection(text);
+
+			return this;
+		}
+
 		public GlossariesHelper AssertGlossaryExportedSuccesfully(string pathToFile)
 		{
 			var timeout = 0;
@@ -543,10 +630,22 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 			return this;
 		}
 
+		public GlossariesHelper FillDefinition(string definition)
+		{
+			BaseObject.InitPage(_glossaryPage);
+			_glossaryPage
+				.OpenLanguageAndTermDetailsEditMode()
+				.FillDefinition(definition);
+
+			return this;
+		}
+
 		private readonly GlossariesPage _glossariesPage = new GlossariesPage();
 		private readonly GlossaryPage _glossaryPage = new GlossaryPage();
 		private readonly NewGlossaryDialog _newGlossaryDialog = new NewGlossaryDialog();
 		private readonly GlossaryPropertiesDialog _glossaryPropertiesDialog = new GlossaryPropertiesDialog();
 		private readonly GlossaryStructureDialog _glossaryStructureDialog = new GlossaryStructureDialog();
+
+
 	}
 }

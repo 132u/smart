@@ -71,6 +71,7 @@
     <Compile Include="DataStructures\CatType.cs" />
     <Compile Include="DataStructures\Feature.cs" />
     <Compile Include="DataStructures\CompanyRegistrationField.cs" />
+    <Compile Include="DataStructures\GlossaryStructureLevel.cs" />
     <Compile Include="DataStructures\GlossarySystemField.cs" />
     <Compile Include="DataStructures\CompanyType.cs" />
     <Compile Include="DataStructures\MachineTranslationType.cs" />
@@ -204,6 +205,7 @@
     <Compile Include="TestSettingDefinition.cs" />
     <Compile Include="Tests\Editor\EditorLastUnconfirmedButtonTests.cs" />
     <Compile Include="Tests\Editor\EditorHomeButtonTests.cs" />
+    <Compile Include="Tests\Glossaries\GlossaryEditStructureLanguageFieldsTests.cs" />
     <Compile Include="Tests\Editor\EditorCharacterTests.cs" />
     <Compile Include="Tests\Editor\MatchColumnTests\EditorMatchColumnSubstitutionTypeTests.cs" />
     <Compile Include="Tests\Editor\MatchColumnTests\EditorMatchColumnMtAndTmSubstitutionTests.cs" />
