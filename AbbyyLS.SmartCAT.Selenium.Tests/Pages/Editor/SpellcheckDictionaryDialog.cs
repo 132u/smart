@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Windows.Forms;
 
 using NUnit.Framework;
@@ -58,6 +59,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		public SpellcheckDictionaryDialog ClickAddWordButton()
 		{
 			Logger.Debug("Нажать кнопку добавления слова в словарь");
+			Thread.Sleep(1000);
 			AddWordButton.Click();
 
 			return GetPage();

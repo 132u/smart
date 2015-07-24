@@ -204,7 +204,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Billing
 		public const string EXTEND_BUTTON = "//tbody//tr['*#*']//a[contains(@abb-link-click, 'editLicensePackage(package, false)')]";
 		public const string TABLE_HEADER = "//table[@class='t-licenses add-lic']//th[contains(@ng-repeat, 'period')]";
 		public const string END_DATE_COLUMN = "//td[contains(@ng-class,'willExpireSoon')]";
-		public const string LICENSE_QUANTITY_COLUMN = "//td[contains(text(),'license') or contains(text(),' licenses')]"; 
+		public const string LICENSE_QUANTITY_COLUMN = "//td[(contains(text(),'license') or contains(text(),' licenses')) and not(contains(text(), 'You have been'))]"; 
 		public const string LOGO = "//a[@id='logo']";
 		public const string PACKAGE_PRICE = "//table[contains(@class, ' add-lic')]//tbody//tr[1]//td['*#*']";
 	}
