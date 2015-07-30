@@ -219,7 +219,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 				.SetResponsible(NickName, false)
 				.CloseTaskAssignmentDialog<ProjectsPage>()
 				.GoToProjectSettingsPage(_projectUniqueName)
-				.AcceptAllTasks(PathProvider.EditorTxtFile)
 				.OpenDocument<SelectTaskDialog>(Path.GetFileNameWithoutExtension(PathProvider.EditorTxtFile))
 				.SelectTask()
 				.CloseTutorialIfExist()
@@ -241,7 +240,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 
 			_projectsHelper
 				.GoToProjectSettingsPage(_projectUniqueName)
-				.AcceptAllTasks(PathProvider.EditorTxtFile)
 				.OpenDocument<SelectTaskDialog>(Path.GetFileNameWithoutExtension(PathProvider.EditorTxtFile))
 				.SelectTask()
 				.CloseTutorialIfExist()
@@ -259,7 +257,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 				.SetResponsible(NickName, false)
 				.CloseTaskAssignmentDialog<ProjectsPage>()
 				.GoToProjectSettingsPage(_projectUniqueName)
-				.AcceptAllTasks(PathProvider.EditorTxtFile)
 				.OpenDocument<SelectTaskDialog>(Path.GetFileNameWithoutExtension(PathProvider.EditorTxtFile))
 				.SelectTask()
 				.CloseTutorialIfExist()
@@ -295,7 +292,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 				.RefreshPage();
 
 			_projectSettingsHelper
-				.AcceptAllTasks(PathProvider.DocumentFile)
 				.ClickAssignButtonInDocumentInfo()
 				.ClickCancelAssignButton();
 		}

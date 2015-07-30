@@ -158,14 +158,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 			return this;
 		}
 
-		public ProjectSettingsHelper AcceptAllTasks(string filePath)
-		{
-			BaseObject.InitPage(_projectPage);
-			_projectPage.AcceptAllTasksForDocument(Path.GetFileNameWithoutExtension(filePath));
-
-			return this;
-		}
-
 		public ProjectSettingsHelper AddTask(TaskMode task)
 		{
 			BaseObject.InitPage(_settingsDialog);

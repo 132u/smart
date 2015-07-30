@@ -1,11 +1,7 @@
 ﻿using System;
 using System.Threading;
-using System.Windows.Forms;
 
 using NLog;
-
-using NLog;
-
 using NUnit.Framework;
 
 using AbbyyLS.SmartCAT.Selenium.Tests.DataStructures;
