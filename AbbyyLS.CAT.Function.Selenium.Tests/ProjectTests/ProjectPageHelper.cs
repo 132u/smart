@@ -54,17 +54,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			return GetIsElementExist(By.XPath(DOCUMENT_ASSIGN_RESPONSIBLES_BTN_XPATH));
 		}
 
-		public void ClickAllAcceptBtns()
-		{
-			Logger.Trace("Нажать все кнопки Accept");
-			var acceptList = GetElementList(By.XPath(ACCEPT_BTN_XPATH));
-
-			foreach (var el in acceptList)
-			{
-				el.Click();
-			}
-		}
-
 		/// <summary>
 		/// Нажать кнопку претранслейт
 		/// </summary>
@@ -608,8 +597,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		protected const string PROGRESS_DIALOG_ASSIGN_BTN_XPATH = PROGRESS_DIALOG_XPATH + "//span[contains(@class, 'js-assign')]//a[contains(text(), 'Assign')]";
 		protected const string PROGRESS_DIALOG_CANCEL_BTN_XPATH = PROGRESS_DIALOG_XPATH + "//span[contains(@class, 'js-assigned-cancel')]//a[contains(text(), 'Cancel')]";
 		protected const string PROGRESS_DIALOG_CLOSE_BTN_XPATH = PROGRESS_DIALOG_XPATH + "//..//..//..//span/a[@class='h30 g-redbtn__text g-btn__text']";
-
-		protected const string ACCEPT_BTN_XPATH = ".//span[contains(@class,'js-accept')]";
 
 		protected const string DOCUMENT_LIST_XPATH = ".//table[contains(@class,'js-documents-table')]//tbody";
 		protected const string DOCUMENT_ROW_XPATH = ".//tr[contains(@class,'js-document-row')]";

@@ -371,8 +371,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			ProjectPage.WaitPageLoad();
 
 			ProjectPage.SelectDocument(documentRowNum);
-			// Нажать на Accept
-			ProjectPage.ClickAllAcceptBtns();
 		}
 		
 		/// <summary>

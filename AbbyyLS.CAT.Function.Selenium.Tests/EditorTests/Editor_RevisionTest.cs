@@ -59,10 +59,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Editor.Revisions
 				// Открытие страницы проекта
 				OpenProjectPage(_projectNameRevisionsTest);
 
-				// Подтверждение назначения
-				ProjectPage.ClickAllAcceptBtns();
-				Thread.Sleep(1000);
-
 				// Открываем документ
 				OpenDocument();
 				Thread.Sleep(1000);
@@ -544,10 +540,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Editor.Revisions
 			// Открытие страницы проекта
 			OpenProjectPage(projectNameRevisionsTest3);
 
-			// Подтверждение назначения
-			ProjectPage.ClickAllAcceptBtns();
-			Thread.Sleep(1000);
-
 			// Открываем документ
 			OpenDocument();
 			Thread.Sleep(1000);
@@ -604,10 +596,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Editor.Revisions
 
 			// Открытие страницы проекта
 			OpenProjectPage(_projectNameRevisionsTest);
-
-			// Подтверждение назначения
-			ProjectPage.ClickAllAcceptBtns();
-			Thread.Sleep(1000);
 
 			// Открываем документ
 			OpenDocument();
