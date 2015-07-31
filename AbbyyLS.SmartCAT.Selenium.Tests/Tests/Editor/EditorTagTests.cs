@@ -8,7 +8,7 @@ using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Editor
 {
-	class EditorTagTest<TWebDriverProvider> : BaseTest<TWebDriverProvider> where TWebDriverProvider : IWebDriverProvider, new()
+	class EditorTagTests<TWebDriverProvider> : BaseTest<TWebDriverProvider> where TWebDriverProvider : IWebDriverProvider, new()
 	{
 		[SetUp]
 		public void SetupTest()

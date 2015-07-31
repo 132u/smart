@@ -4,30 +4,30 @@ using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Editor
 {
-	public class EditorLastUnconfirmedButtonTests<TWebDriverProvider> : EditorBaseTest<TWebDriverProvider> where TWebDriverProvider : IWebDriverProvider, new()
+	public class EditorLastUnconfirmedSegmentTests<TWebDriverProvider> : EditorBaseTest<TWebDriverProvider> where TWebDriverProvider : IWebDriverProvider, new()
 	{
 		[Test]
-		public void LastUnconfirmedButtonNextSegmentTest()
+		public void LastUnconfirmedSegmentButtonTest()
 		{
 			EditorHelper
 				.AddTextToSegment()
 				.ConfirmTranslation()
-				.ClickTargetCell()
 				.AssertIsSegmentConfirmed()
+				.ClickTargetCell()
 				.ClickLastUnconfirmedButton()
 				.AssertSegmentIsSelected(2);
 		}
 
 		[Test]
 		[Category("SCAT_102")]
-		public void LastUnconfirmedButtonNextSegmentByHotKeyTest()
+		public void LastUnconfirmedSegmentHotKeyTest()
 		{
 			EditorHelper
 				.AddTextToSegment()
 				.ConfirmTranslation()
-				.ClickTargetCell()
 				.AssertIsSegmentConfirmed()
-				.ClickLastUnconfirmedButtonByHotKey()
+				.ClickTargetCell()
+				.ClickLastUnconfirmedHotKey()
 				.AssertSegmentIsSelected(rowNumber: 2);
 		}
 
@@ -37,24 +37,23 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Editor
 			EditorHelper
 				.AddTextToSegment(rowNumber: 2)
 				.ConfirmTranslation()
-				.ClickTargetCell(rowNumber: 2)
 				.AssertIsSegmentConfirmed(rowNumber: 2)
+				.ClickTargetCell(rowNumber: 1)
 				.ClickLastUnconfirmedButton()
 				.AssertSegmentIsSelected(rowNumber: 3);
 		}
 
 		[Test]
 		[Category("SCAT_102")]
-		public void LastUnconfirmedButtonHotkeySkipSegmentTest()
+		public void LastUnconfirmedHotkeySkipSegmentTest()
 		{
 			EditorHelper
 				.AddTextToSegment(rowNumber: 2)
 				.ConfirmTranslation()
-				.ClickTargetCell(rowNumber: 2)
 				.AssertIsSegmentConfirmed(rowNumber: 2)
-				.ClickLastUnconfirmedButtonByHotKey()
+				.ClickTargetCell(rowNumber: 1)
+				.ClickLastUnconfirmedHotKey()
 				.AssertSegmentIsSelected(rowNumber: 3);
-
 		}
 	}
 }

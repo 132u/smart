@@ -4,7 +4,7 @@ using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Editor
 {
-	public class EditorConcordanceTests<TWebDriverProvider> : EditorBaseTest<TWebDriverProvider> where TWebDriverProvider : IWebDriverProvider, new()
+	public class EditorConcordanceSearchTests<TWebDriverProvider> : EditorBaseTest<TWebDriverProvider> where TWebDriverProvider : IWebDriverProvider, new()
 	{
 		[Test]
 		public void ConcordanceSearchButtonTest()

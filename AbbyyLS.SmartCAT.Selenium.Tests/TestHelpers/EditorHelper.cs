@@ -54,11 +54,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 		public EditorHelper CopySourceToTarget(int segmentNumber = 1)
 		{
 			BaseObject.InitPage(_editorPage);
-			var source = _editorPage.SourceText(segmentNumber);
-			_editorPage.ClickCopyButton();
-			var target = _editorPage.TargetText(segmentNumber);
-
-			Assert.AreEqual(source, target, "Произошла ошибка:\n текст в источнике не совпадает с текстом в таргете.");
+			_editorPage.ClickCopySourceToTargetButton();
 
 			return this;
 		}
@@ -66,11 +62,19 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 		public EditorHelper CopySourceToTargetByHotKey(int segmentNumber = 1)
 		{
 			BaseObject.InitPage(_editorPage);
+			_editorPage.ClickCopySourceToTargetHotkey();
+
+			return this;
+		}
+
+		public EditorHelper AssertSourceEqualsTarget(int segmentNumber = 1)
+		{
+			BaseObject.InitPage(_editorPage);
 			var source = _editorPage.SourceText(segmentNumber);
-			_editorPage.ClickCopyButtonByHotkey();
 			var target = _editorPage.TargetText(segmentNumber);
 
-			Assert.AreEqual(source, target, "Произошла ошибка:\n текст в источнике не совпадает с текстом в таргете.");
+			Assert.AreEqual(source, target, 
+				string.Format("Произошла ошибка:\n в сегменте #{0} исходный текст не совпадает с таргетом.", segmentNumber));
 
 			return this;
 		}
@@ -99,7 +103,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 			return this;
 		}
 
-		public EditorHelper ClickLastUnconfirmedButtonByHotKey()
+		public EditorHelper ClickLastUnconfirmedHotKey()
 		{
 			BaseObject.InitPage(_editorPage);
 			_editorPage.ClickF9HotKey();

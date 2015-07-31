@@ -471,7 +471,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		/// <summary>
 		/// Нажать кнопку 'Копировать оригинал в перевод'
 		/// </summary>
-		public EditorPage ClickCopyButton()
+		public EditorPage ClickCopySourceToTargetButton()
 		{
 			Logger.Debug("Нажать кнопку 'Копировать оригинал в перевод'.");
 			CopyButton.Click();
@@ -482,7 +482,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		/// <summary>
 		/// Нажать хоткей кнопки 'Копировать оригинал в перевод'
 		/// </summary>
-		public EditorPage ClickCopyButtonByHotkey()
+		public EditorPage ClickCopySourceToTargetHotkey()
 		{
 			Logger.Debug("Нажать хоткей кнопки 'Копировать оригинал в перевод' - Ctrl+Insert.");
 			SendKeys.SendWait("^{INSERT}");
