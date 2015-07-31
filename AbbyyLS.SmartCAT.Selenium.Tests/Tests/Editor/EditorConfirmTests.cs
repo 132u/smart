@@ -20,7 +20,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Editor
 		}
 
 		[Test]
-		[Explicit("Тест использует хоткеи и не прогоняется в тимсити")]
+		[Explicit("Тесты, использующие hotkey, не работают на тимсити")]
 		public void ConfirmHotkeyTest()
 		{
 			EditorHelper

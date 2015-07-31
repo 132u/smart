@@ -15,7 +15,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Editor
 		}
 
 		[Test]
-		[Category("SCAT_102")]
+		[Explicit("Тесты, использующие hotkey, не работают на тимсити")]
 		public void CopySourceToTargetHotkeyTest()
 		{
 			EditorHelper
