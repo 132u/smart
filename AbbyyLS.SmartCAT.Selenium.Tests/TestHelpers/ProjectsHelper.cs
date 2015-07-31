@@ -140,7 +140,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 				.ClickDocumentSettings(projectName, documentNumber)
 				.SetDocumentName(newName)
 				.ClickSaveButton()
-				.AssertDialogBackgroundDissapeared<ProjectsPage>();
+				.AssertDialogBackgroundDisappeared<ProjectsPage>();
 
 			return this;
 		}
@@ -152,7 +152,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 				.ClickDocumentSettings(projectName, documentNumber)
 				.SelectMachineTranslation(machineTranslation)
 				.ClickSaveButton()
-				.AssertDialogBackgroundDissapeared<ProjectsPage>();
+				.AssertDialogBackgroundDisappeared<ProjectsPage>();
 
 			return this;
 		}

@@ -267,7 +267,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace
 			return countExportNotifiers;
 		}
 
-		public T AssertDialogBackgroundDissapeared<T>() where T : class, IAbstractPage<T>, new()
+		public T AssertDialogBackgroundDisappeared<T>() where T : class, IAbstractPage<T>, new()
 		{
 			Logger.Trace("Дождаться закрытия фона диалога.");
 

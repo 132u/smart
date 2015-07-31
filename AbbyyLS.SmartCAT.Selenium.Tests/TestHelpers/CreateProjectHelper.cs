@@ -66,7 +66,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 			_newProjectCreateBaseDialog
 				.AssertFinishButtonEnabled()
 				.ClickFinishButton()
-				.AssertDialogBackgroundDissapeared<ProjectsPage>();
+				.AssertDialogBackgroundDisappeared<ProjectsPage>();
 
 			return this;
 		}

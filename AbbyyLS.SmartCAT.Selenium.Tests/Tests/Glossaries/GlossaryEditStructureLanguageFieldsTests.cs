@@ -7,16 +7,21 @@ using AbbyyLS.SmartCAT.Selenium.Tests.TestFramework;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 {
+	[Standalone]
 	class GlossaryEditStructureLanguageFieldsTests<TWebDriverProvider> : BaseTest<TWebDriverProvider> where TWebDriverProvider : IWebDriverProvider, new()
 	{
 		[SetUp]
-		[Standalone]
 		public void SetUpGlossaryEditStructureLanguageFieldsTests()
 		{
 			_glossaryUniqueName = GlossariesHelper.UniqueGlossaryName();
 			_glossaryHelper = WorkspaceHelper
 								.GoToGlossariesPage()
-								.CreateGlossary(_glossaryUniqueName);
+								.CreateGlossary(_glossaryUniqueName)
+								.OpenGlossaryStructure()
+								.SelectLevelGlossaryStructure(GlossaryStructureLevel.Language)
+								.AddLanguageFields()
+								.ClickNewEntryButton()
+								.FillTermInLanguagesAndTermsSection();
 		}
 
 		///<summary>
@@ -28,11 +33,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 			var comment = "Comment Example";
 
 			_glossaryHelper
-				.OpenGlossaryStructure()
-				.SelectLevelGlossaryStructure(GlossaryStructureLevel.Language)
-				.AddLanguageFields()
-				.ClickNewEntryButton()
-				.FillTermInLanguagesAndTermsSection()
 				.FillLanguageComment(comment)
 				.ClickSaveTermButton()
 				.AssertLanguageCommentIsFilled(comment);
@@ -44,11 +44,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 			var definition = "Definition Example";
 
 			_glossaryHelper
-				.OpenGlossaryStructure()
-				.SelectLevelGlossaryStructure(GlossaryStructureLevel.Language)
-				.AddLanguageFields()
-				.ClickNewEntryButton()
-				.FillTermInLanguagesAndTermsSection()
 				.FillDefinition(definition)
 				.ClickSaveTermButton()
 				.AssertDefinitionFilled(definition);
@@ -60,11 +55,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 			var definitionSource = "Definition source example";
 
 			_glossaryHelper
-				.OpenGlossaryStructure()
-				.SelectLevelGlossaryStructure(GlossaryStructureLevel.Language)
-				.AddLanguageFields()
-				.ClickNewEntryButton()
-				.FillTermInLanguagesAndTermsSection()
 				.FillDefinitionSource(definitionSource)
 				.ClickSaveTermButton()
 				.AssertDefinitionSourceFilled(definitionSource);

@@ -61,7 +61,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 						_newTranslationMemoryDialog
 							.ClickSaveTranslationMemory<TranslationMemoriesPage>()
 							.AssertNewTMDialogDisappeared()
-							.AssertDialogBackgroundDissapeared<TranslationMemoriesPage>();
+							.AssertDialogBackgroundDisappeared<TranslationMemoriesPage>();
 					}
 
 					break;
@@ -69,7 +69,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 					_newTranslationMemoryDialog
 						.ClickCancelTMCreation()
 						.AssertNewTMDialogDisappeared()
-						.AssertDialogBackgroundDissapeared<TranslationMemoriesPage>();
+						.AssertDialogBackgroundDisappeared<TranslationMemoriesPage>();
 					break;
 				case DialogButtonType.None:
 					break;

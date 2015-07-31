@@ -320,7 +320,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 			{
 				_newGlossaryDialog
 					.ClickSaveGlossaryButton<GlossaryPage>()
-					.AssertDialogBackgroundDissapeared<GlossaryPage>();
+					.AssertDialogBackgroundDisappeared<GlossaryPage>();
 			}
 
 			return this;
@@ -548,7 +548,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 				.ClickAddToListButton()
 				.AssertSystemFieldIsAdded(systemField)
 				.ClickSaveButton()
-				.AssertDialogBackgroundDissapeared<GlossaryPage>();
+				.AssertDialogBackgroundDisappeared<GlossaryPage>();
 
 			return this;
 		}
@@ -569,7 +569,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 			_glossaryStructureDialog
 				.AddLanguageFields()
 				.ClickSaveButton()
-				.AssertDialogBackgroundDissapeared<GlossaryPage>();
+				.AssertDialogBackgroundDisappeared<GlossaryPage>();
 
 			return this;
 		}
