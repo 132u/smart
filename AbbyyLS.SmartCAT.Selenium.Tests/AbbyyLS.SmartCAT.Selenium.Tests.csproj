@@ -81,7 +81,6 @@
     <Compile Include="DataStructures\Deadline.cs" />
     <Compile Include="DataStructures\ExportType.cs" />
     <Compile Include="DataStructures\PlaceSearchNotifier.cs" />
-    <Compile Include="DataStructures\DataDictionaries.cs" />
     <Compile Include="DataStructures\RevisionType.cs" />
     <Compile Include="DataStructures\TaskMode.cs" />
     <Compile Include="DataStructures\WorkflowTask.cs" />

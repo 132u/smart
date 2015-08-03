@@ -117,8 +117,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		public EditorPage AssertLastRevisionEqualTo(RevisionType expectedRevisionType)
 		{
 			Logger.Trace("Проверить, что тип последней ревизии соответствует ожидаемому типу {0}", expectedRevisionType);
-
-			Assert.IsTrue(DataDictionaries.RevisionDictionary[RevisionType.Text] == expectedRevisionType,
+			
+			Assert.IsTrue(Driver.WaitUntilElementIsDisplay(By.XPath(REVISION_PATH.Replace("*#*", 
+					expectedRevisionType.Description()))),
 				"Произошла ошибка:\n тип последней ревизии  не соответствует ожидаемому.");
 
 			return GetPage();
@@ -623,9 +624,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 
 		[FindsBy(Using = DICTIONARY_BUTTON)]
 		protected IWebElement SpellcheckDictionaryButton { get; set; }
-
-		[FindsBy(Using = REVISION_PATH, How = How.XPath)]
-		protected IWebElement RevisionType { get; set; }
 		
 		[FindsBy(How = How.XPath, Using = STAGE_NAME)]
 		protected IWebElement StageName { get; set; }
@@ -669,7 +667,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		[FindsBy(How = How.Id, Using = CAT_PANEL_PERCENT_MATCH)]
 		protected IWebElement CatPanelPercentMatch { get; set; }
 		
-
 		[FindsBy(How = How.Id, Using = PERCENT_COLOR)]
 		protected IWebElement PercentColor { get; set; }
 
@@ -678,7 +675,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		protected const string FINISH_TUTORIAL_BUTTON = "//span[contains(text(),'Finish') and contains(@id, 'button')]";
 		protected const string AUTOSAVING = "//div[contains(text(), 'Saving')]";
 		protected const string SPELLCHECK_PATH = "//div[contains(text(), '1')]//..//..//..//..//tbody//tr[1]//span[contains(@class,'spellcheck') and contains(string(), '*#*')]";
-		protected const string REVISION_PATH = "//div[@id='revisions-body']//table[1]//td[contains(@class,'revision-type-cell')]";
+		protected const string REVISION_PATH = "//div[@id='revisions-body']//table[1]//td[contains(@class,'revision-type-cell')]//div[text()='*#*']";
 		protected const string STAGE_NAME = "//h1/span[contains(@class, 'workflow')]";
 		protected const string LAST_CONFIRMED_BUTTON = "unfinished-btn";
 		protected const string ADD_TERM_BUTTON = "add-term-btn";
