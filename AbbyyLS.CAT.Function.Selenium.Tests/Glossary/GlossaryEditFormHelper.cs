@@ -124,9 +124,9 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		protected const string DROPDOWNLIST_ITEM_XPATH = "//select[contains(@data-bind,'clientsList')]/option";
 		protected const string MULTISELECT_LIST_XPATH = ".//ul[contains(@class,'ui-multiselect-checkboxes')]//span[contains(@class,'ui-multiselect-item-text')]";
 
-		protected const string ADD_LANG_BTN_XPATH = DIALOG_XPATH + "//span[@class='g-btn g-bluebtn addlang enabled']";
+		protected const string ADD_LANG_BTN_XPATH = DIALOG_XPATH + "//span[@class='g-btn g-bluebtn addlang']";
 		protected const string LANG_XPATH = "//span[contains(@class,'js-glossary-language')]";
-		protected const string LAST_LANG_LIST_DROPDOWN_XPATH = DIALOG_XPATH + "//span[@class='g-btn g-bluebtn addlang enabled']//preceding-sibling::span[@class='g-iblock l-editgloss__control l-editgloss__lang'][1]//span/span";
+		protected const string LAST_LANG_LIST_DROPDOWN_XPATH = DIALOG_XPATH + "//span[@class='g-btn g-bluebtn addlang']//preceding-sibling::span[@class='g-iblock l-editgloss__control l-editgloss__lang'][1]//span/span";
 		protected const string LANGUAGES_XPATH = "//div[@class='l-editgloss__contrbox'][1]";
 		protected const string LANG_LIST_LANG_XPATH = "//div[@class='l-editgloss__contrbox'][1]//span[@class='g-iblock l-editgloss__control l-editgloss__lang']";
 		protected const string DELETE_LANG_XPATH = DIALOG_XPATH + LANGUAGES_XPATH + "//em";
