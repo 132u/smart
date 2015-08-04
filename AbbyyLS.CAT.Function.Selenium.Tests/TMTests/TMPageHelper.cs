@@ -85,6 +85,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.TM
 		public void ScrollToRequiredTm(string tmName)
 		{
 			Logger.Debug(string.Format("Прокрутка до необходимой ТМ {0}", tmName));
+			WaitPageTotalLoad();
 			ScrollToElement(By.XPath(GetTMRow(tmName)));
 		}
 
@@ -376,9 +377,13 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.TM
 			ClickElement(By.XPath(CONFIRM_XPATH));
 		}
 
-		public bool GetConfirmWindowExist()
+		/// <summary>
+		/// Проверить, что окно Confirmation появилось
+		/// </summary>
+		public void AssertConfirmWindowExist()
 		{
-			return GetIsElementExist(By.XPath(CONFIRM_WINDOW));
+			Logger.Trace("Проверить, что окно Confirmation появилось");
+			Assert.IsTrue(WaitUntilDisplayElement(By.XPath(CONFIRM_WINDOW)), "Ошибка: Confirmation окно не появилось");
 		}
 
 		public bool GetIsErrorMessageNotTmx()

@@ -127,7 +127,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.TM
 			// Подтверждаем, что согласны на перезатирание ТМ, если передан флаг acceptConfirmationMessage = true
 			if (acceptConfirmationMessage)
 			{
-				Assert.IsTrue(TMPage.GetConfirmWindowExist(), "Ошибка: Confirmation окно не появилось");
+				TMPage.AssertConfirmWindowExist();
 				TMPage.ConfirmTMEdition();
 			}
 			// Проверяем наличие информационных плашек, если это необходимо
@@ -247,7 +247,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.TM
 					TMPage.ClickTMButton(btnType);
 					TMPage.AssertConfirmationDialogPresented();
 				}
-
+				TMPage.AssertConfirmWindowExist();
 				TMPage.ConfirmTMEdition();
 				MainHelperClass.WaitUntilCloseDialogBackground();
 			}
