@@ -31,6 +31,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Editor
 		}
 
 		[Test]
+		[Explicit("Тесты, использующие hotkey, не работают на тимсити")]
 		public void TagHotkeyTest()
 		{
 			_editorHelper
