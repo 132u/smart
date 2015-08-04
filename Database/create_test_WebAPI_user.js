@@ -1,4 +1,4 @@
-var account = db.Auth.AccountUsers.findOne({"email":"bobby@mailforspam.com"});
+var account = db.Auth.AccountUsers.findOne({"email":"teamcity@mailforspam.com", "surname":"Test"});
 
 db.Integration.ClientAuth.save({ 
     "_id" : "testapi", 
