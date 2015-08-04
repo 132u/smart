@@ -360,6 +360,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace
 
 		public WorkspacePage OpenHideMenuIfClosed()
 		{
+			Driver.WaitPageTotalLoad();
+
 			if (!getIsLeftMenuDisplay())
 			{
 				assertCatMenuButtonDisplay();

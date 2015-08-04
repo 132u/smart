@@ -378,7 +378,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 		protected const string TERM_FIELD = "//tr[contains(@class, 'js-concept')]//td[*#*]//input[contains(@class,'js-term')]";
 		protected const string NEW_ENTRY_BUTTON = "//span[contains(@class,'js-add-concept')]";
 		protected const string PLUS_BUTTON = "//td[1]//span[contains(@class,'js-add-term')]";
-		protected const string TERM_SAVE_BUTTON = "//span[@class='js-save-text']";
+		protected const string TERM_SAVE_BUTTON = "//span//a[contains(@class,'js-save-btn')]";
 		protected const string GLOSSARY_STRUCTURE = "//div[contains(@class,'js-edit-structure-btn')]";
 		protected const string EXTEND_MODE = "//tr[contains(@class, 'js-concept')]//td";
 		protected const string IMPORT_BUTTON = "//span[contains(@class,'js-import-concepts')]";
