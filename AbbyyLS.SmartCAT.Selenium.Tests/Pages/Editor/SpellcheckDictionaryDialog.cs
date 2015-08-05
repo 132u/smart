@@ -166,7 +166,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 
 		protected IWebElement Word { get; set; }
 
-		protected const string DICTIONARY_FORM= "//div[@id='dictionary']";
+		protected const string DICTIONARY_FORM = "//div[@id='dictionary_header']";
 		protected const string ADD_WORD_BTN = "//div[@id='dictionary']//span[contains(@id, 'btnInnerEl')]";
 		protected const string INPUT_WORD = "//div[@id='dictionary']//input[contains(@id, 'textfield')]";
 		protected const string DELETE_WORD_BUTTON ="//div[@id='dictionary-body']//table//tr//td[1]//div[text()='*#*']/../..//td[2]//div[contains(@class, 'fa-trash-o')]";
