@@ -6,7 +6,6 @@ using NUnit.Framework;
 using AbbyyLS.SmartCAT.Selenium.Tests.DataStructures;
 using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects;
-using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor;
 using AbbyyLS.SmartCAT.Selenium.Tests.TestFramework;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
@@ -14,7 +13,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 	[Standalone]
 	internal class ExportProjectListTests<TWebDriverProvider> : ExportProjectBaseTests<TWebDriverProvider> where TWebDriverProvider : IWebDriverProvider, new()
 	{
-
+		[Ignore("PRX-11235")]
 		[TestCase(ExportType.Source)]
 		[TestCase(ExportType.Tmx)]
 		[TestCase(ExportType.Target)]
@@ -64,6 +63,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 				.AssertFileDownloaded(_exportFileHelper.GetExportFileNameMask(exportType, PathProvider.DocumentFileToConfirm1));
 		}
 
+		[Ignore("PRX-11235")]
 		[TestCase(ExportType.Source)]
 		[TestCase(ExportType.Tmx)]
 		[TestCase(ExportType.Target)]
@@ -150,6 +150,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 			_exportFileHelper.AssertContainsText(Path.GetFileName(PathProvider.DocumentFileToConfirm1));
 		}
 
+		[Ignore("PRX-11235")]
 		[Test]
 		public void ExportProjectOneDocCheckNotifierText()
 		{
@@ -164,6 +165,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 			_exportFileHelper.AssertContainsText(Path.GetFileName(PathProvider.DocumentFileToConfirm1));
 		}
 
+		[Ignore("PRX-11235")]
 		[Test]
 		public void ExportProjectMultiDocCheckNotifierText()
 		{
@@ -183,6 +185,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 			_exportFileHelper.AssertContainsText("Documents");
 		}
 
+		[Ignore("PRX-11235")]
 		[Test]
 		public void ExportProjectsCheckNotifierText()
 		{
@@ -211,6 +214,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 			_exportFileHelper.AssertContainsText("Documents");
 		}
 
+		[Ignore("PRX-11235")]
 		[Test]
 		public void ExportChangeNotifiers()
 		{
@@ -252,6 +256,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 				"Произошла ошибка:\n тесты сообщений обоих уведомлений совпадают.");
 		}
 
+		[Ignore("PRX-11235")]
 		[Test]
 		public void ExportLimitNotifiers()
 		{
@@ -267,6 +272,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 			}
 		}
 
+		[Ignore("PRX-11235")]
 		[Test]
 		public void ExportMoreLimitNotifiers()
 		{
@@ -290,6 +296,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 				_maxNotifierNumber);
 		}
 
+		[Ignore("PRX-11235")]
 		[Test]
 		public void ExportCheckNotifiersFreshAbove()
 		{
@@ -330,6 +337,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 				"Произошла ошибка:\n сообщение не изменилось, свежее сообщение должно быть сверху");
 		}
 
+		[Ignore("PRX-11235")]
 		[Test]
 		public void ExportChangeFirstToThird()
 		{
@@ -375,6 +383,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 				"Произошла ошибка:\n кликнули по верхнему сообщению - появилось не первое!");
 		}
 
+		[Ignore("PRX-11235")]
 		[Test]
 		public void ExportChangeFirstToSecond()
 		{
