@@ -22,6 +22,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings
 
 		public new void LoadPage()
 		{
+			Driver.WaitPageTotalLoad();
+
 			if (!Driver.WaitUntilElementIsDisplay(By.XPath(SETTINGS_DIALOG), timeout:60))
 			{
 				Assert.Fail("Произошла ошибка:\n не появился диалог настроек проекта.");

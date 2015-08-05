@@ -53,11 +53,14 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 		/// </summary>
 		public DocumentSettings SelectMachineTranslation(MachineTranslationType machineTranslationType)
 		{
-			Logger.Debug("Выбрать Мachine Тranslation {0} в настройках документа.");
+			
 			var machineTranslationCheckbox = Driver.SetDynamicValue(How.XPath, MT_CHECKBOX, machineTranslationType.Description());
+
+			Logger.Trace("Проверить, что Мachine Тranslation {0} не выбрано.", machineTranslationType);
 
 			if (!machineTranslationCheckbox.Selected)
 			{
+				Logger.Debug("Выбрать Мachine Тranslation {0} в настройках документа.", machineTranslationType);
 				machineTranslationCheckbox.Click();
 			}
 

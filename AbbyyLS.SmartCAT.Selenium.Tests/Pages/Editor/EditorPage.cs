@@ -679,7 +679,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		protected const string STAGE_NAME = "//h1/span[contains(@class, 'workflow')]";
 		protected const string LAST_CONFIRMED_BUTTON = "unfinished-btn";
 		protected const string ADD_TERM_BUTTON = "add-term-btn";
-		protected const string SELECTED_SEGMENT = "//table[2]//tr[@aria-selected='true']";
+		protected const string SELECTED_SEGMENT = "//table[*#*]//tr[@aria-selected='true']";
 		protected const string CHARACTER_BUTTON = "charmap-btn";
 		protected const string INSERT_TAG_BUTTON = "tag-insert-btn";
 		protected const string COPY_BUTTON = "copy-btn-btnEl";
