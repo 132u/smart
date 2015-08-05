@@ -209,10 +209,10 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 			return this;
 		}
 
-		public GlossariesHelper ClickSaveTermButton()
+		public GlossariesHelper ClickSaveEntryButton()
 		{
 			BaseObject.InitPage(_glossaryPage);
-			_glossaryPage.ClickSaveTermButton();
+			_glossaryPage.ClickSaveEntryButton();
 
 			return this;
 		}

@@ -34,7 +34,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 
 			_glossaryHelper
 				.FillLanguageComment(comment)
-				.ClickSaveTermButton()
+				.ClickSaveEntryButton()
 				.AssertLanguageCommentIsFilled(comment);
 		}
 
@@ -45,7 +45,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 
 			_glossaryHelper
 				.FillDefinition(definition)
-				.ClickSaveTermButton()
+				.ClickSaveEntryButton()
 				.AssertDefinitionFilled(definition);
 		}
 
@@ -56,7 +56,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 
 			_glossaryHelper
 				.FillDefinitionSource(definitionSource)
-				.ClickSaveTermButton()
+				.ClickSaveEntryButton()
 				.AssertDefinitionSourceFilled(definitionSource);
 		}
 

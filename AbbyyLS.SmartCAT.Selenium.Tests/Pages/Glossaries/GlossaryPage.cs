@@ -90,6 +90,19 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 		}
 
 		/// <summary>
+		/// Нажать на кнопку Save Entry для сохраенния термина
+		/// </summary>
+		public GlossaryPage ClickSaveEntryButton()
+		{
+			Logger.Debug("Нажать на кнопку Save Entry для сохраенния термина.");
+			SaveEntryButton.Click();
+
+			Driver.WaitUntilElementIsDisappeared(By.XPath(SAVE_ENTRY_BUTTON));
+
+			return GetPage();
+		}
+
+		/// <summary>
 		/// Проверить, что новый термин открыт в расширенном режиме
 		/// </summary>
 		public GlossaryPage AssertExtendModeOpen()
@@ -321,6 +334,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 		[FindsBy(How = How.XPath, Using = TERM_SAVE_BUTTON)]
 		protected IWebElement TermSaveButton { get; set; }
 
+		[FindsBy(How = How.XPath, Using = SAVE_ENTRY_BUTTON)]
+		protected IWebElement SaveEntryButton { get; set; }
+
 		[FindsBy(How = How.XPath, Using = EDIT_GLOSSARY_MENU)]
 		protected IWebElement EditGlossaryMenu { get; set; }
 
@@ -379,6 +395,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 		protected const string NEW_ENTRY_BUTTON = "//span[contains(@class,'js-add-concept')]";
 		protected const string PLUS_BUTTON = "//td[1]//span[contains(@class,'js-add-term')]";
 		protected const string TERM_SAVE_BUTTON = "//span//a[contains(@class,'js-save-btn')]";
+		protected const string SAVE_ENTRY_BUTTON = "//span[contains(@class,'js-save-btn')]";
 		protected const string GLOSSARY_STRUCTURE = "//div[contains(@class,'js-edit-structure-btn')]";
 		protected const string EXTEND_MODE = "//tr[contains(@class, 'js-concept')]//td";
 		protected const string IMPORT_BUTTON = "//span[contains(@class,'js-import-concepts')]";
