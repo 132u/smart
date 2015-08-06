@@ -94,7 +94,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.TranslationMemories
 		[TestCase(false)]
 		public void CreateTMSearchTM(bool uploadFile)
 		{
-			var importFilePath = uploadFile ? Directory.GetFiles(PathProvider.TMTestFolder)[1] : null;
+			var importFilePath = uploadFile ? PathProvider.TMTestFile2 : null;
 
 			TranslationMemoriesHelper
 				.CreateTranslationMemory(UniqueTranslationMemoryName, importFilePath: importFilePath)

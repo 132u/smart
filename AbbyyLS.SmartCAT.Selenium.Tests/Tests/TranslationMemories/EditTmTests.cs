@@ -18,7 +18,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.TranslationMemories
 		[TestCase(false, " ")]
 		public void EditTMSaveWithInvalidNameTest(bool needUploadTmx, string invalidName)
 		{
-			var importFilePath = needUploadTmx ? _importTmxFile : null;
+			var importFilePath = needUploadTmx ? PathProvider.TMTestFile2 : null;
 			
 			TranslationMemoriesHelper
 				.CreateTranslationMemory(UniqueTranslationMemoryName, importFilePath: importFilePath);
@@ -69,7 +69,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.TranslationMemories
 			// Для облегчения теста создадим имя ТМ таким, чтобы при создании проекта
 			// его можно было выбрать, не прибегая к прокрутке
 			var translationMemoryNewName = string.Concat("!", TranslationMemoriesHelper.GetTranslationMemoryUniqueName());
-			var importFilePath = needUploadTmx ? _importTmxFile : null;
+			var importFilePath = needUploadTmx ? PathProvider.TMTestFile2 : null;
 			var projectUniqueName = _createProjectHelper.GetProjectUniqueName();
 			
 			TranslationMemoriesHelper
@@ -98,7 +98,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.TranslationMemories
 		[TestCase(false)]
 		public void EditTMComment(bool needUploadTmx)
 		{
-			var importFilePath = needUploadTmx ? _importTmxFile : null;
+			var importFilePath = needUploadTmx ? PathProvider.TMTestFile2 : null;
 
 			TranslationMemoriesHelper.CreateTranslationMemory(UniqueTranslationMemoryName, importFilePath: importFilePath);
 
@@ -133,7 +133,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.TranslationMemories
 		[TestCase(false)]
 		public void EditTmProjectGroups(bool needUploadTmx)
 		{
-			var importFilePath = needUploadTmx ? _importTmxFile : null;
+			var importFilePath = needUploadTmx ? PathProvider.TMTestFile2 : null;
 			string projectGroup;
 
 			TranslationMemoriesHelper
@@ -152,7 +152,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.TranslationMemories
 		}
 
 		private readonly CreateProjectHelper _createProjectHelper = new CreateProjectHelper();
-		private readonly string _importTmxFile = Directory.GetFiles(PathProvider.TMTestFolder)[1];
 		private const string InitialComment = "InitialComment";
 		private const string FinalComment = "FinalComment";
 		private const string RussianLanguage = "ru";
