@@ -506,7 +506,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories
 		protected const string CREATION_DATE = "//th[contains(@data-sort-by,'CreatedDate')]//a";
 		protected const string TM_LANGUAGES = "//td[@class='l-corpr__td tm']//span[string()='*#*']/parent::td/parent::tr//td[2]//span[string()='*##*']";
 		protected const string TM_LANGUAGES_IN_TABLE = "//td[@class='l-corpr__td tm']//span[string()='*#*']/parent::td/parent::tr//td[2]//span";
-		protected const string TARGET_LANG_ITEM = "(//div[contains(@class,'ui-multiselect-menu')])[2]//ul[@class='ui-multiselect-checkboxes ui-helper-reset']//li//input[@value='*#*']";
+		protected const string TARGET_LANG_ITEM = "(//div[contains(@class,'ui-multiselect-menu')])[4]//ul[@class='ui-multiselect-checkboxes ui-helper-reset']//li//input[@value='*#*']";
 
 		protected const string TM_EDIT_BUTTON = "//tr[@class='js-tm-panel']//span[contains(@data-bind, 'switchToEditing')]//a";
 		protected const string TM_EDIT_NAME = "//tr[contains(@class,'js-tm-panel')]//input[contains(@data-bind, 'value: name')]";

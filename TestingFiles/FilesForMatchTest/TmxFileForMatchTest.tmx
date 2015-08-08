@@ -18,7 +18,7 @@
         <seg>Second sequence for translation test.</seg>
       </tuv>
       <tuv xml:lang="ru">
-        <seg></seg>
+        <seg>Второе предложение для тестрирования</seg>
       </tuv>
     </tu>
     <tu>
@@ -38,7 +38,7 @@
         <seg>Almost last sequence for translation test.</seg>
       </tuv>
       <tuv xml:lang="ru">
-        <seg></seg>
+        <seg>Четвёртое предложение для тестирования</seg>
       </tuv>
     </tu>
     <tu>
