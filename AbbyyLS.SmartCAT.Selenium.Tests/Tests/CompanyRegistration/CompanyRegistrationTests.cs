@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 
 using NUnit.Framework;
 
@@ -27,7 +28,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.CompanyRegistration
 			_lastName = "lastName" + Guid.NewGuid();
 			_maximumCompanyName = ("companyName" + Guid.NewGuid()).Substring(0, _companyNameMaxLenght);
 			_subDomain = "subDomainl" + Guid.NewGuid();
-			_minimumCompanyName = Guid.NewGuid().ToString().Substring(0, 2);
 		}
 
 		[Test]
@@ -50,18 +50,19 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.CompanyRegistration
 		[Test]
 		public void MinimumCompanyNameTest()
 		{
+			var minimumCompanyName = new String(Guid.NewGuid().ToString().Where(Char.IsLetter).Take(2).ToArray());
 			_companyRegistrationHelper
-				.FillCompanyDataFirstStep(_minimumCompanyName + "@mailforspam.com", _password, _password)
+				.FillCompanyDataFirstStep(_email, _password, _password)
 				.ClickContinueButton()
 				.FillCompanyDataSecondStep(
 					_firstName,
 					_lastName,
-					_maximumCompanyName,
+					minimumCompanyName,
 					_subDomain,
 					companyType: CompanyType.LanguageServiceProvider)
 				.ClickCreateCorporateAccountButton()
 				.CloseTour()
-				.AssertUserNameAndAccountNameCorrect(_firstName + " " + _lastName, _maximumCompanyName);
+				.AssertUserNameAndAccountNameCorrect(_firstName + " " + _lastName, minimumCompanyName);
 		}
 
 		[Test]
@@ -488,7 +489,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.CompanyRegistration
 		private string _lastName;
 		private string _maximumCompanyName;
 		private string _subDomain;
-		private string _minimumCompanyName;
 		private int _companyNameMaxLenght = 40;
 
 		private readonly CompanyRegistrationHelper _companyRegistrationHelper = new CompanyRegistrationHelper();
