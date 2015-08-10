@@ -244,7 +244,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Registration.Freelance
 		/// <summary>
 		/// Регистрация юзера с неактивным персональным аккаунтом п 3.10
 		/// </summary>
-		[Category("PRX-10800")]
+		[Ignore("PRX-10800")]
 		[Test]
 		public void RegisterNewUserWithInActivePersAcc()
 		{
