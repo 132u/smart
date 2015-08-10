@@ -32,8 +32,8 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Registration.Freelance
 			WorkspacePage.CloseTour();
 			WorkspacePage.ClickAccount();
 			WorkspacePage.ClickLogoff();
-			Logger.Trace("Переход на страницу регистрации фрилансеров");
-			Driver.Navigate().GoToUrl(Url + RelativeUrlProvider.SingIn);
+			Logger.Trace("Переход на страницу авторизации Sign-in.");
+			LoginPage.WaitPageLoad(); 
 			LoginPage.EnterLogin(RegistrationPage.Email);
 			LoginPage.EnterPassword(RegistrationPage.Password);
 			LoginPage.ClickSubmitCredentials();
@@ -244,6 +244,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Registration.Freelance
 		/// <summary>
 		/// Регистрация юзера с неактивным персональным аккаунтом п 3.10
 		/// </summary>
+		[Category("PRX-10800")]
 		[Test]
 		public void RegisterNewUserWithInActivePersAcc()
 		{
