@@ -54,7 +54,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Billing.LicenseDialog
 		public LicensePaymentDialog SwitchToPaymentIFrame()
 		{
 			Logger.Trace("Перейти в IFrame платежной системы.");
-			Driver.WaitUntilElementIsDisplay(By.XPath(PAYMENT_IFRAME));
+			Driver.WaitUntilElementIsDisplay(By.XPath(PAYMENT_IFRAME), 20);
 			Driver.SwitchToIFrame(By.XPath(PAYMENT_IFRAME));
 
 			return new LicensePaymentDialog().GetPage();
