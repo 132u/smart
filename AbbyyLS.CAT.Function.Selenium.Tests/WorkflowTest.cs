@@ -87,8 +87,8 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 
 			// 3) Настройка Pretranslate. Проверка создания проекта
 			WorkspaceCreateProjectDialog.ClickFinishCreate();
+			MainHelperClass.WaitUntilCloseDialogBackground();
 			WorkspacePage.WaitProjectAppearInList(ProjectUniqueName);
-
 			// Открываем проект
 			OpenProjectPage(ProjectUniqueName);
 
@@ -593,8 +593,8 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 
 			// 5) Настройка Pretranslate. Проверка создания проекта
 			WorkspaceCreateProjectDialog.ClickFinishCreate();
-			WorkspacePage.WaitProjectAppearInList(ProjectUniqueName);
 			MainHelperClass.WaitUntilCloseDialogBackground();
+			WorkspacePage.WaitProjectAppearInList(ProjectUniqueName);
 
 			// Открываем проект
 			OpenProjectPage(ProjectUniqueName);
@@ -660,8 +660,8 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 
 			// 3) Настройка Pretranslate. Проверка создания проекта
 			WorkspaceCreateProjectDialog.ClickFinishCreate();
+			MainHelperClass.WaitUntilCloseDialogBackground();
 			WorkspacePage.WaitProjectAppearInList(ProjectUniqueName);
-
 			// Открываем проект
 			OpenProjectPage(ProjectUniqueName);
 
@@ -715,6 +715,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 
 			// 3) Настройка Pretranslate. Проверка создания проекта
 			WorkspaceCreateProjectDialog.ClickFinishCreate();
+			MainHelperClass.WaitUntilCloseDialogBackground();
 			WorkspacePage.WaitProjectAppearInList(ProjectUniqueName);
 
 			// Открываем проект

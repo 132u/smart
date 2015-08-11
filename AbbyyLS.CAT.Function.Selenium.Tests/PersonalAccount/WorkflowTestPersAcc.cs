@@ -60,6 +60,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			Assert.IsTrue(ProjectPage.GetPretranslateTitleDisplay(), "Ошибка : Pretranslation степ не открылся");
 
 			WorkspaceCreateProjectDialog.ClickFinishCreate();
+			MainHelperClass.WaitUntilCloseDialogBackground();
 			WorkspacePage.WaitProjectAppearInList(ProjectUniqueName);
 		}
 		
