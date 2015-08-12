@@ -571,6 +571,19 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		}
 
 		/// <summary>
+		/// Проверить, что все сегменты сохранены
+		/// </summary>
+		public EditorPage AssertAllSegmentsSaved()
+		{
+			Logger.Trace("Проверить, что все сегменты сохранены.");
+
+			Assert.IsTrue(Driver.WaitUntilElementIsDisplay(By.XPath(ALL_SEGMENTS_SAVED_STATUS), timeout: 20),
+				"Произошла ошибка:\n Не появился статус о том, что все сегменты сохранены.");
+
+			return GetPage();
+		}
+
+		/// <summary>
 		/// Нажать кнопку 'Конкордансный поиск'
 		/// </summary>
 		public EditorPage ClickConcordanceButton()
@@ -670,6 +683,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		[FindsBy(How = How.Id, Using = PERCENT_COLOR)]
 		protected IWebElement PercentColor { get; set; }
 
+		[FindsBy(How = How.Id, Using = ALL_SEGMENTS_SAVED_STATUS)]
+		protected IWebElement AllSegmentsSavedStatus { get; set; }
+
 		protected const string CONFIRM_BTN = "//a[@id='confirm-btn']";
 		protected const string FIND_ERROR_BTN_ID = "qa-error-btn";
 		protected const string FINISH_TUTORIAL_BUTTON = "//span[contains(text(),'Finish') and contains(@id, 'button')]";
@@ -703,6 +719,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		protected const string CHARACTER_FORM = "charmap";
 		protected const string CONCORDANCE_SEARCH= "concordance-search";
 
+		protected const string ALL_SEGMENTS_SAVED_STATUS = "//div[text()='All segments are saved.']";
 		protected const string SAVING_STATUS = "//div[@id='segmentsavingindicator-1048-innerCt' and contains(text(),'Saving')]";
 		protected const string MATCH_COLUMN = "//div[@id='segments-body']//table[*#*]//tbody//td[contains(@class,'matchcolum')]";
 		protected const string TARGET_MATCH_COLUMN_PERCENT = "//table[@data-recordindex='*#*' and contains(@id, 'tableview')]//td[5]//div//span";

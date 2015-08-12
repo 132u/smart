@@ -525,12 +525,14 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 		public EditorHelper ClickConfirmButton()
 		{
 			BaseObject.InitPage(_editorPage);
-			_editorPage.ClickConfirmButton();
+			_editorPage
+				.ClickConfirmButton()
+				.AssertAllSegmentsSaved();
 
 			return this;
 		}
 		
-		public EditorHelper FillTarget(string text = "Translation", int rowNumber = 1)
+		public EditorHelper FillTarget(string text, int rowNumber = 1)
 		{
 			BaseObject.InitPage(_editorPage);
 			_editorPage

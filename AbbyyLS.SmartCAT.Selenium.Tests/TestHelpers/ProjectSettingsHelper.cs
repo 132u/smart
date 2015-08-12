@@ -30,14 +30,14 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 			return this;
 		}
 
-		public ProjectSettingsHelper CreateRevision(string documentName)
+		public ProjectSettingsHelper CreateRevision(string documentName, string text = "Translation")
 		{
 			this
 				.OpenDocument<SelectTaskDialog>(documentName)
 				.SelectTask()
 				.CloseTutorialIfExist()
 				.AssertTargetDisplayed()
-				.FillTarget()
+				.FillTarget(text)
 				.ClickConfirmButton()
 				.ClickHomeButton();
 
