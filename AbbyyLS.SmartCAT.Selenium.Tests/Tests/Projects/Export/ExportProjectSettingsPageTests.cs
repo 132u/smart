@@ -111,6 +111,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 			_exportFileHelper.AssertContainsText(Path.GetFileName(PathProvider.DocumentFileToConfirm1));
 		}
 
+		[Ignore("PRX-11419")]
 		[Test]
 		public void ExportDocumentsFromProjectCheckNotifierText()
 		{
