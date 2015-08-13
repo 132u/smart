@@ -367,6 +367,19 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		}
 
 		/// <summary>
+		/// Подождать появленя нужного типа в CAT-панели
+		/// </summary>
+		public EditorPage WaitCatTypeDisplayed(CatType catType)
+		{
+			Logger.Trace("Подождать появленя {0} типа в CAT-панели.", catType);
+
+			Assert.IsTrue(Driver.WaitUntilElementIsDisplay(By.XPath(CAT_TYPE.Replace("*#*", catType.ToString()))),
+				"Произошла ошибка:\n Не появился тип {0} в CAT-панели.", catType);
+
+			return GetPage();
+		}
+
+		/// <summary>
 		/// Двойной клик по переводу в CAT-панели
 		/// </summary>
 		/// <param name="rowNumber">номер строки в CAT-панели</param>
@@ -727,6 +740,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 
 		protected const string CAT_TYPE_LIST_IN_PANEL = ".//div[@id='cat-body']//table//td[3]/div";
 		protected const string CAT_TRANSLATION = ".//div[@id='cat-body']//table[*#*]//td[4]/div";
+		protected const string CAT_TYPE = ".//div[@id='cat-body']//table//td[3]/div[text()='*#*']";
+
 		protected const string PERCENT_COLOR = " //table[@data-recordindex='*#*' and contains(@id, 'tableview')]//td[5]//div//span";
 
 		protected const string TERM_SAVED_MESSAGE = ".//div[text()='The term has been saved.']";

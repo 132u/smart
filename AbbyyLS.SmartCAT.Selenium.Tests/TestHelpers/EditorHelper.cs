@@ -144,6 +144,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 			BaseObject.InitPage(_editorPage);
 			var catRowNumber = _editorPage
 									.ClickTargetCell(targetRowNumber)
+									.WaitCatTypeDisplayed(catType)
 									.CatTypeRowNumber(catType);
 
 			_editorPage.DoubleClickCatPanel(catRowNumber);
