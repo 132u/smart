@@ -13,6 +13,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.CheckRights
 		/// <summary>
 		/// Начальная подготовка для каждого теста
 		/// </summary>
+		[Ignore("PRX-11422")]
 		[SetUp]
 		public void Setup()
 		{
