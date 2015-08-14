@@ -357,6 +357,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.Glossary.EditStructure.C
 		/// Метод тестирования изменения структуры: добавление пользовательского поля Число
 		/// </summary>
 		[Test]
+		[Ignore("PRX-10924")]
 		public void AddNumberFieldTest()
 		{
 			// Создать глоссарий, изменить структуру, открыть добавление нового термина
@@ -382,6 +383,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.Glossary.EditStructure.C
 		/// Метод тестирования изменения структуры: добавление пользовательского поля Число, проверка необходимости значения по умолчанию
 		/// </summary>
 		[Test]
+		[Ignore("PRX-10923")]
 		public void AddNumberDefaultValueFieldTest()
 		{
 			var fieldType = GlossaryEditStructureFormHelper.FIELD_TYPE.Number;
