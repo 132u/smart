@@ -1,4 +1,5 @@
-﻿using System.Windows.Forms;
+﻿using System.Globalization;
+using System.Windows.Forms;
 using NUnit.Framework;
 using System;
 using System.IO;
@@ -125,19 +126,24 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.CheckRights
 			// Кликаем по кнопке Download в открытой свёртке проекта
 			CheckCreateProjectRightHelper.DownloadInProjectClick();
 
-			string date = DateTime.Now.ToString("MM/dd/yyyy HH:mm").Replace(".", "/");
-			string fileName = CheckCreateProjectRightHelper.GetFileNameWithoutExtension(PathProvider.DocumentFile2);
-
 			// Выбираем menuItem во всплывающем меню
 			CheckCreateProjectRightHelper.ExportClickMenuItemInProject(menuItem);
-			
+
+			string date = DateTime.Now.ToString("MM/dd/yyyy HH:mm").Replace(".", "/");
+			var currentDate = DateTime.ParseExact(date, "MM/dd/yyyy HH:mm", CultureInfo.InvariantCulture);
+
+			string fileName = CheckCreateProjectRightHelper.GetFileNameWithoutExtension(PathProvider.DocumentFile2);
+	
 			// Дожидаемся появления плашки, говорящей, что документ готов к загрузке
 			Assert.IsTrue(
 				TMPage.IsTextExistInBaloon(
-					"Document \"" + fileName + "(ru).docx\" is ready for download. " + date),
+					"Document \"" + fileName + ".docx\" is ready for download. "),
 				"Ошибка: плашка о том, что документ готов к загрузке не появилась.");
 
-			workWithExport(fileName + "(ru).docx");
+			Assert.IsTrue((CheckCreateProjectRightHelper.GetDateFromBaloon() - currentDate).Minutes < 5,
+				"Произошла ошибка:\n Неправильное время в поп-апе загрузки документа.");
+
+			workWithExport(fileName + ".docx");
 		}
 
 		/// <summary>

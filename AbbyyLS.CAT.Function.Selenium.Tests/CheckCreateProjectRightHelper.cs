@@ -1,4 +1,6 @@
-﻿using OpenQA.Selenium;
+﻿using System.Globalization;
+
+using OpenQA.Selenium;
 using OpenQA.Selenium.Support.UI;
 using System.Collections.Generic;
 using System.Linq;
@@ -69,6 +71,13 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.CheckRights
 		public void ExportClickMenuItemInProject(string menuItem)
 		{
 			ClickElement(By.XPath(MENU_ITEM_IN_PROJECT + menuItem + "']"));
+		}
+
+		public DateTime GetDateFromBaloon()
+		{
+			var date = Driver.FindElement(By.XPath(BALOON_NOTIFIFCATION)).Text.Split(new char[] { '.' });
+
+			return DateTime.ParseExact(date[2].Trim(), "MM/dd/yyyy HH:mm", CultureInfo.InvariantCulture);
 		}
 
 		/// <summary>
@@ -241,6 +250,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.CheckRights
 		protected const string SETTINGS_FORM = "//div[contains(@class,'js-popup-edit')][2]";
 		protected const string ANALYSIS_BUTTON_IN_PROJECT = "//span[contains(@data-bind,'click: analysis')]";
 		protected const string ANALYSIS_FORM = "//div[contains(@class,'js-popup-analyse')][2]";
-
+		protected const string BALOON_NOTIFIFCATION = "//div[contains(@class,'g-notifications-container')]//span[1]";
 	}
 }
