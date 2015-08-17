@@ -1,15 +1,15 @@
 ﻿using System.Collections.Generic;
-using System.IO;
-
 using NUnit.Framework;
 
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories;
 using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
+using AbbyyLS.SmartCAT.Selenium.Tests.TestFramework;
 using AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers;
 using AbbyyLS.SmartCAT.Selenium.Tests.DataStructures;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.TranslationMemories
 {
+	[Standalone]
 	class EditTmTests<TWebDriverProvider> : BaseTmTest<TWebDriverProvider> where TWebDriverProvider : IWebDriverProvider, new()
 	{
 		[TestCase(true, "")]

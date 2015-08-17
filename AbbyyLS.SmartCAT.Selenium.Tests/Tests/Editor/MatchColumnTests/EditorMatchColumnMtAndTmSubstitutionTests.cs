@@ -39,6 +39,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Editor
 		}
 
 		[Test]
+		[Standalone]
 		public void CheckMatchAfterTmSubstitutionSegmentNumber()
 		{
 			_editorHelper
@@ -98,6 +99,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Editor
 		}
 
 		[Test]
+		[Standalone]
 		public void CheckTmMatchAfterAdd()
 		{
 			_editorHelper

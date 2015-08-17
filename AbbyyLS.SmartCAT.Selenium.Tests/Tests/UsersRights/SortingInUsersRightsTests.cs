@@ -2,9 +2,11 @@
 using NUnit.Framework;
 
 using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
+using AbbyyLS.SmartCAT.Selenium.Tests.TestFramework;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersRights
 {
+	[Standalone]
 	internal class SortingInUsersRightsTests<TWebDriverSettings> : BaseTest<TWebDriverSettings>
 		where TWebDriverSettings : IWebDriverProvider, new()
 	{
