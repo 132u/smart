@@ -1,25 +1,29 @@
-﻿using System.IO;
-
-using NUnit.Framework;
-
+﻿using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using AbbyyLS.SmartCAT.Selenium.Tests.DataStructures;
 using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor;
-using AbbyyLS.SmartCAT.Selenium.Tests.TestFramework;
 using AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers;
+using NUnit.Framework;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Editor
 {
-	public class EditorMatchColumnSubstitutionTypeTests<TWebDriverProvider> : BaseTest<TWebDriverProvider> where TWebDriverProvider : IWebDriverProvider, new()
+	class EditorMatchColumnMTSubstitutionTests<TWebDriverProvider> : BaseTest<TWebDriverProvider> where TWebDriverProvider : IWebDriverProvider, new()
 	{
 		[SetUp]
 		public void SetupTest()
 		{
 			var projectUniqueName = _createProjectHelper.GetProjectUniqueName();
-			
+
 			_createProjectHelper.CreateNewProject(
 				projectName: projectUniqueName,
 				filePath: PathProvider.TxtFileForMatchTest,
+				createNewTm: true,
+				tmxFilePath: PathProvider.TmxFileForMatchTest,
 				useMachineTranslation: true,
 				createGlossary: true);
 
@@ -45,17 +49,27 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Editor
 		}
 
 		[Test]
-		[Standalone]
-		public void CheckMatchAfterGlossarySubstitution()
+		public void CheckMatchAfterBothSubstitutions()
 		{
-			var sourceTerm = _editorHelper
-								.ClickTargetSegment(1)
-								.SourceText(1);
-
 			_editorHelper
-				.AddNewTerm(sourceTerm, "термин глоссария")
-				.PasteTranslationFromCAT(catType: CatType.TB)
-				.AssertMatchColumnCatTypeMatch(catType: CatType.TB);
+				.PasteTranslationFromCAT(catType: CatType.MT)
+				.AssertMatchColumnCatTypeMatch(catType: CatType.MT)
+				.AddTextToSegment(string.Empty)
+				.PasteTranslationFromCAT(catType: CatType.TM)
+				.AssertMatchColumnCatTypeMatch(catType: CatType.TM);
+
+			var catRowNumber = _editorHelper.CATRowNumber(CatType.TM);
+
+			_editorHelper.AssertCATPercentMatchTargetPercent(1, catRowNumber);
+		}
+
+		[Test]
+		public void CheckMtMatchAfterAdd()
+		{
+			_editorHelper
+				.AddTextToSegment()
+				.PasteTranslationFromCAT(CatType.MT)
+				.AssertMatchColumnCatTypeMatch(CatType.MT);
 		}
 
 		private readonly CreateProjectHelper _createProjectHelper = new CreateProjectHelper();

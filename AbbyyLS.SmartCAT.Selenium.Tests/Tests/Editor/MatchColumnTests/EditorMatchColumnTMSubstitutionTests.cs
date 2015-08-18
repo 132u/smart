@@ -10,7 +10,8 @@ using AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Editor
 {
-	public class EditorMatchColumnMtAndTmSubstitutionTests<TWebDriverProvider> : BaseTest<TWebDriverProvider> where TWebDriverProvider : IWebDriverProvider, new()
+	[Standalone]
+	public class EditorMatchColumnTMSubstitutionTests<TWebDriverProvider> : BaseTest<TWebDriverProvider> where TWebDriverProvider : IWebDriverProvider, new()
 	{
 		[SetUp]
 		public void SetupTest()
@@ -27,8 +28,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Editor
 
 			_projectsHelper
 				.OpenProjectInfo(projectUniqueName)
-				.OpenDocumentInfoForProject(projectUniqueName)
-				.AddMachineTranslationToDocument(projectUniqueName);
+				.OpenDocumentInfoForProject(projectUniqueName);
 
 			_createProjectHelper
 				.GoToProjectSettingsPage(projectUniqueName)
@@ -39,7 +39,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Editor
 		}
 
 		[Test]
-		[Standalone]
 		public void CheckMatchAfterTmSubstitutionSegmentNumber()
 		{
 			_editorHelper
@@ -54,22 +53,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Editor
 		}
 
 		[Test]
-		public void CheckMatchAfterBothSubstitutions()
-		{
-			_editorHelper
-				.PasteTranslationFromCAT(catType: CatType.MT)
-				.AssertMatchColumnCatTypeMatch(catType: CatType.MT)
-				.AddTextToSegment(string.Empty)
-				.PasteTranslationFromCAT(catType: CatType.TM)
-				.AssertMatchColumnCatTypeMatch(catType: CatType.TM);
-
-			var catRowNumber = _editorHelper.CATRowNumber(CatType.TM);
-
-			_editorHelper.AssertCATPercentMatchTargetPercent(1, catRowNumber);
-		}
-
-		[Test]
-		[Standalone]
 		public void CheckMatchAfterEditCell()
 		{
 			_editorHelper
@@ -84,7 +67,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Editor
 		}
 
 		[Test]
-		[Standalone]
 		public void CheckMatchAfterDelete()
 		{
 			_editorHelper
@@ -99,7 +81,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Editor
 		}
 
 		[Test]
-		[Standalone]
 		public void CheckTmMatchAfterAdd()
 		{
 			_editorHelper
@@ -110,15 +91,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Editor
 			var catRowNumber = _editorHelper.CATRowNumber(CatType.TM);
 
 			_editorHelper.AssertCATPercentMatchTargetPercent(1, catRowNumber);
-		}
-
-		[Test]
-		public void CheckMtMatchAfterAdd()
-		{
-			_editorHelper
-				.AddTextToSegment()
-				.PasteTranslationFromCAT(CatType.MT)
-				.AssertMatchColumnCatTypeMatch(CatType.MT);
 		}
 
 		private readonly CreateProjectHelper _createProjectHelper = new CreateProjectHelper();
