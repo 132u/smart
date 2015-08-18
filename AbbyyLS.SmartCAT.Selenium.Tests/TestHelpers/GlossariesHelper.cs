@@ -450,7 +450,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 			}
 			else
 			{
-				_glossaryPropertiesDialog.ClickSaveButton<GlossaryPage>();
+				_glossaryPropertiesDialog
+					.ClickSaveButton<GlossaryPage>()
+					.AssertDialogBackgroundDisappeared<GlossaryPage>();
 			}
 			
 
