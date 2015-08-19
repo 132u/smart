@@ -35,6 +35,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.InitialData
 							Feature.Domains.ToString(),
 							Feature.TranslateConnector.ToString(),
 							Feature.LingvoDictionaries.ToString(),
+							Feature.DocumentUpdate.ToString()
 						})
 					.CreateAccountAdminIfNotExist(Login, UserName, UserSurname, LoginHelper.TestAccountName);
 		}
