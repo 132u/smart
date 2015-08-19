@@ -2,11 +2,13 @@
 using NUnit.Framework;
 
 using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
+using AbbyyLS.SmartCAT.Selenium.Tests.FeatureAttributes;
 using AbbyyLS.SmartCAT.Selenium.Tests.TestFramework;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.ProjectGroups
 {
 	[Standalone]
+	[ProjectGroups]
 	internal class SortingInProjectGroups<TWebDriverSettings> : BaseTest<TWebDriverSettings>
 		where TWebDriverSettings : IWebDriverProvider, new()
 	{

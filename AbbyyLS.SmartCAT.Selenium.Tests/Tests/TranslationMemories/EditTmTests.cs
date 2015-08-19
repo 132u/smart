@@ -1,11 +1,12 @@
 ﻿using System.Collections.Generic;
 using NUnit.Framework;
 
-using AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories;
+using AbbyyLS.SmartCAT.Selenium.Tests.DataStructures;
 using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
+using AbbyyLS.SmartCAT.Selenium.Tests.FeatureAttributes;
+using AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories;
 using AbbyyLS.SmartCAT.Selenium.Tests.TestFramework;
 using AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers;
-using AbbyyLS.SmartCAT.Selenium.Tests.DataStructures;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.TranslationMemories
 {
@@ -131,6 +132,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.TranslationMemories
 
 		[TestCase(true)]
 		[TestCase(false)]
+		[ProjectGroups]
 		public void EditTmProjectGroups(bool needUploadTmx)
 		{
 			var importFilePath = needUploadTmx ? PathProvider.TMTestFile2 : null;

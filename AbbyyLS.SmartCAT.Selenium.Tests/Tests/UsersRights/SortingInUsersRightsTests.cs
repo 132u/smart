@@ -1,7 +1,8 @@
-﻿using AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers;
-using NUnit.Framework;
+﻿using NUnit.Framework;
 
 using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
+using AbbyyLS.SmartCAT.Selenium.Tests.FeatureAttributes;
+using AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers;
 using AbbyyLS.SmartCAT.Selenium.Tests.TestFramework;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersRights
@@ -65,6 +66,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersRights
 		}
 
 		[Test]
+		[NotSupportedWithDomainAuthentication]
 		public void SortByStatusTest()
 		{
 			_usersRightsHelper

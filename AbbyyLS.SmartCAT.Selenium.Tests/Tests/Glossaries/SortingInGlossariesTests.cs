@@ -2,6 +2,7 @@
 using NUnit.Framework;
 
 using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
+using AbbyyLS.SmartCAT.Selenium.Tests.FeatureAttributes;
 using AbbyyLS.SmartCAT.Selenium.Tests.TestFramework;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
@@ -57,6 +58,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 		}
 
 		[Test]
+		[ProjectGroups]
 		public void SortByProjectGroupsTest()
 		{
 			var glossaryUniqueName = GlossariesHelper.UniqueGlossaryName();
@@ -76,6 +78,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 		}
 
 		[Test]
+		[Clients]
 		public void SortByClient()
 		{
 			_glossariesHelper
