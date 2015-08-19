@@ -4,6 +4,7 @@
 	{
 		Translation,
 		Editing,
-		Proofreading
+		Proofreading,
+		Postediting
 	};
 }

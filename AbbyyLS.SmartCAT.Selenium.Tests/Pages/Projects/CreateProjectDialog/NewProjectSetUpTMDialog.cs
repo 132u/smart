@@ -84,6 +84,16 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 			return new NewProjectCreateTMDialog().GetPage();
 		}
 
+		/// <summary>
+		/// Нажать кнопку Back
+		/// </summary>
+		public NewProjectSetUpWorkflowDialog ClickBackButton()
+		{
+			Logger.Trace("Нажать кнопку Back.");
+			BackButton.Click();
+
+			return new NewProjectSetUpWorkflowDialog().GetPage();
+		}
 
 		/// <summary>
 		/// Вернуть, что хотя бы одна ТМ существует в таблице
@@ -101,6 +111,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 		[FindsBy(How = How.XPath, Using = TM_TABLE_FIRST_ITEM)]
 		protected IWebElement TMTableFirstItem { get; set; }
 
+		[FindsBy(How = How.XPath, Using = BACK_BUTTON)]
+		protected IWebElement BackButton { get; set; }
+
 		[FindsBy(How = How.XPath, Using = UPLOAD_TM_BUTTON)]
 		protected IWebElement UploadTMButton { get; set; }
 
@@ -109,7 +122,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 		protected const string CREATE_TM_BTN = "//div[contains(@class,'js-popup-create-project')][2]//span[contains(@class,'js-tm-create')]";
 		protected const string TM_TABLE_FIRST_ITEM = "//div[contains(@class,'js-popup-create-project')][2]//table[contains(@class,'js-tms-popup-table')]//tbody//tr[1]//td[1]//input";
 		protected const string TM_ITEM = "//div[contains(@class,'js-popup-create-project')][2]//table[contains(@class,'js-tms-popup-table')]//tbody//tr//td[contains(@class,'js-name')][text()='*#*']";
-
+		protected const string BACK_BUTTON = "//div[contains(@class,'js-popup-create-project')][2]//span[contains(@class,'js-back')]";
 		protected const string UPLOAD_TM_BUTTON = "//div[contains(@class,'js-popup-create-project')][2]//span[contains(@class,'js-tm-upload')]";
 	}
 }

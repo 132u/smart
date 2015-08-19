@@ -177,7 +177,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 				.ClickNextOnGeneralProjectInformationPage()
 				.ClickNewTaskButton()
 				.ClickFinishOnProjectSetUpWorkflowDialog()
-				.WaitCreateProjectDialogDisappear()
 				.OpenAssignDialog(_projectUniqueName)
 				.OpenAssigneeDropbox()
 				.SetResponsible(NickName, false)

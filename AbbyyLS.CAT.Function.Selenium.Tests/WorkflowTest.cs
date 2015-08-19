@@ -3,9 +3,10 @@ using System.Threading;
 
 using NUnit.Framework;
 
+using AbbyyLS.CAT.Function.Selenium.Tests;
 using AbbyyLS.CAT.Function.Selenium.Tests.Driver;
 
-namespace AbbyyLS.CAT.Function.Selenium.Tests
+namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 {
 	/// <summary>
 	/// Группа тестов для проверки рабочего процесса

@@ -250,6 +250,7 @@
     <Compile Include="Tests\TranslationMemories\TMInCreateProjectDialogTests.cs" />
     <Compile Include="Tests\Editor\EditorErrorTests.cs" />
     <Compile Include="Tests\Editor\EditorSpellcheckTests.cs" />
+    <Compile Include="Tests\Projects\Workflow\WorkflowTests.cs" />
     <Compile Include="TestUser.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -1,11 +1,12 @@
-﻿using System.Linq;
-
-using AbbyyLS.SmartCAT.Selenium.Tests.DataStructures;
+﻿using System.Collections.Generic;
+using System.Linq;
 
 using NUnit.Framework;
+
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.PageObjects;
 
+using AbbyyLS.SmartCAT.Selenium.Tests.DataStructures;
 using AbbyyLS.SmartCAT.Selenium.Tests.TestFramework;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings
@@ -39,6 +40,16 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings
 			WorkflowTab.Click();
 
 			return GetPage();
+		}
+
+		/// <summary>
+		/// Получить список задач в настройках Workflow
+		/// </summary>
+		public List<string> WorkflowTaskList()
+		{
+			Logger.Trace("Получить список задач в настройках Workflow.");
+
+			return Driver.GetTextListElement(By.XPath(WORKFLOW_LIST));
 		}
 
 		/// <summary>
@@ -80,12 +91,10 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings
 		/// <summary>
 		/// Кликнуть по задаче
 		/// </summary>
-		public SettingsDialog ClickTaskInDropdown(TaskMode taskName)
+		public SettingsDialog ClickTaskInDropdown(WorkflowTask taskName)
 		{
 			Logger.Debug("Кликнуть по задаче {0}.", taskName);
-			var task = Driver.GetElementList(By.XPath(TASK_LIST)).FirstOrDefault(t => t.Text == taskName.ToString());
-
-			Assert.NotNull(task, "Произошла ошибка:\n задача {0} не найдена, вовзращено значение null.", taskName);
+			var task = Driver.SetDynamicValue(How.XPath, TASK_LIST, taskName.ToString());
 
 			task.Click();
 			
@@ -116,6 +125,17 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings
 			return GetPage();
 		}
 
+		/// <summary>
+		/// Нажать кнопку Cancel
+		/// </summary>
+		public ProjectSettingsPage ClickCancelButton()
+		{
+			Logger.Debug("Нажать кнопку Cancel.");
+			CancelButton.Click();
+
+			return new ProjectSettingsPage().GetPage();
+		}
+
 		[FindsBy(How = How.XPath, Using = WORKFLOW_TAB)]
 		protected IWebElement WorkflowTab { get; set; }
 
@@ -125,15 +145,21 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings
 		[FindsBy(How = How.XPath, Using = SAVE_BUTTON)]
 		protected IWebElement SaveButton { get; set; }
 
+		[FindsBy(How = How.XPath, Using = CANCEL_BUTTON)]
+		protected IWebElement CancelButton { get; set; }
+
 		protected IWebElement DeleteTaskButton { get; set; }
 
+		protected const string CANCEL_BUTTON = "//div[contains(@class,'js-popup-edit')][2]//a[contains(@class,'js-popup-close')]";
 		protected const string SETTINGS_DIALOG = "(//div[contains(@class,'js-popup-edit')])[2]";
 		protected const string WORKFLOW_TAB = "(//div[contains(@class,'js-popup-edit')])[2]//a[contains(@data-bind,'workflowTab')]";
 		protected const string DELETE_TASK_BUTTON = "(//div[contains(@class,'js-popup-edit')][2]//a[contains(@data-bind,'deleteWorkflowStage')])[*#*]";
 		protected const string CONFIRM_DELETE_DIALOG = "//div[contains(@class,'js-popup-confirm')]";
 		protected const string NEW_TASK_BUTTON = "//div[@class='g-popup-bd js-popup-bd js-popup-edit'][2]//span[contains(@data-bind, 'addWorkflowStage')]";
 		protected const string TASK = "//div[contains(@class,'js-popup-edit')][2]//tbody[@data-bind='foreach: workflowStages']//tr[*#*]//td[2]//span//span";
-		protected const string TASK_LIST = "//span[contains(@class,'js-dropdown__item')]";
+		protected const string TASK_LIST = "//span[contains(@class,'js-dropdown__item') and @title='*#*']";
 		protected const string SAVE_BUTTON = "//div[@class='g-popup-bd js-popup-bd js-popup-edit'][2]//div[@class='g-popupbox__ft']//span//span/a";
+		protected const string WORKFLOW_LIST = "//div[contains(@class,'js-popup-edit')][2]//tbody[@data-bind='foreach: workflowStages']//tr//td[2]//span//span";
+
 	}
 }

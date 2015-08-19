@@ -2,6 +2,10 @@
 using System.IO;
 using System.Threading;
 
+using NLog;
+
+using NUnit.Framework;
+
 using AbbyyLS.SmartCAT.Selenium.Tests.DataStructures;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog;
@@ -11,6 +15,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 {
 	public class CreateProjectHelper : ProjectsHelper
 	{
+		public static Logger Logger = LogManager.GetCurrentClassLogger();
+
 		public ProjectsHelper CreateNewProject(
 			string projectName,
 			string filePath = null,
@@ -152,10 +158,17 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 			return this;
 		}
 
-		public CreateProjectHelper ClickNextOnWorkflowPage()
+		public CreateProjectHelper ClickNextOnWorkflowPage(bool errorExpected = false)
 		{
 			BaseObject.InitPage(_newProjectSetUpWorkflowDialog);
-			_newProjectSetUpWorkflowDialog.ClickNextButton<NewProjectSetUpTMDialog>();
+			if (!errorExpected)
+			{
+				_newProjectSetUpWorkflowDialog.ClickNextButton<NewProjectSetUpTMDialog>();
+			}
+			else
+			{
+				_newProjectSetUpWorkflowDialog.ClickNextButton<NewProjectSetUpWorkflowDialog>();
+			}
 
 			return this;
 		}
@@ -179,7 +192,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 		public CreateProjectHelper ClickFinishOnProjectSetUpWorkflowDialog()
 		{
 			BaseObject.InitPage(_newProjectSetUpWorkflowDialog);
-			_newProjectSetUpWorkflowDialog.ClickFinishButton();
+			_newProjectSetUpWorkflowDialog
+				.ClickFinishButton()
+				.WaitCreateProjectDialogDissapear();
 
 			return this;
 		}
@@ -188,6 +203,36 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 		{
 			BaseObject.InitPage(_newProjectSetUpWorkflowDialog);
 			_newProjectSetUpWorkflowDialog.ClickBack();
+
+			return this;
+		}
+
+		public CreateProjectHelper ClickBackButtonOnTMStep()
+		{
+			BaseObject.InitPage(_newProjectSetUpTMDialog);
+			_newProjectSetUpTMDialog.ClickBackButton();
+
+			return this;
+		}
+
+		public CreateProjectHelper AssertWorkflowTaskCountMatch(int taskCount)
+		{
+			BaseObject.InitPage(_newProjectSetUpWorkflowDialog);
+			Logger.Trace("Проверить, что количество задач на этапе Workflow = {0}", taskCount);
+
+			Assert.AreEqual(taskCount, _newProjectSetUpWorkflowDialog.WorkflowTaskList().Count,
+				"Произошла ошибка:\n неверное количество задач.");
+
+			return this;
+		}
+
+		public CreateProjectHelper AssertWorkflowTaskMatch(WorkflowTask task, int taskNumber)
+		{
+			BaseObject.InitPage(_newProjectSetUpWorkflowDialog);
+			Logger.Trace("Проверить, что задача №{0} на этапе Workflow - это {1}.", taskNumber, task);
+
+			Assert.AreEqual(task.ToString(), _newProjectSetUpWorkflowDialog.WorkflowTaskList()[taskNumber - 1],
+				"Произошла ошибка:\n задача не соответствует.");
 
 			return this;
 		}
@@ -334,11 +379,55 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 			return this;
 		}
 
+		public CreateProjectHelper SelectWorkflowTask(WorkflowTask task, int taskNumber = 1)
+		{
+			BaseObject.InitPage(_newProjectSetUpWorkflowDialog);
+			_newProjectSetUpWorkflowDialog
+				.ExpandWorkflowDropdown(taskNumber)
+				.SelectTask(task);
+
+			return this;
+		}
+
+		public CreateProjectHelper DeleteWorkflowTask(int taskNumber = 1)
+		{
+			BaseObject.InitPage(_newProjectSetUpWorkflowDialog);
+			_newProjectSetUpWorkflowDialog.ClickDeleteButton(taskNumber);
+
+			return this;
+		}
+
 		public CreateProjectHelper SelectFirstTM()
 		{
 			BaseObject.InitPage(_newProjectSetUpTMDialog);
 			_newProjectSetUpTMDialog.ClickFirstTMRow();
 			
+			return this;
+		}
+
+		public CreateProjectHelper AssertEmptyWorkflowErrorDisplayed()
+		{
+			BaseObject.InitPage(_newProjectSetUpWorkflowDialog);
+			_newProjectSetUpWorkflowDialog.AssertEmptyWorkflowErrorDisplayed();
+
+			return this;
+		}
+
+		public CreateProjectHelper ExpandWorkflowDropdown(int taskNumber)
+		{
+			BaseObject.InitPage(_newProjectSetUpWorkflowDialog);
+			_newProjectSetUpWorkflowDialog.ExpandWorkflowDropdown(taskNumber);
+
+			return this;
+		}
+
+		public CreateProjectHelper AssertTaskOptionsCountMatch(int taskNumber, int count)
+		{
+			BaseObject.InitPage(_newProjectSetUpWorkflowDialog);
+
+			Assert.AreEqual(count, _newProjectSetUpWorkflowDialog.TaskOptionsList(taskNumber).Count,
+				"Произошла ошибка:\n неверное количество задач в дропдауне на этапе Workflow.");
+
 			return this;
 		}
 

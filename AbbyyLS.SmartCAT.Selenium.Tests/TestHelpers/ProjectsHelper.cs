@@ -177,14 +177,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 			return new UploadDocumentHelper();
 		}
 
-		public ProjectsHelper WaitCreateProjectDialogDisappear()
-		{
-			BaseObject.InitPage(_projectsPage);
-			_projectsPage.WaitCreateProjectDialogDissapear();
-
-			return new ProjectsHelper();
-		}
-
 		private readonly ProjectsPage _projectsPage = new ProjectsPage();
 		private readonly DocumentSettings _documentSettings = new DocumentSettings();
 	}

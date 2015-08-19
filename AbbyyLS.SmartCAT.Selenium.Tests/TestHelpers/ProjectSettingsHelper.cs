@@ -1,14 +1,20 @@
 ﻿using System.IO;
+
+using NLog;
+
+using NUnit.Framework;
+
 using AbbyyLS.SmartCAT.Selenium.Tests.DataStructures;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings;
 using AbbyyLS.SmartCAT.Selenium.Tests.TestFramework;
 
-
 namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 {
 	public class ProjectSettingsHelper : WorkspaceHelper
 	{
+		public static Logger Logger = LogManager.GetCurrentClassLogger();
+
 		public ProjectSettingsHelper ClickDocumentProgress(string filePath)
 		{
 			BaseObject.InitPage(_projectPage);
@@ -141,7 +147,29 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 			return this;
 		}
-		
+
+		public ProjectSettingsHelper AssertWorkflowTaskCountMatch(int taskCount = 1)
+		{
+			BaseObject.InitPage(_settingsDialog);
+			Logger.Trace("Проверить, что количество задач в настройках Workflow = {0}.", taskCount);
+
+			Assert.AreEqual(taskCount, _settingsDialog.WorkflowTaskList().Count,
+				"Произошла ошибка:\n неверное количество задач в настройках Workflow.");
+
+			return this;
+		}
+
+		public ProjectSettingsHelper AssertWorkflowTaskMatch(WorkflowTask workflowTask, int taskNumber = 1)
+		{
+			BaseObject.InitPage(_settingsDialog);
+			Logger.Trace("Проверить, что задача №{0} в настройках Workflow - это {1}", taskNumber, workflowTask);
+
+			Assert.AreEqual(workflowTask.ToString(), _settingsDialog.WorkflowTaskList()[taskNumber - 1],
+				"Произошла ошибка:\n задача не соответствует.");
+
+			return this;
+		}
+
 		public ProjectSettingsHelper ClickDeleteTaskButton(int taskNumber = 1)
 		{
 			BaseObject.InitPage(_settingsDialog);
@@ -158,14 +186,42 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 			return this;
 		}
 
-		public ProjectSettingsHelper AddTask(TaskMode task)
+		public ProjectSettingsHelper ClickSaveButton()
+		{
+			BaseObject.InitPage(_settingsDialog);
+			_settingsDialog
+				.ClickSaveButton()
+				.AssertSettingsDialogDissappear();
+
+			return this;
+		}
+
+		public ProjectSettingsHelper AddTask(WorkflowTask task, int taskNumber = 2)
 		{
 			BaseObject.InitPage(_settingsDialog);
 			_settingsDialog
 				.ClickNewTaskButton()
-				.ExpandTask(2)
-				.ClickTaskInDropdown(task)
-				.ClickSaveButton()
+				.ExpandTask(taskNumber)
+				.ClickTaskInDropdown(task);
+
+			return this;
+		}
+
+		public ProjectSettingsHelper EditTask(WorkflowTask task, int taskNumber = 2)
+		{
+			BaseObject.InitPage(_settingsDialog);
+			_settingsDialog
+				.ExpandTask(taskNumber)
+				.ClickTaskInDropdown(task);
+
+			return this;
+		}
+
+		public ProjectSettingsHelper ClickCancelButton()
+		{
+			BaseObject.InitPage(_settingsDialog);
+			_settingsDialog
+				.ClickCancelButton()
 				.AssertSettingsDialogDissappear();
 
 			return this;

@@ -30,8 +30,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 				.ClickCreateProjectButton()
 				.FillGeneralProjectInformation(projectUniqueName, deadline: deadline)
 				.ClickNextOnGeneralProjectInformationPage()
-				.ClickFinishOnProjectSetUpWorkflowDialog()
-				.WaitCreateProjectDialogDisappear();
+				.ClickFinishOnProjectSetUpWorkflowDialog();
 
 			_projectsHelper.CheckProjectAppearInList(projectUniqueName);
 		}
