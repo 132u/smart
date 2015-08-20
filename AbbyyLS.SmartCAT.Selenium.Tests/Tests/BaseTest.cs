@@ -5,6 +5,7 @@ using System.IO;
 using NConfiguration;
 using NUnit.Framework;
 
+using AbbyyLS.SmartCAT.Selenium.Tests.Configs;
 using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
 using AbbyyLS.SmartCAT.Selenium.Tests.DataStructures;
 using AbbyyLS.SmartCAT.Selenium.Tests.TestFramework;
@@ -23,7 +24,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests
 			}
 		}
 
-		protected StartPage StartPage = StartPage.SignIn;
+		protected StartPage StartPage = StartPage.Workspace;
 		
 		protected bool Standalone { get; private set; }
 
@@ -70,6 +71,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests
 		protected List<TestUser> CourseraUserList { get; private set; }
 
 		protected List<TestUser> AolUserList { get; private set; }
+
+		protected List<TestUser> SocialNetworksUserList { get; private set; }
 
 		protected string[] ProcessNames { get; private set; }
 
@@ -145,11 +148,15 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests
 
 		protected void LogInSmartCat(
 			string login,
+			string nickName,
 			string password,
 			string accountName = "TestAccount")
 		{
-			Driver.Navigate().GoToUrl(Url + "/sign-in");
-			LoginHelper.SignIn(login, password, accountName);
+			Driver.Navigate().GoToUrl(Url + RelativeUrlProvider.SignIn);
+			LoginHelper
+				.SignIn(login, password)
+				.SelectAccount(accountName)
+				.SetUp(nickName, accountName);
 		}
 
 		protected void LogInAdmin(
@@ -180,15 +187,28 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests
 					GoToCompanyRegistration();
 					break;
 
+				case StartPage.SignIn:
+					GoToSignInPage();
+					break;
+
+				case StartPage.Workspace:
+					LogInSmartCat(Login, NickName, Password);
+					break;
+
 				default:
-					LogInSmartCat(Login, Password);
+					LogInSmartCat(Login, NickName, Password);
 					break;
 			}
 		}
 
+		protected void GoToSignInPage()
+		{
+			Driver.Navigate().GoToUrl(Url + RelativeUrlProvider.SignIn);
+		}
+
 		protected void GoToCompanyRegistration()
 		{
-			Driver.Navigate().GoToUrl(Url + "/corp-reg");
+			Driver.Navigate().GoToUrl(Url + RelativeUrlProvider.CorpReg);
 		}
 		
 		private void logTestSummary()
@@ -235,7 +255,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests
 				AdminUrl = "http://" + config.Url + ":81";
 			}
 
-			WorkspaceUrl = string.IsNullOrWhiteSpace(config.Workspace) ? Url + "/workspace" : config.Workspace;
+			WorkspaceUrl = string.IsNullOrWhiteSpace(config.Workspace) ? Url + RelativeUrlProvider.Workspace : config.Workspace;
 		}
 
 		private void initializeRelatedToUserFields()
@@ -282,6 +302,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests
 				TestCompanyList = cfgTestUser.Companies;
 				CourseraUserList = cfgTestUser.CourseraUsers;
 				AolUserList = cfgTestUser.AolUsers;
+				SocialNetworksUserList = cfgTestUser.SocialNetworksUsers;
 			}
 			else
 			{
@@ -289,6 +310,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests
 				TestCompanyList = new List<TestUser>();
 				CourseraUserList = new List<TestUser>();
 				AolUserList = new List<TestUser>();
+				SocialNetworksUserList = new List<TestUser>();
 			}
 		}
 	}

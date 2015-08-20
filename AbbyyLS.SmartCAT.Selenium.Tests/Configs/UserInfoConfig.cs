@@ -1,6 +1,6 @@
 ﻿using System.Runtime.Serialization;
 
-namespace AbbyyLS.SmartCAT.Selenium.Tests
+namespace AbbyyLS.SmartCAT.Selenium.Tests.Configs
 {
 	[DataContract(Name = "UserInfo")]
 	class UserInfoConfig
@@ -16,7 +16,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests
 
 		[DataMember(Name = "Surname")]
 		public string Surname { get; set; }
-
 
 		[DataMember(Name = "Login2")]
 		public string Login2 { get; set; }

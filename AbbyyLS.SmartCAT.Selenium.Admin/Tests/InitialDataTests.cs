@@ -1,9 +1,11 @@
-﻿﻿using System.Collections.Generic;
+﻿using System.Collections.Generic;
+
+using NUnit.Framework;
 
 using AbbyyLS.SmartCAT.Selenium.Tests.DataStructures;
 using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
 using AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers;
-using NUnit.Framework;
+using AbbyyLS.SmartCAT.Selenium.Tests.Tests;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.InitialData
 {
@@ -43,12 +45,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.InitialData
 		[Test]
 		public void CreatePersAccountForRingo()
 		{
-			_adminHelper
-				.CreateNewUser(Login2, NickName2, Password2, admin: true, aolUser: true)
-				.FindUser(Login2)
-				.CheckAdminCheckbox()
-				.CreateNewPersonalAccount(Login2, state: true)
-				.AddUserToSpecificAccount(Login2, LoginHelper.TestAccountName);
+			_adminHelper.CreateUserWithPersonalAccount(Login2, NickName2, Password2);
 		}
 
 		[Test]
@@ -99,15 +96,19 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.InitialData
 				.CreateNewPersonalAccount(LoginHelper.PersonalAccountSurname, state: true);
 		}
 
+		[Test, Explicit]
+		public void CreateSocialNetworksAccounts()
+		{
+			foreach (var user in SocialNetworksUserList)
+			{
+				_adminHelper.CreateUserWithPersonalAccount(user.Login, user.Login, user.Password);
+			}
+		}
+
 		[Test]
 		public void CreatePersAccountForBatman()
 		{
-			_adminHelper
-				.CreateNewUser(RightsTestLogin, RightsTestNickName, RightsTestPassword, admin: true, aolUser: true)
-				.FindUser(RightsTestLogin)
-				.CheckAdminCheckbox()
-				.CreateNewPersonalAccount(RightsTestLogin, state: true)
-				.AddUserToSpecificAccount(RightsTestLogin, LoginHelper.TestAccountName);
+			_adminHelper.CreateUserWithPersonalAccount(RightsTestLogin, RightsTestNickName, RightsTestPassword);
 		}
 
 		[Test]

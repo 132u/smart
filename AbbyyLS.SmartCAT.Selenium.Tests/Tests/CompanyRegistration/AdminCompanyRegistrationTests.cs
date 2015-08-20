@@ -118,7 +118,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.CompanyRegistration
 				.CloseTour()
 				.AssertUserNameAndAccountNameCorrect(_firstName + " " + _lastName, _companyName)
 				.SignOut()
-				.SignIn(_email, _password, _companyName)
+				.SignIn(_email, _password)
+				.SelectAccount(_companyName)
 				.AssertUserNameAndAccountNameCorrect(_firstName + " " + _lastName, _companyName);
 		}
 

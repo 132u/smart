@@ -34,7 +34,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.LingvoDictionaries
 					packagesNeed: true)
 				.AddUserToSpecificAccount(Login, _accountUniqueName);
 
-			LogInSmartCat(Login, Password, _accountUniqueName);
+			LogInSmartCat(Login, NickName, Password, _accountUniqueName);
 
 			_workspaceHelper
 				.AssertLingvoDictionariesDisplayed()
@@ -54,7 +54,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.LingvoDictionaries
 
 			List<string> includedDictionaryList = _adminHelper.GetIncludedDictionariesList();
 
-			LogInSmartCat(Login, Password, _accountUniqueName);
+			LogInSmartCat(Login, NickName, Password, _accountUniqueName);
 
 			_workspaceHelper
 				.GoToLingvoDictionariesPage()
@@ -75,7 +75,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.LingvoDictionaries
 				})
 				.AddUserToSpecificAccount(Login, _accountUniqueName);
 
-			LogInSmartCat(Login, Password, _accountUniqueName);
+			LogInSmartCat(Login, NickName, Password, _accountUniqueName);
 
 			_workspaceHelper.AssertLingvoDictionariesIsNotDisplayed();
 		}
@@ -89,7 +89,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.LingvoDictionaries
 				.OpenEditModeForEnterpriceAccount(_accountUniqueName)
 				.AddAllDictionariesPackages();
 
-			LogInSmartCat(Login, Password, _accountUniqueName);
+			LogInSmartCat(Login, NickName, Password, _accountUniqueName);
 
 			_workspaceHelper
 				.AssertLingvoDictionariesDisplayed()

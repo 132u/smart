@@ -66,6 +66,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="RelativeUrlProvider.cs" />
     <Compile Include="Configs\TestsUserConfig.cs" />
     <Compile Include="DataStructures\AssignmentType.cs" />
     <Compile Include="DataStructures\CatType.cs" />
@@ -76,6 +77,8 @@
     <Compile Include="DataStructures\CompanyType.cs" />
     <Compile Include="DataStructures\MachineTranslationType.cs" />
     <Compile Include="DataStructures\Period.cs" />
+    <Compile Include="DataStructures\SignInErrorMessageType.cs" />
+    <Compile Include="DataStructures\SocialNetworks.cs" />
     <Compile Include="DataStructures\StartPage.cs" />
     <Compile Include="DataStructures\LicenseOperation.cs" />
     <Compile Include="DataStructures\Deadline.cs" />
@@ -88,6 +91,9 @@
     <Compile Include="FeatureAttributes\NotSupportedWithDomainAuthenticationAttribute.cs" />
     <Compile Include="Pages\Editor\SpecialCharactersForm.cs" />
     <Compile Include="Pages\Editor\AddTermDialog.cs" />
+    <Compile Include="Pages\Login\FacebookPage.cs" />
+    <Compile Include="Pages\Login\GooglePage.cs" />
+    <Compile Include="Pages\Login\LinkedInPage.cs" />
     <Compile Include="Pages\Projects\CreateProjectDialog\NewGlossaryDialog.cs" />
     <Compile Include="TestFramework\EnumExtensions.cs" />
     <Compile Include="Drivers\FirefoxWebDriverProvider.cs" />
@@ -203,6 +209,7 @@
     <Compile Include="TestHelpers\UsersRightsHelper.cs" />
     <Compile Include="TestHelpers\WorkspaceHelper.cs" />
     <Compile Include="TestSettingDefinition.cs" />
+    <Compile Include="Tests\Authorization\AuthorizationTests.cs" />
     <Compile Include="Tests\Editor\EditorLastUnconfirmedSegmentTests.cs" />
     <Compile Include="Tests\Editor\EditorHomeButtonTests.cs" />
     <Compile Include="Tests\Editor\MatchColumnTests\EditorMatchColumnMTSubstitutionTests.cs" />

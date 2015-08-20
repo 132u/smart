@@ -219,6 +219,20 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 			return this;
 		}
 
+		public WorkspaceHelper SetUp(
+			string nickName,
+			string accountName = LoginHelper.TestAccountName,
+			Language language = Language.English)
+		{
+			SelectLocale(language);
+			_workspacePage
+				.AssertUserNameMatch(nickName)
+				.AssertAccountNameMatch(accountName)
+				.ClickCloseHelp();
+
+			return this;
+		}
+
 		private readonly ProjectsPage _projectsPage = new ProjectsPage();
 		private readonly WorkspacePage _workspacePage = new WorkspacePage();
 	}

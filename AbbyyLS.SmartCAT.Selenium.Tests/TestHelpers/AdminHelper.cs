@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 
+using NUnit.Framework;
+
 using AbbyyLS.SmartCAT.Selenium.Tests.DataStructures;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Admin;
 using AbbyyLS.SmartCAT.Selenium.Tests.TestFramework;
-
-using NUnit.Framework;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 {
@@ -131,7 +131,11 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 		/// <param name="userName">имя пользователя</param>
 		/// <param name="userSurname">фамилия пользователя</param>
 		/// <param name="accountName">имя аккааунта</param>
-		public AdminHelper CreateAccountAdminIfNotExist(string userEmail, string userName, string userSurname, string accountName)
+		public AdminHelper CreateAccountAdminIfNotExist(
+			string userEmail, 
+			string userName, 
+			string userSurname, 
+			string accountName)
 		{
 			goToManageUsersPage(accountName);
 
@@ -303,7 +307,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 		/// </summary>
 		/// <param name="dictionariesList">список словарей, null - все бесплатные словари</param>
 		/// <param name="packageName">имя пакета</param>
-		public AdminHelper CreateDictionaryPackageIfNotExist(List<string> dictionariesList = null, string packageName = "Общедоступные")
+		public AdminHelper CreateDictionaryPackageIfNotExist(
+			List<string> dictionariesList = null, 
+			string packageName = "Общедоступные")
 		{
 			goToLingvoDictionariesPage();
 
@@ -410,6 +416,21 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 			return this;
 		}
 
+		public AdminHelper CreateUserWithPersonalAccount(
+			string email, 
+			string nickName,
+			string password, 
+			string accountName = LoginHelper.TestAccountName)
+		{
+			CreateNewUser(email, nickName, password, admin: true, aolUser: true);
+			FindUser(email);
+			CheckAdminCheckbox();
+			CreateNewPersonalAccount(email, state: true);
+			AddUserToSpecificAccount(email, accountName);
+
+			return this;
+		}
+
 		private AdminHelper goToLingvoDictionariesPage()
 		{
 			BaseObject.InitPage(_adminLingvoProPage);
@@ -418,7 +439,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 			return this;
 		}
 
-		private AdminHelper assertDictionariesListsMatch(List<string> firstDictionariesList, List<string> secondDictionariesList)
+		private AdminHelper assertDictionariesListsMatch(
+			List<string> firstDictionariesList, 
+			List<string> secondDictionariesList)
 		{
 			Assert.IsTrue(firstDictionariesList.Match(secondDictionariesList),
 				"Произошла ошибка:\n списки словарей не совпадают.");
@@ -426,7 +449,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 			return this;
 		}
 
-		private AdminHelper assertFeaturesListsMatch(List<string> firstFeatureList, List<string> secondFeatureList)
+		private AdminHelper assertFeaturesListsMatch(
+			List<string> firstFeatureList, 
+			List<string> secondFeatureList)
 		{
 			Assert.IsTrue(firstFeatureList.Match(secondFeatureList),
 				"Произошла ошибка:\n списки фич не совпадают.");

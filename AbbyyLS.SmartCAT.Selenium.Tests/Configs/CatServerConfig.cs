@@ -1,6 +1,6 @@
 ﻿using System.Runtime.Serialization;
 
-namespace AbbyyLS.SmartCAT.Selenium.Tests
+namespace AbbyyLS.SmartCAT.Selenium.Tests.Configs
 {
 	[DataContract(Name = "CatServer")]
 	class CatServerConfig

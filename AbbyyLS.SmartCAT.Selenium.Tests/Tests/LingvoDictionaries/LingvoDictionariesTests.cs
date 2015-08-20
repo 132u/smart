@@ -37,7 +37,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.LingvoDictionaries
 					})
 					.AddUserToSpecificAccount(Login, accountUniqueName);
 
-				LogInSmartCat(Login, Password, accountUniqueName);
+				LogInSmartCat(Login, NickName, Password, accountUniqueName);
 			}
 
 			_workspaceHelper

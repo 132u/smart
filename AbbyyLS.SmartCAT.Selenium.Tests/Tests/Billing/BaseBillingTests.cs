@@ -33,7 +33,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Billing
 					})
 				.AddUserToSpecificAccount(Login, accountUniqueName);
 
-			LogInSmartCat(Login, Password, accountUniqueName);
+			LogInSmartCat(Login, NickName, Password, accountUniqueName);
 
 			WorkspaceHelper.GoToBillingPage();
 		}

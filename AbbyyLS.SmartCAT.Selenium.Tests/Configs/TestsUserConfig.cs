@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Runtime.Serialization;
 
-namespace AbbyyLS.SmartCAT.Selenium.Tests
+namespace AbbyyLS.SmartCAT.Selenium.Tests.Configs
 {
 	[DataContract(Name = "TestUsers")]
 	class TestUsersConfig
@@ -17,6 +17,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests
 
 		[DataMember(Name = "AolUser")]
 		public List<TestUser> AolUsers { get; set; }
+
+		[DataMember(Name = "SocialNetworksUser")]
+		public List<TestUser> SocialNetworksUsers { get; set; }
 	}
 
 }

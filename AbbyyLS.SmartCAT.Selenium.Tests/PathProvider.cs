@@ -2,6 +2,8 @@
 
 using NConfiguration;
 
+using AbbyyLS.SmartCAT.Selenium.Tests.Configs;
+
 namespace AbbyyLS.SmartCAT.Selenium.Tests
 {
 	public static class PathProvider

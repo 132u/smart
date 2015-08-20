@@ -28,6 +28,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.CompanyRegistration
 			_lastName = "lastName" + Guid.NewGuid();
 			_maximumCompanyName = ("companyName" + Guid.NewGuid()).Substring(0, _companyNameMaxLenght);
 			_subDomain = "subDomainl" + Guid.NewGuid();
+			_nickName = _firstName + " " + _lastName;
 		}
 
 		[Test]
@@ -463,7 +464,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.CompanyRegistration
 				.ClickContinueButton(errorExpected: true)
 				.AssertAlreadySignUpMessageDisplayed();
 
-			LogInSmartCat(_email, _password, _maximumCompanyName);
+			LogInSmartCat(_email, _nickName, _password, _maximumCompanyName);
 
 			_workspaceHelper.AssertUserNameAndAccountNameCorrect(_firstName + " " + _lastName, _maximumCompanyName);
 		}
@@ -480,7 +481,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.CompanyRegistration
 				.AssertUserNameAndAccountNameCorrect(_firstName + " " + _lastName, _maximumCompanyName)
 				.SignOut();
 
-			LogInSmartCat(_email, _password, _maximumCompanyName);
+			LogInSmartCat(_email, _nickName, _password, _maximumCompanyName);
 		}
 
 		private string _email;
@@ -489,6 +490,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.CompanyRegistration
 		private string _lastName;
 		private string _maximumCompanyName;
 		private string _subDomain;
+		private string _nickName;
 		private int _companyNameMaxLenght = 40;
 
 		private readonly CompanyRegistrationHelper _companyRegistrationHelper = new CompanyRegistrationHelper();

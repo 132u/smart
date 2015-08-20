@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2013
-VisualStudioVersion = 12.0.30723.0
+# Visual Studio 14
+VisualStudioVersion = 14.0.23107.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AbbyyLS.CAT.Function.Selenium.Tests", "AbbyyLS.CAT.Function.Selenium.Tests\AbbyyLS.CAT.Function.Selenium.Tests.csproj", "{9DC9D68E-BBFD-4CCB-9C78-949E7E895D3A}"
 EndProject
@@ -13,6 +13,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "configs", "configs", "{A63C
 		configs\AolUsers.xml = configs\AolUsers.xml
 		configs\CourseraUsers.xml = configs\CourseraUsers.xml
 		configs\RegistrationTestUsers.xml = configs\RegistrationTestUsers.xml
+		configs\SocialNetworksUsers.xml = configs\SocialNetworksUsers.xml
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CategoriesList", "CategoriesList\CategoriesList.csproj", "{28C1A53F-4597-413F-91F7-B622AEB3AE53}"
