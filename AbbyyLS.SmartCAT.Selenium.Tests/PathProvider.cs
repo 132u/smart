@@ -119,6 +119,17 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests
 		}
 
 		/// <summary>
+		/// Путь к папке файлов для тестирования форматов, поддерживаемые ОР
+		/// </summary>
+		public static string FilesForStandaloneDifferentFormatsFolder
+		{
+			get
+			{
+				return Path.GetFullPath(_pathConfig.FilesDirectory + "/FilesForStandaloneDifferentFormatsFolder");
+			}
+		}
+
+		/// <summary>
 		/// Путь ко второму тестовому tmx файлу
 		/// </summary>
 		public static string TMTestFile2 

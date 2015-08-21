@@ -40,6 +40,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 		public ProjectsPage AssertIsProjectLoaded(string projectName)
 		{
 			Logger.Debug("Проверить, загрузился ли проект {0}.", projectName);
+
 			if (!Driver.WaitUntilElementIsDisappeared(By.XPath(PROJECT_LOAD_IMG_XPATH.Replace("*#*", projectName)), 120))
 			{
 				Logger.Debug("Обновить страницу.");
@@ -430,7 +431,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 		protected const string CREATE_PROJECT_BTN_XPATH = "//span[contains(@class,'js-project-create')]";
 		protected const string CREATE_PROJECT_DIALOG_XPATH = "//div[contains(@class,'js-popup-create-project')][2]";
 		protected const string PROJECT_REF_XPATH = "//table[contains(@class,'js-tasks-table')]//tr//a[@class='js-name'][string()='*#*']";
-		protected const string PROJECT_LOAD_IMG_XPATH = "//table[contains(@class,'js-tasks-table')]//tr//a[@class='js-name'][string()='*#*']/..//img[contains(@class,'l-project-doc__progress')]";
+		protected const string PROJECT_LOAD_IMG_XPATH = "//a[text()='*#*']//preceding-sibling::img[contains(@title,'Processing project documents')]";
 		protected const string PROJECTS_TABLE_XPATH = "//table[contains(@class,'js-tasks-table')]";
 		protected const string DELETE_BUTTON = "//span[contains(@class,'js-delete-btn')]";
 		protected const string PROJECT_SEARCH_FIELD = "//input[@name='searchName']";
