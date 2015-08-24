@@ -244,6 +244,7 @@
     <Compile Include="Tests\ProjectGroups\ProjectGroupsTest.cs" />
     <Compile Include="Tests\Projects\ProjectImportTests.cs" />
     <Compile Include="Tests\Glossaries\SortingInSuggestedTermsTests.cs" />
+    <Compile Include="Tests\UsersRights\ManageTermsTest.cs" />
     <Compile Include="Tests\UsersRights\SortingInUsersRightsTests.cs" />
     <Compile Include="Tests\Clients\SortingInClientsTests.cs" />
     <Compile Include="Tests\Glossaries\SortingInGlossariesTests.cs" />

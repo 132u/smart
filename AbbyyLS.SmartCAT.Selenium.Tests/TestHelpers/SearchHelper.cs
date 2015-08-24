@@ -1,10 +1,19 @@
-﻿﻿using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Search;
+﻿﻿using System.Collections.Generic;
+﻿using System.Linq;
+
+﻿using NLog;
+
+﻿using NUnit.Framework;
+
+﻿using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Search;
 using AbbyyLS.SmartCAT.Selenium.Tests.TestFramework;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 {
 	public class SearchHelper
 	{
+		public static Logger Logger = LogManager.GetCurrentClassLogger();
+
 		public SearchHelper SetSourceLanguage(string sourceLanguage)
 		{
 			BaseObject.InitPage(_searchPage);
@@ -25,6 +34,16 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 		{
 			BaseObject.InitPage(_searchPage);
 			_searchPage.AssertDefinitionTabIsActive();
+
+			return this;
+		}
+
+		public SearchHelper AssertGlossariesNamesMatch(List<string> glossaryNames)
+		{
+			BaseObject.InitPage(_searchPage);
+
+			Assert.IsTrue(glossaryNames.SequenceEqual(_searchPage.GlossaryNamesList()),
+				"Произошла ошибка:\n списки имен глоссариев не совпадают.");
 
 			return this;
 		}
@@ -52,6 +71,23 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 		{
 			BaseObject.InitPage(_searchPage);
 			_searchPage.AssertTranslationReferenceExist(text);
+
+			return this;
+		}
+
+		public SearchHelper AssertTermNamesMatch(string term)
+		{
+			Logger.Trace("Проверить, что термин {0} сопадает с найденными терминами.", term);
+			BaseObject.InitPage(_searchPage);
+
+			for (var i = 1; i <= _searchPage.GlossaryNamesList().Count; i++)
+			{
+				var searchTerm = _searchPage.TermName(i);
+
+				Assert.AreEqual(term, searchTerm,
+					"Произошла ошибка:\n найденный термин №{0} '{1}' не совпадает с заданным термином '{2}'.",
+					i, searchTerm, term);
+			}
 
 			return this;
 		}

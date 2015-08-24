@@ -1,4 +1,7 @@
-﻿﻿using NUnit.Framework;
+﻿﻿using System.Collections.Generic;
+﻿using System.Linq;
+
+﻿using NUnit.Framework;
 
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.PageObjects;
@@ -194,6 +197,17 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Search
 		}
 
 		/// <summary>
+		/// Получить список названий глоссариев
+		/// </summary>
+		public List<string> GlossaryNamesList()
+		{
+			Logger.Trace("Получить список названий глоссариев.");
+			var glossaries = Driver.GetTextListElement(By.XPath(GLOSSARY_NAMES_LIST));
+
+			return glossaries.Select(g => g.Substring(g.IndexOf('\n') + 1)).ToList();
+		}
+
+		/// <summary>
 		/// Нажать на перевод в окне перевода
 		/// </summary>
 		public SearchPage ClickTranslationFormReference()
@@ -202,6 +216,18 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Search
 			TranslationFormReference.Click();
 
 			return GetPage();
+		}
+
+		/// <summary>
+		/// Получить имя термина
+		/// </summary>
+		/// <param name="termNumber">номер термина</param>
+		public string TermName(int termNumber)
+		{
+			Logger.Trace("Получить имя термина №{0}.", termNumber);
+			var termName = Driver.SetDynamicValue(How.XPath, TERM_NAME, termNumber.ToString());
+
+			return termName.Text;
 		}
 
 		[FindsBy(How = How.Id, Using = SEARCH_FIELD)]
@@ -244,5 +270,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Search
 		protected const string TRANSLATION_FORM_REFERENCE = "//div[contains(@class,'js-window-examples-data')]//a[contains(@class,'g-winexamp__reverse')]";
 		protected const string WORD_BY_WORD_TRANSLATION = ".//div[contains(@class,'l-wordbyword')]";
 		protected const string REVERSE_TRANSLATION_WORDS  = ".//div[contains(@class,'l-wordbyword')]//table//td//a[contains(@href,'Translate/ru/en')]";
+		
+		protected const string GLOSSARY_NAMES_LIST = "//div[contains(@class,'js-search-results')]//div[contains(@class,'l-glossary__data')]//h2";
+		protected const string TERM_NAME = "//table[*#*]//td/table[contains(@class,'l-glossary__tblsrcword')]//td//span[contains(@class,'l-glossary__srcwordtxt')]";
 	}
 }

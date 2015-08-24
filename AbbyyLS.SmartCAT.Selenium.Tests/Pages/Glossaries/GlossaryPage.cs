@@ -1,4 +1,7 @@
-﻿using NUnit.Framework;
+﻿using System.Collections.Generic;
+using System.Linq;
+
+using NUnit.Framework;
 
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.PageObjects;
@@ -166,7 +169,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 			Logger.Trace("Проверить, что глоссарий содержит {0} терминов.", expectedTermsCount);
 			var actualTermsCount = Driver.GetElementsCount(By.XPath(TERM_ROW));
 
-			Assert.AreEqual(actualTermsCount , expectedTermsCount,
+			Assert.AreEqual(actualTermsCount, expectedTermsCount,
 				"Произошла ошибка:\n глоссарий содержит неверное количество терминов.");
 
 			return GetPage();
@@ -213,8 +216,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 		{
 			Logger.Trace("Проверить, что комментарий содержит текст {0}.", comment);
 
-			Assert.AreEqual(comment, LanguageCommentViewMode.Text,
-				"Произошла ошибка:\n неверный текст в поле комментария.");
+			Assert.AreEqual(comment, LanguageCommentViewMode.Text, "Произошла ошибка:\n неверный текст в поле комментария.");
 
 			return GetPage();
 		}
@@ -226,8 +228,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 		{
 			Logger.Trace("Проверить, что поле Definition содержит текст {0}.", text);
 
-			Assert.AreEqual(text, DefinitionViewMode.Text,
-				"Произошла ошибка:\n неверный текст в поле Definition.");
+			Assert.AreEqual(text, DefinitionViewMode.Text, "Произошла ошибка:\n неверный текст в поле Definition.");
 
 			return GetPage();
 		}
@@ -303,6 +304,39 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 		}
 
 		/// <summary>
+		/// Посчитать количество терминов в секции 'Languages and terms'
+		/// </summary>
+		public int TermsCountInLanguagesAndTermsSection()
+		{
+			Logger.Trace("Посчитать количесвто терминов в секции 'Languages and terms'.");
+			return Driver.GetElementsCount(By.XPath(TERMS_IN_LANGUAGE_AND_TERMS_SECTION));
+		}
+
+		/// <summary>
+		/// Нажать на термин в секции 'Languages and terms'
+		/// </summary>
+		/// <param name="termNumber">номер термина</param>
+		public GlossaryPage ClickTermInLanguagesAndTermsSection(int termNumber)
+		{
+			Logger.Debug("Нажать на термин №{0} в секции 'Languages and terms'.", termNumber);
+			Driver.SetDynamicValue(How.XPath, TERM_INPUT_VIEW_MODE, termNumber.ToString()).Click();
+
+			return GetPage();
+		}
+
+		/// <summary>
+		/// Ввести текст в термин
+		/// </summary>
+		/// <param name="termNumber">номер термина</param>
+		public GlossaryPage EditTermInLanguagesAndTermsSection(string text, int termNumber)
+		{
+			Logger.Debug("Ввести текст {0} в термин №{1}.", text, termNumber);
+			Driver.SetDynamicValue(How.XPath, TERM_INPUT, termNumber.ToString()).SetText(text);
+
+			return GetPage();
+		}
+
+		/// <summary>
 		/// Нажать кнопку сортировки по русским терминам
 		/// </summary>
 		public GlossaryPage ClickSortByRussianTerm()
@@ -324,6 +358,270 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 
 			return GetPage();
 		}
+
+		/// <summary>
+		/// Получить количество обычных терминов
+		/// </summary>
+		public int DefaultTermsCount()
+		{
+			Logger.Trace("Получить количество обычных терминов.");
+
+			return Driver.GetElementsCount(By.XPath(DEFAULT_TERM_ROWS));
+		}
+
+		/// <summary>
+		/// Получить количество расширенных терминов
+		/// </summary>
+		public int CustomTermsCount()
+		{
+			Logger.Trace("Получить количество расширенных терминов.");
+
+			return Driver.GetElementsCount(By.XPath(CUSTOM_TERM_ROWS));
+		}
+
+		/// <summary>
+		/// Нажать на строку термина
+		/// </summary>
+		public GlossaryPage ClickCustomTerm()
+		{
+			Logger.Trace("Нажать на строку термина.");
+			CustomTermRow.Click();
+
+			return GetPage();
+		}
+
+		/// <summary>
+		/// Нажать кнопку закрытия раскрытых терминов
+		/// </summary>
+		public GlossaryPage CloseExpandedTerms()
+		{
+			Logger.Debug("Нажать кнопку закрытия раскрытых терминов.");
+			CloseExpandTermsButton.Click();
+
+			return GetPage();
+		}
+
+		/// <summary>
+		/// Получить значение свсойства Display для элемента сообщения 'The term already exists'
+		/// </summary>
+		public bool AlreadyExistTermErrorDisplayed()
+		{
+			Logger.Trace("Получить значение свойства Display для элемента сообщения 'The term already exists'.");
+
+			return Driver.WaitUntilElementIsDisplay(By.XPath(ALREADY_EXIST_TERM_ERROR));
+		}
+
+		/// <summary>
+		/// Получить значение свсойства Display для элемента сообщения 'Please add at least one term'.
+		/// </summary>
+		public bool EmptyTermErrorDisplayed()
+		{
+			Logger.Trace("Получить значение свойства Display для элемента сообщения 'Please add at least one term'.");
+
+			return Driver.WaitUntilElementIsDisplay(By.XPath(EMPTY_TERM_ERROR));
+		}
+
+		/// <summary>
+		/// Нажать кнопку добавления синонима
+		/// </summary>
+		/// <param name="columnNumber">номер колонки</param>
+		public GlossaryPage ClickSynonymPlusButton(int columnNumber)
+		{
+			Logger.Debug("Нажать кнопку добавления синонима.");
+			var plusButton = Driver.SetDynamicValue(How.XPath, SYNONYM_PLUS_BUTTON, columnNumber.ToString());
+
+			plusButton.Click();
+
+			return GetPage();
+		}
+
+		/// <summary>
+		/// Ввести текст в поле синонима
+		/// </summary>
+		public GlossaryPage FillSynonym(string text, int columnNumber)
+		{
+			Logger.Debug("Ввести {0} в поле синонима в столбце №{1}.", text, columnNumber);
+			var synonymInput = Driver.SetDynamicValue(How.XPath, SYNONYM_INPUT, columnNumber.ToString());
+
+			synonymInput.SetText(text);
+
+			return GetPage();
+		}
+
+		/// <summary>
+		/// Получить количесвто синонимов в поле
+		/// </summary>
+		/// <param name="termRow">номер строки термина</param>
+		/// <param name="columnNumber">номер столбца</param>
+		/// <returns>количество синонимов</returns>
+		public int SynonymFieldsCount(int termRow, int columnNumber)
+		{
+			Logger.Trace("Получить количеcтво синонимов в термине №{0}, стоблец №{1}.", termRow, columnNumber);
+
+			return Driver.GetElementsCount(By.XPath(SYNONYM_FIELDS_IN_COLUMN.Replace("term", termRow.ToString()).Replace("column", columnNumber.ToString())));
+		}
+
+		/// <summary>
+		/// Проверить, что термины подсвечены красным цветом, так как термины должны быть уникальны
+		/// </summary>
+		public GlossaryPage AssertSynonumUniqueErrorDisplayed(int columnNumber)
+		{
+			Logger.Trace("Проверить, что термины подсвечены красным цветом в стоблце №{0}, так как термины должны быть уникальны.", columnNumber);
+
+			Assert.IsTrue(Driver.WaitUntilElementIsDisplay(By.XPath(SYNONYM_UNIQUE_ERROR.Replace("*#*", columnNumber.ToString()))),
+				"Произошла ошибка:\n Термины не подсвечены красным цветом в стоблце №{0}.", columnNumber);
+
+			return GetPage();
+		}
+
+		/// <summary>
+		/// Нажать кнопку удаления термина
+		/// </summary>
+		/// <param name="source">источник</param>
+		/// <param name="target">таргет</param>
+		public GlossaryPage ClickDeleteButton(string source, string target)
+		{
+			Logger.Debug("Нажать кнопку удаления термина с sourse:{0}, target:{1}.", source, target);
+			Driver.FindElement(By.XPath(DELETE_BUTTON.Replace("#", source).Replace("**", target))).Click();
+
+			return GetPage();
+		}
+
+		/// <summary>
+		/// Проверить, что кнопка удаления термина исчезла
+		/// </summary>
+		public GlossaryPage AssertDeleteButtonDisappeared(string source, string target)
+		{
+			Logger.Debug("Проверить, что кнопка удаления термина исчезла.");
+			
+			Assert.IsTrue(Driver.WaitUntilElementIsDisappeared(By.XPath(DELETE_BUTTON.Replace("#", source).Replace("**", target))),
+				"Произошла ошибка:\n Кнопка удаления термина не исчезла.");
+
+			return GetPage();
+		}
+
+		/// <summary>
+		/// Нажать кнопку редактирования термина
+		/// </summary>
+		public GlossaryPage ClickEditButton()
+		{
+			Logger.Debug("Нажать кнопку редактирования термина.");
+			EditTermButton.Click();
+
+			return GetPage();
+		}
+
+		/// <summary>
+		/// Навести курсор мыши на заданную строку термина
+		/// </summary>
+		/// <param name="source">источник</param>
+		/// <param name="target">таргет</param>
+		public GlossaryPage HoverTermRow(string source, string target)
+		{
+			Logger.Debug("Навести курсор мыши на заданную строку термина с sourse:{0}, target:{1}", source, target);
+			var term = Driver.FindElement(By.XPath(TERM_ROW_BY_SOURCE_AND_TARGET.Replace("#", source).Replace("**", target)));
+			term.HoverElement();
+
+			return GetPage();
+		}
+
+		/// <summary>
+		/// Заполнить поле поиск
+		/// </summary>
+		public GlossaryPage FillSearchField(string text)
+		{
+			Logger.Debug(string.Format("Ввести {0} в поле поиск.", text));
+			SearchInput.SetText(text);
+			
+			return GetPage();
+		}
+
+		/// <summary>
+		/// Нажать кнопку поиска 
+		/// </summary>
+		public GlossaryPage ClickSearchButton()
+		{
+			Logger.Debug("Нажать кнопку поиска.");
+			SearchButton.Click();
+
+			return GetPage();
+		}
+
+		/// <summary>
+		/// Нажать кнопку 'Edit Entry'
+		/// </summary>
+		public GlossaryPage ClickEditEntryButton()
+		{
+			Logger.Debug("Нажать кнопку 'Edit Entry'.");
+			EditEntryButton.Click();
+
+			return GetPage();
+		}
+		
+		/// <summary>
+		/// Нажать кнопку Cancel
+		/// </summary>
+		public GlossaryPage ClickCancelButton()
+		{
+			Logger.Debug("Нажать кнопку Cancel.");
+			CancelButton.Click();
+
+			return GetPage();
+		}
+
+		/// <summary>
+		/// Получить текст из первого термина.
+		/// </summary>
+		public string FirstTermText()
+		{
+			Logger.Trace("Получить текст из первого термина.");
+
+			return FirstTerm.Text.Trim();
+		}
+
+		/// <summary>
+		/// Посчитать количество колонок с языками
+		/// </summary>
+		public int LanguageColumnCount()
+		{
+			Logger.Trace("Посчитать количество колонок с языками.");
+
+			return Driver.GetElementsCount(By.XPath(LANGUAGE_COLUMNS));
+		}
+
+		/// <summary>
+		/// Получить список текстов из терминов
+		/// </summary>
+		public List<string> TermsList()
+		{
+			Logger.Trace("Получить список текстов из терминов.");
+			var terms = Driver.GetTextListElement(By.XPath(TERMS_TEXT));
+
+			return terms.Select(el => el.Trim()).ToList();
+		}
+
+		/// <summary>
+		/// Проверить, что термин присутствует в секции 'Languages and terms '
+		/// </summary>
+		public bool AssertTermDisplayedInLanguagesAndTermsSection(string term)
+		{
+			Logger.Trace("Проверить, что термин {0} присутствует в секции 'Languages and terms '.", term);
+			var termInSectioin = Driver.SetDynamicValue(How.XPath, TERMS_IN_LANGUAGE_AND_TERMS_SECTION, term);
+			
+			return termInSectioin.Displayed;
+		}
+
+		[FindsBy(How = How.XPath, Using = FIRST_TERM)]
+		protected IWebElement FirstTerm { get; set; }
+
+		[FindsBy(How = How.XPath, Using = SEARCH_INPUT)]
+		protected IWebElement SearchInput { get; set; }
+
+		[FindsBy(How = How.XPath, Using = SEARCH_BUTTON)]
+		protected IWebElement SearchButton { get; set; }
+
+		[FindsBy(How = How.XPath, Using = CANCEL_BUTTON)]
+		protected IWebElement CancelButton { get; set; }
 
 		[FindsBy(How = How.XPath, Using = NEW_ENTRY_BUTTON)]
 		protected IWebElement NewEntryButton { get; set; }
@@ -376,6 +674,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 		[FindsBy(How = How.XPath, Using = LANGUAGE_COMMENT_VIEW_MODE)]
 		protected IWebElement LanguageCommentViewMode { get; set; }
 
+		[FindsBy(How = How.XPath, Using = CUSTOM_TERM_ROWS)]
+		protected IWebElement CustomTermRow { get; set; }
+
 		[FindsBy(How = How.XPath, Using = DEFINITION_EDIT_MODE)]
 		protected IWebElement DefinitionEditMode { get; set; }
 
@@ -387,6 +688,18 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 
 		[FindsBy(How = How.XPath, Using = DEFINITION_SOURCE_VIEW_MODE)]
 		protected IWebElement DefinitionSourceViewMode { get; set; }
+
+		[FindsBy(How = How.XPath, Using = CLOSE_EXPAND_TERMS_BUTTON)]
+		protected IWebElement CloseExpandTermsButton { get; set; }
+
+		[FindsBy(How = How.XPath, Using = EDIT_TERM_BUTTON)]
+		protected IWebElement EditTermButton { get; set; }
+
+		[FindsBy(How = How.XPath, Using = SYNONYM_INPUT)]
+		protected IWebElement SynonymInput { get; set; }
+
+		[FindsBy(How = How.XPath, Using = EDIT_ENTRY_BUTTON)]
+		protected IWebElement EditEntryButton { get; set; }
 
 		protected const string GLOSSARY_SAVE_BUTTON = ".//div[contains(@class,'js-popup-edit-glossary')][2]//span[@class='g-btn g-redbtn ']";
 		protected const string GLOSSARY_PROPERTIES = "//div[contains(@class,'js-edit-glossary-btn')]";
@@ -401,6 +714,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 		protected const string IMPORT_BUTTON = "//span[contains(@class,'js-import-concepts')]";
 		protected const string EXPORT_BUTTON = "//a[contains(@class,'js-export-concepts')]";
 		protected const string TERM_ROW = "//tr[contains(@class, 'js-concept-row')]";
+		protected const string TERMS_TEXT = "//tr[contains(@class, 'js-concept-row')]//td[contains(@class, 'glossaryLang')]//p";
 
 		protected const string SORT_BY_ENGLISH_TERM = "//th[contains(@data-sort-by,'Language1')]//a";
 		protected const string SORT_BY_RUSSIAN_TERM = "//th[contains(@data-sort-by,'Language2')]//a";
@@ -414,10 +728,30 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 		protected const string TERM_LANGUAGE = "//span[@class='js-term-editor g-block l-corprtree__edittrasl']//input[contains(@class, 'txttrasl')]";
 		protected const string ADD_BUTTON_LIST = "//div[contains(@class, 'js-terms-tree')]//div[contains(@class, 'l-corprtree__langbox')]//span[contains(@class,'js-add-term')]";
 		protected const string TERM_INPUT = "//div[contains(@class, 'js-terms-tree')]//div[contains(@class, 'l-corprtree__langbox')][*#*]//span[contains(@class,'js-term-editor')]//input";
+		protected const string TERM_INPUT_VIEW_MODE = "//div[contains(@class, 'js-terms-tree')]//div[contains(@class, 'l-corprtree__langbox')][*#*]//span[@class='js-term-viewer']";
 		protected const string DEFINITION_EDIT_MODE = "//div[contains(@class, 'viewmode js-lang-attrs')]//textarea[@name='Interpretation']";
 		protected const string DEFINITION_VIEW_MODE = "//div[@class='l-corpr__viewmode js-lang-attrs']//div[@class='js-control'][2]//div[@class='g-bold l-corpr__viewmode__val js-value']";
 		protected const string DEFINITION_SOURCE_VIEW_MODE = "//div[@class='l-corpr__viewmode js-lang-attrs']//div[@class='js-control'][3]//div[@class='g-bold l-corpr__viewmode__val js-value']";
 		protected const string DEFINITION_SOURCE_EDIT_MODE = "//div[contains(@class, 'viewmode js-lang-attrs')]//textarea[@name='InterpretationSource']";
 
+		protected const string CUSTOM_TERM_ROWS = "//tr[@class='l-corpr__trhover clickable js-concept-row']";
+		protected const string CLOSE_EXPAND_TERMS_BUTTON = "//span[contains(@class, 'close-all')]";
+		protected const string DEFAULT_TERM_ROWS = "//tr[@class='l-corpr__trhover js-concept-row']";
+		protected const string ALREADY_EXIST_TERM_ERROR = "//span[contains(text(),'The term already exists')]";
+		protected const string EMPTY_TERM_ERROR = "//div[contains(text(),'Please add at least one term.')]";
+		protected const string SYNONYM_PLUS_BUTTON = "//tr[contains(@class, 'js-concept')]//td[*#*]//span[contains(@class,'js-add-term')]";
+		protected const string SYNONYM_INPUT = "//tr[contains(@class, 'js-concept')]//td[*#*]//div//input[contains(@class,'js-term')]";
+		protected const string SYNONYM_FIELDS_IN_COLUMN = "//tr[@class='l-corpr__trhover js-concept-row'][term]//td[column]//p";
+		protected const string SYNONYM_UNIQUE_ERROR = "//td[*#*]//p[@title='A term must be unique within a language.']";
+		protected const string DELETE_BUTTON = "//tr[contains(@class, 'js-concept-row') and contains(string(), '#') and contains(string(), '**')]//a[contains(@class, 'js-delete-btn')]";
+		protected const string TERM_ROW_BY_SOURCE_AND_TARGET = "//tr[contains(@class, 'js-concept-row') and contains(string(), '#') and contains(string(), '**')]//td[4]";
+		protected const string CANCEL_BUTTON = "//tr[contains(@class, 'js-concept-row js-editing opened')]//a[contains(@class, 'js-cancel-btn')]";
+		protected const string SEARCH_INPUT = "//input[contains(@class,'js-search-term')]";
+		protected const string SEARCH_BUTTON = "//a[contains(@class,'js-search-by-term')]";
+		protected const string FIRST_TERM = "//tr[contains(@class, 'js-concept-row')]//td[contains(@class,'glossaryShort')]//p";
+		protected const string LANGUAGE_COLUMNS = "//tr[@class='js-table-header']//th[contains(@data-sort-by, 'Language')]";
+		protected const string EDIT_TERM_BUTTON = "//tr[contains(@class, 'js-concept-row')]//a[contains(@class,'js-edit-btn')]";
+		protected const string EDIT_ENTRY_BUTTON = "//span[contains(@class,'js-edit-btn')]";
+		protected const string TERMS_IN_LANGUAGE_AND_TERMS_SECTION = "//div[@class='l-corprtree__langbox']";
 	}
 }

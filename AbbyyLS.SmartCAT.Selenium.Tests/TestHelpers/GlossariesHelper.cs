@@ -180,11 +180,180 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 		public GlossariesHelper AssertModifiedByMatch(string glossaryName, string userName)
 		{
+			Logger.Trace("Проверить, что имя автора совпадает с {0}.", userName);
 			BaseObject.InitPage(_glossariesPage);
 			var modifiedBy = _glossariesPage.GetModifiedByAuthor(glossaryName);
 
 			Assert.AreEqual(modifiedBy, userName,
 				"Произошла ошибка:\n имя {0} не совпадает с {1}.", modifiedBy, userName);
+
+			return this;
+		}
+
+		public GlossariesHelper AssertExtendTermsCountMatch(int expectedTermCount)
+		{
+			Logger.Trace("Проверить, что количество терминов = {0}.", expectedTermCount);
+			BaseObject.InitPage(_glossaryPage);
+
+			Assert.AreEqual(expectedTermCount, _glossaryPage.CustomTermsCount(),
+				"Произошла ошибка:\n неверное количество терминов.");
+
+			return this;
+		}
+
+		public GlossariesHelper AssertSynonymCountMatch(int expectedCount, int termNumber, int columnNumber)
+		{
+			Logger.Trace("Проверить, что количество синонимов в термине = {0}.", expectedCount);
+			BaseObject.InitPage(_glossaryPage);
+
+			Assert.AreEqual(expectedCount, _glossaryPage.SynonymFieldsCount(termNumber, columnNumber),
+				"Произошла ошибка:\n неверное количество синонимов в термине №{0} и столбце №{1}", termNumber, columnNumber);
+
+			return this;
+		}
+
+		public GlossariesHelper AssertTermsTextMatch(string text)
+		{
+			Logger.Trace("Проверить, что все термины совпадают с {0}.", text);
+			BaseObject.InitPage(_glossaryPage);
+
+			var termsList = _glossaryPage.TermsList();
+
+			foreach (var term in termsList)
+			{
+				Assert.AreEqual(text, term.Trim(), "Произошла ошибка:\n Термин {0} не соответствует ожидаемому значению {1}.", term.Trim(), text);
+			}
+
+			return this;
+		}
+
+		public GlossariesHelper AssertSynonumUniqueErrorDisplayed(int columnNumber)
+		{
+			BaseObject.InitPage(_glossaryPage);
+			_glossaryPage.AssertSynonumUniqueErrorDisplayed(columnNumber);
+
+			return this;
+		}
+
+		public GlossariesHelper AssertDefaultTermsCountMatch(int expectedTermCount)
+		{
+			Logger.Trace("Проверить, что количество терминов равно {0}.", expectedTermCount);
+			BaseObject.InitPage(_glossaryPage);
+
+			Assert.AreEqual(expectedTermCount, _glossaryPage.DefaultTermsCount(),
+				"Произошла ошибка:\n неверное количество терминов.");
+
+			return this;
+		}
+
+		public GlossariesHelper AssertAlreadyExistTermErrorDisplayed()
+		{
+			Logger.Trace("Проверить, что сообщение 'The term already exists' появилось.");
+			BaseObject.InitPage(_glossaryPage);
+			
+			Assert.IsTrue(_glossaryPage.AlreadyExistTermErrorDisplayed(),
+				"Произошла ошибка:\n сообщение 'The term already exists' не появилось.");
+
+			return this;
+		}
+
+		public GlossariesHelper AssertEmptyTermErrorDisplayed()
+		{
+			Logger.Trace("Проверить, что сообщение 'Please add at least one term' появилось.");
+			BaseObject.InitPage(_glossaryPage);
+
+			Assert.IsTrue(_glossaryPage.EmptyTermErrorDisplayed(),
+				"Произошла ошибка:\n сообщение 'Please add at least one term' не появилось.");
+
+			return this;
+		}
+
+		public GlossariesHelper AssertTermMatch(string expectedText)
+		{
+			Logger.Trace("Проверить, что текст в термине не совпадает с {0}.", expectedText);
+			BaseObject.InitPage(_glossaryPage);
+
+			Assert.AreEqual(expectedText, _glossaryPage.FirstTermText(),
+				"Произошла ошибка:\n текст в термине не совпадает с ожидаемым.");
+
+			return this;
+		}
+
+		public GlossariesHelper DeleteTerm(string source, string target)
+		{
+			BaseObject.InitPage(_glossaryPage);
+			_glossaryPage
+				.HoverTermRow(source, target)
+				.ClickDeleteButton(source, target)
+				.AssertDeleteButtonDisappeared(source, target);
+
+			return this;
+		}
+
+		public GlossariesHelper EditDefaultTerm(string source, string target, string text)
+		{
+			BaseObject.InitPage(_glossaryPage);
+			_glossaryPage
+				.HoverTermRow(source, target)
+				.ClickEditButton()
+				.FillTerm(1, source + text)
+				.FillTerm(2, target + text)
+				.ClickSaveTermButton();
+
+			return this;
+		}
+
+		public GlossariesHelper EditCustomTerms(string text)
+		{
+			BaseObject.InitPage(_glossaryPage);
+			_glossaryPage.ClickEditEntryButton();
+
+			var termsCount = _glossaryPage.TermsCountInLanguagesAndTermsSection();
+
+			for (int i = 1; i <= termsCount; i++)
+			{
+				_glossaryPage
+					.ClickTermInLanguagesAndTermsSection(i)
+					.EditTermInLanguagesAndTermsSection(text, i);
+			}
+
+			_glossaryPage.ClickSaveEntryButton();
+
+			return this;
+		}
+
+		public GlossariesHelper AssertTermDisplayedInLanguagesAndTermsSection(string term)
+		{
+			BaseObject.InitPage(_glossaryPage);
+
+			Assert.IsTrue(_glossaryPage.AssertTermDisplayedInLanguagesAndTermsSection(term),
+				"Произошла ошибка:\n Термин {0} отсутствует в секции 'Languages And Terms'.", term);
+
+			return this;
+		}
+
+		public GlossariesHelper SearchTerm(string text)
+		{
+			BaseObject.InitPage(_glossaryPage);
+			_glossaryPage
+				.FillSearchField(text)
+				.ClickSearchButton();
+
+			return this;
+		}
+		
+		public GlossariesHelper CancelEditTerm()
+		{
+			BaseObject.InitPage(_glossaryPage);
+			_glossaryPage.ClickCancelButton();
+
+			return this;
+		}
+
+		public GlossariesHelper CloseTermsInfo()
+		{
+			BaseObject.InitPage(_glossaryPage);
+			_glossaryPage.CloseExpandedTerms();
 
 			return this;
 		}
@@ -261,6 +430,26 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 			return this;
 		}
 
+		public GlossariesHelper FillTerm(
+			string firstTerm = "firstTerm",
+			string secondTerm = "secondTerm")
+		{
+			BaseObject.InitPage(_glossaryPage);
+			_glossaryPage
+				.FillTerm(1, firstTerm)
+				.FillTerm(2, secondTerm);
+
+			return this;
+		}
+
+		public GlossariesHelper ClickSaveButton()
+		{
+			BaseObject.InitPage(_glossaryPage);
+			_glossaryPage.ClickSaveTermButton();
+
+			return this;
+		}
+
 		public GlossariesHelper ExportGlossary()
 		{
 			BaseObject.InitPage(_glossaryPage);
@@ -271,7 +460,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 		public static string UniqueGlossaryName()
 		{
-			return "TestGlossary" + DateTime.Now.ToString("MM.dd.yyyy HH:mm:ss", new CultureInfo("en-US"));
+			return "TestGlossary" + Guid.NewGuid();
 		}
 
 		public GlossariesHelper CreateGlossary(
@@ -328,8 +517,10 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 		public GlossariesHelper AssertEmptyNameErrorDisplay()
 		{
-			BaseObject.InitPage(_newGlossaryDialog);
-			_newGlossaryDialog.AssertEmptyNamyErrorDisplay();
+			BaseObject.InitPage(_glossaryPage);
+
+			Assert.IsTrue(_glossaryPage.EmptyTermErrorDisplayed(),
+				"Произошла ошибка:\n сообщение 'Please add at least one term' не появилось.");
 
 			return this;
 		}
@@ -348,6 +539,17 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 			_newGlossaryDialog
 				.ExpandLanguageDropdown(dropdownNumber)
 				.AssertLanguageNotExistInDropdown(language);
+
+			return this;
+		}
+
+		public GlossariesHelper AssertLanguageColumnCountMatch(int count)
+		{
+			Logger.Trace("Проверить, что количество колонок с языками = {0}.", count);
+			BaseObject.InitPage(_glossaryPage);
+
+			Assert.AreEqual(count, _glossaryPage.LanguageColumnCount(),
+				"Произошла ошибка:\n неверное количество колонок с языками.");
 
 			return this;
 		}
@@ -528,8 +730,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 		public GlossariesHelper AssertExtendModeOpen()
 		{
 			BaseObject.InitPage(_glossaryPage);
-			_glossaryPage
-				.AssertExtendModeOpen();
+			_glossaryPage.AssertExtendModeOpen();
 
 			return this;
 		}
@@ -576,7 +777,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 			return this;
 		}
 
-		public GlossariesHelper FillTermInLanguagesAndTermsSection(string text = "text")
+		public GlossariesHelper FillTermInLanguagesAndTermsSection(string text = "Term Example")
 		{
 			BaseObject.InitPage(_glossaryPage);
 			_glossaryPage.FillTermInLanguagesAndTermsSection(text);
@@ -638,6 +839,16 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 			_glossaryPage
 				.OpenLanguageAndTermDetailsEditMode()
 				.FillDefinition(definition);
+
+			return this;
+		}
+
+		public GlossariesHelper AddSynonym(int columnNumber, string text)
+		{
+			BaseObject.InitPage(_glossaryPage);
+			_glossaryPage
+				.ClickSynonymPlusButton(columnNumber)
+				.FillSynonym(text, columnNumber);
 
 			return this;
 		}
