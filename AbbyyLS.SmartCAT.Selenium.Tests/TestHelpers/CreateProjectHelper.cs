@@ -40,6 +40,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 			if (createNewTm)
 			{
+				BaseObject.InitPage(_newProjectSetUpTMDialog);
 				var translationMemoryName = "TM_" + Guid.NewGuid();
 
 				if (!string.IsNullOrEmpty(tmxFilePath))
