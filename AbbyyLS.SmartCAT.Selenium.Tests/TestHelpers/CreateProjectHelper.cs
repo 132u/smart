@@ -25,14 +25,18 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 			bool useMachineTranslation = false,
 			bool createGlossary = false,
 			Language sourceLanguage = Language.English,
-			Language targetLanguage = Language.Russian)
+			Language targetLanguage = Language.Russian,
+			bool personalAccount = false)
 		{
 			ClickCreateProjectButton();
 			FillGeneralProjectInformation(projectName, filePath, sourceLanguage, targetLanguage, useMT: useMachineTranslation);
-			ClickNextOnGeneralProjectInformationPage();
+			ClickNextOnGeneralProjectInformationPage(personalAccount: personalAccount);
 
-			BaseObject.InitPage(_newProjectSetUpWorkflowDialog);
-			_newProjectSetUpTMDialog = _newProjectSetUpWorkflowDialog.ClickNextButton();
+			if (!personalAccount)
+			{
+				BaseObject.InitPage(_newProjectSetUpWorkflowDialog);
+				_newProjectSetUpTMDialog = _newProjectSetUpWorkflowDialog.ClickNextButton();
+			}
 
 			if (createNewTm)
 			{
@@ -173,13 +177,20 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 			return this;
 		}
 
-		public CreateProjectHelper ClickNextOnGeneralProjectInformationPage(bool errorExpected = false)
+		public CreateProjectHelper ClickNextOnGeneralProjectInformationPage(bool errorExpected = false, bool personalAccount = false)
 		{
 			BaseObject.InitPage(_newProjectGeneralInformationDialog);
 
 			if (!errorExpected)
 			{
-				_newProjectGeneralInformationDialog.ClickNext<NewProjectSetUpWorkflowDialog>();
+				if (!personalAccount)
+				{
+					_newProjectGeneralInformationDialog.ClickNext<NewProjectSetUpWorkflowDialog>();
+				}
+				else
+				{
+					_newProjectGeneralInformationDialog.ClickNext<NewProjectSetUpTMDialog>();
+				}
 			}
 			else
 			{

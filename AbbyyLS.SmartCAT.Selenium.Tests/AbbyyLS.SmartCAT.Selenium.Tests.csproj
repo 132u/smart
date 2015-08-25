@@ -224,7 +224,8 @@
     <Compile Include="Tests\Projects\AssignResponsiblesTest.cs" />
     <Compile Include="Tests\Projects\AutofillProjectNameTests.cs" />
     <Compile Include="Tests\Projects\BasicProjectTests.cs" />
-	<Compile Include="Tests\Projects\DocumentFormatTests.cs" />
+    <Compile Include="Tests\Projects\BasicProjectPersonalAccountTests.cs" />
+    <Compile Include="Tests\Projects\DocumentFormatTests.cs" />
     <Compile Include="Tests\BaseTest.cs" />
     <Compile Include="Tests\Billing\BaseBillingTests.cs" />
     <Compile Include="Tests\Projects\ChangeProjectNameTests.cs" />

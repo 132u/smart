@@ -195,6 +195,10 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests
 					LogInSmartCat(Login, NickName, Password);
 					break;
 
+				case StartPage.PersonalAccount:
+					LogInSmartCat(Login, NickName, Password, "Personal");
+					break;
+
 				default:
 					LogInSmartCat(Login, NickName, Password);
 					break;

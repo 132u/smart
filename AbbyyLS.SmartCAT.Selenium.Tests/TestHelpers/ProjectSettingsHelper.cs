@@ -235,6 +235,14 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 			return this;
 		}
 
+		public ProjectSettingsHelper AssertAssignButtonNotDisplayed()
+		{
+			BaseObject.InitPage(_projectPage);
+			_projectPage.AssertAssignButtonNotExist();
+
+			return this;
+		}
+
 		public ProjectSettingsHelper ClickSortByTranslationDocument()
 		{
 			BaseObject.InitPage(_projectPage);

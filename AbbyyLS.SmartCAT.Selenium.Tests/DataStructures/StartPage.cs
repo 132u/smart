@@ -5,6 +5,7 @@
 		Admin,
 		CompanyRegistration,
 		SignIn,
-		Workspace
+		Workspace,
+		PersonalAccount
 	}
 }

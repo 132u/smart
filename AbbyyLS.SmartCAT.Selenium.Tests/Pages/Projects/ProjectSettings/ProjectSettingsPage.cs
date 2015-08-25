@@ -84,6 +84,19 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings
 		}
 
 		/// <summary>
+		/// Проверить, что кнопка 'Назначить задачу' отсутствует
+		/// </summary>
+		public ProjectSettingsPage AssertAssignButtonNotExist()
+		{
+			Logger.Trace("Проверить, что кнопка 'Назначить задачу' отсутствует.");
+
+			Assert.IsFalse(Driver.GetIsElementExist(By.XPath(ASSIGN_TASKS_BTN_IN_DOCUMENT_INFO)),
+				"Произошла ошибка:\n кнопка 'Назначить задачу' отображается в открытой свёртке документа.");
+
+			return GetPage();
+		}
+
+		/// <summary>
 		/// Нажать на кнопку "Назначить задачу" на панели
 		/// </summary>
 		public TaskAssignmentPage ClickAssignButtonOnPanel()
