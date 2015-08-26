@@ -20,7 +20,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 
 		public new void LoadPage()
 		{
-			if (!Driver.WaitUntilElementIsDisplay(By.XPath(NAME_INPUT)))
+			if (!Driver.WaitUntilElementIsDisplay(By.XPath(TITLE)))
 			{
 				Assert.Fail("Произошла ошибка:\n не появился диалог настроек документа.");
 			}
@@ -40,12 +40,12 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 		/// <summary>
 		/// Нажать кнопку сохранения
 		/// </summary>
-		public ProjectsPage ClickSaveButton()
+		public T ClickSaveButton<T>() where T : class, IAbstractPage<T>, new()
 		{
 			Logger.Debug("Нажать кнопку сохранения");
 			SaveButton.Click();
 
-			return new ProjectsPage().GetPage();
+			return new T().GetPage();
 		}
 
 		/// <summary>
@@ -67,6 +67,19 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 			return GetPage();
 		}
 
+		/// <summary>
+		/// "Выбрать глоссарий по имени
+		/// </summary>
+		/// <param name="glossaryName">имя глоссария</param>
+		public DocumentSettings ClickGlossaryByName(string glossaryName)
+		{
+			Logger.Debug("Выбрать глоссарий с именем {0}", glossaryName);
+			GlossaryCheckbox = Driver.SetDynamicValue(How.XPath, GLOSSARY_BY_NAME_XPATH, glossaryName);
+			GlossaryCheckbox.ScrollAndClick();
+
+			return GetPage();
+		}
+
 		[FindsBy(How = How.XPath, Using = NAME_INPUT)]
 		protected IWebElement Name { get; set; }
 
@@ -76,10 +89,16 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 		[FindsBy(How = How.XPath, Using = MT_CHECKBOX)]
 		protected IWebElement MTCheckbox { get; set; }
 
+		protected  IWebElement GlossaryCheckbox { get; set; }
+
+		protected const string TITLE = "(//h2[text()='Document Settings'])[3]";
+
 		protected const string NAME_INPUT = "//div[contains(@class,'js-popup-document-settings')][2]//input[contains(@data-bind,'value: name')]";
 
-		protected const string SAVE_BUTTON = "//div[contains(@class,'js-popup-document-settings')][2]//span[contains(@data-bind,'click: save')]";
+		protected const string SAVE_BUTTON = "//div[contains(@class,'g-popup-bd js-popup-bd js-popup-single-target-document-settings')][2]//span[contains(@data-bind,'click: save')]";
 
 		protected const string MT_CHECKBOX = "//div[@class='g-popup-bd js-popup-bd js-popup-document-settings'][2]//tbody[contains(@data-bind, 'machineTranslators')]//p[text() = '*#*']//preceding::td[1]//input";
+
+		protected const string GLOSSARY_BY_NAME_XPATH = "(//h2[text()='Document Settings']//..//..//table[contains(@class,'l-corpr__tbl')]//tbody[@data-bind='foreach: glossaries']//tr[contains(string(), '*#*')])[1]//td//input";
 	}
 }

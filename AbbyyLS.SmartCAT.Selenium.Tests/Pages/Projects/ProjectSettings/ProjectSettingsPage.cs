@@ -352,6 +352,17 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings
 			return GetPage();
 		}
 
+		/// <summary>
+		/// Нажать на кнопку "Settings" в разделе "Documents"
+		/// </summary>
+		public DocumentSettings ClickDocumentSettings()
+		{
+			Logger.Debug("Нажать на кнопку 'Settings' в разделе 'Documents'.");
+			DocumentSettingsButton.JavaScriptClick();
+
+			return new DocumentSettings().GetPage();
+		}
+
 		[FindsBy(How = How.XPath, Using = ADD_FILES_BTN)]
 		protected IWebElement AddFilesButton { get; set; }
 
@@ -402,6 +413,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings
 		[FindsBy(How = How.XPath, Using = SORT_BY_QA)]
 		protected IWebElement SortByQA { get; set; }
 		
+		[FindsBy(How = How.XPath, Using = DOCUMENT_SETTINGS_BUTTON)]
+		protected IWebElement DocumentSettingsButton { get; set; }
+
 		protected IWebElement DocumentProgress { get; set; }
 
 		protected IWebElement DocumentRefference { get; set; }
@@ -415,7 +429,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings
 		protected const string PROJECTS_TABLE_CHECKBOX = ".//table[contains(@id,'JColResizer')]//tr[contains(string(), '*#*')]//td[1]//input";
 		protected const string PROJECTS_TABLE_STATUS_COMPLITED = ".//table[contains(@id,'JColResizer')]//tr[contains(string(), '*#*')]//td[5][contains(string(), 'Completed')]";
 		protected const string ASSIGN_TASKS_BTN_ON_PANEL = "//div[@class='l-corpr__hd']//span[contains(@data-bind,'click: assign')]//a";
-		protected const string ASSIGN_TASKS_BTN_IN_DOCUMENT_INFO = "//div[contains(@class,'doc-panel-btns')]//span[contains(@data-bind,'assign')]//a";
+		protected const string ASSIGN_TASKS_BTN_IN_DOCUMENT_INFO = "//div[contains(@class,'doc-panel-btns')]//span[contains(@data-bind,'click: actions.assign')]//a";
 		protected const string LOAD_DOC_IMG = "//img[contains(@title,'Processing translation document')]";
 		protected const string DOCUMENT_REF = ".//table[contains(@id,'JColResizer')]//tr[contains(string(), '*#*')]//td[2]//a";
 		protected const string SAVE_MT_BTN = ".//span[contains(@data-bind, 'click: saveMTEngines')]//a";
@@ -427,7 +441,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings
 		protected const string DOWNLOAD_MAIN_MENU_BUTTON = "//span[contains(@class,'js-document-export-block')]";
 		protected const string DOCUMENT_CHECKBOX = ".//table[contains(@id,'JColResizer')]//tr[contains(string(), '*#*')]//td[2]//a//ancestor::td//preceding-sibling::td/input";
 		protected const string DOCUMENT_PROGRESS = "//td[div[a[text()='*#*']]]//following-sibling::td//div[contains(@class,'ui-progressbar__container')]";
-		protected const string SETTINGS_BUTTON = "(//span[contains(@data-bind,'click: edit')])[1]";
+		protected const string DOCUMENT_SETTINGS_BUTTON = "//a[@class='intable g-bluebtn__text g-btn__text' and text()='Settings']";
+        protected const string SETTINGS_BUTTON = "(//span[contains(@data-bind,'click: edit')])[1]";
 
 		protected const string SORT_BY_TRANSLATION_DOCUMENT = "//th[contains(@data-sort-by,'name')]//a";
 		protected const string SORT_BY_TYPE = "//th[contains(@data-sort-by,'fileExtension')]//a";

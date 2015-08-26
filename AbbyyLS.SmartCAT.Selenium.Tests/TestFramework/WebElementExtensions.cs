@@ -106,6 +106,19 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestFramework
 		}
 
 		/// <summary>
+		/// Произвести двойной клик по определенной точке элемента
+		/// </summary>
+		public static void DoubleClickElementAtPoint(this IWebElement webElement, int x, int y)
+		{
+			var actionBuilder = new Actions(getDriverFromWebElement(webElement));
+			actionBuilder
+				.MoveToElement(webElement, x, y)
+				.DoubleClick()
+				.Build()
+				.Perform();
+		}
+
+		/// <summary>
 		/// Вернуть значение атрибута элемента
 		/// </summary>
 		/// <param name="webElement">элемент,у которого ищется значение атрибута</param>

@@ -6,7 +6,9 @@ using NUnit.Framework;
 
 using AbbyyLS.SmartCAT.Selenium.Tests.DataStructures;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor;
+using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings;
+using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace;
 using AbbyyLS.SmartCAT.Selenium.Tests.TestFramework;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
@@ -28,7 +30,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 			this
 				.ClickDocumentProgress(documentName)
 				.ClickAssignButtonInDocumentInfo()
-				.SelectAssignmentType(taskNumber)
+				.SelectAssigneesForEntireDocument(taskNumber)
 				.SelectAssignee(nickName)
 				.CloseTaskAssignmentDialog()
 				.ClickSaveButton();
@@ -299,7 +301,32 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 			return this;
 		}
 
+		public ProjectSettingsHelper AddGlossaryToDocument(string documentName, string glossaryName)
+		{
+			BaseObject.InitPage(_projectPage);
+			_projectPage
+				.ClickDocumentProgress(documentName)
+				.ClickDocumentSettings();
+
+			BaseObject.InitPage(_documentSettings);
+			_documentSettings
+				.ClickGlossaryByName(glossaryName)
+				.ClickSaveButton<ProjectSettingsPage>();
+
+			return this;
+		}
+
+		public ProjectSettingsHelper AssertDialogBackgroundDisappeared()
+		{
+			BaseObject.InitPage(_workspacePage);
+			_workspacePage.AssertDialogBackgroundDisappeared<ProjectSettingsPage>();
+
+			return this;
+		}
+
 		private readonly ProjectSettingsPage _projectPage = new ProjectSettingsPage();
+		private readonly DocumentSettings _documentSettings = new DocumentSettings();
 		private readonly SettingsDialog _settingsDialog = new SettingsDialog();
+		private readonly WorkspacePage _workspacePage = new WorkspacePage();
 	}
 }

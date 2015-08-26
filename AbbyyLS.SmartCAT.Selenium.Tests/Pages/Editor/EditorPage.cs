@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Threading;
 using System.Windows.Forms;
 
@@ -629,6 +630,92 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 			return GetPage();
 		}
 
+		/// <summary>
+		/// Нажать хоткей Ctrl+E
+		/// </summary>
+		public AddTermDialog SendCtrlE()
+		{
+			Logger.Debug("Нажать хоткей Ctrl+E.");
+			SendKeys.SendWait("^e");
+
+			return new AddTermDialog().GetPage();
+		}
+
+		/// <summary>
+		/// Выделить первое слово в сегменте
+		/// </summary>
+		/// <param name="rowNumber">номер строки</param>
+		/// <param name="segmentType">тип сегмента</param>
+		public EditorPage SelectFirstWordInSegment(int rowNumber, SegmentType segmentType = SegmentType.Source)
+		{
+			Logger.Debug("Произвести двойной клик по первому слову сегмента {1} в строке : {0}", rowNumber, segmentType);
+
+			IWebElement segment;
+
+			switch (segmentType)
+			{
+				case SegmentType.Source:
+					segment = Driver.SetDynamicValue(How.XPath, SOURCE_CELL, rowNumber.ToString());
+					break;
+
+				case SegmentType.Target:
+					segment = Driver.SetDynamicValue(How.XPath, TARGET_CELL_VALUE, rowNumber.ToString());
+					break;
+
+				default:
+					segment = Driver.SetDynamicValue(How.XPath, SOURCE_CELL, rowNumber.ToString());
+					break;
+			}
+
+			segment.DoubleClickElementAtPoint(0, 0);
+
+			return GetPage();
+		}
+
+		/// <summary>
+		/// Получить выделенное слово
+		/// </summary>
+		public string GetSelectedWordInSegment()
+		{
+			Logger.Trace("Получить выделенное слово в сегменте");
+			string word = "";
+
+			try
+			{
+				word = Driver.ExecuteScript("return window.getSelection().toString();").ToString().Trim();
+			}
+			catch
+			{
+				Assert.Fail("Произошла ошибка:\n не удалось получить выделенное слово.");
+			}
+
+			return word;
+		}
+
+		/// <summary>
+		/// Проверить, что появился диалог подтверждения сохранения уже существующего термина
+		/// </summary>
+		public EditorPage AssertConfirmExistedTermMessageDisplayed()
+		{
+			Logger.Trace("Проверить, что появился диалог подтверждения сохранения уже существующего термина.");
+
+			Assert.IsTrue(Driver.WaitUntilElementIsDisplay(By.XPath(EXISTING_TERM_MESSAGE)),
+				"Произошла ошибка:\n не появился диалог подтверждения сохранения уже существующего термина.");
+
+			return GetPage();
+		}
+
+		/// <summary>
+		/// Нажать Yes в окне подтверждения.
+		/// </summary>
+		public EditorPage Confirm()
+		{
+			Logger.Debug("Нажать Yes в окне подтверждения.");
+			ConfirmYesButton.Click();
+
+			return GetPage();
+		}
+
 		private static bool tutorialExist()
 		{
 			Logger.Trace("Проверить, открыта ли подсказка.");
@@ -699,6 +786,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		[FindsBy(How = How.Id, Using = ALL_SEGMENTS_SAVED_STATUS)]
 		protected IWebElement AllSegmentsSavedStatus { get; set; }
 
+		[FindsBy(How = How.XPath, Using = СONFIRM_YES_BTN)]
+		protected IWebElement ConfirmYesButton { get; set; }
+
 		protected const string CONFIRM_BTN = "//a[@id='confirm-btn']";
 		protected const string FIND_ERROR_BTN_ID = "qa-error-btn";
 		protected const string FINISH_TUTORIAL_BUTTON = "//span[contains(text(),'Finish') and contains(@id, 'button')]";
@@ -725,6 +815,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		protected const string SEGMENTS_BODY = "//div[@id='segments-body']//table";
 		protected const string CONFIRMED_ICO = "//div[@id='segments-body']//table[@data-recordindex = '*#*']//td[contains(@class,'info-cell')]//div[contains(@class,'fa-check')]";
 		protected const string TARGET_CELL = "//div[@id='segments-body']//table[@data-recordindex = '*#*']//td[3]//div//div";
+		protected const string TARGET_CELL_VALUE = "//div[contains(text(), '*#*')]//..//..//..//..//tbody//tr[1]//td[3]//div//pre";
 		protected const string SOURCE_CELL = "//div[contains(text(), '*#*')]//..//..//..//..//tbody//tr[1]//td[2]//div//pre";
 		protected const string TAG = "//div[contains(text(), '*#*')]//..//..//..//..//tbody//tr[1]//td[3]//div//img[contains(@class,'tag')]";
 		protected const string SEGMENT_LOCK = "//div[contains(text(), '1')]//..//..//..//..//tbody//tr[1]//td[contains(@class,'info-cell')]//div[contains(@class,'fa-lock')][not(contains(@class,'inactive'))]";
@@ -745,5 +836,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		protected const string PERCENT_COLOR = " //table[@data-recordindex='*#*' and contains(@id, 'tableview')]//td[5]//div//span";
 
 		protected const string TERM_SAVED_MESSAGE = ".//div[text()='The term has been saved.']";
+
+		protected const string EXISTING_TERM_MESSAGE = "//div[contains(@id, 'messagebox') and contains(string(), 'This glossary already contains term(s)')]";
+		protected const string СONFIRM_YES_BTN = "//div[contains(@id, 'messagebox')]//span[contains(string(), 'Yes')]";
 	}
 }

@@ -460,7 +460,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 		public static string UniqueGlossaryName()
 		{
-			return "TestGlossary" + Guid.NewGuid();
+			return "TestGlossary" + "-" + Guid.NewGuid();
 		}
 
 		public GlossariesHelper CreateGlossary(
@@ -853,12 +853,98 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 			return this;
 		}
 
+		public GlossariesHelper DeleteTerm(string source)
+		{
+			BaseObject.InitPage(_glossaryPage);
+			_glossaryPage.DeleteTerm(source);
+
+			return this;
+		}
+
+		public GlossariesHelper AssertIsSingleTermWithTranslationExists(string glossaryName, string source , string target)
+		{
+			BaseObject.InitPage(_glossariesPage);
+			_glossariesPage
+				.ClickGlossaryRow(glossaryName)
+				.AssertIsSingleTermWithTranslationExists(source, target);
+
+			return this;
+		}
+
+		public GlossariesHelper AssertIsTermWithTranslationAndCommentExists(
+			string glossaryName,
+			string source,
+			string target,
+			string comment)
+		{
+			BaseObject.InitPage(_glossariesPage);
+			_glossariesPage
+				.ClickGlossaryRow(glossaryName)
+				.AssertIsTermWithTranslationAndCommentExists(source, target, comment);
+
+			return this;
+		}
+
+		public GlossariesHelper AssertIsSingleTermExists(string glossaryName, string source)
+		{
+			BaseObject.InitPage(_glossariesPage);
+			_glossariesPage
+				.ClickGlossaryRow(glossaryName)
+				.AssertIsSingleTermExists(source);
+
+			return this;
+		}
+
+		public GlossariesHelper AssertIsTermWithCommentExists(
+			string glossaryName,
+			string source,
+			string comment)
+		{
+			BaseObject.InitPage(_glossariesPage);
+			_glossariesPage
+				.ClickGlossaryRow(glossaryName)
+				.AssertIsTermWithCommentExists(source, comment);
+
+			return this;
+		}
+
+		public GlossariesHelper CheckTermInGlossary(
+			string glossaryName,
+			string source,
+			string target = null,
+			string comment = null,
+			int termsCount = 1)
+		{
+
+			if (target != null)
+			{
+				AssertIsSingleTermWithTranslationExists(glossaryName, source, target);
+
+				if (comment != null)
+				{
+					AssertIsTermWithTranslationAndCommentExists(glossaryName, source, target, comment);
+				}
+			}
+			else
+			{
+				AssertIsSingleTermExists(glossaryName, source);
+
+				if (comment != null)
+				{
+					AssertIsTermWithCommentExists(glossaryName, source, comment);
+				}
+			}
+
+			AssertGlossaryContainsCorrectTermsCount(termsCount);
+
+			return new GlossariesHelper();
+		}
+
 		private readonly GlossariesPage _glossariesPage = new GlossariesPage();
 		private readonly GlossaryPage _glossaryPage = new GlossaryPage();
 		private readonly NewGlossaryDialog _newGlossaryDialog = new NewGlossaryDialog();
 		private readonly GlossaryPropertiesDialog _glossaryPropertiesDialog = new GlossaryPropertiesDialog();
 		private readonly GlossaryStructureDialog _glossaryStructureDialog = new GlossaryStructureDialog();
-
-
+		private readonly WorkspaceHelper _workspaceHelper = new WorkspaceHelper();
 	}
 }

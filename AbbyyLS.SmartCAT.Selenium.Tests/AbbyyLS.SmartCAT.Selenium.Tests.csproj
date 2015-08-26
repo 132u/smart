@@ -79,6 +79,7 @@
     <Compile Include="DataStructures\Period.cs" />
     <Compile Include="DataStructures\SignInErrorMessageType.cs" />
     <Compile Include="DataStructures\SocialNetworks.cs" />
+    <Compile Include="DataStructures\SegmentType.cs" />
     <Compile Include="DataStructures\StartPage.cs" />
     <Compile Include="DataStructures\LicenseOperation.cs" />
     <Compile Include="DataStructures\Deadline.cs" />
@@ -212,6 +213,8 @@
     <Compile Include="Tests\Authorization\AuthorizationTests.cs" />
     <Compile Include="Tests\Editor\EditorLastUnconfirmedSegmentTests.cs" />
     <Compile Include="Tests\Editor\EditorHomeButtonTests.cs" />
+    <Compile Include="Tests\Glossaries\GlossariesEditorTests.cs" />
+    <Compile Include="Tests\Glossaries\GlossaryEditorTests.cs" />
     <Compile Include="Tests\Editor\MatchColumnTests\EditorMatchColumnMTSubstitutionTests.cs" />
     <Compile Include="Tests\Glossaries\GlossaryEditStructureLanguageFieldsTests.cs" />
     <Compile Include="Tests\Editor\EditorCharacterTests.cs" />

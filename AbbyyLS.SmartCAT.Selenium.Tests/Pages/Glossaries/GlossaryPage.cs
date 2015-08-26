@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Linq;
 
 using NUnit.Framework;
@@ -611,6 +611,87 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 			return termInSectioin.Displayed;
 		}
 
+		/// Проверить наличие термина
+		/// </summary>
+		/// <param name="text">текст</param>
+		public GlossaryPage AssertIsSingleTermExists(string text)
+		{
+			Logger.Trace("Проверить наличие термина {0}", text);
+
+			Assert.IsTrue(Driver.WaitUntilElementIsDisplay(By.XPath(SOURCE_TERM.Replace("*#*", text))),
+				"Произошла ошибка:\n термин не обнаружен.");
+
+			return GetPage();
+		}
+
+		/// <summary>
+		/// Получить, есть ли термин с сорсом и таргетом
+		/// </summary>
+		/// <param name="sourceText">сорс</param>
+		/// <param name="targetText">таргет</param>
+		public GlossaryPage AssertIsSingleTermWithTranslationExists(string sourceText, string targetText)
+		{
+			Logger.Trace("Получить, есть ли термин с сорсом {0} и таргетом {1}", sourceText, targetText);
+
+			Assert.IsTrue(
+				Driver.WaitUntilElementIsDisplay(
+					By.XPath(SOURCE_TARGET_TERM.Replace("#", sourceText).Replace("**", targetText))),
+				"Произошла ошибка:\n термин не обнаружен.");
+
+			return GetPage();
+		}
+
+		/// <summary>
+		/// Получить, есть ли термин с сорсом, таргетом и комментом
+		/// </summary>
+		/// <param name="sourceText">сорс</param>
+		/// <param name="targetText">таргет</param>
+		/// <param name="comment">комментарий</param>
+		public GlossaryPage AssertIsTermWithTranslationAndCommentExists(string sourceText, string targetText, string comment)
+		{
+			Logger.Trace("Получить, есть ли термин с сорсом '{0}', таргетом '{1}' и комментом: '{2}'", sourceText, targetText,
+				comment);
+
+			Assert.IsTrue(
+				Driver.WaitUntilElementIsDisplay(
+					By.XPath(SOURCE_TARGET_TERM_WITH_COMMENT.Replace("#", sourceText).Replace("**", targetText).Replace("$$", comment))),
+				"Произошла ошибка:\n термин не обнаружен.");
+
+			return GetPage();
+		}
+
+		/// <summary>
+		/// Получить, есть ли термин с сорсом и комментом
+		/// </summary>
+		/// <param name="sourceText">сорс</param>
+		/// <param name="comment">комментарий</param>
+		public GlossaryPage AssertIsTermWithCommentExists(string sourceText, string comment)
+		{
+			Logger.Trace("Получить, есть ли термин с сорсом '{0}' и комментом: '{1}'", sourceText, comment);
+
+			Assert.IsTrue(
+				Driver.WaitUntilElementIsDisplay(
+					By.XPath(SOURCE_TERM_WITH_COMMENT.Replace("#", sourceText).Replace("$$", comment))),
+				"Произошла ошибка:\n термин не обнаружен.");
+
+			return GetPage();
+		}
+
+		/// <summary>
+		/// Удалить термин из глоссария
+		/// </summary>
+		/// <param name="source">термин</param>
+		public GlossaryPage DeleteTerm(string source)
+		{
+			Logger.Debug("Удалить термин {0} из глоссария", source);
+			var deleteTermButton = Driver.SetDynamicValue(How.XPath, DELETE_TERM_BUTTON, source);
+			var termRow = Driver.SetDynamicValue(How.XPath, SOURCE_TERM, source);
+			termRow.HoverElement();
+			deleteTermButton.Click();
+
+			return this;
+		}
+
 		[FindsBy(How = How.XPath, Using = FIRST_TERM)]
 		protected IWebElement FirstTerm { get; set; }
 
@@ -753,5 +834,12 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 		protected const string EDIT_TERM_BUTTON = "//tr[contains(@class, 'js-concept-row')]//a[contains(@class,'js-edit-btn')]";
 		protected const string EDIT_ENTRY_BUTTON = "//span[contains(@class,'js-edit-btn')]";
 		protected const string TERMS_IN_LANGUAGE_AND_TERMS_SECTION = "//div[@class='l-corprtree__langbox']";
+
+		protected const string SINGLE_TERM = "//tr[contains(@class, 'js-concept-row')]//td[1]/p../following-sibling::td[1][contains(string(), '*#*')]";
+		protected const string SOURCE_TERM = "//tr[contains(@class, 'js-concept-row') and contains(string(), '*#*')]";
+		protected const string SOURCE_TARGET_TERM = "//tr[contains(@class, 'js-concept-row') and contains(string(), '#') and contains(string(), '**')]";
+		protected const string SOURCE_TERM_WITH_COMMENT = "//tr[contains(@class, 'js-concept-row') and contains(string(), '#') and contains(string(), '$$')]";
+		protected const string SOURCE_TARGET_TERM_WITH_COMMENT = "//tr[contains(@class, 'js-concept-row') and contains(string(), '#') and contains(string(), '**') and contains(string(), '$$')]";
+		protected const string DELETE_TERM_BUTTON = "//tr[contains(@class, 'js-concept-row') and contains(string(), '*#*')]//a[@title='Delete']";
 	}
 }

@@ -19,6 +19,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 		public ProjectsHelper CreateNewProject(
 			string projectName,
+			string glossaryName = null,
 			string filePath = null,
 			bool createNewTm = false,
 			string tmxFilePath = "",
@@ -64,7 +65,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 			if (createGlossary)
 			{
-				var glossaryUniqueName = "Glossary" + "_" + DateTime.UtcNow.Ticks;
+				var glossaryUniqueName = glossaryName ?? GlossariesHelper.UniqueGlossaryName();
 				//Sleep нужен, иначе кнопка Next некликабельна
 				Thread.Sleep(1000);
 				_newProjectSetUpTMDialog.ClickNextButton<NewProjectSelectGlossariesDialog>();
@@ -370,9 +371,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 		public string GetProjectUniqueName()
 		{
-			// Sleep необходим, чтобы имена были уникальными, когда создаём несколько имён подряд. Чтобы не вышло, что кол-во тиков одинаковое.
-			Thread.Sleep(10);
-			return "Test Project" + "_" + DateTime.UtcNow.Ticks;
+			return "Test Project" + "-" + Guid.NewGuid();
 		}
 
 		public CreateProjectHelper AssertErrorDeadlineDate(string dateFormat)

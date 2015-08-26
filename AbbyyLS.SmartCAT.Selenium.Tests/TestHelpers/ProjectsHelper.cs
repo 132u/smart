@@ -139,7 +139,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 			_projectsPage
 				.ClickDocumentSettings(projectName, documentNumber)
 				.SetDocumentName(newName)
-				.ClickSaveButton()
+				.ClickSaveButton<ProjectsPage>()
 				.AssertDialogBackgroundDisappeared<ProjectsPage>();
 
 			return this;
@@ -151,7 +151,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 			_projectsPage
 				.ClickDocumentSettings(projectName, documentNumber)
 				.SelectMachineTranslation(machineTranslation)
-				.ClickSaveButton()
+				.ClickSaveButton<ProjectsPage>()
 				.AssertDialogBackgroundDisappeared<ProjectsPage>()
 				.AssertIsProjectLoaded(projectName);
 

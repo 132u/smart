@@ -40,7 +40,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 			return this;
 		}
 
-		public ProjectSettingsHelper ClickFihishUploadOnProjectSettingsPage()
+		public ProjectSettingsHelper ClickFinishUploadOnProjectSettingsPage()
 		{
 			BaseObject.InitPage(_documentUploadGeneralInformationDialog);
 			_documentUploadGeneralInformationDialog.ClickFinish<ProjectSettingsPage>();

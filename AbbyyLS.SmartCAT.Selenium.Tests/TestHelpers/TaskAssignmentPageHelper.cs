@@ -60,12 +60,22 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 			return new ProjectSettingsHelper();
 		}
 
-		public TaskAssignmentPageHelper SelectAssignmentType(int taskNumber = 1, AssignmentType assignmentType = AssignmentType.Simple)
+		public TaskAssignmentPageHelper SelectAssigneesForEntireDocument(int taskNumber = 1)
 		{
 			BaseObject.InitPage(_taskAssignmenPage);
 			_taskAssignmenPage
 				.ExpandSelectAssigneesDropdown(taskNumber)
-				.SelectAssignmentType(assignmentType, taskNumber);
+				.SelectAssignmentType(AssignmentType.Simple, taskNumber);
+
+			return this;
+		}
+
+		public TaskAssignmentPageHelper SelectDistributeDocumentAmongAssignees(int taskNumber = 1)
+		{
+			BaseObject.InitPage(_taskAssignmenPage);
+			_taskAssignmenPage
+				.ExpandSelectAssigneesDropdown(taskNumber)
+				.SelectAssignmentType(AssignmentType.Split, taskNumber);
 
 			return this;
 		}

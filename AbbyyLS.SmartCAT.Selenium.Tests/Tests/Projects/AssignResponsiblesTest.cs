@@ -281,7 +281,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 				.ClickDocumentUploadButton()
 				.UploadDocument(PathProvider.DocumentFile)
 				.AssertFileUploaded(PathProvider.DocumentFile)
-				.ClickFihishUploadOnProjectSettingsPage()
+				.ClickFinishUploadOnProjectSettingsPage()
 				.ClickDocumentProgress(PathProvider.DocumentFile)
 				.ClickAssignButtonInDocumentInfo()
 				.OpenAssigneeDropbox()

@@ -6,6 +6,7 @@ using NUnit.Framework;
 
 using AbbyyLS.SmartCAT.Selenium.Tests.DataStructures;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor;
+using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries;
 using AbbyyLS.SmartCAT.Selenium.Tests.TestFramework;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
@@ -287,14 +288,32 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 			return this;
 		}
 
-		public EditorHelper AddNewTerm(string sourceTerm, string targetTerm)
+		public EditorHelper AddNewTerm(
+			string sourceTerm,
+			string targetTerm,
+			string comment = null,
+			string glossaryName = null)
 		{
 			BaseObject.InitPage(_editorPage);
 			_editorPage
 				.ClickAddTermButton()
 				.FillSourceTerm(sourceTerm)
-				.FillTargetTerm(targetTerm)
-				.ClickAddButton()
+				.FillTargetTerm(targetTerm);
+
+			BaseObject.InitPage(_addTermDialog);
+
+			if (comment != null)
+			{
+				_addTermDialog.EnterComment(comment);
+			}
+
+			if (glossaryName != null)
+			{
+				_addTermDialog.SelectGlossaryByName(glossaryName);
+			}
+
+			_addTermDialog
+				.ClickAddButton<EditorPage>()
 				.AssertTermIsSaved();
 
 			return this;
@@ -555,6 +574,104 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 		{
 			BaseObject.InitPage(_editorPage);
 			_editorPage.AssertTargetDisplayed(rowNumber);
+
+			return this;
+		}
+
+		public EditorHelper OpenAddTermDialogWithHotKey()
+		{
+			BaseObject.InitPage(_editorPage);
+			_editorPage.SendCtrlE();
+
+			return this;
+		}
+
+		public EditorHelper OpenAddTermDialog()
+		{
+			BaseObject.InitPage(_editorPage);
+			_editorPage.ClickAddTermButton();
+
+			return this;
+		}
+
+		public EditorHelper SelectFirstWordInSegment(int rowNumber, SegmentType segmentType)
+		{
+			BaseObject.InitPage(_editorPage);
+			_editorPage.SelectFirstWordInSegment(rowNumber, segmentType);
+
+			return this;
+		}
+
+		public string GetFirstWordInSegment()
+		{
+			BaseObject.InitPage(_editorPage);
+
+			return _editorPage.GetSelectedWordInSegment();
+		}
+
+		public EditorHelper CheckAutofillInAddTermDialog(string source = null, string target = null)
+		{
+			BaseObject.InitPage(_addTermDialog);
+
+			if (source != null)
+			{
+				_addTermDialog.AssertTextExistInSourceTerm(source);
+			}
+
+			if (target != null)
+			{
+				_addTermDialog.AssertTextExistInTargetTerm(target);
+			}
+
+			return this;
+		}
+
+		public EditorHelper FillAddTermForm(string source, string target)
+		{
+			BaseObject.InitPage(_addTermDialog);
+			_addTermDialog
+				.FillSourceTerm(source)
+				.FillTargetTerm(target)
+				.ClickAddButton<EditorPage>();
+
+			return this;
+		}
+
+		public EditorHelper ConfirmAdditionTermWithoutTranslation()
+		{
+			BaseObject.InitPage(_addTermDialog);
+			_addTermDialog
+				.ClickAddButton<AddTermDialog>()
+				.AssertConfirmSingleTermMessageDisplayed()
+				.Confirm()
+				.AssertTermIsSaved();
+
+			return this;
+		}
+
+		public EditorHelper ConfirmAdditionExistedTerm()
+		{
+			BaseObject.InitPage(_editorPage);
+			_editorPage
+				.AssertConfirmExistedTermMessageDisplayed()
+				.Confirm()
+				.AssertTermIsSaved();
+
+			return this;
+		}
+
+		public EditorHelper AssertGlossaryExistInList(string glossaryName)
+		{
+			BaseObject.InitPage(_addTermDialog);
+			_addTermDialog.AssertGlossaryExistInDropdown(glossaryName);
+
+			return this;
+		}
+
+		public EditorHelper ClickCancelAddTerm()
+		{
+			BaseObject.InitPage(_addTermDialog);
+			_addTermDialog.ClickCancel();
 
 			return this;
 		}
