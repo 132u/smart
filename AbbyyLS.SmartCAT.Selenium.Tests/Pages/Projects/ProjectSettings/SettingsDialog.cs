@@ -43,6 +43,19 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings
 		}
 
 		/// <summary>
+		/// Проверить, что 'Workflow Setup' отсутствует в настройках проекта
+		/// </summary>
+		public SettingsDialog AssertWorkflowSettingsNotExist()
+		{
+			Logger.Trace("Проверить, что 'Workflow Setup' отсутствует в настройках проекта.");
+
+			Assert.IsFalse(Driver.GetIsElementExist(By.XPath(WORKFLOW_TAB)),
+				"Произошла ошибка:\n 'Workflow Setup' присутствует в настройках проекта.");
+
+			return GetPage();
+		}
+
+		/// <summary>
 		/// Получить список задач в настройках Workflow
 		/// </summary>
 		public List<string> WorkflowTaskList()

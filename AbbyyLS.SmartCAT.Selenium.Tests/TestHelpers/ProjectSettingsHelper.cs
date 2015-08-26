@@ -150,6 +150,22 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 			return this;
 		}
 
+		public ProjectSettingsHelper OpenProjectSettings()
+		{
+			BaseObject.InitPage(_projectPage);
+			_projectPage.ClickSettingsButton();
+
+			return this;
+		}
+
+		public ProjectSettingsHelper AssertWorkflowSettingsNotExist()
+		{
+			BaseObject.InitPage(_settingsDialog);
+			_settingsDialog.AssertWorkflowSettingsNotExist();
+
+			return this;
+		}
+
 		public ProjectSettingsHelper AssertWorkflowTaskCountMatch(int taskCount = 1)
 		{
 			BaseObject.InitPage(_settingsDialog);
