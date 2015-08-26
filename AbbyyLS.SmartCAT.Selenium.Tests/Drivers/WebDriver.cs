@@ -425,7 +425,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Drivers
 			Directory.CreateDirectory(path);
 
 			var nameParts = TestContext.CurrentContext.Test.FullName.Split('.');
-			var className = nameParts[nameParts.Length - 2].Replace('<', '(').Replace('>', ')');
+
+			var className = nameParts[6].Replace('<', '(').Replace('>', ')');
+			
 
 			var screenName = TestContext.CurrentContext.Test.Name;
 			if (screenName.Contains("("))

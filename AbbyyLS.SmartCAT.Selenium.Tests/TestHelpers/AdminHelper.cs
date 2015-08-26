@@ -95,6 +95,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 			}
 
 			addFeatures(features);
+			_adminCreateAccountPage.ClickAddAllDisassemblesButton();
 
 			if (features.Contains(Feature.LingvoDictionaries.ToString()))
 			{

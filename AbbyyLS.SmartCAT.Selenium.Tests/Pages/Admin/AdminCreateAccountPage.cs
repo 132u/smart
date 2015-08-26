@@ -173,6 +173,18 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Admin
 		}
 
 		/// <summary>
+		/// Нажать на кнопку добавления всех алгоритмов разбора документов 
+		/// </summary>
+		public AdminCreateAccountPage ClickAddAllDisassemblesButton()
+		{
+			Logger.Trace("Нажать на кнопку добавления всех алгоритмов разбора документов.");
+
+			AddAllDisassemblesButton.Click();
+
+			return GetPage();
+		}
+
+		/// <summary>
 		/// Закрыть открытый диалог
 		/// </summary>
 		private static void tryCloseExternalDialog()
@@ -210,6 +222,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Admin
 		[FindsBy(How = How.XPath, Using = ADD_ALL_DICTIONARIES_PACKAGES_BUTTON)]
 		protected IWebElement AddAllDictionariesPackagesButton { get; set; }
 
+		[FindsBy(How = How.XPath, Using = ADD_ALL_DISASSEMBLES_BUTTON)]
+		protected IWebElement AddAllDisassemblesButton { get; set; }
+
 		protected const string INPUT_NAME = "//input[(@id='Name')]";
 		protected const string FEATURES_OPTIONS = "//table[@name='Features']//select[@id='left']//option[@value='*#*']";
 		protected const string FEATURES_OPTIONS_IN_RIGHT_TABLE = "//table[@name='Features']//select[@id='right']//option";
@@ -220,5 +235,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Admin
 		protected const string SUBDOMAIN_NAME = "//input[@name='SubDomain']";
 		protected const string WORKFLOW_CHECKBOX = "//input[@id='WorkflowEnabled']";
 		protected const string ADD_ALL_DICTIONARIES_PACKAGES_BUTTON = "//table[@name='dictionariesPackages']//input[@name='allToRight']";
+		protected const string ADD_ALL_DISASSEMBLES_BUTTON = "//table[@name='DisassembleDocumentMethodNames']//input[@name='allToRight']";
 	}
 }
