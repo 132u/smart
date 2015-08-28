@@ -129,6 +129,14 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 			return this;
 		}
 
+		public CreateProjectHelper SelectFirstGlossary()
+		{
+			BaseObject.InitPage(_newProjectSelectGlossariesDialog);
+			_newProjectSelectGlossariesDialog.ClickFirstGlossary();
+
+			return this;
+		}
+
 		public CreateProjectHelper CreateGllosary(string glossaryName)
 		{
 			BaseObject.InitPage(_newProjectSelectGlossariesDialog);
@@ -179,6 +187,14 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 			return this;
 		}
 
+		public CreateProjectHelper ClickNextOnSelectGlossaryStep()
+		{
+			BaseObject.InitPage(_newProjectSelectGlossariesDialog);
+			_newProjectSelectGlossariesDialog.ClickNextButton<NewProjectSetUpPretranslationDialog>();
+
+			return this;
+		}
+
 		public CreateProjectHelper ClickNextOnGeneralProjectInformationPage(bool errorExpected = false, bool personalAccount = false)
 		{
 			BaseObject.InitPage(_newProjectGeneralInformationDialog);
@@ -215,7 +231,23 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 		public CreateProjectHelper ClickBackButtonOnWorkflowStep()
 		{
 			BaseObject.InitPage(_newProjectSetUpWorkflowDialog);
-			_newProjectSetUpWorkflowDialog.ClickBack();
+			_newProjectSetUpWorkflowDialog.ClickBackButton<NewProjectGeneralInformationDialog>();
+
+			return this;
+		}
+
+		public CreateProjectHelper ClickBackButtonOnGlossaryStep()
+		{
+			BaseObject.InitPage(_newProjectSelectGlossariesDialog);
+			_newProjectSelectGlossariesDialog.ClickBackButton<NewProjectSetUpTMDialog>();
+
+			return this;
+		}
+
+		public CreateProjectHelper ClickBackButtonOnPreranslationStep()
+		{
+			BaseObject.InitPage(_newProjectSetUpPretranslationDialog);
+			_newProjectSetUpPretranslationDialog.ClickBackButton<NewProjectSelectGlossariesDialog>();
 
 			return this;
 		}
@@ -223,7 +255,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 		public CreateProjectHelper ClickBackButtonOnTMStep()
 		{
 			BaseObject.InitPage(_newProjectSetUpTMDialog);
-			_newProjectSetUpTMDialog.ClickBackButton();
+			_newProjectSetUpTMDialog.ClickBackButton<NewProjectSetUpWorkflowDialog>();
 
 			return this;
 		}
@@ -442,10 +474,61 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 			return this;
 		}
 
+
+		public CreateProjectHelper AssertTargetLanguageMatch(Language language)
+		{
+			BaseObject.InitPage(_newProjectGeneralInformationDialog);
+			_newProjectGeneralInformationDialog.AssertTargetLanguageMatch(language);
+
+			return this;
+		}
+
+		public CreateProjectHelper AssertSourceLanguageMatch(Language language)
+		{
+			BaseObject.InitPage(_newProjectGeneralInformationDialog);
+			_newProjectGeneralInformationDialog.AssertSourceLanguageMatch(language);
+
+			return this;
+		}
+
+		public CreateProjectHelper AssertDeadlineDateMatch(string deadlineDate)
+		{
+			BaseObject.InitPage(_newProjectGeneralInformationDialog);
+			_newProjectGeneralInformationDialog.AssertDeadlineDateMatch(deadlineDate);
+
+			return this;
+		}
+
+		public CreateProjectHelper AssertFirstTMSelected()
+		{
+			BaseObject.InitPage(_newProjectSetUpTMDialog);
+			_newProjectSetUpTMDialog.AssertFirstTMSelected();
+
+			return this;
+		}
+
+		public CreateProjectHelper ClickNextButtonOnTMStep()
+		{
+			BaseObject.InitPage(_newProjectSetUpTMDialog);
+			_newProjectSetUpTMDialog.ClickNextButton<NewProjectSelectGlossariesDialog>();
+
+			return this;
+		}
+
+		public CreateProjectHelper AssertFirstGlossarySelected()
+		{
+			BaseObject.InitPage(_newProjectSelectGlossariesDialog);
+			_newProjectSelectGlossariesDialog.AssertFirstGlossarySelected();
+
+			return this;
+		}
+
 		private readonly NewProjectCreateBaseDialog _newProjectCreateBaseDialog = new NewProjectCreateBaseDialog();
 		private readonly NewProjectGeneralInformationDialog _newProjectGeneralInformationDialog = new NewProjectGeneralInformationDialog();
 		private readonly NewProjectSetUpWorkflowDialog _newProjectSetUpWorkflowDialog = new NewProjectSetUpWorkflowDialog();
 		private NewProjectSetUpTMDialog _newProjectSetUpTMDialog = new NewProjectSetUpTMDialog();
 		private readonly NewProjectSelectGlossariesDialog _newProjectSelectGlossariesDialog = new NewProjectSelectGlossariesDialog();
+
+		private readonly NewProjectSetUpPretranslationDialog _newProjectSetUpPretranslationDialog = new NewProjectSetUpPretranslationDialog();
 	}
 }

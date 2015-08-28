@@ -50,18 +50,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 
 			return new NewProjectSetUpTMDialog().GetPage();
 		}
-
-		/// <summary>
-		/// Нажать кнопку 'Назад'
-		/// </summary>
-		public NewProjectGeneralInformationDialog ClickBack()
-		{
-			Logger.Debug("Нажать кнопку 'Назад'.");
-			BackButton.Click();
-
-			return new NewProjectGeneralInformationDialog().GetPage();
-		}
-
+		
 		/// <summary>
 		/// Нажать кнопку 'Новая задача'
 		/// </summary>
@@ -145,10 +134,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 
 			return GetPage();
 		}
-
-		[FindsBy(How = How.XPath, Using = BACK_BUTTON)]
-		protected IWebElement BackButton { get; set; }
-
+		
 		[FindsBy(How = How.XPath, Using = WF_TABLE_FIRST_TASK)]
 		protected IWebElement WFTableFirstTask { get; set; }
 		
@@ -156,7 +142,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 		protected IWebElement NewTaskButton { get; set; }
 
 		protected const string WF_TABLE_FIRST_TASK = "//div[contains(@class,'js-popup-create-project')][2]//table[contains(@class,'js-workflow-table')]//tr[1]/td[2]//span//span";
-		protected const string BACK_BUTTON = "//div[contains(@class,'js-popup-create-project')][2]//span[contains(@class,'js-back')]";
 		protected const string NEW_TASK_BUTTON = "//div[contains(@class,'js-popup-create-project')][2]//span[contains(@class,'js-new-stage')]";
 		protected const string WORKFLOW_TASKS = "//div[contains(@class,'js-popup-create-project')][2]//table[contains(@class,'js-workflow-table')]//tbody//tr//td[2]//span//span";
 		protected const string WORKFLOW_TASK = "//div[contains(@class,'js-popup-create-project')][2]//table[contains(@class,'js-workflow-table')]//tbody//tr[*#*]//td[2]//span//span";

@@ -57,6 +57,17 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 		}
 
 		/// <summary>
+		/// Нажать 'Back'
+		/// </summary>
+		public T ClickBackButton<T>() where T : class, IAbstractPage<T>, new()
+		{
+			Logger.Debug("Нажать 'Back'.");
+			BackButton.Click();
+
+			return new T().GetPage();
+		}
+
+		/// <summary>
 		/// Проверить, что кнопка 'Готова' доступна
 		/// </summary>
 		public NewProjectCreateBaseDialog AssertFinishButtonEnabled()
@@ -91,9 +102,14 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 		[FindsBy(How = How.XPath, Using = NEXT_BUTTON)]
 		protected IWebElement NextButton { get; set; }
 
+		[FindsBy(How = How.XPath, Using = BACK_BUTTON)]
+		protected IWebElement BackButton { get; set; }
+
 		protected const string CREATE_PROJECT_DIALOG = "//div[contains(@class,'js-popup-create-project')][2]";
 		protected const string CREATE_PROJECT_FINISH_BUTTON = "//div[contains(@class,'js-popup-create-project')][2]//span[contains(@class,'js-finish js-upload-btn')]";
 		protected const string CLOSE_DIALOG_BTN = "//div[contains(@class,'js-popup-create-project')][2]//img[contains(@class,'js-popup-close')]";
 		protected const string NEXT_BUTTON = "//div[contains(@class,'js-popup-create-project')][2]//span[contains(@class,'js-next')]";
+		protected const string BACK_BUTTON = "//div[contains(@class,'js-popup-create-project')][2]//span[contains(@class,'js-back')]";
+
 	}
 }

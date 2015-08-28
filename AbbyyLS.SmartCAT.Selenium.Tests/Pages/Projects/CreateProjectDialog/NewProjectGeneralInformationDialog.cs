@@ -122,11 +122,52 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 		}
 
 		/// <summary>
+		/// Проверить, что в таргет-языке указан правильный язык
+		/// </summary>
+		public NewProjectGeneralInformationDialog AssertTargetLanguageMatch(Language language)
+		{
+			Logger.Trace("Проверить, что в таргет-языке указан {0}.", language);
+
+			Assert.AreEqual(language.ToString(), TargetMultiselect.Text.Trim(),
+				"Произошла ошибка:\n в таргет-языке указан неправильный язык.");
+
+			return GetPage();
+		}
+
+		/// <summary>
+		/// Проверить, что в сорс-языке указан правильный язык
+		/// </summary>
+		public NewProjectGeneralInformationDialog AssertSourceLanguageMatch(Language language)
+		{
+			Logger.Trace("Проверить, что в сорс-языке указан {0}.", language);
+
+			Assert.AreEqual(language.ToString(), SourceLangDropdown.Text.Trim(),
+				"Произошла ошибка:\n в сорс-языке указан неправильный язык.");
+
+			return GetPage();
+		}
+
+
+		/// <summary>
+		/// Проверить, что в дэдлайне указана правильная дата
+		/// </summary>
+		public NewProjectGeneralInformationDialog AssertDeadlineDateMatch(string date)
+		{
+			Logger.Trace("Проверить, что в дэдлайне указана дата {0}.", date);
+
+			Assert.AreEqual(date, DeadlineDateInput.GetAttribute("value"),
+				"Произошла ошибка:\n в дэдлайне указана неверная дата.");
+
+			return GetPage();
+		}
+
+		/// <summary>
 		/// Проверить, что дата дэдлайна выбрана
 		/// </summary>
 		public NewProjectGeneralInformationDialog AssertSetDeadlineDate()
 		{
 			Logger.Trace("Проверить, что дата дэдлайна выбрана.");
+
 			Assert.IsNotNullOrEmpty(DeadlineDateInput.GetAttribute("value"),
 				 "Ошибка: Дата дедлайна не выбрана");
 

@@ -66,6 +66,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Pages\Projects\CreateProjectDialog\NewProjectSetUpPretranslationDialog.cs" />
     <Compile Include="RelativeUrlProvider.cs" />
     <Compile Include="Configs\TestsUserConfig.cs" />
     <Compile Include="DataStructures\AssignmentType.cs" />
@@ -248,6 +249,7 @@
     <Compile Include="Tests\ProjectGroups\ProjectGroupsTest.cs" />
     <Compile Include="Tests\Projects\ProjectImportTests.cs" />
     <Compile Include="Tests\Glossaries\SortingInSuggestedTermsTests.cs" />
+    <Compile Include="Tests\Projects\ProjectSaveSettingsByBackTests.cs" />
     <Compile Include="Tests\Projects\Workflow\WorkflowPersonalAccountTests.cs" />
     <Compile Include="Tests\UsersRights\ManageTermsTest.cs" />
     <Compile Include="Tests\UsersRights\SortingInUsersRightsTests.cs" />
