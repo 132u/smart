@@ -25,24 +25,28 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestFramework
 		/// <param name="expectedText">текст,который ожидается увидеть в поле после окончания ввода</param>
 		public static void SetText(this IWebElement webElement, string text, string expectedText = null)
 		{
-
-			webElement.Clear();
-
-			try
+			var i = 0;
+			do
 			{
-				webElement.SendKeys(text);
-			}
-			catch (ElementNotVisibleException exception)
-			{
-				Logger.Warn("ElementNotVisibleException: SendKeys {0}", exception.Message);
-			}
+				i++;
+				webElement.Clear();
 
-			expectedText = expectedText ?? text;
+				try
+				{
+					webElement.SendKeys(text);
+				}
+				catch (ElementNotVisibleException exception)
+				{
+					Logger.Warn("ElementNotVisibleException: SendKeys {0}", exception.Message);
+				}
 
-			// TrimEnd(' ') используется в связи с тем что иногда редактор добаляет в конце слова пробел
-			if (webElement.GetAttribute("value") != expectedText && webElement.Text.TrimEnd(' ') != expectedText)
+				expectedText = expectedText ?? text;
+			} // TrimEnd(' ') используется в связи с тем, что иногда редактор добавляет в конце слова пробел
+			while (i < 3 && (webElement.GetAttribute("value") != expectedText && webElement.GetAttribute("value").TrimEnd(' ') != expectedText));
+
+			if (webElement.GetAttribute("value") != expectedText && webElement.GetAttribute("value").TrimEnd(' ') != expectedText)
 			{
-				webElement.SetText(text);
+				Assert.Fail("Произошла ошибка:\nНеверный текст в элементе");
 			}
 		}
 
