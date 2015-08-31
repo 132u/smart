@@ -334,6 +334,22 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 				return this;
 		}
 
+		public TranslationMemoriesHelper AssertFileImportFailedNotifierDisplayed()
+		{
+			BaseObject.InitPage(_translationMemoriesPage);
+			_translationMemoriesPage.AssertFileImportFailedNotifierDisplayed();
+
+			return this;
+		}
+
+		public TranslationMemoriesHelper AssertImportValidationErrorDisplayed()
+		{
+			BaseObject.InitPage(_translationMemoriesPage);
+			_translationMemoriesPage.AssertImportValidationErrorDisplayed();
+
+			return this;
+		}
+
 		public TranslationMemoriesHelper AssertProjectGroupExistForTranslationMemory(
 			string translationMemoryName,
 			string projectGroup)
@@ -373,7 +389,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 		public static string GetTranslationMemoryUniqueName()
 		{
-			return "TM_" + DateTime.UtcNow.Ticks;
+			return "TM_" + Guid.NewGuid();
 		}
 
 		public TranslationMemoriesHelper ClickSortByTMName()
@@ -388,6 +404,51 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 		{
 			BaseObject.InitPage(_translationMemoriesPage);
 			_translationMemoriesPage.ClickSortByCreationDate();
+
+			return this;
+		}
+
+		public int GetUnitsCount()
+		{
+			BaseObject.InitPage(_translationMemoriesPage);
+
+			return _translationMemoriesPage.UnitsCount();
+		}
+
+		public TranslationMemoriesHelper ClickUpdateTmButton()
+		{
+			BaseObject.InitPage(_translationMemoriesPage);
+			_translationMemoriesPage.ClickUpdateTmButton();
+
+			return this;
+		}
+
+		public TranslationMemoriesHelper ClickAddTmxButton()
+		{
+			BaseObject.InitPage(_translationMemoriesPage);
+			_translationMemoriesPage.ClickAddTmxButton();
+
+			return this;
+		}
+
+		public TranslationMemoriesHelper ImportTmxFile(string fileName, bool rewrite = false, bool success = true)
+		{
+			BaseObject.InitPage(_translationMemoriesPage);
+			_translationMemoriesPage
+				.EnterFileName(fileName)
+				.ClickImportButton();
+
+			if (rewrite)
+			{
+				_translationMemoriesPage
+					.AssertConfirmReplacementMessageDisplayed()
+					.ClickConfirmReplacementButton();
+			}
+
+			if (success)
+			{
+				_translationMemoriesPage.AssertDialogBackgroundDisappeared<TranslationMemoriesPage>();
+			}
 
 			return this;
 		}

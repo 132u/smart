@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 
 using NUnit.Framework;
@@ -145,7 +146,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories
 		{
 			Logger.Debug("Нажать кнопку сохранить в форме редактирования TM.");
 			SaveChangesButton.Click();
-			
+
 			return GetPage();
 		}
 
@@ -188,8 +189,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories
 		public TranslationMemoriesPage SelectTargetLanguage(Language language)
 		{
 			Logger.Debug("Выбрать язык перевода {0}", language);
-
-			TargetLanguage = Driver.SetDynamicValue(How.XPath, TARGET_LANG_ITEM, ((int)language).ToString());
+			TargetLanguage = Driver.SetDynamicValue(How.XPath, TARGET_LANG_ITEM, ((int) language).ToString());
 			TargetLanguage.Click();
 
 			return GetPage();
@@ -219,7 +219,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories
 
 			return GetPage();
 		}
-		
+
 		/// <summary>
 		/// Проверить, что ТМ представлена в списке
 		/// </summary>
@@ -369,13 +369,14 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories
 				translationMemoryName, sourceLanguage, targetLanguages);
 			var TM = Driver.FindElement(By.XPath(TM_LANGUAGES_IN_TABLE.Replace("*#*", translationMemoryName)));
 			var languagesColumn = TM.Text;
-			var languagesList = languagesColumn.Split(new[] { '>' }).ToList();
+			var languagesList = languagesColumn.Split(new[] {'>'}).ToList();
 
-			Assert.AreEqual(2, languagesList.Count(), "Произошла ошибка:\n неверное количество элементов в списке с source и target языками.");
-			
+			Assert.AreEqual(2, languagesList.Count(),
+				"Произошла ошибка:\n неверное количество элементов в списке с source и target языками.");
+
 			var actualSource = languagesList[0].Trim();
-			var actualTargetList = languagesList[1].Split(new[] { ',', ' ' }, StringSplitOptions.RemoveEmptyEntries).ToList();
-			
+			var actualTargetList = languagesList[1].Split(new[] {',', ' '}, StringSplitOptions.RemoveEmptyEntries).ToList();
+
 			Assert.AreEqual(sourceLanguage, actualSource,
 				"Произошла ошибка:\n source языки не совпали.");
 
@@ -402,14 +403,28 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories
 		}
 
 		/// <summary>
-		/// Проверить группу проектов для ТМ
+		/// Проверить, что появилось сообщение об ошибке во время импорта TMX файла
+		/// </summary>
+		public TranslationMemoriesPage AssertFileImportFailedNotifierDisplayed()
+		{
+			Logger.Trace("Проверить, что появилось сообщение об ошибке во время импорта TMX файла");
+
+			Assert.IsTrue(Driver.WaitUntilElementIsDisplay(By.XPath(FILE_IMPORT_ERROR_NOTIFIER), timeout: 15),
+				"Произошла ошибка:\n сообщение об ошибке во время импорта TMX файла не появилось.");
+
+			return GetPage();
+		}
+
+		/// <summary>
+		/// Проверить, что для ТМ указана группа проектов
 		/// </summary>
 		public TranslationMemoriesPage AssertProjectGroupSelectedForTM(string translationMemoryName, string projectGroup)
 		{
 			Logger.Trace("Проверить, что для ТМ {0} указана группа проектов {1}", translationMemoryName, projectGroup);
 
-			Assert.IsTrue(ProjectGroupsField.Text.Contains(projectGroup), string.Format("Произошла ошибка:\n неверно указан проект для ТМ {0}.", translationMemoryName));
-			
+			Assert.IsTrue(ProjectGroupsField.Text.Contains(projectGroup),
+				string.Format("Произошла ошибка:\n неверно указана группа проектов для ТМ {0}.", translationMemoryName));
+
 			return GetPage();
 		}
 
@@ -431,6 +446,118 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories
 		{
 			Logger.Debug("Нажать кнопку сортировки по дате создания.");
 			CreationDate.Click();
+
+			return GetPage();
+		}
+
+		/// <summary>
+		/// Получить количество юнитов
+		/// </summary>
+		public int UnitsCount()
+		{
+			Logger.Trace("Получить количество юнитов");
+			var unitsCountText = SegmentSpan.Text;
+
+			Logger.Trace("Полученное количество юнитов: {0}", unitsCountText);
+			int result;
+
+			Assert.IsTrue(int.TryParse(unitsCountText, out result),
+				string.Format("Ошибка: невозможно преобразовать в число: {0}", unitsCountText));
+
+			return result;
+		}
+
+		/// <summary>
+		/// Нажать на кнопку 'Update TM'
+		/// </summary>
+		public TranslationMemoriesPage ClickUpdateTmButton()
+		{
+			Logger.Debug("Нажать на кнопку 'Update TM'");
+			UpdateTmButton.Click();
+
+			return GetPage();
+		}
+
+		/// <summary>
+		/// Ввести имя файла в окне 'Import TMX files'
+		/// </summary>
+		/// <param name="fileName">имя файла</param>
+		public TranslationMemoriesPage EnterFileName(string fileName)
+		{
+			Logger.Debug("Ввести имя файла в окне 'Import TMX files'");
+
+			try
+			{
+				Driver.ExecuteScript("$(\"input:file\").removeClass(\"g-hidden\").css(\"opacity\", 100)");
+				ImportFileInput.SendKeys(fileName);
+				//Чтобы не появилось валидационной ошибки, необходимо,
+				//помимо загрузки файла, заполнить следующий элемент
+				Driver.ExecuteScript(string.Format("document.getElementsByClassName('g-iblock g-bold l-editgloss__filelink js-filename-link')[1].innerHTML='{0}'", Path.GetFileName(fileName)));
+			}
+			catch (Exception)
+			{
+				Logger.Error("Произошла ошибка:\n не удалось изменить параметры элементов.");
+				throw;
+			}
+
+			return GetPage();
+		}
+
+		/// <summary>
+		/// Нажать кнопку 'Import' в окне 'Import TMX files'
+		/// </summary>
+		public TranslationMemoriesPage ClickImportButton()
+		{
+			Logger.Debug("Нажать кнопку 'Import' в окне 'Import TMX files'");
+			ImportButton.Click();
+
+			return GetPage();
+		}
+
+		/// <summary>
+		/// Нажать кнопку подтверждения замены ТМ в окне импорта
+		/// </summary>
+		public TranslationMemoriesPage ClickConfirmReplacementButton()
+		{
+			Logger.Debug("Нажать кнопку подтверждения замены ТМ в окне импорта");
+			ConfirmReplacementButton.Click();
+
+			return GetPage();
+		}
+
+		/// <summary>
+		/// Проверить, что появилось окно подтверждения замены при импорте
+		/// </summary>
+		public TranslationMemoriesPage AssertConfirmReplacementMessageDisplayed()
+		{
+			Logger.Debug("Проверить, что появилось окно подтверждения замены при импорте");
+
+			Assert.IsFalse(Driver.WaitUntilElementIsDisplay(By.XPath(UPDATE_TM_CONFIRM_REPLACEMENT)),
+				"Произошла ошибка:\n не появилось окно подтверждения замены.");
+
+			return this;
+		}
+
+		/// <summary>
+		/// Нажать на кнопку Add TMX
+		/// </summary>
+		public TranslationMemoriesPage ClickAddTmxButton()
+		{
+			Logger.Debug("Нажать на кнопку 'Add TMX'");
+			AddTmxButton.Click();
+
+			return GetPage();
+		}
+
+		/// <summary>
+		/// Проверить появление валидационной ошибки при импорте
+		/// </summary>
+		public TranslationMemoriesPage AssertImportValidationErrorDisplayed()
+		{
+			Logger.Trace("Проверить появление валидационной ошибки при импорте");
+
+			Assert.IsTrue(Driver.WaitUntilElementIsDisplay(By.XPath(UPDATE_TM_VALIDATION_ERROR_MESSAGE)),
+				"Произошла ошибка:\n не сработала валидация");
 
 			return GetPage();
 		}
@@ -492,6 +619,24 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories
 		protected IWebElement TranslationMemoryTargetLanguagesList { get; set; }
 		protected IWebElement TargetLanguage { get; set; }
 
+		[FindsBy(How = How.XPath, Using = SEGMENT_SPAN)]
+		protected IWebElement SegmentSpan { get; set; }
+
+		[FindsBy(How = How.XPath, Using = UPDATE_TM_BUTTON)]
+		protected IWebElement UpdateTmButton { get; set; }
+
+		[FindsBy(How = How.XPath, Using = UPDATE_TM_IMPORT_FILE_INPUT)]
+		protected IWebElement ImportFileInput { get; set; }
+
+		[FindsBy(How = How.XPath, Using = UPDATE_TM_IMPORT_BUTTON)]
+		protected IWebElement ImportButton { get; set; }
+
+		[FindsBy(How = How.XPath, Using = UPDATE_TM_CONFIRM_REPLACEMENT)]
+		protected IWebElement ConfirmReplacementButton { get; set; }
+
+		[FindsBy(How = How.XPath, Using = ADD_TMX_BUTTON)]
+		protected IWebElement AddTmxButton { get; set; }
+
 		protected const string ADD_TM_BTN = "//span[contains(@data-bind,'createTm')]//a";
 		protected const string CREATE_TM_DIALOG = "//div[contains(@class,'js-popup-create-tm')][2]";
 		protected const string TM_ROW = "//tr[contains(@class,'l-corpr__trhover clickable')]//span[text()='*#*']";
@@ -526,5 +671,16 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories
 		protected const string SEARCH_TM_FIELD = "//input[contains(@class, 'search-tm')]";
 
 		protected const string FILE_IMPORT_NOTIFIER = "//div[contains(@class, 'notifications')]//span[contains(text(),'units imported from file')]";
+		protected const string FILE_IMPORT_ERROR_NOTIFIER = "//div[contains(@class, 'notifications')]//span[contains(text(),'There was an error while importing translation units')]";
+
+		protected const string SEGMENT_SPAN = "//span[@data-bind='text: translationUnitsCount']";
+		//UPDATE_TM_BUTTON связан с PRX-11525
+		protected const string UPDATE_TM_BUTTON = "//tr[contains(@class,'js-tm-panel')]//a[contains(text(), 'Update ТМ')]";
+		protected const string UPDATE_TM_IMPORT_FILE_INPUT = "//h2[text()='Import TMX Files']//..//..//input[@name='file']";
+		protected const string UPDATE_TM_IMPORT_BUTTON = "(//h2[text()='Import TMX Files']//..//..//input[@value='Import'])[2]";
+		protected const string UPDATE_TM_CONFIRM_REPLACEMENT = "//span[text()='Confirmation']//..//..//..//input[@value='Continue']";
+		//ADD_TMX_BUTTON связан с PRX-11525
+		protected const string ADD_TMX_BUTTON = "//tr[contains(@class,'js-tm-panel')]//a[contains(text(), 'Add ТМХ')]";
+		protected const string UPDATE_TM_VALIDATION_ERROR_MESSAGE = "(//p[@class='js-error-invalid-file-extension' and text()='Please select a file with TMX extension'])[2]";
 	}
 }

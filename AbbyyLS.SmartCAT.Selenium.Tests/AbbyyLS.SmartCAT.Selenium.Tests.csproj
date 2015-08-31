@@ -251,7 +251,9 @@
     <Compile Include="Tests\Glossaries\SortingInSuggestedTermsTests.cs" />
     <Compile Include="Tests\Projects\ProjectSaveSettingsByBackTests.cs" />
     <Compile Include="Tests\Projects\Workflow\WorkflowPersonalAccountTests.cs" />
-    <Compile Include="Tests\UsersRights\ManageTermsTest.cs" />
+	<Compile Include="Tests\UsersRights\ManageTermsTest.cs" />
+    <Compile Include="Tests\TranslationMemories\TMUploadingTests.cs" />
+    <Compile Include="Tests\TranslationMemories\TMUpdatingTests.cs" />
     <Compile Include="Tests\UsersRights\SortingInUsersRightsTests.cs" />
     <Compile Include="Tests\Clients\SortingInClientsTests.cs" />
     <Compile Include="Tests\Glossaries\SortingInGlossariesTests.cs" />

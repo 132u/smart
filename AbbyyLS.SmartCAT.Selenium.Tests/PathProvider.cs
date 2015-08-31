@@ -229,6 +229,83 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests
 		}
 
 		/// <summary>
+		/// Путь к файлу txt с расширением tmx
+		/// </summary>
+		public static string TxtWithTmxExtension
+		{
+			get
+			{
+				return Path.Combine(TMTestFolder, "TxtWithTmxExtension.tmx");
+			}
+		}
+
+		/// <summary>
+		/// Путь к файлу tmx с длинным значением в поле Seg
+		/// </summary>
+		public static string LongSegValue
+		{
+			get
+			{
+				return Path.Combine(TMTestFolder, "longSegValue.tmx");
+			}
+		}
+
+		/// <summary>
+		/// Путь к файлу tmx с отсутствующим закрывающим тегом tmx
+		/// </summary>
+		public static string WithoutTmxEndTag
+		{
+			get
+			{
+				return Path.Combine(TMTestFolder, "withoutTmxEndTag.tmx");
+			}
+		}
+
+		/// <summary>
+		/// Путь к файлу tmx с отсутствующим закрывающим тегом body
+		/// </summary>
+		public static string WithoutBodyEndTag
+		{
+			get
+			{
+				return Path.Combine(TMTestFolder, "withoutBodyEndTag.tmx");
+			}
+		}
+
+		/// <summary>
+		/// Путь к файлу tmx с отсутствующим закрывающим тегом tu
+		/// </summary>
+		public static string WithoutTuEndTag
+		{
+			get
+			{
+				return Path.Combine(TMTestFolder, "withoutTuEndTag.tmx");
+			}
+		}
+
+		/// <summary>
+		/// Путь к файлу tmx с отсутствующим закрывающим тегом seg
+		/// </summary>
+		public static string WithoutSegEndTag
+		{
+			get
+			{
+				return Path.Combine(TMTestFolder, "withoutSegEndTag.tmx");
+			}
+		}
+
+		/// <summary>
+		/// Путь к файлу tmx с Unicode символами
+		/// </summary>
+		public static string WithUnicodeCharacters
+		{
+			get
+			{
+				return Path.Combine(TMTestFolder, "withUnicodeCharacters.tmx");
+			}
+		}
+
+		/// <summary>
 		/// Путь к тестовому файлу xlsx
 		/// </summary>
 		public static string ImportGlossaryFile 
