@@ -56,22 +56,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		}
 
 		/// <summary>
-		/// Путь к тестовому файлу txt на match'и
-		/// </summary>
-		public static string TxtFileForMatchTest 
-		{
-			get { return Path.Combine(FilesForMatchTestFolder, "TxtFileForMatchTest.docx"); } 
-		}
-
-		/// <summary>
-		/// Путь к тестовому файлу tmx на match'и
-		/// </summary>
-		public static string TmxFileForMatchTest
-		{
-			get { return Path.Combine(FilesForMatchTestFolder, "TmxFileForMatchTest.tmx"); }
-		}
-
-		/// <summary>
 		/// Путь к папке тестовых "длинных" файлов
 		/// </summary>
 		public static string LongFilesTestFolder 
@@ -112,14 +96,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		}
 
 		/// <summary>
-		/// Путь ко второму тестовому tmx файлу
-		/// </summary>
-		public static string TMTestFile2 
-		{
-			get { return Path.Combine(TMTestFolder, "TMFile2.tmx"); }
-		}
-
-		/// <summary>
 		/// Путь к папке тестовых Xliff
 		/// </summary>
 		public static string XliffTestFolder 
@@ -149,14 +125,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		public static string DocumentFile2
 		{
 			get { return Path.GetFullPath(CfgRoot.FilesDirectory + "/English.docx"); }
-		}
-
-		/// <summary>
-		/// Путь к тестовому файлу tmx
-		/// </summary>
-		public static string SecondTmFile 
-		{
-			get { return Path.GetFullPath(CfgRoot.FilesDirectory + "/TextEngTestAddTMX.tmx"); }
 		}
 
 		/// <summary>

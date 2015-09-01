@@ -712,37 +712,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			}
 		}
 
-		/// <summary>
-		/// Проверить, присуствует ли элемент на странице
-		/// </summary>
-		/// <param name="by">локатор</param>
-		public static bool ElementIsDisplayed(By by)
-		{
-			var present = false;
-			Driver.Manage().Timeouts().ImplicitlyWait(NoWait);
-
-			try
-			{
-				present = Driver.FindElement(by).Displayed;
-			}
-			catch (NoSuchElementException)
-			{
-			}
-			catch (InvalidOperationException exception)
-			{
-				// Exception является багой возникающей в Selenium 2.43.1
-				// https://code.google.com/p/selenium/issues/detail?id=7977
-
-				Logger.Warn("InvalidOperationException: ElementIsPresent {0}", exception.Message);
-				Logger.Debug("Обновить страницу браузера.");
-				Driver.Navigate().Refresh();
-			}
-
-			Driver.Manage().Timeouts().ImplicitlyWait(ImplicitWait);
-
-			return present;
-		}
-
 		public enum LANGUAGE { English, Russian, German, French, Japanese, Lithuanian };
 
 		protected Dictionary<LANGUAGE, string> languageID;

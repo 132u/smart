@@ -147,7 +147,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		protected RegistrationPageHelper RegistrationPage { get; private set; }
 
 		protected GlossaryTermFilterHelper GlossaryTermFilterPage { get; private set; }
-		protected SocialNetworkHelper SocialNetworkPage { get; private set; }
 		protected CheckCreateProjectRightHelper CheckCreateProjectRightHelper { get; private set; }
 
 		protected DateTime TestBeginTime { get; private set; }
@@ -1857,7 +1856,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			RegistrationPage = new RegistrationPageHelper(Driver, Wait);
 			GlossaryTermFilterPage = new GlossaryTermFilterHelper(Driver, Wait);
 			CheckCreateProjectRightHelper = new CheckCreateProjectRightHelper(Driver, Wait);
-			SocialNetworkPage = new SocialNetworkHelper(Driver, Wait);
 		}
 
 		private void initializeUsersAndCompanyList()

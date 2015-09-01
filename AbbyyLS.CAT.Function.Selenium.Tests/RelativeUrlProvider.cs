@@ -75,13 +75,5 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 				return "/TranslationMemories/Index";
 			}
 		}
-
-		public static string LicensePackages
-		{
-			get
-			{
-				return "/Billing/LicensePackages/";
-			}
-		}
 	}
 }

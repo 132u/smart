@@ -64,7 +64,6 @@
     <Compile Include="AdminTests\AdminPageHelper.cs" />
     <Compile Include="AdminTests\AdminTests.cs" />
     <Compile Include="AssignResponsiblesTests\ResponsiblesDialogHelper.cs" />
-    <Compile Include="Authorization.cs" />
     <Compile Include="BaseTest.cs" />
     <Compile Include="CatPanelTests\CatPanelResultsHelper.cs" />
     <Compile Include="CatPanelTests\CatPanelResultsTest.cs" />
@@ -72,7 +71,6 @@
     <Compile Include="CheckCreateProjectRight.cs" />
     <Compile Include="CheckCreateProjectRightHelper.cs" />
     <Compile Include="ClientTests\ClientPageHelper.cs" />
-    <Compile Include="Common\CompanyType.cs" />
     <Compile Include="Common\RegistrationType.cs" />
     <Compile Include="Common\UserInfo.cs" />
     <Compile Include="CommonHelpers\CommonHelper.cs" />
@@ -99,7 +97,6 @@
     <Compile Include="EditorTests\Editor_RevisionTest.cs" />
     <Compile Include="Glossary\AddTermFormHelper.cs" />
     <Compile Include="Glossary\GlossaryEditFormHelper.cs" />
-    <Compile Include="Glossary\GlossaryEditorTest.cs" />
     <Compile Include="Glossary\GlossaryEditStructureCustomFieldsTest.cs" />
     <Compile Include="Glossary\GlossaryEditStructureFormHelper.cs" />
     <Compile Include="Glossary\GlossaryEditStructureGeneralFieldsTest.cs" />
@@ -117,19 +114,13 @@
     <Compile Include="HotKey.cs" />
     <Compile Include="LocaleLanguageSelect.cs" />
     <Compile Include="PathProvider.cs" />
-    <Compile Include="ProjectTests\NewProjectTest.cs" />
     <Compile Include="ProjectTests\ProjectPageHelper.cs" />
-    <Compile Include="ProjectTests\Project_SaveSettingsByBackTest.cs" />
-    <Compile Include="PersonalAccount\Project_MainPersAccTest.cs" />
     <Compile Include="RegistrationTests\RandomString.cs" />
     <Compile Include="RegistrationTests\RegistrationBaseTest.cs" />
-    <Compile Include="SocialNetworkHelper.cs" />
     <Compile Include="TMTests\TMExportTests.cs" />
     <Compile Include="TMTests\TMFiltering.cs" />
     <Compile Include="TMTests\TMPageHelper.cs" />
     <Compile Include="TMTests\TMTest.cs" />
-    <Compile Include="TMTests\TMUpdatingTests.cs" />
-    <Compile Include="TMTests\TMXUploadingTests.cs" />
     <Compile Include="RegistrationTests\RegistrationPageHelper.cs" />
     <Compile Include="RegistrationTests\FreelanceRegistrationTest.cs" />
     <Compile Include="TestUser.cs" />
@@ -138,8 +129,6 @@
     <Compile Include="TestSettingDefinition.cs" />
     <Compile Include="RelativeUrlProvider.cs" />
     <Compile Include="UserLogTest.cs" />
-    <Compile Include="PersonalAccount\WorkflowTestPersAcc.cs" />
-    <Compile Include="WorkflowTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config">

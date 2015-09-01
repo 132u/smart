@@ -47,14 +47,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		}
 
 		/// <summary>
-		/// Проверить, что кнопки Assign Tasks нет на стр проектов
-		/// </summary>
-		public bool GetIsAssignRessponsibleBtnExist()
-		{
-			return GetIsElementExist(By.XPath(DOCUMENT_ASSIGN_RESPONSIBLES_BTN_XPATH));
-		}
-
-		/// <summary>
 		/// Нажать кнопку претранслейт
 		/// </summary>
 		public void ClickPretranslateBtn()
@@ -191,13 +183,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			ClickElement(By.XPath(IMPORT_NEXT_BTN_XPATH));
 		}
 
-		/// <summary>
-		/// Проверить , что открыть Pretranslate step в окне создания проекта
-		/// </summary>
-		public bool GetPretranslateTitleDisplay()
-		{
-			return GetIsElementDisplay(By.XPath(PRETRANSLATE_TITLE_IN_DIALOG_XPATH));
-		}
 		/// <summary>
 		/// Кликнуть Next кнопка в диалоге импорта
 		/// </summary>
@@ -336,27 +321,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		}
 
 		/// <summary>
-		/// Кликнуть Delete
-		/// </summary>
-		public void ClickDeleteBtn()
-		{
-			ClickElement(By.XPath(DELETE_BTN_XPATH));
-			Thread.Sleep(1000);
-		}
-
-		/// <summary>
-		/// Подтвердить
-		/// </summary>
-		public void ConfirmClickYes()
-		{
-			if (WaitUntilDisplayElement(By.XPath(CONFIRM_DIALOG_XPATH)))
-			{
-				ClickElement(By.XPath(CONFIRM_YES_XPATH));
-				WaitUntilDisappearElement(By.XPath(CONFIRM_DIALOG_XPATH));
-			}
-		}
-
-		/// <summary>
 		/// Находит глоссарий по имени и выбирает его
 		/// </summary>
 		/// <param name="nameGlossary"></param>
@@ -423,14 +387,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 
 			Assert.IsTrue(WaitUntilDisplayElement(By.XPath(PROJECT_SETTINGS_WORKFLOW_XPATH)),
 				"Произошла ошибка:\n окно настроек проекта не открылось.");
-		}
-
-		/// <summary>
-		/// Проверить отображеются ли Workflow в настройках проекта 
-		/// </summary>
-		public bool GetSettingsWorkflowDisplay()
-		{
-			return GetIsElementDisplay(By.XPath(PROJECT_SETTINGS_WORKFLOW_XPATH));
 		}
 
 		/// <summary>
