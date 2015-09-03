@@ -58,7 +58,7 @@ db.Auth.Users.save({
     "interfaceLanguageId" : NumberInt(9),
     "hasPlainPassword" : true, 
     "oAuthCredentialTypes" : NumberInt(0),  
-    "dateCreated" : ISODate("2015-09-02T12:53:09.085+0000")
+    "dateCreated" : ISODate("2015-09-02T12:53:09.085+0000"),
     "preferredSourceLanguageId" : NumberInt(9), 
     "preferredTargetLanguageId" : NumberInt(25)
 });
