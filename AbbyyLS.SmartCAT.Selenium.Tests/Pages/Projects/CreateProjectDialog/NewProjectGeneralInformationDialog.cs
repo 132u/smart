@@ -55,7 +55,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 
 			if (!Driver.WaitUntilElementIsDisplay(By.XPath(UPLOADED_FILE_XPATH.Replace(
 				"*#*", 
-				Path.GetFileName(pathFile))), 60))
+				Path.GetFileName(pathFile))), 90))
 			{
 				Logger.Trace("Первая попытка добавить файл была неудачной. Попробовать ещё раз.");
 
@@ -63,6 +63,11 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 					"arguments[0].style[\"visibility\"] = \"visible\";",
 					UploadFileInput);
 				UploadFileInput.SendKeys(pathFile);
+
+				if (fileAlreadyAddedErrorDisplayed())
+				{
+					CloseButtonErrorMessage.Click();
+				}
 			}
 
 			return GetPage();
@@ -513,6 +518,11 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 			DeadlineDateInput.SetText(date, date.Replace(" ", ""));
 		}
 
+		private bool fileAlreadyAddedErrorDisplayed()
+		{
+			return Driver.WaitUntilElementIsDisplay(By.XPath(ERROR_FILE_ALREADY_ADDED));
+		}
+
 		[FindsBy(How = How.XPath, Using = ADD_FILE_BTN_XPATH)]
 		protected IWebElement AddFileButton { get; set; }
 
@@ -546,6 +556,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 		[FindsBy(How = How.XPath, Using = USE_MACHINE_TRANSLATION_CHECKBOX)]
 		protected IWebElement UseMachineTranslationCheckbox { get; set; }
 
+		[FindsBy(How = How.XPath, Using = CLOSE_BUTTON_ERROR_MESSAGE)]
+		protected IWebElement CloseButtonErrorMessage { get; set; }
+
 		protected IWebElement SourceLangItem { get; set; }
 
 		protected IWebElement TargetLangItem { get; set; }
@@ -572,7 +585,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 		protected const string PROJECT_NAME_INPUT_XPATH = "//div[contains(@class,'js-popup-create-project')][2]//input[@name='name']";
 		protected const string ERROR_NAME_EXISTS_XPATH = "//div[contains(@class,'js-popup-create-project')][2]//p[contains(@class,'js-error-name-exists')]";
 		protected const string ERROR_DEADLINE_DATE_XPATH = "//div[contains(@class,'js-popup-create-project')][2]//p[contains(@class,'js-error-date-incorrect')]";
-
+		protected const string ERROR_FILE_ALREADY_ADDED = "//span[contains(text(), 'The following files have already been added to the project')]";
+		protected const string CLOSE_BUTTON_ERROR_MESSAGE = "//a[contains(@class, 'js-close-link')]";
 
 		protected const string DEADLINE_DATE_NEXT_MONTH_XPATH = "//div[contains(@id, 'ui-datepicker-div')]//a[contains(@class, 'ui-datepicker-next')]";
 		protected const string DEADLINE_DATE_XPATH = "//div[contains(@id, 'ui-datepicker-div')]//table[contains(@class, 'ui-datepicker-calendar')]//tr[1]//td[count(a)!=0][1]";
