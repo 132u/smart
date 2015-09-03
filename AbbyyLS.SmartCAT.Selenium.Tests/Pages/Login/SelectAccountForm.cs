@@ -63,6 +63,18 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Login
 			return GetPage();
 		}
 
+		/// <summary>
+		/// Проверить наличие сообщения о ненайденном аккаунте
+		/// </summary>
+		public SelectAccountForm CheckAccountNotFoundMessageDisplayed()
+		{
+			Logger.Trace("Проверить наличие сообщения о ненайденном аккаунте.");
+
+			Assert.IsTrue(Driver.WaitUntilElementIsDisplay(By.XPath(MESSAGE_ACCOUNT_NOT_FOUND)));
+
+			return new SelectAccountForm().GetPage();
+		}
+
 		protected IWebElement AccountRef { get; set; }
 		
 		protected const string ACCOUNT_SELECTION_FORM = "//form[contains(@name, 'selectAccount')]";
@@ -71,6 +83,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Login
 		protected const string EUROPE_ACCOUNT_LIST = "//li[@translate='region-ru']//following-sibling::li//a[contains(@ng-click,'signInAccount')]";
 		protected const string USA_ACCOUNT_LIST = "//li[@translate='region-us']//following-sibling::li//a[contains(@ng-click,'signInAccount')]";
 		protected const string WAITING_SERVER_RESPONSE_MESSAGE = "//div[@ng-show='accountWatitngServerResponse']/span";
+		protected const string MESSAGE_ACCOUNT_NOT_FOUND = "//b[@translate='ACCOUNT-NOT-FOUND-SIGNED']";
 
 		protected const string EUROPE_HEADER = "//li[@translate='region-ru']";
 	}

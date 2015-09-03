@@ -146,18 +146,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Login
 			return new LinkedInPage().GetPage();
 		}
 
-		/// <summary>
-		/// Проверить наличие сообщения о ненайденном аккаунте
-		/// </summary>
-		public SelectAccountForm CheckAccountNotFoundMessageDisplayed()
-		{
-			Logger.Trace("Проверить наличие сообщения о ненайденном аккаунте.");
-
-			Assert.IsTrue(Driver.WaitUntilElementIsDisplay(By.XPath(MESSAGE_ACCOUNT_NOT_FOUND)));
-
-			return new SelectAccountForm().GetPage();
-		}
-
 		[FindsBy(Using = EMAIL_INPUT_ID)]
 		protected IWebElement Login { get; set; }
 
@@ -188,9 +176,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Login
 		[FindsBy(How = How.XPath, Using = LINKED_IN_ICON)]
 		protected IWebElement LinkedInIcon { get; set; }
 
-		[FindsBy(How = How.XPath, Using = MESSAGE_ACCOUNT_NOT_FOUND)]
-		protected IWebElement AccountNotFoundMessage { get; set; }
-
 		[FindsBy(How = How.XPath, Using = SIGN_UP_FREELANCE_BTN)]
 		protected IWebElement SignUpAsFreelancerButton { get; set; }
 
@@ -212,7 +197,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Login
 		protected const string GOOGLE_ICON = "//a[@class='gplus']";
 		protected const string LINKED_IN_ICON = "//a[@class='linkedin']";
 
-		protected const string MESSAGE_ACCOUNT_NOT_FOUND = "//b[@translate='ACCOUNT-NOT-FOUND-SIGNED']";
 		protected const string SIGN_UP_FREELANCE_BTN = "//a[@translate='FREELANCE']";
 		protected const string SIGN_UP_COMPANY_BTN = "//a[@translate='CORPORATE']";
 	}

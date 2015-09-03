@@ -130,8 +130,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 		public LoginHelper AssertAccountNotFoundMessageDisplayed()
 		{
-			BaseObject.InitPage(_signInPage);
-			_signInPage.CheckAccountNotFoundMessageDisplayed();
+			BaseObject.InitPage(_selectAccountForm);
+			_selectAccountForm.CheckAccountNotFoundMessageDisplayed();
 
 			return this;
 		}
