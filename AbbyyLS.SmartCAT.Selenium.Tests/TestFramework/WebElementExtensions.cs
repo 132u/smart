@@ -42,9 +42,10 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestFramework
 
 				expectedText = expectedText ?? text;
 			} // TrimEnd(' ') используется в связи с тем, что иногда редактор добавляет в конце слова пробел
-			while (i < 3 && (webElement.GetAttribute("value") != expectedText && webElement.GetAttribute("value").TrimEnd(' ') != expectedText));
+			// webElement.Text нужен, потому что value есть не у всех элементов
+			while (i < 3 && webElement.GetAttribute("value") != expectedText && webElement.Text.TrimEnd(' ') != expectedText);
 
-			if (webElement.GetAttribute("value") != expectedText && webElement.GetAttribute("value").TrimEnd(' ') != expectedText)
+			if (webElement.GetAttribute("value") != expectedText && webElement.Text.TrimEnd(' ') != expectedText)
 			{
 				Assert.Fail("Произошла ошибка:\nНеверный текст в элементе");
 			}
