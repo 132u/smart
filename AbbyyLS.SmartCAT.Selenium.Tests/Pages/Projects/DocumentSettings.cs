@@ -97,7 +97,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 
 		protected const string SAVE_BUTTON = "//div[contains(@class,'g-popup-bd js-popup-bd js-popup-single-target-document-settings')][2]//span[contains(@data-bind,'click: save')]";
 
-		protected const string MT_CHECKBOX = "//div[@class='g-popup-bd js-popup-bd js-popup-document-settings'][2]//tbody[contains(@data-bind, 'machineTranslators')]//p[text() = '*#*']//preceding::td[1]//input";
+		protected const string MT_CHECKBOX = "//div[@class='g-popup-bd js-popup-bd js-popup-single-target-document-settings'][2]//tbody[contains(@data-bind, 'machineTranslators')]//p[text()='*#*']/parent::td/..//td//input";
 
 		protected const string GLOSSARY_BY_NAME_XPATH = "(//h2[text()='Document Settings']//..//..//table[contains(@class,'l-corpr__tbl')]//tbody[@data-bind='foreach: glossaries']//tr[contains(string(), '*#*')])[1]//td//input";
 	}

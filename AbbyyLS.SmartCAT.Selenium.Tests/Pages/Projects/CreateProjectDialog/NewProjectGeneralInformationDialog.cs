@@ -79,7 +79,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 		/// <param name="fileName">имя файла (с расширением)</param>
 		public NewProjectGeneralInformationDialog AssertFileUploaded(string fileName)
 		{
-			Assert.IsTrue(Driver.WaitUntilElementIsDisplay(By.XPath(UPLOADED_FILE_XPATH.Replace("*#*", fileName))),
+			Logger.Trace("Проверить, что документ {0} загрузился.", fileName);
+
+			Assert.IsTrue(Driver.WaitUntilElementIsDisplay(By.XPath(UPLOADED_FILE_XPATH.Replace("*#*", fileName)), timeout:120),
 				"Произошла ошибка:\n не удалось загрузить файл {0}.", fileName);
 
 			return GetPage();
