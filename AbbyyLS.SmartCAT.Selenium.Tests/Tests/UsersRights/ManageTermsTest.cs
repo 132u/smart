@@ -65,7 +65,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersRights
 				.CreateGlossary(_glossaryUniqueName)
 				.ClickNewEntryButton()
 				.ClickSaveButton()
-				.AssertEmptyNameErrorDisplay();
+				.AddAtLeastOnTermErrorDisplay();
 		}
 
 		[Test]

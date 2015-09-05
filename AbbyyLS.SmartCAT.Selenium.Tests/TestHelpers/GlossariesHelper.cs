@@ -515,7 +515,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 			return this;
 		}
 
-		public GlossariesHelper AssertEmptyNameErrorDisplay()
+		public GlossariesHelper AddAtLeastOnTermErrorDisplay()
 		{
 			BaseObject.InitPage(_glossaryPage);
 
@@ -524,6 +524,17 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 			return this;
 		}
+
+		public GlossariesHelper AssertSpecifyGlossaryNameErrorDisplay()
+		{
+			BaseObject.InitPage(_newGlossaryDialog);
+
+			Assert.IsTrue(_newGlossaryDialog.SpecifyGlossaryNameErrorDisplay(),
+				"Произошла ошибка:\n сообщение 'Specify glossary name' не появилось.");
+
+			return this;
+		}
+
 
 		public GlossariesHelper AssertExistNameErrorDisplay()
 		{

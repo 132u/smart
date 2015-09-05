@@ -33,7 +33,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 		{
 			_glossaryHelper
 				.CreateGlossary("", errorExpected: true)
-				.AssertEmptyNameErrorDisplay();
+				.AssertSpecifyGlossaryNameErrorDisplay();
 		}
 		
 		[Test]
@@ -189,7 +189,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 		[Test]
 		public void ChangeGlossaryNameTest()
 		{
-			var newGlossaryName = _glossaryUniqueName + "_2";
+			var newGlossaryName = GlossariesHelper.UniqueGlossaryName();
 
 			_glossaryHelper
 				.CreateGlossary(_glossaryUniqueName)
@@ -207,7 +207,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 			_glossaryHelper
 				.CreateGlossary(_glossaryUniqueName)
 				.GoToGlossariesPage()
-				.CreateGlossary(_glossaryUniqueName + "_2")
+				.CreateGlossary(_glossaryUniqueName + "2")
 				.OpenGlossaryProperties()
 				.FillGlossaryNameInPropertiesDialog(_glossaryUniqueName)
 				.ClickSaveButtonInPropetiesDialog(errorExpected: true)
@@ -223,7 +223,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 				.OpenGlossaryProperties()
 				.FillGlossaryNameInPropertiesDialog(newGlossaryName)
 				.ClickSaveButtonInPropetiesDialog(errorExpected: true)
-				.AssertEmptyNameErrorDisplay();
+				.AssertSpecifyGlossaryNameErrorDisplay();
 		}
 
 		[Test]

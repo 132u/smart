@@ -53,18 +53,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 		}
 
 		/// <summary>
-		/// Проверить, что строка для нового термина появилась
-		/// </summary>
-		public GlossaryPage AssertEmptyRowForNewTermDisplay()
-		{
-			Logger.Trace("Проверить, что строка для нового термина появилась.");
-
-			Assert.IsTrue(PlusButton.Displayed, "Произошла ошибка:\n строка для нового термина не появилась.");
-
-			return GetPage();
-		}
-
-		/// <summary>
 		/// Заполнить термин
 		/// </summary>
 		/// <param name="columnNumber">номер колонки</param>

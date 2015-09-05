@@ -40,6 +40,16 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 		}
 
 		/// <summary>
+		/// Получить значение свсойства Display для элемента сообщения 'Specify glossary name'.
+		/// </summary>
+		public bool SpecifyGlossaryNameErrorDisplay()
+		{
+			Logger.Trace("Получить значение свойства Display для элемента сообщения 'Specify glossary name'.");
+
+			return Driver.WaitUntilElementIsDisplay(By.XPath(SPECIFY_GLOSSARY_NAME_ERROR));
+		}
+
+		/// <summary>
 		/// Проверить, что список клиентов открылся
 		/// </summary>
 		public NewGlossaryDialog AssertClientsListOpened()
@@ -328,6 +338,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 		protected const string LANGUAGES_DROPDOWNS = "//div[@class='l-editgloss__contrbox'][1]//span[@class='g-iblock l-editgloss__control l-editgloss__lang']";
 		protected const string LANGUAGE_DROPDOWN_OPTION = "//div[contains(@class,'edit-glossary')][2]//span[*#*][contains(@class, 'l-editgloss__lang')]";
 		protected const string ERROR_EXIST_NAME = "//div[contains(@class,'edit-glossary')][2]//p[contains(@data-message-id,'glossary-exists')]";
+		protected const string SPECIFY_GLOSSARY_NAME_ERROR = "//div[contains(@class, 'js-popup-edit-glossary')][2]//p[@data-message-id='glossary-name-required']";
 
 		protected const string CLIENT_LIST= "//select[contains(@data-bind,'clientsList')]//following-sibling::span";
 		protected const string DROPDOWN_LIST= "//body/span[contains(@class,'js-dropdown')]";
