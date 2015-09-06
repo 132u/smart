@@ -888,9 +888,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 			string target,
 			string comment)
 		{
-			BaseObject.InitPage(_glossariesPage);
-			_glossariesPage
-				.ClickGlossaryRow(glossaryName)
+			BaseObject.InitPage(_glossaryPage);
+			_glossaryPage
 				.AssertIsTermWithTranslationAndCommentExists(source, target, comment);
 
 			return this;

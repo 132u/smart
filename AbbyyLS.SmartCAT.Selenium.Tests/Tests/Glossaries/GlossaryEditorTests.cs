@@ -62,7 +62,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 		/// <summary>
 		/// Проверка автозапослнения формы при выделенном слове в сорсе
 		/// </summary>
-		[Test, Ignore("PRX-11596")]
+		[Test]
 		public void AutofillAddTermFormWithSelectedSourceWord()
 		{
 			var word = _editorHelper
@@ -79,7 +79,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 		/// <summary>
 		/// Проверка автозапослнения формы при выделенном слове в тагрет
 		/// </summary>
-		[Test, Ignore("PRX-11596")]
+		[Test]
 		public void AutofillAddTermFormWithSelectedTargetWord()
 		{
 			var word = _editorHelper
@@ -97,7 +97,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 		/// <summary>
 		/// Добавить одиночный термин из сорса в глоссарий
 		/// </summary>
-		[Test, Ignore("PRX-11596")]
+		[Test]
 		public void AddSingleTermFromSourceToGlossary()
 		{
 			var word = _editorHelper
@@ -117,7 +117,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 		/// <summary>
 		/// Добавить одиночный термин из таргета в глоссарий
 		/// </summary>
-		[Test, Ignore("PRX-11596")]
+		[Test]
 		public void AddSingleTermFromTargetToGlossary()
 		{
 			var word = _editorHelper
@@ -138,7 +138,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 		/// <summary>
 		/// Добавить термин с сорсом и таргетом в глоссарий
 		/// </summary>
-		[Test, Ignore("PRX-11596")]
+		[Test]
 		public void AddSourceTargetTermToGlossary()
 		{
 			var source = "Comet";
@@ -154,7 +154,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 		/// <summary>
 		/// Добавить термин из сорса с таргетом в глоссарий игнорируя автоподстановку
 		/// </summary>
-		[Test, Ignore("PRX-11596")]
+		[Test]
 		public void AddModifiedSourceTargetTermToGlossary()
 		{
 			var source = "Comet";
@@ -176,7 +176,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 		/// <summary>
 		/// Добавить измененный термин из таргета в глоссарий
 		/// </summary>
-		[Test, Ignore("PRX-11596")]
+		[Test]
 		public void AddSourceModifiedTargetTermToGlossary()
 		{
 			var source = "Comet";
@@ -199,7 +199,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 		/// <summary>
 		/// Добавить в глоссарий термин уже существующий в сорс 
 		/// </summary>
-		[Test, Ignore("PRX-11596")]
+		[Test]
 		public void AddExistedSourceTermToGlossary()
 		{
 			var source = "planet";
@@ -219,7 +219,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 		/// <summary>
 		/// Добавить в глоссарий термин уже существующий в таргет
 		/// </summary>
-		[Test, Ignore("PRX-11596")]
+		[Test]
 		public void AddExistedTargetTermToGlossary()
 		{
 			var source = "asteroid";
@@ -239,7 +239,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 		/// <summary>
 		/// Добавить в глоссарий абсолютно идентичный термин
 		/// </summary>
-		[Test, Ignore("PRX-11596")]
+		[Test]
 		public void AddExistedTermToGlossary()
 		{
 			var source = "sun";
@@ -258,7 +258,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 		/// <summary>
 		/// Добавить в глоссарий термин с комментарием
 		/// </summary>
-		[Test, Ignore("PRX-11596")]
+		[Test]
 		public void AddTermWithCommentToGlossary()
 		{
 			var source = "Neptun";
@@ -275,7 +275,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 		/// <summary>
 		/// Добавление удаленного термина в глоссарий
 		/// </summary>
-		[Test, Ignore("PRX-11596")]
+		[Test]
 		public void DeleteAddTermToGlossary()
 		{
 			var source = "Galaxy";
