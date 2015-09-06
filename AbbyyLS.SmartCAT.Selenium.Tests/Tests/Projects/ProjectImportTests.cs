@@ -82,6 +82,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 				.GoToProjectSettingsPage(_projectUniqueName)
 				.ClickDocumentUploadButton()
 				.UploadDocument(PathProvider.DocumentFile)
+				.UploadDocument(PathProvider.DocumentFile)
 				.AssertErrorDuplicateDocumentNameExist();
 		}
 
