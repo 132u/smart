@@ -67,6 +67,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Pages\Projects\CreateProjectDialog\NewProjectSetUpPretranslationDialog.cs" />
+    <Compile Include="DataStructures\GlossaryCustomFieldType.cs" />
     <Compile Include="RelativeUrlProvider.cs" />
     <Compile Include="Configs\TestsUserConfig.cs" />
     <Compile Include="DataStructures\AssignmentType.cs" />
@@ -217,6 +218,7 @@
     <Compile Include="Tests\Glossaries\GlossariesEditorTests.cs" />
     <Compile Include="Tests\Glossaries\GlossaryEditorTests.cs" />
     <Compile Include="Tests\Editor\MatchColumnTests\EditorMatchColumnMTSubstitutionTests.cs" />
+    <Compile Include="Tests\Glossaries\GlossaryEditStructureCustomFieldsTests.cs" />
     <Compile Include="Tests\Glossaries\GlossaryEditStructureLanguageFieldsTests.cs" />
     <Compile Include="Tests\Editor\EditorCharacterTests.cs" />
     <Compile Include="Tests\Editor\MatchColumnTests\EditorMatchColumnTBSubstitutionTests.cs" />

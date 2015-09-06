@@ -5,6 +5,8 @@ using NUnit.Framework;
 
 using AbbyyLS.CAT.Function.Selenium.Tests.Driver;
 
+using OpenQA.Selenium;
+
 namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.Glossary.EditStructure.Custom
 {
 	/// <summary>

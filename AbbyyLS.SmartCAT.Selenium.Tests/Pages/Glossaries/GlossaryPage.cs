@@ -481,7 +481,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 		public GlossaryPage AssertDeleteButtonDisappeared(string source, string target)
 		{
 			Logger.Debug("Проверить, что кнопка удаления термина исчезла.");
-			
+
 			Assert.IsTrue(Driver.WaitUntilElementIsDisappeared(By.XPath(DELETE_BUTTON.Replace("#", source).Replace("**", target))),
 				"Произошла ошибка:\n Кнопка удаления термина не исчезла.");
 
@@ -520,7 +520,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 		{
 			Logger.Debug(string.Format("Ввести {0} в поле поиск.", text));
 			SearchInput.SetText(text);
-			
+
 			return GetPage();
 		}
 
@@ -545,7 +545,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 
 			return GetPage();
 		}
-		
+
 		/// <summary>
 		/// Нажать кнопку Cancel
 		/// </summary>
@@ -553,6 +553,38 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 		{
 			Logger.Debug("Нажать кнопку Cancel.");
 			CancelButton.Click();
+
+			return GetPage();
+		}
+
+		/// <summary>
+		/// Нажать на поле Image
+		/// </summary>
+		public GlossaryPage ClickImageField(string fieldName)
+		{
+			Logger.Debug("Нажать на поле Image.");
+			Driver.SetDynamicValue(How.XPath, IMAGE_FIELD, fieldName).Click();
+
+			return GetPage();
+		}
+
+		/// <summary>
+		/// Нажать на кнопку Add в поле типа Media
+		/// </summary>
+		public GlossaryPage ClickAddMediaButton(string fieldName)
+		{
+			Logger.Debug("Нажать на кнопку Add в поле {0} типа Media.", fieldName);
+			Driver.SetDynamicValue(How.XPath, ADD_MEDIA_BUTTON, fieldName).Click();
+
+			return GetPage();
+		}
+
+		public GlossaryPage AssertProgressUploadDissapeared(string fieldName)
+		{
+			Logger.Trace("Проверить, что прогресс загрузки медиа файла исчез.", fieldName);
+
+			Assert.IsTrue(Driver.WaitUntilElementIsDisappeared(By.XPath(PROGRESS_MEDIA_FILE.Replace("*#*", fieldName)), timeout: 45),
+				"Произошла ошибка:\n прогресс загрузки медиа файла не исчез.");
 
 			return GetPage();
 		}
@@ -595,7 +627,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 		{
 			Logger.Trace("Проверить, что термин {0} присутствует в секции 'Languages and terms '.", term);
 			var termInSectioin = Driver.SetDynamicValue(How.XPath, TERMS_IN_LANGUAGE_AND_TERMS_SECTION, term);
-			
+
 			return termInSectioin.Displayed;
 		}
 
@@ -666,6 +698,66 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 		}
 
 		/// <summary>
+		/// Заполнить поле
+		/// </summary>
+		public GlossaryPage FillField(string fieldName, string text)
+		{
+			Logger.Debug("Ввести {0} в поле {1}.", text, fieldName);
+			var customField = Driver.SetDynamicValue(How.XPath, CUSTOM_FIELD_INPUT, fieldName);
+			customField.SetText(text);
+
+			return GetPage();
+		}
+
+		/// <summary>
+		/// Ввести в поле типа Number.
+		/// </summary>
+		public GlossaryPage FillNumberCustomField(string fieldName, string text)
+		{
+			Logger.Debug("Ввести {0} в поле {1} типа Number.", text, fieldName);
+			var customNumberField = Driver.SetDynamicValue(How.XPath, CUSTOM_NUMBER_FIELD, fieldName);
+			customNumberField.SetText(text);
+
+			return GetPage();
+		}
+
+		/// <summary>
+		/// Открыть календарь
+		/// </summary>
+		public GlossaryPage OpenCalendar(string fieldName)
+		{
+			Logger.Debug("Открыть календарь в поле {0}.", fieldName);
+			Driver.SetDynamicValue(How.XPath, CUSTOM_DATE_FIELD, fieldName).Click();
+
+			return GetPage();
+		}
+
+		/// <summary>
+		/// Выбрать текущую дату в календаре
+		/// </summary>
+		public GlossaryPage ClickTodayInCalendar()
+		{
+			Logger.Debug("Выбрать текущую дату в календаре.");
+			TodayDate.Click();
+
+			return GetPage();
+		}
+
+		/// <summary>
+		/// Проверить, что значение в поле совпадает с ожидаемым значением
+		/// </summary>
+		public GlossaryPage AssertFieldValueMatch(string fieldName, string text)
+		{
+			Logger.Trace("Проверить, что значение в поле {0} совпадает с ожидаемым значением {1}.", fieldName, text);
+			var customField = Driver.SetDynamicValue(How.XPath, CUSTOM_FIELD_VIEW_MODE, fieldName);
+
+			Assert.AreEqual(text, customField.Text,
+				"Произошла ошибка:\n значение в поле не совпадает с ожидаемым значением.");
+
+			return GetPage();
+		}
+
+		/// <summary>
 		/// Удалить термин из глоссария
 		/// </summary>
 		/// <param name="source">термин</param>
@@ -678,6 +770,184 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 			deleteTermButton.Click();
 
 			return this;
+		}
+
+		/// <summary>
+		/// Проверить, что поле присутствует в новом термине
+		/// </summary>
+		public GlossaryPage AssertFieldExistInNewEntry(string fieldName)
+		{
+			Logger.Trace("Проверить, что поле {0} присутствует в новом термине.", fieldName);
+
+			Assert.IsTrue(Driver.WaitUntilElementIsDisplay(By.XPath(CUSTOM_FIELD_NAME.Replace("*#*", fieldName))),
+				"Произошла ошибка:\n поле {0} отсутствует в новом термине.", fieldName);
+
+			return GetPage();
+		}
+
+		/// <summary>
+		/// Проверить, что поле типа Image присутствует в новом термине
+		/// </summary>
+		public GlossaryPage AssertImageFieldExistInNewEntry(string fieldName)
+		{
+			Logger.Trace("Проверить, что поле {0} типа Image присутствует в новом термине.", fieldName);
+
+			Assert.IsTrue(Driver.WaitUntilElementIsDisplay(By.XPath(IMAGE_FIELD.Replace("*#*", fieldName))),
+				"Произошла ошибка:\n поле {0} типа Image отсутствует в новом термине.", fieldName);
+
+			return GetPage();
+		}
+
+		/// <summary>
+		/// Проверить, что поле типа Media присутствует в новом термине
+		/// </summary>
+		public GlossaryPage AssertMediaFieldExistInNewEntry(string fieldName)
+		{
+			Logger.Trace("Проверить, что поле {0} типа Media присутствует в новом термине.", fieldName);
+
+			Assert.IsTrue(Driver.WaitUntilElementIsDisplay(By.XPath(MEDIA_FIELD.Replace("*#*", fieldName))),
+				"Произошла ошибка:\n поле {0} типа Media отсутствует в новом термине.", fieldName);
+
+			return GetPage();
+		}
+
+		/// <summary>
+		/// Проверить, что текст в поле {0} совпадает с дефолтным значением
+		/// </summary>
+		public GlossaryPage AssertCustomDefaultValueMatch(string fieldName, string defaultValue)
+		{
+			Logger.Trace("Проверить, что текст в поле {0} совпадает с дефолтным значением {1}.", fieldName, defaultValue);
+
+			Assert.AreEqual(
+				defaultValue,
+				Driver.SetDynamicValue(How.XPath, CUSTOM_FIELD_NAME, fieldName).Text,
+				"Произошла ошибка:\n неверное значение в поле.");
+
+			return GetPage();
+		}
+
+		/// <summary>
+		/// Проверить, что поле подсвечено красным цветом, так как обязательно для заполнения
+		/// </summary>
+		public GlossaryPage AssertFieldErrorDisplayed(string fieldName)
+		{
+			Logger.Trace("Проверить, что поле {0} подсвечено красным цветом, так как обязательно для заполнения.", fieldName);
+
+			Assert.IsTrue(Driver.WaitUntilElementIsDisplay(By.XPath(CUSTOM_FIELD_ERROR.Replace("*#*", fieldName))),
+				"Произошла ошибка:\n поле {0} не подсвечено красным цветом.", fieldName);
+
+			return GetPage();
+		}
+
+		/// <summary>
+		/// Проверить, что поле типа Image подсвечено красным цветом, так как обязательно для заполнения
+		/// </summary>
+		public GlossaryPage AssertImageFieldErrorDisplayed(string fieldName)
+		{
+			Logger.Trace("Проверить, что поле {0} типа Image подсвечено красным цветом, так как обязательно для заполнения.", fieldName);
+
+			Assert.IsTrue(Driver.WaitUntilElementIsDisplay(By.XPath(CUSTOM_IMAGE_FIELD_ERROR.Replace("*#*", fieldName))),
+				"Произошла ошибка:\n поле {0} не подсвечено красным цветом.", fieldName);
+
+			return GetPage();
+		}
+
+		/// <summary>
+		/// Проверить, что поле Image заполнено
+		/// </summary>
+		public GlossaryPage AssertImageFieldFilled(string fieldName)
+		{
+			Logger.Trace("Проверить, что поле {0} типа Image заполнено.", fieldName);
+
+			Assert.IsTrue(
+				Driver.SetDynamicValue(How.XPath, FILLED_IMAGE_FIELD, fieldName)
+					.GetAttribute("src")
+					.Trim()
+					.Length > 0,
+				"Произошла ошибка:\n  поле {0} типа Image не заполнено.", fieldName);
+
+			return GetPage();
+		}
+
+		/// <summary>
+		/// Кликнуть по чекбоксу Yes/No
+		/// </summary>
+		public GlossaryPage ClickYesNoCheckbox()
+		{
+			Logger.Debug("Кликнуть по чекбоксу Yes/No.");
+			YesNoCheckbox.Click();
+
+			return GetPage();
+		}
+
+		/// <summary>
+		/// Проверить, что стоит или не стоит галочка в Yes/No чекбоксе
+		/// </summary>
+		public GlossaryPage AssertYesNoCheckboxChecked(string yesNo, string fieldName)
+		{
+			Logger.Trace("Проверить, что в поле {0} типа Yes/No стоит или не стоит галочка {1}.", fieldName, yesNo);
+
+			Assert.AreEqual(yesNo, Driver.SetDynamicValue(How.XPath, YES_NO_CHECKBOX_VIEW_MODE, fieldName).Text,
+				"Произошла ошибка:\n неверное значение в поле Yes/No.");
+
+			return GetPage();
+		}
+
+		/// <summary>
+		/// Проверить, что в поле типа Media правильное название файла
+		/// </summary>
+		public GlossaryPage AssertMediaFileMatch(string mediaFile, string fieldName)
+		{
+			Logger.Trace("Проверить, что в поле {0} типа Media правльное название файла {1}.", fieldName, mediaFile);
+
+			Assert.AreEqual(mediaFile, Driver.SetDynamicValue(How.XPath, MEDIA_FIELD_TEXT,fieldName).Text,
+				"Произошла ошибка:\n неверное значение в поле {0} типа Media.", fieldName);
+
+			return GetPage();
+		}
+
+		/// <summary>
+		/// Раскрыть комбобокс типа List
+		/// </summary>
+		public GlossaryPage ExpandItemsListDropdown(string fieldName)
+		{
+			Logger.Debug("Раскрыть комбобокс {0} типа List.", fieldName);
+			Driver.SetDynamicValue(How.XPath, ITEMS_LIST_DROPDOWN, fieldName).Click();
+
+			return GetPage();
+		}
+
+		/// <summary>
+		/// Нажать на комбобокс типа 'Multi-selection list'
+		/// </summary>
+		public GlossaryPage ClickMultiselectListDropdown(string fieldName)
+		{
+			Logger.Debug("Нажать на комбобокс {0} типа 'Multi-selection list'.", fieldName);
+			Driver.SetDynamicValue(How.XPath, MULTISELECT_DROPDOWN, fieldName).Click();
+
+			return GetPage();
+		}
+
+		/// <summary>
+		/// Выбрать значение в поле типа List
+		/// </summary>
+		public GlossaryPage SelectItemInListDropdown(string item)
+		{
+			Logger.Debug("Выбрать значение {0} в комбобоксе типа List.", item);
+			Driver.SetDynamicValue(How.XPath, ITEMS_LIST, item).Click();
+
+			return GetPage();
+		}
+
+		/// <summary>
+		/// Выбрать значение в поле типа 'Multi-selection list'
+		/// </summary>
+		public GlossaryPage SelectItemInMultiselectListDropdown(string item)
+		{
+			Logger.Debug("Выбрать значение {0} в комбобоксе 'Multi-selection list'.", item);
+			Driver.SetDynamicValue(How.XPath, MULTISELECT_LIST, item).Click();
+
+			return GetPage();
 		}
 
 		[FindsBy(How = How.XPath, Using = FIRST_TERM)]
@@ -697,7 +967,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 
 		[FindsBy(How = How.XPath, Using = PLUS_BUTTON)]
 		protected IWebElement PlusButton { get; set; }
-		
+
 		[FindsBy(How = How.XPath, Using = TERM_SAVE_BUTTON)]
 		protected IWebElement TermSaveButton { get; set; }
 
@@ -718,7 +988,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 
 		[FindsBy(How = How.XPath, Using = EXPORT_BUTTON)]
 		protected IWebElement ExportButton { get; set; }
-		
+
 		[FindsBy(How = How.XPath, Using = IMPORT_BUTTON)]
 		protected IWebElement ImportButton { get; set; }
 
@@ -769,6 +1039,15 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 
 		[FindsBy(How = How.XPath, Using = EDIT_ENTRY_BUTTON)]
 		protected IWebElement EditEntryButton { get; set; }
+
+		[FindsBy(How = How.XPath, Using = CUSTOM_DATE_FIELD)]
+		protected IWebElement CustomDateField { get; set; }
+
+		[FindsBy(How = How.XPath, Using = TODAY_DATE)]
+		protected IWebElement TodayDate { get; set; }
+
+		[FindsBy(How = How.XPath, Using = YES_NO_CHECKBOX)]
+		protected IWebElement YesNoCheckbox { get; set; }
 
 		protected const string GLOSSARY_SAVE_BUTTON = ".//div[contains(@class,'js-popup-edit-glossary')][2]//span[@class='g-btn g-redbtn ']";
 		protected const string GLOSSARY_PROPERTIES = "//div[contains(@class,'js-edit-glossary-btn')]";
@@ -829,5 +1108,28 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 		protected const string SOURCE_TERM_WITH_COMMENT = "//tr[contains(@class, 'js-concept-row') and contains(string(), '#') and contains(string(), '$$')]";
 		protected const string SOURCE_TARGET_TERM_WITH_COMMENT = "//tr[contains(@class, 'js-concept-row') and contains(string(), '#') and contains(string(), '**') and contains(string(), '$$')]";
 		protected const string DELETE_TERM_BUTTON = "//tr[contains(@class, 'js-concept-row') and contains(string(), '*#*')]//a[@title='Delete']";
+
+		protected const string CUSTOM_FIELD_NAME = "//div[contains(@class,'js-edit')]//p[contains(text(),'*#*')]";
+		protected const string CUSTOM_FIELD_INPUT = "//div[contains(@class,'js-concept-attrs')]//div[contains(@class,'js-edit')]//p[contains(text(),'*#*')]/..//textarea";
+		protected const string CUSTOM_FIELD_VIEW_MODE = "//div[contains(@class,'js-concept-attrs')]//div[contains(@class, 'js-view')]//p[contains(text(),'*#*')]//following-sibling::*";
+		protected const string CUSTOM_FIELD = "//div[contains(@class,'js-concept-attrs')]//div[contains(@class,'js-edit')]//p[contains(text(),'*#*')]/..//textarea";
+		protected const string CUSTOM_FIELD_ERROR = "//div[contains(@class,'js-concept-attrs')]//div[contains(@class,'js-edit l-error')]//p[contains(text(),'*#*')]";
+		protected const string CUSTOM_DATE_FIELD = "//div[contains(@class,'js-concept-attrs')]//div[contains(@class,'js-edit')]//p[contains(text(),'*#*')]/../input[contains(@class,'hasDatepicker')]";
+		protected const string TODAY_DATE = "//table[contains(@class,'ui-datepicker-calendar')]//td[contains(@class,'ui-datepicker-today')]";
+		protected const string IMAGE_FIELD = "//div[contains(@class,'js-concept-attrs')]//div[contains(@class,'js-control')]//p[contains(text(),'*#*')]/..//div[contains(@class,'l-editgloss__imagebox')]//a";
+		protected const string FILLED_IMAGE_FIELD = "//div[contains(@class,'js-concept-attrs')]//div[contains(@class,'js-control')]//p[contains(text(),'*#*')]/../../div[contains(@class,'l-editgloss__image')]//img[contains(@class,'l-editgloss__imageview')]";
+		protected const string CUSTOM_IMAGE_FIELD_ERROR = "//div[contains(@class,'js-concept-attrs')]//div[contains(@class,'js-control')][contains(@class,'l-error')]//p[contains(text(), '*#*')]";
+		protected const string ADD_MEDIA_BUTTON = "//div[contains(@class,'js-concept-attrs')]//div[contains(@class,'js-control')]//p[contains(text(),'*#*')]/..//span[contains(@class,'l-editgloss__linkbox')]//a[contains(@class,'js-upload-btn')]";
+		protected const string CUSTOM_NUMBER_FIELD = "//div[contains(@class,'js-concept-attrs')]//div[contains(@class,'js-edit')]//p[contains(text(),'*#*')]/..//input[contains(@class,'js-submit-input')]";
+		protected const string YES_NO_CHECKBOX = "//div[contains(@class,'js-concept-attrs')]//div[contains(@class,'js-edit')]//span[contains(@class,'l-editgloss__name')]/..//span[contains(@class,'js-chckbx')]//input[contains(@class,'js-chckbx__orig')]";
+		protected const string YES_NO_CHECKBOX_VIEW_MODE = "//div[contains(@class,'js-concept-attrs')]//div[contains(@class, 'js-view')]//p[contains(text(),'*#*')]/..//div";
+		protected const string ITEMS_LIST_DROPDOWN = "//div[contains(@class,'js-concept-attrs')]//div[contains(@class,'js-edit')]//p[contains(text(),'*#*')]/..//span[contains(@class,'js-dropdown')]";
+		protected const string ITEMS_LIST = "//span[contains(@class,'js-dropdown__list')]//span[contains(@class,'js-dropdown__item')][@title='*#*']";
+		protected const string MULTISELECT_DROPDOWN = "//div[contains(@class,'js-concept-attrs')]//div[contains(@class,'js-edit')]//p[contains(text(),'*#*')]/..//div[contains(@class,'ui-multiselect')]";
+		protected const string MULTISELECT_LIST = "//ul[contains(@class,'ui-multiselect-checkboxes')]//span[contains(@class,'ui-multiselect-item-text')][text()='*#*']";
+		protected const string MEDIA_FIELD = "//div[contains(@class,'js-concept-attrs')]//div[contains(@class,'js-control')]//p[contains(text(),'*#*')]";
+		protected const string PROGRESS_MEDIA_FILE = "//p[contains(text(), '*#*')]/..//img[contains(@class, 'prgrssbar ')]";
+		protected const string MEDIA_FIELD_TEXT = "//p[contains(text(), '*#*')]/..//a[contains(@class, 'js-filename-link')]";
 	}
+
 }

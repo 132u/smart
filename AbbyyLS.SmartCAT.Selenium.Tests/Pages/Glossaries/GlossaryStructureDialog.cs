@@ -21,7 +21,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 
 		public new void LoadPage()
 		{
-			if (!Driver.WaitUntilElementIsDisplay(By.XPath(ADD_TO_LIST_BUTTON)))
+			if (!Driver.WaitUntilElementIsDisplay(By.XPath(GLOSSARY_STRUCTURE_DIALOG_HEADER)))
 			{
 				Assert.Fail("Произошла ошибка:\n диалог изменения структуры глоссария не открылся.");
 			}
@@ -77,7 +77,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 				field.Click();
 				AddToListButton.Click();
 			}
-			
+
 			return GetPage();
 		}
 
@@ -112,9 +112,97 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 		public GlossaryStructureDialog SelectLevel(GlossaryStructureLevel level)
 		{
 			Logger.Debug("Выбрать {0} уровень полей.", level);
-			var levelOption = Driver.SetDynamicValue(How.XPath, LEVEL_OPTION, level.ToString());
+			var levelOption = Driver.SetDynamicValue(How.XPath, LEVEL_OPTION, level.Description());
 
 			levelOption.Click();
+
+			return GetPage();
+		}
+
+		/// <summary>
+		/// Переключиться на вкладку 'Custom Fields'
+		/// </summary>
+		public GlossaryStructureDialog SwitchToCustomFieldsTab()
+		{
+			Logger.Debug("Переключиться на вкладку ' Custom Fields'.");
+			CustomFieldsTab.Click();
+
+			return GetPage();
+		}
+
+		/// <summary>
+		/// Заполнить название кастомного поля
+		/// </summary>
+		public GlossaryStructureDialog FillCustomFieldName(string fieldName)
+		{
+			Logger.Debug("Ввести {0} в название кастомного поля.", fieldName);
+			CustomFieldName.SetText(fieldName);
+
+			return GetPage();
+		}
+
+		/// <summary>
+		/// Ввести текст в поле 'Default value'
+		/// </summary>
+		public GlossaryStructureDialog FillDefaultValue(string defaultValue)
+		{
+			Logger.Debug("Ввести {0} в поле 'Default value'.", defaultValue);
+			DefaultValue.SetText(defaultValue);
+
+			return GetPage();
+		}
+
+		/// <summary>
+		/// Заполнить поле 'Items List'
+		/// </summary>
+		public GlossaryStructureDialog FillItemsList(string items)
+		{
+			Logger.Debug("Заполнить поле 'Items List'.");
+			ItemsListField.SetText(items);
+
+			return GetPage();
+		}
+
+		/// <summary>
+		/// Выбрать тип кастомного поля
+		/// </summary>
+		public GlossaryStructureDialog SelectCustomFieldType(GlossaryCustomFieldType type)
+		{
+			Logger.Debug("Выбрать тип {0} кастомного поля.", type);
+			Driver.SetDynamicValue(How.XPath, TYPE_COMBOBOX, type.Description().Trim()).Click();
+
+			return GetPage();
+		}
+
+		/// <summary>
+		/// Раскрыть комбобокс типа кастомного поля
+		/// </summary>
+		public GlossaryStructureDialog ExpandCustomFieldType()
+		{
+			Logger.Debug("Раскрыть комбобокс типа кастомного поля.");
+			Type.Click();
+
+			return GetPage();
+		}
+
+		/// <summary>
+		/// Поставить галочку в чекбоксе 'Required field'
+		/// </summary>
+		public GlossaryStructureDialog ClickRequiredCheckbox()
+		{
+			Logger.Debug("Поставить галочку в чекбоксе 'Required field'.");
+			RequiredCheckbox.Click();
+
+			return GetPage();
+		}
+
+		/// <summary>
+		/// Нажать кнопку 'Add to List'
+		/// </summary>
+		public GlossaryStructureDialog ClickAddCustoFieldButton()
+		{
+			Logger.Debug("Нажать кнопку 'Add to List'.");
+			AddCustomFieldButton.Click();
 
 			return GetPage();
 		}
@@ -128,6 +216,27 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 		[FindsBy(How = How.XPath, Using = LEVEL_DROPDOWN)]
 		protected IWebElement LevelDropdown { get; set; }
 
+		[FindsBy(How = How.XPath, Using = CUSTOM_FIELDS_TAB)]
+		protected IWebElement CustomFieldsTab { get; set; }
+
+		[FindsBy(How = How.XPath, Using = CUSTOM_FIELD_NAME)]
+		protected IWebElement CustomFieldName { get; set; }
+
+		[FindsBy(How = How.XPath, Using = TYPE)]
+		protected IWebElement Type { get; set; }
+
+		[FindsBy(How = How.XPath, Using = REQUIRED_CHECKBOX)]
+		protected IWebElement RequiredCheckbox { get; set; }
+
+		[FindsBy(How = How.XPath, Using = DEFAULT_VALUE)]
+		protected IWebElement DefaultValue { get; set; }
+
+		[FindsBy(How = How.XPath, Using = ADD_CUSTOM_FIELD_BUTTON)]
+		protected IWebElement AddCustomFieldButton { get; set; }
+
+		[FindsBy(How = How.XPath, Using = ITEMS_LIST_FIELD)]
+		protected IWebElement ItemsListField { get; set; }
+
 		protected const string SAVE_BUTTON = "//div[contains(@class, 'js-popup-buttons')]//span[contains(@class, 'js-save')]";
 		protected const string ADD_TO_LIST_BUTTON = "//span[contains(@class,'js-add-tbx-attribute')]";
 		protected const string SYSTEM_FIELD = "//table[contains(@class, 'table concept')]//tr[@data-attr-type='*#*']";
@@ -135,5 +244,14 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 		protected const string LEVEL_DROPDOWN = "//span[contains(@class, 'js-dropdown__text level')]";
 		protected const string LANGUAGE_FIELDS_LIST = "//table[contains(@class, 'language')]/tbody//tr";
 		protected const string LEVEL_OPTION = "//span[contains(@class, 'js-dropdown__item level') and @title='*#*']";
+		protected const string CUSTOM_FIELDS_TAB = "//a[contains(@class,'js-type-tab js-custom-tab')]";
+		protected const string CUSTOM_FIELD_NAME = "//div[contains(@class,'js-custom-attrs')]//input[contains(@class,'js-name')]";
+		protected const string TYPE_COMBOBOX = "//span[contains(@class,'js-dropdown__item type')][@title='*#*']";
+		protected const string TYPE = "//table[contains(@class,'l-editgloss__tblEditStructure')]//span[contains(@class,'js-dropdown__text type')]";
+		protected const string REQUIRED_CHECKBOX = "//input[contains(@class,'js-required')]";
+		protected const string DEFAULT_VALUE = "//td[contains(@class,'js-default-editor-placeholder')]//input[contains(@class,'js-submit-input')]";
+		protected const string ADD_CUSTOM_FIELD_BUTTON = "//span[contains(@class,'js-add-custom-attribute')]";
+		protected const string GLOSSARY_STRUCTURE_DIALOG_HEADER = "//h2[contains(text(), 'Structure')]";
+		protected const string ITEMS_LIST_FIELD = "//table[contains(@class,'l-editgloss__tblEditStructure')]//input[contains(@class,'js-choice-values')]";
 	}
 }
