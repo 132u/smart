@@ -327,6 +327,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 			BaseObject.InitPage(_documentSettings);
 			_documentSettings
+				.HoverGlossaryTableDocumentSettingsDialog()
 				.ClickGlossaryByName(glossaryName)
 				.ClickSaveButton<ProjectSettingsPage>();
 

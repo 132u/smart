@@ -68,14 +68,25 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 		}
 
 		/// <summary>
-		/// "Выбрать глоссарий по имени
+		/// Выбрать глоссарий по имени
 		/// </summary>
 		/// <param name="glossaryName">имя глоссария</param>
 		public DocumentSettings ClickGlossaryByName(string glossaryName)
 		{
-			Logger.Debug("Выбрать глоссарий с именем {0}", glossaryName);
+			Logger.Debug("Выбрать глоссарий с именем {0}.", glossaryName);
 			GlossaryCheckbox = Driver.SetDynamicValue(How.XPath, GLOSSARY_BY_NAME_XPATH, glossaryName);
 			GlossaryCheckbox.ScrollAndClick();
+
+			return GetPage();
+		}
+
+		/// <summary>
+		/// Навести курсор на таблицу глоссариев в диалоге настроек документа
+		/// </summary>
+		public DocumentSettings HoverGlossaryTableDocumentSettingsDialog()
+		{
+			Logger.Debug("Навести курсор на таблицу глоссариев в диалоге настроек документа.");
+			GlossaryTable.HoverElement();
 
 			return GetPage();
 		}
@@ -89,16 +100,16 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 		[FindsBy(How = How.XPath, Using = MT_CHECKBOX)]
 		protected IWebElement MTCheckbox { get; set; }
 
+		[FindsBy(How = How.XPath, Using = GLOSSARY_TABLE)]
+		protected IWebElement GlossaryTable { get; set; }
+
 		protected  IWebElement GlossaryCheckbox { get; set; }
 
 		protected const string TITLE = "(//h2[text()='Document Settings'])[3]";
-
 		protected const string NAME_INPUT = "//div[contains(@class,'js-popup-document-settings')][2]//input[contains(@data-bind,'value: name')]";
-
 		protected const string SAVE_BUTTON = "//div[contains(@class,'g-popup-bd js-popup-bd js-popup-single-target-document-settings')][2]//span[contains(@data-bind,'click: save')]";
-
 		protected const string MT_CHECKBOX = "//div[@class='g-popup-bd js-popup-bd js-popup-single-target-document-settings'][2]//tbody[contains(@data-bind, 'machineTranslators')]//p[text()='*#*']/parent::td/..//td//input";
-
 		protected const string GLOSSARY_BY_NAME_XPATH = "(//h2[text()='Document Settings']//..//..//table[contains(@class,'l-corpr__tbl')]//tbody[@data-bind='foreach: glossaries']//tr[contains(string(), '*#*')])[1]//td//input";
+		protected const string GLOSSARY_TABLE = "//div[contains(@class, 'single-target-document-settings')][2]//tbody[contains(@data-bind, 'glossaries')]";
 	}
 }
