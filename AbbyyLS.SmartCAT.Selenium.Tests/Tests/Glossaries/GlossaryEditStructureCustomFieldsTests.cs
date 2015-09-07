@@ -118,7 +118,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 				.AssertExtendTermsCountMatch(expectedTermCount: 1);
 		}
 
-		[Test]
+		[Test, Explicit("ForLocalRun")]
 		public void AddMediaFieldTest()
 		{
 			var fieldName = "MediaField";
@@ -139,7 +139,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 				.AssertExtendTermsCountMatch(expectedTermCount: 1);
 		}
 
-		[Test]
+		[Test, Explicit("ForLocalRun")]
 		public void AddMediaRequiredFieldTest()
 		{
 			var fieldName = "MediaRequiredField";
@@ -163,7 +163,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 				.AssertExtendTermsCountMatch(expectedTermCount: 1);
 		}
 
-		[Test]
+		[Test, Explicit("ForLocalRun")]
 		public void AddImageFieldTest()
 		{
 			var fieldName = "ImageField";
@@ -185,7 +185,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 				.AssertExtendTermsCountMatch(expectedTermCount: 1);
 		}
 
-		[Test]
+		[Test, Explicit("ForLocalRun")]
 		public void AddImageRequiredFieldTest()
 		{
 			var fieldName = "ImageField";

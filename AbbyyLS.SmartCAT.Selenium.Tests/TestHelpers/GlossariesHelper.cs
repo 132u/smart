@@ -1128,6 +1128,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 		private void uploadFile(string imageFile)
 		{
+			Logger.Trace("Загрузка файла {0}.\nВвести путь к файлу в системное окно.", imageFile);
 			Thread.Sleep(3000); // слип необходим, так как не всегда успевает открыться окно загрузки
 
 			var txt = Regex.Replace(imageFile, "[+^%~()]", "{$0}");
