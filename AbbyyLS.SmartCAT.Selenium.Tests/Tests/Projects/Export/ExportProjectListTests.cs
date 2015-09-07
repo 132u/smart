@@ -13,7 +13,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 	[Standalone]
 	internal class ExportProjectListTests<TWebDriverProvider> : ExportProjectBaseTests<TWebDriverProvider> where TWebDriverProvider : IWebDriverProvider, new()
 	{
-		[Ignore("PRX-11235")]
 		[TestCase(ExportType.Source)]
 		[TestCase(ExportType.Tmx)]
 		[TestCase(ExportType.Target)]
@@ -63,7 +62,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 				.AssertFileDownloaded(_exportFileHelper.GetExportFileNameMask(exportType, PathProvider.DocumentFileToConfirm1));
 		}
 
-		[Ignore("PRX-11235")]
 		[TestCase(ExportType.Source)]
 		[TestCase(ExportType.Tmx)]
 		[TestCase(ExportType.Target)]
@@ -150,7 +148,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 			_exportFileHelper.AssertContainsText(Path.GetFileName(PathProvider.DocumentFileToConfirm1));
 		}
 
-		[Ignore("PRX-11235")]
 		[Test]
 		public void ExportProjectOneDocCheckNotifierText()
 		{
@@ -165,7 +162,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 			_exportFileHelper.AssertContainsText(Path.GetFileName(PathProvider.DocumentFileToConfirm1));
 		}
 
-		[Ignore("PRX-11235")]
 		[Test]
 		public void ExportProjectMultiDocCheckNotifierText()
 		{
@@ -185,7 +181,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 			_exportFileHelper.AssertContainsText("Documents");
 		}
 
-		[Ignore("PRX-11235")]
 		[Test]
 		public void ExportProjectsCheckNotifierText()
 		{
@@ -193,7 +188,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 			var projectUniqueName2 = _createProjectHelper.GetProjectUniqueName();
 
 			_createProjectHelper
-				.CreateNewProject(projectUniqueName2, PathProvider.DocumentFileToConfirm1)
+				.CreateNewProject(projectUniqueName2, filePath: PathProvider.DocumentFileToConfirm1)
 				.AssertIsProjectLoaded(projectUniqueName2)
 				.GoToProjectSettingsPage(projectUniqueName2)
 				.AssignTasksOnDocument(Path.GetFileNameWithoutExtension(PathProvider.DocumentFileToConfirm1), NickName)
@@ -214,7 +209,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 			_exportFileHelper.AssertContainsText("Documents");
 		}
 
-		[Ignore("PRX-11235")]
 		[Test]
 		public void ExportChangeNotifiers()
 		{
@@ -222,7 +216,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 			var projectUniqueName2 = _createProjectHelper.GetProjectUniqueName();
 
 			_createProjectHelper
-				.CreateNewProject(projectUniqueName2, PathProvider.DocumentFileToConfirm1)
+				.CreateNewProject(projectUniqueName2, filePath: PathProvider.DocumentFileToConfirm1)
 				.AssertIsProjectLoaded(projectUniqueName2)
 				.GoToProjectSettingsPage(projectUniqueName2)
 				.AssignTasksOnDocument(Path.GetFileNameWithoutExtension(PathProvider.DocumentFileToConfirm1), NickName)
@@ -256,7 +250,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 				"Произошла ошибка:\n тесты сообщений обоих уведомлений совпадают.");
 		}
 
-		[Ignore("PRX-11235")]
 		[Test]
 		public void ExportLimitNotifiers()
 		{
@@ -272,7 +265,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 			}
 		}
 
-		[Ignore("PRX-11235")]
 		[Test]
 		public void ExportMoreLimitNotifiers()
 		{
@@ -296,7 +288,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 				_maxNotifierNumber);
 		}
 
-		[Ignore("PRX-11235")]
 		[Test]
 		public void ExportCheckNotifiersFreshAbove()
 		{
@@ -304,7 +295,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 			var projectUniqueName2 = _createProjectHelper.GetProjectUniqueName();
 
 			_createProjectHelper
-				.CreateNewProject(projectUniqueName2, PathProvider.DocumentFileToConfirm1)
+				.CreateNewProject(projectUniqueName2, filePath: PathProvider.DocumentFileToConfirm1)
 				.AssertIsProjectLoaded(projectUniqueName2)
 				.GoToProjectSettingsPage(projectUniqueName2)
 				.AssignTasksOnDocument(Path.GetFileNameWithoutExtension(PathProvider.DocumentFileToConfirm1), NickName)
@@ -337,7 +328,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 				"Произошла ошибка:\n сообщение не изменилось, свежее сообщение должно быть сверху");
 		}
 
-		[Ignore("PRX-11235")]
 		[Test]
 		public void ExportChangeFirstToThird()
 		{
@@ -345,7 +335,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 			var projectUniqueName2 = _createProjectHelper.GetProjectUniqueName();
 
 			_createProjectHelper
-				.CreateNewProject(projectUniqueName2, PathProvider.DocumentFileToConfirm1)
+				.CreateNewProject(projectUniqueName2, filePath: PathProvider.DocumentFileToConfirm1)
 				.AssertIsProjectLoaded(projectUniqueName2)
 				.GoToProjectSettingsPage(projectUniqueName2)
 				.AssignTasksOnDocument(Path.GetFileNameWithoutExtension(PathProvider.DocumentFileToConfirm1), NickName)
@@ -383,7 +373,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 				"Произошла ошибка:\n кликнули по верхнему сообщению - появилось не первое!");
 		}
 
-		[Ignore("PRX-11235")]
 		[Test]
 		public void ExportChangeFirstToSecond()
 		{
@@ -392,7 +381,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 			var projectUniqueName2 = _createProjectHelper.GetProjectUniqueName();
 
 			_createProjectHelper
-				.CreateNewProject(projectUniqueName2, PathProvider.DocumentFileToConfirm1)
+				.CreateNewProject(projectUniqueName2, filePath: PathProvider.DocumentFileToConfirm1)
 				.AssertIsProjectLoaded(projectUniqueName2)
 				.GoToProjectSettingsPage(projectUniqueName2)
 				.AssignTasksOnDocument(Path.GetFileNameWithoutExtension(PathProvider.DocumentFileToConfirm1), NickName)

@@ -94,7 +94,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 				.UploadDocument(filePath)
 				.AssertFileUploaded(Path.GetFileName(filePath))
 				.ClickFinish<ProjectSettingsPage>()
-				.WaitUntilUploadDocumentDialogDissapeared();
+				.WaitUntilUploadDocumentDialogDissapeared()
+				.AssertIsDocumentProcessed();
 
 			return this;
 		}

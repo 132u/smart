@@ -24,6 +24,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings
 
 		public new void LoadPage()
 		{
+			Driver.WaitPageTotalLoad();
 			if (!Driver.WaitUntilElementIsDisplay(By.XPath(ADD_FILES_BTN)))
 			{
 				Assert.Fail("Произошла ошибка:\n не удалось перейти на вкладку проекта.");
@@ -223,7 +224,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings
 		/// <param name="documentName">имя документа(без расширения)</param>
 		public ProjectSettingsPage ClickDocumentProgress(string documentName)
 		{
-			Logger.Debug("Нажать на поле прогресс строке документа.");
+			Logger.Debug("Нажать на поле прогресс строке документа {0}.", documentName);
 
 			DocumentProgress = Driver.SetDynamicValue(How.XPath, DOCUMENT_PROGRESS, documentName);
 			DocumentProgress.Click();

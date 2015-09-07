@@ -26,7 +26,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 
 		public void LoadPage()
 		{
-			if (!Driver.WaitUntilElementIsDisplay(By.XPath(SEGMENTS_BODY)))
+			if (!Driver.WaitUntilElementIsDisplay(By.XPath(SEGMENTS_BODY), timeout: 60))
 			{
 				Assert.Fail("Произошла ошибка:\n не удалось открыть документ в редакторе.");
 			}

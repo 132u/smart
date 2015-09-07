@@ -18,7 +18,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 			_projectUniqueName = _createProjectHelper.GetProjectUniqueName();
 
 			_createProjectHelper
-				.CreateNewProject(_projectUniqueName, PathProvider.DocumentFileToConfirm1)
+				.CreateNewProject(_projectUniqueName, filePath: PathProvider.DocumentFileToConfirm1)
 				.AssertIsProjectLoaded(_projectUniqueName)
 				.GoToProjectSettingsPage(_projectUniqueName)
 				.AssignTasksOnDocument(Path.GetFileNameWithoutExtension(PathProvider.DocumentFileToConfirm1), NickName)
