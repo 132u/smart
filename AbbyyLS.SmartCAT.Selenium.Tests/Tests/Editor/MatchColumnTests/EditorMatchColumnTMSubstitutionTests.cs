@@ -38,7 +38,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Editor
 				.CloseTutorialIfExist();
 		}
 
-		[Test]
+		[Test, Explicit("PRX-11805")]
 		public void CheckMatchAfterTmSubstitutionSegmentNumber()
 		{
 			_editorHelper
@@ -52,7 +52,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Editor
 				.AssertTargetMatchPercenrCollorCorrect();
 		}
 
-		[Test]
+		[Test, Explicit("PRX-11805")]
 		public void CheckMatchAfterEditCell()
 		{
 			_editorHelper
@@ -66,7 +66,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Editor
 			_editorHelper.AssertCATPercentMatchTargetPercent(1, catRowNumber);
 		}
 
-		[Test]
+		[Test, Explicit("PRX-11805")]
 		public void CheckMatchAfterDelete()
 		{
 			_editorHelper
@@ -80,7 +80,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Editor
 			_editorHelper.AssertCATPercentMatchTargetPercent(1, catRowNumber);
 		}
 
-		[Test]
+		[Test, Explicit("PRX-11805")]
 		public void CheckTmMatchAfterAdd()
 		{
 			_editorHelper
