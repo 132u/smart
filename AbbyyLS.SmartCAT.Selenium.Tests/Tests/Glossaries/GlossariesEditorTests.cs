@@ -66,7 +66,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 		/// <summary>
 		/// Добавление одинаковых терминов в разные глоссарии
 		/// </summary>
-		[Test, Ignore("PRX-11596")]
+		[Test]
 		public void AddEqualTermsInTwoGlossaries()
 		{
 			var source = "Space";
