@@ -18,7 +18,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Editor
 			var projectUniqueName = _createProjectHelper.GetProjectUniqueName();
 
 			_createProjectHelper
-				.CreateNewProject(projectUniqueName, PathProvider.DocumentFile)
+				.CreateNewProject(projectUniqueName, filePath: PathProvider.DocumentFile)
 				.GoToProjectSettingsPage(projectUniqueName)
 				.AssignTasksOnDocument(Path.GetFileNameWithoutExtension(PathProvider.DocumentFile), NickName)
 				.OpenDocument<SelectTaskDialog>(Path.GetFileNameWithoutExtension(PathProvider.DocumentFile))
