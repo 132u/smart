@@ -38,6 +38,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 		[FindsBy(How = How.XPath, Using = DELETE_PROJECT_BTN)]
 		protected IWebElement DeleteProjectButton { get; set; }
 
-		protected const string DELETE_PROJECT_BTN = "//div[contains(@class,'js-popup-delete-mode')]//input[contains(@class,'js-delete-project-btn')]";
+		protected const string DELETE_PROJECT_BTN = "//div[contains(@class, 'js-popup-confirm')]//form[@class='js-ajax-form-submit']//input[@data-close-text='Close']";
 	}
 }

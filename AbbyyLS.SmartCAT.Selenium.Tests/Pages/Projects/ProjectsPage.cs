@@ -436,7 +436,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 		protected const string DELETE_BUTTON = "//span[contains(@class,'js-delete-btn')]";
 		protected const string PROJECT_SEARCH_FIELD = "//input[@name='searchName']";
 		protected const string SEARCH_PROJECT_BUTTON = "//a[contains(@class, 'js-search-btn')]/img";
-		protected const string DELETE_DIALOG_WITH_FILE = "//div[contains(@class,'js-popup-delete-mode')]";
+		protected const string DELETE_DIALOG_WITH_FILE = "//div[contains(text(), 'Delete the selected project')]";
 		protected const string DELETE_DIALOG = "//div[contains(@class,'js-popup-confirm')]";
 		protected const string PROJECT_REF = ".//table[contains(@class,'js-tasks-table')]//tr//*[@class='js-name'][(local-name() ='a' or local-name() ='span') and text()='*#*']";
 		protected const string OPEN_PROJECT_FOLDER = ".//table[contains(@class,'js-tasks-table')]//tr//*[@class='js-name'][(local-name() ='a' or local-name() ='span') and text()='*#*']//preceding-sibling::div//img";
