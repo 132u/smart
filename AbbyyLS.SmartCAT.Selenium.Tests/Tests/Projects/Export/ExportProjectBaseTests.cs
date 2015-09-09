@@ -19,7 +19,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 
 			_createProjectHelper
 				.CreateNewProject(_projectUniqueName, filePath: PathProvider.DocumentFileToConfirm1)
-				.AssertIsProjectLoaded(_projectUniqueName)
+				.AssertIsProjectLoadedSuccessfully(_projectUniqueName)
 				.GoToProjectSettingsPage(_projectUniqueName)
 				.AssignTasksOnDocument(Path.GetFileNameWithoutExtension(PathProvider.DocumentFileToConfirm1), NickName)
 				.CreateRevision(Path.GetFileNameWithoutExtension(PathProvider.DocumentFileToConfirm1));

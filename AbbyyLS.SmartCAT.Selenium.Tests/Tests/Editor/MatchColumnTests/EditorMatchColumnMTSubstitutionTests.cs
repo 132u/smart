@@ -22,7 +22,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Editor
 				useMachineTranslation: true,
 				createGlossary: true)
 				.CheckProjectAppearInList(projectUniqueName)
-				.AssertIsProjectLoaded(projectUniqueName);
+				.AssertIsProjectLoadedSuccessfully(projectUniqueName);
 
 			_projectsHelper
 				.OpenProjectInfo(projectUniqueName)

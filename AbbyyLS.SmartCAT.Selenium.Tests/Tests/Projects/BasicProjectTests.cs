@@ -49,7 +49,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 			_createProjectHelper
 				.CreateNewProject(projectUniqueName, filePath: PathProvider.DocumentFile)
 				.CheckProjectAppearInList(projectUniqueName)
-				.AssertIsProjectLoaded(projectUniqueName)
+				.AssertIsProjectLoadedSuccessfully(projectUniqueName)
 				.OpenProjectInfo(projectUniqueName)
 				.SelectProjectInList(projectUniqueName)
 				.DeleteProjectWithFileFromList()

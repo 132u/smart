@@ -64,7 +64,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 				.ClickNextOnGeneralProjectInformationPage()
 				.ClickFinishOnProjectSetUpWorkflowDialog()
 				.CheckProjectAppearInList(projectUniqueName)
-				.AssertIsProjectLoaded(projectUniqueName);
+				.AssertIsProjectLoadedSuccessfully(projectUniqueName);
 		}
 
 		private readonly CreateProjectHelper _createProjectHelper = new CreateProjectHelper();

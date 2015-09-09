@@ -52,7 +52,36 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 			
 			return GetPage();
 		}
-		
+
+		/// <summary>
+		/// Проверить, что документ загрузился без критических ошибок, не появился красный восклицательный знак
+		/// </summary>
+		/// <param name="projectName">название проекта</param>
+		public ProjectsPage AssertProjectLoadFatalErrorNotDisplayed(string projectName)
+		{
+			Logger.Debug("Проверить, что документ загрузился в проект {0} без критических ошибок, не появился красный восклицательный знак.", projectName);
+
+			Assert.IsFalse(Driver.GetIsElementExist(By.XPath(PROJECT_CRITICAL_ERROR_LOAD.Replace("*#*", projectName))),
+				"Произошла ошибка:\nДокумент загрузился с ошибокой.");
+
+			return GetPage();
+		}
+
+		/// <summary>
+		///  Проверить, что документ загрузился без предупреждающей ошибки, не появился желтый восклицательный знак
+		/// </summary>
+		/// <param name="projectName"></param>
+		/// <returns></returns>
+		public ProjectsPage AssertProjectLoadWarningErrorNotDisplayed(string projectName)
+		{
+			Logger.Debug("Проверить, что документ загрузился в проект {0} без предупреждающей ошибки, не появился желтый восклицательный знак.", projectName);
+
+			Assert.IsFalse(Driver.GetIsElementExist(By.XPath(PROJECT_WARNING_ERROR_LOAD.Replace("*#*", projectName))),
+				"Произошла ошибка:\nДокумент загрузился с предупреждающей ошибкой.");
+
+			return GetPage();
+		}
+
 		/// <summary>
 		/// Кликнуть по ссылке проекта
 		/// </summary>
@@ -432,6 +461,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 		protected const string CREATE_PROJECT_DIALOG_XPATH = "//div[contains(@class,'js-popup-create-project')][2]";
 		protected const string PROJECT_REF_XPATH = "//table[contains(@class,'js-tasks-table')]//tr//a[@class='js-name'][string()='*#*']";
 		protected const string PROJECT_LOAD_IMG_XPATH = "//a[text()='*#*']//preceding-sibling::img[contains(@data-bind,'processingInProgress')]";
+		protected const string PROJECT_CRITICAL_ERROR_LOAD = "//a[text()='*#*']//preceding-sibling::img[contains(@data-bind,'processingFatalError')]";
+		protected const string PROJECT_WARNING_ERROR_LOAD = "//a[text()='*#*']//preceding-sibling::img[contains(@data-bind,'processingError')]";
 		protected const string PROJECTS_TABLE_XPATH = "//table[contains(@class,'js-tasks-table')]";
 		protected const string DELETE_BUTTON = "//span[contains(@class,'js-delete-btn')]";
 		protected const string PROJECT_SEARCH_FIELD = "//input[@name='searchName']";

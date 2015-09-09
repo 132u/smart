@@ -85,10 +85,13 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 			return new EditorHelper();
 		}
 
-		public ProjectsHelper AssertIsProjectLoaded(string projectName)
+		public ProjectsHelper AssertIsProjectLoadedSuccessfully(string projectName)
 		{
 			BaseObject.InitPage(_projectsPage);
-			_projectsPage.AssertIsProjectLoaded(projectName);
+			_projectsPage
+				.AssertIsProjectLoaded(projectName)
+				.AssertProjectLoadFatalErrorNotDisplayed(projectName)
+				.AssertProjectLoadWarningErrorNotDisplayed(projectName);
 
 			return this;
 		}
