@@ -53,7 +53,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 		/// <summary>
 		/// Открывает форму добавления термина в редакторе по хоткею
 		/// </summary>
-		[Test]
+		[Test, Explicit("Тесты, использующие hotkey, не работают на тимсити")]
 		public void OpenAddTermFormByHotKey()
 		{
 			_editorHelper.OpenAddTermDialogWithHotKey();
