@@ -20,7 +20,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Editor
 				createNewTm: true,
 				tmxFilePath: PathProvider.TmxFileForMatchTest,
 				useMachineTranslation: true,
-				createGlossary: true);
+				createGlossary: true)
+				.CheckProjectAppearInList(projectUniqueName)
+				.AssertIsProjectLoaded(projectUniqueName);
 
 			_projectsHelper
 				.OpenProjectInfo(projectUniqueName)
@@ -35,7 +37,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Editor
 				.CloseTutorialIfExist();
 		}
 
-		[Test, Explicit("PRX-11805")]
+		[Test]
 		public void CheckMatchAfterMtSubstitution()
 		{
 			_editorHelper
@@ -43,7 +45,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Editor
 				.AssertMatchColumnCatTypeMatch(catType: CatType.MT);
 		}
 
-		[Test, Explicit("PRX-11805")]
+		[Test]
 		public void CheckMatchAfterBothSubstitutions()
 		{
 			_editorHelper
@@ -58,7 +60,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Editor
 			_editorHelper.AssertCATPercentMatchTargetPercent(1, catRowNumber);
 		}
 
-		[Test, Explicit("PRX-11805")]
+		[Test]
 		public void CheckMtMatchAfterAdd()
 		{
 			_editorHelper
