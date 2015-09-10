@@ -39,6 +39,19 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 		}
 
 		/// <summary>
+		/// Проверить, что диалог создания TM закрылся
+		/// </summary>
+		public NewProjectSetUpTMDialog AssertNewProjectCreateTMDialogDisappeared()
+		{
+			Logger.Trace("Проверить, что диалог создания TM закрылся");
+
+			Assert.IsTrue(Driver.WaitUntilElementIsDisappeared(By.XPath(NEW_TM_NAME_INPUT)),
+				"Произошла ошибка:\n диалог создания TM не закрылся");
+
+			return GetPage();
+		}
+
+		/// <summary>
 		/// Проверить, что первая ТМ выбрана
 		/// </summary>
 		public NewProjectSetUpTMDialog AssertFirstTMSelected()
@@ -122,5 +135,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 		protected const string TM_TABLE_FIRST_ITEM = "//div[contains(@class,'js-popup-create-project')][2]//table[contains(@class,'js-tms-popup-table')]//tbody//tr[1]//td[1]//input";
 		protected const string TM_ITEM = "//div[contains(@class,'js-popup-create-project')][2]//table[contains(@class,'js-tms-popup-table')]//tbody//tr//td[contains(@class,'js-name')][text()='*#*']";
 		protected const string UPLOAD_TM_BUTTON = "//div[contains(@class,'js-popup-create-project')][2]//span[contains(@class,'js-tm-upload')]";
+		protected const string NEW_TM_NAME_INPUT = "//div[contains(@class,'js-popup-create-tm')][2]//input[contains(@data-bind,'value: name')]";
 	}
 }

@@ -18,13 +18,15 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Editor
 		{
 			var projectUniqueName = _createProjectHelper.GetProjectUniqueName();
 
-			_createProjectHelper.CreateNewProject(
-				projectName: projectUniqueName,
-				filePath: PathProvider.TxtFileForMatchTest,
-				createNewTm: true,
-				tmxFilePath: PathProvider.TmxFileForMatchTest,
-				useMachineTranslation: true,
-				createGlossary: true);
+			_createProjectHelper
+				.CreateNewProject(
+					projectName: projectUniqueName,
+					filePath: PathProvider.TxtFileForMatchTest,
+					createNewTm: true,
+					tmxFilePath: PathProvider.TmxFileForMatchTest,
+					useMachineTranslation: true,
+					createGlossary: true)
+				.AssertIsProjectLoadedSuccessfully(projectUniqueName);
 
 			_projectsHelper
 				.OpenProjectInfo(projectUniqueName)

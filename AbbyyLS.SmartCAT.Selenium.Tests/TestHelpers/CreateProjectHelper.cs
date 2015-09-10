@@ -51,6 +51,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 						.UploadTmxFile(tmxFilePath)
 						.SetNewTMName(translationMemoryName)
 						.ClickSaveButton()
+						.AssertNewProjectCreateTMDialogDisappeared()
 						.AssertTranslationMemoryExist(translationMemoryName);
 				}
 				else
@@ -59,6 +60,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 						.ClickCreateTMButton()
 						.SetNewTMName(translationMemoryName)
 						.ClickSaveButton()
+						.AssertNewProjectCreateTMDialogDisappeared()
 						.AssertTranslationMemoryExist(translationMemoryName);
 				}
 			}
