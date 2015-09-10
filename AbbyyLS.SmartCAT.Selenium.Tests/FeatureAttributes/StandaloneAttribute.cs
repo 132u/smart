@@ -2,10 +2,10 @@
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.FeatureAttributes
 {
-	class ClientsAttribute : CategoryAttribute
+	class StandaloneAttribute : CategoryAttribute
 	{
-		public ClientsAttribute()
-			: base("Clients")
+		public StandaloneAttribute()
+			: base("Standalone")
 		{
 
 		}
