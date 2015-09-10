@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 
 using NConfiguration;
 using NUnit.Framework;
@@ -16,6 +17,21 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests
 	[TestFixture(typeof(ChromeDriverProvider))]
 	public class BaseTest<TWebDriverProvider> : BaseObject where TWebDriverProvider : IWebDriverProvider, new()
 	{
+		public BaseTest()
+		{
+			try
+			{
+				initializeRelatedToUserFields();
+				initializeRelatedToServerFields();
+				initializeUsersAndCompanyList();
+			}
+			catch (Exception e)
+			{
+				Logger.ErrorException("Произошла ошибка в конструкторе BaseTest", e);
+				throw;
+			}
+		} 
+
 		protected string PathTestResults
 		{
 			get
@@ -24,80 +40,16 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests
 			}
 		}
 
-		protected StartPage StartPage = StartPage.Workspace;
-		
-		protected bool Standalone { get; private set; }
-
-		protected string Url { get; private set; }
-
-		protected string WorkspaceUrl { get; private set; }
-
-		protected string AdminUrl { get; private set; }
-
-		protected string Login { get; private set; }
-
-		protected string Password { get; private set; }
-
-		protected string NickName { get; private set; }
-
-		protected string UserName { get; private set; }
-
-		protected string UserSurname { get; private set; }
-
-		protected string Login2 { get; private set; }
-
-		protected string Password2 { get; private set; }
-
-		protected string NickName2 { get; private set; }
-
-		protected string UserName2 { get; private set; }
-
-		protected string UserSurname2 { get; private set; }
-
-		protected string RightsTestLogin { get; private set; }
-
-		protected string RightsTestPassword { get; private set; }
-
-		protected string RightsTestNickName { get; private set; }
-
-		protected string RightsTestUserName { get; private set; }
-
-		protected string RightsTestSurname { get; private set; }
-
-		protected List<TestUser> TestUserList { get; private set; }
-
-		protected List<TestUser> TestCompanyList { get; private set; }
-
-		protected List<TestUser> CourseraUserList { get; private set; }
-
-		protected List<TestUser> AolUserList { get; private set; }
-
-		protected List<TestUser> SocialNetworksUserList { get; private set; }
-
-		protected string[] ProcessNames { get; private set; }
-
-		protected AdminHelper AdminHelper { get; private set; }
-
-		protected LoginHelper LoginHelper { get; private set; }
-
-		protected WorkspaceHelper WorkspaceHelper { get; private set; }
-
-		protected CreateProjectHelper CreateProjectHelper { get; private set; }
-
-		protected DateTime TestBeginTime { get; private set; }
-
 		[TestFixtureSetUp]
 		public void BeforeClass()
 		{
 			try
 			{
-				initializeRelatedToUserFields();
-				initializeRelatedToServerFields();
-				initializeUsersAndCompanyList();
+				Driver = new WebDriver(new TWebDriverProvider(), PathProvider.DriversTemporaryFolder, PathProvider.ExportFiles);
 			}
-			catch (Exception ex)
+			catch (Exception e)
 			{
-				Logger.ErrorException("Произошла ошибка в TestFixtureSetUp", ex);
+				Logger.ErrorException("Произошла ошибка в TestFixtureSetUp", e);
 				throw;
 			}
 		}
@@ -109,8 +61,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests
 			{
 				TestBeginTime = DateTime.Now;
 				Logger.Info("Начало работы теста {0} \nВремя начала: {1}", TestContext.CurrentContext.Test.Name, TestBeginTime);
-
-				Driver = new WebDriver(new TWebDriverProvider(), PathProvider.DriversTemporaryFolder, PathProvider.ExportFiles);
 
 				initializeHelpers();
 				authorize();
@@ -139,7 +89,12 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests
 			}
 
 			logTestSummary();
+			Driver.SwitchToNewTab();
+		}
 
+		[TestFixtureTearDown]
+		public void TestFixtureTearDown()
+		{
 			if (Driver != null)
 			{
 				Driver.Dispose();
@@ -317,5 +272,37 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests
 				SocialNetworksUserList = new List<TestUser>();
 			}
 		}
+
+		protected StartPage StartPage = StartPage.Workspace;
+		protected bool Standalone { get; private set; }
+		protected string Url { get; private set; }
+		protected string WorkspaceUrl { get; private set; }
+		protected string AdminUrl { get; private set; }
+		protected string Login { get; private set; }
+		protected string Password { get; private set; }
+		protected string NickName { get; private set; }
+		protected string UserName { get; private set; }
+		protected string UserSurname { get; private set; }
+		protected string Login2 { get; private set; }
+		protected string Password2 { get; private set; }
+		protected string NickName2 { get; private set; }
+		protected string UserName2 { get; private set; }
+		protected string UserSurname2 { get; private set; }
+		protected string RightsTestLogin { get; private set; }
+		protected string RightsTestPassword { get; private set; }
+		protected string RightsTestNickName { get; private set; }
+		protected string RightsTestUserName { get; private set; }
+		protected string RightsTestSurname { get; private set; }
+		protected List<TestUser> TestUserList { get; private set; }
+		protected List<TestUser> TestCompanyList { get; private set; }
+		protected List<TestUser> CourseraUserList { get; private set; }
+		protected List<TestUser> AolUserList { get; private set; }
+		protected List<TestUser> SocialNetworksUserList { get; private set; }
+		protected string[] ProcessNames { get; private set; }
+		protected AdminHelper AdminHelper { get; private set; }
+		protected LoginHelper LoginHelper { get; private set; }
+		protected WorkspaceHelper WorkspaceHelper { get; private set; }
+		protected CreateProjectHelper CreateProjectHelper { get; private set; }
+		protected DateTime TestBeginTime { get; private set; }
 	}
 }

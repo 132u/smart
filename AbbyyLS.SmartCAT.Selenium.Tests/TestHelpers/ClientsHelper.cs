@@ -77,13 +77,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 			return this;
 		}
 
-		public static string GetClientUniqueName()
+		public string GetClientUniqueName()
 		{
-			// Sleep вставлен для того, чтобы избежать вероятность генерации одинаковых имен
-			// Такая ситуация возможна, если имена генерируются друг за другом
-			Thread.Sleep(10);
-
-			return "TestClient" + DateTime.UtcNow.Ticks;
+			return "TestClient-" + Guid.NewGuid();
 		}
 
 		public ClientsHelper ClickSortByName()

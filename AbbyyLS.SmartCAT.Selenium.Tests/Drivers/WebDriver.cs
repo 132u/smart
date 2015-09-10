@@ -458,6 +458,20 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Drivers
 		}
 
 		/// <summary>
+		/// Открыть новую вкладку, удалив старую и почистив cookies
+		/// </summary>
+		public void SwitchToNewTab()
+		{
+			_driver.Manage().Cookies.DeleteAllCookies();
+			// Открываем новую вкладку для следующего теста
+			_driver.ExecuteScript("window.open()");
+			// Закрываем текущую вкладку
+			_driver.Close();
+			// Переключаемся на только что открытую вкладку
+			_driver.SwitchTo().Window(_driver.WindowHandles.Last());
+		}
+
+		/// <summary>
 		/// Дождаться, пока страница полностью загрузится
 		/// </summary>
 		/// <param name="maxWait">таймаут</param>
