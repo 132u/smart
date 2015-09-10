@@ -132,12 +132,25 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 		/// <summary>
 		/// Дождаться закрытия диалога создания проекта
 		/// </summary>
-		public ProjectsPage WaitCreateProjectDialogDissapear()
+		public ProjectsPage WaitCreateProjectDialogDisappear()
 		{
 			Logger.Trace("Дождаться закрытия диалога создания проекта.");
 
 			Assert.IsTrue(Driver.WaitUntilElementIsDisappeared(By.XPath(CREATE_PROJECT_DIALOG_XPATH), timeout: 20),
 				"Произошла ошибка:\n диалог создания проекта не закрылся.");
+
+			return GetPage();
+		}
+
+		/// <summary>
+		/// Дождаться закрытия диалога добавления файла в проект
+		/// </summary>
+		public ProjectsPage WaitUploadDocumentDialogDisappear()
+		{
+			Logger.Trace("Дождаться закрытия диалога добавления файла в проект.");
+
+			Assert.IsTrue(Driver.WaitUntilElementIsDisappeared(By.XPath(UPLOAD_DOCUMENT_DIALOG)),
+				"Произошла ошибка:\n диалог добавления файла в проект не закрылся.");
 
 			return GetPage();
 		}
@@ -157,12 +170,12 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 		/// <summary>
 		/// Нажать на кнопку 'Удалить'
 		/// </summary>
-		public DeleteProjectDialog ClickDeleteProject()
+		public DeleteDialog ClickDeleteButton()
 		{
 			Logger.Debug("Нажать на кнопку 'Удалить'.");
 			DeleteButton.Click();
 
-			return new DeleteProjectDialog().GetPage();
+			return new DeleteDialog().GetPage();
 		}
 
 		/// <summary>
@@ -256,14 +269,14 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 		}
 
 		/// <summary>
-		/// Ожидаем закрытия диалога удаления проекта
+		/// Дождаться закрытия диалога удаления
 		/// </summary>
-		public ProjectsPage WaitDeleteProjectDialogDissapeared()
+		public ProjectsPage WaitDeleteDialogDissapeared()
 		{
-			Logger.Trace("Дождаться закрытия диалога удаления проекта.");
+			Logger.Trace("Дождаться закрытия диалога удаления.");
 
 			Assert.IsTrue(Driver.WaitUntilElementIsDisappeared(By.XPath(DELETE_DIALOG)),
-				"Произошла ошибка:\n диалог удаления проекта не закрылся.");
+				"Произошла ошибка:\n диалог удаления не закрылся.");
 
 			return GetPage();
 		}
@@ -387,10 +400,109 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 		/// </summary>
 		public DocumentUploadGeneralInformationDialog ClickDocumentUploadButton()
 		{
-			Logger.Debug("Нажать на кнопку звгрузки файла");
+			Logger.Debug("Нажать на кнопку загрузки файла");
 			UploadDocumentButton.Click();
 
 			return new DocumentUploadGeneralInformationDialog().GetPage();
+		}
+
+		/// <summary>
+		/// Проверить, что ссылка ведущая в проект остутствует
+		/// </summary>
+		/// <param name="projectName">имя проекта</param>
+		public ProjectsPage AssertLinkProjectNotExist(string projectName)
+		{
+			Logger.Trace("Проверить, что ссылка ведущая в проект {0} остутствует", projectName);
+
+			Assert.IsFalse(Driver.GetIsElementExist(By.XPath(PROJECT_LINK.Replace("*#*", projectName))),
+				"Произошла ошибка:\n не должно быть ссылки на проект {0}",
+				projectName);
+
+			return GetPage();
+		}
+
+		/// <summary>
+		/// Отметить чекбокс документа
+		/// </summary>
+		/// <param name="projectName">имя проекта</param>
+		/// <param name="documentName">имя документа</param>
+		public ProjectsPage SelectDocument(string projectName, string documentName)
+		{
+			Logger.Debug("Отметить чекбокс документа {0} в проекте {1}", documentName, projectName);
+
+			DocumentCheckBox = Driver.SetDynamicValue(How.XPath, DOCUMENT_CHECKBOX, projectName, documentName);
+			DocumentCheckBox.Click();
+
+			return GetPage();
+		}
+
+		/// <summary>
+		/// Проверить, что кнопка 'Sign in to Connector' отсутствует
+		/// </summary>
+		public ProjectsPage AssertSignInToConnectorButtonNotExist()
+		{
+			Logger.Trace("Проверить, что кнопка 'Sign in to Connector' отсутствует");
+
+			Assert.IsFalse(Driver.GetIsElementExist(By.XPath(SIGN_IN_TO_CONNECTOR_BUTTON)),
+				"Произошла ошибка:\n кнопка 'Sign in to Connector' не должна быть видна.");
+
+			return GetPage();
+		}
+
+		/// <summary>
+		/// Проверить, что кнопка 'QA Check' у проекта видима
+		/// </summary>
+		/// <param name="projectName">имя проекта</param>
+		public ProjectsPage AssertQACheckButtonExist(string projectName)
+		{
+			Logger.Trace("Проверить, что кнопка 'QA Check' у проекта '{0}' видима.", projectName);
+
+			Assert.IsTrue(Driver.GetIsElementExist(By.XPath(QA_CHECK_BUTTON.Replace("*#*", projectName))),
+				"Произошла ошибка:\n кнопка 'QA Check' у проекта '{0}'. отсутствует", projectName);
+
+			return GetPage();
+		}
+
+		/// <summary>
+		/// Нажать кнопку настроек проекта в открытой свёртке.
+		/// </summary>
+		/// <param name="projectName">имя проекта</param>
+		public SettingsDialog ClickProjectSettingsButton(string projectName)
+		{
+			Logger.Debug("Нажать кнопку настроек проекта '{0}' в открытой свёртке.", projectName);
+
+			ProjectSettingsButton = Driver.SetDynamicValue(How.XPath, PROJECT_SETTINGS_BUTTON, projectName);
+			ProjectSettingsButton.Click();
+
+			return  new SettingsDialog().GetPage();
+		}
+
+		/// <summary>
+		/// Нажать кнопку анализа проекта в открытой свёртке.
+		/// </summary>
+		/// <param name="projectName">имя проекта</param>
+		public AnalysisDialog ClickProjectAnalysisButton(string projectName)
+		{
+			Logger.Debug("Нажать кнопку анализа проекта '{0}' в открытой свёртке.", projectName);
+
+			ProjectAnalysisButton = Driver.SetDynamicValue(How.XPath, PROJECT_ANALYSIS_BUTTON, projectName);
+			ProjectAnalysisButton.Click();
+
+			return new AnalysisDialog().GetPage();
+		}
+
+		/// <summary>
+		/// Нажать кнопку удаления в меню проекта
+		/// </summary>
+		/// <param name="projectName">имя проекта</param>
+		public DeleteDialog ClickDeleteInProjectButton(string projectName)
+		{
+			Logger.Debug("Нажать кнопку удаления в меню проекта {0}", projectName);
+
+			DeleteInProjectButton = Driver.SetDynamicValue(How.XPath, DELETE_IN_PROJECT_BUTTON, projectName);
+			DeleteInProjectButton.Click();
+
+			return new DeleteDialog().GetPage();
 		}
 
 		/// <summary>
@@ -439,6 +551,12 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 		[FindsBy(How = How.XPath, Using = DOCUMENT_SETTINGS)]
 		protected IWebElement DocumentSettings { get; set; }
 
+		[FindsBy(How = How.XPath, Using = PROJECT_SETTINGS_BUTTON)]
+		protected IWebElement ProjectSettingsButton { get; set; }
+
+		[FindsBy(How = How.XPath, Using = PROJECT_ANALYSIS_BUTTON)]
+		protected IWebElement ProjectAnalysisButton { get; set; }
+
 		protected IWebElement DownloadInProjectButton { get; set; }
 
 		protected IWebElement DownloadInDocumentButton { get; set; }
@@ -457,10 +575,14 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 
 		protected IWebElement DocumentRef { get; set; }
 
+		protected IWebElement DocumentCheckBox { get; set; }
+
+		protected IWebElement DeleteInProjectButton { get; set; }
+
 		protected const string CREATE_PROJECT_BTN_XPATH = "//span[contains(@class,'js-project-create')]";
 		protected const string CREATE_PROJECT_DIALOG_XPATH = "//div[contains(@class,'js-popup-create-project')][2]";
-		protected const string PROJECT_REF_XPATH = "//table[contains(@class,'js-tasks-table')]//tr//a[@class='js-name'][string()='*#*']";
-		protected const string PROJECT_LOAD_IMG_XPATH = "//a[text()='*#*']//preceding-sibling::img[contains(@data-bind,'processingInProgress')]";
+		protected const string PROJECT_REF_XPATH = "//table[contains(@class,'js-tasks-table')]//tr//*[@class='js-name'][(local-name() ='a' or local-name() ='span') and string()='*#*']";
+		protected const string PROJECT_LOAD_IMG_XPATH = "//*[(local-name() ='a' or local-name() ='span') and text()='*#*']//preceding-sibling::img[contains(@data-bind,'processingInProgress')]";
 		protected const string PROJECT_CRITICAL_ERROR_LOAD = "//a[text()='*#*']//preceding-sibling::img[contains(@data-bind,'processingFatalError')]";
 		protected const string PROJECT_WARNING_ERROR_LOAD = "//a[text()='*#*']//preceding-sibling::img[contains(@data-bind,'processingError')]";
 		protected const string PROJECTS_TABLE_XPATH = "//table[contains(@class,'js-tasks-table')]";
@@ -475,12 +597,20 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 		protected const string OPEN_PROJECT = ".//table[contains(@class,'js-tasks-table')]//tr//*[@class='js-name'][(local-name() ='a' or local-name() ='span') and text()='*#*']/ancestor-or-self::tr";
 		protected const string DOCUMENT_REF = "//tr[contains(@class,'js-document-row')]//a[text()='*#*']";
 		protected const string DOWNLOAD_MAIN_MENU_BUTTON = "//span[contains(@class,'js-document-export-block')]";
-		protected const string DOWNLOAD_IN_PROJECT_BUTTON = "//table[contains(@class,'js-tasks-table')]//tr//a[@class='js-name'][string()='*#*']//ancestor::tr//following-sibling::tr[1]//div[contains(@class,'js-buttons-left')]//li/span";
-		protected const string DOWNLOAD_IN_DOCUMENT_BUTTON =".//table[contains(@class,'js-tasks-table')]//tr//*[@class='js-name'][(local-name() ='a' or local-name() ='span') and text()='*#*']//ancestor::tr/following-sibling::tr[contains(@class,'js-document-row')][*##*]//following-sibling::tr[1]//div[contains(@class,'js-buttons-left')]//li";
+		protected const string DOWNLOAD_IN_PROJECT_BUTTON = "//table[contains(@class,'js-tasks-table')]//tr//*[@class='js-name'][(local-name() ='a' or local-name() ='span') and text()='*#*']//ancestor::tr//following-sibling::tr[1]//div[contains(@class,'js-buttons-left')]//li/span";
+		protected const string DOWNLOAD_IN_DOCUMENT_BUTTON ="//table[contains(@class,'js-tasks-table')]//tr//*[@class='js-name'][(local-name() ='a' or local-name() ='span') and text()='*#*']//ancestor::tr/following-sibling::tr[contains(@class,'js-document-row')][*##*]//following-sibling::tr[1]//div[contains(@class,'js-buttons-left')]//li";
 		protected const string DOCUMENT_ROW = ".//table[contains(@class,'js-tasks-table')]//tr//*[@class='js-name'][(local-name() ='a' or local-name() ='span') and text()='*#*']//ancestor::tr/following-sibling::tr[contains(@class,'js-document-row')][*##*]";
 		protected const string DOCUMENT_PROGRESS = ".//table[contains(@class,'js-tasks-table')]//tr//*[@class='js-name'][(local-name() ='a' or local-name() ='span') and text()='*#*']//ancestor::tr/following-sibling::tr[contains(@class,'js-document-row')][*##*]//div[@class='ui-progressbar__container']";
 		protected const string DOCUMENT_SETTINGS = ".//table[contains(@class,'js-tasks-table')]//tr//*[@class='js-name'][(local-name() ='a' or local-name() ='span') and text()='*#*']//ancestor::tr/following-sibling::tr[contains(@class,'js-document-row')][*##*]//following-sibling::tr[1]//span[contains(@data-bind, 'actions.edit')]";
 		protected const string DOCUMENT_TASK_ASSIGN_BUTTON = ".//table[contains(@class,'js-tasks-table')]//tr//*[@class='js-name'][(local-name() ='a' or local-name() ='span') and text()='*#*']/ancestor::tr/following-sibling::tr[*##*]/following-sibling::tr[1][@class='js-document-panel l-project__doc-panel']//span[contains(@class, 'js-assign-btn') and @data-bind='click: assign']";
-		protected const string UPLOAD_DOCUMENT_BUTTON = "//span[contains(@data-bind, 'click: importJob')]";
+		protected const string UPLOAD_DOCUMENT_BUTTON = "//span[contains(@data-bind, 'click: importDocument')]";
+		protected const string PROJECT_LINK = ".//table[contains(@class,'js-tasks-table')]//tr//a[@class='js-name'][text()='*#*']";
+		protected const string DOCUMENT_CHECKBOX = ".//table[contains(@class,'js-tasks-table')]//*[@class='js-name'][(local-name() ='a' or local-name() ='span') and text()='*#*']//ancestor::tr//following-sibling::tr[td[div[a[contains(@class,'doc-link')][text()='*##*']]]]/td[1]/input";
+		protected const string SIGN_IN_TO_CONNECTOR_BUTTON = "//span[contains(@class,'login-connector-btn')]";
+		protected const string QA_CHECK_BUTTON = "//table[contains(@class,'js-tasks-table')]//*[@class='js-name'][(local-name() ='a' or local-name() ='span') and text()='*#*']//ancestor::tr//following-sibling::tr[1]//span[contains(@data-bind,'qaCheck')]";
+		protected const string PROJECT_SETTINGS_BUTTON = "//table[contains(@class,'js-tasks-table')]//*[@class='js-name'][(local-name() ='a' or local-name() ='span') and text()='*#*']//ancestor::tr//following-sibling::tr[1]//span[contains(@data-bind,'edit')]";
+		protected const string PROJECT_ANALYSIS_BUTTON = "//table[contains(@class,'js-tasks-table')]//*[@class='js-name'][(local-name() ='a' or local-name() ='span') and text()='*#*']//ancestor::tr//following-sibling::tr[1]//span[contains(@data-bind,'analysis')]";
+		protected const string UPLOAD_DOCUMENT_DIALOG = "//div[contains(@class,'js-popup-import-document')][2]";
+		protected const string DELETE_IN_PROJECT_BUTTON = "//table[contains(@class,'js-tasks-table')]//tr//*[@class='js-name'][(local-name() ='a' or local-name() ='span') and text()='*#*']//ancestor::tr//following-sibling::tr[1]//div[contains(@class,'js-buttons-left')]//span[3]";
 	}
 }

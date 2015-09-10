@@ -1,17 +1,18 @@
 ﻿using NUnit.Framework;
 using OpenQA.Selenium;
+using OpenQA.Selenium.Support.PageObjects;
 
 using AbbyyLS.SmartCAT.Selenium.Tests.TestFramework;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 {
-	public class DeleteProjectDialog : ProjectsPage, IAbstractPage<DeleteProjectDialog>
+	public class DeleteDialog : ProjectsPage, IAbstractPage<DeleteDialog>
 	{
-		public new DeleteProjectDialog GetPage()
+		public new DeleteDialog GetPage()
 		{
-			var newDeleteProjectDialog = new DeleteProjectDialog();
+			var newDeleteProjectDialog = new DeleteDialog();
 			InitPage(newDeleteProjectDialog);
-			newDeleteProjectDialog.DeleteProjectButton = Driver.FindElement(By.XPath(DELETE_BTN_XPATH));
+			newDeleteProjectDialog.DeleteButton = Driver.FindElement(By.XPath(CONFIRM_DELETE_BUTTON));
 
 			return newDeleteProjectDialog;
 		}
@@ -27,17 +28,17 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 		/// <summary>
 		/// Нажать кнопку "Удалить"
 		/// </summary>
-		public ProjectsPage ClickDeleteButton()
+		public ProjectsPage ClickConfirmDeleteButton()
 		{
 			Logger.Debug("Нажать кнопку 'Удалить'.");
-			DeleteProjectButton.Click();
+			ConfirmDeleteButton.Click();
 
 			return new ProjectsPage().GetPage();
 		}
 
-		protected IWebElement DeleteProjectButton { get; set; }
+		[FindsBy(How = How.XPath, Using = CONFIRM_DELETE_BUTTON)]
+		protected IWebElement ConfirmDeleteButton { get; set; }
 
-		protected const string DELETE_BTN_XPATH = "//div[contains(@class,'js-popup-confirm')]//input[contains(@class,'js-submit-btn')]";
-
+		protected const string CONFIRM_DELETE_BUTTON = "//div[contains(@class,'js-popup-confirm')]//input[contains(@class,'js-submit-btn')]";
 	}
 }

@@ -21,13 +21,13 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 			return this;
 		}
 
-		public ProjectsHelper DeleteProjectFromList()
+		public ProjectsHelper DeleteFromList()
 		{
 			BaseObject.InitPage(_projectsPage);
 			_projectsPage
-				.ClickDeleteProject()
 				.ClickDeleteButton()
-				.WaitDeleteProjectDialogDissapeared();
+				.ClickConfirmDeleteButton()
+				.WaitDeleteDialogDissapeared();
 
 			return this;
 		}
@@ -39,6 +39,16 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 				.ClickDeleteOpenProjectWithFile()
 				.ClickDeleteProjectButton()
 				.WaitDeleteProjectWithFileDialogDissapeared();
+
+			return this;
+		}
+
+		public ProjectsHelper DeleteInProjectMenu(string projectName)
+		{
+			_projectsPage
+				.ClickDeleteInProjectButton(projectName)
+				.ClickConfirmDeleteButton()
+				.WaitDeleteDialogDissapeared();
 
 			return this;
 		}
@@ -178,6 +188,54 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 			_projectsPage.ClickDocumentUploadButton();
 
 			return new UploadDocumentHelper();
+		}
+
+		public ProjectsHelper AssertLinkProjectNotExist(string projectName)
+		{
+			BaseObject.InitPage(_projectsPage);
+			_projectsPage.AssertLinkProjectNotExist(projectName);
+
+			return this;
+		}
+
+		public ProjectsHelper SelectDocument(string projectName, string documentName)
+		{
+			BaseObject.InitPage(_projectsPage);
+			_projectsPage.SelectDocument(projectName, documentName);
+
+			return this;
+		}
+
+		public ProjectsHelper AssertSignInToConnectorButtonNotExist()
+		{
+			BaseObject.InitPage(_projectsPage);
+			_projectsPage.AssertSignInToConnectorButtonNotExist();
+
+			return this;
+		}
+
+		public ProjectsHelper AssertQACheckButtonExist(string projectName)
+		{
+			BaseObject.InitPage(_projectsPage);
+			_projectsPage.AssertQACheckButtonExist(projectName);
+
+			return this;
+		}
+
+		public ProjectsHelper ClickProjectSettingsButton(string projectName)
+		{
+			BaseObject.InitPage(_projectsPage);
+			_projectsPage.ClickProjectSettingsButton(projectName);
+
+			return this;
+		}
+
+		public ProjectsHelper ClickProjectAnalysisButton(string projectName)
+		{
+			BaseObject.InitPage(_projectsPage);
+			_projectsPage.ClickProjectAnalysisButton(projectName);
+
+			return this;
 		}
 
 		private readonly ProjectsPage _projectsPage = new ProjectsPage();

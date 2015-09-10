@@ -38,7 +38,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 				.CreateNewProject(projectUniqueName)
 				.CheckProjectAppearInList(projectUniqueName)
 				.SelectProjectInList(projectUniqueName)
-				.DeleteProjectFromList()
+				.DeleteFromList()
 				.AssertProjectSuccessfullyDeleted(projectUniqueName);
 		}
 
@@ -64,7 +64,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 				.CreateNewProject(projectUniqueName)
 				.CheckProjectAppearInList(projectUniqueName)
 				.SelectProjectInList(projectUniqueName)
-				.DeleteProjectFromList()
+				.DeleteFromList()
 				.AssertProjectSuccessfullyDeleted(projectUniqueName)
 				.ClickCreateProjectButton()
 				.FillGeneralProjectInformation(projectUniqueName)

@@ -225,7 +225,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 			BaseObject.InitPage(_newProjectSetUpWorkflowDialog);
 			_newProjectSetUpWorkflowDialog
 				.ClickFinishButton()
-				.WaitCreateProjectDialogDissapear();
+				.WaitCreateProjectDialogDisappear()
+				.AssertDialogBackgroundDisappeared<ProjectsPage>();
 
 			return this;
 		}
@@ -342,7 +343,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 			BaseObject.InitPage(_newProjectCreateBaseDialog);
 			_newProjectCreateBaseDialog
 				.ClickCloseDialog()
-				.WaitCreateProjectDialogDissapear();
+				.WaitCreateProjectDialogDisappear()
+				.AssertDialogBackgroundDisappeared<ProjectsPage>();
 
 			return this;
 		}

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Threading;
 
+using AbbyyLS.SmartCAT.Selenium.Tests.DataStructures;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.UsersRights;
 using AbbyyLS.SmartCAT.Selenium.Tests.TestFramework;
 
@@ -52,6 +53,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 				_usersRightsPage.ClickAddUsersSearchbox(groupName)
 					.AssertIsAddGroupUserButtonExists(groupName, userName)
 					.ClickAddGroupUserButton(groupName, userName)
+					.ClickSaveButton(groupName)
 					.SelectGroup(groupName)
 					.AssertIsGroupUserAdded(groupName, userName);
 			}
@@ -63,44 +65,26 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 		/// Проверить есть у группы права на создание, управление и просмотр проектов, если нет, добавляем
 		/// </summary>
 		/// <param name="groupName">имя группы</param>
-		public UsersRightsHelper CheckOrAddRightsToGroup(string groupName)
+		/// <param name="right">добавляемое право</param>
+		public UsersRightsHelper CheckOrAddRightsToGroup(string groupName, RightsType right)
 		{
 			BaseObject.InitPage(_usersRightsPage);
 			_usersRightsPage.SelectGroup(groupName);
+
 			if (_usersRightsPage.IsEditGroupButtonDisplayed(groupName))
 			{
 				_usersRightsPage.ClickEditGroupButton(groupName);
 			}
-			if (!_usersRightsPage.IsCreateProjectsRightAdded(groupName))
-			{
-				_usersRightsPage.ClickAddRightsButton(groupName)
-					.ClickCreateProjectsRadio()
-					.ClickNextButton()
-					.ClickDefinedByConditionRadio()
-					.ClickAddRightButton()
-					.AssertIsCreateProjectsRightAdded(groupName);
-			}
-			if (!_usersRightsPage.IsManageProjectsRightAdded(groupName))
-			{
-				Thread.Sleep(1000);
-				_usersRightsPage.ClickAddRightsButton(groupName)
-					.ClickManageProjectsRadio()
-					.ClickNextButton()
-					.ClickDefinedByConditionRadio()
-					.ClickAddRightButton()
-					.AssertIsManageProjectsRightAdded(groupName);
-			}
-			if (!_usersRightsPage.IsViewProjectsRightAdded(groupName))
-			{
-				Thread.Sleep(1000);
-				_usersRightsPage.ClickAddRightsButton(groupName)
-					.ClickViewProjectsRadio()
-					.ClickNextButton()
-					.ClickDefinedByConditionRadio()
-					.ClickAddRightButton()
-					.AssertIsViewProjectsRightAdded(groupName);
-			}
 
+			_usersRightsPage
+				.ClickAddRightsButton(groupName)
+				.ClickRightRadio(right)
+				.ClickNextButton()
+				.ClickForAnyProjectRadio()
+				.ClickAddRightButton()
+				.AssertDialogBackgroundDisappeared<UsersRightsPage>()
+				.AssertIsCreateProjectsRightAdded(groupName);
+			
 			return this;
 		}
 
@@ -207,6 +191,30 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 		{
 			BaseObject.InitPage(_usersRightsPage);
 			_usersRightsPage.ClickSortByStatus();
+
+			return this;
+		}
+
+		public UsersRightsHelper RemoveUserFromAllGroups(string userName)
+		{
+			BaseObject.InitPage(_usersRightsPage);
+
+			var groups = _usersRightsPage.GetGroupNameList();
+
+			foreach (var group in groups)
+			{
+				_usersRightsPage.SelectGroup(group);
+
+				if (_usersRightsPage.IsGroupUserAdded(group, userName))
+				{
+					_usersRightsPage
+						.ClickEditGroupButton(group)
+						.ClickDeleteUserButton(group, userName)
+						.ClickSaveButton(group);
+				}
+
+				_usersRightsPage.SelectGroup(group);
+			}
 
 			return this;
 		}

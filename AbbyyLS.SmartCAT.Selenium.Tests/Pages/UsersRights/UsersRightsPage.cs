@@ -162,8 +162,12 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.UsersRights
 		/// <param name="groupName">имя группы</param>
 		public UsersRightsPage AssertIsGroupUserAdded(string groupName, string userName)
 		{
-			Assert.IsTrue(Driver.ElementIsDisplayed(By.XPath(GROUP_USER_XPATH.Replace("*#*", groupName).Replace("*##*", userName))),
-				"Произошла ошибка:\n не удалось добавить пользователя в группу проектами");
+			Logger.Trace("Проверить удалось ли добавить пользователя {0} в группу {1}", userName, groupName);
+
+			Assert.IsTrue(Driver.WaitUntilElementIsDisplay(
+					By.XPath(GROUP_USER_XPATH.Replace("*#*", groupName).Replace("*##*", userName)),
+					timeout: 10),
+				"Произошла ошибка:\n не удалось добавить пользователя {0} в группу {1}.",userName, groupName);
 
 			return GetPage();
 		}
@@ -172,13 +176,13 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.UsersRights
 		/// Нажать кнопку "Добавить права"
 		/// </summary>
 		/// <param name="groupName">имя группы</param>
-		public UsersRightsPage ClickAddRightsButton(string groupName)
+		public AddAccessRightDialog ClickAddRightsButton(string groupName)
 		{
 			Logger.Debug("Нажать на кнопку 'Добавить права' для группы {0}.", groupName);
 			AddRightsButton = Driver.SetDynamicValue(How.XPath, ADD_RIGHTS_BTN_XPATH, groupName);
 			AddRightsButton.Click();
 
-			return GetPage();
+			return new AddAccessRightDialog().GetPage();
 		}
 
 		/// <summary>
@@ -221,17 +225,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.UsersRights
 		}
 
 		/// <summary>
-		/// Проверить, есть у группы право на управление проектами
-		/// </summary>
-		/// <param name="groupName">имя группы</param>
-		public bool IsManageProjectsRightAdded(string groupName)
-		{
-			Logger.Debug("Проверить, есть у группы {0} право на управление проектами.", groupName);
-
-			return Driver.ElementIsDisplayed(By.XPath(MANAGE_PROJECTS_RIGHT_TEXT_XPATH.Replace("*#*", groupName)));
-		}
-
-		/// <summary>
 		/// Проверить, удалось ли добавить группе право на управление проектами
 		/// </summary>
 		/// <param name="groupName">имя группы</param>
@@ -241,17 +234,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.UsersRights
 				"Произошла ошибка:\n не удалось добавить право на управление проектами ");
 			
 			return GetPage();
-		}
-
-		/// <summary>
-		/// Проверить, есть у группы право на просмотр проектов
-		/// </summary>
-		/// <param name="groupName">имя группы</param>
-		public bool IsViewProjectsRightAdded(string groupName)
-		{
-			Logger.Trace("Проверить, есть у группы {0} право на просмотр проектов.", groupName);
-
-			return Driver.ElementIsDisplayed(By.XPath(VIEW_PROJECTS_RIGHT_TEXT_XPATH.Replace("*#*", groupName)));
 		}
 
 		/// <summary>
@@ -267,17 +249,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.UsersRights
 		}
 
 		/// <summary>
-		/// Проверить, есть у группы право на создание проектов
-		/// </summary>
-		/// <param name="groupName">имя группы</param>
-		public bool IsCreateProjectsRightAdded(string groupName)
-		{
-			Logger.Trace("Проверить, есть у группы {0} право на создание проектов.", groupName);
-
-			return Driver.ElementIsDisplayed(By.XPath(CREATE_PROJECTS_RIGHT_TEXT_XPATH.Replace("*#*", groupName)));
-		}
-
-		/// <summary>
 		/// Проверить, удалось ли добавить группе право на создание проектов
 		/// </summary>
 		/// <param name="groupName">имя группы</param>
@@ -285,76 +256,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.UsersRights
 		{
 			Assert.IsTrue(Driver.ElementIsDisplayed(By.XPath(CREATE_PROJECTS_RIGHT_TEXT_XPATH.Replace("*#*", groupName))),
 				"Произошла ошибка:\n не удалось добавить право на создание проектов ");
-
-			return GetPage();
-		}
-
-		/// <summary>
-		/// Выбрать из списка право на создание проектов
-		/// </summary>
-		public UsersRightsPage ClickCreateProjectsRadio()
-		{
-			Logger.Debug("Выбрать из списка право на создание проектов.");
-			CreateProjectRadio.Click();
-
-			return GetPage();
-		}
-
-		/// <summary>
-		/// Выбрать из списка право на управление проектами
-		/// </summary>
-		public UsersRightsPage ClickManageProjectsRadio()
-		{
-			Logger.Debug("Выбрать из списка право на управление проектами.");
-			ManageProjectRadio.Click();
-
-			return GetPage();
-		}
-
-		/// <summary>
-		/// Выбрать из списка право на просмотр проектов
-		/// </summary>
-		public UsersRightsPage ClickViewProjectsRadio()
-		{
-			Logger.Debug("Выбрать из списка право на просмотр проектов.");
-			ViewProjectRadio.Click();
-
-			return GetPage();
-		}
-
-		/// <summary>
-		/// Выбрать набор для всех проектов
-		/// </summary>
-		public UsersRightsPage ClickDefinedByConditionRadio()
-		{
-			Logger.Debug("Выбрать набор 'для всех проектов'.");
-
-			if (Driver.ElementIsDisplayed(By.XPath(FOR_ANY_PROJECT_RADIO_XPATH)) && Driver.ElementIsEnabled(By.XPath(FOR_ANY_PROJECT_RADIO_XPATH)))
-			{
-				ForAnyProjectRadio.Click();
-			}
-
-			return GetPage();
-		}
-
-		/// <summary>
-		/// Нажать кнопку далее (при добавлении прав пользователя)
-		/// </summary>
-		public UsersRightsPage ClickNextButton()
-		{
-			Logger.Debug("Нажать кнопку далее (при добавлении прав пользователя).");
-			NextButton.Click();
-
-			return GetPage();
-		}
-
-		/// <summary>
-		/// Нажать кнопку "Добавить" (право)
-		/// </summary>
-		public UsersRightsPage ClickAddRightButton()
-		{
-			Logger.Debug("Нажать кнопку 'Добавить' (право).");
-			AddRightButton.Click();
 
 			return GetPage();
 		}
@@ -486,6 +387,21 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.UsersRights
 			return GetPage();
 		}
 
+		/// <summary>
+		/// Кликнуть на кнопку удаления пользователя из группы(крестик)
+		/// </summary>
+		/// <param name="groupName">имя группы</param>
+		/// <param name="userName">имя пользователя</param>
+		public UsersRightsPage ClickDeleteUserButton(string groupName, string userName)
+		{
+			Logger.Debug("Кликнуть на кнопку удаления юзера {0} из группы {1}", userName, groupName);
+
+			DeleteUserButton = Driver.SetDynamicValue(How.XPath, DELETE_USER_BUTTON, groupName, userName);
+			DeleteUserButton.Click();
+
+			return GetPage();
+		}
+
 		[FindsBy(How = How.XPath, Using = GROUPS_RIGHTS_BTN_XPATH)]
 		protected IWebElement GroupsButton { get; set; }
 
@@ -497,21 +413,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.UsersRights
 
 		[FindsBy(How = How.XPath, Using = SAVE_NEW_GROUP_BTN_XPATH)]
 		protected IWebElement SaveNewGroupButton { get; set; }
-
-		[FindsBy(How = How.XPath, Using = CREATE_PROJECTS_RIGHT_RADIO_XPATH)]
-		protected IWebElement CreateProjectRadio { get; set; }
-
-		[FindsBy(How = How.XPath, Using = VIEW_PROJECTS_RIGHT_RADIO_XPATH)]
-		protected IWebElement ViewProjectRadio { get; set; }
-
-		[FindsBy(How = How.XPath, Using = MANAGE_PROJECTS_RIGHT_RADIO_XPATH)]
-		protected IWebElement ManageProjectRadio { get; set; }
-
-		[FindsBy(How = How.XPath, Using = FOR_ANY_PROJECT_RADIO_XPATH)]
-		protected IWebElement ForAnyProjectRadio { get; set; }
-
-		[FindsBy(How = How.XPath, Using = NEXT_BTN_XPATH)]
-		protected IWebElement NextButton { get; set; }
 
 		[FindsBy(How = How.XPath, Using = SORT_BY_FIRST_NAME)]
 		protected IWebElement SortByFirstName { get; set; }
@@ -534,9 +435,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.UsersRights
 		[FindsBy(How = How.XPath, Using = SORT_BY_STATUS)]
 		protected IWebElement SortByStatus { get; set; }
 
-		[FindsBy(How = How.XPath, Using = ADD_RIGHT_BTN_XPATH)]
-		protected IWebElement AddRightButton { get; set; }
-
 		protected IWebElement SaveButton { get; set; }
 
 		protected IWebElement EditGroupButton { get; set; }
@@ -549,6 +447,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.UsersRights
 
 		protected IWebElement AddGroupUserButton { get; set; }
 
+		protected IWebElement DeleteUserButton { get; set; }
+
 		protected const string GROUPS_RIGHTS_BTN_XPATH = "//a[contains(@href,'/Groups/Index')]";
 		protected const string GROUP_XPATH = "//td[contains(@data-bind, 'text: name')][string()='*#*']";
 		protected const string CREATE_GROUP_BTN_XPATH = "//span[contains(@data-bind, 'click: addGroup')]//a[contains(string(),'Create Group')]";
@@ -557,14 +457,10 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.UsersRights
 		protected const string EDIT_GROUP_BTN_XPATH = "//tr[contains(string(),'*#*')]//following-sibling::tr[contains(@data-bind, 'if: isExpanded')]//span[contains(@data-bind, 'click: edit')]//a";
 		protected const string ADD_RIGHTS_BTN_XPATH = "//tr[contains(string(),'*#*')]//following-sibling::tr[contains(@data-bind, 'if: isExpanded')]//span[contains(@data-bind,'click: addAccessRight')]";
 		protected const string GROUP_USER_XPATH = "//tr[contains(string(),'*#*')]//following-sibling::tr[contains(@data-bind, 'if: isExpanded')]//ul[contains(@data-bind, 'foreach: users')]//li[contains(string(), '*##*')]";
+		protected const string DELETE_USER_BUTTON = "//tr[contains(string(),'*#*')]//following-sibling::tr[contains(@data-bind, 'if: isExpanded')]//ul[contains(@data-bind, 'foreach: users')]//li[contains(string(), '*##*')]//span[contains(@data-bind,'removeUser')]";
 		protected const string ADD_GROUP_USERS_INPUT_XPATH = "//tr[contains(string(),'*#*')]//following-sibling::tr[contains(@data-bind, 'if: isExpanded')]//input[contains(@class, 'tblgrp_finduser')]";
 		protected const string ADD_GROUP_USER_BTN_XPATH = "//tr[contains(string(),'*#*')]//following-sibling::tr[contains(@data-bind, 'if: isExpanded')]//div[contains(@class, 'users-add-list')]//table//tr[contains(string(),'*##*')]//a[string() = 'Add']";
-		protected const string CREATE_PROJECTS_RIGHT_RADIO_XPATH = "//li[contains(@class, 'add-access-right') and contains(string(), 'Create projects')]//input";
-		protected const string VIEW_PROJECTS_RIGHT_RADIO_XPATH = "//li[contains(@class, 'add-access-right') and contains(string(), 'View projects')]//input";
-		protected const string MANAGE_PROJECTS_RIGHT_RADIO_XPATH = "//li[contains(@class, 'add-access-right') and contains(string(), 'Manage projects')]//input";
-		protected const string FOR_ANY_PROJECT_RADIO_XPATH = "//label[contains(string(), 'For any projects')]//input";
-		protected const string NEXT_BTN_XPATH = "//div[contains(@class, 'add-access-right-popup')][2]//span[contains(@data-bind, 'click : moveToNextStep')]//a[string() = 'Next']";
-		protected const string ADD_RIGHT_BTN_XPATH = "//div[contains(@class, 'add-access-right-popup')][2]//span[contains(@data-bind, 'visible : canFinishWizard, click : finishWizard')]//a[string() = 'Add']";
+		
 		protected const string VIEW_PROJECTS_RIGHT_TEXT_XPATH = "//tr[contains(string(),'*#*')]//following-sibling::tr[contains(@data-bind, 'if: isExpanded')]//li[contains(string(), 'View all projects')]";
 		protected const string MANAGE_PROJECTS_RIGHT_TEXT_XPATH = "//tr[contains(string(),'*#*')]//following-sibling::tr[contains(@data-bind, 'if: isExpanded')]//li[contains(string(), 'Manage all projects')]";
 		protected const string CREATE_PROJECTS_RIGHT_TEXT_XPATH = "//tr[contains(string(),'*#*')]//following-sibling::tr[contains(@data-bind, 'if: isExpanded')]//li[contains(string(), 'Create any projects')]";

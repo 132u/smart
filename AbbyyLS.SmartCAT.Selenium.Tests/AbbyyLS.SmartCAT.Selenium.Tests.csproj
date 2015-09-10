@@ -79,6 +79,7 @@
     <Compile Include="DataStructures\CompanyType.cs" />
     <Compile Include="DataStructures\MachineTranslationType.cs" />
     <Compile Include="DataStructures\Period.cs" />
+    <Compile Include="DataStructures\RightsType.cs" />
     <Compile Include="DataStructures\SignInErrorMessageType.cs" />
     <Compile Include="DataStructures\SocialNetworks.cs" />
     <Compile Include="DataStructures\SegmentType.cs" />
@@ -94,10 +95,12 @@
     <Compile Include="FeatureAttributes\NotSupportedWithDomainAuthenticationAttribute.cs" />
     <Compile Include="Pages\Editor\SpecialCharactersForm.cs" />
     <Compile Include="Pages\Editor\AddTermDialog.cs" />
+    <Compile Include="Pages\Projects\AnalysisDialog.cs" />
     <Compile Include="Pages\Login\FacebookPage.cs" />
     <Compile Include="Pages\Login\GooglePage.cs" />
     <Compile Include="Pages\Login\LinkedInPage.cs" />
     <Compile Include="Pages\Projects\CreateProjectDialog\NewGlossaryDialog.cs" />
+    <Compile Include="Pages\UsersRights\AddAccessRightDialog.cs" />
     <Compile Include="TestFramework\EnumExtensions.cs" />
     <Compile Include="Drivers\FirefoxWebDriverProvider.cs" />
     <Compile Include="Drivers\WebDriver.cs" />
@@ -171,7 +174,7 @@
     <Compile Include="Pages\Projects\CreateProjectDialog\NewProjectSetUpTMDialog.cs" />
     <Compile Include="Pages\Projects\CreateProjectDialog\NewProjectSetUpWorkflowDialog.cs" />
     <Compile Include="Pages\Projects\DeleteOpenProjectWithFileDialog.cs" />
-    <Compile Include="Pages\Projects\DeleteProjectDialog.cs" />
+    <Compile Include="Pages\Projects\DeleteDialog.cs" />
     <Compile Include="Pages\Projects\ProjectSettings\DeleteDocumentDialog.cs" />
     <Compile Include="Pages\Projects\DocumentUploadDialog\DocumentUploadGeneralInformationDialog.cs" />
     <Compile Include="Pages\Projects\ProjectSettings\ProjectSettingsPage.cs" />
@@ -240,6 +243,7 @@
     <Compile Include="Tests\Billing\BuyLicensePackageTests.cs" />
     <Compile Include="Configs\UserInfoConfig.cs" />
     <Compile Include="Tests\Glossaries\BasicGlossaryTests.cs" />
+    <Compile Include="Tests\Projects\CheckRights\CheckCreateProjectRight.cs" />
     <Compile Include="Tests\Projects\Export\ExportProjectBaseTests.cs" />
     <Compile Include="Tests\Projects\Export\ExportProjectSettingsPageTests.cs" />
     <Compile Include="Tests\LingvoDictionaries\LingvoDictionariesAdminTests.cs" />
