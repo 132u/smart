@@ -5,7 +5,6 @@ using AbbyyLS.SmartCAT.Selenium.Tests.FeatureAttributes;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Editor
 {
-	[TestFixture]
 	[Standalone]
 	public class EditorErrorTests<TWebDriverProvider> : EditorBaseTest<TWebDriverProvider> where TWebDriverProvider : IWebDriverProvider, new()
 	{

@@ -11,7 +11,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 {
 	[PriorityMajor]
 	[Standalone]
-	[TestFixture]
 	class BasicProjectTests<TWebDriverProvider> : BaseTest<TWebDriverProvider> where TWebDriverProvider : IWebDriverProvider, new()
 	{
 		[SetUp]

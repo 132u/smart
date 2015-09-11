@@ -11,7 +11,6 @@ using AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 {
-	[TestFixture]
 	[Standalone]
 	class GlossaryEditorTests<TWebDriverProvider> : BaseTest<TWebDriverProvider> where TWebDriverProvider : IWebDriverProvider, new()
 	{

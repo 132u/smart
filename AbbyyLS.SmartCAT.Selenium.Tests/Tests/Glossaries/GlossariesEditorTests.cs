@@ -10,7 +10,6 @@ using AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 {
-	[TestFixture]
 	[Standalone]
 	class GlossariesEditorTests<TWebDriverProvider> : BaseTest<TWebDriverProvider> where TWebDriverProvider : IWebDriverProvider, new()
 	{

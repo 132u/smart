@@ -10,7 +10,6 @@ using AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.CompanyRegistration
 {
-	[TestFixture]
 	[PriorityMajor]
 	public class CompanyRegistrationTests<TWebDriverProvider> : BaseTest<TWebDriverProvider> where TWebDriverProvider : IWebDriverProvider, new()
 	{

@@ -9,7 +9,6 @@ using AbbyyLS.SmartCAT.Selenium.Tests.DataStructures;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.LingvoDictionaries
 {
-	[TestFixture]
 	[LingvoDictionaries]
 	[PriorityMajor]
 	class LingvoDictionariesAdminTests<TWebDriverProvider> : BaseTest<TWebDriverProvider> where TWebDriverProvider : IWebDriverProvider, new()
