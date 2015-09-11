@@ -11,7 +11,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 	[Standalone]
 	class DocumentFormatTests<TWebDriverProvider> : BaseTest<TWebDriverProvider> where TWebDriverProvider : IWebDriverProvider, new()
 	{
-		[Explicit("SCAT-460")]
 		[TestCase("docFile.doc")]
 		[TestCase("docxFile.docx")]
 		[TestCase("htmFile.htm")]
