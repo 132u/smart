@@ -35,7 +35,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Editor
 				.CloseTutorialIfExist();
 		}
 
-		[Test, Ignore("PRX-11805")]
+		[Test]
 		public void CheckMatchAfterGlossarySubstitution()
 		{
 			var sourceTerm = _editorHelper
