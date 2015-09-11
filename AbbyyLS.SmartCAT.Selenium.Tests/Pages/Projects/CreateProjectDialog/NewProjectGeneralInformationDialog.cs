@@ -442,16 +442,27 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 		}
 
 		/// <summary>
+		/// Вернуть, выбран ли чекбокс 'Use Machine Translation'
+		/// </summary>
+		public bool GetIsMachineTranslationCheckboxSelected()
+		{
+			Logger.Trace("Вернуть, выбран ли чекбокс 'Use Machine Translation'");
+
+			var machineTranslationCheckboxSelected = UseMachineTranslationCheckbox.Selected;
+
+			Logger.Trace("Чекбокс 'Use Machine Translation' выбран: {0}", machineTranslationCheckboxSelected);
+
+			return machineTranslationCheckboxSelected;
+		}
+
+		/// <summary>
 		/// Кликнуть по чекбоксу 'Use Machine Translation'
 		/// </summary>
-		public NewProjectGeneralInformationDialog SelectMachineTranslationCheckbox()
+		public NewProjectGeneralInformationDialog ClickMachineTranslationCheckbox()
 		{
 			Logger.Debug("Кликнуть по чекбоксу 'Use Machine Translation'.");
 
-			if (!UseMachineTranslationCheckbox.Selected)
-			{
-				UseMachineTranslationCheckbox.Click();
-			}
+			UseMachineTranslationCheckbox.Click();
 
 			return GetPage();
 		}

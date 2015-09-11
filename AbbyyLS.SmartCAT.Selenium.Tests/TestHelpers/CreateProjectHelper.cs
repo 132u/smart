@@ -115,9 +115,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 				.ClickTargetMultiselect()
 				.SetProjectName(projectName);
 
-			if (useMT)
+			if (useMT ^ _newProjectGeneralInformationDialog.GetIsMachineTranslationCheckboxSelected())
 			{
-				_newProjectGeneralInformationDialog.SelectMachineTranslationCheckbox();
+				_newProjectGeneralInformationDialog.ClickMachineTranslationCheckbox();
 			}
 
 			return this;

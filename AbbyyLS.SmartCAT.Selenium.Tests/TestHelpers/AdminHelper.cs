@@ -44,12 +44,14 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 		/// <param name="workflow">true - включить функцию Workflow, иначе false</param>
 		/// <param name="features">список фич, значение null означает все фичи из множества Feature</param>
 		/// <param name="packagesNeed">пакеты словарей</param>
+		/// <param name="unlimitedUseServices">true - включить безлимитное использование услуг, иначе false</param>
 		public AdminHelper CreateAccountIfNotExist(
 			string venture = LoginHelper.SmartCATVenture,
 			string accountName = null,
 			bool workflow = false,
 			List<string> features = null,
-			bool packagesNeed = false)
+			bool packagesNeed = false,
+			bool unlimitedUseServices = false)
 		{
 			accountName = accountName ?? "TestAccount" + new Guid();
 			
@@ -64,12 +66,36 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 			if (_adminEnterpriseAccountsPage.IsAccountExists(accountName))
 			{
-				BaseObject.InitPage(_adminEnterpriseAccountsPage);
 				_adminEnterpriseAccountsPage.ClickEditAccount(accountName);
 
-				var featuresInAccount = _adminCreateAccountPage.FeaturesListInAccount();
+				BaseObject.InitPage(_adminCreateAccountPage);
 
+				var featuresInAccount = _adminCreateAccountPage.FeaturesListInAccount();
 				assertFeaturesListsMatch(featuresInAccount, features);
+				_adminCreateAccountPage.ClickManagementPaidServicesReference();
+
+				BaseObject.InitPage(_adminManagementPaidServicesPage);
+
+				if (unlimitedUseServices)
+				{
+					if (!_adminManagementPaidServicesPage.GetIsUnlimitedUnitsEnable())
+					{
+						_adminManagementPaidServicesPage
+							.ClickEnableUnlimitedUseServicesButton()
+							.AssertUnlimitedUseServicesEnabled()
+							.ClickEditAccountReference();
+					}
+				}
+				else
+				{
+					if (_adminManagementPaidServicesPage.GetIsUnlimitedUnitsEnable())
+					{
+						_adminManagementPaidServicesPage
+							.ClickDisableUnlimitedUseServicesButton()
+							.AssertUnlimitedUseServicesDisabled()
+							.ClickEditAccountReference();
+					}
+				}
 
 				_adminEnterpriseAccountsPage
 					.ClickEnterpriseAccountsLink()
@@ -107,8 +133,18 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 				}
 			}
 
+			_adminCreateAccountPage.ClickSaveButton();
+
+			if (unlimitedUseServices)
+			{
+				_adminCreateAccountPage
+					.ClickManagementPaidServicesReference()
+					.ClickEnableUnlimitedUseServicesButton()
+					.AssertUnlimitedUseServicesEnabled()
+					.ClickEditAccountReference();
+			}
+
 			_adminCreateAccountPage
-				.ClickSaveButton()
 				.ClickEnterpriseAccountsLink()
 				.ClickManageUsersReference(accountName);
 
@@ -472,5 +508,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 		private readonly AdminCreateAccountPage _adminCreateAccountPage = new AdminCreateAccountPage();
 		private readonly AdminDictionariesPackagesPage _adminDictionariesPackages = new AdminDictionariesPackagesPage();
 		private readonly AdminDictionaryPackagePage _adminDictionaryPackage = new AdminDictionaryPackagePage();
+		private readonly AdminManagementPaidServicesPage _adminManagementPaidServicesPage = new AdminManagementPaidServicesPage();
 	}
 }
