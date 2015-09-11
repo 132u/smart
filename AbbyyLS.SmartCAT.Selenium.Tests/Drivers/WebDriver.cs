@@ -20,6 +20,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Drivers
 		public static Logger Logger = LogManager.GetCurrentClassLogger();
 		public static readonly TimeSpan ImplicitWait = new TimeSpan(0, 0, 0, 5);
 		public static readonly TimeSpan NoWait = new TimeSpan(0, 0, 0, 0);
+		private Navigation _customNavigate;
 
 		public WebDriver(IWebDriverProvider provider, string tempFolder, string downloadDirectory)
 		{
@@ -29,6 +30,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Drivers
 			_driver.Manage().Timeouts().ImplicitlyWait(TimeSpan.FromSeconds(15));
 			_driver.Manage().Timeouts().SetPageLoadTimeout(TimeSpan.FromSeconds(60));
 			_driver.Manage().Window.Maximize();
+			
+			_customNavigate = new Navigation(_driver);
 			
 			Logger.Info("Браузер {0}", _driver.Capabilities.BrowserName);
 			Logger.Info("Версия {0}", _driver.Capabilities.Version);
@@ -101,7 +104,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Drivers
 
 		public INavigation Navigate()
 		{
-			return _driver.Navigate();
+			return _customNavigate;
 		}
 
 		public void Quit()

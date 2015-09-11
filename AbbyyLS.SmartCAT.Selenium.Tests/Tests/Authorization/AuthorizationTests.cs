@@ -148,7 +148,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Authorization
 			string password,
 			string accountName = LoginHelper.TestAccountName)
 		{
-			Driver.Navigate().GoToUrl(AdminUrl);
 			LogInAdmin(Login, Password);
 			AdminHelper
 				.CreateNewUser(email, nickName, password, admin: true, aolUser: true)

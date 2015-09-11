@@ -66,6 +66,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Drivers\Navigation.cs" />
     <Compile Include="Pages\Projects\CreateProjectDialog\NewProjectSetUpPretranslationDialog.cs" />
     <Compile Include="DataStructures\GlossaryCustomFieldType.cs" />
     <Compile Include="RelativeUrlProvider.cs" />
