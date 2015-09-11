@@ -12,7 +12,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Editor
 	[Standalone]
 	public class EditorPreviousStageTests<TWebDriverProvider> : EditorBaseTest<TWebDriverProvider> where TWebDriverProvider : IWebDriverProvider, new()
 	{
-		[Test, Ignore("PRX-11821")]
+		[Test]
 		public void PreviousStageButtonTest()
 		{
 			EditorHelper
