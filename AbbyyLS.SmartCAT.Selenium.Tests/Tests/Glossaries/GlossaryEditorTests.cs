@@ -4,6 +4,7 @@ using NUnit.Framework;
 
 using AbbyyLS.SmartCAT.Selenium.Tests.DataStructures;
 using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
+using AbbyyLS.SmartCAT.Selenium.Tests.ExplicitAttributes;
 using AbbyyLS.SmartCAT.Selenium.Tests.FeatureAttributes;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings;
@@ -52,7 +53,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 		/// <summary>
 		/// Открывает форму добавления термина в редакторе по хоткею
 		/// </summary>
-		[Test, Explicit("Тесты, использующие hotkey, не работают на тимсити")]
+		[Test, HotkeyExplicit]
 		public void OpenAddTermFormByHotKey()
 		{
 			_editorHelper.OpenAddTermDialogWithHotKey();

@@ -7,6 +7,7 @@ using NUnit.Framework;
 
 using AbbyyLS.SmartCAT.Selenium.Tests.DataStructures;
 using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
+using AbbyyLS.SmartCAT.Selenium.Tests.ExplicitAttributes;
 using AbbyyLS.SmartCAT.Selenium.Tests.FeatureAttributes;
 using AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers;
 
@@ -118,7 +119,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 				.AssertExtendTermsCountMatch(expectedTermCount: 1);
 		}
 
-		[Test, Explicit("ForLocalRun")]
+		[Test, FileUploadExplicit]
 		public void AddMediaFieldTest()
 		{
 			var fieldName = "MediaField";
@@ -139,7 +140,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 				.AssertExtendTermsCountMatch(expectedTermCount: 1);
 		}
 
-		[Test, Explicit("ForLocalRun")]
+		[Test, FileUploadExplicit]
 		public void AddMediaRequiredFieldTest()
 		{
 			var fieldName = "MediaRequiredField";
@@ -163,7 +164,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 				.AssertExtendTermsCountMatch(expectedTermCount: 1);
 		}
 
-		[Test, Explicit("ForLocalRun")]
+		[Test, FileUploadExplicit]
 		public void AddImageFieldTest()
 		{
 			var fieldName = "ImageField";
@@ -185,7 +186,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 				.AssertExtendTermsCountMatch(expectedTermCount: 1);
 		}
 
-		[Test, Explicit("ForLocalRun")]
+		[Test, FileUploadExplicit]
 		public void AddImageRequiredFieldTest()
 		{
 			var fieldName = "ImageField";

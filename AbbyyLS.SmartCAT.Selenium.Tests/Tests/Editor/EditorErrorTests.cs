@@ -1,6 +1,7 @@
 ﻿using NUnit.Framework;
 
 using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
+using AbbyyLS.SmartCAT.Selenium.Tests.ExplicitAttributes;
 using AbbyyLS.SmartCAT.Selenium.Tests.FeatureAttributes;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Editor
@@ -15,7 +16,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Editor
 		}
 
 		[Test]
-		[Explicit("Тест использует хоткеи и не прогоняется в тимсити")]
+		[HotkeyExplicit]
 		public void FindErrorHotkeyTest()
 		{
 			EditorHelper.FindErrorsByHotkeys();

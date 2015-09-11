@@ -5,6 +5,7 @@ using NUnit.Framework;
 
 using AbbyyLS.SmartCAT.Selenium.Tests.DataStructures;
 using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
+using AbbyyLS.SmartCAT.Selenium.Tests.ExplicitAttributes;
 using AbbyyLS.SmartCAT.Selenium.Tests.FeatureAttributes;
 using AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers;
 
@@ -110,7 +111,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.CompanyRegistration
 		/// <summary>
 		/// Тест регистрации юзера с существующим активным или неактивным аккаунтом в coursera/aol ( or log in with your ABBYY Online account )
 		/// </summary>
-		[Explicit("Тест для локального прогона, так как требует ввод данных юзеров в конфиг.")]
+		[UserDataExplicit]
 		[TestCase(0, "Активный юзер аол RegistrationTestUsers.xml")]
 		[TestCase(1, "Неактивный юзер аол RegistrationTestUsers.xml")]
 		[TestCase(2, "Активный юзер курсера RegistrationTestUsers.xml")]
@@ -238,7 +239,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.CompanyRegistration
 		[TestCase("a@.")]
 		[TestCase("dfsdfsdf@google.com")]
 		//64 - local part, 253 - domen
-		[Explicit("PRX-10569"), TestCase("64charrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr@253charrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr.com")]
+		[Ignore("PRX-10569"), TestCase("64charrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr@253charrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr.com")]
 		public void EmailValidTest(string email)
 		{
 			_companyRegistrationHelper
@@ -311,7 +312,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.CompanyRegistration
 		[TestCase("1234")]
 		[TestCase("12345")]
 		// 101 символ
-		[Explicit("SCAT-10569"), TestCase("11111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111")]
+		[Ignore("SCAT-10569"), TestCase("11111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111")]
 		public void InvalidPasswordTest(string password)
 		{
 			_companyRegistrationHelper

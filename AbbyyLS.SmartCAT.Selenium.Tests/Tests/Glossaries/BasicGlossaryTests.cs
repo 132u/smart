@@ -71,7 +71,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 			_glossaryHelper.AssertLanguagesCountChanged(languagesCountBefore, languagesCountAfter);
 		}
 
-		[Explicit("PRX-10784"), Test]
+		[Ignore("PRX-10784"), Test]
 		public void CreatedDateGlossaryTest()
 		{
 			_glossaryHelper

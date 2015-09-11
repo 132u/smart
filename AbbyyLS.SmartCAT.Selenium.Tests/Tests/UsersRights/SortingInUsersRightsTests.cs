@@ -48,7 +48,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersRights
 				.AssertAlertNoExist();
 		}
 
-		[Test, Explicit("[PRX-9311]")]
+		[Test, Ignore("PRX-9311")]
 		public void SortByGroupsTest()
 		{
 			_usersRightsHelper

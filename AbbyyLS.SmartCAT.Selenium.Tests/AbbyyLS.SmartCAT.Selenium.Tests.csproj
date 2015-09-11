@@ -66,6 +66,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ExplicitAttributes\UserDataExplicitAttribute.cs" />
+    <Compile Include="ExplicitAttributes\FileUploadExplicitAttribute.cs" />
+    <Compile Include="ExplicitAttributes\HotkeyExplicitAttribute.cs" />
     <Compile Include="Pages\Admin\AdminManagementPaidServicesPage.cs" />
     <Compile Include="Drivers\Navigation.cs" />
     <Compile Include="Pages\Projects\CreateProjectDialog\NewProjectSetUpPretranslationDialog.cs" />
