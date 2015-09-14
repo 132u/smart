@@ -1,4 +1,5 @@
-﻿using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Login;
+﻿using AbbyyLS.SmartCAT.Selenium.Tests.DataStructures;
+using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Login;
 using AbbyyLS.SmartCAT.Selenium.Tests.TestFramework;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
@@ -136,6 +137,75 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 			return this;
 		}
 
+		public LoginHelper LogInSmartCat(
+			string login,
+			string nickName,
+			string password,
+			string accountName = "TestAccount")
+		{
+			SignIn(login, password)
+				.SelectAccount(accountName)
+				.SetUp(nickName, accountName);
+
+			return this;
+		}
+
+		public LoginHelper Authorize(StartPage startPage)
+		{
+			if (ConfigurationManager.Standalone)
+			{
+				// Тесты запускаются на ОР
+				_commonHelper.GoToWorkspaceUrl();
+
+				return this;
+			}
+
+			switch (startPage)
+			{
+				case StartPage.Admin:
+					_commonHelper.GoToAdminUrl();
+					_adminHelper.SignIn(ConfigurationManager.Login, ConfigurationManager.Password);
+					break;
+
+				case StartPage.CompanyRegistration:
+					_commonHelper.GoToCompanyRegistration();
+					break;
+
+				case StartPage.SignIn:
+					_commonHelper.GoToSignInPage();
+					break;
+
+				case StartPage.Workspace:
+					_commonHelper.GoToSignInPage();
+					LogInSmartCat(
+						ConfigurationManager.Login,
+						ConfigurationManager.NickName,
+						ConfigurationManager.Password);
+					break;
+
+				case StartPage.PersonalAccount:
+					_commonHelper.GoToSignInPage();
+					LogInSmartCat(
+						ConfigurationManager.Login,
+						ConfigurationManager.NickName,
+						ConfigurationManager.Password,
+						"Personal");
+					break;
+
+				default:
+					_commonHelper.GoToSignInPage();
+					LogInSmartCat(
+						ConfigurationManager.Login,
+						ConfigurationManager.NickName,
+						ConfigurationManager.Password);
+					break;
+			}
+
+			return this;
+		}
+
+		private readonly AdminHelper _adminHelper = new AdminHelper();
+		private readonly CommonHelper _commonHelper = new CommonHelper();
 		private readonly SignInPage _signInPage = new SignInPage();
 		private readonly SelectAccountForm _selectAccountForm = new SelectAccountForm();
 

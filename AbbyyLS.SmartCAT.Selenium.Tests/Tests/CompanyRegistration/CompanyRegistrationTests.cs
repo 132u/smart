@@ -88,7 +88,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.CompanyRegistration
 				.AssertUserNameAndAccountNameCorrect(_firstName + " " + _lastName, _maximumCompanyName)
 				.SignOut();
 
-			GoToCompanyRegistration();
+			_commonHelper.GoToCompanyRegistration();
 
 			_companyRegistrationHelper
 				.ClickExistingAbbyyAccountLink()
@@ -118,13 +118,13 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.CompanyRegistration
 		[TestCase(3, "Неактивный юзер курсера RegistrationTestUsers.xml")]
 		public void CourseraAolUsersCompanyRegistration(int userNumber, string userTest)
 		{
-			if (TestCompanyList.Count == 0)
+			if (ConfigurationManager.TestCompanyList.Count == 0)
 			{
 				Assert.Ignore("Данные о тестовых пользователях для регистрации компаний отсутствуют.");
 			}
 
 			_companyRegistrationHelper.ClickExistingAbbyyAccountLink()
-				.FillSignInData(TestCompanyList[userNumber].Login, TestCompanyList[userNumber].Password)
+				.FillSignInData(ConfigurationManager.TestCompanyList[userNumber].Login, ConfigurationManager.TestCompanyList[userNumber].Password)
 				.ClickSignInButton()
 				.FillCompanyDataSecondStep(_firstName, _lastName, _maximumCompanyName, _subDomain, companyType: CompanyType.LanguageServiceProvider)
 				.ClickCreateCorporateAccountButton()
@@ -434,7 +434,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.CompanyRegistration
 				.AssertUserNameAndAccountNameCorrect(_firstName + " " + _lastName, _maximumCompanyName)
 				.SignOut();
 
-			GoToCompanyRegistration();
+			_commonHelper.GoToCompanyRegistration();
 
 			_companyRegistrationHelper
 				.ClickExistingAbbyyAccountLink()
@@ -457,14 +457,15 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.CompanyRegistration
 				.AssertUserNameAndAccountNameCorrect(_firstName + " " + _lastName, _maximumCompanyName)
 				.SignOut();
 
-			GoToCompanyRegistration();
+			_commonHelper.GoToCompanyRegistration();
 
 			_companyRegistrationHelper
 				.FillCompanyDataFirstStep(_email, _password, _password)
 				.ClickContinueButton(errorExpected: true)
 				.AssertAlreadySignUpMessageDisplayed();
 
-			LogInSmartCat(_email, _nickName, _password, _maximumCompanyName);
+			_commonHelper.GoToSignInPage();
+			_loginHelper.LogInSmartCat(_email, _nickName, _password, _maximumCompanyName);
 
 			_workspaceHelper.AssertUserNameAndAccountNameCorrect(_firstName + " " + _lastName, _maximumCompanyName);
 		}
@@ -481,7 +482,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.CompanyRegistration
 				.AssertUserNameAndAccountNameCorrect(_firstName + " " + _lastName, _maximumCompanyName)
 				.SignOut();
 
-			LogInSmartCat(_email, _nickName, _password, _maximumCompanyName);
+			_commonHelper.GoToSignInPage();
+			_loginHelper.LogInSmartCat(_email, _nickName, _password, _maximumCompanyName);
 		}
 
 		private string _email;
@@ -495,6 +497,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.CompanyRegistration
 
 		private readonly CompanyRegistrationHelper _companyRegistrationHelper = new CompanyRegistrationHelper();
 		private readonly WorkspaceHelper _workspaceHelper = new WorkspaceHelper();
+		private readonly CommonHelper _commonHelper = new CommonHelper();
+		private readonly LoginHelper _loginHelper = new LoginHelper();
 	}
 }
 

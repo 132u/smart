@@ -17,7 +17,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 		[SetUp]
 		public void Setup()
 		{
-			WorkspaceHelper.GoToProjectsPage();
+			_workspaceHelper = new WorkspaceHelper();
+			_workspaceHelper.GoToProjectsPage();
 			_createProjectHelper = new CreateProjectHelper();
 			_usersRightsHelper = new UsersRightsHelper();
 			_projectsHelper = new ProjectsHelper();
@@ -158,7 +159,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 				.CreateNewProject(_projectUniqueName, PathProvider.EditorTxtFile)
 				.OpenAssignDialog(_projectUniqueName)
 				.OpenAssigneeDropbox()
-				.SetResponsible(NickName, false)
+				.SetResponsible(ConfigurationManager.NickName, false)
 				.CloseTaskAssignmentDialog<ProjectsPage>()
 				.GoToProjectSettingsPage(_projectUniqueName)
 				.OpenDocument<SelectTaskDialog>(Path.GetFileNameWithoutExtension(PathProvider.EditorTxtFile))
@@ -179,9 +180,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 				.ClickFinishOnProjectSetUpWorkflowDialog()
 				.OpenAssignDialog(_projectUniqueName)
 				.OpenAssigneeDropbox()
-				.SetResponsible(NickName, false)
+				.SetResponsible(ConfigurationManager.NickName, false)
 				.OpenAssigneeDropbox(2)
-				.SetResponsible(NickName, false)
+				.SetResponsible(ConfigurationManager.NickName, false)
 				.CloseTaskAssignmentDialog<ProjectsPage>()
 				.GoToProjectSettingsPage(_projectUniqueName)
 				.OpenDocument<SelectTaskDialog>(Path.GetFileNameWithoutExtension(PathProvider.EditorTxtFile));
@@ -195,7 +196,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 				.CreateNewProject(_projectUniqueName, PathProvider.EditorTxtFile)
 				.OpenAssignDialog(_projectUniqueName)
 				.OpenAssigneeDropbox()
-				.SetResponsible(NickName, false)
+				.SetResponsible(ConfigurationManager.NickName, false)
 				.CloseTaskAssignmentDialog<ProjectsPage>()
 				.GoToProjectSettingsPage(_projectUniqueName)
 				.OpenWorkflowSettings()
@@ -208,14 +209,14 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 		{
 			_projectsHelper
 				.GoToUsersRightsPage()
-				.AssertIsUserExist(NickName2)
+				.AssertIsUserExist(ConfigurationManager.NickName2)
 				.GoToProjectsPage();
 
 			_createProjectHelper
 				.CreateNewProject(_projectUniqueName, PathProvider.EditorTxtFile)
 				.OpenAssignDialog(_projectUniqueName)
 				.OpenAssigneeDropbox()
-				.SetResponsible(NickName, false)
+				.SetResponsible(ConfigurationManager.NickName, false)
 				.CloseTaskAssignmentDialog<ProjectsPage>()
 				.GoToProjectSettingsPage(_projectUniqueName)
 				.OpenDocument<SelectTaskDialog>(Path.GetFileNameWithoutExtension(PathProvider.EditorTxtFile))
@@ -228,14 +229,14 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 				.ClickCancelAssignButton()
 				.ConfirmCancel()
 				.OpenAssigneeDropbox()
-				.SetResponsible(NickName2, false)
+				.SetResponsible(ConfigurationManager.NickName2, false)
 				.CloseTaskAssignmentDialog<ProjectsPage>()
 				.GoToProjectSettingsPage(_projectUniqueName)
 				.OpenDocument<EditorPage>(Path.GetFileNameWithoutExtension(PathProvider.EditorTxtFile))
 				.AssertStageNameIsEmpty()
 				.ClickHomeButton()
 				.SignOut()
-				.SignIn(Login2, Password2);
+				.SignIn(ConfigurationManager.Login2, ConfigurationManager.Password2);
 
 			_projectsHelper
 				.GoToProjectSettingsPage(_projectUniqueName)
@@ -253,7 +254,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 				.CreateNewProject(_projectUniqueName, PathProvider.EditorTxtFile)
 				.OpenAssignDialog(_projectUniqueName)
 				.OpenAssigneeDropbox()
-				.SetResponsible(NickName, false)
+				.SetResponsible(ConfigurationManager.NickName, false)
 				.CloseTaskAssignmentDialog<ProjectsPage>()
 				.GoToProjectSettingsPage(_projectUniqueName)
 				.OpenDocument<SelectTaskDialog>(Path.GetFileNameWithoutExtension(PathProvider.EditorTxtFile))
@@ -285,7 +286,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 				.ClickDocumentProgress(PathProvider.DocumentFile)
 				.ClickAssignButtonInDocumentInfo()
 				.OpenAssigneeDropbox()
-				.SetResponsible(NickName, false)
+				.SetResponsible(ConfigurationManager.NickName, false)
 				.CloseTaskAssignmentDialog()
 				.ClickSaveButton()
 				.RefreshPage();
@@ -301,5 +302,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 		private UsersRightsHelper _usersRightsHelper;
 		private TaskAssignmentDialogHelper _taskAssignmentDialogHelper;
 		private readonly ProjectSettingsHelper _projectSettingsHelper = new ProjectSettingsHelper();
+		private WorkspaceHelper _workspaceHelper;
 	}
 }

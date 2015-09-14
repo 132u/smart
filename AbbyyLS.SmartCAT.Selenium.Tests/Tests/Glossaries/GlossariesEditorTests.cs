@@ -16,15 +16,16 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 		[SetUp]
 		public void GlossariesSetUp()
 		{
+			_workspaceHelper = new WorkspaceHelper();
 			_projectName = _createProjectHelper.GetProjectUniqueName();
 			_glossary1Name = GlossariesHelper.UniqueGlossaryName();
 			_glossary2Name = GlossariesHelper.UniqueGlossaryName();
 			_glossary3Name = GlossariesHelper.UniqueGlossaryName();
 
-			WorkspaceHelper
+			_workspaceHelper
 				.GoToUsersRightsPage()
 				.ClickGroupsButton()
-				.CheckOrAddUserToGroup("Administrators", NickName)
+				.CheckOrAddUserToGroup("Administrators", ConfigurationManager.NickName)
 				.GoToGlossariesPage()
 				.CreateGlossary(_glossary1Name)
 				.GoToGlossariesPage()
@@ -36,7 +37,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 				.GoToProjectSettingsPage(_projectName)
 				.UploadDocument(PathProvider.DocumentFile)
 				.RefreshPage<ProjectSettingsPage, ProjectSettingsHelper>()
-				.AssignTasksOnDocument(Path.GetFileNameWithoutExtension(PathProvider.DocumentFile), NickName)
+				.AssignTasksOnDocument(Path.GetFileNameWithoutExtension(PathProvider.DocumentFile), ConfigurationManager.NickName)
 				//TODO: Убрать шаг AddGlossaryToDocument, когда пофиксят PRX-11398
 				.AddGlossaryToDocument(Path.GetFileNameWithoutExtension(PathProvider.DocumentFile), _glossary1Name)
 				.AssertDialogBackgroundDisappeared()
@@ -100,5 +101,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 
 		private readonly CreateProjectHelper _createProjectHelper = new CreateProjectHelper();
 		private readonly EditorHelper _editorHelper = new EditorHelper();
+		private WorkspaceHelper _workspaceHelper;
 	}
 }

@@ -32,9 +32,14 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.LingvoDictionaries
 					accountName : _accountUniqueName,
 					features: new List<string> { Feature.LingvoDictionaries.ToString() },
 					packagesNeed: true)
-				.AddUserToSpecificAccount(Login, _accountUniqueName);
+				.AddUserToSpecificAccount(ConfigurationManager.Login, _accountUniqueName);
 
-			LogInSmartCat(Login, NickName, Password, _accountUniqueName);
+			_commonHelper.GoToSignInPage();
+			_loginHelper.LogInSmartCat(
+				ConfigurationManager.Login,
+				ConfigurationManager.NickName,
+				ConfigurationManager.Password,
+				_accountUniqueName);
 
 			_workspaceHelper
 				.AssertLingvoDictionariesDisplayed()
@@ -49,12 +54,17 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.LingvoDictionaries
 				.CreateAccountIfNotExist(
 					accountName: _accountUniqueName,
 					features: new List<string> { Feature.LingvoDictionaries.ToString() })
-				.AddUserToSpecificAccount(Login, _accountUniqueName)
+				.AddUserToSpecificAccount(ConfigurationManager.Login, _accountUniqueName)
 				.GoToDictionaryPackagePage(AdminHelper.PublicDictionaryPackageName);
 
 			List<string> includedDictionaryList = _adminHelper.GetIncludedDictionariesList();
 
-			LogInSmartCat(Login, NickName, Password, _accountUniqueName);
+			_commonHelper.GoToSignInPage();
+			_loginHelper.LogInSmartCat(
+				ConfigurationManager.Login,
+				ConfigurationManager.NickName,
+				ConfigurationManager.Password,
+				_accountUniqueName);
 
 			_workspaceHelper
 				.GoToLingvoDictionariesPage()
@@ -73,9 +83,14 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.LingvoDictionaries
 					Feature.Domains.ToString(),
 					Feature.TranslateConnector.ToString(),
 				})
-				.AddUserToSpecificAccount(Login, _accountUniqueName);
+				.AddUserToSpecificAccount(ConfigurationManager.Login, _accountUniqueName);
 
-			LogInSmartCat(Login, NickName, Password, _accountUniqueName);
+			_commonHelper.GoToSignInPage();
+			_loginHelper.LogInSmartCat(
+				ConfigurationManager.Login,
+				ConfigurationManager.NickName,
+				ConfigurationManager.Password,
+				_accountUniqueName);
 
 			_workspaceHelper.AssertLingvoDictionariesIsNotDisplayed();
 		}
@@ -85,11 +100,16 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.LingvoDictionaries
 		{
 			_adminHelper
 				.CreateAccountIfNotExist(accountName: _accountUniqueName, features: new List<string> { Feature.LingvoDictionaries.ToString()})
-				.AddUserToSpecificAccount(Login, _accountUniqueName)
+				.AddUserToSpecificAccount(ConfigurationManager.Login, _accountUniqueName)
 				.OpenEditModeForEnterpriceAccount(_accountUniqueName)
 				.AddAllDictionariesPackages();
 
-			LogInSmartCat(Login, NickName, Password, _accountUniqueName);
+			_commonHelper.GoToSignInPage();
+			_loginHelper.LogInSmartCat(
+				ConfigurationManager.Login,
+				ConfigurationManager.NickName,
+				ConfigurationManager.Password,
+				_accountUniqueName);
 
 			_workspaceHelper
 				.AssertLingvoDictionariesDisplayed()
@@ -100,5 +120,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.LingvoDictionaries
 		private string _accountUniqueName;
 		private readonly AdminHelper _adminHelper = new AdminHelper();
 		private readonly WorkspaceHelper _workspaceHelper = new WorkspaceHelper();
+		private readonly LoginHelper _loginHelper = new LoginHelper();
+		private readonly CommonHelper _commonHelper = new CommonHelper();
 	}
 }

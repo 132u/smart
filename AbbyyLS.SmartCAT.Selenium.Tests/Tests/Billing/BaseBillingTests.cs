@@ -31,14 +31,22 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Billing
 						Feature.TranslateConnector.ToString(),
 						Feature.LingvoDictionaries.ToString(),
 					})
-				.AddUserToSpecificAccount(Login, accountUniqueName);
+				.AddUserToSpecificAccount(ConfigurationManager.Login, accountUniqueName);
 
-			LogInSmartCat(Login, NickName, Password, accountUniqueName);
+			CommonHelper.GoToSignInPage();
+			LoginHelper.LogInSmartCat(
+				ConfigurationManager.Login,
+				ConfigurationManager.NickName,
+				ConfigurationManager.Password,
+				accountUniqueName);
 
 			WorkspaceHelper.GoToBillingPage();
 		}
 
+		protected readonly LoginHelper LoginHelper = new LoginHelper();
+		protected readonly CommonHelper CommonHelper = new CommonHelper();
 		protected readonly BillingHelper BillingHelper = new BillingHelper();
 		protected readonly LicenseDialogHelper LicenseDialogHelper = new LicenseDialogHelper();
+		protected readonly WorkspaceHelper WorkspaceHelper = new WorkspaceHelper();
 	}
 }

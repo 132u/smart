@@ -15,13 +15,13 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Editor
 		[SetUp]
 		public void SetupTest()
 		{
-			var projectName = CreateProjectHelper.GetProjectUniqueName();
+			var projectName = _createProjectHelper.GetProjectUniqueName();
 
 			_createProjectHelper
 				.CreateNewProject(projectName, createNewTm: true, filePath: PathProvider.DocumentFile)
 				.CheckProjectAppearInList(projectName)
 				.GoToProjectSettingsPage(projectName)
-				.AssignTasksOnDocument(Path.GetFileNameWithoutExtension(PathProvider.DocumentFile), NickName)
+				.AssignTasksOnDocument(Path.GetFileNameWithoutExtension(PathProvider.DocumentFile), ConfigurationManager.NickName)
 				.OpenDocument<SelectTaskDialog>(Path.GetFileNameWithoutExtension(PathProvider.DocumentFile))
 				.SelectTask()
 				.CloseTutorialIfExist()

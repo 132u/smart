@@ -13,8 +13,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 		[SetUp]
 		public void SetUpGlossaryEditStructureLanguageFieldsTests()
 		{
+			_workspaceHelper = new WorkspaceHelper();
 			_glossaryUniqueName = GlossariesHelper.UniqueGlossaryName();
-			_glossaryHelper = WorkspaceHelper
+			_glossaryHelper = _workspaceHelper
 								.GoToGlossariesPage()
 								.CreateGlossary(_glossaryUniqueName)
 								.OpenGlossaryStructure()
@@ -61,6 +62,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 		}
 
 		private GlossariesHelper _glossaryHelper = new GlossariesHelper();
+		private WorkspaceHelper _workspaceHelper;
 		private string _glossaryUniqueName;
 	}
 }

@@ -14,7 +14,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 		[SetUp]
 		public void Setup()
 		{
-			WorkspaceHelper.GoToProjectsPage();
+			_workspaceHelper = new WorkspaceHelper();
+			_workspaceHelper.GoToProjectsPage();
 			_projectUniqueName = _createProjectHelper.GetProjectUniqueName();
 		}
 
@@ -88,5 +89,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 
 		private string _projectUniqueName;
 		private CreateProjectHelper _createProjectHelper = new CreateProjectHelper();
+		private WorkspaceHelper _workspaceHelper;
 	}
 }

@@ -15,7 +15,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 		[SetUp]
 		public void SetUpBaseProjectTest()
 		{
-			WorkspaceHelper.GoToProjectsPage();
+			_workspaceHelper = new WorkspaceHelper();
+			_workspaceHelper.GoToProjectsPage();
 			_createProjectHelper = new CreateProjectHelper();
 		}
 
@@ -53,5 +54,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 		private CreateProjectHelper _createProjectHelper;
 		private string _fileName = Path.GetFileNameWithoutExtension(PathProvider.DocumentFile);
 		private string _filePath = PathProvider.DocumentFile;
+		private WorkspaceHelper _workspaceHelper;
 	}
 }

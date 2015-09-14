@@ -13,7 +13,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 		[SetUp]
 		public void SetUpProjectDeadlineTest()
 		{
-			WorkspaceHelper.GoToProjectsPage();
+			_workspaceHelper = new WorkspaceHelper();
+			_workspaceHelper.GoToProjectsPage();
 			_createProjectHelper = new CreateProjectHelper();
 			_projectsHelper = new ProjectsHelper();
 		}
@@ -53,5 +54,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 
 		private CreateProjectHelper _createProjectHelper;
 		private ProjectsHelper _projectsHelper;
+		private WorkspaceHelper _workspaceHelper;
 	}
 }

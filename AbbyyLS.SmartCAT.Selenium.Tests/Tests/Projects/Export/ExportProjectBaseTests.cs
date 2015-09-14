@@ -13,7 +13,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 		[SetUp]
 		public void SetUpProjectExportTests()
 		{
-			WorkspaceHelper.GoToProjectsPage();
+			_workspaceHelper = new WorkspaceHelper();
+			_workspaceHelper.GoToProjectsPage();
 			_exportFileHelper.CancelAllNotifiers<ProjectsPage>();
 			_projectUniqueName = _createProjectHelper.GetProjectUniqueName();
 
@@ -21,7 +22,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 				.CreateNewProject(_projectUniqueName, filePath: PathProvider.DocumentFileToConfirm1)
 				.AssertIsProjectLoadedSuccessfully(_projectUniqueName)
 				.GoToProjectSettingsPage(_projectUniqueName)
-				.AssignTasksOnDocument(Path.GetFileNameWithoutExtension(PathProvider.DocumentFileToConfirm1), NickName)
+				.AssignTasksOnDocument(Path.GetFileNameWithoutExtension(PathProvider.DocumentFileToConfirm1), ConfigurationManager.NickName)
 				.CreateRevision(Path.GetFileNameWithoutExtension(PathProvider.DocumentFileToConfirm1));
 		}
 
@@ -30,5 +31,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 		protected readonly ExportFileHelper _exportFileHelper = new ExportFileHelper();
 		protected readonly ProjectSettingsHelper _projectSettingsHelper = new ProjectSettingsHelper();
 		protected readonly ProjectsHelper _projectsHelper = new ProjectsHelper();
+		private WorkspaceHelper _workspaceHelper;
 	}
 }

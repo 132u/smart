@@ -14,7 +14,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Clients
 		[SetUp]
 		public void SetUpClientTest()
 		{
-			_clientsHelper = WorkspaceHelper.GoToClientsPage();
+			_workspaceHelper = new WorkspaceHelper();
+			_clientsHelper = _workspaceHelper.GoToClientsPage();
 		}
 
 		[Test]
@@ -155,5 +156,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Clients
 		}
 
 		private ClientsHelper _clientsHelper;
+		private WorkspaceHelper _workspaceHelper;
 	}
 }

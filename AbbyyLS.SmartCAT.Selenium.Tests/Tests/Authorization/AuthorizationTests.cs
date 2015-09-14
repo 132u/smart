@@ -14,6 +14,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Authorization
 		public AuthorizationTests()
 		{
 			StartPage = StartPage.SignIn;
+			_adminHelper = new AdminHelper();
+			_commonHelper = new CommonHelper();
+			_loginHelper = new LoginHelper();
 		}
 
 		[TestCase("Personal", LoginHelper.EuropeTestServerName)]
@@ -22,10 +25,10 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Authorization
 		[TestCase("TestAccount", LoginHelper.USATestServerName)]
 		public void AuthorizationWithCorrectCredentials(string account, string dataServer)
 		{
-			LoginHelper
-				.SignIn(Login, Password)
+			_loginHelper
+				.SignIn(ConfigurationManager.Login, ConfigurationManager.Password)
 				.SelectAccount(account, dataServer)
-				.SetUp(NickName, account);
+				.SetUp(ConfigurationManager.NickName, account);
 		}
 
 		[TestCase("ringo123@mailforspam.com", "0000", SignInErrorMessageType.WrongPassword)]
@@ -34,24 +37,24 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Authorization
 		[TestCase("ringo123", "31415926", SignInErrorMessageType.InvalidEmail)]
 		public void AuthorizationWithIncorrectCredentials(string email, string password, SignInErrorMessageType signInErrorMessageType)
 		{
-			LoginHelper.TryToSignIn(email, password);
+			_loginHelper.TryToSignIn(email, password);
 
 			switch (signInErrorMessageType)
 			{
 				case SignInErrorMessageType.WrongPassword:
-					LoginHelper.CheckWrongPasswordMessageDisplayed();
+					_loginHelper.CheckWrongPasswordMessageDisplayed();
 					break;
 
 				case SignInErrorMessageType.UserNotFound:
-					LoginHelper.CheckUserNotFoundMessageDisplayed();
+					_loginHelper.CheckUserNotFoundMessageDisplayed();
 					break;
 
 				case SignInErrorMessageType.EmptyPassword:
-					LoginHelper.CheckEmptyPasswordMessageDisplayed();
+					_loginHelper.CheckEmptyPasswordMessageDisplayed();
 					break;
 
 				case SignInErrorMessageType.InvalidEmail:
-					LoginHelper.CheckInvalidEmailMessageDisplayed();
+					_loginHelper.CheckInvalidEmailMessageDisplayed();
 					break;
 
 				default:
@@ -73,22 +76,22 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Authorization
 			switch (socialNetworks)
 			{
 				case SocialNetworks.Facebook:
-					LoginHelper.SignInViaFacebook(email, password);
+					_loginHelper.SignInViaFacebook(email, password);
 					break;
 
 				case SocialNetworks.GooglePlus:
-					LoginHelper.SignInViaGooglePlus(email, password);
+					_loginHelper.SignInViaGooglePlus(email, password);
 					break;
 
 				case SocialNetworks.LinkedIn:
-					LoginHelper.SignInViaLinkedIn(email, password);
+					_loginHelper.SignInViaLinkedIn(email, password);
 					break;
 
 				default:
 					throw new Exception(String.Format("Передано неправильное название сайта: {0}", socialNetworks));
 			}
 
-			LoginHelper
+			_loginHelper
 				.SelectAccount()
 				.SetUp(nickName);
 		}
@@ -96,10 +99,10 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Authorization
 		[Test]
 		public void SignOutTest()
 		{
-			LoginHelper
-				.SignIn(Login, Password)
+			_loginHelper
+				.SignIn(ConfigurationManager.Login, ConfigurationManager.Password)
 				.SelectAccount()
-				.SetUp(NickName)
+				.SetUp(ConfigurationManager.NickName)
 				.SignOut();
 		}
 
@@ -107,7 +110,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Authorization
 		[TestCase("AolUserivanpetrov2@mailforspam.com", "12trC89p"), Ignore("PRX-10821")] // Неактивный AOL-аккаунт
 		public void SignInWithAolAccount(string email, string password)
 		{
-			LoginHelper
+			_loginHelper
 				.SignIn(email, password)
 				.AssertAccountNotFoundMessageDisplayed();
 		}
@@ -121,7 +124,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Authorization
 			var password = "43abC12z";
 
 			сreateUserWithAccount(email, nickName, password, accountName);
-			LoginHelper
+			_loginHelper
 				.SignIn(email, password)
 				.SelectAccount(accountName)
 				.SetUp(nickName, accountName);
@@ -136,7 +139,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Authorization
 			var password= "13grC89p";
 
 			сreateUserWithAccount(email, nickName, password, accountName);
-			LoginHelper
+			_loginHelper
 				.SignIn(email, password)
 				.AssertAccountNotFoundMessageDisplayed();
 		}
@@ -147,13 +150,18 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Authorization
 			string password,
 			string accountName = LoginHelper.TestAccountName)
 		{
-			LogInAdmin(Login, Password);
-			AdminHelper
+			_commonHelper.GoToAdminUrl();
+			_adminHelper
+				.SignIn(ConfigurationManager.Login, ConfigurationManager.Password)
 				.CreateNewUser(email, nickName, password, admin: true, aolUser: true)
 				.FindUser(email)
 				.CheckAdminCheckbox()
 				.AddUserToSpecificAccount(email, accountName);
-			Driver.Navigate().GoToUrl(Url + RelativeUrlProvider.SignIn);
+			_commonHelper.GoToSignInPage();
 		}
+
+		private AdminHelper _adminHelper;
+		private CommonHelper _commonHelper;
+		private LoginHelper _loginHelper;
 	}
 }

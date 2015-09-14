@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<configuration>
+
+	<TestUsers>
+
+		<AolUser Login = "ssssssss213123s@mail.ru"	Password = "aol3mailru@mail.ru" Activated = "true" /> <!--активированный AOL пользователь -->
+		<AolUser Login = "AolUserivanpetrov2@mailforspam.com"	Password = "12trC89p" Activated = "false" /> <!--неактивированный AOL пользователь -->
+
+		<CourseraUser Login="testuserivanpetrov@mailforspam.com"	Password="12trC89p" Activated= "true"/>
+		<CourseraUser Login="testuservasyasidorov@mailforspam.com"	Password="48df5T56" Activated= "true"/>
+		<CourseraUser Login="testusermarinaolegovna@mailforspam.com"	Password="8rfgDfre7" Activated= "true"/>
+		<CourseraUser Login="testusermolgavladimirova@mailforspam.com"	Password="7cdRfs85" Activated= "true"/>
+		<CourseraUser Login="testuserpavelkrasov@mailforspam.com"	Password="fererG785" Activated= "true"/>
+		<CourseraUser Login="testusernikolaylebedev@mailforspam.com"	Password="789Fwf5rr" Activated= "true"/>
+		<CourseraUser Login="testuseredgarivanov@mailforspam.com"	Password="fre78Ff*5" Activated= "true"/>
+		<CourseraUser Login="testuserfedyavasilyev@mailforspam.com"	Password="fver5433f" Activated= "true"/>
+		<CourseraUser Login="testuserartursokolov@mailforspam.com"	Password="fce344geeD" Activated= "true"/>
+		<CourseraUser Login="testuserantonborisov@mailforspam.com"	Password="3rDvfr64r" Activated= "true"/>
+		<CourseraUser Login="testuserritinamamedova@mailforspam.com"	Password="3re3Feeer" Activated= "true"/>
+		<CourseraUser Login="testusermariyatitova@mailforspam.com"	Password="342Fwef5F" Activated= "true" />
+		<CourseraUser Login="testuserigorkarpov@mailforspam.com"	Password="dfdftg4332" Activated= "true"/>
+		<CourseraUser Login="testuservasilisaandreeva@mailforspam.com"	Password="vdffFrre54" Activated= "true"/>
+		<CourseraUser Login="testusernatalyamalceva@mailforspam.com"	Password="vfe43FRg3" Activated= "true"/>
+		<CourseraUser Login="testuserolegarcer@mailforspam.com"	Password="fere54Ged" Activated= "true"/>
+
+		<SocialNetworksUser Login = "margarita.kolly@yandex.ru"	Password = "0onWolkap" Activated = "true" /><!-- пользователь Facebook и LinkedIn -->
+		<SocialNetworksUser Login = "smaartcat@gmail.com"	Password = "smaartcattest" Activated = "true" /><!-- пользователь Google+ -->
+
+		<!--
+			<TestUser> - для тестирования регистрации юзеров, которые имею аакаунт в aol/coursera/perevedem (см 3.1-3.6 пункты в PRX-5601)
+			<TestCompany> - для тестирования регистрации компаний,с помощью юзера, который имею аккаунт в aol/coursera/perevedem (см 1й пункт PRX-5752)
+			
+			Activated = "false" - неактивированый аккаунт
+			Activated = "true" - активированый аккаунт
+			
+			Количество строк лучше не менять, в тесте учавствуют первые 6 TestUser и первые 4 TestCompany.
+			Для того , чтобы оба теста регистрации фрилансеров и компании были проигнорированы можно удалить или переименовать файл.
+			Если нужно прогнать только тест регистрации фрилансеров, то достаточно удалить все строки для TestCompany.
+			Если нужно прогнать только тест регистрации компаний, то достаточно удалить все строки для TestUser.
+			
+			P.S: проверка для неактивных: пока получается такая же, как и для активных. (тут заведен тикет с уточнением требований, пока не решен вопрос - PRX-5519)
+		-->
+		<TestUser Login = "testuserivanpetrov1@mailforspam.com"	Password = "12trC89p" Activated = "true" />   <!--активный юзер аол-->
+		<TestUser Login = "testuserivanpetrov2@mailforspam.com"	Password = "12trC89p" Activated = "false" />  <!--неактивный юзер аол-->
+		<TestUser Login = "testuserivanpetrov3@mailforspam.com"	Password = "12trC89p" Activated = "true" />   <!--активный юзер курсера-->
+		<TestUser Login = "testuserivanpetrov4@mailforspam.com"	Password = "12trC89p" Activated = "false" />  <!--неактивный юзер курсера-->
+		<TestUser Login = "testuserivanpetrov5@mailforspam.com"	Password = "12trC89p" Activated = "false" />  <!--активный юзер переведем-->
+		<TestUser Login = "testuserivanpetrov6@mailforspam.com"	Password = "12trC89p" Activated = "false" />  <!--неактивный юзер переведем-->
+
+		<TestCompany login = "testcompanyivanpetrov1@mailforspam.com"	password = "123123123" activated = "true" />  <!--активный юзер аол-->
+		<TestCompany login = "testcompanyivanpetrov2@mailforspam.com"	password = "123123123" activated = "false" /> <!--неактивный юзер аол-->
+		<TestCompany login = "testcompanyivanpetrov3@mailforspam.com"	password = "123123123" activated = "true" />  <!--активный юзер курсера-->
+		<TestCompany login = "testcompanyivanpetrov4@mailforspam.com"	password = "123123123" activated = "false" /> <!--неактивный юзер курсера-->
+
+	</TestUsers>
+
+</configuration>

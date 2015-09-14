@@ -77,10 +77,10 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 				.CreateNewProject(projectUniqueName2, PathProvider.DocumentFileToConfirm1)
 				.AssertIsProjectLoadedSuccessfully(projectUniqueName2)
 				.GoToProjectSettingsPage(projectUniqueName2)
-				.AssignTasksOnDocument(Path.GetFileNameWithoutExtension(PathProvider.DocumentFileToConfirm1), NickName)
+				.AssignTasksOnDocument(Path.GetFileNameWithoutExtension(PathProvider.DocumentFileToConfirm1), ConfigurationManager.NickName)
 				.CreateRevision(Path.GetFileNameWithoutExtension(PathProvider.DocumentFileToConfirm1))
 				.UploadDocument(PathProvider.DocumentFileToConfirm2)
-				.AssignTasksOnDocument(Path.GetFileNameWithoutExtension(PathProvider.DocumentFileToConfirm2), NickName)
+				.AssignTasksOnDocument(Path.GetFileNameWithoutExtension(PathProvider.DocumentFileToConfirm2), ConfigurationManager.NickName)
 				.CreateRevision(Path.GetFileNameWithoutExtension(PathProvider.DocumentFileToConfirm2))
 				.GoToProjectsPage();
 
@@ -116,7 +116,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 		{
 			_projectSettingsHelper
 				.UploadDocument(PathProvider.DocumentFileToConfirm2)
-				.AssignTasksOnDocument(Path.GetFileNameWithoutExtension(PathProvider.DocumentFileToConfirm2), NickName)
+				.AssignTasksOnDocument(Path.GetFileNameWithoutExtension(PathProvider.DocumentFileToConfirm2), ConfigurationManager.NickName)
 				.CreateRevision(Path.GetFileNameWithoutExtension(PathProvider.DocumentFileToConfirm2));
 
 			_exportFileHelper.CancelAllNotifiers<ProjectSettingsPage>();

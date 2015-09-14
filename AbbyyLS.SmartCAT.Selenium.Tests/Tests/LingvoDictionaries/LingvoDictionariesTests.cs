@@ -21,7 +21,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.LingvoDictionaries
 		[SetUp]
 		public void LingvoDictionariesSetUp()
 		{
-			if (!Standalone)
+			if (!ConfigurationManager.Standalone)
 			{
 				var accountUniqueName = AdminHelper.GetAccountUniqueName();
 
@@ -36,9 +36,14 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.LingvoDictionaries
 						Feature.TranslateConnector.ToString(),
 						Feature.LingvoDictionaries.ToString(),
 					})
-					.AddUserToSpecificAccount(Login, accountUniqueName);
+					.AddUserToSpecificAccount(ConfigurationManager.Login, accountUniqueName);
 
-				LogInSmartCat(Login, NickName, Password, accountUniqueName);
+				_commonHelper.GoToSignInPage();
+				_loginHelper.LogInSmartCat(
+					ConfigurationManager.Login,
+					ConfigurationManager.NickName,
+					ConfigurationManager.Password,
+					accountUniqueName);
 			}
 
 			_workspaceHelper
@@ -89,7 +94,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.LingvoDictionaries
 		}
 
 		private readonly AdminHelper _adminHelper = new AdminHelper() ;
+		private readonly LoginHelper _loginHelper = new LoginHelper();
 		private readonly SearchHelper _searchHelper = new SearchHelper();
 		private readonly WorkspaceHelper _workspaceHelper = new WorkspaceHelper();
+		private readonly CommonHelper _commonHelper  = new CommonHelper();
 	}
 }

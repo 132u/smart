@@ -20,12 +20,12 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects.CheckRights
 				.CloseTour()
 				.GoToUsersRightsPage()
 				.ClickGroupsButton()
-				.RemoveUserFromAllGroups(RightsTestNickName)
+				.RemoveUserFromAllGroups(ConfigurationManager.RightsTestNickName)
 				.CheckOrCreateGroup(groupName)
 				.CheckOrAddRightsToGroup(groupName, RightsType.ProjectCreation)
-				.CheckOrAddUserToGroup(groupName, RightsTestNickName)
+				.CheckOrAddUserToGroup(groupName, ConfigurationManager.RightsTestNickName)
 				.SignOut()
-				.SignIn(RightsTestLogin, RightsTestPassword)
+				.SignIn(ConfigurationManager.RightsTestLogin, ConfigurationManager.RightsTestPassword)
 				.SelectAccount()
 				.CloseTour();
 
@@ -259,5 +259,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects.CheckRights
 		protected readonly ExportFileHelper _exportFileHelper = new ExportFileHelper();
 		protected readonly CreateProjectHelper _createProjectHelper = new CreateProjectHelper();
 		protected readonly ProjectsHelper _projectHeper = new ProjectsHelper();
+		protected readonly WorkspaceHelper WorkspaceHelper = new WorkspaceHelper();
 	}
 }

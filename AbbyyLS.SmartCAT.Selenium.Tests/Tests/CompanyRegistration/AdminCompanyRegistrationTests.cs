@@ -39,7 +39,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.CompanyRegistration
 				.CreateAccountIfNotExist(accountName: _accountUniqueName, workflow: true)
 				.AddUserToSpecificAccount(_email, _accountUniqueName);
 
-			GoToCompanyRegistration();
+			_commonHelper.GoToCompanyRegistration();
 
 			_companyRegistrationHelper
 				.ClickExistingAbbyyAccountLink()
@@ -56,7 +56,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.CompanyRegistration
 		{
 			_adminHelper.CreateNewUser(_email, _nickName, _password);
 
-			GoToCompanyRegistration();
+			_commonHelper.GoToCompanyRegistration();
 
 			_companyRegistrationHelper
 				.ClickExistingAbbyyAccountLink()
@@ -76,7 +76,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.CompanyRegistration
 				.CreateNewUser(_email, _nickName, _password)
 				.CreateNewPersonalAccount(_lastName, state: active);
 
-			GoToCompanyRegistration();
+			_commonHelper.GoToCompanyRegistration();
 
 			_companyRegistrationHelper
 				.ClickExistingAbbyyAccountLink()
@@ -101,7 +101,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.CompanyRegistration
 				.CreateAccountIfNotExist(accountName: _accountUniqueName, workflow: true)
 				.AddUserToSpecificAccount(_email, _accountUniqueName);
 
-			GoToCompanyRegistration();
+			_commonHelper.GoToCompanyRegistration();
 
 			_companyRegistrationHelper
 				.ClickExistingAbbyyAccountLink()
@@ -135,5 +135,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.CompanyRegistration
 
 		private readonly CompanyRegistrationHelper _companyRegistrationHelper = new CompanyRegistrationHelper();
 		private readonly AdminHelper _adminHelper = new AdminHelper();
+		private readonly CommonHelper _commonHelper = new CommonHelper();
 	}
 }

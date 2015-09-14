@@ -11,8 +11,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.InitialData
 	[TestFixture]
 	public class InitialDataTests<TWebDriverProvider> : BaseTest<TWebDriverProvider> where TWebDriverProvider : IWebDriverProvider, new()
 	{
-		public InitialDataTests() 
+		public InitialDataTests()
 		{
+			GlobalSetup.SetUp();
 			StartPage = StartPage.Admin;
 		}
 
@@ -39,13 +40,13 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.InitialData
 							Feature.DocumentUpdate.ToString()
 						},
 					unlimitedUseServices: true)
-				.CreateAccountAdminIfNotExist(Login, UserName, UserSurname, LoginHelper.TestAccountName);
+					.CreateAccountAdminIfNotExist(ConfigurationManager.Login, ConfigurationManager.UserName, ConfigurationManager.UserSurname, LoginHelper.TestAccountName);
 		}
 
 		[Test]
 		public void CreatePersAccountForRingo()
 		{
-			_adminHelper.CreateUserWithPersonalAccount(Login2, NickName2, Password2);
+			_adminHelper.CreateUserWithPersonalAccount(ConfigurationManager.Login2, ConfigurationManager.NickName2, ConfigurationManager.Password2);
 		}
 
 		[Test]
@@ -80,7 +81,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.InitialData
 					}
 				);
 
-			foreach (var user in CourseraUserList)
+			foreach (var user in ConfigurationManager.CourseraUserList)
 			{
 				_adminHelper
 					.CreateNewUser(user.Login, user.Login, user.Password, aolUser: true)
@@ -92,14 +93,14 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.InitialData
 		public void CreatePersAccountForBobby()
 		{
 			_adminHelper
-				.FindUser(Login)
+				.FindUser(ConfigurationManager.Login)
 				.CreateNewPersonalAccount(LoginHelper.PersonalAccountSurname, state: true);
 		}
 
 		[Test, Explicit]
 		public void CreateSocialNetworksAccounts()
 		{
-			foreach (var user in SocialNetworksUserList)
+			foreach (var user in ConfigurationManager.SocialNetworksUserList)
 			{
 				_adminHelper.CreateUserWithPersonalAccount(user.Login, user.Login, user.Password);
 			}
@@ -108,7 +109,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.InitialData
 		[Test]
 		public void CreatePersAccountForBatman()
 		{
-			_adminHelper.CreateUserWithPersonalAccount(RightsTestLogin, RightsTestNickName, RightsTestPassword);
+			_adminHelper.CreateUserWithPersonalAccount(ConfigurationManager.RightsTestLogin, ConfigurationManager.RightsTestNickName, ConfigurationManager.RightsTestPassword);
 		}
 
 		[Test]

@@ -16,7 +16,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 		[SetUp]
 		public void SetUpBaseProjectTest()
 		{
-			WorkspaceHelper.GoToProjectsPage();
+			_workspaceHelper = new WorkspaceHelper();
+			_workspaceHelper.GoToProjectsPage();
 			_createProjectHelper = new CreateProjectHelper();
 		}
 
@@ -172,5 +173,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 
 		private CreateProjectHelper _createProjectHelper;
 		private const string _longName = "12345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890";
+		private WorkspaceHelper _workspaceHelper;
 	}
 }

@@ -15,7 +15,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.ProjectGroups
 		[SetUp]
 		public void Setup()
 		{
-			_projectGroupHelper = WorkspaceHelper.GoToProjectGroupsPage();
+			_workspaceHelper = new WorkspaceHelper();
+			_projectGroupHelper = _workspaceHelper.GoToProjectGroupsPage();
 		}
 
 		[Test]
@@ -157,5 +158,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.ProjectGroups
 		}
 
 		private ProjectGroupsHelper _projectGroupHelper;
+		private WorkspaceHelper _workspaceHelper;
 	}
 }

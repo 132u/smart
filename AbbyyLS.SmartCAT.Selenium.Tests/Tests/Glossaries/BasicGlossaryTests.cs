@@ -15,7 +15,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 		[SetUp]
 		public void GlossariesSetUp()
 		{
-			_glossaryHelper = WorkspaceHelper.GoToGlossariesPage();
+			_workspaceHelper = new WorkspaceHelper();
+			_glossaryHelper = _workspaceHelper.GoToGlossariesPage();
 			_glossaryUniqueName = GlossariesHelper.UniqueGlossaryName();
 		}
 
@@ -111,7 +112,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 				.CreateGlossary(_glossaryUniqueName)
 				.GoToGlossariesPage()
 				.AssertGlossaryExist(_glossaryUniqueName)
-				.AssertModifiedByMatch(_glossaryUniqueName, NickName);
+				.AssertModifiedByMatch(_glossaryUniqueName, ConfigurationManager.NickName);
 		}
 
 		[Test]
@@ -253,6 +254,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 		}
 
 		private GlossariesHelper _glossaryHelper;
+		private WorkspaceHelper _workspaceHelper;
 		private string _glossaryUniqueName;
 	}
 }

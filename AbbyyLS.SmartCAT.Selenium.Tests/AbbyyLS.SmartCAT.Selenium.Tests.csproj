@@ -71,6 +71,7 @@
     <Compile Include="ExplicitAttributes\HotkeyExplicitAttribute.cs" />
     <Compile Include="Pages\Admin\AdminManagementPaidServicesPage.cs" />
     <Compile Include="Drivers\Navigation.cs" />
+    <Compile Include="ConfigurationManager.cs" />
     <Compile Include="Pages\Projects\CreateProjectDialog\NewProjectSetUpPretranslationDialog.cs" />
     <Compile Include="DataStructures\GlossaryCustomFieldType.cs" />
     <Compile Include="RelativeUrlProvider.cs" />
@@ -201,6 +202,7 @@
     <Compile Include="TestHelpers\AdminHelper.cs" />
     <Compile Include="TestHelpers\BillingHelper.cs" />
     <Compile Include="TestHelpers\ClientsHelper.cs" />
+    <Compile Include="TestHelpers\CommonHelper.cs" />
     <Compile Include="TestHelpers\CompanyRegistrationHelper.cs" />
     <Compile Include="TestHelpers\CreateProjectHelper.cs" />
     <Compile Include="TestHelpers\ExportFileHelper.cs" />
@@ -223,6 +225,7 @@
     <Compile Include="Tests\Authorization\AuthorizationTests.cs" />
     <Compile Include="Tests\Editor\EditorLastUnconfirmedSegmentTests.cs" />
     <Compile Include="Tests\Editor\EditorHomeButtonTests.cs" />
+    <Compile Include="Tests\GlobalSetup.cs" />
     <Compile Include="Tests\Glossaries\GlossariesEditorTests.cs" />
     <Compile Include="Tests\Glossaries\GlossaryEditorTests.cs" />
     <Compile Include="Tests\Editor\MatchColumnTests\EditorMatchColumnMTSubstitutionTests.cs" />

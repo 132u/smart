@@ -339,33 +339,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests
 		}
 
 		/// <summary>
-		/// Путь к файлу тестовых юзеров
-		/// </summary>
-		public static string TestUserFile 
-		{
-			get 
-			{
-				return Path.GetFullPath(_pathConfig.ConfigDirectory + "/TestUsers.xml");
-			}
-		}
-
-		public static string AolUserFile
-		{
-			get 
-			{
-				return Path.GetFullPath(_pathConfig.ConfigDirectory + "/AolUsers.xml");
-			}
-		}
-
-		public static string CourseraUserFile
-		{
-			get 
-			{
-				return Path.GetFullPath(_pathConfig.ConfigDirectory + "/CourseraUsers.xml");
-			}
-		}
-
-		/// <summary>
 		/// Путь к экспортированным файлам
 		/// </summary>
 		public static string ExportFiles
@@ -381,7 +354,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests
 		/// </summary>
 		public static string ResultsFolderPath 
 		{
-			get 
+			get
 			{
 				return Path.GetFullPath(_pathConfig.ResultDirectory);
 			}
