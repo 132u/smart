@@ -49,7 +49,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		public EditorPage ConfirmSegmentByHotkeys()
 		{
 			Logger.Debug("Подтвердить сегмент с помощью горячих клавиш.");
-			SendKeys.SendWait("^{ENTER}");
+			//SendKeys.SendWait("^{ENTER}");
+			Driver.SendHotKeys(OpenQA.Selenium.Keys.Enter, true);
 
 			return GetPage();
 		}
@@ -60,7 +61,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		public EditorPage ClickF8HotKey()
 		{
 			Logger.Debug("Нажать хоткей F8.");
-			SendKeys.SendWait("{F8}");
+			//SendKeys.SendWait("{F8}");
+			Driver.SendHotKeys(OpenQA.Selenium.Keys.F8);
 
 			return GetPage();
 		}
@@ -93,7 +95,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		public ErrorsDialog FindErrorByHotkey()
 		{
 			Logger.Debug("Вызвать окно поиска ошибок в терминологии с помощью хоткея F7");
-			SendKeys.SendWait("{F7}");
+			//SendKeys.SendWait("{F7}");
+			Driver.SendHotKeys(OpenQA.Selenium.Keys.F7);
 
 			return new ErrorsDialog().GetPage();
 		}
@@ -156,7 +159,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		public SpecialCharactersForm ClickCharacterButtonByHotKey()
 		{
 			Logger.Debug("Нажать кнопку 'Специальные символы' с помощью хоткея Ctrl+Shift+I.");
-			SendKeys.SendWait(@"^+{i}");
+			//SendKeys.SendWait(@"^+{i}");
+			Driver.SendHotKeys("I", true, true);
 
 			return new SpecialCharactersForm().GetPage();
 		}
@@ -229,7 +233,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		public EditorPage ClickF9HotKey()
 		{
 			Logger.Debug("Нажать хоткей F9.");
-			SendKeys.SendWait("{F9}");
+			//SendKeys.SendWait("{F9}");
+			Driver.SendHotKeys(OpenQA.Selenium.Keys.F9);
 
 			return GetPage();
 		}
@@ -500,7 +505,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		public EditorPage ClickCopySourceToTargetHotkey()
 		{
 			Logger.Debug("Нажать хоткей кнопки 'Копировать оригинал в перевод' - Ctrl+Insert.");
-			SendKeys.SendWait("^{INSERT}");
+			//SendKeys.SendWait("^{INSERT}");
+			Driver.SendHotKeys(OpenQA.Selenium.Keys.Insert, true);
 
 			return GetPage();
 		}
@@ -614,7 +620,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		public EditorPage ClickConcordanceButtonByHotKey()
 		{
 			Logger.Debug("Нажать хоткей кнопки 'Конкордансный поиск' - Ctrl+k.");
-			SendKeys.SendWait(@"^{k}");
+			//SendKeys.SendWait(@"^{k}");
+			Driver.SendHotKeys("K", true);
 
 			return GetPage();
 		}
@@ -636,7 +643,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		public AddTermDialog SendCtrlE()
 		{
 			Logger.Debug("Нажать хоткей Ctrl+E.");
-			SendKeys.SendWait("^e");
+			//SendKeys.SendWait("^e");
+			Driver.SendHotKeys("e", true);
 
 			return new AddTermDialog().GetPage();
 		}

@@ -4,11 +4,12 @@ using System.Collections.ObjectModel;
 using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
-
+using System.Threading;
 using NLog;
 using NUnit.Framework;
 
 using OpenQA.Selenium;
+using OpenQA.Selenium.Interactions;
 using OpenQA.Selenium.Remote;
 using OpenQA.Selenium.Support.PageObjects;
 using OpenQA.Selenium.Support.UI;
@@ -505,6 +506,42 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Drivers
 			{
 				wait.Timeout = TimeSpan.FromSeconds(timeout);
 			}
+		}
+
+		public void SendHotKeys(string key, bool control = false, bool shift = false, bool alt = false)
+		{
+			var actions = new Actions(_driver);
+
+			if (control)
+			{
+				actions.KeyDown(Keys.Control);
+			}
+			if (shift)
+			{
+				actions.KeyDown(Keys.Shift);
+			}
+			if (alt)
+			{
+				actions.KeyDown(Keys.Alt);
+			}
+
+			Thread.Sleep(1000);
+			actions.SendKeys(key);
+
+			if (control)
+			{
+				actions.KeyUp(Keys.Control);
+			}
+			if (shift)
+			{
+				actions.KeyUp(Keys.Shift);
+			}
+			if (alt)
+			{
+				actions.KeyUp(Keys.Alt);
+			}
+
+			actions.Build().Perform();
 		}
 
 		public void Dispose()
