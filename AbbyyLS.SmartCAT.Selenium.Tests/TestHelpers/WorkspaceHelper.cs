@@ -152,7 +152,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 		public WorkspaceHelper SelectLocale(Language language)
 		{
 			BaseObject.InitPage(_workspacePage);
-			_workspacePage.SelectLocale(language);
+			_workspacePage
+				.ClickCloseHelp()
+				.SelectLocale(language);
 
 			if (language == Language.Russian)
 			{
@@ -227,9 +229,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 			SelectLocale(language);
 			_workspacePage
 				.AssertUserNameMatch(nickName)
-				.AssertAccountNameMatch(accountName)
-				.ClickCloseHelp();
-
+				.AssertAccountNameMatch(accountName);
+				
 			return this;
 		}
 
