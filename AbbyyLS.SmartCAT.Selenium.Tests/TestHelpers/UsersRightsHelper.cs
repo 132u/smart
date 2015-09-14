@@ -54,7 +54,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 					.AssertIsAddGroupUserButtonExists(groupName, userName)
 					.ClickAddGroupUserButton(groupName, userName)
 					.ClickSaveButton(groupName)
-					.SelectGroup(groupName)
 					.AssertIsGroupUserAdded(groupName, userName);
 			}
 
