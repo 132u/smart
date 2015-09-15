@@ -107,7 +107,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Authorization
 		}
 
 		[TestCase("ssssssss213123s@mail.ru", "aol3mailru@mail.ru")] // Активный AOL-аккаунт
-		[TestCase("AolUserivanpetrov2@mailforspam.com", "12trC89p"), Ignore("PRX-10821")] // Неактивный AOL-аккаунт
+		[TestCase("AolUserivanpetrov2@mailforspam.com", "12trC89p", Ignore = true, IgnoreReason = "PRX-10821")] // Неактивный AOL-аккаунт
 		public void SignInWithAolAccount(string email, string password)
 		{
 			_loginHelper
