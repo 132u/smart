@@ -263,6 +263,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 					.ClickDownloadInMainMenuButton()
 					.SelectExportType<ProjectsPage>(ExportType.Source);
 			}
+
+			_exportFileHelper.AssertCountExportNotifiers(_maxNotifierNumber);
 		}
 
 		[Test]
