@@ -49,7 +49,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 		}
 
 		/// <summary>
-		/// Выбрать МТ {0} в настройках документа
+		/// Выбрать МТ в настройках документа
 		/// </summary>
 		public DocumentSettings SelectMachineTranslation(MachineTranslationType machineTranslationType)
 		{

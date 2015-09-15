@@ -23,14 +23,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Editor
 					projectName: projectUniqueName,
 					filePath: PathProvider.TxtFileForMatchTest,
 					createNewTm: true,
-					tmxFilePath: PathProvider.TmxFileForMatchTest,
-					useMachineTranslation: true,
-					createGlossary: true)
+					tmxFilePath: PathProvider.TmxFileForMatchTest)
 				.AssertIsProjectLoadedSuccessfully(projectUniqueName);
-
-			_projectsHelper
-				.OpenProjectInfo(projectUniqueName)
-				.OpenDocumentInfoForProject(projectUniqueName);
 
 			_createProjectHelper
 				.GoToProjectSettingsPage(projectUniqueName)

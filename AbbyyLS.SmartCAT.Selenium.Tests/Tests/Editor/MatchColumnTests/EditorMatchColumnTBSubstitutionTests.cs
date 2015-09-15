@@ -23,10 +23,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Editor
 				filePath: PathProvider.TxtFileForMatchTest,
 				createGlossary: true);
 
-			_projectsHelper
-				.OpenProjectInfo(projectUniqueName)
-				.OpenDocumentInfoForProject(projectUniqueName);
-
 			_createProjectHelper
 				.GoToProjectSettingsPage(projectUniqueName)
 				.AssignTasksOnDocument(Path.GetFileNameWithoutExtension(PathProvider.TxtFileForMatchTest), ConfigurationManager.NickName)
