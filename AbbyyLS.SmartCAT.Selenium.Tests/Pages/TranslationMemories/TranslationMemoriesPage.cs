@@ -515,6 +515,17 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories
 		}
 
 		/// <summary>
+		/// Нажать кнопку 'Export'
+		/// </summary>
+		public TranslationMemoriesPage ClickExportButton()
+		{
+			Logger.Debug("Нажать кнопку 'Export'");
+			ExportButton.Click();
+
+			return GetPage();
+		}
+
+		/// <summary>
 		/// Нажать кнопку подтверждения замены ТМ в окне импорта
 		/// </summary>
 		public TranslationMemoriesPage ClickConfirmReplacementButton()
@@ -637,6 +648,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories
 		[FindsBy(How = How.XPath, Using = ADD_TMX_BUTTON)]
 		protected IWebElement AddTmxButton { get; set; }
 
+		[FindsBy(How = How.XPath, Using = EXPORT_BUTTON)]
+		protected IWebElement ExportButton { get; set; }
+
 		protected const string ADD_TM_BTN = "//span[contains(@data-bind,'createTm')]//a";
 		protected const string CREATE_TM_DIALOG = "//div[contains(@class,'js-popup-create-tm')][2]";
 		protected const string TM_ROW = "//tr[contains(@class,'l-corpr__trhover clickable')]//span[text()='*#*']";
@@ -682,5 +696,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories
 		//ADD_TMX_BUTTON связан с PRX-11525
 		protected const string ADD_TMX_BUTTON = "//tr[contains(@class,'js-tm-panel')]//a[contains(text(), 'Add ТМХ')]";
 		protected const string UPDATE_TM_VALIDATION_ERROR_MESSAGE = "(//p[@class='js-error-invalid-file-extension' and text()='Please select a file with TMX extension'])[2]";
+
+		protected const string EXPORT_BUTTON = "//span/a[contains(@data-bind,'exportTmx')]";
 	}
 }

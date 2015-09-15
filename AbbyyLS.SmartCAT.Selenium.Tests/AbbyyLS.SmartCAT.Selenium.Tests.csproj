@@ -265,6 +265,7 @@
     <Compile Include="Tests\Glossaries\SortingInSuggestedTermsTests.cs" />
     <Compile Include="Tests\Projects\ProjectSaveSettingsByBackTests.cs" />
     <Compile Include="Tests\Projects\Workflow\WorkflowPersonalAccountTests.cs" />
+    <Compile Include="Tests\TranslationMemories\TMExportTests.cs" />
     <Compile Include="Tests\UsersRights\ManageTermsTest.cs" />
     <Compile Include="Tests\TranslationMemories\TMUploadingTests.cs" />
     <Compile Include="Tests\TranslationMemories\TMUpdatingTests.cs" />

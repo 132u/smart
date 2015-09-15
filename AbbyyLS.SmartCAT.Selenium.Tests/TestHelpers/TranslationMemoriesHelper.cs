@@ -453,6 +453,16 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 			return this;
 		}
 
+		public TranslationMemoriesHelper ExportTM(string translationMemoryName)
+		{
+			BaseObject.InitPage(_translationMemoriesPage);
+			_translationMemoriesPage
+				.ClickTranslationMemoryRow(translationMemoryName)
+				.ClickExportButton();
+
+			return this;
+		}
+
 		private readonly TranslationMemoriesPage _translationMemoriesPage = new TranslationMemoriesPage();
 		private readonly NewTranslationMemoryDialog _newTranslationMemoryDialog = new NewTranslationMemoryDialog();
 	}
