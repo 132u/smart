@@ -68,7 +68,6 @@
   <ItemGroup>
     <Compile Include="ExplicitAttributes\UserDataExplicitAttribute.cs" />
     <Compile Include="ExplicitAttributes\FileUploadExplicitAttribute.cs" />
-    <Compile Include="ExplicitAttributes\HotkeyExplicitAttribute.cs" />
     <Compile Include="Pages\Glossaries\SuggestedTerms\SuggestedTermsForCurrentGlossariesPage.cs" />
     <Compile Include="Pages\Glossaries\SuggestedTerms\SuggestTermDialog.cs" />
     <Compile Include="Pages\Glossaries\SuggestedTerms\SuggestedTermsForAllGlossariesPage.cs" />

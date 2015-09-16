@@ -22,7 +22,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Editor
 		}
 
 		[Test]
-		[HotkeyExplicit]
 		public void LastUnconfirmedSegmentHotKeyTest()
 		{
 			EditorHelper
@@ -47,7 +46,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Editor
 		}
 
 		[Test]
-		[HotkeyExplicit]
 		public void LastUnconfirmedHotkeySkipSegmentTest()
 		{
 			EditorHelper

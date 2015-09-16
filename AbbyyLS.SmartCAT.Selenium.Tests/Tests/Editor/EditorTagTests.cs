@@ -34,7 +34,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Editor
 		}
 
 		[Test]
-		[HotkeyExplicit]
 		public void TagHotkeyTest()
 		{
 			_editorHelper
