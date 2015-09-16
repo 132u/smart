@@ -87,6 +87,145 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 			return this;
 		}
 
+		public GlossariesHelper OpenSuggestTermDialogFromGlossariesPage()
+		{
+			BaseObject.InitPage(_glossariesPage);
+			_glossariesPage.ClickSuggestTermButton();
+
+			return this;
+		}
+
+		public GlossariesHelper ClickSaveButtonInSuggestTermDialogFromGlossaryPage(bool errorExpected = false)
+		{
+			BaseObject.InitPage(_suggestTermDialog);
+			if (!errorExpected)
+			{
+				_suggestTermDialog
+					.ClickSaveButton<GlossaryPage>()
+					.AssertDialogBackgroundDisappeared<GlossaryPage>();
+			}
+			else
+			{
+				_suggestTermDialog.ClickSaveButton<SuggestTermDialog>();
+			}
+
+			return this;
+		}
+
+		public GlossariesHelper FillSuggestTermDialog(
+			string term1 = "term1",
+			string term2 = "term2",
+			Language language1 = Language.English,
+			Language language2 = Language.Russian,
+			string glossary = null)
+		{
+			BaseObject.InitPage(_suggestTermDialog);
+			_suggestTermDialog
+				.FillTerm(termNumber: 1, term: term1)
+				.FillTerm(termNumber: 2, term: term2)
+				.ClickLanguageList(languageNumber: 1)
+				.SelectLanguageInList(language1)
+				.ClickLanguageList(languageNumber: 2)
+				.SelectLanguageInList(language2);
+
+			if (glossary != null)
+			{
+				BaseObject.InitPage(_suggestTermDialog);
+				_suggestTermDialog
+					.ClickGlossariesDropdown()
+					.SelectGlossariesInDropdown(glossary);
+			}
+
+			return this;
+		}
+
+		public GlossariesHelper ClickCancelButtonInSuggestedTermDialogFromGlossariesPage()
+		{
+			BaseObject.InitPage(_suggestTermDialog);
+			_suggestTermDialog
+				.ClickCancelButton<GlossariesPage>()
+				.AssertDialogBackgroundDisappeared<GlossariesPage>();
+
+			return this;
+		}
+
+		public GlossariesHelper ClickSaveButtonInSuggestTermDialogFromGlossariesPage(bool errorExpected = false)
+		{
+			BaseObject.InitPage(_suggestTermDialog);
+			if (!errorExpected)
+			{
+				_suggestTermDialog
+					.ClickSaveButton<GlossariesPage>()
+					.AssertDialogBackgroundDisappeared<GlossariesPage>();
+			}
+			else
+			{
+				_suggestTermDialog
+					.ClickSaveButton<SuggestTermDialog>();
+			}
+
+			return this;
+		}
+
+		public GlossariesHelper ClickSaveTermAnywayInSuggestTermDialogFromGlossaryPage()
+		{
+			BaseObject.InitPage(_suggestTermDialog);
+			_suggestTermDialog
+				.ClickSaveTermAnywayButton<GlossaryPage>()
+				.AssertDialogBackgroundDisappeared<GlossaryPage>();
+
+			return this;
+		}
+
+		public GlossariesHelper AssertLanguageInSuggestTermDialogMatch(int languageNumber, Language language)
+		{
+			Logger.Trace("Проверить, что указан {0} язык №{1}.", language, languageNumber);
+			BaseObject.InitPage(_suggestTermDialog);
+
+			Assert.AreEqual(language.ToString(), _suggestTermDialog.LanguageText(languageNumber),
+				"Произошла ошибка:\nНеверный язык №{0} в диалоге предложения термина.");
+
+			return this;
+		}
+
+		public GlossariesHelper ClickSaveTermAnywayInSuggestTermDialogFromGlossariesPage()
+		{
+			BaseObject.InitPage(_suggestTermDialog);
+			_suggestTermDialog
+				.ClickSaveTermAnywayButton<GlossariesPage>()
+				.AssertDialogBackgroundDisappeared<GlossariesPage>();
+
+			return this;
+		}
+
+		public GlossariesHelper SelectLanguageToSuggestTerm(int languageNumber, Language language)
+		{
+			BaseObject.InitPage(_suggestTermDialog);
+			_suggestTermDialog
+				.ClickLanguageList(languageNumber)
+				.SelectLanguageInList(language);
+
+			return this;
+		}
+
+		public GlossariesHelper ClickCancelButtonInSuggestedTermDialogFromGlossaryPage()
+		{
+			BaseObject.InitPage(_suggestTermDialog);
+			_suggestTermDialog
+				.ClickCancelButton<GlossaryPage>()
+				.AssertDialogBackgroundDisappeared<GlossaryPage>();
+
+			return this;
+		}
+
+		public GlossariesHelper OpenSuggestTermDialogFromGlossaryPage()
+		{
+			BaseObject.InitPage(_glossaryPage);
+			_glossaryPage.ClickSuggestTermButton();
+
+			return this;
+		}
+
 		public GlossariesHelper ClickSortByTermsUnderReview()
 		{
 			BaseObject.InitPage(_glossariesPage);
@@ -261,27 +400,16 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 			BaseObject.InitPage(_glossaryPage);
 
 			Assert.IsTrue(
-				_glossaryPage.AlreadyExistTermErrorDisplayed(),
+				_glossaryPage.EmptyTermErrorDisplayed(),
 				"Произошла ошибка:\n сообщение 'The term already exists' не появилось.");
 
 			return this;
 		}
-
-		public GlossariesHelper AssertEmptyTermErrorDisplayed()
-		{
-			Logger.Trace("Проверить, что сообщение 'Please add at least one term' появилось.");
-			BaseObject.InitPage(_glossaryPage);
-
-			Assert.IsTrue(
-				_glossaryPage.EmptyTermErrorDisplayed(),
-				"Произошла ошибка:\n сообщение 'Please add at least one term' не появилось.");
-
-			return this;
-		}
+		
 
 		public GlossariesHelper AssertTermMatch(string expectedText)
 		{
-			Logger.Trace("Проверить, что текст в термине не совпадает с {0}.", expectedText);
+			Logger.Trace("Проверить, что текст в термине совпадает с {0}.", expectedText);
 			BaseObject.InitPage(_glossaryPage);
 
 			Assert.AreEqual(
@@ -947,10 +1075,38 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 			return this;
 		}
 
+		public GlossariesHelper AssertSynonymsMatch(List<string> synonyms, int columnNumber = 1)
+		{
+			BaseObject.InitPage(_glossaryPage);
+			_glossaryPage.AssertSynonymsMatch(columnNumber, synonyms);
+
+			return this;
+		}
+
 		public GlossariesHelper AssertGlossaryContainsCorrectTermsCount(int termsCount)
 		{
 			BaseObject.InitPage(_glossaryPage);
 			_glossaryPage.AssertGlossaryContainsCorrectTermsCount(termsCount);
+
+			return this;
+		}
+
+		public GlossariesHelper SelectGlossaryInSuggestedTermsPageForAllGlossaries(string glossaryName)
+		{
+			BaseObject.InitPage(_suggestedTermsPageForAllGlossaries);
+			_suggestedTermsPageForAllGlossaries
+				.ClickGlossariesDropdown()
+				.SelectGlossariesInDropdown(glossaryName);
+
+			return this;
+		}
+
+		public GlossariesHelper SelectGlossaryInSuggestedTermsPageForCurrentGlossary(string glossaryName)
+		{
+			BaseObject.InitPage(_suggestedTermsPageForCurrentGlossaries);
+			_suggestedTermsPageForCurrentGlossaries
+				.ClickGlossariesDropdown()
+				.SelectGlossariesInDropdown(glossaryName);
 
 			return this;
 		}
@@ -1017,6 +1173,37 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 			BaseObject.InitPage(_glossariesPage);
 			_glossariesPage.ClickGlossaryRow(glossaryName)
 				.AssertIsTermWithCommentExists(source, comment);
+
+			return this;
+		}
+
+		public GlossariesHelper AssertSuggestedTermsButtonNotExist(bool glossariesPage)
+		{
+			if (glossariesPage)
+			{
+				BaseObject.InitPage(_glossariesPage);
+				_glossariesPage.AssertSuggestedTermsButtonNotExist<GlossariesPage>();
+			}
+			else
+			{
+				BaseObject.InitPage(_glossaryPage);
+				_glossaryPage.AssertSuggestedTermsButtonNotExist<GlossaryPage>();
+			}
+			return this;
+		}
+
+		public GlossariesHelper AssertSuggestTermButtonNotExist(bool glossariesPage)
+		{
+			if (glossariesPage)
+			{
+				BaseObject.InitPage(_glossariesPage);
+				_glossariesPage.AssertSuggestTermButtonNotExist<GlossariesPage>();
+			}
+			else
+			{
+				BaseObject.InitPage(_glossaryPage);
+				_glossaryPage.AssertSuggestTermButtonNotExist<GlossaryPage>();
+			}
 
 			return this;
 		}
@@ -1197,7 +1384,249 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 			SendKeys.SendWait(@"{Enter}");
 			Thread.Sleep(2000);
 		}
+
+		public GlossariesHelper SuggestedTermsByGlossaryCountMatch(int suggestedTermsCount, string glossary = "")
+		{
+			BaseObject.InitPage(_suggestedTermsPageForAllGlossaries);
+
+			Assert.AreEqual(suggestedTermsCount, _suggestedTermsPageForAllGlossaries.TermsByGlossaryNameCount(glossary),
+				"Произошла Ошибка:\n Неверное количество терминов.");
+
+			return this;
+		}
+
+		public GlossariesHelper GoToSuggestedTermsPageFromGlossariesPage()
+		{
+			BaseObject.InitPage(_glossariesPage);
+			_glossariesPage.ClickSuggestedTermsButton();
+
+			return this;
+		}
+
+		public GlossariesHelper GoToSuggestedTermsPageFromGlossaryPage()
+		{
+			BaseObject.InitPage(_glossaryPage);
+			_glossaryPage.ClickSuggestedTermsButton();
+
+			return this;
+		}
+
+		public GlossariesHelper AssertSuggestedTermValueMatch(string term, int rowNumber, int columnNumber)
+		{
+			BaseObject.InitPage(_suggestedTermsPageForCurrentGlossaries);
+			_suggestedTermsPageForCurrentGlossaries.AssertTermValueMatch(term, rowNumber, columnNumber);
+
+			return this;
+		}
+
+		public int SuggestedTermsCountForGlossary(string glossaryName = "")
+		{
+			BaseObject.InitPage(_suggestedTermsPageForAllGlossaries);
+
+			return _suggestedTermsPageForAllGlossaries.TermRowNumberByGlossaryName(glossaryName);
+		}
+
+		public GlossariesHelper AcceptSuggestTermInSuggestedTermsPageForAllGlossaries(bool chooseGlossary = false, string glossaryName = "")
+		{
+			BaseObject.InitPage(_suggestedTermsPageForAllGlossaries);
+			var termRowNumber = _suggestedTermsPageForAllGlossaries.TermRowNumberByGlossaryName(glossaryName);
+			var termsCountBeforeAccept = _suggestedTermsPageForAllGlossaries.SuggestedTermsCount();
+
+			_suggestedTermsPageForAllGlossaries
+				.HoverSuggestedTermRow(termRowNumber)
+				.ClickAcceptSuggestButton(termRowNumber);
+
+			// Sleep не убирать, иначе термин не исчезнет
+			Thread.Sleep(1000);
+
+			if (!chooseGlossary)
+			{
+				var termsCountAfterAccept = _suggestedTermsPageForAllGlossaries.SuggestedTermsCount();
+
+				Assert.AreEqual(termsCountBeforeAccept - termsCountAfterAccept, 1,
+					"Произошла ошибка:\nПодтвержденный предложенный термин не исчез из списка.");
+			}
+			else
+			{
+				_suggestedTermsPageForAllGlossaries.AssertSelectGlossaryDialogDisplayed();
+			}
+
+			return this;
+		}
+
+		public GlossariesHelper DeleteSuggestTermInSuggestedTermsPageForAllGlossaries(string glossaryName = "")
+		{
+			BaseObject.InitPage(_suggestedTermsPageForAllGlossaries);
+			var termRowNumber = _suggestedTermsPageForAllGlossaries.TermRowNumberByGlossaryName(glossaryName);
+			var termsCountBeforeDelete = _suggestedTermsPageForAllGlossaries.SuggestedTermsCount();
+
+			_suggestedTermsPageForAllGlossaries
+				.HoverSuggestedTermRow(termRowNumber)
+				.ClickDeleteSuggestTermButton(termRowNumber);
+
+			// Sleep не убирать, иначе термин не исчезнет
+			Thread.Sleep(1000);
+
+			var termsCountAfterDelete = _suggestedTermsPageForAllGlossaries.SuggestedTermsCount();
+
+			Assert.AreEqual(termsCountBeforeDelete - termsCountAfterDelete, 1,
+				"Произошла ошибка:\nПодтвержденный предложенный термин не исчез из списка.");
+			
+			return this;
+		}
+
+
+		public GlossariesHelper AcceptSuggestTermInSuggestedTermsPageForCurrentGlossary(int termRowNumber)
+		{
+			BaseObject.InitPage(_suggestedTermsPageForCurrentGlossaries);
+			var termsCountBeforeAccept = _suggestedTermsPageForCurrentGlossaries.SuggestedTermsCount();
+
+			_suggestedTermsPageForCurrentGlossaries
+				.HoverSuggestedTermRow(termRowNumber)
+				.ClickAcceptSuggestButton(termRowNumber);
+
+			// Sleep не убирать, иначе термин не исчезнет
+			Thread.Sleep(1000);
+
+			var termsCountAfterAccept = _suggestedTermsPageForCurrentGlossaries.SuggestedTermsCount();
+
+			Assert.AreEqual(termsCountBeforeAccept - termsCountAfterAccept, 1,
+				"Произошла ошибка:\nПодтвержденный предложенный термин не исчез из списка.");
+
+			return this;
+		}
+
+		public GlossariesHelper DeleteSuggestTermInSuggestedTermsPageForCurrentGlossary(int termRowNumber)
+		{
+			BaseObject.InitPage(_suggestedTermsPageForCurrentGlossaries);
+			var termsCountBeforeDelete = _suggestedTermsPageForCurrentGlossaries.SuggestedTermsCount();
+
+			_suggestedTermsPageForCurrentGlossaries
+				.HoverSuggestedTermRow(termRowNumber)
+				.ClickDeleteSuggestTermButton(termRowNumber);
+
+			// Sleep не убирать, иначе термин не исчезнет
+			Thread.Sleep(1000);
+
+			var termsCountAfterDelete = _suggestedTermsPageForCurrentGlossaries.SuggestedTermsCount();
+
+			Assert.AreEqual(termsCountBeforeDelete - termsCountAfterDelete, 1,
+				"Произошла ошибка:\nПодтвержденный предложенный термин не исчез из списка.");
+
+			return this;
+		}
+
+		public GlossariesHelper EditSuggestTermInSuggestedTermsPageForCurrentGlossary(int termRowNumber, string termValue)
+		{
+			BaseObject.InitPage(_suggestedTermsPageForCurrentGlossaries);
+
+			_suggestedTermsPageForCurrentGlossaries
+				.HoverSuggestedTermRow(termRowNumber)
+				.ClickEditSuggestTermButton(termRowNumber)
+				.AssertEditFormDisplayed()
+				.FillSuggestedTermInEditMode(termNumber: 1, termValue: termValue)
+				.FillSuggestedTermInEditMode(termNumber: 2, termValue: termValue)
+				.ClickAcceptTermButtonInEditMode()
+				.AssertEditFormDisappeared();
+
+			return this;
+		}
+
+		public GlossariesHelper AddSynonimInSuggestedTermsPageForCurrentGlossary(int termRowNumber, int addButtonNumber, string synonymValue)
+		{
+			BaseObject.InitPage(_suggestedTermsPageForCurrentGlossaries);
+
+			_suggestedTermsPageForCurrentGlossaries
+				.HoverSuggestedTermRow(termRowNumber)
+				.ClickEditSuggestTermButton(termRowNumber)
+				.AssertEditFormDisplayed()
+				.ClickAddSynonymButton(addButtonNumber)
+				.FillSuggestedTermInEditMode(addButtonNumber, synonymValue)
+				.ClickAcceptTermButtonInEditMode()
+				.AssertEditFormDisappeared();
+
+			return this;
+		}
+
+		public GlossariesHelper EditSuggestTermInSuggestedTermsPageForAllGlossaries(
+			string glossaryName,
+			string termValue,
+			bool chooseGlossary = false,
+			string glossaryToChoose = null)
+		{
+			BaseObject.InitPage(_suggestedTermsPageForAllGlossaries);
+			var termRowNumber = _suggestedTermsPageForAllGlossaries.TermRowNumberByGlossaryName(glossaryName);
+
+			_suggestedTermsPageForAllGlossaries
+				.HoverSuggestedTermRow(termRowNumber)
+				.ClickEditSuggestTermButton(termRowNumber);
+
+			if (chooseGlossary && glossaryToChoose != null)
+			{
+				_suggestedTermsPageForAllGlossaries
+					.AssertSelectDialogDisplayed()
+					.ClickSelectGlossaryDropdownInSelectDialog()
+					.SelectGlossaryInSelectDialog(glossaryToChoose)
+					.ClickOkButton()
+					.AssertDialogBackgroundDisappeared<SuggestedTermsPageForAllGlossaries>();
+			}
+
+			_suggestedTermsPageForAllGlossaries
+				.AssertEditFormDisplayed()
+				.FillSuggestedTermInEditMode(termNumber: 1, termValue: termValue)
+				.FillSuggestedTermInEditMode(termNumber: 2, termValue: termValue)
+				.ClickAcceptTermButtonInEditMode()
+				.AssertEditFormDisappeared();
+
+			return this;
+		}
+
+		public GlossariesHelper AssertEmptyTermErrorDisplayed()
+		{
+			BaseObject.InitPage(_suggestTermDialog);
+			_suggestTermDialog.AssertEmptyTermErrorDisplayed();
+
+			return this;
+		}
+
+		public GlossariesHelper AssertSuggestedTermsCountMatch(int expectedTermCount)
+		{
+			BaseObject.InitPage(_suggestedTermsPageForCurrentGlossaries);
+
+			Assert.AreEqual(expectedTermCount, _suggestedTermsPageForCurrentGlossaries.SuggestedTermsCount(),
+				"Произошла ошибка:\nНеверное количество терминов.");
+
+			return this;
+		}
+
+		public GlossariesHelper AssertDublicateErrorDisplayed()
+		{
+			BaseObject.InitPage(_suggestTermDialog);
+			_suggestTermDialog.AssertDublicateErrorDisplayed();
+
+			return this;
+		}
+
+		public GlossariesHelper SelectGlossaryForSuggestedTerm(string glossaryName)
+		{
+			BaseObject.InitPage(_suggestedTermsPageForAllGlossaries);
+			_suggestedTermsPageForAllGlossaries
+				.ClickSelectGlossaryDropdownInSelectDialog()
+				.SelectGlossaryInSelectDialog(glossaryName)
+				.ClickOkButton()
+				.AssertDialogBackgroundDisappeared<SuggestedTermsPageForAllGlossaries>();
+
+			return this;
+		}
 		
+		public int SuggestedTermsByGlossaryCount(string glossary = "")
+		{
+			return _suggestedTermsPageForAllGlossaries.TermsByGlossaryNameCount(glossary);
+		}
+
+		private readonly SuggestedTermsPageForCurrentGlossaries _suggestedTermsPageForCurrentGlossaries = new SuggestedTermsPageForCurrentGlossaries();
+		private readonly SuggestTermDialog _suggestTermDialog = new SuggestTermDialog();
+		private readonly SuggestedTermsPageForAllGlossaries _suggestedTermsPageForAllGlossaries = new SuggestedTermsPageForAllGlossaries();
 		private readonly GlossariesPage _glossariesPage = new GlossariesPage();
 
 		private readonly GlossaryPage _glossaryPage = new GlossaryPage();

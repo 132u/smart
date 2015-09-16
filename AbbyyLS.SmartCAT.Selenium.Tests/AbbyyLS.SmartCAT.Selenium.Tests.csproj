@@ -69,6 +69,9 @@
     <Compile Include="ExplicitAttributes\UserDataExplicitAttribute.cs" />
     <Compile Include="ExplicitAttributes\FileUploadExplicitAttribute.cs" />
     <Compile Include="ExplicitAttributes\HotkeyExplicitAttribute.cs" />
+    <Compile Include="Pages\Glossaries\SuggestedTerms\SuggestedTermsForCurrentGlossariesPage.cs" />
+    <Compile Include="Pages\Glossaries\SuggestedTerms\SuggestTermDialog.cs" />
+    <Compile Include="Pages\Glossaries\SuggestedTerms\SuggestedTermsForAllGlossariesPage.cs" />
     <Compile Include="Pages\Admin\AdminManagementPaidServicesPage.cs" />
     <Compile Include="Drivers\Navigation.cs" />
     <Compile Include="ConfigurationManager.cs" />
@@ -239,6 +242,8 @@
     <Compile Include="Tests\Editor\EditorPreviousStageTests.cs" />
     <Compile Include="Tests\Editor\EditorTagTests.cs" />
     <Compile Include="Tests\Editor\EditorCopySourceToTargetTests.cs" />
+    <Compile Include="Tests\Glossaries\UserRights\SuggestTermsTest.cs" />
+    <Compile Include="Tests\Glossaries\UserRights\SuggestTermsWithoutRight.cs" />
     <Compile Include="Tests\Projects\AssignResponsiblesTest.cs" />
     <Compile Include="Tests\Projects\AutofillProjectNameTests.cs" />
     <Compile Include="Tests\Projects\BasicProjectTests.cs" />
@@ -267,7 +272,7 @@
     <Compile Include="Tests\Projects\ProjectSaveSettingsByBackTests.cs" />
     <Compile Include="Tests\Projects\Workflow\WorkflowPersonalAccountTests.cs" />
     <Compile Include="Tests\TranslationMemories\TMExportTests.cs" />
-    <Compile Include="Tests\UsersRights\ManageTermsTest.cs" />
+    <Compile Include="Tests\Glossaries\UserRights\ManageTermsTest.cs" />
     <Compile Include="Tests\TranslationMemories\TMUploadingTests.cs" />
     <Compile Include="Tests\TranslationMemories\TMUpdatingTests.cs" />
     <Compile Include="Tests\UsersRights\SortingInUsersRightsTests.cs" />

@@ -211,6 +211,55 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 			return author.Text;
 		}
 
+		/// <summary>
+		/// Нажать на кнопку 'Suggested Terms'
+		/// </summary>
+		public SuggestedTermsPageForAllGlossaries ClickSuggestedTermsButton()
+		{
+			Logger.Debug("Нажать на кнопку 'Suggested Terms'.");
+			SuggestedTermsButton.Click();
+
+			return new SuggestedTermsPageForAllGlossaries().GetPage();
+		}
+
+		/// <summary>
+		/// Нажать на кнопку 'Suggest Term'
+		/// </summary>
+		public SuggestTermDialog ClickSuggestTermButton()
+		{
+			Logger.Debug("Нажать на кнопку 'Suggest Term'.");
+			SuggestTermButton.Click();
+
+			return new SuggestTermDialog().GetPage();
+		}
+
+		/// <summary>
+		/// Проверить, что кнопка 'Suggest Term' отсутствует
+		/// </summary>
+		public T AssertSuggestTermButtonNotExist<T>() where T : class, IAbstractPage<T>, new()
+		{
+			Logger.Debug("Проверить, что кнопка 'Suggest Term' отсутствует.");
+			
+
+			Assert.IsFalse(Driver.GetIsElementExist(By.XPath(SUGGEST_TERM_BUTTON)),
+				"Произошла ошибка:\nКнопка 'Suggest Term' присутствует.");
+
+			return new T().GetPage();
+		}
+
+		/// <summary>
+		/// Проверить, что кнопка 'Suggested Terms' отсутствует
+		/// </summary>
+		public T AssertSuggestedTermsButtonNotExist<T>() where T : class, IAbstractPage<T>, new()
+		{
+			Logger.Debug("Проверить, что кнопка 'Suggested Terms' отсутствует.");
+
+			Assert.IsFalse(Driver.GetIsElementExist(By.XPath(SUGGESTED_TERMS_BUTTON)),
+				"Произошла ошибка:\nКнопка 'Suggested Terms' присутствует.");
+
+			return new T().GetPage();
+		}
+
 		[FindsBy(How = How.XPath, Using = SORT_BY_NAME)]
 		protected IWebElement SortByName { get; set; }
 
@@ -241,6 +290,12 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 		[FindsBy(How = How.XPath, Using = CREATE_GLOSSARY_BUTTON)]
 		protected IWebElement CreateGlossaryButton { get; set; }
 
+		[FindsBy(How = How.XPath, Using = SUGGESTED_TERMS_BUTTON)]
+		protected IWebElement SuggestedTermsButton { get; set; }
+
+		[FindsBy(How = How.XPath, Using = SUGGEST_TERM_BUTTON)]
+		protected IWebElement SuggestTermButton { get; set; }
+
 		protected const string GLOSSARY_CREATION_DIALOG_XPATH = ".//div[contains(@class,'js-popup-edit-glossary')][2]";
 		protected const string CREATE_GLOSSARY_BUTTON = ".//span[contains(@class,'js-create-glossary-button')]//a";
 		protected const string GLOSSARY_TABLE = "//table[contains(@class,'js-sortable-table') and contains(@data-sort-action, 'Glossaries')]";
@@ -259,5 +314,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 		protected const string SORT_BY_CLIENT = "//th[contains(@data-sort-by,'Client')]//a";
 		protected const string SORT_BY_DATE_MODIFIED = "//th[contains(@data-sort-by,'LastModifiedDate')]//a";
 		protected const string SORT_BY_MODIFIED_BY = "//th[contains(@data-sort-by,'LastModifiedBy')]//a";
+
+		protected const string SUGGESTED_TERMS_BUTTON = ".//a[contains(@href,'/Suggests')]";
+		protected const string SUGGEST_TERM_BUTTON = "//span[contains(@class,'js-add-suggest')]";
+
 	}
 }

@@ -12,7 +12,7 @@ using AbbyyLS.SmartCAT.Selenium.Tests.TestFramework;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 {
-	public class GlossaryPage : WorkspacePage, IAbstractPage<GlossaryPage>
+	public class GlossaryPage : GlossariesPage, IAbstractPage<GlossaryPage>
 	{
 		public new GlossaryPage GetPage()
 		{
@@ -783,6 +783,22 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 			Assert.IsTrue(Driver.WaitUntilElementIsDisplay(By.XPath(CUSTOM_FIELD_NAME.Replace("*#*", fieldName))),
 				"Произошла ошибка:\n поле {0} отсутствует в новом термине.", fieldName);
 
+
+			return GetPage();
+		}
+
+		/// <summary>
+		/// Проверить, что термин содержит правильные синонимы
+		/// </summary>
+		/// <param name="columnNumber">номер колонки</param>
+		/// <param name="synonyms">синонимы</param>
+		public GlossaryPage AssertSynonymsMatch(int columnNumber, List<string> synonyms)
+		{
+			Logger.Trace("Проверить, что термин содержит правильные синонимы.");
+			var synonumsList = Driver.GetTextListElement(By.XPath(TERM_TEXT.Replace("*#*", columnNumber.ToString())));
+
+			Assert.IsTrue(synonyms.SequenceEqual(synonumsList), "Произошла ошибка:\nНеверный список синонимов.");
+
 			return GetPage();
 		}
 
@@ -798,7 +814,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 
 			return GetPage();
 		}
-
+		
 		/// <summary>
 		/// Проверить, что поле типа Media присутствует в новом термине
 		/// </summary>
@@ -1175,7 +1191,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 		protected const string SOURCE_TERM_WITH_COMMENT = "//tr[contains(@class, 'js-concept-row') and contains(string(), '#') and contains(string(), '$$')]";
 		protected const string SOURCE_TARGET_TERM_WITH_COMMENT = "//tr[contains(@class, 'js-concept-row') and contains(string(), '#') and contains(string(), '**') and contains(string(), '$$')]";
 		protected const string DELETE_TERM_BUTTON = "//tr[contains(@class, 'js-concept-row') and contains(string(), '*#*')]//a[@title='Delete']";
-
+		protected const string TERM_TEXT = "//tr[contains(@class, 'js-concept-row')]//td[contains(@class,'glossaryShort')][*#*]//p";
 		protected const string CUSTOM_FIELD_NAME = "//div[contains(@class,'js-edit')]//p[contains(text(),'*#*')]";
 		protected const string CUSTOM_FIELD_INPUT = "//div[contains(@class,'js-concept-attrs')]//div[contains(@class,'js-edit')]//p[contains(text(),'*#*')]/..//textarea";
 		protected const string CUSTOM_FIELD_VIEW_MODE = "//div[contains(@class,'js-concept-attrs')]//div[contains(@class, 'js-view')]//p[text() ='*#*']//following-sibling::*";
