@@ -1,5 +1,6 @@
 ﻿using System.IO;
 
+using AbbyyLS.SmartCAT.Selenium.Tests.ExplicitAttributes;
 using AbbyyLS.SmartCAT.Selenium.Tests.FeatureAttributes;
 
 using NUnit.Framework;
@@ -68,7 +69,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 				.AssertExtendTermsCountMatch(expectedTermCount: 1);
 		}
 
-		[Test]
+		[Test, FileUploadExplicit]
 		public void AddImageFieldTest()
 		{
 			var fieldName = GlossarySystemField.Image.Description();
@@ -82,7 +83,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 				.AssertExtendTermsCountMatch(expectedTermCount: 1);
 		}
 
-		[Test]
+		[Test, FileUploadExplicit]
 		public void AddMultimediaFieldTest()
 		{
 			var fieldName = GlossarySystemField.Multimedia.Description();
