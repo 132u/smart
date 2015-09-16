@@ -38,12 +38,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 				.UploadDocument(PathProvider.DocumentFile)
 				.RefreshPage<ProjectSettingsPage, ProjectSettingsHelper>()
 				.AssignTasksOnDocument(Path.GetFileNameWithoutExtension(PathProvider.DocumentFile), ConfigurationManager.NickName)
-				//TODO: Убрать шаг AddGlossaryToDocument, когда пофиксят PRX-11398
 				.AddGlossaryToDocument(Path.GetFileNameWithoutExtension(PathProvider.DocumentFile), _glossary1Name)
-				.AssertDialogBackgroundDisappeared()
-				.ClickDocumentProgress(PathProvider.DocumentFile)
 				.AddGlossaryToDocument(Path.GetFileNameWithoutExtension(PathProvider.DocumentFile), _glossary2Name)
-				.AssertDialogBackgroundDisappeared()
 				.OpenDocument<SelectTaskDialog>(Path.GetFileNameWithoutExtension(PathProvider.DocumentFile))
 				.SelectTask()
 				.CloseTutorialIfExist();

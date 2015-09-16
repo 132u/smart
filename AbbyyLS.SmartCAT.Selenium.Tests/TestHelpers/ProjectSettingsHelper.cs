@@ -329,15 +329,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 			_documentSettings
 				.HoverGlossaryTableDocumentSettingsDialog()
 				.ClickGlossaryByName(glossaryName)
-				.ClickSaveButton<ProjectSettingsPage>();
-
-			return this;
-		}
-
-		public ProjectSettingsHelper AssertDialogBackgroundDisappeared()
-		{
-			BaseObject.InitPage(_workspacePage);
-			_workspacePage.AssertDialogBackgroundDisappeared<ProjectSettingsPage>();
+				.ClickSaveButton<ProjectSettingsPage>()
+				.AssertDialogBackgroundDisappeared<ProjectSettingsPage>()
+				.ClickDocumentProgress(documentName);
 
 			return this;
 		}
