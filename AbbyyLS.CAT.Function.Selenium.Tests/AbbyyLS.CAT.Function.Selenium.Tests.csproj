@@ -68,8 +68,6 @@
     <Compile Include="CatPanelTests\CatPanelResultsHelper.cs" />
     <Compile Include="CatPanelTests\CatPanelResultsTest.cs" />
     <Compile Include="CatPanelTests\GlossaryTermSubstituionTest.cs" />
-    <Compile Include="CheckCreateProjectRight.cs" />
-    <Compile Include="CheckCreateProjectRightHelper.cs" />
     <Compile Include="ClientTests\ClientPageHelper.cs" />
     <Compile Include="Common\RegistrationType.cs" />
     <Compile Include="Common\UserInfo.cs" />

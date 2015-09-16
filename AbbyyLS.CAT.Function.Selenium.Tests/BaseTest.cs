@@ -15,7 +15,6 @@ using NUnit.Framework;
 using NConfiguration;
 using NLog;
 
-using AbbyyLS.CAT.Function.Selenium.Tests.CheckRights;
 using AbbyyLS.CAT.Function.Selenium.Tests.CommonDataStructures;
 using AbbyyLS.CAT.Function.Selenium.Tests.Driver;
 using AbbyyLS.CAT.Function.Selenium.Tests.Editor.Panel;
@@ -147,7 +146,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		protected RegistrationPageHelper RegistrationPage { get; private set; }
 
 		protected GlossaryTermFilterHelper GlossaryTermFilterPage { get; private set; }
-		protected CheckCreateProjectRightHelper CheckCreateProjectRightHelper { get; private set; }
 
 		protected DateTime TestBeginTime { get; private set; }
 
@@ -1855,7 +1853,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			AddTermForm = new AddTermFormHelper(Driver, Wait);
 			RegistrationPage = new RegistrationPageHelper(Driver, Wait);
 			GlossaryTermFilterPage = new GlossaryTermFilterHelper(Driver, Wait);
-			CheckCreateProjectRightHelper = new CheckCreateProjectRightHelper(Driver, Wait);
 		}
 
 		private void initializeUsersAndCompanyList()
