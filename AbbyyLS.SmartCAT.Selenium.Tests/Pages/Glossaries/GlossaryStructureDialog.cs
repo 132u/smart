@@ -1,4 +1,6 @@
-﻿using NUnit.Framework;
+﻿using System.Collections.Generic;
+
+using NUnit.Framework;
 
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.PageObjects;
@@ -207,6 +209,27 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 			return GetPage();
 		}
 
+		/// <summary>
+		/// Нажать кнопку 'Add to List' на вкладке 'System Fields'
+		/// </summary>
+		public GlossaryStructureDialog ClickAddSystemFieldButton()
+		{
+			Logger.Debug("Нажать кнопку 'Add to List'  на вкладке 'System Fields'.");
+			AddSystemFieldButton.Click();
+
+			return GetPage();
+		}
+
+		/// <summary>
+		/// Получить имена системных полей на вкладке  'System Fields'
+		/// </summary>
+		public IList<IWebElement> SystemFieldNames()
+		{
+			Logger.Trace("Получить список имен системных полей на вкладке  'System Fields'.");
+
+			return Driver.GetElementList(By.XPath(FIELD_NAME_LIST_IN_SYSTEM_FILEDS_TAB));
+		}
+
 		[FindsBy(How = How.XPath, Using = ADD_TO_LIST_BUTTON)]
 		protected IWebElement AddToListButton { get; set; }
 
@@ -237,6 +260,10 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 		[FindsBy(How = How.XPath, Using = ITEMS_LIST_FIELD)]
 		protected IWebElement ItemsListField { get; set; }
 
+
+		[FindsBy(How = How.XPath, Using = ADD_SYSTEM_FIELD_BUTTON)]
+		protected IWebElement AddSystemFieldButton { get; set; }
+
 		protected const string SAVE_BUTTON = "//div[contains(@class, 'js-popup-buttons')]//span[contains(@class, 'js-save')]";
 		protected const string ADD_TO_LIST_BUTTON = "//span[contains(@class,'js-add-tbx-attribute')]";
 		protected const string SYSTEM_FIELD = "//table[contains(@class, 'table concept')]//tr[@data-attr-type='*#*']";
@@ -253,5 +280,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 		protected const string ADD_CUSTOM_FIELD_BUTTON = "//span[contains(@class,'js-add-custom-attribute')]";
 		protected const string GLOSSARY_STRUCTURE_DIALOG_HEADER = "//h2[contains(text(), 'Structure')]";
 		protected const string ITEMS_LIST_FIELD = "//table[contains(@class,'l-editgloss__tblEditStructure')]//input[contains(@class,'js-choice-values')]";
+
+		protected const string ADD_SYSTEM_FIELD_BUTTON = "//div[contains(@class, 'js-popup-edit-structure')]//div[contains(@class, 'addinlist')]//span//a";
+		protected const string FIELD_NAME_LIST_IN_SYSTEM_FILEDS_TAB = "//table[contains(@class,'js-predefined-attrs-table')][contains(@style,'table')]//tr[contains(@class,'js-attr-row') and not(contains(@class,'g-hidden'))]/td[1]";
 	}
 }

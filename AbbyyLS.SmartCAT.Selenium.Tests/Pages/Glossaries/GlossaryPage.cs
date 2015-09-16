@@ -6,6 +6,7 @@ using NUnit.Framework;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.PageObjects;
 
+using AbbyyLS.SmartCAT.Selenium.Tests.DataStructures;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace;
 using AbbyyLS.SmartCAT.Selenium.Tests.TestFramework;
 
@@ -907,6 +908,47 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 		}
 
 		/// <summary>
+		/// Проверить, что текстовое системное поле отображается  в новом термине
+		/// </summary>
+		/// <param name="fieldName">название системного поля</param>
+		public GlossaryPage AssertSystemTextAreaFieldDisplayed(GlossarySystemField fieldName)
+		{
+			Logger.Trace("Проверить, что текстовое системное поле {0} отображается в новом термине.", fieldName);
+
+			Assert.IsTrue(Driver.SetDynamicValue(How.XPath, SYSTEM_FIELD_TEXTAREA_TYPE, fieldName.Description()).Displayed,
+				"Произошла ошибка:\nТекстовое cистемное поле {0} не отображается  в новом термине.", fieldName);
+
+			return GetPage();
+		}
+
+		/// <summary>
+		/// Проверить, что системное поле типа дропдаун отображается в новом термине
+		/// </summary>
+		/// <param name="fieldName">название системного поля</param>
+		public GlossaryPage AssertSystemDropdownFieldDisplayed(GlossarySystemField fieldName)
+		{
+			Logger.Trace("Проверить, что в системное поле {0} типа дропдаун отображается в новом термине.", fieldName);
+
+			Assert.IsTrue(Driver.SetDynamicValue(How.XPath, SYSTEM_FIELD_DROPDOWN_TYPE, fieldName.Description()).Displayed,
+				"Произошла ошибка:\nСистемное поле {0} вида дропдаун не отображается в новом термине.", fieldName);
+
+			return GetPage();
+		}
+
+		/// <summary>
+		/// Заполнить системное поле в новом термине
+		/// </summary>
+		/// <param name="fieldName">название системного поля</param>
+		/// <param name="value">значение</param>
+		public GlossaryPage FillSystemField(GlossarySystemField fieldName, string value)
+		{
+			Logger.Trace("Ввести {0} в системное поле {1}.", value, fieldName);
+			Driver.SetDynamicValue(How.XPath, SYSTEM_FIELD_TEXTAREA_TYPE, fieldName.Description()).SetText(value);
+
+			return GetPage();
+		}
+
+		/// <summary>
 		/// Раскрыть комбобокс типа List
 		/// </summary>
 		public GlossaryPage ExpandItemsListDropdown(string fieldName)
@@ -946,6 +988,28 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 		{
 			Logger.Debug("Выбрать значение {0} в комбобоксе 'Multi-selection list'.", item);
 			Driver.SetDynamicValue(How.XPath, MULTISELECT_LIST, item).Click();
+
+			return GetPage();
+		}
+
+		/// <summary>
+		/// Раскрыть дропаун Topic 
+		/// </summary>
+		public GlossaryPage ExpandTopicDropdown()
+		{
+			Logger.Debug("Раскрыть дропдаун Topic.");
+			TopicField.Click();
+
+			return GetPage();
+		}
+
+		/// <summary>
+		/// Выбрать значение в дропдауне Topic
+		/// </summary>
+		public GlossaryPage ClickOptionInTopicDropdown(string option)
+		{
+			Logger.Debug("Раскрыть дропдаун Topic.");
+			Driver.SetDynamicValue(How.XPath, TOPIC_OPTION, option.Trim()).Click();
 
 			return GetPage();
 		}
@@ -1049,6 +1113,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 		[FindsBy(How = How.XPath, Using = YES_NO_CHECKBOX)]
 		protected IWebElement YesNoCheckbox { get; set; }
 
+		[FindsBy(How = How.XPath, Using = TOPIC_FIELD)]
+		protected IWebElement TopicField { get; set; }
+
 		protected const string GLOSSARY_SAVE_BUTTON = ".//div[contains(@class,'js-popup-edit-glossary')][2]//span[@class='g-btn g-redbtn ']";
 		protected const string GLOSSARY_PROPERTIES = "//div[contains(@class,'js-edit-glossary-btn')]";
 		protected const string EDIT_GLOSSARY_MENU = "//span[contains(@class,'js-edit-submenu')]";
@@ -1111,7 +1178,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 
 		protected const string CUSTOM_FIELD_NAME = "//div[contains(@class,'js-edit')]//p[contains(text(),'*#*')]";
 		protected const string CUSTOM_FIELD_INPUT = "//div[contains(@class,'js-concept-attrs')]//div[contains(@class,'js-edit')]//p[contains(text(),'*#*')]/..//textarea";
-		protected const string CUSTOM_FIELD_VIEW_MODE = "//div[contains(@class,'js-concept-attrs')]//div[contains(@class, 'js-view')]//p[contains(text(),'*#*')]//following-sibling::*";
+		protected const string CUSTOM_FIELD_VIEW_MODE = "//div[contains(@class,'js-concept-attrs')]//div[contains(@class, 'js-view')]//p[text() ='*#*']//following-sibling::*";
 		protected const string CUSTOM_FIELD = "//div[contains(@class,'js-concept-attrs')]//div[contains(@class,'js-edit')]//p[contains(text(),'*#*')]/..//textarea";
 		protected const string CUSTOM_FIELD_ERROR = "//div[contains(@class,'js-concept-attrs')]//div[contains(@class,'js-edit l-error')]//p[contains(text(),'*#*')]";
 		protected const string CUSTOM_DATE_FIELD = "//div[contains(@class,'js-concept-attrs')]//div[contains(@class,'js-edit')]//p[contains(text(),'*#*')]/../input[contains(@class,'hasDatepicker')]";
@@ -1130,6 +1197,11 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 		protected const string MEDIA_FIELD = "//div[contains(@class,'js-concept-attrs')]//div[contains(@class,'js-control')]//p[contains(text(),'*#*')]";
 		protected const string PROGRESS_MEDIA_FILE = "//p[contains(text(), '*#*')]/..//img[contains(@class, 'prgrssbar ')]";
 		protected const string MEDIA_FIELD_TEXT = "//p[contains(text(), '*#*')]/..//a[contains(@class, 'js-filename-link')]";
+
+		protected const string SYSTEM_FIELD_TEXTAREA_TYPE = "//div[contains(@class,'js-concept-attrs')]//div[contains(@class,'js-control')]//textarea[@name='*#*']";
+		protected const string SYSTEM_FIELD_DROPDOWN_TYPE = "//div[contains(@class,'js-concept-attrs')]//div[contains(@class,'js-control')]//div[contains(@class, 'js-edit')]//p[text()='*#*']";
+		protected const string TOPIC_FIELD = "//div[contains(@class,'ui-dropdown-treeview-wrapper')]";
+		protected const string TOPIC_OPTION = "//div[contains(@class,'ui-treeview_node')]//div/span[text()='Life']";
 	}
 
 }

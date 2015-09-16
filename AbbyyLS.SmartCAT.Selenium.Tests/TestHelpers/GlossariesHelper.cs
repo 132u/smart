@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.IO;
-using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Windows.Forms;
@@ -472,6 +470,31 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 		{
 			BaseObject.InitPage(_glossaryPage);
 			_glossaryPage.AssertMediaFileMatch(fileName, fieldName);
+
+			return this;
+		}
+
+		public GlossariesHelper AssertSystemTextAreaFieldDisplayed(GlossarySystemField fieldName)
+		{
+			BaseObject.InitPage(_glossaryPage);
+			_glossaryPage.AssertSystemTextAreaFieldDisplayed(fieldName);
+
+			return this;
+		}
+
+		public GlossariesHelper AssertSystemDropdownFieldDisplayed(GlossarySystemField fieldName)
+		{
+			BaseObject.InitPage(_glossaryPage);
+			_glossaryPage.AssertSystemDropdownFieldDisplayed(fieldName);
+
+			return this;
+		}
+
+
+		public GlossariesHelper FillSystemField(GlossarySystemField systemField, string value)
+		{
+			BaseObject.InitPage(_glossaryPage);
+			_glossaryPage.FillSystemField(systemField, value);
 
 			return this;
 		}
@@ -1038,6 +1061,14 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 			return this;
 		}
 
+		public GlossariesHelper AssertMediaFieldExistInNewEntry(string fieldName)
+		{
+			BaseObject.InitPage(_glossaryPage);
+			_glossaryPage.AssertMediaFieldExistInNewEntry(fieldName);
+
+			return this;
+		}
+
 		public GlossariesHelper AddCustomField(
 			string fieldName,
 			GlossaryCustomFieldType type,
@@ -1122,6 +1153,35 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 		{
 			BaseObject.InitPage(_glossaryPage);
 			_glossaryPage.AssertImageFieldErrorDisplayed(fieldName);
+
+			return this;
+		}
+
+		public GlossariesHelper AddAllSystemFields()
+		{
+			Logger.Trace("Добавить все системные поля в диалоге изменения структуры глоссария.");
+			BaseObject.InitPage(_glossaryStructureDialog);
+			var fieldnames = _glossaryStructureDialog.SystemFieldNames();
+
+			foreach (var field in fieldnames)
+			{
+				field.Click();
+				_glossaryStructureDialog.ClickAddSystemFieldButton();
+			}
+
+			_glossaryStructureDialog
+				.ClickSaveButton()
+				.AssertDialogBackgroundDisappeared<GlossaryPage>();
+
+			return this;
+		}
+
+		public GlossariesHelper SelectOptionInTopic(string option)
+		{
+			BaseObject.InitPage(_glossaryPage);
+			_glossaryPage
+				.ExpandTopicDropdown()
+				.ClickOptionInTopicDropdown(option);
 
 			return this;
 		}
