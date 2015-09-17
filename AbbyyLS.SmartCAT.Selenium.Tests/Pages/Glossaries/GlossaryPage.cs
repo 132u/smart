@@ -747,13 +747,27 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 		/// <summary>
 		/// Проверить, что значение в поле совпадает с ожидаемым значением
 		/// </summary>
-		public GlossaryPage AssertFieldValueMatch(string fieldName, string text)
+		public GlossaryPage AssertFieldValueMatch(GlossarySystemField fieldName, string text)
 		{
 			Logger.Trace("Проверить, что значение в поле {0} совпадает с ожидаемым значением {1}.", fieldName, text);
-			var customField = Driver.SetDynamicValue(How.XPath, CUSTOM_FIELD_VIEW_MODE, fieldName);
+			var customField = Driver.SetDynamicValue(How.XPath, CUSTOM_FIELD_VIEW_MODE, fieldName.Description());
 
 			Assert.AreEqual(text, customField.Text,
 				"Произошла ошибка:\n значение в поле не совпадает с ожидаемым значением.");
+
+			return GetPage();
+		}
+
+		/// <summary>
+		/// Проверить, что значение в поле совпадает с ожидаемым значением
+		/// </summary>
+		public GlossaryPage AssertCustomFieldValueMatch(string fieldName, string text)
+		{
+			Logger.Trace("Проверить, что значение в кастомном поле {0} совпадает с ожидаемым значением {1}.", fieldName, text);
+			var customField = Driver.SetDynamicValue(How.XPath, CUSTOM_FIELD_VIEW_MODE, fieldName);
+
+			Assert.AreEqual(text, customField.Text,
+				"Произошла ошибка:\n значение в кастомном поле не совпадает с ожидаемым значением.");
 
 			return GetPage();
 		}
@@ -931,7 +945,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 		{
 			Logger.Trace("Проверить, что текстовое системное поле {0} отображается в новом термине.", fieldName);
 
-			Assert.IsTrue(Driver.SetDynamicValue(How.XPath, SYSTEM_FIELD_TEXTAREA_TYPE, fieldName.Description()).Displayed,
+			Assert.IsTrue(Driver.SetDynamicValue(How.XPath, SYSTEM_FIELD_TEXTAREA_TYPE, fieldName.ToString()).Displayed,
 				"Произошла ошибка:\nТекстовое cистемное поле {0} не отображается  в новом термине.", fieldName);
 
 			return GetPage();
@@ -959,7 +973,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 		public GlossaryPage FillSystemField(GlossarySystemField fieldName, string value)
 		{
 			Logger.Trace("Ввести {0} в системное поле {1}.", value, fieldName);
-			Driver.SetDynamicValue(How.XPath, SYSTEM_FIELD_TEXTAREA_TYPE, fieldName.Description()).SetText(value);
+			Driver.SetDynamicValue(How.XPath, SYSTEM_FIELD_TEXTAREA_TYPE, fieldName.ToString()).SetText(value);
 
 			return GetPage();
 		}

@@ -13,11 +13,11 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.DataStructures
 		[Description("Image")]
 		Image,
 
-		[Description("InterpretationSource")]
-		DefinitionSource,
+		[Description("Definition source")]
+		InterpretationSource,
 
-		[Description("Interpretation")]
-		Definition,
+		[Description("Definition")]
+		Interpretation,
 
 		[Description("Example")]
 		Example

@@ -627,10 +627,18 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 			return this;
 		}
 
-		public GlossariesHelper AssertFieldValueMatch(string fieldName, string text)
+		public GlossariesHelper AssertGeneralFieldValueMatch(GlossarySystemField fieldName, string text)
 		{
 			BaseObject.InitPage(_glossaryPage);
 			_glossaryPage.AssertFieldValueMatch(fieldName, text);
+
+			return this;
+		}
+
+		public GlossariesHelper AssertCustomFieldValueMatch(string fieldName, string text)
+		{
+			BaseObject.InitPage(_glossaryPage);
+			_glossaryPage.AssertCustomFieldValueMatch(fieldName, text);
 
 			return this;
 		}

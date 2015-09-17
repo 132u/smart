@@ -29,28 +29,18 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 				.FillTermInLanguagesAndTermsSection();
 		}
 
-		[TestCase(GlossarySystemField.Definition)]
-		[TestCase(GlossarySystemField.DefinitionSource)]
+		[TestCase(GlossarySystemField.Interpretation)]
+		[TestCase(GlossarySystemField.InterpretationSource)]
 		[TestCase(GlossarySystemField.Example)]
 		public void AddSystemFieldTextareaTypeTest(GlossarySystemField fieldName)
 		{
 			var value = "Test System Field";
-			string field;
-
-			if (fieldName == GlossarySystemField.DefinitionSource)
-			{
-				field = "Definition source";
-			}
-			else
-			{
-				field = fieldName.ToString();
-			}
-
+			
 			_glossaryHelper
 				.AssertSystemTextAreaFieldDisplayed(fieldName)
 				.FillSystemField(fieldName, value)
 				.ClickSaveEntryButton()
-				.AssertFieldValueMatch(field, value)
+				.AssertGeneralFieldValueMatch(fieldName, value)
 				.CloseTermsInfo()
 				.AssertExtendTermsCountMatch(expectedTermCount: 1);
 		}
@@ -64,7 +54,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 				.AssertSystemDropdownFieldDisplayed(GlossarySystemField.Topic)
 				.SelectOptionInTopic(value)
 				.ClickSaveEntryButton()
-				.AssertFieldValueMatch(GlossarySystemField.Topic.Description(), value)
+				.AssertGeneralFieldValueMatch(GlossarySystemField.Topic, value)
 				.CloseTermsInfo()
 				.AssertExtendTermsCountMatch(expectedTermCount: 1);
 		}

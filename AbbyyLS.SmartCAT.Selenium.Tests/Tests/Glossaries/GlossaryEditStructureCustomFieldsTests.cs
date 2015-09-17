@@ -42,7 +42,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 				.AssertFieldExistInNewEntry(fieldName)
 				.FillField(fieldName, customValue)
 				.ClickSaveEntryButton()
-				.AssertFieldValueMatch(fieldName, customValue)
+				.AssertCustomFieldValueMatch(fieldName, customValue)
 				.CloseTermsInfo()
 				.AssertExtendTermsCountMatch(expectedTermCount: 1);
 		}
@@ -68,7 +68,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 				.AssertFieldErrorDisplayed(fieldName)
 				.FillField(fieldName, customValue)
 				.ClickSaveEntryButton()
-				.AssertFieldValueMatch(fieldName, customValue)
+				.AssertCustomFieldValueMatch(fieldName, customValue)
 				.CloseTermsInfo()
 				.AssertExtendTermsCountMatch(expectedTermCount: 1);
 		}
@@ -90,7 +90,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 				.AssertFieldExistInNewEntry(fieldName)
 				.FillDateField(fieldName)
 				.ClickSaveEntryButton()
-				.AssertFieldValueMatch(fieldName, DateTime.Now.ToString("MM/dd/yyyy", CultureInfo.InvariantCulture))
+				.AssertCustomFieldValueMatch(fieldName, DateTime.Now.ToString("MM/dd/yyyy", CultureInfo.InvariantCulture))
 				.CloseTermsInfo()
 				.AssertExtendTermsCountMatch(expectedTermCount: 1);
 		}
@@ -115,7 +115,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 				.AssertFieldErrorDisplayed(fieldName)
 				.FillDateField(fieldName)
 				.ClickSaveEntryButton()
-				.AssertFieldValueMatch(fieldName, DateTime.Now.ToString("MM/dd/yyyy", CultureInfo.InvariantCulture))
+				.AssertCustomFieldValueMatch(fieldName, DateTime.Now.ToString("MM/dd/yyyy", CultureInfo.InvariantCulture))
 				.CloseTermsInfo()
 				.AssertExtendTermsCountMatch(expectedTermCount: 1);
 		}
@@ -231,7 +231,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 				.AssertFieldExistInNewEntry(fieldName)
 				.SelectItemInListDropdown(fieldName, itemsList[0])
 				.ClickSaveEntryButton()
-				.AssertFieldValueMatch(fieldName, itemsList[0])
+				.AssertCustomFieldValueMatch(fieldName, itemsList[0])
 				.CloseTermsInfo()
 				.AssertExtendTermsCountMatch(expectedTermCount: 1);
 		}
@@ -258,7 +258,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 				.AssertFieldErrorDisplayed(fieldName)
 				.SelectItemInListDropdown(fieldName, itemsList[0])
 				.ClickSaveEntryButton()
-				.AssertFieldValueMatch(fieldName, itemsList[0])
+				.AssertCustomFieldValueMatch(fieldName, itemsList[0])
 				.CloseTermsInfo()
 				.AssertExtendTermsCountMatch(expectedTermCount: 1);
 		}
@@ -283,7 +283,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 				.SelectItemInMultiSelectListDropdown(fieldName, itemsList[0])
 				.SelectItemInMultiSelectListDropdown(fieldName, itemsList[2])
 				.ClickSaveEntryButton()
-				.AssertFieldValueMatch(fieldName, itemsList[0] + ", " + itemsList[2])
+				.AssertCustomFieldValueMatch(fieldName, itemsList[0] + ", " + itemsList[2])
 				.CloseTermsInfo()
 				.AssertExtendTermsCountMatch(expectedTermCount: 1);
 		}
@@ -310,7 +310,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 				.SelectItemInMultiSelectListDropdown(fieldName, itemsList[0])
 				.SelectItemInMultiSelectListDropdown(fieldName, itemsList[2])
 				.ClickSaveEntryButton()
-				.AssertFieldValueMatch(fieldName, itemsList[0] + ", " + itemsList[2])
+				.AssertCustomFieldValueMatch(fieldName, itemsList[0] + ", " + itemsList[2])
 				.CloseTermsInfo()
 				.AssertExtendTermsCountMatch(expectedTermCount: 1);
 		}
@@ -333,7 +333,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 				.AssertFieldExistInNewEntry(fieldName)
 				.FillNumberField(fieldName, customNumberValue)
 				.ClickSaveEntryButton()
-				.AssertFieldValueMatch(fieldName, customNumberValue)
+				.AssertCustomFieldValueMatch(fieldName, customNumberValue)
 				.CloseTermsInfo()
 				.AssertExtendTermsCountMatch(expectedTermCount: 1);
 		}
@@ -380,7 +380,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 				.AssertFieldErrorDisplayed(fieldName)
 				.FillNumberField(fieldName, customNumberValue)
 				.ClickSaveEntryButton()
-				.AssertFieldValueMatch(fieldName, customNumberValue)
+				.AssertCustomFieldValueMatch(fieldName, customNumberValue)
 				.CloseTermsInfo()
 				.AssertExtendTermsCountMatch(expectedTermCount: 1);
 		}
