@@ -447,7 +447,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		{
 			Logger.Trace("Получить текст из source сегмента №{0}.", rowNumber);
 			
-			return Driver.SetDynamicValue(How.XPath, SOURCE_CELL, rowNumber.ToString()).Text;
+			return Driver.SetDynamicValue(How.XPath, SOURCE_CELL, (rowNumber - 1).ToString()).Text;
 		}
 
 		/// <summary>
