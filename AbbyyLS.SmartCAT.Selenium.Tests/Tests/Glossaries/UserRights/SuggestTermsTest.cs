@@ -64,7 +64,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 				.ClickSaveButtonInSuggestTermDialogFromGlossaryPage()
 				.GoToGlossariesPage()
 				.GoToSuggestedTermsPageFromGlossariesPage()
-				.SuggestedTermsByGlossaryCountMatch(suggestedTermsCount: 1);
+				.SuggestedTermsByGlossaryCountMatch(suggestedTermsCount: 1, glossary: _glossaryName);
 		}
 
 		[Test]
@@ -313,6 +313,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 				.FillSuggestTermDialog(term1: _term1, term2: _term2)
 				.ClickSaveButtonInSuggestTermDialogFromGlossaryPage()
 				.GoToGlossariesPage()
+				.OpenSuggestTermDialogFromGlossariesPage()
+				.FillSuggestTermDialog(term1: _term1, term2: _term2)
+				.ClickSaveButtonInSuggestTermDialogFromGlossariesPage()
 				.GoToSuggestedTermsPageFromGlossariesPage()
 				.EditSuggestTermInSuggestedTermsPageForAllGlossaries(
 					glossaryName: "",
