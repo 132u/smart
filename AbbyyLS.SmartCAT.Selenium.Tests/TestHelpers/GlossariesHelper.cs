@@ -400,7 +400,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 			BaseObject.InitPage(_glossaryPage);
 
 			Assert.IsTrue(
-				_glossaryPage.EmptyTermErrorDisplayed(),
+				_glossaryPage.AlreadyExistTermErrorDisplayed(),
 				"Произошла ошибка:\n сообщение 'The term already exists' не появилось.");
 
 			return this;
