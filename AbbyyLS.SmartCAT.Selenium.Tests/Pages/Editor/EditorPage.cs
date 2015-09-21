@@ -166,6 +166,17 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		}
 
 		/// <summary>
+		/// "Нажать кхоткей Ctrl+{0} для вставки из кат-панели
+		/// </summary>
+		public EditorPage ClickCatPanelByHotKey(int rowNumber)
+		{
+			Logger.Debug("Нажать кхоткей Ctrl+{0}.", rowNumber);
+			Driver.SendHotKeys(rowNumber.ToString(), true);
+
+			return new EditorPage().GetPage();
+		}
+
+		/// <summary>
 		/// Ввести текст в таргет сегмента
 		/// </summary>
 		/// <param name="text">текст</param>
@@ -832,7 +843,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		protected const string ALL_SEGMENTS_SAVED_STATUS = "//div[text()='All segments are saved.']";
 		protected const string SAVING_STATUS = "//div[@id='segmentsavingindicator-1048-innerCt' and contains(text(),'Saving')]";
 		protected const string MATCH_COLUMN = "//div[@id='segments-body']//table[*#*]//tbody//td[contains(@class,'matchcolum')]";
-		protected const string TARGET_MATCH_COLUMN_PERCENT = "//table[@data-recordindex='*#*' and contains(@id, 'tableview')]//td[6]//div//span";
+		protected const string TARGET_MATCH_COLUMN_PERCENT = "//table[@data-recordindex='*#*' and contains(@id, 'tableview')]//td[5]//div//span";
 		protected const string CAT_PANEL_PERCENT_MATCH = ".//div[@id='cat-body']//table[*#*]//tbody//tr//td[3]//div//span";
 
 		protected const string CAT_TYPE_LIST_IN_PANEL = ".//div[@id='cat-body']//table//td[3]/div";

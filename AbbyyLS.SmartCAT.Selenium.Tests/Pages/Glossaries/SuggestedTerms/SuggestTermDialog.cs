@@ -81,7 +81,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 		/// <param name="languageNumber">номер языка</param>
 		public SuggestTermDialog ClickLanguageList(int languageNumber)
 		{
-			Logger.Debug("Нажать на выпадающий список языков №{0}.");
+			Logger.Debug("Нажать на выпадающий список языков №{0}.", languageNumber);
 			Driver.SetDynamicValue(How.XPath, LANGUAGE_LIST, languageNumber.ToString()).Click();
 
 			return GetPage();
