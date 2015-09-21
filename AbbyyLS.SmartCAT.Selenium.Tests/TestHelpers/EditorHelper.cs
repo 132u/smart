@@ -148,7 +148,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 									.WaitCatTypeDisplayed(catType)
 									.CatTypeRowNumber(catType);
 
-			_editorPage.ClickCatPanelByHotKey(catRowNumber);
+			_editorPage.DoubleClickCatPanel(catRowNumber);
 
 			AssertTargetTextAndCatTextMatch(targetRowNumber, catRowNumber);
 

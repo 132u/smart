@@ -166,17 +166,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		}
 
 		/// <summary>
-		/// "Нажать кхоткей Ctrl+{0} для вставки из кат-панели
-		/// </summary>
-		public EditorPage ClickCatPanelByHotKey(int rowNumber)
-		{
-			Logger.Debug("Нажать кхоткей Ctrl+{0}.", rowNumber);
-			Driver.SendHotKeys(rowNumber.ToString(), true);
-
-			return new EditorPage().GetPage();
-		}
-
-		/// <summary>
 		/// Ввести текст в таргет сегмента
 		/// </summary>
 		/// <param name="text">текст</param>
