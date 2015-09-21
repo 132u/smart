@@ -9,11 +9,11 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Drivers
 	public class ChromeDriverProvider : IWebDriverProvider
 	{
 		public static Logger Log = LogManager.GetCurrentClassLogger();
-		private string _driverCopyPath;
 
 		public RemoteWebDriver GetWebDriver(string tempFolder, string downloadDirectory)
 		{
-			var defaultDriverPath = Path.Combine(Directory.GetCurrentDirectory(), "chromedriver.exe");
+			var defaultDriverPath = new Uri(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "chromedriver.exe")).LocalPath;
+			var driverCopyPath = new Uri(Path.Combine(tempFolder, "chromedriver.exe")).LocalPath;
 
 			if (!File.Exists(defaultDriverPath))
 			{
@@ -23,8 +23,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Drivers
 			Directory.CreateDirectory(tempFolder);
 			Directory.CreateDirectory(downloadDirectory);
 
-			_driverCopyPath = Path.Combine(tempFolder, Path.GetFileName(defaultDriverPath));
-			File.Copy(defaultDriverPath, _driverCopyPath);
+			File.Copy(defaultDriverPath, driverCopyPath);
 
 			var options = new ChromeOptions();
 			options.AddArguments("--lang=en");
