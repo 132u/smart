@@ -385,6 +385,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 		public GlossaryPage CloseExpandedTerms()
 		{
 			Logger.Debug("Нажать кнопку закрытия раскрытых терминов.");
+			CloseExpandTermsButton.Scroll();
 			CloseExpandTermsButton.Click();
 
 			return GetPage();
@@ -1038,7 +1039,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 		/// </summary>
 		public GlossaryPage ClickOptionInTopicDropdown(string option)
 		{
-			Logger.Debug("Раскрыть дропдаун Topic.");
+			Logger.Debug("Выбрать значение {0} в дропдауне Topic.", option);
 			Driver.SetDynamicValue(How.XPath, TOPIC_OPTION, option.Trim()).Click();
 
 			return GetPage();

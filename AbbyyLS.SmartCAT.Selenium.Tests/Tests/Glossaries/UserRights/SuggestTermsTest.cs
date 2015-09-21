@@ -21,7 +21,11 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 
 			_glossaryName = GlossariesHelper.UniqueGlossaryName();
 
-			_workspaceHelper.GoToGlossariesPage();
+			_workspaceHelper
+				.GoToGlossariesPage()
+				.GoToSuggestedTermsPageFromGlossariesPage()
+				.DeleteAllSuggestTerms()
+				.GoToGlossariesPage();
 		}
 
 		[Test]
@@ -107,7 +111,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 		public void SuggestExistingTermWarningFromGlossaryTest()
 		{
 			_glossariesHelper
-				.GoToGlossariesPage()
 				.CreateGlossary(_glossaryName)
 				.CreateTerm(_term1, _term2)
 				.OpenSuggestTermDialogFromGlossaryPage()
@@ -123,7 +126,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 		public void SuggestExistingTermAcceptFromGlossaryTest()
 		{
 			_glossariesHelper
-				.GoToGlossariesPage()
 				.CreateGlossary(_glossaryName)
 				.CreateTerm(_term1, _term2)
 				.OpenSuggestTermDialogFromGlossaryPage()
@@ -141,7 +143,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 		public void SuggestExistingTermWarningFromGlossaryListTest()
 		{
 			_glossariesHelper
-				.GoToGlossariesPage()
 				.CreateGlossary(_glossaryName)
 				.CreateTerm(_term1, _term2)
 				.GoToGlossariesPage()
@@ -159,7 +160,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 		public void SuggestExistingTermAcceptFromGlossaryListTest()
 		{
 			_glossariesHelper
-				.GoToGlossariesPage()
 				.CreateGlossary(_glossaryName)
 				.CreateTerm(_term1, _term2)
 				.GoToGlossariesPage()
@@ -179,7 +179,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 		public void AcceptSuggestedTermWithGlossaryFromGlossariesPageTest()
 		{
 			_glossariesHelper
-				.GoToGlossariesPage()
 				.CreateGlossary(_glossaryName)
 				.OpenSuggestTermDialogFromGlossaryPage()
 				.FillSuggestTermDialog(term1: _term1, term2: _term2)
@@ -197,7 +196,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 		public void AcceptSuggestedTermWithGlossaryFromGlossaryPageTest()
 		{
 			_glossariesHelper
-				.GoToGlossariesPage()
 				.CreateGlossary(_glossaryName)
 				.OpenSuggestTermDialogFromGlossaryPage()
 				.FillSuggestTermDialog(term1: _term1, term2: _term2)
@@ -216,7 +214,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 			var glossaryName2 = GlossariesHelper.UniqueGlossaryName();
 			
 			_glossariesHelper
-				.GoToGlossariesPage()
 				.CreateGlossary(_glossaryName)
 				.OpenSuggestTermDialogFromGlossaryPage()
 				.FillSuggestTermDialog(term1: _term1, term2: _term2)
@@ -236,7 +233,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 		public void AcceptSuggestedTermWithoutGlossaryFromGlossariesPageTest()
 		{
 			_glossariesHelper
-				.GoToGlossariesPage()
 				.CreateGlossary(_glossaryName)
 				.GoToGlossariesPage()
 				.OpenSuggestTermDialogFromGlossariesPage()
@@ -255,7 +251,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 		public void DeleteSuggestedTermWithoutGlossaryTest()
 		{
 			_glossariesHelper
-				.GoToGlossariesPage()
 				.OpenSuggestTermDialogFromGlossariesPage()
 				.FillSuggestTermDialog(term1: _term1, term2: _term2)
 				.ClickSaveButtonInSuggestTermDialogFromGlossariesPage()
@@ -272,7 +267,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 		public void DeleteSuggestedTermWithGlossaryTest()
 		{
 			_glossariesHelper
-				.GoToGlossariesPage()
 				.CreateGlossary(_glossaryName)
 				.OpenSuggestTermDialogFromGlossaryPage()
 				.FillSuggestTermDialog(term1: _term1, term2: _term2)
@@ -288,7 +282,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 			var editTerm = "editTerm";
 
 			_glossariesHelper
-				.GoToGlossariesPage()
 				.CreateGlossary(_glossaryName)
 				.OpenSuggestTermDialogFromGlossaryPage()
 				.FillSuggestTermDialog(term1: _term1, term2: _term2)
@@ -307,7 +300,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 			var editTerm = "editTerm";
 
 			_glossariesHelper
-				.GoToGlossariesPage()
 				.CreateGlossary(_glossaryName)
 				.OpenSuggestTermDialogFromGlossaryPage()
 				.FillSuggestTermDialog(term1: _term1, term2: _term2)
@@ -332,7 +324,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 		public void SuggestEmptyTermFromGlossaryListTest()
 		{
 			_glossariesHelper
-				.GoToGlossariesPage()
 				.OpenSuggestTermDialogFromGlossariesPage()
 				.ClickSaveButtonInSuggestTermDialogFromGlossaryPage(errorExpected: true)
 				.AssertEmptyTermErrorDisplayed();
@@ -342,7 +333,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 		public void SuggestEmptyTermFromGlossaryTest()
 		{
 			_glossariesHelper
-				.GoToGlossariesPage()
 				.CreateGlossary(_glossaryName)
 				.OpenSuggestTermDialogFromGlossaryPage()
 				.ClickSaveButtonInSuggestTermDialogFromGlossaryPage(errorExpected: true)
@@ -355,7 +345,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 			var synonym = "synonym";
 
 			_glossariesHelper
-				.GoToGlossariesPage()
 				.CreateGlossary(_glossaryName)
 				.OpenSuggestTermDialogFromGlossaryPage()
 				.FillSuggestTermDialog(term1: _term1, term2: _term2)
@@ -375,7 +364,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 		public void AutoReverseLanguagesTest()
 		{
 			_glossariesHelper
-				.GoToGlossariesPage()
 				.CreateGlossary(_glossaryName)
 				.OpenSuggestTermDialogFromGlossaryPage()
 				.AssertLanguageInSuggestTermDialogMatch(languageNumber: 1, language: Language.English)

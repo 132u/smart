@@ -440,6 +440,19 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		}
 
 		/// <summary>
+		/// Проверить, что сообщение о том, что термин сохранен, исчезло
+		/// </summary>
+		public EditorPage AssertTermIsSavedMessageDisappeared()
+		{
+			Logger.Trace("Проверить, что сообщение о том, что термин сохранен, исчезло.");
+
+			Assert.IsTrue(Driver.WaitUntilElementIsDisappeared(By.XPath(TERM_SAVED_MESSAGE), timeout: 30),
+				"Произошла ошибка:\n сообщение о том, что термин сохранен, не исчезло.");
+
+			return new EditorPage().GetPage();
+		}
+
+		/// <summary>
 		/// Получить текст из таргет сегмента
 		/// </summary>
 		/// <param name="segmentNumber">номер строки сегмента</param>

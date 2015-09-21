@@ -1483,6 +1483,29 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 			return this;
 		}
 
+		public GlossariesHelper DeleteAllSuggestTerms()
+		{
+			BaseObject.InitPage(_suggestedTermsPageForAllGlossaries);
+			var termsCount = _suggestedTermsPageForAllGlossaries.SuggestedTermsCount();
+
+			if (termsCount > 0)
+			{ 
+				while(termsCount != 0)
+				{
+					_suggestedTermsPageForAllGlossaries
+						.HoverSuggestedTermRow(1)
+						.ClickDeleteSuggestTermButton(1);
+					// Sleep не убирать, иначе термин не исчезнет
+					Thread.Sleep(1000);
+					termsCount = _suggestedTermsPageForAllGlossaries.SuggestedTermsCount();
+				}
+			
+				Assert.AreEqual(0, _suggestedTermsPageForAllGlossaries.SuggestedTermsCount(),
+					"Произошла ошибка:\nНе все предложенные термины удалены.");
+			}
+
+			return this;
+		}
 
 		public GlossariesHelper AcceptSuggestTermInSuggestedTermsPageForCurrentGlossary(int termRowNumber)
 		{

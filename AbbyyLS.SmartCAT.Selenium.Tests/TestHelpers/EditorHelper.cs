@@ -314,7 +314,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 			_addTermDialog
 				.ClickAddButton<EditorPage>()
-				.AssertTermIsSaved();
+				.AssertTermIsSaved()
+				.AssertTermIsSavedMessageDisappeared();
 
 			return this;
 		}
@@ -644,7 +645,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 				.ClickAddButton<AddTermDialog>()
 				.AssertConfirmSingleTermMessageDisplayed()
 				.Confirm()
-				.AssertTermIsSaved();
+				.AssertTermIsSaved()
+				.AssertTermIsSavedMessageDisappeared();
 
 			return this;
 		}
@@ -655,7 +657,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 			_editorPage
 				.AssertConfirmExistedTermMessageDisplayed()
 				.Confirm()
-				.AssertTermIsSaved();
+				.AssertTermIsSaved()
+				.AssertTermIsSavedMessageDisappeared();
 
 			return this;
 		}
