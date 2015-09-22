@@ -11,7 +11,7 @@
 	/>
 
 	<ThreadUsers>
-		<ThreadUser Login="bobby@mailforspam.com" Password="YrdyNpnnu" Name="Bobby" Surname="Test"/>
+		<ThreadUser Login="bobby@mailforspam.com" Password="YrdyNpnnu" NickName="Bobby Test" Name="Bobby" Surname="Test"/>
 	</ThreadUsers>
 
 </configuration>

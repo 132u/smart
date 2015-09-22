@@ -14,6 +14,7 @@
 		<ThreadUser
 			Login="teamcity@mailforspam.com"
 			Password="teamcity"
+			NickName="Teamcity Test"
 			Name="Teamcity"
 			Surname="Test"
 		/>
