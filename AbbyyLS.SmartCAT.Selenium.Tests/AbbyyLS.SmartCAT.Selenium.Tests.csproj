@@ -254,7 +254,7 @@
     <Compile Include="Tests\Clients\ClientsTests.cs" />
     <Compile Include="Tests\Billing\BillingTests.cs" />
     <Compile Include="Tests\Billing\BuyLicensePackageTests.cs" />
-    <Compile Include="Configs\UserInfoConfig.cs" />
+    <Compile Include="Configs\ThreadUserConfig.cs" />
     <Compile Include="Tests\Glossaries\BasicGlossaryTests.cs" />
     <Compile Include="Tests\Projects\CheckRights\CheckCreateProjectRight.cs" />
     <Compile Include="Tests\Projects\Export\ExportProjectBaseTests.cs" />

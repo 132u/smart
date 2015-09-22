@@ -150,12 +150,12 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 			return this;
 		}
 
-		public LoginHelper Authorize(StartPage startPage)
+		public LoginHelper Authorize(StartPage startPage, TestUser user)
 		{
 			if (ConfigurationManager.Standalone)
 			{
 				// Тесты запускаются на ОР
-				_commonHelper.GoToWorkspaceUrl();
+				_commonHelper.GoToWorkspaceUrl(user.StandaloneUrl);
 
 				return this;
 			}
@@ -164,7 +164,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 			{
 				case StartPage.Admin:
 					_commonHelper.GoToAdminUrl();
-					_adminHelper.SignIn(ConfigurationManager.Login, ConfigurationManager.Password);
+					_adminHelper.SignIn(user.Login, user.Password);
 					break;
 
 				case StartPage.CompanyRegistration:
@@ -178,26 +178,26 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 				case StartPage.Workspace:
 					_commonHelper.GoToSignInPage();
 					LogInSmartCat(
-						ConfigurationManager.Login,
-						ConfigurationManager.NickName,
-						ConfigurationManager.Password);
+						user.Login,
+						user.NickName,
+						user.Password);
 					break;
 
 				case StartPage.PersonalAccount:
 					_commonHelper.GoToSignInPage();
 					LogInSmartCat(
-						ConfigurationManager.Login,
-						ConfigurationManager.NickName,
-						ConfigurationManager.Password,
+						user.Login,
+						user.NickName,
+						user.Password,
 						"Personal");
 					break;
 
 				default:
 					_commonHelper.GoToSignInPage();
 					LogInSmartCat(
-						ConfigurationManager.Login,
-						ConfigurationManager.NickName,
-						ConfigurationManager.Password);
+						user.Login,
+						user.NickName,
+						user.Password);
 					break;
 			}
 

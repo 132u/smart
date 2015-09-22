@@ -25,7 +25,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 			_workspaceHelper
 				.GoToUsersRightsPage()
 				.ClickGroupsButton()
-				.CheckOrAddUserToGroup("Administrators", ConfigurationManager.NickName)
+				.CheckOrAddUserToGroup("Administrators", ThreadUser.NickName)
 				.GoToGlossariesPage()
 				.CreateGlossary(_glossary1Name)
 				.GoToGlossariesPage()
@@ -37,7 +37,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 				.GoToProjectSettingsPage(_projectName)
 				.UploadDocument(PathProvider.DocumentFile)
 				.RefreshPage<ProjectSettingsPage, ProjectSettingsHelper>()
-				.AssignTasksOnDocument(Path.GetFileNameWithoutExtension(PathProvider.DocumentFile), ConfigurationManager.NickName)
+				.AssignTasksOnDocument(Path.GetFileNameWithoutExtension(PathProvider.DocumentFile), ThreadUser.NickName)
 				.AddGlossaryToDocument(Path.GetFileNameWithoutExtension(PathProvider.DocumentFile), _glossary1Name)
 				.AddGlossaryToDocument(Path.GetFileNameWithoutExtension(PathProvider.DocumentFile), _glossary2Name)
 				.OpenDocument<SelectTaskDialog>(Path.GetFileNameWithoutExtension(PathProvider.DocumentFile))

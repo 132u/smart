@@ -112,7 +112,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 				.CreateGlossary(_glossaryUniqueName)
 				.GoToGlossariesPage()
 				.AssertGlossaryExist(_glossaryUniqueName)
-				.AssertModifiedByMatch(_glossaryUniqueName, ConfigurationManager.NickName);
+				.AssertModifiedByMatch(_glossaryUniqueName, ThreadUser.NickName);
 		}
 
 		[Test]

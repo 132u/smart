@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Concurrent;
+using System.Diagnostics;
 using System.IO;
 
 using NUnit.Framework;
@@ -33,7 +35,10 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests
 			try
 			{
 				Logger.Info("Начало работы теста {0}", TestContext.CurrentContext.Test.Name);
-				_loginHelper.Authorize(StartPage);
+
+				ThreadUser = TakeUser(ConfigurationManager.Users);
+
+				_loginHelper.Authorize(StartPage, ThreadUser);
 			}
 			catch (Exception ex)
 			{
@@ -58,6 +63,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests
 			}
 
 			Driver.SwitchToNewTab();
+			ReturnUser(ConfigurationManager.Users, ThreadUser);
 		}
 
 		[TestFixtureTearDown]
@@ -69,6 +75,34 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests
 			}
 		}
 
+		public TestUser TakeUser(ConcurrentBag<TestUser> users)
+		{
+			TestUser user = null;
+
+			while (user == null)
+			{
+				users.TryTake(out user);
+			}
+
+			Logger.Info("Пользователь {0} взят из очереди.", user.Login);
+
+			return user;
+		}
+
+		public void ReturnUser(ConcurrentBag<TestUser> users, TestUser user)
+		{
+			try
+			{
+				users.Add(user);
+				Logger.Info("Пользователя {0} возвращен в очередь.", user.Login);
+			}
+			catch
+			{
+				Logger.Error("Не удалось вернуть пользователя {0} в очередь.", user.Login);
+			}
+		}
+
+		public TestUser ThreadUser { get; protected set; }
 		protected StartPage StartPage = StartPage.Workspace;
 		private readonly LoginHelper _loginHelper = new LoginHelper();
 	}

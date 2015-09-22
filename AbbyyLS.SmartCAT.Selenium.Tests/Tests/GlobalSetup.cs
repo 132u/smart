@@ -1,4 +1,7 @@
-﻿using NUnit.Framework;
+﻿using System;
+
+using NLog;
+using NUnit.Framework;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests
 {
@@ -8,9 +11,17 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests
 		[SetUp]
 		public static void SetUp()
 		{
-			ConfigurationManager.InitializeRelatedToUserFields();
-			ConfigurationManager.InitializeUsersAndCompanyList();
-			ConfigurationManager.InitializeRelatedToServerFields();
+			try
+			{
+				ConfigurationManager.InitializeRelatedToUserFields();
+				ConfigurationManager.InitializeRelatedToServerFields();
+			}
+			catch (Exception ex)
+			{
+				Logger.ErrorException("Произошла ошибка в GlobalSetup", ex);
+				throw;
+			}
 		}
+		public static Logger Logger = LogManager.GetCurrentClassLogger();
 	}
 }

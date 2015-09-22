@@ -18,7 +18,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersRights
 			_glossaryHelper = _workspaceHelper
 				.GoToUsersRightsPage()
 				.ClickGroupsButton()
-				.CheckOrAddUserToGroup("Administrators", ConfigurationManager.NickName)
+				.CheckOrAddUserToGroup("Administrators", ThreadUser.NickName)
 				.GoToGlossariesPage();
 
 			_glossaryUniqueName = GlossariesHelper.UniqueGlossaryName();

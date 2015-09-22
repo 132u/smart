@@ -40,13 +40,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.InitialData
 							Feature.DocumentUpdate.ToString()
 						},
 					unlimitedUseServices: true)
-					.CreateAccountAdminIfNotExist(ConfigurationManager.Login, ConfigurationManager.UserName, ConfigurationManager.UserSurname, LoginHelper.TestAccountName);
-		}
-
-		[Test]
-		public void CreatePersAccountForRingo()
-		{
-			_adminHelper.CreateUserWithPersonalAccount(ConfigurationManager.Login2, ConfigurationManager.NickName2, ConfigurationManager.Password2);
+				.CreateAccountAdminIfNotExist(ThreadUser.Login, ThreadUser.Name, ThreadUser.Surname, LoginHelper.TestAccountName);
 		}
 
 		[Test]
@@ -89,14 +83,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.InitialData
 			}
 		}
 
-		[Test]
-		public void CreatePersAccountForBobby()
-		{
-			_adminHelper
-				.FindUser(ConfigurationManager.Login)
-				.CreateNewPersonalAccount(LoginHelper.PersonalAccountSurname, state: true);
-		}
-
 		[Test, Explicit]
 		public void CreateSocialNetworksAccounts()
 		{
@@ -107,9 +93,21 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.InitialData
 		}
 
 		[Test]
-		public void CreatePersAccountForBatman()
+		public void CreatePersAccountForThreadUsers()
 		{
-			_adminHelper.CreateUserWithPersonalAccount(ConfigurationManager.RightsTestLogin, ConfigurationManager.RightsTestNickName, ConfigurationManager.RightsTestPassword);
+			foreach (var user in ConfigurationManager.ThreadUsersList)
+			{
+				_adminHelper.CreateUserWithPersonalAccount(user.Login, user.Login, user.Password);
+			}
+		}
+
+		[Test]
+		public void CreatePersAccountForAdditionalUsers()
+		{
+			foreach (var user in ConfigurationManager.AdditionalUsersList)
+			{
+				_adminHelper.CreateUserWithPersonalAccount(user.Login, user.Login, user.Password);
+			}
 		}
 
 		[Test]

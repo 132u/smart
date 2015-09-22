@@ -10,11 +10,13 @@
 		ConfigDirectory="../configs"
 	/>
 
-	<UserInfo
+	<ThreadUsers>
+		<ThreadUser
 			Login="ironman@als.local"
 			Password="gWJH4AgL"
 			Name="ironman "
 			Surname=""
-	/>
+		/>
+	</ThreadUsers>
 	
 </configuration>

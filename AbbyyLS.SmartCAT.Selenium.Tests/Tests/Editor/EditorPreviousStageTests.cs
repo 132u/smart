@@ -24,7 +24,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Editor
 				.OpenWorkflowSettings()
 				.AddTask(WorkflowTask.Editing)
 				.ClickSaveButton()
-				.AssignTasksOnDocument(Path.GetFileNameWithoutExtension(PathProvider.EditorTxtFile), ConfigurationManager.NickName, taskNumber: 2)
+				.AssignTasksOnDocument(Path.GetFileNameWithoutExtension(PathProvider.EditorTxtFile), ThreadUser.NickName, taskNumber: 2)
 				.OpenDocument<SelectTaskDialog>(Path.GetFileNameWithoutExtension(PathProvider.EditorTxtFile))
 				.SelectTask(TaskMode.Editing)
 				.AssertSegmentIsNotLocked()

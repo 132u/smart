@@ -26,9 +26,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Authorization
 		public void AuthorizationWithCorrectCredentials(string account, string dataServer)
 		{
 			_loginHelper
-				.SignIn(ConfigurationManager.Login, ConfigurationManager.Password)
+				.SignIn(ThreadUser.Login, ThreadUser.Password)
 				.SelectAccount(account, dataServer)
-				.SetUp(ConfigurationManager.NickName, account);
+				.SetUp(ThreadUser.NickName, account);
 		}
 
 		[TestCase("ringo123@mailforspam.com", "0000", SignInErrorMessageType.WrongPassword)]
@@ -100,9 +100,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Authorization
 		public void SignOutTest()
 		{
 			_loginHelper
-				.SignIn(ConfigurationManager.Login, ConfigurationManager.Password)
+				.SignIn(ThreadUser.Login, ThreadUser.Password)
 				.SelectAccount()
-				.SetUp(ConfigurationManager.NickName)
+				.SetUp(ThreadUser.NickName)
 				.SignOut();
 		}
 
@@ -152,7 +152,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Authorization
 		{
 			_commonHelper.GoToAdminUrl();
 			_adminHelper
-				.SignIn(ConfigurationManager.Login, ConfigurationManager.Password)
+				.SignIn(ThreadUser.Login, ThreadUser.Password)
 				.CreateNewUser(email, nickName, password, admin: true, aolUser: true)
 				.FindUser(email)
 				.CheckAdminCheckbox()

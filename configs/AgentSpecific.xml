@@ -9,12 +9,9 @@
 		ResultDirectory="../TestResults"
 		ConfigDirectory="../configs"
 	/>
-	
-	<UserInfo
-		Login="bobby@mailforspam.com"
-		Password="YrdyNpnnu"
-		Name="Bobby"
-		Surname="Test"
-	/>
+
+	<ThreadUsers>
+		<ThreadUser Login="bobby@mailforspam.com" Password="YrdyNpnnu" Name="Bobby" Surname="Test"/>
+	</ThreadUsers>
 
 </configuration>

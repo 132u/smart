@@ -153,7 +153,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.TranslationMemories
 				.AssertProjectGroupExistForTranslationMemory(UniqueTranslationMemoryName, projectGroup);
 		}
 
-		private readonly CreateProjectHelper _createProjectHelper = new CreateProjectHelper();
 		private const string InitialComment = "InitialComment";
 		private const string FinalComment = "FinalComment";
 		private const string RussianLanguage = "ru";

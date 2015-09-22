@@ -22,7 +22,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 				.CreateNewProject(_projectUniqueName, filePath: PathProvider.DocumentFileToConfirm1)
 				.AssertIsProjectLoadedSuccessfully(_projectUniqueName)
 				.GoToProjectSettingsPage(_projectUniqueName)
-				.AssignTasksOnDocument(Path.GetFileNameWithoutExtension(PathProvider.DocumentFileToConfirm1), ConfigurationManager.NickName)
+				.AssignTasksOnDocument(Path.GetFileNameWithoutExtension(PathProvider.DocumentFileToConfirm1), ThreadUser.NickName)
 				.CreateRevision(Path.GetFileNameWithoutExtension(PathProvider.DocumentFileToConfirm1));
 		}
 

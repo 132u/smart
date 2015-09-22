@@ -31,13 +31,13 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Billing
 						Feature.TranslateConnector.ToString(),
 						Feature.LingvoDictionaries.ToString(),
 					})
-				.AddUserToSpecificAccount(ConfigurationManager.Login, accountUniqueName);
+				.AddUserToSpecificAccount(ThreadUser.Login, accountUniqueName);
 
 			CommonHelper.GoToSignInPage();
 			LoginHelper.LogInSmartCat(
-				ConfigurationManager.Login,
-				ConfigurationManager.NickName,
-				ConfigurationManager.Password,
+				ThreadUser.Login,
+				ThreadUser.NickName,
+				ThreadUser.Password,
 				accountUniqueName);
 
 			WorkspaceHelper.GoToBillingPage();

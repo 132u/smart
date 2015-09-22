@@ -20,6 +20,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Configs
 
 		[DataMember(Name = "SocialNetworksUser")]
 		public List<TestUser> SocialNetworksUsers { get; set; }
+
+		[DataMember(Name = "RightsTestUser")]
+		public List<TestUser> RightsTestUsers { get; set; }
 	}
 
 }

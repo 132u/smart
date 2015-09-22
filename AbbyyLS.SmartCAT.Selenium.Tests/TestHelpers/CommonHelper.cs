@@ -19,9 +19,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 			Driver.Navigate().GoToUrl(ConfigurationManager.AdminUrl);
 		}
 
-		public void GoToWorkspaceUrl()
+		public void GoToWorkspaceUrl(string workspaceUrl)
 		{
-			Driver.Navigate().GoToUrl(ConfigurationManager.WorkspaceUrl);
+			Driver.Navigate().GoToUrl(workspaceUrl);
 		}
 	}
 }

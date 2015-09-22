@@ -15,21 +15,29 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects.CheckRights
 		[SetUp]
 		public void SetUp()
 		{
+			_additionalUser = TakeUser(ConfigurationManager.AdditionalUsers);
+
 			var groupName = Guid.NewGuid().ToString();
 			WorkspaceHelper
 				.CloseTour()
 				.GoToUsersRightsPage()
 				.ClickGroupsButton()
-				.RemoveUserFromAllGroups(ConfigurationManager.RightsTestNickName)
+				.RemoveUserFromAllGroups(_additionalUser.NickName)
 				.CheckOrCreateGroup(groupName)
 				.CheckOrAddRightsToGroup(groupName, RightsType.ProjectCreation)
-				.CheckOrAddUserToGroup(groupName, ConfigurationManager.RightsTestNickName)
+				.CheckOrAddUserToGroup(groupName, _additionalUser.NickName)
 				.SignOut()
-				.SignIn(ConfigurationManager.RightsTestLogin, ConfigurationManager.RightsTestPassword)
+				.SignIn(_additionalUser.Login, _additionalUser.Password)
 				.SelectAccount()
 				.CloseTour();
 
 			_exportFileHelper.CancelAllNotifiers<ProjectsPage>();
+		}
+
+		[TearDown]
+		public void TearDown()
+		{
+			ReturnUser(ConfigurationManager.AdditionalUsers, _additionalUser);
 		}
 
 		[Test]
@@ -260,5 +268,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects.CheckRights
 		protected readonly CreateProjectHelper _createProjectHelper = new CreateProjectHelper();
 		protected readonly ProjectsHelper _projectHeper = new ProjectsHelper();
 		protected readonly WorkspaceHelper WorkspaceHelper = new WorkspaceHelper();
+		private TestUser _additionalUser;
 	}
 }

@@ -10,11 +10,13 @@
 		ConfigDirectory="../configs"
 	/>
 
-	<UserInfo
+	<ThreadUsers>
+		<ThreadUser
 			Login="teamcity@mailforspam.com"
 			Password="teamcity"
 			Name="Teamcity"
 			Surname="Test"
-	/>
+		/>
+	</ThreadUsers>
 	
 </configuration>

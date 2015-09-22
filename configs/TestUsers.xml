@@ -52,6 +52,8 @@
 		<TestCompany login = "testcompanyivanpetrov3@mailforspam.com"	password = "123123123" activated = "true" />  <!--активный юзер курсера-->
 		<TestCompany login = "testcompanyivanpetrov4@mailforspam.com"	password = "123123123" activated = "false" /> <!--неактивный юзер курсера-->
 
+		<RightsTestUser Login="ringo123@mailforspam.com" Password="31415926" NickName="Ringo Star"/>
+		<RightsTestUser Login="batman@mailforspam.com" Password="193927" NickName="Bat Man"/>
 	</TestUsers>
 
 </configuration>

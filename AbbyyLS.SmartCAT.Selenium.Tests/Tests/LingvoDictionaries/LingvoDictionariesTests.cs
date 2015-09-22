@@ -36,13 +36,13 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.LingvoDictionaries
 						Feature.TranslateConnector.ToString(),
 						Feature.LingvoDictionaries.ToString(),
 					})
-					.AddUserToSpecificAccount(ConfigurationManager.Login, accountUniqueName);
+					.AddUserToSpecificAccount(ThreadUser.Login, accountUniqueName);
 
 				_commonHelper.GoToSignInPage();
 				_loginHelper.LogInSmartCat(
-					ConfigurationManager.Login,
-					ConfigurationManager.NickName,
-					ConfigurationManager.Password,
+					ThreadUser.Login,
+					ThreadUser.NickName,
+					ThreadUser.Password,
 					accountUniqueName);
 			}
 
