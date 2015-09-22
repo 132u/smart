@@ -18,11 +18,18 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 		{
 			_glossaryName = GlossariesHelper.UniqueGlossaryName();
 
+			_additionalUser = TakeUser(ConfigurationManager.AdditionalUsers);
 			_loginHelper.LogInSmartCat(
-				ConfigurationManager.RightsTestLogin,
-				ConfigurationManager.RightsTestNickName,
-				ConfigurationManager.RightsTestPassword,
+				_additionalUser.Login,
+				_additionalUser.NickName,
+				_additionalUser.Password,
 				"Personal");
+		}
+
+		[TearDown]
+		public void TearDown()
+		{
+			ReturnUser(ConfigurationManager.AdditionalUsers, _additionalUser);
 		}
 
 		[Test]
@@ -40,5 +47,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 		private string _glossaryName;
 		private readonly WorkspaceHelper _workspaceHelper = new WorkspaceHelper();
 		private readonly LoginHelper _loginHelper = new LoginHelper();
+		private TestUser _additionalUser;
 	}
 }
