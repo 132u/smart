@@ -11,13 +11,9 @@
 	/>
 
 	<ThreadUsers>
-		<ThreadUser
-			Login="teamcity@mailforspam.com"
-			Password="teamcity"
-			NickName="Teamcity Test"
-			Name="Teamcity"
-			Surname="Test"
-		/>
+		<ThreadUser Login="teamcity@mailforspam.com" Password="teamcity" NickName="Teamcity Test" Name="Teamcity" Surname="Test" />
 	</ThreadUsers>
+	
+	<UserInfo Login="teamcity@mailforspam.com" Password="teamcity" NickName="Teamcity Test" Name="Teamcity" Surname="Test"/>
 	
 </configuration>

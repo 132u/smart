@@ -11,13 +11,9 @@
 	/>
 
 	<ThreadUsers>
-		<ThreadUser
-			Login="ironman@als.local"
-			Password="gWJH4AgL"
-			Name="ironman "
-			Surname=""
-			NickName="ironman "
-		/>
+		<ThreadUser Login="ironman@als.local" Password="gWJH4AgL" Name="ironman " Surname="" NickName="ironman "/>
 	</ThreadUsers>
+	
+	<UserInfo Login="ironman@als.local" Password="gWJH4AgL" Name="ironman " Surname="" NickName="ironman "/>
 	
 </configuration>
