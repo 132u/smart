@@ -567,9 +567,15 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 		public GlossariesHelper UploadImage(string fieldName, string imageFile)
 		{
 			BaseObject.InitPage(_glossaryPage);
-			_glossaryPage.ClickImageField(fieldName);
+			_glossaryPage.UploadImageFile(imageFile);
 
-			uploadFile(imageFile);
+			return this;
+		}
+
+		public GlossariesHelper UploadImageWithMultimedia(string fieldName, string imageFile)
+		{
+			BaseObject.InitPage(_glossaryPage);
+			_glossaryPage.UploadImageFileWithMultimedia(imageFile);
 
 			return this;
 		}
@@ -577,9 +583,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 		public GlossariesHelper UploadMediaFile(string fieldName, string mediaFile)
 		{
 			BaseObject.InitPage(_glossaryPage);
-			_glossaryPage.ClickAddMediaButton(fieldName);
-
-			uploadFile(mediaFile);
+			_glossaryPage.UploadMultimediaFile(mediaFile);
 
 			_glossaryPage.AssertProgressUploadDissapeared(fieldName);
 
@@ -1379,18 +1383,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 				.ClickOptionInTopicDropdown(option);
 
 			return this;
-		}
-
-		private void uploadFile(string imageFile)
-		{
-			Logger.Trace("Загрузка файла {0}.\nВвести путь к файлу в системное окно.", imageFile);
-			Thread.Sleep(3000); // слип необходим, так как не всегда успевает открыться окно загрузки
-
-			var txt = Regex.Replace(imageFile, "[+^%~()]", "{$0}");
-			SendKeys.SendWait(txt);
-			Thread.Sleep(2000);
-			SendKeys.SendWait(@"{Enter}");
-			Thread.Sleep(2000);
 		}
 
 		public GlossariesHelper SuggestedTermsByGlossaryCountMatch(int suggestedTermsCount, string glossary = "")

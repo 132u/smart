@@ -59,21 +59,21 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 				.AssertExtendTermsCountMatch(expectedTermCount: 1);
 		}
 
-		[Test, FileUploadExplicit]
+		[Test]
 		public void AddImageFieldTest()
 		{
 			var fieldName = GlossarySystemField.Image.Description();
 
 			_glossaryHelper
 				.AssertImageFieldExistInNewEntry(fieldName)
-				.UploadImage(fieldName, PathProvider.ImageFile)
+				.UploadImageWithMultimedia(fieldName, PathProvider.ImageFile)
 				.ClickSaveEntryButton()
 				.AssertImageFieldFilled(fieldName)
 				.CloseTermsInfo()
 				.AssertExtendTermsCountMatch(expectedTermCount: 1);
 		}
 
-		[Test, FileUploadExplicit]
+		[Test]
 		public void AddMultimediaFieldTest()
 		{
 			var fieldName = GlossarySystemField.Multimedia.Description();

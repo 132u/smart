@@ -1,6 +1,7 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
-
+using System.Threading;
 using NUnit.Framework;
 
 using OpenQA.Selenium;
@@ -87,9 +88,18 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 		public GlossaryPage ClickSaveEntryButton()
 		{
 			Logger.Debug("Нажать на кнопку Save Entry для сохраенния термина.");
-			SaveEntryButton.Click();
 
-			Driver.WaitUntilElementIsDisappeared(By.XPath(SAVE_ENTRY_BUTTON));
+			var i = 0;
+
+			while (i < 5)
+			{
+				if (!Driver.WaitUntilElementIsDisappeared(By.XPath(SAVE_ENTRY_BUTTON), 1))
+				{
+					SaveEntryButton.Click();
+				}
+
+				i++;
+			}
 
 			return GetPage();
 		}
@@ -1045,6 +1055,56 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 			return GetPage();
 		}
 
+		public GlossariesPage UploadImageFile(string filepath)
+		{
+			Logger.Trace("Загрузка файла {0}.\nВвести путь к файлу в системное окно.", filepath);
+			AddImageLink.HoverElement();
+			Driver.ExecuteScript("$(\"input:file[name = x1]\").removeClass(\"g-hidden\").css(\"opacity\", 100).css(\"width\", 500)");
+			AddImageInput.SendKeys(filepath);
+			Driver.WaitUntilElementIsDisplay(By.XPath(DELETE_IMAGE_BUTTON));
+
+			return GetPage();
+		}
+		public GlossariesPage UploadImageFileWithMultimedia(string filepath)
+		{
+			Logger.Trace("Загрузка файла {0}.\nВвести путь к файлу в системное окно.", filepath);
+			AddImageLink.HoverElement();
+			Driver.ExecuteScript("$(\"input:file[name = Image]\").removeClass(\"g-hidden\").css(\"opacity\", 100).css(\"width\", 500)");
+			AddImageInputWithMultimedia.SendKeys(filepath);
+			Driver.WaitUntilElementIsDisplay(By.XPath(DELETE_IMAGE_BUTTON));
+
+			return GetPage();
+		}
+
+		public GlossariesPage UploadMultimediaFile(string filepath)
+		{
+			Logger.Trace("Загрузка файла {0}.\nВвести путь к файлу в системное окно.", filepath);
+			AddMultimediaLink.HoverElement();
+			try
+			{
+				Driver.ExecuteScript("$(\"input:file[name = Multimedia]\").removeClass(\"g-hidden\").css(\"opacity\", 100).css(\"width\", 500)");
+				Driver.FindElement(By.XPath("//input[@type='file' and @name='Multimedia']")).SendKeys(filepath);
+			}
+			catch
+			{
+				Logger.Info("Элемент отсутствует");
+			}
+
+			try
+			{
+				Driver.ExecuteScript("$(\"input:file[name = x1]\").removeClass(\"g-hidden\").css(\"opacity\", 100).css(\"width\", 500)");
+				Driver.FindElement(By.XPath("//input[@type='file' and @name='x1']")).SendKeys(filepath);
+			}
+			catch
+			{
+				Logger.Info("Элемент отсутствует");
+			}
+
+			Driver.WaitUntilElementIsDisplay(By.XPath(DELETE_IMAGE_BUTTON));
+
+			return GetPage();
+		}
+
 		[FindsBy(How = How.XPath, Using = FIRST_TERM)]
 		protected IWebElement FirstTerm { get; set; }
 
@@ -1147,6 +1207,21 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 		[FindsBy(How = How.XPath, Using = TOPIC_FIELD)]
 		protected IWebElement TopicField { get; set; }
 
+		[FindsBy(How = How.LinkText, Using = ADD_IMAGE_LINK)]
+		protected IWebElement AddImageLink { get; set; }
+
+		[FindsBy(How = How.XPath, Using = ADD_IMAGE_INPUT_WITH_MULTIMEDIA)]
+		protected IWebElement AddImageInputWithMultimedia { get; set; }
+
+		[FindsBy(How = How.XPath, Using = ADD_IMAGE_INPUT)]
+		protected IWebElement AddImageInput { get; set; }
+
+		[FindsBy(How = How.XPath, Using = ADD_MULTIMEDIA_LINK)]
+		protected IWebElement AddMultimediaLink { get; set; }
+
+		[FindsBy(How = How.XPath, Using = DELETE_IMAGE_BUTTON)]
+		protected IWebElement DeleteImageButton { get; set; }
+
 		protected const string GLOSSARY_SAVE_BUTTON = ".//div[contains(@class,'js-popup-edit-glossary')][2]//span[@class='g-btn g-redbtn ']";
 		protected const string GLOSSARY_PROPERTIES = "//div[contains(@class,'js-edit-glossary-btn')]";
 		protected const string EDIT_GLOSSARY_MENU = "//span[contains(@class,'js-edit-submenu')]";
@@ -1154,7 +1229,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 		protected const string NEW_ENTRY_BUTTON = "//span[contains(@class,'js-add-concept')]";
 		protected const string PLUS_BUTTON = "//td[1]//span[contains(@class,'js-add-term')]";
 		protected const string TERM_SAVE_BUTTON = "//span//a[contains(@class,'js-save-btn')]";
-		protected const string SAVE_ENTRY_BUTTON = "//span[contains(@class,'js-save-btn')]";
+		protected const string SAVE_ENTRY_BUTTON = "//span[contains(@class,'g-btn g-bluebtn js-save-btn js-edit l-corpr__btnmargin')]";
 		protected const string GLOSSARY_STRUCTURE = "//div[contains(@class,'js-edit-structure-btn')]";
 		protected const string EXTEND_MODE = "//tr[contains(@class, 'js-concept')]//td";
 		protected const string IMPORT_BUTTON = "//span[contains(@class,'js-import-concepts')]";
@@ -1228,6 +1303,11 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 		protected const string MEDIA_FIELD = "//div[contains(@class,'js-concept-attrs')]//div[contains(@class,'js-control')]//p[contains(text(),'*#*')]";
 		protected const string PROGRESS_MEDIA_FILE = "//p[contains(text(), '*#*')]/..//img[contains(@class, 'prgrssbar ')]";
 		protected const string MEDIA_FIELD_TEXT = "//p[contains(text(), '*#*')]/..//a[contains(@class, 'js-filename-link')]";
+		protected const string ADD_IMAGE_LINK = "Add";
+		protected const string ADD_IMAGE_INPUT = "//input[@type='file' and @name='x1']";
+		protected const string ADD_IMAGE_INPUT_WITH_MULTIMEDIA = "//input[@type='file' and @name='Image']";
+		protected const string ADD_MULTIMEDIA_LINK = "//div[@class='l-editgloss__fileName js-filename-click-area js-tour-file-area']";
+		protected const string DELETE_IMAGE_BUTTON = "//div[@class='l-editgloss__rmvimgbtn js-clear-btn']";
 
 		protected const string SYSTEM_FIELD_TEXTAREA_TYPE = "//div[contains(@class,'js-concept-attrs')]//div[contains(@class,'js-control')]//textarea[@name='*#*']";
 		protected const string SYSTEM_FIELD_DROPDOWN_TYPE = "//div[contains(@class,'js-concept-attrs')]//div[contains(@class,'js-control')]//div[contains(@class, 'js-edit')]//p[text()='*#*']";
