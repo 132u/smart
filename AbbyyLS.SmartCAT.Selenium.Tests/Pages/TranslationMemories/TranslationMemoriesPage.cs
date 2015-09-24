@@ -487,7 +487,17 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories
 			Logger.Trace("Проверить, что сообщение о окончании импорта TMX файла появилось.");
 
 			Assert.IsTrue(Driver.WaitUntilElementIsDisplay(By.XPath(FILE_IMPORT_NOTIFIER), timeout: 45),
-				"Произошла ошибка:\n сообещние о окончании импорта TMX файла не появилось.");
+				"Произошла ошибка:\n сообщение о окончании импорта TMX файла не появилось.");
+
+			return GetPage();
+		}
+
+		public TranslationMemoriesPage AssertFileImportAddingNotifierDisappeared()
+		{
+			Logger.Trace("Проверить, что сообщение о процессе импорта TMX файла появилось.");
+
+			Assert.IsTrue(Driver.WaitUntilElementIsDisappeared(By.XPath(FILE_IMPORT_ADDING_NOTIFIER), timeout: 45),
+				"Произошла ошибка:\n сообщение о процессе импорта TMX файла не появилось.");
 
 			return GetPage();
 		}
@@ -848,6 +858,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories
 
 		protected const string FILE_IMPORT_NOTIFIER = "//div[contains(@class, 'notifications')]//span[contains(text(),'units imported from file')]";
 		protected const string FILE_IMPORT_ERROR_NOTIFIER = "//div[contains(@class, 'notifications')]//span[contains(text(),'There was an error while importing translation units')]";
+		protected const string FILE_IMPORT_ADDING_NOTIFIER = "//span[contains(@data-bind, 'Adding translation units from the file')]";
 
 		protected const string SEGMENT_SPAN = "//span[@data-bind='text: translationUnitsCount']";
 		//UPDATE_TM_BUTTON связан с PRX-11525

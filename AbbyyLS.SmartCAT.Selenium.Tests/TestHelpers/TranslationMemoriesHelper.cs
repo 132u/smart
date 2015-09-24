@@ -374,7 +374,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 		public TranslationMemoriesHelper AssertTMXFileIsImported()
 		{
 			BaseObject.InitPage(_translationMemoriesPage);
-			_translationMemoriesPage.AssertFileImportCompleteNotifierDisplayed();
+			_translationMemoriesPage
+				.AssertFileImportAddingNotifierDisappeared()
+				.AssertFileImportCompleteNotifierDisplayed();
 
 			return this;
 		}
