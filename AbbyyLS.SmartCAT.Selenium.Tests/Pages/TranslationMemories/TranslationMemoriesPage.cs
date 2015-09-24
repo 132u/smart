@@ -4,7 +4,6 @@ using System.IO;
 using System.Linq;
 
 using NUnit.Framework;
-
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.PageObjects;
 
@@ -206,6 +205,42 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories
 			return GetPage();
 		}
 
+		/// <summary>
+		/// Проверить, что группа представлена в списке
+		/// </summary>
+		/// <param name="projectGroup">имя группы проектов</param>
+		public TranslationMemoriesPage AssertProjectGroupInListDisplay(string projectGroup)
+		{
+			Logger.Trace("Проверить, что группа {0} представлена в списке", projectGroup);
+
+			Assert.IsTrue(Driver.WaitUntilElementIsDisplay(By.XPath(PROJECT_GROUP_IN_LIST.Replace("*#*", projectGroup))),
+				"Произошла ошибка:\n группа проектов {0} отсутствует в списке.", projectGroup);
+
+			return GetPage();
+		}
+
+		///<summary>
+		/// Нажать на поле с клиентами в форме редактирования ТМ
+		/// </summary>
+		public TranslationMemoriesPage ClickToClientsField()
+		{
+			Logger.Debug("Нажать на поле с клиентами в форме редактирования ТМ");
+			ClientsField.Click();
+
+			return GetPage();
+		}
+
+		///<summary>
+		/// Нажать на поле с темами в форме редактирования ТМ
+		/// </summary>
+		public TranslationMemoriesPage ClickToTopicsField()
+		{
+			Logger.Debug("Нажать на поле с темами в форме редактирования ТМ");
+			TopicsField.Click();
+
+			return GetPage();
+		}
+
 		///<summary>
 		/// Выбрать первую группу проектов в списке и вернуть ее имя
 		/// </summary>
@@ -216,6 +251,48 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories
 			FirstProjectGroupInInList.Click();
 			Logger.Trace("Получить имя первой группы проектов в списке");
 			projectGroup = FirstProjectGroupInInList.Text;
+
+			return GetPage();
+		}
+
+		///<summary>
+		/// Выбрать группу проектов в списке
+		/// </summary>
+		/// <param name="projectGroup">Имя выбранной группы проектов</param>
+		public TranslationMemoriesPage SelectProjectGroup(string projectGroup)
+		{
+			Logger.Debug("Выбрать группу проектов {0} в списке", projectGroup);
+
+			ProjectGroupInInList = Driver.SetDynamicValue(How.XPath, PROJECT_GROUP_IN_LIST, projectGroup);
+			ProjectGroupInInList.Click();
+
+			return GetPage();
+		}
+
+		///<summary>
+		/// Выбрать клиента в списке
+		/// </summary>
+		/// <param name="clientName">Имя клиента</param>
+		public TranslationMemoriesPage SelectClient(string clientName)
+		{
+			Logger.Debug("Выбрать клиента {0} в списке", clientName);
+
+			ClientInInList = Driver.SetDynamicValue(How.XPath, CLIENT_IN_LIST, clientName);
+			ClientInInList.Click();
+
+			return GetPage();
+		}
+
+		///<summary>
+		/// Выбрать тему в списке (из видимых)
+		/// </summary>
+		/// <param name="topicName">тема</param>
+		public TranslationMemoriesPage SelectTopic(string topicName)
+		{
+			Logger.Debug("Выбрать тему {0} в списке", topicName);
+
+			TopicInList = Driver.SetDynamicValue(How.XPath, TOPIC_IN_LIST, topicName);
+			TopicInList.Click();
 
 			return GetPage();
 		}
@@ -324,10 +401,23 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories
 		/// </summary>
 		public TranslationMemoriesPage AssertEditionFormDisappeared()
 		{
-			Logger.Trace("Дождаться исчезновения формы редактирования ТМ.");
+			Logger.Trace("Проверить исчезновение формы редактирования ТМ.");
 
 			Assert.IsTrue(Driver.WaitUntilElementIsDisappeared(By.XPath(TM_EDIT_SAVE_BTN)),
 				"Ошибка: не исчезла форма редактирования ТМ");
+
+			return GetPage();
+		}
+
+		/// <summary>
+		/// Проверить появление формы редактирования ТМ
+		/// </summary>
+		public TranslationMemoriesPage AssertEditionFormDisplayed()
+		{
+			Logger.Trace("Проверить появление формы редактирования ТМ.");
+
+			Assert.IsTrue(Driver.WaitUntilElementIsDisplay(By.XPath(TM_EDIT_SAVE_BTN)),
+				"Ошибка: не появилась форма редактирования ТМ");
 
 			return GetPage();
 		}
@@ -573,6 +663,58 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories
 			return GetPage();
 		}
 
+		/// <summary>
+		/// Нажать кнопку очистки всех фильтров
+		/// </summary>
+		public TranslationMemoriesPage ClickClearAllFiltersButton()
+		{
+			Logger.Debug("Нажать кнопку очистки всех фильтров");
+			
+			ClearAllFiltersButton.Click();
+
+			return GetPage();
+		}
+
+		/// <summary>
+		/// Нажать кнопку 'Filter'
+		/// </summary>
+		public TranslationMemoriesFilterDialog ClickFilterButton()
+		{
+			Logger.Debug("Нажать кнопку 'Filter'");
+
+			FilterButton.Click();
+
+			return new TranslationMemoriesFilterDialog().GetPage();
+		}
+
+		/// <summary>
+		/// Вернуть, действуют ли сейчас какие-то фильтры
+		/// </summary>
+		public bool GetFiltersIsExist()
+		{
+			Logger.Trace("Вернуть, действуют ли сейчас какие-то фильтры");
+
+			var filtersIsExist = Driver.GetIsElementExist(By.XPath(CLEAR_ALL_FILTERS_BUTTON));
+
+			Logger.Trace("Фильтры обнаружены: {0}", filtersIsExist);
+
+			return filtersIsExist;
+		}
+
+		/// <summary>
+		/// Нажать кнопку удаления фильтра
+		/// </summary>
+		/// <param name="filterName">имя фильтра</param>
+		public TranslationMemoriesPage ClickRemoveFilterButton(string filterName)
+		{
+			Logger.Debug("Нажать кнопку удаления фильтра {0}", filterName);
+
+			RemoveFilterButton = Driver.SetDynamicValue(How.XPath, REMOVE_FILTER_BUTTON, filterName);
+			RemoveFilterButton.Click();
+
+			return GetPage();
+		}
+
 		[FindsBy(How = How.XPath, Using = TM_NAME)]
 		protected IWebElement TMName { get; set; }
 
@@ -650,6 +792,26 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories
 
 		[FindsBy(How = How.XPath, Using = EXPORT_BUTTON)]
 		protected IWebElement ExportButton { get; set; }
+		
+		[FindsBy(How = How.XPath, Using = CLIENTS_FIELD)]
+		protected IWebElement ClientsField { get; set; }
+
+		[FindsBy(How = How.XPath, Using = TOPICS_FIELD)]
+		protected IWebElement TopicsField { get; set; }
+
+		[FindsBy(How = How.XPath, Using = CLEAR_ALL_FILTERS_BUTTON)]
+		protected IWebElement ClearAllFiltersButton { get; set; }
+
+		[FindsBy(How = How.XPath, Using = FILTER_BUTTON)]
+		protected IWebElement FilterButton { get; set; }
+
+		protected IWebElement ProjectGroupInInList { get; set; }
+
+		protected IWebElement ClientInInList { get; set; }
+
+		protected IWebElement TopicInList { get; set; }
+
+		protected IWebElement RemoveFilterButton { get; set; }
 
 		protected const string ADD_TM_BTN = "//span[contains(@data-bind,'createTm')]//a";
 		protected const string CREATE_TM_DIALOG = "//div[contains(@class,'js-popup-create-tm')][2]";
@@ -698,5 +860,14 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories
 		protected const string UPDATE_TM_VALIDATION_ERROR_MESSAGE = "(//p[@class='js-error-invalid-file-extension' and text()='Please select a file with TMX extension'])[2]";
 
 		protected const string EXPORT_BUTTON = "//span/a[contains(@data-bind,'exportTmx')]";
+
+		protected const string PROJECT_GROUP_IN_LIST = "(//ul[contains(@class, 'ui-multiselect-checkboxes')]//span[text()='*#*']//preceding-sibling::span/input)[3]";
+		protected const string CLIENTS_FIELD = "//tr[contains(@class,'js-tm-panel')]//td[2]//div[4]/span";
+		protected const string CLIENT_IN_LIST = "//span[contains(@class, 'js-dropdown')]/span[contains(text(),'*#*')]";
+		protected const string TOPICS_FIELD = "//tr[contains(@class,'js-tm-panel')]//td[2]//div[contains(@data-bind,'topicDropdown')]/div/div";
+		protected const string TOPIC_IN_LIST = "//tr[contains(@class,'js-tm-panel')]//td[2]//div[contains(@data-bind,'topicDropdown')]/div/div//span[contains(@class,'nodetext') and text()='*#*']";
+		protected const string CLEAR_ALL_FILTERS_BUTTON = "//img[contains(@class, 'filterClear js-clear-filter')]";
+		protected const string FILTER_BUTTON = "//span[contains(@class, 'js-set-filter')]";
+		protected const string REMOVE_FILTER_BUTTON = "//div[contains(@title, '*#*')]//em//img";
 	}
 }

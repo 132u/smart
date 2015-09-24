@@ -318,10 +318,55 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 			BaseObject.InitPage(_translationMemoriesPage);
 			_translationMemoriesPage
 				.ClickEditButton()
+				.AssertEditionFormDisplayed()
 				.ClickToProjectGroupsField()
 				.SelectFirstProjectGroup(out projectGroupName)
 				.ClickSaveTranslationMemoryButton()
 				.AssertEditionFormDisappeared();
+
+			return this;
+		}
+
+		public TranslationMemoriesHelper EditTranslationMemory(Action actionEdit)
+		{
+			BaseObject.InitPage(_translationMemoriesPage);
+			_translationMemoriesPage
+				.ClickEditButton()
+				.AssertEditionFormDisplayed();
+			actionEdit();
+			_translationMemoriesPage
+				.ClickSaveTranslationMemoryButton()
+				.AssertEditionFormDisappeared();
+
+			return this;
+		}
+
+		public TranslationMemoriesHelper AddProjectGroupToTranslationMemory(string translationMemoryName, string projectGroupName)
+		{
+			BaseObject.InitPage(_translationMemoriesPage);
+			_translationMemoriesPage
+				.ClickToProjectGroupsField()
+				.SelectProjectGroup(projectGroupName);
+			
+			return this;
+		}
+
+		public TranslationMemoriesHelper AddTopicToTranslationMemory(string translationMemoryName, string topicName)
+		{
+			BaseObject.InitPage(_translationMemoriesPage);
+			_translationMemoriesPage
+				.ClickToTopicsField()
+				.SelectTopic(topicName);
+
+			return this;
+		}
+
+		public TranslationMemoriesHelper AddClientToTranslationMemory(string translationMemoryName, string clientName)
+		{
+			BaseObject.InitPage(_translationMemoriesPage);
+			_translationMemoriesPage
+				.ClickToClientsField()
+				.SelectClient(clientName);
 
 			return this;
 		}
@@ -331,7 +376,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 			BaseObject.InitPage(_translationMemoriesPage);
 			_translationMemoriesPage.AssertFileImportCompleteNotifierDisplayed();
 
-				return this;
+			return this;
 		}
 
 		public TranslationMemoriesHelper AssertFileImportFailedNotifierDisplayed()
@@ -368,6 +413,18 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 			BaseObject.InitPage(_translationMemoriesPage);
 
 			if (!_translationMemoriesPage.IsTranslationMemoryInformationOpen(translationMemoryName))
+			{
+				_translationMemoriesPage.ClickTranslationMemoryRow(translationMemoryName);
+			}
+
+			return this;
+		}
+
+		public TranslationMemoriesHelper CloseTranslationMemoryInformation(string translationMemoryName)
+		{
+			BaseObject.InitPage(_translationMemoriesPage);
+
+			if (_translationMemoriesPage.IsTranslationMemoryInformationOpen(translationMemoryName))
 			{
 				_translationMemoriesPage.ClickTranslationMemoryRow(translationMemoryName);
 			}
@@ -463,7 +520,140 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 			return this;
 		}
 
+		public TranslationMemoriesHelper ClearFiltersPanelIfExist()
+		{
+			BaseObject.InitPage(_translationMemoriesPage);
+
+			if (_translationMemoriesPage.GetFiltersIsExist())
+			{
+				_translationMemoriesPage.ClickClearAllFiltersButton();
+			}
+
+			return this;
+		}
+
+		public TranslationMemoriesHelper CreateNewTMFilter(
+			Action applyingFilter,
+			bool clearFilters = true,
+			bool cancelFilterCreation = false)
+		{
+			BaseObject.InitPage(_translationMemoriesPage);
+
+			_translationMemoriesPage.ClickFilterButton();
+
+			BaseObject.InitPage(_translationMemoriesFilterDialog);
+
+			if (clearFilters)
+			{
+				_translationMemoriesFilterDialog.ClickClearFieldsButton();
+			}
+
+			applyingFilter();
+
+			if (cancelFilterCreation)
+			{
+				_translationMemoriesFilterDialog.ClickCancelButton();
+				
+				return this;
+			}
+
+			_translationMemoriesFilterDialog.ClickApplyButton();
+
+			return this;
+		}
+
+		public TranslationMemoriesHelper SetSourceLanguageFilter(Language language)
+		{
+			BaseObject.InitPage(_translationMemoriesFilterDialog);
+
+			_translationMemoriesFilterDialog
+				.ClickSourceLanguageList()
+				.SelectSourceLanguage(language)
+				.ClickSourceLanguageList();
+			
+			return this;
+		}
+
+		public TranslationMemoriesHelper SetTargetLanguageFilter(Language language)
+		{
+			BaseObject.InitPage(_translationMemoriesFilterDialog);
+
+			_translationMemoriesFilterDialog
+				.ClickTargetLanguageList()
+				.SelectTargetLanguage(language)
+				.ClickTargetLanguageList();
+			
+			return this;
+		}
+
+		public TranslationMemoriesHelper SetCreationDateTMFilterFrom(DateTime creationDate)
+		{
+			BaseObject.InitPage(_translationMemoriesFilterDialog);
+
+			_translationMemoriesFilterDialog.SetCreationDateTMFilterFrom(creationDate);
+
+			return this;
+		}
+
+		public TranslationMemoriesHelper SetTopicFilter(string topicName)
+		{
+			BaseObject.InitPage(_translationMemoriesFilterDialog);
+
+			_translationMemoriesFilterDialog
+				.ClickTopicList()
+				.SelectTopic(topicName)
+				.ClickTopicList();
+
+			return this;
+		}
+
+		public TranslationMemoriesHelper SetProjectGroupFilter(string projectGroup)
+		{
+			BaseObject.InitPage(_translationMemoriesFilterDialog);
+
+			_translationMemoriesFilterDialog
+				.ClickProjectGroupList()
+				.SelectProjectGroup(projectGroup)
+				.ClickProjectGroupList();
+
+			return this;
+		}
+
+		public TranslationMemoriesHelper SetClientFilter(string client)
+		{
+			BaseObject.InitPage(_translationMemoriesFilterDialog);
+
+			_translationMemoriesFilterDialog
+				.ClickClientList()
+				.SelectClient(client)
+				.ClickClientList();
+
+			return this;
+		}
+
+		public TranslationMemoriesHelper SetAutorFilter(string author)
+		{
+			BaseObject.InitPage(_translationMemoriesFilterDialog);
+
+			_translationMemoriesFilterDialog
+				.ClickAuthorList()
+				.SelectAuthor(author)
+				.ClickAuthorList();
+
+			return this;
+		}
+
+		public TranslationMemoriesHelper ClickRemoveFilterButton(string filterName)
+		{
+			BaseObject.InitPage(_translationMemoriesPage);
+
+			_translationMemoriesPage.ClickRemoveFilterButton(filterName);
+
+			return this;
+		}
+
 		private readonly TranslationMemoriesPage _translationMemoriesPage = new TranslationMemoriesPage();
 		private readonly NewTranslationMemoryDialog _newTranslationMemoryDialog = new NewTranslationMemoryDialog();
+		private readonly TranslationMemoriesFilterDialog _translationMemoriesFilterDialog = new TranslationMemoriesFilterDialog();
 	}
 }
