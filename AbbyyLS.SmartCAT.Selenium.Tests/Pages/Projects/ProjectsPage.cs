@@ -464,6 +464,19 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 		}
 
 		/// <summary>
+		/// Проверить, что сообщение 'Preparing documents for download. Please wait ...' исчезло
+		/// </summary>
+		public ProjectsPage AssertPreparingDownloadMessageDisappeared()
+		{
+			Logger.Trace("Проверить, что сообщение 'Preparing documents for download. Please wait ...' исчезло.");
+
+			Assert.IsTrue(Driver.WaitUntilElementIsDisappeared(By.XPath(PREPARING_DOWNLOWD_MESSAGE)),
+				"Произошла ошибка:\n сообщение 'Preparing documents for download. Please wait ...' не исчезло.");
+
+			return GetPage();
+		}
+
+		/// <summary>
 		/// Нажать кнопку настроек проекта в открытой свёртке.
 		/// </summary>
 		/// <param name="projectName">имя проекта</param>
@@ -612,5 +625,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 		protected const string PROJECT_ANALYSIS_BUTTON = "//table[contains(@class,'js-tasks-table')]//*[@class='js-name'][(local-name() ='a' or local-name() ='span') and text()='*#*']//ancestor::tr//following-sibling::tr[1]//span[contains(@data-bind,'analysis')]";
 		protected const string UPLOAD_DOCUMENT_DIALOG = "//div[contains(@class,'js-popup-import-document')][2]";
 		protected const string DELETE_IN_PROJECT_BUTTON = "//table[contains(@class,'js-tasks-table')]//tr//*[@class='js-name'][(local-name() ='a' or local-name() ='span') and text()='*#*']//ancestor::tr//following-sibling::tr[1]//div[contains(@class,'js-buttons-left')]//span[3]";
+		protected const string PREPARING_DOWNLOWD_MESSAGE = "//span[contains(text(), 'Preparing documents for download. Please wait')]";
 	}
 }

@@ -29,6 +29,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 					.AssertAddNewGroupForm()
 					.SetNewGroupName(groupName)
 					.ClickSaveNewGroupButton()
+					.AssertDialogBackgroundDisappeared<UsersRightsPage>()
 					.AssertIsGroupCreated(groupName);
 			}
 

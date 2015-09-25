@@ -28,6 +28,15 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 			return this;
 		}
 
+		public ExportFileHelper AssertPreparingDownloadMessageDisappeared()
+		{
+			BaseObject.InitPage(_projectsPage);
+			_projectsPage.AssertPreparingDownloadMessageDisappeared();
+
+			return new ExportFileHelper();
+		}
+
+
 		public ExportFileHelper CancelAllNotifiers<T>() where T: class, IAbstractPage<T>, new()
 		{
 			BaseObject.InitPage(_workspacePage);
@@ -170,5 +179,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 		private readonly ExportMenu _exportMenu = new ExportMenu();
 		private readonly ExportNotification _exportNotification = new ExportNotification();
 		private readonly WorkspacePage _workspacePage = new WorkspacePage();
+		private readonly ProjectsPage _projectsPage = new ProjectsPage();
 	}
 }

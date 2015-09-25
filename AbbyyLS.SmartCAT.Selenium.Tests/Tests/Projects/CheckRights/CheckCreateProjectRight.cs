@@ -147,6 +147,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects.CheckRights
 
 			_exportFileHelper
 				.SelectExportType<ProjectsPage>(exportType)
+				.AssertPreparingDownloadMessageDisappeared()
 				.ClickDownloadNotifier<ProjectsPage>()
 				.AssertFileDownloaded(string.Format("Documents_*{0}.zip", exportType));
 		}
