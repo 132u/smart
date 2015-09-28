@@ -634,7 +634,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		{
 			Logger.Debug("Нажать хоткей кнопки 'Конкордансный поиск' - Ctrl+k.");
 			//SendKeys.SendWait(@"^{k}");
-			Driver.SendHotKeys("K", true);
+			Driver.SendHotKeys("k", control: true);
 
 			return GetPage();
 		}
