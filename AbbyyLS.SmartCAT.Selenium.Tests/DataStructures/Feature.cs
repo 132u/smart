@@ -7,6 +7,7 @@
 		Crowd,
 		Domains,
 		TranslateConnector,
-		DocumentUpdate
+		DocumentUpdate,
+		Vendors
 	}
 }
