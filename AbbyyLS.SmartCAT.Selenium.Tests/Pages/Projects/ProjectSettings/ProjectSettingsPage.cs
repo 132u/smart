@@ -225,7 +225,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings
 		public ProjectSettingsPage ClickDocumentProgress(string documentName)
 		{
 			Logger.Debug("Нажать на поле прогресс строке документа {0}.", documentName);
-
+			//Sleep необходим для предотвращения ошибки "stale element reference: element is not attached to the page document"
+			Thread.Sleep(1000);
 			DocumentProgress = Driver.SetDynamicValue(How.XPath, DOCUMENT_PROGRESS, documentName);
 			DocumentProgress.Click();
 
