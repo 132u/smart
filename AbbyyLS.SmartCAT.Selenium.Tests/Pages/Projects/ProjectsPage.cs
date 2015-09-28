@@ -470,7 +470,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 		{
 			Logger.Trace("Проверить, что сообщение 'Preparing documents for download. Please wait ...' исчезло.");
 
-			Assert.IsTrue(Driver.WaitUntilElementIsDisappeared(By.XPath(PREPARING_DOWNLOWD_MESSAGE)),
+			Assert.IsTrue(Driver.WaitUntilElementIsDisappeared(By.XPath(PREPARING_DOWNLOWD_MESSAGE), timeout: 30),
 				"Произошла ошибка:\n сообщение 'Preparing documents for download. Please wait ...' не исчезло.");
 
 			return GetPage();
