@@ -845,14 +845,14 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		protected const string ALL_SEGMENTS_SAVED_STATUS = "//div[text()='All segments are saved.']";
 		protected const string SAVING_STATUS = "//div[@id='segmentsavingindicator-1048-innerCt' and contains(text(),'Saving')]";
 		protected const string MATCH_COLUMN = "//div[@id='segments-body']//table[*#*]//tbody//td[contains(@class,'matchcolum')]";
-		protected const string TARGET_MATCH_COLUMN_PERCENT = "//table[@data-recordindex='*#*' and contains(@id, 'tableview')]//td[6]//div//span";
+		protected const string TARGET_MATCH_COLUMN_PERCENT = "//table[@data-recordindex='*#*' and contains(@id, 'tableview')]//td[5]//div//span";
 		protected const string CAT_PANEL_PERCENT_MATCH = ".//div[@id='cat-body']//table[*#*]//tbody//tr//td[3]//div//span";
 
 		protected const string CAT_TYPE_LIST_IN_PANEL = ".//div[@id='cat-body']//table//td[3]/div";
 		protected const string CAT_TRANSLATION = ".//div[@id='cat-body']//table[*#*]//td[4]/div";
 		protected const string CAT_TYPE = ".//div[@id='cat-body']//table//td[3]/div[text()='*#*']";
 
-		protected const string PERCENT_COLOR = " //table[@data-recordindex='*#*' and contains(@id, 'tableview')]//td[6]//div//span";
+		protected const string PERCENT_COLOR = " //table[@data-recordindex='*#*' and contains(@id, 'tableview')]//td[5]//div//span";
 
 		protected const string TERM_SAVED_MESSAGE = ".//div[text()='The term has been saved.']";
 
