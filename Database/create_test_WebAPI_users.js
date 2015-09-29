@@ -79,3 +79,17 @@ db.Integration.ClientAuth.save({
         ]
     }
 });
+
+db.Integration.ClientAuth.save({ 
+    "_id" : "EasyTranslate_api_test", 
+    "type" : "EasyTranslate", 
+    "secretHash" : "32FLF+qIkuv7pI1b/UDyTXNzoFxS75RnG4at6FNKoFof8fpjrhUh3KN3vqd8h258lOXpX0YrLJJhpN3KLS2vTg==", 
+    "defaultVendorAccountId" : account.accountId
+});
+
+db.Integration.ClientAuth.save({ 
+    "_id" : "HotFolder_api_test", 
+    "type" : "hotfolder", 
+    "secretHash" : "VvdtZ3gvtKHZ8qDOY9oYxqZS09TUr+tiNwBf8ZZnVj354QITnhHlx0x/NdPseDQxfGULzTPMnkDc7782wZ/HiA==", 
+    "accountId" : account.accountId
+});
