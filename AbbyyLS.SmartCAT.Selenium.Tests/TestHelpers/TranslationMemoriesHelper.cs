@@ -6,10 +6,17 @@ using AbbyyLS.SmartCAT.Selenium.Tests.DataStructures;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories;
 using AbbyyLS.SmartCAT.Selenium.Tests.TestFramework;
 
+using NLog;
+using NLog.LayoutRenderers;
+
+using NUnit.Framework;
+
 namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 {
 	public class TranslationMemoriesHelper : WorkspaceHelper
 	{
+		public static Logger Logger = LogManager.GetCurrentClassLogger();
+
 		public TranslationMemoriesHelper CreateTranslationMemory(
 			string translationMemoryName,
 			Language sourceLanguage = Language.English,
@@ -472,6 +479,17 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 			BaseObject.InitPage(_translationMemoriesPage);
 
 			return _translationMemoriesPage.UnitsCount();
+		}
+
+		public TranslationMemoriesHelper AssertUnitsCountIsNull()
+		{
+			Logger.Trace("Проверить, что количество юнитов равно 0.");
+			BaseObject.InitPage(_translationMemoriesPage);
+
+			Assert.IsFalse(_translationMemoriesPage.UnitsCountisNull(),
+				"Произошла ошибка:\nколичество юнитов не равно 0.");
+
+			return this;
 		}
 
 		public TranslationMemoriesHelper ClickUpdateTmButton()

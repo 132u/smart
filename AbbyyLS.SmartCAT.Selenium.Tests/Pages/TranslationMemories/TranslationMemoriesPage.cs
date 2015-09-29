@@ -303,6 +303,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories
 		public TranslationMemoriesPage AssertTranslationMemoryExists(string tmName)
 		{
 			Logger.Trace("Проверить, что ТМ {0} представлена в списке.", tmName);
+			Driver.FindElement(By.XPath(TM_ROW.Replace("*#*", tmName))).Scroll();
 
 			Assert.IsTrue(Driver.WaitUntilElementIsDisplay(By.XPath(TM_ROW.Replace("*#*", tmName))),
 				"Произошла ошибка:\n ТМ {0} не представлена в списке ТМ.", tmName);
@@ -565,6 +566,11 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories
 				string.Format("Ошибка: невозможно преобразовать в число: {0}", unitsCountText));
 
 			return result;
+		}
+
+		public bool UnitsCountisNull()
+		{
+			return Driver.GetIsElementExist(By.XPath(SEGMENT_SPAN));
 		}
 
 		/// <summary>
@@ -860,7 +866,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories
 		protected const string FILE_IMPORT_ERROR_NOTIFIER = "//div[contains(@class, 'notifications')]//span[contains(text(),'There was an error while importing translation units')]";
 		protected const string FILE_IMPORT_ADDING_NOTIFIER = "//span[contains(@data-bind, 'Adding translation units from the file')]";
 
-		protected const string SEGMENT_SPAN = "//span[@data-bind='text: translationUnitsCount']";
+		protected const string SEGMENT_SPAN = "//span[contains(@data-bind, 'unitCount')]";
 		//UPDATE_TM_BUTTON связан с PRX-11525
 		protected const string UPDATE_TM_BUTTON = "//tr[contains(@class,'js-tm-panel')]//a[contains(text(), 'Update ТМ')]";
 		protected const string UPDATE_TM_IMPORT_FILE_INPUT = "//h2[text()='Import TMX Files']//..//..//input[@name='file']";
