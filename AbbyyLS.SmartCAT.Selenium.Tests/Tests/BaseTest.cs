@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Concurrent;
-using System.Diagnostics;
 using System.IO;
+using System.Threading;
 
 using NUnit.Framework;
 
@@ -78,11 +78,16 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests
 		public TestUser TakeUser(ConcurrentBag<TestUser> users)
 		{
 			TestUser user = null;
+			var timer = 0;
 
-			while (user == null)
+			while ((user == null) && (timer != 60))
 			{
 				users.TryTake(out user);
+				Thread.Sleep(1000);
+				timer++;
 			}
+
+			Assert.NotNull(user, "Произошла ошибка:\n нет пользователей в очереди");
 
 			Logger.Info("Пользователь {0} взят из очереди.", user.Login);
 
