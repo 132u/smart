@@ -15,7 +15,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.TranslationMemories
 		[TestFixtureSetUp]
 		public void TestFixtureSetUp()
 		{
-			ThreadUser = TakeUser(ConfigurationManager.Users);
 			_projectGroupName_1 = Guid.NewGuid().ToString();
 			_projectGroupName_2 = Guid.NewGuid().ToString();
 			_clientName_1 = Guid.NewGuid().ToString();
@@ -49,8 +48,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.TranslationMemories
 				.EditTranslationMemory(
 					() => _translationMemoriesHelper.AddClientToTranslationMemory(_tmForFilteringName_2, _clientName_2))
 				.CloseTranslationMemoryInformation(_tmForFilteringName_2);
-
-			ReturnUser(ConfigurationManager.Users, ThreadUser);
 		}
 
 		[SetUp]

@@ -20,6 +20,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests
 		{
 			try
 			{
+				ThreadUser = TakeUser(ConfigurationManager.Users);
 				Driver = new WebDriver(new TWebDriverProvider(), PathProvider.DriversTemporaryFolder, PathProvider.ExportFiles);
 			}
 			catch (Exception e)
@@ -35,8 +36,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests
 			try
 			{
 				Logger.Info("Начало работы теста {0}", TestContext.CurrentContext.Test.Name);
-
-				ThreadUser = TakeUser(ConfigurationManager.Users);
 
 				_loginHelper.Authorize(StartPage, ThreadUser);
 			}
@@ -63,12 +62,13 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests
 			}
 
 			Driver.SwitchToNewTab();
-			ReturnUser(ConfigurationManager.Users, ThreadUser);
 		}
 
 		[TestFixtureTearDown]
 		public void TestFixtureTearDown()
 		{
+			ReturnUser(ConfigurationManager.Users, ThreadUser);
+
 			if (Driver != null)
 			{
 				Driver.Dispose();
