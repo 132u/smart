@@ -272,7 +272,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Client
 
 		protected const string CLIENT_ROW = "//table[contains(@class,'js-sortable-table')]//p[contains(string(), '*#*')]//..";
 		protected const string DELETE_BUTTON = "//table[contains(@class,'js-sortable-table')]//p[contains(string(), '*#*')]//..//img[contains(@class,'delete client')]";
-		protected const string EDIT_BUTTON = "//table[contains(@class,'js-sortable-table')]//p[contains(string(), '*#*')]//..//img[contains(@class,'edit client')]";
+		protected const string EDIT_BUTTON = "//table[contains(@class,'js-sortable-table')]//p[contains(string(), '*#*')]//../parent::td/following-sibling::td//a[@title='Edit']";
 
 		protected const string ADD_CLIENT_BUTTON = "//div[@data-bind='click: addNewClient']//span";
 		protected const string SAVE_CLIENT = "//img[contains(@class,'client save')]";
