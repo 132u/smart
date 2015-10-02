@@ -116,6 +116,17 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Admin
 		}
 
 		/// <summary>
+		/// Выбрать тип корпоративного аккаунта
+		/// </summary>
+		public AdminCreateAccountPage SetEnterpriseAccountType(string accountType)
+		{
+			Logger.Trace("Выбрать тип корпоративного аккаунта: {0}", accountType);
+			EnterpriseAccountTypeDropdown.SelectOptionByText(accountType);
+
+			return GetPage();
+		}
+
+		/// <summary>
 		/// Ввести название поддомена
 		/// </summary>
 		/// <param name="name">название</param>
@@ -240,6 +251,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Admin
 		[FindsBy(How = How.XPath, Using = MANAGEMENT_PAID_SERVICES_REFERENCE)]
 		protected IWebElement ManagementPaidServicesReference { get; set; }
 
+		[FindsBy(How = How.XPath, Using = ENTERPRISE_ACCOUNT_TYPE_DROPDOWN)]
+		protected IWebElement EnterpriseAccountTypeDropdown { get; set; }
+
 		protected const string INPUT_NAME = "//input[(@id='Name')]";
 		protected const string FEATURES_OPTIONS = "//table[@name='Features']//select[@id='left']//option[@value='*#*']";
 		protected const string FEATURES_OPTIONS_IN_RIGHT_TABLE = "//table[@name='Features']//select[@id='right']//option";
@@ -252,5 +266,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Admin
 		protected const string ADD_ALL_DICTIONARIES_PACKAGES_BUTTON = "//table[@name='dictionariesPackages']//input[@name='allToRight']";
 		protected const string ADD_ALL_DISASSEMBLES_BUTTON = "//table[@name='DisassembleDocumentMethodNames']//input[@name='allToRight']";
 		protected const string MANAGEMENT_PAID_SERVICES_REFERENCE = "//a[contains(@href,'PaidServices')]";
+		protected const string ENTERPRISE_ACCOUNT_TYPE_DROPDOWN = "//select[@id='EnterpriseAccountType']";
 	}
 }

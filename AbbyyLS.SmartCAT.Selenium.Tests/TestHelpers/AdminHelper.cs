@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices;
 
 using NUnit.Framework;
 
@@ -51,7 +52,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 			bool workflow = false,
 			List<string> features = null,
 			bool packagesNeed = false,
-			bool unlimitedUseServices = false)
+			bool unlimitedUseServices = false,
+			string accountType = LoginHelper.LanguageServiceProviderAccountType)
 		{
 			accountName = accountName ?? "TestAccount" + new Guid();
 			

@@ -217,6 +217,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 		public const string SmartCATVenture = "SmartCAT";
 		public const string CourseraVenture = "Coursera";
 
+		public const string LanguageServiceProviderAccountType = "LanguageServiceProvider";
+
 		public const string PersonalAccountSurname = "PersAccount";
 
 		public const string EuropeTestServerName = "Europe";
