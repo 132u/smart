@@ -111,7 +111,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 					.SwitchToAdminCreateAccountWindow()
 					.FillAccountName(accountName)
 					.SetVenture(venture)
-					.FillSubdomainName(accountName);
+					.FillSubdomainName(accountName)
+					.SetEnterpriseAccountType(accountType);
 
 			BaseObject.InitPage(_adminCreateAccountPage);
 
