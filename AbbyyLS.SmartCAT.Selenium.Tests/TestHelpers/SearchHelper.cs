@@ -42,7 +42,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 		{
 			BaseObject.InitPage(_searchPage);
 
-			Assert.IsTrue(glossaryNames.SequenceEqual(_searchPage.GlossaryNamesList()),
+			Assert.IsTrue(glossaryNames.OrderBy(m => m).SequenceEqual(_searchPage.GlossaryNamesList().OrderBy(m => m)),
 				"Произошла ошибка:\n списки имен глоссариев не совпадают.");
 
 			return this;
