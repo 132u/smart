@@ -23,7 +23,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 				.ClickAnotherAssigneeButton()
 				.ExpandAssigneeDropdown()
 				.SelectAssigneeInDropdown(assigneeName)
-				.ClickAssignButton();
+				.ClickAssignButton()
+				.AssertAssignButtonDisappeared()
+				.AssertCancelAssigneeButtonDisplayed();
 
 			return this;
 		}

@@ -70,18 +70,32 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 			Logger.Debug("Нажать на кнопку Assign.");
 
 			AssignButton.Click();
+			
+			return GetPage();
+		}
+
+		/// <summary>
+		/// Проверить, что кнопка Assign исчезла
+		/// </summary>
+		public SelectAssigneePage AssertAssignButtonDisappeared()
+		{
+			Logger.Trace("Проверить, что кнопка Assign исчезла.");
+
+			Assert.IsTrue(Driver.WaitUntilElementIsDisappeared(By.XPath(ASSIGN_BUTTON)),
+				"Произошла ошибка:\nКнопка Assign не исчезла.");
 
 			return GetPage();
 		}
 
 		/// <summary>
-		/// Нажать на кнопку Cancel
+		/// Проверить, что появилась кнопка Cancel
 		/// </summary>
-		public SelectAssigneePage ClickCancelAssigneeButton(int taskNumber = 1)
+		public SelectAssigneePage AssertCancelAssigneeButtonDisplayed()
 		{
-			Logger.Debug("Нажать на кнопку Cancel.");
+			Logger.Debug("Проверить, что появилась кнопка Cancel.");
 
-			CancelAssigneeButton.Click();
+			Assert.IsTrue(Driver.ElementIsDisplayed(By.XPath(CANCEL_ASSIGNEE_BUTTON)),
+				"Произошла ошибка:\nКнопка Cancel не появилась.");
 
 			return GetPage();
 		}
@@ -114,11 +128,11 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 
 		[FindsBy(How = How.XPath, Using = CANCEL_ASSIGNEE_BUTTON)]
 		protected IWebElement CancelAssigneeButton { get; set; }
-
+		
 		protected const string ANOTHER_ASSIGNEE_BUTTON = "//a[contains(@class, 'a-user')]";
 		protected const string ASSIGNEE_DOPDOWN = "//label[contains(@class, 'selector newDropdown')]";
 		protected const string ASSIGNEE_OPTION = "//ul[contains(@class, 'list newDropdown')]//li[@title='*#*']";
-		protected const string ASSIGN_BUTTON = "//a[@class='red-dotted-link']";
+		protected const string ASSIGN_BUTTON = "//a[contains(@data-bind, 'assign') and @class='red-dotted-link']";
 		protected const string CANCEL_ASSIGNEE_BUTTON = "//a[contains(@data-bind, 'removeExecutive')]";
 		protected const string CLOSE_BUTTON = "//span[contains(@data-bind, 'click: close')]//a";
 	}
