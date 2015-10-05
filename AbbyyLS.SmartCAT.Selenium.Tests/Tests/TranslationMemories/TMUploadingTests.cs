@@ -19,12 +19,14 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.TranslationMemories
 		[Test]
 		public void UploadTmxToEmptyTMTest()
 		{
-			_translationMemoriesHelper
+			var unitsCountBefore = _translationMemoriesHelper
 				.AssertTranslationMemoryNotExists(_tmName)
 				.CreateTranslationMemory(_tmName)
 				.AssertTranslationMemoryExists(_tmName)
 				.OpenTranslationMemoryInformation(_tmName)
-				.AssertUnitsCountIsNull();
+				.GetUnitsCount();
+
+			Assert.AreEqual(0, unitsCountBefore, "Произошла ошибка:\n количество юнитов не рано 0.");
 
 			var unitsCountAfter = _translationMemoriesHelper
 				.ClickAddTmxButton()
@@ -33,7 +35,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.TranslationMemories
 				.OpenTranslationMemoryInformation(_tmName)
 				.GetUnitsCount();
 
-			Assert.AreNotEqual(0, unitsCountAfter,
+
+			Assert.AreNotEqual(unitsCountBefore, unitsCountAfter,
 				string.Format("Произошла ошибка:\n количество юнитов не изменилось."));
 		}
 

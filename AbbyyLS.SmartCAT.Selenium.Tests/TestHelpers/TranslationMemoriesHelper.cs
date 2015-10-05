@@ -480,18 +480,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 			return _translationMemoriesPage.UnitsCount();
 		}
-
-		public TranslationMemoriesHelper AssertUnitsCountIsNull()
-		{
-			Logger.Trace("Проверить, что количество юнитов равно 0.");
-			BaseObject.InitPage(_translationMemoriesPage);
-
-			Assert.IsFalse(_translationMemoriesPage.UnitsCountisNull(),
-				"Произошла ошибка:\nколичество юнитов не равно 0.");
-
-			return this;
-		}
-
+		
 		public TranslationMemoriesHelper ClickUpdateTmButton()
 		{
 			BaseObject.InitPage(_translationMemoriesPage);

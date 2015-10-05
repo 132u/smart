@@ -196,7 +196,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.TranslationMemories
 				.AssertTranslationMemoryExists(_tmForFilteringName_1)
 				.AssertTranslationMemoryNotExists(_tmForFilteringName_2)
 				.ClearFiltersPanelIfExist()
+				.FindTranslationMemory(_tmForFilteringName_1)
 				.AssertTranslationMemoryExists(_tmForFilteringName_1)
+				.FindTranslationMemory(_tmForFilteringName_2)
 				.AssertTranslationMemoryExists(_tmForFilteringName_2);
 		}
 

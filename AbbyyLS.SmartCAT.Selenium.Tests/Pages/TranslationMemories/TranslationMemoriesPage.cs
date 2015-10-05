@@ -567,12 +567,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories
 
 			return result;
 		}
-
-		public bool UnitsCountisNull()
-		{
-			return Driver.GetIsElementExist(By.XPath(SEGMENT_SPAN));
-		}
-
+		
 		/// <summary>
 		/// Нажать на кнопку 'Update TM'
 		/// </summary>
