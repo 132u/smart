@@ -834,7 +834,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		protected const string SEGMENTS_BODY = "//div[@id='segments-body']//table";
 		protected const string CONFIRMED_ICO = "//div[@id='segments-body']//table[@data-recordindex = '*#*']//td[contains(@class,'info-cell')]//div[contains(@class,'fa-check')]";
 		protected const string TARGET_CELL = "//div[@id='segments-body']//table[@data-recordindex = '*#*']//td[3]//div//div";
-		protected const string TARGET_CELL_VALUE = "//table[@data-recordindex='*#*']//td[4]//div[contains(@id, 'segmenteditor')]";
+		protected const string TARGET_CELL_VALUE = "//table[@data-recordindex='*#*']//td[3]//div[contains(@id, 'segmenteditor')]";
 		protected const string SOURCE_CELL = "//table[@data-recordindex='*#*']//td[2]//div[contains(@id, 'segmenteditor')]";
 		protected const string TAG = "//div[contains(text(), '*#*')]//..//..//..//..//tbody//tr[1]//td[3]//div//img[contains(@class,'tag')]";
 		protected const string SEGMENT_LOCK = "//div[contains(text(), '1')]//..//..//..//..//tbody//tr[1]//td[contains(@class,'info-cell')]//div[contains(@class,'fa-lock')][not(contains(@class,'inactive'))]";
