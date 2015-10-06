@@ -3,19 +3,20 @@ using System.Collections.Generic;
 using System.ComponentModel;
 
 using AbbyyLS.SmartCAT.Selenium.Tests.DataStructures;
+using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories;
 using AbbyyLS.SmartCAT.Selenium.Tests.TestFramework;
-
-using NLog;
-using NLog.LayoutRenderers;
-
-using NUnit.Framework;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 {
 	public class TranslationMemoriesHelper : WorkspaceHelper
 	{
-		public static Logger Logger = LogManager.GetCurrentClassLogger();
+		public TranslationMemoriesHelper(WebDriver driver) : base(driver)
+		{
+			_newTranslationMemoryDialog = new NewTranslationMemoryDialog(Driver);
+			_translationMemoriesPage = new TranslationMemoriesPage(Driver);
+			_translationMemoriesFilterDialog = new TranslationMemoriesFilterDialog(Driver);
+		}
 
 		public TranslationMemoriesHelper CreateTranslationMemory(
 			string translationMemoryName,
@@ -26,14 +27,14 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 			DialogButtonType finalButtonType = DialogButtonType.Save,
 			bool isCreationErrorExpected = false)
 		{
-			BaseObject.InitPage(_translationMemoriesPage);
+			BaseObject.InitPage(_translationMemoriesPage, Driver);
 			_translationMemoriesPage
 				.ClickCreateNewTmButton()
 				.SetTranslationMemoryName(translationMemoryName)
 				.OpenSourceLanguagesList()
 				.SelectSourceLanguage(sourceLanguage);
 
-			BaseObject.InitPage(_newTranslationMemoryDialog);
+			BaseObject.InitPage(_newTranslationMemoryDialog, Driver);
 
 			if (targetLanguage != Language.NoLanguage)
 			{
@@ -61,14 +62,14 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 				case DialogButtonType.Save:
 					if (isCreationErrorExpected)
 					{
-						_newTranslationMemoryDialog.ClickSaveTranslationMemory<NewTranslationMemoryDialog>();
+						_newTranslationMemoryDialog.ClickSaveTranslationMemory<NewTranslationMemoryDialog>(Driver);
 					}
 					else
 					{
 						_newTranslationMemoryDialog
-							.ClickSaveTranslationMemory<TranslationMemoriesPage>()
+							.ClickSaveTranslationMemory<TranslationMemoriesPage>(Driver)
 							.AssertNewTMDialogDisappeared()
-							.AssertDialogBackgroundDisappeared<TranslationMemoriesPage>();
+							.AssertDialogBackgroundDisappeared<TranslationMemoriesPage>(Driver);
 					}
 
 					break;
@@ -76,7 +77,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 					_newTranslationMemoryDialog
 						.ClickCancelTMCreation()
 						.AssertNewTMDialogDisappeared()
-						.AssertDialogBackgroundDisappeared<TranslationMemoriesPage>();
+						.AssertDialogBackgroundDisappeared<TranslationMemoriesPage>(Driver);
 					break;
 				case DialogButtonType.None:
 					break;
@@ -117,7 +118,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 		{
 			OpenTranslationMemoryInformation(oldName);
 
-			BaseObject.InitPage(_translationMemoriesPage);
+			BaseObject.InitPage(_translationMemoriesPage, Driver);
 			_translationMemoriesPage
 				.ClickEditButton()
 				.CleanTranslationMemoryName()
@@ -129,7 +130,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 		public TranslationMemoriesHelper AssertEditionFormDisappeared()
 		{
-			BaseObject.InitPage(_translationMemoriesPage);
+			BaseObject.InitPage(_translationMemoriesPage, Driver);
 			_translationMemoriesPage.AssertEditionFormDisappeared();
 
 			return this;
@@ -139,7 +140,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 		{
 			OpenTranslationMemoryInformation(tmName);
 
-			BaseObject.InitPage(_translationMemoriesPage);
+			BaseObject.InitPage(_translationMemoriesPage, Driver);
 			_translationMemoriesPage
 				.ClickEditButton()
 				.CleanComment()
@@ -152,7 +153,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 		public TranslationMemoriesHelper AssertCommentExist(string text)
 		{
-			BaseObject.InitPage(_translationMemoriesPage);
+			BaseObject.InitPage(_translationMemoriesPage, Driver);
 			_translationMemoriesPage.AssertCommentExists(text);
 
 			return this;
@@ -160,7 +161,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 		public TranslationMemoriesHelper FindTranslationMemory(string tmName)
 		{
-			BaseObject.InitPage(_translationMemoriesPage);
+			BaseObject.InitPage(_translationMemoriesPage, Driver);
 			
 			_translationMemoriesPage
 				.FillSearch(tmName)
@@ -171,15 +172,15 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 		public TranslationMemoriesHelper CloseAllNotifications()
 		{
-			BaseObject.InitPage(_translationMemoriesPage);
-			_translationMemoriesPage.CloseAllNotifications<TranslationMemoriesPage>();
+			BaseObject.InitPage(_translationMemoriesPage, Driver);
+			_translationMemoriesPage.CloseAllNotifications<TranslationMemoriesPage>(Driver);
 
 			return this;
 		}
 
 		public TranslationMemoriesHelper AssertClientExistInClientsList(string clientName)
 		{
-			BaseObject.InitPage(_translationMemoriesPage);
+			BaseObject.InitPage(_translationMemoriesPage, Driver);
 			_translationMemoriesPage
 				.ClickCreateNewTmButton()
 				.OpenClientsList()
@@ -191,7 +192,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 		public TranslationMemoriesHelper AssertClientNotExistInClientsList(string clientName)
 		{
-			BaseObject.InitPage(_translationMemoriesPage);
+			BaseObject.InitPage(_translationMemoriesPage, Driver);
 			_translationMemoriesPage
 				.ClickCreateNewTmButton()
 				.OpenClientsList()
@@ -203,7 +204,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 		public TranslationMemoriesHelper AssertProjectGroupExist(string projectGroup)
 		{
-			BaseObject.InitPage(_translationMemoriesPage);
+			BaseObject.InitPage(_translationMemoriesPage, Driver);
 			_translationMemoriesPage
 				.ClickCreateNewTmButton()
 				.OpenProjectGroupsList()
@@ -215,7 +216,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 		public TranslationMemoriesHelper AssertProjectGroupNotExist(string projectGroup)
 		{
-			BaseObject.InitPage(_translationMemoriesPage);
+			BaseObject.InitPage(_translationMemoriesPage, Driver);
 			_translationMemoriesPage
 				.ClickCreateNewTmButton()
 				.OpenProjectGroupsList()
@@ -227,7 +228,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 		public TranslationMemoriesHelper AssertTranslationMemoryExists(string tmName)
 		{
-			BaseObject.InitPage(_translationMemoriesPage);
+			BaseObject.InitPage(_translationMemoriesPage, Driver);
 			_translationMemoriesPage.AssertTranslationMemoryExists(tmName);
 
 			return this;
@@ -235,7 +236,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 		public TranslationMemoriesHelper AssertTranslationMemoryNotExists(string tmName)
 		{
-			BaseObject.InitPage(_translationMemoriesPage);
+			BaseObject.InitPage(_translationMemoriesPage, Driver);
 			_translationMemoriesPage.AssertTranslationMemoryNotExists(tmName);
 
 			return this;
@@ -243,7 +244,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 		public TranslationMemoriesHelper AssertExistNameErrorAppearedInCreationDialog()
 		{
-			BaseObject.InitPage(_newTranslationMemoryDialog);
+			BaseObject.InitPage(_newTranslationMemoryDialog, Driver);
 			_newTranslationMemoryDialog.AssertExistingNameErrorAppeared();
 
 			return this;
@@ -251,7 +252,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 		public TranslationMemoriesHelper AssertNoNameErrorAppearedInCreationDialog()
 		{
-			BaseObject.InitPage(_newTranslationMemoryDialog);
+			BaseObject.InitPage(_newTranslationMemoryDialog, Driver);
 			_newTranslationMemoryDialog.AssertNoNameErrorAppeared();
 
 			return this;
@@ -259,7 +260,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 		public TranslationMemoriesHelper AssertNoTargetErrorAppearedInCreationDialog()
 		{
-			BaseObject.InitPage(_newTranslationMemoryDialog);
+			BaseObject.InitPage(_newTranslationMemoryDialog, Driver);
 			_newTranslationMemoryDialog.AssertNoTargetErrorAppeared();
 
 			return this;
@@ -267,7 +268,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 		public TranslationMemoriesHelper AssertNotTmxFileErrorAppearedInCreationDialog()
 		{
-			BaseObject.InitPage(_newTranslationMemoryDialog);
+			BaseObject.InitPage(_newTranslationMemoryDialog, Driver);
 			_newTranslationMemoryDialog.AssertNotTmxFileErrorAppeared();
 
 			return this;
@@ -275,7 +276,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 		public TranslationMemoriesHelper AssertNoNameErrorAppearInEditionForm()
 		{
-			BaseObject.InitPage(_translationMemoriesPage);
+			BaseObject.InitPage(_translationMemoriesPage, Driver);
 			_translationMemoriesPage.AssertNoNameErrorAppear();
 
 			return this;
@@ -283,7 +284,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 		public TranslationMemoriesHelper AssertExistNameErrorAppearInEditionForm()
 		{
-			BaseObject.InitPage(_translationMemoriesPage);
+			BaseObject.InitPage(_translationMemoriesPage, Driver);
 			_translationMemoriesPage.AssertExistingNameErrorAppeared();
 
 			return this;
@@ -298,7 +299,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 		public TranslationMemoriesHelper AddTargetLanguageToTranslationMemory(string translationMemoryName, Language language)
 		{
-			BaseObject.InitPage(_translationMemoriesPage);
+			BaseObject.InitPage(_translationMemoriesPage, Driver);
 			_translationMemoriesPage
 				.ClickTranslationMemoryRow(translationMemoryName)
 				.ClickEditButton()
@@ -314,7 +315,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 			string sourceLanguage, 
 			List<string> targetlanguages)
 		{
-			BaseObject.InitPage(_translationMemoriesPage);
+			BaseObject.InitPage(_translationMemoriesPage, Driver);
 			_translationMemoriesPage.AssertLanguagesForTranslationMemory(translationMemoryName, sourceLanguage, targetlanguages);
 
 			return this;
@@ -322,7 +323,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 		public TranslationMemoriesHelper AddFirstProjectGroupToTranslationMemory(string translationMemoryName, out string projectGroupName)
 		{
-			BaseObject.InitPage(_translationMemoriesPage);
+			BaseObject.InitPage(_translationMemoriesPage, Driver);
 			_translationMemoriesPage
 				.ClickEditButton()
 				.AssertEditionFormDisplayed()
@@ -336,7 +337,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 		public TranslationMemoriesHelper EditTranslationMemory(Action actionEdit)
 		{
-			BaseObject.InitPage(_translationMemoriesPage);
+			BaseObject.InitPage(_translationMemoriesPage, Driver);
 			_translationMemoriesPage
 				.ClickEditButton()
 				.AssertEditionFormDisplayed();
@@ -350,7 +351,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 		public TranslationMemoriesHelper AddProjectGroupToTranslationMemory(string translationMemoryName, string projectGroupName)
 		{
-			BaseObject.InitPage(_translationMemoriesPage);
+			BaseObject.InitPage(_translationMemoriesPage, Driver);
 			_translationMemoriesPage
 				.ClickToProjectGroupsField()
 				.SelectProjectGroup(projectGroupName);
@@ -360,7 +361,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 		public TranslationMemoriesHelper AddTopicToTranslationMemory(string translationMemoryName, string topicName)
 		{
-			BaseObject.InitPage(_translationMemoriesPage);
+			BaseObject.InitPage(_translationMemoriesPage, Driver);
 			_translationMemoriesPage
 				.ClickToTopicsField()
 				.SelectTopic(topicName);
@@ -370,7 +371,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 		public TranslationMemoriesHelper AddClientToTranslationMemory(string translationMemoryName, string clientName)
 		{
-			BaseObject.InitPage(_translationMemoriesPage);
+			BaseObject.InitPage(_translationMemoriesPage, Driver);
 			_translationMemoriesPage
 				.ClickToClientsField()
 				.SelectClient(clientName);
@@ -380,7 +381,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 		public TranslationMemoriesHelper AssertTMXFileIsImported()
 		{
-			BaseObject.InitPage(_translationMemoriesPage);
+			BaseObject.InitPage(_translationMemoriesPage, Driver);
 			_translationMemoriesPage
 				.AssertFileImportAddingNotifierDisappeared()
 				.AssertFileImportCompleteNotifierDisplayed();
@@ -390,7 +391,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 		public TranslationMemoriesHelper AssertFileImportFailedNotifierDisplayed()
 		{
-			BaseObject.InitPage(_translationMemoriesPage);
+			BaseObject.InitPage(_translationMemoriesPage, Driver);
 			_translationMemoriesPage.AssertFileImportFailedNotifierDisplayed();
 
 			return this;
@@ -398,7 +399,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 		public TranslationMemoriesHelper AssertImportValidationErrorDisplayed()
 		{
-			BaseObject.InitPage(_translationMemoriesPage);
+			BaseObject.InitPage(_translationMemoriesPage, Driver);
 			_translationMemoriesPage.AssertImportValidationErrorDisplayed();
 
 			return this;
@@ -410,7 +411,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 		{
 			OpenTranslationMemoryInformation(translationMemoryName);
 
-			BaseObject.InitPage(_translationMemoriesPage);
+			BaseObject.InitPage(_translationMemoriesPage, Driver);
 			_translationMemoriesPage
 				.AssertProjectGroupSelectedForTM(translationMemoryName, projectGroup);
 
@@ -419,7 +420,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 		public TranslationMemoriesHelper OpenTranslationMemoryInformation(string translationMemoryName)
 		{
-			BaseObject.InitPage(_translationMemoriesPage);
+			BaseObject.InitPage(_translationMemoriesPage, Driver);
 
 			if (!_translationMemoriesPage.IsTranslationMemoryInformationOpen(translationMemoryName))
 			{
@@ -431,7 +432,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 		public TranslationMemoriesHelper CloseTranslationMemoryInformation(string translationMemoryName)
 		{
-			BaseObject.InitPage(_translationMemoriesPage);
+			BaseObject.InitPage(_translationMemoriesPage, Driver);
 
 			if (_translationMemoriesPage.IsTranslationMemoryInformationOpen(translationMemoryName))
 			{
@@ -443,7 +444,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 		public TranslationMemoriesHelper DeleteTranslationMemory(string translationMemoryName)
 		{
-			BaseObject.InitPage(_translationMemoriesPage);
+			BaseObject.InitPage(_translationMemoriesPage, Driver);
 			_translationMemoriesPage
 				.ClickDeleteButtonInTMInfo()
 				.AssertDeleteConfirmatonDialogPresent()
@@ -460,7 +461,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 		public TranslationMemoriesHelper ClickSortByTMName()
 		{
-			BaseObject.InitPage(_translationMemoriesPage);
+			BaseObject.InitPage(_translationMemoriesPage, Driver);
 			_translationMemoriesPage.ClickSortByTMName();
 
 			return this;
@@ -468,7 +469,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 		public TranslationMemoriesHelper ClickSortByCreationDate()
 		{
-			BaseObject.InitPage(_translationMemoriesPage);
+			BaseObject.InitPage(_translationMemoriesPage, Driver);
 			_translationMemoriesPage.ClickSortByCreationDate();
 
 			return this;
@@ -476,14 +477,14 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 		public int GetUnitsCount()
 		{
-			BaseObject.InitPage(_translationMemoriesPage);
+			BaseObject.InitPage(_translationMemoriesPage, Driver);
 
 			return _translationMemoriesPage.UnitsCount();
 		}
-		
+
 		public TranslationMemoriesHelper ClickUpdateTmButton()
 		{
-			BaseObject.InitPage(_translationMemoriesPage);
+			BaseObject.InitPage(_translationMemoriesPage, Driver);
 			_translationMemoriesPage.ClickUpdateTmButton();
 
 			return this;
@@ -491,7 +492,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 		public TranslationMemoriesHelper ClickAddTmxButton()
 		{
-			BaseObject.InitPage(_translationMemoriesPage);
+			BaseObject.InitPage(_translationMemoriesPage, Driver);
 			_translationMemoriesPage.ClickAddTmxButton();
 
 			return this;
@@ -499,7 +500,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 		public TranslationMemoriesHelper ImportTmxFile(string fileName, bool rewrite = false, bool success = true)
 		{
-			BaseObject.InitPage(_translationMemoriesPage);
+			BaseObject.InitPage(_translationMemoriesPage, Driver);
 			_translationMemoriesPage
 				.EnterFileName(fileName)
 				.ClickImportButton();
@@ -513,7 +514,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 			if (success)
 			{
-				_translationMemoriesPage.AssertDialogBackgroundDisappeared<TranslationMemoriesPage>();
+				_translationMemoriesPage.AssertDialogBackgroundDisappeared<TranslationMemoriesPage>(Driver);
 			}
 
 			return this;
@@ -521,7 +522,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 		public TranslationMemoriesHelper ExportTM(string translationMemoryName)
 		{
-			BaseObject.InitPage(_translationMemoriesPage);
+			BaseObject.InitPage(_translationMemoriesPage, Driver);
 			_translationMemoriesPage
 				.ClickTranslationMemoryRow(translationMemoryName)
 				.ClickExportButton();
@@ -531,7 +532,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 		public TranslationMemoriesHelper ClearFiltersPanelIfExist()
 		{
-			BaseObject.InitPage(_translationMemoriesPage);
+			BaseObject.InitPage(_translationMemoriesPage, Driver);
 
 			if (_translationMemoriesPage.GetFiltersIsExist())
 			{
@@ -546,11 +547,11 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 			bool clearFilters = true,
 			bool cancelFilterCreation = false)
 		{
-			BaseObject.InitPage(_translationMemoriesPage);
+			BaseObject.InitPage(_translationMemoriesPage, Driver);
 
 			_translationMemoriesPage.ClickFilterButton();
 
-			BaseObject.InitPage(_translationMemoriesFilterDialog);
+			BaseObject.InitPage(_translationMemoriesFilterDialog, Driver);
 
 			if (clearFilters)
 			{
@@ -573,7 +574,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 		public TranslationMemoriesHelper SetSourceLanguageFilter(Language language)
 		{
-			BaseObject.InitPage(_translationMemoriesFilterDialog);
+			BaseObject.InitPage(_translationMemoriesFilterDialog, Driver);
 
 			_translationMemoriesFilterDialog
 				.ClickSourceLanguageList()
@@ -585,7 +586,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 		public TranslationMemoriesHelper SetTargetLanguageFilter(Language language)
 		{
-			BaseObject.InitPage(_translationMemoriesFilterDialog);
+			BaseObject.InitPage(_translationMemoriesFilterDialog, Driver);
 
 			_translationMemoriesFilterDialog
 				.ClickTargetLanguageList()
@@ -597,7 +598,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 		public TranslationMemoriesHelper SetCreationDateTMFilterFrom(DateTime creationDate)
 		{
-			BaseObject.InitPage(_translationMemoriesFilterDialog);
+			BaseObject.InitPage(_translationMemoriesFilterDialog, Driver);
 
 			_translationMemoriesFilterDialog.SetCreationDateTMFilterFrom(creationDate);
 
@@ -606,7 +607,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 		public TranslationMemoriesHelper SetTopicFilter(string topicName)
 		{
-			BaseObject.InitPage(_translationMemoriesFilterDialog);
+			BaseObject.InitPage(_translationMemoriesFilterDialog, Driver);
 
 			_translationMemoriesFilterDialog
 				.ClickTopicList()
@@ -618,7 +619,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 		public TranslationMemoriesHelper SetProjectGroupFilter(string projectGroup)
 		{
-			BaseObject.InitPage(_translationMemoriesFilterDialog);
+			BaseObject.InitPage(_translationMemoriesFilterDialog, Driver);
 
 			_translationMemoriesFilterDialog
 				.ClickProjectGroupList()
@@ -630,7 +631,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 		public TranslationMemoriesHelper SetClientFilter(string client)
 		{
-			BaseObject.InitPage(_translationMemoriesFilterDialog);
+			BaseObject.InitPage(_translationMemoriesFilterDialog, Driver);
 
 			_translationMemoriesFilterDialog
 				.ClickClientList()
@@ -642,7 +643,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 		public TranslationMemoriesHelper SetAutorFilter(string author)
 		{
-			BaseObject.InitPage(_translationMemoriesFilterDialog);
+			BaseObject.InitPage(_translationMemoriesFilterDialog, Driver);
 
 			_translationMemoriesFilterDialog
 				.ClickAuthorList()
@@ -654,15 +655,15 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 		public TranslationMemoriesHelper ClickRemoveFilterButton(string filterName)
 		{
-			BaseObject.InitPage(_translationMemoriesPage);
+			BaseObject.InitPage(_translationMemoriesPage, Driver);
 
 			_translationMemoriesPage.ClickRemoveFilterButton(filterName);
 
 			return this;
 		}
 
-		private readonly TranslationMemoriesPage _translationMemoriesPage = new TranslationMemoriesPage();
-		private readonly NewTranslationMemoryDialog _newTranslationMemoryDialog = new NewTranslationMemoryDialog();
-		private readonly TranslationMemoriesFilterDialog _translationMemoriesFilterDialog = new TranslationMemoriesFilterDialog();
+		private TranslationMemoriesFilterDialog _translationMemoriesFilterDialog;
+		private TranslationMemoriesPage _translationMemoriesPage;
+		private NewTranslationMemoryDialog _newTranslationMemoryDialog;
 	}
 }

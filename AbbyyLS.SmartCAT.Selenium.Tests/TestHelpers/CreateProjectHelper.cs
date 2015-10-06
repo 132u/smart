@@ -2,11 +2,10 @@
 using System.IO;
 using System.Threading;
 
-using NLog;
-
 using NUnit.Framework;
 
 using AbbyyLS.SmartCAT.Selenium.Tests.DataStructures;
+using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog;
 using AbbyyLS.SmartCAT.Selenium.Tests.TestFramework;
@@ -15,7 +14,15 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 {
 	public class CreateProjectHelper : ProjectsHelper
 	{
-		public static Logger Logger = LogManager.GetCurrentClassLogger();
+		public CreateProjectHelper(WebDriver driver) : base(driver)
+		{
+			_newProjectCreateBaseDialog = new NewProjectCreateBaseDialog(Driver);
+			_newProjectGeneralInformationDialog = new NewProjectGeneralInformationDialog(Driver);
+			_newProjectSelectGlossariesDialog = new NewProjectSelectGlossariesDialog(Driver);
+			_newProjectSetUpPretranslationDialog = new NewProjectSetUpPretranslationDialog(Driver);
+			_newProjectSetUpTMDialog = new NewProjectSetUpTMDialog(Driver);
+			_newProjectSetUpWorkflowDialog = new NewProjectSetUpWorkflowDialog(Driver);
+		}
 
 		public ProjectsHelper CreateNewProject(
 			string projectName,
@@ -35,13 +42,13 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 			if (!personalAccount)
 			{
-				BaseObject.InitPage(_newProjectSetUpWorkflowDialog);
+				BaseObject.InitPage(_newProjectSetUpWorkflowDialog, Driver);
 				_newProjectSetUpTMDialog = _newProjectSetUpWorkflowDialog.ClickNextButton();
 			}
 
 			if (createNewTm)
 			{
-				BaseObject.InitPage(_newProjectSetUpTMDialog);
+				BaseObject.InitPage(_newProjectSetUpTMDialog, Driver);
 				var translationMemoryName = "TM_" + Guid.NewGuid();
 
 				if (!string.IsNullOrEmpty(tmxFilePath))
@@ -70,7 +77,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 				var glossaryUniqueName = glossaryName ?? GlossariesHelper.UniqueGlossaryName();
 				//Sleep нужен, иначе кнопка Next некликабельна
 				Thread.Sleep(1000);
-				_newProjectSetUpTMDialog.ClickNextButton<NewProjectSelectGlossariesDialog>();
+				_newProjectSetUpTMDialog.ClickNextButton<NewProjectSelectGlossariesDialog>(Driver);
 				CreateGllosary(glossaryUniqueName);
 			}
 
@@ -80,7 +87,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 			_newProjectCreateBaseDialog
 				.AssertFinishButtonEnabled()
 				.ClickFinishButton()
-				.AssertDialogBackgroundDisappeared<ProjectsPage>();
+				.AssertDialogBackgroundDisappeared<ProjectsPage>(Driver);
 
 			return this;
 		}
@@ -97,7 +104,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 			string date = null,
 			bool useMT = false)
 		{
-			BaseObject.InitPage(_newProjectGeneralInformationDialog);
+			BaseObject.InitPage(_newProjectGeneralInformationDialog, Driver);
 			if (filePath != null)
 			{
 				_newProjectGeneralInformationDialog
@@ -125,7 +132,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 		public CreateProjectHelper UploadFile(string filePath)
 		{
-			BaseObject.InitPage(_newProjectGeneralInformationDialog);
+			BaseObject.InitPage(_newProjectGeneralInformationDialog, Driver);
 			_newProjectGeneralInformationDialog.UploadFile(filePath);
 
 			return this;
@@ -133,7 +140,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 		public CreateProjectHelper SelectFirstGlossary()
 		{
-			BaseObject.InitPage(_newProjectSelectGlossariesDialog);
+			BaseObject.InitPage(_newProjectSelectGlossariesDialog, Driver);
 			_newProjectSelectGlossariesDialog.ClickFirstGlossary();
 
 			return this;
@@ -141,7 +148,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 		public CreateProjectHelper CreateGllosary(string glossaryName)
 		{
-			BaseObject.InitPage(_newProjectSelectGlossariesDialog);
+			BaseObject.InitPage(_newProjectSelectGlossariesDialog, Driver);
 			_newProjectSelectGlossariesDialog
 				.ClickCreateGlossary()
 				.SetGlossaryName(glossaryName)
@@ -152,7 +159,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 		public CreateProjectHelper AssertErrorFormatDocument()
 		{
-			BaseObject.InitPage(_newProjectGeneralInformationDialog);
+			BaseObject.InitPage(_newProjectGeneralInformationDialog, Driver);
 			_newProjectGeneralInformationDialog.AssertErrorFormatDocument();
 
 			return this;
@@ -160,7 +167,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 		public CreateProjectHelper AssertNoErrorFormatDocument()
 		{
-			BaseObject.InitPage(_newProjectGeneralInformationDialog);
+			BaseObject.InitPage(_newProjectGeneralInformationDialog, Driver);
 			_newProjectGeneralInformationDialog.AssertNoErrorFormatDocument();
 
 			return this;
@@ -168,7 +175,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 		public CreateProjectHelper FillProjectName(string projectName)
 		{
-			BaseObject.InitPage(_newProjectGeneralInformationDialog);
+			BaseObject.InitPage(_newProjectGeneralInformationDialog, Driver);
 			_newProjectGeneralInformationDialog.SetProjectName(projectName);
 			
 			return this;
@@ -176,14 +183,14 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 		public CreateProjectHelper ClickNextOnWorkflowPage(bool errorExpected = false)
 		{
-			BaseObject.InitPage(_newProjectSetUpWorkflowDialog);
+			BaseObject.InitPage(_newProjectSetUpWorkflowDialog, Driver);
 			if (!errorExpected)
 			{
-				_newProjectSetUpWorkflowDialog.ClickNextButton<NewProjectSetUpTMDialog>();
+				_newProjectSetUpWorkflowDialog.ClickNextButton<NewProjectSetUpTMDialog>(Driver);
 			}
 			else
 			{
-				_newProjectSetUpWorkflowDialog.ClickNextButton<NewProjectSetUpWorkflowDialog>();
+				_newProjectSetUpWorkflowDialog.ClickNextButton<NewProjectSetUpWorkflowDialog>(Driver);
 			}
 
 			return this;
@@ -191,30 +198,30 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 		public CreateProjectHelper ClickNextOnSelectGlossaryStep()
 		{
-			BaseObject.InitPage(_newProjectSelectGlossariesDialog);
-			_newProjectSelectGlossariesDialog.ClickNextButton<NewProjectSetUpPretranslationDialog>();
+			BaseObject.InitPage(_newProjectSelectGlossariesDialog, Driver);
+			_newProjectSelectGlossariesDialog.ClickNextButton<NewProjectSetUpPretranslationDialog>(Driver);
 
 			return this;
 		}
 
 		public CreateProjectHelper ClickNextOnGeneralProjectInformationPage(bool errorExpected = false, bool personalAccount = false)
 		{
-			BaseObject.InitPage(_newProjectGeneralInformationDialog);
+			BaseObject.InitPage(_newProjectGeneralInformationDialog, Driver);
 
 			if (!errorExpected)
 			{
 				if (!personalAccount)
 				{
-					_newProjectGeneralInformationDialog.ClickNext<NewProjectSetUpWorkflowDialog>();
+					_newProjectGeneralInformationDialog.ClickNext<NewProjectSetUpWorkflowDialog>(Driver);
 				}
 				else
 				{
-					_newProjectGeneralInformationDialog.ClickNext<NewProjectSetUpTMDialog>();
+					_newProjectGeneralInformationDialog.ClickNext<NewProjectSetUpTMDialog>(Driver);
 				}
 			}
 			else
 			{
-				_newProjectGeneralInformationDialog.ClickNext<NewProjectGeneralInformationDialog>();
+				_newProjectGeneralInformationDialog.ClickNext<NewProjectGeneralInformationDialog>(Driver);
 			}
 
 			return this;
@@ -222,51 +229,51 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 		public CreateProjectHelper ClickFinishOnProjectSetUpWorkflowDialog()
 		{
-			BaseObject.InitPage(_newProjectSetUpWorkflowDialog);
+			BaseObject.InitPage(_newProjectSetUpWorkflowDialog, Driver);
 			_newProjectSetUpWorkflowDialog
 				.ClickFinishButton()
 				.WaitCreateProjectDialogDisappear()
-				.AssertDialogBackgroundDisappeared<ProjectsPage>();
+				.AssertDialogBackgroundDisappeared<ProjectsPage>(Driver);
 
 			return this;
 		}
 
 		public CreateProjectHelper ClickBackButtonOnWorkflowStep()
 		{
-			BaseObject.InitPage(_newProjectSetUpWorkflowDialog);
-			_newProjectSetUpWorkflowDialog.ClickBackButton<NewProjectGeneralInformationDialog>();
+			BaseObject.InitPage(_newProjectSetUpWorkflowDialog, Driver);
+			_newProjectSetUpWorkflowDialog.ClickBackButton<NewProjectGeneralInformationDialog>(Driver);
 
 			return this;
 		}
 
 		public CreateProjectHelper ClickBackButtonOnGlossaryStep()
 		{
-			BaseObject.InitPage(_newProjectSelectGlossariesDialog);
-			_newProjectSelectGlossariesDialog.ClickBackButton<NewProjectSetUpTMDialog>();
+			BaseObject.InitPage(_newProjectSelectGlossariesDialog, Driver);
+			_newProjectSelectGlossariesDialog.ClickBackButton<NewProjectSetUpTMDialog>(Driver);
 
 			return this;
 		}
 
 		public CreateProjectHelper ClickBackButtonOnPreranslationStep()
 		{
-			BaseObject.InitPage(_newProjectSetUpPretranslationDialog);
-			_newProjectSetUpPretranslationDialog.ClickBackButton<NewProjectSelectGlossariesDialog>();
+			BaseObject.InitPage(_newProjectSetUpPretranslationDialog, Driver);
+			_newProjectSetUpPretranslationDialog.ClickBackButton<NewProjectSelectGlossariesDialog>(Driver);
 
 			return this;
 		}
 
 		public CreateProjectHelper ClickBackButtonOnTMStep()
 		{
-			BaseObject.InitPage(_newProjectSetUpTMDialog);
-			_newProjectSetUpTMDialog.ClickBackButton<NewProjectSetUpWorkflowDialog>();
+			BaseObject.InitPage(_newProjectSetUpTMDialog, Driver);
+			_newProjectSetUpTMDialog.ClickBackButton<NewProjectSetUpWorkflowDialog>(Driver);
 
 			return this;
 		}
 
 		public CreateProjectHelper AssertWorkflowTaskCountMatch(int taskCount)
 		{
-			BaseObject.InitPage(_newProjectSetUpWorkflowDialog);
-			Logger.Trace("Проверить, что количество задач на этапе Workflow = {0}", taskCount);
+			BaseObject.InitPage(_newProjectSetUpWorkflowDialog, Driver);
+			CustomTestContext.WriteLine("Проверить, что количество задач на этапе Workflow = {0}", taskCount);
 
 			Assert.AreEqual(taskCount, _newProjectSetUpWorkflowDialog.WorkflowTaskList().Count,
 				"Произошла ошибка:\n неверное количество задач.");
@@ -276,8 +283,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 		public CreateProjectHelper AssertWorkflowTaskMatch(WorkflowTask task, int taskNumber)
 		{
-			BaseObject.InitPage(_newProjectSetUpWorkflowDialog);
-			Logger.Trace("Проверить, что задача №{0} на этапе Workflow - это {1}.", taskNumber, task);
+			BaseObject.InitPage(_newProjectSetUpWorkflowDialog, Driver);
+			CustomTestContext.WriteLine("Проверить, что задача №{0} на этапе Workflow - это {1}.", taskNumber, task);
 
 			Assert.AreEqual(task.ToString(), _newProjectSetUpWorkflowDialog.WorkflowTaskList()[taskNumber - 1],
 				"Произошла ошибка:\n задача не соответствует.");
@@ -290,7 +297,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 		/// </summary>
 		public CreateProjectHelper AssertErrorDuplicateName()
 		{
-			BaseObject.InitPage(_newProjectGeneralInformationDialog);
+			BaseObject.InitPage(_newProjectGeneralInformationDialog, Driver);
 			_newProjectGeneralInformationDialog
 				.AssertErrorDuplicateName()
 				.AssertNameInputError();
@@ -303,7 +310,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 		/// </summary>
 		public CreateProjectHelper AssertErrorDuplicateLanguage()
 		{
-			BaseObject.InitPage(_newProjectGeneralInformationDialog);
+			BaseObject.InitPage(_newProjectGeneralInformationDialog, Driver);
 			_newProjectGeneralInformationDialog.AssertDuplicateLanguageError();
 
 			return this;
@@ -314,7 +321,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 		/// </summary>
 		public CreateProjectHelper AssertErrorForbiddenSymbols()
 		{
-			BaseObject.InitPage(_newProjectGeneralInformationDialog);
+			BaseObject.InitPage(_newProjectGeneralInformationDialog, Driver);
 			_newProjectGeneralInformationDialog
 				.AssertErrorForbiddenSymbols()
 				.AssertNameInputError();
@@ -327,7 +334,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 		/// </summary>
 		public CreateProjectHelper AssertErrorNoName()
 		{
-			BaseObject.InitPage(_newProjectGeneralInformationDialog);
+			BaseObject.InitPage(_newProjectGeneralInformationDialog, Driver);
 			_newProjectGeneralInformationDialog
 				.AssertErrorNoName()
 				.AssertNameInputError();
@@ -340,11 +347,11 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 		/// </summary>
 		public ProjectsHelper CancelCreateProject()
 		{
-			BaseObject.InitPage(_newProjectCreateBaseDialog);
+			BaseObject.InitPage(_newProjectCreateBaseDialog, Driver);
 			_newProjectCreateBaseDialog
 				.ClickCloseDialog()
 				.WaitCreateProjectDialogDisappear()
-				.AssertDialogBackgroundDisappeared<ProjectsPage>();
+				.AssertDialogBackgroundDisappeared<ProjectsPage>(Driver);
 
 			return this;
 		}
@@ -355,7 +362,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 		/// <param name="filePath">путь к файлу</param>
 		public CreateProjectHelper AddFileFromWizard(string filePath)
 		{
-			BaseObject.InitPage(_newProjectGeneralInformationDialog);
+			BaseObject.InitPage(_newProjectGeneralInformationDialog, Driver);
 			_newProjectGeneralInformationDialog
 				.UploadFile(filePath)
 				.AssertFileUploaded(Path.GetFileName(filePath));
@@ -369,7 +376,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 		/// <param name="filePath">путь к файлу</param>
 		public CreateProjectHelper DeleteFileFromWizard(string filePath)
 		{
-			BaseObject.InitPage(_newProjectGeneralInformationDialog);
+			BaseObject.InitPage(_newProjectGeneralInformationDialog, Driver);
 			_newProjectGeneralInformationDialog
 				.ClickDeleteFile(Path.GetFileName(filePath))
 				.AssertFileDeleted(Path.GetFileName(filePath));
@@ -383,7 +390,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 		/// <param name="expectedProjectName">ожидаемое имя проекта</param>
 		public CreateProjectHelper AssertProjectNameMatch(string expectedProjectName)
 		{
-			BaseObject.InitPage(_newProjectGeneralInformationDialog);
+			BaseObject.InitPage(_newProjectGeneralInformationDialog, Driver);
 			_newProjectGeneralInformationDialog.AssertProjectNameMatch(expectedProjectName);
 
 			return this;
@@ -391,7 +398,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 		
 		public CreateProjectHelper AssertTranslationMemoryExist(string translationMemoryName)
 		{
-			BaseObject.InitPage(_newProjectSetUpTMDialog);
+			BaseObject.InitPage(_newProjectSetUpTMDialog, Driver);
 			_newProjectSetUpTMDialog.AssertTranslationMemoryExist(translationMemoryName);
 
 			return this;
@@ -399,7 +406,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 		public CreateProjectHelper AssertTranslationMemoryNotExist(string translationMemoryName)
 		{
-			BaseObject.InitPage(_newProjectSetUpTMDialog);
+			BaseObject.InitPage(_newProjectSetUpTMDialog, Driver);
 			_newProjectSetUpTMDialog.AssertTranslationMemoryNotExist(translationMemoryName);
 
 			return this;
@@ -412,7 +419,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 		public CreateProjectHelper AssertErrorDeadlineDate(string dateFormat)
 		{
-			BaseObject.InitPage(_newProjectGeneralInformationDialog);
+			BaseObject.InitPage(_newProjectGeneralInformationDialog, Driver);
 			_newProjectGeneralInformationDialog.AssertErrorDeadlineDate(dateFormat);
 
 			return this;
@@ -420,7 +427,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 		public CreateProjectHelper ClickNewTaskButton()
 		{
-			BaseObject.InitPage(_newProjectSetUpWorkflowDialog);
+			BaseObject.InitPage(_newProjectSetUpWorkflowDialog, Driver);
 			_newProjectSetUpWorkflowDialog.ClickNewTaskButton();
 			
 			return this;
@@ -428,7 +435,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 		public CreateProjectHelper SelectWorkflowTask(WorkflowTask task, int taskNumber = 1)
 		{
-			BaseObject.InitPage(_newProjectSetUpWorkflowDialog);
+			BaseObject.InitPage(_newProjectSetUpWorkflowDialog, Driver);
 			_newProjectSetUpWorkflowDialog
 				.ExpandWorkflowDropdown(taskNumber)
 				.SelectTask(task);
@@ -438,7 +445,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 		public CreateProjectHelper DeleteWorkflowTask(int taskNumber = 1)
 		{
-			BaseObject.InitPage(_newProjectSetUpWorkflowDialog);
+			BaseObject.InitPage(_newProjectSetUpWorkflowDialog, Driver);
 			_newProjectSetUpWorkflowDialog.ClickDeleteButton(taskNumber);
 
 			return this;
@@ -446,7 +453,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 		public CreateProjectHelper SelectFirstTM()
 		{
-			BaseObject.InitPage(_newProjectSetUpTMDialog);
+			BaseObject.InitPage(_newProjectSetUpTMDialog, Driver);
 			_newProjectSetUpTMDialog.ClickFirstTMRow();
 			
 			return this;
@@ -454,7 +461,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 		public CreateProjectHelper AssertEmptyWorkflowErrorDisplayed()
 		{
-			BaseObject.InitPage(_newProjectSetUpWorkflowDialog);
+			BaseObject.InitPage(_newProjectSetUpWorkflowDialog, Driver);
 			_newProjectSetUpWorkflowDialog.AssertEmptyWorkflowErrorDisplayed();
 
 			return this;
@@ -462,7 +469,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 		public CreateProjectHelper ExpandWorkflowDropdown(int taskNumber)
 		{
-			BaseObject.InitPage(_newProjectSetUpWorkflowDialog);
+			BaseObject.InitPage(_newProjectSetUpWorkflowDialog, Driver);
 			_newProjectSetUpWorkflowDialog.ExpandWorkflowDropdown(taskNumber);
 
 			return this;
@@ -470,7 +477,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 		public CreateProjectHelper AssertTaskOptionsCountMatch(int taskNumber, int count)
 		{
-			BaseObject.InitPage(_newProjectSetUpWorkflowDialog);
+			BaseObject.InitPage(_newProjectSetUpWorkflowDialog, Driver);
 
 			Assert.AreEqual(count, _newProjectSetUpWorkflowDialog.TaskOptionsList(taskNumber).Count,
 				"Произошла ошибка:\n неверное количество задач в дропдауне на этапе Workflow.");
@@ -481,7 +488,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 		public CreateProjectHelper AssertTargetLanguageMatch(Language language)
 		{
-			BaseObject.InitPage(_newProjectGeneralInformationDialog);
+			BaseObject.InitPage(_newProjectGeneralInformationDialog, Driver);
 			_newProjectGeneralInformationDialog.AssertTargetLanguageMatch(language);
 
 			return this;
@@ -489,7 +496,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 		public CreateProjectHelper AssertSourceLanguageMatch(Language language)
 		{
-			BaseObject.InitPage(_newProjectGeneralInformationDialog);
+			BaseObject.InitPage(_newProjectGeneralInformationDialog, Driver);
 			_newProjectGeneralInformationDialog.AssertSourceLanguageMatch(language);
 
 			return this;
@@ -497,7 +504,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 		public CreateProjectHelper AssertDeadlineDateMatch(string deadlineDate)
 		{
-			BaseObject.InitPage(_newProjectGeneralInformationDialog);
+			BaseObject.InitPage(_newProjectGeneralInformationDialog, Driver);
 			_newProjectGeneralInformationDialog.AssertDeadlineDateMatch(deadlineDate);
 
 			return this;
@@ -505,7 +512,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 		public CreateProjectHelper AssertFirstTMSelected()
 		{
-			BaseObject.InitPage(_newProjectSetUpTMDialog);
+			BaseObject.InitPage(_newProjectSetUpTMDialog, Driver);
 			_newProjectSetUpTMDialog.AssertFirstTMSelected();
 
 			return this;
@@ -513,26 +520,25 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 		public CreateProjectHelper ClickNextButtonOnTMStep()
 		{
-			BaseObject.InitPage(_newProjectSetUpTMDialog);
-			_newProjectSetUpTMDialog.ClickNextButton<NewProjectSelectGlossariesDialog>();
+			BaseObject.InitPage(_newProjectSetUpTMDialog, Driver);
+			_newProjectSetUpTMDialog.ClickNextButton<NewProjectSelectGlossariesDialog>(Driver);
 
 			return this;
 		}
 
 		public CreateProjectHelper AssertFirstGlossarySelected()
 		{
-			BaseObject.InitPage(_newProjectSelectGlossariesDialog);
+			BaseObject.InitPage(_newProjectSelectGlossariesDialog, Driver);
 			_newProjectSelectGlossariesDialog.AssertFirstGlossarySelected();
 
 			return this;
 		}
 
-		private readonly NewProjectCreateBaseDialog _newProjectCreateBaseDialog = new NewProjectCreateBaseDialog();
-		private readonly NewProjectGeneralInformationDialog _newProjectGeneralInformationDialog = new NewProjectGeneralInformationDialog();
-		private readonly NewProjectSetUpWorkflowDialog _newProjectSetUpWorkflowDialog = new NewProjectSetUpWorkflowDialog();
-		private NewProjectSetUpTMDialog _newProjectSetUpTMDialog = new NewProjectSetUpTMDialog();
-		private readonly NewProjectSelectGlossariesDialog _newProjectSelectGlossariesDialog = new NewProjectSelectGlossariesDialog();
-
-		private readonly NewProjectSetUpPretranslationDialog _newProjectSetUpPretranslationDialog = new NewProjectSetUpPretranslationDialog();
+		private readonly NewProjectCreateBaseDialog _newProjectCreateBaseDialog;
+		private readonly NewProjectGeneralInformationDialog _newProjectGeneralInformationDialog;
+		private readonly NewProjectSetUpWorkflowDialog _newProjectSetUpWorkflowDialog;
+		private NewProjectSetUpTMDialog _newProjectSetUpTMDialog;
+		private readonly NewProjectSelectGlossariesDialog _newProjectSelectGlossariesDialog;
+		private readonly NewProjectSetUpPretranslationDialog _newProjectSetUpPretranslationDialog;
 	}
 }

@@ -9,6 +9,7 @@ using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Editor
 {
+	[Parallelizable(ParallelScope.Fixtures)]
 	[Standalone]
 	public class EditorPreviousStageTests<TWebDriverProvider> : EditorBaseTest<TWebDriverProvider> where TWebDriverProvider : IWebDriverProvider, new()
 	{

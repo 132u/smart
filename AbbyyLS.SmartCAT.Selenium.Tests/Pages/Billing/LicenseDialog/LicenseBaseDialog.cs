@@ -1,18 +1,24 @@
-﻿using NUnit.Framework;
+﻿using System;
 
+using NUnit.Framework;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.PageObjects;
 
+using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
 using AbbyyLS.SmartCAT.Selenium.Tests.TestFramework;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Billing.LicenseDialog
 {
 	public class LicenseBaseDialog : BillingPage, IAbstractPage<LicenseBaseDialog>
 	{
+		public LicenseBaseDialog(WebDriver driver) : base(driver)
+		{
+		}
+
 		public new LicenseBaseDialog GetPage()
 		{
-			var licenseBaseDialog = new LicenseBaseDialog();
-			InitPage(licenseBaseDialog);
+			var licenseBaseDialog = new LicenseBaseDialog(Driver);
+			InitPage(licenseBaseDialog, Driver);
 
 			return licenseBaseDialog;
 		}
@@ -28,12 +34,13 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Billing.LicenseDialog
 		/// <summary>
 		/// Нажать кнопку Buy
 		/// </summary>
-		public T ClickBuyButton<T>() where T : class, IAbstractPage<T>, new()
+		public T ClickBuyButton<T>(WebDriver driver) where T : class, IAbstractPage<T>
 		{
-			Logger.Debug("Нажать кнопку Buy.");
+			CustomTestContext.WriteLine("Нажать кнопку Buy.");
 			BuyButton.Click();
 
-			return new T().GetPage();
+			var instance = Activator.CreateInstance(typeof(T), new object[] { driver }) as T;
+			return instance.GetPage();
 		}
 
 		/// <summary>
@@ -41,11 +48,11 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Billing.LicenseDialog
 		/// </summary>
 		public BillingPage ClickCloseButton()
 		{
-			Logger.Debug("Нажать кнопку Close.");
+			CustomTestContext.WriteLine("Нажать кнопку Close.");
 			CloseButton.Click();
 			Driver.WaitUntilElementIsDisappeared(By.XPath(CLOSE_BUTTON));
 
-			return new BillingPage().GetPage();
+			return new BillingPage(Driver).GetPage();
 		}
 
 		/// <summary>
@@ -53,11 +60,11 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Billing.LicenseDialog
 		/// </summary>
 		public LicensePaymentDialog SwitchToPaymentIFrame()
 		{
-			Logger.Trace("Перейти в IFrame платежной системы.");
+			CustomTestContext.WriteLine("Перейти в IFrame платежной системы.");
 			Driver.WaitUntilElementIsDisplay(By.XPath(PAYMENT_IFRAME), 20);
 			Driver.SwitchToIFrame(By.XPath(PAYMENT_IFRAME));
 
-			return new LicensePaymentDialog().GetPage();
+			return new LicensePaymentDialog(Driver).GetPage();
 		}
 
 		/// <summary>
@@ -65,7 +72,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Billing.LicenseDialog
 		/// </summary>
 		public int GetAdditionalPayment()
 		{
-			Logger.Trace("Получить сумму доплаты для продления лицензии.");
+			CustomTestContext.WriteLine("Получить сумму доплаты для продления лицензии.");
 			var price =  AdditionalPayment.Text.Replace(".00", "").Replace("$", "").Replace("руб.", "").Replace(",", "");
 			int result;
 
@@ -82,7 +89,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Billing.LicenseDialog
 		/// </summary>
 		public string PackageValidityPeriod()
 		{
-			Logger.Trace("Получить общий срок действия текущего пакета лицензий.");
+			CustomTestContext.WriteLine("Получить общий срок действия текущего пакета лицензий.");
 
 			return PackagePeriod.Text;
 		}
@@ -92,7 +99,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Billing.LicenseDialog
 		/// </summary>
 		public int CurrentPackagePrice()
 		{
-			Logger.Trace("Получить стоимость текущего пакета лицензий из диалогового окна.");
+			CustomTestContext.WriteLine("Получить стоимость текущего пакета лицензий из диалогового окна.");
 			var price = Driver.FindElement(By.XPath(PACKAGE_PRICE)).Text.Replace("$", "").Replace(".00", "");
 			int result;
 

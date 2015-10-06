@@ -2,21 +2,25 @@
 using System.Linq;
 
 using NUnit.Framework;
-
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.PageObjects;
 
 using AbbyyLS.SmartCAT.Selenium.Tests.DataStructures;
+using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
 using AbbyyLS.SmartCAT.Selenium.Tests.TestFramework;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 {
 	public class NewProjectSetUpWorkflowDialog : NewProjectCreateBaseDialog, IAbstractPage<NewProjectSetUpWorkflowDialog>
 	{
+		public NewProjectSetUpWorkflowDialog(WebDriver driver) : base(driver)
+		{
+		}
+
 		public new NewProjectSetUpWorkflowDialog GetPage()
 		{
-			var newProjectSetUpWorkflowDialog = new NewProjectSetUpWorkflowDialog();
-			InitPage(newProjectSetUpWorkflowDialog);
+			var newProjectSetUpWorkflowDialog = new NewProjectSetUpWorkflowDialog(Driver);
+			InitPage(newProjectSetUpWorkflowDialog, Driver);
 
 			return newProjectSetUpWorkflowDialog;
 		}
@@ -34,7 +38,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 		/// </summary>
 		public NewProjectSetUpWorkflowDialog ClickFirstTask()
 		{
-			Logger.Debug("Нажать на первую задачу в проекте (чтобы выпал выпадающий список с заданиями ).");
+			CustomTestContext.WriteLine("Нажать на первую задачу в проекте (чтобы выпал выпадающий список с заданиями ).");
 			WFTableFirstTask.Click();
 
 			return GetPage();
@@ -45,10 +49,10 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 		/// </summary>
 		public NewProjectSetUpTMDialog ClickNextButton()
 		{
-			Logger.Debug("Нажать кнопку 'Далее'.");
+			CustomTestContext.WriteLine("Нажать кнопку 'Далее'.");
 			NextButton.Click();
 
-			return new NewProjectSetUpTMDialog().GetPage();
+			return new NewProjectSetUpTMDialog(Driver).GetPage();
 		}
 		
 		/// <summary>
@@ -56,7 +60,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 		/// </summary>
 		public NewProjectSetUpWorkflowDialog ClickNewTaskButton()
 		{
-			Logger.Debug("Нажать кнопку 'Новая задача'");
+			CustomTestContext.WriteLine("Нажать кнопку 'Новая задача'");
 			NewTaskButton.Click();
 
 			return GetPage();
@@ -67,7 +71,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 		/// </summary>
 		public List<string> WorkflowTaskList()
 		{
-			Logger.Trace("Получить список задач на этапе Workflow.");
+			CustomTestContext.WriteLine("Получить список задач на этапе Workflow.");
 
 			return Driver.GetTextListElement(By.XPath(WORKFLOW_TASKS));
 		}
@@ -77,7 +81,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 		/// </summary>
 		public NewProjectSetUpWorkflowDialog ExpandWorkflowDropdown(int taskNumber)
 		{
-			Logger.Trace("Раскрыть дропдаун для задачи №{0}", taskNumber);
+			CustomTestContext.WriteLine("Раскрыть дропдаун для задачи №{0}", taskNumber);
 			var task = Driver.SetDynamicValue(How.XPath, WORKFLOW_TASK, taskNumber.ToString());
 			task.Click();
 
@@ -89,7 +93,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 		/// </summary>
 		public List<string> TaskOptionsList(int taskNumber)
 		{
-			Logger.Trace("Получить список опций для задачи №{0}", taskNumber);
+			CustomTestContext.WriteLine("Получить список опций для задачи №{0}", taskNumber);
 			var workflowList = Driver.GetElementList(By.XPath(WORKFLOW_DROPDOWN_LIST));
 			
 			return workflowList.Select(taskOption => taskOption.Text).ToList();
@@ -100,7 +104,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 		/// </summary>
 		public NewProjectSetUpWorkflowDialog SelectTask(WorkflowTask workflowTask)
 		{
-			Logger.Trace("Выбрать {0}.", workflowTask);
+			CustomTestContext.WriteLine("Выбрать {0}.", workflowTask);
 			var taskOption = Driver.GetElementList(By.XPath(WORKFLOW_DROPDOWN_LIST)).FirstOrDefault(item => item.Text == workflowTask.ToString());
 			
 			Assert.NotNull(taskOption, "Произошла ошибка:\n {0} задача не найдена, вовзращено значение null.", taskOption);
@@ -115,7 +119,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 		/// </summary>
 		public NewProjectSetUpWorkflowDialog ClickDeleteButton(int taskNumber)
 		{
-			Logger.Debug("Удалить задачу №{0}.", taskNumber);
+			CustomTestContext.WriteLine("Удалить задачу №{0}.", taskNumber);
 			var deleteButton = Driver.SetDynamicValue(How.XPath, DELETE_TASK_BUTTON, taskNumber.ToString());
 			deleteButton.Click();
 
@@ -127,7 +131,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 		/// </summary>
 		public NewProjectSetUpWorkflowDialog AssertEmptyWorkflowErrorDisplayed()
 		{
-			Logger.Trace("Проверить, что появилось сообщение 'Select at least one task'.");
+			CustomTestContext.WriteLine("Проверить, что появилось сообщение 'Select at least one task'.");
 
 			Assert.IsTrue(Driver.WaitUntilElementIsDisplay(By.XPath(EMPTY_WORKFLOW_ERROR)),
 				"Произошла ошибка:\n Сообщение 'Select at least one task' не появилось.");

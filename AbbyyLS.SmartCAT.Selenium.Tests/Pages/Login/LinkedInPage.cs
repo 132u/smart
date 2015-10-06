@@ -2,16 +2,24 @@
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.PageObjects;
 
+using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
 using AbbyyLS.SmartCAT.Selenium.Tests.TestFramework;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Login
 {
 	public class LinkedInPage : BaseObject, IAbstractPage<LinkedInPage>
 	{
+		public WebDriver Driver { get; protected set; }
+
+		public LinkedInPage(WebDriver driver)
+		{
+			Driver = driver;
+		}
+
 		public LinkedInPage GetPage()
 		{
-			var linkedInPage = new LinkedInPage();
-			InitPage(linkedInPage);
+			var linkedInPage = new LinkedInPage(Driver);
+			InitPage(linkedInPage, Driver);
 
 			return linkedInPage;
 		}
@@ -30,7 +38,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Login
 		/// <param name="email">email пользователя</param>
 		public LinkedInPage SetEmail(string email)
 		{
-			Logger.Debug("Ввести email пользователя на странице LinkedIn {0}.", email);
+			CustomTestContext.WriteLine("Ввести email пользователя на странице LinkedIn {0}.", email);
 
 			Email.SetText(email);
 
@@ -43,7 +51,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Login
 		/// <param name="password">password пользователя</param>
 		public LinkedInPage SetPassword(string password)
 		{
-			Logger.Debug("Ввести пароль пользователя на странице LinkedIn {0}.", password);
+			CustomTestContext.WriteLine("Ввести пароль пользователя на странице LinkedIn {0}.", password);
 
 			Password.SetText(password);
 
@@ -55,11 +63,11 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Login
 		/// </summary>
 		public SelectAccountForm ClickSubmitButton()
 		{
-			Logger.Debug("Нажать 'Sign In'.");
+			CustomTestContext.WriteLine("Нажать 'Sign In'.");
 
 			SubmitButton.JavaScriptClick();
 
-			return new SelectAccountForm().GetPage();
+			return new SelectAccountForm(Driver).GetPage();
 		}
 
 		[FindsBy(How = How.XPath, Using = EMAIL)]

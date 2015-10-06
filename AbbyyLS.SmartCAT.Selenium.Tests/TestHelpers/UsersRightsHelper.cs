@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Threading;
 
 using AbbyyLS.SmartCAT.Selenium.Tests.DataStructures;
+using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.UsersRights;
 using AbbyyLS.SmartCAT.Selenium.Tests.TestFramework;
 
@@ -10,13 +11,18 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 {
 	public class UsersRightsHelper : WorkspaceHelper
 	{
+		public UsersRightsHelper(WebDriver driver) : base(driver)
+		{
+			_usersRightsPage = new UsersRightsPage(Driver);
+		}
+
 		/// <summary>
 		/// Проверить, существует ли нужная нам группа, если нет, то создаем
 		/// </summary>
 		/// <param name="groupName">имя группы</param>
 		public UsersRightsHelper CheckOrCreateGroup(string groupName)
 		{
-			BaseObject.InitPage(_usersRightsPage);
+			BaseObject.InitPage(_usersRightsPage, Driver);
 			_usersRightsPage
 				.OpenHideMenuIfClosed()
 				.ClickUsersRightsButton()
@@ -29,7 +35,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 					.AssertAddNewGroupForm()
 					.SetNewGroupName(groupName)
 					.ClickSaveNewGroupButton()
-					.AssertDialogBackgroundDisappeared<UsersRightsPage>()
+					.AssertDialogBackgroundDisappeared<UsersRightsPage>(Driver)
 					.AssertIsGroupCreated(groupName);
 			}
 
@@ -43,7 +49,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 		/// <param name="userName">имя пользователя</param>
 		public UsersRightsHelper CheckOrAddUserToGroup(string groupName, string userName)
 		{
-			BaseObject.InitPage(_usersRightsPage);
+			BaseObject.InitPage(_usersRightsPage, Driver);
 			_usersRightsPage.SelectGroup(groupName);
 			if (_usersRightsPage.IsEditGroupButtonDisplayed(groupName))
 			{
@@ -68,7 +74,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 		/// <param name="right">добавляемое право</param>
 		public UsersRightsHelper CheckOrAddRightsToGroup(string groupName, RightsType right)
 		{
-			BaseObject.InitPage(_usersRightsPage);
+			BaseObject.InitPage(_usersRightsPage, Driver);
 			_usersRightsPage.SelectGroup(groupName);
 
 			if (_usersRightsPage.IsEditGroupButtonDisplayed(groupName))
@@ -82,7 +88,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 				.ClickNextButton()
 				.ClickForAnyProjectRadio()
 				.ClickAddRightButton()
-				.AssertDialogBackgroundDisappeared<UsersRightsPage>()
+				.AssertDialogBackgroundDisappeared<UsersRightsPage>(Driver)
 				.AssertIsCreateProjectsRightAdded(groupName);
 			
 			return this;
@@ -94,7 +100,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 		/// <param name="groupName">имя группы</param>
 		public UsersRightsHelper SaveNewGroupSettings(string groupName)
 		{
-			BaseObject.InitPage(_usersRightsPage);
+			BaseObject.InitPage(_usersRightsPage, Driver);
 			Thread.Sleep(1000);
 			_usersRightsPage
 				.ClickSaveButton(groupName)
@@ -106,19 +112,19 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 		public List<string> GetUserNameList()
 		{
-			BaseObject.InitPage(_usersRightsPage);
+			BaseObject.InitPage(_usersRightsPage, Driver);
 			return _usersRightsPage.GetUserNameList();
 		}
 
 		public List<string> GetGroupNameList()
 		{
-			BaseObject.InitPage(_usersRightsPage);
+			BaseObject.InitPage(_usersRightsPage, Driver);
 			return _usersRightsPage.GetGroupNameList();
 		}
 		
 		public UsersRightsHelper ClickGroupsButton()
 		{
-			BaseObject.InitPage(_usersRightsPage);
+			BaseObject.InitPage(_usersRightsPage, Driver);
 			_usersRightsPage.ClickGroupsButton();
 
 			return this;
@@ -126,7 +132,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 		public UsersRightsHelper AssertIsUserExist(string username)
 		{
-			BaseObject.InitPage(_usersRightsPage);
+			BaseObject.InitPage(_usersRightsPage, Driver);
 			_usersRightsPage.AssertIsUserExist(username);
 
 			return this;
@@ -141,7 +147,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 		public UsersRightsHelper ClickSortByFirstName()
 		{
-			BaseObject.InitPage(_usersRightsPage);
+			BaseObject.InitPage(_usersRightsPage, Driver);
 			_usersRightsPage.ClickSortByFirstName();
 
 			return this;
@@ -149,7 +155,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 		public UsersRightsHelper ClickSortByLastName()
 		{
-			BaseObject.InitPage(_usersRightsPage);
+			BaseObject.InitPage(_usersRightsPage, Driver);
 			_usersRightsPage.ClickSortByLastName();
 
 			return this;
@@ -157,7 +163,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 		public UsersRightsHelper ClickSortByShortName()
 		{
-			BaseObject.InitPage(_usersRightsPage);
+			BaseObject.InitPage(_usersRightsPage, Driver);
 			_usersRightsPage.ClickSortByShortName();
 
 			return this;
@@ -165,7 +171,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 		public UsersRightsHelper ClickSortByEmailAddress()
 		{
-			BaseObject.InitPage(_usersRightsPage);
+			BaseObject.InitPage(_usersRightsPage, Driver);
 			_usersRightsPage.ClickSortByEmailAddress();
 
 			return this;
@@ -173,7 +179,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 		public UsersRightsHelper ClickSortByGroups()
 		{
-			BaseObject.InitPage(_usersRightsPage);
+			BaseObject.InitPage(_usersRightsPage, Driver);
 			_usersRightsPage.ClickSortByGroups();
 
 			return this;
@@ -181,7 +187,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 		public UsersRightsHelper ClickSortByCreated()
 		{
-			BaseObject.InitPage(_usersRightsPage);
+			BaseObject.InitPage(_usersRightsPage, Driver);
 			_usersRightsPage.ClickSortByCreated();
 
 			return this;
@@ -189,7 +195,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 		public UsersRightsHelper ClickSortByStatus()
 		{
-			BaseObject.InitPage(_usersRightsPage);
+			BaseObject.InitPage(_usersRightsPage, Driver);
 			_usersRightsPage.ClickSortByStatus();
 
 			return this;
@@ -197,7 +203,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 		public UsersRightsHelper RemoveUserFromAllGroups(string userName)
 		{
-			BaseObject.InitPage(_usersRightsPage);
+			BaseObject.InitPage(_usersRightsPage, Driver);
 
 			var groups = _usersRightsPage.GetGroupNameList();
 
@@ -219,6 +225,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 			return this;
 		}
 
-		private readonly UsersRightsPage _usersRightsPage = new UsersRightsPage();
+		private readonly UsersRightsPage _usersRightsPage;
 	}
 }

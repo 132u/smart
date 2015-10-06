@@ -1,10 +1,10 @@
 ﻿using System.IO;
 
 using NUnit.Framework;
-
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.PageObjects;
 
+using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace;
 using AbbyyLS.SmartCAT.Selenium.Tests.TestFramework;
 
@@ -12,10 +12,14 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 {
 	public class GlossaryImportDialog : WorkspacePage, IAbstractPage<GlossaryImportDialog>
 	{
+		public GlossaryImportDialog(WebDriver driver) : base(driver)
+		{
+		}
+
 		public new GlossaryImportDialog GetPage()
 		{
-			var glossaryImportDialog = new GlossaryImportDialog();
-			InitPage(glossaryImportDialog);
+			var glossaryImportDialog = new GlossaryImportDialog(Driver);
+			InitPage(glossaryImportDialog, Driver);
 
 			return glossaryImportDialog;
 		}
@@ -34,7 +38,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 		/// <param name="pathFile">путь к файлу</param>
 		public GlossaryImportDialog ImportGlossary(string pathFile)
 		{
-			Logger.Trace("Ввести путь к файлу {0} в поле импорта.", pathFile);
+			CustomTestContext.WriteLine("Ввести путь к файлу {0} в поле импорта.", pathFile);
 			Driver.ExecuteScript("arguments[0].style[\"display\"] = \"block\";" + "arguments[0].style[\"visibility\"] = \"visible\";",
 				ImportGlossaryInput);
 
@@ -50,17 +54,17 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 		/// </summary>
 		public GlossarySuccessImportDialog ClickImportButtonInImportDialog()
 		{
-			Logger.Debug("Нажать кнопку Import в диалоге импорта глоссария.");
+			CustomTestContext.WriteLine("Нажать кнопку Import в диалоге импорта глоссария.");
 			ImportButton.Click();
 
 			Driver.WaitUntilElementIsDisappeared(By.XPath(IMPORT_IN_PROGRESS_MESSAGE), timeout: 20);
 
-			return new GlossarySuccessImportDialog().GetPage();
+			return new GlossarySuccessImportDialog(Driver).GetPage();
 		}
 
 		public GlossaryImportDialog ClickReplaceTermsButton()
 		{
-			Logger.Debug("Нажать кнопку 'Replace All' в диалоге импорта глоссария.");
+			CustomTestContext.WriteLine("Нажать кнопку 'Replace All' в диалоге импорта глоссария.");
 			ReplaceAllButton.Click();
 
 			return GetPage();

@@ -1,11 +1,11 @@
 ﻿using System.Collections.Generic;
 
 using NUnit.Framework;
-
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.PageObjects;
 
 using AbbyyLS.SmartCAT.Selenium.Tests.DataStructures;
+using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace;
 using AbbyyLS.SmartCAT.Selenium.Tests.TestFramework;
 
@@ -13,10 +13,14 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 {
 	public class GlossaryStructureDialog : WorkspacePage, IAbstractPage<GlossaryStructureDialog>
 	{
+		public GlossaryStructureDialog(WebDriver driver) : base(driver)
+		{
+		}
+
 		public new GlossaryStructureDialog GetPage()
 		{
-			var glossaryStructureDialog = new GlossaryStructureDialog();
-			InitPage(glossaryStructureDialog);
+			var glossaryStructureDialog = new GlossaryStructureDialog(Driver);
+			InitPage(glossaryStructureDialog, Driver);
 
 			return glossaryStructureDialog;
 		}
@@ -36,7 +40,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 		/// <returns></returns>
 		public GlossaryStructureDialog SelectSystemField(GlossarySystemField systemField)
 		{
-			Logger.Debug("Выбрать поле {0} для изменения структуры глоссария.", systemField);
+			CustomTestContext.WriteLine("Выбрать поле {0} для изменения структуры глоссария.", systemField);
 			var field = Driver.SetDynamicValue(How.XPath, SYSTEM_FIELD, systemField.ToString());
 
 			field.Click();
@@ -49,10 +53,10 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 		/// </summary>
 		public GlossaryPage ClickSaveButton()
 		{
-			Logger.Debug("Нажать кнопку Save в диалоге изменения сруктуры глоссария.");
+			CustomTestContext.WriteLine("Нажать кнопку Save в диалоге изменения сруктуры глоссария.");
 			SaveButton.Click();
 
-			return new GlossaryPage().GetPage();
+			return new GlossaryPage(Driver).GetPage();
 		}
 
 		/// <summary>
@@ -60,7 +64,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 		/// </summary>
 		public GlossaryStructureDialog ClickAddToListButton()
 		{
-			Logger.Debug("Нажать кнопку 'Add To List' в диалоге изменения сруктуры глоссария.");
+			CustomTestContext.WriteLine("Нажать кнопку 'Add To List' в диалоге изменения сруктуры глоссария.");
 			AddToListButton.Click();
 
 			return GetPage();
@@ -71,7 +75,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 		/// </summary>
 		public GlossaryStructureDialog AddLanguageFields()
 		{
-			Logger.Debug("Добавить все поля уровня Language.");
+			CustomTestContext.WriteLine("Добавить все поля уровня Language.");
 			var fieldList = Driver.GetElementList(By.XPath(LANGUAGE_FIELDS_LIST));
 
 			foreach (var field in fieldList)
@@ -88,7 +92,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 		/// </summary>
 		public GlossaryStructureDialog AssertSystemFieldIsAdded(GlossarySystemField systemField)
 		{
-			Logger.Trace("Проверить, что поле {0} добавлено.", systemField);
+			CustomTestContext.WriteLine("Проверить, что поле {0} добавлено.", systemField);
 			var field = Driver.SetDynamicValue(How.XPath, ADDED_SYSTEM_FIELD, systemField.ToString());
 
 			Assert.IsTrue(field.Displayed, "Произошла ошибка:\n поле {0} не добавлено.", systemField);
@@ -101,7 +105,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 		/// </summary>
 		public GlossaryStructureDialog ExpandLevelDropdown()
 		{
-			Logger.Debug("Раскрыть комбобокс с уровнями полей.");
+			CustomTestContext.WriteLine("Раскрыть комбобокс с уровнями полей.");
 			LevelDropdown.Click();
 
 			return GetPage();
@@ -113,7 +117,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 		/// <param name="level">уровень</param>
 		public GlossaryStructureDialog SelectLevel(GlossaryStructureLevel level)
 		{
-			Logger.Debug("Выбрать {0} уровень полей.", level);
+			CustomTestContext.WriteLine("Выбрать {0} уровень полей.", level);
 			var levelOption = Driver.SetDynamicValue(How.XPath, LEVEL_OPTION, level.Description());
 
 			levelOption.Click();
@@ -126,7 +130,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 		/// </summary>
 		public GlossaryStructureDialog SwitchToCustomFieldsTab()
 		{
-			Logger.Debug("Переключиться на вкладку ' Custom Fields'.");
+			CustomTestContext.WriteLine("Переключиться на вкладку ' Custom Fields'.");
 			CustomFieldsTab.Click();
 
 			return GetPage();
@@ -137,7 +141,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 		/// </summary>
 		public GlossaryStructureDialog FillCustomFieldName(string fieldName)
 		{
-			Logger.Debug("Ввести {0} в название кастомного поля.", fieldName);
+			CustomTestContext.WriteLine("Ввести {0} в название кастомного поля.", fieldName);
 			CustomFieldName.SetText(fieldName);
 
 			return GetPage();
@@ -148,7 +152,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 		/// </summary>
 		public GlossaryStructureDialog FillDefaultValue(string defaultValue)
 		{
-			Logger.Debug("Ввести {0} в поле 'Default value'.", defaultValue);
+			CustomTestContext.WriteLine("Ввести {0} в поле 'Default value'.", defaultValue);
 			DefaultValue.SetText(defaultValue);
 
 			return GetPage();
@@ -159,7 +163,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 		/// </summary>
 		public GlossaryStructureDialog FillItemsList(string items)
 		{
-			Logger.Debug("Заполнить поле 'Items List'.");
+			CustomTestContext.WriteLine("Заполнить поле 'Items List'.");
 			ItemsListField.SetText(items);
 
 			return GetPage();
@@ -170,7 +174,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 		/// </summary>
 		public GlossaryStructureDialog SelectCustomFieldType(GlossaryCustomFieldType type)
 		{
-			Logger.Debug("Выбрать тип {0} кастомного поля.", type);
+			CustomTestContext.WriteLine("Выбрать тип {0} кастомного поля.", type);
 			Driver.SetDynamicValue(How.XPath, TYPE_COMBOBOX, type.Description().Trim()).Click();
 
 			return GetPage();
@@ -181,7 +185,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 		/// </summary>
 		public GlossaryStructureDialog ExpandCustomFieldType()
 		{
-			Logger.Debug("Раскрыть комбобокс типа кастомного поля.");
+			CustomTestContext.WriteLine("Раскрыть комбобокс типа кастомного поля.");
 			Type.Click();
 
 			return GetPage();
@@ -192,7 +196,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 		/// </summary>
 		public GlossaryStructureDialog ClickRequiredCheckbox()
 		{
-			Logger.Debug("Поставить галочку в чекбоксе 'Required field'.");
+			CustomTestContext.WriteLine("Поставить галочку в чекбоксе 'Required field'.");
 			RequiredCheckbox.Click();
 
 			return GetPage();
@@ -203,7 +207,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 		/// </summary>
 		public GlossaryStructureDialog ClickAddCustoFieldButton()
 		{
-			Logger.Debug("Нажать кнопку 'Add to List'.");
+			CustomTestContext.WriteLine("Нажать кнопку 'Add to List'.");
 			AddCustomFieldButton.Click();
 
 			return GetPage();
@@ -214,7 +218,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 		/// </summary>
 		public GlossaryStructureDialog ClickAddSystemFieldButton()
 		{
-			Logger.Debug("Нажать кнопку 'Add to List'  на вкладке 'System Fields'.");
+			CustomTestContext.WriteLine("Нажать кнопку 'Add to List'  на вкладке 'System Fields'.");
 			AddSystemFieldButton.Click();
 
 			return GetPage();
@@ -225,7 +229,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 		/// </summary>
 		public IList<IWebElement> SystemFieldNames()
 		{
-			Logger.Trace("Получить список имен системных полей на вкладке  'System Fields'.");
+			CustomTestContext.WriteLine("Получить список имен системных полей на вкладке  'System Fields'.");
 
 			return Driver.GetElementList(By.XPath(FIELD_NAME_LIST_IN_SYSTEM_FILEDS_TAB));
 		}

@@ -1,19 +1,23 @@
 ﻿using NUnit.Framework;
-
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.PageObjects;
 
 using AbbyyLS.SmartCAT.Selenium.Tests.DataStructures;
+using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
 using AbbyyLS.SmartCAT.Selenium.Tests.TestFramework;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Billing.LicenseDialog
 {
 	public class LicenseExtendDialog : LicenseBaseDialog, IAbstractPage<LicenseExtendDialog>
 	{
+		public LicenseExtendDialog(WebDriver driver) : base(driver)
+		{
+		}
+
 		public new LicenseExtendDialog GetPage()
 		{
-			var extendDialog = new LicenseExtendDialog();
-			InitPage(extendDialog);
+			var extendDialog = new LicenseExtendDialog(Driver);
+			InitPage(extendDialog, Driver);
 
 			return extendDialog;
 		}
@@ -32,7 +36,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Billing.LicenseDialog
 		/// <param name="duration">период</param>
 		public LicenseExtendDialog SelectExtendDuration(Period duration)
 		{
-			Logger.Debug("Выбрать {0} месяц(а/ев) для продления пакета лицензий.", duration.Description());
+			CustomTestContext.WriteLine("Выбрать {0} месяц(а/ев) для продления пакета лицензий.", duration.Description());
 
 			ExtendPeriod.SelectOptionByText((int)duration + " months");
 

@@ -1,15 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Text.RegularExpressions;
 using System.Threading;
-using System.Windows.Forms;
-
-using NLog;
 
 using NUnit.Framework;
 
 using AbbyyLS.SmartCAT.Selenium.Tests.DataStructures;
+using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries;
 using AbbyyLS.SmartCAT.Selenium.Tests.TestFramework;
 
@@ -17,11 +14,21 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 {
 	public class GlossariesHelper : WorkspaceHelper
 	{
-		public static Logger Logger = LogManager.GetCurrentClassLogger();
+		public GlossariesHelper(WebDriver driver) : base(driver)
+		{
+		_suggestedTermsPageForCurrentGlossaries = new SuggestedTermsPageForCurrentGlossaries(Driver);
+		_suggestTermDialog = new SuggestTermDialog(Driver);
+		_suggestedTermsPageForAllGlossaries = new SuggestedTermsPageForAllGlossaries(Driver);
+		_glossariesPage = new GlossariesPage(Driver);
+		_glossaryPage = new GlossaryPage(Driver);
+		_newGlossaryDialog = new NewGlossaryDialog(Driver);
+		_glossaryPropertiesDialog = new GlossaryPropertiesDialog(Driver);
+		_glossaryStructureDialog = new GlossaryStructureDialog(Driver);
+	}
 
 		public GlossariesHelper AssertClientExistInClientsList(string clientName)
 		{
-			BaseObject.InitPage(_glossariesPage);
+			BaseObject.InitPage(_glossariesPage, Driver);
 			_glossariesPage.ClickCreateGlossaryButton()
 				.OpenClientsList()
 				.AssertClientsListOpened()
@@ -32,7 +39,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 		public GlossariesHelper AssertClientNotExistInClientsList(string clientName)
 		{
-			BaseObject.InitPage(_glossariesPage);
+			BaseObject.InitPage(_glossariesPage, Driver);
 			_glossariesPage.ClickCreateGlossaryButton()
 				.OpenClientsList()
 				.AssertClientsListOpened()
@@ -43,7 +50,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 		public GlossariesHelper AssertProjectGroupExist(string projectGroupName)
 		{
-			BaseObject.InitPage(_glossariesPage);
+			BaseObject.InitPage(_glossariesPage, Driver);
 			_glossariesPage.ClickCreateGlossaryButton()
 				.ClickProjectGroupsList()
 				.AssertProjectGroupsListOpened()
@@ -54,7 +61,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 		public GlossariesHelper AssertProjectGroupNotExist(string projectGroupName)
 		{
-			BaseObject.InitPage(_glossariesPage);
+			BaseObject.InitPage(_glossariesPage, Driver);
 			_glossariesPage.ClickCreateGlossaryButton()
 				.ClickProjectGroupsList()
 				.AssertProjectGroupsListOpened()
@@ -65,7 +72,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 		public GlossariesHelper ClickSortByName()
 		{
-			BaseObject.InitPage(_glossariesPage);
+			BaseObject.InitPage(_glossariesPage, Driver);
 			_glossariesPage.ClickSortByName();
 
 			return this;
@@ -73,7 +80,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 		public GlossariesHelper ClickSortByLanguages()
 		{
-			BaseObject.InitPage(_glossariesPage);
+			BaseObject.InitPage(_glossariesPage, Driver);
 			_glossariesPage.ClickSortByLanguages();
 
 			return this;
@@ -81,7 +88,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 		public GlossariesHelper ClickSortByTermsAdded()
 		{
-			BaseObject.InitPage(_glossariesPage);
+			BaseObject.InitPage(_glossariesPage, Driver);
 			_glossariesPage.ClickSortByTermsAdded();
 
 			return this;
@@ -89,7 +96,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 		public GlossariesHelper OpenSuggestTermDialogFromGlossariesPage()
 		{
-			BaseObject.InitPage(_glossariesPage);
+			BaseObject.InitPage(_glossariesPage, Driver);
 			_glossariesPage.ClickSuggestTermButton();
 
 			return this;
@@ -97,16 +104,16 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 		public GlossariesHelper ClickSaveButtonInSuggestTermDialogFromGlossaryPage(bool errorExpected = false)
 		{
-			BaseObject.InitPage(_suggestTermDialog);
+			BaseObject.InitPage(_suggestTermDialog, Driver);
 			if (!errorExpected)
 			{
 				_suggestTermDialog
-					.ClickSaveButton<GlossaryPage>()
-					.AssertDialogBackgroundDisappeared<GlossaryPage>();
+					.ClickSaveButton<GlossaryPage>(Driver)
+					.AssertDialogBackgroundDisappeared<GlossaryPage>(Driver);
 			}
 			else
 			{
-				_suggestTermDialog.ClickSaveButton<SuggestTermDialog>();
+				_suggestTermDialog.ClickSaveButton<SuggestTermDialog>(Driver);
 			}
 
 			return this;
@@ -119,7 +126,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 			Language language2 = Language.Russian,
 			string glossary = null)
 		{
-			BaseObject.InitPage(_suggestTermDialog);
+			BaseObject.InitPage(_suggestTermDialog, Driver);
 			_suggestTermDialog
 				.FillTerm(termNumber: 1, term: term1)
 				.FillTerm(termNumber: 2, term: term2)
@@ -130,7 +137,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 			if (glossary != null)
 			{
-				BaseObject.InitPage(_suggestTermDialog);
+				BaseObject.InitPage(_suggestTermDialog, Driver);
 				_suggestTermDialog
 					.ClickGlossariesDropdown()
 					.SelectGlossariesInDropdown(glossary);
@@ -141,27 +148,27 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 		public GlossariesHelper ClickCancelButtonInSuggestedTermDialogFromGlossariesPage()
 		{
-			BaseObject.InitPage(_suggestTermDialog);
+			BaseObject.InitPage(_suggestTermDialog, Driver);
 			_suggestTermDialog
-				.ClickCancelButton<GlossariesPage>()
-				.AssertDialogBackgroundDisappeared<GlossariesPage>();
+				.ClickCancelButton<GlossariesPage>(Driver)
+				.AssertDialogBackgroundDisappeared<GlossariesPage>(Driver);
 
 			return this;
 		}
 
 		public GlossariesHelper ClickSaveButtonInSuggestTermDialogFromGlossariesPage(bool errorExpected = false)
 		{
-			BaseObject.InitPage(_suggestTermDialog);
+			BaseObject.InitPage(_suggestTermDialog, Driver);
 			if (!errorExpected)
 			{
 				_suggestTermDialog
-					.ClickSaveButton<GlossariesPage>()
-					.AssertDialogBackgroundDisappeared<GlossariesPage>();
+					.ClickSaveButton<GlossariesPage>(Driver)
+					.AssertDialogBackgroundDisappeared<GlossariesPage>(Driver);
 			}
 			else
 			{
 				_suggestTermDialog
-					.ClickSaveButton<SuggestTermDialog>();
+					.ClickSaveButton<SuggestTermDialog>(Driver);
 			}
 
 			return this;
@@ -169,18 +176,18 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 		public GlossariesHelper ClickSaveTermAnywayInSuggestTermDialogFromGlossaryPage()
 		{
-			BaseObject.InitPage(_suggestTermDialog);
+			BaseObject.InitPage(_suggestTermDialog, Driver);
 			_suggestTermDialog
-				.ClickSaveTermAnywayButton<GlossaryPage>()
-				.AssertDialogBackgroundDisappeared<GlossaryPage>();
+				.ClickSaveTermAnywayButton<GlossaryPage>(Driver)
+				.AssertDialogBackgroundDisappeared<GlossaryPage>(Driver);
 
 			return this;
 		}
 
 		public GlossariesHelper AssertLanguageInSuggestTermDialogMatch(int languageNumber, Language language)
 		{
-			Logger.Trace("Проверить, что указан {0} язык №{1}.", language, languageNumber);
-			BaseObject.InitPage(_suggestTermDialog);
+			CustomTestContext.WriteLine("Проверить, что указан {0} язык №{1}.", language, languageNumber);
+			BaseObject.InitPage(_suggestTermDialog, Driver);
 
 			Assert.AreEqual(language.ToString(), _suggestTermDialog.LanguageText(languageNumber),
 				"Произошла ошибка:\nНеверный язык №{0} в диалоге предложения термина.");
@@ -190,17 +197,17 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 		public GlossariesHelper ClickSaveTermAnywayInSuggestTermDialogFromGlossariesPage()
 		{
-			BaseObject.InitPage(_suggestTermDialog);
+			BaseObject.InitPage(_suggestTermDialog, Driver);
 			_suggestTermDialog
-				.ClickSaveTermAnywayButton<GlossariesPage>()
-				.AssertDialogBackgroundDisappeared<GlossariesPage>();
+				.ClickSaveTermAnywayButton<GlossariesPage>(Driver)
+				.AssertDialogBackgroundDisappeared<GlossariesPage>(Driver);
 
 			return this;
 		}
 
 		public GlossariesHelper SelectLanguageToSuggestTerm(int languageNumber, Language language)
 		{
-			BaseObject.InitPage(_suggestTermDialog);
+			BaseObject.InitPage(_suggestTermDialog, Driver);
 			_suggestTermDialog
 				.ClickLanguageList(languageNumber)
 				.SelectLanguageInList(language);
@@ -210,17 +217,17 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 		public GlossariesHelper ClickCancelButtonInSuggestedTermDialogFromGlossaryPage()
 		{
-			BaseObject.InitPage(_suggestTermDialog);
+			BaseObject.InitPage(_suggestTermDialog, Driver);
 			_suggestTermDialog
-				.ClickCancelButton<GlossaryPage>()
-				.AssertDialogBackgroundDisappeared<GlossaryPage>();
+				.ClickCancelButton<GlossaryPage>(Driver)
+				.AssertDialogBackgroundDisappeared<GlossaryPage>(Driver);
 
 			return this;
 		}
 
 		public GlossariesHelper OpenSuggestTermDialogFromGlossaryPage()
 		{
-			BaseObject.InitPage(_glossaryPage);
+			BaseObject.InitPage(_glossaryPage, Driver);
 			_glossaryPage.ClickSuggestTermButton();
 
 			return this;
@@ -228,7 +235,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 		public GlossariesHelper ClickSortByTermsUnderReview()
 		{
-			BaseObject.InitPage(_glossariesPage);
+			BaseObject.InitPage(_glossariesPage, Driver);
 			_glossariesPage.ClickSortByTermsUnderReview();
 
 			return this;
@@ -236,7 +243,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 		public GlossariesHelper ClickSortByComment()
 		{
-			BaseObject.InitPage(_glossariesPage);
+			BaseObject.InitPage(_glossariesPage, Driver);
 			_glossariesPage.ClickSortByComment();
 
 			return this;
@@ -244,7 +251,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 		public GlossariesHelper ClickSortByProjectGroups()
 		{
-			BaseObject.InitPage(_glossariesPage);
+			BaseObject.InitPage(_glossariesPage, Driver);
 			_glossariesPage.ClickSortByProjectGroups();
 
 			return this;
@@ -252,7 +259,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 		public GlossariesHelper ClickSortByClient()
 		{
-			BaseObject.InitPage(_glossariesPage);
+			BaseObject.InitPage(_glossariesPage, Driver);
 			_glossariesPage.ClickSortByClient();
 
 			return this;
@@ -260,7 +267,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 		public GlossariesHelper ClickSortGlossariesToDateModified()
 		{
-			BaseObject.InitPage(_glossariesPage);
+			BaseObject.InitPage(_glossariesPage, Driver);
 			_glossariesPage.ClickSortByDateModified();
 
 			return this;
@@ -268,7 +275,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 		public GlossariesHelper ClickSortTermsToDateModified()
 		{
-			BaseObject.InitPage(_glossaryPage);
+			BaseObject.InitPage(_glossaryPage, Driver);
 			_glossaryPage.ClickSortByDateModified();
 
 			return this;
@@ -276,7 +283,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 		public GlossariesHelper ClickSortByModifiedBy()
 		{
-			BaseObject.InitPage(_glossariesPage);
+			BaseObject.InitPage(_glossariesPage, Driver);
 			_glossariesPage.ClickSortByModifiedBy();
 
 			return this;
@@ -284,7 +291,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 		public GlossariesHelper ClickSortByEnglishTerm()
 		{
-			BaseObject.InitPage(_glossaryPage);
+			BaseObject.InitPage(_glossaryPage, Driver);
 			_glossaryPage.ClickSortByEnglishTerm();
 
 			return this;
@@ -292,7 +299,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 		public GlossariesHelper ClickSortByRussianTerm()
 		{
-			BaseObject.InitPage(_glossaryPage);
+			BaseObject.InitPage(_glossaryPage, Driver);
 			_glossaryPage.ClickSortByRussianTerm();
 
 			return this;
@@ -300,7 +307,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 		public GlossariesHelper AssertGlossaryExist(string glossaryName)
 		{
-			BaseObject.InitPage(_glossariesPage);
+			BaseObject.InitPage(_glossariesPage, Driver);
 			_glossariesPage.AssertGlossaryExist(glossaryName);
 
 			return this;
@@ -308,7 +315,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 		public GlossariesHelper AssertGlossaryNotExist(string glossaryName)
 		{
-			BaseObject.InitPage(_glossariesPage);
+			BaseObject.InitPage(_glossariesPage, Driver);
 			_glossariesPage.AssertGlossaryNotExist(glossaryName);
 
 			return this;
@@ -316,8 +323,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 		public GlossariesHelper AssertModifiedByMatch(string glossaryName, string userName)
 		{
-			Logger.Trace("Проверить, что имя автора совпадает с {0}.", userName);
-			BaseObject.InitPage(_glossariesPage);
+			CustomTestContext.WriteLine("Проверить, что имя автора совпадает с {0}.", userName);
+			BaseObject.InitPage(_glossariesPage, Driver);
 			var modifiedBy = _glossariesPage.GetModifiedByAuthor(glossaryName);
 
 			Assert.AreEqual(modifiedBy, userName, "Произошла ошибка:\n имя {0} не совпадает с {1}.", modifiedBy, userName);
@@ -327,8 +334,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 		public GlossariesHelper AssertExtendTermsCountMatch(int expectedTermCount)
 		{
-			Logger.Trace("Проверить, что количество терминов = {0}.", expectedTermCount);
-			BaseObject.InitPage(_glossaryPage);
+			CustomTestContext.WriteLine("Проверить, что количество терминов = {0}.", expectedTermCount);
+			BaseObject.InitPage(_glossaryPage, Driver);
 
 			Assert.AreEqual(
 				expectedTermCount,
@@ -340,8 +347,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 		public GlossariesHelper AssertSynonymCountMatch(int expectedCount, int termNumber, int columnNumber)
 		{
-			Logger.Trace("Проверить, что количество синонимов в термине = {0}.", expectedCount);
-			BaseObject.InitPage(_glossaryPage);
+			CustomTestContext.WriteLine("Проверить, что количество синонимов в термине = {0}.", expectedCount);
+			BaseObject.InitPage(_glossaryPage, Driver);
 
 			Assert.AreEqual(
 				expectedCount,
@@ -355,8 +362,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 		public GlossariesHelper AssertTermsTextMatch(string text)
 		{
-			Logger.Trace("Проверить, что все термины совпадают с {0}.", text);
-			BaseObject.InitPage(_glossaryPage);
+			CustomTestContext.WriteLine("Проверить, что все термины совпадают с {0}.", text);
+			BaseObject.InitPage(_glossaryPage, Driver);
 
 			var termsList = _glossaryPage.TermsList();
 
@@ -375,7 +382,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 		public GlossariesHelper AssertSynonumUniqueErrorDisplayed(int columnNumber)
 		{
-			BaseObject.InitPage(_glossaryPage);
+			BaseObject.InitPage(_glossaryPage, Driver);
 			_glossaryPage.AssertSynonumUniqueErrorDisplayed(columnNumber);
 
 			return this;
@@ -383,8 +390,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 		public GlossariesHelper AssertDefaultTermsCountMatch(int expectedTermCount)
 		{
-			Logger.Trace("Проверить, что количество терминов равно {0}.", expectedTermCount);
-			BaseObject.InitPage(_glossaryPage);
+			CustomTestContext.WriteLine("Проверить, что количество терминов равно {0}.", expectedTermCount);
+			BaseObject.InitPage(_glossaryPage, Driver);
 
 			Assert.AreEqual(
 				expectedTermCount,
@@ -396,8 +403,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 		public GlossariesHelper AssertAlreadyExistTermErrorDisplayed()
 		{
-			Logger.Trace("Проверить, что сообщение 'The term already exists' появилось.");
-			BaseObject.InitPage(_glossaryPage);
+			CustomTestContext.WriteLine("Проверить, что сообщение 'The term already exists' появилось.");
+			BaseObject.InitPage(_glossaryPage, Driver);
 
 			Assert.IsTrue(
 				_glossaryPage.AlreadyExistTermErrorDisplayed(),
@@ -409,8 +416,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 		public GlossariesHelper AssertTermMatch(string expectedText)
 		{
-			Logger.Trace("Проверить, что текст в термине совпадает с {0}.", expectedText);
-			BaseObject.InitPage(_glossaryPage);
+			CustomTestContext.WriteLine("Проверить, что текст в термине совпадает с {0}.", expectedText);
+			BaseObject.InitPage(_glossaryPage, Driver);
 
 			Assert.AreEqual(
 				expectedText,
@@ -422,7 +429,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 		public GlossariesHelper DeleteTerm(string source, string target)
 		{
-			BaseObject.InitPage(_glossaryPage);
+			BaseObject.InitPage(_glossaryPage, Driver);
 			_glossaryPage.HoverTermRow(source, target)
 				.ClickDeleteButton(source, target)
 				.AssertDeleteButtonDisappeared(source, target);
@@ -432,7 +439,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 		public GlossariesHelper EditDefaultTerm(string source, string target, string text)
 		{
-			BaseObject.InitPage(_glossaryPage);
+			BaseObject.InitPage(_glossaryPage, Driver);
 			_glossaryPage.HoverTermRow(source, target)
 				.ClickEditButton()
 				.FillTerm(1, source + text)
@@ -444,7 +451,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 		public GlossariesHelper EditCustomTerms(string text)
 		{
-			BaseObject.InitPage(_glossaryPage);
+			BaseObject.InitPage(_glossaryPage, Driver);
 			_glossaryPage.ClickEditEntryButton();
 
 			var termsCount = _glossaryPage.TermsCountInLanguagesAndTermsSection();
@@ -462,7 +469,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 		public GlossariesHelper AssertTermDisplayedInLanguagesAndTermsSection(string term)
 		{
-			BaseObject.InitPage(_glossaryPage);
+			BaseObject.InitPage(_glossaryPage, Driver);
 
 			Assert.IsTrue(
 				_glossaryPage.AssertTermDisplayedInLanguagesAndTermsSection(term),
@@ -474,7 +481,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 		public GlossariesHelper SearchTerm(string text)
 		{
-			BaseObject.InitPage(_glossaryPage);
+			BaseObject.InitPage(_glossaryPage, Driver);
 			_glossaryPage.FillSearchField(text)
 				.ClickSearchButton();
 
@@ -483,7 +490,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 		public GlossariesHelper CancelEditTerm()
 		{
-			BaseObject.InitPage(_glossaryPage);
+			BaseObject.InitPage(_glossaryPage, Driver);
 			_glossaryPage.ClickCancelButton();
 
 			return this;
@@ -491,7 +498,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 		public GlossariesHelper CloseTermsInfo()
 		{
-			BaseObject.InitPage(_glossaryPage);
+			BaseObject.InitPage(_glossaryPage, Driver);
 			_glossaryPage.CloseExpandedTerms();
 
 			return this;
@@ -499,7 +506,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 		public GlossariesHelper FillLanguageComment(string comment)
 		{
-			BaseObject.InitPage(_glossaryPage);
+			BaseObject.InitPage(_glossaryPage, Driver);
 			_glossaryPage.OpenLanguageAndTermDetailsEditMode()
 				.FillLanguageComment(comment);
 
@@ -508,7 +515,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 		public GlossariesHelper FillDefinitionSource(string definitionSource)
 		{
-			BaseObject.InitPage(_glossaryPage);
+			BaseObject.InitPage(_glossaryPage, Driver);
 			_glossaryPage.OpenLanguageAndTermDetailsEditMode()
 				.FillDefinitionSource(definitionSource);
 
@@ -517,7 +524,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 		public GlossariesHelper ClickSaveEntryButton()
 		{
-			BaseObject.InitPage(_glossaryPage);
+			BaseObject.InitPage(_glossaryPage, Driver);
 			_glossaryPage.ClickSaveEntryButton();
 
 			return this;
@@ -525,7 +532,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 		public GlossariesHelper FillField(string fieldName, string text)
 		{
-			BaseObject.InitPage(_glossaryPage);
+			BaseObject.InitPage(_glossaryPage, Driver);
 			_glossaryPage.FillField(fieldName, text);
 
 			return this;
@@ -533,7 +540,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 		public GlossariesHelper FillNumberField(string fieldName, string text)
 		{
-			BaseObject.InitPage(_glossaryPage);
+			BaseObject.InitPage(_glossaryPage, Driver);
 			_glossaryPage.FillNumberCustomField(fieldName, text);
 
 			return this;
@@ -541,7 +548,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 		public GlossariesHelper ClickYesNoCheckBox()
 		{
-			BaseObject.InitPage(_glossaryPage);
+			BaseObject.InitPage(_glossaryPage, Driver);
 			_glossaryPage.ClickYesNoCheckbox();
 
 			return this;
@@ -549,7 +556,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 		public GlossariesHelper AssertYesNoCheckboxChecked(string yesNo, string fieldName)
 		{
-			BaseObject.InitPage(_glossaryPage);
+			BaseObject.InitPage(_glossaryPage, Driver);
 			_glossaryPage.AssertYesNoCheckboxChecked(yesNo, fieldName);
 
 			return this;
@@ -557,7 +564,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 		public GlossariesHelper FillDateField(string fieldName)
 		{
-			BaseObject.InitPage(_glossaryPage);
+			BaseObject.InitPage(_glossaryPage, Driver);
 			_glossaryPage.OpenCalendar(fieldName)
 				.ClickTodayInCalendar();
 
@@ -566,15 +573,15 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 		public GlossariesHelper UploadImage(string fieldName, string imageFile)
 		{
-			BaseObject.InitPage(_glossaryPage);
-			_glossaryPage.UploadImageFile(imageFile);
+			BaseObject.InitPage(_glossaryPage, Driver);
+			_glossaryPage.ClickImageField(fieldName);
 
 			return this;
 		}
 
 		public GlossariesHelper UploadImageWithMultimedia(string fieldName, string imageFile)
 		{
-			BaseObject.InitPage(_glossaryPage);
+			BaseObject.InitPage(_glossaryPage, Driver);
 			_glossaryPage.UploadImageFileWithMultimedia(imageFile);
 
 			return this;
@@ -582,7 +589,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 		public GlossariesHelper UploadMediaFile(string fieldName, string mediaFile)
 		{
-			BaseObject.InitPage(_glossaryPage);
+			BaseObject.InitPage(_glossaryPage, Driver);
 			_glossaryPage.UploadMultimediaFile(mediaFile);
 
 			_glossaryPage.AssertProgressUploadDissapeared(fieldName);
@@ -592,7 +599,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 		public GlossariesHelper AssertImageFieldFilled(string fieldName)
 		{
-			BaseObject.InitPage(_glossaryPage);
+			BaseObject.InitPage(_glossaryPage, Driver);
 			_glossaryPage.AssertImageFieldFilled(fieldName);
 
 			return this;
@@ -600,7 +607,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 		public GlossariesHelper AssertMediaFieldFilled(string fieldName, string fileName)
 		{
-			BaseObject.InitPage(_glossaryPage);
+			BaseObject.InitPage(_glossaryPage, Driver);
 			_glossaryPage.AssertMediaFileMatch(fileName, fieldName);
 
 			return this;
@@ -608,7 +615,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 		public GlossariesHelper AssertSystemTextAreaFieldDisplayed(GlossarySystemField fieldName)
 		{
-			BaseObject.InitPage(_glossaryPage);
+			BaseObject.InitPage(_glossaryPage, Driver);
 			_glossaryPage.AssertSystemTextAreaFieldDisplayed(fieldName);
 
 			return this;
@@ -616,7 +623,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 		public GlossariesHelper AssertSystemDropdownFieldDisplayed(GlossarySystemField fieldName)
 		{
-			BaseObject.InitPage(_glossaryPage);
+			BaseObject.InitPage(_glossaryPage, Driver);
 			_glossaryPage.AssertSystemDropdownFieldDisplayed(fieldName);
 
 			return this;
@@ -625,7 +632,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 		public GlossariesHelper FillSystemField(GlossarySystemField systemField, string value)
 		{
-			BaseObject.InitPage(_glossaryPage);
+			BaseObject.InitPage(_glossaryPage, Driver);
 			_glossaryPage.FillSystemField(systemField, value);
 
 			return this;
@@ -633,7 +640,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 		public GlossariesHelper AssertGeneralFieldValueMatch(GlossarySystemField fieldName, string text)
 		{
-			BaseObject.InitPage(_glossaryPage);
+			BaseObject.InitPage(_glossaryPage, Driver);
 			_glossaryPage.AssertFieldValueMatch(fieldName, text);
 
 			return this;
@@ -641,7 +648,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 		public GlossariesHelper AssertCustomFieldValueMatch(string fieldName, string text)
 		{
-			BaseObject.InitPage(_glossaryPage);
+			BaseObject.InitPage(_glossaryPage, Driver);
 			_glossaryPage.AssertCustomFieldValueMatch(fieldName, text);
 
 			return this;
@@ -649,7 +656,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 		public GlossariesHelper AssertLanguageCommentIsFilled(string text)
 		{
-			BaseObject.InitPage(_glossaryPage);
+			BaseObject.InitPage(_glossaryPage, Driver);
 			_glossaryPage.OpenLanguageAndTermDetailsViewMode()
 				.AssertCommentIsFilled(text);
 
@@ -658,7 +665,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 		public GlossariesHelper AssertDefinitionFilled(string definition)
 		{
-			BaseObject.InitPage(_glossaryPage);
+			BaseObject.InitPage(_glossaryPage, Driver);
 			_glossaryPage.OpenLanguageAndTermDetailsViewMode()
 				.AssertDefinitionIsFilled(definition);
 
@@ -667,7 +674,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 		public GlossariesHelper AssertDefinitionSourceFilled(string definition)
 		{
-			BaseObject.InitPage(_glossaryPage);
+			BaseObject.InitPage(_glossaryPage, Driver);
 			_glossaryPage.OpenLanguageAndTermDetailsViewMode()
 				.AssertDefinitionSourceIsFilled(definition);
 
@@ -676,7 +683,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 		public GlossariesHelper CreateTerm(string firstTerm = "firstTerm", string secondTerm = "secondTerm")
 		{
-			BaseObject.InitPage(_glossaryPage);
+			BaseObject.InitPage(_glossaryPage, Driver);
 			_glossaryPage.ClickNewEntryButton()
 				.FillTerm(1, firstTerm)
 				.FillTerm(2, secondTerm)
@@ -687,7 +694,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 		public GlossariesHelper FillTerm(string firstTerm = "firstTerm", string secondTerm = "secondTerm")
 		{
-			BaseObject.InitPage(_glossaryPage);
+			BaseObject.InitPage(_glossaryPage, Driver);
 			_glossaryPage.FillTerm(1, firstTerm)
 				.FillTerm(2, secondTerm);
 
@@ -696,7 +703,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 		public GlossariesHelper ClickSaveButton()
 		{
-			BaseObject.InitPage(_glossaryPage);
+			BaseObject.InitPage(_glossaryPage, Driver);
 			_glossaryPage.ClickSaveTermButton();
 
 			return this;
@@ -704,7 +711,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 		public GlossariesHelper ExportGlossary()
 		{
-			BaseObject.InitPage(_glossaryPage);
+			BaseObject.InitPage(_glossaryPage, Driver);
 			_glossaryPage.ClickExportGlossary();
 
 			return this;
@@ -722,12 +729,12 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 			List<Language> languageList = null,
 			string projectGroupName = null)
 		{
-			BaseObject.InitPage(_glossariesPage);
+			BaseObject.InitPage(_glossariesPage, Driver);
 			_glossariesPage.ClickCreateGlossaryButton()
 				.FillGlossaryName(glossaryName)
 				.FillComment(comment);
 
-			BaseObject.InitPage(_newGlossaryDialog);
+			BaseObject.InitPage(_newGlossaryDialog, Driver);
 			if (languageList != null && languageList.Count > 0)
 			{
 				_newGlossaryDialog.ClickDeleteLanguageButton()
@@ -751,12 +758,12 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 			if (errorExpected)
 			{
-				_newGlossaryDialog.ClickSaveGlossaryButton<NewGlossaryDialog>();
+				_newGlossaryDialog.ClickSaveGlossaryButton<NewGlossaryDialog>(Driver);
 			}
 			else
 			{
-				_newGlossaryDialog.ClickSaveGlossaryButton<GlossaryPage>()
-					.AssertDialogBackgroundDisappeared<GlossaryPage>();
+				_newGlossaryDialog.ClickSaveGlossaryButton<GlossaryPage>(Driver)
+					.AssertDialogBackgroundDisappeared<GlossaryPage>(Driver);
 			}
 
 			return this;
@@ -764,7 +771,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 		public GlossariesHelper AddAtLeastOnTermErrorDisplay()
 		{
-			BaseObject.InitPage(_glossaryPage);
+			BaseObject.InitPage(_glossaryPage, Driver);
 
 			Assert.IsTrue(
 				_glossaryPage.EmptyTermErrorDisplayed(),
@@ -775,7 +782,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 		public GlossariesHelper AssertSpecifyGlossaryNameErrorDisplay()
 		{
-			BaseObject.InitPage(_newGlossaryDialog);
+			BaseObject.InitPage(_newGlossaryDialog, Driver);
 
 			Assert.IsTrue(_newGlossaryDialog.SpecifyGlossaryNameErrorDisplay(),
 				"Произошла ошибка:\n сообщение 'Specify glossary name' не появилось.");
@@ -786,7 +793,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 		public GlossariesHelper AssertExistNameErrorDisplay()
 		{
-			BaseObject.InitPage(_newGlossaryDialog);
+			BaseObject.InitPage(_newGlossaryDialog, Driver);
 			_newGlossaryDialog.AssertExistNameErrorDisplay();
 
 			return this;
@@ -794,7 +801,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 		public GlossariesHelper AssertLanguageNotExistInDropdown(Language language, int dropdownNumber)
 		{
-			BaseObject.InitPage(_newGlossaryDialog);
+			BaseObject.InitPage(_newGlossaryDialog, Driver);
 			_newGlossaryDialog.ExpandLanguageDropdown(dropdownNumber)
 				.AssertLanguageNotExistInDropdown(language);
 
@@ -803,8 +810,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 		public GlossariesHelper AssertLanguageColumnCountMatch(int count)
 		{
-			Logger.Trace("Проверить, что количество колонок с языками = {0}.", count);
-			BaseObject.InitPage(_glossaryPage);
+			CustomTestContext.WriteLine("Проверить, что количество колонок с языками = {0}.", count);
+			BaseObject.InitPage(_glossaryPage, Driver);
 
 			Assert.AreEqual(
 				count,
@@ -816,7 +823,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 		public GlossariesHelper OpenNewGlossaryDialog()
 		{
-			BaseObject.InitPage(_glossariesPage);
+			BaseObject.InitPage(_glossariesPage, Driver);
 			_glossariesPage.ClickCreateGlossaryButton();
 
 			return this;
@@ -824,7 +831,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 		public GlossariesHelper SelectLanguage(Language language, int dropdownNumber)
 		{
-			BaseObject.InitPage(_newGlossaryDialog);
+			BaseObject.InitPage(_newGlossaryDialog, Driver);
 			_newGlossaryDialog.ExpandLanguageDropdown(dropdownNumber)
 				.SelectLanguage(language);
 
@@ -833,7 +840,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 		public GlossariesHelper DeleteLanguage(int dropdownNumber = 1)
 		{
-			BaseObject.InitPage(_newGlossaryDialog);
+			BaseObject.InitPage(_newGlossaryDialog, Driver);
 			_newGlossaryDialog.ClickDeleteLanguageButton(dropdownNumber);
 
 			return this;
@@ -841,8 +848,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 		public GlossariesHelper AssertDateModifiedMatchCurrentDate(string glossaryName)
 		{
-			Logger.Trace("Проверить, что дата изменения глоссария {0} совпадает с текущей датой.", glossaryName);
-			BaseObject.InitPage(_glossariesPage);
+			CustomTestContext.WriteLine("Проверить, что дата изменения глоссария {0} совпадает с текущей датой.", glossaryName);
+			BaseObject.InitPage(_glossariesPage, Driver);
 
 			DateTime convertModifiedDate = _glossariesPage.GlossaryDateModified(glossaryName);
 			TimeSpan result = DateTime.Now - convertModifiedDate;
@@ -868,7 +875,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 		public GlossariesHelper SwitchToGlossaryStructureDialog()
 		{
-			BaseObject.InitPage(_glossaryPropertiesDialog);
+			BaseObject.InitPage(_glossaryPropertiesDialog, Driver);
 			_glossaryPropertiesDialog.ClickAdvancedButton();
 
 			return this;
@@ -876,7 +883,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 		public GlossariesHelper OpenGlossaryProperties()
 		{
-			BaseObject.InitPage(_glossaryPage);
+			BaseObject.InitPage(_glossaryPage, Driver);
 			_glossaryPage.ExpandEditGlossaryMenu()
 				.ClickGlossaryProperties();
 
@@ -885,7 +892,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 		public GlossariesHelper OpenGlossaryStructure()
 		{
-			BaseObject.InitPage(_glossaryPage);
+			BaseObject.InitPage(_glossaryPage, Driver);
 			_glossaryPage.ExpandEditGlossaryMenu()
 				.ClickGlossaryStructure();
 
@@ -894,7 +901,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 		public GlossariesHelper DeleteGlossaryInPropertiesDialog()
 		{
-			BaseObject.InitPage(_glossaryPropertiesDialog);
+			BaseObject.InitPage(_glossaryPropertiesDialog, Driver);
 			_glossaryPropertiesDialog.ClickDeleteGlossaryButton()
 				.AssertConfirmDeleteMessageDisplay()
 				.ClickConfirmDeleteGlossaryButton();
@@ -904,15 +911,15 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 		public GlossariesHelper ClickSaveButtonInPropetiesDialog(bool errorExpected = false)
 		{
-			BaseObject.InitPage(_glossaryPropertiesDialog);
+			BaseObject.InitPage(_glossaryPropertiesDialog, Driver);
 			if (errorExpected)
 			{
-				_glossaryPropertiesDialog.ClickSaveButton<GlossaryPropertiesDialog>();
+				_glossaryPropertiesDialog.ClickSaveButton<GlossaryPropertiesDialog>(Driver);
 			}
 			else
 			{
-				_glossaryPropertiesDialog.ClickSaveButton<GlossaryPage>()
-					.AssertDialogBackgroundDisappeared<GlossaryPage>();
+				_glossaryPropertiesDialog.ClickSaveButton<GlossaryPage>(Driver)
+					.AssertDialogBackgroundDisappeared<GlossaryPage>(Driver);
 			}
 
 
@@ -921,14 +928,14 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 		public int LanguagesCountInPropertiesDialog(out int languagesCountBefore)
 		{
-			BaseObject.InitPage(_glossaryPropertiesDialog);
+			BaseObject.InitPage(_glossaryPropertiesDialog, Driver);
 
 			return languagesCountBefore = _glossaryPropertiesDialog.LanguagesCount();
 		}
 
 		public GlossariesHelper CancelDeleteLanguageInPropertiesDialog(int languagesNumber = 2)
 		{
-			BaseObject.InitPage(_glossaryPropertiesDialog);
+			BaseObject.InitPage(_glossaryPropertiesDialog, Driver);
 			_glossaryPropertiesDialog.ClickDeleteLanguageButton(languagesNumber)
 				.AssertDeleteLanguageWarningDisplay()
 				.ClickCancelInDeleteLanguageWarning();
@@ -938,7 +945,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 		public GlossariesHelper FillGlossaryNameInPropertiesDialog(string glossaryName)
 		{
-			BaseObject.InitPage(_glossaryPropertiesDialog);
+			BaseObject.InitPage(_glossaryPropertiesDialog, Driver);
 			_glossaryPropertiesDialog.FillGlossaryName(glossaryName);
 
 			return this;
@@ -946,7 +953,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 		public GlossariesHelper GoToGlossaryPage(string glossaryName)
 		{
-			BaseObject.InitPage(_glossariesPage);
+			BaseObject.InitPage(_glossariesPage, Driver);
 			_glossariesPage.ClickGlossaryRow(glossaryName);
 
 			return this;
@@ -964,7 +971,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 		public GlossariesHelper AssertLanguagesCountMatch(int countBefore, int countAfter)
 		{
-			BaseObject.InitPage(_glossaryPropertiesDialog);
+			BaseObject.InitPage(_glossaryPropertiesDialog, Driver);
 
 			Assert.AreEqual(
 				countBefore,
@@ -978,7 +985,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 		public GlossariesHelper GetLanguagesCount(out int languagesCount)
 		{
-			BaseObject.InitPage(_newGlossaryDialog);
+			BaseObject.InitPage(_newGlossaryDialog, Driver);
 
 			languagesCount = _newGlossaryDialog.GetGlossaryLanguageCount();
 
@@ -992,7 +999,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 		public GlossariesHelper AssertExtendModeOpen()
 		{
-			BaseObject.InitPage(_glossaryPage);
+			BaseObject.InitPage(_glossaryPage, Driver);
 			_glossaryPage.AssertExtendModeOpen();
 
 			return this;
@@ -1000,7 +1007,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 		public GlossariesHelper ClickNewEntryButton()
 		{
-			BaseObject.InitPage(_glossaryPage);
+			BaseObject.InitPage(_glossaryPage, Driver);
 			_glossaryPage.ClickNewEntryButton();
 
 			return this;
@@ -1008,19 +1015,19 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 		public GlossariesHelper AddNewSystemField(GlossarySystemField systemField)
 		{
-			BaseObject.InitPage(_glossaryStructureDialog);
+			BaseObject.InitPage(_glossaryStructureDialog, Driver);
 			_glossaryStructureDialog.SelectSystemField(systemField)
 				.ClickAddToListButton()
 				.AssertSystemFieldIsAdded(systemField)
 				.ClickSaveButton()
-				.AssertDialogBackgroundDisappeared<GlossaryPage>();
+				.AssertDialogBackgroundDisappeared<GlossaryPage>(Driver);
 
 			return this;
 		}
 
 		public GlossariesHelper SelectLevelGlossaryStructure(GlossaryStructureLevel level)
 		{
-			BaseObject.InitPage(_glossaryStructureDialog);
+			BaseObject.InitPage(_glossaryStructureDialog, Driver);
 			_glossaryStructureDialog.ExpandLevelDropdown()
 				.SelectLevel(level);
 
@@ -1029,17 +1036,17 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 		public GlossariesHelper AddLanguageFields()
 		{
-			BaseObject.InitPage(_glossaryStructureDialog);
+			BaseObject.InitPage(_glossaryStructureDialog, Driver);
 			_glossaryStructureDialog.AddLanguageFields()
 				.ClickSaveButton()
-				.AssertDialogBackgroundDisappeared<GlossaryPage>();
+				.AssertDialogBackgroundDisappeared<GlossaryPage>(Driver);
 
 			return this;
 		}
 
 		public GlossariesHelper FillTermInLanguagesAndTermsSection(string text = "Term Example")
 		{
-			BaseObject.InitPage(_glossaryPage);
+			BaseObject.InitPage(_glossaryPage, Driver);
 			_glossaryPage.FillTermInLanguagesAndTermsSection(text);
 
 			return this;
@@ -1066,7 +1073,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 		public GlossariesHelper ImportGlossary(string pathFile)
 		{
-			BaseObject.InitPage(_glossaryPage);
+			BaseObject.InitPage(_glossaryPage, Driver);
 			_glossaryPage.ClickImportButton()
 				.ImportGlossary(pathFile)
 				.ClickImportButtonInImportDialog()
@@ -1077,7 +1084,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 		public GlossariesHelper ImportGlossaryWithReplaceTerms(string pathFile)
 		{
-			BaseObject.InitPage(_glossaryPage);
+			BaseObject.InitPage(_glossaryPage, Driver);
 			_glossaryPage.ClickImportButton()
 				.ClickReplaceTermsButton()
 				.ImportGlossary(pathFile)
@@ -1089,7 +1096,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 		public GlossariesHelper AssertSynonymsMatch(List<string> synonyms, int columnNumber = 1)
 		{
-			BaseObject.InitPage(_glossaryPage);
+			BaseObject.InitPage(_glossaryPage, Driver);
 			_glossaryPage.AssertSynonymsMatch(columnNumber, synonyms);
 
 			return this;
@@ -1097,7 +1104,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 		public GlossariesHelper AssertGlossaryContainsCorrectTermsCount(int termsCount)
 		{
-			BaseObject.InitPage(_glossaryPage);
+			BaseObject.InitPage(_glossaryPage, Driver);
 			_glossaryPage.AssertGlossaryContainsCorrectTermsCount(termsCount);
 
 			return this;
@@ -1105,7 +1112,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 		public GlossariesHelper SelectGlossaryInSuggestedTermsPageForAllGlossaries(string glossaryName)
 		{
-			BaseObject.InitPage(_suggestedTermsPageForAllGlossaries);
+			BaseObject.InitPage(_suggestedTermsPageForAllGlossaries, Driver);
 			_suggestedTermsPageForAllGlossaries
 				.ClickGlossariesDropdown()
 				.SelectGlossariesInDropdown(glossaryName);
@@ -1115,7 +1122,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 		public GlossariesHelper SelectGlossaryInSuggestedTermsPageForCurrentGlossary(string glossaryName)
 		{
-			BaseObject.InitPage(_suggestedTermsPageForCurrentGlossaries);
+			BaseObject.InitPage(_suggestedTermsPageForCurrentGlossaries, Driver);
 			_suggestedTermsPageForCurrentGlossaries
 				.ClickGlossariesDropdown()
 				.SelectGlossariesInDropdown(glossaryName);
@@ -1125,7 +1132,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 		public GlossariesHelper FillDefinition(string definition)
 		{
-			BaseObject.InitPage(_glossaryPage);
+			BaseObject.InitPage(_glossaryPage, Driver);
 			_glossaryPage.OpenLanguageAndTermDetailsEditMode()
 				.FillDefinition(definition);
 
@@ -1134,7 +1141,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 		public GlossariesHelper AddSynonym(int columnNumber, string text)
 		{
-			BaseObject.InitPage(_glossaryPage);
+			BaseObject.InitPage(_glossaryPage, Driver);
 			_glossaryPage.ClickSynonymPlusButton(columnNumber)
 				.FillSynonym(text, columnNumber);
 
@@ -1143,7 +1150,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 		public GlossariesHelper DeleteTerm(string source)
 		{
-			BaseObject.InitPage(_glossaryPage);
+			BaseObject.InitPage(_glossaryPage, Driver);
 			_glossaryPage.DeleteTerm(source);
 
 			return this;
@@ -1151,7 +1158,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 		public GlossariesHelper AssertIsSingleTermWithTranslationExists(string glossaryName, string source, string target)
 		{
-			BaseObject.InitPage(_glossariesPage);
+			BaseObject.InitPage(_glossariesPage, Driver);
 			_glossariesPage.ClickGlossaryRow(glossaryName)
 				.AssertIsSingleTermWithTranslationExists(source, target);
 
@@ -1164,7 +1171,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 			string target,
 			string comment)
 		{
-			BaseObject.InitPage(_glossaryPage);
+			BaseObject.InitPage(_glossaryPage, Driver);
 			_glossaryPage
 				.AssertIsTermWithTranslationAndCommentExists(source, target, comment);
 
@@ -1173,7 +1180,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 		public GlossariesHelper AssertIsSingleTermExists(string glossaryName, string source)
 		{
-			BaseObject.InitPage(_glossariesPage);
+			BaseObject.InitPage(_glossariesPage, Driver);
 			_glossariesPage.ClickGlossaryRow(glossaryName)
 				.AssertIsSingleTermExists(source);
 
@@ -1182,7 +1189,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 		public GlossariesHelper AssertIsTermWithCommentExists(string glossaryName, string source, string comment)
 		{
-			BaseObject.InitPage(_glossariesPage);
+			BaseObject.InitPage(_glossariesPage, Driver);
 			_glossariesPage.ClickGlossaryRow(glossaryName)
 				.AssertIsTermWithCommentExists(source, comment);
 
@@ -1193,13 +1200,13 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 		{
 			if (glossariesPage)
 			{
-				BaseObject.InitPage(_glossariesPage);
-				_glossariesPage.AssertSuggestedTermsButtonNotExist<GlossariesPage>();
+				BaseObject.InitPage(_glossariesPage, Driver);
+				_glossariesPage.AssertSuggestedTermsButtonNotExist<GlossariesPage>(Driver);
 			}
 			else
 			{
-				BaseObject.InitPage(_glossaryPage);
-				_glossaryPage.AssertSuggestedTermsButtonNotExist<GlossaryPage>();
+				BaseObject.InitPage(_glossaryPage, Driver);
+				_glossaryPage.AssertSuggestedTermsButtonNotExist<GlossaryPage>(Driver);
 			}
 			return this;
 		}
@@ -1208,13 +1215,13 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 		{
 			if (glossariesPage)
 			{
-				BaseObject.InitPage(_glossariesPage);
-				_glossariesPage.AssertSuggestTermButtonNotExist<GlossariesPage>();
+				BaseObject.InitPage(_glossariesPage, Driver);
+				_glossariesPage.AssertSuggestTermButtonNotExist<GlossariesPage>(Driver);
 			}
 			else
 			{
-				BaseObject.InitPage(_glossaryPage);
-				_glossaryPage.AssertSuggestTermButtonNotExist<GlossaryPage>();
+				BaseObject.InitPage(_glossaryPage, Driver);
+				_glossaryPage.AssertSuggestTermButtonNotExist<GlossaryPage>(Driver);
 			}
 
 			return this;
@@ -1249,12 +1256,12 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 			AssertGlossaryContainsCorrectTermsCount(termsCount);
 
-			return new GlossariesHelper();
+			return new GlossariesHelper(Driver);
 		}
 
 		public GlossariesHelper AssertImageFieldExistInNewEntry(string fieldName)
 		{
-			BaseObject.InitPage(_glossaryPage);
+			BaseObject.InitPage(_glossaryPage, Driver);
 			_glossaryPage.AssertImageFieldExistInNewEntry(fieldName);
 
 			return this;
@@ -1262,7 +1269,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 		public GlossariesHelper AssertMediaFieldExistInNewEntry(string fieldName)
 		{
-			BaseObject.InitPage(_glossaryPage);
+			BaseObject.InitPage(_glossaryPage, Driver);
 			_glossaryPage.AssertMediaFieldExistInNewEntry(fieldName);
 
 			return this;
@@ -1276,7 +1283,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 			List<string> itemsList = null,
 			bool multi = false)
 		{
-			BaseObject.InitPage(_glossaryStructureDialog);
+			BaseObject.InitPage(_glossaryStructureDialog, Driver);
 			_glossaryStructureDialog.SwitchToCustomFieldsTab()
 				.ExpandCustomFieldType()
 				.SelectCustomFieldType(type)
@@ -1300,14 +1307,14 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 			_glossaryStructureDialog.ClickAddCustoFieldButton()
 				.ClickSaveButton()
-				.AssertDialogBackgroundDisappeared<GlossaryPage>();
+				.AssertDialogBackgroundDisappeared<GlossaryPage>(Driver);
 
 			return this;
 		}
 
 		public GlossariesHelper AssertFieldExistInNewEntry(string fieldName)
 		{
-			BaseObject.InitPage(_glossaryPage);
+			BaseObject.InitPage(_glossaryPage, Driver);
 			_glossaryPage.AssertFieldExistInNewEntry(fieldName);
 
 			return this;
@@ -1315,7 +1322,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 		public GlossariesHelper SelectItemInListDropdown(string fieldName, string item)
 		{
-			BaseObject.InitPage(_glossaryPage);
+			BaseObject.InitPage(_glossaryPage, Driver);
 			_glossaryPage.ExpandItemsListDropdown(fieldName)
 				.SelectItemInListDropdown(item);
 
@@ -1324,7 +1331,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 		public GlossariesHelper SelectItemInMultiSelectListDropdown(string fieldName, string item)
 		{
-			BaseObject.InitPage(_glossaryPage);
+			BaseObject.InitPage(_glossaryPage, Driver);
 			_glossaryPage.ClickMultiselectListDropdown(fieldName)
 				.SelectItemInMultiselectListDropdown(item)
 				.ClickMultiselectListDropdown(fieldName);
@@ -1334,7 +1341,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 		public GlossariesHelper AssertCustomDefaultValueMatch(string fieldName, string defaultValue)
 		{
-			BaseObject.InitPage(_glossaryPage);
+			BaseObject.InitPage(_glossaryPage, Driver);
 			_glossaryPage.AssertCustomDefaultValueMatch(fieldName, defaultValue);
 
 			return this;
@@ -1342,7 +1349,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 		public GlossariesHelper AssertFieldErrorDisplayed(string fieldName)
 		{
-			BaseObject.InitPage(_glossaryPage);
+			BaseObject.InitPage(_glossaryPage, Driver);
 			_glossaryPage.AssertFieldErrorDisplayed(fieldName);
 
 			return this;
@@ -1350,7 +1357,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 		public GlossariesHelper AssertCustomImageFieldErrorDisplayed(string fieldName)
 		{
-			BaseObject.InitPage(_glossaryPage);
+			BaseObject.InitPage(_glossaryPage, Driver);
 			_glossaryPage.AssertImageFieldErrorDisplayed(fieldName);
 
 			return this;
@@ -1358,8 +1365,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 		public GlossariesHelper AddAllSystemFields()
 		{
-			Logger.Trace("Добавить все системные поля в диалоге изменения структуры глоссария.");
-			BaseObject.InitPage(_glossaryStructureDialog);
+			CustomTestContext.WriteLine("Добавить все системные поля в диалоге изменения структуры глоссария.");
+			BaseObject.InitPage(_glossaryStructureDialog, Driver);
 			var fieldnames = _glossaryStructureDialog.SystemFieldNames();
 
 			foreach (var field in fieldnames)
@@ -1370,14 +1377,14 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 			_glossaryStructureDialog
 				.ClickSaveButton()
-				.AssertDialogBackgroundDisappeared<GlossaryPage>();
+				.AssertDialogBackgroundDisappeared<GlossaryPage>(Driver);
 
 			return this;
 		}
 
 		public GlossariesHelper SelectOptionInTopic(string option)
 		{
-			BaseObject.InitPage(_glossaryPage);
+			BaseObject.InitPage(_glossaryPage, Driver);
 			_glossaryPage
 				.ExpandTopicDropdown()
 				.ClickOptionInTopicDropdown(option);
@@ -1387,7 +1394,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 		public GlossariesHelper SuggestedTermsByGlossaryCountMatch(int suggestedTermsCount, string glossary = "")
 		{
-			BaseObject.InitPage(_suggestedTermsPageForAllGlossaries);
+			BaseObject.InitPage(_suggestedTermsPageForAllGlossaries, Driver);
 
 			Assert.AreEqual(suggestedTermsCount, _suggestedTermsPageForAllGlossaries.TermsByGlossaryNameCount(glossary),
 				"Произошла Ошибка:\n Неверное количество терминов.");
@@ -1397,7 +1404,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 		public GlossariesHelper GoToSuggestedTermsPageFromGlossariesPage()
 		{
-			BaseObject.InitPage(_glossariesPage);
+			BaseObject.InitPage(_glossariesPage, Driver);
 			_glossariesPage.ClickSuggestedTermsButton();
 
 			return this;
@@ -1405,7 +1412,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 		public GlossariesHelper GoToSuggestedTermsPageFromGlossaryPage()
 		{
-			BaseObject.InitPage(_glossaryPage);
+			BaseObject.InitPage(_glossaryPage, Driver);
 			_glossaryPage.ClickSuggestedTermsButton();
 
 			return this;
@@ -1413,7 +1420,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 		public GlossariesHelper AssertSuggestedTermValueMatch(string term, int rowNumber, int columnNumber)
 		{
-			BaseObject.InitPage(_suggestedTermsPageForCurrentGlossaries);
+			BaseObject.InitPage(_suggestedTermsPageForCurrentGlossaries, Driver);
 			_suggestedTermsPageForCurrentGlossaries.AssertTermValueMatch(term, rowNumber, columnNumber);
 
 			return this;
@@ -1421,14 +1428,14 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 		public int SuggestedTermsCountForGlossary(string glossaryName = "")
 		{
-			BaseObject.InitPage(_suggestedTermsPageForAllGlossaries);
+			BaseObject.InitPage(_suggestedTermsPageForAllGlossaries, Driver);
 
 			return _suggestedTermsPageForAllGlossaries.TermRowNumberByGlossaryName(glossaryName);
 		}
 
 		public GlossariesHelper AcceptSuggestTermInSuggestedTermsPageForAllGlossaries(bool chooseGlossary = false, string glossaryName = "")
 		{
-			BaseObject.InitPage(_suggestedTermsPageForAllGlossaries);
+			BaseObject.InitPage(_suggestedTermsPageForAllGlossaries, Driver);
 			var termRowNumber = _suggestedTermsPageForAllGlossaries.TermRowNumberByGlossaryName(glossaryName);
 			var termsCountBeforeAccept = _suggestedTermsPageForAllGlossaries.SuggestedTermsCount();
 
@@ -1456,7 +1463,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 		public GlossariesHelper DeleteSuggestTermInSuggestedTermsPageForAllGlossaries(string glossaryName = "")
 		{
-			BaseObject.InitPage(_suggestedTermsPageForAllGlossaries);
+			BaseObject.InitPage(_suggestedTermsPageForAllGlossaries, Driver);
 			var termRowNumber = _suggestedTermsPageForAllGlossaries.TermRowNumberByGlossaryName(glossaryName);
 			var termsCountBeforeDelete = _suggestedTermsPageForAllGlossaries.SuggestedTermsCount();
 
@@ -1477,7 +1484,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 		public GlossariesHelper DeleteAllSuggestTerms()
 		{
-			BaseObject.InitPage(_suggestedTermsPageForAllGlossaries);
+			BaseObject.InitPage(_suggestedTermsPageForAllGlossaries, Driver);
 			var termsCount = _suggestedTermsPageForAllGlossaries.SuggestedTermsCount();
 
 			if (termsCount > 0)
@@ -1501,7 +1508,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 		public GlossariesHelper AcceptSuggestTermInSuggestedTermsPageForCurrentGlossary(int termRowNumber)
 		{
-			BaseObject.InitPage(_suggestedTermsPageForCurrentGlossaries);
+			BaseObject.InitPage(_suggestedTermsPageForCurrentGlossaries, Driver);
 			var termsCountBeforeAccept = _suggestedTermsPageForCurrentGlossaries.SuggestedTermsCount();
 
 			_suggestedTermsPageForCurrentGlossaries
@@ -1521,7 +1528,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 		public GlossariesHelper DeleteSuggestTermInSuggestedTermsPageForCurrentGlossary(int termRowNumber)
 		{
-			BaseObject.InitPage(_suggestedTermsPageForCurrentGlossaries);
+			BaseObject.InitPage(_suggestedTermsPageForCurrentGlossaries, Driver);
 			var termsCountBeforeDelete = _suggestedTermsPageForCurrentGlossaries.SuggestedTermsCount();
 
 			_suggestedTermsPageForCurrentGlossaries
@@ -1541,7 +1548,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 		public GlossariesHelper EditSuggestTermInSuggestedTermsPageForCurrentGlossary(int termRowNumber, string termValue)
 		{
-			BaseObject.InitPage(_suggestedTermsPageForCurrentGlossaries);
+			BaseObject.InitPage(_suggestedTermsPageForCurrentGlossaries, Driver);
 
 			_suggestedTermsPageForCurrentGlossaries
 				.HoverSuggestedTermRow(termRowNumber)
@@ -1557,7 +1564,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 		public GlossariesHelper AddSynonimInSuggestedTermsPageForCurrentGlossary(int termRowNumber, int addButtonNumber, string synonymValue)
 		{
-			BaseObject.InitPage(_suggestedTermsPageForCurrentGlossaries);
+			BaseObject.InitPage(_suggestedTermsPageForCurrentGlossaries, Driver);
 
 			_suggestedTermsPageForCurrentGlossaries
 				.HoverSuggestedTermRow(termRowNumber)
@@ -1577,7 +1584,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 			bool chooseGlossary = false,
 			string glossaryToChoose = null)
 		{
-			BaseObject.InitPage(_suggestedTermsPageForAllGlossaries);
+			BaseObject.InitPage(_suggestedTermsPageForAllGlossaries, Driver);
 			var termRowNumber = _suggestedTermsPageForAllGlossaries.TermRowNumberByGlossaryName(glossaryName);
 
 			_suggestedTermsPageForAllGlossaries
@@ -1591,7 +1598,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 					.ClickSelectGlossaryDropdownInSelectDialog()
 					.SelectGlossaryInSelectDialog(glossaryToChoose)
 					.ClickOkButton()
-					.AssertDialogBackgroundDisappeared<SuggestedTermsPageForAllGlossaries>();
+					.AssertDialogBackgroundDisappeared<SuggestedTermsPageForAllGlossaries>(Driver);
 			}
 
 			_suggestedTermsPageForAllGlossaries
@@ -1606,7 +1613,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 		public GlossariesHelper AssertEmptyTermErrorDisplayed()
 		{
-			BaseObject.InitPage(_suggestTermDialog);
+			BaseObject.InitPage(_suggestTermDialog, Driver);
 			_suggestTermDialog.AssertEmptyTermErrorDisplayed();
 
 			return this;
@@ -1614,7 +1621,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 		public GlossariesHelper AssertSuggestedTermsCountMatch(int expectedTermCount)
 		{
-			BaseObject.InitPage(_suggestedTermsPageForCurrentGlossaries);
+			BaseObject.InitPage(_suggestedTermsPageForCurrentGlossaries, Driver);
 
 			Assert.AreEqual(expectedTermCount, _suggestedTermsPageForCurrentGlossaries.SuggestedTermsCount(),
 				"Произошла ошибка:\nНеверное количество терминов.");
@@ -1624,7 +1631,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 		public GlossariesHelper AssertDublicateErrorDisplayed()
 		{
-			BaseObject.InitPage(_suggestTermDialog);
+			BaseObject.InitPage(_suggestTermDialog, Driver);
 			_suggestTermDialog.AssertDublicateErrorDisplayed();
 
 			return this;
@@ -1632,12 +1639,12 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 		public GlossariesHelper SelectGlossaryForSuggestedTerm(string glossaryName)
 		{
-			BaseObject.InitPage(_suggestedTermsPageForAllGlossaries);
+			BaseObject.InitPage(_suggestedTermsPageForAllGlossaries, Driver);
 			_suggestedTermsPageForAllGlossaries
 				.ClickSelectGlossaryDropdownInSelectDialog()
 				.SelectGlossaryInSelectDialog(glossaryName)
 				.ClickOkButton()
-				.AssertDialogBackgroundDisappeared<SuggestedTermsPageForAllGlossaries>();
+				.AssertDialogBackgroundDisappeared<SuggestedTermsPageForAllGlossaries>(Driver);
 
 			return this;
 		}
@@ -1647,19 +1654,13 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 			return _suggestedTermsPageForAllGlossaries.TermsByGlossaryNameCount(glossary);
 		}
 
-		private readonly SuggestedTermsPageForCurrentGlossaries _suggestedTermsPageForCurrentGlossaries = new SuggestedTermsPageForCurrentGlossaries();
-		private readonly SuggestTermDialog _suggestTermDialog = new SuggestTermDialog();
-		private readonly SuggestedTermsPageForAllGlossaries _suggestedTermsPageForAllGlossaries = new SuggestedTermsPageForAllGlossaries();
-		private readonly GlossariesPage _glossariesPage = new GlossariesPage();
-
-		private readonly GlossaryPage _glossaryPage = new GlossaryPage();
-
-		private readonly NewGlossaryDialog _newGlossaryDialog = new NewGlossaryDialog();
-
-		private readonly GlossaryPropertiesDialog _glossaryPropertiesDialog = new GlossaryPropertiesDialog();
-
-		private readonly GlossaryStructureDialog _glossaryStructureDialog = new GlossaryStructureDialog();
-
-		private readonly WorkspaceHelper _workspaceHelper = new WorkspaceHelper();
+		private readonly SuggestedTermsPageForCurrentGlossaries _suggestedTermsPageForCurrentGlossaries;
+		private readonly SuggestTermDialog _suggestTermDialog;
+		private readonly SuggestedTermsPageForAllGlossaries _suggestedTermsPageForAllGlossaries;
+		private readonly GlossariesPage _glossariesPage;
+		private readonly GlossaryPage _glossaryPage;
+		private readonly NewGlossaryDialog _newGlossaryDialog;
+		private readonly GlossaryPropertiesDialog _glossaryPropertiesDialog;
+		private readonly GlossaryStructureDialog _glossaryStructureDialog;
 	}
 }

@@ -6,6 +6,7 @@ using AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersRights
 {
+	[Parallelizable(ParallelScope.Fixtures)]
 	[Standalone]
 	internal class SortingInUsersRightsTests<TWebDriverSettings> : BaseTest<TWebDriverSettings>
 		where TWebDriverSettings : IWebDriverProvider, new()
@@ -13,6 +14,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersRights
 		[SetUp]
 		public void SetupSortingInUsersRightsTests()
 		{
+			_usersRightsHelper = new UsersRightsHelper(Driver);
 			_usersRightsHelper.GoToUsersRightsPage();
 		}
 
@@ -73,6 +75,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersRights
 				.AssertAlertNoExist();
 		}
 
-		private UsersRightsHelper _usersRightsHelper = new UsersRightsHelper();
+		private UsersRightsHelper _usersRightsHelper;
 	}
 }

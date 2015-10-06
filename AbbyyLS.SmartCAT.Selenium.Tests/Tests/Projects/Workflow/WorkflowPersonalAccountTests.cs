@@ -9,11 +9,13 @@ using AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects.Workflow
 {
+	[Parallelizable(ParallelScope.Fixtures)]
 	class WorkflowPersonalAccountTests<TWebDriverProvider> : BaseTest<TWebDriverProvider> where TWebDriverProvider : IWebDriverProvider, new()
 	{
 		public WorkflowPersonalAccountTests()
 		{
 			StartPage = StartPage.PersonalAccount;
+			_createProjectHelper = new CreateProjectHelper(Driver);
 		}
 
 		[SetUp]
@@ -52,7 +54,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects.Workflow
 				.OpenDocument<EditorPage>(Path.GetFileNameWithoutExtension(PathProvider.DocumentFile));
 		}
 
-		private readonly CreateProjectHelper _createProjectHelper = new CreateProjectHelper();
+		private CreateProjectHelper _createProjectHelper;
 		private string _projectUniqueName;
 	}
 }

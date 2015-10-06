@@ -7,13 +7,16 @@ using AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 {
+	[Parallelizable(ParallelScope.Fixtures)]
 	[Standalone]
 	class GlossaryEditStructureLanguageFieldsTests<TWebDriverProvider> : BaseTest<TWebDriverProvider> where TWebDriverProvider : IWebDriverProvider, new()
 	{
 		[SetUp]
 		public void SetUpGlossaryEditStructureLanguageFieldsTests()
 		{
-			_workspaceHelper = new WorkspaceHelper();
+			_glossaryHelper = new GlossariesHelper(Driver);
+			_workspaceHelper = new WorkspaceHelper(Driver);
+
 			_glossaryUniqueName = GlossariesHelper.UniqueGlossaryName();
 			_glossaryHelper = _workspaceHelper
 								.GoToGlossariesPage()
@@ -61,7 +64,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 				.AssertDefinitionSourceFilled(definitionSource);
 		}
 
-		private GlossariesHelper _glossaryHelper = new GlossariesHelper();
+		private GlossariesHelper _glossaryHelper;
 		private WorkspaceHelper _workspaceHelper;
 		private string _glossaryUniqueName;
 	}

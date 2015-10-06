@@ -1,17 +1,23 @@
-﻿using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace;
-using AbbyyLS.SmartCAT.Selenium.Tests.TestFramework;
-using NUnit.Framework;
+﻿using NUnit.Framework;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.PageObjects;
+
+using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
+using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace;
+using AbbyyLS.SmartCAT.Selenium.Tests.TestFramework;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Client
 {
 	public class ClientsPage : WorkspacePage, IAbstractPage<ClientsPage>
 	{
+		public ClientsPage(WebDriver driver) : base(driver)
+		{
+		}
+
 		public new ClientsPage GetPage()
 		{
-			var clientsPage = new ClientsPage();
-			InitPage(clientsPage);
+			var clientsPage = new ClientsPage(Driver);
+			InitPage(clientsPage, Driver);
 
 			return clientsPage;
 		}
@@ -29,7 +35,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Client
 		/// </summary>
 		public ClientsPage ScrollAndClickCreateClientButton()
 		{
-			Logger.Debug("Нажать кнопку создания клиента.");
+			CustomTestContext.WriteLine("Нажать кнопку создания клиента.");
 			AddClientButton.ScrollAndClick();
 
 			return GetPage();
@@ -41,7 +47,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Client
 		/// <param name="clientName">имя клиента</param>
 		public ClientsPage FillClientName(string clientName)
 		{
-			Logger.Debug("Ввести имя клиента {0}.", clientName);
+			CustomTestContext.WriteLine("Ввести имя клиента {0}.", clientName);
 			ClientNameField.SetText(clientName);
 
 			return GetPage();
@@ -52,7 +58,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Client
 		/// </summary>
 		public ClientsPage ClickSaveClientButton()
 		{
-			Logger.Debug("Нажать кнопку 'Сохранить'");
+			CustomTestContext.WriteLine("Нажать кнопку 'Сохранить'");
 			SaveClientButton.Click();
 
 			return GetPage();
@@ -64,7 +70,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Client
 		/// <param name="clientName">имя клиента</param>
 		public ClientsPage HoverCursorToClient(string clientName)
 		{
-			Logger.Debug("Навести курсор на клиент {0}", clientName);
+			CustomTestContext.WriteLine("Навести курсор на клиент {0}", clientName);
 			ClientRow = Driver.SetDynamicValue(How.XPath, CLIENT_ROW, clientName);
 			ClientRow.HoverElement();
 			
@@ -77,7 +83,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Client
 		/// <param name="clientName">имя клиента</param>
 		public ClientsPage ClickEditClientButton(string clientName)
 		{
-			Logger.Debug("Нажать кнопку 'Редактировать' клиента {0}", clientName);
+			CustomTestContext.WriteLine("Нажать кнопку 'Редактировать' клиента {0}", clientName);
 			EditClientButton = Driver.SetDynamicValue(How.XPath, EDIT_BUTTON, clientName);
 			EditClientButton.Click();
 			
@@ -90,7 +96,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Client
 		/// <param name="clientName">имя клиента</param>
 		public ClientsPage ClickDeleteClientButton(string clientName)
 		{
-			Logger.Debug("Нажать кнопку 'Удалить' клиента {0}", clientName);
+			CustomTestContext.WriteLine("Нажать кнопку 'Удалить' клиента {0}", clientName);
 			EditClientButton = Driver.SetDynamicValue(How.XPath, DELETE_BUTTON, clientName);
 			EditClientButton.Click();
 
@@ -102,7 +108,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Client
 		/// </summary>
 		public ClientsPage AssertSaveButtonDisappear()
 		{
-			Logger.Trace("Проверить, что кнопка сохранения клиента исчезла");
+			CustomTestContext.WriteLine("Проверить, что кнопка сохранения клиента исчезла");
 
 			Assert.IsTrue(Driver.WaitUntilElementIsDisappeared(By.XPath(SAVE_CLIENT)),
 				"Произошла ошибка:\n кнопка сохранения клиента не исчезла после сохранения.");
@@ -115,13 +121,13 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Client
 		/// </summary>
 		public ClientsPage AssertDeleteButtonAppear(string clientName)
 		{
-			Logger.Trace("Проверить, что кнопка удаления клиента появилась");
+			CustomTestContext.WriteLine("Проверить, что кнопка удаления клиента появилась");
 			var isDeleteButtonDisplayed = Driver.WaitUntilElementIsDisplay(
 				By.XPath(DELETE_BUTTON.Replace("*#*", clientName)));
 
 			if (!isDeleteButtonDisplayed)
 			{
-				Logger.Warn("Необходимо повторно навести курсор на клиента {0}, чтобы кнопка удаления стала видна",
+				CustomTestContext.WriteLine("Необходимо повторно навести курсор на клиента {0}, чтобы кнопка удаления стала видна",
 					clientName);
 				HoverCursorToClient(clientName);
 
@@ -140,13 +146,13 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Client
 		/// </summary>
 		public ClientsPage AssertEditButtonAppear(string clientName)
 		{
-			Logger.Trace("Проверить, что кнопка редактирования клиента появилась");
+			CustomTestContext.WriteLine("Проверить, что кнопка редактирования клиента появилась");
 
 			var isEditButtonDisplayed = Driver.WaitUntilElementIsDisplay(By.XPath(EDIT_BUTTON.Replace("*#*", clientName)));
 
 			if (!isEditButtonDisplayed)
 			{
-				Logger.Warn("Необходимо повторно навести курсор на клиента {0}, чтобы кнопка редактирования стала видна", 
+				CustomTestContext.WriteLine("Необходимо повторно навести курсор на клиента {0}, чтобы кнопка редактирования стала видна", 
 					clientName);
 				HoverCursorToClient(clientName);
 				isEditButtonDisplayed = Driver.WaitUntilElementIsDisplay(By.XPath(EDIT_BUTTON.Replace("*#*", clientName)));
@@ -163,7 +169,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Client
 		/// </summary>
 		public ClientsPage AssertDeleteButtonDisappear(string clientName)
 		{
-			Logger.Trace("Проверить, что кнопка удаления клиента исчезла");
+			CustomTestContext.WriteLine("Проверить, что кнопка удаления клиента исчезла");
 
 			Assert.IsTrue(Driver.WaitUntilElementIsDisappeared(By.XPath(DELETE_BUTTON.Replace("*#*", clientName))),
 				"Произошла ошибка:\n кнопка удаления клиента не исчезла после сохранения.");
@@ -177,7 +183,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Client
 		/// <param name="clientName">имя клиента</param>
 		public ClientsPage AssertClientExist(string clientName)
 		{
-			Logger.Trace("Проверить, что клиент {0} присутствует в списке клиентов", clientName);
+			CustomTestContext.WriteLine("Проверить, что клиент {0} присутствует в списке клиентов", clientName);
 
 			Assert.IsTrue(Driver.WaitUntilElementIsDisplay(By.XPath(getClientPath(clientName))),
 				"Произошла ошибка:\n клиент {0} не найден в списке клиентов", clientName);
@@ -191,7 +197,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Client
 		/// <param name="clientName">имя клиента</param>
 		public ClientsPage AssertClientNotExist(string clientName)
 		{
-			Logger.Trace("Проверить, что клиент {0} отсутствует в списке клиентов", clientName);
+			CustomTestContext.WriteLine("Проверить, что клиент {0} отсутствует в списке клиентов", clientName);
 
 			Assert.IsTrue(Driver.WaitUntilElementIsDisappeared(By.XPath(getClientPath(clientName))),
 				"Произошла ошибка:\n клиент {0} найден в списке клиентов", clientName);
@@ -204,7 +210,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Client
 		/// </summary>
 		public ClientsPage AssertClientNameErrorExist()
 		{
-			Logger.Trace("Проверить, что появилась ошибка в имени клиента при создании");
+			CustomTestContext.WriteLine("Проверить, что появилась ошибка в имени клиента при создании");
 
 			Assert.IsTrue(ErrorClientName.Displayed,
 				"Произошла ошибка:\n не появилась ошибка при создании клиента с некорректным именем");
@@ -217,7 +223,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Client
 		/// </summary>
 		public ClientsPage AssertClientEditModeEnabled()
 		{
-			Logger.Trace("Проверить, что мы находимся в режиме редактирования клиента");
+			CustomTestContext.WriteLine("Проверить, что мы находимся в режиме редактирования клиента");
 
 			Assert.IsTrue(ClientNameField.Displayed,
 				"Произошла ошибка:\n произошел выход из режима редактирования клиента.");
@@ -230,7 +236,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Client
 		/// </summary>
 		public ClientsPage ClickSortByName()
 		{
-			Logger.Debug("Нажать кнопку сортировки по имени");
+			CustomTestContext.WriteLine("Нажать кнопку сортировки по имени");
 			SortByName.Click();
 
 			return GetPage();
@@ -242,7 +248,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Client
 		/// <param name="clientName">имя клиента</param>
 		private static string getClientPath(string clientName)
 		{
-			Logger.Trace("Получить xPath клиента {0} ", clientName);
+			CustomTestContext.WriteLine("Получить xPath клиента {0} ", clientName);
 
 			return CLIENT_ROW.Replace("*#*", clientName);
 		}

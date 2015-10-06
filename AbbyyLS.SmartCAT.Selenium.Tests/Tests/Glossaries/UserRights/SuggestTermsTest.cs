@@ -10,12 +10,16 @@ using AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 {
+	[Parallelizable(ParallelScope.Fixtures)]
 	[Standalone]
 	class SuggestTermsTest<TWebDriverProvider> : BaseTest<TWebDriverProvider> where TWebDriverProvider : IWebDriverProvider, new()
 	{
 		[SetUp]
 		public void TestFixtureSetUp()
 		{
+			_workspaceHelper = new WorkspaceHelper(Driver);
+			_glossariesHelper = new GlossariesHelper(Driver);
+
 			_term1 = "term1";
 			_term2 = "term2";
 
@@ -376,7 +380,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 		private string _term2;
 		private string _glossaryName;
 
-		private readonly WorkspaceHelper _workspaceHelper = new WorkspaceHelper();
-		private readonly GlossariesHelper _glossariesHelper = new GlossariesHelper();
+		private WorkspaceHelper _workspaceHelper;
+		private GlossariesHelper _glossariesHelper;
 	}
 }

@@ -9,11 +9,15 @@ using AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Editor
 {
+	[Parallelizable(ParallelScope.Fixtures)]
 	class EditorMatchColumnMTSubstitutionTests<TWebDriverProvider> : BaseTest<TWebDriverProvider> where TWebDriverProvider : IWebDriverProvider, new()
 	{
 		[SetUp]
 		public void SetupTest()
 		{
+			_createProjectHelper = new CreateProjectHelper(Driver);
+			_editorHelper = new EditorHelper(Driver);
+
 			var projectUniqueName = _createProjectHelper.GetProjectUniqueName();
 
 			_createProjectHelper.CreateNewProject(
@@ -65,8 +69,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Editor
 				.AssertMatchColumnCatTypeMatch(CatType.MT);
 		}
 
-		private readonly CreateProjectHelper _createProjectHelper = new CreateProjectHelper();
-		private readonly ProjectsHelper _projectsHelper = new ProjectsHelper();
-		private readonly EditorHelper _editorHelper = new EditorHelper();
+		private CreateProjectHelper _createProjectHelper;
+		private EditorHelper _editorHelper;
 	}
 }

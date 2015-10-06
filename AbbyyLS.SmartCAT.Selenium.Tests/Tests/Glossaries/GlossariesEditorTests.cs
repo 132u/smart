@@ -10,13 +10,17 @@ using AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 {
+	[Parallelizable(ParallelScope.Fixtures)]
 	[Standalone]
 	class GlossariesEditorTests<TWebDriverProvider> : BaseTest<TWebDriverProvider> where TWebDriverProvider : IWebDriverProvider, new()
 	{
 		[SetUp]
 		public void GlossariesSetUp()
 		{
-			_workspaceHelper = new WorkspaceHelper();
+			_createProjectHelper = new CreateProjectHelper(Driver);
+			_editorHelper = new EditorHelper(Driver);
+			_workspaceHelper = new WorkspaceHelper(Driver);
+
 			_projectName = _createProjectHelper.GetProjectUniqueName();
 			_glossary1Name = GlossariesHelper.UniqueGlossaryName();
 			_glossary2Name = GlossariesHelper.UniqueGlossaryName();
@@ -95,8 +99,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 		private string _glossary2Name;
 		private string _glossary3Name;
 
-		private readonly CreateProjectHelper _createProjectHelper = new CreateProjectHelper();
-		private readonly EditorHelper _editorHelper = new EditorHelper();
+		private CreateProjectHelper _createProjectHelper;
+		private EditorHelper _editorHelper;
 		private WorkspaceHelper _workspaceHelper;
 	}
 }

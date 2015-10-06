@@ -1,16 +1,21 @@
 ﻿using NUnit.Framework;
 using OpenQA.Selenium;
 
+using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
 using AbbyyLS.SmartCAT.Selenium.Tests.TestFramework;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.DocumentUploadDialog
 {
 	class DocumentUploadSetUpTMDialog : DocumentUploadBaseDialog, IAbstractPage<DocumentUploadSetUpTMDialog>
 	{
+		public DocumentUploadSetUpTMDialog(WebDriver driver) : base(driver)
+		{
+		}
+
 		public DocumentUploadSetUpTMDialog GetPage()
 		{
-			var documentUploadSetUpTMDialog = new DocumentUploadSetUpTMDialog();
-			InitPage(documentUploadSetUpTMDialog);
+			var documentUploadSetUpTMDialog = new DocumentUploadSetUpTMDialog(Driver);
+			InitPage(documentUploadSetUpTMDialog, Driver);
 
 			return documentUploadSetUpTMDialog;
 		}

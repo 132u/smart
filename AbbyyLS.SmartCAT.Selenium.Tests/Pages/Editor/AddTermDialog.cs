@@ -1,18 +1,26 @@
-﻿using NUnit.Framework;
+﻿using System;
 
+using NUnit.Framework;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.PageObjects;
 
+using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
 using AbbyyLS.SmartCAT.Selenium.Tests.TestFramework;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 {
 	public class AddTermDialog : BaseObject, IAbstractPage<AddTermDialog>
 	{
+		public WebDriver Driver { get; private set; }
+
+		public AddTermDialog(WebDriver driver)
+		{
+			Driver = driver;
+		}
 		public AddTermDialog GetPage()
 		{
-			var addTermDialog = new AddTermDialog();
-			InitPage(addTermDialog);
+			var addTermDialog = new AddTermDialog(Driver);
+			InitPage(addTermDialog, Driver);
 
 			return addTermDialog;
 		}
@@ -30,7 +38,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		/// </summary>
 		public AddTermDialog FillSourceTerm(string sourceTerm)
 		{
-			Logger.Debug("Ввести {0} в source.", sourceTerm);
+			CustomTestContext.WriteLine("Ввести {0} в source.", sourceTerm);
 			SourceTerm.SetText(sourceTerm);
 
 			return GetPage();
@@ -41,7 +49,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		/// </summary>
 		public AddTermDialog FillTargetTerm(string targetTerm)
 		{
-			Logger.Debug("Ввести {0} в target.", targetTerm);
+			CustomTestContext.WriteLine("Ввести {0} в target.", targetTerm);
 			TargetTerm.SetText(targetTerm);
 
 			return GetPage();
@@ -50,12 +58,13 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		/// <summary>
 		/// Нажать кнопку Add в диалоге создания термина
 		/// </summary>
-		public T ClickAddButton<T>() where T : class, IAbstractPage<T>, new()
+		public T ClickAddButton<T>(WebDriver driver) where T : class, IAbstractPage<T>
 		{
-			Logger.Debug("Нажать кнопку Add в диалоге создания термина");
+			CustomTestContext.WriteLine("Нажать кнопку Add в диалоге создания термина");
 			AddButton.Click();
 
-			return new T().GetPage();
+			var instance = Activator.CreateInstance(typeof(T), new object[] { driver }) as T;
+			return instance.GetPage();
 		}
 
 		/// <summary>
@@ -63,10 +72,10 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		/// </summary>
 		public EditorPage ClickCancel()
 		{
-			Logger.Debug("Нажать кнопку Cancel в диалоге создания термина");
+			CustomTestContext.WriteLine("Нажать кнопку Cancel в диалоге создания термина");
 			CancelButton.Click();
 
-			return new EditorPage().GetPage();
+			return new EditorPage(Driver).GetPage();
 		}
 
 		/// <summary>
@@ -74,7 +83,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		/// </summary>
 		public AddTermDialog AssertTextExistInSourceTerm(string text)
 		{
-			Logger.Trace("Проверить, что сработало автозаполнение текста {0} в SourceTerm", text);
+			CustomTestContext.WriteLine("Проверить, что сработало автозаполнение текста {0} в SourceTerm", text);
 
 			Assert.IsTrue(Driver.WaitUntilElementIsDisplay(By.XPath(SOURCE_TERM_VALUE.Replace("*#*", text))),
 				"Произошла ошибка:\n Нет автозаполнения сорса.");
@@ -87,7 +96,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		/// </summary>
 		public AddTermDialog AssertTextExistInTargetTerm(string text)
 		{
-			Logger.Trace("Проверить, что сработало автозаполнение текста {0} в TargetTerm", text);
+			CustomTestContext.WriteLine("Проверить, что сработало автозаполнение текста {0} в TargetTerm", text);
 
 			Assert.IsTrue(Driver.WaitUntilElementIsDisplay(By.XPath(TARGET_TERM_VALUE.Replace("*#*", text))),
 				"Произошла ошибка:\n Нет автозаполнения таргета.");
@@ -100,7 +109,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		/// </summary>
 		public AddTermDialog AssertConfirmSingleTermMessageDisplayed()
 		{
-			Logger.Trace("Проверить, что появился диалог подтверждения сохранения термина без перевода.");
+			CustomTestContext.WriteLine("Проверить, что появился диалог подтверждения сохранения термина без перевода.");
 
 			Assert.IsTrue(Driver.WaitUntilElementIsDisplay(By.XPath(CONFIRM_TERM_WITHOUT_TRANSLATION_DIALOG)),
 				"Произошла ошибка:\n не появился диалог подтверждения сохранения термина без перевода.");
@@ -113,10 +122,10 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		/// </summary>
 		public EditorPage Confirm()
 		{
-			Logger.Debug("Нажать Yes в окне подтверждения.");
+			CustomTestContext.WriteLine("Нажать Yes в окне подтверждения.");
 			ConfirmYesButton.Click();
 
-			return new EditorPage().GetPage();
+			return new EditorPage(Driver).GetPage();
 		}
 
 		/// <summary>
@@ -125,7 +134,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		/// /// <param name="text">комментарий</param>
 		public AddTermDialog EnterComment(string text)
 		{
-			Logger.Debug("Ввести текст в поле 'Комментарий'.");
+			CustomTestContext.WriteLine("Ввести текст в поле 'Комментарий'.");
 			CommentInput.SetText(text);
 
 			return GetPage();
@@ -137,10 +146,10 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		/// <param name="glossaryName">имя глоссария</param>
 		public AddTermDialog AssertGlossaryExistInDropdown(string glossaryName)
 		{
-			Logger.Trace("Нажать на выпадающий список, чтобы раскрыть его.");
+			CustomTestContext.WriteLine("Нажать на выпадающий список, чтобы раскрыть его.");
 			GlossarySelect.Click();
 
-			Logger.Trace("Проверить наличие глоссария {0} в выпадающем списке.", glossaryName);
+			CustomTestContext.WriteLine("Проверить наличие глоссария {0} в выпадающем списке.", glossaryName);
 			var glossary = Driver.SetDynamicValue(How.XPath, GLOSSARY_SELECT_BOUNDLIST, glossaryName);
 
 			Assert.IsTrue(glossary.Displayed, "Произошла ошибка:\n глоссарий не найден в выпадающем списке.");
@@ -154,7 +163,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		/// <param name="glossaryName">имя глоссария</param>
 		public AddTermDialog SelectGlossaryByName(string glossaryName)
 		{
-			Logger.Debug("Выбрать глоссарий {0} из выпадающего списка.", glossaryName);
+			CustomTestContext.WriteLine("Выбрать глоссарий {0} из выпадающего списка.", glossaryName);
 			GlossarySelect.Click();
 			var glossary = Driver.SetDynamicValue(How.XPath, GLOSSARY_SELECT_BOUNDLIST, glossaryName);
 			glossary.Click();

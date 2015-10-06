@@ -1,19 +1,25 @@
-﻿using NUnit.Framework;
+﻿using System;
 
+using NUnit.Framework;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.PageObjects;
 
 using AbbyyLS.SmartCAT.Selenium.Tests.DataStructures;
+using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
 using AbbyyLS.SmartCAT.Selenium.Tests.TestFramework;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 {
 	public class DocumentSettings : ProjectsPage, IAbstractPage<DocumentSettings>
 	{
+		public DocumentSettings(WebDriver driver) : base(driver)
+		{
+		}
+
 		public new DocumentSettings GetPage()
 		{
-			var documentSettings = new DocumentSettings();
-			InitPage(documentSettings);
+			var documentSettings = new DocumentSettings(Driver);
+			InitPage(documentSettings, Driver);
 
 			return documentSettings;
 		}
@@ -31,7 +37,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 		/// </summary>
 		public DocumentSettings SetDocumentName(string name)
 		{
-			Logger.Debug("Задать имя документа: '{0}'", name);
+			CustomTestContext.WriteLine("Задать имя документа: '{0}'", name);
 			Name.SetText(name);
 
 			return GetPage();
@@ -40,12 +46,13 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 		/// <summary>
 		/// Нажать кнопку сохранения
 		/// </summary>
-		public T ClickSaveButton<T>() where T : class, IAbstractPage<T>, new()
+		public T ClickSaveButton<T>(WebDriver driver) where T : class, IAbstractPage<T>
 		{
-			Logger.Debug("Нажать кнопку сохранения");
+			CustomTestContext.WriteLine("Нажать кнопку сохранения");
 			SaveButton.Click();
 
-			return new T().GetPage();
+			var instance = Activator.CreateInstance(typeof(T), new object[] { driver }) as T;
+			return instance.GetPage();
 		}
 
 		/// <summary>
@@ -56,11 +63,11 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 			
 			var machineTranslationCheckbox = Driver.SetDynamicValue(How.XPath, MT_CHECKBOX, machineTranslationType.Description());
 
-			Logger.Trace("Проверить, что Мachine Тranslation {0} не выбрано.", machineTranslationType);
+			CustomTestContext.WriteLine("Проверить, что Мachine Тranslation {0} не выбрано.", machineTranslationType);
 
 			if (!machineTranslationCheckbox.Selected)
 			{
-				Logger.Debug("Выбрать Мachine Тranslation {0} в настройках документа.", machineTranslationType);
+				CustomTestContext.WriteLine("Выбрать Мachine Тranslation {0} в настройках документа.", machineTranslationType);
 				machineTranslationCheckbox.Click();
 			}
 
@@ -73,7 +80,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 		/// <param name="glossaryName">имя глоссария</param>
 		public DocumentSettings ClickGlossaryByName(string glossaryName)
 		{
-			Logger.Debug("Выбрать глоссарий с именем {0}.", glossaryName);
+			CustomTestContext.WriteLine("Выбрать глоссарий с именем {0}.", glossaryName);
 			GlossaryCheckbox = Driver.SetDynamicValue(How.XPath, GLOSSARY_BY_NAME_XPATH, glossaryName);
 			GlossaryCheckbox.ScrollAndClick();
 
@@ -85,7 +92,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 		/// </summary>
 		public DocumentSettings HoverGlossaryTableDocumentSettingsDialog()
 		{
-			Logger.Debug("Навести курсор на таблицу глоссариев в диалоге настроек документа.");
+			CustomTestContext.WriteLine("Навести курсор на таблицу глоссариев в диалоге настроек документа.");
 			GlossaryTable.HoverElement();
 
 			return GetPage();

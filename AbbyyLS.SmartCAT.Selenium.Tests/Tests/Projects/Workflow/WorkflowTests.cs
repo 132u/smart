@@ -7,6 +7,7 @@ using AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 {
+	[Parallelizable(ParallelScope.Fixtures)]
 	[Standalone]
 	class WorkflowTests<TWebDriverProvider> : BaseTest<TWebDriverProvider>
 		where TWebDriverProvider : IWebDriverProvider, new()
@@ -14,6 +15,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 		[SetUp]
 		public void SetUp()
 		{
+			_createProjectHelper = new CreateProjectHelper(Driver);
 			_projectUniqueName = _createProjectHelper.GetProjectUniqueName();
 		}
 
@@ -303,6 +305,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 		}
 
 		private string _projectUniqueName;
-		private readonly CreateProjectHelper _createProjectHelper = new CreateProjectHelper();
+		private CreateProjectHelper _createProjectHelper;
 	}
 }

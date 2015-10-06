@@ -1,18 +1,22 @@
 ﻿using NUnit.Framework;
-
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.PageObjects;
 
+using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
 using AbbyyLS.SmartCAT.Selenium.Tests.TestFramework;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 {
 	public class NewGlossaryDialog : NewProjectCreateBaseDialog, IAbstractPage<NewGlossaryDialog>
 	{
+		public NewGlossaryDialog(WebDriver driver) : base(driver)
+		{
+		}
+
 		public new NewGlossaryDialog GetPage()
 		{
-			var newGlossaryDialog = new NewGlossaryDialog();
-			InitPage(newGlossaryDialog);
+			var newGlossaryDialog = new NewGlossaryDialog(Driver);
+			InitPage(newGlossaryDialog, Driver);
 
 			return newGlossaryDialog;
 		}
@@ -27,7 +31,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 
 		public NewGlossaryDialog SetGlossaryName(string glossaryName)
 		{
-			Logger.Debug("Ввести название глоссария {0}.", glossaryName);
+			CustomTestContext.WriteLine("Ввести название глоссария {0}.", glossaryName);
 			GlossaryName.SetText(glossaryName);
 
 			return GetPage();
@@ -35,12 +39,12 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 
 		public NewProjectSelectGlossariesDialog ClickSaveButton()
 		{
-			Logger.Debug("Нажать кнопку сохранения глоссария.");
+			CustomTestContext.WriteLine("Нажать кнопку сохранения глоссария.");
 			SaveButton.Click();
 
 			Driver.WaitUntilElementIsDisappeared(By.XPath(SAVE_BUTTON));
 
-			return new NewProjectSelectGlossariesDialog().GetPage();
+			return new NewProjectSelectGlossariesDialog(Driver).GetPage();
 		}
 
 		[FindsBy(How = How.XPath, Using = GLOSSARY_NAME)]

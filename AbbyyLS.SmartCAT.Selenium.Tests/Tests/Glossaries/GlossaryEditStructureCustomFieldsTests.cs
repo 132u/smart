@@ -7,19 +7,19 @@ using NUnit.Framework;
 
 using AbbyyLS.SmartCAT.Selenium.Tests.DataStructures;
 using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
-using AbbyyLS.SmartCAT.Selenium.Tests.ExplicitAttributes;
 using AbbyyLS.SmartCAT.Selenium.Tests.FeatureAttributes;
 using AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 {
+	[Parallelizable(ParallelScope.Fixtures)]
 	[Standalone]
 	class GlossaryEditStructureCustomFieldsTests<TWebDriverProvider> : BaseTest<TWebDriverProvider> where TWebDriverProvider : IWebDriverProvider, new()
 	{
 		[SetUp]
 		public void GlossariesSetUp()
 		{
-			_workspaceHelper = new WorkspaceHelper();
+			_workspaceHelper = new WorkspaceHelper(Driver);
 			_glossaryHelper = _workspaceHelper.GoToGlossariesPage();
 			_glossaryUniqueName = GlossariesHelper.UniqueGlossaryName();
 		}

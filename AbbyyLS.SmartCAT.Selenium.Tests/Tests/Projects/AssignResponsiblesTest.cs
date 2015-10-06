@@ -11,20 +11,22 @@ using AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 {
+	[Parallelizable(ParallelScope.Fixtures)]
 	[Ignore("Требуют актуализации в связи с большим изменением функциональности")]
 	class AssignResponsiblesTest<TWebDriverProvider> : BaseTest<TWebDriverProvider> where TWebDriverProvider : IWebDriverProvider, new()
 	{
 		[SetUp]
 		public void Setup()
 		{
-			_workspaceHelper = new WorkspaceHelper();
+			_createProjectHelper = new CreateProjectHelper(Driver);
+			_usersRightsHelper = new UsersRightsHelper(Driver);
+			_projectsHelper = new ProjectsHelper(Driver);
+			_taskAssignmentDialogHelper = new TaskAssignmentDialogHelper(Driver);
+			_projectSettingsHelper = new ProjectSettingsHelper(Driver);
+			_workspaceHelper = new WorkspaceHelper(Driver);
 			_workspaceHelper.GoToProjectsPage();
-			_createProjectHelper = new CreateProjectHelper();
-			_usersRightsHelper = new UsersRightsHelper();
-			_projectsHelper = new ProjectsHelper();
-			_taskAssignmentDialogHelper = new TaskAssignmentDialogHelper();
-			_projectUniqueName = _createProjectHelper.GetProjectUniqueName();
 
+			_projectUniqueName = _createProjectHelper.GetProjectUniqueName();
 			_additionalUser = TakeUser(ConfigurationManager.AdditionalUsers);
 		}
 
@@ -309,7 +311,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 		private ProjectsHelper _projectsHelper;
 		private UsersRightsHelper _usersRightsHelper;
 		private TaskAssignmentDialogHelper _taskAssignmentDialogHelper;
-		private readonly ProjectSettingsHelper _projectSettingsHelper = new ProjectSettingsHelper();
+		private ProjectSettingsHelper _projectSettingsHelper;
 		private WorkspaceHelper _workspaceHelper;
 		private TestUser _additionalUser;
 	}

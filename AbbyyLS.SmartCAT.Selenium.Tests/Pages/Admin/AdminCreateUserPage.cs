@@ -1,16 +1,24 @@
-﻿using NUnit.Framework;
+﻿using System;
+
+using NUnit.Framework;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.PageObjects;
+
+using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
 using AbbyyLS.SmartCAT.Selenium.Tests.TestFramework;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Admin
 {
 	public class AdminCreateUserPage: AdminLingvoProPage, IAbstractPage<AdminCreateUserPage>
 	{
+		public AdminCreateUserPage(WebDriver driver) : base(driver)
+		{
+		}
+
 		public new AdminCreateUserPage GetPage()
 		{
-			var adminCreateUserPage = new AdminCreateUserPage();
-			InitPage(adminCreateUserPage);
+			var adminCreateUserPage = new AdminCreateUserPage(Driver);
+			InitPage(adminCreateUserPage, Driver);
 
 			return adminCreateUserPage;
 		}
@@ -28,7 +36,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Admin
 		/// </summary>
 		public AdminCreateUserPage FillEmail(string email)
 		{
-			Logger.Trace("Ввести email '{0}' для нового пользователя", email);
+			CustomTestContext.WriteLine("Ввести email '{0}' для нового пользователя", email);
 			Email.SetText(email);
 
 			return GetPage();
@@ -39,7 +47,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Admin
 		/// </summary>
 		public AdminCreateUserPage FillNickName(string nickname)
 		{
-			Logger.Trace("Ввести Nickname '{0}' для нового пользователя", nickname);
+			CustomTestContext.WriteLine("Ввести Nickname '{0}' для нового пользователя", nickname);
 			NicknameInput.SetText(nickname);
 
 			return GetPage();
@@ -51,7 +59,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Admin
 		/// <param name="password">пароль</param>
 		public AdminCreateUserPage FillPassword(string password)
 		{
-			Logger.Trace("Ввод пароля '{0}' для нового пользователя", password);
+			CustomTestContext.WriteLine("Ввод пароля '{0}' для нового пользователя", password);
 			Password.SetText(password);
 
 			return GetPage();
@@ -63,7 +71,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Admin
 		/// <param name="confirmPassword">пароль</param>
 		public AdminCreateUserPage FillConfirmPassword(string confirmPassword)
 		{
-			Logger.Trace("Ввод подтверждения пароля '{0}' для нового пользователя", confirmPassword);
+			CustomTestContext.WriteLine("Ввод подтверждения пароля '{0}' для нового пользователя", confirmPassword);
 			ConfirmPassword.SetText(confirmPassword);
 
 			return GetPage();
@@ -72,12 +80,13 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Admin
 		/// <summary>
 		/// Нажать кнопку 'Submit' при создании нового юзера
 		/// </summary>
-		public T ClickSubmitButton<T>()where T: class, IAbstractPage<T>, new()
+		public T ClickSubmitButton<T>(WebDriver driver)where T: class, IAbstractPage<T>
 		{
-			Logger.Trace("Нажать кнопку 'Submit'.");
+			CustomTestContext.WriteLine("Нажать кнопку 'Submit'.");
 			SaveButton.Click();
 
-			return new T().GetPage();
+			var instance = Activator.CreateInstance(typeof(T), new object[] { driver }) as T;
+			return instance.GetPage();
 		}
 
 		/// <summary>
@@ -89,7 +98,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Admin
 
 			if (isExist)
 			{
-				Logger.Trace("Пользователь уже есть в AOL, добавлен в БД");
+				CustomTestContext.WriteLine("Пользователь уже есть в AOL, добавлен в БД");
 			}
 
 			return isExist; 

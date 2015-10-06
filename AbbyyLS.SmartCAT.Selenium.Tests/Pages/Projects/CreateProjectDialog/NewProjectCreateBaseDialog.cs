@@ -1,16 +1,24 @@
-﻿using AbbyyLS.SmartCAT.Selenium.Tests.TestFramework;
+﻿using System;
+
 using NUnit.Framework;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.PageObjects;
+
+using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
+using AbbyyLS.SmartCAT.Selenium.Tests.TestFramework;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 {
 	public class NewProjectCreateBaseDialog : ProjectsPage, IAbstractPage<NewProjectCreateBaseDialog>
 	{
+		public NewProjectCreateBaseDialog(WebDriver driver) : base(driver)
+		{
+		}
+
 		public new NewProjectCreateBaseDialog GetPage()
 		{
-			var createProjectDialog = new NewProjectCreateBaseDialog();
-			InitPage(createProjectDialog);
+			var createProjectDialog = new NewProjectCreateBaseDialog(Driver);
+			InitPage(createProjectDialog, Driver);
 
 			return createProjectDialog;
 		}
@@ -28,7 +36,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 		/// </summary>
 		public ProjectsPage ClickFinishCreate()
 		{
-			Logger.Debug("Нажать на кнопку 'Finish'.");
+			CustomTestContext.WriteLine("Нажать на кнопку 'Finish'.");
 			CreateProjectFinishButton.Click();
 
 			return GetPage();
@@ -39,32 +47,34 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 		/// </summary>
 		public ProjectsPage ClickCloseDialog()
 		{
-			Logger.Debug("Нажать 'Close'.");
+			CustomTestContext.WriteLine("Нажать 'Close'.");
 			CloseDialogButton.Click();
 
-			return new ProjectsPage().GetPage();
+			return new ProjectsPage(Driver).GetPage();
 		}
 
 		/// <summary>
 		/// Нажать 'Next'
 		/// </summary>
-		public T ClickNextButton<T>() where T: class, IAbstractPage<T>, new()
+		public T ClickNextButton<T>(WebDriver driver) where T: class, IAbstractPage<T>
 		{
-			Logger.Debug("Нажать 'Next'.");
+			CustomTestContext.WriteLine("Нажать 'Next'.");
 			NextButton.Click();
 
-			return new T().GetPage();
+			var instance = Activator.CreateInstance(typeof(T), new object[] { driver }) as T;
+			return instance.GetPage();
 		}
 
 		/// <summary>
 		/// Нажать 'Back'
 		/// </summary>
-		public T ClickBackButton<T>() where T : class, IAbstractPage<T>, new()
+		public T ClickBackButton<T>(WebDriver driver) where T : class, IAbstractPage<T>
 		{
-			Logger.Debug("Нажать 'Back'.");
+			CustomTestContext.WriteLine("Нажать 'Back'.");
 			BackButton.Click();
 
-			return new T().GetPage();
+			var instance = Activator.CreateInstance(typeof(T), new object[] { driver }) as T;
+			return instance.GetPage();
 		}
 
 		/// <summary>
@@ -72,7 +82,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 		/// </summary>
 		public NewProjectCreateBaseDialog AssertFinishButtonEnabled()
 		{
-			Logger.Debug("Проверить, что кнопка 'Готово' доступна");
+			CustomTestContext.WriteLine("Проверить, что кнопка 'Готово' доступна");
 
 			Assert.IsTrue(Driver.WaitUntilElementIsEnabled(By.XPath(CREATE_PROJECT_FINISH_BUTTON)) && Driver.WaitUntilElementIsDisplay(By.XPath(CREATE_PROJECT_FINISH_BUTTON)),
 				"Ошибка: \n кнопка 'Готово' недоступна.");
@@ -86,11 +96,11 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 		/// </summary>
 		public ProjectsPage ClickFinishButton()
 		{
-			Logger.Debug("Нажать кнопку 'Готово'.");
+			CustomTestContext.WriteLine("Нажать кнопку 'Готово'.");
 			CreateProjectFinishButton.HoverElement();
 			CreateProjectFinishButton.JavaScriptClick();
 
-			return new ProjectsPage().GetPage();
+			return new ProjectsPage(Driver).GetPage();
 		}
 
 		[FindsBy(How = How.XPath, Using = CREATE_PROJECT_FINISH_BUTTON)]

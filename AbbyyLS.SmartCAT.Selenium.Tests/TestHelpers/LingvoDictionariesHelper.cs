@@ -2,6 +2,7 @@
 
 using NUnit.Framework;
 
+using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.LingvoDictionaries;
 using AbbyyLS.SmartCAT.Selenium.Tests.TestFramework;
 
@@ -9,10 +10,17 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 {
 	public class LingvoDictionariesHelper
 	{
+		public WebDriver Driver { get; private set; }
+
+		public LingvoDictionariesHelper(WebDriver driver)
+		{
+			Driver = driver;
+			_lingvoDictionariesPage = new LingvoDictionariesPage(Driver);
+		}
 
 		public LingvoDictionariesHelper AssertLingvoDictionariesListIsNotEmpty()
 		{
-			BaseObject.InitPage(_lingvoDictionariesPage);
+			BaseObject.InitPage(_lingvoDictionariesPage, Driver);
 			_lingvoDictionariesPage.AssertLingvoDictionariesListIsNotEmpty();
 
 			return this;
@@ -30,11 +38,11 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 		private List<string> getDictionariesList()
 		{
-			BaseObject.InitPage(_lingvoDictionariesPage);
+			BaseObject.InitPage(_lingvoDictionariesPage, Driver);
 
 			return _lingvoDictionariesPage.GetDictionariesList();
 		}
 
-		private readonly LingvoDictionariesPage _lingvoDictionariesPage = new LingvoDictionariesPage();
+		private readonly LingvoDictionariesPage _lingvoDictionariesPage;
 	}
 }

@@ -1,9 +1,11 @@
 ﻿using System;
 using System.IO;
 using System.Threading;
+
 using NUnit.Framework;
 
 using AbbyyLS.SmartCAT.Selenium.Tests.DataStructures;
+using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace;
 using AbbyyLS.SmartCAT.Selenium.Tests.TestFramework;
@@ -12,42 +14,50 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 {
 	public class ExportFileHelper : WorkspaceHelper
 	{
-		public ExportFileHelper SelectExportType<T>(ExportType exportType) where T : class, IAbstractPage<T>, new()
+		public ExportFileHelper(WebDriver driver) : base(driver)
 		{
-			BaseObject.InitPage(_exportMenu);
-			_exportMenu.ClickExportType<T>(exportType);
+			_exportMenu = new ExportMenu(Driver);
+			_exportNotification = new ExportNotification(Driver);
+			_workspacePage = new WorkspacePage(Driver);
+			_projectsPage = new ProjectsPage(Driver);
+		}
+
+		public ExportFileHelper SelectExportType<T>(ExportType exportType) where T : class, IAbstractPage<T>
+		{
+			BaseObject.InitPage(_exportMenu, Driver);
+			_exportMenu.ClickExportType<T>(exportType, Driver);
 
 			return this;
 		}
 
-		public ExportFileHelper ClickDownloadNotifier<T>() where T: class, IAbstractPage<T>, new()
+		public ExportFileHelper ClickDownloadNotifier<T>() where T: class, IAbstractPage<T>
 		{
-			BaseObject.InitPage(_exportNotification);
-			_exportNotification.ClickDownloadNotifier<T>();
+			BaseObject.InitPage(_exportNotification, Driver);
+			_exportNotification.ClickDownloadNotifier<T>(Driver);
 
 			return this;
 		}
 
 		public ExportFileHelper AssertPreparingDownloadMessageDisappeared()
 		{
-			BaseObject.InitPage(_projectsPage);
+			BaseObject.InitPage(_projectsPage, Driver);
 			_projectsPage.AssertPreparingDownloadMessageDisappeared();
 
-			return new ExportFileHelper();
+			return new ExportFileHelper(Driver);
 		}
 
 
-		public ExportFileHelper CancelAllNotifiers<T>() where T: class, IAbstractPage<T>, new()
+		public ExportFileHelper CancelAllNotifiers<T>() where T: class, IAbstractPage<T>
 		{
-			BaseObject.InitPage(_workspacePage);
+			BaseObject.InitPage(_workspacePage, Driver);
 			var countNotifiers = _workspacePage.GetCountExportNotifiers();
 
 			for (int i = 0; i < countNotifiers; i++)
 			{
 				//sleep стоит,чтобы закрываемые уведомления успевали пропадать
 				Thread.Sleep(1000);
-				BaseObject.InitPage(_exportNotification);
-				_exportNotification.ClickCancelNotifier<T>();
+				BaseObject.InitPage(_exportNotification, Driver);
+				_exportNotification.ClickCancelNotifier<T>(Driver);
 			}
 
 			return this;
@@ -55,22 +65,22 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 		public int GetCountExportNotifiers()
 		{
-			BaseObject.InitPage(_workspacePage);
+			BaseObject.InitPage(_workspacePage, Driver);
 
 			return _workspacePage.GetCountExportNotifiers();
 		}
 
-		public ExportFileHelper ClickCancelInDowloadNotifier<T>() where T : class, IAbstractPage<T>, new()
+		public ExportFileHelper ClickCancelInDowloadNotifier<T>() where T : class, IAbstractPage<T>
 		{
-			BaseObject.InitPage(_exportNotification);
-			_exportNotification.ClickCancelNotifier<T>();
+			BaseObject.InitPage(_exportNotification, Driver);
+			_exportNotification.ClickCancelNotifier<T>(Driver);
 
 			return this;
 		}
 
 		public ExportFileHelper AssertCountExportNotifiers(int expectedCount)
 		{
-			BaseObject.InitPage(_exportNotification);
+			BaseObject.InitPage(_exportNotification, Driver);
 			_exportNotification.AssertCountExportNotifiers(expectedCount);
 
 			return this;
@@ -78,7 +88,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 		public ExportFileHelper AssertNotificationNotExist()
 		{
-			BaseObject.InitPage(_workspacePage);
+			BaseObject.InitPage(_workspacePage, Driver);
 			
 			Assert.IsTrue(_workspacePage.GetCountExportNotifiers() == 0,
 				"Произошла ошибка:\n остались открытые уведомления.");
@@ -88,7 +98,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 		public ExportFileHelper AssertContainsText(string text)
 		{
-			BaseObject.InitPage(_exportNotification);
+			BaseObject.InitPage(_exportNotification, Driver);
 			_exportNotification.AssertContainsText(text);
 
 			return this;
@@ -96,7 +106,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 		public ExportFileHelper AssertContainsCurrentDate()
 		{
-			BaseObject.InitPage(_exportNotification);
+			BaseObject.InitPage(_exportNotification, Driver);
 			_exportNotification.AssertContainsCurrentDate();
 
 			return this;
@@ -114,7 +124,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 		/// <returns>Текст верхнего сообщения уведомления</returns>
 		public string GetTextNotificationByNumber(int notificationNumber)
 		{
-			BaseObject.InitPage(_exportNotification);
+			BaseObject.InitPage(_exportNotification, Driver);
 
 			return _exportNotification
 				.SwitchToNotificationByNumber(notificationNumber)
@@ -176,9 +186,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 			return files;
 		}
 
-		private readonly ExportMenu _exportMenu = new ExportMenu();
-		private readonly ExportNotification _exportNotification = new ExportNotification();
-		private readonly WorkspacePage _workspacePage = new WorkspacePage();
-		private readonly ProjectsPage _projectsPage = new ProjectsPage();
+		private readonly ProjectsPage _projectsPage;
+		private readonly ExportMenu _exportMenu;
+		private readonly ExportNotification _exportNotification;
+		private readonly WorkspacePage _workspacePage;
 	}
 }

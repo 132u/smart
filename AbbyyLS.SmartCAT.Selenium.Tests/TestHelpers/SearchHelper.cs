@@ -1,22 +1,27 @@
 ﻿﻿using System.Collections.Generic;
 ﻿using System.Linq;
 
-﻿using NLog;
-
 ﻿using NUnit.Framework;
 
-﻿using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Search;
-using AbbyyLS.SmartCAT.Selenium.Tests.TestFramework;
+using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
+using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Search;
+﻿using AbbyyLS.SmartCAT.Selenium.Tests.TestFramework;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 {
 	public class SearchHelper
 	{
-		public static Logger Logger = LogManager.GetCurrentClassLogger();
+		public WebDriver Driver { get; private set; }
+
+		public SearchHelper(WebDriver driver)
+		{
+			Driver = driver;
+			_searchPage = new SearchPage(Driver);
+		}
 
 		public SearchHelper SetSourceLanguage(string sourceLanguage)
 		{
-			BaseObject.InitPage(_searchPage);
+			BaseObject.InitPage(_searchPage, Driver);
 			_searchPage.SelectSourceLanguage(sourceLanguage);
 
 			return this;
@@ -24,7 +29,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 		public SearchHelper SetTargetLanguage(string targetLanguage)
 		{
-			BaseObject.InitPage(_searchPage);
+			BaseObject.InitPage(_searchPage, Driver);
 			_searchPage.SelectTargetLanguage(targetLanguage);
 
 			return this;
@@ -32,7 +37,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 		public SearchHelper AssertDefinitionTabIsActive()
 		{
-			BaseObject.InitPage(_searchPage);
+			BaseObject.InitPage(_searchPage, Driver);
 			_searchPage.AssertDefinitionTabIsActive();
 
 			return this;
@@ -40,7 +45,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 		public SearchHelper AssertGlossariesNamesMatch(List<string> glossaryNames)
 		{
-			BaseObject.InitPage(_searchPage);
+			BaseObject.InitPage(_searchPage, Driver);
 
 			Assert.IsTrue(glossaryNames.OrderBy(m => m).SequenceEqual(_searchPage.GlossaryNamesList().OrderBy(m => m)),
 				"Произошла ошибка:\n списки имен глоссариев не совпадают.");
@@ -50,7 +55,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 		public SearchHelper InitSearch(string searchText)
 		{
-			BaseObject.InitPage(_searchPage);
+			BaseObject.InitPage(_searchPage, Driver);
 			_searchPage
 				.AddTextSearch(searchText)
 				.ClickTranslateButton()
@@ -61,7 +66,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 		public SearchHelper ClickTranslationWord(string text)
 		{
-			BaseObject.InitPage(_searchPage);
+			BaseObject.InitPage(_searchPage, Driver);
 			_searchPage.ClickTranslationWord(text);
 
 			return this;
@@ -69,7 +74,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 		public SearchHelper AssertTranslationReferenceExist(string text)
 		{
-			BaseObject.InitPage(_searchPage);
+			BaseObject.InitPage(_searchPage, Driver);
 			_searchPage.AssertTranslationReferenceExist(text);
 
 			return this;
@@ -77,8 +82,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 		public SearchHelper AssertTermNamesMatch(string term)
 		{
-			Logger.Trace("Проверить, что термин {0} сопадает с найденными терминами.", term);
-			BaseObject.InitPage(_searchPage);
+			CustomTestContext.WriteLine("Проверить, что термин {0} сопадает с найденными терминами.", term);
+			BaseObject.InitPage(_searchPage, Driver);
 
 			for (var i = 1; i <= _searchPage.GlossaryNamesList().Count; i++)
 			{
@@ -94,7 +99,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 		public SearchHelper OpenWordByWordTranslation()
 		{
-			BaseObject.InitPage(_searchPage);
+			BaseObject.InitPage(_searchPage, Driver);
 			_searchPage
 				.ClickTranslationFormReference()
 				.AssertWordByWordTranslationAppear();
@@ -104,7 +109,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 		public SearchHelper AssertReverseTranslationListExist()
 		{
-			BaseObject.InitPage(_searchPage);
+			BaseObject.InitPage(_searchPage, Driver);
 			_searchPage.AssertReverseTranslationListExist();
 
 			return this;
@@ -112,7 +117,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 		public SearchHelper AssertAutoreversedMessageExist()
 		{
-			BaseObject.InitPage(_searchPage);
+			BaseObject.InitPage(_searchPage, Driver);
 			_searchPage.AssertAutoreversedMessageExist();
 
 			return this;
@@ -120,12 +125,12 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 		public SearchHelper AsserttAutoreversedReferenceExist()
 		{
-			BaseObject.InitPage(_searchPage);
+			BaseObject.InitPage(_searchPage, Driver);
 			_searchPage.AssertAutoreversedReferenceExist();
 
 			return this;
 		}
 
-		private readonly SearchPage _searchPage = new SearchPage();
+		private readonly SearchPage _searchPage;
 	}
 }

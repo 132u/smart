@@ -1,6 +1,5 @@
-﻿using System.Windows.Forms;
-
-using AbbyyLS.SmartCAT.Selenium.Tests.DataStructures;
+﻿using AbbyyLS.SmartCAT.Selenium.Tests.DataStructures;
+using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Registration;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace;
 using AbbyyLS.SmartCAT.Selenium.Tests.TestFramework;
@@ -9,12 +8,22 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 {
 	public class CompanyRegistrationHelper
 	{
+		public WebDriver Driver { get; private set; }
+
+		public CompanyRegistrationHelper(WebDriver driver)
+		{
+			Driver = driver;
+			_companyRegistrationSignInPage = new CompanyRegistrationSignInPage(Driver);
+			_companyRegistrationFirstPage = new CompanyRegistrationFirstPage(Driver);
+			_companyRegistrationSecondPage = new CompanyRegistrationSecondPage(Driver);
+		}
+
 		public CompanyRegistrationHelper FillCompanyDataFirstStep(
 			string email,
 			string password,
 			string confirmPassword)
 		{
-			BaseObject.InitPage(_companyRegistrationFirstPage);
+			BaseObject.InitPage(_companyRegistrationFirstPage, Driver);
 			_companyRegistrationFirstPage
 				.FillEmail(email)
 				.FillPassword(password)
@@ -27,7 +36,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 			string email,
 			string password)
 		{
-			BaseObject.InitPage(_companyRegistrationSignInPage);
+			BaseObject.InitPage(_companyRegistrationSignInPage, Driver);
 			_companyRegistrationSignInPage
 				.FillEmail(email)
 				.FillPassword(password);
@@ -37,7 +46,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 		public CompanyRegistrationHelper ClickSignInButton()
 		{
-			BaseObject.InitPage(_companyRegistrationSignInPage);
+			BaseObject.InitPage(_companyRegistrationSignInPage, Driver);
 			_companyRegistrationSignInPage.ClickSignInButton();
 
 			return this;
@@ -45,15 +54,15 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 		public CompanyRegistrationHelper ClickContinueButton(bool errorExpected = false)
 		{
-			BaseObject.InitPage(_companyRegistrationFirstPage);
+			BaseObject.InitPage(_companyRegistrationFirstPage, Driver);
 
 			if (errorExpected)
 			{
-				_companyRegistrationFirstPage.ClickContinueButton<CompanyRegistrationFirstPage>();
+				_companyRegistrationFirstPage.ClickContinueButton<CompanyRegistrationFirstPage>(Driver);
 			}
 			else
 			{
-				_companyRegistrationFirstPage.ClickContinueButton<CompanyRegistrationSecondPage>();
+				_companyRegistrationFirstPage.ClickContinueButton<CompanyRegistrationSecondPage>(Driver);
 			}
 
 			return this;
@@ -61,7 +70,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 		public CompanyRegistrationHelper AssertContinueButtonInactive()
 		{
-			BaseObject.InitPage(_companyRegistrationFirstPage);
+			BaseObject.InitPage(_companyRegistrationFirstPage, Driver);
 			_companyRegistrationFirstPage.AssertContinueButtonInactive();
 
 			return this;
@@ -75,7 +84,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 			CompanyType companyType,
 			string phoneNumber = "12312312312312")
 		{
-			BaseObject.InitPage(_companyRegistrationSecondPage);
+			BaseObject.InitPage(_companyRegistrationSecondPage, Driver);
 			_companyRegistrationSecondPage
 				.FillFirstName(firstName)
 				.FillLastName(lastName)
@@ -89,17 +98,17 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 		public WorkspaceHelper ClickCreateCorporateAccountButton()
 		{
-			BaseObject.InitPage(_companyRegistrationSecondPage);
+			BaseObject.InitPage(_companyRegistrationSecondPage, Driver);
 			_companyRegistrationSecondPage
 				.WaitCreateCorporateAccountButtonBecomeActive()
-				.ClickCreateCorporateAccountButton<WorkspacePage>();
+				.ClickCreateCorporateAccountButton<WorkspacePage>(Driver);
 
-			return new WorkspaceHelper();
+			return new WorkspaceHelper(Driver);
 		}
 
 		public CompanyRegistrationHelper AssertCreateCorporateAccountButtonInactive()
 		{
-			BaseObject.InitPage(_companyRegistrationSecondPage);
+			BaseObject.InitPage(_companyRegistrationSecondPage, Driver);
 			_companyRegistrationSecondPage.AssertCreateCorporateAccountButtonInactive();
 
 			return this;
@@ -107,7 +116,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 		public CompanyRegistrationHelper AssertCompanyNameMessageDisplayed()
 		{
-			BaseObject.InitPage(_companyRegistrationSecondPage);
+			BaseObject.InitPage(_companyRegistrationSecondPage, Driver);
 			_companyRegistrationSecondPage.AssertEnterCompanyNameMessageDisplayed();
 
 			return this;
@@ -115,7 +124,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 		public CompanyRegistrationHelper ClickExistingAbbyyAccountLink()
 		{
-			BaseObject.InitPage(_companyRegistrationFirstPage);
+			BaseObject.InitPage(_companyRegistrationFirstPage, Driver);
 			_companyRegistrationFirstPage.ClickExistingAbbyyAccountLink();
 
 			return this;
@@ -123,7 +132,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 		public CompanyRegistrationHelper AssertInvalidEmailMessageDisplayed()
 		{
-			BaseObject.InitPage(_companyRegistrationFirstPage);
+			BaseObject.InitPage(_companyRegistrationFirstPage, Driver);
 			_companyRegistrationFirstPage.AssertInvalidEmailMessageDisplayed();
 
 			return this;
@@ -131,7 +140,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 		public CompanyRegistrationHelper AssertMinimumLenghPasswordMessageDisplayed()
 		{
-			BaseObject.InitPage(_companyRegistrationFirstPage);
+			BaseObject.InitPage(_companyRegistrationFirstPage, Driver);
 			_companyRegistrationFirstPage.AssertMinimumLenghPasswordMessageDisplayed();
 
 			return this;
@@ -139,7 +148,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 		public CompanyRegistrationHelper AssertOnlySpacesPasswordMessageDisplayed()
 		{
-			BaseObject.InitPage(_companyRegistrationFirstPage);
+			BaseObject.InitPage(_companyRegistrationFirstPage, Driver);
 			_companyRegistrationFirstPage.AssertOnlySpacesPasswordMessageDisplayed();
 
 			return this;
@@ -147,7 +156,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 		public CompanyRegistrationHelper AssertPasswordMatchMessageDisplayed()
 		{
-			BaseObject.InitPage(_companyRegistrationFirstPage);
+			BaseObject.InitPage(_companyRegistrationFirstPage, Driver);
 			_companyRegistrationFirstPage.AssertPasswordMatchMessageDisplayed();
 
 			return this;
@@ -155,7 +164,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 		public CompanyRegistrationHelper AssertAlreadySignUpMessageDisplayed()
 		{
-			BaseObject.InitPage(_companyRegistrationFirstPage);
+			BaseObject.InitPage(_companyRegistrationFirstPage, Driver);
 			_companyRegistrationFirstPage.AssertAlreadySignUpMessageDisplayed();
 
 			return this;
@@ -163,7 +172,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 		
 		public CompanyRegistrationHelper AssertInvalidPasswordMessageDisplayed()
 		{
-			BaseObject.InitPage(_companyRegistrationFirstPage);
+			BaseObject.InitPage(_companyRegistrationFirstPage, Driver);
 			_companyRegistrationFirstPage.AssertInvalidPasswordMessageDisplayed();
 
 			return this;
@@ -171,7 +180,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 		public CompanyRegistrationHelper AssertCompanyNameLenght(int maximumCompanyNameLenght = 40)
 		{
-			BaseObject.InitPage(_companyRegistrationSecondPage);
+			BaseObject.InitPage(_companyRegistrationSecondPage, Driver);
 			_companyRegistrationSecondPage.AssertCompanyNameLenght(maximumCompanyNameLenght);
 
 			return this;
@@ -179,7 +188,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 		public CompanyRegistrationHelper AssertSubdomainMinimumLenghtMessageDisplayed()
 		{
-			BaseObject.InitPage(_companyRegistrationSecondPage);
+			BaseObject.InitPage(_companyRegistrationSecondPage, Driver);
 			_companyRegistrationSecondPage.AssertSubdomainLenghtMessageDisplayed();
 
 			return this;
@@ -187,7 +196,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 		public CompanyRegistrationHelper AssertCompanyNamePatternInvalidMessageDisplayed()
 		{
-			BaseObject.InitPage(_companyRegistrationSecondPage);
+			BaseObject.InitPage(_companyRegistrationSecondPage, Driver);
 			_companyRegistrationSecondPage.AssertCompanyNamePatternMessageDisplayed();
 
 			return this;
@@ -195,7 +204,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 		public CompanyRegistrationHelper AssertCompanyNameLengthInvalidMessageDisplayed()
 		{
-			BaseObject.InitPage(_companyRegistrationSecondPage);
+			BaseObject.InitPage(_companyRegistrationSecondPage, Driver);
 			_companyRegistrationSecondPage.AssertCompanyNameLengthInvalidMessageDisplayed();
 
 			return this;
@@ -203,7 +212,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 		public CompanyRegistrationHelper AssertSubdomainPatternMessageDisplayed()
 		{
-			BaseObject.InitPage(_companyRegistrationSecondPage);
+			BaseObject.InitPage(_companyRegistrationSecondPage, Driver);
 			_companyRegistrationSecondPage.AssertSubdomainPatternMessageDisplayed();
 
 			return this;
@@ -211,7 +220,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 		public CompanyRegistrationHelper AssertCompanyNameAlreadyInUseMessageDisplayed()
 		{
-			BaseObject.InitPage(_companyRegistrationSecondPage);
+			BaseObject.InitPage(_companyRegistrationSecondPage, Driver);
 			_companyRegistrationSecondPage.AssertCompanyNameMessageDisplayed();
 
 			return this;
@@ -219,7 +228,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 		public CompanyRegistrationHelper AssertEnterDomainMessageDisplayed()
 		{
-			BaseObject.InitPage(_companyRegistrationSecondPage);
+			BaseObject.InitPage(_companyRegistrationSecondPage, Driver);
 			_companyRegistrationSecondPage.AssertEnterDomainMessageDisplayed();
 
 			return this;
@@ -227,7 +236,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 		public CompanyRegistrationHelper AssertEnterNameMessageDisplayed()
 		{
-			BaseObject.InitPage(_companyRegistrationSecondPage);
+			BaseObject.InitPage(_companyRegistrationSecondPage, Driver);
 			_companyRegistrationSecondPage.AssertEnterNameMessageDisplayed();
 
 			return this;
@@ -235,7 +244,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 		public CompanyRegistrationHelper AssertEnterLastNameMessageDisplayed()
 		{
-			BaseObject.InitPage(_companyRegistrationSecondPage);
+			BaseObject.InitPage(_companyRegistrationSecondPage, Driver);
 			_companyRegistrationSecondPage.AssertEnterLastNameMessageDisplayed();
 
 			return this;
@@ -243,7 +252,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 		public CompanyRegistrationHelper AssertEnterCompanyNameMessageDisplayed()
 		{
-			BaseObject.InitPage(_companyRegistrationSecondPage);
+			BaseObject.InitPage(_companyRegistrationSecondPage, Driver);
 			_companyRegistrationSecondPage.AssertEnterCompanyNameMessageDisplayed();
 
 			return this;
@@ -251,7 +260,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 		public CompanyRegistrationHelper AssertEnterPhoneMessageDisplayed()
 		{
-			BaseObject.InitPage(_companyRegistrationSecondPage);
+			BaseObject.InitPage(_companyRegistrationSecondPage, Driver);
 			_companyRegistrationSecondPage.AssertEnterPhoneMessageDisplayed();
 
 			return this;
@@ -259,7 +268,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 		public CompanyRegistrationHelper DoubleClickCompanyTypeDropdown()
 		{
-			BaseObject.InitPage(_companyRegistrationSecondPage);
+			BaseObject.InitPage(_companyRegistrationSecondPage, Driver);
 			_companyRegistrationSecondPage
 				.ClickCompanyTypeDropdown()
 				.ClickCompanyTypeDropdown();
@@ -269,7 +278,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 		public CompanyRegistrationHelper AssertSelectCompanyTypeMessageDisplayed()
 		{
-			BaseObject.InitPage(_companyRegistrationSecondPage);
+			BaseObject.InitPage(_companyRegistrationSecondPage, Driver);
 			_companyRegistrationSecondPage.AssertSelectCompanyTypeMessageDisplayed();
 
 			return this;
@@ -277,16 +286,16 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 		public CompanyRegistrationHelper ClickCorporateAccountButton()
 		{
-			BaseObject.InitPage(_companyRegistrationSecondPage);
+			BaseObject.InitPage(_companyRegistrationSecondPage, Driver);
 			_companyRegistrationSecondPage
 				.WaitCreateCorporateAccountButtonBecomeActive()
-				.ClickCreateCorporateAccountButton<CompanyRegistrationSecondPage>();
+				.ClickCreateCorporateAccountButton<CompanyRegistrationSecondPage>(Driver);
 
 			return this;
 		}
 
-		private readonly CompanyRegistrationSecondPage _companyRegistrationSecondPage = new CompanyRegistrationSecondPage();
-		private readonly CompanyRegistrationFirstPage _companyRegistrationFirstPage = new CompanyRegistrationFirstPage();
-		private readonly CompanyRegistrationSignInPage _companyRegistrationSignInPage = new CompanyRegistrationSignInPage();
+		private readonly CompanyRegistrationSecondPage _companyRegistrationSecondPage;
+		private readonly CompanyRegistrationFirstPage _companyRegistrationFirstPage;
+		private readonly CompanyRegistrationSignInPage _companyRegistrationSignInPage;
 	}
 }

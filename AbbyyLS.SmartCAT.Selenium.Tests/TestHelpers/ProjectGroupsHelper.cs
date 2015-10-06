@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading;
 
+using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.ProjectGroups;
 using AbbyyLS.SmartCAT.Selenium.Tests.TestFramework;
 
@@ -8,11 +9,16 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 {
 	public class ProjectGroupsHelper : WorkspaceHelper
 	{
+		public ProjectGroupsHelper(WebDriver driver) : base(driver)
+		{
+			_projectGroupsPage = new ProjectGroupsPage(Driver);
+		}
+
 		public ProjectGroupsHelper RenameProjectGroup(
 			string projectGroupsName,
 			string newProjectGroupName)
 		{
-			BaseObject.InitPage(_projectGroupsPage);
+			BaseObject.InitPage(_projectGroupsPage, Driver);
 			_projectGroupsPage
 				.ScrollAndClickProjectGroup(projectGroupsName)
 				.HoverCursorToProjectGroup(projectGroupsName)
@@ -36,7 +42,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 		public ProjectGroupsHelper CreateProjectGroup(string projectGroup)
 		{
-			BaseObject.InitPage(_projectGroupsPage);
+			BaseObject.InitPage(_projectGroupsPage, Driver);
 			_projectGroupsPage
 				.ScrollAndClickCreateProjectGroupsButton()
 				.АssertGroupProjectEmptyRowDisplayed()
@@ -48,7 +54,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 		public ProjectGroupsHelper AssertSaveButtonDisappear()
 		{
-			BaseObject.InitPage(_projectGroupsPage);
+			BaseObject.InitPage(_projectGroupsPage, Driver);
 			_projectGroupsPage.AssertSaveButtonDisappear();
 
 			return this;
@@ -56,7 +62,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 		
 		public ProjectGroupsHelper AssertProjectGroupExist(string projectGroupName)
 		{
-			BaseObject.InitPage(_projectGroupsPage);
+			BaseObject.InitPage(_projectGroupsPage, Driver);
 			_projectGroupsPage.AssertProjectGroupExist(projectGroupName);
 
 			return this;
@@ -64,7 +70,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 		public ProjectGroupsHelper AssertProjectGroupNotExist(string projectGroup)
 		{
-			BaseObject.InitPage(_projectGroupsPage);
+			BaseObject.InitPage(_projectGroupsPage, Driver);
 			_projectGroupsPage.AssertProjectGroupNotExist(projectGroup);
 
 			return this;
@@ -72,7 +78,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 		public ProjectGroupsHelper AssertNameErrorExist()
 		{
-			BaseObject.InitPage(_projectGroupsPage);
+			BaseObject.InitPage(_projectGroupsPage, Driver);
 			_projectGroupsPage.AssertProjectGrouptNameErrorExist();
 
 			return this;
@@ -80,7 +86,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 		public ProjectGroupsHelper AssertIsEditMode()
 		{
-			BaseObject.InitPage(_projectGroupsPage);
+			BaseObject.InitPage(_projectGroupsPage, Driver);
 			_projectGroupsPage.AssertIsEditMode();
 
 			return this;
@@ -88,7 +94,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 		public ProjectGroupsHelper AssertNewProjectGroupEditMode()
 		{
-			BaseObject.InitPage(_projectGroupsPage);
+			BaseObject.InitPage(_projectGroupsPage, Driver);
 			_projectGroupsPage.AssertNewProjectGroupEditMode();
 
 			return this;
@@ -96,7 +102,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 		public ProjectGroupsHelper DeleteProjectGroup(string projectGroupName)
 		{
-			BaseObject.InitPage(_projectGroupsPage);
+			BaseObject.InitPage(_projectGroupsPage, Driver);
 			_projectGroupsPage
 				.ScrollAndClickProjectGroup(projectGroupName)
 				.HoverCursorToProjectGroup(projectGroupName)
@@ -108,12 +114,12 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 		public ProjectGroupsHelper ClickSortByName()
 		{
-			BaseObject.InitPage(_projectGroupsPage);
+			BaseObject.InitPage(_projectGroupsPage, Driver);
 			_projectGroupsPage.ClickSortByName();
 
 			return this;
 		}
 
-		private readonly ProjectGroupsPage _projectGroupsPage = new ProjectGroupsPage();
+		private readonly ProjectGroupsPage _projectGroupsPage;
 	}
 }

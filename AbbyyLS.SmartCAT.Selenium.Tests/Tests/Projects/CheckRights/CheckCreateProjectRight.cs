@@ -10,11 +10,17 @@ using AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects.CheckRights
 {
+	[Parallelizable(ParallelScope.Fixtures)]
 	class CheckCreateProjectRight<TWebDriverProvider> : BaseTest<TWebDriverProvider> where TWebDriverProvider : IWebDriverProvider, new()
 	{
 		[SetUp]
 		public void SetUp()
 		{
+			_exportFileHelper = new ExportFileHelper(Driver);
+			_createProjectHelper = new CreateProjectHelper(Driver);
+			_projectHeper = new ProjectsHelper(Driver);
+			WorkspaceHelper = new WorkspaceHelper(Driver);
+
 			_additionalUser = TakeUser(ConfigurationManager.AdditionalUsers);
 
 			var groupName = Guid.NewGuid().ToString();
@@ -265,10 +271,10 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects.CheckRights
 				.ClickProjectAnalysisButton(projectUniqueName);
 		}
 
-		protected readonly ExportFileHelper _exportFileHelper = new ExportFileHelper();
-		protected readonly CreateProjectHelper _createProjectHelper = new CreateProjectHelper();
-		protected readonly ProjectsHelper _projectHeper = new ProjectsHelper();
-		protected readonly WorkspaceHelper WorkspaceHelper = new WorkspaceHelper();
+		protected ExportFileHelper _exportFileHelper;
+		protected CreateProjectHelper _createProjectHelper;
+		protected ProjectsHelper _projectHeper;
+		protected WorkspaceHelper WorkspaceHelper;
 		private TestUser _additionalUser;
 	}
 }

@@ -1,16 +1,21 @@
 ﻿using NUnit.Framework;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.PageObjects;
+
+using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
 using AbbyyLS.SmartCAT.Selenium.Tests.TestFramework;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Admin
 {
 	public class AdminPersonalAccountPage : AdminLingvoProPage, IAbstractPage<AdminPersonalAccountPage>
 	{
+		public AdminPersonalAccountPage(WebDriver driver) : base(driver)
+		{
+		}
 		public new AdminPersonalAccountPage GetPage()
 		{
-			var adminPersonalAccountPage = new AdminPersonalAccountPage();
-			InitPage(adminPersonalAccountPage);
+			var adminPersonalAccountPage = new AdminPersonalAccountPage(Driver);
+			InitPage(adminPersonalAccountPage, Driver);
 
 			return adminPersonalAccountPage;
 		}
@@ -29,7 +34,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Admin
 		/// <param name="surname">фамилия</param>
 		public AdminPersonalAccountPage FillSurname(string surname)
 		{
-			Logger.Trace("Ввести фамилию '{0}' при создании персонального аккаунта", surname);
+			CustomTestContext.WriteLine("Ввести фамилию '{0}' при создании персонального аккаунта", surname);
 			Surname.SetText(surname);
 
 			return GetPage();
@@ -40,7 +45,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Admin
 		/// </summary>
 		public bool IsSelectedActiveCheckbox()
 		{
-			Logger.Trace("Проверить, что стоит галочка в чекбоксе 'Active'");
+			CustomTestContext.WriteLine("Проверить, что стоит галочка в чекбоксе 'Active'");
 			return ActiveCheckbox.GetIsInputChecked();
 		}
 
@@ -49,7 +54,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Admin
 		/// </summary>
 		public AdminPersonalAccountPage SelectActiveCheckbox()
 		{
-			Logger.Trace("Кликнуть по чекбоксу 'Active'");
+			CustomTestContext.WriteLine("Кликнуть по чекбоксу 'Active'");
 			ActiveCheckbox.Click();
 
 			return GetPage();
@@ -60,7 +65,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Admin
 		/// </summary>
 		public AdminPersonalAccountPage ClickSaveButtonPersonalAccount()
 		{
-			Logger.Trace("Нажать кнопку 'Сохранить' при создании персонального аккаунта");
+			CustomTestContext.WriteLine("Нажать кнопку 'Сохранить' при создании персонального аккаунта");
 			SaveButton.Click();
 
 			return GetPage();

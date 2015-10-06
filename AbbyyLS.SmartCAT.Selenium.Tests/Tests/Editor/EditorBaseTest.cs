@@ -8,11 +8,15 @@ using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Editor
 {
-	public class EditorBaseTest<TWebDriverProvider> : BaseTest<TWebDriverProvider> where TWebDriverProvider : IWebDriverProvider, new()
+	public class EditorBaseTest<TWebDriverProvider> : BaseTest<TWebDriverProvider>
+		where TWebDriverProvider : IWebDriverProvider, new()
 	{
 		[SetUp]
 		public void SetupTest()
 		{
+			EditorHelper = new EditorHelper(Driver);
+			_createProjectHelper = new CreateProjectHelper(Driver);
+
 			var projectUniqueName = _createProjectHelper.GetProjectUniqueName();
 
 			_createProjectHelper
@@ -24,8 +28,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Editor
 				.CloseTutorialIfExist();
 		}
 
-		public EditorHelper EditorHelper = new EditorHelper();
-
-		private readonly CreateProjectHelper _createProjectHelper = new CreateProjectHelper();
+		public EditorHelper EditorHelper;
+		private CreateProjectHelper _createProjectHelper;
 	}
 }

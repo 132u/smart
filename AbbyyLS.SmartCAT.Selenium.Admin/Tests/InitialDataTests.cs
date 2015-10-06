@@ -8,7 +8,6 @@ using AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.InitialData
 {
-	[TestFixture]
 	public class InitialDataTests<TWebDriverProvider> : BaseTest<TWebDriverProvider> where TWebDriverProvider : IWebDriverProvider, new()
 	{
 		public InitialDataTests()
@@ -20,7 +19,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.InitialData
 		[SetUp]
 		public void SetUpInitialDataTests()
 		{
-			_adminHelper = new AdminHelper();
+			_adminHelper = new AdminHelper(Driver);
 		}
 
 		[Test]

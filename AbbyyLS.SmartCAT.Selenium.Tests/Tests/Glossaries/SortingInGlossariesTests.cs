@@ -6,6 +6,7 @@ using AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 {
+	[Parallelizable(ParallelScope.Fixtures)]
 	[Standalone]
 	class SortingInGlossariesTests<TWebDriverSettings> : BaseTest<TWebDriverSettings>
 		where TWebDriverSettings : IWebDriverProvider, new()
@@ -13,6 +14,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 		[SetUp]
 		public void SetupSortingInGlossariesTests()
 		{
+			_glossariesHelper = new GlossariesHelper(Driver);
 			_glossariesHelper.GoToGlossariesPage();
 		}
 
@@ -61,7 +63,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 		public void SortByProjectGroupsTest()
 		{
 			var glossaryUniqueName = GlossariesHelper.UniqueGlossaryName();
-			var projectGroupsHelper = new ProjectGroupsHelper();
+			var projectGroupsHelper = new ProjectGroupsHelper(Driver);
 			var projectGroupUniqueName = ProjectGroupsHelper.GetProjectGroupUniqueName();
 
 			projectGroupsHelper
@@ -101,7 +103,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 				.AssertAlertNoExist();
 		}
 
-		private GlossariesHelper _glossariesHelper = new GlossariesHelper();
-		
+		private GlossariesHelper _glossariesHelper;
+
 	}
 }

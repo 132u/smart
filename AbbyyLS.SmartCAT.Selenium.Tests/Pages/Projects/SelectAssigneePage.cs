@@ -1,18 +1,22 @@
 ﻿using NUnit.Framework;
-
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.PageObjects;
 
+using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
 using AbbyyLS.SmartCAT.Selenium.Tests.TestFramework;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 {
 	public class SelectAssigneePage : ProjectsPage, IAbstractPage<SelectAssigneePage>
 	{
+		public SelectAssigneePage(WebDriver driver) : base(driver)
+		{
+		}
+
 		public new SelectAssigneePage GetPage()
 		{
-			var selectAssigneePage = new SelectAssigneePage();
-			InitPage(selectAssigneePage);
+			var selectAssigneePage = new SelectAssigneePage(Driver);
+			InitPage(selectAssigneePage, Driver);
 
 			return selectAssigneePage;
 		}
@@ -30,7 +34,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 		/// </summary>
 		public SelectAssigneePage ClickAnotherAssigneeButton(int taskNumber = 1)
 		{
-			Logger.Debug("Нажать на 'Another Assignee'.");
+			CustomTestContext.WriteLine("Нажать на 'Another Assignee'.");
 
 			AnotherAssigneeButton.Click();
 
@@ -42,7 +46,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 		/// </summary>
 		public SelectAssigneePage ExpandAssigneeDropdown()
 		{
-			Logger.Debug("Раскрыть Assignee дропдаун.");
+			CustomTestContext.WriteLine("Раскрыть Assignee дропдаун.");
 
 			AssigneeDopdown.Click();
 
@@ -54,7 +58,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 		/// </summary>
 		public SelectAssigneePage SelectAssigneeInDropdown(string assigneeName)
 		{
-			Logger.Debug("Выбрать пользователя {0} на назначение.", assigneeName);
+			CustomTestContext.WriteLine("Выбрать пользователя {0} на назначение.", assigneeName);
 			var assigneeOption = Driver.SetDynamicValue(How.XPath, ASSIGNEE_OPTION, assigneeName);
 
 			assigneeOption.Click();
@@ -67,7 +71,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 		/// </summary>
 		public SelectAssigneePage ClickAssignButton(int taskNumber = 1)
 		{
-			Logger.Debug("Нажать на кнопку Assign.");
+			CustomTestContext.WriteLine("Нажать на кнопку Assign.");
 
 			AssignButton.Click();
 			
@@ -79,7 +83,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 		/// </summary>
 		public SelectAssigneePage AssertAssignButtonDisappeared()
 		{
-			Logger.Trace("Проверить, что кнопка Assign исчезла.");
+			CustomTestContext.WriteLine("Нажать на кнопку Cancel.");
 
 			Assert.IsTrue(Driver.WaitUntilElementIsDisappeared(By.XPath(ASSIGN_BUTTON)),
 				"Произошла ошибка:\nКнопка Assign не исчезла.");
@@ -92,7 +96,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 		/// </summary>
 		public SelectAssigneePage AssertCancelAssigneeButtonDisplayed()
 		{
-			Logger.Debug("Проверить, что появилась кнопка Cancel.");
+			CustomTestContext.WriteLine("Проверить, что появилась кнопка Cancel.");
 
 			Assert.IsTrue(Driver.ElementIsDisplayed(By.XPath(CANCEL_ASSIGNEE_BUTTON)),
 				"Произошла ошибка:\nКнопка Cancel не появилась.");
@@ -105,10 +109,10 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 		/// </summary>
 		public TaskAssignmentPage ClickCloseTaskAssignmentPage()
 		{
-			Logger.Debug("Нажать кнопку 'Закрыть'");
+			CustomTestContext.WriteLine("Нажать кнопку 'Закрыть'");
 			CloseButton.Click();
 
-			return new TaskAssignmentPage().GetPage();
+			return new TaskAssignmentPage(Driver).GetPage();
 		}
 
 		[FindsBy(How = How.XPath, Using = CLOSE_BUTTON)]

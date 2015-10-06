@@ -6,6 +6,7 @@ using AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.TranslationMemories
 {
+	[Parallelizable(ParallelScope.Fixtures)]
 	[Standalone]
 	internal class SortingInTranslationMemoriesTests<TWebDriverSettings> : BaseTest<TWebDriverSettings>
 		where TWebDriverSettings : IWebDriverProvider, new()
@@ -13,6 +14,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.TranslationMemories
 		[SetUp]
 		public void SetupSortingInTranslationMemoriesTests()
 		{
+			_translationMemoriesHelper = new TranslationMemoriesHelper(Driver);
 			_translationMemoriesHelper.GoToTranslationMemoriesPage();
 		}
 
@@ -32,6 +34,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.TranslationMemories
 				.AssertAlertNoExist();
 		}
 
-		private TranslationMemoriesHelper _translationMemoriesHelper = new TranslationMemoriesHelper();
+		private TranslationMemoriesHelper _translationMemoriesHelper;
 	}
 }

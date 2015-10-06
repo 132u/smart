@@ -8,15 +8,21 @@ using AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Authorization
 {
+	[Parallelizable(ParallelScope.Fixtures)]
 	internal class AuthorizationTests<TWebDriverProvider> : BaseTest<TWebDriverProvider>
 		where TWebDriverProvider : IWebDriverProvider, new()
 	{
 		public AuthorizationTests()
 		{
 			StartPage = StartPage.SignIn;
-			_adminHelper = new AdminHelper();
-			_commonHelper = new CommonHelper();
-			_loginHelper = new LoginHelper();
+		}
+
+		[SetUp]
+		public void Initialization()
+		{
+			_adminHelper = new AdminHelper(Driver);
+			_commonHelper = new CommonHelper(Driver);
+			_loginHelper = new LoginHelper(Driver);
 		}
 
 		[TestCase("Personal", LoginHelper.EuropeTestServerName)]
@@ -107,7 +113,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Authorization
 		}
 
 		[TestCase("ssssssss213123s@mail.ru", "aol3mailru@mail.ru")] // Активный AOL-аккаунт
-		[TestCase("AolUserivanpetrov2@mailforspam.com", "12trC89p", Ignore = true, IgnoreReason = "PRX-10821")] // Неактивный AOL-аккаунт
+		[TestCase("AolUserivanpetrov2@mailforspam.com", "12trC89p", Ignore = "PRX-10821")] // Неактивный AOL-аккаунт
 		public void SignInWithAolAccount(string email, string password)
 		{
 			_loginHelper

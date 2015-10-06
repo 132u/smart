@@ -9,6 +9,7 @@ using AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.CompanyRegistration
 {
+	[Parallelizable(ParallelScope.Fixtures)]
 	[PriorityMajor]
 	public class AdminCompanyRegistrationTests<TWebDriverProvider> : BaseTest<TWebDriverProvider> where TWebDriverProvider : IWebDriverProvider, new()
 	{
@@ -20,6 +21,10 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.CompanyRegistration
 		[SetUp]
 		public void SetUpAdminCompanyRegistration()
 		{
+			_adminHelper = new AdminHelper(Driver);
+			_commonHelper = new CommonHelper(Driver);
+			_companyRegistrationHelper = new CompanyRegistrationHelper(Driver);
+
 			_accountUniqueName = "AccountUniqueName" + Guid.NewGuid().ToString().Substring(0, 5);
 			_email = Guid.NewGuid().ToString().Substring(0, 8) + "@mailforspam.com";
 			_password = "password" + Guid.NewGuid();
@@ -133,8 +138,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.CompanyRegistration
 
 		private int _companyNameMaxLenght = 40;
 
-		private readonly CompanyRegistrationHelper _companyRegistrationHelper = new CompanyRegistrationHelper();
-		private readonly AdminHelper _adminHelper = new AdminHelper();
-		private readonly CommonHelper _commonHelper = new CommonHelper();
+		private CompanyRegistrationHelper _companyRegistrationHelper;
+		private AdminHelper _adminHelper;
+		private CommonHelper _commonHelper;
 	}
 }

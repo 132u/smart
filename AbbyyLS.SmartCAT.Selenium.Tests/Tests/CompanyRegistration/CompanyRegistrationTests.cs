@@ -11,17 +11,23 @@ using AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.CompanyRegistration
 {
+	[Parallelizable(ParallelScope.Fixtures)]
 	[PriorityMajor]
 	public class CompanyRegistrationTests<TWebDriverProvider> : BaseTest<TWebDriverProvider> where TWebDriverProvider : IWebDriverProvider, new()
 	{
 		public CompanyRegistrationTests()
 		{
 			StartPage = StartPage.CompanyRegistration;
-		}
+	}
 
 		[SetUp]
 		public void SetUpCompanyRegistration()
 		{
+			_companyRegistrationHelper = new CompanyRegistrationHelper(Driver);
+			_workspaceHelper = new WorkspaceHelper(Driver);
+			_commonHelper = new CommonHelper(Driver);
+			_loginHelper = new LoginHelper(Driver);
+
 			_email = "e" + Guid.NewGuid().ToString().Substring(0, 8) +"@mailforspam.com";
 			_password = "password" + Guid.NewGuid();
 			_firstName = "firstName" + Guid.NewGuid();
@@ -243,7 +249,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.CompanyRegistration
 			"253charrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr" +
 			"rrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr" +
 			"rrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr" +
-			"rrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr.com", Ignore = true, IgnoreReason = "PRX-10569")]
+			"rrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr.com", Ignore = "PRX-10569")]
 		public void EmailValidTest(string email)
 		{
 			_companyRegistrationHelper
@@ -319,7 +325,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.CompanyRegistration
 		[TestCase("12345")]
 		// 101 символ
 		[TestCase("11111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111",
-			Ignore = true, IgnoreReason = "PRX-10569")]
+			Ignore = "PRX-10569")]
 		public void InvalidPasswordTest(string password)
 		{
 			_companyRegistrationHelper
@@ -502,10 +508,10 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.CompanyRegistration
 		private string _nickName;
 		private int _companyNameMaxLenght = 40;
 
-		private readonly CompanyRegistrationHelper _companyRegistrationHelper = new CompanyRegistrationHelper();
-		private readonly WorkspaceHelper _workspaceHelper = new WorkspaceHelper();
-		private readonly CommonHelper _commonHelper = new CommonHelper();
-		private readonly LoginHelper _loginHelper = new LoginHelper();
+		private CompanyRegistrationHelper _companyRegistrationHelper;
+		private WorkspaceHelper _workspaceHelper;
+		private CommonHelper _commonHelper;
+		private LoginHelper _loginHelper;
 	}
 }
 

@@ -10,12 +10,13 @@ using AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 {
+	[Parallelizable(ParallelScope.Fixtures)]
 	class BasicGlossaryTests<TWebDriverProvider> : BaseTest<TWebDriverProvider> where TWebDriverProvider : IWebDriverProvider, new()
 	{
 		[SetUp]
 		public void GlossariesSetUp()
 		{
-			_workspaceHelper = new WorkspaceHelper();
+			_workspaceHelper = new WorkspaceHelper(Driver);
 			_glossaryHelper = _workspaceHelper.GoToGlossariesPage();
 			_glossaryUniqueName = GlossariesHelper.UniqueGlossaryName();
 		}

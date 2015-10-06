@@ -1,11 +1,12 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Threading;
 
 using NUnit.Framework;
-
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.PageObjects;
 
+using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.DocumentUploadDialog;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace;
 using AbbyyLS.SmartCAT.Selenium.Tests.TestFramework;
@@ -14,10 +15,14 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings
 {
 	public class ProjectSettingsPage : WorkspacePage, IAbstractPage<ProjectSettingsPage>
 	{
+		public ProjectSettingsPage(WebDriver driver) : base(driver)
+		{
+		}
+
 		public new ProjectSettingsPage GetPage()
 		{
-			var projectSettingsPage = new ProjectSettingsPage();
-			InitPage(projectSettingsPage);
+			var projectSettingsPage = new ProjectSettingsPage(Driver);
+			InitPage(projectSettingsPage, Driver);
 
 			return projectSettingsPage;
 		}
@@ -36,10 +41,10 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings
 		/// </summary>
 		public DocumentUploadGeneralInformationDialog ClickDocumentUploadButton()
 		{
-			Logger.Debug("Нажать на кнопку 'Загрузить файлы'.");
+			CustomTestContext.WriteLine("Нажать на кнопку 'Загрузить файлы'.");
 			AddFilesButton.Click();
 
-			return new DocumentUploadGeneralInformationDialog().GetPage();
+			return new DocumentUploadGeneralInformationDialog(Driver).GetPage();
 		}
 
 		/// <summary>
@@ -47,7 +52,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings
 		/// </summary>
 		public ProjectSettingsPage AssertIsDocumentProcessed()
 		{
-			Logger.Trace("Проверить загрузился ли документ.");
+			CustomTestContext.WriteLine("Проверить загрузился ли документ.");
 
 			if (!Driver.WaitUntilElementIsDisappeared(By.XPath(LOAD_DOC_IMG), 320))
 			{
@@ -66,7 +71,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings
 		/// <param name="documentName">имя документа</param>
 		public ProjectSettingsPage ClickProjectsTableCheckbox(string documentName)
 		{
-			Logger.Debug("Нажать на чекбокс напротив документа {0}.", documentName);
+			CustomTestContext.WriteLine("Нажать на чекбокс напротив документа {0}.", documentName);
 			ProjectsTableCheckbox = Driver.SetDynamicValue(How.XPath, PROJECTS_TABLE_CHECKBOX, documentName);
 			ProjectsTableCheckbox.Click();
 
@@ -78,10 +83,10 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings
 		/// </summary>
 		public TaskAssignmentPage ClickAssignButtonInDocumentInfo()
 		{
-			Logger.Debug("Нажать на кнопку 'Назначить задачу' в открытой свёртке документа.");
+			CustomTestContext.WriteLine("Нажать на кнопку 'Назначить задачу' в открытой свёртке документа.");
 			AssignTasksButtonInDocumentInfo.Click();
 
-			return new TaskAssignmentPage().GetPage();
+			return new TaskAssignmentPage(Driver).GetPage();
 		}
 
 		/// <summary>
@@ -89,7 +94,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings
 		/// </summary>
 		public ProjectSettingsPage AssertAssignButtonNotExist()
 		{
-			Logger.Trace("Проверить, что кнопка 'Назначить задачу' отсутствует.");
+			CustomTestContext.WriteLine("Проверить, что кнопка 'Назначить задачу' отсутствует.");
 
 			Assert.IsFalse(Driver.GetIsElementExist(By.XPath(ASSIGN_TASKS_BTN_IN_DOCUMENT_INFO)),
 				"Произошла ошибка:\n кнопка 'Назначить задачу' отображается в открытой свёртке документа.");
@@ -102,19 +107,19 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings
 		/// </summary>
 		public TaskAssignmentPage ClickAssignButtonOnPanel()
 		{
-			Logger.Debug("Нажать кнопку 'Назначить задачу' на панели");
+			CustomTestContext.WriteLine("Нажать кнопку 'Назначить задачу' на панели");
 			AssignTasksButtonOnPanel.Click();
 
-			return new TaskAssignmentPage().GetPage();
+			return new TaskAssignmentPage(Driver).GetPage();
 		}
 
 		/// <summary>
 		/// Кликнуть по ссылке на документ (открыть его)
 		/// </summary>
 		/// <param name="documentName">имя документа</param>
-		public T ClickDocument<T>(string documentName) where T: class, IAbstractPage<T>, new()
+		public T ClickDocument<T>(string documentName, WebDriver driver) where T: class, IAbstractPage<T>
 		{
-			Logger.Debug("Кликнуть по ссылке на документ {0} (открыть его).", documentName);
+			CustomTestContext.WriteLine("Кликнуть по ссылке на документ {0} (открыть его).", documentName);
 			DocumentRefference = Driver.SetDynamicValue(How.XPath, DOCUMENT_REF, documentName);
 			DocumentRefference.Click();
 			// Sleep нужен, чтоб вторая вкладка успела открыться, иначе количество открытых вкладок посчитается неправильно 
@@ -125,7 +130,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings
 				Driver.SwitchTo().Window(Driver.WindowHandles.Last());
 			}
 
-			return new T().GetPage();
+			var instance = Activator.CreateInstance(typeof(T), new object[] { driver }) as T;
+			return instance.GetPage();
 		}
 
 		/// <summary>
@@ -133,10 +139,10 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings
 		/// </summary>
 		public DeleteDocumentDialog ClickDeleteButton()
 		{
-			Logger.Debug("Нажать кнопку 'Удалить'.");
+			CustomTestContext.WriteLine("Нажать кнопку 'Удалить'.");
 			DeleteButton.Click();
 
-			return new DeleteDocumentDialog().GetPage();
+			return new DeleteDocumentDialog(Driver).GetPage();
 		}
 		
 		/// <summary>
@@ -145,7 +151,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings
 		/// <param name="documentName">имя документа</param>
 		public ProjectSettingsPage AssertDocumentNotExist(string documentName)
 		{
-			Logger.Debug("Проверить, что документа '{0}' нет в проекте.", documentName);
+			CustomTestContext.WriteLine("Проверить, что документа '{0}' нет в проекте.", documentName);
 
 			Assert.IsFalse(Driver.WaitUntilElementIsEnabled(By.XPath(DOCUMENT_LIST.Replace("*#*", documentName)), 5),
 				"Произошла ошибка:\n документ {0} присутствует в проекте.", documentName);
@@ -159,7 +165,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings
 		/// <param name="documentName">имя документа</param>
 		public ProjectSettingsPage AssertDocumentExist(string documentName)
 		{
-			Logger.Debug("Проверить, что документ '{0}' есть в проекте.", documentName);
+			CustomTestContext.WriteLine("Проверить, что документ '{0}' есть в проекте.", documentName);
 
 			Assert.IsTrue(Driver.WaitUntilElementIsEnabled(By.XPath(DOCUMENT_LIST.Replace("*#*", documentName)), 5),
 				"Произошла ошибка:\n документ {0} отсутствует в проекте.", documentName);
@@ -172,12 +178,12 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings
 		/// </summary>
 		public ProjectSettingsPage WaitDeleteDocumentDialogDissappeared()
 		{
-			Logger.Trace("Дождаться закрытия диалога удаления документа.");
+			CustomTestContext.WriteLine("Дождаться закрытия диалога удаления документа.");
 
 			Assert.IsTrue(Driver.WaitUntilElementIsDisappeared(By.XPath(DELETE_DOCUMENT_DIALOG)),
 				"Произошла ошибка:\n диалог удаления документа не закрылся.");
 
-			return new ProjectSettingsPage();
+			return new ProjectSettingsPage(Driver);
 		}
 
 		/// <summary>
@@ -185,7 +191,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings
 		/// </summary>
 		public ProjectSettingsPage WaitUntilUploadDocumentDialogDissapeared()
 		{
-			Logger.Trace("Дождаться закрытия диалога импорта документа.");
+			CustomTestContext.WriteLine("Дождаться закрытия диалога импорта документа.");
 
 			Assert.IsTrue(Driver.WaitUntilElementIsDisappeared(By.XPath(IMPORT_DIALOG)),
 				"Произошла ошибка:\n диалог импорта документа не закрылся.");
@@ -198,7 +204,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings
 		/// </summary>
 		public ProjectSettingsPage ClickDownloadInMainMenuButton()
 		{
-			Logger.Debug("Нажать кнопку экспорта в главном меню");
+			CustomTestContext.WriteLine("Нажать кнопку экспорта в главном меню");
 			DownloadInMainMenuButton.Click();
 
 			return GetPage();
@@ -210,7 +216,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings
 		/// <param name="documentName">имя документа</param>
 		public ProjectSettingsPage ClickDocumentCheckbox(string documentName)
 		{
-			Logger.Debug("Кликнуть чекбокс у документа");
+			CustomTestContext.WriteLine("Кликнуть чекбокс у документа");
 			
 			DocumentCheckbox = Driver.SetDynamicValue(How.XPath, DOCUMENT_CHECKBOX, documentName);
 			DocumentCheckbox.Click();
@@ -224,7 +230,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings
 		/// <param name="documentName">имя документа(без расширения)</param>
 		public ProjectSettingsPage ClickDocumentProgress(string documentName)
 		{
-			Logger.Debug("Нажать на поле прогресс строке документа {0}.", documentName);
+			CustomTestContext.WriteLine("Нажать на поле прогресс строке документа {0}.", documentName);
 			//Sleep необходим для предотвращения ошибки "stale element reference: element is not attached to the page document"
 			Thread.Sleep(1000);
 			DocumentProgress = Driver.SetDynamicValue(How.XPath, DOCUMENT_PROGRESS, documentName);
@@ -238,10 +244,10 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings
 		/// </summary>
 		public SettingsDialog ClickSettingsButton()
 		{
-			Logger.Debug("Нажать кнопку 'Настройки'");
+			CustomTestContext.WriteLine("Нажать кнопку 'Настройки'");
 			SettingsButton.Click();
 
-			return new SettingsDialog().GetPage();
+			return new SettingsDialog(Driver).GetPage();
 		}
 
 		/// <summary>
@@ -249,7 +255,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings
 		/// </summary>
 		public ProjectSettingsPage UncheckAllChecboxesDocumentsTable()
 		{
-			Logger.Debug("Снять выделение с документов, если выделены все.");
+			CustomTestContext.WriteLine("Снять выделение с документов, если выделены все.");
 			AllCheckoxes = Driver.SetDynamicValue(How.XPath, PROJECTS_TABLE_ALL_CHECKBOXES, "");
 
 			if (AllCheckoxes.Selected)
@@ -270,7 +276,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings
 		/// </summary>
 		public ProjectSettingsPage ClickSortByTranslationDocument()
 		{
-			Logger.Debug("Нажать на кнопку сортировки по имени документов.");
+			CustomTestContext.WriteLine("Нажать на кнопку сортировки по имени документов.");
 			SortByTranslationDocument.Click();
 
 			return GetPage();
@@ -281,7 +287,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings
 		/// </summary>
 		public ProjectSettingsPage ClickSortByType()
 		{
-			Logger.Debug("Нажать кнопку сортировки по типу документа");
+			CustomTestContext.WriteLine("Нажать кнопку сортировки по типу документа");
 			SortByType.Click();
 
 			return GetPage();
@@ -292,7 +298,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings
 		/// </summary>
 		public ProjectSettingsPage ClickSortByStatus()
 		{
-			Logger.Debug("Нажать кнопку сортировки по статусу документа");
+			CustomTestContext.WriteLine("Нажать кнопку сортировки по статусу документа");
 			SortByStatus.Click();
 
 			return GetPage();
@@ -303,7 +309,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings
 		/// </summary>
 		public ProjectSettingsPage ClickSortByTarget()
 		{
-			Logger.Debug("Нажать кнопку сортировки по Target-языку документа");
+			CustomTestContext.WriteLine("Нажать кнопку сортировки по Target-языку документа");
 			SortByTarget.Click();
 
 			return GetPage();
@@ -314,7 +320,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings
 		/// </summary>
 		public ProjectSettingsPage ClickSortByAuthor()
 		{
-			Logger.Debug("Нажать кнопку сортировки по автору документа");
+			CustomTestContext.WriteLine("Нажать кнопку сортировки по автору документа");
 			SortByAuthor.Click();
 
 			return GetPage();
@@ -325,7 +331,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings
 		/// </summary>
 		public ProjectSettingsPage ClickSortByCreated()
 		{
-			Logger.Debug("Нажать кнопку сортировки по дате создания документа");
+			CustomTestContext.WriteLine("Нажать кнопку сортировки по дате создания документа");
 			SortByCreated.Click();
 
 			return GetPage();
@@ -336,7 +342,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings
 		/// </summary>
 		public ProjectSettingsPage ClickSortByQA()
 		{
-			Logger.Debug("Нажать кнопку сортировки по QA документа");
+			CustomTestContext.WriteLine("Нажать кнопку сортировки по QA документа");
 			SortByQA.Click();
 
 			return GetPage();
@@ -347,7 +353,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings
 		/// </summary>
 		public ProjectSettingsPage AssertSettingsDialogDissappear()
 		{
-			Logger.Debug("Проверить, что диалог настроек проекта закрылся.");
+			CustomTestContext.WriteLine("Проверить, что диалог настроек проекта закрылся.");
 
 			Assert.IsTrue(Driver.WaitUntilElementIsDisappeared(By.XPath(PROJECT_SETTIGS_HEADER)), "Произошла ошибка:\n Диалог настроек проекта не закрылся.");
 
@@ -359,10 +365,10 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings
 		/// </summary>
 		public DocumentSettings ClickDocumentSettings()
 		{
-			Logger.Debug("Нажать на кнопку 'Settings' в разделе 'Documents'.");
+			CustomTestContext.WriteLine("Нажать на кнопку 'Settings' в разделе 'Documents'.");
 			DocumentSettingsButton.JavaScriptClick();
 
-			return new DocumentSettings().GetPage();
+			return new DocumentSettings(Driver).GetPage();
 		}
 
 		[FindsBy(How = How.XPath, Using = ADD_FILES_BTN)]

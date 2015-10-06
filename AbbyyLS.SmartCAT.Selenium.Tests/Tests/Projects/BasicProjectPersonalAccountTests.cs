@@ -8,6 +8,7 @@ using AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 {
+	[Parallelizable(ParallelScope.Fixtures)]
 	class BasicProjectPersonalAccountTests<TWebDriverProvider> : BaseTest<TWebDriverProvider> where TWebDriverProvider : IWebDriverProvider, new()
 	{
 		public BasicProjectPersonalAccountTests()
@@ -18,9 +19,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 		[SetUp]
 		public void SetUpBasicProjectPersonalAccountTests()
 		{
-			_workspaceHelper = new WorkspaceHelper();
+			_workspaceHelper = new WorkspaceHelper(Driver);
 			_workspaceHelper.GoToProjectsPage();
-			_createProjectHelper = new CreateProjectHelper();
+			_createProjectHelper = new CreateProjectHelper(Driver);
 		}
 
 

@@ -2,16 +2,21 @@
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.PageObjects;
 
+using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
 using AbbyyLS.SmartCAT.Selenium.Tests.TestFramework;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 {
 	public class SelectTaskDialog : EditorPage, IAbstractPage<SelectTaskDialog>
 	{
+		public SelectTaskDialog(WebDriver driver) : base(driver)
+		{
+		}
+
 		public new SelectTaskDialog GetPage()
 		{
-			var selectTaskDialog = new SelectTaskDialog();
-			InitPage(selectTaskDialog);
+			var selectTaskDialog = new SelectTaskDialog(Driver);
+			InitPage(selectTaskDialog, Driver);
 
 			return selectTaskDialog;
 		}
@@ -29,7 +34,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		/// </summary>
 		public SelectTaskDialog ClickTranslateButton()
 		{
-			Logger.Debug("Нажать кнопку 'Перевод'.");
+			CustomTestContext.WriteLine("Нажать кнопку 'Перевод'.");
 			TranslateButton.Click();
 
 			return GetPage();
@@ -40,7 +45,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		/// </summary>
 		public SelectTaskDialog ClickManagerButton()
 		{
-			Logger.Debug("Нажать кнопку 'Менеджер'.");
+			CustomTestContext.WriteLine("Нажать кнопку 'Менеджер'.");
 			ManagerButton.Click();
 
 			return GetPage();
@@ -51,7 +56,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		/// </summary>
 		public SelectTaskDialog ClickEditingButton()
 		{
-			Logger.Debug("Нажать кнопку 'Editing'.");
+			CustomTestContext.WriteLine("Нажать кнопку 'Editing'.");
 			EditingButton.Click();
 
 			return GetPage();
@@ -62,10 +67,10 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		/// </summary>
 		public EditorPage ClickContinueButton()
 		{
-			Logger.Debug("Нажать кнопку 'Продолжить'.");
+			CustomTestContext.WriteLine("Нажать кнопку 'Продолжить'.");
 			ContinueButton.Click();
 
-			return new EditorPage().GetPage();
+			return new EditorPage(Driver).GetPage();
 		}
 
 		[FindsBy(How = How.XPath, Using = TRANSLATE_BTN_XPATH)]

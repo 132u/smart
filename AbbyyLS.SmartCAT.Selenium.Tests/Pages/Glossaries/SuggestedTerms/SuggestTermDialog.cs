@@ -1,9 +1,11 @@
-﻿using NUnit.Framework;
+﻿using System;
 
+using NUnit.Framework;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.PageObjects;
 
 using AbbyyLS.SmartCAT.Selenium.Tests.DataStructures;
+using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace;
 using AbbyyLS.SmartCAT.Selenium.Tests.TestFramework;
 
@@ -11,10 +13,14 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 {
 	public class SuggestTermDialog : WorkspacePage, IAbstractPage<SuggestTermDialog>
 	{
+		public SuggestTermDialog(WebDriver driver) : base(driver)
+		{
+		}
+
 		public new SuggestTermDialog GetPage()
 		{
-			var suggestTermDialog = new SuggestTermDialog();
-			InitPage(suggestTermDialog);
+			var suggestTermDialog = new SuggestTermDialog(Driver);
+			InitPage(suggestTermDialog, Driver);
 
 			return suggestTermDialog;
 		}
@@ -35,7 +41,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 		/// <param name="term">термин</param>
 		public SuggestTermDialog FillTerm(int termNumber, string term)
 		{
-			Logger.Debug("Ввести {0} в термин №{1}.", term, termNumber);
+			CustomTestContext.WriteLine("Ввести {0} в термин №{1}.", term, termNumber);
 			Driver.SetDynamicValue(How.XPath, TERM_INPUT, termNumber.ToString()).SetText(term);
 
 			return GetPage();
@@ -46,7 +52,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 		/// </summary>
 		public SuggestTermDialog ClickGlossariesDropdown()
 		{
-			Logger.Debug("Нажать на выпадающий список глоссариев.");
+			CustomTestContext.WriteLine("Нажать на выпадающий список глоссариев.");
 			GlossaryDropdown.Click();
 
 			return GetPage();
@@ -58,7 +64,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 		/// <param name="glossary">название глоссария</param>
 		public SuggestTermDialog SelectGlossariesInDropdown(string glossary)
 		{
-			Logger.Debug("Выбрать глоссарий {0} в дропдауне.", glossary);
+			CustomTestContext.WriteLine("Выбрать глоссарий {0} в дропдауне.", glossary);
 			Driver.SetDynamicValue(How.XPath, GLOSSARU_IN_LIST, glossary).Click();
 
 			return GetPage();
@@ -67,12 +73,13 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 		/// <summary>
 		/// Нажать кнопку Save
 		/// </summary>
-		public T ClickSaveButton<T>() where T : class, IAbstractPage<T>, new()
+		public T ClickSaveButton<T>(WebDriver driver) where T : class, IAbstractPage<T>
 		{
-			Logger.Debug("Нажать кнопку Save.");
+			CustomTestContext.WriteLine("Нажать кнопку Save.");
 			SaveButon.Click();
 
-			return new T().GetPage();
+			var instance = Activator.CreateInstance(typeof(T), new object[] { driver }) as T;
+			return instance.GetPage();
 		}
 
 		/// <summary>
@@ -81,7 +88,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 		/// <param name="languageNumber">номер языка</param>
 		public SuggestTermDialog ClickLanguageList(int languageNumber)
 		{
-			Logger.Debug("Нажать на выпадающий список языков №{0}.", languageNumber);
+			CustomTestContext.WriteLine("Нажать на выпадающий список языков №{0}.", languageNumber);
 			Driver.SetDynamicValue(How.XPath, LANGUAGE_LIST, languageNumber.ToString()).Click();
 
 			return GetPage();
@@ -92,7 +99,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 		/// </summary>
 		public string LanguageText(int languageNumber)
 		{
-			Logger.Debug("Вернуть название языка, установленного для термина №{0}.");
+			CustomTestContext.WriteLine("Вернуть название языка, установленного для термина №{0}.");
 
 			return Driver.SetDynamicValue(How.XPath, LANGUAGE_LIST, languageNumber.ToString()).Text.Trim();
 		}
@@ -102,7 +109,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 		/// </summary>
 		public SuggestTermDialog SelectLanguageInList(Language language)
 		{
-			Logger.Debug("Выбрать язык {0}.", language);
+			CustomTestContext.WriteLine("Выбрать язык {0}.", language);
 			Driver.SetDynamicValue(How.XPath, LANGUAGE_OPTION, language.ToString()).Click();
 
 			return GetPage();
@@ -113,7 +120,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 		/// </summary>
 		public SuggestTermDialog AssertDublicateErrorDisplayed()
 		{
-			Logger.Trace("Проверить, что сообщение о том, что такой термин уже существует, появилось.");
+			CustomTestContext.WriteLine("Проверить, что сообщение о том, что такой термин уже существует, появилось.");
 
 			Assert.IsTrue(Driver.WaitUntilElementIsDisplay(By.XPath(DUPLICATE_ERROR)),
 				"Произошла ошибка:\n сообщение о том, что такой термин уже существует, не появилось.");
@@ -126,7 +133,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 		/// </summary>
 		public SuggestTermDialog AssertEmptyTermErrorDisplayed()
 		{
-			Logger.Trace("Проверить, что сообщение 'Enter at least one term.' появилось.");
+			CustomTestContext.WriteLine("Проверить, что сообщение 'Enter at least one term.' появилось.");
 
 			Assert.IsTrue(Driver.WaitUntilElementIsDisplay(By.XPath(EMPTY_TERM_ERROR_MESSAGE)),
 				"Произошла ошибка:\nCообщение 'Enter at least one term.' не появилось.");
@@ -137,23 +144,25 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 		/// <summary>
 		/// Нажать кнопку Cancel
 		/// </summary>
-		public T ClickCancelButton<T>() where T : class, IAbstractPage<T>, new()
+		public T ClickCancelButton<T>(WebDriver driver) where T : class, IAbstractPage<T>
 		{
-			Logger.Debug("Нажать кнопку Cancel.");
+			CustomTestContext.WriteLine("Нажать кнопку Cancel.");
 			CancelButon.Click();
 
-			return new T().GetPage();
+			var instance = Activator.CreateInstance(typeof(T), new object[] { driver }) as T;
+			return instance.GetPage();
 		}
 		
 		/// <summary>
 		/// Нажать кнопку 'Save term anyway'
 		/// </summary>
-		public T ClickSaveTermAnywayButton<T>() where T : class, IAbstractPage<T>, new()
+		public T ClickSaveTermAnywayButton<T>(WebDriver driver) where T : class, IAbstractPage<T>
 		{
-			Logger.Debug("Нажать кнопку 'Save term anyway'.");
+			CustomTestContext.WriteLine("Нажать кнопку 'Save term anyway'.");
 			SaveTermAnywayButon.Click();
 
-			return new T().GetPage();
+			var instance = Activator.CreateInstance(typeof(T), new object[] { driver }) as T;
+			return instance.GetPage();
 		}
 
 		[FindsBy(How = How.XPath, Using = GLOSSARY_DROPDOWN)]

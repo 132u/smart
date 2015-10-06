@@ -3,16 +3,21 @@ using OpenQA.Selenium;
 using OpenQA.Selenium.Support.PageObjects;
 
 using AbbyyLS.SmartCAT.Selenium.Tests.DataStructures;
+using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
 using AbbyyLS.SmartCAT.Selenium.Tests.TestFramework;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.UsersRights
 {
 	public class AddAccessRightDialog : UsersRightsPage, IAbstractPage<AddAccessRightDialog>
 	{
+		public AddAccessRightDialog(WebDriver driver) : base(driver)
+		{
+		}
+
 		public new AddAccessRightDialog GetPage()
 		{
-			var addAccessRightPage = new AddAccessRightDialog();
-			InitPage(addAccessRightPage);
+			var addAccessRightPage = new AddAccessRightDialog(Driver);
+			InitPage(addAccessRightPage, Driver);
 
 			return addAccessRightPage;
 		}
@@ -31,7 +36,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.UsersRights
 		/// <param name="right">право</param>
 		public AddAccessRightDialog ClickRightRadio(RightsType right)
 		{
-			Logger.Debug("Выбрать из списка право {0}.", right);
+			CustomTestContext.WriteLine("Выбрать из списка право {0}.", right);
 
 			RightRadio = Driver.SetDynamicValue(How.XPath, RIGHT_RADIO, right.ToString());
 			RightRadio.Click();
@@ -44,7 +49,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.UsersRights
 		/// </summary>
 		public AddAccessRightDialog ClickForAnyProjectRadio()
 		{
-			Logger.Debug("Выбрать набор 'для всех проектов'.");
+			CustomTestContext.WriteLine("Выбрать набор 'для всех проектов'.");
 			ForAnyProjectRadio.Click();
 
 			return GetPage();
@@ -55,7 +60,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.UsersRights
 		/// </summary>
 		public AddAccessRightDialog ClickNextButton()
 		{
-			Logger.Debug("Нажать кнопку далее (при добавлении прав пользователя).");
+			CustomTestContext.WriteLine("Нажать кнопку далее (при добавлении прав пользователя).");
 			NextButton.Click();
 
 			return GetPage();
@@ -66,10 +71,10 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.UsersRights
 		/// </summary>
 		public UsersRightsPage ClickAddRightButton()
 		{
-			Logger.Debug("Нажать кнопку 'Добавить' (право).");
+			CustomTestContext.WriteLine("Нажать кнопку 'Добавить' (право).");
 			AddRightButton.Click();
 
-			return new UsersRightsPage().GetPage();
+			return new UsersRightsPage(Driver).GetPage();
 		}
 
 		[FindsBy(How = How.XPath, Using = ADD_RIGHT_BTN_XPATH)]

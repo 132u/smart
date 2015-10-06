@@ -6,6 +6,7 @@ using AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 {
+	[Parallelizable(ParallelScope.Fixtures)]
 	[Standalone]
 	class SortingInSuggestedTermsTests<TWebDriverSettings> : BaseTest<TWebDriverSettings>
 		where TWebDriverSettings : IWebDriverProvider, new()
@@ -13,6 +14,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 		[SetUp]
 		public void SetupSortingInSuggestedTermsTests()
 		{
+			_glossariesHelper = new GlossariesHelper(Driver);
+
 			var glossaryUniqueName = GlossariesHelper.UniqueGlossaryName();
 			_glossariesHelper
 				.GoToGlossariesPage()
@@ -43,6 +46,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 				.AssertAlertNoExist();
 		}
 
-		private GlossariesHelper _glossariesHelper = new GlossariesHelper();
+		private GlossariesHelper _glossariesHelper;
 	}
 }

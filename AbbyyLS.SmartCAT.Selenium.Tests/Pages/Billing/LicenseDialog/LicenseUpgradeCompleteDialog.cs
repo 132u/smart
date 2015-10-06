@@ -1,18 +1,22 @@
 ﻿using NUnit.Framework;
-
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.PageObjects;
 
+using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
 using AbbyyLS.SmartCAT.Selenium.Tests.TestFramework;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Billing.LicenseDialog
 {
 	public class LicenseUpgradeCompleteDialog : LicenseBaseDialog, IAbstractPage<LicenseUpgradeCompleteDialog>
 	{
+		public LicenseUpgradeCompleteDialog(WebDriver driver) : base(driver)
+		{
+		}
+
 		public new LicenseUpgradeCompleteDialog GetPage()
 		{
-			var upgradeCompleteLicenseDialog = new LicenseUpgradeCompleteDialog();
-			InitPage(upgradeCompleteLicenseDialog);
+			var upgradeCompleteLicenseDialog = new LicenseUpgradeCompleteDialog(Driver);
+			InitPage(upgradeCompleteLicenseDialog, Driver);
 
 			return upgradeCompleteLicenseDialog;
 		}

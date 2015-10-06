@@ -1,18 +1,21 @@
 ﻿using NUnit.Framework;
-
 using OpenQA.Selenium;
 
+using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
 using AbbyyLS.SmartCAT.Selenium.Tests.TestFramework;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 {
-	public class SuggestedTermsPageForCurrentGlossaries : SuggestedTermsPageForAllGlossaries,
-	                                                      IAbstractPage<SuggestedTermsPageForCurrentGlossaries>
+	public class SuggestedTermsPageForCurrentGlossaries : SuggestedTermsPageForAllGlossaries, IAbstractPage<SuggestedTermsPageForCurrentGlossaries>
 	{
+		public SuggestedTermsPageForCurrentGlossaries(WebDriver driver) : base(driver)
+		{
+		}
+
 		public new SuggestedTermsPageForCurrentGlossaries GetPage()
 		{
-			var suggestTermsPageForCurrentGlossaries = new SuggestedTermsPageForCurrentGlossaries();
-			InitPage(suggestTermsPageForCurrentGlossaries);
+			var suggestTermsPageForCurrentGlossaries = new SuggestedTermsPageForCurrentGlossaries(Driver);
+			InitPage(suggestTermsPageForCurrentGlossaries, Driver);
 
 			return suggestTermsPageForCurrentGlossaries;
 		}
@@ -38,7 +41,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 			int rowNumber,
 			int columnNumber)
 		{
-			Logger.Trace("Проверить, что в предложенном термине (стркоа №{0}, колонка №{1}) верное значение {2}.",
+			CustomTestContext.WriteLine("Проверить, что в предложенном термине (стркоа №{0}, колонка №{1}) верное значение {2}.",
 				rowNumber, columnNumber, expectedTermValue);
 			var actualTermValue = Driver.FindElement(By.XPath(TERM_VALUE.Replace("*#*", rowNumber.ToString()).Replace("##", columnNumber.ToString()))).Text;
 
@@ -53,7 +56,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 		/// </summary>
 		public int SuggestedTermsCount()
 		{
-			Logger.Trace("Получить количество терминов.");
+			CustomTestContext.WriteLine("Получить количество терминов.");
 
 			return Driver.GetElementsCount(By.XPath(TERM_ROW));
 		}

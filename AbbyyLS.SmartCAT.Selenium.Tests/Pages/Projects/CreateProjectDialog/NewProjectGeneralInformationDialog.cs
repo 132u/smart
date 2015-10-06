@@ -7,17 +7,21 @@ using OpenQA.Selenium;
 using OpenQA.Selenium.Support.PageObjects;
 
 using AbbyyLS.SmartCAT.Selenium.Tests.DataStructures;
+using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
 using AbbyyLS.SmartCAT.Selenium.Tests.TestFramework;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 {
 	public class NewProjectGeneralInformationDialog : NewProjectCreateBaseDialog, IAbstractPage<NewProjectGeneralInformationDialog>
 	{
-		
+		public NewProjectGeneralInformationDialog(WebDriver driver) : base(driver)
+		{
+		}
+
 		public new NewProjectGeneralInformationDialog GetPage()
 		{
-			var newProjectGeneralInformationDialog = new NewProjectGeneralInformationDialog();
-			InitPage(newProjectGeneralInformationDialog);
+			var newProjectGeneralInformationDialog = new NewProjectGeneralInformationDialog(Driver);
+			InitPage(newProjectGeneralInformationDialog, Driver);
 
 			return newProjectGeneralInformationDialog;
 		}
@@ -35,7 +39,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 		/// </summary>
 		public NewProjectGeneralInformationDialog ClickAddFileButton()
 		{
-			Logger.Debug("Нажать на кнопку 'Добавить' (документ).");
+			CustomTestContext.WriteLine("Нажать на кнопку 'Добавить' (документ).");
 			AddFileButton.Click();
 
 			return GetPage();
@@ -47,7 +51,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 		/// <param name="pathFile">путь к файлу</param>
 		public NewProjectGeneralInformationDialog UploadFile(string pathFile)
 		{
-			Logger.Debug("Загрузить файл: {0}.", pathFile);
+			CustomTestContext.WriteLine("Загрузить файл: {0}.", pathFile);
 			Driver.ExecuteScript("arguments[0].style[\"display\"] = \"block\";" +
 				"arguments[0].style[\"visibility\"] = \"visible\";",
 				UploadFileInput);
@@ -57,7 +61,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 				"*#*", 
 				Path.GetFileName(pathFile))), 90))
 			{
-				Logger.Trace("Первая попытка добавить файл была неудачной. Попробовать ещё раз.");
+				CustomTestContext.WriteLine("Первая попытка добавить файл была неудачной. Попробовать ещё раз.");
 
 				Driver.ExecuteScript("arguments[0].style[\"display\"] = \"block\";" +
 					"arguments[0].style[\"visibility\"] = \"visible\";",
@@ -79,7 +83,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 		/// <param name="fileName">имя файла (с расширением)</param>
 		public NewProjectGeneralInformationDialog AssertFileUploaded(string fileName)
 		{
-			Logger.Trace("Проверить, что документ {0} загрузился.", fileName);
+			CustomTestContext.WriteLine("Проверить, что документ {0} загрузился.", fileName);
 
 			Assert.IsTrue(Driver.WaitUntilElementIsDisplay(By.XPath(UPLOADED_FILE_XPATH.Replace("*#*", fileName)), timeout:120),
 				"Произошла ошибка:\n не удалось загрузить файл {0}.", fileName);
@@ -94,7 +98,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 		/// <param name="date">дата дэдлайна. Используется только с типом 'FillDeadlineDate'</param>
 		public NewProjectGeneralInformationDialog SetDeadline(Deadline deadline, string date = null)
 		{
-			Logger.Debug("Выбрать дату дэдлайна.");
+			CustomTestContext.WriteLine("Выбрать дату дэдлайна.");
 
 			clickDeadlineDateInput();
 			assertIsCalendarDisplayed();
@@ -133,7 +137,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 		/// </summary>
 		public NewProjectGeneralInformationDialog AssertTargetLanguageMatch(Language language)
 		{
-			Logger.Trace("Проверить, что в таргет-языке указан {0}.", language);
+			CustomTestContext.WriteLine("Проверить, что в таргет-языке указан {0}.", language);
 
 			Assert.AreEqual(language.ToString(), TargetMultiselect.Text.Trim(),
 				"Произошла ошибка:\n в таргет-языке указан неправильный язык.");
@@ -146,7 +150,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 		/// </summary>
 		public NewProjectGeneralInformationDialog AssertSourceLanguageMatch(Language language)
 		{
-			Logger.Trace("Проверить, что в сорс-языке указан {0}.", language);
+			CustomTestContext.WriteLine("Проверить, что в сорс-языке указан {0}.", language);
 
 			Assert.AreEqual(language.ToString(), SourceLangDropdown.Text.Trim(),
 				"Произошла ошибка:\n в сорс-языке указан неправильный язык.");
@@ -160,7 +164,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 		/// </summary>
 		public NewProjectGeneralInformationDialog AssertDeadlineDateMatch(string date)
 		{
-			Logger.Trace("Проверить, что в дэдлайне указана дата {0}.", date);
+			CustomTestContext.WriteLine("Проверить, что в дэдлайне указана дата {0}.", date);
 
 			Assert.AreEqual(date, DeadlineDateInput.GetAttribute("value"),
 				"Произошла ошибка:\n в дэдлайне указана неверная дата.");
@@ -173,9 +177,12 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 		/// </summary>
 		public NewProjectGeneralInformationDialog AssertSetDeadlineDate()
 		{
-			Logger.Trace("Проверить, что дата дэдлайна выбрана.");
+			CustomTestContext.WriteLine("Проверить, что дата дэдлайна выбрана.");
 
-			Assert.IsNotNullOrEmpty(DeadlineDateInput.GetAttribute("value"),
+			Assert.IsNotNull(DeadlineDateInput.GetAttribute("value"),
+				 "Ошибка: Дата дедлайна не выбрана");
+
+			Assert.IsNotEmpty(DeadlineDateInput.GetAttribute("value"),
 				 "Ошибка: Дата дедлайна не выбрана");
 
 			return GetPage();
@@ -187,7 +194,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 		/// <param name="dateFormat">дата в неверном формате</param>
 		public NewProjectGeneralInformationDialog AssertErrorDeadlineDate(string dateFormat)
 		{
-			Logger.Trace("Проверить наличие сообщения о неверном формате даты.");
+			CustomTestContext.WriteLine("Проверить наличие сообщения о неверном формате даты.");
 
 			Assert.IsTrue(Driver.WaitUntilElementIsDisplay(By.XPath(ERROR_DEADLINE_DATE_XPATH)),
 				string.Format("Произошла ошибка:\n При введении некорректной даты '{0}' не было сообщения о неверном формате даты", dateFormat));
@@ -200,7 +207,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 		/// </summary>
 		public NewProjectGeneralInformationDialog ClickSourceLangDropdown()
 		{
-			Logger.Debug("Кликнуть по полю исходного языка, чтобы появился выпадающий список.");
+			CustomTestContext.WriteLine("Кликнуть по полю исходного языка, чтобы появился выпадающий список.");
 			SourceLangDropdown.Click();
 
 			return GetPage();
@@ -212,7 +219,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 		/// <param name="lang">исходный язык</param>
 		public NewProjectGeneralInformationDialog SelectSourceLanguage(Language lang)
 		{
-			Logger.Debug("Выбрать исходный язык {0}", lang);
+			CustomTestContext.WriteLine("Выбрать исходный язык {0}", lang);
 			SourceLangItem = Driver.SetDynamicValue(How.XPath, SOURCE_LANG_ITEM_XPATH, lang.ToString());
 			SourceLangItem.Click();
 
@@ -224,7 +231,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 		/// </summary>
 		public NewProjectGeneralInformationDialog ClickTargetMultiselect()
 		{
-			Logger.Debug("Кликнуть по полю языка перевода, чтобы выпал появился список.");
+			CustomTestContext.WriteLine("Кликнуть по полю языка перевода, чтобы выпал появился список.");
 			TargetMultiselect.Click();
 
 			return GetPage();
@@ -235,7 +242,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 		/// </summary>
 		public NewProjectGeneralInformationDialog DeselectAllTargetLanguages()
 		{
-			Logger.Debug("Снять выделение для всех таргет языков.");
+			CustomTestContext.WriteLine("Снять выделение для всех таргет языков.");
 			TargetLangItemsSelected = Driver.GetElementList(By.XPath(TARGET_LANG_MULTISELECT_ITEMS_SELECTED_XPATH));
 			
 			foreach (var e in TargetLangItemsSelected)
@@ -252,7 +259,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 		/// <param name="lang">язык перевода</param>
 		public NewProjectGeneralInformationDialog SelectTargetLanguage(Language lang)
 		{
-			Logger.Debug("Выбрать язык перевода {0} из списка.", lang);
+			CustomTestContext.WriteLine("Выбрать язык перевода {0} из списка.", lang);
 			TargetLangItem = Driver.SetDynamicValue(How.XPath, TARGET_MULTISELECT_ITEM_XPATH, lang.ToString());
 			TargetLangItem.Click();
 
@@ -265,7 +272,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 		/// <param name="projectName">имя проекта</param>
 		public NewProjectGeneralInformationDialog SetProjectName(string projectName)
 		{
-			Logger.Debug("Ввести имя проекта: {0}.", projectName);
+			CustomTestContext.WriteLine("Ввести имя проекта: {0}.", projectName);
 			ProjectNameInput.SetText(projectName, projectName.Length > 100 ? projectName.Substring(0, 100) : projectName);
 
 			return GetPage();
@@ -274,13 +281,14 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 		/// <summary>
 		/// Нажать кнопку 'Далее'
 		/// </summary>
-		public T ClickNext<T>() where T: class, IAbstractPage<T>, new()
+		public T ClickNext<T>(WebDriver driver) where T: class, IAbstractPage<T>
 		{
-			Logger.Debug("Нажать кнопку 'Далее'.");
+			CustomTestContext.WriteLine("Нажать кнопку 'Далее'.");
 			// Вернуть NextButton.Click(), если тесты будут падать из-за неотрабатывающего клика
 			Driver.FindElement(By.XPath(NEXT_BUTTON)).Click();
 
-			return new T().GetPage();
+			var instance = Activator.CreateInstance(typeof(T), new object[] { driver }) as T;
+			return instance.GetPage();
 		}
 
 		/// <summary>
@@ -288,7 +296,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 		/// </summary>
 		public NewProjectGeneralInformationDialog AssertErrorDuplicateName()
 		{
-			Logger.Trace("Проверить, что есть ошибка существующего имени.");
+			CustomTestContext.WriteLine("Проверить, что есть ошибка существующего имени.");
 
 			Assert.IsTrue(Driver.WaitUntilElementIsDisplay(By.XPath(ERROR_NAME_EXISTS_XPATH)),
 				"Произошла ошибка:\n не появилось сообщение о существующем имени");
@@ -301,7 +309,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 		/// </summary>
 		public NewProjectGeneralInformationDialog AssertNoErrorDuplicateName()
 		{
-			Logger.Trace("Проверить, что нет ошибки существующего имени.");
+			CustomTestContext.WriteLine("Проверить, что нет ошибки существующего имени.");
 
 			Assert.IsFalse(Driver.WaitUntilElementIsDisplay(By.XPath(ERROR_NAME_EXISTS_XPATH)),
 				"Произошла ошибка:\n появилась ошибка существующего имени.");
@@ -314,7 +322,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 		/// </summary>
 		public NewProjectGeneralInformationDialog AssertDuplicateLanguageError()
 		{
-			Logger.Trace("Проверить, есть ли ошибка совпадения source и target языков.");
+			CustomTestContext.WriteLine("Проверить, есть ли ошибка совпадения source и target языков.");
 
 			Assert.True(Driver.WaitUntilElementIsDisplay(By.XPath(ERROR_DUPLICATE_LANG_XPATH)),
 				"Произошла ошибка:\n не отображается сообщение о том, что source и target языки совпадают.");
@@ -327,7 +335,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 		/// </summary>
 		public NewProjectGeneralInformationDialog AssertErrorForbiddenSymbols()
 		{
-			Logger.Trace("Проверить, есть ли ошибка недопустимых символов в имени.");
+			CustomTestContext.WriteLine("Проверить, есть ли ошибка недопустимых символов в имени.");
 
 			Assert.IsTrue(Driver.WaitUntilElementIsDisplay(By.XPath(ERROR_FORBIDDEN_SYMBOLS_NAME)),
 				"Произошла ошибка:\n не появилось сообщение о недопустимых символах в имени");
@@ -340,7 +348,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 		/// </summary>
 		public NewProjectGeneralInformationDialog AssertErrorNoName()
 		{
-			Logger.Trace("Проверить, есть ли ошибка о пустом имени проекта.");
+			CustomTestContext.WriteLine("Проверить, есть ли ошибка о пустом имени проекта.");
 
 			Assert.IsTrue(Driver.WaitUntilElementIsDisplay(By.XPath(ERROR_NO_NAME_XPATH)),
 				"Произошла ошибка:\n не появилось сообщение о пустом имени проекта.");
@@ -353,7 +361,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 		/// </summary>
 		public NewProjectGeneralInformationDialog AssertNameInputError()
 		{
-			Logger.Trace("Проверить, что поле 'Название проекта' выделенно ошибкой.");
+			CustomTestContext.WriteLine("Проверить, что поле 'Название проекта' выделенно ошибкой.");
 
 			Assert.IsTrue(Driver.FindElement(By.XPath(PROJECT_NAME_INPUT_XPATH)).GetElementAttribute("class").Contains("error"),
 				"Произошла ошибка:\n поле Название не отмечено ошибкой");
@@ -366,7 +374,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 		/// </summary>
 		public NewProjectGeneralInformationDialog AssertNoNameInputError()
 		{
-			Logger.Trace("Проверить, что поле 'Название проекта' не выделенно ошибкой.");
+			CustomTestContext.WriteLine("Проверить, что поле 'Название проекта' не выделенно ошибкой.");
 
 			Assert.IsFalse(Driver.FindElement(By.XPath(PROJECT_NAME_INPUT_XPATH)).GetElementAttribute("class").Contains("error"),
 				"Произошла ошибка:\n поле 'Название проекта' отмечено ошибкой");
@@ -379,7 +387,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 		/// <param name="fileName">имя файла</param>
 		public NewProjectGeneralInformationDialog ClickDeleteFile(string fileName)
 		{
-			Logger.Debug("Нажать 'Удалить файл'.");
+			CustomTestContext.WriteLine("Нажать 'Удалить файл'.");
 			DeleteFileButton = Driver.SetDynamicValue(How.XPath, DELETE_FILE_BTN_XPATH, fileName);
 			DeleteFileButton.Click();
 
@@ -392,7 +400,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 		/// <param name="fileName">имя файла</param>
 		public NewProjectGeneralInformationDialog AssertFileDeleted(string fileName)
 		{
-			Logger.Trace("Проверить, что файл удалён");
+			CustomTestContext.WriteLine("Проверить, что файл удалён");
 
 			Assert.IsTrue(Driver.WaitUntilElementIsDisappeared(By.XPath(DELETE_FILE_BTN_XPATH.Replace("*#*", fileName))),
 				string.Format("Произошла ошибка:\n файл {0} не удалился.", fileName));
@@ -406,7 +414,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 		/// <param name="expectedProjectName">ожидаемое имя проекта</param>
 		public NewProjectGeneralInformationDialog AssertProjectNameMatch(string expectedProjectName)
 		{
-			Logger.Trace("Проверить, что имя проекта = '{0}'", expectedProjectName);
+			CustomTestContext.WriteLine("Проверить, что имя проекта = '{0}'", expectedProjectName);
 			var actualProjectName = ProjectNameInput.GetAttribute("value");
 
 			Assert.AreEqual(actualProjectName, expectedProjectName,
@@ -420,7 +428,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 		/// </summary>
 		public NewProjectGeneralInformationDialog AssertErrorFormatDocument()
 		{
-			Logger.Trace("Проверить, что возникла ошибка, указывающая на неверный формат загружаемого файла.");
+			CustomTestContext.WriteLine("Проверить, что возникла ошибка, указывающая на неверный формат загружаемого файла.");
 
 			Assert.IsTrue(Driver.WaitUntilElementIsDisplay(By.XPath(ERROR_FORMAT_DOCUMENT_MESSAGE_XPATH)),
 				"Произошла ошибка:\n не появилось сообщение о неверном формате загружаемого документа.");
@@ -433,7 +441,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 		/// </summary>
 		public NewProjectGeneralInformationDialog AssertNoErrorFormatDocument()
 		{
-			Logger.Trace("Проверить, что нет ошибки, указывающей на неверный формат загружаемого файла.");
+			CustomTestContext.WriteLine("Проверить, что нет ошибки, указывающей на неверный формат загружаемого файла.");
 
 			Assert.IsFalse(Driver.WaitUntilElementIsDisplay(By.XPath(ERROR_FORMAT_DOCUMENT_MESSAGE_XPATH), 5),
 				"Произошла ошибка:\n появилось сообщение о неверном формате загружаемого документа.");
@@ -446,11 +454,11 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 		/// </summary>
 		public bool GetIsMachineTranslationCheckboxSelected()
 		{
-			Logger.Trace("Вернуть, выбран ли чекбокс 'Use Machine Translation'");
+			CustomTestContext.WriteLine("Вернуть, выбран ли чекбокс 'Use Machine Translation'");
 
 			var machineTranslationCheckboxSelected = UseMachineTranslationCheckbox.Selected;
 
-			Logger.Trace("Чекбокс 'Use Machine Translation' выбран: {0}", machineTranslationCheckboxSelected);
+			CustomTestContext.WriteLine("Чекбокс 'Use Machine Translation' выбран: {0}", machineTranslationCheckboxSelected);
 
 			return machineTranslationCheckboxSelected;
 		}
@@ -460,7 +468,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 		/// </summary>
 		public NewProjectGeneralInformationDialog ClickMachineTranslationCheckbox()
 		{
-			Logger.Debug("Кликнуть по чекбоксу 'Use Machine Translation'.");
+			CustomTestContext.WriteLine("Кликнуть по чекбоксу 'Use Machine Translation'.");
 
 			UseMachineTranslationCheckbox.Click();
 
@@ -472,7 +480,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 		/// </summary>
 		private void clickDeadlineDateInput()
 		{
-			Logger.Debug("Кликнуть на поле для ввода даты, чтобы появился всплывающий календарь.");
+			CustomTestContext.WriteLine("Кликнуть на поле для ввода даты, чтобы появился всплывающий календарь.");
 			DeadlineDateInput.Click();
 		}
 
@@ -490,7 +498,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 		/// </summary>
 		private void clickDeadlineDateCurrent()
 		{
-			Logger.Debug("Выбрать текущую дату дедлайна в календаре.");
+			CustomTestContext.WriteLine("Выбрать текущую дату дедлайна в календаре.");
 			DeadlineDateCurrent.Click();
 		}
 
@@ -499,7 +507,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 		/// </summary>		
 		private void clickNextMonth()
 		{
-			Logger.Debug("Перейти на следующий месяц календаря.");
+			CustomTestContext.WriteLine("Перейти на следующий месяц календаря.");
 			DeadlineDateNextMonth.Click();
 		}
 
@@ -508,7 +516,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 		/// </summary>		
 		private void clickPreviousMonth()
 		{
-			Logger.Debug("Перейти на предыдущий месяц календаря.");
+			CustomTestContext.WriteLine("Перейти на предыдущий месяц календаря.");
 			DeadlineDatePrevMonth.Click();
 		}
 
@@ -517,7 +525,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 		/// </summary>		
 		private void clickDeadlineSomeDate()
 		{
-			Logger.Debug("Кликнуть по произвольной дате в календаре.");
+			CustomTestContext.WriteLine("Кликнуть по произвольной дате в календаре.");
 			DeadlineDate.Click();
 		}
 
@@ -527,7 +535,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 		/// <param name="date">дата</param>
 		private void fillDeadlineDate(string date)
 		{
-			Logger.Debug("Вписать дату дэдлайна: {0}", date);
+			CustomTestContext.WriteLine("Вписать дату дэдлайна: {0}", date);
 			DeadlineDateInput.SetText(date, date.Replace(" ", ""));
 		}
 

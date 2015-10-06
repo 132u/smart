@@ -3,16 +3,21 @@
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.PageObjects;
 
+using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
 using AbbyyLS.SmartCAT.Selenium.Tests.TestFramework;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 {
 	public class NewProjectSetUpTMDialog : NewProjectCreateBaseDialog, IAbstractPage<NewProjectSetUpTMDialog>
 	{
+		public NewProjectSetUpTMDialog(WebDriver driver) : base(driver)
+		{
+		}
+
 		public new NewProjectSetUpTMDialog GetPage()
 		{
-			var newProjectSetUpTMDialog = new NewProjectSetUpTMDialog();
-			InitPage(newProjectSetUpTMDialog);
+			var newProjectSetUpTMDialog = new NewProjectSetUpTMDialog(Driver);
+			InitPage(newProjectSetUpTMDialog, Driver);
 
 			return newProjectSetUpTMDialog;
 		}
@@ -29,7 +34,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 		/// </summary>
 		public NewProjectSetUpTMDialog AssertTranslationMemoryExist(string translationMemoryName)
 		{
-			Logger.Trace("Проверить, что ТМ {0} представлена в списке при создании проекта.", translationMemoryName);
+			CustomTestContext.WriteLine("Проверить, что ТМ {0} представлена в списке при создании проекта.", translationMemoryName);
 			TranslationMemoryItem = Driver.SetDynamicValue(How.XPath, TM_ITEM, translationMemoryName);
 
 			Assert.IsTrue(TranslationMemoryItem.Enabled,
@@ -43,7 +48,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 		/// </summary>
 		public NewProjectSetUpTMDialog AssertNewProjectCreateTMDialogDisappeared()
 		{
-			Logger.Trace("Проверить, что диалог создания TM закрылся");
+			CustomTestContext.WriteLine("Проверить, что диалог создания TM закрылся");
 
 			Assert.IsTrue(Driver.WaitUntilElementIsDisappeared(By.XPath(NEW_TM_NAME_INPUT)),
 				"Произошла ошибка:\n диалог создания TM не закрылся");
@@ -56,7 +61,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 		/// </summary>
 		public NewProjectSetUpTMDialog AssertFirstTMSelected()
 		{
-			Logger.Trace("Проверить, что первая ТМ выбрана.");
+			CustomTestContext.WriteLine("Проверить, что первая ТМ выбрана.");
 
 			Assert.IsTrue(TMTableFirstItem.Selected,
 				"Произошла ошибка:\n первая ТМ не выбрана.");
@@ -69,7 +74,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 		/// </summary>
 		public NewProjectSetUpTMDialog AssertTranslationMemoryNotExist(string translationMemoryName)
 		{
-			Logger.Trace("Проверить, что ТМ {0} отсутствует при создании проекта.", translationMemoryName);
+			CustomTestContext.WriteLine("Проверить, что ТМ {0} отсутствует при создании проекта.", translationMemoryName);
 
 			Assert.IsFalse(Driver.GetIsElementExist(By.XPath(TM_ITEM.Replace("*#*", translationMemoryName))),
 				"Произошла ошибка:\n ТМ {0} присутствует при создании проекта.", translationMemoryName);
@@ -82,10 +87,10 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 		/// </summary>
 		public NewProjectCreateTMDialog ClickCreateTMButton()
 		{
-			Logger.Debug("Нажать кнопку 'Создать ТМ'.");
+			CustomTestContext.WriteLine("Нажать кнопку 'Создать ТМ'.");
 			CreateTMButton.Click();
 
-			return new NewProjectCreateTMDialog().GetPage();
+			return new NewProjectCreateTMDialog(Driver).GetPage();
 		}
 
 		/// <summary>
@@ -93,7 +98,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 		/// </summary>
 		public NewProjectSetUpTMDialog ClickFirstTMRow()
 		{
-			Logger.Trace("Выбрать первую ТМ в списке.");
+			CustomTestContext.WriteLine("Выбрать первую ТМ в списке.");
 			TMTableFirstItem.Click();
 			
 			return GetPage();
@@ -104,10 +109,10 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 		/// </summary>
 		public NewProjectCreateTMDialog ClickUploadTMButton()
 		{
-			Logger.Trace("Нажать кнопку 'Upload TM'.");
+			CustomTestContext.WriteLine("Нажать кнопку 'Upload TM'.");
 			UploadTMButton.Click();
 
-			return new NewProjectCreateTMDialog().GetPage();
+			return new NewProjectCreateTMDialog(Driver).GetPage();
 		}
 
 		/// <summary>
@@ -115,7 +120,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 		/// </summary>
 		public bool FirstTMRowExist()
 		{
-			Logger.Trace("Вернуть, что хотя бы одна ТМ существует в таблице.");
+			CustomTestContext.WriteLine("Вернуть, что хотя бы одна ТМ существует в таблице.");
 
 			return Driver.GetIsElementExist(By.XPath(TM_TABLE_FIRST_ITEM));
 		}

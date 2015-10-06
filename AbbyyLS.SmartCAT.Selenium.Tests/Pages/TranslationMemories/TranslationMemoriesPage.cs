@@ -8,6 +8,7 @@ using OpenQA.Selenium;
 using OpenQA.Selenium.Support.PageObjects;
 
 using AbbyyLS.SmartCAT.Selenium.Tests.DataStructures;
+using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace;
 using AbbyyLS.SmartCAT.Selenium.Tests.TestFramework;
 
@@ -15,10 +16,14 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories
 {
 	public class TranslationMemoriesPage : WorkspacePage, IAbstractPage<TranslationMemoriesPage>
 	{
+		public TranslationMemoriesPage(WebDriver driver) : base(driver)
+		{
+		}
+
 		public new TranslationMemoriesPage GetPage()
 		{
-			var translationMemoriesPage = new TranslationMemoriesPage();
-			InitPage(translationMemoriesPage);
+			var translationMemoriesPage = new TranslationMemoriesPage(Driver);
+			InitPage(translationMemoriesPage, Driver);
 
 			return translationMemoriesPage;
 		}
@@ -36,7 +41,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories
 		/// </summary>
 		public NewTranslationMemoryDialog ClickCreateNewTmButton()
 		{
-			Logger.Debug("Нажать кнопку создания новой ТМ");
+			CustomTestContext.WriteLine("Нажать кнопку создания новой ТМ");
 			CreateNewTmButton.JavaScriptClick();
 
 			if (!Driver.WaitUntilElementIsDisplay(By.XPath(SAVE_TM_BUTTON), timeout: 20))
@@ -44,7 +49,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories
 				CreateNewTmButton.JavaScriptClick();
 			}
 
-			return new NewTranslationMemoryDialog().GetPage();
+			return new NewTranslationMemoryDialog(Driver).GetPage();
 		}
 
 		/// <summary>
@@ -52,7 +57,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories
 		/// </summary>
 		public TranslationMemoriesPage ClickEditButton()
 		{
-			Logger.Debug("Нажать кнопку редактирования ТМ.");
+			CustomTestContext.WriteLine("Нажать кнопку редактирования ТМ.");
 			EditButton.ScrollAndClick();
 
 			return GetPage();
@@ -63,7 +68,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories
 		/// </summary>
 		public TranslationMemoriesPage ClickDeleteButtonInTMInfo()
 		{
-			Logger.Debug("Нажать кнопку Delete.");
+			CustomTestContext.WriteLine("Нажать кнопку Delete.");
 			DeleteButton.Click();
 
 			return GetPage();
@@ -74,7 +79,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories
 		/// </summary>
 		public TranslationMemoriesPage ClickDeleteButtonInConfirmationDialog()
 		{
-			Logger.Debug("Нажать кнопку Delete в диалоге подтверждения удаления ТМ.");
+			CustomTestContext.WriteLine("Нажать кнопку Delete в диалоге подтверждения удаления ТМ.");
 			DeleteButtonInConfirmationDialog.Click();
 
 			return GetPage();
@@ -85,7 +90,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories
 		/// </summary>
 		public TranslationMemoriesPage FillSearch(string translationMemoryName)
 		{
-			Logger.Debug("Ввести название ТМ {0} в поле поиска.", translationMemoryName);
+			CustomTestContext.WriteLine("Ввести название ТМ {0} в поле поиска.", translationMemoryName);
 			SearchField.SetText(translationMemoryName);
 
 			return GetPage();
@@ -96,7 +101,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories
 		/// </summary>
 		public TranslationMemoriesPage ClickSearchTMButton()
 		{
-			Logger.Debug("Нажать кнопку поиска ТМ.");
+			CustomTestContext.WriteLine("Нажать кнопку поиска ТМ.");
 			SearchButton.Click();
 
 			return GetPage();
@@ -110,7 +115,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories
 		/// </remarks>
 		public TranslationMemoriesPage ClickTranslationMemoryRow(string translationMemoryName)
 		{
-			Logger.Debug("Нажать по строке с ТМ {0}.", translationMemoryName);
+			CustomTestContext.WriteLine("Нажать по строке с ТМ {0}.", translationMemoryName);
 			Driver.FindElement(By.XPath(TM_ROW.Replace("*#*", translationMemoryName))).Click();
 
 			return GetPage();
@@ -121,7 +126,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories
 		/// </summary>
 		public TranslationMemoriesPage AddTranslationMemoryName(string tmName)
 		{
-			Logger.Debug("Ввести имя в форме изменения ТМ.");
+			CustomTestContext.WriteLine("Ввести имя в форме изменения ТМ.");
 			EditNameField.SetText(tmName);
 
 			return GetPage();
@@ -132,7 +137,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories
 		/// </summary>
 		public TranslationMemoriesPage CleanTranslationMemoryName()
 		{
-			Logger.Debug("Очистить имя в форме изменения ТМ.");
+			CustomTestContext.WriteLine("Очистить имя в форме изменения ТМ.");
 			EditNameField.Clear();
 
 			return GetPage();
@@ -143,7 +148,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories
 		/// </summary>
 		public TranslationMemoriesPage ClickSaveTranslationMemoryButton()
 		{
-			Logger.Debug("Нажать кнопку сохранить в форме редактирования TM.");
+			CustomTestContext.WriteLine("Нажать кнопку сохранить в форме редактирования TM.");
 			SaveChangesButton.Click();
 
 			return GetPage();
@@ -154,7 +159,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories
 		/// </summary>
 		public TranslationMemoriesPage CleanComment()
 		{
-			Logger.Debug("Очистить поле комментария.");
+			CustomTestContext.WriteLine("Очистить поле комментария.");
 			EditCommentField.Clear();
 
 			return GetPage();
@@ -165,7 +170,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories
 		/// </summary>
 		public TranslationMemoriesPage AddComment(string text)
 		{
-			Logger.Debug("Заполнить поле комментария текстом {0}.", text);
+			CustomTestContext.WriteLine("Заполнить поле комментария текстом {0}.", text);
 			EditCommentField.SetText(text);
 
 			return GetPage();
@@ -176,7 +181,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories
 		/// </summary>
 		public TranslationMemoriesPage ClickToTargetLanguages()
 		{
-			Logger.Debug("Нажать на поле с языком перевода в форме редактирования ТМ");
+			CustomTestContext.WriteLine("Нажать на поле с языком перевода в форме редактирования ТМ");
 			TranslationMemoryTargetLanguagesField.Click();
 
 			return GetPage();
@@ -187,7 +192,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories
 		/// </summary>
 		public TranslationMemoriesPage SelectTargetLanguage(Language language)
 		{
-			Logger.Debug("Выбрать язык перевода {0}", language);
+			CustomTestContext.WriteLine("Выбрать язык перевода {0}", language);
 			TargetLanguage = Driver.SetDynamicValue(How.XPath, TARGET_LANG_ITEM, ((int) language).ToString());
 			TargetLanguage.Click();
 
@@ -199,7 +204,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories
 		/// </summary>
 		public TranslationMemoriesPage ClickToProjectGroupsField()
 		{
-			Logger.Debug("Нажать на поле с группами проектов в форме редактирования ТМ");
+			CustomTestContext.WriteLine("Нажать на поле с группами проектов в форме редактирования ТМ");
 			ProjectGroupsList.Click();
 
 			return GetPage();
@@ -211,7 +216,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories
 		/// <param name="projectGroup">имя группы проектов</param>
 		public TranslationMemoriesPage AssertProjectGroupInListDisplay(string projectGroup)
 		{
-			Logger.Trace("Проверить, что группа {0} представлена в списке", projectGroup);
+			CustomTestContext.WriteLine("Проверить, что группа {0} представлена в списке", projectGroup);
 
 			Assert.IsTrue(Driver.WaitUntilElementIsDisplay(By.XPath(PROJECT_GROUP_IN_LIST.Replace("*#*", projectGroup))),
 				"Произошла ошибка:\n группа проектов {0} отсутствует в списке.", projectGroup);
@@ -224,7 +229,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories
 		/// </summary>
 		public TranslationMemoriesPage ClickToClientsField()
 		{
-			Logger.Debug("Нажать на поле с клиентами в форме редактирования ТМ");
+			CustomTestContext.WriteLine("Нажать на поле с клиентами в форме редактирования ТМ");
 			ClientsField.Click();
 
 			return GetPage();
@@ -235,7 +240,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories
 		/// </summary>
 		public TranslationMemoriesPage ClickToTopicsField()
 		{
-			Logger.Debug("Нажать на поле с темами в форме редактирования ТМ");
+			CustomTestContext.WriteLine("Нажать на поле с темами в форме редактирования ТМ");
 			TopicsField.Click();
 
 			return GetPage();
@@ -247,9 +252,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories
 		/// <param name="projectGroup">Имя выбранной группы проектов</param>
 		public TranslationMemoriesPage SelectFirstProjectGroup(out string projectGroup)
 		{
-			Logger.Debug("Кликнуть на первую группу проектов в списке");
+			CustomTestContext.WriteLine("Кликнуть на первую группу проектов в списке");
 			FirstProjectGroupInInList.Click();
-			Logger.Trace("Получить имя первой группы проектов в списке");
+			CustomTestContext.WriteLine("Получить имя первой группы проектов в списке");
 			projectGroup = FirstProjectGroupInInList.Text;
 
 			return GetPage();
@@ -261,7 +266,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories
 		/// <param name="projectGroup">Имя выбранной группы проектов</param>
 		public TranslationMemoriesPage SelectProjectGroup(string projectGroup)
 		{
-			Logger.Debug("Выбрать группу проектов {0} в списке", projectGroup);
+			CustomTestContext.WriteLine("Выбрать группу проектов {0} в списке", projectGroup);
 
 			ProjectGroupInInList = Driver.SetDynamicValue(How.XPath, PROJECT_GROUP_IN_LIST, projectGroup);
 			ProjectGroupInInList.Click();
@@ -275,7 +280,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories
 		/// <param name="clientName">Имя клиента</param>
 		public TranslationMemoriesPage SelectClient(string clientName)
 		{
-			Logger.Debug("Выбрать клиента {0} в списке", clientName);
+			CustomTestContext.WriteLine("Выбрать клиента {0} в списке", clientName);
 
 			ClientInInList = Driver.SetDynamicValue(How.XPath, CLIENT_IN_LIST, clientName);
 			ClientInInList.Click();
@@ -289,7 +294,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories
 		/// <param name="topicName">тема</param>
 		public TranslationMemoriesPage SelectTopic(string topicName)
 		{
-			Logger.Debug("Выбрать тему {0} в списке", topicName);
+			CustomTestContext.WriteLine("Выбрать тему {0} в списке", topicName);
 
 			TopicInList = Driver.SetDynamicValue(How.XPath, TOPIC_IN_LIST, topicName);
 			TopicInList.Click();
@@ -302,7 +307,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories
 		/// </summary>
 		public TranslationMemoriesPage AssertTranslationMemoryExists(string tmName)
 		{
-			Logger.Trace("Проверить, что ТМ {0} представлена в списке.", tmName);
+			CustomTestContext.WriteLine("Проверить, что ТМ {0} представлена в списке.", tmName);
 			Driver.FindElement(By.XPath(TM_ROW.Replace("*#*", tmName))).Scroll();
 
 			Assert.IsTrue(Driver.WaitUntilElementIsDisplay(By.XPath(TM_ROW.Replace("*#*", tmName))),
@@ -316,7 +321,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories
 		/// </summary>
 		public bool TranslationMemoryExists(string tmName)
 		{
-			Logger.Trace("Проверить, что ТМ {0} представлена в списке.", tmName);
+			CustomTestContext.WriteLine("Проверить, что ТМ {0} представлена в списке.", tmName);
 
 			return Driver.WaitUntilElementIsDisplay(By.XPath(TM_ROW.Replace("*#*", tmName)));
 		}
@@ -326,7 +331,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories
 		/// </summary>
 		public TranslationMemoriesPage AssertTranslationMemoryNotExists(string tmName)
 		{
-			Logger.Trace("Проверить, что ТМ {0} не представлена в списке.", tmName);
+			CustomTestContext.WriteLine("Проверить, что ТМ {0} не представлена в списке.", tmName);
 
 			Assert.IsFalse(Driver.ElementIsDisplayed(By.XPath(TM_ROW.Replace("*#*", tmName))),
 				"Произошла ошибка:\n ТМ {0} представлена в списке ТМ.", tmName);
@@ -339,7 +344,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories
 		/// </summary>
 		public bool IsTranslationMemoryInformationOpen(string tmName)
 		{
-			Logger.Trace("Получить, открыта ли информация о ТМ.");
+			CustomTestContext.WriteLine("Получить, открыта ли информация о ТМ.");
 
 			return Driver.ElementIsDisplayed(By.XPath(TM_INFORMATION_FORM.Replace("*#*", tmName)));
 		}
@@ -349,7 +354,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories
 		/// </summary>
 		public TranslationMemoriesPage AssertDeleteConfirmatonDialogPresent()
 		{
-			Logger.Trace("Проверить, что диалог подтверждения удаления ТМ появился.");
+			CustomTestContext.WriteLine("Проверить, что диалог подтверждения удаления ТМ появился.");
 			Driver.WaitUntilElementIsDisplay(By.XPath(DELETE_CONFIRMATION_DIALOG));
 
 			Assert.IsTrue(DeleteConfirmationDialog.Displayed,
@@ -363,7 +368,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories
 		/// </summary>
 		public TranslationMemoriesPage AssertDeleteConfirmatonDialogDisappear()
 		{
-			Logger.Trace("Проверить, что диалог подтверждения удаления ТМ закрылся.");
+			CustomTestContext.WriteLine("Проверить, что диалог подтверждения удаления ТМ закрылся.");
 
 			Assert.IsTrue(Driver.WaitUntilElementIsDisappeared(By.XPath(DELETE_CONFIRMATION_DIALOG)),
 				"Произошла ошибка:\n диалог подтверждения удаления ТМ не закрылся.");
@@ -376,7 +381,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories
 		/// </summary>
 		public TranslationMemoriesPage AssertNoNameErrorAppear()
 		{
-			Logger.Trace("Проверить наличие ошибки о пустом названии при редактировании ТМ.");
+			CustomTestContext.WriteLine("Проверить наличие ошибки о пустом названии при редактировании ТМ.");
 
 			Assert.IsTrue(Driver.WaitUntilElementIsDisplay(By.XPath(ERROR_EDIT_NO_NAME)),
 				"Ошибка: не появилось сообщение о пустом названии при редактировании ТМ.");
@@ -389,7 +394,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories
 		/// </summary>
 		public TranslationMemoriesPage AssertExistingNameErrorAppeared()
 		{
-			Logger.Trace("Проверить наличие ошибки о существующем имени при некорректном редактировании имени ТМ.");
+			CustomTestContext.WriteLine("Проверить наличие ошибки о существующем имени при некорректном редактировании имени ТМ.");
 
 			Assert.IsTrue(Driver.WaitUntilElementIsDisplay(By.XPath(ERROR_EDIT_EXIST_NAME)),
 				"Ошибка: не появилось сообщение об ошибки имени при редактировании ТМ.");
@@ -402,7 +407,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories
 		/// </summary>
 		public TranslationMemoriesPage AssertEditionFormDisappeared()
 		{
-			Logger.Trace("Проверить исчезновение формы редактирования ТМ.");
+			CustomTestContext.WriteLine("Проверить исчезновение формы редактирования ТМ.");
 
 			Assert.IsTrue(Driver.WaitUntilElementIsDisappeared(By.XPath(TM_EDIT_SAVE_BTN)),
 				"Ошибка: не исчезла форма редактирования ТМ");
@@ -415,7 +420,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories
 		/// </summary>
 		public TranslationMemoriesPage AssertEditionFormDisplayed()
 		{
-			Logger.Trace("Проверить появление формы редактирования ТМ.");
+			CustomTestContext.WriteLine("Проверить появление формы редактирования ТМ.");
 
 			Assert.IsTrue(Driver.WaitUntilElementIsDisplay(By.XPath(TM_EDIT_SAVE_BTN)),
 				"Ошибка: не появилась форма редактирования ТМ");
@@ -428,7 +433,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories
 		/// </summary>
 		public TranslationMemoriesPage AssertCommentExists(string text)
 		{
-			Logger.Trace("Проверить, есть ли на странице комментарий {0}.", text);
+			CustomTestContext.WriteLine("Проверить, есть ли на странице комментарий {0}.", text);
 
 			Assert.IsTrue(EditCommentField.GetAttribute("value") == text, "Ошибка: комментарий {0} не найден.", text);
 
@@ -440,7 +445,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories
 		/// </summary>
 		public TranslationMemoriesPage AssertNewTMDialogDisappeared()
 		{
-			Logger.Trace("Проверить, что диалог создания ТМ закрылся.");
+			CustomTestContext.WriteLine("Проверить, что диалог создания ТМ закрылся.");
 
 			Assert.IsTrue(Driver.WaitUntilElementIsDisappeared(By.XPath(CREATE_TM_DIALOG)),
 				"Произошла ошибка:\n диалог создания ТМ не закрылся.");
@@ -456,7 +461,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories
 			string sourceLanguage,
 			List<string> targetLanguages)
 		{
-			Logger.Trace("Проверить, указаны ли для ТМ {0} корректные языки: source = {1}, target = {2}.",
+			CustomTestContext.WriteLine("Проверить, указаны ли для ТМ {0} корректные языки: source = {1}, target = {2}.",
 				translationMemoryName, sourceLanguage, targetLanguages);
 			var TM = Driver.FindElement(By.XPath(TM_LANGUAGES_IN_TABLE.Replace("*#*", translationMemoryName)));
 			var languagesColumn = TM.Text;
@@ -485,7 +490,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories
 		/// </summary>
 		public TranslationMemoriesPage AssertFileImportCompleteNotifierDisplayed()
 		{
-			Logger.Trace("Проверить, что сообщение о окончании импорта TMX файла появилось.");
+			CustomTestContext.WriteLine("Проверить, что сообщение о окончании импорта TMX файла появилось.");
 
 			Assert.IsTrue(Driver.WaitUntilElementIsDisplay(By.XPath(FILE_IMPORT_NOTIFIER), timeout: 45),
 				"Произошла ошибка:\n сообщение о окончании импорта TMX файла не появилось.");
@@ -495,7 +500,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories
 
 		public TranslationMemoriesPage AssertFileImportAddingNotifierDisappeared()
 		{
-			Logger.Trace("Проверить, что сообщение о процессе импорта TMX файла исчезло.");
+			CustomTestContext.WriteLine("Проверить, что сообщение о процессе импорта TMX файла появилось.");
 
 			Assert.IsTrue(Driver.WaitUntilElementIsDisappeared(By.XPath(FILE_IMPORT_ADDING_NOTIFIER), timeout: 45),
 				"Произошла ошибка:\n сообщение о процессе импорта TMX файла не исчезло.");
@@ -508,7 +513,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories
 		/// </summary>
 		public TranslationMemoriesPage AssertFileImportFailedNotifierDisplayed()
 		{
-			Logger.Trace("Проверить, что появилось сообщение об ошибке во время импорта TMX файла");
+			CustomTestContext.WriteLine("Проверить, что появилось сообщение об ошибке во время импорта TMX файла");
 
 			Assert.IsTrue(Driver.WaitUntilElementIsDisplay(By.XPath(FILE_IMPORT_ERROR_NOTIFIER), timeout: 15),
 				"Произошла ошибка:\n сообщение об ошибке во время импорта TMX файла не появилось.");
@@ -521,7 +526,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories
 		/// </summary>
 		public TranslationMemoriesPage AssertProjectGroupSelectedForTM(string translationMemoryName, string projectGroup)
 		{
-			Logger.Trace("Проверить, что для ТМ {0} указана группа проектов {1}", translationMemoryName, projectGroup);
+			CustomTestContext.WriteLine("Проверить, что для ТМ {0} указана группа проектов {1}", translationMemoryName, projectGroup);
 
 			Assert.IsTrue(ProjectGroupsField.Text.Contains(projectGroup),
 				string.Format("Произошла ошибка:\n неверно указана группа проектов для ТМ {0}.", translationMemoryName));
@@ -534,7 +539,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories
 		/// </summary>
 		public TranslationMemoriesPage ClickSortByTMName()
 		{
-			Logger.Debug("Нажать кнопку сортировки по именам");
+			CustomTestContext.WriteLine("Нажать кнопку сортировки по именам");
 			TMName.Click();
 
 			return GetPage();
@@ -545,7 +550,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories
 		/// </summary>
 		public TranslationMemoriesPage ClickSortByCreationDate()
 		{
-			Logger.Debug("Нажать кнопку сортировки по дате создания.");
+			CustomTestContext.WriteLine("Нажать кнопку сортировки по дате создания.");
 			CreationDate.Click();
 
 			return GetPage();
@@ -556,10 +561,10 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories
 		/// </summary>
 		public int UnitsCount()
 		{
-			Logger.Trace("Получить количество юнитов");
+			CustomTestContext.WriteLine("Получить количество юнитов");
 			var unitsCountText = SegmentSpan.Text;
 
-			Logger.Trace("Полученное количество юнитов: {0}", unitsCountText);
+			CustomTestContext.WriteLine("Полученное количество юнитов: {0}", unitsCountText);
 			int result;
 
 			Assert.IsTrue(int.TryParse(unitsCountText, out result),
@@ -573,7 +578,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories
 		/// </summary>
 		public TranslationMemoriesPage ClickUpdateTmButton()
 		{
-			Logger.Debug("Нажать на кнопку 'Update TM'");
+			CustomTestContext.WriteLine("Нажать на кнопку 'Update TM'");
 			UpdateTmButton.Click();
 
 			return GetPage();
@@ -585,7 +590,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories
 		/// <param name="fileName">имя файла</param>
 		public TranslationMemoriesPage EnterFileName(string fileName)
 		{
-			Logger.Debug("Ввести имя файла в окне 'Import TMX files'");
+			CustomTestContext.WriteLine("Ввести имя файла в окне 'Import TMX files'");
 
 			try
 			{
@@ -597,7 +602,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories
 			}
 			catch (Exception)
 			{
-				Logger.Error("Произошла ошибка:\n не удалось изменить параметры элементов.");
+				CustomTestContext.WriteLine("Произошла ошибка:\n не удалось изменить параметры элементов.");
 				throw;
 			}
 
@@ -609,7 +614,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories
 		/// </summary>
 		public TranslationMemoriesPage ClickImportButton()
 		{
-			Logger.Debug("Нажать кнопку 'Import' в окне 'Import TMX files'");
+			CustomTestContext.WriteLine("Нажать кнопку 'Import' в окне 'Import TMX files'");
 			ImportButton.Click();
 
 			return GetPage();
@@ -620,7 +625,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories
 		/// </summary>
 		public TranslationMemoriesPage ClickExportButton()
 		{
-			Logger.Debug("Нажать кнопку 'Export'");
+			CustomTestContext.WriteLine("Нажать кнопку 'Export'");
 			ExportButton.Click();
 
 			return GetPage();
@@ -631,7 +636,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories
 		/// </summary>
 		public TranslationMemoriesPage ClickConfirmReplacementButton()
 		{
-			Logger.Debug("Нажать кнопку подтверждения замены ТМ в окне импорта");
+			CustomTestContext.WriteLine("Нажать кнопку подтверждения замены ТМ в окне импорта");
 			ConfirmReplacementButton.Click();
 
 			return GetPage();
@@ -642,7 +647,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories
 		/// </summary>
 		public TranslationMemoriesPage AssertConfirmReplacementMessageDisplayed()
 		{
-			Logger.Debug("Проверить, что появилось окно подтверждения замены при импорте");
+			CustomTestContext.WriteLine("Проверить, что появилось окно подтверждения замены при импорте");
 
 			Assert.IsFalse(Driver.WaitUntilElementIsDisplay(By.XPath(UPDATE_TM_CONFIRM_REPLACEMENT)),
 				"Произошла ошибка:\n не появилось окно подтверждения замены.");
@@ -655,7 +660,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories
 		/// </summary>
 		public TranslationMemoriesPage ClickAddTmxButton()
 		{
-			Logger.Debug("Нажать на кнопку 'Add TMX'");
+			CustomTestContext.WriteLine("Нажать на кнопку 'Add TMX'");
 			AddTmxButton.Click();
 
 			return GetPage();
@@ -666,7 +671,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories
 		/// </summary>
 		public TranslationMemoriesPage AssertImportValidationErrorDisplayed()
 		{
-			Logger.Trace("Проверить появление валидационной ошибки при импорте");
+			CustomTestContext.WriteLine("Проверить появление валидационной ошибки при импорте");
 
 			Assert.IsTrue(Driver.WaitUntilElementIsDisplay(By.XPath(UPDATE_TM_VALIDATION_ERROR_MESSAGE)),
 				"Произошла ошибка:\n не сработала валидация");
@@ -679,7 +684,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories
 		/// </summary>
 		public TranslationMemoriesPage ClickClearAllFiltersButton()
 		{
-			Logger.Debug("Нажать кнопку очистки всех фильтров");
+			CustomTestContext.WriteLine("Нажать кнопку очистки всех фильтров");
 			
 			ClearAllFiltersButton.Click();
 
@@ -691,11 +696,11 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories
 		/// </summary>
 		public TranslationMemoriesFilterDialog ClickFilterButton()
 		{
-			Logger.Debug("Нажать кнопку 'Filter'");
+			CustomTestContext.WriteLine("Нажать кнопку 'Filter'");
 
 			FilterButton.Click();
 
-			return new TranslationMemoriesFilterDialog().GetPage();
+			return new TranslationMemoriesFilterDialog(Driver).GetPage();
 		}
 
 		/// <summary>
@@ -703,11 +708,11 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories
 		/// </summary>
 		public bool GetFiltersIsExist()
 		{
-			Logger.Trace("Вернуть, действуют ли сейчас какие-то фильтры");
+			CustomTestContext.WriteLine("Вернуть, действуют ли сейчас какие-то фильтры");
 
 			var filtersIsExist = Driver.GetIsElementExist(By.XPath(CLEAR_ALL_FILTERS_BUTTON));
 
-			Logger.Trace("Фильтры обнаружены: {0}", filtersIsExist);
+			CustomTestContext.WriteLine("Фильтры обнаружены: {0}", filtersIsExist);
 
 			return filtersIsExist;
 		}
@@ -718,7 +723,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories
 		/// <param name="filterName">имя фильтра</param>
 		public TranslationMemoriesPage ClickRemoveFilterButton(string filterName)
 		{
-			Logger.Debug("Нажать кнопку удаления фильтра {0}", filterName);
+			CustomTestContext.WriteLine("Нажать кнопку удаления фильтра {0}", filterName);
 
 			RemoveFilterButton = Driver.SetDynamicValue(How.XPath, REMOVE_FILTER_BUTTON, filterName);
 			RemoveFilterButton.Click();

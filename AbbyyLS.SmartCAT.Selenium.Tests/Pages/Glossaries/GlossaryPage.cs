@@ -1,24 +1,26 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading;
-using NUnit.Framework;
 
+using NUnit.Framework;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.PageObjects;
 
 using AbbyyLS.SmartCAT.Selenium.Tests.DataStructures;
-using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace;
+using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
 using AbbyyLS.SmartCAT.Selenium.Tests.TestFramework;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 {
 	public class GlossaryPage : GlossariesPage, IAbstractPage<GlossaryPage>
 	{
+		public GlossaryPage(WebDriver driver) : base(driver)
+		{
+		}
+
 		public new GlossaryPage GetPage()
 		{
-			var glossaryPage = new GlossaryPage();
-			InitPage(glossaryPage);
+			var glossaryPage = new GlossaryPage(Driver);
+			InitPage(glossaryPage, Driver);
 
 			return glossaryPage;
 		}
@@ -37,7 +39,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 		/// </summary>
 		public GlossaryPage ClickExportGlossary()
 		{
-			Logger.Debug("Нажать кнопку Export.");
+			CustomTestContext.WriteLine("Нажать кнопку Export.");
 			ExportButton.Click();
 
 			return GetPage();
@@ -48,7 +50,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 		/// </summary>
 		public GlossaryPage ClickNewEntryButton()
 		{
-			Logger.Debug("Нажать кнопку 'New Entry'.");
+			CustomTestContext.WriteLine("Нажать кнопку 'New Entry'.");
 			NewEntryButton.Click();
 
 			return GetPage();
@@ -61,7 +63,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 		/// <param name="text">текст</param>
 		public GlossaryPage FillTerm(int columnNumber, string text)
 		{
-			Logger.Debug("Ввести {0} в {1} колонке термина.", columnNumber, text);
+			CustomTestContext.WriteLine("Ввести {0} в {1} колонке термина.", columnNumber, text);
 			var term = Driver.SetDynamicValue(How.XPath, TERM_FIELD, columnNumber.ToString());
 
 			term.SetText(text);
@@ -74,7 +76,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 		/// </summary>
 		public GlossaryPage ClickSaveTermButton()
 		{
-			Logger.Debug("Нажать на галочку для сохраенния термина.");
+			CustomTestContext.WriteLine("Нажать на галочку для сохраенния термина.");
 			TermSaveButton.Click();
 
 			Driver.WaitUntilElementIsDisappeared(By.XPath(TERM_SAVE_BUTTON));
@@ -87,7 +89,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 		/// </summary>
 		public GlossaryPage ClickSaveEntryButton()
 		{
-			Logger.Debug("Нажать на кнопку Save Entry для сохраенния термина.");
+			CustomTestContext.WriteLine("Нажать на кнопку Save Entry для сохраенния термина.");
 
 			var i = 0;
 
@@ -109,7 +111,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 		/// </summary>
 		public GlossaryPage AssertExtendModeOpen()
 		{
-			Logger.Trace("Проверить, что новый термин открыт в расширенном режиме.");
+			CustomTestContext.WriteLine("Проверить, что новый термин открыт в расширенном режиме.");
 
 			Assert.IsTrue(ExtendMode.Displayed, "Произошла ошибка:\n новый термин не открыт в расширенном режиме.");
 
@@ -121,7 +123,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 		/// </summary>
 		public GlossaryPage ExpandEditGlossaryMenu()
 		{
-			Logger.Debug("Раскрыть меню редактирования глоссария.");
+			CustomTestContext.WriteLine("Раскрыть меню редактирования глоссария.");
 			EditGlossaryMenu.Click();
 
 			return GetPage();
@@ -132,10 +134,10 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 		/// </summary>
 		public GlossaryPropertiesDialog ClickGlossaryProperties()
 		{
-			Logger.Debug("Выбрать 'Glossary properties' в меню редактирования глоссария");
+			CustomTestContext.WriteLine("Выбрать 'Glossary properties' в меню редактирования глоссария");
 			GlossaryProperties.Click();
 
-			return new GlossaryPropertiesDialog().GetPage();
+			return new GlossaryPropertiesDialog(Driver).GetPage();
 		}
 
 		/// <summary>
@@ -143,10 +145,10 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 		/// </summary>
 		public GlossaryStructureDialog ClickGlossaryStructure()
 		{
-			Logger.Debug("Выбрать 'GlossaryStructure' в меню редактирования глоссария.");
+			CustomTestContext.WriteLine("Выбрать 'GlossaryStructure' в меню редактирования глоссария.");
 			GlossaryStructure.Click();
 
-			return new GlossaryStructureDialog().GetPage();
+			return new GlossaryStructureDialog(Driver).GetPage();
 		}
 
 		/// <summary>
@@ -154,10 +156,10 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 		/// </summary>
 		public GlossaryImportDialog ClickImportButton()
 		{
-			Logger.Debug("Нажать кнопку Import.");
+			CustomTestContext.WriteLine("Нажать кнопку Import.");
 			ImportButton.Click();
 
-			return new GlossaryImportDialog().GetPage();
+			return new GlossaryImportDialog(Driver).GetPage();
 		}
 
 		/// <summary>
@@ -165,7 +167,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 		/// </summary>
 		public GlossaryPage AssertGlossaryContainsCorrectTermsCount(int expectedTermsCount)
 		{
-			Logger.Trace("Проверить, что глоссарий содержит {0} терминов.", expectedTermsCount);
+			CustomTestContext.WriteLine("Проверить, что глоссарий содержит {0} терминов.", expectedTermsCount);
 			var actualTermsCount = Driver.GetElementsCount(By.XPath(TERM_ROW));
 
 			Assert.AreEqual(actualTermsCount, expectedTermsCount,
@@ -179,7 +181,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 		/// </summary>
 		public GlossaryPage ClickSortByEnglishTerm()
 		{
-			Logger.Debug("Нажать кнопку сортировки по английским терминам.");
+			CustomTestContext.WriteLine("Нажать кнопку сортировки по английским терминам.");
 
 			SortByEnglishTerm.Click();
 
@@ -191,7 +193,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 		/// </summary>
 		public GlossaryPage OpenLanguageAndTermDetailsEditMode()
 		{
-			Logger.Debug("Открыть подробную информацию по языку или термину в режиме редактирования.");
+			CustomTestContext.WriteLine("Открыть подробную информацию по языку или термину в режиме редактирования.");
 			LanguageHeaderEditMode.Click();
 
 			return GetPage();
@@ -202,7 +204,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 		/// </summary>
 		public GlossaryPage OpenLanguageAndTermDetailsViewMode()
 		{
-			Logger.Debug("Открыть подробную информацию по языку или термину в режиме просмотра.");
+			CustomTestContext.WriteLine("Открыть подробную информацию по языку или термину в режиме просмотра.");
 			LanguageHeaderViewMode.Click();
 
 			return GetPage();
@@ -213,7 +215,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 		/// </summary>
 		public GlossaryPage AssertCommentIsFilled(string comment)
 		{
-			Logger.Trace("Проверить, что комментарий содержит текст {0}.", comment);
+			CustomTestContext.WriteLine("Проверить, что комментарий содержит текст {0}.", comment);
 
 			Assert.AreEqual(comment, LanguageCommentViewMode.Text, "Произошла ошибка:\n неверный текст в поле комментария.");
 
@@ -225,7 +227,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 		/// </summary>
 		public GlossaryPage AssertDefinitionIsFilled(string text)
 		{
-			Logger.Trace("Проверить, что поле Definition содержит текст {0}.", text);
+			CustomTestContext.WriteLine("Проверить, что поле Definition содержит текст {0}.", text);
 
 			Assert.AreEqual(text, DefinitionViewMode.Text, "Произошла ошибка:\n неверный текст в поле Definition.");
 
@@ -237,7 +239,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 		/// </summary>
 		public GlossaryPage AssertDefinitionSourceIsFilled(string text)
 		{
-			Logger.Trace("Проверить, что поле 'Definition source' содержит текст {0}.", text);
+			CustomTestContext.WriteLine("Проверить, что поле 'Definition source' содержит текст {0}.", text);
 
 			Assert.AreEqual(text, DefinitionSourceViewMode.Text,
 				"Произошла ошибка:\n неверный текст в поле 'Definition source'.");
@@ -250,7 +252,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 		/// </summary>
 		public GlossaryPage FillLanguageComment(string comment)
 		{
-			Logger.Debug("Ввести {0} в поле комментария в секции 'Language and term details'.", comment);
+			CustomTestContext.WriteLine("Ввести {0} в поле комментария в секции 'Language and term details'.", comment);
 
 			LanguageCommentEditMode.SetText(comment);
 
@@ -262,7 +264,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 		/// </summary>
 		public GlossaryPage FillDefinition(string text)
 		{
-			Logger.Debug("Ввести {0} в поле Definition в секции 'Language and term details'.", text);
+			CustomTestContext.WriteLine("Ввести {0} в поле Definition в секции 'Language and term details'.", text);
 
 			DefinitionEditMode.SetText(text);
 
@@ -274,7 +276,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 		/// </summary>
 		public GlossaryPage FillDefinitionSource(string text)
 		{
-			Logger.Debug("Ввести {0} в поле 'Definition source' в секции 'Language and term details'.", text);
+			CustomTestContext.WriteLine("Ввести {0} в поле 'Definition source' в секции 'Language and term details'.", text);
 
 			DefinitionSourceEditMode.SetText(text);
 
@@ -287,15 +289,15 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 		/// <param name="text">текст</param>
 		public GlossaryPage FillTermInLanguagesAndTermsSection(string text)
 		{
-			Logger.Debug("Добавить термин и ввести текст в поле термина в секции 'Languages and terms'.");
+			CustomTestContext.WriteLine("Добавить термин и ввести текст в поле термина в секции 'Languages and terms'.");
 			var addButtonLists = Driver.GetElementList(By.XPath(ADD_BUTTON_LIST));
 
 			for (var i = 1; i <= addButtonLists.Count; i++)
 			{
-				Logger.Debug("Нажать кнопку Add №{0} в 'Languages and terms'.", i);
+				CustomTestContext.WriteLine("Нажать кнопку Add №{0} в 'Languages and terms'.", i);
 				addButtonLists[i - 1].Click();
 
-				Logger.Debug("Ввести {0} в поле термина №{1} в секции 'Languages and terms'.", text, i);
+				CustomTestContext.WriteLine("Ввести {0} в поле термина №{1} в секции 'Languages and terms'.", text, i);
 				Driver.SetDynamicValue(How.XPath, TERM_INPUT, i.ToString()).SetText(text);
 			}
 
@@ -307,7 +309,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 		/// </summary>
 		public int TermsCountInLanguagesAndTermsSection()
 		{
-			Logger.Trace("Посчитать количесвто терминов в секции 'Languages and terms'.");
+			CustomTestContext.WriteLine("Посчитать количесвто терминов в секции 'Languages and terms'.");
 			return Driver.GetElementsCount(By.XPath(TERMS_IN_LANGUAGE_AND_TERMS_SECTION));
 		}
 
@@ -317,7 +319,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 		/// <param name="termNumber">номер термина</param>
 		public GlossaryPage ClickTermInLanguagesAndTermsSection(int termNumber)
 		{
-			Logger.Debug("Нажать на термин №{0} в секции 'Languages and terms'.", termNumber);
+			CustomTestContext.WriteLine("Нажать на термин №{0} в секции 'Languages and terms'.", termNumber);
 			Driver.SetDynamicValue(How.XPath, TERM_INPUT_VIEW_MODE, termNumber.ToString()).Click();
 
 			return GetPage();
@@ -329,7 +331,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 		/// <param name="termNumber">номер термина</param>
 		public GlossaryPage EditTermInLanguagesAndTermsSection(string text, int termNumber)
 		{
-			Logger.Debug("Ввести текст {0} в термин №{1}.", text, termNumber);
+			CustomTestContext.WriteLine("Ввести текст {0} в термин №{1}.", text, termNumber);
 			Driver.SetDynamicValue(How.XPath, TERM_INPUT, termNumber.ToString()).SetText(text);
 
 			return GetPage();
@@ -340,7 +342,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 		/// </summary>
 		public GlossaryPage ClickSortByRussianTerm()
 		{
-			Logger.Debug("Нажать кнопку сортировки по русским терминам.");
+			CustomTestContext.WriteLine("Нажать кнопку сортировки по русским терминам.");
 
 			SortByRussianTerm.Click();
 
@@ -352,7 +354,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 		/// </summary>
 		public GlossaryPage ClickSortByDateModified()
 		{
-			Logger.Debug("Нажать кнопку сортировки по дате изменения");
+			CustomTestContext.WriteLine("Нажать кнопку сортировки по дате изменения");
 			SortByDateModified.Click();
 
 			return GetPage();
@@ -363,7 +365,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 		/// </summary>
 		public int DefaultTermsCount()
 		{
-			Logger.Trace("Получить количество обычных терминов.");
+			CustomTestContext.WriteLine("Получить количество обычных терминов.");
 
 			return Driver.GetElementsCount(By.XPath(DEFAULT_TERM_ROWS));
 		}
@@ -373,7 +375,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 		/// </summary>
 		public int CustomTermsCount()
 		{
-			Logger.Trace("Получить количество расширенных терминов.");
+			CustomTestContext.WriteLine("Получить количество расширенных терминов.");
 
 			return Driver.GetElementsCount(By.XPath(CUSTOM_TERM_ROWS));
 		}
@@ -383,7 +385,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 		/// </summary>
 		public GlossaryPage ClickCustomTerm()
 		{
-			Logger.Trace("Нажать на строку термина.");
+			CustomTestContext.WriteLine("Нажать на строку термина.");
 			CustomTermRow.Click();
 
 			return GetPage();
@@ -394,7 +396,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 		/// </summary>
 		public GlossaryPage CloseExpandedTerms()
 		{
-			Logger.Debug("Нажать кнопку закрытия раскрытых терминов.");
+			CustomTestContext.WriteLine("Нажать кнопку закрытия раскрытых терминов.");
 			CloseExpandTermsButton.Scroll();
 			CloseExpandTermsButton.Click();
 
@@ -406,7 +408,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 		/// </summary>
 		public bool AlreadyExistTermErrorDisplayed()
 		{
-			Logger.Trace("Получить значение свойства Display для элемента сообщения 'The term already exists'.");
+			CustomTestContext.WriteLine("Получить значение свойства Display для элемента сообщения 'The term already exists'.");
 
 			return Driver.WaitUntilElementIsDisplay(By.XPath(ALREADY_EXIST_TERM_ERROR));
 		}
@@ -416,7 +418,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 		/// </summary>
 		public bool EmptyTermErrorDisplayed()
 		{
-			Logger.Trace("Получить значение свойства Display для элемента сообщения 'Please add at least one term'.");
+			CustomTestContext.WriteLine("Получить значение свойства Display для элемента сообщения 'Please add at least one term'.");
 
 			return Driver.WaitUntilElementIsDisplay(By.XPath(EMPTY_TERM_ERROR));
 		}
@@ -427,7 +429,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 		/// <param name="columnNumber">номер колонки</param>
 		public GlossaryPage ClickSynonymPlusButton(int columnNumber)
 		{
-			Logger.Debug("Нажать кнопку добавления синонима.");
+			CustomTestContext.WriteLine("Нажать кнопку добавления синонима.");
 			var plusButton = Driver.SetDynamicValue(How.XPath, SYNONYM_PLUS_BUTTON, columnNumber.ToString());
 
 			plusButton.Click();
@@ -440,7 +442,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 		/// </summary>
 		public GlossaryPage FillSynonym(string text, int columnNumber)
 		{
-			Logger.Debug("Ввести {0} в поле синонима в столбце №{1}.", text, columnNumber);
+			CustomTestContext.WriteLine("Ввести {0} в поле синонима в столбце №{1}.", text, columnNumber);
 			var synonymInput = Driver.SetDynamicValue(How.XPath, SYNONYM_INPUT, columnNumber.ToString());
 
 			synonymInput.SetText(text);
@@ -456,7 +458,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 		/// <returns>количество синонимов</returns>
 		public int SynonymFieldsCount(int termRow, int columnNumber)
 		{
-			Logger.Trace("Получить количеcтво синонимов в термине №{0}, стоблец №{1}.", termRow, columnNumber);
+			CustomTestContext.WriteLine("Получить количеcтво синонимов в термине №{0}, стоблец №{1}.", termRow, columnNumber);
 
 			return Driver.GetElementsCount(By.XPath(SYNONYM_FIELDS_IN_COLUMN.Replace("term", termRow.ToString()).Replace("column", columnNumber.ToString())));
 		}
@@ -466,7 +468,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 		/// </summary>
 		public GlossaryPage AssertSynonumUniqueErrorDisplayed(int columnNumber)
 		{
-			Logger.Trace("Проверить, что термины подсвечены красным цветом в стоблце №{0}, так как термины должны быть уникальны.", columnNumber);
+			CustomTestContext.WriteLine("Проверить, что термины подсвечены красным цветом в стоблце №{0}, так как термины должны быть уникальны.", columnNumber);
 
 			Assert.IsTrue(Driver.WaitUntilElementIsDisplay(By.XPath(SYNONYM_UNIQUE_ERROR.Replace("*#*", columnNumber.ToString()))),
 				"Произошла ошибка:\n Термины не подсвечены красным цветом в стоблце №{0}.", columnNumber);
@@ -481,7 +483,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 		/// <param name="target">таргет</param>
 		public GlossaryPage ClickDeleteButton(string source, string target)
 		{
-			Logger.Debug("Нажать кнопку удаления термина с sourse:{0}, target:{1}.", source, target);
+			CustomTestContext.WriteLine("Нажать кнопку удаления термина с sourse:{0}, target:{1}.", source, target);
 			Driver.FindElement(By.XPath(DELETE_BUTTON.Replace("#", source).Replace("**", target))).Click();
 
 			return GetPage();
@@ -492,7 +494,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 		/// </summary>
 		public GlossaryPage AssertDeleteButtonDisappeared(string source, string target)
 		{
-			Logger.Debug("Проверить, что кнопка удаления термина исчезла.");
+			CustomTestContext.WriteLine("Проверить, что кнопка удаления термина исчезла.");
 
 			Assert.IsTrue(Driver.WaitUntilElementIsDisappeared(By.XPath(DELETE_BUTTON.Replace("#", source).Replace("**", target))),
 				"Произошла ошибка:\n Кнопка удаления термина не исчезла.");
@@ -505,7 +507,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 		/// </summary>
 		public GlossaryPage ClickEditButton()
 		{
-			Logger.Debug("Нажать кнопку редактирования термина.");
+			CustomTestContext.WriteLine("Нажать кнопку редактирования термина.");
 			EditTermButton.Click();
 
 			return GetPage();
@@ -518,7 +520,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 		/// <param name="target">таргет</param>
 		public GlossaryPage HoverTermRow(string source, string target)
 		{
-			Logger.Debug("Навести курсор мыши на заданную строку термина с sourse:{0}, target:{1}", source, target);
+			CustomTestContext.WriteLine("Навести курсор мыши на заданную строку термина с sourse:{0}, target:{1}", source, target);
 			var term = Driver.FindElement(By.XPath(TERM_ROW_BY_SOURCE_AND_TARGET.Replace("#", source).Replace("**", target)));
 			term.HoverElement();
 
@@ -530,7 +532,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 		/// </summary>
 		public GlossaryPage FillSearchField(string text)
 		{
-			Logger.Debug(string.Format("Ввести {0} в поле поиск.", text));
+			CustomTestContext.WriteLine(string.Format("Ввести {0} в поле поиск.", text));
 			SearchInput.SetText(text);
 
 			return GetPage();
@@ -541,7 +543,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 		/// </summary>
 		public GlossaryPage ClickSearchButton()
 		{
-			Logger.Debug("Нажать кнопку поиска.");
+			CustomTestContext.WriteLine("Нажать кнопку поиска.");
 			SearchButton.Click();
 
 			return GetPage();
@@ -552,7 +554,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 		/// </summary>
 		public GlossaryPage ClickEditEntryButton()
 		{
-			Logger.Debug("Нажать кнопку 'Edit Entry'.");
+			CustomTestContext.WriteLine("Нажать кнопку 'Edit Entry'.");
 			EditEntryButton.Click();
 
 			return GetPage();
@@ -563,7 +565,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 		/// </summary>
 		public GlossaryPage ClickCancelButton()
 		{
-			Logger.Debug("Нажать кнопку Cancel.");
+			CustomTestContext.WriteLine("Нажать кнопку Cancel.");
 			CancelButton.Click();
 
 			return GetPage();
@@ -574,7 +576,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 		/// </summary>
 		public GlossaryPage ClickImageField(string fieldName)
 		{
-			Logger.Debug("Нажать на поле Image.");
+			CustomTestContext.WriteLine("Нажать на поле Image.");
 			Driver.SetDynamicValue(How.XPath, IMAGE_FIELD, fieldName).Click();
 
 			return GetPage();
@@ -585,7 +587,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 		/// </summary>
 		public GlossaryPage ClickAddMediaButton(string fieldName)
 		{
-			Logger.Debug("Нажать на кнопку Add в поле {0} типа Media.", fieldName);
+			CustomTestContext.WriteLine("Нажать на кнопку Add в поле {0} типа Media.", fieldName);
 			Driver.SetDynamicValue(How.XPath, ADD_MEDIA_BUTTON, fieldName).Click();
 
 			return GetPage();
@@ -593,7 +595,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 
 		public GlossaryPage AssertProgressUploadDissapeared(string fieldName)
 		{
-			Logger.Trace("Проверить, что прогресс загрузки медиа файла исчез.", fieldName);
+			CustomTestContext.WriteLine("Проверить, что прогресс загрузки медиа файла исчез.", fieldName);
 
 			Assert.IsTrue(Driver.WaitUntilElementIsDisappeared(By.XPath(PROGRESS_MEDIA_FILE.Replace("*#*", fieldName)), timeout: 45),
 				"Произошла ошибка:\n прогресс загрузки медиа файла не исчез.");
@@ -606,7 +608,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 		/// </summary>
 		public string FirstTermText()
 		{
-			Logger.Trace("Получить текст из первого термина.");
+			CustomTestContext.WriteLine("Получить текст из первого термина.");
 
 			return FirstTerm.Text.Trim();
 		}
@@ -616,7 +618,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 		/// </summary>
 		public int LanguageColumnCount()
 		{
-			Logger.Trace("Посчитать количество колонок с языками.");
+			CustomTestContext.WriteLine("Посчитать количество колонок с языками.");
 
 			return Driver.GetElementsCount(By.XPath(LANGUAGE_COLUMNS));
 		}
@@ -626,7 +628,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 		/// </summary>
 		public List<string> TermsList()
 		{
-			Logger.Trace("Получить список текстов из терминов.");
+			CustomTestContext.WriteLine("Получить список текстов из терминов.");
 			var terms = Driver.GetTextListElement(By.XPath(TERMS_TEXT));
 
 			return terms.Select(el => el.Trim()).ToList();
@@ -637,7 +639,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 		/// </summary>
 		public bool AssertTermDisplayedInLanguagesAndTermsSection(string term)
 		{
-			Logger.Trace("Проверить, что термин {0} присутствует в секции 'Languages and terms '.", term);
+			CustomTestContext.WriteLine("Проверить, что термин {0} присутствует в секции 'Languages and terms '.", term);
 			var termInSectioin = Driver.SetDynamicValue(How.XPath, TERMS_IN_LANGUAGE_AND_TERMS_SECTION, term);
 
 			return termInSectioin.Displayed;
@@ -648,7 +650,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 		/// <param name="text">текст</param>
 		public GlossaryPage AssertIsSingleTermExists(string text)
 		{
-			Logger.Trace("Проверить наличие термина {0}", text);
+			CustomTestContext.WriteLine("Проверить наличие термина {0}", text);
 
 			Assert.IsTrue(Driver.WaitUntilElementIsDisplay(By.XPath(SOURCE_TERM.Replace("*#*", text))),
 				"Произошла ошибка:\n термин не обнаружен.");
@@ -663,7 +665,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 		/// <param name="targetText">таргет</param>
 		public GlossaryPage AssertIsSingleTermWithTranslationExists(string sourceText, string targetText)
 		{
-			Logger.Trace("Получить, есть ли термин с сорсом {0} и таргетом {1}", sourceText, targetText);
+			CustomTestContext.WriteLine("Получить, есть ли термин с сорсом {0} и таргетом {1}", sourceText, targetText);
 
 			Assert.IsTrue(
 				Driver.WaitUntilElementIsDisplay(
@@ -681,7 +683,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 		/// <param name="comment">комментарий</param>
 		public GlossaryPage AssertIsTermWithTranslationAndCommentExists(string sourceText, string targetText, string comment)
 		{
-			Logger.Trace("Получить, есть ли термин с сорсом '{0}', таргетом '{1}' и комментом: '{2}'", sourceText, targetText,
+			CustomTestContext.WriteLine("Получить, есть ли термин с сорсом '{0}', таргетом '{1}' и комментом: '{2}'", sourceText, targetText,
 				comment);
 
 			Assert.IsTrue(
@@ -699,7 +701,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 		/// <param name="comment">комментарий</param>
 		public GlossaryPage AssertIsTermWithCommentExists(string sourceText, string comment)
 		{
-			Logger.Trace("Получить, есть ли термин с сорсом '{0}' и комментом: '{1}'", sourceText, comment);
+			CustomTestContext.WriteLine("Получить, есть ли термин с сорсом '{0}' и комментом: '{1}'", sourceText, comment);
 
 			Assert.IsTrue(
 				Driver.WaitUntilElementIsDisplay(
@@ -714,7 +716,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 		/// </summary>
 		public GlossaryPage FillField(string fieldName, string text)
 		{
-			Logger.Debug("Ввести {0} в поле {1}.", text, fieldName);
+			CustomTestContext.WriteLine("Ввести {0} в поле {1}.", text, fieldName);
 			var customField = Driver.SetDynamicValue(How.XPath, CUSTOM_FIELD_INPUT, fieldName);
 			customField.SetText(text);
 
@@ -726,7 +728,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 		/// </summary>
 		public GlossaryPage FillNumberCustomField(string fieldName, string text)
 		{
-			Logger.Debug("Ввести {0} в поле {1} типа Number.", text, fieldName);
+			CustomTestContext.WriteLine("Ввести {0} в поле {1} типа Number.", text, fieldName);
 			var customNumberField = Driver.SetDynamicValue(How.XPath, CUSTOM_NUMBER_FIELD, fieldName);
 			customNumberField.SetText(text);
 
@@ -738,7 +740,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 		/// </summary>
 		public GlossaryPage OpenCalendar(string fieldName)
 		{
-			Logger.Debug("Открыть календарь в поле {0}.", fieldName);
+			CustomTestContext.WriteLine("Открыть календарь в поле {0}.", fieldName);
 			Driver.SetDynamicValue(How.XPath, CUSTOM_DATE_FIELD, fieldName).Click();
 
 			return GetPage();
@@ -749,7 +751,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 		/// </summary>
 		public GlossaryPage ClickTodayInCalendar()
 		{
-			Logger.Debug("Выбрать текущую дату в календаре.");
+			CustomTestContext.WriteLine("Выбрать текущую дату в календаре.");
 			TodayDate.Click();
 
 			return GetPage();
@@ -760,7 +762,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 		/// </summary>
 		public GlossaryPage AssertFieldValueMatch(GlossarySystemField fieldName, string text)
 		{
-			Logger.Trace("Проверить, что значение в поле {0} совпадает с ожидаемым значением {1}.", fieldName, text);
+			CustomTestContext.WriteLine("Проверить, что значение в поле {0} совпадает с ожидаемым значением {1}.", fieldName, text);
 			var customField = Driver.SetDynamicValue(How.XPath, CUSTOM_FIELD_VIEW_MODE, fieldName.Description());
 
 			Assert.AreEqual(text, customField.Text,
@@ -774,7 +776,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 		/// </summary>
 		public GlossaryPage AssertCustomFieldValueMatch(string fieldName, string text)
 		{
-			Logger.Trace("Проверить, что значение в кастомном поле {0} совпадает с ожидаемым значением {1}.", fieldName, text);
+			CustomTestContext.WriteLine("Проверить, что значение в кастомном поле {0} совпадает с ожидаемым значением {1}.", fieldName, text);
 			var customField = Driver.SetDynamicValue(How.XPath, CUSTOM_FIELD_VIEW_MODE, fieldName);
 
 			Assert.AreEqual(text, customField.Text,
@@ -789,7 +791,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 		/// <param name="source">термин</param>
 		public GlossaryPage DeleteTerm(string source)
 		{
-			Logger.Debug("Удалить термин {0} из глоссария", source);
+			CustomTestContext.WriteLine("Удалить термин {0} из глоссария", source);
 			var deleteTermButton = Driver.SetDynamicValue(How.XPath, DELETE_TERM_BUTTON, source);
 			var termRow = Driver.SetDynamicValue(How.XPath, SOURCE_TERM, source);
 			termRow.HoverElement();
@@ -803,7 +805,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 		/// </summary>
 		public GlossaryPage AssertFieldExistInNewEntry(string fieldName)
 		{
-			Logger.Trace("Проверить, что поле {0} присутствует в новом термине.", fieldName);
+			CustomTestContext.WriteLine("Проверить, что поле {0} присутствует в новом термине.", fieldName);
 
 			Assert.IsTrue(Driver.WaitUntilElementIsDisplay(By.XPath(CUSTOM_FIELD_NAME.Replace("*#*", fieldName))),
 				"Произошла ошибка:\n поле {0} отсутствует в новом термине.", fieldName);
@@ -819,7 +821,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 		/// <param name="synonyms">синонимы</param>
 		public GlossaryPage AssertSynonymsMatch(int columnNumber, List<string> synonyms)
 		{
-			Logger.Trace("Проверить, что термин содержит правильные синонимы.");
+			CustomTestContext.WriteLine("Проверить, что термин содержит правильные синонимы.");
 			var synonumsList = Driver.GetTextListElement(By.XPath(TERM_TEXT.Replace("*#*", columnNumber.ToString())));
 
 			Assert.IsTrue(synonyms.SequenceEqual(synonumsList), "Произошла ошибка:\nНеверный список синонимов.");
@@ -832,7 +834,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 		/// </summary>
 		public GlossaryPage AssertImageFieldExistInNewEntry(string fieldName)
 		{
-			Logger.Trace("Проверить, что поле {0} типа Image присутствует в новом термине.", fieldName);
+			CustomTestContext.WriteLine("Проверить, что поле {0} типа Image присутствует в новом термине.", fieldName);
 
 			Assert.IsTrue(Driver.WaitUntilElementIsDisplay(By.XPath(IMAGE_FIELD.Replace("*#*", fieldName))),
 				"Произошла ошибка:\n поле {0} типа Image отсутствует в новом термине.", fieldName);
@@ -845,7 +847,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 		/// </summary>
 		public GlossaryPage AssertMediaFieldExistInNewEntry(string fieldName)
 		{
-			Logger.Trace("Проверить, что поле {0} типа Media присутствует в новом термине.", fieldName);
+			CustomTestContext.WriteLine("Проверить, что поле {0} типа Media присутствует в новом термине.", fieldName);
 
 			Assert.IsTrue(Driver.WaitUntilElementIsDisplay(By.XPath(MEDIA_FIELD.Replace("*#*", fieldName))),
 				"Произошла ошибка:\n поле {0} типа Media отсутствует в новом термине.", fieldName);
@@ -858,7 +860,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 		/// </summary>
 		public GlossaryPage AssertCustomDefaultValueMatch(string fieldName, string defaultValue)
 		{
-			Logger.Trace("Проверить, что текст в поле {0} совпадает с дефолтным значением {1}.", fieldName, defaultValue);
+			CustomTestContext.WriteLine("Проверить, что текст в поле {0} совпадает с дефолтным значением {1}.", fieldName, defaultValue);
 
 			Assert.AreEqual(
 				defaultValue,
@@ -873,7 +875,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 		/// </summary>
 		public GlossaryPage AssertFieldErrorDisplayed(string fieldName)
 		{
-			Logger.Trace("Проверить, что поле {0} подсвечено красным цветом, так как обязательно для заполнения.", fieldName);
+			CustomTestContext.WriteLine("Проверить, что поле {0} подсвечено красным цветом, так как обязательно для заполнения.", fieldName);
 
 			Assert.IsTrue(Driver.WaitUntilElementIsDisplay(By.XPath(CUSTOM_FIELD_ERROR.Replace("*#*", fieldName))),
 				"Произошла ошибка:\n поле {0} не подсвечено красным цветом.", fieldName);
@@ -886,7 +888,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 		/// </summary>
 		public GlossaryPage AssertImageFieldErrorDisplayed(string fieldName)
 		{
-			Logger.Trace("Проверить, что поле {0} типа Image подсвечено красным цветом, так как обязательно для заполнения.", fieldName);
+			CustomTestContext.WriteLine("Проверить, что поле {0} типа Image подсвечено красным цветом, так как обязательно для заполнения.", fieldName);
 
 			Assert.IsTrue(Driver.WaitUntilElementIsDisplay(By.XPath(CUSTOM_IMAGE_FIELD_ERROR.Replace("*#*", fieldName))),
 				"Произошла ошибка:\n поле {0} не подсвечено красным цветом.", fieldName);
@@ -899,7 +901,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 		/// </summary>
 		public GlossaryPage AssertImageFieldFilled(string fieldName)
 		{
-			Logger.Trace("Проверить, что поле {0} типа Image заполнено.", fieldName);
+			CustomTestContext.WriteLine("Проверить, что поле {0} типа Image заполнено.", fieldName);
 
 			Assert.IsTrue(
 				Driver.SetDynamicValue(How.XPath, FILLED_IMAGE_FIELD, fieldName)
@@ -916,7 +918,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 		/// </summary>
 		public GlossaryPage ClickYesNoCheckbox()
 		{
-			Logger.Debug("Кликнуть по чекбоксу Yes/No.");
+			CustomTestContext.WriteLine("Кликнуть по чекбоксу Yes/No.");
 			YesNoCheckbox.Click();
 
 			return GetPage();
@@ -927,7 +929,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 		/// </summary>
 		public GlossaryPage AssertYesNoCheckboxChecked(string yesNo, string fieldName)
 		{
-			Logger.Trace("Проверить, что в поле {0} типа Yes/No стоит или не стоит галочка {1}.", fieldName, yesNo);
+			CustomTestContext.WriteLine("Проверить, что в поле {0} типа Yes/No стоит или не стоит галочка {1}.", fieldName, yesNo);
 
 			Assert.AreEqual(yesNo, Driver.SetDynamicValue(How.XPath, YES_NO_CHECKBOX_VIEW_MODE, fieldName).Text,
 				"Произошла ошибка:\n неверное значение в поле Yes/No.");
@@ -940,7 +942,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 		/// </summary>
 		public GlossaryPage AssertMediaFileMatch(string mediaFile, string fieldName)
 		{
-			Logger.Trace("Проверить, что в поле {0} типа Media правльное название файла {1}.", fieldName, mediaFile);
+			CustomTestContext.WriteLine("Проверить, что в поле {0} типа Media правльное название файла {1}.", fieldName, mediaFile);
 
 			Assert.AreEqual(mediaFile, Driver.SetDynamicValue(How.XPath, MEDIA_FIELD_TEXT,fieldName).Text,
 				"Произошла ошибка:\n неверное значение в поле {0} типа Media.", fieldName);
@@ -954,7 +956,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 		/// <param name="fieldName">название системного поля</param>
 		public GlossaryPage AssertSystemTextAreaFieldDisplayed(GlossarySystemField fieldName)
 		{
-			Logger.Trace("Проверить, что текстовое системное поле {0} отображается в новом термине.", fieldName);
+			CustomTestContext.WriteLine("Проверить, что текстовое системное поле {0} отображается в новом термине.", fieldName);
 
 			Assert.IsTrue(Driver.SetDynamicValue(How.XPath, SYSTEM_FIELD_TEXTAREA_TYPE, fieldName.ToString()).Displayed,
 				"Произошла ошибка:\nТекстовое cистемное поле {0} не отображается  в новом термине.", fieldName);
@@ -968,7 +970,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 		/// <param name="fieldName">название системного поля</param>
 		public GlossaryPage AssertSystemDropdownFieldDisplayed(GlossarySystemField fieldName)
 		{
-			Logger.Trace("Проверить, что в системное поле {0} типа дропдаун отображается в новом термине.", fieldName);
+			CustomTestContext.WriteLine("Проверить, что в системное поле {0} типа дропдаун отображается в новом термине.", fieldName);
 
 			Assert.IsTrue(Driver.SetDynamicValue(How.XPath, SYSTEM_FIELD_DROPDOWN_TYPE, fieldName.Description()).Displayed,
 				"Произошла ошибка:\nСистемное поле {0} вида дропдаун не отображается в новом термине.", fieldName);
@@ -983,7 +985,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 		/// <param name="value">значение</param>
 		public GlossaryPage FillSystemField(GlossarySystemField fieldName, string value)
 		{
-			Logger.Trace("Ввести {0} в системное поле {1}.", value, fieldName);
+			CustomTestContext.WriteLine("Ввести {0} в системное поле {1}.", value, fieldName);
 			Driver.SetDynamicValue(How.XPath, SYSTEM_FIELD_TEXTAREA_TYPE, fieldName.ToString()).SetText(value);
 
 			return GetPage();
@@ -994,7 +996,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 		/// </summary>
 		public GlossaryPage ExpandItemsListDropdown(string fieldName)
 		{
-			Logger.Debug("Раскрыть комбобокс {0} типа List.", fieldName);
+			CustomTestContext.WriteLine("Раскрыть комбобокс {0} типа List.", fieldName);
 			Driver.SetDynamicValue(How.XPath, ITEMS_LIST_DROPDOWN, fieldName).Click();
 
 			return GetPage();
@@ -1005,7 +1007,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 		/// </summary>
 		public GlossaryPage ClickMultiselectListDropdown(string fieldName)
 		{
-			Logger.Debug("Нажать на комбобокс {0} типа 'Multi-selection list'.", fieldName);
+			CustomTestContext.WriteLine("Нажать на комбобокс {0} типа 'Multi-selection list'.", fieldName);
 			Driver.SetDynamicValue(How.XPath, MULTISELECT_DROPDOWN, fieldName).Click();
 
 			return GetPage();
@@ -1016,7 +1018,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 		/// </summary>
 		public GlossaryPage SelectItemInListDropdown(string item)
 		{
-			Logger.Debug("Выбрать значение {0} в комбобоксе типа List.", item);
+			CustomTestContext.WriteLine("Выбрать значение {0} в комбобоксе типа List.", item);
 			Driver.SetDynamicValue(How.XPath, ITEMS_LIST, item).Click();
 
 			return GetPage();
@@ -1027,7 +1029,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 		/// </summary>
 		public GlossaryPage SelectItemInMultiselectListDropdown(string item)
 		{
-			Logger.Debug("Выбрать значение {0} в комбобоксе 'Multi-selection list'.", item);
+			CustomTestContext.WriteLine("Выбрать значение {0} в комбобоксе 'Multi-selection list'.", item);
 			Driver.SetDynamicValue(How.XPath, MULTISELECT_LIST, item).Click();
 
 			return GetPage();
@@ -1038,7 +1040,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 		/// </summary>
 		public GlossaryPage ExpandTopicDropdown()
 		{
-			Logger.Debug("Раскрыть дропдаун Topic.");
+			CustomTestContext.WriteLine("Раскрыть дропдаун Topic.");
 			TopicField.Click();
 
 			return GetPage();
@@ -1049,7 +1051,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 		/// </summary>
 		public GlossaryPage ClickOptionInTopicDropdown(string option)
 		{
-			Logger.Debug("Выбрать значение {0} в дропдауне Topic.", option);
+			CustomTestContext.WriteLine("Выбрать значение {0} в дропдауне Topic.", option);
 			Driver.SetDynamicValue(How.XPath, TOPIC_OPTION, option.Trim()).Click();
 
 			return GetPage();
@@ -1057,7 +1059,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 
 		public GlossariesPage UploadImageFile(string filepath)
 		{
-			Logger.Trace("Загрузка файла {0}.\nВвести путь к файлу в системное окно.", filepath);
+			CustomTestContext.WriteLine("Загрузка файла {0}.\nВвести путь к файлу в системное окно.", filepath);
 			AddImageLink.HoverElement();
 			Driver.ExecuteScript("$(\"input:file[name = x1]\").removeClass(\"g-hidden\").css(\"opacity\", 100).css(\"width\", 500)");
 			AddImageInput.SendKeys(filepath);
@@ -1067,7 +1069,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 		}
 		public GlossariesPage UploadImageFileWithMultimedia(string filepath)
 		{
-			Logger.Trace("Загрузка файла {0}.\nВвести путь к файлу в системное окно.", filepath);
+			CustomTestContext.WriteLine("Загрузка файла {0}.\nВвести путь к файлу в системное окно.", filepath);
 			AddImageLink.HoverElement();
 			Driver.ExecuteScript("$(\"input:file[name = Image]\").removeClass(\"g-hidden\").css(\"opacity\", 100).css(\"width\", 500)");
 			AddImageInputWithMultimedia.SendKeys(filepath);
@@ -1078,7 +1080,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 
 		public GlossariesPage UploadMultimediaFile(string filepath)
 		{
-			Logger.Trace("Загрузка файла {0}.\nВвести путь к файлу в системное окно.", filepath);
+			CustomTestContext.WriteLine("Загрузка файла {0}.\nВвести путь к файлу в системное окно.", filepath);
 			AddMultimediaLink.HoverElement();
 			try
 			{
@@ -1087,7 +1089,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 			}
 			catch
 			{
-				Logger.Info("Элемент отсутствует");
+				CustomTestContext.WriteLine("Элемент отсутствует");
 			}
 
 			try
@@ -1097,7 +1099,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 			}
 			catch
 			{
-				Logger.Info("Элемент отсутствует");
+				CustomTestContext.WriteLine("Элемент отсутствует");
 			}
 
 			Driver.WaitUntilElementIsDisplay(By.XPath(DELETE_IMAGE_BUTTON));

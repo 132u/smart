@@ -7,12 +7,14 @@ using AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 {
+	[Parallelizable(ParallelScope.Fixtures)]
 	class ProjectSaveSettingsByBackTests<TWebDriverProvider> : BaseTest<TWebDriverProvider> where TWebDriverProvider : IWebDriverProvider, new()
 	{
 		[SetUp]
 		public void SetUp()
 		{
-			_workspaceHelper = new WorkspaceHelper();
+			_workspaceHelper = new WorkspaceHelper(Driver);
+			_createProjectHelper = new CreateProjectHelper(Driver);
 			_workspaceHelper.GoToProjectsPage();
 			_projectUniqueName = _createProjectHelper.GetProjectUniqueName();
 		}
@@ -111,7 +113,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 		}
 
 		private string _projectUniqueName;
-		private readonly CreateProjectHelper _createProjectHelper = new CreateProjectHelper();
+		private CreateProjectHelper _createProjectHelper;
 		private WorkspaceHelper _workspaceHelper;
 	}
 }

@@ -1,25 +1,28 @@
 ﻿using System.IO;
 
-using NLog;
-
 using NUnit.Framework;
 
 using AbbyyLS.SmartCAT.Selenium.Tests.DataStructures;
+using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings;
-using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace;
 using AbbyyLS.SmartCAT.Selenium.Tests.TestFramework;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 {
 	public class ProjectSettingsHelper : WorkspaceHelper
 	{
-		public static Logger Logger = LogManager.GetCurrentClassLogger();
+		public ProjectSettingsHelper(WebDriver driver) : base(driver)
+		{
+			_documentSettings = new DocumentSettings(Driver);
+			_projectPage = new ProjectSettingsPage(Driver);
+			_settingsDialog = new SettingsDialog(Driver);
+		}
 
 		public ProjectSettingsHelper ClickDocumentProgress(string filePath)
 		{
-			BaseObject.InitPage(_projectPage);
+			BaseObject.InitPage(_projectPage, Driver);
 			_projectPage.ClickDocumentProgress(Path.GetFileNameWithoutExtension(filePath));
 
 			return this;
@@ -54,32 +57,32 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 		public TaskAssignmentPageHelper ClickAssignButtonInDocumentInfo()
 		{
-			BaseObject.InitPage(_projectPage);
+			BaseObject.InitPage(_projectPage, Driver);
 			_projectPage.ClickAssignButtonInDocumentInfo();
 
-			return new TaskAssignmentPageHelper();
+			return new TaskAssignmentPageHelper(Driver);
 		}
 
 		public TaskAssignmentPageHelper ClickAssignButtonOnPanel()
 		{
-			BaseObject.InitPage(_projectPage);
+			BaseObject.InitPage(_projectPage, Driver);
 			_projectPage.ClickAssignButtonOnPanel();
 
-			return new TaskAssignmentPageHelper();
+			return new TaskAssignmentPageHelper(Driver);
 		}
 
 		/// <summary>
 		/// Открыть документ в редакторе
 		/// </summary>
 		/// <param name="documentName">название документа</param>
-		public EditorHelper OpenDocument<T>(string documentName) where T : class , IAbstractPage<T>, new()
+		public EditorHelper OpenDocument<T>(string documentName) where T : class , IAbstractPage<T>
 		{
-			BaseObject.InitPage(_projectPage);
+			BaseObject.InitPage(_projectPage, Driver);
 			_projectPage
 				.AssertIsDocumentProcessed()
-				.ClickDocument<T>(documentName);
+				.ClickDocument<T>(documentName, Driver);
 
-			return new EditorHelper();
+			return new EditorHelper(Driver);
 		}
 
 		/// <summary>
@@ -88,12 +91,12 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 		/// <param name="filePath">путь к файлу</param>
 		public ProjectSettingsHelper UploadDocument(string filePath)
 		{
-			BaseObject.InitPage(_projectPage);
+			BaseObject.InitPage(_projectPage, Driver);
 			_projectPage
 				.ClickDocumentUploadButton()
 				.UploadDocument(filePath)
 				.AssertFileUploaded(Path.GetFileName(filePath))
-				.ClickFinish<ProjectSettingsPage>()
+				.ClickFinish<ProjectSettingsPage>(Driver)
 				.WaitUntilUploadDocumentDialogDissapeared()
 				.AssertIsDocumentProcessed();
 
@@ -102,10 +105,10 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 		public UploadDocumentHelper ClickDocumentUploadButton()
 		{
-			BaseObject.InitPage(_projectPage);
+			BaseObject.InitPage(_projectPage, Driver);
 			_projectPage.ClickDocumentUploadButton();
 
-			return new UploadDocumentHelper();
+			return new UploadDocumentHelper(Driver);
 		}
 
 		/// <summary>
@@ -114,7 +117,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 		/// <param name="documentName">имя документа</param>
 		public ProjectSettingsHelper DeleteDocument(string documentName)
 		{
-			BaseObject.InitPage(_projectPage);
+			BaseObject.InitPage(_projectPage, Driver);
 			_projectPage
 				.ClickProjectsTableCheckbox(documentName)
 				.ClickDeleteButton()
@@ -127,15 +130,15 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 		public ExportFileHelper ClickDownloadInMainMenuButton()
 		{
-			BaseObject.InitPage(_projectPage);
+			BaseObject.InitPage(_projectPage, Driver);
 			_projectPage.ClickDownloadInMainMenuButton();
 
-			return new ExportFileHelper();
+			return new ExportFileHelper(Driver);
 		}
 
 		public ProjectSettingsHelper ClickDocumentCheckbox(string filePath)
 		{
-			BaseObject.InitPage(_projectPage);
+			BaseObject.InitPage(_projectPage, Driver);
 			_projectPage.ClickDocumentCheckbox(Path.GetFileNameWithoutExtension(filePath));
 
 			return this;
@@ -143,7 +146,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 		public ProjectSettingsHelper OpenWorkflowSettings()
 		{
-			BaseObject.InitPage(_projectPage);
+			BaseObject.InitPage(_projectPage, Driver);
 			_projectPage
 				.ClickSettingsButton()
 				.ClickWorkflowTab();
@@ -153,7 +156,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 		public ProjectSettingsHelper OpenProjectSettings()
 		{
-			BaseObject.InitPage(_projectPage);
+			BaseObject.InitPage(_projectPage, Driver);
 			_projectPage.ClickSettingsButton();
 
 			return this;
@@ -161,7 +164,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 		public ProjectSettingsHelper AssertWorkflowSettingsNotExist()
 		{
-			BaseObject.InitPage(_settingsDialog);
+			BaseObject.InitPage(_settingsDialog, Driver);
 			_settingsDialog.AssertWorkflowSettingsNotExist();
 
 			return this;
@@ -169,8 +172,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 		public ProjectSettingsHelper AssertWorkflowTaskCountMatch(int taskCount = 1)
 		{
-			BaseObject.InitPage(_settingsDialog);
-			Logger.Trace("Проверить, что количество задач в настройках Workflow = {0}.", taskCount);
+			BaseObject.InitPage(_settingsDialog, Driver);
+			CustomTestContext.WriteLine("Проверить, что количество задач в настройках Workflow = {0}.", taskCount);
 
 			Assert.AreEqual(taskCount, _settingsDialog.WorkflowTaskList().Count,
 				"Произошла ошибка:\n неверное количество задач в настройках Workflow.");
@@ -180,8 +183,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 		public ProjectSettingsHelper AssertWorkflowTaskMatch(WorkflowTask workflowTask, int taskNumber = 1)
 		{
-			BaseObject.InitPage(_settingsDialog);
-			Logger.Trace("Проверить, что задача №{0} в настройках Workflow - это {1}", taskNumber, workflowTask);
+			BaseObject.InitPage(_settingsDialog, Driver);
+			CustomTestContext.WriteLine("Проверить, что задача №{0} в настройках Workflow - это {1}", taskNumber, workflowTask);
 
 			Assert.AreEqual(workflowTask.ToString(), _settingsDialog.WorkflowTaskList()[taskNumber - 1],
 				"Произошла ошибка:\n задача не соответствует.");
@@ -191,7 +194,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 		public ProjectSettingsHelper ClickDeleteTaskButton(int taskNumber = 1)
 		{
-			BaseObject.InitPage(_settingsDialog);
+			BaseObject.InitPage(_settingsDialog, Driver);
 			_settingsDialog.ClickDeleteTaskButton(taskNumber);
 
 			return this;
@@ -199,7 +202,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 		public ProjectSettingsHelper AssertConfirmDeleteDialogDisplay()
 		{
-			BaseObject.InitPage(_settingsDialog);
+			BaseObject.InitPage(_settingsDialog, Driver);
 			_settingsDialog.AssertConfirmDeleteDialogDislpay();
 
 			return this;
@@ -207,7 +210,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 		public ProjectSettingsHelper ClickSaveButton()
 		{
-			BaseObject.InitPage(_settingsDialog);
+			BaseObject.InitPage(_settingsDialog, Driver);
 			_settingsDialog
 				.ClickSaveButton()
 				.AssertSettingsDialogDissappear();
@@ -217,7 +220,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 		public ProjectSettingsHelper AddTask(WorkflowTask task, int taskNumber = 2)
 		{
-			BaseObject.InitPage(_settingsDialog);
+			BaseObject.InitPage(_settingsDialog, Driver);
 			_settingsDialog
 				.ClickNewTaskButton()
 				.ExpandTask(taskNumber)
@@ -228,7 +231,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 		public ProjectSettingsHelper EditTask(WorkflowTask task, int taskNumber = 2)
 		{
-			BaseObject.InitPage(_settingsDialog);
+			BaseObject.InitPage(_settingsDialog, Driver);
 			_settingsDialog
 				.ExpandTask(taskNumber)
 				.ClickTaskInDropdown(task);
@@ -238,7 +241,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 		public ProjectSettingsHelper ClickCancelButton()
 		{
-			BaseObject.InitPage(_settingsDialog);
+			BaseObject.InitPage(_settingsDialog, Driver);
 			_settingsDialog
 				.ClickCancelButton()
 				.AssertSettingsDialogDissappear();
@@ -248,7 +251,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 		public ProjectSettingsHelper AssertDocumentExist(string fileName)
 		{
-			BaseObject.InitPage(_projectPage);
+			BaseObject.InitPage(_projectPage, Driver);
 			_projectPage.AssertDocumentExist(fileName);
 
 			return this;
@@ -256,7 +259,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 		public ProjectSettingsHelper AssertAssignButtonNotDisplayed()
 		{
-			BaseObject.InitPage(_projectPage);
+			BaseObject.InitPage(_projectPage, Driver);
 			_projectPage.AssertAssignButtonNotExist();
 
 			return this;
@@ -264,7 +267,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 		public ProjectSettingsHelper ClickSortByTranslationDocument()
 		{
-			BaseObject.InitPage(_projectPage);
+			BaseObject.InitPage(_projectPage, Driver);
 			_projectPage.ClickSortByTranslationDocument();
 
 			return this;
@@ -272,7 +275,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 		public ProjectSettingsHelper ClickSortByType()
 		{
-			BaseObject.InitPage(_projectPage);
+			BaseObject.InitPage(_projectPage, Driver);
 			_projectPage.ClickSortByType();
 
 			return this;
@@ -280,7 +283,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 		public ProjectSettingsHelper ClickSortByStatus()
 		{
-			BaseObject.InitPage(_projectPage);
+			BaseObject.InitPage(_projectPage, Driver);
 			_projectPage.ClickSortByStatus();
 
 			return this;
@@ -288,7 +291,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 		public ProjectSettingsHelper ClickSortByTarget()
 		{
-			BaseObject.InitPage(_projectPage);
+			BaseObject.InitPage(_projectPage, Driver);
 			_projectPage.ClickSortByTarget();
 
 			return this;
@@ -296,7 +299,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 		public ProjectSettingsHelper ClickSortByAuthor()
 		{
-			BaseObject.InitPage(_projectPage);
+			BaseObject.InitPage(_projectPage, Driver);
 			_projectPage.ClickSortByAuthor();
 
 			return this;
@@ -304,7 +307,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 		public ProjectSettingsHelper ClickSortByCreated()
 		{
-			BaseObject.InitPage(_projectPage);
+			BaseObject.InitPage(_projectPage, Driver);
 			_projectPage.ClickSortByCreated();
 
 			return this;
@@ -312,7 +315,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 		public ProjectSettingsHelper ClickSortByQA()
 		{
-			BaseObject.InitPage(_projectPage);
+			BaseObject.InitPage(_projectPage, Driver);
 			_projectPage.ClickSortByQA();
 
 			return this;
@@ -320,25 +323,24 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 		public ProjectSettingsHelper AddGlossaryToDocument(string documentName, string glossaryName)
 		{
-			BaseObject.InitPage(_projectPage);
+			BaseObject.InitPage(_projectPage, Driver);
 			_projectPage
 				.ClickDocumentProgress(documentName)
 				.ClickDocumentSettings();
 
-			BaseObject.InitPage(_documentSettings);
+			BaseObject.InitPage(_documentSettings, Driver);
 			_documentSettings
 				.HoverGlossaryTableDocumentSettingsDialog()
 				.ClickGlossaryByName(glossaryName)
-				.ClickSaveButton<ProjectSettingsPage>()
-				.AssertDialogBackgroundDisappeared<ProjectSettingsPage>()
+				.ClickSaveButton<ProjectSettingsPage>(Driver)
+				.AssertDialogBackgroundDisappeared<ProjectSettingsPage>(Driver)
 				.ClickDocumentProgress(documentName);
 
 			return this;
 		}
 
-		private readonly ProjectSettingsPage _projectPage = new ProjectSettingsPage();
-		private readonly DocumentSettings _documentSettings = new DocumentSettings();
-		private readonly SettingsDialog _settingsDialog = new SettingsDialog();
-		private readonly WorkspacePage _workspacePage = new WorkspacePage();
+		private readonly ProjectSettingsPage _projectPage;
+		private readonly DocumentSettings _documentSettings;
+		private readonly SettingsDialog _settingsDialog;
 	}
 }

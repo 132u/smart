@@ -4,6 +4,7 @@ using NUnit.Framework;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.PageObjects;
 
+using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace;
 using AbbyyLS.SmartCAT.Selenium.Tests.TestFramework;
 
@@ -11,10 +12,14 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.ProjectGroups
 {
 	public class ProjectGroupsPage : WorkspacePage, IAbstractPage<ProjectGroupsPage>
 	{
+		public ProjectGroupsPage(WebDriver driver) : base(driver)
+		{
+		}
+
 		public new ProjectGroupsPage GetPage()
 		{
-			var projectGroupsPage = new ProjectGroupsPage();
-			InitPage(projectGroupsPage);
+			var projectGroupsPage = new ProjectGroupsPage(Driver);
+			InitPage(projectGroupsPage, Driver);
 			LoadPage();
 
 			return projectGroupsPage;
@@ -34,7 +39,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.ProjectGroups
 		/// <param name="projectGroupName">имя группы проектов</param>
 		public ProjectGroupsPage AssertProjectGroupExist(string projectGroupName)
 		{
-			Logger.Trace("Проверить, что группа проектов {0} присутствует в списке.", projectGroupName);
+			CustomTestContext.WriteLine("Проверить, что группа проектов {0} присутствует в списке.", projectGroupName);
 
 			Assert.IsTrue(projectGroupIsPresent(projectGroupName),
 				"Произошла ошибка:\n группа проектов {0} отсутствует.", projectGroupName);
@@ -48,7 +53,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.ProjectGroups
 		/// <param name="projectGroupName">имя группы проектов</param>
 		public ProjectGroupsPage AssertProjectGroupNotExist(string projectGroupName)
 		{
-			Logger.Trace("Проверить, что группа проектов {0} отсутствует в списке.", projectGroupName);
+			CustomTestContext.WriteLine("Проверить, что группа проектов {0} отсутствует в списке.", projectGroupName);
 
 			Assert.IsTrue(Driver.WaitUntilElementIsDisappeared(By.XPath(PROJECT_GROUP_ROW.Replace("*#*", projectGroupName))),
 				"Произошла ошибка:\n Группа проектов {0} найдена.", projectGroupName);
@@ -61,7 +66,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.ProjectGroups
 		/// </summary>
 		public ProjectGroupsPage ScrollAndClickCreateProjectGroupsButton()
 		{
-			Logger.Debug("Нажать кнопку создания группы проектов.");
+			CustomTestContext.WriteLine("Нажать кнопку создания группы проектов.");
 			AddProjectGroupsButton.ScrollAndClick();
 
 			return GetPage();
@@ -73,7 +78,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.ProjectGroups
 		/// <param name="projectGroupName">имя группы проектов</param>
 		public ProjectGroupsPage FillProjectGroupName(string projectGroupName)
 		{
-			Logger.Debug("Ввести имя группы проектов {0}.", projectGroupName);
+			CustomTestContext.WriteLine("Ввести имя группы проектов {0}.", projectGroupName);
 
 			NewProjectGroupRow.SetText(projectGroupName);
 
@@ -85,7 +90,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.ProjectGroups
 		/// </summary>
 		public ProjectGroupsPage ClickSaveProjectGroups()
 		{
-			Logger.Debug("Нажать кнопку 'Сохранить'.");
+			CustomTestContext.WriteLine("Нажать кнопку 'Сохранить'.");
 			SaveProjectGroupsButton.Click();
 
 			return GetPage();
@@ -96,7 +101,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.ProjectGroups
 		/// </summary>
 		public ProjectGroupsPage ClickCancelProjectGroups()
 		{
-			Logger.Debug("Нажать кнопку 'Отмена'.");
+			CustomTestContext.WriteLine("Нажать кнопку 'Отмена'.");
 			CancelProjectGroupsButton.Click();
 
 			return GetPage();
@@ -107,7 +112,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.ProjectGroups
 		/// </summary>
 		public ProjectGroupsPage AssertSaveButtonDisappear()
 		{
-			Logger.Trace("Проверить, что кнопка сохранения группы проектов исчезла.");
+			CustomTestContext.WriteLine("Проверить, что кнопка сохранения группы проектов исчезла.");
 
 			Assert.IsTrue(Driver.WaitUntilElementIsDisappeared(By.XPath(SAVE_PROJECT_GROUP)),
 				"Произошла ошибка:\n кнопка сохранения группы проектов не исчезла после сохранения.");
@@ -120,7 +125,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.ProjectGroups
 		/// </summary>
 		public ProjectGroupsPage AssertIsEditMode()
 		{
-			Logger.Trace("Проверить, что мы находимся в режиме редактирования группы проектов.");
+			CustomTestContext.WriteLine("Проверить, что мы находимся в режиме редактирования группы проектов.");
 
 			Assert.IsTrue(EditNameField.Displayed,
 				"Произошла ошибка:\n произошел выход из режима редактирования группы проектов.");
@@ -133,7 +138,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.ProjectGroups
 		/// </summary>
 		public ProjectGroupsPage AssertNewProjectGroupEditMode()
 		{
-			Logger.Trace("Проверить, что мы находимся в режиме редактирования только что созданной группы проектов.");
+			CustomTestContext.WriteLine("Проверить, что мы находимся в режиме редактирования только что созданной группы проектов.");
 
 			Assert.IsTrue(NewProjectGroupRow.Displayed,
 				"Произошла ошибка:\n  Произошел выход из режима редактирования только что созданной группы проектов.");
@@ -147,7 +152,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.ProjectGroups
 		/// <param name="projectGroupName">имя группы проектов</param>
 		public ProjectGroupsPage ClickDeleteButton(string projectGroupName)
 		{
-			Logger.Debug("Нажать кнопку удаления.");
+			CustomTestContext.WriteLine("Нажать кнопку удаления.");
 			var deleteXPath = DELETE_PROJECT_GROUP_BUTTON.Replace("*#*", projectGroupName);
 
 			Driver.FindElement(By.XPath(deleteXPath)).JavaScriptClick();
@@ -165,13 +170,13 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.ProjectGroups
 		/// <param name="projectGroupName">имя группы проектов</param>
 		public ProjectGroupsPage AssertDeleteButtonDisplay(string projectGroupName)
 		{
-			Logger.Trace("Проверить, что кнопка удаления появилась.");
+			CustomTestContext.WriteLine("Проверить, что кнопка удаления появилась.");
 			var isDeleteButtonDisplayed = Driver.WaitUntilElementIsDisplay(
 				By.XPath(DELETE_PROJECT_GROUP_BUTTON.Replace("*#*", projectGroupName)));
 
 			if (!isDeleteButtonDisplayed)
 			{
-				Logger.Warn("Необходимо повторно навести курсор на группу проектов {0}, чтобы кнопка удаления стала видна",
+				CustomTestContext.WriteLine("Необходимо повторно навести курсор на группу проектов {0}, чтобы кнопка удаления стала видна",
 					projectGroupName);
 				HoverCursorToProjectGroup(projectGroupName);
 
@@ -190,7 +195,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.ProjectGroups
 		/// <param name="projectGroupName">имя группы проектов</param>
 		public ProjectGroupsPage ScrollAndClickProjectGroup(string projectGroupName)
 		{
-			Logger.Debug("Прокрутить страницу и кликнуть по строке группы проектов {0}.", projectGroupName);
+			CustomTestContext.WriteLine("Прокрутить страницу и кликнуть по строке группы проектов {0}.", projectGroupName);
 			Driver.FindElement(By.XPath(PROJECT_GROUP_ROW.Replace("*#*", projectGroupName))).ScrollAndClick();
 
 			return GetPage();
@@ -202,7 +207,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.ProjectGroups
 		/// <param name="projectGroupName">имя группы проектов</param>
 		public ProjectGroupsPage ClickEditButton(string projectGroupName)
 		{
-			Logger.Debug("Нажать кнопку редактирования группы проектов {0}.", projectGroupName);
+			CustomTestContext.WriteLine("Нажать кнопку редактирования группы проектов {0}.", projectGroupName);
 			Driver.FindElement(By.XPath(EDIT_PROJECT_GROUP_BUTTON.Replace("*#*", projectGroupName))).Click();
 
 			return GetPage();
@@ -214,13 +219,13 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.ProjectGroups
 		/// <param name="projectGroupName">имя группы проектов</param>
 		public ProjectGroupsPage AssertEditButtonDisplay(string projectGroupName)
 		{
-			Logger.Trace("Проверить, что кнопка редактирования группы проектов {0} появилась.", projectGroupName);
+			CustomTestContext.WriteLine("Проверить, что кнопка редактирования группы проектов {0} появилась.", projectGroupName);
 			var isEditButtonDisplayed = Driver.WaitUntilElementIsDisplay(
 				By.XPath(EDIT_PROJECT_GROUP_BUTTON.Replace("*#*", projectGroupName)));
 
 			if (!isEditButtonDisplayed)
 			{
-				Logger.Warn("Необходимо повторно навести курсор на группу проектов {0}, чтобы кнопка редактирования стала видна",
+				CustomTestContext.WriteLine("Необходимо повторно навести курсор на группу проектов {0}, чтобы кнопка редактирования стала видна",
 					projectGroupName);
 				HoverCursorToProjectGroup(projectGroupName);
 
@@ -238,7 +243,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.ProjectGroups
 		/// </summary>
 		public ProjectGroupsPage AssertProjectGrouptNameErrorExist()
 		{
-			Logger.Trace("Проверить, что появилась ошибка в имени группы проектов при создании группы проектов.");
+			CustomTestContext.WriteLine("Проверить, что появилась ошибка в имени группы проектов при создании группы проектов.");
 			Driver.WaitUntilElementIsDisplay(By.XPath(ERROR_NAME));
 
 			Assert.IsTrue(NameError.Displayed,
@@ -253,7 +258,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.ProjectGroups
 		/// <param name="projectGroupName">имя группы проектов</param>
 		public ProjectGroupsPage HoverCursorToProjectGroup(string projectGroupName)
 		{
-			Logger.Debug("Навести курсор на группу проектов {0}.", projectGroupName);
+			CustomTestContext.WriteLine("Навести курсор на группу проектов {0}.", projectGroupName);
 			ProjectGroupRow = Driver.SetDynamicValue(How.XPath, PROJECT_GROUP_ROW, projectGroupName);
 			ProjectGroupRow.HoverElement();
 
@@ -266,7 +271,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.ProjectGroups
 		/// <param name="newProjectGroupName">имя группы проектов</param>
 		public ProjectGroupsPage FillNewName(string newProjectGroupName)
 		{
-			Logger.Debug("Ввести новое имя группы проектов {0}.", newProjectGroupName);
+			CustomTestContext.WriteLine("Ввести новое имя группы проектов {0}.", newProjectGroupName);
 			EditNameField.SetText(newProjectGroupName);
 
 			return GetPage();
@@ -277,7 +282,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.ProjectGroups
 		/// </summary>
 		public ProjectGroupsPage АssertGroupProjectEmptyRowDisplayed()
 		{
-			Logger.Trace("Проверить, что пустая строка для создания группы проектов появилась.");
+			CustomTestContext.WriteLine("Проверить, что пустая строка для создания группы проектов появилась.");
 
 			Assert.IsTrue(Driver.WaitUntilElementIsDisplay(By.XPath(NEW_PROJECT_GROUP_ROW)),
 				"Произошла ошибка:\n не появилась пустая строка для создания группы проектов.");
@@ -290,7 +295,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.ProjectGroups
 		/// </summary>
 		public ProjectGroupsPage ClickSortByName()
 		{
-			Logger.Debug("Нажать кнопку сортировки по именам");
+			CustomTestContext.WriteLine("Нажать кнопку сортировки по именам");
 			SortByName.Click();
 
 			return GetPage();
@@ -302,7 +307,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.ProjectGroups
 		/// <param name="projectGroupName">имя группы проектов</param>
 		private bool projectGroupIsPresent(string projectGroupName)
 		{
-			Logger.Trace("Определить, что группа проектов {0} присутствует в списке.", projectGroupName);
+			CustomTestContext.WriteLine("Определить, что группа проектов {0} присутствует в списке.", projectGroupName);
 			Driver.WaitUntilElementIsDisplay(By.XPath(PROJECT_GROUP_ROW.Replace("*#*", projectGroupName)));
 
 			return Driver.ElementIsDisplayed(By.XPath(PROJECT_GROUP_ROW.Replace("*#*", projectGroupName)));

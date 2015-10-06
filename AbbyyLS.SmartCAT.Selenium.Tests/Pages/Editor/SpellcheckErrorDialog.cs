@@ -2,16 +2,21 @@
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.PageObjects;
 
+using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
 using AbbyyLS.SmartCAT.Selenium.Tests.TestFramework;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 {
 	public class SpellcheckErrorDialog : EditorPage, IAbstractPage<SpellcheckErrorDialog>
 	{
+		public SpellcheckErrorDialog(WebDriver driver) : base(driver)
+		{
+		}
+
 		public new SpellcheckErrorDialog GetPage()
 		{
-			var spellcheckErrorDialog = new SpellcheckErrorDialog();
-			InitPage(spellcheckErrorDialog);
+			var spellcheckErrorDialog = new SpellcheckErrorDialog(Driver);
+			InitPage(spellcheckErrorDialog, Driver);
 
 			return spellcheckErrorDialog;
 		}
@@ -29,10 +34,10 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		/// </summary>
 		public SpellcheckDictionaryDialog ClickOkButton()
 		{
-			Logger.Debug("Нажать кнопку 'ОК'");
+			CustomTestContext.WriteLine("Нажать кнопку 'ОК'");
 			OkButton.Click();
 
-			return new SpellcheckDictionaryDialog().GetPage();
+			return new SpellcheckDictionaryDialog(Driver).GetPage();
 		}
 		
 		[FindsBy(How = How.XPath, Using = OK_BUTTON)]

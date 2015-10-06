@@ -2,16 +2,21 @@
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.PageObjects;
 
+using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
 using AbbyyLS.SmartCAT.Selenium.Tests.TestFramework;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 {
 	public class DeleteDialog : ProjectsPage, IAbstractPage<DeleteDialog>
 	{
+		public DeleteDialog(WebDriver driver) : base(driver)
+		{
+		}
+
 		public new DeleteDialog GetPage()
 		{
-			var newDeleteProjectDialog = new DeleteDialog();
-			InitPage(newDeleteProjectDialog);
+			var newDeleteProjectDialog = new DeleteDialog(Driver);
+			InitPage(newDeleteProjectDialog, Driver);
 			newDeleteProjectDialog.DeleteButton = Driver.FindElement(By.XPath(CONFIRM_DELETE_BUTTON));
 
 			return newDeleteProjectDialog;
@@ -30,10 +35,10 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 		/// </summary>
 		public ProjectsPage ClickConfirmDeleteButton()
 		{
-			Logger.Debug("Нажать кнопку 'Удалить'.");
+			CustomTestContext.WriteLine("Нажать кнопку 'Удалить'.");
 			ConfirmDeleteButton.Click();
 
-			return new ProjectsPage().GetPage();
+			return new ProjectsPage(Driver).GetPage();
 		}
 
 		[FindsBy(How = How.XPath, Using = CONFIRM_DELETE_BUTTON)]

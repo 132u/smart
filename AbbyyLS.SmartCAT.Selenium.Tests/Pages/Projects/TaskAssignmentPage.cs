@@ -6,6 +6,7 @@ using OpenQA.Selenium;
 using OpenQA.Selenium.Support.PageObjects;
 
 using AbbyyLS.SmartCAT.Selenium.Tests.DataStructures;
+using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings;
 using AbbyyLS.SmartCAT.Selenium.Tests.TestFramework;
 
@@ -13,10 +14,14 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 {
 	public class TaskAssignmentPage : ProjectsPage, IAbstractPage<TaskAssignmentPage>
 	{
+		public TaskAssignmentPage(WebDriver driver) : base(driver)
+		{
+		}
+
 		public new TaskAssignmentPage GetPage()
 		{
-			var taskAssignmentDialog = new TaskAssignmentPage();
-			InitPage(taskAssignmentDialog);
+			var taskAssignmentDialog = new TaskAssignmentPage(Driver);
+			InitPage(taskAssignmentDialog, Driver);
 
 			return taskAssignmentDialog;
 		}
@@ -35,7 +40,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 		/// <param name="taskRowNumber"> номер задачи</param>
 		public TaskAssignmentPage OpenAssigneeDropbox(int taskRowNumber = 1)
 		{
-			Logger.Debug("Открыть выпадающий список для задачи с номером строки {0}", taskRowNumber);
+			CustomTestContext.WriteLine("Открыть выпадающий список для задачи с номером строки {0}", taskRowNumber);
 
 			AssigneeDropbox = Driver.SetDynamicValue(How.XPath, TASK_ASSIGN_DROPBOX, taskRowNumber.ToString());
 			AssigneeDropbox.Click();
@@ -49,7 +54,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 		/// <param name="taskRowNumber">номер задачи</param>
 		public TaskAssignmentPage AssertTaskAssigneeListDisplay(int taskRowNumber = 1)
 		{
-			Logger.Debug("Подтвердить, что открылся выпадающий список для задачи с номером строки {0}", taskRowNumber);
+			CustomTestContext.WriteLine("Подтвердить, что открылся выпадающий список для задачи с номером строки {0}", taskRowNumber);
 
 			Assert.IsTrue(Driver.WaitUntilElementIsDisplay(By.XPath(TASK_ASSIGN_DROPBOX_OPTION.Replace("*#*", taskRowNumber.ToString()))),
 				"Произошла ошибка:\n список исполнителей не открылся");
@@ -62,7 +67,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 		/// </summary>
 		public List<string> GetResponsibleUsersList()
 		{
-			Logger.Debug("Получить список исполнителей.");
+			CustomTestContext.WriteLine("Получить список исполнителей.");
 
 			var elementUsersList = Driver.GetTextListElement(By.XPath(ASSIGNEE_LIST.Replace("*#*", "")));
 
@@ -76,7 +81,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 		/// </summary>
 		public List<string> GetResponsibleGroupsList()
 		{
-			Logger.Debug("Получить список групп исполнителей.");
+			CustomTestContext.WriteLine("Получить список групп исполнителей.");
 
 			var elementUsersList = Driver.GetTextListElement(By.XPath(ASSIGNEE_LIST.Replace("*#*", "")));
 
@@ -92,7 +97,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 		/// <param name="isGroup">Выбор группы</param>
 		public TaskAssignmentPage SelectResponsible(string name, bool isGroup)
 		{
-			Logger.Debug("Выбрать из выпадающего списка {0}. Это группа: {1}", name, isGroup);
+			CustomTestContext.WriteLine("Выбрать из выпадающего списка {0}. Это группа: {1}", name, isGroup);
 
 			var fullName = isGroup ? "Group: " + name : name;
 
@@ -111,7 +116,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 		/// <param name="taskNumber">номер задачи</param>
 		public TaskAssignmentPage ClickAssignButton(int taskNumber = 1)
 		{
-			Logger.Debug("Нажать кнопку 'Назначить'");
+			CustomTestContext.WriteLine("Нажать кнопку 'Назначить'");
 
 			AssignButton = Driver.SetDynamicValue(How.XPath, ASSIGN_BUTTON, taskNumber.ToString());
 			AssignButton.Click();
@@ -124,7 +129,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 		/// </summary>
 		public TaskAssignmentPage WaitCancelConfirmButtonDisplay()
 		{
-			Logger.Debug("Дождаться появления кнопки подтверждения удаления назначения пользователя");
+			CustomTestContext.WriteLine("Дождаться появления кнопки подтверждения удаления назначения пользователя");
 
 			Assert.IsTrue(Driver.WaitUntilElementIsDisplay(By.XPath(CONFIRM_CANCEL_BUTTON)),
 				"Произошла ошибка:\n не появилась кнопка подтверждения удаления назначения пользователя");
@@ -137,7 +142,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 		/// </summary>
 		public TaskAssignmentPage ClickConfirmCancelButton()
 		{
-			Logger.Debug("Нажать кнопку подтверждения удаления назначения пользователя");
+			CustomTestContext.WriteLine("Нажать кнопку подтверждения удаления назначения пользователя");
 			ConfirmCancelButton.Click();
 
 			return GetPage();
@@ -149,7 +154,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 		/// <param name="taskNumber"> номер задачи </param>
 		public TaskAssignmentPage ClickCancelAssignButton(int taskNumber = 1)
 		{
-			Logger.Debug("Нажать кнопку отмены назначения исполнителя для задачи с номером '{0}'", taskNumber);
+			CustomTestContext.WriteLine("Нажать кнопку отмены назначения исполнителя для задачи с номером '{0}'", taskNumber);
 
 			CancelAssignButton = Driver.SetDynamicValue(How.XPath, CANCEL_ASSIGN_BUTTON, taskNumber.ToString());
 			CancelAssignButton.Click();
@@ -162,10 +167,10 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 		/// </summary>
 		public ProjectSettingsPage ClicSaveAssignButton()
 		{
-			Logger.Debug("Нажать кнопку сохранения исполнителя задачи");
+			CustomTestContext.WriteLine("Нажать кнопку сохранения исполнителя задачи");
 			SaveButton.Click();
 
-			return new ProjectSettingsPage().GetPage();
+			return new ProjectSettingsPage(Driver).GetPage();
 		}
 
 		/// <summary>
@@ -174,7 +179,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 		/// <param name="taskNumber">номер таски</param>
 		public TaskAssignmentPage ExpandSelectAssigneesDropdown(int taskNumber)
 		{
-			Logger.Debug("Раскрыть 'Select Assignees' дропдаун.");
+			CustomTestContext.WriteLine("Раскрыть 'Select Assignees' дропдаун.");
 			var assigneesDropdownForTask = Driver.SetDynamicValue(How.XPath, SELECT_ASSIGNEES_DROPDOWN, taskNumber.ToString());
 			assigneesDropdownForTask.Click();
 
@@ -187,7 +192,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 		/// <param name="assignmentType">тип назначения</param>
 		public SelectAssigneePage SelectAssignmentType(AssignmentType assignmentType, int taskNumber)
 		{
-			Logger.Debug("Выбрать {0} тип назначения.", assignmentType);
+			CustomTestContext.WriteLine("Выбрать {0} тип назначения.", assignmentType);
 			IWebElement assignmentTypeOption;
 
 			if (assignmentType == AssignmentType.Simple)
@@ -203,7 +208,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 
 			assignmentTypeOption.Click();
 
-			return new SelectAssigneePage().GetPage();
+			return new SelectAssigneePage(Driver).GetPage();
 		}
 
 		[FindsBy(How = How.XPath, Using = CONFIRM_CANCEL_BUTTON)]

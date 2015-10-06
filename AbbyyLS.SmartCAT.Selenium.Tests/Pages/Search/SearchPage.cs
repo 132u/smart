@@ -2,10 +2,10 @@
 ﻿using System.Linq;
 
 ﻿using NUnit.Framework;
-
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.PageObjects;
 
+using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace;
 using AbbyyLS.SmartCAT.Selenium.Tests.TestFramework;
 
@@ -13,10 +13,14 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Search
 {
 	public class SearchPage : WorkspacePage, IAbstractPage<SearchPage>
 	{
+		public SearchPage(WebDriver driver) : base(driver)
+		{
+		}
+
 		public new SearchPage GetPage()
 		{
-			var searchPage = new SearchPage();
-			InitPage(searchPage);
+			var searchPage = new SearchPage(Driver);
+			InitPage(searchPage, Driver);
 
 			return searchPage;
 		}
@@ -35,7 +39,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Search
 		/// <param name="text">текст</param>
 		public SearchPage AddTextSearch(string text)
 		{
-			Logger.Debug("Ввести {0} в поле поиска", text);
+			CustomTestContext.WriteLine("Ввести {0} в поле поиска", text);
 			SearchField.SetText(text);
 
 			return GetPage();
@@ -46,7 +50,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Search
 		/// </summary>
 		public SearchPage AssertReverseTranslationListExist()
 		{
-			Logger.Trace("Проверить, отображается ли таблица с обратным переводом со ссылками.");
+			CustomTestContext.WriteLine("Проверить, отображается ли таблица с обратным переводом со ссылками.");
 
 			Assert.IsTrue(Driver.WaitUntilElementIsDisplay(By.XPath(REVERSE_TRANSLATION_WORDS)),
 				"Произошла ошибка:\n таблица с обратным переводом со ссылками не отображается.");
@@ -59,7 +63,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Search
 		/// </summary>
 		public SearchPage ClickTranslateButton()
 		{
-			Logger.Debug("Нажать кнопку Translate.");
+			CustomTestContext.WriteLine("Нажать кнопку Translate.");
 			TranslateButton.Click();
 
 			return GetPage();
@@ -71,7 +75,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Search
 		/// <param name="text">текст перевода</param>
 		public SearchPage ClickTranslationWord(string text)
 		{
-			Logger.Debug("Кликнуть по слову-переводу");
+			CustomTestContext.WriteLine("Кликнуть по слову-переводу");
 			TranslationWord = Driver.SetDynamicValue(How.XPath, TRANSLATION_WORD, text);
 			TranslationWord.Click();
 
@@ -84,7 +88,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Search
 		/// <returns></returns>
 		public SearchPage AssertSearchResultDisplay()
 		{
-			Logger.Trace("Проверить, что появились результаты поиска.");
+			CustomTestContext.WriteLine("Проверить, что появились результаты поиска.");
 
 			Assert.IsTrue(Driver.WaitUntilElementIsDisplay(By.XPath(SEARCH_RESULT)),
 				"Произошла ошибка:\n результаты поиска не появились.");
@@ -97,7 +101,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Search
 		/// </summary>
 		public SearchPage SelectSourceLanguage(string source)
 		{
-			Logger.Debug("Выбрать исходный язык {0}.", source);
+			CustomTestContext.WriteLine("Выбрать исходный язык {0}.", source);
 			SourceLanguageList.Click();
 			Driver.SetDynamicValue(How.XPath, LANGUAGE_SOURCE_OPTION, source).Click();
 
@@ -109,7 +113,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Search
 		/// </summary>
 		public SearchPage SelectTargetLanguage(string target)
 		{
-			Logger.Debug("Выбрать язык перевода{0}.", target);
+			CustomTestContext.WriteLine("Выбрать язык перевода{0}.", target);
 			TargetLanguageList.Click();
 			Driver.SetDynamicValue(How.XPath, LANGUAGE_TARGET_OPTION, target).Click();
 
@@ -121,7 +125,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Search
 		/// </summary>
 		public SearchPage AssertDefinitionTabIsActive()
 		{
-			Logger.Trace("Проверить, активна ли вкладка Definitions.");
+			CustomTestContext.WriteLine("Проверить, активна ли вкладка Definitions.");
 
 			Assert.IsTrue(DefinitionTab.GetElementAttribute("class").Contains("active"),
 				"Произошла ошибка:\n вкладка Definitions неактивна.");
@@ -135,7 +139,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Search
 		/// <param name="text">слово, у которого должна быть ссылка на перевод</param>
 		public SearchPage AssertTranslationReferenceExist(string text)
 		{
-			Logger.Trace("Проверить, есть ли ссылка на перевод.");
+			CustomTestContext.WriteLine("Проверить, есть ли ссылка на перевод.");
 
 			Assert.IsTrue(Driver.ElementIsDisplayed(By.XPath(TRANSLATION_WORD.Replace("*#*", text))),
 				"Произошла ошибка:\n ссылка на перевод отсутствует.");
@@ -148,7 +152,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Search
 		/// </summary>
 		public SearchPage AssertAutoreversedMessageExist()
 		{
-			Logger.Trace("Проверить, появилось ли сообщение об автоматическом изменении языка.");
+			CustomTestContext.WriteLine("Проверить, появилось ли сообщение об автоматическом изменении языка.");
 
 			Assert.IsTrue(Driver.ElementIsDisplayed(By.XPath(AUTOREVERSED_MESSAGE)),
 				"Произошла ошибка:\n сообщение об автоматическом изменении языка не появилось.");
@@ -161,7 +165,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Search
 		/// </summary>
 		public SearchPage AssertAutoreversedReferenceExist()
 		{
-			Logger.Trace("Проверить, есть ли ссылка автоматического изменения языка.");
+			CustomTestContext.WriteLine("Проверить, есть ли ссылка автоматического изменения языка.");
 
 			Assert.IsTrue(Driver.ElementIsDisplayed(By.XPath(AUTOREVERSED_REFERENCE)),
 				"Произошла ошибка:\n ссылка автоматического изменения языка отсутствует.");
@@ -174,7 +178,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Search
 		/// </summary>
 		public SearchPage AsssertTranslationFormAppear()
 		{
-			Logger.Trace("Проверить, открылась ли форма с переводом.");
+			CustomTestContext.WriteLine("Проверить, открылась ли форма с переводом.");
 
 			Assert.IsTrue(Driver.WaitUntilElementIsDisplay(By.XPath(TRANSLATION_FORM)),
 				"Произошла ошибка:\n форма с переводом не открылась.");
@@ -188,7 +192,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Search
 		/// <returns>появился</returns>
 		public SearchPage AssertWordByWordTranslationAppear()
 		{
-			Logger.Trace("Проверить, появился ли перевод по словам.");
+			CustomTestContext.WriteLine("Проверить, появился ли перевод по словам.");
 
 			Assert.IsTrue(Driver.ElementIsDisplayed(By.XPath(WORD_BY_WORD_TRANSLATION)),
 				"Произошла ошибка:\n перевод по словам не появился.");
@@ -201,7 +205,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Search
 		/// </summary>
 		public List<string> GlossaryNamesList()
 		{
-			Logger.Trace("Получить список названий глоссариев.");
+			CustomTestContext.WriteLine("Получить список названий глоссариев.");
 			var glossaries = Driver.GetTextListElement(By.XPath(GLOSSARY_NAMES_LIST));
 
 			return glossaries.Select(g => g.Substring(g.IndexOf('\n') + 1)).ToList();
@@ -212,7 +216,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Search
 		/// </summary>
 		public SearchPage ClickTranslationFormReference()
 		{
-			Logger.Debug("Нажать на перевод в окне перевода.");
+			CustomTestContext.WriteLine("Нажать на перевод в окне перевода.");
 			TranslationFormReference.Click();
 
 			return GetPage();
@@ -224,7 +228,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Search
 		/// <param name="termNumber">номер термина</param>
 		public string TermName(int termNumber)
 		{
-			Logger.Trace("Получить имя термина №{0}.", termNumber);
+			CustomTestContext.WriteLine("Получить имя термина №{0}.", termNumber);
 			var termName = Driver.SetDynamicValue(How.XPath, TERM_NAME, termNumber.ToString());
 
 			return termName.Text;

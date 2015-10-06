@@ -1,4 +1,5 @@
 ﻿using AbbyyLS.SmartCAT.Selenium.Tests.DataStructures;
+using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Login;
 using AbbyyLS.SmartCAT.Selenium.Tests.TestFramework;
 
@@ -6,6 +7,17 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 {
 	public class LoginHelper
 	{
+		public WebDriver Driver { get; private set; }
+
+		public LoginHelper(WebDriver driver)
+		{
+			Driver = driver;
+			_adminHelper = new AdminHelper(Driver);
+			_commonHelper = new CommonHelper(Driver);
+			_selectAccountForm = new SelectAccountForm(Driver);
+			_signInPage = new SignInPage(Driver);
+		}
+
 		/// <summary>
 		/// Авторизация
 		/// </summary>
@@ -15,12 +27,12 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 			string login,
 			string password)
 		{
-			BaseObject.InitPage(_signInPage);
+			BaseObject.InitPage(_signInPage, Driver);
 
 			_signInPage
 				.SetLogin(login)
 				.SetPassword(password)
-				.ClickSubmitButton<SelectAccountForm>();
+				.ClickSubmitButton<SelectAccountForm>(Driver);
 
 			return this;
 		}
@@ -29,12 +41,12 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 			string login,
 			string password)
 		{
-			BaseObject.InitPage(_signInPage);
+			BaseObject.InitPage(_signInPage, Driver);
 
 			_signInPage
 				.SetLogin(login)
 				.SetPassword(password)
-				.ClickSubmitButton<SignInPage>();
+				.ClickSubmitButton<SignInPage>(Driver);
 
 			return this;
 		}
@@ -43,17 +55,17 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 			string accountName = TestAccountName, 
 			string dataServer = EuropeTestServerName)
 		{
-			BaseObject.InitPage(_selectAccountForm);
+			BaseObject.InitPage(_selectAccountForm, Driver);
 			_selectAccountForm
 				.AssertEuropeServerRespond()
 				.SelectAccount(accountName, dataServer);
 
-			return new WorkspaceHelper();
+			return new WorkspaceHelper(Driver);
 		}
 
 		public LoginHelper CheckWrongPasswordMessageDisplayed()
 		{
-			BaseObject.InitPage(_signInPage);
+			BaseObject.InitPage(_signInPage, Driver);
 			_signInPage.CheckWrongPasswordMessageDisplayed();
 
 			return this;
@@ -61,7 +73,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 		public LoginHelper CheckUserNotFoundMessageDisplayed()
 		{
-			BaseObject.InitPage(_signInPage);
+			BaseObject.InitPage(_signInPage, Driver);
 			_signInPage.CheckUserNotFoundMessageDisplayed();
 
 			return this;
@@ -69,7 +81,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 		public LoginHelper CheckEmptyPasswordMessageDisplayed()
 		{
-			BaseObject.InitPage(_signInPage);
+			BaseObject.InitPage(_signInPage, Driver);
 			_signInPage.CheckEmptyPasswordMessageDisplayed();
 
 			return this;
@@ -77,7 +89,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 		public LoginHelper CheckInvalidEmailMessageDisplayed()
 		{
-			BaseObject.InitPage(_signInPage);
+			BaseObject.InitPage(_signInPage, Driver);
 			_signInPage.CheckInvalidEmailMessageDisplayed();
 
 			return this;
@@ -87,7 +99,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 			string email,
 			string password)
 		{
-			BaseObject.InitPage(_signInPage);
+			BaseObject.InitPage(_signInPage, Driver);
 
 			_signInPage
 				.ClickFacebookIcon()
@@ -95,14 +107,14 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 				.SetPassword(password)
 				.ClickSubmitButton();
 
-			return new WorkspaceHelper();
+			return new WorkspaceHelper(Driver);
 		}
 
 		public WorkspaceHelper SignInViaGooglePlus(
 			string email,
 			string password)
 		{
-			BaseObject.InitPage(_signInPage);
+			BaseObject.InitPage(_signInPage, Driver);
 
 			_signInPage
 				.ClickGooglePlusIcon()
@@ -111,14 +123,14 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 				.SetPassword(password)
 				.ClickSubmitButton();
 
-			return new WorkspaceHelper();
+			return new WorkspaceHelper(Driver);
 		}
 
 		public WorkspaceHelper SignInViaLinkedIn(
 			string email,
 			string password)
 		{
-			BaseObject.InitPage(_signInPage);
+			BaseObject.InitPage(_signInPage, Driver);
 
 			_signInPage
 				.ClickLinkedInIcon()
@@ -126,12 +138,12 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 				.SetPassword(password)
 				.ClickSubmitButton();
 
-			return new WorkspaceHelper();
+			return new WorkspaceHelper(Driver);
 		}
 
 		public LoginHelper AssertAccountNotFoundMessageDisplayed()
 		{
-			BaseObject.InitPage(_selectAccountForm);
+			BaseObject.InitPage(_selectAccountForm, Driver);
 			_selectAccountForm.CheckAccountNotFoundMessageDisplayed();
 
 			return this;
@@ -204,10 +216,10 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 			return this;
 		}
 
-		private readonly AdminHelper _adminHelper = new AdminHelper();
-		private readonly CommonHelper _commonHelper = new CommonHelper();
-		private readonly SignInPage _signInPage = new SignInPage();
-		private readonly SelectAccountForm _selectAccountForm = new SelectAccountForm();
+		private AdminHelper _adminHelper;
+		private CommonHelper _commonHelper;
+		private SignInPage _signInPage;
+		private SelectAccountForm _selectAccountForm;
 
 		public const string TestAccountName = "TestAccount";
 		public const string PerevedemAccountName = "Perevedem";

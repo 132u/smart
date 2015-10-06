@@ -2,16 +2,21 @@
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.PageObjects;
 
+using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
 using AbbyyLS.SmartCAT.Selenium.Tests.TestFramework;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 {
 	public class NewProjectCreateTMDialog : NewProjectCreateBaseDialog, IAbstractPage<NewProjectCreateTMDialog>
 	{
+		public NewProjectCreateTMDialog(WebDriver driver) : base(driver)
+		{
+		}
+
 		public new NewProjectCreateTMDialog GetPage()
 		{
-			var newProjectCreateTMDialog = new NewProjectCreateTMDialog();
-			InitPage(newProjectCreateTMDialog);
+			var newProjectCreateTMDialog = new NewProjectCreateTMDialog(Driver);
+			InitPage(newProjectCreateTMDialog, Driver);
 
 			return newProjectCreateTMDialog;
 		}
@@ -30,7 +35,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 		/// <param name="newTMName">имя ТМ</param>
 		public NewProjectCreateTMDialog SetNewTMName(string newTMName)
 		{
-			Logger.Debug("Ввести имя новой ТМ: {0}.", newTMName);
+			CustomTestContext.WriteLine("Ввести имя новой ТМ: {0}.", newTMName);
 			NewTMNameInput.SetText(newTMName);
 
 			return GetPage();
@@ -41,15 +46,15 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 		/// </summary>
 		public NewProjectSetUpTMDialog ClickSaveButton()
 		{
-			Logger.Debug("Нажать кнопку 'Сохранить'.");
+			CustomTestContext.WriteLine("Нажать кнопку 'Сохранить'.");
 			SaveTMButton.Click();
 
-			return new NewProjectSetUpTMDialog().GetPage();
+			return new NewProjectSetUpTMDialog(Driver).GetPage();
 		}
 
 		public NewProjectCreateTMDialog UploadTmxFile(string tmxFilePath)
 		{
-			Logger.Debug("Загрузить файл {0}.", tmxFilePath);
+			CustomTestContext.WriteLine("Загрузить файл {0}.", tmxFilePath);
 			Driver.ExecuteScript("$(\"input:file\").removeClass(\"g-hidden\").css(\"opacity\", 100)");
 
 			UploadTmxInput.SendKeys(tmxFilePath);

@@ -11,7 +11,17 @@
 	/>
 
 	<ThreadUsers>
-		<ThreadUser Login="teamcity@mailforspam.com" Password="teamcity" NickName="Teamcity Test" Name="Teamcity" Surname="Test" />
+		<ThreadUser	Login="teamcity@mailforspam.com" 	Password="teamcity" NickName="Teamcity Test"	Name="Teamcity" Surname="Test"	/>
+		<ThreadUser	Login="teamcity_thread1@mailforspam.com" Password="teamcity_thread1" NickName="Teamcity Thread1"	Name="Teamcity" Surname="Thread1"	/>
+		<ThreadUser	Login="teamcity_thread2@mailforspam.com" Password="teamcity_thread2" NickName="Teamcity Thread2"	Name="Teamcity" Surname="Thread2"	/>
+		<ThreadUser	Login="teamcity_thread3@mailforspam.com" Password="teamcity_thread3" NickName="Teamcity Thread3"	Name="Teamcity" Surname="Thread3"	/>
+		<ThreadUser	Login="teamcity_thread4@mailforspam.com" Password="teamcity_thread4" NickName="Teamcity Thread4"	Name="Teamcity" Surname="Thread4"	/>
+		<ThreadUser	Login="teamcity_thread5@mailforspam.com" Password="teamcity_thread5" NickName="Teamcity Thread5"	Name="Teamcity" Surname="Thread5"	/>
+		<ThreadUser	Login="teamcity_thread6@mailforspam.com" Password="teamcity_thread6" NickName="Teamcity Thread6"	Name="Teamcity" Surname="Thread6"	/>
+		<ThreadUser	Login="teamcity_thread7@mailforspam.com" Password="teamcity_thread7" NickName="Teamcity Thread7"	Name="Teamcity" Surname="Thread7"	/>
+		<ThreadUser	Login="teamcity_thread8@mailforspam.com" Password="teamcity_thread8" NickName="Teamcity Thread8"	Name="Teamcity" Surname="Thread8"	/>
+		<ThreadUser	Login="teamcity_thread9@mailforspam.com" Password="teamcity_thread9" NickName="Teamcity Thread9"	Name="Teamcity" Surname="Thread9"	/>
+		<ThreadUser	Login="teamcity_thread10@mailforspam.com" Password="teamcity_thread10" NickName="Teamcity Thread10"	Name="Teamcity" Surname="Thread10"	/>
 	</ThreadUsers>
 	
 	<UserInfo Login="teamcity@mailforspam.com" Password="teamcity" NickName="Teamcity Test" Name="Teamcity" Surname="Test"/>

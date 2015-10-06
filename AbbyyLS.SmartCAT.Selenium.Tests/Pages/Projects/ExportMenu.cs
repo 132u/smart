@@ -1,8 +1,11 @@
-﻿using NUnit.Framework;
+﻿using System;
+
+using NUnit.Framework;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.PageObjects;
 
 using AbbyyLS.SmartCAT.Selenium.Tests.DataStructures;
+using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
 using AbbyyLS.SmartCAT.Selenium.Tests.TestFramework;
 
 
@@ -10,10 +13,17 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 {
 	class ExportMenu : BaseObject, IAbstractPage<ExportMenu>
 	{
+		public WebDriver Driver { get; private set; }
+
+		public ExportMenu(WebDriver driver)
+		{
+			Driver = driver;
+		}
+
 		public ExportMenu GetPage()
 		{
-			var exportMenu = new ExportMenu();
-			InitPage(exportMenu);
+			var exportMenu = new ExportMenu(Driver);
+			InitPage(exportMenu, Driver);
 
 			return exportMenu;
 		}
@@ -30,13 +40,14 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 		/// Выбрать тип экспорта
 		/// </summary>
 		/// <param name="exportType">тип экспорта</param>
-		public T ClickExportType<T>(ExportType exportType) where T: class, IAbstractPage<T>, new()
+		public T ClickExportType<T>(ExportType exportType, WebDriver driver) where T: class, IAbstractPage<T>
 		{
-			Logger.Debug("Выбрать тип экспорта");
+			CustomTestContext.WriteLine("Выбрать тип экспорта");
 			ExportType = Driver.SetDynamicValue(How.XPath, EXPORT_TYPE, exportType.ToString());
 			ExportType.Click();
 
-			return new T().GetPage();
+			var instance = Activator.CreateInstance(typeof(T), new object[] { driver }) as T;
+			return instance.GetPage();
 		}
 
 		[FindsBy(How = How.XPath, Using = EXPORT_TYPE)]

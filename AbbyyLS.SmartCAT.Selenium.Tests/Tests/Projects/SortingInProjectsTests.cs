@@ -6,6 +6,7 @@ using AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 {
+	[Parallelizable(ParallelScope.Fixtures)]
 	[Standalone]
 	internal class SortingInProjectsTests<TWebDriverSettings> : BaseTest<TWebDriverSettings>
 		where TWebDriverSettings : IWebDriverProvider, new()
@@ -13,6 +14,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 		[SetUp]
 		public void SetupSortingInProjectsTests()
 		{
+			_createProjectHelper = new CreateProjectHelper(Driver);
+			_projectSettingsHelper = new ProjectSettingsHelper(Driver);
+
 			var projectUniqueName = _createProjectHelper.GetProjectUniqueName();
 			_createProjectHelper
 				.CreateNewProject(projectUniqueName, PathProvider.DocumentFile)
@@ -75,7 +79,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 				.AssertAlertNoExist();
 		}
 
-		private ProjectSettingsHelper _projectSettingsHelper = new ProjectSettingsHelper();
-		private CreateProjectHelper _createProjectHelper = new CreateProjectHelper();
+		private ProjectSettingsHelper _projectSettingsHelper;
+		private CreateProjectHelper _createProjectHelper;
 	}
 }

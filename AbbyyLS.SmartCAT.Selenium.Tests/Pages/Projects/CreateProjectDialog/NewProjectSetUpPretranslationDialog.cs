@@ -1,17 +1,21 @@
 ﻿using NUnit.Framework;
-
 using OpenQA.Selenium;
 
+using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
 using AbbyyLS.SmartCAT.Selenium.Tests.TestFramework;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 {
 	public class NewProjectSetUpPretranslationDialog : NewProjectCreateBaseDialog, IAbstractPage<NewProjectSetUpPretranslationDialog>
 	{
+		public NewProjectSetUpPretranslationDialog(WebDriver driver) : base(driver)
+		{
+		}
+
 		public new NewProjectSetUpPretranslationDialog GetPage()
 		{
-			var newProjectSetUpPretranslationDialog = new NewProjectSetUpPretranslationDialog();
-			InitPage(newProjectSetUpPretranslationDialog);
+			var newProjectSetUpPretranslationDialog = new NewProjectSetUpPretranslationDialog(Driver);
+			InitPage(newProjectSetUpPretranslationDialog, Driver);
 
 			return newProjectSetUpPretranslationDialog;
 		}

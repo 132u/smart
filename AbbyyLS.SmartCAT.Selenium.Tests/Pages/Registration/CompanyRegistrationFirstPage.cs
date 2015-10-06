@@ -1,8 +1,10 @@
-﻿using NUnit.Framework;
+﻿using System;
 
+using NUnit.Framework;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.PageObjects;
 
+using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
 using AbbyyLS.SmartCAT.Selenium.Tests.TestFramework;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace;
 
@@ -10,10 +12,14 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Registration
 {
 	internal class CompanyRegistrationFirstPage : WorkspacePage, IAbstractPage<CompanyRegistrationFirstPage>
 	{
+		public CompanyRegistrationFirstPage(WebDriver driver) : base(driver)
+		{
+		}
+
 		public new CompanyRegistrationFirstPage GetPage()
 		{
-			var companyRegistrationFirstPage = new CompanyRegistrationFirstPage();
-			InitPage(companyRegistrationFirstPage);
+			var companyRegistrationFirstPage = new CompanyRegistrationFirstPage(Driver);
+			InitPage(companyRegistrationFirstPage, Driver);
 
 			return companyRegistrationFirstPage;
 		}
@@ -29,12 +35,13 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Registration
 		/// <summary>
 		/// Нажать кнопку Continue
 		/// </summary>
-		public T ClickContinueButton<T>() where T : class, IAbstractPage<T>, new()
+		public T ClickContinueButton<T>(WebDriver driver) where T : class, IAbstractPage<T>
 		{
-			Logger.Debug("Нажать кнопку Continue.");
+			CustomTestContext.WriteLine("Нажать кнопку Continue.");
 			ContinueButton.JavaScriptClick();
 
-			return new T().GetPage();
+			var instance = Activator.CreateInstance(typeof(T), new object[] { driver }) as T;
+			return instance.GetPage();
 		}
 	
 		/// <summary>
@@ -43,7 +50,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Registration
 		/// <param name="email">email</param>
 		public CompanyRegistrationFirstPage FillEmail(string email)
 		{
-			Logger.Debug("Ввести {0} в поле Email.", email);
+			CustomTestContext.WriteLine("Ввести {0} в поле Email.", email);
 			Email.SetText(email);
 
 			return GetPage();
@@ -55,7 +62,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Registration
 		///  <param name="password">пароль</param>
 		public CompanyRegistrationFirstPage FillPassword(string password)
 		{
-			Logger.Debug("Ввести {0} в поле пароля.", password);
+			CustomTestContext.WriteLine("Ввести {0} в поле пароля.", password);
 			Password.SetText(password);
 
 			return GetPage();
@@ -67,7 +74,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Registration
 		///  <param name="password">пароль</param>
 		public CompanyRegistrationFirstPage FillConfirmPassword(string password)
 		{
-			Logger.Debug("Ввести {0} в поле подтверждения пароля.", password);
+			CustomTestContext.WriteLine("Ввести {0} в поле подтверждения пароля.", password);
 			ConfirmPassword.SetText(password);
 
 			return GetPage();
@@ -78,10 +85,10 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Registration
 		/// </summary>
 		public CompanyRegistrationSignInPage ClickExistingAbbyyAccountLink()
 		{
-			Logger.Debug("Нажать по ссылке 'or sign in with an existing ABBYY account'.");
+			CustomTestContext.WriteLine("Нажать по ссылке 'or sign in with an existing ABBYY account'.");
 			ExistingAbbyyAccountLink.Click();
 
-			return new CompanyRegistrationSignInPage().GetPage();
+			return new CompanyRegistrationSignInPage(Driver).GetPage();
 		}
 
 		/// <summary>
@@ -89,7 +96,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Registration
 		/// </summary>
 		public CompanyRegistrationFirstPage AssertContinueButtonInactive()
 		{
-			Logger.Trace("Проверить, что кнопка Continue неактивна.");
+			CustomTestContext.WriteLine("Проверить, что кнопка Continue неактивна.");
 
 			Assert.IsTrue(ContinueButton.GetAttribute("disabled") == "true",
 				"Произошла ошибка:\n кнопка Continue активна.");
@@ -102,7 +109,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Registration
 		/// </summary>
 		public CompanyRegistrationFirstPage AssertInvalidEmailMessageDisplayed()
 		{
-			Logger.Trace("Проверить, что сообщение 'Invalid email' появилось.");
+			CustomTestContext.WriteLine("Проверить, что сообщение 'Invalid email' появилось.");
 
 			Assert.IsTrue(InvalidEmailMessage.Displayed,
 				"Произошла ошибка:\n сообщение 'Invalid email' не появилось.");
@@ -115,7 +122,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Registration
 		/// </summary>
 		public CompanyRegistrationFirstPage AssertMinimumLenghPasswordMessageDisplayed()
 		{
-			Logger.Trace("Проверить, что сообщение 'The password must have at least 6 characters' появилось.");
+			CustomTestContext.WriteLine("Проверить, что сообщение 'The password must have at least 6 characters' появилось.");
 
 			Assert.IsTrue(MinimumLenghPasswordMessage.Displayed,
 				"Произошла ошибка:\n сообщение 'The password must have at least 6 characters' не появилось.");
@@ -128,7 +135,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Registration
 		/// </summary>
 		public CompanyRegistrationFirstPage AssertOnlySpacesPasswordMessageDisplayed()
 		{
-			Logger.Trace("Проверить, что сообщение 'The password cannot consist of spaces only' появилось.");
+			CustomTestContext.WriteLine("Проверить, что сообщение 'The password cannot consist of spaces only' появилось.");
 
 			Assert.IsTrue(OnlySpacesPasswordMessage.Displayed,
 				"Произошла ошибка:\n сообщение 'The password cannot consist of spaces only' не появилось.");
@@ -141,7 +148,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Registration
 		/// </summary>
 		public CompanyRegistrationFirstPage AssertPasswordMatchMessageDisplayed()
 		{
-			Logger.Trace("Проверить, что сообщение 'The passwords do not match' появилось.");
+			CustomTestContext.WriteLine("Проверить, что сообщение 'The passwords do not match' появилось.");
 
 			Assert.IsTrue(PasswordMatchMessage.Displayed,
 				"Произошла ошибка:\n сообщение 'The passwords do not match' не появилось.");
@@ -154,7 +161,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Registration
 		/// </summary>
 		public CompanyRegistrationFirstPage AssertAlreadySignUpMessageDisplayed()
 		{
-			Logger.Trace("Проверить, что сообщение 'You have already signed up for one of the ABBYY services with this email.' появилось.");
+			CustomTestContext.WriteLine("Проверить, что сообщение 'You have already signed up for one of the ABBYY services with this email.' появилось.");
 
 			Assert.IsTrue(AlreadySignUpMessage.Displayed,
 				"Произошла ошибка:\n сообщение 'You have already signed up for one of the ABBYY services with this email.' не появилось.");
@@ -167,7 +174,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Registration
 		/// </summary>
 		public CompanyRegistrationFirstPage AssertInvalidPasswordMessageDisplayed()
 		{
-			Logger.Trace("Проверить, что сообщение 'The password must have at least 6 characters.' появилось.");
+			CustomTestContext.WriteLine("Проверить, что сообщение 'The password must have at least 6 characters.' появилось.");
 
 			Assert.IsTrue(InvalidPasswordMessage.Displayed,
 				"Произошла ошибка:\n сообщение 'The password must have at least 6 characters.' не появилось.");

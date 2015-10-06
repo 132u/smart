@@ -1,8 +1,10 @@
-﻿using NUnit.Framework;
+﻿using System;
 
+using NUnit.Framework;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.PageObjects;
 
+using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace;
 using AbbyyLS.SmartCAT.Selenium.Tests.TestFramework;
 
@@ -10,10 +12,14 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Registration
 {
 	public class CompanyRegistrationSecondPage : WorkspacePage, IAbstractPage<CompanyRegistrationSecondPage>
 	{
+		public CompanyRegistrationSecondPage(WebDriver driver) : base(driver)
+		{
+		}
+
 		public new CompanyRegistrationSecondPage GetPage()
 		{
-			var companyRegistrationSecondPage = new CompanyRegistrationSecondPage();
-			InitPage(companyRegistrationSecondPage);
+			var companyRegistrationSecondPage = new CompanyRegistrationSecondPage(Driver);
+			InitPage(companyRegistrationSecondPage, Driver);
 
 			return companyRegistrationSecondPage;
 		}
@@ -31,7 +37,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Registration
 		/// </summary>
 		public CompanyRegistrationSecondPage FillFirstName(string firstNameCompany)
 		{
-			Logger.Debug("Ввести {0} в поле 'First name' на втором шаге регистрации компании.", firstNameCompany);
+			CustomTestContext.WriteLine("Ввести {0} в поле 'First name' на втором шаге регистрации компании.", firstNameCompany);
 			FirstName.SetText(firstNameCompany);
 
 			return GetPage();
@@ -42,7 +48,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Registration
 		/// </summary>
 		public CompanyRegistrationSecondPage FillLastName(string lastNameCompany)
 		{
-			Logger.Debug("Ввести {0} в поле 'Last name' на втором шаге регистрации компании.", lastNameCompany);
+			CustomTestContext.WriteLine("Ввести {0} в поле 'Last name' на втором шаге регистрации компании.", lastNameCompany);
 			LastName.SetText(lastNameCompany);
 
 			return GetPage();
@@ -53,7 +59,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Registration
 		/// </summary>
 		public CompanyRegistrationSecondPage FillCompanyName(string companyName)
 		{
-			Logger.Debug("Ввести {0} в поле 'Company name' на втором шаге регистрации компании.", companyName);
+			CustomTestContext.WriteLine("Ввести {0} в поле 'Company name' на втором шаге регистрации компании.", companyName);
 			CompanyName.SendKeys(companyName);
 
 			return GetPage();
@@ -64,7 +70,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Registration
 		/// </summary>
 		public CompanyRegistrationSecondPage FillSubdomain(string subdomain)
 		{
-			Logger.Debug("Ввести {0} в поле Subdomain на втором шаге регистрации компании.", subdomain);
+			CustomTestContext.WriteLine("Ввести {0} в поле Subdomain на втором шаге регистрации компании.", subdomain);
 			Subdomain.SetText(subdomain);
 
 			return GetPage();
@@ -76,7 +82,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Registration
 		/// <returns></returns>
 		public CompanyRegistrationSecondPage AssertCreateCorporateAccountButtonActive()
 		{
-			Logger.Trace("Проверить, что кнопка 'Create Corporate Account' активна.");
+			CustomTestContext.WriteLine("Проверить, что кнопка 'Create Corporate Account' активна.");
 
 			Assert.IsTrue(CreateAccountCompanyButton.GetAttribute("disabled") == null,
 				"Произошла ошибка:\n кнопка 'Create Corporate Account' неактивна.");
@@ -90,7 +96,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Registration
 		/// <returns></returns>
 		public CompanyRegistrationSecondPage AssertCreateCorporateAccountButtonInactive()
 		{
-			Logger.Trace("Проверить, что кнопка 'Create Corporate Account' неактивна.");
+			CustomTestContext.WriteLine("Проверить, что кнопка 'Create Corporate Account' неактивна.");
 
 			Assert.IsTrue(CreateAccountCompanyButton.GetAttribute("disabled") == "true",
 				"Произошла ошибка:\n кнопка 'Create Corporate Account' активна.");
@@ -103,7 +109,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Registration
 		/// </summary>
 		public CompanyRegistrationSecondPage FillPhoneNumber(string phoneNumber)
 		{
-			Logger.Debug("Ввести телефон {0} на втором шаге регистрации компании.", phoneNumber);
+			CustomTestContext.WriteLine("Ввести телефон {0} на втором шаге регистрации компании.", phoneNumber);
 			PhoneNumber.SetText(phoneNumber);
 
 			return GetPage();
@@ -112,12 +118,13 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Registration
 		/// <summary>
 		/// Нажать кнопку 'Create Corporate Account' на втором шаге регистрации компании 
 		/// </summary>
-		public T ClickCreateCorporateAccountButton<T>() where T : class, IAbstractPage<T>, new()
+		public T ClickCreateCorporateAccountButton<T>(WebDriver driver) where T : class, IAbstractPage<T>
 		{
-			Logger.Debug("Нажать кнопку 'Create Corporate Account' на втором шаге регистрации компании.");
+			CustomTestContext.WriteLine("Нажать кнопку 'Create Corporate Account' на втором шаге регистрации компании.");
 			CreateAccountCompanyButton.Click();
 
-			return new T().GetPage();
+			var instance = Activator.CreateInstance(typeof(T), new object[] { driver }) as T;
+			return instance.GetPage();
 		}
 
 		/// <summary>
@@ -125,7 +132,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Registration
 		/// </summary>
 		public CompanyRegistrationSecondPage WaitCreateCorporateAccountButtonBecomeActive()
 		{
-			Logger.Trace("Дождаться, когда кнопка 'Create Corporate Account' станет активной.");
+			CustomTestContext.WriteLine("Дождаться, когда кнопка 'Create Corporate Account' станет активной.");
 			Driver.WaitUntilElementIsDisplay(By.XPath(CREATE_ACCOUNT_COMPANY_ACTIVE_BUTTON));
 
 			return GetPage();
@@ -137,7 +144,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Registration
 		/// <param name="companyType">тип компании</param>
 		public CompanyRegistrationSecondPage SelectCompanyType(string companyType)
 		{
-			Logger.Trace("Выбрать {0} тип компании на втором шаге регистрации компании", companyType);
+			CustomTestContext.WriteLine("Выбрать {0} тип компании на втором шаге регистрации компании", companyType);
 			CompanyTypeCombobox.SelectOptionByText(companyType);
 
 			return GetPage();
@@ -148,7 +155,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Registration
 		/// </summary>
 		public CompanyRegistrationSecondPage ClickCompanyTypeDropdown()
 		{
-			Logger.Debug("Кликнуть по Company Type комбобоксу");
+			CustomTestContext.WriteLine("Кликнуть по Company Type комбобоксу");
 			CompanyTypeCombobox.Click();
 
 			return GetPage();
@@ -159,7 +166,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Registration
 		/// </summary>
 		public CompanyRegistrationSecondPage AssertCompanyNameLenght(int maximumCompanyNameLenght)
 		{
-			Logger.Trace("Проверить, что название компании обрезается до максимально допустимой длины в {0} символов.", maximumCompanyNameLenght);
+			CustomTestContext.WriteLine("Проверить, что название компании обрезается до максимально допустимой длины в {0} символов.", maximumCompanyNameLenght);
 
 			Assert.AreEqual(companyNameLenght(), maximumCompanyNameLenght,
 				"Произошла ошибка:\n название компании не обрезается до максимально допустимой длины в {0} символов.", maximumCompanyNameLenght);
@@ -173,7 +180,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Registration
 		/// <returns>длина названия компании</returns>
 		private int companyNameLenght()
 		{
-			Logger.Trace("Получить длину названия компании.");
+			CustomTestContext.WriteLine("Получить длину названия компании.");
 
 			return CompanyName.GetElementAttribute("value").Length;
 		}
@@ -184,7 +191,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Registration
 		/// </summary>
 		public CompanyRegistrationSecondPage AssertSubdomainPatternMessageDisplayed()
 		{
-			Logger.Trace("Проверить, что появилось сообщение 'Use only latin letters, digits, hyphen and underscope...'.");
+			CustomTestContext.WriteLine("Проверить, что появилось сообщение 'Use only latin letters, digits, hyphen and underscope...'.");
 
 			Assert.IsTrue(SubdomainPatternMessage.Displayed,
 				"Произошла ошибка:\n сообщение 'Use only latin letters, digits, hyphen and underscope...' не появилось.");
@@ -197,7 +204,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Registration
 		/// </summary>
 		public CompanyRegistrationSecondPage AssertSubdomainLenghtMessageDisplayed()
 		{
-			Logger.Trace("Проверить, что появилось сообщение 'The domain name must contain at least 3 characters'.");
+			CustomTestContext.WriteLine("Проверить, что появилось сообщение 'The domain name must contain at least 3 characters'.");
 
 			Assert.IsTrue(SubdomainLenghtMessage.Displayed,
 				"Произошла ошибка:\n сообщение 'The domain name must contain at least 3 characters' не появилось.");
@@ -210,7 +217,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Registration
 		/// </summary>
 		public CompanyRegistrationSecondPage AssertCompanyNameMessageDisplayed()
 		{
-			Logger.Trace("Проверить, что появилось сообщение 'A company with this name already exists'.");
+			CustomTestContext.WriteLine("Проверить, что появилось сообщение 'A company with this name already exists'.");
 
 			Assert.IsTrue(CompanyNameMessage.Displayed,
 				"Произошла ошибка:\n сообщение 'A company with this name already exists' не появилось.");
@@ -223,7 +230,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Registration
 		/// </summary>
 		public CompanyRegistrationSecondPage AssertEnterDomainMessageDisplayed()
 		{
-			Logger.Trace("Проверить, что появилось сообщение 'Enter your domain name'.");
+			CustomTestContext.WriteLine("Проверить, что появилось сообщение 'Enter your domain name'.");
 
 			Assert.IsTrue(EnterDomaineMessage.Displayed,
 				"Произошла ошибка:\n сообщение 'Enter your domain name' не появилось.");
@@ -236,7 +243,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Registration
 		/// </summary>
 		public CompanyRegistrationSecondPage AssertEnterNameMessageDisplayed()
 		{
-			Logger.Trace("Проверить, что появилось сообщение 'Enter your name'.");
+			CustomTestContext.WriteLine("Проверить, что появилось сообщение 'Enter your name'.");
 
 			Assert.IsTrue(EnterNameMessage.Displayed,
 				"Произошла ошибка:\n сообщение 'Enter your name' не появилось.");
@@ -249,7 +256,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Registration
 		/// </summary>
 		public CompanyRegistrationSecondPage AssertEnterLastNameMessageDisplayed()
 		{
-			Logger.Trace("Проверить, что появилось сообщение 'Enter your last name'.");
+			CustomTestContext.WriteLine("Проверить, что появилось сообщение 'Enter your last name'.");
 
 			Assert.IsTrue(EnterLastNameMessage.Displayed,
 				"Произошла ошибка:\n сообщение 'Enter your last name' не появилось.");
@@ -262,7 +269,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Registration
 		/// </summary>
 		public CompanyRegistrationSecondPage AssertEnterCompanyNameMessageDisplayed()
 		{
-			Logger.Trace("Проверить, что появилось сообщение 'Enter your company name'.");
+			CustomTestContext.WriteLine("Проверить, что появилось сообщение 'Enter your company name'.");
 
 			Assert.IsTrue(EnterCompanyNameMessage.Displayed,
 				"Произошла ошибка:\n сообщение 'Enter your company name' не появилось.");
@@ -275,7 +282,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Registration
 		/// </summary>
 		public CompanyRegistrationSecondPage AssertEnterPhoneMessageDisplayed()
 		{
-			Logger.Trace("Проверить, что появилось сообщение 'Enter your international phone number'.");
+			CustomTestContext.WriteLine("Проверить, что появилось сообщение 'Enter your international phone number'.");
 
 			Assert.IsTrue(EnterPhoneMessage.Displayed,
 				"Произошла ошибка:\n сообщение 'Enter your international phone number' не появилось.");
@@ -288,7 +295,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Registration
 		/// </summary>
 		public CompanyRegistrationSecondPage AssertSelectCompanyTypeMessageDisplayed()
 		{
-			Logger.Trace("Проверить, что появилось сообщение 'Enter your company type'.");
+			CustomTestContext.WriteLine("Проверить, что появилось сообщение 'Enter your company type'.");
 
 			Assert.IsTrue(SelectCompanyTypeMessage.Displayed,
 				"Произошла ошибка:\n сообщение 'Enter your company type' не появилось.");
@@ -301,7 +308,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Registration
 		/// </summary>
 		public CompanyRegistrationSecondPage AssertCompanyNameLengthInvalidMessageDisplayed()
 		{
-			Logger.Trace("Проверить, что сообщение 'The company name must contain at least 2 characters' появилось.");
+			CustomTestContext.WriteLine("Проверить, что сообщение 'The company name must contain at least 2 characters' появилось.");
 
 			Assert.IsTrue(CompanyNameLengthInvalidMessage.Displayed,
 				"Произошла ошибка:\n сообщение 'The company name must contain at least 2 characters.' не появилось.");
@@ -314,7 +321,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Registration
 		/// </summary>
 		public CompanyRegistrationSecondPage AssertCompanyNamePatternMessageDisplayed()
 		{
-			Logger.Trace("Проверить, что сообщение 'The company name must begin with a letter or a quotation mark' появилось.");
+			CustomTestContext.WriteLine("Проверить, что сообщение 'The company name must begin with a letter or a quotation mark' появилось.");
 
 			Assert.IsTrue(InvalidPatternCompanyNameMessage.Displayed,
 				"Произошла ошибка:\n сообщение 'The company name must begin with a letter or a quotation mark' не появилось.");

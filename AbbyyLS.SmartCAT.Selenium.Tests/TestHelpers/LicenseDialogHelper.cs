@@ -1,11 +1,10 @@
 ﻿using System;
 using System.Globalization;
 
-using NLog;
-
 using NUnit.Framework;
 
 using AbbyyLS.SmartCAT.Selenium.Tests.DataStructures;
+using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Billing.LicenseDialog;
 using AbbyyLS.SmartCAT.Selenium.Tests.TestFramework;
 
@@ -13,11 +12,18 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 {
 	public class LicenseDialogHelper : BillingHelper
 	{
-		public static Logger Logger = LogManager.GetCurrentClassLogger();
+		public LicenseDialogHelper(WebDriver driver) : base(driver)
+		{
+		_licenseExtendDialog = new LicenseExtendDialog(Driver);
+		_licenseBaseDialog = new LicenseBaseDialog(Driver);
+		_licensePaymentDialog = new LicensePaymentDialog(Driver);
+		_licenseUpgradeDialog = new LicenseUpgradeDialog(Driver);
+		_licenseTrialDialog = new LicenseTrialDialog(Driver);
+	}
 
 		public LicenseDialogHelper SelectDuration(Period duration)
 		{
-			BaseObject.InitPage(_licenseExtendDialog);
+			BaseObject.InitPage(_licenseExtendDialog, Driver);
 			_licenseExtendDialog.SelectExtendDuration(duration);
 
 			return this;
@@ -25,14 +31,14 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 		public LicenseDialogHelper ClickBuyButtonInDialog(bool trial = false)
 		{
-			BaseObject.InitPage(_licenseBaseDialog);
+			BaseObject.InitPage(_licenseBaseDialog, Driver);
 			if (trial)
 			{
-				_licenseBaseDialog.ClickBuyButton<LicenseTrialDialog>();
+				_licenseBaseDialog.ClickBuyButton<LicenseTrialDialog>(Driver);
 			}
 			else
 			{
-				_licenseBaseDialog.ClickBuyButton<LicenseBaseDialog>();
+				_licenseBaseDialog.ClickBuyButton<LicenseBaseDialog>(Driver);
 			}
 
 			return this;
@@ -45,7 +51,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 		{
 			switchToPaymentIFrame();
 
-			BaseObject.InitPage(_licensePaymentDialog);
+			BaseObject.InitPage(_licensePaymentDialog, Driver);
 			_licensePaymentDialog
 				.FillCardNumber(cardNumber)
 				.FillCvv(cvv)
@@ -58,7 +64,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 		public BillingHelper CloseCompleteDialog()
 		{
-			BaseObject.InitPage(_licenseBaseDialog);
+			BaseObject.InitPage(_licenseBaseDialog, Driver);
 			_licenseBaseDialog.ClickCloseButton();
 
 			return this;
@@ -66,7 +72,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 		public LicenseDialogHelper SelectLicenseNumber(int newLicenseNumber)
 		{
-			BaseObject.InitPage(_licenseUpgradeDialog);
+			BaseObject.InitPage(_licenseUpgradeDialog, Driver);
 			_licenseUpgradeDialog.SelectLicenseNumber(newLicenseNumber);
 
 			return this;
@@ -74,19 +80,19 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 		public LicenseDialogHelper ClickPayButton(LicenseOperation licenseOperation = LicenseOperation.Buy)
 		{
-			BaseObject.InitPage(_licenseBaseDialog);
+			BaseObject.InitPage(_licenseBaseDialog, Driver);
 			switch (licenseOperation)
 			{
 				case LicenseOperation.Upgrade:
-					_licensePaymentDialog.ClickPayButton<LicenseUpgradeCompleteDialog>();
+					_licensePaymentDialog.ClickPayButton<LicenseUpgradeCompleteDialog>(Driver);
 					break;
 
 				case LicenseOperation.Extend:
-					_licensePaymentDialog.ClickPayButton<LicenseExtendCompleteDialog>();
+					_licensePaymentDialog.ClickPayButton<LicenseExtendCompleteDialog>(Driver);
 					break;
 
 				default:
-					_licensePaymentDialog.ClickPayButton<LicensePurchaseCompleteDialog>();
+					_licensePaymentDialog.ClickPayButton<LicensePurchaseCompleteDialog>(Driver);
 					break;
 			}
 
@@ -95,7 +101,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 		public LicenseDialogHelper CloseTrialDialog()
 		{
-			BaseObject.InitPage(_licenseTrialDialog);
+			BaseObject.InitPage(_licenseTrialDialog, Driver);
 			_licenseTrialDialog.ClickContinueInTrialDialog();
 
 			return this;
@@ -103,7 +109,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 		public LicenseDialogHelper SelectNewLicenseNumber(int licenseNumber)
 		{
- 			BaseObject.InitPage(_licenseUpgradeDialog);
+ 			BaseObject.InitPage(_licenseUpgradeDialog, Driver);
 			_licenseUpgradeDialog.SelectLiceneQuantityToUpgrade(licenseNumber);
 
 			return this;
@@ -111,7 +117,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 		public LicenseDialogHelper AssertCurrentLicenseNumberOptionNotExistInDropdown(int licenseNumber)
 		{
-			BaseObject.InitPage(_licenseUpgradeDialog);
+			BaseObject.InitPage(_licenseUpgradeDialog, Driver);
 			_licenseUpgradeDialog
 				.OpenLicenseNumberDropdown()
 				.AssertLicenseNumberNotExistInDropdown(licenseNumber);
@@ -123,7 +129,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 		{
 			var expectedAdditionalPayment = calculateAdditionalPayment(CurrentPackagePrice(), newPackagePrice, monthsPeriod);
 
-			Logger.Trace("Проверить, что дополнительная сумма оплаты при апгрейде пакета равна {0}.", expectedAdditionalPayment);
+			CustomTestContext.WriteLine("Проверить, что дополнительная сумма оплаты при апгрейде пакета равна {0}.", expectedAdditionalPayment);
 
 			Assert.AreEqual(expectedAdditionalPayment, AdditionalPayment(),
 				"Произошла ошибка:\n дополнительная сумма оплаты при апгрейде пакета вычислена неверно.");
@@ -133,7 +139,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 		public LicenseDialogHelper AdditionalPaymentForPackageExtend(int expectedAdditionalPayment)
 		{
-			Logger.Trace("Проверить, что дополнительная сумма оплаты при продлении пакета равна {0}.", expectedAdditionalPayment);
+			CustomTestContext.WriteLine("Проверить, что дополнительная сумма оплаты при продлении пакета равна {0}.", expectedAdditionalPayment);
 
 			Assert.AreEqual(expectedAdditionalPayment, AdditionalPayment(),
 				"Произошла ошибка:\n дополнительная сумма оплаты при продлении пакета вычислена неверно.");
@@ -143,21 +149,21 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 		public int AdditionalPayment()
 		{
-			BaseObject.InitPage(_licenseBaseDialog);
+			BaseObject.InitPage(_licenseBaseDialog, Driver);
 
 			return _licenseBaseDialog.GetAdditionalPayment();
 		}
 
 		public int CurrentPackagePrice()
 		{
-			BaseObject.InitPage(_licenseBaseDialog);
+			BaseObject.InitPage(_licenseBaseDialog, Driver);
 
 			return _licenseBaseDialog.CurrentPackagePrice();
 		}
 
 		private LicenseDialogHelper switchToPaymentIFrame()
 		{
-			BaseObject.InitPage(_licenseBaseDialog);
+			BaseObject.InitPage(_licenseBaseDialog, Driver);
 			_licenseBaseDialog.SwitchToPaymentIFrame();
 
 			return this;
@@ -165,7 +171,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 		private LicenseDialogHelper switchToDefaultContentFromPaymentIFrame()
 		{
-			BaseObject.InitPage(_licensePaymentDialog);
+			BaseObject.InitPage(_licensePaymentDialog, Driver);
 			_licensePaymentDialog.SwitchToDefaultContentFromPaymentIFrame();
 
 			return this;
@@ -176,8 +182,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 		/// </summary>
 		private int calculateLeftDays()
 		{
-			Logger.Trace("Посчитать количество оставшихся дней действия текущего пакета лицензий.");
-			BaseObject.InitPage(_licenseUpgradeDialog);
+			CustomTestContext.WriteLine("Посчитать количество оставшихся дней действия текущего пакета лицензий.");
+			BaseObject.InitPage(_licenseUpgradeDialog, Driver);
 
 			var period = _licenseUpgradeDialog.PackageValidityPeriod();
 			var periodArray = period.Split('—');
@@ -196,7 +202,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 		/// <param name="totalPeriod">общий срок действия текущего пакета лицензий</param>
 		private int calculateAdditionalPayment(int currentPackagePrice, int newPackagePrice, Period totalPeriod)
 		{
-			Logger.Trace("Посчитать дополнительную плату за продление/обновление пакета лицензий по формуле:"
+			CustomTestContext.WriteLine("Посчитать дополнительную плату за продление/обновление пакета лицензий по формуле:"
 						 + "\n Стоимость = n*(y-x)/k, Где n – количество оставшихся дней действия текущего пакета лицензий,"
 						 + " k – общий срок действия текущего пакета лицензий, y – стоимость нового пакета лицензий, x – стоимость старого пакета лицензий.");
 
@@ -207,10 +213,10 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 		}
 
-		private readonly LicenseExtendDialog _licenseExtendDialog = new LicenseExtendDialog();
-		private readonly LicenseBaseDialog _licenseBaseDialog = new LicenseBaseDialog();
-		private readonly LicensePaymentDialog _licensePaymentDialog = new LicensePaymentDialog();
-		private readonly LicenseUpgradeDialog _licenseUpgradeDialog = new LicenseUpgradeDialog();
-		private readonly LicenseTrialDialog _licenseTrialDialog = new LicenseTrialDialog();
+		private readonly LicenseExtendDialog _licenseExtendDialog;
+		private readonly LicenseBaseDialog _licenseBaseDialog;
+		private readonly LicensePaymentDialog _licensePaymentDialog;
+		private readonly LicenseUpgradeDialog _licenseUpgradeDialog;
+		private readonly LicenseTrialDialog _licenseTrialDialog;
 	}
 }

@@ -3,6 +3,7 @@
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.PageObjects;
 
+using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
 using AbbyyLS.SmartCAT.Selenium.Tests.TestFramework;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace;
 
@@ -10,10 +11,14 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Registration
 {
 	internal class CompanyRegistrationSignInPage : WorkspacePage, IAbstractPage<CompanyRegistrationSignInPage>
 	{
+		public CompanyRegistrationSignInPage(WebDriver driver) : base(driver)
+		{
+		}
+
 		public new CompanyRegistrationSignInPage GetPage()
 		{
-			var companyExistingAccountRegistrationFirstPage = new CompanyRegistrationSignInPage();
-			InitPage(companyExistingAccountRegistrationFirstPage);
+			var companyExistingAccountRegistrationFirstPage = new CompanyRegistrationSignInPage(Driver);
+			InitPage(companyExistingAccountRegistrationFirstPage, Driver);
 
 			return companyExistingAccountRegistrationFirstPage;
 		}
@@ -33,7 +38,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Registration
 		/// <param name="email">email</param>
 		public CompanyRegistrationSignInPage FillEmail(string email)
 		{
-			Logger.Debug("Ввести {0} в поле Email.", email);
+			CustomTestContext.WriteLine("Ввести {0} в поле Email.", email);
 			Email.SetText(email);
 
 			return GetPage();
@@ -45,7 +50,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Registration
 		///  <param name="password">пароль</param>
 		public CompanyRegistrationSignInPage FillPassword(string password)
 		{
-			Logger.Debug("Ввести {0} в поле пароля.", password);
+			CustomTestContext.WriteLine("Ввести {0} в поле пароля.", password);
 			Password.SetText(password);
 
 			return GetPage();
@@ -56,10 +61,10 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Registration
 		/// </summary>
 		public CompanyRegistrationSecondPage ClickSignInButton()
 		{
-			Logger.Debug("Нажать кнопку 'Sign In'.");
+			CustomTestContext.WriteLine("Нажать кнопку 'Sign In'.");
 			SignInButton.JavaScriptClick();
 
-			return new CompanyRegistrationSecondPage().GetPage();
+			return new CompanyRegistrationSecondPage(Driver).GetPage();
 		}
 
 		[FindsBy(How = How.XPath, Using = EMAIL)]

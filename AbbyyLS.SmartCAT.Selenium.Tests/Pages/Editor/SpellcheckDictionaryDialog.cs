@@ -1,22 +1,27 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
-using System.Windows.Forms;
 
 using NUnit.Framework;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.PageObjects;
 
+using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
 using AbbyyLS.SmartCAT.Selenium.Tests.TestFramework;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 {
 	public class SpellcheckDictionaryDialog : EditorPage, IAbstractPage<SpellcheckDictionaryDialog>
 	{
+		public SpellcheckDictionaryDialog(WebDriver driver) : base(driver)
+		{
+		}
+
 		public new SpellcheckDictionaryDialog GetPage()
 		{
-			var spellcheckDictionaryDialog = new SpellcheckDictionaryDialog();
-			InitPage(spellcheckDictionaryDialog);
+			var spellcheckDictionaryDialog = new SpellcheckDictionaryDialog(Driver);
+			InitPage(spellcheckDictionaryDialog, Driver);
 
 			return spellcheckDictionaryDialog;
 		}
@@ -34,10 +39,10 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		/// </summary>
 		public EditorPage ClickCloseDictionaryButton() 
 		{
-			Logger.Debug("Нажать кнопку закрытия словаря");
+			CustomTestContext.WriteLine("Нажать кнопку закрытия словаря");
 			CloseDictionaryButton.Click();
 
-			return new EditorPage().GetPage();
+			return new EditorPage(Driver).GetPage();
 		}
 
 		/// <summary>
@@ -45,7 +50,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		/// </summary>
 		public SpellcheckDictionaryDialog AssertAddWordButtinEnabled()
 		{
-			Logger.Trace("Проверить доступность кнопки добавления слова в словарь");
+			CustomTestContext.WriteLine("Проверить доступность кнопки добавления слова в словарь");
 
 			Assert.IsTrue(Driver.WaitUntilElementIsEnabled(By.XPath(ADD_WORD_BTN)) && Driver.WaitUntilElementIsDisplay(By.XPath(ADD_WORD_BTN)),
 				"Произошла ошибка:\n кнопка добавления слова в словарь недоступна.");
@@ -58,7 +63,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		/// </summary>
 		public SpellcheckDictionaryDialog ClickAddWordButton()
 		{
-			Logger.Debug("Нажать кнопку добавления слова в словарь");
+			CustomTestContext.WriteLine("Нажать кнопку добавления слова в словарь");
 			Thread.Sleep(1000);
 			AddWordButton.Click();
 
@@ -70,7 +75,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		/// </summary>
 		public SpellcheckDictionaryDialog ClickDeleteWordButton(string word)
 		{
-			Logger.Debug("Нажать кнопку удаления слова {0} из словаря", word);
+			CustomTestContext.WriteLine("Нажать кнопку удаления слова {0} из словаря", word);
 			DeleteWordButton = Driver.SetDynamicValue(How.XPath, DELETE_WORD_BUTTON, word);
 			DeleteWordButton.Click();
 
@@ -82,7 +87,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		/// </summary>
 		public SpellcheckDictionaryDialog AssertWordExistInDictionary(string word)
 		{
-			Logger.Trace("Проверить, что слово {0} присутствует в словаре", word);
+			CustomTestContext.WriteLine("Проверить, что слово {0} присутствует в словаре", word);
 			
 			Assert.IsTrue(GetWordsList().Contains(word),
 				"Произошла ошибка:\n слово {0} не найдено в словаре.", word);
@@ -95,7 +100,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		/// </summary>
 		public SpellcheckDictionaryDialog AssertWordNotExistInDictionary(string word)
 		{
-			Logger.Trace("Проверить, что слово {0} не присутствует в словаре", word);
+			CustomTestContext.WriteLine("Проверить, что слово {0} не присутствует в словаре", word);
 
 			Assert.IsFalse(GetWordsList().Contains(word),
 				"Произошла ошибка:\n слово {0} найдено в словаре.", word);
@@ -109,9 +114,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		public SpellcheckDictionaryDialog HilightWordInDictionary(string word)
 		{
 			Word = Driver.SetDynamicValue(How.XPath, WORD_PATH, word);
-			Logger.Debug("Установить курсор в конце слова {0} в словаре", word);
+			CustomTestContext.WriteLine("Установить курсор в конце слова {0} в словаре", word);
 			Word.DoubleClick();
-			Logger.Debug("Выделить слово {0}", word);
+			CustomTestContext.WriteLine("Выделить слово {0}", word);
 			Word.DoubleClick();
 			
 			return GetPage();
@@ -122,7 +127,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		/// </summary>
 		public SpellcheckDictionaryDialog AddWordToDictionary(string word)
 		{
-			Logger.Debug("Добавить слово {0} в словарь", word);
+			CustomTestContext.WriteLine("Добавить слово {0} в словарь", word);
 			InputWordField.SendKeys(word);
 
 			return GetPage();
@@ -131,12 +136,13 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		/// <summary>
 		/// Подтвердить ввод слова в словарь
 		/// </summary>
-		public T ConfirmWord<T>() where T: class, IAbstractPage<T>, new()
+		public T ConfirmWord<T>(WebDriver driver) where T: class, IAbstractPage<T>
 		{
-			Logger.Debug("Подтвердить ввод слова в словарь");
+			CustomTestContext.WriteLine("Подтвердить ввод слова в словарь");
 			DictionaryForm.Click();
-			
-			return new T().GetPage();
+
+			var instance = Activator.CreateInstance(typeof(T), new object[] { driver }) as T;
+			return instance.GetPage();
 		}
 
 		/// <summary>
@@ -145,7 +151,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		/// <returns>Список слов из словаря</returns>
 		public List<string> GetWordsList()
 		{
-			Logger.Trace("Получить список слов из словаря");
+			CustomTestContext.WriteLine("Получить список слов из словаря");
 
 			return Driver.GetElementList(By.XPath(WORDS_LIST)).Select(webElement => webElement.Text).ToList();
 		}

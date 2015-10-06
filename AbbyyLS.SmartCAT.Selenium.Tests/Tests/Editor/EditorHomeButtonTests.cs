@@ -5,6 +5,7 @@ using AbbyyLS.SmartCAT.Selenium.Tests.FeatureAttributes;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Editor
 {
+	[Parallelizable(ParallelScope.Fixtures)]
 	[Standalone]
 	public class EditorHomeButtonTests<TWebDriverProvider> : EditorBaseTest<TWebDriverProvider> where TWebDriverProvider : IWebDriverProvider, new()
 	{

@@ -1,18 +1,22 @@
 ﻿using NUnit.Framework;
-
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.PageObjects;
 
+using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
 using AbbyyLS.SmartCAT.Selenium.Tests.TestFramework;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Billing.LicenseDialog
 {
 	public class LicenseUpgradeDialog : LicenseBaseDialog, IAbstractPage<LicenseUpgradeDialog>
 	{
+		public LicenseUpgradeDialog(WebDriver driver) : base(driver)
+		{
+		}
+
 		public new LicenseUpgradeDialog GetPage()
 		{
-			var upgradeDialog = new LicenseUpgradeDialog();
-			InitPage(upgradeDialog);
+			var upgradeDialog = new LicenseUpgradeDialog(Driver);
+			InitPage(upgradeDialog, Driver);
 
 			return upgradeDialog;
 		}
@@ -30,7 +34,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Billing.LicenseDialog
 		/// </summary>
 		public LicenseUpgradeDialog SelectLiceneQuantityToUpgrade(int newLicenseNumber)
 		{
-			Logger.Debug("Выбрать {0} лицензий для обновления.", newLicenseNumber);
+			CustomTestContext.WriteLine("Выбрать {0} лицензий для обновления.", newLicenseNumber.ToString());
 			NewLicenseNumber.SelectOptionByText(newLicenseNumber.ToString());
 
 			return GetPage();
@@ -41,7 +45,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Billing.LicenseDialog
 		/// </summary>
 		public LicenseUpgradeDialog OpenLicenseNumberDropdown()
 		{
-			Logger.Debug("Открыть дропдаун выбора количества лицензий при апгрейде.");
+			CustomTestContext.WriteLine("Открыть дропдаун выбора количества лицензий при апгрейде.");
 			NewLicenseNumber.Click();
 
 			return GetPage();
@@ -53,7 +57,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Billing.LicenseDialog
 		/// <param name="licenseNumber">текущее количество лицензий</param>
 		public LicenseUpgradeDialog AssertLicenseNumberNotExistInDropdown(int licenseNumber)
 		{
-			Logger.Trace("Проверить, что текущее количество лицензий {0} отсутствует в дропдауне при апгрейде", licenseNumber);
+			CustomTestContext.WriteLine("Проверить, что текущее количество лицензий {0} отсутствует в дропдауне при апгрейде", licenseNumber.ToString());
 			
 			Assert.IsFalse(Driver.GetIsElementExist(By.XPath(NEW_LICENSE_NUMBER_OPTION.Replace("*#*", licenseNumber.ToString()))),
 				"Произошла ошибка:\n текущее количество лицензий {0} присутствует в дропдауне при апргрейде пакета.", licenseNumber);

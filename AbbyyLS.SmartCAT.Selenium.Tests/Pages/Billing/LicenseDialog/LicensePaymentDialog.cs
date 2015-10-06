@@ -1,18 +1,24 @@
-﻿using NUnit.Framework;
+﻿using System;
 
+using NUnit.Framework;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.PageObjects;
 
+using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
 using AbbyyLS.SmartCAT.Selenium.Tests.TestFramework;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Billing.LicenseDialog
 {
 	public class LicensePaymentDialog : LicenseBaseDialog, IAbstractPage<LicensePaymentDialog>
 	{
+		public LicensePaymentDialog(WebDriver driver) : base(driver)
+		{
+		}
+
 		public new LicensePaymentDialog GetPage()
 		{
-			var licensePurchasePaymentDialog = new LicensePaymentDialog();
-			InitPage(licensePurchasePaymentDialog);
+			var licensePurchasePaymentDialog = new LicensePaymentDialog(Driver);
+			InitPage(licensePurchasePaymentDialog, Driver);
 
 			return licensePurchasePaymentDialog;
 		}
@@ -28,12 +34,13 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Billing.LicenseDialog
 		/// <summary>
 		/// Нажать кнопку Pay
 		/// </summary>
-		public T ClickPayButton<T>() where T : class, IAbstractPage<T>, new()
+		public T ClickPayButton<T>(WebDriver driver) where T : class, IAbstractPage<T>
 		{
-			Logger.Debug("Нажать кнопку Pay.");
+			CustomTestContext.WriteLine("Нажать кнопку Pay.");
 			PayButton.Click();
 
-			return new T().GetPage();
+			var instance = Activator.CreateInstance(typeof(T), new object[] { driver }) as T;
+			return instance.GetPage();
 		}
 
 		/// <summary>
@@ -42,7 +49,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Billing.LicenseDialog
 		/// <param name="cardNumber">номер карты</param>
 		public LicensePaymentDialog FillCardNumber(string cardNumber)
 		{
-			Logger.Debug("Ввести номер карты {0}.", cardNumber);
+			CustomTestContext.WriteLine("Ввести номер карты {0}.", cardNumber);
 			CreditCardNumber.SendKeys(cardNumber);
 
 			return GetPage();
@@ -54,7 +61,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Billing.LicenseDialog
 		/// <param name="cvv">cvv</param>
 		public LicensePaymentDialog FillCvv(string cvv)
 		{
-			Logger.Debug("Ввести CVV карты {0}.", cvv);
+			CustomTestContext.WriteLine("Ввести CVV карты {0}.", cvv);
 			Cvv.SetText(cvv);
 
 			return GetPage();
@@ -66,7 +73,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Billing.LicenseDialog
 		/// <param name="date">дата</param>
 		public LicensePaymentDialog FillExpirationDate(string date)
 		{
-			Logger.Debug("Ввести {0} дату окончания срока действия карты.", date);
+			CustomTestContext.WriteLine("Ввести {0} дату окончания срока действия карты.", date);
 			ExpirationDate.SendKeys(date);
 
 			return GetPage();
@@ -77,10 +84,10 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Billing.LicenseDialog
 		/// </summary>
 		public LicenseBaseDialog SwitchToDefaultContentFromPaymentIFrame()
 		{
-			Logger.Trace("Выйти из IFrame платежной системы.");
+			CustomTestContext.WriteLine("Выйти из IFrame платежной системы.");
 			Driver.SwitchToDefaultContent();
 
-			return new LicenseBaseDialog().GetPage();
+			return new LicenseBaseDialog(Driver).GetPage();
 		}
 
 		[FindsBy(How = How.XPath, Using = CREDIT_CARD_NUMBER)]

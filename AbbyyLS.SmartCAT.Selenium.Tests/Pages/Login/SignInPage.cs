@@ -1,17 +1,27 @@
-﻿using NUnit.Framework;
+﻿using System;
+
+using NUnit.Framework;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.PageObjects;
 
+using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
 using AbbyyLS.SmartCAT.Selenium.Tests.TestFramework;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Login
 {
 	public class SignInPage : BaseObject, IAbstractPage<SignInPage>
 	{
+		public WebDriver Driver { get; protected set; }
+
+		public SignInPage(WebDriver driver)
+		{
+			Driver = driver;
+		}
+
 		public SignInPage GetPage()
 		{
-			var signInPage = new SignInPage();
-			InitPage(signInPage);
+			var signInPage = new SignInPage(Driver);
+			InitPage(signInPage, Driver);
 
 			return signInPage;
 		}
@@ -30,7 +40,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Login
 		/// <param name="email">емаил пользователя</param>
 		public SignInPage SetLogin(string email)
 		{
-			Logger.Debug("Ввести логин пользователя {0}.", email);
+			CustomTestContext.WriteLine("Ввести логин пользователя {0}.", email);
 
 			Login.SetText(email);
 
@@ -43,7 +53,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Login
 		/// <param name="password">пароль пользователя</param>
 		public SignInPage SetPassword(string password)
 		{
-			Logger.Debug("Ввести пароль пользователя {0}.", password);
+			CustomTestContext.WriteLine("Ввести пароль пользователя {0}.", password);
 
 			Password.SetText(password);
 
@@ -55,7 +65,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Login
 		/// </summary>
 		public SignInPage CheckWrongPasswordMessageDisplayed()
 		{
-			Logger.Trace("Проверить, что на странице появилось сообщение о неправильном пароле.");
+			CustomTestContext.WriteLine("Проверить, что на странице появилось сообщение о неправильном пароле.");
 
 			Assert.IsTrue(Driver.WaitUntilElementIsDisplay(By.XPath(ERROR_WRONG_PASSWORD), 5));
 
@@ -67,7 +77,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Login
 		/// </summary>
 		public SignInPage CheckUserNotFoundMessageDisplayed()
 		{
-			Logger.Trace("Проверить, что на странице появилось сообщение о ненайденном пользователе.");
+			CustomTestContext.WriteLine("Проверить, что на странице появилось сообщение о ненайденном пользователе.");
 
 			Assert.IsTrue(Driver.WaitUntilElementIsDisplay(By.XPath(ERROR_USER_NOT_FOUND), 5));
 
@@ -79,7 +89,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Login
 		/// </summary>
 		public SignInPage CheckEmptyPasswordMessageDisplayed()
 		{
-			Logger.Trace("Проверить, что на странице появилось сообщение о незаполненном пароле.");
+			CustomTestContext.WriteLine("Проверить, что на странице появилось сообщение о незаполненном пароле.");
 
 			Assert.IsTrue(Driver.WaitUntilElementIsDisplay(By.XPath(ERROR_EMPTY_PASSWORD), 5));
 
@@ -91,7 +101,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Login
 		/// </summary>
 		public SignInPage CheckInvalidEmailMessageDisplayed()
 		{
-			Logger.Trace("Проверить, что на странице появилось сообщение о невалидном email.");
+			CustomTestContext.WriteLine("Проверить, что на странице появилось сообщение о невалидном email.");
 
 			Assert.IsTrue(Driver.WaitUntilElementIsDisplay(By.XPath(ERROR_EMAIL_INVALID), 5));
 
@@ -101,13 +111,14 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Login
 		/// <summary>
 		/// Нажать кнопку "Sign In"
 		/// </summary>
-		public T ClickSubmitButton<T>() where T : class, IAbstractPage<T>, new()
+		public T ClickSubmitButton<T>(WebDriver driver) where T : class, IAbstractPage<T>
 		{
-			Logger.Debug("Нажать 'Sign In'.");
+			CustomTestContext.WriteLine("Нажать 'Sign In'.");
 
 			SubmitButton.JavaScriptClick();
 
-			return new T().GetPage();
+			var instance = Activator.CreateInstance(typeof(T), new object[] { driver }) as T;
+			return instance.GetPage();
 		}
 
 		/// <summary>
@@ -115,11 +126,11 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Login
 		/// </summary>
 		public FacebookPage ClickFacebookIcon()
 		{
-			Logger.Debug("Нажать иконку Faceebook.");
+			CustomTestContext.WriteLine("Нажать иконку Faceebook.");
 
 			FacebookIcon.JavaScriptClick();
 
-			return new FacebookPage().GetPage();
+			return new FacebookPage(Driver).GetPage();
 		}
 
 		/// <summary>
@@ -127,11 +138,11 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Login
 		/// </summary>
 		public GooglePage ClickGooglePlusIcon()
 		{
-			Logger.Debug("Нажать иконку Google+.");
+			CustomTestContext.WriteLine("Нажать иконку Google+.");
 
 			GoogleIcon.JavaScriptClick();
 
-			return new GooglePage().GetPage();
+			return new GooglePage(Driver).GetPage();
 		}
 
 		/// <summary>
@@ -139,11 +150,11 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Login
 		/// </summary>
 		public LinkedInPage ClickLinkedInIcon()
 		{
-			Logger.Debug("Нажать иконку LinkedIn.");
+			CustomTestContext.WriteLine("Нажать иконку LinkedIn.");
 
 			LinkedInIcon.JavaScriptClick();
 
-			return new LinkedInPage().GetPage();
+			return new LinkedInPage(Driver).GetPage();
 		}
 
 		[FindsBy(Using = EMAIL_INPUT_ID)]

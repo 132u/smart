@@ -1,23 +1,24 @@
 ﻿using System.IO;
 
-using AbbyyLS.SmartCAT.Selenium.Tests.ExplicitAttributes;
-using AbbyyLS.SmartCAT.Selenium.Tests.FeatureAttributes;
-
 using NUnit.Framework;
 
 using AbbyyLS.SmartCAT.Selenium.Tests.DataStructures;
 using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
+using AbbyyLS.SmartCAT.Selenium.Tests.FeatureAttributes;
 using AbbyyLS.SmartCAT.Selenium.Tests.TestFramework;
 using AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 {
+	[Parallelizable(ParallelScope.Fixtures)]
 	[Standalone]
 	public class GlossaryEditStructureGeneralFieldsTests<TWebDriverProvider> : BaseTest<TWebDriverProvider> where TWebDriverProvider : IWebDriverProvider, new()
 	{
 		[SetUp]
 		public void GlossariesSetUp()
 		{
+			_workspaceHelper = new WorkspaceHelper(Driver);
+
 			_glossaryUniqueName = GlossariesHelper.UniqueGlossaryName();
 			_glossaryHelper = _workspaceHelper
 				.GoToGlossariesPage()
@@ -87,7 +88,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 				.AssertExtendTermsCountMatch(expectedTermCount: 1);
 		}
 
-		private readonly WorkspaceHelper _workspaceHelper = new WorkspaceHelper();
+		private WorkspaceHelper _workspaceHelper;
 		private GlossariesHelper _glossaryHelper;
 		private string _glossaryUniqueName;
 	}

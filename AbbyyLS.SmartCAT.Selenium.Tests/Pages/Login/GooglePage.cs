@@ -2,16 +2,24 @@
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.PageObjects;
 
+using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
 using AbbyyLS.SmartCAT.Selenium.Tests.TestFramework;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Login
 {
 	public class GooglePage : BaseObject, IAbstractPage<GooglePage>
 	{
+		public WebDriver Driver { get; protected set; }
+
+		public GooglePage(WebDriver driver)
+		{
+			Driver = driver;
+		}
+
 		public GooglePage GetPage()
 		{
-			var googlePage = new GooglePage();
-			InitPage(googlePage);
+			var googlePage = new GooglePage(Driver);
+			InitPage(googlePage, Driver);
 
 			return googlePage;
 		}
@@ -30,7 +38,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Login
 		/// <param name="email">email пользователя</param>
 		public GooglePage SetEmail(string email)
 		{
-			Logger.Debug("Ввести email пользователя на странице Google {0}.", email);
+			CustomTestContext.WriteLine("Ввести email пользователя на странице Google {0}.", email);
 
 			Email.SetText(email);
 
@@ -43,7 +51,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Login
 		/// <param name="password">password пользователя</param>
 		public GooglePage SetPassword(string password)
 		{
-			Logger.Debug("Ввести пароль пользователя на странице Google {0}.", password);
+			CustomTestContext.WriteLine("Ввести пароль пользователя на странице Google {0}.", password);
 			Driver.WaitUntilElementIsDisplay(By.XPath(PASSWORD));
 			Password.SetText(password);
 
@@ -55,7 +63,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Login
 		/// </summary>
 		public GooglePage ClickNextButton()
 		{
-			Logger.Debug("Нажать 'Next'.");
+			CustomTestContext.WriteLine("Нажать 'Next'.");
 
 			NextButton.Click();
 
@@ -67,11 +75,11 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Login
 		/// </summary>
 		public SelectAccountForm ClickSubmitButton()
 		{
-			Logger.Debug("Нажать 'Sign In'.");
+			CustomTestContext.WriteLine("Нажать 'Sign In'.");
 
 			SubmitButton.JavaScriptClick();
 
-			return new SelectAccountForm().GetPage();
+			return new SelectAccountForm(Driver).GetPage();
 		}
 
 		[FindsBy(How = How.XPath, Using = EMAIL)]

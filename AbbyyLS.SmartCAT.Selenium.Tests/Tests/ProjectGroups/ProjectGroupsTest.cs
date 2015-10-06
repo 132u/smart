@@ -7,6 +7,7 @@ using AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.ProjectGroups
 {
+	[Parallelizable(ParallelScope.Fixtures)]
 	[PriorityMajor]
 	[Standalone]
 	[ProjectGroups]
@@ -15,7 +16,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.ProjectGroups
 		[SetUp]
 		public void Setup()
 		{
-			_workspaceHelper = new WorkspaceHelper();
+			_workspaceHelper = new WorkspaceHelper(Driver);
 			_projectGroupHelper = _workspaceHelper.GoToProjectGroupsPage();
 		}
 

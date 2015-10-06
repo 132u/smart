@@ -1,20 +1,22 @@
 ﻿using System;
 using System.Collections.Generic;
 
+using NUnit.Framework;
+
 using AbbyyLS.SmartCAT.Selenium.Tests.DataStructures;
 using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
 using AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers;
 
-using NUnit.Framework;
-
 namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersRights
 {
+	[Parallelizable(ParallelScope.Fixtures)]
 	public class ManageTermsTest<TWebDriverSettings> : BaseTest<TWebDriverSettings> where TWebDriverSettings : IWebDriverProvider, new()
 	{
-
 		[SetUp]
 		public void SetUp()
 		{
+			_workspaceHelper = new WorkspaceHelper(Driver);
+
 			_glossaryHelper = _workspaceHelper
 				.GoToUsersRightsPage()
 				.ClickGroupsButton()
@@ -250,8 +252,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersRights
 		}
 
 		private GlossariesHelper _glossaryHelper;
-
-		private readonly WorkspaceHelper _workspaceHelper = new WorkspaceHelper();
+		private WorkspaceHelper _workspaceHelper;
 		private string _glossaryUniqueName;
 	}
 }

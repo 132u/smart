@@ -1,21 +1,24 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 
 using NUnit.Framework;
-
 using OpenQA.Selenium;
 
+using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
 using AbbyyLS.SmartCAT.Selenium.Tests.TestFramework;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Admin
 {
 	public class AdminDictionaryPackagePage : AdminLingvoProPage, IAbstractPage<AdminDictionaryPackagePage>
 	{
+		public AdminDictionaryPackagePage(WebDriver driver) : base(driver)
+		{
+		}
+
 		public new AdminDictionaryPackagePage GetPage()
 		{
-			var adminDictionaryPackagePage = new AdminDictionaryPackagePage();
-			InitPage(adminDictionaryPackagePage);
+			var adminDictionaryPackagePage = new AdminDictionaryPackagePage(Driver);
+			InitPage(adminDictionaryPackagePage, Driver);
 
 			return adminDictionaryPackagePage;
 		}
@@ -34,7 +37,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Admin
 		/// <param name="packageName">имя пакета</param>
 		public List<String> IncludedDictionariesList()
 		{
-			Logger.Trace("Получить список словарей, включенных в пакет");
+			CustomTestContext.WriteLine("Получить список словарей, включенных в пакет");
 
 			return Driver.GetTextListElement(By.XPath(INCLUDED_DICTIONARIES_LIST));
 		}

@@ -9,12 +9,16 @@ using AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Editor
 {
+	[Parallelizable(ParallelScope.Fixtures)]
 	[Standalone]
 	public class EditorSpellcheckTests<TWebDriverProvider> : BaseTest<TWebDriverProvider> where TWebDriverProvider : IWebDriverProvider, new()
 	{
 		[SetUp]
 		public void SetupTest()
 		{
+			_editorHelper = new EditorHelper(Driver);
+			_createProjectHelper = new CreateProjectHelper(Driver);
+
 			var projectName = _createProjectHelper.GetProjectUniqueName();
 
 			_createProjectHelper
@@ -135,8 +139,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Editor
 			"Ррристретто"
 		};
 
-		private readonly CreateProjectHelper _createProjectHelper = new CreateProjectHelper();
-		private readonly  EditorHelper _editorHelper = new EditorHelper();
-		
+		private CreateProjectHelper _createProjectHelper;
+		private EditorHelper _editorHelper;
 	}
 }

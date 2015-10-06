@@ -1,22 +1,25 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 
 using NUnit.Framework;
-
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.PageObjects;
 
 using AbbyyLS.SmartCAT.Selenium.Tests.DataStructures;
+using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
 using AbbyyLS.SmartCAT.Selenium.Tests.TestFramework;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings
 {
 	public class SettingsDialog : ProjectSettingsPage, IAbstractPage<SettingsDialog>
 	{
+		public SettingsDialog(WebDriver driver) : base(driver)
+		{
+		}
+
 		public new SettingsDialog GetPage()
 		{
-			var settingsDialog = new SettingsDialog();
-			InitPage(settingsDialog);
+			var settingsDialog = new SettingsDialog(Driver);
+			InitPage(settingsDialog, Driver);
 
 			return settingsDialog;
 		}
@@ -36,7 +39,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings
 		/// </summary>
 		public SettingsDialog ClickWorkflowTab()
 		{
-			Logger.Debug("Нажать на вкладку 'Workflow'.");
+			CustomTestContext.WriteLine("Нажать на вкладку 'Workflow'.");
 			WorkflowTab.Click();
 
 			return GetPage();
@@ -47,7 +50,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings
 		/// </summary>
 		public SettingsDialog AssertWorkflowSettingsNotExist()
 		{
-			Logger.Trace("Проверить, что 'Workflow Setup' отсутствует в настройках проекта.");
+			CustomTestContext.WriteLine("Проверить, что 'Workflow Setup' отсутствует в настройках проекта.");
 
 			Assert.IsFalse(Driver.GetIsElementExist(By.XPath(WORKFLOW_TAB)),
 				"Произошла ошибка:\n 'Workflow Setup' присутствует в настройках проекта.");
@@ -60,7 +63,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings
 		/// </summary>
 		public List<string> WorkflowTaskList()
 		{
-			Logger.Trace("Получить список задач в настройках Workflow.");
+			CustomTestContext.WriteLine("Получить список задач в настройках Workflow.");
 
 			return Driver.GetTextListElement(By.XPath(WORKFLOW_LIST));
 		}
@@ -71,7 +74,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings
 		/// <param name="taskNumber"></param>
 		public SettingsDialog ClickDeleteTaskButton(int taskNumber = 1)
 		{
-			Logger.Debug("Нажать кнопку удаления задачи №{0}", taskNumber);
+			CustomTestContext.WriteLine("Нажать кнопку удаления задачи №{0}", taskNumber);
 
 			DeleteTaskButton = Driver.SetDynamicValue(How.XPath, DELETE_TASK_BUTTON, taskNumber.ToString());
 			DeleteTaskButton.Click();
@@ -84,7 +87,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings
 		/// </summary>
 		public SettingsDialog ClickNewTaskButton()
 		{
-			Logger.Debug("Нажать кнопку 'New Task'.");
+			CustomTestContext.WriteLine("Нажать кнопку 'New Task'.");
 			NewTaskButton.Click();
 
 			return GetPage();
@@ -95,7 +98,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings
 		/// </summary>
 		public SettingsDialog ExpandTask(int taskNumber)
 		{
-			Logger.Debug("Раскрыть комбобокс №{0} с задачами.", taskNumber);
+			CustomTestContext.WriteLine("Раскрыть комбобокс №{0} с задачами.", taskNumber);
 			Driver.SetDynamicValue(How.XPath, TASK, taskNumber.ToString()).Click();
 
 			return GetPage();
@@ -106,7 +109,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings
 		/// </summary>
 		public SettingsDialog ClickTaskInDropdown(WorkflowTask taskName)
 		{
-			Logger.Debug("Кликнуть по задаче {0}.", taskName);
+			CustomTestContext.WriteLine("Кликнуть по задаче {0}.", taskName);
 			var task = Driver.SetDynamicValue(How.XPath, TASK_LIST, taskName.ToString());
 
 			task.Click();
@@ -119,10 +122,10 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings
 		/// </summary>
 		public ProjectSettingsPage ClickSaveButton()
 		{
-			Logger.Debug("Нажать кнопку Save.");
+			CustomTestContext.WriteLine("Нажать кнопку Save.");
 			SaveButton.Click();
 
-			return new ProjectSettingsPage().GetPage();
+			return new ProjectSettingsPage(Driver).GetPage();
 		}
 
 		/// <summary>
@@ -130,7 +133,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings
 		/// </summary>
 		public SettingsDialog AssertConfirmDeleteDialogDislpay()
 		{
-			Logger.Trace("Проверить, что диалог подтверждения удаления задачи появился.");
+			CustomTestContext.WriteLine("Проверить, что диалог подтверждения удаления задачи появился.");
 
 			Assert.IsTrue(Driver.WaitUntilElementIsDisplay(By.XPath(CONFIRM_DELETE_DIALOG)),
 				"Произошла ошибка:\n не появился диалог подтверждения удаления задачи.");
@@ -143,10 +146,10 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings
 		/// </summary>
 		public ProjectSettingsPage ClickCancelButton()
 		{
-			Logger.Debug("Нажать кнопку Cancel.");
+			CustomTestContext.WriteLine("Нажать кнопку Cancel.");
 			CancelButton.Click();
 
-			return new ProjectSettingsPage().GetPage();
+			return new ProjectSettingsPage(Driver).GetPage();
 		}
 
 		[FindsBy(How = How.XPath, Using = WORKFLOW_TAB)]

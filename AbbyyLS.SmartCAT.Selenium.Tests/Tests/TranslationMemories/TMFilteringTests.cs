@@ -10,11 +10,16 @@ using AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers;
 namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.TranslationMemories
 {
 	[Standalone]
+	[Parallelizable(ParallelScope.Fixtures)]
 	class TMFilteringTests<TWebDriverProvider> : BaseTmTest<TWebDriverProvider> where TWebDriverProvider : IWebDriverProvider, new()
 	{
-		[TestFixtureSetUp]
+		[OneTimeSetUp]
 		public void TestFixtureSetUp()
 		{
+			_loginHelper = new LoginHelper(Driver);
+			_translationMemoriesHelper = new TranslationMemoriesHelper(Driver);
+			_workspaceHelper = new WorkspaceHelper(Driver);
+
 			_projectGroupName_1 = Guid.NewGuid().ToString();
 			_projectGroupName_2 = Guid.NewGuid().ToString();
 			_clientName_1 = Guid.NewGuid().ToString();
@@ -242,9 +247,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.TranslationMemories
 				.AssertTranslationMemoryNotExists(_tmForFilteringName_2);
 		}
 
-		private readonly WorkspaceHelper _workspaceHelper = new WorkspaceHelper();
-		private readonly LoginHelper _loginHelper = new LoginHelper();
-		private readonly TranslationMemoriesHelper _translationMemoriesHelper = new TranslationMemoriesHelper();
+		private WorkspaceHelper _workspaceHelper;
+		private LoginHelper _loginHelper;
+		private TranslationMemoriesHelper _translationMemoriesHelper;
 
 		private string _tmForFilteringName_1 = "TmForFiltering_First";
 		private string _tmForFilteringName_2 = "TmForFiltering_Second";

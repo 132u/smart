@@ -5,16 +5,24 @@ using NUnit.Framework;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.PageObjects;
 
+using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
 using AbbyyLS.SmartCAT.Selenium.Tests.TestFramework;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 {
 	class ExportNotification : BaseObject, IAbstractPage<ExportNotification>
 	{
+		public WebDriver Driver { get; private set; }
+
+		public ExportNotification(WebDriver driver)
+		{
+			Driver = driver;
+		}
+
 		public ExportNotification GetPage()
 		{
-			var exportNotification = new ExportNotification();
-			InitPage(exportNotification);
+			var exportNotification = new ExportNotification(Driver);
+			InitPage(exportNotification, Driver);
 
 			return exportNotification;
 		}
@@ -30,9 +38,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 		/// <summary>
 		/// Кликнуть кнопку загрузки в сообщении об экспотре
 		/// </summary>
-		public T ClickDownloadNotifier<T>() where T : class, IAbstractPage<T>, new()
+		public T ClickDownloadNotifier<T>(WebDriver driver) where T : class, IAbstractPage<T>
 		{
-			Logger.Debug("Кликнуть кнопку загрузки в сообщении об экспорте.");
+			CustomTestContext.WriteLine("Кликнуть кнопку загрузки в сообщении об экспорте.");
 			IWebElement element;
 
 			try
@@ -41,24 +49,26 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 			}
 			catch (StaleElementReferenceException)
 			{
-				Logger.Warn("Не удалось найти кнопку загрузки в сообщении об экспорте. Предпринять повторную попытка.");
+				CustomTestContext.WriteLine("Не удалось найти кнопку загрузки в сообщении об экспорте. Предпринять повторную попытка.");
 				element = Driver.FindElement(By.XPath(NOTIFIER_DOWNLOAD_BTN));
 			}
 
 			element.JavaScriptClick();
-			
-			return new T().GetPage();
+
+			var instance = Activator.CreateInstance(typeof(T), new object[] { driver }) as T;
+			return instance.GetPage();
 		}
 
 		/// <summary>
 		/// Закрыть уведомление
 		/// </summary>
-		public T ClickCancelNotifier<T>() where T : class, IAbstractPage<T>, new()
+		public T ClickCancelNotifier<T>(WebDriver driver) where T : class, IAbstractPage<T>
 		{
-			Logger.Debug("Закрыть уведомление.");
+			CustomTestContext.WriteLine("Закрыть уведомление.");
 			CancelNotifierButton.Click();
 
-			return new T().GetPage();
+			var instance = Activator.CreateInstance(typeof(T), new object[] { driver }) as T;
+			return instance.GetPage();
 		}
 
 		/// <summary>
@@ -67,7 +77,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 		/// <param name="text">текст</param>
 		public ExportNotification AssertContainsText(string text)
 		{
-			Logger.Trace("Проверить, что сообщение содержит текст: '{0}'", text);
+			CustomTestContext.WriteLine("Проверить, что сообщение содержит текст: '{0}'", text);
 
 			Assert.IsTrue(NotifierMessage.Text.Contains(text),
 				"Произошла ошибка:\n сообщение не содержит искомый текст.");
@@ -80,8 +90,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 		/// </summary>
 		public ExportNotification AssertContainsCurrentDate()
 		{
-			Logger.Trace("Проверить, что в сообщении указана дата, которая не расходится с текущей более, чем на один час");
-			Logger.Trace("Пробуем распарсить дату и привести к формату: MM/dd/yy hh:mm");
+			CustomTestContext.WriteLine("Проверить, что в сообщении указана дата, которая не расходится с текущей более, чем на один час");
+			CustomTestContext.WriteLine("Пробуем распарсить дату и привести к формату: MM/dd/yy hh:mm");
 			
 			var notifierText = NotifierMessage.Text;
 			var startIndex = notifierText.IndexOf("/") - 2;
@@ -95,7 +105,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 			startIndex += 3; // "hh:" = 3
 			var min = notifierText.Substring(startIndex, 2);
 
-			Logger.Trace("Результат парсинга = {0}/{1}/{2} {3}:{4}", month , day, year, hour, min);
+			CustomTestContext.WriteLine("Результат парсинга = {0}/{1}/{2} {3}:{4}", month , day, year, hour, min);
 
 			var notifierDate = new DateTime(int.Parse(year), int.Parse(month), int.Parse(day), int.Parse(hour), int.Parse(min), 0);
 			var timeSubtract = DateTime.Now.Subtract(notifierDate).Hours;
@@ -111,7 +121,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 		/// </summary>
 		public string GetTextUpperNotification()
 		{
-			Logger.Trace("Получить текст верхнего сообщения.");
+			CustomTestContext.WriteLine("Получить текст верхнего сообщения.");
 
 			var upperNotification = Driver.GetElementList(By.XPath(NOTIFIER_MESSAGE)).LastOrDefault();
 
@@ -124,7 +134,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 		/// <param name="notificationNumber">номер сообщения</param>
 		public ExportNotification SwitchToNotificationByNumber(int notificationNumber)
 		{
-			Logger.Debug("Переключиться на сообщение №{0}", notificationNumber);
+			CustomTestContext.WriteLine("Переключиться на сообщение №{0}", notificationNumber);
 
 			NotificationByNumber = Driver.SetDynamicValue(How.XPath, NOTIFIER_ITEM, notificationNumber.ToString());
 
@@ -134,7 +144,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 			}
 			catch (StaleElementReferenceException)
 			{
-				Logger.Warn("Не удалось переключиться на сообщение {0}. Предпринять повторную попытку.", notificationNumber);
+				CustomTestContext.WriteLine("Не удалось переключиться на сообщение {0}. Предпринять повторную попытку.", notificationNumber);
 				SwitchToNotificationByNumber(notificationNumber);
 			}
 			catch (Exception ex)
@@ -153,7 +163,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 		/// <param name="expectedCount">ожидаемое кол-во</param>
 		public ExportNotification AssertCountExportNotifiers(int expectedCount)
 		{
-			Logger.Trace("Проверить, что показывается {0} уведомлений.", expectedCount);
+			CustomTestContext.WriteLine("Проверить, что показывается {0} уведомлений.", expectedCount);
 
 			Assert.IsTrue(Driver.WaitUntilElementIsDisplay(By.XPath(NOTIFIER_ITEM.Replace("*#*", expectedCount.ToString()))),
 				"Произошла ошибка:\n не появилось {0} уведомлений", expectedCount);

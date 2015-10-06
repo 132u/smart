@@ -2,16 +2,24 @@
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.PageObjects;
 
+using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
 using AbbyyLS.SmartCAT.Selenium.Tests.TestFramework;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Login
 {
 	public class FacebookPage : BaseObject, IAbstractPage<FacebookPage>
 	{
+		public WebDriver Driver { get; protected set; }
+
+		public FacebookPage(WebDriver driver)
+		{
+			Driver = driver;
+		}
+
 		public FacebookPage GetPage()
 		{
-			var facebookPage = new FacebookPage();
-			InitPage(facebookPage);
+			var facebookPage = new FacebookPage(Driver);
+			InitPage(facebookPage, Driver);
 
 			return facebookPage;
 		}
@@ -30,7 +38,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Login
 		/// <param name="email">email пользователя</param>
 		public FacebookPage SetEmail(string email)
 		{
-			Logger.Debug("Ввести email пользователя на странице Facebook {0}.", email);
+			CustomTestContext.WriteLine("Ввести email пользователя на странице Facebook {0}.", email);
 
 			Email.SetText(email);
 
@@ -43,7 +51,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Login
 		/// <param name="password">password пользователя</param>
 		public FacebookPage SetPassword(string password)
 		{
-			Logger.Debug("Ввести пароль пользователя на странице Facebook {0}.", password);
+			CustomTestContext.WriteLine("Ввести пароль пользователя на странице Facebook {0}.", password);
 
 			Password.SetText(password);
 
@@ -55,11 +63,11 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Login
 		/// </summary>
 		public SelectAccountForm ClickSubmitButton()
 		{
-			Logger.Debug("Нажать 'Sign In'.");
+			CustomTestContext.WriteLine("Нажать 'Sign In'.");
 
 			SubmitButton.JavaScriptClick();
 
-			return new SelectAccountForm().GetPage();
+			return new SelectAccountForm(Driver).GetPage();
 		}
 
 		[FindsBy(How = How.XPath, Using = EMAIL)]

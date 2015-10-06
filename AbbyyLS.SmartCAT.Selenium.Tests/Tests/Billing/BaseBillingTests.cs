@@ -13,14 +13,20 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Billing
 		public BaseBillingTests()
 		{
 			StartPage = StartPage.Admin;
-		}
+	}
 
 		[SetUp]
 		public void SetUpBaseBillingTests()
 		{
+			LoginHelper = new LoginHelper(Driver);
+			CommonHelper = new CommonHelper(Driver);
+			BillingHelper = new BillingHelper(Driver);
+			LicenseDialogHelper = new LicenseDialogHelper(Driver);
+			WorkspaceHelper = new WorkspaceHelper(Driver);
+
 			var accountUniqueName = AdminHelper.GetAccountUniqueName();
 
-			new AdminHelper().CreateAccountIfNotExist(
+			new AdminHelper(Driver).CreateAccountIfNotExist(
 				accountName: accountUniqueName,
 				workflow: true,
 				features:
@@ -43,10 +49,10 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Billing
 			WorkspaceHelper.GoToBillingPage();
 		}
 
-		protected readonly LoginHelper LoginHelper = new LoginHelper();
-		protected readonly CommonHelper CommonHelper = new CommonHelper();
-		protected readonly BillingHelper BillingHelper = new BillingHelper();
-		protected readonly LicenseDialogHelper LicenseDialogHelper = new LicenseDialogHelper();
-		protected readonly WorkspaceHelper WorkspaceHelper = new WorkspaceHelper();
+		protected LoginHelper LoginHelper;
+		protected CommonHelper CommonHelper;
+		protected BillingHelper BillingHelper;
+		protected LicenseDialogHelper LicenseDialogHelper;
+		protected WorkspaceHelper WorkspaceHelper;
 	}
 }

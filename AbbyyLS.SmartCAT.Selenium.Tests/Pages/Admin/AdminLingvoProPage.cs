@@ -1,7 +1,10 @@
 ﻿using NUnit.Framework;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.PageObjects;
+
+using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
 using AbbyyLS.SmartCAT.Selenium.Tests.TestFramework;
+
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Admin
 {
@@ -10,10 +13,17 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Admin
 	/// </summary>
 	public class AdminLingvoProPage : BaseObject, IAbstractPage<AdminLingvoProPage>
 	{
+		public WebDriver Driver { get; protected set; }
+
+		public AdminLingvoProPage(WebDriver driver)
+		{
+			Driver = driver;
+		}
+
 		public AdminLingvoProPage GetPage()
 		{
-			var adminLingvoProPage = new AdminLingvoProPage();
-			InitPage(adminLingvoProPage);
+			var adminLingvoProPage = new AdminLingvoProPage(Driver);
+			InitPage(adminLingvoProPage, Driver);
 
 			return adminLingvoProPage;
 		}
@@ -32,10 +42,10 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Admin
 		/// </summary>
 		public AdminEnterpriseAccountsPage ClickEnterpriseAccountsLink()
 		{
-			Logger.Debug("Кликнуть по ссылке 'Корпоративные аккаунты'.");
+			CustomTestContext.WriteLine("Кликнуть по ссылке 'Корпоративные аккаунты'.");
 			EnterpriseAccountsLink.Click();
 
-			return new AdminEnterpriseAccountsPage().GetPage();
+			return new AdminEnterpriseAccountsPage(Driver).GetPage();
 		}
 
 		/// <summary>
@@ -43,10 +53,10 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Admin
 		/// </summary>
 		public AdminEmailsSearchPage ClickAdminLettersSearchReference()
 		{
-			Logger.Debug("Кликнуть по ссылке 'Поиск писем'.");
+			CustomTestContext.WriteLine("Кликнуть по ссылке 'Поиск писем'.");
 			LettersSearchReference.Click();
 
-			return new AdminEmailsSearchPage().GetPage();
+			return new AdminEmailsSearchPage(Driver).GetPage();
 		}
 
 		/// <summary>
@@ -54,9 +64,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Admin
 		/// </summary>
 		public AdminCreateUserPage ClickCreateUserReference()
 		{
-			Logger.Debug("Кликнуть по ссылке 'Создать пользователя'.");
+			CustomTestContext.WriteLine("Кликнуть по ссылке 'Создать пользователя'.");
 			CreateUserReference.Click();
-			var adminCreateUserPage = new AdminCreateUserPage();
+			var adminCreateUserPage = new AdminCreateUserPage(Driver);
 
 			return adminCreateUserPage.GetPage();
 		}
@@ -66,10 +76,10 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Admin
 		/// </summary>
 		public AdminFindUserPage ClickSearchUserReference()
 		{
-			Logger.Trace("Клик по ссылке Поиск пользователей в меню");
+			CustomTestContext.WriteLine("Клик по ссылке Поиск пользователей в меню");
 			SearchUserReference.Click();
 
-			return new AdminFindUserPage().GetPage();
+			return new AdminFindUserPage(Driver).GetPage();
 		}
 
 		/// <summary>
@@ -77,10 +87,10 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Admin
 		/// </summary>
 		public AdminDictionariesPackagesPage ClickDictionariesPackagesLink()
 		{
-			Logger.Debug("Нажать на ссылку 'Просмотреть пакеты словарей'.");
+			CustomTestContext.WriteLine("Нажать на ссылку 'Просмотреть пакеты словарей'.");
 			DictionaryPackagesLink.Click();
 
-			return new AdminDictionariesPackagesPage().GetPage();
+			return new AdminDictionariesPackagesPage(Driver).GetPage();
 		}
 
 		[FindsBy(How = How.XPath, Using = LETTERS_SEARCH_REF)]

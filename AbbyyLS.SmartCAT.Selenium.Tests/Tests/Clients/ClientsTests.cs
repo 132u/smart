@@ -6,6 +6,7 @@ using AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Clients
 {
+	[Parallelizable(ParallelScope.Fixtures)]
 	[PriorityMajor]
 	[Standalone]
 	[Clients]
@@ -14,7 +15,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Clients
 		[SetUp]
 		public void SetUpClientTest()
 		{
-			_workspaceHelper = new WorkspaceHelper();
+			_workspaceHelper = new WorkspaceHelper(Driver);
 			_clientsHelper = _workspaceHelper.GoToClientsPage();
 		}
 

@@ -13,7 +13,12 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 		[SetUp]
 		public void SetUpProjectExportTests()
 		{
-			_workspaceHelper = new WorkspaceHelper();
+			_createProjectHelper = new CreateProjectHelper(Driver);
+			_exportFileHelper = new ExportFileHelper(Driver);
+			_projectSettingsHelper = new ProjectSettingsHelper(Driver);
+			_projectsHelper = new ProjectsHelper(Driver);
+			_workspaceHelper = new WorkspaceHelper(Driver);
+
 			_workspaceHelper.GoToProjectsPage();
 			_exportFileHelper.CancelAllNotifiers<ProjectsPage>();
 			_projectUniqueName = _createProjectHelper.GetProjectUniqueName();
@@ -27,10 +32,10 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 		}
 
 		protected string _projectUniqueName;
-		protected readonly CreateProjectHelper _createProjectHelper = new CreateProjectHelper();
-		protected readonly ExportFileHelper _exportFileHelper = new ExportFileHelper();
-		protected readonly ProjectSettingsHelper _projectSettingsHelper = new ProjectSettingsHelper();
-		protected readonly ProjectsHelper _projectsHelper = new ProjectsHelper();
+		protected CreateProjectHelper _createProjectHelper;
+		protected ExportFileHelper _exportFileHelper;
+		protected ProjectSettingsHelper _projectSettingsHelper;
+		protected ProjectsHelper _projectsHelper;
 		private WorkspaceHelper _workspaceHelper;
 	}
 }

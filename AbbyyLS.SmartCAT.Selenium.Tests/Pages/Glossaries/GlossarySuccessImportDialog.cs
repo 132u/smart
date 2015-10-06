@@ -1,8 +1,8 @@
 ﻿using NUnit.Framework;
-
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.PageObjects;
 
+using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace;
 using AbbyyLS.SmartCAT.Selenium.Tests.TestFramework;
 
@@ -10,10 +10,14 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 {
 	public class GlossarySuccessImportDialog : WorkspacePage, IAbstractPage<GlossarySuccessImportDialog>
 	{
+		public GlossarySuccessImportDialog(WebDriver driver) : base(driver)
+		{
+		}
+
 		public new GlossarySuccessImportDialog GetPage()
 		{
-			var glossarySuccessImportDialog = new GlossarySuccessImportDialog();
-			InitPage(glossarySuccessImportDialog);
+			var glossarySuccessImportDialog = new GlossarySuccessImportDialog(Driver);
+			InitPage(glossarySuccessImportDialog, Driver);
 
 			return glossarySuccessImportDialog;
 		}
@@ -28,12 +32,12 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 
 		public GlossaryPage ClickCloseButton()
 		{
-			Logger.Debug("Нажать кнопку Close в диалоге с сообщением о успешном импорте глоссария.");
+			CustomTestContext.WriteLine("Нажать кнопку Close в диалоге с сообщением о успешном импорте глоссария.");
 			CloseButton.Click();
 
 			Driver.WaitUntilElementIsDisappeared(By.XPath(CLOSE_BUTTON));
 
-			return new GlossaryPage().GetPage();
+			return new GlossaryPage(Driver).GetPage();
 		}
 		
 		[FindsBy(How = How.XPath, Using = CLOSE_BUTTON)]

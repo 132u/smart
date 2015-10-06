@@ -1,16 +1,22 @@
 ﻿using NUnit.Framework;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.PageObjects;
+
+using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
 using AbbyyLS.SmartCAT.Selenium.Tests.TestFramework;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Admin
 {
 	public class AdminEditUserPage : AdminLingvoProPage, IAbstractPage<AdminEditUserPage>
 	{
+		public AdminEditUserPage(WebDriver driver) : base(driver)
+		{
+		}
+
 		public new AdminEditUserPage GetPage()
 		{
-			var adminEditUserPage = new AdminEditUserPage();
-			InitPage(adminEditUserPage);
+			var adminEditUserPage = new AdminEditUserPage(Driver);
+			InitPage(adminEditUserPage, Driver);
 
 			return adminEditUserPage;
 		}
@@ -28,7 +34,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Admin
 		/// </summary>
 		public AdminEditUserPage SelectAdminCheckbox()
 		{
-			Logger.Trace("Кликнуть по чекбоксу 'Администратор'");
+			CustomTestContext.WriteLine("Кликнуть по чекбоксу 'Администратор'");
 			IsAdminCheckbox.Click();
 
 			return GetPage();
@@ -39,7 +45,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Admin
 		/// </summary>
 		public bool GetIsAdminCheckboxIsChecked()
 		{
-			Logger.Trace("Проверить, что стоит ли галочка в чекбоксе 'Администратор'.");
+			CustomTestContext.WriteLine("Проверить, что стоит ли галочка в чекбоксе 'Администратор'.");
 			
 			return IsAdminCheckbox.GetIsInputChecked();
 		}
@@ -49,7 +55,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Admin
 		/// </summary>
 		public AdminEditUserPage ClickSubmitButton()
 		{
-			Logger.Trace("Нажать кнопку 'Submit'.");
+			CustomTestContext.WriteLine("Нажать кнопку 'Submit'.");
 			SaveButton.Click();
 
 			return GetPage();
@@ -60,12 +66,12 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Admin
 		/// </summary>
 		public bool CheckEditPersonalAccountButtonExists()
 		{
-			Logger.Trace("Проверить наличие ссылки 'Редактировать'.");
+			CustomTestContext.WriteLine("Проверить наличие ссылки 'Редактировать'.");
 			var isExists = Driver.ElementIsDisplayed(By.XPath(EDIT_PERS_ACCOUNT));
 
 			if (isExists)
 			{
-				Logger.Trace("Персональный аккаунт для пользователя уже существует.");
+				CustomTestContext.WriteLine("Персональный аккаунт для пользователя уже существует.");
 			}
 
 			return isExists;
@@ -76,10 +82,10 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Admin
 		/// </summary>
 		public AdminPersonalAccountPage ClickEditPersonalAccountButton()
 		{
-			Logger.Trace("Кликнуть по ссылке 'Редактировать' персонального аккаунта");
+			CustomTestContext.WriteLine("Кликнуть по ссылке 'Редактировать' персонального аккаунта");
 			EditPersonalAccount.Click();
 
-			return new AdminPersonalAccountPage().GetPage();
+			return new AdminPersonalAccountPage(Driver).GetPage();
 		}
 
 		/// <summary>
@@ -87,10 +93,10 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Admin
 		/// </summary>
 		public AdminPersonalAccountPage ClickCreatePersonalAccountButton()
 		{
-			Logger.Trace("Нажать кнопку 'Создать персональный аккаунт'");
+			CustomTestContext.WriteLine("Нажать кнопку 'Создать персональный аккаунт'");
 			CreatePersonalAccount.Click();
 
-			return new AdminPersonalAccountPage().GetPage();
+			return new AdminPersonalAccountPage(Driver).GetPage();
 		}
 
 		[FindsBy(How = How.XPath, Using = IS_ADMIN_CHECKBOX)]

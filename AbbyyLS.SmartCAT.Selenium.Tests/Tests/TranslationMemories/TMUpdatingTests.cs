@@ -6,12 +6,15 @@ using AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.TranslationMemories
 {
+	[Parallelizable(ParallelScope.Fixtures)]
 	class TMUpdatingTests<TWebDriverProvider> : BaseTmTest<TWebDriverProvider> where TWebDriverProvider : IWebDriverProvider, new()
 	{
 		[SetUp]
 		public void SetUp()
 		{
-			_workspaceHelper = new WorkspaceHelper();
+			_workspaceHelper = new WorkspaceHelper(Driver);
+			_translationMemoriesHelper = new TranslationMemoriesHelper(Driver);
+
 			_workspaceHelper.GoToTranslationMemoriesPage();
 			_tmName = TranslationMemoriesHelper.GetTranslationMemoryUniqueName();
 		}
@@ -163,7 +166,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.TranslationMemories
 				.AssertImportValidationErrorDisplayed();
 		}
 
-		private readonly TranslationMemoriesHelper _translationMemoriesHelper = new TranslationMemoriesHelper();
+		private TranslationMemoriesHelper _translationMemoriesHelper;
 		private string _tmName;
 		private WorkspaceHelper _workspaceHelper;
 	}

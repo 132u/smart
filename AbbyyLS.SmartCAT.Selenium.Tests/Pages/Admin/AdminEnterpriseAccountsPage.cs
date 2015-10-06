@@ -1,13 +1,11 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using System.Threading;
 
 using NUnit.Framework;
-
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.PageObjects;
 
+using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
 using AbbyyLS.SmartCAT.Selenium.Tests.TestFramework;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Admin
@@ -17,10 +15,14 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Admin
 	/// </summary>
 	public class AdminEnterpriseAccountsPage : AdminLingvoProPage, IAbstractPage<AdminEnterpriseAccountsPage>
 	{
+		public AdminEnterpriseAccountsPage(WebDriver driver) : base(driver)
+		{
+		}
+
 		public new AdminEnterpriseAccountsPage GetPage()
 		{
-			var adminEnterpriseAccountsPage = new AdminEnterpriseAccountsPage();
-			InitPage(adminEnterpriseAccountsPage);
+			var adminEnterpriseAccountsPage = new AdminEnterpriseAccountsPage(Driver);
+			InitPage(adminEnterpriseAccountsPage, Driver);
 
 			return adminEnterpriseAccountsPage;
 		}
@@ -39,7 +41,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Admin
 		/// <param name="venture">затея</param>
 		public AdminEnterpriseAccountsPage ChooseVenture(string venture)
 		{
-			Logger.Debug("Выбрать затею {0}.", venture);
+			CustomTestContext.WriteLine("Выбрать затею {0}.", venture);
 			SelectVenture.SelectOptionByText(venture);
 
 			return GetPage();
@@ -51,11 +53,11 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Admin
 		/// <param name="accountName">имя аккаунта</param>
 		public AdminEnterpriseAccountUsersPage ClickManageUsersReference(string accountName)
 		{
-			Logger.Debug("Нажать ссылку для редактирования пользователей аккаунта {0}.", accountName);
+			CustomTestContext.WriteLine("Нажать ссылку для редактирования пользователей аккаунта {0}.", accountName);
 			ManageUsersRef = Driver.SetDynamicValue(How.XPath, MANAGE_USERS_REF, accountName);
 			ManageUsersRef.Click();
 
-			return new AdminEnterpriseAccountUsersPage().GetPage();
+			return new AdminEnterpriseAccountUsersPage(Driver).GetPage();
 		}
 
 		/// <summary>
@@ -64,7 +66,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Admin
 		/// <param name="accountName">имя аккаунта</param>
 		public bool IsAccountExists(string accountName)
 		{
-			Logger.Trace("Проверить, есть ли в таблице аккаунтов аккаунт с именем {0}.", accountName);
+			CustomTestContext.WriteLine("Проверить, есть ли в таблице аккаунтов аккаунт с именем {0}.", accountName);
 			
 			return Driver.ElementIsDisplayed(By.XPath(MANAGE_USERS_REF.Replace("*#*", accountName)));
 		}
@@ -74,7 +76,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Admin
 		/// </summary>
 		public AdminEnterpriseAccountsPage ClickCreateAccount()
 		{
-			Logger.Trace("Нажать 'Создать аккаунт'");
+			CustomTestContext.WriteLine("Нажать 'Создать аккаунт'");
 			AddAccountRef.Click();
 			
 
@@ -86,7 +88,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Admin
 		/// </summary>
 		public AdminCreateAccountPage SwitchToAdminCreateAccountWindow()
 		{
-			Logger.Trace("Переключиться в окно создания нового аккаунта.");
+			CustomTestContext.WriteLine("Переключиться в окно создания нового аккаунта.");
 			Thread.Sleep(1000);
 			if (Driver.WindowHandles.Count > 1)
 			{
@@ -94,7 +96,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Admin
 				Driver.SwitchTo().Window(Driver.WindowHandles.Last());
 			}
 
-			return new AdminCreateAccountPage().GetPage();
+			return new AdminCreateAccountPage(Driver).GetPage();
 		}
 
 		/// <summary>
@@ -103,10 +105,10 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Admin
 		/// <param name="accountName">имя аккаунта</param>
 		public AdminCreateAccountPage ClickEditAccount(string accountName)
 		{
-			Logger.Debug("Нажать кнопку редактирования аккаунта {0}.", accountName);
+			CustomTestContext.WriteLine("Нажать кнопку редактирования аккаунта {0}.", accountName);
 			Driver.SetDynamicValue(How.XPath, EDIT_BUTTON, accountName).Click();
 
-			return new AdminCreateAccountPage().GetPage();
+			return new AdminCreateAccountPage(Driver).GetPage();
 		}
 
 		[FindsBy(How = How.XPath, Using = SELECT_VENTURE)]

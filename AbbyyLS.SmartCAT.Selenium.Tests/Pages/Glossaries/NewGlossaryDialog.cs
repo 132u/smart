@@ -1,21 +1,26 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 
 using NUnit.Framework;
-
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.PageObjects;
 
 using AbbyyLS.SmartCAT.Selenium.Tests.DataStructures;
+using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
 using AbbyyLS.SmartCAT.Selenium.Tests.TestFramework;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 {
 	public class NewGlossaryDialog : GlossariesPage, IAbstractPage<NewGlossaryDialog>
 	{
+		public NewGlossaryDialog(WebDriver driver) : base(driver)
+		{
+		}
+
 		public new NewGlossaryDialog GetPage()
 		{
-			var glossaryCreationPage = new NewGlossaryDialog();
-			InitPage(glossaryCreationPage);
+			var glossaryCreationPage = new NewGlossaryDialog(Driver);
+			InitPage(glossaryCreationPage, Driver);
 
 			return glossaryCreationPage;
 		}
@@ -33,7 +38,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 		/// </summary>
 		public NewGlossaryDialog OpenClientsList()
 		{
-			Logger.Debug("Открыть список клиентов при создании глоссария");
+			CustomTestContext.WriteLine("Открыть список клиентов при создании глоссария");
 			ClientsList.Click();
 
 			return GetPage();
@@ -44,7 +49,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 		/// </summary>
 		public bool SpecifyGlossaryNameErrorDisplay()
 		{
-			Logger.Trace("Получить значение свойства Display для элемента сообщения 'Specify glossary name'.");
+			CustomTestContext.WriteLine("Получить значение свойства Display для элемента сообщения 'Specify glossary name'.");
 
 			return Driver.WaitUntilElementIsDisplay(By.XPath(SPECIFY_GLOSSARY_NAME_ERROR));
 		}
@@ -54,7 +59,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 		/// </summary>
 		public NewGlossaryDialog AssertClientsListOpened()
 		{
-			Logger.Trace("Проверить, что список клиентов открылся.");
+			CustomTestContext.WriteLine("Проверить, что список клиентов открылся.");
 			
 			Assert.IsTrue(ClientsListDropDown.Displayed,
 				"Произошла ошибка:\n список клиентов не открылся.");
@@ -68,7 +73,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 		/// <param name="clientName">имя клиента</param>
 		public NewGlossaryDialog AssertClientExistInList(string clientName)
 		{
-			Logger.Trace("Проверить, что клиент {0} есть в списке при создании глоссария.", clientName);
+			CustomTestContext.WriteLine("Проверить, что клиент {0} есть в списке при создании глоссария.", clientName);
 			var clientList = Driver.GetElementList(By.XPath(DROPDOWN_LIST));
 
 			Assert.IsTrue(clientList.First().Text.Contains(clientName),
@@ -83,7 +88,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 		/// <param name="clientName">имя клиента</param>
 		public NewGlossaryDialog AssertClientNotExistInList(string clientName)
 		{
-			Logger.Trace("Проверить, что клиент {0} есть в списке при создании глоссария.", clientName);
+			CustomTestContext.WriteLine("Проверить, что клиент {0} есть в списке при создании глоссария.", clientName);
 			var clientList = Driver.GetElementList(By.XPath(DROPDOWN_LIST));
 
 			Assert.IsFalse(clientList.Any(e => e.GetAttribute("innerHTML") == clientName),
@@ -97,7 +102,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 		/// </summary>
 		public NewGlossaryDialog ClickProjectGroupsList()
 		{
-			Logger.Debug("Открыть список групп проектов при создании глоссария.");
+			CustomTestContext.WriteLine("Открыть список групп проектов при создании глоссария.");
 			ProjectGroupsDropDown.Click();
 
 			return GetPage();
@@ -109,7 +114,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 		/// <param name="projectGroupName">имя группы проектов</param>
 		public NewGlossaryDialog SelectProjectGroup(string projectGroupName)
 		{
-			Logger.Debug("Выбрать группу проектов списке");
+			CustomTestContext.WriteLine("Выбрать группу проектов списке");
 
 			ProjectGroupsItem = Driver.SetDynamicValue(How.XPath, PROJECT_GROUPS_ITEM, projectGroupName);
 			ProjectGroupsItem.Click();
@@ -122,7 +127,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 		/// </summary>
 		public NewGlossaryDialog AssertProjectGroupsListOpened()
 		{
-			Logger.Trace("Проверить, что список групп проектов открылся при создании глоссария.");
+			CustomTestContext.WriteLine("Проверить, что список групп проектов открылся при создании глоссария.");
 
 			Assert.IsTrue(ProjectGroupsList.Displayed,
 				"Произошла ошибка:\n список групп проектов не открылся при создании глоссария.");
@@ -136,7 +141,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 		/// <param name="projectGroupName">имя группы проектов</param>
 		public NewGlossaryDialog AssertProjectGroupExistInList(string projectGroupName)
 		{
-			Logger.Trace("Проверить, что группа проектов {0} присутствует в списке при создании глоссария.", projectGroupName);
+			CustomTestContext.WriteLine("Проверить, что группа проектов {0} присутствует в списке при создании глоссария.", projectGroupName);
 			var projectGroupsList = Driver.GetElementList(By.XPath(MULTISELECT_LIST));
 			var projectGroupExist = projectGroupsList.Any(e => e.GetAttribute("innerHTML") == projectGroupName);
 
@@ -150,7 +155,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 		/// </summary>
 		public NewGlossaryDialog AssertProjectGroupNotExistInList(string projectGroupName)
 		{
-			Logger.Trace("Проверить, что группа проектов {0} отсутствует в списке при создании глоссария.", projectGroupName);
+			CustomTestContext.WriteLine("Проверить, что группа проектов {0} отсутствует в списке при создании глоссария.", projectGroupName);
 			var projectGroupsList = Driver.GetElementList(By.XPath(MULTISELECT_LIST));
 			var projectGroupExist = projectGroupsList.Any(e => e.GetAttribute("innerHTML") == projectGroupName);
 
@@ -164,7 +169,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 		/// </summary>
 		public NewGlossaryDialog FillGlossaryName(string glossaryName)
 		{
-			Logger.Debug("Ввести {0} название глоссария", glossaryName);
+			CustomTestContext.WriteLine("Ввести {0} название глоссария", glossaryName);
 			GlossaryName.SetText(glossaryName);
 
 			return GetPage();
@@ -175,7 +180,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 		/// </summary>
 		public NewGlossaryDialog FillComment(string comment)
 		{
-			Logger.Debug("Ввести комментарий {0}.", comment);
+			CustomTestContext.WriteLine("Ввести комментарий {0}.", comment);
 			GlossaryComment.SetText(comment);
 
 			return GetPage();
@@ -187,7 +192,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 		/// <param name="dropdownNumber">номер дропдауна</param>
 		public NewGlossaryDialog ExpandLanguageDropdown(int dropdownNumber)
 		{
-			Logger.Debug("Раскрыть дропдаун выбора для {0} языка.", dropdownNumber);
+			CustomTestContext.WriteLine("Раскрыть дропдаун выбора для {0} языка.", dropdownNumber);
 			var languageDropdown = Driver.SetDynamicValue(How.XPath, LANGUAGE_DROPDOWN, dropdownNumber.ToString());
 
 			languageDropdown.Click();
@@ -201,7 +206,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 		/// <param name="language">язык</param>
 		public NewGlossaryDialog SelectLanguage(Language language)
 		{
-			Logger.Debug("Выбрать язык {0} в дропдауне.", language);
+			CustomTestContext.WriteLine("Выбрать язык {0} в дропдауне.", language);
 			var languageOption = Driver.SetDynamicValue(How.XPath, LANGUAGES_LIST, language.ToString());
 
 			languageOption.ScrollAndClick();
@@ -214,7 +219,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 		/// </summary>
 		public NewGlossaryDialog ClickAddButton()
 		{
-			Logger.Debug("Нажать кнопку Add.");
+			CustomTestContext.WriteLine("Нажать кнопку Add.");
 			AddButton.Click();
 
 			return GetPage();
@@ -223,12 +228,13 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 		/// <summary>
 		/// Нажать кнопку сохранения глоссария
 		/// </summary>
-		public T ClickSaveGlossaryButton<T>() where T : class, IAbstractPage<T>, new()
+		public T ClickSaveGlossaryButton<T>(WebDriver driver) where T : class, IAbstractPage<T>
 		{
-			Logger.Debug("Нажать кнопку сохранения глоссария.");
+			CustomTestContext.WriteLine("Нажать кнопку сохранения глоссария.");
 			GlossarySaveButton.Click();
 
-			return new T().GetPage();
+			var instance = Activator.CreateInstance(typeof(T), new object[] { driver }) as T;
+			return instance.GetPage();
 		}
 
 		/// <summary>
@@ -236,7 +242,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 		/// </summary>
 		public NewGlossaryDialog AssertEmptyNamyErrorDisplay()
 		{
-			Logger.Trace("Проверить, что появилось сообщение о пустом имени глоссария.");
+			CustomTestContext.WriteLine("Проверить, что появилось сообщение о пустом имени глоссария.");
 
 			Assert.IsTrue(Driver.WaitUntilElementIsDisplay(By.XPath(ERROR_EMPTY_NAME)),
 				"Произошла ошибка:\n не появилось сообщение о пустом имени глоссария.");
@@ -249,7 +255,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 		/// </summary>
 		public NewGlossaryDialog AssertExistNameErrorDisplay()
 		{
-			Logger.Trace("Проверить, что появилось сообщение 'A glossary with this name already exists'.");
+			CustomTestContext.WriteLine("Проверить, что появилось сообщение 'A glossary with this name already exists'.");
 
 			Assert.IsTrue(Driver.WaitUntilElementIsDisplay(By.XPath(ERROR_EXIST_NAME), timeout: 15),
 				"Произошла ошибка:\n сообщение 'A glossary with this name already exists' не появилось .");
@@ -262,7 +268,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 		/// </summary>
 		public NewGlossaryDialog ClickDeleteLanguageButton(int dropdown = 1)
 		{
-			Logger.Debug("Нажать кнопку удаления языка.");
+			CustomTestContext.WriteLine("Нажать кнопку удаления языка.");
 			var deleteButton = Driver.SetDynamicValue(How.XPath, DELETE_LANGUAGE_BUTTON, dropdown.ToString());
 
 			deleteButton.Click();
@@ -275,7 +281,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 		/// </summary>
 		public int GetGlossaryLanguageCount()
 		{
-			Logger.Trace("Получить количество языков в глоссарии.");
+			CustomTestContext.WriteLine("Получить количество языков в глоссарии.");
 
 			return Driver.GetElementsCount(By.XPath(LANGUAGES_DROPDOWNS)) - 1;
 		}
@@ -285,7 +291,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 		/// </summary>
 		public void AssertLanguageNotExistInDropdown(Language language)
 		{
-			Logger.Trace("Проверить, что язык {0} отсутствует в дропдауне.", language);
+			CustomTestContext.WriteLine("Проверить, что язык {0} отсутствует в дропдауне.", language);
 
 			Assert.IsFalse(Driver.GetIsElementExist(By.XPath(LANGUAGES_LIST.Replace("*#*", language.ToString()))),
 				"Произошла ошибка:\n языка {0} присутствует в дропдауне.", language);

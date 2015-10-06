@@ -8,13 +8,10 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestFramework
 {
 	public class BaseObject
 	{
-		public static Logger Logger = LogManager.GetCurrentClassLogger();
-		public static WebDriver Driver;
-
-		public static void InitPage<T>(T pageClass) where T : BaseObject, IAbstractPage<T>
+		public static void InitPage<T>(T pageClass, WebDriver driver) where T : BaseObject, IAbstractPage<T>
 		{
 			pageClass.LoadPage();
-			PageFactory.InitElements(Driver, pageClass);
+			PageFactory.InitElements(driver, pageClass);
 		}
 	}
 }

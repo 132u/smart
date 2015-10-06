@@ -10,6 +10,7 @@ using OpenQA.Selenium.Support.PageObjects;
 
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Billing;
 using AbbyyLS.SmartCAT.Selenium.Tests.DataStructures;
+using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Client;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries;
@@ -25,10 +26,17 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace
 {
 	public class WorkspacePage : BaseObject, IAbstractPage<WorkspacePage>
 	{
+		public WebDriver Driver { get; protected set; }
+
+		public WorkspacePage(WebDriver driver)
+		{
+			Driver = driver;
+		}
+
 		public WorkspacePage GetPage()
 		{
-			var workspacePage = new WorkspacePage();
-			InitPage(workspacePage);
+			var workspacePage = new WorkspacePage(Driver);
+			InitPage(workspacePage, Driver);
 
 			return workspacePage;
 		}
@@ -47,10 +55,10 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace
 		/// </summary>
 		public UsersRightsPage ClickUsersRightsButton()
 		{
-			Logger.Debug("Нажать кнопку 'Пользователи и права'.");
+			CustomTestContext.WriteLine("Нажать кнопку 'Пользователи и права'.");
 			UsersRightsButton.Click();
 
-			return new UsersRightsPage().GetPage();
+			return new UsersRightsPage(Driver).GetPage();
 		}
 
 		/// <summary>
@@ -58,10 +66,10 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace
 		/// </summary>
 		public ProjectsPage ClickProjectsButton()
 		{
-			Logger.Debug("Нажать кнопку 'Проекты'.");
+			CustomTestContext.WriteLine("Нажать кнопку 'Проекты'.");
 			ProjectsButton.Click();
 
-			return new ProjectsPage().GetPage();
+			return new ProjectsPage(Driver).GetPage();
 		}
 
 
@@ -70,10 +78,10 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace
 		/// </summary>
 		public ClientsPage ClickClientsButton()
 		{
-			Logger.Debug("Нажать кнопку 'Клиенты'.");
+			CustomTestContext.WriteLine("Нажать кнопку 'Клиенты'.");
 			ClientsButton.Click();
 
-			return new ClientsPage().GetPage();
+			return new ClientsPage(Driver).GetPage();
 		}
 
 		/// <summary>
@@ -81,10 +89,10 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace
 		/// </summary>
 		public ProjectGroupsPage ClickProjectGroupsButton()
 		{
-			Logger.Debug("Нажать кнопку 'Группы проектов'.");
+			CustomTestContext.WriteLine("Нажать кнопку 'Группы проектов'.");
 			ProjectGroupsButton.Click();
 
-			return new ProjectGroupsPage().GetPage();
+			return new ProjectGroupsPage(Driver).GetPage();
 		}
 
 		/// <summary>
@@ -92,10 +100,10 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace
 		/// </summary>
 		public TranslationMemoriesPage ClickTranslationMemoriesButton()
 		{
-			Logger.Debug("Нажать кнопку 'Память переводов'.");
+			CustomTestContext.WriteLine("Нажать кнопку 'Память переводов'.");
 			TranslationMemoriesButton.Click();
 
-			return new TranslationMemoriesPage().GetPage();
+			return new TranslationMemoriesPage(Driver).GetPage();
 		}
 
 		/// <summary>
@@ -103,10 +111,10 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace
 		/// </summary>
 		public GlossariesPage ClickGlossariesButton()
 		{
-			Logger.Debug("Нажать кнопку 'Глоссарии'.");
+			CustomTestContext.WriteLine("Нажать кнопку 'Глоссарии'.");
 			GlossariesButton.Click();
 
-			return new GlossariesPage().GetPage();
+			return new GlossariesPage(Driver).GetPage();
 		}
 
 		/// <summary>
@@ -114,10 +122,10 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace
 		/// </summary>
 		public LingvoDictionariesPage ClickLingvoDictionariesButton()
 		{
-			Logger.Debug("Нажать кнопку 'Lingvo Dictionaries'.");
+			CustomTestContext.WriteLine("Нажать кнопку 'Lingvo Dictionaries'.");
 			LingvoDictionaries.Click();
 
-			return new LingvoDictionariesPage().GetPage();
+			return new LingvoDictionariesPage(Driver).GetPage();
 		}
 
 		/// <summary>
@@ -132,7 +140,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace
 			}
 			catch (StaleElementReferenceException)
 			{
-				Logger.Warn("StaleElementReferenceException: Не удалось найти элемент. Предпринять повторную попытку.");
+				CustomTestContext.WriteLine("StaleElementReferenceException: Не удалось найти элемент. Предпринять повторную попытку.");
 				resourcesMenu = Driver.FindElement(By.XPath(RESOURCES_MENU));
 			}
 
@@ -149,7 +157,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace
 		/// </summary>
 		public WorkspacePage ClickAccount()
 		{
-			Logger.Debug("Нажать на имя пользователя и аккаунт, чтобы появилась плашка 'Настройки профиля'.");
+			CustomTestContext.WriteLine("Нажать на имя пользователя и аккаунт, чтобы появилась плашка 'Настройки профиля'.");
 			Driver.WaitUntilElementIsDisplay(By.XPath(ACCOUNT));
 			Account.JavaScriptClick();
 
@@ -161,7 +169,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace
 		/// </summary>
 		public WorkspacePage AssertAccountProfileDisplayed()
 		{
-			Logger.Debug("Проверить, что настройки профиля открылись.");
+			CustomTestContext.WriteLine("Проверить, что настройки профиля открылись.");
 
 			Assert.IsTrue(Driver.WaitUntilElementIsDisplay(By.XPath(LOGOFF)),
 				"Произошла ошибка:\n настройки профиля не открылись.");
@@ -174,16 +182,16 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace
 		/// </summary>
 		public BillingPage ClickLicenseAndServices()
 		{
-			Logger.Debug("Нажать на 'Licenses and Services'.");
+			CustomTestContext.WriteLine("Нажать на 'Licenses and Services'.");
 			Driver.WaitUntilElementIsDisplay(By.XPath(LICENSES_AND_SERVICES));
 			LicenseAndServices.Click();
 
-			return new BillingPage();
+			return new BillingPage(Driver);
 		}
 
 		public BillingPage SwitchToLicenseAndServicesWindow()
 		{
-			Logger.Trace("Переключиться  в окно 'Управление лицензиями'");
+			CustomTestContext.WriteLine("Переключиться  в окно 'Управление лицензиями'");
 			// Sleep нужен, чтоб вторая вкладка успела открыться, иначе количество открытых вкладок посчитается неправильно 
 			Thread.Sleep(1000);
 			if (Driver.WindowHandles.Count > 1)
@@ -192,17 +200,17 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace
 				Driver.SwitchTo().Window(Driver.WindowHandles.Last());
 			}
 
-			return new BillingPage();
+			return new BillingPage(Driver);
 		}
 		/// <summary>
 		/// Выйти из смартката
 		/// </summary>
 		public SignInPage ClickSignOut()
 		{
-			Logger.Debug("Выйти из смартката.");
+			CustomTestContext.WriteLine("Выйти из смартката.");
 			SignOutButton.JavaScriptClick();
 
-			return new SignInPage().GetPage();
+			return new SignInPage(Driver).GetPage();
 		}
 
 		/// <summary>
@@ -210,7 +218,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace
 		/// </summary>
 		public WorkspacePage SelectLocale(Language language)
 		{
-			Logger.Debug("Сменить язык локали на {0}, если необходимо.", language);
+			CustomTestContext.WriteLine("Сменить язык локали на {0}, если необходимо.", language);
 			// Sleep нужен для предотвращения ошибки "unknown error: Element is not clickable at point"
 			Thread.Sleep(1000);
 			LanguageButton.Click();
@@ -244,11 +252,11 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace
 		/// </summary>
 		public WorkspacePage ClickCloseHelp()
 		{
-			Logger.Trace("Проверить, открыта ли подсказка при входе в SmartCAT.");
+			CustomTestContext.WriteLine("Проверить, открыта ли подсказка при входе в SmartCAT.");
 
 			if (Driver.WaitUntilElementIsDisplay(By.XPath(CLOSE_HELP_BUTTON), timeout:3))
 			{
-				Logger.Debug("Закрыть окно подсказки сразу после входа в SmartCAT");
+				CustomTestContext.WriteLine("Закрыть окно подсказки сразу после входа в SmartCAT");
 				CloseHelpButton.Click();
 			}
 
@@ -260,21 +268,22 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace
 		/// </summary>
 		public int GetCountExportNotifiers()
 		{
-			Logger.Trace("Узнать, сколько уведомлений есть на данный момент.");
+			CustomTestContext.WriteLine("Узнать, сколько уведомлений есть на данный момент.");
 			var countExportNotifiers = Driver.GetElementList(By.XPath(NOTIFIER_LIST)).Count;
-			Logger.Trace("Обнаружено {0} уведомлений.", countExportNotifiers);
+			CustomTestContext.WriteLine("Обнаружено {0} уведомлений.", countExportNotifiers);
 
 			return countExportNotifiers;
 		}
 
-		public T AssertDialogBackgroundDisappeared<T>() where T : class, IAbstractPage<T>, new()
+		public T AssertDialogBackgroundDisappeared<T>(WebDriver driver) where T : class, IAbstractPage<T>
 		{
-			Logger.Trace("Дождаться закрытия фона диалога.");
+			CustomTestContext.WriteLine("Дождаться закрытия фона диалога.");
 
 			Assert.IsTrue(Driver.WaitUntilElementIsDisappeared(By.XPath(DIALOG_BACKGROUND)),
 				"Ошибка: фон диалога не закрылся.");
-			
-			return new T().GetPage();
+
+			var instance = Activator.CreateInstance(typeof(T), new object[] { driver }) as T;
+			return instance.GetPage();
 		}
 
 		/// <summary>
@@ -282,7 +291,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace
 		/// </summary>
 		public WorkspacePage AssertLingvoDictionariesMenuIsNotDisplayed()
 		{
-			Logger.Trace("Проверить, что 'Lingvo Dictionaries' отсутствует в меню.");
+			CustomTestContext.WriteLine("Проверить, что 'Lingvo Dictionaries' отсутствует в меню.");
 
 			Assert.IsFalse(Driver.GetIsElementExist(By.XPath(LINGVO_DICTIONARIES_MENU)),
 				"Произошла ошибка:\n 'Lingvo Dictionaries' присутствует в меню.");
@@ -295,7 +304,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace
 		/// </summary>
 		public WorkspacePage AssertLingvoDictionariesDisplayed()
 		{
-			Logger.Trace("Проверить, существует ли 'Lingvo Dictionaries' в меню.");
+			CustomTestContext.WriteLine("Проверить, существует ли 'Lingvo Dictionaries' в меню.");
 
 			Assert.IsTrue(LingvoDictionaries.Displayed,
 				"Произошла ошибка:\n в меню отсутствует 'Lingvo Dictionaries'.");
@@ -308,10 +317,10 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace
 		/// </summary>
 		public SearchPage ClickSearchButton()
 		{
-			Logger.Debug("Нажать Search в меню.");
+			CustomTestContext.WriteLine("Нажать Search в меню.");
 			SearchMenu.Click();
 
-			return new SearchPage().GetPage();
+			return new SearchPage(Driver).GetPage();
 		}
 
 		/// <summary>
@@ -320,7 +329,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace
 		/// <param name="expectedUserName">ожидаемое имя</param>
 		public WorkspacePage AssertUserNameMatch(string expectedUserName)
 		{
-			Logger.Trace("Проверить, что имя {0} пользователя в черной плашке совпадает с ожидаемым именем {1}.",
+			CustomTestContext.WriteLine("Проверить, что имя {0} пользователя в черной плашке совпадает с ожидаемым именем {1}.",
 				currentUserName(), expectedUserName);
 
 			Assert.AreEqual(expectedUserName, currentUserName(),
@@ -335,7 +344,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace
 		/// <param name="expectedAccountName">ожидаемое имя</param>
 		public WorkspacePage AssertAccountNameMatch(string expectedAccountName)
 		{
-			Logger.Trace("Проверить, что название {0} аккаунта в черной плашке совпадает с ожидаемым именем {1}.",
+			CustomTestContext.WriteLine("Проверить, что название {0} аккаунта в черной плашке совпадает с ожидаемым именем {1}.",
 				currentAccount(), expectedAccountName);
 
 			Assert.AreEqual(expectedAccountName, currentAccount(),
@@ -350,7 +359,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace
 		/// <param name="accountName">имя аккаунт</param>
 		public WorkspacePage AssertAccountListContainsAccountName(string accountName)
 		{
-			Logger.Trace("Проверить, что список аккаунтов содержит {0} аккаунт.", accountName);
+			CustomTestContext.WriteLine("Проверить, что список аккаунтов содержит {0} аккаунт.", accountName);
 
 			Assert.IsTrue(Driver.SetDynamicValue(How.XPath, ACCOUNT_NAME_IN_LIST, accountName).Displayed,
 				"Произошла ошибка:\n список аккаунтов не содержит {0} аккаунт.", accountName);
@@ -366,22 +375,23 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace
 			{
 				assertCatMenuButtonDisplay();
 
-				Logger.Debug("Открыть CAT меню слева.");
+				CustomTestContext.WriteLine("Открыть CAT меню слева.");
 				CatMenuOpenButton.JavaScriptClick();
 			}
 
 			return GetPage();
 		}
-		
+
 		/// <summary>
 		/// Обновить страницу
 		/// </summary>
-		public T RefreshPage<T>() where T: class, IAbstractPage<T>, new()
+		public T RefreshPage<T>(WebDriver driver) where T : class, IAbstractPage<T>
 		{
-			Logger.Debug("Обновить страницу.");
+			CustomTestContext.WriteLine("Обновить страницу.");
 			Driver.Navigate().Refresh();
 
-			return new T().GetPage();
+			var instance = Activator.CreateInstance(typeof(T), new object[] { driver }) as T;
+			return instance.GetPage();
 		}
 
 		/// <summary>
@@ -389,7 +399,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace
 		/// </summary>
 		public WorkspacePage AssertAlertNoExist()
 		{
-			Logger.Trace("Подтвердить, что на странице нет алертов.");
+			CustomTestContext.WriteLine("Подтвердить, что на странице нет алертов.");
 
 			Assert.Throws<NoAlertPresentException>(() => Driver.SwitchTo().Alert().Accept(), 
 				"Произошла ошибка:\n алерт не должен появляться.");
@@ -400,20 +410,21 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace
 		/// <summary>
 		/// Закрыть все показанные уведомления
 		/// </summary>
-		public T CloseAllNotifications<T>() where T : class, IAbstractPage<T>, new()
+		public T CloseAllNotifications<T>(WebDriver driver) where T : class, IAbstractPage<T>
 		{
-			Logger.Debug("Закрыть все показанные уведомления.");
+			CustomTestContext.WriteLine("Закрыть все показанные уведомления.");
 			Driver.WaitUntilElementIsDisplay(By.XPath(ALL_NOTIFICATIONS), timeout: 30);
 			var notificationsCount = Driver.GetElementList(By.XPath(ALL_NOTIFICATIONS)).Count;
 
 			for (var i = notificationsCount; i > 0; i--)
 			{
-				Logger.Debug("Закрыть сообщение №{0}.", i);
+				CustomTestContext.WriteLine("Закрыть сообщение №{0}.", i);
 				Notification = Driver.SetDynamicValue(How.XPath, NOTIFICATION, i.ToString());
 				Notification.Click();
 			}
 
-			return new T().GetPage();
+			var instance = Activator.CreateInstance(typeof(T), new object[] { driver }) as T;
+			return instance.GetPage();
 		}
 
 		/// <summary>
@@ -421,14 +432,14 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace
 		/// </summary>
 		private bool getIsLeftMenuDisplay()
 		{
-			Logger.Trace("Вернуть, раскрыто ли главное меню слева.");
+			CustomTestContext.WriteLine("Вернуть, раскрыто ли главное меню слева.");
 
 			return CatMenu.Displayed;
 		}
 
 		private WorkspacePage assertCatMenuButtonDisplay()
 		{
-			Logger.Trace("Проверить, что кнопка открытия меню отображается на странице.");
+			CustomTestContext.WriteLine("Проверить, что кнопка открытия меню отображается на странице.");
 
 			Assert.IsTrue(Driver.WaitUntilElementIsDisplay(By.XPath(CAT_MENU_OPEN_BUTTON), 20),
 				"Произошла ошибка:\n кнопка открытия меню не отображается на странице.");
@@ -442,7 +453,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace
 		/// <returns>имя пользователя</returns>
 		private string currentUserName()
 		{
-			Logger.Trace("Получить имя пользователя из черной плашки.");
+			CustomTestContext.WriteLine("Получить имя пользователя из черной плашки.");
 
 			var accountName = UserName.Text;
 			var index = accountName.IndexOf("\r", StringComparison.Ordinal);
@@ -461,7 +472,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace
 		/// <returns>имя текущего аккаунта</returns>
 		private string currentAccount()
 		{
-			Logger.Trace("Получить имя текущего аккаунта.");
+			CustomTestContext.WriteLine("Получить имя текущего аккаунта.");
 
 			return CurrentAccountName.Text;
 		}

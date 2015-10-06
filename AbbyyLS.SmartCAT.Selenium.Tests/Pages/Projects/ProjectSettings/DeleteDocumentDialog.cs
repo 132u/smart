@@ -1,18 +1,21 @@
-﻿using System.Collections.Generic;
-
-using NUnit.Framework;
+﻿using NUnit.Framework;
 using OpenQA.Selenium;
 
+using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
 using AbbyyLS.SmartCAT.Selenium.Tests.TestFramework;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings
 {
 	public class DeleteDocumentDialog : ProjectSettingsPage, IAbstractPage<DeleteDocumentDialog>
 	{
+		public DeleteDocumentDialog(WebDriver driver) : base(driver)
+		{
+		}
+
 		public new DeleteDocumentDialog GetPage()
 		{
-			var newDeleteDocumentDialog = new DeleteDocumentDialog();
-			InitPage(newDeleteDocumentDialog);
+			var newDeleteDocumentDialog = new DeleteDocumentDialog(Driver);
+			InitPage(newDeleteDocumentDialog, Driver);
 			newDeleteDocumentDialog.DeleteDocumentButton = Driver.FindElement(By.XPath(DELETE_DOCUMENT_BTN));
 
 			return newDeleteDocumentDialog;
@@ -31,10 +34,10 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings
 		/// </summary>
 		public ProjectSettingsPage ConfirmDelete()
 		{
-			Logger.Debug("Нажать кнопку 'Удалить'.");
+			CustomTestContext.WriteLine("Нажать кнопку 'Удалить'.");
 			DeleteDocumentButton.Click();
 
-			return new ProjectSettingsPage().GetPage();
+			return new ProjectSettingsPage(Driver).GetPage();
 		}
 
 		protected IWebElement DeleteDocumentButton { get; set; }

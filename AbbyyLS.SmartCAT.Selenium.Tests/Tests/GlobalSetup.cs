@@ -8,7 +8,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests
 	[SetUpFixture]
 	public class GlobalSetup
 	{
-		[SetUp]
+		[OneTimeSetUp]
 		public static void SetUp()
 		{
 			try

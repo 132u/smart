@@ -1,20 +1,24 @@
 ﻿using System.Collections.Generic;
 
 using NUnit.Framework;
-
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.PageObjects;
 
+using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
 using AbbyyLS.SmartCAT.Selenium.Tests.TestFramework;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Admin
 {
 	public class AdminCreateDictionaryPackagePage : AdminLingvoProPage, IAbstractPage<AdminCreateDictionaryPackagePage>
 	{
+		public AdminCreateDictionaryPackagePage(WebDriver driver) : base(driver)
+		{
+		}
+
 		public new AdminCreateDictionaryPackagePage GetPage()
 		{
-			var adminCreateDictionaryPackagePage = new AdminCreateDictionaryPackagePage();
-			InitPage(adminCreateDictionaryPackagePage);
+			var adminCreateDictionaryPackagePage = new AdminCreateDictionaryPackagePage(Driver);
+			InitPage(adminCreateDictionaryPackagePage, Driver);
 
 			return adminCreateDictionaryPackagePage;
 		}
@@ -33,7 +37,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Admin
 		/// <param name="packageName">имя пакета</param>
 		public AdminCreateDictionaryPackagePage FillDictionaryPackageName(string packageName)
 		{
-			Logger.Debug("Ввести {0} в названии пакета словарей.", packageName);
+			CustomTestContext.WriteLine("Ввести {0} в названии пакета словарей.", packageName);
 			DictionaryPackageName.SetText(packageName);
 
 			return GetPage();
@@ -44,7 +48,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Admin
 		/// </summary>
 		public AdminCreateDictionaryPackagePage ClickPublicDictionaryCheckbox()
 		{
-			Logger.Debug("Поставить галочку в чекбоксе 'Общедоступный пакет'");
+			CustomTestContext.WriteLine("Поставить галочку в чекбоксе 'Общедоступный пакет'");
 			PublicDictionaryCheckbox.Click();
 
 			return GetPage();
@@ -55,7 +59,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Admin
 		/// </summary>
 		public AdminCreateDictionaryPackagePage AddDictionariesToPackage(List<string> dictionariesList)
 		{
-			Logger.Debug("Выбрать словари для пакета.");
+			CustomTestContext.WriteLine("Выбрать словари для пакета.");
 			dictionariesList.ForEach(item =>
 			{
 				DictionariesList.SelectOptionByText(item);
@@ -70,7 +74,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Admin
 		/// </summary>
 		public AdminCreateDictionaryPackagePage ClickCreateDictionaryPack()
 		{
-			Logger.Debug("Нажать кнопку 'Создать пакет'.");
+			CustomTestContext.WriteLine("Нажать кнопку 'Создать пакет'.");
 			CreateDictionaryPackButton.Click();
 
 			return GetPage();

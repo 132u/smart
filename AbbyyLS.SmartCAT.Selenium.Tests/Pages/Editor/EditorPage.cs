@@ -1,14 +1,12 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using System.Threading;
-using System.Windows.Forms;
 
 using NUnit.Framework;
-
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.PageObjects;
 
 using AbbyyLS.SmartCAT.Selenium.Tests.DataStructures;
+using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings;
 using AbbyyLS.SmartCAT.Selenium.Tests.TestFramework;
 
@@ -16,10 +14,17 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 {
 	public class EditorPage : BaseObject, IAbstractPage<EditorPage>
 	{
+		public WebDriver Driver { get; private set; }
+
+		public EditorPage(WebDriver driver)
+		{
+			Driver = driver;
+		}
+
 		public EditorPage GetPage()
 		{
-			var editorPage = new EditorPage();
-			InitPage(editorPage);
+			var editorPage = new EditorPage(Driver);
+			InitPage(editorPage, Driver);
 
 			return editorPage;
 		}
@@ -37,10 +42,10 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		/// </summary>
 		public ProjectSettingsPage ClickHomeButton()
 		{
-			Logger.Debug("Нажать кнопку 'Домой'.");
+			CustomTestContext.WriteLine("Нажать кнопку 'Домой'.");
 			HomeButton.Click();
 
-			return new ProjectSettingsPage().GetPage();
+			return new ProjectSettingsPage(Driver).GetPage();
 		}
 
 		/// <summary>
@@ -48,7 +53,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		/// </summary>
 		public EditorPage ConfirmSegmentByHotkeys()
 		{
-			Logger.Debug("Подтвердить сегмент с помощью горячих клавиш.");
+			CustomTestContext.WriteLine("Подтвердить сегмент с помощью горячих клавиш.");
 			//SendKeys.SendWait("^{ENTER}");
 			Driver.SendHotKeys(OpenQA.Selenium.Keys.Enter, true);
 
@@ -60,7 +65,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		/// </summary>
 		public EditorPage ClickF8HotKey()
 		{
-			Logger.Debug("Нажать хоткей F8.");
+			CustomTestContext.WriteLine("Нажать хоткей F8.");
 			//SendKeys.SendWait("{F8}");
 			Driver.SendHotKeys(OpenQA.Selenium.Keys.F8);
 
@@ -72,7 +77,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		/// </summary>
 		public EditorPage ClickConfirmButton()
 		{
-			Logger.Debug("Нажать кнопку 'Подтвердить сегмент'.");
+			CustomTestContext.WriteLine("Нажать кнопку 'Подтвердить сегмент'.");
 			ConfirmButton.AdvancedClick();
 
 			return GetPage();
@@ -83,10 +88,10 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		/// </summary>
 		public ErrorsDialog ClickFindErrorButton()
 		{
-			Logger.Debug("Нажать кнопку поиска ошибки в терминологии");
+			CustomTestContext.WriteLine("Нажать кнопку поиска ошибки в терминологии");
 			FindErrorButton.Click();
 
-			return new ErrorsDialog().GetPage();
+			return new ErrorsDialog(Driver).GetPage();
 		}
 
 		/// <summary>
@@ -94,11 +99,11 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		/// </summary>
 		public ErrorsDialog FindErrorByHotkey()
 		{
-			Logger.Debug("Вызвать окно поиска ошибок в терминологии с помощью хоткея F7");
+			CustomTestContext.WriteLine("Вызвать окно поиска ошибок в терминологии с помощью хоткея F7");
 			//SendKeys.SendWait("{F7}");
 			Driver.SendHotKeys(OpenQA.Selenium.Keys.F7);
 
-			return new ErrorsDialog().GetPage();
+			return new ErrorsDialog(Driver).GetPage();
 		}
 
 		/// <summary>
@@ -107,7 +112,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		/// <param name="rowNumber">номер сегмента</param>
 		public EditorPage AssertIsSegmentConfirmed(int rowNumber)
 		{
-			Logger.Trace("Проверить, подтвердился ли сегмент {0}.", rowNumber);
+			CustomTestContext.WriteLine("Проверить, подтвердился ли сегмент {0}.", rowNumber);
 
 			Assert.IsTrue(Driver.WaitUntilElementIsDisplay(By.XPath(CONFIRMED_ICO.Replace("*#*", (rowNumber - 1).ToString()))),
 				"Произошла ошибка:\n не удалось подтвердить сегмент с номером {0}.", rowNumber);
@@ -120,7 +125,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		/// </summary>
 		public EditorPage AssertLastRevisionEqualTo(RevisionType expectedRevisionType)
 		{
-			Logger.Trace("Проверить, что тип последней ревизии соответствует ожидаемому типу {0}", expectedRevisionType);
+			CustomTestContext.WriteLine("Проверить, что тип последней ревизии соответствует ожидаемому типу {0}", expectedRevisionType);
 			
 			Assert.IsTrue(Driver.WaitUntilElementIsDisplay(By.XPath(REVISION_PATH.Replace("*#*", 
 					expectedRevisionType.Description()))),
@@ -135,7 +140,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		/// <param name="rowNumber">номер сегмента</param>
 		public EditorPage ClickTargetCell(int rowNumber)
 		{
-			Logger.Debug("Кликнуть по таргету сегмента {0}.", rowNumber);
+			CustomTestContext.WriteLine("Кликнуть по таргету сегмента {0}.", rowNumber);
 			TargetCell = Driver.SetDynamicValue(How.XPath, TARGET_CELL, (rowNumber - 1).ToString());
 			TargetCell.Click();
 
@@ -147,10 +152,10 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		/// </summary>
 		public SpecialCharactersForm ClickCharacterButton()
 		{
-			Logger.Debug("Нажать кнопку 'Специальные символы'.");
+			CustomTestContext.WriteLine("Нажать кнопку 'Специальные символы'.");
 			CharacterButton.Click();
 
-			return new SpecialCharactersForm().GetPage();
+			return new SpecialCharactersForm(Driver).GetPage();
 		}
 
 		/// <summary>
@@ -158,11 +163,11 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		/// </summary>
 		public SpecialCharactersForm ClickCharacterButtonByHotKey()
 		{
-			Logger.Debug("Нажать кнопку 'Специальные символы' с помощью хоткея Ctrl+Shift+I.");
+			CustomTestContext.WriteLine("Нажать кнопку 'Специальные символы' с помощью хоткея Ctrl+Shift+I.");
 			//SendKeys.SendWait(@"^+{i}");
 			Driver.SendHotKeys("I", true, true);
 
-			return new SpecialCharactersForm().GetPage();
+			return new SpecialCharactersForm(Driver).GetPage();
 		}
 
 		/// <summary>
@@ -172,7 +177,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		/// <param name="rowNumber">номер сегмента</param>
 		public EditorPage SendTargetText(string text, int rowNumber)
 		{
-			Logger.Debug("Ввести текст в таргет сегмента {0}.", rowNumber);
+			CustomTestContext.WriteLine("Ввести текст в таргет сегмента {0}.", rowNumber);
 			TargetCell = Driver.SetDynamicValue(How.XPath, TARGET_CELL, (rowNumber - 1).ToString());
 			TargetCell.Click();
 			TargetCell.SetText(text);
@@ -185,7 +190,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		/// </summary>
 		public EditorPage AddText(string text, int rowNumber)
 		{
-			Logger.Debug("Ввести {0} в таргет сегмента без очистки сегмента.", rowNumber);
+			CustomTestContext.WriteLine("Ввести {0} в таргет сегмента без очистки сегмента.", rowNumber);
 			TargetCell = Driver.SetDynamicValue(How.XPath, TARGET_CELL, (rowNumber - 1).ToString());
 
 			TargetCell.Click();
@@ -199,10 +204,10 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		/// </summary>
 		public SpellcheckDictionaryDialog ClickSpellcheckDictionaryButton()
 		{
-			Logger.Debug("Нажать кнопку открытия словаря");
+			CustomTestContext.WriteLine("Нажать кнопку открытия словаря");
 			SpellcheckDictionaryButton.Click();
 
-			return new SpellcheckDictionaryDialog().GetPage();
+			return new SpellcheckDictionaryDialog(Driver).GetPage();
 		}
 
 		/// <summary>
@@ -210,7 +215,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		/// </summary>
 		public EditorPage ClickLastUnconfirmedButton()
 		{
-			Logger.Debug("Нажать кнопку 'Go to Last Unconfirmed Segment'.");
+			CustomTestContext.WriteLine("Нажать кнопку 'Go to Last Unconfirmed Segment'.");
 			LastUnconfirmedButton.Click();
 
 			return GetPage();
@@ -221,7 +226,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		/// </summary>
 		public EditorPage ClickInsertTagButton()
 		{
-			Logger.Debug("Нажать кнопку 'Вставить тег'.");
+			CustomTestContext.WriteLine("Нажать кнопку 'Вставить тег'.");
 			InsertTagButton.Click();
 
 			return GetPage();
@@ -232,7 +237,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		/// </summary>
 		public EditorPage ClickF9HotKey()
 		{
-			Logger.Debug("Нажать хоткей F9.");
+			CustomTestContext.WriteLine("Нажать хоткей F9.");
 			//SendKeys.SendWait("{F9}");
 			Driver.SendHotKeys(OpenQA.Selenium.Keys.F9);
 
@@ -244,7 +249,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		/// </summary>
 		public EditorPage AssertUnderlineForWordExist(string word)
 		{
-			Logger.Trace("Проверить, что слово {0} подчеркнуто в сегменте", word);
+			CustomTestContext.WriteLine("Проверить, что слово {0} подчеркнуто в сегменте", word);
 			var underlineWordPath = SPELLCHECK_PATH.Replace("*#*", word);
 
 			Assert.IsTrue(Driver.WaitUntilElementIsDisplay(By.XPath(underlineWordPath)),
@@ -258,7 +263,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		/// </summary>
 		public EditorPage AssertUnderlineForWordNotExist(string word)
 		{
-			Logger.Trace("Проверить, что слово {0} не подчеркнуто в сегменте", word);
+			CustomTestContext.WriteLine("Проверить, что слово {0} не подчеркнуто в сегменте", word);
 			var wordsWithUnderline = Driver.GetElementList(By.XPath(SPELLCHECK_PATH)).Select(item => item.Text);
 
 			Assert.IsFalse(wordsWithUnderline.Contains(word),
@@ -272,7 +277,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		/// </summary>
 		public string GetStage()
 		{
-			Logger.Trace("Получить название этапа");
+			CustomTestContext.WriteLine("Получить название этапа");
 
 			return StageName.Text;
 		}
@@ -283,7 +288,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		/// <param name="segmentNumber">номер сегмента</param>
 		public EditorPage AssertTargetDisplayed(int segmentNumber)
 		{
-			Logger.Trace("Проверить, что таргет сегмента №{0} виден", segmentNumber);
+			CustomTestContext.WriteLine("Проверить, что таргет сегмента №{0} виден", segmentNumber);
 
 			Assert.IsTrue(Driver.WaitUntilElementIsDisplay(By.XPath(TARGET_CELL.Replace("*#*", (segmentNumber - 1).ToString()))),
 				"Произошла ошибка:\n сегмент с номером {0} не появился.", segmentNumber);
@@ -296,7 +301,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		/// </summary>
 		public EditorPage AssertStageNameIsEmpty()
 		{
-			Logger.Trace("Проверить, что название этапа пустое.");
+			CustomTestContext.WriteLine("Проверить, что название этапа пустое.");
 
 			Assert.IsFalse(Driver.ElementIsDisplayed(By.XPath(STAGE_NAME)),
 				"Произошла ошибка:\n название этапа проставлено.");
@@ -309,7 +314,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		/// </summary>
 		public EditorPage AssertSegmentIsSelected(int segmentNumber)
 		{
-			Logger.Trace("Проверить, что сегмент №{0} активен (подсвечен голубым цветом).", segmentNumber);
+			CustomTestContext.WriteLine("Проверить, что сегмент №{0} активен (подсвечен голубым цветом).", segmentNumber);
 
 			Assert.IsTrue(Driver.GetIsElementExist(By.XPath(SELECTED_SEGMENT.Replace("*#*", segmentNumber.ToString()))),
 				"Произошла ошибка:\n сегмент №{0} не выделен, не подсвечен голубым цветом.", segmentNumber);
@@ -322,7 +327,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		/// </summary>
 		public EditorPage AssertTagIsDisplayed(int segmentNumber)
 		{
-			Logger.Trace("Проверить, что появился тег в таргете.");
+			CustomTestContext.WriteLine("Проверить, что появился тег в таргете.");
 			var targetTag = Driver.SetDynamicValue(How.XPath, TAG, segmentNumber.ToString());
 
 			Assert.IsTrue(targetTag.Displayed, "Произошла ошибка:\n тег не появился в таргете.");
@@ -335,7 +340,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		/// </summary>
 		public int TargetMatchPercent(int segmentNumber)
 		{
-			Logger.Trace("Вернуть процент совпадения в таргет №{0}.", segmentNumber);
+			CustomTestContext.WriteLine("Вернуть процент совпадения в таргет №{0}.", segmentNumber);
 			var percentMatchColumn = Driver.SetDynamicValue(How.XPath, TARGET_MATCH_COLUMN_PERCENT, (segmentNumber - 1).ToString()).Text.Replace("%", "");
 			int result;
 
@@ -354,7 +359,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		/// <returns>номер строки в CAT-панели</returns>
 		public int CatTypeRowNumber(CatType catType)
 		{
-			Logger.Trace("Получить номер строки для {0} в CAT-панели.", catType);
+			CustomTestContext.WriteLine("Получить номер строки для {0} в CAT-панели.", catType);
 			var rowNumber = 0;
 			var catTypeList = Driver.GetTextListElement(By.XPath(CAT_TYPE_LIST_IN_PANEL));
 
@@ -377,7 +382,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		/// </summary>
 		public EditorPage WaitCatTypeDisplayed(CatType catType)
 		{
-			Logger.Trace("Подождать появленя {0} типа в CAT-панели.", catType);
+			CustomTestContext.WriteLine("Подождать появленя {0} типа в CAT-панели.", catType);
 
 			Assert.IsTrue(Driver.WaitUntilElementIsDisplay(By.XPath(CAT_TYPE.Replace("*#*", catType.ToString()))),
 				"Произошла ошибка:\n Не появился тип {0} в CAT-панели.", catType);
@@ -391,7 +396,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		/// <param name="rowNumber">номер строки в CAT-панели</param>
 		public EditorPage DoubleClickCatPanel(int rowNumber)
 		{
-			Logger.Debug("Двойной клик по строке №{0} с переводом в CAT-панели.", rowNumber);
+			CustomTestContext.WriteLine("Двойной клик по строке №{0} с переводом в CAT-панели.", rowNumber);
 			var cat = Driver.SetDynamicValue(How.XPath, CAT_TRANSLATION, rowNumber.ToString());
 
 			cat.Scroll();
@@ -409,10 +414,10 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		/// <returns></returns>
 		public AddTermDialog ClickAddTermButton()
 		{
-			Logger.Trace("Нажать кнопку 'Add Term'.");
+			CustomTestContext.WriteLine("Нажать кнопку 'Add Term'.");
 			AddTermButton.Click();
 
-			return new AddTermDialog().GetPage();
+			return new AddTermDialog(Driver).GetPage();
 		}
 
 		/// <summary>
@@ -420,12 +425,12 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		/// </summary>
 		public EditorPage AssertTermIsSaved()
 		{
-			Logger.Trace("Проверить, что новый термин сохранен.");
+			CustomTestContext.WriteLine("Проверить, что новый термин сохранен.");
 
 			Assert.IsTrue(Driver.WaitUntilElementIsDisplay(By.XPath(TERM_SAVED_MESSAGE)),
 				"Произошла ошибка:\n сообщение о том, что термин сохранен, не появилось.");
 
-			return new EditorPage().GetPage();
+			return new EditorPage(Driver).GetPage();
 		}
 
 		/// <summary>
@@ -433,12 +438,12 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		/// </summary>
 		public EditorPage AssertTermIsSavedMessageDisappeared()
 		{
-			Logger.Trace("Проверить, что сообщение о том, что термин сохранен, исчезло.");
+			CustomTestContext.WriteLine("Проверить, что сообщение о том, что термин сохранен, исчезло.");
 
 			Assert.IsTrue(Driver.WaitUntilElementIsDisappeared(By.XPath(TERM_SAVED_MESSAGE), timeout: 30),
 				"Произошла ошибка:\n сообщение о том, что термин сохранен, не исчезло.");
 
-			return new EditorPage().GetPage();
+			return new EditorPage(Driver).GetPage();
 		}
 
 		/// <summary>
@@ -447,7 +452,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		/// <param name="segmentNumber">номер строки сегмента</param>
 		public string TargetText(int segmentNumber)
 		{
-			Logger.Trace("Получить текст из таргет сегмента №{0}.", segmentNumber);
+			CustomTestContext.WriteLine("Получить текст из таргет сегмента №{0}.", segmentNumber);
 
 			return Driver.SetDynamicValue(How.XPath, TARGET_CELL, (segmentNumber - 1).ToString()).Text;
 		}
@@ -458,7 +463,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		/// <param name="rowNumber">номер строки сегмента</param>
 		public string SourceText(int rowNumber)
 		{
-			Logger.Trace("Получить текст из source сегмента №{0}.", rowNumber);
+			CustomTestContext.WriteLine("Получить текст из source сегмента №{0}.", rowNumber);
 			
 			return Driver.SetDynamicValue(How.XPath, SOURCE_CELL, (rowNumber - 1).ToString()).Text;
 		}
@@ -469,7 +474,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		/// <param name="rowNumber">номер строки</param>
 		public string CATTranslationText(int rowNumber)
 		{
-			Logger.Trace("Получить текст из CAT-панели, строка №{0}.", rowNumber);
+			CustomTestContext.WriteLine("Получить текст из CAT-панели, строка №{0}.", rowNumber);
 			
 			return Driver.SetDynamicValue(How.XPath, CAT_TRANSLATION, rowNumber.ToString()).Text;
 		}
@@ -480,7 +485,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		/// <param name="segmentNumber">номер строки</param>
 		public string MatchColumnText(int segmentNumber)
 		{
-			Logger.Trace("Получить текст из колонки MatchColumn, строка №{0}.", segmentNumber);
+			CustomTestContext.WriteLine("Получить текст из колонки MatchColumn, строка №{0}.", segmentNumber);
 
 			return Driver.SetDynamicValue(How.XPath, MATCH_COLUMN, segmentNumber.ToString()).Text;
 		}
@@ -490,11 +495,11 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		/// </summary>
 		public EditorPage CloseTutorialIfExist()
 		{
-			Logger.Trace("Проверить, видна ли подсказка.");
+			CustomTestContext.WriteLine("Проверить, видна ли подсказка.");
 
 			if (tutorialExist())
 			{
-				Logger.Debug("Закрыть подсказку.");
+				CustomTestContext.WriteLine("Закрыть подсказку.");
 				FinishTutorialButton.Click();
 			}
 
@@ -506,7 +511,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		/// </summary>
 		public EditorPage ClickCopySourceToTargetButton()
 		{
-			Logger.Debug("Нажать кнопку 'Копировать оригинал в перевод'.");
+			CustomTestContext.WriteLine("Нажать кнопку 'Копировать оригинал в перевод'.");
 			CopyButton.Click();
 
 			return GetPage();
@@ -517,7 +522,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		/// </summary>
 		public EditorPage ClickCopySourceToTargetHotkey()
 		{
-			Logger.Debug("Нажать хоткей кнопки 'Копировать оригинал в перевод' - Ctrl+Insert.");
+			CustomTestContext.WriteLine("Нажать хоткей кнопки 'Копировать оригинал в перевод' - Ctrl+Insert.");
 			//SendKeys.SendWait("^{INSERT}");
 			Driver.SendHotKeys(OpenQA.Selenium.Keys.Insert, true);
 
@@ -529,7 +534,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		/// </summary>
 		public int CatTranslationMatchPercent(int rowNumber)
 		{
-			Logger.Trace("Вернуть процент совпадений в CAT-панели. Номер строки CAT: {0}.", rowNumber);
+			CustomTestContext.WriteLine("Вернуть процент совпадений в CAT-панели. Номер строки CAT: {0}.", rowNumber);
 			var catPanelPercentMatch = Driver.SetDynamicValue(How.XPath, CAT_PANEL_PERCENT_MATCH, rowNumber.ToString()).Text.Replace("%", "");
 			int result;
 
@@ -546,7 +551,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		/// </summary>
 		public string TargetMatchColor(int segmentNumber)
 		{
-			Logger.Trace("Вернуть цвет процента совпадения в колонке Match в сегменте №{0}.", segmentNumber);
+			CustomTestContext.WriteLine("Вернуть цвет процента совпадения в колонке Match в сегменте №{0}.", segmentNumber);
 			var percentColor = Driver.SetDynamicValue(How.XPath, PERCENT_COLOR, (segmentNumber - 1).ToString());
 
 			return percentColor.GetAttribute("class");
@@ -558,7 +563,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		/// </summary>
 		public EditorPage AssertConcordanceSearchIsDisplayed()
 		{
-			Logger.Trace("Проверить, что Конкордансный поиск появился.");
+			CustomTestContext.WriteLine("Проверить, что Конкордансный поиск появился.");
 			
 			Assert.IsTrue(ConcordanceSearch.Displayed, "Произошла ошибка:\n Конкордансный поиск не появился.");
 
@@ -570,7 +575,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		/// </summary>
 		public EditorPage AssertSegmentIsLocked(int segmentNumber)
 		{
-			Logger.Trace("Проверить, что сегмент №{0} залочен.", segmentNumber);
+			CustomTestContext.WriteLine("Проверить, что сегмент №{0} залочен.", segmentNumber);
 			var segmentLock = Driver.SetDynamicValue(How.XPath, SEGMENT_LOCK, segmentNumber.ToString());
 
 			Assert.IsTrue(segmentLock.Displayed, "Произошла ошибка:\n сегмент не залочен.");
@@ -583,7 +588,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		/// </summary>
 		public EditorPage AssertSegmentIsNotLocked(int segmentNumber)
 		{
-			Logger.Trace("Проверить, что сегмент №{0} не залочен.", segmentNumber);
+			CustomTestContext.WriteLine("Проверить, что сегмент №{0} не залочен.", segmentNumber);
 
 			Assert.IsFalse(Driver.GetIsElementExist(By.XPath(SEGMENT_LOCK.Replace("*#*", segmentNumber.ToString()))),
 				"Произошла ошибка:\n сегмент залочен.");
@@ -596,7 +601,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		/// </summary>
 		public EditorPage AssertSaveingStatusIsDisappeared()
 		{
-			Logger.Trace("Проверить, статус 'Saving...' исчез.");
+			CustomTestContext.WriteLine("Проверить, статус 'Saving...' исчез.");
 
 			Assert.IsTrue(Driver.WaitUntilElementIsDisappeared(By.XPath(SAVING_STATUS)), "Произошла ошибка:\n  статус 'Saving...' не исчез.");
 
@@ -608,7 +613,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		/// </summary>
 		public EditorPage AssertAllSegmentsSaved()
 		{
-			Logger.Trace("Проверить, что все сегменты сохранены.");
+			CustomTestContext.WriteLine("Проверить, что все сегменты сохранены.");
 
 			Assert.IsTrue(Driver.WaitUntilElementIsDisplay(By.XPath(ALL_SEGMENTS_SAVED_STATUS), timeout: 20),
 				"Произошла ошибка:\n Не появился статус о том, что все сегменты сохранены.");
@@ -621,7 +626,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		/// </summary>
 		public EditorPage ClickConcordanceButton()
 		{
-			Logger.Debug("Нажать кнопку 'Конкордансный поиск'.");
+			CustomTestContext.WriteLine("Нажать кнопку 'Конкордансный поиск'.");
 			ConcordanceButton.Click();
 
 			return GetPage();
@@ -632,7 +637,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		/// </summary>
 		public EditorPage ClickConcordanceButtonByHotKey()
 		{
-			Logger.Debug("Нажать хоткей кнопки 'Конкордансный поиск' - Ctrl+k.");
+			CustomTestContext.WriteLine("Нажать хоткей кнопки 'Конкордансный поиск' - Ctrl+k.");
 			//SendKeys.SendWait(@"^{k}");
 			Driver.SendHotKeys("k", control: true);
 
@@ -644,7 +649,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		/// </summary>
 		public EditorPage ClickRollbackButton()
 		{
-			Logger.Debug("Нажать кнопку Rollback.");
+			CustomTestContext.WriteLine("Нажать кнопку Rollback.");
 			RollbackButton.Click();
 
 			return GetPage();
@@ -655,11 +660,11 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		/// </summary>
 		public AddTermDialog SendCtrlE()
 		{
-			Logger.Debug("Нажать хоткей Ctrl+E.");
+			CustomTestContext.WriteLine("Нажать хоткей Ctrl+E.");
 			//SendKeys.SendWait("^e");
 			Driver.SendHotKeys("e", true);
 
-			return new AddTermDialog().GetPage();
+			return new AddTermDialog(Driver).GetPage();
 		}
 
 		/// <summary>
@@ -669,7 +674,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		/// <param name="segmentType">тип сегмента</param>
 		public EditorPage SelectFirstWordInSegment(int rowNumber, SegmentType segmentType = SegmentType.Source)
 		{
-			Logger.Debug("Произвести двойной клик по первому слову сегмента {1} в строке : {0}", rowNumber, segmentType);
+			CustomTestContext.WriteLine("Произвести двойной клик по первому слову сегмента {1} в строке : {0}", rowNumber, segmentType);
 
 			IWebElement segment;
 
@@ -698,7 +703,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		/// </summary>
 		public string GetSelectedWordInSegment()
 		{
-			Logger.Trace("Получить выделенное слово в сегменте");
+			CustomTestContext.WriteLine("Получить выделенное слово в сегменте");
 			string word = "";
 
 			try
@@ -718,7 +723,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		/// </summary>
 		public EditorPage AssertConfirmExistedTermMessageDisplayed()
 		{
-			Logger.Trace("Проверить, что появился диалог подтверждения сохранения уже существующего термина.");
+			CustomTestContext.WriteLine("Проверить, что появился диалог подтверждения сохранения уже существующего термина.");
 
 			Assert.IsTrue(Driver.WaitUntilElementIsDisplay(By.XPath(EXISTING_TERM_MESSAGE)),
 				"Произошла ошибка:\n не появился диалог подтверждения сохранения уже существующего термина.");
@@ -731,15 +736,15 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		/// </summary>
 		public EditorPage Confirm()
 		{
-			Logger.Debug("Нажать Yes в окне подтверждения.");
+			CustomTestContext.WriteLine("Нажать Yes в окне подтверждения.");
 			ConfirmYesButton.Click();
 
 			return GetPage();
 		}
 
-		private static bool tutorialExist()
+		private bool tutorialExist()
 		{
-			Logger.Trace("Проверить, открыта ли подсказка.");
+			CustomTestContext.WriteLine("Проверить, открыта ли подсказка.");
 
 			return Driver.WaitUntilElementIsDisplay(By.XPath(FINISH_TUTORIAL_BUTTON), timeout: 5);
 		}

@@ -1,16 +1,22 @@
-﻿using AbbyyLS.SmartCAT.Selenium.Tests.TestFramework;
-using NUnit.Framework;
+﻿using NUnit.Framework;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.PageObjects;
+
+using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
+using AbbyyLS.SmartCAT.Selenium.Tests.TestFramework;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Admin
 {
 	public class AdminFindUserPage : AdminLingvoProPage, IAbstractPage<AdminFindUserPage>
 	{
+		public AdminFindUserPage(WebDriver driver) : base(driver)
+		{
+		}
+
 		public new AdminFindUserPage GetPage()
 		{
-			var adminFindUserPage = new AdminFindUserPage();
-			InitPage(adminFindUserPage);
+			var adminFindUserPage = new AdminFindUserPage(Driver);
+			InitPage(adminFindUserPage, Driver);
 
 			return adminFindUserPage;
 		}
@@ -29,7 +35,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Admin
 		/// <param name="userName">имя пользователя</param>
 		public AdminFindUserPage FillUserNameSearch(string userName)
 		{
-			Logger.Trace("Ввести имя пользователя '{0}' в поле поиска.", userName);
+			CustomTestContext.WriteLine("Ввести имя пользователя '{0}' в поле поиска.", userName);
 			InputSearch.SetText(userName);
 
 			return GetPage();
@@ -40,7 +46,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Admin
 		/// </summary>
 		public AdminFindUserPage ClickFindButton()
 		{
-			Logger.Trace("Кликнуть по кнопке 'Найти' рядом с полем поиска");
+			CustomTestContext.WriteLine("Кликнуть по кнопке 'Найти' рядом с полем поиска");
 			FindButton.Click();
 
 			return GetPage();
@@ -51,11 +57,11 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Admin
 		/// </summary>
 		public AdminEditUserPage ClickEmailInSearchResultTable(string email)
 		{
-			Logger.Trace("Клик по email '{0}' в таблице результатов поиска", email);
+			CustomTestContext.WriteLine("Клик по email '{0}' в таблице результатов поиска", email);
 			EmailInSearchResultTable = Driver.SetDynamicValue(How.XPath, EMAIL_IN_SEARCH_RES_TABLE, email);
 			EmailInSearchResultTable.Click();
 
-			return new AdminEditUserPage().GetPage();
+			return new AdminEditUserPage(Driver).GetPage();
 		}
 
 		[FindsBy(How = How.XPath, Using = INPUT_SEARCH)]

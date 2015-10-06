@@ -2,16 +2,21 @@
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.PageObjects;
 
+using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
 using AbbyyLS.SmartCAT.Selenium.Tests.TestFramework;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.DocumentUploadDialog
 {
 	public class DocumentUploadGeneralInformationDialog : DocumentUploadBaseDialog, IAbstractPage<DocumentUploadGeneralInformationDialog>
 	{
+		public DocumentUploadGeneralInformationDialog(WebDriver driver) : base(driver)
+		{
+		}
+
 		public DocumentUploadGeneralInformationDialog GetPage()
 		{
-			var documentUploadGeneralInformationDialog = new DocumentUploadGeneralInformationDialog();
-			InitPage(documentUploadGeneralInformationDialog);
+			var documentUploadGeneralInformationDialog = new DocumentUploadGeneralInformationDialog(Driver);
+			InitPage(documentUploadGeneralInformationDialog, Driver);
 
 			return documentUploadGeneralInformationDialog;
 		}
@@ -30,7 +35,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.DocumentUploadDialog
 		/// <param name="pathFile">путь к файлу</param>
 		public DocumentUploadGeneralInformationDialog UploadDocument(string pathFile)
 		{
-			Logger.Debug("Загрузить файл {0}", pathFile);
+			CustomTestContext.WriteLine("Загрузить файл {0}", pathFile);
 
 			Driver.ExecuteScript("arguments[0].style[\"display\"] = \"block\";" +
 				"arguments[0].style[\"visibility\"] = \"visible\";",
@@ -46,7 +51,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.DocumentUploadDialog
 		/// <param name="fileName">имя файла (с расширением)</param>
 		public DocumentUploadGeneralInformationDialog AssertFileUploaded(string fileName)
 		{
-			Logger.Trace("Проверить, что файл {0} загрузился", fileName);
+			CustomTestContext.WriteLine("Проверить, что файл {0} загрузился", fileName);
 
 			Assert.IsTrue(Driver.WaitUntilElementIsDisplay(By.XPath(UPLOADED_FILE.Replace("*#*", fileName))),
 				"Произошла ошибка:\n не удалось загрузить файл.");
@@ -59,7 +64,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.DocumentUploadDialog
 		/// </summary>
 		public DocumentUploadGeneralInformationDialog AssertErrorDuplicateDocumentNameExist()
 		{
-			Logger.Trace("Проверить, что появилась ошибка о том, что в проекте уже есть файл с таким именем.");
+			CustomTestContext.WriteLine("Проверить, что появилась ошибка о том, что в проекте уже есть файл с таким именем.");
 
 			Assert.IsTrue(Driver.WaitUntilElementIsDisplay(By.XPath(DUPLICATE_NAME_ERROR)),
 				"Произошла ошибка:\n нет появилась ошибка о том, что в проекте уже есть файл с таким именем.");

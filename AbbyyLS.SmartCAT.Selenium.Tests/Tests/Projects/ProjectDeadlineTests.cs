@@ -7,16 +7,17 @@ using AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 {
+	[Parallelizable(ParallelScope.Fixtures)]
 	[Standalone]
 	class ProjectDeadlineTests<TWebDriverProvider> : BaseTest<TWebDriverProvider> where TWebDriverProvider : IWebDriverProvider, new()
 	{
 		[SetUp]
 		public void SetUpProjectDeadlineTest()
 		{
-			_workspaceHelper = new WorkspaceHelper();
+			_workspaceHelper = new WorkspaceHelper(Driver);
 			_workspaceHelper.GoToProjectsPage();
-			_createProjectHelper = new CreateProjectHelper();
-			_projectsHelper = new ProjectsHelper();
+			_createProjectHelper = new CreateProjectHelper(Driver);
+			_projectsHelper = new ProjectsHelper(Driver);
 		}
 
 		[TestCase(Deadline.CurrentDate)]

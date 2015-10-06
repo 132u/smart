@@ -8,9 +8,16 @@ using AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 {
+	[Parallelizable(ParallelScope.Fixtures)]
 	[Standalone]
 	class DocumentFormatTests<TWebDriverProvider> : BaseTest<TWebDriverProvider> where TWebDriverProvider : IWebDriverProvider, new()
 	{
+		[SetUp]
+		public void Initialization()
+		{
+			_createProjectHelper = new CreateProjectHelper(Driver);
+		}
+
 		[TestCase("docFile.doc")]
 		[TestCase("docxFile.docx")]
 		[TestCase("htmFile.htm")]
@@ -67,6 +74,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 				.AssertIsProjectLoadedSuccessfully(projectUniqueName);
 		}
 
-		private readonly CreateProjectHelper _createProjectHelper = new CreateProjectHelper();
+		private CreateProjectHelper _createProjectHelper;
 	}
 }

@@ -6,6 +6,7 @@ using AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 {
+	[Parallelizable(ParallelScope.Fixtures)]
 	class SuggestTermsWithoutRight<TWebDriverProvider> : BaseTest<TWebDriverProvider> where TWebDriverProvider : IWebDriverProvider, new()
 	{
 		public SuggestTermsWithoutRight()
@@ -16,6 +17,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 		[SetUp]
 		public void SetUp()
 		{
+			_loginHelper = new LoginHelper(Driver);
+			_workspaceHelper = new WorkspaceHelper(Driver);
+
 			_glossaryName = GlossariesHelper.UniqueGlossaryName();
 
 			_additionalUser = TakeUser(ConfigurationManager.AdditionalUsers);
@@ -45,8 +49,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 		}
 
 		private string _glossaryName;
-		private readonly WorkspaceHelper _workspaceHelper = new WorkspaceHelper();
-		private readonly LoginHelper _loginHelper = new LoginHelper();
+		private WorkspaceHelper _workspaceHelper;
+		private LoginHelper _loginHelper;
 		private TestUser _additionalUser;
 	}
 }

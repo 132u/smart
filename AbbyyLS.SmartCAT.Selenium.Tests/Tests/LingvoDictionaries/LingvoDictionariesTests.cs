@@ -9,6 +9,7 @@ using AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.LingvoDictionaries
 {
+	[Parallelizable(ParallelScope.Fixtures)]
 	[LingvoDictionaries]
 	[Standalone]
 	class LingvoDictionariesTests<TWebDriverProvider> : BaseTest<TWebDriverProvider> where TWebDriverProvider : IWebDriverProvider, new()
@@ -21,6 +22,12 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.LingvoDictionaries
 		[SetUp]
 		public void LingvoDictionariesSetUp()
 		{
+			_adminHelper = new AdminHelper(Driver);
+			_commonHelper = new CommonHelper(Driver);
+			_loginHelper = new LoginHelper(Driver);
+			_searchHelper = new SearchHelper(Driver);
+			_workspaceHelper = new WorkspaceHelper(Driver);
+
 			if (!ConfigurationManager.Standalone)
 			{
 				var accountUniqueName = AdminHelper.GetAccountUniqueName();
@@ -93,10 +100,10 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.LingvoDictionaries
 				.AsserttAutoreversedReferenceExist();
 		}
 
-		private readonly AdminHelper _adminHelper = new AdminHelper() ;
-		private readonly LoginHelper _loginHelper = new LoginHelper();
-		private readonly SearchHelper _searchHelper = new SearchHelper();
-		private readonly WorkspaceHelper _workspaceHelper = new WorkspaceHelper();
-		private readonly CommonHelper _commonHelper  = new CommonHelper();
+		private AdminHelper _adminHelper;
+		private LoginHelper _loginHelper;
+		private SearchHelper _searchHelper;
+		private WorkspaceHelper _workspaceHelper;
+		private CommonHelper _commonHelper;
 	}
 }

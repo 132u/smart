@@ -3,16 +3,21 @@
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.PageObjects;
 
+using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
 using AbbyyLS.SmartCAT.Selenium.Tests.TestFramework;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 {
 	public class NewProjectSelectGlossariesDialog : NewProjectCreateBaseDialog, IAbstractPage<NewProjectSelectGlossariesDialog>
 	{
+		public NewProjectSelectGlossariesDialog(WebDriver driver) : base(driver)
+		{
+		}
+
 		public new NewProjectSelectGlossariesDialog GetPage()
 		{
-			var newProjectSelectGlossariesDialog = new NewProjectSelectGlossariesDialog();
-			InitPage(newProjectSelectGlossariesDialog);
+			var newProjectSelectGlossariesDialog = new NewProjectSelectGlossariesDialog(Driver);
+			InitPage(newProjectSelectGlossariesDialog, Driver);
 
 			return newProjectSelectGlossariesDialog;
 		}
@@ -30,10 +35,10 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 		/// </summary>
 		public NewGlossaryDialog ClickCreateGlossary()
 		{
-			Logger.Debug("Нажать на кнопку 'Create Glossary'.");
+			CustomTestContext.WriteLine("Нажать на кнопку 'Create Glossary'.");
 			CreateGlossaryButton.Click();
 
-			return new NewGlossaryDialog().GetPage();
+			return new NewGlossaryDialog(Driver).GetPage();
 		}
 
 		/// <summary>
@@ -41,7 +46,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 		/// </summary>
 		public NewProjectSelectGlossariesDialog ClickFirstGlossary()
 		{
-			Logger.Debug("Выбрать первый глоссарий.");
+			CustomTestContext.WriteLine("Выбрать первый глоссарий.");
 			FirstGlossaryInput.Click();
 
 			return GetPage();
@@ -52,7 +57,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 		/// </summary>
 		public NewProjectSelectGlossariesDialog AssertFirstGlossarySelected()
 		{
-			Logger.Trace("Проверить, что выбран первый глоссарий.");
+			CustomTestContext.WriteLine("Проверить, что выбран первый глоссарий.");
 
 			Assert.IsTrue(FirstGlossaryInput.Selected, "Произошла ошибка:\n первый глоссарий не выбран.");
 

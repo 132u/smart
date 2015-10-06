@@ -1,8 +1,10 @@
-﻿using NUnit.Framework;
+﻿using System;
 
+using NUnit.Framework;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.PageObjects;
 
+using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace;
 using AbbyyLS.SmartCAT.Selenium.Tests.TestFramework;
 
@@ -10,10 +12,14 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 {
 	public class GlossaryPropertiesDialog : WorkspacePage, IAbstractPage<GlossaryPropertiesDialog>
 	{
+		public GlossaryPropertiesDialog(WebDriver driver) : base(driver)
+		{
+		}
+
 		public new GlossaryPropertiesDialog GetPage()
 		{
-			var glossaryPropertiesDialog = new GlossaryPropertiesDialog();
-			InitPage(glossaryPropertiesDialog);
+			var glossaryPropertiesDialog = new GlossaryPropertiesDialog(Driver);
+			InitPage(glossaryPropertiesDialog, Driver);
 
 			return glossaryPropertiesDialog;
 		}
@@ -31,7 +37,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 		/// </summary>
 		public GlossaryPropertiesDialog FillGlossaryName(string glossaryName)
 		{
-			Logger.Debug("Ввести имя глоссария {0} в диалоге свойств глоссария.", glossaryName);
+			CustomTestContext.WriteLine("Ввести имя глоссария {0} в диалоге свойств глоссария.", glossaryName);
 			GlossaryName.SetText(glossaryName);
 
 			return GetPage();
@@ -42,7 +48,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 		/// </summary>
 		public GlossaryPropertiesDialog ClickDeleteGlossaryButton()
 		{
-			Logger.Debug("Нажать кнопку 'Delete Glossary'.");
+			CustomTestContext.WriteLine("Нажать кнопку 'Delete Glossary'.");
 			DeleteGlossaryButton.Click();
 
 			return GetPage();
@@ -53,22 +59,23 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 		/// </summary>
 		public GlossariesPage ClickConfirmDeleteGlossaryButton()
 		{
-			Logger.Debug("Нажать кнопку Delete для подтверждения удаления глоссария.");
+			CustomTestContext.WriteLine("Нажать кнопку Delete для подтверждения удаления глоссария.");
 			ConfirmDeleteButton.Click();
 
-			return new GlossariesPage().GetPage();
+			return new GlossariesPage(Driver).GetPage();
 		}
 
 
 		/// <summary>
 		/// Нажать кнопку Save 
 		/// </summary>
-		public T ClickSaveButton<T>() where T : class, IAbstractPage<T>, new()
+		public T ClickSaveButton<T>(WebDriver driver) where T : class, IAbstractPage<T>
 		{
-			Logger.Debug("Нажать кнопку Save в диалоге свойств глоссария.");
+			CustomTestContext.WriteLine("Нажать кнопку Save в диалоге свойств глоссария.");
 			SaveButton.Click();
 
-			return new T().GetPage();
+			var instance = Activator.CreateInstance(typeof(T), new object[] { driver }) as T;
+			return instance.GetPage();
 		}
 
 		/// <summary>
@@ -76,7 +83,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 		/// </summary>
 		public GlossaryPropertiesDialog AssertConfirmDeleteMessageDisplay()
 		{
-			Logger.Trace("Проверить, что сообщение подтверждения удаления глоссария появилось.");
+			CustomTestContext.WriteLine("Проверить, что сообщение подтверждения удаления глоссария появилось.");
 
 			Assert.IsTrue(ConfirmDeleteMessage.Displayed, "Произошла ошибка:\n сообщение подтверждения удаления глоссария не появилось.");
 
@@ -88,7 +95,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 		/// </summary>
 		public int LanguagesCount()
 		{
-			Logger.Trace("Получить количество языков в диалоге свойств глоссария.");
+			CustomTestContext.WriteLine("Получить количество языков в диалоге свойств глоссария.");
 
 			return Driver.GetElementsCount(By.XPath(LANGUAGE_LIST));
 		}
@@ -99,7 +106,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 		/// <param name="languageNumber">номер языка</param>
 		public GlossaryPropertiesDialog ClickDeleteLanguageButton(int languageNumber)
 		{
-			Logger.Debug("Нажать на крестик для удаления {0} языка в диалоге свойств глоссария.", languageNumber);
+			CustomTestContext.WriteLine("Нажать на крестик для удаления {0} языка в диалоге свойств глоссария.", languageNumber);
 			var deleteButton = Driver.SetDynamicValue(How.XPath, DELETE_LANGUAGE_BUTTON, languageNumber.ToString());
 
 			deleteButton.Click();
@@ -112,7 +119,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 		/// </summary>
 		public GlossaryPropertiesDialog AssertDeleteLanguageWarningDisplay()
 		{
-			Logger.Trace("Проверить, что появилось предупреждение при удалении языка в диалоге свойств глоссария.");
+			CustomTestContext.WriteLine("Проверить, что появилось предупреждение при удалении языка в диалоге свойств глоссария.");
 
 			Assert.IsTrue(WarningDeleteLanguage.Displayed,
 				"Произошла ошибка:\n не появилось предупреждение при удалении языка в диалоге свойств глоссария.");
@@ -125,7 +132,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 		/// </summary>
 		public GlossaryPropertiesDialog ClickCancelInDeleteLanguageWarning()
 		{
-			Logger.Debug("Нажать Cancel в сообщении при удалении языка в диалоге свойств глоссария.");
+			CustomTestContext.WriteLine("Нажать Cancel в сообщении при удалении языка в диалоге свойств глоссария.");
 			CancelLanguageDeleteButton.Click();
 
 			return GetPage();
@@ -136,10 +143,10 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 		/// </summary>
 		public GlossaryStructureDialog ClickAdvancedButton()
 		{
-			Logger.Debug("Нажать кнопку Advanced в диалоге свойств глоссария.");
+			CustomTestContext.WriteLine("Нажать кнопку Advanced в диалоге свойств глоссария.");
 			AdvancedButton.Click();
 
-			return new GlossaryStructureDialog().GetPage();
+			return new GlossaryStructureDialog(Driver).GetPage();
 		}
 
 		[FindsBy(How = How.XPath, Using = DELETE_GLOSSARY_BUTTON)]

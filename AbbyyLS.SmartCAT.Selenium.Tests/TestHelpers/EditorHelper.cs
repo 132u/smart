@@ -1,23 +1,31 @@
 ﻿using System;
 using System.Threading;
 
-using NLog;
 using NUnit.Framework;
 
 using AbbyyLS.SmartCAT.Selenium.Tests.DataStructures;
+using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor;
-using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries;
 using AbbyyLS.SmartCAT.Selenium.Tests.TestFramework;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 {
 	public class EditorHelper 
 	{
-		public static Logger Logger = LogManager.GetCurrentClassLogger();
+		public WebDriver Driver { get; private set; }
+
+		public EditorHelper(WebDriver driver)
+		{
+			Driver = driver;
+			_selectTask = new SelectTaskDialog(Driver);
+			_addTermDialog = new AddTermDialog(Driver);
+			_editorPage = new EditorPage(Driver);
+			_spellcheckDictionaryDialog = new SpellcheckDictionaryDialog(Driver);
+		}
 
 		public EditorHelper SelectTask(TaskMode mode = TaskMode.Translation)
 		{
-			BaseObject.InitPage(_selectTask);
+			BaseObject.InitPage(_selectTask, Driver);
 			switch (mode)
 			{
 				case TaskMode.Translation:
@@ -46,7 +54,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 		public EditorHelper CloseTutorialIfExist()
 		{
-			BaseObject.InitPage(_editorPage);
+			BaseObject.InitPage(_editorPage, Driver);
 			_editorPage.CloseTutorialIfExist();
 
 			return this;
@@ -54,7 +62,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 		public EditorHelper CopySourceToTarget(int segmentNumber = 1)
 		{
-			BaseObject.InitPage(_editorPage);
+			BaseObject.InitPage(_editorPage, Driver);
 			_editorPage.ClickCopySourceToTargetButton();
 
 			return this;
@@ -62,7 +70,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 		public EditorHelper CopySourceToTargetByHotKey(int segmentNumber = 1)
 		{
-			BaseObject.InitPage(_editorPage);
+			BaseObject.InitPage(_editorPage, Driver);
 			_editorPage.ClickCopySourceToTargetHotkey();
 
 			return this;
@@ -70,7 +78,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 		public EditorHelper AssertSourceEqualsTarget(int segmentNumber = 1)
 		{
-			BaseObject.InitPage(_editorPage);
+			BaseObject.InitPage(_editorPage, Driver);
 			var source = _editorPage.SourceText(segmentNumber);
 			var target = _editorPage.TargetText(segmentNumber);
 
@@ -82,7 +90,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 		public EditorHelper AddTextToSegment(string text = "Translation", int rowNumber = 1)
 		{
-			BaseObject.InitPage(_editorPage);
+			BaseObject.InitPage(_editorPage, Driver);
 			_editorPage.SendTargetText(text, rowNumber);
 
 			return this;
@@ -90,7 +98,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 		public EditorHelper AddTextWithoutClearing(string text = "Translation", int rowNumber = 1)
 		{
-			BaseObject.InitPage(_editorPage);
+			BaseObject.InitPage(_editorPage, Driver);
 			_editorPage.AddText(text, rowNumber);
 
 			return this;
@@ -98,7 +106,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 		
 		public EditorHelper ClickLastUnconfirmedButton()
 		{
-			BaseObject.InitPage(_editorPage);
+			BaseObject.InitPage(_editorPage, Driver);
 			_editorPage.ClickLastUnconfirmedButton();
 
 			return this;
@@ -106,7 +114,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 		public EditorHelper ClickLastUnconfirmedHotKey()
 		{
-			BaseObject.InitPage(_editorPage);
+			BaseObject.InitPage(_editorPage, Driver);
 			_editorPage.ClickF9HotKey();
 
 			return this;
@@ -114,7 +122,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 		
 		public EditorHelper ConfirmTranslation()
 		{
-			BaseObject.InitPage(_editorPage);
+			BaseObject.InitPage(_editorPage, Driver);
 			// Без слипа не отрабатывает. Ожидание элемента вставлять смысла нет. Причины не совсем ясны.
 			Thread.Sleep(5000);
 			_editorPage.ClickConfirmButton();
@@ -124,7 +132,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 		public EditorHelper ConfirmTranslationByHotkeys(int rowNumber = 1)
 		{
-			BaseObject.InitPage(_editorPage);
+			BaseObject.InitPage(_editorPage, Driver);
 			_editorPage
 				.ClickTargetCell(rowNumber)
 				.ConfirmSegmentByHotkeys();
@@ -134,7 +142,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 		public EditorHelper ClickTargetSegment(int rowNumber)
 		{
-			BaseObject.InitPage(_editorPage);
+			BaseObject.InitPage(_editorPage, Driver);
 			_editorPage.ClickTargetCell(rowNumber);
 
 			return this;
@@ -142,7 +150,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 		public EditorHelper PasteTranslationFromCAT(CatType catType, int targetRowNumber = 1)
 		{
-			BaseObject.InitPage(_editorPage);
+			BaseObject.InitPage(_editorPage, Driver);
 			var catRowNumber = _editorPage
 									.ClickTargetCell(targetRowNumber)
 									.WaitCatTypeDisplayed(catType)
@@ -157,7 +165,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 		public int CarRowNumber(int targetRowNumber, CatType catType)
 		{
-			BaseObject.InitPage(_editorPage);
+			BaseObject.InitPage(_editorPage, Driver);
 
 			return _editorPage
 						.ClickTargetCell(targetRowNumber)
@@ -166,14 +174,14 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 		public int CATRowNumber(CatType catType)
 		{
-			BaseObject.InitPage(_editorPage);
+			BaseObject.InitPage(_editorPage, Driver);
 
 			return _editorPage.CatTypeRowNumber(catType);
 		}
 
 		public EditorHelper AssertMatchColumnCatTypeMatch(CatType catType, int rowNumber = 1)
 		{
-			Logger.Trace("Проверить, что текст в колонке MatchColumn совпадает с {0}.", catType);
+			CustomTestContext.WriteLine("Проверить, что текст в колонке MatchColumn совпадает с {0}.", catType);
 			var catTypeColumn = catType != CatType.TB ? catType.ToString() : string.Empty;
 
 			var textInMacthColumn = _editorPage.MatchColumnText(rowNumber).Trim();
@@ -191,7 +199,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 		public EditorHelper AssertCATPercentMatchTargetPercent(int segmentNumber = 1, int catRowNumber = 1)
 		{
-			Logger.Trace("Проверить, что процент совпадения в CAT-панели и в таргете совпадает. Строка в CAT-панели {0}, строка в таргет {1}.", catRowNumber, segmentNumber);
+			CustomTestContext.WriteLine("Проверить, что процент совпадения в CAT-панели и в таргете совпадает. Строка в CAT-панели {0}, строка в таргет {1}.", catRowNumber, segmentNumber);
 			
 			Assert.AreEqual(_editorPage.CatTranslationMatchPercent(catRowNumber),_editorPage.TargetMatchPercent(segmentNumber),
 				"Произошла ошибка:\n Процент совпадения в CAT-панели и в таргете не совпадает.");
@@ -201,7 +209,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 		public EditorHelper AssertTargetTextAndCatTextMatch(int segmentNumber, int catRowNumber)
 		{
-			Logger.Trace("Проверить, что текст из таргет сегмента совпадает с текстом перевода из CAT-панели.");
+			CustomTestContext.WriteLine("Проверить, что текст из таргет сегмента совпадает с текстом перевода из CAT-панели.");
 			
 			Assert.AreEqual(_editorPage.TargetText(segmentNumber), _editorPage.CATTranslationText(catRowNumber),
 				"Произошла ошибка:\n текст из таргет сегмента не совпадает с текстом перевода из CAT-панели.");
@@ -211,7 +219,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 		public string SourceText(int rowNumber)
 		{
-			Logger.Trace("Получить текст из Source сегмента №{0}.", rowNumber);
+			CustomTestContext.WriteLine("Получить текст из Source сегмента №{0}.", rowNumber);
 
 			return _editorPage.SourceText(rowNumber);
 		}
@@ -250,7 +258,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 		public EditorHelper ClickFindErrorsButton()
 		{
-			BaseObject.InitPage(_editorPage);
+			BaseObject.InitPage(_editorPage, Driver);
 			_editorPage.ClickFindErrorButton();
 
 			return this;
@@ -258,7 +266,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 		public EditorHelper FindErrorsByHotkeys()
 		{
-			BaseObject.InitPage(_editorPage);
+			BaseObject.InitPage(_editorPage, Driver);
 			_editorPage.FindErrorByHotkey();
 
 			return this;
@@ -266,7 +274,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 		public EditorHelper AssertIsSegmentConfirmed(int rowNumber = 1)
 		{
-			BaseObject.InitPage(_editorPage);
+			BaseObject.InitPage(_editorPage, Driver);
 			_editorPage.AssertIsSegmentConfirmed(rowNumber);
 
 			return this;
@@ -274,7 +282,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 		
 		public EditorHelper AssertSegmentIsSelected(int rowNumber)
 		{
-			BaseObject.InitPage(_editorPage);
+			BaseObject.InitPage(_editorPage, Driver);
 			_editorPage.AssertSegmentIsSelected(rowNumber);
 
 			return this;
@@ -282,7 +290,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 		
 		public EditorHelper AssertSaveingStatusIsDisappeared()
 		{
-			BaseObject.InitPage(_editorPage);
+			BaseObject.InitPage(_editorPage, Driver);
 			_editorPage.AssertSaveingStatusIsDisappeared();
 
 			return this;
@@ -294,13 +302,13 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 			string comment = null,
 			string glossaryName = null)
 		{
-			BaseObject.InitPage(_editorPage);
+			BaseObject.InitPage(_editorPage, Driver);
 			_editorPage
 				.ClickAddTermButton()
 				.FillSourceTerm(sourceTerm)
 				.FillTargetTerm(targetTerm);
 
-			BaseObject.InitPage(_addTermDialog);
+			BaseObject.InitPage(_addTermDialog, Driver);
 
 			if (comment != null)
 			{
@@ -313,7 +321,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 			}
 
 			_addTermDialog
-				.ClickAddButton<EditorPage>()
+				.ClickAddButton<EditorPage>(Driver)
 				.AssertTermIsSaved()
 				.AssertTermIsSavedMessageDisappeared();
 
@@ -322,15 +330,15 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 		
 		public ProjectSettingsHelper ClickHomeButton()
 		{
-			BaseObject.InitPage(_editorPage);
+			BaseObject.InitPage(_editorPage, Driver);
 			_editorPage.ClickHomeButton();
 
-			return new ProjectSettingsHelper();
+			return new ProjectSettingsHelper(Driver);
 		}
 
 		public EditorHelper RemoveAllWordsFromDictionary()
 		{
-			BaseObject.InitPage(_editorPage);
+			BaseObject.InitPage(_editorPage, Driver);
 
 			_spellcheckDictionaryDialog = _editorPage.ClickSpellcheckDictionaryButton();
 			var wordsList = _spellcheckDictionaryDialog.GetWordsList();
@@ -344,7 +352,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 		public EditorHelper RollBack(int segmentNumber = 1)
 		{
-			BaseObject.InitPage(_editorPage);
+			BaseObject.InitPage(_editorPage, Driver);
 			_editorPage
 				.ClickTargetCell(segmentNumber)
 				.ClickRollbackButton()
@@ -355,7 +363,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 		public EditorHelper AssertSegmentIsNotLocked(int segmentNumber = 1)
 		{
-			BaseObject.InitPage(_editorPage);
+			BaseObject.InitPage(_editorPage, Driver);
 			_editorPage.AssertSegmentIsNotLocked(segmentNumber);
 
 			return this;
@@ -363,12 +371,12 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 		public EditorHelper AddWordToDictionary(string word)
 		{
-			BaseObject.InitPage(_editorPage);
+			BaseObject.InitPage(_editorPage, Driver);
 			_editorPage
 				.ClickSpellcheckDictionaryButton()
 				.ClickAddWordButton()
 				.AddWordToDictionary(word)
-				.ConfirmWord<SpellcheckDictionaryDialog>()
+				.ConfirmWord<SpellcheckDictionaryDialog>(Driver)
 				.ClickCloseDictionaryButton();
 
 			return this;
@@ -376,7 +384,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 		public EditorHelper OpenSpecialCharacters()
 		{
-			BaseObject.InitPage(_editorPage);
+			BaseObject.InitPage(_editorPage, Driver);
 			_editorPage.ClickCharacterButton();
 
 			return this;
@@ -384,7 +392,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 		public EditorHelper OpenSpecialCharactersByHotKey()
 		{
-			BaseObject.InitPage(_editorPage);
+			BaseObject.InitPage(_editorPage, Driver);
 			_editorPage.ClickCharacterButtonByHotKey();
 
 			return this;
@@ -392,7 +400,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 		public EditorHelper OpenConcordanceSearch()
 		{
-			BaseObject.InitPage(_editorPage);
+			BaseObject.InitPage(_editorPage, Driver);
 			_editorPage
 				.ClickConcordanceButton()
 				.AssertConcordanceSearchIsDisplayed();
@@ -402,7 +410,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 		public EditorHelper OpenConcordanceSearchByHotKey()
 		{
-			BaseObject.InitPage(_editorPage);
+			BaseObject.InitPage(_editorPage, Driver);
 			_editorPage
 				.ClickConcordanceButtonByHotKey()
 				.AssertConcordanceSearchIsDisplayed();
@@ -412,12 +420,12 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 		public EditorHelper ReplaceWordInDictionary(string oldWord, string newWord)
 		{
-			BaseObject.InitPage(_editorPage);
+			BaseObject.InitPage(_editorPage, Driver);
 			_editorPage
 				.ClickSpellcheckDictionaryButton()
 				.HilightWordInDictionary(oldWord)
 				.AddWordToDictionary(newWord)
-				.ConfirmWord<SpellcheckDictionaryDialog>()
+				.ConfirmWord<SpellcheckDictionaryDialog>(Driver)
 				.ClickCloseDictionaryButton();
 
 			return this;
@@ -425,7 +433,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 		public EditorHelper DeleteWordFromDictionary(string word)
 		{
-			BaseObject.InitPage(_editorPage);
+			BaseObject.InitPage(_editorPage, Driver);
 			_editorPage
 				.ClickSpellcheckDictionaryButton()
 				.ClickDeleteWordButton(word)
@@ -436,7 +444,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 		public EditorHelper AssertWordInDictionary(string word, bool shouldExist)
 		{
-			BaseObject.InitPage(_editorPage);
+			BaseObject.InitPage(_editorPage, Driver);
 
 			switch (shouldExist)
 			{
@@ -459,7 +467,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 		public EditorHelper AssertAutosaveWasComplete()
 		{
-			BaseObject.InitPage(_editorPage);
+			BaseObject.InitPage(_editorPage, Driver);
 			_editorPage.AssertLastRevisionEqualTo(RevisionType.ManualInput);
 
 			return this;
@@ -467,7 +475,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 		public EditorHelper AssertUnderlineForWord(string word, bool shouldExist)
 		{
-			BaseObject.InitPage(_editorPage);
+			BaseObject.InitPage(_editorPage, Driver);
 
 			switch (shouldExist)
 			{
@@ -484,7 +492,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 		public EditorHelper OpenSpellcheckDictionary()
 		{
-			BaseObject.InitPage(_editorPage);
+			BaseObject.InitPage(_editorPage, Driver);
 			_editorPage.ClickSpellcheckDictionaryButton();
 
 			return this;
@@ -492,13 +500,13 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 		
 		public EditorHelper AssertSameTerminAdditionNotAllowed(string word)
 		{
-			BaseObject.InitPage(_editorPage);
+			BaseObject.InitPage(_editorPage, Driver);
 			_editorPage
 				.ClickSpellcheckDictionaryButton()
 				.AssertAddWordButtinEnabled()
 				.ClickAddWordButton()
 				.AddWordToDictionary(word)
-				.ConfirmWord<SpellcheckErrorDialog>()
+				.ConfirmWord<SpellcheckErrorDialog>(Driver)
 				.ClickOkButton()
 				.ClickCloseDictionaryButton();
 
@@ -507,7 +515,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 		public EditorHelper InsertTag(int segmentNumber = 1)
 		{
-			BaseObject.InitPage(_editorPage);
+			BaseObject.InitPage(_editorPage, Driver);
 			_editorPage
 				.ClickInsertTagButton()
 				.AssertTagIsDisplayed(segmentNumber);
@@ -517,7 +525,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 		public EditorHelper InsertTagByHotKey(int segmentNumber = 1)
 		{
-			BaseObject.InitPage(_editorPage);
+			BaseObject.InitPage(_editorPage, Driver);
 			_editorPage
 				.ClickF8HotKey()
 				.AssertTagIsDisplayed(segmentNumber);
@@ -527,7 +535,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 		public EditorHelper CheckStage(string stage)
 		{
-			BaseObject.InitPage(_editorPage);
+			BaseObject.InitPage(_editorPage, Driver);
 
 			Assert.AreEqual(stage, _editorPage.GetStage(),
 				"Произошла ошибка:\n В шапке редактора отсутствует нужная задача.");
@@ -537,7 +545,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 		public EditorHelper AssertStageNameIsEmpty()
 		{
-			BaseObject.InitPage(_editorPage);
+			BaseObject.InitPage(_editorPage, Driver);
 			_editorPage.AssertStageNameIsEmpty();
 
 			return this;
@@ -545,7 +553,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 		
 		public EditorHelper ClickConfirmButton()
 		{
-			BaseObject.InitPage(_editorPage);
+			BaseObject.InitPage(_editorPage, Driver);
 			_editorPage
 				.ClickConfirmButton()
 				.AssertAllSegmentsSaved();
@@ -555,7 +563,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 		
 		public EditorHelper FillTarget(string text, int rowNumber = 1)
 		{
-			BaseObject.InitPage(_editorPage);
+			BaseObject.InitPage(_editorPage, Driver);
 			_editorPage
 				.ClickTargetCell(rowNumber)
 				.SendTargetText(text, rowNumber);
@@ -565,7 +573,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 		public EditorHelper ClickTargetCell(int rowNumber = 1)
 		{
-			BaseObject.InitPage(_editorPage);
+			BaseObject.InitPage(_editorPage, Driver);
 			_editorPage.ClickTargetCell(rowNumber);
 
 			return this;
@@ -573,7 +581,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 		public EditorHelper AssertTargetDisplayed(int rowNumber = 1)
 		{
-			BaseObject.InitPage(_editorPage);
+			BaseObject.InitPage(_editorPage, Driver);
 			_editorPage.AssertTargetDisplayed(rowNumber);
 
 			return this;
@@ -581,7 +589,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 		public EditorHelper OpenAddTermDialogWithHotKey()
 		{
-			BaseObject.InitPage(_editorPage);
+			BaseObject.InitPage(_editorPage, Driver);
 			_editorPage.SendCtrlE();
 
 			return this;
@@ -589,7 +597,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 		public EditorHelper OpenAddTermDialog()
 		{
-			BaseObject.InitPage(_editorPage);
+			BaseObject.InitPage(_editorPage, Driver);
 			_editorPage.ClickAddTermButton();
 
 			return this;
@@ -597,7 +605,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 		public EditorHelper SelectFirstWordInSegment(int rowNumber, SegmentType segmentType)
 		{
-			BaseObject.InitPage(_editorPage);
+			BaseObject.InitPage(_editorPage, Driver);
 			_editorPage.SelectFirstWordInSegment(rowNumber, segmentType);
 
 			return this;
@@ -605,14 +613,14 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 		public string GetFirstWordInSegment()
 		{
-			BaseObject.InitPage(_editorPage);
+			BaseObject.InitPage(_editorPage, Driver);
 
 			return _editorPage.GetSelectedWordInSegment();
 		}
 
 		public EditorHelper CheckAutofillInAddTermDialog(string source = null, string target = null)
 		{
-			BaseObject.InitPage(_addTermDialog);
+			BaseObject.InitPage(_addTermDialog, Driver);
 
 			if (source != null)
 			{
@@ -629,20 +637,20 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 		public EditorHelper FillAddTermForm(string source, string target)
 		{
-			BaseObject.InitPage(_addTermDialog);
+			BaseObject.InitPage(_addTermDialog, Driver);
 			_addTermDialog
 				.FillSourceTerm(source)
 				.FillTargetTerm(target)
-				.ClickAddButton<EditorPage>();
+				.ClickAddButton<EditorPage>(Driver);
 
 			return this;
 		}
 
 		public EditorHelper ConfirmAdditionTermWithoutTranslation()
 		{
-			BaseObject.InitPage(_addTermDialog);
+			BaseObject.InitPage(_addTermDialog, Driver);
 			_addTermDialog
-				.ClickAddButton<AddTermDialog>()
+				.ClickAddButton<AddTermDialog>(Driver)
 				.AssertConfirmSingleTermMessageDisplayed()
 				.Confirm()
 				.AssertTermIsSaved()
@@ -653,7 +661,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 		public EditorHelper ConfirmAdditionExistedTerm()
 		{
-			BaseObject.InitPage(_editorPage);
+			BaseObject.InitPage(_editorPage, Driver);
 			_editorPage
 				.AssertConfirmExistedTermMessageDisplayed()
 				.Confirm()
@@ -665,7 +673,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 		public EditorHelper AssertGlossaryExistInList(string glossaryName)
 		{
-			BaseObject.InitPage(_addTermDialog);
+			BaseObject.InitPage(_addTermDialog, Driver);
 			_addTermDialog.AssertGlossaryExistInDropdown(glossaryName);
 
 			return this;
@@ -673,15 +681,15 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 		public EditorHelper ClickCancelAddTerm()
 		{
-			BaseObject.InitPage(_addTermDialog);
+			BaseObject.InitPage(_addTermDialog, Driver);
 			_addTermDialog.ClickCancel();
 
 			return this;
 		}
 
-		private readonly SelectTaskDialog _selectTask = new SelectTaskDialog();
-		private readonly EditorPage _editorPage = new EditorPage();
-		private readonly AddTermDialog _addTermDialog = new AddTermDialog();
-		private SpellcheckDictionaryDialog _spellcheckDictionaryDialog = new SpellcheckDictionaryDialog();
+		private readonly SelectTaskDialog _selectTask;
+		private readonly EditorPage _editorPage;
+		private readonly AddTermDialog _addTermDialog;
+		private SpellcheckDictionaryDialog _spellcheckDictionaryDialog;
 	}
 }

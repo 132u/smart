@@ -6,11 +6,18 @@ using AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.ProjectGroups
 {
+	[Parallelizable(ParallelScope.Fixtures)]
 	[Standalone]
 	[ProjectGroups]
 	internal class SortingInProjectGroups<TWebDriverSettings> : BaseTest<TWebDriverSettings>
 		where TWebDriverSettings : IWebDriverProvider, new()
 	{
+		[SetUp]
+		public void Initialization()
+		{
+			_projectGroupsHelper = new ProjectGroupsHelper(Driver);
+		}
+
 		[Test]
 		public void SortByNameTest()
 		{
@@ -20,6 +27,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.ProjectGroups
 				.AssertAlertNoExist();
 		}
 
-		private ProjectGroupsHelper _projectGroupsHelper = new ProjectGroupsHelper();
+		private ProjectGroupsHelper _projectGroupsHelper;
 	}
 }

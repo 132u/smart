@@ -2,16 +2,21 @@
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.PageObjects;
 
+using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
 using AbbyyLS.SmartCAT.Selenium.Tests.TestFramework;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Admin
 {
 	public class AdminManagementPaidServicesPage : AdminLingvoProPage, IAbstractPage<AdminManagementPaidServicesPage>
 	{
+		public AdminManagementPaidServicesPage(WebDriver driver) : base(driver)
+		{
+		}
+
 		public new AdminManagementPaidServicesPage GetPage()
 		{
-			var adminManagementPaidServicesPage = new AdminManagementPaidServicesPage();
-			InitPage(adminManagementPaidServicesPage);
+			var adminManagementPaidServicesPage = new AdminManagementPaidServicesPage(Driver);
+			InitPage(adminManagementPaidServicesPage, Driver);
 
 			return adminManagementPaidServicesPage;
 		}
@@ -29,7 +34,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Admin
 		/// </summary>
 		public bool GetIsUnlimitedUnitsEnable()
 		{
-			Logger.Trace("Вернуть, включено ли неограниченное число тарифных единиц");
+			CustomTestContext.WriteLine("Вернуть, включено ли неограниченное число тарифных единиц");
 
 			return Driver.ElementIsDisplayed(By.XPath(TABLE_WHEN_UNLIMITED_UNITS_ENABLE));
 		}
@@ -39,7 +44,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Admin
 		/// </summary>
 		public AdminManagementPaidServicesPage ClickEnableUnlimitedUseServicesButton()
 		{
-			Logger.Debug("Нажать кнопку включения безлимитного использования услуг");
+			CustomTestContext.WriteLine("Нажать кнопку включения безлимитного использования услуг");
 
 			EnableUnlimitedUseServicesButton.Click();
 
@@ -51,7 +56,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Admin
 		/// </summary>
 		public AdminManagementPaidServicesPage ClickDisableUnlimitedUseServicesButton()
 		{
-			Logger.Debug("Нажать кнопку отключения безлимитного использования услуг");
+			CustomTestContext.WriteLine("Нажать кнопку отключения безлимитного использования услуг");
 
 			DisableUnlimitedUseServicesButton.Click();
 
@@ -63,7 +68,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Admin
 		/// </summary>
 		public AdminManagementPaidServicesPage AssertUnlimitedUseServicesEnabled()
 		{
-			Logger.Trace("Проверить, что безлимитное использование услуг включено");
+			CustomTestContext.WriteLine("Проверить, что безлимитное использование услуг включено");
 
 			Assert.IsTrue(Driver.WaitUntilElementIsDisplay(By.XPath(TABLE_WHEN_UNLIMITED_UNITS_ENABLE)),
 				"Произошла ошибка:\n не удалось включить безлимитное использование услуг.");
@@ -76,7 +81,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Admin
 		/// </summary>
 		public AdminManagementPaidServicesPage AssertUnlimitedUseServicesDisabled()
 		{
-			Logger.Trace("Проверить, что безлимитное использование услуг отключено");
+			CustomTestContext.WriteLine("Проверить, что безлимитное использование услуг отключено");
 
 			Assert.IsTrue(Driver.WaitUntilElementIsDisplay(By.XPath(TABLE_WHEN_UNLIMITED_UNITS_DISABLE)),
 				"Произошла ошибка:\n не удалось отключить безлимитное использование услуг.");
@@ -89,11 +94,11 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Admin
 		/// </summary>
 		public AdminCreateAccountPage ClickEditAccountReference()
 		{
-			Logger.Debug("Кликнуть по ссылке редактирования аккаунта");
+			CustomTestContext.WriteLine("Кликнуть по ссылке редактирования аккаунта");
 
 			EditAccountReference.Click();
 
-			return new AdminCreateAccountPage().GetPage();
+			return new AdminCreateAccountPage(Driver).GetPage();
 		}
 
 		[FindsBy(How = How.XPath, Using = ENABLE_UNLIMITED_USE_SERVICES_BUTTON)]

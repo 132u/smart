@@ -1,6 +1,8 @@
 ﻿using NUnit.Framework;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.PageObjects;
+
+using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
 using AbbyyLS.SmartCAT.Selenium.Tests.TestFramework;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Admin
@@ -10,10 +12,17 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Admin
 	/// </summary>
 	public class AdminSignInPage : BaseObject, IAbstractPage<AdminSignInPage>
 	{
+		public WebDriver Driver { get; private set; }
+
+		public AdminSignInPage(WebDriver driver)
+		{
+			Driver = driver;
+		}
+
 		public AdminSignInPage GetPage()
 		{
-			var adminSignInPage = new AdminSignInPage();
-			InitPage(adminSignInPage);
+			var adminSignInPage = new AdminSignInPage(Driver);
+			InitPage(adminSignInPage, Driver);
 
 			return adminSignInPage;
 		}
@@ -30,7 +39,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Admin
 		/// <param name="login">логин (адрес электронной почты)</param>
 		public AdminSignInPage SetLogin(string login)
 		{
-			Logger.Debug("Ввести логин пользователя в админку: {0}.", login);
+			CustomTestContext.WriteLine("Ввести логин пользователя в админку: {0}.", login);
 			Login.SetText(login);
 
 			return GetPage();
@@ -42,7 +51,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Admin
 		/// <param name="password">пароль</param>
 		public AdminSignInPage SetPassword(string password)
 		{
-			Logger.Debug("Ввести пароль пользователя в админку: {0}.", password);
+			CustomTestContext.WriteLine("Ввести пароль пользователя в админку: {0}.", password);
 			Password.SetText(password);
 
 			return GetPage();
@@ -53,9 +62,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Admin
 		/// </summary>
 		public AdminLingvoProPage ClickSubmitButton()
 		{
-			Logger.Debug("Нажать кнопку 'Submit'.");
+			CustomTestContext.WriteLine("Нажать кнопку 'Submit'.");
 			SubmitButton.Click();
-			var adminLingvoProPage = new AdminLingvoProPage();
+			var adminLingvoProPage = new AdminLingvoProPage(Driver);
 
 			return adminLingvoProPage.GetPage();
 		}

@@ -2,16 +2,21 @@
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.PageObjects;
 
+using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
 using AbbyyLS.SmartCAT.Selenium.Tests.TestFramework;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 {
 	public class NewProjectSetUpMTDialog : NewProjectCreateBaseDialog, IAbstractPage<NewProjectSetUpMTDialog>
 	{
+		public NewProjectSetUpMTDialog(WebDriver driver) : base(driver)
+		{
+		}
+
 		public new NewProjectSetUpMTDialog GetPage()
 		{
-			var newProjectSetUpMTDialog = new NewProjectSetUpMTDialog();
-			InitPage(newProjectSetUpMTDialog);
+			var newProjectSetUpMTDialog = new NewProjectSetUpMTDialog(Driver);
+			InitPage(newProjectSetUpMTDialog, Driver);
 
 			return newProjectSetUpMTDialog;
 		}

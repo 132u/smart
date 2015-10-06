@@ -1,17 +1,21 @@
 ﻿using NUnit.Framework;
-
 using OpenQA.Selenium;
 
+using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
 using AbbyyLS.SmartCAT.Selenium.Tests.TestFramework;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 {
 	public class SpecialCharactersForm : EditorPage, IAbstractPage<SpecialCharactersForm>
 	{
+		public SpecialCharactersForm(WebDriver driver) : base(driver)
+		{
+		}
+
 		public new SpecialCharactersForm GetPage()
 		{
-			var specialCharactersForm = new SpecialCharactersForm();
-			InitPage(specialCharactersForm);
+			var specialCharactersForm = new SpecialCharactersForm(Driver);
+			InitPage(specialCharactersForm, Driver);
 
 			return specialCharactersForm;
 		}

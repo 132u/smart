@@ -1,16 +1,21 @@
 ﻿using NUnit.Framework;
 using OpenQA.Selenium;
 
+using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
 using AbbyyLS.SmartCAT.Selenium.Tests.TestFramework;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 {
 	public class AnalysisDialog: ProjectsPage, IAbstractPage<AnalysisDialog>
 	{
+		public AnalysisDialog(WebDriver driver) : base(driver)
+		{
+		}
+
 		public new AnalysisDialog GetPage()
 		{
-			var settingsDialog = new AnalysisDialog();
-			InitPage(settingsDialog);
+			var settingsDialog = new AnalysisDialog(Driver);
+			InitPage(settingsDialog, Driver);
 
 			return settingsDialog;
 		}

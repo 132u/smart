@@ -1,20 +1,24 @@
 ﻿using System.Linq;
 
 using NUnit.Framework;
-
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.PageObjects;
 
+using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
 using AbbyyLS.SmartCAT.Selenium.Tests.TestFramework;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Admin
 {
 	public class AdminDictionariesPackagesPage : AdminLingvoProPage, IAbstractPage<AdminDictionariesPackagesPage>
 	{
+		public AdminDictionariesPackagesPage(WebDriver driver) : base(driver)
+		{
+		}
+
 		public new AdminDictionariesPackagesPage GetPage()
 		{
-			var adminDictionariesPackagesPage = new AdminDictionariesPackagesPage();
-			InitPage(adminDictionariesPackagesPage);
+			var adminDictionariesPackagesPage = new AdminDictionariesPackagesPage(Driver);
+			InitPage(adminDictionariesPackagesPage, Driver);
 
 			return adminDictionariesPackagesPage;
 		}
@@ -33,7 +37,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Admin
 		/// <param name="packageName">имя пакета</param>
 		public bool DictionaryPackageExist(string packageName)
 		{
-			Logger.Trace("Проверить, что {0} пакет существует", packageName);
+			CustomTestContext.WriteLine("Проверить, что {0} пакет существует", packageName);
 
 			return Driver.GetTextListElement(By.XPath(DICTIONARIES_PACKAGES_LIST))
 				.Any(item => item == packageName);
@@ -44,10 +48,10 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Admin
 		/// </summary>
 		public AdminCreateDictionaryPackagePage ClickCreateDictionaryPackageLink()
 		{
-			Logger.Debug("Нажать по 'Создать новый пакет' в меню");
+			CustomTestContext.WriteLine("Нажать по 'Создать новый пакет' в меню");
 			Driver.FindElement(By.XPath(CREATE_DICTIONARY_PACKAGE_LINK)).Click();
 
-			return new AdminCreateDictionaryPackagePage().GetPage();
+			return new AdminCreateDictionaryPackagePage(Driver).GetPage();
 		}
 
 		/// <summary>
@@ -56,14 +60,14 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Admin
 		/// <param name="packageName">имя пакета</param>
 		public AdminDictionaryPackagePage ClickDictionaryPackageName(string packageName)
 		{
-			Logger.Debug("Кликнуть по имени пакета {0}.", packageName);
+			CustomTestContext.WriteLine("Кликнуть по имени пакета {0}.", packageName);
 			isRequiredDictionaryLinkExist(packageName);
 
 			var requiredDictionaryNameLink = Driver.GetElementList(By.XPath(DICTIONARIES_PACKAGES_LIST))
 				.First(item => item.Text == packageName);
 			requiredDictionaryNameLink.Click();
 
-			return new AdminDictionaryPackagePage().GetPage();
+			return new AdminDictionaryPackagePage(Driver).GetPage();
 		}
 
 		/// <summary>
@@ -72,7 +76,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Admin
 		/// <param name="packageName">имя пакета</param>
 		public AdminDictionariesPackagesPage isRequiredDictionaryLinkExist(string packageName)
 		{
-			Logger.Trace("Проверить, что ссылка на {0} пакет словарей существует.", packageName);
+			CustomTestContext.WriteLine("Проверить, что ссылка на {0} пакет словарей существует.", packageName);
 			var package = Driver.GetElementList(By.XPath(DICTIONARIES_PACKAGES_LIST))
 							.FirstOrDefault(item => item.Text == packageName);
 

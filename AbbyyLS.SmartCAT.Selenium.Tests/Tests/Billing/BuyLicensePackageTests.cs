@@ -5,6 +5,7 @@ using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Billing
 {
+	[Parallelizable(ParallelScope.Fixtures)]
 	class BuyLicensePackageTests<TWebDriverProvider> : BaseBillingTests<TWebDriverProvider> where TWebDriverProvider : IWebDriverProvider, new()
 	{
 		[TestCase(Period.ThreeMonth)]

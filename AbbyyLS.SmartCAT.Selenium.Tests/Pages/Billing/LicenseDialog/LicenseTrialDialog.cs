@@ -1,19 +1,22 @@
 ﻿using NUnit.Framework;
-
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.PageObjects;
 
+using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
 using AbbyyLS.SmartCAT.Selenium.Tests.TestFramework;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Billing.LicenseDialog
 {
 	public class LicenseTrialDialog : LicenseBaseDialog, IAbstractPage<LicenseTrialDialog>
 	{
+		public LicenseTrialDialog(WebDriver driver) : base(driver)
+		{
+		}
+
 		public new LicenseTrialDialog GetPage()
 		{
-
-			var trialDialog = new LicenseTrialDialog();
-			InitPage(trialDialog);
+			var trialDialog = new LicenseTrialDialog(Driver);
+			InitPage(trialDialog, Driver);
 
 			return trialDialog;
 		}
@@ -31,10 +34,10 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Billing.LicenseDialog
 		/// </summary>
 		public LicenseBaseDialog ClickContinueInTrialDialog()
 		{
-			Logger.Debug("Нажать кнопку Continue.");
+			CustomTestContext.WriteLine("Нажать кнопку Continue.");
 			ContiniueButton.Click();
 
-			return new LicenseBaseDialog().GetPage();
+			return new LicenseBaseDialog(Driver).GetPage();
 		}
 
 		[FindsBy(How = How.XPath, Using = CONTINIUE_BUTTON)]

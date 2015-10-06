@@ -1,8 +1,11 @@
 ﻿using System;
-using AbbyyLS.SmartCAT.Selenium.Tests.TestFramework;
+
 using NUnit.Framework;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.PageObjects;
+
+using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
+using AbbyyLS.SmartCAT.Selenium.Tests.TestFramework;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Admin
 {
@@ -11,10 +14,14 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Admin
 	/// </summary>
 	public class AdminEmailsSearchPage : AdminLingvoProPage, IAbstractPage<AdminEmailsSearchPage>
 	{
+		public AdminEmailsSearchPage(WebDriver driver) : base(driver)
+		{
+		}
+
 		public new AdminEmailsSearchPage GetPage()
 		{
-			var adminEmailsSearchPage = new AdminEmailsSearchPage();
-			InitPage(adminEmailsSearchPage);
+			var adminEmailsSearchPage = new AdminEmailsSearchPage(Driver);
+			InitPage(adminEmailsSearchPage, Driver);
 
 			return adminEmailsSearchPage;
 		}
@@ -33,7 +40,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Admin
 		/// <param name="email">емаил</param>
 		public AdminEmailsSearchPage SetEmail(string email)
 		{
-			Logger.Debug("Ввести email пользователя {0} в поле для поиска.", email);
+			CustomTestContext.WriteLine("Ввести email пользователя {0} в поле для поиска.", email);
 			SearchEmailInput.SetText(email);
 
 			return GetPage();
@@ -45,7 +52,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Admin
 		/// <param name="limit">количество писем (последние письма)</param>
 		public AdminEmailsSearchPage SetLimitCount(int limit)
 		{
-			Logger.Debug("Ввести ограничение по поиску писем: {0}.", limit);
+			CustomTestContext.WriteLine("Ввести ограничение по поиску писем: {0}.", limit.ToString());
 			LimitCountInput.SetText(Convert.ToString(limit));
 
 			return GetPage();
@@ -56,7 +63,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Admin
 		/// </summary>
 		public AdminEmailsSearchPage ClickFindButton()
 		{
-			Logger.Debug("Кликнуть на кнопку 'Найти'.");
+			CustomTestContext.WriteLine("Кликнуть на кнопку 'Найти'.");
 			FindButton.Click();
 
 			return GetPage();

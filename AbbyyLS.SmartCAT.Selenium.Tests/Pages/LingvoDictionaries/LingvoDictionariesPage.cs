@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
 
-using NUnit.Framework;
-
+﻿using NUnit.Framework;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.PageObjects;
 
+using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace;
 using AbbyyLS.SmartCAT.Selenium.Tests.TestFramework;
 
@@ -15,10 +15,14 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.LingvoDictionaries
 {
 	public class LingvoDictionariesPage : WorkspacePage, IAbstractPage<LingvoDictionariesPage>
 	{
+		public LingvoDictionariesPage(WebDriver driver) : base(driver)
+		{
+		}
+
 		public new LingvoDictionariesPage GetPage()
 		{
-			var dictionariesPage = new LingvoDictionariesPage();
-			InitPage(dictionariesPage);
+			var dictionariesPage = new LingvoDictionariesPage(Driver);
+			InitPage(dictionariesPage, Driver);
 
 			return dictionariesPage;
 		}
@@ -36,7 +40,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.LingvoDictionaries
 		/// </summary>
 		public LingvoDictionariesPage AssertLingvoDictionariesListIsNotEmpty()
 		{
-			Logger.Trace("Проверить, что список словарей не пуст.");
+			CustomTestContext.WriteLine("Проверить, что список словарей не пуст.");
 
 			Assert.IsTrue(getDictionaryListCount() > 0,
 				"Произошла ошибка:\n список словарей пуст.");
@@ -49,7 +53,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.LingvoDictionaries
 		/// </summary>
 		public LingvoDictionariesPage AssertLingvoDictionariesListIsEmpty()
 		{
-			Logger.Trace("Проверить, что список словарей пуст");
+			CustomTestContext.WriteLine("Проверить, что список словарей пуст");
 
 			Assert.IsTrue(getDictionaryListCount() == 0,
 				"Произошла ошибка:\n список словарей не пуст.");
@@ -64,7 +68,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.LingvoDictionaries
 		/// <returns>спсиок имен словарей</returns>
 		private static List<string> convertLinksToDictionaryNames(IList<string> links)
 		{
-			Logger.Trace("Сконвертировать список ссылок в имена словарей");
+			CustomTestContext.WriteLine("Сконвертировать список ссылок в имена словарей");
 			if (links.Any(item => item == null))
 			{
 				throw new ArgumentException("Для одного из словарей не найдена ссылка. Невозможно получить ID словаря.");
@@ -95,7 +99,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.LingvoDictionaries
 		/// </summary>
 		public List<string> GetDictionariesList()
 		{
-			Logger.Trace("Получить список словарей на странице");
+			CustomTestContext.WriteLine("Получить список словарей на странице");
 			var dictionaryLinks = Driver.GetElementList(By.XPath(DICTIONARY_LIST_LINKS))
 				.Select(item => item.GetElementAttribute("href"))
 				.ToList();
@@ -108,7 +112,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.LingvoDictionaries
 		/// </summary>
 		private int getDictionaryListCount()
 		{
-			Logger.Trace("Получить количество словарей на странице.");
+			CustomTestContext.WriteLine("Получить количество словарей на странице.");
 
 			return Driver.GetElementList(By.XPath(DICTIONARY_LIST)).Count;
 		}

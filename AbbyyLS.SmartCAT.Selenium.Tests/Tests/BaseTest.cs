@@ -3,7 +3,9 @@ using System.Collections.Concurrent;
 using System.IO;
 using System.Threading;
 
+using NLog;
 using NUnit.Framework;
+using NUnit.Framework.Interfaces;
 
 using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
 using AbbyyLS.SmartCAT.Selenium.Tests.DataStructures;
@@ -15,7 +17,10 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests
 	[TestFixture(typeof(ChromeDriverProvider))]
 	public class BaseTest<TWebDriverProvider> : BaseObject where TWebDriverProvider : IWebDriverProvider, new()
 	{
-		[TestFixtureSetUp]
+		public static Logger Logger = LogManager.GetCurrentClassLogger();
+		public WebDriver Driver { get; private set; }
+
+		[OneTimeSetUp]
 		public void BeforeClass()
 		{
 			try
@@ -35,13 +40,14 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests
 		{
 			try
 			{
-				Logger.Info("Начало работы теста {0}", TestContext.CurrentContext.Test.Name);
+				CustomTestContext.WriteLine("Начало работы теста {0}", TestContext.CurrentContext.Test.Name);
 
+				_loginHelper = new LoginHelper(Driver);
 				_loginHelper.Authorize(StartPage, ThreadUser);
 			}
 			catch (Exception ex)
 			{
-				Logger.ErrorException("Произошла ошибка в SetUp", ex);
+				CustomTestContext.WriteLine("Произошла ошибка в SetUp", ex.ToString());
 				throw;
 			}
 		}
@@ -51,20 +57,20 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests
 		{
 			try
 			{
-				if (TestContext.CurrentContext.Result.Status.Equals(TestStatus.Failed))
+				if (TestContext.CurrentContext.Result.Outcome.Status.Equals(TestStatus.Failed))
 				{
 					Driver.TakeScreenshot(Path.Combine(PathProvider.ResultsFolderPath, "FailedTests"));
 				}
 			}
 			catch (Exception ex)
 			{
-				Logger.WarnException("Ошибка при снятии скриншота", ex);
+				CustomTestContext.WriteLine("Ошибка при снятии скриншота", ex.ToString());
 			}
 
 			Driver.SwitchToNewTab();
 		}
 
-		[TestFixtureTearDown]
+		[OneTimeTearDown]
 		public void TestFixtureTearDown()
 		{
 			ReturnUser(ConfigurationManager.Users, ThreadUser);
@@ -89,6 +95,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests
 
 			Assert.NotNull(user, "Произошла ошибка:\n нет пользователей в очереди");
 
+			CustomTestContext.WriteLine("Пользователь {0} взят из очереди.", user.Login);
 			Logger.Info("Пользователь {0} взят из очереди.", user.Login);
 
 			return user;
@@ -99,16 +106,18 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests
 			try
 			{
 				users.Add(user);
-				Logger.Info("Пользователя {0} возвращен в очередь.", user.Login);
+				CustomTestContext.WriteLine("Пользователь {0} возвращен в очередь.", user.Login);
+				Logger.Info("Пользователь {0} возвращен в очередь.", user.Login);
 			}
 			catch
 			{
-				Logger.Error("Не удалось вернуть пользователя {0} в очередь.", user.Login);
+				CustomTestContext.WriteLine("Произошла ошибка: \nне удалось вернуть пользователя {0} в очередь.", user.Login);
+				Logger.Error("Произошла ошибка: \nне удалось вернуть пользователя {0} в очередь.", user.Login);
 			}
 		}
 
 		public TestUser ThreadUser { get; protected set; }
 		protected StartPage StartPage = StartPage.Workspace;
-		private readonly LoginHelper _loginHelper = new LoginHelper();
+		private LoginHelper _loginHelper;
 	}
 }

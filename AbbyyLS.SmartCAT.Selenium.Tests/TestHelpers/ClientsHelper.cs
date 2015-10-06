@@ -1,5 +1,6 @@
 ﻿using System;
-using System.Threading;
+
+using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Client;
 using AbbyyLS.SmartCAT.Selenium.Tests.TestFramework;
 
@@ -7,9 +8,14 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 {
 	public class ClientsHelper : WorkspaceHelper
 	{
+		public ClientsHelper(WebDriver driver) : base(driver)
+		{
+			_clientsPage = new ClientsPage(Driver);
+		}
+
 		public ClientsHelper CreateNewClient(string clientName)
 		{
-			BaseObject.InitPage(_clientsPage);
+			BaseObject.InitPage(_clientsPage, Driver);
 			_clientsPage
 				.ScrollAndClickCreateClientButton()
 				.FillClientName(clientName)
@@ -20,7 +26,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 		public ClientsHelper DeleteClient(string clientName)
 		{
-			BaseObject.InitPage(_clientsPage);
+			BaseObject.InitPage(_clientsPage, Driver);
 			_clientsPage
 				.HoverCursorToClient(clientName)
 				.AssertDeleteButtonAppear(clientName)
@@ -32,7 +38,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 		public ClientsHelper RenameClient(string clientName, string clientNewName)
 		{
-			BaseObject.InitPage(_clientsPage);
+			BaseObject.InitPage(_clientsPage, Driver);
 			_clientsPage
 				.HoverCursorToClient(clientName)
 				.AssertEditButtonAppear(clientName)
@@ -45,7 +51,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 		public ClientsHelper AssertClientSuccessfullyCreated(string clientName)
 		{
-			BaseObject.InitPage(_clientsPage);
+			BaseObject.InitPage(_clientsPage, Driver);
 			_clientsPage
 				.AssertSaveButtonDisappear()
 				.AssertClientExist(clientName);
@@ -55,7 +61,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 		public ClientsHelper AssertClientNotExist(string clientName)
 		{
-			BaseObject.InitPage(_clientsPage);
+			BaseObject.InitPage(_clientsPage, Driver);
 			_clientsPage.AssertClientNotExist(clientName);
 
 			return this;
@@ -63,7 +69,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 		public ClientsHelper AssertClientNameErrorExist()
 		{
-			BaseObject.InitPage(_clientsPage);
+			BaseObject.InitPage(_clientsPage, Driver);
 			_clientsPage.AssertClientNameErrorExist();
 
 			return this;
@@ -71,7 +77,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 		public ClientsHelper AssertClienEditModeEnabled()
 		{
-			BaseObject.InitPage(_clientsPage);
+			BaseObject.InitPage(_clientsPage, Driver);
 			_clientsPage.AssertClientEditModeEnabled();
 
 			return this;
@@ -84,12 +90,12 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 		public ClientsHelper ClickSortByName()
 		{
-			BaseObject.InitPage(_clientsPage);
+			BaseObject.InitPage(_clientsPage, Driver);
 			_clientsPage.ClickSortByName();
 
 			return this;
 		}
 
-		private readonly ClientsPage _clientsPage = new ClientsPage();
+		private readonly ClientsPage _clientsPage;
 	}
 }

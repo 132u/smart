@@ -5,6 +5,7 @@ using NUnit.Framework;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.PageObjects;
 
+using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace;
 using AbbyyLS.SmartCAT.Selenium.Tests.TestFramework;
 
@@ -12,10 +13,14 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.UsersRights
 {
 	public class UsersRightsPage : WorkspacePage, IAbstractPage<UsersRightsPage>
 	{
+		public UsersRightsPage(WebDriver driver) : base(driver)
+		{
+		}
+
 		public new UsersRightsPage GetPage()
 		{
-			var usersRightsPage = new UsersRightsPage();
-			InitPage(usersRightsPage);
+			var usersRightsPage = new UsersRightsPage(Driver);
+			InitPage(usersRightsPage, Driver);
 
 			return usersRightsPage;
 		}
@@ -33,7 +38,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.UsersRights
 		/// </summary>
 		public UsersRightsPage ClickGroupsButton()
 		{
-			Logger.Debug("Перейти на вкладку 'Группы и права'.");
+			CustomTestContext.WriteLine("Перейти на вкладку 'Группы и права'.");
 			GroupsButton.Click();
 
 			return GetPage();
@@ -45,7 +50,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.UsersRights
 		/// <param name="groupName">имя группы</param>
 		public bool IsGroupExists(string groupName)
 		{
-			Logger.Trace("Проверить, существует ли группа {0}.", groupName);
+			CustomTestContext.WriteLine("Проверить, существует ли группа {0}.", groupName);
 
 			return Driver.ElementIsDisplayed(By.XPath(GROUP_XPATH.Replace("*#*", groupName)));
 		}
@@ -55,7 +60,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.UsersRights
 		/// </summary>
 		public UsersRightsPage ClickCreateGroupButton()
 		{
-			Logger.Debug("Нажать на кнопку 'Создать группу'.");
+			CustomTestContext.WriteLine("Нажать на кнопку 'Создать группу'.");
 			CreateGroupButton.Click();
 
 			return GetPage();
@@ -66,7 +71,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.UsersRights
 		/// </summary>
 		public UsersRightsPage AssertAddNewGroupForm()
 		{
-			Logger.Trace("Проверить, появилась ли форма для добавления новой группы.");
+			CustomTestContext.WriteLine("Проверить, появилась ли форма для добавления новой группы.");
 			Assert.IsTrue(Driver.WaitUntilElementIsDisplay(By.XPath(NEW_GROUP_NAME_INPUT_XPATH)),
 				"Произошла ошибка:\n не появилась форма для добавления новой группы.");
 
@@ -79,7 +84,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.UsersRights
 		/// <param name="groupName">имя группы</param>
 		public UsersRightsPage SetNewGroupName(string groupName)
 		{
-			Logger.Debug("Ввести имя создаваемой группы: {0}.", groupName);
+			CustomTestContext.WriteLine("Ввести имя создаваемой группы: {0}.", groupName);
 			NewGroupNameInput.SetText(groupName);
 
 			return GetPage();
@@ -90,7 +95,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.UsersRights
 		/// </summary>
 		public UsersRightsPage ClickSaveNewGroupButton()
 		{
-			Logger.Debug("Сохранить новую группу.");
+			CustomTestContext.WriteLine("Сохранить новую группу.");
 			SaveNewGroupButton.Click();
 
 			return GetPage();
@@ -114,7 +119,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.UsersRights
 		/// <param name="groupName">имя группы</param>
 		public UsersRightsPage SelectGroup(string groupName)
 		{
-			Logger.Debug("Кликнуть на группу {0} в таблице, чтобы появился выпадающий список с пользователями и правами.", groupName);
+			CustomTestContext.WriteLine("Кликнуть на группу {0} в таблице, чтобы появился выпадающий список с пользователями и правами.", groupName);
 			Group = Driver.SetDynamicValue(How.XPath, GROUP_XPATH, groupName);
 			Group.Click();
 
@@ -136,7 +141,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.UsersRights
 		/// <param name="groupName">имя группы</param>
 		public UsersRightsPage ClickEditGroupButton(string groupName)
 		{
-			Logger.Debug("Нажать кнопку 'Редактировать группу'.");
+			CustomTestContext.WriteLine("Нажать кнопку 'Редактировать группу'.");
 			EditGroupButton = Driver.SetDynamicValue(How.XPath, EDIT_GROUP_BTN_XPATH, groupName);
 			EditGroupButton.Click();
 
@@ -150,7 +155,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.UsersRights
 		/// <param name="groupName">имя группы</param>
 		public bool IsGroupUserAdded(string groupName, string userName)
 		{
-			Logger.Trace("Проверить, есть ли пользователь {0} в группе {1}.", userName, groupName);
+			CustomTestContext.WriteLine("Проверить, есть ли пользователь {0} в группе {1}.", userName, groupName);
 
 			return Driver.ElementIsDisplayed(By.XPath(GROUP_USER_XPATH.Replace("*#*", groupName).Replace("*##*", userName)));
 		}
@@ -162,7 +167,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.UsersRights
 		/// <param name="groupName">имя группы</param>
 		public UsersRightsPage AssertIsGroupUserAdded(string groupName, string userName)
 		{
-			Logger.Trace("Проверить удалось ли добавить пользователя {0} в группу {1}", userName, groupName);
+			CustomTestContext.WriteLine("Проверить удалось ли добавить пользователя {0} в группу {1}", userName, groupName);
 
 			Assert.IsTrue(Driver.WaitUntilElementIsDisplay(
 					By.XPath(GROUP_USER_XPATH.Replace("*#*", groupName).Replace("*##*", userName)),
@@ -178,11 +183,11 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.UsersRights
 		/// <param name="groupName">имя группы</param>
 		public AddAccessRightDialog ClickAddRightsButton(string groupName)
 		{
-			Logger.Debug("Нажать на кнопку 'Добавить права' для группы {0}.", groupName);
+			CustomTestContext.WriteLine("Нажать на кнопку 'Добавить права' для группы {0}.", groupName);
 			AddRightsButton = Driver.SetDynamicValue(How.XPath, ADD_RIGHTS_BTN_XPATH, groupName);
 			AddRightsButton.Click();
 
-			return new AddAccessRightDialog().GetPage();
+			return new AddAccessRightDialog(Driver).GetPage();
 		}
 
 		/// <summary>
@@ -190,7 +195,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.UsersRights
 		/// </summary>
 		public UsersRightsPage ClickAddUsersSearchbox(string groupName)
 		{
-			Logger.Debug("Кликнуть по строке поиска пользователей для появления выпадающего списка с пользователями аккаунта.");
+			CustomTestContext.WriteLine("Кликнуть по строке поиска пользователей для появления выпадающего списка с пользователями аккаунта.");
 			AddGroupUsersInput = Driver.SetDynamicValue(How.XPath, ADD_GROUP_USERS_INPUT_XPATH, groupName);
 			AddGroupUsersInput.Click();
 
@@ -217,7 +222,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.UsersRights
 		/// <param name="groupName">имя группы</param>
 		public UsersRightsPage ClickAddGroupUserButton(string groupName, string userName)
 		{
-			Logger.Debug("Выбрать пользователя {0} из списка и нажать кнопку 'Добавить' в группу {1}.", userName, groupName);
+			CustomTestContext.WriteLine("Выбрать пользователя {0} из списка и нажать кнопку 'Добавить' в группу {1}.", userName, groupName);
 			AddGroupUserButton = Driver.SetDynamicValue(How.XPath, ADD_GROUP_USER_BTN_XPATH, groupName, userName);
 			AddGroupUserButton.Click();
 
@@ -266,7 +271,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.UsersRights
 		/// <param name="groupName">имя группы</param>
 		public UsersRightsPage ClickSaveButton(string groupName)
 		{
-			Logger.Debug("Нажать кнопку 'Сохранить' ( настройки группы {0}).", groupName);
+			CustomTestContext.WriteLine("Нажать кнопку 'Сохранить' ( настройки группы {0}).", groupName);
 			SaveButton = Driver.SetDynamicValue(How.XPath, SAVE_BTN_XPATH, groupName);
 			SaveButton.Click();
 
@@ -278,7 +283,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.UsersRights
 		/// </summary>
 		public List<string> GetUserNameList()
 		{
-			Logger.Trace("Получить список пользователей");
+			CustomTestContext.WriteLine("Получить список пользователей");
 
 			var nameList = Driver.GetTextListElement(By.XPath(USER_NAME_LIST));
 			var surnameList = Driver.GetTextListElement(By.XPath(USER_SURNAME_LIST));
@@ -294,7 +299,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.UsersRights
 		/// </summary>
 		public List<string> GetGroupNameList()
 		{
-			Logger.Trace("Получить список имен групп пользователей");
+			CustomTestContext.WriteLine("Получить список имен групп пользователей");
 			return Driver.GetTextListElement(By.XPath(GROUP_NAME_LIST));
 		}
 
@@ -315,7 +320,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.UsersRights
 		/// </summary>
 		public UsersRightsPage ClickSortByFirstName()
 		{
-			Logger.Debug("Нажать кнопку сортировки по имени.");
+			CustomTestContext.WriteLine("Нажать кнопку сортировки по имени.");
 			SortByFirstName.Click();
 
 			return GetPage();
@@ -326,7 +331,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.UsersRights
 		/// </summary>
 		public UsersRightsPage ClickSortByLastName()
 		{
-			Logger.Debug("Нажать кнопку сортировки фамилии");
+			CustomTestContext.WriteLine("Нажать кнопку сортировки фамилии");
 			SortByLastName.Click();
 
 			return GetPage();
@@ -337,7 +342,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.UsersRights
 		/// </summary>
 		public UsersRightsPage ClickSortByShortName()
 		{
-			Logger.Debug("Нажать кнопку сортировки по ShortName");
+			CustomTestContext.WriteLine("Нажать кнопку сортировки по ShortName");
 			SortByShortName.Click();
 
 			return GetPage();
@@ -348,7 +353,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.UsersRights
 		/// </summary>
 		public UsersRightsPage ClickSortByEmailAddress()
 		{
-			Logger.Debug("Нажать кнопку сортировки по адресу почты");
+			CustomTestContext.WriteLine("Нажать кнопку сортировки по адресу почты");
 			SortByEmail.Click();
 
 			return GetPage();
@@ -359,7 +364,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.UsersRights
 		/// </summary>
 		public UsersRightsPage ClickSortByGroups()
 		{
-			Logger.Debug("Нажать кнопку сортировки по группе");
+			CustomTestContext.WriteLine("Нажать кнопку сортировки по группе");
 			SortByGroups.Click();
 
 			return GetPage();
@@ -370,7 +375,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.UsersRights
 		/// </summary>
 		public UsersRightsPage ClickSortByCreated()
 		{
-			Logger.Debug("Нажать кнопку сортировки по дате создания");
+			CustomTestContext.WriteLine("Нажать кнопку сортировки по дате создания");
 			SortByCreated.Click();
 
 			return GetPage();
@@ -381,7 +386,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.UsersRights
 		/// </summary>
 		public UsersRightsPage ClickSortByStatus()
 		{
-			Logger.Trace("Нажать кнопку сортировки по статусу");
+			CustomTestContext.WriteLine("Нажать кнопку сортировки по статусу");
 			SortByStatus.Click();
 
 			return GetPage();
@@ -394,7 +399,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.UsersRights
 		/// <param name="userName">имя пользователя</param>
 		public UsersRightsPage ClickDeleteUserButton(string groupName, string userName)
 		{
-			Logger.Debug("Кликнуть на кнопку удаления юзера {0} из группы {1}", userName, groupName);
+			CustomTestContext.WriteLine("Кликнуть на кнопку удаления юзера {0} из группы {1}", userName, groupName);
 
 			DeleteUserButton = Driver.SetDynamicValue(How.XPath, DELETE_USER_BUTTON, groupName, userName);
 			DeleteUserButton.Click();

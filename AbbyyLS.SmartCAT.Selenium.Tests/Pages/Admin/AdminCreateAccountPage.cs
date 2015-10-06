@@ -7,6 +7,8 @@ using NUnit.Framework;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.PageObjects;
 
+using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
+
 using AbbyyLS.SmartCAT.Selenium.Tests.TestFramework;
 
 
@@ -14,10 +16,14 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Admin
 {
 	public class AdminCreateAccountPage : AdminLingvoProPage, IAbstractPage<AdminCreateAccountPage>
 	{
+		public AdminCreateAccountPage(WebDriver driver) : base(driver)
+		{
+		}
+
 		public new AdminCreateAccountPage GetPage()
 		{
-			var adminCreateAccountPage = new AdminCreateAccountPage();
-			InitPage(adminCreateAccountPage);
+			var adminCreateAccountPage = new AdminCreateAccountPage(Driver);
+			InitPage(adminCreateAccountPage, Driver);
 
 			return adminCreateAccountPage;
 		}
@@ -36,7 +42,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Admin
 		public AdminCreateAccountPage SelectExpirationDate()
 		{
 			var nextYear = DateTime.Today.AddYears(1).ToString("dd.MM.yyyy");
-			Logger.Trace("Установить дату '{0}'", nextYear);
+			CustomTestContext.WriteLine("Установить дату '{0}'", nextYear);
 			DictionariesExtDate.SetText(nextYear);
 
 			return GetPage();
@@ -47,7 +53,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Admin
 		/// </summary>
 		public AdminCreateAccountPage ClickSaveButton()
 		{
-			Logger.Trace("Нажать кнопку 'Сохранить'.");
+			CustomTestContext.WriteLine("Нажать кнопку 'Сохранить'.");
 			SaveButton.Click();
 
 			return GetPage();
@@ -66,7 +72,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Admin
 					+ " workflow для аккаунта необратимо, обратное выключение "
 					+ "будет невозможно. Продолжить?"))
 				{
-					Logger.Trace("Закрыть модальное диалоговое окно");
+					CustomTestContext.WriteLine("Закрыть модальное диалоговое окно");
 					Driver.SwitchTo().Alert().Accept();
 				}
 				// sleep нужен, чтобы диалог успел закрыться.
@@ -85,7 +91,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Admin
 		/// </summary>
 		public AdminCreateAccountPage CheckWorkflowCheckbox()
 		{
-			Logger.Trace("Поставить галочку в  Workflow чекбокс");
+			CustomTestContext.WriteLine("Поставить галочку в  Workflow чекбокс");
 			WorkflowCheckbox.Click();
 
 			return this;
@@ -97,7 +103,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Admin
 		/// <param name="name">имя</param>
 		public AdminCreateAccountPage FillAccountName(string name)
 		{
-			Logger.Trace("Ввести названия аккаунта " + name);
+			CustomTestContext.WriteLine("Ввести названия аккаунта " + name);
 			Name.SetText(name);
 
 			return GetPage();
@@ -109,7 +115,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Admin
 		/// <param name="name">название</param>
 		public AdminCreateAccountPage SetVenture(string name)
 		{
-			Logger.Trace("Выбрать нужную затею: {0}", name);
+			CustomTestContext.WriteLine("Выбрать нужную затею: {0}", name);
 			Venture.SelectOptionByText(name);
 
 			return GetPage();
@@ -120,7 +126,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Admin
 		/// </summary>
 		public AdminCreateAccountPage SetEnterpriseAccountType(string accountType)
 		{
-			Logger.Trace("Выбрать тип корпоративного аккаунта: {0}", accountType);
+			CustomTestContext.WriteLine("Выбрать тип корпоративного аккаунта: {0}", accountType);
 			EnterpriseAccountTypeDropdown.SelectOptionByText(accountType);
 
 			return GetPage();
@@ -132,7 +138,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Admin
 		/// <param name="name">название</param>
 		public AdminCreateAccountPage FillSubdomainName(string name)
 		{
-			Logger.Trace("Ввести название поддомена {0}", name);
+			CustomTestContext.WriteLine("Ввести название поддомена {0}", name);
 			Subdomain.SetText(name);
 
 			return GetPage();
@@ -143,7 +149,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Admin
 		/// </summary>
 		public AdminCreateAccountPage SelectFeature(string feature)
 		{
-			Logger.Trace("Выбрать функцию {0}", feature);
+			CustomTestContext.WriteLine("Выбрать функцию {0}", feature);
 			FeaturesOptions = Driver.SetDynamicValue(How.XPath, FEATURES_OPTIONS, feature);
 			FeaturesOptions.Click();
 
@@ -155,7 +161,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Admin
 		/// </summary>
 		public AdminCreateAccountPage ClickRightArrowToAddFeature()
 		{
-			Logger.Trace("Кликнуть по стрелке, чтоб добавить функцию");
+			CustomTestContext.WriteLine("Кликнуть по стрелке, чтоб добавить функцию");
 			FeaturesToRightArrow.Click();
 
 			return GetPage();
@@ -166,7 +172,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Admin
 		/// </summary>
 		public AdminCreateAccountPage AddAllPackages()
 		{
-			Logger.Debug("Нажать на кнопку добавления всех пакетов словарей.");
+			CustomTestContext.WriteLine("Нажать на кнопку добавления всех пакетов словарей.");
 			AddAllDictionariesPackagesButton.Click();
 
 			return GetPage();
@@ -177,7 +183,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Admin
 		/// </summary>
 		public List<string> FeaturesListInAccount()
 		{
-			Logger.Trace("Получить список включенных в аккаунт фич из правой таблицы.");
+			CustomTestContext.WriteLine("Получить список включенных в аккаунт фич из правой таблицы.");
 
 			return Driver.GetTextListElement(By.XPath(FEATURES_OPTIONS_IN_RIGHT_TABLE));
 		}
@@ -187,7 +193,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Admin
 		/// </summary>
 		public AdminCreateAccountPage ClickAddAllDisassemblesButton()
 		{
-			Logger.Trace("Нажать на кнопку добавления всех алгоритмов разбора документов.");
+			CustomTestContext.WriteLine("Нажать на кнопку добавления всех алгоритмов разбора документов.");
 
 			AddAllDisassemblesButton.Click();
 
@@ -200,11 +206,11 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Admin
 		/// <returns></returns>
 		public AdminManagementPaidServicesPage ClickManagementPaidServicesReference()
 		{
-			Logger.Debug("Кликнуть по ссылке 'Управление платными услугами'");
+			CustomTestContext.WriteLine("Кликнуть по ссылке 'Управление платными услугами'");
 
 			ManagementPaidServicesReference.Click();
 
-			return new AdminManagementPaidServicesPage().GetPage();
+			return new AdminManagementPaidServicesPage(Driver).GetPage();
 		}
 
 		/// <summary>
@@ -212,7 +218,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Admin
 		/// </summary>
 		private static void tryCloseExternalDialog()
 		{
-			Logger.Debug("Закрыть открытый диалог");
+			CustomTestContext.WriteLine("Закрыть открытый диалог");
 			SendKeys.SendWait(@"{Enter}");
 			// sleep нужен, чтобы диалог успел закрыться.
 			Thread.Sleep(1000);

@@ -4,12 +4,12 @@ using System.Globalization;
 using System.Linq;
 
 using NUnit.Framework;
-
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.PageObjects;
 
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Billing.LicenseDialog;
 using AbbyyLS.SmartCAT.Selenium.Tests.DataStructures;
+using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace;
 using AbbyyLS.SmartCAT.Selenium.Tests.TestFramework;
 
@@ -17,10 +17,14 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Billing
 {
 	public class BillingPage : WorkspacePage, IAbstractPage<BillingPage>
 	{
+		public BillingPage(WebDriver driver) : base(driver)
+		{
+		}
+
 		public new BillingPage GetPage()
 		{
-			var billingPage = new BillingPage();
-			InitPage(billingPage);
+			var billingPage = new BillingPage(Driver);
+			InitPage(billingPage, Driver);
 
 			return billingPage;
 		}
@@ -39,7 +43,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Billing
 		/// <returns>количество лицензий</returns>
 		public int PackagesCount()
 		{
-			Logger.Trace("Получить количество пакетов лицензий.");
+			CustomTestContext.WriteLine("Получить количество пакетов лицензий.");
 
 			return Driver.GetElementsCount(By.XPath(LICENSES_LIST));
 		}
@@ -50,7 +54,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Billing
 		/// <returns>количество лицензий в пакете</returns>
 		public int LicenseCountInPackage()
 		{
-			Logger.Trace("Получить количество лицензий в пакете из первой колонки верхней таблицы.");
+			CustomTestContext.WriteLine("Получить количество лицензий в пакете из первой колонки верхней таблицы.");
 			var licenseNumber = LicenseQuantityColumn.Text.Split(' ');
 			int licenseNumberInteger;
 
@@ -68,7 +72,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Billing
 		/// <param name="licenseNumber">количество лицензий</param>
 		public BillingPage SelectLicenseNumber(int licenseNumber)
 		{
-			Logger.Debug("Выбрать {0} лицензий для покупки.", licenseNumber);
+			CustomTestContext.WriteLine("Выбрать {0} лицензий для покупки.", licenseNumber.ToString());
 			LicenseNumber.SelectOptionByText(licenseNumber.ToString());
 
 			return GetPage();
@@ -80,10 +84,10 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Billing
 		/// <param name="monthPeriod">период, на который покупается лицензия</param>
 		public LicensePurchaseDialog ClickBuyButton(Period monthPeriod)
 		{
-			Logger.Debug("Нажать кнопку Buy для периода {0} месяцев.", monthPeriod);
+			CustomTestContext.WriteLine("Нажать кнопку Buy для периода {0} месяцев.", monthPeriod.ToString());
 			Driver.FindElement(By.XPath(BUY_BUTTON.Replace("'*#*'", monthPeriod.Description()))).Click();
 			
-			return new LicensePurchaseDialog().GetPage();
+			return new LicensePurchaseDialog(Driver).GetPage();
 		}
 
 		/// <summary>
@@ -92,11 +96,11 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Billing
 		/// <param name="rowNumber">номер строки</param>
 		public LicenseUpgradeDialog ClickUpgradeButton(int rowNumber)
 		{
-			Logger.Debug("Нажать кнопку Upgrade в {0} строке.", rowNumber);
+			CustomTestContext.WriteLine("Нажать кнопку Upgrade в {0} строке.", rowNumber.ToString());
 			var buttons = visibleUpgradeButtonsList();
 			buttons[rowNumber - 1].Click();
 
-			return new LicenseUpgradeDialog().GetPage();
+			return new LicenseUpgradeDialog(Driver).GetPage();
 		}
 
 		/// <summary>
@@ -105,10 +109,10 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Billing
 		/// <param name="rowNumebr">номер строки</param>
 		public LicenseExtendDialog ClickExtendButton(int rowNumebr)
 		{
-			Logger.Debug("Нажать кнопку Extend в {0} строке.", rowNumebr);
+			CustomTestContext.WriteLine("Нажать кнопку Extend в {0} строке.", rowNumebr.ToString());
 			Driver.SetDynamicValue(How.XPath, EXTEND_BUTTON, rowNumebr.ToString()).Click();
 
-			return new LicenseExtendDialog().GetPage();
+			return new LicenseExtendDialog(Driver).GetPage();
 		}
 
 		/// <summary>
@@ -117,7 +121,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Billing
 		/// <param name="currency">валюта</param>
 		public BillingPage AssertCurrencyInPurchaseTable(string currency)
 		{
-			Logger.Trace("Проверить, знак валюты {0}.", currency);
+			CustomTestContext.WriteLine("Проверить, знак валюты {0}.", currency);
 			var periodList = Driver.GetTextListElement(By.XPath(TABLE_HEADER));
 
 			Assert.IsTrue(periodList.All(p => p.Contains(currency)),
@@ -132,7 +136,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Billing
 		/// <returns>конечная дата</returns>
 		public DateTime GetEndDate()
 		{
-			Logger.Trace("Получить конечную дату пакета лицензий.");
+			CustomTestContext.WriteLine("Получить конечную дату пакета лицензий.");
 
 			return DateTime.ParseExact(EndDateColumn.Text, "M/d/yyyy", CultureInfo.InvariantCulture);
 		}
@@ -142,10 +146,10 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Billing
 		/// </summary>
 		public WorkspacePage ClickLogo()
 		{
-			Logger.Debug("Нажать по логотипу.");
+			CustomTestContext.WriteLine("Нажать по логотипу.");
 			Logo.Click();
 
-			return new WorkspacePage();
+			return new WorkspacePage(Driver);
 		}
 
 		/// <summary>
@@ -154,7 +158,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Billing
 		/// <param name="period">период 1/3/6/12 месяцев</param>
 		public int PackagePrice(Period period)
 		{
-			Logger.Trace("Получить стоимость пакета лицензий за {0} месяцев.", period.Description());
+			CustomTestContext.WriteLine("Получить стоимость пакета лицензий за {0} месяцев.", period.Description());
 			var priceWithDot = Driver.FindElement(By.XPath(PACKAGE_PRICE.Replace("'*#*'", period.Description()))).Text;
 			var price = priceWithDot.Substring(0, priceWithDot.IndexOf(".")).Replace(",","");
 			int resultPrice;
@@ -169,7 +173,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Billing
 		/// <returns>cписок кнопок Upgrade</returns>
 		private IList<IWebElement> upgradeButtonsList()
 		{
-			Logger.Trace("Получить список всех кнопок Upgrade(видимых и невидимых).");
+			CustomTestContext.WriteLine("Получить список всех кнопок Upgrade(видимых и невидимых).");
 
 			return Driver.GetElementList(By.XPath(UPGRADE_BUTTONS));
 		}
@@ -180,7 +184,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Billing
 		/// <returns>список видимых Upgrade кнопок</returns>
 		private IList<IWebElement> visibleUpgradeButtonsList()
 		{
-			Logger.Trace("Получить список видимых кнопок Upgrade.");
+			CustomTestContext.WriteLine("Получить список видимых кнопок Upgrade.");
 
 			return upgradeButtonsList().Where(btn => btn.Displayed).ToList();
 		}
