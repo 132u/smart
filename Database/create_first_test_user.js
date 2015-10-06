@@ -62,3 +62,81 @@ db.Auth.Users.save({
     "preferredSourceLanguageId" : NumberInt(9), 
     "preferredTargetLanguageId" : NumberInt(25)
 });
+
+db.Auth.Users.save({ 
+    "_id" : BinData(3, "Wauj8DVp7EaKGe3FijA2hg=="), 
+    "email" : "teamcity_thread5@mailforspam.com", 
+    "nickName" : "Teamcity Thread5", 
+    "isAdmin" : true, 
+    "interfaceLanguageId" : NumberInt(9),
+    "hasPlainPassword" : true, 
+    "oAuthCredentialTypes" : NumberInt(0),  
+    "dateCreated" : ISODate("2015-10-06T11:00:15.052+0000"),
+    "preferredSourceLanguageId" : NumberInt(9), 
+    "preferredTargetLanguageId" : NumberInt(25)
+});
+
+db.Auth.Users.save({ 
+    "_id" : BinData(3, "y2fthvSRwEe4R4ybKXPoUQ=="),
+    "email" : "teamcity_thread6@mailforspam.com", 
+    "nickName" : "Teamcity Thread6", 
+    "isAdmin" : true, 
+    "interfaceLanguageId" : NumberInt(9),
+    "hasPlainPassword" : true, 
+    "oAuthCredentialTypes" : NumberInt(0),  
+    "dateCreated" : ISODate("2015-10-06T11:00:41.068+0000"),
+    "preferredSourceLanguageId" : NumberInt(9), 
+    "preferredTargetLanguageId" : NumberInt(25)
+});
+
+db.Auth.Users.save({ 
+   "_id" : BinData(3, "nDCcqDOUDUmbxaVZZYV/Pw=="),
+    "email" : "teamcity_thread7@mailforspam.com", 
+    "nickName" : "Teamcity Thread7", 
+    "isAdmin" : true, 
+    "interfaceLanguageId" : NumberInt(9),
+    "hasPlainPassword" : true, 
+    "oAuthCredentialTypes" : NumberInt(0),  
+    "dateCreated" : ISODate("2015-10-06T11:01:06.282+0000"),
+    "preferredSourceLanguageId" : NumberInt(9), 
+    "preferredTargetLanguageId" : NumberInt(25)
+});
+
+db.Auth.Users.save({ 
+    "_id" : BinData(3, "K8nbWFrrSUWSZrm+lBeekg=="),
+    "email" : "teamcity_thread8@mailforspam.com", 
+    "nickName" : "Teamcity Thread8", 
+    "isAdmin" : true, 
+    "interfaceLanguageId" : NumberInt(9),
+    "hasPlainPassword" : true, 
+    "oAuthCredentialTypes" : NumberInt(0),  
+    "dateCreated" : ISODate("2015-10-06T11:01:29.851+0000"),
+    "preferredSourceLanguageId" : NumberInt(9), 
+    "preferredTargetLanguageId" : NumberInt(25)
+});
+
+db.Auth.Users.save({ 
+    "_id" : BinData(3, "FxvG0aKfDESMHA+ebvalqA=="),
+    "email" : "teamcity_thread9@mailforspam.com", 
+    "nickName" : "Teamcity Thread9",
+    "isAdmin" : true, 
+    "interfaceLanguageId" : NumberInt(9),
+    "hasPlainPassword" : true, 
+    "oAuthCredentialTypes" : NumberInt(0),  
+    "dateCreated" : ISODate("2015-10-06T11:01:51.275+0000"),
+    "preferredSourceLanguageId" : NumberInt(9), 
+    "preferredTargetLanguageId" : NumberInt(25)
+});
+
+db.Auth.Users.save({ 
+    "_id" : BinData(3, "q7AAZTO1o0OTZBYrM9YCmg=="), 
+    "email" : "teamcity_thread10@mailforspam.com", 
+    "nickName" : "Teamcity Thread10", 
+    "isAdmin" : true, 
+    "interfaceLanguageId" : NumberInt(9),
+    "hasPlainPassword" : true, 
+    "oAuthCredentialTypes" : NumberInt(0),  
+    "dateCreated" : ISODate("2015-10-06T11:02:11.699+0000"),
+    "preferredSourceLanguageId" : NumberInt(9), 
+    "preferredTargetLanguageId" : NumberInt(25)
+});
