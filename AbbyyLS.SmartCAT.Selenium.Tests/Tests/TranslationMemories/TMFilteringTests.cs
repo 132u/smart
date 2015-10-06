@@ -208,7 +208,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.TranslationMemories
 			TranslationMemoriesHelper
 				.CreateNewTMFilter(() => TranslationMemoriesHelper.SetSourceLanguageFilter(Language.French),
 					cancelFilterCreation: true)
+				.FindTranslationMemory(_tmForFilteringName_1)
 				.AssertTranslationMemoryExists(_tmForFilteringName_1)
+				.FindTranslationMemory(_tmForFilteringName_2)
 				.AssertTranslationMemoryExists(_tmForFilteringName_2);
 		}
 		
