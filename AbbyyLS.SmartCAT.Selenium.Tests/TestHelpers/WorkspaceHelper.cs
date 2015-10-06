@@ -240,7 +240,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 		{
 			SelectLocale(language);
 			_workspacePage
-				.AssertUserNameMatch(nickName)
+				//.AssertUserNameMatch(nickName)
 				.AssertAccountNameMatch(accountName);
 				
 			return this;
