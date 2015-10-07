@@ -17,8 +17,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 		{
 			_workspaceHelper = new WorkspaceHelper(Driver);
 			_workspaceHelper.GoToProjectsPage();
-			_projectUniqueName = _createProjectHelper.GetProjectUniqueName();
 			_createProjectHelper = new CreateProjectHelper(Driver);
+			_projectUniqueName = _createProjectHelper.GetProjectUniqueName();
 		}
 
 		[Test]
