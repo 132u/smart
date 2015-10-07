@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
-
 using NUnit.Framework;
 
+using AbbyyLS.SmartCAT.Selenium.Admin;
 using AbbyyLS.SmartCAT.Selenium.Tests.DataStructures;
 using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
 using AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers;
@@ -23,7 +23,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.InitialData
 		}
 
 		[Test]
-		public void CreateCorpAccount()
+		[ApiIntegration]
+		public void CreateCorporateAccount()
 		{
 			_adminHelper
 				.CreateAccountIfNotExist(
@@ -93,7 +94,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.InitialData
 		}
 
 		[Test]
-		public void CreatePersAccountForThreadUsers()
+		public void CreatePersonalAccountForThreadUsers()
 		{
 			foreach (var user in ConfigurationManager.ThreadUsersList)
 			{
@@ -102,7 +103,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.InitialData
 		}
 
 		[Test]
-		public void CreatePersAccountForAdditionalUsers()
+		public void CreatePersonalAccountForAdditionalUsers()
 		{
 			foreach (var user in ConfigurationManager.AdditionalUsersList)
 			{
