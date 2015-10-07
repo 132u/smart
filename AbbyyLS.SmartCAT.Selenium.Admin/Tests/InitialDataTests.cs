@@ -94,6 +94,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.InitialData
 		}
 
 		[Test]
+		[ApiIntegration]
 		public void CreatePersonalAccountForThreadUsers()
 		{
 			foreach (var user in ConfigurationManager.ThreadUsersList)
