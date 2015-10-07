@@ -838,9 +838,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		protected const string SEGMENTS_TABLE_XPATH = "//div[@id='segments-body']//div//div[2]//table";
 		protected const string SEGMENTS_BODY = "//div[@id='segments-body']//table";
 		protected const string CONFIRMED_ICO = "//div[@id='segments-body']//table[@data-recordindex = '*#*']//td[contains(@class,'info-cell')]//div[contains(@class,'fa-check')]";
-		protected const string TARGET_CELL = "//div[@id='segments-body']//table[@data-recordindex = '*#*']//td[3]//div//div";
+		protected const string TARGET_CELL = "//div[@id='segments-body']//table[@data-recordindex = '*#*']//td[4]//div//div";
 		protected const string TARGET_CELL_VALUE = "//table[@data-recordindex='*#*']//td[3]//div[contains(@id, 'segmenteditor')]";
-		protected const string SOURCE_CELL = "//table[@data-recordindex='*#*']//td[2]//div[contains(@id, 'segmenteditor')]";
+		protected const string SOURCE_CELL = "//table[@data-recordindex='*#*']//td[3]//div[contains(@id, 'segmenteditor')]";
 		protected const string TAG = "//div[contains(text(), '*#*')]//..//..//..//..//tbody//tr[1]//td[3]//div//img[contains(@class,'tag')]";
 		protected const string SEGMENT_LOCK = "//div[contains(text(), '1')]//..//..//..//..//tbody//tr[1]//td[contains(@class,'info-cell')]//div[contains(@class,'fa-lock')][not(contains(@class,'inactive'))]";
 
@@ -850,7 +850,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		protected const string ALL_SEGMENTS_SAVED_STATUS = "//div[text()='All segments are saved.']";
 		protected const string SAVING_STATUS = "//div[@id='segmentsavingindicator-1048-innerCt' and contains(text(),'Saving')]";
 		protected const string MATCH_COLUMN = "//div[@id='segments-body']//table[*#*]//tbody//td[contains(@class,'matchcolum')]";
-		protected const string TARGET_MATCH_COLUMN_PERCENT = "//table[@data-recordindex='*#*' and contains(@id, 'tableview')]//td[5]//div//span";
+		protected const string TARGET_MATCH_COLUMN_PERCENT = "//table[@data-recordindex='*#*' and contains(@id, 'tableview')]//td[6]//div//span";
 		protected const string CAT_PANEL_PERCENT_MATCH = ".//div[@id='cat-body']//table[*#*]//tbody//tr//td[3]//div//span";
 
 		protected const string CAT_TYPE_LIST_IN_PANEL = ".//div[@id='cat-body']//table//td[3]/div";
