@@ -15,12 +15,12 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects.Workflow
 		public WorkflowPersonalAccountTests()
 		{
 			StartPage = StartPage.PersonalAccount;
-			_createProjectHelper = new CreateProjectHelper(Driver);
 		}
 
 		[SetUp]
 		public void WorkflowPersonalAccountTestsSetUp()
 		{
+			_createProjectHelper = new CreateProjectHelper(Driver);
 			_projectUniqueName = _createProjectHelper.GetProjectUniqueName();
 		}
 
