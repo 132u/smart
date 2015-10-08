@@ -211,6 +211,19 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories
 		}
 
 		/// <summary>
+		/// Проверить, что поле 'Группы проектов' является видимым
+		/// </summary>
+		/// <returns></returns>
+		public TranslationMemoriesPage AssertProjectGroupsFieldDisplay()
+		{
+			CustomTestContext.WriteLine("Проверить, что поле 'Группы проектов' является видимым");
+			Assert.IsTrue(Driver.WaitUntilElementIsDisplay(By.XPath(TM_EDIT_PROJECT_GROUPS)),
+				"Произошла ошибка:\n  поле 'Группы проектов' не появилось.");
+
+			return GetPage();
+		}
+
+		/// <summary>
 		/// Проверить, что группа представлена в списке
 		/// </summary>
 		/// <param name="projectGroup">имя группы проектов</param>
@@ -242,6 +255,33 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories
 		{
 			CustomTestContext.WriteLine("Нажать на поле с темами в форме редактирования ТМ");
 			TopicsField.Click();
+
+			return GetPage();
+		}
+
+		/// <summary>
+		/// Проверить видимость поля 'Тематики'
+		/// </summary>
+		/// <returns></returns>
+		public TranslationMemoriesPage AssertTopiscFieldDisplay()
+		{
+			CustomTestContext.WriteLine("Проверить видимость поля 'Тематики'");
+
+			Assert.IsTrue(Driver.WaitUntilElementIsDisplay(By.XPath(TOPICS_FIELD)),
+				"Произошла ошибка:\n поле 'Тематики' не появилось.");
+
+			return GetPage();
+		}
+
+		/// <summary>
+		/// Проверить, что поле 'Клиенты' является видимым
+		/// </summary>
+		/// <returns></returns>
+		public TranslationMemoriesPage AssertClientsFieldDisplay()
+		{
+			CustomTestContext.WriteLine("Проверить, что поле 'Клиенты' является видимым");
+			Assert.IsTrue(Driver.WaitUntilElementIsDisplay(By.XPath(CLIENTS_FIELD)),
+				"Произошла ошибка:\n  поле 'Клиенты' не появилось.");
 
 			return GetPage();
 		}
@@ -851,7 +891,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories
 		protected const string TM_EDIT_SAVE_BTN = "//tr[contains(@class,'js-tm-panel')]//span[contains(@data-bind,'click: save')]";
 		protected const string TM_EDIT_TARGET_LANGUAGE = "//tr[contains(@class,'js-tm-panel')]//td[2]//div[1]//div[contains(@class,'ui-multiselect')]/div";
 		protected const string TM_EDIT_TARGET_LANGUAGE_LIST = "/html/body/div[21]/div";
-		protected const string TM_EDIT_PROJECT_GROUPS = "//tr[contains(@class,'js-tm-panel')]//td[2]//div[3]//div[contains(@class,'ui-multiselect')]/div";
+		protected const string TM_EDIT_PROJECT_GROUPS = "//tr[contains(@class,'js-tm-panel')]//td[2]//div[3]//div[contains(@class,'ui-multiselect-text')]";
 
 		protected const string PROJECT_GROUPS_FIRST_IN_LIST = "//div[contains(@style, 'block')]//ul[@class='ui-multiselect-checkboxes ui-helper-reset']//li[2]//label//input";
 		protected const string PROJECT_GROUPS_FIELD = "//tr[contains(@class,'js-tm-panel')]//div[contains(@data-bind,'domainNames')]";
@@ -881,7 +921,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories
 		protected const string PROJECT_GROUP_IN_LIST = "(//ul[contains(@class, 'ui-multiselect-checkboxes')]//span[text()='*#*']//preceding-sibling::span/input)[3]";
 		protected const string CLIENTS_FIELD = "//tr[contains(@class,'js-tm-panel')]//td[2]//div[4]/span";
 		protected const string CLIENT_IN_LIST = "//span[contains(@class, 'js-dropdown')]/span[contains(text(),'*#*')]";
-		protected const string TOPICS_FIELD = "//tr[contains(@class,'js-tm-panel')]//td[2]//div[contains(@data-bind,'topicDropdown')]/div/div";
+		protected const string TOPICS_FIELD = "//tr[contains(@class,'js-tm-panel')]//td[2]//div[contains(@data-bind,'topicDropdown')]/div/div[1]";
 		protected const string TOPIC_IN_LIST = "//tr[contains(@class,'js-tm-panel')]//td[2]//div[contains(@data-bind,'topicDropdown')]/div/div//span[contains(@class,'nodetext') and text()='*#*']";
 		protected const string CLEAR_ALL_FILTERS_BUTTON = "//img[contains(@class, 'filterClear js-clear-filter')]";
 		protected const string FILTER_BUTTON = "//span[contains(@class, 'js-set-filter')]";

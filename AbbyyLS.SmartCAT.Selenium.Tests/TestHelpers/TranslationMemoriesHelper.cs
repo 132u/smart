@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-
+using System.Threading;
 using AbbyyLS.SmartCAT.Selenium.Tests.DataStructures;
 using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories;
@@ -341,6 +341,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 			_translationMemoriesPage
 				.ClickEditButton()
 				.AssertEditionFormDisplayed();
+			//Sleep нужен,чтобы форма успела перейти в режим редактирования.
+			Thread.Sleep(1000);
 			actionEdit();
 			_translationMemoriesPage
 				.ClickSaveTranslationMemoryButton()
@@ -353,6 +355,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 		{
 			BaseObject.InitPage(_translationMemoriesPage, Driver);
 			_translationMemoriesPage
+				.AssertProjectGroupsFieldDisplay()
 				.ClickToProjectGroupsField()
 				.SelectProjectGroup(projectGroupName);
 			
@@ -363,6 +366,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 		{
 			BaseObject.InitPage(_translationMemoriesPage, Driver);
 			_translationMemoriesPage
+				.AssertTopiscFieldDisplay()
 				.ClickToTopicsField()
 				.SelectTopic(topicName);
 
@@ -373,6 +377,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 		{
 			BaseObject.InitPage(_translationMemoriesPage, Driver);
 			_translationMemoriesPage
+				.AssertClientsFieldDisplay()
 				.ClickToClientsField()
 				.SelectClient(clientName);
 

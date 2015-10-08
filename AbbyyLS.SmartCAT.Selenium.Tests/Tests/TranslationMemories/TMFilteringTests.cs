@@ -68,7 +68,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.TranslationMemories
 		{
 			if (_secondUser != null)
 			{
-				ReturnUser(ConfigurationManager.AdditionalUsers, _secondUser);
+				ReturnUser(ConfigurationManager.Users, _secondUser);
 			}
 		}
 
