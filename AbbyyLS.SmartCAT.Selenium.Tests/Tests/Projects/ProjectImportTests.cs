@@ -26,7 +26,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 		{
 			_createProjectHelper
 				.ClickCreateProjectButton()
-				.UploadFile(PathProvider.AudioFile)
+				.UploadFileExpectingError(PathProvider.AudioFile)
 				.AssertErrorFormatDocument();
 		}
 

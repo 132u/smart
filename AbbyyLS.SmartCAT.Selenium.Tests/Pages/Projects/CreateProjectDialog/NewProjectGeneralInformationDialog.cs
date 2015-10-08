@@ -78,6 +78,21 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 		}
 
 		/// <summary>
+		/// Загрузка файла с ожиданием ошибки
+		/// </summary>
+		/// <param name="pathFile">путь к файлу</param>
+		public NewProjectGeneralInformationDialog UploadFileExpectingError(string pathFile)
+		{
+			CustomTestContext.WriteLine("Загрузить файл: {0}.", pathFile);
+			Driver.ExecuteScript("arguments[0].style[\"display\"] = \"block\";" +
+				"arguments[0].style[\"visibility\"] = \"visible\";",
+				UploadFileInput);
+			UploadFileInput.SendKeys(pathFile);
+
+			return GetPage();
+		}
+
+		/// <summary>
 		/// Проверить, что файл загрузился
 		/// </summary>
 		/// <param name="fileName">имя файла (с расширением)</param>

@@ -138,6 +138,14 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 			return this;
 		}
 
+		public CreateProjectHelper UploadFileExpectingError(string filePath)
+		{
+			BaseObject.InitPage(_newProjectGeneralInformationDialog, Driver);
+			_newProjectGeneralInformationDialog.UploadFileExpectingError(filePath);
+
+			return this;
+		}
+
 		public CreateProjectHelper SelectFirstGlossary()
 		{
 			BaseObject.InitPage(_newProjectSelectGlossariesDialog, Driver);
