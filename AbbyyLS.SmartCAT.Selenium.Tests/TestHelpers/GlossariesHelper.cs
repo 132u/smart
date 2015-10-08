@@ -574,7 +574,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 		public GlossariesHelper UploadImage(string fieldName, string imageFile)
 		{
 			BaseObject.InitPage(_glossaryPage, Driver);
-			_glossaryPage.ClickImageField(fieldName);
+			_glossaryPage.UploadImageFile(imageFile);
 
 			return this;
 		}
