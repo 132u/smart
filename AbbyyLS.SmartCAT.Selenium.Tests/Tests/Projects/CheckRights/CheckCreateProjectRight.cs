@@ -13,37 +13,43 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects.CheckRights
 	[Parallelizable(ParallelScope.Fixtures)]
 	class CheckCreateProjectRight<TWebDriverProvider> : BaseTest<TWebDriverProvider> where TWebDriverProvider : IWebDriverProvider, new()
 	{
-		[SetUp]
-		public void SetUp()
+		public override void BeforeTest()
+		{
+			
+		}
+
+		[OneTimeSetUp]
+		public void OneTimeSetUp()
 		{
 			_exportFileHelper = new ExportFileHelper(Driver);
 			_createProjectHelper = new CreateProjectHelper(Driver);
 			_projectHeper = new ProjectsHelper(Driver);
-			WorkspaceHelper = new WorkspaceHelper(Driver);
+			_workspaceHelper = new WorkspaceHelper(Driver);
+			_loginHelper = new LoginHelper(Driver);
 
-			_additionalUser = TakeUser(ConfigurationManager.AdditionalUsers);
+			AdditionalThreadUser = TakeUser(ConfigurationManager.AdditionalUsers);
 
 			var groupName = Guid.NewGuid().ToString();
-			WorkspaceHelper
+
+			_loginHelper.Authorize(StartPage.Workspace, ThreadUser);
+
+			_workspaceHelper
 				.CloseTour()
 				.GoToUsersRightsPage()
 				.ClickGroupsButton()
-				.RemoveUserFromAllGroups(_additionalUser.NickName)
+				.RemoveUserFromAllGroups(AdditionalThreadUser.NickName)
 				.CheckOrCreateGroup(groupName)
 				.CheckOrAddRightsToGroup(groupName, RightsType.ProjectCreation)
-				.CheckOrAddUserToGroup(groupName, _additionalUser.NickName)
-				.SignOut()
-				.SignIn(_additionalUser.Login, _additionalUser.Password)
-				.SelectAccount()
-				.CloseTour();
-
-			_exportFileHelper.CancelAllNotifiers<ProjectsPage>();
+				.CheckOrAddUserToGroup(groupName, AdditionalThreadUser.NickName)
+				.SignOut();
 		}
 
-		[TearDown]
-		public void TearDown()
+		[SetUp]
+		public void SetUp()
 		{
-			ReturnUser(ConfigurationManager.AdditionalUsers, _additionalUser);
+			_loginHelper.Authorize(StartPage.Workspace, AdditionalThreadUser);
+			_workspaceHelper.CloseTour();
+			_exportFileHelper.CancelAllNotifiers<ProjectsPage>();
 		}
 
 		[Test]
@@ -274,7 +280,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects.CheckRights
 		protected ExportFileHelper _exportFileHelper;
 		protected CreateProjectHelper _createProjectHelper;
 		protected ProjectsHelper _projectHeper;
-		protected WorkspaceHelper WorkspaceHelper;
-		private TestUser _additionalUser;
+		protected WorkspaceHelper _workspaceHelper;
+		protected LoginHelper _loginHelper;
 	}
 }
