@@ -1,4 +1,5 @@
-﻿using NUnit.Framework;
+﻿using System;
+
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.PageObjects;
 
@@ -24,11 +25,13 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Client
 
 		public new void LoadPage()
 		{
-			if (!Driver.WaitUntilElementIsDisplay(By.XPath(CLIENTS_TABLE_BODY)))
+			if (!IsClientsPageOpened())
 			{
-				Assert.Fail("Произошла ошибка:\n не загрузилась страница с клиентами.");
+				throw new XPathLookupException("Произошла ошибка:\n не загрузилась страница с клиентами.");
 			}
 		}
+
+		#region Простые методы страницы
 
 		/// <summary>
 		/// Прокручиваем страницу(если необходимо) и нажимаем кнопку создания клиента
@@ -73,7 +76,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Client
 			CustomTestContext.WriteLine("Навести курсор на клиент {0}", clientName);
 			ClientRow = Driver.SetDynamicValue(How.XPath, CLIENT_ROW, clientName);
 			ClientRow.HoverElement();
-			
+
 			return GetPage();
 		}
 
@@ -86,7 +89,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Client
 			CustomTestContext.WriteLine("Нажать кнопку 'Редактировать' клиента {0}", clientName);
 			EditClientButton = Driver.SetDynamicValue(How.XPath, EDIT_BUTTON, clientName);
 			EditClientButton.Click();
-			
+
 			return GetPage();
 		}
 
@@ -104,134 +107,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Client
 		}
 
 		/// <summary>
-		/// Проверить, что кнопка сохранения клиента исчезла
-		/// </summary>
-		public ClientsPage AssertSaveButtonDisappear()
-		{
-			CustomTestContext.WriteLine("Проверить, что кнопка сохранения клиента исчезла");
-
-			Assert.IsTrue(Driver.WaitUntilElementIsDisappeared(By.XPath(SAVE_CLIENT)),
-				"Произошла ошибка:\n кнопка сохранения клиента не исчезла после сохранения.");
-
-			return GetPage();
-		}
-
-		/// <summary>
-		/// Проверить, что кнопка удаления клиента появилась
-		/// </summary>
-		public ClientsPage AssertDeleteButtonAppear(string clientName)
-		{
-			CustomTestContext.WriteLine("Проверить, что кнопка удаления клиента появилась");
-			var isDeleteButtonDisplayed = Driver.WaitUntilElementIsDisplay(
-				By.XPath(DELETE_BUTTON.Replace("*#*", clientName)));
-
-			if (!isDeleteButtonDisplayed)
-			{
-				CustomTestContext.WriteLine("Необходимо повторно навести курсор на клиента {0}, чтобы кнопка удаления стала видна",
-					clientName);
-				HoverCursorToClient(clientName);
-
-				isDeleteButtonDisplayed = Driver.WaitUntilElementIsDisplay(
-					By.XPath(DELETE_BUTTON.Replace("*#*", clientName)));
-			}
-
-			Assert.IsTrue(isDeleteButtonDisplayed,
-				"Произошла ошибка:\n кнопка удаления клиента не появилась после наведения курсора.");
-
-			return GetPage();
-		}
-
-		/// <summary>
-		/// Проверить, что кнопка редактирования клиента появилась
-		/// </summary>
-		public ClientsPage AssertEditButtonAppear(string clientName)
-		{
-			CustomTestContext.WriteLine("Проверить, что кнопка редактирования клиента появилась");
-
-			var isEditButtonDisplayed = Driver.WaitUntilElementIsDisplay(By.XPath(EDIT_BUTTON.Replace("*#*", clientName)));
-
-			if (!isEditButtonDisplayed)
-			{
-				CustomTestContext.WriteLine("Необходимо повторно навести курсор на клиента {0}, чтобы кнопка редактирования стала видна", 
-					clientName);
-				HoverCursorToClient(clientName);
-				isEditButtonDisplayed = Driver.WaitUntilElementIsDisplay(By.XPath(EDIT_BUTTON.Replace("*#*", clientName)));
-			}
-
-			Assert.IsTrue(isEditButtonDisplayed,
-				"Произошла ошибка:\n кнопка редактирования клиента не появилась после наведения курсора.");
-
-			return GetPage();
-		}
-
-		/// <summary>
-		/// Проверить, что кнопка удаления клиента исчезла
-		/// </summary>
-		public ClientsPage AssertDeleteButtonDisappear(string clientName)
-		{
-			CustomTestContext.WriteLine("Проверить, что кнопка удаления клиента исчезла");
-
-			Assert.IsTrue(Driver.WaitUntilElementIsDisappeared(By.XPath(DELETE_BUTTON.Replace("*#*", clientName))),
-				"Произошла ошибка:\n кнопка удаления клиента не исчезла после сохранения.");
-
-			return GetPage();
-		}
-
-		/// <summary>
-		/// Проверить, что клиент присутствует в списке клиентов
-		/// </summary>
-		/// <param name="clientName">имя клиента</param>
-		public ClientsPage AssertClientExist(string clientName)
-		{
-			CustomTestContext.WriteLine("Проверить, что клиент {0} присутствует в списке клиентов", clientName);
-
-			Assert.IsTrue(Driver.WaitUntilElementIsDisplay(By.XPath(getClientPath(clientName))),
-				"Произошла ошибка:\n клиент {0} не найден в списке клиентов", clientName);
-
-			return GetPage();
-		}
-
-		/// <summary>
-		/// Проверить, что клиент отсутствует в списке клиентов
-		/// </summary>
-		/// <param name="clientName">имя клиента</param>
-		public ClientsPage AssertClientNotExist(string clientName)
-		{
-			CustomTestContext.WriteLine("Проверить, что клиент {0} отсутствует в списке клиентов", clientName);
-
-			Assert.IsTrue(Driver.WaitUntilElementIsDisappeared(By.XPath(getClientPath(clientName))),
-				"Произошла ошибка:\n клиент {0} найден в списке клиентов", clientName);
-
-			return GetPage();
-		}
-
-		/// <summary>
-		/// Проверить, что появилась ошибка в имени клиента при создании
-		/// </summary>
-		public ClientsPage AssertClientNameErrorExist()
-		{
-			CustomTestContext.WriteLine("Проверить, что появилась ошибка в имени клиента при создании");
-
-			Assert.IsTrue(ErrorClientName.Displayed,
-				"Произошла ошибка:\n не появилась ошибка при создании клиента с некорректным именем");
-
-			return GetPage();
-		}
-
-		/// <summary>
-		/// Проверить, что мы находимся в режиме редактирования клиента
-		/// </summary>
-		public ClientsPage AssertClientEditModeEnabled()
-		{
-			CustomTestContext.WriteLine("Проверить, что мы находимся в режиме редактирования клиента");
-
-			Assert.IsTrue(ClientNameField.Displayed,
-				"Произошла ошибка:\n произошел выход из режима редактирования клиента.");
-
-			return GetPage();
-		}
-
-		/// <summary>
 		/// Нажать кнопку сортировки по имени
 		/// </summary>
 		public ClientsPage ClickSortByName()
@@ -242,16 +117,129 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Client
 			return GetPage();
 		}
 
+		#endregion
+
+		#region Составные методы страницы
+
 		/// <summary>
-		/// Получить xPath клиента
+		/// Создать нового клиента
+		/// </summary>
+		/// <param name="clientName"></param>
+		public ClientsPage CreateNewClient(string clientName)
+		{
+			ScrollAndClickCreateClientButton();
+			FillClientName(clientName);
+			ClickSaveClientButton();
+
+			return GetPage();
+		}
+
+		/// <summary>
+		/// Переименовать клиента
+		/// </summary>
+		/// <param name="clientName"></param>
+		/// <param name="clientNewName"></param>
+		public ClientsPage RenameClient(string clientName, string clientNewName)
+		{
+			HoverCursorToClient(clientName);
+			ClickEditClientButton(clientName);
+			FillClientName(clientNewName);
+			ClickSaveClientButton();
+
+			return GetPage();
+		}
+
+		/// <summary>
+		/// Удалить клиента
+		/// </summary>
+		/// <param name="clientName"></param>
+		public ClientsPage DeleteClient(string clientName)
+		{
+			HoverCursorToClient(clientName);
+			ClickDeleteClientButton(clientName);
+
+			return GetPage();
+		}
+
+		#endregion
+
+		#region Методы, проверяющие состояние страницы
+
+		/// <summary>
+		/// Проверить, что кнопка сохранения клиента исчезла
+		/// </summary>
+		public bool IsSaveButtonDisappear()
+		{
+			CustomTestContext.WriteLine("Проверить, что кнопка сохранения клиента исчезла");
+
+			return Driver.WaitUntilElementIsDisappeared(By.XPath(SAVE_CLIENT));
+		}
+
+		/// <summary>
+		/// Проверить, что кнопка удаления клиента исчезла
+		/// </summary>
+		/// <param name="clientName"></param>
+		public bool IsDeleteButtonDisappear(string clientName)
+		{
+			CustomTestContext.WriteLine("Проверить, что кнопка удаления клиента исчезла");
+
+			return Driver.WaitUntilElementIsDisappeared(By.XPath(DELETE_BUTTON.Replace("*#*", clientName)));
+		}
+
+		/// <summary>
+		/// Проверить, что клиент присутствует в списке клиентов
 		/// </summary>
 		/// <param name="clientName">имя клиента</param>
-		private static string getClientPath(string clientName)
+		public bool IsClientExist(string clientName)
 		{
-			CustomTestContext.WriteLine("Получить xPath клиента {0} ", clientName);
+			CustomTestContext.WriteLine("Проверить, что клиент {0} присутствует в списке клиентов", clientName);
 
-			return CLIENT_ROW.Replace("*#*", clientName);
+			return Driver.WaitUntilElementIsDisplay(By.XPath(CLIENT_ROW.Replace("*#*", clientName)));
 		}
+
+		/// <summary>
+		/// Проверить, что появилась ошибка в имени клиента при создании
+		/// </summary>
+		public bool IsClientNameValidationErrorDisplayed()
+		{
+			CustomTestContext.WriteLine("Проверить, что появилась ошибка в имени клиента при создании");
+
+			return Driver.WaitUntilElementIsDisplay(ErrorClientName);
+		}
+
+		/// <summary>
+		/// Проверить, что мы находимся в режиме редактирования клиента
+		/// </summary>
+		public bool IsClientEditModeEnabled()
+		{
+			CustomTestContext.WriteLine("Проверить, что мы находимся в режиме редактирования клиента");
+
+			return Driver.WaitUntilElementIsDisplay(ClientNameField);
+		}
+
+		/// <summary>
+		/// Проверить, открылась ли страница
+		/// </summary>
+		public bool IsClientsPageOpened()
+		{
+			return Driver.WaitUntilElementIsDisplay(By.XPath(CLIENTS_TABLE_BODY));
+		}
+
+		#endregion
+
+		#region Вспомогательные методы
+
+		/// <summary>
+		/// Получить уникальное имя клиента
+		/// </summary>
+		public string GetClientUniqueName()
+		{
+			return "TestClient-" + Guid.NewGuid();
+		}
+
+		#endregion
+
+		#region Объявление элементов страницы
 
 		[FindsBy(How = How.XPath, Using = ADD_CLIENT_BUTTON)]
 		protected IWebElement AddClientButton { get; set; }
@@ -274,11 +262,15 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Client
 
 		protected IWebElement ClientRow { get; set; }
 
+		#endregion
+
+		#region Описание XPath элементов
+
 		protected const string CLIENTS_TABLE_BODY = "//table[contains(@class,'js-sortable-table')]";
 
 		protected const string CLIENT_ROW = "//table[contains(@class,'js-sortable-table')]//p[contains(string(), '*#*')]//..";
-		protected const string DELETE_BUTTON = "//table[contains(@class,'js-sortable-table')]//p[contains(string(), '*#*')]//../parent::td/following-sibling::td//a[@title='Delete']";
-		protected const string EDIT_BUTTON = "//table[contains(@class,'js-sortable-table')]//p[contains(string(), '*#*')]//../parent::td/following-sibling::td//a[@title='Edit']";
+		protected const string DELETE_BUTTON = "//table[contains(@class,'js-sortable-table')]//p[contains(string(), '*#*')]/../div[@class='l-corpr__clientbtns']/a[@title='Delete']";
+		protected const string EDIT_BUTTON = "//table[contains(@class,'js-sortable-table')]//p[contains(string(), '*#*')]/../div[@class='l-corpr__clientbtns']/a[@title='Edit']";
 
 		protected const string ADD_CLIENT_BUTTON = "//div[@data-bind='click: addNewClient']//span";
 		protected const string SAVE_CLIENT = "//img[contains(@class,'client save')]";
@@ -286,5 +278,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Client
 		protected const string CLIENT_INPUT_NAME = "//input[contains(@class,'clienttxtbox')]";
 		protected const string CLIENT_LIST = ".//table[contains(@class,'js-sortable-table')]//tr";
 		protected const string SORT_BY_NAME = "//th[contains(@data-sort-by,'Name')]//a";
+
+		#endregion
 	}
 }

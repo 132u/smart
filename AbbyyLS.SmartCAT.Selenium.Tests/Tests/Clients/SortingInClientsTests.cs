@@ -2,6 +2,7 @@
 
 using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
 using AbbyyLS.SmartCAT.Selenium.Tests.FeatureAttributes;
+using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Client;
 using AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Clients
@@ -15,18 +16,20 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Clients
 		[SetUp]
 		public void Initialization()
 		{
-			_clientsHelper = new ClientsHelper(Driver);
+			_workspaceHelper = new WorkspaceHelper(Driver);
+			_workspaceHelper.GoToClientsPage();
+			_clientsPage = new ClientsPage(Driver).GetPage();
 		}
 
 		[Test]
-		public void SortByNameTest()
+		public void CheckNoErrorsWhenSortByName()
 		{
-			_clientsHelper
-				.GoToClientsPage()
+			_clientsPage
 				.ClickSortByName()
 				.AssertAlertNoExist();
 		}
 
-		private ClientsHelper _clientsHelper;
+		private ClientsPage _clientsPage;
+		private WorkspaceHelper _workspaceHelper;
 	}
 }

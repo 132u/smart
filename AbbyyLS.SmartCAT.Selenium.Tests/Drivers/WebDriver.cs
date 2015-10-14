@@ -5,6 +5,7 @@ using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
 using System.Threading;
+
 using NLog;
 using NUnit.Framework;
 
@@ -174,7 +175,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Drivers
 		}
 
 		/// <summary>
-		/// Проверить, присуствует ли элемент на странице
+		/// Проверить, присутствует ли элемент на странице
 		/// </summary>
 		/// <param name="by">локатор</param>
 		public bool ElementIsDisplayed(By by)
@@ -226,6 +227,31 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Drivers
 				Logger.Warn("StaleElementReferenceException: WaitUntilElementIsDisplayed: " + by);
 
 				return WaitUntilElementIsDisplay(by, timeout);
+			}
+		}
+
+		/// <summary>
+		/// Ждем, отобразится ли элемент
+		/// </summary>
+		/// <param name="element">локатор</param>
+		/// <param name="timeout">время ожидания</param>
+		public bool WaitUntilElementIsDisplay(IWebElement element, int timeout = 10)
+		{
+			var wait = new WebDriverWait(this, TimeSpan.FromSeconds(timeout));
+
+			try
+			{
+				return wait.Until(d => element.Displayed);
+			}
+			catch (WebDriverTimeoutException)
+			{
+				return false;
+			}
+			catch (StaleElementReferenceException)
+			{
+				Logger.Warn("StaleElementReferenceException: WaitUntilElementIsDisplayed: " + element);
+
+				return WaitUntilElementIsDisplay(element, timeout);
 			}
 		}
 

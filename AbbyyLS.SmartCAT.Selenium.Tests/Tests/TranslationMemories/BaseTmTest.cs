@@ -1,6 +1,7 @@
 ﻿using NUnit.Framework;
 
 using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
+using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Client;
 using AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.TranslationMemories
@@ -14,6 +15,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.TranslationMemories
 			UniqueTranslationMemoryName = TranslationMemoriesHelper.GetTranslationMemoryUniqueName();
 			TranslationMemoriesHelper = _workspaceHelper.GoToTranslationMemoriesPage();
 			_createProjectHelper = new CreateProjectHelper(Driver);
+			ClientsPage = new ClientsPage(Driver).GetPage();
 		}
 
 		public string UniqueTranslationMemoryName { get; set; }
@@ -21,5 +23,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.TranslationMemories
 		public TranslationMemoriesHelper TranslationMemoriesHelper { get; private set; }
 		public CreateProjectHelper _createProjectHelper;
 		private WorkspaceHelper _workspaceHelper;
+		public ClientsPage ClientsPage;
 	}
 }

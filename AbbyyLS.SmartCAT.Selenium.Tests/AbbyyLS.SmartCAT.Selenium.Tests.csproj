@@ -201,7 +201,6 @@
     <Compile Include="TestFramework\WebElementExtensions.cs" />
     <Compile Include="TestHelpers\AdminHelper.cs" />
     <Compile Include="TestHelpers\BillingHelper.cs" />
-    <Compile Include="TestHelpers\ClientsHelper.cs" />
     <Compile Include="TestHelpers\CommonHelper.cs" />
     <Compile Include="TestHelpers\CompanyRegistrationHelper.cs" />
     <Compile Include="TestHelpers\CreateProjectHelper.cs" />

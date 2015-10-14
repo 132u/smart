@@ -29,9 +29,11 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.TranslationMemories
 				.GoToProjectGroupsPage()
 				.CreateProjectGroup(_projectGroupName_1)
 				.CreateProjectGroup(_projectGroupName_2)
-				.GoToClientsPage()
+				.GoToClientsPage();
+			ClientsPage
 				.CreateNewClient(_clientName_1)
-				.CreateNewClient(_clientName_2)
+				.CreateNewClient(_clientName_2);
+			_workspaceHelper
 				.GoToTranslationMemoriesPage()
 				.GetTranslationMemoryUniqueName(ref _tmForFilteringName_1)
 				.GetTranslationMemoryUniqueName(ref _tmForFilteringName_2)

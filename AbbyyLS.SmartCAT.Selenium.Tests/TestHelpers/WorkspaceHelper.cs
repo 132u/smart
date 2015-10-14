@@ -3,6 +3,7 @@ using System.Threading;
 
 using AbbyyLS.SmartCAT.Selenium.Tests.DataStructures;
 using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
+using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Client;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace;
 using AbbyyLS.SmartCAT.Selenium.Tests.TestFramework;
@@ -20,14 +21,14 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 			_workspacePage = new WorkspacePage(Driver);
 		}
 
-		public ClientsHelper GoToClientsPage()
+		public ClientsPage GoToClientsPage()
 		{
 			BaseObject.InitPage(_workspacePage, Driver);
 			_workspacePage
 				.OpenHideMenuIfClosed()
 				.ClickClientsButton();
 
-			return new ClientsHelper(Driver);
+			return new ClientsPage(Driver).GetPage();
 		}
 
 		public ProjectGroupsHelper GoToProjectGroupsPage()
