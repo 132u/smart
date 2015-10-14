@@ -67,6 +67,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests
 				CustomTestContext.WriteLine("Ошибка при снятии скриншота", ex.ToString());
 			}
 
+			CustomTestContext.WriteLine("Окончание работы теста {0}", TestContext.CurrentContext.Test.Name);
+
 			Driver.SwitchToNewTab();
 		}
 
