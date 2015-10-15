@@ -78,7 +78,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Login
 		{
 			CustomTestContext.WriteLine("Проверить наличие сообщения о ненайденном аккаунте.");
 
-			Assert.IsTrue(Driver.WaitUntilElementIsDisplay(By.XPath(MESSAGE_ACCOUNT_NOT_FOUND)));
+			Assert.IsTrue(Driver.WaitUntilElementIsDisplay(By.XPath(MESSAGE_ACCOUNT_NOT_FOUND)),
+				"Произошла ошибка:\n сообщение о ненайденном аккаунте отсутствует.");
 
 			return new SelectAccountForm(Driver).GetPage();
 		}
