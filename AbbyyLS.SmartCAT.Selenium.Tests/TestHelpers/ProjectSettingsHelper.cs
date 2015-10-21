@@ -6,6 +6,7 @@ using AbbyyLS.SmartCAT.Selenium.Tests.DataStructures;
 using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects;
+using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.DocumentUploadDialog;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings;
 using AbbyyLS.SmartCAT.Selenium.Tests.TestFramework;
 
@@ -18,6 +19,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 			_documentSettings = new DocumentSettings(Driver);
 			_projectPage = new ProjectSettingsPage(Driver);
 			_settingsDialog = new SettingsDialog(Driver);
+			_documentUploadGeneralInformationDialog = new DocumentUploadGeneralInformationDialog(Driver);
 		}
 
 		public ProjectSettingsHelper ClickDocumentProgress(string filePath)
@@ -94,21 +96,24 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 			BaseObject.InitPage(_projectPage, Driver);
 			_projectPage
 				.ClickDocumentUploadButton()
-				.UploadDocument(filePath)
-				.AssertFileUploaded(Path.GetFileName(filePath))
-				.ClickFinish<ProjectSettingsPage>(Driver)
+				.UploadDocument(filePath);
+
+			Assert.IsTrue(_documentUploadGeneralInformationDialog.IsFileUploaded(filePath));
+
+			_documentUploadGeneralInformationDialog
+				.ClickFinish<ProjectSettingsPage>()
 				.WaitUntilUploadDocumentDialogDissapeared()
 				.AssertIsDocumentProcessed();
 
 			return this;
 		}
 
-		public UploadDocumentHelper ClickDocumentUploadButton()
+		public DocumentUploadGeneralInformationDialog ClickDocumentUploadButton()
 		{
 			BaseObject.InitPage(_projectPage, Driver);
 			_projectPage.ClickDocumentUploadButton();
 
-			return new UploadDocumentHelper(Driver);
+			return new DocumentUploadGeneralInformationDialog(Driver).GetPage();
 		}
 
 		/// <summary>
@@ -342,5 +347,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 		private readonly ProjectSettingsPage _projectPage;
 		private readonly DocumentSettings _documentSettings;
 		private readonly SettingsDialog _settingsDialog;
+		private readonly DocumentUploadGeneralInformationDialog _documentUploadGeneralInformationDialog;
 	}
 }

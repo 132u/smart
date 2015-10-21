@@ -6,6 +6,7 @@ using NUnit.Framework;
 using AbbyyLS.SmartCAT.Selenium.Tests.DataStructures;
 using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects;
+using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.DocumentUploadDialog;
 using AbbyyLS.SmartCAT.Selenium.Tests.TestFramework;
 using AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers;
 
@@ -27,6 +28,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects.CheckRights
 			_projectHeper = new ProjectsHelper(Driver);
 			_workspaceHelper = new WorkspaceHelper(Driver);
 			_loginHelper = new LoginHelper(Driver);
+			_projectsHelper = new ProjectsHelper(Driver);
+			_documentUploadGeneralInformationDialog = new DocumentUploadGeneralInformationDialog(Driver);
 
 			AdditionalThreadUser = TakeUser(ConfigurationManager.AdditionalUsers);
 
@@ -79,11 +82,16 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects.CheckRights
 				.AssertIsProjectLoadedSuccessfully(projectUniqueName)
 				.CheckProjectAppearInList(projectUniqueName)
 				.OpenProjectInfo(projectUniqueName)
-				.ClickDocumentUploadButton()
-				.UploadDocument(PathProvider.DocumentFileToConfirm1)
-				.AssertFileUploaded(PathProvider.DocumentFileToConfirm1)
-				.ClickFihishUploadOnProjectsPage()
-				.AssertIsProjectLoadedSuccessfully(projectUniqueName);
+				.ClickDocumentUploadButton();
+
+			_documentUploadGeneralInformationDialog.UploadDocument(PathProvider.DocumentFileToConfirm1);
+
+			Assert.IsTrue(_documentUploadGeneralInformationDialog.IsFileUploaded(PathProvider.DocumentFileToConfirm1),
+				"Произошла ошибка:\n не удалось загрузить файл.");
+
+			_documentUploadGeneralInformationDialog.ClickFihishUploadOnProjectsPage();
+
+			_projectsHelper.AssertIsProjectLoadedSuccessfully(projectUniqueName);
 		}
 
 		[Test]
@@ -114,10 +122,16 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects.CheckRights
 				.AssertIsProjectLoadedSuccessfully(projectUniqueName)
 				.CheckProjectAppearInList(projectUniqueName)
 				.OpenProjectInfo(projectUniqueName)
-				.ClickDocumentUploadButton()
-				.UploadDocument(PathProvider.DocumentFileToConfirm1)
-				.AssertFileUploaded(PathProvider.DocumentFileToConfirm1)
-				.ClickFihishUploadOnProjectsPage()
+				.ClickDocumentUploadButton();
+
+			_documentUploadGeneralInformationDialog.UploadDocument(PathProvider.DocumentFileToConfirm1);
+
+			Assert.IsTrue(_documentUploadGeneralInformationDialog.IsFileUploaded(PathProvider.DocumentFileToConfirm1),
+				"Произошла ошибка:\n не удалось загрузить файл.");
+
+			_documentUploadGeneralInformationDialog.ClickFihishUploadOnProjectsPage();
+
+			_projectsHelper
 				.AssertIsProjectLoadedSuccessfully(projectUniqueName)
 				.SelectDocument(projectUniqueName, Path.GetFileNameWithoutExtension(PathProvider.EditorTxtFile))
 				.ClickDownloadInProjectButton(projectUniqueName)
@@ -142,10 +156,16 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects.CheckRights
 				.AssertIsProjectLoadedSuccessfully(projectUniqueName)
 				.CheckProjectAppearInList(projectUniqueName)
 				.OpenProjectInfo(projectUniqueName)
-				.ClickDocumentUploadButton()
-				.UploadDocument(PathProvider.DocumentFileToConfirm1)
-				.AssertFileUploaded(PathProvider.DocumentFileToConfirm1)
-				.ClickFihishUploadOnProjectsPage()
+				.ClickDocumentUploadButton();
+
+			_documentUploadGeneralInformationDialog.UploadDocument(PathProvider.DocumentFileToConfirm1);
+
+			Assert.IsTrue(_documentUploadGeneralInformationDialog.IsFileUploaded(PathProvider.DocumentFileToConfirm1),
+				"Произошла ошибка:\n не удалось загрузить файл.");
+
+			_documentUploadGeneralInformationDialog.ClickFihishUploadOnProjectsPage();
+
+			_projectsHelper
 				.AssertIsProjectLoadedSuccessfully(projectUniqueName)
 				.SelectProjectInList(projectUniqueName);
 
@@ -205,10 +225,16 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects.CheckRights
 				.AssertIsProjectLoadedSuccessfully(projectUniqueName)
 				.CheckProjectAppearInList(projectUniqueName)
 				.OpenProjectInfo(projectUniqueName)
-				.ClickDocumentUploadButton()
-				.UploadDocument(PathProvider.DocumentFile2)
-				.AssertFileUploaded(PathProvider.DocumentFile2)
-				.ClickFihishUploadOnProjectsPage()
+				.ClickDocumentUploadButton();
+
+			_documentUploadGeneralInformationDialog.UploadDocument(PathProvider.DocumentFile2);
+
+			Assert.IsTrue(_documentUploadGeneralInformationDialog.IsFileUploaded(PathProvider.DocumentFile2),
+				"Произошла ошибка:\n не удалось загрузить файл.");
+
+			_documentUploadGeneralInformationDialog.ClickFihishUploadOnProjectsPage();
+
+			_projectsHelper
 				.AssertIsProjectLoadedSuccessfully(projectUniqueName)
 				.SelectDocument(projectUniqueName, Path.GetFileNameWithoutExtension(PathProvider.DocumentFile));
 
@@ -283,5 +309,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects.CheckRights
 		protected ProjectsHelper _projectHeper;
 		protected WorkspaceHelper _workspaceHelper;
 		protected LoginHelper _loginHelper;
+
+		private ProjectsHelper _projectsHelper;
+		private DocumentUploadGeneralInformationDialog _documentUploadGeneralInformationDialog;
 	}
 }

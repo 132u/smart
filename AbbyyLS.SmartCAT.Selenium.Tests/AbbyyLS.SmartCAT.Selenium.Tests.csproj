@@ -216,7 +216,6 @@
     <Compile Include="TestHelpers\SearchHelper.cs" />
     <Compile Include="TestHelpers\TaskAssignmentPageHelper.cs" />
     <Compile Include="TestHelpers\TranslationMemoriesHelper.cs" />
-    <Compile Include="TestHelpers\UploadDocumentHelper.cs" />
     <Compile Include="TestHelpers\UsersRightsHelper.cs" />
     <Compile Include="TestHelpers\WorkspaceHelper.cs" />
     <Compile Include="TestSettingDefinition.cs" />

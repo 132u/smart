@@ -31,6 +31,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace
 		public WorkspacePage(WebDriver driver)
 		{
 			Driver = driver;
+			PageFactory.InitElements(Driver, this);
 		}
 
 		public WorkspacePage GetPage()
@@ -275,6 +276,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace
 			return countExportNotifiers;
 		}
 
+		/// <summary>
+		/// Проверить, что фон диалога исчез
+		/// </summary>
 		public T AssertDialogBackgroundDisappeared<T>(WebDriver driver) where T : class, IAbstractPage<T>
 		{
 			CustomTestContext.WriteLine("Дождаться закрытия фона диалога.");
@@ -284,6 +288,16 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace
 
 			var instance = Activator.CreateInstance(typeof(T), new object[] { driver }) as T;
 			return instance.GetPage();
+		}
+
+		/// <summary>
+		/// Проверить, что фон диалога исчез
+		/// </summary>
+		public bool IsDialogBackgroundDisappeared()
+		{
+			CustomTestContext.WriteLine("Проверить, что фон диалога исчез.");
+
+			return Driver.WaitUntilElementIsDisappeared(By.XPath(DIALOG_BACKGROUND));
 		}
 
 		/// <summary>

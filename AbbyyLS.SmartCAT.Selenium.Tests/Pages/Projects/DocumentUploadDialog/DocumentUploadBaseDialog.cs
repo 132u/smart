@@ -4,40 +4,38 @@ using OpenQA.Selenium;
 using OpenQA.Selenium.Support.PageObjects;
 
 using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
+using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace;
 using AbbyyLS.SmartCAT.Selenium.Tests.TestFramework;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.DocumentUploadDialog
 {
-	public abstract class DocumentUploadBaseDialog : BaseObject
+	public abstract class DocumentUploadBaseDialog : WorkspacePage
 	{
-		public WebDriver Driver { get; private set; }
-
-		public DocumentUploadBaseDialog(WebDriver driver)
+		public DocumentUploadBaseDialog(WebDriver driver) : base(driver)
 		{
-			Driver = driver;
 		}
 
 		/// <summary>
 		/// Нажать кнопку "Готово"
 		/// </summary>
-		public T ClickFinish<T>(WebDriver driver) where T : class, IAbstractPage<T>
+		public T ClickFinish<T>() where T : class, IAbstractPage<T>
 		{
 			CustomTestContext.WriteLine("Нажать кнопку 'Готово'");
 			FinishButton.Click();
 
-			var instance = Activator.CreateInstance(typeof(T), new object[] { driver }) as T;
+			var instance = Activator.CreateInstance(typeof(T), new object[] { Driver }) as T;
 			return instance.GetPage();
 		}
 
 		/// <summary>
 		/// Нажать кнопку 'Далее'
 		/// </summary>
-		public T ClickNext<T>(WebDriver driver) where T : class, IAbstractPage<T>
+		public T ClickNext<T>() where T : class, IAbstractPage<T>
 		{
 			CustomTestContext.WriteLine("Нажать кнопку 'Далее'.");
 			NextButton.Click();
 
-			var instance = Activator.CreateInstance(typeof(T), new object[] { driver }) as T;
+			var instance = Activator.CreateInstance(typeof(T), new object[] { Driver }) as T;
 			return instance.GetPage();
 		}
 

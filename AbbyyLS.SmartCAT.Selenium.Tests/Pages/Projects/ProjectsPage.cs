@@ -148,19 +148,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 		}
 
 		/// <summary>
-		/// Дождаться закрытия диалога добавления файла в проект
-		/// </summary>
-		public ProjectsPage WaitUploadDocumentDialogDisappear()
-		{
-			CustomTestContext.WriteLine("Дождаться закрытия диалога добавления файла в проект.");
-
-			Assert.IsTrue(Driver.WaitUntilElementIsDisappeared(By.XPath(UPLOAD_DOCUMENT_DIALOG)),
-				"Произошла ошибка:\n диалог добавления файла в проект не закрылся.");
-
-			return GetPage();
-		}
-
-		/// <summary>
 		/// Отметить чекбокс проекта в списке
 		/// </summary>
 		/// <param name="projectName">имя проекта</param>

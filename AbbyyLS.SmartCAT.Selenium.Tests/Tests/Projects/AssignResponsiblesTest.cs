@@ -7,6 +7,8 @@ using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects;
 using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
 using AbbyyLS.SmartCAT.Selenium.Tests.FeatureAttributes;
+using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.DocumentUploadDialog;
+using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings;
 using AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
@@ -28,6 +30,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 
 			_projectUniqueName = _createProjectHelper.GetProjectUniqueName();
 			_additionalUser = TakeUser(ConfigurationManager.AdditionalUsers);
+
+			_documentUploadGeneralInformationDialog = new DocumentUploadGeneralInformationDialog(Driver);
+			_documentUploadSetUpTMDialog = new DocumentUploadSetUpTMDialog(Driver);
 		}
 
 		[TearDown]
@@ -63,11 +68,16 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 			_createProjectHelper
 				.CreateNewProject(_projectUniqueName, PathProvider.EditorTxtFile)
 				.OpenProjectInfo(_projectUniqueName)
-				.ClickDocumentUploadButton()
-				.UploadDocument(PathProvider.DocumentFileToConfirm1)
-				.AssertFileUploaded(PathProvider.DocumentFileToConfirm1)
-				.ClickNextOnGeneralInformationPage()
-				.ClickNextOnSetUpTMPage();
+				.ClickDocumentUploadButton();
+
+			_documentUploadGeneralInformationDialog.UploadDocument(PathProvider.DocumentFileToConfirm1);
+
+			Assert.IsTrue(_documentUploadGeneralInformationDialog.IsFileUploaded(PathProvider.DocumentFileToConfirm1),
+				"Произошла ошибка:\n не удалось загрузить файл.");
+
+			_documentUploadGeneralInformationDialog.ClickNext<DocumentUploadSetUpTMDialog>();
+
+			_documentUploadSetUpTMDialog.ClickNext<DocumentUploadTaskAssignmentDialog>();
 		}
 
 		[Test]
@@ -99,11 +109,16 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 			_createProjectHelper
 				.CreateNewProject(_projectUniqueName, PathProvider.EditorTxtFile)
 				.GoToProjectSettingsPage(_projectUniqueName)
-				.ClickDocumentUploadButton()
-				.UploadDocument(PathProvider.DocumentFileToConfirm1)
-				.AssertFileUploaded(PathProvider.DocumentFileToConfirm1)
-				.ClickNextOnGeneralInformationPage()
-				.ClickNextOnSetUpTMPage();
+				.ClickDocumentUploadButton();
+
+			_documentUploadGeneralInformationDialog.UploadDocument(PathProvider.DocumentFileToConfirm1);
+
+			Assert.IsTrue(_documentUploadGeneralInformationDialog.IsFileUploaded(PathProvider.DocumentFileToConfirm1),
+				"Произошла ошибка:\n не удалось загрузить файл.");
+
+			_documentUploadGeneralInformationDialog.ClickNext<DocumentUploadSetUpTMDialog>();
+
+			_documentUploadSetUpTMDialog.ClickNext<DocumentUploadTaskAssignmentDialog>();
 		}
 
 		[Test]
@@ -289,10 +304,16 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 			_createProjectHelper
 				.CreateNewProject(_projectUniqueName)
 				.GoToProjectSettingsPage(_projectUniqueName)
-				.ClickDocumentUploadButton()
-				.UploadDocument(PathProvider.DocumentFile)
-				.AssertFileUploaded(PathProvider.DocumentFile)
-				.ClickFinishUploadOnProjectSettingsPage()
+				.ClickDocumentUploadButton();
+
+			_documentUploadGeneralInformationDialog.UploadDocument(PathProvider.DocumentFile);
+
+			Assert.IsTrue(_documentUploadGeneralInformationDialog.IsFileUploaded(PathProvider.DocumentFile),
+				"Произошла ошибка:\n не удалось загрузить файл.");
+
+			_documentUploadGeneralInformationDialog.ClickFinish<ProjectSettingsPage>();
+
+			_projectSettingsHelper
 				.ClickDocumentProgress(PathProvider.DocumentFile)
 				.ClickAssignButtonInDocumentInfo()
 				.OpenAssigneeDropbox()
@@ -314,5 +335,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 		private ProjectSettingsHelper _projectSettingsHelper;
 		private WorkspaceHelper _workspaceHelper;
 		private TestUser _additionalUser;
+
+		private DocumentUploadGeneralInformationDialog _documentUploadGeneralInformationDialog;
+		private DocumentUploadSetUpTMDialog _documentUploadSetUpTMDialog;
 	}
 }

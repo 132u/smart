@@ -3,6 +3,7 @@
 using AbbyyLS.SmartCAT.Selenium.Tests.DataStructures;
 using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects;
+using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.DocumentUploadDialog;
 using AbbyyLS.SmartCAT.Selenium.Tests.TestFramework;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
@@ -188,12 +189,12 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 			return new TaskAssignmentDialogHelper(Driver);
 		}
 
-		public UploadDocumentHelper ClickDocumentUploadButton()
+		public DocumentUploadGeneralInformationDialog ClickDocumentUploadButton()
 		{
 			BaseObject.InitPage(_projectsPage, Driver);
 			_projectsPage.ClickDocumentUploadButton();
 
-			return new UploadDocumentHelper(Driver);
+			return new DocumentUploadGeneralInformationDialog(Driver).GetPage();
 		}
 
 		public ProjectsHelper AssertLinkProjectNotExist(string projectName)
