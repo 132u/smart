@@ -5,6 +5,7 @@ using NUnit.Framework;
 using AbbyyLS.SmartCAT.Selenium.Tests.DataStructures;
 using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
 using AbbyyLS.SmartCAT.Selenium.Tests.FeatureAttributes;
+using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Registration;
 using AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.CompanyRegistration
@@ -21,9 +22,15 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.CompanyRegistration
 		[SetUp]
 		public void SetUpAdminCompanyRegistration()
 		{
+			_companyRegistrationFirstPage = new CompanyRegistrationFirstPage(Driver);
+			_companyRegistrationSecondPage = new CompanyRegistrationSecondPage(Driver);
+			_companyRegistrationSignInPage = new CompanyRegistrationSignInPage(Driver);
+
 			_adminHelper = new AdminHelper(Driver);
 			_commonHelper = new CommonHelper(Driver);
-			_companyRegistrationHelper = new CompanyRegistrationHelper(Driver);
+			_workspaceHelper = new WorkspaceHelper(Driver);
+
+			int _companyNameMaxLenght = 40;
 
 			_accountUniqueName = "AccountUniqueName" + Guid.NewGuid().ToString().Substring(0, 5);
 			_email = Guid.NewGuid().ToString().Substring(0, 8) + "@mailforspam.com";
@@ -35,7 +42,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.CompanyRegistration
 			_nickName = "nickName" + Guid.NewGuid();
 		}
 
-
 		[Test]
 		public void ExistingCorporateAccountRegistrationTest()
 		{
@@ -46,12 +52,17 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.CompanyRegistration
 
 			_commonHelper.GoToCompanyRegistration();
 
-			_companyRegistrationHelper
-				.ClickExistingAbbyyAccountLink()
+			_companyRegistrationFirstPage.ClickExistingAbbyyAccountLink();
+
+			_companyRegistrationSignInPage
 				.FillSignInData(_email, _password)
-				.ClickSignInButton()
+				.ClickSignInButton();
+
+			_companyRegistrationSecondPage
 				.FillCompanyDataSecondStep(_firstName, _lastName, _companyName, _subDomain, companyType: CompanyType.LanguageServiceProvider)
-				.ClickCreateCorporateAccountButton()
+				.ClickCreateCorporateAccountButton();
+
+			_workspaceHelper
 				.CloseTour()
 				.AssertUserNameAndAccountNameCorrect(_firstName + " " + _lastName, _companyName);
 		}
@@ -63,12 +74,17 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.CompanyRegistration
 
 			_commonHelper.GoToCompanyRegistration();
 
-			_companyRegistrationHelper
-				.ClickExistingAbbyyAccountLink()
+			_companyRegistrationFirstPage.ClickExistingAbbyyAccountLink();
+
+			_companyRegistrationSignInPage
 				.FillSignInData(_email, _password)
-				.ClickSignInButton()
+				.ClickSignInButton();
+
+			_companyRegistrationSecondPage
 				.FillCompanyDataSecondStep(_firstName, _lastName, _companyName, _subDomain, companyType: CompanyType.LanguageServiceProvider)
-				.ClickCreateCorporateAccountButton()
+				.ClickCreateCorporateAccountButton();
+
+			_workspaceHelper
 				.CloseTour()
 				.AssertUserNameAndAccountNameCorrect(_firstName + " " + _lastName, _companyName);
 		}
@@ -83,17 +99,22 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.CompanyRegistration
 
 			_commonHelper.GoToCompanyRegistration();
 
-			_companyRegistrationHelper
-				.ClickExistingAbbyyAccountLink()
+			_companyRegistrationFirstPage.ClickExistingAbbyyAccountLink();
+
+			_companyRegistrationSignInPage
 				.FillSignInData(_email, _password)
-				.ClickSignInButton()
+				.ClickSignInButton();
+
+			_companyRegistrationSecondPage
 				.FillCompanyDataSecondStep(
 					_firstName,
 					_lastName,
 					_companyName,
 					_subDomain,
 					companyType: CompanyType.LanguageServiceProvider)
-				.ClickCreateCorporateAccountButton()
+				.ClickCreateCorporateAccountButton();
+
+			_workspaceHelper
 				.CloseTour()
 				.AssertUserNameAndAccountNameCorrect(_firstName + " " + _lastName, _companyName);
 		}
@@ -108,17 +129,22 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.CompanyRegistration
 
 			_commonHelper.GoToCompanyRegistration();
 
-			_companyRegistrationHelper
-				.ClickExistingAbbyyAccountLink()
+			_companyRegistrationFirstPage.ClickExistingAbbyyAccountLink();
+
+			_companyRegistrationSignInPage
 				.FillSignInData(_email, _password)
-				.ClickSignInButton()
+				.ClickSignInButton();
+
+			_companyRegistrationSecondPage
 				.FillCompanyDataSecondStep(
 					_firstName,
 					_lastName,
 					_companyName,
 					_subDomain,
 					companyType: CompanyType.LanguageServiceProvider)
-				.ClickCreateCorporateAccountButton()
+				.ClickCreateCorporateAccountButton();
+
+			_workspaceHelper
 				.CloseTour()
 				.AssertUserNameAndAccountNameCorrect(_firstName + " " + _lastName, _companyName)
 				.SignOut()
@@ -136,10 +162,11 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.CompanyRegistration
 		private string _subDomain;
 		private string _nickName;
 
-		private int _companyNameMaxLenght = 40;
-
-		private CompanyRegistrationHelper _companyRegistrationHelper;
 		private AdminHelper _adminHelper;
 		private CommonHelper _commonHelper;
+		private WorkspaceHelper _workspaceHelper;
+		private CompanyRegistrationFirstPage _companyRegistrationFirstPage;
+		private CompanyRegistrationSecondPage _companyRegistrationSecondPage;
+		private CompanyRegistrationSignInPage _companyRegistrationSignInPage;
 	}
 }

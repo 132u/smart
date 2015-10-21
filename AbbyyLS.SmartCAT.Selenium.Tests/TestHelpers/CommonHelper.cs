@@ -5,6 +5,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 {
 	public class CommonHelper : BaseObject
 	{
+		//TODO: рассмотреть вариант сделать класс абстрактным и унаследовать от него все хэлперы
+
 		public WebDriver Driver { get; private set; }
 
 		public CommonHelper(WebDriver driver)

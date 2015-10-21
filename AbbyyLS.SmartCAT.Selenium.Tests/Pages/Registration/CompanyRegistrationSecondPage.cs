@@ -1,44 +1,49 @@
-﻿using System;
-
-using NUnit.Framework;
-using OpenQA.Selenium;
+﻿using OpenQA.Selenium;
 using OpenQA.Selenium.Support.PageObjects;
 
+using AbbyyLS.SmartCAT.Selenium.Tests.DataStructures;
 using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace;
 using AbbyyLS.SmartCAT.Selenium.Tests.TestFramework;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Registration
 {
-	public class CompanyRegistrationSecondPage : WorkspacePage, IAbstractPage<CompanyRegistrationSecondPage>
+	class CompanyRegistrationSecondPage : IAbstractPage<CompanyRegistrationSecondPage>
 	{
-		public CompanyRegistrationSecondPage(WebDriver driver) : base(driver)
+		public WebDriver Driver { get; protected set; }
+
+		public CompanyRegistrationSecondPage(WebDriver driver)
 		{
+			Driver = driver;
+			PageFactory.InitElements(Driver, this);
 		}
 
-		public new CompanyRegistrationSecondPage GetPage()
+		public CompanyRegistrationSecondPage GetPage()
 		{
 			var companyRegistrationSecondPage = new CompanyRegistrationSecondPage(Driver);
-			InitPage(companyRegistrationSecondPage, Driver);
+			LoadPage();
 
 			return companyRegistrationSecondPage;
 		}
 
-		public new void LoadPage()
+		public void LoadPage()
 		{
-			if (!Driver.WaitUntilElementIsDisplay(By.XPath(COMPANY_TYPE_COMBOBOX), timeout: 45))
+			if (!IsCompanyRegistrationSecondPageOpened())
 			{
-				Assert.Fail("Произошла ошибка:\n не загрузилась вторая страница регистрации компаний.");
+				throw new XPathLookupException("Произошла ошибка:\n не загрузилась вторая страница регистрации компаний.");
 			}
 		}
+
+		#region Простые методы страницы
 
 		/// <summary>
 		/// Ввести 'First name' на втором шаге регистрации компании 
 		/// </summary>
-		public CompanyRegistrationSecondPage FillFirstName(string firstNameCompany)
+		/// <param name="firstName">имя</param>
+		public CompanyRegistrationSecondPage FillFirstName(string firstName)
 		{
-			CustomTestContext.WriteLine("Ввести {0} в поле 'First name' на втором шаге регистрации компании.", firstNameCompany);
-			FirstName.SetText(firstNameCompany);
+			CustomTestContext.WriteLine("Ввести {0} в поле 'First name' на втором шаге регистрации компании.", firstName);
+			FirstName.SetText(firstName);
 
 			return GetPage();
 		}
@@ -46,10 +51,11 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Registration
 		/// <summary>
 		/// Ввести 'Last name' на втором шаге регистрации компании 
 		/// </summary>
-		public CompanyRegistrationSecondPage FillLastName(string lastNameCompany)
+		/// <param name="lastName">фамилия</param>
+		public CompanyRegistrationSecondPage FillLastName(string lastName)
 		{
-			CustomTestContext.WriteLine("Ввести {0} в поле 'Last name' на втором шаге регистрации компании.", lastNameCompany);
-			LastName.SetText(lastNameCompany);
+			CustomTestContext.WriteLine("Ввести {0} в поле 'Last name' на втором шаге регистрации компании.", lastName);
+			LastName.SetText(lastName);
 
 			return GetPage();
 		}
@@ -57,6 +63,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Registration
 		/// <summary>
 		/// Ввести 'Company name' на втором шаге регистрации компании 
 		/// </summary>
+		/// <param name="companyName">название компании</param>
 		public CompanyRegistrationSecondPage FillCompanyName(string companyName)
 		{
 			CustomTestContext.WriteLine("Ввести {0} в поле 'Company name' на втором шаге регистрации компании.", companyName);
@@ -68,6 +75,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Registration
 		/// <summary>
 		/// Ввести Subdomain на втором шаге регистрации компании 
 		/// </summary>
+		/// <param name="subdomain">поддомен</param>
 		public CompanyRegistrationSecondPage FillSubdomain(string subdomain)
 		{
 			CustomTestContext.WriteLine("Ввести {0} в поле Subdomain на втором шаге регистрации компании.", subdomain);
@@ -77,36 +85,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Registration
 		}
 
 		/// <summary>
-		/// Проверить, что кнопка 'Create Corporate Account' активна
-		/// </summary>
-		/// <returns></returns>
-		public CompanyRegistrationSecondPage AssertCreateCorporateAccountButtonActive()
-		{
-			CustomTestContext.WriteLine("Проверить, что кнопка 'Create Corporate Account' активна.");
-
-			Assert.IsTrue(CreateAccountCompanyButton.GetAttribute("disabled") == null,
-				"Произошла ошибка:\n кнопка 'Create Corporate Account' неактивна.");
-
-			return GetPage();
-		}
-
-		/// <summary>
-		/// Проверить, что кнопка 'Create Corporate Account' неактивна
-		/// </summary>
-		/// <returns></returns>
-		public CompanyRegistrationSecondPage AssertCreateCorporateAccountButtonInactive()
-		{
-			CustomTestContext.WriteLine("Проверить, что кнопка 'Create Corporate Account' неактивна.");
-
-			Assert.IsTrue(CreateAccountCompanyButton.GetAttribute("disabled") == "true",
-				"Произошла ошибка:\n кнопка 'Create Corporate Account' активна.");
-
-			return GetPage();
-		}
-
-		/// <summary>
 		/// Ввести телефон на втором шаге регистрации компании 
 		/// </summary>
+		/// <param name="phoneNumber">телефонный номер</param>
 		public CompanyRegistrationSecondPage FillPhoneNumber(string phoneNumber)
 		{
 			CustomTestContext.WriteLine("Ввести телефон {0} на втором шаге регистрации компании.", phoneNumber);
@@ -118,24 +99,13 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Registration
 		/// <summary>
 		/// Нажать кнопку 'Create Corporate Account' на втором шаге регистрации компании 
 		/// </summary>
-		public T ClickCreateCorporateAccountButton<T>(WebDriver driver) where T : class, IAbstractPage<T>
+		public WorkspacePage ClickCreateCorporateAccountButton()
 		{
 			CustomTestContext.WriteLine("Нажать кнопку 'Create Corporate Account' на втором шаге регистрации компании.");
+			Driver.WaitUntilElementIsEnabled(CreateAccountCompanyButton);
 			CreateAccountCompanyButton.Click();
 
-			var instance = Activator.CreateInstance(typeof(T), new object[] { driver }) as T;
-			return instance.GetPage();
-		}
-
-		/// <summary>
-		/// Дождаться, когда кнопка 'Create Corporate Account' станет активной
-		/// </summary>
-		public CompanyRegistrationSecondPage WaitCreateCorporateAccountButtonBecomeActive()
-		{
-			CustomTestContext.WriteLine("Дождаться, когда кнопка 'Create Corporate Account' станет активной.");
-			Driver.WaitUntilElementIsDisplay(By.XPath(CREATE_ACCOUNT_COMPANY_ACTIVE_BUTTON));
-
-			return GetPage();
+			return new WorkspacePage(Driver);
 		}
 
 		/// <summary>
@@ -162,172 +132,200 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Registration
 		}
 
 		/// <summary>
-		/// Проверить, что название компании обрезается до максимально допустимой длины 
+		/// Двойной клик по Company Type комбобоксу
 		/// </summary>
-		public CompanyRegistrationSecondPage AssertCompanyNameLenght(int maximumCompanyNameLenght)
+		public CompanyRegistrationSecondPage DoubleClickCompanyTypeDropdown()
 		{
-			CustomTestContext.WriteLine("Проверить, что название компании обрезается до максимально допустимой длины в {0} символов.", maximumCompanyNameLenght);
-
-			Assert.AreEqual(companyNameLenght(), maximumCompanyNameLenght,
-				"Произошла ошибка:\n название компании не обрезается до максимально допустимой длины в {0} символов.", maximumCompanyNameLenght);
+			CompanyTypeCombobox.DoubleClick();
 
 			return GetPage();
 		}
 
-		/// <summary>
-		/// Получить длину названия компании
-		/// </summary>
-		/// <returns>длина названия компании</returns>
-		private int companyNameLenght()
-		{
-			CustomTestContext.WriteLine("Получить длину названия компании.");
+		#endregion
 
-			return CompanyName.GetElementAttribute("value").Length;
+		#region Составные методы страницы
+
+		/// <summary>
+		/// Заполнить форму регистрации на второй странице
+		/// </summary>
+		/// <param name="firstName">имя</param>
+		/// <param name="lastName">фамилия</param>
+		/// <param name="companyName">название компании</param>
+		/// <param name="subDomain">поддомен</param>
+		/// <param name="companyType">тип компании</param>
+		/// <param name="phoneNumber">номер телефона</param>
+		public CompanyRegistrationSecondPage FillCompanyDataSecondStep(
+			string firstName,
+			string lastName,
+			string companyName,
+			string subDomain,
+			CompanyType companyType,
+			string phoneNumber = "12312312312312")
+		{
+			FillFirstName(firstName);
+			FillLastName(lastName);
+			FillCompanyName(companyName);
+			FillSubdomain(subDomain);
+			FillPhoneNumber(phoneNumber);
+			SelectCompanyType(companyType.Description());
+
+			return GetPage();
+		}
+
+		#endregion
+
+		#region Методы, проверяющие состояние страницы
+
+		/// <summary>
+		/// Проверить, что кнопка 'Create Corporate Account' неактивна
+		/// </summary>
+		public bool IsCreateCorporateAccountButtonInactive()
+		{
+			CustomTestContext.WriteLine("Проверить, что кнопка 'Create Corporate Account' неактивна.");
+
+			return CreateAccountCompanyButton.GetAttribute("disabled") == "true";
+		}
+
+		/// <summary>
+		/// Проверить, что название компании обрезается до максимально допустимой длины 
+		/// </summary>
+		/// <param name="maximumCompanyNameLenght">максимальное кол-во символов</param>
+		public bool IsCompanyNameCutting(int maximumCompanyNameLenght)
+		{
+			CustomTestContext.WriteLine("Проверить, что название компании обрезается до максимально допустимой длины в {0} символов.", maximumCompanyNameLenght);
+
+			var companyNameLenght = CompanyName.GetElementAttribute("value").Length;
+
+			return companyNameLenght == maximumCompanyNameLenght;
 		}
 
 		/// <summary>
 		/// Проверить, что появилось сообщение 
 		/// 'Use only latin letters, digits, hyphen and underscope. The domain name cannot start with "www", digit, hyphen or underscope.'
 		/// </summary>
-		public CompanyRegistrationSecondPage AssertSubdomainPatternMessageDisplayed()
+		public bool IsSubdomainPatternMessageDisplayed()
 		{
 			CustomTestContext.WriteLine("Проверить, что появилось сообщение 'Use only latin letters, digits, hyphen and underscope...'.");
 
-			Assert.IsTrue(SubdomainPatternMessage.Displayed,
-				"Произошла ошибка:\n сообщение 'Use only latin letters, digits, hyphen and underscope...' не появилось.");
-
-			return GetPage();
+			return Driver.WaitUntilElementIsDisplay(SubdomainPatternMessage);
 		}
 
 		/// <summary>
 		/// Проверить, что появилось сообщение 'The domain name must contain at least 3 characters'
 		/// </summary>
-		public CompanyRegistrationSecondPage AssertSubdomainLenghtMessageDisplayed()
+		public bool IsSubdomainLenghtMessageDisplayed()
 		{
 			CustomTestContext.WriteLine("Проверить, что появилось сообщение 'The domain name must contain at least 3 characters'.");
 
-			Assert.IsTrue(SubdomainLenghtMessage.Displayed,
-				"Произошла ошибка:\n сообщение 'The domain name must contain at least 3 characters' не появилось.");
-
-			return GetPage();
+			return Driver.WaitUntilElementIsDisplay(SubdomainLenghtMessage);
 		}
 
 		/// <summary>
 		/// Проверить, что появилось сообщение 'A company with this name already exists'
 		/// </summary>
-		public CompanyRegistrationSecondPage AssertCompanyNameMessageDisplayed()
+		public bool IsCompanyNameAlredyInUseMessageDisplayed()
 		{
 			CustomTestContext.WriteLine("Проверить, что появилось сообщение 'A company with this name already exists'.");
 
-			Assert.IsTrue(CompanyNameMessage.Displayed,
-				"Произошла ошибка:\n сообщение 'A company with this name already exists' не появилось.");
-
-			return GetPage();
+			return Driver.WaitUntilElementIsDisplay(CompanyNameMessage);
 		}
 
 		/// <summary>
 		/// Проверить, что появилось сообщение 'Enter your domain name'
 		/// </summary>
-		public CompanyRegistrationSecondPage AssertEnterDomainMessageDisplayed()
+		public bool IsEnterDomainMessageDisplayed()
 		{
 			CustomTestContext.WriteLine("Проверить, что появилось сообщение 'Enter your domain name'.");
 
-			Assert.IsTrue(EnterDomaineMessage.Displayed,
-				"Произошла ошибка:\n сообщение 'Enter your domain name' не появилось.");
-
-			return GetPage();
+			return Driver.WaitUntilElementIsDisplay(EnterDomaineMessage);
 		}
 
 		/// <summary>
 		/// Проверить, что появилось сообщение 'Enter your name'
 		/// </summary>
-		public CompanyRegistrationSecondPage AssertEnterNameMessageDisplayed()
+		public bool IsEnterNameMessageDisplayed()
 		{
 			CustomTestContext.WriteLine("Проверить, что появилось сообщение 'Enter your name'.");
 
-			Assert.IsTrue(EnterNameMessage.Displayed,
-				"Произошла ошибка:\n сообщение 'Enter your name' не появилось.");
-
-			return GetPage();
+			return Driver.WaitUntilElementIsDisplay(EnterNameMessage);
 		}
 
 		/// <summary>
 		/// Проверить, что появилось сообщение 'Enter your last name'
 		/// </summary>
-		public CompanyRegistrationSecondPage AssertEnterLastNameMessageDisplayed()
+		public bool IsEnterLastNameMessageDisplayed()
 		{
 			CustomTestContext.WriteLine("Проверить, что появилось сообщение 'Enter your last name'.");
 
-			Assert.IsTrue(EnterLastNameMessage.Displayed,
-				"Произошла ошибка:\n сообщение 'Enter your last name' не появилось.");
-
-			return GetPage();
+			return Driver.WaitUntilElementIsDisplay(EnterLastNameMessage);
 		}
 
 		/// <summary>
 		/// Проверить, что появилось сообщение 'Enter your company name'
 		/// </summary>
-		public CompanyRegistrationSecondPage AssertEnterCompanyNameMessageDisplayed()
+		public bool IsEnterCompanyNameMessageDisplayed()
 		{
 			CustomTestContext.WriteLine("Проверить, что появилось сообщение 'Enter your company name'.");
 
-			Assert.IsTrue(EnterCompanyNameMessage.Displayed,
-				"Произошла ошибка:\n сообщение 'Enter your company name' не появилось.");
-
-			return GetPage();
+			return Driver.WaitUntilElementIsDisplay(EnterCompanyNameMessage);
 		}
 
 		/// <summary>
 		/// Проверить, что появилось сообщение 'Enter your international phone number'
 		/// </summary>
-		public CompanyRegistrationSecondPage AssertEnterPhoneMessageDisplayed()
+		public bool IsEnterPhoneMessageDisplayed()
 		{
 			CustomTestContext.WriteLine("Проверить, что появилось сообщение 'Enter your international phone number'.");
 
-			Assert.IsTrue(EnterPhoneMessage.Displayed,
-				"Произошла ошибка:\n сообщение 'Enter your international phone number' не появилось.");
-
-			return GetPage();
+			return Driver.WaitUntilElementIsDisplay(EnterPhoneMessage);
 		}
 
 		/// <summary>
 		/// Проверить, что появилось сообщение 'Enter your company type'
 		/// </summary>
-		public CompanyRegistrationSecondPage AssertSelectCompanyTypeMessageDisplayed()
+		public bool IsSelectCompanyTypeMessageDisplayed()
 		{
 			CustomTestContext.WriteLine("Проверить, что появилось сообщение 'Enter your company type'.");
 
-			Assert.IsTrue(SelectCompanyTypeMessage.Displayed,
-				"Произошла ошибка:\n сообщение 'Enter your company type' не появилось.");
-
-			return GetPage();
+			return Driver.WaitUntilElementIsDisplay(SelectCompanyTypeMessage);
 		}
 		
 		/// <summary>
 		/// Проверить, что сообщение 'The company name must contain at least 2 characters' появилось
 		/// </summary>
-		public CompanyRegistrationSecondPage AssertCompanyNameLengthInvalidMessageDisplayed()
+		public bool IsCompanyNameLengthInvalidMessageDisplayed()
 		{
 			CustomTestContext.WriteLine("Проверить, что сообщение 'The company name must contain at least 2 characters' появилось.");
 
-			Assert.IsTrue(CompanyNameLengthInvalidMessage.Displayed,
-				"Произошла ошибка:\n сообщение 'The company name must contain at least 2 characters.' не появилось.");
-
-			return GetPage();
+			return Driver.WaitUntilElementIsDisplay(CompanyNameLengthInvalidMessage);
 		}
 
 		/// <summary>
 		/// Проверить, что сообщение 'The company name must begin with a letter or a quotation mark' появилось
 		/// </summary>
-		public CompanyRegistrationSecondPage AssertCompanyNamePatternMessageDisplayed()
+		public bool IsCompanyNameInvalidPatternMessageDisplayed()
 		{
 			CustomTestContext.WriteLine("Проверить, что сообщение 'The company name must begin with a letter or a quotation mark' появилось.");
 
-			Assert.IsTrue(InvalidPatternCompanyNameMessage.Displayed,
-				"Произошла ошибка:\n сообщение 'The company name must begin with a letter or a quotation mark' не появилось.");
-
-			return GetPage();
+			return Driver.WaitUntilElementIsDisplay(InvalidPatternCompanyNameMessage);
 		}
+
+		/// <summary>
+		/// Проверить, открыта ли страница
+		/// </summary>
+		/// <returns></returns>
+		public bool IsCompanyRegistrationSecondPageOpened()
+		{
+			return Driver.WaitUntilElementIsDisplay(CompanyTypeCombobox);
+		}
+
+		#endregion
+
+		#region Вспомогательные методы
+
+		#endregion
+
+		#region Объявление элементов страницы
 
 		[FindsBy(How = How.Id, Using = FIRST_NAME)]
 		protected IWebElement FirstName { get; set; }
@@ -404,6 +402,10 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Registration
 		[FindsBy(How = How.XPath, Using = COMPANY_NAME_LENGTH_INVALID_MESSAGE)]
 		protected IWebElement CompanyNameLengthInvalidMessage { get; set; }
 
+		#endregion
+
+		#region Описание XPath элементов
+
 		protected const string FIRST_NAME = "firstname";
 		protected const string LAST_NAME = "lastname";
 		protected const string COMPANY_NAME = "company";
@@ -433,5 +435,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Registration
 		protected const string INVALID_PATTERN_COMPANY_NAME_MESSAGE = "//span[@translate='COMPANY-NAME-PATTERN-INVALID']";
 		protected const string COMPANY_NAME_LENGTH_INVALID_MESSAGE = "//span[@translate='COMPANY-NAME-LENGTH-INVALID']";
 
+		#endregion
 	}
 }

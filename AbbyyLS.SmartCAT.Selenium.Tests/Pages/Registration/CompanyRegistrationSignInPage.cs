@@ -1,36 +1,38 @@
-﻿using NUnit.Framework;
-
-using OpenQA.Selenium;
+﻿using OpenQA.Selenium;
 using OpenQA.Selenium.Support.PageObjects;
 
 using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
 using AbbyyLS.SmartCAT.Selenium.Tests.TestFramework;
-using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Registration
 {
-	internal class CompanyRegistrationSignInPage : WorkspacePage, IAbstractPage<CompanyRegistrationSignInPage>
+	class CompanyRegistrationSignInPage : IAbstractPage<CompanyRegistrationSignInPage>
 	{
-		public CompanyRegistrationSignInPage(WebDriver driver) : base(driver)
+		public WebDriver Driver { get; protected set; }
+
+		public CompanyRegistrationSignInPage(WebDriver driver)
 		{
+			Driver = driver;
+			PageFactory.InitElements(Driver, this);
 		}
 
-		public new CompanyRegistrationSignInPage GetPage()
+		public CompanyRegistrationSignInPage GetPage()
 		{
 			var companyExistingAccountRegistrationFirstPage = new CompanyRegistrationSignInPage(Driver);
-			InitPage(companyExistingAccountRegistrationFirstPage, Driver);
+			LoadPage();
 
 			return companyExistingAccountRegistrationFirstPage;
 		}
 
-		public new void LoadPage()
+		public void LoadPage()
 		{
-			if (!Driver.WaitUntilElementIsDisplay(By.XPath(PASSWORD))
-				|| Driver.WaitUntilElementIsDisplay(By.XPath(CONFIRM_PASSWORD)))
+			if (!IsCompanyRegistrationSignInPageOpened())
 			{
-				Assert.Fail("Произошла ошибка:\n не загрузилась страница входа для регистрации компаний с существующим аккаунтом.");
+				throw new XPathLookupException("Произошла ошибка:\n не загрузилась страница входа для регистрации компаний с существующим аккаунтом.");
 			}
 		}
+
+		#region Простые методы страницы
 
 		/// <summary>
 		/// Ввести email
@@ -67,6 +69,41 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Registration
 			return new CompanyRegistrationSecondPage(Driver).GetPage();
 		}
 
+		#endregion
+
+		#region Составные методы страницы
+
+		/// <summary>
+		/// Заполнить форму авторизации
+		/// </summary>
+		/// <param name="email"></param>
+		/// <param name="password"></param>
+		public CompanyRegistrationSignInPage FillSignInData(
+			string email,
+			string password)
+		{
+			FillEmail(email);
+			FillPassword(password);
+
+			return GetPage();
+		}
+
+		#endregion
+
+		#region Методы, проверяющие состояние страницы
+
+		/// <summary>
+		/// Проверить, открыта ли страница
+		/// </summary>
+		public bool IsCompanyRegistrationSignInPageOpened()
+		{
+			return Driver.WaitUntilElementIsDisplay(Password);
+		}
+
+		#endregion
+
+		#region Объявление элементов страницы
+
 		[FindsBy(How = How.XPath, Using = EMAIL)]
 		protected IWebElement Email { get; set; }
 
@@ -76,9 +113,15 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Registration
 		[FindsBy(How = How.Id, Using = SIGN_IN_BUTTON)]
 		protected IWebElement SignInButton { get; set; }
 
+		#endregion
+
+		#region Описание XPath элементов
+
 		protected const string EMAIL = "//form[@name='signinForm']//input[@id='email']";
 		protected const string PASSWORD = "//form[@name='signinForm']//input[@id='password']";
 		protected const string SIGN_IN_BUTTON = "btn-sign-in";
 		protected const string CONFIRM_PASSWORD = "//form[@name='signupForm']//input[@id='confirm']";
+
+		#endregion
 	}
 }

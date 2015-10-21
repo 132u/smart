@@ -1,49 +1,61 @@
-﻿using System;
-
-using NUnit.Framework;
-using OpenQA.Selenium;
+﻿using OpenQA.Selenium;
 using OpenQA.Selenium.Support.PageObjects;
 
 using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
 using AbbyyLS.SmartCAT.Selenium.Tests.TestFramework;
-using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Registration
 {
-	internal class CompanyRegistrationFirstPage : WorkspacePage, IAbstractPage<CompanyRegistrationFirstPage>
+	class CompanyRegistrationFirstPage : IAbstractPage<CompanyRegistrationFirstPage>
 	{
-		public CompanyRegistrationFirstPage(WebDriver driver) : base(driver)
+		public WebDriver Driver { get; protected set; }
+
+		public CompanyRegistrationFirstPage(WebDriver driver)
 		{
+			Driver = driver;
+			PageFactory.InitElements(Driver, this);
 		}
 
-		public new CompanyRegistrationFirstPage GetPage()
+		public CompanyRegistrationFirstPage GetPage()
 		{
 			var companyRegistrationFirstPage = new CompanyRegistrationFirstPage(Driver);
-			InitPage(companyRegistrationFirstPage, Driver);
+			LoadPage();
 
 			return companyRegistrationFirstPage;
 		}
 
-		public new void LoadPage()
+		public void LoadPage()
 		{
-			if (!Driver.WaitUntilElementIsDisplay(By.XPath(CONFIRM_PASSWORD)))
+			if (!IsCompanyRegistrationFirstPageOpened())
 			{
-				Assert.Fail("Произошла ошибка:\n не загрузилась первая страница регистрации компаний.");
+				throw new XPathLookupException("Произошла ошибка:\n не загрузилась первая страница регистрации компаний.");
 			}
 		}
+
+		#region Простые методы страницы
 
 		/// <summary>
 		/// Нажать кнопку Continue
 		/// </summary>
-		public T ClickContinueButton<T>(WebDriver driver) where T : class, IAbstractPage<T>
+		public CompanyRegistrationSecondPage ClickContinueButton()
 		{
 			CustomTestContext.WriteLine("Нажать кнопку Continue.");
 			ContinueButton.JavaScriptClick();
 
-			var instance = Activator.CreateInstance(typeof(T), new object[] { driver }) as T;
-			return instance.GetPage();
+			return new CompanyRegistrationSecondPage(Driver).GetPage();
 		}
-	
+
+		/// <summary>
+		/// Нажать кнопку Continue, ожидая сообщение об ошибке
+		/// </summary>
+		public CompanyRegistrationFirstPage ClickContinueButtonExpectingError()
+		{
+			CustomTestContext.WriteLine("Нажать кнопку Continue.");
+			ContinueButton.JavaScriptClick();
+
+			return GetPage();
+		}
+
 		/// <summary>
 		/// Ввести email
 		/// </summary>
@@ -59,7 +71,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Registration
 		/// <summary>
 		/// Ввести пароль
 		/// </summary>
-		///  <param name="password">пароль</param>
+		/// <param name="password">пароль</param>
 		public CompanyRegistrationFirstPage FillPassword(string password)
 		{
 			CustomTestContext.WriteLine("Ввести {0} в поле пароля.", password);
@@ -69,9 +81,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Registration
 		}
 
 		/// <summary>
-		/// Ввести подтверждение пароль
+		/// Ввести подтверждение пароля
 		/// </summary>
-		///  <param name="password">пароль</param>
+		/// <param name="password">пароль</param>
 		public CompanyRegistrationFirstPage FillConfirmPassword(string password)
 		{
 			CustomTestContext.WriteLine("Ввести {0} в поле подтверждения пароля.", password);
@@ -91,96 +103,113 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Registration
 			return new CompanyRegistrationSignInPage(Driver).GetPage();
 		}
 
+		#endregion
+
+		#region Составные методы страницы
+
+		/// <summary>
+		/// Заполнить форму регистрации на первом шаге
+		/// </summary>
+		/// <param name="email">email</param>
+		/// <param name="password">пароль</param>
+		/// <param name="confirmPassword">подтверждение пароля</param>
+		public CompanyRegistrationFirstPage FillCompanyDataFirstStep(
+			string email,
+			string password,
+			string confirmPassword)
+		{
+			FillEmail(email);
+			FillPassword(password);
+			FillConfirmPassword(confirmPassword);
+
+			return GetPage();
+		}
+
+		#endregion
+
+		#region Методы, проверяющие состояние страницы
+
 		/// <summary>
 		/// Проверить, что кнопка Continue неактивна
 		/// </summary>
-		public CompanyRegistrationFirstPage AssertContinueButtonInactive()
+		public bool IsContinueButtonInactive()
 		{
 			CustomTestContext.WriteLine("Проверить, что кнопка Continue неактивна.");
 
-			Assert.IsTrue(ContinueButton.GetAttribute("disabled") == "true",
-				"Произошла ошибка:\n кнопка Continue активна.");
-
-			return GetPage();
+			return ContinueButton.GetAttribute("disabled") == "true";
 		}
 
 		/// <summary>
 		/// Проверить, что сообщение 'Invalid email' появилось
 		/// </summary>
-		public CompanyRegistrationFirstPage AssertInvalidEmailMessageDisplayed()
+		public bool IsInvalidEmailMessageDisplayed()
 		{
 			CustomTestContext.WriteLine("Проверить, что сообщение 'Invalid email' появилось.");
 
-			Assert.IsTrue(InvalidEmailMessage.Displayed,
-				"Произошла ошибка:\n сообщение 'Invalid email' не появилось.");
-
-			return GetPage();
+			return Driver.WaitUntilElementIsDisplay(InvalidEmailMessage);
 		}
 
 		/// <summary>
 		/// Проверить, что сообщение 'The password must have at least 6 characters' появилось
 		/// </summary>
-		public CompanyRegistrationFirstPage AssertMinimumLenghPasswordMessageDisplayed()
+		public bool IsMinimumLenghPasswordMessageDisplayed()
 		{
 			CustomTestContext.WriteLine("Проверить, что сообщение 'The password must have at least 6 characters' появилось.");
 
-			Assert.IsTrue(MinimumLenghPasswordMessage.Displayed,
-				"Произошла ошибка:\n сообщение 'The password must have at least 6 characters' не появилось.");
-
-			return GetPage();
+			return Driver.WaitUntilElementIsDisplay(MinimumLenghPasswordMessage);
 		}
 
 		/// <summary>
 		/// Проверить, что сообщение 'The password cannot consist of spaces only' появилось
 		/// </summary>
-		public CompanyRegistrationFirstPage AssertOnlySpacesPasswordMessageDisplayed()
+		public bool IsOnlySpacesPasswordMessageDisplayed()
 		{
 			CustomTestContext.WriteLine("Проверить, что сообщение 'The password cannot consist of spaces only' появилось.");
 
-			Assert.IsTrue(OnlySpacesPasswordMessage.Displayed,
-				"Произошла ошибка:\n сообщение 'The password cannot consist of spaces only' не появилось.");
-
-			return GetPage();
+			return Driver.WaitUntilElementIsDisplay(OnlySpacesPasswordMessage);
 		}
 
 		/// <summary>
 		/// Проверить, что сообщение 'The passwords do not match' появилось
 		/// </summary>
-		public CompanyRegistrationFirstPage AssertPasswordMatchMessageDisplayed()
+		public bool IsPasswordMatchMessageDisplayed()
 		{
 			CustomTestContext.WriteLine("Проверить, что сообщение 'The passwords do not match' появилось.");
 
-			Assert.IsTrue(PasswordMatchMessage.Displayed,
-				"Произошла ошибка:\n сообщение 'The passwords do not match' не появилось.");
-
-			return GetPage();
+			return Driver.WaitUntilElementIsDisplay(PasswordMatchMessage);
 		}
 
 		/// <summary>
 		/// Проверить, что сообщение 'You have already signed up for one of the ABBYY services with this email' появилось
 		/// </summary>
-		public CompanyRegistrationFirstPage AssertAlreadySignUpMessageDisplayed()
+		public bool IsAlreadySignUpMessageDisplayed()
 		{
 			CustomTestContext.WriteLine("Проверить, что сообщение 'You have already signed up for one of the ABBYY services with this email.' появилось.");
 
-			Assert.IsTrue(AlreadySignUpMessage.Displayed,
-				"Произошла ошибка:\n сообщение 'You have already signed up for one of the ABBYY services with this email.' не появилось.");
-
-			return GetPage();
+			return Driver.WaitUntilElementIsDisplay(AlreadySignUpMessage);
 		}
 
 		/// <summary>
 		/// Проверить, что сообщение 'The password must have at least 6 characters.' появилось
 		/// </summary>
-		public CompanyRegistrationFirstPage AssertInvalidPasswordMessageDisplayed()
+		public bool IsInvalidPasswordMessageDisplayed()
 		{
 			CustomTestContext.WriteLine("Проверить, что сообщение 'The password must have at least 6 characters.' появилось.");
 
-			Assert.IsTrue(InvalidPasswordMessage.Displayed,
-				"Произошла ошибка:\n сообщение 'The password must have at least 6 characters.' не появилось.");
-
-			return GetPage();
+			return Driver.WaitUntilElementIsDisplay(InvalidPasswordMessage);
 		}
+
+		/// <summary>
+		/// Проверить, открыта ли страница
+		/// </summary>
+		public bool IsCompanyRegistrationFirstPageOpened()
+		{
+			return Driver.WaitUntilElementIsDisplay(ConfirmPassword);
+		}
+
+		#endregion
+
+		#region Объявление элементов страницы
 
 		[FindsBy(How = How.Id, Using = CONTINUE_BUTTON)]
 		protected IWebElement ContinueButton { get; set; }
@@ -215,6 +244,10 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Registration
 		[FindsBy(How = How.XPath, Using = INVALID_PASSWORD_MESSAGE)]
 		protected IWebElement InvalidPasswordMessage { get; set; }
 
+		#endregion
+
+		#region Описание XPath элементов
+
 		protected const string CONTINUE_BUTTON = "btn-sign-up";
 		protected const string EMAIL = "//form[@name='signupForm']//input[@id='email']";
 		protected const string PASSWORD = "//form[@name='signupForm']//input[@id='password']";
@@ -227,5 +260,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Registration
 		protected const string PASSWORD_MATCH_MESSAGE = "//span[contains(@ng-show, 'error.match ')]";
 		protected const string ALREADY_SIGN_UP_MESSAGE = "//div[@ng-message='already-exists']";
 		protected const string INVALID_PASSWORD_MESSAGE = "//span[@translate='PASSWORD-INVALID']";
+
+		#endregion
 	}
 }

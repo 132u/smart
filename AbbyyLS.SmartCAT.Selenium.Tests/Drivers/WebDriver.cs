@@ -175,7 +175,32 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Drivers
 		}
 
 		/// <summary>
-		/// Проверить, присутствует ли элемент на странице
+		/// Ждем, станет ли элемент доступен
+		/// </summary>
+		/// <param name="element">локатор</param>
+		/// <param name="timeout">время ожидания</param>
+		public bool WaitUntilElementIsEnabled(IWebElement element, int timeout = 10)
+		{
+			var wait = new WebDriverWait(this, TimeSpan.FromSeconds(timeout));
+
+			try
+			{
+				return wait.Until(d => element.Enabled);
+			}
+			catch (WebDriverTimeoutException)
+			{
+				return false;
+			}
+			catch (StaleElementReferenceException)
+			{
+				Logger.Warn("StaleElementReferenceException: WaitUntilElementIsEnabled: " + element);
+
+				return WaitUntilElementIsEnabled(element, timeout);
+			}
+		}
+
+		/// <summary>
+		/// Проверить, присуствует ли элемент на странице
 		/// </summary>
 		/// <param name="by">локатор</param>
 		public bool ElementIsDisplayed(By by)
@@ -254,6 +279,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Drivers
 				return WaitUntilElementIsDisplay(element, timeout);
 			}
 		}
+
 
 		/// <summary>
 		/// Ждем, пропадет ли элемент

@@ -7,6 +7,7 @@ using AbbyyLS.SmartCAT.Selenium.Tests.DataStructures;
 using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
 using AbbyyLS.SmartCAT.Selenium.Tests.ExplicitAttributes;
 using AbbyyLS.SmartCAT.Selenium.Tests.FeatureAttributes;
+using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Registration;
 using AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.CompanyRegistration
@@ -18,12 +19,15 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.CompanyRegistration
 		public CompanyRegistrationTests()
 		{
 			StartPage = StartPage.CompanyRegistration;
-	}
+		}
 
 		[SetUp]
 		public void SetUpCompanyRegistration()
 		{
-			_companyRegistrationHelper = new CompanyRegistrationHelper(Driver);
+			_companyRegistrationFirstPage = new CompanyRegistrationFirstPage(Driver);
+			_companyRegistrationSecondPage = new CompanyRegistrationSecondPage(Driver);
+			_companyRegistrationSignInPage = new CompanyRegistrationSignInPage(Driver);
+
 			_workspaceHelper = new WorkspaceHelper(Driver);
 			_commonHelper = new CommonHelper(Driver);
 			_loginHelper = new LoginHelper(Driver);
@@ -40,16 +44,20 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.CompanyRegistration
 		[Test]
 		public void CompanyRegistrationTest()
 		{
-			_companyRegistrationHelper
+			_companyRegistrationFirstPage
 				.FillCompanyDataFirstStep(_email, _password, _password)
-				.ClickContinueButton()
+				.ClickContinueButton();
+
+			_companyRegistrationSecondPage
 				.FillCompanyDataSecondStep(
 					_firstName,
 					_lastName,
 					_maximumCompanyName,
 					_subDomain,
 					companyType: CompanyType.LanguageServiceProvider)
-				.ClickCreateCorporateAccountButton()
+				.ClickCreateCorporateAccountButton();
+
+			_workspaceHelper
 				.CloseTour()
 				.AssertUserNameAndAccountNameCorrect(_firstName + " " + _lastName, _maximumCompanyName);
 		}
@@ -58,16 +66,21 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.CompanyRegistration
 		public void MinimumCompanyNameTest()
 		{
 			var minimumCompanyName = new String(Guid.NewGuid().ToString().Where(Char.IsLetter).Take(2).ToArray());
-			_companyRegistrationHelper
+
+			_companyRegistrationFirstPage
 				.FillCompanyDataFirstStep(_email, _password, _password)
-				.ClickContinueButton()
+				.ClickContinueButton();
+
+			_companyRegistrationSecondPage
 				.FillCompanyDataSecondStep(
 					_firstName,
 					_lastName,
 					minimumCompanyName,
 					_subDomain,
 					companyType: CompanyType.LanguageServiceProvider)
-				.ClickCreateCorporateAccountButton()
+				.ClickCreateCorporateAccountButton();
+
+			_workspaceHelper
 				.CloseTour()
 				.AssertUserNameAndAccountNameCorrect(_firstName + " " + _lastName, minimumCompanyName);
 		}
@@ -80,33 +93,42 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.CompanyRegistration
 			var companyNameForSecondCompany = ("companyName" + Guid.NewGuid()).Substring(0, _companyNameMaxLenght);
 			var subDomainForSecondCompany = "subDomain" + Guid.NewGuid();
 
-			_companyRegistrationHelper
+			_companyRegistrationFirstPage
 				.FillCompanyDataFirstStep(_email, _password, _password)
-				.ClickContinueButton()
+				.ClickContinueButton();
+
+			_companyRegistrationSecondPage
 				.FillCompanyDataSecondStep(
 					_firstName,
 					_lastName,
 					_maximumCompanyName,
 					_subDomain,
 					companyType: CompanyType.LanguageServiceProvider)
-				.ClickCreateCorporateAccountButton()
+				.ClickCreateCorporateAccountButton();
+
+			_workspaceHelper
 				.CloseTour()
 				.AssertUserNameAndAccountNameCorrect(_firstName + " " + _lastName, _maximumCompanyName)
 				.SignOut();
 
 			_commonHelper.GoToCompanyRegistration();
 
-			_companyRegistrationHelper
-				.ClickExistingAbbyyAccountLink()
+			_companyRegistrationFirstPage.ClickExistingAbbyyAccountLink();
+
+			_companyRegistrationSignInPage
 				.FillSignInData(_email, _password)
-				.ClickSignInButton()
+				.ClickSignInButton();
+
+			_companyRegistrationSecondPage
 				.FillCompanyDataSecondStep(
 					firstNameForSecondCompany,
 					lastNameForSecondCompany,
 					companyNameForSecondCompany,
 					subDomainForSecondCompany,
 					companyType: CompanyType.LanguageServiceProvider)
-				.ClickCreateCorporateAccountButton()
+				.ClickCreateCorporateAccountButton();
+
+			_workspaceHelper
 				.CloseTour()
 				.AssertUserNameAndAccountNameCorrect(
 					firstNameForSecondCompany + " " + lastNameForSecondCompany,
@@ -129,11 +151,17 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.CompanyRegistration
 				Assert.Ignore("Данные о тестовых пользователях для регистрации компаний отсутствуют.");
 			}
 
-			_companyRegistrationHelper.ClickExistingAbbyyAccountLink()
+			_companyRegistrationFirstPage.ClickExistingAbbyyAccountLink();
+
+			_companyRegistrationSignInPage
 				.FillSignInData(ConfigurationManager.TestCompanyList[userNumber].Login, ConfigurationManager.TestCompanyList[userNumber].Password)
-				.ClickSignInButton()
+				.ClickSignInButton();
+
+			_companyRegistrationSecondPage
 				.FillCompanyDataSecondStep(_firstName, _lastName, _maximumCompanyName, _subDomain, companyType: CompanyType.LanguageServiceProvider)
-				.ClickCreateCorporateAccountButton()
+				.ClickCreateCorporateAccountButton();
+
+			_workspaceHelper
 				.CloseTour()
 				.AssertUserNameAndAccountNameCorrect(_firstName + " " + _lastName, _maximumCompanyName);
 		}
@@ -146,75 +174,100 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.CompanyRegistration
 		[TestCase(CompanyRegistrationField.PhoneNumber)]
 		public void CreateAccountButtonTest(CompanyRegistrationField field)
 		{
-			_companyRegistrationHelper
+			_companyRegistrationFirstPage
 				.FillCompanyDataFirstStep(_email, _password, _password)
 				.ClickContinueButton();
 
 			switch (field)
 			{
 				case CompanyRegistrationField.FirstName:
-					_companyRegistrationHelper
+					_companyRegistrationSecondPage
 						.FillCompanyDataSecondStep(
 							string.Empty,
 							_lastName,
 							_maximumCompanyName,
 							_subDomain,
-							companyType: CompanyType.LanguageServiceProvider)
-						.AssertCreateCorporateAccountButtonInactive()
-						.AssertEnterNameMessageDisplayed();
+							companyType: CompanyType.LanguageServiceProvider);
+
+					Assert.IsTrue(_companyRegistrationSecondPage.IsCreateCorporateAccountButtonInactive(),
+						"Произошла ошибка:\n кнопка 'Create Corporate Account' активна.");
+
+					Assert.IsTrue(_companyRegistrationSecondPage.IsEnterNameMessageDisplayed(),
+						"Произошла ошибка:\n сообщение 'Enter your name' не появилось.");
+
 					break;
 
 				case CompanyRegistrationField.LastName:
-					_companyRegistrationHelper
+					_companyRegistrationSecondPage
 						.FillCompanyDataSecondStep(
 							_firstName,
 							string.Empty,
 							_maximumCompanyName,
 							_subDomain,
-							companyType: CompanyType.LanguageServiceProvider)
-						.AssertCreateCorporateAccountButtonInactive()
-						.AssertEnterLastNameMessageDisplayed();
+							companyType: CompanyType.LanguageServiceProvider);
+
+					Assert.IsTrue(_companyRegistrationSecondPage.IsCreateCorporateAccountButtonInactive(),
+						"Произошла ошибка:\n кнопка 'Create Corporate Account' активна.");
+
+					Assert.IsTrue(_companyRegistrationSecondPage.IsEnterLastNameMessageDisplayed(),
+						"Произошла ошибка:\n сообщение 'Enter your last name' не появилось.");
+
 					break;
 
 				case CompanyRegistrationField.CompanyName:
-					_companyRegistrationHelper
+					_companyRegistrationSecondPage
 						.FillCompanyDataSecondStep(
 							_firstName,
 							_lastName,
 							string.Empty,
 							_subDomain,
-							companyType: CompanyType.LanguageServiceProvider)
-						.AssertCreateCorporateAccountButtonInactive()
-						.AssertEnterCompanyNameMessageDisplayed();
+							companyType: CompanyType.LanguageServiceProvider);
+
+					Assert.IsTrue(_companyRegistrationSecondPage.IsCreateCorporateAccountButtonInactive(),
+						"Произошла ошибка:\n кнопка 'Create Corporate Account' активна.");
+
+					Assert.IsTrue(_companyRegistrationSecondPage.IsEnterCompanyNameMessageDisplayed(),
+						"Произошла ошибка:\n сообщение 'Enter your company name' не появилось.");
+
 					break;
 
 				case CompanyRegistrationField.Subdomain:
-					_companyRegistrationHelper
+					_companyRegistrationSecondPage
 						.FillCompanyDataSecondStep(
 							_firstName,
 							_lastName,
 							_maximumCompanyName,
 							string.Empty,
-							companyType: CompanyType.LanguageServiceProvider)
-						.AssertCreateCorporateAccountButtonInactive()
-						.AssertEnterDomainMessageDisplayed();
+							companyType: CompanyType.LanguageServiceProvider);
+
+					Assert.IsTrue(_companyRegistrationSecondPage.IsCreateCorporateAccountButtonInactive(),
+						"Произошла ошибка:\n кнопка 'Create Corporate Account' активна.");
+
+					Assert.IsTrue(_companyRegistrationSecondPage.IsEnterDomainMessageDisplayed(),
+						"Произошла ошибка:\n сообщение 'Enter your domain name' не появилось.");
+
 					break;
 
 				case CompanyRegistrationField.PhoneNumber:
-					_companyRegistrationHelper
+					_companyRegistrationSecondPage
 						.FillCompanyDataSecondStep(
 							_firstName,
 							_lastName,
 							_maximumCompanyName,
 							_subDomain,
 							companyType: CompanyType.LanguageServiceProvider,
-							phoneNumber: string.Empty)
-						.AssertCreateCorporateAccountButtonInactive()
-						.AssertEnterPhoneMessageDisplayed();
+							phoneNumber: string.Empty);
+
+					Assert.IsTrue(_companyRegistrationSecondPage.IsCreateCorporateAccountButtonInactive(),
+						"Произошла ошибка:\n кнопка 'Create Corporate Account' активна.");
+
+					Assert.IsTrue(_companyRegistrationSecondPage.IsEnterPhoneMessageDisplayed(),
+						"Произошла ошибка:\n сообщение 'Enter your international phone number' не появилось.");
+
 					break;
 
 				case CompanyRegistrationField.CompanyType:
-					_companyRegistrationHelper
+					_companyRegistrationSecondPage
 						.FillCompanyDataSecondStep(
 							_firstName,
 							_lastName,
@@ -222,9 +275,14 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.CompanyRegistration
 							_subDomain,
 							companyType: CompanyType.EmptyCompanyType)
 						.DoubleClickCompanyTypeDropdown()
-						.ClickCorporateAccountButton()
-						.AssertCreateCorporateAccountButtonInactive()
-						.AssertSelectCompanyTypeMessageDisplayed();
+						.ClickCreateCorporateAccountButton();
+
+					Assert.IsTrue(_companyRegistrationSecondPage.IsCreateCorporateAccountButtonInactive(),
+						"Произошла ошибка:\n кнопка 'Create Corporate Account' активна.");
+
+					Assert.IsTrue(_companyRegistrationSecondPage.IsSelectCompanyTypeMessageDisplayed(),
+						"Произошла ошибка:\n сообщение 'Enter your company type' не появилось.");
+
 					break;
 
 				default: 
@@ -252,10 +310,12 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.CompanyRegistration
 			"rrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr.com", Ignore = "PRX-10569")]
 		public void EmailValidTest(string email)
 		{
-			_companyRegistrationHelper
+			_companyRegistrationFirstPage
 				.FillCompanyDataFirstStep(email, _password, _password)
-				.ClickContinueButton(errorExpected:true)
-				.AssertAlreadySignUpMessageDisplayed();
+				.ClickContinueButtonExpectingError();
+
+			Assert.IsTrue(_companyRegistrationFirstPage.IsAlreadySignUpMessageDisplayed(),
+				"Произошла ошибка:\n сообщение 'You have already signed up for one of the ABBYY services with this email.' не появилось.");
 		}
 
 		[TestCase("'@a")]
@@ -311,10 +371,14 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.CompanyRegistration
 		[TestCase("gfgfgfgfgfgfgggfgfgf")]
 		public void EmailInvalidTest(string email)
 		{
-			_companyRegistrationHelper
-				.FillCompanyDataFirstStep(email, _password, _password)
-				.AssertInvalidEmailMessageDisplayed()
-				.AssertContinueButtonInactive();
+			_companyRegistrationFirstPage
+				.FillCompanyDataFirstStep(email, _password, _password);
+
+			Assert.IsTrue(_companyRegistrationFirstPage.IsInvalidEmailMessageDisplayed(),
+				"Произошла ошибка:\n сообщение 'Invalid email' не появилось.");
+
+			Assert.IsTrue(_companyRegistrationFirstPage.IsContinueButtonInactive(),
+				"Произошла ошибка:\n кнопка Continue активна.");
 		}
 
 		[TestCase(" ")]
@@ -328,82 +392,119 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.CompanyRegistration
 			Ignore = "PRX-10569")]
 		public void InvalidPasswordTest(string password)
 		{
-			_companyRegistrationHelper
-				.FillCompanyDataFirstStep(_email, password, password)
-				.AssertMinimumLenghPasswordMessageDisplayed()
-				.AssertContinueButtonInactive();
+			_companyRegistrationFirstPage
+				.FillCompanyDataFirstStep(_email, password, password);
+
+			Assert.IsTrue(_companyRegistrationFirstPage.IsMinimumLenghPasswordMessageDisplayed(),
+				"Произошла ошибка:\n сообщение 'The password must have at least 6 characters' не появилось.");
+
+			Assert.IsTrue(_companyRegistrationFirstPage.IsContinueButtonInactive(),
+				"Произошла ошибка:\n кнопка Continue активна.");
 		}
 
 		[TestCase("")]
 		public void PasswordRequiredTest(string password)
 		{
-			_companyRegistrationHelper
-				.FillCompanyDataFirstStep(_email, password, password)
-				.AssertInvalidPasswordMessageDisplayed()
-				.AssertContinueButtonInactive();
+			_companyRegistrationFirstPage
+				.FillCompanyDataFirstStep(_email, password, password);
+
+			Assert.IsTrue(_companyRegistrationFirstPage.IsInvalidPasswordMessageDisplayed(),
+				"Произошла ошибка:\n сообщение 'The password must have at least 6 characters.' не появилось.");
+
+			Assert.IsTrue(_companyRegistrationFirstPage.IsContinueButtonInactive(),
+				"Произошла ошибка:\n кнопка Continue активна.");
 		}
 
 		[Test]
 		public void SixSpacesPasswordValidationTest()
 		{
-			_companyRegistrationHelper
-				.FillCompanyDataFirstStep(_email, "      ", "      ")
-				.AssertOnlySpacesPasswordMessageDisplayed()
-				.AssertContinueButtonInactive();
+			_companyRegistrationFirstPage
+				.FillCompanyDataFirstStep(_email, "      ", "      ");
+
+			Assert.IsTrue(_companyRegistrationFirstPage.IsOnlySpacesPasswordMessageDisplayed(),
+				"Произошла ошибка:\n сообщение 'The password cannot consist of spaces only' не появилось.");
+
+			Assert.IsTrue(_companyRegistrationFirstPage.IsContinueButtonInactive(),
+				"Произошла ошибка:\n кнопка Continue активна.");
 		}
 
 		[Test]
 		public void PasswordMatchTest()
 		{
-			_companyRegistrationHelper
+			_companyRegistrationFirstPage
 				.FillCompanyDataFirstStep(_email, _password, "incorrectPassword")
-				.ClickContinueButton(errorExpected: true)
-				.AssertPasswordMatchMessageDisplayed()
-				.AssertContinueButtonInactive();
+				.ClickContinueButtonExpectingError();
+
+			Assert.IsTrue(_companyRegistrationFirstPage.IsPasswordMatchMessageDisplayed(),
+				"Произошла ошибка:\n сообщение 'The passwords do not match' не появилось.");
+
+			Assert.IsTrue(_companyRegistrationFirstPage.IsContinueButtonInactive(),
+				"Произошла ошибка:\n кнопка Continue активна.");
 		}
 
 		[TestCase("1kjgkjg")]
 		[TestCase("'kjgkjg")]
 		public void CompanyNamePatternValidationTest(string companyName)
 		{
-			_companyRegistrationHelper
+			_companyRegistrationFirstPage
 				.FillCompanyDataFirstStep(_email, _password, _password)
-				.ClickContinueButton()
+				.ClickContinueButton();
+
+			_companyRegistrationSecondPage
 				.FillCompanyDataSecondStep(
 					_firstName,
 					_lastName,
 					companyName,
 					_subDomain,
-					companyType: CompanyType.LanguageServiceProvider)
-				.AssertCreateCorporateAccountButtonInactive()
-				.AssertCompanyNamePatternInvalidMessageDisplayed();
+					companyType: CompanyType.LanguageServiceProvider);
+
+			Assert.IsTrue(_companyRegistrationSecondPage.IsCreateCorporateAccountButtonInactive(),
+						"Произошла ошибка:\n кнопка 'Create Corporate Account' активна.");
+
+			Assert.IsTrue(_companyRegistrationSecondPage.IsCompanyNameInvalidPatternMessageDisplayed(),
+				"Произошла ошибка:\n сообщение 'The company name must begin with a letter or a quotation mark' не появилось.");
 		}
 
 		[TestCase("s")]
 		public void CompanyNameLenghtValidationTest(string companyName)
 		{
-			_companyRegistrationHelper
+			_companyRegistrationFirstPage
 				.FillCompanyDataFirstStep(_email, _password, _password)
-				.ClickContinueButton()
+				.ClickContinueButton();
+
+			_companyRegistrationSecondPage
 				.FillCompanyDataSecondStep(
 					_firstName,
 					_lastName,
 					companyName,
 					_subDomain,
-					companyType: CompanyType.LanguageServiceProvider)
-				.AssertCreateCorporateAccountButtonInactive()
-				.AssertCompanyNameLengthInvalidMessageDisplayed();
+					companyType: CompanyType.LanguageServiceProvider);
+
+			Assert.IsTrue(_companyRegistrationSecondPage.IsCreateCorporateAccountButtonInactive(),
+						"Произошла ошибка:\n кнопка 'Create Corporate Account' активна.");
+
+			Assert.IsTrue(_companyRegistrationSecondPage.IsCompanyNameLengthInvalidMessageDisplayed(),
+				"Произошла ошибка:\n сообщение 'The company name must contain at least 2 characters.' не появилось.");
 		}
 
 		[Test]
 		public void MaximumCompanyNameTest()
 		{
-			_companyRegistrationHelper
+			int maximumCompanyNameLenght = 40;
+
+			_companyRegistrationFirstPage
 				.FillCompanyDataFirstStep(_email, _password, _password)
-				.ClickContinueButton()
-				.FillCompanyDataSecondStep(_firstName, _lastName, _maximumCompanyName + "extraCharacters", _subDomain, companyType: CompanyType.LanguageServiceProvider)
-				.AssertCompanyNameLenght()
-				.ClickCreateCorporateAccountButton()
+				.ClickContinueButton();
+
+			_companyRegistrationSecondPage
+				.FillCompanyDataSecondStep(_firstName, _lastName, _maximumCompanyName + "extraCharacters", _subDomain, companyType: CompanyType.LanguageServiceProvider);
+
+			Assert.IsTrue(_companyRegistrationSecondPage.IsCompanyNameCutting(maximumCompanyNameLenght),
+				"Произошла ошибка:\n название компании не обрезается до максимально допустимой длины в {0} символов.", maximumCompanyNameLenght);
+
+			_companyRegistrationSecondPage.ClickCreateCorporateAccountButton();
+
+			_workspaceHelper
 				.CloseTour()
 				.AssertUserNameAndAccountNameCorrect(_firstName + " " + _lastName, _maximumCompanyName);
 		}
@@ -415,67 +516,97 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.CompanyRegistration
 		[TestCase("2asddddddd")]
 		public void SubdomainInvalidPatternTest(string subdomain)
 		{
-			_companyRegistrationHelper
+			_companyRegistrationFirstPage
 				.FillCompanyDataFirstStep(_email, _password, _password)
-				.ClickContinueButton()
-				.FillCompanyDataSecondStep(_firstName, _lastName, _maximumCompanyName, subdomain, companyType: CompanyType.LanguageServiceProvider)
-				.AssertCreateCorporateAccountButtonInactive()
-				.AssertSubdomainPatternMessageDisplayed();
+				.ClickContinueButton();
+
+			_companyRegistrationSecondPage
+				.FillCompanyDataSecondStep(_firstName, _lastName, _maximumCompanyName, subdomain, companyType: CompanyType.LanguageServiceProvider);
+
+			Assert.IsTrue(_companyRegistrationSecondPage.IsCreateCorporateAccountButtonInactive(),
+						"Произошла ошибка:\n кнопка 'Create Corporate Account' активна.");
+
+			Assert.IsTrue(_companyRegistrationSecondPage.IsSubdomainPatternMessageDisplayed(),
+				"Произошла ошибка:\n сообщение 'Use only latin letters, digits, hyphen and underscope...' не появилось.");
 		}
 
 		[TestCase("as")]
 		[TestCase("a")]
 		public void SubdomainInvalidLenghtTest(string subdomain)
 		{
-			_companyRegistrationHelper
+			_companyRegistrationFirstPage
 				.FillCompanyDataFirstStep(_email, _password, _password)
-				.ClickContinueButton()
-				.FillCompanyDataSecondStep(_firstName, _lastName, _maximumCompanyName, subdomain, companyType: CompanyType.LanguageServiceProvider)
-				.AssertCreateCorporateAccountButtonInactive()
-				.AssertSubdomainMinimumLenghtMessageDisplayed();
+				.ClickContinueButton();
+
+			_companyRegistrationSecondPage
+				.FillCompanyDataSecondStep(_firstName, _lastName, _maximumCompanyName, subdomain,
+					companyType: CompanyType.LanguageServiceProvider);
+
+			Assert.IsTrue(_companyRegistrationSecondPage.IsCreateCorporateAccountButtonInactive(),
+						"Произошла ошибка:\n кнопка 'Create Corporate Account' активна.");
+
+			Assert.IsTrue(_companyRegistrationSecondPage.IsSubdomainLenghtMessageDisplayed(),
+				"Произошла ошибка:\n сообщение 'The domain name must contain at least 3 characters' не появилось.");
 		}
 
 		[Test]
 		public void TwoTheSameCompaniesRegistrationTest()
 		{
-			_companyRegistrationHelper
+			_companyRegistrationFirstPage
 				.FillCompanyDataFirstStep(_email, _password, _password)
-				.ClickContinueButton()
+				.ClickContinueButton();
+
+			_companyRegistrationSecondPage
 				.FillCompanyDataSecondStep(_firstName, _lastName, _maximumCompanyName, _subDomain, companyType: CompanyType.LanguageServiceProvider)
-				.ClickCreateCorporateAccountButton()
+				.ClickCreateCorporateAccountButton();
+
+			_workspaceHelper
 				.CloseTour()
 				.AssertUserNameAndAccountNameCorrect(_firstName + " " + _lastName, _maximumCompanyName)
 				.SignOut();
 
 			_commonHelper.GoToCompanyRegistration();
 
-			_companyRegistrationHelper
-				.ClickExistingAbbyyAccountLink()
+			_companyRegistrationFirstPage.ClickExistingAbbyyAccountLink();
+
+			_companyRegistrationSignInPage
 				.FillSignInData(_email, _password)
-				.ClickSignInButton()
-				.FillCompanyDataSecondStep(_firstName, _lastName, _maximumCompanyName, _subDomain, companyType: CompanyType.LanguageServiceProvider)
-				.AssertCreateCorporateAccountButtonInactive()
-				.AssertCompanyNameAlreadyInUseMessageDisplayed();
+				.ClickSignInButton();
+
+			_companyRegistrationSecondPage
+				.FillCompanyDataSecondStep(_firstName, _lastName, _maximumCompanyName, _subDomain, companyType: CompanyType.LanguageServiceProvider);
+
+			Assert.IsTrue(_companyRegistrationSecondPage.IsCreateCorporateAccountButtonInactive(),
+						"Произошла ошибка:\n кнопка 'Create Corporate Account' активна.");
+
+			Assert.IsTrue(_companyRegistrationSecondPage.IsCompanyNameAlredyInUseMessageDisplayed(),
+				"Произошла ошибка:\n сообщение 'A company with this name already exists' не появилось.");
 		}
 
 		[Test]
 		public void AlreadySignUpTest()
 		{
-			_companyRegistrationHelper
+			_companyRegistrationFirstPage
 				.FillCompanyDataFirstStep(_email, _password, _password)
-				.ClickContinueButton()
+				.ClickContinueButton();
+
+			_companyRegistrationSecondPage
 				.FillCompanyDataSecondStep(_firstName, _lastName, _maximumCompanyName, _subDomain, companyType: CompanyType.LanguageServiceProvider)
-				.ClickCreateCorporateAccountButton()
+				.ClickCreateCorporateAccountButton();
+
+			_workspaceHelper
 				.CloseTour()
 				.AssertUserNameAndAccountNameCorrect(_firstName + " " + _lastName, _maximumCompanyName)
 				.SignOut();
 
 			_commonHelper.GoToCompanyRegistration();
 
-			_companyRegistrationHelper
+			_companyRegistrationFirstPage
 				.FillCompanyDataFirstStep(_email, _password, _password)
-				.ClickContinueButton(errorExpected: true)
-				.AssertAlreadySignUpMessageDisplayed();
+				.ClickContinueButtonExpectingError();
+
+			Assert.IsTrue(_companyRegistrationFirstPage.IsAlreadySignUpMessageDisplayed(),
+				"Произошла ошибка:\n сообщение 'You have already signed up for one of the ABBYY services with this email.' не появилось.");
 
 			_commonHelper.GoToSignInPage();
 			_loginHelper.LogInSmartCat(_email, _nickName, _password, _maximumCompanyName);
@@ -486,11 +617,15 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.CompanyRegistration
 		[Test]
 		public void LoginRegisteredUser()
 		{
-			_companyRegistrationHelper
+			_companyRegistrationFirstPage
 				.FillCompanyDataFirstStep(_email, _password, _password)
-				.ClickContinueButton()
+				.ClickContinueButton();
+
+			_companyRegistrationSecondPage
 				.FillCompanyDataSecondStep(_firstName, _lastName, _maximumCompanyName, _subDomain, companyType: CompanyType.LanguageServiceProvider)
-				.ClickCreateCorporateAccountButton()
+				.ClickCreateCorporateAccountButton();
+
+			_workspaceHelper
 				.CloseTour()
 				.AssertUserNameAndAccountNameCorrect(_firstName + " " + _lastName, _maximumCompanyName)
 				.SignOut();
@@ -508,10 +643,12 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.CompanyRegistration
 		private string _nickName;
 		private int _companyNameMaxLenght = 40;
 
-		private CompanyRegistrationHelper _companyRegistrationHelper;
 		private WorkspaceHelper _workspaceHelper;
 		private CommonHelper _commonHelper;
 		private LoginHelper _loginHelper;
+		private CompanyRegistrationFirstPage _companyRegistrationFirstPage;
+		private CompanyRegistrationSecondPage _companyRegistrationSecondPage;
+		private CompanyRegistrationSignInPage _companyRegistrationSignInPage;
 	}
 }
 
