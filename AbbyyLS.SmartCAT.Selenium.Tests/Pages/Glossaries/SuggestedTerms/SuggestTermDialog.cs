@@ -99,7 +99,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 		/// </summary>
 		public string LanguageText(int languageNumber)
 		{
-			CustomTestContext.WriteLine("Вернуть название языка, установленного для термина №{0}.");
+			CustomTestContext.WriteLine("Вернуть название языка, установленного для термина №{0}.", languageNumber);
 
 			return Driver.SetDynamicValue(How.XPath, LANGUAGE_LIST, languageNumber.ToString()).Text.Trim();
 		}

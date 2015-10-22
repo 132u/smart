@@ -190,7 +190,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 			BaseObject.InitPage(_suggestTermDialog, Driver);
 
 			Assert.AreEqual(language.ToString(), _suggestTermDialog.LanguageText(languageNumber),
-				"Произошла ошибка:\nНеверный язык №{0} в диалоге предложения термина.");
+				"Произошла ошибка:\nНеверный язык №{0} в диалоге предложения термина.", languageNumber);
 
 			return this;
 		}
