@@ -26,6 +26,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 				.SelectProjectInList(_projectUniqueName)
 				.ClickDownloadInMainMenuButton()
 				.SelectExportType<ProjectsPage>(exportType)
+				.AssertPreparingDownloadMessageDisappeared()
 				.ClickDownloadNotifier<ProjectsPage>()
 				.AssertFileDownloaded(_exportFileHelper.GetExportFileNameMask(exportType, PathProvider.DocumentFileToConfirm1));
 		}
@@ -59,6 +60,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 				.OpenDocumentInfoForProject(_projectUniqueName)
 				.ClickDownloadInDocumentButton(_projectUniqueName)
 				.SelectExportType<ProjectsPage>(exportType)
+				.AssertPreparingDownloadMessageDisappeared()
 				.ClickDownloadNotifier<ProjectsPage>()
 				.AssertFileDownloaded(_exportFileHelper.GetExportFileNameMask(exportType, PathProvider.DocumentFileToConfirm1));
 		}
@@ -80,6 +82,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 				.SelectProjectInList(_projectUniqueName)
 				.ClickDownloadInMainMenuButton()
 				.SelectExportType<ProjectsPage>(exportType)
+				.AssertPreparingDownloadMessageDisappeared()
 				.ClickDownloadNotifier<ProjectsPage>()
 				.AssertFileDownloaded(string.Format("Documents_*{0}.zip", exportType));
 		}
@@ -444,6 +447,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 				.RenameDocument(_projectUniqueName, newDocumentName)
 				.ClickDownloadInDocumentButton(_projectUniqueName)
 				.SelectExportType<ProjectsPage>(exportType)
+				.AssertPreparingDownloadMessageDisappeared()
 				.GetTextNotificationByNumber(1);
 
 			Assert.IsTrue(message.Contains(newDocumentName),
