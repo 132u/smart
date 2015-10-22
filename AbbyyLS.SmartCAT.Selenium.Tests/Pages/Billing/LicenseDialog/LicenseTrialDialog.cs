@@ -1,4 +1,5 @@
-﻿using NUnit.Framework;
+﻿using System;
+
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.PageObjects;
 
@@ -23,9 +24,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Billing.LicenseDialog
 
 		public new void LoadPage()
 		{
-			if (!Driver.WaitUntilElementIsDisplay(By.XPath(TRIAL_MESSAGE)))
+			if (!IsLicenseTrialDialogOpened())
 			{
-				Assert.Fail("Произошла ошибка:\n не открылось сообщение о триальном периоде.");
+				throw new Exception("Произошла ошибка:\n не открылось сообщение о триальном периоде.");
 			}
 		}
 
@@ -38,6 +39,16 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Billing.LicenseDialog
 			ContiniueButton.Click();
 
 			return new LicenseBaseDialog(Driver).GetPage();
+		}
+
+		/// <summary>
+		/// Проверить, открылось ли сообщение о триальном периоде
+		/// </summary>
+		public bool IsLicenseTrialDialogOpened()
+		{
+			CustomTestContext.WriteLine("Проверить, открылось ли сообщение о триальном периоде");
+
+			return Driver.WaitUntilElementIsDisplay(By.XPath(TRIAL_MESSAGE));
 		}
 
 		[FindsBy(How = How.XPath, Using = CONTINIUE_BUTTON)]

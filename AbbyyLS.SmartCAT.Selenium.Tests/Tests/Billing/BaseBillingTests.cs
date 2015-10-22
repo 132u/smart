@@ -4,6 +4,8 @@ using NUnit.Framework;
 
 using AbbyyLS.SmartCAT.Selenium.Tests.DataStructures;
 using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
+using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Billing;
+using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Billing.LicenseDialog;
 using AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Billing
@@ -20,9 +22,16 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Billing
 		{
 			LoginHelper = new LoginHelper(Driver);
 			CommonHelper = new CommonHelper(Driver);
-			BillingHelper = new BillingHelper(Driver);
-			LicenseDialogHelper = new LicenseDialogHelper(Driver);
 			WorkspaceHelper = new WorkspaceHelper(Driver);
+
+			BillingPage = new BillingPage(Driver);
+			LicenseBaseDialog = new LicenseBaseDialog(Driver);
+			LicenseExtendDialog = new LicenseExtendDialog(Driver);
+			LicensePurchaseDialog = new LicensePurchaseDialog(Driver);
+			LicensePaymentDialog = new LicensePaymentDialog(Driver);
+			LicenseTrialDialog = new LicenseTrialDialog(Driver);
+			LicenseUpgradeDialog = new LicenseUpgradeDialog(Driver);
+			LicensePurchaseCompleteDialog = new LicensePurchaseCompleteDialog(Driver);
 
 			var accountUniqueName = AdminHelper.GetAccountUniqueName();
 
@@ -51,8 +60,15 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Billing
 
 		protected LoginHelper LoginHelper;
 		protected CommonHelper CommonHelper;
-		protected BillingHelper BillingHelper;
-		protected LicenseDialogHelper LicenseDialogHelper;
 		protected WorkspaceHelper WorkspaceHelper;
+
+		public BillingPage BillingPage;
+		public LicenseBaseDialog LicenseBaseDialog;
+		public LicenseExtendDialog LicenseExtendDialog;
+		public LicensePurchaseDialog LicensePurchaseDialog;
+		public LicensePaymentDialog LicensePaymentDialog;
+		public LicenseTrialDialog LicenseTrialDialog;
+		public LicenseUpgradeDialog LicenseUpgradeDialog;
+		public LicensePurchaseCompleteDialog LicensePurchaseCompleteDialog;
 	}
 }

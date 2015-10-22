@@ -1,9 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 
-using NUnit.Framework;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.PageObjects;
 
@@ -31,39 +29,52 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Billing
 
 		public new void LoadPage()
 		{
-			if (!Driver.WaitUntilElementIsDisplay(By.XPath(LICENSE_NUMBER), timeout: 20))
+			if (!IsBillingPageOpened())
 			{
-				Assert.Fail("Произошла ошибка:\n не загрузилась страница управления лицензиями.");
+				throw new XPathLookupException("Произошла ошибка:\n не загрузилась страница управления лицензиями.");
 			}
 		}
 
-		/// <summary>
-		/// Получить количество пакетов лицензий
-		/// </summary>
-		/// <returns>количество лицензий</returns>
-		public int PackagesCount()
-		{
-			CustomTestContext.WriteLine("Получить количество пакетов лицензий.");
+		#region Простые методы страницы
 
-			return Driver.GetElementsCount(By.XPath(LICENSES_LIST));
+		/// <summary>
+		/// Нажать кнопку Buy для определенного периода
+		/// </summary>
+		/// <param name="monthPeriod">период, на который покупается лицензия</param>
+		public LicensePurchaseDialog ClickBuyButton(Period monthPeriod)
+		{
+			CustomTestContext.WriteLine("Нажать кнопку Buy для периода {0} месяцев.", monthPeriod.ToString());
+			Driver.FindElement(By.XPath(BUY_BUTTON.Replace("'*#*'", monthPeriod.Description()))).Click();
+
+			return new LicensePurchaseDialog(Driver).GetPage();
 		}
 
 		/// <summary>
-		/// Получить количество лицензий в пакете из первой колонки верхней таблицы
+		/// Нажать кнопку Upgrade
 		/// </summary>
-		/// <returns>количество лицензий в пакете</returns>
-		public int LicenseCountInPackage()
+		/// <param name="rowNumber">номер строки</param>
+		public LicenseUpgradeDialog ClickUpgradeButton(int rowNumber = 1)
 		{
-			CustomTestContext.WriteLine("Получить количество лицензий в пакете из первой колонки верхней таблицы.");
-			var licenseNumber = LicenseQuantityColumn.Text.Split(' ');
-			int licenseNumberInteger;
+			CustomTestContext.WriteLine("Нажать кнопку Upgrade в {0} строке.", rowNumber.ToString());
+			// Получить список видимых кнопок Upgrade
+			var upgradeButtonsList = Driver.GetElementList(By.XPath(UPGRADE_BUTTONS));
+			var buttons = upgradeButtonsList.Where(btn => btn.Displayed).ToList();
 
-			if (!int.TryParse(licenseNumber[0], out licenseNumberInteger))
-			{
-				Assert.Fail("Произошла ошибка:\n не удалось преобразование количества лицензий в пакете из первой колонки верхней таблицы {0} в число.", licenseNumber[0]);
-			}
+			buttons[rowNumber - 1].Click();
 
-			return licenseNumberInteger;
+			return new LicenseUpgradeDialog(Driver).GetPage();
+		}
+
+		/// <summary>
+		/// Нажать кнопку Extend
+		/// </summary>
+		/// <param name="rowNumebr">номер строки</param>
+		public LicenseExtendDialog ClickExtendButton(int rowNumebr = 1)
+		{
+			CustomTestContext.WriteLine("Нажать кнопку Extend в {0} строке.", rowNumebr.ToString());
+			Driver.SetDynamicValue(How.XPath, EXTEND_BUTTON, rowNumebr.ToString()).Click();
+
+			return new LicenseExtendDialog(Driver).GetPage();
 		}
 
 		/// <summary>
@@ -79,55 +90,25 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Billing
 		}
 
 		/// <summary>
-		/// Нажать кнопку Buy для определенного периода
+		/// Нажать по логотипу
 		/// </summary>
-		/// <param name="monthPeriod">период, на который покупается лицензия</param>
-		public LicensePurchaseDialog ClickBuyButton(Period monthPeriod)
+		public WorkspacePage ClickLogo()
 		{
-			CustomTestContext.WriteLine("Нажать кнопку Buy для периода {0} месяцев.", monthPeriod.ToString());
-			Driver.FindElement(By.XPath(BUY_BUTTON.Replace("'*#*'", monthPeriod.Description()))).Click();
-			
-			return new LicensePurchaseDialog(Driver).GetPage();
+			CustomTestContext.WriteLine("Нажать по логотипу.");
+			Logo.Click();
+
+			return new WorkspacePage(Driver);
 		}
 
 		/// <summary>
-		/// Нажать кнопку Upgrade
+		/// Получить количество пакетов лицензий
 		/// </summary>
-		/// <param name="rowNumber">номер строки</param>
-		public LicenseUpgradeDialog ClickUpgradeButton(int rowNumber)
+		/// <returns>количество лицензий</returns>
+		public int PackagesCount()
 		{
-			CustomTestContext.WriteLine("Нажать кнопку Upgrade в {0} строке.", rowNumber.ToString());
-			var buttons = visibleUpgradeButtonsList();
-			buttons[rowNumber - 1].Click();
+			CustomTestContext.WriteLine("Получить количество пакетов лицензий.");
 
-			return new LicenseUpgradeDialog(Driver).GetPage();
-		}
-
-		/// <summary>
-		/// Нажать кнопку Extend
-		/// </summary>
-		/// <param name="rowNumebr">номер строки</param>
-		public LicenseExtendDialog ClickExtendButton(int rowNumebr)
-		{
-			CustomTestContext.WriteLine("Нажать кнопку Extend в {0} строке.", rowNumebr.ToString());
-			Driver.SetDynamicValue(How.XPath, EXTEND_BUTTON, rowNumebr.ToString()).Click();
-
-			return new LicenseExtendDialog(Driver).GetPage();
-		}
-
-		/// <summary>
-		/// Проверить знак валюты
-		/// </summary>
-		/// <param name="currency">валюта</param>
-		public BillingPage AssertCurrencyInPurchaseTable(string currency)
-		{
-			CustomTestContext.WriteLine("Проверить, знак валюты {0}.", currency);
-			var periodList = Driver.GetTextListElement(By.XPath(TABLE_HEADER));
-
-			Assert.IsTrue(periodList.All(p => p.Contains(currency)),
-				"Произошла ошибка:\n валюта {0} не совпадает с валютой в таблице {1}", currency, periodList[0]);
-
-			return GetPage();
+			return Driver.GetElementsCount(By.XPath(LICENSES_LIST));
 		}
 
 		/// <summary>
@@ -142,25 +123,17 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Billing
 		}
 
 		/// <summary>
-		/// Нажать по логотипу
-		/// </summary>
-		public WorkspacePage ClickLogo()
-		{
-			CustomTestContext.WriteLine("Нажать по логотипу.");
-			Logo.Click();
-
-			return new WorkspacePage(Driver);
-		}
-
-		/// <summary>
 		/// Получить стоимость пакета лицензий из нижней таблицы
 		/// </summary>
 		/// <param name="period">период 1/3/6/12 месяцев</param>
-		public int PackagePrice(Period period)
+		public int PackagePrice(Period period, int numberLicenses)
 		{
 			CustomTestContext.WriteLine("Получить стоимость пакета лицензий за {0} месяцев.", period.Description());
+
+			SelectLicenseNumber(numberLicenses);
+
 			var priceWithDot = Driver.FindElement(By.XPath(PACKAGE_PRICE.Replace("'*#*'", period.Description()))).Text;
-			var price = priceWithDot.Substring(0, priceWithDot.IndexOf(".")).Replace(",","");
+			var price = priceWithDot.Substring(0, priceWithDot.IndexOf(".")).Replace(",", "");
 			int resultPrice;
 			int.TryParse(price, out resultPrice);
 
@@ -168,26 +141,120 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Billing
 		}
 
 		/// <summary>
-		/// Получить список всех кнопок Upgrade(видимых и невидимых)
+		/// Посчитать дополнительную плату за продление/обновление пакета лицензий
 		/// </summary>
-		/// <returns>cписок кнопок Upgrade</returns>
-		private IList<IWebElement> upgradeButtonsList()
+		/// <param name="currentPackagePrice">стоимость нового пакета лицензий</param>
+		/// <param name="newPackagePrice"> стоимость старого пакета лицензий</param>
+		/// <param name="totalPeriod">общий срок действия текущего пакета лицензий</param>
+		/// <param name="packageValidityPeriod">оставшийся срок действия текущего пакета лицензий</param>
+		public int CalculateAdditionalPayment(int currentPackagePrice, int newPackagePrice, Period totalPeriod, string packageValidityPeriod)
 		{
-			CustomTestContext.WriteLine("Получить список всех кнопок Upgrade(видимых и невидимых).");
+			CustomTestContext.WriteLine("Посчитать дополнительную плату за продление/обновление пакета лицензий по формуле:"
+						 + "\n Стоимость = n*(y-x)/k, Где n – количество оставшихся дней действия текущего пакета лицензий,"
+						 + " k – общий срок действия текущего пакета лицензий, y – стоимость нового пакета лицензий, x – стоимость старого пакета лицензий.");
 
-			return Driver.GetElementList(By.XPath(UPGRADE_BUTTONS));
+			var totalCountDays = (DateTime.Now.AddMonths((int)totalPeriod) - DateTime.Now).Days;
+
+			return calculateLeftDays(packageValidityPeriod) * (newPackagePrice - currentPackagePrice) / totalCountDays;
+		}
+
+		#endregion
+
+		#region Составные методы страницы
+
+		/// <summary>
+		/// Открыть диалог покупки лицензий
+		/// </summary>
+		/// <param name="licenseNumber">кол-во лицензий</param>
+		/// <param name="period">период</param>
+		public LicensePurchaseDialog OpenLicensePurchaseDialog(int licenseNumber = 5, Period period = Period.ThreeMonth)
+		{
+			SelectLicenseNumber(licenseNumber);
+			var licensePurchaseDialog = ClickBuyButton(period);
+
+			return licensePurchaseDialog;
+		}
+
+		#endregion
+
+		#region Методы, проверяющие состояние страницы
+
+		/// <summary>
+		/// Проверить, открыта ли страница
+		/// </summary>
+		public bool IsBillingPageOpened()
+		{
+			CustomTestContext.WriteLine("Открытие страницы управления лицензиями");
+
+			return Driver.WaitUntilElementIsDisplay(By.XPath(LICENSE_NUMBER), timeout: 20);
 		}
 
 		/// <summary>
-		/// Получить список видимых Upgrade кнопок
+		/// Проверить, что количество пакетов лицензий соответствует ожидаемому
 		/// </summary>
-		/// <returns>список видимых Upgrade кнопок</returns>
-		private IList<IWebElement> visibleUpgradeButtonsList()
+		/// <param name="expectedCount">ожидаемое кол-во пакетов лицензий</param>
+		public bool IsPackagesCountEquals(int expectedCount)
 		{
-			CustomTestContext.WriteLine("Получить список видимых кнопок Upgrade.");
+			CustomTestContext.WriteLine("Проверить, что количество пакетов лицензий равно {0}.", expectedCount);
 
-			return upgradeButtonsList().Where(btn => btn.Displayed).ToList();
+			var actualCount = PackagesCount();
+
+			return expectedCount == actualCount;
 		}
+
+		/// <summary>
+		/// Проверить, что количество пакетов лицензий изменилось на ожидаемое
+		/// </summary>
+		/// <param name="expectedCount">ожидаемое кол-во пакетов лицензий</param>
+		public bool IsLicensesCountChanged(int expectedCount)
+		{
+			CustomTestContext.WriteLine("Проверить, что количество пакетов лицензий изменилось на {0}.", expectedCount);
+
+			var licenseNumber = LicenseQuantityColumn.Text.Split(' ');
+			int licenseNumberInteger;
+
+			if (!int.TryParse(licenseNumber[0], out licenseNumberInteger))
+			{
+				throw new Exception(string.Format("Произошла ошибка:\n не удалось преобразование количества лицензий в пакете из первой колонки верхней таблицы {0} в число.", licenseNumber[0]));
+			}
+
+			return expectedCount == licenseNumberInteger;
+		}
+
+		/// <summary>
+		/// Проверить знак валюты
+		/// </summary>
+		/// <param name="currency">валюта</param>
+		public bool IsCurrencyInPurchaseTable(string currency)
+		{
+			CustomTestContext.WriteLine("Проверить, знак валюты {0}.", currency);
+			var periodList = Driver.GetTextListElement(By.XPath(TABLE_HEADER));
+
+			return periodList.All(p => p.Contains(currency));
+		}
+
+		#endregion
+
+		#region Вспомогательные методы 
+
+		/// <summary>
+		/// Посчитать количество оставшихся дней действия текущего пакета лицензий
+		/// </summary>
+		private int calculateLeftDays(string packageValidityPeriod)
+		{
+			CustomTestContext.WriteLine("Посчитать количество оставшихся дней действия текущего пакета лицензий.");
+
+			var periodArray = packageValidityPeriod.Split('—');
+
+			DateTime startDate = DateTime.ParseExact(periodArray[0], "M/d/yyyy", CultureInfo.InvariantCulture);
+			DateTime endDate = DateTime.ParseExact(periodArray[1], "M/d/yyyy", CultureInfo.InvariantCulture);
+
+			return (endDate - startDate).Days;
+		}
+
+		#endregion
+
+		#region Объявление элементов страницы
 
 		[FindsBy(How = How.XPath, Using = LICENSE_NUMBER)]
 		protected IWebElement LicenseNumber { get; set; }
@@ -201,6 +268,10 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Billing
 		[FindsBy(How = How.XPath, Using = LOGO)]
 		protected IWebElement Logo { get; set; }
 
+		#endregion
+
+		#region Описание XPath элементов
+
 		public const string UPGRADE_BUTTONS = "//tr[@class='ng-scope']//td[contains(@ng-if, 'ManuallyCreated')]//a[contains(@ng-show, 'ctrl.canIncrease')]";
 		public const string LICENSES_LIST = "//table[@class='t-licenses ng-scope']/tbody/tr[not(@ng-if='ctrl.demoPackage')]//td[contains(@ng-bind, 'LicensesAmountText')]";
 		public const string LICENSE_NUMBER = "//table[contains(@class, 'add-lic')]//select[contains(@ng-model, 'selectedOption')]";
@@ -211,5 +282,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Billing
 		public const string LICENSE_QUANTITY_COLUMN = "//td[(contains(text(),'license') or contains(text(),' licenses')) and not(contains(text(), 'You have been'))]"; 
 		public const string LOGO = "//a[@id='logo']";
 		public const string PACKAGE_PRICE = "//table[contains(@class, ' add-lic')]//tbody//tr[1]//td['*#*']";
+
+		#endregion
 	}
 }

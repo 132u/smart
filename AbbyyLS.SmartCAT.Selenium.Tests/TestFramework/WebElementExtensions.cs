@@ -65,11 +65,11 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestFramework
 			}
 			catch (UnexpectedTagNameException)
 			{
-				Assert.Fail("Произошла ошибка:\n метод SelectOptionByText применен не к тэгу Select.");
+				throw new UnexpectedTagNameException("Произошла ошибка:\n метод SelectOptionByText применен не к тэгу Select.");
 			}
 			catch (Exception)
 			{
-				Assert.Fail("Произошла ошибка:\n не удалось выбрать \"{0}\" из списка.", text);
+				throw new Exception(string.Format("Произошла ошибка:\n не удалось выбрать \"{0}\" из списка.", text));
 			}
 		}
 

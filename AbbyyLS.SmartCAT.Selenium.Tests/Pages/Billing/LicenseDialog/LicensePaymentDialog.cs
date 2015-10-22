@@ -1,6 +1,5 @@
 ﻿using System;
 
-using NUnit.Framework;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.PageObjects;
 
@@ -25,21 +24,23 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Billing.LicenseDialog
 
 		public new void LoadPage()
 		{
-			if (!Driver.WaitUntilElementIsDisplay(By.XPath(CREDIT_CARD_NUMBER)))
+			if (!IsLicensePaymentDialogOpebed())
 			{
-				Assert.Fail("Произошла ошибка:\n не открылась форма для ввода данных кредитной карты.");
+				throw new Exception("Произошла ошибка:\n не открылась форма для ввода данных кредитной карты.");
 			}
 		}
+
+		#region Простые методы страницы
 
 		/// <summary>
 		/// Нажать кнопку Pay
 		/// </summary>
-		public T ClickPayButton<T>(WebDriver driver) where T : class, IAbstractPage<T>
+		public T ClickPayButton<T>() where T : class, IAbstractPage<T>
 		{
 			CustomTestContext.WriteLine("Нажать кнопку Pay.");
 			PayButton.Click();
 
-			var instance = Activator.CreateInstance(typeof(T), new object[] { driver }) as T;
+			var instance = Activator.CreateInstance(typeof(T), new object[] { Driver }) as T;
 			return instance.GetPage();
 		}
 
@@ -90,6 +91,50 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Billing.LicenseDialog
 			return new LicenseBaseDialog(Driver).GetPage();
 		}
 
+		#endregion
+
+		#region Составные методы страницы
+
+		/// <summary>
+		/// Заполнить данные платежной карты
+		/// </summary>
+		/// <param name="cardNumber">номер карты</param>
+		/// <param name="cvv">cvv</param>
+		/// <param name="expirationDate">дата окончания действия</param>
+		public LicensePaymentDialog FillCreditCardData(
+			string cardNumber = "4111111111111111",
+			string cvv = "123",
+			string expirationDate = "11/16")
+		{
+			SwitchToPaymentIFrame();
+
+			FillCardNumber(cardNumber);
+			FillCvv(cvv);
+			FillExpirationDate(expirationDate);
+
+			SwitchToDefaultContentFromPaymentIFrame();
+
+			return this;
+		}
+
+		#endregion
+
+		#region Методы, проверяющие состояние страницы
+
+		/// <summary>
+		/// Проверить, открылась ли форма ввода данных платежной карты
+		/// </summary>
+		public bool IsLicensePaymentDialogOpebed()
+		{
+			CustomTestContext.WriteLine("Проверить, открылась ли форма ввода данных платежной карты");
+
+			return Driver.WaitUntilElementIsDisplay(By.XPath(CREDIT_CARD_NUMBER));
+		}
+
+		#endregion
+
+		#region Описание элементов страницы
+
 		[FindsBy(How = How.XPath, Using = CREDIT_CARD_NUMBER)]
 		protected IWebElement CreditCardNumber { get; set; }
 
@@ -101,11 +146,17 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Billing.LicenseDialog
 		[FindsBy(How = How.XPath, Using = PAY_BUTTON)]
 		protected IWebElement PayButton { get; set; }
 
+		#endregion
+
+		#region Описание XPath элементов
+
 		public const string PAY_BUTTON = "//footer[contains(@class, 'clearfix')]//a[contains(@abb-link-click, 'commitPayment')]";
 		public const string CREDIT_CARD_NUMBER = "//input[@id='credit-card-number']";
 		public const string CVV = "//input[@id='cvv']";
 		public const string CALENDAR_CONTROL = "//button[contains(@class, 'calendar')]";
 		public const string DATE_FIELD = "//input[contains(@class, 'date')]";
 		public const string EXPIRATION_DATE = "//input[@id='expiration']";
+
+		#endregion
 	}
 }

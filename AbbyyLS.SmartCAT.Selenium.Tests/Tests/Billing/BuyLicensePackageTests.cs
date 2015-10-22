@@ -2,6 +2,7 @@
 
 using AbbyyLS.SmartCAT.Selenium.Tests.DataStructures;
 using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
+using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Billing.LicenseDialog;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Billing
 {
@@ -14,16 +15,22 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Billing
 		[TestCase(Period.OneMonth)]
 		public void BuyLicenseTest(Period period)
 		{
-			var licenseCountBefore = BillingHelper.PackagesCount();
+			var licenseCountBefore = BillingPage.PackagesCount();
 
-			LicenseDialogHelper
+			BillingPage
 				.OpenLicensePurchaseDialog(period: period)
-				.ClickBuyButtonInDialog(trial: true)
-				.CloseTrialDialog()
+				.ClickBuyButton<LicenseTrialDialog>();
+
+			LicenseTrialDialog.ClickContinueInTrialDialog();
+
+			LicensePaymentDialog
 				.FillCreditCardData()
-				.ClickPayButton()
-				.CloseCompleteDialog()
-				.AssertPackagesCountEquals(licenseCountBefore + 1);
+				.ClickPayButton<LicensePurchaseCompleteDialog>();
+
+			LicensePurchaseCompleteDialog.ClickCloseButton();
+
+			Assert.IsTrue(BillingPage.IsPackagesCountEquals(licenseCountBefore + 1),
+				"Произошла ошибка:\n количество пакетов лицензий не изменилось.");
 		}
 	}
 }

@@ -200,11 +200,9 @@
     <Compile Include="TestFramework\CustomTestContext.cs" />
     <Compile Include="TestFramework\WebElementExtensions.cs" />
     <Compile Include="TestHelpers\AdminHelper.cs" />
-    <Compile Include="TestHelpers\BillingHelper.cs" />
     <Compile Include="TestHelpers\CommonHelper.cs" />
     <Compile Include="TestHelpers\CreateProjectHelper.cs" />
     <Compile Include="TestHelpers\ExportFileHelper.cs" />
-    <Compile Include="TestHelpers\LicenseDialogHelper.cs" />
     <Compile Include="TestHelpers\LingvoDictionariesHelper.cs" />
     <Compile Include="TestHelpers\ProjectGroupsHelper.cs" />
     <Compile Include="TestHelpers\EditorHelper.cs" />

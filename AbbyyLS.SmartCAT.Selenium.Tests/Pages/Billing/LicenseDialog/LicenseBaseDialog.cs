@@ -1,6 +1,5 @@
 ﻿using System;
 
-using NUnit.Framework;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.PageObjects;
 
@@ -25,21 +24,23 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Billing.LicenseDialog
 
 		public new void LoadPage()
 		{
-			if (!Driver.WaitUntilElementIsDisplay(By.XPath(CANCEL_BUTTON)))
+			if (!IsLicenseBaseDialogOpened())
 			{
-				Assert.Fail("Произошла ошибка:\n не открылся основной диалог покупки/обновления/продления пакета лицензий.");
+				throw new Exception("Произошла ошибка:\n не открылся основной диалог покупки/обновления/продления пакета лицензий.");
 			}
 		}
+
+		#region Простые методы страницы
 
 		/// <summary>
 		/// Нажать кнопку Buy
 		/// </summary>
-		public T ClickBuyButton<T>(WebDriver driver) where T : class, IAbstractPage<T>
+		public T ClickBuyButton<T>() where T : class, IAbstractPage<T>
 		{
 			CustomTestContext.WriteLine("Нажать кнопку Buy.");
 			BuyButton.Click();
 
-			var instance = Activator.CreateInstance(typeof(T), new object[] { driver }) as T;
+			var instance = Activator.CreateInstance(typeof(T), new object[] { Driver }) as T;
 			return instance.GetPage();
 		}
 
@@ -49,22 +50,11 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Billing.LicenseDialog
 		public BillingPage ClickCloseButton()
 		{
 			CustomTestContext.WriteLine("Нажать кнопку Close.");
+			Driver.WaitUntilElementIsDisplay(CloseButton);
 			CloseButton.Click();
 			Driver.WaitUntilElementIsDisappeared(By.XPath(CLOSE_BUTTON));
 
 			return new BillingPage(Driver).GetPage();
-		}
-
-		/// <summary>
-		/// Перейти в IFrame платежной системы
-		/// </summary>
-		public LicensePaymentDialog SwitchToPaymentIFrame()
-		{
-			CustomTestContext.WriteLine("Перейти в IFrame платежной системы.");
-			Driver.WaitUntilElementIsDisplay(By.XPath(PAYMENT_IFRAME), 20);
-			Driver.SwitchToIFrame(By.XPath(PAYMENT_IFRAME));
-
-			return new LicensePaymentDialog(Driver).GetPage();
 		}
 
 		/// <summary>
@@ -78,7 +68,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Billing.LicenseDialog
 
 			if (!int.TryParse(price, out result))
 			{
-				Assert.Fail("Произошла ошибка:\n не удалось преобразование суммы доплаты {0} в число.", price);
+				throw new Exception(string.Format("Произошла ошибка:\n не удалось преобразование суммы доплаты {0} в число.", price));
 			}
 
 			return result;
@@ -105,11 +95,45 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Billing.LicenseDialog
 
 			if (!int.TryParse(price, out result))
 			{
-				Assert.Fail("Произошла ошибка:\n не удалось преобразование стоимости текущего пакета лицензий {0} в число.", price);
+				throw  new Exception(string.Format("Произошла ошибка:\n не удалось преобразование стоимости текущего пакета лицензий {0} в число.", price));
 			}
 
 			return result;
 		}
+
+		#endregion
+
+		#region Методы, проверяющие состояние страницы
+
+		/// <summary>
+		/// Проверить, открыт ли основной диалог покупки/обновления/продления пакета лицензий
+		/// </summary>
+		public bool IsLicenseBaseDialogOpened()
+		{
+			CustomTestContext.WriteLine("Проверить, открыт ли основной диалог покупки / обновления / продления пакета лицензий");
+
+			return Driver.WaitUntilElementIsDisplay(By.XPath(CANCEL_BUTTON));
+		}
+
+		#endregion
+
+		#region Вспомогательные методы
+
+		/// <summary>
+		/// Перейти в IFrame платежной системы
+		/// </summary>
+		public LicensePaymentDialog SwitchToPaymentIFrame()
+		{
+			CustomTestContext.WriteLine("Перейти в IFrame платежной системы.");
+			Driver.WaitUntilElementIsDisplay(By.XPath(PAYMENT_IFRAME), 20);
+			Driver.SwitchToIFrame(By.XPath(PAYMENT_IFRAME));
+
+			return new LicensePaymentDialog(Driver).GetPage();
+		}
+
+		#endregion
+
+		#region Объявление элементов страницы
 
 		[FindsBy(How = How.XPath, Using = PACKAGE_PRICE)]
 		protected IWebElement PackagePrice { get; set; }
@@ -126,6 +150,10 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Billing.LicenseDialog
 		[FindsBy(How = How.XPath, Using = PACKAGE_VALIDITY_PERIOD)]
 		protected IWebElement PackagePeriod { get; set; }
 
+		#endregion
+
+		#region Описание XPath элементов
+
 		public const string PACKAGE_PRICE = "//table[@class='t-licenses']//tr[3]/td[2]";
 		public const string ADDITIONAL_PAYMENT = "//tr[@ng-if='ctrl.isIncrease() || ctrl.isProlongation()']//td[2]";
 		public const string CLOSE_BUTTON = "//a[contains(@abb-link-click, 'close')]";
@@ -133,5 +161,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Billing.LicenseDialog
 		public const string BUY_BUTTON_IN_DIALOG = "//div[@class='lic-popup ng-scope']//a[contains(@class, 'danger')]";
 		public const string PAYMENT_IFRAME = "//form[@id='checkoutForm']//iframe";
 		public const string PACKAGE_VALIDITY_PERIOD = "//tr[@ng-if='!ctrl.isBuy()']//td[2]";
+
+		#endregion
 	}
 }

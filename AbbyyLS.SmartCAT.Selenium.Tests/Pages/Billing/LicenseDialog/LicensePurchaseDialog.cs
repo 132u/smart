@@ -1,4 +1,5 @@
-﻿using NUnit.Framework;
+﻿using System;
+
 using OpenQA.Selenium;
 
 using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
@@ -23,10 +24,20 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Billing.LicenseDialog
 
 		public new void LoadPage()
 		{
-			if (!Driver.WaitUntilElementIsDisplay(By.XPath(CALENDAR_CONTROL)))
+			if (!IsLicensePurchaseDialogOpened())
 			{
-				Assert.Fail("Произошла ошибка:\n не открылся диалог покупки лицензий.");
+				throw new Exception("Произошла ошибка:\n не открылся диалог покупки лицензий.");
 			}
+		}
+
+		/// <summary>
+		/// Проверить, открылся ли диалог покупки лицензий
+		/// </summary>
+		public bool IsLicensePurchaseDialogOpened()
+		{
+			CustomTestContext.WriteLine("Проверить, открылся ли диалог покупки лицензий.");
+
+			return Driver.WaitUntilElementIsDisplay(By.XPath(CALENDAR_CONTROL));
 		}
 
 		public const string CALENDAR_CONTROL = "//button[contains(@class, 'calendar')]";

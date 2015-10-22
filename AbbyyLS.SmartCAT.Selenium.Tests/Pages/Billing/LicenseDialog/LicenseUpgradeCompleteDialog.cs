@@ -1,4 +1,5 @@
-﻿using NUnit.Framework;
+﻿using System;
+
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.PageObjects;
 
@@ -23,10 +24,20 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Billing.LicenseDialog
 
 		public new void LoadPage()
 		{
-			if (!Driver.WaitUntilElementIsDisplay(By.XPath(UPGRADE_COMPLETE_DIALOG), timeout: 20))
+			if (!IsLicenseUpgradeCompleteDialogOpened())
 			{
-				Assert.Fail("Произошла ошибка:\n сообщение о завершении обновления пакета лицензий не открылось.");
+				throw new Exception("Произошла ошибка:\n сообщение о завершении обновления пакета лицензий не открылось.");
 			}
+		}
+
+		/// <summary>
+		/// Проверить, открылось ли сообщение о завершении обновления пакета лицензий
+		/// </summary>
+		public bool IsLicenseUpgradeCompleteDialogOpened()
+		{
+			CustomTestContext.WriteLine("Проверить, открылось ли сообщение о завершении обновления пакета лицензий");
+
+			return Driver.WaitUntilElementIsDisplay(By.XPath(UPGRADE_COMPLETE_DIALOG), timeout: 20);
 		}
 
 		[FindsBy(How = How.XPath, Using = EXTEND_DATE)]

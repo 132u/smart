@@ -1,4 +1,5 @@
-﻿using NUnit.Framework;
+﻿using System;
+
 using OpenQA.Selenium;
 
 using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
@@ -22,10 +23,20 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Billing.LicenseDialog
 
 		public new void LoadPage()
 		{
-			if (!Driver.WaitUntilElementIsDisplay(By.XPath(EXTEND_COMPLETE_DIALOG), timeout: 20))
+			if (!IsLicenseExtendCompleteDialogOpened())
 			{
-				Assert.Fail("Произошла ошибка:\n сообщение о завершении продления лицензии не открылось.");
+				throw new Exception("Произошла ошибка:\n сообщение о завершении продления лицензии не открылось.");
 			}
+		}
+
+		/// <summary>
+		/// Проверить, открыт ли диалог завершения продления лицензии
+		/// </summary>
+		public bool IsLicenseExtendCompleteDialogOpened()
+		{
+			CustomTestContext.WriteLine("Проверить, открыт ли диалог завершения продления лицензии");
+
+			return Driver.WaitUntilElementIsDisplay(By.XPath(EXTEND_COMPLETE_DIALOG), timeout: 20);
 		}
 
 		public const string EXTEND_COMPLETE_DIALOG = "//div[contains(@class, 'message-popup ng-scope')]//div[contains(@class, 'content') and (contains(text(), 'Thank you for extending') or contains(text(), 'Спасибо, что продлили'))]";

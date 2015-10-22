@@ -1,4 +1,5 @@
-﻿using NUnit.Framework;
+﻿using System;
+
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.PageObjects;
 
@@ -23,11 +24,13 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Billing.LicenseDialog
 
 		public new void LoadPage()
 		{
-			if (!Driver.WaitUntilElementIsDisplay(By.XPath(NEW_LICENSE_NUMBER), timeout: 20))
+			if (!IsLicenseUpgradeDialogOpened())
 			{
-				Assert.Fail("Произошла ошибка:\n не открылся диалог обновления пакета лицензий.");
+				throw new Exception("Произошла ошибка:\n не открылся диалог обновления пакета лицензий.");
 			}
 		}
+
+		#region Простые методы страницы
 
 		/// <summary>
 		/// Выбрать количество лицензий
@@ -51,19 +54,34 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Billing.LicenseDialog
 			return GetPage();
 		}
 
-		/// <summary>
-		/// Проверить, что текущее количество лицензий отсутствует в дропдауне при апгрейде
-		/// </summary>
-		/// <param name="licenseNumber">текущее количество лицензий</param>
-		public LicenseUpgradeDialog AssertLicenseNumberNotExistInDropdown(int licenseNumber)
-		{
-			CustomTestContext.WriteLine("Проверить, что текущее количество лицензий {0} отсутствует в дропдауне при апгрейде", licenseNumber.ToString());
-			
-			Assert.IsFalse(Driver.GetIsElementExist(By.XPath(NEW_LICENSE_NUMBER_OPTION.Replace("*#*", licenseNumber.ToString()))),
-				"Произошла ошибка:\n текущее количество лицензий {0} присутствует в дропдауне при апргрейде пакета.", licenseNumber);
+		#endregion
 
-			return GetPage();
+		#region Методы, проверяющие состояние страницы
+
+		/// <summary>
+		/// Проверить, существует ли опция с указанным кол-вом лицензий в дропдауне
+		/// </summary>
+		/// <param name="licenseNumber">кол-во лицензий</param>
+		public bool IsLicenseNumberOptionExistInDropdown(int licenseNumber)
+		{
+			OpenLicenseNumberDropdown();
+
+			return Driver.GetIsElementExist(By.XPath(NEW_LICENSE_NUMBER_OPTION.Replace("*#*", licenseNumber.ToString())));
 		}
+
+		/// <summary>
+		/// Проверить, открылся ли диалог обновления пакета лицензий
+		/// </summary>
+		public bool IsLicenseUpgradeDialogOpened()
+		{
+			CustomTestContext.WriteLine("Проверить, открылся ли диалог обновления пакета лицензий");
+
+			return Driver.WaitUntilElementIsDisplay(By.XPath(NEW_LICENSE_NUMBER), timeout: 20);
+		}
+
+		#endregion
+
+		#region Объявление элементов страницы
 
 		[FindsBy(How = How.XPath, Using = CANCEL_BUTTON)]
 		protected IWebElement CancelButton { get; set; }
@@ -77,11 +95,17 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Billing.LicenseDialog
 		[FindsBy(How = How.XPath, Using = LICENSE_NUMBER_IN_PACKAGE)]
 		protected IWebElement LicenseNumberInPackage { get; set; }
 
+		#endregion
+
+		#region Описание XPath елементов
+
 		public const string LICENSE_NUMBER_IN_PACKAGE = "//table[@class='t-licenses']//td[contains(text(),'Количество лицензий') or contains(text(),'Number of Licenses')]/following-sibling::td";
 		public const string NEW_LICENSE_NUMBER = "//tr[contains(@ng-if, 'ctrl.isIncrease')]//select[contains(@ng-options, 'option.amount')]";
 		public new const string CANCEL_BUTTON = "//div[@class='lic-popup ng-scope']//a[contains(@abb-link-click, 'close') and contains(@class, 'btn')]";
 		public new const string LICENSE_NUMBER = "//select[contains(@class, 'ng-pristine ng-untouched ng-valid')]";
 		public const string UPGRADE_LICENSE_NUMBER = "//select[contains(@class, 'ng-pristine ng-untouched ng-valid')]";
 		public const string NEW_LICENSE_NUMBER_OPTION = "//tr[contains(@ng-if, 'ctrl.isIncrease')]//select[contains(@ng-options, 'option.amount')]//option[@label='*#*']";
+
+		#endregion
 	}
 }

@@ -2,6 +2,7 @@
 
 using AbbyyLS.SmartCAT.Selenium.Tests.DataStructures;
 using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
+using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Billing.LicenseDialog;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Billing
 {
@@ -11,13 +12,17 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Billing
 		[SetUp]
 		public void SetUpBillingTests()
 		{
-			LicenseDialogHelper
-				.OpenLicensePurchaseDialog(_licenseNumber, _period)
-				.ClickBuyButtonInDialog(trial: true)
-				.CloseTrialDialog()
+			BillingPage.OpenLicensePurchaseDialog(_licenseNumber, _period);
+
+			LicensePurchaseDialog.ClickBuyButton<LicenseTrialDialog>();
+
+			LicenseTrialDialog.ClickContinueInTrialDialog();
+
+			LicensePaymentDialog
 				.FillCreditCardData()
-				.ClickPayButton()
-				.CloseCompleteDialog();
+				.ClickPayButton<LicensePurchaseCompleteDialog>();
+
+			LicensePurchaseCompleteDialog.ClickCloseButton();
 		}
 
 		[Test]
@@ -25,15 +30,23 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Billing
 		{
 			var newlicenseCount = 20;
 
-			LicenseDialogHelper
-				.OpenLicenseUpgradeDialog()
-				.AssertCurrentLicenseNumberOptionNotExistInDropdown(_licenseNumber)
-				.SelectNewLicenseNumber(newlicenseCount)
-				.ClickBuyButtonInDialog()
+			BillingPage.ClickUpgradeButton();
+
+			Assert.IsFalse(LicenseUpgradeDialog.IsLicenseNumberOptionExistInDropdown(_licenseNumber),
+				"Произошла ошибка:\n текущее количество лицензий {0} присутствует в дропдауне при апргрейде пакета.", _licenseNumber);
+
+			LicenseUpgradeDialog
+				.SelectLiceneQuantityToUpgrade(newlicenseCount)
+				.ClickBuyButton<LicenseBaseDialog>();
+
+			LicensePaymentDialog
 				.FillCreditCardData()
-				.ClickPayButton(LicenseOperation.Upgrade)
-				.CloseCompleteDialog()
-				.AssertLicensesCountChanged(newlicenseCount);
+				.ClickPayButton<LicenseUpgradeCompleteDialog>();
+
+			LicensePurchaseCompleteDialog.ClickCloseButton();
+
+			Assert.IsTrue(BillingPage.IsLicensesCountChanged(newlicenseCount),
+				"Произошла ошибка:\n количество лицензий в пакете не соответствует ожидаемому.");
 		}
 
 		[Test]
@@ -42,38 +55,57 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Billing
 			var firstLicenseCount = 20;
 			var secondLicenseCount = 30;
 
-			LicenseDialogHelper
-				.OpenLicenseUpgradeDialog()
-				.AssertCurrentLicenseNumberOptionNotExistInDropdown(_licenseNumber)
-				.SelectNewLicenseNumber(firstLicenseCount)
-				.ClickBuyButtonInDialog()
+			BillingPage.ClickUpgradeButton();
+
+			LicenseUpgradeDialog
+				.SelectLiceneQuantityToUpgrade(firstLicenseCount)
+				.ClickBuyButton<LicenseBaseDialog>();
+
+			LicensePaymentDialog
 				.FillCreditCardData()
-				.ClickPayButton(LicenseOperation.Upgrade)
-				.CloseCompleteDialog()
-				.AssertLicensesCountChanged(firstLicenseCount)
-				.OpenLicenseUpgradeDialog()
-				.SelectNewLicenseNumber(secondLicenseCount)
-				.ClickBuyButtonInDialog()
+				.ClickPayButton<LicenseUpgradeCompleteDialog>();
+
+			LicensePurchaseCompleteDialog.ClickCloseButton();
+
+			Assert.IsTrue(BillingPage.IsLicensesCountChanged(firstLicenseCount),
+				"Произошла ошибка:\n количество лицензий в пакете не соответствует ожидаемому.");
+
+			BillingPage.ClickUpgradeButton();
+
+			LicenseUpgradeDialog
+				.SelectLiceneQuantityToUpgrade(secondLicenseCount)
+				.ClickBuyButton<LicenseBaseDialog>();
+
+			LicensePaymentDialog
 				.FillCreditCardData()
-				.ClickPayButton(LicenseOperation.Upgrade)
-				.CloseCompleteDialog()
-				.AssertLicensesCountChanged(secondLicenseCount);
+				.ClickPayButton<LicenseUpgradeCompleteDialog>();
+
+			LicensePurchaseCompleteDialog.ClickCloseButton();
+
+			Assert.IsTrue(BillingPage.IsLicensesCountChanged(secondLicenseCount),
+				"Произошла ошибка:\n количество лицензий в пакете не соответствует ожидаемому.");
 		}
 
 		[Test]
 		public void ExtendLicenseTest()
 		{
-			var endDateBeforeExtend = BillingHelper.GetEndDate();
+			var endDateBeforeExtend = BillingPage.GetEndDate();
 			var months = Period.ThreeMonth;
 
-			LicenseDialogHelper
-				.OpenLicenseExtendDialog()
-				.SelectDuration(months)
-				.ClickBuyButtonInDialog()
+			BillingPage.ClickExtendButton();
+
+			LicenseExtendDialog
+				.SelectExtendDuration(months)
+				.ClickBuyButton<LicenseBaseDialog>();
+
+			LicensePaymentDialog
 				.FillCreditCardData()
-				.ClickPayButton(LicenseOperation.Extend)
-				.CloseCompleteDialog()
-				.AssertEndDateChanged(endDateBeforeExtend.AddMonths((int)months));
+				.ClickPayButton<LicenseExtendCompleteDialog>();
+
+			LicensePurchaseCompleteDialog.ClickCloseButton();
+
+			Assert.AreEqual(BillingPage.GetEndDate(), endDateBeforeExtend.AddMonths((int)months),
+				"Произошла ошибка:\n срок действия пакета лицензий не соответствует ожидаемому.");
 		}
 
 		[Test]
@@ -81,63 +113,94 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Billing
 		{
 			var firstDuration = Period.ThreeMonth;
 			var secondDuration = Period.SixMonth;
-			var endDateBeforeFirstExtend = BillingHelper.GetEndDate();
+			var endDateBeforeFirstExtend = BillingPage.GetEndDate();
 			var endDateBeforeSecondExtend = endDateBeforeFirstExtend.AddMonths((int)firstDuration);
 			
-			LicenseDialogHelper
-				.OpenLicenseExtendDialog()
-				.SelectDuration(firstDuration)
-				.ClickBuyButtonInDialog()
+			BillingPage.ClickExtendButton();
+
+			LicenseExtendDialog
+				.SelectExtendDuration(firstDuration)
+				.ClickBuyButton<LicenseBaseDialog>();
+
+			LicensePaymentDialog
 				.FillCreditCardData()
-				.ClickPayButton(LicenseOperation.Extend)
-				.CloseCompleteDialog()
-				.AssertEndDateChanged(endDateBeforeSecondExtend)
-				.OpenLicenseExtendDialog()
-				.SelectDuration(secondDuration)
-				.ClickBuyButtonInDialog()
+				.ClickPayButton<LicenseExtendCompleteDialog>();
+
+			LicensePurchaseCompleteDialog.ClickCloseButton();
+
+			BillingPage.ClickExtendButton();
+
+			LicenseExtendDialog
+				.SelectExtendDuration(secondDuration)
+				.ClickBuyButton<LicenseBaseDialog>();
+
+			LicensePaymentDialog
 				.FillCreditCardData()
-				.ClickPayButton(LicenseOperation.Extend)
-				.CloseCompleteDialog()
-				.AssertEndDateChanged(endDateBeforeSecondExtend.AddMonths((int)secondDuration));
+				.ClickPayButton<LicenseExtendCompleteDialog>();
+
+			LicensePurchaseCompleteDialog.ClickCloseButton();
+
+			Assert.AreEqual(BillingPage.GetEndDate(), endDateBeforeSecondExtend.AddMonths((int)secondDuration),
+				"Произошла ошибка:\n срок действия пакета лицензий не соответствует ожидаемому.");
 		}
 
 		[Test]
 		public void AdditionalPaymentUpgradeTest()
 		{
 			var newLisenceNumber = 30;
-			var packagePriceForNewPackage = LicenseDialogHelper.PackagePrice(_period, newLisenceNumber);
+			var packagePriceForNewPackage = BillingPage.PackagePrice(_period, newLisenceNumber);
 
-			LicenseDialogHelper
-				.OpenLicenseUpgradeDialog()
-				.SelectNewLicenseNumber(newLisenceNumber)
-				.AssertAdditionalPaymentIsCorrect(packagePriceForNewPackage, _period);
+			BillingPage.ClickUpgradeButton();
+
+			LicenseUpgradeDialog.SelectLiceneQuantityToUpgrade(newLisenceNumber);
+
+			var packageValidityPeriod = LicenseBaseDialog.PackageValidityPeriod();
+			var additionalPayment = LicenseBaseDialog.GetAdditionalPayment();
+			var currentPackagePrice = LicenseBaseDialog.CurrentPackagePrice();
+			var expectedAdditionalPayment = BillingPage.CalculateAdditionalPayment(
+				currentPackagePrice, packagePriceForNewPackage, _period, packageValidityPeriod);
+
+			Assert.AreEqual(expectedAdditionalPayment, additionalPayment,
+				"Произошла ошибка:\n дополнительная сумма оплаты при апгрейде пакета вычислена неверно.");
 		}
 
 		[Test]
 		public void AdditionalPaymentExtendTest()
 		{
 			var extendPeriod = Period.TwelveMonth;
-			var packagePriceForExtendPackage = LicenseDialogHelper.PackagePrice(extendPeriod, _licenseNumber);
+			var packagePriceForExtendPackage = BillingPage.PackagePrice(extendPeriod, _licenseNumber);
 
-			LicenseDialogHelper
-				.OpenLicenseExtendDialog()
-				.SelectDuration(extendPeriod)
-				.AdditionalPaymentForPackageExtend(packagePriceForExtendPackage);
+			BillingPage.ClickExtendButton();
+			
+			LicenseExtendDialog.SelectExtendDuration(extendPeriod);
+
+			var additionalPayment = LicenseBaseDialog.GetAdditionalPayment();
+
+			Assert.AreEqual(packagePriceForExtendPackage, additionalPayment,
+				"Произошла ошибка:\n дополнительная сумма оплаты при продлении пакета вычислена неверно.");
 		}
 
 		[TestCase(Language.Russian, Language.English, "руб", "$")]
 		[TestCase(Language.English, Language.Russian, "$", "руб")]
 		public void LocaleCurrencyInTableTest(Language firstLanguage, Language secondLanguage, string firstCurrency, string secondCurrency)
 		{
-			BillingHelper
-				.GoToWorkspace()
+			BillingPage.ClickLogo();
+
+			WorkspaceHelper
 				.SelectLocale(firstLanguage)
-				.GoToBillingPage()
-				.AssertCurrencyMatchInPurchaseTable(firstCurrency)
-				.GoToWorkspace()
+				.GoToBillingPage();
+
+			Assert.IsTrue(BillingPage.IsCurrencyInPurchaseTable(firstCurrency),
+				"Произошла ошибка:\n валюта {0} не совпадает с валютой в таблице {1}", firstCurrency);
+
+			BillingPage.ClickLogo();
+
+			WorkspaceHelper
 				.SelectLocale(secondLanguage)
-				.GoToBillingPage()
-				.AssertCurrencyMatchInPurchaseTable(secondCurrency);
+				.GoToBillingPage();
+
+			Assert.IsTrue(BillingPage.IsCurrencyInPurchaseTable(secondCurrency),
+				"Произошла ошибка:\n валюта {0} не совпадает с валютой в таблице {1}", firstCurrency);
 		}
 
 		private int _licenseNumber = 5;

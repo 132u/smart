@@ -1,4 +1,5 @@
-﻿using NUnit.Framework;
+﻿using System;
+
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.PageObjects;
 
@@ -24,9 +25,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Billing.LicenseDialog
 
 		public new void LoadPage()
 		{
-			if (!Driver.WaitUntilElementIsDisplay(By.XPath(EXTEND_HEADER)))
+			if (!IsLicenseExtendDialogOpened())
 			{
-				Assert.Fail("Произошла ошибка:\n не открылся диалог продления пакета лицензий.");
+				throw new Exception("Произошла ошибка:\n не открылся диалог продления пакета лицензий.");
 			}
 		}
 
@@ -41,6 +42,16 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Billing.LicenseDialog
 			ExtendPeriod.SelectOptionByText((int)duration + " months");
 
 			return GetPage();
+		}
+
+		/// <summary>
+		/// Проверить, открыт ли диалог продления пакета лицензий
+		/// </summary>
+		public bool IsLicenseExtendDialogOpened()
+		{
+			CustomTestContext.WriteLine("");
+
+			return Driver.WaitUntilElementIsDisplay(By.XPath(EXTEND_HEADER));
 		}
 
 		[FindsBy(How = How.XPath, Using = EXTEND_PERIOD)]

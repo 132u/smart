@@ -3,6 +3,7 @@ using System.Threading;
 
 using AbbyyLS.SmartCAT.Selenium.Tests.DataStructures;
 using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
+using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Billing;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Client;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace;
@@ -148,7 +149,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 			return new UsersRightsHelper(Driver);
 		}
 
-		public BillingHelper GoToBillingPage()
+		public BillingPage GoToBillingPage()
 		{
 			BaseObject.InitPage(_workspacePage, Driver);
 			BaseObject.InitPage(_projectsPage, Driver);
@@ -159,7 +160,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 				.ClickLicenseAndServices()
 				.SwitchToLicenseAndServicesWindow();
 
-			return new BillingHelper(Driver);
+			return new BillingPage(Driver).GetPage();
 		}
 
 		public WorkspaceHelper SelectLocale(Language language)
