@@ -23,7 +23,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.InitialData
 		}
 
 		[Test]
-		[ApiIntegration]
 		public void CreateCorporateAccount()
 		{
 			_adminHelper
