@@ -1,1 +1,0 @@
-db.Integration.ClientAuth.save({_id: "SmartCAT", type: "SmartCAT", secretHash: "IygQoaM0EIO8RVLs4KWJvcqbOj76TaA1SFqMCD4HohnmTgupEdvLnSUNzxl/dhAWujCjdMEMT0C3k3NQRJsFug=="});
