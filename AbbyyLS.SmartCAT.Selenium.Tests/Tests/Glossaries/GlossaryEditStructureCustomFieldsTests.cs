@@ -120,7 +120,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 				.AssertExtendTermsCountMatch(expectedTermCount: 1);
 		}
 
-		[Test, Explicit("Тест исключен из-за баги SCAT-559")]
+		[Test, Explicit("Тест исключен из-за баги PRX-10924")]
 		public void AddMediaFieldTest()
 		{
 			var fieldName = "MediaField";
@@ -141,7 +141,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 				.AssertExtendTermsCountMatch(expectedTermCount: 1);
 		}
 
-		[Test, Explicit("Тест исключен из-за баги SCAT-559")]
+		[Test, Explicit("Тест исключен из-за баги PRX-10924")]
 		public void AddMediaRequiredFieldTest()
 		{
 			var fieldName = "MediaRequiredField";
@@ -165,7 +165,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 				.AssertExtendTermsCountMatch(expectedTermCount: 1);
 		}
 
-		[Test, Explicit("Тест исключен из-за баги SCAT-559")]
+		[Test, Explicit("Тест исключен из-за баги PRX-10924")]
 		public void AddImageFieldTest()
 		{
 			var fieldName = "ImageField";
@@ -187,7 +187,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 				.AssertExtendTermsCountMatch(expectedTermCount: 1);
 		}
 
-		[Test, Explicit("Тест исключен из-за баги SCAT-559")]
+		[Test, Explicit("Тест исключен из-за баги PRX-10924")]
 		public void AddImageRequiredFieldTest()
 		{
 			var fieldName = "ImageField";
