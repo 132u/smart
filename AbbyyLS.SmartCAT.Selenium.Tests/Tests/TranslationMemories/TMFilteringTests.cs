@@ -5,6 +5,7 @@ using NUnit.Framework;
 using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
 using AbbyyLS.SmartCAT.Selenium.Tests.DataStructures;
 using AbbyyLS.SmartCAT.Selenium.Tests.FeatureAttributes;
+using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Client;
 using AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.TranslationMemories
@@ -19,6 +20,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.TranslationMemories
 			_loginHelper = new LoginHelper(Driver);
 			_translationMemoriesHelper = new TranslationMemoriesHelper(Driver);
 			_workspaceHelper = new WorkspaceHelper(Driver);
+			_clientsPage = new ClientsPage(Driver);
 
 			_projectGroupName_1 = Guid.NewGuid().ToString();
 			_projectGroupName_2 = Guid.NewGuid().ToString();
@@ -30,7 +32,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.TranslationMemories
 				.CreateProjectGroup(_projectGroupName_1)
 				.CreateProjectGroup(_projectGroupName_2)
 				.GoToClientsPage();
-			ClientsPage
+			_clientsPage
 				.CreateNewClient(_clientName_1)
 				.CreateNewClient(_clientName_2);
 			_workspaceHelper
@@ -252,6 +254,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.TranslationMemories
 		private WorkspaceHelper _workspaceHelper;
 		private LoginHelper _loginHelper;
 		private TranslationMemoriesHelper _translationMemoriesHelper;
+		private ClientsPage _clientsPage;
 
 		private string _tmForFilteringName_1 = "TmForFiltering_First";
 		private string _tmForFilteringName_2 = "TmForFiltering_Second";
