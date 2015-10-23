@@ -1,5 +1,4 @@
-﻿using NUnit.Framework;
-using OpenQA.Selenium;
+﻿using OpenQA.Selenium;
 using OpenQA.Selenium.Support.PageObjects;
 
 using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
@@ -14,6 +13,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Login
 		public LinkedInPage(WebDriver driver)
 		{
 			Driver = driver;
+			PageFactory.InitElements(Driver, this);
 		}
 
 		public LinkedInPage GetPage()
@@ -26,11 +26,13 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Login
 
 		public void LoadPage()
 		{
-			if (!Driver.WaitUntilElementIsDisplay(By.XPath(LINKED_IN_HEADER)))
+			if (!IsLinkedInPageOpened())
 			{
-				Assert.Fail("Произошла ошибка:\n не загрузилась страница LinkedInPage (вход в LinkedIn).");
+				throw new XPathLookupException("Произошла ошибка:\n не загрузилась страница LinkedInPage (вход в LinkedIn).");
 			}
 		}
+
+		#region Простые методы страницы
 
 		/// <summary>
 		/// Ввести email
@@ -70,6 +72,42 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Login
 			return new SelectAccountForm(Driver).GetPage();
 		}
 
+		#endregion
+
+		#region Составные методы страницы
+
+		/// <summary>
+		/// Заполнить форму авторизации
+		/// </summary>
+		/// <param name="email">email</param>
+		/// <param name="password">пароль</param>
+		public SelectAccountForm SubmitForm(string email, string password)
+		{
+			SetEmail(email);
+			SetPassword(password);
+			var selectAccountForm = ClickSubmitButton();
+
+			return selectAccountForm;
+		}
+
+		#endregion
+
+		#region Методы, проверяющие состояние страницы
+
+		/// <summary>
+		/// Проверить, открыта ли страница авторизации LinkedIn
+		/// </summary>
+		public bool IsLinkedInPageOpened()
+		{
+			CustomTestContext.WriteLine("Проверить, открыта ли страница авторизации LinkedIn.");
+
+			return Driver.WaitUntilElementIsDisplay(By.XPath(LINKED_IN_HEADER));
+		}
+
+		#endregion
+
+		#region Объявление элементов страницы
+
 		[FindsBy(How = How.XPath, Using = EMAIL)]
 		protected IWebElement Email { get; set; }
 
@@ -79,9 +117,15 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Login
 		[FindsBy(How = How.XPath, Using = SUBMIT_BUTTON)]
 		protected IWebElement SubmitButton { get; set; }
 
+		#endregion
+
+		#region Описание Xpath элементов
+
 		protected const string PASSWORD = "//input[@id='session_password-oauth2SAuthorizeForm']";
 		protected const string EMAIL = "//input[@id='session_key-oauth2SAuthorizeForm']";
 		protected const string SUBMIT_BUTTON = "//input[@class='allow']";
 		protected const string LINKED_IN_HEADER = "//div[@class='logo' and text()='LinkedIn']";
+
+		#endregion
 	}
 }

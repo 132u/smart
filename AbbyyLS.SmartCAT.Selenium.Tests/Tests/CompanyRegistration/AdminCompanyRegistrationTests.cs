@@ -5,7 +5,9 @@ using NUnit.Framework;
 using AbbyyLS.SmartCAT.Selenium.Tests.DataStructures;
 using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
 using AbbyyLS.SmartCAT.Selenium.Tests.FeatureAttributes;
+using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Login;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Registration;
+using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace;
 using AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.CompanyRegistration
@@ -31,6 +33,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.CompanyRegistration
 			_workspaceHelper = new WorkspaceHelper(Driver);
 
 			int _companyNameMaxLenght = 40;
+
+			_signInPage = new SignInPage(Driver);
+			_workspacePage = new WorkspacePage(Driver);
 
 			_accountUniqueName = "AccountUniqueName" + Guid.NewGuid().ToString().Substring(0, 5);
 			_email = Guid.NewGuid().ToString().Substring(0, 8) + "@mailforspam.com";
@@ -147,10 +152,17 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.CompanyRegistration
 			_workspaceHelper
 				.CloseTour()
 				.AssertUserNameAndAccountNameCorrect(_firstName + " " + _lastName, _companyName)
-				.SignOut()
-				.SignIn(_email, _password)
-				.SelectAccount(_companyName)
-				.AssertUserNameAndAccountNameCorrect(_firstName + " " + _lastName, _companyName);
+				.SignOut();
+
+			_signInPage
+				.SubmitForm(_email, _password)
+				.SelectAccount(_companyName);
+
+			Assert.IsTrue(_workspacePage.IsNickNameMatch(_firstName + " " + _lastName),
+				"Произошла ошибка:\n имя пользователя в черной плашке не совпадает с ожидаемым именем.");
+
+			Assert.IsTrue(_workspacePage.IsAccountNameMatch(_companyName),
+				"Произошла ошибка:\n название аккаунта в черной плашке не совпадает с ожидаемым именем.");
 		}
 
 		private string _accountUniqueName;
@@ -168,5 +180,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.CompanyRegistration
 		private CompanyRegistrationFirstPage _companyRegistrationFirstPage;
 		private CompanyRegistrationSecondPage _companyRegistrationSecondPage;
 		private CompanyRegistrationSignInPage _companyRegistrationSignInPage;
+
+		private SignInPage _signInPage;
+		private WorkspacePage _workspacePage;
 	}
 }

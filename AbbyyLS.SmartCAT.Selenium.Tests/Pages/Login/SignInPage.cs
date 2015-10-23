@@ -1,7 +1,4 @@
-﻿using System;
-
-using NUnit.Framework;
-using OpenQA.Selenium;
+﻿using OpenQA.Selenium;
 using OpenQA.Selenium.Support.PageObjects;
 
 using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
@@ -16,6 +13,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Login
 		public SignInPage(WebDriver driver)
 		{
 			Driver = driver;
+			PageFactory.InitElements(Driver, this);
 		}
 
 		public SignInPage GetPage()
@@ -28,11 +26,13 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Login
 
 		public void LoadPage()
 		{
-			if (!Driver.WaitUntilElementIsDisplay(By.XPath(LOGIN_FORM_XPATH)))
+			if (!IsSignInPageOpened())
 			{
-				Assert.Fail("Произошла ошибка:\n не загрузилась страница SignInPage (вход в смарткат).");
+				throw new XPathLookupException("Произошла ошибка:\n не загрузилась страница SignInPage (вход в смарткат).");
 			}
 		}
+
+		#region Простые методы страницы
 
 		/// <summary>
 		/// Ввести логин
@@ -61,64 +61,27 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Login
 		}
 
 		/// <summary>
-		/// Проверить, что на странице появилось сообщение о неправильном пароле
-		/// </summary>
-		public SignInPage CheckWrongPasswordMessageDisplayed()
-		{
-			CustomTestContext.WriteLine("Проверить, что на странице появилось сообщение о неправильном пароле.");
-
-			Assert.IsTrue(Driver.WaitUntilElementIsDisplay(By.XPath(ERROR_WRONG_PASSWORD), 5));
-
-			return GetPage();
-		}
-
-		/// <summary>
-		/// Проверить, что на странице появилось сообщение о ненайденном пользователе
-		/// </summary>
-		public SignInPage CheckUserNotFoundMessageDisplayed()
-		{
-			CustomTestContext.WriteLine("Проверить, что на странице появилось сообщение о ненайденном пользователе.");
-
-			Assert.IsTrue(Driver.WaitUntilElementIsDisplay(By.XPath(ERROR_USER_NOT_FOUND), 5));
-
-			return GetPage();
-		}
-
-		/// <summary>
-		/// Проверить, что на странице появилось сообщение о незаполненном пароле
-		/// </summary>
-		public SignInPage CheckEmptyPasswordMessageDisplayed()
-		{
-			CustomTestContext.WriteLine("Проверить, что на странице появилось сообщение о незаполненном пароле.");
-
-			Assert.IsTrue(Driver.WaitUntilElementIsDisplay(By.XPath(ERROR_EMPTY_PASSWORD), 5));
-
-			return GetPage();
-		}
-
-		/// <summary>
-		/// Проверить, что на странице появилось сообщение о невалидном email
-		/// </summary>
-		public SignInPage CheckInvalidEmailMessageDisplayed()
-		{
-			CustomTestContext.WriteLine("Проверить, что на странице появилось сообщение о невалидном email.");
-
-			Assert.IsTrue(Driver.WaitUntilElementIsDisplay(By.XPath(ERROR_EMAIL_INVALID), 5));
-
-			return GetPage();
-		}
-
-		/// <summary>
 		/// Нажать кнопку "Sign In"
 		/// </summary>
-		public T ClickSubmitButton<T>(WebDriver driver) where T : class, IAbstractPage<T>
+		public SelectAccountForm ClickSubmitButton()
 		{
 			CustomTestContext.WriteLine("Нажать 'Sign In'.");
 
 			SubmitButton.JavaScriptClick();
 
-			var instance = Activator.CreateInstance(typeof(T), new object[] { driver }) as T;
-			return instance.GetPage();
+			return new SelectAccountForm(Driver).GetPage();
+		}
+
+		/// <summary>
+		/// Нажать кнопку "Sign In" ожидая сообщение об ошибке
+		/// </summary>
+		public SignInPage ClickSubmitButtonExpectingError()
+		{
+			CustomTestContext.WriteLine("Нажать 'Sign In'.");
+
+			SubmitButton.JavaScriptClick();
+
+			return GetPage();
 		}
 
 		/// <summary>
@@ -157,6 +120,82 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Login
 			return new LinkedInPage(Driver).GetPage();
 		}
 
+		#endregion
+
+		#region Составные методы страницы
+
+		/// <summary>
+		/// Авторизация
+		/// </summary>
+		/// <param name="login">логин (email)</param>
+		/// <param name="password">пароль</param>
+		public SelectAccountForm SubmitForm(string login, string password)
+		{
+			SetLogin(login);
+			SetPassword(password);
+			ClickSubmitButton();
+
+			return new SelectAccountForm(Driver).GetPage();
+		}
+
+		#endregion
+
+		#region Методы, проверяющие состояние страницы
+
+		/// <summary>
+		/// Проверить, что на странице появилось сообщение о неправильном пароле
+		/// </summary>
+		public bool IsWrongPasswordMessageDisplayed()
+		{
+			CustomTestContext.WriteLine("Проверить, что на странице появилось сообщение о неправильном пароле.");
+
+			return Driver.WaitUntilElementIsDisplay(WrongPasswordMessage);
+		}
+
+		/// <summary>
+		/// Проверить, что на странице появилось сообщение о ненайденном пользователе
+		/// </summary>
+		public bool IsUserNotFoundMessageDisplayed()
+		{
+			CustomTestContext.WriteLine("Проверить, что на странице появилось сообщение о ненайденном пользователе.");
+
+			return Driver.WaitUntilElementIsDisplay(UserNotFoundMessage);
+		}
+
+		/// <summary>
+		/// Проверить, что на странице появилось сообщение о незаполненном пароле
+		/// </summary>
+		public bool IsEmptyPasswordMessageDisplayed()
+		{
+			CustomTestContext.WriteLine("Проверить, что на странице появилось сообщение о незаполненном пароле.");
+
+			return Driver.WaitUntilElementIsDisplay(EmptyPasswordMessage);
+		}
+
+		/// <summary>
+		/// Проверить, что на странице появилось сообщение о невалидном email
+		/// </summary>
+		public bool IsInvalidEmailMessageDisplayed()
+		{
+			CustomTestContext.WriteLine("Проверить, что на странице появилось сообщение о невалидном email.");
+
+			return Driver.WaitUntilElementIsDisplay(InvalidEmailMessage);
+		}
+
+		/// <summary>
+		/// Проверить, открыта ли станица авторизации
+		/// </summary>
+		public bool IsSignInPageOpened()
+		{
+			CustomTestContext.WriteLine("Проверить, открыта ли станица авторизации.");
+
+			return Driver.WaitUntilElementIsDisplay(By.XPath(LOGIN_FORM_XPATH));
+		}
+
+		#endregion
+
+		#region Объявление элементов страницы
+
 		[FindsBy(Using = EMAIL_INPUT_ID)]
 		protected IWebElement Login { get; set; }
 
@@ -193,6 +232,10 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Login
 		[FindsBy(How = How.XPath, Using = SIGN_UP_COMPANY_BTN)]
 		protected IWebElement SignUpAsCompanyButton { get; set; }
 
+		#endregion
+
+		#region Описание XPath элементов
+
 		protected const string LOGIN_FORM_XPATH = "//form[contains(@class, 'corp-login-form')]";
 
 		protected const string EMAIL_INPUT_ID = "email";
@@ -210,5 +253,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Login
 
 		protected const string SIGN_UP_FREELANCE_BTN = "//a[@translate='FREELANCE']";
 		protected const string SIGN_UP_COMPANY_BTN = "//a[@translate='CORPORATE']";
+
+		#endregion
 	}
 }

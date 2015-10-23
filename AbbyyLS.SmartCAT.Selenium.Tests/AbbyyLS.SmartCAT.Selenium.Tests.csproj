@@ -86,8 +86,6 @@
     <Compile Include="DataStructures\MachineTranslationType.cs" />
     <Compile Include="DataStructures\Period.cs" />
     <Compile Include="DataStructures\RightsType.cs" />
-    <Compile Include="DataStructures\SignInErrorMessageType.cs" />
-    <Compile Include="DataStructures\SocialNetworks.cs" />
     <Compile Include="DataStructures\SegmentType.cs" />
     <Compile Include="DataStructures\StartPage.cs" />
     <Compile Include="DataStructures\LicenseOperation.cs" />

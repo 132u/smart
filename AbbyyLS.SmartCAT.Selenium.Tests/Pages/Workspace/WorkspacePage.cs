@@ -217,7 +217,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace
 		/// <summary>
 		/// Смена языка локали
 		/// </summary>
-		public WorkspacePage SelectLocale(Language language)
+		public WorkspacePage SelectLocale(Language language = Language.English)
 		{
 			CustomTestContext.WriteLine("Сменить язык локали на {0}, если необходимо.", language);
 			// Sleep нужен для предотвращения ошибки "unknown error: Element is not clickable at point"
@@ -251,7 +251,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace
 		/// <summary>
 		/// Закрыть подсказку (если она открыта) сразу после входа в SmartCAT
 		/// </summary>
-		public WorkspacePage ClickCloseHelp()
+		public WorkspacePage CloseHelpIfOpened()
 		{
 			CustomTestContext.WriteLine("Проверить, открыта ли подсказка при входе в SmartCAT.");
 
@@ -259,8 +259,10 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace
 			{
 				CustomTestContext.WriteLine("Закрыть окно подсказки сразу после входа в SmartCAT");
 				CloseHelpButton.Click();
+				Driver.WaitUntilElementIsDisappeared(By.XPath(DIALOG_BACKGROUND));
 			}
 
+			
 			return GetPage();
 		}
 
@@ -353,6 +355,20 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace
 		}
 
 		/// <summary>
+		/// Проверить, что имя пользователя в черной плашке совпадает с ожидаемым
+		/// </summary>
+		/// <param name="expectedUserName">ожидаемое имя</param>
+		public bool IsNickNameMatch(string expectedUserName)
+		{
+			var userName = currentUserName();
+
+			CustomTestContext.WriteLine("Проверить, что имя {0} пользователя в черной плашке совпадает с ожидаемым именем {1}.",
+				userName, expectedUserName);
+
+			return userName == expectedUserName;
+		}
+
+		/// <summary>
 		/// Проверить, что название аккаунта в черной плашке совпадает с ожидаемым
 		/// </summary>
 		/// <param name="expectedAccountName">ожидаемое имя</param>
@@ -365,6 +381,18 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace
 				"Произошла ошибка:\n название аккаунта в черной плашке не совпадает с ожидаемым именем.");
 
 			return GetPage();
+		}
+
+		/// <summary>
+		/// Проверить, что название аккаунта в черной плашке совпадает с ожидаемым
+		/// </summary>
+		/// <param name="expectedAccountName">ожидаемое имя</param>
+		public bool IsAccountNameMatch(string expectedAccountName)
+		{
+			CustomTestContext.WriteLine("Проверить, что название {0} аккаунта в черной плашке совпадает с ожидаемым именем {1}.",
+				currentAccount(), expectedAccountName);
+
+			return currentAccount() == expectedAccountName;
 		}
 
 		/// <summary>

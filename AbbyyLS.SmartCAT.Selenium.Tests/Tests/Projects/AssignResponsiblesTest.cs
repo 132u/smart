@@ -9,6 +9,7 @@ using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
 using AbbyyLS.SmartCAT.Selenium.Tests.FeatureAttributes;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.DocumentUploadDialog;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings;
+using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Login;
 using AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
@@ -31,6 +32,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 			_projectUniqueName = _createProjectHelper.GetProjectUniqueName();
 			_additionalUser = TakeUser(ConfigurationManager.AdditionalUsers);
 
+			_signInPage = new SignInPage(Driver);
 			_documentUploadGeneralInformationDialog = new DocumentUploadGeneralInformationDialog(Driver);
 			_documentUploadSetUpTMDialog = new DocumentUploadSetUpTMDialog(Driver);
 		}
@@ -260,8 +262,10 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 				.OpenDocument<EditorPage>(Path.GetFileNameWithoutExtension(PathProvider.EditorTxtFile))
 				.AssertStageNameIsEmpty()
 				.ClickHomeButton()
-				.SignOut()
-				.SignIn(_additionalUser.Login, _additionalUser.Password);
+				.SignOut();
+
+			_signInPage
+				.SubmitForm(_additionalUser.Login, _additionalUser.Password);
 
 			_projectsHelper
 				.GoToProjectSettingsPage(_projectUniqueName)
@@ -338,5 +342,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 
 		private DocumentUploadGeneralInformationDialog _documentUploadGeneralInformationDialog;
 		private DocumentUploadSetUpTMDialog _documentUploadSetUpTMDialog;
+		private SignInPage _signInPage;
 	}
 }

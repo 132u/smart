@@ -1,5 +1,4 @@
-﻿using NUnit.Framework;
-using OpenQA.Selenium;
+﻿using OpenQA.Selenium;
 using OpenQA.Selenium.Support.PageObjects;
 
 using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
@@ -14,6 +13,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Login
 		public FacebookPage(WebDriver driver)
 		{
 			Driver = driver;
+			PageFactory.InitElements(Driver, this);
 		}
 
 		public FacebookPage GetPage()
@@ -26,11 +26,13 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Login
 
 		public void LoadPage()
 		{
-			if (!Driver.WaitUntilElementIsDisplay(By.XPath(SUBMIT_BUTTON)))
+			if (!IsFaceBookPageOpened())
 			{
-				Assert.Fail("Произошла ошибка:\n не загрузилась страница FacebookPage (вход в Facebook).");
+				throw new XPathLookupException("Произошла ошибка:\n не загрузилась страница FacebookPage (вход в Facebook).");
 			}
 		}
+
+		#region Простые методы страницы
 
 		/// <summary>
 		/// Ввести email
@@ -70,6 +72,42 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Login
 			return new SelectAccountForm(Driver).GetPage();
 		}
 
+		#endregion
+
+		#region Составные методы страницы
+
+		/// <summary>
+		/// Заполнить форму авторизации
+		/// </summary>
+		/// <param name="email">email</param>
+		/// <param name="password">пароль</param>
+		public SelectAccountForm SubmitForm(string email, string password)
+		{
+			SetEmail(email);
+			SetPassword(password);
+			var selectAccountForm = ClickSubmitButton();
+
+			return selectAccountForm;
+		}
+
+		#endregion
+
+		#region Методы, проверяющие состояние страницы
+
+		/// <summary>
+		/// Проверить, открыта ли страница авторизации FaceBook
+		/// </summary>
+		public bool IsFaceBookPageOpened()
+		{
+			CustomTestContext.WriteLine("Проверить, открыта ли страница авторизации FaceBook.");
+
+			return Driver.WaitUntilElementIsDisplay(By.XPath(SUBMIT_BUTTON));
+		}
+
+		#endregion
+
+		#region Объявление элементов страницы
+
 		[FindsBy(How = How.XPath, Using = EMAIL)]
 		protected IWebElement Email { get; set; }
 
@@ -79,8 +117,14 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Login
 		[FindsBy(How = How.XPath, Using = SUBMIT_BUTTON)]
 		protected IWebElement SubmitButton { get; set; }
 
+		#endregion
+
+		#region Описание Xpath элементов
+
 		protected const string EMAIL = "//input[@id='email']";
 		protected const string SUBMIT_BUTTON = "//input[@id='u_0_2']";
 		protected const string PASSWORD = "//input[@id='pass']";
+
+		#endregion
 	}
 }

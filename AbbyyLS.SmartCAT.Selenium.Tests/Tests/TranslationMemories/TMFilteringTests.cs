@@ -5,6 +5,7 @@ using NUnit.Framework;
 using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
 using AbbyyLS.SmartCAT.Selenium.Tests.DataStructures;
 using AbbyyLS.SmartCAT.Selenium.Tests.FeatureAttributes;
+using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Login;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Client;
 using AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers;
 
@@ -20,6 +21,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.TranslationMemories
 			_loginHelper = new LoginHelper(Driver);
 			_translationMemoriesHelper = new TranslationMemoriesHelper(Driver);
 			_workspaceHelper = new WorkspaceHelper(Driver);
+			_signInPage = new SignInPage(Driver);
 			_clientsPage = new ClientsPage(Driver);
 
 			_projectGroupName_1 = Guid.NewGuid().ToString();
@@ -184,9 +186,11 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.TranslationMemories
 		{
 			_secondUser = TakeUser(ConfigurationManager.Users);
 			_workspaceHelper
-				.SignOut()
-				.SignIn(_secondUser.Login, _secondUser.Password)
-				.SelectAccount()
+				.SignOut();
+			_signInPage
+				.SubmitForm(_secondUser.Login, _secondUser.Password)
+				.SelectAccount();
+			_workspaceHelper
 				.CloseTour()
 				.GoToTranslationMemoriesPage()
 				.GetTranslationMemoryUniqueName(ref _tmForFilteringName_3)
@@ -267,5 +271,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.TranslationMemories
 		private const string _topicName_2 = "Science and technology";
 		private const string _commonTopicName = "All topics";
 		private TestUser _secondUser;
+		private SignInPage _signInPage;
 	}
 }

@@ -1,10 +1,12 @@
 ﻿using System;
-
 using NUnit.Framework;
 
 using AbbyyLS.SmartCAT.Selenium.Tests.DataStructures;
 using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
+using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Login;
+using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace;
 using AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers;
+using static System.String;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Authorization
 {
@@ -22,7 +24,13 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Authorization
 		{
 			_adminHelper = new AdminHelper(Driver);
 			_commonHelper = new CommonHelper(Driver);
-			_loginHelper = new LoginHelper(Driver);
+
+			_signInPage = new SignInPage(Driver);
+			_facebookPage = new FacebookPage(Driver);
+			_googlePage = new GooglePage(Driver);
+			_linkedInPage = new LinkedInPage(Driver);
+			_selectAccountForm = new SelectAccountForm(Driver);
+			_workspacePage = new WorkspacePage(Driver);
 		}
 
 		[TestCase("Personal", LoginHelper.EuropeTestServerName)]
@@ -31,94 +39,178 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Authorization
 		[TestCase("TestAccount", LoginHelper.USATestServerName)]
 		public void AuthorizationWithCorrectCredentials(string account, string dataServer)
 		{
-			_loginHelper
-				.SignIn(ThreadUser.Login, ThreadUser.Password)
-				.SelectAccount(account, dataServer)
-				.SetUp(ThreadUser.NickName, account);
+			_signInPage.SubmitForm(ThreadUser.Login, ThreadUser.Password);
+
+			_selectAccountForm.SelectAccount(account, dataServer);
+
+			_workspacePage
+				.CloseHelpIfOpened()
+				.SelectLocale();
+
+			Assert.IsTrue(_workspacePage.IsNickNameMatch(ThreadUser.NickName),
+				"Произошла ошибка:\n имя пользователя в черной плашке не совпадает с ожидаемым именем.");
+
+			Assert.IsTrue(_workspacePage.IsAccountNameMatch(account),
+				"Произошла ошибка:\n название аккаунта в черной плашке не совпадает с ожидаемым именем.");
 		}
 
-		[TestCase("ringo123@mailforspam.com", "0000", SignInErrorMessageType.WrongPassword)]
-		[TestCase("ringo@mailforspam.com", "31415926", SignInErrorMessageType.UserNotFound)]
-		[TestCase("ringo123@mailforspam.com", "", SignInErrorMessageType.EmptyPassword)]
-		[TestCase("ringo123", "31415926", SignInErrorMessageType.InvalidEmail)]
-		public void AuthorizationWithIncorrectCredentials(string email, string password, SignInErrorMessageType signInErrorMessageType)
+		[Test]
+		public void AuthorizationWithWrongPassword()
 		{
-			_loginHelper.TryToSignIn(email, password);
+			var email = "ringo123@mailforspam.com";
+			var password = "0000";
 
-			switch (signInErrorMessageType)
-			{
-				case SignInErrorMessageType.WrongPassword:
-					_loginHelper.CheckWrongPasswordMessageDisplayed();
-					break;
+			_signInPage
+				.SetLogin(email)
+				.SetPassword(password)
+				.ClickSubmitButtonExpectingError();
 
-				case SignInErrorMessageType.UserNotFound:
-					_loginHelper.CheckUserNotFoundMessageDisplayed();
-					break;
-
-				case SignInErrorMessageType.EmptyPassword:
-					_loginHelper.CheckEmptyPasswordMessageDisplayed();
-					break;
-
-				case SignInErrorMessageType.InvalidEmail:
-					_loginHelper.CheckInvalidEmailMessageDisplayed();
-					break;
-
-				default:
-					throw new Exception(String.Format("Передан неправильный тип ошибки: {0}", signInErrorMessageType));
-			}
+			Assert.IsTrue(_signInPage.IsWrongPasswordMessageDisplayed(),
+				"Произошла ошибка: \n на странице не появилось сообщение о неправильном пароле.");
 		}
 
-		[TestCase("margarita.kolly@yandex.ru", "Margarita Kolly", "0onWolkap", SocialNetworks.Facebook)]
-		[TestCase("smaartcat@gmail.com", "smart cat", "smaartcattest", SocialNetworks.GooglePlus)]
-		[TestCase("margarita.kolly@yandex.ru", "Margarita Kolly", "0onWolkap", SocialNetworks.LinkedIn)]
-		public void AuthorizationViaSocialNetworks(
-			string email,
-			string nickName,
-			string password,
-			SocialNetworks socialNetworks)
+		[Test]
+		public void AuthorizationWithUnregisteredUser()
 		{
-			сreateUserWithAccount(email, nickName, password);
+			var email = "ringo@mailforspam.com";
+			var password = "31415926";
 
-			switch (socialNetworks)
-			{
-				case SocialNetworks.Facebook:
-					_loginHelper.SignInViaFacebook(email, password);
-					break;
+			_signInPage
+				.SetLogin(email)
+				.SetPassword(password)
+				.ClickSubmitButtonExpectingError();
 
-				case SocialNetworks.GooglePlus:
-					_loginHelper.SignInViaGooglePlus(email, password);
-					break;
+			Assert.IsTrue(_signInPage.IsUserNotFoundMessageDisplayed(),
+				"Произошла ошибка: \n на странице не появилось сообщение о ненайденном пользователе.");
+		}
 
-				case SocialNetworks.LinkedIn:
-					_loginHelper.SignInViaLinkedIn(email, password);
-					break;
+		[Test]
+		public void AuthorizationWithEmptyPassword()
+		{
+			var email = "ringo123@mailforspam.com";
+			var password = String.Empty;
 
-				default:
-					throw new Exception(String.Format("Передано неправильное название сайта: {0}", socialNetworks));
-			}
+			_signInPage
+				.SetLogin(email)
+				.SetPassword(password)
+				.ClickSubmitButtonExpectingError();
 
-			_loginHelper
-				.SelectAccount()
-				.SetUp(nickName);
+			Assert.IsTrue(_signInPage.IsEmptyPasswordMessageDisplayed(),
+				"Произошла ошибка: \n на странице не появилось сообщение о незаполненном пароле.");
+		}
+
+
+		[Test]
+		public void AuthorizationWithInvalidEmail()
+		{
+			var email = "ringo123";
+			var password = "31415926";
+
+			_signInPage
+				.SetLogin(email)
+				.SetPassword(password)
+				.ClickSubmitButtonExpectingError();
+
+			Assert.IsTrue(_signInPage.IsInvalidEmailMessageDisplayed(),
+				"Произошла ошибка: \n на странице не появилось сообщение о невалидном email.");
+		}
+
+
+		[Test]
+		public void AuthorizationViaFacebook()
+		{
+			var faceBookEmail = "margarita.kolly@yandex.ru";
+			var faceBookPassword = "0onWolkap";
+			var faceBookNickname = "Margarita Kolly";
+
+			_signInPage.ClickFacebookIcon();
+
+			_facebookPage.SubmitForm(faceBookEmail, faceBookPassword);
+
+			_selectAccountForm.SelectAccount(LoginHelper.TestAccountName);
+
+			_workspacePage
+				.CloseHelpIfOpened()
+				.SelectLocale();
+
+			Assert.IsTrue(_workspacePage.IsNickNameMatch(faceBookNickname),
+				"Произошла ошибка:\n имя пользователя в черной плашке не совпадает с ожидаемым именем.");
+
+			Assert.IsTrue(_workspacePage.IsAccountNameMatch(LoginHelper.TestAccountName),
+				"Произошла ошибка:\n название аккаунта в черной плашке не совпадает с ожидаемым именем.");
+		}
+
+		[Test]
+		public void AuthorizationViaGooglePlus()
+		{
+			var googlePlusEmail = "smaartcat@gmail.com";
+			var googlePlusPassword = "smaartcattest";
+			var googlePlusNickname = "smart cat";
+
+			_signInPage.ClickGooglePlusIcon();
+
+			_googlePage.SubmitForm(googlePlusEmail, googlePlusPassword);
+
+			_selectAccountForm.SelectAccount(LoginHelper.TestAccountName);
+
+			_workspacePage
+				.CloseHelpIfOpened()
+				.SelectLocale();
+
+			Assert.IsTrue(_workspacePage.IsNickNameMatch(googlePlusNickname),
+				"Произошла ошибка:\n имя пользователя в черной плашке не совпадает с ожидаемым именем.");
+
+			Assert.IsTrue(_workspacePage.IsAccountNameMatch(LoginHelper.TestAccountName),
+				"Произошла ошибка:\n название аккаунта в черной плашке не совпадает с ожидаемым именем.");
+		}
+
+		[Test]
+		public void AuthorizationViaLinkedIn()
+		{
+			var linkedInEmail = "margarita.kolly@yandex.ru";
+			var linkedInPassword = "0onWolkap";
+			var linkedInNickname = "Margarita Kolly";
+
+			_signInPage.ClickLinkedInIcon();
+
+			_linkedInPage.SubmitForm(linkedInEmail, linkedInPassword);
+
+			_selectAccountForm.SelectAccount(LoginHelper.TestAccountName);
+
+			_workspacePage
+				.CloseHelpIfOpened()
+				.SelectLocale();
+
+			Assert.IsTrue(_workspacePage.IsNickNameMatch(linkedInNickname),
+				"Произошла ошибка:\n имя пользователя в черной плашке не совпадает с ожидаемым именем.");
+
+			Assert.IsTrue(_workspacePage.IsAccountNameMatch(LoginHelper.TestAccountName),
+				"Произошла ошибка:\n название аккаунта в черной плашке не совпадает с ожидаемым именем.");
 		}
 
 		[Test]
 		public void SignOutTest()
 		{
-			_loginHelper
-				.SignIn(ThreadUser.Login, ThreadUser.Password)
-				.SelectAccount()
-				.SetUp(ThreadUser.NickName)
-				.SignOut();
+			_signInPage.SubmitForm(ThreadUser.Login, ThreadUser.Password);
+
+			_selectAccountForm.SelectAccount();
+
+			_workspacePage
+				.CloseHelpIfOpened()
+				.ClickAccount()
+				.ClickSignOut();
+
+			Assert.IsTrue(_signInPage.IsSignInPageOpened(), "Произошла ошибка: \n не открылась страница авторизации");
 		}
 
 		[TestCase("ssssssss213123s@mail.ru", "aol3mailru@mail.ru")] // Активный AOL-аккаунт
 		[TestCase("AolUserivanpetrov2@mailforspam.com", "12trC89p", Ignore = "PRX-10821")] // Неактивный AOL-аккаунт
 		public void SignInWithAolAccount(string email, string password)
 		{
-			_loginHelper
-				.SignIn(email, password)
-				.AssertAccountNotFoundMessageDisplayed();
+			_signInPage.SubmitForm(email, password);
+
+			Assert.IsTrue(_selectAccountForm.IsAccountNotFoundMessageDisplayed(),
+				"Произошла ошибка:\n сообщение о ненайденном аккаунте отсутствует.");
 		}
 
 		[Test]
@@ -129,11 +221,25 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Authorization
 			var nickName = "testuserperevedem@mailforspam.com";
 			var password = "43abC12z";
 
-			сreateUserWithAccount(email, nickName, password, accountName);
-			_loginHelper
-				.SignIn(email, password)
-				.SelectAccount(accountName)
-				.SetUp(nickName, accountName);
+			_commonHelper.GoToAdminUrl();
+			_adminHelper
+				.SignIn(ThreadUser.Login, ThreadUser.Password)
+				.CreateUserWithSpecificAccount(email, nickName, password, accountName);
+			_commonHelper.GoToSignInPage();
+
+			_signInPage.SubmitForm(email, password);
+
+			_selectAccountForm.SelectAccount(accountName);
+
+			_workspacePage
+				.CloseHelpIfOpened()
+				.SelectLocale();
+
+			Assert.IsTrue(_workspacePage.IsNickNameMatch(nickName),
+				"Произошла ошибка:\n имя пользователя в черной плашке не совпадает с ожидаемым именем.");
+
+			Assert.IsTrue(_workspacePage.IsAccountNameMatch(accountName),
+				"Произошла ошибка:\n название аккаунта в черной плашке не совпадает с ожидаемым именем.");
 		}
 
 		[Test]
@@ -144,30 +250,26 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Authorization
 			var nickName= "testusercoursera@mailforspam.com";
 			var password= "13grC89p";
 
-			сreateUserWithAccount(email, nickName, password, accountName);
-			_loginHelper
-				.SignIn(email, password)
-				.AssertAccountNotFoundMessageDisplayed();
-		}
-
-		private void сreateUserWithAccount(
-			string email,
-			string nickName,
-			string password,
-			string accountName = LoginHelper.TestAccountName)
-		{
 			_commonHelper.GoToAdminUrl();
 			_adminHelper
 				.SignIn(ThreadUser.Login, ThreadUser.Password)
-				.CreateNewUser(email, nickName, password, admin: true, aolUser: true)
-				.FindUser(email)
-				.CheckAdminCheckbox()
-				.AddUserToSpecificAccount(email, accountName);
+				.CreateUserWithSpecificAccount(email, nickName, password, accountName);
 			_commonHelper.GoToSignInPage();
+
+			_signInPage.SubmitForm(email, password);
+
+			Assert.IsTrue(_selectAccountForm.IsAccountNotFoundMessageDisplayed(),
+				"Произошла ошибка:\n сообщение о ненайденном аккаунте отсутствует.");
 		}
 
 		private AdminHelper _adminHelper;
 		private CommonHelper _commonHelper;
-		private LoginHelper _loginHelper;
+
+		private SignInPage _signInPage;
+		private FacebookPage _facebookPage;
+		private GooglePage _googlePage;
+		private LinkedInPage _linkedInPage;
+		private SelectAccountForm _selectAccountForm;
+		private WorkspacePage _workspacePage;
 	}
 }

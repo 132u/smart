@@ -489,6 +489,20 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 			return this;
 		}
 
+		public AdminHelper CreateUserWithSpecificAccount(
+			string email,
+			string nickName,
+			string password,
+			string accountName = LoginHelper.TestAccountName)
+		{
+			CreateNewUser(email, nickName, password, admin: true, aolUser: true);
+			FindUser(email);
+			CheckAdminCheckbox();
+			AddUserToSpecificAccount(email, accountName);
+
+			return this;
+		}
+
 		private AdminHelper goToLingvoDictionariesPage()
 		{
 			BaseObject.InitPage(_adminLingvoProPage, Driver);

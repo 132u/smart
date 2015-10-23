@@ -167,7 +167,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 		{
 			BaseObject.InitPage(_workspacePage, Driver);
 			_workspacePage
-				.ClickCloseHelp()
+				.CloseHelpIfOpened()
 				.SelectLocale(language);
 
 			if (language == Language.Russian)
@@ -202,7 +202,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 		public WorkspaceHelper CloseTour()
 		{
 			BaseObject.InitPage(_workspacePage, Driver);
-			_workspacePage.ClickCloseHelp();
+			_workspacePage.CloseHelpIfOpened();
 
 			return this;
 		}

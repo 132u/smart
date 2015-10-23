@@ -1,10 +1,10 @@
-﻿using NUnit.Framework;
-using OpenQA.Selenium;
+﻿using OpenQA.Selenium;
 using OpenQA.Selenium.Support.PageObjects;
 
 using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace;
 using AbbyyLS.SmartCAT.Selenium.Tests.TestFramework;
+using AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Login
 {
@@ -15,6 +15,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Login
 		public SelectAccountForm(WebDriver driver)
 		{
 			Driver = driver;
+			PageFactory.InitElements(Driver, this);
 		}
 
 		public SelectAccountForm GetPage()
@@ -31,16 +32,24 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Login
 
 			if (!Driver.WaitUntilElementIsDisplay(By.XPath(ACCOUNT_SELECTION_FORM), timeout: 30))
 			{
-				Assert.Fail("Произошла ошибка:\n не загрузилась форма выбора аккаунта.");
+				throw new XPathLookupException("Произошла ошибка:\n не загрузилась форма выбора аккаунта.");
 			}
 		}
+
+		#region Простые методы страницы
+
+		#endregion
+
+		#region Составные методы страницы
 
 		/// <summary>
 		/// Выбрать аккаунт
 		/// </summary>
 		/// <param name="accountName">название аккаунта</param>
 		/// <param name="dataServer">расположение сервера</param>
-		public WorkspacePage SelectAccount(string accountName, string dataServer)
+		public WorkspacePage SelectAccount(
+			string accountName = LoginHelper.TestAccountName,
+			string dataServer = LoginHelper.EuropeTestServerName)
 		{
 			CustomTestContext.WriteLine("Проверить кол-во ссылок на аккаунты на всех серверах.");
 			var europeAccountsCount = Driver.GetElementsCount(By.XPath(EUROPE_ACCOUNT_LIST));
@@ -61,31 +70,40 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Login
 			return new WorkspacePage(Driver).GetPage();
 		}
 
-		public SelectAccountForm AssertEuropeServerRespond()
+		#endregion
+
+		#region Методы, проверяющие состояние страницы
+
+		/// <summary>
+		/// Проверить, что сервер Europe отвечает
+		/// </summary>
+		public bool IsEuropeServerRespond()
 		{
 			CustomTestContext.WriteLine("Проверить, что сервер Europe отвечает.");
 
-			Assert.IsTrue(Driver.WaitUntilElementIsDisplay(By.XPath(EUROPE_HEADER)),
-				"Произошла ошибка:\n сервер Europe не отвечает.");
-
-			return GetPage();
+			return Driver.WaitUntilElementIsDisplay(By.XPath(EUROPE_HEADER));
 		}
 
 		/// <summary>
 		/// Проверить наличие сообщения о ненайденном аккаунте
 		/// </summary>
-		public SelectAccountForm CheckAccountNotFoundMessageDisplayed()
+		public bool IsAccountNotFoundMessageDisplayed()
 		{
 			CustomTestContext.WriteLine("Проверить наличие сообщения о ненайденном аккаунте.");
 
-			Assert.IsTrue(Driver.WaitUntilElementIsDisplay(By.XPath(MESSAGE_ACCOUNT_NOT_FOUND)),
-				"Произошла ошибка:\n сообщение о ненайденном аккаунте отсутствует.");
-
-			return new SelectAccountForm(Driver).GetPage();
+			return Driver.WaitUntilElementIsDisplay(By.XPath(MESSAGE_ACCOUNT_NOT_FOUND));
 		}
 
+		#endregion
+
+		#region Объявление элементов страницы
+
 		protected IWebElement AccountRef { get; set; }
-		
+
+		#endregion
+
+		#region Описание Xpath элементов
+
 		protected const string ACCOUNT_SELECTION_FORM = "//form[contains(@name, 'selectAccount')]";
 		protected const string US_ACCOUNT_REF_XPATH = "//li[@translate = 'region-us']/following-sibling::li[@class='ng-scope']//span[contains(string(), '*#*')]";
 		protected const string RU_ACCOUNT_REF_XPATH = "//li[@translate = 'region-ru']/following-sibling::li[@class='ng-scope']//span[string() = '*#*']";
@@ -95,5 +113,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Login
 		protected const string MESSAGE_ACCOUNT_NOT_FOUND = "//b[@translate='ACCOUNT-NOT-FOUND-SIGNED']";
 
 		protected const string EUROPE_HEADER = "//li[@translate='region-ru']";
+
+		#endregion
+
 	}
 }
