@@ -454,7 +454,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings
 
 		protected const string SORT_BY_TRANSLATION_DOCUMENT = "//th[contains(@data-sort-by,'name')]//a";
 		protected const string SORT_BY_TYPE = "//th[contains(@data-sort-by,'fileExtension')]//a";
-		protected const string SORT_BY_STATUS = "//th[contains(@data-sort-by,'workflowStatus')]//a";
+		protected const string SORT_BY_STATUS = "//th[contains(@data-sort-by,'statusName')]//a";
 		protected const string SORT_BY_TARGET = "//th[contains(@data-sort-by,'targetLanguageString')]//a";
 		protected const string SORT_BY_AUTHOR = "//th[contains(@data-sort-by,'createdByUserName')]//a";
 		protected const string SORT_BY_CREATED = "//th[contains(@data-sort-by,'creationDate')]//a";
