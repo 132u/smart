@@ -6,6 +6,7 @@ using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Billing;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Client;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects;
+using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Search;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace;
 using AbbyyLS.SmartCAT.Selenium.Tests.TestFramework;
 
@@ -178,7 +179,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 			return this;
 		}
 
-		public SearchHelper GotToSearchPage()
+		public SearchPage GotToSearchPage()
 		{
 			BaseObject.InitPage(_workspacePage, Driver);
 			_workspacePage
@@ -186,7 +187,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 				.ExpandResourcesIfNotExpanded()
 				.ClickSearchButton();
 
-			return new SearchHelper(Driver);
+			return new SearchPage(Driver).GetPage();
 		}
 		
 		public WorkspaceHelper AssertUserNameAndAccountNameCorrect(string userName, string accountName)

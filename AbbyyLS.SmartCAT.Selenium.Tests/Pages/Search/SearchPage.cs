@@ -1,7 +1,7 @@
-﻿﻿using System.Collections.Generic;
+﻿﻿using System.Collections;
+﻿using System.Collections.Generic;
 ﻿using System.Linq;
 
-﻿using NUnit.Framework;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.PageObjects;
 
@@ -27,11 +27,13 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Search
 
 		public new void LoadPage()
 		{
-			if (!Driver.WaitUntilElementIsDisplay(By.XPath(SEARCH_FORM_XPATH)))
+			if (!IsSearchPageOpened())
 			{
-				Assert.Fail("Произошла ошибка:\n не загрузилась страница поиска.");
+				throw new XPathLookupException("Произошла ошибка:\n не загрузилась страница поиска.");
 			}
 		}
+
+		#region Простые методы страницы
 
 		/// <summary>
 		/// Ввести текст в поле поиска
@@ -41,19 +43,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Search
 		{
 			CustomTestContext.WriteLine("Ввести {0} в поле поиска", text);
 			SearchField.SetText(text);
-
-			return GetPage();
-		}
-
-		/// <summary>
-		/// Проверить, отображается ли таблица с обратным переводом со ссылками
-		/// </summary>
-		public SearchPage AssertReverseTranslationListExist()
-		{
-			CustomTestContext.WriteLine("Проверить, отображается ли таблица с обратным переводом со ссылками.");
-
-			Assert.IsTrue(Driver.WaitUntilElementIsDisplay(By.XPath(REVERSE_TRANSLATION_WORDS)),
-				"Произошла ошибка:\n таблица с обратным переводом со ссылками не отображается.");
 
 			return GetPage();
 		}
@@ -83,20 +72,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Search
 		}
 
 		/// <summary>
-		/// Проверить, что появились результаты поиска.
-		/// </summary>
-		/// <returns></returns>
-		public SearchPage AssertSearchResultDisplay()
-		{
-			CustomTestContext.WriteLine("Проверить, что появились результаты поиска.");
-
-			Assert.IsTrue(Driver.WaitUntilElementIsDisplay(By.XPath(SEARCH_RESULT)),
-				"Произошла ошибка:\n результаты поиска не появились.");
-
-			return GetPage();
-		}
-
-		/// <summary>
 		/// Выбрать исходный язык
 		/// </summary>
 		public SearchPage SelectSourceLanguage(string source)
@@ -121,94 +96,14 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Search
 		}
 
 		/// <summary>
-		/// Проверить, активна ли вкладка Definitions
-		/// </summary>
-		public SearchPage AssertDefinitionTabIsActive()
-		{
-			CustomTestContext.WriteLine("Проверить, активна ли вкладка Definitions.");
-
-			Assert.IsTrue(DefinitionTab.GetElementAttribute("class").Contains("active"),
-				"Произошла ошибка:\n вкладка Definitions неактивна.");
-
-			return GetPage();
-		}
-
-		/// <summary>
-		/// Проверить, есть ли ссылка на перевод
-		/// </summary>
-		/// <param name="text">слово, у которого должна быть ссылка на перевод</param>
-		public SearchPage AssertTranslationReferenceExist(string text)
-		{
-			CustomTestContext.WriteLine("Проверить, есть ли ссылка на перевод.");
-
-			Assert.IsTrue(Driver.ElementIsDisplayed(By.XPath(TRANSLATION_WORD.Replace("*#*", text))),
-				"Произошла ошибка:\n ссылка на перевод отсутствует.");
-
-			return GetPage();
-		}
-
-		/// <summary>
-		/// Проверить, появилось ли сообщение об автоматическом изменении языка
-		/// </summary>
-		public SearchPage AssertAutoreversedMessageExist()
-		{
-			CustomTestContext.WriteLine("Проверить, появилось ли сообщение об автоматическом изменении языка.");
-
-			Assert.IsTrue(Driver.ElementIsDisplayed(By.XPath(AUTOREVERSED_MESSAGE)),
-				"Произошла ошибка:\n сообщение об автоматическом изменении языка не появилось.");
-
-			return GetPage();
-		}
-
-		/// <summary>
-		/// Проверить, есть ли ссылка автоматического изменения языка
-		/// </summary>
-		public SearchPage AssertAutoreversedReferenceExist()
-		{
-			CustomTestContext.WriteLine("Проверить, есть ли ссылка автоматического изменения языка.");
-
-			Assert.IsTrue(Driver.ElementIsDisplayed(By.XPath(AUTOREVERSED_REFERENCE)),
-				"Произошла ошибка:\n ссылка автоматического изменения языка отсутствует.");
-
-			return GetPage();
-		}
-
-		/// <summary>
-		/// Проверить, открылась ли форма с переводом
-		/// </summary>
-		public SearchPage AsssertTranslationFormAppear()
-		{
-			CustomTestContext.WriteLine("Проверить, открылась ли форма с переводом.");
-
-			Assert.IsTrue(Driver.WaitUntilElementIsDisplay(By.XPath(TRANSLATION_FORM)),
-				"Произошла ошибка:\n форма с переводом не открылась.");
-
-			return GetPage();
-		}
-
-		/// <summary>
-		/// Проверить, появился ли перевод по словам
-		/// </summary>
-		/// <returns>появился</returns>
-		public SearchPage AssertWordByWordTranslationAppear()
-		{
-			CustomTestContext.WriteLine("Проверить, появился ли перевод по словам.");
-
-			Assert.IsTrue(Driver.ElementIsDisplayed(By.XPath(WORD_BY_WORD_TRANSLATION)),
-				"Произошла ошибка:\n перевод по словам не появился.");
-
-			return GetPage();
-		}
-
-		/// <summary>
 		/// Получить список названий глоссариев
 		/// </summary>
-		public List<string> GlossaryNamesList()
+		public IEnumerable<string> GlossaryNamesList()
 		{
 			CustomTestContext.WriteLine("Получить список названий глоссариев.");
 			var glossaries = Driver.GetTextListElement(By.XPath(GLOSSARY_NAMES_LIST));
 
-			return glossaries.Select(g => g.Substring(g.IndexOf('\n') + 1)).ToList();
+			return glossaries.Select(g => g.Substring(g.IndexOf('\n') + 1));
 		}
 
 		/// <summary>
@@ -234,6 +129,142 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Search
 			return termName.Text;
 		}
 
+		#endregion
+
+		#region Составные методы страницы
+
+		/// <summary>
+		/// Выполнить поиск
+		/// </summary>
+		/// <param name="searchText"></param>
+		public SearchPage InitSearch(string searchText)
+		{
+			AddTextSearch(searchText);
+			ClickTranslateButton();
+
+			return GetPage();
+		}
+
+		#endregion
+
+		#region Методы, проверяющие состояние страницы
+
+		/// <summary>
+		/// Проверить, что заданный термин совпадает с найденными терминами
+		/// </summary>
+		/// <param name="term">термин</param>
+		public bool IsTermNamesMatch(string term)
+		{
+			CustomTestContext.WriteLine("Проверить, что термин {0} совпадает с найденными терминами.", term);
+
+			for (var i = 1; i <= GlossaryNamesList().Count(); i++)
+			{
+				if (term != TermName(i))
+				{
+					return false;
+				}
+			}
+
+			return true;
+		}
+
+		/// <summary>
+		/// Проверить, отображается ли таблица с обратным переводом со ссылками
+		/// </summary>
+		public bool IsReverseTranslationListExist()
+		{
+			CustomTestContext.WriteLine("Проверить, отображается ли таблица с обратным переводом со ссылками.");
+
+			return Driver.WaitUntilElementIsDisplay(By.XPath(REVERSE_TRANSLATION_WORDS));
+		}
+
+		/// <summary>
+		/// Проверить, что появились результаты поиска.
+		/// </summary>
+		/// <returns></returns>
+		public bool IsSearchResultDisplay()
+		{
+			CustomTestContext.WriteLine("Проверить, что появились результаты поиска.");
+
+			return Driver.WaitUntilElementIsDisplay(By.XPath(SEARCH_RESULT));
+		}
+
+		/// <summary>
+		/// Проверить, что списки имен глоссариев совпадают
+		/// </summary>
+		/// <param name="glossaryNames">список имен глоссариев</param>
+		public bool IsGlossariesNamesMatch(List<string> glossaryNames)
+		{
+			CustomTestContext.WriteLine("Проверить, что списки имен глоссариев совпадают.");
+
+			return glossaryNames.OrderBy(m => m).SequenceEqual(GlossaryNamesList().OrderBy(m => m));
+		}
+
+		/// <summary>
+		/// Проверить, активна ли вкладка Definitions
+		/// </summary>
+		public bool IsDefinitionTabActive()
+		{
+			CustomTestContext.WriteLine("Проверить, активна ли вкладка Definitions.");
+
+			return DefinitionTab.GetElementAttribute("class").Contains("active");
+		}
+
+		/// <summary>
+		/// Проверить, есть ли ссылка на перевод
+		/// </summary>
+		/// <param name="text">слово, у которого должна быть ссылка на перевод</param>
+		public bool IsTranslationReferenceExist(string text)
+		{
+			CustomTestContext.WriteLine("Проверить, есть ли ссылка на перевод.");
+
+			return Driver.ElementIsDisplayed(By.XPath(TRANSLATION_WORD.Replace("*#*", text)));
+		}
+
+		/// <summary>
+		/// Проверить, появилось ли сообщение об автоматическом изменении языка
+		/// </summary>
+		public bool IsAutoreversedMessageExist()
+		{
+			CustomTestContext.WriteLine("Проверить, появилось ли сообщение об автоматическом изменении языка.");
+
+			return Driver.ElementIsDisplayed(By.XPath(AUTOREVERSED_MESSAGE));
+		}
+
+		/// <summary>
+		/// Проверить, есть ли ссылка автоматического изменения языка
+		/// </summary>
+		public bool IsAutoreversedReferenceExist()
+		{
+			CustomTestContext.WriteLine("Проверить, есть ли ссылка автоматического изменения языка.");
+
+			return Driver.ElementIsDisplayed(By.XPath(AUTOREVERSED_REFERENCE));
+		}
+
+		/// <summary>
+		/// Проверить, появился ли перевод по словам
+		/// </summary>
+		public bool IsWordByWordTranslationAppear()
+		{
+			CustomTestContext.WriteLine("Проверить, появился ли перевод по словам.");
+
+			return Driver.ElementIsDisplayed(By.XPath(WORD_BY_WORD_TRANSLATION));
+		}
+
+		/// <summary>
+		/// Проверить, открыта ли страница поиска
+		/// </summary>
+		public bool IsSearchPageOpened()
+		{
+			CustomTestContext.WriteLine("Проверить, открыта ли страница поиска.");
+
+			return Driver.WaitUntilElementIsDisplay(By.XPath(SEARCH_FORM_XPATH));
+		}
+
+		#endregion
+
+		#region Объявление элементов страницы
+
 		[FindsBy(How = How.Id, Using = SEARCH_FIELD)]
 		protected IWebElement SearchField { get; set; }
 
@@ -253,6 +284,10 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Search
 		protected IWebElement TranslateButton { get; set; }
 
 		protected IWebElement TranslationWord { get; set; }
+
+		#endregion
+
+		#region Описание XPath элементов
 
 		protected const string TRANSLATION_WORD = "//a[contains(@class,'js-show-examples')]//span[contains(@class,'translation') and contains(text(),'*#*')]";
 		protected const string SEARCH_FORM_XPATH = "//form[contains(@class,'js-search-form')]";
@@ -277,5 +312,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Search
 		
 		protected const string GLOSSARY_NAMES_LIST = "//div[contains(@class,'js-search-results')]//div[contains(@class,'l-glossary__data')]//h2";
 		protected const string TERM_NAME = "//table[*#*]//td/table[contains(@class,'l-glossary__tblsrcword')]//td//span[contains(@class,'l-glossary__srcwordtxt')]";
+
+		#endregion
 	}
 }

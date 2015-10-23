@@ -392,6 +392,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 		{
 			CustomTestContext.WriteLine("Проверить, что количество терминов равно {0}.", expectedTermCount);
 			BaseObject.InitPage(_glossaryPage, Driver);
+			_glossaryPage.RefreshPage<GlossaryPage>(Driver);
 
 			Assert.AreEqual(
 				expectedTermCount,

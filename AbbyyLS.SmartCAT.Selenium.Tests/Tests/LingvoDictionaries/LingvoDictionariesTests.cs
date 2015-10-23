@@ -5,6 +5,7 @@ using NUnit.Framework;
 using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
 using AbbyyLS.SmartCAT.Selenium.Tests.DataStructures;
 using AbbyyLS.SmartCAT.Selenium.Tests.FeatureAttributes;
+using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Search;
 using AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.LingvoDictionaries
@@ -25,8 +26,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.LingvoDictionaries
 			_adminHelper = new AdminHelper(Driver);
 			_commonHelper = new CommonHelper(Driver);
 			_loginHelper = new LoginHelper(Driver);
-			_searchHelper = new SearchHelper(Driver);
 			_workspaceHelper = new WorkspaceHelper(Driver);
+
+			_searchPage = new SearchPage(Driver);
 
 			if (!ConfigurationManager.Standalone)
 			{
@@ -62,48 +64,85 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.LingvoDictionaries
 		}
 
 		[Test]
+		public void SearchTest()
+		{
+			var search_query = "tester";
+
+			_searchPage.InitSearch(search_query);
+
+			Assert.IsTrue(_searchPage.IsSearchResultDisplay(), "Произошла ошибка: \n не появились результаты поиска.");
+		}
+
+		[Test]
 		public void TranslationReferenceTest()
 		{
-			_searchHelper
-				.InitSearch("tester")
-				.AssertTranslationReferenceExist("тестировщик");
+			var search_query = "tester";
+			var translation_reference = "тестировщик";
+
+			_searchPage.InitSearch(search_query);
+
+			Assert.IsTrue(_searchPage.IsTranslationReferenceExist(translation_reference),
+				"Произошла ошибка:\n ссылка на перевод отсутствует.");
 		}
 
 		[Test]
 		public void DefinitionsTabActiveTest()
 		{
-			_searchHelper
-				.SetSourceLanguage("en")
-				.SetTargetLanguage("en")
-				.InitSearch("tester")
-				.AssertDefinitionTabIsActive();
+			var source_lang = "en";
+			var target_lang = "en";
+			var search_query = "tester";
+
+			_searchPage
+				.SelectSourceLanguage(source_lang)
+				.SelectTargetLanguage(target_lang)
+				.InitSearch(search_query);
+
+			Assert.IsTrue(_searchPage.IsDefinitionTabActive(),
+				"Произошла ошибка:\n вкладка Definitions неактивна.");
 		}
 
 		[Test]
 		public void ReverseTranslationTest()
 		{
-			_searchHelper
-				.InitSearch("tester")
-				.ClickTranslationWord("испытательное устройство")
-				.OpenWordByWordTranslation()
-				.AssertReverseTranslationListExist();
+			var search_query = "tester";
+			var translation_word = "испытательное устройство";
+
+			_searchPage
+				.InitSearch(search_query)
+				.ClickTranslationWord(translation_word)
+				.ClickTranslationFormReference();
+
+			Assert.IsTrue(_searchPage.IsWordByWordTranslationAppear(),
+				"Произошла ошибка:\n перевод по словам не появился.");
+
+			Assert.IsTrue(_searchPage.IsReverseTranslationListExist(),
+				"Произошла ошибка:\n таблица с обратным переводом со ссылками не отображается.");
 		}
 
 		[Test]
 		public void AutoReverseTest()
 		{
-			_searchHelper
-				.SetSourceLanguage("ru")
-				.SetTargetLanguage("en")
-				.InitSearch("tester")
-				.AssertAutoreversedMessageExist()
-				.AsserttAutoreversedReferenceExist();
+			var source_lang = "ru";
+			var target_lang = "en";
+			var search_query = "tester";
+
+			_searchPage
+				.SelectSourceLanguage(source_lang)
+				.SelectTargetLanguage(target_lang)
+				.InitSearch(search_query);
+
+			Assert.IsTrue(_searchPage.IsAutoreversedMessageExist(),
+				"Произошла ошибка:\n сообщение об автоматическом изменении языка не появилось.");
+
+			Assert.IsTrue(_searchPage.IsAutoreversedReferenceExist(),
+				"Произошла ошибка:\n ссылка автоматического изменения языка отсутствует.");
 		}
 
 		private AdminHelper _adminHelper;
 		private LoginHelper _loginHelper;
-		private SearchHelper _searchHelper;
 		private WorkspaceHelper _workspaceHelper;
 		private CommonHelper _commonHelper;
+
+		private SearchPage _searchPage;
 	}
 }

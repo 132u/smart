@@ -5,6 +5,7 @@ using NUnit.Framework;
 
 using AbbyyLS.SmartCAT.Selenium.Tests.DataStructures;
 using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
+using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Search;
 using AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersRights
@@ -16,6 +17,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersRights
 		public void SetUp()
 		{
 			_workspaceHelper = new WorkspaceHelper(Driver);
+			_searchPage = new SearchPage(Driver);
 
 			_glossaryHelper = _workspaceHelper
 				.GoToUsersRightsPage()
@@ -183,10 +185,15 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersRights
 				.GoToGlossariesPage()
 				.CreateGlossary(glossaryUniqueName2)
 				.CreateTerm(firstTerm, secondTerm + DateTime.UtcNow.Ticks)
-				.GotToSearchPage()
-				.InitSearch(uniqueData)
-				.AssertGlossariesNamesMatch(glossaryList)
-				.AssertTermNamesMatch(firstTerm);
+				.GotToSearchPage();
+
+			_searchPage.InitSearch(uniqueData);
+
+			Assert.IsTrue(_searchPage.IsGlossariesNamesMatch(glossaryList),
+				"Произошла ошибка:\n списки имен глоссариев не совпадают.");
+
+			Assert.IsTrue(_searchPage.IsTermNamesMatch(firstTerm),
+				"Произошла ошибка:\n найденные термины не совпадает с заданным термином '{0}'.", firstTerm);
 		}
 
 		[Test]
@@ -253,6 +260,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersRights
 
 		private GlossariesHelper _glossaryHelper;
 		private WorkspaceHelper _workspaceHelper;
+
+		private SearchPage _searchPage;
+
 		private string _glossaryUniqueName;
 	}
 }
