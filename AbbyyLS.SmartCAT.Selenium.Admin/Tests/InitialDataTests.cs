@@ -83,7 +83,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.InitialData
 			}
 		}
 
-		[Test, Explicit]
+		[Test]
 		public void CreateSocialNetworksAccounts()
 		{
 			foreach (var user in ConfigurationManager.SocialNetworksUserList)
