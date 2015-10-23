@@ -6,7 +6,6 @@ using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Login;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace;
 using AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers;
-using static System.String;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Authorization
 {
