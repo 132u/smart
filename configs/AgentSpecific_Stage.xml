@@ -25,5 +25,7 @@
 	</ThreadUsers>
 	
 	<UserInfo Login="teamcity@mailforspam.com" Password="teamcity" NickName="Teamcity Test" Name="Teamcity" Surname="Test"/>
-	
+	<UsersInfo>
+		<UserInfo Login="ringo123@mailforspam.com" Password="31415926" NickName="Ringo Star" Name="Ringo" Surname="Star"/>
+	</UsersInfo>
 </configuration>

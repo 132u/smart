@@ -18,7 +18,6 @@
 	<UserInfo Login="bobby@mailforspam.com" Password="YrdyNpnnu" NickName="Bobby Test" Name="Bobby" Surname="Test"/>
 	
 	<UsersInfo>
-		<UserInfo Login="bobby@mailforspam.com" Password="YrdyNpnnu" NickName="Bobby Test" Name="Bobby" Surname="Test"/>
 		<UserInfo Login="ringo123@mailforspam.com" Password="31415926" NickName="Ringo Star" Name="Ringo" Surname="Star"/>
 	</UsersInfo>
 </configuration>
