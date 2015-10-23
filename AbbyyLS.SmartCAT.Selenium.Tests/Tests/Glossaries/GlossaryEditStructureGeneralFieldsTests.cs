@@ -30,7 +30,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 				.FillTermInLanguagesAndTermsSection();
 		}
 
-		[TestCase(GlossarySystemField.Interpretation)]
+		[TestCase(GlossarySystemField.Interpretation), Explicit("Тест исключен из-за баги SCAT-559")]
 		[TestCase(GlossarySystemField.InterpretationSource)]
 		[TestCase(GlossarySystemField.Example)]
 		public void AddSystemFieldTextareaTypeTest(GlossarySystemField fieldName)
@@ -46,7 +46,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 				.AssertExtendTermsCountMatch(expectedTermCount: 1);
 		}
 
-		[Test]
+		[Test, Explicit("Тест исключен из-за баги SCAT-559")]
 		public void AddTopicSystemFieldTest()
 		{
 			var value = "Life";
