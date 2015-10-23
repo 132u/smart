@@ -1,5 +1,5 @@
-db.Auth.Users.createIndex({"email": 1}, {name: "IX_Email", unique: true});
-db.Auth.Users.createIndex({"customAuthData": 1}, {name: "IX_CustomAuthData", unique: true});
+db.Auth.Users.createIndex({"email": 1}, {name: "IX_Email", unique: true, sparse: true});
+db.Auth.Users.createIndex({"customAuthData": 1}, {name: "IX_CustomAuthData", unique: true, sparse: true});
 db.Auth.Users.save({ 
     "_id" : BinData(3, "Yop29JSggUCbrxaXzCDLsA=="), 
     "email" : "teamcity@mailforspam.com", 
