@@ -113,16 +113,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.InitialData
 		}
 
 		[Test]
-		public void CreatePersonalAccountForRingo()
-		{
-			foreach (var user in ConfigurationManager.UsersInfoList)
-			{
-				_adminHelper.CreateUserWithPersonalAccount(user.Login, user.Login, user.Password);
-			}
-		}
-
-
-		[Test]
 		public void CreateDefaultDictionaryPackage()
 		{
 			_adminHelper.CreateDictionaryPackageIfNotExist();

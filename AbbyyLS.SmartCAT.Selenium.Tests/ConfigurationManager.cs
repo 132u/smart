@@ -15,7 +15,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests
 			var threadUserConfig = TestSettingDefinition.Instance.TryGet<ThreadUserConfig>();
 			var serverConfig = TestSettingDefinition.Instance.TryGet<CatServerConfig>();
 			var testUsersConfig = TestSettingDefinition.Instance.TryGet<TestUsersConfig>();
-			var testUsersInfoConfig = TestSettingDefinition.Instance.TryGet<UserInfoConfig>();
 
 			TestUserList = testUsersConfig.Users;
 			TestCompanyList = testUsersConfig.Companies;
@@ -24,14 +23,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests
 			SocialNetworksUserList = testUsersConfig.SocialNetworksUsers;
 
 			var prefix = serverConfig.IsHttpsEnabled ? "https://" : "http://";
-
-			UsersInfoList = testUsersInfoConfig.UsersInfo;
-
-			foreach (TestUser user in UsersInfoList)
-			{
-				var domainName = string.Concat(user.Login.TakeWhile(c => c != '@'));
-				user.StandaloneUrl = string.Format("{0}{1}:{2}@{3}", prefix, domainName, user.Password, serverConfig.Url);
-			}
 
 			ThreadUsersList = threadUserConfig.Users;
 
@@ -51,7 +42,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests
 
 			Users = new ConcurrentBag<TestUser>(ThreadUsersList);
 			AdditionalUsers = new ConcurrentBag<TestUser>(AdditionalUsersList);
-			UsersInfoList = new List<TestUser>(UsersInfoList);
 		}
 
 		public static void InitializeRelatedToServerFields()
@@ -73,7 +63,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests
 		public static List<TestUser> SocialNetworksUserList { get; private set; }
 		public static List<TestUser> ThreadUsersList { get; private set; }
 		public static List<TestUser> AdditionalUsersList { get; private set; }
-		public static List<TestUser> UsersInfoList { get; private set; }
+
 		public static bool Standalone { get; private set; }
 		public static string Url { get; private set; }
 		public static string AdminUrl { get; private set; }

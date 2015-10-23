@@ -22,8 +22,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Editor.Panel
 
 			// Переход на страницу workspace
 			GoToUrl(RelativeUrlProvider.Workspace);
-
-			WorkspacePage.CloseTour();
 		}
 
 		/// <summary>

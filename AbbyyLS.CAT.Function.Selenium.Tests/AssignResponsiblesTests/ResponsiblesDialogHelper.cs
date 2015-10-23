@@ -220,7 +220,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		protected const string CLOSE_BTN_XPATH = "//span/a[@class='h30 g-redbtn__text g-btn__text']";
 		protected const string CHOOSE_TASK_FORM_XPATH = ".//div[@id='workflow-select-window']";
 		protected const string SELECT_ASSIGNEES_DROPDOWN = "//a[contains(@data-bind,'setAssignmentsButtonTitle')]";
-		protected const string ASSIGNEES_FOR_ENTIRE_DOCUMENT = "//a[contains(@data-bind,'goToStage(false)')]";
+		protected const string ASSIGNEES_FOR_ENTIRE_DOCUMENT = "//a[contains(@data-bind,'setSimpleAssignment')]";
 		protected const string ANOTHER_ASSIGNEE = "//a[contains(@data-bind,'addExecutive')]";
 		protected const string ASSIGN_LIST = "//input[contains(@class,'newDropdown')]";
 		protected const string ASSIGN_LIST_ITEM = "//li[contains(@class,'newDropdown') and text()='*#*']";

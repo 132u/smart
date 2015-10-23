@@ -2,7 +2,6 @@
 
 namespace AbbyyLS.CAT.Function.Selenium.Tests
 {
-	// TODO выпилить UserInfoConfig после того как все тесты будут перевены на Page Object
 	[DataContract(Name = "UserInfo")]
 	class UserInfoConfig
 	{

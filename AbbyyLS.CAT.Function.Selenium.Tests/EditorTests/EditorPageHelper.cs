@@ -619,12 +619,12 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			Thread.Sleep(1000);
 
 			// Выборка подсвеченных слов в сегменте
-			var segmentCss = "//*[@id='segments-body']//div//div//table[" + segmentRowNumber + "]//div//pre//span";
+			var segmentCss = SEGMENTS_CSS + ":nth-child(" + segmentRowNumber + ") td:nth-child(2) div pre span";
 
 			// Выставляем минимальный таймаут
 			SetDriverTimeoutMinimum();
 
-			var segmentCatSelectedList = GetElementList(By.XPath(segmentCss));
+			var segmentCatSelectedList = GetElementList(By.CssSelector(segmentCss));
 
 			// Получаем список в нижнем регистре
 			if (segmentCatSelectedList.Count > 0)
@@ -878,11 +878,11 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		protected const string CONFIRMED_ICO_CLASS = "fa-check";
 		protected const string LOCKED_ICO_CLASS = "fa-lock";
 		protected const string SEGMENT_CAT_SELECTED = "cat-selected";
-		protected const string TARGET_XPATH = "//td[4]//div";
-		protected const string SOURCE_CELL_XPATH = "//td[3]//div//pre";
-		protected const string TARGET_CELL_XPATH_FOR_INPUT = "//td[4]//div//div";
-		protected const string TARGET_CELL_XPATH = "//td[4]//div//div//pre";
-		protected const string TARGET_CELL_TEXT_XPATH = "//td[4]//div//pre";
+		protected const string TARGET_XPATH = "//td[3]//div";
+		protected const string SOURCE_CELL_XPATH = "//td[2]//div//pre";
+		protected const string TARGET_CELL_XPATH_FOR_INPUT = "//td[3]//div//div";
+		protected const string TARGET_CELL_XPATH = "//td[3]//div//div//pre";
+		protected const string TARGET_CELL_TEXT_XPATH = "//td[3]//div//pre";
 		protected const string FIRST_VISIBLE_SEGMENT_XPATH = "//div[@id='segments-body']//table[1]//td[1]";
 		protected const string SEGMENTS_TABLE_XPATH = "//div[@id='segments-body']//div//div[2]//table";
 
@@ -895,7 +895,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		protected const string FIRST_SPELL_CHECK_ROW_XPATH = SPELL_CHECK_CONTEXT_CLASS + "//div[1]//span";
 
 		protected const string CAT_PANEL_ID = "cat-body";
-		protected const string CAT_PANEL_EXISTENCE_XPATH = ".//div[@id='cat-body']//table";
+		protected const string CAT_PANEL_EXISTENCE_XPATH = ".//div[@id='" + CAT_PANEL_ID + "']//table";
 		protected const string CAT_PANEL_TYPE_COLUMN_XPATH = CAT_PANEL_EXISTENCE_XPATH + "//td[3]/div";
 		protected const string CAT_PANEL_TEXT_COL_PART = "//td[4]/div";
 		protected const string CAT_PANEL_TEXT_COLUMN_XPATH = CAT_PANEL_EXISTENCE_XPATH + CAT_PANEL_TEXT_COL_PART;
