@@ -1,9 +1,9 @@
 db['Billing.Prices'].drop();
 db.createCollection('Billing.Prices');
 var prices = db['Billing.Prices'];
-prices.createIndex({"serviceType": 1, "ventureId": 1, "currencyType": 1}, {name: "IX_ServiceType_VentureId_CurrencyType", background: true});
-prices.createIndex({"serviceType": 1, "forPersonalAccount": 1, "ventureId": 1, "currencyType": 1}, {name: "IX_ServiceType_ForPersonalAccount_VentureId_CurrencyType", background: true});
-prices.createIndex({"serviceType": 1, "forPersonalAccount": 1, "ventureId": 1, "currencyType": 1, "monthsCount": 1, "amount": 1}, {name: "IX_ServiceType_ForPersonalAccount_VentureId_CurrencyType_MonthsCount_Amount", background: true, unique: true});
+prices.createIndex({"serviceType": 1, "ventureId": 1, "currencyType": 1}, {name: "IX_ServiceType_VentureId_CurrencyType"});
+prices.createIndex({"serviceType": 1, "forPersonalAccount": 1, "ventureId": 1, "currencyType": 1}, {name: "IX_ServiceType_ForPersonalAccount_VentureId_CurrencyType"});
+prices.createIndex({"serviceType": 1, "forPersonalAccount": 1, "ventureId": 1, "currencyType": 1, "monthsCount": 1, "amount": 1}, {name: "IX_ServiceType_ForPersonalAccount_VentureId_CurrencyType_MonthsCount_Amount", unique: true});
 prices.save({
 	currencyType: 'RUB',
 	ventureId: 'SmartCAT',
