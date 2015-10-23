@@ -298,7 +298,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 		public ProjectsPage ClickDownloadInMainMenuButton()
 		{
 			CustomTestContext.WriteLine("Нажать кнопку экспорта в главном меню");
-			DownloadInMainMenuButton.Click();
+			DownloadInMainMenuButton.ScrollAndClick();
 
 			return GetPage();
 		}
