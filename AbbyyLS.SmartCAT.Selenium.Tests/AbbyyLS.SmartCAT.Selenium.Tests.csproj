@@ -63,6 +63,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Configs\UserInfoConfig.cs" />
     <Compile Include="ExplicitAttributes\UserDataExplicitAttribute.cs" />
     <Compile Include="Pages\Glossaries\SuggestedTerms\SuggestedTermsForCurrentGlossariesPage.cs" />
     <Compile Include="Pages\Glossaries\SuggestedTerms\SuggestTermDialog.cs" />

@@ -599,7 +599,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		protected const string PROJECT_SETTINGS_SAVE_BTN = "//div[@class='g-popup-bd js-popup-bd js-popup-edit'][2]//div[@class='g-popupbox__ft']//span//span/a";
 
 		protected const string DOCUMENT_PROGRESS_XPATH = "//div[contains(@class,'ui-progressbar__container')]";
-		protected const string DOCUMENT_ASSIGN_RESPONSIBLES_BTN_XPATH = "//span[contains(@class,'js-assign-btn')]";
+		protected const string DOCUMENT_ASSIGN_RESPONSIBLES_BTN_XPATH = "//span[contains(@data-bind,'actions.assign')]";
 		protected const string OPEN_CLOSE_TD_XPATH = "td[contains(@class,'openCloseCell')]";
 		protected const string TASK_NAME_XPATH = OPEN_CLOSE_TD_XPATH + "//div[contains(@class,'js-text-overflow')]";
 		protected const string UPLOAD_DOCUMENT_BTN_XPATH = ".//span[contains(@class,'js-import-btn ')]";
