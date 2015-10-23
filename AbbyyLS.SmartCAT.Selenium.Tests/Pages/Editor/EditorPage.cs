@@ -253,7 +253,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 			var underlineWordPath = SPELLCHECK_PATH.Replace("*#*", word);
 
 			Assert.IsTrue(Driver.WaitUntilElementIsDisplay(By.XPath(underlineWordPath)),
-				"Произошла ошибка:\n не удалось найти слово {0} подчеркнутых.");
+				"Произошла ошибка:\n не удалось найти слово {0} подчеркнутых.", word);
 
 			return GetPage();
 		}
@@ -819,7 +819,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		protected const string FIND_ERROR_BTN_ID = "qa-error-btn";
 		protected const string FINISH_TUTORIAL_BUTTON = "//span[contains(text(),'Finish') and contains(@id, 'button')]";
 		protected const string AUTOSAVING = "//div[contains(text(), 'Saving')]";
-		protected const string SPELLCHECK_PATH = "//div[contains(text(), '1')]//..//..//..//..//tbody//tr[1]//span[contains(@class,'spellcheck') and contains(string(), '*#*')]";
+		protected const string SPELLCHECK_PATH = "//div[contains(text(), '1')]//..//..//..//span[contains(@class,'spellcheck') and contains(string(), '*#*')]";
 		protected const string REVISION_PATH = "//div[@id='revisions-body']//table[1]//td[contains(@class,'revision-type-cell')]//div[text()='*#*']";
 		protected const string STAGE_NAME = "//h1/span[contains(@class, 'workflow')]";
 		protected const string LAST_CONFIRMED_BUTTON = "unfinished-btn";
@@ -841,8 +841,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		protected const string TARGET_CELL = "//div[@id='segments-body']//table[@data-recordindex = '*#*']//td[4]//div//div";
 		protected const string TARGET_CELL_VALUE = "//table[@data-recordindex='*#*']//td[4]//div[contains(@id, 'segmenteditor')]";
 		protected const string SOURCE_CELL = "//table[@data-recordindex='*#*']//td[3]//div[contains(@id, 'segmenteditor')]";
-		protected const string TAG = "//div[contains(text(), '*#*')]//..//..//..//..//tbody//tr[1]//td[3]//div//img[contains(@class,'tag')]";
-		protected const string SEGMENT_LOCK = "//div[contains(text(), '1')]//..//..//..//..//tbody//tr[1]//td[contains(@class,'info-cell')]//div[contains(@class,'fa-lock')][not(contains(@class,'inactive'))]";
+		protected const string TAG = "//div[contains(text(), '1')]//..//..//..//..//tr[1]//td[4]//div//img[contains(@class,'tag')]";
+		protected const string SEGMENT_LOCK = "//div[contains(text(), '1')]//..//..//..//div[contains(@class,'fa-lock')][not(contains(@class,'inactive'))]";
 
 		protected const string CHARACTER_FORM = "charmap";
 		protected const string CONCORDANCE_SEARCH= "concordance-search";
