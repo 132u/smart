@@ -64,7 +64,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 		public SuggestedTermsPageForAllGlossaries ClickAcceptSuggestButton(int termNumber)
 		{
 			CustomTestContext.WriteLine("Нажать кнопку 'Accept suggest' термина №{0}.", termNumber);
-			Driver.SetDynamicValue(How.XPath, ACCEPT_SUGGEST_BUTTON, termNumber.ToString()).Click();
+			Driver.SetDynamicValue(How.XPath, ACCEPT_SUGGEST_BUTTON, termNumber.ToString()).DoubleClick();
 
 			return GetPage();
 		}
@@ -118,7 +118,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 		public SuggestedTermsPageForAllGlossaries ClickDeleteSuggestTermButton(int rowNumber)
 		{
 			CustomTestContext.WriteLine("Нажать кнопку удаления предложенного термина №{0}.", rowNumber);
-			Driver.SetDynamicValue(How.XPath, DELETE_SUGGEST_TERM_BUTTON, rowNumber.ToString()).Click();
+			Driver.SetDynamicValue(How.XPath, DELETE_SUGGEST_TERM_BUTTON, rowNumber.ToString()).DoubleClick();
 
 			return GetPage();
 		}
