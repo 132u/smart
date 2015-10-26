@@ -530,6 +530,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 			BaseObject.InitPage(_translationMemoriesPage, Driver);
 			_translationMemoriesPage
 				.ClickTranslationMemoryRow(translationMemoryName)
+				.AssertExportButtonDisplayed()
 				.ClickExportButton();
 
 			return this;

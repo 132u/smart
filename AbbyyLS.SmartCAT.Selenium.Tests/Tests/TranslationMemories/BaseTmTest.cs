@@ -1,7 +1,6 @@
 ﻿using NUnit.Framework;
 
 using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
-using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Client;
 using AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.TranslationMemories

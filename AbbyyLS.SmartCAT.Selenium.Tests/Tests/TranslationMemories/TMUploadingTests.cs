@@ -28,7 +28,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.TranslationMemories
 				.OpenTranslationMemoryInformation(_tmName)
 				.GetUnitsCount();
 
-			Assert.AreEqual(0, unitsCountBefore, "Произошла ошибка:\n количество юнитов не рано 0.");
+			Assert.AreEqual(0, unitsCountBefore, "Произошла ошибка:\n количество юнитов не равно 0.");
 
 			var unitsCountAfter = _translationMemoriesHelper
 				.ClickAddTmxButton()

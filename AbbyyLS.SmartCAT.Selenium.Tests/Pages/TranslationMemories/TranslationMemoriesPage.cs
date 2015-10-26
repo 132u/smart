@@ -672,6 +672,19 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories
 		}
 
 		/// <summary>
+		/// Проверить, что появилась кнопка Export
+		/// </summary>
+		public TranslationMemoriesPage AssertExportButtonDisplayed()
+		{
+			CustomTestContext.WriteLine("Проверить, что появилась кнопка Export");
+
+			Assert.IsTrue(Driver.WaitUntilElementIsDisplay(By.XPath(EXPORT_BUTTON)),
+				"Произошла ошибка:\n не появилось кнопка Export.");
+
+			return GetPage();
+		}
+
+		/// <summary>
 		/// Нажать кнопку подтверждения замены ТМ в окне импорта
 		/// </summary>
 		public TranslationMemoriesPage ClickConfirmReplacementButton()

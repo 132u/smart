@@ -28,9 +28,10 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Editor
 					filePath: PathProvider.TxtFileForMatchTest,
 					createNewTm: true,
 					tmxFilePath: PathProvider.TmxFileForMatchTest)
-				.AssertIsProjectLoadedSuccessfully(projectUniqueName);
-
-			_createProjectHelper
+				.AssertIsProjectLoadedSuccessfully(projectUniqueName)
+				.GoToTranslationMemoriesPage()
+				.CloseAllNotifications()
+				.GoToProjectsPage()
 				.GoToProjectSettingsPage(projectUniqueName)
 				.AssignTasksOnDocument(Path.GetFileNameWithoutExtension(PathProvider.TxtFileForMatchTest), ThreadUser.NickName)
 				.OpenDocument<SelectTaskDialog>(Path.GetFileNameWithoutExtension(PathProvider.TxtFileForMatchTest))
