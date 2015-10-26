@@ -58,6 +58,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 			_editorHelper
 				.OpenAddTermDialog()
 				.AssertGlossaryExistInList(_glossary1Name)
+				.CloseGlossaryDropdown()
 				.ClickCancelAddTerm()
 				.OpenAddTermDialog()
 				.AssertGlossaryExistInList(_glossary2Name);

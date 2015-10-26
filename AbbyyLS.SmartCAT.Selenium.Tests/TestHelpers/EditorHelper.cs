@@ -679,6 +679,14 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 			return this;
 		}
 
+		public EditorHelper CloseGlossaryDropdown()
+		{
+			 BaseObject.InitPage(_addTermDialog, Driver);
+			_addTermDialog.ClickGlossarySelect();
+
+			return this;
+		}
+
 		public EditorHelper ClickCancelAddTerm()
 		{
 			BaseObject.InitPage(_addTermDialog, Driver);

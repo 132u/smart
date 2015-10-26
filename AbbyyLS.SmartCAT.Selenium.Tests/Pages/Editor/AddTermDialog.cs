@@ -158,6 +158,17 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		}
 
 		/// <summary>
+		/// Нажать на выпадающий список, чтобы закрыть его
+		/// </summary>
+		public AddTermDialog ClickGlossarySelect()
+		{
+			CustomTestContext.WriteLine("Нажать на выпадающий список, чтобы закрыть его.");
+			GlossarySelect.Click();
+
+			return GetPage();
+		}
+
+		/// <summary>
 		/// Выбрать глоссарий в выпадающем списке окна добавления термина
 		/// </summary>
 		/// <param name="glossaryName">имя глоссария</param>
