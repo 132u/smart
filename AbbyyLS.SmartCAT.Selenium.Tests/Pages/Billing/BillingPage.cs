@@ -21,10 +21,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Billing
 
 		public new BillingPage GetPage()
 		{
-			var billingPage = new BillingPage(Driver);
-			InitPage(billingPage, Driver);
+			InitPage(this, Driver);
 
-			return billingPage;
+			return this;
 		}
 
 		public new void LoadPage()

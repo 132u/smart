@@ -15,10 +15,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Billing.LicenseDialog
 
 		public new LicenseExtendCompleteDialog GetPage()
 		{
-			var extendCompleteLicenseDialog = new LicenseExtendCompleteDialog(Driver);
-			InitPage(extendCompleteLicenseDialog, Driver);
+			InitPage(this, Driver);
 
-			return extendCompleteLicenseDialog;
+			return this;
 		}
 
 		public new void LoadPage()

@@ -32,6 +32,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Billing
 			LicenseTrialDialog = new LicenseTrialDialog(Driver);
 			LicenseUpgradeDialog = new LicenseUpgradeDialog(Driver);
 			LicensePurchaseCompleteDialog = new LicensePurchaseCompleteDialog(Driver);
+			LicenseUpgradeCompleteDialog = new LicenseUpgradeCompleteDialog(Driver);
+			LicenseExtendCompleteDialog = new LicenseExtendCompleteDialog(Driver);
 
 			var accountUniqueName = AdminHelper.GetAccountUniqueName();
 
@@ -70,5 +72,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Billing
 		public LicenseTrialDialog LicenseTrialDialog;
 		public LicenseUpgradeDialog LicenseUpgradeDialog;
 		public LicensePurchaseCompleteDialog LicensePurchaseCompleteDialog;
+		public LicenseUpgradeCompleteDialog LicenseUpgradeCompleteDialog;
+		public LicenseExtendCompleteDialog LicenseExtendCompleteDialog;
 	}
 }

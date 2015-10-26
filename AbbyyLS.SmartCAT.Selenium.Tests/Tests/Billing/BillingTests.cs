@@ -43,7 +43,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Billing
 				.FillCreditCardData()
 				.ClickPayButton<LicenseUpgradeCompleteDialog>();
 
-			LicensePurchaseCompleteDialog.ClickCloseButton();
+			LicenseUpgradeCompleteDialog.ClickCloseButton();
 
 			Assert.IsTrue(BillingPage.IsLicensesCountChanged(newlicenseCount),
 				"Произошла ошибка:\n количество лицензий в пакете не соответствует ожидаемому.");
@@ -65,7 +65,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Billing
 				.FillCreditCardData()
 				.ClickPayButton<LicenseUpgradeCompleteDialog>();
 
-			LicensePurchaseCompleteDialog.ClickCloseButton();
+			LicenseUpgradeCompleteDialog.ClickCloseButton();
 
 			Assert.IsTrue(BillingPage.IsLicensesCountChanged(firstLicenseCount),
 				"Произошла ошибка:\n количество лицензий в пакете не соответствует ожидаемому.");
@@ -80,7 +80,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Billing
 				.FillCreditCardData()
 				.ClickPayButton<LicenseUpgradeCompleteDialog>();
 
-			LicensePurchaseCompleteDialog.ClickCloseButton();
+			LicenseUpgradeCompleteDialog.ClickCloseButton();
 
 			Assert.IsTrue(BillingPage.IsLicensesCountChanged(secondLicenseCount),
 				"Произошла ошибка:\n количество лицензий в пакете не соответствует ожидаемому.");
@@ -102,7 +102,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Billing
 				.FillCreditCardData()
 				.ClickPayButton<LicenseExtendCompleteDialog>();
 
-			LicensePurchaseCompleteDialog.ClickCloseButton();
+			LicenseExtendCompleteDialog.ClickCloseButton();
 
 			Assert.AreEqual(BillingPage.GetEndDate(), endDateBeforeExtend.AddMonths((int)months),
 				"Произошла ошибка:\n срок действия пакета лицензий не соответствует ожидаемому.");
@@ -126,7 +126,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Billing
 				.FillCreditCardData()
 				.ClickPayButton<LicenseExtendCompleteDialog>();
 
-			LicensePurchaseCompleteDialog.ClickCloseButton();
+			LicenseExtendCompleteDialog.ClickCloseButton();
 
 			BillingPage.ClickExtendButton();
 
@@ -138,7 +138,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Billing
 				.FillCreditCardData()
 				.ClickPayButton<LicenseExtendCompleteDialog>();
 
-			LicensePurchaseCompleteDialog.ClickCloseButton();
+			LicenseExtendCompleteDialog.ClickCloseButton();
 
 			Assert.AreEqual(BillingPage.GetEndDate(), endDateBeforeSecondExtend.AddMonths((int)secondDuration),
 				"Произошла ошибка:\n срок действия пакета лицензий не соответствует ожидаемому.");
@@ -154,9 +154,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Billing
 
 			LicenseUpgradeDialog.SelectLiceneQuantityToUpgrade(newLisenceNumber);
 
-			var packageValidityPeriod = LicenseBaseDialog.PackageValidityPeriod();
-			var additionalPayment = LicenseBaseDialog.GetAdditionalPayment();
-			var currentPackagePrice = LicenseBaseDialog.CurrentPackagePrice();
+			var packageValidityPeriod = LicenseUpgradeDialog.PackageValidityPeriod();
+			var additionalPayment = LicenseUpgradeDialog.GetAdditionalPayment();
+			var currentPackagePrice = LicenseUpgradeDialog.CurrentPackagePrice();
 			var expectedAdditionalPayment = BillingPage.CalculateAdditionalPayment(
 				currentPackagePrice, packagePriceForNewPackage, _period, packageValidityPeriod);
 
