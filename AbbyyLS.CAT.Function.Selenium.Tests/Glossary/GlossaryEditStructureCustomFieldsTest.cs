@@ -358,8 +358,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.Glossary.EditStructure.C
 		/// <summary>
 		/// Метод тестирования изменения структуры: добавление пользовательского поля Число
 		/// </summary>
-		[Test]
-		[Ignore("PRX-10924")]
+		[Test, Ignore("PRX-10924")]
 		public void AddNumberFieldTest()
 		{
 			// Создать глоссарий, изменить структуру, открыть добавление нового термина
