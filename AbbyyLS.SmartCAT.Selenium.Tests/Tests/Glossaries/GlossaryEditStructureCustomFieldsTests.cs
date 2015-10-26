@@ -24,7 +24,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 			_glossaryUniqueName = GlossariesHelper.UniqueGlossaryName();
 		}
 
-		[Test]
+		[Test, Ignore("PRX-10924")]
 		public void AddTextFieldTest()
 		{
 			var fieldName = "TextField";
@@ -288,7 +288,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 				.AssertExtendTermsCountMatch(expectedTermCount: 1);
 		}
 
-		[Test]
+		[Test, Ignore("PRX-10924")]
 		public void AddMultiselectListRequiredFieldTest()
 		{
 			var fieldName = "MultiselectListRequiredField";

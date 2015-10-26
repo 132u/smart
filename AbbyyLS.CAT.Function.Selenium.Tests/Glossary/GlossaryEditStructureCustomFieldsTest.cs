@@ -285,7 +285,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.Glossary.EditStructure.C
 		/// <summary>
 		/// Метод тестирования изменения структуры: добавление пользовательского поля Список
 		/// </summary>
-		[Test]
+		[Test, Ignore("PRX-10924")]
 		public void AddListFieldTest()
 		{
 			// Создать глоссарий, изменить структуру с добавлением списка, открыть добавление нового термина
