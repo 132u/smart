@@ -46,11 +46,11 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Editor
 				.PasteTranslationFromCAT(catType: CatType.TM)
 				.AssertMatchColumnCatTypeMatch(catType: CatType.TM);
 
-			var catRowNumber = _editorHelper.CATRowNumber(CatType.TM);
+			var catRowNumber = _editorHelper.CatRowNumber(CatType.TM);
 
 			_editorHelper
 				.AssertCATPercentMatchTargetPercent(catRowNumber: catRowNumber)
-				.AssertTargetMatchPercenrCollorCorrect();
+				.AssertTargetMatchPercentCollorCorrect();
 		}
 
 		[Test]
@@ -62,7 +62,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Editor
 				.AddTextWithoutClearing()
 				.AssertMatchColumnCatTypeMatch(catType: CatType.TM);
 
-			var catRowNumber = _editorHelper.CATRowNumber(CatType.TM);
+			var catRowNumber = _editorHelper.CatRowNumber(CatType.TM);
 
 			_editorHelper.AssertCATPercentMatchTargetPercent(1, catRowNumber);
 		}
@@ -76,7 +76,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Editor
 				.AddTextToSegment()
 				.AssertMatchColumnCatTypeMatch(catType: CatType.TM);
 
-			var catRowNumber = _editorHelper.CATRowNumber(CatType.TM);
+			var catRowNumber = _editorHelper.CatRowNumber(CatType.TM);
 
 			_editorHelper.AssertCATPercentMatchTargetPercent(1, catRowNumber);
 		}
@@ -89,7 +89,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Editor
 				.PasteTranslationFromCAT(CatType.TM)
 				.AssertMatchColumnCatTypeMatch(CatType.TM);
 
-			var catRowNumber = _editorHelper.CATRowNumber(CatType.TM);
+			var catRowNumber = _editorHelper.CatRowNumber(CatType.TM);
 
 			_editorHelper.AssertCATPercentMatchTargetPercent(1, catRowNumber);
 		}

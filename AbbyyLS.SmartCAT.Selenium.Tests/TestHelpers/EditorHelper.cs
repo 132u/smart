@@ -163,20 +163,53 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 			return this;
 		}
 
-		public int CarRowNumber(int targetRowNumber, CatType catType)
-		{
-			BaseObject.InitPage(_editorPage, Driver);
-
-			return _editorPage
-						.ClickTargetCell(targetRowNumber)
-						.CatTypeRowNumber(catType);
-		}
-
-		public int CATRowNumber(CatType catType)
+		public int CatRowNumber(CatType catType)
 		{
 			BaseObject.InitPage(_editorPage, Driver);
 
 			return _editorPage.CatTypeRowNumber(catType);
+		}
+
+		public EditorHelper AssertCatPanelExist()
+		{
+			BaseObject.InitPage(_editorPage, Driver);
+
+			Assert.IsTrue(_editorPage.CatTableExist(),
+				"Произошла ошибка:\nCAT-панель пустая.");
+
+			return this;
+		}
+
+		public EditorHelper AssertCatPercentMatch(int catRowNumber, int percent)
+		{
+			CustomTestContext.WriteLine("Проверить, что процент совпадения в CAT-панели равен {0}.", percent);
+
+			Assert.AreEqual(percent, _editorPage.CatTranslationMatchPercent(catRowNumber),
+				"Произошла ошибка:\nНеверный процент совпадения в CAT-панели.");
+
+			return this;
+		}
+
+		public EditorHelper AssertCatTermsMatchSourceTerms(int segmentNumber)
+		{
+			BaseObject.InitPage(_editorPage, Driver);
+			var catTerms = _editorPage.CatTerms()[0];
+			var sourceTerms = _editorPage.SourceText(segmentNumber).Replace("1", String.Empty);
+
+			Assert.AreEqual(catTerms, sourceTerms,
+				"Произошла ошибка:\nТермины из CAT-панели не соответствуют терминам в сорсе.");
+
+			return this;
+		}
+
+		public EditorHelper AssertCatPanelContainsCatType(CatType catType)
+		{
+			BaseObject.InitPage(_editorPage, Driver);
+
+			Assert.AreNotEqual(0, _editorPage.CatTypeRowNumber(catType),
+				"Произошла ошибка:\nВ CAT-панели отсутствует подстановка {0}.", catType);
+
+			return this;
 		}
 
 		public EditorHelper AssertMatchColumnCatTypeMatch(CatType catType, int rowNumber = 1)
@@ -224,7 +257,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 			return _editorPage.SourceText(rowNumber);
 		}
 
-		public EditorHelper AssertTargetMatchPercenrCollorCorrect(int segmentNumber = 1)
+		public EditorHelper AssertTargetMatchPercentCollorCorrect(int segmentNumber = 1)
 		{
 			const int yellowUpperBound = 99;
 			const int yellowLowerBound = 76;

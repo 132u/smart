@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 
 using NUnit.Framework;
@@ -742,6 +743,19 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 			return GetPage();
 		}
 
+		public List<string> CatTerms()
+		{
+			CustomTestContext.WriteLine("Получить список терминов из кат панели.");
+			var terms = Driver.GetTextListElement(By.XPath(CAT_PANEL_TERM));
+
+			return terms.Select(g => g.Trim()).ToList();
+		}
+
+		public bool CatTableExist()
+		{
+			return Driver.GetIsElementExist(By.XPath(CAT_TABLE));
+		}
+
 		private bool tutorialExist()
 		{
 			CustomTestContext.WriteLine("Проверить, открыта ли подсказка.");
@@ -815,6 +829,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		[FindsBy(How = How.XPath, Using = СONFIRM_YES_BTN)]
 		protected IWebElement ConfirmYesButton { get; set; }
 
+		[FindsBy(How = How.XPath, Using = CAT_TABLE)]
+		protected IWebElement CatTable { get; set; }
+
 		protected const string CONFIRM_BTN = "//a[@id='confirm-btn']";
 		protected const string FIND_ERROR_BTN_ID = "qa-error-btn";
 		protected const string FINISH_TUTORIAL_BUTTON = "//span[contains(text(),'Finish') and contains(@id, 'button')]";
@@ -852,7 +869,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		protected const string MATCH_COLUMN = "//div[@id='segments-body']//table[*#*]//tbody//td[contains(@class,'matchcolum')]";
 		protected const string TARGET_MATCH_COLUMN_PERCENT = "//table[@data-recordindex='*#*' and contains(@id, 'tableview')]//td[6]//div//span";
 		protected const string CAT_PANEL_PERCENT_MATCH = ".//div[@id='cat-body']//table[*#*]//tbody//tr//td[3]//div//span";
-
+		protected const string CAT_PANEL_TERM = ".//div[@id='cat-body']//table//tbody//tr//td[2]//div";
 		protected const string CAT_TYPE_LIST_IN_PANEL = ".//div[@id='cat-body']//table//td[3]/div";
 		protected const string CAT_TRANSLATION = ".//div[@id='cat-body']//table[*#*]//td[4]/div";
 		protected const string CAT_TYPE = ".//div[@id='cat-body']//table//td[3]/div[text()='*#*']";
@@ -863,5 +880,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 
 		protected const string EXISTING_TERM_MESSAGE = "//div[contains(@id, 'messagebox') and contains(string(), 'This glossary already contains term(s)')]";
 		protected const string СONFIRM_YES_BTN = "//div[contains(@id, 'messagebox')]//span[contains(string(), 'Yes')]";
+		protected const string CAT_TABLE = ".//div[@id='cat-body']//table";
 	}
 }

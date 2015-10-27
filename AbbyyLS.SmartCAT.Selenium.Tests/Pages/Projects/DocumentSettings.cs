@@ -98,6 +98,23 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 			return GetPage();
 		}
 
+		/// <summary>
+		/// Убрать галочку для Мachine Тranslation
+		/// </summary>>
+		public DocumentSettings UnselectMachineTranslation(MachineTranslationType machineTranslationType)
+		{
+			CustomTestContext.WriteLine("Проверить, что Мachine Тranslation {0} выбрано.", machineTranslationType);
+			var machineTranslationCheckbox = Driver.SetDynamicValue(How.XPath, MT_CHECKBOX, machineTranslationType.Description());
+
+			if (machineTranslationCheckbox.Selected)
+			{
+				CustomTestContext.WriteLine("Убрать галочку для Мachine Тranslation {0} в настройках документа.", machineTranslationType);
+				machineTranslationCheckbox.Click();
+			}
+
+			return GetPage();
+		}
+
 		[FindsBy(How = How.XPath, Using = NAME_INPUT)]
 		protected IWebElement Name { get; set; }
 

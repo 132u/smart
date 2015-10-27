@@ -145,10 +145,13 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 			return this;
 		}
 
-		public ProjectsHelper ClickDocumentSettings(string projectName, int documentNumber = 1)
+		public ProjectsHelper CloseDocumentSettings(string projectName)
 		{
-			BaseObject.InitPage(_projectsPage, Driver);
-			_projectsPage.ClickDocumentSettings(projectName, documentNumber);
+			BaseObject.InitPage(_documentSettings, Driver);
+			_documentSettings
+				.ClickSaveButton<ProjectsPage>(Driver)
+				.AssertDialogBackgroundDisappeared<ProjectsPage>(Driver)
+				.AssertIsProjectLoaded(projectName);
 
 			return this;
 		}
@@ -165,15 +168,26 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 			return this;
 		}
 
-		public ProjectsHelper AddMachineTranslationToDocument(string projectName, int documentNumber = 1, MachineTranslationType machineTranslation = MachineTranslationType.DefaultMT)
+		public ProjectsHelper SelectMachineTranslation(MachineTranslationType machineTranslation = MachineTranslationType.DefaultMT)
+		{
+			BaseObject.InitPage(_documentSettings, Driver);
+			_documentSettings.SelectMachineTranslation(machineTranslation);
+
+			return this;
+		}
+
+		public ProjectsHelper OpenDocumentSettings(string projectName, int documentNumber = 1)
 		{
 			BaseObject.InitPage(_projectsPage, Driver);
-			_projectsPage
-				.ClickDocumentSettings(projectName, documentNumber)
-				.SelectMachineTranslation(machineTranslation)
-				.ClickSaveButton<ProjectsPage>(Driver)
-				.AssertDialogBackgroundDisappeared<ProjectsPage>(Driver)
-				.AssertIsProjectLoaded(projectName);
+			_projectsPage.ClickDocumentSettings(projectName, documentNumber);
+
+			return this;
+		}
+
+		public ProjectsHelper UnselectMachineTranslation(MachineTranslationType machineTranslation = MachineTranslationType.DefaultMT)
+		{
+			BaseObject.InitPage(_documentSettings, Driver);
+			_documentSettings.UnselectMachineTranslation(machineTranslation);
 
 			return this;
 		}
