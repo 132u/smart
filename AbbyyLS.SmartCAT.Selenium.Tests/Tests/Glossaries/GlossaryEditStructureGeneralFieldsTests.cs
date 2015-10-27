@@ -30,7 +30,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 				.FillTermInLanguagesAndTermsSection();
 		}
 
-		[TestCase(GlossarySystemField.Interpretation), Ignore("PRX-10924")]
+		[TestCase(GlossarySystemField.Interpretation)]
 		[TestCase(GlossarySystemField.InterpretationSource)]
 		[TestCase(GlossarySystemField.Example)]
 		public void AddSystemFieldTextareaTypeTest(GlossarySystemField fieldName)
@@ -46,7 +46,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 				.AssertExtendTermsCountMatch(expectedTermCount: 1);
 		}
 
-		[Test, Ignore("PRX-10924")]
+		[Test]
 		public void AddTopicSystemFieldTest()
 		{
 			var value = "Life";

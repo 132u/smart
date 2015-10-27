@@ -24,7 +24,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 			_glossaryUniqueName = GlossariesHelper.UniqueGlossaryName();
 		}
 
-		[Test, Ignore("PRX-10924")]
+		[Test]
 		public void AddTextFieldTest()
 		{
 			var fieldName = "TextField";
@@ -120,7 +120,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 				.AssertExtendTermsCountMatch(expectedTermCount: 1);
 		}
 
-		[Test, Ignore("PRX-10924")]
+		[Test]
 		public void AddMediaFieldTest()
 		{
 			var fieldName = "MediaField";
@@ -141,7 +141,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 				.AssertExtendTermsCountMatch(expectedTermCount: 1);
 		}
 
-		[Test, Ignore("PRX-10924")]
+		[Test]
 		public void AddMediaRequiredFieldTest()
 		{
 			var fieldName = "MediaRequiredField";
@@ -165,7 +165,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 				.AssertExtendTermsCountMatch(expectedTermCount: 1);
 		}
 
-		[Test, Ignore("PRX-10924")]
+		[Test]
 		public void AddImageFieldTest()
 		{
 			var fieldName = "ImageField";
@@ -187,7 +187,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 				.AssertExtendTermsCountMatch(expectedTermCount: 1);
 		}
 
-		[Test, Ignore("PRX-10924")]
+		[Test]
 		public void AddImageRequiredFieldTest()
 		{
 			var fieldName = "ImageField";
@@ -236,7 +236,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 				.AssertExtendTermsCountMatch(expectedTermCount: 1);
 		}
 
-		[Test, Ignore("PRX-10924")]
+		[Test]
 		public void AddListRequiredFieldTest()
 		{
 			var fieldName = "ListRequiredField";
@@ -288,7 +288,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 				.AssertExtendTermsCountMatch(expectedTermCount: 1);
 		}
 
-		[Test, Ignore("PRX-10924")]
+		[Test]
 		public void AddMultiselectListRequiredFieldTest()
 		{
 			var fieldName = "MultiselectListRequiredField";
@@ -359,7 +359,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 				.AssertExtendTermsCountMatch(expectedTermCount: 1);
 		}
 
-		[Test, Ignore("PRX-10924")]
+		[Test]
 		public void AddNumberRequiredFieldTest()
 		{
 			var fieldName = "NumberField";

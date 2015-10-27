@@ -285,7 +285,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.Glossary.EditStructure.C
 		/// <summary>
 		/// Метод тестирования изменения структуры: добавление пользовательского поля Список
 		/// </summary>
-		[Test, Ignore("PRX-10924")]
+		[Test]
 		public void AddListFieldTest()
 		{
 			// Создать глоссарий, изменить структуру с добавлением списка, открыть добавление нового термина
@@ -358,7 +358,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Workspace.Glossary.EditStructure.C
 		/// <summary>
 		/// Метод тестирования изменения структуры: добавление пользовательского поля Число
 		/// </summary>
-		[Test, Ignore("PRX-10924")]
+		[Test]
 		public void AddNumberFieldTest()
 		{
 			// Создать глоссарий, изменить структуру, открыть добавление нового термина
