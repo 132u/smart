@@ -85,11 +85,11 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 		}
 
 		/// <summary>
-		/// Нажать на кнопку Save Entry для сохраенния термина
+		/// Нажать на кнопку Save Entry для сохранения термина
 		/// </summary>
 		public GlossaryPage ClickSaveEntryButton()
 		{
-			CustomTestContext.WriteLine("Нажать на кнопку Save Entry для сохраенния термина.");
+			CustomTestContext.WriteLine("Нажать на кнопку Save Entry для сохранения термина.");
 
 			var i = 0;
 

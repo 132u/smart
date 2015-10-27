@@ -667,7 +667,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 		public GlossariesHelper AssertDefinitionFilled(string definition)
 		{
 			BaseObject.InitPage(_glossaryPage, Driver);
-			_glossaryPage.OpenLanguageAndTermDetailsViewMode()
+			_glossaryPage
+				.OpenLanguageAndTermDetailsViewMode()
 				.AssertDefinitionIsFilled(definition);
 
 			return this;

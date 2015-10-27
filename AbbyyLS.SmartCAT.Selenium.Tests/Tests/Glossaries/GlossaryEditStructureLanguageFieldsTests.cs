@@ -31,7 +31,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 		///<summary>
 		///Метод тестирования изменения структуры на уровне Languages - поле Comment
 		///</summary>
-		[Test]
+		[Test, Ignore("PRX-10924")]
 		public void AddCommentFieldTest()
 		{
 			var comment = "Comment Example";

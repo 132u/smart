@@ -236,7 +236,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 				.AssertExtendTermsCountMatch(expectedTermCount: 1);
 		}
 
-		[Test]
+		[Test, Ignore("PRX-10924")]
 		public void AddListRequiredFieldTest()
 		{
 			var fieldName = "ListRequiredField";
@@ -359,7 +359,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 				.AssertExtendTermsCountMatch(expectedTermCount: 1);
 		}
 
-		[Test]
+		[Test, Ignore("PRX-10924")]
 		public void AddNumberRequiredFieldTest()
 		{
 			var fieldName = "NumberField";
