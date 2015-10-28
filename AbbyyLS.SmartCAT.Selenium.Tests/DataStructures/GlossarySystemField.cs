@@ -20,6 +20,30 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.DataStructures
 		Interpretation,
 
 		[Description("Example")]
-		Example
+		Example,
+
+		[Description("Source")]
+		Source,
+
+		[Description("Context")]
+		Context,
+
+		[Description("Context source")]
+		ContextSource,
+
+		[Description("Status")]
+		Status,
+
+		[Description("Label")]
+		Label,
+
+		[Description("Gender")]
+		Gender,
+
+		[Description("Number")]
+		Number,
+
+		[Description("Part of speech")]
+		PartOfSpeech
 	}
 }

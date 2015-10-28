@@ -213,7 +213,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories
 		/// <summary>
 		/// Проверить, что поле 'Группы проектов' является видимым
 		/// </summary>
-		/// <returns></returns>
 		public TranslationMemoriesPage AssertProjectGroupsFieldDisplay()
 		{
 			CustomTestContext.WriteLine("Проверить, что поле 'Группы проектов' является видимым");

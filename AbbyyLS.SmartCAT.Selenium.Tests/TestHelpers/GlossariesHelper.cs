@@ -523,6 +523,21 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 			return this;
 		}
 
+		public GlossariesHelper SpecifyDropdownTermField(GlossarySystemField fieldName, string option)
+		{
+			BaseObject.InitPage(_glossaryPage, Driver);
+			_glossaryPage
+				.ExpandDropdownTermField(fieldName)
+				.SelectOptionDropdownTermField(option);
+
+			return this;
+		}
+
+		public string OptionValueText(GlossarySystemField fieldName, int optionNumber = 2)
+		{
+			return _glossaryPage.OptionValue(fieldName, optionNumber);
+		}
+
 		public GlossariesHelper ClickSaveEntryButton()
 		{
 			BaseObject.InitPage(_glossaryPage, Driver);
@@ -594,6 +609,22 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 			_glossaryPage.UploadMultimediaFile(mediaFile);
 
 			_glossaryPage.AssertProgressUploadDissapeared(fieldName);
+
+			return this;
+		}
+
+		public GlossariesHelper ClickTermInLanguagesAndTermsColumn(int termNumber = 2)
+		{
+			CustomTestContext.WriteLine("Нажать на колонку 'Languages And Terms'.");
+			_glossaryPage.ClickTermInLanguagesAndTermsColumn(termNumber);
+
+			return this;
+		}
+
+		public GlossariesHelper FillTermField(GlossarySystemField termfield, string text)
+		{
+			BaseObject.InitPage(_glossaryPage, Driver);
+			_glossaryPage.FillTermField(termfield, text);
 
 			return this;
 		}
@@ -1019,7 +1050,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 		{
 			BaseObject.InitPage(_glossaryStructureDialog, Driver);
 			_glossaryStructureDialog.SelectSystemField(systemField)
-				.ClickAddToListButton()
+				.ClickAddSystemFieldButton()
 				.AssertSystemFieldIsAdded(systemField)
 				.ClickSaveButton()
 				.AssertDialogBackgroundDisappeared<GlossaryPage>(Driver);
@@ -1032,6 +1063,18 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 			BaseObject.InitPage(_glossaryStructureDialog, Driver);
 			_glossaryStructureDialog.ExpandLevelDropdown()
 				.SelectLevel(level);
+
+			return this;
+		}
+
+		public GlossariesHelper AddTermField(GlossarySystemField termField)
+		{
+			BaseObject.InitPage(_glossaryStructureDialog, Driver);
+			_glossaryStructureDialog
+				.SelectTermField(termField)
+				.ClickAddSystemFieldButton()
+				.ClickSaveButton()
+				.AssertDialogBackgroundDisappeared<GlossaryPage>(Driver);
 
 			return this;
 		}
@@ -1307,7 +1350,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 				_glossaryStructureDialog.FillDefaultValue(defaultValue);
 			}
 
-			_glossaryStructureDialog.ClickAddCustoFieldButton()
+			_glossaryStructureDialog.ClickAddCustomFieldButton()
 				.ClickSaveButton()
 				.AssertDialogBackgroundDisappeared<GlossaryPage>(Driver);
 

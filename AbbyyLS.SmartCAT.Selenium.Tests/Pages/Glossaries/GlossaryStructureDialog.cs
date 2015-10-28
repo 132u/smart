@@ -81,7 +81,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 			foreach (var field in fieldList)
 			{
 				field.Click();
-				AddToListButton.Click();
+				AddSystemFieldButton.Click();
 			}
 
 			return GetPage();
@@ -121,6 +121,18 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 			var levelOption = Driver.SetDynamicValue(How.XPath, LEVEL_OPTION, level.Description());
 
 			levelOption.Click();
+
+			return GetPage();
+		}
+
+		/// <summary>
+		/// Выбрать поле типа термин
+		/// </summary>
+		/// <returns></returns>
+		public GlossaryStructureDialog SelectTermField(GlossarySystemField termField)
+		{
+			CustomTestContext.WriteLine("Выбрать поле {0} типа термин.", termField);
+			Driver.SetDynamicValue(How.XPath, TERM_FIELD_OPTION, termField.Description()).ScrollAndClick();
 
 			return GetPage();
 		}
@@ -205,9 +217,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 		/// <summary>
 		/// Нажать кнопку 'Add to List'
 		/// </summary>
-		public GlossaryStructureDialog ClickAddCustoFieldButton()
+		public GlossaryStructureDialog ClickAddCustomFieldButton()
 		{
-			CustomTestContext.WriteLine("Нажать кнопку 'Add to List'.");
+			CustomTestContext.WriteLine("Нажать кнопку 'Add to List' на вкладке 'Custom Fields'.");
 			AddCustomFieldButton.Click();
 
 			return GetPage();
@@ -287,5 +299,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 
 		protected const string ADD_SYSTEM_FIELD_BUTTON = "//div[contains(@class, 'js-popup-edit-structure')]//div[contains(@class, 'addinlist')]//span//a";
 		protected const string FIELD_NAME_LIST_IN_SYSTEM_FILEDS_TAB = "//table[contains(@class,'js-predefined-attrs-table')][contains(@style,'table')]//tr[contains(@class,'js-attr-row') and not(contains(@class,'g-hidden'))]/td[1]";
+		protected const string TERM_FIELD_OPTION = "//table[contains(@class, 'table term')]//td[text()='*#*']";
 	}
 }

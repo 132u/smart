@@ -290,6 +290,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 		public GlossaryPage FillTermInLanguagesAndTermsSection(string text)
 		{
 			CustomTestContext.WriteLine("Добавить термин и ввести текст в поле термина в секции 'Languages and terms'.");
+			Driver.WaitUntilElementIsDisplay(By.XPath(ADD_BUTTON_LIST));
 			var addButtonLists = Driver.GetElementList(By.XPath(ADD_BUTTON_LIST));
 
 			for (var i = 1; i <= addButtonLists.Count; i++)
@@ -300,6 +301,40 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 				CustomTestContext.WriteLine("Ввести {0} в поле термина №{1} в секции 'Languages and terms'.", text, i);
 				Driver.SetDynamicValue(How.XPath, TERM_INPUT, i.ToString()).SetText(text);
 			}
+
+			return GetPage();
+		}
+
+		/// <summary>
+		/// Получить значение опции в дропдауне поля
+		/// </summary>
+		/// <param name="fieldName">название поля</param>
+		/// <param name="optionNumber">номер опции</param>
+		public string OptionValue(GlossarySystemField fieldName, int optionNumber)
+		{
+			CustomTestContext.WriteLine("Получить значение опции №{0} в дропдауне поля {1}.", optionNumber, fieldName);
+			
+			return Driver.SetDynamicValue(How.XPath, OPTION_TEXT_IN_TERM_FIELD, fieldName.ToString(), optionNumber.ToString()).GetAttribute("value");
+		}
+
+		/// <summary>
+		/// Раскрыть поле типа дропдаун
+		/// </summary>
+		public GlossaryPage ExpandDropdownTermField(GlossarySystemField fieldName)
+		{
+			CustomTestContext.WriteLine("Раскрыть поле {0} типа дропдаун.", fieldName);
+			Driver.SetDynamicValue(How.XPath, DROPDOWN_TERM_FIELD, fieldName.ToString()).Click();
+
+			return GetPage();
+		}
+
+		/// <summary>
+		/// Выбрать опцию
+		/// </summary>
+		public GlossaryPage SelectOptionDropdownTermField(string option)
+		{
+			CustomTestContext.WriteLine("Выбрать опцию {0}.", option);
+			Driver.SetDynamicValue(How.XPath, OPTION_IN_TERM_FIELD, option).Click();
 
 			return GetPage();
 		}
@@ -1107,6 +1142,69 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 			return GetPage();
 		}
 
+		/// <summary>
+		/// Нажать на термин в колонке 'Langiages and terms'
+		/// </summary>
+		public GlossaryPage ClickTermInLanguagesAndTermsColumn(int termNumber = 2)
+		{
+			CustomTestContext.WriteLine("Нажать на термин №{0} в колонке 'Langiages and terms'.", termNumber);
+			Driver.SetDynamicValue(How.XPath, TERM_IN_LANGUAGES_AND_TERMS_COLUMN, termNumber.ToString()).Click();
+
+			return GetPage();
+		}
+
+		/// <summary>
+		/// Заполнить поле
+		/// </summary>
+		public GlossaryPage FillTermField(GlossarySystemField termField, string text)
+		{
+			CustomTestContext.WriteLine("Заполнить поле {0}.", termField);
+
+			Driver.SetDynamicValue(How.XPath, TERM_FIELD_EDIT_MODE, termField.ToString()).SetText(text);
+
+			return GetPage();
+		}
+
+		/// <summary>
+		/// Проверить, отображается ли термин в режиме редактирования
+		/// </summary>
+		public bool IsTermFieldEditModeDisplayed(GlossarySystemField termField)
+		{
+			CustomTestContext.WriteLine("Проверить, отображается ли термин {0} в режиме редактирования.", termField);
+
+			return Driver.GetIsElementExist(By.XPath(TERM_FIELD_EDIT_MODE.Replace("*#*", termField.ToString())));
+		}
+
+		/// <summary>
+		/// Получить текст из термина в режиме просмотра
+		/// </summary>
+		public string TermFieldViewModelText(GlossarySystemField termField)
+		{
+			CustomTestContext.WriteLine("Получить текст из термина {0} в режиме просмотра.", termField);
+
+			return Driver.SetDynamicValue(How.XPath, TERM_FIELD_VIEW_MODE, termField.Description()).Text;
+		}
+
+		/// <summary>
+		/// Проверить, отображается ли термин типа дропдаун в режиме редактирования
+		/// </summary>
+		public bool IsDropdownTermFieldEditModeDisplayed(GlossarySystemField termField)
+		{
+			CustomTestContext.WriteLine("Проверить, отображается ли термин {0} типа дропдаун в режиме редактирования.", termField);
+
+			return Driver.GetIsElementExist(By.XPath(DROPDOWN_TERM_FIELD_EDIT_MODE.Replace("*#*", termField.ToString())));
+		}
+
+		/// <summary>
+		/// Получить текст из термина типа дропдаун в режиме просмотра
+		/// </summary>
+		public string DropdownTermFieldViewModelText(GlossarySystemField termField)
+		{
+			CustomTestContext.WriteLine("Получить текст из термина типа дропдаун в режиме просмотра.", termField);
+
+			return Driver.SetDynamicValue(How.XPath, DROPDOWN_TERM_FIELD_VIEW_MODE, termField.ToString()).Text.ToLower();
+		}
+
 		[FindsBy(How = How.XPath, Using = FIRST_TERM)]
 		protected IWebElement FirstTerm { get; set; }
 
@@ -1315,6 +1413,14 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 		protected const string SYSTEM_FIELD_DROPDOWN_TYPE = "//div[contains(@class,'js-concept-attrs')]//div[contains(@class,'js-control')]//div[contains(@class, 'js-edit')]//p[text()='*#*']";
 		protected const string TOPIC_FIELD = "//div[contains(@class,'ui-dropdown-treeview-wrapper')]";
 		protected const string TOPIC_OPTION = "//div[contains(@class,'ui-treeview_node')]//div/span[text()='Life']";
+		protected const string TERM_FIELD_EDIT_MODE = "//div[@class='l-corpr__viewmode js-term-attrs']//textarea[@name='*#*']";
+		protected const string TERM_FIELD_VIEW_MODE = "//div[@class='l-corpr__viewmode js-term-attrs']//p[@title='*#*']//following-sibling::div";
+		protected const string DROPDOWN_TERM_FIELD_EDIT_MODE = "//td[contains(@class,'js-details-panel')]//select[@name='*#*']";
+		protected const string TERM_IN_LANGUAGES_AND_TERMS_COLUMN = "//div[@class='l-corprtree__langbox'][*#*]//span[contains(@class, 'transtxt js-text')]";
+		protected const string DROPDOWN_TERM_FIELD_VIEW_MODE = "//td[contains(@class,'js-details-panel')]//div[@class='l-corpr__viewmode js-term-attrs']//select[@name='*#*']/../..//div[contains(@class,'js-value')]";
+		protected const string OPTION_TEXT_IN_TERM_FIELD = "//td[contains(@class,'js-details-panel')]//div[@class='l-corpr__viewmode js-term-attrs']//select[@name='*#*']//option[*##*]";
+		protected const string DROPDOWN_TERM_FIELD = "//td[contains(@class,'js-details-panel')]//div[@class= 'l-corpr__viewmode js-term-attrs']//select[@name='*#*']/..//span[contains(@class,'js-dropdown')]";
+		protected const string OPTION_IN_TERM_FIELD = "//span[contains(@class,'js-dropdown__list')]//span[@data-id='*#*']";
 	}
 
 }

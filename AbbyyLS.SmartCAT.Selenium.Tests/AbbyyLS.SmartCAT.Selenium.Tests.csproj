@@ -233,6 +233,7 @@
     <Compile Include="Tests\Editor\EditorPreviousStageTests.cs" />
     <Compile Include="Tests\Editor\EditorTagTests.cs" />
     <Compile Include="Tests\Editor\EditorCopySourceToTargetTests.cs" />
+    <Compile Include="Tests\Glossaries\GlossaryEditStructureTermFieldsTest.cs" />
     <Compile Include="Tests\Glossaries\UserRights\SuggestTermsTest.cs" />
     <Compile Include="Tests\Glossaries\UserRights\SuggestTermsWithoutRight.cs" />
     <Compile Include="Tests\Projects\AssignResponsiblesTest.cs" />
