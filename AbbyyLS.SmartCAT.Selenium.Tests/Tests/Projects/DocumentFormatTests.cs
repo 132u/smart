@@ -58,7 +58,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 		[TestCase("idmlFile.idml")]
 		[TestCase("sdlxliffFile.sdlxliff")]
 		[TestCase("xlsxFile.xlsx")]
-		[TestCase("zipFile.zip")]
+		[TestCase("Source.zip")]
 		public void DocumentFormatsTest(string file)
 		{
 			var projectUniqueName = _createProjectHelper.GetProjectUniqueName();
