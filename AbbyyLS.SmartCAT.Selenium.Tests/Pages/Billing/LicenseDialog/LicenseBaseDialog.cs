@@ -49,7 +49,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Billing.LicenseDialog
 		public BillingPage ClickCloseButton()
 		{
 			CustomTestContext.WriteLine("Нажать кнопку Close.");
-			Driver.WaitUntilElementIsDisplay(CloseButton);
+			Driver.WaitUntilElementIsDisplay(By.XPath(CLOSE_BUTTON));
 			CloseButton.Click();
 			Driver.WaitUntilElementIsDisappeared(By.XPath(CLOSE_BUTTON));
 
