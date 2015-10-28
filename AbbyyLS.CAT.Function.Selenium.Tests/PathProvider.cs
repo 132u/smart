@@ -48,14 +48,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		}
 
 		/// <summary>
-		/// Путь к папке тестовых файлов на match'и
-		/// </summary>
-		public static string FilesForMatchTestFolder
-		{
-			get { return Path.GetFullPath(CfgRoot.FilesDirectory + "/FilesForMatchTest"); }
-		}
-
-		/// <summary>
 		/// Путь к папке тестовых "длинных" файлов
 		/// </summary>
 		public static string LongFilesTestFolder 
@@ -88,14 +80,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		}
 
 		/// <summary>
-		/// Путь к папке тестовых tmx
-		/// </summary>
-		public static string TMTestFolder
-		{
-			get { return Path.GetFullPath(CfgRoot.FilesDirectory + "/TMTestFiles"); }
-		}
-
-		/// <summary>
 		/// Путь к папке тестовых Xliff
 		/// </summary>
 		public static string XliffTestFolder 
@@ -120,42 +104,11 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		}
 
 		/// <summary>
-		/// Полный путь ко второму документу для загрузки
-		/// </summary>
-		public static string DocumentFile2
-		{
-			get { return Path.GetFullPath(CfgRoot.FilesDirectory + "/English.docx"); }
-		}
-
-		/// <summary>
-		/// Путь к тестовому файлу jpg
-		/// </summary>
-		public static string ImageFile 
-		{
-			get { return Path.GetFullPath(CfgRoot.FilesDirectory + "/TestImage.jpg"); }
-		}
-		
-		/// <summary>
-		/// Путь к тестовому файлу mp3
-		/// </summary>
-		public static string AudioFile 
-		{
-			get { return Path.GetFullPath(CfgRoot.FilesDirectory + "/TestAudio.mp3"); }
-		}
-
-
-
-		/// <summary>
 		/// Путь к файлу тестовых юзеров
 		/// </summary>
 		public static string TestUserFile 
 		{
 			get { return Path.GetFullPath(CfgRoot.ConfigDirectory + "/TestUsers.xml"); }
-		}
-
-		public static string AolUserFile
-		{
-			get { return Path.GetFullPath(CfgRoot.ConfigDirectory + "/AolUsers.xml"); }
 		}
 
 		/// <summary>

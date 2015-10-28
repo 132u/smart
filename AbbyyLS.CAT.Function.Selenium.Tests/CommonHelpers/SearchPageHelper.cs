@@ -44,21 +44,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 				"Ошибка: результаты не появились");
 		}
 
-		/// <summary>
-		/// Вернуть названия найденных глоссариев
-		/// </summary>
-		/// <returns>названия глоссариев</returns>
-		public List<string> GetGlossaryResultNames()
-		{
-			return GetTextListElement(By.XPath(GLOSSARY_RESULT_GLOSSARY_ITEM_XPATH));
-		}
-
-		public string GetGlossaryResultSrcText(int resultNumber)
-		{
-			Logger.Debug(string.Format("Вернуть текст src найденного перевода глоссария. Номер результата: {0}", resultNumber));
-			return GetTextElement(By.XPath("//table[" + resultNumber + "]" + GLOSSARY_RESULT_TEXT_TD));
-		}
-
 		protected const string SEARCH_FORM_XPATH = "//form[contains(@class,'js-search-form')]";
 		protected const string SEARCH_TEXT_ID = "searchText";
 		protected const string SEARCH_BTN_XPATH = SEARCH_FORM_XPATH + "//span[contains(@class,'g-redbtn search')]//input";

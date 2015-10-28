@@ -41,25 +41,10 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			return WaitUntilDisplayElement(By.XPath(CREATE_PROJECT_DIALOG_XPATH));
 		}
 
-		public bool WaitDialogDisappear()
-		{
-			Logger.Debug("Дождаться, пока пропадет диалог создания проекта.");
-			return WaitUntilDisappearElement(By.XPath(CREATE_PROJECT_DIALOG_XPATH));
-		}
-
 		public void FillDeadlineDate(string date)
 		{
 			Logger.Debug(String.Format("Добавление deadline даты: {0}", date));
 			ClearAndAddText(By.XPath(DEADLINE_DATE_INPUT_XPATH), date);
-		}
-
-		/// <summary>
-		/// Получить значение deadline
-		/// </summary>
-		/// <returns>deadline</returns>
-		public string GetDeadlineValue()
-		{
-			return GetElementAttribute(By.XPath(DEADLINE_DATE_INPUT_XPATH), "value");
 		}
 
 		public void SelectSourceLanguage(LANGUAGE langType)
@@ -117,24 +102,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			return GetElementAttribute(By.XPath(PROJECT_NAME_INPUT_XPATH), "value");
 		}
 
-		/// <summary>
-		/// Вернуть, отображается ли первый шаг
-		/// </summary>
-		/// <returns></returns>
-		public bool GetIsFirstStep()
-		{
-			return GetIsElementDisplay(By.XPath(PROJECT_NAME_INPUT_XPATH));
-		}
-
-		/// <summary>
-		/// Вернуть введенное имя проекта
-		/// </summary>
-		/// <returns></returns>
-		public string GetProjectInputName()
-		{
-			return GetElementAttribute(By.XPath(PROJECT_NAME_INPUT_XPATH), "value");
-		}
-
 		public bool WaitDocumentAppear(string file)
 		{
 			Logger.Debug(string.Format("Ожидание появления загруженного документа {0} в списке", file));
@@ -163,24 +130,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		public void ClickCreateTM()
 		{
 			ClickElement(By.XPath(CREATE_TM_BTN_XPATH));
-		}
-
-		/// <summary>
-		/// Вернуть: шаг выбора ТМ?
-		/// </summary>
-		/// <returns>текущий шаг - шаг выбора ТМ</returns>
-		public bool GetIsStepChooseTM()
-		{
-			return GetIsElementDisplay(By.XPath(CREATE_TM_BTN_XPATH));
-		}
-
-		/// <summary>
-		/// Вернуть: шаг выбора глоссария?
-		/// </summary>
-		/// <returns>текущий шаг - шаг выбора глоссария</returns>
-		public bool GetIsStepChooseGlossary()
-		{
-			return GetIsElementDisplay(By.XPath(FIRST_GLOSSARY_XPATH));
 		}
 
 		public bool WaitCreateTMDialog()
@@ -287,72 +236,10 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			ClickElement(By.XPath(GetMtXpath(mtType)));
 		}
 
-		/// <summary>
-		/// Вернуть: текущий шаг - шаг выбора МТ?
-		/// </summary>
-		/// <returns>текущий шаг - выбор МТ</returns>
-		public bool GetIsStepChooseMT()
-		{
-			return GetIsElementDisplay(By.XPath(MT_TABLE_XPATH));
-		}
-
-		/// <summary>
-		/// Вернуть: текущий шаг - шаг заполнения основной информации
-		/// </summary>
-		/// <returns>текущий шаг - шаг заполнения основной информации</returns>
-		public bool GetIsGeneralInformationStep()
-		{
-			return GetIsElementDisplay(By.XPath(PROJECT_NAME_INPUT_XPATH));
-		}
-
-		/// <summary>
-		/// Вернуть: отмечена ли МТ
-		/// </summary>
-		/// <param name="mtType">тип МТ</param>
-		/// <returns>отмечена</returns>
-		public bool GetIsMTChecked(MT_TYPE mtType)
-		{
-			return GetIsInputChecked(By.XPath(GetMtXpath(mtType)));
-		}
-
 		public void ClickFinishCreate()
 		{
 			Log.Trace("Нажать на кнопку Finish");
 			ClickElement(By.XPath(FINISH_BTN_XPATH));
-		}
-
-		/// <summary>
-		/// Кликнуть Back
-		/// </summary>
-		public void ClickBackBtn()
-		{
-			ClickElement(By.XPath(BACK_BTN_XPATH));
-			//даём форме время обновиться, иначе может произойти клик по кнопке Next до реакции на кнопку Back.
-			Thread.Sleep(1000);
-		}
-
-		/// <summary>
-		/// Вернуть, отмечено ли поле Имя ошибкой
-		/// </summary>
-		/// <returns>отмечено ошибкой</returns>
-		public bool GetIsNameInputError()
-		{
-			var nameInputWebElement = By.XPath(PROJECT_NAME_INPUT_XPATH);
-			WaitUntilDisplayElement(nameInputWebElement);
-
-			return GetElementClass(nameInputWebElement).Contains("error");
-		}
-
-		/// <summary>
-		/// Вернуть, есть ли сообщение о существующем имени
-		/// </summary>
-		/// <returns>есть</returns>
-		public bool GetIsExistErrorMessageNameExists()
-		{
-			var errorMessageWebElement = By.XPath(ERROR_NAME_EXISTS_XPATH);
-			WaitUntilDisplayElement(errorMessageWebElement);
-
-			return GetIsElementDisplay(errorMessageWebElement);
 		}
 
 		/// <summary>
@@ -367,95 +254,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			SetDriverTimeoutDefault();
 
 			return isExistError;
-		}
-
-		/// <summary>
-		/// Кликнуть закрыть диалог
-		/// </summary>
-		public void ClickCloseDialog()
-		{
-			ClickElement(By.XPath(CLOSE_DIALOG_BTN_XPATH));
-		}
-
-		/// <summary>
-		/// Вернуть, отмечен ли checkBox около TM
-		/// </summary>
-		/// <param name="TMNumber">номер ТМ</param>
-		/// <returns>отмечен</returns>
-		public bool GetIsTMChecked(int TMNumber)
-		{
-			return GetIsInputChecked(By.XPath(TM_TABLE_XPATH + "//tr[" + TMNumber + "]" + TM_TABLE_CHECK_TD));
-		}
-
-		/// <summary>
-		/// Вернуть, отмечен ли radio около TM
-		/// </summary>
-		/// <param name="TMNumber">номер ТМ</param>
-		/// <returns>отмечен</returns>
-		public bool GetIsTMRadioChecked(int TMNumber)
-		{
-			return GetIsInputChecked(By.XPath(TM_TABLE_XPATH + "//tr[" + TMNumber + "]" + TM_TABLE_RADIO_TD));
-		}
-
-		/// <summary>
-		/// Вернуть, отмечен ли checkbox первого глоссария
-		/// </summary>
-		/// <returns>отмечен</returns>
-		public bool GetIsFirstGlossaryChecked()
-		{
-			return GetIsInputChecked(By.XPath(FIRST_GLOSSARY_INPUT_XPATH));
-		}
-
-		/// <summary>
-		/// Открыть список stage
-		/// </summary>
-		public void OpenStageList()
-		{
-			ClickElement(By.XPath(STAGE_BTN_XPATH));
-		}
-
-		/// <summary>
-		/// Вернуть, текущий шаг - выбор stage?
-		/// </summary>
-		/// <returns>текущий шаг - выбор stage</returns>
-		public bool GetIsStepChooseStage()
-		{
-			return GetIsElementDisplay(By.XPath(STAGE_BTN_XPATH));
-		}
-
-		/// <summary>
-		/// Выбрать Stage
-		/// </summary>
-		/// <param name="stageText">название</param>
-		/// <returns>есть такой Stage</returns>
-		public bool SelectStage(string stageText)
-		{
-			// TODO неудачный айдишник
-			var xPath = STAGE_ITEM_XPATH + "[contains(@title,'" + stageText + "')]";
-			var isExistStage = GetIsElementDisplay(By.XPath(xPath));
-
-			if (isExistStage)
-			{
-				ClickElement(By.XPath(xPath));
-			}
-
-			return isExistStage;
-		}
-
-		/// <summary>
-		/// Вернуть текущее значение Stage
-		/// </summary>
-		/// <returns>stage</returns>
-		public string GetCurrentStage()
-		{
-			return GetElementAttribute(By.XPath(STAGE_BTN_XPATH), "title");
-		}
-
-		public bool GetIsExistTM(string tmName)
-		{
-			Logger.Debug(string.Format("Вернуть, существует ли ТМ {0}", tmName));
-
-			return GetIsElementExist(By.XPath(TM_TABLE_TM_NAME_XPATH + "[text()='" + tmName + "']"));
 		}
 
 		/// <summary>
@@ -495,70 +293,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			return "//tr[@data-id='" + typemt + "']//input[contains(@name,'mt-checkbox')]";
 		}
 
-		/// <summary>
-		/// Возвращает список задач Workflow на этапе создания проекта
-		/// </summary>
-		/// <returns>Список строк</returns>
-		public List<string> GetWFTaskList()
-		{
-			var wfTaskList = new List<string>();
-
-			// Выборка задач workflow
-			var xPath = WF_TABLE_XPATH + "//tr//td[2]//span//span";
-			var wfTaskIList = GetElementList(By.XPath(xPath));
-
-			if (wfTaskIList.Count > 0)
-			{
-				wfTaskList.AddRange(wfTaskIList.Select(item => item.Text));
-			}
-			return wfTaskList;
-		}
-
-		/// <summary>
-		/// Возвращает список всех типов workflow для заданной задачи
-		/// </summary>
-		/// <param name="taskNumber">Номер задачи</param>
-		/// <returns>Список типов задачи</returns>
-		public List<string> GetWFTaskTypeList(int taskNumber)
-		{
-			// Выбор задачи workflow
-			var workflowXPath = WF_TABLE_XPATH + "//tr[" + taskNumber.ToString() + "]//td[2]//span//span";
-
-			// Получение выпадающего списка
-			ClickElement(By.XPath(workflowXPath));
-			var wfDropdownIList = GetElementList(By.XPath(WF_DROPDOWNLIST_XPATH));
-
-			// Выбираем заданный
-
-			return wfDropdownIList.Select(wfTaskType => wfTaskType.Text).ToList();
-		}
-
-		/// <summary>
-		/// Задает тип задачи Workflow
-		/// </summary>
-		/// <param name="taskNumber">Номер задачи</param>
-		/// <param name="taskType">Тип задачи из выпадающего списка</param>
-		public void SetWFTaskList(int taskNumber, string taskType)
-		{
-			// Выбор задачи workflow
-			var workflowXPath = WF_TABLE_XPATH + "//tr[" + taskNumber + "]//td[2]//span//span";
-			
-			// Получение выпадающего списка
-			ClickElement(By.XPath(workflowXPath));
-			var wfDropdownIList = GetElementList(By.XPath(WF_DROPDOWNLIST_XPATH));
-
-			// Выбираем заданный
-			foreach (var wfTaskType in wfDropdownIList)
-			{
-				if (wfTaskType.Text == taskType)
-				{
-					wfTaskType.Click();
-					break;
-				}
-			}
-			// Ожидание свертки дропдауна
-			Thread.Sleep(1000);
-		}
 		/// <summary>
 		/// Возвращает появилась ли задача Translation в списке
 		/// </summary>
@@ -692,50 +426,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		{
 			Logger.Trace("Кликаем добавить новую задачу");
 			ClickElement(By.XPath(WF_NEW_TASK_BTN));
-		}
-
-		/// <summary>
-		/// Кликаем кнопку удаления задачи
-		/// </summary>
-		public void ClickWorkflowDeleteTask(int taskNumber)
-		{
-			ClickElement(By.XPath(CREATE_PROJECT_DIALOG_XPATH + "//tr[" 
-				+ taskNumber + "]" + WF_DELETE_TASK_BTN));
-
-			// Ожидание выполнения удаления
-			Thread.Sleep(1000);
-		}
-
-		/// <summary>
-		/// Возвращает отображаемый номер для заданной задачи
-		/// </summary>
-		/// <param name="taskNumber">Номер задачи</param>
-		/// <returns>Отображаемый номер задачи</returns>
-		public int GetWFVisibleTaskNumber(int taskNumber)
-		{
-			// Выбор задачи workflow
-			var workflowXPath = WF_TABLE_XPATH + "//tr[" + taskNumber + "]//td[1]";
-
-			// Получение номера
-			return Int32.Parse(GetTextElement(By.XPath(workflowXPath)));
-		}
-
-		/// <summary>
-		/// Возвращает, отображается ли сообщение о пустом Workflow
-		/// </summary>
-		/// <returns>Отображение сообщения об ошибке</returns>
-		public bool GetIsErrorWFEmptyDisplayed()
-		{
-			return GetIsElementDisplay(By.XPath(CREATE_PROJECT_DIALOG_XPATH + ERROR_WF_EMPTY));
-		}
-
-		/// <summary>
-		/// Возвращает, находится ли мастер на шаге Workflow
-		/// </summary>
-		/// <returns>Мастер находится на шаге Workflow</returns>
-		public bool GetIsStepWF()
-		{
-			return GetIsElementDisplay(By.XPath(WF_NEW_TASK_BTN));
 		}
 
 		public void ClickUploadTMX()

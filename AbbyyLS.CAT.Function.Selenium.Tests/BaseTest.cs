@@ -7,7 +7,6 @@ using System.Windows.Forms;
 using System.Drawing.Imaging;
 using System.Threading;
 using System.Diagnostics;
-using System.Text.RegularExpressions;
 
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.UI;
@@ -18,8 +17,6 @@ using NLog;
 using AbbyyLS.CAT.Function.Selenium.Tests.CommonDataStructures;
 using AbbyyLS.CAT.Function.Selenium.Tests.Driver;
 using AbbyyLS.CAT.Function.Selenium.Tests.Editor.Panel;
-using AbbyyLS.CAT.Function.Selenium.Tests.Workspace.Domains;
-using AbbyyLS.CAT.Function.Selenium.Tests.Workspace.TM;
 
 namespace AbbyyLS.CAT.Function.Selenium.Tests
 {
@@ -111,27 +108,15 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 
 		protected MainHelper MainHelperClass { get; private set; }
 
-		protected DomainPageHelper DomainPage { get; private set; }
-
-		protected TMPageHelper TMPage { get; private set; }
-
 		protected GlossaryListPageHelper GlossaryListPage { get; private set; }
 
 		protected GlossaryPageHelper GlossaryPage { get; private set; }
 
 		protected SearchPageHelper SearchPage { get; private set; }
 
-		protected ClientPageHelper ClientPage { get; private set; }
-
 		protected AdminPageHelper AdminPage { get; private set; }
 
-		protected GlossaryEditStructureFormHelper GlossaryEditStructureForm { get; private set; }
-
 		protected Editor_RevisionPageHelper RevisionPage { get; private set; }
-
-		protected UserRightsPageHelper UserRightsPage { get; private set; }
-
-		protected SuggestTermDialogHelper SuggestTermDialog { get; private set; }
 
 		protected GlossaryEditFormHelper GlossaryEditForm { get; private set; }
 
@@ -291,11 +276,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			return File.Exists(PathProvider.TestUserFile);
 		}
 
-		public bool AolUserFileExist()
-		{
-			return File.Exists(PathProvider.AolUserFile);
-		}
-
 		/// <summary>
 		/// Обновить уникальные имена для нового теста
 		/// </summary>
@@ -310,14 +290,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		public void RefreshPage()
 		{
 			Driver.Navigate().Refresh();
-		}
-
-		/// <summary>
-		/// Установить время ожидания драйвера в минимум (для поиска элементов, которых по ожиданию нет)
-		/// </summary>
-		protected void SetDriverTimeoutMinimum()
-		{
-			Driver.Manage().Timeouts().ImplicitlyWait(TimeSpan.FromSeconds(3));
 		}
 
 		/// <summary>
@@ -780,15 +752,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		}
 
 		/// <summary>
-		/// Создать проект и не проверять, создался ли он
-		/// </summary>
-		/// <param name="projectName">название проекта</param>
-		protected void CreateProjectWithoutCheckExist(string projectName)
-		{
-			CreateProject(projectName, isNeedCheckProjectAppearInList: false);
-		}
-
-		/// <summary>
 		/// Создание проекта, если проект с таким именем не создан
 		/// </summary>
 		/// <param name="projectName">название проекта</param>
@@ -1162,18 +1125,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			Assert.AreEqual(sourcetxt, targetxt, "Ошибка: после хоткея Copy текст в Source и Target не совпадает");
 		}
 
-		/// <summary>
-		/// Перейти на страницу TM
-		/// </summary>
-		protected void SwitchTMTab()
-		{
-			// Раскрыть выпадающее меню слева
-			WorkspacePage.ClickOpenResourcesInMenu();
-			// Нажать кнопку перехода на страницу Базы Translation memory
-			MainHelperClass.ClickOpenTMPage();
-			TMPage.WaitPageLoad();
-		}
-
 		protected void SwitchGlossaryTab()
 		{
 			Logger.Debug("Переход на старницу глоссария.");
@@ -1198,17 +1149,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			return glossaryName;
 		}
 
-		protected void SwitchSearchTab()
-		{
-			if (!WorkspacePage.GetIsLeftMenuDisplay())
-			{
-				MainHelperClass.OpenHideMenu();
-			}
-			Logger.Trace("Переход на стараницу поиска");
-			MainHelperClass.ClickOpenSearchPage();
-			SearchPage.WaitPageLoad();
-		}
-
 		/// <summary>
 		/// Перейти на страницу Workspace
 		/// </summary>
@@ -1225,37 +1165,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			WorkspacePage.WaitPageLoad();
 		}
 
-		protected void InitSearch(string searchText)
-		{
-			Logger.Debug(string.Format("Инициировать поиск текста: {0}", searchText));
-
-			SearchPage.AddTextSearch(searchText);
-			SearchPage.ClickTranslateBtn();
-			SearchPage.WaitUntilShowResults();
-		}
-
-		protected void CreateDomain(string domainName, bool shouldCreateOk = true)
-		{
-			Logger.Debug(string.Format("Создание домена. Имя домена: {0}, домен должен сохраниться: {1}", domainName, shouldCreateOk));
-			
-			DomainPage.ClickCreateDomainBtn();
-			DomainPage.EnterNameCreateDomain(domainName);
-
-			// Расширить окно, чтобы кнопка была видна, иначе она недоступна для Selenium
-			Driver.Manage().Window.Maximize();
-
-			DomainPage.ClickSaveDomain();
-			
-			if (shouldCreateOk)
-			{
-				DomainPage.WaitUntilSave();
-			}
-			else
-			{
-				Thread.Sleep(1000);
-			}
-		}
-
 		/// <summary>
 		/// Открыть проект (со страницы Workflow)
 		/// </summary>
@@ -1264,21 +1173,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		{
 			WorkspacePage.OpenProjectPage(projectName);
 			Assert.IsTrue(ProjectPage.WaitPageLoad(), string.Format("Ошибка: страница проекта {0} не открылась", projectName));
-		}
-
-		/// <summary>
-		/// Открыть вкладку workflow настроек из окна проекта
-		/// </summary>
-		protected void OpenWorkflowSettings()
-		{
-			//Открываем настройки проекта
-			ProjectPage.ClickProjectSettings();
-
-			ProjectPage.WaitOpenProjectSettings();
-
-			//Переходим на вкладку Workflow
-			ProjectPage.ClickProjectSettingsWorkflow();
-			Thread.Sleep(1000);
 		}
 
 		protected void OpenCreateGlossary()
@@ -1340,19 +1234,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			GlossaryPage.OpenEditGlossaryList();
 			GlossaryPage.ClickOpenProperties();
 			GlossaryPage.WaitOpenGlossaryProperties();
-		}
-
-		protected void DeleteGlossary()
-		{
-			// Открыть редактирование свойств глоссария
-			OpenGlossaryProperties();
-			// Нажать Удалить глоссарий 
-			GlossaryEditForm.ClickDeleteGlossary();
-
-			// Нажать Да (удалить)
-			GlossaryEditForm.WaitUntilDeleteGlossaryButtonDisplay();
-			GlossaryEditForm.ClickConfirmDeleteGlossary();
-			GlossaryListPage.WaitPageLoad();
 		}
 
 		protected void AddLanguageCreateGlossary(CommonHelper.LANGUAGE lang)
@@ -1485,27 +1366,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			ResponsiblesDialog.ClickAssignBtn(rowNumber);
 		}
 
-		/// <summary>
-		/// Открывает словарь в редакторе
-		/// </summary>
-		protected void OpenEditorDictionary()
-		{
-			// Кликнуть по кнопке
-			EditorPage.ClickDictionaryBtn();
-
-			// Проверка, что открылась форма
-			EditorPage.AssertionIsDictionaryFormDisplayed();
-		}
-
-		/// <summary>
-		/// Ждём, пока словарь прогрузится
-		/// </summary>
-		protected void WaitLoadDictionary()
-		{
-			//Проверяем, что загрузка словаря закончилась 
-			EditorPage.AssertionIsDictionaryListLoad();
-		}
-		
 		/// <summary>
 		/// Создать уникальное имя
 		/// </summary>
@@ -1767,28 +1627,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		}
 
 		/// <summary>
-		/// Метод возвращает список файлов, которые содержатся в папке dirName и подходят под маску mask
-		/// </summary>
-		/// <param name="mask">маска имени файла</param>
-		/// <param name="waitTime">время ождиания появления айлфа</param>
-		/// <param name="dirName">папка,в которой надо искать файлы</param>
-		/// <returns>Список файлов. Пустой список, если нет подходящих под маску файлов.</returns>
-		public string[] GetDownloadFiles(string mask, int waitTime, string dirName)
-		{
-			string[] files = null;
-			for (int i = 0; i < waitTime; i++)
-			{
-				files = Directory.GetFiles(dirName, mask, SearchOption.TopDirectoryOnly);
-				if (files.Length > 0)
-				{
-					break;
-				}
-				Thread.Sleep(1000);//Ждём секунду
-			}
-			return files;
-		}
-
-		/// <summary>
 		/// Метод создания Driver 
 		/// </summary>
 		private void createDriver()
@@ -1835,17 +1673,11 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			WorkspacePage = new WorkSpacePageHelper(Driver, Wait);
 			WorkspaceCreateProjectDialog = new Workspace_CreateProjectDialogHelper(Driver, Wait);
 			MainHelperClass = new MainHelper(Driver, Wait);
-			DomainPage = new DomainPageHelper(Driver, Wait);
-			TMPage = new TMPageHelper(Driver, Wait);
 			GlossaryListPage = new GlossaryListPageHelper(Driver, Wait);
 			GlossaryPage = new GlossaryPageHelper(Driver, Wait);
 			SearchPage = new SearchPageHelper(Driver, Wait);
-			ClientPage = new ClientPageHelper(Driver, Wait);
 			AdminPage = new AdminPageHelper(Driver, Wait);
-			GlossaryEditStructureForm = new GlossaryEditStructureFormHelper(Driver, Wait);
 			RevisionPage = new Editor_RevisionPageHelper(Driver, Wait);
-			UserRightsPage = new UserRightsPageHelper(Driver, Wait);
-			SuggestTermDialog = new SuggestTermDialogHelper(Driver, Wait);
 			GlossaryEditForm = new GlossaryEditFormHelper(Driver, Wait);
 			GlossarySuggestPage = new GlossarySuggestPageHelper(Driver, Wait);
 			CatPanel = new CatPanelResultsHelper(Driver, Wait);

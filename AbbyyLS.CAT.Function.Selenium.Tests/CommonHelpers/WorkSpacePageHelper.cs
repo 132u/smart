@@ -48,23 +48,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 				"Не дождались загрузки страницы со ссылкой для изменения языка");
 		}
 
-		/// <summary>
-		/// Выбрать язык локали
-		/// </summary>
-		/// <param name="langType">язык</param>
-		public void SelectLocale(LOCALE_LANGUAGE_SELECT langType)
-		{
-			var lang = langType == LOCALE_LANGUAGE_SELECT.English 
-									? LOCALE_EN_LANG 
-									: LOCALE_RU_LANG;
-			var xPath = LOCALE_REF_PATH + "[@data-locale='" + lang + "']";
-			ClickLanguagSwitcher();
-			if (WaitUntilDisplayElement(By.XPath(xPath), 1))
-			{
-				ClickElement(By.XPath(xPath));
-			}
-		}
-
 		public LOCALE_LANGUAGE_SELECT GetCurrentLocale()
 		{
 			Logger.Debug("Получение текущей локализации");
@@ -84,17 +67,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			ClickElement(By.XPath(CREATE_BTN_XPATH));
 		}
 
-		/// <summary>
-		/// Прокрутить до проекта и кликнуть галочку
-		/// </summary>
-		/// <param name="projectName">название проекта</param>
-		public void SelectProject(string projectName)
-		{
-			var projectPath = GetProjectRefXPath(projectName) + "/../../../td[contains(@class,'checkbox')]";
-			ScrollToElement(By.XPath(projectPath));
-			ClickElement(By.XPath(projectPath));
-		}
-		
 		public void OpenProjectPage(string projectName)
 		{
 			Logger.Trace(string.Format("Кликнуть по проекту {0}, чтобы зайти на страницу проекта", projectName));
@@ -106,16 +78,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			Logger.Trace(string.Format("Открытие свертки проекта {0}", projectName));
 			
 			if (!GetClassAttrProjectInfo(projectName).Contains("opened"))
-			{
-				ClickElement(By.XPath(GetProjectRefXPath(projectName) + FOLDER_SIGN));
-			}
-		}
-
-		public void CloseProjectInfo(string projectName)
-		{
-			Logger.Trace(string.Format("Закрытие свертки проекта {0}", projectName));
-
-			if (GetClassAttrProjectInfo(projectName).Contains("opened"))
 			{
 				ClickElement(By.XPath(GetProjectRefXPath(projectName) + FOLDER_SIGN));
 			}
@@ -156,89 +118,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			SetDriverTimeoutDefault();
 			
 			return isExist;
-		}
-
-		/// <summary>
-		/// Кликнуть Cancel в сообщении об экспорте
-		/// </summary>
-		public void ClickCancelNotifier()
-		{
-			Logger.Trace("Клик по кнопке Cancel в окне сообщения экспорта");
-			ClickElement(By.XPath(NOTIFIER_CANCEL_BTN_XPATH));
-		}
-
-		/// <summary>
-		/// Кликнуть Download в сообщении об экспорте
-		/// </summary>
-		public void ClickDownloadNotifier()
-		{
-			Logger.Trace("Клик по кнопке Download в окне сообщения о экспорте");
-			WaitUntilDisplayElement(By.XPath(NOTIFIER_DOWNLOAD_BTN_XPATH));
-			ClickElement(By.XPath(NOTIFIER_DOWNLOAD_BTN_XPATH));
-			Logger.Trace("Время клика по кнопке Download = " + DateTime.Now.ToString("MM.dd.yyyy HH:mm:ss"));
-		}
-
-		/// <summary>
-		/// Вернуть текст из сообщения об экспорте
-		/// </summary>
-		/// <returns>текст</returns>
-		public string GetNotifierText()
-		{
-			Logger.Trace("Получить текст из сообщения о экспорте");
-			return GetTextElement(By.XPath(NOTIFIER_TEXT_XPATH));
-		}
-
-		/// <summary>
-		/// Закрыть все сообщения об экспорте
-		/// </summary>
-		public void CancelAllNotifiers()
-		{
-			Logger.Trace("Проверка, есть ли сообщения экспорта");
-			var isExist = GetIsElementDisplay(By.XPath(NOTIFIER_CANCEL_BTN_XPATH));
-
-			while (isExist)
-			{
-				Logger.Trace("Сообщения экспорта есть на странице");
-				ClickCancelNotifier();
-				Thread.Sleep(2000);
-				Logger.Trace("Проверка, есть ли еще сообщения экспорта");
-				isExist = GetIsElementDisplay(By.XPath(NOTIFIER_CANCEL_BTN_XPATH));
-			}
-		}
-
-		/// <summary>
-		/// Кликнуть удалить проект
-		/// </summary>
-		public void ClickDeleteProjectBtn()
-		{
-			ClickElement(By.XPath(DELETE_BTN_XPATH));
-		}
-
-		/// <summary>
-		/// Потвердить удаление
-		/// </summary>
-		/// <returns>форма открылась</returns>
-		public void ClickConfirmDelete()
-		{
-			var isExistForm = WaitUntilDisplayElement(By.XPath(CONFIRM_DELETE_FORM_XPATH));
-
-			if (isExistForm)
-			{
-				ClickElement(By.XPath(CONFIRM_DELETE_YES_XPATH));
-			}
-
-			Assert.IsTrue(isExistForm, "Ошибка: не появилась форма подтверждения удаления проекта");
-		}
-
-		/// <summary>
-		/// Дождаться пропадания форму подтверждения удаления
-		/// </summary>
-		/// <returns></returns>
-		public void WaitUntilDeleteConfirmFormDisappear()
-		{
-			Assert.IsTrue(
-				WaitUntilDisappearElement(By.XPath(CONFIRM_DELETE_FORM_XPATH), 30),
-				"Ошибка: не скрылась форма подтверждения удаления проекта");
 		}
 
 		/// <summary>
@@ -327,37 +206,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 
 		}
 
-		public void ClickUsersAndRightsBtn()
-		{
-			if (!GetIsLeftMenuDisplay())
-				OpenHideMenu();
-			Logger.Trace("Клик по пункту 'Users and rights' в меню слева");
-			ClickElement(By.XPath(USERS_RIGHTS_BTN_XPATH));
-		}
-
-		public string GetUserName()
-		{
-			Logger.Trace("Возвращаем имя текущего пользователя");
-
-			if (!WaitUntilDisplayElement(By.XPath(USER_NAME_XPATH)))
-			{
-				var errorMessage = string.Format("Невозможно получить имя текущего пользователя. Путь к искомому элементу: {0}", USER_NAME_XPATH);
-				Logger.Error(errorMessage);
-
-				throw new NoSuchElementException(errorMessage);
-			}
-
-			var textFromAccountField =  GetTextElement(By.XPath(USER_NAME_XPATH));
-			var index = textFromAccountField.IndexOf("\r", StringComparison.Ordinal);
-
-			if (index > 0)
-			{
-				textFromAccountField = textFromAccountField.Substring(0, index);
-			}
-
-			return textFromAccountField;
-		}
-
 		public string GetCompanyName()
 		{
 			Logger.Trace("Возвращаем название компании в вехней панели рядом с именем текущего пользователя");
@@ -370,15 +218,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			Logger.Trace("Нажимаем на имя пользователя и аккаунт, чтобы появилась черная плашка Настройки профиля");
 			WaitUntilDisplayElement(By.XPath(ACCOUNT_XPATH));
 			ClickElement(By.XPath(ACCOUNT_XPATH));
-		}
-
-		/// <summary>
-		/// Выбрать пункт для перехода к управлению лицензиями в меню профиля
-		/// </summary>
-		public void ClickLicensesAndServices()
-		{
-			Logger.Trace("Выбираем в меню профиля пунтк для управления лицензиями.");
-			ClickElement(By.XPath(LICENSES_AND_SERVICES_MENU_ITEM));
 		}
 
 		/// <summary>
@@ -403,25 +242,9 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			return GetIsElementDisplay(By.XPath(CREATE_BTN_XPATH));
 		}
 
-		/// <summary>
-		/// Раскрыть пункт Resources в главном меню слева
-		/// </summary>
-		public void ClickOpenResourcesInMenu()
-		{
-			if (!GetIsLeftMenuDisplay())
-				OpenHideMenu();
-			Logger.Trace("Раскрыть пункт Resources в главном меню слева");
-			ClickElement(By.XPath(RESOURCES_IN_MENU_XPATH));
-		}
-
 		protected const string ADD_FILE_TO_PROJECT = "//div[contains(@class, 'popup-import-document')][2]//input[@type='file']"; // добавление документа уже сущестующему проекту на стр WS
 
 		public enum EXPORT_TYPE { Original, TMX, Translated };
-
-		public void ClickLanguagSwitcher()
-		{
-			Driver.FindElement(By.XPath(LANGUAGE_SWITCHER)).Click();
-		}
 
 		public void CloseTour()
 		{

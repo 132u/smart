@@ -79,17 +79,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			SendKeys.SendWait("{END}");
 		}
 
-		public static void CtrlE()
-		{
-			Logger.Trace("Hotkey клик 'Ctrl e'");
-			SendKeys.SendWait("^{e}");
-		}
-
-		public static void F9()
-		{
-			Logger.Trace("Hotkey клик 'F9'");
-			SendKeys.SendWait("{F9}");
-		}
 
 		public static void CtrlShiftHome()
 		{

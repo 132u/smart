@@ -21,19 +21,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests.Editor.Panel
 		{
 		}
 		
-		public int GetCatTranslationProcentMatch(int rowNumber)
-		{
-			Log.Trace(string.Format("Возвращает процент совпадений в CAT. Номер строки CAT: {0}", rowNumber));
-
-			// Получение процента совпадений для всех элементов CAT
-			var textList = GetTextListElement(By.XPath(CAT_PANEL_PROCENT_MATCH_XPATH));
-
-			// Переводим в int
-			var procentMatch = Int32.Parse(textList[rowNumber].Remove(textList[rowNumber].IndexOf('%')));
-			
-			return procentMatch;
-		}
-
 		/// <summary>
 		/// Возвращает список терминов в САТ панели
 		/// </summary>

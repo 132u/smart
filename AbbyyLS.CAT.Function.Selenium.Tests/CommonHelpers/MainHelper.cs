@@ -35,18 +35,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		}
 
 		/// <summary>
-		/// Кликнуть для перехода на TM
-		/// </summary>
-		public void ClickOpenTMPage()
-		{
-			Logger.Trace("Проверка, что подменю Resources раскрыто");
-			if (!GetIsElementDisplay(By.XPath(TM_REF_XPATH)))
-				ClickResourcesRef();
-			Logger.Trace("Клик по 'Translation Memories' в главном меню слева");
-			ClickElement(By.XPath(TM_REF_XPATH));
-		}
-
-		/// <summary>
 		/// Кликнуть на ссылку "Ресурсы"
 		/// </summary>
 		public void ClickResourcesRef()
@@ -72,15 +60,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			}
 			Logger.Trace("Клик по 'Glossaries' в главном меню слева");
 			ClickElement(By.XPath(GLOSSARY_REF_XPATH));
-		}
-
-		/// <summary>
-		/// Кликнуть для перехода на страницу предложенных терминов
-		/// </summary>
-		public void ClickOpenSuggestTermsPage()
-		{
-			Logger.Trace("Клик для перехода на страницу предложенных терминов");
-			ClickElement(By.XPath(SUGGEST_TERMS_REF_XPATH));
 		}
 
 		public void ClickOpenSearchPage()

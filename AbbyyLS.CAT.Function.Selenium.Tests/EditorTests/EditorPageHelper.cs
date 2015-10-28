@@ -209,15 +209,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			HotKey.CtrlShiftLeft();
 		}
 
-		public void SelectFirstWordSourceByAction(int segmentNumber)
-		{
-			Log.Trace(string.Format("Нажать хоткей выделения первого слова сорс. Номер строки: {0}", segmentNumber));
-			var segment = Driver.FindElement(By.XPath(GetSourceCellXPath(segmentNumber)));
-			var builder = new Actions(Driver);
-			Logger.Trace("Произвести двойной клик по сегменту.");
-			builder.MoveToElement(segment, 0, 0).DoubleClick().Perform();
-		}
-
 		public void SelectFirstWordTargetByAction(int segmentNumber)
 		{
 			Log.Trace(string.Format("Нажать хоткей выделения первого слова в таргете. Номер строки: {0}", segmentNumber));
@@ -240,24 +231,10 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			HotKey.End();
 		}
 
-		public void AddTermFormByHotkey(int segmentNumber)
-		{
-			Log.Trace(string.Format("Нажать хоткей вызова формы для добавления термина. Номер строки: {0}", segmentNumber));
-			ClickInSegment(segmentNumber);
-			HotKey.CtrlE();
-		}
-
 		public void SelectSecondThirdWordsByHotkey(int segmentNumber)
 		{
 			Log.Trace(string.Format("Нажать хоткей выделения второго и третьего слов. Номер строки: {0}", segmentNumber));
 			SendHotKey(segmentNumber, @"{RIGHT}^{RIGHT}+{RIGHT}{RIGHT}");
-		}
-
-		public void NextUnfinishedSegmentByHotkey(int segmentNumber)
-		{
-			Log.Trace(string.Format("Нажать хоткей поиска следующего незаконченного сегмента. Номер строки: {0}", segmentNumber));
-			ClickInSegment(segmentNumber);
-			HotKey.F9();
 		}
 
 		public void SelectAlltextByHotkey(int segmentNumber)
@@ -334,12 +311,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			ClickElement(By.Id(ADD_TERM_BTN_ID));
 		}
 
-		public void ClickUnfinishedBtn()
-		{
-			Log.Trace("Кликнуть Unfinished");
-			ClickElement(By.Id(UNFINISHED_BTN_ID));
-		}
-
 		public void ClickHomeBtn()
 		{
 			Log.Trace("Кликнуть по Home");
@@ -363,18 +334,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			ClickElement(By.Id(COPY_BTN_ID));
 		}
 
-		public void ClickRollbackBtn()
-		{
-			Log.Trace("Кликнуть по кнопке отката");
-			ClickElement(By.Id(ROLLBACK_BTN_ID));
-		}
-
-		public void ClickInsertTagBtn()
-		{
-			Log.Trace("Кликнуть вставить Tag");
-			ClickElement(By.Id(INSERT_TAG_BTN_ID));
-		}
-
 		public void ClickDictionaryBtn()
 		{
 			Log.Trace("Кликнуть словарь");
@@ -385,18 +344,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		{
 			Logger.Trace("Кликнуть кнопку изменения регистра");
 			ClickElement(By.Id(CHANGE_CASE_BTN_ID));
-		}
-
-		public void ClickConcordanceBtn()
-		{
-			Log.Trace("Кликнуть конкордный поиск");
-			ClickElement(By.Id(CONCORDANCE_BTN_ID));
-		}
-
-		public void ClickCharacterBtn()
-		{
-			Log.Trace("Кликнуть кнопку вставки спецсимвола");
-			ClickElement(By.Id(CHARACTER_BTN_ID));
 		}
 
 		public void ClickSourceCell(int rowNumber)
@@ -426,18 +373,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		}
 
 		/// <summary>
-		/// Возвращает, есть ли tag в переводе для заданного сегмента
-		/// </summary>
-		/// <param name="rowNumber">Номер сегмента</param>
-		/// <returns>Tag есть</returns>
-		public bool GetIsTagPresent(int rowNumber)
-		{
-			var xPath = getSegmentRow(rowNumber) + TAG_TARGET_XPATH;
-
-			return GetIsElementExist(By.XPath(xPath));
-		}
-
-		/// <summary>
 		/// Дождаться, пока сегмент подтвердится
 		/// </summary>
 		/// <param name="segmentRowNumber">номер сегмента</param>
@@ -447,20 +382,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			var xPath = getSegmentRow(segmentRowNumber) + "//td[contains(@class,'" + INFO_COLUMN_CLASS + "')]//span[contains(@class,'" + CONFIRMED_ICO_CLASS + "')]";
 
 			return WaitUntilDisplayElement(By.XPath(xPath));
-		}
-
-		/// <summary>
-		/// Возвращает, отображается замок в инфо сегмента
-		/// </summary>
-		/// <param name="segmentRowNumber">номер сегмента</param>
-		/// <returns>Сегмент заблокирован</returns>
-		public bool GetIsSegmentLock(int segmentRowNumber)
-		{
-			var xPath = getSegmentRow(segmentRowNumber) + "//td[contains(@class,'" +
-				INFO_COLUMN_CLASS + "')]//span[contains(@class,'" +
-				LOCKED_ICO_CLASS + "')][not(contains(@class,'inactive'))]";
-
-			return GetIsElementExist(By.XPath(xPath));
 		}
 
 		/// <summary>
@@ -475,15 +396,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 				CONFIRMED_ICO_CLASS + "')]";
 
 			return GetIsElementExist(By.XPath(xPath));
-		}
-
-		/// <summary>
-		/// Возвращает, заблокирована ли кнопка отката изменений сегмента
-		/// </summary>
-		/// <returns>Кнопка отката заблокирована</returns>
-		public bool GetIsRollbackBtnLock()
-		{
-			return GetElementClass(By.Id(ROLLBACK_BTN_ID)).Contains("disabled");
 		}
 
 		/// <summary>
@@ -638,24 +550,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			return selectedTexts;
 		}
 
-		/// <summary>
-		/// Возвращает открылся ли поиск
-		/// </summary>
-		/// <returns>Поиск открылся</returns>
-		public bool WaitConcordanceSearchDisplay()
-		{
-			return WaitUntilDisplayElement(By.Id(CONCORDANCE_SEARCH_ID));
-		}
-
-		/// <summary>
-		/// Возвращает открылась ли форма выбора спецсимвола
-		/// </summary>
-		/// <returns>Форма открылась</returns>
-		public bool WaitCharFormDisplay()
-		{
-			return WaitUntilDisplayElement(By.Id(CHAR_FORM_ID));
-		}
-
 		public void AssertionIsDictionaryFormDisplayed()
 		{
 			Logger.Trace("Проверить, открылась ли форма словаря");
@@ -672,16 +566,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			Assert.IsTrue(
 				WaitUntilDisappearElement(By.XPath(DICTIONARY_LOADING_WORDS_XPATH)),
 				"Ошибка: Не удалось дождаться окончания загрузки словаря.");
-		}
-
-		/// <summary>
-		/// Возвращает открылась ли форма добавления термина
-		/// </summary>
-		/// <returns>Форма открылась</returns>
-		public bool WaitAddTermFormDisplay()
-		{
-			Logger.Trace("Ожидаем открытия формы добавления термина.");
-			return WaitUntilDisplayElement(By.Id(ADD_TERM_FORM_ID));
 		}
 
 		/// <summary>
@@ -743,35 +627,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			ClickElement(By.XPath(TASK_CONTINUE_BTN_XPATH));
 		}
 
-		public string GetTargetMatchColor(int segmentNumber)
-		{
-			Log.Debug(string.Format(@"Возвращает стоящий в таргете цвет текста колонки match. Номер сегмента таргет {0}", segmentNumber));
-			//забираем цвет процента
-			return GetElementClass(By.XPath(targetMatchColumnPercentXpath(segmentNumber)));
-		}
-
-		public string GetTargetSubstitutionType(int segmentNumber)
-		{
-			Log.Debug(string.Format(@"Вернуть стоящий в таргете тип подстановки из CAT-панели : МТ\ТМ\TB. Номер сегмента таргет {0}", segmentNumber));
-			
-			Thread.Sleep(1000);
-			//забираем текст из колонки match таргета
-			var targetMatchColumnText = GetTextElement(By.XPath(targetMatchColumnTextXpath(segmentNumber))).Trim();
-			
-			//получаем из текста две первые буквы (тип подстановки)
-			return targetMatchColumnText.Length >= 2 ? targetMatchColumnText.Substring(0, 2) : "";
-		}
-
-		public int GetTargetMatchPercent(int segmentNumber)
-		{
-			Log.Debug(string.Format(@"Вернуть стоящий в таргете процент совпадения. Номер сегмента таргет {0}", segmentNumber));
-			
-			// берем процент совпадения
-			var targetMatchPercent = GetTextElement(By.XPath(targetMatchColumnPercentXpath(segmentNumber)));
-			
-			return ParseStrToInt(targetMatchPercent.Remove(targetMatchPercent.IndexOf('%')));
-		}
-
 		public void ClickLastVisibleSegment()
 		{
 			Logger.Trace("Кликнуть по последнему видимому сегменту");
@@ -802,28 +657,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			}
 		}
 		
-		/// <summary>
-		/// XPATH типа подстановки в колонке match таргета у конкретного сегмента
-		/// </summary>
-		/// <param name="segmentNumber">номер сегмента таргет</param> 
-		/// <returns>xpath типа подстановки</returns>
-		private static string targetMatchColumnTextXpath(int segmentNumber)
-		{
-			return "//table[@data-recordindex='" + (segmentNumber - 1)
-				+ "' and contains(@id, 'gridview')]" + TARGET_MATCH_COLUMN_XPATH;
-		}
-
-		/// <summary>
-		/// XPATH процента в колонке match таргета у конкретного сегмента
-		/// </summary>
-		/// <param name="segmentNumber">номер сегмента таргет</param> 
-		/// <returns>xpath процента совпадения</returns>
-		private static string targetMatchColumnPercentXpath(int segmentNumber)
-		{
-			return "//table[@data-recordindex='" + (segmentNumber - 1)
-				+ "' and contains(@id, 'gridview')]" + TARGET_MATCH_COLUMN_PERCENT_XPATH;
-		}
-
 		protected const string TARGET_MATCH_COLUMN_XPATH = "//td[5]//div";
 		protected const string TARGET_MATCH_COLUMN_PERCENT_XPATH = TARGET_MATCH_COLUMN_XPATH + "//span";
 
@@ -916,10 +749,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 
 		protected const string MESSAGE_BOX = ".//div[@id='messagebox']";
 		protected const string CONFIRM_BUTTON_MESSAGE_BOX = "//div[@id='messagebox-toolbar-targetEl']//a[@id='button-1020']";
-		public bool GetTaskBtnIsExist()
-		{
-			return GetIsElementExist(By.XPath(TASK_TRNSLT_BTN_XPATH));
-		}
 
 		private static string getSegmentRow(int rowNumber)
 		{

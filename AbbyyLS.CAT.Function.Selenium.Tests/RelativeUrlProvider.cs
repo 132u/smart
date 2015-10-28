@@ -44,35 +44,11 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			}
 		}
 
-		public static string Clients
-		{
-			get
-			{
-				return "/Clients/Index";
-			}
-		}
-
-		public static string Domains
-		{
-			get
-			{
-				return "/Domains/Index";
-			}
-		}
-
 		public static string Glossaries
 		{
 			get
 			{
 				return "/Enterprise/Glossaries";
-			}
-		}
-
-		public static string TranslationMemories
-		{
-			get
-			{
-				return "/TranslationMemories/Index";
 			}
 		}
 	}

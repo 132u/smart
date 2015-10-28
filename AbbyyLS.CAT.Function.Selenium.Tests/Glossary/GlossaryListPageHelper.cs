@@ -34,23 +34,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			ClickElement(By.XPath(CREATE_GLOSSARY_BTN_XPATH));
 		}
 
-		public bool GetIsAddSuggestExist()
-		{
-			Logger.Debug("Получить, есть ли кнопка предложения термина");
-
-			SetDriverTimeoutMinimum();
-			var isExist = GetIsElementDisplay(By.XPath(ADD_SUGGEST_BTN_XPATH));
-			SetDriverTimeoutDefault();
-
-			return isExist;
-		}
-
-		public void ClickAddSuggest()
-		{
-			Logger.Debug("Кликнуть кнопку добавления предложенного термина");
-			ClickElement(By.XPath(ADD_SUGGEST_BTN_XPATH));
-		}
-
 		public bool GetIsExistGlossary(string glossaryName)
 		{
 			Logger.Trace(string.Format("Получить существование глоссария {0}", glossaryName));

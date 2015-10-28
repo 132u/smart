@@ -123,15 +123,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		}
 
 		/// <summary>
-		/// Дождаться появления заголовка SIGN IN на странице выбора аккаунта
-		///  </summary>
-		public bool GetSignInHeaderDisplay()
-		{
-			Logger.Trace("Ожидаем появления заголовка SIGN IN на странице выбора аккаунта");
-			return WaitUntilDisplayElement(By.XPath(SIGN_IN_HEADER));
-		}
-
-		/// <summary>
 		/// Вернуть, появилась ли ошибка
 		/// </summary>
 		/// <returns>появилась</returns>
@@ -209,90 +200,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			return WaitUntilDisplayElement(By.XPath(ERROR_NOT_RESPONDING_MESSAGE_XPATH), maxWait: 5);
 		}
 		
-		public void ClickFacebookIcon()
-		{
-			Logger.Trace("Клик по иконке Facebook"); 
-			ClickElement(By.XPath(FACEBOOK_ICON));
-		}
-		
-		public void ClickGoogleIcon()
-		{
-			Logger.Trace("Клик по иконке Google"); 
-			ClickElement(By.XPath(GOOGLE_ICON));
-		}
-
-		public void ClickLinkedInIcon()
-		{
-			Logger.Trace("Клик по иконке LinkedIn"); 
-			ClickElement(By.XPath(LINKED_IN_ICON));
-		}
-
-		public bool GetEmailFieldIsDisplay()
-		{
-			return WaitUntilDisplayElement(By.XPath(EMAIL_AUTH_XPATH));
-		}
-
-		public bool GetPasswordFieldIsDisplay()
-		{
-			return WaitUntilDisplayElement(By.XPath(PASSWORD_AUTH_XPATH));
-		}
-
-		public bool GetErrorNoFoundEmailDisplay()
-		{
-			return GetIsElementDisplay(By.XPath(ERROR_USER_NOT_FOUND));
-		}
-
-		public bool GetErrorNoPasswordDisplay()
-		{
-			return GetIsElementDisplay(By.XPath(ERROR_NO_PASSWORD));
-		}
-
-		public bool GetErrorWrongPasswordDisplay()
-		{
-			return GetIsElementDisplay(By.XPath(ERROR_WRONG_PASSWORD));
-		}
-
-		public bool GetErrorInvalidEmailDisplay()
-		{
-			return GetIsElementDisplay(By.XPath(ERROR_INVALID_EMAIL));
-		}
-
-		public bool GetSubmitButtonDisable()
-		{
-			var submitButton = GetElement(By.XPath(SUBMIT_BTN_AUTH_XPATH));
-			
-			return submitButton.GetAttribute("disabled") == null ? false : true;
-
-		}
-
-		public bool GetMessageAccountNotFoundDisplay()
-		{
-			WaitUntilDisplayElement(By.XPath(MESSAGE_ACCOUNT_NOT_FOUND));
-			return GetIsElementDisplay(By.XPath(MESSAGE_ACCOUNT_NOT_FOUND));
-		}
-
-		public bool GetSignUpFreelanceBtnDisplay()
-		{
-			WaitUntilDisplayElement(By.XPath(SIGN_UP_FREELANCE_BTN));
-			return GetIsElementDisplay(By.XPath(SIGN_UP_FREELANCE_BTN));
-		}
-
-		public bool GetSignUpCompanyBtnDisplay()
-		{
-			WaitUntilDisplayElement(By.XPath(SIGN_UP_COMPANY_BTN));
-			return GetIsElementDisplay(By.XPath(SIGN_UP_COMPANY_BTN));
-		}
-
-		public bool GetErrorNoServerDisplay()
-		{
-			return GetIsElementDisplay(By.XPath(ERROR_NO_SERVER));
-		}
-
-		public string GetErrorNoServerMessage()
-		{
-			return GetElementAttribute(By.XPath(ERROR_NO_SERVER), "innerHTML");
-		}
-
 		protected const string EMAIL_CSS = "input[name=\"email\"]";
 		protected const string PASSWORD_CSS = "input[name=\"password\"]";
 		protected const string SUBMIT_BTN_CSS = "//button[contains(@class, 'btn-danger')]";

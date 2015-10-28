@@ -157,16 +157,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		}
 
 		/// <summary>
-		/// Вернуть: существует ли уже такой корпоративный аккаунт
-		/// </summary>
-		/// <returns></returns>
-		public bool GetCorpAccountExists()
-		{
-			Logger.Trace("Проверяем, появилось ли сообщение о том, что аккаунт уже существует");
-			return GetIsElementDisplay(By.XPath(ACCOUNT_EXISTS_FROM_XPATH));
-		}
-
-		/// <summary>
 		/// Выбрать затею
 		/// </summary>
 		/// <param name="name">название</param>
@@ -322,43 +312,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		}
 
 		/// <summary>
-		/// Проверка стоит ли галочка в чекбоксе 'Администратор'
-		/// </summary>
-		public bool GetIsAdminCheckboxIsChecked()
-		{
-			Logger.Trace("Проверка стоит ли галочка в чекбоксе 'Администратор'");
-			return GetIsInputChecked(By.XPath(IS_ADMIN_CHECKBOX));
-		}
-
-		/// <summary>
-		/// Кликнуть по ссылке Поиск пользователей в меню
-		/// </summary>
-		public void ClickSearchUserLink()
-		{
-			Logger.Trace("Клик по ссылке Поиск пользователей в меню");
-			ClickElement(By.XPath(SERACH_USER_LINK));
-			WaitUntilDisplayElement(By.XPath(SERACH_USER_LINK));
-		}
-
-		/// <summary>
-		/// Кликнуть по кнопке Найти рядом с полем поиска
-		/// </summary>
-		public void ClickFindBtn()
-		{
-			Logger.Trace("Клик по кнопке Найти рядом с полем поиска");
-			ClickElement(By.XPath(FIND_BTN));
-		}
-
-		/// <summary>
-		/// Кликнуть по email в таблице результатов поиска
-		/// </summary>
-		public void ClickEmailInSearchResultTable(string email)
-		{
-			Logger.Trace("Клик по email " + email + " в таблице результатов поиска");
-			ClickElement(By.XPath(EMAIL_IN_SEARCH_RES_TABLE + email + "']"));
-		}
-
-		/// <summary>
 		/// Вернуть: сообщение "Пользователь с таким e-mail уже существует в AOL, теперь добавлен и в БД приложения"
 		/// </summary>
 		/// <returns></returns>
@@ -377,47 +330,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		{
 			Logger.Trace("Поставили галочку в  Workflow чекбокс");
 			ClickElement(By.XPath(WORKFLOW_CHECKBOX));
-		}
-		
-		/// <summary>
-		/// Выбрать функцию
-		/// </summary>
-		public void SelectFeature(string feature)
-		{
-			Logger.Trace("Выбрали функцию " + feature);
-			ClickElement(By.XPath(FEATURES_OPTIONS + feature+ "']"));
-		}
-
-		/// <summary>
-		/// Кликнуть стрелку, чтоб доавбить функию
-		/// </summary>
-		public void ClickRightArrowToAddFeature()
-		{
-			Logger.Trace("Клик по стрелке, чтоб добавить функцию");
-			ClickElement(By.XPath(FEATURES_TO_RIGHT_ARROW));
-		}
-
-		/// <summary>
-		/// Установить дату окончания действия словаря
-		/// </summary>
-		/// <param name="date"> дата окончания </param>
-		public void SetDictionariesExpirationDate()
-		{
-			DateTime today = DateTime.Today;
-			string nextWeek = today.AddYears(1).ToString("dd.MM.yyyy");
-			Logger.Trace("Установка даты " + nextWeek);
-			SendTextElement(By.XPath(DICTIONARIES_EXP_DATE), nextWeek);
-		}
-
-		/// <summary>
-		/// Закрываем окно создания корп. аккаунта,если аккаунт с таким именем уже существует.
-		/// </summary>
-		public void CloseCurrentWindow()
-		{
-			Logger.Trace("Закрыли окно создания корпоративного аккаунта");
-			Driver.Close();
-			Logger.Trace("Переключились в первое окно");
-			Driver.SwitchTo().Window(Driver.WindowHandles[0]);
 		}
 		
 		/// <summary>
