@@ -209,8 +209,6 @@
     <Compile Include="TestHelpers\LoginHelper.cs" />
     <Compile Include="TestHelpers\ProjectSettingsHelper.cs" />
     <Compile Include="TestHelpers\ProjectsHelper.cs" />
-    <Compile Include="TestHelpers\TaskAssignmentDialogHelper.cs" />
-    <Compile Include="TestHelpers\TaskAssignmentPageHelper.cs" />
     <Compile Include="TestHelpers\TranslationMemoriesHelper.cs" />
     <Compile Include="TestHelpers\UsersRightsHelper.cs" />
     <Compile Include="TestHelpers\WorkspaceHelper.cs" />

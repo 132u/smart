@@ -1,7 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
-using NUnit.Framework;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.PageObjects;
 
@@ -28,11 +28,13 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 
 		public new void LoadPage()
 		{
-			if (!Driver.WaitUntilElementIsDisplay(By.XPath(TASK_ASSIGNMENT_TABLE)))
+			if (!IsTaskAssignmentPageOpened())
 			{
-				Assert.Fail("Произошла ошибка:\n не удалось открыть диалог выбора исполнителя.");
+				throw new XPathLookupException("Произошла ошибка:\n не удалось открыть страницу назначения задач");
 			}
 		}
+
+		#region Простые методы страницы
 
 		/// <summary>
 		/// Открыть выпадющий список для задачи с заданным номером
@@ -44,20 +46,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 
 			AssigneeDropbox = Driver.SetDynamicValue(How.XPath, TASK_ASSIGN_DROPBOX, taskRowNumber.ToString());
 			AssigneeDropbox.Click();
-
-			return GetPage();
-		}
-
-		/// <summary>
-		/// Подтвердить, что открылся выпадающий список для задачи
-		/// </summary>
-		/// <param name="taskRowNumber">номер задачи</param>
-		public TaskAssignmentPage AssertTaskAssigneeListDisplay(int taskRowNumber = 1)
-		{
-			CustomTestContext.WriteLine("Подтвердить, что открылся выпадающий список для задачи с номером строки {0}", taskRowNumber);
-
-			Assert.IsTrue(Driver.WaitUntilElementIsDisplay(By.XPath(TASK_ASSIGN_DROPBOX_OPTION.Replace("*#*", taskRowNumber.ToString()))),
-				"Произошла ошибка:\n список исполнителей не открылся");
 
 			return GetPage();
 		}
@@ -91,26 +79,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 		}
 
 		/// <summary>
-		/// Выбрать из выпадающего списка пользователя или группу по имени
-		/// </summary>
-		/// <param name="name">Имя пользователя или группы</param>
-		/// <param name="isGroup">Выбор группы</param>
-		public TaskAssignmentPage SelectResponsible(string name, bool isGroup)
-		{
-			CustomTestContext.WriteLine("Выбрать из выпадающего списка {0}. Это группа: {1}", name, isGroup);
-
-			var fullName = isGroup ? "Group: " + name : name;
-
-			Assert.IsTrue(Driver.WaitUntilElementIsDisplay(By.XPath(ASSIGNEE_LIST.Replace("*#*", fullName))),
-				"Произошла ошибка:\n пользователь {0} не найден в выпадающем"
-				+ " списке при назначении исполнителя на задачу", fullName);
-
-			AssigneeDropbox.SelectOptionByText(fullName);
-
-			return GetPage();
-		}
-
-		/// <summary>
 		/// Нажать кнопку 'Назначить'
 		/// </summary>
 		/// <param name="taskNumber">номер задачи</param>
@@ -123,19 +91,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 
 			return GetPage();
 		}
-		
-		/// <summary>
-		/// Дождаться поялвения кнопки подтверждения удаления назначения пользователя
-		/// </summary>
-		public TaskAssignmentPage WaitCancelConfirmButtonDisplay()
-		{
-			CustomTestContext.WriteLine("Дождаться появления кнопки подтверждения удаления назначения пользователя");
-
-			Assert.IsTrue(Driver.WaitUntilElementIsDisplay(By.XPath(CONFIRM_CANCEL_BUTTON)),
-				"Произошла ошибка:\n не появилась кнопка подтверждения удаления назначения пользователя");
-
-			return GetPage();
-		}
 
 		/// <summary>
 		/// Нажать кнопку подтверждения удаления назначения пользователя
@@ -143,6 +98,12 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 		public TaskAssignmentPage ClickConfirmCancelButton()
 		{
 			CustomTestContext.WriteLine("Нажать кнопку подтверждения удаления назначения пользователя");
+
+			if (!Driver.WaitUntilElementIsDisplay(By.XPath(CONFIRM_CANCEL_BUTTON)))
+			{
+				throw new XPathLookupException("Не появилась кнопка подтверждения удаления назначения пользователя");
+			}
+
 			ConfirmCancelButton.Click();
 
 			return GetPage();
@@ -165,12 +126,24 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 		/// <summary>
 		/// Нажать кнопку сохранения исполнителя задачи
 		/// </summary>
-		public ProjectSettingsPage ClicSaveAssignButton()
+		public ProjectSettingsPage ClickSaveAssignButton()
 		{
 			CustomTestContext.WriteLine("Нажать кнопку сохранения исполнителя задачи");
 			SaveButton.Click();
 
 			return new ProjectSettingsPage(Driver).GetPage();
+		}
+
+		/// <summary>
+		/// Закрыть диалог назначения задачи
+		/// </summary>
+		/// <typeparam name="T">возвращаемая страница</typeparam>
+		public T CloseTaskAssignmentDialog<T>() where T : class, IAbstractPage<T>
+		{
+			// TODO: дописать метод SCAT-568
+
+			var instance = Activator.CreateInstance(typeof(T), new object[] { Driver }) as T;
+			return instance.GetPage();
 		}
 
 		/// <summary>
@@ -211,6 +184,98 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 			return new SelectAssigneePage(Driver).GetPage();
 		}
 
+		/// <summary>
+		/// Выбрать из выпадающего списка пользователя или группу по имени
+		/// </summary>
+		/// <param name="name">Имя пользователя или группы</param>
+		/// <param name="isGroup">Выбор группы</param>
+		public TaskAssignmentPage SelectResponsible(string name, bool isGroup)
+		{
+			CustomTestContext.WriteLine("Выбрать из выпадающего списка {0}. Это группа: {1}", name, isGroup);
+
+			var fullName = isGroup ? "Group: " + name : name;
+
+			if (!Driver.WaitUntilElementIsDisplay(By.XPath(ASSIGNEE_LIST.Replace("*#*", fullName))))
+			{
+				throw new XPathLookupException(string.Format("Произошла ошибка:\n пользователь {0} не найден в выпадающем"
+				+ " списке при назначении исполнителя на задачу", fullName));
+			}
+
+			AssigneeDropbox.SelectOptionByText(fullName);
+
+			return GetPage();
+		}
+
+		#endregion
+
+		#region Составные методы страницы
+
+		/// <summary>
+		/// Назначить исполнителя
+		/// </summary>
+		/// <param name="name">имя</param>
+		/// <param name="isGroup">является ли группой</param>
+		/// <param name="taskNumber">номер задачи</param>
+		public TaskAssignmentPage SetResponsible(string name, bool isGroup, int taskNumber = 1)
+		{
+			SelectResponsible(name, isGroup);
+			ClickAssignButton(taskNumber);
+
+			return this;
+		}
+
+		/// <summary>
+		/// Выбрать исполнителя на весь документ
+		/// </summary>
+		/// <param name="taskNumber">номер задачи</param>
+		public SelectAssigneePage SelectAssigneesForEntireDocument(int taskNumber = 1)
+		{
+			ExpandSelectAssigneesDropdown(taskNumber);
+			var selectAssigneePage = SelectAssignmentType(AssignmentType.Simple, taskNumber);
+
+			return selectAssigneePage;
+		}
+
+		#endregion
+
+		#region Методы, проверяющие состояние страницы
+
+		/// <summary>
+		/// Проверить, есть ли группа в списке
+		/// </summary>
+		/// <param name="groupName">имя группы</param>
+		public bool IsGroupExist(string groupName)
+		{
+			CustomTestContext.WriteLine("Проверить, есть ли группа в списке");
+
+			return GetResponsibleGroupsList().Any(i => i == "Group: " + groupName);
+		}
+
+		/// <summary>
+		/// Проверить, открыта ли страница назначения задач
+		/// </summary>
+		public bool IsTaskAssignmentPageOpened()
+		{
+			CustomTestContext.WriteLine("Проверить, открыта ли страница назначения задач");
+
+			return Driver.WaitUntilElementIsDisplay(By.XPath(TASK_ASSIGNMENT_TABLE));
+		}
+
+		/// <summary>
+		/// Проверить, что открылся выпадающий список для задачи
+		/// </summary>
+		/// <param name="taskRowNumber">номер задачи</param>
+		public bool IsTaskAssigneeListDisplayed(int taskRowNumber = 1)
+		{
+			CustomTestContext.WriteLine("Подтвердить, что открылся выпадающий список для задачи с номером строки {0}", taskRowNumber);
+
+			return Driver.WaitUntilElementIsDisplay(By.XPath(TASK_ASSIGN_DROPBOX_OPTION.Replace("*#*", taskRowNumber.ToString())));
+		}
+
+		#endregion
+
+		#region Объявление элементов страницы
+
 		[FindsBy(How = How.XPath, Using = CONFIRM_CANCEL_BUTTON)]
 		protected IWebElement ConfirmCancelButton { get; set; }
 
@@ -222,6 +287,10 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 		protected IWebElement AssignButton { get; set; }
 
 		protected IWebElement CancelAssignButton { get; set; }
+
+		#endregion
+
+		#region Описание XPath элементов
 
 		protected const string SAVE_BUTTON = "//span[contains(@data-bind, 'click: saveDeadlines')]//a"; 
 		protected const string SELECT_ASSIGNEES_DROPDOWN = "//tr[*#*]//td[2]//span[contains(@class, 'bluebtn expandable')]";
@@ -237,5 +306,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 		protected const string ASSIGN_STATUS = "(//span[@data-bind='text: status()' and text()='*#*'])[*##*]";
 		protected const string TASK_ASSIGN_DROPBOX_OPTION = "(//table[contains(@class, 'js-progress-table')]//table)[2]//tr[1]//td[contains(@class, 'assineer')]//select/option[1]";
 
+		#endregion
 	}
 }

@@ -1,5 +1,4 @@
-﻿using NUnit.Framework;
-using OpenQA.Selenium;
+﻿using OpenQA.Selenium;
 using OpenQA.Selenium.Support.PageObjects;
 
 using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
@@ -23,11 +22,13 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 
 		public new void LoadPage()
 		{
-			if (!Driver.WaitUntilElementIsDisplay(By.XPath(ANOTHER_ASSIGNEE_BUTTON)))
+			if (!IsSelectAssigneePageOpened())
 			{
-				Assert.Fail("Произошла ошибка:\n не открылась страница назначения пользователя.");
+				throw new XPathLookupException("Произошла ошибка:\n не открылась страница назначения пользователя");
 			}
 		}
+
+		#region Простые методы страницы
 
 		/// <summary>
 		/// Нажать на 'Another Assignee'
@@ -79,41 +80,51 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 		}
 
 		/// <summary>
-		/// Проверить, что кнопка Assign исчезла
-		/// </summary>
-		public SelectAssigneePage AssertAssignButtonDisappeared()
-		{
-			CustomTestContext.WriteLine("Нажать на кнопку Cancel.");
-
-			Assert.IsTrue(Driver.WaitUntilElementIsDisappeared(By.XPath(ASSIGN_BUTTON)),
-				"Произошла ошибка:\nКнопка Assign не исчезла.");
-
-			return GetPage();
-		}
-
-		/// <summary>
-		/// Проверить, что появилась кнопка Cancel
-		/// </summary>
-		public SelectAssigneePage AssertCancelAssigneeButtonDisplayed()
-		{
-			CustomTestContext.WriteLine("Проверить, что появилась кнопка Cancel.");
-
-			Assert.IsTrue(Driver.ElementIsDisplayed(By.XPath(CANCEL_ASSIGNEE_BUTTON)),
-				"Произошла ошибка:\nКнопка Cancel не появилась.");
-
-			return GetPage();
-		}
-
-		/// <summary>
 		/// Нажать кнопку 'Закрыть'
 		/// </summary>
-		public TaskAssignmentPage ClickCloseTaskAssignmentPage()
+		public TaskAssignmentPage ClickClose()
 		{
 			CustomTestContext.WriteLine("Нажать кнопку 'Закрыть'");
 			CloseButton.Click();
 
 			return new TaskAssignmentPage(Driver).GetPage();
 		}
+
+		#endregion
+
+		#region Составные методы страницы
+
+		/// <summary>
+		/// Назначить исполнителя
+		/// </summary>
+		/// <param name="assigneeName">имя пользователя</param>
+		public SelectAssigneePage SelectAssignee(string assigneeName)
+		{
+			ClickAnotherAssigneeButton();
+			ExpandAssigneeDropdown();
+			SelectAssigneeInDropdown(assigneeName);
+			ClickAssignButton();
+
+			return GetPage();
+		}
+
+		#endregion
+
+		#region Методы, проверяющие состояние страницы
+
+		/// <summary>
+		/// Проверить, открыта ли страница выбора исполнителя
+		/// </summary>
+		public bool IsSelectAssigneePageOpened()
+		{
+			CustomTestContext.WriteLine("Проверить, открыта ли страница выбора исполнителя");
+
+			return Driver.WaitUntilElementIsDisplay(By.XPath(ANOTHER_ASSIGNEE_BUTTON));
+		}
+
+		#endregion
+
+		#region Объявление элементов страницы
 
 		[FindsBy(How = How.XPath, Using = CLOSE_BUTTON)]
 		protected IWebElement CloseButton { get; set; }
@@ -132,12 +143,18 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 
 		[FindsBy(How = How.XPath, Using = CANCEL_ASSIGNEE_BUTTON)]
 		protected IWebElement CancelAssigneeButton { get; set; }
-		
+
+		#endregion
+
+		#region Описание XPath элементов
+
 		protected const string ANOTHER_ASSIGNEE_BUTTON = "//a[contains(@class, 'a-user')]";
 		protected const string ASSIGNEE_DOPDOWN = "//label[contains(@class, 'selector newDropdown')]";
 		protected const string ASSIGNEE_OPTION = "//ul[contains(@class, 'list newDropdown')]//li[@title='*#*']";
 		protected const string ASSIGN_BUTTON = "//a[contains(@data-bind, 'assign') and @class='red-dotted-link']";
 		protected const string CANCEL_ASSIGNEE_BUTTON = "//a[contains(@data-bind, 'removeExecutive')]";
 		protected const string CLOSE_BUTTON = "//span[contains(@data-bind, 'click: close')]//a";
+
+		#endregion
 	}
 }

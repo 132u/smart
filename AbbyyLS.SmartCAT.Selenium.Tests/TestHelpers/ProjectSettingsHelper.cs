@@ -20,6 +20,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 			_projectPage = new ProjectSettingsPage(Driver);
 			_settingsDialog = new SettingsDialog(Driver);
 			_documentUploadGeneralInformationDialog = new DocumentUploadGeneralInformationDialog(Driver);
+			_taskAssignmentPage = new TaskAssignmentPage(Driver);
+			_selectAssigneePage = new SelectAssigneePage(Driver);
 		}
 
 		public ProjectSettingsHelper ClickDocumentProgress(string filePath)
@@ -34,11 +36,15 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 		{
 			this
 				.ClickDocumentProgress(documentName)
-				.ClickAssignButtonInDocumentInfo()
-				.SelectAssigneesForEntireDocument(taskNumber)
+				.ClickAssignButtonInDocumentInfo();
+
+			_taskAssignmentPage.SelectAssigneesForEntireDocument(taskNumber);
+
+			_selectAssigneePage
 				.SelectAssignee(nickName)
-				.CloseTaskAssignmentDialog()
-				.ClickSaveButton();
+				.ClickClose();
+
+			_taskAssignmentPage.ClickSaveAssignButton();
 
 			return this;
 		}
@@ -57,20 +63,20 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 			return this;
 		}
 
-		public TaskAssignmentPageHelper ClickAssignButtonInDocumentInfo()
+		public TaskAssignmentPage ClickAssignButtonInDocumentInfo()
 		{
 			BaseObject.InitPage(_projectPage, Driver);
 			_projectPage.ClickAssignButtonInDocumentInfo();
 
-			return new TaskAssignmentPageHelper(Driver);
+			return new TaskAssignmentPage(Driver);
 		}
 
-		public TaskAssignmentPageHelper ClickAssignButtonOnPanel()
+		public TaskAssignmentPage ClickAssignButtonOnPanel()
 		{
 			BaseObject.InitPage(_projectPage, Driver);
 			_projectPage.ClickAssignButtonOnPanel();
 
-			return new TaskAssignmentPageHelper(Driver);
+			return new TaskAssignmentPage(Driver);
 		}
 
 		/// <summary>
@@ -348,5 +354,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 		private readonly DocumentSettings _documentSettings;
 		private readonly SettingsDialog _settingsDialog;
 		private readonly DocumentUploadGeneralInformationDialog _documentUploadGeneralInformationDialog;
+		private readonly TaskAssignmentPage _taskAssignmentPage;
+		private readonly SelectAssigneePage _selectAssigneePage;
 	}
 }

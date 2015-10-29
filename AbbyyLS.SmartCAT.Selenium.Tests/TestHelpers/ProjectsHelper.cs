@@ -192,7 +192,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 			return this;
 		}
 
-		public TaskAssignmentDialogHelper OpenAssignDialog(string projectName)
+		public TaskAssignmentPage OpenAssignDialog(string projectName)
 		{
 			BaseObject.InitPage(_projectsPage, Driver);
 			_projectsPage
@@ -200,7 +200,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 				.OpenDocumentInfoForProject(projectName)
 				.ClickDocumentAssignButton(projectName);
 
-			return new TaskAssignmentDialogHelper(Driver);
+			return new TaskAssignmentPage(Driver);
 		}
 
 		public DocumentUploadGeneralInformationDialog ClickDocumentUploadButton()
