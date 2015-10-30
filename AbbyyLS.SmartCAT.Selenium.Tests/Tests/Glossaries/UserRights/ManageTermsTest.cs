@@ -6,6 +6,7 @@ using NUnit.Framework;
 using AbbyyLS.SmartCAT.Selenium.Tests.DataStructures;
 using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Search;
+using AbbyyLS.SmartCAT.Selenium.Tests.Pages.UsersRights;
 using AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersRights
@@ -18,12 +19,15 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersRights
 		{
 			_workspaceHelper = new WorkspaceHelper(Driver);
 			_searchPage = new SearchPage(Driver);
+			_usersRightsPage = new UsersRightsPage(Driver);
 
-			_glossaryHelper = _workspaceHelper
-				.GoToUsersRightsPage()
+			_workspaceHelper.GoToUsersRightsPage();
+
+			_usersRightsPage
 				.ClickGroupsButton()
-				.CheckOrAddUserToGroup("Administrators", ThreadUser.NickName)
-				.GoToGlossariesPage();
+				.AddUserToGroupIfNotAlredyAdded("Administrators", ThreadUser.NickName);
+
+			_glossaryHelper = _workspaceHelper.GoToGlossariesPage();
 
 			_glossaryUniqueName = GlossariesHelper.UniqueGlossaryName();
 		}
@@ -262,6 +266,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersRights
 		private WorkspaceHelper _workspaceHelper;
 
 		private SearchPage _searchPage;
+		private UsersRightsPage _usersRightsPage;
 
 		private string _glossaryUniqueName;
 	}

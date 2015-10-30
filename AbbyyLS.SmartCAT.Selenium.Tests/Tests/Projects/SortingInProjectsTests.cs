@@ -2,6 +2,7 @@
 
 using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
 using AbbyyLS.SmartCAT.Selenium.Tests.FeatureAttributes;
+using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings;
 using AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
@@ -16,6 +17,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 		{
 			_createProjectHelper = new CreateProjectHelper(Driver);
 			_projectSettingsHelper = new ProjectSettingsHelper(Driver);
+			_projectSettingsPage = new ProjectSettingsPage(Driver);
 
 			var projectUniqueName = _createProjectHelper.GetProjectUniqueName();
 			_createProjectHelper
@@ -26,60 +28,68 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 		[Test]
 		public void SortByTranslationDocumentTest()
 		{
-			_projectSettingsHelper
-				.ClickSortByTranslationDocument()
-				.AssertAlertNoExist();
+			_projectSettingsHelper.ClickSortByTranslationDocument();
+
+			Assert.IsFalse(_projectSettingsPage.IsAlertExist(),
+				"Произошла ошибка: \n при сортировке появился Alert.");
 		}
 
 		[Test]
 		public void SortByTypeTest()
 		{
-			_projectSettingsHelper
-				.ClickSortByType()
-				.AssertAlertNoExist();
+			_projectSettingsHelper.ClickSortByType();
+
+			Assert.IsFalse(_projectSettingsPage.IsAlertExist(),
+				"Произошла ошибка: \n при сортировке появился Alert.");
 		}
 
 		[Test]
 		public void SortByStatusTest()
 		{
-			_projectSettingsHelper
-				.ClickSortByStatus()
-				.AssertAlertNoExist();
+			_projectSettingsHelper.ClickSortByStatus();
+
+			Assert.IsFalse(_projectSettingsPage.IsAlertExist(),
+				"Произошла ошибка: \n при сортировке появился Alert.");
 		}
 
 		[Test]
 		public void SortByTargetTest()
 		{
-			_projectSettingsHelper
-				.ClickSortByTarget()
-				.AssertAlertNoExist();
+			_projectSettingsHelper.ClickSortByTarget();
+
+			Assert.IsFalse(_projectSettingsPage.IsAlertExist(),
+				"Произошла ошибка: \n при сортировке появился Alert.");
 		}
 
 		[Test]
 		public void SortByAuthorTest()
 		{
-			_projectSettingsHelper
-				.ClickSortByAuthor()
-				.AssertAlertNoExist();
+			_projectSettingsHelper.ClickSortByAuthor();
+
+			Assert.IsFalse(_projectSettingsPage.IsAlertExist(),
+				"Произошла ошибка: \n при сортировке появился Alert.");
 		}
 
 		[Test]
 		public void SortByCreatedTest()
 		{
-			_projectSettingsHelper
-				.ClickSortByCreated()
-				.AssertAlertNoExist();
+			_projectSettingsHelper.ClickSortByCreated();
+
+			Assert.IsFalse(_projectSettingsPage.IsAlertExist(),
+				"Произошла ошибка: \n при сортировке появился Alert.");
 		}
 
 		[Test]
 		public void SortByQATest()
 		{
-			_projectSettingsHelper
-				.ClickSortByQA()
-				.AssertAlertNoExist();
+			_projectSettingsHelper.ClickSortByQA();
+
+			Assert.IsFalse(_projectSettingsPage.IsAlertExist(),
+				"Произошла ошибка: \n при сортировке появился Alert.");
 		}
 
 		private ProjectSettingsHelper _projectSettingsHelper;
 		private CreateProjectHelper _createProjectHelper;
+		private ProjectSettingsPage _projectSettingsPage;
 	}
 }

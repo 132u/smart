@@ -2,6 +2,7 @@
 
 using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
 using AbbyyLS.SmartCAT.Selenium.Tests.FeatureAttributes;
+using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries;
 using AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
@@ -14,6 +15,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 		[SetUp]
 		public void SetupSortingInSuggestedTermsTests()
 		{
+			_glossaryPage = new GlossaryPage(Driver);
 			_glossariesHelper = new GlossariesHelper(Driver);
 
 			var glossaryUniqueName = GlossariesHelper.UniqueGlossaryName();
@@ -25,27 +27,28 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 		[Test]
 		public void SortByEnglishTermTest()
 		{
-			_glossariesHelper
-				.ClickSortByEnglishTerm()
-				.AssertAlertNoExist();
+			_glossariesHelper.ClickSortByEnglishTerm();
+
+			Assert.IsFalse(_glossaryPage.IsAlertExist(), "Произошла ошибка: \n при сортировке появился Alert.");
 		}
 
 		[Test]
 		public void SortByRussianTermTest()
 		{
-			_glossariesHelper
-				.ClickSortByRussianTerm()
-				.AssertAlertNoExist();
+			_glossariesHelper.ClickSortByRussianTerm();
+
+			Assert.IsFalse(_glossaryPage.IsAlertExist(), "Произошла ошибка: \n при сортировке появился Alert.");
 		}
 
 		[Test]
 		public void SortTermsToDateModifiedTest()
 		{
-			_glossariesHelper
-				.ClickSortTermsToDateModified()
-				.AssertAlertNoExist();
+			_glossariesHelper.ClickSortTermsToDateModified();
+
+			Assert.IsFalse(_glossaryPage.IsAlertExist(), "Произошла ошибка: \n при сортировке появился Alert.");
 		}
 
 		private GlossariesHelper _glossariesHelper;
+		private GlossaryPage _glossaryPage;
 	}
 }

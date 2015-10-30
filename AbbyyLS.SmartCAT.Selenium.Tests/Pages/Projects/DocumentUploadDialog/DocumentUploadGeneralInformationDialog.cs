@@ -54,23 +54,20 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.DocumentUploadDialog
 		{
 			ClickFinish<ProjectsPage>();
 
-			if (!IsUploadDocumentDialogClosed())
+			if (!WaitUntilUploadDocumentDialogClosed())
 			{
 				throw new Exception("Произошла ошибка: \n не удалось дождаться закрытия диалога добавления файла в проект.");
 			}
 
-			if (!IsDialogBackgroundDisappeared())
-			{
-				throw new Exception("Произошла ошибка: \n не удалось дождаться закрытия фона диалога загрузки.");
-			}
+			WaitUntilDialogBackgroundDisappeared();
 
 			return new ProjectsPage(Driver).GetPage();
 		}
 
 		/// <summary>
-		/// Проверить, что диалог добавления файла в проект закрылся.
+		/// Дождаться, что диалог добавления файла в проект закрылся.
 		/// </summary>
-		public bool IsUploadDocumentDialogClosed()
+		public bool WaitUntilUploadDocumentDialogClosed()
 		{
 			CustomTestContext.WriteLine("Проверить, что диалог добавления файла в проект закрылся.");
 

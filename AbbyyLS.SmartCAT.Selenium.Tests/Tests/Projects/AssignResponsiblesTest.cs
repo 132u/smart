@@ -10,6 +10,7 @@ using AbbyyLS.SmartCAT.Selenium.Tests.FeatureAttributes;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.DocumentUploadDialog;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Login;
+using AbbyyLS.SmartCAT.Selenium.Tests.Pages.UsersRights;
 using AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
@@ -22,7 +23,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 		public void Setup()
 		{
 			_createProjectHelper = new CreateProjectHelper(Driver);
-			_usersRightsHelper = new UsersRightsHelper(Driver);
 			_projectsHelper = new ProjectsHelper(Driver);
 			_projectSettingsHelper = new ProjectSettingsHelper(Driver);
 			_workspaceHelper = new WorkspaceHelper(Driver);
@@ -35,6 +35,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 			_documentUploadGeneralInformationDialog = new DocumentUploadGeneralInformationDialog(Driver);
 			_documentUploadSetUpTMDialog = new DocumentUploadSetUpTMDialog(Driver);
 			_taskAssignmentPage = new TaskAssignmentPage(Driver);
+			_usersRightsPage = new UsersRightsPage(Driver);
 		}
 
 		[TearDown]
@@ -130,11 +131,10 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 		[Standalone]
 		public void VerifyUsersAndGroupsListsTest()
 		{
-			var usersList = _projectsHelper
-				.GoToUsersRightsPage()
-				.GetUserNameList();
+			_projectsHelper.GoToUsersRightsPage();
+			var usersList = _usersRightsPage.GetUserNameList();
 
-			var groupsList = _usersRightsHelper
+			var groupsList = _usersRightsPage
 				.ClickGroupsButton()
 				.GetGroupNameList();
 
@@ -168,13 +168,15 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 		[Standalone]
 		public void AddNewGroupTest()
 		{
-			var groupName = _usersRightsHelper.GetGroupUniqueName();
+			var groupName = _usersRightsPage.GetGroupUniqueName();
 
-			_projectsHelper
-				.GoToUsersRightsPage()
+			_projectsHelper.GoToUsersRightsPage();
+
+			_usersRightsPage
 				.ClickGroupsButton()
-				.CheckOrCreateGroup(groupName)
-				.GoToProjectsPage();
+				.CreateGroupIfNotExist(groupName);
+
+			_workspaceHelper.GoToProjectsPage();
 
 			_createProjectHelper
 				.CreateNewProject(_projectUniqueName, PathProvider.EditorTxtFile)
@@ -254,10 +256,12 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 		[Test]
 		public void AssignDifferentUsersOneTaskTest()
 		{
-			_projectsHelper
-				.GoToUsersRightsPage()
-				.AssertIsUserExist(_additionalUser.NickName)
-				.GoToProjectsPage();
+			_projectsHelper.GoToUsersRightsPage();
+
+			Assert.IsTrue(_usersRightsPage.IsUserExistInList(_additionalUser.NickName),
+				"Произошла ошибка:\n пользователь '{0}' не найден в списке.", _additionalUser.NickName);
+
+			_workspaceHelper.GoToProjectsPage();
 
 			_createProjectHelper
 				.CreateNewProject(_projectUniqueName, PathProvider.EditorTxtFile)
@@ -374,7 +378,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 		private string _projectUniqueName;
 		private CreateProjectHelper _createProjectHelper;
 		private ProjectsHelper _projectsHelper;
-		private UsersRightsHelper _usersRightsHelper;
 		private ProjectSettingsHelper _projectSettingsHelper;
 		private WorkspaceHelper _workspaceHelper;
 		private TestUser _additionalUser;
@@ -383,5 +386,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 		private DocumentUploadSetUpTMDialog _documentUploadSetUpTMDialog;
 		private SignInPage _signInPage;
 		private TaskAssignmentPage _taskAssignmentPage;
+		private UsersRightsPage _usersRightsPage;
 	}
 }

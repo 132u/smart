@@ -18,15 +18,15 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Clients
 		{
 			_workspaceHelper = new WorkspaceHelper(Driver);
 			_workspaceHelper.GoToClientsPage();
-			_clientsPage = new ClientsPage(Driver).GetPage();
+			_clientsPage = new ClientsPage(Driver);
 		}
 
 		[Test]
 		public void CheckNoErrorsWhenSortByName()
 		{
-			_clientsPage
-				.ClickSortByName()
-				.AssertAlertNoExist();
+			_clientsPage.ClickSortByName();
+
+			Assert.IsFalse(_clientsPage.IsAlertExist(),  "Произошла ошибка: \n при сортировке появился Alert.");
 		}
 
 		private ClientsPage _clientsPage;

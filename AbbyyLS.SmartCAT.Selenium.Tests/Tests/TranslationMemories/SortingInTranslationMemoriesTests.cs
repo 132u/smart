@@ -2,6 +2,7 @@
 
 using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
 using AbbyyLS.SmartCAT.Selenium.Tests.FeatureAttributes;
+using AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories;
 using AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.TranslationMemories
@@ -14,6 +15,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.TranslationMemories
 		[SetUp]
 		public void SetupSortingInTranslationMemoriesTests()
 		{
+			_translationMemoriesPage = new TranslationMemoriesPage(Driver);
 			_translationMemoriesHelper = new TranslationMemoriesHelper(Driver);
 			_translationMemoriesHelper.GoToTranslationMemoriesPage();
 		}
@@ -21,19 +23,22 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.TranslationMemories
 		[Test]
 		public void SortByTMNameTest()
 		{
-			_translationMemoriesHelper
-				.ClickSortByTMName()
-				.AssertAlertNoExist();
+			_translationMemoriesHelper.ClickSortByTMName();
+
+			Assert.IsFalse(_translationMemoriesPage.IsAlertExist(),
+				"Произошла ошибка: \n при сортировке появился Alert.");
 		}
 
 		[Test]
 		public void SortByCreationDateTest()
 		{
-			_translationMemoriesHelper
-				.ClickSortByCreationDate()
-				.AssertAlertNoExist();
+			_translationMemoriesHelper.ClickSortByCreationDate();
+
+			Assert.IsFalse(_translationMemoriesPage.IsAlertExist(),
+				"Произошла ошибка: \n при сортировке появился Alert.");
 		}
 
 		private TranslationMemoriesHelper _translationMemoriesHelper;
+		private TranslationMemoriesPage _translationMemoriesPage;
 	}
 }

@@ -7,6 +7,7 @@ using AbbyyLS.SmartCAT.Selenium.Tests.DataStructures;
 using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.DocumentUploadDialog;
+using AbbyyLS.SmartCAT.Selenium.Tests.Pages.UsersRights;
 using AbbyyLS.SmartCAT.Selenium.Tests.TestFramework;
 using AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers;
 
@@ -29,7 +30,10 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects.CheckRights
 			_workspaceHelper = new WorkspaceHelper(Driver);
 			_loginHelper = new LoginHelper(Driver);
 			_projectsHelper = new ProjectsHelper(Driver);
+
 			_documentUploadGeneralInformationDialog = new DocumentUploadGeneralInformationDialog(Driver);
+			_usersRightsPage = new UsersRightsPage(Driver);
+			_addAccessRightDialog = new AddAccessRightDialog(Driver);
 
 			AdditionalThreadUser = TakeUser(ConfigurationManager.AdditionalUsers);
 
@@ -39,13 +43,19 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects.CheckRights
 
 			_workspaceHelper
 				.CloseTour()
-				.GoToUsersRightsPage()
+				.GoToUsersRightsPage();
+
+			_usersRightsPage
 				.ClickGroupsButton()
 				.RemoveUserFromAllGroups(AdditionalThreadUser.NickName)
-				.CheckOrCreateGroup(groupName)
-				.CheckOrAddRightsToGroup(groupName, RightsType.ProjectCreation)
-				.CheckOrAddUserToGroup(groupName, AdditionalThreadUser.NickName)
-				.SignOut();
+				.CreateGroupIfNotExist(groupName)
+				.OpenAddRightsDialogForGroup(groupName);
+
+			_addAccessRightDialog.AddRightToGroup(RightsType.ProjectCreation);
+
+			_usersRightsPage.AddUserToGroupIfNotAlredyAdded(groupName, AdditionalThreadUser.NickName);
+
+			_workspaceHelper.SignOut();
 		}
 
 		[SetUp]
@@ -309,8 +319,10 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects.CheckRights
 		protected ProjectsHelper _projectHeper;
 		protected WorkspaceHelper _workspaceHelper;
 		protected LoginHelper _loginHelper;
-
 		private ProjectsHelper _projectsHelper;
+
 		private DocumentUploadGeneralInformationDialog _documentUploadGeneralInformationDialog;
+		private UsersRightsPage _usersRightsPage;
+		private AddAccessRightDialog _addAccessRightDialog;
 	}
 }

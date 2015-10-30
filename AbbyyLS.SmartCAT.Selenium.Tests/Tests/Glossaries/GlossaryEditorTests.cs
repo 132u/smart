@@ -7,6 +7,7 @@ using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
 using AbbyyLS.SmartCAT.Selenium.Tests.FeatureAttributes;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings;
+using AbbyyLS.SmartCAT.Selenium.Tests.Pages.UsersRights;
 using AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
@@ -22,14 +23,18 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 			_editorHelper = new EditorHelper(Driver);
 			_workspaceHelper = new WorkspaceHelper(Driver);
 
+			_usersRightsPage = new UsersRightsPage(Driver);
+
 			_projectName = _createProjectHelper.GetProjectUniqueName();
 			_glossaryName = GlossariesHelper.UniqueGlossaryName();
 
-			_workspaceHelper
-				.GoToUsersRightsPage()
+			_workspaceHelper.GoToUsersRightsPage();
+
+			_usersRightsPage
 				.ClickGroupsButton()
-				.CheckOrAddUserToGroup("Administrators", ThreadUser.NickName)
-				.GoToProjectsPage();
+				.AddUserToGroupIfNotAlredyAdded("Administrators", ThreadUser.NickName);
+
+			_workspaceHelper.GoToProjectsPage();
 
 			_createProjectHelper
 				.CreateNewProject(_projectName, createGlossary: true, glossaryName: _glossaryName)
@@ -303,6 +308,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 		private CreateProjectHelper _createProjectHelper;
 		private EditorHelper _editorHelper;
 		private WorkspaceHelper _workspaceHelper;
+
+		private UsersRightsPage _usersRightsPage;
 
 		private string _projectName;
 		private string _glossaryName;

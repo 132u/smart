@@ -7,6 +7,7 @@ using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Billing;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Client;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Search;
+using AbbyyLS.SmartCAT.Selenium.Tests.Pages.UsersRights;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace;
 using AbbyyLS.SmartCAT.Selenium.Tests.TestFramework;
 
@@ -140,14 +141,14 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 		}
 
 
-		public UsersRightsHelper GoToUsersRightsPage()
+		public UsersRightsPage GoToUsersRightsPage()
 		{
 			BaseObject.InitPage(_workspacePage, Driver);
 			_workspacePage
 				.OpenHideMenuIfClosed()
 				.ClickUsersRightsButton();
 
-			return new UsersRightsHelper(Driver);
+			return new UsersRightsPage(Driver).GetPage();
 		}
 
 		public BillingPage GoToBillingPage()
@@ -224,14 +225,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 			_workspacePage
 				.ClickAccount()
 				.AssertAccountListContainsAccountName(account);
-
-			return this;
-		}
-
-		public WorkspaceHelper AssertAlertNoExist()
-		{
-			BaseObject.InitPage(_workspacePage, Driver);
-			_workspacePage.AssertAlertNoExist();
 
 			return this;
 		}

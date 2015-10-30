@@ -93,7 +93,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests
 			TestUser user = null;
 			var timer = 0;
 
-			while ((user == null) && (timer != 60))
+			while ((user == null) && (timer != 300))
 			{
 				users.TryTake(out user);
 				Thread.Sleep(1000);

@@ -1,5 +1,4 @@
-﻿using NUnit.Framework;
-using OpenQA.Selenium;
+﻿using OpenQA.Selenium;
 using OpenQA.Selenium.Support.PageObjects;
 
 using AbbyyLS.SmartCAT.Selenium.Tests.DataStructures;
@@ -24,11 +23,13 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.UsersRights
 
 		public new void LoadPage()
 		{
-			if (!Driver.WaitUntilElementIsDisplay(By.XPath(ADD_ACCESS_DIALOG)))
+			if (!IsAddRightDialogOpened())
 			{
-				Assert.Fail("Произошла ошибка:\n не удалось перейти на вкладку 'Пользователи и права'.");
+				throw new XPathLookupException("Произошла ошибка:\n не удалось открыть диалог добавления права.");
 			}
 		}
+
+		#region Простые методы страницы
 
 		/// <summary>
 		/// Выбрать из списка право на создание проектов
@@ -77,6 +78,45 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.UsersRights
 			return new UsersRightsPage(Driver).GetPage();
 		}
 
+		#endregion
+
+		#region Составные методы страницы
+
+		/// <summary>
+		/// Добавить права
+		/// </summary>
+		/// <param name="right">тип права</param>
+		public UsersRightsPage AddRightToGroup(RightsType right)
+		{
+			ClickRightRadio(right);
+			ClickNextButton();
+			ClickForAnyProjectRadio();
+
+			var usersRightsPage = ClickAddRightButton();
+
+			WaitUntilDialogBackgroundDisappeared();
+
+			return usersRightsPage;
+		}
+
+		#endregion
+
+		#region Методы, проверяющие состояние страницы
+
+		/// <summary>
+		/// Проверить, открыт ли диалог добавления прав
+		/// </summary>
+		public bool IsAddRightDialogOpened()
+		{
+			CustomTestContext.WriteLine("Проверить, открыт ли диалог добавления прав");
+
+			return Driver.WaitUntilElementIsDisplay(By.XPath(ADD_ACCESS_DIALOG));
+		}
+
+		#endregion
+
+		#region Объявление элементов страницы
+
 		[FindsBy(How = How.XPath, Using = ADD_RIGHT_BTN_XPATH)]
 		protected IWebElement AddRightButton { get; set; }
 
@@ -88,10 +128,16 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.UsersRights
 
 		protected IWebElement RightRadio { get; set; }
 
+		#endregion
+
+		#region Описание XPath элементов
+
 		protected const string ADD_ACCESS_DIALOG = "//div[contains(@class,'js-add-access-right-popup')][2]";
 		protected const string ADD_RIGHT_BTN_XPATH = "//div[contains(@class, 'add-access-right-popup')][2]//span[contains(@data-bind, 'visible : canFinishWizard, click : finishWizard')]//a[string() = 'Add']";
 		protected const string NEXT_BTN_XPATH = "//div[contains(@class, 'add-access-right-popup')][2]//span[contains(@data-bind, 'click : moveToNextStep')]//a[string() = 'Next']";
 		protected const string FOR_ANY_PROJECT_RADIO_XPATH = "//div[contains(@class, 'add-access-right-popup')][2]//div[contains(@data-bind, 'hasUnrestrictedAccessScope')]//input";
 		protected const string RIGHT_RADIO = "//input[@id='*#*']";
+
+		#endregion
 	}
 }

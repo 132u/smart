@@ -1,7 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
-using NUnit.Framework;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.PageObjects;
 
@@ -27,11 +27,13 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.UsersRights
 
 		public new void LoadPage()
 		{
-			if (!Driver.WaitUntilElementIsDisplay(By.XPath(GROUPS_RIGHTS_BTN_XPATH)))
+			if (!IsUsersRightsPageOpened())
 			{
-				Assert.Fail("Произошла ошибка:\n не удалось перейти на вкладку 'Пользователи и права'.");
+				throw new XPathLookupException("Произошла ошибка:\n не удалось перейти на вкладку 'Пользователи и права'.");
 			}
 		}
+
+		#region Простые методы страницы
 
 		/// <summary>
 		/// Перейти на вкладку "Группы и права"
@@ -42,17 +44,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.UsersRights
 			GroupsButton.Click();
 
 			return GetPage();
-		}
-
-		/// <summary>
-		/// Проверить, существует ли группа
-		/// </summary>
-		/// <param name="groupName">имя группы</param>
-		public bool IsGroupExists(string groupName)
-		{
-			CustomTestContext.WriteLine("Проверить, существует ли группа {0}.", groupName);
-
-			return Driver.ElementIsDisplayed(By.XPath(GROUP_XPATH.Replace("*#*", groupName)));
 		}
 
 		/// <summary>
@@ -67,24 +58,18 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.UsersRights
 		}
 
 		/// <summary>
-		/// Проверить, появилась ли форма для добавления новой группы
-		/// </summary>
-		public UsersRightsPage AssertAddNewGroupForm()
-		{
-			CustomTestContext.WriteLine("Проверить, появилась ли форма для добавления новой группы.");
-			Assert.IsTrue(Driver.WaitUntilElementIsDisplay(By.XPath(NEW_GROUP_NAME_INPUT_XPATH)),
-				"Произошла ошибка:\n не появилась форма для добавления новой группы.");
-
-			return GetPage();
-		}
-
-		/// <summary>
 		/// Ввести имя создаваемой группы
 		/// </summary>
 		/// <param name="groupName">имя группы</param>
 		public UsersRightsPage SetNewGroupName(string groupName)
 		{
 			CustomTestContext.WriteLine("Ввести имя создаваемой группы: {0}.", groupName);
+
+			if (!Driver.WaitUntilElementIsDisplay(By.XPath(NEW_GROUP_NAME_INPUT_XPATH)))
+			{
+				throw new XPathLookupException("Не появилось поле ввода для имени создаваемой группы");
+			}
+
 			NewGroupNameInput.SetText(groupName);
 
 			return GetPage();
@@ -102,37 +87,16 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.UsersRights
 		}
 
 		/// <summary>
-		/// Проверить, создалась ли новая группа
-		/// </summary>
-		/// <param name="groupName">имя группы</param>
-		public UsersRightsPage AssertIsGroupCreated(string groupName)
-		{
-			Assert.IsTrue(Driver.WaitUntilElementIsDisplay(By.XPath(GROUP_XPATH.Replace("*#*", groupName))),
-				"Произошла ошибка:\n не удалось создать группу " + groupName);
-
-			return GetPage();
-		}
-
-		/// <summary>
 		/// Кликнуть на нужную группу в таблице
 		/// </summary>
 		/// <param name="groupName">имя группы</param>
-		public UsersRightsPage SelectGroup(string groupName)
+		public UsersRightsPage ClickGroupRow(string groupName)
 		{
 			CustomTestContext.WriteLine("Кликнуть на группу {0} в таблице, чтобы появился выпадающий список с пользователями и правами.", groupName);
 			Group = Driver.SetDynamicValue(How.XPath, GROUP_XPATH, groupName);
 			Group.Click();
 
 			return GetPage();
-		}
-
-		/// <summary>
-		/// Проверить, присуствует ли кнопка "Редактировать группу"
-		/// </summary>
-		/// <param name="groupName">имя группы</param>
-		public bool IsEditGroupButtonDisplayed(string groupName)
-		{
-			return Driver.ElementIsDisplayed(By.XPath(EDIT_GROUP_BTN_XPATH.Replace("*#*", groupName))) && Driver.ElementIsEnabled(By.XPath(EDIT_GROUP_BTN_XPATH.Replace("*#*", groupName)));
 		}
 
 		/// <summary>
@@ -144,173 +108,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.UsersRights
 			CustomTestContext.WriteLine("Нажать кнопку 'Редактировать группу'.");
 			EditGroupButton = Driver.SetDynamicValue(How.XPath, EDIT_GROUP_BTN_XPATH, groupName);
 			EditGroupButton.Click();
-
-			return GetPage();
-		}
-
-		/// <summary>
-		/// Проверить, есть ли пользователь в группе
-		/// </summary>
-		/// <param name="userName">имя пользователя</param>
-		/// <param name="groupName">имя группы</param>
-		public bool IsGroupUserAdded(string groupName, string userName)
-		{
-			CustomTestContext.WriteLine("Проверить, есть ли пользователь {0} в группе {1}.", userName, groupName);
-
-			return Driver.ElementIsDisplayed(By.XPath(GROUP_USER_XPATH.Replace("*#*", groupName).Replace("*##*", userName)));
-		}
-
-		/// <summary>
-		/// Проверить, удалось ли добавить пользователя в группу
-		/// </summary>
-		/// <param name="userName">имя пользователя</param>
-		/// <param name="groupName">имя группы</param>
-		public UsersRightsPage AssertIsGroupUserAdded(string groupName, string userName)
-		{
-			CustomTestContext.WriteLine("Проверить удалось ли добавить пользователя {0} в группу {1}", userName, groupName);
-
-			Assert.IsTrue(Driver.WaitUntilElementIsDisplay(
-					By.XPath(GROUP_USER_XPATH.Replace("*#*", groupName).Replace("*##*", userName)),
-					timeout: 10),
-				"Произошла ошибка:\n не удалось добавить пользователя {0} в группу {1}.",userName, groupName);
-
-			return GetPage();
-		}
-
-		/// <summary>
-		/// Нажать кнопку "Добавить права"
-		/// </summary>
-		/// <param name="groupName">имя группы</param>
-		public AddAccessRightDialog ClickAddRightsButton(string groupName)
-		{
-			CustomTestContext.WriteLine("Нажать на кнопку 'Добавить права' для группы {0}.", groupName);
-			AddRightsButton = Driver.SetDynamicValue(How.XPath, ADD_RIGHTS_BTN_XPATH, groupName);
-			AddRightsButton.Click();
-
-			return new AddAccessRightDialog(Driver).GetPage();
-		}
-
-		/// <summary>
-		/// Кликнуть по строке поиска пользователей для появления выпадающего списка с пользователями аккаунта
-		/// </summary>
-		public UsersRightsPage ClickAddUsersSearchbox(string groupName)
-		{
-			CustomTestContext.WriteLine("Кликнуть по строке поиска пользователей для появления выпадающего списка с пользователями аккаунта.");
-			AddGroupUsersInput = Driver.SetDynamicValue(How.XPath, ADD_GROUP_USERS_INPUT_XPATH, groupName);
-			AddGroupUsersInput.Click();
-
-			return GetPage();
-		}
-
-		/// <summary>
-		/// Проверить, что данный пользователь есть в списке с пользователями аккаунта
-		/// </summary>
-		/// <param name="userName">имя пользователя</param>
-		/// <param name="groupName">имя группы</param>
-		public UsersRightsPage AssertIsAddGroupUserButtonExists(string groupName, string userName)
-		{
-			Assert.IsTrue(Driver.ElementIsDisplayed(By.XPath(ADD_GROUP_USER_BTN_XPATH.Replace("*#*", groupName).Replace("*##*", userName))),
-				"Произошла ошибка:\n не появился выпадающий список с пользователями аккаунта, либо {0} нет в списке", userName);
-
-			return GetPage();
-		}
-
-		/// <summary>
-		/// Выбрать пользователя из списка и нажать кнопку "Добавить"
-		/// </summary>
-		/// <param name="userName">имя пользователя</param>
-		/// <param name="groupName">имя группы</param>
-		public UsersRightsPage ClickAddGroupUserButton(string groupName, string userName)
-		{
-			CustomTestContext.WriteLine("Выбрать пользователя {0} из списка и нажать кнопку 'Добавить' в группу {1}.", userName, groupName);
-			AddGroupUserButton = Driver.SetDynamicValue(How.XPath, ADD_GROUP_USER_BTN_XPATH, groupName, userName);
-			AddGroupUserButton.Click();
-
-			return GetPage();
-		}
-
-		/// <summary>
-		/// Проверить, удалось ли добавить группе право на управление проектами
-		/// </summary>
-		/// <param name="groupName">имя группы</param>
-		public UsersRightsPage AssertIsManageProjectsRightAdded(string groupName)
-		{
-			Assert.IsTrue(Driver.ElementIsDisplayed(By.XPath(MANAGE_PROJECTS_RIGHT_TEXT_XPATH.Replace("*#*", groupName))),
-				"Произошла ошибка:\n не удалось добавить право на управление проектами ");
-			
-			return GetPage();
-		}
-
-		/// <summary>
-		/// Проверить, удалось ли добавить группе право на просмотр проектов
-		/// </summary>
-		/// <param name="groupName">имя группы</param>
-		public UsersRightsPage AssertIsViewProjectsRightAdded(string groupName)
-		{
-			Assert.IsTrue(Driver.ElementIsDisplayed(By.XPath(VIEW_PROJECTS_RIGHT_TEXT_XPATH.Replace("*#*", groupName))),
-				"Произошла ошибка:\n не удалось добавить право на просмотр проектов ");
-
-			return GetPage();
-		}
-
-		/// <summary>
-		/// Проверить, удалось ли добавить группе право на создание проектов
-		/// </summary>
-		/// <param name="groupName">имя группы</param>
-		public UsersRightsPage AssertIsCreateProjectsRightAdded(string groupName)
-		{
-			Assert.IsTrue(Driver.ElementIsDisplayed(By.XPath(CREATE_PROJECTS_RIGHT_TEXT_XPATH.Replace("*#*", groupName))),
-				"Произошла ошибка:\n не удалось добавить право на создание проектов ");
-
-			return GetPage();
-		}
-
-		/// <summary>
-		/// Нажать кнопку "Сохранить"
-		/// </summary>
-		/// <param name="groupName">имя группы</param>
-		public UsersRightsPage ClickSaveButton(string groupName)
-		{
-			CustomTestContext.WriteLine("Нажать кнопку 'Сохранить' ( настройки группы {0}).", groupName);
-			SaveButton = Driver.SetDynamicValue(How.XPath, SAVE_BTN_XPATH, groupName);
-			SaveButton.Click();
-
-			return GetPage();
-		}
-
-		/// <summary>
-		/// Получить список пользователей
-		/// </summary>
-		public List<string> GetUserNameList()
-		{
-			CustomTestContext.WriteLine("Получить список пользователей");
-
-			var nameList = Driver.GetTextListElement(By.XPath(USER_NAME_LIST));
-			var surnameList = Driver.GetTextListElement(By.XPath(USER_SURNAME_LIST));
-
-			Assert.IsTrue(nameList.Count == surnameList.Count,
-				"Произошла ошибка:\n размеры списка фамилий и списка имён не совпадают.");
-
-			return nameList.Select((t, i) => (t + " " + surnameList[i]).Trim()).ToList();
-		}
-
-		/// <summary>
-		/// Получить список имен групп пользователей
-		/// </summary>
-		public List<string> GetGroupNameList()
-		{
-			CustomTestContext.WriteLine("Получить список имен групп пользователей");
-			return Driver.GetTextListElement(By.XPath(GROUP_NAME_LIST));
-		}
-
-		/// <summary>
-		/// Проверить, что пользователь есть в списке
-		/// </summary>
-		/// <param name="username">имя пользователя</param>
-		public UsersRightsPage AssertIsUserExist(string username)
-		{
-			Assert.IsTrue(GetUserNameList().Contains(username),
-				string.Format("Произошла ошибка:\n пользователь '{0}' не найден в списке.", username));
 
 			return GetPage();
 		}
@@ -407,6 +204,281 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.UsersRights
 			return GetPage();
 		}
 
+		/// <summary>
+		/// Нажать кнопку "Добавить права"
+		/// </summary>
+		/// <param name="groupName">имя группы</param>
+		public AddAccessRightDialog ClickAddRightsButton(string groupName)
+		{
+			CustomTestContext.WriteLine("Нажать на кнопку 'Добавить права' для группы {0}.", groupName);
+			AddRightsButton = Driver.SetDynamicValue(How.XPath, ADD_RIGHTS_BTN_XPATH, groupName);
+			AddRightsButton.Click();
+
+			return new AddAccessRightDialog(Driver).GetPage();
+		}
+
+		/// <summary>
+		/// Кликнуть по строке поиска пользователей для появления выпадающего списка с пользователями аккаунта
+		/// </summary>
+		public UsersRightsPage ClickAddUsersSearchbox(string groupName)
+		{
+			CustomTestContext.WriteLine("Кликнуть по строке поиска пользователей для появления выпадающего списка с пользователями аккаунта.");
+			AddGroupUsersInput = Driver.SetDynamicValue(How.XPath, ADD_GROUP_USERS_INPUT_XPATH, groupName);
+			AddGroupUsersInput.Click();
+
+			return GetPage();
+		}
+
+		/// <summary>
+		/// Выбрать пользователя из списка и нажать кнопку "Добавить"
+		/// </summary>
+		/// <param name="userName">имя пользователя</param>
+		/// <param name="groupName">имя группы</param>
+		public UsersRightsPage ClickAddGroupUserButton(string groupName, string userName)
+		{
+			CustomTestContext.WriteLine("Выбрать пользователя {0} из списка и нажать кнопку 'Добавить' в группу {1}.", userName, groupName);
+			AddGroupUserButton = Driver.SetDynamicValue(How.XPath, ADD_GROUP_USER_BTN_XPATH, groupName, userName);
+			AddGroupUserButton.Click();
+
+			return GetPage();
+		}
+
+		/// <summary>
+		/// Нажать кнопку "Сохранить"
+		/// </summary>
+		/// <param name="groupName">имя группы</param>
+		public UsersRightsPage ClickSaveButton(string groupName)
+		{
+			CustomTestContext.WriteLine("Нажать кнопку 'Сохранить' ( настройки группы {0}).", groupName);
+			SaveButton = Driver.SetDynamicValue(How.XPath, SAVE_BTN_XPATH, groupName);
+			SaveButton.Click();
+
+			return GetPage();
+		}
+
+		/// <summary>
+		/// Получить список пользователей
+		/// </summary>
+		public List<string> GetUserNameList()
+		{
+			CustomTestContext.WriteLine("Получить список пользователей");
+
+			var nameList = Driver.GetTextListElement(By.XPath(USER_NAME_LIST));
+			var surnameList = Driver.GetTextListElement(By.XPath(USER_SURNAME_LIST));
+
+			if (nameList.Count != surnameList.Count)
+			{
+				throw new Exception("Произошла ошибка:\n размеры списка фамилий и списка имён не совпадают.");
+			}
+
+			return nameList.Select((t, i) => (t + " " + surnameList[i]).Trim()).ToList();
+		}
+
+		/// <summary>
+		/// Получить список имен групп пользователей
+		/// </summary>
+		public List<string> GetGroupNameList()
+		{
+			CustomTestContext.WriteLine("Получить список имен групп пользователей");
+			return Driver.GetTextListElement(By.XPath(GROUP_NAME_LIST));
+		}
+
+		#endregion
+
+		#region Составные методы страницы
+
+		/// <summary>
+		/// Открыть диалог добавления прав
+		/// </summary>
+		/// <param name="groupName">имя группы</param>
+		public AddAccessRightDialog OpenAddRightsDialogForGroup(string groupName)
+		{
+			ClickGroupRow(groupName);
+
+			if (IsEditGroupButtonEnabled(groupName))
+			{
+				ClickEditGroupButton(groupName);
+			}
+
+			var addAccessRightDialog = ClickAddRightsButton(groupName);
+
+			return addAccessRightDialog;
+		}
+
+		/// <summary>
+		/// Создать группу, если она еще не создана (выполняется проверка)
+		/// </summary>
+		/// <param name="groupName">имя группы</param>
+		public UsersRightsPage CreateGroupIfNotExist(string groupName)
+		{
+			OpenHideMenuIfClosed();
+			ClickUsersRightsButton();
+			ClickGroupsButton();
+
+			if (!IsGroupExists(groupName))
+			{
+				ClickCreateGroupButton();
+				SetNewGroupName(groupName);
+				ClickSaveNewGroupButton();
+				WaitUntilDialogBackgroundDisappeared();
+			}
+
+			return GetPage();
+		}
+
+		/// <summary>
+		/// Добавить пользователя в группу, если он еще не добавлен (выполняется проверка)
+		/// </summary>
+		/// <param name="groupName">имя группы</param>
+		/// <param name="userName">имя пользователя</param>
+		public UsersRightsPage AddUserToGroupIfNotAlredyAdded(string groupName, string userName)
+		{
+			ClickGroupRow(groupName);
+
+			if (IsEditGroupButtonEnabled(groupName))
+			{
+				ClickEditGroupButton(groupName);
+			}
+			if (!IsUserExistInGroup(groupName, userName))
+			{
+				ClickAddUsersSearchbox(groupName);
+				ClickAddGroupUserButton(groupName, userName);
+				ClickSaveButton(groupName);
+			}
+
+			return GetPage();
+		}
+
+		/// <summary>
+		/// Удалить пользователя из всех групп
+		/// </summary>
+		/// <param name="userName">имя пользователя</param>
+		public UsersRightsPage RemoveUserFromAllGroups(string userName)
+		{
+			var groups = GetGroupNameList();
+
+			foreach (var group in groups)
+			{
+				ClickGroupRow(group);
+
+				if (IsUserExistInGroup(group, userName))
+				{
+					ClickEditGroupButton(group);
+					ClickDeleteUserButton(group, userName);
+					ClickSaveButton(group);
+				}
+
+				ClickGroupRow(group);
+			}
+
+			return GetPage();
+		}
+
+		#endregion
+
+		#region Методы, проверяющие состояние страницы
+
+		/// <summary>
+		/// Проверить, есть ли пользователь в группе
+		/// </summary>
+		/// <param name="userName">имя пользователя</param>
+		/// <param name="groupName">имя группы</param>
+		public bool IsUserExistInGroup(string groupName, string userName)
+		{
+			CustomTestContext.WriteLine("Проверить, есть ли пользователь {0} в группе {1}.", userName, groupName);
+
+			return Driver.WaitUntilElementIsDisplay(By.XPath(GROUP_USER_XPATH.Replace("*#*", groupName).Replace("*##*", userName)), 3);
+		}
+
+		/// <summary>
+		/// Проверить, открыта ли страница Users and Rights
+		/// </summary>
+		public bool IsUsersRightsPageOpened()
+		{
+			CustomTestContext.WriteLine("Проверить, открыта ли страница Users and Rights");
+
+			return Driver.WaitUntilElementIsDisplay(By.XPath(GROUPS_RIGHTS_BTN_XPATH));
+		}
+
+		/// <summary>
+		/// Проверить, существует ли группа
+		/// </summary>
+		/// <param name="groupName">имя группы</param>
+		public bool IsGroupExists(string groupName)
+		{
+			CustomTestContext.WriteLine("Проверить, существует ли группа {0}.", groupName);
+
+			return Driver.ElementIsDisplayed(By.XPath(GROUP_XPATH.Replace("*#*", groupName)));
+		}
+
+		/// <summary>
+		/// Проверить, присуствует ли кнопка "Редактировать группу"
+		/// </summary>
+		/// <param name="groupName">имя группы</param>
+		public bool IsEditGroupButtonEnabled(string groupName)
+		{
+			CustomTestContext.WriteLine("Проверить, доступна ли кнопка 'Редактировать группу'");
+
+			return Driver.ElementIsEnabled(By.XPath(EDIT_GROUP_BTN_XPATH.Replace("*#*", groupName)));
+		}
+
+		/// <summary>
+		/// Проверить, удалось ли добавить группе право на управление проектами
+		/// </summary>
+		/// <param name="groupName">имя группы</param>
+		public bool IsManageProjectsRightAdded(string groupName)
+		{
+			CustomTestContext.WriteLine("Проверить, удалось ли добавить группе право на управление проектами");
+
+			return Driver.ElementIsDisplayed(By.XPath(MANAGE_PROJECTS_RIGHT_TEXT_XPATH.Replace("*#*", groupName)));
+		}
+
+		/// <summary>
+		/// Проверить, удалось ли добавить группе право на просмотр проектов
+		/// </summary>
+		/// <param name="groupName">имя группы</param>
+		public bool IsViewProjectsRightAdded(string groupName)
+		{
+			CustomTestContext.WriteLine("Проверить, удалось ли добавить группе право на просмотр проектов");
+
+			return Driver.ElementIsDisplayed(By.XPath(VIEW_PROJECTS_RIGHT_TEXT_XPATH.Replace("*#*", groupName)));
+		}
+
+		/// <summary>
+		/// Проверить, удалось ли добавить группе право на создание проектов
+		/// </summary>
+		/// <param name="groupName">имя группы</param>
+		public bool IsCreateProjectsRightAdded(string groupName)
+		{
+			CustomTestContext.WriteLine("Проверить, удалось ли добавить группе право на создание проектов");
+
+			return Driver.ElementIsDisplayed(By.XPath(CREATE_PROJECTS_RIGHT_TEXT_XPATH.Replace("*#*", groupName)));
+		}
+
+		/// <summary>
+		/// Проверить, что пользователь есть в списке
+		/// </summary>
+		/// <param name="username">имя пользователя</param>
+		public bool IsUserExistInList(string username)
+		{
+			CustomTestContext.WriteLine("Проверить, что пользователь есть в списке");
+
+			return GetUserNameList().Contains(username);
+		}
+
+		#endregion
+
+		#region Вспомогательные методы
+
+		public string GetGroupUniqueName()
+		{
+			return "GroupTest - " + Guid.NewGuid();
+		}
+
+		#endregion
+
+		#region Объявление элементов страницы
+
 		[FindsBy(How = How.XPath, Using = GROUPS_RIGHTS_BTN_XPATH)]
 		protected IWebElement GroupsButton { get; set; }
 
@@ -454,6 +526,10 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.UsersRights
 
 		protected IWebElement DeleteUserButton { get; set; }
 
+		#endregion
+
+		#region Описание XPath элементов
+
 		protected const string GROUPS_RIGHTS_BTN_XPATH = "//a[contains(@href,'/Groups/Index')]";
 		protected const string GROUP_XPATH = "//td[contains(@data-bind, 'text: name')][string()='*#*']";
 		protected const string CREATE_GROUP_BTN_XPATH = "//span[contains(@data-bind, 'click: addGroup')]//a[contains(string(),'Create Group')]";
@@ -483,5 +559,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.UsersRights
 		protected const string SORT_BY_GROUPS = "";
 		protected const string SORT_BY_CREATED = "//th[contains(@data-sort-by,'CreatedDate')]//a";
 		protected const string SORT_BY_STATUS = "//th[contains(@data-sort-by,'Status')]//a";
+
+		#endregion
 	}
 }

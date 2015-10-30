@@ -293,13 +293,16 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace
 		}
 
 		/// <summary>
-		/// Проверить, что фон диалога исчез
+		/// Дождаться, что фон диалога исчез
 		/// </summary>
-		public bool IsDialogBackgroundDisappeared()
+		public void WaitUntilDialogBackgroundDisappeared()
 		{
 			CustomTestContext.WriteLine("Проверить, что фон диалога исчез.");
 
-			return Driver.WaitUntilElementIsDisappeared(By.XPath(DIALOG_BACKGROUND));
+			if (!Driver.WaitUntilElementIsDisappeared(By.XPath(DIALOG_BACKGROUND)))
+			{
+				throw new XPathLookupException("Произошла ошибка: фон диалога не закрылся");
+			}
 		}
 
 		/// <summary>
@@ -437,16 +440,21 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace
 		}
 
 		/// <summary>
-		/// Подтвердить, что на странице нет алертов.
+		/// Проверить, есть ли на странице алерты
 		/// </summary>
-		public WorkspacePage AssertAlertNoExist()
+		public bool IsAlertExist()
 		{
-			CustomTestContext.WriteLine("Подтвердить, что на странице нет алертов.");
+			CustomTestContext.WriteLine("Проверить, есть ли на странице алерты");
 
-			Assert.Throws<NoAlertPresentException>(() => Driver.SwitchTo().Alert().Accept(), 
-				"Произошла ошибка:\n алерт не должен появляться.");
-
-			return GetPage();
+			try
+			{
+				Driver.SwitchTo().Alert();
+				return true;
+			}
+			catch (NoAlertPresentException e)
+			{
+				return false;
+			}
 		}
 
 		/// <summary>

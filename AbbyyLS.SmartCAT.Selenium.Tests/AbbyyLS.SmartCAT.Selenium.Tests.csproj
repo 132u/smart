@@ -210,7 +210,6 @@
     <Compile Include="TestHelpers\ProjectSettingsHelper.cs" />
     <Compile Include="TestHelpers\ProjectsHelper.cs" />
     <Compile Include="TestHelpers\TranslationMemoriesHelper.cs" />
-    <Compile Include="TestHelpers\UsersRightsHelper.cs" />
     <Compile Include="TestHelpers\WorkspaceHelper.cs" />
     <Compile Include="TestSettingDefinition.cs" />
     <Compile Include="Tests\Authorization\AuthorizationTests.cs" />
@@ -282,6 +281,7 @@
     <Compile Include="Tests\Editor\EditorErrorTests.cs" />
     <Compile Include="Tests\Editor\EditorSpellcheckTests.cs" />
     <Compile Include="Tests\Projects\Workflow\WorkflowTests.cs" />
+    <Compile Include="Tests\UsersRights\UserRightsTests.cs" />
     <Compile Include="TestUser.cs" />
   </ItemGroup>
   <ItemGroup>

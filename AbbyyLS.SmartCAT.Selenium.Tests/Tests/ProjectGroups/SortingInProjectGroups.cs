@@ -2,6 +2,7 @@
 
 using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
 using AbbyyLS.SmartCAT.Selenium.Tests.FeatureAttributes;
+using AbbyyLS.SmartCAT.Selenium.Tests.Pages.ProjectGroups;
 using AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.ProjectGroups
@@ -16,6 +17,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.ProjectGroups
 		public void Initialization()
 		{
 			_projectGroupsHelper = new ProjectGroupsHelper(Driver);
+			_projectGroupsPage = new ProjectGroupsPage(Driver);
 		}
 
 		[Test]
@@ -23,10 +25,13 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.ProjectGroups
 		{
 			_projectGroupsHelper
 				.GoToProjectGroupsPage()
-				.ClickSortByName()
-				.AssertAlertNoExist();
+				.ClickSortByName();
+
+			Assert.IsFalse(_projectGroupsPage.IsAlertExist(),
+				"Произошла ошибка: \n при сортировке появился Alert.");
 		}
 
 		private ProjectGroupsHelper _projectGroupsHelper;
+		private ProjectGroupsPage _projectGroupsPage;
 	}
 }
