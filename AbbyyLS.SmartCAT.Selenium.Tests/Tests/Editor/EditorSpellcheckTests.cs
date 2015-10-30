@@ -89,7 +89,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Editor
 		}
 
 		[TestCase("Планета")]
-		[TestCase("Чуть-чуть")]
+		[TestCase("Чуть-чуть"), Ignore("PRX-13085")]
 		public void UnderlineWord(string word)
 		{
 			var wrongWord = string.Format("Ы{0}", word);
