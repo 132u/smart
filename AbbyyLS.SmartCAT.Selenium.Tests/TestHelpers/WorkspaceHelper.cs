@@ -5,6 +5,7 @@ using AbbyyLS.SmartCAT.Selenium.Tests.DataStructures;
 using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Billing;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Client;
+using AbbyyLS.SmartCAT.Selenium.Tests.Pages.ProjectGroups;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Search;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.UsersRights;
@@ -34,14 +35,14 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 			return new ClientsPage(Driver).GetPage();
 		}
 
-		public ProjectGroupsHelper GoToProjectGroupsPage()
+		public ProjectGroupsPage GoToProjectGroupsPage()
 		{
 			BaseObject.InitPage(_workspacePage, Driver);
 			_workspacePage
 				.OpenHideMenuIfClosed()
 				.ClickProjectGroupsButton();
 
-			return new ProjectGroupsHelper(Driver);
+			return new ProjectGroupsPage(Driver);
 		}
 
 		public GlossariesHelper GoToGlossariesPage()
@@ -123,7 +124,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 		public WorkspaceHelper RefreshPage()
 		{
 			BaseObject.InitPage(_workspacePage, Driver);
-			_workspacePage.RefreshPage<WorkspacePage>(Driver);
+			_workspacePage.RefreshPage<WorkspacePage>();
 
 			return this;
 		}
@@ -134,7 +135,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 			BaseObject.InitPage(_workspacePage, Driver);
 			// Sleep нужен для предотвращения появления unexpected alert
 			Thread.Sleep(1000);
-			_workspacePage.RefreshPage<TAbstractPage>(Driver);
+			_workspacePage.RefreshPage<TAbstractPage>();
 
 			var instance = Activator.CreateInstance(typeof(THelper), new object[] { Driver }) as THelper;
 			return instance;
@@ -174,7 +175,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 			if (language == Language.Russian)
 			{
-				_workspacePage.RefreshPage<WorkspacePage>(Driver);
+				_workspacePage.RefreshPage<WorkspacePage>();
 			}
 
 			return this;

@@ -7,6 +7,7 @@ using AbbyyLS.SmartCAT.Selenium.Tests.DataStructures;
 using AbbyyLS.SmartCAT.Selenium.Tests.FeatureAttributes;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Login;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Client;
+using AbbyyLS.SmartCAT.Selenium.Tests.Pages.ProjectGroups;
 using AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.TranslationMemories
@@ -22,21 +23,26 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.TranslationMemories
 			_translationMemoriesHelper = new TranslationMemoriesHelper(Driver);
 			_workspaceHelper = new WorkspaceHelper(Driver);
 			_signInPage = new SignInPage(Driver);
+			_projectGroupsPage = new ProjectGroupsPage(Driver);
 			_clientsPage = new ClientsPage(Driver);
-
+			
 			_projectGroupName_1 = Guid.NewGuid().ToString();
 			_projectGroupName_2 = Guid.NewGuid().ToString();
 			_clientName_1 = Guid.NewGuid().ToString();
 			_clientName_2 = Guid.NewGuid().ToString();
 			_loginHelper.Authorize(StartPage.Workspace, ThreadUser);
-			_workspaceHelper
-				.GoToProjectGroupsPage()
+			_workspaceHelper.GoToProjectGroupsPage();
+
+			_projectGroupsPage
 				.CreateProjectGroup(_projectGroupName_1)
-				.CreateProjectGroup(_projectGroupName_2)
-				.GoToClientsPage();
+				.CreateProjectGroup(_projectGroupName_2);
+
+			_workspaceHelper.GoToClientsPage();
+
 			_clientsPage
 				.CreateNewClient(_clientName_1)
 				.CreateNewClient(_clientName_2);
+
 			_workspaceHelper
 				.GoToTranslationMemoriesPage()
 				.GetTranslationMemoryUniqueName(ref _tmForFilteringName_1)
@@ -261,6 +267,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.TranslationMemories
 		private WorkspaceHelper _workspaceHelper;
 		private LoginHelper _loginHelper;
 		private TranslationMemoriesHelper _translationMemoriesHelper;
+		private ProjectGroupsPage _projectGroupsPage;
 		private ClientsPage _clientsPage;
 
 		private string _tmForFilteringName_1 = "TmForFiltering_First";

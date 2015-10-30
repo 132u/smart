@@ -1,6 +1,6 @@
-﻿using System.Threading;
+﻿using System;
+using System.Threading;
 
-using NUnit.Framework;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.PageObjects;
 
@@ -20,46 +20,19 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.ProjectGroups
 		{
 			var projectGroupsPage = new ProjectGroupsPage(Driver);
 			InitPage(projectGroupsPage, Driver);
-			LoadPage();
 
 			return projectGroupsPage;
 		}
 
 		public new void LoadPage()
 		{
-			if (!Driver.WaitUntilElementIsDisplay(By.XPath(ADD_PROJECT_GROUP_BUTTON)))
+			if (!IsProjectGroupsPageOpened())
 			{
-				Assert.Fail("Произошла ошибка:\n не загрузилась страница 'Группы проектов'.");
+				throw new XPathLookupException("Произошла ошибка:\n не загрузилась страница 'Группы проектов'");
 			}
 		}
 
-		/// <summary>
-		/// Проверить, что группа проектов присутствует в списке
-		/// </summary>
-		/// <param name="projectGroupName">имя группы проектов</param>
-		public ProjectGroupsPage AssertProjectGroupExist(string projectGroupName)
-		{
-			CustomTestContext.WriteLine("Проверить, что группа проектов {0} присутствует в списке.", projectGroupName);
-
-			Assert.IsTrue(projectGroupIsPresent(projectGroupName),
-				"Произошла ошибка:\n группа проектов {0} отсутствует.", projectGroupName);
-
-			return GetPage();
-		}
-
-		/// <summary>
-		/// Проверить, что группа проектов отсутствует в списке
-		/// </summary>
-		/// <param name="projectGroupName">имя группы проектов</param>
-		public ProjectGroupsPage AssertProjectGroupNotExist(string projectGroupName)
-		{
-			CustomTestContext.WriteLine("Проверить, что группа проектов {0} отсутствует в списке.", projectGroupName);
-
-			Assert.IsTrue(Driver.WaitUntilElementIsDisappeared(By.XPath(PROJECT_GROUP_ROW.Replace("*#*", projectGroupName))),
-				"Произошла ошибка:\n Группа проектов {0} найдена.", projectGroupName);
-
-			return GetPage();
-		}
+		#region Простые методы страницы
 
 		/// <summary>
 		/// Прокручиваем страницу(если необходимо) и нажимаем кнопку создания группы проектов
@@ -108,83 +81,18 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.ProjectGroups
 		}
 
 		/// <summary>
-		/// Проверить, что кнопка сохранения группы проектов исчезла
-		/// </summary>
-		public ProjectGroupsPage AssertSaveButtonDisappear()
-		{
-			CustomTestContext.WriteLine("Проверить, что кнопка сохранения группы проектов исчезла.");
-
-			Assert.IsTrue(Driver.WaitUntilElementIsDisappeared(By.XPath(SAVE_PROJECT_GROUP)),
-				"Произошла ошибка:\n кнопка сохранения группы проектов не исчезла после сохранения.");
-
-			return GetPage();
-		}
-
-		/// <summary>
-		/// Проверить, что мы находимся в режиме редактирования группы проектов
-		/// </summary>
-		public ProjectGroupsPage AssertIsEditMode()
-		{
-			CustomTestContext.WriteLine("Проверить, что мы находимся в режиме редактирования группы проектов.");
-
-			Assert.IsTrue(EditNameField.Displayed,
-				"Произошла ошибка:\n произошел выход из режима редактирования группы проектов.");
-
-			return GetPage();
-		}
-
-		/// <summary>
-		/// Проверить, что мы находимся в режиме редактирования только что созданной группы проектов
-		/// </summary>
-		public ProjectGroupsPage AssertNewProjectGroupEditMode()
-		{
-			CustomTestContext.WriteLine("Проверить, что мы находимся в режиме редактирования только что созданной группы проектов.");
-
-			Assert.IsTrue(NewProjectGroupRow.Displayed,
-				"Произошла ошибка:\n  Произошел выход из режима редактирования только что созданной группы проектов.");
-
-			return GetPage();
-		}
-
-		/// <summary>
 		/// Нажать кнопку удаления
 		/// </summary>
 		/// <param name="projectGroupName">имя группы проектов</param>
 		public ProjectGroupsPage ClickDeleteButton(string projectGroupName)
 		{
 			CustomTestContext.WriteLine("Нажать кнопку удаления.");
-			var deleteXPath = DELETE_PROJECT_GROUP_BUTTON.Replace("*#*", projectGroupName);
 
-			Driver.FindElement(By.XPath(deleteXPath)).JavaScriptClick();
+			var deleteButton = Driver.SetDynamicValue(How.XPath, DELETE_PROJECT_GROUP_BUTTON, projectGroupName);
+
+			deleteButton.JavaScriptClick();
 			//Sleep нужен для предотвращения появления unexpected alert
 			Thread.Sleep(1000);
-			Assert.IsTrue(Driver.WaitUntilElementIsDisappeared(By.XPath(deleteXPath)),
-				"Произошла ошибка:\nКнопка удаления не исчезла после удаления группы проектов.");
-
-			return GetPage();
-		}
-
-		/// <summary>
-		/// Проверить, что кнопка удаления появилась
-		/// </summary>
-		/// <param name="projectGroupName">имя группы проектов</param>
-		public ProjectGroupsPage AssertDeleteButtonDisplay(string projectGroupName)
-		{
-			CustomTestContext.WriteLine("Проверить, что кнопка удаления появилась.");
-			var isDeleteButtonDisplayed = Driver.WaitUntilElementIsDisplay(
-				By.XPath(DELETE_PROJECT_GROUP_BUTTON.Replace("*#*", projectGroupName)));
-
-			if (!isDeleteButtonDisplayed)
-			{
-				CustomTestContext.WriteLine("Необходимо повторно навести курсор на группу проектов {0}, чтобы кнопка удаления стала видна",
-					projectGroupName);
-				HoverCursorToProjectGroup(projectGroupName);
-
-				isDeleteButtonDisplayed = Driver.WaitUntilElementIsDisplay(
-					By.XPath(DELETE_PROJECT_GROUP_BUTTON.Replace("*#*", projectGroupName)));
-			}
-
-			Assert.IsTrue(isDeleteButtonDisplayed, "Произошла ошибка:\nКнопка удаления не появилась для группы проектов.");
 
 			return GetPage();
 		}
@@ -196,7 +104,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.ProjectGroups
 		public ProjectGroupsPage ScrollAndClickProjectGroup(string projectGroupName)
 		{
 			CustomTestContext.WriteLine("Прокрутить страницу и кликнуть по строке группы проектов {0}.", projectGroupName);
-			Driver.FindElement(By.XPath(PROJECT_GROUP_ROW.Replace("*#*", projectGroupName))).ScrollAndClick();
+			Driver.SetDynamicValue(How.XPath, PROJECT_GROUP_ROW, projectGroupName).ScrollAndClick();
 
 			return GetPage();
 		}
@@ -208,46 +116,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.ProjectGroups
 		public ProjectGroupsPage ClickEditButton(string projectGroupName)
 		{
 			CustomTestContext.WriteLine("Нажать кнопку редактирования группы проектов {0}.", projectGroupName);
-			Driver.FindElement(By.XPath(EDIT_PROJECT_GROUP_BUTTON.Replace("*#*", projectGroupName))).Click();
-
-			return GetPage();
-		}
-
-		/// <summary>
-		/// Проверить, что кнопка редактирования появилась
-		/// </summary>
-		/// <param name="projectGroupName">имя группы проектов</param>
-		public ProjectGroupsPage AssertEditButtonDisplay(string projectGroupName)
-		{
-			CustomTestContext.WriteLine("Проверить, что кнопка редактирования группы проектов {0} появилась.", projectGroupName);
-			var isEditButtonDisplayed = Driver.WaitUntilElementIsDisplay(
-				By.XPath(EDIT_PROJECT_GROUP_BUTTON.Replace("*#*", projectGroupName)));
-
-			if (!isEditButtonDisplayed)
-			{
-				CustomTestContext.WriteLine("Необходимо повторно навести курсор на группу проектов {0}, чтобы кнопка редактирования стала видна",
-					projectGroupName);
-				HoverCursorToProjectGroup(projectGroupName);
-
-			isEditButtonDisplayed = Driver.WaitUntilElementIsDisplay(
-				By.XPath(EDIT_PROJECT_GROUP_BUTTON.Replace("*#*", projectGroupName)));
-			}
-
-			Assert.IsTrue(isEditButtonDisplayed, "Произошла ошибка:\nКнопка редактирования группы проектов не появилась.");
-
-			return GetPage();
-		}
-
-		/// <summary>
-		/// Проверить, что появилась ошибка в имени группы проектов при создании группы проектов
-		/// </summary>
-		public ProjectGroupsPage AssertProjectGrouptNameErrorExist()
-		{
-			CustomTestContext.WriteLine("Проверить, что появилась ошибка в имени группы проектов при создании группы проектов.");
-			Driver.WaitUntilElementIsDisplay(By.XPath(ERROR_NAME));
-
-			Assert.IsTrue(NameError.Displayed,
-				"Произошла ошибка:\n не появилась ошибка при создании группы проектов с некорректным именем.");
+			var editButton = Driver.SetDynamicValue(How.XPath, EDIT_PROJECT_GROUP_BUTTON, projectGroupName);
+			editButton.Click();
 
 			return GetPage();
 		}
@@ -278,19 +148,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.ProjectGroups
 		}
 
 		/// <summary>
-		/// Проверить, что пустая строка для создания группы проектов появилась
-		/// </summary>
-		public ProjectGroupsPage АssertGroupProjectEmptyRowDisplayed()
-		{
-			CustomTestContext.WriteLine("Проверить, что пустая строка для создания группы проектов появилась.");
-
-			Assert.IsTrue(Driver.WaitUntilElementIsDisplay(By.XPath(NEW_PROJECT_GROUP_ROW)),
-				"Произошла ошибка:\n не появилась пустая строка для создания группы проектов.");
-
-			return GetPage();
-		}
-
-		/// <summary>
 		/// Нажать кнопку сортировки по именам
 		/// </summary>
 		public ProjectGroupsPage ClickSortByName()
@@ -301,17 +158,194 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.ProjectGroups
 			return GetPage();
 		}
 
+		#endregion
+
+		#region Составные методы страницы
+
 		/// <summary>
-		/// Определить, что группа проектов присутствует в списке
+		/// Создать группу проектов
+		/// </summary>
+		/// <param name="projectGroup">название группы проектов</param>
+		public ProjectGroupsPage CreateProjectGroup(string projectGroup)
+		{
+			ScrollAndClickCreateProjectGroupsButton();
+
+			if (!IsGroupProjectEmptyRowDisplayed())
+			{
+				throw new XPathLookupException(
+					"Произошла ошибка:\n не появилась пустая строка для создания группы проектов");
+			}
+
+			FillProjectGroupName(projectGroup);
+			ClickSaveProjectGroups();
+
+			return GetPage();
+		}
+
+		/// <summary>
+		/// Переименовать группу проектов
+		/// </summary>
+		/// <param name="projectGroupsName">название группы проектов</param>
+		/// <param name="newProjectGroupName">новое название группы проектов</param>
+		public ProjectGroupsPage RenameProjectGroup(string projectGroupsName, string newProjectGroupName)
+		{
+			ScrollAndClickProjectGroup(projectGroupsName);
+			HoverCursorToProjectGroup(projectGroupsName);
+
+			if (!IsEditButtonDisplay(projectGroupsName))
+			{
+				CustomTestContext.WriteLine("Необходимо повторно навести курсор на группу проектов {0}, чтобы кнопка редактирования стала видна",
+					projectGroupsName);
+				HoverCursorToProjectGroup(projectGroupsName);
+			}
+
+			if (!IsEditButtonDisplay(projectGroupsName))
+			{
+				throw new XPathLookupException("Произошла ошибка:\nКнопка редактирования группы проектов не появилась.");
+			}
+
+			ClickEditButton(projectGroupsName);
+			FillNewName(newProjectGroupName);
+			ClickSaveProjectGroups();
+
+			return GetPage();
+		}
+
+		/// <summary>
+		/// Удалить группу проектов
+		/// </summary>
+		/// <param name="projectGroupName">название группы проектов</param>
+		public ProjectGroupsPage DeleteProjectGroup(string projectGroupName)
+		{
+			ScrollAndClickProjectGroup(projectGroupName);
+			HoverCursorToProjectGroup(projectGroupName);
+
+			if (!IsDeleteButtonDisplay(projectGroupName))
+			{
+				CustomTestContext.WriteLine("Необходимо повторно навести курсор на группу проектов {0}, чтобы кнопка удаления стала видна",
+					projectGroupName);
+				HoverCursorToProjectGroup(projectGroupName);
+			}
+
+			if (!IsDeleteButtonDisplay(projectGroupName))
+			{
+				throw new XPathLookupException("Произошла ошибка:\nКнопка удаления не появилась для группы проектов");
+			}
+
+			ClickDeleteButton(projectGroupName);
+
+			if (IsDeleteButtonDisplay(projectGroupName))
+			{
+				throw new Exception("Произошла ошибка:\nКнопка удаления не исчезла после удаления группы проектов");
+			}
+
+			return GetPage();
+		}
+
+		#endregion
+
+		#region Методы, проверяющие состояние страницы
+
+		/// <summary>
+		/// Проверить, открыта ли страница 'Группы проектов'
+		/// </summary>
+		public bool IsProjectGroupsPageOpened()
+		{
+			CustomTestContext.WriteLine("Проверить, открыта ли страница 'Группы проектов'");
+
+			return Driver.WaitUntilElementIsDisplay(By.XPath(ADD_PROJECT_GROUP_BUTTON));
+		}
+
+		/// <summary>
+		/// Проверить, что мы находимся в режиме редактирования группы проектов
+		/// </summary>
+		public bool IsEditModeEnabled()
+		{
+			CustomTestContext.WriteLine("Проверить, что мы находимся в режиме редактирования группы проектов.");
+
+			return EditNameField.Displayed;
+		}
+
+		/// <summary>
+		/// Проверить, что кнопка сохранения группы проектов исчезла
+		/// </summary>
+		public bool IsSaveButtonDisappear()
+		{
+			CustomTestContext.WriteLine("Проверить, что кнопка сохранения группы проектов исчезла.");
+
+			return Driver.WaitUntilElementIsDisappeared(By.XPath(SAVE_PROJECT_GROUP));
+		}
+
+		/// <summary>
+		/// Проверить, что появилась ошибка в имени группы проектов при создании группы проектов
+		/// </summary>
+		public bool IsProjectGrouptNameErrorDisplayed()
+		{
+			CustomTestContext.WriteLine("Проверить, что появилась ошибка в имени группы проектов при создании группы проектов.");
+
+			return Driver.WaitUntilElementIsDisplay(NameError);
+		}
+
+		/// <summary>
+		/// Проверить, что группа проектов присутствует в списке
 		/// </summary>
 		/// <param name="projectGroupName">имя группы проектов</param>
-		private bool projectGroupIsPresent(string projectGroupName)
+		public bool IsProjectGroupExist(string projectGroupName)
 		{
 			CustomTestContext.WriteLine("Определить, что группа проектов {0} присутствует в списке.", projectGroupName);
-			Driver.WaitUntilElementIsDisplay(By.XPath(PROJECT_GROUP_ROW.Replace("*#*", projectGroupName)));
 
-			return Driver.ElementIsDisplayed(By.XPath(PROJECT_GROUP_ROW.Replace("*#*", projectGroupName)));
+			return Driver.WaitUntilElementIsDisplay(By.XPath(PROJECT_GROUP_ROW.Replace("*#*", projectGroupName)));
 		}
+
+		/// <summary>
+		/// Проверить, что кнопка удаления появилась
+		/// </summary>
+		/// <param name="projectGroupName">имя группы проектов</param>
+		public bool IsDeleteButtonDisplay(string projectGroupName)
+		{
+			CustomTestContext.WriteLine("Проверить, что кнопка удаления появилась.");
+
+			return Driver.WaitUntilElementIsDisplay(
+				By.XPath(DELETE_PROJECT_GROUP_BUTTON.Replace("*#*", projectGroupName)));
+		}
+
+		/// <summary>
+		/// Проверить, что кнопка редактирования появилась
+		/// </summary>
+		/// <param name="projectGroupName">имя группы проектов</param>
+		public bool IsEditButtonDisplay(string projectGroupName)
+		{
+			CustomTestContext.WriteLine("Проверить, что кнопка редактирования группы проектов {0} появилась.", projectGroupName);
+
+			return Driver.WaitUntilElementIsDisplay(
+				By.XPath(EDIT_PROJECT_GROUP_BUTTON.Replace("*#*", projectGroupName)));
+		}
+
+		/// <summary>
+		/// Проверить, что пустая строка для создания группы проектов появилась
+		/// </summary>
+		public bool IsGroupProjectEmptyRowDisplayed()
+		{
+			CustomTestContext.WriteLine("Проверить, что пустая строка для создания группы проектов появилась.");
+
+			return Driver.WaitUntilElementIsDisplay(NewProjectGroupRow);
+		}
+
+		#endregion
+
+		#region Вспомогательные методы
+
+		/// <summary>
+		/// Получить уникальное название группы проектов
+		/// </summary>
+		public string GetProjectGroupUniqueName()
+		{
+			return "TestProjectGroup - " + Guid.NewGuid();
+		}
+
+		#endregion
+
+		#region Объявление элементов страницы
 
 		[FindsBy(How = How.XPath, Using = CANCEL_PROJECT_GROUP)]
 		protected IWebElement CancelProjectGroupsButton { get; set; }
@@ -336,6 +370,10 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.ProjectGroups
 
 		protected IWebElement ProjectGroupRow { get; set; }
 
+		#endregion
+
+		#region Описание XPath элементов
+
 		protected const string PROJECT_GROUP_ROW = "//table[contains(@class,'js-sortable-table')]//p[contains(string(), '*#*')]//..";
 		protected const string PROJECT_GROUPS_LIST = ".//table[contains(@class,'js-domains')]//tr[contains(@class,'js-row') and not(contains(@class,'g-hidden'))]";
 
@@ -351,5 +389,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.ProjectGroups
 		protected const string EDIT_NAME_FIELD = "//td[contains(@class,'domainEdit')]//div[contains(@class,'js-edit-mode')]//input[contains(@class,'js-domain-name-input')]";
 		protected const string ERROR_NAME = "//div[contains(@class,'js-error-text g-hidden')]";
 		protected const string SORT_BY_NAME = "//th[contains(@data-sort-by,'Name')]//a";
+
+		#endregion
 	}
 }

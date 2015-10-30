@@ -16,22 +16,22 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.ProjectGroups
 		[SetUp]
 		public void Initialization()
 		{
-			_projectGroupsHelper = new ProjectGroupsHelper(Driver);
+			_workspaceHelper = new WorkspaceHelper(Driver);
 			_projectGroupsPage = new ProjectGroupsPage(Driver);
 		}
 
 		[Test]
 		public void SortByNameTest()
 		{
-			_projectGroupsHelper
-				.GoToProjectGroupsPage()
-				.ClickSortByName();
+			_workspaceHelper.GoToProjectGroupsPage();
+
+			_projectGroupsPage.ClickSortByName();
 
 			Assert.IsFalse(_projectGroupsPage.IsAlertExist(),
 				"Произошла ошибка: \n при сортировке появился Alert.");
 		}
 
-		private ProjectGroupsHelper _projectGroupsHelper;
+		private WorkspaceHelper _workspaceHelper;
 		private ProjectGroupsPage _projectGroupsPage;
 	}
 }

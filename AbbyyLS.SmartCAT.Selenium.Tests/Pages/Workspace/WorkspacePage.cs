@@ -430,12 +430,12 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace
 		/// <summary>
 		/// Обновить страницу
 		/// </summary>
-		public T RefreshPage<T>(WebDriver driver) where T : class, IAbstractPage<T>
+		public T RefreshPage<T>() where T : class, IAbstractPage<T>
 		{
 			CustomTestContext.WriteLine("Обновить страницу.");
 			Driver.Navigate().Refresh();
 
-			var instance = Activator.CreateInstance(typeof(T), new object[] { driver }) as T;
+			var instance = Activator.CreateInstance(typeof(T), new object[] { Driver }) as T;
 			return instance.GetPage();
 		}
 

@@ -2,6 +2,7 @@
 
 using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
 using AbbyyLS.SmartCAT.Selenium.Tests.FeatureAttributes;
+using AbbyyLS.SmartCAT.Selenium.Tests.Pages.ProjectGroups;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace;
 using AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers;
 
@@ -16,149 +17,152 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.ProjectGroups
 		[SetUp]
 		public void Setup()
 		{
+			_projectGroupsPage = new ProjectGroupsPage(Driver);
 			_workspaceHelper = new WorkspaceHelper(Driver);
-			_projectGroupHelper = _workspaceHelper.GoToProjectGroupsPage();
+
+			_workspaceHelper.GoToProjectGroupsPage();
+
+			_projectGroup = _projectGroupsPage.GetProjectGroupUniqueName();
 		}
 
 		[Test]
 		public void CreateProjectGroupTest()
 		{
-			var projectGroup = ProjectGroupsHelper.GetProjectGroupUniqueName();
+			_projectGroupsPage.CreateProjectGroup(_projectGroup);
 
-			_projectGroupHelper
-				.CreateProjectGroup(projectGroup)
-				.AssertSaveButtonDisappear()
-				.AssertProjectGroupExist(projectGroup);
+			Assert.IsTrue(_projectGroupsPage.IsSaveButtonDisappear(),
+				"Произошла ошибка:\n кнопка сохранения группы проектов не исчезла после сохранения.");
+
+			Assert.IsTrue(_projectGroupsPage.IsProjectGroupExist(_projectGroup),
+				"Произошла ошибка:\n группа проектов {0} отсутствует в списке", _projectGroup);
 		}
 
 		[Test]
 		public void CreateProjectGroupExistingNameTest()
 		{
-			var projectGroup = ProjectGroupsHelper.GetProjectGroupUniqueName();
+			_projectGroupsPage
+				.CreateProjectGroup(_projectGroup)
+				.CreateProjectGroup(_projectGroup);
 
-			_projectGroupHelper
-				.CreateProjectGroup(projectGroup)
-				.AssertSaveButtonDisappear()
-				.CreateProjectGroup(projectGroup)
-				.AssertNameErrorExist();
+			Assert.IsTrue(_projectGroupsPage.IsProjectGrouptNameErrorDisplayed(),
+				"Произошла ошибка:\n не появилась ошибка при создании группы проектов с некорректным именем.");
 		}
 
 		[TestCase("")]
 		[TestCase("  ")]
 		public void CreateProjectGroupInvalidNameTest(string projectGroup)
 		{
-			_projectGroupHelper
-				.CreateProjectGroup(projectGroup)
-				.AssertNewProjectGroupEditMode();
+			_projectGroupsPage.CreateProjectGroup(projectGroup);
+
+			Assert.IsTrue(_projectGroupsPage.IsGroupProjectEmptyRowDisplayed(),
+				"Произошла ошибка:\n  Произошел выход из режима редактирования только что созданной группы проектов.");
 		}
 
 		[Test]
 		public void CreateProjectGroupCheckCreateTMTest()
 		{
-			var projectGroup = ProjectGroupsHelper.GetProjectGroupUniqueName();
+			_projectGroupsPage.CreateProjectGroup(_projectGroup);
 
-			_projectGroupHelper
-				.CreateProjectGroup(projectGroup)
-				.AssertSaveButtonDisappear()
+			_workspaceHelper
 				.GoToTranslationMemoriesPage()
-				.AssertProjectGroupExist(projectGroup);
+				.AssertProjectGroupExist(_projectGroup);
 		}
 
 		[Test]
 		public void CreateProjectGroupCheckCreateGlossaryTest()
 		{
-			var projectGroup = ProjectGroupsHelper.GetProjectGroupUniqueName();
+			_projectGroupsPage.CreateProjectGroup(_projectGroup);
 
-			_projectGroupHelper
-				.CreateProjectGroup(projectGroup)
-				.AssertSaveButtonDisappear()
+			_workspaceHelper
 				.GoToGlossariesPage()
-				.AssertProjectGroupExist(projectGroup);
+				.AssertProjectGroupExist(_projectGroup);
 		}
 
 		[Test]
 		public void ChangeProjectGroupNameTest()
 		{
-			var projectGroup = ProjectGroupsHelper.GetProjectGroupUniqueName();
-			var newProjectGroupsName = ProjectGroupsHelper.GetProjectGroupUniqueName();
+			var newProjectGroupsName = _projectGroupsPage.GetProjectGroupUniqueName();
 
-			_projectGroupHelper
-				.CreateProjectGroup(projectGroup)
-				.AssertSaveButtonDisappear()
-				.RenameProjectGroup(projectGroup, newProjectGroupsName)
-				.AssertProjectGroupNotExist(projectGroup)
-				.AssertProjectGroupExist(newProjectGroupsName);
+			_projectGroupsPage
+				.CreateProjectGroup(_projectGroup)
+				.RenameProjectGroup(_projectGroup, newProjectGroupsName);
+
+			Assert.IsFalse(_projectGroupsPage.IsProjectGroupExist(_projectGroup),
+				"Произошла ошибка:\n группа проектов {0} присутствует в списке", _projectGroup);
+
+			Assert.IsTrue(_projectGroupsPage.IsProjectGroupExist(newProjectGroupsName),
+				"Произошла ошибка:\n группа проектов {0} отсутствует в списке", newProjectGroupsName);
 		}
 
 		[TestCase("")]
 		[TestCase("  ")]
 		public void ChangeProjectGroupInvalidNameTest(string projectGroupName)
 		{
-			var projectGroup = ProjectGroupsHelper.GetProjectGroupUniqueName();
+			_projectGroupsPage
+				.CreateProjectGroup(_projectGroup)
+				.RenameProjectGroup(_projectGroup, projectGroupName);
 
-			_projectGroupHelper
-				.CreateProjectGroup(projectGroup)
-				.AssertSaveButtonDisappear()
-				.RenameProjectGroup(projectGroup, projectGroupName)
-				.AssertIsEditMode();
+			Assert.IsTrue(_projectGroupsPage.IsEditModeEnabled(),
+				"Произошла ошибка:\n произошел выход из режима редактирования группы проектов.");
 		}
 
 		[Test]
 		public void ChangeProjectGroupExistingNameTest()
 		{
-			var projectGroup = ProjectGroupsHelper.GetProjectGroupUniqueName();
-			var secondProjectGroupName = ProjectGroupsHelper.GetProjectGroupUniqueName();
+			var secondProjectGroupName = _projectGroupsPage.GetProjectGroupUniqueName();
 
-			_projectGroupHelper
-				.CreateProjectGroup(projectGroup)
-				.AssertSaveButtonDisappear()
+			_projectGroupsPage
+				.CreateProjectGroup(_projectGroup)
 				.CreateProjectGroup(secondProjectGroupName)
-				.AssertSaveButtonDisappear()
-				.RenameProjectGroup(secondProjectGroupName, projectGroup)
-				.AssertNameErrorExist();
+				.RenameProjectGroup(secondProjectGroupName, _projectGroup);
+
+			Assert.IsTrue(_projectGroupsPage.IsProjectGrouptNameErrorDisplayed(),
+				"Произошла ошибка:\n не появилась ошибка при создании группы проектов с некорректным именем.");
 		}
 
 		[Test]
 		public void DeleteProjectGroupTest()
 		{
-			var projectGroup = ProjectGroupsHelper.GetProjectGroupUniqueName();
+			_projectGroupsPage
+				.CreateProjectGroup(_projectGroup)
+				.DeleteProjectGroup(_projectGroup);
 
-			_projectGroupHelper
-				.CreateProjectGroup(projectGroup)
-				.AssertSaveButtonDisappear()
-				.DeleteProjectGroup(projectGroup)
-				.AssertProjectGroupNotExist(projectGroup);
+			Assert.IsFalse(_projectGroupsPage.IsProjectGroupExist(_projectGroup),
+				"Произошла ошибка:\n группа проектов {0} присутствует в списке", _projectGroup);
 		}
 
 		[Test]
 		public void DeleteProjectGroupCheckCreateTM()
 		{
-			var projectGroup = ProjectGroupsHelper.GetProjectGroupUniqueName();
+			_projectGroupsPage
+				.CreateProjectGroup(_projectGroup)
+				.DeleteProjectGroup(_projectGroup);
 
-			_projectGroupHelper
-				.CreateProjectGroup(projectGroup)
-				.AssertSaveButtonDisappear()
-				.DeleteProjectGroup(projectGroup)
-				.AssertProjectGroupNotExist(projectGroup)
+			Assert.IsFalse(_projectGroupsPage.IsProjectGroupExist(_projectGroup),
+				"Произошла ошибка:\n группа проектов {0} присутствует в списке", _projectGroup);
+
+			_workspaceHelper
 				.GoToTranslationMemoriesPage()
-				.AssertProjectGroupNotExist(projectGroup);
+				.AssertProjectGroupNotExist(_projectGroup);
 		}
 
 		[Test]
 		public void DeleteProjectGroupsCheckCreateGlossaryTest()
 		{
-			var projectGroup = ProjectGroupsHelper.GetProjectGroupUniqueName();
+			var projectGroup = _projectGroupsPage.GetProjectGroupUniqueName();
 
-			_projectGroupHelper
+			_projectGroupsPage
 				.CreateProjectGroup(projectGroup)
-				.AssertSaveButtonDisappear()
 				.DeleteProjectGroup(projectGroup)
-				.RefreshPage<WorkspacePage, WorkspaceHelper>()
+				.RefreshPage<WorkspacePage>();
+
+			_workspaceHelper
 				.GoToGlossariesPage()
 				.AssertProjectGroupNotExist(projectGroup);
 		}
 
-		private ProjectGroupsHelper _projectGroupHelper;
+		private ProjectGroupsPage _projectGroupsPage;
 		private WorkspaceHelper _workspaceHelper;
+		private string _projectGroup;
 	}
 }
