@@ -132,7 +132,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 		protected const string TITLE = "(//h2[text()='Document Settings'])[3]";
 		protected const string NAME_INPUT = "//div[contains(@class,'document-settings')][3]//input[contains(@data-bind,'value: name')]";
 		protected const string SAVE_BUTTON = "//div[contains(@class,'g-popup-bd js-popup-bd js-popup-single-target-document-settings')][2]//span[contains(@data-bind,'click: save')]";
-		protected const string MT_CHECKBOX = "//div[@class='g-popup-bd js-popup-bd js-popup-single-target-document-settings'][2]//tbody[contains(@data-bind, 'machineTranslators')]//p[text()='*#*']/parent::td/..//td//input";
+		protected const string MT_CHECKBOX = "//div[@class='g-popup-bd js-popup-bd js-popup-single-target-document-settings'][2]//tbody[contains(@data-bind, 'machineTranslators')]//span[text()='*#*']/../../preceding-sibling::td/input";
 		protected const string GLOSSARY_BY_NAME_XPATH = "(//h2[text()='Document Settings']//..//..//table[contains(@class,'l-corpr__tbl')]//tbody[@data-bind='foreach: glossaries']//tr[contains(string(), '*#*')])[1]//td//input";
 		protected const string GLOSSARY_TABLE = "//div[contains(@class, 'single-target-document-settings')][2]//tbody[contains(@data-bind, 'glossaries')]";
 	}
