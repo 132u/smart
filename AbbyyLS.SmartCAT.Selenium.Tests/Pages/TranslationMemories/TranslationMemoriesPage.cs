@@ -531,7 +531,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories
 		{
 			CustomTestContext.WriteLine("Проверить, что сообщение о окончании импорта TMX файла появилось.");
 
-			Assert.IsTrue(Driver.WaitUntilElementIsDisplay(By.XPath(FILE_IMPORT_NOTIFIER), timeout: 45),
+			Assert.IsTrue(Driver.WaitUntilElementIsDisplay(By.XPath(FILE_IMPORT_NOTIFIER), timeout: 60),
 				"Произошла ошибка:\n сообщение о окончании импорта TMX файла не появилось.");
 
 			return GetPage();

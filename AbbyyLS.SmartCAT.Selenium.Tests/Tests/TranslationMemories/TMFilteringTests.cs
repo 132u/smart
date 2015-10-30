@@ -195,6 +195,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.TranslationMemories
 				.GoToTranslationMemoriesPage()
 				.GetTranslationMemoryUniqueName(ref _tmForFilteringName_3)
 				.CreateTranslationMemory(_tmForFilteringName_3)
+				.RefreshPage();
+			
+			_translationMemoriesHelper
 				.CreateNewTMFilter(() => TranslationMemoriesHelper.SetAutorFilter(_secondUser.NickName))
 				.AssertTranslationMemoryExists(_tmForFilteringName_3)
 				.AssertTranslationMemoryNotExists(_tmForFilteringName_1)
