@@ -5,6 +5,7 @@ using NUnit.Framework;
 using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
 using AbbyyLS.SmartCAT.Selenium.Tests.DataStructures;
 using AbbyyLS.SmartCAT.Selenium.Tests.FeatureAttributes;
+using AbbyyLS.SmartCAT.Selenium.Tests.Pages.LingvoDictionaries;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Search;
 using AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers;
 
@@ -29,6 +30,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.LingvoDictionaries
 			_workspaceHelper = new WorkspaceHelper(Driver);
 
 			_searchPage = new SearchPage(Driver);
+			_lingvoDictionariesPage = new LingvoDictionariesPage(Driver);
 
 			if (!ConfigurationManager.Standalone)
 			{
@@ -57,8 +59,10 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.LingvoDictionaries
 
 			_workspaceHelper
 				.AssertLingvoDictionariesDisplayed()
-				.GoToLingvoDictionariesPage()
-				.AssertLingvoDictionariesListIsNotEmpty();
+				.GoToLingvoDictionariesPage();
+
+			Assert.IsTrue(_lingvoDictionariesPage.IsLingvoDictionariesListNotEmpty(),
+				"Произошла ошибка:\n список словарей пуст.");
 
 			_workspaceHelper.GotToSearchPage();
 		}
@@ -70,7 +74,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.LingvoDictionaries
 
 			_searchPage.InitSearch(search_query);
 
-			Assert.IsTrue(_searchPage.IsSearchResultDisplay(), "Произошла ошибка: \n не появились результаты поиска.");
+			Assert.IsTrue(_searchPage.IsSearchResultDisplay(),
+				"Произошла ошибка: \n не появились результаты поиска.");
 		}
 
 		[Test]
@@ -144,5 +149,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.LingvoDictionaries
 		private CommonHelper _commonHelper;
 
 		private SearchPage _searchPage;
+		private LingvoDictionariesPage _lingvoDictionariesPage;
 	}
 }

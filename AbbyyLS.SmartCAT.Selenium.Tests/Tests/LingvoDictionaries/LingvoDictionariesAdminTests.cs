@@ -5,6 +5,7 @@
 using AbbyyLS.SmartCAT.Selenium.Tests.DataStructures;
 ﻿using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
 ﻿using AbbyyLS.SmartCAT.Selenium.Tests.FeatureAttributes;
+﻿using AbbyyLS.SmartCAT.Selenium.Tests.Pages.LingvoDictionaries;
 ﻿using AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.LingvoDictionaries
@@ -26,6 +27,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.LingvoDictionaries
 			_commonHelper = new CommonHelper(Driver);
 			_loginHelper = new LoginHelper(Driver);
 			_workspaceHelper = new WorkspaceHelper(Driver);
+			_lingvoDictionariesPage = new LingvoDictionariesPage(Driver);
 			_accountUniqueName = AdminHelper.GetAccountUniqueName();
 		}
 
@@ -48,8 +50,10 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.LingvoDictionaries
 
 			_workspaceHelper
 				.AssertLingvoDictionariesDisplayed()
-				.GoToLingvoDictionariesPage()
-				.AssertLingvoDictionariesListIsNotEmpty();
+				.GoToLingvoDictionariesPage();
+
+			Assert.IsTrue(_lingvoDictionariesPage.IsLingvoDictionariesListNotEmpty(),
+				"Произошла ошибка:\n список словарей пуст.");
 		}
 
 		[Test]
@@ -65,15 +69,17 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.LingvoDictionaries
 			List<string> includedDictionaryList = _adminHelper.GetIncludedDictionariesList();
 
 			_commonHelper.GoToSignInPage();
+
 			_loginHelper.LogInSmartCat(
 				ThreadUser.Login,
 				ThreadUser.NickName,
 				ThreadUser.Password,
 				_accountUniqueName);
 
-			_workspaceHelper
-				.GoToLingvoDictionariesPage()
-				.AssertLingvoDictionariesListCorrect(includedDictionaryList);
+			_workspaceHelper.GoToLingvoDictionariesPage();
+
+			Assert.IsTrue(_lingvoDictionariesPage.IsLingvoDictionariesListMatchExpected(includedDictionaryList),
+				"Произошла ошибка:\n список словарей на странице не совпадает с ожидаемым");
 		}
 
 		[Test]
@@ -91,6 +97,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.LingvoDictionaries
 				.AddUserToSpecificAccount(ThreadUser.Login, _accountUniqueName);
 
 			_commonHelper.GoToSignInPage();
+
 			_loginHelper.LogInSmartCat(
 				ThreadUser.Login,
 				ThreadUser.NickName,
@@ -110,6 +117,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.LingvoDictionaries
 				.AddAllDictionariesPackages();
 
 			_commonHelper.GoToSignInPage();
+
 			_loginHelper.LogInSmartCat(
 				ThreadUser.Login,
 				ThreadUser.NickName,
@@ -118,8 +126,10 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.LingvoDictionaries
 
 			_workspaceHelper
 				.AssertLingvoDictionariesDisplayed()
-				.GoToLingvoDictionariesPage()
-				.AssertLingvoDictionariesListIsNotEmpty();
+				.GoToLingvoDictionariesPage();
+
+			Assert.IsTrue(_lingvoDictionariesPage.IsLingvoDictionariesListNotEmpty(),
+				"Произошла ошибка:\n список словарей пуст.");
 		}
 
 		private string _accountUniqueName;
@@ -127,5 +137,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.LingvoDictionaries
 		private WorkspaceHelper _workspaceHelper;
 		private LoginHelper _loginHelper;
 		private CommonHelper _commonHelper;
+		private LingvoDictionariesPage _lingvoDictionariesPage;
 	}
 }

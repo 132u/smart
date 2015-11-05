@@ -202,7 +202,6 @@
     <Compile Include="TestHelpers\CommonHelper.cs" />
     <Compile Include="TestHelpers\CreateProjectHelper.cs" />
     <Compile Include="TestHelpers\ExportFileHelper.cs" />
-    <Compile Include="TestHelpers\LingvoDictionariesHelper.cs" />
     <Compile Include="TestHelpers\EditorHelper.cs" />
     <Compile Include="TestHelpers\GlossariesHelper.cs" />
     <Compile Include="TestHelpers\LoginHelper.cs" />

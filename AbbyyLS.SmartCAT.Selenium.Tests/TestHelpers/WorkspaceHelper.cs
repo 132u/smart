@@ -5,6 +5,7 @@ using AbbyyLS.SmartCAT.Selenium.Tests.DataStructures;
 using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Billing;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Client;
+using AbbyyLS.SmartCAT.Selenium.Tests.Pages.LingvoDictionaries;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.ProjectGroups;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Search;
@@ -78,7 +79,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 			return this;
 		}
 
-		public LingvoDictionariesHelper GoToLingvoDictionariesPage()
+		public LingvoDictionariesPage GoToLingvoDictionariesPage()
 		{
 			BaseObject.InitPage(_workspacePage, Driver);
 			_workspacePage
@@ -86,7 +87,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 				.ExpandResourcesIfNotExpanded()
 				.ClickLingvoDictionariesButton();
 
-			return new LingvoDictionariesHelper(Driver);
+			return new LingvoDictionariesPage(Driver);
 		}
 
 		public TranslationMemoriesHelper GoToTranslationMemoriesPage()
