@@ -429,8 +429,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings
 		protected IWebElement DocumentRefference { get; set; }
 		
 		protected IWebElement ProjectsTableCheckbox { get; set; }
-		
-		protected const string ADD_FILES_BTN = ".//span[contains(@class,'js-document-import')]";
+
+		protected const string ADD_FILES_BTN = "//div[contains(@data-bind, 'importDocument')]";
 		protected const string IMPORT_DIALOG = ".//div[contains(@class,'js-popup-import-document')][2]";
 		protected const string ASSIGN_DIALOG = "//div[contains(@class,'js-popup-assign')][2]";
 		protected const string PROJECTS_TABLE_ALL_CHECKBOXES = ".//table[contains(@id,'JColResizer')]//tr[@class = 'js-table-header']//th[1]//input";
@@ -443,7 +443,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings
 		protected const string SAVE_MT_BTN = ".//span[contains(@data-bind, 'click: saveMTEngines')]//a";
 		protected const string DEFAULT_MT_CHECKBOX = "//tbody[contains(@data-bind,'foreach: machineTranslators')]//tr[contains(string(), 'ABBYY')]//td[1]//input";
 		protected const string DEFAULT_MT_CHECKBOX_STATE = "//tbody[contains(@data-bind,'foreach: machineTranslators')]//tr[contains(string(), 'ABBYY')]//td[1]//input[@data-value='true']";
-		protected const string DELETE_BTN = "//span[contains(@class,'js-document-delete')]";
+		protected const string DELETE_BTN = "//div[contains(@data-bind, 'deleteDocuments')]";
 		protected const string DOCUMENT_LIST = ".//table[contains(@class,'js-documents-table')]//tbody//tr//a[text()='*#*']";
 		protected const string DELETE_DOCUMENT_DIALOG = "//div[contains(@class,'js-popup-confirm')]";
 		protected const string DOWNLOAD_MAIN_MENU_BUTTON = "//span[contains(@class,'js-document-export-block')]";

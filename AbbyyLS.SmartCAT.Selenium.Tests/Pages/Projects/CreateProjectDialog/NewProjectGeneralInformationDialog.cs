@@ -613,7 +613,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 		protected const string ERROR_DUPLICATE_LANG_XPATH = "//div[contains(@class,'js-popup-create-project')][2]//p[contains(@class,'js-error-sourceLanguage-match-targetLanguage')]";
 		protected const string ERROR_FORBIDDEN_SYMBOLS_NAME = "//div[contains(@class,'js-popup-create-project')][2]//p[contains(@class,'js-error-name-invalid-chars')]";
 		protected const string ERROR_NO_NAME_XPATH = "//div[contains(@class,'js-popup-create-project')][2]//p[contains(@class,'js-error-name-required')]";
-		protected const string DELETE_FILE_BTN_XPATH = "//div[contains(@class,'js-popup-create-project')][2]//li[contains(@class, 'js-file-list') and contains(string(), '*#*')]//span[contains(@class, 'btn')]//a[contains(@class, 'js-remove-file')]";
+		protected const string DELETE_FILE_BTN_XPATH = "//div[contains(@class,'js-popup-create-project')][2]//li[contains(@class, 'js-file-list') and contains(string(), '*#*')]//div[contains(@class, 'btn')]//a[contains(@class, 'js-remove-file')]";
 		protected const string ADD_FILE_BTN_XPATH = "//div[contains(@class,'js-popup-create-project')][2]//div[contains(@class,'js-files-uploader')]//a";
 		protected const string TARGET_MULTISELECT_XPATH = "//div[contains(@class,'js-popup-create-project')][2]//div[contains(@class,'js-languages-multiselect')]";
 		protected const string SOURCE_LANG_DROPDOWN_XPATH = "//div[contains(@class,'js-popup-create-project')][2]//div[select[@id='sourceLanguage']]/span";

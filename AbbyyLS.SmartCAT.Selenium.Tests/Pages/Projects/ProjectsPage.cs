@@ -584,20 +584,20 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 
 		protected IWebElement DeleteInProjectButton { get; set; }
 
-		protected const string CREATE_PROJECT_BTN_XPATH = "//span[contains(@class,'js-project-create')]";
+		protected const string CREATE_PROJECT_BTN_XPATH = "//div[contains(@data-bind,'createProject')]";
 		protected const string CREATE_PROJECT_DIALOG_XPATH = "//div[contains(@class,'js-popup-create-project')][2]";
 		protected const string PROJECT_REF_XPATH = "//table[contains(@class,'js-tasks-table')]//tr//*[@class='js-name'][(local-name() ='a' or local-name() ='span') and string()='*#*']";
 		protected const string PROJECT_LOAD_IMG_XPATH = "//*[(local-name() ='a' or local-name() ='span') and text()='*#*']//preceding-sibling::img[contains(@data-bind,'processingInProgress')]";
 		protected const string PROJECT_CRITICAL_ERROR_LOAD = "//a[text()='*#*']//preceding-sibling::img[contains(@data-bind,'processingFatalError')]";
 		protected const string PROJECT_WARNING_ERROR_LOAD = "//a[text()='*#*']//preceding-sibling::img[contains(@data-bind,'processingError')]";
 		protected const string PROJECTS_TABLE_XPATH = "//table[contains(@class,'js-tasks-table')]";
-		protected const string DELETE_BUTTON = "//span[contains(@class,'js-delete-btn')]";
+		protected const string DELETE_BUTTON = "//div[contains(@data-bind,'deleteProjects')]";
 		protected const string PROJECT_SEARCH_FIELD = "//input[@name='searchName']";
-		protected const string SEARCH_PROJECT_BUTTON = "//a[contains(@class, 'js-search-btn')]/img";
+		protected const string SEARCH_PROJECT_BUTTON = "//div[contains(@class, 'js-search-btn')]";
 		protected const string DELETE_DIALOG_WITH_FILE = "//div[contains(text(), 'Delete the selected project')]";
 		protected const string DELETE_DIALOG = "//div[contains(@class,'js-popup-confirm')]";
 		protected const string PROJECT_REF = ".//table[contains(@class,'js-tasks-table')]//tr//*[@class='js-name'][(local-name() ='a' or local-name() ='span') and text()='*#*']";
-		protected const string OPEN_PROJECT_FOLDER = ".//table[contains(@class,'js-tasks-table')]//tr//*[@class='js-name'][(local-name() ='a' or local-name() ='span') and text()='*#*']//preceding-sibling::div//img";
+		protected const string OPEN_PROJECT_FOLDER = ".//table[contains(@class,'js-tasks-table')]//tr//*[@class='js-name'][(local-name() ='a' or local-name() ='span') and text()='*#*']//preceding-sibling::div//i[contains(@class,'closed')]";
 		protected const string PROJECT_CHECKBOX = ".//table[contains(@class,'js-tasks-table')]//tr//*[@class='js-name'][(local-name() ='a' or local-name() ='span') and text()='*#*']/../../../td[contains(@class,'checkbox')]";
 		protected const string OPEN_PROJECT = ".//table[contains(@class,'js-tasks-table')]//tr//*[@class='js-name'][(local-name() ='a' or local-name() ='span') and text()='*#*']/ancestor-or-self::tr";
 		protected const string DOCUMENT_REF = "//tr[contains(@class,'js-document-row')]//a[text()='*#*']";

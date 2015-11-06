@@ -146,7 +146,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 		protected IWebElement NewTaskButton { get; set; }
 
 		protected const string WF_TABLE_FIRST_TASK = "//div[contains(@class,'js-popup-create-project')][2]//table[contains(@class,'js-workflow-table')]//tr[1]/td[2]//span//span";
-		protected const string NEW_TASK_BUTTON = "//div[contains(@class,'js-popup-create-project')][2]//span[contains(@class,'js-new-stage')]";
+		protected const string NEW_TASK_BUTTON = "//div[contains(@class,'js-popup-create-project')][2]//div[contains(@class,'js-new-stage')]";
 		protected const string WORKFLOW_TASKS = "//div[contains(@class,'js-popup-create-project')][2]//table[contains(@class,'js-workflow-table')]//tbody//tr//td[2]//span//span";
 		protected const string WORKFLOW_TASK = "//div[contains(@class,'js-popup-create-project')][2]//table[contains(@class,'js-workflow-table')]//tbody//tr[*#*]//td[2]//span//span";
 		protected const string WORKFLOW_DROPDOWN_LIST = "//span[contains(@class,'js-dropdown__item')]";

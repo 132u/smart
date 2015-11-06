@@ -136,7 +136,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 
 		protected IWebElement TranslationMemoryItem { get; set; }
 
-		protected const string CREATE_TM_BTN = "//div[contains(@class,'js-popup-create-project')][2]//span[contains(@class,'js-tm-create')]";
+		protected const string CREATE_TM_BTN = "//div[contains(@class,'js-popup-create-project')][2]//div[contains(@class,'js-tm-create')]";
 		protected const string TM_TABLE_FIRST_ITEM = "//div[contains(@class,'js-popup-create-project')][2]//table[contains(@class,'js-tms-popup-table')]//tbody//tr[1]//td[1]//input";
 		protected const string TM_ITEM = "//div[contains(@class,'js-popup-create-project')][2]//table[contains(@class,'js-tms-popup-table')]//tbody//tr//td[contains(@class,'js-name')][text()='*#*']";
 		protected const string UPLOAD_TM_BUTTON = "//div[contains(@class,'js-popup-create-project')][2]//span[contains(@class,'js-tm-upload')]";
