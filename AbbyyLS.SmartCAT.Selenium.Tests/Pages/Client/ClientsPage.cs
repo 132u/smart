@@ -272,7 +272,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Client
 		protected const string DELETE_BUTTON = "//table[contains(@class,'js-sortable-table')]//p[contains(string(), '*#*')]/../div[@class='l-corpr__clientbtns']/a[@title='Delete']";
 		protected const string EDIT_BUTTON = "//table[contains(@class,'js-sortable-table')]//p[contains(string(), '*#*')]/../div[@class='l-corpr__clientbtns']/a[@title='Edit']";
 
-		protected const string ADD_CLIENT_BUTTON = "//div[@data-bind='click: addNewClient']//span";
+		protected const string ADD_CLIENT_BUTTON = "//div[@data-bind='click: addNewClient']//a";
 		protected const string SAVE_CLIENT = "//img[contains(@class,'client save')]";
 		protected const string ERROR_NAME = "//div[contains(@class,'clienterr') and string()='A client with the same name already exists.']";
 		protected const string CLIENT_INPUT_NAME = "//input[contains(@class,'clienttxtbox')]";
