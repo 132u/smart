@@ -292,8 +292,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 
 		#region Описание XPath элементов
 
-		protected const string SAVE_BUTTON = "//span[contains(@data-bind, 'click: saveDeadlines')]//a"; 
-		protected const string SELECT_ASSIGNEES_DROPDOWN = "//tr[*#*]//td[2]//span[contains(@class, 'bluebtn expandable')]";
+		protected const string SAVE_BUTTON = "//div[contains(@data-bind, 'click: saveDeadlines')]//a";
+		protected const string SELECT_ASSIGNEES_DROPDOWN = "//tr[*#*]//td[2]//div[contains(@data-bind, 'setAssignment()')]";
 		protected const string SIMPLE_ASSIGNMENT_OPTION = "//tr[*#*]//div[contains(@class, 'sublist assignExecutives')]//div[contains(@class,'first')]";
 		protected const string SPLIT_ASSIGNMENT_OPTION = "//tr[*#*]//div[contains(@class, 'sublist assignExecutives')]//div[contains(@class,'last')]";
 		protected const string CHANGE_ASSIGNEES_BUTTON = "//tr[*#*]//a[contains(@data-bind, 'setAssignmentsButtonTitle')]";

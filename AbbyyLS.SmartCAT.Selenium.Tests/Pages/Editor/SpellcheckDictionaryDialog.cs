@@ -128,6 +128,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		public SpellcheckDictionaryDialog AddWordToDictionary(string word)
 		{
 			CustomTestContext.WriteLine("Добавить слово {0} в словарь", word);
+			InputWordField.DoubleClick();
 			InputWordField.SendKeys(word);
 
 			return GetPage();

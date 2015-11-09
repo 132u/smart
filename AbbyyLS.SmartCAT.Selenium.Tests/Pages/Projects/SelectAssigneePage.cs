@@ -153,7 +153,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 		protected const string ASSIGNEE_OPTION = "//ul[contains(@class, 'list newDropdown')]//li[@title='*#*']";
 		protected const string ASSIGN_BUTTON = "//a[contains(@data-bind, 'assign') and @class='red-dotted-link']";
 		protected const string CANCEL_ASSIGNEE_BUTTON = "//a[contains(@data-bind, 'removeExecutive')]";
-		protected const string CLOSE_BUTTON = "//span[contains(@data-bind, 'click: close')]//a";
+		protected const string CLOSE_BUTTON = "//div[contains(@data-bind, 'click: close')]//a";
 
 		#endregion
 	}
