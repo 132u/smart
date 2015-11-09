@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 
+using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries;
+
 using NUnit.Framework;
 
 using AbbyyLS.SmartCAT.Selenium.Tests.DataStructures;
@@ -19,6 +21,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 		{
 			_workspaceHelper = new WorkspaceHelper(Driver);
 			_glossariesHelper = new GlossariesHelper(Driver);
+			_suggestTermDialog = new SuggestTermDialog(Driver);
 
 			_term1 = "term1";
 			_term2 = "term2";
@@ -369,11 +372,20 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 		{
 			_glossariesHelper
 				.CreateGlossary(_glossaryName)
-				.OpenSuggestTermDialogFromGlossaryPage()
-				.AssertLanguageInSuggestTermDialogMatch(languageNumber: 1, language: Language.English)
-				.AssertLanguageInSuggestTermDialogMatch(languageNumber: 2, language: Language.Russian)
-				.SelectLanguageToSuggestTerm(languageNumber: 1, language: Language.Russian)
-				.AssertLanguageInSuggestTermDialogMatch(languageNumber: 2, language: Language.English);
+				.OpenSuggestTermDialogFromGlossaryPage();
+
+			Assert.AreEqual(Language.English.ToString(), _suggestTermDialog.GetLanguageText(languageNumber: 1),
+				"Произошла ошибка:\nНеверный язык №1 в диалоге предложения термина.");
+
+			Assert.AreEqual(Language.Russian.ToString(), _suggestTermDialog.GetLanguageText(languageNumber: 2),
+				"Произошла ошибка:\nНеверный язык №2 в диалоге предложения термина.");
+
+			_suggestTermDialog
+				.ClickLanguageList(languageNumber: 1)
+				.SelectLanguageInList(language: Language.Russian);
+
+			Assert.AreEqual(Language.English.ToString(), _suggestTermDialog.GetLanguageText(languageNumber: 2),
+				"Произошла ошибка:\nНеверный язык №2 в диалоге предложения термина.");
 		}
 
 		private string _term1;
@@ -382,5 +394,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 
 		private WorkspaceHelper _workspaceHelper;
 		private GlossariesHelper _glossariesHelper;
+		private SuggestTermDialog _suggestTermDialog;
 	}
 }

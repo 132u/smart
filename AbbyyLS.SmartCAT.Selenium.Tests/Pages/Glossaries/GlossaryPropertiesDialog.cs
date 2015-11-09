@@ -1,9 +1,11 @@
 ﻿using System;
 
 using NUnit.Framework;
+
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.PageObjects;
 
+using AbbyyLS.SmartCAT.Selenium.Tests.DataStructures;
 using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace;
 using AbbyyLS.SmartCAT.Selenium.Tests.TestFramework;
@@ -149,6 +151,42 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 			return new GlossaryStructureDialog(Driver).GetPage();
 		}
 
+		/// <summary>
+		/// Нажать кнопку добавления языка
+		/// </summary>
+		public GlossaryPropertiesDialog ClickAddLanguageButton()
+		{
+			CustomTestContext.WriteLine("Нажать кнопку добавления языка.");
+			AddLanguageButton.Click();
+
+			return GetPage();
+		}
+
+		/// <summary>
+		/// Нажать на последний дропдаун языка
+		/// </summary>
+		public GlossaryPropertiesDialog ClickLastLanguageDropdown()
+		{
+			CustomTestContext.WriteLine("Нажать на последний дропдаун языка.");
+			LastLanguageDropdown.Click();
+
+			return GetPage();
+		}
+
+		/// <summary>
+		/// Выбрать язык в дропдауне
+		/// </summary>
+		/// <param name="language">язык</param>
+		public GlossaryPropertiesDialog SelectLanguage(Language language)
+		{
+			CustomTestContext.WriteLine("Выбрать язык {0} в дропдауне.", language);
+			var languageId = (int)language;
+			var languageOption = Driver.SetDynamicValue(How.XPath, LANGUAGE_OPTION, languageId.ToString());
+			languageOption.ScrollAndClick();
+
+			return GetPage();
+		}
+
 		[FindsBy(How = How.XPath, Using = DELETE_GLOSSARY_BUTTON)]
 		protected IWebElement DeleteGlossaryButton { get; set; }
 
@@ -175,6 +213,16 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 
 		[FindsBy(How = How.XPath, Using = ADVANCED_BUTTON)]
 		protected IWebElement AdvancedButton { get; set; }
+
+		[FindsBy(How = How.XPath, Using = ADD_LANGUAGE_BUTTON)]
+		protected IWebElement AddLanguageButton { get; set; }
+
+		[FindsBy(How = How.XPath, Using = LAST_LANGUAGE_DROPDOWN)]
+		protected IWebElement LastLanguageDropdown { get; set; }
+
+		protected const string LANGUAGE_OPTION = "//body/span[contains(@class,'js-dropdown')]//span[@data-id='*#*']";
+		protected const string ADD_LANGUAGE_BUTTON = ".//div[contains(@class,'js-popup-edit-glossary')][2]//span[@class='g-btn g-bluebtn addlang']";
+		protected const string LAST_LANGUAGE_DROPDOWN = ".//div[contains(@class,'js-popup-edit-glossary')][2]//span[@class='g-btn g-bluebtn addlang']//preceding-sibling::span[@class='g-iblock l-editgloss__control l-editgloss__lang'][1]//span/span";
 
 		protected const string GLOSSARY_PROPERTIES_DIALOG = ".//div[contains(@class,'js-popup-edit-glossary')][2]";
 		protected const string DELETE_GLOSSARY_BUTTON = ".//div[contains(@class,'js-popup-edit-glossary')][2]//span[contains(@data-bind, 'click: deleteGlossary')]";

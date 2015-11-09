@@ -97,7 +97,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 		/// <summary>
 		/// Вернуть название языка, установленного для термина
 		/// </summary>
-		public string LanguageText(int languageNumber)
+		public string GetLanguageText(int languageNumber)
 		{
 			CustomTestContext.WriteLine("Вернуть название языка, установленного для термина №{0}.", languageNumber);
 
@@ -164,7 +164,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 			var instance = Activator.CreateInstance(typeof(T), new object[] { driver }) as T;
 			return instance.GetPage();
 		}
-
+		
 		[FindsBy(How = How.XPath, Using = GLOSSARY_DROPDOWN)]
 		protected IWebElement GlossaryDropdown { get; set; }
 

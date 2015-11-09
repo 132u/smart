@@ -76,7 +76,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 				.ClickSaveEntryButton()
 				.ClickTermInLanguagesAndTermsColumn();
 
-			Assert.AreEqual(option, _glossaryPage.DropdownTermFieldViewModelText(termField),
+			Assert.AreEqual(option, _glossaryPage.GetDropdownTermFieldViewModelText(termField),
 				"Произошла ошибка:\nВ поле {0} неверное значение.", termField);
 		}
 

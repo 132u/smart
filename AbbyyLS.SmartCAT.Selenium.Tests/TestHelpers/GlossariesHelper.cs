@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
+using System.Linq;
 using System.Threading;
 
 using NUnit.Framework;
@@ -10,21 +12,23 @@ using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries;
 using AbbyyLS.SmartCAT.Selenium.Tests.TestFramework;
 
+using OpenQA.Selenium;
+
 namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 {
 	public class GlossariesHelper : WorkspaceHelper
 	{
 		public GlossariesHelper(WebDriver driver) : base(driver)
 		{
-		_suggestedTermsPageForCurrentGlossaries = new SuggestedTermsPageForCurrentGlossaries(Driver);
-		_suggestTermDialog = new SuggestTermDialog(Driver);
-		_suggestedTermsPageForAllGlossaries = new SuggestedTermsPageForAllGlossaries(Driver);
-		_glossariesPage = new GlossariesPage(Driver);
-		_glossaryPage = new GlossaryPage(Driver);
-		_newGlossaryDialog = new NewGlossaryDialog(Driver);
-		_glossaryPropertiesDialog = new GlossaryPropertiesDialog(Driver);
-		_glossaryStructureDialog = new GlossaryStructureDialog(Driver);
-	}
+			_suggestedTermsPageForCurrentGlossaries = new SuggestedTermsPageForCurrentGlossaries(Driver);
+			_suggestTermDialog = new SuggestTermDialog(Driver);
+			_suggestedTermsPageForAllGlossaries = new SuggestedTermsPageForAllGlossaries(Driver);
+			_glossariesPage = new GlossariesPage(Driver);
+			_glossaryPage = new GlossaryPage(Driver);
+			_newGlossaryDialog = new NewGlossaryDialog(Driver);
+			_glossaryPropertiesDialog = new GlossaryPropertiesDialog(Driver);
+			_glossaryStructureDialog = new GlossaryStructureDialog(Driver);
+		}
 
 		public GlossariesHelper AssertClientExistInClientsList(string clientName)
 		{
@@ -183,18 +187,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 			return this;
 		}
-
-		public GlossariesHelper AssertLanguageInSuggestTermDialogMatch(int languageNumber, Language language)
-		{
-			CustomTestContext.WriteLine("Проверить, что указан {0} язык №{1}.", language, languageNumber);
-			BaseObject.InitPage(_suggestTermDialog, Driver);
-
-			Assert.AreEqual(language.ToString(), _suggestTermDialog.LanguageText(languageNumber),
-				"Произошла ошибка:\nНеверный язык №{0} в диалоге предложения термина.", languageNumber);
-
-			return this;
-		}
-
+		
 		public GlossariesHelper ClickSaveTermAnywayInSuggestTermDialogFromGlossariesPage()
 		{
 			BaseObject.InitPage(_suggestTermDialog, Driver);
@@ -204,17 +197,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 			return this;
 		}
-
-		public GlossariesHelper SelectLanguageToSuggestTerm(int languageNumber, Language language)
-		{
-			BaseObject.InitPage(_suggestTermDialog, Driver);
-			_suggestTermDialog
-				.ClickLanguageList(languageNumber)
-				.SelectLanguageInList(language);
-
-			return this;
-		}
-
+		
 		public GlossariesHelper ClickCancelButtonInSuggestedTermDialogFromGlossaryPage()
 		{
 			BaseObject.InitPage(_suggestTermDialog, Driver);
@@ -408,7 +391,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 			BaseObject.InitPage(_glossaryPage, Driver);
 
 			Assert.IsTrue(
-				_glossaryPage.AlreadyExistTermErrorDisplayed(),
+				_glossaryPage.IsExistTermErrorDisplayed(),
 				"Произошла ошибка:\n сообщение 'The term already exists' не появилось.");
 
 			return this;
@@ -473,7 +456,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 			BaseObject.InitPage(_glossaryPage, Driver);
 
 			Assert.IsTrue(
-				_glossaryPage.AssertTermDisplayedInLanguagesAndTermsSection(term),
+				_glossaryPage.IsTermDisplayedInLanguagesAndTermsSection(term),
 				"Произошла ошибка:\n Термин {0} отсутствует в секции 'Languages And Terms'.",
 				term);
 
@@ -807,7 +790,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 			BaseObject.InitPage(_glossaryPage, Driver);
 
 			Assert.IsTrue(
-				_glossaryPage.EmptyTermErrorDisplayed(),
+				_glossaryPage.IsEmptyTermErrorDisplayed(),
 				"Произошла ошибка:\n сообщение 'Please add at least one term' не появилось.");
 
 			return this;
@@ -917,7 +900,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 		public GlossariesHelper OpenGlossaryProperties()
 		{
 			BaseObject.InitPage(_glossaryPage, Driver);
-			_glossaryPage.ExpandEditGlossaryMenu()
+			_glossaryPage
+				.ExpandEditGlossaryMenu()
 				.ClickGlossaryProperties();
 
 			return this;
@@ -1154,7 +1138,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 			return this;
 		}
-
+		
 		public GlossariesHelper SelectGlossaryInSuggestedTermsPageForAllGlossaries(string glossaryName)
 		{
 			BaseObject.InitPage(_suggestedTermsPageForAllGlossaries, Driver);
@@ -1699,6 +1683,42 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 			return _suggestedTermsPageForAllGlossaries.TermsByGlossaryNameCount(glossary);
 		}
 
+		public GlossariesHelper AddLangauge(Language language)
+		{
+			BaseObject.InitPage(_glossaryPropertiesDialog, Driver);
+			_glossaryPropertiesDialog
+				.ClickAddLanguageButton()
+				.ClickLastLanguageDropdown()
+				.SelectLanguage(language);
+
+			return this;
+		}
+		
+		public IList<IWebElement> LanguageCheckboxes()
+		{
+			BaseObject.InitPage(_filterDialog, Driver);
+
+			return _filterDialog
+						.ClickLanguageDropdown()
+						.LanguagesListInDropdown();
+		}
+
+		public bool AreLanguagesCheckedInDropdown(IList<IWebElement> languagesCheckboxes)
+		{
+			foreach (var checkbox in languagesCheckboxes)
+			{
+				if (checkbox.GetAttribute("checked") == "false")
+				{
+					return false;
+				}
+				//Assert.AreEqual("true", checkbox.GetAttribute("checked"),
+				//	"Произошла ошибка:\nНе все языки отмечены в дропдауне.");
+			}
+
+			return true;
+		}
+
+		private readonly FilterDialog _filterDialog;
 		private readonly SuggestedTermsPageForCurrentGlossaries _suggestedTermsPageForCurrentGlossaries;
 		private readonly SuggestTermDialog _suggestTermDialog;
 		private readonly SuggestedTermsPageForAllGlossaries _suggestedTermsPageForAllGlossaries;
