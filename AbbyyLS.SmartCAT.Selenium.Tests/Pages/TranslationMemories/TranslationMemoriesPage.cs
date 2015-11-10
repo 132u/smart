@@ -881,7 +881,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories
 
 		protected IWebElement RemoveFilterButton { get; set; }
 
-		protected const string ADD_TM_BTN = "//span[contains(@data-bind,'createTm')]//a";
+		protected const string ADD_TM_BTN = "//div[contains(@data-bind,'createTm')]//a";
 		protected const string CREATE_TM_DIALOG = "//div[contains(@class,'js-popup-create-tm')][2]";
 		protected const string TM_ROW = "//tr[contains(@class,'l-corpr__trhover clickable')]//span[text()='*#*']";
 		protected const string TM_INFORMATION_FORM = "//span[string()='*#*']//..//..//following-sibling::tr[@class='js-tm-panel']//td//div";

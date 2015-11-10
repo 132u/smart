@@ -596,8 +596,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace
 		protected const string CAT_MENU_OPEN_BUTTON = "//h2[contains(@class,'g-topbox__header')]/a";
 		protected const string CLOSE_HELP_BUTTON = "//div[@class='popup-wrap']//img[@title='Close']";
 
-		protected const string RESOURCES_MENU ="//ul[contains(@class, 'serviceMenu')]//li[contains(@class, 'js-menuitem-Resources')]";
-		protected const string EXPAND_RESOURCES_MENU = "//ul[contains(@class, 'serviceMenu')]//li[contains(@class, 'js-menuitem-Resources')]//a";
+		protected const string RESOURCES_MENU ="//li[contains(@class, 'js-menuitem-Resources')]";
+		protected const string EXPAND_RESOURCES_MENU = "//li[contains(@class, 'js-menuitem-Resources')]//a";
 		protected const string PROJECTS_BUTTON = "//a[contains(@href,'/Workspace')]";
 		protected const string USERS_RIGHTS_BUTTON = "//a[contains(@href,'/Users/Index')]";
 		protected const string CLIENTS_BUTTON = "//a[contains(@href,'/Clients/Index')]";

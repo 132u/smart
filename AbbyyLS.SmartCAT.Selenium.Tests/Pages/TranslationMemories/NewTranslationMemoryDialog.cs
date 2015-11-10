@@ -358,7 +358,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories
 		protected const string CLIENT_ITEM = "//select[contains(@data-bind,'allClientsList')]/option";
 
 		protected const string TM_NAME_FIELD = "//div[contains(@class,'js-popup-create-tm')][2]//input[contains(@data-bind,'name')]";
-		protected const string SAVE_BUTTON = ".//div[contains(@class,'js-popup-create-tm')][2]//span[contains(@data-bind, 'click: save')]";
+		protected const string SAVE_BUTTON = ".//div[contains(@class,'js-popup-create-tm')][2]//div[contains(@data-bind, 'click: save')]";
 		protected const string CANCEL_BUTTON = ".//div[contains(@class,'js-popup-create-tm')][2]//a[string()='Cancel']";
 
 		protected const string OPEN_SOURCE_LANGUAGES = "//div[contains(@class,'js-popup-create-tm')][2]//select[contains(@data-bind,'SourceLanguagesList')]/following-sibling::span";

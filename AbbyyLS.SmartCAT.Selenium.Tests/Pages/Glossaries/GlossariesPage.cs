@@ -303,13 +303,13 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 		protected IWebElement SuggestTermButton { get; set; }
 
 		protected const string GLOSSARY_CREATION_DIALOG_XPATH = ".//div[contains(@class,'js-popup-edit-glossary')][2]";
-		protected const string CREATE_GLOSSARY_BUTTON = ".//span[contains(@class,'js-create-glossary-button')]//a";
+		protected const string CREATE_GLOSSARY_BUTTON = ".//div[contains(@class,'js-create-glossary-button')]//a";
 		protected const string GLOSSARY_TABLE = "//table[contains(@class,'js-sortable-table') and contains(@data-sort-action, 'Glossaries')]";
 		protected const string GLOSSARY_ROW = "//tr[contains(@class, 'js-glossary-row')]/td[1]/p[text()='*#*']";
 		protected const string MODIFIED_DATE = "//tr[contains(@class, 'js-glossary-row')]/td[1]/p[text() = '*#*']/../../td[last()]/preceding::td[1]";
 		protected const string AUTHOR = "//tr[contains(@class, 'js-glossary-row')]/td[1]/p[text() = '*#*']/../../td[last()]/p";
 
-		protected const string SAVE_GLOSSARY_BUTTON = ".//div[contains(@class,'js-popup-edit-glossary')][2]//span[@data-bind='click: save']";
+		protected const string SAVE_GLOSSARY_BUTTON = ".//div[contains(@class,'js-popup-edit-glossary')][2]//div[@data-bind='click: save']";
 
 		protected const string SORT_BY_NAME = "//th[contains(@data-sort-by,'Name')]//a";
 		protected const string SORT_BY_LANGUAGES = "//th[contains(@data-sort-by,'Languages')]//a";
