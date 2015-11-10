@@ -90,26 +90,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			ClickElement(By.XPath(DELETE_LANG_XPATH));
 		}
 
-		public void ClickDeleteGlossary()
-		{
-			Logger.Debug("Нажать кнопку удаления глоссария");
-			ClickElement(By.XPath(DELETE_GLOSSARY_XPATH));
-		}
-
-		public void ClickConfirmDeleteGlossary()
-		{
-			Logger.Debug("Нажать кнопку подтверждения удаления глоссария");
-			ClickElement(By.XPath(CONFIRM_DELETE_GLOSSARY_XPATH));
-		}
-
-		public void WaitUntilDeleteGlossaryButtonDisplay()
-		{
-			Logger.Debug("Дождаться появления кнопки подтверждения удаления глоссария");
-			
-			Assert.IsTrue(WaitUntilDisplayElement(By.XPath(CONFIRM_DELETE_GLOSSARY_XPATH)),
-				"Ошибка: не появилась кнопка подтверждения удаления глоссария.");
-		}
-
 
 		protected const string DIALOG_XPATH = ".//div[contains(@class,'js-popup-edit-glossary')][2]";
 		protected const string GLOSSARY_NAME_XPATH = DIALOG_XPATH + "//input[@class='g-bold l-editgloss__nmtext']";

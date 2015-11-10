@@ -70,7 +70,6 @@
     <Compile Include="CommonHelpers\CommonHelper.cs" />
     <Compile Include="CommonHelpers\LoginPageHelper.cs" />
     <Compile Include="CommonHelpers\MainHelper.cs" />
-    <Compile Include="CommonHelpers\SearchPageHelper.cs" />
     <Compile Include="CommonHelpers\WorkSpacePageHelper.cs" />
     <Compile Include="CommonHelpers\Workspace_CreateProjectDialogHelper.cs" />
     <Compile Include="Configs\FilesRootCfg.cs" />
@@ -91,10 +90,7 @@
     <Compile Include="Glossary\AddTermFormHelper.cs" />
     <Compile Include="Glossary\GlossaryEditFormHelper.cs" />
     <Compile Include="Glossary\GlossaryPageHelper.cs" />
-    <Compile Include="Glossary\GlossaryTermFilterHelper.cs" />
     <Compile Include="Glossary\GlossaryListPageHelper.cs" />
-    <Compile Include="Glossary\GlossarySuggestPageHelper.cs" />
-    <Compile Include="Glossary\GlossaryTermFilter.cs" />
     <Compile Include="HotKey.cs" />
     <Compile Include="LocaleLanguageSelect.cs" />
     <Compile Include="PathProvider.cs" />
