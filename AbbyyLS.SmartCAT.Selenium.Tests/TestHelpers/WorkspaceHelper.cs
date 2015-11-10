@@ -12,6 +12,7 @@ using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Search;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.UsersRights;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace;
 using AbbyyLS.SmartCAT.Selenium.Tests.TestFramework;
+using OpenQA.Selenium;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 {
@@ -104,22 +105,30 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 		public ProjectSettingsHelper GoToProjectSettingsPage(string projectName)
 		{
 			BaseObject.InitPage(_projectsPage, Driver);
-			_projectsPage
-				.AssertProjectAppearInList(projectName)
-				.AssertIsProjectLoaded(projectName)
-				.ClickProject(projectName);
+
+			if (!_projectsPage.IsProjectAppearInList(projectName))
+			{
+				throw new XPathLookupException("Произошла ошибка: \nпроект не появился в списке");
+			}
+
+			if (!_projectsPage.IsProjectLoaded(projectName))
+			{
+				throw new InvalidElementStateException("Произошла ошибка: \nне изчезла пиктограмма загрузки проекта");
+			}
+
+			_projectsPage.ClickProject(projectName);
 
 			return new ProjectSettingsHelper(Driver);
 		}
 
-		public ProjectsHelper GoToProjectsPage() 
+		public ProjectsPage GoToProjectsPage() 
 		{
 			BaseObject.InitPage(_workspacePage, Driver);
 			_workspacePage
 				.OpenHideMenuIfClosed()
 				.ClickProjectsButton();
 
-			return new ProjectsHelper(Driver);
+			return new ProjectsPage(Driver).GetPage();
 		}
 
 		public WorkspaceHelper RefreshPage()

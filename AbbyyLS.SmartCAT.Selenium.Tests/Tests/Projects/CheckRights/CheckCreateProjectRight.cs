@@ -26,10 +26,10 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects.CheckRights
 		{
 			_exportFileHelper = new ExportFileHelper(Driver);
 			_createProjectHelper = new CreateProjectHelper(Driver);
-			_projectHeper = new ProjectsHelper(Driver);
 			_workspaceHelper = new WorkspaceHelper(Driver);
 			_loginHelper = new LoginHelper(Driver);
-			_projectsHelper = new ProjectsHelper(Driver);
+			_projectsPage = new ProjectsPage(Driver);
+			_deleteDialog = new DeleteDialog(Driver);
 
 			_documentUploadGeneralInformationDialog = new DocumentUploadGeneralInformationDialog(Driver);
 			_usersRightsPage = new UsersRightsPage(Driver);
@@ -64,34 +64,32 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects.CheckRights
 			_loginHelper.Authorize(StartPage.Workspace, AdditionalThreadUser);
 			_workspaceHelper.CloseTour();
 			_exportFileHelper.CancelAllNotifiers<ProjectsPage>();
+
+			_projectUniqueName = _createProjectHelper.GetProjectUniqueName();
 		}
 
 		[Test]
 		public void CheckCreateProject()
 		{
-			var projectUniqueName = _createProjectHelper.GetProjectUniqueName();
-			_createProjectHelper
-				.ClickCreateProjectButton()
-				.FillGeneralProjectInformation(projectUniqueName)
-				.ClickNextOnGeneralProjectInformationPage()
-				.ClickFinishOnProjectSetUpWorkflowDialog()
-				.AssertIsProjectLoadedSuccessfully(projectUniqueName)
-				.CheckProjectAppearInList(projectUniqueName);
+			_createProjectHelper.CreateNewProject(_projectUniqueName);
+
+			Assert.IsTrue(_projectsPage.IsProjectLoaded(_projectUniqueName),
+				"Произошла ошибка: не исчезла пиктограмма загрузки проекта");
+
+			Assert.IsFalse(_projectsPage.IsFatalErrorSignDisplayed(_projectUniqueName),
+				"Произошла ошибка: появилась пиктограмма ошибки напротив проекта");
+
+			Assert.IsFalse(_projectsPage.IsWarningSignDisplayed(_projectUniqueName),
+				"Произошла ошибка: появилась пиктограмма предупреждения напротив проекта");
 		}
 
 		[Test]
 		public void CheckAddDocumentInProject()
 		{
-			var projectUniqueName = _createProjectHelper.GetProjectUniqueName();
+			_createProjectHelper.CreateNewProject(_projectUniqueName, filePath: PathProvider.EditorTxtFile);
 
-			_createProjectHelper
-				.ClickCreateProjectButton()
-				.FillGeneralProjectInformation(projectUniqueName, PathProvider.EditorTxtFile)
-				.ClickNextOnGeneralProjectInformationPage()
-				.ClickFinishOnProjectSetUpWorkflowDialog()
-				.AssertIsProjectLoadedSuccessfully(projectUniqueName)
-				.CheckProjectAppearInList(projectUniqueName)
-				.OpenProjectInfo(projectUniqueName)
+			_projectsPage
+				.OpenProjectInfo(_projectUniqueName)
 				.ClickDocumentUploadButton();
 
 			_documentUploadGeneralInformationDialog.UploadDocument(PathProvider.DocumentFileToConfirm1);
@@ -101,37 +99,33 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects.CheckRights
 
 			_documentUploadGeneralInformationDialog.ClickFihishUploadOnProjectsPage();
 
-			_projectsHelper.AssertIsProjectLoadedSuccessfully(projectUniqueName);
+			Assert.IsTrue(_projectsPage.IsProjectLoaded(_projectUniqueName),
+				"Произошла ошибка: не исчезла пиктограмма загрузки проекта");
+
+			Assert.IsFalse(_projectsPage.IsFatalErrorSignDisplayed(_projectUniqueName),
+				"Произошла ошибка: появилась пиктограмма ошибки напротив проекта");
+
+			Assert.IsFalse(_projectsPage.IsWarningSignDisplayed(_projectUniqueName),
+				"Произошла ошибка: появилась пиктограмма предупреждения напротив проекта");
 		}
 
 		[Test]
 		public void CheckLinkInProjectNotExist()
 		{
-			var projectUniqueName = _createProjectHelper.GetProjectUniqueName();
-			_createProjectHelper
-				.ClickCreateProjectButton()
-				.FillGeneralProjectInformation(projectUniqueName)
-				.ClickNextOnGeneralProjectInformationPage()
-				.ClickFinishOnProjectSetUpWorkflowDialog()
-				.AssertIsProjectLoadedSuccessfully(projectUniqueName)
-				.CheckProjectAppearInList(projectUniqueName)
-				.AssertLinkProjectNotExist(projectUniqueName);
+			_createProjectHelper.CreateNewProject(_projectUniqueName);
+
+			Assert.IsFalse(_projectsPage.IsProjectLinkExist(_projectUniqueName),
+				"Произошла ошибка:\n не должно быть ссылки на проект {0}", _projectUniqueName);
 		}
 
 		[TestCase(ExportType.Source)]
 		[TestCase(ExportType.Target)]
 		public void CheckExportDocument(ExportType exportType)
 		{
-			var projectUniqueName = _createProjectHelper.GetProjectUniqueName();
+			_createProjectHelper.CreateNewProject(_projectUniqueName, filePath: PathProvider.EditorTxtFile);
 
-			_createProjectHelper
-				.ClickCreateProjectButton()
-				.FillGeneralProjectInformation(projectUniqueName, PathProvider.EditorTxtFile)
-				.ClickNextOnGeneralProjectInformationPage()
-				.ClickFinishOnProjectSetUpWorkflowDialog()
-				.AssertIsProjectLoadedSuccessfully(projectUniqueName)
-				.CheckProjectAppearInList(projectUniqueName)
-				.OpenProjectInfo(projectUniqueName)
+			_projectsPage
+				.OpenProjectInfo(_projectUniqueName)
 				.ClickDocumentUploadButton();
 
 			_documentUploadGeneralInformationDialog.UploadDocument(PathProvider.DocumentFileToConfirm1);
@@ -141,10 +135,12 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects.CheckRights
 
 			_documentUploadGeneralInformationDialog.ClickFihishUploadOnProjectsPage();
 
-			_projectsHelper
-				.AssertIsProjectLoadedSuccessfully(projectUniqueName)
-				.SelectDocument(projectUniqueName, Path.GetFileNameWithoutExtension(PathProvider.EditorTxtFile))
-				.ClickDownloadInProjectButton(projectUniqueName)
+			_projectsPage
+				.WaitUntilProjectLoadSuccessfully(_projectUniqueName)
+				.SelectDocument(_projectUniqueName, Path.GetFileNameWithoutExtension(PathProvider.EditorTxtFile))
+				.ClickDownloadInProjectButton(_projectUniqueName);
+
+			_exportFileHelper
 				.SelectExportType<ProjectsPage>(exportType)
 				.ClickDownloadNotifier<ProjectsPage>()
 				.AssertFileDownloaded(_exportFileHelper.GetExportFileNameMask(exportType, PathProvider.EditorTxtFile));
@@ -156,16 +152,10 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects.CheckRights
 		[TestCase(ExportType.Source, false)]
 		public void CheckDownloadProject(ExportType exportType, bool dowloadInProjectClick)
 		{
-			var projectUniqueName = _createProjectHelper.GetProjectUniqueName();
+			_createProjectHelper.CreateNewProject(_projectUniqueName, filePath: PathProvider.EditorTxtFile);
 
-			_createProjectHelper
-				.ClickCreateProjectButton()
-				.FillGeneralProjectInformation(projectUniqueName, PathProvider.EditorTxtFile)
-				.ClickNextOnGeneralProjectInformationPage()
-				.ClickFinishOnProjectSetUpWorkflowDialog()
-				.AssertIsProjectLoadedSuccessfully(projectUniqueName)
-				.CheckProjectAppearInList(projectUniqueName)
-				.OpenProjectInfo(projectUniqueName)
+			_projectsPage
+				.OpenProjectInfo(_projectUniqueName)
 				.ClickDocumentUploadButton();
 
 			_documentUploadGeneralInformationDialog.UploadDocument(PathProvider.DocumentFileToConfirm1);
@@ -175,17 +165,17 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects.CheckRights
 
 			_documentUploadGeneralInformationDialog.ClickFihishUploadOnProjectsPage();
 
-			_projectsHelper
-				.AssertIsProjectLoadedSuccessfully(projectUniqueName)
-				.SelectProjectInList(projectUniqueName);
+			_projectsPage
+				.WaitUntilProjectLoadSuccessfully(_projectUniqueName)
+				.ClickProjectCheckboxInList(_projectUniqueName);
 
 			if (dowloadInProjectClick)
 			{
-				_projectHeper.ClickDownloadInProjectButton(projectUniqueName);
+				_projectsPage.ClickDownloadInProjectButton(_projectUniqueName);
 			}
 			else
 			{
-				_projectHeper.ClickDownloadInMainMenuButton();
+				_projectsPage.ClickDownloadInMainMenuButton();
 			}
 
 			_exportFileHelper
@@ -199,42 +189,31 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects.CheckRights
 		[TestCase(false)]
 		public void CheckDeleteProject(bool closeProject)
 		{
-			var projectUniqueName = _createProjectHelper.GetProjectUniqueName();
+			_createProjectHelper.CreateNewProject(_projectUniqueName, filePath: PathProvider.EditorTxtFile);
 
-			_createProjectHelper
-				.ClickCreateProjectButton()
-				.FillGeneralProjectInformation(projectUniqueName, PathProvider.EditorTxtFile)
-				.ClickNextOnGeneralProjectInformationPage()
-				.ClickFinishOnProjectSetUpWorkflowDialog()
-				.AssertIsProjectLoadedSuccessfully(projectUniqueName)
-				.CheckProjectAppearInList(projectUniqueName)
-				.SelectProjectInList(projectUniqueName);
+			_projectsPage.ClickProjectCheckboxInList(_projectUniqueName);
 
 			if (!closeProject)
 			{
-				_projectHeper
-					.OpenProjectInfo(projectUniqueName);
+				_projectsPage.OpenProjectInfo(_projectUniqueName);
 			}
 
-			_projectHeper
-				.DeleteFromList()
-				.AssertProjectSuccessfullyDeleted(projectUniqueName);
+			_projectsPage.ClickDeleteButton();
+
+			_deleteDialog.ClickConfirmDeleteButton();
+
+			Assert.IsFalse(_projectsPage.IsProjectExist(_projectUniqueName),
+				"Произошла ошибка:\n проект {0} найден в списке проектов", _projectUniqueName);
 		}
 
 		[TestCase(true)]
 		[TestCase(false)]
 		public void CheckDeleteDocument(bool allFiles)
 		{
-			var projectUniqueName = _createProjectHelper.GetProjectUniqueName();
+			_createProjectHelper.CreateNewProject(_projectUniqueName, filePath: PathProvider.DocumentFile);
 
-			_createProjectHelper
-				.ClickCreateProjectButton()
-				.FillGeneralProjectInformation(projectUniqueName, PathProvider.DocumentFile)
-				.ClickNextOnGeneralProjectInformationPage()
-				.ClickFinishOnProjectSetUpWorkflowDialog()
-				.AssertIsProjectLoadedSuccessfully(projectUniqueName)
-				.CheckProjectAppearInList(projectUniqueName)
-				.OpenProjectInfo(projectUniqueName)
+			_projectsPage
+				.OpenProjectInfo(_projectUniqueName)
 				.ClickDocumentUploadButton();
 
 			_documentUploadGeneralInformationDialog.UploadDocument(PathProvider.DocumentFile2);
@@ -244,85 +223,72 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects.CheckRights
 
 			_documentUploadGeneralInformationDialog.ClickFihishUploadOnProjectsPage();
 
-			_projectsHelper
-				.AssertIsProjectLoadedSuccessfully(projectUniqueName)
-				.SelectDocument(projectUniqueName, Path.GetFileNameWithoutExtension(PathProvider.DocumentFile));
+			_projectsPage
+				.WaitUntilProjectLoadSuccessfully(_projectUniqueName)
+				.SelectDocument(_projectUniqueName, Path.GetFileNameWithoutExtension(PathProvider.DocumentFile));
 
 			if (allFiles)
 			{
-				_projectHeper
-					.SelectDocument(projectUniqueName, Path.GetFileNameWithoutExtension(PathProvider.DocumentFile2))
-					.DeleteFromList();
+				_projectsPage
+					.SelectDocument(_projectUniqueName, Path.GetFileNameWithoutExtension(PathProvider.DocumentFile2))
+					.ClickDeleteButton();
 			}
 			else
 			{
-				_projectHeper.DeleteInProjectMenu(projectUniqueName);
+				_projectsPage.ClickDeleteInProjectButton(_projectUniqueName);
 			}
+
+			_deleteDialog.ClickConfirmDeleteButton();
 		}
 
 		[Test]
 		public void CheckConnectorButtonNotExist()
 		{
-			_projectHeper.AssertSignInToConnectorButtonNotExist();
+			Assert.IsFalse(_projectsPage.IsSignInToConnectorButtonExist(),
+				"Произошла ошибка:\n кнопка 'Sign in to Connector' не должна быть видна.");
 		}
 
 		[Test]
 		public void QACheckButtonExist()
 		{
-			var projectUniqueName = _createProjectHelper.GetProjectUniqueName();
+			_createProjectHelper.CreateNewProject(_projectUniqueName, filePath: PathProvider.DocumentFile);
 
-			_createProjectHelper
-				.ClickCreateProjectButton()
-				.FillGeneralProjectInformation(projectUniqueName, PathProvider.DocumentFile)
-				.ClickNextOnGeneralProjectInformationPage()
-				.ClickFinishOnProjectSetUpWorkflowDialog()
-				.AssertIsProjectLoadedSuccessfully(projectUniqueName)
-				.CheckProjectAppearInList(projectUniqueName)
-				.OpenProjectInfo(projectUniqueName)
-				.AssertQACheckButtonExist(projectUniqueName);
+			_projectsPage.OpenProjectInfo(_projectUniqueName);
+
+			Assert.IsTrue(_projectsPage.IsQACheckButtonDisplayed(_projectUniqueName),
+				"Произошла ошибка:\n кнопка 'QA Check' у проекта '{0}' отсутствует", _projectUniqueName);
 		}
 
 		[Test]
 		public void CheckSettingsFormExist()
 		{
-			var projectUniqueName = _createProjectHelper.GetProjectUniqueName();
+			_createProjectHelper.CreateNewProject(_projectUniqueName, filePath: PathProvider.DocumentFile);
 
-			_createProjectHelper
-				.ClickCreateProjectButton()
-				.FillGeneralProjectInformation(projectUniqueName, PathProvider.DocumentFile)
-				.ClickNextOnGeneralProjectInformationPage()
-				.ClickFinishOnProjectSetUpWorkflowDialog()
-				.AssertIsProjectLoadedSuccessfully(projectUniqueName)
-				.CheckProjectAppearInList(projectUniqueName)
-				.OpenProjectInfo(projectUniqueName)
-				.ClickProjectSettingsButton(projectUniqueName);
+			_projectsPage
+				.OpenProjectInfo(_projectUniqueName)
+				.ClickProjectSettingsButton(_projectUniqueName);
 		}
 
 		[Test]
 		public void CheckAnalysisFormExist()
 		{
-			var projectUniqueName = _createProjectHelper.GetProjectUniqueName();
+			_createProjectHelper.CreateNewProject(_projectUniqueName, filePath: PathProvider.DocumentFile);
 
-			_createProjectHelper
-				.ClickCreateProjectButton()
-				.FillGeneralProjectInformation(projectUniqueName, PathProvider.DocumentFile)
-				.ClickNextOnGeneralProjectInformationPage()
-				.ClickFinishOnProjectSetUpWorkflowDialog()
-				.AssertIsProjectLoadedSuccessfully(projectUniqueName)
-				.CheckProjectAppearInList(projectUniqueName)
-				.OpenProjectInfo(projectUniqueName)
-				.ClickProjectAnalysisButton(projectUniqueName);
+			_projectsPage
+				.OpenProjectInfo(_projectUniqueName)
+				.ClickProjectAnalysisButton(_projectUniqueName);
 		}
 
 		protected ExportFileHelper _exportFileHelper;
 		protected CreateProjectHelper _createProjectHelper;
-		protected ProjectsHelper _projectHeper;
 		protected WorkspaceHelper _workspaceHelper;
 		protected LoginHelper _loginHelper;
-		private ProjectsHelper _projectsHelper;
+		private string _projectUniqueName;
 
 		private DocumentUploadGeneralInformationDialog _documentUploadGeneralInformationDialog;
 		private UsersRightsPage _usersRightsPage;
 		private AddAccessRightDialog _addAccessRightDialog;
+		private ProjectsPage _projectsPage;
+		private DeleteDialog _deleteDialog;
 	}
 }

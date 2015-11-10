@@ -6,6 +6,7 @@ using AbbyyLS.SmartCAT.Selenium.Tests.DataStructures;
 using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
 using AbbyyLS.SmartCAT.Selenium.Tests.FeatureAttributes;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor;
+using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects;
 using AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Editor.CatPanelTests
@@ -17,6 +18,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Editor.CatPanelTests
 		{
 			_createProjectHelper = new CreateProjectHelper(Driver);
 			_projectUniqueName = _createProjectHelper.GetProjectUniqueName();
+			_projectsPage = new ProjectsPage(Driver);
+			_documentSettings = new DocumentSettings(Driver);
 		}
 
 		[Test]
@@ -49,15 +52,15 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Editor.CatPanelTests
 					projectName: _projectUniqueName,
 					filePath: PathProvider.DocumentFile,
 					createNewTm: true,
-					useMachineTranslation: true)
-				.CheckProjectAppearInList(_projectUniqueName)
-				.AssertIsProjectLoadedSuccessfully(_projectUniqueName)
+					useMachineTranslation: true);
+			_projectsPage
 				.OpenProjectInfo(_projectUniqueName)
 				.OpenDocumentInfoForProject(_projectUniqueName)
-				.OpenDocumentSettings(_projectUniqueName, documentNumber: 1)
+				.ClickDocumentSettings(_projectUniqueName, documentNumber: 1)
 				.UnselectMachineTranslation()
-				.SelectMachineTranslation(machineTranslation)
-				.CloseDocumentSettings(_projectUniqueName)
+				.SelectMachineTranslation(machineTranslation);
+			_documentSettings.CloseDocumentSettings(_projectUniqueName);
+			_createProjectHelper
 				.GoToProjectSettingsPage(_projectUniqueName)
 				.AssignTasksOnDocument(Path.GetFileNameWithoutExtension(PathProvider.DocumentFile), ThreadUser.NickName)
 				.OpenDocument<SelectTaskDialog>(Path.GetFileNameWithoutExtension(PathProvider.DocumentFile))
@@ -71,5 +74,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Editor.CatPanelTests
 		private string _projectUniqueName;
 		private EditorHelper _editorHelper;
 		private CreateProjectHelper _createProjectHelper;
+		private ProjectsPage _projectsPage;
+		private DocumentSettings _documentSettings;
 	}
 }

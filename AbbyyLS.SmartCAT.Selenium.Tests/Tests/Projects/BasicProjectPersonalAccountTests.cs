@@ -4,6 +4,7 @@ using NUnit.Framework;
 
 using AbbyyLS.SmartCAT.Selenium.Tests.DataStructures;
 using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
+using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects;
 using AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
@@ -22,6 +23,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 			_workspaceHelper = new WorkspaceHelper(Driver);
 			_workspaceHelper.GoToProjectsPage();
 			_createProjectHelper = new CreateProjectHelper(Driver);
+			_projectsPage = new ProjectsPage(Driver);
 		}
 
 
@@ -30,9 +32,10 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 		{
 			var projectUniqueName = _createProjectHelper.GetProjectUniqueName();
 
-			_createProjectHelper
-				.CreateNewProject(projectUniqueName, personalAccount: true)
-				.CheckProjectAppearInList(projectUniqueName);
+			_createProjectHelper.CreateNewProject(projectUniqueName, personalAccount: true);
+
+			Assert.IsTrue(_projectsPage.IsProjectAppearInList(projectUniqueName),
+				"Произошла ошибка:\n проект {0} не появился в списке проектов.", projectUniqueName);
 		}
 
 		[Test]
@@ -40,10 +43,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 		{
 			var projectUniqueName = _createProjectHelper.GetProjectUniqueName();
 
+			_createProjectHelper.CreateNewProject(projectUniqueName, personalAccount: true);
+			_projectsPage.ClickCreateProjectDialog();
 			_createProjectHelper
-				.CreateNewProject(projectUniqueName, personalAccount: true)
-				.CheckProjectAppearInList(projectUniqueName)
-				.ClickCreateProjectButton()
 				.FillGeneralProjectInformation(projectUniqueName)
 				.ClickNextOnGeneralProjectInformationPage(errorExpected: true)
 				.AssertErrorDuplicateName();
@@ -54,9 +56,10 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 		{
 			var longProjectUniqueName = _createProjectHelper.GetProjectUniqueName() + _longName;
 
-			_createProjectHelper
-				.CreateNewProject(longProjectUniqueName, personalAccount: true)
-				.CheckProjectAppearInList(longProjectUniqueName.Substring(0, 100));
+			_createProjectHelper.CreateNewProject(longProjectUniqueName, personalAccount: true);
+
+			Assert.IsTrue(_projectsPage.IsProjectAppearInList(longProjectUniqueName.Substring(0, 100)),
+				"Произошла ошибка:\n проект {0} не появился в списке проектов.", longProjectUniqueName.Substring(0, 100));
 		}
 
 		[Test]
@@ -87,13 +90,14 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 		[Test]
 		public void CancelCreateProjectOnFirstStepTest()
 		{
+			_projectsPage.ClickCreateProjectDialog();
 			_createProjectHelper
-				.ClickCreateProjectButton()
 				.CancelCreateProject();
 		}
 
 		private CreateProjectHelper _createProjectHelper;
 		private const string _longName = "12345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890";
 		private WorkspaceHelper _workspaceHelper;
+		private ProjectsPage _projectsPage;
 	}
 }

@@ -17,9 +17,10 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.TranslationMemories
 			TranslationMemoriesHelper
 				.CreateTranslationMemory(UniqueTranslationMemoryName)
 				.AssertTranslationMemoryExists(UniqueTranslationMemoryName)
-				.GoToProjectsPage()
-				.ClickCreateProjectButton()
-				.FillGeneralProjectInformation(_createProjectHelper.GetProjectUniqueName())
+				.GoToProjectsPage();
+			ProjectsPage.ClickCreateProjectDialog();
+			CreateProjectHelper
+				.FillGeneralProjectInformation(CreateProjectHelper.GetProjectUniqueName())
 				.ClickNextOnGeneralProjectInformationPage()
 				.ClickNextOnWorkflowPage()
 				.AssertTranslationMemoryExist(UniqueTranslationMemoryName);
@@ -34,9 +35,10 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.TranslationMemories
 					sourceLanguage : Language.French,
 					targetLanguage : Language.German)
 				.AssertTranslationMemoryExists(UniqueTranslationMemoryName)
-				.GoToProjectsPage()
-				.ClickCreateProjectButton()
-				.FillGeneralProjectInformation(_createProjectHelper.GetProjectUniqueName())
+				.GoToProjectsPage();
+			ProjectsPage.ClickCreateProjectDialog();
+			CreateProjectHelper
+				.FillGeneralProjectInformation(CreateProjectHelper.GetProjectUniqueName())
 				.ClickNextOnGeneralProjectInformationPage()
 				.ClickNextOnWorkflowPage()
 				.AssertTranslationMemoryNotExist(UniqueTranslationMemoryName);

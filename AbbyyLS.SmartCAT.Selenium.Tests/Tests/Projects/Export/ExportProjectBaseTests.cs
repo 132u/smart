@@ -13,29 +13,31 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 		[SetUp]
 		public void SetUpProjectExportTests()
 		{
-			_createProjectHelper = new CreateProjectHelper(Driver);
-			_exportFileHelper = new ExportFileHelper(Driver);
-			_projectSettingsHelper = new ProjectSettingsHelper(Driver);
-			_projectsHelper = new ProjectsHelper(Driver);
-			_workspaceHelper = new WorkspaceHelper(Driver);
+			CreateProjectHelper = new CreateProjectHelper(Driver);
+			ExportFileHelper = new ExportFileHelper(Driver);
+			ProjectSettingsHelper = new ProjectSettingsHelper(Driver);
+			WorkspaceHelper = new WorkspaceHelper(Driver);
+			ProjectsPage = new ProjectsPage(Driver);
+			DocumentSettings = new DocumentSettings(Driver);
 
-			_workspaceHelper.GoToProjectsPage();
-			_exportFileHelper.CancelAllNotifiers<ProjectsPage>();
-			_projectUniqueName = _createProjectHelper.GetProjectUniqueName();
+			WorkspaceHelper.GoToProjectsPage();
+			ExportFileHelper.CancelAllNotifiers<ProjectsPage>();
+			ProjectUniqueName = CreateProjectHelper.GetProjectUniqueName();
 
-			_createProjectHelper
-				.CreateNewProject(_projectUniqueName, filePath: PathProvider.DocumentFileToConfirm1)
-				.AssertIsProjectLoadedSuccessfully(_projectUniqueName)
-				.GoToProjectSettingsPage(_projectUniqueName)
+			CreateProjectHelper.CreateNewProject(ProjectUniqueName, filePath: PathProvider.DocumentFileToConfirm1);
+
+			WorkspaceHelper
+				.GoToProjectSettingsPage(ProjectUniqueName)
 				.AssignTasksOnDocument(Path.GetFileNameWithoutExtension(PathProvider.DocumentFileToConfirm1), ThreadUser.NickName)
 				.CreateRevision(Path.GetFileNameWithoutExtension(PathProvider.DocumentFileToConfirm1));
 		}
 
-		protected string _projectUniqueName;
-		protected CreateProjectHelper _createProjectHelper;
-		protected ExportFileHelper _exportFileHelper;
-		protected ProjectSettingsHelper _projectSettingsHelper;
-		protected ProjectsHelper _projectsHelper;
-		private WorkspaceHelper _workspaceHelper;
+		protected string ProjectUniqueName;
+		protected CreateProjectHelper CreateProjectHelper;
+		protected ExportFileHelper ExportFileHelper;
+		protected ProjectSettingsHelper ProjectSettingsHelper;
+		protected ProjectsPage ProjectsPage;
+		protected DocumentSettings DocumentSettings;
+		protected WorkspaceHelper WorkspaceHelper;
 	}
 }

@@ -58,7 +58,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 		/// <summary>
 		/// Выбрать МТ в настройках документа
 		/// </summary>
-		public DocumentSettings SelectMachineTranslation(MachineTranslationType machineTranslationType)
+		public DocumentSettings SelectMachineTranslation(MachineTranslationType machineTranslationType = MachineTranslationType.DefaultMT)
 		{
 			
 			var machineTranslationCheckbox = Driver.SetDynamicValue(How.XPath, MT_CHECKBOX, machineTranslationType.Description());
@@ -101,7 +101,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 		/// <summary>
 		/// Убрать галочку для Мachine Тranslation
 		/// </summary>>
-		public DocumentSettings UnselectMachineTranslation(MachineTranslationType machineTranslationType)
+		public DocumentSettings UnselectMachineTranslation(MachineTranslationType machineTranslationType = MachineTranslationType.DefaultMT)
 		{
 			CustomTestContext.WriteLine("Проверить, что Мachine Тranslation {0} выбрано.", machineTranslationType);
 			var machineTranslationCheckbox = Driver.SetDynamicValue(How.XPath, MT_CHECKBOX, machineTranslationType.Description());
@@ -113,6 +113,19 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 			}
 
 			return GetPage();
+		}
+
+		/// <summary>
+		/// Закрыть страницу настроек проекта
+		/// </summary>
+		/// <param name="projectName">имя проекта</param>
+		public ProjectsPage CloseDocumentSettings(string projectName)
+		{
+			ClickSaveButton<ProjectsPage>(Driver);
+			AssertDialogBackgroundDisappeared<ProjectsPage>(Driver);
+			WaitUntilProjectLoadSuccessfully(projectName);
+
+			return new ProjectsPage(Driver).GetPage();
 		}
 
 		[FindsBy(How = How.XPath, Using = NAME_INPUT)]

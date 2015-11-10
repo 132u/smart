@@ -20,14 +20,14 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 		[TestCase(ExportType.Target)]
 		public void ExportDocumentTest(ExportType exportType)
 		{
-			_exportFileHelper.CancelAllNotifiers<ProjectSettingsPage>();
+			ExportFileHelper.CancelAllNotifiers<ProjectSettingsPage>();
 
-			_projectSettingsHelper
+			ProjectSettingsHelper
 				.ClickDocumentCheckbox(PathProvider.DocumentFileToConfirm1)
 				.ClickDownloadInMainMenuButton()
 				.SelectExportType<ProjectSettingsPage>(exportType)
 				.ClickDownloadNotifier<ProjectSettingsPage>()
-				.AssertFileDownloaded(_exportFileHelper.GetExportFileNameMask(exportType, PathProvider.DocumentFileToConfirm1));
+				.AssertFileDownloaded(ExportFileHelper.GetExportFileNameMask(exportType, PathProvider.DocumentFileToConfirm1));
 		}
 
 		[TestCase(PlaceSearchNotifier.ProjectsPage)]
@@ -35,9 +35,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 		[TestCase(PlaceSearchNotifier.GlossariesPage)]
 		public void ExportSaveNotifier(PlaceSearchNotifier placeSearch)
 		{
-			_exportFileHelper.CancelAllNotifiers<ProjectSettingsPage>();
+			ExportFileHelper.CancelAllNotifiers<ProjectSettingsPage>();
 
-			_projectSettingsHelper
+			ProjectSettingsHelper
 				.ClickDocumentCheckbox(PathProvider.DocumentFileToConfirm1)
 				.ClickDownloadInMainMenuButton()
 				.SelectExportType<ProjectSettingsPage>(ExportType.Source);
@@ -45,38 +45,37 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 			switch (placeSearch)
 			{
 				case PlaceSearchNotifier.ProjectsPage:
-					_projectsHelper.GoToProjectsPage();
+					WorkspaceHelper.GoToProjectsPage();
 					break;
 
 				case PlaceSearchNotifier.ProjectSettingsPage:
-					_projectsHelper.RefreshPage();
+					WorkspaceHelper.RefreshPage();
 					break;
 
 				case PlaceSearchNotifier.GlossariesPage:
-					_projectsHelper.GoToGlossariesPage();
-					_exportFileHelper.AssertNotificationNotExist();
-					_projectsHelper
-						.GoToProjectsPage()
-						.GoToProjectSettingsPage(_projectUniqueName);
+					WorkspaceHelper.GoToGlossariesPage();
+					ExportFileHelper.AssertNotificationNotExist();
+					WorkspaceHelper.GoToProjectsPage();
+					WorkspaceHelper.GoToProjectSettingsPage(ProjectUniqueName);
 					break;
 
 				default:
 					throw new Exception(string.Format("Передан неверный аргумент:'{0}'", placeSearch));
 			}
 
-			_exportFileHelper.AssertCountExportNotifiers(expectedCount: 1);
+			ExportFileHelper.AssertCountExportNotifiers(expectedCount: 1);
 		}
 
 		[Ignore("PRX-11419")]
 		[Test]
 		public void ExportSaveNotifierAnotherProjectPage()
 		{
-			_projectSettingsHelper.GoToProjectsPage();
-			var projectUniqueName2 = _createProjectHelper.GetProjectUniqueName();
+			ProjectSettingsHelper.GoToProjectsPage();
+			var projectUniqueName2 = CreateProjectHelper.GetProjectUniqueName();
 
-			_createProjectHelper
-				.CreateNewProject(projectUniqueName2, PathProvider.DocumentFileToConfirm1)
-				.AssertIsProjectLoadedSuccessfully(projectUniqueName2)
+			CreateProjectHelper.CreateNewProject(projectUniqueName2, PathProvider.DocumentFileToConfirm1);
+
+			WorkspaceHelper
 				.GoToProjectSettingsPage(projectUniqueName2)
 				.AssignTasksOnDocument(Path.GetFileNameWithoutExtension(PathProvider.DocumentFileToConfirm1), ThreadUser.NickName)
 				.CreateRevision(Path.GetFileNameWithoutExtension(PathProvider.DocumentFileToConfirm1))
@@ -85,63 +84,64 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 				.CreateRevision(Path.GetFileNameWithoutExtension(PathProvider.DocumentFileToConfirm2))
 				.GoToProjectsPage();
 
-			_exportFileHelper.CancelAllNotifiers<ProjectsPage>();
+			ExportFileHelper.CancelAllNotifiers<ProjectsPage>();
 
-			_projectsHelper
-				.GoToProjectSettingsPage(_projectUniqueName)
+			WorkspaceHelper
+				.GoToProjectSettingsPage(ProjectUniqueName)
 				.ClickDocumentCheckbox(PathProvider.DocumentFileToConfirm1)
 				.ClickDownloadInMainMenuButton()
 				.SelectExportType<ProjectSettingsPage>(ExportType.Source)
-				.GoToProjectsPage()
+				.GoToProjectsPage();
+			WorkspaceHelper
 				.GoToProjectSettingsPage(projectUniqueName2);
 
-			_exportFileHelper.AssertCountExportNotifiers(expectedCount: 1);
+			ExportFileHelper.AssertCountExportNotifiers(expectedCount: 1);
 		}
 
 		[Test]
 		public void ExportDocumentFromProjectCheckNotifierText()
 		{
-			_exportFileHelper.CancelAllNotifiers<ProjectSettingsPage>();
+			ExportFileHelper.CancelAllNotifiers<ProjectSettingsPage>();
 
-			_projectSettingsHelper
+			ProjectSettingsHelper
 				.ClickDocumentCheckbox(PathProvider.DocumentFileToConfirm1)
 				.ClickDownloadInMainMenuButton()
 				.SelectExportType<ProjectSettingsPage>(ExportType.Source);
 
-			_exportFileHelper.AssertContainsText(Path.GetFileName(PathProvider.DocumentFileToConfirm1));
+			ExportFileHelper.AssertContainsText(Path.GetFileName(PathProvider.DocumentFileToConfirm1));
 		}
 
 		[Ignore("PRX-11419")]
 		[Test]
 		public void ExportDocumentsFromProjectCheckNotifierText()
 		{
-			_projectSettingsHelper
+			ProjectSettingsHelper
 				.UploadDocument(PathProvider.DocumentFileToConfirm2)
 				.AssignTasksOnDocument(Path.GetFileNameWithoutExtension(PathProvider.DocumentFileToConfirm2), ThreadUser.NickName)
 				.CreateRevision(Path.GetFileNameWithoutExtension(PathProvider.DocumentFileToConfirm2));
 
-			_exportFileHelper.CancelAllNotifiers<ProjectSettingsPage>();
+			ExportFileHelper.CancelAllNotifiers<ProjectSettingsPage>();
 
-			_projectSettingsHelper
+			ProjectSettingsHelper
 				.ClickDocumentCheckbox(PathProvider.DocumentFileToConfirm1)
 				.ClickDocumentCheckbox(PathProvider.DocumentFileToConfirm2)
 				.ClickDownloadInMainMenuButton()
 				.SelectExportType<ProjectSettingsPage>(ExportType.Source);
 
-			_exportFileHelper.AssertContainsText("Documents");
+			ExportFileHelper.AssertContainsText("Documents");
 		}
 
 		[Test]
 		public void ExportDocumentCheckNotifierDate()
 		{
-			_exportFileHelper.CancelAllNotifiers<ProjectSettingsPage>();
+			ExportFileHelper.CancelAllNotifiers<ProjectSettingsPage>();
 
-			_projectSettingsHelper
+			ProjectSettingsHelper
 				.ClickDocumentCheckbox(PathProvider.DocumentFileToConfirm1)
 				.ClickDownloadInMainMenuButton()
 				.SelectExportType<ProjectSettingsPage>(ExportType.Source);
 
-			_exportFileHelper.AssertContainsCurrentDate();
+			ExportFileHelper.AssertContainsCurrentDate();
 		}
 	}
 }

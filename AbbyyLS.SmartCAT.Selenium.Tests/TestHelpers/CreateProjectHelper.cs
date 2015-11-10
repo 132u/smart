@@ -12,7 +12,7 @@ using AbbyyLS.SmartCAT.Selenium.Tests.TestFramework;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 {
-	public class CreateProjectHelper : ProjectsHelper
+	public class CreateProjectHelper : WorkspaceHelper
 	{
 		public CreateProjectHelper(WebDriver driver) : base(driver)
 		{
@@ -22,9 +22,10 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 			_newProjectSetUpPretranslationDialog = new NewProjectSetUpPretranslationDialog(Driver);
 			_newProjectSetUpTMDialog = new NewProjectSetUpTMDialog(Driver);
 			_newProjectSetUpWorkflowDialog = new NewProjectSetUpWorkflowDialog(Driver);
+			_projectsPage = new ProjectsPage(Driver);
 		}
 
-		public ProjectsHelper CreateNewProject(
+		public CreateProjectHelper CreateNewProject(
 			string projectName,
 			string glossaryName = null,
 			string filePath = null,
@@ -36,7 +37,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 			Language targetLanguage = Language.Russian,
 			bool personalAccount = false)
 		{
-			ClickCreateProjectButton();
+			BaseObject.InitPage(_projectsPage, Driver);
+			_projectsPage.ClickCreateProjectDialog();
 			FillGeneralProjectInformation(projectName, filePath, sourceLanguage, targetLanguage, useMT: useMachineTranslation);
 			ClickNextOnGeneralProjectInformationPage(personalAccount: personalAccount);
 
@@ -88,6 +90,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 				.AssertFinishButtonEnabled()
 				.ClickFinishButton()
 				.AssertDialogBackgroundDisappeared<ProjectsPage>(Driver);
+
+			_projectsPage.WaitUntilProjectLoadSuccessfully(projectName);
 
 			return this;
 		}
@@ -353,7 +357,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 		/// <summary>
 		/// Отменить создание проекта
 		/// </summary>
-		public ProjectsHelper CancelCreateProject()
+		public ProjectsPage CancelCreateProject()
 		{
 			BaseObject.InitPage(_newProjectCreateBaseDialog, Driver);
 			_newProjectCreateBaseDialog
@@ -361,7 +365,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 				.WaitCreateProjectDialogDisappear()
 				.AssertDialogBackgroundDisappeared<ProjectsPage>(Driver);
 
-			return this;
+			return new ProjectsPage(Driver).GetPage();
 		}
 
 		/// <summary>
@@ -548,5 +552,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 		private NewProjectSetUpTMDialog _newProjectSetUpTMDialog;
 		private readonly NewProjectSelectGlossariesDialog _newProjectSelectGlossariesDialog;
 		private readonly NewProjectSetUpPretranslationDialog _newProjectSetUpPretranslationDialog;
+		private readonly ProjectsPage _projectsPage;
 	}
 }

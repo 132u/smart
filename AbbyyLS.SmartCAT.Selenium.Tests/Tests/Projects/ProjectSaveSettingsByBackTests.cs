@@ -3,6 +3,7 @@
 using AbbyyLS.SmartCAT.Selenium.Tests.DataStructures;
 using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
 using AbbyyLS.SmartCAT.Selenium.Tests.FeatureAttributes;
+using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects;
 using AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
@@ -15,6 +16,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 		{
 			_workspaceHelper = new WorkspaceHelper(Driver);
 			_createProjectHelper = new CreateProjectHelper(Driver);
+			_projectsPage = new ProjectsPage(Driver);
 			_workspaceHelper.GoToProjectsPage();
 			_projectUniqueName = _createProjectHelper.GetProjectUniqueName();
 		}
@@ -24,7 +26,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 		{
 			var deadlineDate = "11/28/2015";
 
-			_createProjectHelper.ClickCreateProjectButton()
+			_projectsPage.ClickCreateProjectDialog();
+			_createProjectHelper
 				.FillGeneralProjectInformation(
 					_projectUniqueName,
 					sourceLanguage: Language.Japanese,
@@ -42,8 +45,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 		[Test, Standalone]
 		public void BackFromGlossarySetUpStepTest()
 		{
+			_projectsPage.ClickCreateProjectDialog();
 			_createProjectHelper
-				.ClickCreateProjectButton()
 				.FillGeneralProjectInformation(_projectUniqueName)
 				.ClickNextOnGeneralProjectInformationPage()
 				.ClickNextOnWorkflowPage()
@@ -56,8 +59,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 		[Test, Standalone]
 		public void BackFromWorkflowToTMStepTest()
 		{
+			_projectsPage.ClickCreateProjectDialog();
 			_createProjectHelper
-				.ClickCreateProjectButton()
 				.FillGeneralProjectInformation(_projectUniqueName)
 				.ClickNextOnGeneralProjectInformationPage()
 				.ClickNextOnWorkflowPage()
@@ -70,8 +73,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 		[Test, Standalone]
 		public void BackFormPretranslateStepTest()
 		{
+			_projectsPage.ClickCreateProjectDialog();
 			_createProjectHelper
-				.ClickCreateProjectButton()
 				.FillGeneralProjectInformation(_projectUniqueName)
 				.ClickNextOnGeneralProjectInformationPage()
 				.ClickNextOnWorkflowPage()
@@ -86,8 +89,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 		[Test, Standalone]
 		public void BackToGlossaryStepFromTMStepTest()
 		{
+			_projectsPage.ClickCreateProjectDialog();
 			_createProjectHelper
-				.ClickCreateProjectButton()
 				.FillGeneralProjectInformation(_projectUniqueName)
 				.ClickNextOnGeneralProjectInformationPage()
 				.ClickNextOnWorkflowPage()
@@ -102,8 +105,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 		[Test]
 		public void BackToChooseWorkflowTaskStepFromGeneraProjectInformationTest()
 		{
+			_projectsPage.ClickCreateProjectDialog();
 			_createProjectHelper
-				.ClickCreateProjectButton()
 				.FillGeneralProjectInformation(_projectUniqueName)
 				.ClickNextOnGeneralProjectInformationPage()
 				.SelectWorkflowTask(WorkflowTask.Editing)
@@ -115,5 +118,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 		private string _projectUniqueName;
 		private CreateProjectHelper _createProjectHelper;
 		private WorkspaceHelper _workspaceHelper;
+		private ProjectsPage _projectsPage;
 	}
 }

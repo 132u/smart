@@ -4,6 +4,7 @@ using NUnit.Framework;
 
 using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
 using AbbyyLS.SmartCAT.Selenium.Tests.FeatureAttributes;
+using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.DocumentUploadDialog;
 using AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers;
 
@@ -21,13 +22,14 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 			_createProjectHelper = new CreateProjectHelper(Driver);
 			_projectUniqueName = _createProjectHelper.GetProjectUniqueName();
 			_documentUploadGeneralInformationDialog = new DocumentUploadGeneralInformationDialog(Driver);
+			_projectsPage = new ProjectsPage(Driver);
 		}
 
 		[Test]
 		public void ImportUnsupportedFileTest()
 		{
+			_projectsPage.ClickCreateProjectDialog();
 			_createProjectHelper
-				.ClickCreateProjectButton()
 				.UploadFileExpectingError(PathProvider.AudioFile)
 				.AssertErrorFormatDocument();
 		}
@@ -35,8 +37,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 		[Test]
 		public void ImportSomeFilesTest()
 		{
+			_projectsPage.ClickCreateProjectDialog();
 			_createProjectHelper
-				.ClickCreateProjectButton()
 				.UploadFile(PathProvider.DocumentFile)
 				.UploadFile(PathProvider.TtxFile)
 				.AssertNoErrorFormatDocument();
@@ -45,8 +47,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 		[Test]
 		public void ImportTtxFileTest()
 		{
+			_projectsPage.ClickCreateProjectDialog();
 			_createProjectHelper
-				.ClickCreateProjectButton()
 				.UploadFile(PathProvider.TtxFile)
 				.AssertNoErrorFormatDocument();
 		}
@@ -54,8 +56,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 		[Test]
 		public void ImportTxtFileTest()
 		{
+			_projectsPage.ClickCreateProjectDialog();
 			_createProjectHelper
-				.ClickCreateProjectButton()
 				.UploadFile(PathProvider.TxtFile)
 				.AssertNoErrorFormatDocument();
 		}
@@ -63,8 +65,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 		[Test]
 		public void ImportSrtFileTest()
 		{
+			_projectsPage.ClickCreateProjectDialog();
 			_createProjectHelper
-				.ClickCreateProjectButton()
 				.UploadFile(PathProvider.SrtFile)
 				.AssertNoErrorFormatDocument();
 		}
@@ -100,5 +102,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 		private WorkspaceHelper _workspaceHelper;
 
 		private DocumentUploadGeneralInformationDialog _documentUploadGeneralInformationDialog;
+		private ProjectsPage _projectsPage;
 	}
 }

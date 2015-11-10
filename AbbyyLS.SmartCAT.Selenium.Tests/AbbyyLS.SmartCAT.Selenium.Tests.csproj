@@ -208,7 +208,6 @@
     <Compile Include="TestHelpers\GlossariesHelper.cs" />
     <Compile Include="TestHelpers\LoginHelper.cs" />
     <Compile Include="TestHelpers\ProjectSettingsHelper.cs" />
-    <Compile Include="TestHelpers\ProjectsHelper.cs" />
     <Compile Include="TestHelpers\TranslationMemoriesHelper.cs" />
     <Compile Include="TestHelpers\WorkspaceHelper.cs" />
     <Compile Include="TestSettingDefinition.cs" />

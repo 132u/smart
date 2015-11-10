@@ -41,7 +41,11 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 		public ExportFileHelper AssertPreparingDownloadMessageDisappeared()
 		{
 			BaseObject.InitPage(_projectsPage, Driver);
-			_projectsPage.AssertPreparingDownloadMessageDisappeared();
+			if (!_projectsPage.IsPreparingDownloadMessageDisappeared())
+			{
+				throw new Exception(
+					"Произошла ошибка:\n сообщение 'Preparing documents for download. Please wait ...' не исчезло");
+			}
 
 			return new ExportFileHelper(Driver);
 		}

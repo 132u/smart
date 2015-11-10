@@ -295,7 +295,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 				.GoToGlossariesPage()
 				.CheckTermInGlossary(_glossaryName, source, target)
 				.DeleteTerm(source)
-				.GoToProjectsPage()
+				.GoToProjectsPage();
+			_workspaceHelper
 				.GoToProjectSettingsPage(_projectName)
 				.OpenDocument<SelectTaskDialog>(Path.GetFileNameWithoutExtension(PathProvider.DocumentFile))
 				.SelectTask()

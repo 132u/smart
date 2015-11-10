@@ -1,5 +1,4 @@
-﻿using NUnit.Framework;
-using OpenQA.Selenium;
+﻿using OpenQA.Selenium;
 
 using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
 using AbbyyLS.SmartCAT.Selenium.Tests.TestFramework;
@@ -24,10 +23,20 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 		{
 			Driver.WaitPageTotalLoad();
 
-			if (!Driver.WaitUntilElementIsDisplay(By.XPath(ANALYSIS_DIALOG)))
+			if (!IsAnalysisDialogOpened())
 			{
-				Assert.Fail("Произошла ошибка:\n не появился диалог настроек проекта.");
+				throw new XPathLookupException("Произошла ошибка:\n не появился диалог анализа проекта.");
 			}
+		}
+
+		/// <summary>
+		/// Проверить, открыт ли диалог анализа проекта
+		/// </summary>
+		public bool IsAnalysisDialogOpened()
+		{
+			CustomTestContext.WriteLine("Проверить, открыт ли диалог анализа проекта");
+
+			return Driver.WaitUntilElementIsDisplay(By.XPath(ANALYSIS_DIALOG));
 		}
 
 		protected const string ANALYSIS_DIALOG = "//div[contains(@class,'js-popup-analyse')][2]";

@@ -3,6 +3,7 @@
 using AbbyyLS.SmartCAT.Selenium.Tests.DataStructures;
 using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
 using AbbyyLS.SmartCAT.Selenium.Tests.FeatureAttributes;
+using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories;
 using AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers;
 
@@ -76,14 +77,16 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.TranslationMemories
 			TranslationMemoriesHelper
 				.CreateTranslationMemory(UniqueTranslationMemoryName, secondTargetLanguage: Language.Lithuanian)
 				.AssertTranslationMemoryExists(UniqueTranslationMemoryName)
-				.GoToProjectsPage()
-				.ClickCreateProjectButton()
-				.FillGeneralProjectInformation(_createProjectHelper.GetProjectUniqueName())
+				.GoToProjectsPage();
+			ProjectsPage.ClickCreateProjectDialog();
+			CreateProjectHelper
+				.FillGeneralProjectInformation(CreateProjectHelper.GetProjectUniqueName())
 				.ClickNextOnGeneralProjectInformationPage()
 				.ClickNextOnWorkflowPage()
 				.AssertTranslationMemoryExist(UniqueTranslationMemoryName)
-				.CancelCreateProject()
-				.ClickCreateProjectButton()
+				.CancelCreateProject();
+			ProjectsPage.ClickCreateProjectDialog();
+			CreateProjectHelper
 				.FillGeneralProjectInformation(UniqueTranslationMemoryName, targetLanguage: Language.Lithuanian)
 				.ClickNextOnGeneralProjectInformationPage()
 				.ClickNextOnWorkflowPage()

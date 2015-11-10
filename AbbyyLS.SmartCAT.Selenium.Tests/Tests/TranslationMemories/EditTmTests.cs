@@ -72,7 +72,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.TranslationMemories
 			// его можно было выбрать, не прибегая к прокрутке
 			var translationMemoryNewName = string.Concat("!", TranslationMemoriesHelper.GetTranslationMemoryUniqueName());
 			var importFilePath = needUploadTmx ? PathProvider.TMTestFile2 : null;
-			var projectUniqueName = _createProjectHelper.GetProjectUniqueName();
+			var projectUniqueName = CreateProjectHelper.GetProjectUniqueName();
 			
 			TranslationMemoriesHelper
 				.CreateTranslationMemory(UniqueTranslationMemoryName, importFilePath: importFilePath);
@@ -87,8 +87,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.TranslationMemories
 				.RenameTranslationMemory(UniqueTranslationMemoryName, translationMemoryNewName)
 				.AssertEditionFormDisappeared()
 				.AssertTranslationMemoryExists(translationMemoryNewName)
-				.GoToProjectsPage()
-				.ClickCreateProjectButton()
+				.GoToProjectsPage();
+			ProjectsPage.ClickCreateProjectDialog();
+			CreateProjectHelper
 				.FillGeneralProjectInformation(projectUniqueName)
 				.ClickNextOnGeneralProjectInformationPage()
 				.ClickNextOnWorkflowPage()

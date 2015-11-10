@@ -19,6 +19,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Editor
 		{
 			_createProjectHelper = new CreateProjectHelper(Driver);
 			_editorHelper = new EditorHelper(Driver);
+			_workspaceHelper = new WorkspaceHelper(Driver);
 
 			var projectUniqueName = _createProjectHelper.GetProjectUniqueName();
 
@@ -28,10 +29,10 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Editor
 					filePath: PathProvider.TxtFileForMatchTest,
 					createNewTm: true,
 					tmxFilePath: PathProvider.TmxFileForMatchTest)
-				.AssertIsProjectLoadedSuccessfully(projectUniqueName)
 				.GoToTranslationMemoriesPage()
 				.CloseAllNotifications()
-				.GoToProjectsPage()
+				.GoToProjectsPage();
+			_workspaceHelper
 				.GoToProjectSettingsPage(projectUniqueName)
 				.AssignTasksOnDocument(Path.GetFileNameWithoutExtension(PathProvider.TxtFileForMatchTest), ThreadUser.NickName)
 				.OpenDocument<SelectTaskDialog>(Path.GetFileNameWithoutExtension(PathProvider.TxtFileForMatchTest))
@@ -96,5 +97,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Editor
 
 		private CreateProjectHelper _createProjectHelper;
 		private EditorHelper _editorHelper;
+		private WorkspaceHelper _workspaceHelper;
 	}
 }

@@ -4,6 +4,7 @@ using NUnit.Framework;
 
 using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
 using AbbyyLS.SmartCAT.Selenium.Tests.FeatureAttributes;
+using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects;
 using AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
@@ -16,6 +17,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 		public void Initialization()
 		{
 			_createProjectHelper = new CreateProjectHelper(Driver);
+			_projectsPage = new ProjectsPage(Driver);
 		}
 
 		[TestCase("docFile.doc")]
@@ -63,17 +65,23 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 		{
 			var projectUniqueName = _createProjectHelper.GetProjectUniqueName();
 
-			_createProjectHelper
-				.ClickCreateProjectButton()
-				.FillGeneralProjectInformation(projectUniqueName)
-				.UploadFile(Path.Combine(PathProvider.FilesForStandaloneDifferentFormatsFolder, file))
-				.AssertNoErrorFormatDocument()
-				.ClickNextOnGeneralProjectInformationPage()
-				.ClickFinishOnProjectSetUpWorkflowDialog()
-				.CheckProjectAppearInList(projectUniqueName)
-				.AssertIsProjectLoadedSuccessfully(projectUniqueName);
+			_createProjectHelper.CreateNewProject(projectUniqueName,
+				filePath: Path.Combine(PathProvider.FilesForStandaloneDifferentFormatsFolder, file));
+
+			Assert.IsTrue(_projectsPage.IsProjectAppearInList(projectUniqueName),
+				"Произошла ошибка:\n проект {0} не появился в списке проектов.", projectUniqueName);
+
+			Assert.IsTrue(_projectsPage.IsProjectLoaded(projectUniqueName),
+				"Произошла ошибка: не исчезла пиктограмма загрузки проекта");
+
+			Assert.IsFalse(_projectsPage.IsFatalErrorSignDisplayed(projectUniqueName),
+				"Произошла ошибка: появилась пиктограмма ошибки напротив проекта");
+
+			Assert.IsFalse(_projectsPage.IsWarningSignDisplayed(projectUniqueName),
+				"Произошла ошибка: появилась пиктограмма предупреждения напротив проекта");
 		}
 
 		private CreateProjectHelper _createProjectHelper;
+		private ProjectsPage _projectsPage;
 	}
 }

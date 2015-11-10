@@ -5,6 +5,7 @@ using NUnit.Framework;
 using AbbyyLS.SmartCAT.Selenium.Tests.DataStructures;
 using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor;
+using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects;
 using AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Editor
@@ -17,6 +18,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Editor
 		{
 			_createProjectHelper = new CreateProjectHelper(Driver);
 			_editorHelper = new EditorHelper(Driver);
+			_projectsPage = new ProjectsPage(Driver);
 
 			var projectUniqueName = _createProjectHelper.GetProjectUniqueName();
 
@@ -25,10 +27,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Editor
 				filePath: PathProvider.TxtFileForMatchTest,
 				createNewTm: true,
 				tmxFilePath: PathProvider.TmxFileForMatchTest,
-				useMachineTranslation: true)
-				.CheckProjectAppearInList(projectUniqueName)
-				.AssertIsProjectLoadedSuccessfully(projectUniqueName);
-
+				useMachineTranslation: true);
 			_createProjectHelper
 				.GoToProjectSettingsPage(projectUniqueName)
 				.AssignTasksOnDocument(Path.GetFileNameWithoutExtension(PathProvider.TxtFileForMatchTest), ThreadUser.NickName)
@@ -71,5 +70,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Editor
 
 		private CreateProjectHelper _createProjectHelper;
 		private EditorHelper _editorHelper;
+		private ProjectsPage _projectsPage;
 	}
 }

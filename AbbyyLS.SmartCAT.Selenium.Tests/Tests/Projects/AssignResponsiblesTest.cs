@@ -23,7 +23,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 		public void Setup()
 		{
 			_createProjectHelper = new CreateProjectHelper(Driver);
-			_projectsHelper = new ProjectsHelper(Driver);
 			_projectSettingsHelper = new ProjectSettingsHelper(Driver);
 			_workspaceHelper = new WorkspaceHelper(Driver);
 			_workspaceHelper.GoToProjectsPage();
@@ -36,6 +35,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 			_documentUploadSetUpTMDialog = new DocumentUploadSetUpTMDialog(Driver);
 			_taskAssignmentPage = new TaskAssignmentPage(Driver);
 			_usersRightsPage = new UsersRightsPage(Driver);
+			_projectsPage = new ProjectsPage(Driver);
 		}
 
 		[TearDown]
@@ -48,9 +48,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 		[Standalone]
 		public void ResponsiblesWorkspaceOnAssignTaskButtonTest()
 		{
-			_createProjectHelper
-				.CreateNewProject(_projectUniqueName, PathProvider.EditorTxtFile)
-				.OpenAssignDialog(_projectUniqueName);
+			_createProjectHelper.CreateNewProject(_projectUniqueName, PathProvider.EditorTxtFile);
+
+			_projectsPage.OpenAssignDialog(_projectUniqueName);
 
 			_taskAssignmentPage.OpenAssigneeDropbox();
 
@@ -62,17 +62,18 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 		[Standalone]
 		public void AssignDialogInWorkspaceVisibleTest()
 		{
-			_createProjectHelper
-				.CreateNewProject(_projectUniqueName, PathProvider.EditorTxtFile)
-				.OpenAssignDialog(_projectUniqueName);
+			_createProjectHelper.CreateNewProject(_projectUniqueName, PathProvider.EditorTxtFile);
+
+			_projectsPage.OpenAssignDialog(_projectUniqueName);
 		}
 
 		[Test]
 		[Standalone]
 		public void WorkflowStepVisibleForAddedDocumentTest()
 		{
-			_createProjectHelper
-				.CreateNewProject(_projectUniqueName, PathProvider.EditorTxtFile)
+			_createProjectHelper.CreateNewProject(_projectUniqueName, PathProvider.EditorTxtFile);
+
+			_projectsPage
 				.OpenProjectInfo(_projectUniqueName)
 				.ClickDocumentUploadButton();
 
@@ -131,7 +132,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 		[Standalone]
 		public void VerifyUsersAndGroupsListsTest()
 		{
-			_projectsHelper.GoToUsersRightsPage();
+			_workspaceHelper.GoToUsersRightsPage();
 			var usersList = _usersRightsPage.GetUserNameList();
 
 			var groupsList = _usersRightsPage
@@ -143,11 +144,11 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 				groupsList[i] = "Group: " + groupsList[i];
 			}
 
-			_projectsHelper.GoToProjectsPage();
+			_workspaceHelper.GoToProjectsPage();
 
-			_createProjectHelper
-				.CreateNewProject(_projectUniqueName, PathProvider.EditorTxtFile)
-				.OpenAssignDialog(_projectUniqueName);
+			_createProjectHelper.CreateNewProject(_projectUniqueName, PathProvider.EditorTxtFile);
+
+			_projectsPage.OpenAssignDialog(_projectUniqueName);
 
 			var responsibleUsersList = _taskAssignmentPage
 				.OpenAssigneeDropbox()
@@ -170,7 +171,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 		{
 			var groupName = _usersRightsPage.GetGroupUniqueName();
 
-			_projectsHelper.GoToUsersRightsPage();
+			_workspaceHelper.GoToUsersRightsPage();
 
 			_usersRightsPage
 				.ClickGroupsButton()
@@ -178,9 +179,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 
 			_workspaceHelper.GoToProjectsPage();
 
-			_createProjectHelper
-				.CreateNewProject(_projectUniqueName, PathProvider.EditorTxtFile)
-				.OpenAssignDialog(_projectUniqueName);
+			_createProjectHelper.CreateNewProject(_projectUniqueName, PathProvider.EditorTxtFile);
+
+			_projectsPage.OpenAssignDialog(_projectUniqueName);
 
 			_taskAssignmentPage.OpenAssigneeDropbox();
 
@@ -192,9 +193,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 		[Standalone]
 		public void AssignUserOneTaskTest()
 		{
-			_createProjectHelper
-				.CreateNewProject(_projectUniqueName, PathProvider.EditorTxtFile)
-				.OpenAssignDialog(_projectUniqueName);
+			_createProjectHelper.CreateNewProject(_projectUniqueName, PathProvider.EditorTxtFile);
+
+			_projectsPage.OpenAssignDialog(_projectUniqueName);
 
 			_taskAssignmentPage
 				.OpenAssigneeDropbox()
@@ -213,12 +214,15 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 		[Standalone]
 		public void AssignUserFewTasksTest()
 		{
+			_projectsPage.ClickCreateProjectDialog();
 			_createProjectHelper
-				.ClickCreateProjectButton()
 				.FillGeneralProjectInformation(_projectUniqueName, PathProvider.EditorTxtFile)
 				.ClickNextOnGeneralProjectInformationPage()
 				.ClickNewTaskButton()
-				.ClickFinishOnProjectSetUpWorkflowDialog()
+				.ClickFinishOnProjectSetUpWorkflowDialog();
+
+			_projectsPage
+				.WaitUntilProjectLoadSuccessfully(_projectUniqueName)
 				.OpenAssignDialog(_projectUniqueName);
 
 			_taskAssignmentPage
@@ -237,9 +241,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 		[Standalone]
 		public void DeleteUserTaskTest()
 		{
-			_createProjectHelper
-				.CreateNewProject(_projectUniqueName, PathProvider.EditorTxtFile)
-				.OpenAssignDialog(_projectUniqueName);
+			_createProjectHelper.CreateNewProject(_projectUniqueName, PathProvider.EditorTxtFile);
+
+			_projectsPage.OpenAssignDialog(_projectUniqueName);
 
 			_taskAssignmentPage
 				.OpenAssigneeDropbox()
@@ -256,16 +260,16 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 		[Test]
 		public void AssignDifferentUsersOneTaskTest()
 		{
-			_projectsHelper.GoToUsersRightsPage();
+			_workspaceHelper.GoToUsersRightsPage();
 
 			Assert.IsTrue(_usersRightsPage.IsUserExistInList(_additionalUser.NickName),
 				"Произошла ошибка:\n пользователь '{0}' не найден в списке.", _additionalUser.NickName);
 
 			_workspaceHelper.GoToProjectsPage();
 
-			_createProjectHelper
-				.CreateNewProject(_projectUniqueName, PathProvider.EditorTxtFile)
-				.OpenAssignDialog(_projectUniqueName);
+			_createProjectHelper.CreateNewProject(_projectUniqueName, PathProvider.EditorTxtFile);
+
+			_projectsPage.OpenAssignDialog(_projectUniqueName);
 
 			_taskAssignmentPage
 				.OpenAssigneeDropbox()
@@ -279,8 +283,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 				.CloseTutorialIfExist()
 				.CheckStage("Translation (T):")
 				.ClickHomeButton()
-				.GoToProjectsPage()
-				.OpenAssignDialog(_projectUniqueName);
+				.GoToProjectsPage();
+
+			_projectsPage.OpenAssignDialog(_projectUniqueName);
 
 			_taskAssignmentPage
 				.ClickCancelAssignButton()
@@ -299,7 +304,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 			_signInPage
 				.SubmitForm(_additionalUser.Login, _additionalUser.Password);
 
-			_projectsHelper
+			_workspaceHelper
 				.GoToProjectSettingsPage(_projectUniqueName)
 				.OpenDocument<SelectTaskDialog>(Path.GetFileNameWithoutExtension(PathProvider.EditorTxtFile))
 				.SelectTask()
@@ -311,9 +316,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 		[Standalone]
 		public void UnAssignUserTest()
 		{
-			_createProjectHelper
-				.CreateNewProject(_projectUniqueName, PathProvider.EditorTxtFile)
-				.OpenAssignDialog(_projectUniqueName);
+			_createProjectHelper.CreateNewProject(_projectUniqueName, PathProvider.EditorTxtFile);
+
+			_projectsPage.OpenAssignDialog(_projectUniqueName);
 
 			_taskAssignmentPage
 				.OpenAssigneeDropbox()
@@ -327,8 +332,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 				.CloseTutorialIfExist()
 				.CheckStage("Translation (T):")
 				.ClickHomeButton()
-				.GoToProjectsPage()
-				.OpenAssignDialog(_projectUniqueName);
+				.GoToProjectsPage();
+
+			_projectsPage.OpenAssignDialog(_projectUniqueName);
 
 			_taskAssignmentPage
 				.ClickCancelAssignButton()
@@ -377,7 +383,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 
 		private string _projectUniqueName;
 		private CreateProjectHelper _createProjectHelper;
-		private ProjectsHelper _projectsHelper;
 		private ProjectSettingsHelper _projectSettingsHelper;
 		private WorkspaceHelper _workspaceHelper;
 		private TestUser _additionalUser;
@@ -387,5 +392,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 		private SignInPage _signInPage;
 		private TaskAssignmentPage _taskAssignmentPage;
 		private UsersRightsPage _usersRightsPage;
+		private ProjectsPage _projectsPage;
 	}
 }
