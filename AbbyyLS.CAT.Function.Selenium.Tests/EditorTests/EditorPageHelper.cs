@@ -346,6 +346,12 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			ClickElement(By.Id(CHANGE_CASE_BTN_ID));
 		}
 
+		public void ScrollToSourceCell(int rowNumber)
+		{
+			Log.Trace(string.Format("Скроллить до Source в строке №{0}", rowNumber));
+			ScrollToElement(By.XPath(GetSourceCellXPath(rowNumber)));
+		}
+
 		public void ClickSourceCell(int rowNumber)
 		{
 			Log.Trace(string.Format("Кликнуть Source в строке №{0}", rowNumber));
@@ -527,6 +533,8 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			var selectedTexts = new List<string>();
 
 			// Выбор нужного сегмента
+			ScrollToSourceCell(segmentRowNumber);
+			Thread.Sleep(1000);
 			ClickSourceCell(segmentRowNumber);
 			Thread.Sleep(1000);
 
@@ -753,7 +761,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		private static string getSegmentRow(int rowNumber)
 		{
 			return String.Format(
-				"//div[contains(text(), '{0}')]//..//..//..//..//tbody//tr[1]",
+				"//div[contains(text(), '{0}') and @class='number']//..//..//..//..//..//tbody//tr[1]",
 				rowNumber);
 		}
 

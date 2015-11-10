@@ -79,7 +79,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 
 		protected const string IMPORT_TERMS = "//form[contains(@action,'Enterprise/Glossaries/Import')]//input[contains(@class,'js-submit-input')]";
 
-		protected const string ADD_CONCEPT_XPATH = "//span[contains(@class,'js-add-concept')]";
+		protected const string ADD_CONCEPT_XPATH = "//div[contains(@class,'js-add-concept')]";
 		protected const string OPEN_EDIT_GLOSSARY_LIST_XPATH = "//span[contains(@class,'js-edit-submenu')]";
 		protected const string OPEN_EDIT_STRUCTURE_FORM_BTN_XPATH = "//div[contains(@class,'js-edit-structure-btn')]";
 		protected const string OPEN_EDIT_PROPERTIES_FORM_BTN_XPATH = "//div[contains(@class,'js-edit-glossary-btn')]";

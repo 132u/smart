@@ -511,8 +511,8 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		protected const string PROJECT_NAME_INPUT_XPATH = CREATE_PROJECT_DIALOG_XPATH + "//input[@name='name']";
 		protected const string ADD_DOCUMENT_BTN_XPATH = CREATE_PROJECT_DIALOG_XPATH + "//div[contains(@class,'js-files-uploader')]//a";// TODO проверить, старая версия: "//div[contains(@class,'js-files-uploader')]//a[contains(@class,'js-add-file')]" и "//div[contains(@class,'js-popup-create-project')][2]//a[contains(@class,'js-add-file')]"
 		protected const string UPLOADED_DOCUMENTS_LIST_XPATH = "//li[@class='js-file-list-item']";
-		protected const string NEXT_BTN_XPATH = CREATE_PROJECT_DIALOG_XPATH + "//span[contains(@class,'js-next')]";
-		protected const string CREATE_TM_BTN_XPATH = CREATE_PROJECT_DIALOG_XPATH + "//span[contains(@class,'js-tm-create')]";
+		protected const string NEXT_BTN_XPATH = CREATE_PROJECT_DIALOG_XPATH + "//div[contains(@class,'js-next')]";
+		protected const string CREATE_TM_BTN_XPATH = CREATE_PROJECT_DIALOG_XPATH + "//div[contains(@class,'js-tm-create')]";
 		protected const string DELETE_FILE_BTN_XPATH = CREATE_PROJECT_DIALOG_XPATH + "//li[contains(@class, 'js-file-list') and contains(string(), '#')]//span[contains(@class, 'btn')]//a[contains(@class, 'js-remove-file')]";
 		protected const string DEADLINE_DATE_CURRENT_XPATH = "//div[contains(@id, 'ui-datepicker-div')]//table[contains(@class, 'ui-datepicker-calendar')]//td[contains(@class, 'ui-datepicker-today')]//a";
 		protected const string DEADLINE_DATE_NEXT_MONTH_XPATH = "//div[contains(@id, 'ui-datepicker-div')]//a[contains(@class, 'ui-datepicker-next')]";
@@ -529,7 +529,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		protected const string CREATE_TM_DIALOG_XPATH = "//div[contains(@class,'js-popup-create-tm')][2]";
 		protected const string NEW_TM_NAME_INPUT_XPATH = CREATE_TM_DIALOG_XPATH + "//input[contains(@class,'l-createtm__nmtext')]";
 		protected const string IMPORT_TMX_BTN_XPATH = CREATE_TM_DIALOG_XPATH + "//span[contains(@class,'js-import-button')]";
-		protected const string SAVE_TM_BTN_XPATH = CREATE_TM_DIALOG_XPATH + "//span[contains(@data-bind,'click: save')]";
+		protected const string SAVE_TM_BTN_XPATH = CREATE_TM_DIALOG_XPATH + "//div[contains(@data-bind,'click: save')]";
 		
 		protected const string BACK_BTN_XPATH = CREATE_PROJECT_DIALOG_XPATH + "//span[contains(@class,'js-back')]";
 
@@ -551,7 +551,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 
 		protected const string MT_TABLE_XPATH = CREATE_PROJECT_DIALOG_XPATH + "//table[contains(@class,'js-mts-body')]//tbody";
 
-		protected const string FINISH_BTN_XPATH = CREATE_PROJECT_DIALOG_XPATH + "//span[contains(@class,'js-finish js-upload-btn')]";
+		protected const string FINISH_BTN_XPATH = CREATE_PROJECT_DIALOG_XPATH + "//div[contains(@class,'js-finish js-upload-btn')]";
 		protected const string ERROR_FORMAT_DOCUMENT_MESSAGE_XPATH = "//div[contains(@class,'js-info-popup')]"; // TODO плохой id
 
 		protected const string CLOSE_BTN_XPATH = "//img[contains(@class,'js-popup-close')]";

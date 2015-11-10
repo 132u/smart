@@ -585,7 +585,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		protected const string CONFIRM_YES_XPATH = CONFIRM_DIALOG_XPATH + "//input[contains(@class,'js-submit-btn')]";
 
 		protected const string GLOSSARY_LIST_XPATH = "//div[@class='g-page']//table//tbody[@data-bind='foreach: glossaries']//tr";
-		protected const string EDIT_GLOSSARY_SAVE_BTN_XPATH = "//span[contains(@data-bind,'click: saveGlossaries')]";
+		protected const string EDIT_GLOSSARY_SAVE_BTN_XPATH = "//div[contains(@data-bind,'click: saveGlossaries')]";
 
 		protected const string PROJECT_SETTINGS_BTN_XPATH = "//span[contains(@data-bind,'click: edit')]";
 		protected const string PROJECT_SETTINGS_WORKFLOW_XPATH = SETTING_POPUP + "//a[contains(@data-bind, 'activeTab(workflowTab);')]";
@@ -599,13 +599,13 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		protected const string PROJECT_SETTINGS_SAVE_BTN = "//div[@class='g-popup-bd js-popup-bd js-popup-edit'][2]//div[@class='g-popupbox__ft']//span//span/a";
 
 		protected const string DOCUMENT_PROGRESS_XPATH = "//div[contains(@class,'ui-progressbar__container')]";
-		protected const string DOCUMENT_ASSIGN_RESPONSIBLES_BTN_XPATH = "//span[contains(@data-bind,'actions.assign')]";
+		protected const string DOCUMENT_ASSIGN_RESPONSIBLES_BTN_XPATH = "//div[contains(@data-bind,'actions.assign')]";
 		protected const string OPEN_CLOSE_TD_XPATH = "td[contains(@class,'openCloseCell')]";
 		protected const string TASK_NAME_XPATH = OPEN_CLOSE_TD_XPATH + "//div[contains(@class,'js-text-overflow')]";
 		protected const string UPLOAD_DOCUMENT_BTN_XPATH = ".//span[contains(@class,'js-import-btn ')]";
 		protected const string PRETRANSLATE_TITLE_IN_DIALOG_XPATH = "//span[text()='Set Up Pretranslation']";
 
-		protected const string PRETRANSLATE_BTN_XPATH = "//span[contains(@data-bind,'click: pretranslate')]";
+		protected const string PRETRANSLATE_BTN_XPATH = "//div[contains(@data-bind,'click: pretranslate')]";
 		protected const string NEW_RULE_BTN_XPATH = "//div[contains(@class,'pretranslate')][2]//span[contains(@class,'js-new-rule')]";
 		protected const string SOURCE_PRETRANSLATE_BTN_XPATH = "//div[contains(@class,'pretranslate')]//span[contains(@class, 'js-dropdown')]";
 		protected const string TM_PRETRANSLATE_BTN_XPATH = "//span[contains(@class, 'js-dropdown')";

@@ -271,7 +271,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		
 		protected const string LOCALE_REF_PATH = ".//a[contains(@class,'js-set-locale')]";
 
-		protected const string CREATE_BTN_XPATH = ".//span[contains(@class,'js-project-create')]";
+		protected const string CREATE_BTN_XPATH = "//div[contains(@class,'js-tour-create-project')]";
 
 		protected const string PROJECTS_TABLE_XPATH = ".//table[contains(@class,'js-tasks-table')]";
 
@@ -341,6 +341,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 
 		protected const string PROJECT_SEARCH_FIELD = "//input[@name='searchName']";
 		protected const string SEARCH_PROJECT_BUTTON = "//a[contains(@class, 'js-search-btn')]/img";
-		protected const string CLOSE_TOUR_BUTTON = "//div[@class='hopscotch-bubble animated']//button[contains(@class, 'cta')]";
+		protected const string CLOSE_TOUR_BUTTON = "//div[@class='popup-wrap']//img[@title='Close']";
 	}
 }

@@ -73,8 +73,8 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			return GLOSSARY_NAME_XPATH + "[text()='" + glossaryName + "']";
 		}
 
-		protected const string CREATE_GLOSSARY_BTN_XPATH = ".//span[contains(@class,'js-create-glossary-button')]//a";
-		protected const string ADD_SUGGEST_BTN_XPATH = "//span[contains(@class,'js-add-suggest')]";
+		protected const string CREATE_GLOSSARY_BTN_XPATH = ".//div[contains(@class,'js-create-glossary-button')]//a";
+		protected const string ADD_SUGGEST_BTN_XPATH = "//div[contains(@class,'js-add-suggest')])[1]";
 		protected const string GLOSSARY_NAME_XPATH = "//tr[contains(@class, 'js-glossary-row')]/td[1]/p";	   
 	}
 }

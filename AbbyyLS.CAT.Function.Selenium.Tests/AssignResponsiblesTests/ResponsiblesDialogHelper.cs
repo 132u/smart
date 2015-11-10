@@ -226,8 +226,8 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		protected const string ASSIGN_LIST_ITEM = "//li[contains(@class,'newDropdown') and text()='*#*']";
 		protected const string ASSIGN_BUTTON = "//a[contains(@data-bind,'parent.assign')]";
 		protected const string CANCEL_BUTTON = "//a[contains(@data-bind,'$parent.removeExecutive')]";
-		protected const string CLOSE_BUTTON = "(//span[contains(@data-bind,'click: close')])[1]";
-		protected const string SAVE_BUTTON = "(//span[contains(@data-bind,'saveDeadlines')])";
+		protected const string CLOSE_BUTTON = "(//div[contains(@data-bind,'click: close')])[1]";
+		protected const string SAVE_BUTTON = "(//div[contains(@data-bind,'saveDeadlines')])";
 
 		private static readonly Logger Log = LogManager.GetCurrentClassLogger();
 	}
