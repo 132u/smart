@@ -6,6 +6,7 @@ using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
 using AbbyyLS.SmartCAT.Selenium.Tests.DataStructures;
 using AbbyyLS.SmartCAT.Selenium.Tests.FeatureAttributes;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects;
+using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog;
 using AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
@@ -23,79 +24,84 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 			_createProjectHelper = new CreateProjectHelper(Driver);
 			_projectsPage = new ProjectsPage(Driver);
 			_deleteDialog = new DeleteDialog(Driver);
+			_newProjectGeneralInformationDialog= new NewProjectGeneralInformationDialog(Driver);
+
+			_projectUniqueName = _createProjectHelper.GetProjectUniqueName();
 		}
 
 		[Test]
 		public void CreateProjectNoFileTest()
 		{
-			var projectUniqueName = _createProjectHelper.GetProjectUniqueName();
-			_createProjectHelper.CreateNewProject(projectUniqueName);
+			_createProjectHelper.CreateNewProject(_projectUniqueName);
 
-			Assert.IsTrue(_projectsPage.IsProjectAppearInList(projectUniqueName),
-				"Произошла ошибка:\n проект {0} не появился в списке проектов.", projectUniqueName);
+			Assert.IsTrue(_projectsPage.IsProjectAppearInList(_projectUniqueName),
+				"Произошла ошибка:\n проект {0} не появился в списке проектов.", _projectUniqueName);
 		}
 
 		[Test]
 		public void DeleteProjectNoFileTest()
 		{
-			var projectUniqueName = _createProjectHelper.GetProjectUniqueName();
-			_createProjectHelper.CreateNewProject(projectUniqueName);
+			_createProjectHelper.CreateNewProject(_projectUniqueName);
 
 			_projectsPage
-				.ClickProjectCheckboxInList(projectUniqueName)
+				.ClickProjectCheckboxInList(_projectUniqueName)
 				.ClickDeleteButton();
 
 			_deleteDialog.ClickConfirmDeleteButton();
 
-			Assert.IsFalse(_projectsPage.IsProjectExist(projectUniqueName),
-				"Произошла ошибка:\n проект {0} найден в списке проектов", projectUniqueName);
+			Assert.IsFalse(_projectsPage.IsProjectExist(_projectUniqueName),
+				"Произошла ошибка:\n проект {0} найден в списке проектов", _projectUniqueName);
 		}
 
 		[Test]
 		public void DeleteProjectWithFileTest()
 		{
-			var projectUniqueName = _createProjectHelper.GetProjectUniqueName();
-			_createProjectHelper.CreateNewProject(projectUniqueName, filePath: PathProvider.DocumentFile);
+			_createProjectHelper.CreateNewProject(_projectUniqueName, filePath: PathProvider.DocumentFile);
 
 			_projectsPage
-				.OpenProjectInfo(projectUniqueName)
-				.ClickProjectCheckboxInList(projectUniqueName)
+				.OpenProjectInfo(_projectUniqueName)
+				.ClickProjectCheckboxInList(_projectUniqueName)
 				.ClickDeleteOpenProjectWithFile()
 				.ClickDeleteProjectButton();
 
-			Assert.IsFalse(_projectsPage.IsProjectExist(projectUniqueName),
-				"Произошла ошибка:\n проект {0} найден в списке проектов", projectUniqueName);
+			Assert.IsFalse(_projectsPage.IsProjectExist(_projectUniqueName),
+				"Произошла ошибка:\n проект {0} найден в списке проектов", _projectUniqueName);
 		}
 
 		[Test]
 		public void CreateProjectDeletedNameTest()
 		{
-			var projectUniqueName = _createProjectHelper.GetProjectUniqueName();
-			_createProjectHelper.CreateNewProject(projectUniqueName);
+			_createProjectHelper.CreateNewProject(_projectUniqueName);
 
 			_projectsPage
-				.ClickProjectCheckboxInList(projectUniqueName)
+				.ClickProjectCheckboxInList(_projectUniqueName)
 				.ClickDeleteButton();
 
 			_deleteDialog.ClickConfirmDeleteButton();
 
-			_projectsPage.ClickCreateProjectDialog();
+			_projectsPage.ClickCreateProjectButton();
 
-			_createProjectHelper
-				.FillGeneralProjectInformation(projectUniqueName)
-				.ClickNextOnGeneralProjectInformationPage();
+			_newProjectGeneralInformationDialog
+				.FillGeneralProjectInformation(_projectUniqueName)
+				.ClickNextButton<NewProjectGeneralInformationDialog>();
 		}
 
 		[Test]
 		public void CreateProjectDuplicateNameTest()
 		{
-			var projectUniqueName = _createProjectHelper.GetProjectUniqueName();
-			_createProjectHelper.CreateNewProject(projectUniqueName);
-			_projectsPage.ClickCreateProjectDialog();
-			_createProjectHelper
-				.FillGeneralProjectInformation(projectUniqueName)
-				.ClickNextOnGeneralProjectInformationPage(errorExpected: true)
-				.AssertErrorDuplicateName();
+			_createProjectHelper.CreateNewProject(_projectUniqueName);
+
+			_projectsPage.ClickCreateProjectButton();
+
+			_newProjectGeneralInformationDialog
+				.FillGeneralProjectInformation(_projectUniqueName)
+				.ClickNextButton<NewProjectGeneralInformationDialog>();
+
+			Assert.IsTrue(_newProjectGeneralInformationDialog.IsDuplicateNameErrorMessageDisplayed(),
+				"Произошла ошибка:\n не появилось сообщение о существующем имени");
+
+			Assert.IsTrue(_newProjectGeneralInformationDialog.IsNameInputValidationMarkerDisplayed(),
+				"Произошла ошибка:\n поле 'Название' не отмечено ошибкой");
 		}
 
 		[Test]
@@ -112,13 +118,14 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 		[Test]
 		public void CreateProjectEqualLanguagesTest()
 		{
-			var projectUniqueName = _createProjectHelper.GetProjectUniqueName();
-			_projectsPage.ClickCreateProjectDialog();
-			_createProjectHelper
-				.FillGeneralProjectInformation(projectUniqueName, 
-					sourceLanguage: Language.English, targetLanguage: Language.English)
-				.ClickNextOnGeneralProjectInformationPage(errorExpected: true)
-				.AssertErrorDuplicateLanguage();
+			_projectsPage.ClickCreateProjectButton();
+
+			_newProjectGeneralInformationDialog
+				.FillGeneralProjectInformation(_projectUniqueName, sourceLanguage: Language.English, targetLanguage: Language.English)
+				.ClickNextButton<NewProjectGeneralInformationDialog>();
+
+			Assert.True(_newProjectGeneralInformationDialog.IsDuplicateLanguageErrorMessageDisplayed(),
+				"Произошла ошибка:\n не отображается сообщение о том, что source и target языки совпадают");
 		}
 
 		[TestCase("*")]
@@ -132,28 +139,42 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 		public void CreateProjectForbiddenSymbolsTest(string forbiddenChar)
 		{
 			var projectUniqueNameForbidden = _createProjectHelper.GetProjectUniqueName() + forbiddenChar;
-			_projectsPage.ClickCreateProjectDialog();
-			_createProjectHelper
+
+			_projectsPage.ClickCreateProjectButton();
+
+			_newProjectGeneralInformationDialog
 				.FillGeneralProjectInformation(projectUniqueNameForbidden)
-				.ClickNextOnGeneralProjectInformationPage(errorExpected: true)
-				.AssertErrorForbiddenSymbols();
+				.ClickNextButton<NewProjectGeneralInformationDialog>();
+
+			Assert.IsTrue(_newProjectGeneralInformationDialog.IsForbiddenSymbolsInNameErrorMessageDisplayed(),
+				"Произошла ошибка:\n не появилось сообщение о недопустимых символах в имени");
+
+			Assert.IsTrue(_newProjectGeneralInformationDialog.IsNameInputValidationMarkerDisplayed(),
+				"Произошла ошибка:\n поле 'Название' не отмечено ошибкой");
 		}
 
 		[TestCase("")]
 		[TestCase(" ")]
 		public void CreateProjectEmptyNameTest(string projectName)
 		{
-			_projectsPage.ClickCreateProjectDialog();
-			_createProjectHelper
+			_projectsPage.ClickCreateProjectButton();
+
+			_newProjectGeneralInformationDialog
 				.FillGeneralProjectInformation(projectName)
-				.ClickNextOnGeneralProjectInformationPage(errorExpected: true)
-				.AssertErrorNoName();
+				.ClickNextButton<NewProjectGeneralInformationDialog>();
+
+			Assert.IsTrue(_newProjectGeneralInformationDialog.IsEmptyNameErrorMessageDisplayed(),
+				"Произошла ошибка:\n не появилось сообщение о пустом имени проекта");
+
+			Assert.IsTrue(_newProjectGeneralInformationDialog.IsNameInputValidationMarkerDisplayed(),
+				"Произошла ошибка:\n поле 'Название' не отмечено ошибкой");
 		}
 
 		[Test]
 		public void CreateProjectTwoWordsNameTest()
 		{
 			var projectUniqueName = _createProjectHelper.GetProjectUniqueName() + " " + "SpacePlusSymbols";
+
 			_createProjectHelper.CreateNewProject(projectUniqueName);
 
 			Assert.IsTrue(_projectsPage.IsProjectAppearInList(projectUniqueName),
@@ -163,10 +184,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 		[Test]
 		public void DeleteDocumentFromProject()
 		{
-			var projectUniqueName = _createProjectHelper.GetProjectUniqueName();
 			_createProjectHelper
-				.CreateNewProject(projectUniqueName)
-				.GoToProjectSettingsPage(projectUniqueName)
+				.CreateNewProject(_projectUniqueName)
+				.GoToProjectSettingsPage(_projectUniqueName)
 				.UploadDocument(PathProvider.DocumentFile)
 				.DeleteDocument(Path.GetFileNameWithoutExtension(PathProvider.DocumentFile));
 		}
@@ -174,23 +194,32 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 		[Test]
 		public void CancelCreateProjectOnFirstStepTest()
 		{
-			_projectsPage.ClickCreateProjectDialog();
-			_createProjectHelper.CancelCreateProject();
+			_projectsPage.ClickCreateProjectButton();
+
+			_newProjectGeneralInformationDialog.CancelCreateProject();
 		}
 
 		[Test]
 		public void DeleteFileFromWizard()
 		{
-			_projectsPage.ClickCreateProjectDialog();
-			_createProjectHelper
-				.AddFileFromWizard(PathProvider.DocumentFile)
-				.DeleteFileFromWizard(PathProvider.DocumentFile);
+			_projectsPage.ClickCreateProjectButton();
+
+			_newProjectGeneralInformationDialog
+				.UploadFile(PathProvider.DocumentFile)
+				.ClickDeleteFile(PathProvider.DocumentFile);
+
+			Assert.IsTrue(_newProjectGeneralInformationDialog.IsFileDeleted(PathProvider.DocumentFile),
+				"Произошла ошибка:\n файл {0} не удалился.", PathProvider.DocumentFile);
 		}
 
-		private CreateProjectHelper _createProjectHelper;
+		private string _projectUniqueName;
 		private const string _longName = "12345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890";
+
 		private WorkspaceHelper _workspaceHelper;
+		private CreateProjectHelper _createProjectHelper;
+
 		private ProjectsPage _projectsPage;
 		private DeleteDialog _deleteDialog;
+		private NewProjectGeneralInformationDialog _newProjectGeneralInformationDialog;
 	}
 }

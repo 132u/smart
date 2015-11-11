@@ -10,6 +10,7 @@ using AbbyyLS.SmartCAT.Selenium.Tests.FeatureAttributes;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.DocumentUploadDialog;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Login;
+using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.UsersRights;
 using AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers;
 
@@ -36,6 +37,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 			_taskAssignmentPage = new TaskAssignmentPage(Driver);
 			_usersRightsPage = new UsersRightsPage(Driver);
 			_projectsPage = new ProjectsPage(Driver);
+			_newProjectSetUpWorkflowDialog = new NewProjectSetUpWorkflowDialog(Driver);
+			_newProjectGeneralInformationDialog = new NewProjectGeneralInformationDialog(Driver);
 		}
 
 		[TearDown]
@@ -214,12 +217,15 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 		[Standalone]
 		public void AssignUserFewTasksTest()
 		{
-			_projectsPage.ClickCreateProjectDialog();
-			_createProjectHelper
+			_projectsPage.ClickCreateProjectButton();
+
+			_newProjectGeneralInformationDialog
 				.FillGeneralProjectInformation(_projectUniqueName, PathProvider.EditorTxtFile)
-				.ClickNextOnGeneralProjectInformationPage()
+				.ClickNextButton<NewProjectSetUpWorkflowDialog>();
+
+			_newProjectSetUpWorkflowDialog
 				.ClickNewTaskButton()
-				.ClickFinishOnProjectSetUpWorkflowDialog();
+				.ClickFinishButton();
 
 			_projectsPage
 				.WaitUntilProjectLoadSuccessfully(_projectUniqueName)
@@ -393,5 +399,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 		private TaskAssignmentPage _taskAssignmentPage;
 		private UsersRightsPage _usersRightsPage;
 		private ProjectsPage _projectsPage;
+		private NewProjectSetUpWorkflowDialog _newProjectSetUpWorkflowDialog;
+		private NewProjectGeneralInformationDialog _newProjectGeneralInformationDialog;
 	}
 }

@@ -24,62 +24,11 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 
 		public new void LoadPage()
 		{
-			if (!Driver.WaitUntilElementIsDisplay(By.XPath(CREATE_TM_BTN)))
+			if (!IsNewProjectSetUpTMDialogOpened())
 			{
-				Assert.Fail("Произошла ошибка:\n не удалось перейти к следующему шагу создания проекта (выбор ТМ).");
+				throw new XPathLookupException(
+					"Произошла ошибка:\n не удалось перейти к следующему шагу создания проекта (выбор ТМ)");
 			}
-		}
-		/// <summary>
-		/// Проверить, что ТМ представлена в списке при создании проекта
-		/// </summary>
-		public NewProjectSetUpTMDialog AssertTranslationMemoryExist(string translationMemoryName)
-		{
-			CustomTestContext.WriteLine("Проверить, что ТМ {0} представлена в списке при создании проекта.", translationMemoryName);
-			TranslationMemoryItem = Driver.SetDynamicValue(How.XPath, TM_ITEM, translationMemoryName);
-
-			Assert.IsTrue(TranslationMemoryItem.Enabled,
-				"Произошла ошибка:\n ТМ {0} не представлена в списке при создании проекта.", translationMemoryName);
-
-			return GetPage();
-		}
-
-		/// <summary>
-		/// Проверить, что диалог создания TM закрылся
-		/// </summary>
-		public NewProjectSetUpTMDialog AssertNewProjectCreateTMDialogDisappeared()
-		{
-			CustomTestContext.WriteLine("Проверить, что диалог создания TM закрылся");
-
-			Assert.IsTrue(Driver.WaitUntilElementIsDisappeared(By.XPath(NEW_TM_NAME_INPUT)),
-				"Произошла ошибка:\n диалог создания TM не закрылся");
-
-			return GetPage();
-		}
-
-		/// <summary>
-		/// Проверить, что первая ТМ выбрана
-		/// </summary>
-		public NewProjectSetUpTMDialog AssertFirstTMSelected()
-		{
-			CustomTestContext.WriteLine("Проверить, что первая ТМ выбрана.");
-
-			Assert.IsTrue(TMTableFirstItem.Selected,
-				"Произошла ошибка:\n первая ТМ не выбрана.");
-
-			return GetPage();
-		}
-
-		/// <summary>
-		/// Проверить, что ТМ отсутствует при создании проекта
-		/// </summary>
-		public NewProjectSetUpTMDialog AssertTranslationMemoryNotExist(string translationMemoryName)
-		{
-			CustomTestContext.WriteLine("Проверить, что ТМ {0} отсутствует при создании проекта.", translationMemoryName);
-
-			Assert.IsFalse(Driver.GetIsElementExist(By.XPath(TM_ITEM.Replace("*#*", translationMemoryName))),
-				"Произошла ошибка:\n ТМ {0} присутствует при создании проекта.", translationMemoryName);
-
-			return GetPage();
 		}
 
 		/// <summary>
@@ -96,7 +45,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 		/// <summary>
 		/// Выбрать первую ТМ в списке
 		/// </summary>
-		public NewProjectSetUpTMDialog ClickFirstTMRow()
+		public NewProjectSetUpTMDialog SelectFirstTM()
 		{
 			CustomTestContext.WriteLine("Выбрать первую ТМ в списке.");
 			TMTableFirstItem.Click();
@@ -116,13 +65,44 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 		}
 
 		/// <summary>
-		/// Вернуть, что хотя бы одна ТМ существует в таблице
+		/// Проверить, открылся ли шаг выбора TM в диалоге создания проекта
 		/// </summary>
-		public bool FirstTMRowExist()
+		public bool IsNewProjectSetUpTMDialogOpened()
 		{
-			CustomTestContext.WriteLine("Вернуть, что хотя бы одна ТМ существует в таблице.");
+			CustomTestContext.WriteLine("Проверить, открылся ли шаг выбора TM в диалоге создания проекта");
 
-			return Driver.GetIsElementExist(By.XPath(TM_TABLE_FIRST_ITEM));
+			return Driver.WaitUntilElementIsDisplay(By.XPath(CREATE_TM_BTN));
+		}
+
+		/// <summary>
+		/// Проверить, что ТМ представлена в списке при создании проекта
+		/// </summary>
+		public bool IsTranslationMemoryExist(string translationMemoryName)
+		{
+			CustomTestContext.WriteLine("Проверить, что ТМ {0} представлена в списке при создании проекта.", translationMemoryName);
+			TranslationMemoryItem = Driver.SetDynamicValue(How.XPath, TM_ITEM, translationMemoryName);
+
+			return TranslationMemoryItem.Displayed;
+		}
+
+		/// <summary>
+		/// Проверить, что диалог создания TM закрылся
+		/// </summary>
+		public bool IsNewProjectCreateTMDialogDisappeared()
+		{
+			CustomTestContext.WriteLine("Проверить, что диалог создания TM закрылся");
+
+			return Driver.WaitUntilElementIsDisappeared(By.XPath(NEW_TM_NAME_INPUT));
+		}
+
+		/// <summary>
+		/// Проверить, что первая ТМ выбрана
+		/// </summary>
+		public bool IsFirstTMSelected()
+		{
+			CustomTestContext.WriteLine("Проверить, что первая ТМ выбрана");
+
+			return TMTableFirstItem.Selected;
 		}
 
 		[FindsBy(How = How.XPath, Using = CREATE_TM_BTN)]

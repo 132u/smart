@@ -1,5 +1,4 @@
-﻿using NUnit.Framework;
-using OpenQA.Selenium;
+﻿using OpenQA.Selenium;
 using OpenQA.Selenium.Support.PageObjects;
 
 using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
@@ -23,10 +22,21 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 
 		public new void LoadPage()
 		{
-			if (!Driver.WaitUntilElementIsDisplay(By.XPath(MT_TABLE), 8))
+			if (!IsNewProjectSetUpMTDialogOpened())
 			{
-				Assert.Fail("Произошла ошибка:\n не удалось перейти к четвертому шагу создания проекта (выбор МТ).");
+				throw new XPathLookupException(
+					"Произошла ошибка:\n не удалось перейти к четвертому шагу создания проекта (выбор МТ)");
 			}
+		}
+
+		/// <summary>
+		/// Проверить, открылся ли диалог выбора MT (шаг 4 создания проекта)
+		/// </summary>
+		public bool IsNewProjectSetUpMTDialogOpened()
+		{
+			CustomTestContext.WriteLine("Проверить, открылся ли диалог выбора MT (шаг 4 создания проекта)");
+
+			return Driver.WaitUntilElementIsDisplay(By.XPath(MT_TABLE));
 		}
 
 		[FindsBy(How = How.XPath, Using = FINISH_BTN)]

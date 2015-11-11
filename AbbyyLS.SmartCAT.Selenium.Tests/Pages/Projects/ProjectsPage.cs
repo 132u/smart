@@ -62,11 +62,11 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 		}
 
 		/// <summary>
-		/// Открыть диалог создания проекта, нажав кнопку 'Create Project'
+		/// Нажать на кнопку 'Создать проект'
 		/// </summary>
-		public NewProjectGeneralInformationDialog ClickCreateProjectDialog()
+		public NewProjectGeneralInformationDialog ClickCreateProjectButton()
 		{
-			CustomTestContext.WriteLine("Открыть диалог создания проекта, нажав кнопку 'Create Project'");
+			CustomTestContext.WriteLine("Нажать на кнопку 'Создать проект'.");
 			CreateProjectButton.Click();
 
 			return new NewProjectGeneralInformationDialog(Driver).GetPage();

@@ -1,6 +1,4 @@
-﻿using NUnit.Framework;
-
-using OpenQA.Selenium;
+﻿using OpenQA.Selenium;
 using OpenQA.Selenium.Support.PageObjects;
 
 using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
@@ -24,9 +22,10 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 
 		public new void LoadPage()
 		{
-			if (!Driver.WaitUntilElementIsDisplay(By.XPath(CREATE_GLOSSARY_BUTTON), 7))
+			if (!IsNewProjectSelectGlossariesDialogOpened())
 			{
-				Assert.Fail("Произошла ошибка:\n не удалось перейти к третьему шагу создания проекта (выбор глоссария).");
+				throw new XPathLookupException(
+					"Произошла ошибка:\n не удалось перейти к третьему шагу создания проекта (выбор глоссария)");
 			}
 		}
 
@@ -55,13 +54,21 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 		/// <summary>
 		/// Проверить, что выбран первый глоссарий
 		/// </summary>
-		public NewProjectSelectGlossariesDialog AssertFirstGlossarySelected()
+		public bool IsFirstGlossarySelected()
 		{
 			CustomTestContext.WriteLine("Проверить, что выбран первый глоссарий.");
 
-			Assert.IsTrue(FirstGlossaryInput.Selected, "Произошла ошибка:\n первый глоссарий не выбран.");
+			return FirstGlossaryInput.Selected;
+		}
 
-			return GetPage();
+		/// <summary>
+		/// Проверить, открылся ли диалог выбора глоссариев (шаг 3 создания проекта)
+		/// </summary>
+		public bool IsNewProjectSelectGlossariesDialogOpened()
+		{
+			CustomTestContext.WriteLine("Проверить, открылся ли диалог выбора глоссариев (шаг 3 создания проекта)");
+
+			return Driver.WaitUntilElementIsDisplay(By.XPath(CREATE_GLOSSARY_BUTTON));
 		}
 
 		[FindsBy(How = How.XPath, Using = CREATE_GLOSSARY_BUTTON)]

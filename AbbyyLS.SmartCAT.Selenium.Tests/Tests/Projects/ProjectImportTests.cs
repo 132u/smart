@@ -5,6 +5,7 @@ using NUnit.Framework;
 using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
 using AbbyyLS.SmartCAT.Selenium.Tests.FeatureAttributes;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects;
+using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.DocumentUploadDialog;
 using AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers;
 
@@ -22,53 +23,65 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 			_createProjectHelper = new CreateProjectHelper(Driver);
 			_projectUniqueName = _createProjectHelper.GetProjectUniqueName();
 			_documentUploadGeneralInformationDialog = new DocumentUploadGeneralInformationDialog(Driver);
+			_newProjectGeneralInformationDialog = new NewProjectGeneralInformationDialog(Driver);
 			_projectsPage = new ProjectsPage(Driver);
 		}
 
 		[Test]
 		public void ImportUnsupportedFileTest()
 		{
-			_projectsPage.ClickCreateProjectDialog();
-			_createProjectHelper
-				.UploadFileExpectingError(PathProvider.AudioFile)
-				.AssertErrorFormatDocument();
+			_projectsPage.ClickCreateProjectButton();
+
+			_newProjectGeneralInformationDialog.UploadFileExpectingError(PathProvider.AudioFile);
+
+			Assert.IsTrue(_newProjectGeneralInformationDialog.IsWrongDocumentFormatErrorDisplayed(),
+				"Произошла ошибка:\n не появилось сообщение о неверном формате загружаемого документа");
 		}
 
 		[Test]
 		public void ImportSomeFilesTest()
 		{
-			_projectsPage.ClickCreateProjectDialog();
-			_createProjectHelper
+			_projectsPage.ClickCreateProjectButton();
+
+			_newProjectGeneralInformationDialog
 				.UploadFile(PathProvider.DocumentFile)
-				.UploadFile(PathProvider.TtxFile)
-				.AssertNoErrorFormatDocument();
+				.UploadFile(PathProvider.TtxFile);
+
+			Assert.IsFalse(_newProjectGeneralInformationDialog.IsWrongDocumentFormatErrorDisplayed(),
+				"Произошла ошибка:\n появилось сообщение о неверном формате загружаемого документа");
 		}
 
 		[Test]
 		public void ImportTtxFileTest()
 		{
-			_projectsPage.ClickCreateProjectDialog();
-			_createProjectHelper
-				.UploadFile(PathProvider.TtxFile)
-				.AssertNoErrorFormatDocument();
+			_projectsPage.ClickCreateProjectButton();
+
+			_newProjectGeneralInformationDialog.UploadFile(PathProvider.TtxFile);
+
+			Assert.IsFalse(_newProjectGeneralInformationDialog.IsWrongDocumentFormatErrorDisplayed(),
+				"Произошла ошибка:\n появилось сообщение о неверном формате загружаемого документа");
 		}
 
 		[Test]
 		public void ImportTxtFileTest()
 		{
-			_projectsPage.ClickCreateProjectDialog();
-			_createProjectHelper
-				.UploadFile(PathProvider.TxtFile)
-				.AssertNoErrorFormatDocument();
+			_projectsPage.ClickCreateProjectButton();
+
+			_newProjectGeneralInformationDialog.UploadFile(PathProvider.TxtFile);
+
+			Assert.IsFalse(_newProjectGeneralInformationDialog.IsWrongDocumentFormatErrorDisplayed(),
+				"Произошла ошибка:\n появилось сообщение о неверном формате загружаемого документа");
 		}
 
 		[Test]
 		public void ImportSrtFileTest()
 		{
-			_projectsPage.ClickCreateProjectDialog();
-			_createProjectHelper
-				.UploadFile(PathProvider.SrtFile)
-				.AssertNoErrorFormatDocument();
+			_projectsPage.ClickCreateProjectButton();
+
+			_newProjectGeneralInformationDialog.UploadFile(PathProvider.SrtFile);
+
+			Assert.IsFalse(_newProjectGeneralInformationDialog.IsWrongDocumentFormatErrorDisplayed(),
+				"Произошла ошибка:\n появилось сообщение о неверном формате загружаемого документа");
 		}
 
 		[Test]
@@ -98,10 +111,12 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 		}
 
 		private string _projectUniqueName;
+
 		private CreateProjectHelper _createProjectHelper;
 		private WorkspaceHelper _workspaceHelper;
 
 		private DocumentUploadGeneralInformationDialog _documentUploadGeneralInformationDialog;
+		private NewProjectGeneralInformationDialog _newProjectGeneralInformationDialog;
 		private ProjectsPage _projectsPage;
 	}
 }

@@ -2,6 +2,7 @@
 
 using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
 using AbbyyLS.SmartCAT.Selenium.Tests.FeatureAttributes;
+using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.TranslationMemories
 {
@@ -41,12 +42,17 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.TranslationMemories
 				.OpenTranslationMemoryInformation(UniqueTranslationMemoryName)
 				.DeleteTranslationMemory(UniqueTranslationMemoryName)
 				.GoToProjectsPage();
-			ProjectsPage.ClickCreateProjectDialog();
-			CreateProjectHelper
+
+			ProjectsPage.ClickCreateProjectButton();
+
+			NewProjectGeneralInformationDialog
 				.FillGeneralProjectInformation(CreateProjectHelper.GetProjectUniqueName())
-				.ClickNextOnGeneralProjectInformationPage()
-				.ClickNextOnWorkflowPage()
-				.AssertTranslationMemoryNotExist(UniqueTranslationMemoryName);
+				.ClickNextButton<NewProjectSetUpWorkflowDialog>();
+
+			NewProjectSetUpWorkflowDialog.ClickNextButton<NewProjectSetUpTMDialog>();
+
+			Assert.IsFalse(NewProjectSetUpTMDialog.IsTranslationMemoryExist(UniqueTranslationMemoryName),
+				"Произошла ошибка:\n ТМ {0} представлена в списке при создании проекта.", UniqueTranslationMemoryName);
 		}
 
 		private const string _translationMemoryName = "TestTM";

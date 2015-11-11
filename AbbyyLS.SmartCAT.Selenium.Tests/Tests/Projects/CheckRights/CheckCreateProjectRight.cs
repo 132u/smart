@@ -6,6 +6,7 @@ using NUnit.Framework;
 using AbbyyLS.SmartCAT.Selenium.Tests.DataStructures;
 using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects;
+using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.DocumentUploadDialog;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.UsersRights;
 using AbbyyLS.SmartCAT.Selenium.Tests.TestFramework;
@@ -31,6 +32,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects.CheckRights
 			_projectsPage = new ProjectsPage(Driver);
 			_deleteDialog = new DeleteDialog(Driver);
 
+			_newProjectGeneralInformationDialog = new NewProjectGeneralInformationDialog(Driver);
 			_documentUploadGeneralInformationDialog = new DocumentUploadGeneralInformationDialog(Driver);
 			_usersRightsPage = new UsersRightsPage(Driver);
 			_addAccessRightDialog = new AddAccessRightDialog(Driver);
@@ -286,6 +288,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects.CheckRights
 		private string _projectUniqueName;
 
 		private DocumentUploadGeneralInformationDialog _documentUploadGeneralInformationDialog;
+		private NewProjectGeneralInformationDialog _newProjectGeneralInformationDialog;
 		private UsersRightsPage _usersRightsPage;
 		private AddAccessRightDialog _addAccessRightDialog;
 		private ProjectsPage _projectsPage;

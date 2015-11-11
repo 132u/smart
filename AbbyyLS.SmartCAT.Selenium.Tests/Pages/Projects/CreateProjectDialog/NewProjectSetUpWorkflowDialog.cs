@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 
-using NUnit.Framework;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.PageObjects;
 
@@ -27,11 +26,14 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 
 		public new void LoadPage()
 		{
-			if (!Driver.WaitUntilElementIsDisplay(By.XPath(NEW_TASK_BUTTON), 7))
+			if (!IsNewProjectSetUpWorkflowDialogOpened())
 			{
-				Assert.Fail("Произошла ошибка:\n не удалось перейти к этапу Workflow создания проекта.");
+				throw new XPathLookupException(
+					"Произошла ошибка:\n не удалось перейти к этапу Workflow создания проекта.");
 			}
 		}
+
+		#region Простые методы страницы
 
 		/// <summary>
 		/// Нажать на первую задачу в проекте (чтобы выпал выпадающий список с заданиями )
@@ -89,6 +91,18 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 		}
 
 		/// <summary>
+		/// Удалить задачу, нажав на кнопку удаления
+		/// </summary>
+		public NewProjectSetUpWorkflowDialog DeleteWorkflowTask(int taskNumber)
+		{
+			CustomTestContext.WriteLine("Удалить задачу №{0}.", taskNumber);
+			var deleteButton = Driver.SetDynamicValue(How.XPath, DELETE_TASK_BUTTON, taskNumber.ToString());
+			deleteButton.Click();
+
+			return GetPage();
+		}
+
+		/// <summary>
 		/// Получить список опций для задачи
 		/// </summary>
 		public List<string> TaskOptionsList(int taskNumber)
@@ -99,51 +113,104 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 			return workflowList.Select(taskOption => taskOption.Text).ToList();
 		}
 
+		#endregion
+
+		#region Составные методы страницы
+
 		/// <summary>
-		/// Выбрать задачу на этапе Workflow
+		/// Выбрать задачу
 		/// </summary>
-		public NewProjectSetUpWorkflowDialog SelectTask(WorkflowTask workflowTask)
+		/// <param name="task">тип задачи</param>
+		/// <param name="taskNumber">номер задачи</param>
+		public NewProjectSetUpWorkflowDialog SelectWorkflowTask(WorkflowTask task, int taskNumber = 1)
 		{
-			CustomTestContext.WriteLine("Выбрать {0}.", workflowTask);
-			var taskOption = Driver.GetElementList(By.XPath(WORKFLOW_DROPDOWN_LIST)).FirstOrDefault(item => item.Text == workflowTask.ToString());
-			
-			Assert.NotNull(taskOption, "Произошла ошибка:\n {0} задача не найдена, вовзращено значение null.", taskOption);
+			ExpandWorkflowDropdown(taskNumber);
+
+			CustomTestContext.WriteLine("Выбрать {0}.", task);
+			var taskOption = Driver.GetElementList(By.XPath(WORKFLOW_DROPDOWN_LIST)).FirstOrDefault(item => item.Text == task.ToString());
+
+			if (taskOption == null)
+			{
+				throw new XPathLookupException("Произошла ошибка:\n задача не найдена");
+			}
 
 			taskOption.Click();
 
 			return GetPage();
 		}
 
-		/// <summary>
-		/// Нажать кнопку удаления
-		/// </summary>
-		public NewProjectSetUpWorkflowDialog ClickDeleteButton(int taskNumber)
-		{
-			CustomTestContext.WriteLine("Удалить задачу №{0}.", taskNumber);
-			var deleteButton = Driver.SetDynamicValue(How.XPath, DELETE_TASK_BUTTON, taskNumber.ToString());
-			deleteButton.Click();
+		#endregion
 
-			return GetPage();
-		}
+		#region Методы, проверяющие состояние страницы
 
 		/// <summary>
 		/// Проверить, что появилось сообщение 'Select at least one task'
 		/// </summary>
-		public NewProjectSetUpWorkflowDialog AssertEmptyWorkflowErrorDisplayed()
+		public bool IsEmptyWorkflowErrorMessageDisplayed()
 		{
-			CustomTestContext.WriteLine("Проверить, что появилось сообщение 'Select at least one task'.");
+			CustomTestContext.WriteLine("Проверить, что появилось сообщение 'Select at least one task'");
 
-			Assert.IsTrue(Driver.WaitUntilElementIsDisplay(By.XPath(EMPTY_WORKFLOW_ERROR)),
-				"Произошла ошибка:\n Сообщение 'Select at least one task' не появилось.");
-
-			return GetPage();
+			return Driver.WaitUntilElementIsDisplay(By.XPath(EMPTY_WORKFLOW_ERROR));
 		}
-		
+
+		/// <summary>
+		/// Проверить, совпадает ли кол-во задач в дропдауне с ожидаемым на этапе Workflow
+		/// </summary>
+		/// <param name="taskNumber">номер задачи</param>
+		/// <param name="expectedCount">ожидаемое кол-во задач</param>
+		public bool IsTaskOptionsCountMatchExpected(int taskNumber, int expectedCount)
+		{
+			CustomTestContext.WriteLine("Проверить, совпадает ли кол-во задач в дропдауне с ожидаемым на этапе Workflow");
+
+			return expectedCount == TaskOptionsList(taskNumber).Count;
+		}
+
+		/// <summary>
+		/// Проверить, что задача на этапе Workflow соответствует ожидаемой
+		/// </summary>
+		/// <param name="task">ожидаемая задача</param>
+		/// <param name="taskNumber">номер задачи</param>
+		public bool IsWorkflowTaskMatchExpected(WorkflowTask task, int taskNumber)
+		{
+			CustomTestContext.WriteLine("Проверить, что задача №{0} на этапе Workflow - это {1}", taskNumber, task);
+
+			return task.ToString() == WorkflowTaskList()[taskNumber - 1];
+		}
+
+		/// <summary>
+		/// Проверить, что количество задач на этапе Workflow равно ожидаемому
+		/// </summary>
+		/// <param name="taskCount">ожидаемое кол-во задач</param>
+		public bool IsWorkflowTaskCountMatchExpected(int taskCount)
+		{
+			CustomTestContext.WriteLine("Проверить, что количество задач на этапе Workflow = {0}", taskCount);
+
+			return taskCount == WorkflowTaskList().Count;
+		}
+
+		/// <summary>
+		/// Проверить, открыт ли этап Workflow диалога создания проекта
+		/// </summary>
+		public bool IsNewProjectSetUpWorkflowDialogOpened()
+		{
+			CustomTestContext.WriteLine("Проверить, открыт ли этап Workflow диалога создания проекта");
+
+			return Driver.WaitUntilElementIsDisplay(By.XPath(NEW_TASK_BUTTON));
+		}
+
+		#endregion
+
+		#region Объявление элементов страницы
+
 		[FindsBy(How = How.XPath, Using = WF_TABLE_FIRST_TASK)]
 		protected IWebElement WFTableFirstTask { get; set; }
 		
 		[FindsBy(How = How.XPath, Using = NEW_TASK_BUTTON)]
 		protected IWebElement NewTaskButton { get; set; }
+
+		#endregion
+
+		#region Описания XPath элементов
 
 		protected const string WF_TABLE_FIRST_TASK = "//div[contains(@class,'js-popup-create-project')][2]//table[contains(@class,'js-workflow-table')]//tr[1]/td[2]//span//span";
 		protected const string NEW_TASK_BUTTON = "//div[contains(@class,'js-popup-create-project')][2]//div[contains(@class,'js-new-stage')]";
@@ -152,5 +219,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 		protected const string WORKFLOW_DROPDOWN_LIST = "//span[contains(@class,'js-dropdown__item')]";
 		protected const string DELETE_TASK_BUTTON = "//div[contains(@class,'js-popup-create-project')][2]//tr[*#*]//a[contains(@class,'js-delete-workflow')]";
 		protected const string EMPTY_WORKFLOW_ERROR = "//div[contains(@class,'js-popup-create-project')][2]//p[contains(@class,'js-error-workflow-empty')]";
+
+		#endregion
 	}
 }

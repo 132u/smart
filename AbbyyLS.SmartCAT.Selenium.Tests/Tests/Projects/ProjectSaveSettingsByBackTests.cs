@@ -4,6 +4,7 @@ using AbbyyLS.SmartCAT.Selenium.Tests.DataStructures;
 using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
 using AbbyyLS.SmartCAT.Selenium.Tests.FeatureAttributes;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects;
+using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog;
 using AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
@@ -16,6 +17,12 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 		{
 			_workspaceHelper = new WorkspaceHelper(Driver);
 			_createProjectHelper = new CreateProjectHelper(Driver);
+			_newProjectSelectGlossariesDialog = new NewProjectSelectGlossariesDialog(Driver);
+			_newProjectGeneralInformationDialog = new NewProjectGeneralInformationDialog(Driver);
+			_newProjectSetUpTMDialog = new NewProjectSetUpTMDialog(Driver);
+			_newProjectSetUpPretranslationDialog = new NewProjectSetUpPretranslationDialog(Driver);
+			_newProjectSetUpWorkflowDialog = new NewProjectSetUpWorkflowDialog(Driver);
+
 			_projectsPage = new ProjectsPage(Driver);
 			_workspaceHelper.GoToProjectsPage();
 			_projectUniqueName = _createProjectHelper.GetProjectUniqueName();
@@ -26,98 +33,152 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 		{
 			var deadlineDate = "11/28/2015";
 
-			_projectsPage.ClickCreateProjectDialog();
-			_createProjectHelper
+			_projectsPage.ClickCreateProjectButton();
+
+			_newProjectGeneralInformationDialog
 				.FillGeneralProjectInformation(
 					_projectUniqueName,
 					sourceLanguage: Language.Japanese,
 					targetLanguage: Language.Lithuanian,
 					deadline: Deadline.FillDeadlineDate,
 					date: deadlineDate)
-				.ClickNextOnGeneralProjectInformationPage()
-				.ClickBackButtonOnWorkflowStep()
-				.AssertProjectNameMatch(_projectUniqueName)
-				.AssertDeadlineDateMatch(deadlineDate)
-				.AssertSourceLanguageMatch(Language.Japanese)
-				.AssertTargetLanguageMatch(Language.Lithuanian);
+				.ClickNextButton<NewProjectSetUpWorkflowDialog>();
+
+			_newProjectSetUpWorkflowDialog.ClickBackButton<NewProjectGeneralInformationDialog>();
+
+			Assert.IsTrue(_newProjectGeneralInformationDialog.IsProjectNameMatchExpected(_projectUniqueName),
+				"Произошла ошибка:\n имя проекта не совпадает с ожидаемым");
+
+			Assert.IsTrue(_newProjectGeneralInformationDialog.IsDeadlineDateMatchExpected(deadlineDate),
+				"Произошла ошибка:\n в дэдлайне указана неверная дата");
+
+			Assert.IsTrue(_newProjectGeneralInformationDialog.IsSourceLanguageMatchExpected(Language.Japanese),
+				"Произошла ошибка:\n в сорс-языке указан неправильный язык");
+
+			Assert.IsTrue(_newProjectGeneralInformationDialog.IsTargetLanguageMatchExpected(Language.Lithuanian),
+				"Произошла ошибка:\n в таргет-языке указан неправильный язык");
 		}
 
 		[Test, Standalone]
 		public void BackFromGlossarySetUpStepTest()
 		{
-			_projectsPage.ClickCreateProjectDialog();
-			_createProjectHelper
+			_projectsPage.ClickCreateProjectButton();
+
+			_newProjectGeneralInformationDialog
 				.FillGeneralProjectInformation(_projectUniqueName)
-				.ClickNextOnGeneralProjectInformationPage()
-				.ClickNextOnWorkflowPage()
+				.ClickNextButton<NewProjectSetUpWorkflowDialog>();
+
+			_newProjectSetUpWorkflowDialog.ClickNextButton<NewProjectSetUpTMDialog>();
+
+			_newProjectSetUpTMDialog
 				.SelectFirstTM()
-				.ClickNextButtonOnTMStep()
-				.ClickBackButtonOnGlossaryStep()
-				.AssertFirstTMSelected();
+				.ClickNextButton<NewProjectSelectGlossariesDialog>();
+
+			_newProjectSelectGlossariesDialog.ClickBackButton<NewProjectSetUpTMDialog>();
+
+			Assert.IsTrue(_newProjectSetUpTMDialog.IsFirstTMSelected(),
+				"Произошла ошибка:\n первая ТМ не выбрана");
 		}
 
 		[Test, Standalone]
 		public void BackFromWorkflowToTMStepTest()
 		{
-			_projectsPage.ClickCreateProjectDialog();
-			_createProjectHelper
+			_projectsPage.ClickCreateProjectButton();
+
+			_newProjectGeneralInformationDialog
 				.FillGeneralProjectInformation(_projectUniqueName)
-				.ClickNextOnGeneralProjectInformationPage()
-				.ClickNextOnWorkflowPage()
+				.ClickNextButton<NewProjectSetUpWorkflowDialog>();
+
+			_newProjectSetUpWorkflowDialog.ClickNextButton<NewProjectSetUpTMDialog>();
+
+			_newProjectSetUpTMDialog
 				.SelectFirstTM()
-				.ClickBackButtonOnTMStep()
-				.ClickNextOnWorkflowPage()
-				.AssertFirstTMSelected();
+				.ClickBackButton<NewProjectSetUpWorkflowDialog>();
+
+			_newProjectSetUpWorkflowDialog.ClickNextButton<NewProjectSetUpTMDialog>();
+
+			Assert.IsTrue(_newProjectSetUpTMDialog.IsFirstTMSelected(),
+				"Произошла ошибка:\n первая ТМ не выбрана");
 		}
 
 		[Test, Standalone]
 		public void BackFormPretranslateStepTest()
 		{
-			_projectsPage.ClickCreateProjectDialog();
-			_createProjectHelper
+			_projectsPage.ClickCreateProjectButton();
+
+			_newProjectGeneralInformationDialog
 				.FillGeneralProjectInformation(_projectUniqueName)
-				.ClickNextOnGeneralProjectInformationPage()
-				.ClickNextOnWorkflowPage()
+				.ClickNextButton<NewProjectSetUpWorkflowDialog>();
+
+			_newProjectSetUpWorkflowDialog.ClickNextButton<NewProjectSetUpTMDialog>();
+
+			_newProjectSetUpTMDialog
 				.SelectFirstTM()
-				.ClickNextButtonOnTMStep()
-				.SelectFirstGlossary()
-				.ClickNextOnSelectGlossaryStep()
-				.ClickBackButtonOnPreranslationStep()
-				.AssertFirstGlossarySelected();
+				.ClickNextButton<NewProjectSelectGlossariesDialog>();
+
+			_newProjectSelectGlossariesDialog
+				.ClickFirstGlossary()
+				.ClickNextButton<NewProjectSetUpPretranslationDialog>();
+
+			_newProjectSetUpPretranslationDialog.ClickBackButton<NewProjectSelectGlossariesDialog>();
+
+			Assert.IsTrue(_newProjectSelectGlossariesDialog.IsFirstGlossarySelected(),
+				"Произошла ошибка:\n первый глоссарий не выбран");
 		}
 
 		[Test, Standalone]
 		public void BackToGlossaryStepFromTMStepTest()
 		{
-			_projectsPage.ClickCreateProjectDialog();
-			_createProjectHelper
+			_projectsPage.ClickCreateProjectButton();
+
+			_newProjectGeneralInformationDialog
 				.FillGeneralProjectInformation(_projectUniqueName)
-				.ClickNextOnGeneralProjectInformationPage()
-				.ClickNextOnWorkflowPage()
+				.ClickNextButton<NewProjectSetUpWorkflowDialog>();
+
+			_newProjectSetUpWorkflowDialog.ClickNextButton<NewProjectSetUpTMDialog>();
+
+			_newProjectSetUpTMDialog
 				.SelectFirstTM()
-				.ClickNextButtonOnTMStep()
-				.SelectFirstGlossary()
-				.ClickBackButtonOnGlossaryStep()
-				.ClickNextButtonOnTMStep()
-				.AssertFirstGlossarySelected();
+				.ClickNextButton<NewProjectSelectGlossariesDialog>();
+
+			_newProjectSelectGlossariesDialog
+				.ClickFirstGlossary()
+				.ClickBackButton<NewProjectSetUpTMDialog>();
+
+			_newProjectSetUpTMDialog.ClickNextButton<NewProjectSelectGlossariesDialog>();
+
+			Assert.IsTrue(_newProjectSelectGlossariesDialog.IsFirstGlossarySelected(),
+				"Произошла ошибка:\n первый глоссарий не выбран");
 		}
 
 		[Test]
 		public void BackToChooseWorkflowTaskStepFromGeneraProjectInformationTest()
 		{
-			_projectsPage.ClickCreateProjectDialog();
-			_createProjectHelper
+			_projectsPage.ClickCreateProjectButton();
+
+			_newProjectGeneralInformationDialog
 				.FillGeneralProjectInformation(_projectUniqueName)
-				.ClickNextOnGeneralProjectInformationPage()
+				.ClickNextButton<NewProjectSetUpWorkflowDialog>();
+
+			_newProjectSetUpWorkflowDialog
 				.SelectWorkflowTask(WorkflowTask.Editing)
-				.ClickBackButtonOnWorkflowStep()
-				.ClickNextOnGeneralProjectInformationPage()
-				.AssertWorkflowTaskMatch(WorkflowTask.Editing, taskNumber: 1);
+				.ClickBackButton<NewProjectGeneralInformationDialog>();
+
+			_newProjectGeneralInformationDialog.ClickNextButton<NewProjectSetUpWorkflowDialog>();
+
+			Assert.IsTrue(_newProjectSetUpWorkflowDialog.IsWorkflowTaskMatchExpected(
+				WorkflowTask.Editing, taskNumber: 1), "Произошла ошибка:\n задача не соответствует ожидаемой");
 		}
 
 		private string _projectUniqueName;
+
 		private CreateProjectHelper _createProjectHelper;
 		private WorkspaceHelper _workspaceHelper;
 		private ProjectsPage _projectsPage;
+		private NewProjectGeneralInformationDialog _newProjectGeneralInformationDialog;
+		private NewProjectSelectGlossariesDialog _newProjectSelectGlossariesDialog;
+		private NewProjectSetUpTMDialog _newProjectSetUpTMDialog;
+		private NewProjectSetUpPretranslationDialog _newProjectSetUpPretranslationDialog;
+		private NewProjectSetUpWorkflowDialog _newProjectSetUpWorkflowDialog;
 	}
 }

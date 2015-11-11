@@ -2,6 +2,7 @@
 
 using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects;
+using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog;
 using AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.TranslationMemories
@@ -15,6 +16,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.TranslationMemories
 			UniqueTranslationMemoryName = TranslationMemoriesHelper.GetTranslationMemoryUniqueName();
 			TranslationMemoriesHelper = _workspaceHelper.GoToTranslationMemoriesPage();
 			CreateProjectHelper = new CreateProjectHelper(Driver);
+			NewProjectSetUpWorkflowDialog = new NewProjectSetUpWorkflowDialog(Driver);
+			NewProjectSetUpTMDialog = new NewProjectSetUpTMDialog(Driver);
+			NewProjectGeneralInformationDialog = new NewProjectGeneralInformationDialog(Driver);
 		}
 
 		public string UniqueTranslationMemoryName { get; set; }
@@ -22,6 +26,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.TranslationMemories
 		public TranslationMemoriesHelper TranslationMemoriesHelper { get; private set; }
 		public CreateProjectHelper CreateProjectHelper;
 		public ProjectsPage ProjectsPage;
+		public NewProjectSetUpWorkflowDialog NewProjectSetUpWorkflowDialog;
+		public NewProjectSetUpTMDialog NewProjectSetUpTMDialog;
+		public NewProjectGeneralInformationDialog NewProjectGeneralInformationDialog;
 		private WorkspaceHelper _workspaceHelper;
 	}
 }

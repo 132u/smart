@@ -4,6 +4,7 @@ using AbbyyLS.SmartCAT.Selenium.Tests.DataStructures;
 using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
 using AbbyyLS.SmartCAT.Selenium.Tests.FeatureAttributes;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects;
+using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog;
 using AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
@@ -18,32 +19,46 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 		{
 			_createProjectHelper = new CreateProjectHelper(Driver);
 			_projectsPage = new ProjectsPage(Driver);
+			_newProjectSetUpWorkflowDialog = new NewProjectSetUpWorkflowDialog(Driver);
+			_newProjectSetUpTMDialog = new NewProjectSetUpTMDialog(Driver);
+			_newProjectGeneralInformationDialog = new NewProjectGeneralInformationDialog(Driver);
 			_projectUniqueName = _createProjectHelper.GetProjectUniqueName();
 		}
 
 		[Test]
 		public void DefaultTaskType()
 		{
-			_projectsPage.ClickCreateProjectDialog();
-			_createProjectHelper
+			_projectsPage.ClickCreateProjectButton();
+
+			_newProjectGeneralInformationDialog
 				.FillGeneralProjectInformation(_projectUniqueName)
-				.ClickNextOnGeneralProjectInformationPage()
-				.AssertWorkflowTaskCountMatch(taskCount: 1)
-				.AssertWorkflowTaskMatch(task: WorkflowTask.Translation, taskNumber: 1);
+				.ClickNextButton<NewProjectSetUpWorkflowDialog>();
+
+			Assert.IsTrue(_newProjectSetUpWorkflowDialog.IsWorkflowTaskCountMatchExpected(taskCount: 1),
+				"Произошла ошибка:\n неверное количество задач");
+
+			Assert.IsTrue(_newProjectSetUpWorkflowDialog.IsWorkflowTaskMatchExpected(
+				WorkflowTask.Translation, taskNumber: 1), "Произошла ошибка:\n задача не соответствует ожидаемой");
 		}
 
 		[Test]
 		public void ChangeTaskType()
 		{
-			_projectsPage.ClickCreateProjectDialog();
+			_projectsPage.ClickCreateProjectButton();
 
-			_createProjectHelper
+			_newProjectGeneralInformationDialog
 				.FillGeneralProjectInformation(_projectUniqueName)
-				.ClickNextOnGeneralProjectInformationPage()
-				.SelectWorkflowTask(WorkflowTask.Editing)
-				.AssertWorkflowTaskCountMatch(taskCount: 1)
-				.AssertWorkflowTaskMatch(task: WorkflowTask.Editing, taskNumber: 1)
-				.ClickFinishOnProjectSetUpWorkflowDialog();
+				.ClickNextButton<NewProjectSetUpWorkflowDialog>();
+
+			_newProjectSetUpWorkflowDialog.SelectWorkflowTask(WorkflowTask.Editing);
+
+			Assert.IsTrue(_newProjectSetUpWorkflowDialog.IsWorkflowTaskCountMatchExpected(taskCount: 1),
+				"Произошла ошибка:\n неверное количество задач");
+
+			Assert.IsTrue(_newProjectSetUpWorkflowDialog.IsWorkflowTaskMatchExpected(
+				WorkflowTask.Editing, taskNumber: 1), "Произошла ошибка:\n задача не соответствует ожидаемой");
+
+			_newProjectSetUpWorkflowDialog.ClickFinishButton();
 
 			_projectsPage.WaitUntilProjectLoadSuccessfully(_projectUniqueName);
 
@@ -57,26 +72,33 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 		[Test]
 		public void NewTaskTypesOnCreate()
 		{
-			_projectsPage.ClickCreateProjectDialog();
-			_createProjectHelper
+			_projectsPage.ClickCreateProjectButton();
+
+			_newProjectGeneralInformationDialog
 				.FillGeneralProjectInformation(_projectUniqueName)
-				.ClickNextOnGeneralProjectInformationPage()
+				.ClickNextButton<NewProjectSetUpWorkflowDialog>();
+
+			_newProjectSetUpWorkflowDialog
 				.ClickNewTaskButton()
-				.ExpandWorkflowDropdown(taskNumber: 2)
-				.AssertTaskOptionsCountMatch(taskNumber: 2, count: 4);
+				.ExpandWorkflowDropdown(taskNumber: 2);
+
+			Assert.IsTrue(_newProjectSetUpWorkflowDialog.IsTaskOptionsCountMatchExpected(taskNumber: 2, expectedCount: 4),
+				"Произошла ошибка:\n неверное количество задач в дропдауне на этапе Workflow");
 		}
 
 		[Test]
 		public void NewTask()
 		{
-			_projectsPage.ClickCreateProjectDialog();
+			_projectsPage.ClickCreateProjectButton();
 
-			_createProjectHelper
+			_newProjectGeneralInformationDialog
 				.FillGeneralProjectInformation(_projectUniqueName)
-				.ClickNextOnGeneralProjectInformationPage()
+				.ClickNextButton<NewProjectSetUpWorkflowDialog>();
+
+			_newProjectSetUpWorkflowDialog
 				.ClickNewTaskButton()
 				.SelectWorkflowTask(WorkflowTask.Proofreading, 2)
-				.ClickFinishOnProjectSetUpWorkflowDialog();
+				.ClickFinishButton();
 
 			_projectsPage.WaitUntilProjectLoadSuccessfully(_projectUniqueName);
 
@@ -94,14 +116,17 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 		[TestCase(WorkflowTask.Postediting)]
 		public void NewTaskSameType(WorkflowTask task)
 		{
-			_projectsPage.ClickCreateProjectDialog();
-			_createProjectHelper
+			_projectsPage.ClickCreateProjectButton();
+
+			_newProjectGeneralInformationDialog
 				.FillGeneralProjectInformation(_projectUniqueName)
-				.ClickNextOnGeneralProjectInformationPage()
+				.ClickNextButton<NewProjectSetUpWorkflowDialog>();
+
+			_newProjectSetUpWorkflowDialog
 				.SelectWorkflowTask(task, 1)
 				.ClickNewTaskButton()
 				.SelectWorkflowTask(task, 2)
-				.ClickFinishOnProjectSetUpWorkflowDialog();
+				.ClickFinishButton();
 
 			_projectsPage.WaitUntilProjectLoadSuccessfully(_projectUniqueName);
 
@@ -116,11 +141,13 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 		[Test]
 		public void AddTaskForExistingProject()
 		{
-			_projectsPage.ClickCreateProjectDialog();
-			_createProjectHelper
+			_projectsPage.ClickCreateProjectButton();
+
+			_newProjectGeneralInformationDialog
 				.FillGeneralProjectInformation(_projectUniqueName)
-				.ClickNextOnGeneralProjectInformationPage()
-				.ClickFinishOnProjectSetUpWorkflowDialog();
+				.ClickNextButton<NewProjectSetUpWorkflowDialog>();
+
+			_newProjectSetUpWorkflowDialog.ClickFinishButton();
 
 			_projectsPage.WaitUntilProjectLoadSuccessfully(_projectUniqueName);
 
@@ -138,11 +165,13 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 		[Test]
 		public void CancelAddingTask()
 		{
-			_projectsPage.ClickCreateProjectDialog();
-			_createProjectHelper
+			_projectsPage.ClickCreateProjectButton();
+
+			_newProjectGeneralInformationDialog
 				.FillGeneralProjectInformation(_projectUniqueName)
-				.ClickNextOnGeneralProjectInformationPage()
-				.ClickFinishOnProjectSetUpWorkflowDialog();
+				.ClickNextButton<NewProjectSetUpWorkflowDialog>();
+
+			_newProjectSetUpWorkflowDialog.ClickFinishButton();
 
 			_projectsPage.WaitUntilProjectLoadSuccessfully(_projectUniqueName);
 
@@ -159,27 +188,37 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 		[Test]
 		public void ChangeTaskTypeOnProjectCreate()
 		{
-			_projectsPage.ClickCreateProjectDialog();
-			_createProjectHelper
+			_projectsPage.ClickCreateProjectButton();
+
+			_newProjectGeneralInformationDialog
 				.FillGeneralProjectInformation(_projectUniqueName)
-				.ClickNextOnGeneralProjectInformationPage()
+				.ClickNextButton<NewProjectSetUpWorkflowDialog>();
+
+			_newProjectSetUpWorkflowDialog
 				.ClickNewTaskButton()
 				.SelectWorkflowTask(WorkflowTask.Proofreading, taskNumber: 2)
-				.DeleteWorkflowTask(taskNumber: 1)
-				.AssertWorkflowTaskCountMatch(taskCount: 1)
-				.AssertWorkflowTaskMatch(WorkflowTask.Proofreading, taskNumber: 1);
+				.DeleteWorkflowTask(taskNumber: 1);
+
+			Assert.IsTrue(_newProjectSetUpWorkflowDialog.IsWorkflowTaskCountMatchExpected(taskCount: 1),
+				"Произошла ошибка:\n неверное количество задач");
+
+			Assert.IsTrue(_newProjectSetUpWorkflowDialog.IsWorkflowTaskMatchExpected(
+				WorkflowTask.Proofreading, taskNumber: 1), "Произошла ошибка:\n задача не соответствует ожидаемой");
 		}
 
 		[Test]
 		public void DeleteTaskOnExistingProject()
 		{
-			_projectsPage.ClickCreateProjectDialog();
-			_createProjectHelper
+			_projectsPage.ClickCreateProjectButton();
+
+			_newProjectGeneralInformationDialog
 				.FillGeneralProjectInformation(_projectUniqueName)
-				.ClickNextOnGeneralProjectInformationPage()
+				.ClickNextButton<NewProjectSetUpWorkflowDialog>();
+
+			_newProjectSetUpWorkflowDialog
 				.ClickNewTaskButton()
 				.SelectWorkflowTask(WorkflowTask.Proofreading, 2)
-				.ClickFinishOnProjectSetUpWorkflowDialog();
+				.ClickFinishButton();
 
 			_projectsPage.WaitUntilProjectLoadSuccessfully(_projectUniqueName);
 
@@ -198,25 +237,33 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 		[Test]
 		public void DeleteAllTasksOnCreate()
 		{
-			_projectsPage.ClickCreateProjectDialog();
-			_createProjectHelper
+			_projectsPage.ClickCreateProjectButton();
+
+			_newProjectGeneralInformationDialog
 				.FillGeneralProjectInformation(_projectUniqueName)
-				.ClickNextOnGeneralProjectInformationPage()
+				.ClickNextButton<NewProjectSetUpWorkflowDialog>();
+
+			_newProjectSetUpWorkflowDialog
 				.DeleteWorkflowTask(taskNumber: 1)
-				.ClickNextOnWorkflowPage(errorExpected: true)
-				.AssertEmptyWorkflowErrorDisplayed();
+				.ClickNextButton<NewProjectSetUpWorkflowDialog>();
+
+			Assert.IsTrue(_newProjectSetUpWorkflowDialog.IsEmptyWorkflowErrorMessageDisplayed(),
+				"Произошла ошибка:\n Сообщение 'Select at least one task' не появилось");
 		}
 
 		[Test]
 		public void CancelDeleteTaskInExistingProject()
 		{
-			_projectsPage.ClickCreateProjectDialog();
-			_createProjectHelper
+			_projectsPage.ClickCreateProjectButton();
+
+			_newProjectGeneralInformationDialog
 				.FillGeneralProjectInformation(_projectUniqueName)
-				.ClickNextOnGeneralProjectInformationPage()
+				.ClickNextButton<NewProjectSetUpWorkflowDialog>();
+
+			_newProjectSetUpWorkflowDialog
 				.ClickNewTaskButton()
 				.SelectWorkflowTask(WorkflowTask.Proofreading, 2)
-				.ClickFinishOnProjectSetUpWorkflowDialog();
+				.ClickFinishButton();
 
 			_projectsPage.WaitUntilProjectLoadSuccessfully(_projectUniqueName);
 
@@ -234,11 +281,12 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 		[Test]
 		public void ChangeTaskInExistingProject()
 		{
-			_projectsPage.ClickCreateProjectDialog();
-			_createProjectHelper
+			_projectsPage.ClickCreateProjectButton();
+
+			_newProjectGeneralInformationDialog
 				.FillGeneralProjectInformation(_projectUniqueName)
-				.ClickNextOnGeneralProjectInformationPage()
-				.ClickFinishOnProjectSetUpWorkflowDialog();
+				.ClickNextButton<NewProjectSetUpWorkflowDialog>()
+				.ClickFinishButton();
 
 			_projectsPage.WaitUntilProjectLoadSuccessfully(_projectUniqueName);
 
@@ -255,37 +303,62 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 		[Test]
 		public void BackOnCreate()
 		{
-			_projectsPage.ClickCreateProjectDialog();
-			_createProjectHelper
+			_projectsPage.ClickCreateProjectButton();
+
+			_newProjectGeneralInformationDialog
 				.FillGeneralProjectInformation(_projectUniqueName)
-				.ClickNextOnGeneralProjectInformationPage()
+				.ClickNextButton<NewProjectSetUpWorkflowDialog>();
+
+			_newProjectSetUpWorkflowDialog
 				.ClickNewTaskButton()
 				.SelectWorkflowTask(WorkflowTask.Proofreading, 2)
-				.ClickNextOnWorkflowPage()
-				.ClickBackButtonOnTMStep()
-				.AssertWorkflowTaskCountMatch(2)
-				.AssertWorkflowTaskMatch(WorkflowTask.Translation, taskNumber: 1)
-				.AssertWorkflowTaskMatch(WorkflowTask.Proofreading, taskNumber: 2);
+				.ClickNextButton<NewProjectSetUpTMDialog>();
+
+			_newProjectSetUpTMDialog.ClickBackButton<NewProjectSetUpWorkflowDialog>();
+
+			Assert.IsTrue(_newProjectSetUpWorkflowDialog.IsWorkflowTaskCountMatchExpected(taskCount: 2),
+				"Произошла ошибка:\n неверное количество задач");
+
+			Assert.IsTrue(_newProjectSetUpWorkflowDialog.IsWorkflowTaskMatchExpected(
+				WorkflowTask.Translation, taskNumber: 1), "Произошла ошибка:\n задача не соответствует ожидаемой");
+
+			Assert.IsTrue(_newProjectSetUpWorkflowDialog.IsWorkflowTaskMatchExpected(
+				WorkflowTask.Proofreading, taskNumber: 2), "Произошла ошибка:\n задача не соответствует ожидаемой");
 		}
 
 		[Test]
 		public void AddingTaskAfterBack()
 		{
-			_projectsPage.ClickCreateProjectDialog();
-			_createProjectHelper
+			_projectsPage.ClickCreateProjectButton();
+
+			_newProjectGeneralInformationDialog
 				.FillGeneralProjectInformation(_projectUniqueName)
-				.ClickNextOnGeneralProjectInformationPage()
+				.ClickNextButton<NewProjectSetUpWorkflowDialog>();
+
+			_newProjectSetUpWorkflowDialog
 				.ClickNewTaskButton()
 				.SelectWorkflowTask(WorkflowTask.Proofreading, 2)
-				.ClickNextOnWorkflowPage()
-				.ClickBackButtonOnTMStep()
+				.ClickNextButton<NewProjectSetUpTMDialog>();
+
+			_newProjectSetUpTMDialog.ClickBackButton<NewProjectSetUpWorkflowDialog>();
+
+			_newProjectSetUpWorkflowDialog
 				.ClickNewTaskButton()
-				.SelectWorkflowTask(WorkflowTask.Editing, 3)
-				.AssertWorkflowTaskCountMatch(3)
-				.AssertWorkflowTaskMatch(WorkflowTask.Translation, taskNumber: 1)
-				.AssertWorkflowTaskMatch(WorkflowTask.Proofreading, taskNumber: 2)
-				.AssertWorkflowTaskMatch(WorkflowTask.Editing, taskNumber: 3)
-				.ClickFinishOnProjectSetUpWorkflowDialog();
+				.SelectWorkflowTask(WorkflowTask.Editing, 3);
+
+			Assert.IsTrue(_newProjectSetUpWorkflowDialog.IsWorkflowTaskCountMatchExpected(taskCount: 3),
+				"Произошла ошибка:\n неверное количество задач");
+
+			Assert.IsTrue(_newProjectSetUpWorkflowDialog.IsWorkflowTaskMatchExpected(
+				WorkflowTask.Translation, taskNumber: 1), "Произошла ошибка:\n задача не соответствует ожидаемой");
+
+			Assert.IsTrue(_newProjectSetUpWorkflowDialog.IsWorkflowTaskMatchExpected(
+				WorkflowTask.Proofreading, taskNumber: 2), "Произошла ошибка:\n задача не соответствует ожидаемой");
+
+			Assert.IsTrue(_newProjectSetUpWorkflowDialog.IsWorkflowTaskMatchExpected(
+				WorkflowTask.Editing, taskNumber: 3), "Произошла ошибка:\n задача не соответствует ожидаемой");
+
+			_newProjectSetUpWorkflowDialog.ClickFinishButton();
 
 			_projectsPage.WaitUntilProjectLoadSuccessfully(_projectUniqueName);
 
@@ -301,22 +374,37 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 		[Test]
 		public void ChangingTaskAfterBack()
 		{
-			_projectsPage.ClickCreateProjectDialog();
-			_createProjectHelper
+			_projectsPage.ClickCreateProjectButton();
+
+			_newProjectGeneralInformationDialog
 				.FillGeneralProjectInformation(_projectUniqueName)
-				.ClickNextOnGeneralProjectInformationPage()
+				.ClickNextButton<NewProjectSetUpWorkflowDialog>();
+
+			_newProjectSetUpWorkflowDialog
 				.ClickNewTaskButton()
 				.SelectWorkflowTask(WorkflowTask.Proofreading, 2)
-				.ClickNextOnWorkflowPage()
-				.ClickBackButtonOnTMStep()
+				.ClickNextButton<NewProjectSetUpTMDialog>();
+
+			_newProjectSetUpTMDialog.ClickBackButton<NewProjectSetUpWorkflowDialog>();
+
+			_newProjectSetUpWorkflowDialog
 				.SelectWorkflowTask(WorkflowTask.Editing, 2)
-				.ClickBackButtonOnWorkflowStep()
-				.ClickNextOnGeneralProjectInformationPage()
-				.SelectWorkflowTask(WorkflowTask.Proofreading, 2)
-				.AssertWorkflowTaskCountMatch(2)
-				.AssertWorkflowTaskMatch(WorkflowTask.Translation, taskNumber: 1)
-				.AssertWorkflowTaskMatch(WorkflowTask.Proofreading, taskNumber: 2)
-				.ClickFinishOnProjectSetUpWorkflowDialog();
+				.ClickBackButton<NewProjectGeneralInformationDialog>();
+
+			_newProjectGeneralInformationDialog.ClickNextButton<NewProjectSetUpWorkflowDialog>();
+
+			_newProjectSetUpWorkflowDialog.SelectWorkflowTask(WorkflowTask.Proofreading, 2);
+
+			Assert.IsTrue(_newProjectSetUpWorkflowDialog.IsWorkflowTaskCountMatchExpected(taskCount: 2),
+				"Произошла ошибка:\n неверное количество задач");
+
+			Assert.IsTrue(_newProjectSetUpWorkflowDialog.IsWorkflowTaskMatchExpected(
+				WorkflowTask.Translation, taskNumber: 1), "Произошла ошибка:\n задача не соответствует ожидаемой");
+
+			Assert.IsTrue(_newProjectSetUpWorkflowDialog.IsWorkflowTaskMatchExpected(
+				WorkflowTask.Proofreading, taskNumber: 2), "Произошла ошибка:\n задача не соответствует ожидаемой");
+
+			_newProjectSetUpWorkflowDialog.ClickFinishButton();
 
 			_projectsPage.WaitUntilProjectLoadSuccessfully(_projectUniqueName);
 
@@ -331,18 +419,28 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 		[Test]
 		public void DeletingTaskAfterBack()
 		{
-			_projectsPage.ClickCreateProjectDialog();
-			_createProjectHelper
+			_projectsPage.ClickCreateProjectButton();
+
+			_newProjectGeneralInformationDialog
 				.FillGeneralProjectInformation(_projectUniqueName)
-				.ClickNextOnGeneralProjectInformationPage()
+				.ClickNextButton<NewProjectSetUpWorkflowDialog>();
+
+			_newProjectSetUpWorkflowDialog
 				.ClickNewTaskButton()
 				.SelectWorkflowTask(WorkflowTask.Proofreading, taskNumber: 2)
-				.ClickNextOnWorkflowPage()
-				.ClickBackButtonOnTMStep()
-				.DeleteWorkflowTask(taskNumber: 1)
-				.AssertWorkflowTaskCountMatch(taskCount: 1)
-				.AssertWorkflowTaskMatch(WorkflowTask.Proofreading, taskNumber: 1)
-				.ClickFinishOnProjectSetUpWorkflowDialog();
+				.ClickNextButton<NewProjectSetUpTMDialog>();
+
+			_newProjectSetUpTMDialog.ClickBackButton<NewProjectSetUpWorkflowDialog>();
+
+			_newProjectSetUpWorkflowDialog.DeleteWorkflowTask(taskNumber: 1);
+
+			Assert.IsTrue(_newProjectSetUpWorkflowDialog.IsWorkflowTaskCountMatchExpected(taskCount: 1),
+				"Произошла ошибка:\n неверное количество задач");
+
+			Assert.IsTrue(_newProjectSetUpWorkflowDialog.IsWorkflowTaskMatchExpected(
+				WorkflowTask.Proofreading, taskNumber: 1), "Произошла ошибка:\n задача не соответствует ожидаемой");
+
+			_newProjectSetUpWorkflowDialog.ClickFinishButton();
 
 			_projectsPage.WaitUntilProjectLoadSuccessfully(_projectUniqueName);
 
@@ -356,5 +454,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 		private string _projectUniqueName;
 		private CreateProjectHelper _createProjectHelper;
 		private ProjectsPage _projectsPage;
+		private NewProjectSetUpWorkflowDialog _newProjectSetUpWorkflowDialog;
+		private NewProjectSetUpTMDialog _newProjectSetUpTMDialog;
+		private NewProjectGeneralInformationDialog _newProjectGeneralInformationDialog;
 	}
 }

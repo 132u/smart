@@ -1,5 +1,4 @@
-﻿using NUnit.Framework;
-using OpenQA.Selenium;
+﻿using OpenQA.Selenium;
 using OpenQA.Selenium.Support.PageObjects;
 
 using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
@@ -23,9 +22,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 
 		public new void LoadPage()
 		{
-			if (!Driver.WaitUntilElementIsDisplay(By.XPath(NEW_TM_NAME_INPUT)))
+			if (!IsNewProjectCreateTmDialogOpened())
 			{
-				Assert.Fail("Произошла ошибка:\n не появился диалог создания ТМ.");
+				throw new XPathLookupException("Произошла ошибка:\n не появился диалог создания ТМ");
 			}
 		}
 
@@ -63,6 +62,16 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 			Driver.ExecuteScript("$(\".js-import-file-form .js-control\").data(\"controller\").trigger(\"valueChanged\");");
 
 			return GetPage();
+		}
+
+		/// <summary>
+		/// Проверить, открыт ли диалог создания ТМ
+		/// </summary>
+		public bool IsNewProjectCreateTmDialogOpened()
+		{
+			CustomTestContext.WriteLine("Проверить, открыт ли диалог создания ТМ");
+
+			return Driver.WaitUntilElementIsDisplay(By.XPath(NEW_TM_NAME_INPUT));
 		}
 
 		[FindsBy(How = How.XPath, Using = NEW_TM_NAME_INPUT)]

@@ -1,5 +1,4 @@
-﻿using NUnit.Framework;
-using OpenQA.Selenium;
+﻿using OpenQA.Selenium;
 
 using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
 using AbbyyLS.SmartCAT.Selenium.Tests.TestFramework;
@@ -22,10 +21,20 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 
 		public new void LoadPage()
 		{
-			if (!Driver.WaitUntilElementIsDisplay(By.XPath(PRETRANSLATION_HEADER)))
+			if (!IsNewProjectSetUpPresentationDialogOpened())
 			{
-				Assert.Fail("Произошла ошибка:\n не удалось перейти кэтапу Pretranslation.");
+				throw new XPathLookupException("Произошла ошибка:\n не удалось перейти к этапу Pretranslation");
 			}
+		}
+
+		/// <summary>
+		/// Проверить, открыть ли диалог Presentation
+		/// </summary>
+		public bool IsNewProjectSetUpPresentationDialogOpened()
+		{
+			CustomTestContext.WriteLine("Проверить, открыть ли диалог Presentation");
+
+			return Driver.WaitUntilElementIsDisplay(By.XPath(PRETRANSLATION_HEADER));
 		}
 
 		protected const string PRETRANSLATION_HEADER = "//span[contains(text(), 'Pretranslation')]";

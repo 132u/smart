@@ -1,5 +1,4 @@
-﻿using NUnit.Framework;
-using OpenQA.Selenium;
+﻿using OpenQA.Selenium;
 using OpenQA.Selenium.Support.PageObjects;
 
 using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
@@ -23,9 +22,10 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 
 		public new void LoadPage()
 		{
-			if (!Driver.WaitUntilElementIsDisplay(By.XPath(GLOSSARY_NAME)))
+			if (!IsNewGlossaryDialogOpened())
 			{
-				Assert.Fail("Произошла ошибка:\n не открылся диалог создания глоссария в процессе создания проекта.");
+				throw new XPathLookupException(
+					"Произошла ошибка:\n не открылся диалог создания глоссария в процессе создания проекта");
 			}
 		}
 
@@ -37,14 +37,25 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 			return GetPage();
 		}
 
+		/// <summary>
+		/// Нажать кнопку сохранения глоссария
+		/// </summary>
 		public NewProjectSelectGlossariesDialog ClickSaveButton()
 		{
-			CustomTestContext.WriteLine("Нажать кнопку сохранения глоссария.");
+			CustomTestContext.WriteLine("Нажать кнопку сохранения глоссария");
 			SaveButton.Click();
 
-			Driver.WaitUntilElementIsDisappeared(By.XPath(SAVE_BUTTON));
-
 			return new NewProjectSelectGlossariesDialog(Driver).GetPage();
+		}
+
+		/// <summary>
+		/// Проверить, открылся ли диалог создания глоссария в процессе создания проекта
+		/// </summary>
+		public bool IsNewGlossaryDialogOpened()
+		{
+			CustomTestContext.WriteLine("Проверить, открылся ли диалог создания глоссария в процессе создания проекта");
+
+			return Driver.WaitUntilElementIsDisplay(By.XPath(GLOSSARY_NAME));
 		}
 
 		[FindsBy(How = How.XPath, Using = GLOSSARY_NAME)]

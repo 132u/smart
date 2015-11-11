@@ -1,6 +1,5 @@
 ﻿using System;
 
-using NUnit.Framework;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.PageObjects;
 
@@ -25,22 +24,13 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 
 		public new void LoadPage()
 		{
-			if (!Driver.WaitUntilElementIsDisplay(By.XPath(CREATE_PROJECT_DIALOG)))
+			if (!IsProjectCreateDialogOpened())
 			{
-				Assert.Fail("Произошла ошибка:\n не удалось загрузить диалог создания проекта.");
+				throw new XPathLookupException("Произошла ошибка:\n не удалось загрузить диалог создания проекта");
 			}
 		}
 
-		/// <summary>
-		/// Нажать 'Finish' в диалоге создания проекта.
-		/// </summary>
-		public ProjectsPage ClickFinishCreate()
-		{
-			CustomTestContext.WriteLine("Нажать на кнопку 'Finish'.");
-			CreateProjectFinishButton.Click();
-
-			return GetPage();
-		}
+		#region Простые методы страницы
 
 		/// <summary>
 		/// Нажать 'Close'
@@ -56,40 +46,42 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 		/// <summary>
 		/// Нажать 'Next'
 		/// </summary>
-		public T ClickNextButton<T>(WebDriver driver) where T: class, IAbstractPage<T>
+		public T ClickNextButton<T>() where T: class, IAbstractPage<T>
 		{
 			CustomTestContext.WriteLine("Нажать 'Next'.");
 			NextButton.Click();
 
-			var instance = Activator.CreateInstance(typeof(T), new object[] { driver }) as T;
+			var instance = Activator.CreateInstance(typeof(T), new object[] { Driver }) as T;
 			return instance.GetPage();
 		}
 
 		/// <summary>
 		/// Нажать 'Back'
 		/// </summary>
-		public T ClickBackButton<T>(WebDriver driver) where T : class, IAbstractPage<T>
+		public T ClickBackButton<T>() where T : class, IAbstractPage<T>
 		{
 			CustomTestContext.WriteLine("Нажать 'Back'.");
 			BackButton.Click();
 
-			var instance = Activator.CreateInstance(typeof(T), new object[] { driver }) as T;
+			var instance = Activator.CreateInstance(typeof(T), new object[] { Driver }) as T;
 			return instance.GetPage();
 		}
 
+		#endregion
+
+		#region Составные методы страницы
+
 		/// <summary>
-		/// Проверить, что кнопка 'Готова' доступна
+		/// Отменить создание проекта
 		/// </summary>
-		public NewProjectCreateBaseDialog AssertFinishButtonEnabled()
+		public ProjectsPage CancelCreateProject()
 		{
-			CustomTestContext.WriteLine("Проверить, что кнопка 'Готово' доступна");
+			var projectsPage = ClickCloseDialog()
+				.WaitCreateProjectDialogDisappear()
+				.AssertDialogBackgroundDisappeared<ProjectsPage>(Driver);
 
-			Assert.IsTrue(Driver.WaitUntilElementIsEnabled(By.XPath(CREATE_PROJECT_FINISH_BUTTON)) && Driver.WaitUntilElementIsDisplay(By.XPath(CREATE_PROJECT_FINISH_BUTTON)),
-				"Ошибка: \n кнопка 'Готово' недоступна.");
-
-			return GetPage();
+			return projectsPage;
 		}
-
 
 		/// <summary>
 		/// Нажать кнопку 'Готово'
@@ -100,8 +92,39 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 			CreateProjectFinishButton.HoverElement();
 			CreateProjectFinishButton.JavaScriptClick();
 
+			WaitCreateProjectDialogDisappear();
+			AssertDialogBackgroundDisappeared<ProjectsPage>(Driver);
+
 			return new ProjectsPage(Driver).GetPage();
 		}
+
+		#endregion
+
+		#region Методы, проверяющие состояние страницы
+
+		/// <summary>
+		/// Проверить, открыт ли диалог создания нового проекта
+		/// </summary>
+		public bool IsProjectCreateDialogOpened()
+		{
+			CustomTestContext.WriteLine("Проверить, открыт ли диалог создания нового проекта");
+
+			return Driver.WaitUntilElementIsDisplay(By.XPath(CREATE_PROJECT_DIALOG));
+		}
+
+		/// <summary>
+		/// Проверить, что кнопка 'Готова' доступна
+		/// </summary>
+		public bool IsFinishButtonEnabled()
+		{
+			CustomTestContext.WriteLine("Проверить, что кнопка 'Готово' доступна");
+
+			return Driver.WaitUntilElementIsEnabled(By.XPath(CREATE_PROJECT_FINISH_BUTTON));
+		}
+
+		#endregion
+
+		#region Объявление элементов страницы
 
 		[FindsBy(How = How.XPath, Using = CREATE_PROJECT_FINISH_BUTTON)]
 		protected IWebElement CreateProjectFinishButton { get; set; }
@@ -115,11 +138,16 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 		[FindsBy(How = How.XPath, Using = BACK_BUTTON)]
 		protected IWebElement BackButton { get; set; }
 
+		#endregion
+
+		#region Описания XPath элементов
+
 		protected const string CREATE_PROJECT_DIALOG = "//div[contains(@class,'js-popup-create-project')][2]";
 		protected const string CREATE_PROJECT_FINISH_BUTTON = "//div[contains(@class,'js-popup-create-project')][2]//div[contains(@class,'js-finish js-upload-btn')]";
 		protected const string CLOSE_DIALOG_BTN = "//div[contains(@class,'js-popup-create-project')][2]//img[contains(@class,'js-popup-close')]";
 		protected const string NEXT_BUTTON = "//div[contains(@class,'js-popup-create-project')][2]//div[contains(@class,'js-next')]";
 		protected const string BACK_BUTTON = "//div[contains(@class,'js-popup-create-project')][2]//span[contains(@class,'js-back')]";
 
+		#endregion
 	}
 }

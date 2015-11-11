@@ -5,6 +5,7 @@ using NUnit.Framework;
 using AbbyyLS.SmartCAT.Selenium.Tests.DataStructures;
 using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
 using AbbyyLS.SmartCAT.Selenium.Tests.FeatureAttributes;
+using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories;
 using AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers;
 
@@ -88,13 +89,19 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.TranslationMemories
 				.AssertEditionFormDisappeared()
 				.AssertTranslationMemoryExists(translationMemoryNewName)
 				.GoToProjectsPage();
-			ProjectsPage.ClickCreateProjectDialog();
-			CreateProjectHelper
+
+			ProjectsPage.ClickCreateProjectButton();
+
+			NewProjectGeneralInformationDialog
 				.FillGeneralProjectInformation(projectUniqueName)
-				.ClickNextOnGeneralProjectInformationPage()
-				.ClickNextOnWorkflowPage()
-				.AssertTranslationMemoryExist(translationMemoryNewName)
-				.CancelCreateProject();
+				.ClickNextButton<NewProjectSetUpWorkflowDialog>();
+
+			NewProjectSetUpWorkflowDialog.ClickNextButton<NewProjectSetUpTMDialog>();
+
+			Assert.IsTrue(NewProjectSetUpTMDialog.IsTranslationMemoryExist(translationMemoryNewName),
+				"Произошла ошибка:\n ТМ {0} не представлена в списке при создании проекта.", translationMemoryNewName);
+
+			NewProjectSetUpWorkflowDialog.CancelCreateProject();
 		}
 
 		[TestCase(true)]

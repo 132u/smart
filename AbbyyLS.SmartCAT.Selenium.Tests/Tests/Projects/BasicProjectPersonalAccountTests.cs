@@ -5,6 +5,7 @@ using NUnit.Framework;
 using AbbyyLS.SmartCAT.Selenium.Tests.DataStructures;
 using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects;
+using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog;
 using AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
@@ -24,6 +25,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 			_workspaceHelper.GoToProjectsPage();
 			_createProjectHelper = new CreateProjectHelper(Driver);
 			_projectsPage = new ProjectsPage(Driver);
+			_newProjectGeneralInformationDialog = new NewProjectGeneralInformationDialog(Driver);
 		}
 
 
@@ -44,11 +46,15 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 			var projectUniqueName = _createProjectHelper.GetProjectUniqueName();
 
 			_createProjectHelper.CreateNewProject(projectUniqueName, personalAccount: true);
-			_projectsPage.ClickCreateProjectDialog();
-			_createProjectHelper
+
+			_projectsPage.ClickCreateProjectButton();
+
+			_newProjectGeneralInformationDialog
 				.FillGeneralProjectInformation(projectUniqueName)
-				.ClickNextOnGeneralProjectInformationPage(errorExpected: true)
-				.AssertErrorDuplicateName();
+				.ClickNextButton<NewProjectGeneralInformationDialog>();
+
+			Assert.IsTrue(_newProjectGeneralInformationDialog.IsDuplicateNameErrorMessageDisplayed(),
+				"Произошла ошибка:\n не появилось сообщение о существующем имени");
 		}
 
 		[Test]
@@ -90,14 +96,15 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 		[Test]
 		public void CancelCreateProjectOnFirstStepTest()
 		{
-			_projectsPage.ClickCreateProjectDialog();
-			_createProjectHelper
-				.CancelCreateProject();
+			_projectsPage.ClickCreateProjectButton();
+
+			_newProjectGeneralInformationDialog.CancelCreateProject();
 		}
 
 		private CreateProjectHelper _createProjectHelper;
 		private const string _longName = "12345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890";
 		private WorkspaceHelper _workspaceHelper;
 		private ProjectsPage _projectsPage;
+		private NewProjectGeneralInformationDialog _newProjectGeneralInformationDialog;
 	}
 }

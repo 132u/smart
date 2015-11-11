@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.IO;
 
-using NUnit.Framework;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.PageObjects;
 
@@ -28,11 +27,13 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 
 		public new void LoadPage()
 		{
-			if (!Driver.WaitUntilElementIsDisplay(By.XPath(ADD_FILE_BTN_XPATH)))
+			if (!IsNewProjectGeneralInformationDialogOpened())
 			{
-				Assert.Fail("Произошла ошибка:\n не появился диалог создания проекта.");
+				throw new XPathLookupException("Произошла ошибка:\n не появился диалог создания проекта");
 			}
 		}
+
+		#region Простые методы страницы
 
 		/// <summary>
 		/// Нажать на кнопку "Добавить" (документ)
@@ -93,131 +94,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 		}
 
 		/// <summary>
-		/// Проверить, что файл загрузился
-		/// </summary>
-		/// <param name="fileName">имя файла (с расширением)</param>
-		public NewProjectGeneralInformationDialog AssertFileUploaded(string fileName)
-		{
-			CustomTestContext.WriteLine("Проверить, что документ {0} загрузился.", fileName);
-
-			Assert.IsTrue(Driver.WaitUntilElementIsDisplay(By.XPath(UPLOADED_FILE_XPATH.Replace("*#*", fileName)), timeout:120),
-				"Произошла ошибка:\n не удалось загрузить файл {0}.", fileName);
-
-			return GetPage();
-		}
-
-		/// <summary>
-		/// Выбрать дату дэдлайна
-		/// </summary>
-		/// <param name="deadline">тип дэдлайна</param>
-		/// <param name="date">дата дэдлайна. Используется только с типом 'FillDeadlineDate'</param>
-		public NewProjectGeneralInformationDialog SetDeadline(Deadline deadline, string date = null)
-		{
-			CustomTestContext.WriteLine("Выбрать дату дэдлайна.");
-
-			clickDeadlineDateInput();
-			assertIsCalendarDisplayed();
-
-			switch (deadline)
-			{
- 				case Deadline.CurrentDate:
-					clickDeadlineDateCurrent();
-					break;
-
-				case Deadline.NextMonth:
-					clickNextMonth();
-					clickDeadlineSomeDate();
-					break;
-
-				case Deadline.PreviousMonth:
-					clickPreviousMonth();
-					clickDeadlineSomeDate();
-					break;
-
-				case Deadline.FillDeadlineDate:
-					fillDeadlineDate(date);
-					break;
-
-				default:
-					throw new Exception(string.Format("Передан аргумент, который не предусмотрен! Значение аргумента:'{0}'", deadline.ToString()));
-			}
-
-			AssertSetDeadlineDate();
-
-			return GetPage();
-		}
-
-		/// <summary>
-		/// Проверить, что в таргет-языке указан правильный язык
-		/// </summary>
-		public NewProjectGeneralInformationDialog AssertTargetLanguageMatch(Language language)
-		{
-			CustomTestContext.WriteLine("Проверить, что в таргет-языке указан {0}.", language);
-
-			Assert.AreEqual(language.ToString(), TargetMultiselect.Text.Trim(),
-				"Произошла ошибка:\n в таргет-языке указан неправильный язык.");
-
-			return GetPage();
-		}
-
-		/// <summary>
-		/// Проверить, что в сорс-языке указан правильный язык
-		/// </summary>
-		public NewProjectGeneralInformationDialog AssertSourceLanguageMatch(Language language)
-		{
-			CustomTestContext.WriteLine("Проверить, что в сорс-языке указан {0}.", language);
-
-			Assert.AreEqual(language.ToString(), SourceLangDropdown.Text.Trim(),
-				"Произошла ошибка:\n в сорс-языке указан неправильный язык.");
-
-			return GetPage();
-		}
-
-
-		/// <summary>
-		/// Проверить, что в дэдлайне указана правильная дата
-		/// </summary>
-		public NewProjectGeneralInformationDialog AssertDeadlineDateMatch(string date)
-		{
-			CustomTestContext.WriteLine("Проверить, что в дэдлайне указана дата {0}.", date);
-
-			Assert.AreEqual(date, DeadlineDateInput.GetAttribute("value"),
-				"Произошла ошибка:\n в дэдлайне указана неверная дата.");
-
-			return GetPage();
-		}
-
-		/// <summary>
-		/// Проверить, что дата дэдлайна выбрана
-		/// </summary>
-		public NewProjectGeneralInformationDialog AssertSetDeadlineDate()
-		{
-			CustomTestContext.WriteLine("Проверить, что дата дэдлайна выбрана.");
-
-			Assert.IsNotNull(DeadlineDateInput.GetAttribute("value"),
-				 "Ошибка: Дата дедлайна не выбрана");
-
-			Assert.IsNotEmpty(DeadlineDateInput.GetAttribute("value"),
-				 "Ошибка: Дата дедлайна не выбрана");
-
-			return GetPage();
-		}
-
-		/// <summary>
-		/// Проверить наличие сообщения о неверном формате даты
-		/// </summary>
-		/// <param name="dateFormat">дата в неверном формате</param>
-		public NewProjectGeneralInformationDialog AssertErrorDeadlineDate(string dateFormat)
-		{
-			CustomTestContext.WriteLine("Проверить наличие сообщения о неверном формате даты.");
-
-			Assert.IsTrue(Driver.WaitUntilElementIsDisplay(By.XPath(ERROR_DEADLINE_DATE_XPATH)),
-				string.Format("Произошла ошибка:\n При введении некорректной даты '{0}' не было сообщения о неверном формате даты", dateFormat));
-
-			return GetPage();
-		}
-
-		/// <summary>
 		/// Кликнуть по полю исходного языка, чтобы появился выпадающий список
 		/// </summary>
 		public NewProjectGeneralInformationDialog ClickSourceLangDropdown()
@@ -259,12 +135,12 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 		{
 			CustomTestContext.WriteLine("Снять выделение для всех таргет языков.");
 			TargetLangItemsSelected = Driver.GetElementList(By.XPath(TARGET_LANG_MULTISELECT_ITEMS_SELECTED_XPATH));
-			
+
 			foreach (var e in TargetLangItemsSelected)
 			{
 				e.Click();
 			}
-			
+
 			return GetPage();
 		}
 
@@ -285,197 +161,12 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 		/// Ввести имя проекта
 		/// </summary>
 		/// <param name="projectName">имя проекта</param>
-		public NewProjectGeneralInformationDialog SetProjectName(string projectName)
+		public NewProjectGeneralInformationDialog FillProjectName(string projectName)
 		{
 			CustomTestContext.WriteLine("Ввести имя проекта: {0}.", projectName);
 			ProjectNameInput.SetText(projectName, projectName.Length > 100 ? projectName.Substring(0, 100) : projectName);
 
 			return GetPage();
-		}
-
-		/// <summary>
-		/// Нажать кнопку 'Далее'
-		/// </summary>
-		public T ClickNext<T>(WebDriver driver) where T: class, IAbstractPage<T>
-		{
-			CustomTestContext.WriteLine("Нажать кнопку 'Далее'.");
-			// Вернуть NextButton.Click(), если тесты будут падать из-за неотрабатывающего клика
-			Driver.FindElement(By.XPath(NEXT_BUTTON)).Click();
-
-			var instance = Activator.CreateInstance(typeof(T), new object[] { driver }) as T;
-			return instance.GetPage();
-		}
-
-		/// <summary>
-		/// Проверить, что есть ошибка существующего имени
-		/// </summary>
-		public NewProjectGeneralInformationDialog AssertErrorDuplicateName()
-		{
-			CustomTestContext.WriteLine("Проверить, что есть ошибка существующего имени.");
-
-			Assert.IsTrue(Driver.WaitUntilElementIsDisplay(By.XPath(ERROR_NAME_EXISTS_XPATH)),
-				"Произошла ошибка:\n не появилось сообщение о существующем имени");
-
-			return GetPage();
-		}
-
-		/// <summary>
-		/// Проверить, что нет ошибки существующего имени
-		/// </summary>
-		public NewProjectGeneralInformationDialog AssertNoErrorDuplicateName()
-		{
-			CustomTestContext.WriteLine("Проверить, что нет ошибки существующего имени.");
-
-			Assert.IsFalse(Driver.WaitUntilElementIsDisplay(By.XPath(ERROR_NAME_EXISTS_XPATH)),
-				"Произошла ошибка:\n появилась ошибка существующего имени.");
-
-			return GetPage();
-		}
-
-		/// <summary>
-		/// Проверить, есть ли ошибка совпадения source и target языков.
-		/// </summary>
-		public NewProjectGeneralInformationDialog AssertDuplicateLanguageError()
-		{
-			CustomTestContext.WriteLine("Проверить, есть ли ошибка совпадения source и target языков.");
-
-			Assert.True(Driver.WaitUntilElementIsDisplay(By.XPath(ERROR_DUPLICATE_LANG_XPATH)),
-				"Произошла ошибка:\n не отображается сообщение о том, что source и target языки совпадают.");
-
-			return GetPage();
-		}
-		
-		/// <summary>
-		/// Проверить, есть ли ошибка недопустимых символов в имени
-		/// </summary>
-		public NewProjectGeneralInformationDialog AssertErrorForbiddenSymbols()
-		{
-			CustomTestContext.WriteLine("Проверить, есть ли ошибка недопустимых символов в имени.");
-
-			Assert.IsTrue(Driver.WaitUntilElementIsDisplay(By.XPath(ERROR_FORBIDDEN_SYMBOLS_NAME)),
-				"Произошла ошибка:\n не появилось сообщение о недопустимых символах в имени");
-
-			return GetPage();
-		}
-
-		/// <summary>
-		/// Проверить, есть ли ошибка о пустом имени проекта
-		/// </summary>
-		public NewProjectGeneralInformationDialog AssertErrorNoName()
-		{
-			CustomTestContext.WriteLine("Проверить, есть ли ошибка о пустом имени проекта.");
-
-			Assert.IsTrue(Driver.WaitUntilElementIsDisplay(By.XPath(ERROR_NO_NAME_XPATH)),
-				"Произошла ошибка:\n не появилось сообщение о пустом имени проекта.");
-
-			return GetPage();
-		}
-
-		/// <summary>
-		/// Проверить, что поле 'Название проекта' выделенно ошибкой
-		/// </summary>
-		public NewProjectGeneralInformationDialog AssertNameInputError()
-		{
-			CustomTestContext.WriteLine("Проверить, что поле 'Название проекта' выделенно ошибкой.");
-
-			Assert.IsTrue(Driver.FindElement(By.XPath(PROJECT_NAME_INPUT_XPATH)).GetElementAttribute("class").Contains("error"),
-				"Произошла ошибка:\n поле Название не отмечено ошибкой");
-
-			return GetPage();
-		}
-
-		/// <summary>
-		/// Проверить, что поле 'Название проекта' не выделенно ошибкой
-		/// </summary>
-		public NewProjectGeneralInformationDialog AssertNoNameInputError()
-		{
-			CustomTestContext.WriteLine("Проверить, что поле 'Название проекта' не выделенно ошибкой.");
-
-			Assert.IsFalse(Driver.FindElement(By.XPath(PROJECT_NAME_INPUT_XPATH)).GetElementAttribute("class").Contains("error"),
-				"Произошла ошибка:\n поле 'Название проекта' отмечено ошибкой");
-
-			return GetPage();
-		}
-		/// <summary>
-		/// Нажать 'Удалить файл'
-		/// </summary>
-		/// <param name="fileName">имя файла</param>
-		public NewProjectGeneralInformationDialog ClickDeleteFile(string fileName)
-		{
-			CustomTestContext.WriteLine("Нажать 'Удалить файл'.");
-			DeleteFileButton = Driver.SetDynamicValue(How.XPath, DELETE_FILE_BTN_XPATH, fileName);
-			DeleteFileButton.Click();
-
-			return GetPage();
-		}
-
-		/// <summary>
-		/// Проверить, что файл удалён
-		/// </summary>
-		/// <param name="fileName">имя файла</param>
-		public NewProjectGeneralInformationDialog AssertFileDeleted(string fileName)
-		{
-			CustomTestContext.WriteLine("Проверить, что файл удалён");
-
-			Assert.IsTrue(Driver.WaitUntilElementIsDisappeared(By.XPath(DELETE_FILE_BTN_XPATH.Replace("*#*", fileName))),
-				string.Format("Произошла ошибка:\n файл {0} не удалился.", fileName));
-
-			return GetPage();
-		}
-
-		/// <summary>
-		/// Проверить, что имя проекта совпадает с ожидаемым
-		/// </summary>
-		/// <param name="expectedProjectName">ожидаемое имя проекта</param>
-		public NewProjectGeneralInformationDialog AssertProjectNameMatch(string expectedProjectName)
-		{
-			CustomTestContext.WriteLine("Проверить, что имя проекта = '{0}'", expectedProjectName);
-			var actualProjectName = ProjectNameInput.GetAttribute("value");
-
-			Assert.AreEqual(actualProjectName, expectedProjectName,
-				"Произошла ошибка:\n имя проекта не совпадает с ожидаемым");
-
-			return GetPage();
-		}
-
-		/// <summary>
-		/// Проверить, что возникла ошибка, указывающая на неверный формат загружаемого файла.
-		/// </summary>
-		public NewProjectGeneralInformationDialog AssertErrorFormatDocument()
-		{
-			CustomTestContext.WriteLine("Проверить, что возникла ошибка, указывающая на неверный формат загружаемого файла.");
-
-			Assert.IsTrue(Driver.WaitUntilElementIsDisplay(By.XPath(ERROR_FORMAT_DOCUMENT_MESSAGE_XPATH)),
-				"Произошла ошибка:\n не появилось сообщение о неверном формате загружаемого документа.");
-
-			return GetPage();
-		}
-
-		/// <summary>
-		/// Проверить, что нет ошибки, указывающей на неверный формат загружаемого файла.
-		/// </summary>
-		public NewProjectGeneralInformationDialog AssertNoErrorFormatDocument()
-		{
-			CustomTestContext.WriteLine("Проверить, что нет ошибки, указывающей на неверный формат загружаемого файла.");
-
-			Assert.IsFalse(Driver.WaitUntilElementIsDisplay(By.XPath(ERROR_FORMAT_DOCUMENT_MESSAGE_XPATH), 5),
-				"Произошла ошибка:\n появилось сообщение о неверном формате загружаемого документа.");
-
-			return GetPage();
-		}
-
-		/// <summary>
-		/// Вернуть, выбран ли чекбокс 'Use Machine Translation'
-		/// </summary>
-		public bool GetIsMachineTranslationCheckboxSelected()
-		{
-			CustomTestContext.WriteLine("Вернуть, выбран ли чекбокс 'Use Machine Translation'");
-
-			var machineTranslationCheckboxSelected = UseMachineTranslationCheckbox.Selected;
-
-			CustomTestContext.WriteLine("Чекбокс 'Use Machine Translation' выбран: {0}", machineTranslationCheckboxSelected);
-
-			return machineTranslationCheckboxSelected;
 		}
 
 		/// <summary>
@@ -491,21 +182,313 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 		}
 
 		/// <summary>
+		/// Нажать 'Удалить файл'
+		/// </summary>
+		/// <param name="filePath">путь до файла</param>
+		public NewProjectGeneralInformationDialog ClickDeleteFile(string filePath)
+		{
+			CustomTestContext.WriteLine("Нажать 'Удалить файл'.");
+			var fileName = Path.GetFileName(filePath);
+			DeleteFileButton = Driver.SetDynamicValue(How.XPath, DELETE_FILE_BTN_XPATH, fileName);
+			DeleteFileButton.Click();
+
+			return GetPage();
+		}
+
+		#endregion
+
+		#region Составные методы страницы
+
+		/// <summary>
+		/// Выбрать дату дэдлайна
+		/// </summary>
+		/// <param name="deadline">тип дэдлайна</param>
+		/// <param name="date">дата дэдлайна. Используется только с типом 'FillDeadlineDate'</param>
+		public NewProjectGeneralInformationDialog SetDeadline(Deadline deadline, string date = null)
+		{
+			CustomTestContext.WriteLine("Выбрать дату дэдлайна.");
+
+			clickDeadlineDateInput();
+
+			if (!IsCalendarDisplayed())
+			{
+				throw new XPathLookupException(
+					"Произошла ошибка:\n не отображается календарь, нельзя выбрать дату дедлайна");
+			}
+
+			switch (deadline)
+			{
+ 				case Deadline.CurrentDate:
+					clickDeadlineDateCurrent();
+					break;
+
+				case Deadline.NextMonth:
+					clickNextMonth();
+					clickDeadlineSomeDate();
+					break;
+
+				case Deadline.PreviousMonth:
+					clickPreviousMonth();
+					clickDeadlineSomeDate();
+					break;
+
+				case Deadline.FillDeadlineDate:
+					fillDeadlineDate(date);
+					break;
+
+				default:
+					throw new Exception(string.Format(
+						"Передан аргумент, который не предусмотрен! Значение аргумента:'{0}'", deadline));
+			}
+
+			if (!IsDeadlineDateSelected())
+			{
+				throw new InvalidElementStateException("Произошла ошибка: \nдата дедлайна не выбрана");
+			}
+
+			return GetPage();
+		}
+
+		/// <summary>
+		/// Заполняем основную информацию о проекте (1 шаг создания)
+		/// </summary>
+		public NewProjectGeneralInformationDialog FillGeneralProjectInformation(
+			string projectName,
+			string filePath = null,
+			Language sourceLanguage = Language.English,
+			Language targetLanguage = Language.Russian,
+			Deadline deadline = Deadline.CurrentDate,
+			string date = null,
+			bool useMT = false)
+		{
+			if (filePath != null)
+			{
+				UploadFile(filePath);
+
+				if (!IsFileUploaded(Path.GetFileNameWithoutExtension(filePath)))
+				{
+					throw new Exception("Произошла ошибка: \n не загрузился файл");
+				}
+			}
+
+			SetDeadline(deadline, date);
+			ClickSourceLangDropdown();
+			SelectSourceLanguage(sourceLanguage);
+			ClickTargetMultiselect();
+			DeselectAllTargetLanguages();
+			SelectTargetLanguage(targetLanguage);
+			ClickTargetMultiselect();
+			FillProjectName(projectName);
+
+			if (useMT ^ IsMachineTranslationCheckboxSelected())
+			{
+				ClickMachineTranslationCheckbox();
+			}
+
+			return GetPage();
+		}
+
+		#endregion
+
+		#region Методы, проверяющие состояние страницы
+
+		/// <summary>
+		/// Проверить, что файл удалён
+		/// </summary>
+		/// <param name="filePath">путь до файла</param>
+		public bool IsFileDeleted(string filePath)
+		{
+			CustomTestContext.WriteLine("Проверить, что файл удалён");
+			var fileName = Path.GetFileName(filePath);
+
+			return Driver.WaitUntilElementIsDisappeared(By.XPath(DELETE_FILE_BTN_XPATH.Replace("*#*", fileName)));
+		}
+
+		/// <summary>
+		/// Проверить, что имя проекта совпадает с ожидаемым
+		/// </summary>
+		/// <param name="expectedProjectName">ожидаемое имя проекта</param>
+		public bool IsProjectNameMatchExpected(string expectedProjectName)
+		{
+			CustomTestContext.WriteLine("Проверить, что имя проекта = '{0}'", expectedProjectName);
+			var actualProjectName = ProjectNameInput.GetAttribute("value");
+
+			return actualProjectName == expectedProjectName;
+		}
+
+		/// <summary>
+		/// Проверить, что возникла ошибка, указывающая на неверный формат загружаемого файла.
+		/// </summary>
+		public bool IsWrongDocumentFormatErrorDisplayed()
+		{
+			CustomTestContext.WriteLine("Проверить, что возникла ошибка, указывающая на неверный формат загружаемого файла");
+
+			return Driver.WaitUntilElementIsDisplay(By.XPath(ERROR_FORMAT_DOCUMENT_MESSAGE_XPATH));
+		}
+
+		/// <summary>
+		/// Проверить, открылся ли диалог создания проекта
+		/// </summary>
+		public bool IsNewProjectGeneralInformationDialogOpened()
+		{
+			CustomTestContext.WriteLine("Проверить, открылся ли диалог создания проекта");
+
+			return Driver.WaitUntilElementIsDisplay(By.XPath(ADD_FILE_BTN_XPATH));
+		}
+
+		/// <summary>
+		/// Проверить, что файл загрузился
+		/// </summary>
+		/// <param name="filePath">имя файла (с расширением)</param>
+		public bool IsFileUploaded(string filePath)
+		{
+			CustomTestContext.WriteLine("Проверить, что документ {0} загрузился.", filePath);
+			var fileName = Path.GetFileName(filePath);
+
+			return Driver.WaitUntilElementIsDisplay(By.XPath(UPLOADED_FILE_XPATH.Replace("*#*", fileName)), timeout: 120);
+		}
+
+		/// <summary>
+		/// Проверить, что в таргет-языке указан правильный язык
+		/// </summary>
+		public bool IsTargetLanguageMatchExpected(Language expectedLanguage)
+		{
+			CustomTestContext.WriteLine("Проверить, что в таргет-языке указан {0}", expectedLanguage);
+
+			return expectedLanguage.ToString() == TargetMultiselect.Text.Trim();
+		}
+
+		/// <summary>
+		/// Проверить, что в сорс-языке указан правильный язык
+		/// </summary>
+		public bool IsSourceLanguageMatchExpected(Language expectedLanguage)
+		{
+			CustomTestContext.WriteLine("Проверить, что в сорс-языке указан {0}", expectedLanguage);
+
+			return expectedLanguage.ToString() == SourceLangDropdown.Text.Trim();
+		}
+
+		/// <summary>
+		/// Проверить, что в дэдлайне указана правильная дата
+		/// </summary>
+		/// <param name="expectedDate">ожидаемая дата</param>
+		public bool IsDeadlineDateMatchExpected(string expectedDate)
+		{
+			CustomTestContext.WriteLine("Проверить, что в дэдлайне указана дата {0}", expectedDate);
+
+			return expectedDate == DeadlineDateInput.GetAttribute("value");
+		}
+
+		/// <summary>
+		/// Проверить, что дата дэдлайна выбрана
+		/// </summary>
+		public bool IsDeadlineDateSelected()
+		{
+			CustomTestContext.WriteLine("Проверить, что дата дэдлайна выбрана.");
+
+			if (string.IsNullOrEmpty(DeadlineDateInput.GetAttribute("value")))
+			{
+				return false;
+			}
+
+			return true;
+		}
+
+		/// <summary>
+		/// Проверить наличие сообщения о неверном формате даты
+		/// </summary>
+		public bool IsErrorDeadlineDateMessageDisplayed()
+		{
+			CustomTestContext.WriteLine("Проверить наличие сообщения о неверном формате даты");
+
+			return Driver.WaitUntilElementIsDisplay(By.XPath(ERROR_DEADLINE_DATE_XPATH));
+		}
+
+		/// <summary>
+		/// Проверить, что есть ошибка существующего имени
+		/// </summary>
+		public bool IsDuplicateNameErrorMessageDisplayed()
+		{
+			CustomTestContext.WriteLine("Проверить, что есть ошибка существующего имени");
+
+			return Driver.WaitUntilElementIsDisplay(By.XPath(ERROR_NAME_EXISTS_XPATH));
+		}
+
+		/// <summary>
+		/// Вернуть, выбран ли чекбокс 'Use Machine Translation'
+		/// </summary>
+		public bool IsMachineTranslationCheckboxSelected()
+		{
+			CustomTestContext.WriteLine("Вернуть, выбран ли чекбокс 'Use Machine Translation'");
+
+			var machineTranslationCheckboxSelected = UseMachineTranslationCheckbox.Selected;
+
+			CustomTestContext.WriteLine("Чекбокс 'Use Machine Translation' выбран: {0}", machineTranslationCheckboxSelected);
+
+			return machineTranslationCheckboxSelected;
+		}
+
+		/// <summary>
+		/// Проверить, появился ли календарь
+		/// </summary>
+		public bool IsCalendarDisplayed()
+		{
+			CustomTestContext.WriteLine("Проверить, появился ли календарь");
+
+			return Driver.WaitUntilElementIsDisplay(By.XPath(DEADLINE_DATE_CURRENT_XPATH));
+		}
+
+		/// <summary>
+		/// Проверить, есть ли ошибка совпадения source и target языков.
+		/// </summary>
+		public bool IsDuplicateLanguageErrorMessageDisplayed()
+		{
+			CustomTestContext.WriteLine("Проверить, есть ли ошибка совпадения source и target языков");
+
+			return Driver.WaitUntilElementIsDisplay(By.XPath(ERROR_DUPLICATE_LANG_XPATH));
+		}
+
+		/// <summary>
+		/// Проверить, есть ли ошибка недопустимых символов в имени
+		/// </summary>
+		public bool IsForbiddenSymbolsInNameErrorMessageDisplayed()
+		{
+			CustomTestContext.WriteLine("Проверить, есть ли ошибка недопустимых символов в имени");
+
+			return Driver.WaitUntilElementIsDisplay(By.XPath(ERROR_FORBIDDEN_SYMBOLS_NAME));
+		}
+
+		/// <summary>
+		/// Проверить, есть ли ошибка о пустом имени проекта
+		/// </summary>
+		public bool IsEmptyNameErrorMessageDisplayed()
+		{
+			CustomTestContext.WriteLine("Проверить, есть ли ошибка о пустом имени проекта");
+
+			return Driver.WaitUntilElementIsDisplay(By.XPath(ERROR_NO_NAME_XPATH));
+		}
+
+		/// <summary>
+		/// Проверить, что поле 'Название проекта' выделенно ошибкой
+		/// </summary>
+		public bool IsNameInputValidationMarkerDisplayed()
+		{
+			CustomTestContext.WriteLine("Проверить, что поле 'Название проекта' выделенно ошибкой.");
+
+			return ProjectNameInput.GetElementAttribute("class").Contains("error");
+		}
+
+		#endregion
+
+		#region Вспомогательные методы страницы
+
+		/// <summary>
 		/// Кликнуть на поле для ввода даты, чтобы появился всплывающий календарь
 		/// </summary>
 		private void clickDeadlineDateInput()
 		{
 			CustomTestContext.WriteLine("Кликнуть на поле для ввода даты, чтобы появился всплывающий календарь.");
 			DeadlineDateInput.Click();
-		}
-
-		/// <summary>
-		/// Проверить, появился ли календарь
-		/// </summary>
-		private void assertIsCalendarDisplayed()
-		{
-			Assert.IsTrue(Driver.WaitUntilElementIsDisplay(By.XPath(DEADLINE_DATE_CURRENT_XPATH)),
-				"Произошла ошибка:\n не отображается календарь, нельзя выбрать дату дедлайна.");
 		}
 
 		/// <summary>
@@ -559,6 +542,10 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 			return Driver.WaitUntilElementIsDisplay(By.XPath(ERROR_FILE_ALREADY_ADDED));
 		}
 
+		#endregion
+
+		#region Объявление элементов страницы
+
 		[FindsBy(How = How.XPath, Using = ADD_FILE_BTN_XPATH)]
 		protected IWebElement AddFileButton { get; set; }
 
@@ -603,6 +590,10 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 
 		protected IList<IWebElement> TargetLangItemsSelected { get; set; }
 
+		#endregion
+
+		#region Описания XPath элементов
+
 		protected const string UPLOAD_FILE_INPUT = "//div[contains(@class,'js-popup-create-project')][2]//input[@type = 'file']";
 		protected const string UPLOADED_FILE_XPATH = ".//li[@class='js-file-list-item']//span[contains(string(), '*#*')]";
 		protected const string SOURCE_LANG_ITEM_XPATH = ".//span[contains(@class,'js-dropdown__list')]//span[@title = '*#*']";
@@ -630,5 +621,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 		protected const string DEADLINE_DATE_PREV_MONTH_XPATH = "//div[contains(@id, 'ui-datepicker-div')]//a[contains(@class, 'ui-datepicker-prev')]";
 
 		protected const string USE_MACHINE_TRANSLATION_CHECKBOX = "//div[@class='g-popup-bd js-popup-bd js-popup-create-project'][2]//input[@id='mts-checkbox']";
+
+		#endregion
 	}
 }
