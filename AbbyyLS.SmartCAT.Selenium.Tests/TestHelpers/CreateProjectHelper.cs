@@ -1,7 +1,5 @@
 ﻿using System;
 
-using OpenQA.Selenium;
-
 using AbbyyLS.SmartCAT.Selenium.Tests.DataStructures;
 using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects;
@@ -13,13 +11,11 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 	{
 		public CreateProjectHelper(WebDriver driver) : base(driver)
 		{
-			_newProjectCreateBaseDialog = new NewProjectCreateBaseDialog(Driver);
-			_newProjectGeneralInformationDialog = new NewProjectGeneralInformationDialog(Driver);
-			_newProjectSelectGlossariesDialog = new NewProjectSelectGlossariesDialog(Driver);
-			_newProjectSetUpTMDialog = new NewProjectSetUpTMDialog(Driver);
-			_newProjectSetUpWorkflowDialog = new NewProjectSetUpWorkflowDialog(Driver);
-			_newProjectCreateTMDialog = new NewProjectCreateTMDialog(Driver);
 			_projectsPage = new ProjectsPage(Driver);
+
+			_newProjectDocumentUploadPage = new NewProjectDocumentUploadPage(Driver);
+			_newProjectSettingsPage = new NewProjectSettingsPage(Driver);
+			_newProjectWorkflowPage = new NewProjectWorkflowPage(Driver);
 		}
 
 		public CreateProjectHelper CreateNewProject(
@@ -36,63 +32,27 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 		{
 			_projectsPage.ClickCreateProjectButton();
 
-			_newProjectGeneralInformationDialog
-				.FillGeneralProjectInformation(projectName, filePath, sourceLanguage, targetLanguage, useMT: useMachineTranslation)
-				.ClickNextButton<NewProjectSetUpTMDialog>();
-
-			if (!personalAccount)
+			if (filePath == null)
 			{
-				_newProjectSetUpWorkflowDialog.ClickNextButton();
+				_newProjectDocumentUploadPage.ClickSkipDocumentUploadButton();
 			}
-
-			if (createNewTm)
+			else
 			{
-				var translationMemoryName = "TM_" + Guid.NewGuid();
+				_newProjectDocumentUploadPage.UploadDocument(filePath);
 
-				if (!string.IsNullOrEmpty(tmxFilePath))
+				if (!_newProjectDocumentUploadPage.IsFileUploaded(filePath))
 				{
-					_newProjectSetUpTMDialog
-						.ClickUploadTMButton()
-						.UploadTmxFile(tmxFilePath);
-				}
-				else
-				{
-					_newProjectSetUpTMDialog.ClickCreateTMButton();
+					throw new Exception(string.Format("Произошла ошибка: \n файл c именем {0} не загрузился.", filePath));
 				}
 
-				_newProjectCreateTMDialog
-					.SetNewTMName(translationMemoryName)
-					.ClickSaveButton();
-
-				if (!_newProjectSetUpTMDialog.IsNewProjectCreateTMDialogDisappeared())
-				{
-					throw new InvalidElementStateException("Произошла ошибка:\n диалог создания TM не закрылся");
-				}
-
-				if (!_newProjectSetUpTMDialog.IsTranslationMemoryExist(translationMemoryName))
-				{
-					throw new XPathLookupException("Произошла ошибка: \nTM не существует");
-				}
+				_newProjectDocumentUploadPage.ClickSettingsButton();
 			}
 
-			if (createGlossary)
-			{
-				_newProjectSetUpTMDialog.ClickNextButton<NewProjectSelectGlossariesDialog>();
+			_newProjectSettingsPage
+				.FillGeneralProjectInformation(projectName, sourceLanguage, targetLanguage, useMT: useMachineTranslation)
+				.ClickWorkflowButton();
 
-				_newProjectSelectGlossariesDialog
-					.ClickCreateGlossary()
-					.SetGlossaryName(glossaryName)
-					.ClickSaveButton();
-			}
-
-			if (!_newProjectCreateBaseDialog.IsFinishButtonEnabled())
-			{
-				throw new InvalidElementStateException("Ошибка: \n кнопка 'Готово' недоступна");
-			}
-
-			_newProjectCreateBaseDialog
-				.ClickFinishButton()
-				.AssertDialogBackgroundDisappeared<ProjectsPage>(Driver);
+			_newProjectWorkflowPage.ClickCreateProjectButton();
 
 			_projectsPage.WaitUntilProjectLoadSuccessfully(projectName);
 
@@ -104,12 +64,10 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 			return "Test Project" + "-" + Guid.NewGuid();
 		}
 
-		private readonly NewProjectCreateBaseDialog _newProjectCreateBaseDialog;
-		private readonly NewProjectGeneralInformationDialog _newProjectGeneralInformationDialog;
-		private readonly NewProjectSetUpWorkflowDialog _newProjectSetUpWorkflowDialog;
-		private readonly NewProjectSetUpTMDialog _newProjectSetUpTMDialog;
-		private readonly NewProjectSelectGlossariesDialog _newProjectSelectGlossariesDialog;
-		private readonly NewProjectCreateTMDialog _newProjectCreateTMDialog;
 		private readonly ProjectsPage _projectsPage;
+
+		private readonly NewProjectDocumentUploadPage _newProjectDocumentUploadPage;
+		private readonly NewProjectSettingsPage _newProjectSettingsPage;
+		private readonly NewProjectWorkflowPage _newProjectWorkflowPage;
 	}
 }

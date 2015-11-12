@@ -64,12 +64,12 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 		/// <summary>
 		/// Нажать на кнопку 'Создать проект'
 		/// </summary>
-		public NewProjectGeneralInformationDialog ClickCreateProjectButton()
+		public NewProjectDocumentUploadPage ClickCreateProjectButton()
 		{
 			CustomTestContext.WriteLine("Нажать на кнопку 'Создать проект'.");
 			CreateProjectButton.Click();
 
-			return new NewProjectGeneralInformationDialog(Driver).GetPage();
+			return new NewProjectDocumentUploadPage(Driver).GetPage();
 		}
 
 		/// <summary>
@@ -342,9 +342,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 		public bool IsFatalErrorSignDisplayed(string projectName)
 		{
 			CustomTestContext.WriteLine("Проверить, что документ загрузился в проект {0} без критических ошибок, не появился красный восклицательный знак.", projectName);
-			var fatalErrorElement = Driver.SetDynamicValue(How.XPath, PROJECT_CRITICAL_ERROR_LOAD, projectName);
 
-			return fatalErrorElement.Displayed;
+			return Driver.GetIsElementExist(By.XPath(PROJECT_CRITICAL_ERROR_LOAD.Replace("*#*", projectName)));
 		}
 
 		/// <summary>
@@ -354,9 +353,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 		public bool IsWarningSignDisplayed(string projectName)
 		{
 			CustomTestContext.WriteLine("Проверить, что документ загрузился в проект {0} без предупреждающей ошибки, не появился желтый восклицательный знак.", projectName);
-			var warningElement = Driver.SetDynamicValue(How.XPath, PROJECT_WARNING_ERROR_LOAD, projectName);
 
-			return warningElement.Displayed;
+			return Driver.GetIsElementExist(By.XPath(PROJECT_WARNING_ERROR_LOAD.Replace("*#*", projectName)));
 		}
 
 		/// <summary>
@@ -580,8 +578,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 		protected const string CREATE_PROJECT_BTN_XPATH = "//div[contains(@data-bind,'createProject')]";
 		protected const string CREATE_PROJECT_DIALOG_XPATH = "//div[contains(@class,'js-popup-create-project')][2]";
 		protected const string PROJECT_LOAD_IMG_XPATH = "//*[(local-name() ='a' or local-name() ='span') and text()='*#*']//preceding-sibling::img[contains(@data-bind,'processingInProgress')]";
-		protected const string PROJECT_CRITICAL_ERROR_LOAD = "//a[text()='*#*']//preceding-sibling::img[contains(@data-bind,'processingFatalError')]";
-		protected const string PROJECT_WARNING_ERROR_LOAD = "//a[text()='*#*']//preceding-sibling::img[contains(@data-bind,'processingError')]";
+		protected const string PROJECT_CRITICAL_ERROR_LOAD = "//a[text()='*#*']//preceding-sibling::i[contains(@class,'_critical-error')]";
+		protected const string PROJECT_WARNING_ERROR_LOAD = "//a[text()='*#*']//preceding-sibling::i[contains(@class,'_error')]";
 		protected const string PROJECTS_TABLE_XPATH = "//table[contains(@class,'js-tasks-table')]";
 		protected const string DELETE_BUTTON = "//div[contains(@data-bind,'deleteProjects')]";
 		protected const string PROJECT_SEARCH_FIELD = "//input[@name='searchName']";

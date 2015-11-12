@@ -68,7 +68,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 		[FindsBy(How = How.XPath, Using = CONFIRM_DELETE_BUTTON)]
 		protected IWebElement ConfirmDeleteButton { get; set; }
 
-		protected const string DELETE_DIALOG = "//div[contains(@class,'js-popup-delete-mode')]";
+		protected const string DELETE_DIALOG = "//div[contains(@class,'js-popup-confirm')]";
 		protected const string CONFIRM_DELETE_BUTTON = "//div[contains(@class,'js-popup-confirm')]//input[contains(@class,'js-submit-btn')]";
 	}
 }

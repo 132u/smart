@@ -24,7 +24,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 			_createProjectHelper = new CreateProjectHelper(Driver);
 			_projectsPage = new ProjectsPage(Driver);
 			_deleteDialog = new DeleteDialog(Driver);
-			_newProjectGeneralInformationDialog= new NewProjectGeneralInformationDialog(Driver);
+			_newProjectDocumentUploadPage = new NewProjectDocumentUploadPage(Driver);
+			_newProjectSettingsPage = new NewProjectSettingsPage(Driver);
 
 			_projectUniqueName = _createProjectHelper.GetProjectUniqueName();
 		}
@@ -81,9 +82,11 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 
 			_projectsPage.ClickCreateProjectButton();
 
-			_newProjectGeneralInformationDialog
+			_newProjectDocumentUploadPage.ClickSkipDocumentUploadButton();
+
+			_newProjectSettingsPage
 				.FillGeneralProjectInformation(_projectUniqueName)
-				.ClickNextButton<NewProjectGeneralInformationDialog>();
+				.ClickWorkflowButton();
 		}
 
 		[Test]
@@ -93,14 +96,14 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 
 			_projectsPage.ClickCreateProjectButton();
 
-			_newProjectGeneralInformationDialog
-				.FillGeneralProjectInformation(_projectUniqueName)
-				.ClickNextButton<NewProjectGeneralInformationDialog>();
+			_newProjectDocumentUploadPage.ClickSkipDocumentUploadButton();
 
-			Assert.IsTrue(_newProjectGeneralInformationDialog.IsDuplicateNameErrorMessageDisplayed(),
+			_newProjectSettingsPage.FillGeneralProjectInformation(_projectUniqueName);
+
+			Assert.IsTrue(_newProjectSettingsPage.IsDuplicateNameErrorMessageDisplayed(),
 				"Произошла ошибка:\n не появилось сообщение о существующем имени");
 
-			Assert.IsTrue(_newProjectGeneralInformationDialog.IsNameInputValidationMarkerDisplayed(),
+			Assert.IsTrue(_newProjectSettingsPage.IsNameInputValidationMarkerDisplayed(),
 				"Произошла ошибка:\n поле 'Название' не отмечено ошибкой");
 		}
 
@@ -108,8 +111,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 		public void CreateProjectLongNameTest()
 		{
 			var longProjectUniqueName = _createProjectHelper.GetProjectUniqueName() + _longName;
-			_createProjectHelper
-				.CreateNewProject(longProjectUniqueName);
+			_createProjectHelper.CreateNewProject(longProjectUniqueName);
 
 			Assert.IsTrue(_projectsPage.IsProjectAppearInList(longProjectUniqueName.Substring(0, 100)),
 				"Произошла ошибка:\n проект {0} не появился в списке проектов.", longProjectUniqueName.Substring(0, 100));
@@ -120,11 +122,14 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 		{
 			_projectsPage.ClickCreateProjectButton();
 
-			_newProjectGeneralInformationDialog
-				.FillGeneralProjectInformation(_projectUniqueName, sourceLanguage: Language.English, targetLanguage: Language.English)
-				.ClickNextButton<NewProjectGeneralInformationDialog>();
+			_newProjectDocumentUploadPage.ClickSkipDocumentUploadButton();
 
-			Assert.True(_newProjectGeneralInformationDialog.IsDuplicateLanguageErrorMessageDisplayed(),
+			_newProjectSettingsPage.FillGeneralProjectInformation(
+				_projectUniqueName, 
+				sourceLanguage: Language.English, 
+				targetLanguage: Language.English);
+
+			Assert.True(_newProjectSettingsPage.IsDuplicateLanguageErrorMessageDisplayed(),
 				"Произошла ошибка:\n не отображается сообщение о том, что source и target языки совпадают");
 		}
 
@@ -142,14 +147,14 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 
 			_projectsPage.ClickCreateProjectButton();
 
-			_newProjectGeneralInformationDialog
-				.FillGeneralProjectInformation(projectUniqueNameForbidden)
-				.ClickNextButton<NewProjectGeneralInformationDialog>();
+			_newProjectDocumentUploadPage.ClickSkipDocumentUploadButton();
 
-			Assert.IsTrue(_newProjectGeneralInformationDialog.IsForbiddenSymbolsInNameErrorMessageDisplayed(),
+			_newProjectSettingsPage.FillGeneralProjectInformation(projectUniqueNameForbidden);
+
+			Assert.IsTrue(_newProjectSettingsPage.IsForbiddenSymbolsInNameErrorMessageDisplayed(),
 				"Произошла ошибка:\n не появилось сообщение о недопустимых символах в имени");
 
-			Assert.IsTrue(_newProjectGeneralInformationDialog.IsNameInputValidationMarkerDisplayed(),
+			Assert.IsTrue(_newProjectSettingsPage.IsNameInputValidationMarkerDisplayed(),
 				"Произошла ошибка:\n поле 'Название' не отмечено ошибкой");
 		}
 
@@ -159,14 +164,14 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 		{
 			_projectsPage.ClickCreateProjectButton();
 
-			_newProjectGeneralInformationDialog
-				.FillGeneralProjectInformation(projectName)
-				.ClickNextButton<NewProjectGeneralInformationDialog>();
+			_newProjectDocumentUploadPage.ClickSkipDocumentUploadButton();
 
-			Assert.IsTrue(_newProjectGeneralInformationDialog.IsEmptyNameErrorMessageDisplayed(),
+			_newProjectSettingsPage.FillGeneralProjectInformation(projectName);
+
+			Assert.IsTrue(_newProjectSettingsPage.IsEmptyNameErrorMessageDisplayed(),
 				"Произошла ошибка:\n не появилось сообщение о пустом имени проекта");
 
-			Assert.IsTrue(_newProjectGeneralInformationDialog.IsNameInputValidationMarkerDisplayed(),
+			Assert.IsTrue(_newProjectSettingsPage.IsNameInputValidationMarkerDisplayed(),
 				"Произошла ошибка:\n поле 'Название' не отмечено ошибкой");
 		}
 
@@ -196,7 +201,10 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 		{
 			_projectsPage.ClickCreateProjectButton();
 
-			_newProjectGeneralInformationDialog.CancelCreateProject();
+			_newProjectDocumentUploadPage.ClickCancelButton();
+
+			Assert.IsTrue(_projectsPage.IsProjectsPageOpened(), 
+				"Произошла ошибка: \n страница со списком проектов не открылась.");
 		}
 
 		[Test]
@@ -204,11 +212,11 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 		{
 			_projectsPage.ClickCreateProjectButton();
 
-			_newProjectGeneralInformationDialog
-				.UploadFile(PathProvider.DocumentFile)
-				.ClickDeleteFile(PathProvider.DocumentFile);
+			_newProjectDocumentUploadPage
+				.UploadDocument(PathProvider.DocumentFile)
+				.DeleteDocument(Path.GetFileName(PathProvider.DocumentFile));
 
-			Assert.IsTrue(_newProjectGeneralInformationDialog.IsFileDeleted(PathProvider.DocumentFile),
+			Assert.IsTrue(_newProjectDocumentUploadPage.IsFileDeleted(PathProvider.DocumentFile),
 				"Произошла ошибка:\n файл {0} не удалился.", PathProvider.DocumentFile);
 		}
 
@@ -220,6 +228,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 
 		private ProjectsPage _projectsPage;
 		private DeleteDialog _deleteDialog;
-		private NewProjectGeneralInformationDialog _newProjectGeneralInformationDialog;
+
+		private NewProjectDocumentUploadPage _newProjectDocumentUploadPage;
+		private NewProjectSettingsPage _newProjectSettingsPage;
 	}
 }
