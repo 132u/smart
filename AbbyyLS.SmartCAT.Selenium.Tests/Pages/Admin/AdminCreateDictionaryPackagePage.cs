@@ -97,7 +97,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Admin
 
 		protected const string ADD_DICTIONARY_TO_PACK_BUTTON = "//input[@name='toRight']";
 		protected const string PUBLIC_DICTIONARY_CHECKBOX = "//input[@id='isPublic']";
-		protected const string DICTIONARY_PACKAGE_NAME = "//input[@id='packageSystemName']";
+		protected const string DICTIONARY_PACKAGE_NAME = "//input[@id='packageName']";
 		protected const string DICTIONARIES_LIST = "//select[@id='left']";
 		protected const string CREATE_DICTIONARY_PACK_BUTTON = "//input[@data-ref='frmCreatePackage']";
 	}
