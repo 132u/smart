@@ -296,7 +296,7 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		protected const string SIGN_IN_BUTTON = "//button[@id='btn-sign-in']";
 		protected const string FIRST_NAME_FIELD = "//input[@id='firstname']";
 		protected const string LAST_NAME_FIELD = "//input[@id='lastname']";
-		protected const string COUNTRY = "//select[@id='country']";
+		protected const string COUNTRY = "//select[@id='country']//option[@label='*#*']";
 		protected const string TIMEZONE = "//select[@id='timezone']";
 		protected const string NATIVE_LANGUAGE = "//select[contains(@class, 'multi-select-item ')]";
 		protected const string SERVICE_PROVIDE = "//table[@class='t-servSelect']//td[1]/select";

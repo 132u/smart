@@ -115,6 +115,5 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Login
 		protected const string EUROPE_HEADER = "//li[@translate='region-ru']";
 
 		#endregion
-
 	}
 }

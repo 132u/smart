@@ -45,10 +45,20 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace
 		public void LoadPage()
 		{
 			Driver.WaitPageTotalLoad();
-			if (!Driver.WaitUntilElementIsDisplay(By.XPath(USER_PICTURE), 30))
+			if (!IsWorkspacePageOpened())
 			{
 				Assert.Fail("Произошла ошибка:\n не загрузилась страница с workspace.");
 			}
+		}
+
+		/// <summary>
+		/// Проверить, открылась ли страница
+		/// </summary>
+		public bool IsWorkspacePageOpened()
+		{
+			CustomTestContext.WriteLine("Проверить, открылась ли страница Workspace.");
+
+			return Driver.WaitUntilElementIsDisplay(By.XPath(USER_PICTURE));
 		}
 
 		/// <summary>

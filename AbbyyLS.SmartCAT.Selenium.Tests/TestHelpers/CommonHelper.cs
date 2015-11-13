@@ -24,6 +24,11 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 			Driver.Navigate().GoToUrl(ConfigurationManager.Url + RelativeUrlProvider.CorpReg);
 		}
 
+		public void GoToFreelanceRegistratioin()
+		{
+			Driver.Navigate().GoToUrl(ConfigurationManager.Url + RelativeUrlProvider.FreelanceRegistratioin);
+		}
+
 		public void GoToAdminUrl()
 		{
 			Driver.Navigate().GoToUrl(ConfigurationManager.AdminUrl);

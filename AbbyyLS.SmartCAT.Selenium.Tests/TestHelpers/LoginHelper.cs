@@ -15,6 +15,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 			_adminHelper = new AdminHelper(Driver);
 			_commonHelper = new CommonHelper(Driver);
 			_signInPage = new SignInPage(Driver);
+			_workspaceHelper = new WorkspaceHelper(Driver);
 		}
 
 		public LoginHelper LogInSmartCat(
@@ -28,6 +29,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 				.SelectAccount(accountName, EuropeTestServerName)
 				.CloseHelpIfOpened()
 				.SelectLocale();
+
+			_workspaceHelper.SetUp(nickName);
 
 			return this;
 		}
@@ -51,6 +54,10 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 				case StartPage.CompanyRegistration:
 					_commonHelper.GoToCompanyRegistration();
+					break;
+
+				case StartPage.FreelanceRegistration:
+					_commonHelper.GoToFreelanceRegistratioin();
 					break;
 
 				case StartPage.SignIn:
@@ -78,8 +85,10 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 		private readonly AdminHelper _adminHelper;
 		private readonly CommonHelper _commonHelper;
 		private readonly SignInPage _signInPage;
+		private readonly WorkspaceHelper _workspaceHelper;
 
 		public const string TestAccountName = "TestAccount";
+		public const string PersonalAccountName = "Personal";
 		public const string PerevedemAccountName = "Perevedem";
 		public const string CourseraAccountName = "Coursera";
 

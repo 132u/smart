@@ -25,5 +25,13 @@
 				return "/corp-reg";
 			}
 		}
+
+		public static string FreelanceRegistratioin
+		{
+			get
+			{
+				return "/freelance-reg";
+			}
+		}
 	}
 }

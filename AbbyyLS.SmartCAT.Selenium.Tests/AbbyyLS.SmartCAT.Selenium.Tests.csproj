@@ -78,6 +78,9 @@
     <Compile Include="DataStructures\GlossaryCustomFieldType.cs" />
     <Compile Include="Pages\Projects\CreateProjectDialog\NewProjectDocumentUploadPage.cs" />
     <Compile Include="Pages\Projects\CreateProjectDialog\NewProjectWorkflowPage.cs" />
+    <Compile Include="Pages\Registration\FreelanceRegistration\FreelanceRegistrationFirstPage.cs" />
+    <Compile Include="Pages\Registration\FreelanceRegistration\FreelanceRegistrationSecondPage.cs" />
+    <Compile Include="Pages\Registration\FreelanceRegistration\FreelanceRegistrationSignInPage.cs" />
     <Compile Include="Pages\TranslationMemories\TranslationMemoriesFilterDialog.cs" />
     <Compile Include="RelativeUrlProvider.cs" />
     <Compile Include="Configs\TestsUserConfig.cs" />
@@ -151,8 +154,8 @@
     <Compile Include="Pages\Glossaries\GlossarySuccessImportDialog.cs" />
     <Compile Include="Pages\LingvoDictionaries\LingvoDictionariesPage.cs" />
     <Compile Include="Pages\Projects\SelectAssigneePage.cs" />
-    <Compile Include="Pages\Registration\CompanyRegistrationFirstPage.cs" />
-    <Compile Include="Pages\Registration\CompanyRegistrationSecondPage.cs" />
+    <Compile Include="Pages\Registration\CompanyRegistration\CompanyRegistrationFirstPage.cs" />
+    <Compile Include="Pages\Registration\CompanyRegistration\CompanyRegistrationSecondPage.cs" />
     <Compile Include="Pages\Search\SearchPage.cs" />
     <Compile Include="Pages\Editor\ErrorsDialog.cs" />
     <Compile Include="Pages\Editor\SpellcheckDictionaryDialog.cs" />
@@ -169,7 +172,7 @@
     <Compile Include="Pages\Projects\ExportMenu.cs" />
     <Compile Include="Pages\Projects\ExportNotification.cs" />
     <Compile Include="Pages\Projects\DocumentUploadDialog\DocumentUploadTaskAssignmentDialog.cs" />
-    <Compile Include="Pages\Registration\CompanyRegistrationSignInPage.cs" />
+    <Compile Include="Pages\Registration\CompanyRegistration\CompanyRegistrationSignInPage.cs" />
     <Compile Include="Pages\Projects\DocumentUploadDialog\DocumentUploadBaseDialog.cs" />
     <Compile Include="Pages\Projects\DocumentUploadDialog\DocumentUploadSetUpTMDialog.cs" />
     <Compile Include="Pages\Projects\ProjectSettings\SettingsDialog.cs" />
@@ -254,8 +257,8 @@
     <Compile Include="Tests\Projects\Export\ExportProjectSettingsPageTests.cs" />
     <Compile Include="Tests\LingvoDictionaries\LingvoDictionariesAdminTests.cs" />
     <Compile Include="Tests\LingvoDictionaries\LingvoDictionariesTests.cs" />
-    <Compile Include="Tests\CompanyRegistration\AdminCompanyRegistrationTests.cs" />
-    <Compile Include="Tests\CompanyRegistration\CompanyRegistrationTests.cs" />
+    <Compile Include="Tests\Registration\CompanyRegistration\AdminCompanyRegistrationTests.cs" />
+    <Compile Include="Tests\Registration\CompanyRegistration\CompanyRegistrationTests.cs" />
     <Compile Include="Tests\Projects\ProjectDeadlineTests.cs" />
     <Compile Include="Tests\Projects\Export\ExportProjectListTests.cs" />
     <Compile Include="Tests\ProjectGroups\ProjectGroupsTest.cs" />
@@ -263,6 +266,10 @@
     <Compile Include="Tests\Glossaries\SortingInSuggestedTermsTests.cs" />
     <Compile Include="Tests\Projects\ProjectSaveSettingsByBackTests.cs" />
     <Compile Include="Tests\Projects\Workflow\WorkflowPersonalAccountTests.cs" />
+    <Compile Include="Tests\Registration\FreelanceRegistration\FreelanceRegistrationAdminTests.cs" />
+    <Compile Include="Tests\Registration\FreelanceRegistration\FreelanceRegistrationBaseTests.cs" />
+    <Compile Include="Tests\Registration\FreelanceRegistration\FreelanceRegistrationBasicTests.cs" />
+    <Compile Include="Tests\Registration\FreelanceRegistration\FreelanceRegistrationValidationTests.cs" />
     <Compile Include="Tests\TranslationMemories\TMExportTests.cs" />
     <Compile Include="Tests\TranslationMemories\TMFilteringTests.cs" />
     <Compile Include="Tests\Glossaries\UserRights\ManageTermsTest.cs" />

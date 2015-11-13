@@ -5,6 +5,7 @@
 		Translation,
 		Editing,
 		Proofreading,
-		Postediting
+		Postediting,
+		Empty
 	};
 }

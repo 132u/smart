@@ -37,7 +37,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 				throw new XPathLookupException("Произошла ошибка:\n не удалось перейти на вкладку \"Проекты\".");
 			}
 		}
-
+		
 		#region Простые методы страницы
 
 		/// <summary>

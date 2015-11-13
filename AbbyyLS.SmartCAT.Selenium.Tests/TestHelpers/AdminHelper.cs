@@ -478,12 +478,14 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 			string email, 
 			string nickName,
 			string password, 
-			string accountName = LoginHelper.TestAccountName)
+			string accountName = LoginHelper.TestAccountName,
+			bool activeState = true,
+			bool aolUser = true)
 		{
-			CreateNewUser(email, nickName, password, admin: true, aolUser: true);
+			CreateNewUser(email, nickName, password, admin: true, aolUser: aolUser);
 			FindUser(email);
 			CheckAdminCheckbox();
-			CreateNewPersonalAccount(email, state: true);
+			CreateNewPersonalAccount(email, state: activeState);
 			AddUserToSpecificAccount(email, accountName);
 
 			return this;

@@ -6,6 +6,7 @@
 		CompanyRegistration,
 		SignIn,
 		Workspace,
-		PersonalAccount
+		PersonalAccount,
+		FreelanceRegistration
 	}
 }
