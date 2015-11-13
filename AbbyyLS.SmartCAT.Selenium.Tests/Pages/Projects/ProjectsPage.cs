@@ -375,6 +375,11 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 		{
 			CustomTestContext.WriteLine("Проверить, загрузился ли проект {0}.", projectName);
 
+			if (!Driver.WaitUntilElementIsDisappeared(By.XPath(PROJECT_LOAD_IMG_XPATH.Replace("*#*", projectName)), 30))
+			{
+				RefreshPage<WorkspacePage>();
+			}
+
 			return Driver.WaitUntilElementIsDisappeared(By.XPath(PROJECT_LOAD_IMG_XPATH.Replace("*#*", projectName)), 30);
 		}
 
