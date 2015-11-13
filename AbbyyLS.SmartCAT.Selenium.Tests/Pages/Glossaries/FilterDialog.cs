@@ -568,10 +568,10 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 		protected const string AUTHOR_CHECKBOXES = "//input[contains(@id,'ui-multiselect-creator-option')]";
 		protected const string MODIFIER_DROPDOWN = "//div[contains(@class,'modifier')]//div[contains(@class, 'ui-multiselect ui-widget')]";
 		protected const string MODIFIER_CHECKBOXES = "//input[contains(@id,'ui-multiselect-modifier-option')]";
-		protected const string DATE_CREATED_DROPDOWN = "//div[@class='l-filtersrc__lside']//img[@class='g-drpdwn__img g-bg']";
+		protected const string DATE_CREATED_DROPDOWN = "//div[@class='l-filtersrc__lside']//i";
 		protected const string DATE_OPTION = "//span[contains(@title, '*#*')]";
 		protected const string TODAY_CREATED_DATE = "//div[@class='l-filtersrc__lside']//span[@class='js-data *#*']";
-		protected const string DATE_MODIFIED_DROPDOWN = "//div[@class='l-filtersrc__rside']//img[@class='g-drpdwn__img g-bg']";
+		protected const string DATE_MODIFIED_DROPDOWN = "//div[@class='l-filtersrc__rside']//i";
 		protected const string TODAY_MODIFIED_DATE = "//div[@class='l-filtersrc__rside']//span[@class='js-data *#*']";
 		protected const string CREATED_DATE = "//div[@class='l-filtersrc__lside']//span[contains(@class, 'js-dropdown filterDate')]";
 		protected const string MODIFIED_DATE = "//div[@class='l-filtersrc__rside']//span[contains(@class, 'js-dropdown filterDate')]";

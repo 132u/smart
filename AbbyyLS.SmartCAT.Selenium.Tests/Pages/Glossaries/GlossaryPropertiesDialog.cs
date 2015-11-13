@@ -233,7 +233,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 		protected const string WARNING_DELETE_LANGUAGE = "//div[contains(@class, 'popup-edit-glossary')][2]//p[@data-message-id='language-deleted-warning']";
 		protected const string CANCEL_LANGUAGE_DELETE = ".//div[contains(@class,'js-popup-edit-glossary')][2]//a[contains(@data-bind, 'click: undoDeleteLanguage')]";
 		protected const string GLOSSARY_NAME = ".//div[contains(@class,'js-popup-edit-glossary')][2]//input[@class='g-bold l-editgloss__nmtext']";
-		protected const string SAVE_BUTTON = ".//div[contains(@class,'js-popup-edit-glossary')][2]//span[@class='g-btn g-redbtn ']";
+		protected const string SAVE_BUTTON = ".//div[contains(@class,'js-popup-edit-glossary')][2]//div[@class='g-btn g-redbtn ']";
 		protected const string ADVANCED_BUTTON = ".//div[contains(@class,'js-popup-edit-glossary')][2]//a[contains(@data-bind,'click: saveAndEditStructure')]";
 	}
 }
