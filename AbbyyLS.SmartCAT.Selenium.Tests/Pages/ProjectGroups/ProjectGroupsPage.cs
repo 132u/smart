@@ -377,7 +377,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.ProjectGroups
 		protected const string PROJECT_GROUP_ROW = "//table[contains(@class,'js-sortable-table')]//p[contains(string(), '*#*')]//..";
 		protected const string PROJECT_GROUPS_LIST = ".//table[contains(@class,'js-domains')]//tr[contains(@class,'js-row') and not(contains(@class,'g-hidden'))]";
 
-		protected const string ADD_PROJECT_GROUP_BUTTON = ".//span[contains(@class,'js-add-domain')]";
+		protected const string ADD_PROJECT_GROUP_BUTTON = "//div[contains(@class, 'add-domain')]//a";
 		protected const string NEW_PROJECT_GROUP_ROW = "//tr[not(contains(@class,'g-hidden'))]//td[contains(@class,'domainNew')]//div[contains(@class,'js-edit-mode')]//input[contains(@class,'js-domain-name-input')]";
 
 		protected const string SAVE_PROJECT_GROUP = "//tr[not(contains(@class,'g-hidden'))]//div[contains(@class,'js-edit-mode') and not(contains(@class,'g-hidden'))]//a[contains(@class,'js-save-domain')]";

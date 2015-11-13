@@ -362,7 +362,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace
 				currentUserName(), expectedUserName);
 
 			Assert.AreEqual(expectedUserName, currentUserName(),
-				"Произошла ошибка:\n имя пользователя в черной плашке не совпадает с ожидаемым именем.");
+				"Произошла ошибка:\n Имя пользователя в черной плашке не совпадает с ожидаемым именем.");
 
 			return GetPage();
 		}
@@ -618,7 +618,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace
 		protected const string SEARCH_MENU = "//div[contains(@class, 'menu-wrapper')]//a[contains(@href,'/Start')]";
 
 		protected const string USER_PICTURE = "//i[contains(@class, 'upic')]";
-		protected const string LOCALE_REF = "//a[contains(@class,'js-set-locale') and contains(@data-locale, '*#*')]";
+		protected const string LOCALE_REF = "//div[contains(@class, 'langTools')]//i[contains(@class, '*#*')]";
 		protected const string LANGUAGE_BUTTON = "//div[contains(@class, 'language-menu')]//span[contains(@class, 'language-button')]//i";
 		protected const string ACCOUNT = "//div[contains(@class,'js-usermenu')]";
 		protected const string USER_NAME = "//div[contains(@class,'js-usermenu')]//span[contains(@class,'nameuser')]";
