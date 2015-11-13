@@ -72,6 +72,21 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 		}
 
 		/// <summary>
+		/// Загрузка файла с ожиданием ошибки
+		/// </summary>
+		/// <param name="pathFile">путь к файлу</param>
+		public NewProjectDocumentUploadPage UploadDocumentExpectingError(string pathFile)
+		{
+			CustomTestContext.WriteLine("Загрузить файл: {0}.", pathFile);
+			Driver.ExecuteScript("arguments[0].style[\"display\"] = \"block\";" +
+				"arguments[0].style[\"visibility\"] = \"visible\";",
+				UploadDocumentInput);
+			UploadDocumentInput.SendKeys(pathFile);
+
+			return GetPage();
+		}
+
+		/// <summary>
 		/// Нажать на кнопку 'Settings' на странице загрузки документа
 		/// </summary>
 		public NewProjectSettingsPage ClickSettingsButton()
@@ -173,6 +188,17 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 			return Driver.WaitUntilElementIsDisappeared(By.XPath(UPLOADED_DOCUMENT.Replace("*#*", fileName)));
 		}
 
+		/// <summary>
+		/// Проверить, что возникла ошибка, указывающая на неверный формат загружаемого файла.
+		/// </summary>
+		public bool IsWrongDocumentFormatErrorDisplayed(string filePath)
+		{
+			CustomTestContext.WriteLine("Проверить, что возникла ошибка, указывающая на неверный формат загружаемого файла");
+			var fileName = Path.GetFileName(filePath);
+
+			return Driver.WaitUntilElementIsDisplay(By.XPath(ERROR_FORMAT_DOCUMENT_MESSAGE.Replace("*#*", fileName)));
+		}
+
 		#endregion
 
 		#region Объявление элементов страницы
@@ -202,6 +228,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 		protected const string SETTINGS_BUTTON = "//div[@class='btn-icon-wrap']//i[@class='icon-sc-arrow-right']";
 		protected const string CANCEL_BUTTON = "//a[contains(@data-bind,'cancel')]";
 		protected const string DELETE_DOCUMENT_BUTTON = "//td[@class='filename']//span[text()='*#*']//ancestor::table//preceding-sibling::i[contains(@data-bind,'removeDocument')]";
+		protected const string DUPLICATE_NAME_ERROR = "//div[contains(@class,'js-info-popup')]//span[contains(string(),'The following files have already been added to the project')]";
+		protected const string ERROR_FORMAT_DOCUMENT_MESSAGE = "//td[@class='filename']//span[@class='errorFileName' and text()='*#*']/../span[@class='mess-err' and @data-bind='if: unsupportedFormat' and text()='Unknown format']";
 
 		#endregion
 	}
