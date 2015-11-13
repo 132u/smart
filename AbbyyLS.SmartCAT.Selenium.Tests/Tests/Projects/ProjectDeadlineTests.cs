@@ -17,13 +17,16 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 		public void SetUpProjectDeadlineTest()
 		{
 			_workspaceHelper = new WorkspaceHelper(Driver);
-			_workspaceHelper.GoToProjectsPage();
 			_createProjectHelper = new CreateProjectHelper(Driver);
+
 			_projectsPage = new ProjectsPage(Driver);
-			_newProjectGeneralInformationDialog = new NewProjectGeneralInformationDialog(Driver);
-			_newProjectSetUpWorkflowDialog = new NewProjectSetUpWorkflowDialog(Driver);
+			_newProjectDocumentUploadPage = new NewProjectDocumentUploadPage(Driver);
+			_newProjectSettingsPage = new NewProjectSettingsPage(Driver);
+			_newProjectWorkflowPage = new NewProjectWorkflowPage(Driver);
 
 			_projectUniqueName = _createProjectHelper.GetProjectUniqueName();
+
+			_workspaceHelper.GoToProjectsPage();
 		}
 
 		[TestCase(Deadline.CurrentDate)]
@@ -33,11 +36,13 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 		{
 			_projectsPage.ClickCreateProjectButton();
 
-			_newProjectGeneralInformationDialog
-				.FillGeneralProjectInformation(_projectUniqueName, deadline: deadline)
-				.ClickNextButton<NewProjectSetUpWorkflowDialog>();
+			_newProjectDocumentUploadPage.ClickSkipDocumentUploadButton();
 
-			_newProjectSetUpWorkflowDialog.ClickFinishButton();
+			_newProjectSettingsPage
+				.FillGeneralProjectInformation(_projectUniqueName, deadline: deadline)
+				.ClickWorkflowButton();
+
+			_newProjectWorkflowPage.ClickCreateProjectButton();
 
 			Assert.IsTrue(_projectsPage.IsProjectAppearInList(_projectUniqueName),
 				"Произошла ошибка:\n проект {0} не появился в списке проектов.", _projectUniqueName);
@@ -53,20 +58,24 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 		{
 			_projectsPage.ClickCreateProjectButton();
 
-			_newProjectGeneralInformationDialog
-				.FillGeneralProjectInformation(_projectUniqueName, deadline: Deadline.FillDeadlineDate, date: dateFormat)
-				.ClickNextButton<NewProjectGeneralInformationDialog>();
+			_newProjectDocumentUploadPage.ClickSkipDocumentUploadButton();
 
-			Assert.IsTrue(_newProjectGeneralInformationDialog.IsErrorDeadlineDateMessageDisplayed(),
+			_newProjectSettingsPage.FillGeneralProjectInformation(_projectUniqueName,
+				deadline: Deadline.FillDeadlineDate,
+				date: dateFormat);
+
+			Assert.IsTrue(_newProjectSettingsPage.IsErrorDeadlineDateMessageDisplayed(),
 				"Произошла ошибка:\n При введении некорректной даты '{0}' не было сообщения о неверном формате даты", dateFormat);
 		}
 
 		private string _projectUniqueName;
 
 		private CreateProjectHelper _createProjectHelper;
-		private ProjectsPage _projectsPage;
 		private WorkspaceHelper _workspaceHelper;
-		private NewProjectGeneralInformationDialog _newProjectGeneralInformationDialog;
-		private NewProjectSetUpWorkflowDialog _newProjectSetUpWorkflowDialog;
+
+		private ProjectsPage _projectsPage;
+		private NewProjectDocumentUploadPage _newProjectDocumentUploadPage;
+		private NewProjectSettingsPage _newProjectSettingsPage;
+		private NewProjectWorkflowPage _newProjectWorkflowPage;
 	}
 }

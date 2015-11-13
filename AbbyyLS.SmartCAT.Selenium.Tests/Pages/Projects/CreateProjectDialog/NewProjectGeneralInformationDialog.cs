@@ -317,16 +317,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 		}
 
 		/// <summary>
-		/// Проверить, что возникла ошибка, указывающая на неверный формат загружаемого файла.
-		/// </summary>
-		public bool IsWrongDocumentFormatErrorDisplayed()
-		{
-			CustomTestContext.WriteLine("Проверить, что возникла ошибка, указывающая на неверный формат загружаемого файла");
-
-			return Driver.WaitUntilElementIsDisplay(By.XPath(ERROR_FORMAT_DOCUMENT_MESSAGE_XPATH));
-		}
-
-		/// <summary>
 		/// Проверить, открылся ли диалог создания проекта
 		/// </summary>
 		public bool IsNewProjectGeneralInformationDialogOpened()
@@ -395,16 +385,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 		}
 
 		/// <summary>
-		/// Проверить наличие сообщения о неверном формате даты
-		/// </summary>
-		public bool IsErrorDeadlineDateMessageDisplayed()
-		{
-			CustomTestContext.WriteLine("Проверить наличие сообщения о неверном формате даты");
-
-			return Driver.WaitUntilElementIsDisplay(By.XPath(ERROR_DEADLINE_DATE_XPATH));
-		}
-
-		/// <summary>
 		/// Проверить, что есть ошибка существующего имени
 		/// </summary>
 		public bool IsDuplicateNameErrorMessageDisplayed()
@@ -436,46 +416,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 			CustomTestContext.WriteLine("Проверить, появился ли календарь");
 
 			return Driver.WaitUntilElementIsDisplay(By.XPath(DEADLINE_DATE_CURRENT_XPATH));
-		}
-
-		/// <summary>
-		/// Проверить, есть ли ошибка совпадения source и target языков.
-		/// </summary>
-		public bool IsDuplicateLanguageErrorMessageDisplayed()
-		{
-			CustomTestContext.WriteLine("Проверить, есть ли ошибка совпадения source и target языков");
-
-			return Driver.WaitUntilElementIsDisplay(By.XPath(ERROR_DUPLICATE_LANG_XPATH));
-		}
-
-		/// <summary>
-		/// Проверить, есть ли ошибка недопустимых символов в имени
-		/// </summary>
-		public bool IsForbiddenSymbolsInNameErrorMessageDisplayed()
-		{
-			CustomTestContext.WriteLine("Проверить, есть ли ошибка недопустимых символов в имени");
-
-			return Driver.WaitUntilElementIsDisplay(By.XPath(ERROR_FORBIDDEN_SYMBOLS_NAME));
-		}
-
-		/// <summary>
-		/// Проверить, есть ли ошибка о пустом имени проекта
-		/// </summary>
-		public bool IsEmptyNameErrorMessageDisplayed()
-		{
-			CustomTestContext.WriteLine("Проверить, есть ли ошибка о пустом имени проекта");
-
-			return Driver.WaitUntilElementIsDisplay(By.XPath(ERROR_NO_NAME_XPATH));
-		}
-
-		/// <summary>
-		/// Проверить, что поле 'Название проекта' выделенно ошибкой
-		/// </summary>
-		public bool IsNameInputValidationMarkerDisplayed()
-		{
-			CustomTestContext.WriteLine("Проверить, что поле 'Название проекта' выделенно ошибкой.");
-
-			return ProjectNameInput.GetElementAttribute("class").Contains("error");
 		}
 
 		#endregion
@@ -611,7 +551,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 		protected const string DEADLINE_DATE_INPUT_XPATH = "//div[contains(@class,'js-popup-create-project')][2]//input[contains(@class, 'l-project__date')]";
 		protected const string PROJECT_NAME_INPUT_XPATH = "//div[contains(@class,'js-popup-create-project')][2]//input[@name='name']";
 		protected const string ERROR_NAME_EXISTS_XPATH = "//div[contains(@class,'js-popup-create-project')][2]//p[contains(@class,'js-error-name-exists')]";
-		protected const string ERROR_DEADLINE_DATE_XPATH = "//div[contains(@class,'js-popup-create-project')][2]//p[contains(@class,'js-error-date-incorrect')]";
 		protected const string ERROR_FILE_ALREADY_ADDED = "//span[contains(text(), 'The following files have already been added to the project')]";
 		protected const string CLOSE_BUTTON_ERROR_MESSAGE = "//a[contains(@class, 'js-close-link')]";
 

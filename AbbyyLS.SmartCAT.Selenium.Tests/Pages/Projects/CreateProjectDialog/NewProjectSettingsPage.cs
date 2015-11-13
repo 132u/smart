@@ -1,5 +1,5 @@
 ﻿using System;
-
+using System.Threading;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.PageObjects;
 
@@ -7,6 +7,7 @@ using AbbyyLS.SmartCAT.Selenium.Tests.DataStructures;
 using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace;
 using AbbyyLS.SmartCAT.Selenium.Tests.TestFramework;
+using OpenQA.Selenium.Support.UI;
 
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
@@ -65,11 +66,11 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 		/// Выбор исходного языка
 		/// </summary>
 		/// <param name="lang">исходный язык</param>
-		public NewProjectSettingsPage SelectSourceLanguage(Language lang)
+		public NewProjectSettingsPage SelectSourceLanguageInList(Language lang)
 		{
 			CustomTestContext.WriteLine("Выбрать исходный язык {0}", lang);
 			SourceLangItem = Driver.SetDynamicValue(How.XPath, SOURCE_LANG_ITEM, lang.ToString());
-			SourceLangItem.Click();
+			SourceLangItem.JavaScriptClick();
 
 			return GetPage();
 		}
@@ -88,7 +89,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 		/// <summary>
 		/// Снять выделение для всех таргет языков
 		/// </summary>
-		public NewProjectSettingsPage DeselectAllTargetLanguages()
+		public NewProjectSettingsPage DeselectAllTargetLanguagesInList()
 		{
 			CustomTestContext.WriteLine("Снять выделение для всех таргет языков.");
 			var targetLangItemsSelected = Driver.GetElementList(By.XPath(TARGET_LANG_ITEMS_SELECTED));
@@ -105,7 +106,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 		/// Выбрать язык перевода из списка
 		/// </summary>
 		/// <param name="lang">язык перевода</param>
-		public NewProjectSettingsPage SelectTargetLanguage(Language lang)
+		public NewProjectSettingsPage SelectTargetLanguageInList(Language lang)
 		{
 			CustomTestContext.WriteLine("Выбрать язык перевода {0} из списка.", lang);
 			TargetLangItem = Driver.SetDynamicValue(How.XPath, TARGET_LANG_ITEM, lang.ToString());
@@ -257,6 +258,31 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 		}
 
 		/// <summary>
+		/// Выбрать исходный язык
+		/// </summary>
+		/// <param name="sourceLanguage">исходный язык</param>
+		public NewProjectSettingsPage SetSourceLanguage(Language sourceLanguage = Language.English)
+		{
+			ClickSourceLangDropdown();
+			SelectSourceLanguageInList(sourceLanguage);
+
+			return GetPage();
+		}
+
+		/// <summary>
+		/// Выбрать язык перевода
+		/// </summary>
+		/// <param name="targetLanguage">язык перевода</param>
+		public NewProjectSettingsPage SetTargetLanguage(Language targetLanguage = Language.Russian)
+		{
+			ClickTargetLangDropdown();
+			DeselectAllTargetLanguagesInList();
+			SelectTargetLanguageInList(targetLanguage);
+
+			return GetPage();
+		}
+
+		/// <summary>
 		/// Заполняем основную информацию о проекте
 		/// </summary>
 		public NewProjectSettingsPage FillGeneralProjectInformation(
@@ -269,11 +295,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 		{
 			FillProjectName(projectName);
 			SetDeadline(deadline, date);
-			ClickSourceLangDropdown();
-			SelectSourceLanguage(sourceLanguage);
-			ClickTargetLangDropdown();
-			DeselectAllTargetLanguages();
-			SelectTargetLanguage(targetLanguage);
+			SetSourceLanguage(sourceLanguage);
+			SetTargetLanguage(targetLanguage);
 
 			if (useMT ^ IsMachineTranslationCheckboxSelected())
 			{
@@ -381,6 +404,16 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 			return Driver.WaitUntilElementIsDisplay(By.XPath(ERROR_NO_NAME));
 		}
 
+		/// <summary>
+		/// Проверить наличие сообщения о неверном формате даты
+		/// </summary>
+		public bool IsErrorDeadlineDateMessageDisplayed()
+		{
+			CustomTestContext.WriteLine("Проверить наличие сообщения о неверном формате даты");
+
+			return Driver.WaitUntilElementIsDisplay(By.XPath(ERROR_DEADLINE_DATE));
+		}
+
 		#endregion
 
 		#region Объявление элементов страницы
@@ -445,6 +478,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 		protected const string ERROR_DUPLICATE_LANG = "//span[contains(@data-bind,'targetLang == sourceLanguageId')]";
 		protected const string ERROR_FORBIDDEN_SYMBOLS_NAME = "//span[@data-message-id='nameHasInvalidChars']";
 		protected const string ERROR_NO_NAME = "//span[@data-message-id='isNameEmpty']";
+		protected const string ERROR_DEADLINE_DATE = "//div[@class='proj_deadline pull-right']//span[text()='Specify the deadline in the MM/DD/YYYY format.']";
 
 		#endregion
 	}
