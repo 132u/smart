@@ -245,7 +245,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings
 		public SettingsDialog ClickSettingsButton()
 		{
 			CustomTestContext.WriteLine("Нажать кнопку 'Настройки'");
-			SettingsButton.Click();
+			SettingsButton.JavaScriptClick();
 
 			return new SettingsDialog(Driver).GetPage();
 		}
@@ -450,7 +450,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings
 		protected const string DOCUMENT_CHECKBOX = ".//table[contains(@id,'JColResizer')]//tr[contains(string(), '*#*')]//td[2]//a//ancestor::td//preceding-sibling::td/input";
 		protected const string DOCUMENT_PROGRESS = "//td[div[a[text()='*#*']]]//following-sibling::td//div[contains(@class,'ui-progressbar__container')]";
 		protected const string DOCUMENT_SETTINGS_BUTTON = "//a[@class='intable g-bluebtn__text g-btn__text' and text()='Settings']";
-        protected const string SETTINGS_BUTTON = "(//span[contains(@data-bind,'click: edit')])[1]";
+		protected const string SETTINGS_BUTTON = "//i[contains(@data-bind,'click: edit')]";
 
 		protected const string SORT_BY_TRANSLATION_DOCUMENT = "//th[contains(@data-sort-by,'name')]//a";
 		protected const string SORT_BY_TYPE = "//th[contains(@data-sort-by,'fileExtension')]//a";

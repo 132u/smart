@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 using AbbyyLS.SmartCAT.Selenium.Tests.DataStructures;
 using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
@@ -28,6 +29,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 			bool createGlossary = false,
 			Language sourceLanguage = Language.English,
 			Language targetLanguage = Language.Russian,
+			IEnumerable<WorkflowTask> tasks = null,
 			bool personalAccount = false)
 		{
 			_projectsPage.ClickCreateProjectButton();
@@ -51,6 +53,16 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 			_newProjectSettingsPage
 				.FillGeneralProjectInformation(projectName, sourceLanguage, targetLanguage, useMT: useMachineTranslation)
 				.ClickWorkflowButton();
+
+			if (tasks != null)
+			{
+				_newProjectWorkflowPage.ClickClearButton();
+
+				foreach (var task in tasks)
+				{
+					_newProjectWorkflowPage.ClickNewTaskButton(task);
+				}
+			}
 
 			_newProjectWorkflowPage.ClickCreateProjectButton();
 

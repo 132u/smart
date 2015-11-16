@@ -171,10 +171,10 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings
 		protected const string WORKFLOW_TAB = "(//div[contains(@class,'js-popup-edit')])[2]//a[contains(@data-bind,'workflowTab')]";
 		protected const string DELETE_TASK_BUTTON = "(//div[contains(@class,'js-popup-edit')][2]//a[contains(@data-bind,'deleteWorkflowStage')])[*#*]";
 		protected const string CONFIRM_DELETE_DIALOG = "//div[contains(@class,'js-popup-confirm')]";
-		protected const string NEW_TASK_BUTTON = "//div[@class='g-popup-bd js-popup-bd js-popup-edit'][2]//span[contains(@data-bind, 'addWorkflowStage')]";
+		protected const string NEW_TASK_BUTTON = "//div[@class='g-popup-bd js-popup-bd js-popup-edit'][2]//div[contains(@data-bind, 'addWorkflowStage')]";
 		protected const string TASK = "//div[contains(@class,'js-popup-edit')][2]//tbody[@data-bind='foreach: workflowStages']//tr[*#*]//td[2]//span//span";
 		protected const string TASK_LIST = "//span[contains(@class,'js-dropdown__item') and @title='*#*']";
-		protected const string SAVE_BUTTON = "//div[@class='g-popup-bd js-popup-bd js-popup-edit'][2]//div[@class='g-popupbox__ft']//span//span/a";
+		protected const string SAVE_BUTTON = "//div[@class='g-popup-bd js-popup-bd js-popup-edit'][2]//div[@class='g-popupbox__ft']//div//a";
 		protected const string WORKFLOW_LIST = "//div[contains(@class,'js-popup-edit')][2]//tbody[@data-bind='foreach: workflowStages']//tr//td[2]//span//span";
 
 	}
