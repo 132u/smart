@@ -181,20 +181,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 			return GetPage();
 		}
 
-		/// <summary>
-		/// Нажать 'Удалить файл'
-		/// </summary>
-		/// <param name="filePath">путь до файла</param>
-		public NewProjectGeneralInformationDialog ClickDeleteFile(string filePath)
-		{
-			CustomTestContext.WriteLine("Нажать 'Удалить файл'.");
-			var fileName = Path.GetFileName(filePath);
-			DeleteFileButton = Driver.SetDynamicValue(How.XPath, DELETE_FILE_BTN_XPATH, fileName);
-			DeleteFileButton.Click();
-
-			return GetPage();
-		}
-
 		#endregion
 
 		#region Составные методы страницы
@@ -291,18 +277,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 		#endregion
 
 		#region Методы, проверяющие состояние страницы
-
-		/// <summary>
-		/// Проверить, что файл удалён
-		/// </summary>
-		/// <param name="filePath">путь до файла</param>
-		public bool IsFileDeleted(string filePath)
-		{
-			CustomTestContext.WriteLine("Проверить, что файл удалён");
-			var fileName = Path.GetFileName(filePath);
-
-			return Driver.WaitUntilElementIsDisappeared(By.XPath(DELETE_FILE_BTN_XPATH.Replace("*#*", fileName)));
-		}
 
 		/// <summary>
 		/// Проверить, что имя проекта совпадает с ожидаемым
@@ -526,8 +500,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 
 		protected IWebElement TargetLangItem { get; set; }
 
-		protected IWebElement DeleteFileButton { get; set; }
-
 		protected IList<IWebElement> TargetLangItemsSelected { get; set; }
 
 		#endregion
@@ -544,7 +516,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 		protected const string ERROR_DUPLICATE_LANG_XPATH = "//div[contains(@class,'js-popup-create-project')][2]//p[contains(@class,'js-error-sourceLanguage-match-targetLanguage')]";
 		protected const string ERROR_FORBIDDEN_SYMBOLS_NAME = "//div[contains(@class,'js-popup-create-project')][2]//p[contains(@class,'js-error-name-invalid-chars')]";
 		protected const string ERROR_NO_NAME_XPATH = "//div[contains(@class,'js-popup-create-project')][2]//p[contains(@class,'js-error-name-required')]";
-		protected const string DELETE_FILE_BTN_XPATH = "//div[contains(@class,'js-popup-create-project')][2]//li[contains(@class, 'js-file-list') and contains(string(), '*#*')]//div[contains(@class, 'btn')]//a[contains(@class, 'js-remove-file')]";
 		protected const string ADD_FILE_BTN_XPATH = "//div[contains(@class,'js-popup-create-project')][2]//div[contains(@class,'js-files-uploader')]//a";
 		protected const string TARGET_MULTISELECT_XPATH = "//div[contains(@class,'js-popup-create-project')][2]//div[contains(@class,'js-languages-multiselect')]";
 		protected const string SOURCE_LANG_DROPDOWN_XPATH = "//div[contains(@class,'js-popup-create-project')][2]//div[select[@id='sourceLanguage']]/span";

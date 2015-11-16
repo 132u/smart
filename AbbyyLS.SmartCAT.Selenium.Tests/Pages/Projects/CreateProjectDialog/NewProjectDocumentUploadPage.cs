@@ -128,8 +128,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 		public NewProjectDocumentUploadPage ClickDeleteDocumentButton(string fileName)
 		{
 			CustomTestContext.WriteLine("Нажать на кнопку удаления документа {0}.", fileName);
-			UploadedDocument = Driver.SetDynamicValue(How.XPath, DELETE_DOCUMENT_BUTTON, fileName);
-			UploadedDocument.Click();
+			DeleteFileButton = Driver.SetDynamicValue(How.XPath, DELETE_DOCUMENT_BUTTON, fileName);
+			DeleteFileButton.Click();
 
 			return GetPage();
 		}
@@ -199,6 +199,18 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 			return Driver.WaitUntilElementIsDisplay(By.XPath(ERROR_FORMAT_DOCUMENT_MESSAGE.Replace("*#*", fileName)));
 		}
 
+		/// <summary>
+		/// Проверить, что имя проекта совпадает с ожидаемым
+		/// </summary>
+		/// <param name="expectedProjectName">ожидаемое имя проекта</param>
+		public bool IsProjectNameMatchExpected(string expectedProjectName)
+		{
+			CustomTestContext.WriteLine("Проверить, что имя проекта = '{0}'", expectedProjectName);
+			var actualProjectName = ProjectNameInput.GetAttribute("value");
+
+			return actualProjectName == expectedProjectName;
+		}
+
 		#endregion
 
 		#region Объявление элементов страницы
@@ -215,7 +227,12 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 		[FindsBy(How = How.XPath, Using = CANCEL_BUTTON)]
 		protected IWebElement CancelButton { get; set; }
 
+		[FindsBy(How = How.XPath, Using = PROJECT_NAME_INPUT)]
+		protected IWebElement ProjectNameInput { get; set; }
+
 		protected IWebElement UploadedDocument { get; set; }
+
+		protected IWebElement DeleteFileButton { get; set; }
 
 		#endregion
 
@@ -230,6 +247,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 		protected const string DELETE_DOCUMENT_BUTTON = "//td[@class='filename']//span[text()='*#*']//ancestor::table//preceding-sibling::i[contains(@data-bind,'removeDocument')]";
 		protected const string DUPLICATE_NAME_ERROR = "//div[contains(@class,'js-info-popup')]//span[contains(string(),'The following files have already been added to the project')]";
 		protected const string ERROR_FORMAT_DOCUMENT_MESSAGE = "//td[@class='filename']//span[@class='errorFileName' and text()='*#*']/../span[@class='mess-err' and @data-bind='if: unsupportedFormat' and text()='Unknown format']";
+		protected const string PROJECT_NAME_INPUT = "//div[@class='edit_proj_title']//input[@name='name']";
 
 		#endregion
 	}

@@ -19,10 +19,14 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 		public void SetUpBaseProjectTest()
 		{
 			_workspaceHelper = new WorkspaceHelper(Driver);
-			_workspaceHelper.GoToProjectsPage();
-			_createProjectHelper = new CreateProjectHelper(Driver);
 			_projectsPage = new ProjectsPage(Driver);
-			_newProjectGeneralInformationDialog = new NewProjectGeneralInformationDialog(Driver);
+			_newProjectDocumentUploadPage = new NewProjectDocumentUploadPage(Driver);
+
+			_filePath = PathProvider.DocumentFile;
+			_fileName = Path.GetFileName(PathProvider.DocumentFile);
+			_projectName = Path.GetFileNameWithoutExtension(PathProvider.DocumentFile);
+
+			_workspaceHelper.GoToProjectsPage();
 		}
 
 		[Test]
@@ -30,28 +34,34 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 		{
 			_projectsPage.ClickCreateProjectButton();
 
-			_newProjectGeneralInformationDialog.UploadFile(_filePath);
+			_newProjectDocumentUploadPage.UploadDocument(_filePath);
 
-			Assert.IsTrue(_newProjectGeneralInformationDialog.IsFileUploaded(_filePath),
+			Assert.IsTrue(_newProjectDocumentUploadPage.IsFileUploaded(_filePath),
 				"Произошла ошибка:\n не удалось загрузить файл {0}.", _filePath);
 
-			Assert.IsTrue(_newProjectGeneralInformationDialog.IsProjectNameMatchExpected(_fileName),
+			_newProjectDocumentUploadPage.ClickSettingsButton();
+
+			Assert.IsTrue(_newProjectDocumentUploadPage.IsProjectNameMatchExpected(_projectName),
 				"Произошла ошибка:\n имя проекта не совпадает с ожидаемым");
 		}
 
-		[Test, Ignore("Проверить тест: загружаются 2 одинаковых файла. Что проверяет тест?")]
+		[Test]
 		public void AutofillProjectNameAddTwoFiles()
 		{
+			var secondFilePath = PathProvider.DocumentFile2;
+
 			_projectsPage.ClickCreateProjectButton();
 
-			_newProjectGeneralInformationDialog
-				.UploadFile(_filePath)
-				.UploadFile(_filePath);
+			_newProjectDocumentUploadPage
+				.UploadDocument(_filePath)
+				.UploadDocument(secondFilePath);
 
-			Assert.IsTrue(_newProjectGeneralInformationDialog.IsFileUploaded(_filePath),
+			Assert.IsTrue(_newProjectDocumentUploadPage.IsFileUploaded(secondFilePath),
 				"Произошла ошибка:\n не удалось загрузить файл {0}.", _filePath);
 
-			Assert.IsTrue(_newProjectGeneralInformationDialog.IsProjectNameMatchExpected(_fileName),
+			_newProjectDocumentUploadPage.ClickSettingsButton();
+
+			Assert.IsTrue(_newProjectDocumentUploadPage.IsProjectNameMatchExpected(_projectName),
 				"Произошла ошибка:\n имя проекта не совпадает с ожидаемым");
 		}
 
@@ -60,22 +70,25 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 		{
 			_projectsPage.ClickCreateProjectButton();
 
-			_newProjectGeneralInformationDialog
-				.UploadFile(_filePath)
-				.ClickDeleteFile(_filePath);
+			_newProjectDocumentUploadPage
+				.UploadDocument(_filePath)
+				.DeleteDocument(_fileName);
 
-			Assert.IsTrue(_newProjectGeneralInformationDialog.IsFileDeleted(_filePath),
+			Assert.IsTrue(_newProjectDocumentUploadPage.IsFileDeleted(_filePath),
 				"Произошла ошибка:\n файл {0} не удалился.", _filePath);
 
-			Assert.IsTrue(_newProjectGeneralInformationDialog.IsProjectNameMatchExpected(_fileName),
+			_newProjectDocumentUploadPage.ClickSkipDocumentUploadButton();
+
+			Assert.IsTrue(_newProjectDocumentUploadPage.IsProjectNameMatchExpected(string.Empty),
 				"Произошла ошибка:\n имя проекта не совпадает с ожидаемым");
 		}
 
-		private CreateProjectHelper _createProjectHelper;
-		private string _fileName = Path.GetFileNameWithoutExtension(PathProvider.DocumentFile);
-		private string _filePath = PathProvider.DocumentFile;
+		private string _fileName;
+		private string _filePath;
+		private string _projectName;
+
 		private WorkspaceHelper _workspaceHelper;
-		private NewProjectGeneralInformationDialog _newProjectGeneralInformationDialog;
+		private NewProjectDocumentUploadPage _newProjectDocumentUploadPage;
 		private ProjectsPage _projectsPage;
 	}
 }
