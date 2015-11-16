@@ -275,12 +275,11 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 
 		[FindsBy(How = How.XPath, Using = ITEMS_LIST_FIELD)]
 		protected IWebElement ItemsListField { get; set; }
-
-
+		
 		[FindsBy(How = How.XPath, Using = ADD_SYSTEM_FIELD_BUTTON)]
 		protected IWebElement AddSystemFieldButton { get; set; }
 
-		protected const string SAVE_BUTTON = "//div[contains(@class, 'js-popup-buttons')]//span[contains(@class, 'js-save')]";
+		protected const string SAVE_BUTTON = "//div[contains(@class, 'js-popup-buttons')]//div[contains(@class, 'js-save')]";
 		protected const string ADD_TO_LIST_BUTTON = "//span[contains(@class,'js-add-tbx-attribute')]";
 		protected const string SYSTEM_FIELD = "//table[contains(@class, 'table concept')]//tr[@data-attr-type='*#*']";
 		protected const string ADDED_SYSTEM_FIELD = "//div[@class='l-editgloss__tbxreslt']//td[contains(text(), '*#*')]";
@@ -297,7 +296,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 		protected const string GLOSSARY_STRUCTURE_DIALOG_HEADER = "//h2[contains(text(), 'Structure')]";
 		protected const string ITEMS_LIST_FIELD = "//table[contains(@class,'l-editgloss__tblEditStructure')]//input[contains(@class,'js-choice-values')]";
 
-		protected const string ADD_SYSTEM_FIELD_BUTTON = "//div[contains(@class, 'js-popup-edit-structure')]//div[contains(@class, 'addinlist')]//span//a";
+		protected const string ADD_SYSTEM_FIELD_BUTTON = "//div[contains(@class, 'js-popup-edit-structure')]//div[contains(@class, 'addinlist')]//div//a";
 		protected const string FIELD_NAME_LIST_IN_SYSTEM_FILEDS_TAB = "//table[contains(@class,'js-predefined-attrs-table')][contains(@style,'table')]//tr[contains(@class,'js-attr-row') and not(contains(@class,'g-hidden'))]/td[1]";
 		protected const string TERM_FIELD_OPTION = "//table[contains(@class, 'table term')]//td[text()='*#*']";
 	}

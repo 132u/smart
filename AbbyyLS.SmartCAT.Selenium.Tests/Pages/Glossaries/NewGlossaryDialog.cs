@@ -333,7 +333,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 		protected IWebElement ProjectGroupsItem { get; set; }
 
 		protected const string LANGUAGES_LIST = "//body/span[contains(@class,'js-dropdown')]//span[@title='*#*']";
-		protected const string GLOSSARY_NAME = ".//div[contains(@class,'js-popup-edit-glossary')][2]//input[@class='g-bold l-editgloss__nmtext']";
+		protected const string GLOSSARY_NAME = ".//div[contains(@class,'js-popup-edit-glossary')][2]//input[@class='l-editgloss__nmtext']";
 		protected const string GLOSSARY_COMMENT = ".//div[contains(@class,'js-popup-edit-glossary')][2]//div[@class='l-editgloss__cont last']//textarea";
 		protected const string LANGUAGE_DROPDOWN = "//div[contains(@class,'edit-glossary')][2]//span[*#*][contains(@class, 'l-editgloss__lang')]/span[2]";
 		protected const string LANGUAGE_DROPDOWN_SELECT = "//div[contains(@class,'edit-glossary')][2]//span[*#*][contains(@class, 'l-editgloss__lang')]//select";

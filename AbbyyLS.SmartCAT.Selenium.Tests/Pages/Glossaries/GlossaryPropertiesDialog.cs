@@ -225,14 +225,14 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 		protected const string LAST_LANGUAGE_DROPDOWN = ".//div[contains(@class,'js-popup-edit-glossary')][2]//span[@class='g-btn g-bluebtn addlang']//preceding-sibling::span[@class='g-iblock l-editgloss__control l-editgloss__lang'][1]//span/span";
 
 		protected const string GLOSSARY_PROPERTIES_DIALOG = ".//div[contains(@class,'js-popup-edit-glossary')][2]";
-		protected const string DELETE_GLOSSARY_BUTTON = ".//div[contains(@class,'js-popup-edit-glossary')][2]//span[contains(@data-bind, 'click: deleteGlossary')]";
+		protected const string DELETE_GLOSSARY_BUTTON = ".//div[contains(@class,'js-popup-edit-glossary')][2]//div[contains(@data-bind, 'click: deleteGlossary')]";
 		protected const string CONFIRM_DELETE_BUTTON = ".//div[contains(@class,'js-popup-edit-glossary')][2]//a[contains(@data-bind, 'click: deleteGlossary')]";
 		protected const string CONFIRM_DELETE_MESSAGE = "//div[contains(@class, 'popup-edit-glossary')][2]//p[@data-message-id='confirm-delete-glossary']";
 		protected const string LANGUAGE_LIST = "//div[@class='l-editgloss__contrbox'][1]//span[@class='g-iblock l-editgloss__control l-editgloss__lang']";
 		protected const string DELETE_LANGUAGE_BUTTON = ".//div[contains(@class,'js-popup-edit-glossary')][2]//div[@class='l-editgloss__contrbox'][1]//span[*#*]//em";
 		protected const string WARNING_DELETE_LANGUAGE = "//div[contains(@class, 'popup-edit-glossary')][2]//p[@data-message-id='language-deleted-warning']";
 		protected const string CANCEL_LANGUAGE_DELETE = ".//div[contains(@class,'js-popup-edit-glossary')][2]//a[contains(@data-bind, 'click: undoDeleteLanguage')]";
-		protected const string GLOSSARY_NAME = ".//div[contains(@class,'js-popup-edit-glossary')][2]//input[@class='g-bold l-editgloss__nmtext']";
+		protected const string GLOSSARY_NAME = ".//div[contains(@class,'js-popup-edit-glossary')][2]//input[@class='l-editgloss__nmtext']";
 		protected const string SAVE_BUTTON = ".//div[contains(@class,'js-popup-edit-glossary')][2]//div[@class='g-btn g-redbtn ']";
 		protected const string ADVANCED_BUTTON = ".//div[contains(@class,'js-popup-edit-glossary')][2]//a[contains(@data-bind,'click: saveAndEditStructure')]";
 	}

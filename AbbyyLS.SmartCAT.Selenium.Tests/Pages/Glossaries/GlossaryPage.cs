@@ -1517,16 +1517,16 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 
 		protected const string GLOSSARY_SAVE_BUTTON = ".//div[contains(@class,'js-popup-edit-glossary')][2]//span[@class='g-btn g-redbtn ']";
 		protected const string GLOSSARY_PROPERTIES = "//div[contains(@class,'js-edit-glossary-btn')]";
-		protected const string EDIT_GLOSSARY_MENU = "//span[contains(@class,'js-edit-submenu')]";
+		protected const string EDIT_GLOSSARY_MENU = "//i[contains(@class,'edit-submenu')]";
 		protected const string TERM_FIELD = "//tr[contains(@class, 'js-concept')]//td[*#*]//input[contains(@class,'js-term')]";
 		protected const string NEW_ENTRY_BUTTON = "//div[contains(@class,'js-add-concept')]";
 		protected const string PLUS_BUTTON = "//td[1]//span[contains(@class,'js-add-term')]";
-		protected const string TERM_SAVE_BUTTON = "//span//a[contains(@class,'js-save-btn')]";
+		protected const string TERM_SAVE_BUTTON = "//i[contains(@class, 'js-save-btn')]";
 		protected const string SAVE_ENTRY_BUTTON = "//span[contains(@class,'g-btn g-bluebtn js-save-btn js-edit l-corpr__btnmargin')]";
 		protected const string GLOSSARY_STRUCTURE = "//div[contains(@class,'js-edit-structure-btn')]";
 		protected const string EXTEND_MODE = "//tr[contains(@class, 'js-concept')]//td";
-		protected const string IMPORT_BUTTON = "//span[contains(@class,'js-import-concepts')]";
-		protected const string EXPORT_BUTTON = "//a[contains(@class,'js-export-concepts')]";
+		protected const string IMPORT_BUTTON = "//i[contains(@class,'js-import-concepts')]";
+		protected const string EXPORT_BUTTON = "//i[contains(@class,'js-export-concepts')]";
 		protected const string TERM_ROW = "//tr[contains(@class, 'js-concept-row')]";
 		protected const string TERMS_TEXT = "//tr[contains(@class, 'js-concept-row')]//td[contains(@class, 'glossaryLang')]//p";
 

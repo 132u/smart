@@ -44,7 +44,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 
 			ImportGlossaryInput.SendKeys(pathFile);
 
-			Driver.ExecuteScript("document.getElementsByClassName('g-iblock g-bold l-editgloss__filelink js-filename-link')[0].innerHTML = '" + Path.GetFileName(pathFile) + "'");
+			Driver.ExecuteScript("document.getElementsByClassName('g-iblock l-editgloss__filelink js-filename-link')[0].innerHTML = '" + Path.GetFileName(pathFile) + "'");
 
 			return GetPage();
 		}
@@ -80,7 +80,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 		protected IWebElement ReplaceAllButton { get; set; }
 
 		protected const string IMPORT_GLOSSARY_INPUT = "//form[contains(@action,'Enterprise/Glossaries/Import')]//input[contains(@class,'js-submit-input')]";
-		protected const string IMPORT_BUTTON = "//div[contains(@class,'js-popup-import')][2]//span[contains(@class,'js-import-button')]";
+		protected const string IMPORT_BUTTON = "//div[contains(@class,'js-popup-import')][2]//div[contains(@class,'js-import-button')]";
 		protected const string REPLACE_ALL_BUTTON = "//div[contains(@class,'js-popup-import')][2]//input[contains(@id,'needToClear')][@value='True']";
 		protected const string IMPORT_IN_PROGRESS_MESSAGE = "//div[contains(@class, 'js-please-wait')]";
 	}

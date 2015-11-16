@@ -919,7 +919,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 		public GlossariesHelper DeleteGlossaryInPropertiesDialog()
 		{
 			BaseObject.InitPage(_glossaryPropertiesDialog, Driver);
-			_glossaryPropertiesDialog.ClickDeleteGlossaryButton()
+			_glossaryPropertiesDialog
+				.ClickDeleteGlossaryButton()
 				.AssertConfirmDeleteMessageDisplay()
 				.ClickConfirmDeleteGlossaryButton();
 
