@@ -13,6 +13,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 	[Parallelizable(ParallelScope.Fixtures)]
 	[PriorityMajor]
 	[Standalone]
+	[Category("QWERTY")]
 	class AutofillProjectNameTests<TWebDriverProvider> : BaseTest<TWebDriverProvider> where TWebDriverProvider : IWebDriverProvider, new()
 	{
 		[SetUp]
@@ -29,23 +30,20 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 			_workspaceHelper.GoToProjectsPage();
 		}
 
-		[Test]
+		[Test(Description = "Проверяет автозаполнение имени проекта")]
 		public void AutofillProjectName()
 		{
 			_projectsPage.ClickCreateProjectButton();
 
-			_newProjectDocumentUploadPage.UploadDocument(_filePath);
-
-			Assert.IsTrue(_newProjectDocumentUploadPage.IsFileUploaded(_filePath),
-				"Произошла ошибка:\n не удалось загрузить файл {0}.", _filePath);
-
-			_newProjectDocumentUploadPage.ClickSettingsButton();
+			_newProjectDocumentUploadPage
+				.UploadDocument(_filePath)
+				.ClickSettingsButton();
 
 			Assert.IsTrue(_newProjectDocumentUploadPage.IsProjectNameMatchExpected(_projectName),
 				"Произошла ошибка:\n имя проекта не совпадает с ожидаемым");
 		}
 
-		[Test]
+		[Test(Description = "Проверяет автозаполнение имени проекта по первому файлу")]
 		public void AutofillProjectNameAddTwoFiles()
 		{
 			var secondFilePath = PathProvider.DocumentFile2;
@@ -54,32 +52,42 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 
 			_newProjectDocumentUploadPage
 				.UploadDocument(_filePath)
-				.UploadDocument(secondFilePath);
-
-			Assert.IsTrue(_newProjectDocumentUploadPage.IsFileUploaded(secondFilePath),
-				"Произошла ошибка:\n не удалось загрузить файл {0}.", _filePath);
-
-			_newProjectDocumentUploadPage.ClickSettingsButton();
+				.UploadDocument(secondFilePath)
+				.ClickSettingsButton();
 
 			Assert.IsTrue(_newProjectDocumentUploadPage.IsProjectNameMatchExpected(_projectName),
 				"Произошла ошибка:\n имя проекта не совпадает с ожидаемым");
 		}
 
-		[Test]
+		[Test(Description = "Проверяет отсутствие автозаполнения при удалении единственного файла")]
 		public void AutofillProjectNameDeleteFile()
 		{
 			_projectsPage.ClickCreateProjectButton();
 
 			_newProjectDocumentUploadPage
 				.UploadDocument(_filePath)
-				.DeleteDocument(_fileName);
-
-			Assert.IsTrue(_newProjectDocumentUploadPage.IsFileDeleted(_filePath),
-				"Произошла ошибка:\n файл {0} не удалился.", _filePath);
-
-			_newProjectDocumentUploadPage.ClickSkipDocumentUploadButton();
+				.DeleteDocument(_fileName)
+				.ClickSkipDocumentUploadButton();
 
 			Assert.IsTrue(_newProjectDocumentUploadPage.IsProjectNameMatchExpected(string.Empty),
+				"Произошла ошибка:\n имя проекта не совпадает с ожидаемым");
+		}
+
+		[Test(Description = "Проверяет автозаполнение имени проекта по второму файлу")]
+		public void AutofillProjectNameDeleteOneFile()
+		{
+			var secondFilePath = PathProvider.DocumentFile2;
+			var secondFileName = Path.GetFileNameWithoutExtension(PathProvider.DocumentFile2);
+
+			_projectsPage.ClickCreateProjectButton();
+
+			_newProjectDocumentUploadPage
+				.UploadDocument(_filePath)
+				.UploadDocument(secondFilePath)
+				.DeleteDocument(_fileName)
+				.ClickSettingsButton();
+
+			Assert.IsTrue(_newProjectDocumentUploadPage.IsProjectNameMatchExpected(secondFileName),
 				"Произошла ошибка:\n имя проекта не совпадает с ожидаемым");
 		}
 
