@@ -1,18 +1,15 @@
 ﻿using System;
-using System.Threading;
+
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.PageObjects;
 
 using AbbyyLS.SmartCAT.Selenium.Tests.DataStructures;
 using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
-using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace;
 using AbbyyLS.SmartCAT.Selenium.Tests.TestFramework;
-using OpenQA.Selenium.Support.UI;
-
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 {
-	public class NewProjectSettingsPage : WorkspacePage, IAbstractPage<NewProjectSettingsPage>
+	public class NewProjectSettingsPage : NewProjectCreateBaseDialog, IAbstractPage<NewProjectSettingsPage>
 	{
 		public NewProjectSettingsPage(WebDriver driver)
 			: base(driver)

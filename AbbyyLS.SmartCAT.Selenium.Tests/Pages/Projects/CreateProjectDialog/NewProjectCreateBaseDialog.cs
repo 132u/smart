@@ -67,6 +67,36 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 			return instance.GetPage();
 		}
 
+		/// <summary>
+		/// Нажать на ссылку Files в навигационном меню
+		/// </summary>
+		public NewProjectDocumentUploadPage ClickFilesLink()
+		{
+			FilesLink.Click();
+
+			return new NewProjectDocumentUploadPage(Driver).GetPage();
+		}
+
+		/// <summary>
+		/// Нажать на ссылку Settings в навигационном меню
+		/// </summary>
+		public NewProjectSettingsPage ClickSettingsLink()
+		{
+			SettingsLink.Click();
+
+			return new NewProjectSettingsPage(Driver).GetPage();
+		}
+
+		/// <summary>
+		/// Нажать на ссылку Workflow в навигационном меню
+		/// </summary>
+		public NewProjectWorkflowPage ClickWorkflowLink()
+		{
+			WorkflowLink.Click();
+
+			return new NewProjectWorkflowPage(Driver).GetPage();
+		}
+
 		#endregion
 
 		#region Составные методы страницы
@@ -138,6 +168,15 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 		[FindsBy(How = How.XPath, Using = BACK_BUTTON)]
 		protected IWebElement BackButton { get; set; }
 
+		[FindsBy(How = How.XPath, Using = FILES_LINK)]
+		protected IWebElement FilesLink { get; set; }
+
+		[FindsBy(How = How.XPath, Using = SETTINGS_LINK)]
+		protected IWebElement SettingsLink { get; set; }
+
+		[FindsBy(How = How.XPath, Using = WORKFLOW_LINK)]
+		protected IWebElement WorkflowLink { get; set; }
+
 		#endregion
 
 		#region Описания XPath элементов
@@ -147,6 +186,10 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 		protected const string CLOSE_DIALOG_BTN = "//div[contains(@class,'js-popup-create-project')][2]//img[contains(@class,'js-popup-close')]";
 		protected const string NEXT_BUTTON = "//div[contains(@class,'js-popup-create-project')][2]//div[contains(@class,'js-next')]";
 		protected const string BACK_BUTTON = "//div[contains(@class,'js-popup-create-project')][2]//span[contains(@class,'js-back')]";
+
+		protected const string FILES_LINK = "//div[@class='nav-center']//.//li[text()='Files']";
+		protected const string SETTINGS_LINK = "//div[@class='nav-center']//.//li[text()='Settings']";
+		protected const string WORKFLOW_LINK = "//div[@class='nav-center']//.//li[text()='Workflow']";
 
 		#endregion
 	}

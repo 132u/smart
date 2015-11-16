@@ -19,27 +19,35 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 			_createProjectHelper = new CreateProjectHelper(Driver);
 			_projectsPage = new ProjectsPage(Driver);
 			_deleteDialog = new DeleteDialog(Driver);
-			_newProjectGeneralInformationDialog = new NewProjectGeneralInformationDialog(Driver);
-			_newProjectSetUpWorkflowDialog = new NewProjectSetUpWorkflowDialog(Driver);
+			_newProjectDocumentUploadPage = new NewProjectDocumentUploadPage(Driver);
+			_newProjectSettingsPage = new NewProjectSettingsPage(Driver);
+			_newProjectWorkflowPage = new NewProjectWorkflowPage(Driver);
 
 			_projectUniqueName = _createProjectHelper.GetProjectUniqueName();
 			_newProjectName = _createProjectHelper.GetProjectUniqueName();
 		}
 
-		[Test]
+		[Test, Ignore("PRX-13070")]
 		public void ChangeProjectNameOnNew()
 		{
 			_projectsPage.ClickCreateProjectButton();
 
-			_newProjectGeneralInformationDialog
+			_newProjectDocumentUploadPage.ClickSkipDocumentUploadButton();
+
+			_newProjectSettingsPage
 				.FillGeneralProjectInformation(_projectUniqueName)
-				.ClickNextButton<NewProjectSetUpWorkflowDialog>();
+				.ClickWorkflowButton();
 
-			_newProjectSetUpWorkflowDialog.ClickBackButton<NewProjectGeneralInformationDialog>();
+			_newProjectWorkflowPage.ClickSettingsLink();
 
-			_newProjectGeneralInformationDialog
+			_newProjectSettingsPage
 				.FillProjectName(_newProjectName)
-				.ClickNextButton<NewProjectSetUpWorkflowDialog>();
+				.ClickWorkflowButton();
+
+			_newProjectWorkflowPage.ClickCreateProjectButton();
+
+			Assert.IsTrue(_projectsPage.IsProjectExist(_newProjectName),
+				"Произошла ошибка: \nне найден проект с новым именем");
 		}
 
 		[Test]
@@ -49,21 +57,23 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 
 			_projectsPage.ClickCreateProjectButton();
 
-			_newProjectGeneralInformationDialog
+			_newProjectDocumentUploadPage.ClickSkipDocumentUploadButton();
+
+			_newProjectSettingsPage
 				.FillGeneralProjectInformation(_newProjectName)
-				.ClickNextButton<NewProjectSetUpWorkflowDialog>();
+				.ClickWorkflowButton();
 
-			_newProjectSetUpWorkflowDialog.ClickBackButton<NewProjectGeneralInformationDialog>();
+			_newProjectWorkflowPage.ClickSettingsLink();
 
-			_newProjectGeneralInformationDialog
+			_newProjectSettingsPage
 				.FillProjectName(_projectUniqueName)
-				.ClickNextButton<NewProjectGeneralInformationDialog>();
+				.ClickWorkflowButton();
 
-			Assert.IsTrue(_newProjectGeneralInformationDialog.IsDuplicateNameErrorMessageDisplayed(),
+			Assert.IsTrue(_newProjectSettingsPage.IsDuplicateNameErrorMessageDisplayed(),
 				"Произошла ошибка:\n не появилось сообщение о существующем имени");
 		}
 
-		[Test]
+		[Test, Ignore("PRX-13070")]
 		public void ChangeProjectNameOnDeleted()
 		{
 			_createProjectHelper.CreateNewProject(_projectUniqueName);
@@ -76,15 +86,22 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 
 			_projectsPage.ClickCreateProjectButton();
 
-			_newProjectGeneralInformationDialog
+			_newProjectDocumentUploadPage.ClickSkipDocumentUploadButton();
+
+			_newProjectSettingsPage
 				.FillGeneralProjectInformation(_newProjectName)
-				.ClickNextButton<NewProjectSetUpWorkflowDialog>();
+				.ClickWorkflowButton();
 
-			_newProjectSetUpWorkflowDialog.ClickBackButton<NewProjectGeneralInformationDialog>();
+			_newProjectWorkflowPage.ClickSettingsLink();
 
-			_newProjectGeneralInformationDialog
+			_newProjectSettingsPage
 				.FillProjectName(_projectUniqueName)
-				.ClickNextButton<NewProjectSetUpWorkflowDialog>();
+				.ClickWorkflowButton();
+
+			_newProjectWorkflowPage.ClickCreateProjectButton();
+
+			Assert.IsTrue(_projectsPage.IsProjectExist(_newProjectName),
+				"Произошла ошибка: \nне найден проект с новым именем");
 		}
 
 		private string _projectUniqueName;
@@ -93,7 +110,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 		private CreateProjectHelper _createProjectHelper;
 		private ProjectsPage _projectsPage;
 		private DeleteDialog _deleteDialog;
-		private NewProjectGeneralInformationDialog _newProjectGeneralInformationDialog;
-		private NewProjectSetUpWorkflowDialog _newProjectSetUpWorkflowDialog;
+
+		private NewProjectDocumentUploadPage _newProjectDocumentUploadPage;
+		private NewProjectSettingsPage _newProjectSettingsPage;
+		private NewProjectWorkflowPage _newProjectWorkflowPage;
 	}
 }

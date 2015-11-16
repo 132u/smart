@@ -5,11 +5,10 @@ using OpenQA.Selenium.Support.PageObjects;
 
 using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
 using AbbyyLS.SmartCAT.Selenium.Tests.TestFramework;
-using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog 
 {
-	public class NewProjectDocumentUploadPage : WorkspacePage, IAbstractPage<NewProjectDocumentUploadPage>
+	public class NewProjectDocumentUploadPage : NewProjectCreateBaseDialog, IAbstractPage<NewProjectDocumentUploadPage>
 	{
 		public NewProjectDocumentUploadPage(WebDriver driver)
 			: base(driver)

@@ -6,12 +6,11 @@ using OpenQA.Selenium.Support.PageObjects;
 
 using AbbyyLS.SmartCAT.Selenium.Tests.DataStructures;
 using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
-using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace;
 using AbbyyLS.SmartCAT.Selenium.Tests.TestFramework;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 {
-	public class NewProjectWorkflowPage : WorkspacePage, IAbstractPage<NewProjectWorkflowPage>
+	public class NewProjectWorkflowPage : NewProjectCreateBaseDialog, IAbstractPage<NewProjectWorkflowPage>
 	{
 		public NewProjectWorkflowPage(WebDriver driver)
 			: base(driver)
