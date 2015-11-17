@@ -1,4 +1,5 @@
 ﻿using System.IO;
+using System.Threading;
 
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.PageObjects;
@@ -91,6 +92,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 		public NewProjectSettingsPage ClickSettingsButton()
 		{
 			CustomTestContext.WriteLine("Нажать на кнопку 'Settings' на странице загрузки документа");
+			Driver.WaitUntilElementIsDisplay(By.XPath(SETTINGS_BUTTON));
 			SettingsButton.Click();
 
 			return new NewProjectSettingsPage(Driver).GetPage();
@@ -169,10 +171,11 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 		/// <param name="filePath">путь до файла</param>
 		public bool IsFileUploaded(string filePath)
 		{
-			CustomTestContext.WriteLine("Проверить, что документ {0} загрузился.", filePath);
-			var fileName = Path.GetFileName(filePath);
-
-			return Driver.WaitUntilElementIsDisplay(By.XPath(UPLOADED_DOCUMENT.Replace("*#*", fileName)), timeout: 120);
+			var fileName = Path.GetFileNameWithoutExtension(filePath);
+			var extension = Path.GetExtension(filePath).ToLower();
+			CustomTestContext.WriteLine("Проверить, что документ {0} загрузился.", fileName + extension);
+			
+			return Driver.WaitUntilElementIsDisplay(By.XPath(UPLOADED_DOCUMENT.Replace("*#*", fileName + extension)), timeout: 120);
 		}
 
 		/// <summary>
@@ -241,7 +244,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 		protected const string SKIP_DOCUMENT_UPLOAD_BUTTON = "//span[@class='skip-step']";
 		protected const string UPLOADED_DOCUMENT = "//td[@class='filename']//span[text()='*#*']//..//..//i[not(contains(@class,'loading'))]";
 		protected const string UPLOAD_DOCUMENT_INPUT = "//input[contains(@data-bind,'uploadFilesFromFileInput')]";
-		protected const string SETTINGS_BUTTON = "//div[@class='btn-icon-wrap']//i[@class='icon-sc-arrow-right']";
+		protected const string SETTINGS_BUTTON = "//div[@class='g-btn g-purplebtn g-big-btn icon-btn' and not(contains(@disabled, 'true'))]";
 		protected const string CANCEL_BUTTON = "//a[contains(@data-bind,'cancel')]";
 		protected const string DELETE_DOCUMENT_BUTTON = "//td[@class='filename']//span[text()='*#*']//ancestor::table//preceding-sibling::i[contains(@data-bind,'removeDocument')]";
 		protected const string DUPLICATE_NAME_ERROR = "//div[contains(@class,'js-info-popup')]//span[contains(string(),'The following files have already been added to the project')]";
