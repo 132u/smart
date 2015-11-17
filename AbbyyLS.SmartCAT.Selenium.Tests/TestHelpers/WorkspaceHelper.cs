@@ -245,11 +245,13 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 			string accountName = LoginHelper.TestAccountName,
 			Language language = Language.English)
 		{
-			SelectLocale(language);
 			_workspacePage
+				.CloseHelpIfOpened()
 				.AssertUserNameMatch(nickName)
 				.AssertAccountNameMatch(accountName);
-				
+
+			SelectLocale(language);
+
 			return this;
 		}
 

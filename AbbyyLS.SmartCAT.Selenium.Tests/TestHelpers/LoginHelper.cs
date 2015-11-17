@@ -25,12 +25,11 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 			string accountName = "TestAccount")
 		{
 			BaseObject.InitPage(_signInPage, Driver);
-			_signInPage.SubmitForm(login, password)
-				.SelectAccount(accountName, EuropeTestServerName)
-				.CloseHelpIfOpened()
-				.SelectLocale();
-
-			_workspaceHelper.SetUp(nickName);
+			_signInPage
+				.SubmitForm(login, password)
+				.SelectAccount(accountName, EuropeTestServerName);
+				
+			_workspaceHelper.SetUp(nickName, accountName);
 
 			return this;
 		}
