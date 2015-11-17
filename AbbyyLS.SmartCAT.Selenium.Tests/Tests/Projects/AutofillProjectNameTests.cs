@@ -13,7 +13,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 	[Parallelizable(ParallelScope.Fixtures)]
 	[PriorityMajor]
 	[Standalone]
-	[Category("QWERTY")]
 	class AutofillProjectNameTests<TWebDriverProvider> : BaseTest<TWebDriverProvider> where TWebDriverProvider : IWebDriverProvider, new()
 	{
 		[SetUp]

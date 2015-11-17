@@ -889,7 +889,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories
 		protected const string DELETE_BUTTON = "//tr[@class='js-tm-panel']//span[contains(@data-bind, 'deleteTranslationMemory')]";
 		protected const string DELETE_CONFIRMATION_DIALOG = "//form[contains(@action,'Delete')]";
 		protected const string DELETE_BUTTON_IN_CONFIRMATION_DIALOG = "//form[contains(@action,'Delete')]//input[@value='Delete']";
-		protected const string SAVE_TM_BUTTON = ".//div[contains(@class,'js-popup-create-tm')][2]//span[contains(@data-bind, 'click: save')]";
+		protected const string SAVE_TM_BUTTON = "//div[contains(@class,'js-popup-create-tm')][2]//a[contains(@class, 'js-tour-tm-save')]";
 
 		protected const string TM_NAME = "(//th[contains(@data-sort-by,'Name')]//a)[1]";
 		protected const string CREATION_DATE = "//th[contains(@data-sort-by,'CreatedDate')]//a";
