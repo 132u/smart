@@ -22,11 +22,12 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.TranslationMemories
 
 			ProjectsPage.ClickCreateProjectButton();
 
-			NewProjectGeneralInformationDialog
-				.FillGeneralProjectInformation(CreateProjectHelper.GetProjectUniqueName())
-				.ClickNextButton<NewProjectSetUpWorkflowDialog>();
+			NewProjectDocumentUploadPage.ClickSkipDocumentUploadButton();
 
-			NewProjectSetUpWorkflowDialog.ClickNextButton<NewProjectSetUpTMDialog>();
+			NewProjectSettingsPage
+				.FillGeneralProjectInformation(CreateProjectHelper.GetProjectUniqueName())
+				.ExpandAdvancedSettings()
+				.ClickSelectTmButton();
 
 			Assert.IsTrue(NewProjectSetUpTMDialog.IsTranslationMemoryExist(UniqueTranslationMemoryName),
 				"Произошла ошибка:\n ТМ {0} не представлена в списке при создании проекта.", UniqueTranslationMemoryName);
@@ -45,11 +46,12 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.TranslationMemories
 
 			ProjectsPage.ClickCreateProjectButton();
 
-			NewProjectGeneralInformationDialog
-				.FillGeneralProjectInformation(CreateProjectHelper.GetProjectUniqueName())
-				.ClickNextButton<NewProjectSetUpWorkflowDialog>();
+			NewProjectDocumentUploadPage.ClickSkipDocumentUploadButton();
 
-			NewProjectSetUpWorkflowDialog.ClickNextButton<NewProjectSetUpTMDialog>();
+			NewProjectSettingsPage
+				.FillGeneralProjectInformation(CreateProjectHelper.GetProjectUniqueName())
+				.ExpandAdvancedSettings()
+				.ClickSelectTmButton();
 
 			Assert.IsFalse(NewProjectSetUpTMDialog.IsTranslationMemoryExist(UniqueTranslationMemoryName),
 				"Произошла ошибка:\n ТМ {0} представлена в списке при создании проекта.", UniqueTranslationMemoryName);

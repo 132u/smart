@@ -65,13 +65,36 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 		}
 
 		/// <summary>
+		/// Нажать кнопку Add в окне выбора TM
+		/// </summary>
+		public NewProjectSettingsPage ClickAddButton()
+		{
+			CustomTestContext.WriteLine("Нажать кнопку Add в окне выбора TM");
+			AddButton.Click();
+
+			return new NewProjectSettingsPage(Driver).GetPage();
+		}
+
+		/// <summary>
+		/// Нажать кнопку Cancel в окне выбора TM
+		/// </summary>
+		public NewProjectSettingsPage ClickCancelButton()
+		{
+			CustomTestContext.WriteLine("Нажать кнопку Cancel в окне выбора TM");
+			CancelButton.Click();
+			WaitUntilDialogBackgroundDisappeared();
+
+			return new NewProjectSettingsPage(Driver).GetPage();
+		}
+
+		/// <summary>
 		/// Проверить, открылся ли шаг выбора TM в диалоге создания проекта
 		/// </summary>
 		public bool IsNewProjectSetUpTMDialogOpened()
 		{
 			CustomTestContext.WriteLine("Проверить, открылся ли шаг выбора TM в диалоге создания проекта");
 
-			return Driver.WaitUntilElementIsDisplay(By.XPath(CREATE_TM_BTN));
+			return Driver.WaitUntilElementIsDisplay(By.XPath(ADD_BUTTON));
 		}
 
 		/// <summary>
@@ -80,9 +103,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 		public bool IsTranslationMemoryExist(string translationMemoryName)
 		{
 			CustomTestContext.WriteLine("Проверить, что ТМ {0} представлена в списке при создании проекта.", translationMemoryName);
-			TranslationMemoryItem = Driver.SetDynamicValue(How.XPath, TM_ITEM, translationMemoryName);
 
-			return TranslationMemoryItem.Displayed;
+			return Driver.GetIsElementExist(By.XPath(TM_ITEM.Replace("*#*", translationMemoryName)));
 		}
 
 		/// <summary>
@@ -114,12 +136,20 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 		[FindsBy(How = How.XPath, Using = UPLOAD_TM_BUTTON)]
 		protected IWebElement UploadTMButton { get; set; }
 
+		[FindsBy(How = How.XPath, Using = ADD_BUTTON)]
+		protected IWebElement AddButton { get; set; }
+
+		[FindsBy(How = How.XPath, Using = CANCEL_BUTTON)]
+		protected IWebElement CancelButton { get; set; }
+
 		protected IWebElement TranslationMemoryItem { get; set; }
 
 		protected const string CREATE_TM_BTN = "//div[contains(@class,'js-popup-create-project')][2]//div[contains(@class,'js-tm-create')]";
 		protected const string TM_TABLE_FIRST_ITEM = "//div[contains(@class,'js-popup-create-project')][2]//table[contains(@class,'js-tms-popup-table')]//tbody//tr[1]//td[1]//input";
-		protected const string TM_ITEM = "//div[contains(@class,'js-popup-create-project')][2]//table[contains(@class,'js-tms-popup-table')]//tbody//tr//td[contains(@class,'js-name')][text()='*#*']";
+		protected const string TM_ITEM = "//div[@data-bind='foreach: filteredTranslationMemories']//div[@data-bind='text: name' and text()='*#*']";
 		protected const string UPLOAD_TM_BUTTON = "//div[contains(@class,'js-popup-create-project')][2]//span[contains(@class,'js-tm-upload')]";
 		protected const string NEW_TM_NAME_INPUT = "//div[contains(@class,'js-popup-create-tm')][2]//input[contains(@data-bind,'value: name')]";
+		protected const string ADD_BUTTON = "//a[@data-bind='click: addTranslationMemories']";
+		protected const string CANCEL_BUTTON = "//a[@data-bind='click: close']";
 	}
 }

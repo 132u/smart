@@ -2,13 +2,11 @@
 
 using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
 using AbbyyLS.SmartCAT.Selenium.Tests.FeatureAttributes;
-using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.TranslationMemories
 {
 	[Parallelizable(ParallelScope.Fixtures)]
 	[Standalone]
-	//???[PriorityMajor]
 	class DeleteTMTests<TWebDriverProvider> : BaseTmTest<TWebDriverProvider> where TWebDriverProvider : IWebDriverProvider, new()
 	{
 		[Test]
@@ -45,11 +43,12 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.TranslationMemories
 
 			ProjectsPage.ClickCreateProjectButton();
 
-			NewProjectGeneralInformationDialog
-				.FillGeneralProjectInformation(CreateProjectHelper.GetProjectUniqueName())
-				.ClickNextButton<NewProjectSetUpWorkflowDialog>();
+			NewProjectDocumentUploadPage.ClickSkipDocumentUploadButton();
 
-			NewProjectSetUpWorkflowDialog.ClickNextButton<NewProjectSetUpTMDialog>();
+			NewProjectSettingsPage
+				.FillGeneralProjectInformation(CreateProjectHelper.GetProjectUniqueName())
+				.ExpandAdvancedSettings()
+				.ClickSelectTmButton();
 
 			Assert.IsFalse(NewProjectSetUpTMDialog.IsTranslationMemoryExist(UniqueTranslationMemoryName),
 				"Произошла ошибка:\n ТМ {0} представлена в списке при создании проекта.", UniqueTranslationMemoryName);

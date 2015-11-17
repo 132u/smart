@@ -98,7 +98,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 		{
 			_projectsPage.ClickCreateProjectButton();
 
-			_newProjectGeneralInformationDialog.CancelCreateProject();
+			_newProjectGeneralInformationDialog.ClickCancelLink();
 		}
 
 		private CreateProjectHelper _createProjectHelper;

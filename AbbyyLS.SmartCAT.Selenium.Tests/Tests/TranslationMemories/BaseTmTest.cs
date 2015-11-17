@@ -12,23 +12,30 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.TranslationMemories
 		[SetUp]
 		public void SetUpTmTests()
 		{
-			_workspaceHelper = new WorkspaceHelper(Driver);
 			UniqueTranslationMemoryName = TranslationMemoriesHelper.GetTranslationMemoryUniqueName();
-			TranslationMemoriesHelper = _workspaceHelper.GoToTranslationMemoriesPage();
+
+			_workspaceHelper = new WorkspaceHelper(Driver);
 			CreateProjectHelper = new CreateProjectHelper(Driver);
-			NewProjectSetUpWorkflowDialog = new NewProjectSetUpWorkflowDialog(Driver);
+
+			ProjectsPage = new ProjectsPage(Driver);
+			NewProjectWorkflowPage = new NewProjectWorkflowPage(Driver);
+			NewProjectSettingsPage = new NewProjectSettingsPage(Driver);
+			NewProjectDocumentUploadPage = new NewProjectDocumentUploadPage(Driver);
 			NewProjectSetUpTMDialog = new NewProjectSetUpTMDialog(Driver);
-			NewProjectGeneralInformationDialog = new NewProjectGeneralInformationDialog(Driver);
+
+			TranslationMemoriesHelper = _workspaceHelper.GoToTranslationMemoriesPage();
 		}
 
 		public string UniqueTranslationMemoryName { get; set; }
 
 		public TranslationMemoriesHelper TranslationMemoriesHelper { get; private set; }
 		public CreateProjectHelper CreateProjectHelper;
-		public ProjectsPage ProjectsPage;
-		public NewProjectSetUpWorkflowDialog NewProjectSetUpWorkflowDialog;
-		public NewProjectSetUpTMDialog NewProjectSetUpTMDialog;
-		public NewProjectGeneralInformationDialog NewProjectGeneralInformationDialog;
 		private WorkspaceHelper _workspaceHelper;
+
+		public ProjectsPage ProjectsPage;
+		public NewProjectDocumentUploadPage NewProjectDocumentUploadPage;
+		public NewProjectSettingsPage NewProjectSettingsPage;
+		public NewProjectWorkflowPage NewProjectWorkflowPage;
+		public NewProjectSetUpTMDialog NewProjectSetUpTMDialog;
 	}
 }

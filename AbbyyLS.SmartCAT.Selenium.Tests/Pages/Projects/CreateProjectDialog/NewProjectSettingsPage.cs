@@ -11,8 +11,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 {
 	public class NewProjectSettingsPage : NewProjectCreateBaseDialog, IAbstractPage<NewProjectSettingsPage>
 	{
-		public NewProjectSettingsPage(WebDriver driver)
-			: base(driver)
+		public NewProjectSettingsPage(WebDriver driver): base(driver)
 		{
 		}
 
@@ -210,6 +209,18 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 			CreateProjectButton.Click();
 
 			return new ProjectsPage(Driver).GetPage();
+			return GetPage();
+		}
+
+		/// <summary>
+		/// Нажать кнопку 'Select' в расширенных настройках проекта
+		/// </summary>
+		public NewProjectSetUpTMDialog ClickSelectTmButton()
+		{
+			CustomTestContext.WriteLine("Нажать кнопку 'Select' в расширенных настройках проекта");
+			SelectTmButton.Click();
+
+			return new NewProjectSetUpTMDialog(Driver).GetPage();
 		}
 
 		#endregion
@@ -454,6 +465,12 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 		[FindsBy(How = How.XPath, Using = USE_MACHINE_TRANSLATION_CHECKBOX)]
 		protected IWebElement UseMachineTranslationCheckbox { get; set; }
 
+		[FindsBy(How = How.XPath, Using = SELECT_TM_BUTTON)]
+		protected IWebElement SelectTmButton { get; set; }
+
+		[FindsBy(How = How.XPath, Using = ADVANCED_SWITCH)]
+		protected IWebElement AdvancedSwitch { get; set; }
+
 		[FindsBy(How = How.XPath, Using = WORKFLOW_BUTTON)]
 		protected IWebElement WorkflowButton { get; set; }
 
@@ -482,10 +499,11 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 		protected const string TARGET_LANG_ITEMS_SELECTED = "//ul//li//input[@checked='checked']";
 		protected const string TARGET_LANG_ITEM = "//ul//li//span[text() = '*#*']";
 
-		protected const string USE_MACHINE_TRANSLATION_CHECKBOX = "//div[@class='proj_mt']//label";
+		protected const string USE_MACHINE_TRANSLATION_CHECKBOX = "//input[@name='mts-checkbox']";
 
 		protected const string WORKFLOW_BUTTON = "//div[@class='btn-icon-wrap']//i[@class='icon-sc-arrow-right']";
-
+		protected const string ADVANCED_SWITCH = "//div[@class='l-switch']//span[@class='mdl-switch__ripple-container mdl-js-ripple-effect mdl-ripple--center']";
+		protected const string SELECT_TM_BUTTON = "//div[@class='g-btn g-greenbtn ' and contains(@data-bind, 'addExistingTM')]//a";
 		protected const string ERROR_NAME_EXISTS = "//span[@data-message-id='isNameDuplicate']";
 		protected const string ERROR_DUPLICATE_LANG = "//span[contains(@data-bind,'targetLang == sourceLanguageId')]";
 		protected const string ERROR_FORBIDDEN_SYMBOLS_NAME = "//span[@data-message-id='nameHasInvalidChars']";

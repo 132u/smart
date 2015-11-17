@@ -3,7 +3,6 @@
 using AbbyyLS.SmartCAT.Selenium.Tests.DataStructures;
 using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
 using AbbyyLS.SmartCAT.Selenium.Tests.FeatureAttributes;
-using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories;
 using AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers;
 
@@ -81,24 +80,28 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.TranslationMemories
 
 			ProjectsPage.ClickCreateProjectButton();
 
-			NewProjectGeneralInformationDialog
-				.FillGeneralProjectInformation(CreateProjectHelper.GetProjectUniqueName())
-				.ClickNextButton<NewProjectSetUpWorkflowDialog>();
+			NewProjectDocumentUploadPage.ClickSkipDocumentUploadButton();
 
-			NewProjectSetUpWorkflowDialog.ClickNextButton<NewProjectSetUpTMDialog>();
+			NewProjectSettingsPage
+				.FillGeneralProjectInformation(CreateProjectHelper.GetProjectUniqueName())
+				.ExpandAdvancedSettings()
+				.ClickSelectTmButton();
 
 			Assert.IsTrue(NewProjectSetUpTMDialog.IsTranslationMemoryExist(UniqueTranslationMemoryName),
 				"Произошла ошибка:\n ТМ {0} не представлена в списке при создании проекта.", UniqueTranslationMemoryName);
 
-			NewProjectSetUpWorkflowDialog.CancelCreateProject();
+			NewProjectSetUpTMDialog.ClickCancelButton();
+
+			NewProjectSettingsPage.ClickCancelLink();
 
 			ProjectsPage.ClickCreateProjectButton();
 
-			NewProjectGeneralInformationDialog
-				.FillGeneralProjectInformation(UniqueTranslationMemoryName, targetLanguage: Language.Lithuanian)
-				.ClickNextButton<NewProjectSetUpWorkflowDialog>();
+			NewProjectDocumentUploadPage.ClickSkipDocumentUploadButton();
 
-			NewProjectSetUpWorkflowDialog.ClickNextButton<NewProjectSetUpTMDialog>();
+			NewProjectSettingsPage
+				.FillGeneralProjectInformation(UniqueTranslationMemoryName, targetLanguage: Language.Lithuanian)
+				.ExpandAdvancedSettings()
+				.ClickSelectTmButton();
 
 			Assert.IsTrue(NewProjectSetUpTMDialog.IsTranslationMemoryExist(UniqueTranslationMemoryName),
 				"Произошла ошибка:\n ТМ {0} не представлена в списке при создании проекта.", UniqueTranslationMemoryName);

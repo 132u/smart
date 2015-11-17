@@ -30,7 +30,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories
 
 		public new void LoadPage()
 		{
-			if (!Driver.WaitUntilElementIsDisplay(By.XPath(ADD_TM_BTN)))
+			if (!Driver.GetIsElementExist(By.XPath(ADD_TM_BTN)))
 			{
 				Assert.Fail("Произошла ошибка:\n не загрузилась страница с памятью переводов.");
 			}
@@ -886,7 +886,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories
 		protected const string TM_ROW = "//tr[contains(@class,'l-corpr__trhover clickable')]//span[text()='*#*']";
 		protected const string TM_INFORMATION_FORM = "//span[string()='*#*']//..//..//following-sibling::tr[@class='js-tm-panel']//td//div";
 
-		protected const string DELETE_BUTTON = "//tr[@class='js-tm-panel']//span[contains(@data-bind, 'deleteTranslationMemory')]";
+		protected const string DELETE_BUTTON = "//tr[@class='js-tm-panel']//div[contains(@data-bind, 'deleteTranslationMemory')]";
 		protected const string DELETE_CONFIRMATION_DIALOG = "//form[contains(@action,'Delete')]";
 		protected const string DELETE_BUTTON_IN_CONFIRMATION_DIALOG = "//form[contains(@action,'Delete')]//input[@value='Delete']";
 		protected const string SAVE_TM_BUTTON = "//div[contains(@class,'js-popup-create-tm')][2]//a[contains(@class, 'js-tour-tm-save')]";
@@ -911,8 +911,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories
 		protected const string ERROR_EDIT_NO_NAME = "//tr[contains(@class,'js-tm-panel')]//div[contains(@class,'tmpanel__error')]//p[contains(@data-message-id, 'name-required')]";
 		protected const string ERROR_EDIT_EXIST_NAME = "//tr[contains(@class,'js-tm-panel')]//div[contains(@class,'tmpanel__error')]//p[contains(text(),'The name should be unique.')]";
 
-		protected const string SEARCH_BUTTON = "//a[contains(@class, 'search-by-name')]";
-		protected const string SEARCH_TM_FIELD = "//input[contains(@class, 'search-tm')]";
+		protected const string SEARCH_BUTTON = "//a[@title='Search TM by name']";
+		protected const string SEARCH_TM_FIELD = "//input[@name='searchTMName']";
 
 		protected const string FILE_IMPORT_NOTIFIER = "//div[contains(@class, 'notifications')]//span[contains(text(),'units imported from file')]";
 		protected const string FILE_IMPORT_ERROR_NOTIFIER = "//div[contains(@class, 'notifications')]//span[contains(text(),'There was an error while importing translation units')]";

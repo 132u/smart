@@ -33,12 +33,12 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 		#region Простые методы страницы
 
 		/// <summary>
-		/// Нажать 'Close'
+		/// Нажать на ссылку Cancel в навигационном меню
 		/// </summary>
-		public ProjectsPage ClickCloseDialog()
+		public ProjectsPage ClickCancelLink()
 		{
-			CustomTestContext.WriteLine("Нажать 'Close'.");
-			CloseDialogButton.Click();
+			CustomTestContext.WriteLine("Нажать на ссылку Cancel в навигационном меню");
+			CancelLink.Click();
 
 			return new ProjectsPage(Driver).GetPage();
 		}
@@ -72,6 +72,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 		/// </summary>
 		public NewProjectDocumentUploadPage ClickFilesLink()
 		{
+			CustomTestContext.WriteLine("Нажать на ссылку Files в навигационном меню");
 			FilesLink.Click();
 
 			return new NewProjectDocumentUploadPage(Driver).GetPage();
@@ -82,6 +83,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 		/// </summary>
 		public NewProjectSettingsPage ClickSettingsLink()
 		{
+			CustomTestContext.WriteLine("Нажать на ссылку Settings в навигационном меню");
 			SettingsLink.Click();
 
 			return new NewProjectSettingsPage(Driver).GetPage();
@@ -92,6 +94,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 		/// </summary>
 		public NewProjectWorkflowPage ClickWorkflowLink()
 		{
+			CustomTestContext.WriteLine("Нажать на ссылку Workflow в навигационном меню");
 			WorkflowLink.Click();
 
 			return new NewProjectWorkflowPage(Driver).GetPage();
@@ -100,18 +103,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 		#endregion
 
 		#region Составные методы страницы
-
-		/// <summary>
-		/// Отменить создание проекта
-		/// </summary>
-		public ProjectsPage CancelCreateProject()
-		{
-			var projectsPage = ClickCloseDialog()
-				.WaitCreateProjectDialogDisappear()
-				.AssertDialogBackgroundDisappeared<ProjectsPage>(Driver);
-
-			return projectsPage;
-		}
 
 		/// <summary>
 		/// Нажать кнопку 'Готово'
@@ -159,8 +150,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 		[FindsBy(How = How.XPath, Using = CREATE_PROJECT_FINISH_BUTTON)]
 		protected IWebElement CreateProjectFinishButton { get; set; }
 
-		[FindsBy(How = How.XPath, Using = CLOSE_DIALOG_BTN)]
-		protected IWebElement CloseDialogButton { get; set; }
+		[FindsBy(How = How.XPath, Using = CANCEL_LINK)]
+		protected IWebElement CancelLink { get; set; }
 
 		[FindsBy(How = How.XPath, Using = NEXT_BUTTON)]
 		protected IWebElement NextButton { get; set; }
@@ -190,6 +181,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 		protected const string FILES_LINK = "//div[@class='nav-center']//.//li[text()='Files']";
 		protected const string SETTINGS_LINK = "//div[@class='nav-center']//.//li[text()='Settings']";
 		protected const string WORKFLOW_LINK = "//div[@class='nav-center']//.//li[text()='Workflow']";
+		protected const string CANCEL_LINK = "//div[@class='nav-center']//a[@class='cancel']";
 
 		#endregion
 	}
