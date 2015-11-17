@@ -124,11 +124,11 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 		}
 
 		/// <summary>
-		/// Нажать на кнопку Workflow
+		/// Нажать на кнопку Workflow.
 		/// </summary>
 		public NewProjectWorkflowPage ClickWorkflowButton()
 		{
-			CustomTestContext.WriteLine("Нажать на кнопку Workflow");
+			CustomTestContext.WriteLine("Нажать на кнопку Workflow.");
 			WorkflowButton.Click();
 
 			return new NewProjectWorkflowPage(Driver).GetPage();
@@ -199,6 +199,17 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 			DeadlineDateInput.SetText(date, date.Replace(" ", ""));
 
 			return GetPage();
+		}
+
+		/// <summary>
+		/// Нажать кнопку 'Create Project'.
+		/// </summary>
+		public ProjectsPage ClickCreateProjectButton()
+		{
+			CustomTestContext.WriteLine("Нажать кнопку 'Create Project'.");
+			CreateProjectButton.Click();
+
+			return new ProjectsPage(Driver).GetPage();
 		}
 
 		#endregion
@@ -445,6 +456,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 		[FindsBy(How = How.XPath, Using = WORKFLOW_BUTTON)]
 		protected IWebElement WorkflowButton { get; set; }
 
+		[FindsBy(How = How.XPath, Using = CREATE_PROJECT_BUTTON)]
+		protected IWebElement CreateProjectButton { get; set; }
+
 		protected IWebElement SourceLangItem { get; set; }
 
 		protected IWebElement TargetLangItem { get; set; }
@@ -477,6 +491,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 		protected const string ERROR_NO_NAME = "//span[@data-message-id='isNameEmpty']";
 		protected const string ERROR_DEADLINE_DATE = "//div[@class='proj_deadline pull-right']//span[text()='Specify the deadline in the MM/DD/YYYY format.']";
 
+		protected const string CREATE_PROJECT_BUTTON = "//div[@class='g-btn g-purplebtn g-big-btn icon-btn' and not(contains(@disabled, 'true'))]";
 		#endregion
 	}
 }

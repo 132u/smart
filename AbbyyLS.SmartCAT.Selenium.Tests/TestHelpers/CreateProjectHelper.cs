@@ -50,21 +50,28 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 				_newProjectDocumentUploadPage.ClickSettingsButton();
 			}
 
-			_newProjectSettingsPage
-				.FillGeneralProjectInformation(projectName, sourceLanguage, targetLanguage, useMT: useMachineTranslation)
-				.ClickWorkflowButton();
+			_newProjectSettingsPage.FillGeneralProjectInformation(projectName, sourceLanguage, targetLanguage, useMT: useMachineTranslation);
 
-			if (tasks != null)
+			if (!personalAccount)
 			{
-				_newProjectWorkflowPage.ClickClearButton();
+				_newProjectSettingsPage.ClickWorkflowButton();
 
-				foreach (var task in tasks)
+				if (tasks != null)
 				{
-					_newProjectWorkflowPage.ClickNewTaskButton(task);
-				}
-			}
+					_newProjectWorkflowPage.ClickClearButton();
 
-			_newProjectWorkflowPage.ClickCreateProjectButton();
+					foreach (var task in tasks)
+					{
+						_newProjectWorkflowPage.ClickNewTaskButton(task);
+					}
+				}
+
+				_newProjectWorkflowPage.ClickCreateProjectButton();
+			}
+			else
+			{
+				_newProjectSettingsPage.ClickCreateProjectButton();
+			}
 
 			_projectsPage.WaitUntilProjectLoadSuccessfully(projectName);
 
