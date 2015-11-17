@@ -86,7 +86,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 		/// <summary>
 		/// Проверка выпадающего списка с глоссариями, проект с двумя глоссариями, второй глоссарий подключается в настройках проекта
 		/// </summary>
-		[Test, Ignore("PRX-11398")]
+		[Test]
 		public void CheckGlossaryListInProjectCreatedWithOneGlossary()
 		{
 			_editorHelper
