@@ -10,7 +10,7 @@ using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Registration;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace;
 using AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers;
 
-namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.CompanyRegistration
+namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Registration
 {
 	[Parallelizable(ParallelScope.Fixtures)]
 	[PriorityMajor]
