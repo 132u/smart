@@ -112,8 +112,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 
 		protected GlossaryPageHelper GlossaryPage { get; private set; }
 
-		protected AdminPageHelper AdminPage { get; private set; }
-
 		protected Editor_RevisionPageHelper RevisionPage { get; private set; }
 
 		protected GlossaryEditFormHelper GlossaryEditForm { get; private set; }
@@ -123,8 +121,6 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 		protected ResponsiblesDialogHelper ResponsiblesDialog { get; private set; }
 
 		protected AddTermFormHelper AddTermForm { get; private set; }
-
-		protected RegistrationPageHelper RegistrationPage { get; private set; }
 
 		protected DateTime TestBeginTime { get; private set; }
 
@@ -1669,13 +1665,11 @@ namespace AbbyyLS.CAT.Function.Selenium.Tests
 			MainHelperClass = new MainHelper(Driver, Wait);
 			GlossaryListPage = new GlossaryListPageHelper(Driver, Wait);
 			GlossaryPage = new GlossaryPageHelper(Driver, Wait);
-			AdminPage = new AdminPageHelper(Driver, Wait);
 			RevisionPage = new Editor_RevisionPageHelper(Driver, Wait);
 			GlossaryEditForm = new GlossaryEditFormHelper(Driver, Wait);
 			CatPanel = new CatPanelResultsHelper(Driver, Wait);
 			ResponsiblesDialog = new ResponsiblesDialogHelper(Driver, Wait);
 			AddTermForm = new AddTermFormHelper(Driver, Wait);
-			RegistrationPage = new RegistrationPageHelper(Driver, Wait);
 		}
 
 		private void initializeUsersAndCompanyList()
