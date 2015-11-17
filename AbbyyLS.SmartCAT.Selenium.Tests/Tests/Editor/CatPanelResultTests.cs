@@ -9,7 +9,7 @@ using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects;
 using AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers;
 
-namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Editor.CatPanelTests
+namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Editor
 {
 	[Parallelizable(ParallelScope.Fixtures)]
 	public class CatPanelResultsTest<TWebDriverProvider> : BaseTest<TWebDriverProvider> where TWebDriverProvider : IWebDriverProvider, new()

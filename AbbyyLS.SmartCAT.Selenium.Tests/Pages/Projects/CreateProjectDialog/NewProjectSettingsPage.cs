@@ -75,10 +75,10 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 		/// <summary>
 		/// Кликнуть на дропдаун языка перевода, чтобы появился выпадающий список
 		/// </summary>
-		public NewProjectSettingsPage ClickTargetLangDropdown()
+		public NewProjectSettingsPage ClickTargetLanguageDropdown()
 		{
 			CustomTestContext.WriteLine("Кликнуть на дропдаун языка перевода, чтобы появился выпадающий список.");
-			TargetLangDropdown.Click();
+			TargetLanguageDropdown.Click();
 
 			return GetPage();
 		}
@@ -283,9 +283,10 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 		/// <param name="targetLanguage">язык перевода</param>
 		public NewProjectSettingsPage SetTargetLanguage(Language targetLanguage = Language.Russian)
 		{
-			ClickTargetLangDropdown();
+			ClickTargetLanguageDropdown();
 			DeselectAllTargetLanguagesInList();
 			SelectTargetLanguageInList(targetLanguage);
+			ClickTargetLanguageDropdown();
 
 			return GetPage();
 		}
@@ -448,7 +449,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 		protected IWebElement SourceLangDropdown { get; set; }
 
 		[FindsBy(How = How.XPath, Using = TARGET_LANG_DROPDOWN)]
-		protected IWebElement TargetLangDropdown { get; set; }
+		protected IWebElement TargetLanguageDropdown { get; set; }
 
 		[FindsBy(How = How.XPath, Using = USE_MACHINE_TRANSLATION_CHECKBOX)]
 		protected IWebElement UseMachineTranslationCheckbox { get; set; }
@@ -481,7 +482,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 		protected const string TARGET_LANG_ITEMS_SELECTED = "//ul//li//input[@checked='checked']";
 		protected const string TARGET_LANG_ITEM = "//ul//li//span[text() = '*#*']";
 
-		protected const string USE_MACHINE_TRANSLATION_CHECKBOX = "//input[@name='mts-checkbox']";
+		protected const string USE_MACHINE_TRANSLATION_CHECKBOX = "//div[@class='proj_mt']//label";
 
 		protected const string WORKFLOW_BUTTON = "//div[@class='btn-icon-wrap']//i[@class='icon-sc-arrow-right']";
 

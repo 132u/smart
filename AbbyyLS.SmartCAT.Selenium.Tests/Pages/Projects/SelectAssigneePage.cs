@@ -148,10 +148,10 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 
 		#region Описание XPath элементов
 
-		protected const string ANOTHER_ASSIGNEE_BUTTON = "//a[contains(@class, 'a-user')]";
+		protected const string ANOTHER_ASSIGNEE_BUTTON = "//div[contains(@data-bind, 'addNewExecutive')]";
 		protected const string ASSIGNEE_DOPDOWN = "//label[contains(@class, 'selector newDropdown')]";
 		protected const string ASSIGNEE_OPTION = "//ul[contains(@class, 'list newDropdown')]//li[@title='*#*']";
-		protected const string ASSIGN_BUTTON = "//a[contains(@data-bind, 'assign') and @class='red-dotted-link']";
+		protected const string ASSIGN_BUTTON = "//a[contains(@data-bind, 'assign')]";
 		protected const string CANCEL_ASSIGNEE_BUTTON = "//a[contains(@data-bind, 'removeExecutive')]";
 		protected const string CLOSE_BUTTON = "//div[contains(@data-bind, 'click: close')]//a";
 
