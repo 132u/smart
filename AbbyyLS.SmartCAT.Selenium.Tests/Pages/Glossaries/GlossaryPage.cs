@@ -1615,7 +1615,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 		protected const string DROPDOWN_TERM_FIELD = "//td[contains(@class,'js-details-panel')]//div[@class= 'l-corpr__viewmode js-term-attrs']//select[@name='*#*']/..//span[contains(@class,'js-dropdown')]";
 		protected const string OPTION_IN_TERM_FIELD = "//span[contains(@class,'js-dropdown__list')]//span[@data-id='*#*']";
 
-		protected const string FILTER_BUTTON = "//span[contains(@class, 'js-set-filter')]";
+		protected const string FILTER_BUTTON = "//div[contains(@class, 'js-set-filter')]";
 		//protected const string LANGUAGE_COLUMNS = "//th[@class='l-corpr__th']//a[@class='g-block l-corpr__thsort' and contains(@href,'orderBy=Language')]"; // колонки языков в таблице на стр одного глоссари
 		protected const string CREATED_BY_FILTER_LABEL = "//div[contains(@title, 'Created:')]";
 		protected const string MODIFIED_BY_FILTER_LABEL = "//div[contains(@title, 'Modified:')]";
