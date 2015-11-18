@@ -637,7 +637,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories
 				ImportFileInput.SendKeys(fileName);
 				//Чтобы не появилось валидационной ошибки, необходимо,
 				//помимо загрузки файла, заполнить следующий элемент
-				Driver.ExecuteScript(string.Format("document.getElementsByClassName('g-iblock g-bold l-editgloss__filelink js-filename-link')[1].innerHTML='{0}'", Path.GetFileName(fileName)));
+				Driver.ExecuteScript(string.Format("document.getElementsByClassName('g-iblock l-editgloss__filelink js-filename-link')[1].innerHTML='{0}'", Path.GetFileName(fileName)));
 			}
 			catch (Exception)
 			{
