@@ -897,13 +897,13 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories
 		protected const string TM_LANGUAGES_IN_TABLE = "//td[@class='l-corpr__td tm']//span[string()='*#*']/parent::td/parent::tr//td[2]//span";
 		protected const string TARGET_LANG_ITEM = "(//div[contains(@class,'ui-multiselect-menu')])[4]//ul[@class='ui-multiselect-checkboxes ui-helper-reset']//li//input[@value='*#*']";
 
-		protected const string TM_EDIT_BUTTON = "//tr[@class='js-tm-panel']//span[contains(@data-bind, 'switchToEditing')]//a";
+		protected const string TM_EDIT_BUTTON = "//tr[@class='js-tm-panel']//div[contains(@data-bind, 'switchToEditing')]//a";
 		protected const string TM_EDIT_NAME = "//tr[contains(@class,'js-tm-panel')]//input[contains(@data-bind, 'value: name')]";
 		protected const string TM_EDIT_COMMENT = "//tr[contains(@class,'js-tm-panel')]//textarea";
-		protected const string TM_EDIT_SAVE_BTN = "//tr[contains(@class,'js-tm-panel')]//span[contains(@data-bind,'click: save')]";
+		protected const string TM_EDIT_SAVE_BTN = "//tr[contains(@class,'js-tm-panel')]//div[contains(@data-bind,'click: save')]";
 		protected const string TM_EDIT_TARGET_LANGUAGE = "//tr[contains(@class,'js-tm-panel')]//td[2]//div[1]//div[contains(@class,'ui-multiselect')]/div";
 		protected const string TM_EDIT_TARGET_LANGUAGE_LIST = "/html/body/div[21]/div";
-		protected const string TM_EDIT_PROJECT_GROUPS = "//tr[contains(@class,'js-tm-panel')]//td[2]//div[3]//div[contains(@class,'ui-multiselect-text')]";
+		protected const string TM_EDIT_PROJECT_GROUPS = "//tr[contains(@class,'js-tm-panel')]//.//span[contains(@class,'ui-multiselect-txtdef')]";
 
 		protected const string PROJECT_GROUPS_FIRST_IN_LIST = "//div[contains(@style, 'block')]//ul[@class='ui-multiselect-checkboxes ui-helper-reset']//li[2]//label//input";
 		protected const string PROJECT_GROUPS_FIELD = "//tr[contains(@class,'js-tm-panel')]//div[contains(@data-bind,'domainNames')]";
