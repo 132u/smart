@@ -30,8 +30,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.TranslationMemories
 				.AssertTranslationMemoryExists(tmName)
 				.ExportTM(tmName);
 
-			_exportFileHelper
-				.AssertFileDownloaded(String.Format("{0}*-export.tmx", tmName));
+			_exportFileHelper.AssertFileDownloaded(String.Format("{0}*-export.tmx", tmName));
 		}
 
 		private ExportFileHelper _exportFileHelper;
