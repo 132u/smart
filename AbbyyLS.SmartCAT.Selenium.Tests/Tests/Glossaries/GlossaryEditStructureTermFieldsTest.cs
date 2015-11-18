@@ -48,7 +48,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 
 			_glossaryHelper
 				.FillTermField(termField, termValue)
-				.ClickSaveEntryButton()
+				.SaveEntry()
 				.ClickTermInLanguagesAndTermsColumn();
 
 			Assert.AreEqual(termValue, _glossaryPage.TermFieldViewModelText(termField),
@@ -73,7 +73,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 
 			_glossaryHelper
 				.SpecifyDropdownTermField(termField, option)
-				.ClickSaveEntryButton()
+				.SaveEntry()
 				.ClickTermInLanguagesAndTermsColumn();
 
 			Assert.AreEqual(option, _glossaryPage.GetDropdownTermFieldViewModelText(termField),

@@ -40,7 +40,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 			_glossaryHelper
 				.AssertSystemTextAreaFieldDisplayed(fieldName)
 				.FillSystemField(fieldName, value)
-				.ClickSaveEntryButton()
+				.SaveEntry()
 				.AssertGeneralFieldValueMatch(fieldName, value)
 				.CloseTermsInfo()
 				.AssertExtendTermsCountMatch(expectedTermCount: 1);
@@ -54,7 +54,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 			_glossaryHelper
 				.AssertSystemDropdownFieldDisplayed(GlossarySystemField.Topic)
 				.SelectOptionInTopic(value)
-				.ClickSaveEntryButton()
+				.SaveEntry()
 				.AssertGeneralFieldValueMatch(GlossarySystemField.Topic, value)
 				.CloseTermsInfo()
 				.AssertExtendTermsCountMatch(expectedTermCount: 1);
@@ -68,7 +68,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 			_glossaryHelper
 				.AssertImageFieldExistInNewEntry(fieldName)
 				.UploadImageWithMultimedia(fieldName, PathProvider.ImageFile)
-				.ClickSaveEntryButton()
+				.SaveEntry()
 				.AssertImageFieldFilled(fieldName)
 				.CloseTermsInfo()
 				.AssertExtendTermsCountMatch(expectedTermCount: 1);
@@ -82,7 +82,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 			_glossaryHelper
 				.AssertMediaFieldExistInNewEntry(fieldName)
 				.UploadMediaFile(fieldName, PathProvider.AudioFile)
-				.ClickSaveEntryButton()
+				.SaveEntry()
 				.AssertMediaFieldFilled(fieldName, Path.GetFileName(PathProvider.AudioFile))
 				.CloseTermsInfo()
 				.AssertExtendTermsCountMatch(expectedTermCount: 1);

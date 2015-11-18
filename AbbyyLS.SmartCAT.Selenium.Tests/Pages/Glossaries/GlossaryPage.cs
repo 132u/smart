@@ -240,15 +240,26 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 
 			while (i < 5)
 			{
-				if (!Driver.WaitUntilElementIsDisappeared(By.XPath(SAVE_ENTRY_BUTTON), 1))
+				if (!Driver.WaitUntilElementIsDisappeared(By.XPath(SAVE_ENTRY_BUTTON), 3))
 				{
-					SaveEntryButton.Click();
+					SaveEntryButton.HoverElement();
+					SaveEntryButton.JavaScriptClick();
 				}
 
 				i++;
 			}
 
 			return GetPage();
+		}
+
+		/// <summary>
+		/// Проверить, что сохранение термина завершено
+		/// </summary>
+		public bool IsEntrySaved()
+		{
+			CustomTestContext.WriteLine("Проверить, что сохранение термина завершено");
+
+			return Driver.WaitUntilElementIsDisappeared(By.XPath(SAVE_ENTRY_BUTTON));
 		}
 
 
@@ -1522,7 +1533,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 		protected const string NEW_ENTRY_BUTTON = "//div[contains(@class,'js-add-concept')]";
 		protected const string PLUS_BUTTON = "//td[1]//span[contains(@class,'js-add-term')]";
 		protected const string TERM_SAVE_BUTTON = "//i[contains(@class, 'js-save-btn')]";
-		protected const string SAVE_ENTRY_BUTTON = "//span[contains(@class,'g-btn g-bluebtn js-save-btn js-edit l-corpr__btnmargin')]";
+		protected const string SAVE_ENTRY_BUTTON = "//span[contains(@class,'js-save-btn js-edit')]";
 		protected const string GLOSSARY_STRUCTURE = "//div[contains(@class,'js-edit-structure-btn')]";
 		protected const string EXTEND_MODE = "//tr[contains(@class, 'js-concept')]//td";
 		protected const string IMPORT_BUTTON = "//i[contains(@class,'js-import-concepts')]";
@@ -1540,8 +1551,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 		protected const string LANGUAGE_COMMENT_VIEW_MODE = "//td[@class='l-corpr__tbledit__td js-details-panel']//div[@class='l-corpr__viewmode js-lang-attrs']//div[@class='js-control'][1]//div[contains(@class, 'viewmode__val js-value')]";
 		protected const string ADD_BUTTON = "//div[@class='l-corprtree__langbox']['*#*']//div[contains(@class, 'l-inactive-lang')]//span[contains(@class, 'addbtn js-add-term')]";
 		protected const string TERM_LANGUAGE = "//span[@class='js-term-editor g-block l-corprtree__edittrasl']//input[contains(@class, 'txttrasl')]";
-		protected const string ADD_BUTTON_LIST = "//div[contains(@class, 'js-terms-tree')]//div[contains(@class, 'l-corprtree__langbox')]//span[contains(@class,'js-add-term')]";
-		protected const string TERM_INPUT = "//div[contains(@class, 'js-terms-tree')]//div[contains(@class, 'l-corprtree__langbox')][*#*]//span[contains(@class,'js-term-editor')]//input";
+		protected const string ADD_BUTTON_LIST = "//div[contains(@class, 'js-terms-tree')]//div[contains(@class, 'l-corprtree__langbox')]//i[contains(@class,'js-add-term')]";
+		protected const string TERM_INPUT = "//div[contains(@class, 'js-terms-tree')]//div[contains(@class, 'js-selected-node')]//span[contains(@class,'js-term-editor')]//input";
 		protected const string TERM_INPUT_VIEW_MODE = "//div[contains(@class, 'js-terms-tree')]//div[contains(@class, 'l-corprtree__langbox')][*#*]//span[@class='js-term-viewer']";
 		protected const string DEFINITION_EDIT_MODE = "//div[contains(@class, 'viewmode js-lang-attrs')]//textarea[@name='Interpretation']";
 		protected const string DEFINITION_VIEW_MODE = "//div[@class='l-corpr__viewmode js-lang-attrs']//div[@class='js-control'][2]//div[@class='g-bold l-corpr__viewmode__val js-value']";
@@ -1549,7 +1560,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 		protected const string DEFINITION_SOURCE_EDIT_MODE = "//div[contains(@class, 'viewmode js-lang-attrs')]//textarea[@name='InterpretationSource']";
 
 		protected const string CUSTOM_TERM_ROWS = "//tr[@class='l-corpr__trhover clickable js-concept-row']";
-		protected const string CLOSE_EXPAND_TERMS_BUTTON = "//span[contains(@class, 'close-all')]";
+		protected const string CLOSE_EXPAND_TERMS_BUTTON = "//i[contains(@class,'js-close-all')]";
 		protected const string DEFAULT_TERM_ROWS = "//tr[@class='l-corpr__trhover js-concept-row']";
 		protected const string ALREADY_EXIST_TERM_ERROR = "//span[contains(text(),'The term already exists')]";
 		protected const string EMPTY_TERM_ERROR = "//div[contains(text(),'Please add at least one term.')]";
@@ -1577,7 +1588,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 		protected const string TERM_TEXT = "//tr[contains(@class, 'js-concept-row')]//td[contains(@class,'glossaryShort')][*#*]//p";
 		protected const string CUSTOM_FIELD_NAME = "//div[contains(@class,'js-edit')]//p[contains(text(),'*#*')]";
 		protected const string CUSTOM_FIELD_INPUT = "//div[contains(@class,'js-concept-attrs')]//div[contains(@class,'js-edit')]//p[contains(text(),'*#*')]/..//textarea";
-		protected const string CUSTOM_FIELD_VIEW_MODE = "//div[contains(@class,'js-concept-attrs')]//div[contains(@class, 'js-view')]//p[text() ='*#*']//following-sibling::*";
+		protected const string CUSTOM_FIELD_VIEW_MODE = "//div[contains(@class,'js-concept-attrs')]//div[contains(@class, 'js-view')]//p[text() ='*#*']//following-sibling::div";
 		protected const string CUSTOM_FIELD = "//div[contains(@class,'js-concept-attrs')]//div[contains(@class,'js-edit')]//p[contains(text(),'*#*')]/..//textarea";
 		protected const string CUSTOM_FIELD_ERROR = "//div[contains(@class,'js-concept-attrs')]//div[contains(@class,'js-edit l-error')]//p[contains(text(),'*#*')]";
 		protected const string CUSTOM_DATE_FIELD = "//div[contains(@class,'js-concept-attrs')]//div[contains(@class,'js-edit')]//p[contains(text(),'*#*')]/../input[contains(@class,'hasDatepicker')]";
@@ -1587,7 +1598,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 		protected const string CUSTOM_IMAGE_FIELD_ERROR = "//div[contains(@class,'js-concept-attrs')]//div[contains(@class,'js-control')][contains(@class,'l-error')]//p[contains(text(), '*#*')]";
 		protected const string ADD_MEDIA_BUTTON = "//div[contains(@class,'js-concept-attrs')]//div[contains(@class,'js-control')]//p[contains(text(),'*#*')]/..//span[contains(@class,'l-editgloss__linkbox')]//a[contains(@class,'js-upload-btn')]";
 		protected const string CUSTOM_NUMBER_FIELD = "//div[contains(@class,'js-concept-attrs')]//div[contains(@class,'js-edit')]//p[contains(text(),'*#*')]/..//input[contains(@class,'js-submit-input')]";
-		protected const string YES_NO_CHECKBOX = "//div[contains(@class,'js-concept-attrs')]//div[contains(@class,'js-edit')]//span[contains(@class,'l-editgloss__name')]/..//span[contains(@class,'js-chckbx')]//input[contains(@class,'js-chckbx__orig')]";
+		protected const string YES_NO_CHECKBOX = "//div[contains(@class,'js-concept-attrs')]//div[contains(@class,'js-edit')]//input[1]";
 		protected const string YES_NO_CHECKBOX_VIEW_MODE = "//div[contains(@class,'js-concept-attrs')]//div[contains(@class, 'js-view')]//p[contains(text(),'*#*')]/..//div";
 		protected const string ITEMS_LIST_DROPDOWN = "//div[contains(@class,'js-concept-attrs')]//div[contains(@class,'js-edit')]//p[contains(text(),'*#*')]/..//span[contains(@class,'js-dropdown')]";
 		protected const string ITEMS_LIST = "//span[contains(@class,'js-dropdown__list')]//span[contains(@class,'js-dropdown__item')][@title='*#*']";

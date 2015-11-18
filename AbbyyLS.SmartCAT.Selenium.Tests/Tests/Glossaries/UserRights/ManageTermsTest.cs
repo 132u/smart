@@ -51,7 +51,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersRights
 				.ClickNewEntryButton()
 				.AssertExtendModeOpen()
 				.FillTermInLanguagesAndTermsSection()
-				.ClickSaveEntryButton()
+				.SaveEntry()
 				.CloseTermsInfo()
 				.AssertExtendTermsCountMatch(expectedTermCount: 1);
 		}
@@ -218,7 +218,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersRights
 				.ClickNewEntryButton()
 				.AssertExtendModeOpen()
 				.FillTermInLanguagesAndTermsSection()
-				.ClickSaveEntryButton()
+				.SaveEntry()
 				.CloseTermsInfo()
 				.AssertExtendTermsCountMatch(expectedTermCount: 1)
 				.AssertLanguageColumnCountMatch(languages.Count);
@@ -256,7 +256,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersRights
 				.ClickNewEntryButton()
 				.AssertExtendModeOpen()
 				.FillTermInLanguagesAndTermsSection()
-				.ClickSaveEntryButton()
+				.SaveEntry()
 				.EditCustomTerms(newTerm)
 				.AssertTermDisplayedInLanguagesAndTermsSection(newTerm)
 				.AssertTermsTextMatch(newTerm);

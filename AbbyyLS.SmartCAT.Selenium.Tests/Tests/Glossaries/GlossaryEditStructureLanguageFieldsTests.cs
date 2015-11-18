@@ -38,7 +38,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 
 			_glossaryHelper
 				.FillLanguageComment(comment)
-				.ClickSaveEntryButton()
+				.SaveEntry()
 				.AssertLanguageCommentIsFilled(comment);
 		}
 
@@ -49,7 +49,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 
 			_glossaryHelper
 				.FillDefinition(definition)
-				.ClickSaveEntryButton()
+				.SaveEntry()
 				.AssertDefinitionFilled(definition);
 		}
 
@@ -60,7 +60,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 
 			_glossaryHelper
 				.FillDefinitionSource(definitionSource)
-				.ClickSaveEntryButton()
+				.SaveEntry()
 				.AssertDefinitionSourceFilled(definitionSource);
 		}
 

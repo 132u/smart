@@ -521,10 +521,12 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 			return _glossaryPage.OptionValue(fieldName, optionNumber);
 		}
 
-		public GlossariesHelper ClickSaveEntryButton()
+		public GlossariesHelper SaveEntry()
 		{
 			BaseObject.InitPage(_glossaryPage, Driver);
-			_glossaryPage.ClickSaveEntryButton();
+			_glossaryPage
+				.ClickSaveEntryButton()
+				.IsEntrySaved();
 
 			return this;
 		}

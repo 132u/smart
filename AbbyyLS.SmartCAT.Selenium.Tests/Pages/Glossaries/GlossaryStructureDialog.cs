@@ -209,7 +209,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 		public GlossaryStructureDialog ClickRequiredCheckbox()
 		{
 			CustomTestContext.WriteLine("Поставить галочку в чекбоксе 'Required field'.");
-			RequiredCheckbox.Click();
+			RequiredCheckbox.JavaScriptClick();
 
 			return GetPage();
 		}
@@ -292,7 +292,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 		protected const string TYPE = "//table[contains(@class,'l-editgloss__tblEditStructure')]//span[contains(@class,'js-dropdown__text type')]";
 		protected const string REQUIRED_CHECKBOX = "//input[contains(@class,'js-required')]";
 		protected const string DEFAULT_VALUE = "//td[contains(@class,'js-default-editor-placeholder')]//input[contains(@class,'js-submit-input')]";
-		protected const string ADD_CUSTOM_FIELD_BUTTON = "//span[contains(@class,'js-add-custom-attribute')]";
+		protected const string ADD_CUSTOM_FIELD_BUTTON = "//div[contains(@class,'js-add-custom-attribute')]";
 		protected const string GLOSSARY_STRUCTURE_DIALOG_HEADER = "//h2[contains(text(), 'Structure')]";
 		protected const string ITEMS_LIST_FIELD = "//table[contains(@class,'l-editgloss__tblEditStructure')]//input[contains(@class,'js-choice-values')]";
 
