@@ -213,6 +213,17 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 		}
 
 		/// <summary>
+		/// Раскрыть дополнительные настройки, нажав переключатель
+		/// </summary>
+		public NewProjectSettingsPage ExpandAdvancedSettings()
+		{
+			CustomTestContext.WriteLine("Раскрыть дополнительные настройки, нажав переключатель");
+			AdvancedSwitch.Click();
+
+			return GetPage();
+		}
+
+		/// <summary>
 		/// Нажать кнопку 'Select' в расширенных настройках проекта
 		/// </summary>
 		public NewProjectSetUpTMDialog ClickSelectTmButton()
@@ -498,9 +509,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 		protected const string TARGET_LANG_DROPDOWN = "//div[contains(@class,'target_langs')]//i";
 		protected const string TARGET_LANG_ITEMS_SELECTED = "//ul//li//input[@checked='checked']";
 		protected const string TARGET_LANG_ITEM = "//ul//li//span[text() = '*#*']";
-
 		protected const string USE_MACHINE_TRANSLATION_CHECKBOX = "//input[@name='mts-checkbox']";
-
 		protected const string WORKFLOW_BUTTON = "//div[@class='btn-icon-wrap']//i[@class='icon-sc-arrow-right']";
 		protected const string ADVANCED_SWITCH = "//div[@class='l-switch']//span[@class='mdl-switch__ripple-container mdl-js-ripple-effect mdl-ripple--center']";
 		protected const string SELECT_TM_BUTTON = "//div[@class='g-btn g-greenbtn ' and contains(@data-bind, 'addExistingTM')]//a";
