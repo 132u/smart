@@ -44,8 +44,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 			_projectsPage.ClickCreateProjectButton();
 
 			_newProjectDocumentUploadPage
-				.UploadDocument(PathProvider.DocumentFile)
-				.UploadDocument(PathProvider.TtxFile);
+				.UploadDocumentFile(PathProvider.DocumentFile)
+				.UploadDocumentFile(PathProvider.TtxFile);
 
 			Assert.IsFalse(_newProjectDocumentUploadPage.IsWrongDocumentFormatErrorDisplayed(PathProvider.TtxFile),
 				"Произошла ошибка:\n появилось сообщение о неверном формате загружаемого документа");
@@ -56,7 +56,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 		{
 			_projectsPage.ClickCreateProjectButton();
 
-			_newProjectDocumentUploadPage.UploadDocument(PathProvider.TtxFile);
+			_newProjectDocumentUploadPage.UploadDocumentFile(PathProvider.TtxFile);
 
 			Assert.IsFalse(_newProjectDocumentUploadPage.IsWrongDocumentFormatErrorDisplayed(PathProvider.TtxFile),
 				"Произошла ошибка:\n появилось сообщение о неверном формате загружаемого документа");
@@ -67,7 +67,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 		{
 			_projectsPage.ClickCreateProjectButton();
 
-			_newProjectDocumentUploadPage.UploadDocument(PathProvider.TxtFile);
+			_newProjectDocumentUploadPage.UploadDocumentFile(PathProvider.TxtFile);
 
 			Assert.IsFalse(_newProjectDocumentUploadPage.IsWrongDocumentFormatErrorDisplayed(PathProvider.TxtFile),
 				"Произошла ошибка:\n появилось сообщение о неверном формате загружаемого документа");
@@ -78,7 +78,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 		{
 			_projectsPage.ClickCreateProjectButton();
 
-			_newProjectDocumentUploadPage.UploadDocument(PathProvider.SrtFile);
+			_newProjectDocumentUploadPage.UploadDocumentFile(PathProvider.SrtFile);
 
 			Assert.IsFalse(_newProjectDocumentUploadPage.IsWrongDocumentFormatErrorDisplayed(PathProvider.SrtFile),
 				"Произошла ошибка:\n появилось сообщение о неверном формате загружаемого документа");

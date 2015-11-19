@@ -25,7 +25,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 			string glossaryName = null,
 			string filePath = null,
 			bool createNewTm = false,
-			string tmxFilePath = "",
+			string tmxFilePath = null,
 			bool useMachineTranslation = false,
 			bool createGlossary = false,
 			Language sourceLanguage = Language.English,
@@ -35,17 +35,30 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 		{
 			_projectsPage.ClickCreateProjectButton();
 
-			if (filePath == null)
+			if (filePath == null && tmxFilePath == null)
 			{
 				_newProjectDocumentUploadPage.ClickSkipDocumentUploadButton();
 			}
 			else
 			{
-				_newProjectDocumentUploadPage.UploadDocument(filePath);
-
-				if (!_newProjectDocumentUploadPage.IsFileUploaded(filePath))
+				if (filePath != null)
 				{
-					throw new Exception(string.Format("Произошла ошибка: \n файл c именем {0} не загрузился.", filePath));
+					_newProjectDocumentUploadPage.UploadDocumentFile(filePath);
+
+					if (!_newProjectDocumentUploadPage.IsDocumentFileUploaded(filePath))
+					{
+						throw new Exception(string.Format("Произошла ошибка: \n файл c именем {0} не загрузился.", filePath));
+					}
+				}
+
+				if (tmxFilePath != null)
+				{
+					_newProjectDocumentUploadPage.UploadTmxFile(tmxFilePath);
+
+					if (!_newProjectDocumentUploadPage.IsTmxFileUploaded(tmxFilePath))
+					{
+						throw new Exception(string.Format("Произошла ошибка: \n tmx файл c именем {0} не загрузился.", tmxFilePath));
+					}
 				}
 
 				_newProjectDocumentUploadPage.ClickSettingsButton();

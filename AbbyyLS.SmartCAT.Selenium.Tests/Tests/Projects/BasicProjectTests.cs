@@ -213,7 +213,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 			_projectsPage.ClickCreateProjectButton();
 
 			_newProjectDocumentUploadPage
-				.UploadDocument(PathProvider.DocumentFile)
+				.UploadDocumentFile(PathProvider.DocumentFile)
 				.DeleteDocument(Path.GetFileName(PathProvider.DocumentFile));
 
 			Assert.IsTrue(_newProjectDocumentUploadPage.IsFileDeleted(PathProvider.DocumentFile),

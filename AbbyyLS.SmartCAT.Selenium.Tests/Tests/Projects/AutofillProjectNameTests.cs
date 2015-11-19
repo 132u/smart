@@ -35,7 +35,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 			_projectsPage.ClickCreateProjectButton();
 
 			_newProjectDocumentUploadPage
-				.UploadDocument(_filePath)
+				.UploadDocumentFile(_filePath)
 				.ClickSettingsButton();
 
 			Assert.IsTrue(_newProjectDocumentUploadPage.IsProjectNameMatchExpected(_projectName),
@@ -50,8 +50,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 			_projectsPage.ClickCreateProjectButton();
 
 			_newProjectDocumentUploadPage
-				.UploadDocument(_filePath)
-				.UploadDocument(secondFilePath)
+				.UploadDocumentFile(_filePath)
+				.UploadDocumentFile(secondFilePath)
 				.ClickSettingsButton();
 
 			Assert.IsTrue(_newProjectDocumentUploadPage.IsProjectNameMatchExpected(_projectName),
@@ -64,7 +64,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 			_projectsPage.ClickCreateProjectButton();
 
 			_newProjectDocumentUploadPage
-				.UploadDocument(_filePath)
+				.UploadDocumentFile(_filePath)
 				.DeleteDocument(_fileName)
 				.ClickSkipDocumentUploadButton();
 
@@ -81,8 +81,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 			_projectsPage.ClickCreateProjectButton();
 
 			_newProjectDocumentUploadPage
-				.UploadDocument(_filePath)
-				.UploadDocument(secondFilePath)
+				.UploadDocumentFile(_filePath)
+				.UploadDocumentFile(secondFilePath)
 				.DeleteDocument(_fileName)
 				.ClickSettingsButton();
 

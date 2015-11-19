@@ -48,10 +48,10 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 		}
 
 		/// <summary>
-		/// Загрузка файла
+		/// Загрузка документа
 		/// </summary>
 		/// <param name="pathFile">путь к файлу</param>
-		public NewProjectDocumentUploadPage UploadDocument(string pathFile)
+		public NewProjectDocumentUploadPage UploadDocumentFile(string pathFile)
 		{
 			CustomTestContext.WriteLine("Загрузить файл: {0}.", pathFile);
 			Driver.ExecuteScript("arguments[0].style[\"display\"] = \"block\";" +
@@ -59,13 +59,37 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 				UploadDocumentInput);
 			UploadDocumentInput.SendKeys(pathFile);
 
-			if (!IsFileUploaded(pathFile))
+			if (!IsDocumentFileUploaded(pathFile))
 			{
 				CustomTestContext.WriteLine("Первая попытка добавить файл была неудачной. Попробовать ещё раз.");
 				Driver.ExecuteScript("arguments[0].style[\"display\"] = \"block\";" +
 					"arguments[0].style[\"visibility\"] = \"visible\";",
 					UploadDocumentInput);
 				UploadDocumentInput.SendKeys(pathFile);
+			}
+
+			return GetPage();
+		}
+
+		/// <summary>
+		/// Загрузка документа
+		/// </summary>
+		/// <param name="tmxFilePath">путь к файлу</param>
+		public NewProjectDocumentUploadPage UploadTmxFile(string tmxFilePath)
+		{
+			CustomTestContext.WriteLine("Загрузить файл: {0}.", tmxFilePath);
+			Driver.ExecuteScript("arguments[0].style[\"display\"] = \"block\";" +
+				"arguments[0].style[\"visibility\"] = \"visible\";",
+				UploadDocumentInput);
+			UploadDocumentInput.SendKeys(tmxFilePath);
+
+			if (!IsTmxFileUploaded(tmxFilePath))
+			{
+				CustomTestContext.WriteLine("Первая попытка добавить файл была неудачной. Попробовать ещё раз.");
+				Driver.ExecuteScript("arguments[0].style[\"display\"] = \"block\";" +
+					"arguments[0].style[\"visibility\"] = \"visible\";",
+					UploadDocumentInput);
+				UploadDocumentInput.SendKeys(tmxFilePath);
 			}
 
 			return GetPage();
@@ -169,13 +193,26 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 		/// Проверить, что файл загрузился
 		/// </summary>
 		/// <param name="filePath">путь до файла</param>
-		public bool IsFileUploaded(string filePath)
+		public bool IsDocumentFileUploaded(string filePath)
 		{
 			var fileName = Path.GetFileNameWithoutExtension(filePath);
 			var extension = Path.GetExtension(filePath).ToLower();
 			CustomTestContext.WriteLine("Проверить, что документ {0} загрузился.", fileName + extension);
-			
+			var s = Driver.WaitUntilElementIsDisplay(By.XPath(UPLOADED_DOCUMENT.Replace("*#*", fileName + extension)), timeout: 120);
 			return Driver.WaitUntilElementIsDisplay(By.XPath(UPLOADED_DOCUMENT.Replace("*#*", fileName + extension)), timeout: 120);
+		}
+
+		/// <summary>
+		/// Проверить, что файл tmx загрузился
+		/// </summary>
+		/// <param name="filePath">путь до файла</param>
+		public bool IsTmxFileUploaded(string filePath)
+		{
+			var fileName = Path.GetFileNameWithoutExtension(filePath);
+			var extension = Path.GetExtension(filePath).ToLower();
+			CustomTestContext.WriteLine("Проверить, что tmx файл {0} загрузился.", fileName + extension);
+			var s = Driver.WaitUntilElementIsDisplay(By.XPath(UPLOADED_TMX.Replace("*#*", fileName + extension)), timeout: 120);
+			return Driver.WaitUntilElementIsDisplay(By.XPath(UPLOADED_TMX.Replace("*#*", fileName + extension)), timeout: 120);
 		}
 
 		/// <summary>
@@ -244,6 +281,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 		protected const string SKIP_DOCUMENT_UPLOAD_BUTTON = "//span[@class='skip-step']";
 		protected const string UPLOADED_DOCUMENT = "//td[@class='filename']//span[text()='*#*']//..//..//i[not(contains(@class,'loading'))]";
 		protected const string UPLOAD_DOCUMENT_INPUT = "//input[contains(@data-bind,'uploadFilesFromFileInput')]";
+		protected const string UPLOADED_TMX = "//td[@class='filename']//span[text()='*#*']//..//..//..//..//..//..//..//div[contains(@data-bind , 'stopBubble: true')]";
 		protected const string SETTINGS_BUTTON = "//div[@class='g-btn g-purplebtn g-big-btn icon-btn' and not(contains(@disabled, 'true'))]";
 		protected const string CANCEL_BUTTON = "//a[contains(@data-bind,'cancel')]";
 		protected const string DELETE_DOCUMENT_BUTTON = "//td[@class='filename']//span[text()='*#*']//ancestor::table//preceding-sibling::i[contains(@data-bind,'removeDocument')]";
