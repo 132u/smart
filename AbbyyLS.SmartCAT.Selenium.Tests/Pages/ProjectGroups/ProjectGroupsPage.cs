@@ -91,8 +91,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.ProjectGroups
 			var deleteButton = Driver.SetDynamicValue(How.XPath, DELETE_PROJECT_GROUP_BUTTON, projectGroupName);
 
 			deleteButton.JavaScriptClick();
-			//Sleep нужен для предотвращения появления unexpected alert
-			Thread.Sleep(1000);
+			Driver.WaitUntilElementIsDisappeared(By.XPath(DELETE_PROJECT_GROUP_BUTTON.Replace("*#*", projectGroupName)));
 
 			return GetPage();
 		}
@@ -380,9 +379,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.ProjectGroups
 		protected const string ADD_PROJECT_GROUP_BUTTON = "//div[contains(@class, 'add-domain')]//a";
 		protected const string NEW_PROJECT_GROUP_ROW = "//tr[not(contains(@class,'g-hidden'))]//td[contains(@class,'domainNew')]//div[contains(@class,'js-edit-mode')]//input[contains(@class,'js-domain-name-input')]";
 
-		protected const string SAVE_PROJECT_GROUP = "//tr[not(contains(@class,'g-hidden'))]//div[contains(@class,'js-edit-mode') and not(contains(@class,'g-hidden'))]//a[contains(@class,'js-save-domain')]";
-		protected const string DELETE_PROJECT_GROUP_BUTTON = "//table[contains(@class,'js-sortable-table')]//p[contains(string(), '*#*')]//..//a[contains(@class,'js-delete-domain')]";
-		protected const string EDIT_PROJECT_GROUP_BUTTON = "//table[contains(@class,'js-sortable-table')]//p[contains(string(), '*#*')]//..//a[contains(@class,'js-edit-domain')]";
+		protected const string SAVE_PROJECT_GROUP = "//tr[not(contains(@class,'g-hidden'))]//div[contains(@class,'js-edit-mode') and not(contains(@class,'g-hidden'))]//i[contains(@class,'js-save-domain')]";
+		protected const string DELETE_PROJECT_GROUP_BUTTON = "//table[contains(@class,'js-sortable-table')]//p[contains(string(), '*#*')]//..//i[contains(@class,'js-delete-domain')]";
+		protected const string EDIT_PROJECT_GROUP_BUTTON = "//table[contains(@class,'js-sortable-table')]//p[contains(string(), '*#*')]//..//i[contains(@class,'js-edit-domain')]";
 		protected const string CANCEL_PROJECT_GROUP = "//tr[not(contains(@class,'g-hidden'))]//tr[not(contains(@class,'g-hidden'))]//div[contains(@class,'js-edit-mode') and not(contains(@class,'g-hidden'))]//a[contains(@class,'js-revert-domain')]//a[contains(@class,'js-revert-domain')]";
 
 		protected const string NAME_INPUT = "//input[contains(@class,'js-domain-name-input')]";
