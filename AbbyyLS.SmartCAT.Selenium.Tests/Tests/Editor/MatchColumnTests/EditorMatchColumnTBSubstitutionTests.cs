@@ -21,11 +21,12 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Editor
 			_editorHelper = new EditorHelper(Driver);
 
 			var projectUniqueName = _createProjectHelper.GetProjectUniqueName();
-			
+			var _glossaryUniqueName = GlossariesHelper.UniqueGlossaryName();
+
 			_createProjectHelper.CreateNewProject(
 				projectName: projectUniqueName,
 				filePath: PathProvider.TxtFileForMatchTest,
-				createGlossary: true);
+				glossaryName: _glossaryUniqueName);
 
 			_createProjectHelper
 				.GoToProjectSettingsPage(projectUniqueName)

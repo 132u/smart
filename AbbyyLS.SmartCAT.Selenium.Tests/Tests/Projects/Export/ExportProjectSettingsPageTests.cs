@@ -73,7 +73,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 			ProjectSettingsHelper.GoToProjectsPage();
 			var projectUniqueName2 = CreateProjectHelper.GetProjectUniqueName();
 
-			CreateProjectHelper.CreateNewProject(projectUniqueName2, PathProvider.DocumentFileToConfirm1);
+			CreateProjectHelper.CreateNewProject(projectUniqueName2, filePath: PathProvider.DocumentFileToConfirm1);
 
 			WorkspaceHelper
 				.GoToProjectSettingsPage(projectUniqueName2)

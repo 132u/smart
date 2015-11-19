@@ -22,6 +22,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 		{
 			_createProjectHelper = new CreateProjectHelper(Driver);
 			_projectUniqueName = _createProjectHelper.GetProjectUniqueName();
+			_glossaryUniqueName = GlossariesHelper.UniqueGlossaryName();
 		}
 
 		[Test]
@@ -30,7 +31,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 			_createProjectHelper.CreateNewProject(
 				_projectUniqueName,
 				createNewTm: true,
-				createGlossary: true,
+				glossaryName:_glossaryUniqueName,
 				personalAccount: true);
 		}
 
@@ -56,5 +57,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 
 		private CreateProjectHelper _createProjectHelper;
 		private string _projectUniqueName;
+		private string _glossaryUniqueName;
 	}
 }

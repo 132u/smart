@@ -22,12 +22,11 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 		public CreateProjectHelper CreateNewProject(
 			string projectName,
-			string glossaryName = null,
 			string filePath = null,
+			string glossaryName = null,
 			bool createNewTm = false,
 			string tmxFilePath = null,
 			bool useMachineTranslation = false,
-			bool createGlossary = false,
 			Language sourceLanguage = Language.English,
 			Language targetLanguage = Language.Russian,
 			IEnumerable<WorkflowTask> tasks = null,
@@ -93,7 +92,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 						_newProjectWorkflowPage.ClickNewTaskButton(task);
 					}
 				}
-
+				
 				_newProjectWorkflowPage.ClickCreateProjectButton();
 			}
 			else

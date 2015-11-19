@@ -37,7 +37,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 			_workspaceHelper.GoToProjectsPage();
 
 			_createProjectHelper
-				.CreateNewProject(_projectName, createGlossary: true, glossaryName: _glossaryName)
+				.CreateNewProject(_projectName, glossaryName: _glossaryName)
 				.GoToProjectSettingsPage(_projectName)
 				.UploadDocument(PathProvider.DocumentFile)
 				.RefreshPage<ProjectSettingsPage, ProjectSettingsHelper>()

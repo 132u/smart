@@ -98,7 +98,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 		public void ImportDuplicateDocumentTest()
 		{
 			_createProjectHelper
-				.CreateNewProject(_projectUniqueName, PathProvider.DocumentFile)
+				.CreateNewProject(_projectUniqueName, filePath: PathProvider.DocumentFile)
 				.GoToProjectSettingsPage(_projectUniqueName)
 				.ClickDocumentUploadButton();
 

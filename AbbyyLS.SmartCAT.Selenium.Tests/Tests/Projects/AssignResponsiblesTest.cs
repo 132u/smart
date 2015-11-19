@@ -51,7 +51,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 		[Standalone]
 		public void ResponsiblesWorkspaceOnAssignTaskButtonTest()
 		{
-			_createProjectHelper.CreateNewProject(_projectUniqueName, PathProvider.EditorTxtFile);
+			_createProjectHelper.CreateNewProject(_projectUniqueName, filePath: PathProvider.EditorTxtFile);
 
 			_projectsPage.OpenAssignDialog(_projectUniqueName);
 
@@ -65,7 +65,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 		[Standalone]
 		public void AssignDialogInWorkspaceVisibleTest()
 		{
-			_createProjectHelper.CreateNewProject(_projectUniqueName, PathProvider.EditorTxtFile);
+			_createProjectHelper.CreateNewProject(_projectUniqueName, filePath: PathProvider.EditorTxtFile);
 
 			_projectsPage.OpenAssignDialog(_projectUniqueName);
 		}
@@ -74,7 +74,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 		[Standalone]
 		public void WorkflowStepVisibleForAddedDocumentTest()
 		{
-			_createProjectHelper.CreateNewProject(_projectUniqueName, PathProvider.EditorTxtFile);
+			_createProjectHelper.CreateNewProject(_projectUniqueName, filePath: PathProvider.EditorTxtFile);
 
 			_projectsPage
 				.OpenProjectInfo(_projectUniqueName)
@@ -95,7 +95,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 		public void ResponsiblesProjectOnProgressLinkTest()
 		{
 			_createProjectHelper
-				.CreateNewProject(_projectUniqueName, PathProvider.EditorTxtFile)
+				.CreateNewProject(_projectUniqueName, filePath: PathProvider.EditorTxtFile)
 				.GoToProjectSettingsPage(_projectUniqueName)
 				.ClickDocumentProgress(PathProvider.EditorTxtFile)
 				.ClickAssignButtonInDocumentInfo();
@@ -106,7 +106,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 		public void ResponsiblesProjectOnAssignButtonTest()
 		{
 			_createProjectHelper
-				.CreateNewProject(_projectUniqueName, PathProvider.EditorTxtFile)
+				.CreateNewProject(_projectUniqueName, filePath: PathProvider.EditorTxtFile)
 				.GoToProjectSettingsPage(_projectUniqueName)
 				.ClickDocumentProgress(PathProvider.EditorTxtFile)
 				.ClickAssignButtonInDocumentInfo();
@@ -117,7 +117,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 		public void ResponsiblesProjectUploadDocumentTest()
 		{
 			_createProjectHelper
-				.CreateNewProject(_projectUniqueName, PathProvider.EditorTxtFile)
+				.CreateNewProject(_projectUniqueName, filePath: PathProvider.EditorTxtFile)
 				.GoToProjectSettingsPage(_projectUniqueName)
 				.ClickDocumentUploadButton();
 
@@ -149,7 +149,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 
 			_workspaceHelper.GoToProjectsPage();
 
-			_createProjectHelper.CreateNewProject(_projectUniqueName, PathProvider.EditorTxtFile);
+			_createProjectHelper.CreateNewProject(_projectUniqueName, filePath: PathProvider.EditorTxtFile);
 
 			_projectsPage.OpenAssignDialog(_projectUniqueName);
 
@@ -182,7 +182,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 
 			_workspaceHelper.GoToProjectsPage();
 
-			_createProjectHelper.CreateNewProject(_projectUniqueName, PathProvider.EditorTxtFile);
+			_createProjectHelper.CreateNewProject(_projectUniqueName, filePath: PathProvider.EditorTxtFile);
 
 			_projectsPage.OpenAssignDialog(_projectUniqueName);
 
@@ -196,7 +196,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 		[Standalone]
 		public void AssignUserOneTaskTest()
 		{
-			_createProjectHelper.CreateNewProject(_projectUniqueName, PathProvider.EditorTxtFile);
+			_createProjectHelper.CreateNewProject(_projectUniqueName, filePath: PathProvider.EditorTxtFile);
 
 			_projectsPage.OpenAssignDialog(_projectUniqueName);
 
@@ -247,7 +247,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 		[Standalone]
 		public void DeleteUserTaskTest()
 		{
-			_createProjectHelper.CreateNewProject(_projectUniqueName, PathProvider.EditorTxtFile);
+			_createProjectHelper.CreateNewProject(_projectUniqueName, filePath: PathProvider.EditorTxtFile);
 
 			_projectsPage.OpenAssignDialog(_projectUniqueName);
 
@@ -273,7 +273,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 
 			_workspaceHelper.GoToProjectsPage();
 
-			_createProjectHelper.CreateNewProject(_projectUniqueName, PathProvider.EditorTxtFile);
+			_createProjectHelper.CreateNewProject(_projectUniqueName, filePath: PathProvider.EditorTxtFile);
 
 			_projectsPage.OpenAssignDialog(_projectUniqueName);
 
@@ -322,7 +322,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 		[Standalone]
 		public void UnAssignUserTest()
 		{
-			_createProjectHelper.CreateNewProject(_projectUniqueName, PathProvider.EditorTxtFile);
+			_createProjectHelper.CreateNewProject(_projectUniqueName, filePath: PathProvider.EditorTxtFile);
 
 			_projectsPage.OpenAssignDialog(_projectUniqueName);
 
