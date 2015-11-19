@@ -322,7 +322,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 		protected const string SORT_BY_MODIFIED_BY = "//th[contains(@data-sort-by,'LastModifiedBy')]//a";
 
 		protected const string SUGGESTED_TERMS_BUTTON = ".//a[contains(@href,'/Suggests')]";
-		protected const string SUGGEST_TERM_BUTTON = "//span[contains(@class,'js-add-suggest')]";
+		protected const string SUGGEST_TERM_BUTTON = "//div[contains(@class,'js-add-suggest')]";
 
 	}
 }

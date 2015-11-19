@@ -285,13 +285,13 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 		protected const string SUGGEST_TERMS_TABLE = "//table[contains(@class,'js-suggests')]";
 		protected const string GLOSSARIES_COLUMN_LIST = "//tr[contains(@class,'js-suggest-row') and not(contains(@class,'g-hidden'))]//td[contains(@class, 'js-glossary-cell')]//p";
 		protected const string SUGGESTED_TERM_ROW = "//tr[contains(@class,'js-suggest-row') and not(contains(@class,'g-hidden'))][*#*]//td";
-		protected const string ACCEPT_SUGGEST_BUTTON = "//tr[contains(@class,'js-suggest-row') and not(contains(@class,'g-hidden'))][*#*]//td//a[contains(@class, 'accept-suggest')]";
+		protected const string ACCEPT_SUGGEST_BUTTON = "//tr[contains(@class,'js-suggest-row') and not(contains(@class,'g-hidden'))][*#*]//td//i[contains(@class, 'accept-suggest')]";
 		protected const string SUGGESTED_TERMS_ROW_LIST = "//tr[contains(@class,'js-suggest-row') and not(contains(@class,'g-hidden'))]";
-		protected const string DELETE_SUGGEST_TERM_BUTTON = "//tr[contains(@class,'js-suggest-row') and not(contains(@class,'g-hidden'))][*#*]//td//a[contains(@class, 'reject-suggest')]";
-		protected const string EDIT_SUGGEST_TERM_BUTTON = "//tr[contains(@class,'js-suggest-row') and not(contains(@class,'g-hidden'))][*#*]//td//a[contains(@class, 'edit-suggest')]";
+		protected const string DELETE_SUGGEST_TERM_BUTTON = "//tr[contains(@class,'js-suggest-row') and not(contains(@class,'g-hidden'))][*#*]//td//i[contains(@class, 'reject-suggest')]";
+		protected const string EDIT_SUGGEST_TERM_BUTTON = "//tr[contains(@class,'js-suggest-row') and not(contains(@class,'g-hidden'))][*#*]//td//i[contains(@class, 'edit-suggest')]";
 		protected const string EDIT_TERM_INPUT = "//div[contains(@class,'l-corprtree__langbox')][*#*]//span[contains(@class,'js-term-editor')]//input";
-		protected const string ACCEPT_TERM_BUTTON_IN_EDIT_MODE = "//span[@class = 'js-save-text']";
+		protected const string ACCEPT_TERM_BUTTON_IN_EDIT_MODE = "//span[contains(@class, 'js-save-text')]";
 		protected const string TERM_IN_EDIT_MODE = "//div[@class='l-corprtree__langbox'][*#*]//div[2]";
-		protected const string ADD_SYNONYM_BUTTON = "//div[contains(@class,'l-corprtree__langbox')][*#*]//span[contains(@class,'js-add-term')]";
+		protected const string ADD_SYNONYM_BUTTON = "//div[contains(@class,'l-corprtree__langbox')][*#*]//i[contains(@class,'js-add-term')]";
 	}
 }

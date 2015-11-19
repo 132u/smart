@@ -1548,7 +1548,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 				.ClickAcceptSuggestButton(termRowNumber);
 
 			// Sleep не убирать, иначе термин не исчезнет
-			Thread.Sleep(1000);
+			Thread.Sleep(3000);
 
 			var termsCountAfterAccept = _suggestedTermsPageForCurrentGlossaries.SuggestedTermsCount();
 
