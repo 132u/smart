@@ -61,7 +61,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Editor
 		{
 			_editorHelper
 				.AddTextToSegment(_wordsToAdd[2])
-				.AssertAutosaveWasComplete()
 				.AssertUnderlineForWord(_wordsToAdd[2], shouldExist: true);
 		}
 
@@ -71,7 +70,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Editor
 			_editorHelper
 				.AddWordToDictionary(_wordsToAdd[3])
 				.AddTextToSegment(_wordsToAdd[3])
-				.AssertAutosaveWasComplete()
 				.AssertUnderlineForWord(_wordsToAdd[3], shouldExist: false);
 			
 		}
@@ -83,7 +81,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Editor
 				.AddWordToDictionary(_wordsToAdd[4])
 				.DeleteWordFromDictionary(_wordsToAdd[4])
 				.AddTextToSegment(_wordsToAdd[4])
-				.AssertAutosaveWasComplete()
 				.AssertUnderlineForWord(_wordsToAdd[4], shouldExist: true);
 		}
 
@@ -95,10 +92,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Editor
 
 			_editorHelper
 				.AddTextToSegment(word)
-				.AssertAutosaveWasComplete()
 				.AssertUnderlineForWord(word, shouldExist: false)
 				.AddTextToSegment(wrongWord)
-				.AssertAutosaveWasComplete()
 				.AssertUnderlineForWord(wrongWord, shouldExist: true);
 		}
 
