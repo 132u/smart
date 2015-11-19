@@ -17,6 +17,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 			_newProjectDocumentUploadPage = new NewProjectDocumentUploadPage(Driver);
 			_newProjectSettingsPage = new NewProjectSettingsPage(Driver);
 			_newProjectWorkflowPage = new NewProjectWorkflowPage(Driver);
+			_newProjectEditGlossaryDialog = new NewProjectEditGlossaryDialog(Driver);
 		}
 
 		public CreateProjectHelper CreateNewProject(
@@ -51,6 +52,20 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 			}
 
 			_newProjectSettingsPage.FillGeneralProjectInformation(projectName, sourceLanguage, targetLanguage, useMT: useMachineTranslation);
+
+			if (glossaryName != null)
+			{
+				_newProjectSettingsPage
+					.ExpandAdvancedSettings()
+					.ClickGlossariesTab()
+					.ClickCreateGlossaryButton()
+					.OpenEditGlossaryDialog();
+
+				_newProjectEditGlossaryDialog
+					.FillGlossaryName(glossaryName)
+					.ClickSaveButton()
+					.WaitUntilDialogBackgroundDisappeared();
+			}
 
 			if (!personalAccount)
 			{
@@ -87,6 +102,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 		private readonly NewProjectDocumentUploadPage _newProjectDocumentUploadPage;
 		private readonly NewProjectSettingsPage _newProjectSettingsPage;
+		private readonly NewProjectEditGlossaryDialog _newProjectEditGlossaryDialog;
 		private readonly NewProjectWorkflowPage _newProjectWorkflowPage;
 	}
 }

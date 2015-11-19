@@ -36,6 +36,50 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 		#region Простые методы страницы
 
 		/// <summary>
+		/// Нажать на вкладку Glossaries в панели 'Advanced Settings'.
+		/// </summary>
+		public NewProjectSettingsPage ClickGlossariesTab()
+		{
+			CustomTestContext.WriteLine("Нажать на вкладку Glossaries в панели 'Advanced Settings'.");
+			GlossariesTab.Click();
+
+			return GetPage();
+		}
+
+		/// <summary>
+		/// Нажать на кнопку 'Create Glossary' в панели 'Advanced Settings'.
+		/// </summary>
+		public NewProjectSettingsPage ClickCreateGlossaryButton()
+		{
+			CustomTestContext.WriteLine("Нажать на кнопку 'Create Glossary' в панели 'Advanced Settings'.");
+			CreateGlossaryButton.Click();
+
+			return GetPage();
+		}
+
+		/// <summary>
+		/// Нажать на кнопку 'Edit Glossary' в панели 'Advanced Settings'.
+		/// </summary>
+		public NewProjectEditGlossaryDialog ClickEditGlossaryButton(int glossaryNumber)
+		{
+			CustomTestContext.WriteLine("Нажать на кнопку 'Edit Glossary' в панели 'Advanced Settings' для глоссария №{0}.", glossaryNumber);
+			Driver.SetDynamicValue(How.XPath, EDIT_GLOSSARY_BUTTON, glossaryNumber.ToString()).Click();
+
+			return new NewProjectEditGlossaryDialog(Driver).GetPage();
+		}
+
+		/// <summary>
+		/// Навести курсор на глоссарий в панели 'Advanced Settings'.
+		/// </summary>
+		public NewProjectSettingsPage HoverGlossaryRow(int glossaryNumber)
+		{
+			CustomTestContext.WriteLine("Навести курсор на глоссарий №{0} в панели 'Advanced Settings'.", glossaryNumber);
+			Driver.SetDynamicValue(How.XPath, GLOSSARY_ROW, glossaryNumber.ToString()).HoverElement();
+
+			return GetPage();
+		}
+
+		/// <summary>
 		/// Ввести им проекта
 		/// </summary>
 		/// <param name="projectName">имя проекта</param>
@@ -229,7 +273,10 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 		public NewProjectSettingsPage ExpandAdvancedSettings()
 		{
 			CustomTestContext.WriteLine("Раскрыть дополнительные настройки, нажав переключатель");
-			AdvancedSwitch.Click();
+			if (!IsAdvancedSettingsSectionDisplayed())
+			{
+				AdvancedSwitch.Click();
+			}
 
 			return GetPage();
 		}
@@ -348,9 +395,32 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 			return GetPage();
 		}
 
+		/// <summary>
+		/// Переименовать глоссарий
+		/// </summary>
+		/// <param name="glossaryName">название глоссария</param>
+		/// <param name="glossaryNumber">номер глоссария</param>
+		public NewProjectEditGlossaryDialog OpenEditGlossaryDialog(int glossaryNumber = 1)
+		{
+			HoverGlossaryRow(glossaryNumber);
+			ClickEditGlossaryButton(glossaryNumber);
+
+			return new NewProjectEditGlossaryDialog(Driver).GetPage();
+		}
+
 		#endregion
 
 		#region Методы, проверяющие состояние страницы
+
+		/// <summary>
+		/// Проверить, что секция расширенных настроек открыта
+		/// </summary>
+		public bool IsAdvancedSettingsSectionDisplayed()
+		{
+			CustomTestContext.WriteLine("Проверить, что секция расширенных настроек открыта.");
+
+			return Driver.WaitUntilElementIsDisplay(By.XPath(ADVANCED_SETTINGS_SECTION));
+		}
 
 		/// <summary>
 		/// Проверить, открылась ли страница настроек создаваемого проекта
@@ -505,6 +575,18 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 		[FindsBy(How = How.XPath, Using = CREATE_PROJECT_BUTTON)]
 		protected IWebElement CreateProjectButton { get; set; }
 
+		[FindsBy(How = How.XPath, Using = ADVANCED_SETTINGS_SWITCHER)]
+		protected IWebElement AdvancedSettingsSwitcher { get; set; }
+
+		[FindsBy(How = How.XPath, Using = GLOSSARIES_TAB)]
+		protected IWebElement GlossariesTab { get; set; }
+
+		[FindsBy(How = How.XPath, Using = CREATE_GLOSSARY_BUTTON)]
+		protected IWebElement CreateGlossaryButton { get; set; }
+
+		[FindsBy(How = How.XPath, Using = EDIT_GLOSSARY_BUTTON)]
+		protected IWebElement EditGlossaryButton { get; set; }
+
 		protected IWebElement SourceLangItem { get; set; }
 
 		protected IWebElement TargetLangItem { get; set; }
@@ -539,6 +621,14 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 		protected const string ERROR_DEADLINE_DATE = "//div[@class='proj_deadline pull-right']//span[text()='Specify the deadline in the MM/DD/YYYY format.']";
 
 		protected const string CREATE_PROJECT_BUTTON = "//div[@class='g-btn g-purplebtn g-big-btn icon-btn' and not(contains(@disabled, 'true'))]";
+
+		protected const string ADVANCED_SETTINGS_SECTION = "//div[@class='additional-settings-tabs']";
+		protected const string ADVANCED_SETTINGS_SWITCHER = "//label[@for='advancedSettingsSwitch']";
+		protected const string GLOSSARIES_TAB = "//ul[contains(@data-bind, 'advancedSettingsTabs')]//li[text()='Glossaries']";
+		protected const string CREATE_GLOSSARY_BUTTON = "//div[contains(@data-bind, 'createGlossary')]//a";
+		protected const string EDIT_GLOSSARY_BUTTON = "//div[contains(@data-bind, 'switchDetailMode')][*#*]//div[contains(@class, 'right l-settings-icons')]//span[contains(@data-bind, 'edit')]";
+		protected const string GLOSSARY_ROW = "//div[contains(@data-bind, 'switchDetailMode')][*#*]";
+		
 		#endregion
 	}
 }

@@ -73,6 +73,7 @@
     <Compile Include="Pages\Admin\AdminManagementPaidServicesPage.cs" />
     <Compile Include="Drivers\Navigation.cs" />
     <Compile Include="ConfigurationManager.cs" />
+    <Compile Include="Pages\Projects\CreateProjectDialog\NewProjectEditGlossaryDialog.cs" />
     <Compile Include="Pages\Projects\CreateProjectDialog\NewProjectSettingsPage.cs" />
     <Compile Include="Pages\Projects\CreateProjectDialog\NewProjectSetUpPretranslationDialog.cs" />
     <Compile Include="DataStructures\GlossaryCustomFieldType.cs" />
