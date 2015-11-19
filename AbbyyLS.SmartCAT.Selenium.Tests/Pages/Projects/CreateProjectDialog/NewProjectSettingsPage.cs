@@ -72,12 +72,23 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 		}
 
 		/// <summary>
-		/// Кликнуть на дропдаун языка перевода, чтобы появился выпадающий список
+		/// Нажать кнопку Add, чтоб открыть дропдаун языка перевода
 		/// </summary>
-		public NewProjectSettingsPage ClickTargetLanguageDropdown()
+		public NewProjectSettingsPage ClickAddTargetLanguageButton()
 		{
-			CustomTestContext.WriteLine("Кликнуть на дропдаун языка перевода, чтобы появился выпадающий список.");
-			TargetLanguageDropdown.Click();
+			CustomTestContext.WriteLine("Нажать кнопку Add, чтоб открыть дропдаун языка перевода.");
+			AddTargetLanguageButton.Click();
+
+			return GetPage();
+		}
+		
+		/// <summary>
+		/// Нажать на название дропдаун 'Target Language', чтоб закрыть дропдаун
+		/// </summary>
+		public NewProjectSettingsPage ClickTargetLanguageDropdownHeader()
+		{
+			CustomTestContext.WriteLine("Нажать на название дропдаун 'Target Language', чтоб закрыть дропдаун.");
+			TargetLanguageDropdownHeader.Click();
 
 			return GetPage();
 		}
@@ -305,10 +316,10 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 		/// <param name="targetLanguage">язык перевода</param>
 		public NewProjectSettingsPage SetTargetLanguage(Language targetLanguage = Language.Russian)
 		{
-			ClickTargetLanguageDropdown();
+			ClickAddTargetLanguageButton();
 			DeselectAllTargetLanguagesInList();
 			SelectTargetLanguageInList(targetLanguage);
-			ClickTargetLanguageDropdown();
+			ClickTargetLanguageDropdownHeader();
 
 			return GetPage();
 		}
@@ -473,6 +484,12 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 		[FindsBy(How = How.XPath, Using = TARGET_LANG_DROPDOWN)]
 		protected IWebElement TargetLanguageDropdown { get; set; }
 
+		[FindsBy(How = How.XPath, Using = ADD_TARGET_LANGUAGE_BUTTON)]
+		protected IWebElement AddTargetLanguageButton { get; set; }
+
+		[FindsBy(How = How.XPath, Using = TARGET_LANGUAGE_DROPDOWN_HEADER)]
+		protected IWebElement TargetLanguageDropdownHeader { get; set; }
+
 		[FindsBy(How = How.XPath, Using = USE_MACHINE_TRANSLATION_CHECKBOX)]
 		protected IWebElement UseMachineTranslationCheckbox { get; set; }
 
@@ -508,7 +525,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 		protected const string SOURCE_LANG_ITEM = "//div[@class='source_lang']//li[@title = '*#*']";
 		protected const string TARGET_LANG_DROPDOWN = "//div[contains(@class,'target_langs')]//i";
 		protected const string TARGET_LANG_ITEMS_SELECTED = "//ul//li//input[@checked='checked']";
-		protected const string TARGET_LANG_ITEM = "//ul//li//span[text() = '*#*']";
+		protected const string ADD_TARGET_LANGUAGE_BUTTON = "//span[contains(@data-bind, 'openTargetLanguages')]";
+		protected const string TARGET_LANGUAGE_DROPDOWN_HEADER = "//div[contains(@class, 'target_langs dropdown')]//p";
+		protected const string TARGET_LANG_ITEM = "//div[contains(@class, 'target_langs')]//ul//li[@title = '*#*']";
 		protected const string USE_MACHINE_TRANSLATION_CHECKBOX = "//input[@name='mts-checkbox']";
 		protected const string WORKFLOW_BUTTON = "//div[@class='btn-icon-wrap']//i[@class='icon-sc-arrow-right']";
 		protected const string ADVANCED_SWITCH = "//div[@class='l-switch']//span[@class='mdl-switch__ripple-container mdl-js-ripple-effect mdl-ripple--center']";
