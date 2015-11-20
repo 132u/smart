@@ -24,7 +24,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 			_glossaryUniqueName = GlossariesHelper.UniqueGlossaryName();
 		}
 
-		[Test]
+		[Test, Ignore("PRX-10924")]
 		public void AddTextFieldTest()
 		{
 			var fieldName = "TextField";
@@ -47,7 +47,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 				.AssertExtendTermsCountMatch(expectedTermCount: 1);
 		}
 
-		[Test]
+		[Test, Ignore("PRX-10924")]
 		public void AddTextRequiredFieldTest()
 		{
 			var fieldName = "RequiredTextField";
@@ -73,7 +73,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 				.AssertExtendTermsCountMatch(expectedTermCount: 1);
 		}
 
-		[Test]
+		[Test, Ignore("PRX-10924")]
 		public void AddDateFieldTest()
 		{
 			var fieldName = "DateField";
@@ -95,7 +95,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 				.AssertExtendTermsCountMatch(expectedTermCount: 1);
 		}
 
-		[Test]
+		[Test, Ignore("PRX-10924")]
 		public void AddDateRequiredFieldTest()
 		{
 			var fieldName = "DateRequiredField";
@@ -120,7 +120,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 				.AssertExtendTermsCountMatch(expectedTermCount: 1);
 		}
 
-		[Test]
+		[Test, Ignore("PRX-10924")]
 		public void AddMediaFieldTest()
 		{
 			var fieldName = "MediaField";
@@ -141,7 +141,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 				.AssertExtendTermsCountMatch(expectedTermCount: 1);
 		}
 
-		[Test]
+		[Test, Ignore("PRX-10924")]
 		public void AddMediaRequiredFieldTest()
 		{
 			var fieldName = "MediaRequiredField";
@@ -165,7 +165,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 				.AssertExtendTermsCountMatch(expectedTermCount: 1);
 		}
 
-		[Test]
+		[Test, Ignore("PRX-10924")]
 		public void AddImageFieldTest()
 		{
 			var fieldName = "ImageField";
@@ -187,7 +187,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 				.AssertExtendTermsCountMatch(expectedTermCount: 1);
 		}
 
-		[Test]
+		[Test, Ignore("PRX-10924")]
 		public void AddImageRequiredFieldTest()
 		{
 			var fieldName = "ImageField";
@@ -212,7 +212,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 				.AssertExtendTermsCountMatch(expectedTermCount: 1);
 		}
 
-		[Test]
+		[Test, Ignore("PRX-10924")]
 		public void AddListFieldTest()
 		{
 			var fieldName = "ListField";
@@ -236,7 +236,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 				.AssertExtendTermsCountMatch(expectedTermCount: 1);
 		}
 
-		[Test]
+		[Test, Ignore("PRX-10924")]
 		public void AddListRequiredFieldTest()
 		{
 			var fieldName = "ListRequiredField";
@@ -263,7 +263,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 				.AssertExtendTermsCountMatch(expectedTermCount: 1);
 		}
 
-		[Test]
+		[Test, Ignore("PRX-10924")]
 		public void AddMultiselectListFieldTest()
 		{
 			var fieldName = "MultiselectListField";
@@ -288,7 +288,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 				.AssertExtendTermsCountMatch(expectedTermCount: 1);
 		}
 
-		[Test]
+		[Test, Ignore("PRX-10924")]
 		public void AddMultiselectListRequiredFieldTest()
 		{
 			var fieldName = "MultiselectListRequiredField";
@@ -315,7 +315,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 				.AssertExtendTermsCountMatch(expectedTermCount: 1);
 		}
 
-		[Test]
+		[Test, Ignore("PRX-10924")]
 		public void AddNumberFieldTest()
 		{
 			var fieldName = "NumberField";
@@ -338,7 +338,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 				.AssertExtendTermsCountMatch(expectedTermCount: 1);
 		}
 
-		[Test]
+		[Test, Ignore("PRX-10924")]
 		public void AddYesNoFieldTest()
 		{
 			var fieldName = "YesNoField";
@@ -359,7 +359,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 				.AssertExtendTermsCountMatch(expectedTermCount: 1);
 		}
 
-		[Test]
+		[Test, Ignore("PRX-10924")]
 		public void AddNumberRequiredFieldTest()
 		{
 			var fieldName = "NumberField";
