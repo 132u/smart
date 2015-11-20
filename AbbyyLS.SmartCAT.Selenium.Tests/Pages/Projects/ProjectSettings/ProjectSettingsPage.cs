@@ -1,12 +1,12 @@
-﻿using System;
+﻿using System.IO;
 using System.Linq;
 using System.Threading;
 
-using NUnit.Framework;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.PageObjects;
 
 using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
+using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.DocumentUploadDialog;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace;
 using AbbyyLS.SmartCAT.Selenium.Tests.TestFramework;
@@ -30,11 +30,13 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings
 		public new void LoadPage()
 		{
 			Driver.WaitPageTotalLoad();
-			if (!Driver.WaitUntilElementIsDisplay(By.XPath(ADD_FILES_BTN)))
+			if (!IsProjectSettingsPageOpened())
 			{
-				Assert.Fail("Произошла ошибка:\n не удалось перейти на вкладку проекта.");
+				throw new XPathLookupException("Произошла ошибка:\n не удалось перейти на вкладку проекта.");
 			}
 		}
+
+		#region Простые методы страницы
 
 		/// <summary>
 		/// Нажать кнопку "Загрузить файлы"
@@ -48,21 +50,14 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings
 		}
 
 		/// <summary>
-		/// Проверить, загрузился ли документ
+		/// Нажать на кнопку "Settings" в разделе "Documents"
 		/// </summary>
-		public ProjectSettingsPage AssertIsDocumentProcessed()
+		public DocumentSettings ClickDocumentSettings()
 		{
-			CustomTestContext.WriteLine("Проверить загрузился ли документ.");
+			CustomTestContext.WriteLine("Нажать на кнопку 'Settings' в разделе 'Documents'.");
+			DocumentSettingsButton.JavaScriptClick();
 
-			if (!Driver.WaitUntilElementIsDisappeared(By.XPath(LOAD_DOC_IMG), 320))
-			{
-				Driver.Navigate().Refresh();
-
-				Assert.IsFalse(Driver.ElementIsDisplayed(By.XPath(LOAD_DOC_IMG)),
-					"Произошла ошибка:\n документ загружается слишком долго.");
-			}
-
-			return GetPage();
+			return new DocumentSettings(Driver).GetPage();
 		}
 
 		/// <summary>
@@ -90,19 +85,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings
 		}
 
 		/// <summary>
-		/// Проверить, что кнопка 'Назначить задачу' отсутствует
-		/// </summary>
-		public ProjectSettingsPage AssertAssignButtonNotExist()
-		{
-			CustomTestContext.WriteLine("Проверить, что кнопка 'Назначить задачу' отсутствует.");
-
-			Assert.IsFalse(Driver.GetIsElementExist(By.XPath(ASSIGN_TASKS_BTN_IN_DOCUMENT_INFO)),
-				"Произошла ошибка:\n кнопка 'Назначить задачу' отображается в открытой свёртке документа.");
-
-			return GetPage();
-		}
-
-		/// <summary>
 		/// Нажать на кнопку "Назначить задачу" на панели
 		/// </summary>
 		public TaskAssignmentPage ClickAssignButtonOnPanel()
@@ -117,7 +99,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings
 		/// Кликнуть по ссылке на документ (открыть его)
 		/// </summary>
 		/// <param name="documentName">имя документа</param>
-		public T ClickDocument<T>(string documentName, WebDriver driver) where T: class, IAbstractPage<T>
+		public SelectTaskDialog OpenDocumentInEditorWithTaskSelect(string documentName)
 		{
 			CustomTestContext.WriteLine("Кликнуть по ссылке на документ {0} (открыть его).", documentName);
 			DocumentRefference = Driver.SetDynamicValue(How.XPath, DOCUMENT_REF, documentName);
@@ -130,8 +112,47 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings
 				Driver.SwitchTo().Window(Driver.WindowHandles.Last());
 			}
 
-			var instance = Activator.CreateInstance(typeof(T), new object[] { driver }) as T;
-			return instance.GetPage();
+			return new SelectTaskDialog(Driver).GetPage();
+		}
+
+		/// <summary>
+		/// Кликнуть по ссылке на документ (открыть его)
+		/// </summary>
+		/// <param name="documentName">имя документа</param>
+		public EditorPage OpenDocumentInEditorWithoutTaskSelect(string documentName)
+		{
+			CustomTestContext.WriteLine("Кликнуть по ссылке на документ {0} (открыть его).", documentName);
+			DocumentRefference = Driver.SetDynamicValue(How.XPath, DOCUMENT_REF, documentName);
+			DocumentRefference.Click();
+			// Sleep нужен, чтоб вторая вкладка успела открыться, иначе количество открытых вкладок посчитается неправильно 
+			Thread.Sleep(1000);
+			if (Driver.WindowHandles.Count > 1)
+			{
+				Driver.SwitchTo().Window(Driver.WindowHandles.First()).Close();
+				Driver.SwitchTo().Window(Driver.WindowHandles.Last());
+			}
+
+			return new EditorPage(Driver).GetPage();
+		}
+
+		/// <summary>
+		/// Кликнуть по ссылке на документ
+		/// </summary>
+		/// <param name="documentName">имя документа</param>
+		public ProjectSettingsPage ClickOnDocumentExpectingError(string documentName)
+		{
+			CustomTestContext.WriteLine("Кликнуть по ссылке на документ {0} (открыть его).", documentName);
+			DocumentRefference = Driver.SetDynamicValue(How.XPath, DOCUMENT_REF, documentName);
+			DocumentRefference.Click();
+			// Sleep нужен, чтоб вторая вкладка успела открыться, иначе количество открытых вкладок посчитается неправильно 
+			Thread.Sleep(1000);
+			if (Driver.WindowHandles.Count > 1)
+			{
+				Driver.SwitchTo().Window(Driver.WindowHandles.First()).Close();
+				Driver.SwitchTo().Window(Driver.WindowHandles.Last());
+			}
+
+			return GetPage();
 		}
 
 		/// <summary>
@@ -143,60 +164,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings
 			DeleteButton.Click();
 
 			return new DeleteDocumentDialog(Driver).GetPage();
-		}
-		
-		/// <summary>
-		/// Проверить, что документа нет в проекте
-		/// </summary>
-		/// <param name="documentName">имя документа</param>
-		public ProjectSettingsPage AssertDocumentNotExist(string documentName)
-		{
-			CustomTestContext.WriteLine("Проверить, что документа '{0}' нет в проекте.", documentName);
-
-			Assert.IsFalse(Driver.WaitUntilElementIsEnabled(By.XPath(DOCUMENT_LIST.Replace("*#*", documentName)), 5),
-				"Произошла ошибка:\n документ {0} присутствует в проекте.", documentName);
-
-			return GetPage();
-		}
-
-		/// <summary>
-		/// Проверить, что документ есть в проекте
-		/// </summary>
-		/// <param name="documentName">имя документа</param>
-		public ProjectSettingsPage AssertDocumentExist(string documentName)
-		{
-			CustomTestContext.WriteLine("Проверить, что документ '{0}' есть в проекте.", documentName);
-
-			Assert.IsTrue(Driver.WaitUntilElementIsEnabled(By.XPath(DOCUMENT_LIST.Replace("*#*", documentName)), 5),
-				"Произошла ошибка:\n документ {0} отсутствует в проекте.", documentName);
-
-			return GetPage();
-		}
-
-		/// <summary>
-		/// Ожидаем закрытия диалога удаления документа
-		/// </summary>
-		public ProjectSettingsPage WaitDeleteDocumentDialogDissappeared()
-		{
-			CustomTestContext.WriteLine("Дождаться закрытия диалога удаления документа.");
-
-			Assert.IsTrue(Driver.WaitUntilElementIsDisappeared(By.XPath(DELETE_DOCUMENT_DIALOG)),
-				"Произошла ошибка:\n диалог удаления документа не закрылся.");
-
-			return new ProjectSettingsPage(Driver);
-		}
-
-		/// <summary>
-		/// Дождаться закрытия диалога импорта документа
-		/// </summary>
-		public ProjectSettingsPage WaitUntilUploadDocumentDialogDissapeared()
-		{
-			CustomTestContext.WriteLine("Дождаться закрытия диалога импорта документа.");
-
-			Assert.IsTrue(Driver.WaitUntilElementIsDisappeared(By.XPath(IMPORT_DIALOG)),
-				"Произошла ошибка:\n диалог импорта документа не закрылся.");
-
-			return GetPage();
 		}
 
 		/// <summary>
@@ -213,11 +180,11 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings
 		/// <summary>
 		/// Кликнуть чекбокс у документа
 		/// </summary>
-		/// <param name="documentName">имя документа</param>
-		public ProjectSettingsPage ClickDocumentCheckbox(string documentName)
+		/// <param name="filePath">путь до документа</param>
+		public ProjectSettingsPage ClickDocumentCheckbox(string filePath)
 		{
 			CustomTestContext.WriteLine("Кликнуть чекбокс у документа");
-			
+			var documentName = Path.GetFileNameWithoutExtension(filePath);
 			DocumentCheckbox = Driver.SetDynamicValue(How.XPath, DOCUMENT_CHECKBOX, documentName);
 			DocumentCheckbox.Click();
 
@@ -227,12 +194,11 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings
 		/// <summary>
 		/// Нажать на прогресс в строке документа
 		/// </summary>
-		/// <param name="documentName">имя документа(без расширения)</param>
-		public ProjectSettingsPage ClickDocumentProgress(string documentName)
+		/// <param name="filePath">путь до документа</param>
+		public ProjectSettingsPage ClickDocumentProgress(string filePath)
 		{
+			var documentName = Path.GetFileNameWithoutExtension(filePath);
 			CustomTestContext.WriteLine("Нажать на поле прогресс строке документа {0}.", documentName);
-			//Sleep необходим для предотвращения ошибки "stale element reference: element is not attached to the page document"
-			Thread.Sleep(1000);
 			DocumentProgress = Driver.SetDynamicValue(How.XPath, DOCUMENT_PROGRESS, documentName);
 			DocumentProgress.Click();
 
@@ -348,28 +314,109 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings
 			return GetPage();
 		}
 
-		/// <summary>
-		/// Проверить, что диалог настроек проекта закрылся
-		/// </summary>
-		public ProjectSettingsPage AssertSettingsDialogDissappear()
-		{
-			CustomTestContext.WriteLine("Проверить, что диалог настроек проекта закрылся.");
+		#endregion
 
-			Assert.IsTrue(Driver.WaitUntilElementIsDisappeared(By.XPath(PROJECT_SETTIGS_HEADER)), "Произошла ошибка:\n Диалог настроек проекта не закрылся.");
+		#region Методы, проверяющие состояние страницы
+
+		/// <summary>
+		/// Ожидаем закрытия диалога удаления документа
+		/// </summary>
+		public ProjectSettingsPage WaitDeleteDocumentDialogDissappeared()
+		{
+			CustomTestContext.WriteLine("Дождаться закрытия диалога удаления документа.");
+
+			if(!Driver.WaitUntilElementIsDisappeared(By.XPath(DELETE_DOCUMENT_DIALOG)))
+			{
+				throw new InvalidElementStateException("Произошла ошибка:\n диалог удаления документа не закрылся.");
+			}
 
 			return GetPage();
 		}
 
 		/// <summary>
-		/// Нажать на кнопку "Settings" в разделе "Documents"
+		/// Дождаться закрытия диалога импорта документа
 		/// </summary>
-		public DocumentSettings ClickDocumentSettings()
+		public ProjectSettingsPage WaitUntilUploadDocumentDialogDissapeared()
 		{
-			CustomTestContext.WriteLine("Нажать на кнопку 'Settings' в разделе 'Documents'.");
-			DocumentSettingsButton.JavaScriptClick();
+			CustomTestContext.WriteLine("Дождаться закрытия диалога импорта документа.");
 
-			return new DocumentSettings(Driver).GetPage();
+			if (!Driver.WaitUntilElementIsDisappeared(By.XPath(IMPORT_DIALOG)))
+			{
+				throw new InvalidElementStateException("Произошла ошибка:\n диалог импорта документа не закрылся");
+			}
+
+			return GetPage();
 		}
+
+		/// <summary>
+		/// Проверить, что диалог настроек проекта закрылся
+		/// </summary>
+		public ProjectSettingsPage WaitUntilSettingsDialogDissappear()
+		{
+			CustomTestContext.WriteLine("Проверить, что диалог настроек проекта закрылся.");
+
+			if (!Driver.WaitUntilElementIsDisappeared(By.XPath(PROJECT_SETTIGS_HEADER)))
+			{
+				throw new InvalidElementStateException("Произошла ошибка:\n Диалог настроек проекта не закрылся.");
+			}
+
+			return GetPage();
+		}
+
+		/// <summary>
+		/// Проверить, открылась ли страница настроек проекта
+		/// </summary>
+		public bool IsProjectSettingsPageOpened()
+		{
+			CustomTestContext.WriteLine("Проверить, открылась ли страница настроек проекта");
+
+			return Driver.WaitUntilElementIsDisplay(By.XPath(ADD_FILES_BTN));
+		}
+
+		/// <summary>
+		/// Дождаться загрузки документа
+		/// </summary>
+		public ProjectSettingsPage WaitUntilDocumentProcessed()
+		{
+			CustomTestContext.WriteLine("Дождаться загрузки документа");
+
+			if (!Driver.WaitUntilElementIsDisappeared(By.XPath(LOAD_DOC_IMG), 30))
+			{
+				Driver.Navigate().Refresh();
+			}
+
+			if (Driver.ElementIsDisplayed(By.XPath(LOAD_DOC_IMG)))
+			{
+				throw new InvalidElementStateException("Произошла ошибка:\n документ загружается слишком долго");
+			}
+
+			return GetPage();
+		}
+
+		/// <summary>
+		/// Проверить, что кнопка 'Назначить задачу' присутствует
+		/// </summary>
+		public bool IsAssignButtonExist()
+		{
+			CustomTestContext.WriteLine("Проверить, что кнопка 'Назначить задачу' присутствует");
+
+			return Driver.WaitUntilElementIsDisplay(By.XPath(ASSIGN_TASKS_BTN_IN_DOCUMENT_INFO));
+		}
+
+		/// <summary>
+		/// Проверить, что документ есть в проекте
+		/// </summary>
+		/// <param name="documentName">имя документа</param>
+		public bool IsDocumentExist(string documentName)
+		{
+			CustomTestContext.WriteLine("Проверить, что документ '{0}' есть в проекте.", documentName);
+
+			return Driver.WaitUntilElementIsDisplay(By.XPath(DOCUMENT_LIST_ITEM.Replace("*#*", documentName)));
+		}
+
+		#endregion
+
+		#region Объявление элементов страницы
 
 		[FindsBy(How = How.XPath, Using = ADD_FILES_BTN)]
 		protected IWebElement AddFilesButton { get; set; }
@@ -430,6 +477,10 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings
 		
 		protected IWebElement ProjectsTableCheckbox { get; set; }
 
+		#endregion
+
+		#region Описания XPath элементов страницы
+
 		protected const string ADD_FILES_BTN = "//div[contains(@data-bind, 'importDocument')]";
 		protected const string IMPORT_DIALOG = ".//div[contains(@class,'js-popup-import-document')][2]";
 		protected const string ASSIGN_DIALOG = "//div[contains(@class,'js-popup-assign')][2]";
@@ -444,7 +495,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings
 		protected const string DEFAULT_MT_CHECKBOX = "//tbody[contains(@data-bind,'foreach: machineTranslators')]//tr[contains(string(), 'ABBYY')]//td[1]//input";
 		protected const string DEFAULT_MT_CHECKBOX_STATE = "//tbody[contains(@data-bind,'foreach: machineTranslators')]//tr[contains(string(), 'ABBYY')]//td[1]//input[@data-value='true']";
 		protected const string DELETE_BTN = "//div[contains(@data-bind, 'deleteDocuments')]";
-		protected const string DOCUMENT_LIST = ".//table[contains(@class,'js-documents-table')]//tbody//tr//a[text()='*#*']";
+		protected const string DOCUMENT_LIST_ITEM = ".//table[contains(@class,'js-documents-table')]//tbody//tr//a[text()='*#*']";
 		protected const string DELETE_DOCUMENT_DIALOG = "//div[contains(@class,'js-popup-confirm')]";
 		protected const string DOWNLOAD_MAIN_MENU_BUTTON = "//div[contains(@class,'js-document-export-block')]";
 		protected const string DOCUMENT_CHECKBOX = ".//table[contains(@id,'JColResizer')]//tr[contains(string(), '*#*')]//td[2]//a//ancestor::td//preceding-sibling::td//input";
@@ -461,5 +512,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings
 		protected const string SORT_BY_QA = "//th[contains(@data-sort-by,'qaErrorCount')]//a";
 
 		protected const string PROJECT_SETTIGS_HEADER = "//div[contains(@class, 'popup-edit')][2]//h2[text()='Project Settings']";
+
+		#endregion
 	}
 }

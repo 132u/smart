@@ -5,7 +5,6 @@ using NUnit.Framework;
 using AbbyyLS.SmartCAT.Selenium.Tests.DataStructures;
 using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
 using AbbyyLS.SmartCAT.Selenium.Tests.FeatureAttributes;
-using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.UsersRights;
 using AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers;
@@ -24,6 +23,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 			_workspaceHelper = new WorkspaceHelper(Driver);
 
 			_usersRightsPage = new UsersRightsPage(Driver);
+			_projectSettingsPage = new ProjectSettingsPage(Driver);
 
 			_projectName = _createProjectHelper.GetProjectUniqueName();
 			_glossaryName = GlossariesHelper.UniqueGlossaryName();
@@ -41,8 +41,12 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 				.GoToProjectSettingsPage(_projectName)
 				.UploadDocument(PathProvider.DocumentFile)
 				.RefreshPage<ProjectSettingsPage, ProjectSettingsHelper>()
-				.AssignTasksOnDocument(Path.GetFileNameWithoutExtension(PathProvider.DocumentFile), ThreadUser.NickName)
-				.OpenDocument<SelectTaskDialog>(Path.GetFileNameWithoutExtension(PathProvider.DocumentFile))
+				.AssignTasksOnDocument(Path.GetFileNameWithoutExtension(PathProvider.DocumentFile), ThreadUser.NickName);
+
+			_projectSettingsPage
+				.OpenDocumentInEditorWithTaskSelect(Path.GetFileNameWithoutExtension(PathProvider.DocumentFile));
+
+			_editorHelper
 				.SelectTask()
 				.CloseTutorialIfExist();
 		}
@@ -294,9 +298,13 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 				.CheckTermInGlossary(_glossaryName, source, target)
 				.DeleteTerm(source)
 				.GoToProjectsPage();
-			_workspaceHelper
-				.GoToProjectSettingsPage(_projectName)
-				.OpenDocument<SelectTaskDialog>(Path.GetFileNameWithoutExtension(PathProvider.DocumentFile))
+
+			_workspaceHelper.GoToProjectSettingsPage(_projectName);
+
+			_projectSettingsPage
+				.OpenDocumentInEditorWithTaskSelect(Path.GetFileNameWithoutExtension(PathProvider.DocumentFile));
+
+			_editorHelper
 				.SelectTask()
 				.AddNewTerm(source, target)
 				.ClickHomeButton()
@@ -309,6 +317,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 		private WorkspaceHelper _workspaceHelper;
 
 		private UsersRightsPage _usersRightsPage;
+		private ProjectSettingsPage _projectSettingsPage;
 
 		private string _projectName;
 		private string _glossaryName;

@@ -5,6 +5,7 @@ using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
 using AbbyyLS.SmartCAT.Selenium.Tests.FeatureAttributes;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog;
+using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings;
 using AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
@@ -18,10 +19,14 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 		public void SetUp()
 		{
 			_createProjectHelper = new CreateProjectHelper(Driver);
+			_projectSettingsHelper = new ProjectSettingsHelper(Driver);
+
 			_projectsPage = new ProjectsPage(Driver);
+			_settingsDialog = new SettingsDialog(Driver);
 			_newProjectWorkflowPage = new NewProjectWorkflowPage(Driver);
 			_newProjectSettingsPage = new NewProjectSettingsPage(Driver);
 			_newProjectDocumentUploadPage = new NewProjectDocumentUploadPage(Driver);
+
 			_projectUniqueName = _createProjectHelper.GetProjectUniqueName();
 		}
 
@@ -67,10 +72,16 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 
 			_createProjectHelper
 				.GoToProjectSettingsPage(_projectUniqueName)
-				.OpenWorkflowSettings()
-				.AssertWorkflowTaskCountMatch(2)
-				.AssertWorkflowTaskMatch(WorkflowTask.Translation, taskNumber: 1)
-				.AssertWorkflowTaskMatch(WorkflowTask.Proofreading, taskNumber: 2);
+				.OpenWorkflowSettings();
+
+			Assert.IsTrue(_settingsDialog.IsWorkflowTaskCountMatchExpected(taskCount: 2),
+				"Произошла ошибка:\n неверное количество добавленных задач");
+
+			Assert.IsTrue(_settingsDialog.IsWorkflowTaskMatchExpected(
+				WorkflowTask.Translation, taskNumber: 1), "Произошла ошибка:\n задача не соответствует ожидаемой");
+
+			Assert.IsTrue(_settingsDialog.IsWorkflowTaskMatchExpected(
+				WorkflowTask.Proofreading, taskNumber: 2), "Произошла ошибка:\n задача не соответствует ожидаемой");
 		}
 
 		[TestCase(WorkflowTask.Translation)]
@@ -83,10 +94,16 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 
 			_createProjectHelper
 				.GoToProjectSettingsPage(_projectUniqueName)
-				.OpenWorkflowSettings()
-				.AssertWorkflowTaskCountMatch(2)
-				.AssertWorkflowTaskMatch(task, taskNumber: 1)
-				.AssertWorkflowTaskMatch(task, taskNumber: 2);
+				.OpenWorkflowSettings();
+
+			Assert.IsTrue(_settingsDialog.IsWorkflowTaskCountMatchExpected(taskCount: 2),
+				"Произошла ошибка:\n неверное количество добавленных задач");
+
+			Assert.IsTrue(_settingsDialog.IsWorkflowTaskMatchExpected(
+				task, taskNumber: 1), "Произошла ошибка:\n задача не соответствует ожидаемой");
+
+			Assert.IsTrue(_settingsDialog.IsWorkflowTaskMatchExpected(
+				task, taskNumber: 2), "Произошла ошибка:\n задача не соответствует ожидаемой");
 		}
 
 		[Test]
@@ -96,13 +113,22 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 
 			_createProjectHelper
 				.GoToProjectSettingsPage(_projectUniqueName)
-				.OpenWorkflowSettings()
+				.OpenWorkflowSettings();
+
+			_settingsDialog
 				.AddTask(WorkflowTask.Proofreading)
-				.ClickSaveButton()
-				.OpenWorkflowSettings()
-				.AssertWorkflowTaskCountMatch(2)
-				.AssertWorkflowTaskMatch(WorkflowTask.Translation, taskNumber: 1)
-				.AssertWorkflowTaskMatch(WorkflowTask.Proofreading, taskNumber: 2);
+				.SaveSettings();
+
+			_projectSettingsHelper.OpenWorkflowSettings();
+
+			Assert.IsTrue(_settingsDialog.IsWorkflowTaskCountMatchExpected(taskCount: 2),
+				"Произошла ошибка:\n неверное количество добавленных задач");
+
+			Assert.IsTrue(_settingsDialog.IsWorkflowTaskMatchExpected(
+				WorkflowTask.Translation, taskNumber: 1), "Произошла ошибка:\n задача не соответствует ожидаемой");
+
+			Assert.IsTrue(_settingsDialog.IsWorkflowTaskMatchExpected(
+				WorkflowTask.Proofreading, taskNumber: 2), "Произошла ошибка:\n задача не соответствует ожидаемой");
 		}
 
 		[Test]
@@ -112,12 +138,19 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 
 			_createProjectHelper
 				.GoToProjectSettingsPage(_projectUniqueName)
-				.OpenWorkflowSettings()
+				.OpenWorkflowSettings();
+
+			_settingsDialog
 				.AddTask(WorkflowTask.Proofreading)
-				.ClickCancelButton()
-				.OpenWorkflowSettings()
-				.AssertWorkflowTaskCountMatch(taskCount: 1)
-				.AssertWorkflowTaskMatch(WorkflowTask.Translation, taskNumber: 1);
+				.CancelSettingsChanges();
+
+			_projectSettingsHelper.OpenWorkflowSettings();
+
+			Assert.IsTrue(_settingsDialog.IsWorkflowTaskCountMatchExpected(taskCount: 1),
+				"Произошла ошибка:\n неверное количество добавленных задач");
+
+			Assert.IsTrue(_settingsDialog.IsWorkflowTaskMatchExpected(
+				WorkflowTask.Translation, taskNumber: 1), "Произошла ошибка:\n задача не соответствует ожидаемой");
 		}
 
 		[Test]
@@ -138,7 +171,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 			Assert.IsTrue(_newProjectWorkflowPage.IsWorkflowAddedTaskCountMatchExpected(expectedTaskCount: 1),
 				"Произошла ошибка:\n неверное количество добавленных задач");
 
-			Assert.IsTrue(_newProjectWorkflowPage.IsWorkflowTaskMatchExpected(WorkflowTask.Proofreading, taskNumber: 1), 
+			Assert.IsTrue(_newProjectWorkflowPage.IsWorkflowTaskMatchExpected(WorkflowTask.Proofreading, taskNumber: 1),
 				"Произошла ошибка:\n добавленная задача не соответствует ожидаемой");
 		}
 
@@ -146,19 +179,30 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 		public void DeleteTaskOnExistingProject()
 		{
 			_createProjectHelper.CreateNewProject(
-				_projectUniqueName, 
+				_projectUniqueName,
 				tasks: new[] { WorkflowTask.Translation, WorkflowTask.Proofreading });
 
 			_createProjectHelper
 				.GoToProjectSettingsPage(_projectUniqueName)
-				.OpenWorkflowSettings()
-				.ClickDeleteTaskButton()
-				.AssertWorkflowTaskCountMatch(1)
-				.AssertWorkflowTaskMatch(WorkflowTask.Proofreading, taskNumber: 1)
-				.ClickSaveButton()
-				.OpenWorkflowSettings()
-				.AssertWorkflowTaskCountMatch(1)
-				.AssertWorkflowTaskMatch(WorkflowTask.Proofreading, taskNumber: 1);
+				.OpenWorkflowSettings();
+
+			_settingsDialog.ClickDeleteTaskButton(taskNumber: 1);
+
+			Assert.IsTrue(_settingsDialog.IsWorkflowTaskCountMatchExpected(taskCount: 1),
+				"Произошла ошибка:\n неверное количество добавленных задач");
+
+			Assert.IsTrue(_settingsDialog.IsWorkflowTaskMatchExpected(
+				WorkflowTask.Proofreading, taskNumber: 1), "Произошла ошибка:\n задача не соответствует ожидаемой");
+
+			_settingsDialog.SaveSettings();
+
+			_projectSettingsHelper.OpenWorkflowSettings();
+
+			Assert.IsTrue(_settingsDialog.IsWorkflowTaskCountMatchExpected(taskCount: 1),
+				"Произошла ошибка:\n неверное количество добавленных задач");
+
+			Assert.IsTrue(_settingsDialog.IsWorkflowTaskMatchExpected(
+				WorkflowTask.Proofreading, taskNumber: 1), "Произошла ошибка:\n задача не соответствует ожидаемой");
 		}
 
 		[Test]
@@ -187,13 +231,22 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 
 			_createProjectHelper
 				.GoToProjectSettingsPage(_projectUniqueName)
-				.OpenWorkflowSettings()
+				.OpenWorkflowSettings();
+
+			_settingsDialog
 				.ClickDeleteTaskButton()
-				.ClickCancelButton()
-				.OpenWorkflowSettings()
-				.AssertWorkflowTaskCountMatch(2)
-				.AssertWorkflowTaskMatch(WorkflowTask.Translation, taskNumber: 1)
-				.AssertWorkflowTaskMatch(WorkflowTask.Proofreading, taskNumber: 2);
+				.CancelSettingsChanges();
+
+			_projectSettingsHelper.OpenWorkflowSettings();
+
+			Assert.IsTrue(_settingsDialog.IsWorkflowTaskCountMatchExpected(taskCount: 2),
+				"Произошла ошибка:\n неверное количество добавленных задач");
+
+			Assert.IsTrue(_settingsDialog.IsWorkflowTaskMatchExpected(
+				WorkflowTask.Translation, taskNumber: 1), "Произошла ошибка:\n задача не соответствует ожидаемой");
+
+			Assert.IsTrue(_settingsDialog.IsWorkflowTaskMatchExpected(
+				WorkflowTask.Proofreading, taskNumber: 2), "Произошла ошибка:\n задача не соответствует ожидаемой");
 		}
 
 		[Test]
@@ -203,17 +256,26 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 
 			_createProjectHelper
 				.GoToProjectSettingsPage(_projectUniqueName)
-				.OpenWorkflowSettings()
-				.EditTask(WorkflowTask.Proofreading, taskNumber: 1)
-				.ClickSaveButton()
-				.OpenWorkflowSettings()
-				.AssertWorkflowTaskCountMatch(1)
-				.AssertWorkflowTaskMatch(WorkflowTask.Proofreading, taskNumber: 1);
+				.OpenWorkflowSettings();
+
+			_settingsDialog.EditTask(WorkflowTask.Proofreading, taskNumber: 1);
+
+			_projectSettingsHelper.OpenWorkflowSettings();
+
+			Assert.IsTrue(_settingsDialog.IsWorkflowTaskCountMatchExpected(taskCount: 1),
+				"Произошла ошибка:\n неверное количество добавленных задач");
+
+			Assert.IsTrue(_settingsDialog.IsWorkflowTaskMatchExpected(
+				WorkflowTask.Proofreading, taskNumber: 1), "Произошла ошибка:\n задача не соответствует ожидаемой");
 		}
 
 		private string _projectUniqueName;
+
 		private CreateProjectHelper _createProjectHelper;
+		private ProjectSettingsHelper _projectSettingsHelper;
+
 		private ProjectsPage _projectsPage;
+		private SettingsDialog _settingsDialog;
 		private NewProjectDocumentUploadPage _newProjectDocumentUploadPage;
 		private NewProjectWorkflowPage _newProjectWorkflowPage;
 		private NewProjectSettingsPage _newProjectSettingsPage;

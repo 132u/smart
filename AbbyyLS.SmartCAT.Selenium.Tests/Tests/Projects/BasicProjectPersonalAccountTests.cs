@@ -6,6 +6,7 @@ using AbbyyLS.SmartCAT.Selenium.Tests.DataStructures;
 using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog;
+using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings;
 using AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
@@ -26,6 +27,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 			_createProjectHelper = new CreateProjectHelper(Driver);
 			_projectsPage = new ProjectsPage(Driver);
 			_newProjectGeneralInformationDialog = new NewProjectGeneralInformationDialog(Driver);
+			_projectSettingsPage = new ProjectSettingsPage(Driver);
 		}
 
 
@@ -76,9 +78,12 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 			_createProjectHelper
 				.CreateNewProject(projectUniqueName, personalAccount: true)
 				.GoToProjectSettingsPage(projectUniqueName)
-				.UploadDocument(PathProvider.DocumentFile)
-				.ClickDocumentProgress(Path.GetFileName(PathProvider.DocumentFile))
-				.AssertAssignButtonNotDisplayed();
+				.UploadDocument(PathProvider.DocumentFile);
+			_projectSettingsPage
+				.ClickDocumentProgress(Path.GetFileName(PathProvider.DocumentFile));
+
+			Assert.IsFalse(_projectSettingsPage.IsAssignButtonExist(),
+				"Произошла ошибка:\n кнопка 'Назначить задачу' отображается в открытой свёртке документа");
 		}
 
 		[Test]
@@ -102,6 +107,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 		}
 
 		private CreateProjectHelper _createProjectHelper;
+		private ProjectSettingsPage _projectSettingsPage;
 		private const string _longName = "12345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890";
 		private WorkspaceHelper _workspaceHelper;
 		private ProjectsPage _projectsPage;

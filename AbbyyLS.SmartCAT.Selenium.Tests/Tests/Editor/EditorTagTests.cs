@@ -5,7 +5,7 @@ using NUnit.Framework;
 using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
 using AbbyyLS.SmartCAT.Selenium.Tests.FeatureAttributes;
 using AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers;
-using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor;
+using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Editor
 {
@@ -18,14 +18,19 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Editor
 		{
 			_editorHelper = new EditorHelper(Driver);
 			_createProjectHelper = new CreateProjectHelper(Driver);
+			_projectSettingsPage = new ProjectSettingsPage(Driver);
 
 			var projectUniqueName = _createProjectHelper.GetProjectUniqueName();
 
 			_createProjectHelper
 				.CreateNewProject(projectUniqueName, filePath: PathProvider.DocumentFile)
 				.GoToProjectSettingsPage(projectUniqueName)
-				.AssignTasksOnDocument(Path.GetFileNameWithoutExtension(PathProvider.DocumentFile), ThreadUser.NickName)
-				.OpenDocument<SelectTaskDialog>(Path.GetFileNameWithoutExtension(PathProvider.DocumentFile))
+				.AssignTasksOnDocument(Path.GetFileNameWithoutExtension(PathProvider.DocumentFile), ThreadUser.NickName);
+
+			_projectSettingsPage
+				.OpenDocumentInEditorWithTaskSelect(Path.GetFileNameWithoutExtension(PathProvider.DocumentFile));
+
+			_editorHelper
 				.SelectTask()
 				.CloseTutorialIfExist();
 		}
@@ -46,5 +51,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Editor
 
 		private EditorHelper _editorHelper;
 		private CreateProjectHelper _createProjectHelper;
+		private ProjectSettingsPage _projectSettingsPage;
 	}
 }

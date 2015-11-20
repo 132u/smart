@@ -4,7 +4,6 @@ using NUnit.Framework;
 
 using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
 using AbbyyLS.SmartCAT.Selenium.Tests.FeatureAttributes;
-using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.UsersRights;
 using AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers;
@@ -22,6 +21,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 			_editorHelper = new EditorHelper(Driver);
 			_workspaceHelper = new WorkspaceHelper(Driver);
 			_usersRightsPage = new UsersRightsPage(Driver);
+			_projectSettingsPage = new ProjectSettingsPage(Driver);
 
 			_projectName = _createProjectHelper.GetProjectUniqueName();
 			_glossary1Name = GlossariesHelper.UniqueGlossaryName();
@@ -48,8 +48,12 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 				.RefreshPage<ProjectSettingsPage, ProjectSettingsHelper>()
 				.AssignTasksOnDocument(Path.GetFileNameWithoutExtension(PathProvider.DocumentFile), ThreadUser.NickName)
 				.AddGlossaryToDocument(Path.GetFileNameWithoutExtension(PathProvider.DocumentFile), _glossary1Name)
-				.AddGlossaryToDocument(Path.GetFileNameWithoutExtension(PathProvider.DocumentFile), _glossary2Name)
-				.OpenDocument<SelectTaskDialog>(Path.GetFileNameWithoutExtension(PathProvider.DocumentFile))
+				.AddGlossaryToDocument(Path.GetFileNameWithoutExtension(PathProvider.DocumentFile), _glossary2Name);
+
+			_projectSettingsPage
+				.OpenDocumentInEditorWithTaskSelect(Path.GetFileNameWithoutExtension(PathProvider.DocumentFile));
+
+			_editorHelper
 				.SelectTask()
 				.CloseTutorialIfExist();
 		}
@@ -106,6 +110,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 		private string _glossary3Name;
 
 		private CreateProjectHelper _createProjectHelper;
+		private ProjectSettingsPage _projectSettingsPage;
 		private EditorHelper _editorHelper;
 		private WorkspaceHelper _workspaceHelper;
 		private UsersRightsPage _usersRightsPage;

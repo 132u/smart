@@ -22,9 +22,10 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 		{
 			ExportFileHelper.CancelAllNotifiers<ProjectSettingsPage>();
 
-			ProjectSettingsHelper
+			ProjectSettingsPage
 				.ClickDocumentCheckbox(PathProvider.DocumentFileToConfirm1)
-				.ClickDownloadInMainMenuButton()
+				.ClickDownloadInMainMenuButton();
+			ExportFileHelper
 				.SelectExportType<ProjectSettingsPage>(exportType)
 				.ClickDownloadNotifier<ProjectSettingsPage>()
 				.AssertFileDownloaded(ExportFileHelper.GetExportFileNameMask(exportType, PathProvider.DocumentFileToConfirm1));
@@ -37,10 +38,11 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 		{
 			ExportFileHelper.CancelAllNotifiers<ProjectSettingsPage>();
 
-			ProjectSettingsHelper
+			ProjectSettingsPage
 				.ClickDocumentCheckbox(PathProvider.DocumentFileToConfirm1)
-				.ClickDownloadInMainMenuButton()
-				.SelectExportType<ProjectSettingsPage>(ExportType.Source);
+				.ClickDownloadInMainMenuButton();
+
+			ExportFileHelper.SelectExportType<ProjectSettingsPage>(ExportType.Source);
 
 			switch (placeSearch)
 			{
@@ -86,10 +88,13 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 
 			ExportFileHelper.CancelAllNotifiers<ProjectsPage>();
 
-			WorkspaceHelper
-				.GoToProjectSettingsPage(ProjectUniqueName)
+			WorkspaceHelper.GoToProjectSettingsPage(ProjectUniqueName);
+
+			ProjectSettingsPage
 				.ClickDocumentCheckbox(PathProvider.DocumentFileToConfirm1)
-				.ClickDownloadInMainMenuButton()
+				.ClickDownloadInMainMenuButton();
+
+			ExportFileHelper
 				.SelectExportType<ProjectSettingsPage>(ExportType.Source)
 				.GoToProjectsPage();
 			WorkspaceHelper
@@ -103,10 +108,11 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 		{
 			ExportFileHelper.CancelAllNotifiers<ProjectSettingsPage>();
 
-			ProjectSettingsHelper
+			ProjectSettingsPage
 				.ClickDocumentCheckbox(PathProvider.DocumentFileToConfirm1)
-				.ClickDownloadInMainMenuButton()
-				.SelectExportType<ProjectSettingsPage>(ExportType.Source);
+				.ClickDownloadInMainMenuButton();
+
+			ExportFileHelper.SelectExportType<ProjectSettingsPage>(ExportType.Source);
 
 			ExportFileHelper.AssertContainsText(Path.GetFileName(PathProvider.DocumentFileToConfirm1));
 		}
@@ -122,11 +128,12 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 
 			ExportFileHelper.CancelAllNotifiers<ProjectSettingsPage>();
 
-			ProjectSettingsHelper
+			ProjectSettingsPage
 				.ClickDocumentCheckbox(PathProvider.DocumentFileToConfirm1)
 				.ClickDocumentCheckbox(PathProvider.DocumentFileToConfirm2)
-				.ClickDownloadInMainMenuButton()
-				.SelectExportType<ProjectSettingsPage>(ExportType.Source);
+				.ClickDownloadInMainMenuButton();
+
+			ExportFileHelper.SelectExportType<ProjectSettingsPage>(ExportType.Source);
 
 			ExportFileHelper.AssertContainsText("Documents");
 		}
@@ -136,10 +143,11 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 		{
 			ExportFileHelper.CancelAllNotifiers<ProjectSettingsPage>();
 
-			ProjectSettingsHelper
+			ProjectSettingsPage
 				.ClickDocumentCheckbox(PathProvider.DocumentFileToConfirm1)
-				.ClickDownloadInMainMenuButton()
-				.SelectExportType<ProjectSettingsPage>(ExportType.Source);
+				.ClickDownloadInMainMenuButton();
+
+			ExportFileHelper.SelectExportType<ProjectSettingsPage>(ExportType.Source);
 
 			ExportFileHelper.AssertContainsCurrentDate();
 		}

@@ -5,7 +5,7 @@ using NUnit.Framework;
 using AbbyyLS.SmartCAT.Selenium.Tests.DataStructures;
 using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
 using AbbyyLS.SmartCAT.Selenium.Tests.FeatureAttributes;
-using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor;
+using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings;
 using AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Editor
@@ -20,6 +20,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Editor
 			_createProjectHelper = new CreateProjectHelper(Driver);
 			_editorHelper = new EditorHelper(Driver);
 			_workspaceHelper = new WorkspaceHelper(Driver);
+			_projectSettingsPage = new ProjectSettingsPage(Driver);
 
 			var projectUniqueName = _createProjectHelper.GetProjectUniqueName();
 
@@ -32,10 +33,15 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Editor
 				.GoToTranslationMemoriesPage()
 				.CloseAllNotifications()
 				.GoToProjectsPage();
+
 			_workspaceHelper
 				.GoToProjectSettingsPage(projectUniqueName)
-				.AssignTasksOnDocument(Path.GetFileNameWithoutExtension(PathProvider.TxtFileForMatchTest), ThreadUser.NickName)
-				.OpenDocument<SelectTaskDialog>(Path.GetFileNameWithoutExtension(PathProvider.TxtFileForMatchTest))
+				.AssignTasksOnDocument(Path.GetFileNameWithoutExtension(PathProvider.TxtFileForMatchTest), ThreadUser.NickName);
+
+			_projectSettingsPage
+				.OpenDocumentInEditorWithTaskSelect(Path.GetFileNameWithoutExtension(PathProvider.TxtFileForMatchTest));
+
+			_editorHelper
 				.SelectTask()
 				.CloseTutorialIfExist();
 		}
@@ -96,6 +102,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Editor
 		}
 
 		private CreateProjectHelper _createProjectHelper;
+		private ProjectSettingsPage _projectSettingsPage;
 		private EditorHelper _editorHelper;
 		private WorkspaceHelper _workspaceHelper;
 	}

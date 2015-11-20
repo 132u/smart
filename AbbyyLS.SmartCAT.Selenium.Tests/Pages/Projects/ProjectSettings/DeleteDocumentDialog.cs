@@ -1,5 +1,4 @@
-﻿using NUnit.Framework;
-using OpenQA.Selenium;
+﻿using OpenQA.Selenium;
 
 using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
 using AbbyyLS.SmartCAT.Selenium.Tests.TestFramework;
@@ -23,9 +22,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings
 
 		public new void LoadPage()
 		{
-			if (!Driver.WaitUntilElementIsDisplay(By.XPath(DELETE_DOCUMENT_DIALOG)))
+			if (!IsDeleteDocumentDialogOpened())
 			{
-				Assert.Fail("Произошла ошибка:\n не появился диалог удаления документа.");
+				throw new XPathLookupException("Произошла ошибка:\n не появился диалог удаления документа");
 			}
 		}
 
@@ -38,6 +37,16 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings
 			DeleteDocumentButton.Click();
 
 			return new ProjectSettingsPage(Driver).GetPage();
+		}
+
+		/// <summary>
+		/// Проверить, открылся ли диалог удаления документа
+		/// </summary>
+		public bool IsDeleteDocumentDialogOpened()
+		{
+			CustomTestContext.WriteLine("Проверить, открылся ли диалог удаления документа");
+
+			return Driver.WaitUntilElementIsDisplay(By.XPath(DELETE_DOCUMENT_DIALOG));
 		}
 
 		protected IWebElement DeleteDocumentButton { get; set; }

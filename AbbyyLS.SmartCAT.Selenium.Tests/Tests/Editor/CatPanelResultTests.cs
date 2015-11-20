@@ -5,8 +5,8 @@ using NUnit.Framework;
 using AbbyyLS.SmartCAT.Selenium.Tests.DataStructures;
 using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
 using AbbyyLS.SmartCAT.Selenium.Tests.FeatureAttributes;
-using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects;
+using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings;
 using AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Editor
@@ -18,6 +18,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Editor
 		public void SetupCatPanelResultsTest()
 		{
 			_createProjectHelper = new CreateProjectHelper(Driver);
+			_editorHelper = new EditorHelper(Driver);
+			_projectSettingsPage = new ProjectSettingsPage(Driver);
 			_projectUniqueName = _createProjectHelper.GetProjectUniqueName();
 			_projectsPage = new ProjectsPage(Driver);
 			_documentSettings = new DocumentSettings(Driver);
@@ -34,8 +36,12 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Editor
 					createNewTm: true,
 					tmxFilePath: PathProvider.EditorTmxFile)
 				.GoToProjectSettingsPage(_projectUniqueName)
-				.AssignTasksOnDocument(Path.GetFileNameWithoutExtension(PathProvider.EditorTxtFile), ThreadUser.NickName)
-				.OpenDocument<SelectTaskDialog>(Path.GetFileNameWithoutExtension(PathProvider.EditorTxtFile))
+				.AssignTasksOnDocument(Path.GetFileNameWithoutExtension(PathProvider.EditorTxtFile), ThreadUser.NickName);
+
+			_projectSettingsPage
+				.OpenDocumentInEditorWithTaskSelect(Path.GetFileNameWithoutExtension(PathProvider.EditorTxtFile));
+
+			_editorHelper
 				.SelectTask()
 				.CloseTutorialIfExist()
 				.AssertCatPanelExist()
@@ -54,17 +60,24 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Editor
 					filePath: PathProvider.DocumentFile,
 					createNewTm: true,
 					useMachineTranslation: true);
+
 			_projectsPage
 				.OpenProjectInfo(_projectUniqueName)
 				.OpenDocumentInfoForProject(_projectUniqueName)
 				.ClickDocumentSettings(_projectUniqueName, documentNumber: 1)
 				.UnselectMachineTranslation()
 				.SelectMachineTranslation(machineTranslation);
+
 			_documentSettings.CloseDocumentSettings(_projectUniqueName);
+
 			_createProjectHelper
 				.GoToProjectSettingsPage(_projectUniqueName)
-				.AssignTasksOnDocument(Path.GetFileNameWithoutExtension(PathProvider.DocumentFile), ThreadUser.NickName)
-				.OpenDocument<SelectTaskDialog>(Path.GetFileNameWithoutExtension(PathProvider.DocumentFile))
+				.AssignTasksOnDocument(Path.GetFileNameWithoutExtension(PathProvider.DocumentFile), ThreadUser.NickName);
+
+			_projectSettingsPage
+				.OpenDocumentInEditorWithTaskSelect(Path.GetFileNameWithoutExtension(PathProvider.DocumentFile));
+
+			_editorHelper
 				.SelectTask()
 				.CloseTutorialIfExist()
 				.AssertCatPanelExist()
@@ -77,5 +90,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Editor
 		private CreateProjectHelper _createProjectHelper;
 		private ProjectsPage _projectsPage;
 		private DocumentSettings _documentSettings;
+		private ProjectSettingsPage _projectSettingsPage;
 	}
 }

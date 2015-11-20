@@ -4,7 +4,7 @@ using NUnit.Framework;
 
 using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
 using AbbyyLS.SmartCAT.Selenium.Tests.FeatureAttributes;
-using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor;
+using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings;
 using AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Editor
@@ -18,14 +18,19 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Editor
 		{
 			_editorHelper = new EditorHelper(Driver);
 			_createProjectHelper = new CreateProjectHelper(Driver);
+			_projectSettingsPage = new ProjectSettingsPage(Driver);
 
 			var projectName = _createProjectHelper.GetProjectUniqueName();
 
 			_createProjectHelper
 				.CreateNewProject(projectName, createNewTm: true, filePath: PathProvider.DocumentFile)
 				.GoToProjectSettingsPage(projectName)
-				.AssignTasksOnDocument(Path.GetFileNameWithoutExtension(PathProvider.DocumentFile), ThreadUser.NickName)
-				.OpenDocument<SelectTaskDialog>(Path.GetFileNameWithoutExtension(PathProvider.DocumentFile))
+				.AssignTasksOnDocument(Path.GetFileNameWithoutExtension(PathProvider.DocumentFile), ThreadUser.NickName);
+
+			_projectSettingsPage
+				.OpenDocumentInEditorWithTaskSelect(Path.GetFileNameWithoutExtension(PathProvider.DocumentFile));
+
+			_editorHelper
 				.SelectTask()
 				.CloseTutorialIfExist()
 				.RemoveAllWordsFromDictionary();
@@ -37,8 +42,12 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Editor
 			_editorHelper
 				.AddWordToDictionary(_wordsToAdd[0])
 				.AssertWordInDictionary(_wordsToAdd[0], shouldExist: true)
-				.ClickHomeButton()
-				.OpenDocument<SelectTaskDialog>(Path.GetFileNameWithoutExtension(PathProvider.DocumentFile))
+				.ClickHomeButton();
+
+			_projectSettingsPage
+				.OpenDocumentInEditorWithTaskSelect(Path.GetFileNameWithoutExtension(PathProvider.DocumentFile));
+
+			_editorHelper
 				.SelectTask()
 				.AssertWordInDictionary(_wordsToAdd[0], shouldExist: true);
 		}
@@ -50,8 +59,12 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Editor
 				.AddWordToDictionary(_wordsToAdd[1])
 				.DeleteWordFromDictionary(_wordsToAdd[1])
 				.AssertWordInDictionary(_wordsToAdd[1], shouldExist: false)
-				.ClickHomeButton()
-				.OpenDocument<SelectTaskDialog>(Path.GetFileNameWithoutExtension(PathProvider.DocumentFile))
+				.ClickHomeButton();
+
+			_projectSettingsPage
+				.OpenDocumentInEditorWithTaskSelect(Path.GetFileNameWithoutExtension(PathProvider.DocumentFile));
+
+			_editorHelper
 				.SelectTask()
 				.AssertWordInDictionary(_wordsToAdd[1], shouldExist: false);
 		}
@@ -134,6 +147,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Editor
 		};
 
 		private CreateProjectHelper _createProjectHelper;
+		private ProjectSettingsPage _projectSettingsPage;
 		private EditorHelper _editorHelper;
 	}
 }

@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 
-using NUnit.Framework;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.PageObjects;
 
@@ -28,11 +27,13 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings
 		{
 			Driver.WaitPageTotalLoad();
 
-			if (!Driver.WaitUntilElementIsDisplay(By.XPath(SETTINGS_DIALOG), timeout:60))
+			if (!IsSettingsDialogOpened())
 			{
-				Assert.Fail("Произошла ошибка:\n не появился диалог настроек проекта.");
+				throw new XPathLookupException("Произошла ошибка:\n не появился диалог настроек проекта");
 			}
 		}
+
+		#region Простые методы страницы
 
 		/// <summary>
 		/// Нажать на вкладку 'Workflow'.
@@ -41,19 +42,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings
 		{
 			CustomTestContext.WriteLine("Нажать на вкладку 'Workflow'.");
 			WorkflowTab.Click();
-
-			return GetPage();
-		}
-
-		/// <summary>
-		/// Проверить, что 'Workflow Setup' отсутствует в настройках проекта
-		/// </summary>
-		public SettingsDialog AssertWorkflowSettingsNotExist()
-		{
-			CustomTestContext.WriteLine("Проверить, что 'Workflow Setup' отсутствует в настройках проекта.");
-
-			Assert.IsFalse(Driver.GetIsElementExist(By.XPath(WORKFLOW_TAB)),
-				"Произошла ошибка:\n 'Workflow Setup' присутствует в настройках проекта.");
 
 			return GetPage();
 		}
@@ -75,7 +63,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings
 		public SettingsDialog ClickDeleteTaskButton(int taskNumber = 1)
 		{
 			CustomTestContext.WriteLine("Нажать кнопку удаления задачи №{0}", taskNumber);
-
 			DeleteTaskButton = Driver.SetDynamicValue(How.XPath, DELETE_TASK_BUTTON, taskNumber.ToString());
 			DeleteTaskButton.Click();
 
@@ -94,7 +81,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings
 		}
 
 		/// <summary>
-		/// Рааскрыть комбобокс с задачами
+		/// Раскрыть комбобокс с задачами
 		/// </summary>
 		public SettingsDialog ExpandTask(int taskNumber)
 		{
@@ -117,40 +104,122 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings
 			return GetPage();
 		}
 
+		#endregion
+
+		#region Составные методы страницы
+
 		/// <summary>
-		/// Нажать кнопку Save
+		/// Нажать кнопку Save и дождаться закрытия окна
 		/// </summary>
-		public ProjectSettingsPage ClickSaveButton()
+		public ProjectSettingsPage SaveSettings()
 		{
-			CustomTestContext.WriteLine("Нажать кнопку Save.");
+			CustomTestContext.WriteLine("Нажать кнопку Save и дождаться закрытия окна");
 			SaveButton.Click();
+			WaitUntilSettingsDialogDissappear();
 
 			return new ProjectSettingsPage(Driver).GetPage();
 		}
 
 		/// <summary>
-		/// Проверить, что диалог подтверждения удаления задачи появился.
+		/// Нажать кнопку Cancel и дождаться закрытия окна
 		/// </summary>
-		public SettingsDialog AssertConfirmDeleteDialogDislpay()
+		public ProjectSettingsPage CancelSettingsChanges()
 		{
-			CustomTestContext.WriteLine("Проверить, что диалог подтверждения удаления задачи появился.");
+			CustomTestContext.WriteLine("Нажать кнопку Cancel и дождаться закрытия окна");
+			CancelButton.Click();
+			WaitUntilSettingsDialogDissappear();
 
-			Assert.IsTrue(Driver.WaitUntilElementIsDisplay(By.XPath(CONFIRM_DELETE_DIALOG)),
-				"Произошла ошибка:\n не появился диалог подтверждения удаления задачи.");
+			return new ProjectSettingsPage(Driver).GetPage();
+		}
+
+		/// <summary>
+		/// Добавить задачу Workflow
+		/// </summary>
+		/// <param name="task">задача</param>
+		/// <param name="taskNumber">номер задачи</param>
+		public SettingsDialog AddTask(WorkflowTask task, int taskNumber = 2)
+		{
+			ClickNewTaskButton();
+			ExpandTask(taskNumber);
+			ClickTaskInDropdown(task);
 
 			return GetPage();
 		}
 
 		/// <summary>
-		/// Нажать кнопку Cancel
+		/// Редактировать задачу Workflow
 		/// </summary>
-		public ProjectSettingsPage ClickCancelButton()
+		/// <param name="task">новая задача</param>
+		/// <param name="taskNumber">номер задачи</param>
+		public ProjectSettingsPage EditTask(WorkflowTask task, int taskNumber = 2)
 		{
-			CustomTestContext.WriteLine("Нажать кнопку Cancel.");
-			CancelButton.Click();
+			ExpandTask(taskNumber);
+			ClickTaskInDropdown(task);
+			var projectSettingsPage = SaveSettings();
 
-			return new ProjectSettingsPage(Driver).GetPage();
+			return projectSettingsPage.GetPage();
 		}
+
+		#endregion
+
+		#region Методы, проверяющие состояние страницы
+
+		/// <summary>
+		/// Проверить, что кол-во задач Workflow соответствует ожидаемому
+		/// </summary>
+		/// <param name="taskCount">номер задачи</param>
+		public bool IsWorkflowTaskCountMatchExpected(int taskCount = 1)
+		{
+			CustomTestContext.WriteLine("Проверить, что количество задач в настройках Workflow = {0}.", taskCount);
+
+			return taskCount == WorkflowTaskList().Count;
+		}
+
+		/// <summary>
+		/// Проверить, что задача Workflow соответствует ожидаемой
+		/// </summary>
+		/// <param name="workflowTask">ожидаемая задача Workflow</param>
+		/// <param name="taskNumber">номер задачи</param>
+		public bool IsWorkflowTaskMatchExpected(WorkflowTask workflowTask, int taskNumber = 1)
+		{
+			CustomTestContext.WriteLine("Проверить, что задача №{0} в настройках Workflow - это {1}", taskNumber, workflowTask);
+
+			return workflowTask.ToString() == WorkflowTaskList()[taskNumber - 1];
+		}
+
+		/// <summary>
+		/// Проверить, открылся ли диалог настроек проекта
+		/// </summary>
+		public bool IsSettingsDialogOpened()
+		{
+			CustomTestContext.WriteLine("Проверить, открылся ли диалог настроек проекта");
+
+			return Driver.WaitUntilElementIsDisplay(By.XPath(SETTINGS_DIALOG), timeout: 60);
+		}
+
+		/// <summary>
+		/// Проверить, что 'Workflow Setup' присутствует в настройках проекта
+		/// </summary>
+		public bool IsWorkflowSetupExistInSettings()
+		{
+			CustomTestContext.WriteLine("Проверить, что 'Workflow Setup' присутствует в настройках проекта");
+
+			return Driver.WaitUntilElementIsDisplay(By.XPath(WORKFLOW_TAB));
+		}
+
+		/// <summary>
+		/// Проверить, что диалог подтверждения удаления задачи появился.
+		/// </summary>
+		public bool IsConfirmDeleteDialogDislpayed()
+		{
+			CustomTestContext.WriteLine("Проверить, что диалог подтверждения удаления задачи появился");
+
+			return Driver.WaitUntilElementIsDisplay(By.XPath(CONFIRM_DELETE_DIALOG));
+		}
+
+		#endregion
+
+		#region Объявление элементов страницы
 
 		[FindsBy(How = How.XPath, Using = WORKFLOW_TAB)]
 		protected IWebElement WorkflowTab { get; set; }
@@ -166,6 +235,10 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings
 
 		protected IWebElement DeleteTaskButton { get; set; }
 
+		#endregion
+
+		#region Описания XPath элементов
+
 		protected const string CANCEL_BUTTON = "//div[contains(@class,'js-popup-edit')][2]//a[contains(@class,'js-popup-close')]";
 		protected const string SETTINGS_DIALOG = "(//div[contains(@class,'js-popup-edit')])[2]";
 		protected const string WORKFLOW_TAB = "(//div[contains(@class,'js-popup-edit')])[2]//a[contains(@data-bind,'workflowTab')]";
@@ -177,5 +250,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings
 		protected const string SAVE_BUTTON = "//div[@class='g-popup-bd js-popup-bd js-popup-edit'][2]//div[@class='g-popupbox__ft']//div//a";
 		protected const string WORKFLOW_LIST = "//div[contains(@class,'js-popup-edit')][2]//tbody[@data-bind='foreach: workflowStages']//tr//td[2]//span//span";
 
+		#endregion
 	}
 }

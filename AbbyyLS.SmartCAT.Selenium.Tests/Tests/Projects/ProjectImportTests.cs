@@ -1,12 +1,11 @@
-﻿using System.IO;
-
-using NUnit.Framework;
+﻿using NUnit.Framework;
 
 using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
 using AbbyyLS.SmartCAT.Selenium.Tests.FeatureAttributes;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.DocumentUploadDialog;
+using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings;
 using AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
@@ -24,6 +23,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 			_projectUniqueName = _createProjectHelper.GetProjectUniqueName();
 			_documentUploadGeneralInformationDialog = new DocumentUploadGeneralInformationDialog(Driver);
 			_newProjectDocumentUploadPage = new NewProjectDocumentUploadPage(Driver);
+			_projectSettingsPage = new ProjectSettingsPage(Driver);
 			_projectsPage = new ProjectsPage(Driver);
 		}
 
@@ -90,17 +90,20 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 			_createProjectHelper
 				.CreateNewProject(_projectUniqueName)
 				.GoToProjectSettingsPage(_projectUniqueName)
-				.UploadDocument(PathProvider.DocumentFile)
-				.AssertDocumentExist(Path.GetFileNameWithoutExtension(PathProvider.DocumentFile));
+				.UploadDocument(PathProvider.DocumentFile);
+
+			Assert.IsTrue(_projectSettingsPage.IsDocumentExist(PathProvider.DocumentFile),
+				"Произошла ошибка:\n документ {0} отсутствует в проекте.", PathProvider.DocumentFile);
 		}
 
 		[Test]
 		public void ImportDuplicateDocumentTest()
 		{
 			_createProjectHelper
-				.CreateNewProject(_projectUniqueName, filePath: PathProvider.DocumentFile)
-				.GoToProjectSettingsPage(_projectUniqueName)
-				.ClickDocumentUploadButton();
+				.CreateNewProject(_projectUniqueName, PathProvider.DocumentFile)
+				.GoToProjectSettingsPage(_projectUniqueName);
+
+			_projectSettingsPage.ClickDocumentUploadButton();
 
 			_documentUploadGeneralInformationDialog
 				.UploadDocument(PathProvider.DocumentFile)
@@ -118,5 +121,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 		private DocumentUploadGeneralInformationDialog _documentUploadGeneralInformationDialog;
 		private NewProjectDocumentUploadPage _newProjectDocumentUploadPage;
 		private ProjectsPage _projectsPage;
+		private ProjectSettingsPage _projectSettingsPage;
 	}
 }

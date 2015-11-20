@@ -4,6 +4,7 @@ using NUnit.Framework;
 
 using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects;
+using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings;
 using AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
@@ -19,6 +20,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 			WorkspaceHelper = new WorkspaceHelper(Driver);
 			ProjectsPage = new ProjectsPage(Driver);
 			DocumentSettings = new DocumentSettings(Driver);
+			ProjectSettingsPage = new ProjectSettingsPage(Driver);
 
 			WorkspaceHelper.GoToProjectsPage();
 			ExportFileHelper.CancelAllNotifiers<ProjectsPage>();
@@ -39,5 +41,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 		protected ProjectsPage ProjectsPage;
 		protected DocumentSettings DocumentSettings;
 		protected WorkspaceHelper WorkspaceHelper;
+		protected ProjectSettingsPage ProjectSettingsPage;
 	}
 }

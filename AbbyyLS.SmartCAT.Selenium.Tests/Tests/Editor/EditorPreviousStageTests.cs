@@ -5,7 +5,6 @@ using NUnit.Framework;
 using AbbyyLS.SmartCAT.Selenium.Tests.DataStructures;
 using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
 using AbbyyLS.SmartCAT.Selenium.Tests.FeatureAttributes;
-using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Editor
 {
@@ -22,11 +21,19 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Editor
 				.AssertIsSegmentConfirmed()
 				.AssertSaveingStatusIsDisappeared()
 				.ClickHomeButton()
-				.OpenWorkflowSettings()
+				.OpenWorkflowSettings();
+
+			SettingsDialog
 				.AddTask(WorkflowTask.Editing)
-				.ClickSaveButton()
-				.AssignTasksOnDocument(Path.GetFileNameWithoutExtension(PathProvider.EditorTxtFile), ThreadUser.NickName, taskNumber: 2)
-				.OpenDocument<SelectTaskDialog>(Path.GetFileNameWithoutExtension(PathProvider.EditorTxtFile))
+				.SaveSettings();
+
+			ProjectSettingsHelper
+				.AssignTasksOnDocument(Path.GetFileNameWithoutExtension(PathProvider.EditorTxtFile), ThreadUser.NickName, taskNumber: 2);
+
+			ProjectSettingsPage
+				.OpenDocumentInEditorWithTaskSelect(Path.GetFileNameWithoutExtension(PathProvider.EditorTxtFile));
+
+			EditorHelper
 				.SelectTask(TaskMode.Editing)
 				.AssertSegmentIsNotLocked()
 				.RollBack();

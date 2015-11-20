@@ -3,7 +3,6 @@ using System.Linq;
 
 using NUnit.Framework;
 
-using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects;
 using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
 using AbbyyLS.SmartCAT.Selenium.Tests.FeatureAttributes;
@@ -24,8 +23,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 		public void Setup()
 		{
 			_createProjectHelper = new CreateProjectHelper(Driver);
-			_projectSettingsHelper = new ProjectSettingsHelper(Driver);
 			_workspaceHelper = new WorkspaceHelper(Driver);
+			_editorHelper = new EditorHelper(Driver);
 			_workspaceHelper.GoToProjectsPage();
 
 			_projectUniqueName = _createProjectHelper.GetProjectUniqueName();
@@ -39,6 +38,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 			_projectsPage = new ProjectsPage(Driver);
 			_newProjectSetUpWorkflowDialog = new NewProjectSetUpWorkflowDialog(Driver);
 			_newProjectGeneralInformationDialog = new NewProjectGeneralInformationDialog(Driver);
+			_settingsDialog = new SettingsDialog(Driver);
+			_projectSettingsPage = new ProjectSettingsPage(Driver);
 		}
 
 		[TearDown]
@@ -95,8 +96,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 		public void ResponsiblesProjectOnProgressLinkTest()
 		{
 			_createProjectHelper
-				.CreateNewProject(_projectUniqueName, filePath: PathProvider.EditorTxtFile)
-				.GoToProjectSettingsPage(_projectUniqueName)
+				.CreateNewProject(_projectUniqueName, PathProvider.EditorTxtFile)
+				.GoToProjectSettingsPage(_projectUniqueName);
+			_projectSettingsPage
 				.ClickDocumentProgress(PathProvider.EditorTxtFile)
 				.ClickAssignButtonInDocumentInfo();
 		}
@@ -106,8 +108,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 		public void ResponsiblesProjectOnAssignButtonTest()
 		{
 			_createProjectHelper
-				.CreateNewProject(_projectUniqueName, filePath: PathProvider.EditorTxtFile)
-				.GoToProjectSettingsPage(_projectUniqueName)
+				.CreateNewProject(_projectUniqueName, PathProvider.EditorTxtFile)
+				.GoToProjectSettingsPage(_projectUniqueName);
+			_projectSettingsPage
 				.ClickDocumentProgress(PathProvider.EditorTxtFile)
 				.ClickAssignButtonInDocumentInfo();
 		}
@@ -117,9 +120,10 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 		public void ResponsiblesProjectUploadDocumentTest()
 		{
 			_createProjectHelper
-				.CreateNewProject(_projectUniqueName, filePath: PathProvider.EditorTxtFile)
-				.GoToProjectSettingsPage(_projectUniqueName)
-				.ClickDocumentUploadButton();
+				.CreateNewProject(_projectUniqueName, PathProvider.EditorTxtFile)
+				.GoToProjectSettingsPage(_projectUniqueName);
+
+			_projectSettingsPage.ClickDocumentUploadButton();
 
 			_documentUploadGeneralInformationDialog.UploadDocument(PathProvider.DocumentFileToConfirm1);
 
@@ -205,9 +209,12 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 				.SetResponsible(ThreadUser.NickName, false)
 				.CloseTaskAssignmentDialog<ProjectsPage>();
 
-			_workspaceHelper
-				.GoToProjectSettingsPage(_projectUniqueName)
-				.OpenDocument<SelectTaskDialog>(Path.GetFileNameWithoutExtension(PathProvider.EditorTxtFile))
+			_workspaceHelper.GoToProjectSettingsPage(_projectUniqueName);
+
+			_projectSettingsPage
+				.OpenDocumentInEditorWithTaskSelect(Path.GetFileNameWithoutExtension(PathProvider.EditorTxtFile));
+
+			_editorHelper
 				.SelectTask()
 				.CloseTutorialIfExist()
 				.CheckStage("Translation (T):");
@@ -238,9 +245,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 				.SetResponsible(ThreadUser.NickName, false)
 				.CloseTaskAssignmentDialog<ProjectsPage>();
 
-			_workspaceHelper
-				.GoToProjectSettingsPage(_projectUniqueName)
-				.OpenDocument<SelectTaskDialog>(Path.GetFileNameWithoutExtension(PathProvider.EditorTxtFile));
+			_workspaceHelper.GoToProjectSettingsPage(_projectUniqueName);
+
+			_projectSettingsPage.OpenDocumentInEditorWithTaskSelect(Path.GetFileNameWithoutExtension(PathProvider.EditorTxtFile));
 		}
 
 		[Test]
@@ -258,9 +265,12 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 
 			_workspaceHelper
 				.GoToProjectSettingsPage(_projectUniqueName)
-				.OpenWorkflowSettings()
-				.ClickDeleteTaskButton()
-				.AssertConfirmDeleteDialogDisplay();
+				.OpenWorkflowSettings();
+
+			_settingsDialog.ClickDeleteTaskButton();
+
+			Assert.IsTrue(_settingsDialog.IsConfirmDeleteDialogDislpayed(),
+				"Произошла ошибка:\n не появился диалог подтверждения удаления задачи");
 		}
 
 		[Test]
@@ -282,9 +292,10 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 				.SetResponsible(ThreadUser.NickName, false)
 				.CloseTaskAssignmentDialog<ProjectsPage>();
 
-			_workspaceHelper
-				.GoToProjectSettingsPage(_projectUniqueName)
-				.OpenDocument<SelectTaskDialog>(Path.GetFileNameWithoutExtension(PathProvider.EditorTxtFile))
+			_workspaceHelper.GoToProjectSettingsPage(_projectUniqueName);
+
+			_projectSettingsPage.OpenDocumentInEditorWithoutTaskSelect(Path.GetFileNameWithoutExtension(PathProvider.EditorTxtFile));
+			_editorHelper
 				.SelectTask()
 				.CloseTutorialIfExist()
 				.CheckStage("Translation (T):")
@@ -300,19 +311,22 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 				.SetResponsible(_additionalUser.NickName, false)
 				.CloseTaskAssignmentDialog<ProjectsPage>();
 
-			_workspaceHelper
-				.GoToProjectSettingsPage(_projectUniqueName)
-				.OpenDocument<EditorPage>(Path.GetFileNameWithoutExtension(PathProvider.EditorTxtFile))
+			_workspaceHelper.GoToProjectSettingsPage(_projectUniqueName);
+
+			_projectSettingsPage.OpenDocumentInEditorWithTaskSelect(Path.GetFileNameWithoutExtension(PathProvider.EditorTxtFile));
+
+			_editorHelper
 				.AssertStageNameIsEmpty()
 				.ClickHomeButton()
 				.SignOut();
 
-			_signInPage
-				.SubmitForm(_additionalUser.Login, _additionalUser.Password);
+			_signInPage.SubmitForm(_additionalUser.Login, _additionalUser.Password);
 
-			_workspaceHelper
-				.GoToProjectSettingsPage(_projectUniqueName)
-				.OpenDocument<SelectTaskDialog>(Path.GetFileNameWithoutExtension(PathProvider.EditorTxtFile))
+			_workspaceHelper.GoToProjectSettingsPage(_projectUniqueName);
+
+			_projectSettingsPage.OpenDocumentInEditorWithTaskSelect(Path.GetFileNameWithoutExtension(PathProvider.EditorTxtFile));
+
+			_editorHelper
 				.SelectTask()
 				.CloseTutorialIfExist()
 				.CheckStage("Translation (T):");
@@ -331,9 +345,11 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 				.SetResponsible(ThreadUser.NickName, false)
 				.CloseTaskAssignmentDialog<ProjectsPage>();
 
-			_workspaceHelper
-				.GoToProjectSettingsPage(_projectUniqueName)
-				.OpenDocument<SelectTaskDialog>(Path.GetFileNameWithoutExtension(PathProvider.EditorTxtFile))
+			_workspaceHelper.GoToProjectSettingsPage(_projectUniqueName);
+
+			_projectSettingsPage.OpenDocumentInEditorWithoutTaskSelect(Path.GetFileNameWithoutExtension(PathProvider.EditorTxtFile));
+
+			_editorHelper
 				.SelectTask()
 				.CloseTutorialIfExist()
 				.CheckStage("Translation (T):")
@@ -347,10 +363,11 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 				.ClickConfirmCancelButton()
 				.CloseTaskAssignmentDialog<ProjectsPage>();
 
-			_workspaceHelper
-				.GoToProjectSettingsPage(_projectUniqueName)
-				.OpenDocument<EditorPage>(Path.GetFileNameWithoutExtension(PathProvider.EditorTxtFile))
-				.AssertStageNameIsEmpty();
+			_workspaceHelper.GoToProjectSettingsPage(_projectUniqueName);
+
+			_projectSettingsPage.OpenDocumentInEditorWithTaskSelect(Path.GetFileNameWithoutExtension(PathProvider.EditorTxtFile));
+
+			_editorHelper.AssertStageNameIsEmpty();
 		}
 
 		[Test]
@@ -359,8 +376,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 		{
 			_createProjectHelper
 				.CreateNewProject(_projectUniqueName)
-				.GoToProjectSettingsPage(_projectUniqueName)
-				.ClickDocumentUploadButton();
+				.GoToProjectSettingsPage(_projectUniqueName);
+
+			_projectSettingsPage.ClickDocumentUploadButton();
 
 			_documentUploadGeneralInformationDialog.UploadDocument(PathProvider.DocumentFile);
 
@@ -369,7 +387,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 
 			_documentUploadGeneralInformationDialog.ClickFinish<ProjectSettingsPage>();
 
-			_projectSettingsHelper
+			_projectSettingsPage
 				.ClickDocumentProgress(PathProvider.DocumentFile)
 				.ClickAssignButtonInDocumentInfo();
 
@@ -378,28 +396,30 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 				.SetResponsible(ThreadUser.NickName, false)
 				.CloseTaskAssignmentDialog<ProjectSettingsPage>();
 
-			_projectSettingsHelper
-				.ClickSaveButton()
-				.RefreshPage();
+			_settingsDialog
+				.SaveSettings()
+				.RefreshPage<SettingsDialog>();
 
-			_projectSettingsHelper.ClickAssignButtonInDocumentInfo();
+			_projectSettingsPage.ClickAssignButtonInDocumentInfo();
 
 			_taskAssignmentPage.ClickCancelAssignButton();
 		}
 
 		private string _projectUniqueName;
 		private CreateProjectHelper _createProjectHelper;
-		private ProjectSettingsHelper _projectSettingsHelper;
 		private WorkspaceHelper _workspaceHelper;
+		private EditorHelper _editorHelper;
 		private TestUser _additionalUser;
 
 		private DocumentUploadGeneralInformationDialog _documentUploadGeneralInformationDialog;
 		private DocumentUploadSetUpTMDialog _documentUploadSetUpTMDialog;
+		private SettingsDialog _settingsDialog;
 		private SignInPage _signInPage;
 		private TaskAssignmentPage _taskAssignmentPage;
 		private UsersRightsPage _usersRightsPage;
 		private ProjectsPage _projectsPage;
 		private NewProjectSetUpWorkflowDialog _newProjectSetUpWorkflowDialog;
 		private NewProjectGeneralInformationDialog _newProjectGeneralInformationDialog;
+		private ProjectSettingsPage _projectSettingsPage;
 	}
 }

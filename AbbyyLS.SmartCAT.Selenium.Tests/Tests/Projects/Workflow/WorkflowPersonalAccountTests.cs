@@ -4,7 +4,7 @@ using NUnit.Framework;
 
 using AbbyyLS.SmartCAT.Selenium.Tests.DataStructures;
 using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
-using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor;
+using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings;
 using AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
@@ -21,6 +21,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 		public void WorkflowPersonalAccountTestsSetUp()
 		{
 			_createProjectHelper = new CreateProjectHelper(Driver);
+			_projectSettingsPage = new ProjectSettingsPage(Driver);
+			_settingsDialog = new SettingsDialog(Driver);
 			_projectUniqueName = _createProjectHelper.GetProjectUniqueName();
 			_glossaryUniqueName = GlossariesHelper.UniqueGlossaryName();
 		}
@@ -40,9 +42,12 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 		{
 			_createProjectHelper
 				.CreateNewProject(_projectUniqueName, personalAccount: true)
-				.GoToProjectSettingsPage(_projectUniqueName)
-				.OpenProjectSettings()
-				.AssertWorkflowSettingsNotExist();
+				.GoToProjectSettingsPage(_projectUniqueName);
+
+			_projectSettingsPage.ClickSettingsButton();
+
+			Assert.IsFalse(_settingsDialog.IsWorkflowSetupExistInSettings(),
+				"Произошла ошибка:\n 'Workflow Setup' присутствует в настройках проекта");
 		}
 
 		[Test]
@@ -51,11 +56,14 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 			_createProjectHelper
 				.CreateNewProject(_projectUniqueName, personalAccount: true)
 				.GoToProjectSettingsPage(_projectUniqueName)
-				.UploadDocument(PathProvider.DocumentFile)
-				.OpenDocument<EditorPage>(Path.GetFileNameWithoutExtension(PathProvider.DocumentFile));
+				.UploadDocument(PathProvider.DocumentFile);
+
+			_projectSettingsPage.OpenDocumentInEditorWithoutTaskSelect(Path.GetFileNameWithoutExtension(PathProvider.DocumentFile));
 		}
 
 		private CreateProjectHelper _createProjectHelper;
+		private ProjectSettingsPage _projectSettingsPage;
+		private SettingsDialog _settingsDialog;
 		private string _projectUniqueName;
 		private string _glossaryUniqueName;
 	}
