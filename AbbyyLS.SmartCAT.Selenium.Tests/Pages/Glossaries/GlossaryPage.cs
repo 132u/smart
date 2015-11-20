@@ -579,11 +579,11 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 		}
 
 		/// <summary>
-		/// Нажать на термин в колонке 'Langiages and terms'
+		/// Нажать на термин в колонке 'Languages and terms'
 		/// </summary>
 		public GlossaryPage ClickTermInLanguagesAndTermsColumn(int termNumber = 2)
 		{
-			CustomTestContext.WriteLine("Нажать на термин №{0} в колонке 'Langiages and terms'.", termNumber);
+			CustomTestContext.WriteLine("Нажать на термин №{0} в колонке 'Languages and terms'.", termNumber);
 			Driver.SetDynamicValue(How.XPath, TERM_IN_LANGUAGES_AND_TERMS_COLUMN, termNumber.ToString()).Click();
 
 			return GetPage();
@@ -1620,7 +1620,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 		protected const string TERM_FIELD_EDIT_MODE = "//div[@class='l-corpr__viewmode js-term-attrs']//textarea[@name='*#*']";
 		protected const string TERM_FIELD_VIEW_MODE = "//div[@class='l-corpr__viewmode js-term-attrs']//p[@title='*#*']//following-sibling::div";
 		protected const string DROPDOWN_TERM_FIELD_EDIT_MODE = "//td[contains(@class,'js-details-panel')]//select[@name='*#*']";
-		protected const string TERM_IN_LANGUAGES_AND_TERMS_COLUMN = "//div[@class='l-corprtree__langbox'][*#*]//span[contains(@class, 'transtxt js-text')]";
+		protected const string TERM_IN_LANGUAGES_AND_TERMS_COLUMN = "//div[@class='l-corprtree__langbox'][*#*]//span[contains(@class, 'term-viewer')]";
 		protected const string DROPDOWN_TERM_FIELD_VIEW_MODE = "//td[contains(@class,'js-details-panel')]//div[@class='l-corpr__viewmode js-term-attrs']//select[@name='*#*']/../..//div[contains(@class,'js-value')]";
 		protected const string OPTION_TEXT_IN_TERM_FIELD = "//td[contains(@class,'js-details-panel')]//div[@class='l-corpr__viewmode js-term-attrs']//select[@name='*#*']//option[*##*]";
 		protected const string DROPDOWN_TERM_FIELD = "//td[contains(@class,'js-details-panel')]//div[@class= 'l-corpr__viewmode js-term-attrs']//select[@name='*#*']/..//span[contains(@class,'js-dropdown')]";
