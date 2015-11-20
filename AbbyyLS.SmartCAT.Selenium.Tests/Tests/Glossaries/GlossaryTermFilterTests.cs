@@ -400,7 +400,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 					break;
 
 				case "all":
-					Assert.IsTrue(_glossaryPage.IsClearFilterSectionDisplayed(),
+					_glossaryPage.ClickClearAllFilters();
+
+					Assert.False(_glossaryPage.IsAnyFilterDisplayed(),
 						"Произошла ошибка:\nЖелтая панель с фильтрами не пуста.");
 					break;
 			}

@@ -138,11 +138,13 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 		}
 
 		/// <summary>
-		/// Проверить, что желтая панель с фильтрами пуста
+		/// Проверить, есть ли что-то на панели фильтров
 		/// </summary>
-		public bool IsClearFilterSectionDisplayed()
+		public bool IsAnyFilterDisplayed()
 		{
-			return Driver.WaitUntilElementIsDisplay(By.XPath(COMMON_CLEAR_FILTER_SECTION));
+			CustomTestContext.WriteLine("Проверить, есть ли что-то на панели фильтров");
+
+			return Driver.WaitUntilElementIsDisplay(By.XPath(CLEAR_ALL_FILTERS_BUTTON));
 		}
 
 		/// <summary>
@@ -162,7 +164,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 		{
 			CustomTestContext.WriteLine("Проверить, что фильтр Created отображается в шапке таблицы.");
 
-			return Driver.GetIsElementExist(By.XPath(CREATED_CLEAR_FILTER_PANEL.Replace("*#*", filterValue)));
+			return Driver.WaitUntilElementIsDisplay(By.XPath(CREATED_CLEAR_FILTER_PANEL.Replace("*#*", filterValue)));
 		}
 
 		#endregion
@@ -924,6 +926,17 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 			return GetPage();
 		}
 
+		/// <summary>
+		/// Нажать кнопку удаления всех фильтров
+		/// </summary>
+		public GlossaryPage ClickClearAllFilters()
+		{
+			CustomTestContext.WriteLine("Нажать кнопку удаления всех фильтров");
+			ClearAllFiltersButton.Click();
+
+			return GetPage();
+		}
+
 		#endregion
 
 		#region Составные методы страницы
@@ -1522,6 +1535,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 		[FindsBy(How = How.XPath, Using = MODIFIED_BY_FILTER_LABEL)]
 		protected IWebElement ModifiedByFilterLabel { get; set; }
 
+		[FindsBy(How = How.XPath, Using = CLEAR_ALL_FILTERS_BUTTON)]
+		protected IWebElement ClearAllFiltersButton { get; set; }
+		
 		#endregion
 
 		#region Описание XPath элементов
@@ -1633,8 +1649,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 		protected const string ALL_TERMS = "//tr[@class='l-corpr__trhover js-concept-row']//td[contains(@class, 'g-bold')]//p";
 		protected const string CREATED_CLEAR_FILTER_PANEL = "//div[contains(@title, 'Created: *#*')]";
 		protected const string MODIFIED_CLEAR_FILTER_PANEL = "//div[contains(@title, 'Modified: *#*')]";
-		protected const string DELETE_CREATED_FILTER_BUTTON = "//div[contains(@title, 'Created: *#*')]//img";
-		protected const string DELETE_MODIFIED_FILTER_BUTTON = "//div[contains(@title, 'Modified: *#*')]//img";
+		protected const string DELETE_CREATED_FILTER_BUTTON = "//div[contains(@title, 'Created: *#*')]//i";
+		protected const string DELETE_MODIFIED_FILTER_BUTTON = "//div[contains(@title, 'Modified: *#*')]//i";
+		protected const string CLEAR_ALL_FILTERS_BUTTON = "//i[@title='Clear all filters']";
 		protected const string COMMON_CLEAR_FILTER_SECTION = "//div[@class='l-corpr__filter g-bold']";
 		protected const string DIAPASON_PANEL = "//div[@class='l-corpr__filterSection inline']";
 
