@@ -707,7 +707,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 		public EditorHelper AssertGlossaryExistInList(string glossaryName)
 		{
 			BaseObject.InitPage(_addTermDialog, Driver);
-			_addTermDialog.AssertGlossaryExistInDropdown(glossaryName);
+			_addTermDialog
+				.AssertGlossaryExistInDropdown(glossaryName)
+				.ClickGlossarySelect();
 
 			return this;
 		}
