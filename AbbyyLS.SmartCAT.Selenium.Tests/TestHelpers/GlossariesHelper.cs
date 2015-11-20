@@ -674,17 +674,17 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 		public GlossariesHelper AssertLanguageCommentIsFilled(string text)
 		{
 			BaseObject.InitPage(_glossaryPage, Driver);
-			_glossaryPage.OpenLanguageAndTermDetailsViewMode()
+			_glossaryPage.OpenLanguageDetailsViewMode()
 				.AssertCommentIsFilled(text);
 
 			return this;
 		}
 
-		public GlossariesHelper AssertDefinitionFilled(string definition)
+		public GlossariesHelper AssertDefinitionFilled(string definition, Language language = Language.English)
 		{
 			BaseObject.InitPage(_glossaryPage, Driver);
 			_glossaryPage
-				.OpenLanguageAndTermDetailsViewMode()
+				.OpenLanguageDetailsViewMode(language)
 				.AssertDefinitionIsFilled(definition);
 
 			return this;
@@ -693,7 +693,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 		public GlossariesHelper AssertDefinitionSourceFilled(string definition)
 		{
 			BaseObject.InitPage(_glossaryPage, Driver);
-			_glossaryPage.OpenLanguageAndTermDetailsViewMode()
+			_glossaryPage.OpenLanguageDetailsViewMode()
 				.AssertDefinitionSourceIsFilled(definition);
 
 			return this;

@@ -342,11 +342,11 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 		/// <summary>
 		/// Открыть подробную информацию по языку или термину в режиме просмотра
 		/// </summary>
-		public GlossaryPage OpenLanguageAndTermDetailsViewMode()
+		public GlossaryPage OpenLanguageDetailsViewMode(Language language = Language.English)
 		{
 			CustomTestContext.WriteLine("Открыть подробную информацию по языку или термину в режиме просмотра.");
-			LanguageHeaderViewMode.Click();
-
+			Driver.SetDynamicValue(How.XPath, LANGUAGE_HEADER_VIEW_MODE, language.ToString()).Click();
+			
 			return GetPage();
 		}
 
@@ -1546,7 +1546,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 		protected const string SORT_BY_DATE_MODIFIED = "//th[contains(@data-sort-by,'LastModifiedDate')]//a";
 
 		protected const string LANGUAGE_HEADER_EDIT_MODE = "//div[contains(@class, 'corprtree')]//div[contains(@class, 'corprtree__langbox')][1]//div[contains(@class, 'l-inactive-lang')]";
-		protected const string LANGUAGE_HEADER_VIEW_MODE = "//div[contains(@class, 'js-lang-node')]//span[contains(text(), 'English')]";
+		protected const string LANGUAGE_HEADER_VIEW_MODE = "//div[contains(@class, 'js-lang-node')]//span[contains(text(), '*#*')]";
 		protected const string LANGUAGE_COMMENT_EDIT_MODE = "//div[contains(@class, 'lang-attrs')][1]//textarea[@name='Comment']";
 		protected const string LANGUAGE_COMMENT_VIEW_MODE = "//td[@class='l-corpr__tbledit__td js-details-panel']//div[@class='l-corpr__viewmode js-lang-attrs']//div[@class='js-control'][1]//div[contains(@class, 'viewmode__val js-value')]";
 		protected const string ADD_BUTTON = "//div[@class='l-corprtree__langbox']['*#*']//div[contains(@class, 'l-inactive-lang')]//span[contains(@class, 'addbtn js-add-term')]";
@@ -1555,8 +1555,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 		protected const string TERM_INPUT = "//div[contains(@class, 'js-terms-tree')]//div[contains(@class, 'js-selected-node')]//span[contains(@class,'js-term-editor')]//input";
 		protected const string TERM_INPUT_VIEW_MODE = "//div[contains(@class, 'js-terms-tree')]//div[contains(@class, 'l-corprtree__langbox')][*#*]//span[@class='js-term-viewer']";
 		protected const string DEFINITION_EDIT_MODE = "//div[contains(@class, 'viewmode js-lang-attrs')]//textarea[@name='Interpretation']";
-		protected const string DEFINITION_VIEW_MODE = "//div[@class='l-corpr__viewmode js-lang-attrs']//div[@class='js-control'][2]//div[@class='g-bold l-corpr__viewmode__val js-value']";
-		protected const string DEFINITION_SOURCE_VIEW_MODE = "//div[@class='l-corpr__viewmode js-lang-attrs']//div[@class='js-control'][3]//div[@class='g-bold l-corpr__viewmode__val js-value']";
+		protected const string DEFINITION_VIEW_MODE = "//div[contains(@class, 'viewmode js-lang-attrs')]//p[@title='Definition']/following-sibling::div[contains(@class, '_viewmode__val js-value')]";
+		protected const string DEFINITION_SOURCE_VIEW_MODE = "//div[contains(@class, 'viewmode js-lang-attrs')]//p[@title='Definition source']/following-sibling::div[contains(@class, '_viewmode__val js-value')]";
 		protected const string DEFINITION_SOURCE_EDIT_MODE = "//div[contains(@class, 'viewmode js-lang-attrs')]//textarea[@name='InterpretationSource']";
 
 		protected const string CUSTOM_TERM_ROWS = "//tr[@class='l-corpr__trhover clickable js-concept-row']";
