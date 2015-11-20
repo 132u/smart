@@ -392,8 +392,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 			if (useMachineTranslation ^ IsUseMachineTranslationInutSelected())
 			{
 				ClickUseMachineTranslationCheckbox();
-
-				Assert.IsTrue(IsUseMachineTranslationInutSelected(), "Произошла ошибка:\n 'Use Machine Translation' секбокс не отмечен галочкой.");
 			}
 
 			return GetPage();
@@ -465,8 +463,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 		/// </summary>
 		public bool IsUseMachineTranslationInutSelected()
 		{
-			CustomTestContext.WriteLine("Проверить, выбран ли чекбокс 'Use Machine Translation'");
-			
+			CustomTestContext.WriteLine("Проверить, стоит ли галочка в чекбоксе 'Use Machine Translation'");
+		
 			return UseMachineTranslationInput.Selected;
 		}
 
