@@ -279,18 +279,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 		#region Методы, проверяющие состояние страницы
 
 		/// <summary>
-		/// Проверить, что имя проекта совпадает с ожидаемым
-		/// </summary>
-		/// <param name="expectedProjectName">ожидаемое имя проекта</param>
-		public bool IsProjectNameMatchExpected(string expectedProjectName)
-		{
-			CustomTestContext.WriteLine("Проверить, что имя проекта = '{0}'", expectedProjectName);
-			var actualProjectName = ProjectNameInput.GetAttribute("value");
-
-			return actualProjectName == expectedProjectName;
-		}
-
-		/// <summary>
 		/// Проверить, открылся ли диалог создания проекта
 		/// </summary>
 		public bool IsNewProjectGeneralInformationDialogOpened()
@@ -310,37 +298,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 			var fileName = Path.GetFileName(filePath);
 
 			return Driver.WaitUntilElementIsDisplay(By.XPath(UPLOADED_FILE_XPATH.Replace("*#*", fileName)), timeout: 120);
-		}
-
-		/// <summary>
-		/// Проверить, что в таргет-языке указан правильный язык
-		/// </summary>
-		public bool IsTargetLanguageMatchExpected(Language expectedLanguage)
-		{
-			CustomTestContext.WriteLine("Проверить, что в таргет-языке указан {0}", expectedLanguage);
-
-			return expectedLanguage.ToString() == TargetMultiselect.Text.Trim();
-		}
-
-		/// <summary>
-		/// Проверить, что в сорс-языке указан правильный язык
-		/// </summary>
-		public bool IsSourceLanguageMatchExpected(Language expectedLanguage)
-		{
-			CustomTestContext.WriteLine("Проверить, что в сорс-языке указан {0}", expectedLanguage);
-
-			return expectedLanguage.ToString() == SourceLangDropdown.Text.Trim();
-		}
-
-		/// <summary>
-		/// Проверить, что в дэдлайне указана правильная дата
-		/// </summary>
-		/// <param name="expectedDate">ожидаемая дата</param>
-		public bool IsDeadlineDateMatchExpected(string expectedDate)
-		{
-			CustomTestContext.WriteLine("Проверить, что в дэдлайне указана дата {0}", expectedDate);
-
-			return expectedDate == DeadlineDateInput.GetAttribute("value");
 		}
 
 		/// <summary>

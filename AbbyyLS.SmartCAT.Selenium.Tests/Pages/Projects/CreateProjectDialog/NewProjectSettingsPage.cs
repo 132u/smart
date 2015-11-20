@@ -415,6 +415,51 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 		#region Методы, проверяющие состояние страницы
 
 		/// <summary>
+		/// Проверить, что имя проекта совпадает с ожидаемым
+		/// </summary>
+		/// <param name="expectedProjectName">ожидаемое имя проекта</param>
+		public bool IsProjectNameMatchExpected(string expectedProjectName)
+		{
+			CustomTestContext.WriteLine("Проверить, что имя проекта = '{0}'", expectedProjectName);
+			var actualProjectName = ProjectNameInput.GetAttribute("value");
+
+			return actualProjectName == expectedProjectName;
+		}
+
+		/// <summary>
+		/// Проверить, что в таргет-языке указан правильный язык
+		/// </summary>
+		public bool IsTargetLanguageMatchExpected(Language expectedLanguage)
+		{
+			CustomTestContext.WriteLine("Проверить, что в таргет-языке указан {0}", expectedLanguage);
+			var selected_target = Driver.SetDynamicValue(How.XPath, TARGET_LANG_SELECTED, expectedLanguage.ToString());
+
+			return selected_target.Displayed;
+		}
+
+		/// <summary>
+		/// Проверить, что в сорс-языке указан правильный язык
+		/// </summary>
+		public bool IsSourceLanguageMatchExpected(Language expectedLanguage)
+		{
+			CustomTestContext.WriteLine("Проверить, что в сорс-языке указан {0}", expectedLanguage);
+			var selected_source = Driver.SetDynamicValue(How.XPath, SOURCE_LANG_SELECTED, expectedLanguage.ToString());
+
+			return selected_source.Displayed;
+		}
+
+		/// <summary>
+		/// Проверить, что в дэдлайне указана правильная дата
+		/// </summary>
+		/// <param name="expectedDate">ожидаемая дата</param>
+		public bool IsDeadlineDateMatchExpected(string expectedDate)
+		{
+			CustomTestContext.WriteLine("Проверить, что в дэдлайне указана дата {0}", expectedDate);
+
+			return expectedDate == DeadlineDateInput.GetAttribute("value");
+		}
+
+		/// <summary>
 		/// Проверить, что секция расширенных настроек открыта
 		/// </summary>
 		public bool IsAdvancedSettingsSectionDisplayed()
@@ -592,6 +637,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 		[FindsBy(How = How.XPath, Using = EDIT_GLOSSARY_BUTTON)]
 		protected IWebElement EditGlossaryButton { get; set; }
 
+		[FindsBy(How = How.XPath, Using = TARGET_MULTISELECT_XPATH)]
+		protected IWebElement TargetMultiselect { get; set; }
+
 		protected IWebElement SourceLangItem { get; set; }
 
 		protected IWebElement TargetLangItem { get; set; }
@@ -609,10 +657,13 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 		protected const string DEADLINE_DATE = "//div[contains(@id, 'ui-datepicker-div')]//table[contains(@class, 'ui-datepicker-calendar')]//tr[1]//td[count(a)!=0][1]";
 
 		protected const string SOURCE_LANG_DROPDOWN = "//div[@class='source_lang']//i";
+		protected const string SOURCE_LANG_SELECTED = "//div[@class='source_lang']//input[@title='*#*']";
 		protected const string SOURCE_LANG_ITEM = "//div[@class='source_lang']//li[@title = '*#*']";
 		protected const string TARGET_LANG_DROPDOWN = "//div[contains(@class,'target_langs')]//i";
 		protected const string TARGET_LANG_ITEMS_SELECTED = "//ul//li//input[@checked='checked']";
-		protected const string ADD_TARGET_LANGUAGE_BUTTON = "//span[contains(@data-bind, 'openTargetLanguages')]";
+		protected const string TARGET_MULTISELECT_XPATH = "//div[contains(@class,'js-popup-create-project')][2]//div[contains(@class,'js-languages-multiselect')]";
+		protected const string TARGET_LANG_SELECTED = "//div[contains(@class, 'target_langs')]//span[contains(@class, 'ui-multiselect-value') and text()='*#*']";
+        protected const string ADD_TARGET_LANGUAGE_BUTTON = "//span[contains(@data-bind, 'openTargetLanguages')]";
 		protected const string TARGET_LANGUAGE_DROPDOWN_HEADER = "//div[contains(@class, 'target_langs dropdown')]//p";
 		protected const string TARGET_LANG_ITEM = "//div[contains(@class, 'target_langs')]//ul//li[@title = '*#*']";
 		protected const string USE_MACHINE_TRANSLATION_CHECKBOX = "//div[contains(@data-bind, 'availableMachineTranslators')]//label//em";
