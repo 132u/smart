@@ -132,7 +132,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.TranslationMemories
 				.AssertFileImportFailedNotifierDisplayed();
 		}
 
-		[Test]
+		[Test, Ignore("PRX-13475")]
 		public void UploadTmxWithUnicodeCharactersTest()
 		{
 			_translationMemoriesHelper
