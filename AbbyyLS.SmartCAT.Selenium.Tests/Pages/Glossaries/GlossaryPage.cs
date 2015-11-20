@@ -1564,19 +1564,19 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 		protected const string DEFAULT_TERM_ROWS = "//tr[@class='l-corpr__trhover js-concept-row']";
 		protected const string ALREADY_EXIST_TERM_ERROR = "//span[contains(text(),'The term already exists')]";
 		protected const string EMPTY_TERM_ERROR = "//div[contains(text(),'Please add at least one term.')]";
-		protected const string SYNONYM_PLUS_BUTTON = "//tr[contains(@class, 'js-concept')]//td[*#*]//span[contains(@class,'js-add-term')]";
+		protected const string SYNONYM_PLUS_BUTTON = "//tr[contains(@class, 'js-concept')]//td[*#*]//span[contains(@class,'js-add-term')]//i";
 		protected const string SYNONYM_INPUT = "//tr[contains(@class, 'js-concept')]//td[*#*]//div//input[contains(@class,'js-term')]";
 		protected const string SYNONYM_FIELDS_IN_COLUMN = "//tr[@class='l-corpr__trhover js-concept-row'][term]//td[column]//p";
 		protected const string SYNONYM_UNIQUE_ERROR = "//td[*#*]//p[@title='A term must be unique within a language.']";
-		protected const string DELETE_BUTTON = "//tr[contains(@class, 'js-concept-row') and contains(string(), '#') and contains(string(), '**')]//a[contains(@class, 'js-delete-btn')]";
+		protected const string DELETE_BUTTON = "//tr[contains(@class, 'js-concept-row') and contains(string(), '#') and contains(string(), '**')]//i[contains(@class, 'js-delete-btn')]";
 		protected const string TERM_ROW_BY_SOURCE_AND_TARGET = "//tr[contains(@class, 'js-concept-row') and contains(string(), '#') and contains(string(), '**')]//td[4]";
-		protected const string CANCEL_BUTTON = "//tr[contains(@class, 'js-concept-row js-editing opened')]//a[contains(@class, 'js-cancel-btn')]";
-		protected const string SEARCH_INPUT = "//input[contains(@class,'js-search-term')]";
-		protected const string SEARCH_BUTTON = "//a[contains(@class,'js-search-by-term')]";
+		protected const string CANCEL_BUTTON = "//tr[contains(@class, 'js-concept-row js-editing opened')]//i[contains(@class, 'js-cancel-btn')]";
+		protected const string SEARCH_INPUT = "//input[@name='searchTerm']";
+		protected const string SEARCH_BUTTON = "//a[@title='Search']";
 		protected const string FIRST_TERM = "//tr[contains(@class, 'js-concept-row')]//td[contains(@class,'glossaryShort')]//p";
 		protected const string LANGUAGE_COLUMNS = "//tr[@class='js-table-header']//th[contains(@data-sort-by, 'Language')]";
-		protected const string EDIT_TERM_BUTTON = "//tr[contains(@class, 'js-concept-row')]//a[contains(@class,'js-edit-btn')]";
-		protected const string EDIT_ENTRY_BUTTON = "//span[contains(@class,'js-edit-btn')]";
+		protected const string EDIT_TERM_BUTTON = "//tr[contains(@class, 'js-concept-row')]//i[contains(@class,'js-edit-btn')]";
+		protected const string EDIT_ENTRY_BUTTON = "//div[contains(@class,'js-edit-btn')]";
 		protected const string TERMS_IN_LANGUAGE_AND_TERMS_SECTION = "//div[@class='l-corprtree__langbox']";
 
 		protected const string SINGLE_TERM = "//tr[contains(@class, 'js-concept-row')]//td[1]/p../following-sibling::td[1][contains(string(), '*#*')]";
