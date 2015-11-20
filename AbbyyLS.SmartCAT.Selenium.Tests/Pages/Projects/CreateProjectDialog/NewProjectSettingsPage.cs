@@ -1,5 +1,7 @@
 ﻿using System;
 
+using NUnit.Framework;
+
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.PageObjects;
 
@@ -169,7 +171,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 		/// <summary>
 		/// Кликнуть по чекбоксу 'Use Machine Translation'
 		/// </summary>
-		public NewProjectSettingsPage ClickMachineTranslationCheckbox()
+		public NewProjectSettingsPage ClickUseMachineTranslationCheckbox()
 		{
 			CustomTestContext.WriteLine("Кликнуть по чекбоксу 'Use Machine Translation'.");
 			UseMachineTranslationCheckbox.Click();
@@ -380,16 +382,18 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 			Language targetLanguage = Language.Russian,
 			Deadline deadline = Deadline.CurrentDate,
 			string date = null,
-			bool useMT = false)
+			bool useMachineTranslation = false)
 		{
 			FillProjectName(projectName);
 			SetDeadline(deadline, date);
 			SetSourceLanguage(sourceLanguage);
 			SetTargetLanguage(targetLanguage);
 
-			if (useMT ^ IsMachineTranslationCheckboxSelected())
+			if (useMachineTranslation ^ IsUseMachineTranslationInutSelected())
 			{
-				ClickMachineTranslationCheckbox();
+				ClickUseMachineTranslationCheckbox();
+
+				Assert.IsTrue(IsUseMachineTranslationInutSelected(), "Произошла ошибка:\n 'Use Machine Translation' секбокс не отмечен галочкой.");
 			}
 
 			return GetPage();
@@ -459,11 +463,11 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 		/// <summary>
 		/// Проверить, выбран ли чекбокс 'Use Machine Translation'
 		/// </summary>
-		public bool IsMachineTranslationCheckboxSelected()
+		public bool IsUseMachineTranslationInutSelected()
 		{
 			CustomTestContext.WriteLine("Проверить, выбран ли чекбокс 'Use Machine Translation'");
-
-			return UseMachineTranslationCheckbox.Selected;
+			
+			return UseMachineTranslationInput.Selected;
 		}
 
 		/// <summary>
@@ -563,6 +567,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 		[FindsBy(How = How.XPath, Using = USE_MACHINE_TRANSLATION_CHECKBOX)]
 		protected IWebElement UseMachineTranslationCheckbox { get; set; }
 
+		[FindsBy(How = How.XPath, Using = USE_MACHINE_TRANSLATION_INPUT)]
+		protected IWebElement UseMachineTranslationInput { get; set; }
+
 		[FindsBy(How = How.XPath, Using = SELECT_TM_BUTTON)]
 		protected IWebElement SelectTmButton { get; set; }
 
@@ -612,6 +619,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 		protected const string TARGET_LANG_ITEM = "//div[contains(@class, 'target_langs')]//ul//li[@title = '*#*']";
 		protected const string USE_MACHINE_TRANSLATION_CHECKBOX = "//div[contains(@data-bind, 'availableMachineTranslators')]//label//em";
 		protected const string WORKFLOW_BUTTON = "//div[@class='btn-icon-wrap']//i[@class='icon-sc-arrow-right']";
+		protected const string USE_MACHINE_TRANSLATION_INPUT = "//div[contains(@data-bind, 'availableMachineTranslators')]//label//input";
 		protected const string ADVANCED_SWITCH = "//div[@class='l-switch']//span[@class='mdl-switch__ripple-container mdl-js-ripple-effect mdl-ripple--center']";
 		protected const string SELECT_TM_BUTTON = "//div[@class='g-btn g-greenbtn ' and contains(@data-bind, 'addExistingTM')]//a";
 		protected const string ERROR_NAME_EXISTS = "//span[@data-message-id='isNameDuplicate']";
