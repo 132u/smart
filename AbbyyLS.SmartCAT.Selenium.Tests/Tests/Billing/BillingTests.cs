@@ -25,7 +25,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Billing
 			LicensePurchaseCompleteDialog.ClickCloseButton();
 		}
 
-		[Test]
+		[Test, Ignore("PRX-13374")]
 		public void UpgradeLicenseTest()
 		{
 			var newlicenseCount = 20;
@@ -49,7 +49,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Billing
 				"Произошла ошибка:\n количество лицензий в пакете не соответствует ожидаемому.");
 		}
 
-		[Test]
+		[Test, Ignore("PRX-13374")]
 		public void DoubleUpgradeLicenseTest()
 		{
 			var firstLicenseCount = 20;
@@ -86,7 +86,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Billing
 				"Произошла ошибка:\n количество лицензий в пакете не соответствует ожидаемому.");
 		}
 
-		[Test]
+		[Test, Ignore("PRX-13374")]
 		public void ExtendLicenseTest()
 		{
 			var endDateBeforeExtend = BillingPage.GetEndDate();
@@ -108,7 +108,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Billing
 				"Произошла ошибка:\n срок действия пакета лицензий не соответствует ожидаемому.");
 		}
 
-		[Test]
+		[Test, Ignore("PRX-13374")]
 		public void DoubleExtendLicenseTest()
 		{
 			var firstDuration = Period.ThreeMonth;
@@ -144,7 +144,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Billing
 				"Произошла ошибка:\n срок действия пакета лицензий не соответствует ожидаемому.");
 		}
 
-		[Test]
+		[Test, Ignore("PRX-13374")]
 		public void AdditionalPaymentUpgradeTest()
 		{
 			var newLisenceNumber = 30;
@@ -164,7 +164,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Billing
 				"Произошла ошибка:\n дополнительная сумма оплаты при апгрейде пакета вычислена неверно.");
 		}
 
-		[Test]
+		[Test, Ignore("PRX-13374")]
 		public void AdditionalPaymentExtendTest()
 		{
 			var extendPeriod = Period.TwelveMonth;
@@ -180,7 +180,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Billing
 				"Произошла ошибка:\n дополнительная сумма оплаты при продлении пакета вычислена неверно.");
 		}
 
-		[TestCase(Language.Russian, Language.English, "руб", "$")]
+		[TestCase(Language.Russian, Language.English, "руб", "$"), Ignore("PRX-13374")]
 		[TestCase(Language.English, Language.Russian, "$", "руб")]
 		public void LocaleCurrencyInTableTest(Language firstLanguage, Language secondLanguage, string firstCurrency, string secondCurrency)
 		{

@@ -9,7 +9,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Billing
 	[Parallelizable(ParallelScope.Fixtures)]
 	class BuyLicensePackageTests<TWebDriverProvider> : BaseBillingTests<TWebDriverProvider> where TWebDriverProvider : IWebDriverProvider, new()
 	{
-		[TestCase(Period.ThreeMonth)]
+		[TestCase(Period.ThreeMonth), Ignore("PRX-13374")]
 		[TestCase(Period.SixMonth)]
 		[TestCase(Period.TwelveMonth)]
 		[TestCase(Period.OneMonth)]
