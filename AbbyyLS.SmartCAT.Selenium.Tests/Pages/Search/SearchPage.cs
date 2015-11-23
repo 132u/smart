@@ -292,7 +292,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Search
 		protected const string TRANSLATION_WORD = "//a[contains(@class,'js-show-examples')]//span[contains(@class,'translation') and contains(text(),'*#*')]";
 		protected const string SEARCH_FORM_XPATH = "//form[contains(@class,'js-search-form')]";
 		protected const string SEARCH_FIELD= "searchText";
-		protected const string TRANSLATE_BUTTON = "//form[contains(@class,'js-search-form')]//span[contains(@class,'g-redbtn search')]//input";
+		protected const string TRANSLATE_BUTTON = "//form[contains(@class,'js-search-form')]//div[contains(@class, 'js-srcpanel-long')]//input[@type='submit']";
 		protected const string SEARCH_RESULT = "//div[contains(@class,'js-search-results')]";
 
 		protected const string SOURCE_LANGUAGE_LIST = "SearchSrcLang";
