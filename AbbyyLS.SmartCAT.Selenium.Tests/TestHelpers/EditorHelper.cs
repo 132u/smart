@@ -709,7 +709,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 			BaseObject.InitPage(_addTermDialog, Driver);
 			_addTermDialog
 				.AssertGlossaryExistInDropdown(glossaryName)
-				.ClickGlossarySelect();
+				.CloseGlossarySelect();
 
 			return this;
 		}
@@ -717,7 +717,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 		public EditorHelper CloseGlossaryDropdown()
 		{
 			 BaseObject.InitPage(_addTermDialog, Driver);
-			_addTermDialog.ClickGlossarySelect();
+			 _addTermDialog.CloseGlossarySelect();
 
 			return this;
 		}

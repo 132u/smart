@@ -129,6 +129,16 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		}
 
 		/// <summary>
+		/// Проверить, что открыт ли выпадающий список глоссария.
+		/// </summary>
+		public bool IsGlossaryListDisplayed()
+		{
+			CustomTestContext.WriteLine("Проверить, что открыт ли выпадающий список глоссария.");
+
+			return Driver.WaitUntilElementIsDisplay(By.XPath(GLOSSARY_LIST));
+		}
+
+		/// <summary>
 		/// Ввести текст в поле "Комментарий" в окне добавления текрмина.
 		/// </summary>
 		/// /// <param name="text">комментарий</param>
@@ -158,16 +168,19 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		}
 
 		/// <summary>
-		/// Нажать на выпадающий список, чтобы закрыть его
+		/// Закрыть выпадающий список глоссария.
 		/// </summary>
-		public AddTermDialog ClickGlossarySelect()
+		public AddTermDialog CloseGlossarySelect()
 		{
-			CustomTestContext.WriteLine("Нажать на выпадающий список, чтобы закрыть его.");
-			GlossarySelect.Click();
+			CustomTestContext.WriteLine("Закрыть выпадающий список глоссария.");
+			if (IsGlossaryListDisplayed())
+			{
+				GlossarySelect.Click();
+			}
 
 			return GetPage();
 		}
-
+		
 		/// <summary>
 		/// Выбрать глоссарий в выпадающем списке окна добавления термина
 		/// </summary>
@@ -213,6 +226,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		protected const string CONFIRM_TERM_WITHOUT_TRANSLATION_DIALOG = "//div[contains(@id, 'messagebox') and contains(string(), 'Do you want to add a term without translation?')]";
 		protected const string СONFIRM_YES_BTN = "//div[contains(@id, 'messagebox')]//span[contains(string(), 'Yes')]";
 		protected const string GLOSSARY_SELECT = "//input[@name='glossaryId']";
+		protected const string GLOSSARY_LIST = "//ul[contains(@id, 'boundlist')]";
 		protected const string GLOSSARY_SELECT_BOUNDLIST = "//ul[contains(@id, 'boundlist')]//li[contains(string(), '*#*')]";
 	}
 }
