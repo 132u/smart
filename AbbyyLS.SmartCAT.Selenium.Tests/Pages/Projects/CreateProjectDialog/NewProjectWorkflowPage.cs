@@ -214,7 +214,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 
 		#region Описания XPath элементов
 
-		protected const string CREATE_PROJECT_BUTTON = "//div[contains(@data-bind,'WorkflowStep')]";
+		protected const string CREATE_PROJECT_BUTTON = "//div[@class='fixed-btn']//a[contains(@class, 'g-greenbtn')]";
 		protected const string WORKFLOW_ADDED_TASK_LIST = "//td[@class='task-item']/div";
 		protected const string WORKFLOW_ADDED_TASK_ITEM = "(//td[@class='task-item']/div)[*#*]";
 		protected const string WORKFLOW_TASK_TYPE_LIST = "//div[@class='clearfix']//div[contains(@class,'task-name')]";

@@ -65,7 +65,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Editor
 				.OpenProjectInfo(_projectUniqueName)
 				.OpenDocumentInfoForProject(_projectUniqueName)
 				.ClickDocumentSettings(_projectUniqueName, documentNumber: 1)
-				.UnselectMachineTranslation()
+				.UnselectMachineTranslation(machineTranslation)
 				.SelectMachineTranslation(machineTranslation);
 
 			_documentSettings.CloseDocumentSettings(_projectUniqueName);
