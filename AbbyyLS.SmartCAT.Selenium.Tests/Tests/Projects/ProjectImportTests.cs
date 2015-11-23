@@ -1,4 +1,6 @@
-﻿using NUnit.Framework;
+﻿using System.IO;
+
+using NUnit.Framework;
 
 using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
 using AbbyyLS.SmartCAT.Selenium.Tests.FeatureAttributes;
@@ -92,7 +94,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 				.GoToProjectSettingsPage(_projectUniqueName)
 				.UploadDocument(PathProvider.DocumentFile);
 
-			Assert.IsTrue(_projectSettingsPage.IsDocumentExist(PathProvider.DocumentFile),
+			Assert.IsTrue(_projectSettingsPage.IsDocumentExist(Path.GetFileNameWithoutExtension(PathProvider.DocumentFile)),
 				"Произошла ошибка:\n документ {0} отсутствует в проекте.", PathProvider.DocumentFile);
 		}
 
