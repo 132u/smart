@@ -269,11 +269,11 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Client
 		protected const string CLIENTS_TABLE_BODY = "//table[contains(@class,'js-sortable-table')]";
 
 		protected const string CLIENT_ROW = "//table[contains(@class,'js-sortable-table')]//p[contains(string(), '*#*')]//..";
-		protected const string DELETE_BUTTON = "//table[contains(@class,'js-sortable-table')]//p[contains(string(), '*#*')]/../div[@class='l-corpr__clientbtns']/a[@title='Delete']";
-		protected const string EDIT_BUTTON = "//table[contains(@class,'js-sortable-table')]//p[contains(string(), '*#*')]/../div[@class='l-corpr__clientbtns']/a[@title='Edit']";
+		protected const string DELETE_BUTTON = "//table[contains(@class,'js-sortable-table')]//p[contains(string(), '*#*')]/../div[@class='l-corpr__clientbtns']/i[@data-bind='click: remove']";
+		protected const string EDIT_BUTTON = "//table[contains(@class,'js-sortable-table')]//p[contains(string(), '*#*')]/../div[@class='l-corpr__clientbtns']/i[@data-bind='click: edit']";
 
 		protected const string ADD_CLIENT_BUTTON = "//div[@data-bind='click: addNewClient']//a";
-		protected const string SAVE_CLIENT = "//img[contains(@class,'client save')]";
+		protected const string SAVE_CLIENT = "//i[contains(@data-bind,'click: save')]";
 		protected const string ERROR_NAME = "//div[contains(@class,'clienterr') and string()='A client with the same name already exists.']";
 		protected const string CLIENT_INPUT_NAME = "//input[contains(@class,'clienttxtbox')]";
 		protected const string CLIENT_LIST = ".//table[contains(@class,'js-sortable-table')]//tr";
