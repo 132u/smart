@@ -26,8 +26,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 			_workspaceHelper.GoToProjectsPage();
 			_createProjectHelper = new CreateProjectHelper(Driver);
 			_projectsPage = new ProjectsPage(Driver);
-			_newProjectGeneralInformationDialog = new NewProjectGeneralInformationDialog(Driver);
+			_newProjectDocumentUploadPage = new NewProjectDocumentUploadPage(Driver);
 			_projectSettingsPage = new ProjectSettingsPage(Driver);
+			_newProjectSettingsPage = new NewProjectSettingsPage(Driver);
 		}
 
 
@@ -51,12 +52,15 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 
 			_projectsPage.ClickCreateProjectButton();
 
-			_newProjectGeneralInformationDialog
-				.FillGeneralProjectInformation(projectUniqueName)
-				.ClickNextButton<NewProjectGeneralInformationDialog>();
+			_newProjectDocumentUploadPage.ClickSkipDocumentUploadButton();
 
-			Assert.IsTrue(_newProjectGeneralInformationDialog.IsDuplicateNameErrorMessageDisplayed(),
+			_newProjectSettingsPage.FillGeneralProjectInformation(projectUniqueName);
+
+			Assert.IsTrue(_newProjectSettingsPage.IsDuplicateNameErrorMessageDisplayed(),
 				"Произошла ошибка:\n не появилось сообщение о существующем имени");
+
+			Assert.IsTrue(_newProjectSettingsPage.IsNameInputValidationMarkerDisplayed(),
+				"Произошла ошибка:\n поле 'Название' не отмечено ошибкой");
 		}
 
 		[Test]
@@ -103,7 +107,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 		{
 			_projectsPage.ClickCreateProjectButton();
 
-			_newProjectGeneralInformationDialog.ClickCancelLink();
+			_newProjectDocumentUploadPage.ClickCancelLink();
 		}
 
 		private CreateProjectHelper _createProjectHelper;
@@ -111,6 +115,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 		private const string _longName = "12345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890";
 		private WorkspaceHelper _workspaceHelper;
 		private ProjectsPage _projectsPage;
-		private NewProjectGeneralInformationDialog _newProjectGeneralInformationDialog;
+		private NewProjectDocumentUploadPage _newProjectDocumentUploadPage;
+		private NewProjectSettingsPage _newProjectSettingsPage;
+		
 	}
 }
