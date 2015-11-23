@@ -67,7 +67,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 
 			_newProjectSettingsPage
 				.FillProjectName(_projectUniqueName)
-				.ClickWorkflowButton();
+				.ClickEmptySpaceFooter();
 
 			Assert.IsTrue(_newProjectSettingsPage.IsDuplicateNameErrorMessageDisplayed(),
 				"Произошла ошибка:\n не появилось сообщение о существующем имени");

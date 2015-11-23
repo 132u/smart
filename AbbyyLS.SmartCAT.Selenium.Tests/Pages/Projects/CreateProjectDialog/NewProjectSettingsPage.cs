@@ -94,6 +94,17 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 		}
 
 		/// <summary>
+		/// Нажать на пустое местов в футере, чтоб обновить валидационное сообщение
+		/// </summary>
+		public NewProjectSettingsPage ClickEmptySpaceFooter()
+		{
+			CustomTestContext.WriteLine("Нажать на пустое местов в футере, чтоб обновить валидационное сообщение.");
+			Footer.Click();
+
+			return GetPage();
+		}
+
+		/// <summary>
 		/// Кликнуть на дропдаун исходного языка, чтобы появился выпадающий список
 		/// </summary>
 		public NewProjectSettingsPage ClickSourceLangDropdown()
@@ -640,6 +651,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 		[FindsBy(How = How.XPath, Using = TARGET_MULTISELECT_XPATH)]
 		protected IWebElement TargetMultiselect { get; set; }
 
+		[FindsBy(How = How.XPath, Using = FOOTER)]
+		protected IWebElement Footer { get; set; }
+
 		protected IWebElement SourceLangItem { get; set; }
 
 		protected IWebElement TargetLangItem { get; set; }
@@ -686,6 +700,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 		protected const string EDIT_GLOSSARY_BUTTON = "//div[contains(@data-bind, 'switchDetailMode')][*#*]//div[contains(@class, 'right l-settings-icons')]//span[contains(@data-bind, 'edit')]";
 		protected const string GLOSSARY_ROW = "//div[contains(@data-bind, 'switchDetailMode')][*#*]";
 		
+		protected const string FOOTER = "//div[@class='fixed-btn']";
 		#endregion
 	}
 }
