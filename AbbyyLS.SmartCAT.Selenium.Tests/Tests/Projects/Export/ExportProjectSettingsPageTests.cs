@@ -25,6 +25,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 			ProjectSettingsPage
 				.ClickDocumentCheckbox(PathProvider.DocumentFileToConfirm1)
 				.ClickDownloadInMainMenuButton();
+
 			ExportFileHelper
 				.SelectExportType<ProjectSettingsPage>(exportType)
 				.ClickDownloadNotifier<ProjectSettingsPage>()
