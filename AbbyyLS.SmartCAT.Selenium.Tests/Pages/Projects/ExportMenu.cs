@@ -53,7 +53,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 		[FindsBy(How = How.XPath, Using = EXPORT_TYPE)]
 		protected IWebElement ExportType { get; set; }
 
-		protected const string EXPORT_TYPE = "//div[not(contains(@class,'g-hidden'))]/div[contains(@data-bind,'*#*') and contains(@data-bind, 'exportDocuments')]";
+		protected const string EXPORT_TYPE = "//div[not(contains(@class,'g-hidden'))]/div[contains(@data-bind,'*#*') and contains(@data-bind, 'export')]";
 		protected const string EXPORT_TYPE_TMX = "//div[not(contains(@class,'g-hidden'))]/div[contains(@data-bind,'Tmx')]";
 	}
 }

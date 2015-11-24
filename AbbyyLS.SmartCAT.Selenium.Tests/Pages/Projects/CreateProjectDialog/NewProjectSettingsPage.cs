@@ -677,7 +677,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 		protected const string TARGET_LANG_ITEMS_SELECTED = "//ul//li//input[@checked='checked']";
 		protected const string TARGET_MULTISELECT_XPATH = "//div[contains(@class,'js-popup-create-project')][2]//div[contains(@class,'js-languages-multiselect')]";
 		protected const string TARGET_LANG_SELECTED = "//div[contains(@class, 'target_langs')]//span[contains(@class, 'ui-multiselect-value') and text()='*#*']";
-        protected const string ADD_TARGET_LANGUAGE_BUTTON = "//span[contains(@data-bind, 'openTargetLanguages')]";
+		protected const string ADD_TARGET_LANGUAGE_BUTTON = "//div[@class = 'dropdown_holder']//textarea";
 		protected const string TARGET_LANGUAGE_DROPDOWN_HEADER = "//div[contains(@class, 'target_langs dropdown')]//p";
 		protected const string TARGET_LANG_ITEM = "//div[contains(@class, 'target_langs')]//ul//li[@title = '*#*']";
 		protected const string USE_MACHINE_TRANSLATION_CHECKBOX = "//div[contains(@data-bind, 'availableMachineTranslators')]//label//em";
