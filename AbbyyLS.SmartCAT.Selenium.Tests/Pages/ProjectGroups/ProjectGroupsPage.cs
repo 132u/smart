@@ -295,6 +295,17 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.ProjectGroups
 
 			return Driver.WaitUntilElementIsDisplay(By.XPath(PROJECT_GROUP_ROW.Replace("*#*", projectGroupName)));
 		}
+		
+		/// <summary>
+		/// Проверить, что группа проектов отсутствует в списке
+		/// </summary>
+		/// <param name="projectGroupName">имя группы проектов</param>
+		public bool IsProjectGroupDisappeared(string projectGroupName)
+		{
+			CustomTestContext.WriteLine("Определить, что группа проектов {0} отсутствует в списке.", projectGroupName);
+
+			return Driver.WaitUntilElementIsDisappeared(By.XPath(PROJECT_GROUP_ROW.Replace("*#*", projectGroupName)));
+		}
 
 		/// <summary>
 		/// Проверить, что кнопка удаления появилась

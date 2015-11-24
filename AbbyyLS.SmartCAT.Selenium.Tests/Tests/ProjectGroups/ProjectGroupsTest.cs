@@ -87,7 +87,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.ProjectGroups
 				.CreateProjectGroup(_projectGroup)
 				.RenameProjectGroup(_projectGroup, newProjectGroupsName);
 
-			Assert.IsFalse(_projectGroupsPage.IsProjectGroupExist(_projectGroup),
+			Assert.IsTrue(_projectGroupsPage.IsProjectGroupDisappeared(_projectGroup),
 				"Произошла ошибка:\n группа проектов {0} присутствует в списке", _projectGroup);
 
 			Assert.IsTrue(_projectGroupsPage.IsProjectGroupExist(newProjectGroupsName),
