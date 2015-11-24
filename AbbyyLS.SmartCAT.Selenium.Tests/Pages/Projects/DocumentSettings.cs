@@ -61,7 +61,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 		public DocumentSettings SelectMachineTranslation(MachineTranslationType machineTranslationType = MachineTranslationType.DefaultMT)
 		{
 			
-			var machineTranslationCheckbox = Driver.SetDynamicValue(How.XPath, MT_CHECKBOX, machineTranslationType.Description());
+			var machineTranslationCheckbox = Driver.SetDynamicValue(How.XPath, MT_CHECKBOX_INPUT, machineTranslationType.Description());
 
 			CustomTestContext.WriteLine("Проверить, что Мachine Тranslation {0} не выбрано.", machineTranslationType);
 
@@ -104,7 +104,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 		public DocumentSettings UnselectMachineTranslation(MachineTranslationType machineTranslationType = MachineTranslationType.DefaultMT)
 		{
 			CustomTestContext.WriteLine("Проверить, что Мachine Тranslation {0} выбрано.", machineTranslationType);
-			var machineTranslationCheckbox = Driver.SetDynamicValue(How.XPath, MT_CHECKBOX, machineTranslationType.Description());
+			var machineTranslationCheckbox = Driver.SetDynamicValue(How.XPath, MT_CHECKBOX_INPUT, machineTranslationType.Description());
 
 			if (machineTranslationCheckbox.Selected)
 			{
@@ -134,7 +134,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 		[FindsBy(How = How.XPath, Using = SAVE_BUTTON)]
 		protected IWebElement SaveButton { get; set; }
 
-		[FindsBy(How = How.XPath, Using = MT_CHECKBOX)]
+		[FindsBy(How = How.XPath, Using = MT_CHECKBOX_INPUT)]
 		protected IWebElement MTCheckbox { get; set; }
 
 		[FindsBy(How = How.XPath, Using = GLOSSARY_TABLE)]
@@ -145,6 +145,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 		protected const string TITLE = "(//h2[text()='Document Settings'])[3]";
 		protected const string NAME_INPUT = "//div[contains(@class,'document-settings')][3]//input[contains(@data-bind,'value: name')]";
 		protected const string SAVE_BUTTON = "//div[contains(@class,'g-popup-bd js-popup-bd js-popup-single-target-document-settings')][2]//div[contains(@data-bind,'click: save')]";
+		protected const string MT_CHECKBOX_INPUT = "//span[text()='*#*']/../../preceding-sibling::td//input";
 		protected const string MT_CHECKBOX = "//span[text()='*#*']/../../preceding-sibling::td";
 		protected const string GLOSSARY_BY_NAME_XPATH = "(//h2[text()='Document Settings']//..//..//table[contains(@class,'l-corpr__tbl')]//tbody[@data-bind='foreach: glossaries']//tr[contains(string(), '*#*')])[1]//td//input";
 		protected const string GLOSSARY_TABLE = "//div[contains(@class, 'single-target-document-settings')][2]//tbody[contains(@data-bind, 'glossaries')]";
