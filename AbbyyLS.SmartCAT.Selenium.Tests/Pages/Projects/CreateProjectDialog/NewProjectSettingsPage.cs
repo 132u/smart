@@ -486,6 +486,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 		public bool IsNewProjectSettingsPageOpened()
 		{
 			CustomTestContext.WriteLine("Проверить, открылась ли страница настроек создаваемого проекта");
+			ProjectNameInput.Scroll();
 
 			return Driver.WaitUntilElementIsDisplay(By.XPath(PROJECT_NAME_INPUT));
 		}
