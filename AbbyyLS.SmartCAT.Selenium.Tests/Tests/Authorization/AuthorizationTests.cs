@@ -200,7 +200,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Authorization
 				"Произошла ошибка:\n сообщение о ненайденном аккаунте отсутствует.");
 		}
 
-		[Test]
+		[Test, Ignore("SCAT-665")]
 		public void SignInWithPerevedemAccount()
 		{
 			var accountName = "Perevedem";
