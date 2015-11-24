@@ -17,7 +17,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.TranslationMemories
 		{
 			_translationMemoriesPage = new TranslationMemoriesPage(Driver);
 			_translationMemoriesHelper = new TranslationMemoriesHelper(Driver);
-			_translationMemoriesHelper.GoToTranslationMemoriesPage();
+			_translationMemoriesHelper
+				.GoToTranslationMemoriesPage()
+				.CloseAllNotifications();
 		}
 
 		[Test]
