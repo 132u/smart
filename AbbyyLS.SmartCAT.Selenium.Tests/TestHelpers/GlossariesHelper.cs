@@ -1475,8 +1475,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 				.HoverSuggestedTermRow(termRowNumber)
 				.ClickAcceptSuggestButton(termRowNumber);
 
-			// Sleep не убирать, иначе термин не исчезнет
-			Thread.Sleep(1000);
+			_suggestedTermsPageForAllGlossaries.IsSuggestedTermRowDisappeared(termRowNumber);
 
 			if (!chooseGlossary)
 			{

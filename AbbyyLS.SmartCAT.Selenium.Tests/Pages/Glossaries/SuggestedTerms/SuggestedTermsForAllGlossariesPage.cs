@@ -59,12 +59,23 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 		}
 
 		/// <summary>
+		/// Проверить, что строка с термином исчезла.
+		/// </summary>
+		/// <param name="rowNumber">номер термин</param>
+		public bool IsSuggestedTermRowDisappeared(int rowNumber)
+		{
+			CustomTestContext.WriteLine("Проверить, что строка с термином № исчезла.", rowNumber);
+		
+			return Driver.WaitUntilElementIsDisappeared(By.XPath(SUGGESTED_TERM_ROW.Replace("*#*", rowNumber.ToString())));
+		}
+
+		/// <summary>
 		/// Нажать кнопку 'Accept suggest'
 		/// </summary>
 		public SuggestedTermsPageForAllGlossaries ClickAcceptSuggestButton(int termNumber)
 		{
 			CustomTestContext.WriteLine("Нажать кнопку 'Accept suggest' термина №{0}.", termNumber);
-			Driver.SetDynamicValue(How.XPath, ACCEPT_SUGGEST_BUTTON, termNumber.ToString()).DoubleClick();
+			Driver.SetDynamicValue(How.XPath, ACCEPT_SUGGEST_BUTTON, termNumber.ToString()).JavaScriptClick();
 
 			return GetPage();
 		}
