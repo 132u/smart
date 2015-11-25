@@ -6,6 +6,7 @@ using AbbyyLS.SmartCAT.Selenium.Tests.DataStructures;
 using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
 using AbbyyLS.SmartCAT.Selenium.Tests.FeatureAttributes;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings;
+using AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories;
 using AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Editor
@@ -21,6 +22,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Editor
 			_editorHelper = new EditorHelper(Driver);
 			_workspaceHelper = new WorkspaceHelper(Driver);
 			_projectSettingsPage = new ProjectSettingsPage(Driver);
+			_translationMemoriesPage = new TranslationMemoriesPage(Driver);
 
 			var projectUniqueName = _createProjectHelper.GetProjectUniqueName();
 
@@ -30,9 +32,11 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Editor
 					filePath: PathProvider.TxtFileForMatchTest,
 					createNewTm: true,
 					tmxFilePath: PathProvider.TmxFileForMatchTest)
-				.GoToTranslationMemoriesPage()
-				.CloseAllNotifications()
-				.GoToProjectsPage();
+				.GoToTranslationMemoriesPage();
+
+			_translationMemoriesPage.CloseAllNotifications<TranslationMemoriesPage>();
+
+			_workspaceHelper.GoToProjectsPage();
 
 			_workspaceHelper
 				.GoToProjectSettingsPage(projectUniqueName)
@@ -105,5 +109,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Editor
 		private ProjectSettingsPage _projectSettingsPage;
 		private EditorHelper _editorHelper;
 		private WorkspaceHelper _workspaceHelper;
+		private TranslationMemoriesPage _translationMemoriesPage;
 	}
 }

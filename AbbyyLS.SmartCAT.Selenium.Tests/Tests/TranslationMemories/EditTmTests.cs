@@ -6,7 +6,6 @@ using AbbyyLS.SmartCAT.Selenium.Tests.DataStructures;
 using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
 using AbbyyLS.SmartCAT.Selenium.Tests.FeatureAttributes;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories;
-using AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.TranslationMemories
 {
@@ -22,18 +21,12 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.TranslationMemories
 		{
 			var importFilePath = needUploadTmx ? PathProvider.TMTestFile2 : null;
 			
-			TranslationMemoriesHelper
-				.CreateTranslationMemory(UniqueTranslationMemoryName, importFilePath: importFilePath);
+			TranslationMemoriesHelper.CreateTranslationMemory(UniqueTMName, importFilePath: importFilePath);
 
-			if (needUploadTmx)
-			{
-				TranslationMemoriesHelper.AssertTMXFileIsImported();
-			}
+			TranslationMemoriesPage.EditTranslationMemory(UniqueTMName, renameTo: invalidName, isErrorExpecting: true);
 
-			TranslationMemoriesHelper
-				.AssertTranslationMemoryExists(UniqueTranslationMemoryName)
-				.RenameTranslationMemory(UniqueTranslationMemoryName, string.Empty)
-				.AssertNoNameErrorAppearInEditionForm();
+			Assert.IsTrue(TranslationMemoriesPage.IsEmptyNameErrorMessageDisplayed(),
+				"Ошибка: не появилось сообщение о пустом названии при редактировании ТМ");
 		}
 
 		[Test]
@@ -42,12 +35,13 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.TranslationMemories
 			var secondTranslationMemoryName = TranslationMemoriesHelper.GetTranslationMemoryUniqueName();
 
 			TranslationMemoriesHelper
-				.CreateTranslationMemory(UniqueTranslationMemoryName)
-				.AssertTranslationMemoryExists(UniqueTranslationMemoryName)
-				.CreateTranslationMemory(secondTranslationMemoryName)
-				.AssertTranslationMemoryExists(secondTranslationMemoryName)
-				.RenameTranslationMemory(secondTranslationMemoryName, UniqueTranslationMemoryName)
-				.AssertExistNameErrorAppearInEditionForm();
+				.CreateTranslationMemory(UniqueTMName)
+				.CreateTranslationMemory(secondTranslationMemoryName);
+
+			TranslationMemoriesPage.EditTranslationMemory(secondTranslationMemoryName, renameTo: UniqueTMName, isErrorExpecting: true);
+
+			Assert.IsTrue(TranslationMemoriesPage.IsExistingNameErrorMessageDisplayed(),
+				"Ошибка: не появилось сообщение об ошибки имени при редактировании ТМ");
 		}
 
 		[Test]
@@ -55,13 +49,15 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.TranslationMemories
 		{
 			var translationMemoryNewName = TranslationMemoriesHelper.GetTranslationMemoryUniqueName();
 
-			TranslationMemoriesHelper
-				.CreateTranslationMemory(UniqueTranslationMemoryName)
-				.AssertTranslationMemoryExists(UniqueTranslationMemoryName)
-				.RenameTranslationMemory(UniqueTranslationMemoryName, translationMemoryNewName)
-				.AssertEditionFormDisappeared()
-				.AssertTranslationMemoryExists(translationMemoryNewName)
-				.AssertTranslationMemoryNotExists(UniqueTranslationMemoryName);
+			TranslationMemoriesHelper.CreateTranslationMemory(UniqueTMName);
+
+			TranslationMemoriesPage.EditTranslationMemory(UniqueTMName, renameTo:translationMemoryNewName);
+
+			Assert.IsTrue(TranslationMemoriesPage.IsTranslationMemoryExist(translationMemoryNewName),
+				"Произошла ошибка:\n ТМ {0} не представлена в списке ТМ", translationMemoryNewName);
+
+			Assert.IsFalse(TranslationMemoriesPage.IsTranslationMemoryExist(UniqueTMName),
+				"Произошла ошибка:\n ТМ {0} представлена в списке ТМ", UniqueTMName);
 		}
 
 		[TestCase(true)]
@@ -74,20 +70,14 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.TranslationMemories
 			var importFilePath = needUploadTmx ? PathProvider.TMTestFile2 : null;
 			var projectUniqueName = CreateProjectHelper.GetProjectUniqueName();
 			
-			TranslationMemoriesHelper
-				.CreateTranslationMemory(UniqueTranslationMemoryName, importFilePath: importFilePath);
-			
-			if (needUploadTmx)
-			{
-				TranslationMemoriesHelper.AssertTMXFileIsImported();
-			}
+			TranslationMemoriesHelper.CreateTranslationMemory(UniqueTMName, importFilePath: importFilePath);
 
-			TranslationMemoriesHelper
-				.AssertTranslationMemoryExists(UniqueTranslationMemoryName)
-				.RenameTranslationMemory(UniqueTranslationMemoryName, translationMemoryNewName)
-				.AssertEditionFormDisappeared()
-				.AssertTranslationMemoryExists(translationMemoryNewName)
-				.GoToProjectsPage();
+			TranslationMemoriesPage.EditTranslationMemory(UniqueTMName, renameTo: translationMemoryNewName);
+
+			Assert.IsTrue(TranslationMemoriesPage.IsTranslationMemoryExist(translationMemoryNewName),
+				"Произошла ошибка:\n ТМ {0} не представлена в списке ТМ", translationMemoryNewName);
+
+			WorkspaceHelper.GoToProjectsPage();
 
 			ProjectsPage.ClickCreateProjectButton();
 
@@ -108,33 +98,40 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.TranslationMemories
 		{
 			var importFilePath = needUploadTmx ? PathProvider.TMTestFile2 : null;
 
-			TranslationMemoriesHelper.CreateTranslationMemory(UniqueTranslationMemoryName, importFilePath: importFilePath);
+			TranslationMemoriesHelper.CreateTranslationMemory(UniqueTMName, importFilePath: importFilePath);
 
-			if (needUploadTmx)
-			{
-				TranslationMemoriesHelper.AssertTMXFileIsImported();
-			}
+			TranslationMemoriesPage
+				.EditTranslationMemory(UniqueTMName, changeCommentTo: InitialComment)
+				.OpenTranslationMemoryInformation(UniqueTMName);
 
-			TranslationMemoriesHelper.
-				AssertTranslationMemoryExists(UniqueTranslationMemoryName)
-				.EditComment(UniqueTranslationMemoryName, InitialComment)
-				.AssertCommentExist(InitialComment)
-				.EditComment(UniqueTranslationMemoryName, FinalComment)
-				.AssertCommentExist(FinalComment);
+			Assert.IsTrue(TranslationMemoriesPage.IsCommentTextMatchExpected(InitialComment),
+				"Ошибка: комментарий {0} не найден.", InitialComment);
+
+			TranslationMemoriesPage
+				.EditTranslationMemory(UniqueTMName, changeCommentTo: FinalComment)
+				.OpenTranslationMemoryInformation(UniqueTMName);
+
+			Assert.IsTrue(TranslationMemoriesPage.IsCommentTextMatchExpected(FinalComment),
+				"Ошибка: комментарий {0} не найден.", InitialComment);
 		}
 
 		[Test]
 		public void EditTmLanguages()
 		{
-			TranslationMemoriesHelper
-				.CreateTranslationMemory(UniqueTranslationMemoryName)
-				.AssertTranslationMemoryExists(UniqueTranslationMemoryName)
-				.AssertLanguagesForTranslationMemory(UniqueTranslationMemoryName, EnglishLanguage, new List<string> {RussianLanguage})
-				.AddTargetLanguageToTranslationMemory(UniqueTranslationMemoryName, Language.Lithuanian)
-				.RefreshPage<TranslationMemoriesPage, TranslationMemoriesHelper>()
-				.FindTranslationMemory(UniqueTranslationMemoryName)
-				.AssertLanguagesForTranslationMemory(
-					UniqueTranslationMemoryName, EnglishLanguage, new List<string> { RussianLanguage, LithuanianLanguage });
+			TranslationMemoriesHelper.CreateTranslationMemory(UniqueTMName);
+
+			Assert.IsFalse(TranslationMemoriesPage.IsLanguagesForTranslationMemoryExists(
+				UniqueTMName, EnglishLanguage, new List<string> { RussianLanguage }),
+				"Произошла ошибка:\nСписки target языков не совпали");
+
+			TranslationMemoriesPage
+				.EditTranslationMemory(UniqueTMName, addTargetLanguage: Language.Lithuanian)
+				.RefreshPage<TranslationMemoriesPage>()
+				.SearchForTranslationMemory(UniqueTMName);
+
+			Assert.IsFalse(TranslationMemoriesPage.IsLanguagesForTranslationMemoryExists(
+				UniqueTMName, EnglishLanguage, new List<string> { RussianLanguage, LithuanianLanguage }),
+				"Произошла ошибка:\nСписки target языков не совпали");
 		}
 
 		[TestCase(true)]
@@ -145,19 +142,19 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.TranslationMemories
 			var importFilePath = needUploadTmx ? PathProvider.TMTestFile2 : null;
 			string projectGroup;
 
-			TranslationMemoriesHelper
-				.CreateTranslationMemory(UniqueTranslationMemoryName, importFilePath: importFilePath)
-				.AssertTranslationMemoryExists(UniqueTranslationMemoryName);
+			TranslationMemoriesHelper.CreateTranslationMemory(UniqueTMName, importFilePath: importFilePath);
 
-			if (needUploadTmx)
-			{
-				TranslationMemoriesHelper.AssertTMXFileIsImported();
-			}
+			TranslationMemoriesPage.OpenTranslationMemoryInformation(UniqueTMName);
 
-			TranslationMemoriesHelper
-				.AssertProjectGroupExistForTranslationMemory(UniqueTranslationMemoryName, string.Empty)
-				.AddFirstProjectGroupToTranslationMemory(UniqueTranslationMemoryName, out projectGroup)
-				.AssertProjectGroupExistForTranslationMemory(UniqueTranslationMemoryName, projectGroup);
+			Assert.IsTrue(TranslationMemoriesPage.IsProjectGroupSelectedForTM(string.Empty),
+				"Произошла ошибка:\n неверно указана группа проектов для ТМ {0}", UniqueTMName);
+
+			TranslationMemoriesPage
+				.AddFirstProjectGroupToTranslationMemory(UniqueTMName, out projectGroup)
+				.OpenTranslationMemoryInformation(UniqueTMName);
+
+			Assert.IsTrue(TranslationMemoriesPage.IsProjectGroupSelectedForTM(projectGroup),
+				"Произошла ошибка:\n неверно указана группа проектов для ТМ {0}", projectGroup);
 		}
 
 		private const string InitialComment = "InitialComment";

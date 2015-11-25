@@ -12,34 +12,47 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.TranslationMemories
 		[Test]
 		public void DeleteTranslationMemory()
 		{
-			TranslationMemoriesHelper
-				.CreateTranslationMemoryIfNotExist(_translationMemoryName)
-				.OpenTranslationMemoryInformation(_translationMemoryName)
-				.DeleteTranslationMemory(_translationMemoryName)
-				.AssertTranslationMemoryNotExists(_translationMemoryName);
+			TranslationMemoriesHelper.CreateTranslationMemory(UniqueTMName);
+
+			TranslationMemoriesPage
+				.OpenTranslationMemoryInformation(UniqueTMName)
+				.ClickDeleteButtonInTMInfo();
+
+			DeleteTmDialog.ConfirmReplacement();
+
+			Assert.IsFalse(TranslationMemoriesPage.IsTranslationMemoryExist(UniqueTMName),
+				"Произошла ошибка:\n ТМ {0} представлена в списке ТМ", UniqueTMName);
 		}
 
 		[Test]
 		public void DeleteTranslationMemoryAndCreateNewTranslationMemoryWithTheSameNameTest()
 		{
-			TranslationMemoriesHelper
-				.CreateTranslationMemoryIfNotExist(_translationMemoryName)
-				.OpenTranslationMemoryInformation(_translationMemoryName)
-				.DeleteTranslationMemory(_translationMemoryName)
-				.AssertTranslationMemoryNotExists(_translationMemoryName)
-				.CreateTranslationMemory(_translationMemoryName)
-				.AssertTranslationMemoryExists(_translationMemoryName);
+			TranslationMemoriesHelper.CreateTranslationMemory(UniqueTMName);
+
+			TranslationMemoriesPage
+				.OpenTranslationMemoryInformation(UniqueTMName)
+				.ClickDeleteButtonInTMInfo();
+
+			DeleteTmDialog.ConfirmReplacement();
+
+			TranslationMemoriesHelper.CreateTranslationMemory(UniqueTMName);
+
+			Assert.IsTrue(TranslationMemoriesPage.IsTranslationMemoryExist(UniqueTMName),
+				"Произошла ошибка:\n ТМ {0} не представлена в списке ТМ", UniqueTMName);
 		}
 
 		[Test]
 		public void DeleteTranslationMemoryCheckProjectCreateTranslationMemoryListTest()
 		{
-			TranslationMemoriesHelper
-				.CreateTranslationMemory(UniqueTranslationMemoryName)
-				.AssertTranslationMemoryExists(UniqueTranslationMemoryName)
-				.OpenTranslationMemoryInformation(UniqueTranslationMemoryName)
-				.DeleteTranslationMemory(UniqueTranslationMemoryName)
-				.GoToProjectsPage();
+			TranslationMemoriesHelper.CreateTranslationMemory(UniqueTMName);
+
+			TranslationMemoriesPage
+				.OpenTranslationMemoryInformation(UniqueTMName)
+				.ClickDeleteButtonInTMInfo();
+
+			DeleteTmDialog.ConfirmReplacement();
+
+			WorkspaceHelper.GoToProjectsPage();
 
 			ProjectsPage.ClickCreateProjectButton();
 
@@ -50,10 +63,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.TranslationMemories
 				.ExpandAdvancedSettings()
 				.ClickSelectTmButton();
 
-			Assert.IsFalse(NewProjectSetUpTMDialog.IsTranslationMemoryExist(UniqueTranslationMemoryName),
-				"Произошла ошибка:\n ТМ {0} представлена в списке при создании проекта.", UniqueTranslationMemoryName);
+			Assert.IsFalse(NewProjectSetUpTMDialog.IsTranslationMemoryExist(UniqueTMName),
+				"Произошла ошибка:\n ТМ {0} представлена в списке при создании проекта.", UniqueTMName);
 		}
-
-		private const string _translationMemoryName = "TestTM";
 	}
 }

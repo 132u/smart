@@ -20,7 +20,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Drivers
 	public class WebDriver : IWebDriver
 	{
 		public static Logger Logger = LogManager.GetCurrentClassLogger();
-		public static readonly TimeSpan ImplicitWait = new TimeSpan(0, 0, 0, 5);
+		public static readonly TimeSpan ImplicitWait = new TimeSpan(0, 0, 0, 10);
 		public static readonly TimeSpan NoWait = new TimeSpan(0, 0, 0, 0);
 		private Navigation _customNavigate;
 

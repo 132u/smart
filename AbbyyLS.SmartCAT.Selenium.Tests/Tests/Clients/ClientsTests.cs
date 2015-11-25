@@ -3,6 +3,7 @@
 using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
 using AbbyyLS.SmartCAT.Selenium.Tests.FeatureAttributes;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Client;
+using AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories;
 using AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Clients
@@ -18,28 +19,28 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Clients
 		{
 			_workspaceHelper = new WorkspaceHelper(Driver);
 			_workspaceHelper.GoToClientsPage();
-			_clientsPage = new ClientsPage(Driver).GetPage();
+			_clientsPage = new ClientsPage(Driver);
+			_translationMemoriesPage = new TranslationMemoriesPage(Driver);
+			_newTranslationMemoryDialog = new NewTranslationMemoryDialog(Driver);
+
+			_clientName = _clientsPage.GetClientUniqueName();
 		}
 
 		[Test]
 		public void CreateClientTest()
 		{
-			var clientName = _clientsPage.GetClientUniqueName();
-
-			_clientsPage.CreateNewClient(clientName);
+			_clientsPage.CreateNewClient(_clientName);
 
 			Assert.IsTrue(_clientsPage.IsSaveButtonDisappear(), "Произошла ошибка: \n кнопка сохранения не исчезла");
-			Assert.IsTrue(_clientsPage.IsClientExist(clientName), "Произошла ошибка: \n клиент не создан");
+			Assert.IsTrue(_clientsPage.IsClientExist(_clientName), "Произошла ошибка: \n клиент не создан");
 		}
 
 		[Test]
 		public void CreateClientExistingNameTest()
 		{
-			var clientName = _clientsPage.GetClientUniqueName();
-
 			_clientsPage
-				.CreateNewClient(clientName)
-				.CreateNewClient(clientName);
+				.CreateNewClient(_clientName)
+				.CreateNewClient(_clientName);
 
 			Assert.IsTrue(_clientsPage.IsClientNameValidationErrorDisplayed(),
 				"Произошла ошибка:\n не появилась ошибка при создании клиента с некорректным именем");
@@ -58,50 +59,52 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Clients
 		[Test]
 		public void CreateClientCheckCreateTMTest()
 		{
-			var clientName = _clientsPage.GetClientUniqueName();
+			_clientsPage.CreateNewClient(_clientName);
 
-			_clientsPage.CreateNewClient(clientName);
+			_workspaceHelper.GoToTranslationMemoriesPage();
 
-			_workspaceHelper
-				.GoToTranslationMemoriesPage()
-				.AssertClientExistInClientsList(clientName);
+			_translationMemoriesPage
+				.ClickCreateNewTmButton()
+				.OpenClientsList();
+
+			Assert.IsTrue(_newTranslationMemoryDialog.IsClientsListDisplayed(),
+				"Произошла ошибка:\n не отображен список клиентов");
+
+			Assert.IsTrue(_newTranslationMemoryDialog.IsClientExistInList(_clientName),
+				"Произошла ошибка:\n клиент {0} не отображен в списке клиентов", _clientName);
 		}
 
 		[Test]
 		public void CreateClientCheckCreateGlossaryTest()
 		{
-			var clientName = _clientsPage.GetClientUniqueName();
-
-			_clientsPage.CreateNewClient(clientName);
+			_clientsPage.CreateNewClient(_clientName);
 
 			_workspaceHelper
 				.GoToGlossariesPage()
-				.AssertClientExistInClientsList(clientName);
+				.AssertClientExistInClientsList(_clientName);
 		}
 
 		[Test]
 		public void ChangeClientNameTest()
 		{
-			var clientName = _clientsPage.GetClientUniqueName();
 			var clientNewName = _clientsPage.GetClientUniqueName();
 
 			_clientsPage
-				.CreateNewClient(clientName)
-				.RenameClient(clientName, clientNewName);
+				.CreateNewClient(_clientName)
+				.RenameClient(_clientName, clientNewName);
 
 			Assert.IsTrue(_clientsPage.IsClientExist(clientNewName), "Произошла ошибка: \n клиент не создан");
-			Assert.IsFalse(_clientsPage.IsClientExist(clientName), "Произошла ошибка:\n клиент {0} найден в списке клиентов", clientName);
+			Assert.IsFalse(_clientsPage.IsClientExist(_clientName),
+				"Произошла ошибка:\n клиент {0} найден в списке клиентов", _clientName);
 		}
 
 		[TestCase("")]
 		[TestCase(" ")]
 		public void ChangeClientInvalidNameTest(string invalidName)
 		{
-			var clientName = _clientsPage.GetClientUniqueName();
-
 			_clientsPage
-				.CreateNewClient(clientName)
-				.RenameClient(clientName, invalidName);
+				.CreateNewClient(_clientName)
+				.RenameClient(_clientName, invalidName);
 
 			Assert.IsTrue(_clientsPage.IsClientEditModeEnabled(),
 				"Произошла ошибка:\n произошел выход из режима редактирования клиента.");
@@ -110,13 +113,12 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Clients
 		[Test]
 		public void ChangeClientExistingNameTest()
 		{
-			var clientName = _clientsPage.GetClientUniqueName();
 			var clientSecondName = _clientsPage.GetClientUniqueName();
 
 			_clientsPage
-				.CreateNewClient(clientName)
+				.CreateNewClient(_clientName)
 				.CreateNewClient(clientSecondName)
-				.RenameClient(clientSecondName, clientName);
+				.RenameClient(clientSecondName, _clientName);
 
 			Assert.IsTrue(_clientsPage.IsClientNameValidationErrorDisplayed(),
 				"Произошла ошибка:\n не появилась ошибка при создании клиента с некорректным именем");
@@ -125,48 +127,54 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Clients
 		[Test]
 		public void DeleteClientTest()
 		{
-			var clientName = _clientsPage.GetClientUniqueName();
-
 			_clientsPage
-				.CreateNewClient(clientName)
-				.DeleteClient(clientName);
+				.CreateNewClient(_clientName)
+				.DeleteClient(_clientName);
 
-			Assert.IsTrue(_clientsPage.IsDeleteButtonDisappear(clientName),
+			Assert.IsTrue(_clientsPage.IsDeleteButtonDisappear(_clientName),
 				"Произошла ошибка:\n кнопка удаления клиента не исчезла после сохранения.");
 
-			Assert.IsFalse(_clientsPage.IsClientExist(clientName),
-				"Произошла ошибка:\n клиент {0} найден в списке клиентов", clientName);
+			Assert.IsFalse(_clientsPage.IsClientExist(_clientName),
+				"Произошла ошибка:\n клиент {0} найден в списке клиентов", _clientName);
 		}
 
 		[Test]
 		public void DeleteClientCheckCreateTM()
 		{
-			var clientName = _clientsPage.GetClientUniqueName();
-
 			_clientsPage
-				.CreateNewClient(clientName)
-				.DeleteClient(clientName);
+				.CreateNewClient(_clientName)
+				.DeleteClient(_clientName);
 			
-			_workspaceHelper
-				.GoToTranslationMemoriesPage()
-				.AssertClientNotExistInClientsList(clientName);
+			_workspaceHelper.GoToTranslationMemoriesPage();
+
+			_translationMemoriesPage
+				.ClickCreateNewTmButton()
+				.OpenClientsList();
+
+			Assert.IsTrue(_newTranslationMemoryDialog.IsClientsListDisplayed(),
+				"Произошла ошибка:\n не отображен список клиентов");
+
+			Assert.IsFalse(_newTranslationMemoryDialog.IsClientExistInList(_clientName),
+				"Произошла ошибка:\n клиент {0} отображен в списке клиентов", _clientName);
 		}
 
 		[Test]
 		public void DeleteClientCheckCreateGlossaryTest()
 		{
-			var clientName = _clientsPage.GetClientUniqueName();
-
 			_clientsPage
-				.CreateNewClient(clientName)
-				.DeleteClient(clientName);
+				.CreateNewClient(_clientName)
+				.DeleteClient(_clientName);
 
 			_workspaceHelper
 				.GoToGlossariesPage()
-				.AssertClientNotExistInClientsList(clientName);
+				.AssertClientNotExistInClientsList(_clientName);
 		}
 
 		private ClientsPage _clientsPage;
+		private TranslationMemoriesPage _translationMemoriesPage;
+		private NewTranslationMemoryDialog _newTranslationMemoryDialog;
 		private WorkspaceHelper _workspaceHelper;
+
+		private string _clientName;
 	}
 }

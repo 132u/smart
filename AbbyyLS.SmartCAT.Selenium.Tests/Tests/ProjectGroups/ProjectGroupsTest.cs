@@ -3,6 +3,7 @@
 using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
 using AbbyyLS.SmartCAT.Selenium.Tests.FeatureAttributes;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.ProjectGroups;
+using AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace;
 using AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers;
 
@@ -18,10 +19,10 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.ProjectGroups
 		public void Setup()
 		{
 			_projectGroupsPage = new ProjectGroupsPage(Driver);
+			_translationMemoriesPage = new TranslationMemoriesPage(Driver);
+			_newTranslationMemoryDialog = new NewTranslationMemoryDialog(Driver);
 			_workspaceHelper = new WorkspaceHelper(Driver);
-
 			_workspaceHelper.GoToProjectGroupsPage();
-
 			_projectGroup = _projectGroupsPage.GetProjectGroupUniqueName();
 		}
 
@@ -63,9 +64,17 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.ProjectGroups
 		{
 			_projectGroupsPage.CreateProjectGroup(_projectGroup);
 
-			_workspaceHelper
-				.GoToTranslationMemoriesPage()
-				.AssertProjectGroupExist(_projectGroup);
+			_workspaceHelper.GoToTranslationMemoriesPage();
+
+			_translationMemoriesPage
+				.ClickCreateNewTmButton()
+				.OpenProjectGroupsList();
+
+			Assert.IsTrue(_newTranslationMemoryDialog.IsProjectGroupsListDisplayed(),
+				"Произошла ошибка:\n список групп проектов не открылся при создании ТМ");
+
+			Assert.IsTrue(_newTranslationMemoryDialog.IsProjectGroupExistInList(_projectGroup),
+				"Произошла ошибка:\n группа проектов {0} отсутствует в списке при создании ТМ.", _projectGroup);
 		}
 
 		[Test]
@@ -141,9 +150,17 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.ProjectGroups
 			Assert.IsFalse(_projectGroupsPage.IsProjectGroupExist(_projectGroup),
 				"Произошла ошибка:\n группа проектов {0} присутствует в списке", _projectGroup);
 
-			_workspaceHelper
-				.GoToTranslationMemoriesPage()
-				.AssertProjectGroupNotExist(_projectGroup);
+			_workspaceHelper.GoToTranslationMemoriesPage();
+
+			_translationMemoriesPage
+				.ClickCreateNewTmButton()
+				.OpenProjectGroupsList();
+
+			Assert.IsTrue(_newTranslationMemoryDialog.IsProjectGroupsListDisplayed(),
+				"Произошла ошибка:\n список групп проектов не открылся при создании ТМ");
+
+			Assert.IsFalse(_newTranslationMemoryDialog.IsProjectGroupExistInList(_projectGroup),
+				"Произошла ошибка:\n группа проектов {0} присутствует в списке при создании ТМ.", _projectGroup);
 		}
 
 		[Test]
@@ -162,6 +179,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.ProjectGroups
 		}
 
 		private ProjectGroupsPage _projectGroupsPage;
+		private TranslationMemoriesPage _translationMemoriesPage;
+		private NewTranslationMemoryDialog _newTranslationMemoryDialog;
 		private WorkspaceHelper _workspaceHelper;
 		private string _projectGroup;
 	}

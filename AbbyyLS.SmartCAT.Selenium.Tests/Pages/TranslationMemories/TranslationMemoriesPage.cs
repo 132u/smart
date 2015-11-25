@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
+using System.Threading;
 
-using NUnit.Framework;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.PageObjects;
 
@@ -30,11 +29,13 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories
 
 		public new void LoadPage()
 		{
-			if (!Driver.GetIsElementExist(By.XPath(ADD_TM_BTN)))
+			if (!IsTranslationMemoriesPageOpened())
 			{
-				Assert.Fail("Произошла ошибка:\n не загрузилась страница с памятью переводов.");
+				throw new XPathLookupException("Произошла ошибка:\n не загрузилась страница с памятью переводов");
 			}
 		}
+
+		#region Простые методы страницы
 
 		/// <summary>
 		/// Нажать кнопку создания новой ТМ
@@ -70,17 +71,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories
 		{
 			CustomTestContext.WriteLine("Нажать кнопку Delete.");
 			DeleteButton.Click();
-
-			return GetPage();
-		}
-
-		/// <summary>
-		/// Нажать кнопку Delete в диалоге подтверждения удаления ТМ
-		/// </summary>
-		public TranslationMemoriesPage ClickDeleteButtonInConfirmationDialog()
-		{
-			CustomTestContext.WriteLine("Нажать кнопку Delete в диалоге подтверждения удаления ТМ.");
-			DeleteButtonInConfirmationDialog.Click();
 
 			return GetPage();
 		}
@@ -190,48 +180,11 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories
 		/// <summary>
 		/// Выбрать язык перевода
 		/// </summary>
-		public TranslationMemoriesPage SelectTargetLanguage(Language language)
+		public TranslationMemoriesPage SelectTargetLanguage(Language? language)
 		{
 			CustomTestContext.WriteLine("Выбрать язык перевода {0}", language);
 			TargetLanguage = Driver.SetDynamicValue(How.XPath, TARGET_LANG_ITEM, ((int) language).ToString());
 			TargetLanguage.Click();
-
-			return GetPage();
-		}
-
-		///<summary>
-		/// Нажать на поле с группами проектов в форме редактирования ТМ
-		/// </summary>
-		public TranslationMemoriesPage ClickToProjectGroupsField()
-		{
-			CustomTestContext.WriteLine("Нажать на поле с группами проектов в форме редактирования ТМ");
-			ProjectGroupsList.Click();
-
-			return GetPage();
-		}
-
-		/// <summary>
-		/// Проверить, что поле 'Группы проектов' является видимым
-		/// </summary>
-		public TranslationMemoriesPage AssertProjectGroupsFieldDisplay()
-		{
-			CustomTestContext.WriteLine("Проверить, что поле 'Группы проектов' является видимым");
-			Assert.IsTrue(Driver.WaitUntilElementIsDisplay(By.XPath(TM_EDIT_PROJECT_GROUPS)),
-				"Произошла ошибка:\n  поле 'Группы проектов' не появилось.");
-
-			return GetPage();
-		}
-
-		/// <summary>
-		/// Проверить, что группа представлена в списке
-		/// </summary>
-		/// <param name="projectGroup">имя группы проектов</param>
-		public TranslationMemoriesPage AssertProjectGroupInListDisplay(string projectGroup)
-		{
-			CustomTestContext.WriteLine("Проверить, что группа {0} представлена в списке", projectGroup);
-
-			Assert.IsTrue(Driver.WaitUntilElementIsDisplay(By.XPath(PROJECT_GROUP_IN_LIST.Replace("*#*", projectGroup))),
-				"Произошла ошибка:\n группа проектов {0} отсутствует в списке.", projectGroup);
 
 			return GetPage();
 		}
@@ -258,29 +211,13 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories
 			return GetPage();
 		}
 
-		/// <summary>
-		/// Проверить видимость поля 'Тематики'
+		///<summary>
+		/// Нажать на поле с группами проектов в форме редактирования ТМ
 		/// </summary>
-		/// <returns></returns>
-		public TranslationMemoriesPage AssertTopiscFieldDisplay()
+		public TranslationMemoriesPage ClickToProjectGroupsField()
 		{
-			CustomTestContext.WriteLine("Проверить видимость поля 'Тематики'");
-
-			Assert.IsTrue(Driver.WaitUntilElementIsDisplay(By.XPath(TOPICS_FIELD)),
-				"Произошла ошибка:\n поле 'Тематики' не появилось.");
-
-			return GetPage();
-		}
-
-		/// <summary>
-		/// Проверить, что поле 'Клиенты' является видимым
-		/// </summary>
-		/// <returns></returns>
-		public TranslationMemoriesPage AssertClientsFieldDisplay()
-		{
-			CustomTestContext.WriteLine("Проверить, что поле 'Клиенты' является видимым");
-			Assert.IsTrue(Driver.WaitUntilElementIsDisplay(By.XPath(CLIENTS_FIELD)),
-				"Произошла ошибка:\n  поле 'Клиенты' не появилось.");
+			CustomTestContext.WriteLine("Нажать на поле с группами проектов в форме редактирования ТМ");
+			ProjectGroupsList.Click();
 
 			return GetPage();
 		}
@@ -306,7 +243,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories
 		public TranslationMemoriesPage SelectProjectGroup(string projectGroup)
 		{
 			CustomTestContext.WriteLine("Выбрать группу проектов {0} в списке", projectGroup);
-
 			ProjectGroupInInList = Driver.SetDynamicValue(How.XPath, PROJECT_GROUP_IN_LIST, projectGroup);
 			ProjectGroupInInList.Click();
 
@@ -320,7 +256,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories
 		public TranslationMemoriesPage SelectClient(string clientName)
 		{
 			CustomTestContext.WriteLine("Выбрать клиента {0} в списке", clientName);
-
 			ClientInInList = Driver.SetDynamicValue(How.XPath, CLIENT_IN_LIST, clientName);
 			ClientInInList.Click();
 
@@ -334,241 +269,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories
 		public TranslationMemoriesPage SelectTopic(string topicName)
 		{
 			CustomTestContext.WriteLine("Выбрать тему {0} в списке", topicName);
-
 			TopicInList = Driver.SetDynamicValue(How.XPath, TOPIC_IN_LIST, topicName);
 			TopicInList.Click();
-
-			return GetPage();
-		}
-
-		/// <summary>
-		/// Проверить, что ТМ представлена в списке
-		/// </summary>
-		public TranslationMemoriesPage AssertTranslationMemoryExists(string tmName)
-		{
-			CustomTestContext.WriteLine("Проверить, что ТМ {0} представлена в списке.", tmName);
-			Driver.FindElement(By.XPath(TM_ROW.Replace("*#*", tmName))).Scroll();
-
-			Assert.IsTrue(Driver.WaitUntilElementIsDisplay(By.XPath(TM_ROW.Replace("*#*", tmName))),
-				"Произошла ошибка:\n ТМ {0} не представлена в списке ТМ.", tmName);
-
-			return GetPage();
-		}
-
-		/// <summary>
-		/// Проверить, представлена ли ТМ в списке
-		/// </summary>
-		public bool TranslationMemoryExists(string tmName)
-		{
-			CustomTestContext.WriteLine("Проверить, что ТМ {0} представлена в списке.", tmName);
-
-			return Driver.WaitUntilElementIsDisplay(By.XPath(TM_ROW.Replace("*#*", tmName)));
-		}
-
-		/// <summary>
-		/// Проверить, что ТМ не представлена в списке
-		/// </summary>
-		public TranslationMemoriesPage AssertTranslationMemoryNotExists(string tmName)
-		{
-			CustomTestContext.WriteLine("Проверить, что ТМ {0} не представлена в списке.", tmName);
-
-			Assert.IsFalse(Driver.ElementIsDisplayed(By.XPath(TM_ROW.Replace("*#*", tmName))),
-				"Произошла ошибка:\n ТМ {0} представлена в списке ТМ.", tmName);
-
-			return GetPage();
-		}
-
-		/// <summary>
-		/// Проверить, открыта ли информация о ТМ
-		/// </summary>
-		public bool IsTranslationMemoryInformationOpen(string tmName)
-		{
-			CustomTestContext.WriteLine("Получить, открыта ли информация о ТМ.");
-
-			return Driver.ElementIsDisplayed(By.XPath(TM_INFORMATION_FORM.Replace("*#*", tmName)));
-		}
-
-		/// <summary>
-		/// Проверить, что диалог подтверждения удаления ТМ появился
-		/// </summary>
-		public TranslationMemoriesPage AssertDeleteConfirmatonDialogPresent()
-		{
-			CustomTestContext.WriteLine("Проверить, что диалог подтверждения удаления ТМ появился.");
-			Driver.WaitUntilElementIsDisplay(By.XPath(DELETE_CONFIRMATION_DIALOG));
-
-			Assert.IsTrue(DeleteConfirmationDialog.Displayed,
-				"Произошла ошибка:\n диалог подтверждения удаления ТМ не появился.");
-
-			return GetPage();
-		}
-
-		/// <summary>
-		/// Проверить, что диалог подтверждения удаления ТМ закрылся
-		/// </summary>
-		public TranslationMemoriesPage AssertDeleteConfirmatonDialogDisappear()
-		{
-			CustomTestContext.WriteLine("Проверить, что диалог подтверждения удаления ТМ закрылся.");
-
-			Assert.IsTrue(Driver.WaitUntilElementIsDisappeared(By.XPath(DELETE_CONFIRMATION_DIALOG)),
-				"Произошла ошибка:\n диалог подтверждения удаления ТМ не закрылся.");
-
-			return GetPage();
-		}
-
-		/// <summary>
-		/// Проверить наличие ошибки о пустом названии при редактировании ТМ
-		/// </summary>
-		public TranslationMemoriesPage AssertNoNameErrorAppear()
-		{
-			CustomTestContext.WriteLine("Проверить наличие ошибки о пустом названии при редактировании ТМ.");
-
-			Assert.IsTrue(Driver.WaitUntilElementIsDisplay(By.XPath(ERROR_EDIT_NO_NAME)),
-				"Ошибка: не появилось сообщение о пустом названии при редактировании ТМ.");
-
-			return GetPage();
-		}
-
-		/// <summary>
-		/// Проверить наличие ошибки о существующем имени при некорректном редактировании имени ТМ
-		/// </summary>
-		public TranslationMemoriesPage AssertExistingNameErrorAppeared()
-		{
-			CustomTestContext.WriteLine("Проверить наличие ошибки о существующем имени при некорректном редактировании имени ТМ.");
-
-			Assert.IsTrue(Driver.WaitUntilElementIsDisplay(By.XPath(ERROR_EDIT_EXIST_NAME)),
-				"Ошибка: не появилось сообщение об ошибки имени при редактировании ТМ.");
-
-			return GetPage();
-		}
-
-		/// <summary>
-		/// Проверить исчезновение формы редактирования ТМ
-		/// </summary>
-		public TranslationMemoriesPage AssertEditionFormDisappeared()
-		{
-			CustomTestContext.WriteLine("Проверить исчезновение формы редактирования ТМ.");
-
-			Assert.IsTrue(Driver.WaitUntilElementIsDisappeared(By.XPath(TM_EDIT_SAVE_BTN)),
-				"Ошибка: не исчезла форма редактирования ТМ");
-
-			return GetPage();
-		}
-
-		/// <summary>
-		/// Проверить появление формы редактирования ТМ
-		/// </summary>
-		public TranslationMemoriesPage AssertEditionFormDisplayed()
-		{
-			CustomTestContext.WriteLine("Проверить появление формы редактирования ТМ.");
-
-			Assert.IsTrue(Driver.WaitUntilElementIsDisplay(By.XPath(TM_EDIT_SAVE_BTN)),
-				"Ошибка: не появилась форма редактирования ТМ");
-
-			return GetPage();
-		}
-
-		/// <summary>
-		/// Проверить, есть ли на странице комментарий
-		/// </summary>
-		public TranslationMemoriesPage AssertCommentExists(string text)
-		{
-			CustomTestContext.WriteLine("Проверить, есть ли на странице комментарий {0}.", text);
-
-			Assert.IsTrue(EditCommentField.GetAttribute("value") == text, "Ошибка: комментарий {0} не найден.", text);
-
-			return GetPage();
-		}
-
-		/// <summary>
-		/// Проверить, что диалог создания ТМ закрылся
-		/// </summary>
-		public TranslationMemoriesPage AssertNewTMDialogDisappeared()
-		{
-			CustomTestContext.WriteLine("Проверить, что диалог создания ТМ закрылся.");
-
-			Assert.IsTrue(Driver.WaitUntilElementIsDisappeared(By.XPath(CREATE_TM_DIALOG)),
-				"Произошла ошибка:\n диалог создания ТМ не закрылся.");
-
-			return GetPage();
-		}
-
-		/// <summary>
-		/// Проверить, указаны ли для ТМ корректные языки
-		/// </summary>
-		public TranslationMemoriesPage AssertLanguagesForTranslationMemory(
-			string translationMemoryName,
-			string sourceLanguage,
-			List<string> targetLanguages)
-		{
-			CustomTestContext.WriteLine("Проверить, указаны ли для ТМ {0} корректные языки: source = {1}, target = {2}.",
-				translationMemoryName, sourceLanguage, targetLanguages);
-			var TM = Driver.FindElement(By.XPath(TM_LANGUAGES_IN_TABLE.Replace("*#*", translationMemoryName)));
-			var languagesColumn = TM.Text;
-			var languagesList = languagesColumn.Split(new[] {'>'}).ToList();
-
-			Assert.AreEqual(2, languagesList.Count(),
-				"Произошла ошибка:\n неверное количество элементов в списке с source и target языками.");
-
-			var actualSource = languagesList[0].Trim();
-			var actualTargetList = languagesList[1].Split(new[] {',', ' '}, StringSplitOptions.RemoveEmptyEntries).ToList();
-
-			Assert.AreEqual(sourceLanguage, actualSource,
-				"Произошла ошибка:\n source языки не совпали.");
-
-			Assert.IsFalse(targetLanguages.Except(actualTargetList).Any(),
-				"Произошла ошибка:\nСписки target языков не совпали. Ожидаемый список target языков содержит больше элементов чем фактический список.");
-
-			Assert.IsFalse(actualTargetList.Except(targetLanguages).Any(),
-				"Произошла ошибка:\nСписки target языков не совпали. Фактический список target языков содержит больше элементов чем ожидаемый список.");
-
-			return GetPage();
-		}
-
-		/// <summary>
-		/// Проверить, что сообщение о окончании импорта TMX файла появилось.
-		/// </summary>
-		public TranslationMemoriesPage AssertFileImportCompleteNotifierDisplayed()
-		{
-			CustomTestContext.WriteLine("Проверить, что сообщение о окончании импорта TMX файла появилось.");
-
-			Assert.IsTrue(Driver.WaitUntilElementIsDisplay(By.XPath(FILE_IMPORT_NOTIFIER), timeout: 60),
-				"Произошла ошибка:\n сообщение о окончании импорта TMX файла не появилось.");
-
-			return GetPage();
-		}
-
-		public TranslationMemoriesPage AssertFileImportAddingNotifierDisappeared()
-		{
-			CustomTestContext.WriteLine("Проверить, что сообщение о процессе импорта TMX файла появилось.");
-
-			Assert.IsTrue(Driver.WaitUntilElementIsDisappeared(By.XPath(FILE_IMPORT_ADDING_NOTIFIER), timeout: 45),
-				"Произошла ошибка:\n сообщение о процессе импорта TMX файла не исчезло.");
-
-			return GetPage();
-		}
-
-		/// <summary>
-		/// Проверить, что появилось сообщение об ошибке во время импорта TMX файла
-		/// </summary>
-		public TranslationMemoriesPage AssertFileImportFailedNotifierDisplayed()
-		{
-			CustomTestContext.WriteLine("Проверить, что появилось сообщение об ошибке во время импорта TMX файла");
-
-			Assert.IsTrue(Driver.WaitUntilElementIsDisplay(By.XPath(FILE_IMPORT_ERROR_NOTIFIER), timeout: 15),
-				"Произошла ошибка:\n сообщение об ошибке во время импорта TMX файла не появилось.");
-
-			return GetPage();
-		}
-
-		/// <summary>
-		/// Проверить, что для ТМ указана группа проектов
-		/// </summary>
-		public TranslationMemoriesPage AssertProjectGroupSelectedForTM(string translationMemoryName, string projectGroup)
-		{
-			CustomTestContext.WriteLine("Проверить, что для ТМ {0} указана группа проектов {1}", translationMemoryName, projectGroup);
-
-			Assert.IsTrue(ProjectGroupsField.Text.Contains(projectGroup),
-				string.Format("Произошла ошибка:\n неверно указана группа проектов для ТМ {0}.", translationMemoryName));
 
 			return GetPage();
 		}
@@ -598,7 +300,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories
 		/// <summary>
 		/// Получить количество юнитов
 		/// </summary>
-		public int UnitsCount()
+		public int GetUnitsCount()
 		{
 			CustomTestContext.WriteLine("Получить количество юнитов");
 			var unitsCountText = SegmentSpan.Text;
@@ -606,8 +308,10 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories
 			CustomTestContext.WriteLine("Полученное количество юнитов: {0}", unitsCountText);
 			int result;
 
-			Assert.IsTrue(int.TryParse(unitsCountText, out result),
-				string.Format("Ошибка: невозможно преобразовать в число: {0}", unitsCountText));
+			if (!int.TryParse(unitsCountText, out result))
+			{
+				throw new Exception(string.Format("Ошибка: невозможно преобразовать в число: {0}", unitsCountText));
+			}
 
 			return result;
 		}
@@ -624,42 +328,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories
 		}
 
 		/// <summary>
-		/// Ввести имя файла в окне 'Import TMX files'
-		/// </summary>
-		/// <param name="fileName">имя файла</param>
-		public TranslationMemoriesPage EnterFileName(string fileName)
-		{
-			CustomTestContext.WriteLine("Ввести имя файла в окне 'Import TMX files'");
-
-			try
-			{
-				Driver.ExecuteScript("$(\"input:file\").removeClass(\"g-hidden\").css(\"opacity\", 100)");
-				ImportFileInput.SendKeys(fileName);
-				//Чтобы не появилось валидационной ошибки, необходимо,
-				//помимо загрузки файла, заполнить следующий элемент
-				Driver.ExecuteScript(string.Format("document.getElementsByClassName('g-iblock l-editgloss__filelink js-filename-link')[1].innerHTML='{0}'", Path.GetFileName(fileName)));
-			}
-			catch (Exception)
-			{
-				CustomTestContext.WriteLine("Произошла ошибка:\n не удалось изменить параметры элементов.");
-				throw;
-			}
-
-			return GetPage();
-		}
-
-		/// <summary>
-		/// Нажать кнопку 'Import' в окне 'Import TMX files'
-		/// </summary>
-		public TranslationMemoriesPage ClickImportButton()
-		{
-			CustomTestContext.WriteLine("Нажать кнопку 'Import' в окне 'Import TMX files'");
-			ImportButton.Click();
-
-			return GetPage();
-		}
-
-		/// <summary>
 		/// Нажать кнопку 'Export'
 		/// </summary>
 		public TranslationMemoriesPage ClickExportButton()
@@ -668,43 +336,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories
 			ExportButton.Click();
 
 			return GetPage();
-		}
-
-		/// <summary>
-		/// Проверить, что появилась кнопка Export
-		/// </summary>
-		public TranslationMemoriesPage AssertExportButtonDisplayed()
-		{
-			CustomTestContext.WriteLine("Проверить, что появилась кнопка Export");
-
-			Assert.IsTrue(Driver.WaitUntilElementIsDisplay(By.XPath(EXPORT_BUTTON)),
-				"Произошла ошибка:\n не появилось кнопка Export.");
-
-			return GetPage();
-		}
-
-		/// <summary>
-		/// Нажать кнопку подтверждения замены ТМ в окне импорта
-		/// </summary>
-		public TranslationMemoriesPage ClickConfirmReplacementButton()
-		{
-			CustomTestContext.WriteLine("Нажать кнопку подтверждения замены ТМ в окне импорта");
-			ConfirmReplacementButton.Click();
-
-			return GetPage();
-		}
-
-		/// <summary>
-		/// Проверить, что появилось окно подтверждения замены при импорте
-		/// </summary>
-		public TranslationMemoriesPage AssertConfirmReplacementMessageDisplayed()
-		{
-			CustomTestContext.WriteLine("Проверить, что появилось окно подтверждения замены при импорте");
-
-			Assert.IsFalse(Driver.WaitUntilElementIsDisplay(By.XPath(UPDATE_TM_CONFIRM_REPLACEMENT)),
-				"Произошла ошибка:\n не появилось окно подтверждения замены.");
-
-			return this;
 		}
 
 		/// <summary>
@@ -719,25 +350,11 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories
 		}
 
 		/// <summary>
-		/// Проверить появление валидационной ошибки при импорте
-		/// </summary>
-		public TranslationMemoriesPage AssertImportValidationErrorDisplayed()
-		{
-			CustomTestContext.WriteLine("Проверить появление валидационной ошибки при импорте");
-
-			Assert.IsTrue(Driver.WaitUntilElementIsDisplay(By.XPath(UPDATE_TM_VALIDATION_ERROR_MESSAGE)),
-				"Произошла ошибка:\n не сработала валидация");
-
-			return GetPage();
-		}
-
-		/// <summary>
 		/// Нажать кнопку очистки всех фильтров
 		/// </summary>
 		public TranslationMemoriesPage ClickClearAllFiltersButton()
 		{
 			CustomTestContext.WriteLine("Нажать кнопку очистки всех фильтров");
-			
 			ClearAllFiltersButton.Click();
 
 			return GetPage();
@@ -749,7 +366,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories
 		public TranslationMemoriesFilterDialog ClickFilterButton()
 		{
 			CustomTestContext.WriteLine("Нажать кнопку 'Filter'");
-
 			FilterButton.Click();
 
 			return new TranslationMemoriesFilterDialog(Driver).GetPage();
@@ -761,9 +377,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories
 		public bool GetFiltersIsExist()
 		{
 			CustomTestContext.WriteLine("Вернуть, действуют ли сейчас какие-то фильтры");
-
-			var filtersIsExist = Driver.GetIsElementExist(By.XPath(CLEAR_ALL_FILTERS_BUTTON));
-
+			var filtersIsExist = Driver.WaitUntilElementIsDisplay(By.XPath(CLEAR_ALL_FILTERS_BUTTON));
 			CustomTestContext.WriteLine("Фильтры обнаружены: {0}", filtersIsExist);
 
 			return filtersIsExist;
@@ -776,12 +390,363 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories
 		public TranslationMemoriesPage ClickRemoveFilterButton(string filterName)
 		{
 			CustomTestContext.WriteLine("Нажать кнопку удаления фильтра {0}", filterName);
-
 			RemoveFilterButton = Driver.SetDynamicValue(How.XPath, REMOVE_FILTER_BUTTON, filterName);
 			RemoveFilterButton.Click();
 
 			return GetPage();
 		}
+
+		#endregion
+
+		#region Составные методы страницы
+
+		/// <summary>
+		/// Открыть окно экспорта TM
+		/// </summary>
+		/// <param name="translationMemoryName">имя TM</param>
+		public TranslationMemoriesPage ExportTM(string translationMemoryName)
+		{
+			ClickTranslationMemoryRow(translationMemoryName);
+			ClickExportButton();
+
+			return GetPage();
+		}
+
+		/// <summary>
+		/// Открыть информацию о TM
+		/// </summary>
+		/// <param name="translationMemoryName">имяTM</param>
+		public TranslationMemoriesPage OpenTranslationMemoryInformation(string translationMemoryName)
+		{
+			if (!IsTranslationMemoryInformationOpen(translationMemoryName))
+			{
+				ClickTranslationMemoryRow(translationMemoryName);
+			}
+
+			return GetPage();
+		}
+
+		/// <summary>
+		/// Закрыть информацию о TM
+		/// </summary>
+		/// <param name="translationMemoryName">имяTM</param>
+		public TranslationMemoriesPage CloseTranslationMemoryInformation(string translationMemoryName)
+		{
+			if (IsTranslationMemoryInformationOpen(translationMemoryName))
+			{
+				ClickTranslationMemoryRow(translationMemoryName);
+			}
+
+			return GetPage();
+		}
+
+		/// <summary>
+		/// Очистить все фильтры
+		/// </summary>
+		public TranslationMemoriesPage ClearFiltersPanelIfExist()
+		{
+			if (GetFiltersIsExist())
+			{
+				ClickClearAllFiltersButton();
+			}
+
+			return GetPage();
+		}
+
+		/// <summary>
+		/// Выполнить поиск ТМ
+		/// </summary>
+		/// <param name="tmName">имя ТМ</param>
+		public TranslationMemoriesPage SearchForTranslationMemory(string tmName)
+		{
+			FillSearch(tmName);
+			ClickSearchTMButton();
+
+			return GetPage();
+		}
+
+		/// <summary>
+		/// Добавить первую группу в списке в память перевода
+		/// </summary>
+		/// <param name="translationMemoryName"></param>
+		/// <param name="projectGroupName">имя группы проекта</param>
+		public TranslationMemoriesPage AddFirstProjectGroupToTranslationMemory(
+			string translationMemoryName,
+			out string projectGroupName)
+		{
+			ClickEditButton();
+
+			if (!IsEditionFormDisplayed())
+			{
+				throw new XPathLookupException("Ошибка: не появилась форма редактирования ТМ");
+			}
+
+			ClickToProjectGroupsField();
+			SelectFirstProjectGroup(out projectGroupName);
+			ClickSaveTranslationMemoryButton();
+
+			if (!IsEditionFormDisappeared())
+			{
+				throw new XPathLookupException("Ошибка: не исчезла форма редактирования ТМ");
+			}
+
+			return GetPage();
+		}
+
+		/// <summary>
+		/// Редактировать ТМ
+		/// </summary>
+		/// <param name="tmName">имя ТМ</param>
+		/// <param name="renameTo">новое имя</param>
+		/// <param name="changeCommentTo">новый коментарий</param>
+		/// <param name="addTargetLanguage">добавить язык таргета</param>
+		/// <param name="addClient">добавить клиента</param>
+		/// <param name="addTopic">добавить топик</param>
+		/// <param name="addProjectGroup">добавить группу проекта</param>
+		public TranslationMemoriesPage EditTranslationMemory(
+			string tmName,
+			string renameTo = null,
+			string changeCommentTo = null,
+			Language addTargetLanguage = Language.NoLanguage,
+			string addClient = null,
+			string addTopic = null,
+			string addProjectGroup = null,
+			bool isErrorExpecting = false)
+		{
+			OpenTranslationMemoryInformation(tmName);
+			ClickEditButton();
+			//Sleep нужен,чтобы форма успела перейти в режим редактирования.
+			Thread.Sleep(1000);
+
+			if (renameTo != null)
+			{
+				CleanTranslationMemoryName();
+				AddTranslationMemoryName(renameTo);
+			}
+
+			if (changeCommentTo != null)
+			{
+				CleanComment();
+				AddComment(changeCommentTo);
+			}
+
+			if (addTargetLanguage != Language.NoLanguage)
+			{
+				ClickToTargetLanguages();
+				SelectTargetLanguage(addTargetLanguage);
+			}
+
+			if (addClient != null)
+			{
+				ClickToClientsField();
+				SelectClient(addClient);
+			}
+
+			if (addTopic != null)
+			{
+				ClickToTopicsField();
+				SelectTopic(addTopic);
+				ClickToTopicsField();
+			}
+
+			if (addProjectGroup != null)
+			{
+				ClickToProjectGroupsField();
+				SelectProjectGroup(addProjectGroup);
+			}
+
+			ClickSaveTranslationMemoryButton();
+
+			if (!isErrorExpecting)
+			{
+				if (!IsEditionFormDisappeared())
+				{
+					throw new XPathLookupException("Ошибка: не исчезла форма редактирования ТМ");
+				}
+
+				CloseTranslationMemoryInformation(tmName);
+			}
+
+			return GetPage();
+		}
+
+		#endregion
+
+		#region Методы, проверяющие состояние страницы
+
+		/// <summary>
+		/// Проверить, открылась ли страница ТМ
+		/// </summary>
+		public bool IsTranslationMemoriesPageOpened()
+		{
+			CustomTestContext.WriteLine("Проверить, открылась ли страница ТМ");
+
+			return Driver.WaitUntilElementIsDisplay(By.XPath(ADD_TM_BTN));
+		}
+
+		/// <summary>
+		/// Проверить, представлена ли ТМ в списке
+		/// </summary>
+		public bool IsTranslationMemoryExist(string tmName)
+		{
+			CustomTestContext.WriteLine("Проверить, что ТМ {0} представлена в списке.", tmName);
+
+			return Driver.WaitUntilElementIsDisplay(By.XPath(TM_ROW.Replace("*#*", tmName)));
+		}
+
+		/// <summary>
+		/// Проверить, открыта ли информация о ТМ
+		/// </summary>
+		public bool IsTranslationMemoryInformationOpen(string tmName)
+		{
+			CustomTestContext.WriteLine("Получить, открыта ли информация о ТМ {0}", tmName);
+
+			return Driver.WaitUntilElementIsDisplay(By.XPath(TM_INFORMATION_FORM.Replace("*#*", tmName)));
+		}
+
+		/// <summary>
+		/// Проверить наличие ошибки о пустом названии при редактировании ТМ
+		/// </summary>
+		public bool IsEmptyNameErrorMessageDisplayed()
+		{
+			CustomTestContext.WriteLine("Проверить наличие ошибки о пустом названии при редактировании ТМ");
+
+			return Driver.WaitUntilElementIsDisplay(By.XPath(ERROR_EDIT_NO_NAME));
+		}
+
+		/// <summary>
+		/// Проверить наличие ошибки о существующем имени при некорректном редактировании имени ТМ
+		/// </summary>
+		public bool IsExistingNameErrorMessageDisplayed()
+		{
+			CustomTestContext.WriteLine("Проверить наличие ошибки о существующем имени при некорректном редактировании имени ТМ.");
+
+			return Driver.WaitUntilElementIsDisplay(By.XPath(ERROR_EDIT_EXIST_NAME));
+		}
+
+		/// <summary>
+		/// Проверить исчезновение формы редактирования ТМ
+		/// </summary>
+		public bool IsEditionFormDisappeared()
+		{
+			CustomTestContext.WriteLine("Проверить исчезновение формы редактирования ТМ.");
+
+			return Driver.WaitUntilElementIsDisappeared(By.XPath(TM_EDIT_SAVE_BTN));
+		}
+
+		/// <summary>
+		/// Проверить появление формы редактирования ТМ
+		/// </summary>
+		public bool IsEditionFormDisplayed()
+		{
+			CustomTestContext.WriteLine("Проверить появление формы редактирования ТМ.");
+
+			return Driver.WaitUntilElementIsDisplay(By.XPath(TM_EDIT_SAVE_BTN));
+		}
+
+		/// <summary>
+		/// Проверить, есть ли на странице комментарий
+		/// </summary>
+		public bool IsCommentTextMatchExpected(string expectedText)
+		{
+			CustomTestContext.WriteLine("Проверить, есть ли на странице комментарий {0}.", expectedText);
+
+			return EditCommentField.GetAttribute("value") == expectedText;
+		}
+
+		/// <summary>
+		/// Проверить, что диалог создания ТМ закрылся
+		/// </summary>
+		public bool IsNewTMDialogDisappeared()
+		{
+			CustomTestContext.WriteLine("Проверить, что диалог создания ТМ закрылся.");
+
+			return Driver.WaitUntilElementIsDisappeared(By.XPath(CREATE_TM_DIALOG));
+		}
+
+		/// <summary>
+		/// Проверить, указаны ли для ТМ корректные языки
+		/// </summary>
+		public bool IsLanguagesForTranslationMemoryExists(
+			string translationMemoryName,
+			string sourceLanguage,
+			List<string> targetLanguages)
+		{
+			CustomTestContext.WriteLine("Проверить, указаны ли для ТМ {0} корректные языки: source = {1}, target = {2}.",
+				translationMemoryName, sourceLanguage, string.Join(", ", targetLanguages.ToArray()));
+			var TM = Driver.FindElement(By.XPath(TM_LANGUAGES_IN_TABLE.Replace("*#*", translationMemoryName)));
+			var languagesColumn = TM.Text;
+			var languagesList = languagesColumn.Split(new[] { '>' }).ToList();
+
+			if (languagesList.Count == 2)
+			{
+				throw new InvalidElementStateException("Произошла ошибка:\n неверное количество элементов в списке с source и target языками");
+			}
+
+			var actualSource = languagesList[0].Trim();
+			var actualTargetList = languagesList[1].Split(new[] { ',', ' ' }, StringSplitOptions.RemoveEmptyEntries).ToList();
+
+			if (sourceLanguage == actualSource)
+			{
+				throw new InvalidElementStateException("Произошла ошибка:\n source языки не совпали");
+			}
+
+			return targetLanguages.SequenceEqual(actualTargetList);
+		}
+
+		/// <summary>
+		/// Проверить, что сообщение о окончании импорта TMX файла появилось.
+		/// </summary>
+		public bool IsFileImportCompleteNotifierDisplayed()
+		{
+			CustomTestContext.WriteLine("Проверить, что сообщение о окончании импорта TMX файла появилось");
+
+			return Driver.WaitUntilElementIsDisplay(By.XPath(FILE_IMPORT_NOTIFIER), timeout: 60);
+		}
+
+		/// <summary>
+		/// Проверить, что сообщение о процессе импорта TMX файла исчезло
+		/// </summary>
+		public bool IsFileImportAddingNotifierDisappeared()
+		{
+			CustomTestContext.WriteLine("Проверить, что сообщение о процессе импорта TMX файла исчезло");
+
+			return Driver.WaitUntilElementIsDisappeared(By.XPath(FILE_IMPORT_ADDING_NOTIFIER), timeout: 60);
+		}
+
+		/// <summary>
+		/// Проверить, что появилось сообщение об ошибке во время импорта TMX файла
+		/// </summary>
+		public bool IsFileImportFailedNotifierDisplayed()
+		{
+			CustomTestContext.WriteLine("Проверить, что появилось сообщение об ошибке во время импорта TMX файла");
+
+			return Driver.WaitUntilElementIsDisplay(By.XPath(FILE_IMPORT_ERROR_NOTIFIER), timeout: 15);
+		}
+
+		/// <summary>
+		/// Проверить, что для ТМ указана группа проектов
+		/// </summary>
+		public bool IsProjectGroupSelectedForTM(string projectGroup)
+		{
+			CustomTestContext.WriteLine("Проверить, что для ТМ указана группа проектов {1}", projectGroup);
+
+			return ProjectGroupsField.Text.Contains(projectGroup);
+		}
+
+		/// <summary>
+		/// Проверить появление валидационной ошибки при импорте
+		/// </summary>
+		public bool IsImportValidationErrorMessageDisplayed()
+		{
+			CustomTestContext.WriteLine("Проверить появление валидационной ошибки при импорте");
+
+			return Driver.WaitUntilElementIsDisplay(By.XPath(UPDATE_TM_VALIDATION_ERROR_MESSAGE));
+		}
+
+		#endregion
+
+		#region Объявление элементов страницы
 
 		[FindsBy(How = How.XPath, Using = TM_NAME)]
 		protected IWebElement TMName { get; set; }
@@ -799,16 +764,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories
 		[FindsBy(How = How.XPath, Using = SEARCH_TM_FIELD)]
 		protected IWebElement SearchField { get; set; }
 
-
 		[FindsBy(How = How.XPath, Using = DELETE_BUTTON)]
 		protected IWebElement DeleteButton { get; set; }
-
-		[FindsBy(How = How.XPath, Using = DELETE_CONFIRMATION_DIALOG)]
-		protected IWebElement DeleteConfirmationDialog { get; set; }
-
-		[FindsBy(How = How.XPath, Using = DELETE_BUTTON_IN_CONFIRMATION_DIALOG)]
-		protected IWebElement DeleteButtonInConfirmationDialog { get; set; }
-
 
 		[FindsBy(How = How.XPath, Using = TM_EDIT_BUTTON)]
 		protected IWebElement EditButton { get; set; }
@@ -846,15 +803,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories
 		[FindsBy(How = How.XPath, Using = UPDATE_TM_BUTTON)]
 		protected IWebElement UpdateTmButton { get; set; }
 
-		[FindsBy(How = How.XPath, Using = UPDATE_TM_IMPORT_FILE_INPUT)]
-		protected IWebElement ImportFileInput { get; set; }
-
-		[FindsBy(How = How.XPath, Using = UPDATE_TM_IMPORT_BUTTON)]
-		protected IWebElement ImportButton { get; set; }
-
-		[FindsBy(How = How.XPath, Using = UPDATE_TM_CONFIRM_REPLACEMENT)]
-		protected IWebElement ConfirmReplacementButton { get; set; }
-
 		[FindsBy(How = How.XPath, Using = ADD_TMX_BUTTON)]
 		protected IWebElement AddTmxButton { get; set; }
 
@@ -881,14 +829,16 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories
 
 		protected IWebElement RemoveFilterButton { get; set; }
 
+		#endregion
+
+		#region Описания XPath элементов
+
 		protected const string ADD_TM_BTN = "//div[contains(@data-bind,'createTm')]//a";
 		protected const string CREATE_TM_DIALOG = "//div[contains(@class,'js-popup-create-tm')][2]";
 		protected const string TM_ROW = "//tr[contains(@class,'l-corpr__trhover clickable')]//span[text()='*#*']";
 		protected const string TM_INFORMATION_FORM = "//span[string()='*#*']//..//..//following-sibling::tr[@class='js-tm-panel']//td//div";
 
 		protected const string DELETE_BUTTON = "//tr[@class='js-tm-panel']//div[contains(@data-bind, 'deleteTranslationMemory')]";
-		protected const string DELETE_CONFIRMATION_DIALOG = "//form[contains(@action,'Delete')]";
-		protected const string DELETE_BUTTON_IN_CONFIRMATION_DIALOG = "//form[contains(@action,'Delete')]//input[@value='Delete']";
 		protected const string SAVE_TM_BUTTON = "//div[contains(@class,'js-popup-create-tm')][2]//a[contains(@class, 'js-tour-tm-save')]";
 
 		protected const string TM_NAME = "(//th[contains(@data-sort-by,'Name')]//a)[1]";
@@ -921,9 +871,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories
 		protected const string SEGMENT_SPAN = "//span[contains(@data-bind, 'unitCount')]";
 		//UPDATE_TM_BUTTON связан с PRX-11525
 		protected const string UPDATE_TM_BUTTON = "//tr[contains(@class,'js-tm-panel')]//a[contains(text(), 'Update ТМ')]";
-		protected const string UPDATE_TM_IMPORT_FILE_INPUT = "//h2[text()='Import TMX Files']//..//..//input[@name='file']";
-		protected const string UPDATE_TM_IMPORT_BUTTON = "(//h2[text()='Import TMX Files']//..//..//input[@value='Import'])[2]";
-		protected const string UPDATE_TM_CONFIRM_REPLACEMENT = "//span[text()='Confirmation']//..//..//..//input[@value='Continue']";
 		//ADD_TMX_BUTTON связан с PRX-11525
 		protected const string ADD_TMX_BUTTON = "//tr[contains(@class,'js-tm-panel')]//a[contains(text(), 'Add ТМХ')]";
 		protected const string UPDATE_TM_VALIDATION_ERROR_MESSAGE = "(//p[@class='js-error-invalid-file-extension' and text()='Please select a file with TMX extension'])[2]";
@@ -938,5 +885,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories
 		protected const string CLEAR_ALL_FILTERS_BUTTON = "//img[contains(@class, 'filterClear js-clear-filter')]";
 		protected const string FILTER_BUTTON = "//span[contains(@class, 'js-set-filter')]";
 		protected const string REMOVE_FILTER_BUTTON = "//div[contains(@title, '*#*')]//em//img";
+
+		#endregion
 	}
 }

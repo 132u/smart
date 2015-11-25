@@ -470,7 +470,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace
 		/// <summary>
 		/// Закрыть все показанные уведомления
 		/// </summary>
-		public T CloseAllNotifications<T>(WebDriver driver) where T : class, IAbstractPage<T>
+		public T CloseAllNotifications<T>() where T : class, IAbstractPage<T>
 		{
 			CustomTestContext.WriteLine("Закрыть все показанные уведомления.");
 			Driver.WaitUntilElementIsDisplay(By.XPath(ALL_NOTIFICATIONS), timeout: 30);
@@ -483,7 +483,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace
 				Notification.Click();
 			}
 
-			var instance = Activator.CreateInstance(typeof(T), new object[] { driver }) as T;
+			var instance = Activator.CreateInstance(typeof(T), new object[] { Driver }) as T;
 			return instance.GetPage();
 		}
 

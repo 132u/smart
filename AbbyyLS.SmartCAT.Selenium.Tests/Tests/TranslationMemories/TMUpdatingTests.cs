@@ -22,20 +22,23 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.TranslationMemories
 		[Test]
 		public void UpdateTMWithCorrectTmx()
 		{
-			var unitsCountBefore = _translationMemoriesHelper
-				.AssertTranslationMemoryNotExists(_tmName)
-				.CreateTranslationMemory(_tmName, importFilePath: PathProvider.EditorTmxFile)
-				.AssertTMXFileIsImported()
-				.AssertTranslationMemoryExists(_tmName)
-				.OpenTranslationMemoryInformation(_tmName)
-				.GetUnitsCount();
+			_translationMemoriesHelper.CreateTranslationMemory(_tmName, importFilePath: PathProvider.EditorTmxFile);
 
-			var unitsCountAfter = _translationMemoriesHelper
-				.ClickUpdateTmButton()
-				.ImportTmxFile(PathProvider.TMTestFile2, true)
-				.RefreshPage<TranslationMemoriesPage, TranslationMemoriesHelper>()
-				.OpenTranslationMemoryInformation(_tmName)
-				.GetUnitsCount();
+			var unitsCountBefore = TranslationMemoriesPage
+										.OpenTranslationMemoryInformation(_tmName)
+										.GetUnitsCount();
+
+			TranslationMemoriesPage.ClickUpdateTmButton();
+
+			ImportTmxDialog
+				.EnterFileName(PathProvider.TMTestFile2)
+				.ClickImportButtonExpectingReplacementConfirmation();
+
+			ConfirmReplacementDialog.ClickConfirmReplacementButton();
+
+			var unitsCountAfter = TranslationMemoriesPage
+										.OpenTranslationMemoryInformation(_tmName)
+										.GetUnitsCount();
 
 			Assert.IsTrue(unitsCountBefore != unitsCountAfter,
 				string.Format("Произошла ошибка:\n количество юнитов не изменилось. Кол-во юнитов до: {0}. Кол-во юнитов после: {1}", unitsCountBefore, unitsCountAfter));
@@ -44,126 +47,174 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.TranslationMemories
 		[Test]
 		public void CheckNotificationDuringTmxFileUploading()
 		{
-			_translationMemoriesHelper
-				.AssertTranslationMemoryNotExists(_tmName)
-				.CreateTranslationMemory(_tmName, importFilePath: PathProvider.EditorTmxFile)
-				.AssertTMXFileIsImported()
-				.AssertTranslationMemoryExists(_tmName)
-				.ClickUpdateTmButton()
-				.ImportTmxFile(PathProvider.SecondTmFile, true)
-				.AssertTMXFileIsImported();
+			_translationMemoriesHelper.CreateTranslationMemory(_tmName, importFilePath: PathProvider.EditorTmxFile);
+
+			TranslationMemoriesPage.ClickUpdateTmButton();
+
+			ImportTmxDialog
+				.EnterFileName(PathProvider.SecondTmFile)
+				.ClickImportButtonExpectingReplacementConfirmation();
+
+			ConfirmReplacementDialog.ClickConfirmReplacementButton();
+
+			Assert.IsTrue(TranslationMemoriesPage.IsFileImportAddingNotifierDisappeared(),
+				"Произошла ошибка:\n сообщение о процессе импорта TMX файла не исчезло");
+
+			Assert.IsTrue(TranslationMemoriesPage.IsFileImportCompleteNotifierDisplayed(),
+				"Произошла ошибка:\n сообщение о окончании импорта TMX файла не появилось");
 		}
 
 		[Test, Ignore("PRX-11602")]
 		public void UpdateTmxWithoutTmxEndTagTest()
 		{
-			_translationMemoriesHelper
-				.AssertTranslationMemoryNotExists(_tmName)
-				.CreateTranslationMemory(_tmName, importFilePath: PathProvider.EditorTmxFile)
-				.AssertTMXFileIsImported()
-				.AssertTranslationMemoryExists(_tmName)
+			_translationMemoriesHelper.CreateTranslationMemory(_tmName, importFilePath: PathProvider.EditorTmxFile);
+
+			TranslationMemoriesPage
 				.OpenTranslationMemoryInformation(_tmName)
-				.ClickUpdateTmButton()
-				.ImportTmxFile(PathProvider.WithoutTmxEndTag, true)
-				.AssertFileImportFailedNotifierDisplayed();
+				.ClickUpdateTmButton();
+
+			ImportTmxDialog
+				.EnterFileName(PathProvider.WithoutTmxEndTag)
+				.ClickImportButtonExpectingReplacementConfirmation();
+
+			ConfirmReplacementDialog.ClickConfirmReplacementButton();
+
+			Assert.IsTrue(TranslationMemoriesPage.IsFileImportFailedNotifierDisplayed(),
+				"Произошла ошибка:\n сообщение об ошибке во время импорта TMX файла не появилось");
 		}
 
 		[Test, Ignore("PRX-11603")]
 		public void UpdateTmxWithoutBodyEndTagTest()
 		{
-			_translationMemoriesHelper
-				.AssertTranslationMemoryNotExists(_tmName)
-				.CreateTranslationMemory(_tmName, importFilePath: PathProvider.EditorTmxFile)
-				.AssertTMXFileIsImported()
-				.AssertTranslationMemoryExists(_tmName)
+			_translationMemoriesHelper.CreateTranslationMemory(_tmName, importFilePath: PathProvider.EditorTmxFile);
+
+			TranslationMemoriesPage
 				.OpenTranslationMemoryInformation(_tmName)
-				.ClickUpdateTmButton()
-				.ImportTmxFile(PathProvider.WithoutBodyEndTag, true)
-				.AssertFileImportFailedNotifierDisplayed();
+				.ClickUpdateTmButton();
+
+			ImportTmxDialog
+				.EnterFileName(PathProvider.WithoutBodyEndTag)
+				.ClickImportButtonExpectingReplacementConfirmation();
+
+			ConfirmReplacementDialog.ClickConfirmReplacementButton();
+
+			Assert.IsTrue(TranslationMemoriesPage.IsFileImportFailedNotifierDisplayed(),
+				"Произошла ошибка:\n сообщение об ошибке во время импорта TMX файла не появилось");
 		}
 
 		[Test, Ignore("PRX-11603")]
 		public void UpdateTmxWithLongSegValueTest()
 		{
-			_translationMemoriesHelper
-				.AssertTranslationMemoryNotExists(_tmName)
-				.CreateTranslationMemory(_tmName, importFilePath: PathProvider.EditorTmxFile)
-				.AssertTMXFileIsImported()
-				.AssertTranslationMemoryExists(_tmName)
+			_translationMemoriesHelper.CreateTranslationMemory(_tmName, importFilePath: PathProvider.EditorTmxFile);
+
+			TranslationMemoriesPage
 				.OpenTranslationMemoryInformation(_tmName)
-				.ClickUpdateTmButton()
-				.ImportTmxFile(PathProvider.LongSegValue, true)
-				.AssertFileImportFailedNotifierDisplayed();
+				.ClickUpdateTmButton();
+
+			ImportTmxDialog
+				.EnterFileName(PathProvider.LongSegValue)
+				.ClickImportButtonExpectingReplacementConfirmation();
+
+			ConfirmReplacementDialog.ClickConfirmReplacementButton();
+
+			Assert.IsTrue(TranslationMemoriesPage.IsFileImportFailedNotifierDisplayed(),
+				"Произошла ошибка:\n сообщение об ошибке во время импорта TMX файла не появилось");
 		}
 
 		[Test, Ignore("PRX-11603")]
 		public void UpdateTmxWithoutTuEndTagTest()
 		{
-			_translationMemoriesHelper
-				.AssertTranslationMemoryNotExists(_tmName)
-				.CreateTranslationMemory(_tmName, importFilePath: PathProvider.EditorTmxFile)
-				.AssertTMXFileIsImported()
-				.AssertTranslationMemoryExists(_tmName)
+			_translationMemoriesHelper.CreateTranslationMemory(_tmName, importFilePath: PathProvider.EditorTmxFile);
+
+			TranslationMemoriesPage
 				.OpenTranslationMemoryInformation(_tmName)
-				.ClickUpdateTmButton()
-				.ImportTmxFile(PathProvider.WithoutTuEndTag, true)
-				.AssertFileImportFailedNotifierDisplayed();
+				.ClickUpdateTmButton();
+
+			ImportTmxDialog
+				.EnterFileName(PathProvider.WithoutTuEndTag)
+				.ClickImportButtonExpectingReplacementConfirmation();
+
+			ConfirmReplacementDialog.ClickConfirmReplacementButton();
+
+			Assert.IsTrue(TranslationMemoriesPage.IsFileImportFailedNotifierDisplayed(),
+				"Произошла ошибка:\n сообщение об ошибке во время импорта TMX файла не появилось");
 		}
 
 		[Test, Ignore("PRX-13475")]
 		public void UpdateTmxWithUnicodeCharactersTest()
 		{
-			_translationMemoriesHelper
-				.AssertTranslationMemoryNotExists(_tmName)
-				.CreateTranslationMemory(_tmName, importFilePath: PathProvider.EditorTmxFile)
-				.AssertTMXFileIsImported()
-				.AssertTranslationMemoryExists(_tmName)
+			_translationMemoriesHelper.CreateTranslationMemory(_tmName, importFilePath: PathProvider.EditorTmxFile);
+
+			TranslationMemoriesPage
 				.OpenTranslationMemoryInformation(_tmName)
-				.ClickUpdateTmButton()
-				.ImportTmxFile(PathProvider.WithUnicodeCharacters, true)
-				.AssertTMXFileIsImported();
+				.ClickUpdateTmButton();
+
+			ImportTmxDialog
+				.EnterFileName(PathProvider.WithUnicodeCharacters)
+				.ClickImportButtonExpectingReplacementConfirmation();
+
+			ConfirmReplacementDialog.ClickConfirmReplacementButton();
+
+			Assert.IsTrue(TranslationMemoriesPage.IsFileImportAddingNotifierDisappeared(),
+				"Произошла ошибка:\n сообщение о процессе импорта TMX файла не исчезло");
+
+			Assert.IsTrue(TranslationMemoriesPage.IsFileImportCompleteNotifierDisplayed(),
+				"Произошла ошибка:\n сообщение о окончании импорта TMX файла не появилось");
 		}
 
 		[Test, Ignore("PRX-11603")]
 		public void UpdateTxtWithTmxExtensionTest()
 		{
-			_translationMemoriesHelper
-				.AssertTranslationMemoryNotExists(_tmName)
-				.CreateTranslationMemory(_tmName, importFilePath: PathProvider.EditorTmxFile)
-				.AssertTMXFileIsImported()
-				.AssertTranslationMemoryExists(_tmName)
+			_translationMemoriesHelper.CreateTranslationMemory(_tmName, importFilePath: PathProvider.EditorTmxFile);
+
+			TranslationMemoriesPage
 				.OpenTranslationMemoryInformation(_tmName)
-				.ClickUpdateTmButton()
-				.ImportTmxFile(PathProvider.TxtWithTmxExtension, true)
-				.AssertFileImportFailedNotifierDisplayed();
+				.ClickUpdateTmButton();
+
+			ImportTmxDialog
+				.EnterFileName(PathProvider.TxtWithTmxExtension)
+				.ClickImportButtonExpectingReplacementConfirmation();
+
+			ConfirmReplacementDialog.ClickConfirmReplacementButton();
+
+			Assert.IsTrue(TranslationMemoriesPage.IsFileImportFailedNotifierDisplayed(),
+				"Произошла ошибка:\n сообщение об ошибке во время импорта TMX файла не появилось");
 		}
 
 		[Test]
 		public void UpdateTMFileWithWrongExtensionTest()
 		{
-			_translationMemoriesHelper
-				.AssertTranslationMemoryNotExists(_tmName)
-				.CreateTranslationMemory(_tmName, importFilePath: PathProvider.EditorTmxFile)
-				.AssertTMXFileIsImported()
-				.AssertTranslationMemoryExists(_tmName)
+			_translationMemoriesHelper.CreateTranslationMemory(_tmName, importFilePath: PathProvider.EditorTmxFile);
+
+			TranslationMemoriesPage
 				.OpenTranslationMemoryInformation(_tmName)
-				.ClickUpdateTmButton()
-				.ImportTmxFile(PathProvider.DocumentFile, true, false)
-				.AssertImportValidationErrorDisplayed();
+				.ClickUpdateTmButton();
+
+			ImportTmxDialog
+				.EnterFileName(PathProvider.DocumentFile)
+				.ClickImportButtonExpectingError();
+
+			ConfirmReplacementDialog.ClickConfirmReplacementButton();
+
+			Assert.IsTrue(TranslationMemoriesPage.IsImportValidationErrorMessageDisplayed(),
+				"Произошла ошибка:\n не сработала валидация");
 		}
 
 		[Test]
 		public void UpdateTMWithoutFileName()
 		{
-			_translationMemoriesHelper
-				.AssertTranslationMemoryNotExists(_tmName)
-				.CreateTranslationMemory(_tmName, importFilePath: PathProvider.EditorTmxFile)
-				.AssertTMXFileIsImported()
-				.AssertTranslationMemoryExists(_tmName)
+			_translationMemoriesHelper.CreateTranslationMemory(_tmName, importFilePath: PathProvider.EditorTmxFile);
+
+			TranslationMemoriesPage
 				.OpenTranslationMemoryInformation(_tmName)
-				.ClickUpdateTmButton()
-				.ImportTmxFile("", true, false)
-				.AssertImportValidationErrorDisplayed();
+				.ClickUpdateTmButton();
+
+			ImportTmxDialog
+				.EnterFileName(string.Empty)
+				.ClickImportButtonExpectingError();
+
+			Assert.IsTrue(TranslationMemoriesPage.IsImportValidationErrorMessageDisplayed(),
+				"Произошла ошибка:\n не сработала валидация");
 		}
 
 		private TranslationMemoriesHelper _translationMemoriesHelper;

@@ -82,6 +82,9 @@
     <Compile Include="Pages\Registration\FreelanceRegistration\FreelanceRegistrationFirstPage.cs" />
     <Compile Include="Pages\Registration\FreelanceRegistration\FreelanceRegistrationSecondPage.cs" />
     <Compile Include="Pages\Registration\FreelanceRegistration\FreelanceRegistrationSignInPage.cs" />
+    <Compile Include="Pages\TranslationMemories\ConfirmReplacementDialog.cs" />
+    <Compile Include="Pages\TranslationMemories\DeleteTmDialog.cs" />
+    <Compile Include="Pages\TranslationMemories\ImportTmxDialog.cs" />
     <Compile Include="Pages\TranslationMemories\TranslationMemoriesFilterDialog.cs" />
     <Compile Include="RelativeUrlProvider.cs" />
     <Compile Include="Configs\TestsUserConfig.cs" />

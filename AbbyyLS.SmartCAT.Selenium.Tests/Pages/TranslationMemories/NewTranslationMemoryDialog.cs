@@ -1,26 +1,23 @@
 ﻿using System;
 using System.Linq;
 
-using NUnit.Framework;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.PageObjects;
 
 using AbbyyLS.SmartCAT.Selenium.Tests.DataStructures;
 using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
+using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace;
 using AbbyyLS.SmartCAT.Selenium.Tests.TestFramework;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories
 {
-	public class NewTranslationMemoryDialog : BaseObject, IAbstractPage<NewTranslationMemoryDialog>
+	public class NewTranslationMemoryDialog : WorkspacePage, IAbstractPage<NewTranslationMemoryDialog>
 	{
-		public WebDriver Driver { get; protected set; }
-
-		public NewTranslationMemoryDialog(WebDriver driver)
+		public NewTranslationMemoryDialog(WebDriver driver) : base(driver)
 		{
-			Driver = driver;
 		}
 
-		public NewTranslationMemoryDialog GetPage()
+		public new NewTranslationMemoryDialog GetPage()
 		{
 			var tmCreationPage = new NewTranslationMemoryDialog(Driver);
 			InitPage(tmCreationPage, Driver);
@@ -28,13 +25,15 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories
 			return tmCreationPage;
 		}
 
-		public void LoadPage()
+		public new void LoadPage()
 		{
-			if (!Driver.WaitUntilElementIsDisplay(By.XPath(SAVE_BUTTON), timeout: 20))
+			if (!IsNewTranslationMemoryDialogOpened())
 			{
-				Assert.Fail("Произошла ошибка:\n не загрузилась форма создания ТМ.");
+				throw new XPathLookupException("Произошла ошибка:\n не загрузилась форма создания ТМ");
 			}
 		}
+
+		#region Простые методы страницы
 
 		/// <summary>
 		/// Ввести имя новой ТМ
@@ -48,11 +47,11 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories
 		}
 
 		/// <summary>
-		/// Раскрыть список исходных языков
+		/// Раскрыть / свернуть список исходных языков
 		/// </summary>
-		public NewTranslationMemoryDialog OpenSourceLanguagesList()
+		public NewTranslationMemoryDialog ClickSourceLanguagesList()
 		{
-			CustomTestContext.WriteLine("Раскрыть список исходных языков");
+			CustomTestContext.WriteLine("Раскрыть / свернуть список исходных языков");
 			SourceLanguagesList.Click();
 
 			return GetPage();
@@ -70,11 +69,11 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories
 		}
 
 		/// <summary>
-		/// Раскрыть список языков перевода
+		/// Раскрыть /свернуть список языков перевода
 		/// </summary>
-		public NewTranslationMemoryDialog OpenTargetLanguagesList()
+		public NewTranslationMemoryDialog ClickTargetLanguagesList()
 		{
-			CustomTestContext.WriteLine("Раскрыть список языков перевода");
+			CustomTestContext.WriteLine("Раскрыть / свернуть список языков перевода");
 			TargetLanguagesList.Click();
 
 			return GetPage();
@@ -105,13 +104,23 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories
 		/// <summary>
 		/// Нажать кнопку сохранения ТМ
 		/// </summary>
-		public T ClickSaveTranslationMemory<T>(WebDriver driver) where T: class, IAbstractPage<T>
+		public TranslationMemoriesPage ClickSaveTranslationMemory()
 		{
 			CustomTestContext.WriteLine("Нажать кнопку сохранения ТМ");
 			SaveTranslationMemoryButton.Click();
 
-			var instance = Activator.CreateInstance(typeof(T), new object[] { driver }) as T;
-			return instance.GetPage();
+			return new TranslationMemoriesPage(Driver).GetPage();
+		}
+
+		/// <summary>
+		/// Нажать кнопку сохранения ТМ, ожидая ошибку
+		/// </summary>
+		public NewTranslationMemoryDialog ClickSaveTranslationMemoryExpectingError()
+		{
+			CustomTestContext.WriteLine("Нажать кнопку сохранения ТМ, ожидая ошибку");
+			SaveTranslationMemoryButton.Click();
+
+			return GetPage();
 		}
 
 		/// <summary>
@@ -123,47 +132,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories
 			CancelTranslationMemoryCreation.Click();
 			
 			return new TranslationMemoriesPage(Driver).GetPage();
-		}
-
-		/// <summary>
-		/// Проверить отображения списка клиентов
-		/// </summary>
-		public NewTranslationMemoryDialog AssertClientsListDisplayed()
-		{
-			CustomTestContext.WriteLine("Проверить отображения списка клиентов");
-			
-			Assert.IsTrue(CreateClientList.Displayed,
-				"Произошла ошибка:\n не отображен список клиентов.");
-
-			return GetPage();
-		}
-
-		/// <summary>
-		/// Проверить, что клиент присутствует в списке клиентов при создании ТМ
-		/// </summary>
-		/// <param name="clientName">имя клиента</param>
-		public NewTranslationMemoryDialog AssertClientExists(string clientName)
-		{
-			CustomTestContext.WriteLine("Проверить, что клиент {0} присутствует в списке клиентов при создании ТМ", clientName);
-
-			Assert.IsTrue(getIsClientExist(clientName),
-				"Произошла ошибка:\n клиент {0} не отображен в списке клиентов.", clientName);
-
-			return GetPage();
-		}
-
-		/// <summary>
-		/// Проверить, что клиент отсутствует в списке клиентов при создании ТМ
-		/// </summary>
-		/// <param name="clientName">имя клиента</param>
-		public NewTranslationMemoryDialog AssertClientNotExists(string clientName)
-		{
-			CustomTestContext.WriteLine("Проверить, что клиент {0} отсутствует в списке клиентов при создании ТМ", clientName);
-
-			Assert.IsFalse(getIsClientExist(clientName),
-				"Произошла ошибка:\n клиент {0} присутствует в списке клиентов.", clientName);
-
-			return GetPage();
 		}
 
 		/// <summary>
@@ -199,113 +167,136 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories
 			return GetPage();
 		}
 
+		#endregion
+
+		#region Составные методы страницы
+
+		/// <summary>
+		/// Выбрать target язык
+		/// </summary>
+		/// <param name="language">язык таргета</param>
+		public NewTranslationMemoryDialog SetTargetLanguage(Language language)
+		{
+			ClickTargetLanguagesList();
+			SelectTargetLanguage(language);
+			ClickTargetLanguagesList();
+
+			return GetPage();
+		}
+
+		/// <summary>
+		/// Выбрать source язык
+		/// </summary>
+		/// <param name="language">язык таргета</param>
+		public NewTranslationMemoryDialog SetSourceLanguage(Language language)
+		{
+			ClickSourceLanguagesList();
+			SelectSourceLanguage(language);
+
+			return GetPage();
+		}
+
+		#endregion
+
+		#region Методы, проверяющие состояние страницы
+
+		/// <summary>
+		/// Проверить, загрузился ли диалог создания TM
+		/// </summary>
+		public bool IsNewTranslationMemoryDialogOpened()
+		{
+			CustomTestContext.WriteLine("Проверить, загрузился ли диалог создания TM");
+
+			return Driver.WaitUntilElementIsDisplay(By.XPath(SAVE_BUTTON), timeout: 20);
+		}
+
+		/// <summary>
+		/// Проверить отображение списка клиентов
+		/// </summary>
+		public bool IsClientsListDisplayed()
+		{
+			CustomTestContext.WriteLine("Проверить отображение списка клиентов");
+
+			return CreateClientList.Displayed;
+		}
+
+		/// <summary>
+		/// Проверить, что клиент присутствует в списке клиентов при создании ТМ
+		/// </summary>
+		/// <param name="clientName">имя клиента</param>
+		public bool IsClientExistInList(string clientName)
+		{
+			CustomTestContext.WriteLine("Проверить, что клиент {0} присутствует в списке клиентов при создании ТМ", clientName);
+			var clientList = Driver.GetElementList(By.XPath(CLIENT_ITEM));
+
+			return clientList.Any(e => e.GetAttribute("innerHTML") == clientName);
+		}
+
 		/// <summary>
 		/// Проверить, что список групп проектов открылся при создании ТМ
 		/// </summary>
-		public NewTranslationMemoryDialog AssertProjectGroupsListDisplayed()
+		public bool IsProjectGroupsListDisplayed()
 		{
-			CustomTestContext.WriteLine("Проверить, что список групп проектов открылся при создании ТМ.");
+			CustomTestContext.WriteLine("Проверить, что список групп проектов открылся при создании ТМ");
 
-			Assert.IsTrue(ProjectGroupsList.Displayed,
-				"Произошла ошибка:\n список групп проектов не открылся при создании ТМ.");
-
-			return GetPage();
+			return ProjectGroupsList.Displayed;
 		}
 
 		/// <summary>
 		/// Проверить, что группа проектов присутствует в списке при создании ТМ
 		/// </summary>
 		/// <param name="projectGroupName">имя группы проектов</param>
-		public NewTranslationMemoryDialog AssertProjectGroupExists(string projectGroupName)
+		public bool IsProjectGroupExistInList(string projectGroupName)
 		{
-			CustomTestContext.WriteLine("Проверить, что группа проектов присутствует в списке при создании ТМ.");
+			CustomTestContext.WriteLine("Проверить, что группа проектов {0} присутствует в списке при создании ТМ", projectGroupName);
 			var projectGroupsList = Driver.GetElementList(By.XPath(PROJECT_GROUPS_LIST));
-			var projectGroupExist = projectGroupsList.Any(e => e.GetAttribute("innerHTML") == projectGroupName);
 
-			Assert.IsTrue(projectGroupExist, "Произошла ошибка:\n группа проектов {0} отсутствует в списке при создании ТМ.", projectGroupName);
-
-			return GetPage();
-		}
-
-		/// <summary>
-		/// Проверить, что группа проектов отсутствует в списке при создании ТМ
-		/// </summary>
-		/// <param name="projectGroupName">имя группы проектов</param>
-		public NewTranslationMemoryDialog AssertProjectGroupNotExists(string projectGroupName)
-		{
-			CustomTestContext.WriteLine("Проверить, что группа проектов отсутствует в списке при создании ТМ.");
-			var projectGroupsList = Driver.GetElementList(By.XPath(PROJECT_GROUPS_LIST));
-			var projectGroupExist = projectGroupsList.Any(e => e.GetAttribute("innerHTML") == projectGroupName);
-
-			Assert.IsFalse(projectGroupExist, "Произошла ошибка:\n группа проектов {0} присутствует в списке при создании ТМ.", projectGroupName);
-
-			return GetPage();
+			return projectGroupsList.Any(e => e.GetAttribute("innerHTML") == projectGroupName);
 		}
 
 		/// <summary>
 		/// Проверить, что появилась ошибка при создании ТМ с существующим именем
 		/// </summary>
-		public NewTranslationMemoryDialog AssertExistingNameErrorAppeared()
+		public bool IsExistingNameErrorMessageDisplayed()
 		{
 			CustomTestContext.WriteLine("Проверить, что появилась ошибка при создании ТМ с существующим именем");
 
-			Assert.IsTrue(ErrorTranslationMemoryNameExist.Displayed,
-				"Произошла ошибка:\n не появилась ошибка создания ТМ с существующим именем");
-
-			return GetPage();
+			return ErrorTranslationMemoryNameExist.Displayed;
 		}
 
 		/// <summary>
 		/// Проверить, что появилась ошибка при создании ТМ с пустым именем
 		/// </summary>
-		public NewTranslationMemoryDialog AssertNoNameErrorAppeared()
+		public bool IsEmptyNameErrorMessageDisplayed()
 		{
 			CustomTestContext.WriteLine("Проверить, что появилась ошибка при создании ТМ с пустым именем");
 
-			Assert.IsTrue(ErrorTranslationMemoryWithoutName.Displayed,
-				"Произошла ошибка:\n не появилась ошибка создания ТМ с пустым именем");
-
-			return GetPage();
+			return ErrorTranslationMemoryWithoutName.Displayed;
 		}
 
 		/// <summary>
 		/// Проверить, что имеется ошибка при создании ТМ без языка перевода
 		/// </summary>
-		public NewTranslationMemoryDialog AssertNoTargetErrorAppeared()
+		public bool IsNoTargetErrorMessageDisplayed()
 		{
 			CustomTestContext.WriteLine("Проверить, что имеется ошибка при создании ТМ без языка перевода");
 
-			Assert.IsTrue(ErrorTranslationMemoryWithoutTarget.Displayed,
-				"Произошла ошибка:\n не появилась ошибка при создании ТМ без языка перевода");
-
-			return GetPage();
+			return ErrorTranslationMemoryWithoutTarget.Displayed;
 		}
 
 		/// <summary>
-		/// Проверить, что имеется ошибка о загрузке не TMX файла
+		/// Проверить, что имеется ошибка о загрузке файла с неподходящим расширением (не TMX файл)
 		/// </summary>
-		public NewTranslationMemoryDialog AssertNotTmxFileErrorAppeared()
+		public bool IsWrongFormatErrorDisplayed()
 		{
-			CustomTestContext.WriteLine("Проверить, что имеется ошибка о загрузке не TMX файла");
+			CustomTestContext.WriteLine("Проверить, что имеется ошибка о загрузке файла с неподходящим расширением (не TMX файл)");
 
-			Assert.IsTrue(ErrorTranslationMemoryWithNotTmx.Displayed,
-				"Произошла ошибка:\n не появилась ошибка о загрузке не TMX файла");
-
-			return GetPage();
+			return ErrorTranslationMemoryWithNotTmx.Displayed;
 		}
 
-		/// <summary>
-		/// Проверить, что клиент присутствует в списке
-		/// </summary>
-		/// <param name="clientName">имя клиента</param>
-		private bool getIsClientExist(string clientName)
-		{
-			CustomTestContext.WriteLine("Проверить, что клиент {0} присутствует в списке", clientName);
-			var clientList = Driver.GetElementList(By.XPath(CLIENT_ITEM));
+		#endregion
 
-			return clientList.Any(e => e.GetAttribute("innerHTML") == clientName);
-		}
-
+		#region Объявление элементов страницы
 
 		[FindsBy(How = How.XPath, Using = TM_NAME_FIELD)]
 		protected IWebElement NameField { get; set; }
@@ -349,6 +340,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories
 		[FindsBy(How = How.XPath, Using = UPLOAD_FILE_FIELD)]
 		protected IWebElement UploadFileField { get; set; }
 
+		#endregion
+
+		#region Описания XPath элементов
 
 		protected const string PROJECT_GROUPS_LIST = ".//div[contains(@class,'ui-multiselect-menu')][2]/ul//span[2]";
 		protected const string PROJECT_GROUP_FILTER= "//select[contains(@data-bind,'allDomainsList')]//following-sibling::div";
@@ -372,5 +366,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories
 		protected const string ERROR_NO_TMX_FILE = "//div[contains(@class,'js-popup-create-tm')][2]//div[contains(@class,'createtm__error')]//p[contains(@data-message-id,'invalid-file-extension')]";
 
 		protected const string UPLOAD_FILE_FIELD = ".//div[contains(@class,\"js-popup-create-tm\")][2]//input[@type=\"file\"]";
+
+		#endregion
 	}
 }

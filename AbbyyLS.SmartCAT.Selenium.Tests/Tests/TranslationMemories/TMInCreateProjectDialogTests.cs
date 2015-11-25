@@ -8,15 +8,13 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.TranslationMemories
 {
 	[Parallelizable(ParallelScope.Fixtures)]
 	[Standalone]
-	//???[PriorityMajor]
 	class TMInCreateProjectDialog<TWebDriverProvider> : BaseTmTest<TWebDriverProvider> where TWebDriverProvider : IWebDriverProvider, new()
 	{
 		[Test]
 		public void CreateTMCheckProjectCreateTMListTest()
 		{
 			TranslationMemoriesHelper
-				.CreateTranslationMemory(UniqueTranslationMemoryName)
-				.AssertTranslationMemoryExists(UniqueTranslationMemoryName)
+				.CreateTranslationMemory(UniqueTMName)
 				.GoToProjectsPage();
 
 			ProjectsPage.ClickCreateProjectButton();
@@ -28,8 +26,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.TranslationMemories
 				.ExpandAdvancedSettings()
 				.ClickSelectTmButton();
 
-			Assert.IsTrue(NewProjectSetUpTMDialog.IsTranslationMemoryExist(UniqueTranslationMemoryName),
-				"Произошла ошибка:\n ТМ {0} не представлена в списке при создании проекта.", UniqueTranslationMemoryName);
+			Assert.IsTrue(NewProjectSetUpTMDialog.IsTranslationMemoryExist(UniqueTMName),
+				"Произошла ошибка:\n ТМ {0} не представлена в списке при создании проекта.", UniqueTMName);
 		}
 
 		[Test]
@@ -37,11 +35,14 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.TranslationMemories
 		{
 			TranslationMemoriesHelper
 				.CreateTranslationMemory(
-					UniqueTranslationMemoryName,
-					sourceLanguage : Language.French,
-					targetLanguage : Language.German)
-				.AssertTranslationMemoryExists(UniqueTranslationMemoryName)
-				.GoToProjectsPage();
+					UniqueTMName,
+					sourceLanguage: Language.French,
+					targetLanguage: Language.German);
+
+			Assert.IsTrue(TranslationMemoriesPage.IsTranslationMemoryExist(UniqueTMName),
+				"Произошла ошибка:\n ТМ {0} не представлена в списке ТМ", UniqueTMName);
+
+			WorkspaceHelper.GoToProjectsPage();
 
 			ProjectsPage.ClickCreateProjectButton();
 
@@ -52,8 +53,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.TranslationMemories
 				.ExpandAdvancedSettings()
 				.ClickSelectTmButton();
 
-			Assert.IsFalse(NewProjectSetUpTMDialog.IsTranslationMemoryExist(UniqueTranslationMemoryName),
-				"Произошла ошибка:\n ТМ {0} представлена в списке при создании проекта.", UniqueTranslationMemoryName);
+			Assert.IsFalse(NewProjectSetUpTMDialog.IsTranslationMemoryExist(UniqueTMName),
+				"Произошла ошибка:\n ТМ {0} представлена в списке при создании проекта.", UniqueTMName);
 		}
 	}
 }
