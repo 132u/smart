@@ -1469,20 +1469,14 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 		{
 			BaseObject.InitPage(_suggestedTermsPageForAllGlossaries, Driver);
 			var termRowNumber = _suggestedTermsPageForAllGlossaries.TermRowNumberByGlossaryName(glossaryName);
-			var termsCountBeforeAccept = _suggestedTermsPageForAllGlossaries.SuggestedTermsCount();
 
 			_suggestedTermsPageForAllGlossaries
 				.HoverSuggestedTermRow(termRowNumber)
 				.ClickAcceptSuggestButton(termRowNumber);
 
-			// Sleep не убирать, иначе термин не исчезнет
-			Thread.Sleep(1000);
-
 			if (!chooseGlossary)
 			{
-				var termsCountAfterAccept = _suggestedTermsPageForAllGlossaries.SuggestedTermsCount();
-
-				Assert.AreEqual(termsCountBeforeAccept - termsCountAfterAccept, 1,
+				Assert.IsTrue(_suggestedTermsPageForAllGlossaries.IsAcceptSuggestButtonDisappeared(glossaryName),
 					"Произошла ошибка:\nПодтвержденный предложенный термин не исчез из списка.");
 			}
 			else

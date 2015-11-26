@@ -237,6 +237,17 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 		}
 
 		/// <summary>
+		/// Проверить, что термин исчез.
+		/// </summary>
+		/// <param name="glossaryName">название глоссария</param>
+		public bool IsAcceptSuggestButtonDisappeared(string glossaryName)
+		{
+			CustomTestContext.WriteLine("Проверить, что термин глоссария {0} исчез.", glossaryName);
+
+			return Driver.WaitUntilElementIsDisappeared(By.XPath(ACCEPT_SUGGEST_BUTTON_BY_GLOSSARY_NAME.Replace("*#*", glossaryName)));
+		}
+
+		/// <summary>
 		/// Получить номер строки термина по названию глоссария
 		/// </summary>
 		public int TermRowNumberByGlossaryName(string glossaryName)
@@ -298,6 +309,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 		protected const string SUGGESTED_TERM_ROW = "//tr[contains(@class,'js-suggest-row') and not(contains(@class,'g-hidden'))][*#*]//td";
 		protected const string ACCEPT_SUGGEST_BUTTON = "//tr[contains(@class,'js-suggest-row') and not(contains(@class,'g-hidden'))][*#*]//td//i[contains(@class, 'accept-suggest')]";
 		protected const string SUGGESTED_TERMS_ROW_LIST = "//tr[contains(@class,'js-suggest-row') and not(contains(@class,'g-hidden'))]";
+		protected const string ACCEPT_SUGGEST_BUTTON_BY_GLOSSARY_NAME = "//p[contains(text(), '*#*')]/../following-sibling::td[contains(@class, 'suggestComment')]//i[contains(@class, 'js-accept-suggest')]";
 		protected const string DELETE_SUGGEST_TERM_BUTTON = "//tr[contains(@class,'js-suggest-row') and not(contains(@class,'g-hidden'))][*#*]//td//i[contains(@class, 'reject-suggest')]";
 		protected const string EDIT_SUGGEST_TERM_BUTTON = "//tr[contains(@class,'js-suggest-row') and not(contains(@class,'g-hidden'))][*#*]//td//i[contains(@class, 'edit-suggest')]";
 		protected const string EDIT_TERM_INPUT = "//div[contains(@class,'l-corprtree__langbox')][*#*]//span[contains(@class,'js-term-editor')]//input";
