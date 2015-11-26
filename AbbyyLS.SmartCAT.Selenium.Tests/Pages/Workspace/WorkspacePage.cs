@@ -603,7 +603,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace
 		protected IWebElement Notification { get; set; }
 		
 		protected const string CAT_MENU = "//div[contains(@class, 'js-mainmenu')]";
-		protected const string CAT_MENU_OPEN_BUTTON = "//h2[contains(@class,'g-topbox__header')]/a";
+		protected const string CAT_MENU_OPEN_BUTTON = "//div[contains(@class,'g-topbox__header')]/a";
 		protected const string CLOSE_HELP_BUTTON = "//div[@class='popup-wrap']//img[@title='Close']";
 
 		protected const string RESOURCES_MENU ="//li[contains(@class, 'js-menuitem-Resources')]";
