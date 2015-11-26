@@ -193,8 +193,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 		/// </summary>
 		public bool IsNewProjectSetUpWorkflowDialogOpened()
 		{
-			CustomTestContext.WriteLine("Проверить, открыт ли этап Workflow диалога создания проекта");
-
 			return Driver.WaitUntilElementIsDisplay(By.XPath(NEW_TASK_BUTTON));
 		}
 

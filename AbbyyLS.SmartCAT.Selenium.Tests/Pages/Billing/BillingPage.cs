@@ -183,8 +183,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Billing
 		/// </summary>
 		public bool IsBillingPageOpened()
 		{
-			CustomTestContext.WriteLine("Открытие страницы управления лицензиями");
-
 			return Driver.WaitUntilElementIsDisplay(By.XPath(LICENSE_NUMBER), timeout: 20);
 		}
 

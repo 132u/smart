@@ -45,8 +45,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Billing.LicenseDialog
 		/// </summary>
 		public bool IsLicenseTrialDialogOpened()
 		{
-			CustomTestContext.WriteLine("Проверить, открылось ли сообщение о триальном периоде");
-
 			return Driver.WaitUntilElementIsDisplay(By.XPath(TRIAL_MESSAGE));
 		}
 

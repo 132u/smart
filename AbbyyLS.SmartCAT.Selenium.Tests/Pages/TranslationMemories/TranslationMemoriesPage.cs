@@ -579,8 +579,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories
 		/// </summary>
 		public bool IsTranslationMemoriesPageOpened()
 		{
-			CustomTestContext.WriteLine("Проверить, открылась ли страница ТМ");
-
 			return Driver.WaitUntilElementIsDisplay(By.XPath(ADD_TM_BTN));
 		}
 

@@ -48,8 +48,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Billing.LicenseDialog
 		/// </summary>
 		public bool IsLicenseExtendDialogOpened()
 		{
-			CustomTestContext.WriteLine("");
-
 			return Driver.WaitUntilElementIsDisplay(By.XPath(EXTEND_HEADER));
 		}
 

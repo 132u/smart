@@ -205,8 +205,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories
 		/// </summary>
 		public bool IsNewTranslationMemoryDialogOpened()
 		{
-			CustomTestContext.WriteLine("Проверить, загрузился ли диалог создания TM");
-
 			return Driver.WaitUntilElementIsDisplay(By.XPath(SAVE_BUTTON), timeout: 20);
 		}
 

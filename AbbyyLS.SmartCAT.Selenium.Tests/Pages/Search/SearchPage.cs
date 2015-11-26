@@ -256,8 +256,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Search
 		/// </summary>
 		public bool IsSearchPageOpened()
 		{
-			CustomTestContext.WriteLine("Проверить, открыта ли страница поиска.");
-
 			return Driver.WaitUntilElementIsDisplay(By.XPath(SEARCH_FORM_XPATH));
 		}
 

@@ -68,8 +68,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 		/// </summary>
 		public bool IsNewProjectEditGlossaryDialogOpened()
 		{
-			CustomTestContext.WriteLine("Проверить, открылся ли диалог редактирования глоссария.");
-
 			return Driver.WaitUntilElementIsDisplay(By.XPath(GLOSSARY_NAME));
 		}
 

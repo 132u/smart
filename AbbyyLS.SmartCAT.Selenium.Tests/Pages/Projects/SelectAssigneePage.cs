@@ -117,8 +117,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 		/// </summary>
 		public bool IsSelectAssigneePageOpened()
 		{
-			CustomTestContext.WriteLine("Проверить, открыта ли страница выбора исполнителя");
-
 			return Driver.WaitUntilElementIsDisplay(By.XPath(ANOTHER_ASSIGNEE_BUTTON));
 		}
 

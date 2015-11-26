@@ -50,8 +50,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories
 		/// </summary>
 		public bool IsConfirmReplacementMessageDisplayed()
 		{
-			CustomTestContext.WriteLine("Проверить, что появилось окно подтверждения замены при импорте");
-
 			return Driver.WaitUntilElementIsDisplay(By.XPath(UPDATE_TM_CONFIRM_REPLACEMENT));
 		}
 

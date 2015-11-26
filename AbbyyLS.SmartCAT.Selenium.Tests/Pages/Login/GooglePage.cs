@@ -112,8 +112,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Login
 		/// </summary>
 		public bool IsGooglePageOpened()
 		{
-			CustomTestContext.WriteLine("Проверить, открыта ли страница авторизации Google+");
-
 			return Driver.WaitUntilElementIsDisplay(By.XPath(GOOGLE_HEADER));
 		}
 

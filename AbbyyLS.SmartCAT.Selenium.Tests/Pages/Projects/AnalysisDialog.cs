@@ -34,8 +34,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 		/// </summary>
 		public bool IsAnalysisDialogOpened()
 		{
-			CustomTestContext.WriteLine("Проверить, открыт ли диалог анализа проекта");
-
 			return Driver.WaitUntilElementIsDisplay(By.XPath(ANALYSIS_DIALOG));
 		}
 

@@ -52,8 +52,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.LingvoDictionaries
 		/// </summary>
 		public bool IsLingvoDictionariesPageOpened()
 		{
-			CustomTestContext.WriteLine("Проверить, открыта ли страница 'Словари Lingvo'");
-
 			return Driver.WaitUntilElementIsDisplay(By.XPath(DICTIONARY_SEARCH_FIELD));
 		}
 

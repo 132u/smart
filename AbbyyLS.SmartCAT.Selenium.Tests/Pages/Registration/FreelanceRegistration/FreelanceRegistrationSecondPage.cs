@@ -203,10 +203,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Registration.FreelanceRegistrati
 		/// <summary>
 		/// Проверить, что открылась вторая страница регистрации фрилансеров
 		/// </summary>
-		private bool IsFreelanceRegistrationSecondPageOpened()
+		public bool IsFreelanceRegistrationSecondPageOpened()
 		{
-			CustomTestContext.WriteLine("Проверить, что открылась вторая страница регистрации фрилансеров.");
-
 			return Driver.WaitUntilElementIsDisplay(By.XPath(LAST_NAME));
 		}
 

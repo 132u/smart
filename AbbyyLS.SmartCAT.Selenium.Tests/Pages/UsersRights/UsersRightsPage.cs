@@ -395,8 +395,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.UsersRights
 		/// </summary>
 		public bool IsUsersRightsPageOpened()
 		{
-			CustomTestContext.WriteLine("Проверить, открыта ли страница Users and Rights");
-
 			return Driver.WaitUntilElementIsDisplay(By.XPath(GROUPS_RIGHTS_BTN_XPATH));
 		}
 

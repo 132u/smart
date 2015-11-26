@@ -44,8 +44,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings
 		/// </summary>
 		public bool IsDeleteDocumentDialogOpened()
 		{
-			CustomTestContext.WriteLine("Проверить, открылся ли диалог удаления документа");
-
 			return Driver.WaitUntilElementIsDisplay(By.XPath(DELETE_DOCUMENT_DIALOG));
 		}
 

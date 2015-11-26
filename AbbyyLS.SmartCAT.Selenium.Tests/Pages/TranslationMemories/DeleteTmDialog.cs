@@ -55,8 +55,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories
 		/// </summary>
 		public bool IsDeleteConfirmatonDialogPresent()
 		{
-			CustomTestContext.WriteLine("Проверить, что диалог подтверждения удаления ТМ появился.");
-
 			return Driver.WaitUntilElementIsDisplay(By.XPath(DELETE_CONFIRMATION_DIALOG));
 		}
 

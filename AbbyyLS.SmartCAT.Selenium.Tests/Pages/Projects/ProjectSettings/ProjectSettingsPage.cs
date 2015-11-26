@@ -368,8 +368,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings
 		/// </summary>
 		public bool IsProjectSettingsPageOpened()
 		{
-			CustomTestContext.WriteLine("Проверить, открылась ли страница настроек проекта");
-
 			return Driver.WaitUntilElementIsDisplay(By.XPath(ADD_FILES_BTN));
 		}
 

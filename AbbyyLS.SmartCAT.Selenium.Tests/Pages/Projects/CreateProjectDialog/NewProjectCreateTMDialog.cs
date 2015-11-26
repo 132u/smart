@@ -69,8 +69,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 		/// </summary>
 		public bool IsNewProjectCreateTmDialogOpened()
 		{
-			CustomTestContext.WriteLine("Проверить, открыт ли диалог создания ТМ");
-
 			return Driver.WaitUntilElementIsDisplay(By.XPath(NEW_TM_NAME_INPUT));
 		}
 

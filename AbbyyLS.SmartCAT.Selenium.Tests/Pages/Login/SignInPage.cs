@@ -187,8 +187,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Login
 		/// </summary>
 		public bool IsSignInPageOpened()
 		{
-			CustomTestContext.WriteLine("Проверить, открыта ли станица авторизации.");
-
 			return Driver.WaitUntilElementIsDisplay(By.XPath(LOGIN_FORM_XPATH));
 		}
 

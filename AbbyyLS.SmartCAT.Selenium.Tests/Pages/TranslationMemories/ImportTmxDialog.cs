@@ -101,8 +101,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories
 		/// </summary>
 		public bool IsImportTmxPageOpened()
 		{
-			CustomTestContext.WriteLine("Проверить, открыт ли диалог импорта TMX файлов");
-
 			return Driver.WaitUntilElementIsDisplay(By.XPath(UPDATE_TM_IMPORT_BUTTON));
 		}
 

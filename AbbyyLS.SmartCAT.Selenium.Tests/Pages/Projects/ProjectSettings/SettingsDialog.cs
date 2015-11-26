@@ -192,8 +192,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings
 		/// </summary>
 		public bool IsSettingsDialogOpened()
 		{
-			CustomTestContext.WriteLine("Проверить, открылся ли диалог настроек проекта");
-
 			return Driver.WaitUntilElementIsDisplay(By.XPath(SETTINGS_DIALOG), timeout: 60);
 		}
 

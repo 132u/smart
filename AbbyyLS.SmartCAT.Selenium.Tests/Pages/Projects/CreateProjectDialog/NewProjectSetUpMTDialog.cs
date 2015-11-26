@@ -34,8 +34,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 		/// </summary>
 		public bool IsNewProjectSetUpMTDialogOpened()
 		{
-			CustomTestContext.WriteLine("Проверить, открылся ли диалог выбора MT (шаг 4 создания проекта)");
-
 			return Driver.WaitUntilElementIsDisplay(By.XPath(MT_TABLE));
 		}
 

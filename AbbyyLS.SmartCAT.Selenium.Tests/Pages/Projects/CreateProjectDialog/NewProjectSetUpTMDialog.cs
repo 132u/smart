@@ -92,8 +92,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 		/// </summary>
 		public bool IsNewProjectSetUpTMDialogOpened()
 		{
-			CustomTestContext.WriteLine("Проверить, открылся ли шаг выбора TM в диалоге создания проекта");
-
 			return Driver.WaitUntilElementIsDisplay(By.XPath(ADD_BUTTON));
 		}
 

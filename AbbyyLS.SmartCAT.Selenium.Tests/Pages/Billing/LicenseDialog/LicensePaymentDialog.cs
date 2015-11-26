@@ -125,8 +125,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Billing.LicenseDialog
 		/// </summary>
 		public bool IsLicensePaymentDialogOpebed()
 		{
-			CustomTestContext.WriteLine("Проверить, открылась ли форма ввода данных платежной карты");
-
 			return Driver.WaitUntilElementIsDisplay(By.XPath(CREDIT_CARD_NUMBER));
 		}
 

@@ -34,8 +34,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Billing.LicenseDialog
 		/// </summary>
 		public bool IsLicenseUpgradeCompleteDialogOpened()
 		{
-			CustomTestContext.WriteLine("Проверить, открылось ли сообщение о завершении обновления пакета лицензий");
-
 			return Driver.WaitUntilElementIsDisplay(By.XPath(UPGRADE_COMPLETE_DIALOG), timeout: 20);
 		}
 

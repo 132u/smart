@@ -32,8 +32,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 		/// </summary>
 		public bool IsNewProjectSetUpPresentationDialogOpened()
 		{
-			CustomTestContext.WriteLine("Проверить, открыть ли диалог Presentation");
-
 			return Driver.WaitUntilElementIsDisplay(By.XPath(PRETRANSLATION_HEADER));
 		}
 

@@ -121,10 +121,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Registration.FreelanceRegistrati
 		/// <summary>
 		/// Проверить, что открылась страница 'Sign in' для фрилансеров
 		/// </summary>
-		private bool IsFreelanceRegistrationSignInPageOpened()
+		public bool IsFreelanceRegistrationSignInPageOpened()
 		{
-			CustomTestContext.WriteLine("Проверить, что открылась страница 'Sign in' для фрилансеров.");
-
 			return Driver.WaitUntilElementIsDisplay(By.XPath(EMAIL));
 		}
 

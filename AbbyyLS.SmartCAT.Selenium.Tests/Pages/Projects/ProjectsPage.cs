@@ -330,8 +330,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 		/// </summary>
 		public bool IsProjectsPageOpened()
 		{
-			CustomTestContext.WriteLine("Проверить, открылась ли страница 'Проекты'");
-
 			return Driver.WaitUntilElementIsDisplay(By.XPath(CREATE_PROJECT_BTN_XPATH), timeout: 45);
 		}
 

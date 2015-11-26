@@ -99,8 +99,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Login
 		/// </summary>
 		public bool IsFaceBookPageOpened()
 		{
-			CustomTestContext.WriteLine("Проверить, открыта ли страница авторизации FaceBook.");
-
 			return Driver.WaitUntilElementIsDisplay(By.XPath(SUBMIT_BUTTON));
 		}
 

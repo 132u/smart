@@ -256,8 +256,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 		/// </summary>
 		public bool IsTaskAssignmentPageOpened()
 		{
-			CustomTestContext.WriteLine("Проверить, открыта ли страница назначения задач");
-
 			return Driver.WaitUntilElementIsDisplay(By.XPath(TASK_ASSIGNMENT_TABLE));
 		}
 

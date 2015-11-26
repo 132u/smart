@@ -56,8 +56,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace
 		/// </summary>
 		public bool IsWorkspacePageOpened()
 		{
-			CustomTestContext.WriteLine("Проверить, открылась ли страница Workspace.");
-
 			return Driver.WaitUntilElementIsDisplay(By.XPath(USER_PICTURE));
 		}
 

@@ -44,8 +44,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 		/// </summary>
 		public bool IsPageOpened()
 		{
-			CustomTestContext.WriteLine("Проверить, открыт ли FilterDialog");
-
 			return Driver.WaitUntilElementIsDisplay(By.XPath(CLEAR_FILTER_BUTTON));
 		}
 

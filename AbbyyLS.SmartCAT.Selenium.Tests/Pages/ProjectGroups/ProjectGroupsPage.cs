@@ -250,8 +250,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.ProjectGroups
 		/// </summary>
 		public bool IsProjectGroupsPageOpened()
 		{
-			CustomTestContext.WriteLine("Проверить, открыта ли страница 'Группы проектов'");
-
 			return Driver.WaitUntilElementIsDisplay(By.XPath(ADD_PROJECT_GROUP_BUTTON));
 		}
 

@@ -99,8 +99,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Login
 		/// </summary>
 		public bool IsLinkedInPageOpened()
 		{
-			CustomTestContext.WriteLine("Проверить, открыта ли страница авторизации LinkedIn.");
-
 			return Driver.WaitUntilElementIsDisplay(By.XPath(LINKED_IN_HEADER));
 		}
 

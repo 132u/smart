@@ -184,8 +184,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 		/// </summary>
 		public bool IsNewProjectDocumentUploadPageOpened()
 		{
-			CustomTestContext.WriteLine("Проверить, открылась ли страница загрузки документа при создании проекта");
-
 			return Driver.WaitUntilElementIsDisplay(By.XPath(DOCUMENT_UPLOAD_STEP));
 		}
 

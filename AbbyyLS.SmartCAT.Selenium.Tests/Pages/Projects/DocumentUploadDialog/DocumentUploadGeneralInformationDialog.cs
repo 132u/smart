@@ -102,8 +102,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.DocumentUploadDialog
 		/// </summary>
 		public bool IsDocumentUploadGeneralInformationDialogOpened()
 		{
-			CustomTestContext.WriteLine("Проверить, открыт ли диалог загрузки файлов.");
-
 			return Driver.WaitUntilElementIsDisplay(By.XPath(ADD_BTN));
 		}
 

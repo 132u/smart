@@ -316,8 +316,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories
 		/// </summary>
 		public bool IsTranslationMemoriesFilterDialogOpened()
 		{
-			CustomTestContext.WriteLine("Проверить, открылся ли диалог выбора фильтров");
-
 			return Driver.WaitUntilElementIsDisplay(By.XPath(FILTER_DIALOG));
 		}
 

@@ -108,8 +108,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.UsersRights
 		/// </summary>
 		public bool IsAddRightDialogOpened()
 		{
-			CustomTestContext.WriteLine("Проверить, открыт ли диалог добавления прав");
-
 			return Driver.WaitUntilElementIsDisplay(By.XPath(ADD_ACCESS_DIALOG));
 		}
 
