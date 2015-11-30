@@ -73,14 +73,29 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace
 		/// <summary>
 		/// Выбрать вкладку "Проекты"
 		/// </summary>
-		public ProjectsPage ClickProjectsButton()
+		public ProjectsPage ClickProjectsSubmenu()
 		{
 			CustomTestContext.WriteLine("Нажать кнопку 'Проекты'.");
+			if (!IsProjectsMenuExpanded())
+			{
+				ExpandProjectMenu();
+			}
+
 			ProjectsButton.Click();
 
 			return new ProjectsPage(Driver).GetPage();
 		}
 
+		/// <summary>
+		/// Раскрыть пункт меню Проекты
+		/// </summary>
+		public WorkspacePage ExpandProjectMenu()
+		{
+			CustomTestContext.WriteLine("Раскрыть пункт меню Проекты");
+			ProjectsMenu.Click();
+
+			return GetPage();
+		}
 
 		/// <summary>
 		/// Выбрать вкладку "Клиенты"
@@ -466,6 +481,16 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace
 		}
 
 		/// <summary>
+		/// Проверить, раскрыт ли пункт меню Проекты.
+		/// </summary>
+		public bool IsProjectsMenuExpanded()
+		{
+			CustomTestContext.WriteLine("Проверить, раскрыт ли пункт меню Проекты.");
+
+			return Driver.WaitUntilElementIsDisplay(By.XPath(PROJECTS_BUTTON));
+		}
+
+		/// <summary>
 		/// Закрыть все показанные уведомления
 		/// </summary>
 		public T CloseAllNotifications<T>() where T : class, IAbstractPage<T>
@@ -595,6 +620,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace
 		[FindsBy(How = How.XPath, Using = USER_NAME)]
 		protected IWebElement UserName { get; set; }
 
+		[FindsBy(How = How.XPath, Using = PROJECTS_MENU)]
+		protected IWebElement ProjectsMenu { get; set; }
+		
 		[FindsBy(How = How.XPath, Using = ACCOUNT_NAME_IN_LIST)]
 		protected IWebElement AccountNameInList { get; set; }
 
@@ -607,6 +635,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace
 		protected const string RESOURCES_MENU ="//li[contains(@class, 'js-menuitem-Resources')]";
 		protected const string EXPAND_RESOURCES_MENU = "//li[contains(@class, 'js-menuitem-Resources')]//a";
 		protected const string PROJECTS_BUTTON = "//a[contains(@href,'/Workspace')]";
+		protected const string PROJECTS_MENU = "//li[contains(@class, 'first has-nested-items js-menuitem-SmartCAT')]//a//span[text()='Projects']";
 		protected const string USERS_RIGHTS_BUTTON = "//a[contains(@href,'/Users/Index')]";
 		protected const string CLIENTS_BUTTON = "//a[contains(@href,'/Clients/Index')]";
 		protected const string TRANSLATION_MEMORIES_BUTTON = "//a[contains(@href,'/TranslationMemories/Index')]";

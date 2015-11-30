@@ -126,7 +126,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 			BaseObject.InitPage(_workspacePage, Driver);
 			_workspacePage
 				.OpenHideMenuIfClosed()
-				.ClickProjectsButton();
+				.ClickProjectsSubmenu();
 
 			return new ProjectsPage(Driver).GetPage();
 		}
