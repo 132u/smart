@@ -149,7 +149,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Login
 		{
 			CustomTestContext.WriteLine("Проверить, что на странице появилось сообщение о неправильном пароле.");
 
-			return Driver.WaitUntilElementIsDisplay(WrongPasswordMessage);
+            return Driver.WaitUntilElementIsDisplay(By.XPath(ERROR_WRONG_PASSWORD));
 		}
 
 		/// <summary>
@@ -159,7 +159,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Login
 		{
 			CustomTestContext.WriteLine("Проверить, что на странице появилось сообщение о ненайденном пользователе.");
 
-			return Driver.WaitUntilElementIsDisplay(UserNotFoundMessage);
+			return Driver.WaitUntilElementIsDisplay(By.XPath(ERROR_USER_NOT_FOUND));
 		}
 
 		/// <summary>
@@ -169,7 +169,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Login
 		{
 			CustomTestContext.WriteLine("Проверить, что на странице появилось сообщение о незаполненном пароле.");
 
-			return Driver.WaitUntilElementIsDisplay(EmptyPasswordMessage);
+			return Driver.WaitUntilElementIsDisplay(By.XPath(ERROR_EMPTY_PASSWORD));
 		}
 
 		/// <summary>
@@ -179,7 +179,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Login
 		{
 			CustomTestContext.WriteLine("Проверить, что на странице появилось сообщение о невалидном email.");
 
-			return Driver.WaitUntilElementIsDisplay(InvalidEmailMessage);
+			return Driver.WaitUntilElementIsDisplay(By.XPath(ERROR_EMAIL_INVALID));
 		}
 
 		/// <summary>

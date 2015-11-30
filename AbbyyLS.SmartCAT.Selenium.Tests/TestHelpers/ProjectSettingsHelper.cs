@@ -1,6 +1,9 @@
 ﻿using System;
 
+using OpenQA.Selenium;
+
 using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
+using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.DocumentUploadDialog;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings;
@@ -17,7 +20,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 			_documentUploadGeneralInformationDialog = new DocumentUploadGeneralInformationDialog(Driver);
 			_taskAssignmentPage = new TaskAssignmentPage(Driver);
 			_selectAssigneePage = new SelectAssigneePage(Driver);
-			_editorHelper = new EditorHelper(Driver);
+			_selectTaskDialog = new SelectTaskDialog(Driver);
+			_editorPage = new EditorPage(Driver);
 		}
 
 		public ProjectSettingsHelper AssignTasksOnDocument(string documentName, string nickName, int taskNumber = 1)
@@ -41,12 +45,18 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 		{
 			_projectPage.OpenDocumentInEditorWithTaskSelect(documentName);
 
-			_editorHelper
-				.SelectTask()
-				.CloseTutorialIfExist()
-				.AssertTargetDisplayed()
+			_selectTaskDialog.SelectTask();
+
+			_editorPage.CloseTutorialIfExist();
+
+			if (!_editorPage.IsTargetDisplayed())
+			{
+				throw new XPathLookupException("Произошла ошибка:\n сегмент с не появился.");
+			}
+
+			_editorPage
 				.FillTarget(text)
-				.ClickConfirmButton()
+				.ConfirmSegmentTranslation()
 				.ClickHomeButton();
 
 			return this;
@@ -125,6 +135,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 		private readonly DocumentUploadGeneralInformationDialog _documentUploadGeneralInformationDialog;
 		private readonly TaskAssignmentPage _taskAssignmentPage;
 		private readonly SelectAssigneePage _selectAssigneePage;
-		private readonly EditorHelper _editorHelper;
+		private readonly EditorPage _editorPage;
+		private readonly SelectTaskDialog _selectTaskDialog;
 	}
 }

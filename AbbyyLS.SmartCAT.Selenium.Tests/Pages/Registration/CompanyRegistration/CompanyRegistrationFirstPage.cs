@@ -146,7 +146,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Registration
 		{
 			CustomTestContext.WriteLine("Проверить, что сообщение 'Invalid email' появилось.");
 
-			return Driver.WaitUntilElementIsDisplay(InvalidEmailMessage);
+            return Driver.WaitUntilElementIsDisplay(By.XPath(INVALID_EMAIL_MESSAGE));
 		}
 
 		/// <summary>
@@ -156,7 +156,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Registration
 		{
 			CustomTestContext.WriteLine("Проверить, что сообщение 'The password must have at least 6 characters' появилось.");
 
-			return Driver.WaitUntilElementIsDisplay(MinimumLenghPasswordMessage);
+			return Driver.WaitUntilElementIsDisplay(By.XPath(MINIMUM_LENGHT_PASSWORD_MESSAGE));
 		}
 
 		/// <summary>
@@ -166,7 +166,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Registration
 		{
 			CustomTestContext.WriteLine("Проверить, что сообщение 'The password cannot consist of spaces only' появилось.");
 
-			return Driver.WaitUntilElementIsDisplay(OnlySpacesPasswordMessage);
+			return Driver.WaitUntilElementIsDisplay(By.XPath(ONLY_SPACES_PASSWORD_MESSAGE));
 		}
 
 		/// <summary>
@@ -176,7 +176,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Registration
 		{
 			CustomTestContext.WriteLine("Проверить, что сообщение 'The passwords do not match' появилось.");
 
-			return Driver.WaitUntilElementIsDisplay(PasswordMatchMessage);
+			return Driver.WaitUntilElementIsDisplay(By.XPath(PASSWORD_MATCH_MESSAGE));
 		}
 
 		/// <summary>
@@ -186,7 +186,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Registration
 		{
 			CustomTestContext.WriteLine("Проверить, что сообщение 'You have already signed up for one of the ABBYY services with this email.' появилось.");
 
-			return Driver.WaitUntilElementIsDisplay(AlreadySignUpMessage);
+			return Driver.WaitUntilElementIsDisplay(By.XPath(ALREADY_SIGN_UP_MESSAGE));
 		}
 
 		/// <summary>
@@ -196,7 +196,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Registration
 		{
 			CustomTestContext.WriteLine("Проверить, что сообщение 'The password must have at least 6 characters.' появилось.");
 
-			return Driver.WaitUntilElementIsDisplay(InvalidPasswordMessage);
+			return Driver.WaitUntilElementIsDisplay(By.XPath(INVALID_PASSWORD_MESSAGE));
 		}
 
 		/// <summary>
@@ -204,7 +204,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Registration
 		/// </summary>
 		public bool IsCompanyRegistrationFirstPageOpened()
 		{
-			return Driver.WaitUntilElementIsDisplay(ConfirmPassword);
+			return Driver.WaitUntilElementIsDisplay(By.XPath(CONFIRM_PASSWORD));
 		}
 
 		#endregion

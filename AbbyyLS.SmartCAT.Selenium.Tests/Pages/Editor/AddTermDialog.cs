@@ -1,7 +1,4 @@
-﻿using System;
-
-using NUnit.Framework;
-using OpenQA.Selenium;
+﻿using OpenQA.Selenium;
 using OpenQA.Selenium.Support.PageObjects;
 
 using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
@@ -9,15 +6,13 @@ using AbbyyLS.SmartCAT.Selenium.Tests.TestFramework;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 {
-	public class AddTermDialog : BaseObject, IAbstractPage<AddTermDialog>
+	public class AddTermDialog : EditorPage, IAbstractPage<AddTermDialog>
 	{
-		public WebDriver Driver { get; private set; }
-
-		public AddTermDialog(WebDriver driver)
+		public AddTermDialog(WebDriver driver) :base(driver)
 		{
-			Driver = driver;
 		}
-		public AddTermDialog GetPage()
+
+		public new AddTermDialog GetPage()
 		{
 			var addTermDialog = new AddTermDialog(Driver);
 			InitPage(addTermDialog, Driver);
@@ -25,13 +20,15 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 			return addTermDialog;
 		}
 
-		public void LoadPage()
+		public new void LoadPage()
 		{
-			if (!Driver.WaitUntilElementIsDisplay(By.XPath(SOURCE_TERM)))
+			if (!IsAddTermDialogOpened())
 			{
-				Assert.Fail("Произошла ошибка:\n не открылся диалог создания нового термина.");
+				throw new XPathLookupException("Произошла ошибка:\n не открылся диалог создания нового термина");
 			}
 		}
+
+		#region Простые методы страницы
 
 		/// <summary>
 		/// Ввести текст в source
@@ -58,19 +55,29 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		/// <summary>
 		/// Нажать кнопку Add в диалоге создания термина
 		/// </summary>
-		public T ClickAddButton<T>(WebDriver driver) where T : class, IAbstractPage<T>
+		public EditorPage ClickAddButton()
 		{
 			CustomTestContext.WriteLine("Нажать кнопку Add в диалоге создания термина");
 			AddButton.Click();
 
-			var instance = Activator.CreateInstance(typeof(T), new object[] { driver }) as T;
-			return instance.GetPage();
+			return new EditorPage(Driver).GetPage();
+		}
+
+		/// <summary>
+		/// Нажать кнопку Add в диалоге создания термина, ожидая окно подтверждения
+		/// </summary>
+		public ConfirmTermWithoutTranskationDialog ClickAddButtonExpectingConfirmation()
+		{
+			CustomTestContext.WriteLine("Нажать кнопку Add в диалоге создания термина, ожидая окно подтверждения");
+			AddButton.Click();
+
+			return new ConfirmTermWithoutTranskationDialog(Driver).GetPage();
 		}
 
 		/// <summary>
 		/// Нажать кнопку Cancel в диалоге создания термина
 		/// </summary>
-		public EditorPage ClickCancel()
+		public EditorPage ClickCancelAddTerm()
 		{
 			CustomTestContext.WriteLine("Нажать кнопку Cancel в диалоге создания термина");
 			CancelButton.Click();
@@ -79,69 +86,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		}
 
 		/// <summary>
-		/// Проверить, что сработало автозаполнение текста в SourceTerm в окне добавления термина
-		/// </summary>
-		public AddTermDialog AssertTextExistInSourceTerm(string text)
-		{
-			CustomTestContext.WriteLine("Проверить, что сработало автозаполнение текста {0} в SourceTerm", text);
-
-			Assert.IsTrue(Driver.WaitUntilElementIsDisplay(By.XPath(SOURCE_TERM_VALUE.Replace("*#*", text))),
-				"Произошла ошибка:\n Нет автозаполнения сорса.");
-
-			return GetPage();
-		}
-
-		/// <summary>
-		/// Проверить, что сработало автозаполнение текста в TargetTerm в окне добавления термина
-		/// </summary>
-		public AddTermDialog AssertTextExistInTargetTerm(string text)
-		{
-			CustomTestContext.WriteLine("Проверить, что сработало автозаполнение текста {0} в TargetTerm", text);
-
-			Assert.IsTrue(Driver.WaitUntilElementIsDisplay(By.XPath(TARGET_TERM_VALUE.Replace("*#*", text))),
-				"Произошла ошибка:\n Нет автозаполнения таргета.");
-
-			return GetPage();
-		}
-
-		/// <summary>
-		/// Проверить, что появился диалог подтверждения сохранения термина без перевода
-		/// </summary>
-		public AddTermDialog AssertConfirmSingleTermMessageDisplayed()
-		{
-			CustomTestContext.WriteLine("Проверить, что появился диалог подтверждения сохранения термина без перевода.");
-
-			Assert.IsTrue(Driver.WaitUntilElementIsDisplay(By.XPath(CONFIRM_TERM_WITHOUT_TRANSLATION_DIALOG)),
-				"Произошла ошибка:\n не появился диалог подтверждения сохранения термина без перевода.");
-
-			return GetPage();
-		}
-
-		/// <summary>
-		/// Нажать Yes в окне подтверждения добавления термина
-		/// </summary>
-		public EditorPage Confirm()
-		{
-			CustomTestContext.WriteLine("Нажать Yes в окне подтверждения.");
-			ConfirmYesButton.Click();
-
-			return new EditorPage(Driver).GetPage();
-		}
-
-		/// <summary>
-		/// Проверить, что открыт ли выпадающий список глоссария.
-		/// </summary>
-		public bool IsGlossaryListDisplayed()
-		{
-			CustomTestContext.WriteLine("Проверить, что открыт ли выпадающий список глоссария.");
-
-			return Driver.WaitUntilElementIsDisplay(By.XPath(GLOSSARY_LIST));
-		}
-
-		/// <summary>
 		/// Ввести текст в поле "Комментарий" в окне добавления текрмина.
 		/// </summary>
-		/// /// <param name="text">комментарий</param>
+		/// <param name="text">комментарий</param>
 		public AddTermDialog EnterComment(string text)
 		{
 			CustomTestContext.WriteLine("Ввести текст в поле 'Комментарий'.");
@@ -150,22 +97,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 			return GetPage();
 		}
 
-		/// <summary>
-		/// Проверить наличие глоссария в выпадающем списке окна добавления термина
-		/// </summary>
-		/// <param name="glossaryName">имя глоссария</param>
-		public AddTermDialog AssertGlossaryExistInDropdown(string glossaryName)
-		{
-			CustomTestContext.WriteLine("Нажать на выпадающий список, чтобы раскрыть его.");
-			GlossarySelect.Click();
+		#endregion
 
-			CustomTestContext.WriteLine("Проверить наличие глоссария {0} в выпадающем списке.", glossaryName);
-			var glossary = Driver.SetDynamicValue(How.XPath, GLOSSARY_SELECT_BOUNDLIST, glossaryName);
-
-			Assert.IsTrue(glossary.Displayed, "Произошла ошибка:\n глоссарий не найден в выпадающем списке.");
-
-			return GetPage();
-		}
+		#region Составные методы страницы
 
 		/// <summary>
 		/// Закрыть выпадающий список глоссария.
@@ -180,7 +114,21 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 
 			return GetPage();
 		}
-		
+
+		/// <summary>
+		/// Открыть выпадающий список глоссария.
+		/// </summary>
+		public AddTermDialog OpenGlossarySelect()
+		{
+			CustomTestContext.WriteLine("Открыть выпадающий список глоссария.");
+			if (!IsGlossaryListDisplayed())
+			{
+				GlossarySelect.Click();
+			}
+
+			return GetPage();
+		}
+
 		/// <summary>
 		/// Выбрать глоссарий в выпадающем списке окна добавления термина
 		/// </summary>
@@ -195,6 +143,91 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 			return GetPage();
 		}
 
+		/// <summary>
+		/// Добавить новый термин
+		/// </summary>
+		/// <param name="source">исходное слово</param>
+		/// <param name="target">перевод</param>
+		/// <param name="comment">комментарий</param>
+		/// <param name="glossaryName">имя глоссария</param>
+		public EditorPage AddNewTerm(string source, string target, string comment = null, string glossaryName = null)
+		{
+			FillSourceTerm(source);
+			FillTargetTerm(target);
+
+			if (comment != null)
+			{
+				EnterComment(comment);
+			}
+
+			if (glossaryName != null)
+			{
+				SelectGlossaryByName(glossaryName);
+			}
+
+			var editorPage = ClickAddButton();
+
+			return editorPage;
+		}
+
+		#endregion
+
+		#region Составные методы страницы
+
+		/// <summary>
+		/// Проверить, открылся ли диалог создания нового термина
+		/// </summary>
+		public bool IsAddTermDialogOpened()
+		{
+			return Driver.WaitUntilElementIsDisplay(By.XPath(SOURCE_TERM));
+		}
+
+		/// <summary>
+		/// Проверить, что сработало автозаполнение текста в SourceTerm в окне добавления термина
+		/// </summary>
+		public bool IsTextExistInSourceTerm(string text)
+		{
+			CustomTestContext.WriteLine("Проверить, что сработало автозаполнение текста {0} в SourceTerm", text);
+
+			return Driver.WaitUntilElementIsDisplay(By.XPath(SOURCE_TERM_VALUE.Replace("*#*", text)));
+		}
+
+		/// <summary>
+		/// Проверить, что сработало автозаполнение текста в TargetTerm в окне добавления термина
+		/// </summary>
+		public bool IsTextExistInTargetTerm(string text)
+		{
+			CustomTestContext.WriteLine("Проверить, что сработало автозаполнение текста {0} в TargetTerm", text);
+
+			return Driver.WaitUntilElementIsDisplay(By.XPath(TARGET_TERM_VALUE.Replace("*#*", text)));
+		}
+
+		/// <summary>
+		/// Проверить наличие глоссария в выпадающем списке окна добавления термина
+		/// </summary>
+		/// <param name="glossaryName">имя глоссария</param>
+		public bool IsGlossaryExistInDropdown(string glossaryName)
+		{
+			CustomTestContext.WriteLine("Проверить наличие глоссария {0} в выпадающем списке.", glossaryName);
+			var glossary = Driver.SetDynamicValue(How.XPath, GLOSSARY_SELECT_BOUNDLIST, glossaryName);
+
+			return glossary.Displayed;
+		}
+
+		/// <summary>
+		/// Проверить, открыт ли выпадающий список глоссария.
+		/// </summary>
+		public bool IsGlossaryListDisplayed()
+		{
+			CustomTestContext.WriteLine("Проверить, что открыт ли выпадающий список глоссария.");
+
+			return Driver.WaitUntilElementIsDisplay(By.XPath(GLOSSARY_LIST));
+		}
+
+		#endregion
+
+		#region Объявление элементов страницы
+
 		[FindsBy(How = How.XPath, Using = SOURCE_TERM)]
 		protected IWebElement SourceTerm { get; set; }
 
@@ -203,9 +236,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 
 		[FindsBy(How = How.XPath, Using = ADD_BUTTON)]
 		protected IWebElement AddButton { get; set; }
-
-		[FindsBy(How = How.XPath, Using = СONFIRM_YES_BTN)]
-		protected IWebElement ConfirmYesButton { get; set; }
 
 		[FindsBy(How = How.XPath, Using = COMMENT_INPUT)]
 		protected IWebElement CommentInput { get; set; }
@@ -216,6 +246,10 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		[FindsBy(How = How.XPath, Using = CANCEL_BUTTON)]
 		protected IWebElement CancelButton { get; set; }
 
+		#endregion
+
+		#region Описания XPath элементов страницы
+
 		protected const string SOURCE_TERM = "//div[contains(@id, 'term-window')]//input[contains(@name, 'sourceTerm')]";
 		protected const string SOURCE_TERM_VALUE = "//div[contains(@id, 'term-window')]//input[contains(@name, 'sourceTerm') and contains(@value, '*#*')]";
 		protected const string TARGET_TERM_VALUE = "//div[contains(@id, 'term-window')]//input[contains(@name, 'targetTerm') and contains(@value, '*#*')]";
@@ -223,10 +257,10 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		protected const string COMMENT_INPUT = "//div[contains(@id, 'term-window')]//textarea[contains(@name, 'comment')]";
 		protected const string ADD_BUTTON = "//div[contains(@id, 'term-window')]//span[contains(string(), 'Add')]";
 		protected const string CANCEL_BUTTON = "//div[contains(@id, 'term-window')]//span[contains(string(), 'Cancel')]";
-		protected const string CONFIRM_TERM_WITHOUT_TRANSLATION_DIALOG = "//div[contains(@id, 'messagebox') and contains(string(), 'Do you want to add a term without translation?')]";
-		protected const string СONFIRM_YES_BTN = "//div[contains(@id, 'messagebox')]//span[contains(string(), 'Yes')]";
 		protected const string GLOSSARY_SELECT = "//input[@name='glossaryId']";
 		protected const string GLOSSARY_LIST = "//ul[contains(@id, 'boundlist')]";
 		protected const string GLOSSARY_SELECT_BOUNDLIST = "//ul[contains(@id, 'boundlist')]//li[contains(string(), '*#*')]";
+
+		#endregion
 	}
 }

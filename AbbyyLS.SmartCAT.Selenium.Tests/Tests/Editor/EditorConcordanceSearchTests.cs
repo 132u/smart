@@ -9,16 +9,22 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Editor
 	[Standalone]
 	public class EditorConcordanceSearchTests<TWebDriverProvider> : EditorBaseTest<TWebDriverProvider> where TWebDriverProvider : IWebDriverProvider, new()
 	{
-		[Test]
+		[Test(Description = "Проверяет открытие вкладки 'Конкордансный поиск' с помощью кнопки")]
 		public void ConcordanceSearchButtonTest()
 		{
-			EditorHelper.OpenConcordanceSearch();
+			EditorPage.ClickConcordanceSearchButton();
+
+			Assert.IsTrue(EditorPage.IsConcordanceSearchDisplayed(),
+				"Произошла ошибка:\n Конкордансный поиск не появился");
 		}
 
-		[Test]
+		[Test(Description = "Проверяет открытие вкладки 'Конкордансный поиск' нажатием Ctrl+K")]
 		public void ConcordanceSearchHotkeyTest()
 		{
-			EditorHelper.OpenConcordanceSearchByHotKey();
+			EditorPage.OpenConcordanceSearchByHotKey();
+
+			Assert.IsTrue(EditorPage.IsConcordanceSearchDisplayed(),
+				"Произошла ошибка:\n Конкордансный поиск не появился");
 		}
 	}
 }

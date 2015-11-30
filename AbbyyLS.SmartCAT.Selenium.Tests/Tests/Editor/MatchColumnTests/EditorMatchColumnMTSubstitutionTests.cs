@@ -4,6 +4,7 @@ using NUnit.Framework;
 
 using AbbyyLS.SmartCAT.Selenium.Tests.DataStructures;
 using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
+using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings;
 using AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers;
 
@@ -16,7 +17,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Editor
 		public void SetupTest()
 		{
 			_createProjectHelper = new CreateProjectHelper(Driver);
-			_editorHelper = new EditorHelper(Driver);
+			_selectTaskDialog = new SelectTaskDialog(Driver);
+			_editorPage = new EditorPage(Driver);
 			_projectSettingsPage = new ProjectSettingsPage(Driver);
 
 			var projectUniqueName = _createProjectHelper.GetProjectUniqueName();
@@ -35,45 +37,51 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Editor
 			_projectSettingsPage
 				.OpenDocumentInEditorWithTaskSelect(Path.GetFileNameWithoutExtension(PathProvider.TxtFileForMatchTest));
 
-			_editorHelper
-				.SelectTask()
-				.CloseTutorialIfExist();
+			_selectTaskDialog.SelectTask();
+
+			_editorPage.CloseTutorialIfExist();
 		}
 
 		[Test]
 		public void CheckMatchAfterMtSubstitution()
 		{
-			_editorHelper
-				.PasteTranslationFromCAT(catType: CatType.MT)
-				.AssertMatchColumnCatTypeMatch(catType: CatType.MT);
+			_editorPage.PasteTranslationFromCAT(catType: CatType.MT);
+
+			Assert.IsTrue(_editorPage.IsMatchColumnCatTypeMatch(catType: CatType.MT),
+				"Произошла ошибка:\n тип подстановки в колонке Match Column не совпал с типом перевода {0}.", CatType.MT);
 		}
 
 		[Test]
 		public void CheckMatchAfterBothSubstitutions()
 		{
-			_editorHelper
+			_editorPage
 				.PasteTranslationFromCAT(catType: CatType.MT)
-				.AssertMatchColumnCatTypeMatch(catType: CatType.MT)
-				.AddTextToSegment(string.Empty)
-				.PasteTranslationFromCAT(catType: CatType.TM)
-				.AssertMatchColumnCatTypeMatch(catType: CatType.TM);
+				.FillSegmentTargetField(string.Empty)
+				.PasteTranslationFromCAT(catType: CatType.TM);
 
-			var catRowNumber = _editorHelper.CatRowNumber(CatType.TM);
+			Assert.IsTrue(_editorPage.IsMatchColumnCatTypeMatch(catType: CatType.TM),
+				"Произошла ошибка:\n тип подстановки в колонке Match Column не совпал с типом перевода {0}.", CatType.TM);
 
-			_editorHelper.AssertCATPercentMatchTargetPercent(1, catRowNumber);
+			var catRowNumber = _editorPage.CatTypeRowNumber(CatType.TM);
+
+            Assert.IsTrue(_editorPage.IsCATPercentMatchTargetPercent(1, catRowNumber),
+				"Произошла ошибка:\n Процент совпадения в CAT-панели и в таргете не совпадает.");
 		}
 
 		[Test]
 		public void CheckMtMatchAfterAdd()
 		{
-			_editorHelper
-				.AddTextToSegment()
-				.PasteTranslationFromCAT(CatType.MT)
-				.AssertMatchColumnCatTypeMatch(CatType.MT);
+			_editorPage
+				.FillSegmentTargetField()
+				.PasteTranslationFromCAT(CatType.MT);
+
+			Assert.IsTrue(_editorPage.IsMatchColumnCatTypeMatch(catType: CatType.MT),
+				"Произошла ошибка:\n тип подстановки в колонке Match Column не совпал с типом перевода {0}.", CatType.MT);
 		}
 
 		private CreateProjectHelper _createProjectHelper;
 		private ProjectSettingsPage _projectSettingsPage;
-		private EditorHelper _editorHelper;
+		private EditorPage _editorPage;
+		private SelectTaskDialog _selectTaskDialog;
 	}
 }

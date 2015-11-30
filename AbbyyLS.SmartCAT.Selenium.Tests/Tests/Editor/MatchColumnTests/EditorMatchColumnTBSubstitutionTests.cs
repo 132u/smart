@@ -5,6 +5,7 @@ using NUnit.Framework;
 using AbbyyLS.SmartCAT.Selenium.Tests.DataStructures;
 using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
 using AbbyyLS.SmartCAT.Selenium.Tests.FeatureAttributes;
+using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings;
 using AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers;
 
@@ -18,7 +19,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Editor
 		public void SetupTest()
 		{
 			_createProjectHelper = new CreateProjectHelper(Driver);
-			_editorHelper = new EditorHelper(Driver);
+			_addTermDialog = new AddTermDialog(Driver);
+			_editorPage = new EditorPage(Driver);
+			_selectTaskDialog = new SelectTaskDialog(Driver);
 			_projectSettingsPage = new ProjectSettingsPage(Driver);
 
 			var projectUniqueName = _createProjectHelper.GetProjectUniqueName();
@@ -36,26 +39,32 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Editor
 			_projectSettingsPage
 				.OpenDocumentInEditorWithTaskSelect(Path.GetFileNameWithoutExtension(PathProvider.TxtFileForMatchTest));
 
-			_editorHelper
-				.SelectTask()
-				.CloseTutorialIfExist();
+			_selectTaskDialog.SelectTask();
+
+			_editorPage.CloseTutorialIfExist();
 		}
 
 		[Test]
 		public void CheckMatchAfterGlossarySubstitution()
 		{
-			var sourceTerm = _editorHelper
-								.ClickTargetSegment(1)
-								.SourceText(1);
+			var sourceTerm = _editorPage
+								.ClickOnTargetCellInSegment(1)
+								.GetSourceText(1);
 
-			_editorHelper
-				.AddNewTerm(sourceTerm, "термин глоссария")
-				.PasteTranslationFromCAT(catType: CatType.TB)
-				.AssertMatchColumnCatTypeMatch(catType: CatType.TB);
+			_editorPage.ClickAddTermButton();
+
+			_addTermDialog.AddNewTerm(sourceTerm, "термин глоссария");
+
+			_editorPage.PasteTranslationFromCAT(catType: CatType.TB);
+
+			Assert.IsTrue(_editorPage.IsMatchColumnCatTypeMatch(catType: CatType.TB),
+				"Произошла ошибка:\n тип подстановки в колонке Match Column не совпал с типом перевода {0}.", CatType.TB);
 		}
 
 		private CreateProjectHelper _createProjectHelper;
 		private ProjectSettingsPage _projectSettingsPage;
-		private EditorHelper _editorHelper;
+		private AddTermDialog _addTermDialog;
+		private EditorPage _editorPage;
+		private SelectTaskDialog _selectTaskDialog;
 	}
 }

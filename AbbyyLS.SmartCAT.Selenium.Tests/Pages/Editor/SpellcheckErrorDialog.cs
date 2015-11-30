@@ -1,5 +1,4 @@
-﻿using NUnit.Framework;
-using OpenQA.Selenium;
+﻿using OpenQA.Selenium;
 using OpenQA.Selenium.Support.PageObjects;
 
 using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
@@ -23,9 +22,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 
 		public new void LoadPage()
 		{
-			if (!Driver.WaitUntilElementIsDisplay(By.XPath(MESSAGEBOX)))
+			if (!IsSpellcheckErrorDialogOpened())
 			{
-				Assert.Fail("Произошла ошибка:\n не появилось окно с предупреждением об ошибке.");
+				throw new XPathLookupException("Произошла ошибка:\n не появилось окно с предупреждением об ошибке");
 			}
 		}
 
@@ -39,7 +38,15 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 
 			return new SpellcheckDictionaryDialog(Driver).GetPage();
 		}
-		
+
+		/// <summary>
+		/// Проверить, появилось ли окно с предупреждением об ошибке
+		/// </summary>
+		public bool IsSpellcheckErrorDialogOpened()
+		{
+			return Driver.WaitUntilElementIsDisplay(By.XPath(MESSAGEBOX));
+		}
+
 		[FindsBy(How = How.XPath, Using = OK_BUTTON)]
 		protected IWebElement OkButton { get; set; }
 

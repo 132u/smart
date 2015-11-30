@@ -4,6 +4,7 @@ using NUnit.Framework;
 
 using AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers;
 using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
+using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Editor
@@ -14,11 +15,12 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Editor
 		[SetUp]
 		public void SetupTest()
 		{
-			EditorHelper = new EditorHelper(Driver);
 			CreateProjectHelper = new CreateProjectHelper(Driver);
 			ProjectSettingsPage = new ProjectSettingsPage(Driver);
 			SettingsDialog = new SettingsDialog(Driver);
 			ProjectSettingsHelper = new ProjectSettingsHelper(Driver);
+			EditorPage = new EditorPage(Driver);
+			SelectTaskDialog = new SelectTaskDialog(Driver);
 
 			var projectUniqueName = CreateProjectHelper.GetProjectUniqueName();
 
@@ -29,15 +31,16 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Editor
 
 			ProjectSettingsPage.OpenDocumentInEditorWithTaskSelect(Path.GetFileNameWithoutExtension(PathProvider.EditorTxtFile));
 
-			EditorHelper
-				.SelectTask()
-				.CloseTutorialIfExist();
+			SelectTaskDialog.SelectTask();
+
+			EditorPage.CloseTutorialIfExist();
 		}
 
-		protected EditorHelper EditorHelper;
 		protected CreateProjectHelper CreateProjectHelper;
 		protected ProjectSettingsHelper ProjectSettingsHelper;
 		protected ProjectSettingsPage ProjectSettingsPage;
 		protected SettingsDialog SettingsDialog;
+		public EditorPage EditorPage;
+		public SelectTaskDialog SelectTaskDialog;
 	}
 }

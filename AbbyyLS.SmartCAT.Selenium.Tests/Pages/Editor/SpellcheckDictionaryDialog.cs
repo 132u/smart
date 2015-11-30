@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 
-using NUnit.Framework;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.PageObjects;
 
@@ -28,11 +27,13 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 
 		public new void LoadPage()
 		{
-			if (!Driver.WaitUntilElementIsDisplay(By.XPath(DICTIONARY_FORM)))
+			if (!IsSpellcheckDictionaryDialogOpened())
 			{
-				Assert.Fail("Произошла ошибка:\n не появился словарь.");
+				throw new XPathLookupException("Произошла ошибка:\n не появился словарь");
 			}
 		}
+
+		#region Простые методы страницы
 
 		/// <summary>
 		/// Нажать кнопку закрытия словаря
@@ -45,19 +46,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 			return new EditorPage(Driver).GetPage();
 		}
 
-		/// <summary>
-		/// Проверить доступность кнопки добавления слова в словарь
-		/// </summary>
-		public SpellcheckDictionaryDialog AssertAddWordButtinEnabled()
-		{
-			CustomTestContext.WriteLine("Проверить доступность кнопки добавления слова в словарь");
-
-			Assert.IsTrue(Driver.WaitUntilElementIsEnabled(By.XPath(ADD_WORD_BTN)) && Driver.WaitUntilElementIsDisplay(By.XPath(ADD_WORD_BTN)),
-				"Произошла ошибка:\n кнопка добавления слова в словарь недоступна.");
-
-			return GetPage();
-		}
-		
 		/// <summary>
 		/// Нажать кнопку добавления слова в словарь
 		/// </summary>
@@ -83,32 +71,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		}
 
 		/// <summary>
-		/// Проверить, что слово присутствует в словаре
-		/// </summary>
-		public SpellcheckDictionaryDialog AssertWordExistInDictionary(string word)
-		{
-			CustomTestContext.WriteLine("Проверить, что слово {0} присутствует в словаре", word);
-			
-			Assert.IsTrue(GetWordsList().Contains(word),
-				"Произошла ошибка:\n слово {0} не найдено в словаре.", word);
-
-			return GetPage();
-		}
-
-		/// <summary>
-		/// Проверить, что слово не присутствует в словаре
-		/// </summary>
-		public SpellcheckDictionaryDialog AssertWordNotExistInDictionary(string word)
-		{
-			CustomTestContext.WriteLine("Проверить, что слово {0} не присутствует в словаре", word);
-
-			Assert.IsFalse(GetWordsList().Contains(word),
-				"Произошла ошибка:\n слово {0} найдено в словаре.", word);
-
-			return GetPage();
-		}
-
-		/// <summary>
 		/// Выделить слово в словаре
 		/// </summary>
 		public SpellcheckDictionaryDialog HilightWordInDictionary(string word)
@@ -125,7 +87,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		/// <summary>
 		/// Добавить слово в словарь
 		/// </summary>
-		public SpellcheckDictionaryDialog AddWordToDictionary(string word)
+		public SpellcheckDictionaryDialog FillWordField(string word)
 		{
 			CustomTestContext.WriteLine("Добавить слово {0} в словарь", word);
 			InputWordField.DoubleClick();
@@ -157,6 +119,89 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 			return Driver.GetElementList(By.XPath(WORDS_LIST)).Select(webElement => webElement.Text).ToList();
 		}
 
+		#endregion
+
+		#region Составные методы страницы
+
+		/// <summary>
+		/// Добавить слово в словарь
+		/// </summary>
+		/// <param name="word">слово</param>
+		public EditorPage AddWordToDictionary(string word)
+		{
+			ClickAddWordButton();
+			FillWordField(word);
+			ConfirmWord<SpellcheckDictionaryDialog>(Driver);
+			var editorPage = ClickCloseDictionaryButton();
+
+			return editorPage;
+		}
+
+		/// <summary>
+		/// Удалить все слова из словаря
+		/// </summary>
+		public EditorPage RemoveAllWordsFromDictionary()
+		{
+			var wordsList = GetWordsList();
+			wordsList.ForEach(word => ClickDeleteWordButton(word));
+			var editorPage = ClickCloseDictionaryButton();
+
+			return editorPage;
+		}
+
+		/// <summary>
+		/// Заменить слово в словаре
+		/// </summary>
+		/// <param name="oldWord">старое слово</param>
+		/// <param name="newWord">новое слово</param>
+		public EditorPage ReplaceWordInDictionary(string oldWord, string newWord)
+		{
+			HilightWordInDictionary(oldWord);
+			FillWordField(newWord);
+			ConfirmWord<SpellcheckDictionaryDialog>(Driver);
+			var editorPage = ClickCloseDictionaryButton();
+
+			return editorPage;
+		}
+
+		/// <summary>
+		/// Удалить слово из словаря
+		/// </summary>
+		/// <param name="word">слово</param>
+		public EditorPage DeleteWordFromDictionary(string word)
+		{
+			ClickDeleteWordButton(word);
+			var editorPage = ClickCloseDictionaryButton();
+
+			return editorPage;
+		}
+
+		#endregion
+
+		#region Методы, проверяющие состояние страницы
+
+		/// <summary>
+		/// Проверить, открылся ли словарь
+		/// </summary>
+		public bool IsSpellcheckDictionaryDialogOpened()
+		{
+			return Driver.WaitUntilElementIsDisplay(By.XPath(DICTIONARY_FORM));
+		}
+
+		/// <summary>
+		/// Проверить, что слово присутствует в словаре
+		/// </summary>
+		public bool IsWordExistInDictionary(string word)
+		{
+			CustomTestContext.WriteLine("Проверить, что слово {0} присутствует в словаре", word);
+
+			return GetWordsList().Contains(word);
+		}
+
+		#endregion
+
+		#region Объявление элементов страницы
+
 		[FindsBy(How = How.XPath, Using = INPUT_WORD)]
 		protected IWebElement InputWordField { get; set; }
 
@@ -173,6 +218,10 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 
 		protected IWebElement Word { get; set; }
 
+		#endregion
+
+		#region Описание  XPath элементов страницы
+
 		protected const string DICTIONARY_FORM = "//div[@id='dictionary_header']";
 		protected const string ADD_WORD_BTN = "//div[@id='dictionary']//span[contains(@id, 'btnInnerEl')]";
 		protected const string INPUT_WORD = "//div[@id='dictionary']//input[contains(@id, 'textfield')]";
@@ -180,5 +229,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		protected const string WORD_PATH = "//div[@id='dictionary']//table//tr//td[1]//div[text()='*#*']";
 		protected const string WORDS_LIST = "//div[@id='dictionary']//table//tr//td[1]";
 		protected const string CLOSE_DICTIONARY_BTN = "//div[@id='dictionary_header']//div[contains(@class, 'x-tool-close')]";
+
+		#endregion
 	}
 }

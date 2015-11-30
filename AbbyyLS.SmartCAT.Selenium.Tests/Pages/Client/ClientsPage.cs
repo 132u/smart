@@ -204,7 +204,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Client
 		{
 			CustomTestContext.WriteLine("Проверить, что появилась ошибка в имени клиента при создании");
 
-			return Driver.WaitUntilElementIsDisplay(ErrorClientName);
+			return Driver.WaitUntilElementIsDisplay(By.XPath(ERROR_NAME));
 		}
 
 		/// <summary>
@@ -214,7 +214,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Client
 		{
 			CustomTestContext.WriteLine("Проверить, что мы находимся в режиме редактирования клиента");
 
-			return Driver.WaitUntilElementIsDisplay(ClientNameField);
+			return Driver.WaitUntilElementIsDisplay(By.XPath(CLIENT_INPUT_NAME));
 		}
 
 		/// <summary>

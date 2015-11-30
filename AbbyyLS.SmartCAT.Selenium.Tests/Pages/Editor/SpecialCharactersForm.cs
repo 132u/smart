@@ -1,5 +1,4 @@
-﻿using NUnit.Framework;
-using OpenQA.Selenium;
+﻿using OpenQA.Selenium;
 
 using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
 using AbbyyLS.SmartCAT.Selenium.Tests.TestFramework;
@@ -22,10 +21,18 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 
 		public new void LoadPage()
 		{
-			if (!Driver.WaitUntilElementIsDisplay(By.XPath(CHAR_LIST)))
+			if (!IsSpecialCharactersFormOpened())
 			{
-				Assert.Fail("Произошла ошибка:\n не появилась форма 'Специальные символы'.");
+				throw new XPathLookupException("Произошла ошибка:\n не появилась форма 'Специальные символы'.");
 			}
+		}
+
+		/// <summary>
+		/// Проверить, открыта ли форма 'Специальные символы'
+		/// </summary>
+		public bool IsSpecialCharactersFormOpened()
+		{
+			return Driver.WaitUntilElementIsDisplay(By.XPath(CHAR_LIST));
 		}
 
 		protected const string CHAR_LIST = "//ul[@id='char-list']";

@@ -2,6 +2,7 @@
 
 using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
 using AbbyyLS.SmartCAT.Selenium.Tests.FeatureAttributes;
+using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Editor
 {
@@ -9,16 +10,30 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Editor
 	[Standalone]
 	public class EditorCharacterTests<TWebDriverProvider> : EditorBaseTest<TWebDriverProvider> where TWebDriverProvider : IWebDriverProvider, new()
 	{
-		[Test]
-		public void CharacterButtonTest()
+		[SetUp]
+		public void SetUp()
 		{
-			EditorHelper.OpenSpecialCharacters();
+			_specialCharactersForm = new SpecialCharactersForm(Driver);
 		}
 
-		[Test]
+		[Test(Description = "Проверяет открытие формы 'Специальные символы' с помощью кнопки")]
+		public void CharacterButtonTest()
+		{
+			EditorPage.ClickCharacterButton();
+
+			Assert.IsTrue(_specialCharactersForm.IsSpecialCharactersFormOpened(),
+				"Произошла ошибка:\n не появилась форма 'Специальные символы'");
+		}
+
+		[Test(Description = "Проверяет открытие формы 'Специальные символы' нажатием Ctrl+Shift+I")]
 		public void CharacterHotkeyTest()
 		{
-			EditorHelper.OpenSpecialCharactersByHotKey();
+			EditorPage.OpenSpecialCharacterFormByHotKey();
+
+			Assert.IsTrue(_specialCharactersForm.IsSpecialCharactersFormOpened(),
+				"Произошла ошибка:\n не появилась форма 'Специальные символы'");
 		}
+
+		private SpecialCharactersForm _specialCharactersForm;
 	}
 }

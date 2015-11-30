@@ -5,6 +5,7 @@ using NUnit.Framework;
 using AbbyyLS.SmartCAT.Selenium.Tests.DataStructures;
 using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
 using AbbyyLS.SmartCAT.Selenium.Tests.FeatureAttributes;
+using AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Editor
 {
@@ -12,31 +13,35 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Editor
 	[Standalone]
 	public class EditorPreviousStageTests<TWebDriverProvider> : EditorBaseTest<TWebDriverProvider> where TWebDriverProvider : IWebDriverProvider, new()
 	{
-		[Test]
+		[Test(Description = "Проверяет блокировку сегментов при добавлении задачи на редактирование")]
 		public void PreviousStageButtonTest()
 		{
-			EditorHelper
-				.AddTextToSegment()
-				.ConfirmTranslation()
-				.AssertIsSegmentConfirmed()
-				.AssertSaveingStatusIsDisappeared()
-				.ClickHomeButton()
-				.OpenWorkflowSettings();
+			_projectSettingsHelper = new ProjectSettingsHelper(Driver);
+
+			EditorPage
+				.FillSegmentTargetField()
+				.ConfirmSegmentTranslation()
+				.ClickHomeButton();
+
+			_projectSettingsHelper.OpenWorkflowSettings();
 
 			SettingsDialog
 				.AddTask(WorkflowTask.Editing)
 				.SaveSettings();
 
-			ProjectSettingsHelper
-				.AssignTasksOnDocument(Path.GetFileNameWithoutExtension(PathProvider.EditorTxtFile), ThreadUser.NickName, taskNumber: 2);
+			ProjectSettingsHelper.AssignTasksOnDocument(Path.GetFileNameWithoutExtension(PathProvider.EditorTxtFile), ThreadUser.NickName, taskNumber: 2);
 
-			ProjectSettingsPage
-				.OpenDocumentInEditorWithTaskSelect(Path.GetFileNameWithoutExtension(PathProvider.EditorTxtFile));
+			ProjectSettingsPage.OpenDocumentInEditorWithTaskSelect(Path.GetFileNameWithoutExtension(PathProvider.EditorTxtFile));
 
-			EditorHelper
-				.SelectTask(TaskMode.Editing)
-				.AssertSegmentIsNotLocked()
-				.RollBack();
+			SelectTaskDialog.SelectTask(TaskMode.Editing);
+
+			Assert.IsFalse(EditorPage.IsSegmentLocked(), "Произошла ошибка:\n сегмент залочен");
+
+			EditorPage.RollBack();
+
+			Assert.IsTrue(EditorPage.IsSegmentLocked(), "Произошла ошибка:\n сегмент не залочен");
 		}
+
+		private ProjectSettingsHelper _projectSettingsHelper;
 	}
 }

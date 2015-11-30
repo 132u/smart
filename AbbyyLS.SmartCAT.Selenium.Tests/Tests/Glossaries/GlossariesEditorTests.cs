@@ -4,6 +4,7 @@ using NUnit.Framework;
 
 using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
 using AbbyyLS.SmartCAT.Selenium.Tests.FeatureAttributes;
+using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.UsersRights;
 using AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers;
@@ -18,10 +19,12 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 		public void GlossariesSetUp()
 		{
 			_createProjectHelper = new CreateProjectHelper(Driver);
-			_editorHelper = new EditorHelper(Driver);
 			_workspaceHelper = new WorkspaceHelper(Driver);
 			_usersRightsPage = new UsersRightsPage(Driver);
 			_projectSettingsPage = new ProjectSettingsPage(Driver);
+			_editorPage = new EditorPage(Driver);
+			_selectTaskDialog = new SelectTaskDialog(Driver);
+			_addTermDialog = new AddTermDialog(Driver);
 
 			_projectName = _createProjectHelper.GetProjectUniqueName();
 			_glossary1Name = GlossariesHelper.UniqueGlossaryName();
@@ -53,55 +56,67 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 			_projectSettingsPage
 				.OpenDocumentInEditorWithTaskSelect(Path.GetFileNameWithoutExtension(PathProvider.DocumentFile));
 
-			_editorHelper
-				.SelectTask()
-				.CloseTutorialIfExist();
+			_selectTaskDialog.SelectTask();
+
+			_editorPage.CloseTutorialIfExist();
 		}
 
-		/// <summary>
-		/// Проверка выпадающего списка с глоссариями, при создании проекта подключалось два глоссария
-		/// </summary>
-		[Test]
+		[Test(Description = "Проверяет выпадающий список с глоссариями, при создании проекта подключалось 2 глоссария")]
 		public void CheckGlossaryListInProjectWithTwoGlossaries()
 		{
-			_editorHelper
-				.OpenAddTermDialog()
-				.AssertGlossaryExistInList(_glossary1Name)
-				.CloseGlossaryDropdown()
-				.ClickCancelAddTerm()
-				.OpenAddTermDialog()
-				.AssertGlossaryExistInList(_glossary2Name);
+			_editorPage.ClickAddTermButton();
+
+			_addTermDialog.OpenGlossarySelect();
+
+			Assert.IsTrue(_addTermDialog.IsGlossaryExistInDropdown(_glossary1Name),
+				"Произошла ошибка:\n глоссарий не найден в выпадающем списке");
+
+			Assert.IsTrue(_addTermDialog.IsGlossaryExistInDropdown(_glossary2Name),
+				"Произошла ошибка:\n глоссарий не найден в выпадающем списке");
 		}
 
-		/// <summary>
-		/// Добавление одинаковых терминов в разные глоссарии
-		/// </summary>
-		[Test]
+		[Test(Description = "Проверяет добавление одинаковых терминов в разные глоссарии")]
 		public void AddEqualTermsInTwoGlossaries()
 		{
 			var source = "Space";
 			var target = "Космос";
 
-			_editorHelper
-				.AddNewTerm(source, target, glossaryName: _glossary1Name)
-				.AddNewTerm(source, target, glossaryName: _glossary2Name);
+			_editorPage.ClickAddTermButton();
+
+			_addTermDialog.AddNewTerm(source, target, glossaryName: _glossary1Name);
+
+			Assert.IsTrue(_editorPage.IsTermSaved(),
+				"Произошла ошибка:\n сообщение о том, что термин сохранен, не появилось");
+
+			Assert.IsTrue(_editorPage.IsTermSavedMessageDisappeared(),
+				"Произошла ошибка:\n сообщение о том, что термин сохранен, не исчезло");
+
+			_editorPage.ClickAddTermButton();
+
+			_addTermDialog.AddNewTerm(source, target, glossaryName: _glossary2Name);
+
+			Assert.IsTrue(_editorPage.IsTermSaved(),
+				"Произошла ошибка:\n сообщение о том, что термин сохранен, не появилось");
+
+			Assert.IsTrue(_editorPage.IsTermSavedMessageDisappeared(),
+				"Произошла ошибка:\n сообщение о том, что термин сохранен, не исчезло");
 		}
 
-		/// <summary>
-		/// Проверка выпадающего списка с глоссариями, проект с двумя глоссариями, второй глоссарий подключается в настройках проекта
-		/// </summary>
-		[Test]
+		[Test(Description = "Проверяет выпадающий список с глоссариями (проект с 2 глоссариями, второй глоссарий подключается в настройках проекта")]
 		public void CheckGlossaryListInProjectCreatedWithOneGlossary()
 		{
-			_editorHelper
-				.OpenAddTermDialog()
-				.AssertGlossaryExistInList(_glossary1Name)
-				.ClickCancelAddTerm()
-				.OpenAddTermDialog()
-				.AssertGlossaryExistInList(_glossary2Name)
-				.ClickCancelAddTerm()
-				.OpenAddTermDialog()
-				.AssertGlossaryExistInList(_glossary3Name);
+			_editorPage.ClickAddTermButton();
+
+			_addTermDialog.OpenGlossarySelect();
+
+			Assert.IsTrue(_addTermDialog.IsGlossaryExistInDropdown(_glossary1Name),
+				"Произошла ошибка:\n глоссарий не найден в выпадающем списке");
+
+			Assert.IsTrue(_addTermDialog.IsGlossaryExistInDropdown(_glossary2Name),
+				"Произошла ошибка:\n глоссарий не найден в выпадающем списке");
+
+			Assert.IsTrue(_addTermDialog.IsGlossaryExistInDropdown(_glossary3Name),
+				"Произошла ошибка:\n глоссарий не найден в выпадающем списке");
 		}
 
 		private string _projectName;
@@ -111,8 +126,10 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 
 		private CreateProjectHelper _createProjectHelper;
 		private ProjectSettingsPage _projectSettingsPage;
-		private EditorHelper _editorHelper;
 		private WorkspaceHelper _workspaceHelper;
+		private EditorPage _editorPage;
+		private SelectTaskDialog _selectTaskDialog;
 		private UsersRightsPage _usersRightsPage;
+		private AddTermDialog _addTermDialog;
 	}
 }

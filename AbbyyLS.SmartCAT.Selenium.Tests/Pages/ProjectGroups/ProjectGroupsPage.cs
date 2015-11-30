@@ -280,7 +280,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.ProjectGroups
 		{
 			CustomTestContext.WriteLine("Проверить, что появилась ошибка в имени группы проектов при создании группы проектов.");
 
-			return Driver.WaitUntilElementIsDisplay(NameError);
+			return Driver.WaitUntilElementIsDisplay(By.XPath(ERROR_NAME));
 		}
 
 		/// <summary>
@@ -336,7 +336,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.ProjectGroups
 		{
 			CustomTestContext.WriteLine("Проверить, что пустая строка для создания группы проектов появилась.");
 
-			return Driver.WaitUntilElementIsDisplay(NewProjectGroupRow);
+			return Driver.WaitUntilElementIsDisplay(By.XPath(NEW_PROJECT_GROUP_ROW));
 		}
 
 		#endregion

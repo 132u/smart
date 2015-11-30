@@ -1,7 +1,9 @@
-﻿using NUnit.Framework;
+﻿using System;
+
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.PageObjects;
 
+using AbbyyLS.SmartCAT.Selenium.Tests.DataStructures;
 using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
 using AbbyyLS.SmartCAT.Selenium.Tests.TestFramework;
 
@@ -23,9 +25,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 
 		public new void LoadPage()
 		{
-			if (!Driver.WaitUntilElementIsDisplay(By.XPath(TRANSLATE_BTN_XPATH), 30))
+			if (!IsSelectTaskDialogOpened())
 			{
-				Assert.Fail("Произошла ошибка:\n не появился диалог с выбором задания в редакторе.");
+				throw new XPathLookupException("Произошла ошибка:\n не появился диалог с выбором задания в редакторе.");
 			}
 		}
 
@@ -71,6 +73,43 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 			ContinueButton.Click();
 
 			return new EditorPage(Driver).GetPage();
+		}
+
+		/// <summary>
+		/// Выбрать режим работы
+		/// </summary>
+		/// <param name="mode">режим</param>
+		public EditorPage SelectTask(TaskMode mode = TaskMode.Translation)
+		{
+			switch (mode)
+			{
+				case TaskMode.Translation:
+					ClickTranslateButton();
+					break;
+
+				case TaskMode.Manager:
+					ClickManagerButton();
+					break;
+
+				case TaskMode.Editing:
+					ClickEditingButton();
+					break;
+
+				default:
+					throw new Exception(string.Format("Передан аргумент, который не предусмотрен! Значение аргумента:'{0}'", mode.ToString()));
+			}
+
+			var editorPage = ClickContinueButton();
+
+			return editorPage;
+		}
+
+		/// <summary>
+		/// Проверить, открылся ли диалог выбора задачи
+		/// </summary>
+		public bool IsSelectTaskDialogOpened()
+		{
+			return Driver.WaitUntilElementIsDisplay(By.XPath(TRANSLATE_BTN_XPATH), 30);
 		}
 
 		[FindsBy(How = How.XPath, Using = TRANSLATE_BTN_XPATH)]

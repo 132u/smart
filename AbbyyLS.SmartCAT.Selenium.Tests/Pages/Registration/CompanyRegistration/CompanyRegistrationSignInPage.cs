@@ -97,7 +97,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Registration
 		/// </summary>
 		public bool IsCompanyRegistrationSignInPageOpened()
 		{
-			return Driver.WaitUntilElementIsDisplay(Password);
+			return Driver.WaitUntilElementIsDisplay(By.XPath(PASSWORD));
 		}
 
 		#endregion

@@ -66,6 +66,7 @@
     <Compile Include="Configs\UserInfoConfig.cs" />
     <Compile Include="DataStructures\DateRange.cs" />
     <Compile Include="ExplicitAttributes\UserDataExplicitAttribute.cs" />
+    <Compile Include="Pages\Editor\ConfirmTermWithoutTranskationDialog.cs" />
     <Compile Include="Pages\Glossaries\FilterDialog.cs" />
     <Compile Include="Pages\Glossaries\SuggestedTerms\SuggestedTermsForCurrentGlossariesPage.cs" />
     <Compile Include="Pages\Glossaries\SuggestedTerms\SuggestTermDialog.cs" />
@@ -214,7 +215,6 @@
     <Compile Include="TestHelpers\CommonHelper.cs" />
     <Compile Include="TestHelpers\CreateProjectHelper.cs" />
     <Compile Include="TestHelpers\ExportFileHelper.cs" />
-    <Compile Include="TestHelpers\EditorHelper.cs" />
     <Compile Include="TestHelpers\GlossariesHelper.cs" />
     <Compile Include="TestHelpers\LoginHelper.cs" />
     <Compile Include="TestHelpers\ProjectSettingsHelper.cs" />

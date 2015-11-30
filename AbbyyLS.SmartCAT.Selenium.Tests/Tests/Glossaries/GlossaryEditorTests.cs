@@ -5,6 +5,7 @@ using NUnit.Framework;
 using AbbyyLS.SmartCAT.Selenium.Tests.DataStructures;
 using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
 using AbbyyLS.SmartCAT.Selenium.Tests.FeatureAttributes;
+using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.UsersRights;
 using AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers;
@@ -19,11 +20,13 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 		public void GlossariesSetUp()
 		{
 			_createProjectHelper = new CreateProjectHelper(Driver);
-			_editorHelper = new EditorHelper(Driver);
 			_workspaceHelper = new WorkspaceHelper(Driver);
-
+			_editorPage = new EditorPage(Driver);
+			_selectTaskDialog = new SelectTaskDialog(Driver);
+			_addTermDialog = new AddTermDialog(Driver);
 			_usersRightsPage = new UsersRightsPage(Driver);
 			_projectSettingsPage = new ProjectSettingsPage(Driver);
+			_confirmTermWithoutTranskationDialog = new ConfirmTermWithoutTranskationDialog(Driver);
 
 			_projectName = _createProjectHelper.GetProjectUniqueName();
 			_glossaryName = GlossariesHelper.UniqueGlossaryName();
@@ -46,275 +49,335 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 			_projectSettingsPage
 				.OpenDocumentInEditorWithTaskSelect(Path.GetFileNameWithoutExtension(PathProvider.DocumentFile));
 
-			_editorHelper
-				.SelectTask()
-				.CloseTutorialIfExist();
+			_selectTaskDialog.SelectTask();
+
+			_editorPage.CloseTutorialIfExist();
 		}
 
-		/// <summary>
-		/// Открывает форму добавления термина в редакторе по нажатию кнопки на панели
-		/// </summary>
-		[Test]
+		[Test(Description = "Проверят открытие формы добавления теримна с помощью кнопки")]
 		public void OpenAddTermFormByButton()
 		{
-			_editorHelper.OpenAddTermDialog();
+			_editorPage.ClickAddTermButton();
+
+			Assert.IsTrue(_addTermDialog.IsAddTermDialogOpened(),
+				"Произошла ошибка: \nне открылся диалог добавления термина");
 		}
 
-		/// <summary>
-		/// Открывает форму добавления термина в редакторе по хоткею
-		/// </summary>
-		[Test]
+		[Test(Description = "Проверят открытие формы добавления теримна нажатием Ctrl+E")]
 		public void OpenAddTermFormByHotKey()
 		{
-			_editorHelper.OpenAddTermDialogWithHotKey();
+			_editorPage.OpenAddTermDialogByHotKey();
+
+			Assert.IsTrue(_addTermDialog.IsAddTermDialogOpened(),
+				"Произошла ошибка: \nне открылся диалог добаления нового термина");
 		}
 
-		/// <summary>
-		/// Проверка автозапослнения формы при выделенном слове в сорсе
-		/// </summary>
-		[Test]
+		[Test(Description = "Проверяет автозаполнения формы при выделенном слове в сорсе")]
 		public void AutofillAddTermFormWithSelectedSourceWord()
 		{
-			var word = _editorHelper
+			var word = _editorPage
 				.SelectFirstWordInSegment(1, SegmentType.Source)
-				.GetFirstWordInSegment();
+				.GetSelectedWordInSegment();
 
-			_editorHelper
+			_editorPage
 				.SelectFirstWordInSegment(1, SegmentType.Source)
-				.OpenAddTermDialog()
-				.CheckAutofillInAddTermDialog(word)
-				.ConfirmAdditionTermWithoutTranslation();
+				.ClickAddTermButton();
+
+			Assert.IsTrue(_addTermDialog.IsTextExistInSourceTerm(word),
+				"Произошла ошибка:\n нет автозаполнения сорса");
 		}
 
-		/// <summary>
-		/// Проверка автозапослнения формы при выделенном слове в тагрет
-		/// </summary>
-		[Test]
+		[Test(Description = "Проверяет автозаполнения формы при выделенном слове в таргете")]
 		public void AutofillAddTermFormWithSelectedTargetWord()
 		{
-			var word = _editorHelper
-				.AddTextToSegment("Town")
+			var word = _editorPage
+				.FillSegmentTargetField("Town")
 				.SelectFirstWordInSegment(1, SegmentType.Target)
-				.GetFirstWordInSegment();
+				.GetSelectedWordInSegment();
 
-			_editorHelper
+			_editorPage
 				.SelectFirstWordInSegment(1, SegmentType.Target)
-				.OpenAddTermDialog()
-				.CheckAutofillInAddTermDialog(target: word)
-				.ConfirmAdditionTermWithoutTranslation();
+				.ClickAddTermButton();
+
+			Assert.IsTrue(_addTermDialog.IsTextExistInTargetTerm(word),
+				"Произошла ошибка:\n нет автозаполнения таргета");
 		}
 
-		/// <summary>
-		/// Добавить одиночный термин из сорса в глоссарий
-		/// </summary>
-		[Test]
+		[Test(Description = "Проверяет появление сообщения об успешном сохранении")]
+		public void AppearenceOfTermSavedMessageTest()
+		{
+			_editorPage.ClickAddTermButton();
+
+			_addTermDialog.AddNewTerm("Word", "Слово", "Комментарий");
+
+			Assert.IsTrue(_editorPage.IsTermSaved(),
+				"Произошла ошибка:\n сообщение о том, что термин сохранен, не появилось");
+
+			Assert.IsTrue(_editorPage.IsTermSavedMessageDisappeared(),
+				"Произошла ошибка:\n сообщение о том, что термин сохранен, не исчезло");
+		}
+
+		[Test(Description = "Проверяет добавление одиночного термина из сорса в глоссарий")]
 		public void AddSingleTermFromSourceToGlossary()
 		{
-			var word = _editorHelper
+			var word = _editorPage
 				.SelectFirstWordInSegment(1, SegmentType.Source)
-				.GetFirstWordInSegment();
+				.GetSelectedWordInSegment();
 
-			_editorHelper
+			_editorPage
 				.SelectFirstWordInSegment(1, SegmentType.Source)
-				.OpenAddTermDialog()
-				.CheckAutofillInAddTermDialog(word)
-				.ConfirmAdditionTermWithoutTranslation()
-				.ClickHomeButton()
+				.ClickAddTermButton();
+
+			_addTermDialog.ClickAddButtonExpectingConfirmation();
+
+			_confirmTermWithoutTranskationDialog.ConfirmSaving();
+
+			_editorPage.ClickHomeButton();
+
+			_workspaceHelper
 				.GoToGlossariesPage()
 				.CheckTermInGlossary(_glossaryName, word);
 		}
 
-		/// <summary>
-		/// Добавить одиночный термин из таргета в глоссарий
-		/// </summary>
-		[Test]
+		[Test(Description = "Проверяет добавление одиночного термина из таргета в глоссарий")]
 		public void AddSingleTermFromTargetToGlossary()
 		{
-			var word = _editorHelper
-				.AddTextToSegment("Town")
+			var word = _editorPage
+				.FillSegmentTargetField("Town")
 				.SelectFirstWordInSegment(1, SegmentType.Target)
-				.GetFirstWordInSegment();
+				.GetSelectedWordInSegment();
 
-			_editorHelper
+			_editorPage
 				.SelectFirstWordInSegment(1, SegmentType.Target)
-				.OpenAddTermDialog()
-				.CheckAutofillInAddTermDialog(target: word)
-				.ConfirmAdditionTermWithoutTranslation()
-				.ClickHomeButton()
+				.ClickAddTermButton();
+
+			_addTermDialog.ClickAddButtonExpectingConfirmation();
+
+			_confirmTermWithoutTranskationDialog.ConfirmSaving();
+
+			_editorPage.ClickHomeButton();
+
+			_workspaceHelper
 				.GoToGlossariesPage()
 				.CheckTermInGlossary(_glossaryName, "", word);
 		}
 
-		/// <summary>
-		/// Добавить термин с сорсом и таргетом в глоссарий
-		/// </summary>
-		[Test]
+		[Test(Description = "Проверяет добавление термина с сорсом и таргетом в глоссарий")]
 		public void AddSourceTargetTermToGlossary()
 		{
 			var source = "Comet";
 			var target = "Комета";
 
-			_editorHelper
-				.AddNewTerm(source, target)
-				.ClickHomeButton()
+			_editorPage.ClickAddTermButton();
+
+			_addTermDialog.AddNewTerm(source, target);
+
+			_editorPage.ClickHomeButton();
+
+			_workspaceHelper
 				.GoToGlossariesPage()
 				.CheckTermInGlossary(_glossaryName, source, target);
 		}
 
-		/// <summary>
-		/// Добавить термин из сорса с таргетом в глоссарий игнорируя автоподстановку
-		/// </summary>
-		[Test]
+		[Test(Description = "Проверяет добавление термина из сорса с таргетом в глоссарий игнорируя автоподстановку")]
 		public void AddModifiedSourceTargetTermToGlossary()
 		{
 			var source = "Comet";
 			var target = "Комета";
-			var word = _editorHelper
-				.SelectFirstWordInSegment(1, SegmentType.Source)
-				.GetFirstWordInSegment();
 
-			_editorHelper
+			_editorPage
 				.SelectFirstWordInSegment(1, SegmentType.Source)
-				.OpenAddTermDialog()
-				.CheckAutofillInAddTermDialog(word)
-				.FillAddTermForm(source, target)
-				.ClickHomeButton()
+				.ClickAddTermButton();
+
+			_addTermDialog.AddNewTerm(source, target);
+
+			_editorPage.ClickHomeButton();
+
+			_workspaceHelper
 				.GoToGlossariesPage()
 				.CheckTermInGlossary(_glossaryName, source, target);
 		}
 
-		/// <summary>
-		/// Добавить измененный термин из таргета в глоссарий
-		/// </summary>
-		[Test]
+
+		[Test(Description = "Проверяет добавление измененного термина из таргета в глоссарий")]
 		public void AddSourceModifiedTargetTermToGlossary()
 		{
 			var source = "Comet";
+			var oldTarget = "Town";
 			var target = "Комета";
-			var word = _editorHelper
-				.AddTextToSegment("Town")
-				.SelectFirstWordInSegment(1, SegmentType.Target)
-				.GetFirstWordInSegment();
 
-			_editorHelper
+			_editorPage
+				.FillSegmentTargetField(oldTarget)
 				.SelectFirstWordInSegment(1, SegmentType.Target)
-				.OpenAddTermDialog()
-				.CheckAutofillInAddTermDialog(target: word)
-				.FillAddTermForm(source, target)
-				.ClickHomeButton()
+				.ClickAddTermButton();
+
+			_addTermDialog.AddNewTerm(source, target);
+
+			_editorPage.ClickHomeButton();
+
+			_workspaceHelper
 				.GoToGlossariesPage()
 				.CheckTermInGlossary(_glossaryName, source, target);
 		}
 
-		/// <summary>
-		/// Добавить в глоссарий термин уже существующий в сорс 
-		/// </summary>
-		[Test]
+		[Test(Description = "Проверяет добавление в глоссарий двух терминов с одинаковым сорсом")]
 		public void AddExistedSourceTermToGlossary()
 		{
 			var source = "planet";
 			var target = "планета";
 			var modifiedTarget = "планетка";
 
-			_editorHelper
-				.AddNewTerm(source, target)
-				.OpenAddTermDialog()
-				.FillAddTermForm(source, modifiedTarget)
-				.ConfirmAdditionExistedTerm()
-				.ClickHomeButton()
+			_editorPage.ClickAddTermButton();
+
+			_addTermDialog.AddNewTerm(source, target);
+
+			Assert.IsTrue(_editorPage.IsTermSaved(),
+				"Произошла ошибка:\n сообщение о том, что термин сохранен, не появилось");
+
+			_editorPage.ClickAddTermButton();
+
+			_addTermDialog.AddNewTerm(source, modifiedTarget);
+
+			Assert.IsTrue(_editorPage.IsConfirmExistedTermMessageDisplayed(),
+				"Произошла ошибка:\n не появился диалог подтверждения сохранения уже существующего термина");
+
+			_editorPage.Confirm();
+
+			Assert.IsTrue(_editorPage.IsTermSaved(),
+				"Произошла ошибка:\n сообщение о том, что термин сохранен, не появилось");
+
+			_editorPage.ClickHomeButton();
+
+			_workspaceHelper
 				.GoToGlossariesPage()
 				.CheckTermInGlossary(_glossaryName, source, modifiedTarget, termsCount: 2);
 		}
 
-		/// <summary>
-		/// Добавить в глоссарий термин уже существующий в таргет
-		/// </summary>
-		[Test]
+		[Test(Description = "Проверить добавление в глоссарий двух терминов с одинаковым таргетом")]
 		public void AddExistedTargetTermToGlossary()
 		{
 			var source = "asteroid";
 			var modifiedSource = "the asteroid";
 			var target = "астероид";
 
-			_editorHelper
-				.AddNewTerm(source, target)
-				.OpenAddTermDialog()
-				.FillAddTermForm(modifiedSource, target)
-				.ConfirmAdditionExistedTerm()
-				.ClickHomeButton()
+			_editorPage.ClickAddTermButton();
+
+			_addTermDialog.AddNewTerm(source, target);
+
+			Assert.IsTrue(_editorPage.IsTermSaved(),
+				"Произошла ошибка:\n сообщение о том, что термин сохранен, не появилось");
+
+			_editorPage.ClickAddTermButton();
+
+			_addTermDialog.AddNewTerm(modifiedSource, target);
+
+			Assert.IsTrue(_editorPage.IsConfirmExistedTermMessageDisplayed(),
+				"Произошла ошибка:\n не появился диалог подтверждения сохранения уже существующего термина");
+
+			_editorPage.Confirm();
+
+			Assert.IsTrue(_editorPage.IsTermSaved(),
+				"Произошла ошибка:\n сообщение о том, что термин сохранен, не появилось");
+
+			_editorPage.ClickHomeButton();
+
+			_workspaceHelper
 				.GoToGlossariesPage()
 				.CheckTermInGlossary(_glossaryName, modifiedSource, target, termsCount: 2);
 		}
 
-		/// <summary>
-		/// Добавить в глоссарий абсолютно идентичный термин
-		/// </summary>
-		[Test]
+		[Test(Description = "Проверяет добавление в глоссарий двух абсолютно идентичных терминов")]
 		public void AddExistedTermToGlossary()
 		{
 			var source = "sun";
 			var target = "солнце";
 
-			_editorHelper
-				.AddNewTerm(source, target)
-				.OpenAddTermDialog()
-				.FillAddTermForm(source, target)
-				.ConfirmAdditionExistedTerm()
-				.ClickHomeButton()
+			_editorPage.ClickAddTermButton();
+
+			_addTermDialog.AddNewTerm(source, target);
+
+			Assert.IsTrue(_editorPage.IsTermSaved(),
+				"Произошла ошибка:\n сообщение о том, что термин сохранен, не появилось");
+
+			_editorPage.ClickAddTermButton();
+
+			_addTermDialog.AddNewTerm(source, target);
+
+			Assert.IsTrue(_editorPage.IsConfirmExistedTermMessageDisplayed(),
+				"Произошла ошибка:\n не появился диалог подтверждения сохранения уже существующего термина");
+
+			_editorPage.Confirm();
+
+			Assert.IsTrue(_editorPage.IsTermSaved(),
+				"Произошла ошибка:\n сообщение о том, что термин сохранен, не появилось");
+
+			_editorPage.ClickHomeButton();
+
+			_workspaceHelper
 				.GoToGlossariesPage()
 				.CheckTermInGlossary(_glossaryName, source, target, termsCount: 2);
 		}
 
-		/// <summary>
-		/// Добавить в глоссарий термин с комментарием
-		/// </summary>
-		[Test]
+		[Test(Description = "Проверяет добавление в глоссарий термина с комментарием")]
 		public void AddTermWithCommentToGlossary()
 		{
 			var source = "Neptun";
 			var target = "Нептун";
 			var comment = "Generated By Selenium";
 
-			_editorHelper
-				.AddNewTerm(source, target, comment)
-				.ClickHomeButton()
+			_editorPage.ClickAddTermButton();
+
+			_addTermDialog.AddNewTerm(source, target, comment);
+
+			_editorPage.ClickHomeButton();
+
+			_workspaceHelper
 				.GoToGlossariesPage()
 				.CheckTermInGlossary(_glossaryName, source, target, comment);
 		}
 
-		/// <summary>
-		/// Добавление удаленного термина в глоссарий
-		/// </summary>
-		[Test]
+		[Test(Description = "Проверяет добавление в глоссарий ранее удаленного термина")]
 		public void DeleteAddTermToGlossary()
 		{
 			var source = "Galaxy";
 			var target = "Галактика";
 
-			_editorHelper
-				.AddNewTerm(source, target)
-				.ClickHomeButton()
+			_editorPage.ClickAddTermButton();
+
+			_addTermDialog.AddNewTerm(source, target);
+
+			_editorPage.ClickHomeButton();
+
+			_workspaceHelper
 				.GoToGlossariesPage()
 				.CheckTermInGlossary(_glossaryName, source, target)
 				.DeleteTerm(source)
 				.GoToProjectsPage();
-
-			_workspaceHelper.GoToProjectSettingsPage(_projectName);
+			_workspaceHelper
+				.GoToProjectSettingsPage(_projectName);
 
 			_projectSettingsPage
 				.OpenDocumentInEditorWithTaskSelect(Path.GetFileNameWithoutExtension(PathProvider.DocumentFile));
 
-			_editorHelper
-				.SelectTask()
-				.AddNewTerm(source, target)
-				.ClickHomeButton()
+			_selectTaskDialog.SelectTask();
+
+			_editorPage.ClickAddTermButton();
+
+			_addTermDialog.AddNewTerm(source, target);
+
+			_editorPage.ClickHomeButton();
+
+			_workspaceHelper
 				.GoToGlossariesPage()
 				.CheckTermInGlossary(_glossaryName, source, target);
 		}
 
 		private CreateProjectHelper _createProjectHelper;
-		private EditorHelper _editorHelper;
 		private WorkspaceHelper _workspaceHelper;
+		private EditorPage _editorPage;
+		private SelectTaskDialog _selectTaskDialog;
+		private AddTermDialog _addTermDialog;
+		private ConfirmTermWithoutTranskationDialog _confirmTermWithoutTranskationDialog;
 
 		private UsersRightsPage _usersRightsPage;
 		private ProjectSettingsPage _projectSettingsPage;

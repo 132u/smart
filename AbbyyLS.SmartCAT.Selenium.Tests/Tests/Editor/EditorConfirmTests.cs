@@ -9,25 +9,28 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Editor
 	[Standalone]
 	public class EditorConfirmTests<TWebDriverProvider> : EditorBaseTest<TWebDriverProvider> where TWebDriverProvider : IWebDriverProvider, new()
 	{
-
-		[Test]
+		[Test(Description = "Проверяет подтверждение сегмента с помощью кнопки")]
 		public void ConfirmButtonTest()
 		{
-			EditorHelper
-				.AddTextToSegment()
+			EditorPage
+				.FillSegmentTargetField()
 				.CloseTutorialIfExist()
-				.ConfirmTranslation()
-				.AssertIsSegmentConfirmed();
+				.ConfirmSegmentTranslation();
+
+			Assert.IsTrue(EditorPage.IsSegmentConfirmed(),
+				"Произошла ошибка:\n не удалось подтвердить сегмент");
 		}
 
-		[Test]
+		[Test(Description = "Проверяет подтверждение сегмента нажатием Ctrl+Enter")]
 		public void ConfirmHotkeyTest()
 		{
-			EditorHelper
-				.AddTextToSegment("Some words for example")
-				.ConfirmTranslationByHotkeys()
-				.AssertIsSegmentConfirmed();
-		}
+			EditorPage
+				.FillSegmentTargetField("Some words for example")
+				.ClickOnTargetCellInSegment()
+				.ConfirmSegmentByHotkeys();
 
+			Assert.IsTrue(EditorPage.IsSegmentConfirmed(),
+				"Произошла ошибка:\n не удалось подтвердить сегмент");
+		}
 	}
 }

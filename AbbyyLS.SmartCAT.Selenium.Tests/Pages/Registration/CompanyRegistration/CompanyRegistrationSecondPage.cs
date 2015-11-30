@@ -102,7 +102,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Registration
 		public WorkspacePage ClickCreateCorporateAccountButton()
 		{
 			CustomTestContext.WriteLine("Нажать кнопку 'Create Corporate Account' на втором шаге регистрации компании.");
-			Driver.WaitUntilElementIsEnabled(CreateAccountCompanyButton);
+            Driver.WaitUntilElementIsEnabled(By.XPath(CREATE_ACCOUNT_COMPANY_BUTTON));
 			CreateAccountCompanyButton.Click();
 
 			return new WorkspacePage(Driver);
@@ -207,7 +207,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Registration
 		{
 			CustomTestContext.WriteLine("Проверить, что появилось сообщение 'Use only latin letters, digits, hyphen and underscope...'.");
 
-			return Driver.WaitUntilElementIsDisplay(SubdomainPatternMessage);
+			return Driver.WaitUntilElementIsDisplay(By.XPath(SUBDOMAIN_PATTERN_MESSAGE));
 		}
 
 		/// <summary>
@@ -217,7 +217,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Registration
 		{
 			CustomTestContext.WriteLine("Проверить, что появилось сообщение 'The domain name must contain at least 3 characters'.");
 
-			return Driver.WaitUntilElementIsDisplay(SubdomainLenghtMessage);
+			return Driver.WaitUntilElementIsDisplay(By.XPath(SUBDOMAIN_LENGHT_MESSAGE));
 		}
 
 		/// <summary>
@@ -227,7 +227,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Registration
 		{
 			CustomTestContext.WriteLine("Проверить, что появилось сообщение 'A company with this name already exists'.");
 
-			return Driver.WaitUntilElementIsDisplay(CompanyNameMessage);
+			return Driver.WaitUntilElementIsDisplay(By.XPath(COMPANY_NAME_MESSAGE));
 		}
 
 		/// <summary>
@@ -237,7 +237,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Registration
 		{
 			CustomTestContext.WriteLine("Проверить, что появилось сообщение 'Enter your domain name'.");
 
-			return Driver.WaitUntilElementIsDisplay(EnterDomaineMessage);
+			return Driver.WaitUntilElementIsDisplay(By.XPath(ENTER_DOMAIN_MESSAGE));
 		}
 
 		/// <summary>
@@ -247,7 +247,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Registration
 		{
 			CustomTestContext.WriteLine("Проверить, что появилось сообщение 'Enter your name'.");
 
-			return Driver.WaitUntilElementIsDisplay(EnterNameMessage);
+			return Driver.WaitUntilElementIsDisplay(By.XPath(ENTER_NAME_MESSAGE));
 		}
 
 		/// <summary>
@@ -257,7 +257,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Registration
 		{
 			CustomTestContext.WriteLine("Проверить, что появилось сообщение 'Enter your last name'.");
 
-			return Driver.WaitUntilElementIsDisplay(EnterLastNameMessage);
+			return Driver.WaitUntilElementIsDisplay(By.XPath(ENTER_LASTNAME_MESSAGE));
 		}
 
 		/// <summary>
@@ -267,7 +267,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Registration
 		{
 			CustomTestContext.WriteLine("Проверить, что появилось сообщение 'Enter your company name'.");
 
-			return Driver.WaitUntilElementIsDisplay(EnterCompanyNameMessage);
+			return Driver.WaitUntilElementIsDisplay(By.XPath(ENTER_COMPANY_NAME_MESSAGE));
 		}
 
 		/// <summary>
@@ -277,7 +277,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Registration
 		{
 			CustomTestContext.WriteLine("Проверить, что появилось сообщение 'Enter your international phone number'.");
 
-			return Driver.WaitUntilElementIsDisplay(EnterPhoneMessage);
+			return Driver.WaitUntilElementIsDisplay(By.XPath(ENTER_PHONE_MESSAGE));
 		}
 
 		/// <summary>
@@ -287,7 +287,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Registration
 		{
 			CustomTestContext.WriteLine("Проверить, что появилось сообщение 'Enter your company type'.");
 
-			return Driver.WaitUntilElementIsDisplay(SelectCompanyTypeMessage);
+			return Driver.WaitUntilElementIsDisplay(By.XPath(SELECT_COMPANY_TYPE_MESSAGE));
 		}
 		
 		/// <summary>
@@ -297,7 +297,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Registration
 		{
 			CustomTestContext.WriteLine("Проверить, что сообщение 'The company name must contain at least 2 characters' появилось.");
 
-			return Driver.WaitUntilElementIsDisplay(CompanyNameLengthInvalidMessage);
+			return Driver.WaitUntilElementIsDisplay(By.XPath(COMPANY_NAME_LENGTH_INVALID_MESSAGE));
 		}
 
 		/// <summary>
@@ -307,7 +307,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Registration
 		{
 			CustomTestContext.WriteLine("Проверить, что сообщение 'The company name must begin with a letter or a quotation mark' появилось.");
 
-			return Driver.WaitUntilElementIsDisplay(InvalidPatternCompanyNameMessage);
+			return Driver.WaitUntilElementIsDisplay(By.XPath(INVALID_PATTERN_COMPANY_NAME_MESSAGE));
 		}
 
 		/// <summary>
@@ -316,7 +316,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Registration
 		/// <returns></returns>
 		public bool IsCompanyRegistrationSecondPageOpened()
 		{
-			return Driver.WaitUntilElementIsDisplay(CompanyTypeCombobox);
+			return Driver.WaitUntilElementIsDisplay(By.XPath(COMPANY_TYPE_COMBOBOX));
 		}
 
 		#endregion
@@ -379,7 +379,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Registration
 		protected IWebElement CompanyNameMessage { get; set; }
 
 		[FindsBy(How = How.XPath, Using = ENTER_DOMAIN_MESSAGE)]
-		protected IWebElement EnterDomaineMessage { get; set; }
+		protected IWebElement EnterDomainMessage { get; set; }
 
 		[FindsBy(How = How.XPath, Using = ENTER_NAME_MESSAGE)]
 		protected IWebElement EnterNameMessage { get; set; }

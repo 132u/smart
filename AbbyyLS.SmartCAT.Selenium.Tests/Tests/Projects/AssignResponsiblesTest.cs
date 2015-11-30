@@ -6,6 +6,7 @@ using NUnit.Framework;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects;
 using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
 using AbbyyLS.SmartCAT.Selenium.Tests.FeatureAttributes;
+using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.DocumentUploadDialog;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Login;
@@ -24,7 +25,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 		{
 			_createProjectHelper = new CreateProjectHelper(Driver);
 			_workspaceHelper = new WorkspaceHelper(Driver);
-			_editorHelper = new EditorHelper(Driver);
 			_workspaceHelper.GoToProjectsPage();
 
 			_projectUniqueName = _createProjectHelper.GetProjectUniqueName();
@@ -40,6 +40,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 			_newProjectGeneralInformationDialog = new NewProjectGeneralInformationDialog(Driver);
 			_settingsDialog = new SettingsDialog(Driver);
 			_projectSettingsPage = new ProjectSettingsPage(Driver);
+			_editorPage = new EditorPage(Driver);
+			_selectTaskDialog = new SelectTaskDialog(Driver);
 		}
 
 		[TearDown]
@@ -214,10 +216,12 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 			_projectSettingsPage
 				.OpenDocumentInEditorWithTaskSelect(Path.GetFileNameWithoutExtension(PathProvider.EditorTxtFile));
 
-			_editorHelper
-				.SelectTask()
-				.CloseTutorialIfExist()
-				.CheckStage("Translation (T):");
+			_selectTaskDialog.SelectTask();
+
+			_editorPage.CloseTutorialIfExist();
+
+			Assert.AreEqual("Translation (T):", _editorPage.GetStage(),
+				"Произошла ошибка:\n В шапке редактора отсутствует нужная задача.");
 		}
 
 		[Test]
@@ -295,14 +299,19 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 			_workspaceHelper.GoToProjectSettingsPage(_projectUniqueName);
 
 			_projectSettingsPage.OpenDocumentInEditorWithoutTaskSelect(Path.GetFileNameWithoutExtension(PathProvider.EditorTxtFile));
-			_editorHelper
-				.SelectTask()
-				.CloseTutorialIfExist()
-				.CheckStage("Translation (T):")
-				.ClickHomeButton()
-				.GoToProjectsPage();
 
-			_projectsPage.OpenAssignDialog(_projectUniqueName);
+			_selectTaskDialog.SelectTask();
+
+			_editorPage.CloseTutorialIfExist();
+
+			Assert.AreEqual("Translation (T):", _editorPage.GetStage(),
+				"Произошла ошибка:\n В шапке редактора отсутствует нужная задача.");
+
+			_editorPage.ClickHomeButton();
+
+			_workspaceHelper
+				.GoToProjectsPage()
+				.OpenAssignDialog(_projectUniqueName);
 
 			_taskAssignmentPage
 				.ClickCancelAssignButton()
@@ -311,14 +320,16 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 				.SetResponsible(_additionalUser.NickName, false)
 				.CloseTaskAssignmentDialog<ProjectsPage>();
 
-			_workspaceHelper.GoToProjectSettingsPage(_projectUniqueName);
+			_workspaceHelper
+				.GoToProjectSettingsPage(_projectUniqueName);
 
 			_projectSettingsPage.OpenDocumentInEditorWithTaskSelect(Path.GetFileNameWithoutExtension(PathProvider.EditorTxtFile));
+			Assert.IsFalse(_editorPage.IsStageNameIsEmpty(),
+				"Произошла ошибка:\n название этапа проставлено.");
 
-			_editorHelper
-				.AssertStageNameIsEmpty()
-				.ClickHomeButton()
-				.SignOut();
+			_editorPage.ClickHomeButton();
+
+			_workspaceHelper.SignOut();
 
 			_signInPage.SubmitForm(_additionalUser.Login, _additionalUser.Password);
 
@@ -326,10 +337,12 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 
 			_projectSettingsPage.OpenDocumentInEditorWithTaskSelect(Path.GetFileNameWithoutExtension(PathProvider.EditorTxtFile));
 
-			_editorHelper
-				.SelectTask()
-				.CloseTutorialIfExist()
-				.CheckStage("Translation (T):");
+			_selectTaskDialog.SelectTask();
+
+			_editorPage.CloseTutorialIfExist();
+
+			Assert.AreEqual("Translation (T):", _editorPage.GetStage(),
+				"Произошла ошибка:\n В шапке редактора отсутствует нужная задача.");
 		}
 
 		[Test]
@@ -349,14 +362,18 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 
 			_projectSettingsPage.OpenDocumentInEditorWithoutTaskSelect(Path.GetFileNameWithoutExtension(PathProvider.EditorTxtFile));
 
-			_editorHelper
-				.SelectTask()
-				.CloseTutorialIfExist()
-				.CheckStage("Translation (T):")
-				.ClickHomeButton()
-				.GoToProjectsPage();
+			_selectTaskDialog.SelectTask();
 
-			_projectsPage.OpenAssignDialog(_projectUniqueName);
+			_editorPage.CloseTutorialIfExist();
+
+			Assert.AreEqual("Translation (T):", _editorPage.GetStage(),
+				"Произошла ошибка:\n В шапке редактора отсутствует нужная задача.");
+
+			_editorPage.ClickHomeButton();
+
+			_workspaceHelper
+				.GoToProjectsPage()
+				.OpenAssignDialog(_projectUniqueName);
 
 			_taskAssignmentPage
 				.ClickCancelAssignButton()
@@ -367,7 +384,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 
 			_projectSettingsPage.OpenDocumentInEditorWithTaskSelect(Path.GetFileNameWithoutExtension(PathProvider.EditorTxtFile));
 
-			_editorHelper.AssertStageNameIsEmpty();
+			Assert.IsFalse(_editorPage.IsStageNameIsEmpty(),
+				"Произошла ошибка:\n название этапа проставлено.");
 		}
 
 		[Test]
@@ -408,7 +426,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 		private string _projectUniqueName;
 		private CreateProjectHelper _createProjectHelper;
 		private WorkspaceHelper _workspaceHelper;
-		private EditorHelper _editorHelper;
 		private TestUser _additionalUser;
 
 		private DocumentUploadGeneralInformationDialog _documentUploadGeneralInformationDialog;
@@ -421,5 +438,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 		private NewProjectSetUpWorkflowDialog _newProjectSetUpWorkflowDialog;
 		private NewProjectGeneralInformationDialog _newProjectGeneralInformationDialog;
 		private ProjectSettingsPage _projectSettingsPage;
+		private EditorPage _editorPage;
+		private SelectTaskDialog _selectTaskDialog;
 	}
 }

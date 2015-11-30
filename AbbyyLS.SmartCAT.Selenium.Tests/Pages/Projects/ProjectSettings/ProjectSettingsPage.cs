@@ -412,9 +412,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings
 			return Driver.WaitUntilElementIsDisplay(By.XPath(DOCUMENT_LIST_ITEM.Replace("*#*", documentName)));
 		}
 
-		#endregion
-
-		#region Объявление элементов страницы
 
 		[FindsBy(How = How.XPath, Using = ADD_FILES_BTN)]
 		protected IWebElement AddFilesButton { get; set; }
