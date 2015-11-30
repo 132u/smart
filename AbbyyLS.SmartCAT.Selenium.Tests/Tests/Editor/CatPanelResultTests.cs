@@ -49,7 +49,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Editor
 				.AssertCatPercentMatch(catRowNumber: 1, percent: 94);
 		}
 
-		[TestCase(MachineTranslationType.DefaultMT, Ignore = "SCAT-665")]
+		[TestCase(MachineTranslationType.DefaultMT)]
 		[TestCase(MachineTranslationType.Google)]
 		[TestCase(MachineTranslationType.MicrosoftBing)]
 		public void MTTest(MachineTranslationType machineTranslation)

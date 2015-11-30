@@ -57,7 +57,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 		[TestCase("ppsFile.pps")]
 		[TestCase("ppsxFile.ppsx")]
 		[TestCase("pptxFile.pptx")]
-		[TestCase("idmlFile.idml", Ignore = "SCAT-665")]
+		[TestCase("idmlFile.idml")]
 		[TestCase("sdlxliffFile.sdlxliff")]
 		[TestCase("xlsxFile.xlsx")]
 		[TestCase("Source.zip")]
