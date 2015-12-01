@@ -560,6 +560,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace
 			return CurrentAccountName.Text;
 		}
 
+        #region Объявление элементов страницы
+
 		[FindsBy(How = How.XPath, Using = USERS_RIGHTS_BUTTON)]
 		protected IWebElement UsersRightsButton { get; set; }
 
@@ -584,7 +586,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace
 		[FindsBy(How = How.XPath, Using = SIGN_OUT_BUTTON)]
 		protected IWebElement SignOutButton { get; set; }
 
-
 		[FindsBy(How = How.XPath, Using = RESOURCES_MENU)]
 		protected IWebElement ResourcesMenu { get; set; }
 
@@ -602,8 +603,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace
 
 		[FindsBy(How = How.XPath, Using = LICENSES_AND_SERVICES)]
 		protected IWebElement LicenseAndServices { get; set; }
-		[FindsBy(How = How.XPath, Using = LINGVO_DICTIONARIES_MENU)]
 
+		[FindsBy(How = How.XPath, Using = LINGVO_DICTIONARIES_MENU)]
 		protected IWebElement LingvoDictionaries { get; set; }
 
 		[FindsBy(How = How.XPath, Using = SEARCH_MENU)]
@@ -627,6 +628,10 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace
 		protected IWebElement AccountNameInList { get; set; }
 
 		protected IWebElement Notification { get; set; }
+
+        #endregion
+
+        #region Описания XPath элементов
 		
 		protected const string CAT_MENU = "//div[contains(@class, 'js-mainmenu')]";
 		protected const string CAT_MENU_OPEN_BUTTON = "//div[contains(@class,'g-topbox__header')]/a";
@@ -661,5 +666,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace
 		
 		protected const string ALL_NOTIFICATIONS = "//div[@class='g-notifications-item']//span[2]/a";
 		protected const string NOTIFICATION = "//div[@class='g-notifications-item'][*#*]//span[2]/a";
+
+        #endregion
 	}
 }

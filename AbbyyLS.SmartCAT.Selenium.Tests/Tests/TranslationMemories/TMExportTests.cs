@@ -4,6 +4,7 @@ using NUnit.Framework;
 
 using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
 using AbbyyLS.SmartCAT.Selenium.Tests.FeatureAttributes;
+using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects;
 using AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.TranslationMemories
@@ -15,7 +16,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.TranslationMemories
 		[SetUp]
 		public void Initialization()
 		{
-			_exportFileHelper = new ExportFileHelper(Driver);
+            _exportNotification = new ExportNotification(Driver);
 		}
 
 		[TestCase(true)]
@@ -27,9 +28,10 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.TranslationMemories
 
 			TranslationMemoriesPage.ExportTM(UniqueTMName);
 
-			_exportFileHelper.AssertFileDownloaded(String.Format("{0}*-export.tmx", UniqueTMName));
+            Assert.IsTrue(_exportNotification.IsFileDownloaded(String.Format("{0}*-export.tmx", UniqueTMName)),
+                "Произошла ошибка: файл не загрузился");
 		}
 
-		private ExportFileHelper _exportFileHelper;
+		private ExportNotification _exportNotification;
 	}
 }

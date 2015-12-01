@@ -21,17 +21,21 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 		{
 			WorkspaceHelper.GoToProjectsPage();
 
-			ExportFileHelper.CancelAllNotifiers<ProjectsPage>();
+            ExportNotification.CancelAllNotifiers<ProjectsPage>();
 			
 			ProjectsPage
 				.ClickProjectCheckboxInList(ProjectUniqueName)
-				.ClickDownloadInMainMenuButton();
+				.ClickDownloadInMainMenuButton()
+                .ClickExportType(exportType);
 
-			ExportFileHelper
-				.SelectExportType<ProjectsPage>(exportType)
-				.AssertPreparingDownloadMessageDisappeared()
-				.ClickDownloadNotifier<ProjectsPage>()
-				.AssertFileDownloaded(ExportFileHelper.GetExportFileNameMask(exportType, PathProvider.DocumentFileToConfirm1));
+            Assert.IsTrue(ProjectsPage.IsPreparingDownloadMessageDisappeared(),
+                "Произошла ошибка:\n сообщение 'Preparing documents for download. Please wait ...' не исчезло");
+
+            ExportNotification.ClickDownloadNotifier<ProjectsPage>();
+
+            Assert.IsTrue(ExportNotification.IsFileDownloaded(
+                ExportNotification.GetExportFileNameMask(exportType, PathProvider.DocumentFileToConfirm1)),
+                "Произошла ошибка: файл не загрузился");
 		}
 
 		[TestCase(ExportType.Source)]
@@ -41,16 +45,18 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 		{
 			WorkspaceHelper.GoToProjectsPage();
 
-			ExportFileHelper.CancelAllNotifiers<ProjectsPage>();
+            ExportNotification.CancelAllNotifiers<ProjectsPage>();
 
 			ProjectsPage
 				.OpenProjectInfo(ProjectUniqueName)
-				.ClickDownloadInProjectButton(ProjectUniqueName);
+                .ClickDownloadInProjectButton(ProjectUniqueName)
+                .ClickExportType(exportType);
 
-			ExportFileHelper
-				.SelectExportType<ProjectsPage>(exportType)
-				.ClickDownloadNotifier<ProjectsPage>()
-				.AssertFileDownloaded(ExportFileHelper.GetExportFileNameMask(exportType, PathProvider.DocumentFileToConfirm1));
+			ExportNotification.ClickDownloadNotifier<ProjectsPage>();
+
+            Assert.IsTrue(ExportNotification.IsFileDownloaded(
+                ExportNotification.GetExportFileNameMask(exportType, PathProvider.DocumentFileToConfirm1)),
+                "Произошла ошибка: файл не загрузился");
 		}
 
 		[TestCase(ExportType.Source)]
@@ -60,18 +66,22 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 		{
 			WorkspaceHelper.GoToProjectsPage();
 
-			ExportFileHelper.CancelAllNotifiers<ProjectsPage>();
+            ExportNotification.CancelAllNotifiers<ProjectsPage>();
 
 			ProjectsPage
 				.OpenProjectInfo(ProjectUniqueName)
 				.OpenDocumentInfoForProject(ProjectUniqueName)
-				.ClickDownloadInDocumentButton(ProjectUniqueName);
+                .ClickDownloadInDocumentButton(ProjectUniqueName)
+                .ClickExportType(exportType);
 
-			ExportFileHelper
-				.SelectExportType<ProjectsPage>(exportType)
-				.AssertPreparingDownloadMessageDisappeared()
-				.ClickDownloadNotifier<ProjectsPage>()
-				.AssertFileDownloaded(ExportFileHelper.GetExportFileNameMask(exportType, PathProvider.DocumentFileToConfirm1));
+            Assert.IsTrue(ProjectsPage.IsPreparingDownloadMessageDisappeared(),
+                "Произошла ошибка:\n сообщение 'Preparing documents for download. Please wait ...' не исчезло");
+
+            ExportNotification.ClickDownloadNotifier<ProjectsPage>();
+
+            Assert.IsTrue(ExportNotification.IsFileDownloaded(
+                ExportNotification.GetExportFileNameMask(exportType, PathProvider.DocumentFileToConfirm1)),
+                "Произошла ошибка: файл не загрузился");
 		}
 
 		[TestCase(ExportType.Source)]
@@ -85,17 +95,20 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 				.CreateRevision(Path.GetFileNameWithoutExtension(PathProvider.DocumentFileToConfirm2))
 				.GoToProjectsPage();
 
-			ExportFileHelper.CancelAllNotifiers<ProjectsPage>();
+            ExportNotification.CancelAllNotifiers<ProjectsPage>();
 
 			ProjectsPage
 				.ClickProjectCheckboxInList(ProjectUniqueName)
-				.ClickDownloadInMainMenuButton();
+                .ClickDownloadInMainMenuButton()
+                .ClickExportType(exportType);
 
-			ExportFileHelper
-				.SelectExportType<ProjectsPage>(exportType)
-				.AssertPreparingDownloadMessageDisappeared()
-				.ClickDownloadNotifier<ProjectsPage>()
-				.AssertFileDownloaded(string.Format("Documents_*{0}.zip", exportType));
+            Assert.IsTrue(ProjectsPage.IsPreparingDownloadMessageDisappeared(),
+                "Произошла ошибка:\n сообщение 'Preparing documents for download. Please wait ...' не исчезло");
+
+            ExportNotification.ClickDownloadNotifier<ProjectsPage>();
+
+            Assert.IsTrue(ExportNotification.IsFileDownloaded(string.Format("Documents_*{0}.zip", exportType)),
+                "Произошла ошибка: файл не загрузился");
 		}
 
 		[Test]
@@ -103,16 +116,17 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 		{
 			WorkspaceHelper.GoToProjectsPage();
 
-			ExportFileHelper.CancelAllNotifiers<ProjectsPage>();
+            ExportNotification.CancelAllNotifiers<ProjectsPage>();
 
 			ProjectsPage
 				.OpenProjectInfo(ProjectUniqueName)
-				.ClickDownloadInProjectButton(ProjectUniqueName);
+                .ClickDownloadInProjectButton(ProjectUniqueName)
+                .ClickExportType(ExportType.Source);
 
-			ExportFileHelper
-				.SelectExportType<ProjectsPage>(ExportType.Source)
-				.ClickCancelInDowloadNotifier<ProjectsPage>()
-				.AssertNotificationNotExist();
+			ExportNotification.ClickCancelNotifier<ProjectsPage>();
+
+            Assert.IsTrue(WorkspacePage.GetCountExportNotifiers() == 0,
+                "Произошла ошибка:\n остались открытые уведомления");
 		}
 
 		[TestCase(PlaceSearchNotifier.ProjectsPage)]
@@ -122,13 +136,12 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 		{
 			WorkspaceHelper.GoToProjectsPage();
 
-			ExportFileHelper.CancelAllNotifiers<ProjectsPage>();
+            ExportNotification.CancelAllNotifiers<ProjectsPage>();
 
 			ProjectsPage
 				.OpenProjectInfo(ProjectUniqueName)
-				.ClickDownloadInProjectButton(ProjectUniqueName);
-
-			ExportFileHelper.SelectExportType<ProjectsPage>(ExportType.Source);
+                .ClickDownloadInProjectButton(ProjectUniqueName)
+                .ClickExportType(ExportType.Source);
 
 			switch (placeSearch)
 			{
@@ -142,7 +155,10 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 
 				case PlaceSearchNotifier.GlossariesPage:
 					WorkspaceHelper.GoToGlossariesPage();
-					ExportFileHelper.AssertNotificationNotExist();
+
+                    Assert.IsTrue(WorkspacePage.GetCountExportNotifiers() == 0,
+                        "Произошла ошибка:\n остались открытые уведомления");
+
 					WorkspaceHelper.GoToProjectsPage();
 					break;
 
@@ -150,7 +166,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 					throw new Exception(string.Format("Передан неверный аргумент:'{0}'", placeSearch));
 			}
 
-			ExportFileHelper.AssertCountExportNotifiers(expectedCount: 1);
+            Assert.IsTrue(ExportNotification.IsExportNotifiersCountMatchExpected(expectedCount: 1),
+                "Произошла ошибка:\n не появилось ожидаемое кол-во уведомлений");
 		}
 
 		[Test]
@@ -158,16 +175,16 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 		{
 			WorkspaceHelper.GoToProjectsPage();
 
-			ExportFileHelper.CancelAllNotifiers<ProjectsPage>();
+            ExportNotification.CancelAllNotifiers<ProjectsPage>();
 
 			ProjectsPage
 				.OpenProjectInfo(ProjectUniqueName)
 				.OpenDocumentInfoForProject(ProjectUniqueName)
-				.ClickDownloadInDocumentButton(ProjectUniqueName);
+                .ClickDownloadInDocumentButton(ProjectUniqueName)
+                .ClickExportType(ExportType.Source);
 
-			ExportFileHelper.SelectExportType<ProjectsPage>(ExportType.Source);
-
-			ExportFileHelper.AssertContainsText(Path.GetFileName(PathProvider.DocumentFileToConfirm1));
+            Assert.IsTrue(ExportNotification.IsNotificationContainsText(Path.GetFileName(PathProvider.DocumentFileToConfirm1)),
+                "Произошла ошибка:\n сообщение не содержит искомый текст");
 		}
 
 		[Test]
@@ -175,15 +192,15 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 		{
 			WorkspaceHelper.GoToProjectsPage();
 
-			ExportFileHelper.CancelAllNotifiers<ProjectsPage>();
+            ExportNotification.CancelAllNotifiers<ProjectsPage>();
 
 			ProjectsPage
 				.ClickProjectCheckboxInList(ProjectUniqueName)
-				.ClickDownloadInMainMenuButton();
+                .ClickDownloadInMainMenuButton()
+                .ClickExportType(ExportType.Source);
 
-			ExportFileHelper.SelectExportType<ProjectsPage>(ExportType.Source);
-
-			ExportFileHelper.AssertContainsText(Path.GetFileName(PathProvider.DocumentFileToConfirm1));
+			Assert.IsTrue(ExportNotification.IsNotificationContainsText(Path.GetFileName(PathProvider.DocumentFileToConfirm1)),
+                "Произошла ошибка:\n сообщение не содержит искомый текст");
 		}
 
 		[Test]
@@ -195,15 +212,15 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 				.CreateRevision(Path.GetFileNameWithoutExtension(PathProvider.DocumentFileToConfirm2))
 				.GoToProjectsPage();
 
-			ExportFileHelper.CancelAllNotifiers<ProjectsPage>();
+            ExportNotification.CancelAllNotifiers<ProjectsPage>();
 
 			ProjectsPage
 				.ClickProjectCheckboxInList(ProjectUniqueName)
-				.ClickDownloadInMainMenuButton();
+                .ClickDownloadInMainMenuButton()
+                .ClickExportType(ExportType.Source);
 
-			ExportFileHelper.SelectExportType<ProjectsPage>(ExportType.Source);
-
-			ExportFileHelper.AssertContainsText("Documents");
+            Assert.IsTrue(ExportNotification.IsNotificationContainsText("Documents"),
+                "Произошла ошибка:\n сообщение не содержит искомый текст");
 		}
 
 		[Test]
@@ -224,16 +241,16 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 				.CreateRevision(Path.GetFileNameWithoutExtension(PathProvider.DocumentFileToConfirm2))
 				.GoToProjectsPage();
 
-			ExportFileHelper.CancelAllNotifiers<ProjectsPage>();
+            ExportNotification.CancelAllNotifiers<ProjectsPage>();
 
 			ProjectsPage
 				.ClickProjectCheckboxInList(ProjectUniqueName)
 				.ClickProjectCheckboxInList(projectUniqueName2)
-				.ClickDownloadInMainMenuButton();
+                .ClickDownloadInMainMenuButton()
+                .ClickExportType(ExportType.Source);
 
-			ExportFileHelper.SelectExportType<ProjectsPage>(ExportType.Source);
-
-			ExportFileHelper.AssertContainsText("Documents");
+            Assert.IsTrue(ExportNotification.IsNotificationContainsText("Documents"),
+                "Произошла ошибка:\n сообщение не содержит искомый текст");
 		}
 
 		[Test]
@@ -254,28 +271,27 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 				.CreateRevision(Path.GetFileNameWithoutExtension(PathProvider.DocumentFileToConfirm2))
 				.GoToProjectsPage();
 
-			ExportFileHelper.CancelAllNotifiers<ProjectsPage>();
+            ExportNotification.CancelAllNotifiers<ProjectsPage>();
 
 			ProjectsPage
 				.ClickProjectCheckboxInList(ProjectUniqueName)
-				.ClickDownloadInMainMenuButton();
+                .ClickDownloadInMainMenuButton()
+                .ClickExportType(ExportType.Source);
 
-			ExportFileHelper.SelectExportType<ProjectsPage>(ExportType.Source);
-
-			ExportFileHelper.AssertCountExportNotifiers(expectedCount: 1);
+            Assert.IsTrue(ExportNotification.IsExportNotifiersCountMatchExpected(expectedCount: 1),
+                "Произошла ошибка:\n не появилось ожидаемое кол-во уведомлений");
 
 			ProjectsPage
 				.ClickProjectCheckboxInList(ProjectUniqueName)
 				.ClickProjectCheckboxInList(projectUniqueName2)
-				.ClickDownloadInMainMenuButton();
+                .ClickDownloadInMainMenuButton()
+                .ClickExportType(ExportType.Source);
 
-			ExportFileHelper.SelectExportType<ProjectsPage>(ExportType.Source);
+            Assert.IsTrue(ExportNotification.IsExportNotifiersCountMatchExpected(expectedCount: 2),
+                "Произошла ошибка:\n не появилось ожидаемое кол-во уведомлений");
 
-			var message1 = ExportFileHelper
-				.AssertCountExportNotifiers(expectedCount: 2)
-				.GetTextNotificationByNumber(1);
-
-			var message2 = ExportFileHelper.GetTextNotificationByNumber(1);
+			var message1 = ExportNotification.GetTextNotificationByNumber(1);
+			var message2 = ExportNotification.GetTextNotificationByNumber(2);
 
 			Assert.AreNotEqual(message1, message2,
 				"Произошла ошибка:\n тесты сообщений обоих уведомлений совпадают.");
@@ -286,17 +302,19 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 		{
 			WorkspaceHelper.GoToProjectsPage();
 
-			ExportFileHelper.CancelAllNotifiers<ProjectsPage>();
+            ExportNotification.CancelAllNotifiers<ProjectsPage>();
 
 			ProjectsPage.ClickProjectCheckboxInList(ProjectUniqueName);
 
 			for (int i = 0; i < _maxNotifierNumber; i++)
 			{
-				ProjectsPage.ClickDownloadInMainMenuButton();
-				ExportFileHelper.SelectExportType<ProjectsPage>(ExportType.Source);
+				ProjectsPage
+                    .ClickDownloadInMainMenuButton()
+                    .ClickExportType(ExportType.Source);
 			}
 
-			ExportFileHelper.AssertCountExportNotifiers(_maxNotifierNumber);
+            Assert.IsTrue(ExportNotification.IsExportNotifiersCountMatchExpected(expectedCount: _maxNotifierNumber),
+                "Произошла ошибка:\n не появилось ожидаемое кол-во уведомлений");
 		}
 
 		[Test]
@@ -304,17 +322,18 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 		{
 			WorkspaceHelper.GoToProjectsPage();
 
-			ExportFileHelper.CancelAllNotifiers<ProjectsPage>();
+            ExportNotification.CancelAllNotifiers<ProjectsPage>();
 
 			ProjectsPage.ClickProjectCheckboxInList(ProjectUniqueName);
 
 			for (int i = 0; i <= _maxNotifierNumber; i++)
 			{
-				ProjectsPage.ClickDownloadInMainMenuButton();
-				ExportFileHelper.SelectExportType<ProjectsPage>(ExportType.Source);
+				ProjectsPage
+                    .ClickDownloadInMainMenuButton()
+                    .ClickExportType(ExportType.Source);
 			}
 
-			var notificationCount = ExportFileHelper.GetCountExportNotifiers();
+			var notificationCount = WorkspacePage.GetCountExportNotifiers();
 
 			Assert.IsFalse(notificationCount > _maxNotifierNumber,
 				"Произошла ошибка:\n сообщений об экспорте показано {0}, ожидалось не больше {1}.",
@@ -339,25 +358,22 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 				.CreateRevision(Path.GetFileNameWithoutExtension(PathProvider.DocumentFileToConfirm2))
 				.GoToProjectsPage();
 
-			ExportFileHelper.CancelAllNotifiers<ProjectsPage>();
+            ExportNotification.CancelAllNotifiers<ProjectsPage>();
 
 			ProjectsPage
 				.ClickProjectCheckboxInList(ProjectUniqueName)
-				.ClickDownloadInMainMenuButton();
+                .ClickDownloadInMainMenuButton()
+                .ClickExportType(ExportType.Source);
 
-			ExportFileHelper.SelectExportType<ProjectsPage>(ExportType.Source);
-
-			var message1 = ExportFileHelper.GetTextNotificationByNumber(1);
+			var message1 = ExportNotification.GetTextNotificationByNumber(1);
 
 			ProjectsPage
 				.ClickProjectCheckboxInList(ProjectUniqueName)
 				.ClickProjectCheckboxInList(projectUniqueName2)
-				.ClickDownloadInMainMenuButton();
+                .ClickDownloadInMainMenuButton()
+                .ClickExportType(ExportType.Source);
 
-			ExportFileHelper
-				.SelectExportType<ProjectsPage>(ExportType.Source);
-
-			var message2 = ExportFileHelper.GetTextNotificationByNumber(2);
+			var message2 = ExportNotification.GetTextNotificationByNumber(2);
 
 			Assert.AreNotEqual(message1, message2,
 				"Произошла ошибка:\n сообщение не изменилось, свежее сообщение должно быть сверху");
@@ -381,34 +397,33 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 				.CreateRevision(Path.GetFileNameWithoutExtension(PathProvider.DocumentFileToConfirm2))
 				.GoToProjectsPage();
 
-			ExportFileHelper.CancelAllNotifiers<ProjectsPage>();
+            ExportNotification.CancelAllNotifiers<ProjectsPage>();
 
 			ProjectsPage
 				.ClickProjectCheckboxInList(ProjectUniqueName)
-				.ClickDownloadInMainMenuButton();
-
-			ExportFileHelper.SelectExportType<ProjectsPage>(ExportType.Source);
+                .ClickDownloadInMainMenuButton()
+                .ClickExportType(ExportType.Source);
 
 			ProjectsPage
 				.ClickProjectCheckboxInList(ProjectUniqueName)
 				.ClickProjectCheckboxInList(projectUniqueName2)
-				.ClickDownloadInMainMenuButton();
+                .ClickDownloadInMainMenuButton()
+                .ClickExportType(ExportType.Source);
 
-			ExportFileHelper
-				.SelectExportType<ProjectsPage>(ExportType.Source)
-				.AssertCountExportNotifiers(expectedCount:2);
+            Assert.IsTrue(ExportNotification.IsExportNotifiersCountMatchExpected(expectedCount: 2),
+                "Произошла ошибка:\n не появилось ожидаемое кол-во уведомлений");
 
 			ProjectsPage
 				.ClickProjectCheckboxInList(projectUniqueName2)
 				.OpenProjectInfo(projectUniqueName2)
 				.OpenDocumentInfoForProject(projectUniqueName2, documentNumber: 2)
-				.ClickDownloadInDocumentButton(projectUniqueName2, documentNumber: 2);
+				.ClickDownloadInDocumentButton(projectUniqueName2, documentNumber: 2)
+                .ClickExportType(ExportType.Source);
 
-			ExportFileHelper
-				.SelectExportType<ProjectsPage>(ExportType.Source)
-				.AssertCountExportNotifiers(expectedCount: 3);
+            Assert.IsTrue(ExportNotification.IsExportNotifiersCountMatchExpected(expectedCount: 3),
+                "Произошла ошибка:\n не появилось ожидаемое кол-во уведомлений");
 
-			var message = ExportFileHelper.GetTextNotificationByNumber(1);
+			var message = ExportNotification.GetTextNotificationByNumber(1);
 
 			Assert.IsTrue(message.Contains(Path.GetFileNameWithoutExtension(PathProvider.DocumentFileToConfirm1)),
 				"Произошла ошибка:\n кликнули по верхнему сообщению - появилось не первое!");
@@ -433,42 +448,41 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 				.CreateRevision(Path.GetFileNameWithoutExtension(PathProvider.DocumentFileToConfirm2))
 				.GoToProjectsPage();
 
-			ExportFileHelper.CancelAllNotifiers<ProjectsPage>();
+            ExportNotification.CancelAllNotifiers<ProjectsPage>();
 
 			ProjectsPage
 				.ClickProjectCheckboxInList(projectUniqueName2)
-				.ClickDownloadInMainMenuButton();
+                .ClickDownloadInMainMenuButton()
+                .ClickExportType(ExportType.Source);
 
-			ExportFileHelper.SelectExportType<ProjectsPage>(ExportType.Source);
-
-			Assert.IsFalse(ExportFileHelper.GetTextNotificationByNumber(1).Contains(secondNotifierDocName),
+			Assert.IsFalse(ExportNotification.GetTextNotificationByNumber(1).Contains(secondNotifierDocName),
 				"Произошла ошибка:\n в первом сообщении об экспорте есть название документа '{0}'", secondNotifierDocName);
 
 			ProjectsPage
 				.ClickProjectCheckboxInList(projectUniqueName2)
 				.ClickProjectCheckboxInList(ProjectUniqueName)
-				.ClickDownloadInMainMenuButton();
+                .ClickDownloadInMainMenuButton()
+                .ClickExportType(ExportType.Source);
 
-			ExportFileHelper
-				.SelectExportType<ProjectsPage>(ExportType.Source)
-				.AssertCountExportNotifiers(expectedCount: 2);
+            Assert.IsTrue(ExportNotification.IsExportNotifiersCountMatchExpected(expectedCount: 2),
+                "Произошла ошибка:\n не появилось ожидаемое кол-во уведомлений");
 
-			Assert.IsTrue(ExportFileHelper.GetTextNotificationByNumber(2).Contains(secondNotifierDocName),
+			Assert.IsTrue(ExportNotification.GetTextNotificationByNumber(2).Contains(secondNotifierDocName),
 				"Ошибка: во втором сообщении об экспорте нет названия документа '{0}'", secondNotifierDocName);
 
 			ProjectsPage
 				.ClickProjectCheckboxInList(ProjectUniqueName)
 				.ClickProjectCheckboxInList(projectUniqueName2)
-				.ClickDownloadInMainMenuButton();
+                .ClickDownloadInMainMenuButton()
+                .ClickExportType(ExportType.Source);
 
-			ExportFileHelper
-				.SelectExportType<ProjectsPage>(ExportType.Source)
-				.AssertCountExportNotifiers(expectedCount:3);
+            Assert.IsTrue(ExportNotification.IsExportNotifiersCountMatchExpected(expectedCount: 3),
+                "Произошла ошибка:\n не появилось ожидаемое кол-во уведомлений");
 
-			Assert.IsFalse(ExportFileHelper.GetTextNotificationByNumber(3).Contains(secondNotifierDocName),
+			Assert.IsFalse(ExportNotification.GetTextNotificationByNumber(3).Contains(secondNotifierDocName),
 				"Ошибка: в третьем сообщении об экспорте есть название документа '{0}'", secondNotifierDocName);
 
-			Assert.IsTrue(ExportFileHelper.GetTextNotificationByNumber(2).Contains(secondNotifierDocName),
+			Assert.IsTrue(ExportNotification.GetTextNotificationByNumber(2).Contains(secondNotifierDocName),
 				"Ошибка: кликнули по верхнему сообщению - появилось не второе.");
 		}
 
@@ -480,24 +494,26 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 			var newDocumentName = "docName" + DateTime.Now.Ticks;
 
 			WorkspaceHelper.GoToProjectsPage();
-			ExportFileHelper.CancelAllNotifiers<ProjectsPage>();
+            ExportNotification.CancelAllNotifiers<ProjectsPage>();
 
 			ProjectsPage
 				.OpenProjectInfo(ProjectUniqueName)
 				.OpenDocumentInfoForProject(ProjectUniqueName)
 				.ClickDocumentSettings(ProjectUniqueName);
 
-			DocumentSettings
+			DocumentSettingsDialog
 				.SetDocumentName(newDocumentName)
 				.ClickSaveButton<ProjectsPage>(Driver)
 				.AssertDialogBackgroundDisappeared<ProjectsPage>(Driver);
 
-			ProjectsPage.ClickDownloadInDocumentButton(ProjectUniqueName);
+			ProjectsPage
+                .ClickDownloadInDocumentButton(ProjectUniqueName)
+                .ClickExportType(exportType);
 
-			var message = ExportFileHelper
-				.SelectExportType<ProjectsPage>(exportType)
-				.AssertPreparingDownloadMessageDisappeared()
-				.GetTextNotificationByNumber(1);
+            Assert.IsTrue(ProjectsPage.IsPreparingDownloadMessageDisappeared(),
+                "Произошла ошибка:\n сообщение 'Preparing documents for download. Please wait ...' не исчезло");
+
+			var message = ExportNotification.GetTextNotificationByNumber(1);
 
 			Assert.IsTrue(message.Contains(newDocumentName),
 				"Произошла ошибка:\n экспортируется документ со старым названием");

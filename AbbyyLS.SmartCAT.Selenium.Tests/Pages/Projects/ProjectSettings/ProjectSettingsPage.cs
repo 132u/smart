@@ -5,6 +5,7 @@ using System.Threading;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.PageObjects;
 
+using AbbyyLS.SmartCAT.Selenium.Tests.DataStructures;
 using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.DocumentUploadDialog;
@@ -38,6 +39,19 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings
 
 		#region Простые методы страницы
 
+        /// <summary>
+        /// Выбрать тип экспорта
+        /// </summary>
+        /// <param name="exportType">тип экспорта</param>
+        public ProjectSettingsPage ClickExportType(ExportType exportType)
+        {
+            CustomTestContext.WriteLine("Выбрать тип экспорта");
+            ExportType = Driver.SetDynamicValue(How.XPath, EXPORT_TYPE, exportType.ToString());
+            ExportType.Click();
+
+            return GetPage();
+        }
+
 		/// <summary>
 		/// Нажать кнопку "Загрузить файлы"
 		/// </summary>
@@ -52,12 +66,12 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings
 		/// <summary>
 		/// Нажать на кнопку "Settings" в разделе "Documents"
 		/// </summary>
-		public DocumentSettings ClickDocumentSettings()
+		public DocumentSettingsDialog ClickDocumentSettings()
 		{
 			CustomTestContext.WriteLine("Нажать на кнопку 'Settings' в разделе 'Documents'.");
 			DocumentSettingsButton.JavaScriptClick();
 
-			return new DocumentSettings(Driver).GetPage();
+			return new DocumentSettingsDialog(Driver).GetPage();
 		}
 
 		/// <summary>
@@ -412,6 +426,12 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings
 			return Driver.WaitUntilElementIsDisplay(By.XPath(DOCUMENT_LIST_ITEM.Replace("*#*", documentName)));
 		}
 
+        #endregion
+
+        #region Объявление элементов страницы
+
+        [FindsBy(How = How.XPath, Using = EXPORT_TYPE)]
+        protected IWebElement ExportType { get; set; }
 
 		[FindsBy(How = How.XPath, Using = ADD_FILES_BTN)]
 		protected IWebElement AddFilesButton { get; set; }
@@ -475,6 +495,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings
 		#endregion
 
 		#region Описания XPath элементов страницы
+
+        protected const string EXPORT_TYPE = "//div[not(contains(@class,'g-hidden'))]/div[contains(@data-bind,'*#*') and contains(@data-bind, 'export')]";
+        protected const string EXPORT_TYPE_TMX = "//div[not(contains(@class,'g-hidden'))]/div[contains(@data-bind,'Tmx')]";
 
 		protected const string ADD_FILES_BTN = "//div[contains(@data-bind, 'importDocument')]";
 		protected const string IMPORT_DIALOG = ".//div[contains(@class,'js-popup-import-document')][2]";

@@ -5,6 +5,7 @@ using System.Threading;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.PageObjects;
 
+using AbbyyLS.SmartCAT.Selenium.Tests.DataStructures;
 using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog;
@@ -39,6 +40,19 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 		}
 		
 		#region Простые методы страницы
+
+        /// <summary>
+        /// Выбрать тип экспорта
+        /// </summary>
+        /// <param name="exportType">тип экспорта</param>
+        public ProjectsPage ClickExportType(ExportType exportType)
+        {
+            CustomTestContext.WriteLine("Выбрать тип экспорта");
+            ExportType = Driver.SetDynamicValue(How.XPath, EXPORT_TYPE, exportType.ToString());
+            ExportType.Click();
+
+            return GetPage();
+        }
 
 		/// <summary>
 		/// Кликнуть по ссылке проекта
@@ -231,13 +245,13 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 		/// </summary>
 		/// <param name="projectName">имя проекта</param>
 		/// <param name="documentNumber">номер документа</param>
-		public DocumentSettings ClickDocumentSettings(string projectName, int documentNumber = 1)
+		public DocumentSettingsDialog ClickDocumentSettings(string projectName, int documentNumber = 1)
 		{
 			CustomTestContext.WriteLine("Нажать кнопку настроек в меню документа №{0} в проекте '{1}'", documentNumber, projectName);
 			DocumentSettings = Driver.SetDynamicValue(How.XPath, DOCUMENT_SETTINGS, projectName, documentNumber.ToString());
 			DocumentSettings.Click();
 
-			return new DocumentSettings(Driver).GetPage();
+			return new DocumentSettingsDialog(Driver).GetPage();
 		}
 
 		/// <summary>
@@ -525,6 +539,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 
 		#region Объявление элементов страницы
 
+        [FindsBy(How = How.XPath, Using = EXPORT_TYPE)]
+        protected IWebElement ExportType { get; set; }
+
 		[FindsBy(How = How.XPath, Using = CREATE_PROJECT_BTN_XPATH)]
 		protected IWebElement CreateProjectButton { get; set; }
 
@@ -577,6 +594,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 		#endregion
 
 		#region Описания XPath элементов
+
+        protected const string EXPORT_TYPE = "//div[not(contains(@class,'g-hidden'))]/div[contains(@data-bind,'*#*') and contains(@data-bind, 'export')]";
+        protected const string EXPORT_TYPE_TMX = "//div[not(contains(@class,'g-hidden'))]/div[contains(@data-bind,'Tmx')]";
 
 		protected const string CREATE_PROJECT_BTN_XPATH = "//div[contains(@data-bind,'createProject')]";
 		protected const string CREATE_PROJECT_DIALOG_XPATH = "//div[contains(@class,'js-popup-create-project')][2]";

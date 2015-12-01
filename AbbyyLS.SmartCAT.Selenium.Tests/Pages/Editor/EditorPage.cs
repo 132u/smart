@@ -81,6 +81,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		{
 			CustomTestContext.WriteLine("Нажать кнопку 'Подтвердить сегмент'.");
 			ConfirmButton.AdvancedClick();
+		    Driver.WaitUntilElementIsDisplay(By.XPath(ALL_SEGMENTS_SAVED_STATUS));
 
 			return GetPage();
 		}

@@ -20,16 +20,18 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 		[TestCase(ExportType.Target)]
 		public void ExportDocumentTest(ExportType exportType)
 		{
-			ExportFileHelper.CancelAllNotifiers<ProjectSettingsPage>();
+			ExportNotification.CancelAllNotifiers<ProjectSettingsPage>();
 
 			ProjectSettingsPage
 				.ClickDocumentCheckbox(PathProvider.DocumentFileToConfirm1)
-				.ClickDownloadInMainMenuButton();
+                .ClickDownloadInMainMenuButton()
+                .ClickExportType(exportType);
 
-			ExportFileHelper
-				.SelectExportType<ProjectSettingsPage>(exportType)
-				.ClickDownloadNotifier<ProjectSettingsPage>()
-				.AssertFileDownloaded(ExportFileHelper.GetExportFileNameMask(exportType, PathProvider.DocumentFileToConfirm1));
+			ExportNotification.ClickDownloadNotifier<ProjectSettingsPage>();
+
+            Assert.IsTrue(ExportNotification.IsFileDownloaded(
+                ExportNotification.GetExportFileNameMask(exportType, PathProvider.DocumentFileToConfirm1)),
+                "Произошла ошибка: файл не загрузился");
 		}
 
 		[TestCase(PlaceSearchNotifier.ProjectsPage)]
@@ -37,13 +39,12 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 		[TestCase(PlaceSearchNotifier.GlossariesPage)]
 		public void ExportSaveNotifier(PlaceSearchNotifier placeSearch)
 		{
-			ExportFileHelper.CancelAllNotifiers<ProjectSettingsPage>();
+            ExportNotification.CancelAllNotifiers<ProjectSettingsPage>();
 
 			ProjectSettingsPage
 				.ClickDocumentCheckbox(PathProvider.DocumentFileToConfirm1)
-				.ClickDownloadInMainMenuButton();
-
-			ExportFileHelper.SelectExportType<ProjectSettingsPage>(ExportType.Source);
+                .ClickDownloadInMainMenuButton()
+                .ClickExportType(ExportType.Source);
 
 			switch (placeSearch)
 			{
@@ -57,7 +58,10 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 
 				case PlaceSearchNotifier.GlossariesPage:
 					WorkspaceHelper.GoToGlossariesPage();
-					ExportFileHelper.AssertNotificationNotExist();
+
+                    Assert.AreEqual(WorkspacePage.GetCountExportNotifiers(), 0,
+                        "Произошла ошибка:\n остались открытые уведомления");
+
 					WorkspaceHelper.GoToProjectsPage();
 					WorkspaceHelper.GoToProjectSettingsPage(ProjectUniqueName);
 					break;
@@ -65,8 +69,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 				default:
 					throw new Exception(string.Format("Передан неверный аргумент:'{0}'", placeSearch));
 			}
-
-			ExportFileHelper.AssertCountExportNotifiers(expectedCount: 1);
+			
+			Assert.IsTrue(ExportNotification.IsExportNotifiersCountMatchExpected(expectedCount: 1),
+				"Произошла ошибка:\n не появилось ожидаемое кол-во уведомлений");
 		}
 
 		[Ignore("PRX-11419")]
@@ -87,35 +92,34 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 				.CreateRevision(Path.GetFileNameWithoutExtension(PathProvider.DocumentFileToConfirm2))
 				.GoToProjectsPage();
 
-			ExportFileHelper.CancelAllNotifiers<ProjectsPage>();
+            ExportNotification.CancelAllNotifiers<ProjectsPage>();
 
 			WorkspaceHelper.GoToProjectSettingsPage(ProjectUniqueName);
 
 			ProjectSettingsPage
 				.ClickDocumentCheckbox(PathProvider.DocumentFileToConfirm1)
-				.ClickDownloadInMainMenuButton();
+                .ClickDownloadInMainMenuButton()
+                .ClickExportType(ExportType.Source);
+				
+			WorkspaceHelper.GoToProjectsPage();
+            WorkspaceHelper.GoToProjectSettingsPage(projectUniqueName2);
 
-			ExportFileHelper
-				.SelectExportType<ProjectSettingsPage>(ExportType.Source)
-				.GoToProjectsPage();
-			WorkspaceHelper
-				.GoToProjectSettingsPage(projectUniqueName2);
-
-			ExportFileHelper.AssertCountExportNotifiers(expectedCount: 1);
+            Assert.IsTrue(ExportNotification.IsExportNotifiersCountMatchExpected(expectedCount: 1),
+                "Произошла ошибка:\n не появилось ожидаемое кол-во уведомлений");
 		}
 
 		[Test]
 		public void ExportDocumentFromProjectCheckNotifierText()
 		{
-			ExportFileHelper.CancelAllNotifiers<ProjectSettingsPage>();
+            ExportNotification.CancelAllNotifiers<ProjectSettingsPage>();
 
 			ProjectSettingsPage
 				.ClickDocumentCheckbox(PathProvider.DocumentFileToConfirm1)
-				.ClickDownloadInMainMenuButton();
+                .ClickDownloadInMainMenuButton()
+                .ClickExportType(ExportType.Source);
 
-			ExportFileHelper.SelectExportType<ProjectSettingsPage>(ExportType.Source);
-
-			ExportFileHelper.AssertContainsText(Path.GetFileName(PathProvider.DocumentFileToConfirm1));
+            Assert.IsTrue(ExportNotification.IsNotificationContainsText(Path.GetFileName(PathProvider.DocumentFileToConfirm1)),
+				"Произошла ошибка:\n сообщение не содержит искомый текст");
 		}
 
 		[Ignore("PRX-11419")]
@@ -127,30 +131,30 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 				.AssignTasksOnDocument(Path.GetFileNameWithoutExtension(PathProvider.DocumentFileToConfirm2), ThreadUser.NickName)
 				.CreateRevision(Path.GetFileNameWithoutExtension(PathProvider.DocumentFileToConfirm2));
 
-			ExportFileHelper.CancelAllNotifiers<ProjectSettingsPage>();
+            ExportNotification.CancelAllNotifiers<ProjectSettingsPage>();
 
 			ProjectSettingsPage
 				.ClickDocumentCheckbox(PathProvider.DocumentFileToConfirm1)
 				.ClickDocumentCheckbox(PathProvider.DocumentFileToConfirm2)
-				.ClickDownloadInMainMenuButton();
+                .ClickDownloadInMainMenuButton()
+                .ClickExportType(ExportType.Source);
 
-			ExportFileHelper.SelectExportType<ProjectSettingsPage>(ExportType.Source);
-
-			ExportFileHelper.AssertContainsText("Documents");
+            Assert.IsTrue(ExportNotification.IsNotificationContainsText("Documents"),
+                "Произошла ошибка:\n сообщение не содержит искомый текст");
 		}
 
 		[Test]
 		public void ExportDocumentCheckNotifierDate()
 		{
-			ExportFileHelper.CancelAllNotifiers<ProjectSettingsPage>();
+            ExportNotification.CancelAllNotifiers<ProjectSettingsPage>();
 
 			ProjectSettingsPage
 				.ClickDocumentCheckbox(PathProvider.DocumentFileToConfirm1)
-				.ClickDownloadInMainMenuButton();
+                .ClickDownloadInMainMenuButton()
+                .ClickExportType(ExportType.Source);
 
-			ExportFileHelper.SelectExportType<ProjectSettingsPage>(ExportType.Source);
-
-			ExportFileHelper.AssertContainsCurrentDate();
+			Assert.IsTrue(ExportNotification.IsNotificationContainsCurrentDate(),
+				"Произошла ошибка:\n сообщение не содержит требуемую дату.");
 		}
 	}
 }

@@ -5,6 +5,7 @@ using NUnit.Framework;
 using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings;
+using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace;
 using AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
@@ -15,16 +16,19 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 		public void SetUpProjectExportTests()
 		{
 			CreateProjectHelper = new CreateProjectHelper(Driver);
-			ExportFileHelper = new ExportFileHelper(Driver);
 			ProjectSettingsHelper = new ProjectSettingsHelper(Driver);
 			WorkspaceHelper = new WorkspaceHelper(Driver);
 			ProjectsPage = new ProjectsPage(Driver);
-			DocumentSettings = new DocumentSettings(Driver);
+			DocumentSettingsDialog = new DocumentSettingsDialog(Driver);
 			ProjectSettingsPage = new ProjectSettingsPage(Driver);
+            ExportNotification = new ExportNotification(Driver);
+            WorkspacePage = new WorkspacePage(Driver);
+
+            ProjectUniqueName = CreateProjectHelper.GetProjectUniqueName();
 
 			WorkspaceHelper.GoToProjectsPage();
-			ExportFileHelper.CancelAllNotifiers<ProjectsPage>();
-			ProjectUniqueName = CreateProjectHelper.GetProjectUniqueName();
+
+            ExportNotification.CancelAllNotifiers<ProjectsPage>();
 
 			CreateProjectHelper.CreateNewProject(ProjectUniqueName, filePath: PathProvider.DocumentFileToConfirm1);
 
@@ -36,11 +40,12 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 
 		protected string ProjectUniqueName;
 		protected CreateProjectHelper CreateProjectHelper;
-		protected ExportFileHelper ExportFileHelper;
 		protected ProjectSettingsHelper ProjectSettingsHelper;
 		protected ProjectsPage ProjectsPage;
-		protected DocumentSettings DocumentSettings;
+		protected DocumentSettingsDialog DocumentSettingsDialog;
 		protected WorkspaceHelper WorkspaceHelper;
 		protected ProjectSettingsPage ProjectSettingsPage;
+	    protected ExportNotification ExportNotification;
+	    protected WorkspacePage WorkspacePage;
 	}
 }

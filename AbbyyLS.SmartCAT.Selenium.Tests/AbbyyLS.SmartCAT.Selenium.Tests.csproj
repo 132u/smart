@@ -173,8 +173,7 @@
     <Compile Include="Pages\Login\SelectAccountForm.cs" />
     <Compile Include="Pages\Login\SignInPage.cs" />
     <Compile Include="Pages\Projects\CreateProjectDialog\NewProjectCreateBaseDialog.cs" />
-    <Compile Include="Pages\Projects\DocumentSettings.cs" />
-    <Compile Include="Pages\Projects\ExportMenu.cs" />
+    <Compile Include="Pages\Projects\DocumentSettingsDialog.cs" />
     <Compile Include="Pages\Projects\ExportNotification.cs" />
     <Compile Include="Pages\Projects\DocumentUploadDialog\DocumentUploadTaskAssignmentDialog.cs" />
     <Compile Include="Pages\Registration\CompanyRegistration\CompanyRegistrationSignInPage.cs" />
@@ -214,7 +213,6 @@
     <Compile Include="TestHelpers\AdminHelper.cs" />
     <Compile Include="TestHelpers\CommonHelper.cs" />
     <Compile Include="TestHelpers\CreateProjectHelper.cs" />
-    <Compile Include="TestHelpers\ExportFileHelper.cs" />
     <Compile Include="TestHelpers\GlossariesHelper.cs" />
     <Compile Include="TestHelpers\LoginHelper.cs" />
     <Compile Include="TestHelpers\ProjectSettingsHelper.cs" />
