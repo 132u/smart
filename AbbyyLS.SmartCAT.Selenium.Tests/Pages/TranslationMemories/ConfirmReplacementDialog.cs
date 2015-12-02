@@ -41,6 +41,17 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories
 			return new TranslationMemoriesPage(Driver).GetPage();
 		}
 
+		/// <summary>
+		/// Нажать кнопку подтверждения замены ТМ в окне импорта
+		/// </summary>
+		public ImportTmxDialog ClickConfirmReplacementButtonExpectingError()
+		{
+			CustomTestContext.WriteLine("Нажать кнопку подтверждения замены ТМ в окне импорта");
+			ConfirmReplacementButton.Click();
+
+			return new ImportTmxDialog(Driver).GetPage();
+		}
+
 		#endregion
 
 		#region Методы, проверяющие состояние страницы

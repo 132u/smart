@@ -40,7 +40,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.TranslationMemories
 										.OpenTranslationMemoryInformation(_tmName)
 										.GetUnitsCount();
 
-			Assert.IsTrue(unitsCountBefore != unitsCountAfter,
+			Assert.AreEqual(unitsCountBefore, unitsCountAfter,
 				string.Format("Произошла ошибка:\n количество юнитов не изменилось. Кол-во юнитов до: {0}. Кол-во юнитов после: {1}", unitsCountBefore, unitsCountAfter));
 		}
 
@@ -192,8 +192,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.TranslationMemories
 
 			ImportTmxDialog
 				.EnterFileName(PathProvider.DocumentFile)
-				.ClickImportButtonExpectingError();
-
+				.ClickImportButtonExpectingReplacementConfirmation();
+				
 			ConfirmReplacementDialog.ClickConfirmReplacementButton();
 
 			Assert.IsTrue(TranslationMemoriesPage.IsImportValidationErrorMessageDisplayed(),
@@ -211,6 +211,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.TranslationMemories
 
 			ImportTmxDialog
 				.EnterFileName(string.Empty)
+				.ClickImportButtonExpectingReplacementConfirmation()
+				.ClickConfirmReplacementButtonExpectingError()
 				.ClickImportButtonExpectingError();
 
 			Assert.IsTrue(TranslationMemoriesPage.IsImportValidationErrorMessageDisplayed(),

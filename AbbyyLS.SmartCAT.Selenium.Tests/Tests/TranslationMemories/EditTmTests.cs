@@ -120,7 +120,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.TranslationMemories
 		{
 			TranslationMemoriesHelper.CreateTranslationMemory(UniqueTMName);
 
-			Assert.IsFalse(TranslationMemoriesPage.IsLanguagesForTranslationMemoryExists(
+			Assert.IsTrue(TranslationMemoriesPage.IsLanguagesForTranslationMemoryExists(
 				UniqueTMName, EnglishLanguage, new List<string> { RussianLanguage }),
 				"Произошла ошибка:\nСписки target языков не совпали");
 
@@ -129,7 +129,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.TranslationMemories
 				.RefreshPage<TranslationMemoriesPage>()
 				.SearchForTranslationMemory(UniqueTMName);
 
-			Assert.IsFalse(TranslationMemoriesPage.IsLanguagesForTranslationMemoryExists(
+			Assert.IsTrue(TranslationMemoriesPage.IsLanguagesForTranslationMemoryExists(
 				UniqueTMName, EnglishLanguage, new List<string> { RussianLanguage, LithuanianLanguage }),
 				"Произошла ошибка:\nСписки target языков не совпали");
 		}
