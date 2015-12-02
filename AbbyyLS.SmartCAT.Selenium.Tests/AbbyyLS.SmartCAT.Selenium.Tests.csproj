@@ -255,14 +255,13 @@
     <Compile Include="Configs\ThreadUserConfig.cs" />
     <Compile Include="Tests\Glossaries\BasicGlossaryTests.cs" />
     <Compile Include="Tests\Projects\CheckRights\CheckCreateProjectRight.cs" />
-    <Compile Include="Tests\Projects\Export\ExportProjectBaseTests.cs" />
-    <Compile Include="Tests\Projects\Export\ExportProjectSettingsPageTests.cs" />
+    <Compile Include="Tests\Projects\Export\ExportNotifierTests.cs" />
+    <Compile Include="Tests\Projects\Export\ExportProjectsTests.cs" />
     <Compile Include="Tests\LingvoDictionaries\LingvoDictionariesAdminTests.cs" />
     <Compile Include="Tests\LingvoDictionaries\LingvoDictionariesTests.cs" />
     <Compile Include="Tests\Registration\CompanyRegistration\AdminCompanyRegistrationTests.cs" />
     <Compile Include="Tests\Registration\CompanyRegistration\CompanyRegistrationTests.cs" />
     <Compile Include="Tests\Projects\ProjectDeadlineTests.cs" />
-    <Compile Include="Tests\Projects\Export\ExportProjectListTests.cs" />
     <Compile Include="Tests\ProjectGroups\ProjectGroupsTest.cs" />
     <Compile Include="Tests\Projects\ProjectImportTests.cs" />
     <Compile Include="Tests\Glossaries\SortingInSuggestedTermsTests.cs" />
