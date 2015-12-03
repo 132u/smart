@@ -40,8 +40,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 		[Test]
 		public void ExportCloseNotifier()
 		{
-			_exportNotification.CancelAllNotifiers<ProjectsPage>();
-
 			_projectsPage
 				.OpenProjectInfo(_projectUniqueName)
 				.ClickDownloadInProjectButton(_projectUniqueName)
@@ -93,8 +91,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 		[Test]
 		public void CheckNotifierText()
 		{
-			_exportNotification.CancelAllNotifiers<ProjectsPage>();
-
 			_projectsPage
 				.OpenProjectInfo(_projectUniqueName)
 				.OpenDocumentInfoForProject(_projectUniqueName)
@@ -108,8 +104,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 		[Test]
 		public void ExportProjectOneDocCheckNotifierText()
 		{
-			_exportNotification.CancelAllNotifiers<ProjectsPage>();
-
 			_projectsPage
 				.ClickProjectCheckboxInList(_projectUniqueName)
 				.ClickDownloadInMainMenuButton()
@@ -156,8 +150,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 				.UploadDocument(PathProvider.DocumentFileToConfirm2)
 				.GoToProjectsPage();
 
-			_exportNotification.CancelAllNotifiers<ProjectsPage>();
-
 			_projectsPage
 				.ClickProjectCheckboxInList(_projectUniqueName)
 				.ClickProjectCheckboxInList(projectUniqueName2)
@@ -179,8 +171,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 				.GoToProjectSettingsPage(projectUniqueName2)
 				.UploadDocument(PathProvider.DocumentFileToConfirm2)
 				.GoToProjectsPage();
-
-			_exportNotification.CancelAllNotifiers<ProjectsPage>();
 
 			_projectsPage
 				.ClickProjectCheckboxInList(_projectUniqueName)
@@ -253,8 +243,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 				.UploadDocument(PathProvider.DocumentFileToConfirm2)
 				.GoToProjectsPage();
 
-			_exportNotification.CancelAllNotifiers<ProjectsPage>();
-
 			_projectsPage
 				.ClickProjectCheckboxInList(_projectUniqueName)
 				.ClickDownloadInMainMenuButton()
@@ -285,8 +273,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 				.GoToProjectSettingsPage(projectUniqueName2)
 				.UploadDocument(PathProvider.DocumentFileToConfirm2)
 				.GoToProjectsPage();
-
-			_exportNotification.CancelAllNotifiers<ProjectsPage>();
 
 			_projectsPage
 				.ClickProjectCheckboxInList(_projectUniqueName)
@@ -330,8 +316,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 				.GoToProjectSettingsPage(projectUniqueName2)
 				.UploadDocument(PathProvider.DocumentFileToConfirm2)
 				.GoToProjectsPage();
-
-			_exportNotification.CancelAllNotifiers<ProjectsPage>();
 
 			_projectsPage
 				.ClickProjectCheckboxInList(projectUniqueName2)
@@ -452,8 +436,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 				.UploadDocument(PathProvider.DocumentFileToConfirm2)
 				.GoToProjectsPage();
 
-			_exportNotification.CancelAllNotifiers<ProjectsPage>();
-
 			_workspaceHelper.GoToProjectSettingsPage(_projectUniqueName);
 
 			_projectSettingsPage
@@ -490,8 +472,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 
 			_projectSettingsHelper
 				.UploadDocument(PathProvider.DocumentFileToConfirm2);
-
-			_exportNotification.CancelAllNotifiers<ProjectSettingsPage>();
 
 			_projectSettingsPage
 				.ClickDocumentCheckbox(PathProvider.DocumentFileToConfirm1)

@@ -127,8 +127,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 				.CreateRevision(Path.GetFileNameWithoutExtension(PathProvider.DocumentFileToConfirm2))
 				.GoToProjectsPage();
 
-			_exportNotification.CancelAllNotifiers<ProjectsPage>();
-
 			_projectsPage
 				.ClickProjectCheckboxInList(_projectUniqueName)
 				.ClickDownloadInMainMenuButton()
