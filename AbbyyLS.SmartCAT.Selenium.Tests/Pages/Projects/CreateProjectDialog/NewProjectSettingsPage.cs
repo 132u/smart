@@ -277,7 +277,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 			CreateProjectButton.Click();
 
 			return new ProjectsPage(Driver).GetPage();
-			return GetPage();
 		}
 
 		/// <summary>
@@ -691,7 +690,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 		protected const string ERROR_NO_NAME = "//span[@data-message-id='isNameEmpty']";
 		protected const string ERROR_DEADLINE_DATE = "//div[@class='proj_deadline pull-right']//span[text()='Specify the deadline in the MM/DD/YYYY format.']";
 
-		protected const string CREATE_PROJECT_BUTTON = "//div[@class='g-btn g-purplebtn g-big-btn icon-btn' and not(contains(@disabled, 'true'))]";
+		protected const string CREATE_PROJECT_BUTTON = "//div[@class='fixed-btn']//a[contains(@class, 'g-greenbtn')]";
 
 		protected const string ADVANCED_SETTINGS_SECTION = "//div[@class='additional-settings-tabs']";
 		protected const string ADVANCED_SETTINGS_SWITCHER = "//label[@for='advancedSettingsSwitch']";
