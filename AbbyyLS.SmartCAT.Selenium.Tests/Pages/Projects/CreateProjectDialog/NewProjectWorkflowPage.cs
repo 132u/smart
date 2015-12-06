@@ -59,7 +59,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 		}
 
 		/// <summary>
-		/// Получить список возможноых типов этапов Workflow
+		/// Получить список возможных типов этапов Workflow
 		/// </summary>
 		public IEnumerable<string> GetTaskTipesList()
 		{
@@ -76,12 +76,11 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 		public NewProjectWorkflowPage ClickNewTaskButton(WorkflowTask task)
 		{
 			CustomTestContext.WriteLine("Кликнуть на кнопку назначения новой задачи типа {0}.", task);
-			WorkflowTaskTypeItem = Driver.SetDynamicValue(How.XPath, WORKFLOW_TASK_TYPE_ITEM, task.ToString());
-			WorkflowTaskTypeItem.Click();
+			Driver.SetDynamicValue(How.XPath, WORKFLOW_TASK_TYPE_ITEM, task.ToString()).Click();
 
 			return GetPage();
 		}
-
+		
 		/// <summary>
 		/// Кликнуть на кнопку удаления добавленной задачи
 		/// </summary>

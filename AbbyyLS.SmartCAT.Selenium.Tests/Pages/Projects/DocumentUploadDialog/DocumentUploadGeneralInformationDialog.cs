@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.IO;
 
 using OpenQA.Selenium;
@@ -34,17 +36,32 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.DocumentUploadDialog
 		/// <summary>
 		/// Загрузка файла
 		/// </summary>
-		/// <param name="pathFile">путь к файлу</param>
-		public DocumentUploadGeneralInformationDialog UploadDocument(string pathFile)
+		/// <param name="pathFiles">путь к файлу</param>
+		public DocumentUploadGeneralInformationDialog UploadDocument(IList<string> pathFiles)
 		{
-			CustomTestContext.WriteLine("Загрузить файл {0}", pathFile);
+			CustomTestContext.WriteLine("Загрузить файл {0}", pathFiles);
 
 			Driver.ExecuteScript("arguments[0].style[\"display\"] = \"block\";" +
 				"arguments[0].style[\"visibility\"] = \"visible\";",
 				UploadFileInput);
-			UploadFileInput.SendKeys(pathFile);
 
+			foreach (var pathFile in pathFiles)
+			{
+				UploadFileInput.SendKeys(pathFile);
+			}
+			
 			return GetPage();
+		}
+
+		/// <summary>
+		/// Нажать кнопку Next
+		/// </summary>
+		public DocumentUploadSetUpTMDialog ClickNextButton()
+		{
+			CustomTestContext.WriteLine("Нажать кнопку Next.");
+			NextButton.Click();
+
+			return new DocumentUploadSetUpTMDialog(Driver).GetPage();
 		}
 
 		/// <summary>
@@ -108,10 +125,14 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.DocumentUploadDialog
 		[FindsBy(How = How.XPath, Using = UPLOAD_FILE_INPUT)]
 		protected IWebElement UploadFileInput { get; set; }
 
+		[FindsBy(How = How.XPath, Using = NEXT_BUTTON)]
+		protected IWebElement NextButton { get; set; }
+
 		protected const string ADD_BTN = ".//div[contains(@class,'js-popup-import-document')][2]//a[contains(@class,'js-add-file')]";
 		protected const string UPLOAD_FILE_INPUT = ".//div[contains(@class,'js-popup-import-document')][2]//input[@type = 'file']";
 		protected const string UPLOADED_FILE = ".//div[contains(@class,'js-popup-import-document')][2]//li[@class='js-file-list-item']//span[contains(string(), '*#*')]";
 		protected const string DUPLICATE_NAME_ERROR = "//div[contains(@class,'js-info-popup')]//span[contains(string(),'The following files have already been added to the project')]";
 		protected const string UPLOAD_DOCUMENT_DIALOG = "//div[contains(@class,'js-popup-import-document')][2]";
+		protected const string NEXT_BUTTON = "//div[contains(@class, 'js-popup-import-document')][2]//div[contains(@class, 'g-greenbtn js-next')]//a";
 	}
 }

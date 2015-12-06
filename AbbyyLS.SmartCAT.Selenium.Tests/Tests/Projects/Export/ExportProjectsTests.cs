@@ -125,7 +125,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 			_workspaceHelper.GoToProjectSettingsPage(_projectUniqueName);
 
 			_projectSettingsHelper
-				.UploadDocument(PathProvider.DocumentFileToConfirm2)
+				.UploadDocument(new[] {PathProvider.DocumentFileToConfirm2})
 				.AssignTasksOnDocument(Path.GetFileNameWithoutExtension(PathProvider.DocumentFileToConfirm2), ThreadUser.NickName)
 				.CreateRevision(Path.GetFileNameWithoutExtension(PathProvider.DocumentFileToConfirm2))
 				.GoToProjectsPage();

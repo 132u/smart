@@ -48,7 +48,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 		public SelectAssigneePage ExpandAssigneeDropdown()
 		{
 			CustomTestContext.WriteLine("Раскрыть Assignee дропдаун.");
-
 			AssigneeDopdown.Click();
 
 			return GetPage();

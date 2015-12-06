@@ -640,7 +640,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace
 		protected const string RESOURCES_MENU ="//li[contains(@class, 'js-menuitem-Resources')]";
 		protected const string EXPAND_RESOURCES_MENU = "//li[contains(@class, 'js-menuitem-Resources')]//a";
 		protected const string PROJECTS_BUTTON = "//a[contains(@href,'/Workspace')]";
-		protected const string PROJECTS_MENU = "//li[contains(@class, 'first has-nested-items js-menuitem-SmartCAT')]//a//span[text()='Projects']";
+		protected const string PROJECTS_MENU = "//li//a//span[text()='Projects']";
 		protected const string USERS_RIGHTS_BUTTON = "//a[contains(@href,'/Users/Index')]";
 		protected const string CLIENTS_BUTTON = "//a[contains(@href,'/Clients/Index')]";
 		protected const string TRANSLATION_MEMORIES_BUTTON = "//a[contains(@href,'/TranslationMemories/Index')]";

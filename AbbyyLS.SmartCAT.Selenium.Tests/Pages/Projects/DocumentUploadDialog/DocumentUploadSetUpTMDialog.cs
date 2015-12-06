@@ -6,7 +6,7 @@ using AbbyyLS.SmartCAT.Selenium.Tests.TestFramework;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.DocumentUploadDialog
 {
-	class DocumentUploadSetUpTMDialog : DocumentUploadBaseDialog, IAbstractPage<DocumentUploadSetUpTMDialog>
+	public class DocumentUploadSetUpTMDialog : DocumentUploadBaseDialog, IAbstractPage<DocumentUploadSetUpTMDialog>
 	{
 		public DocumentUploadSetUpTMDialog(WebDriver driver) : base(driver)
 		{

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 using OpenQA.Selenium;
 
@@ -36,7 +37,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 				.SelectAssignee(nickName)
 				.ClickClose();
 
-			_taskAssignmentPage.ClickSaveAssignButton();
+			_taskAssignmentPage.ClickSaveButtonProjectSettingsPage();
 
 			return this;
 		}
@@ -65,17 +66,20 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 		/// <summary>
 		/// Загрузить файл в проект
 		/// </summary>
-		/// <param name="filePath">путь к файлу</param>
-		public ProjectSettingsHelper UploadDocument(string filePath)
+		/// <param name="filePaths">путь к файлу</param>
+		public ProjectSettingsHelper UploadDocument(IList<string> filePaths)
 		{
 			BaseObject.InitPage(_projectPage, Driver);
 			_projectPage
 				.ClickDocumentUploadButton()
-				.UploadDocument(filePath);
+				.UploadDocument(filePaths);
 
-			if (!_documentUploadGeneralInformationDialog.IsFileUploaded(filePath))
+			foreach (var filePath in filePaths)
 			{
-				throw new Exception("Произошла ошибка: '\nдокумент не загружен");
+				if (!_documentUploadGeneralInformationDialog.IsFileUploaded(filePath))
+				{
+					throw new Exception("Произошла ошибка: '\nдокумент не загружен");
+				}
 			}
 
 			_documentUploadGeneralInformationDialog

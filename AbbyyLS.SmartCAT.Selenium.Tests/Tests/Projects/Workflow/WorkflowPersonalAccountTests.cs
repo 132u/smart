@@ -56,7 +56,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 			_createProjectHelper
 				.CreateNewProject(_projectUniqueName, personalAccount: true)
 				.GoToProjectSettingsPage(_projectUniqueName)
-				.UploadDocument(PathProvider.DocumentFile);
+				.UploadDocument(new []{PathProvider.DocumentFile});
 
 			_projectSettingsPage.OpenDocumentInEditorWithoutTaskSelect(Path.GetFileNameWithoutExtension(PathProvider.DocumentFile));
 		}

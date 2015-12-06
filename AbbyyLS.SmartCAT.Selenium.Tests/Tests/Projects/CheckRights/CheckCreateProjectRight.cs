@@ -95,7 +95,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects.CheckRights
 				.OpenProjectInfo(_projectUniqueName)
 				.ClickDocumentUploadButton();
 
-			_documentUploadGeneralInformationDialog.UploadDocument(PathProvider.DocumentFileToConfirm1);
+			_documentUploadGeneralInformationDialog.UploadDocument(new []{PathProvider.DocumentFileToConfirm1});
 
 			Assert.IsTrue(_documentUploadGeneralInformationDialog.IsFileUploaded(PathProvider.DocumentFileToConfirm1),
 				"Произошла ошибка:\n не удалось загрузить файл.");
@@ -131,7 +131,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects.CheckRights
 				.OpenProjectInfo(_projectUniqueName)
 				.ClickDocumentUploadButton();
 
-			_documentUploadGeneralInformationDialog.UploadDocument(PathProvider.DocumentFileToConfirm1);
+			_documentUploadGeneralInformationDialog.UploadDocument(new []{PathProvider.DocumentFileToConfirm1});
 
 			Assert.IsTrue(_documentUploadGeneralInformationDialog.IsFileUploaded(PathProvider.DocumentFileToConfirm1),
 				"Произошла ошибка:\n не удалось загрузить файл.");
@@ -163,7 +163,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects.CheckRights
 				.OpenProjectInfo(_projectUniqueName)
 				.ClickDocumentUploadButton();
 
-			_documentUploadGeneralInformationDialog.UploadDocument(PathProvider.DocumentFileToConfirm1);
+			_documentUploadGeneralInformationDialog.UploadDocument(new []{PathProvider.DocumentFileToConfirm1});
 
 			Assert.IsTrue(_documentUploadGeneralInformationDialog.IsFileUploaded(PathProvider.DocumentFileToConfirm1),
 				"Произошла ошибка:\n не удалось загрузить файл.");
@@ -225,7 +225,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects.CheckRights
 				.OpenProjectInfo(_projectUniqueName)
 				.ClickDocumentUploadButton();
 
-			_documentUploadGeneralInformationDialog.UploadDocument(PathProvider.DocumentFile2);
+			_documentUploadGeneralInformationDialog.UploadDocument(new []{PathProvider.DocumentFile2});
 
 			Assert.IsTrue(_documentUploadGeneralInformationDialog.IsFileUploaded(PathProvider.DocumentFile2),
 				"Произошла ошибка:\n не удалось загрузить файл.");

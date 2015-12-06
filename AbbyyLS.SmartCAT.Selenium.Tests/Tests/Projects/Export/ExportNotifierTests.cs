@@ -123,7 +123,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 				.OpenProjectInfo(_projectUniqueName)
 				.ClickDocumentUploadButton();
 
-			_documentUploadGeneralInformationDialog.UploadDocument(PathProvider.DocumentFileToConfirm2);
+			_documentUploadGeneralInformationDialog.UploadDocument(new[] { PathProvider.DocumentFileToConfirm2 });
 
 			if (!_documentUploadGeneralInformationDialog.IsFileUploaded(PathProvider.DocumentFileToConfirm2))
 			{
@@ -150,7 +150,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 
 			_workspaceHelper
 				.GoToProjectSettingsPage(projectUniqueName2)
-				.UploadDocument(PathProvider.DocumentFileToConfirm2)
+				.UploadDocument(new[] {PathProvider.DocumentFileToConfirm2})
 				.GoToProjectsPage();
 
 			_projectsPage
@@ -172,7 +172,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 
 			_workspaceHelper
 				.GoToProjectSettingsPage(projectUniqueName2)
-				.UploadDocument(PathProvider.DocumentFileToConfirm2)
+				.UploadDocument(new[] {PathProvider.DocumentFileToConfirm2})
 				.GoToProjectsPage();
 
 			_projectsPage
@@ -243,7 +243,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 
 			_workspaceHelper
 				.GoToProjectSettingsPage(projectUniqueName2)
-				.UploadDocument(PathProvider.DocumentFileToConfirm2)
+				.UploadDocument(new[] {PathProvider.DocumentFileToConfirm2})
 				.GoToProjectsPage();
 
 			_projectsPage
@@ -274,7 +274,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 
 			_workspaceHelper
 				.GoToProjectSettingsPage(projectUniqueName2)
-				.UploadDocument(PathProvider.DocumentFileToConfirm2)
+				.UploadDocument(new[] {PathProvider.DocumentFileToConfirm2})
 				.GoToProjectsPage();
 
 			_projectsPage
@@ -317,7 +317,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 
 			_workspaceHelper
 				.GoToProjectSettingsPage(projectUniqueName2)
-				.UploadDocument(PathProvider.DocumentFileToConfirm2)
+				.UploadDocument(new[] {PathProvider.DocumentFileToConfirm2})
 				.GoToProjectsPage();
 
 			_projectsPage
@@ -436,7 +436,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 
 			_workspaceHelper
 				.GoToProjectSettingsPage(projectUniqueName2)
-				.UploadDocument(PathProvider.DocumentFileToConfirm2)
+				.UploadDocument(new[] {PathProvider.DocumentFileToConfirm2})
 				.GoToProjectsPage();
 
 			_workspaceHelper.GoToProjectSettingsPage(_projectUniqueName);
@@ -474,7 +474,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 			_projectsPage.ClickProject(_projectUniqueName);
 
 			_projectSettingsHelper
-				.UploadDocument(PathProvider.DocumentFileToConfirm2);
+				.UploadDocument(new[] {PathProvider.DocumentFileToConfirm2});
 
 			_projectSettingsPage
 				.ClickDocumentCheckbox(PathProvider.DocumentFileToConfirm1)

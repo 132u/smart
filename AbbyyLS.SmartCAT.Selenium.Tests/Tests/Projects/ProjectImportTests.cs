@@ -92,7 +92,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 			_createProjectHelper
 				.CreateNewProject(_projectUniqueName)
 				.GoToProjectSettingsPage(_projectUniqueName)
-				.UploadDocument(PathProvider.DocumentFile);
+				.UploadDocument(new []{PathProvider.DocumentFile});
 
 			Assert.IsTrue(_projectSettingsPage.IsDocumentExist(Path.GetFileNameWithoutExtension(PathProvider.DocumentFile)),
 				"Произошла ошибка:\n документ {0} отсутствует в проекте.", PathProvider.DocumentFile);
@@ -107,9 +107,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 
 			_projectSettingsPage.ClickDocumentUploadButton();
 
-			_documentUploadGeneralInformationDialog
-				.UploadDocument(PathProvider.DocumentFile)
-				.UploadDocument(PathProvider.DocumentFile);
+			_documentUploadGeneralInformationDialog.UploadDocument(
+				new[] { PathProvider.DocumentFile, PathProvider.DocumentFile });
 
 			Assert.IsTrue(_documentUploadGeneralInformationDialog.IsDuplicateDocumentNameErrorExist(),
 				"Произошла ошибка:\n нет появилась ошибка о том, что в проекте уже есть файл с таким именем.");

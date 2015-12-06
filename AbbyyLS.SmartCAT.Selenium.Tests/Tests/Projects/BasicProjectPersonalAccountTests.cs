@@ -82,7 +82,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 			_createProjectHelper
 				.CreateNewProject(projectUniqueName, personalAccount: true)
 				.GoToProjectSettingsPage(projectUniqueName)
-				.UploadDocument(PathProvider.DocumentFile);
+				.UploadDocument(new []{PathProvider.DocumentFile});
 			_projectSettingsPage
 				.ClickDocumentProgress(Path.GetFileName(PathProvider.DocumentFile));
 
@@ -98,7 +98,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 			_createProjectHelper
 				.CreateNewProject(projectUniqueName, personalAccount: true)
 				.GoToProjectSettingsPage(projectUniqueName)
-				.UploadDocument(PathProvider.DocumentFile)
+				.UploadDocument(new []{PathProvider.DocumentFile})
 				.DeleteDocument(Path.GetFileNameWithoutExtension(PathProvider.DocumentFile));
 		}
 

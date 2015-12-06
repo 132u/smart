@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading;
 
@@ -160,8 +162,20 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 		public TaskAssignmentPage ClickDocumentAssignButton(string projectName, int documentNumber = 1)
 		{
 			CustomTestContext.WriteLine("Нажать на кнопку прав пользователя в свертке документа");
-			DocumentTaskAssignButton = Driver.SetDynamicValue(How.XPath, DOCUMENT_TASK_ASSIGN_BUTTON, projectName, (documentNumber + 1).ToString());
+			DocumentTaskAssignButton = Driver.SetDynamicValue(How.XPath, DOCUMENT_TASK_ASSIGN_BUTTON, projectName, documentNumber.ToString());
 			DocumentTaskAssignButton.Click();
+
+			return new TaskAssignmentPage(Driver).GetPage();
+		}
+
+		/// <summary>
+		/// Нажать на кнопку прав пользователя в свертке проекта
+		/// </summary>
+		/// <param name="projectName"> Название проекта </param>
+		public TaskAssignmentPage ClickProjectAssignButton(string projectName)
+		{
+			CustomTestContext.WriteLine("Нажать на кнопку прав пользователя в свертке проекта.");
+			Driver.SetDynamicValue(How.XPath, PROJECT_TASK_ASSIGN_BUTTON, projectName).Click();
 
 			return new TaskAssignmentPage(Driver).GetPage();
 		}
@@ -318,6 +332,17 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 			return new AnalysisDialog(Driver).GetPage();
 		}
 
+		/// <summary>
+		/// Получить статус проекта
+		/// </summary>
+		/// <param name="projectName">название проекта</param>
+		public string GetProjectStatus(string projectName)
+		{
+			CustomTestContext.WriteLine("Получить статус проекта");
+
+			return Driver.SetDynamicValue(How.XPath, PROJECT_STATUS, projectName).GetAttribute("title");
+		}
+
 		#endregion
 
 		#region Составные методы страницы
@@ -326,13 +351,35 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 		/// Открыть диалог назначения задачи
 		/// </summary>
 		/// <param name="projectName">имя проекта</param>
-		public TaskAssignmentPage OpenAssignDialog(string projectName)
+		public TaskAssignmentPage OpenAssignDialog(string projectName, int documentNumber = 1)
 		{
+			CustomTestContext.WriteLine("Открыть диалог назначения задачи.");
 			OpenProjectInfo(projectName);
-			OpenDocumentInfoForProject(projectName);
-			var taskAssignmentPage = ClickDocumentAssignButton(projectName);
+			OpenDocumentInfoForProject(projectName, documentNumber);
+			var taskAssignmentPage = ClickDocumentAssignButton(projectName, documentNumber);
 
 			return taskAssignmentPage.GetPage();
+		}
+
+		/// <summary>
+		///  Открыть диалог назначения задачи для нескольких документов
+		/// </summary>
+		/// <param name="projectName">имя проекта</param>
+		/// <param name="filePathList">список документов</param>
+		/// <returns></returns>
+		public TaskAssignmentPage OpenAssignDialogForSelectedDocuments(string projectName, IList<string> filePathList)
+		{
+			CustomTestContext.WriteLine("Открыть диалог назначения задачи для нескольких документов.");
+			OpenProjectInfo(projectName);
+
+			foreach (var file in filePathList)
+			{
+				SelectDocument(projectName, Path.GetFileNameWithoutExtension(file));
+			}
+			
+			ClickProjectAssignButton(projectName);
+
+			return new TaskAssignmentPage(Driver).GetPage();
 		}
 
 		#endregion
@@ -509,7 +556,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 		#endregion
 
 		#region Вспомогательные методы страницы
-
+		
 		/// <summary>
 		/// Получить класс элемента, где отображается имя проекта.
 		/// Используется, чтобы понять, открыта ли свёртка проекта.
@@ -609,6 +656,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 		protected const string SEARCH_PROJECT_BUTTON = "//div[contains(@class, 'js-search-btn')]";
 
 		protected const string PROJECT_REF = ".//table[contains(@class,'js-tasks-table')]//tr//*[@class='js-name'][(local-name() ='a' or local-name() ='span') and text()='*#*']";
+		protected const string PROJECT_STATUS = ".//table[contains(@class,'js-tasks-table')]//tr//*[@class='js-name'][(local-name() ='a' or local-name() ='span') and text()='*#*']/../..//following-sibling::td[contains(@class, 'status-td')]//input";
 		protected const string OPEN_PROJECT_FOLDER = ".//table[contains(@class,'js-tasks-table')]//tr//*[@class='js-name'][(local-name() ='a' or local-name() ='span') and text()='*#*']//preceding-sibling::div//i[contains(@class,'closed')]";
 		protected const string PROJECT_CHECKBOX = ".//table[contains(@class,'js-tasks-table')]//tr//*[@class='js-name'][(local-name() ='a' or local-name() ='span') and text()='*#*']/../../../td[contains(@class,'checkbox')]";
 		protected const string OPEN_PROJECT = ".//table[contains(@class,'js-tasks-table')]//tr//*[@class='js-name'][(local-name() ='a' or local-name() ='span') and text()='*#*']/ancestor-or-self::tr";
@@ -619,10 +667,11 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 		protected const string DOCUMENT_ROW = ".//table[contains(@class,'js-tasks-table')]//tr//*[@class='js-name'][(local-name() ='a' or local-name() ='span') and text()='*#*']//ancestor::tr/following-sibling::tr[contains(@class,'js-document-row')][*##*]";
 		protected const string DOCUMENT_PROGRESS = ".//table[contains(@class,'js-tasks-table')]//tr//*[@class='js-name'][(local-name() ='a' or local-name() ='span') and text()='*#*']//ancestor::tr/following-sibling::tr[contains(@class,'js-document-row')][*##*]//div[@class='ui-progressbar__container']";
 		protected const string DOCUMENT_SETTINGS = ".//table[contains(@class,'js-tasks-table')]//tr//*[@class='js-name'][(local-name() ='a' or local-name() ='span') and text()='*#*']//ancestor::tr/following-sibling::tr[contains(@class,'js-document-row')][*##*]//following-sibling::tr[1]//div[contains(@data-bind, 'actions.edit')]";
-		protected const string DOCUMENT_TASK_ASSIGN_BUTTON = ".//table[contains(@class,'js-tasks-table')]//tr//*[@class='js-name'][(local-name() ='a' or local-name() ='span') and text()='*#*']/ancestor::tr/following-sibling::tr[*##*]/following-sibling::tr[1][@class='js-document-panel l-project__doc-panel']//span[contains(@class, 'js-assign-btn') and @data-bind='click: assign']";
+		protected const string DOCUMENT_TASK_ASSIGN_BUTTON = ".//table[contains(@class,'js-tasks-table')]//tr//*[@class='js-name'][(local-name() ='a' or local-name() ='span') and text()='*#*']/../../../following-sibling::tr[contains(@class, 'js-document-row')][*##*]/following-sibling::tr[contains(@class, 'js-document-panel')]//div[contains(@data-bind, 'click: actions.assign')]//a";
 		protected const string UPLOAD_DOCUMENT_BUTTON = "//div[contains(@data-bind, 'click: importDocument')]";
+		protected const string PROJECT_TASK_ASSIGN_BUTTON = ".//table[contains(@class,'js-tasks-table')]//tr//*[@class='js-name'][(local-name() ='a' or local-name() ='span') and text()='*#*']/../../../following-sibling::tr//div[contains(@data-bind, 'click: assign')]";
 		protected const string PROJECT_LINK = ".//table[contains(@class,'js-tasks-table')]//tr//a[@class='js-name'][text()='*#*']";
-		protected const string DOCUMENT_CHECKBOX = ".//table[contains(@class,'js-tasks-table')]//*[@class='js-name'][(local-name() ='a' or local-name() ='span') and text()='*#*']//ancestor::tr//following-sibling::tr[td[div[a[contains(@class,'doc-link')][text()='*##*']]]]/td[1]/input";
+		protected const string DOCUMENT_CHECKBOX = ".//table[contains(@class,'js-tasks-table')]//*[@class='js-name'][(local-name() ='a' or local-name() ='span') and text()='*#*']/../../../following-sibling::tr[contains(@class, 'document-row')]//preceding-sibling::td//a[@title='*##*']/../..//preceding-sibling::td";
 		protected const string SIGN_IN_TO_CONNECTOR_BUTTON = "//span[contains(@class,'login-connector-btn')]";
 		protected const string QA_CHECK_BUTTON = "//table[contains(@class,'js-tasks-table')]//*[@class='js-name'][(local-name() ='a' or local-name() ='span') and text()='*#*']//ancestor::tr//following-sibling::tr[1]//span[contains(@data-bind,'qaCheck')]";
 		protected const string PROJECT_SETTINGS_BUTTON = "//table[contains(@class,'js-tasks-table')]//*[@class='js-name'][(local-name() ='a' or local-name() ='span') and text()='*#*']//ancestor::tr//following-sibling::tr[1]//span[contains(@data-bind,'edit')]";
