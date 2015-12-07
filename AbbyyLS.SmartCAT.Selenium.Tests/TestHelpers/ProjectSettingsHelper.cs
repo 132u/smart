@@ -16,7 +16,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 	{
 		public ProjectSettingsHelper(WebDriver driver) : base(driver)
 		{
-            _documentSettingsDialog = new DocumentSettingsDialog(Driver);
+			_documentSettingsDialog = new DocumentSettingsDialog(Driver);
 			_projectPage = new ProjectSettingsPage(Driver);
 			_documentUploadGeneralInformationDialog = new DocumentUploadGeneralInformationDialog(Driver);
 			_taskAssignmentPage = new TaskAssignmentPage(Driver);
@@ -123,8 +123,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 				.ClickDocumentProgress(documentName)
 				.ClickDocumentSettings();
 
-            BaseObject.InitPage(_documentSettingsDialog, Driver);
-            _documentSettingsDialog
+			BaseObject.InitPage(_documentSettingsDialog, Driver);
+			_documentSettingsDialog
 				.HoverGlossaryTableDocumentSettingsDialog()
 				.ClickGlossaryByName(glossaryName)
 				.ClickSaveButton<ProjectSettingsPage>(Driver)

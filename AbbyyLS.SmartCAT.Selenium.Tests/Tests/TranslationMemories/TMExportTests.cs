@@ -16,7 +16,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.TranslationMemories
 		[SetUp]
 		public void Initialization()
 		{
-            _exportNotification = new ExportNotification(Driver);
+			_exportNotification = new ExportNotification(Driver);
 		}
 
 		[TestCase(true)]
@@ -28,8 +28,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.TranslationMemories
 
 			TranslationMemoriesPage.ExportTM(UniqueTMName);
 
-            Assert.IsTrue(_exportNotification.IsFileDownloaded(String.Format("{0}*-export.tmx", UniqueTMName)),
-                "Произошла ошибка: файл не загрузился");
+			Assert.IsTrue(_exportNotification.IsFileDownloaded(String.Format("{0}*-export.tmx", UniqueTMName)),
+				"Произошла ошибка: файл не загрузился");
 		}
 
 		private ExportNotification _exportNotification;

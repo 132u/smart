@@ -30,7 +30,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects.CheckRights
 			_loginHelper = new LoginHelper(Driver);
 			_projectsPage = new ProjectsPage(Driver);
 			_deleteDialog = new DeleteDialog(Driver);
-            _exportNotification = new ExportNotification(Driver);
+			_exportNotification = new ExportNotification(Driver);
 			_newProjectGeneralInformationDialog = new NewProjectGeneralInformationDialog(Driver);
 			_documentUploadGeneralInformationDialog = new DocumentUploadGeneralInformationDialog(Driver);
 			_usersRightsPage = new UsersRightsPage(Driver);
@@ -142,13 +142,13 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects.CheckRights
 				.WaitUntilProjectLoadSuccessfully(_projectUniqueName)
 				.SelectDocument(_projectUniqueName, Path.GetFileNameWithoutExtension(PathProvider.EditorTxtFile))
 				.ClickDownloadInProjectButton(_projectUniqueName)
-                .ClickExportType(exportType);
+				.ClickExportType(exportType);
 
 			_exportNotification.ClickDownloadNotifier<ProjectsPage>();
 
-            Assert.IsTrue(_exportNotification.IsFileDownloaded(
-                _exportNotification.GetExportFileNameMask(exportType, PathProvider.EditorTxtFile)),
-                "Произошла ошибка: файл не загрузился");
+			Assert.IsTrue(_exportNotification.IsFileDownloaded(
+				_exportNotification.GetExportFileNameMask(exportType, PathProvider.EditorTxtFile)),
+				"Произошла ошибка: файл не загрузился");
 		}
 
 		[TestCase(ExportType.Target, true)]
@@ -183,15 +183,15 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects.CheckRights
 				_projectsPage.ClickDownloadInMainMenuButton();
 			}
 
-            _projectsPage.ClickExportType(exportType);
+			_projectsPage.ClickExportType(exportType);
 
 			Assert.IsTrue(_projectsPage.IsPreparingDownloadMessageDisappeared(),
-                "Произошла ошибка:\n сообщение 'Preparing documents for download. Please wait ...' не исчезло");
+				"Произошла ошибка:\n сообщение 'Preparing documents for download. Please wait ...' не исчезло");
 
-            _exportNotification.ClickDownloadNotifier<ProjectsPage>();
+			_exportNotification.ClickDownloadNotifier<ProjectsPage>();
 
-            Assert.IsTrue(_exportNotification.IsFileDownloaded(string.Format("Documents_*{0}.zip", exportType)),
-                "Произошла ошибка: файл не загрузился");
+			Assert.IsTrue(_exportNotification.IsFileDownloaded(string.Format("Documents_*{0}.zip", exportType)),
+				"Произошла ошибка: файл не загрузился");
 		}
 
 		[TestCase(true)]
@@ -299,6 +299,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects.CheckRights
 		private AddAccessRightDialog _addAccessRightDialog;
 		private ProjectsPage _projectsPage;
 		private DeleteDialog _deleteDialog;
-	    private ExportNotification _exportNotification;
+		private ExportNotification _exportNotification;
 	}
 }

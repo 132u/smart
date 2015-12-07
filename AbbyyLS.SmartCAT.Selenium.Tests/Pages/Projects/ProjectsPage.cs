@@ -43,18 +43,18 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 		
 		#region Простые методы страницы
 
-        /// <summary>
-        /// Выбрать тип экспорта
-        /// </summary>
-        /// <param name="exportType">тип экспорта</param>
-        public ProjectsPage ClickExportType(ExportType exportType)
-        {
-            CustomTestContext.WriteLine("Выбрать тип экспорта");
-            ExportType = Driver.SetDynamicValue(How.XPath, EXPORT_TYPE, exportType.ToString());
-            ExportType.Click();
+		/// <summary>
+		/// Выбрать тип экспорта
+		/// </summary>
+		/// <param name="exportType">тип экспорта</param>
+		public ProjectsPage ClickExportType(ExportType exportType)
+		{
+			CustomTestContext.WriteLine("Выбрать тип экспорта");
+			ExportType = Driver.SetDynamicValue(How.XPath, EXPORT_TYPE, exportType.ToString());
+			ExportType.Click();
 
-            return GetPage();
-        }
+			return GetPage();
+		}
 
 		/// <summary>
 		/// Кликнуть по ссылке проекта
@@ -586,8 +586,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 
 		#region Объявление элементов страницы
 
-        [FindsBy(How = How.XPath, Using = EXPORT_TYPE)]
-        protected IWebElement ExportType { get; set; }
+		[FindsBy(How = How.XPath, Using = EXPORT_TYPE)]
+		protected IWebElement ExportType { get; set; }
 
 		[FindsBy(How = How.XPath, Using = CREATE_PROJECT_BTN_XPATH)]
 		protected IWebElement CreateProjectButton { get; set; }
@@ -642,8 +642,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 
 		#region Описания XPath элементов
 
-        protected const string EXPORT_TYPE = "//div[not(contains(@class,'g-hidden'))]/div[contains(@data-bind,'*#*') and contains(@data-bind, 'export')]";
-        protected const string EXPORT_TYPE_TMX = "//div[not(contains(@class,'g-hidden'))]/div[contains(@data-bind,'Tmx')]";
+		protected const string EXPORT_TYPE = "//div[not(contains(@class,'g-hidden'))]/div[contains(@data-bind,'*#*') and contains(@data-bind, 'export')]";
+		protected const string EXPORT_TYPE_TMX = "//div[not(contains(@class,'g-hidden'))]/div[contains(@data-bind,'Tmx')]";
 
 		protected const string CREATE_PROJECT_BTN_XPATH = "//div[contains(@data-bind,'createProject')]";
 		protected const string CREATE_PROJECT_DIALOG_XPATH = "//div[contains(@class,'js-popup-create-project')][2]";

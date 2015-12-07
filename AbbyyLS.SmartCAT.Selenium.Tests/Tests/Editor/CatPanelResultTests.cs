@@ -22,7 +22,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Editor
 			_projectSettingsPage = new ProjectSettingsPage(Driver);
 			_projectUniqueName = _createProjectHelper.GetProjectUniqueName();
 			_projectsPage = new ProjectsPage(Driver);
-            _documentSettingsDialog = new DocumentSettingsDialog(Driver);
+			_documentSettingsDialog = new DocumentSettingsDialog(Driver);
 			_editorPage = new EditorPage(Driver);
 			_selectTaskDialog = new SelectTaskDialog(Driver);
 		}
@@ -75,7 +75,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Editor
 				.UnselectMachineTranslation(machineTranslation)
 				.SelectMachineTranslation(machineTranslation);
 
-            _documentSettingsDialog.CloseDocumentSettings(_projectUniqueName);
+			_documentSettingsDialog.CloseDocumentSettings(_projectUniqueName);
 
 			_createProjectHelper
 				.GoToProjectSettingsPage(_projectUniqueName)
