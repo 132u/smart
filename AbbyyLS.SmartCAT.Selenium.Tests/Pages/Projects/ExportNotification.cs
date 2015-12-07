@@ -161,7 +161,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
         /// </summary>
 	    public bool IsExportNotificationDisplayed()
 	    {
-	        return Driver.WaitUntilElementIsDisplay(By.XPath(NOTIFIER_DOWNLOAD_BTN), timeout: 30);
+	        return Driver.WaitUntilElementIsDisplay(By.XPath(NOTIFIER_DOWNLOAD_BTN), timeout: 50);
 	    }
 
 		/// <summary>
@@ -183,7 +183,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
         {
             CustomTestContext.WriteLine("Проверить, что сообщение содержит текст: '{0}'", text);
 
-            return NotifierMessage.Text.Contains(text);
+	        return Driver.WaitUntilElementIsDisplay(By.XPath(NOTIFIER_MESSAGE_BY_TEXT.Replace("*#*", text)));
         }
 
         /// <summary>
@@ -216,9 +216,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 
         #endregion
 
-        #region Вспомогательные методы
+		#region Вспомогательные методы
 
-        /// <summary>
+		/// <summary>
         /// Возвращает маску имени экспортиремого файла для поиска на жёстком диске
         /// </summary>
         /// <param name="exportType">тип экспорта</param>
@@ -230,6 +230,10 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
                 : Path.GetFileNameWithoutExtension(filePath) + "*" + Path.GetExtension(filePath);
         }
 
+		/// <summary>
+		/// Проверяет, что файл загрузился на жёсткий диск
+		/// </summary>
+		/// <param name="fileMask">макса имени файла</param>
         public bool IsFileDownloaded(string fileMask)
         {
             var files = getDownloadedFiles(fileMask, 15, PathProvider.ExportFiles);
@@ -241,14 +245,14 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
             }
 
             var directoryInfo = Directory.CreateDirectory(Path.Combine(
-                new string[]{ 
+                new []{ 
 					PathProvider.ResultsFolderPath,
 					TestContext.CurrentContext.Test.Name,
 					DateTime.Now.Ticks.ToString()
 				})).FullName;
 
             var pathToMove = Path.Combine(
-                new string[]{
+                new []{
 					directoryInfo, 
 					Path.GetFileNameWithoutExtension(files[0]) + DateTime.Now.Ticks + Path.GetExtension(files[0])
 				});
@@ -258,6 +262,12 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
             return true;
         }
 
+		/// <summary>
+		/// Получает файлы на диске с заданной маской имени
+		/// </summary>
+		/// <param name="mask">маска имени файла</param>
+		/// <param name="waitTime">максимальное время ожидания</param>
+		/// <param name="dirName">каталог, в котором осуществляется поиск файлов</param>
         private string[] getDownloadedFiles(string mask, int waitTime, string dirName)
         {
             var files = new string[0];
@@ -297,6 +307,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 		protected const string NOTIFIER_CANCEL_BTN = "//div[@id='notifications-block']//div[contains(@class,'notifications-item')]//div[not(contains(@style,'none'))]//a[contains(text(),'Close')]";
 		protected const string NOTIFIER_DOWNLOAD_BTN = "//div[@id='notifications-block']//div[contains(@class,'notifications-item')]//div[not(contains(@style,'none'))]//a[contains(text(),'Download')]";
 		protected const string NOTIFIER_MESSAGE = "//div[@id='notifications-block']//div[contains(@class,'notifications-item')]//span[@data-bind='html: message']";
+		protected const string NOTIFIER_MESSAGE_BY_TEXT = "//div[@id='notifications-block']//div[contains(@class,'notifications-item')]//span[@data-bind='html: message'][contains(text(),'*#*')]";
 		protected const string NOTIFIER_ITEM = "//div[@id='notifications-block']//div[contains(@class,'notifications-item')][*#*]";
 
         #endregion

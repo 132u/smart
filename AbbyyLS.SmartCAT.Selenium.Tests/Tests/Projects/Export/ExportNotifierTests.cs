@@ -137,8 +137,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 				.ClickDownloadInMainMenuButton()
 				.ClickExportType(ExportType.Source);
 
-			Assert.IsTrue(_exportNotification.IsNotificationContainsText("Documents"),
-				"Произошла ошибка:\n сообщение не содержит искомый текст");
+			string expextedText = "Documents";
+			Assert.IsTrue(_exportNotification.IsNotificationContainsText(expextedText),
+				"Произошла ошибка:\n сообщение не содержит искомый текст: {0}", expextedText);
 		}
 
 		[Test]
@@ -159,8 +160,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 				.ClickDownloadInMainMenuButton()
 				.ClickExportType(ExportType.Source);
 
-			Assert.IsTrue(_exportNotification.IsNotificationContainsText("Documents"),
-				"Произошла ошибка:\n сообщение не содержит искомый текст");
+			string expextedText = "Documents";
+			Assert.IsTrue(_exportNotification.IsNotificationContainsText(expextedText),
+				"Произошла ошибка:\n сообщение не содержит искомый текст: {0}", expextedText);
 		}
 
 		[Test]
@@ -192,8 +194,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 			Assert.IsTrue(_exportNotification.IsExportNotifiersCountMatchExpected(expectedCount: 2),
 				"Произошла ошибка:\n не появилось ожидаемое кол-во уведомлений");
 
-			var message1 = _exportNotification.GetTextNotificationByNumber(1);
-			var message2 = _exportNotification.GetTextNotificationByNumber(2);
+			var message1 = _exportNotification.GetTextNotificationByNumber(2);
+			var message2 = _exportNotification.GetTextNotificationByNumber(1);
 
 			Assert.AreNotEqual(message1, message2,
 				"Произошла ошибка:\n тесты сообщений обоих уведомлений совпадают.");
