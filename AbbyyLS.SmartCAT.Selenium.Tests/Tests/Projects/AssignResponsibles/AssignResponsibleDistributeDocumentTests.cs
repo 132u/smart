@@ -190,6 +190,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects.AssignResponsibles
 				_distributeSegmentsBetweenAssigneesPage.GetSegmentsCountInDocumnent(),
 				_distributeSegmentsBetweenAssigneesPage.GetNotDistributedSegmentNumber(),
 				"Произошла ошибка:\n Неверный номер нераспределенного сегмента.");
+
+			_distributeSegmentsBetweenAssigneesPage.ClickSaveButton();
 		}
 
 		[Test(Description = "ТС-38")]
@@ -215,6 +217,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects.AssignResponsibles
 			Assert.AreEqual((endSecondRange + 1) + "-" + _distributeSegmentsBetweenAssigneesPage.GetSegmentsCountInDocumnent(),
 				_distributeSegmentsBetweenAssigneesPage.GetNotDistributedRange(rangeNumber: 2),
 				"Произошла ошибка:\nНеверный второй нераспрделенный диапазон.");
+
+			_distributeSegmentsBetweenAssigneesPage.ClickSaveButton();
 		}
 
 		[Test(Description = "ТС-48")]

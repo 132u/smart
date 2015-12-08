@@ -470,8 +470,19 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Drivers
 			_driver.Manage().Cookies.DeleteAllCookies();
 			// Открываем новую вкладку для следующего теста
 			_driver.ExecuteScript("window.open()");
-			// Закрываем текущую вкладку
-			_driver.Close();
+
+			try
+			{
+				// Закрываем текущую вкладку
+				_driver.Close();
+			}
+			catch (UnhandledAlertException)
+			{
+				var alert = _driver.SwitchTo().Alert();
+				CustomTestContext.WriteLine("Ошибка: необработанный алерт. Текст алерта: {0}.", alert.Text);
+				alert.Accept();
+			}
+
 			// Переключаемся на только что открытую вкладку
 			_driver.SwitchTo().Window(_driver.WindowHandles.Last());
 		}
