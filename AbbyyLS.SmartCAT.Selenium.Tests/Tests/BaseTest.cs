@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Concurrent;
 using System.IO;
+using System.Linq;
 using System.Threading;
+using System.Threading.Tasks;
 
 using NLog;
 using NUnit.Framework;
@@ -11,6 +13,8 @@ using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
 using AbbyyLS.SmartCAT.Selenium.Tests.DataStructures;
 using AbbyyLS.SmartCAT.Selenium.Tests.TestFramework;
 using AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers;
+
+using OpenQA.Selenium;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests
 {
@@ -92,19 +96,22 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests
 		{
 			TestUser user = null;
 			var timer = 0;
+			users.TryTake(out user);
 
-			while ((user == null) && (timer != 300))
+			while (((user == null) && (timer != 300)) || (users.Contains(user) && (timer != 30)))
 			{
 				users.TryTake(out user);
 				Thread.Sleep(1000);
 				timer++;
 			}
 
-			Assert.NotNull(user, "Произошла ошибка:\n нет пользователей в очереди");
-
+			if (user == null)
+			{
+				throw new Exception("Произошла ошибка:\n нет пользователей в очереди");
+			}
+			
 			CustomTestContext.WriteLine("Пользователь {0} взят из очереди.", user.Login);
-			Logger.Info("Пользователь {0} взят из очереди.", user.Login);
-
+			
 			return user;
 		}
 
