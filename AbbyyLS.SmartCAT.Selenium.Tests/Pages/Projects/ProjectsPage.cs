@@ -433,8 +433,20 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 		public bool IsProjectLoaded(string projectName)
 		{
 			CustomTestContext.WriteLine("Проверить, загрузился ли проект {0}.", projectName);
+			// Практически все, что сделано в этом методе является быстрым незамысловатым костылем,
+			// пока не пофиксили баг с крутилкой. Тройной рефреш позволяет тестам проходить быстрее,
+			// т.к. мы не ждем пол минуты или минуту, а делаем проверку через 10 секунд.
+			if (!Driver.WaitUntilElementIsDisappeared(By.XPath(PROJECT_LOAD_IMG_XPATH.Replace("*#*", projectName))))
+			{
+				RefreshPage<WorkspacePage>();
+			}
 
-			if (!Driver.WaitUntilElementIsDisappeared(By.XPath(PROJECT_LOAD_IMG_XPATH.Replace("*#*", projectName)), 30))
+			if (!Driver.WaitUntilElementIsDisappeared(By.XPath(PROJECT_LOAD_IMG_XPATH.Replace("*#*", projectName))))
+			{
+				RefreshPage<WorkspacePage>();
+			}
+
+			if (!Driver.WaitUntilElementIsDisappeared(By.XPath(PROJECT_LOAD_IMG_XPATH.Replace("*#*", projectName))))
 			{
 				RefreshPage<WorkspacePage>();
 			}

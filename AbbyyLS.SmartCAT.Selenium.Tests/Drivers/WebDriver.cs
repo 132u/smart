@@ -5,7 +5,7 @@ using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
 using System.Threading;
-
+using AbbyyLS.SmartCAT.Selenium.Tests.TestFramework;
 using NLog;
 using NUnit.Framework;
 
@@ -20,7 +20,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Drivers
 	public class WebDriver : IWebDriver
 	{
 		public static Logger Logger = LogManager.GetCurrentClassLogger();
-		public static readonly TimeSpan ImplicitWait = new TimeSpan(0, 0, 0, 10);
+		public static readonly TimeSpan ImplicitWait = new TimeSpan(0, 0, 0, 5);
 		public static readonly TimeSpan NoWait = new TimeSpan(0, 0, 0, 0);
 		private Navigation _customNavigate;
 
@@ -452,7 +452,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Drivers
 			catch (UnhandledAlertException)
 			{
 				var alert = _driver.SwitchTo().Alert();
-				Logger.Error("Ошибка: необработанный алерт. Текст алерта: {0}.", alert.Text);
+				CustomTestContext.WriteLine("Ошибка: необработанный алерт. Текст алерта: {0}.", alert.Text);
 				alert.Accept();
 				screenShot = ((ITakesScreenshot)_driver).GetScreenshot();
 			}
