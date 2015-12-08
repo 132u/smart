@@ -96,16 +96,14 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests
 		{
 			TestUser user = null;
 			var timer = 0;
-			users.TryTake(out user);
 
-			while (((user == null) && (timer != 300)) || (users.Contains(user) && (timer != 30)))
+			while (!users.TryTake(out user) && timer <= 300)
 			{
-				users.TryTake(out user);
 				Thread.Sleep(1000);
 				timer++;
 			}
 
-			if (user == null)
+			if (timer > 300)
 			{
 				throw new Exception("Произошла ошибка:\n нет пользователей в очереди");
 			}
