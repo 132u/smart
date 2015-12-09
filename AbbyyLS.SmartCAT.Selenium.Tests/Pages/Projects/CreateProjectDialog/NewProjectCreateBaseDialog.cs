@@ -177,7 +177,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 		protected const string BACK_BUTTON = "//div[contains(@class,'js-popup-create-project')][2]//span[contains(@class,'js-back')]";
 
 		protected const string FILES_LINK = "//div[@class='nav-center']//.//li[text()='Files']";
-		protected const string SETTINGS_LINK = "//div[@class='nav-center']//.//li[text()='Settings']";
+		protected const string SETTINGS_LINK = "//div[@class='createSteps']//li[3]";
 		protected const string WORKFLOW_LINK = "//div[@class='nav-center']//.//li[text()='Workflow']";
 		protected const string CANCEL_LINK = "//div[@class='nav-center']//a[@class='cancel']";
 
