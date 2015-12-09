@@ -4,7 +4,6 @@ using System.Threading;
 
 using NUnit.Framework;
 
-using AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects.AssignResponsibles;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings;
 using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
 using AbbyyLS.SmartCAT.Selenium.Tests.FeatureAttributes;
