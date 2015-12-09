@@ -225,6 +225,7 @@
     <Compile Include="TestSettingDefinition.cs" />
     <Compile Include="Tests\Authorization\AuthorizationTests.cs" />
     <Compile Include="Tests\Editor\CatPanelResultTests.cs" />
+    <Compile Include="Tests\Editor\EditorChangeCaseButtonsTests.cs" />
     <Compile Include="Tests\Editor\EditorLastUnconfirmedSegmentTests.cs" />
     <Compile Include="Tests\Editor\EditorHomeButtonTests.cs" />
     <Compile Include="Tests\GlobalSetup.cs" />

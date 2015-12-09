@@ -280,7 +280,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 			CustomTestContext.WriteLine("Получить текст из таргет сегмента №{0}.", rowNumber);
 			var target = Driver.SetDynamicValue(How.XPath, TARGET_CELL, (rowNumber - 1).ToString());
 
-			return target.Text;
+			return target.Text.Trim();
 		}
 
 		/// <summary>
@@ -500,9 +500,110 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 			return terms.Select(g => g.Trim()).ToList();
 		}
 
+		/// <summary>
+		/// Нажать хоткей Shift F3 для изменения регистра.
+		/// </summary>
+		/// <param name="segmentNumber">номер сегмента<</param>
+		public EditorPage ClickChangeCaseByHotKey(int segmentNumber)
+		{
+			CustomTestContext.WriteLine("Нажать хоткей Shift F3 для изменения регистра. Номер строки: {0}", segmentNumber);
+			Driver.SendHotKeys(Keys.F3, shift: true);
+
+			return GetPage();
+		}
+
+		/// <summary>
+		/// Нажать кнопку изменения регистра.
+		/// </summary>
+		public EditorPage ClickChangeCaseButton()
+		{
+			CustomTestContext.WriteLine("Нажать кнопку изменения регистра.");
+			ChangeCaseButton.Click();
+
+			return GetPage();
+		}
+
 		#endregion
 
 		#region Составные методы страницы
+
+		/// <summary>
+		/// Выделение части строки до первого пробела Home+Shift+Right
+		/// </summary>
+		/// <param name="text">текст</param>
+		public EditorPage SelectWordPartBeforeSpaceByHotkey(string text)
+		{
+			CustomTestContext.WriteLine("Выделение части строки до первого пробела Home+Shift+Right.");
+			Driver.SendHotKeys(Keys.Home);
+			var array = text.Split(' ');
+			for (int i = 0; i <= array[0].Length; i++)
+			{
+				Driver.SendHotKeys(Keys.Right, shift: true);
+			}
+
+			return GetPage();
+		}
+
+		/// <summary>
+		/// Нажать хоткей выделения последнего слова Ctrl+Shift+Left
+		/// </summary>
+		public EditorPage SelectLastWordByHotkey(int segmentNumber)
+		{
+			CustomTestContext.WriteLine("Нажать хоткей выделения последнего слова в таргете Ctrl+Shift+Left. Номер строки: {0}", segmentNumber);
+			ClickOnTargetCellInSegment(segmentNumber);
+			Driver.SendHotKeys(Keys.Left, control: true, shift: true);
+
+			return GetPage();
+		}
+
+		/// <summary>
+		/// Нажать хоткей выделения нескольких символов Ctrl+Left, Ctrl+Right, symbolsCount+Shift.
+		/// </summary>
+		/// <param name="segmentNumber">номер сегмента</param>
+		/// <param name="symbolsCount">количество символов</param>
+		public EditorPage SelectFewSymbolsInLastWordByHotkey(int segmentNumber, int symbolsCount)
+		{
+			CustomTestContext.WriteLine("Нажать хоткей выделения {0} символов в последнем слове. Номер строки: {1}", symbolsCount, segmentNumber);
+			Driver.SendHotKeys(Keys.Left, control: true);
+			Driver.SendHotKeys(Keys.ArrowRight);
+			for (int i = 0; i < symbolsCount; i++)
+			{
+				Driver.SendHotKeys(Keys.Right, shift: true);
+			}
+			
+			return GetPage();
+		}
+
+		/// <summary>
+		/// Нажать хоткей выделения второго и третьего слов Ctrl+Home, Ctrl+Right, Ctrl+Shift+Right, Ctrl+Shift+Right, Ctrl+Right.
+		/// </summary>
+		/// <param name="segmentNumber">номер сегмента</param>
+		public EditorPage SelectSecondThirdWordsByHotkey(int segmentNumber)
+		{
+			CustomTestContext.WriteLine("Нажать хоткей выделения второго и третьего слов. Номер строки: {0}", segmentNumber);
+			ClickOnTargetCellInSegment(segmentNumber);
+			Driver.SendHotKeys(Keys.Home);
+			Driver.SendHotKeys(Keys.Right, control: true);
+			Driver.SendHotKeys(Keys.Right,control: true, shift: true);
+			Driver.SendHotKeys(Keys.Right, control: true, shift: true);
+			
+			return GetPage();
+		}
+		
+		/// <summary>
+		/// Нажать хоткей выделения всего содержимого ячейки Ctrl+Shift+Home
+		/// </summary>
+		/// <param name="segmentNumber">номер сегмента</param>
+		public EditorPage SelectAllTextByHotkey(int segmentNumber)
+		{
+			CustomTestContext.WriteLine(
+				"Нажать хоткей выделения всего содержимого ячейки Ctrl+Shift+Home. Номер строки: {0}",
+				segmentNumber);
+			ClickOnTargetCellInSegment(segmentNumber);
+			Driver.SendHotKeys(Keys.Home, control: true, shift: true);
+
+			return GetPage();
+		}
 
 		/// <summary>
 		/// Ввести текст в таргет сегмента
@@ -888,6 +989,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		[FindsBy(How = How.XPath, Using = CAT_TABLE)]
 		protected IWebElement CatTable { get; set; }
 
+		[FindsBy(How = How.Id, Using = CHANGE_CASE_BUTTON)]
+		protected IWebElement ChangeCaseButton { get; set; }
+
 		#endregion
 
 		#region Описание XPath элементов страницы
@@ -909,6 +1013,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		protected const string ROLLBACK_BUTTON = "step-rollback-btn";
 		protected const string HOME_BUTTON = "back-btn";
 		protected const string DICTIONARY_BUTTON = "dictionary-btn";
+		protected const string CHANGE_CASE_BUTTON = "change-case-btn";
 
 		protected const string ROW_NUMBER_ACTIVE_XPATH = ".//div[@id='segments-body']//table//td[contains(@class, 'x-grid-item-focused')]/../td[1]//div[contains(@class, 'row-numberer')]";
 	
