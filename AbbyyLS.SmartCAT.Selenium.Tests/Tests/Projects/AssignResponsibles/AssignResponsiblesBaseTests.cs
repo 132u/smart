@@ -35,17 +35,14 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects.AssignResponsibles
 			_editorPage = new EditorPage(Driver);
 			_reassigneDialog = new ReassignDialog(Driver);
 			_selectTaskDialog = new SelectTaskDialog(Driver);
-			_additionalUser = TakeUser(ConfigurationManager.AdditionalUsers);
 			_projectUniqueName = _createProjectHelper.GetProjectUniqueName();
+			_secondUser = null;
+			_thirdUser = null;
 		}
 
 		[TearDown]
 		public void TearDown()
 		{
-			if (_additionalUser != null)
-			{
-				ReturnUser(ConfigurationManager.AdditionalUsers, _additionalUser);
-			}
 			if (_secondUser != null)
 			{
 				ReturnUser(ConfigurationManager.Users, _secondUser);
@@ -59,7 +56,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects.AssignResponsibles
 		protected string _projectUniqueName;
 		protected CreateProjectHelper _createProjectHelper;
 		protected WorkspaceHelper _workspaceHelper;
-		protected TestUser _additionalUser;
 		protected CommonHelper _commonHelper;
 		protected LoginHelper _loginHelper;
 		protected DocumentUploadGeneralInformationDialog _documentUploadGeneralInformationDialog;

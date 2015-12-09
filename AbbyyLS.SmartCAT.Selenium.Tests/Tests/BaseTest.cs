@@ -117,14 +117,15 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests
 		{
 			try
 			{
-				users.Add(user);
-				CustomTestContext.WriteLine("Пользователь {0} возвращен в очередь.", user.Login);
-				Logger.Info("Пользователь {0} возвращен в очередь.", user.Login);
+				if (!users.Contains(user))
+				{
+					users.Add(user);
+					CustomTestContext.WriteLine("Пользователь {0} возвращен в очередь.", user.Login);
+				}
 			}
 			catch
 			{
 				CustomTestContext.WriteLine("Произошла ошибка: \nне удалось вернуть пользователя {0} в очередь.", user.Login);
-				Logger.Error("Произошла ошибка: \nне удалось вернуть пользователя {0} в очередь.", user.Login);
 			}
 		}
 

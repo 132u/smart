@@ -29,6 +29,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 			_glossaryPage = new GlossaryPage(Driver);
 			_filterDialog = new FilterDialog(Driver);
 			_signInPage = new SignInPage(Driver);
+			_secondUser = null;
 
 			_glossaryHelper
 				.GoToGlossariesPage()

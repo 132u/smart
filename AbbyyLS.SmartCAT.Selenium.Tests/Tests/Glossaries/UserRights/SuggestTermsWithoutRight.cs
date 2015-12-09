@@ -33,7 +33,10 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 		[TearDown]
 		public void TearDown()
 		{
-			ReturnUser(ConfigurationManager.AdditionalUsers, _additionalUser);
+			if (_additionalUser != null)
+			{
+				ReturnUser(ConfigurationManager.AdditionalUsers, _additionalUser);
+			}
 		}
 
 		[Test]

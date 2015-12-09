@@ -28,7 +28,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.TranslationMemories
 			_clientsPage = new ClientsPage(Driver);
 			_projectGroupsPage = new ProjectGroupsPage(Driver);
 			_translationMemoriesPage = new TranslationMemoriesPage(Driver);
-			
+			_secondUser = null;
+
 			_projectGroupName_1 = _projectGroupsPage.GetProjectGroupUniqueName();
 			_projectGroupName_2 = _projectGroupsPage.GetProjectGroupUniqueName();
 			_clientName_1 = _clientsPage.GetClientUniqueName();
