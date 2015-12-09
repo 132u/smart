@@ -65,8 +65,10 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 		{
 			var projectUniqueName = _createProjectHelper.GetProjectUniqueName();
 
-			_createProjectHelper.CreateNewProject(projectUniqueName,
-				filePath: Path.Combine(PathProvider.FilesForStandaloneDifferentFormatsFolder, file));
+			_createProjectHelper.CreateNewProject(
+				projectUniqueName,
+				filePath: Path.Combine(PathProvider.FilesForStandaloneDifferentFormatsFolder, file),
+				expectingError: true);
 
 			Assert.IsTrue(_projectsPage.IsProjectAppearInList(projectUniqueName),
 				"Произошла ошибка:\n проект {0} не появился в списке проектов.", projectUniqueName);

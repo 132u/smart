@@ -31,7 +31,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 			Language targetLanguage = Language.Russian,
 			IEnumerable<WorkflowTask> tasks = null,
 			bool personalAccount = false,
-			Deadline deadline = Deadline.CurrentDate)
+			Deadline deadline = Deadline.CurrentDate,
+			bool expectingError = false)
 		{
 			_projectsPage.ClickCreateProjectButton();
 
@@ -101,7 +102,10 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 				_newProjectSettingsPage.ClickCreateProjectButton();
 			}
 
-			_projectsPage.WaitUntilProjectLoadSuccessfully(projectName);
+			if (!expectingError)
+			{
+				_projectsPage.WaitUntilProjectLoadSuccessfully(projectName);
+			}
 
 			return this;
 		}
