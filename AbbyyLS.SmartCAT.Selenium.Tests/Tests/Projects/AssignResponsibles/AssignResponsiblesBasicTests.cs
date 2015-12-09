@@ -1,5 +1,6 @@
 ﻿using System.IO;
 using System.Linq;
+using System.Threading;
 
 using NUnit.Framework;
 
@@ -360,7 +361,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 				.ClickAssignButtonInDocumentInfo();
 
 			_taskAssignmentPage
-				.SetResponsible("jhkjh hgfg", false)
+				.SetResponsible(ThreadUser.NickName, false)
 				.ClickSaveAssignButtonProjectSettingPage();
 
 			_projectSettingsPage.OpenDocumentInEditorWithTaskSelect(Path.GetFileNameWithoutExtension(PathProvider.DocumentFile));
