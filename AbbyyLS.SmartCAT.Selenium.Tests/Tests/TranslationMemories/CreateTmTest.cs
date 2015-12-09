@@ -75,7 +75,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.TranslationMemories
 				"Произошла ошибка:\n не появилась ошибка о загрузке файла с неподходящим расширением (не TMX файл)");
 		}
 
-		[Test]
+		[Test, Ignore("PRX-13975")]
 		public void CreateMultilanguageTM()
 		{
 			TranslationMemoriesHelper

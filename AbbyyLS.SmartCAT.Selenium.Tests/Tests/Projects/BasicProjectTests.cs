@@ -196,7 +196,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 				.DeleteDocument(Path.GetFileNameWithoutExtension(PathProvider.DocumentFile));
 		}
 
-		[Test]
+		[Test, Ignore("PRX-13975")]
 		public void CancelCreateProjectOnFirstStepTest()
 		{
 			_projectsPage.ClickCreateProjectButton();
