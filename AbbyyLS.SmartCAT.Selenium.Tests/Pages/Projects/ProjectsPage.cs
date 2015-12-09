@@ -511,17 +511,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 			return QACheckButton.Displayed;
 		}
 
-		/// <summary>
-		/// Проверить, что сообщение 'Preparing documents for download. Please wait ...' исчезло
-		/// </summary>
-		public bool IsPreparingDownloadMessageDisappeared()
-		{
-			CustomTestContext.WriteLine(
-				"Проверить, что сообщение 'Preparing documents for download. Please wait ...' исчезло");
-
-			return Driver.WaitUntilElementIsDisappeared(By.XPath(PREPARING_DOWNLOWD_MESSAGE), timeout: 30);
-		}
-
 		#endregion
 
 		#region Методы, ожидающие определенного состояния страницы

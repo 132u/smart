@@ -379,8 +379,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 				.ClickDownloadInDocumentButton(_projectUniqueName)
 				.ClickExportType(exportType);
 
-			Assert.IsTrue(_projectsPage.IsPreparingDownloadMessageDisappeared(),
-				"Произошла ошибка:\n сообщение 'Preparing documents for download. Please wait ...' не исчезло");
+			Assert.IsTrue(_exportNotification.IsExportNotificationDisplayed(),
+				"Произошла ошибка:\n сообщение со ссылкой на скачивание документа не появилось");
 
 			var message = _exportNotification.GetTextNotificationByNumber(1);
 

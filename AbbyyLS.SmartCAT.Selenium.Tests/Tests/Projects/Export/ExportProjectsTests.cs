@@ -52,6 +52,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 				.ClickDownloadInMainMenuButton()
 				.ClickExportType(exportType);
 
+			Assert.IsTrue(_exportNotification.IsExportNotificationDisplayed(),
+				"Произошла ошибка:\n сообщение со ссылкой на скачивание документа не появилось");
+
 			_exportNotification.ClickDownloadNotifier<ProjectSettingsPage>();
 
 			Assert.IsTrue(_exportNotification.IsFileDownloaded(
@@ -69,8 +72,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 				.ClickDownloadInMainMenuButton()
 				.ClickExportType(exportType);
 
-			Assert.IsTrue(_projectsPage.IsPreparingDownloadMessageDisappeared(),
-				"Произошла ошибка:\n сообщение 'Preparing documents for download. Please wait ...' не исчезло");
+			Assert.IsTrue(_exportNotification.IsExportNotificationDisplayed(),
+				"Произошла ошибка:\n сообщение со ссылкой на скачивание документа не появилось");
 
 			_exportNotification.ClickDownloadNotifier<ProjectsPage>();
 
@@ -88,6 +91,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 				.OpenProjectInfo(_projectUniqueName)
 				.ClickDownloadInProjectButton(_projectUniqueName)
 				.ClickExportType(exportType);
+
+			Assert.IsTrue(_exportNotification.IsExportNotificationDisplayed(),
+				"Произошла ошибка:\n сообщение со ссылкой на скачивание документа не появилось");
 
 			_exportNotification.ClickDownloadNotifier<ProjectsPage>();
 
@@ -107,8 +113,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 				.ClickDownloadInDocumentButton(_projectUniqueName)
 				.ClickExportType(exportType);
 
-			Assert.IsTrue(_projectsPage.IsPreparingDownloadMessageDisappeared(),
-				"Произошла ошибка:\n сообщение 'Preparing documents for download. Please wait ...' не исчезло");
+			Assert.IsTrue(_exportNotification.IsExportNotificationDisplayed(),
+				"Произошла ошибка:\n сообщение со ссылкой на скачивание документа не появилось");
 
 			_exportNotification.ClickDownloadNotifier<ProjectsPage>();
 
@@ -135,8 +141,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 				.ClickDownloadInMainMenuButton()
 				.ClickExportType(exportType);
 
-			Assert.IsTrue(_projectsPage.IsPreparingDownloadMessageDisappeared(),
-				"Произошла ошибка:\n сообщение 'Preparing documents for download. Please wait ...' не исчезло");
+			Assert.IsTrue(_exportNotification.IsExportNotificationDisplayed(),
+				"Произошла ошибка:\n сообщение со ссылкой на скачивание документа не появилось");
 
 			_exportNotification.ClickDownloadNotifier<ProjectsPage>();
 
