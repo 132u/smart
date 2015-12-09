@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <configuration>
 
 	<TestUsers>
@@ -50,8 +50,6 @@
 		<TestCompany login = "testcompanyivanpetrov2@mailforspam.com"	password = "123123123" activated = "false" /> <!--неактивный юзер аол-->
 		<TestCompany login = "testcompanyivanpetrov3@mailforspam.com"	password = "123123123" activated = "true" />  <!--активный юзер курсера-->
 		<TestCompany login = "testcompanyivanpetrov4@mailforspam.com"	password = "123123123" activated = "false" /> <!--неактивный юзер курсера-->
-
-		<RightsTestUser Login="batman@mailforspam.com" Password="193927" NickName="Bat Man"/>
 	</TestUsers>
 
 </configuration>

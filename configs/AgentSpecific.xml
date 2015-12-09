@@ -15,6 +15,10 @@
 		<ThreadUser Login="ringo123@mailforspam.com" Password="31415926" NickName="Ringo Star" Name="Ringo" Surname="Star"/>
 	</ThreadUsers>
 	
+	<TestUsers>
+		<RightsTestUser Login="batman@mailforspam.com" Password="193927" NickName="Bat Man"/>
+	</TestUsers>
+	
 	<UserInfo Login="bobby@mailforspam.com" Password="YrdyNpnnu" NickName="Bobby Test" Name="Bobby" Surname="Test"/>
 	
 	<UsersInfo>
