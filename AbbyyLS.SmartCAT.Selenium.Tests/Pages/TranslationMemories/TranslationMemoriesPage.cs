@@ -183,7 +183,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories
 		public TranslationMemoriesPage SelectTargetLanguage(Language? language)
 		{
 			CustomTestContext.WriteLine("Выбрать язык перевода {0}", language);
-			TargetLanguage = Driver.SetDynamicValue(How.XPath, TARGET_LANG_ITEM, ((int) language).ToString());
+			TargetLanguage = Driver.SetDynamicValue(How.XPath, TARGET_LANG_ITEM, ((int)language).ToString());
 			TargetLanguage.Click();
 
 			return GetPage();
@@ -689,7 +689,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories
 				throw new InvalidElementStateException("Произошла ошибка:\n source языки не совпали");
 			}
 
-			return targetLanguages.SequenceEqual(actualTargetList);
+			return targetLanguages.OrderBy(x => x).SequenceEqual(actualTargetList.OrderBy(x => x));
 		}
 
 		/// <summary>
@@ -843,7 +843,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories
 		protected const string CREATION_DATE = "//th[contains(@data-sort-by,'CreatedDate')]//a";
 		protected const string TM_LANGUAGES = "//td[@class='l-corpr__td tm']//span[string()='*#*']/parent::td/parent::tr//td[2]//span[string()='*##*']";
 		protected const string TM_LANGUAGES_IN_TABLE = "//td[@class='l-corpr__td tm']//span[string()='*#*']/parent::td/parent::tr//td[2]//span";
-		protected const string TARGET_LANG_ITEM = "//div[contains(@class,'ui-multiselect-menu')]//ul[@class='ui-multiselect-checkboxes ui-helper-reset']//li//input[@value='*#*']/../..";
+		protected const string TARGET_LANG_ITEM = "(//div[contains(@class,'ui-multiselect-menu')]//ul[@class='ui-multiselect-checkboxes ui-helper-reset']//li//input[@value='*#*']/../..)[2]";
 
 		protected const string TM_EDIT_BUTTON = "//tr[@class='js-tm-panel']//div[contains(@data-bind, 'switchToEditing')]//a";
 		protected const string TM_EDIT_NAME = "//tr[contains(@class,'js-tm-panel')]//input[contains(@data-bind, 'value: name')]";

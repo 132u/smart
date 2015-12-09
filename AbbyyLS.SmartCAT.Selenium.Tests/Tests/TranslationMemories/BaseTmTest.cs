@@ -32,6 +32,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.TranslationMemories
 			UniqueTMName = TranslationMemoriesHelper.GetTranslationMemoryUniqueName();
 
 			TranslationMemoriesHelper = WorkspaceHelper.GoToTranslationMemoriesPage();
+			TranslationMemoriesPage.CloseAllNotifications<TranslationMemoriesPage>();
 		}
 
 		public string UniqueTMName { get; set; }

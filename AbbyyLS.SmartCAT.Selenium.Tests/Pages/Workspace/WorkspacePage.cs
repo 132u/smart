@@ -502,7 +502,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace
 			for (var i = notificationsCount; i > 0; i--)
 			{
 				CustomTestContext.WriteLine("Закрыть сообщение №{0}.", i);
-				Notification = Driver.SetDynamicValue(How.XPath, NOTIFICATION, i.ToString());
+				Notification = Driver.SetDynamicValue(How.XPath, CLOSE_NOTIFICATION_BUTTON, i.ToString());
 				Notification.Click();
 			}
 
@@ -663,9 +663,10 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace
 		protected const string DIALOG_BACKGROUND = "//div[contains(@class,'js-popup-bg')]";
 		protected const string CURRENT_ACCOUNT_NAME = "//span[contains(@class,'g-topbox__nameuser')]//small";
 		protected const string ACCOUNT_NAME_IN_LIST = "//li[@class='g-topbox__corpitem' and @title='*#*']";
-		
-		protected const string ALL_NOTIFICATIONS = "//div[@class='g-notifications-item']//span[2]/a";
+
+		protected const string ALL_NOTIFICATIONS = "//div[@class='g-notifications-item']";
 		protected const string NOTIFICATION = "//div[@class='g-notifications-item'][*#*]//span[2]/a";
+		protected const string CLOSE_NOTIFICATION_BUTTON = "//div[@class='g-notifications-item'][*#*]//a[contains(@data-bind, 'stopBubble')]";
 
 		#endregion
 	}

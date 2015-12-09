@@ -32,7 +32,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.TranslationMemories
 
 			ImportTmxDialog
 				.EnterFileName(PathProvider.OneLineTmxFile)
-				.ClickImportButton();
+				.ClickImportButton()
+				.IsFileImportCompleteNotifierDisplayed();
 
 			var unitsCountAfter = TranslationMemoriesPage
 										.OpenTranslationMemoryInformation(_tmName)
