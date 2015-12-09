@@ -56,6 +56,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Editor
 			Assert.IsTrue(_spellcheckDictionaryDialog.IsWordExistInDictionary(_wordsToAdd[0]),
 				"Произошла ошибка:\n слово {0} не найдено в словаре.", _wordsToAdd[0]);
 
+			_spellcheckDictionaryDialog.ClickCloseDictionaryButton();
+
 			_editorPage.ClickHomeButton();
 
 			_projectSettingsPage
@@ -84,6 +86,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Editor
 
 			Assert.IsFalse(_spellcheckDictionaryDialog.IsWordExistInDictionary(_wordsToAdd[1]),
 				"Произошла ошибка:\n слово {0} найдено в словаре.", _wordsToAdd[1]);
+
+			_spellcheckDictionaryDialog.ClickCloseDictionaryButton();
 
 			_editorPage.ClickHomeButton();
 
