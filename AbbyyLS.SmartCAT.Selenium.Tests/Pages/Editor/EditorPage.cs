@@ -735,7 +735,15 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		{
 			CustomTestContext.WriteLine("Проверить, что сегмент №{0} не залочен.", segmentNumber);
 
-			return Driver.WaitUntilElementIsDisplay(By.XPath(SEGMENT_LOCK.Replace("*#*", segmentNumber.ToString())));
+			try
+			{
+				return Driver.WaitUntilElementIsDisplay(By.XPath(SEGMENT_LOCK.Replace("*#*", segmentNumber.ToString())));
+			}
+			catch (Exception)
+			{
+
+				throw new XPathLookupException("Произошла ошибка:\nЗначок блокировки сегмента не отображается в редакторе.");
+			}
 		}
 
 		/// <summary>
@@ -1024,7 +1032,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		protected const string TARGET_CELL_VALUE = "//table[@data-recordindex='*#*']//td[4]//div[contains(@id, 'segmenteditor')]";
 		protected const string SOURCE_CELL = "//table[@data-recordindex='*#*']//td[3]//div[contains(@id, 'segmenteditor')]";
 		protected const string TAG = "//div[contains(text(), '1')]//..//..//..//..//tr[1]//td[4]//div//img[contains(@class,'tag')]";
-		protected const string SEGMENT_LOCK = "//div[contains(text(), '1')]//..//..//..//div[contains(@class,'fa-lock')][not(contains(@class,'inactive'))]";
+		protected const string SEGMENT_LOCK = "//div[contains(text(), '*#*')]//..//..//..//div[contains(@class,'lock')][not(contains(@class,'inactive'))]";
 
 		protected const string CHARACTER_FORM = "charmap";
 		protected const string CONCORDANCE_SEARCH= "concordance-search";
