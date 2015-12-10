@@ -219,9 +219,15 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.AssignmentPages
 		public int GetWordsCount()
 		{
 			CustomTestContext.WriteLine("Получить количество слов в выбранном диапазоне");
-			IsSegmentAssigmentPopupDisplayed();
+			var timer = 0;
 			int count;
 
+			while (WordsCount.Text == String.Empty && timer < 5)
+			{
+				Thread.Sleep(1000);
+				timer++;
+			}
+			
 			if (!int.TryParse(WordsCount.Text, out count))
 			{
 				throw new Exception(string.Format("Произошла ошибка:\n не удалось преобразование количества слов в число."));
@@ -288,17 +294,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.AssignmentPages
 		{
 			return Driver.WaitUntilElementIsDisplay(By.XPath(SEGMENTS_TABLE));
 		}
-
-		/// <summary>
-		/// Проверить, что поп-ап с количеством слов выбранных сегментов
-		/// </summary>
-		public bool IsSegmentAssigmentPopupDisplayed()
-		{
-			CustomTestContext.WriteLine("Проверить, что поп-ап с количеством слов выбранных сегментов.");
-
-			return Driver.WaitUntilElementIsDisplay(By.XPath(SEGMENT_ASSIGMENT_POPUP));
-		}
-
+		
 		#endregion
 
 		#region Объявление элементов страницы
@@ -335,10 +331,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.AssignmentPages
 
 		[FindsBy(How = How.XPath, Using = BACK_BUTTON)]
 		protected IWebElement BackButton { get; set; }
-
-		[FindsBy(How = How.XPath, Using = SEGMENT_ASSIGMENT_POPUP)]
-		protected IWebElement SegmentAssigmentPopup { get; set; }
-
+		
 		#endregion
 
 		#region Описание XPath элементов
@@ -360,7 +353,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.AssignmentPages
 		protected const string DISTRIBUTED_START_RANGE = "//table[contains(@data-bind, 'foreach: assignedRanges')]//tbody[*#*]//span[contains(@data-bind, 'text: from')]";
 		protected const string DISTRIBUTED_END_RANGE = "//table[contains(@data-bind, 'foreach: assignedRanges')]//tbody[*#*]//span[contains(@data-bind, 'text: to')]";
 		protected const string CHANGE_RANGE_BUTTON = "//tr[*#*]//a[contains(@data-bind, 'editRange')]";
-		protected const string SEGMENT_ASSIGMENT_POPUP = "//div[@class='segment-assignment-popup']";
 		protected const string REASSIGNE_POP_UP = "//form[contains(@class, 'ajax-form-submit')]//div[contains(string(), 'Reassign the segments')]";
 		protected const string CANCEL_REASSIGNE_POP_UP_BUTTON = "//form[contains(@class, 'ajax-form-submit')]//a[contains(@class, 'js-popup-close')]";
 

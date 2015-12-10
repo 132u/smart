@@ -134,8 +134,12 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Billing
 			var priceWithDot = Driver.FindElement(By.XPath(PACKAGE_PRICE.Replace("'*#*'", period.Description()))).Text;
 			var price = priceWithDot.Substring(0, priceWithDot.IndexOf(".")).Replace(",", "");
 			int resultPrice;
-			int.TryParse(price, out resultPrice);
 
+			if (!int.TryParse(price, out resultPrice))
+			{
+				throw new Exception(string.Format("Произошла ошибка:\n не удалось преобразование стоимости пакета лицензий в число."));
+			}
+			
 			return resultPrice;
 		}
 
