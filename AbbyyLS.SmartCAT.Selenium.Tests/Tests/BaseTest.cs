@@ -21,7 +21,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests
 	[TestFixture(typeof(ChromeDriverProvider))]
 	public class BaseTest<TWebDriverProvider> : BaseObject where TWebDriverProvider : IWebDriverProvider, new()
 	{
-		public static Logger Logger = LogManager.GetCurrentClassLogger();
 		public WebDriver Driver { get; private set; }
 
 		[OneTimeSetUp]
@@ -32,9 +31,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests
 				ThreadUser = TakeUser(ConfigurationManager.Users);
 				Driver = new WebDriver(new TWebDriverProvider(), PathProvider.DriversTemporaryFolder, PathProvider.ExportFiles);
 			}
-			catch (Exception e)
+			catch (Exception ex)
 			{
-				Logger.ErrorException("Произошла ошибка в TestFixtureSetUp", e);
+				CustomTestContext.WriteLine("Произошла ошибка в TestFixtureSetUp {0}", ex.ToString());
 				throw;
 			}
 		}
@@ -51,7 +50,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests
 			}
 			catch (Exception ex)
 			{
-				CustomTestContext.WriteLine("Произошла ошибка в SetUp", ex.ToString());
+				CustomTestContext.WriteLine("Произошла ошибка в SetUp {0}", ex.ToString());
 				throw;
 			}
 		}
@@ -68,7 +67,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests
 			}
 			catch (Exception ex)
 			{
-				CustomTestContext.WriteLine("Ошибка при снятии скриншота", ex.ToString());
+				CustomTestContext.WriteLine("Ошибка при снятии скриншота {0}", ex.ToString());
 			}
 
 			CustomTestContext.WriteLine("Окончание работы теста {0}", TestContext.CurrentContext.Test.Name);
