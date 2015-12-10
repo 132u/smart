@@ -33,17 +33,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 		#region Простые методы страницы
 
 		/// <summary>
-		/// Нажать на ссылку Cancel в навигационном меню
-		/// </summary>
-		public ProjectsPage ClickCancelLink()
-		{
-			CustomTestContext.WriteLine("Нажать на ссылку Cancel в навигационном меню");
-			CancelLink.Click();
-
-			return new ProjectsPage(Driver).GetPage();
-		}
-
-		/// <summary>
 		/// Нажать 'Next'
 		/// </summary>
 		public T ClickNextButton<T>() where T: class, IAbstractPage<T>
@@ -148,9 +137,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 		[FindsBy(How = How.XPath, Using = CREATE_PROJECT_FINISH_BUTTON)]
 		protected IWebElement CreateProjectFinishButton { get; set; }
 
-		[FindsBy(How = How.XPath, Using = CANCEL_LINK)]
-		protected IWebElement CancelLink { get; set; }
-
 		[FindsBy(How = How.XPath, Using = NEXT_BUTTON)]
 		protected IWebElement NextButton { get; set; }
 
@@ -179,7 +165,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 		protected const string FILES_LINK = "//div[@class='nav-center']//.//li[text()='Files']";
 		protected const string SETTINGS_LINK = "//div[@class='createSteps']//li[3]";
 		protected const string WORKFLOW_LINK = "//div[@class='nav-center']//.//li[text()='Workflow']";
-		protected const string CANCEL_LINK = "//div[@class='nav-center']//a[@class='cancel']";
 
 		#endregion
 	}

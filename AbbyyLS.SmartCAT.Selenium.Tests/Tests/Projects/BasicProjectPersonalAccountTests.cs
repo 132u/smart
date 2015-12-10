@@ -1,5 +1,7 @@
 ﻿using System.IO;
 
+using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace;
+
 using NUnit.Framework;
 
 using AbbyyLS.SmartCAT.Selenium.Tests.DataStructures;
@@ -29,6 +31,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 			_newProjectDocumentUploadPage = new NewProjectDocumentUploadPage(Driver);
 			_projectSettingsPage = new ProjectSettingsPage(Driver);
 			_newProjectSettingsPage = new NewProjectSettingsPage(Driver);
+			_workspacePage = new WorkspacePage(Driver);
 		}
 
 
@@ -102,12 +105,20 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 				.DeleteDocument(Path.GetFileNameWithoutExtension(PathProvider.DocumentFile));
 		}
 
-		[Test, Ignore("PRX-13975")]
-		public void CancelCreateProjectOnFirstStepTest()
+		[Test]
+		public void QuitCreateProjectOnFirstStep()
 		{
 			_projectsPage.ClickCreateProjectButton();
 
-			_newProjectDocumentUploadPage.ClickCancelLink();
+			_workspacePage.ClickProjectsSubmenuAssumingAlert();
+
+			Assert.IsTrue(_workspacePage.IsAlertExist(),
+				"Произошла ошибка: \n Не появился алере о несохраненных данных.");
+
+			_workspacePage.AcceptAlert();
+
+			Assert.IsTrue(_projectsPage.IsProjectsPageOpened(),
+				"Произошла ошибка: \n страница со списком проектов не открылась.");
 		}
 
 		private CreateProjectHelper _createProjectHelper;
@@ -115,6 +126,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 		private const string _longName = "12345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890";
 		private WorkspaceHelper _workspaceHelper;
 		private ProjectsPage _projectsPage;
+		private WorkspacePage _workspacePage;
 		private NewProjectDocumentUploadPage _newProjectDocumentUploadPage;
 		private NewProjectSettingsPage _newProjectSettingsPage;
 		

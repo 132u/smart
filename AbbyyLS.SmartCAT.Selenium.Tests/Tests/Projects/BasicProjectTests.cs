@@ -1,5 +1,7 @@
 ﻿using System.IO;
 
+using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace;
+
 using NUnit.Framework;
 
 using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
@@ -26,6 +28,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 			_deleteDialog = new DeleteDialog(Driver);
 			_newProjectDocumentUploadPage = new NewProjectDocumentUploadPage(Driver);
 			_newProjectSettingsPage = new NewProjectSettingsPage(Driver);
+			_workspacePage = new WorkspacePage(Driver);
 
 			_projectUniqueName = _createProjectHelper.GetProjectUniqueName();
 		}
@@ -196,14 +199,19 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 				.DeleteDocument(Path.GetFileNameWithoutExtension(PathProvider.DocumentFile));
 		}
 
-		[Test, Ignore("PRX-13975")]
-		public void CancelCreateProjectOnFirstStepTest()
+		[Test]
+		public void QuitCreateProjectOnFirstStep()
 		{
 			_projectsPage.ClickCreateProjectButton();
 
-			_newProjectDocumentUploadPage.ClickCancelButton();
+			_workspacePage.ClickProjectsSubmenuAssumingAlert();
 
-			Assert.IsTrue(_projectsPage.IsProjectsPageOpened(), 
+			Assert.IsTrue(_workspacePage.IsAlertExist(),
+				"Произошла ошибка: \n Не появился алере о несохраненных данных.");
+
+			_workspacePage.AcceptAlert();
+
+			Assert.IsTrue(_projectsPage.IsProjectsPageOpened(),
 				"Произошла ошибка: \n страница со списком проектов не открылась.");
 		}
 
@@ -225,6 +233,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 
 		private WorkspaceHelper _workspaceHelper;
 		private CreateProjectHelper _createProjectHelper;
+		private WorkspacePage _workspacePage;
 
 		private ProjectsPage _projectsPage;
 		private DeleteDialog _deleteDialog;

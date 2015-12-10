@@ -153,6 +153,21 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace
 		}
 
 		/// <summary>
+		/// Выбрать вкладку "Проекты", ожидая алерт
+		/// </summary>
+		public void ClickProjectsSubmenuAssumingAlert()
+		{
+			CustomTestContext.WriteLine("Нажать кнопку 'Проекты', ожидая алерт.");
+			OpenHideMenuIfClosed();
+			if (!IsProjectsMenuExpanded())
+			{
+				ExpandProjectMenu();
+			}
+
+			ProjectsButton.Click();
+		}
+
+		/// <summary>
 		/// Развернуть меню ресурсов, если оно свернуто
 		/// </summary>
 		public WorkspacePage ExpandResourcesIfNotExpanded()
@@ -478,6 +493,17 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace
 			{
 				return false;
 			}
+		}
+
+		/// <summary>
+		/// Закрыть алерт
+		/// </summary>
+		public ProjectsPage AcceptAlert()
+		{
+			CustomTestContext.WriteLine("Закрыть алерт");
+			Driver.SwitchTo().Alert().Accept();
+
+			return new ProjectsPage(Driver).GetPage();
 		}
 
 		/// <summary>

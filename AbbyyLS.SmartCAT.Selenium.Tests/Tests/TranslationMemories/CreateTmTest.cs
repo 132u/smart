@@ -1,4 +1,6 @@
-﻿using NUnit.Framework;
+﻿using AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers;
+
+using NUnit.Framework;
 
 using AbbyyLS.SmartCAT.Selenium.Tests.DataStructures;
 using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
@@ -75,7 +77,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.TranslationMemories
 				"Произошла ошибка:\n не появилась ошибка о загрузке файла с неподходящим расширением (не TMX файл)");
 		}
 
-		[Test, Ignore("PRX-13975")]
+		[Test]
 		public void CreateMultilanguageTM()
 		{
 			TranslationMemoriesHelper
@@ -96,7 +98,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.TranslationMemories
 
 			NewProjectSetUpTMDialog.ClickCancelButton();
 
-			NewProjectSettingsPage.ClickCancelLink();
+			WorkspaceHelper.GoToProjectsPage();
 
 			ProjectsPage.ClickCreateProjectButton();
 
