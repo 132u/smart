@@ -103,6 +103,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 			ExpandAssigneeDropdown();
 			SelectAssigneeInDropdown(assigneeName);
 			ClickAssignButton();
+			Driver.WaitUntilElementIsDisplay(By.XPath(ASSIGNEE_NAME.Replace("*#*", assigneeName)));
 
 			return GetPage();
 		}
@@ -151,6 +152,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 		protected const string ASSIGN_BUTTON = "//a[contains(@data-bind, 'assign')]";
 		protected const string CANCEL_ASSIGNEE_BUTTON = "//a[contains(@data-bind, 'removeExecutive')]";
 		protected const string CLOSE_BUTTON = "//div[contains(@data-bind, 'click: close')]//a";
+		protected const string ASSIGNEE_NAME = "//span[text()='*#*']";
 
 		#endregion
 	}
