@@ -1,4 +1,6 @@
-﻿using OpenQA.Selenium;
+﻿using System;
+
+using OpenQA.Selenium;
 using OpenQA.Selenium.Support.PageObjects;
 
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.AssignmentPages;
@@ -122,8 +124,12 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages
 		{
 			CustomTestContext.WriteLine("Получить значение из столбца 'Words Count' в строке №{0}.", assigneeNumber);
 			int count;
-			int.TryParse(Driver.SetDynamicValue(How.XPath, WORDS_COUNT_COLUMN, assigneeNumber.ToString()).Text, out count);
 
+			if (!int.TryParse(Driver.SetDynamicValue(How.XPath, WORDS_COUNT_COLUMN, assigneeNumber.ToString()).Text, out count))
+			{
+				throw new Exception(string.Format("Произошла ошибка:\n не удалось преобразование значения из столбца количества слов в число."));
+			}
+			
 			return count;
 		}
 
