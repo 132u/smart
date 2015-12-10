@@ -1,4 +1,6 @@
-﻿using OpenQA.Selenium;
+﻿using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace;
+
+using OpenQA.Selenium;
 using OpenQA.Selenium.Support.PageObjects;
 
 using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
@@ -73,12 +75,12 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Registration.FreelanceRegistrati
 		/// <summary>
 		/// Нажать кнопку Continue.
 		/// </summary>
-		public FreelanceRegistrationSecondPage ClickContinueButton()
+		public WorkspacePage ClickContinueButton()
 		{
 			CustomTestContext.WriteLine("Нажать кнопку Continue.");
 			ContinueButton.Click();
 
-			return new FreelanceRegistrationSecondPage(Driver).GetPage();
+			return new WorkspacePage(Driver).GetPage();
 		}
 
 		/// <summary>

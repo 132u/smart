@@ -58,28 +58,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Registration
 			Assert.IsTrue(_freelanceRegistrationFirstPage.IsInvalidPasswordErrorMessageDisplayed(),
 				"Произошла ошибка:\nНе появилось сообщение 'The password must have at least 6 characters'.");
 		}
-
-		[Test]
-		public void EmptyServiceProvidedRegistration()
-		{
-			_freelanceRegistrationFirstPage
-				.FillFreelanceRegistrationFirstStep(
-					email: _email,
-					password: _password,
-					confirmPassword: _password)
-				.ClickContinueButton();
-
-			_freelanceRegistrationSecondPage
-				.FillFreelanceRegistrationSecondStep(
-					firstName: _firstName,
-					lastName: _lastName,
-					service: WorkflowTask.Empty)
-				.ClickCreateAccountButtonExpectingError();
-
-			Assert.IsTrue(_freelanceRegistrationSecondPage.IsCreateFreelancerAccountButtonDisabled(),
-				"Произошла ошибка:\nКнопка Continue активна.");
-		}
-
+		
 		[TestCase("66!/.6@mailforspam.com ")]
 		[TestCase("%%%/%%%")]
 		[TestCase("‘ or ‘a’ = ‘a'; DROP TABLE user; SELECT * FROM blog WHERE code LIKE ‘a%’;")]

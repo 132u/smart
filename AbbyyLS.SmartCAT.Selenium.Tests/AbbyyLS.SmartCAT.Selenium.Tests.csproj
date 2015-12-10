@@ -84,7 +84,6 @@
     <Compile Include="Pages\Projects\CreateProjectDialog\NewProjectDocumentUploadPage.cs" />
     <Compile Include="Pages\Projects\CreateProjectDialog\NewProjectWorkflowPage.cs" />
     <Compile Include="Pages\Registration\FreelanceRegistration\FreelanceRegistrationFirstPage.cs" />
-    <Compile Include="Pages\Registration\FreelanceRegistration\FreelanceRegistrationSecondPage.cs" />
     <Compile Include="Pages\Registration\FreelanceRegistration\FreelanceRegistrationSignInPage.cs" />
     <Compile Include="Pages\Projects\AssignmentPages\DistributeDocumentBetweenAssigneesPage.cs" />
     <Compile Include="Pages\TranslationMemories\ConfirmReplacementDialog.cs" />

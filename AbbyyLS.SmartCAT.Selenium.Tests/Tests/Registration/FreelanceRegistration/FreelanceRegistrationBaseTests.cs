@@ -18,7 +18,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Registration.FreelanceRegistrati
 		public void FreelanceRegistrationBaseTestsSetUp()
 		{
 			_freelanceRegistrationFirstPage = new FreelanceRegistrationFirstPage(Driver);
-			_freelanceRegistrationSecondPage = new FreelanceRegistrationSecondPage(Driver);
 			_freelanceRegistrationSignInPage = new FreelanceRegistrationSignInPage(Driver);
 			_signInPage = new SignInPage(Driver);
 			_workspacePage = new WorkspacePage(Driver);
@@ -49,7 +48,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Registration.FreelanceRegistrati
 		protected ProjectsPage _projectsPage;
 		protected WorkspacePage _workspacePage;
 		protected FreelanceRegistrationFirstPage _freelanceRegistrationFirstPage;
-		protected FreelanceRegistrationSecondPage _freelanceRegistrationSecondPage;
 		protected FreelanceRegistrationSignInPage _freelanceRegistrationSignInPage;
 		protected SignInPage _signInPage;
 		protected WorkspaceHelper _workspaceHelper;

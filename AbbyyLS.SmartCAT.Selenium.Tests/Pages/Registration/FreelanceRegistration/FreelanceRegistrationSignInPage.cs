@@ -66,12 +66,12 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Registration.FreelanceRegistrati
 		/// <summary>
 		/// Нажать кнопку 'Sign In' для продолжения регистрации фрилансера. 
 		/// </summary>
-		public FreelanceRegistrationSecondPage ClickSignInButtonWithInactivePersonalAccount()
+		public WorkspacePage ClickSignInButtonWithInactivePersonalAccount()
 		{
 			CustomTestContext.WriteLine("Нажать кнопку 'Sign In' для продолжения регистрации фрилансера.");
 			SignInButton.Click();
 
-			return new FreelanceRegistrationSecondPage(Driver).GetPage();
+			return new WorkspacePage(Driver).GetPage();
 		}
 
 		/// <summary>

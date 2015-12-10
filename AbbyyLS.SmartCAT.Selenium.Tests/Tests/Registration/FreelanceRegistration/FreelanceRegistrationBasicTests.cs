@@ -24,17 +24,11 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Registration
 					password: _password,
 					confirmPassword: _password)
 				.ClickContinueButton();
-
-			_freelanceRegistrationSecondPage
-				.FillFreelanceRegistrationSecondStep(
-					firstName: _firstName,
-					lastName: _lastName)
-				.ClickCreateAccountButton();
-
+			
 			Assert.IsTrue(_projectsPage.IsProjectsPageOpened(),
 				"Произошла ошибка:\nСтраница поректов не открылась.");
 
-			Assert.IsTrue(_workspacePage.IsNickNameMatch(_nickName),
+			Assert.IsTrue(_workspacePage.IsNickNameMatch(_email),
 				"Произошла ошибка:\nНеверное имя фрилансера в верхней панели.");
 		}
 
@@ -47,13 +41,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Registration
 					password: _password,
 					confirmPassword: _password)
 				.ClickContinueButton();
-
-			_freelanceRegistrationSecondPage
-				.FillFreelanceRegistrationSecondStep(
-					firstName: _firstName,
-					lastName: _lastName)
-				.ClickCreateAccountButton();
-
+			
 			_workspacePage
 				.CloseHelpIfOpened()
 				.ClickSignOut();
@@ -65,7 +53,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Registration
 			Assert.IsTrue(_projectsPage.IsProjectsPageOpened(),
 				"Произошла ошибка:\nСтраница поректов не открылась.");
 
-			Assert.IsTrue(_workspacePage.IsNickNameMatch(_nickName),
+			Assert.IsTrue(_workspacePage.IsNickNameMatch(_email),
 				"Произошла ошибка:\nНеверное имя фрилансера в верхней панели.");
 		}
 	}

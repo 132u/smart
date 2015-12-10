@@ -33,13 +33,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Registration
 			_freelanceRegistrationSignInPage
 				.FillSignInForm(_email, _password)
 				.ClickSignInButtonWithInactivePersonalAccount();
-
-			_freelanceRegistrationSecondPage
-				.FillFreelanceRegistrationSecondStep(
-					firstName: _firstName,
-					lastName: _lastName)
-				.ClickCreateAccountButton();
-
+			
 			Assert.IsTrue(_projectsPage.IsProjectsPageOpened(),
 				"Произошла ошибка:\nСтраница поректов не открылась.");
 
@@ -78,13 +72,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Registration
 			_freelanceRegistrationSignInPage
 				.FillSignInForm(_email, _password)
 				.ClickSignInButtonWithInactivePersonalAccount();
-
-			_freelanceRegistrationSecondPage
-				.FillFreelanceRegistrationSecondStep(
-					firstName: _firstName,
-					lastName: _lastName)
-				.ClickCreateAccountButton();
-
+			
 			_workspacePage.CloseHelpIfOpened();
 
 			Assert.IsTrue(_workspacePage.IsNickNameMatch(_nickName),
@@ -115,25 +103,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Registration
 			Assert.IsTrue(_workspacePage.IsAccountNameMatch(LoginHelper.PersonalAccountName),
 				"Произошла ошибка:\n название аккаунта в черной плашке не совпадает с названием.");
 		}
-
-		[Test, Ignore("PRX-10800")]
-		public void RegisterNewUserWithInActivePersAcc()
-		{
-			_adminHelper.CreateUserWithPersonalAccount(_email, _nickName, _password, activeState: false);
-
-			_commonHelper.GoToFreelanceRegistratioin();
-
-			_freelanceRegistrationFirstPage.ClickExistAccountAbbyyOnlineLink()
-				.FillSignInForm(_email, _password)
-				.ClickSignInButtonWithInactivePersonalAccount();
-
-			_freelanceRegistrationSecondPage
-				.FillFreelanceRegistrationSecondStep(_firstName, _lastName)
-				.ClickCreateAccountButton();
-			
-			//TODO ЕЩЕ НЕ РЕАЛИЗОВАНО, должно появится сообщение, есть тикет, но сейчас не сделано так - PRX-5533
-		}
-
+		
 		private AdminHelper _adminHelper;
 	}
 }
