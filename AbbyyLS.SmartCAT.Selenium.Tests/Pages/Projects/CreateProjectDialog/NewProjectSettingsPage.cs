@@ -661,7 +661,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 		
 		#region Описания XPath элементов
 
-		protected const string PROJECT_NAME_INPUT = "//input[@placeholder='Name']";
+		protected const string PROJECT_NAME_INPUT = "//input[contains(@placeholder, 'name')]";
 
 		protected const string DEADLINE_DATE_CURRENT = "//div[contains(@id, 'ui-datepicker-div')]//table[contains(@class, 'ui-datepicker-calendar')]//td[contains(@class, 'ui-datepicker-today')]//a";
 		protected const string DEADLINE_DATE_INPUT = "//input[contains(@class, 'l-project__date')]";

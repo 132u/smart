@@ -1,4 +1,6 @@
-﻿using NUnit.Framework;
+﻿using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace;
+
+using NUnit.Framework;
 
 using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects;
@@ -16,7 +18,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.TranslationMemories
 			WorkspaceHelper = new WorkspaceHelper(Driver);
 			TranslationMemoriesHelper = new TranslationMemoriesHelper(Driver);
 			CreateProjectHelper = new CreateProjectHelper(Driver);
-			
+
+			WorkspacePage = new WorkspacePage(Driver);
 			TranslationMemoriesPage = new TranslationMemoriesPage(Driver);
 			TranslationMemoriesFilterDialog = new TranslationMemoriesFilterDialog(Driver);
 			NewTranslationMemoryDialog = new NewTranslationMemoryDialog(Driver);
@@ -44,6 +47,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.TranslationMemories
 		public NewTranslationMemoryDialog NewTranslationMemoryDialog;
 		public ImportTmxDialog ImportTmxDialog;
 		public WorkspaceHelper WorkspaceHelper;
+		public WorkspacePage WorkspacePage;
 		public ProjectsPage ProjectsPage;
 		public NewProjectDocumentUploadPage NewProjectDocumentUploadPage;
 		public NewProjectSettingsPage NewProjectSettingsPage;

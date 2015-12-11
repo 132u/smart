@@ -98,7 +98,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.TranslationMemories
 
 			NewProjectSetUpTMDialog.ClickCancelButton();
 
-			WorkspaceHelper.GoToProjectsPage();
+			WorkspacePage.ClickProjectsSubmenuAssumingAlert();
+
+			WorkspacePage.AcceptAlert();
 
 			ProjectsPage.ClickCreateProjectButton();
 
