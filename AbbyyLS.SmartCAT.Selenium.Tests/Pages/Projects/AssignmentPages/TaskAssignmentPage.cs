@@ -251,19 +251,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 
 			return Driver.SetDynamicValue(How.XPath, ASSIGNEES_COLUMN, taskNumber.ToString()).Text;
 		}
-
-		/// <summary>
-		/// Закрыть диалог назначения задачи
-		/// </summary>
-		/// <typeparam name="T">возвращаемая страница</typeparam>
-		public T CloseTaskAssignmentDialog<T>() where T : class, IAbstractPage<T>
-		{
-			// TODO: дописать метод SCAT-568
-
-			var instance = Activator.CreateInstance(typeof(T), new object[] { Driver }) as T;
-			return instance.GetPage();
-		}
-
+		
 		/// <summary>
 		/// Раскрыть 'Select Assignees' дропдаун.
 		/// </summary>
