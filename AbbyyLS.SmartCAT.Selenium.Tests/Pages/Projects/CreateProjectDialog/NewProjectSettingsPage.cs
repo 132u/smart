@@ -680,7 +680,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 		protected const string TARGET_LANGUAGE_DROPDOWN_HEADER = "//div[contains(@class, 'target_langs dropdown')]//p";
 		protected const string TARGET_LANG_ITEM = "//div[contains(@class, 'target_langs')]//ul//li[@title = '*#*']";
 		protected const string USE_MACHINE_TRANSLATION_CHECKBOX = "//div[contains(@data-bind, 'availableMachineTranslators')]//label//em";
-		protected const string WORKFLOW_BUTTON = "//div[@class='btn-icon-wrap']//i[@class='icon-sc-arrow-right']";
+		protected const string WORKFLOW_BUTTON = "//div[contains(@data-bind, 'click: $parent.completeStep')]//i[@class='icon-sc-arrow-right']";
 		protected const string USE_MACHINE_TRANSLATION_INPUT = "//div[contains(@data-bind, 'availableMachineTranslators')]//label//input";
 		protected const string ADVANCED_SWITCH = "//div[@class='l-switch']//span[@class='mdl-switch__ripple-container mdl-js-ripple-effect mdl-ripple--center']";
 		protected const string SELECT_TM_BUTTON = "//div[@class='g-btn g-greenbtn ' and contains(@data-bind, 'addExistingTM')]//a";
