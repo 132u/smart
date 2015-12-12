@@ -65,14 +65,12 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Editor
 				.CreateNewProject(
 					projectName: _projectUniqueName,
 					filePath: PathProvider.DocumentFile,
-					createNewTm: true,
-					useMachineTranslation: true);
+					createNewTm: true);
 
 			_projectsPage
 				.OpenProjectInfo(_projectUniqueName)
 				.OpenDocumentInfoForProject(_projectUniqueName)
 				.ClickDocumentSettings(_projectUniqueName, documentNumber: 1)
-				.UnselectMachineTranslation(machineTranslation)
 				.SelectMachineTranslation(machineTranslation);
 
 			_documentSettingsDialog.CloseDocumentSettings(_projectUniqueName);
@@ -93,8 +91,43 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Editor
 			Assert.AreNotEqual(_editorPage.CatTypeRowNumber(CatType.MT), 0,
 				"Произошла ошибка:\nВ CAT-панели отсутствует подстановка {0}.", CatType.MT);
 
-			Assert.IsTrue(_editorPage.IsCatTermsMatchSourceTerms(segmentNumber: 1),
-				"Произошла ошибка:\nТермины из CAT-панели не соответствуют терминам в сорсе");
+			Assert.IsTrue(_editorPage.IsMTSourceTextMatchSourceText(segmentNumber: 1),
+				"Произошла ошибка:\nТекст из CAT - подстановки типа {0} не соответствуют тексту в сорсе.", CatType.MT);
+		}
+
+		[Test]
+		public void DefaultMTDuringProjectCreationTest()
+		{
+			_createProjectHelper
+				.CreateNewProject(
+					projectName: _projectUniqueName,
+					filePath: PathProvider.DocumentFile,
+					createNewTm: true,
+					useMachineTranslation: true);
+
+			_projectsPage
+				.OpenProjectInfo(_projectUniqueName)
+				.OpenDocumentInfoForProject(_projectUniqueName)
+				.ClickDocumentSettings(_projectUniqueName, documentNumber: 1);
+
+			Assert.IsTrue(_documentSettingsDialog.IsMachineTranslationSelected(),
+				"Произошла ошибка:\nМашинный перевод не выбран ");
+
+			_createProjectHelper
+				.GoToProjectSettingsPage(_projectUniqueName)
+				.AssignTasksOnDocument(Path.GetFileNameWithoutExtension(PathProvider.DocumentFile), ThreadUser.NickName);
+
+			_projectSettingsPage
+				.OpenDocumentInEditorWithTaskSelect(Path.GetFileNameWithoutExtension(PathProvider.DocumentFile));
+
+			_selectTaskDialog.SelectTask();
+
+			_editorPage.CloseTutorialIfExist();
+
+			Assert.IsTrue(_editorPage.IsCatTableExist(), "Произошла ошибка:\nCAT-панель пустая.");
+
+			Assert.AreNotEqual(_editorPage.CatTypeRowNumber(CatType.MT), 0,
+				"Произошла ошибка:\nВ CAT-панели отсутствует подстановка {0}.", CatType.MT);
 		}
 
 		private string _projectUniqueName;

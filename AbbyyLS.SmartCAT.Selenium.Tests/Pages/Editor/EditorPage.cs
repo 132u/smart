@@ -490,12 +490,12 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		}
 
 		/// <summary>
-		/// Получить список терминов из кат панели
+		/// Получить список текстов подстановок типа МТ из кат панели.
 		/// </summary>
-		public List<string> GetCatTerms()
+		public List<string> GetMTSourceTextList()
 		{
-			CustomTestContext.WriteLine("Получить список терминов из кат панели");
-			var terms = Driver.GetTextListElement(By.XPath(CAT_PANEL_TERM));
+			CustomTestContext.WriteLine("Получить список текстов подстановок типа МТ из кат панели.");
+			var terms = Driver.GetTextListElement(By.XPath(MT_SOURCE_TEXT_IN_CAT_PANEL));
 
 			return terms.Select(g => g.Trim()).ToList();
 		}
@@ -715,17 +715,16 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		}
 
 		/// <summary>
-		/// Проверить, что термины из CAT-панели соответствуют терминам в сорсе
+		/// Проверить, что текст из CAT-подстановки МТ соответствуют тексту в сорсе сегмента 
 		/// </summary>
 		/// <param name="segmentNumber">номер сегмента</param>
-		public bool IsCatTermsMatchSourceTerms(int segmentNumber)
+		public bool IsMTSourceTextMatchSourceText(int segmentNumber = 1)
 		{
-			CustomTestContext.WriteLine("Проверить, что термины из CAT-панели соответствуют терминам в сорсе");
+			CustomTestContext.WriteLine("Проверить, что текст из CAT-подстановки МТ соответствуют тексту в сорсе сегмента №{0}.", segmentNumber);
+			var MTSourceTextListInCatPanel = GetMTSourceTextList()[segmentNumber - 1];
+			var sourceText = GetSourceText(segmentNumber);
 
-			var catTerms = GetCatTerms()[0];
-			var sourceTerms = GetSourceText(segmentNumber);
-
-			return catTerms == sourceTerms;
+			return MTSourceTextListInCatPanel == sourceText;
 		}
 
 		/// <summary>
@@ -1042,7 +1041,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		protected const string MATCH_COLUMN = "//div[@id='segments-body']//table[*#*]//tbody//td[contains(@class,'matchcolum')]";
 		protected const string TARGET_MATCH_COLUMN_PERCENT = "//table[@data-recordindex='*#*' and contains(@id, 'tableview')]//td[6]//div//span";
 		protected const string CAT_PANEL_PERCENT_MATCH = ".//div[@id='cat-body']//table[*#*]//tbody//tr//td[3]//div//span";
-		protected const string CAT_PANEL_TERM = ".//div[@id='cat-body']//table//tbody//tr//td[2]//div";
+		protected const string MT_SOURCE_TEXT_IN_CAT_PANEL = ".//div[@id='cat-body']//table//tbody//tr//div[text()='MT']//..//preceding-sibling::td[contains(@class, 'source')]";
 		protected const string CAT_TYPE_LIST_IN_PANEL = ".//div[@id='cat-body']//table//td[3]/div";
 		protected const string CAT_TRANSLATION = ".//div[@id='cat-body']//table[*#*]//td[4]/div";
 		protected const string CAT_TYPE = ".//div[@id='cat-body']//table//td[3]/div[text()='*#*']";

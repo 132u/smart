@@ -129,11 +129,23 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 			return new ProjectsPage(Driver).GetPage();
 		}
 
-        #endregion
+		#endregion
 
-        #region Методы, проверяющие состояние страницы
+		#region Методы, проверяющие состояние страницы
 
-        /// <summary>
+		/// <summary>
+		/// Проверить, что стоит галочка в чекбоксе машинного перевода
+		/// </summary>
+		/// <param name="machineTranslationType">тип машинного перевода</param>
+		public bool IsMachineTranslationSelected(MachineTranslationType machineTranslationType = MachineTranslationType.DefaultMT)
+		{
+			CustomTestContext.WriteLine("Проверить, что стоит галочка в чекбоксе машинного перевода типа {0}.", machineTranslationType);
+			var machineTranslationCheckbox = Driver.SetDynamicValue(How.XPath, MT_CHECKBOX_INPUT, machineTranslationType.Description());
+
+			return machineTranslationCheckbox.Selected;
+		}
+
+		/// <summary>
         /// Проверить, открылся ли диалог настроек документа
         /// </summary>
 	    public bool IsDocumentSettingsDialogOpened()
