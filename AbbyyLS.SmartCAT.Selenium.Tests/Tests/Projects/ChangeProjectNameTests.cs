@@ -36,13 +36,13 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 
 			_newProjectSettingsPage
 				.FillGeneralProjectInformation(_projectUniqueName)
-				.ClickWorkflowButton();
+				.ClickNextButton();
 
 			_newProjectWorkflowPage.ClickSettingsLink();
 
 			_newProjectSettingsPage
 				.FillProjectName(_newProjectName)
-				.ClickWorkflowButton();
+				.ClickNextButton();
 
 			_newProjectWorkflowPage.ClickCreateProjectButton();
 
@@ -61,13 +61,13 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 
 			_newProjectSettingsPage
 				.FillGeneralProjectInformation(_newProjectName)
-				.ClickWorkflowButton();
+				.ClickNextButton();
 
 			_newProjectWorkflowPage.ClickSettingsLink();
 
 			_newProjectSettingsPage
 				.FillProjectName(_projectUniqueName)
-				.ClickEmptySpaceFooter();
+				.ClickNextButtonExpectingError();
 
 			Assert.IsTrue(_newProjectSettingsPage.IsDuplicateNameErrorMessageDisplayed(),
 				"Произошла ошибка:\n не появилось сообщение о существующем имени");
@@ -90,13 +90,13 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 
 			_newProjectSettingsPage
 				.FillGeneralProjectInformation(_newProjectName)
-				.ClickWorkflowButton();
+				.ClickNextButton();
 
 			_newProjectWorkflowPage.ClickSettingsLink();
 
 			_newProjectSettingsPage
 				.FillProjectName(_projectUniqueName)
-				.ClickWorkflowButton();
+				.ClickNextButton();
 
 			_newProjectWorkflowPage.ClickCreateProjectButton();
 

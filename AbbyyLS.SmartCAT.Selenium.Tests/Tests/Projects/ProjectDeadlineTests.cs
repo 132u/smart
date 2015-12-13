@@ -40,7 +40,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 
 			_newProjectSettingsPage
 				.FillGeneralProjectInformation(_projectUniqueName, deadline: deadline)
-				.ClickWorkflowButton();
+				.ClickNextButton();
 
 			_newProjectWorkflowPage.ClickCreateProjectButton();
 

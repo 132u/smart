@@ -94,17 +94,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 		}
 
 		/// <summary>
-		/// Нажать на пустое местов в футере, чтоб обновить валидационное сообщение
-		/// </summary>
-		public NewProjectSettingsPage ClickEmptySpaceFooter()
-		{
-			CustomTestContext.WriteLine("Нажать на пустое местов в футере, чтоб обновить валидационное сообщение.");
-			Footer.Click();
-
-			return GetPage();
-		}
-
-		/// <summary>
 		/// Кликнуть на дропдаун исходного языка, чтобы появился выпадающий список
 		/// </summary>
 		public NewProjectSettingsPage ClickSourceLangDropdown()
@@ -191,14 +180,25 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 		}
 
 		/// <summary>
-		/// Нажать на кнопку Workflow.
+		/// Нажать на кнопку Next.
 		/// </summary>
-		public NewProjectWorkflowPage ClickWorkflowButton()
+		public NewProjectWorkflowPage ClickNextButton()
 		{
-			CustomTestContext.WriteLine("Нажать на кнопку Workflow.");
-			WorkflowButton.Click();
+			CustomTestContext.WriteLine("Нажать на кнопку Next.");
+			NextButton.Click();
 
 			return new NewProjectWorkflowPage(Driver).GetPage();
+		}
+
+		/// <summary>
+		/// Нажать на кнопку Next, ожидая ошибку.
+		/// </summary>
+		public NewProjectSettingsPage ClickNextButtonExpectingError()
+		{
+			CustomTestContext.WriteLine("Нажать на кнопку Next, ожидая ошибку.");
+			NextButton.Click();
+
+			return GetPage();
 		}
 
 		/// <summary>
@@ -629,8 +629,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 		[FindsBy(How = How.XPath, Using = ADVANCED_SWITCH)]
 		protected IWebElement AdvancedSwitch { get; set; }
 
-		[FindsBy(How = How.XPath, Using = WORKFLOW_BUTTON)]
-		protected IWebElement WorkflowButton { get; set; }
+		[FindsBy(How = How.XPath, Using = NEXT_BUTTON)]
+		protected IWebElement NextButton { get; set; }
 
 		[FindsBy(How = How.XPath, Using = CREATE_PROJECT_BUTTON)]
 		protected IWebElement CreateProjectButton { get; set; }
@@ -649,9 +649,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 
 		[FindsBy(How = How.XPath, Using = TARGET_MULTISELECT_XPATH)]
 		protected IWebElement TargetMultiselect { get; set; }
-
-		[FindsBy(How = How.XPath, Using = FOOTER)]
-		protected IWebElement Footer { get; set; }
 
 		protected IWebElement SourceLangItem { get; set; }
 
@@ -680,7 +677,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 		protected const string TARGET_LANGUAGE_DROPDOWN_HEADER = "//div[contains(@class, 'target_langs dropdown')]//p";
 		protected const string TARGET_LANG_ITEM = "//div[contains(@class, 'target_langs')]//ul//li[@title = '*#*']";
 		protected const string USE_MACHINE_TRANSLATION_CHECKBOX = "//div[contains(@data-bind, 'availableMachineTranslators')]//label//em";
-		protected const string WORKFLOW_BUTTON = "//div[contains(@data-bind, 'click: $parent.completeStep')]//i[@class='icon-sc-arrow-right']";
+		protected const string NEXT_BUTTON = "//div[contains(@data-bind, 'click: $parent.completeStep')]//i[@class='icon-sc-arrow-right']";
 		protected const string USE_MACHINE_TRANSLATION_INPUT = "//div[contains(@data-bind, 'availableMachineTranslators')]//label//input";
 		protected const string ADVANCED_SWITCH = "//div[@class='l-switch']//span[@class='mdl-switch__ripple-container mdl-js-ripple-effect mdl-ripple--center']";
 		protected const string SELECT_TM_BUTTON = "//div[@class='g-btn g-greenbtn ' and contains(@data-bind, 'addExistingTM')]//a";
@@ -698,8 +695,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 		protected const string CREATE_GLOSSARY_BUTTON = "//div[contains(@data-bind, 'createGlossary')]//a";
 		protected const string EDIT_GLOSSARY_BUTTON = "//div[contains(@data-bind, 'switchDetailMode')][*#*]//div[contains(@class, 'right l-settings-icons')]//span[contains(@data-bind, 'edit')]";
 		protected const string GLOSSARY_ROW = "//div[contains(@data-bind, 'switchDetailMode')][*#*]";
-		
-		protected const string FOOTER = "//div[@class='fixed-btn']";
 		#endregion
 	}
 }

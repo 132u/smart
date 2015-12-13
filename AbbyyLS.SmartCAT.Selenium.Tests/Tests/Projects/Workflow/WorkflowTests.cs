@@ -39,7 +39,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 
 			_newProjectSettingsPage
 				.FillGeneralProjectInformation(_projectUniqueName)
-				.ClickWorkflowButton();
+				.ClickNextButton();
 
 			Assert.IsTrue(_newProjectWorkflowPage.IsWorkflowAddedTaskCountMatchExpected(expectedTaskCount: 1),
 				"Произошла ошибка:\n неверное количество добавленных задач");
@@ -57,7 +57,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 
 			_newProjectSettingsPage
 				.FillGeneralProjectInformation(_projectUniqueName)
-				.ClickWorkflowButton();
+				.ClickNextButton();
 
 			Assert.IsTrue(_newProjectWorkflowPage.IsTaskTypesCountMatchExpected(expectedCount: 4),
 				"Произошла ошибка:\n неверное количество возможных типов задач показано в списке задач.");
@@ -162,7 +162,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 
 			_newProjectSettingsPage
 				.FillGeneralProjectInformation(_projectUniqueName)
-				.ClickWorkflowButton();
+				.ClickNextButton();
 
 			_newProjectWorkflowPage
 				.ClickNewTaskButton(WorkflowTask.Proofreading)
@@ -214,7 +214,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 
 			_newProjectSettingsPage
 				.FillGeneralProjectInformation(_projectUniqueName)
-				.ClickWorkflowButton();
+				.ClickNextButton();
 
 			_newProjectWorkflowPage.DeleteWorkflowTask(taskNumber: 1);
 

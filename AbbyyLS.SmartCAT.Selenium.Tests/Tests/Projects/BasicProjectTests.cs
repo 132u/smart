@@ -89,7 +89,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 
 			_newProjectSettingsPage
 				.FillGeneralProjectInformation(_projectUniqueName)
-				.ClickWorkflowButton();
+				.ClickNextButton();
 		}
 
 		[Test]

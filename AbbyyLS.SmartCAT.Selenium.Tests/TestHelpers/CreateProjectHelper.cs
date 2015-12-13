@@ -83,7 +83,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 			if (!personalAccount)
 			{
-				_newProjectSettingsPage.ClickWorkflowButton();
+				_newProjectSettingsPage.ClickNextButton();
 
 				if (tasks != null)
 				{

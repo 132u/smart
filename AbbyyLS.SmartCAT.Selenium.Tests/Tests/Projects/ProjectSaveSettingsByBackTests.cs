@@ -45,7 +45,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 					targetLanguage: Language.Lithuanian,
 					deadline: Deadline.FillDeadlineDate,
 					date: deadlineDate)
-				.ClickWorkflowButton();
+				.ClickNextButton();
 
 			_newProjectWorkflowPage.ClickSettingsLink();
 
@@ -71,7 +71,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 
 			_newProjectSettingsPage
 				.FillGeneralProjectInformation(_projectUniqueName)
-				.ClickWorkflowButton();
+				.ClickNextButton();
 
 			_newProjectWorkflowPage.ClickNextButton<NewProjectSetUpTMDialog>();
 
@@ -94,7 +94,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 
 			_newProjectSettingsPage
 				.FillGeneralProjectInformation(_projectUniqueName)
-				.ClickWorkflowButton();
+				.ClickNextButton();
 
 			_newProjectWorkflowPage.ClickNextButton<NewProjectSetUpTMDialog>();
 
@@ -117,7 +117,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 
 			_newProjectSettingsPage
 				.FillGeneralProjectInformation(_projectUniqueName)
-				.ClickWorkflowButton();
+				.ClickNextButton();
 
 			_newProjectWorkflowPage.ClickNextButton<NewProjectSetUpTMDialog>();
 
@@ -144,7 +144,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 
 			_newProjectSettingsPage
 				.FillGeneralProjectInformation(_projectUniqueName)
-				.ClickWorkflowButton();
+				.ClickNextButton();
 
 			_newProjectWorkflowPage.ClickNextButton<NewProjectSetUpTMDialog>();
 
@@ -171,14 +171,14 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 
 			_newProjectSettingsPage
 				.FillGeneralProjectInformation(_projectUniqueName)
-				.ClickWorkflowButton();
+				.ClickNextButton();
 
 			_newProjectWorkflowPage
 				.ClickClearButton()
 				.ClickNewTaskButton(WorkflowTask.Editing)
 				.ClickSettingsLink();
 
-			_newProjectSettingsPage.ClickWorkflowButton();
+			_newProjectSettingsPage.ClickNextButton();
 
 			Assert.IsTrue(_newProjectWorkflowPage.IsWorkflowTaskMatchExpected(
 				WorkflowTask.Editing, taskNumber: 1), "Произошла ошибка:\n задача не соответствует ожидаемой");
