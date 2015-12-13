@@ -261,9 +261,12 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Drivers
 		/// <param name="by">локатор</param>
 		public IList<IWebElement> GetElementList(By by)
 		{
+			_driver.Manage().Timeouts().ImplicitlyWait(NoWait);
+			ReadOnlyCollection<IWebElement> elementsList = null;
+
 			try
 			{
-				return _driver.FindElements(by);
+				elementsList = _driver.FindElements(by);
 			}
 			catch (StaleElementReferenceException)
 			{
@@ -276,7 +279,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Drivers
 				Assert.Fail("Произошла ошибка:\n" + ex.Message);
 			}
 
-			return null;
+			_driver.Manage().Timeouts().ImplicitlyWait(ImplicitWait);
+
+			return elementsList;
 		}
 
 		/// <summary>
