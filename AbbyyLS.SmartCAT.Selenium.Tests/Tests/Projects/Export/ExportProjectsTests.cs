@@ -123,6 +123,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 				"Произошла ошибка: файл не загрузился");
 		}
 
+		[Ignore("PRX-14024")]
 		[TestCase(ExportType.Source)]
 		[TestCase(ExportType.Tmx)]
 		[TestCase(ExportType.Target)]
