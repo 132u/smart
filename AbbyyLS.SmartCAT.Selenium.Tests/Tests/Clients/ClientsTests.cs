@@ -3,6 +3,7 @@
 using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
 using AbbyyLS.SmartCAT.Selenium.Tests.FeatureAttributes;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Client;
+using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories;
 using AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers;
 
@@ -22,6 +23,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Clients
 			_clientsPage = new ClientsPage(Driver);
 			_translationMemoriesPage = new TranslationMemoriesPage(Driver);
 			_newTranslationMemoryDialog = new NewTranslationMemoryDialog(Driver);
+			_glossariesPage = new GlossariesPage(Driver);
+			_newGlossaryDialog = new NewGlossaryDialog(Driver);
 
 			_clientName = _clientsPage.GetClientUniqueName();
 		}
@@ -67,9 +70,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Clients
 				.ClickCreateNewTmButton()
 				.OpenClientsList();
 
-			Assert.IsTrue(_newTranslationMemoryDialog.IsClientsListDisplayed(),
-				"Произошла ошибка:\n не отображен список клиентов");
-
 			Assert.IsTrue(_newTranslationMemoryDialog.IsClientExistInList(_clientName),
 				"Произошла ошибка:\n клиент {0} не отображен в списке клиентов", _clientName);
 		}
@@ -79,9 +79,14 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Clients
 		{
 			_clientsPage.CreateNewClient(_clientName);
 
-			_workspaceHelper
-				.GoToGlossariesPage()
-				.AssertClientExistInClientsList(_clientName);
+			_workspaceHelper.GoToGlossariesPage();
+
+			_glossariesPage
+				.ClickCreateGlossaryButton()
+				.OpenClientsList();
+
+			Assert.IsTrue(_newGlossaryDialog.IsClientExistInList(_clientName),
+				"Произошла ошибка:\n клиент не отображается в списке клиентов при создании глоссария");
 		}
 
 		[Test]
@@ -94,8 +99,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Clients
 				.RenameClient(_clientName, clientNewName);
 
 			Assert.IsTrue(_clientsPage.IsClientExist(clientNewName), "Произошла ошибка: \n клиент не создан");
-			Assert.IsFalse(_clientsPage.IsClientExist(_clientName),
-				"Произошла ошибка:\n клиент {0} найден в списке клиентов", _clientName);
+			Assert.IsFalse(_clientsPage.IsClientExist(_clientName), "Произошла ошибка:\n клиент {0} найден в списке клиентов", _clientName);
 		}
 
 		[TestCase("")]
@@ -151,9 +155,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Clients
 				.ClickCreateNewTmButton()
 				.OpenClientsList();
 
-			Assert.IsTrue(_newTranslationMemoryDialog.IsClientsListDisplayed(),
-				"Произошла ошибка:\n не отображен список клиентов");
-
 			Assert.IsFalse(_newTranslationMemoryDialog.IsClientExistInList(_clientName),
 				"Произошла ошибка:\n клиент {0} отображен в списке клиентов", _clientName);
 		}
@@ -165,15 +166,22 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Clients
 				.CreateNewClient(_clientName)
 				.DeleteClient(_clientName);
 
-			_workspaceHelper
-				.GoToGlossariesPage()
-				.AssertClientNotExistInClientsList(_clientName);
+			_workspaceHelper.GoToGlossariesPage();
+
+			_glossariesPage
+				.ClickCreateGlossaryButton()
+				.OpenClientsList();
+
+			Assert.IsFalse(_newGlossaryDialog.IsClientExistInList(_clientName),
+				"Произошла ошибка:\n клиент отображается в списке клиентов при создании глоссария");
 		}
 
 		private ClientsPage _clientsPage;
 		private TranslationMemoriesPage _translationMemoriesPage;
 		private NewTranslationMemoryDialog _newTranslationMemoryDialog;
 		private WorkspaceHelper _workspaceHelper;
+		private GlossariesPage _glossariesPage;
+		private NewGlossaryDialog _newGlossaryDialog;
 
 		private string _clientName;
 	}

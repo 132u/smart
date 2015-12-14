@@ -97,6 +97,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories
 		{
 			CustomTestContext.WriteLine("Раскрыть список клиентов");
 			CreateClientDropDown.Click();
+		    Driver.WaitUntilElementIsDisplay(By.XPath(CLIENT_LIST));
 
 			return GetPage();
 		}
@@ -206,16 +207,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories
 		public bool IsNewTranslationMemoryDialogOpened()
 		{
 			return Driver.WaitUntilElementIsDisplay(By.XPath(SAVE_BUTTON), timeout: 20);
-		}
-
-		/// <summary>
-		/// Проверить отображение списка клиентов
-		/// </summary>
-		public bool IsClientsListDisplayed()
-		{
-			CustomTestContext.WriteLine("Проверить отображение списка клиентов");
-
-			return CreateClientList.Displayed;
 		}
 
 		/// <summary>

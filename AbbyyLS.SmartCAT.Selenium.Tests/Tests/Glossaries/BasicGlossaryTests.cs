@@ -6,6 +6,7 @@ using NUnit.Framework;
 
 using AbbyyLS.SmartCAT.Selenium.Tests.DataStructures;
 using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
+using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries;
 using AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
@@ -17,6 +18,13 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 		public void GlossariesSetUp()
 		{
 			_workspaceHelper = new WorkspaceHelper(Driver);
+			_glossaryPage = new GlossaryPage(Driver);
+			_glossariesPage = new GlossariesPage(Driver);
+			_newGlossaryDialog = new NewGlossaryDialog(Driver);
+			_glossaryPropertiesDialog = new GlossaryPropertiesDialog(Driver);
+			_glossaryImportDialog = new GlossaryImportDialog(Driver);
+			_glossarySuccessImportDialog = new GlossarySuccessImportDialog(Driver);
+			_glossaryStructureDialog = new GlossaryStructureDialog(Driver);
 			_glossaryHelper = _workspaceHelper.GoToGlossariesPage();
 			_glossaryUniqueName = GlossariesHelper.UniqueGlossaryName();
 		}
@@ -26,16 +34,20 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 		{
 			_glossaryHelper
 				.CreateGlossary(_glossaryUniqueName)
-				.GoToGlossariesPage()
-				.AssertGlossaryExist(_glossaryUniqueName);
+				.GoToGlossariesPage();
+
+			Assert.IsTrue(_glossariesPage.IsGlossaryExist(_glossaryUniqueName),
+				"Произошла ошибка:\n глоссарий отсутствует в списке");
+
 		}
 
 		[Test]
 		public void CreateGlossaryWithoutNameTest()
 		{
-			_glossaryHelper
-				.CreateGlossary("", errorExpected: true)
-				.AssertSpecifyGlossaryNameErrorDisplay();
+			_glossaryHelper.CreateGlossary("", errorExpected: true);
+
+			Assert.IsTrue(_newGlossaryDialog.IsSpecifyGlossaryNameErrorDisplayed(),
+				"Произошла ошибка:\n сообщение 'Specify glossary name' не появилось.");
 		}
 		
 		[Test]
@@ -43,34 +55,41 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 		{
 			_glossaryHelper
 				.CreateGlossary(_glossaryUniqueName)
-				.GoToGlossariesPage()
-				.AssertGlossaryExist(_glossaryUniqueName)
-				.CreateGlossary(_glossaryUniqueName, errorExpected: true)
-				.AssertExistNameErrorDisplay();
+				.GoToGlossariesPage();
+
+			_glossaryHelper.CreateGlossary(_glossaryUniqueName, errorExpected: true);
+
+			Assert.IsTrue(_newGlossaryDialog.IsExistNameErrorDisplayed(),
+				"Произошла ошибка:\n сообщение 'A glossary with this name already exists' не появилось");
 		}
 
 		[Test]
 		public void CheckLanguageNotExistTest()
 		{
-			_glossaryHelper
-				.OpenNewGlossaryDialog()
-				.SelectLanguage(Language.German, 1)
-				.AssertLanguageNotExistInDropdown(Language.German, 2);
+			_glossariesPage.ClickCreateGlossaryButton();
+
+			_newGlossaryDialog
+				.ExpandLanguageDropdown(dropdownNumber: 1)
+				.SelectLanguage(Language.German)
+				.ExpandLanguageDropdown(dropdownNumber: 2);
+
+			Assert.IsFalse(_newGlossaryDialog.IsLanguageExistInDropdown(Language.German),
+				"Произошла ошибка:\n язык присутствует в дропдауне");
 		}
 
 		[Test]
 		public void DeleteLanguageCreateGlossaryTest()
 		{
-			int languagesCountBefore;
-			int languagesCountAfter;
+			_glossariesPage.ClickCreateGlossaryButton();
 
-			_glossaryHelper
-				.OpenNewGlossaryDialog()
-				.GetLanguagesCount(out languagesCountBefore)
-				.DeleteLanguage(languagesCountBefore)
-				.GetLanguagesCount(out languagesCountAfter);
+			var languagesCountBefore = _newGlossaryDialog.GetGlossaryLanguageCount();
 
-			_glossaryHelper.AssertLanguagesCountChanged(languagesCountBefore, languagesCountAfter);
+			_newGlossaryDialog.ClickDeleteLanguageButton(languagesCountBefore);
+
+			var languagesCountAfter = _newGlossaryDialog.GetGlossaryLanguageCount();
+
+			Assert.AreNotEqual(languagesCountAfter, languagesCountBefore,
+				"Произошла ошибка:\n количество языков не изменилось.");
 		}
 
 		[Ignore("PRX-10784"), Test]
@@ -78,9 +97,10 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 		{
 			_glossaryHelper
 				.CreateGlossary(_glossaryUniqueName)
-				.GoToGlossariesPage()
-				.AssertGlossaryExist(_glossaryUniqueName)
-				.AssertDateModifiedMatchCurrentDate(_glossaryUniqueName);
+				.GoToGlossariesPage();
+
+			Assert.IsTrue(_glossariesPage.IsDateModifiedMatchCurrentDate(_glossaryUniqueName),
+				"Произошла ошибка:\n дата создания глоссария не совпадет с текущей датой");
 		}
 
 		[Test]
@@ -88,22 +108,23 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 		{
 			_glossaryHelper
 				.CreateGlossary(_glossaryUniqueName)
-				.GoToGlossariesPage()
-				.AssertGlossaryExist(_glossaryUniqueName);
+				.GoToGlossariesPage();
 
-			var modifiedDateBefore = _glossaryHelper.ModifiedDateTime(_glossaryUniqueName);
-			_glossaryHelper.GoToGlossaryPage(_glossaryUniqueName);
+			var modifiedDateBefore = _glossariesPage.GlossaryDateModified(_glossaryUniqueName);
+
+			_glossariesPage.ClickGlossaryRow(_glossaryUniqueName);
 
 			// Sleep нужен, чтобы дата изменения изменилась (точность до минуты)
 			Thread.Sleep(60000);
 
-			_glossaryHelper
-				.CreateTerm()
-				.GoToGlossariesPage();
+			_glossaryPage.CreateTerm();
 
-			var modifiedDateAfter = _glossaryHelper.ModifiedDateTime(_glossaryUniqueName);
+			_workspaceHelper.GoToGlossariesPage();
 
-			_glossaryHelper.AssertDateTimeModifiedNotMatch(modifiedDateBefore, modifiedDateAfter);
+			var modifiedDateAfter = _glossariesPage.GlossaryDateModified(_glossaryUniqueName);
+
+			Assert.AreNotEqual(modifiedDateBefore, modifiedDateAfter,
+				"Произошла ошибка:\n неверная дата изменния глоссария.");
 		}
 
 		[Test]
@@ -111,81 +132,119 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 		{
 			_glossaryHelper
 				.CreateGlossary(_glossaryUniqueName)
-				.GoToGlossariesPage()
-				.AssertGlossaryExist(_glossaryUniqueName)
-				.AssertModifiedByMatch(_glossaryUniqueName, ThreadUser.NickName);
+				.GoToGlossariesPage();
+
+			var modifiedBy = _glossariesPage.GetModifiedByAuthor(_glossaryUniqueName);
+
+			Assert.AreEqual(modifiedBy, ThreadUser.NickName, 
+				"Произошла ошибка:\n имя {0} не совпадает с {1}.", modifiedBy, ThreadUser.NickName);
 		}
 
 		[Test]
 		public void DeleteGlossaryTest()
 		{
-			_glossaryHelper
-				.CreateGlossary(_glossaryUniqueName)
-				.OpenGlossaryProperties()
-				.DeleteGlossaryInPropertiesDialog()
-				.AssertGlossaryNotExist(_glossaryUniqueName);
+			_glossaryHelper.CreateGlossary(_glossaryUniqueName);
+
+			_glossaryPage.OpenGlossaryStructure();
+
+			_glossaryPropertiesDialog.ClickDeleteGlossaryButton();
+
+			Assert.IsTrue(_glossaryPropertiesDialog.IsConfirmDeleteMessageDisplayed(),
+				"Произошла ошибка: \nне появилось сообщение с подтверждением удаления глоссария");
+
+			_glossaryPropertiesDialog.ClickConfirmDeleteGlossaryButton();
+
+			Assert.IsTrue(_glossariesPage.IsGlossaryNotExist(_glossaryUniqueName),
+				"Произошла ошибка:\n глоссарий присутствует в списке.");
 		}
 
 		[Test]
 		public void DeleteLanguageExistTermTest()
 		{
-			int languagesCountBefore;
-			int languagesCountAfter;
+			_glossaryHelper.CreateGlossary(_glossaryUniqueName);
 
-			_glossaryHelper
-				.CreateGlossary(_glossaryUniqueName)
+			_glossaryPage
 				.CreateTerm()
-				.OpenGlossaryProperties()
-				.LanguagesCountInPropertiesDialog(out languagesCountBefore);
+				.OpenGlossaryProperties();
 
-			_glossaryHelper
-				.CancelDeleteLanguageInPropertiesDialog()
-				.LanguagesCountInPropertiesDialog(out languagesCountAfter);
+			var languagesCountBefore = _glossaryPropertiesDialog.LanguagesCount();
 
-			_glossaryHelper.AssertLanguagesCountMatch(languagesCountBefore, languagesCountAfter);
+			_glossaryPropertiesDialog.CancelDeleteLanguageInPropertiesDialog();
+
+			var languagesCountAfter = _glossaryPropertiesDialog.LanguagesCount();
+
+			Assert.AreEqual(languagesCountBefore, languagesCountAfter,
+				"Произошла ошибка:\n количество языков {0} не совпадает с {1} в диалоге свойств глоссария.",
+				languagesCountBefore, languagesCountAfter);
 		}
 
 		[Test]
 		public void EditGlossaryStructureTest()
 		{
-			_glossaryHelper
-				.CreateGlossary(_glossaryUniqueName)
-				.OpenGlossaryStructure()
-				.AddNewSystemField(GlossarySystemField.Topic)
-				.ClickNewEntryButton()
-				.AssertExtendModeOpen();
+			_glossaryHelper.CreateGlossary(_glossaryUniqueName);
+
+			_glossaryPage.OpenGlossaryStructure();
+
+			_glossaryStructureDialog.AddNewSystemField(GlossarySystemField.Topic);
+
+			_glossaryPage.ClickNewEntryButton();
+				
+			Assert.IsTrue(_glossaryPage.IsCreationModeActivated(),
+				"Произошла ошибка:\n новый термин не открыт в расширенном режиме");
 		}
 
 		[Test]
 		public void ImportGlossaryTest()
 		{
-			_glossaryHelper
-				.CreateGlossary(_glossaryUniqueName)
+			_glossaryHelper.CreateGlossary(_glossaryUniqueName);
+
+			_glossaryPage.ClickImportButton();
+
+			_glossaryImportDialog
 				.ImportGlossary(PathProvider.ImportGlossaryFile)
-				.AssertGlossaryContainsCorrectTermsCount(termsCount: 1);
+				.ClickImportButtonInImportDialog();
+
+			_glossarySuccessImportDialog.ClickCloseButton();
+
+			Assert.IsTrue(_glossaryPage.IsGlossaryContainsCorrectTermsCount(expectedTermsCount: 1),
+				"Произошла ошибка:\n глоссарий содержит неверное количество терминов");
 		}
 
 		[Test]
 		public void ImportGlossaryReplaceAllTermsTest()
 		{
-			_glossaryHelper
-				.CreateGlossary(_glossaryUniqueName)
+			_glossaryHelper.CreateGlossary(_glossaryUniqueName);
+
+			_glossaryPage
 				.CreateTerm()
 				.CreateTerm("termsecond", "termsecond")
-				.AssertGlossaryContainsCorrectTermsCount(termsCount: 2)
-				.ImportGlossaryWithReplaceTerms(PathProvider.ImportGlossaryFile)
-				.AssertGlossaryContainsCorrectTermsCount(termsCount: 1);
+				.ClickImportButton();
+
+			_glossaryImportDialog
+				.ClickReplaceTermsButton()
+				.ImportGlossary(PathProvider.ImportGlossaryFile)
+				.ClickImportButtonInImportDialog();
+
+			_glossarySuccessImportDialog.ClickCloseButton();
+
+			Assert.IsTrue(_glossaryPage.IsGlossaryContainsCorrectTermsCount(expectedTermsCount: 1),
+				"Произошла ошибка:\n глоссарий содержит неверное количество терминов");
 		}
 
 		[Test]
 		public void ExportGlossaryTest()
 		{
-			_glossaryHelper
-				.CreateGlossary(_glossaryUniqueName)
+			_glossaryHelper.CreateGlossary(_glossaryUniqueName);
+
+			_glossaryPage
 				.CreateTerm()
 				.CreateTerm("secondTerm1", "secondTerm2")
-				.ExportGlossary()
-				.AssertGlossaryExportedSuccesfully(Path.Combine(PathProvider.ExportFiles, _glossaryUniqueName.Replace(":", "-") + ".xlsx"));
+				.ClickExportGlossary();
+
+			Assert.IsTrue(_glossaryPage.IsGlossaryExportedSuccesfully(
+				Path.Combine(PathProvider.ExportFiles, _glossaryUniqueName.Replace(":", "-") + ".xlsx")),
+				"Произошла ошибка:\n файл не был скачан за отведенное время");
+
 		}
 
 		[Test]
@@ -193,14 +252,21 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 		{
 			var newGlossaryName = GlossariesHelper.UniqueGlossaryName();
 
-			_glossaryHelper
-				.CreateGlossary(_glossaryUniqueName)
-				.OpenGlossaryProperties()
-				.FillGlossaryNameInPropertiesDialog(newGlossaryName)
-				.ClickSaveButtonInPropetiesDialog()
-				.GoToGlossariesPage()
-				.AssertGlossaryExist(newGlossaryName)
-				.AssertGlossaryNotExist(_glossaryUniqueName);
+			_glossaryHelper.CreateGlossary(_glossaryUniqueName);
+
+			_glossaryPage.OpenGlossaryStructure();
+
+			_glossaryPropertiesDialog
+				.FillGlossaryName(newGlossaryName)
+				.ClickSaveButton();
+
+			_glossaryHelper.GoToGlossariesPage();
+
+			Assert.IsTrue(_glossariesPage.IsGlossaryExist(newGlossaryName),
+				"Произошла ошибка:\n глоссарий отсутствует в списке");
+
+			Assert.IsTrue(_glossariesPage.IsGlossaryNotExist(_glossaryUniqueName),
+				"Произошла ошибка:\n глоссарий присутствует в списке.");
 		}
 
 		[Test]
@@ -209,32 +275,42 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 			_glossaryHelper
 				.CreateGlossary(_glossaryUniqueName)
 				.GoToGlossariesPage()
-				.CreateGlossary(_glossaryUniqueName + "2")
-				.OpenGlossaryProperties()
-				.FillGlossaryNameInPropertiesDialog(_glossaryUniqueName)
-				.ClickSaveButtonInPropetiesDialog(errorExpected: true)
-				.AssertExistNameErrorDisplay();
+				.CreateGlossary(_glossaryUniqueName + "2");
+
+			_glossaryPage.OpenGlossaryStructure();
+
+			_glossaryPropertiesDialog
+				.FillGlossaryName(_glossaryUniqueName)
+				.ClickSaveButtonExpectingError();
+
+			Assert.IsTrue(_newGlossaryDialog.IsExistNameErrorDisplayed(),
+				"Произошла ошибка:\n сообщение 'A glossary with this name already exists' не появилось");
 		}
 
 		[TestCase("")]
 		[TestCase(" ")]
 		public void ChangeGlossaryEmptyNameTest(string newGlossaryName)
 		{
-			_glossaryHelper
-				.CreateGlossary(_glossaryUniqueName)
-				.OpenGlossaryProperties()
-				.FillGlossaryNameInPropertiesDialog(newGlossaryName)
-				.ClickSaveButtonInPropetiesDialog(errorExpected: true)
-				.AssertSpecifyGlossaryNameErrorDisplay();
+			_glossaryHelper.CreateGlossary(_glossaryUniqueName);
+
+			_glossaryPage.OpenGlossaryStructure();
+
+			_glossaryPropertiesDialog
+				.FillGlossaryName(newGlossaryName)
+				.ClickSaveButtonExpectingError();
+
+			Assert.IsTrue(_newGlossaryDialog.IsSpecifyGlossaryNameErrorDisplayed(),
+				"Произошла ошибка:\n сообщение 'Specify glossary name' не появилось.");
 		}
 
 		[Test]
 		public void OpenStructureFromPropertiesTest()
 		{
-			_glossaryHelper
-				.CreateGlossary(_glossaryUniqueName)
-				.OpenGlossaryProperties()
-				.SwitchToGlossaryStructureDialog();
+			_glossaryHelper.CreateGlossary(_glossaryUniqueName);
+
+			_glossaryPage.OpenGlossaryStructure();
+
+			_glossaryPropertiesDialog.ClickAdvancedButton();
 		}
 
 		[Test]
@@ -250,12 +326,21 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 							 Language.Japanese,
 							 Language.Lithuanian
 						})
-				.GoToGlossariesPage()
-				.AssertGlossaryExist(_glossaryUniqueName);
+				.GoToGlossariesPage();
+
+			Assert.IsTrue(_glossariesPage.IsGlossaryExist(_glossaryUniqueName),
+				"Произошла ошибка:\n глоссарий отсутствует в списке");
 		}
 
 		private GlossariesHelper _glossaryHelper;
 		private WorkspaceHelper _workspaceHelper;
+		private GlossaryPage _glossaryPage;
+		private GlossariesPage _glossariesPage;
+		private NewGlossaryDialog _newGlossaryDialog;
+		private GlossaryPropertiesDialog _glossaryPropertiesDialog;
+		private GlossaryImportDialog _glossaryImportDialog;
+		private GlossarySuccessImportDialog _glossarySuccessImportDialog;
+		private GlossaryStructureDialog _glossaryStructureDialog;
 		private string _glossaryUniqueName;
 	}
 }

@@ -1,9 +1,9 @@
 using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.IO;
 using System.Linq;
-
-using NUnit.Framework;
+using System.Threading;
 
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.PageObjects;
@@ -31,143 +31,11 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 		public new void LoadPage()
 		{
 			Driver.WaitPageTotalLoad();
-			if (!Driver.WaitUntilElementIsDisplay(By.XPath(NEW_ENTRY_BUTTON), timeout: 30))
+			if (!IsGlossaryPageOpened())
 			{
-				Assert.Fail("Произошла ошибка:\n не загрузилась страница глоссария.");
+				throw new XPathLookupException("Произошла ошибка:\n не загрузилась страница глоссария");
 			}
 		}
-
-		#region Методы, проверяющие состояние страницы
-
-		/// <summary>
-		/// Проверить, верен ли диапазон дат
-		/// </summary>
-		/// <param name="dateTimeList">диапазон дат</param>
-		public bool IsDateRangeInFilterMatch(List<DateTime> dateTimeList)
-		{
-			CustomTestContext.WriteLine("Проверить, верен ли диапазон дат {0}.", dateTimeList);
-			var rangeList = new List<DateTime>();
-			var panelText = Driver.FindElement(By.XPath(DIAPASON_PANEL)).GetAttribute("title").Split(' ');
-			var startDate = DateTime.ParseExact(panelText[2], "M/d/yyyy", CultureInfo.InvariantCulture);
-			var endDate = DateTime.ParseExact(panelText[4], "M/d/yyyy", CultureInfo.InvariantCulture);
-
-			rangeList.Add(startDate);
-			rangeList.Add(endDate);
-
-			return dateTimeList.SequenceEqual(rangeList);
-		}
-
-		/// <summary>
-		/// Проверить, отображается ли сообщение 'The term already exists'
-		/// </summary>
-		public bool IsExistTermErrorDisplayed()
-		{
-			CustomTestContext.WriteLine("Проверить, отображается ли сообщение 'The term already exists'.");
-
-			return Driver.WaitUntilElementIsDisplay(By.XPath(ALREADY_EXIST_TERM_ERROR));
-		}
-
-		/// <summary>
-		/// Проверить, отображается ли сообщение 'Please add at least one term'.
-		/// </summary>
-		public bool IsEmptyTermErrorDisplayed()
-		{
-			CustomTestContext.WriteLine("Проверить, отображается ли сообщение 'Please add at least one term'.");
-
-			return Driver.WaitUntilElementIsDisplay(By.XPath(EMPTY_TERM_ERROR));
-		}
-
-		/// <summary>
-		/// Проверить, что термин присутствует в секции 'Languages and terms '
-		/// </summary>
-		public bool IsTermDisplayedInLanguagesAndTermsSection(string term)
-		{
-			CustomTestContext.WriteLine("Проверить, что термин {0} присутствует в секции 'Languages and terms '.", term);
-
-			return Driver.SetDynamicValue(How.XPath, TERMS_IN_LANGUAGE_AND_TERMS_SECTION, term).Displayed;
-		}
-
-		/// <summary>
-		/// Проверить, отображается ли термин в режиме редактирования
-		/// </summary>
-		public bool IsTermFieldEditModeDisplayed(GlossarySystemField termField)
-		{
-			CustomTestContext.WriteLine("Проверить, отображается ли термин {0} в режиме редактирования.", termField);
-
-			return Driver.GetIsElementExist(By.XPath(TERM_FIELD_EDIT_MODE.Replace("*#*", termField.ToString())));
-		}
-
-		/// <summary>
-		/// Проверить, отображается ли термин типа дропдаун в режиме редактирования
-		/// </summary>
-		public bool IsDropdownTermFieldEditModeDisplayed(GlossarySystemField termField)
-		{
-			CustomTestContext.WriteLine("Проверить, отображается ли термин {0} типа дропдаун в режиме редактирования.", termField);
-
-			return Driver.GetIsElementExist(By.XPath(DROPDOWN_TERM_FIELD_EDIT_MODE.Replace("*#*", termField.ToString())));
-		}
-
-		/// <summary>
-		/// Получить текст из фильтра 'Modified'
-		/// </summary>
-		public string IsModifiedByFilterText()
-		{
-			CustomTestContext.WriteLine("Получить текст из фильтра 'Modified'.");
-
-			return ModifiedByFilterLabel.Text;
-		}
-
-		/// <summary>
-		/// Проверить отображается ли фильтр 'Created' в таблице терминов
-		/// </summary>
-		public bool IsCreatedByFilterLabelDisplayed()
-		{
-			CustomTestContext.WriteLine("Проверить отображается ли фильтр 'Created' в таблице терминов.");
-
-			return Driver.WaitUntilElementIsDisplay(By.XPath(CREATED_BY_FILTER_LABEL));
-		}
-
-		/// <summary>
-		/// Проверить отображается ли фильтр 'Modified' в таблице терминов
-		/// </summary>
-		public bool IsModifiedByFilterLabelDisplayed()
-		{
-			CustomTestContext.WriteLine("Проверить отображается ли фильтр 'Modified' в таблице терминов.");
-
-			return Driver.WaitUntilElementIsDisplay(By.XPath(MODIFIED_BY_FILTER_LABEL));
-		}
-
-		/// <summary>
-		/// Проверить, есть ли что-то на панели фильтров
-		/// </summary>
-		public bool IsAnyFilterDisplayed()
-		{
-			CustomTestContext.WriteLine("Проверить, есть ли что-то на панели фильтров");
-
-			return Driver.WaitUntilElementIsDisplay(By.XPath(CLEAR_ALL_FILTERS_BUTTON));
-		}
-
-		/// <summary>
-		/// Проверить, что фильтр Modified отображается в шапке таблицы
-		/// </summary>
-		public bool IsModifiedFilterDisplayedInTableHeader(string filterValue)
-		{
-			CustomTestContext.WriteLine("Проверить, что фильтр Modified отображается в шапке таблицы.");
-
-			return Driver.GetIsElementExist(By.XPath(MODIFIED_CLEAR_FILTER_PANEL.Replace("*#*", filterValue)));
-		}
-
-		/// <summary>
-		/// Проверить, что фильтр Created отображается в шапке таблицы
-		/// </summary>
-		public bool IsCreatedFilterDisplayedInTableHeader(string filterValue)
-		{
-			CustomTestContext.WriteLine("Проверить, что фильтр Created отображается в шапке таблицы.");
-
-			return Driver.WaitUntilElementIsDisplay(By.XPath(CREATED_CLEAR_FILTER_PANEL.Replace("*#*", filterValue)));
-		}
-
-		#endregion
 
 		#region Простые методы страницы
 
@@ -251,19 +119,10 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 				i++;
 			}
 
+			Driver.WaitUntilElementIsDisappeared(By.XPath(SAVE_ENTRY_BUTTON));
+
 			return GetPage();
 		}
-
-		/// <summary>
-		/// Проверить, что сохранение термина завершено
-		/// </summary>
-		public bool IsEntrySaved()
-		{
-			CustomTestContext.WriteLine("Проверить, что сохранение термина завершено");
-
-			return Driver.WaitUntilElementIsDisappeared(By.XPath(SAVE_ENTRY_BUTTON));
-		}
-
 
 		/// <summary>
 		/// Раскрыть меню редактирования глоссария
@@ -352,7 +211,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 			return GetPage();
 		}
 
-
 		/// <summary>
 		/// Ввести текст в поле комментария в секции 'Language and term details'
 		/// </summary>
@@ -391,7 +249,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 		/// </summary>
 		/// <param name="fieldName">название поля</param>
 		/// <param name="optionNumber">номер опции</param>
-		public string OptionValue(GlossarySystemField fieldName, int optionNumber)
+		public string GetOptionValue(GlossarySystemField fieldName, int optionNumber = 2)
 		{
 			CustomTestContext.WriteLine("Получить значение опции №{0} в дропдауне поля {1}.", optionNumber, fieldName);
 
@@ -468,22 +326,12 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 		/// <summary>
 		/// Нажать кнопку сортировки по дате изменения
 		/// </summary>
-		public GlossaryPage ClickSortByDateModified()
+		public new GlossaryPage ClickSortByDateModified()
 		{
 			CustomTestContext.WriteLine("Нажать кнопку сортировки по дате изменения");
 			SortByDateModified.Click();
 
 			return GetPage();
-		}
-
-		/// <summary>
-		/// Получить количество обычных терминов
-		/// </summary>
-		public int DefaultTermsCount()
-		{
-			CustomTestContext.WriteLine("Получить количество обычных терминов.");
-
-			return Driver.GetElementsCount(By.XPath(DEFAULT_TERM_ROWS));
 		}
 
 		/// <summary>
@@ -565,7 +413,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 		public GlossaryPage ClickDeleteButton(string source, string target)
 		{
 			CustomTestContext.WriteLine("Нажать кнопку удаления термина с sourse:{0}, target:{1}.", source, target);
-			Driver.FindElement(By.XPath(DELETE_BUTTON.Replace("#", source).Replace("**", target))).Click();
+			DeleteTermButton = Driver.SetDynamicValue(How.XPath, DELETE_BUTTON, source, target);
+			DeleteTermButton.Click();
 
 			return GetPage();
 		}
@@ -606,7 +455,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 		/// <summary>
 		/// Выбрать значение в поле типа List
 		/// </summary>
-		public GlossaryPage SelectItemInListDropdown(string item)
+		public GlossaryPage ClickItemInListDropdown(string item)
 		{
 			CustomTestContext.WriteLine("Выбрать значение {0} в комбобоксе типа List.", item);
 			Driver.SetDynamicValue(How.XPath, ITEMS_LIST, item).Click();
@@ -617,7 +466,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 		/// <summary>
 		/// Выбрать значение в поле типа 'Multi-selection list'
 		/// </summary>
-		public GlossaryPage SelectItemInMultiselectListDropdown(string item)
+		public GlossaryPage ClickItemInMultiselectListDropdown(string item)
 		{
 			CustomTestContext.WriteLine("Выбрать значение {0} в комбобоксе 'Multi-selection list'.", item);
 			Driver.SetDynamicValue(How.XPath, MULTISELECT_LIST, item).Click();
@@ -739,7 +588,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 			return GetPage();
 		}
 
-
 		/// <summary>
 		/// Получить текст из первого термина.
 		/// </summary>
@@ -770,7 +618,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 
 			return terms.Select(el => el.Trim()).ToList();
 		}
-
 
 		/// <summary>
 		/// Нажать кнопку редактирования термина
@@ -937,82 +784,26 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 			return GetPage();
 		}
 
+		/// <summary>
+		/// Получить текст из фильтра 'Modified'
+		/// </summary>
+		public string GetModifiedByFilterText()
+		{
+			CustomTestContext.WriteLine("Получить текст из фильтра 'Modified'.");
+
+			return ModifiedByFilterLabel.Text;
+		}
+
 		#endregion
 
 		#region Составные методы страницы
 
 		/// <summary>
-		/// Удалить термин из глоссария
-		/// </summary>
-		/// <param name="source">термин</param>
-		public GlossaryPage DeleteTerm(string source)
-		{
-			CustomTestContext.WriteLine("Удалить термин {0} из глоссария", source);
-			var deleteTermButton = Driver.SetDynamicValue(How.XPath, DELETE_TERM_BUTTON, source);
-			var termRow = Driver.SetDynamicValue(How.XPath, SOURCE_TERM, source);
-			termRow.HoverElement();
-			deleteTermButton.Click();
-
-			return this;
-		}
-
-		/// <summary>
-		/// Добавить термин и ввести текст в поле термина в секции 'Languages and terms'
-		/// </summary>
-		/// <param name="text">текст</param>
-		public GlossaryPage FillTermInLanguagesAndTermsSection(string text)
-		{
-			CustomTestContext.WriteLine("Добавить термин и ввести текст в поле термина в секции 'Languages and terms'.");
-			Driver.WaitUntilElementIsDisplay(By.XPath(ADD_BUTTON_LIST));
-			var addButtonLists = Driver.GetElementList(By.XPath(ADD_BUTTON_LIST));
-
-			for (var i = 1; i <= addButtonLists.Count; i++)
-			{
-				CustomTestContext.WriteLine("Нажать кнопку Add №{0} в 'Languages and terms'.", i);
-				addButtonLists[i - 1].Click();
-
-				CustomTestContext.WriteLine("Ввести {0} в поле термина №{1} в секции 'Languages and terms'.", text, i);
-				Driver.SetDynamicValue(How.XPath, TERM_INPUT, i.ToString()).SetText(text);
-			}
-
-			return GetPage();
-		}
-
-		/// <summary>
-		/// Загрузка файла картинка.
-		/// </summary>
-		/// <param name="filepath">путь к файлу</param>
-		public GlossariesPage UploadImageFile(string filepath)
-		{
-			CustomTestContext.WriteLine("Загрузка файла {0}.\nВвести путь к файлу в системное окно.", filepath);
-			AddImageLink.HoverElement();
-			Driver.ExecuteScript("$(\"input:file[name = x1]\").removeClass(\"g-hidden\").css(\"opacity\", 100).css(\"width\", 500)");
-			AddImageInput.SendKeys(filepath);
-			Driver.WaitUntilElementIsDisplay(By.XPath(DELETE_IMAGE_BUTTON));
-
-			return GetPage();
-		}
-
-		/// <summary>
-		/// Загрузка файла картинка и мультимедиа.
-		/// </summary>
-		/// <param name="filepath">путь к файлу</param>
-		public GlossariesPage UploadImageFileWithMultimedia(string filepath)
-		{
-			CustomTestContext.WriteLine("Загрузка файла {0}.\nВвести путь к файлу в системное окно.", filepath);
-			AddImageLink.HoverElement();
-			Driver.ExecuteScript("$(\"input:file[name = Image]\").removeClass(\"g-hidden\").css(\"opacity\", 100).css(\"width\", 500)");
-			AddImageInputWithMultimedia.SendKeys(filepath);
-			Driver.WaitUntilElementIsDisplay(By.XPath(DELETE_IMAGE_BUTTON));
-
-			return GetPage();
-		}
-
-		/// <summary>
 		/// Загрузка файла мультимедиа.
 		/// </summary>
 		/// <param name="filepath">путь к файлу</param>
-		public GlossariesPage UploadMultimediaFile(string filepath)
+		/// <param name="fieldName">имя поля</param>
+		public GlossaryPage UploadMediaFile(string fieldName, string filepath)
 		{
 			CustomTestContext.WriteLine("Загрузка файла {0}.\nВвести путь к файлу в системное окно.", filepath);
 			AddMultimediaLink.HoverElement();
@@ -1038,124 +829,427 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 
 			Driver.WaitUntilElementIsDisplay(By.XPath(DELETE_IMAGE_BUTTON));
 
+			CustomTestContext.WriteLine("Проверить, что прогресс загрузки медиа файла исчез.", fieldName);
+			Driver.WaitUntilElementIsDisappeared(By.XPath(PROGRESS_MEDIA_FILE.Replace("*#*", fieldName)), timeout: 45);
+
+			return GetPage();
+		}
+
+		/// <summary>
+		/// Выбрать значение в поле типа List
+		/// </summary>
+		/// <param name="fieldName">имя поля</param>
+		/// <param name="item">значение</param>
+		public GlossaryPage SelectItemInListDropdown(string fieldName, string item)
+		{
+			ExpandItemsListDropdown(fieldName);
+			ClickItemInListDropdown(item);
+
+			return GetPage();
+		}
+
+		/// <summary>
+		/// Выбрать значение в поле типа 'Multi-selection list'
+		/// </summary>
+		/// <param name="fieldName">имя поля</param>
+		/// <param name="item">значение</param>
+		public GlossaryPage SelectItemInMultiSelectListDropdown(string fieldName, string item)
+		{
+			ClickMultiselectListDropdown(fieldName);
+			ClickItemInMultiselectListDropdown(item);
+			ClickMultiselectListDropdown(fieldName);
+
+			return GetPage();
+		}
+
+
+		/// <summary>
+		/// Открыть структуру глоссария
+		/// </summary>
+		public GlossaryPage OpenGlossaryStructure()
+		{
+			ExpandEditGlossaryMenu();
+			ClickGlossaryStructure();
+
+			return GetPage();
+		}
+
+		/// <summary>
+		/// Открыть настройки глоссария
+		/// </summary>
+		public GlossaryPage OpenGlossaryProperties()
+		{
+			ExpandEditGlossaryMenu();
+			ClickGlossaryProperties();
+
+			return GetPage();
+		}
+
+		/// <summary>
+		/// Создать термин
+		/// </summary>
+		/// <param name="firstTerm">первый термин</param>
+		/// <param name="secondTerm">второй термин</param>
+		public GlossaryPage CreateTerm(string firstTerm = "firstTerm", string secondTerm = "secondTerm")
+		{
+			ClickNewEntryButton();
+			FillAllTerm(firstTerm, secondTerm);
+			ClickSaveTermButton();
+
+			return GetPage();
+		}
+
+		/// <summary>
+		/// Заполнить термин для всех языков
+		/// </summary>
+		/// <param name="firstTerm">первый термин</param>
+		/// <param name="secondTerm">второй термин</param>
+		public GlossaryPage FillAllTerm(string firstTerm = "firstTerm", string secondTerm = "secondTerm")
+		{
+			FillTerm(1, firstTerm);
+			FillTerm(2, secondTerm);
+
+			return GetPage();
+		}
+
+		/// <summary>
+		/// Редактировать custom термины
+		/// </summary>
+		/// <param name="text">текст</param>
+		public GlossaryPage EditCustomTerms(string text)
+		{
+			ClickEditEntryButton();
+
+			var termsCount = TermsCountInLanguagesAndTermsSection();
+
+			for (int i = 1; i <= termsCount; i++)
+			{
+				ClickTermInLanguagesAndTermsSection(i);
+				EditTermInLanguagesAndTermsSection(text, i);
+			}
+
+			ClickSaveEntryButton();
+
+			return GetPage();
+		}
+
+		/// <summary>
+		/// Добавить синоним
+		/// </summary>
+		/// <param name="columnNumber">номер колонки</param>
+		/// <param name="text">текст</param>
+		public GlossaryPage AddSynonym(int columnNumber, string text)
+		{
+			ClickSynonymPlusButton(columnNumber);
+			FillSynonym(text, columnNumber);
+
+			return GetPage();
+		}
+
+		/// <summary>
+		/// Добавить определение
+		/// </summary>
+		/// <param name="definition">определение</param>
+		public GlossaryPage AddDefinition(string definition)
+		{
+			OpenLanguageAndTermDetailsEditMode();
+			FillDefinition(definition);
+
+			return GetPage();
+		}
+
+		/// <summary>
+		/// Заполнить дату
+		/// </summary>
+		/// <param name="fieldName">имя поля</param>
+		public GlossaryPage FillDateField(string fieldName)
+		{
+			OpenCalendar(fieldName);
+			ClickTodayInCalendar();
+
+			return GetPage();
+		}
+
+		/// <summary>
+		/// Выбрать опцию в топике
+		/// </summary>
+		/// <param name="option">опция</param>
+		public GlossaryPage SelectOptionInTopic(string option)
+		{
+			ExpandTopicDropdown();
+			ClickOptionInTopicDropdown(option);
+
+			return GetPage();
+		}
+
+		/// <summary>
+		/// Выбрать опцию
+		/// </summary>
+		/// <param name="fieldName">имя системного поля</param>
+		/// <param name="option">опция</param>
+		public GlossaryPage SpecifyDropdownTermField(GlossarySystemField fieldName, string option)
+		{
+			ExpandDropdownTermField(fieldName);
+			SelectOptionDropdownTermField(option);
+
+			return GetPage();
+		}
+
+		/// <summary>
+		/// Удалить термин
+		/// </summary>
+		/// <param name="source">исходное слово</param>
+		/// <param name="target">перевод</param>
+		public GlossaryPage DeleteTerm(string source, string target)
+		{
+			HoverTermRow(source, target);
+			ClickDeleteButton(source, target);
+
+			return GetPage();
+		}
+
+		/// <summary>
+		/// Ввести текст в поле 'Definition source' в секции 'Language and term details'
+		/// </summary>
+		/// <param name="definitionSource">текст</param>
+		public GlossaryPage AddDefinitionSource(string definitionSource)
+		{
+			OpenLanguageAndTermDetailsEditMode();
+			FillDefinitionSource(definitionSource);
+
+			return GetPage();
+		}
+
+		/// <summary>
+		/// Ввести текст в поле комментария в секции 'Language and term details'
+		/// </summary>
+		/// <param name="comment">комментарий</param>
+		public GlossaryPage AddLanguageComment(string comment)
+		{
+			OpenLanguageAndTermDetailsEditMode();
+			FillLanguageComment(comment);
+
+			return GetPage();
+		}
+
+		/// <summary>
+		/// Поиск термина
+		/// </summary>
+		/// <param name="text">текст</param>
+		public GlossaryPage SearchTerm(string text)
+		{
+			FillSearchField(text);
+			ClickSearchButton();
+
+			return GetPage();
+		}
+
+		/// <summary>
+		/// Редактировать термин по умолчанию
+		/// </summary>
+		/// <param name="source">исходное слово</param>
+		/// <param name="target">перевод</param>
+		/// <param name="text">добавочное слово</param>
+		public GlossaryPage EditDefaultTerm(string source, string target, string text)
+		{
+			HoverTermRow(source, target);
+			ClickEditButton();
+			FillAllTerm(source + text, target + text);
+			ClickSaveTermButton();
+
+			return GetPage();
+		}
+
+		/// <summary>
+		/// Удалить термин из глоссария
+		/// </summary>
+		/// <param name="source">термин</param>
+		public GlossaryPage DeleteTerm(string source)
+		{
+			CustomTestContext.WriteLine("Удалить термин {0} из глоссария", source);
+			DeleteTermButton = Driver.SetDynamicValue(How.XPath, DELETE_TERM_BUTTON, source);
+			TermRow = Driver.SetDynamicValue(How.XPath, SOURCE_TERM, source);
+			TermRow.HoverElement();
+			DeleteTermButton.Click();
+
+			return GetPage();
+		}
+
+		/// <summary>
+		/// Добавить термин и ввести текст в поле термина в секции 'Languages and terms'
+		/// </summary>
+		/// <param name="text">текст</param>
+		public GlossaryPage FillTermInLanguagesAndTermsSection(string text = "Term Example")
+		{
+			CustomTestContext.WriteLine("Добавить термин и ввести текст в поле термина в секции 'Languages and terms'.");
+			Driver.WaitUntilElementIsDisplay(By.XPath(ADD_BUTTON_LIST));
+			var addButtonLists = Driver.GetElementList(By.XPath(ADD_BUTTON_LIST));
+
+			for (var i = 1; i <= addButtonLists.Count; i++)
+			{
+				CustomTestContext.WriteLine("Нажать кнопку Add №{0} в 'Languages and terms'.", i);
+				addButtonLists[i - 1].Click();
+
+				CustomTestContext.WriteLine("Ввести {0} в поле термина №{1} в секции 'Languages and terms'.", text, i);
+				Driver.SetDynamicValue(How.XPath, TERM_INPUT, i.ToString()).SetText(text);
+			}
+
+			return GetPage();
+		}
+
+		/// <summary>
+		/// Загрузка файла картинка.
+		/// </summary>
+		/// <param name="filepath">путь к файлу</param>
+		public GlossaryPage UploadImageFile(string filepath)
+		{
+			CustomTestContext.WriteLine("Загрузка файла {0}.\nВвести путь к файлу в системное окно.", filepath);
+			AddImageLink.HoverElement();
+
+			try
+			{
+				Driver.ExecuteScript(
+					"$(\"input:file[name = x1]\").removeClass(\"g-hidden\").css(\"opacity\", 100).css(\"width\", 500)");
+			}
+			catch
+			{
+				throw new Exception("Произошла ошибка: \nне удалось выполнить JavaScript в UploadImageFile");
+			}
+			
+			AddImageInput.SendKeys(filepath);
+			Driver.WaitUntilElementIsDisplay(By.XPath(DELETE_IMAGE_BUTTON));
+
+			return GetPage();
+		}
+
+		/// <summary>
+		/// Загрузка файла картинка и мультимедиа.
+		/// </summary>
+		/// <param name="filepath">путь к файлу</param>
+		public GlossaryPage UploadImageFileWithMultimedia(string filepath)
+		{
+			CustomTestContext.WriteLine("Загрузка файла {0}.\nВвести путь к файлу в системное окно.", filepath);
+			AddImageLink.HoverElement();
+
+			try
+			{
+				Driver.ExecuteScript("$(\"input:file[name = Image]\").removeClass(\"g-hidden\").css(\"opacity\", 100).css(\"width\", 500)");
+			}
+			catch
+			{
+				throw new Exception("Произошла ошибка: \nне удалось выполнить JavaScript в UploadImageFileWithMultimedia");
+			}
+
+			AddImageInputWithMultimedia.SendKeys(filepath);
+			Driver.WaitUntilElementIsDisplay(By.XPath(DELETE_IMAGE_BUTTON));
+
 			return GetPage();
 		}
 
 		#endregion
 
+		#region Методы, проверяющие состояние страницы
+
 		/// <summary>
-		/// Проверить, что новый термин открыт в расширенном режиме
+		/// Проверить, открыта ли страница глоссария
 		/// </summary>
-		public GlossaryPage AssertExtendModeOpen()
+		public bool IsGlossaryPageOpened()
 		{
-			CustomTestContext.WriteLine("Проверить, что новый термин открыт в расширенном режиме.");
-
-			Assert.IsTrue(ExtendMode.Displayed, "Произошла ошибка:\n новый термин не открыт в расширенном режиме.");
-
-			return GetPage();
+			return Driver.WaitUntilElementIsDisplay(By.XPath(NEW_ENTRY_BUTTON), timeout: 30);
 		}
 
+		/// <summary>
+		/// Проверить, загрузился ли файл
+		/// </summary>
+		/// <param name="pathToFile">путь до файла</param>
+		public bool IsGlossaryExportedSuccesfully(string pathToFile)
+		{
+			var timeout = 0;
+
+			while (!File.Exists(pathToFile) && (timeout < 10))
+			{
+				timeout++;
+				Thread.Sleep(1000);
+			}
+
+			return File.Exists(pathToFile);
+		}
+
+		/// <summary>
+		/// Проверить, что активирован режим создания нового термина
+		/// </summary>
+		public bool IsCreationModeActivated()
+		{
+			CustomTestContext.WriteLine("Проверить, что активирован режим создания нового термина");
+
+			return ExtendMode.Displayed;
+		}
 
 		/// <summary>
 		/// Проверить, что глоссарий содержит необходимое количество терминов
 		/// </summary>
-		public GlossaryPage AssertGlossaryContainsCorrectTermsCount(int expectedTermsCount)
+		/// <param name="expectedTermsCount">ожидаемое кол-во терминов</param>
+		public bool IsGlossaryContainsCorrectTermsCount(int expectedTermsCount)
 		{
 			CustomTestContext.WriteLine("Проверить, что глоссарий содержит {0} терминов.", expectedTermsCount);
 			var actualTermsCount = Driver.GetElementsCount(By.XPath(TERM_ROW));
 
-			Assert.AreEqual(actualTermsCount, expectedTermsCount,
-				"Произошла ошибка:\n глоссарий содержит неверное количество терминов.");
-
-			return GetPage();
+			return actualTermsCount == expectedTermsCount;
 		}
 
 		/// <summary>
 		/// Проверить, что комментарий содержит текст.
 		/// </summary>
-		public GlossaryPage AssertCommentIsFilled(string comment)
+		/// <param name="comment">тест комментария</param>
+		public bool IsCommentFilled(string comment)
 		{
 			CustomTestContext.WriteLine("Проверить, что комментарий содержит текст {0}.", comment);
 
-			Assert.AreEqual(comment, LanguageCommentViewMode.Text, "Произошла ошибка:\n неверный текст в поле комментария.");
-
-			return GetPage();
+			return comment == LanguageCommentViewMode.Text;
 		}
 
 		/// <summary>
 		/// Проверить, что поле Definition содержит текст.
 		/// </summary>
-		public GlossaryPage AssertDefinitionIsFilled(string text)
+		/// <param name="text">текст поля Definition</param>
+		public bool IsDefinitionFilled(string text)
 		{
-			CustomTestContext.WriteLine("Проверить, что поле Definition содержит текст {0}.", text);
+			CustomTestContext.WriteLine("Проверить, что поле Definition содержит текст {0}", text);
 
-			Assert.AreEqual(text, DefinitionViewMode.Text, "Произошла ошибка:\n неверный текст в поле Definition.");
-
-			return GetPage();
+			return text == DefinitionViewMode.Text;
 		}
 
 		/// <summary>
 		/// Проверить, что поле 'Definition source' содержит текст.
 		/// </summary>
-		public GlossaryPage AssertDefinitionSourceIsFilled(string text)
+		/// <param name="text">текст поля Definition source</param>
+		public bool IsDefinitionSourceFilled(string text)
 		{
 			CustomTestContext.WriteLine("Проверить, что поле 'Definition source' содержит текст {0}.", text);
 
-			Assert.AreEqual(text, DefinitionSourceViewMode.Text,
-				"Произошла ошибка:\n неверный текст в поле 'Definition source'.");
-
-			return GetPage();
+			return text == DefinitionSourceViewMode.Text;
 		}
 
 		/// <summary>
 		/// Проверить, что термины подсвечены красным цветом, так как термины должны быть уникальны
 		/// </summary>
-		public GlossaryPage AssertSynonumUniqueErrorDisplayed(int columnNumber)
+		/// <param name="columnNumber">номер столбца</param>
+		public bool IsSynonumUniqueErrorDisplayed(int columnNumber)
 		{
 			CustomTestContext.WriteLine("Проверить, что термины подсвечены красным цветом в стоблце №{0}, так как термины должны быть уникальны.", columnNumber);
 
-			Assert.IsTrue(Driver.WaitUntilElementIsDisplay(By.XPath(SYNONYM_UNIQUE_ERROR.Replace("*#*", columnNumber.ToString()))),
-				"Произошла ошибка:\n Термины не подсвечены красным цветом в стоблце №{0}.", columnNumber);
-
-			return GetPage();
-		}
-
-		/// <summary>
-		/// Проверить, что кнопка удаления термина исчезла
-		/// </summary>
-		public GlossaryPage AssertDeleteButtonDisappeared(string source, string target)
-		{
-			CustomTestContext.WriteLine("Проверить, что кнопка удаления термина исчезла.");
-
-			Assert.IsTrue(Driver.WaitUntilElementIsDisappeared(By.XPath(DELETE_BUTTON.Replace("#", source).Replace("**", target))),
-				"Произошла ошибка:\n Кнопка удаления термина не исчезла.");
-
-			return GetPage();
-		}
-
-
-		public GlossaryPage AssertProgressUploadDissapeared(string fieldName)
-		{
-			CustomTestContext.WriteLine("Проверить, что прогресс загрузки медиа файла исчез.", fieldName);
-
-			Assert.IsTrue(Driver.WaitUntilElementIsDisappeared(By.XPath(PROGRESS_MEDIA_FILE.Replace("*#*", fieldName)), timeout: 45),
-				"Произошла ошибка:\n прогресс загрузки медиа файла не исчез.");
-
-			return GetPage();
+			return Driver.WaitUntilElementIsDisplay(By.XPath(SYNONYM_UNIQUE_ERROR.Replace("*#*", columnNumber.ToString())));
 		}
 
 		/// <summary>
 		/// Проверить наличие термина
 		/// </summary>
 		/// <param name="text">текст</param>
-		public GlossaryPage AssertIsSingleTermExists(string text)
+		public bool IsSingleTermExists(string text)
 		{
 			CustomTestContext.WriteLine("Проверить наличие термина {0}", text);
 
-			Assert.IsTrue(Driver.WaitUntilElementIsDisplay(By.XPath(SOURCE_TERM.Replace("*#*", text))),
-				"Произошла ошибка:\n термин не обнаружен.");
-
-			return GetPage();
+			return Driver.WaitUntilElementIsDisplay(By.XPath(SOURCE_TERM.Replace("*#*", text)));
 		}
 
 		/// <summary>
@@ -1163,16 +1257,11 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 		/// </summary>
 		/// <param name="sourceText">сорс</param>
 		/// <param name="targetText">таргет</param>
-		public GlossaryPage AssertIsSingleTermWithTranslationExists(string sourceText, string targetText)
+		public bool IsSingleTermWithTranslationExists(string sourceText, string targetText)
 		{
 			CustomTestContext.WriteLine("Получить, есть ли термин с сорсом {0} и таргетом {1}", sourceText, targetText);
 
-			Assert.IsTrue(
-				Driver.WaitUntilElementIsDisplay(
-					By.XPath(SOURCE_TARGET_TERM.Replace("#", sourceText).Replace("**", targetText))),
-				"Произошла ошибка:\n термин не обнаружен.");
-
-			return GetPage();
+			return Driver.WaitUntilElementIsDisplay(By.XPath(SOURCE_TARGET_TERM.Replace("#", sourceText).Replace("**", targetText)));
 		}
 
 		/// <summary>
@@ -1181,76 +1270,48 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 		/// <param name="sourceText">сорс</param>
 		/// <param name="targetText">таргет</param>
 		/// <param name="comment">комментарий</param>
-		public GlossaryPage AssertIsTermWithTranslationAndCommentExists(string sourceText, string targetText, string comment)
+		public bool IsTermWithTranslationAndCommentExists(string sourceText, string targetText, string comment)
 		{
-			CustomTestContext.WriteLine("Получить, есть ли термин с сорсом '{0}', таргетом '{1}' и комментом: '{2}'", sourceText, targetText,
-				comment);
+			CustomTestContext.WriteLine("Получить, есть ли термин с сорсом '{0}', таргетом '{1}' и комментом: '{2}'", sourceText, targetText, comment);
 
-			Assert.IsTrue(
-				Driver.WaitUntilElementIsDisplay(
-					By.XPath(SOURCE_TARGET_TERM_WITH_COMMENT.Replace("#", sourceText).Replace("**", targetText).Replace("$$", comment))),
-				"Произошла ошибка:\n термин не обнаружен.");
-
-			return GetPage();
-		}
-
-		/// <summary>
-		/// Получить, есть ли термин с сорсом и комментом
-		/// </summary>
-		/// <param name="sourceText">сорс</param>
-		/// <param name="comment">комментарий</param>
-		public GlossaryPage AssertIsTermWithCommentExists(string sourceText, string comment)
-		{
-			CustomTestContext.WriteLine("Получить, есть ли термин с сорсом '{0}' и комментом: '{1}'", sourceText, comment);
-
-			Assert.IsTrue(
-				Driver.WaitUntilElementIsDisplay(
-					By.XPath(SOURCE_TERM_WITH_COMMENT.Replace("#", sourceText).Replace("$$", comment))),
-				"Произошла ошибка:\n термин не обнаружен.");
-
-			return GetPage();
+			return Driver.WaitUntilElementIsDisplay(By.XPath(SOURCE_TARGET_TERM_WITH_COMMENT.Replace("#", sourceText).Replace("**", targetText).Replace("$$", comment)));
 		}
 
 		/// <summary>
 		/// Проверить, что значение в поле совпадает с ожидаемым значением
 		/// </summary>
-		public GlossaryPage AssertFieldValueMatch(GlossarySystemField fieldName, string text)
+		/// <param name="fieldName">имя поля</param>
+		/// <param name="text">ожидаемое значение</param>
+		public bool IsFieldValueMatchExpected(GlossarySystemField fieldName, string text)
 		{
-			CustomTestContext.WriteLine("Проверить, что значение в поле {0} совпадает с ожидаемым значением {1}.", fieldName, text);
+			CustomTestContext.WriteLine("Проверить, что значение в поле {0} совпадает с ожидаемым значением {1}.", fieldName.Description(), text);
 			var customField = Driver.SetDynamicValue(How.XPath, CUSTOM_FIELD_VIEW_MODE, fieldName.Description());
 
-			Assert.AreEqual(text, customField.Text,
-				"Произошла ошибка:\n значение в поле не совпадает с ожидаемым значением.");
-
-			return GetPage();
+			return text == customField.Text;
 		}
 
 		/// <summary>
 		/// Проверить, что значение в поле совпадает с ожидаемым значением
 		/// </summary>
-		public GlossaryPage AssertCustomFieldValueMatch(string fieldName, string text)
+		/// <param name="fieldName">имя поля</param>
+		/// <param name="text">ожидаемое значение</param>
+		public bool IsCustomFieldValueMatchExpected(string fieldName, string text)
 		{
 			CustomTestContext.WriteLine("Проверить, что значение в кастомном поле {0} совпадает с ожидаемым значением {1}.", fieldName, text);
 			var customField = Driver.SetDynamicValue(How.XPath, CUSTOM_FIELD_VIEW_MODE, fieldName);
 
-			Assert.AreEqual(text, customField.Text,
-				"Произошла ошибка:\n значение в кастомном поле не совпадает с ожидаемым значением.");
-
-			return GetPage();
+			return text == customField.Text;
 		}
 
 		/// <summary>
 		/// Проверить, что поле присутствует в новом термине
 		/// </summary>
-		public GlossaryPage AssertFieldExistInNewEntry(string fieldName)
+		/// <param name="fieldName">имя поля</param>
+		public bool IsFieldExistInNewEntry(string fieldName)
 		{
-			CustomTestContext.WriteLine("Проверить, что поле {0} присутствует в новом термине.", fieldName);
+			CustomTestContext.WriteLine("Проверить, что поле {0} присутствует в новом термине", fieldName);
 
-			Assert.IsTrue(Driver.WaitUntilElementIsDisplay(By.XPath(CUSTOM_FIELD_NAME.Replace("*#*", fieldName))),
-				"Произошла ошибка:\n поле {0} отсутствует в новом термине.", fieldName);
-
-
-			return GetPage();
+			return Driver.WaitUntilElementIsDisplay(By.XPath(CUSTOM_FIELD_NAME.Replace("*#*", fieldName)));
 		}
 
 		/// <summary>
@@ -1258,154 +1319,227 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 		/// </summary>
 		/// <param name="columnNumber">номер колонки</param>
 		/// <param name="synonyms">синонимы</param>
-		public GlossaryPage AssertSynonymsMatch(int columnNumber, List<string> synonyms)
+		public bool IsTermContainsExpectedSynonyms(int columnNumber, List<string> synonyms)
 		{
-			CustomTestContext.WriteLine("Проверить, что термин содержит правильные синонимы.");
+			CustomTestContext.WriteLine("Проверить, что термин содержит правильные синонимы");
 			var synonumsList = Driver.GetTextListElement(By.XPath(TERM_TEXT.Replace("*#*", columnNumber.ToString())));
 
-			Assert.IsTrue(synonyms.SequenceEqual(synonumsList), "Произошла ошибка:\nНеверный список синонимов.");
-
-			return GetPage();
-		}
-
-		/// <summary>
-		/// Проверить, что поле типа Image присутствует в новом термине
-		/// </summary>
-		public GlossaryPage AssertImageFieldExistInNewEntry(string fieldName)
-		{
-			CustomTestContext.WriteLine("Проверить, что поле {0} типа Image присутствует в новом термине.", fieldName);
-
-			Assert.IsTrue(Driver.WaitUntilElementIsDisplay(By.XPath(IMAGE_FIELD.Replace("*#*", fieldName))),
-				"Произошла ошибка:\n поле {0} типа Image отсутствует в новом термине.", fieldName);
-
-			return GetPage();
-		}
-		
-		/// <summary>
-		/// Проверить, что поле типа Media присутствует в новом термине
-		/// </summary>
-		public GlossaryPage AssertMediaFieldExistInNewEntry(string fieldName)
-		{
-			CustomTestContext.WriteLine("Проверить, что поле {0} типа Media присутствует в новом термине.", fieldName);
-
-			Assert.IsTrue(Driver.WaitUntilElementIsDisplay(By.XPath(MEDIA_FIELD.Replace("*#*", fieldName))),
-				"Произошла ошибка:\n поле {0} типа Media отсутствует в новом термине.", fieldName);
-
-			return GetPage();
-		}
-
-		/// <summary>
-		/// Проверить, что текст в поле {0} совпадает с дефолтным значением
-		/// </summary>
-		public GlossaryPage AssertCustomDefaultValueMatch(string fieldName, string defaultValue)
-		{
-			CustomTestContext.WriteLine("Проверить, что текст в поле {0} совпадает с дефолтным значением {1}.", fieldName, defaultValue);
-
-			Assert.AreEqual(
-				defaultValue,
-				Driver.SetDynamicValue(How.XPath, CUSTOM_FIELD_NAME, fieldName).Text,
-				"Произошла ошибка:\n неверное значение в поле.");
-
-			return GetPage();
+			return synonyms.SequenceEqual(synonumsList);
 		}
 
 		/// <summary>
 		/// Проверить, что поле подсвечено красным цветом, так как обязательно для заполнения
 		/// </summary>
-		public GlossaryPage AssertFieldErrorDisplayed(string fieldName)
+		/// <param name="fieldName">имя поля</param>
+		public bool IsFieldErrorDisplayed(string fieldName)
 		{
 			CustomTestContext.WriteLine("Проверить, что поле {0} подсвечено красным цветом, так как обязательно для заполнения.", fieldName);
 
-			Assert.IsTrue(Driver.WaitUntilElementIsDisplay(By.XPath(CUSTOM_FIELD_ERROR.Replace("*#*", fieldName))),
-				"Произошла ошибка:\n поле {0} не подсвечено красным цветом.", fieldName);
-
-			return GetPage();
+			return Driver.WaitUntilElementIsDisplay(By.XPath(CUSTOM_FIELD_ERROR.Replace("*#*", fieldName)));
 		}
 
 		/// <summary>
 		/// Проверить, что поле типа Image подсвечено красным цветом, так как обязательно для заполнения
 		/// </summary>
-		public GlossaryPage AssertImageFieldErrorDisplayed(string fieldName)
+		/// <param name="fieldName">имя поля</param>
+		public bool IsImageFieldErrorDisplayed(string fieldName)
 		{
 			CustomTestContext.WriteLine("Проверить, что поле {0} типа Image подсвечено красным цветом, так как обязательно для заполнения.", fieldName);
 
-			Assert.IsTrue(Driver.WaitUntilElementIsDisplay(By.XPath(CUSTOM_IMAGE_FIELD_ERROR.Replace("*#*", fieldName))),
-				"Произошла ошибка:\n поле {0} не подсвечено красным цветом.", fieldName);
-
-			return GetPage();
+			return Driver.WaitUntilElementIsDisplay(By.XPath(CUSTOM_IMAGE_FIELD_ERROR.Replace("*#*", fieldName)));
 		}
 
 		/// <summary>
 		/// Проверить, что поле Image заполнено
 		/// </summary>
-		public GlossaryPage AssertImageFieldFilled(string fieldName)
+		/// <param name="fieldName">имя поля</param>
+		public bool IsImageFieldFilled(string fieldName)
 		{
-			CustomTestContext.WriteLine("Проверить, что поле {0} типа Image заполнено.", fieldName);
+			CustomTestContext.WriteLine("Проверить, что поле {0} типа Image заполнено", fieldName);
 
-			Assert.IsTrue(
-				Driver.SetDynamicValue(How.XPath, FILLED_IMAGE_FIELD, fieldName)
-					.GetAttribute("src")
-					.Trim()
-					.Length > 0,
-				"Произошла ошибка:\n  поле {0} типа Image не заполнено.", fieldName);
-
-			return GetPage();
+			return Driver.SetDynamicValue(How.XPath, FILLED_IMAGE_FIELD, fieldName).GetAttribute("src").Trim().Length > 0;
 		}
 
-
 		/// <summary>
-		/// Проверить, что стоит или не стоит галочка в Yes/No чекбоксе
+		/// Проверить, что значение чекбокса совпадает с ожидаемым
 		/// </summary>
-		public GlossaryPage AssertYesNoCheckboxChecked(string yesNo, string fieldName)
+		/// <param name="yesNo">значение чекбокса</param>
+		/// <param name="fieldName">имя поля</param>
+		public bool IsYesNoCheckboxChecked(string yesNo, string fieldName)
 		{
-			CustomTestContext.WriteLine("Проверить, что в поле {0} типа Yes/No стоит или не стоит галочка {1}.", fieldName, yesNo);
+			CustomTestContext.WriteLine("Проверить, что в поле {0} типа значение чекбокса совпадает с ожидаемым {1}.", fieldName, yesNo);
 
-			Assert.AreEqual(yesNo, Driver.SetDynamicValue(How.XPath, YES_NO_CHECKBOX_VIEW_MODE, fieldName).Text,
-				"Произошла ошибка:\n неверное значение в поле Yes/No.");
-
-			return GetPage();
+			return yesNo == Driver.SetDynamicValue(How.XPath, YES_NO_CHECKBOX_VIEW_MODE, fieldName).Text;
 		}
 
 		/// <summary>
 		/// Проверить, что в поле типа Media правильное название файла
 		/// </summary>
-		public GlossaryPage AssertMediaFileMatch(string mediaFile, string fieldName)
+		/// <param name="mediaFile">название файла</param>
+		/// <param name="fieldName">имя поля</param>
+		public bool IsMediaFileMatchExpected(string mediaFile, string fieldName)
 		{
 			CustomTestContext.WriteLine("Проверить, что в поле {0} типа Media правльное название файла {1}.", fieldName, mediaFile);
 
-			Assert.AreEqual(mediaFile, Driver.SetDynamicValue(How.XPath, MEDIA_FIELD_TEXT,fieldName).Text,
-				"Произошла ошибка:\n неверное значение в поле {0} типа Media.", fieldName);
+			return mediaFile == Driver.SetDynamicValue(How.XPath, MEDIA_FIELD_TEXT,fieldName).Text;
+		}
+		
+		/// <summary>
+		/// Проверить, что все термины совпадают с ожидаемым
+		/// </summary>
+		/// <param name="text">ожидаемый термин</param>
+		public bool IsTermsTextMatchExpected(string text)
+		{
+			CustomTestContext.WriteLine("Проверить, что все термины совпадают с {0}.", text);
 
-			return GetPage();
+			return TermsList().All(term => term.Trim() == text);
 		}
 
 		/// <summary>
-		/// Проверить, что текстовое системное поле отображается  в новом термине
+		/// Проверить, что количество терминов совпадает с ожидаемым
 		/// </summary>
-		/// <param name="fieldName">название системного поля</param>
-		public GlossaryPage AssertSystemTextAreaFieldDisplayed(GlossarySystemField fieldName)
+		/// <param name="expectedTermCount">ожидаемое кол-во терминов</param>
+		public bool IsDefaultTermsCountMatchExpected(int expectedTermCount)
 		{
-			CustomTestContext.WriteLine("Проверить, что текстовое системное поле {0} отображается в новом термине.", fieldName);
+			CustomTestContext.WriteLine("Проверить, что количество терминов равно {0}.", expectedTermCount);
+			RefreshPage<GlossaryPage>();
 
-			Assert.IsTrue(Driver.SetDynamicValue(How.XPath, SYSTEM_FIELD_TEXTAREA_TYPE, fieldName.ToString()).Displayed,
-				"Произошла ошибка:\nТекстовое cистемное поле {0} не отображается  в новом термине.", fieldName);
-
-			return GetPage();
+			return expectedTermCount == Driver.GetElementsCount(By.XPath(DEFAULT_TERM_ROWS));
 		}
 
 		/// <summary>
-		/// Проверить, что системное поле типа дропдаун отображается в новом термине
+		/// Проверить, верен ли диапазон дат
 		/// </summary>
-		/// <param name="fieldName">название системного поля</param>
-		public GlossaryPage AssertSystemDropdownFieldDisplayed(GlossarySystemField fieldName)
+		/// <param name="dateTimeList">диапазон дат</param>
+		public bool IsDateRangeInFilterMatch(List<DateTime> dateTimeList)
 		{
-			CustomTestContext.WriteLine("Проверить, что в системное поле {0} типа дропдаун отображается в новом термине.", fieldName);
+			CustomTestContext.WriteLine("Проверить, верен ли диапазон дат {0}.", dateTimeList);
+			var panelText = DiapasonPanel.GetAttribute("title").Split(' ');
+			var startDate = DateTime.ParseExact(panelText[2], "M/d/yyyy", CultureInfo.InvariantCulture);
+			var endDate = DateTime.ParseExact(panelText[4], "M/d/yyyy", CultureInfo.InvariantCulture);
+			var rangeList = new List<DateTime> { startDate, endDate };
 
-			Assert.IsTrue(Driver.SetDynamicValue(How.XPath, SYSTEM_FIELD_DROPDOWN_TYPE, fieldName.Description()).Displayed,
-				"Произошла ошибка:\nСистемное поле {0} вида дропдаун не отображается в новом термине.", fieldName);
-
-			return GetPage();
+			return dateTimeList.SequenceEqual(rangeList);
 		}
+
+		/// <summary>
+		/// Проверить, отображается ли сообщение 'The term already exists'
+		/// </summary>
+		public bool IsExistTermErrorDisplayed()
+		{
+			CustomTestContext.WriteLine("Проверить, отображается ли сообщение 'The term already exists'.");
+
+			return Driver.WaitUntilElementIsDisplay(By.XPath(ALREADY_EXIST_TERM_ERROR));
+		}
+
+		/// <summary>
+		/// Проверить, отображается ли сообщение 'Please add at least one term'.
+		/// </summary>
+		public bool IsEmptyTermErrorDisplayed()
+		{
+			CustomTestContext.WriteLine("Проверить, отображается ли сообщение 'Please add at least one term'.");
+
+			return Driver.WaitUntilElementIsDisplay(By.XPath(EMPTY_TERM_ERROR));
+		}
+
+		/// <summary>
+		/// Проверить, что термин присутствует в секции 'Languages and terms '
+		/// </summary>
+		/// <param name="term">термин</param>
+		public bool IsTermDisplayedInLanguagesAndTermsSection(string term)
+		{
+			CustomTestContext.WriteLine("Проверить, что термин {0} присутствует в секции 'Languages and terms '.", term);
+
+			return Driver.SetDynamicValue(How.XPath, TERMS_IN_LANGUAGE_AND_TERMS_SECTION, term).Displayed;
+		}
+
+		/// <summary>
+		/// Проверить, отображается ли термин в режиме редактирования
+		/// </summary>
+		/// <param name="termField">поле с термином</param>
+		public bool IsTermFieldEditModeDisplayed(GlossarySystemField termField)
+		{
+			CustomTestContext.WriteLine("Проверить, отображается ли термин {0} в режиме редактирования.", termField);
+
+			return Driver.GetIsElementExist(By.XPath(TERM_FIELD_EDIT_MODE.Replace("*#*", termField.ToString())));
+		}
+
+		/// <summary>
+		/// Проверить, отображается ли термин типа дропдаун в режиме редактирования
+		/// </summary>
+		/// <param name="termField">поле с термином</param>
+		public bool IsDropdownTermFieldEditModeDisplayed(GlossarySystemField termField)
+		{
+			CustomTestContext.WriteLine("Проверить, отображается ли термин {0} типа дропдаун в режиме редактирования.", termField);
+
+			return Driver.GetIsElementExist(By.XPath(DROPDOWN_TERM_FIELD_EDIT_MODE.Replace("*#*", termField.ToString())));
+		}
+
+		/// <summary>
+		/// Проверить отображается ли фильтр 'Created' в таблице терминов
+		/// </summary>
+		public bool IsCreatedByFilterLabelDisplayed()
+		{
+			CustomTestContext.WriteLine("Проверить отображается ли фильтр 'Created' в таблице терминов.");
+
+			return Driver.WaitUntilElementIsDisplay(By.XPath(CREATED_BY_FILTER_LABEL));
+		}
+
+		/// <summary>
+		/// Проверить отображается ли фильтр 'Modified' в таблице терминов
+		/// </summary>
+		public bool IsModifiedByFilterLabelDisplayed()
+		{
+			CustomTestContext.WriteLine("Проверить отображается ли фильтр 'Modified' в таблице терминов.");
+
+			return Driver.WaitUntilElementIsDisplay(By.XPath(MODIFIED_BY_FILTER_LABEL));
+		}
+
+		/// <summary>
+		/// Проверить, есть ли что-то на панели фильтров
+		/// </summary>
+		public bool IsAnyFilterDisplayed()
+		{
+			CustomTestContext.WriteLine("Проверить, есть ли что-то на панели фильтров");
+
+			return Driver.WaitUntilElementIsDisplay(By.XPath(CLEAR_ALL_FILTERS_BUTTON));
+		}
+
+		/// <summary>
+		/// Проверить, что фильтр Modified отображается в шапке таблицы
+		/// </summary>
+		/// <param name="filterValue">значение фильтра</param>
+		public bool IsModifiedFilterDisplayedInTableHeader(string filterValue)
+		{
+			CustomTestContext.WriteLine("Проверить, что фильтр Modified отображается в шапке таблицы.");
+
+			return Driver.GetIsElementExist(By.XPath(MODIFIED_CLEAR_FILTER_PANEL.Replace("*#*", filterValue)));
+		}
+
+		/// <summary>
+		/// Проверить, что фильтр Created отображается в шапке таблицы
+		/// </summary>
+		/// <param name="filterValue">значение фильтра</param>
+		public bool IsCreatedFilterDisplayedInTableHeader(string filterValue)
+		{
+			CustomTestContext.WriteLine("Проверить, что фильтр Created отображается в шапке таблицы.");
+
+			return Driver.WaitUntilElementIsDisplay(By.XPath(CREATED_CLEAR_FILTER_PANEL.Replace("*#*", filterValue)));
+		}
+
+		/// <summary>
+		/// Проверить, исчезла ли кнопка удаления
+		/// </summary>
+		/// <param name="source">исходное слово</param>
+		/// <param name="target">перевод</param>
+		public bool IsDeleteButtonDisappeared(string source, string target)
+		{
+			CustomTestContext.WriteLine("Проверить, исчезла ли кнопка удаления");
+
+			return Driver.WaitUntilElementIsDisappeared(By.XPath(DELETE_BUTTON.Replace("*#*", source).Replace("*##*", target)));
+		}
+
+		#endregion
 
 		#region Объявление элементов страницы
 
@@ -1537,7 +1671,14 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 
 		[FindsBy(How = How.XPath, Using = CLEAR_ALL_FILTERS_BUTTON)]
 		protected IWebElement ClearAllFiltersButton { get; set; }
-		
+
+		[FindsBy(How = How.XPath, Using = DIAPASON_PANEL)]
+		protected IWebElement DiapasonPanel { get; set; }
+
+		protected IWebElement DeleteTermButton { get; set; }
+
+		protected IWebElement TermRow { get; set; }
+
 		#endregion
 
 		#region Описание XPath элементов
@@ -1584,7 +1725,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 		protected const string SYNONYM_INPUT = "//tr[contains(@class, 'js-concept')]//td[*#*]//div//input[contains(@class,'js-term')]";
 		protected const string SYNONYM_FIELDS_IN_COLUMN = "//tr[@class='l-corpr__trhover js-concept-row'][term]//td[column]//p";
 		protected const string SYNONYM_UNIQUE_ERROR = "//td[*#*]//p[@title='A term must be unique within a language.']";
-		protected const string DELETE_BUTTON = "//tr[contains(@class, 'js-concept-row') and contains(string(), '#') and contains(string(), '**')]//i[contains(@class, 'js-delete-btn')]";
+		protected const string DELETE_BUTTON = "//tr[contains(@class, 'js-concept-row') and contains(string(), '*#*') and contains(string(), '*##*')]//i[contains(@class, 'js-delete-btn')]";
 		protected const string TERM_ROW_BY_SOURCE_AND_TARGET = "//tr[contains(@class, 'js-concept-row') and contains(string(), '#') and contains(string(), '**')]//td[4]";
 		protected const string CANCEL_BUTTON = "//tr[contains(@class, 'js-concept-row js-editing opened')]//i[contains(@class, 'js-cancel-btn')]";
 		protected const string SEARCH_INPUT = "//input[@name='searchTerm']";

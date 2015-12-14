@@ -5,6 +5,7 @@ using NUnit.Framework;
 
 using AbbyyLS.SmartCAT.Selenium.Tests.DataStructures;
 using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
+using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Search;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.UsersRights;
 using AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers;
@@ -20,6 +21,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersRights
 			_workspaceHelper = new WorkspaceHelper(Driver);
 			_searchPage = new SearchPage(Driver);
 			_usersRightsPage = new UsersRightsPage(Driver);
+			_glossaryPage = new GlossaryPage(Driver);
+			_glossaryStructureDialog = new GlossaryStructureDialog(Driver);
 
 			_workspaceHelper.GoToUsersRightsPage();
 
@@ -35,45 +38,57 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersRights
 		[Test]
 		public void CreateDefaultTermTest()
 		{
-			_glossaryHelper
-				.CreateGlossary(_glossaryUniqueName)
-				.CreateTerm()
-				.AssertDefaultTermsCountMatch(expectedTermCount: 1);
+			_glossaryHelper.CreateGlossary(_glossaryUniqueName);
+
+			_glossaryPage.CreateTerm();
+
+			Assert.IsTrue(_glossaryPage.IsDefaultTermsCountMatchExpected(expectedTermCount: 1),
+				"Произошла ошибка:\n неверное количество терминов");
 		}
 
 		[Test]
 		public void CreateCustomTermTest()
 		{
-			_glossaryHelper
-				.CreateGlossary(_glossaryUniqueName)
-				.OpenGlossaryStructure()
-				.AddNewSystemField(GlossarySystemField.Topic)
+			_glossaryHelper.CreateGlossary(_glossaryUniqueName);
+
+			_glossaryPage.OpenGlossaryStructure();
+
+			_glossaryStructureDialog.AddNewSystemField(GlossarySystemField.Topic);
+
+			_glossaryPage
 				.ClickNewEntryButton()
-				.AssertExtendModeOpen()
 				.FillTermInLanguagesAndTermsSection()
-				.SaveEntry()
-				.CloseTermsInfo()
-				.AssertExtendTermsCountMatch(expectedTermCount: 1);
+				.ClickSaveEntryButton()
+				.CloseExpandedTerms();
+
+			Assert.AreEqual(1, _glossaryPage.CustomTermsCount(),
+				"Произошла ошибка:\n неверное количество терминов.");
 		}
 
 		[Test]
 		public void CreateExistingTermTest()
 		{
-			_glossaryHelper
-				.CreateGlossary(_glossaryUniqueName)
+			_glossaryHelper.CreateGlossary(_glossaryUniqueName);
+
+			_glossaryPage
 				.CreateTerm()
-				.CreateTerm()
-				.AssertAlreadyExistTermErrorDisplayed();
+				.CreateTerm();
+
+			Assert.IsTrue(_glossaryPage.IsExistTermErrorDisplayed(),
+				"Произошла ошибка:\n сообщение 'The term already exists' не появилось.");
 		}
 
 		[Test]
 		public void CreateEmptyTermTest()
 		{
-			_glossaryHelper
-				.CreateGlossary(_glossaryUniqueName)
+			_glossaryHelper.CreateGlossary(_glossaryUniqueName);
+				
+			_glossaryPage
 				.ClickNewEntryButton()
-				.ClickSaveButton()
-				.AddAtLeastOnTermErrorDisplay();
+				.ClickSaveTermButton();
+
+			Assert.IsTrue(_glossaryPage.IsEmptyTermErrorDisplayed(),
+				"Произошла ошибка:\n сообщение 'Please add at least one term' не появилось");
 		}
 
 		[Test]
@@ -84,14 +99,20 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersRights
 			var termSynonym1 = "TermSynonym1";
 			var termSynonym2 = "TermSynonym2";
 
-			_glossaryHelper.CreateGlossary(_glossaryUniqueName)
+			_glossaryHelper.CreateGlossary(_glossaryUniqueName);
+
+			_glossaryPage
 				.ClickNewEntryButton()
-				.FillTerm(term1, term2)
+				.FillAllTerm(term1, term2)
 				.AddSynonym(columnNumber: 1, text: termSynonym1)
 				.AddSynonym(columnNumber: 2, text: termSynonym2)
-				.ClickSaveButton()
-				.AssertSynonymCountMatch(expectedCount: 2, termNumber: 1, columnNumber: 1)
-				.AssertSynonymCountMatch(expectedCount: 2, termNumber: 1, columnNumber: 2);
+				.ClickSaveTermButton();
+
+			Assert.AreEqual(2, _glossaryPage.SynonymFieldsCount(termRow: 1, columnNumber: 1),
+				"Произошла ошибка:\n неверное количество синонимов в термине №{0} и столбце №{1}", 1, 1);
+
+			Assert.AreEqual(2, _glossaryPage.SynonymFieldsCount(termRow: 1, columnNumber: 2),
+				"Произошла ошибка:\n неверное количество синонимов в термине №{0} и столбце №{1}", 1, 2);
 		}
 
 		[Test]
@@ -100,14 +121,20 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersRights
 			var term1 = "Term1";
 			var term2 = "Term2";
 
-			_glossaryHelper.CreateGlossary(_glossaryUniqueName)
+			_glossaryHelper.CreateGlossary(_glossaryUniqueName);
+
+			_glossaryPage
 				.ClickNewEntryButton()
-				.FillTerm(term1, term2)
+				.FillAllTerm(term1, term2)
 				.AddSynonym(columnNumber: 1, text: term1)
 				.AddSynonym(columnNumber: 2, text: term2)
-				.ClickSaveButton()
-				.AssertSynonumUniqueErrorDisplayed(columnNumber: 1)
-				.AssertSynonumUniqueErrorDisplayed(columnNumber: 2);
+				.ClickSaveTermButton();
+
+			Assert.IsTrue(_glossaryPage.IsSynonumUniqueErrorDisplayed(columnNumber: 1),
+				"Произошла ошибка:\n Термины не подсвечены красным цветом в стоблце №1");
+
+			Assert.IsTrue(_glossaryPage.IsSynonumUniqueErrorDisplayed(columnNumber: 2),
+				"Произошла ошибка:\n Термины не подсвечены красным цветом в стоблце №2");
 		}
 
 		[Test]
@@ -116,21 +143,31 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersRights
 			var term1 = "Term1";
 			var term2 = "Term2";
 
-			_glossaryHelper
-				.CreateGlossary(_glossaryUniqueName)
+			_glossaryHelper.CreateGlossary(_glossaryUniqueName);
+
+			_glossaryPage
 				.CreateTerm(term1, term2)
-				.DeleteTerm(term1, term2)
-				.AssertDefaultTermsCountMatch(expectedTermCount: 0);
+				.DeleteTerm(term1, term2);
+
+			Assert.IsTrue(_glossaryPage.IsDeleteButtonDisappeared(term1, term2),
+				"Произошла ошибка: \nне исчезла кнопка удаления");
+
+			Assert.IsTrue(_glossaryPage.IsDefaultTermsCountMatchExpected(expectedTermCount: 0),
+				"Произошла ошибка:\nневерное количество терминов");
 		}
 
 		[Test]
 		public void CancelCreateTermTest()
 		{
-			_glossaryHelper.CreateGlossary(_glossaryUniqueName)
+			_glossaryHelper.CreateGlossary(_glossaryUniqueName);			
+
+			_glossaryPage
 				.ClickNewEntryButton()
-				.FillTerm()
-				.CancelEditTerm()
-				.AssertDefaultTermsCountMatch(expectedTermCount: 0);
+				.FillAllTerm()
+				.ClickCancelButton();
+
+			Assert.IsTrue(_glossaryPage.IsDefaultTermsCountMatchExpected(expectedTermCount: 0),
+				"Произошла ошибка:\n неверное количество терминов");
 		}
 
 		[Test]
@@ -142,13 +179,18 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersRights
 			var term3 = "Term3 " + uniqueText;
 			var term4 = "Term4 " + DateTime.UtcNow;
 
-			_glossaryHelper
-				.CreateGlossary(_glossaryUniqueName)
+			_glossaryHelper.CreateGlossary(_glossaryUniqueName);
+
+			_glossaryPage
 				.CreateTerm(term1, term2)
 				.CreateTerm(term3, term4)
-				.SearchTerm(uniqueText)
-				.AssertDefaultTermsCountMatch(expectedTermCount: 1)
-				.AssertTermMatch(term3);
+				.SearchTerm(uniqueText);
+
+			Assert.IsTrue(_glossaryPage.IsDefaultTermsCountMatchExpected(expectedTermCount: 1),
+				"Произошла ошибка:\n неверное количество терминов");
+
+			Assert.AreEqual(term3, _glossaryPage.FirstTermText(),
+				"Произошла ошибка:\n текст в термине не совпадает с ожидаемым.");
 		}
 
 		[Test]
@@ -160,13 +202,18 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersRights
 			var term3 = "Term3 " + DateTime.UtcNow;
 			var term4 = "Term4 " + uniqueText;
 
-			_glossaryHelper
-				.CreateGlossary(_glossaryUniqueName)
+			_glossaryHelper.CreateGlossary(_glossaryUniqueName);
+
+			_glossaryPage
 				.CreateTerm(term1, term2)
 				.CreateTerm(term3, term4)
-				.SearchTerm(uniqueText)
-				.AssertDefaultTermsCountMatch(expectedTermCount: 1)
-				.AssertTermMatch(term3);
+				.SearchTerm(uniqueText);
+
+			Assert.IsTrue(_glossaryPage.IsDefaultTermsCountMatchExpected(expectedTermCount: 1),
+				"Произошла ошибка:\n неверное количество терминов");
+
+			Assert.AreEqual(term3, _glossaryPage.FirstTermText(),
+				"Произошла ошибка:\n текст в термине не совпадает с ожидаемым.");
 		}
 
 		[Test]
@@ -183,13 +230,17 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersRights
 				glossaryUniqueName2
 			};
 
-			_glossaryHelper
-				.CreateGlossary(_glossaryUniqueName)
-				.CreateTerm(firstTerm, secondTerm + DateTime.UtcNow.Ticks)
-				.GoToGlossariesPage()
-				.CreateGlossary(glossaryUniqueName2)
-				.CreateTerm(firstTerm, secondTerm + DateTime.UtcNow.Ticks)
-				.GotToSearchPage();
+			_glossaryHelper.CreateGlossary(_glossaryUniqueName);
+
+			_glossaryPage.CreateTerm(firstTerm, secondTerm + DateTime.UtcNow.Ticks);
+
+			_workspaceHelper.GoToGlossariesPage();
+
+			_glossaryHelper.CreateGlossary(glossaryUniqueName2);
+
+			_glossaryPage.CreateTerm(firstTerm, secondTerm + DateTime.UtcNow.Ticks);
+
+			_workspaceHelper.GotToSearchPage();
 
 			_searchPage.InitSearch(uniqueData);
 
@@ -211,17 +262,23 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersRights
 				Language.Lithuanian
 			};
 
-			_glossaryHelper
-				.CreateGlossary(_glossaryUniqueName, languageList: languages)
-				.OpenGlossaryStructure()
-				.AddNewSystemField(GlossarySystemField.Topic)
+			_glossaryHelper.CreateGlossary(_glossaryUniqueName, languageList: languages);
+
+			_glossaryPage.OpenGlossaryStructure();
+
+			_glossaryStructureDialog.AddNewSystemField(GlossarySystemField.Topic);
+
+			_glossaryPage
 				.ClickNewEntryButton()
-				.AssertExtendModeOpen()
 				.FillTermInLanguagesAndTermsSection()
-				.SaveEntry()
-				.CloseTermsInfo()
-				.AssertExtendTermsCountMatch(expectedTermCount: 1)
-				.AssertLanguageColumnCountMatch(languages.Count);
+				.ClickSaveEntryButton()
+				.CloseExpandedTerms();
+
+			Assert.AreEqual(languages.Count, _glossaryPage.LanguageColumnCount(),
+				"Произошла ошибка:\n неверное количество колонок с языками.");
+
+			Assert.AreEqual(1, _glossaryPage.CustomTermsCount(),
+				"Произошла ошибка:\n неверное количество терминов.");
 		}
 
 		[Test]
@@ -230,18 +287,21 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersRights
 			var term1 = "Term 1";
 			var term2 = "Term 2";
 
-			_glossaryHelper
-				.CreateGlossary(_glossaryUniqueName)
+			_glossaryHelper.CreateGlossary(_glossaryUniqueName);
+
+			_glossaryPage
 				.CreateTerm(term1, term2)
-				.EditDefaultTerm(term1, term2, term1 + DateTime.Now)
-				.AssertDefaultTermsCountMatch(expectedTermCount: 1);
+				.EditDefaultTerm(term1, term2, term1 + DateTime.Now);
+
+			Assert.IsTrue(_glossaryPage.IsDefaultTermsCountMatchExpected(expectedTermCount: 1),
+				"Произошла ошибка:\n неверное количество терминов");
 		}
 
 		[Test]
 		public void EditCustomTerm()
 		{
 			var newTerm = "Term Example" + DateTime.Now;
-			var languages = new List<Language>
+			var languages = new List<Language> 
 			{
 				Language.German,
 				Language.French,
@@ -249,17 +309,23 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersRights
 				Language.Lithuanian
 			};
 
-			_glossaryHelper
-				.CreateGlossary(_glossaryUniqueName, languageList: languages)
-				.OpenGlossaryStructure()
-				.AddNewSystemField(GlossarySystemField.Topic)
+			_glossaryHelper.CreateGlossary(_glossaryUniqueName, languageList: languages);
+
+			_glossaryPage.OpenGlossaryStructure();
+
+			_glossaryStructureDialog.AddNewSystemField(GlossarySystemField.Topic);
+
+			_glossaryPage
 				.ClickNewEntryButton()
-				.AssertExtendModeOpen()
 				.FillTermInLanguagesAndTermsSection()
-				.SaveEntry()
-				.EditCustomTerms(newTerm)
-				.AssertTermDisplayedInLanguagesAndTermsSection(newTerm)
-				.AssertTermsTextMatch(newTerm);
+				.ClickSaveEntryButton()
+				.EditCustomTerms(newTerm);
+
+			Assert.IsTrue(_glossaryPage.IsTermsTextMatchExpected(newTerm),
+				"Произошла ошибка:\n один или более терминов не соответствуют ожидаемому значению");
+
+			Assert.IsTrue(_glossaryPage.IsTermDisplayedInLanguagesAndTermsSection(newTerm),
+				"Произошла ошибка:\n Термин {0} отсутствует в секции 'Languages And Terms'.", newTerm);
 		}
 
 		private GlossariesHelper _glossaryHelper;
@@ -267,6 +333,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersRights
 
 		private SearchPage _searchPage;
 		private UsersRightsPage _usersRightsPage;
+		private GlossaryPage _glossaryPage;
+		private GlossaryStructureDialog _glossaryStructureDialog;
 
 		private string _glossaryUniqueName;
 	}

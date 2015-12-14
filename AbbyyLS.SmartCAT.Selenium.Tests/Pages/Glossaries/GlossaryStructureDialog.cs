@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 
-using NUnit.Framework;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.PageObjects;
 
@@ -27,11 +26,14 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 
 		public new void LoadPage()
 		{
-			if (!Driver.WaitUntilElementIsDisplay(By.XPath(GLOSSARY_STRUCTURE_DIALOG_HEADER)))
+			if (!IsGlossaryStructureDialogOpened())
 			{
-				Assert.Fail("Произошла ошибка:\n диалог изменения структуры глоссария не открылся.");
+				throw new XPathLookupException(
+					"Произошла ошибка:\n диалог изменения структуры глоссария не открылся");
 			}
 		}
+
+		#region Простые методы страницы
 
 		/// <summary>
 		/// Выбрать поле для изменения структуры глоссария
@@ -42,7 +44,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 		{
 			CustomTestContext.WriteLine("Выбрать поле {0} для изменения структуры глоссария.", systemField);
 			var field = Driver.SetDynamicValue(How.XPath, SYSTEM_FIELD, systemField.ToString());
-
 			field.Click();
 
 			return GetPage();
@@ -55,6 +56,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 		{
 			CustomTestContext.WriteLine("Нажать кнопку Save в диалоге изменения сруктуры глоссария.");
 			SaveButton.Click();
+			WaitUntilDialogBackgroundDisappeared();
 
 			return new GlossaryPage(Driver).GetPage();
 		}
@@ -73,7 +75,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 		/// <summary>
 		/// Добавить все поля уровня Language
 		/// </summary>
-		public GlossaryStructureDialog AddLanguageFields()
+		public GlossaryStructureDialog SelectLanguageFields()
 		{
 			CustomTestContext.WriteLine("Добавить все поля уровня Language.");
 			var fieldList = Driver.GetElementList(By.XPath(LANGUAGE_FIELDS_LIST));
@@ -83,19 +85,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 				field.Click();
 				AddSystemFieldButton.Click();
 			}
-
-			return GetPage();
-		}
-
-		/// <summary>
-		/// Проверить, что поле добавлено
-		/// </summary>
-		public GlossaryStructureDialog AssertSystemFieldIsAdded(GlossarySystemField systemField)
-		{
-			CustomTestContext.WriteLine("Проверить, что поле {0} добавлено.", systemField);
-			var field = Driver.SetDynamicValue(How.XPath, ADDED_SYSTEM_FIELD, systemField.ToString());
-
-			Assert.IsTrue(field.Displayed, "Произошла ошибка:\n поле {0} не добавлено.", systemField);
 
 			return GetPage();
 		}
@@ -119,7 +108,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 		{
 			CustomTestContext.WriteLine("Выбрать {0} уровень полей.", level);
 			var levelOption = Driver.SetDynamicValue(How.XPath, LEVEL_OPTION, level.Description());
-
 			levelOption.Click();
 
 			return GetPage();
@@ -128,7 +116,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 		/// <summary>
 		/// Выбрать поле типа термин
 		/// </summary>
-		/// <returns></returns>
 		public GlossaryStructureDialog SelectTermField(GlossarySystemField termField)
 		{
 			CustomTestContext.WriteLine("Выбрать поле {0} типа термин.", termField);
@@ -246,6 +233,136 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 			return Driver.GetElementList(By.XPath(FIELD_NAME_LIST_IN_SYSTEM_FILEDS_TAB));
 		}
 
+		#endregion
+
+		#region Составные методы
+
+		/// <summary>
+		/// Добавить новое системное поле
+		/// </summary>
+		/// <param name="systemField">тип поля</param>
+		public GlossaryPage AddNewSystemField(GlossarySystemField systemField)
+		{
+			SelectSystemField(systemField);
+			ClickAddSystemFieldButton();
+			var glossaryPage = ClickSaveButton();
+			   
+			return glossaryPage.GetPage();
+		}
+
+		/// <summary>
+		/// Выбрать уровень структуры глоссария
+		/// </summary>
+		/// <param name="level">уровень</param>
+		public GlossaryStructureDialog SelectLevelGlossaryStructure(GlossaryStructureLevel level)
+		{
+			ExpandLevelDropdown();
+			SelectLevel(level);
+
+			return GetPage();
+		}
+
+		/// <summary>
+		/// Добавить поле термина
+		/// </summary>
+		/// <param name="termField">тип поля</param>
+		public GlossaryPage AddTermField(GlossarySystemField termField)
+		{
+			SelectTermField(termField);
+			ClickAddSystemFieldButton();
+			var glossaryPage = ClickSaveButton();
+
+			return glossaryPage.GetPage();
+		}
+
+		/// <summary>
+		/// Добавить поле языка
+		/// </summary>
+		public GlossaryPage AddLanguageFields()
+		{
+			SelectLanguageFields();
+			var glossaryPage = ClickSaveButton();
+
+			return glossaryPage.GetPage();
+		}
+
+		/// <summary>
+		/// Добавить все системные поля
+		/// </summary>
+		public GlossaryPage AddAllSystemFields()
+		{
+			CustomTestContext.WriteLine("Добавить все системные поля в диалоге изменения структуры глоссария.");
+			var fieldnames = SystemFieldNames();
+
+			foreach (var field in fieldnames)
+			{
+				field.Click();
+				ClickAddSystemFieldButton();
+			}
+
+			var glossaryPage = ClickSaveButton();
+
+			return glossaryPage.GetPage();
+		}
+
+		/// <summary>
+		/// Добавить custom поле
+		/// </summary>
+		/// <param name="fieldName">имя поля</param>
+		/// <param name="type">тип поля</param>
+		/// <param name="isRequired">обязательность заполнения</param>
+		/// <param name="defaultValue">значение по умолчанию</param>
+		/// <param name="itemsList">содержимое</param>
+		public GlossaryPage AddCustomField(
+			string fieldName,
+			GlossaryCustomFieldType type,
+			bool isRequired = false,
+			string defaultValue = null,
+			List<string> itemsList = null)
+		{
+			SwitchToCustomFieldsTab();
+			ExpandCustomFieldType();
+			SelectCustomFieldType(type);
+			FillCustomFieldName(fieldName);
+
+			if (itemsList != null)
+			{
+				var items = string.Join(";", itemsList);
+				FillItemsList(items);
+			}
+
+			if (isRequired)
+			{
+				ClickRequiredCheckbox();
+			}
+
+			if (defaultValue != null)
+			{
+				FillDefaultValue(defaultValue);
+			}
+
+			ClickAddCustomFieldButton();
+			var glossaryPage = ClickSaveButton();
+
+			return glossaryPage.GetPage();
+		}
+
+		#endregion
+
+		#region Методы, проверяющие состояние страницы
+
+		/// <summary>
+		/// Проверить, что диалог изменения структуры глоссария открылся
+		/// </summary>
+		public bool IsGlossaryStructureDialogOpened()
+		{
+			return Driver.WaitUntilElementIsDisplay(By.XPath(GLOSSARY_STRUCTURE_DIALOG_HEADER));
+		}
+
+		#endregion
+
+		#region Объявление элементов страницы
+
 		[FindsBy(How = How.XPath, Using = ADD_TO_LIST_BUTTON)]
 		protected IWebElement AddToListButton { get; set; }
 
@@ -279,6 +396,10 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 		[FindsBy(How = How.XPath, Using = ADD_SYSTEM_FIELD_BUTTON)]
 		protected IWebElement AddSystemFieldButton { get; set; }
 
+		#endregion
+
+		#region Описания XPath элементов
+
 		protected const string SAVE_BUTTON = "//div[contains(@class, 'js-popup-buttons')]//div[contains(@class, 'js-save')]";
 		protected const string ADD_TO_LIST_BUTTON = "//span[contains(@class,'js-add-tbx-attribute')]";
 		protected const string SYSTEM_FIELD = "//table[contains(@class, 'table concept')]//tr[@data-attr-type='*#*']";
@@ -299,5 +420,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 		protected const string ADD_SYSTEM_FIELD_BUTTON = "//div[contains(@class, 'js-popup-edit-structure')]//div[contains(@class, 'addinlist')]//div//a";
 		protected const string FIELD_NAME_LIST_IN_SYSTEM_FILEDS_TAB = "//table[contains(@class,'js-predefined-attrs-table')][contains(@style,'table')]//tr[contains(@class,'js-attr-row') and not(contains(@class,'g-hidden'))]/td[1]";
 		protected const string TERM_FIELD_OPTION = "//table[contains(@class, 'table term')]//td[text()='*#*']";
+
+		#endregion
 	}
 }

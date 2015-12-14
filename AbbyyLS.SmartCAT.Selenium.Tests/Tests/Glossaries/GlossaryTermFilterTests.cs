@@ -24,17 +24,19 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 			_glossaryHelper = new GlossariesHelper(Driver);
 			_workspaceHelper = new WorkspaceHelper(Driver);
 			_commonHelper = new CommonHelper(Driver);
-			_loginHelper = new LoginHelper(Driver);
-
+			_glossaryPropertiesDialog = new GlossaryPropertiesDialog(Driver);
+			_newGlossaryDialog = new NewGlossaryDialog(Driver);
 			_glossaryPage = new GlossaryPage(Driver);
 			_filterDialog = new FilterDialog(Driver);
 			_signInPage = new SignInPage(Driver);
 			_secondUser = null;
+            _glossariesPage = new GlossariesPage(Driver);
 
 			_glossaryHelper
 				.GoToGlossariesPage()
-				.CreateGlossary(_glossaryUniqueName)
-				.CreateTerm();
+				.CreateGlossary(_glossaryUniqueName);
+
+			_glossaryPage.CreateTerm();
 		}
 
 		[Test]
@@ -49,11 +51,12 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 		[Test]
 		public void AddLanguagesTest()
 		{
-			_glossaryHelper
-				.OpenGlossaryProperties()
+			_glossaryPage.OpenGlossaryProperties();
+
+			_glossaryPropertiesDialog
 				.AddLangauge(Language.French)
 				.AddLangauge(Language.German)
-				.ClickSaveButtonInPropetiesDialog();
+				.ClickSaveButton();
 
 			_glossaryPage.ClickFilterButton();
 
@@ -107,10 +110,11 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 
 			_filterDialog.ClickApplyButton();
 
-			_glossaryHelper
-				.OpenGlossaryProperties()
+			_glossaryPage.OpenGlossaryProperties();
+
+			_glossaryPropertiesDialog
 				.AddLangauge(Language.French)
-				.ClickSaveButtonInPropetiesDialog();
+				.ClickSaveButton();
 
 			_glossaryPage.ClickFilterButton();
 			
@@ -123,15 +127,17 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 		[Test]
 		public void DeletedLanguageFilterTest()
 		{
-			_glossaryPage.ClickFilterButton();;
+			_glossaryPage.ClickFilterButton();
 
 			var languagesFilterBefore = _filterDialog.SelectedLanguagesInDropdown();
 
 			_filterDialog.ClickApplyButton();
-			_glossaryHelper
-				.OpenGlossaryProperties()
-				.DeleteLanguage()
-				.ClickSaveButtonInPropetiesDialog();
+
+			_glossaryPage.OpenGlossaryProperties();
+
+			_newGlossaryDialog.ClickDeleteLanguageButton();
+
+			_glossaryPropertiesDialog.ClickSaveButton();
 
 			_glossaryPage.ClickFilterButton();
 
@@ -153,10 +159,11 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 				.SubmitForm(_secondUser.Login, _secondUser.Password)
 				.SelectAccount();
 
-			_glossaryHelper
-				.GoToGlossariesPage()
-				.GoToGlossaryPage(_glossaryUniqueName)
-				.CreateTerm(firstTerm: "term1FromSecondUser", secondTerm: "term2FromSecondUser");
+			_glossaryHelper.GoToGlossariesPage();
+
+			_glossariesPage.ClickGlossaryRow(_glossaryUniqueName);
+
+			_glossaryPage.CreateTerm(firstTerm: "term1FromSecondUser", secondTerm: "term2FromSecondUser");
 
 			_workspaceHelper.RefreshPage();
 
@@ -181,16 +188,19 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 		{
 			_secondUser = TakeUser(ConfigurationManager.Users);
 
-			_glossaryHelper.CreateTerm(firstTerm: "term1FromFirstUser", secondTerm: "term2FromFirstUser");
-			_workspaceHelper
-				.SignOut();
+			_glossaryPage.CreateTerm(firstTerm: "term1FromFirstUser", secondTerm: "term2FromFirstUser");
+
+			_workspaceHelper.SignOut();
+
 			_signInPage
 				.SubmitForm(_secondUser.Login, _secondUser.Password)
 				.SelectAccount();
 
-			_glossaryHelper
-				.GoToGlossariesPage()
-				.GoToGlossaryPage(_glossaryUniqueName)
+			_glossaryHelper.GoToGlossariesPage();
+
+			_glossariesPage.ClickGlossaryRow(_glossaryUniqueName);
+
+			_glossaryPage
 				.EditDefaultTerm("firstTerm", "secondTerm", "edit")
 				.CreateTerm(firstTerm: "term1FromSecondUser", secondTerm: "term2FromSecondUser");
 
@@ -206,7 +216,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 			Assert.IsTrue(_glossaryPage.IsModifiedByFilterLabelDisplayed(),
 				"Произошла ошибка:\nФильтр 'Modified by' не отображается в таблице терминов.");
 
-			Assert.IsTrue(_glossaryPage.IsModifiedByFilterText().Contains(_secondUser.NickName),
+			Assert.IsTrue(_glossaryPage.GetModifiedByFilterText().Contains(_secondUser.NickName),
 				"Произошла ошибка:\nФильтр 'Modified by' не содержит имя автора {0}.", _secondUser.NickName);
 
 			Assert.AreEqual(2, _glossaryPage.TermsCount(),
@@ -573,10 +583,12 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 		private GlossaryPage _glossaryPage;
 		private SignInPage _signInPage;
 		private FilterDialog _filterDialog ;
-		private LoginHelper _loginHelper;
+		private GlossaryPropertiesDialog _glossaryPropertiesDialog;
 		private CommonHelper _commonHelper;
 		private GlossariesHelper _glossaryHelper;
 		private WorkspaceHelper _workspaceHelper;
+		private NewGlossaryDialog _newGlossaryDialog;
+		private GlossariesPage _glossariesPage;
 		private string _glossaryUniqueName;
 		private TestUser _secondUser;
 	}

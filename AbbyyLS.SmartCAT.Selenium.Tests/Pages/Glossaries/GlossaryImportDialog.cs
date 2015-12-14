@@ -1,6 +1,5 @@
 ﻿using System.IO;
 
-using NUnit.Framework;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.PageObjects;
 
@@ -26,9 +25,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 
 		public new void LoadPage()
 		{
-			if (!Driver.WaitUntilElementIsDisplay(By.XPath(IMPORT_BUTTON)))
+			if (!IsGlossaryImportDialogOpened())
 			{
-				Assert.Fail("Произошла ошибка:\n не открылся диалог импорта глоссария.");
+				throw new XPathLookupException("Произошла ошибка:\n не открылся диалог импорта глоссария");
 			}
 		}
 
@@ -62,12 +61,23 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 			return new GlossarySuccessImportDialog(Driver).GetPage();
 		}
 
+		/// <summary>
+		/// Нажать кнопку 'Replace All' в диалоге импорта глоссария
+		/// </summary>
 		public GlossaryImportDialog ClickReplaceTermsButton()
 		{
-			CustomTestContext.WriteLine("Нажать кнопку 'Replace All' в диалоге импорта глоссария.");
+			CustomTestContext.WriteLine("Нажать кнопку 'Replace All' в диалоге импорта глоссария");
 			ReplaceAllButton.Click();
 
 			return GetPage();
+		}
+
+		/// <summary>
+		/// Проверить, открыт ли диалог импорта глоссария
+		/// </summary>
+		public bool IsGlossaryImportDialogOpened()
+		{
+			return Driver.WaitUntilElementIsDisplay(By.XPath(IMPORT_BUTTON));
 		}
 
 		[FindsBy(How = How.XPath, Using = IMPORT_GLOSSARY_INPUT)]

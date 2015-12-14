@@ -1,8 +1,4 @@
-﻿using System;
-
-using NUnit.Framework;
-
-using OpenQA.Selenium;
+﻿using OpenQA.Selenium;
 using OpenQA.Selenium.Support.PageObjects;
 
 using AbbyyLS.SmartCAT.Selenium.Tests.DataStructures;
@@ -28,11 +24,13 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 
 		public new void LoadPage()
 		{
-			if (!Driver.WaitUntilElementIsDisplay(By.XPath(GLOSSARY_PROPERTIES_DIALOG)))
+			if (!IsGlossaryPropertiesDialogOpened())
 			{
-				Assert.Fail("Произошла ошибка:\n диалог свойств глоссария не открылся.");
+				throw new XPathLookupException("Произошла ошибка:\n диалог свойств глоссария не открылся");
 			}
 		}
+
+		#region Простые методы страницы
 
 		/// <summary>
 		/// Ввести имя глоссария в диалоге свойств глоссария
@@ -67,27 +65,25 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 			return new GlossariesPage(Driver).GetPage();
 		}
 
-
 		/// <summary>
 		/// Нажать кнопку Save 
 		/// </summary>
-		public T ClickSaveButton<T>(WebDriver driver) where T : class, IAbstractPage<T>
+		public GlossaryPage ClickSaveButton()
 		{
-			CustomTestContext.WriteLine("Нажать кнопку Save в диалоге свойств глоссария.");
+			CustomTestContext.WriteLine("Нажать кнопку Save");
 			SaveButton.Click();
+			WaitUntilDialogBackgroundDisappeared();
 
-			var instance = Activator.CreateInstance(typeof(T), new object[] { driver }) as T;
-			return instance.GetPage();
+			return new GlossaryPage(Driver).GetPage();
 		}
 
 		/// <summary>
-		/// Проверить, что сообщение подтверждения удаления глоссария появилось
+		/// Нажать кнопку Save, ожидая сообщение об ошибке
 		/// </summary>
-		public GlossaryPropertiesDialog AssertConfirmDeleteMessageDisplay()
+		public GlossaryPropertiesDialog ClickSaveButtonExpectingError()
 		{
-			CustomTestContext.WriteLine("Проверить, что сообщение подтверждения удаления глоссария появилось.");
-
-			Assert.IsTrue(ConfirmDeleteMessage.Displayed, "Произошла ошибка:\n сообщение подтверждения удаления глоссария не появилось.");
+			CustomTestContext.WriteLine("Нажать кнопку Save, ожидая сообщение об ошибке");
+			SaveButton.Click();
 
 			return GetPage();
 		}
@@ -110,21 +106,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 		{
 			CustomTestContext.WriteLine("Нажать на крестик для удаления {0} языка в диалоге свойств глоссария.", languageNumber);
 			var deleteButton = Driver.SetDynamicValue(How.XPath, DELETE_LANGUAGE_BUTTON, languageNumber.ToString());
-
 			deleteButton.Click();
-
-			return GetPage();
-		}
-
-		/// <summary>
-		/// Проверить, что появилось предупреждение при удалении языка в диалоге свойств глоссария
-		/// </summary>
-		public GlossaryPropertiesDialog AssertDeleteLanguageWarningDisplay()
-		{
-			CustomTestContext.WriteLine("Проверить, что появилось предупреждение при удалении языка в диалоге свойств глоссария.");
-
-			Assert.IsTrue(WarningDeleteLanguage.Displayed,
-				"Произошла ошибка:\n не появилось предупреждение при удалении языка в диалоге свойств глоссария.");
+			Driver.WaitUntilElementIsDisplay(By.XPath(WARNING_DELETE_LANGUAGE));
 
 			return GetPage();
 		}
@@ -187,6 +170,61 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 			return GetPage();
 		}
 
+		#endregion
+
+		#region Составные методы страницы
+
+		/// <summary>
+		/// Добавить язык
+		/// </summary>
+		/// <param name="language">язык</param>
+		public GlossaryPropertiesDialog AddLangauge(Language language)
+		{
+			ClickAddLanguageButton();
+			ClickLastLanguageDropdown();
+			SelectLanguage(language);
+
+			return GetPage();
+		}
+
+		/// <summary>
+		/// Отменить удаление языка в окне настройки
+		/// </summary>
+		/// <param name="languagesNumber">порядковый номер языка</param>
+		public GlossaryPropertiesDialog CancelDeleteLanguageInPropertiesDialog(int languagesNumber = 2)
+		{
+			ClickDeleteLanguageButton(languagesNumber);
+			ClickCancelInDeleteLanguageWarning();
+
+			return GetPage();
+		}
+
+		#endregion
+
+		#region Методы, проверяющие состояние страницы
+
+		/// <summary>
+		/// Проверить, появилось ли сообщение с подтверждением удаления глоссария
+		/// </summary>
+		public bool IsConfirmDeleteMessageDisplayed()
+		{
+			CustomTestContext.WriteLine("Проверить, появилось ли сообщение с подтверждением удаления глоссария");
+
+			return Driver.WaitUntilElementIsDisplay(By.XPath(CONFIRM_DELETE_MESSAGE));
+		}
+
+		/// <summary>
+		/// Проверить, открыт ли диалог настроек глоссария
+		/// </summary>
+		public bool IsGlossaryPropertiesDialogOpened()
+		{
+			return Driver.WaitUntilElementIsDisplay(By.XPath(GLOSSARY_PROPERTIES_DIALOG));
+		}
+
+		#endregion
+
+		#region Объявление элементов страницы
+
 		[FindsBy(How = How.XPath, Using = DELETE_GLOSSARY_BUTTON)]
 		protected IWebElement DeleteGlossaryButton { get; set; }
 
@@ -220,6 +258,10 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 		[FindsBy(How = How.XPath, Using = LAST_LANGUAGE_DROPDOWN)]
 		protected IWebElement LastLanguageDropdown { get; set; }
 
+		#endregion
+
+		#region Описания XPath элементов
+
 		protected const string LANGUAGE_OPTION = "//span[contains(@class, 'js-dropdown__item') and @data-id='*#*']";
 		protected const string ADD_LANGUAGE_BUTTON = ".//div[contains(@class,'js-popup-edit-glossary')][2]//div[contains(@data-bind, 'addLanguage')]";
 		protected const string LAST_LANGUAGE_DROPDOWN = ".//div[contains(@class,'js-popup-edit-glossary')][2]//div[contains(@data-bind, 'addLanguage')]//preceding-sibling::span[@class='g-iblock l-editgloss__control l-editgloss__lang'][1]//span/span";
@@ -235,5 +277,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 		protected const string GLOSSARY_NAME = ".//div[contains(@class,'js-popup-edit-glossary')][2]//input[@class='l-editgloss__nmtext']";
 		protected const string SAVE_BUTTON = ".//div[contains(@class,'js-popup-edit-glossary')][2]//div[contains(@data-bind, 'click: save')]//a";
 		protected const string ADVANCED_BUTTON = ".//div[contains(@class,'js-popup-edit-glossary')][2]//a[contains(@data-bind,'click: saveAndEditStructure')]";
+	
+		#endregion
 	}
 }

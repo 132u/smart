@@ -2,6 +2,7 @@
 
 using AbbyyLS.SmartCAT.Selenium.Tests.DataStructures;
 using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
+using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries;
 using AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
@@ -18,7 +19,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 		public void SetUp()
 		{
 			_loginHelper = new LoginHelper(Driver);
+			_glossariesHelper = new GlossariesHelper(Driver);
 			_workspaceHelper = new WorkspaceHelper(Driver);
+			_glossariesPage = new GlossariesPage(Driver);
 
 			_glossaryName = GlossariesHelper.UniqueGlossaryName();
 
@@ -42,18 +45,28 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 		[Test]
 		public void SuggestTermsRightPersonalAccountTest()
 		{
-			_workspaceHelper
-				.GoToGlossariesPage()
-				.AssertSuggestedTermsButtonNotExist(glossariesPage: true)
-				.AssertSuggestTermButtonNotExist(glossariesPage: true)
-				.CreateGlossary(_glossaryName)
-				.AssertSuggestedTermsButtonNotExist(glossariesPage: false)
-				.AssertSuggestTermButtonNotExist(glossariesPage: false);
+			_workspaceHelper.GoToGlossariesPage();
+
+			Assert.IsFalse(_glossariesPage.IsSuggestedTermsButtonExist(),
+				"Произошла ошибка:\nКнопка 'Suggested Terms' присутствует");
+			
+			Assert.IsFalse(_glossariesPage.IsSuggestTermButtonExist(),
+				"Произошла ошибка:\nКнопка 'Suggest Term' присутствует");
+
+			_glossariesHelper.CreateGlossary(_glossaryName);
+
+			Assert.IsFalse(_glossariesPage.IsSuggestedTermsButtonExist(),
+				"Произошла ошибка:\nКнопка 'Suggested Terms' присутствует");
+
+			Assert.IsFalse(_glossariesPage.IsSuggestTermButtonExist(),
+				"Произошла ошибка:\nКнопка 'Suggest Term' присутствует");
 		}
 
 		private string _glossaryName;
 		private WorkspaceHelper _workspaceHelper;
 		private LoginHelper _loginHelper;
+		private GlossariesHelper _glossariesHelper;
+		private GlossariesPage _glossariesPage;
 		private TestUser _additionalUser;
 	}
 }

@@ -2,6 +2,7 @@
 
 using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
 using AbbyyLS.SmartCAT.Selenium.Tests.FeatureAttributes;
+using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.ProjectGroups;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace;
@@ -21,6 +22,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.ProjectGroups
 			_projectGroupsPage = new ProjectGroupsPage(Driver);
 			_translationMemoriesPage = new TranslationMemoriesPage(Driver);
 			_newTranslationMemoryDialog = new NewTranslationMemoryDialog(Driver);
+			_glossariesPage = new GlossariesPage(Driver);
+			_newGlossaryDialog = new NewGlossaryDialog(Driver);
 			_workspaceHelper = new WorkspaceHelper(Driver);
 			_workspaceHelper.GoToProjectGroupsPage();
 			_projectGroup = _projectGroupsPage.GetProjectGroupUniqueName();
@@ -82,9 +85,14 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.ProjectGroups
 		{
 			_projectGroupsPage.CreateProjectGroup(_projectGroup);
 
-			_workspaceHelper
-				.GoToGlossariesPage()
-				.AssertProjectGroupExist(_projectGroup);
+			_workspaceHelper.GoToGlossariesPage();
+
+			_glossariesPage
+				.ClickCreateGlossaryButton()
+				.ClickProjectGroupsList();
+
+			Assert.IsTrue(_newGlossaryDialog.IsProjectGroupExistInList(_projectGroup),
+				"Произошла ошибка:\n  группа проектов отсутствует в списке при создании глоссария");
 		}
 
 		[Test]
@@ -173,14 +181,21 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.ProjectGroups
 				.DeleteProjectGroup(projectGroup)
 				.RefreshPage<WorkspacePage>();
 
-			_workspaceHelper
-				.GoToGlossariesPage()
-				.AssertProjectGroupNotExist(projectGroup);
+			_workspaceHelper.GoToGlossariesPage();
+
+			_glossariesPage
+				.ClickCreateGlossaryButton()
+				.ClickProjectGroupsList();
+
+			Assert.IsTrue(_newGlossaryDialog.IsProjectGroupExistInList(projectGroup),
+				"Произошла ошибка:\n  группа проектов отсутствует в списке при создании глоссария");
 		}
 
 		private ProjectGroupsPage _projectGroupsPage;
 		private TranslationMemoriesPage _translationMemoriesPage;
 		private NewTranslationMemoryDialog _newTranslationMemoryDialog;
+		private GlossariesPage _glossariesPage;
+		private NewGlossaryDialog _newGlossaryDialog;
 		private WorkspaceHelper _workspaceHelper;
 		private string _projectGroup;
 	}

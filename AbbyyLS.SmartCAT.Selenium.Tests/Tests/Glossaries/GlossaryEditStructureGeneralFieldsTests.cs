@@ -5,6 +5,7 @@ using NUnit.Framework;
 using AbbyyLS.SmartCAT.Selenium.Tests.DataStructures;
 using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
 using AbbyyLS.SmartCAT.Selenium.Tests.FeatureAttributes;
+using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries;
 using AbbyyLS.SmartCAT.Selenium.Tests.TestFramework;
 using AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers;
 
@@ -18,15 +19,22 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 		public void GlossariesSetUp()
 		{
 			_workspaceHelper = new WorkspaceHelper(Driver);
+			_glossaryPage = new GlossaryPage(Driver);
+			_glossaryHelper = new GlossariesHelper(Driver);
+			_glossaryStructureDialog = new GlossaryStructureDialog(Driver);
 
 			_glossaryUniqueName = GlossariesHelper.UniqueGlossaryName();
-			_glossaryHelper = _workspaceHelper
-				.GoToGlossariesPage()
-				.CreateGlossary(_glossaryUniqueName)
-				.OpenGlossaryStructure()
-				.AddAllSystemFields()
+
+			_workspaceHelper.GoToGlossariesPage();
+
+			_glossaryHelper.CreateGlossary(_glossaryUniqueName);
+
+			_glossaryPage.OpenGlossaryStructure();
+
+			_glossaryStructureDialog.AddAllSystemFields();
+
+			_glossaryPage
 				.ClickNewEntryButton()
-				.AssertExtendModeOpen()
 				.FillTermInLanguagesAndTermsSection();
 		}
 
@@ -37,13 +45,17 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 		{
 			var value = "Test System Field";
 			
-			_glossaryHelper
-				.AssertSystemTextAreaFieldDisplayed(fieldName)
+			_glossaryPage
 				.FillSystemField(fieldName, value)
-				.SaveEntry()
-				.AssertGeneralFieldValueMatch(fieldName, value)
-				.CloseTermsInfo()
-				.AssertExtendTermsCountMatch(expectedTermCount: 1);
+				.ClickSaveEntryButton();
+
+			Assert.IsTrue(_glossaryPage.IsFieldValueMatchExpected(fieldName, value),
+				"Произошла ошибка:\n значение в поле не совпадает с ожидаемым значением");
+
+			_glossaryPage.CloseExpandedTerms();
+
+			Assert.AreEqual(1, _glossaryPage.CustomTermsCount(),
+				"Произошла ошибка:\n неверное количество терминов.");
 		}
 
 		[Test, Ignore("PRX-10924")]
@@ -51,13 +63,17 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 		{
 			var value = "Life";
 
-			_glossaryHelper
-				.AssertSystemDropdownFieldDisplayed(GlossarySystemField.Topic)
+			_glossaryPage
 				.SelectOptionInTopic(value)
-				.SaveEntry()
-				.AssertGeneralFieldValueMatch(GlossarySystemField.Topic, value)
-				.CloseTermsInfo()
-				.AssertExtendTermsCountMatch(expectedTermCount: 1);
+				.ClickSaveEntryButton();
+
+			Assert.IsTrue(_glossaryPage.IsFieldValueMatchExpected(GlossarySystemField.Topic, value),
+				"Произошла ошибка:\n значение в поле не совпадает с ожидаемым значением");
+
+			_glossaryPage.CloseExpandedTerms();
+
+			Assert.AreEqual(1, _glossaryPage.CustomTermsCount(),
+				"Произошла ошибка:\n неверное количество терминов.");
 		}
 
 		[Test, Ignore("PRX-10924")]
@@ -65,13 +81,17 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 		{
 			var fieldName = GlossarySystemField.Image.Description();
 
-			_glossaryHelper
-				.AssertImageFieldExistInNewEntry(fieldName)
-				.UploadImageWithMultimedia(fieldName, PathProvider.ImageFile)
-				.SaveEntry()
-				.AssertImageFieldFilled(fieldName)
-				.CloseTermsInfo()
-				.AssertExtendTermsCountMatch(expectedTermCount: 1);
+			_glossaryPage
+				.UploadImageFileWithMultimedia(PathProvider.ImageFile)
+				.ClickSaveEntryButton();
+
+			Assert.IsTrue(_glossaryPage.IsImageFieldFilled(fieldName),
+				"Произошла ошибка:\n  поле {0} типа Image не заполнено", fieldName);
+
+			_glossaryPage.CloseExpandedTerms();
+
+			Assert.AreEqual(1, _glossaryPage.CustomTermsCount(),
+				"Произошла ошибка:\n неверное количество терминов.");
 		}
 
 		[Test, Ignore("PRX-10924")]
@@ -79,17 +99,23 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 		{
 			var fieldName = GlossarySystemField.Multimedia.Description();
 
-			_glossaryHelper
-				.AssertMediaFieldExistInNewEntry(fieldName)
+			_glossaryPage
 				.UploadMediaFile(fieldName, PathProvider.AudioFile)
-				.SaveEntry()
-				.AssertMediaFieldFilled(fieldName, Path.GetFileName(PathProvider.AudioFile))
-				.CloseTermsInfo()
-				.AssertExtendTermsCountMatch(expectedTermCount: 1);
+				.ClickSaveEntryButton();
+
+			Assert.IsTrue(_glossaryPage.IsMediaFileMatchExpected(Path.GetFileName(PathProvider.AudioFile), fieldName),
+				"Произошла ошибка:\n неверное значение в поле {0} типа Media.", fieldName);
+				
+			_glossaryPage.CloseExpandedTerms();
+
+			Assert.AreEqual(1, _glossaryPage.CustomTermsCount(),
+				"Произошла ошибка:\n неверное количество терминов.");
 		}
 
 		private WorkspaceHelper _workspaceHelper;
 		private GlossariesHelper _glossaryHelper;
+		private GlossaryPage _glossaryPage;
+		private GlossaryStructureDialog _glossaryStructureDialog;
 		private string _glossaryUniqueName;
 	}
 }

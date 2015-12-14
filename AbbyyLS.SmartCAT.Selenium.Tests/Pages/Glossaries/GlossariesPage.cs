@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Globalization;
 
-using NUnit.Framework;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.PageObjects;
 
@@ -28,37 +27,13 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 		public new void LoadPage()
 		{
 			Driver.WaitPageTotalLoad();
-			if (!Driver.WaitUntilElementIsDisplay(By.XPath(GLOSSARY_TABLE)))
+			if (!IsGlossariesPageOpened())
 			{
-				Assert.Fail("Произошла ошибка:\n не загрузилась страница с глоссариями.");
+				throw new XPathLookupException("Произошла ошибка:\n не загрузилась страница с глоссариями");
 			}
 		}
 
-		/// <summary>
-		/// Проверить, что глоссарий присутствует в списке
-		/// </summary>
-		public GlossariesPage AssertGlossaryExist(string glossaryName)
-		{
-			CustomTestContext.WriteLine("Проверить, что глоссарий {0} присутствует в списке.", glossaryName);
-			var glossary = Driver.SetDynamicValue(How.XPath, GLOSSARY_ROW, glossaryName);
-
-			Assert.IsTrue(glossary.Displayed, "Произошла ошибка:\n глоссарий {0} отсутствует в списке.", glossaryName);
-			
-			return GetPage();
-		}
-
-		///<summary>
-		 ///Проверить, что глоссарий отсутствует в списке
-		 ///</summary>
-		public GlossariesPage AssertGlossaryNotExist(string glossaryName)
-		{
-			CustomTestContext.WriteLine("Проверить, что глоссарий {0} отсутствует в списке.", glossaryName);
-
-			Assert.IsTrue(Driver.WaitUntilElementIsDisappeared(By.XPath(GLOSSARY_ROW.Replace("*#*", glossaryName))),
-				"Произошла ошибка:\n глоссарий {0} присутствует в списке.", glossaryName);
-
-			return GetPage();
-		}
+		#region Простые методы страницы
 		
 		/// <summary>
 		/// Нажать кнопку создания глоссария
@@ -237,34 +212,76 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 			return new SuggestTermDialog(Driver).GetPage();
 		}
 
+		#endregion
+
+		#region Методы, проверяющие состояние страницы
+
 		/// <summary>
-		/// Проверить, что кнопка 'Suggest Term' отсутствует
+		/// Проверить, что кнопка 'Suggest Term' присутствует
 		/// </summary>
-		public T AssertSuggestTermButtonNotExist<T>(WebDriver driver) where T : class, IAbstractPage<T>
+		public bool IsSuggestTermButtonExist()
 		{
-			CustomTestContext.WriteLine("Проверить, что кнопка 'Suggest Term' отсутствует.");
-			
+			CustomTestContext.WriteLine("Проверить, что кнопка 'Suggest Term' присутствует");
 
-			Assert.IsFalse(Driver.GetIsElementExist(By.XPath(SUGGEST_TERM_BUTTON)),
-				"Произошла ошибка:\nКнопка 'Suggest Term' присутствует.");
-
-			var instance = Activator.CreateInstance(typeof(T), new object[] { driver }) as T;
-			return instance.GetPage();
+			return Driver.GetIsElementExist(By.XPath(SUGGEST_TERM_BUTTON));
 		}
 
 		/// <summary>
-		/// Проверить, что кнопка 'Suggested Terms' отсутствует
+		/// Проверить, что кнопка 'Suggested Terms' присутствует
 		/// </summary>
-		public T AssertSuggestedTermsButtonNotExist<T>(WebDriver driver) where T : class, IAbstractPage<T>
+		public bool IsSuggestedTermsButtonExist()
 		{
-			CustomTestContext.WriteLine("Проверить, что кнопка 'Suggested Terms' отсутствует.");
+			CustomTestContext.WriteLine("Проверить, что кнопка 'Suggested Terms' присутствует");
 
-			Assert.IsFalse(Driver.GetIsElementExist(By.XPath(SUGGESTED_TERMS_BUTTON)),
-				"Произошла ошибка:\nКнопка 'Suggested Terms' присутствует.");
-
-			var instance = Activator.CreateInstance(typeof(T), new object[] { driver }) as T;
-			return instance.GetPage();
+			return Driver.GetIsElementExist(By.XPath(SUGGESTED_TERMS_BUTTON));
 		}
+
+		/// <summary>
+		/// Проверить, что дата изменения глоссария совпадает с текущей датой.
+		/// </summary>
+		/// <param name="glossaryName">имя глоссария</param>
+		public bool IsDateModifiedMatchCurrentDate(string glossaryName)
+		{
+			CustomTestContext.WriteLine("Проверить, что дата изменения глоссария {0} совпадает с текущей датой", glossaryName);
+
+			DateTime convertModifiedDate = GlossaryDateModified(glossaryName);
+			TimeSpan result = DateTime.Now - convertModifiedDate;
+			var minutesDifference = result.TotalMinutes;
+
+			return minutesDifference < 5;
+		}
+
+		/// <summary>
+		/// Проверить, что глоссарий присутствует в списке
+		/// </summary>
+		public bool IsGlossaryExist(string glossaryName)
+		{
+			CustomTestContext.WriteLine("Проверить, что глоссарий {0} присутствует в списке.", glossaryName);
+
+			return Driver.WaitUntilElementIsDisplay(By.XPath(GLOSSARY_ROW.Replace("*#*", glossaryName)));
+		}
+
+		///<summary>
+		///Проверить, что глоссарий отсутствует в списке
+		///</summary>
+		public bool IsGlossaryNotExist(string glossaryName)
+		{
+			CustomTestContext.WriteLine("Проверить, что глоссарий {0} отсутствует в списке.", glossaryName);
+
+			return Driver.WaitUntilElementIsDisappeared(By.XPath(GLOSSARY_ROW.Replace("*#*", glossaryName)));
+		}
+
+		/// <summary>
+		/// Проверить, открыта ли страница со списком глоссариев
+		/// </summary>
+		public bool IsGlossariesPageOpened()
+		{
+			return Driver.WaitUntilElementIsDisplay(By.XPath(GLOSSARY_TABLE));
+		}
+
+		#endregion
+
+		#region Объявление элементов страницы
 
 		[FindsBy(How = How.XPath, Using = SORT_BY_NAME)]
 		protected IWebElement SortByName { get; set; }
@@ -302,6 +319,12 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 		[FindsBy(How = How.XPath, Using = SUGGEST_TERM_BUTTON)]
 		protected IWebElement SuggestTermButton { get; set; }
 
+		protected IWebElement GlossaryRow { get; set; }
+
+		#endregion
+
+		#region Описания XPath элементов
+
 		protected const string GLOSSARY_CREATION_DIALOG_XPATH = ".//div[contains(@class,'js-popup-edit-glossary')][2]";
 		protected const string CREATE_GLOSSARY_BUTTON = ".//div[contains(@class,'js-create-glossary-button')]//a";
 		protected const string GLOSSARY_TABLE = "//table[contains(@class,'js-sortable-table') and contains(@data-sort-action, 'Glossaries')]";
@@ -324,5 +347,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 		protected const string SUGGESTED_TERMS_BUTTON = ".//a[contains(@href,'/Suggests')]";
 		protected const string SUGGEST_TERM_BUTTON = "//div[contains(@class,'js-add-suggest')]";
 
+		#endregion
 	}
 }

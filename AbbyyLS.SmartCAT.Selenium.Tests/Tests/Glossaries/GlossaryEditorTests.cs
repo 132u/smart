@@ -6,6 +6,7 @@ using AbbyyLS.SmartCAT.Selenium.Tests.DataStructures;
 using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
 using AbbyyLS.SmartCAT.Selenium.Tests.FeatureAttributes;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor;
+using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.UsersRights;
 using AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers;
@@ -27,6 +28,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 			_usersRightsPage = new UsersRightsPage(Driver);
 			_projectSettingsPage = new ProjectSettingsPage(Driver);
 			_confirmTermWithoutTranskationDialog = new ConfirmTermWithoutTranskationDialog(Driver);
+			_glossaryPage = new GlossaryPage(Driver);
+			_glossariesPage = new GlossariesPage(Driver);
 
 			_projectName = _createProjectHelper.GetProjectUniqueName();
 			_glossaryName = GlossariesHelper.UniqueGlossaryName();
@@ -134,9 +137,15 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 
 			_editorPage.ClickHomeButton();
 
-			_workspaceHelper
-				.GoToGlossariesPage()
-				.CheckTermInGlossary(_glossaryName, word);
+			_workspaceHelper.GoToGlossariesPage();
+
+			_glossariesPage.ClickGlossaryRow(_glossaryName);
+
+			Assert.IsTrue(_glossaryPage.IsSingleTermExists(word),
+				"Произошла ошибка:\n термин не обнаружен.");
+
+			Assert.IsTrue(_glossaryPage.IsGlossaryContainsCorrectTermsCount(expectedTermsCount: 1),
+				"Произошла ошибка:\n глоссарий содержит неверное количество терминов");
 		}
 
 		[Test(Description = "Проверяет добавление одиночного термина из таргета в глоссарий")]
@@ -157,9 +166,15 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 
 			_editorPage.ClickHomeButton();
 
-			_workspaceHelper
-				.GoToGlossariesPage()
-				.CheckTermInGlossary(_glossaryName, "", word);
+			_workspaceHelper.GoToGlossariesPage();
+
+			_glossariesPage.ClickGlossaryRow(_glossaryName);
+
+			Assert.IsTrue(_glossaryPage.IsSingleTermWithTranslationExists(string.Empty, word),
+				"Произошла ошибка:\n термин не обнаружен");
+
+			Assert.IsTrue(_glossaryPage.IsGlossaryContainsCorrectTermsCount(expectedTermsCount: 1),
+				"Произошла ошибка:\n глоссарий содержит неверное количество терминов");
 		}
 
 		[Test(Description = "Проверяет добавление термина с сорсом и таргетом в глоссарий")]
@@ -174,9 +189,15 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 
 			_editorPage.ClickHomeButton();
 
-			_workspaceHelper
-				.GoToGlossariesPage()
-				.CheckTermInGlossary(_glossaryName, source, target);
+			_workspaceHelper.GoToGlossariesPage();
+
+			_glossariesPage.ClickGlossaryRow(_glossaryName);
+
+			Assert.IsTrue(_glossaryPage.IsSingleTermWithTranslationExists(source, target),
+				"Произошла ошибка:\n термин не обнаружен");
+
+			Assert.IsTrue(_glossaryPage.IsGlossaryContainsCorrectTermsCount(expectedTermsCount: 1),
+				"Произошла ошибка:\n глоссарий содержит неверное количество терминов");
 		}
 
 		[Test(Description = "Проверяет добавление термина из сорса с таргетом в глоссарий игнорируя автоподстановку")]
@@ -193,9 +214,15 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 
 			_editorPage.ClickHomeButton();
 
-			_workspaceHelper
-				.GoToGlossariesPage()
-				.CheckTermInGlossary(_glossaryName, source, target);
+			_workspaceHelper.GoToGlossariesPage();
+
+			_glossariesPage.ClickGlossaryRow(_glossaryName);
+
+			Assert.IsTrue(_glossaryPage.IsSingleTermWithTranslationExists(source, target),
+				"Произошла ошибка:\n термин не обнаружен");
+
+			Assert.IsTrue(_glossaryPage.IsGlossaryContainsCorrectTermsCount(expectedTermsCount: 1),
+				"Произошла ошибка:\n глоссарий содержит неверное количество терминов");
 		}
 
 
@@ -215,9 +242,15 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 
 			_editorPage.ClickHomeButton();
 
-			_workspaceHelper
-				.GoToGlossariesPage()
-				.CheckTermInGlossary(_glossaryName, source, target);
+			_workspaceHelper.GoToGlossariesPage();
+
+			_glossariesPage.ClickGlossaryRow(_glossaryName);
+
+			Assert.IsTrue(_glossaryPage.IsSingleTermWithTranslationExists(source, target),
+				"Произошла ошибка:\n термин не обнаружен");
+
+			Assert.IsTrue(_glossaryPage.IsGlossaryContainsCorrectTermsCount(expectedTermsCount: 1),
+				"Произошла ошибка:\n глоссарий содержит неверное количество терминов");
 		}
 
 		[Test(Description = "Проверяет добавление в глоссарий двух терминов с одинаковым сорсом")]
@@ -248,9 +281,15 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 
 			_editorPage.ClickHomeButton();
 
-			_workspaceHelper
-				.GoToGlossariesPage()
-				.CheckTermInGlossary(_glossaryName, source, modifiedTarget, termsCount: 2);
+			_workspaceHelper.GoToGlossariesPage();
+
+			_glossariesPage.ClickGlossaryRow(_glossaryName);
+
+			Assert.IsTrue(_glossaryPage.IsSingleTermWithTranslationExists(source, modifiedTarget),
+				"Произошла ошибка:\n термин не обнаружен");
+
+			Assert.IsTrue(_glossaryPage.IsGlossaryContainsCorrectTermsCount(expectedTermsCount: 2),
+				"Произошла ошибка:\n глоссарий содержит неверное количество терминов");
 		}
 
 		[Test(Description = "Проверить добавление в глоссарий двух терминов с одинаковым таргетом")]
@@ -281,9 +320,15 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 
 			_editorPage.ClickHomeButton();
 
-			_workspaceHelper
-				.GoToGlossariesPage()
-				.CheckTermInGlossary(_glossaryName, modifiedSource, target, termsCount: 2);
+			_workspaceHelper.GoToGlossariesPage();
+
+			_glossariesPage.ClickGlossaryRow(_glossaryName);
+
+			Assert.IsTrue(_glossaryPage.IsSingleTermWithTranslationExists(modifiedSource, target),
+				"Произошла ошибка:\n термин не обнаружен");
+
+			Assert.IsTrue(_glossaryPage.IsGlossaryContainsCorrectTermsCount(expectedTermsCount: 2),
+				"Произошла ошибка:\n глоссарий содержит неверное количество терминов");
 		}
 
 		[Test(Description = "Проверяет добавление в глоссарий двух абсолютно идентичных терминов")]
@@ -313,9 +358,15 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 
 			_editorPage.ClickHomeButton();
 
-			_workspaceHelper
-				.GoToGlossariesPage()
-				.CheckTermInGlossary(_glossaryName, source, target, termsCount: 2);
+			_workspaceHelper.GoToGlossariesPage();
+
+			_glossariesPage.ClickGlossaryRow(_glossaryName);
+
+			Assert.IsTrue(_glossaryPage.IsSingleTermWithTranslationExists(source, target),
+				"Произошла ошибка:\n термин не обнаружен");
+
+			Assert.IsTrue(_glossaryPage.IsGlossaryContainsCorrectTermsCount(expectedTermsCount: 2),
+				"Произошла ошибка:\n глоссарий содержит неверное количество терминов");
 		}
 
 		[Test(Description = "Проверяет добавление в глоссарий термина с комментарием")]
@@ -331,9 +382,15 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 
 			_editorPage.ClickHomeButton();
 
-			_workspaceHelper
-				.GoToGlossariesPage()
-				.CheckTermInGlossary(_glossaryName, source, target, comment);
+			_workspaceHelper.GoToGlossariesPage();
+
+			_glossariesPage.ClickGlossaryRow(_glossaryName);
+
+			Assert.IsTrue(_glossaryPage.IsTermWithTranslationAndCommentExists(source, target, comment),
+				"Произошла ошибка:\n термин не обнаружен");
+
+			Assert.IsTrue(_glossaryPage.IsGlossaryContainsCorrectTermsCount(expectedTermsCount: 1),
+				"Произошла ошибка:\n глоссарий содержит неверное количество терминов");
 		}
 
 		[Test(Description = "Проверяет добавление в глоссарий ранее удаленного термина")]
@@ -348,13 +405,14 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 
 			_editorPage.ClickHomeButton();
 
-			_workspaceHelper
-				.GoToGlossariesPage()
-				.CheckTermInGlossary(_glossaryName, source, target)
-				.DeleteTerm(source)
-				.GoToProjectsPage();
-			_workspaceHelper
-				.GoToProjectSettingsPage(_projectName);
+			_workspaceHelper.GoToGlossariesPage();
+
+			_glossariesPage.ClickGlossaryRow(_glossaryName);
+
+			_glossaryPage.DeleteTerm(source);
+
+			_workspaceHelper.GoToProjectsPage();
+			_workspaceHelper.GoToProjectSettingsPage(_projectName);
 
 			_projectSettingsPage
 				.OpenDocumentInEditorWithTaskSelect(Path.GetFileNameWithoutExtension(PathProvider.DocumentFile));
@@ -367,9 +425,15 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 
 			_editorPage.ClickHomeButton();
 
-			_workspaceHelper
-				.GoToGlossariesPage()
-				.CheckTermInGlossary(_glossaryName, source, target);
+			_workspaceHelper.GoToGlossariesPage();
+
+			_glossariesPage.ClickGlossaryRow(_glossaryName);
+
+			Assert.IsTrue(_glossaryPage.IsSingleTermWithTranslationExists(source, target),
+				"Произошла ошибка:\n термин не обнаружен");
+
+			Assert.IsTrue(_glossaryPage.IsGlossaryContainsCorrectTermsCount(expectedTermsCount: 1),
+				"Произошла ошибка:\n глоссарий содержит неверное количество терминов");
 		}
 
 		private CreateProjectHelper _createProjectHelper;
@@ -381,6 +445,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 
 		private UsersRightsPage _usersRightsPage;
 		private ProjectSettingsPage _projectSettingsPage;
+		private GlossaryPage _glossaryPage;
+		private GlossariesPage _glossariesPage;
 
 		private string _projectName;
 		private string _glossaryName;

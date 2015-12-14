@@ -1,13 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-
-using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries;
+﻿using System.Collections.Generic;
 
 using NUnit.Framework;
 
 using AbbyyLS.SmartCAT.Selenium.Tests.DataStructures;
 using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
 using AbbyyLS.SmartCAT.Selenium.Tests.FeatureAttributes;
+using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries;
 using AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
@@ -22,34 +20,44 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 			_workspaceHelper = new WorkspaceHelper(Driver);
 			_glossariesHelper = new GlossariesHelper(Driver);
 			_suggestTermDialog = new SuggestTermDialog(Driver);
+			_glossaryPage = new GlossaryPage(Driver);
+			_glossariesPage = new GlossariesPage(Driver);
+			_suggestedTermsPageForCurrentGlossaries = new SuggestedTermsPageForCurrentGlossaries(Driver);
+			_suggestedTermsPageForAllGlossaries = new SuggestedTermsPageForAllGlossaries(Driver);
 
 			_term1 = "term1";
 			_term2 = "term2";
 
 			_glossaryName = GlossariesHelper.UniqueGlossaryName();
 
-			_workspaceHelper
-				.GoToGlossariesPage()
-				.GoToSuggestedTermsPageFromGlossariesPage()
-				.DeleteAllSuggestTerms()
-				.GoToGlossariesPage();
+			_workspaceHelper.GoToGlossariesPage();
+
+			_glossariesPage.ClickSuggestedTermsButton();
+
+			_suggestedTermsPageForAllGlossaries.DeleteAllSuggestTerms();
+
+			_workspaceHelper.GoToGlossariesPage();
 		}
 
 		[Test]
 		public void SuggestTermWithoutGlossaryTest()
 		{
-			var suggestedTermsByGlossaryCountBefore = _glossariesHelper
-				.GoToSuggestedTermsPageFromGlossariesPage()
-				.SuggestedTermsByGlossaryCount();
+			_glossariesPage.ClickSuggestedTermsButton();
 
-			_glossariesHelper
-				.GoToGlossariesPage()
-				.OpenSuggestTermDialogFromGlossariesPage()
+			var suggestedTermsByGlossaryCountBefore = _suggestedTermsPageForAllGlossaries.GetTermsByGlossaryNameCount();
+
+			_glossariesHelper.GoToGlossariesPage();
+
+			_glossariesPage.ClickSuggestTermButton();
+
+			_suggestTermDialog
 				.FillSuggestTermDialog()
-				.ClickSaveButtonInSuggestTermDialogFromGlossariesPage()
-				.GoToSuggestedTermsPageFromGlossariesPage();
+				.ClickSaveButtonExpectingGlossariesPage();
 
-			 _glossariesHelper.SuggestedTermsByGlossaryCountMatch(suggestedTermsByGlossaryCountBefore + 1);
+			_glossariesPage.ClickSuggestedTermsButton();
+
+			Assert.AreEqual(suggestedTermsByGlossaryCountBefore + 1, _suggestedTermsPageForAllGlossaries.GetTermsByGlossaryNameCount(),
+				"Произошла Ошибка:\n Неверное количество терминов.");
 		}
 
 		[Test]
@@ -57,25 +65,37 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 		{
 			_glossariesHelper
 				.CreateGlossary(_glossaryName)
-				.GoToGlossariesPage()
-				.OpenSuggestTermDialogFromGlossariesPage()
+				.GoToGlossariesPage();
+
+			_glossariesPage.ClickSuggestTermButton();
+
+			_suggestTermDialog
 				.FillSuggestTermDialog(glossary: _glossaryName)
-				.ClickSaveButtonInSuggestTermDialogFromGlossariesPage()
-				.GoToSuggestedTermsPageFromGlossariesPage()
-				.SuggestedTermsByGlossaryCountMatch(suggestedTermsCount: 1, glossary: _glossaryName);
+				.ClickSaveButtonExpectingGlossariesPage();
+
+			_glossariesPage.ClickSuggestedTermsButton();
+
+			Assert.AreEqual(1, _suggestedTermsPageForAllGlossaries.GetTermsByGlossaryNameCount(_glossaryName),
+				"Произошла Ошибка:\n Неверное количество терминов.");
 		}
 
 		[Test]
 		public void SuggestTermWithGlossaryFromGlossaryPageTest()
 		{
-			_glossariesHelper
-				.CreateGlossary(_glossaryName)
-				.OpenSuggestTermDialogFromGlossaryPage()
+			_glossariesHelper.CreateGlossary(_glossaryName);
+
+			_glossaryPage.ClickSuggestTermButton();
+
+			_suggestTermDialog
 				.FillSuggestTermDialog(glossary: _glossaryName)
-				.ClickSaveButtonInSuggestTermDialogFromGlossaryPage()
-				.GoToGlossariesPage()
-				.GoToSuggestedTermsPageFromGlossariesPage()
-				.SuggestedTermsByGlossaryCountMatch(suggestedTermsCount: 1, glossary: _glossaryName);
+				.ClickSaveButtonExpectingGlossaryPage();
+
+			_glossariesHelper.GoToGlossariesPage();
+
+			_glossariesPage.ClickSuggestedTermsButton();
+
+			Assert.AreEqual(1, _suggestedTermsPageForAllGlossaries.GetTermsByGlossaryNameCount(_glossaryName),
+				"Произошла Ошибка:\n Неверное количество терминов.");
 		}
 
 		[Test]
@@ -86,133 +106,221 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 			_glossariesHelper
 				.CreateGlossary(_glossaryName)
 				.GoToGlossariesPage()
-				.CreateGlossary(glossaryName2)
-				.OpenSuggestTermDialogFromGlossaryPage()
+				.CreateGlossary(glossaryName2);
+
+			_glossaryPage.ClickSuggestTermButton();
+
+			_suggestTermDialog
 				.FillSuggestTermDialog(glossary: _glossaryName)
-				.ClickSaveButtonInSuggestTermDialogFromGlossaryPage()
-				.GoToGlossariesPage()
-				.GoToSuggestedTermsPageFromGlossariesPage()
-				.SuggestedTermsByGlossaryCountMatch(suggestedTermsCount: 1, glossary: _glossaryName);
+				.ClickSaveButtonExpectingGlossaryPage();
+
+			_glossariesHelper.GoToGlossariesPage();
+
+			_glossariesPage.ClickSuggestedTermsButton();
+
+			Assert.AreEqual(1, _suggestedTermsPageForAllGlossaries.GetTermsByGlossaryNameCount(_glossaryName),
+				"Произошла Ошибка:\n Неверное количество терминов.");
 		}
 
 		[Test]
 		public void SuggestTermWithoutGlossaryFromAnotherGlossaryTest()
 		{
-			var suggestedTermsByGlossaryCountBefore = _glossariesHelper
-				.GoToSuggestedTermsPageFromGlossariesPage()
-				.SuggestedTermsByGlossaryCount();
+			_glossariesPage.ClickSuggestedTermsButton();
+
+			var suggestedTermsByGlossaryCountBefore = _suggestedTermsPageForAllGlossaries.GetTermsByGlossaryNameCount();
 
 			_glossariesHelper
 				.GoToGlossariesPage()
-				.CreateGlossary(_glossaryName)
-				.OpenSuggestTermDialogFromGlossaryPage()
-				.FillSuggestTermDialog(glossary: "")
-				.ClickSaveButtonInSuggestTermDialogFromGlossaryPage()
-				.GoToGlossariesPage()
-				.GoToSuggestedTermsPageFromGlossariesPage();
+				.CreateGlossary(_glossaryName);
 
-			_glossariesHelper.SuggestedTermsByGlossaryCountMatch(suggestedTermsByGlossaryCountBefore + 1);
+			_glossaryPage.ClickSuggestTermButton();
+
+			_suggestTermDialog
+				.FillSuggestTermDialog(glossary: "")
+				.ClickSaveButtonExpectingGlossaryPage();
+
+			_glossariesHelper.GoToGlossariesPage();
+
+			_glossariesPage.ClickSuggestedTermsButton();
+
+			Assert.AreEqual(suggestedTermsByGlossaryCountBefore + 1, _suggestedTermsPageForAllGlossaries.GetTermsByGlossaryNameCount(),
+				"Произошла Ошибка:\n Неверное количество терминов.");
 		}
 
 		[Test]
 		public void SuggestExistingTermWarningFromGlossaryTest()
 		{
-			_glossariesHelper
-				.CreateGlossary(_glossaryName)
+			_glossariesHelper.CreateGlossary(_glossaryName);
+
+			_glossaryPage
 				.CreateTerm(_term1, _term2)
-				.OpenSuggestTermDialogFromGlossaryPage()
+				.ClickSuggestTermButton();
+
+			_suggestTermDialog
 				.FillSuggestTermDialog(term1: _term1, term2: _term2)
-				.ClickSaveButtonInSuggestTermDialogFromGlossaryPage(errorExpected: true)
-				.AssertDublicateErrorDisplayed()
-				.ClickCancelButtonInSuggestedTermDialogFromGlossaryPage()
-				.GoToSuggestedTermsPageFromGlossaryPage()
-				.AssertSuggestedTermsCountMatch(expectedTermCount: 0);
+				.ClickSaveButtonExpectingError();
+
+			Assert.IsTrue(_suggestTermDialog.IsDublicateErrorDisplayed(),
+				"Произошла ошибка:\n сообщение о том, что такой термин уже существует, не появилось");
+
+			_suggestTermDialog.ClickCancelButtonExpectingGlossaryPage();
+
+			_glossaryPage.ClickSuggestedTermsButton();
+
+			Assert.AreEqual(0, _suggestedTermsPageForCurrentGlossaries.GetSuggestedTermsCount(),
+				"Произошла ошибка:\nНеверное количество терминов.");
 		}
 
 		[Test]
 		public void SuggestExistingTermAcceptFromGlossaryTest()
 		{
-			_glossariesHelper
-				.CreateGlossary(_glossaryName)
+			_glossariesHelper.CreateGlossary(_glossaryName);
+
+			_glossaryPage
 				.CreateTerm(_term1, _term2)
-				.OpenSuggestTermDialogFromGlossaryPage()
+				.ClickSuggestTermButton();
+
+			_suggestTermDialog
 				.FillSuggestTermDialog(term1: _term1, term2: _term2)
-				.ClickSaveButtonInSuggestTermDialogFromGlossaryPage(errorExpected: true)
-				.AssertDublicateErrorDisplayed()
-				.ClickSaveTermAnywayInSuggestTermDialogFromGlossaryPage()
-				.GoToSuggestedTermsPageFromGlossaryPage()
-				.AssertSuggestedTermValueMatch(term: _term1, rowNumber: 1, columnNumber: 1)
-				.AssertSuggestedTermValueMatch(term: _term2, rowNumber: 1, columnNumber: 2)
-				.AssertSuggestedTermsCountMatch(expectedTermCount: 1);
+				.ClickSaveButtonExpectingError();
+
+			Assert.IsTrue(_suggestTermDialog.IsDublicateErrorDisplayed(),
+				"Произошла ошибка:\n сообщение о том, что такой термин уже существует, не появилось");
+
+			_suggestTermDialog.ClickCancelButtonExpectingGlossaryPage();
+
+			_glossaryPage.ClickSuggestedTermsButton();
+
+			Assert.IsTrue(_suggestedTermsPageForCurrentGlossaries.IsTermValueMatchExpected(
+				expectedTermValue: _term1, rowNumber: 1, columnNumber: 1),
+				"Произошла ошибка:\nНеверное значение в термине");
+
+			Assert.IsTrue(_suggestedTermsPageForCurrentGlossaries.IsTermValueMatchExpected(
+				expectedTermValue: _term2, rowNumber: 1, columnNumber: 2),
+				"Произошла ошибка:\nНеверное значение в термине");
+
+			Assert.AreEqual(1, _suggestedTermsPageForCurrentGlossaries.GetSuggestedTermsCount(),
+				"Произошла ошибка:\nНеверное количество терминов.");
 		}
 
 		[Test]
 		public void SuggestExistingTermWarningFromGlossaryListTest()
 		{
-			_glossariesHelper
-				.CreateGlossary(_glossaryName)
-				.CreateTerm(_term1, _term2)
-				.GoToGlossariesPage()
-				.OpenSuggestTermDialogFromGlossariesPage()
+			_glossariesHelper.CreateGlossary(_glossaryName);
+
+			_glossaryPage.CreateTerm(_term1, _term2);
+
+			_workspaceHelper.GoToGlossariesPage();
+
+			_glossariesPage.ClickSuggestTermButton();
+
+			_suggestTermDialog
 				.FillSuggestTermDialog(term1: _term1, term2: _term2, glossary: _glossaryName)
-				.ClickSaveButtonInSuggestTermDialogFromGlossaryPage(errorExpected: true)
-				.AssertDublicateErrorDisplayed()
-				.ClickCancelButtonInSuggestedTermDialogFromGlossariesPage()
-				.GoToGlossaryPage(_glossaryName)
-				.GoToSuggestedTermsPageFromGlossaryPage()
-				.AssertSuggestedTermsCountMatch(expectedTermCount: 0);
+				.ClickSaveButtonExpectingError();
+
+			Assert.IsTrue(_suggestTermDialog.IsDublicateErrorDisplayed(),
+				"Произошла ошибка:\n сообщение о том, что такой термин уже существует, не появилось");
+
+			_suggestTermDialog.ClickCancelButtonExpectingGlossaryPage();
+
+			_glossariesPage.ClickGlossaryRow(_glossaryName);
+
+			_glossaryPage.ClickSuggestedTermsButton();
+
+			Assert.AreEqual(0, _suggestedTermsPageForCurrentGlossaries.GetSuggestedTermsCount(),
+				"Произошла ошибка:\nНеверное количество терминов.");
 		}
 
 		[Test]
 		public void SuggestExistingTermAcceptFromGlossaryListTest()
 		{
-			_glossariesHelper
-				.CreateGlossary(_glossaryName)
-				.CreateTerm(_term1, _term2)
-				.GoToGlossariesPage()
-				.OpenSuggestTermDialogFromGlossariesPage()
+			_glossariesHelper.CreateGlossary(_glossaryName);
+
+			_glossaryPage.CreateTerm(_term1, _term2);
+
+			_workspaceHelper.GoToGlossariesPage();
+
+			_glossariesPage.ClickSuggestTermButton();
+
+			_suggestTermDialog
 				.FillSuggestTermDialog(term1: _term1, term2: _term2, glossary: _glossaryName)
-				.ClickSaveButtonInSuggestTermDialogFromGlossariesPage(errorExpected: true)
-				.AssertDublicateErrorDisplayed()
-				.ClickSaveTermAnywayInSuggestTermDialogFromGlossariesPage()
-				.GoToGlossaryPage(_glossaryName)
-				.GoToSuggestedTermsPageFromGlossaryPage()
-				.AssertSuggestedTermValueMatch(term: _term1, rowNumber: 1, columnNumber: 1)
-				.AssertSuggestedTermValueMatch(term: _term2, rowNumber: 1, columnNumber: 2)
-				.AssertSuggestedTermsCountMatch(expectedTermCount: 1);
+				.ClickSaveButtonExpectingError();
+
+			Assert.IsTrue(_suggestTermDialog.IsDublicateErrorDisplayed(),
+				"Произошла ошибка:\n сообщение о том, что такой термин уже существует, не появилось");
+
+			_suggestTermDialog.ClickCancelButtonExpectingGlossaryPage();
+
+			_glossariesPage.ClickGlossaryRow(_glossaryName);
+
+			_glossaryPage.ClickSuggestedTermsButton();
+
+			Assert.IsTrue(_suggestedTermsPageForCurrentGlossaries.IsTermValueMatchExpected(
+				expectedTermValue: _term1, rowNumber: 1, columnNumber: 1),
+				"Произошла ошибка:\nНеверное значение в термине");
+
+			Assert.IsTrue(_suggestedTermsPageForCurrentGlossaries.IsTermValueMatchExpected(
+				expectedTermValue: _term2, rowNumber: 1, columnNumber: 2),
+				"Произошла ошибка:\nНеверное значение в термине");
+
+			Assert.AreEqual(1, _suggestedTermsPageForCurrentGlossaries.GetSuggestedTermsCount(),
+				"Произошла ошибка:\nНеверное количество терминов.");
 		}
 
 		[Test]
 		public void AcceptSuggestedTermWithGlossaryFromGlossariesPageTest()
 		{
-			_glossariesHelper
-				.CreateGlossary(_glossaryName)
-				.OpenSuggestTermDialogFromGlossaryPage()
+			_glossariesHelper.CreateGlossary(_glossaryName);
+
+			_glossaryPage.ClickSuggestTermButton();
+
+			_suggestTermDialog
 				.FillSuggestTermDialog(term1: _term1, term2: _term2)
-				.ClickSaveButtonInSuggestTermDialogFromGlossaryPage()
-				.GoToGlossariesPage()
-				.GoToSuggestedTermsPageFromGlossariesPage()
-				.AcceptSuggestTermInSuggestedTermsPageForAllGlossaries(glossaryName: _glossaryName)
-				.GoToGlossariesPage()
-				.GoToGlossaryPage(_glossaryName)
-				.AssertGlossaryContainsCorrectTermsCount(termsCount: 1)
-				.AssertTermMatch(expectedText: _term1);
+				.ClickSaveButtonExpectingGlossaryPage();
+
+			_glossariesHelper.GoToGlossariesPage();
+
+			_glossariesPage.ClickSuggestedTermsButton();
+
+			_suggestedTermsPageForAllGlossaries
+				.AcceptSuggestTermInSuggestedTermsPageForAllGlossaries(glossaryName: _glossaryName);
+
+			_workspaceHelper.GoToGlossariesPage();
+
+			_glossariesPage.ClickGlossaryRow(_glossaryName);
+
+			Assert.IsTrue(_glossaryPage.IsGlossaryContainsCorrectTermsCount(expectedTermsCount: 1),
+				"Произошла ошибка:\n глоссарий содержит неверное количество терминов");
+
+			Assert.AreEqual(_term1, _glossaryPage.FirstTermText(),
+				"Произошла ошибка:\n текст в термине не совпадает с ожидаемым.");
 		}
 
 		[Test]
 		public void AcceptSuggestedTermWithGlossaryFromGlossaryPageTest()
 		{
-			_glossariesHelper
-				.CreateGlossary(_glossaryName)
-				.OpenSuggestTermDialogFromGlossaryPage()
+			_glossariesHelper.CreateGlossary(_glossaryName);
+
+			_glossaryPage.ClickSuggestTermButton();
+
+			_suggestTermDialog
 				.FillSuggestTermDialog(term1: _term1, term2: _term2)
-				.ClickSaveButtonInSuggestTermDialogFromGlossaryPage()
-				.GoToSuggestedTermsPageFromGlossaryPage()
-				.AcceptSuggestTermInSuggestedTermsPageForCurrentGlossary(termRowNumber: 1)
-				.GoToGlossariesPage()
-				.GoToGlossaryPage(_glossaryName)
-				.AssertGlossaryContainsCorrectTermsCount(termsCount: 1)
-				.AssertTermMatch(expectedText: _term1);
+				.ClickSaveButtonExpectingGlossaryPage();
+
+			_glossaryPage.ClickSuggestedTermsButton();
+
+			_suggestedTermsPageForCurrentGlossaries
+				.AcceptSuggestTermInSuggestedTermsPageForCurrentGlossary(termRowNumber: 1);
+
+			_workspaceHelper.GoToGlossariesPage();
+
+			_glossariesPage.ClickGlossaryRow(_glossaryName);
+
+			Assert.IsTrue(_glossaryPage.IsGlossaryContainsCorrectTermsCount(expectedTermsCount: 1),
+				"Произошла ошибка:\n глоссарий содержит неверное количество терминов");
+
+			Assert.AreEqual(_term1, _glossaryPage.FirstTermText(),
+				"Произошла ошибка:\n текст в термине не совпадает с ожидаемым.");
 		}
 
 		[Test]
@@ -220,20 +328,33 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 		{
 			var glossaryName2 = GlossariesHelper.UniqueGlossaryName();
 			
-			_glossariesHelper
-				.CreateGlossary(_glossaryName)
-				.OpenSuggestTermDialogFromGlossaryPage()
+			_glossariesHelper.CreateGlossary(_glossaryName);
+
+			_glossaryPage.ClickSuggestTermButton();
+
+			_suggestTermDialog
 				.FillSuggestTermDialog(term1: _term1, term2: _term2)
-				.ClickSaveButtonInSuggestTermDialogFromGlossaryPage()
+				.ClickSaveButtonExpectingGlossaryPage();
+
+			_glossariesHelper
 				.GoToGlossariesPage()
-				.CreateGlossary(glossaryName2)
-				.GoToSuggestedTermsPageFromGlossaryPage()
+				.CreateGlossary(glossaryName2);
+
+			_glossaryPage.ClickSuggestedTermsButton();
+
+			_suggestedTermsPageForCurrentGlossaries
 				.SelectGlossaryInSuggestedTermsPageForCurrentGlossary(_glossaryName)
-				.AcceptSuggestTermInSuggestedTermsPageForCurrentGlossary(termRowNumber: 1)
-				.GoToGlossariesPage()
-				.GoToGlossaryPage(_glossaryName)
-				.AssertGlossaryContainsCorrectTermsCount(termsCount: 1)
-				.AssertTermMatch(expectedText: _term1);
+				.AcceptSuggestTermInSuggestedTermsPageForCurrentGlossary(termRowNumber: 1);
+
+			_workspaceHelper.GoToGlossariesPage();
+
+			_glossariesPage.ClickGlossaryRow(_glossaryName);
+
+			Assert.IsTrue(_glossaryPage.IsGlossaryContainsCorrectTermsCount(expectedTermsCount: 1),
+				"Произошла ошибка:\n глоссарий содержит неверное количество терминов");
+
+			Assert.AreEqual(_term1, _glossaryPage.FirstTermText(),
+				"Произошла ошибка:\n текст в термине не совпадает с ожидаемым.");
 		}
 
 		[Test]
@@ -241,46 +362,69 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 		{
 			_glossariesHelper
 				.CreateGlossary(_glossaryName)
-				.GoToGlossariesPage()
-				.OpenSuggestTermDialogFromGlossariesPage()
+				.GoToGlossariesPage();
+
+			_glossariesPage.ClickSuggestTermButton();
+
+			_suggestTermDialog
 				.FillSuggestTermDialog(term1: _term1, term2: _term2)
-				.ClickSaveButtonInSuggestTermDialogFromGlossariesPage()
-				.GoToSuggestedTermsPageFromGlossariesPage()
+				.ClickSaveButtonExpectingGlossariesPage();
+
+			_glossariesPage.ClickSuggestedTermsButton();
+
+			_suggestedTermsPageForAllGlossaries
 				.AcceptSuggestTermInSuggestedTermsPageForAllGlossaries(chooseGlossary: true)
-				.SelectGlossaryForSuggestedTerm(_glossaryName)
-				.GoToGlossariesPage()
-				.GoToGlossaryPage(_glossaryName)
-				.AssertGlossaryContainsCorrectTermsCount(termsCount: 1)
-				.AssertTermMatch(expectedText: _term1);
+				.SelectGlossaryForSuggestedTerm(_glossaryName);
+
+			_workspaceHelper.GoToGlossariesPage();
+
+			_glossariesPage.ClickGlossaryRow(_glossaryName);
+
+			Assert.IsTrue(_glossaryPage.IsGlossaryContainsCorrectTermsCount(expectedTermsCount: 1),
+				"Произошла ошибка:\n глоссарий содержит неверное количество терминов");
+
+			Assert.AreEqual(_term1, _glossaryPage.FirstTermText(),
+				"Произошла ошибка:\n текст в термине не совпадает с ожидаемым.");
 		}
 
 		[Test]
 		public void DeleteSuggestedTermWithoutGlossaryTest()
 		{
-			_glossariesHelper
-				.OpenSuggestTermDialogFromGlossariesPage()
+			_glossariesPage.ClickSuggestTermButton();
+
+			_suggestTermDialog
 				.FillSuggestTermDialog(term1: _term1, term2: _term2)
-				.ClickSaveButtonInSuggestTermDialogFromGlossariesPage()
-				.GoToSuggestedTermsPageFromGlossariesPage();
+				.ClickSaveButtonExpectingGlossariesPage();
 
-			var suggestedTermsCountBeforeDelete = _glossariesHelper.SuggestedTermsCountForGlossary();
+			_glossariesPage.ClickSuggestedTermsButton();
 
-			_glossariesHelper
-				.DeleteSuggestTermInSuggestedTermsPageForAllGlossaries()
-				.AssertSuggestedTermsCountMatch(suggestedTermsCountBeforeDelete - 1);
+			var suggestedTermsCountBeforeDelete = _suggestedTermsPageForAllGlossaries.GetTermRowNumberByGlossaryName();
+
+			_suggestedTermsPageForAllGlossaries.DeleteSuggestTermInSuggestedTermsPageForAllGlossaries();
+
+			Assert.AreEqual(suggestedTermsCountBeforeDelete - 1,
+				_suggestedTermsPageForCurrentGlossaries.GetSuggestedTermsCount(),
+				"Произошла ошибка:\nНеверное количество терминов.");
 		}
 
 		[Test]
 		public void DeleteSuggestedTermWithGlossaryTest()
 		{
-			_glossariesHelper
-				.CreateGlossary(_glossaryName)
-				.OpenSuggestTermDialogFromGlossaryPage()
+			_glossariesHelper.CreateGlossary(_glossaryName);
+
+			_glossaryPage.ClickSuggestTermButton();
+
+			_suggestTermDialog
 				.FillSuggestTermDialog(term1: _term1, term2: _term2)
-				.ClickSaveButtonInSuggestTermDialogFromGlossaryPage()
-				.GoToSuggestedTermsPageFromGlossaryPage()
-				.DeleteSuggestTermInSuggestedTermsPageForCurrentGlossary(termRowNumber: 1)
-				.AssertSuggestedTermsCountMatch(expectedTermCount: 0);
+				.ClickSaveButtonExpectingGlossaryPage();
+
+			_glossaryPage.ClickSuggestedTermsButton();
+
+			_suggestedTermsPageForCurrentGlossaries
+				.DeleteSuggestTermInSuggestedTermsPageForCurrentGlossary(termRowNumber: 1);
+
+			Assert.AreEqual(0, _suggestedTermsPageForCurrentGlossaries.GetSuggestedTermsCount(),
+				"Произошла ошибка:\nНеверное количество терминов.");
 		}
 
 		[Test]
@@ -288,17 +432,28 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 		{
 			var editTerm = "editTerm";
 
-			_glossariesHelper
-				.CreateGlossary(_glossaryName)
-				.OpenSuggestTermDialogFromGlossaryPage()
+			_glossariesHelper.CreateGlossary(_glossaryName);
+
+			_glossaryPage.ClickSuggestTermButton();
+
+			_suggestTermDialog
 				.FillSuggestTermDialog(term1: _term1, term2: _term2)
-				.ClickSaveButtonInSuggestTermDialogFromGlossaryPage()
-				.GoToSuggestedTermsPageFromGlossaryPage()
-				.EditSuggestTermInSuggestedTermsPageForCurrentGlossary(termRowNumber: 1, termValue: editTerm)
-				.GoToGlossariesPage()
-				.GoToGlossaryPage(_glossaryName)
-				.AssertGlossaryContainsCorrectTermsCount(termsCount: 1)
-				.AssertTermMatch(expectedText: editTerm);
+				.ClickSaveButtonExpectingGlossaryPage();
+
+			_glossaryPage.ClickSuggestedTermsButton();
+
+			_suggestedTermsPageForCurrentGlossaries
+				.EditSuggestTermInSuggestedTermsPageForCurrentGlossary(termRowNumber: 1, termValue: editTerm);
+
+			_workspaceHelper.GoToGlossariesPage();
+
+			_glossariesPage.ClickGlossaryRow(_glossaryName);
+
+			Assert.IsTrue(_glossaryPage.IsGlossaryContainsCorrectTermsCount(expectedTermsCount: 1),
+				"Произошла ошибка:\n глоссарий содержит неверное количество терминов");
+
+			Assert.AreEqual(editTerm, _glossaryPage.FirstTermText(),
+				"Произошла ошибка:\n текст в термине не совпадает с ожидаемым.");
 		}
 
 		[Test]
@@ -306,46 +461,65 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 		{
 			var editTerm = "editTerm";
 
-			_glossariesHelper
-				.CreateGlossary(_glossaryName)
-				.OpenSuggestTermDialogFromGlossaryPage()
+			_glossariesHelper.CreateGlossary(_glossaryName);
+
+			_glossaryPage.ClickSuggestTermButton();
+
+			_suggestTermDialog
 				.FillSuggestTermDialog(term1: _term1, term2: _term2)
-				.ClickSaveButtonInSuggestTermDialogFromGlossaryPage()
-				.GoToGlossariesPage()
-				.OpenSuggestTermDialogFromGlossariesPage()
+				.ClickSaveButtonExpectingGlossaryPage();
+
+			_glossariesHelper.GoToGlossariesPage();
+
+			_glossariesPage.ClickSuggestTermButton();
+
+			_suggestTermDialog
 				.FillSuggestTermDialog(term1: _term1, term2: _term2)
-				.ClickSaveButtonInSuggestTermDialogFromGlossariesPage()
-				.GoToSuggestedTermsPageFromGlossariesPage()
+				.ClickSaveButtonExpectingGlossariesPage();
+
+			_glossariesPage.ClickSuggestedTermsButton();
+
+			_suggestedTermsPageForAllGlossaries
 				.EditSuggestTermInSuggestedTermsPageForAllGlossaries(
 					glossaryName: "",
 					termValue: editTerm,
-					chooseGlossary: true,
-					glossaryToChoose: _glossaryName)
-				.GoToGlossariesPage()
-				.GoToGlossaryPage(_glossaryName)
-				.AssertGlossaryContainsCorrectTermsCount(termsCount: 1)
-				.AssertTermMatch(expectedText: editTerm);
+					glossaryToChoose: _glossaryName);
+
+			_workspaceHelper.GoToGlossariesPage();
+
+			_glossariesPage.ClickGlossaryRow(_glossaryName);
+
+			Assert.IsTrue(_glossaryPage.IsGlossaryContainsCorrectTermsCount(expectedTermsCount: 1),
+				"Произошла ошибка:\n глоссарий содержит неверное количество терминов");
+
+			Assert.AreEqual(editTerm, _glossaryPage.FirstTermText(),
+				"Произошла ошибка:\n текст в термине не совпадает с ожидаемым.");
 		}
 
 		[Test]
 		[Ignore("PRX-13437")]
 		public void SuggestEmptyTermFromGlossaryListTest()
 		{
-			_glossariesHelper
-				.OpenSuggestTermDialogFromGlossariesPage()
-				.ClickSaveButtonInSuggestTermDialogFromGlossaryPage(errorExpected: true)
-				.AssertEmptyTermErrorDisplayed();
+			_glossariesPage
+				.ClickSuggestTermButton()
+				.ClickSaveButtonExpectingError();
+
+			Assert.IsTrue(_suggestTermDialog.IsEmptyTermErrorDisplayed(),
+				"Произошла ошибка:\nCообщение 'Enter at least one term.' не появилось.");
 		}
 
 		[Test]
 		[Ignore("PRX-13437")]
 		public void SuggestEmptyTermFromGlossaryTest()
 		{
-			_glossariesHelper
-				.CreateGlossary(_glossaryName)
-				.OpenSuggestTermDialogFromGlossaryPage()
-				.ClickSaveButtonInSuggestTermDialogFromGlossaryPage(errorExpected: true)
-				.AssertEmptyTermErrorDisplayed();
+			_glossariesHelper.CreateGlossary(_glossaryName);
+
+			_glossaryPage
+				.ClickSuggestTermButton()
+				.ClickSaveButtonExpectingError();
+
+			Assert.IsTrue(_suggestTermDialog.IsEmptyTermErrorDisplayed(),
+				"Произошла ошибка:\nCообщение 'Enter at least one term.' не появилось.");
 		}
 
 		[Test]
@@ -353,28 +527,36 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 		{
 			var synonym = "synonym";
 
-			_glossariesHelper
-				.CreateGlossary(_glossaryName)
-				.OpenSuggestTermDialogFromGlossaryPage()
+			_glossariesHelper.CreateGlossary(_glossaryName);
+
+			_glossaryPage.ClickSuggestTermButton();
+
+			_suggestTermDialog
 				.FillSuggestTermDialog(term1: _term1, term2: _term2)
-				.ClickSaveButtonInSuggestTermDialogFromGlossaryPage()
-				.GoToSuggestedTermsPageFromGlossaryPage()
-				.AddSynonimInSuggestedTermsPageForCurrentGlossary(
-					termRowNumber: 1,
-					addButtonNumber: 2,
-					synonymValue: synonym)
-				.GoToGlossariesPage()
-				.GoToGlossaryPage(_glossaryName)
-				.AssertGlossaryContainsCorrectTermsCount(termsCount: 1)
-				.AssertSynonymsMatch(new List<string>() { _term2, synonym }, columnNumber: 2);
+				.ClickSaveButtonExpectingGlossaryPage();
+
+			_glossaryPage.ClickSuggestedTermsButton();
+
+			_suggestedTermsPageForCurrentGlossaries.AddSynonimInSuggestedTermsPageForCurrentGlossary(
+					termRowNumber: 1, addButtonNumber: 2, synonymValue: synonym);
+
+			_workspaceHelper.GoToGlossariesPage();
+
+			_glossariesPage.ClickGlossaryRow(_glossaryName);
+
+			Assert.IsTrue(_glossaryPage.IsGlossaryContainsCorrectTermsCount(expectedTermsCount: 1),
+				"Произошла ошибка:\n глоссарий содержит неверное количество терминов");
+
+			Assert.IsTrue(_glossaryPage.IsTermContainsExpectedSynonyms(columnNumber: 2, synonyms: new List<string>{ _term2, synonym }),
+				"Произошла ошибка:\nНеверный список синонимов");
 		}
 
 		[Test]
 		public void AutoReverseLanguagesTest()
 		{
-			_glossariesHelper
-				.CreateGlossary(_glossaryName)
-				.OpenSuggestTermDialogFromGlossaryPage();
+			_glossariesHelper.CreateGlossary(_glossaryName);
+
+			_glossaryPage.ClickSuggestTermButton();
 
 			Assert.AreEqual(Language.English.ToString(), _suggestTermDialog.GetLanguageText(languageNumber: 1),
 				"Произошла ошибка:\nНеверный язык №1 в диалоге предложения термина.");
@@ -397,5 +579,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 		private WorkspaceHelper _workspaceHelper;
 		private GlossariesHelper _glossariesHelper;
 		private SuggestTermDialog _suggestTermDialog;
+		private GlossaryPage _glossaryPage;
+		private GlossariesPage _glossariesPage;
+		private SuggestedTermsPageForCurrentGlossaries _suggestedTermsPageForCurrentGlossaries;
+		private SuggestedTermsPageForAllGlossaries _suggestedTermsPageForAllGlossaries;
 	}
 }

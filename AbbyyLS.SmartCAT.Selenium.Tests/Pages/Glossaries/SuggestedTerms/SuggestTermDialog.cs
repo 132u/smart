@@ -1,7 +1,4 @@
-﻿using System;
-
-using NUnit.Framework;
-using OpenQA.Selenium;
+﻿using OpenQA.Selenium;
 using OpenQA.Selenium.Support.PageObjects;
 
 using AbbyyLS.SmartCAT.Selenium.Tests.DataStructures;
@@ -28,11 +25,13 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 		public new void LoadPage()
 		{
 			Driver.WaitPageTotalLoad();
-			if (!Driver.WaitUntilElementIsDisplay(By.XPath(SUGGEST_TERM_DIALOG)))
+			if (!IsSuggestTermDialogOpened())
 			{
-				Assert.Fail("Произошла ошибка:\nНе открылся диалог создания терминов.");
+				throw new XPathLookupException("Произошла ошибка:\nНе открылся диалог создания терминов");
 			}
 		}
+
+		#region Простые методы
 
 		/// <summary>
 		/// Заполнить название термина
@@ -71,15 +70,38 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 		}
 
 		/// <summary>
-		/// Нажать кнопку Save
+		/// Нажать кнопку Save, ожидая открытия страницы глоссария
 		/// </summary>
-		public T ClickSaveButton<T>(WebDriver driver) where T : class, IAbstractPage<T>
+		public GlossaryPage ClickSaveButtonExpectingGlossaryPage()
 		{
-			CustomTestContext.WriteLine("Нажать кнопку Save.");
+			CustomTestContext.WriteLine("Нажать кнопку Save, ожидая открытия страницы глоссария");
+			SaveButon.Click();
+			WaitUntilDialogBackgroundDisappeared();
+
+			return new GlossaryPage(Driver).GetPage();
+		}
+
+		/// <summary>
+		/// Нажать кнопку Save, ожидая открытия страницы со списком глоссариев
+		/// </summary>
+		public GlossariesPage ClickSaveButtonExpectingGlossariesPage()
+		{
+			CustomTestContext.WriteLine("Нажать кнопку Save, ожидая открытия страницы со списком глоссариев");
+			SaveButon.Click();
+			WaitUntilDialogBackgroundDisappeared();
+
+			return new GlossariesPage(Driver).GetPage();
+		}
+
+		/// <summary>
+		/// Нажать кнопку Save, ожидая сообщение об ошибке
+		/// </summary>
+		public SuggestTermDialog ClickSaveButtonExpectingError()
+		{
+			CustomTestContext.WriteLine("Нажать кнопку Save, ожидая сообщение об ошибке");
 			SaveButon.Click();
 
-			var instance = Activator.CreateInstance(typeof(T), new object[] { driver }) as T;
-			return instance.GetPage();
+			return GetPage();
 		}
 
 		/// <summary>
@@ -116,55 +138,116 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 		}
 
 		/// <summary>
+		/// Нажать кнопку Cancel, ожидая открытия страницы со списком глоссариев
+		/// </summary>
+		public GlossariesPage ClickCancelButtonExpectingGlossariesPage()
+		{
+			CustomTestContext.WriteLine("Нажать кнопку Cancel, ожидая открытия страницы со списком глоссариев");
+			CancelButon.Click();
+			WaitUntilDialogBackgroundDisappeared();
+
+			return new GlossariesPage(Driver).GetPage();
+		}
+
+		/// <summary>
+		/// Нажать кнопку Cancel, ожидая открытия страницы глоссария
+		/// </summary>
+		public GlossaryPage ClickCancelButtonExpectingGlossaryPage()
+		{
+			CustomTestContext.WriteLine("Нажать кнопку Cancel, ожидая открытия страницы глоссария");
+			CancelButon.Click();
+			WaitUntilDialogBackgroundDisappeared();
+
+			return new GlossaryPage(Driver).GetPage();
+		}
+		
+		/// <summary>
+		/// Нажать кнопку 'Save term anyway', ожидая открытия страницы со списком глоссариев
+		/// </summary>
+		public GlossariesPage ClickSaveTermAnywayButtonExpectingGlossariesPage()
+		{
+			CustomTestContext.WriteLine("Нажать кнопку 'Save term anyway', ожидая открытия страницы со списком глоссариев");
+			SaveTermAnywayButon.Click();
+			WaitUntilDialogBackgroundDisappeared();
+
+			return new GlossariesPage(Driver).GetPage();
+		}
+
+		/// <summary>
+		/// Нажать кнопку 'Save term anyway', ожидая открытия страницы глоссария
+		/// </summary>
+		public GlossaryPage ClickSaveTermAnywayButtonExpectingGlossaryPage()
+		{
+			CustomTestContext.WriteLine("Нажать кнопку 'Save term anyway', ожидая открытия страницы глоссария");
+			SaveTermAnywayButon.Click();
+			WaitUntilDialogBackgroundDisappeared();
+
+			return new GlossaryPage(Driver).GetPage();
+		}
+
+		#endregion
+
+		#region Составные методы
+
+		public SuggestTermDialog FillSuggestTermDialog(
+			string term1 = "term1",
+			string term2 = "term2",
+			Language language1 = Language.English,
+			Language language2 = Language.Russian,
+			string glossary = null)
+		{
+			FillTerm(termNumber: 1, term: term1);
+			FillTerm(termNumber: 2, term: term2);
+			ClickLanguageList(languageNumber: 1);
+			SelectLanguageInList(language1);
+			ClickLanguageList(languageNumber: 2);
+			SelectLanguageInList(language2);
+
+			if (glossary != null)
+			{
+				ClickGlossariesDropdown();
+				SelectGlossariesInDropdown(glossary);
+			}
+
+			return GetPage();
+		}
+
+		#endregion
+
+		#region Методы, проверяющие состояние страницы
+
+		/// <summary>
+		/// Проверить, открылся ли диалог создания терминов
+		/// </summary>
+		public bool IsSuggestTermDialogOpened()
+		{
+			return Driver.WaitUntilElementIsDisplay(By.XPath(SUGGEST_TERM_DIALOG));
+		}
+
+		/// <summary>
 		/// Проверить, что сообщение о том, что такой термин уже существует, появилось
 		/// </summary>
-		public SuggestTermDialog AssertDublicateErrorDisplayed()
+		public bool IsDublicateErrorDisplayed()
 		{
 			CustomTestContext.WriteLine("Проверить, что сообщение о том, что такой термин уже существует, появилось.");
 
-			Assert.IsTrue(Driver.WaitUntilElementIsDisplay(By.XPath(DUPLICATE_ERROR)),
-				"Произошла ошибка:\n сообщение о том, что такой термин уже существует, не появилось.");
-
-			return GetPage();
+			return Driver.WaitUntilElementIsDisplay(By.XPath(DUPLICATE_ERROR));
 		}
 
 		/// <summary>
 		/// Проверить, что сообщение 'Enter at least one term.' появилось
 		/// </summary>
-		public SuggestTermDialog AssertEmptyTermErrorDisplayed()
+		public bool IsEmptyTermErrorDisplayed()
 		{
 			CustomTestContext.WriteLine("Проверить, что сообщение 'Enter at least one term.' появилось.");
 
-			Assert.IsTrue(Driver.WaitUntilElementIsDisplay(By.XPath(EMPTY_TERM_ERROR_MESSAGE)),
-				"Произошла ошибка:\nCообщение 'Enter at least one term.' не появилось.");
-
-			return GetPage();
+			return Driver.WaitUntilElementIsDisplay(By.XPath(EMPTY_TERM_ERROR_MESSAGE));
 		}
 
-		/// <summary>
-		/// Нажать кнопку Cancel
-		/// </summary>
-		public T ClickCancelButton<T>(WebDriver driver) where T : class, IAbstractPage<T>
-		{
-			CustomTestContext.WriteLine("Нажать кнопку Cancel.");
-			CancelButon.Click();
+		#endregion
 
-			var instance = Activator.CreateInstance(typeof(T), new object[] { driver }) as T;
-			return instance.GetPage();
-		}
-		
-		/// <summary>
-		/// Нажать кнопку 'Save term anyway'
-		/// </summary>
-		public T ClickSaveTermAnywayButton<T>(WebDriver driver) where T : class, IAbstractPage<T>
-		{
-			CustomTestContext.WriteLine("Нажать кнопку 'Save term anyway'.");
-			SaveTermAnywayButon.Click();
+		#region Объявление элементов страницы
 
-			var instance = Activator.CreateInstance(typeof(T), new object[] { driver }) as T;
-			return instance.GetPage();
-		}
-		
 		[FindsBy(How = How.XPath, Using = GLOSSARY_DROPDOWN)]
 		protected IWebElement GlossaryDropdown { get; set; }
 
@@ -177,6 +260,10 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 		[FindsBy(How = How.XPath, Using = SAVE_TERM_ANYWAY_BUTON)]
 		protected IWebElement SaveTermAnywayButon { get; set; }
 
+		#endregion
+
+		#region Описания XPath элементов
+
 		protected const string SUGGEST_TERM_DIALOG = "//div[contains(@class,'js-add-suggest-popup')]";
 		protected const string TERM_INPUT = "//div[contains(@class, 'l-addsugg__contr lang js-language')][*#*]//input[contains(@class, 'js-addsugg-term')]";
 		protected const string GLOSSARY_DROPDOWN = "//span[contains(@class, 'js-dropdown addsuggglos')]";
@@ -188,5 +275,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 		protected const string DUPLICATE_ERROR = "//div[contains(@class,'js-duplicate-warning')]";
 		protected const string SAVE_TERM_ANYWAY_BUTON = "//input[contains(@value, 'anyway')]";
 		protected const string EMPTY_TERM_ERROR_MESSAGE = "//div[contains(@class,'js-add-suggest-popup')]//div[contains(@class,'js-error-message')]";
+
+		#endregion
 	}
 }

@@ -1,5 +1,4 @@
-﻿using NUnit.Framework;
-using OpenQA.Selenium;
+﻿using OpenQA.Selenium;
 using OpenQA.Selenium.Support.PageObjects;
 
 using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
@@ -24,12 +23,16 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 
 		public new void LoadPage()
 		{
-			if (!Driver.WaitUntilElementIsDisplay(By.XPath(CLOSE_BUTTON), timeout: 30))
+			if (!IsGlossarySuccessImportDialogOpened())
 			{
-				Assert.Fail("Произошла ошибка:\n не открылся диалог с сообщением о успешном импорте глоссария.");
+				throw new XPathLookupException(
+					"Произошла ошибка:\n не открылся диалог с сообщением о успешном импорте глоссария.");
 			}
 		}
 
+		/// <summary>
+		/// Нажать кнопку Close в диалоге с сообщением о успешном импорте глоссария
+		/// </summary>
 		public GlossaryPage ClickCloseButton()
 		{
 			CustomTestContext.WriteLine("Нажать кнопку Close в диалоге с сообщением о успешном импорте глоссария.");
@@ -39,7 +42,15 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 
 			return new GlossaryPage(Driver).GetPage();
 		}
-		
+
+		/// <summary>
+		/// Проверить, открылся ли диалог с сообщением о успешном импорте глоссария
+		/// </summary>
+		public bool IsGlossarySuccessImportDialogOpened()
+		{
+			return Driver.WaitUntilElementIsDisplay(By.XPath(CLOSE_BUTTON), timeout: 30);
+		}
+
 		[FindsBy(How = How.XPath, Using = CLOSE_BUTTON)]
 		protected IWebElement CloseButton { get; set; }
 

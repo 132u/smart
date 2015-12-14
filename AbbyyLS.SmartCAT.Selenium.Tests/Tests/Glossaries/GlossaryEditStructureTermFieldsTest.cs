@@ -14,18 +14,19 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 		[SetUp]
 		public void SetUp()
 		{
-			_glossaryUniqueName = GlossariesHelper.UniqueGlossaryName();
+			var glossaryUniqueName = GlossariesHelper.UniqueGlossaryName();
 			_workspaceHelper = new WorkspaceHelper(Driver);
+			_glossaryStructureDialog = new GlossaryStructureDialog(Driver);
 
-			_glossaryHelper = _workspaceHelper
+			_workspaceHelper
 				.GoToGlossariesPage()
-				.CreateGlossary(_glossaryUniqueName);
+				.CreateGlossary(glossaryUniqueName);
 
 			_glossaryPage = new GlossaryPage(Driver).GetPage();
 
-			_glossaryHelper
-				.OpenGlossaryStructure()
-				.SelectLevelGlossaryStructure(GlossaryStructureLevel.Term);
+			_glossaryPage.OpenGlossaryStructure();
+
+			_glossaryStructureDialog.SelectLevelGlossaryStructure(GlossaryStructureLevel.Term);
 
 		}
 
@@ -38,17 +39,18 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 		{
 			var termValue = "testTermSystemField";
 
-			_glossaryHelper
-				.AddTermField(termField)
+			_glossaryStructureDialog.AddTermField(termField);				
+
+			_glossaryPage
 				.ClickNewEntryButton()
 				.FillTermInLanguagesAndTermsSection();
 
 			Assert.IsTrue(_glossaryPage.IsTermFieldEditModeDisplayed(termField),
 				"Произошла ошибка:\nПоле {0} не отображается в режиме редактирования термина.", termField);
 
-			_glossaryHelper
+			_glossaryPage
 				.FillTermField(termField, termValue)
-				.SaveEntry()
+				.ClickSaveEntryButton()
 				.ClickTermInLanguagesAndTermsColumn();
 
 			Assert.AreEqual(termValue, _glossaryPage.TermFieldViewModelText(termField),
@@ -61,19 +63,20 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 		[TestCase(GlossarySystemField.PartOfSpeech)]
 		public void AddDropdownSystemTermFieldTest(GlossarySystemField termField)
 		{
-			_glossaryHelper
-				.AddTermField(termField)
+			_glossaryStructureDialog.AddTermField(termField);
+
+			_glossaryPage				
 				.ClickNewEntryButton()
 				.FillTermInLanguagesAndTermsSection();
 
 			Assert.IsTrue(_glossaryPage.IsDropdownTermFieldEditModeDisplayed(termField),
 				"Произошла ошибка:\nПоле {0} не отображается в режиме редактирования термина.", termField);
 
-			var option = _glossaryHelper.OptionValueText(termField);
+			var option = _glossaryPage.GetOptionValue(termField);
 
-			_glossaryHelper
+			_glossaryPage
 				.SpecifyDropdownTermField(termField, option)
-				.SaveEntry()
+				.ClickSaveEntryButton()
 				.ClickTermInLanguagesAndTermsColumn();
 
 			Assert.AreEqual(option, _glossaryPage.GetDropdownTermFieldViewModelText(termField),
@@ -81,8 +84,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 		}
 
 		private WorkspaceHelper _workspaceHelper;
-		private GlossariesHelper _glossaryHelper;
-		private string _glossaryUniqueName;
 		private GlossaryPage _glossaryPage;
+		private GlossaryStructureDialog _glossaryStructureDialog;
 	}
 }

@@ -8,6 +8,7 @@ using NUnit.Framework;
 using AbbyyLS.SmartCAT.Selenium.Tests.DataStructures;
 using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
 using AbbyyLS.SmartCAT.Selenium.Tests.FeatureAttributes;
+using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries;
 using AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
@@ -20,6 +21,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 		public void GlossariesSetUp()
 		{
 			_workspaceHelper = new WorkspaceHelper(Driver);
+			_glossaryPage = new GlossaryPage(Driver);
+			_glossaryStructureDialog = new GlossaryStructureDialog(Driver);
 			_glossaryHelper = _workspaceHelper.GoToGlossariesPage();
 			_glossaryUniqueName = GlossariesHelper.UniqueGlossaryName();
 		}
@@ -30,21 +33,30 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 			var fieldName = "TextField";
 			var customValue = "DefaultValue";
 
-			_glossaryHelper
-				.CreateGlossary(_glossaryUniqueName)
-				.OpenGlossaryStructure()
-				.AddCustomField(
-					fieldName,
-					GlossaryCustomFieldType.Text)
+			_glossaryHelper.CreateGlossary(_glossaryUniqueName);
+
+			_glossaryPage.OpenGlossaryStructure();
+
+			_glossaryStructureDialog.AddCustomField(fieldName, GlossaryCustomFieldType.Text);
+
+			_glossaryPage
 				.ClickNewEntryButton()
-				.AssertExtendModeOpen()
-				.FillTermInLanguagesAndTermsSection()
-				.AssertFieldExistInNewEntry(fieldName)
+				.FillTermInLanguagesAndTermsSection();
+
+			Assert.IsTrue(_glossaryPage.IsFieldExistInNewEntry(fieldName),
+				"Произошла ошибка:\n поле {0} отсутствует в новом термине", fieldName);
+
+			_glossaryPage
 				.FillField(fieldName, customValue)
-				.SaveEntry()
-				.AssertCustomFieldValueMatch(fieldName, customValue)
-				.CloseTermsInfo()
-				.AssertExtendTermsCountMatch(expectedTermCount: 1);
+				.ClickSaveEntryButton();
+
+			Assert.IsTrue(_glossaryPage.IsCustomFieldValueMatchExpected(fieldName, customValue),
+				"Произошла ошибка:\n значение в кастомном поле не совпадает с ожидаемым значением");
+
+			_glossaryPage.CloseExpandedTerms();
+
+			Assert.AreEqual(1, _glossaryPage.CustomTermsCount(),
+				"Произошла ошибка:\n неверное количество терминов.");
 		}
 
 		[Test, Ignore("PRX-10924")]
@@ -53,24 +65,35 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 			var fieldName = "RequiredTextField";
 			var customValue = "DefaultValue";
 
-			_glossaryHelper
-				.CreateGlossary(_glossaryUniqueName)
-				.OpenGlossaryStructure()
-				.AddCustomField(
-					fieldName,
-					GlossaryCustomFieldType.Text,
-					isRequiredField: true)
+			_glossaryHelper.CreateGlossary(_glossaryUniqueName);
+
+			_glossaryPage.OpenGlossaryStructure();
+
+			_glossaryStructureDialog.AddCustomField(fieldName, GlossaryCustomFieldType.Text, isRequired: true);
+
+			_glossaryPage
 				.ClickNewEntryButton()
-				.AssertExtendModeOpen()
-				.FillTermInLanguagesAndTermsSection()
-				.AssertFieldExistInNewEntry(fieldName)
-				.SaveEntry()
-				.AssertFieldErrorDisplayed(fieldName)
+				.FillTermInLanguagesAndTermsSection();
+
+			Assert.IsTrue(_glossaryPage.IsFieldExistInNewEntry(fieldName),
+				"Произошла ошибка:\n поле {0} отсутствует в новом термине", fieldName);
+
+			_glossaryPage.ClickSaveEntryButton();
+
+			Assert.IsTrue(_glossaryPage.IsFieldErrorDisplayed(fieldName),
+				"Произошла ошибка:\n поле {0} не подсвечено красным цветом", fieldName);
+
+			_glossaryPage
 				.FillField(fieldName, customValue)
-				.SaveEntry()
-				.AssertCustomFieldValueMatch(fieldName, customValue)
-				.CloseTermsInfo()
-				.AssertExtendTermsCountMatch(expectedTermCount: 1);
+				.ClickSaveEntryButton();
+
+			Assert.IsTrue(_glossaryPage.IsCustomFieldValueMatchExpected(fieldName, customValue),
+				"Произошла ошибка:\n значение в кастомном поле не совпадает с ожидаемым значением");
+
+			_glossaryPage.CloseExpandedTerms();
+
+			Assert.AreEqual(1, _glossaryPage.CustomTermsCount(),
+				"Произошла ошибка:\n неверное количество терминов.");
 		}
 
 		[Test, Ignore("PRX-10924")]
@@ -78,21 +101,30 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 		{
 			var fieldName = "DateField";
 
-			_glossaryHelper
-				.CreateGlossary(_glossaryUniqueName)
-				.OpenGlossaryStructure()
-				.AddCustomField(
-					fieldName,
-					GlossaryCustomFieldType.Date)
+			_glossaryHelper.CreateGlossary(_glossaryUniqueName);
+
+			_glossaryPage.OpenGlossaryStructure();
+
+			_glossaryStructureDialog.AddCustomField(fieldName, GlossaryCustomFieldType.Date);
+
+			_glossaryPage
 				.ClickNewEntryButton()
-				.AssertExtendModeOpen()
-				.FillTermInLanguagesAndTermsSection()
-				.AssertFieldExistInNewEntry(fieldName)
+				.FillTermInLanguagesAndTermsSection();
+
+			Assert.IsTrue(_glossaryPage.IsFieldExistInNewEntry(fieldName),
+				"Произошла ошибка:\n поле {0} отсутствует в новом термине", fieldName);
+
+			_glossaryPage
 				.FillDateField(fieldName)
-				.SaveEntry()
-				.AssertCustomFieldValueMatch(fieldName, DateTime.Now.ToString("MM/dd/yyyy", CultureInfo.InvariantCulture))
-				.CloseTermsInfo()
-				.AssertExtendTermsCountMatch(expectedTermCount: 1);
+				.ClickSaveEntryButton();
+
+			Assert.IsTrue(_glossaryPage.IsCustomFieldValueMatchExpected(fieldName, DateTime.Now.ToString("MM/dd/yyyy", CultureInfo.InvariantCulture)),
+				"Произошла ошибка:\n значение в кастомном поле не совпадает с ожидаемым значением");
+
+			_glossaryPage.CloseExpandedTerms();
+
+			Assert.AreEqual(1, _glossaryPage.CustomTermsCount(),
+				"Произошла ошибка:\n неверное количество терминов.");
 		}
 
 		[Test, Ignore("PRX-10924")]
@@ -100,24 +132,35 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 		{
 			var fieldName = "DateRequiredField";
 
-			_glossaryHelper
-				.CreateGlossary(_glossaryUniqueName)
-				.OpenGlossaryStructure()
-				.AddCustomField(
-					fieldName,
-					GlossaryCustomFieldType.Date,
-					isRequiredField: true)
+			_glossaryHelper.CreateGlossary(_glossaryUniqueName);
+
+			_glossaryPage.OpenGlossaryStructure();
+
+			_glossaryStructureDialog.AddCustomField(fieldName, GlossaryCustomFieldType.Date, isRequired: true);
+
+			_glossaryPage
 				.ClickNewEntryButton()
-				.AssertExtendModeOpen()
-				.FillTermInLanguagesAndTermsSection()
-				.AssertFieldExistInNewEntry(fieldName)
-				.SaveEntry()
-				.AssertFieldErrorDisplayed(fieldName)
+				.FillTermInLanguagesAndTermsSection();
+
+			Assert.IsTrue(_glossaryPage.IsFieldExistInNewEntry(fieldName),
+				"Произошла ошибка:\n поле {0} отсутствует в новом термине", fieldName);
+
+			_glossaryPage.ClickSaveEntryButton();
+
+			Assert.IsTrue(_glossaryPage.IsFieldErrorDisplayed(fieldName),
+				"Произошла ошибка:\n поле {0} не подсвечено красным цветом", fieldName);
+
+			_glossaryPage
 				.FillDateField(fieldName)
-				.SaveEntry()
-				.AssertCustomFieldValueMatch(fieldName, DateTime.Now.ToString("MM/dd/yyyy", CultureInfo.InvariantCulture))
-				.CloseTermsInfo()
-				.AssertExtendTermsCountMatch(expectedTermCount: 1);
+				.ClickSaveEntryButton();
+
+			Assert.IsTrue(_glossaryPage.IsCustomFieldValueMatchExpected(fieldName, DateTime.Now.ToString("MM/dd/yyyy", CultureInfo.InvariantCulture)),
+				"Произошла ошибка:\n значение в кастомном поле не совпадает с ожидаемым значением");
+
+			_glossaryPage.CloseExpandedTerms();
+
+			Assert.AreEqual(1, _glossaryPage.CustomTermsCount(),
+				"Произошла ошибка:\n неверное количество терминов.");
 		}
 
 		[Test, Ignore("PRX-10924")]
@@ -125,20 +168,25 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 		{
 			var fieldName = "MediaField";
 
-			_glossaryHelper
-				.CreateGlossary(_glossaryUniqueName)
-				.OpenGlossaryStructure()
-				.AddCustomField(
-					fieldName,
-					GlossaryCustomFieldType.Media)
+			_glossaryHelper.CreateGlossary(_glossaryUniqueName);
+
+			_glossaryPage.OpenGlossaryStructure();
+
+			_glossaryStructureDialog.AddCustomField(fieldName, GlossaryCustomFieldType.Media);
+
+			_glossaryPage
 				.ClickNewEntryButton()
-				.AssertExtendModeOpen()
 				.FillTermInLanguagesAndTermsSection()
 				.UploadMediaFile(fieldName, PathProvider.AudioFile)
-				.SaveEntry()
-				.AssertMediaFieldFilled(fieldName, Path.GetFileName(PathProvider.AudioFile))
-				.CloseTermsInfo()
-				.AssertExtendTermsCountMatch(expectedTermCount: 1);
+				.ClickSaveEntryButton();
+
+			Assert.IsTrue(_glossaryPage.IsMediaFileMatchExpected(Path.GetFileName(PathProvider.AudioFile), fieldName),
+				"Произошла ошибка:\n неверное значение в поле {0} типа Media.", fieldName);
+				
+			_glossaryPage.CloseExpandedTerms();
+
+			Assert.AreEqual(1, _glossaryPage.CustomTermsCount(),
+				"Произошла ошибка:\n неверное количество терминов.");
 		}
 
 		[Test, Ignore("PRX-10924")]
@@ -146,23 +194,31 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 		{
 			var fieldName = "MediaRequiredField";
 
-			_glossaryHelper
-				.CreateGlossary(_glossaryUniqueName)
-				.OpenGlossaryStructure()
-				.AddCustomField(
-					fieldName,
-					GlossaryCustomFieldType.Media,
-					isRequiredField: true)
+			_glossaryHelper.CreateGlossary(_glossaryUniqueName);
+
+			_glossaryPage.OpenGlossaryStructure();
+
+			_glossaryStructureDialog.AddCustomField(fieldName, GlossaryCustomFieldType.Media, isRequired: true);
+
+			_glossaryPage
 				.ClickNewEntryButton()
-				.AssertExtendModeOpen()
 				.FillTermInLanguagesAndTermsSection()
-				.SaveEntry()
-				.AssertCustomImageFieldErrorDisplayed(fieldName)
+				.ClickSaveEntryButton();
+
+			Assert.IsTrue(_glossaryPage.IsImageFieldErrorDisplayed(fieldName),
+				"Произошла ошибка:\n поле {0} не подсвечено красным цветом.", fieldName);
+
+			_glossaryPage
 				.UploadMediaFile(fieldName, PathProvider.AudioFile)
-				.SaveEntry()
-				.AssertMediaFieldFilled(fieldName, Path.GetFileName(PathProvider.AudioFile))
-				.CloseTermsInfo()
-				.AssertExtendTermsCountMatch(expectedTermCount: 1);
+				.ClickSaveEntryButton();
+
+			Assert.IsTrue(_glossaryPage.IsMediaFileMatchExpected(Path.GetFileName(PathProvider.AudioFile), fieldName),
+				"Произошла ошибка:\n неверное значение в поле {0} типа Media.", fieldName);
+
+			_glossaryPage.CloseExpandedTerms();
+
+			Assert.AreEqual(1, _glossaryPage.CustomTermsCount(),
+				"Произошла ошибка:\n неверное количество терминов.");
 		}
 
 		[Test, Ignore("PRX-10924")]
@@ -170,21 +226,25 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 		{
 			var fieldName = "ImageField";
 
-			_glossaryHelper
-				.CreateGlossary(_glossaryUniqueName)
-				.OpenGlossaryStructure()
-				.AddCustomField(
-					fieldName,
-					GlossaryCustomFieldType.Image)
+			_glossaryHelper.CreateGlossary(_glossaryUniqueName);
+
+			_glossaryPage.OpenGlossaryStructure();
+
+			_glossaryStructureDialog.AddCustomField(fieldName, GlossaryCustomFieldType.Image);
+
+			_glossaryPage
 				.ClickNewEntryButton()
-				.AssertExtendModeOpen()
 				.FillTermInLanguagesAndTermsSection()
-				.AssertImageFieldExistInNewEntry(fieldName)
-				.UploadImage(fieldName, PathProvider.ImageFile)
-				.SaveEntry()
-				.AssertImageFieldFilled(fieldName)
-				.CloseTermsInfo()
-				.AssertExtendTermsCountMatch(expectedTermCount: 1);
+				.UploadImageFile(PathProvider.ImageFile)
+				.ClickSaveEntryButton();
+
+			Assert.IsTrue(_glossaryPage.IsImageFieldFilled(fieldName),
+				"Произошла ошибка:\n  поле {0} типа Image не заполнено", fieldName);
+
+			_glossaryPage.CloseExpandedTerms();
+
+			Assert.AreEqual(1, _glossaryPage.CustomTermsCount(),
+				"Произошла ошибка:\n неверное количество терминов.");
 		}
 
 		[Test, Ignore("PRX-10924")]
@@ -192,24 +252,31 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 		{
 			var fieldName = "ImageField";
 
-			_glossaryHelper
-				.CreateGlossary(_glossaryUniqueName)
-				.OpenGlossaryStructure()
-				.AddCustomField(
-					fieldName,
-					GlossaryCustomFieldType.Image,
-					isRequiredField: true)
+			_glossaryHelper.CreateGlossary(_glossaryUniqueName);
+
+			_glossaryPage.OpenGlossaryStructure();
+
+			_glossaryStructureDialog.AddCustomField(fieldName, GlossaryCustomFieldType.Image, isRequired: true);
+
+			_glossaryPage
 				.ClickNewEntryButton()
-				.AssertExtendModeOpen()
 				.FillTermInLanguagesAndTermsSection()
-				.AssertImageFieldExistInNewEntry(fieldName)
-				.SaveEntry()
-				.AssertCustomImageFieldErrorDisplayed(fieldName)
-				.UploadImage(fieldName, PathProvider.ImageFile)
-				.SaveEntry()
-				.AssertImageFieldFilled(fieldName)
-				.CloseTermsInfo()
-				.AssertExtendTermsCountMatch(expectedTermCount: 1);
+				.ClickSaveEntryButton();
+
+			Assert.IsTrue(_glossaryPage.IsImageFieldErrorDisplayed(fieldName),
+				"Произошла ошибка:\n поле {0} не подсвечено красным цветом.", fieldName);
+
+			_glossaryPage
+				.UploadImageFile(PathProvider.ImageFile)
+				.ClickSaveEntryButton();
+
+			Assert.IsTrue(_glossaryPage.IsImageFieldFilled(fieldName),
+				"Произошла ошибка:\n  поле {0} типа Image не заполнено", fieldName);
+
+			_glossaryPage.CloseExpandedTerms();
+
+			Assert.AreEqual(1, _glossaryPage.CustomTermsCount(),
+				"Произошла ошибка:\n неверное количество терминов.");
 		}
 
 		[Test, Ignore("PRX-10924")]
@@ -218,22 +285,30 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 			var fieldName = "ListField";
 			var itemsList = new List<string> { "select1", "select2" };
 
-			_glossaryHelper
-				.CreateGlossary(_glossaryUniqueName)
-				.OpenGlossaryStructure()
-				.AddCustomField(
-					fieldName,
-					GlossaryCustomFieldType.List,
-					itemsList: itemsList)
+			_glossaryHelper.CreateGlossary(_glossaryUniqueName);
+
+			_glossaryPage.OpenGlossaryStructure();
+
+			_glossaryStructureDialog.AddCustomField(fieldName, GlossaryCustomFieldType.List, itemsList: itemsList);
+
+			_glossaryPage
 				.ClickNewEntryButton()
-				.AssertExtendModeOpen()
-				.FillTermInLanguagesAndTermsSection()
-				.AssertFieldExistInNewEntry(fieldName)
+				.FillTermInLanguagesAndTermsSection();
+
+			Assert.IsTrue(_glossaryPage.IsFieldExistInNewEntry(fieldName),
+				"Произошла ошибка:\n поле {0} отсутствует в новом термине", fieldName);
+
+			_glossaryPage
 				.SelectItemInListDropdown(fieldName, itemsList[0])
-				.SaveEntry()
-				.AssertCustomFieldValueMatch(fieldName, itemsList[0])
-				.CloseTermsInfo()
-				.AssertExtendTermsCountMatch(expectedTermCount: 1);
+				.ClickSaveEntryButton();
+
+			Assert.IsTrue(_glossaryPage.IsCustomFieldValueMatchExpected(fieldName, itemsList[0]),
+				"Произошла ошибка:\n значение в кастомном поле не совпадает с ожидаемым значением");
+
+			_glossaryPage.CloseExpandedTerms();
+
+			Assert.AreEqual(1, _glossaryPage.CustomTermsCount(),
+				"Произошла ошибка:\n неверное количество терминов.");
 		}
 
 		[Test, Ignore("PRX-10924")]
@@ -242,25 +317,36 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 			var fieldName = "ListRequiredField";
 			var itemsList = new List<string> { "select1", "select2" };
 
-			_glossaryHelper
-				.CreateGlossary(_glossaryUniqueName)
-				.OpenGlossaryStructure()
-				.AddCustomField(
-					fieldName,
-					GlossaryCustomFieldType.List,
-					itemsList: itemsList,
-					isRequiredField: true)
+			_glossaryHelper.CreateGlossary(_glossaryUniqueName);
+
+			_glossaryPage.OpenGlossaryStructure();
+
+			_glossaryStructureDialog
+				.AddCustomField(fieldName, GlossaryCustomFieldType.List, itemsList: itemsList, isRequired: true);
+
+			_glossaryPage
 				.ClickNewEntryButton()
-				.AssertExtendModeOpen()
-				.FillTermInLanguagesAndTermsSection()
-				.AssertFieldExistInNewEntry(fieldName)
-				.SaveEntry()
-				.AssertFieldErrorDisplayed(fieldName)
+				.FillTermInLanguagesAndTermsSection();
+
+			Assert.IsTrue(_glossaryPage.IsFieldExistInNewEntry(fieldName),
+				"Произошла ошибка:\n поле {0} отсутствует в новом термине", fieldName);
+
+			_glossaryPage.ClickSaveEntryButton();
+
+			Assert.IsTrue(_glossaryPage.IsFieldErrorDisplayed(fieldName),
+				"Произошла ошибка:\n поле {0} не подсвечено красным цветом", fieldName);
+
+			_glossaryPage
 				.SelectItemInListDropdown(fieldName, itemsList[0])
-				.SaveEntry()
-				.AssertCustomFieldValueMatch(fieldName, itemsList[0])
-				.CloseTermsInfo()
-				.AssertExtendTermsCountMatch(expectedTermCount: 1);
+				.ClickSaveEntryButton();
+
+			Assert.IsTrue(_glossaryPage.IsCustomFieldValueMatchExpected(fieldName, itemsList[0]),
+				"Произошла ошибка:\n значение в кастомном поле не совпадает с ожидаемым значением");
+
+			_glossaryPage.CloseExpandedTerms();
+
+			Assert.AreEqual(1, _glossaryPage.CustomTermsCount(),
+				"Произошла ошибка:\n неверное количество терминов.");
 		}
 
 		[Test, Ignore("PRX-10924")]
@@ -269,23 +355,31 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 			var fieldName = "MultiselectListField";
 			var itemsList = new List<string> { "select1", "select2", "select3" };
 
-			_glossaryHelper
-				.CreateGlossary(_glossaryUniqueName)
-				.OpenGlossaryStructure()
-				.AddCustomField(
-					fieldName,
-					GlossaryCustomFieldType.Multiselect,
-					itemsList: itemsList)
+			_glossaryHelper.CreateGlossary(_glossaryUniqueName);
+
+			_glossaryPage.OpenGlossaryStructure();
+
+			_glossaryStructureDialog.AddCustomField(fieldName, GlossaryCustomFieldType.Multiselect, itemsList: itemsList);
+
+			_glossaryPage
 				.ClickNewEntryButton()
-				.AssertExtendModeOpen()
-				.FillTermInLanguagesAndTermsSection()
-				.AssertFieldExistInNewEntry(fieldName)
+				.FillTermInLanguagesAndTermsSection();
+
+			Assert.IsTrue(_glossaryPage.IsFieldExistInNewEntry(fieldName),
+				"Произошла ошибка:\n поле {0} отсутствует в новом термине", fieldName);
+
+			_glossaryPage
 				.SelectItemInMultiSelectListDropdown(fieldName, itemsList[0])
 				.SelectItemInMultiSelectListDropdown(fieldName, itemsList[2])
-				.SaveEntry()
-				.AssertCustomFieldValueMatch(fieldName, itemsList[0] + ", " + itemsList[2])
-				.CloseTermsInfo()
-				.AssertExtendTermsCountMatch(expectedTermCount: 1);
+				.ClickSaveEntryButton();
+
+			Assert.IsTrue(_glossaryPage.IsCustomFieldValueMatchExpected(fieldName, itemsList[0] + ", " + itemsList[2]),
+				"Произошла ошибка:\n значение в кастомном поле не совпадает с ожидаемым значением");
+
+			_glossaryPage.CloseExpandedTerms();
+
+			Assert.AreEqual(1, _glossaryPage.CustomTermsCount(),
+				"Произошла ошибка:\n неверное количество терминов.");
 		}
 
 		[Test, Ignore("PRX-10924")]
@@ -294,25 +388,33 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 			var fieldName = "MultiselectListRequiredField";
 			var itemsList = new List<string> { "select1", "select2", "select3" };
 
-			_glossaryHelper
-				.CreateGlossary(_glossaryUniqueName)
-				.OpenGlossaryStructure()
-				.AddCustomField(
-					fieldName,
-					GlossaryCustomFieldType.Multiselect,
-					itemsList: itemsList,
-					isRequiredField: true)
+			_glossaryHelper.CreateGlossary(_glossaryUniqueName);
+
+			_glossaryPage.OpenGlossaryStructure();
+
+			_glossaryStructureDialog
+				.AddCustomField(fieldName, GlossaryCustomFieldType.Multiselect, itemsList: itemsList, isRequired: true);
+
+			_glossaryPage
 				.ClickNewEntryButton()
-				.AssertExtendModeOpen()
 				.FillTermInLanguagesAndTermsSection()
-				.SaveEntry()
-				.AssertFieldErrorDisplayed(fieldName)
+				.ClickSaveEntryButton();
+
+			Assert.IsTrue(_glossaryPage.IsFieldErrorDisplayed(fieldName),
+				"Произошла ошибка:\n поле {0} не подсвечено красным цветом", fieldName);
+
+			_glossaryPage
 				.SelectItemInMultiSelectListDropdown(fieldName, itemsList[0])
 				.SelectItemInMultiSelectListDropdown(fieldName, itemsList[2])
-				.SaveEntry()
-				.AssertCustomFieldValueMatch(fieldName, itemsList[0] + ", " + itemsList[2])
-				.CloseTermsInfo()
-				.AssertExtendTermsCountMatch(expectedTermCount: 1);
+				.ClickSaveEntryButton();
+
+			Assert.IsTrue(_glossaryPage.IsCustomFieldValueMatchExpected(fieldName, itemsList[0] + ", " + itemsList[2]),
+				"Произошла ошибка:\n значение в кастомном поле не совпадает с ожидаемым значением");
+
+			_glossaryPage.CloseExpandedTerms();
+
+			Assert.AreEqual(1, _glossaryPage.CustomTermsCount(),
+				"Произошла ошибка:\n неверное количество терминов.");
 		}
 
 		[Test, Ignore("PRX-10924")]
@@ -321,21 +423,30 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 			var fieldName = "NumberField";
 			var customNumberValue = "90";
 
-			_glossaryHelper
-				.CreateGlossary(_glossaryUniqueName)
-				.OpenGlossaryStructure()
-				.AddCustomField(
-					fieldName,
-					GlossaryCustomFieldType.Number)
+			_glossaryHelper.CreateGlossary(_glossaryUniqueName);
+
+			_glossaryPage.OpenGlossaryStructure();
+
+			_glossaryStructureDialog.AddCustomField(fieldName, GlossaryCustomFieldType.Number);
+
+			_glossaryPage
 				.ClickNewEntryButton()
-				.AssertExtendModeOpen()
-				.FillTermInLanguagesAndTermsSection()
-				.AssertFieldExistInNewEntry(fieldName)
-				.FillNumberField(fieldName, customNumberValue)
-				.SaveEntry()
-				.AssertCustomFieldValueMatch(fieldName, customNumberValue)
-				.CloseTermsInfo()
-				.AssertExtendTermsCountMatch(expectedTermCount: 1);
+				.FillTermInLanguagesAndTermsSection();
+
+			Assert.IsTrue(_glossaryPage.IsFieldExistInNewEntry(fieldName),
+				"Произошла ошибка:\n поле {0} отсутствует в новом термине", fieldName);
+
+			_glossaryPage
+				.FillNumberCustomField(fieldName, customNumberValue)
+				.ClickSaveEntryButton();
+
+			Assert.IsTrue(_glossaryPage.IsCustomFieldValueMatchExpected(fieldName, customNumberValue),
+				"Произошла ошибка:\n значение в кастомном поле не совпадает с ожидаемым значением");
+
+			_glossaryPage.CloseExpandedTerms();
+
+			Assert.AreEqual(1, _glossaryPage.CustomTermsCount(),
+				"Произошла ошибка:\n неверное количество терминов.");
 		}
 
 		[Test, Ignore("PRX-10924")]
@@ -343,20 +454,25 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 		{
 			var fieldName = "YesNoField";
 
-			_glossaryHelper
-				.CreateGlossary(_glossaryUniqueName)
-				.OpenGlossaryStructure()
-				.AddCustomField(
-					fieldName,
-					GlossaryCustomFieldType.YesNo)
+			_glossaryHelper.CreateGlossary(_glossaryUniqueName);
+
+			_glossaryPage.OpenGlossaryStructure();
+
+			_glossaryStructureDialog.AddCustomField(fieldName, GlossaryCustomFieldType.YesNo);
+
+			_glossaryPage
 				.ClickNewEntryButton()
-				.AssertExtendModeOpen()
 				.FillTermInLanguagesAndTermsSection()
-				.ClickYesNoCheckBox()
-				.SaveEntry()
-				.AssertYesNoCheckboxChecked("Yes", fieldName)
-				.CloseTermsInfo()
-				.AssertExtendTermsCountMatch(expectedTermCount: 1);
+				.ClickYesNoCheckbox()
+				.ClickSaveEntryButton();
+
+			Assert.IsTrue(_glossaryPage.IsYesNoCheckboxChecked("Yes", fieldName),
+				"Произошла ошибка:\n неверное значение в поле Yes/No");
+
+			_glossaryPage.CloseExpandedTerms();
+
+			Assert.AreEqual(1, _glossaryPage.CustomTermsCount(),
+				"Произошла ошибка:\n неверное количество терминов.");
 		}
 
 		[Test, Ignore("PRX-10924")]
@@ -365,28 +481,41 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 			var fieldName = "NumberField";
 			var customNumberValue = "90";
 
-			_glossaryHelper
-				.CreateGlossary(_glossaryUniqueName)
-				.OpenGlossaryStructure()
-				.AddCustomField(
-					fieldName,
-					GlossaryCustomFieldType.Number,
-					isRequiredField: true)
+			_glossaryHelper.CreateGlossary(_glossaryUniqueName);
+
+			_glossaryPage.OpenGlossaryStructure();
+
+			_glossaryStructureDialog.AddCustomField(fieldName, GlossaryCustomFieldType.Number, isRequired: true);
+
+			_glossaryPage
 				.ClickNewEntryButton()
-				.AssertExtendModeOpen()
-				.FillTermInLanguagesAndTermsSection()
-				.AssertFieldExistInNewEntry(fieldName)
-				.SaveEntry()
-				.AssertFieldErrorDisplayed(fieldName)
-				.FillNumberField(fieldName, customNumberValue)
-				.SaveEntry()
-				.AssertCustomFieldValueMatch(fieldName, customNumberValue)
-				.CloseTermsInfo()
-				.AssertExtendTermsCountMatch(expectedTermCount: 1);
+				.FillTermInLanguagesAndTermsSection();
+
+			Assert.IsTrue(_glossaryPage.IsFieldExistInNewEntry(fieldName),
+				"Произошла ошибка:\n поле {0} отсутствует в новом термине", fieldName);
+
+			_glossaryPage.ClickSaveEntryButton();
+
+			Assert.IsTrue(_glossaryPage.IsFieldErrorDisplayed(fieldName),
+				"Произошла ошибка:\n поле {0} не подсвечено красным цветом", fieldName);
+
+			_glossaryPage
+				.FillNumberCustomField(fieldName, customNumberValue)
+				.ClickSaveEntryButton();
+
+			Assert.IsTrue(_glossaryPage.IsCustomFieldValueMatchExpected(fieldName, customNumberValue),
+				"Произошла ошибка:\n значение в кастомном поле не совпадает с ожидаемым значением");
+
+			_glossaryPage.CloseExpandedTerms();
+
+			Assert.AreEqual(1, _glossaryPage.CustomTermsCount(),
+				"Произошла ошибка:\n неверное количество терминов.");
 		}
 		
 		private GlossariesHelper _glossaryHelper;
 		private WorkspaceHelper _workspaceHelper;
+		private GlossaryPage _glossaryPage;
+		private GlossaryStructureDialog _glossaryStructureDialog;
 		private string _glossaryUniqueName;
 	}
 }
