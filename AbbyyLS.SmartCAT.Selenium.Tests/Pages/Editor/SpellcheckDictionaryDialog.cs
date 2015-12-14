@@ -115,6 +115,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		public List<string> GetWordsList()
 		{
 			CustomTestContext.WriteLine("Получить список слов из словаря");
+			Driver.WaitUntilElementIsDisplay(By.XPath(WORDS_LIST));
 
 			return Driver.GetElementList(By.XPath(WORDS_LIST)).Select(webElement => webElement.Text).ToList();
 		}
