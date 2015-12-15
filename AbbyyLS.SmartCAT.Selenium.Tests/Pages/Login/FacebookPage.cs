@@ -120,7 +120,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Login
 		#region Описание Xpath элементов
 
 		protected const string EMAIL = "//input[@id='email']";
-		protected const string SUBMIT_BUTTON = "//input[@id='u_0_2']";
+		protected const string SUBMIT_BUTTON = "//*[@name='login'][local-name()='button' or local-name()='input']";
 		protected const string PASSWORD = "//input[@id='pass']";
 
 		#endregion
