@@ -1,14 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Threading;
 
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.PageObjects;
+using Keys = OpenQA.Selenium.Keys;
 
 using AbbyyLS.SmartCAT.Selenium.Tests.DataStructures;
 using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings;
+using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects;
 using AbbyyLS.SmartCAT.Selenium.Tests.TestFramework;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
@@ -50,6 +53,17 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 			HomeButton.Click();
 
 			return new ProjectSettingsPage(Driver).GetPage();
+		}
+
+		/// <summary>
+		/// Нажать кнопку "Домой" для перехода на страницу проектов
+		/// </summary>
+		public ProjectsPage ClickHomeButtonToProjectsPage()
+		{
+			CustomTestContext.WriteLine("Нажать кнопку 'Домой' для перехода на страницу проектов.");
+			HomeButton.Click();
+
+			return new ProjectsPage(Driver).GetPage();
 		}
 
 		/// <summary>
@@ -116,7 +130,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		{
 			CustomTestContext.WriteLine("Кликнуть по таргету сегмента {0}.", rowNumber);
 			TargetCell = Driver.SetDynamicValue(How.XPath, TARGET_CELL, (rowNumber - 1).ToString());
-			TargetCell.Click();
+			TargetCell.JavaScriptClick();
 
 			return GetPage();
 		}
@@ -523,6 +537,27 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 			return GetPage();
 		}
 
+		/// <summary>
+		/// Получить процентр прогресс бара
+		/// </summary>
+		public float GetPercentInProgressBar()
+		{
+			CustomTestContext.WriteLine("Получить процентр прогресс бара.");
+			var percentValue = ProgressBar.GetAttribute("style").Split(new [] { ':', '%' });
+			float result;
+
+			try
+			{
+				result = Convert.ToSingle(percentValue[1], new CultureInfo("en-US"));
+			}
+			catch (Exception)
+			{
+				throw new Exception("Произошла ошибка:\n не удалось преобразование процента прогресс бара в число.");
+			}
+
+			return result;
+		}
+
 		#endregion
 
 		#region Составные методы страницы
@@ -615,7 +650,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		{
 			CustomTestContext.WriteLine("Ввести текст в таргет сегмента {0}.", rowNumber);
 			TargetCell = Driver.SetDynamicValue(How.XPath, TARGET_CELL, (rowNumber - 1).ToString());
-			TargetCell.Click();
+			TargetCell.JavaScriptClick();
 
 			if (clearField)
 			{
@@ -930,6 +965,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		[FindsBy(How = How.XPath, Using = CONFIRM_BTN)]
 		protected IWebElement ConfirmButton { get; set; }
 
+		[FindsBy(How = How.XPath, Using = PROGRESS_BAR)]
+		protected IWebElement ProgressBar { get; set; }
+
 		[FindsBy(Using = FIND_ERROR_BTN_ID)]
 		protected IWebElement FindErrorButton { get; set; }
 
@@ -1054,6 +1092,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		protected const string СONFIRM_YES_BTN = "//div[contains(@id, 'messagebox')]//span[contains(string(), 'Yes')]";
 		protected const string CAT_TABLE = ".//div[@id='cat-body']//table";
 
+		protected const string PROGRESS_BAR = "//div[contains(@class, 'x-progress-bar x-progress-bar-default')]";
 		#endregion
 	}
 }

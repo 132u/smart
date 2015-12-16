@@ -124,6 +124,17 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 		}
 
 		/// <summary>
+		/// Нажать кнопку Decline.
+		/// </summary>
+		public TaskDeclineDialog ClickDeclineButton()
+		{
+			CustomTestContext.WriteLine("Нажать кнопку Decline.");
+			DeclineButton.Click();
+
+			return new TaskDeclineDialog(Driver).GetPage();
+		}
+
+		/// <summary>
 		/// Открыть свёртку проекта
 		/// </summary>
 		/// <param name="projectName">имя проекта</param>
@@ -346,8 +357,22 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 		#endregion
 
 		#region Составные методы страницы
-		
+
 		/// <summary>
+		/// Отменить задачу в свертке документа.
+		/// </summary>
+		/// <param name="projectName">название проекта</param>
+		/// <param name="documentNumber">номер документа</param>
+		public TaskDeclineDialog DeclineTaskInDocumentInfo(string projectName, int documentNumber = 1)
+		{
+			CustomTestContext.WriteLine("Отменить задачу в свертке документа.");
+			OpenProjectInfo(projectName);
+			OpenDocumentInfoForProject(projectName, documentNumber);
+			ClickDeclineButton();
+
+			return new TaskDeclineDialog(Driver).GetPage();
+		}
+
 		/// Открыть диалог назначения задачи
 		/// </summary>
 		/// <param name="projectName">имя проекта</param>
@@ -391,7 +416,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 		/// </summary>
 		public bool IsProjectsPageOpened()
 		{
-			return Driver.WaitUntilElementIsDisplay(By.XPath(CREATE_PROJECT_BTN_XPATH), timeout: 45);
+			return Driver.WaitUntilElementIsDisplay(By.XPath(PROJECT_SEARCH_FIELD), timeout: 45);
 		}
 
 		/// <summary>
@@ -467,6 +492,17 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 		}
 
 		/// <summary>
+		/// Проверить, что проект отсутствует в списке проектов
+		/// </summary>
+		/// <param name="projectName">имя проекта</param>
+		public bool IsProjectNotExistInList(string projectName)
+		{
+			CustomTestContext.WriteLine("Проверить, что проект {0} отсутствует в списке проектов.", projectName);
+
+			return Driver.WaitUntilElementIsDisappeared(By.XPath(PROJECT_REF.Replace("*#*", projectName)));
+		}
+
+		/// <summary>
 		/// Проверить, что проект существует с помощью функции поиска в кате
 		/// </summary>
 		/// <param name="projectName">имя проекта</param>
@@ -509,6 +545,16 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 			var QACheckButton = Driver.SetDynamicValue(How.XPath, QA_CHECK_BUTTON, projectName);
 
 			return QACheckButton.Displayed;
+		}
+
+		/// <summary>
+		/// Посчитать количество задач.
+		/// </summary>
+		public int GetTasksCount()
+		{
+			CustomTestContext.WriteLine("Посчитать количество задач.");
+
+			return Driver.GetElementsCount(By.XPath(TASK_LIST));
 		}
 
 		#endregion
@@ -617,6 +663,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 		[FindsBy(How = How.XPath, Using = PROJECT_ANALYSIS_BUTTON)]
 		protected IWebElement ProjectAnalysisButton { get; set; }
 
+		[FindsBy(How = How.XPath, Using = DECLINE_BUTTON)]
+		protected IWebElement DeclineButton { get; set; }
+
 		protected IWebElement DownloadInProjectButton { get; set; }
 
 		protected IWebElement DownloadInDocumentButton { get; set; }
@@ -680,7 +729,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 		protected const string UPLOAD_DOCUMENT_DIALOG = "//div[contains(@class,'js-popup-import-document')][2]";
 		protected const string DELETE_IN_PROJECT_BUTTON = "//table[contains(@class,'js-tasks-table')]//tr//*[@class='js-name'][(local-name() ='a' or local-name() ='span') and text()='*#*']//ancestor::tr//following-sibling::tr[1]//div[contains(@data-bind, 'deleteProject')]";
 		protected const string PREPARING_DOWNLOWD_MESSAGE = "//span[contains(text(), 'Preparing documents for download. Please wait')]";
-
+		protected const string DECLINE_BUTTON = "//div[contains(@data-bind, 'actions.reject')]";
+		protected const string TASK_LIST = "//table[contains(@data-bind, 'workflowStagesForCurrentUser')]//tr";
 		#endregion
 	}
 }

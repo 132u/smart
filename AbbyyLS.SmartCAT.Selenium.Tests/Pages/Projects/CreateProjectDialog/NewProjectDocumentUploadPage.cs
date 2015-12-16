@@ -196,7 +196,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 			var fileName = Path.GetFileNameWithoutExtension(filePath);
 			var extension = Path.GetExtension(filePath).ToLower();
 			CustomTestContext.WriteLine("Проверить, что документ {0} загрузился.", fileName + extension);
-			var s = Driver.WaitUntilElementIsDisplay(By.XPath(UPLOADED_DOCUMENT.Replace("*#*", fileName + extension)), timeout: 120);
+
 			return Driver.WaitUntilElementIsDisplay(By.XPath(UPLOADED_DOCUMENT.Replace("*#*", fileName + extension)), timeout: 120);
 		}
 

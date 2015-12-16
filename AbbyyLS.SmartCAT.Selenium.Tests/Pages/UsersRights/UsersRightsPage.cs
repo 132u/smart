@@ -94,7 +94,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.UsersRights
 		{
 			CustomTestContext.WriteLine("Кликнуть на группу {0} в таблице, чтобы появился выпадающий список с пользователями и правами.", groupName);
 			Group = Driver.SetDynamicValue(How.XPath, GROUP_XPATH, groupName);
-			Group.Click();
+			Group.ScrollAndClick();
 
 			return GetPage();
 		}

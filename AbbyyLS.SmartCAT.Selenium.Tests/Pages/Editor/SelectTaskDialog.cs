@@ -76,6 +76,16 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		}
 
 		/// <summary>
+		/// Посчитать количество этапов в диалоге выбора задачи.
+		/// </summary>
+		public int GetTaskCount()
+		{
+			CustomTestContext.WriteLine("Посчитать количество этапов в диалоге выбора задачи.");
+
+			return Driver.GetElementsCount(By.XPath(TASK_LIST));
+		}
+
+		/// <summary>
 		/// Выбрать режим работы
 		/// </summary>
 		/// <param name="mode">режим</param>
@@ -128,5 +138,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		protected const string MANAGER_BTN_XPATH = "//span[contains(@id, 'manager')]";
 		protected const string CONTINUE_BTN_XPATH = "//span[contains(string(), 'Continue')]";
 		protected const string EDITING_BUTTON = "//span[contains(string(), 'Editing')]";
+		protected const string TASK_LIST = "//div[contains(@class, 'x-segmented-button-row')]";
 	}
 }

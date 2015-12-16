@@ -21,6 +21,17 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests
 		}
 
 		/// <summary>
+		/// Путь к тестовому файлу txt с повторами
+		/// </summary>
+		public static string RepetionsTxtFile
+		{
+			get
+			{
+				return new Uri(Path.Combine(FilesDirectory, "repetitionsTxtFile.txt")).LocalPath;
+			}
+		}
+
+		/// <summary>
 		/// Путь к тестовому файлу tmx для проверки TM
 		/// </summary>
 		public static string EditorTmxFile 

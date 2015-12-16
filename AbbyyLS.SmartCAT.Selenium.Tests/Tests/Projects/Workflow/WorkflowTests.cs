@@ -3,33 +3,14 @@
 using AbbyyLS.SmartCAT.Selenium.Tests.DataStructures;
 using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
 using AbbyyLS.SmartCAT.Selenium.Tests.FeatureAttributes;
-using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects;
-using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog;
-using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings;
-using AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers;
+using AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects.Workflow;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 {
 	[Parallelizable(ParallelScope.Fixtures)]
 	[Standalone]
-	class WorkflowTests<TWebDriverProvider> : BaseTest<TWebDriverProvider>
-		where TWebDriverProvider : IWebDriverProvider, new()
+	class WorkflowTests<TWebDriverProvider> : WorkflowBaseTests<TWebDriverProvider> where TWebDriverProvider : IWebDriverProvider, new()
 	{
-		[SetUp]
-		public void SetUp()
-		{
-			_createProjectHelper = new CreateProjectHelper(Driver);
-			_projectSettingsHelper = new ProjectSettingsHelper(Driver);
-
-			_projectsPage = new ProjectsPage(Driver);
-			_settingsDialog = new SettingsDialog(Driver);
-			_newProjectWorkflowPage = new NewProjectWorkflowPage(Driver);
-			_newProjectSettingsPage = new NewProjectSettingsPage(Driver);
-			_newProjectDocumentUploadPage = new NewProjectDocumentUploadPage(Driver);
-
-			_projectUniqueName = _createProjectHelper.GetProjectUniqueName();
-		}
-
 		[Test]
 		public void DefaultTaskType()
 		{
@@ -268,16 +249,5 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 			Assert.IsTrue(_settingsDialog.IsWorkflowTaskMatchExpected(
 				WorkflowTask.Proofreading, taskNumber: 1), "Произошла ошибка:\n задача не соответствует ожидаемой");
 		}
-
-		private string _projectUniqueName;
-
-		private CreateProjectHelper _createProjectHelper;
-		private ProjectSettingsHelper _projectSettingsHelper;
-
-		private ProjectsPage _projectsPage;
-		private SettingsDialog _settingsDialog;
-		private NewProjectDocumentUploadPage _newProjectDocumentUploadPage;
-		private NewProjectWorkflowPage _newProjectWorkflowPage;
-		private NewProjectSettingsPage _newProjectSettingsPage;
 	}
 }

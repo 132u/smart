@@ -83,6 +83,7 @@
     <Compile Include="DataStructures\GlossaryCustomFieldType.cs" />
     <Compile Include="Pages\Projects\CreateProjectDialog\NewProjectDocumentUploadPage.cs" />
     <Compile Include="Pages\Projects\CreateProjectDialog\NewProjectWorkflowPage.cs" />
+    <Compile Include="Pages\Projects\TaskDeclineDialog.cs" />
     <Compile Include="Pages\Registration\FreelanceRegistration\FreelanceRegistrationFirstPage.cs" />
     <Compile Include="Pages\Registration\FreelanceRegistration\FreelanceRegistrationSignInPage.cs" />
     <Compile Include="Pages\Projects\AssignmentPages\DistributeDocumentBetweenAssigneesPage.cs" />
@@ -267,6 +268,9 @@
     <Compile Include="Tests\Projects\Export\ExportProjectsTests.cs" />
     <Compile Include="Tests\LingvoDictionaries\LingvoDictionariesAdminTests.cs" />
     <Compile Include="Tests\LingvoDictionaries\LingvoDictionariesTests.cs" />
+    <Compile Include="Tests\Projects\Workflow\WorkflowAssigneeTests.cs" />
+    <Compile Include="Tests\Projects\Workflow\WorkflowBaseTests.cs" />
+    <Compile Include="Tests\Projects\Workflow\WorkflowRightsTests.cs" />
     <Compile Include="Tests\Registration\CompanyRegistration\AdminCompanyRegistrationTests.cs" />
     <Compile Include="Tests\Registration\CompanyRegistration\CompanyRegistrationTests.cs" />
     <Compile Include="Tests\Projects\ProjectDeadlineTests.cs" />
