@@ -226,7 +226,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		protected const string DICTIONARY_FORM = "//div[@id='dictionary_header']";
 		protected const string ADD_WORD_BTN = "//div[@id='dictionary']//span[contains(@id, 'btnInnerEl')]";
 		protected const string INPUT_WORD = "//div[@id='dictionary']//input[contains(@id, 'textfield')]";
-		protected const string DELETE_WORD_BUTTON ="//div[@id='dictionary-body']//table//tr//td[1]//div[text()='*#*']/../..//td[2]//div[contains(@class, 'fa-trash-o')]";
+		protected const string DELETE_WORD_BUTTON = "//div[@id='dictionary-body']//table//tr//td[1]//div[text()='*#*']/../..//td[2]//div[contains(@class, 'sci-delete')]";
 		protected const string WORD_PATH = "//div[@id='dictionary']//table//tr//td[1]//div[text()='*#*']";
 		protected const string WORDS_LIST = "//div[@id='dictionary']//table//tr//td[1]";
 		protected const string CLOSE_DICTIONARY_BTN = "//div[@id='dictionary_header']//div[contains(@class, 'x-tool-close')]";
