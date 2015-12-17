@@ -372,7 +372,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories
 		protected const string FILTER_DIALOG = "//div[contains(@class, 'js-filter-popup')]";
 		protected const string CLEAR_FIELDS_BUTTON = "//a[contains(@class, 'js-clear-all')]";
 		protected const string CANCEL_BUTTON = "//div[contains(@class, 'js-filter-popup')]//a[contains(@class, 'js-popup-close')]";
-		protected const string APPLY_BUTTON = "//div[contains(@class, 'js-filter-popup')]//span[contains(@class, 'js-search-button')]";
+		protected const string APPLY_BUTTON = "//div[contains(@class, 'js-filter-popup')]//div[contains(@class, 'js-search-button')]";
 		protected const string SOURCE_LANGUAGE_LIST = "//div[contains(@class, 'lang first')]/div";
 		protected const string SOURCE_LANGUAGE = "//div[contains(@class, 'ui-multiselect-menu')][1]//input[@title='*#*']";
 		protected const string TARGET_LANGUAGE = "//div[contains(@class, 'ui-multiselect-menu')][2]//input[@title='*#*']";

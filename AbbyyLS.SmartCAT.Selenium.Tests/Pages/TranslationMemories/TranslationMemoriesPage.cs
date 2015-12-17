@@ -876,13 +876,13 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories
 		protected const string EXPORT_BUTTON = "//span[contains(@data-bind,'exportTmx')]";
 
 		protected const string PROJECT_GROUP_IN_LIST = "(//ul[contains(@class, 'ui-multiselect-checkboxes')]//span[text()='*#*']//preceding-sibling::span/input)[3]";
-		protected const string CLIENTS_FIELD = "//tr[contains(@class,'js-tm-panel')]//td[2]//div[4]/span";
+		protected const string CLIENTS_FIELD = "//tr[contains(@class,'js-tm-panel')]//td[2]//div[5]/span";
 		protected const string CLIENT_IN_LIST = "//span[contains(@class, 'js-dropdown')]/span[contains(text(),'*#*')]";
 		protected const string TOPICS_FIELD = "//tr[contains(@class,'js-tm-panel')]//td[2]//div[contains(@data-bind,'topicDropdown')]/div/div[1]";
 		protected const string TOPIC_IN_LIST = "//tr[contains(@class,'js-tm-panel')]//td[2]//div[contains(@data-bind,'topicDropdown')]/div/div//span[contains(@class,'nodetext') and text()='*#*']";
-		protected const string CLEAR_ALL_FILTERS_BUTTON = "//img[contains(@class, 'filterClear js-clear-filter')]";
-		protected const string FILTER_BUTTON = "//span[contains(@class, 'js-set-filter')]";
-		protected const string REMOVE_FILTER_BUTTON = "//div[contains(@title, '*#*')]//em//img";
+		protected const string CLEAR_ALL_FILTERS_BUTTON = "//i[contains(@class, 'filterClear js-clear-filter')]";
+		protected const string FILTER_BUTTON = "//div[contains(@class, 'js-set-filter')]";
+		protected const string REMOVE_FILTER_BUTTON = "//div[contains(@title, '*#*')]//em//i";
 
 		#endregion
 	}

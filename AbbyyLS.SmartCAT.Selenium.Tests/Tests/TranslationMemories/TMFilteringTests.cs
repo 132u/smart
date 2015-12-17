@@ -28,8 +28,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.TranslationMemories
 			_clientsPage = new ClientsPage(Driver);
 			_projectGroupsPage = new ProjectGroupsPage(Driver);
 			_translationMemoriesPage = new TranslationMemoriesPage(Driver);
-			_secondUser = null;
-
+			
 			_projectGroupName_1 = _projectGroupsPage.GetProjectGroupUniqueName();
 			_projectGroupName_2 = _projectGroupsPage.GetProjectGroupUniqueName();
 			_clientName_1 = _clientsPage.GetClientUniqueName();
@@ -52,7 +51,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.TranslationMemories
 
 			_workspaceHelper.GoToTranslationMemoriesPage();
 
-			TranslationMemoriesHelper
+			_translationMemoriesHelper
 				.CreateTranslationMemory(_tmForFilteringName_1, Language.French, targetLanguage: Language.German)
 				.CreateTranslationMemory(_tmForFilteringName_2, Language.German, targetLanguage: Language.English);
 
@@ -66,6 +65,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.TranslationMemories
 		[SetUp]
 		public void Setup()
 		{
+			_secondUser = null;
+
 			TranslationMemoriesHelper.GoToTranslationMemoriesPage();
 
 			TranslationMemoriesPage.ClearFiltersPanelIfExist();
