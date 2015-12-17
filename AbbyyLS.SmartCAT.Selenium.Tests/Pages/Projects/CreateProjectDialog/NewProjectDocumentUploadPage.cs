@@ -280,7 +280,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 		protected const string UPLOADED_DOCUMENT = "//td[@class='filename']//span[text()='*#*']//..//..//i[not(contains(@class,'loading'))]";
 		protected const string UPLOAD_DOCUMENT_INPUT = "//input[contains(@data-bind,'uploadFilesFromFileInput')]";
 		protected const string UPLOADED_TMX = "//td[@class='filename']//span[text()='*#*']//..//..//..//..//..//..//..//div[contains(@data-bind , 'stopBubble: true')]";
-		protected const string SETTINGS_BUTTON = "//div[@class='g-btn g-purplebtn g-big-btn icon-btn' and not(contains(@disabled, 'true'))]";
+		protected const string SETTINGS_BUTTON = "//div[contains(@class,'first-animated-btn') and not(contains(@disabled, 'true'))]";
 		protected const string CANCEL_BUTTON = "//a[contains(@data-bind,'cancel')]";
 		protected const string DELETE_DOCUMENT_BUTTON = "//td[@class='filename']//span[text()='*#*']//ancestor::table//preceding-sibling::i[contains(@data-bind,'removeDocument')]";
 		protected const string DUPLICATE_NAME_ERROR = "//div[contains(@class,'js-info-popup')]//span[contains(string(),'The following files have already been added to the project')]";
