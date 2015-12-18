@@ -15,6 +15,7 @@ using AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers;
 namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects.CheckRights
 {
 	[Parallelizable(ParallelScope.Fixtures)]
+	[Ignore("Отключено из-за баги PRX-14155.")]
 	class CheckCreateProjectRight<TWebDriverProvider> : BaseTest<TWebDriverProvider> where TWebDriverProvider : IWebDriverProvider, new()
 	{
 		public override void BeforeTest()

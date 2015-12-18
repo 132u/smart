@@ -519,8 +519,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 		public bool IsUseMachineTranslationInutSelected()
 		{
 			CustomTestContext.WriteLine("Проверить, стоит ли галочка в чекбоксе 'Use Machine Translation'");
-		
-			return UseMachineTranslationInput.Selected;
+
+			return Driver.GetIsElementExist(By.XPath(USE_MACHINE_TRANSLATION_INPUT)) && UseMachineTranslationInput.Selected;
 		}
 
 		/// <summary>

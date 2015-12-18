@@ -417,7 +417,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.UsersRights
 		{
 			CustomTestContext.WriteLine("Проверить, доступна ли кнопка 'Редактировать группу'");
 
-			return Driver.ElementIsEnabled(By.XPath(EDIT_GROUP_BTN_XPATH.Replace("*#*", groupName)));
+			return Driver.ElementIsDisplayed(By.XPath(EDIT_GROUP_BTN_XPATH.Replace("*#*", groupName)));
 		}
 
 		/// <summary>
