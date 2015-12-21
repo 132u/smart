@@ -124,7 +124,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories
 		{
 			var stringDate = string.Format(@"{0}/{1}/{2}", creationDate.Month, creationDate.Day, creationDate.Year);
 			CustomTestContext.WriteLine("Задать дату создания в ТМ фильтрах. Дата: {0}", stringDate);
-			CreaionDate.SetText(stringDate);
+			CreationDate.SetText(stringDate);
+			CreationDate.Click();
 			
 			return GetPage();
 		}
@@ -221,6 +222,17 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories
 		{
 			CustomTestContext.WriteLine("Кликнуть по раскрывающемуся списку авторов");
 			AuthorList.Click();
+
+			return GetPage();
+		}
+
+		/// <summary>
+		/// Кликнуть по хидеру диалога создания фильтра, чтоб закрыть календарь.
+		/// </summary>
+		public TranslationMemoriesFilterDialog ClickFilterDialogHeader()
+		{
+			CustomTestContext.WriteLine("Кликнуть по хидеру диалога создания фильтра, чтоб закрыть календарь.");
+			FilterHeaderInDialog.Click();
 
 			return GetPage();
 		}
@@ -345,13 +357,16 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories
 		protected IWebElement ProjectGroupList { get; set; }
 
 		[FindsBy(How = How.XPath, Using = CREATION_DATE)]
-		protected IWebElement CreaionDate { get; set; }
+		protected IWebElement CreationDate { get; set; }
 
 		[FindsBy(How = How.XPath, Using = CLIENT_LIST)]
 		protected IWebElement ClientList { get; set; }
 
 		[FindsBy(How = How.XPath, Using = AUTHOR_LIST)]
 		protected IWebElement AuthorList { get; set; }
+
+		[FindsBy(How = How.XPath, Using = FILTER_HEADER_IN_DIALOG)]
+		protected IWebElement FilterHeaderInDialog { get; set; }
 
 		protected IWebElement Author { get; set; }
 
@@ -386,7 +401,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories
 		protected const string CLIENT_LIST = "//div[@class='l-filtersrc__control'][3]/div";
 		protected const string AUTHOR_LIST = "//div[@class='l-filtersrc__control creator']/div";
 		protected const string AUTHOR = "//div[contains(@class, 'ui-multiselect-menu')][3]//input[@title='*#*']";
-
+		protected const string FILTER_HEADER_IN_DIALOG = "//div[contains(@class, 'js-filter-popup')]//h2";
 		#endregion
 	}
 }

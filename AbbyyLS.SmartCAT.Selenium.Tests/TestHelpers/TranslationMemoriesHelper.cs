@@ -138,7 +138,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 			if (setCreationDateTMFilterFrom != null)
 			{
-				_translationMemoriesFilterDialog.SetCreationDateTMFilterFrom(setCreationDateTMFilterFrom.Value);
+				_translationMemoriesFilterDialog
+					.SetCreationDateTMFilterFrom(setCreationDateTMFilterFrom.Value)
+					.ClickFilterDialogHeader();
 			}
 
 			if (cancelFilterCreation)
