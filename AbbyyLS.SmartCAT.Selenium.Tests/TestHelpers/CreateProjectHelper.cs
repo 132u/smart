@@ -81,6 +81,11 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 					.WaitUntilDialogBackgroundDisappeared();
 			}
 
+			if (createNewTm)
+			{
+				_newProjectSettingsPage.ExpandAdvancedSettings();
+			}
+
 			if (!personalAccount)
 			{
 				_newProjectSettingsPage.ClickNextButton();

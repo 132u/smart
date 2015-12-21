@@ -147,6 +147,50 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		}
 
 		/// <summary>
+		/// Нажать кнопку отмены.
+		/// </summary>
+		public EditorPage ClickUndoButton()
+		{
+			CustomTestContext.WriteLine("Нажать кнопку отмены.");
+			UndoButton.Click();
+
+			return GetPage();
+		}
+
+		/// <summary>
+		/// Нажать кнопку возврата.
+		/// </summary>
+		public EditorPage ClickRedoButton()
+		{
+			CustomTestContext.WriteLine("Нажать кнопку возврата.");
+			RedoButton.Click();
+
+			return GetPage();
+		}
+
+		/// <summary>
+		/// Нажать хоткей кнопки отмены Ctrl Z.
+		/// </summary>
+		public EditorPage PressUndoHotkey()
+		{
+			CustomTestContext.WriteLine("Нажать хоткей кнопки отмены Ctrl Z.");
+			Driver.SendHotKeys("z", control: true);
+
+			return GetPage();
+		}
+
+		/// <summary>
+		/// Нажать хоткей кнопки возврата Ctrl Y.
+		/// </summary>
+		public EditorPage PressRedoHotkey()
+		{
+			CustomTestContext.WriteLine("Нажать хоткей кнопки возврата Ctrl Y.");
+			Driver.SendHotKeys("y", control: true);
+
+			return GetPage();
+		}
+
+		/// <summary>
 		/// Открыть форму 'Специальные символы' с помощью сочетания клавиш Ctrl+Shift+I
 		/// </summary>
 		public SpecialCharactersForm OpenSpecialCharacterFormByHotKey()
@@ -518,9 +562,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		/// Нажать хоткей Shift F3 для изменения регистра.
 		/// </summary>
 		/// <param name="segmentNumber">номер сегмента<</param>
-		public EditorPage ClickChangeCaseByHotKey(int segmentNumber)
+		public EditorPage PressChangeCaseHotKey()
 		{
-			CustomTestContext.WriteLine("Нажать хоткей Shift F3 для изменения регистра. Номер строки: {0}", segmentNumber);
+			CustomTestContext.WriteLine("Нажать хоткей Shift F3 для изменения регистра.");
 			Driver.SendHotKeys(Keys.F3, shift: true);
 
 			return GetPage();
@@ -1037,6 +1081,12 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		[FindsBy(How = How.Id, Using = CHANGE_CASE_BUTTON)]
 		protected IWebElement ChangeCaseButton { get; set; }
 
+		[FindsBy(How = How.Id, Using = UNDO_BUTTON)]
+		protected IWebElement UndoButton { get; set; }
+
+		[FindsBy(How = How.Id, Using = REDO_BUTTON)]
+		protected IWebElement RedoButton { get; set; }
+
 		#endregion
 
 		#region Описание XPath элементов страницы
@@ -1059,6 +1109,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		protected const string HOME_BUTTON = "back-btn";
 		protected const string DICTIONARY_BUTTON = "dictionary-btn";
 		protected const string CHANGE_CASE_BUTTON = "change-case-btn";
+		protected const string UNDO_BUTTON = "undo-btn-btnEl";
+		protected const string REDO_BUTTON = "redo-btn-btnEl";
 
 		protected const string ROW_NUMBER_ACTIVE_XPATH = ".//div[@id='segments-body']//table//td[contains(@class, 'x-grid-item-focused')]/../td[1]//div[contains(@class, 'row-numberer')]";
 	

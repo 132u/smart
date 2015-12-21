@@ -228,6 +228,8 @@
     <Compile Include="Tests\Editor\EditorChangeCaseButtonsTests.cs" />
     <Compile Include="Tests\Editor\EditorLastUnconfirmedSegmentTests.cs" />
     <Compile Include="Tests\Editor\EditorHomeButtonTests.cs" />
+    <Compile Include="Tests\Editor\UndoRedoButtonsTests\EditorUndoRedoButtonsTests.cs" />
+    <Compile Include="Tests\Editor\UndoRedoButtonsTests\EditorUndoRedoCatPasteTests.cs" />
     <Compile Include="Tests\GlobalSetup.cs" />
     <Compile Include="Tests\Glossaries\GlossariesEditorTests.cs" />
     <Compile Include="Tests\Glossaries\GlossaryEditorTests.cs" />
