@@ -25,7 +25,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.ProjectGroups
 		{
 			_workspaceHelper.GoToProjectGroupsPage();
 
-			_projectGroupsPage.ClickSortByName();
+			_projectGroupsPage.ClickSortByNameAssumingAlert();
 
 			Assert.IsFalse(_projectGroupsPage.IsAlertExist(),
 				"Произошла ошибка: \n при сортировке появился Alert.");

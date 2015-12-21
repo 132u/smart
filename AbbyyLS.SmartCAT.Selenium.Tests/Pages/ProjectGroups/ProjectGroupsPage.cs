@@ -147,14 +147,13 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.ProjectGroups
 		}
 
 		/// <summary>
-		/// Нажать кнопку сортировки по именам
+		/// Нажать кнопку сортировки по именам, ожидая алерт.
 		/// </summary>
-		public ProjectGroupsPage ClickSortByName()
+		public void ClickSortByNameAssumingAlert()
 		{
-			CustomTestContext.WriteLine("Нажать кнопку сортировки по именам");
-			SortByName.Click();
+			CustomTestContext.WriteLine("Нажать кнопку сортировки по именам, ожидая алерт.");
 
-			return GetPage();
+			SortByName.Click();
 		}
 
 		#endregion

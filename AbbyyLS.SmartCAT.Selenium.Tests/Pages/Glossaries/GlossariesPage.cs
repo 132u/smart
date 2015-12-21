@@ -64,6 +64,16 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 		}
 
 		/// <summary>
+		/// Нажать кнопку сортировки по названию, ожидается алерт.
+		/// </summary>
+		public void ClickSortByNameAssumingAlert()
+		{
+			CustomTestContext.WriteLine("Нажать кнопку сортировки по названию, ожидается алерт.");
+
+			SortByName.Click();
+		}
+
+		/// <summary>
 		/// Нажать кнопку сортировки по языкам
 		/// </summary>
 		public GlossariesPage ClickSortByLanguages()
@@ -72,6 +82,16 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 			SortByLanguages.Click();
 
 			return GetPage();
+		}
+
+		/// <summary>
+		/// Нажать кнопку сортировки по языкам, ожидая алерт.
+		/// </summary>
+		public void ClickSortByLanguagesAssumingAlert()
+		{
+			CustomTestContext.WriteLine("Нажать кнопку сортировки по языкам, ожидая алерт.");
+
+			SortByLanguages.Click();
 		}
 
 		/// <summary>
@@ -86,69 +106,73 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 		}
 
 		/// <summary>
-		/// Нажать кнопку сортировки по кол-ву терминов на рассмотрении
+		/// Нажать кнопку сортировки по кол-ву добавленных терминов, ожидая алерт.
 		/// </summary>
-		public GlossariesPage ClickSortByTermsUnderReview()
+		public void ClickSortByTermsAddedAssumingAlert()
 		{
-			CustomTestContext.WriteLine("Нажать кнопку сортировки по кол-ву терминов на рассмотрении");
+			CustomTestContext.WriteLine("Нажать кнопку сортировки по кол-ву добавленных терминов, ожидая алерт.");
+
+			SortByTermsAdded.Click();
+		}
+
+		/// <summary>
+		/// Нажать кнопку сортировки по кол-ву терминов на рассмотрении, ожидая алерт.
+		/// </summary>
+		public void ClickSortByTermsUnderReviewAssumingAlert()
+		{
+			CustomTestContext.WriteLine("Нажать кнопку сортировки по кол-ву терминов на рассмотрении, ожидая алерт.");
+
 			SortByTermsUnderReview.Click();
-
-			return GetPage();
 		}
 
 		/// <summary>
-		/// Нажать кнопку сортировки по комментариям
+		/// Нажать кнопку сортировки по комментариям, ожидая алерт.
 		/// </summary>
-		public GlossariesPage ClickSortByComment()
+		public void ClickSortByCommentAssumingAlert()
 		{
-			CustomTestContext.WriteLine("Нажать кнопку сортировки по комментариям");
+			CustomTestContext.WriteLine("Нажать кнопку сортировки по комментариям, ожидая алерт.");
+
 			SortByComment.Click();
-
-			return GetPage();
 		}
 
 		/// <summary>
-		/// Нажать кнопку сортировки по группа проектов
+		/// Нажать кнопку сортировки по группа проектов, ожидая алерт.
 		/// </summary>
-		public GlossariesPage ClickSortByProjectGroups()
+		public void ClickSortByProjectGroupsAssumingAlert()
 		{
-			CustomTestContext.WriteLine("Нажать кнопку сортировки по группа проектов");
+			CustomTestContext.WriteLine("Нажать кнопку сортировки по группа проектов, ожидая алерт.");
+
 			SortByProjectGroups.Click();
-
-			return GetPage();
 		}
 
 		/// <summary>
-		/// Нажать кнопку сортировки по клиенту
+		/// Нажать кнопку сортировки по клиенту, ожидая алерт.
 		/// </summary>
-		public GlossariesPage ClickSortByClient()
+		public void ClickSortByClientAssumingAlert()
 		{
-			CustomTestContext.WriteLine("Нажать кнопку сортировки по клиенту");
+			CustomTestContext.WriteLine("Нажать кнопку сортировки по клиенту, ожидая алерт.");
+
 			SortByClient.Click();
-
-			return GetPage();
 		}
 
 		/// <summary>
-		/// Нажать кнопку сортировки по дате изменения
+		/// Нажать кнопку сортировки по дате изменения, ожидая алерт.
 		/// </summary>
-		public GlossariesPage ClickSortByDateModified()
+		public void ClickSortByDateModifiedAssumingAlert()
 		{
-			CustomTestContext.WriteLine("Нажать кнопку сортировки по дате изменения");
+			CustomTestContext.WriteLine("Нажать кнопку сортировки по дате изменения, ожидая алерт.");
+
 			SortByDateModified.Click();
-
-			return GetPage();
 		}
 
 		/// <summary>
-		/// Нажать кнопку сортировки по автору изменения
+		/// Нажать кнопку сортировки по автору изменения, ожидая алерт.
 		/// </summary>
-		public GlossariesPage ClickSortByModifiedBy()
+		public void ClickSortByModifiedByAssumingAlert()
 		{
-			CustomTestContext.WriteLine("Нажать кнопку сортировки по автору изменения");
-			SortByModifiedBy.Click();
+			CustomTestContext.WriteLine("Нажать кнопку сортировки по автору изменения, ожидая алерт.");
 
-			return GetPage();
+			SortByModifiedBy.Click();
 		}
 
 		/// <summary>

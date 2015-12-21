@@ -179,14 +179,13 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 		}
 
 		/// <summary>
-		/// Нажать кнопку сортировки по английским терминам
+		/// Нажать кнопку сортировки по английским терминам, ожидая алерт
 		/// </summary>
-		public GlossaryPage ClickSortByEnglishTerm()
+		public void ClickSortByEnglishTermAssumingAlert()
 		{
-			CustomTestContext.WriteLine("Нажать кнопку сортировки по английским терминам.");
-			SortByEnglishTerm.Click();
+			CustomTestContext.WriteLine("Нажать кнопку сортировки по английским терминам, ожидая алерт.");
 
-			return GetPage();
+			SortByEnglishTerm.Click();
 		}
 
 		/// <summary>
@@ -313,25 +312,23 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 		}
 
 		/// <summary>
-		/// Нажать кнопку сортировки по русским терминам
+		/// Нажать кнопку сортировки по русским терминам, ожидая алерт.
 		/// </summary>
-		public GlossaryPage ClickSortByRussianTerm()
+		public void ClickSortByRussianTermAssumingAlert()
 		{
-			CustomTestContext.WriteLine("Нажать кнопку сортировки по русским терминам.");
-			SortByRussianTerm.Click();
+			CustomTestContext.WriteLine("Нажать кнопку сортировки по русским терминам, ожидая алерт.");
 
-			return GetPage();
+			SortByRussianTerm.Click();
 		}
 
 		/// <summary>
-		/// Нажать кнопку сортировки по дате изменения
+		/// Нажать кнопку сортировки по дате изменения, ожидая алерт.
 		/// </summary>
-		public new GlossaryPage ClickSortByDateModified()
+		public void ClickSortByDateModifiedAssumingAlert()
 		{
-			CustomTestContext.WriteLine("Нажать кнопку сортировки по дате изменения");
-			SortByDateModified.Click();
+			CustomTestContext.WriteLine("Нажать кнопку сортировки по дате изменения, ожидая алерт.");
 
-			return GetPage();
+			SortByDateModified.Click();
 		}
 
 		/// <summary>

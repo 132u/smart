@@ -23,7 +23,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersRights
 		[Test]
 		public void SortByFirstNameTest()
 		{
-			_usersRightsPage.ClickSortByFirstName();
+			_usersRightsPage.ClickSortByFirstNameAssumingAlert();
 
 			Assert.IsFalse(_usersRightsPage.IsAlertExist(),
 				"Произошла ошибка: \n при сортировке появился Alert.");
@@ -32,7 +32,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersRights
 		[Test]
 		public void SortByLastNameTest()
 		{
-			_usersRightsPage.ClickSortByLastName();
+			_usersRightsPage.ClickSortByLastNameAssumingAlert();
 
 			Assert.IsFalse(_usersRightsPage.IsAlertExist(),
 				"Произошла ошибка: \n при сортировке появился Alert.");
@@ -41,7 +41,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersRights
 		[Test]
 		public void SortByShortNameTest()
 		{
-			_usersRightsPage.ClickSortByShortName();
+			_usersRightsPage.ClickSortByShortNameAssumingAlert();
 
 			Assert.IsFalse(_usersRightsPage.IsAlertExist(),
 				"Произошла ошибка: \n при сортировке появился Alert.");
@@ -50,7 +50,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersRights
 		[Test]
 		public void SortByEmailAddressTest()
 		{
-			_usersRightsPage.ClickSortByEmailAddress();
+			_usersRightsPage.ClickSortByEmailAddressAssumingAlert();
 
 			Assert.IsFalse(_usersRightsPage.IsAlertExist(),
 				"Произошла ошибка: \n при сортировке появился Alert.");
@@ -59,7 +59,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersRights
 		[Test, Ignore("PRX-9311")]
 		public void SortByGroupsTest()
 		{
-			_usersRightsPage.ClickSortByGroups();
+			_usersRightsPage.ClickSortByGroupsAssumingAlert();
 
 			Assert.IsFalse(_usersRightsPage.IsAlertExist(),
 				"Произошла ошибка: \n при сортировке появился Alert.");
@@ -68,7 +68,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersRights
 		[Test]
 		public void SortByCreatedTest()
 		{
-			_usersRightsPage.ClickSortByCreated();
+			_usersRightsPage.ClickSortByCreatedAssumingAlert();
 
 			Assert.IsFalse(_usersRightsPage.IsAlertExist(),
 				"Произошла ошибка: \n при сортировке появился Alert.");
@@ -78,7 +78,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersRights
 		[NotSupportedWithDomainAuthentication]
 		public void SortByStatusTest()
 		{
-			_usersRightsPage.ClickSortByStatus();
+			_usersRightsPage.ClickSortByStatusAssumingAlert();
 
 			Assert.IsFalse(_usersRightsPage.IsAlertExist(),
 				"Произошла ошибка: \n при сортировке появился Alert.");

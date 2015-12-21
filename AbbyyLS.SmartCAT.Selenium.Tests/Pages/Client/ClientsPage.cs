@@ -117,6 +117,16 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Client
 			return GetPage();
 		}
 
+		/// <summary>
+		/// Нажать кнопку сортировки по имени, ожидая алерт.
+		/// </summary>
+		public  void ClickSortByNameAssumingAlert()
+		{
+			CustomTestContext.WriteLine("Нажать кнопку сортировки по имени, ожидая алерт.");
+
+			SortByName.Click();
+		}
+
 		#endregion
 
 		#region Составные методы страницы

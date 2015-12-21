@@ -115,78 +115,70 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.UsersRights
 		/// <summary>
 		/// Нажать кнопку сортировки по имени
 		/// </summary>
-		public UsersRightsPage ClickSortByFirstName()
+		public void ClickSortByFirstNameAssumingAlert()
 		{
-			CustomTestContext.WriteLine("Нажать кнопку сортировки по имени.");
+			CustomTestContext.WriteLine("Нажать кнопку сортировки по имени, предполагая появление алерта.");
 			SortByFirstName.Click();
-
-			return GetPage();
 		}
 
 		/// <summary>
-		/// Нажать кнопку сортировки фамилии
+		/// Нажать кнопку сортировки фамилии, предполагая появление алерта.
 		/// </summary>
-		public UsersRightsPage ClickSortByLastName()
+		public void ClickSortByLastNameAssumingAlert()
 		{
-			CustomTestContext.WriteLine("Нажать кнопку сортировки фамилии");
-			SortByLastName.Click();
+			CustomTestContext.WriteLine("Нажать кнопку сортировки фамилии, предполагая появление алерта.");
 
-			return GetPage();
+			SortByLastName.Click();
 		}
 
 		/// <summary>
 		/// Нажать кнопку сортировки по ShortName
 		/// </summary>
-		public UsersRightsPage ClickSortByShortName()
+		public void ClickSortByShortNameAssumingAlert()
 		{
-			CustomTestContext.WriteLine("Нажать кнопку сортировки по ShortName");
-			SortByShortName.Click();
+			CustomTestContext.WriteLine("Нажать кнопку сортировки по ShortName, предполагая появление алерта.");
 
-			return GetPage();
+			SortByShortName.Click();
 		}
 
 		/// <summary>
 		/// Нажать кнопку сортировки по адресу почты
 		/// </summary>
-		public UsersRightsPage ClickSortByEmailAddress()
+		public void ClickSortByEmailAddressAssumingAlert()
 		{
-			CustomTestContext.WriteLine("Нажать кнопку сортировки по адресу почты");
-			SortByEmail.Click();
+			CustomTestContext.WriteLine("Нажать кнопку сортировки по адресу почты, предполагая появление алерта.");
 
-			return GetPage();
+			SortByEmail.Click();
 		}
 
 		/// <summary>
 		/// Нажать кнопку сортировки по группе
 		/// </summary>
-		public UsersRightsPage ClickSortByGroups()
+		public void ClickSortByGroupsAssumingAlert()
 		{
-			CustomTestContext.WriteLine("Нажать кнопку сортировки по группе");
-			SortByGroups.Click();
+			CustomTestContext.WriteLine("Нажать кнопку сортировки по группе, предполагая появление алерта.");
 
-			return GetPage();
+			SortByGroups.Click();
 		}
 
 		/// <summary>
 		/// Нажать кнопку сортировки по дате создания
 		/// </summary>
-		public UsersRightsPage ClickSortByCreated()
+		public void ClickSortByCreatedAssumingAlert()
 		{
-			CustomTestContext.WriteLine("Нажать кнопку сортировки по дате создания");
-			SortByCreated.Click();
+			CustomTestContext.WriteLine("Нажать кнопку сортировки по дате создания, предполагая появление алерта.");
 
-			return GetPage();
+			SortByCreated.Click();
 		}
 
 		/// <summary>
 		/// Нажать кнопку сортировки по статусу
 		/// </summary>
-		public UsersRightsPage ClickSortByStatus()
+		public void ClickSortByStatusAssumingAlert()
 		{
-			CustomTestContext.WriteLine("Нажать кнопку сортировки по статусу");
-			SortByStatus.Click();
+			CustomTestContext.WriteLine("Нажать кнопку сортировки по статусу, предполагая появление алерта.");
 
-			return GetPage();
+			SortByStatus.Click();
 		}
 
 		/// <summary>

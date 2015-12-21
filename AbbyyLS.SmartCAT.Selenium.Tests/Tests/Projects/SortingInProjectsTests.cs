@@ -27,7 +27,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 		[Test]
 		public void SortByTranslationDocumentTest()
 		{
-			_projectSettingsPage.ClickSortByTranslationDocument();
+			_projectSettingsPage.ClickSortByTranslationDocumentAssumingAlert();
 
 			Assert.IsFalse(_projectSettingsPage.IsAlertExist(),
 				"Произошла ошибка: \n при сортировке появился Alert.");
@@ -36,7 +36,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 		[Test]
 		public void SortByTypeTest()
 		{
-			_projectSettingsPage.ClickSortByType();
+			_projectSettingsPage.ClickSortByTypeAssumingAlert();
 
 			Assert.IsFalse(_projectSettingsPage.IsAlertExist(),
 				"Произошла ошибка: \n при сортировке появился Alert.");
@@ -45,7 +45,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 		[Test]
 		public void SortByStatusTest()
 		{
-			_projectSettingsPage.ClickSortByStatus();
+			_projectSettingsPage.ClickSortByStatusAssumingAlert();
 
 			Assert.IsFalse(_projectSettingsPage.IsAlertExist(),
 				"Произошла ошибка: \n при сортировке появился Alert.");
@@ -54,7 +54,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 		[Test]
 		public void SortByTargetTest()
 		{
-			_projectSettingsPage.ClickSortByTarget();
+			_projectSettingsPage.ClickSortByTargetAssumingAlert();
 
 			Assert.IsFalse(_projectSettingsPage.IsAlertExist(),
 				"Произошла ошибка: \n при сортировке появился Alert.");
@@ -63,7 +63,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 		[Test]
 		public void SortByAuthorTest()
 		{
-			_projectSettingsPage.ClickSortByAuthor();
+			_projectSettingsPage.ClickSortByAuthorAssumingAlert();
 
 			Assert.IsFalse(_projectSettingsPage.IsAlertExist(),
 				"Произошла ошибка: \n при сортировке появился Alert.");
@@ -72,7 +72,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 		[Test]
 		public void SortByCreatedTest()
 		{
-			_projectSettingsPage.ClickSortByCreated();
+			_projectSettingsPage.ClickSortByCreatedAssumingAlert();
 
 			Assert.IsFalse(_projectSettingsPage.IsAlertExist(),
 				"Произошла ошибка: \n при сортировке появился Alert.");
@@ -81,7 +81,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 		[Test]
 		public void SortByQATest()
 		{
-			_projectSettingsPage.ClickSortByQA();
+			_projectSettingsPage.ClickSortByQAAssumingAlert();
 
 			Assert.IsFalse(_projectSettingsPage.IsAlertExist(),
 				"Произошла ошибка: \n при сортировке появился Alert.");

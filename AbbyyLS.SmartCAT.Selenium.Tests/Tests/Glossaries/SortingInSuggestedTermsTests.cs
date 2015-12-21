@@ -27,7 +27,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 		[Test]
 		public void SortByEnglishTermTest()
 		{
-			_glossaryPage.ClickSortByEnglishTerm();
+			_glossaryPage.ClickSortByEnglishTermAssumingAlert();
 
 			Assert.IsFalse(_glossaryPage.IsAlertExist(), "Произошла ошибка: \n при сортировке появился Alert.");
 		}
@@ -35,7 +35,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 		[Test]
 		public void SortByRussianTermTest()
 		{
-			_glossaryPage.ClickSortByRussianTerm();
+			_glossaryPage.ClickSortByRussianTermAssumingAlert();
 
 			Assert.IsFalse(_glossaryPage.IsAlertExist(), "Произошла ошибка: \n при сортировке появился Alert.");
 		}
@@ -43,7 +43,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 		[Test]
 		public void SortTermsToDateModifiedTest()
 		{
-			_glossaryPage.ClickSortByDateModified();
+			_glossaryPage.ClickSortByDateModifiedAssumingAlert();
 
 			Assert.IsFalse(_glossaryPage.IsAlertExist(), "Произошла ошибка: \n при сортировке появился Alert.");
 		}

@@ -24,7 +24,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Clients
 		[Test]
 		public void CheckNoErrorsWhenSortByName()
 		{
-			_clientsPage.ClickSortByName();
+			_clientsPage.ClickSortByNameAssumingAlert();
 
 			Assert.IsFalse(_clientsPage.IsAlertExist(),  "Произошла ошибка: \n при сортировке появился Alert.");
 		}

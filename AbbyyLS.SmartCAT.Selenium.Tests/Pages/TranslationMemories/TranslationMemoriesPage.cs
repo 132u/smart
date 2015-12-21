@@ -276,25 +276,21 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories
 		}
 
 		/// <summary>
-		/// Нажать кнопку сортировки по именам
+		/// Нажать кнопку сортировки по именам, ожидая алерт.
 		/// </summary>
-		public TranslationMemoriesPage ClickSortByTMName()
+		public void ClickSortByTMNameAssumingAlert()
 		{
-			CustomTestContext.WriteLine("Нажать кнопку сортировки по именам");
+			CustomTestContext.WriteLine("Нажать кнопку сортировки по именамм, ожидая алерт.");
 			TMName.Click();
-
-			return GetPage();
 		}
 
 		/// <summary>
-		/// Нажать кнопку сортировки по дате создания
+		/// Нажать кнопку сортировки по дате созданиям, ожидая алерт.
 		/// </summary>
-		public TranslationMemoriesPage ClickSortByCreationDate()
+		public void ClickSortByCreationDateAssumingAlert()
 		{
-			CustomTestContext.WriteLine("Нажать кнопку сортировки по дате создания.");
+			CustomTestContext.WriteLine("Нажать кнопку сортировки по дате созданиям, ожидая алерт.");
 			CreationDate.Click();
-
-			return GetPage();
 		}
 
 		/// <summary>

@@ -25,7 +25,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.TranslationMemories
 		[Test]
 		public void SortByTMNameTest()
 		{
-			_translationMemoriesPage.ClickSortByTMName();
+			_translationMemoriesPage.ClickSortByTMNameAssumingAlert();
 
 			Assert.IsFalse(_translationMemoriesPage.IsAlertExist(),
 				"Произошла ошибка: \n при сортировке появился Alert.");
@@ -34,7 +34,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.TranslationMemories
 		[Test]
 		public void SortByCreationDateTest()
 		{
-			_translationMemoriesPage.ClickSortByCreationDate();
+			_translationMemoriesPage.ClickSortByCreationDateAssumingAlert();
 
 			Assert.IsFalse(_translationMemoriesPage.IsAlertExist(),
 				"Произошла ошибка: \n при сортировке появился Alert.");

@@ -252,80 +252,73 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings
 		}
 
 		/// <summary>
-		/// Нажать на кнопку сортировки по имени документов.
+		/// Нажать на кнопку сортировки по имени документов, ожидая алерт.
 		/// </summary>
-		public ProjectSettingsPage ClickSortByTranslationDocument()
+		public void ClickSortByTranslationDocumentAssumingAlert()
 		{
-			CustomTestContext.WriteLine("Нажать на кнопку сортировки по имени документов.");
+			CustomTestContext.WriteLine("Нажать на кнопку сортировки по имени документов, ожидая алерт.");
+
 			SortByTranslationDocument.Click();
-
-			return GetPage();
 		}
 
 		/// <summary>
-		/// Нажать кнопку сортировки по типу документа
+		/// Нажать кнопку сортировки по типу документа, ожидая алерт.
 		/// </summary>
-		public ProjectSettingsPage ClickSortByType()
+		public void ClickSortByTypeAssumingAlert()
 		{
-			CustomTestContext.WriteLine("Нажать кнопку сортировки по типу документа");
+			CustomTestContext.WriteLine("Нажать кнопку сортировки по типу документа, ожидая алерт.");
+			
 			SortByType.Click();
-
-			return GetPage();
 		}
 
 		/// <summary>
-		/// Нажать кнопку сортировки по статусу документа
+		/// Нажать кнопку сортировки по статусу документа, ожидая алерт.
 		/// </summary>
-		public ProjectSettingsPage ClickSortByStatus()
+		public void ClickSortByStatusAssumingAlert()
 		{
 			CustomTestContext.WriteLine("Нажать кнопку сортировки по статусу документа");
-			SortByStatus.Click();
 
-			return GetPage();
+			SortByStatus.Click();
 		}
 
 		/// <summary>
-		/// Нажать кнопку сортировки по Target-языку документа
+		/// Нажать кнопку сортировки по Target-языку документа, ожидая алерт.
 		/// </summary>
-		public ProjectSettingsPage ClickSortByTarget()
+		public void ClickSortByTargetAssumingAlert()
 		{
 			CustomTestContext.WriteLine("Нажать кнопку сортировки по Target-языку документа");
-			SortByTarget.Click();
 
-			return GetPage();
+			SortByTarget.Click();
 		}
 
 		/// <summary>
-		/// Нажать кнопку сортировки по автору документа
+		/// Нажать кнопку сортировки по автору документа, ожидая алерт.
 		/// </summary>
-		public ProjectSettingsPage ClickSortByAuthor()
+		public void ClickSortByAuthorAssumingAlert()
 		{
 			CustomTestContext.WriteLine("Нажать кнопку сортировки по автору документа");
-			SortByAuthor.Click();
 
-			return GetPage();
+			SortByAuthor.Click();
 		}
 
 		/// <summary>
-		/// Нажать кнопку сортировки по дате создания документа
+		/// Нажать кнопку сортировки по дате создания документа, ожидая алерт.
 		/// </summary>
-		public ProjectSettingsPage ClickSortByCreated()
+		public void ClickSortByCreatedAssumingAlert()
 		{
 			CustomTestContext.WriteLine("Нажать кнопку сортировки по дате создания документа");
-			SortByCreated.Click();
 
-			return GetPage();
+			SortByCreated.Click();
 		}
 
 		/// <summary>
-		/// Нажать кнопку сортировки по QA документа
+		/// Нажать кнопку сортировки по QA документа, ожидая алерт.
 		/// </summary>
-		public ProjectSettingsPage ClickSortByQA()
+		public void ClickSortByQAAssumingAlert()
 		{
 			CustomTestContext.WriteLine("Нажать кнопку сортировки по QA документа");
-			SortByQA.Click();
 
-			return GetPage();
+			SortByQA.Click();
 		}
 
 		#endregion
