@@ -145,7 +145,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 		{
 			_glossaryHelper.CreateGlossary(_glossaryUniqueName);
 
-			_glossaryPage.OpenGlossaryStructure();
+			_glossaryPage.OpenGlossaryProperties();
 
 			_glossaryPropertiesDialog.ClickDeleteGlossaryButton();
 
@@ -183,7 +183,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 		{
 			_glossaryHelper.CreateGlossary(_glossaryUniqueName);
 
-			_glossaryPage.OpenGlossaryStructure();
+			_glossaryPage.OpenGlossaryProperties();
 
 			_glossaryStructureDialog.AddNewSystemField(GlossarySystemField.Topic);
 
@@ -254,7 +254,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 
 			_glossaryHelper.CreateGlossary(_glossaryUniqueName);
 
-			_glossaryPage.OpenGlossaryStructure();
+			_glossaryPage.OpenGlossaryProperties();
 
 			_glossaryPropertiesDialog
 				.FillGlossaryName(newGlossaryName)
@@ -277,7 +277,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 				.GoToGlossariesPage()
 				.CreateGlossary(_glossaryUniqueName + "2");
 
-			_glossaryPage.OpenGlossaryStructure();
+			_glossaryPage.OpenGlossaryProperties();
 
 			_glossaryPropertiesDialog
 				.FillGlossaryName(_glossaryUniqueName)
@@ -293,7 +293,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 		{
 			_glossaryHelper.CreateGlossary(_glossaryUniqueName);
 
-			_glossaryPage.OpenGlossaryStructure();
+			_glossaryPage.OpenGlossaryProperties();
 
 			_glossaryPropertiesDialog
 				.FillGlossaryName(newGlossaryName)
@@ -308,7 +308,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 		{
 			_glossaryHelper.CreateGlossary(_glossaryUniqueName);
 
-			_glossaryPage.OpenGlossaryStructure();
+			_glossaryPage.OpenGlossaryProperties();
 
 			_glossaryPropertiesDialog.ClickAdvancedButton();
 		}
