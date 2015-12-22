@@ -15,26 +15,31 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects.Workflow
 		[SetUp]
 		public void WorkflowRightsTestsSetUp()
 		{
-			AdditionalThreadUser = TakeUser(ConfigurationManager.AdditionalUsers);
+			AdditionalUser = TakeUser(ConfigurationManager.AdditionalUsers);
 
-			_groupName = _usersRightsPage.GetGroupUniqueName();
+			_groupName = _groupsAndAccessRightsTab.GetGroupUniqueName();
 
-			_workspaceHelper.GoToUsersRightsPage();
+			_workspaceHelper.GoToUsersPage();
 
-			_usersRightsPage
+			_usersTab
 				.ClickGroupsButton()
-				.RemoveUserFromAllGroups(AdditionalThreadUser.NickName)
-				.CreateGroupIfNotExist(_groupName);
+				.RemoveUserFromAllGroups(AdditionalUser.NickName);
 
-			_addAccessRightDialog
-				.AddUserToGroupIfNotAlredyAdded(_groupName, AdditionalThreadUser.NickName);
+			if (!_groupsAndAccessRightsTab.IsGroupExists(_groupName))
+			{
+				_groupsAndAccessRightsTab.OpenNewGroupDialog();
+
+				_newGroupDialog.CreateNewGroup(_groupName);
+			}
+
+			_groupsAndAccessRightsTab.AddUserToGroupIfNotAlredyAdded(_groupName, AdditionalUser.NickName);
 
 			_workspaceHelper.GoToProjectsPage();
 
 			_createProjectHelper
 				.CreateNewProject(_projectUniqueName, filePath: PathProvider.EditorTxtFile)
 				.GoToProjectSettingsPage(_projectUniqueName)
-				.AssignTasksOnDocument(Path.GetFileNameWithoutExtension(PathProvider.EditorTxtFile), AdditionalThreadUser.NickName);
+				.AssignTasksOnDocument(Path.GetFileNameWithoutExtension(PathProvider.EditorTxtFile), AdditionalUser.NickName);
 		}
 
 		[Test, Description("ТС-56 Пользователь назначен  на один этап одного документа")]
@@ -49,9 +54,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects.Workflow
 			_workspaceHelper.SignOut();
 
 			_loginHelper.LogInSmartCat(
-				AdditionalThreadUser.Login,
-				AdditionalThreadUser.NickName,
-				AdditionalThreadUser.Password);
+				AdditionalUser.Login,
+				AdditionalUser.NickName,
+				AdditionalUser.Password);
 			
 			_projectsPage
 				.OpenProjectInfo(_projectUniqueName)
@@ -78,15 +83,15 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects.Workflow
 				.OpenAssignDialog(_projectUniqueName);
 
 			_taskAssignmentPage
-				.SetResponsible(AdditionalThreadUser.NickName, isGroup: false, taskNumber: 2)
+				.SetResponsible(AdditionalUser.NickName, isGroup: false, taskNumber: 2)
 				.ClickSaveButton();
 
 			_workspaceHelper.SignOut();
 
 			_loginHelper.LogInSmartCat(
-				AdditionalThreadUser.Login,
-				AdditionalThreadUser.NickName,
-				AdditionalThreadUser.Password);
+				AdditionalUser.Login,
+				AdditionalUser.NickName,
+				AdditionalUser.Password);
 
 			_projectsPage
 				.OpenProjectInfo(_projectUniqueName)
@@ -114,7 +119,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects.Workflow
 				.OpenAssignDialog(_projectUniqueName);
 
 			_taskAssignmentPage
-				.SetResponsible(AdditionalThreadUser.NickName, isGroup: false, taskNumber: 2)
+				.SetResponsible(AdditionalUser.NickName, isGroup: false, taskNumber: 2)
 				.ClickSaveButton();
 
 			_workspaceHelper
@@ -128,9 +133,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects.Workflow
 			_workspaceHelper.SignOut();
 
 			_loginHelper.LogInSmartCat(
-				AdditionalThreadUser.Login,
-				AdditionalThreadUser.NickName,
-				AdditionalThreadUser.Password);
+				AdditionalUser.Login,
+				AdditionalUser.NickName,
+				AdditionalUser.Password);
 			
 			_projectsPage
 				.OpenProjectInfo(_projectUniqueName)
@@ -150,9 +155,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects.Workflow
 			_workspaceHelper.SignOut();
 
 			_loginHelper.LogInSmartCat(
-				AdditionalThreadUser.Login,
-				AdditionalThreadUser.NickName,
-				AdditionalThreadUser.Password);
+				AdditionalUser.Login,
+				AdditionalUser.NickName,
+				AdditionalUser.Password);
 
 			_projectsPage.OpenProjectInfo(_projectUniqueName)
 				.OpenDocumentInfoForProject(_projectUniqueName)
@@ -164,7 +169,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects.Workflow
 				.FillTarget(text2, rowNumber: 2)
 				.ConfirmSegmentTranslation();
 
-			_editorPage.ClickHomeButtonToProjectsPage();
+			_editorPage.ClickHomeButtonExpectingProjectsPage();
 
 			_workspaceHelper.SignOut();
 
@@ -189,14 +194,14 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects.Workflow
 			Assert.AreEqual(text2, _editorPage.GetTargetText(rowNumber: 2),
 				"Произошла ошибка:\n Неверное значение в таргете сегмента №2.");
 
-			_editorPage.ClickHomeButton();
+			_editorPage.ClickHomeButtonExpectingProjectSettingsPage();
 
 			_workspaceHelper.SignOut();
 
 			_loginHelper.LogInSmartCat(
-				AdditionalThreadUser.Login,
-				AdditionalThreadUser.NickName,
-				AdditionalThreadUser.Password);
+				AdditionalUser.Login,
+				AdditionalUser.NickName,
+				AdditionalUser.Password);
 
 			Assert.IsTrue(_projectsPage.IsProjectNotExistInList(_projectUniqueName),
 				"Произошла ошибка:\nПроект {0} присутствует в списке.", _projectUniqueName);

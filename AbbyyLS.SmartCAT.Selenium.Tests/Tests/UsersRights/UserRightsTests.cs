@@ -15,77 +15,89 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersRights
 		public void Initialize()
 		{
 			_workspaceHelper = new WorkspaceHelper(Driver);
-			_usersRightsPage = new UsersRightsPage(Driver);
+			_groupsAndAccessRightsTab = new GroupsAndAccessRightsTab(Driver);
 			_addAccessRightDialog = new AddAccessRightDialog(Driver);
+			_newGroupDialog = new NewGroupDialog(Driver);
 
-			_workspaceHelper.GoToUsersRightsPage();
+			_workspaceHelper.GoToUsersPage();
 
-			_groupName = _usersRightsPage.GetGroupUniqueName();
+			_groupName = _groupsAndAccessRightsTab.GetGroupUniqueName();
 		}
 
 		[Test]
 		public void CreateGroupTest()
 		{
-			_usersRightsPage.CreateGroupIfNotExist(_groupName);
+			_groupsAndAccessRightsTab.OpenNewGroupDialog();
 
-			Assert.IsTrue(_usersRightsPage.IsGroupExists(_groupName),
+			_newGroupDialog.CreateNewGroup(_groupName);
+
+			Assert.IsTrue(_groupsAndAccessRightsTab.IsGroupExists(_groupName),
 				"Произошла ошибка:\n не удалось создать группу");
 		}
 
 		[Test]
 		public void AddProjectResourceManagementRightToGroupTest()
 		{
-			_usersRightsPage
-				.CreateGroupIfNotExist(_groupName)
-				.OpenAddRightsDialogForGroup(_groupName);
+			_groupsAndAccessRightsTab
+				.OpenNewGroupDialog();
 
-			_addAccessRightDialog.AddRightToGroup(RightsType.ProjectResourceManagement);
+			_newGroupDialog.CreateNewGroup(_groupName);
 
-			Assert.IsTrue(_usersRightsPage.IsManageProjectsRightAdded(_groupName),
+			_groupsAndAccessRightsTab.OpenAddRightsDialogForGroup(_groupName);
+
+			_addAccessRightDialog.AddRightToGroupAnyProject(RightsType.ProjectResourceManagement);
+
+			Assert.IsTrue(_groupsAndAccessRightsTab.IsManageProjectsRightAdded(_groupName),
 				"Произошла ошибка:\n не удалось добавить право на управление проектами ");
 		}
 
 		[Test]
 		public void AddProjectCreationRightToGroupTest()
 		{
-			_usersRightsPage
-				.CreateGroupIfNotExist(_groupName)
-				.OpenAddRightsDialogForGroup(_groupName);
+			_groupsAndAccessRightsTab.OpenNewGroupDialog();
 
-			_addAccessRightDialog.AddRightToGroup(RightsType.ProjectCreation);
+			_newGroupDialog.CreateNewGroup(_groupName);
 
-			Assert.IsTrue(_usersRightsPage.IsCreateProjectsRightAdded(_groupName),
+			_groupsAndAccessRightsTab.OpenAddRightsDialogForGroup(_groupName);
+
+			_addAccessRightDialog.AddRightToGroupAnyProject(RightsType.ProjectCreation);
+
+			Assert.IsTrue(_groupsAndAccessRightsTab.IsCreateProjectsRightAdded(_groupName),
 				"Произошла ошибка:\n не удалось добавить право на управление проектами ");
 		}
 
 		[Test]
 		public void AddProjectViewRightToGroupTest()
 		{
-			_usersRightsPage
-				.CreateGroupIfNotExist(_groupName)
-				.OpenAddRightsDialogForGroup(_groupName);
+			_groupsAndAccessRightsTab.OpenNewGroupDialog();
 
-			_addAccessRightDialog.AddRightToGroup(RightsType.ProjectView);
+			_newGroupDialog.CreateNewGroup(_groupName);
 
-			Assert.IsTrue(_usersRightsPage.IsViewProjectsRightAdded(_groupName),
+			_groupsAndAccessRightsTab.OpenAddRightsDialogForGroup(_groupName);
+
+			_addAccessRightDialog.AddRightToGroupAnyProject(RightsType.ProjectView);
+
+			Assert.IsTrue(_groupsAndAccessRightsTab.IsViewProjectsRightAdded(_groupName),
 				"Произошла ошибка:\n не удалось добавить право на просмотр проектов ");
 		}
 
 		[Test]
 		public void AddUserToGroup()
 		{
-			_usersRightsPage
-				.CreateGroupIfNotExist(_groupName)
-				.AddUserToGroupIfNotAlredyAdded(_groupName, ThreadUser.NickName);
+			_groupsAndAccessRightsTab.OpenNewGroupDialog();
 
-			Assert.IsTrue(_usersRightsPage.IsUserExistInGroup(_groupName, ThreadUser.NickName),
+			_newGroupDialog.CreateNewGroup(_groupName);
+
+			_groupsAndAccessRightsTab.AddUserToGroupIfNotAlredyAdded(_groupName, ThreadUser.NickName);
+
+			Assert.IsTrue(_groupsAndAccessRightsTab.IsUserExistInGroup(_groupName, ThreadUser.NickName),
 				"Произошла ошибка:\n не удалось добавить пользователя в группу");
 		}
 
 		private WorkspaceHelper _workspaceHelper;
-		private UsersRightsPage _usersRightsPage;
+		private GroupsAndAccessRightsTab _groupsAndAccessRightsTab;
 		private AddAccessRightDialog _addAccessRightDialog;
-
+		protected NewGroupDialog _newGroupDialog;
 		private string _groupName;
 	}
 }

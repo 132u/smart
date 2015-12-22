@@ -58,7 +58,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 			_editorPage
 				.FillTarget(text)
 				.ConfirmSegmentTranslation()
-				.ClickHomeButton();
+				.ClickHomeButtonExpectingProjectSettingsPage();
 
 			return this;
 		}

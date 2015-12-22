@@ -58,7 +58,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Editor
 
 			_spellcheckDictionaryDialog.ClickCloseDictionaryButton();
 
-			_editorPage.ClickHomeButton();
+			_editorPage.ClickHomeButtonExpectingProjectSettingsPage();
 
 			_projectSettingsPage
 				.OpenDocumentInEditorWithTaskSelect(Path.GetFileNameWithoutExtension(PathProvider.DocumentFile));
@@ -89,7 +89,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Editor
 
 			_spellcheckDictionaryDialog.ClickCloseDictionaryButton();
 
-			_editorPage.ClickHomeButton();
+			_editorPage.ClickHomeButtonExpectingProjectSettingsPage();
 
 			_projectSettingsPage
 				.OpenDocumentInEditorWithTaskSelect(Path.GetFileNameWithoutExtension(PathProvider.DocumentFile));

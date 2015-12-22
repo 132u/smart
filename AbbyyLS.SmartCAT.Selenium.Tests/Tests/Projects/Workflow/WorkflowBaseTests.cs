@@ -21,7 +21,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects.Workflow
 		[SetUp]
 		public void SetUp()
 		{
-			AdditionalThreadUser = null;
+			AdditionalUser = null;
 
 			_createProjectHelper = new CreateProjectHelper(Driver);
 			_projectSettingsHelper = new ProjectSettingsHelper(Driver);
@@ -38,21 +38,23 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects.Workflow
 			_taskDeclineDialog = new TaskDeclineDialog(Driver);
 			_taskAssignmentPage = new TaskAssignmentPage(Driver);
 			_loginHelper = new LoginHelper(Driver);
-			_usersRightsPage = new UsersRightsPage(Driver);
+			_usersTab = new UsersTab(Driver);
 			_addAccessRightDialog = new AddAccessRightDialog(Driver);
 			_documentUploadGeneralInformationDialog = new DocumentUploadGeneralInformationDialog(Driver);
 			_distributeSegmentsBetweenAssigneesPage = new DistributeSegmentsBetweenAssigneesPage(Driver);
 			_distributeDocumentBetweenAssigneesPage = new DistributeDocumentBetweenAssigneesPage(Driver);
-			
+			_newGroupDialog = new NewGroupDialog(Driver);
+			_groupsAndAccessRightsTab = new GroupsAndAccessRightsTab(Driver);
+
 			_projectUniqueName = _createProjectHelper.GetProjectUniqueName();
 		}
 
 		[TearDown]
 		public void TearDown()
 		{
-			if (AdditionalThreadUser != null)
+			if (AdditionalUser != null)
 			{
-				ReturnUser(ConfigurationManager.AdditionalUsers, AdditionalThreadUser);
+				ReturnUser(ConfigurationManager.AdditionalUsers, AdditionalUser);
 			}
 		}
 
@@ -78,7 +80,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects.Workflow
 		protected TaskDeclineDialog _taskDeclineDialog;
 		protected const string _text = "Translation";
 		protected TestUser _secondUser;
-		protected UsersRightsPage _usersRightsPage;
 		protected AddAccessRightDialog _addAccessRightDialog;
+		protected UsersTab _usersTab;
+		protected NewGroupDialog _newGroupDialog;
+		protected GroupsAndAccessRightsTab _groupsAndAccessRightsTab;
 	}
 }

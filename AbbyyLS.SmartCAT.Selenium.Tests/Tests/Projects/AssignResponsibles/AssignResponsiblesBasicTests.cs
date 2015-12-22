@@ -67,10 +67,10 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 		[Standalone]
 		public void VerifyUsersAndGroupsListsTest()
 		{
-			_workspaceHelper.GoToUsersRightsPage();
-			var usersList = _usersRightsPage.GetUserNameList();
+			_workspaceHelper.GoToUsersPage();
+			var usersList = _userTab.GetUserNameList();
 
-			var groupsList = _usersRightsPage
+			var groupsList = _groupsAndAccessRightsTab
 				.ClickGroupsButton()
 				.GetGroupNameList();
 
@@ -102,13 +102,15 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 		[Standalone]
 		public void AddNewGroupTest()
 		{
-			var groupName = _usersRightsPage.GetGroupUniqueName();
+			var groupName = _groupsAndAccessRightsTab.GetGroupUniqueName();
 
-			_workspaceHelper.GoToUsersRightsPage();
+			_workspaceHelper.GoToUsersPage();
 
-			_usersRightsPage
+			_groupsAndAccessRightsTab
 				.ClickGroupsButton()
-				.CreateGroupIfNotExist(groupName);
+				.OpenNewGroupDialog();
+
+			_newGroupDialog.CreateNewGroup(groupName);
 
 			_workspaceHelper.GoToProjectsPage();
 
@@ -167,9 +169,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 		{
 			_secondUser = TakeUser(ConfigurationManager.Users);
 
-			_workspaceHelper.GoToUsersRightsPage();
+			_workspaceHelper.GoToUsersPage();
 
-			Assert.IsTrue(_usersRightsPage.IsUserExistInList(_secondUser.NickName),
+			Assert.IsTrue(_userTab.IsUserExistInList(_secondUser.NickName),
 				"Произошла ошибка:\n пользователь '{0}' не найден в списке.", _secondUser.NickName);
 
 			_workspaceHelper.GoToProjectsPage();
@@ -190,7 +192,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 			Assert.AreEqual("Translation (T):", _editorPage.GetStage(),
 				"Произошла ошибка:\n В шапке редактора отсутствует нужная задача.");
 
-			_editorPage.ClickHomeButton();
+			_editorPage.ClickHomeButtonExpectingProjectSettingsPage();
 
 			_workspaceHelper.GoToProjectsPage();
 			_projectsPage.OpenAssignDialog(_projectUniqueName);
@@ -207,7 +209,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 			Assert.IsFalse(_editorPage.IsStageNameIsEmpty(),
 				"Произошла ошибка:\n название этапа проставлено.");
 
-			_editorPage.ClickHomeButton();
+			_editorPage.ClickHomeButtonExpectingProjectSettingsPage();
 
 			_workspaceHelper.SignOut();
 
@@ -245,7 +247,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 			Assert.AreEqual("Translation (T):", _editorPage.GetStage(),
 				"Произошла ошибка:\n В шапке редактора отсутствует нужная задача.");
 
-			_editorPage.ClickHomeButton();
+			_editorPage.ClickHomeButtonExpectingProjectSettingsPage();
 			
 			_workspaceHelper
 				.GoToProjectsPage()
@@ -321,7 +323,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 			_editorPage
 				.FillSegmentTargetField()
 				.ConfirmSegmentTranslation()
-				.ClickHomeButton();
+				.ClickHomeButtonExpectingProjectSettingsPage();
 
 			_workspaceHelper.GoToProjectsPage();
 			
@@ -372,7 +374,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 			Assert.AreEqual("Translation (T):", _editorPage.GetStage(),
 				"Произошла ошибка:\n В шапке редактора отсутствует нужная задача.");
 
-			_editorPage.ClickHomeButton();
+			_editorPage.ClickHomeButtonExpectingProjectSettingsPage();
 
 			_projectSettingsPage
 				.ClickDocumentProgress(Path.GetFileNameWithoutExtension(PathProvider.DocumentFile))

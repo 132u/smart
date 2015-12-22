@@ -375,7 +375,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings
 		/// </summary>
 		public bool IsProjectSettingsPageOpened()
 		{
-			return Driver.WaitUntilElementIsDisplay(By.XPath(ADD_FILES_BTN));
+			return Driver.WaitUntilElementIsDisplay(By.XPath(SETTINGS_BUTTON));
 		}
 
 		/// <summary>
@@ -513,7 +513,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings
 		protected const string DOCUMENT_PROGRESS = "//td[div[a[text()='*#*']]]//following-sibling::td//div[contains(@class,'ui-progressbar__container')]";
 		protected const string DOCUMENT_SETTINGS_BUTTON = "//div[contains(@class, 'doc-panel-btns ')]//a[text()='Settings']";
 		protected const string SETTINGS_BUTTON = "//i[contains(@data-bind,'click: edit')]";
-
+		
 		protected const string SORT_BY_TRANSLATION_DOCUMENT = "//th[contains(@data-sort-by,'name')]//a";
 		protected const string SORT_BY_TYPE = "//th[contains(@data-sort-by,'fileExtension')]//a";
 		protected const string SORT_BY_STATUS = "//th[contains(@data-sort-by,'statusName')]//a";

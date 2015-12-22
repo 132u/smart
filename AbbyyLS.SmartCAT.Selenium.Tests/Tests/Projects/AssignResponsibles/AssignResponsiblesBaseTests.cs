@@ -26,7 +26,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 			_distributeDocumentBetweenAssigneesPage = new DistributeDocumentBetweenAssigneesPage(Driver);
 			_documentUploadGeneralInformationDialog = new DocumentUploadGeneralInformationDialog(Driver);
 			_taskAssignmentPage = new TaskAssignmentPage(Driver);
-			_usersRightsPage = new UsersRightsPage(Driver);
+			_groupsAndAccessRightsTab = new GroupsAndAccessRightsTab(Driver);
 			_projectsPage = new ProjectsPage(Driver);
 			_settingsDialog = new SettingsDialog(Driver);
 			_projectSettingsPage = new ProjectSettingsPage(Driver);
@@ -35,6 +35,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 			_editorPage = new EditorPage(Driver);
 			_reassigneDialog = new ReassignDialog(Driver);
 			_selectTaskDialog = new SelectTaskDialog(Driver);
+			_userTab = new UsersTab(Driver);
+			_newGroupDialog = new NewGroupDialog(Driver);
 			_projectUniqueName = _createProjectHelper.GetProjectUniqueName();
 			_secondUser = null;
 			_thirdUser = null;
@@ -61,7 +63,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 		protected DocumentUploadGeneralInformationDialog _documentUploadGeneralInformationDialog;
 		protected SettingsDialog _settingsDialog;
 		protected TaskAssignmentPage _taskAssignmentPage;
-		protected UsersRightsPage _usersRightsPage;
+		protected GroupsAndAccessRightsTab _groupsAndAccessRightsTab;
 		protected ProjectsPage _projectsPage;
 		protected ProjectSettingsPage _projectSettingsPage;
 		protected CreateProjectHelper _сreateProjectHelper;
@@ -73,5 +75,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 		protected ReassignDialog _reassigneDialog;
 		protected TestUser _secondUser;
 		protected TestUser _thirdUser;
+		protected UsersTab _userTab;
+		protected NewGroupDialog _newGroupDialog;
 	}
 }

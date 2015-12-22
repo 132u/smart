@@ -20,7 +20,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 		{
 			_createProjectHelper = new CreateProjectHelper(Driver);
 			_workspaceHelper = new WorkspaceHelper(Driver);
-			_usersRightsPage = new UsersRightsPage(Driver);
+			_usersTab = new UsersTab(Driver);
 			_projectSettingsPage = new ProjectSettingsPage(Driver);
 			_editorPage = new EditorPage(Driver);
 			_selectTaskDialog = new SelectTaskDialog(Driver);
@@ -31,9 +31,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 			_glossary2Name = GlossariesHelper.UniqueGlossaryName();
 			_glossary3Name = GlossariesHelper.UniqueGlossaryName();
 
-			_workspaceHelper.GoToUsersRightsPage();
+			_workspaceHelper.GoToUsersPage();
 
-			_usersRightsPage
+			_usersTab
 				.ClickGroupsButton()
 				.AddUserToGroupIfNotAlredyAdded("Administrators", ThreadUser.NickName);
 
@@ -129,7 +129,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 		private WorkspaceHelper _workspaceHelper;
 		private EditorPage _editorPage;
 		private SelectTaskDialog _selectTaskDialog;
-		private UsersRightsPage _usersRightsPage;
+		private UsersTab _usersTab;
 		private AddTermDialog _addTermDialog;
 	}
 }

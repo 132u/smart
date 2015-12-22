@@ -62,12 +62,12 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace
 		/// <summary>
 		/// Нажать на кнопку "пользователи и права"
 		/// </summary>
-		public UsersRightsPage ClickUsersRightsButton()
+		public UsersTab ClickUsersRightsButton()
 		{
 			CustomTestContext.WriteLine("Нажать кнопку 'Пользователи и права'.");
 			UsersRightsButton.Click();
 
-			return new UsersRightsPage(Driver).GetPage();
+			return new UsersTab(Driver).GetPage();
 		}
 
 		/// <summary>

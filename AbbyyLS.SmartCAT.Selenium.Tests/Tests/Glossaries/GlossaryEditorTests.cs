@@ -25,7 +25,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 			_editorPage = new EditorPage(Driver);
 			_selectTaskDialog = new SelectTaskDialog(Driver);
 			_addTermDialog = new AddTermDialog(Driver);
-			_usersRightsPage = new UsersRightsPage(Driver);
+			_usersTab = new UsersTab(Driver);
 			_projectSettingsPage = new ProjectSettingsPage(Driver);
 			_confirmTermWithoutTranskationDialog = new ConfirmTermWithoutTranskationDialog(Driver);
 			_glossaryPage = new GlossaryPage(Driver);
@@ -34,9 +34,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 			_projectName = _createProjectHelper.GetProjectUniqueName();
 			_glossaryName = GlossariesHelper.UniqueGlossaryName();
 
-			_workspaceHelper.GoToUsersRightsPage();
+			_workspaceHelper.GoToUsersPage();
 
-			_usersRightsPage
+			_usersTab
 				.ClickGroupsButton()
 				.AddUserToGroupIfNotAlredyAdded("Administrators", ThreadUser.NickName);
 
@@ -135,7 +135,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 
 			_confirmTermWithoutTranskationDialog.ConfirmSaving();
 
-			_editorPage.ClickHomeButton();
+			_editorPage.ClickHomeButtonExpectingProjectSettingsPage();
 
 			_workspaceHelper.GoToGlossariesPage();
 
@@ -164,7 +164,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 
 			_confirmTermWithoutTranskationDialog.ConfirmSaving();
 
-			_editorPage.ClickHomeButton();
+			_editorPage.ClickHomeButtonExpectingProjectSettingsPage();
 
 			_workspaceHelper.GoToGlossariesPage();
 
@@ -187,7 +187,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 
 			_addTermDialog.AddNewTerm(source, target);
 
-			_editorPage.ClickHomeButton();
+			_editorPage.ClickHomeButtonExpectingProjectSettingsPage();
 
 			_workspaceHelper.GoToGlossariesPage();
 
@@ -212,7 +212,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 
 			_addTermDialog.AddNewTerm(source, target);
 
-			_editorPage.ClickHomeButton();
+			_editorPage.ClickHomeButtonExpectingProjectSettingsPage();
 
 			_workspaceHelper.GoToGlossariesPage();
 
@@ -240,7 +240,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 
 			_addTermDialog.AddNewTerm(source, target);
 
-			_editorPage.ClickHomeButton();
+			_editorPage.ClickHomeButtonExpectingProjectSettingsPage();
 
 			_workspaceHelper.GoToGlossariesPage();
 
@@ -279,7 +279,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 			Assert.IsTrue(_editorPage.IsTermSaved(),
 				"Произошла ошибка:\n сообщение о том, что термин сохранен, не появилось");
 
-			_editorPage.ClickHomeButton();
+			_editorPage.ClickHomeButtonExpectingProjectSettingsPage();
 
 			_workspaceHelper.GoToGlossariesPage();
 
@@ -318,7 +318,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 			Assert.IsTrue(_editorPage.IsTermSaved(),
 				"Произошла ошибка:\n сообщение о том, что термин сохранен, не появилось");
 
-			_editorPage.ClickHomeButton();
+			_editorPage.ClickHomeButtonExpectingProjectSettingsPage();
 
 			_workspaceHelper.GoToGlossariesPage();
 
@@ -356,7 +356,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 			Assert.IsTrue(_editorPage.IsTermSaved(),
 				"Произошла ошибка:\n сообщение о том, что термин сохранен, не появилось");
 
-			_editorPage.ClickHomeButton();
+			_editorPage.ClickHomeButtonExpectingProjectSettingsPage();
 
 			_workspaceHelper.GoToGlossariesPage();
 
@@ -380,7 +380,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 
 			_addTermDialog.AddNewTerm(source, target, comment);
 
-			_editorPage.ClickHomeButton();
+			_editorPage.ClickHomeButtonExpectingProjectSettingsPage();
 
 			_workspaceHelper.GoToGlossariesPage();
 
@@ -403,7 +403,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 
 			_addTermDialog.AddNewTerm(source, target);
 
-			_editorPage.ClickHomeButton();
+			_editorPage.ClickHomeButtonExpectingProjectSettingsPage();
 
 			_workspaceHelper.GoToGlossariesPage();
 
@@ -423,7 +423,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 
 			_addTermDialog.AddNewTerm(source, target);
 
-			_editorPage.ClickHomeButton();
+			_editorPage.ClickHomeButtonExpectingProjectSettingsPage();
 
 			_workspaceHelper.GoToGlossariesPage();
 
@@ -443,7 +443,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 		private AddTermDialog _addTermDialog;
 		private ConfirmTermWithoutTranskationDialog _confirmTermWithoutTranskationDialog;
 
-		private UsersRightsPage _usersRightsPage;
+		private UsersTab _usersTab;
 		private ProjectSettingsPage _projectSettingsPage;
 		private GlossaryPage _glossaryPage;
 		private GlossariesPage _glossariesPage;

@@ -7,7 +7,7 @@ using AbbyyLS.SmartCAT.Selenium.Tests.TestFramework;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.UsersRights
 {
-	public class AddAccessRightDialog : UsersRightsPage, IAbstractPage<AddAccessRightDialog>
+	public class AddAccessRightDialog : UsersAndRightsBasePage, IAbstractPage<AddAccessRightDialog>
 	{
 		public AddAccessRightDialog(WebDriver driver) : base(driver)
 		{
@@ -46,12 +46,23 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.UsersRights
 		}
 
 		/// <summary>
-		/// Выбрать набор для всех проектов
+		/// Выбрать радиокнопку 'Для всех проектов'.
 		/// </summary>
 		public AddAccessRightDialog ClickForAnyProjectRadio()
 		{
-			CustomTestContext.WriteLine("Выбрать набор 'для всех проектов'.");
+			CustomTestContext.WriteLine("Выбрать радиокнопку 'Для всех проектов'.");
 			ForAnyProjectRadio.Click();
+
+			return GetPage();
+		}
+
+		/// <summary>
+		/// Выбрать радиокнопку 'Для конкретного проекта'.
+		/// </summary>
+		public AddAccessRightDialog ClickForSpecificProjectRadio()
+		{
+			CustomTestContext.WriteLine("Выбрать радиокнопку 'Для конкретного проекта'.");
+			ForSpecificProjectRadio.Click();
 
 			return GetPage();
 		}
@@ -70,12 +81,12 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.UsersRights
 		/// <summary>
 		/// Нажать кнопку "Добавить" (право)
 		/// </summary>
-		public UsersRightsPage ClickAddRightButton()
+		public GroupsAndAccessRightsTab ClickAddRightButton()
 		{
 			CustomTestContext.WriteLine("Нажать кнопку 'Добавить' (право).");
 			AddRightButton.Click();
 
-			return new UsersRightsPage(Driver).GetPage();
+			return new GroupsAndAccessRightsTab(Driver).GetPage();
 		}
 
 		#endregion
@@ -86,17 +97,50 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.UsersRights
 		/// Добавить права
 		/// </summary>
 		/// <param name="right">тип права</param>
-		public UsersRightsPage AddRightToGroup(RightsType right)
+		public GroupsAndAccessRightsTab AddRightToGroupAnyProject(RightsType right)
 		{
 			ClickRightRadio(right);
 			ClickNextButton();
 			ClickForAnyProjectRadio();
 
-			var usersRightsPage = ClickAddRightButton();
+			var GroupsAndAccessRightsTab = ClickAddRightButton();
 
 			WaitUntilDialogBackgroundDisappeared();
 
-			return usersRightsPage;
+			return GroupsAndAccessRightsTab;
+		}
+
+		/// <summary>
+		/// Добавить права
+		/// </summary>
+		/// <param name="right">тип права</param>
+		public GroupsAndAccessRightsTab AddRightToGroupSpecificProject(RightsType right, string projectName)
+		{
+			ClickRightRadio(right);
+			ClickNextButton();
+			ClickForSpecificProjectRadio();
+			ClickNextButton();
+			SelectProject(projectName);
+
+			var GroupsAndAccessRightsTab = ClickAddRightButton();
+
+			WaitUntilDialogBackgroundDisappeared();
+
+			return GroupsAndAccessRightsTab;
+		}
+
+		/// <summary>
+		/// Выбрать проект
+		/// </summary>
+		/// <param name="projectName">название проекта</param>
+		public AddAccessRightDialog SelectProject(string projectName)
+		{
+			CustomTestContext.WriteLine("Выбрать проект {0}.", projectName);
+			ProjectsDropdown.Click();
+			ProjectOption = Driver.SetDynamicValue(How.XPath, PROJECT_OPTION, projectName);
+			ProjectOption.Click();
+
+			return GetPage();
 		}
 
 		#endregion
@@ -121,11 +165,17 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.UsersRights
 		[FindsBy(How = How.XPath, Using = FOR_ANY_PROJECT_RADIO_XPATH)]
 		protected IWebElement ForAnyProjectRadio { get; set; }
 
+		[FindsBy(How = How.XPath, Using = FOR_SPECIFIC_PROJECT_RADIO_XPATH)]
+		protected IWebElement ForSpecificProjectRadio { get; set; }
+
 		[FindsBy(How = How.XPath, Using = NEXT_BTN_XPATH)]
 		protected IWebElement NextButton { get; set; }
 
+		[FindsBy(How = How.XPath, Using = PROJECTS_DROPDOWN)]
+		protected IWebElement ProjectsDropdown { get; set; }
+		
 		protected IWebElement RightRadio { get; set; }
-
+		protected IWebElement ProjectOption { get; set; }
 		#endregion
 
 		#region Описание XPath элементов
@@ -134,7 +184,11 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.UsersRights
 		protected const string ADD_RIGHT_BTN_XPATH = "//div[contains(@class, 'add-access-right-popup')][2]//div[contains(@data-bind, 'visible : canFinishWizard, click : finishWizard')]//a[string() = 'Add']";
 		protected const string NEXT_BTN_XPATH = "//div[contains(@class, 'add-access-right-popup')][2]//div[contains(@data-bind, 'click : moveToNextStep')]//a[string() = 'Next']";
 		protected const string FOR_ANY_PROJECT_RADIO_XPATH = "//div[contains(@class, 'add-access-right-popup')][2]//div[contains(@data-bind, 'hasUnrestrictedAccessScope')]";
+		protected const string FOR_SPECIFIC_PROJECT_RADIO_XPATH = "//div[contains(@class, 'add-access-right-popup')][2]//div[contains(@data-bind, 'specificObjectsList')]";
 		protected const string RIGHT_RADIO = "//input[@id='*#*']/../../label[@class='g-radiobtn']";
+
+		protected const string PROJECTS_DROPDOWN = "//div[contains(@class, 'add-access-right-popup')][2]//span[contains(@class, 'js-dropdown')]";
+		protected const string PROJECT_OPTION = "//span[@title='*#*']";
 
 		#endregion
 	}

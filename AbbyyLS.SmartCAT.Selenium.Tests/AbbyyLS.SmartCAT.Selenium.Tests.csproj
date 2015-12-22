@@ -91,6 +91,11 @@
     <Compile Include="Pages\TranslationMemories\DeleteTmDialog.cs" />
     <Compile Include="Pages\TranslationMemories\ImportTmxDialog.cs" />
     <Compile Include="Pages\TranslationMemories\TranslationMemoriesFilterDialog.cs" />
+    <Compile Include="Pages\UsersRights\CrowdsourcersTab.cs" />
+    <Compile Include="Pages\UsersRights\GroupsAndAccessRightsTab\GroupsAndAccessRightsTab.cs" />
+    <Compile Include="Pages\UsersRights\LicensesTab.cs" />
+    <Compile Include="Pages\UsersRights\GroupsAndAccessRightsTab\NewGroupDialog.cs" />
+    <Compile Include="Pages\UsersRights\UsersAndRightsBasePage.cs" />
     <Compile Include="RelativeUrlProvider.cs" />
     <Compile Include="Configs\TestsUserConfig.cs" />
     <Compile Include="DataStructures\AssignmentType.cs" />
@@ -199,7 +204,7 @@
     <Compile Include="Pages\Projects\DocumentUploadDialog\DocumentUploadGeneralInformationDialog.cs" />
     <Compile Include="Pages\Projects\ProjectSettings\ProjectSettingsPage.cs" />
     <Compile Include="Pages\Projects\ProjectsPage.cs" />
-    <Compile Include="Pages\UsersRights\UsersRightsPage.cs" />
+    <Compile Include="Pages\UsersRights\UsersTab.cs" />
     <Compile Include="Pages\Workspace\WorkspacePage.cs" />
     <Compile Include="PathProvider.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -307,6 +312,7 @@
     <Compile Include="Tests\Editor\EditorSpellcheckTests.cs" />
     <Compile Include="Tests\Projects\Workflow\WorkflowTests.cs" />
     <Compile Include="Tests\UsersRights\UserRightsTests.cs" />
+    <Compile Include="Tests\UsersRights\UserRightsWorkflowTests.cs" />
     <Compile Include="TestUser.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -317,6 +323,7 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="packages.config" />
+    <Compile Include="Tests\UsersRights\UserRightsWorkflowPersonalAccountTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />

@@ -12,7 +12,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Editor
 		[Test(Description = "Проверяет переход из редактора на страницу настроек проекта с помощью кнопки")]
 		public void HomeButtonTest()
 		{
-			var projectSettingsPage = EditorPage.ClickHomeButton();
+			var projectSettingsPage = EditorPage.ClickHomeButtonExpectingProjectSettingsPage();
 
 			Assert.IsTrue(projectSettingsPage.IsProjectSettingsPageOpened(),
 				"Произошла ошибка:\n не удалось перейти на вкладку проекта");

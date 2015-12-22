@@ -41,7 +41,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects.Workflow
 			Assert.AreNotEqual(0, _editorPage.GetPercentInProgressBar(),
 				"Произошла ошибка:\n Документ не находится в процессе перевода.");
 
-			_editorPage.ClickHomeButton();
+			_editorPage.ClickHomeButtonExpectingProjectSettingsPage();
 
 			_workspaceHelper.GoToProjectsPage();
 
@@ -82,7 +82,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects.Workflow
 		[Test, Description("ТС-51 Работа с репетишенами")]
 		public void AssignRepetionsTest()
 		{
-			AdditionalThreadUser = TakeUser(ConfigurationManager.AdditionalUsers);
+			AdditionalUser = TakeUser(ConfigurationManager.AdditionalUsers);
 
 			var text2 = "Translation 2";
 			var startRange = 1;
@@ -104,7 +104,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects.Workflow
 
 			_distributeDocumentBetweenAssigneesPage
 				.ClickAnotherAssigneeButton()
-				.SelectAssignee(AdditionalThreadUser.NickName, assigneeNumber: 2)
+				.SelectAssignee(AdditionalUser.NickName, assigneeNumber: 2)
 				.ClickSelectSegmentsAndAssignLink(assigneeNumber: 2);
 
 			_distributeSegmentsBetweenAssigneesPage.SelectSegmentsRange(endRange + 1 , 12);
@@ -139,14 +139,14 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects.Workflow
 			Assert.AreEqual(String.Empty, _editorPage.GetTargetText(rowNumber: 10),
 				"Произошла ошибка:\n Перевод не подставился в репетишен.");
 
-			_editorPage.ClickHomeButton();
+			_editorPage.ClickHomeButtonExpectingProjectSettingsPage();
 
 			_workspaceHelper.SignOut();
 
 			_loginHelper.LogInSmartCat(
-				AdditionalThreadUser.Login,
-				AdditionalThreadUser.NickName,
-				AdditionalThreadUser.Password);
+				AdditionalUser.Login,
+				AdditionalUser.NickName,
+				AdditionalUser.Password);
 
 			_projectsPage
 				.OpenProjectInfo(_projectUniqueName)

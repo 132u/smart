@@ -119,7 +119,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		/// </summary>
 		public bool IsSelectTaskDialogOpened()
 		{
-			return Driver.WaitUntilElementIsDisplay(By.XPath(TRANSLATE_BTN_XPATH), 30);
+			return Driver.WaitUntilElementIsDisplay(By.XPath(CONTINUE_BTN_XPATH), 30);
 		}
 
 		[FindsBy(How = How.XPath, Using = TRANSLATE_BTN_XPATH)]

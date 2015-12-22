@@ -152,14 +152,14 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 		}
 
 
-		public UsersRightsPage GoToUsersRightsPage()
+		public UsersTab GoToUsersPage()
 		{
 			BaseObject.InitPage(_workspacePage, Driver);
 			_workspacePage
 				.OpenHideMenuIfClosed()
 				.ClickUsersRightsButton();
 
-			return new UsersRightsPage(Driver).GetPage();
+			return new UsersTab(Driver).GetPage();
 		}
 
 		public BillingPage GoToBillingPage()

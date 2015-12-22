@@ -20,13 +20,13 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersRights
 		{
 			_workspaceHelper = new WorkspaceHelper(Driver);
 			_searchPage = new SearchPage(Driver);
-			_usersRightsPage = new UsersRightsPage(Driver);
+			_usersTab = new UsersTab(Driver);
 			_glossaryPage = new GlossaryPage(Driver);
 			_glossaryStructureDialog = new GlossaryStructureDialog(Driver);
 
-			_workspaceHelper.GoToUsersRightsPage();
+			_workspaceHelper.GoToUsersPage();
 
-			_usersRightsPage
+			_usersTab
 				.ClickGroupsButton()
 				.AddUserToGroupIfNotAlredyAdded("Administrators", ThreadUser.NickName);
 
@@ -332,7 +332,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersRights
 		private WorkspaceHelper _workspaceHelper;
 
 		private SearchPage _searchPage;
-		private UsersRightsPage _usersRightsPage;
+		private UsersTab _usersTab;
 		private GlossaryPage _glossaryPage;
 		private GlossaryStructureDialog _glossaryStructureDialog;
 

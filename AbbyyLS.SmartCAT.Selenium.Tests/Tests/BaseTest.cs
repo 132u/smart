@@ -80,9 +80,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests
 		{
 			ReturnUser(ConfigurationManager.Users, ThreadUser);
 
-			if (AdditionalThreadUser != null)
+			if (AdditionalUser != null)
 			{
-				ReturnUser(ConfigurationManager.AdditionalUsers, AdditionalThreadUser);
+				ReturnUser(ConfigurationManager.AdditionalUsers, AdditionalUser);
 			}
 
 			if (Driver != null)
@@ -129,7 +129,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests
 		}
 
 		public TestUser ThreadUser { get; protected set; }
-		public TestUser AdditionalThreadUser { get; protected set; }
+		public TestUser AdditionalUser { get; protected set; }
 		protected StartPage StartPage = StartPage.Workspace;
 		private LoginHelper _loginHelper;
 	}

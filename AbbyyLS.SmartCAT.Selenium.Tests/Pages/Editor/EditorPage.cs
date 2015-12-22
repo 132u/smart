@@ -10,6 +10,7 @@ using Keys = OpenQA.Selenium.Keys;
 
 using AbbyyLS.SmartCAT.Selenium.Tests.DataStructures;
 using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
+using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects;
 using AbbyyLS.SmartCAT.Selenium.Tests.TestFramework;
@@ -45,11 +46,11 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		#region Простые методы страницы
 
 		/// <summary>
-		/// Нажать кнопку "Домой"
+		/// Нажать кнопку "Домой" для перехода на страницу проекта
 		/// </summary>
-		public ProjectSettingsPage ClickHomeButton()
+		public ProjectSettingsPage ClickHomeButtonExpectingProjectSettingsPage()
 		{
-			CustomTestContext.WriteLine("Нажать кнопку 'Домой'.");
+			CustomTestContext.WriteLine("Нажать кнопку 'Домой' для перехода на страницу проекта.");
 			HomeButton.Click();
 
 			return new ProjectSettingsPage(Driver).GetPage();
@@ -58,7 +59,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		/// <summary>
 		/// Нажать кнопку "Домой" для перехода на страницу проектов
 		/// </summary>
-		public ProjectsPage ClickHomeButtonToProjectsPage()
+		public ProjectsPage ClickHomeButtonExpectingProjectsPage()
 		{
 			CustomTestContext.WriteLine("Нажать кнопку 'Домой' для перехода на страницу проектов.");
 			HomeButton.Click();
@@ -1002,6 +1003,16 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 			return Driver.WaitUntilElementIsDisappeared(By.XPath(TERM_SAVED_MESSAGE), timeout: 30);
 		}
 
+		/// <summary>
+		/// Проверить, что присутствует колонка этапа
+		/// </summary>
+		public bool IsWorkflowColumnDisplayed()
+		{
+			CustomTestContext.WriteLine("Проверить, что присутствует колонка этапа.");
+
+			return Driver.GetIsElementExist(By.XPath(WORKFLOW_COLUMN));
+		}
+
 		#endregion
 
 		#region Объявление элементов страницы
@@ -1081,6 +1092,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		[FindsBy(How = How.Id, Using = CHANGE_CASE_BUTTON)]
 		protected IWebElement ChangeCaseButton { get; set; }
 
+		[FindsBy(How = How.Id, Using = WORKFLOW_COLUMN)]
+		protected IWebElement WorkflowColumn { get; set; }
+		
 		[FindsBy(How = How.Id, Using = UNDO_BUTTON)]
 		protected IWebElement UndoButton { get; set; }
 
@@ -1143,6 +1157,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		protected const string EXISTING_TERM_MESSAGE = "//div[contains(@id, 'messagebox') and contains(string(), 'This glossary already contains term(s)')]";
 		protected const string СONFIRM_YES_BTN = "//div[contains(@id, 'messagebox')]//span[contains(string(), 'Yes')]";
 		protected const string CAT_TABLE = ".//div[@id='cat-body']//table";
+
+		protected const string WORKFLOW_COLUMN = "//td[contains(@class, 'segmentworkflowcolumn')]";
 
 		protected const string PROGRESS_BAR = "//div[contains(@class, 'x-progress-bar x-progress-bar-default')]";
 		#endregion

@@ -21,7 +21,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Editor
 			EditorPage
 				.FillSegmentTargetField()
 				.ConfirmSegmentTranslation()
-				.ClickHomeButton();
+				.ClickHomeButtonExpectingProjectSettingsPage();
 
 			_projectSettingsHelper.OpenWorkflowSettings();
 

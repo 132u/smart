@@ -33,10 +33,12 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects.CheckRights
 			_exportNotification = new ExportNotification(Driver);
 			_newProjectGeneralInformationDialog = new NewProjectGeneralInformationDialog(Driver);
 			_documentUploadGeneralInformationDialog = new DocumentUploadGeneralInformationDialog(Driver);
-			_usersRightsPage = new UsersRightsPage(Driver);
+			_usersTab = new UsersTab(Driver);
 			_addAccessRightDialog = new AddAccessRightDialog(Driver);
+			_newGroupDialog = new NewGroupDialog(Driver);
+			_groupsAndAccessRightsTab = new GroupsAndAccessRightsTab(Driver);
 
-			AdditionalThreadUser = TakeUser(ConfigurationManager.AdditionalUsers);
+			AdditionalUser = TakeUser(ConfigurationManager.AdditionalUsers);
 
 			var groupName = Guid.NewGuid().ToString();
 
@@ -44,17 +46,20 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects.CheckRights
 
 			_workspaceHelper
 				.CloseTour()
-				.GoToUsersRightsPage();
+				.GoToUsersPage();
 
-			_usersRightsPage
+			_usersTab
 				.ClickGroupsButton()
-				.RemoveUserFromAllGroups(AdditionalThreadUser.NickName)
-				.CreateGroupIfNotExist(groupName)
-				.OpenAddRightsDialogForGroup(groupName);
+				.RemoveUserFromAllGroups(AdditionalUser.NickName)
+				.OpenNewGroupDialog();
 
-			_addAccessRightDialog.AddRightToGroup(RightsType.ProjectCreation);
+			_newGroupDialog.CreateNewGroup(groupName);
 
-			_usersRightsPage.AddUserToGroupIfNotAlredyAdded(groupName, AdditionalThreadUser.NickName);
+			_groupsAndAccessRightsTab.OpenAddRightsDialogForGroup(groupName);
+
+			_addAccessRightDialog.AddRightToGroupAnyProject(RightsType.ProjectCreation);
+
+			_groupsAndAccessRightsTab.AddUserToGroupIfNotAlredyAdded(groupName, AdditionalUser.NickName);
 
 			_workspaceHelper.SignOut();
 		}
@@ -62,7 +67,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects.CheckRights
 		[SetUp]
 		public void SetUp()
 		{
-			_loginHelper.Authorize(StartPage.Workspace, AdditionalThreadUser);
+			_loginHelper.Authorize(StartPage.Workspace, AdditionalUser);
 
 			_workspaceHelper.CloseTour();
 
@@ -296,10 +301,12 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects.CheckRights
 
 		private DocumentUploadGeneralInformationDialog _documentUploadGeneralInformationDialog;
 		private NewProjectGeneralInformationDialog _newProjectGeneralInformationDialog;
-		private UsersRightsPage _usersRightsPage;
+		private UsersTab _usersTab;
 		private AddAccessRightDialog _addAccessRightDialog;
 		private ProjectsPage _projectsPage;
 		private DeleteDialog _deleteDialog;
 		private ExportNotification _exportNotification;
+		protected NewGroupDialog _newGroupDialog;
+		private GroupsAndAccessRightsTab _groupsAndAccessRightsTab;
 	}
 }

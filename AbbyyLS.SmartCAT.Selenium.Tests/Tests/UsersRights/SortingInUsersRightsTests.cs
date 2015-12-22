@@ -15,62 +15,62 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersRights
 		[SetUp]
 		public void SetupSortingInUsersRightsTests()
 		{
-			_usersRightsPage = new UsersRightsPage(Driver);
+			_usersTab = new UsersTab(Driver);
 			_workspaceHelper = new WorkspaceHelper(Driver);
-			_workspaceHelper.GoToUsersRightsPage();
+			_workspaceHelper.GoToUsersPage();
 		}
 
 		[Test]
 		public void SortByFirstNameTest()
 		{
-			_usersRightsPage.ClickSortByFirstNameAssumingAlert();
+			_usersTab.ClickSortByFirstName();
 
-			Assert.IsFalse(_usersRightsPage.IsAlertExist(),
+			Assert.IsFalse(_usersTab.IsAlertExist(),
 				"Произошла ошибка: \n при сортировке появился Alert.");
 		}
 
 		[Test]
 		public void SortByLastNameTest()
 		{
-			_usersRightsPage.ClickSortByLastNameAssumingAlert();
+			_usersTab.ClickSortByLastName();
 
-			Assert.IsFalse(_usersRightsPage.IsAlertExist(),
+			Assert.IsFalse(_usersTab.IsAlertExist(),
 				"Произошла ошибка: \n при сортировке появился Alert.");
 		}
 
 		[Test]
 		public void SortByShortNameTest()
 		{
-			_usersRightsPage.ClickSortByShortNameAssumingAlert();
+			_usersTab.ClickSortByShortName();
 
-			Assert.IsFalse(_usersRightsPage.IsAlertExist(),
+			Assert.IsFalse(_usersTab.IsAlertExist(),
 				"Произошла ошибка: \n при сортировке появился Alert.");
 		}
 
 		[Test]
 		public void SortByEmailAddressTest()
 		{
-			_usersRightsPage.ClickSortByEmailAddressAssumingAlert();
+			_usersTab.ClickSortByEmailAddress();
 
-			Assert.IsFalse(_usersRightsPage.IsAlertExist(),
+			Assert.IsFalse(_usersTab.IsAlertExist(),
 				"Произошла ошибка: \n при сортировке появился Alert.");
 		}
 
 		[Test, Ignore("PRX-9311")]
 		public void SortByGroupsTest()
 		{
-			_usersRightsPage.ClickSortByGroupsAssumingAlert();
+			_usersTab.ClickSortByGroups();
 
-			Assert.IsFalse(_usersRightsPage.IsAlertExist(),
+			Assert.IsFalse(_usersTab.IsAlertExist(),
 				"Произошла ошибка: \n при сортировке появился Alert.");
 		}
 
 		[Test]
 		public void SortByCreatedTest()
 		{
-			_usersRightsPage.ClickSortByCreatedAssumingAlert();
+			_usersTab.ClickSortByCreated();
 
-			Assert.IsFalse(_usersRightsPage.IsAlertExist(),
+			Assert.IsFalse(_usersTab.IsAlertExist(),
 				"Произошла ошибка: \n при сортировке появился Alert.");
 		}
 
@@ -78,13 +78,13 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersRights
 		[NotSupportedWithDomainAuthentication]
 		public void SortByStatusTest()
 		{
-			_usersRightsPage.ClickSortByStatusAssumingAlert();
+			_usersTab.ClickSortByStatus();
 
-			Assert.IsFalse(_usersRightsPage.IsAlertExist(),
+			Assert.IsFalse(_usersTab.IsAlertExist(),
 				"Произошла ошибка: \n при сортировке появился Alert.");
 		}
 
 		private WorkspaceHelper _workspaceHelper;
-		private UsersRightsPage _usersRightsPage;
+		private UsersTab _usersTab;
 	}
 }
