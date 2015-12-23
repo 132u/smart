@@ -64,6 +64,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		public SpellcheckDictionaryDialog ClickDeleteWordButton(string word)
 		{
 			CustomTestContext.WriteLine("Нажать кнопку удаления слова {0} из словаря", word);
+			Word = Driver.SetDynamicValue(How.XPath, WORD_PATH, word);
+			Word.HoverElement();
+
 			DeleteWordButton = Driver.SetDynamicValue(How.XPath, DELETE_WORD_BUTTON, word);
 			DeleteWordButton.Click();
 
