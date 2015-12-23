@@ -12,7 +12,6 @@ using AbbyyLS.SmartCAT.Selenium.Tests.DataStructures;
 using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings;
-using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects;
 using AbbyyLS.SmartCAT.Selenium.Tests.TestFramework;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
@@ -365,6 +364,17 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 
 			return catRowText.Text;
 		}
+		/// <summary>
+		/// Получить термины первой колонкив в Cat-панели.
+		/// </summary>
+		public List<string> GetCatSourceTerms()
+		{
+			CustomTestContext.WriteLine("Получить термины первой колонкив в Cat-панели.");
+			var catSoursesTerms = Driver.GetTextListElement(By.XPath(SOURCE_CAT_TERMS));
+			catSoursesTerms.Sort();
+
+			return catSoursesTerms;
+		}
 
 		/// <summary>
 		/// Получить текст из колонки MatchColumn
@@ -606,6 +616,29 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		#endregion
 
 		#region Составные методы страницы
+
+		/// <summary>
+		/// Получить список подсвеченных в сегменте слов
+		/// </summary>
+		/// <param name="segmentNumber">Номер сегмента</param>
+		/// <returns>Список подсвеченных в сегменте слов</returns>
+		public List<string> GetHighlightedWords(int segmentNumber)
+		{
+			CustomTestContext.WriteLine("Получить список подсвеченных в сегменте №{0} слов.", segmentNumber);
+			var highlightedWords = new List<string>();
+
+			Driver.SetDynamicValue(How.XPath, SOURCE_CELL, (segmentNumber - 1).ToString()).ScrollAndClick();
+			var segmentCatSelectedList = Driver.GetElementList(By.XPath(HIGHLIGHTED_SEGMENT.Replace("*#*", segmentNumber.ToString())));
+
+			if (segmentCatSelectedList.Count > 0)
+			{
+				highlightedWords.AddRange(segmentCatSelectedList.Select(item => item.Text.ToLower()));
+			}
+
+			highlightedWords.Sort();
+
+			return highlightedWords;
+		}
 
 		/// <summary>
 		/// Выделение части строки до первого пробела Home+Shift+Right
@@ -1161,6 +1194,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		protected const string WORKFLOW_COLUMN = "//td[contains(@class, 'segmentworkflowcolumn')]";
 
 		protected const string PROGRESS_BAR = "//div[contains(@class, 'x-progress-bar x-progress-bar-default')]";
+		protected const string HIGHLIGHTED_SEGMENT = "//*[@id='segments-body']//div//div//table[*#*]//div//pre//span";
+		protected const string SOURCE_CAT_TERMS = ".//div[@id='cat-body']//table//tbody//tr//td[2]//div";
+
 		#endregion
 	}
 }

@@ -251,6 +251,7 @@
     <Compile Include="Tests\Editor\EditorCopySourceToTargetTests.cs" />
     <Compile Include="Tests\Glossaries\GlossaryEditStructureTermFieldsTest.cs" />
     <Compile Include="Tests\Glossaries\GlossaryTermFilterTests.cs" />
+    <Compile Include="Tests\Glossaries\GlossaryTermSubstituionTests.cs" />
     <Compile Include="Tests\Glossaries\UserRights\SuggestTermsTest.cs" />
     <Compile Include="Tests\Glossaries\UserRights\SuggestTermsWithoutRight.cs" />
     <Compile Include="Tests\Projects\AssignResponsibles\AssignmentDeadlineTests.cs" />

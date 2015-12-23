@@ -897,6 +897,23 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 		}
 
 		/// <summary>
+		/// Создать несколько терминов
+		/// </summary>
+		/// <param name="terms">термины</param>
+		public GlossaryPage CreateTerms(Dictionary<string, string> terms)
+		{
+			CustomTestContext.WriteLine("Создать несколько терминов.");
+			foreach (var term in terms)
+			{
+				ClickNewEntryButton();
+				FillAllTerm(term.Key, term.Value);
+				ClickSaveTermButton();
+			}
+			
+			return GetPage();
+		}
+
+		/// <summary>
 		/// Заполнить термин для всех языков
 		/// </summary>
 		/// <param name="firstTerm">первый термин</param>

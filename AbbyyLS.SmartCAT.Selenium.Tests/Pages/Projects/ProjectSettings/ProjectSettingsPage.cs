@@ -323,6 +323,44 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings
 
 		#endregion
 
+		#region Составные методы
+
+		/// <summary>
+		/// Выбрать глоссарий по названию
+		/// </summary>
+		/// <param name="nameGlossary">название глоссария</param>
+		public ProjectSettingsPage SelectGlossaryByName(string nameGlossary)
+		{
+			CustomTestContext.WriteLine("Выбрать глоссарий по названию {0}.", nameGlossary);
+			var glossaryList = Driver.GetElementList(By.XPath(GLOSSARIES_LIST));
+			var glossaryWasSet = false;
+
+			for (var i = 0; i < glossaryList.Count; ++i)
+			{
+				if (glossaryList[i].Text.Contains(nameGlossary))
+				{
+					var glossaryWebElement = Driver.FindElement(By.XPath(GLOSSARY_CHECKBOX.Replace("*#*", (i + 1).ToString())));
+					glossaryWebElement.AdvancedClick();
+
+					var saveButtonWebElement = Driver.FindElement(By.XPath(EDIT_GLOSSARY_SAVE_BUTTON));
+					saveButtonWebElement.AdvancedClick();
+
+					PretranslateButton.Scroll();
+
+					glossaryWasSet = true;
+				}
+			}
+
+			if (!glossaryWasSet)
+			{
+				throw new NoSuchElementException("Произошла ошибка:\n глоссарий не найден.");
+			}
+
+			return GetPage();
+		}
+
+		#endregion
+
 		#region Методы, проверяющие состояние страницы
 
 		/// <summary>
@@ -479,6 +517,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings
 		[FindsBy(How = How.XPath, Using = DOCUMENT_SETTINGS_BUTTON)]
 		protected IWebElement DocumentSettingsButton { get; set; }
 
+		[FindsBy(How = How.XPath, Using = PRETRANSLATE_BUTTON)]
+		protected IWebElement PretranslateButton { get; set; }
+
 		protected IWebElement DocumentProgress { get; set; }
 
 		protected IWebElement DocumentRefference { get; set; }
@@ -523,6 +564,10 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings
 		protected const string SORT_BY_QA = "//th[contains(@data-sort-by,'qaErrorCount')]//a";
 
 		protected const string PROJECT_SETTIGS_HEADER = "//div[contains(@class, 'popup-edit')][2]//h2[text()='Project Settings']";
+		protected const string GLOSSARIES_LIST = "//div[@class='g-page']//table//tbody[@data-bind='foreach: glossaries']//tr//td[2]";
+		protected const string GLOSSARY_CHECKBOX = "//div[@class='g-page']//table//tbody[@data-bind='foreach: glossaries']//tr[*#*]//input";
+		protected const string EDIT_GLOSSARY_SAVE_BUTTON = "//div[contains(@data-bind,'click: saveGlossaries')]";
+		protected const string PRETRANSLATE_BUTTON = "//div[contains(@data-bind,'click: pretranslate')]";
 
 		#endregion
 	}
