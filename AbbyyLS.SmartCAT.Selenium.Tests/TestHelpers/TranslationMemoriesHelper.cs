@@ -108,7 +108,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 			if (setAuthorFilter != null)
 			{
-				_translationMemoriesFilterDialog.SelectAuthor(setAuthorFilter);
+				_translationMemoriesFilterDialog.SetAuthorFilter(setAuthorFilter);
 			}
 
 			if (setSourceLanguageFilter != null)

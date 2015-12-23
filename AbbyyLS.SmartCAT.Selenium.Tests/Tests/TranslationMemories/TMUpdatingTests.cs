@@ -49,7 +49,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.TranslationMemories
 		{
 			_translationMemoriesHelper.CreateTranslationMemory(_tmName, importFilePath: PathProvider.EditorTmxFile);
 
-			TranslationMemoriesPage.ClickUpdateTmButton();
+			TranslationMemoriesPage
+				.OpenTranslationMemoryInformation(_tmName)
+				.ClickUpdateTmButton();
 
 			ImportTmxDialog
 				.EnterFileName(PathProvider.SecondTmFile)

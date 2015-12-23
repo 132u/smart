@@ -35,6 +35,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.TranslationMemories
 				.ClickImportButton()
 				.IsFileImportCompleteNotifierDisplayed();
 
+			// костыль PRX-13801
+			_workspaceHelper.RefreshPage();
+
 			var unitsCountAfter = TranslationMemoriesPage
 										.OpenTranslationMemoryInformation(_tmName)
 										.GetUnitsCount();
@@ -71,7 +74,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.TranslationMemories
 		{
 			_translationMemoriesHelper.CreateTranslationMemory(_tmName, importFilePath: PathProvider.EditorTmxFile);
 
-			TranslationMemoriesPage.ClickAddTmxButton();
+			TranslationMemoriesPage
+				.OpenTranslationMemoryInformation(_tmName)
+				.ClickAddTmxButton();
 
 			ImportTmxDialog
 				.EnterFileName(PathProvider.SecondTmFile)

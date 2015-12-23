@@ -221,8 +221,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.TranslationMemories
 				"Произошла ошибка:\n ТМ {0} не представлена в списке ТМ", _tmForFilteringName_2);
 		}
 
-		[Category("PRX_12015")]
-		[Test, Explicit("Тест исключен в связи с багой PRX_12015")]
+		[Test]
 		public void TmFiltrationAuthor()
 		{
 			_tmForFilteringName_3 = TranslationMemoriesHelper.GetTranslationMemoryUniqueName();
@@ -232,6 +231,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.TranslationMemories
 			_signInPage
 				.SubmitForm(_secondUser.Login, _secondUser.Password)
 				.SelectAccount();
+
 			_workspaceHelper
 				.CloseTour()
 				.GoToTranslationMemoriesPage()
