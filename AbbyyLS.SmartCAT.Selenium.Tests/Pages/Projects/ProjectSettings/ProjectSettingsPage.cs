@@ -343,7 +343,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings
 					glossaryWebElement.AdvancedClick();
 
 					var saveButtonWebElement = Driver.FindElement(By.XPath(EDIT_GLOSSARY_SAVE_BUTTON));
-					saveButtonWebElement.AdvancedClick();
+					saveButtonWebElement.ScrollAndClick();
 
 					PretranslateButton.Scroll();
 
