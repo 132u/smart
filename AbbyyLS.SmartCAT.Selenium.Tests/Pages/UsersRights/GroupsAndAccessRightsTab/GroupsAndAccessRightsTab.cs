@@ -139,12 +139,13 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.UsersRights
 		/// <param name="userName">имя пользователя</param>
 		public GroupsAndAccessRightsTab AddUserToGroupIfNotAlredyAdded(string groupName, string userName)
 		{
-			ClickGroupRow(groupName);
-
-			if (IsEditGroupButtonDisplayed(groupName))
+			if (!IsEditGroupButtonDisplayed(groupName))
 			{
-				ClickEditGroupButton(groupName);
+				ClickGroupRow(groupName);
 			}
+			
+			ClickEditGroupButton(groupName);
+			
 			if (!IsUserExistInGroup(groupName, userName))
 			{
 				ClickAddUsersSearchbox(groupName);
