@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+
 using NUnit.Framework;
 
 using AbbyyLS.SmartCAT.Selenium.Admin;
@@ -22,7 +23,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.InitialData
 			_adminHelper = new AdminHelper(Driver);
 		}
 
-		[Test]
+		[Test, Category("Admin tests")]
 		public void CreateCorporateAccount()
 		{
 			_adminHelper
@@ -42,7 +43,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.InitialData
 				.CreateAccountAdminIfNotExist(ThreadUser.Login, ThreadUser.Name, ThreadUser.Surname, LoginHelper.TestAccountName);
 		}
 
-		[Test]
+		[Test, Category("Admin tests")]
 		public void CreatePerevedemCorpAccount()
 		{
 			_adminHelper.CreateAccountIfNotExist(
@@ -57,7 +58,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.InitialData
 				);
 		}
 
-		[Test]
+		[Test, Category("Admin tests")]
 		public void CreateCourseraUsers()
 		{
 			_adminHelper.CreateAccountIfNotExist(
@@ -80,7 +81,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.InitialData
 			}
 		}
 
-		[Test]
+		[Test, Category("Admin tests")]
 		public void CreateSocialNetworksAccounts()
 		{
 			foreach (var user in ConfigurationManager.SocialNetworksUserList)
@@ -89,7 +90,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.InitialData
 			}
 		}
 
-		[Test]
+		[Test, Category("Admin tests")]
 		[ApiIntegration]
 		public void CreatePersonalAccountForThreadUsers()
 		{
@@ -99,7 +100,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.InitialData
 			}
 		}
 
-		[Test]
+		[Test, Category("Admin tests")]
 		public void CreatePersonalAccountForAdditionalUsers()
 		{
 			foreach (var user in ConfigurationManager.AdditionalUsersList)
@@ -108,7 +109,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.InitialData
 			}
 		}
 
-		[Test]
+		[Test, Category("Admin tests")]
 		public void CreatePersonalAccountForRingo()
 		{
 			foreach (var user in ConfigurationManager.UsersInfoList)
@@ -117,13 +118,12 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.InitialData
 			}
 		}
 
-
-		[Test]
+		[Test, Category("Admin tests")]
 		public void CreateDefaultDictionaryPackage()
 		{
 			_adminHelper.CreateDictionaryPackageIfNotExist();
 		}
-
+		
 		private AdminHelper _adminHelper;
 	}
 }
