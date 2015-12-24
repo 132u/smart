@@ -64,6 +64,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.UsersRights
 		public GroupsAndAccessRightsTab ClickEditGroupButton(string groupName)
 		{
 			CustomTestContext.WriteLine("Нажать кнопку 'Редактировать группу'.");
+			Driver.WaitUntilElementIsDisplay(By.XPath(EDIT_GROUP_BUTTON));
 			EditGroupButton = Driver.SetDynamicValue(How.XPath, EDIT_GROUP_BUTTON, groupName);
 			EditGroupButton.Click();
 
@@ -139,11 +140,11 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.UsersRights
 		/// <param name="userName">имя пользователя</param>
 		public GroupsAndAccessRightsTab AddUserToGroupIfNotAlredyAdded(string groupName, string userName)
 		{
-			if (!IsEditGroupButtonDisplayed(groupName))
+			if (!IsGroupInfoOpened(groupName))
 			{
 				ClickGroupRow(groupName);
 			}
-			
+
 			ClickEditGroupButton(groupName);
 			
 			if (!IsUserExistInGroup(groupName, userName))
@@ -299,6 +300,20 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.UsersRights
 
 			return  Driver.WaitUntilElementIsDisplay(By.XPath(CREATE_PROJECTS_RIGHT_TEXT));
 		}
+
+		/// <summary>
+		/// Проверить,  что свертка группы раскрыта
+		/// </summary>
+		/// <param name="groupName">имя группы</param>
+		public bool IsGroupInfoOpened(string groupName)
+		{
+			CustomTestContext.WriteLine("Проверить, что свертка группы {0} раскрыта", groupName);
+
+			return Driver.SetDynamicValue(How.XPath, GROUP_ROW, groupName)
+				.GetAttribute("class")
+				.Contains("opened");
+		}
+
 		#endregion
 
 		#region Вспомогательные методы
@@ -354,6 +369,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.UsersRights
 
 		protected const string GROUP_NAME_LIST = "//tbody[@data-bind='foreach: filteredGroups']//tr[contains(@class, 'clickable')]//td[@data-bind='text: name']";
 		protected const string GROUP = "//td[contains(@data-bind, 'text: name')][string()='*#*']";
+		protected const string GROUP_ROW = "//td[contains(@data-bind, 'text: name')][string()='*#*']//..";
 		protected const string CREATE_GROUP_BUTTON = "//div[contains(@data-bind, 'click: addGroup')]//a[contains(string(),'Create Group')]";
 		protected const string NEW_GROUP_NAME_INPUT = "//input[contains(@class, 'add-group-popup')]";
 		protected const string EDIT_GROUP_BUTTON = "//tr[contains(string(),'*#*')]//following-sibling::tr[contains(@data-bind, 'if: isExpanded')]//div[contains(@data-bind, 'click: edit')]//a";

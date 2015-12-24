@@ -57,7 +57,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects.CheckRights
 
 			_groupsAndAccessRightsTab.OpenAddRightsDialogForGroup(groupName);
 
-			_addAccessRightDialog.AddRightToGroupAnyProject(RightsType.ProjectCreation);
+			_addAccessRightDialog
+				.AddRightToGroupAnyProject(RightsType.ProjectCreation)
+				.ClickSaveButton(groupName);
 
 			_groupsAndAccessRightsTab.AddUserToGroupIfNotAlredyAdded(groupName, AdditionalUser.NickName);
 
