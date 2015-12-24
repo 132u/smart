@@ -34,7 +34,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.InitialData
 						{
 							Feature.Clients.ToString(),
 							Feature.Domains.ToString(),
-							Feature.TranslateConnector.ToString(),
 							Feature.LingvoDictionaries.ToString(),
 							Feature.DocumentUpdate.ToString(),
 							Feature.Vendors.ToString()
@@ -53,7 +52,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.InitialData
 				features: new List<string>
 						{
 							Feature.Clients.ToString(),
-							Feature.TranslateConnector.ToString(),
 							Feature.LingvoDictionaries.ToString(),
 						}
 				);
@@ -70,7 +68,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.InitialData
 					{
 						Feature.Clients.ToString(),
 						Feature.Crowd.ToString(),
-						Feature.TranslateConnector.ToString(),
 						Feature.LingvoDictionaries.ToString(),
 					}
 				);
