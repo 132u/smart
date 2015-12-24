@@ -1,13 +1,12 @@
-﻿using AbbyyLS.SmartCAT.Selenium.Tests;
-using AbbyyLS.SmartCAT.Selenium.Tests.DataStructures;
-
-using NUnit.Framework;
+﻿using NUnit.Framework;
 
 using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog;
 using AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers;
 using AbbyyLS.SmartCAT.Selenium.Tests.Tests;
+using AbbyyLS.SmartCAT.Selenium.Tests;
+using AbbyyLS.SmartCAT.Selenium.Tests.DataStructures;
 
 namespace AbbyyLS.SmartCAT.Selenium.Admin.Tests
 {
@@ -35,7 +34,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Admin.Tests
 			var projectUniqueName = _createProjectHelper.GetProjectUniqueName();
 
 			Assert.IsTrue(_newProjectDocumentUploadPage.IsNewProjectDocumentUploadPageOpened(),
-				"Произошла ошибка:\nНе откралсь первая страница визарад создания проекта.");
+				"Произошла ошибка:\nНе открылась первая страница визарда создания проекта.");
 
 			_newProjectDocumentUploadPage
 				.UploadDocumentFile(PathProvider.DocumentFile)
@@ -50,7 +49,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Admin.Tests
 
 			_newProjectWorkflowPage.ClickCreateProjectButton();
 
-			Assert.IsTrue(_projectsPage.IsProjectExist(projectUniqueName)),
+			Assert.IsTrue(_projectsPage.IsProjectExist(projectUniqueName),
 				"Произошла ошибка: \nне найден проект с новым именем");
 		}
 
