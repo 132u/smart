@@ -45,7 +45,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Billing
 					{
 						Feature.Clients.ToString(),
 						Feature.Domains.ToString(),
-						Feature.TranslateConnector.ToString(),
 						Feature.LingvoDictionaries.ToString(),
 					})
 				.AddUserToSpecificAccount(ThreadUser.Login, accountUniqueName);

@@ -6,7 +6,6 @@
 		LingvoDictionaries,
 		Crowd,
 		Domains,
-		TranslateConnector,
 		DocumentUpdate,
 		Vendors
 	}

@@ -91,8 +91,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.LingvoDictionaries
 				features: new List<string>
 				{
 					Feature.Clients.ToString(),
-					Feature.Domains.ToString(),
-					Feature.TranslateConnector.ToString(),
+					Feature.Domains.ToString()
 				})
 				.AddUserToSpecificAccount(ThreadUser.Login, _accountUniqueName);
 
