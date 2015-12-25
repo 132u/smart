@@ -33,8 +33,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Registration
 			_freelanceRegistrationSignInPage
 				.FillSignInForm(_email, _password)
 				.ClickSignInButtonWithInactivePersonalAccount();
-			
-			Assert.IsTrue(_projectsPage.IsProjectsPageOpened(),
+
+			Assert.IsTrue(_newProjectDocumentUploadPage.IsNewProjectDocumentUploadPageOpened(),
 				"Произошла ошибка:\nСтраница поректов не открылась.");
 
 			Assert.IsTrue(_workspacePage.IsNickNameMatch(_nickName),

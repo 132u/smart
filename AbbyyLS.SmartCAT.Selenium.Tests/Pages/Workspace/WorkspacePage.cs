@@ -241,6 +241,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace
 
 			return new BillingPage(Driver);
 		}
+
 		/// <summary>
 		/// Выйти из смартката
 		/// </summary>
@@ -250,6 +251,16 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace
 			SignOutButton.JavaScriptClick();
 
 			return new SignInPage(Driver).GetPage();
+		}
+
+		/// <summary>
+		/// Выйти из смартката
+		/// </summary>
+		public void ClickSignOutAssumingAlert()
+		{
+			CustomTestContext.WriteLine("Выйти из смартката, ожидая алерт.");
+
+			SignOutButton.JavaScriptClick();
 		}
 
 		/// <summary>
@@ -504,6 +515,17 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace
 			Driver.SwitchTo().Alert().Accept();
 
 			return new ProjectsPage(Driver).GetPage();
+		}
+
+		/// <summary>
+		/// Закрыть алерт
+		/// </summary>
+		public SignInPage AcceptAlertSwitchToSignInPage()
+		{
+			CustomTestContext.WriteLine("Закрыть алерт");
+			Driver.SwitchTo().Alert().Accept();
+
+			return new SignInPage(Driver).GetPage();
 		}
 
 		/// <summary>

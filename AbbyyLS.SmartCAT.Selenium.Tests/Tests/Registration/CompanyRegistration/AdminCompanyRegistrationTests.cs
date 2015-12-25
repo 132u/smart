@@ -152,7 +152,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Registration
 			_workspaceHelper
 				.CloseTour()
 				.AssertUserNameAndAccountNameCorrect(_firstName + " " + _lastName, _companyName)
-				.SignOut();
+				.SignOutAssumingAlert();
 
 			_signInPage
 				.SubmitForm(_email, _password)

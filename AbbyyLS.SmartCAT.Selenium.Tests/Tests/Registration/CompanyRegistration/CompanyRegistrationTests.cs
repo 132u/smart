@@ -109,7 +109,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Registration
 			_workspaceHelper
 				.CloseTour()
 				.AssertUserNameAndAccountNameCorrect(_firstName + " " + _lastName, _maximumCompanyName)
-				.SignOut();
+				.SignOutAssumingAlert();
 
 			_commonHelper.GoToCompanyRegistration();
 
@@ -563,7 +563,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Registration
 			_workspaceHelper
 				.CloseTour()
 				.AssertUserNameAndAccountNameCorrect(_firstName + " " + _lastName, _maximumCompanyName)
-				.SignOut();
+				.SignOutAssumingAlert();
 
 			_commonHelper.GoToCompanyRegistration();
 
@@ -597,7 +597,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Registration
 			_workspaceHelper
 				.CloseTour()
 				.AssertUserNameAndAccountNameCorrect(_firstName + " " + _lastName, _maximumCompanyName)
-				.SignOut();
+				.SignOutAssumingAlert();
 
 			_commonHelper.GoToCompanyRegistration();
 
@@ -628,7 +628,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Registration
 			_workspaceHelper
 				.CloseTour()
 				.AssertUserNameAndAccountNameCorrect(_firstName + " " + _lastName, _maximumCompanyName)
-				.SignOut();
+				.SignOutAssumingAlert();
 
 			_commonHelper.GoToSignInPage();
 			_loginHelper.LogInSmartCat(_email, _nickName, _password, _maximumCompanyName);

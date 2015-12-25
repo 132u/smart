@@ -230,6 +230,17 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 			return new LoginHelper(Driver);
 		}
 
+		public LoginHelper SignOutAssumingAlert()
+		{
+			BaseObject.InitPage(_workspacePage, Driver);
+			_workspacePage
+				.ClickAccount()
+				.ClickSignOutAssumingAlert();
+
+			_projectsPage.AcceptAlertSwitchToSignInPage();
+
+			return new LoginHelper(Driver);
+		} 
 		public WorkspaceHelper AssertAccountExistInList(string account)
 		{
 			BaseObject.InitPage(_workspacePage, Driver);

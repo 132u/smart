@@ -1,5 +1,7 @@
 ﻿using System;
 
+using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog;
+
 using NUnit.Framework;
 
 using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
@@ -26,6 +28,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Registration.FreelanceRegistrati
 			_loginHelper = new LoginHelper(Driver);
 			_adminHelper = new AdminHelper(Driver);
 			_commonHelper = new CommonHelper(Driver);
+			_newProjectDocumentUploadPage = new NewProjectDocumentUploadPage(Driver);
 
 			_email = "e" + Guid.NewGuid().ToString().Substring(0, 8) + "@mailforspam.com";
 			_password = "password" + Guid.NewGuid();
@@ -54,5 +57,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Registration.FreelanceRegistrati
 		protected LoginHelper _loginHelper;
 		protected AdminHelper _adminHelper;
 		protected CommonHelper _commonHelper;
+		protected NewProjectDocumentUploadPage _newProjectDocumentUploadPage;
 	}
 }

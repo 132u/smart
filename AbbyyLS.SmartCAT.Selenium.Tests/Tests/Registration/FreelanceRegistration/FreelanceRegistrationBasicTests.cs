@@ -24,8 +24,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Registration
 					password: _password,
 					confirmPassword: _password)
 				.ClickContinueButton();
-			
-			Assert.IsTrue(_projectsPage.IsProjectsPageOpened(),
+
+			Assert.IsTrue(_newProjectDocumentUploadPage.IsNewProjectDocumentUploadPageOpened(),
 				"Произошла ошибка:\nСтраница поректов не открылась.");
 
 			Assert.IsTrue(_workspacePage.IsNickNameMatch(_email),
@@ -42,15 +42,13 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Registration
 					confirmPassword: _password)
 				.ClickContinueButton();
 			
-			_workspacePage
-				.CloseHelpIfOpened()
-				.ClickSignOut();
+			_workspaceHelper.SignOutAssumingAlert();
 
 			_signInPage
 				.SubmitForm(_email, _password)
 				.SelectAccount(LoginHelper.PersonalAccountName);
 			
-			Assert.IsTrue(_projectsPage.IsProjectsPageOpened(),
+			Assert.IsTrue(_newProjectDocumentUploadPage.IsNewProjectDocumentUploadPageOpened(),
 				"Произошла ошибка:\nСтраница поректов не открылась.");
 
 			Assert.IsTrue(_workspacePage.IsNickNameMatch(_email),
