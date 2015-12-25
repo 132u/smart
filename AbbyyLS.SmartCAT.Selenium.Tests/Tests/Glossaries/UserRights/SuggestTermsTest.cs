@@ -187,7 +187,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 			Assert.IsTrue(_suggestTermDialog.IsDublicateErrorDisplayed(),
 				"Произошла ошибка:\n сообщение о том, что такой термин уже существует, не появилось");
 
-			_suggestTermDialog.ClickCancelButtonExpectingGlossaryPage();
+			_suggestTermDialog.ClickSaveButtonExpectingGlossaryPage();
 
 			_glossaryPage.ClickSuggestedTermsButton();
 
@@ -221,7 +221,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 			Assert.IsTrue(_suggestTermDialog.IsDublicateErrorDisplayed(),
 				"Произошла ошибка:\n сообщение о том, что такой термин уже существует, не появилось");
 
-			_suggestTermDialog.ClickCancelButtonExpectingGlossaryPage();
+			_suggestTermDialog.ClickCancelButtonExpectingGlossariesPage();
 
 			_glossariesPage.ClickGlossaryRow(_glossaryName);
 
@@ -249,7 +249,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 			Assert.IsTrue(_suggestTermDialog.IsDublicateErrorDisplayed(),
 				"Произошла ошибка:\n сообщение о том, что такой термин уже существует, не появилось");
 
-			_suggestTermDialog.ClickCancelButtonExpectingGlossaryPage();
+			_suggestTermDialog.ClickSaveTermAnywayButtonExpectingGlossariesPage();
 
 			_glossariesPage.ClickGlossaryRow(_glossaryName);
 
