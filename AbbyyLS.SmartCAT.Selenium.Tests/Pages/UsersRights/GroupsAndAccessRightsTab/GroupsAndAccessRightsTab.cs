@@ -67,6 +67,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.UsersRights
 			Driver.WaitUntilElementIsDisplay(By.XPath(EDIT_GROUP_BUTTON));
 			EditGroupButton = Driver.SetDynamicValue(How.XPath, EDIT_GROUP_BUTTON, groupName);
 			EditGroupButton.Click();
+			Driver.WaitUntilElementIsDisappeared(By.XPath(EDIT_GROUP_BUTTON));
 
 			return GetPage();
 		}
@@ -107,8 +108,11 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.UsersRights
 		/// <param name="groupName">имя группы</param>
 		public AddAccessRightDialog OpenAddRightsDialogForGroup(string groupName)
 		{
-			ClickGroupRow(groupName);
-		
+			if (!IsGroupInfoOpened(groupName))
+			{
+				ClickGroupRow(groupName);
+			}
+
 			if (IsEditGroupButtonDisplayed(groupName))
 			{
 				ClickEditGroupButton(groupName);
@@ -190,6 +194,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.UsersRights
 		public AddAccessRightDialog ClickAddRightsButton(string groupName)
 		{
 			CustomTestContext.WriteLine("Нажать на кнопку 'Добавить права' для группы {0}.", groupName);
+			Driver.WaitUntilElementIsDisplay(By.XPath(ADD_RIGHTS_BUTTON.Replace("*#*", groupName)));
 			AddRightsButton = Driver.SetDynamicValue(How.XPath, ADD_RIGHTS_BUTTON, groupName);
 			AddRightsButton.Click();
 
@@ -376,8 +381,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.UsersRights
 		protected const string ADD_RIGHTS_BUTTON = "//tr[contains(string(),'*#*')]//following-sibling::tr[contains(@data-bind, 'if: isExpanded')]//div[contains(@data-bind,'click: addAccessRight')]";
 		protected const string GROUP_USER = "//tr[contains(string(),'*#*')]//following-sibling::tr[contains(@data-bind, 'if: isExpanded')]//ul[contains(@data-bind, 'foreach: users')]//li[contains(string(), '*##*')]";
 		protected const string DELETE_USER_BUTTON = "//tr[contains(string(),'*#*')]//following-sibling::tr[contains(@data-bind, 'if: isExpanded')]//ul[contains(@data-bind, 'foreach: users')]//li[contains(string(), '*##*')]//span[contains(@data-bind,'removeUser')]";
-		protected const string ADD_GROUP_USERS_INPUT = "//tr[contains(string(),'*#*')]//following-sibling::tr[contains(@data-bind, 'if: isExpanded')]//input[contains(@class, 'tblgrp_finduser')]";
-		protected const string ADD_GROUP_USER_BUTTON = "//tr[contains(string(),'*#*')]//following-sibling::tr[contains(@data-bind, 'if: isExpanded')]//div[contains(@class, 'users-add-list')]//table//tr[contains(string(),'*##*')]//a[string() = 'Add']";
+		protected const string ADD_GROUP_USERS_INPUT = "//tr[contains(string(),'*#*')]//following-sibling::tr[contains(@data-bind, 'if: isExpanded')][1]//input[contains(@class, 'tblgrp_finduser')]";
+		protected const string ADD_GROUP_USER_BUTTON = "//tr[contains(string(),'*#*')]//following-sibling::tr[contains(@data-bind, 'if: isExpanded')]//div[contains(@class, 'users-add-list')]//table//tr[contains(string(),'*##*')]//following-sibling::td//a[string() = 'Add']";
 
 		protected const string VIEW_PROJECTS_RIGHT_TEXT = "//tr[contains(string(),'*#*')]//following-sibling::tr[contains(@data-bind, 'if: isExpanded')]//li[contains(string(), 'View all projects')]";
 		protected const string MANAGE_PROJECTS_RIGHT_TEXT = "//tr[contains(string(),'*#*')]//following-sibling::tr[contains(@data-bind, 'if: isExpanded')]//li[contains(string(), 'Manage all projects')]";
