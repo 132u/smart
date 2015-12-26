@@ -118,7 +118,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects.Workflow
 			_projectsPage
 				.OpenProjectInfo(_projectUniqueName)
 				.OpenDocumentInfoForProject(_projectUniqueName)
-				.ClickDocumentRef(Path.GetFileNameWithoutExtension(PathProvider.RepetionsTxtFile));
+				.ClickDocumentRef(Path.GetFileName(PathProvider.RepetionsTxtFile));
 
 			_selectTaskDialog.SelectTask();
 
@@ -151,8 +151,12 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects.Workflow
 			_projectsPage
 				.OpenProjectInfo(_projectUniqueName)
 				.OpenDocumentInfoForProject(_projectUniqueName)
-				.ClickDocumentRef(Path.GetFileNameWithoutExtension(PathProvider.RepetionsTxtFile));
-			
+				.ClickDocumentRef(Path.GetFileName(PathProvider.RepetionsTxtFile));
+
+			_selectTaskDialog.SelectTask();
+
+			_editorPage.CloseTutorialIfExist();
+
 			_editorPage
 				.ClickOnTargetCellInSegment(rowNumber: 9)
 				.FillSegmentTargetField(text2, rowNumber: 8)

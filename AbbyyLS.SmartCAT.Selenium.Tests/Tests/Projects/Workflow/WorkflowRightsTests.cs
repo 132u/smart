@@ -39,7 +39,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects.Workflow
 			_createProjectHelper
 				.CreateNewProject(_projectUniqueName, filePath: PathProvider.EditorTxtFile)
 				.GoToProjectSettingsPage(_projectUniqueName)
-				.AssignTasksOnDocument(Path.GetFileNameWithoutExtension(PathProvider.EditorTxtFile), AdditionalUser.NickName);
+				.AssignTasksOnDocument(Path.GetFileName(PathProvider.EditorTxtFile), AdditionalUser.NickName);
 		}
 
 		[Test, Description("ТС-56 Пользователь назначен  на один этап одного документа")]
@@ -161,7 +161,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects.Workflow
 
 			_projectsPage.OpenProjectInfo(_projectUniqueName)
 				.OpenDocumentInfoForProject(_projectUniqueName)
-				.ClickDocumentRef(Path.GetFileNameWithoutExtension(PathProvider.EditorTxtFile))
+				.ClickDocumentRef(Path.GetFileName(PathProvider.EditorTxtFile))
 				.CloseTutorialIfExist();
 
 			_editorPage.FillTarget(_text, rowNumber: 1)
@@ -186,7 +186,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects.Workflow
 			_projectsPage
 				.OpenProjectInfo(_projectUniqueName)
 				.OpenDocumentInfoForProject(_projectUniqueName)
-				.ClickDocumentRef(Path.GetFileNameWithoutExtension(PathProvider.EditorTxtFile));
+				.ClickDocumentRef(Path.GetFileName(PathProvider.EditorTxtFile));
 
 			Assert.AreEqual(_text, _editorPage.GetTargetText(rowNumber: 1),
 				"Произошла ошибка:\n Неверное значение в таргете сегмента №1.");

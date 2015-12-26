@@ -211,9 +211,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings
 		/// <param name="filePath">путь до документа</param>
 		public ProjectSettingsPage ClickDocumentProgress(string filePath)
 		{
-			var documentName = Path.GetFileNameWithoutExtension(filePath);
-			CustomTestContext.WriteLine("Нажать на поле прогресс строке документа {0}.", documentName);
-			DocumentProgress = Driver.SetDynamicValue(How.XPath, DOCUMENT_PROGRESS, documentName);
+			CustomTestContext.WriteLine("Нажать на поле прогресс строке документа {0}.", filePath);
+			DocumentProgress = Driver.SetDynamicValue(How.XPath, DOCUMENT_PROGRESS, filePath);
 			DocumentProgress.Click();
 
 			return GetPage();
