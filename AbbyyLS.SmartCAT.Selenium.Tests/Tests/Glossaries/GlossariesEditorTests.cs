@@ -49,12 +49,12 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 				.GoToProjectSettingsPage(_projectName)
 				.UploadDocument(new []{PathProvider.DocumentFile})
 				.RefreshPage<ProjectSettingsPage, ProjectSettingsHelper>()
-				.AssignTasksOnDocument(Path.GetFileNameWithoutExtension(PathProvider.DocumentFile), ThreadUser.NickName)
-				.AddGlossaryToDocument(Path.GetFileNameWithoutExtension(PathProvider.DocumentFile), _glossary1Name)
-				.AddGlossaryToDocument(Path.GetFileNameWithoutExtension(PathProvider.DocumentFile), _glossary2Name);
+				.AssignTasksOnDocument(PathProvider.DocumentFile, ThreadUser.NickName)
+				.AddGlossaryToDocument(PathProvider.DocumentFile, _glossary1Name)
+				.AddGlossaryToDocument(PathProvider.DocumentFile, _glossary2Name);
 
 			_projectSettingsPage
-				.OpenDocumentInEditorWithTaskSelect(Path.GetFileNameWithoutExtension(PathProvider.DocumentFile));
+				.OpenDocumentInEditorWithTaskSelect(PathProvider.DocumentFile);
 
 			_selectTaskDialog.SelectTask();
 

@@ -147,7 +147,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects.CheckRights
 
 			_projectsPage
 				.WaitUntilProjectLoadSuccessfully(_projectUniqueName)
-				.SelectDocument(_projectUniqueName, Path.GetFileNameWithoutExtension(PathProvider.EditorTxtFile))
+				.SelectDocument(_projectUniqueName, PathProvider.EditorTxtFile)
 				.ClickDownloadInProjectButton(_projectUniqueName)
 				.ClickExportType(exportType);
 
@@ -242,12 +242,12 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects.CheckRights
 			_projectsPage
 				.WaitUntilProjectLoadSuccessfully(_projectUniqueName)
 				.OpenProjectInfo(_projectUniqueName)
-				.SelectDocument(_projectUniqueName, Path.GetFileNameWithoutExtension(PathProvider.DocumentFile));
+				.SelectDocument(_projectUniqueName, PathProvider.DocumentFile);
 
 			if (allFiles)
 			{
 				_projectsPage
-					.SelectDocument(_projectUniqueName, Path.GetFileNameWithoutExtension(PathProvider.DocumentFile2))
+					.SelectDocument(_projectUniqueName, PathProvider.DocumentFile2)
 					.ClickDeleteButton();
 			}
 			else

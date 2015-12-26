@@ -38,10 +38,10 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Editor
 					createNewTm: true,
 					tmxFilePath: PathProvider.EditorTmxFile)
 				.GoToProjectSettingsPage(_projectUniqueName)
-				.AssignTasksOnDocument(Path.GetFileNameWithoutExtension(PathProvider.EditorTxtFile), ThreadUser.NickName);
+				.AssignTasksOnDocument(PathProvider.EditorTxtFile, ThreadUser.NickName);
 
 			_projectSettingsPage
-				.OpenDocumentInEditorWithTaskSelect(Path.GetFileNameWithoutExtension(PathProvider.EditorTxtFile));
+				.OpenDocumentInEditorWithTaskSelect(PathProvider.EditorTxtFile);
 			
 			_selectTaskDialog.SelectTask();
 
@@ -77,10 +77,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Editor
 
 			_createProjectHelper
 				.GoToProjectSettingsPage(_projectUniqueName)
-				.AssignTasksOnDocument(Path.GetFileNameWithoutExtension(PathProvider.DocumentFile), ThreadUser.NickName);
+				.AssignTasksOnDocument(PathProvider.DocumentFile, ThreadUser.NickName);
 
-			_projectSettingsPage
-				.OpenDocumentInEditorWithTaskSelect(Path.GetFileNameWithoutExtension(PathProvider.DocumentFile));
+			_projectSettingsPage.OpenDocumentInEditorWithTaskSelect(PathProvider.DocumentFile);
 			
 			_selectTaskDialog.SelectTask();
 
@@ -115,10 +114,10 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Editor
 
 			_createProjectHelper
 				.GoToProjectSettingsPage(_projectUniqueName)
-				.AssignTasksOnDocument(Path.GetFileNameWithoutExtension(PathProvider.DocumentFile), ThreadUser.NickName);
+				.AssignTasksOnDocument(PathProvider.DocumentFile, ThreadUser.NickName);
 
 			_projectSettingsPage
-				.OpenDocumentInEditorWithTaskSelect(Path.GetFileNameWithoutExtension(PathProvider.DocumentFile));
+				.OpenDocumentInEditorWithTaskSelect(PathProvider.DocumentFile);
 
 			_selectTaskDialog.SelectTask();
 

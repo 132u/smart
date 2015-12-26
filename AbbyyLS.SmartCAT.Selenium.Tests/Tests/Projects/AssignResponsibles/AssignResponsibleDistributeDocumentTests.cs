@@ -103,7 +103,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 
 			_workspaceHelper.GoToProjectSettingsPage(_projectUniqueName);
 
-			_projectSettingsPage.OpenDocumentInEditorWithoutTaskSelect(Path.GetFileNameWithoutExtension(PathProvider.LongTxtFile));
+			_projectSettingsPage.OpenDocumentInEditorWithoutTaskSelect(PathProvider.LongTxtFile);
 
 			Assert.IsFalse(_editorPage.IsStageNameIsEmpty(),
 				"Произошла ошибка:\n название этапа проставлено.");

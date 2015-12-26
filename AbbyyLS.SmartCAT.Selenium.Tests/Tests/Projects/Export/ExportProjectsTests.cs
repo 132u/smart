@@ -24,19 +24,19 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 			_workspaceHelper = new WorkspaceHelper(Driver);
 			_projectsPage = new ProjectsPage(Driver);
 			_projectSettingsPage = new ProjectSettingsPage(Driver);
-            _exportNotification = new ExportNotification(Driver);
+			_exportNotification = new ExportNotification(Driver);
 
-            _projectUniqueName = _createProjectHelper.GetProjectUniqueName();
+			_projectUniqueName = _createProjectHelper.GetProjectUniqueName();
 
 			_workspaceHelper.GoToProjectsPage();
 
-            _exportNotification.CancelAllNotifiers<ProjectsPage>();
+			_exportNotification.CancelAllNotifiers<ProjectsPage>();
 
 			_createProjectHelper.CreateNewProject(_projectUniqueName, filePath: PathProvider.DocumentFileToConfirm1);
 
 			_workspaceHelper
 				.GoToProjectSettingsPage(_projectUniqueName)
-				.AssignTasksOnDocument(Path.GetFileNameWithoutExtension(PathProvider.DocumentFileToConfirm1), ThreadUser.NickName)
+				.AssignTasksOnDocument(PathProvider.DocumentFileToConfirm1, ThreadUser.NickName)
 				.CreateRevision(Path.GetFileNameWithoutExtension(PathProvider.DocumentFileToConfirm1))
 				.GoToProjectsPage();
 		}
@@ -134,7 +134,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 
 			_projectSettingsHelper
 				.UploadDocument(new[] {PathProvider.DocumentFileToConfirm2})
-				.AssignTasksOnDocument(Path.GetFileNameWithoutExtension(PathProvider.DocumentFileToConfirm2), ThreadUser.NickName)
+				.AssignTasksOnDocument(PathProvider.DocumentFileToConfirm2, ThreadUser.NickName)
 				.CreateRevision(Path.GetFileNameWithoutExtension(PathProvider.DocumentFileToConfirm2))
 				.GoToProjectsPage();
 

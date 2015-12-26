@@ -40,7 +40,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersRights
 			
 			_projectsPage
 				.OpenProjectInfo(_projectUniqueName)
-				.ClickDocumentRef(Path.GetFileNameWithoutExtension(document1));
+				.ClickDocumentRef(document1);
 
 			Assert.IsTrue(_editorPage.IsEditorPageOpened(),
 				"Произошла ошибка:\nРедактор не открылся.");

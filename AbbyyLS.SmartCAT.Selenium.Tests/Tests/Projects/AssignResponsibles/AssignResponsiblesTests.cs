@@ -129,7 +129,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 
 			_workspaceHelper.GoToProjectSettingsPage(_projectUniqueName);
 
-			_projectSettingsPage.OpenDocumentInEditorWithTaskSelect(Path.GetFileNameWithoutExtension(PathProvider.EditorTxtFile));
+			_projectSettingsPage.OpenDocumentInEditorWithTaskSelect(PathProvider.EditorTxtFile);
 		}
 	}
 }

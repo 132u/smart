@@ -35,10 +35,10 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Editor.UndoRedoButtonsTests
 
 			_workspaceHelper
 				.GoToProjectSettingsPage(projectUniqueName)
-				.AssignTasksOnDocument(Path.GetFileNameWithoutExtension(PathProvider.EditorTxtFile), ThreadUser.NickName);
+				.AssignTasksOnDocument(PathProvider.EditorTxtFile, ThreadUser.NickName);
 
 			_projectSettingsPage
-				.OpenDocumentInEditorWithTaskSelect(Path.GetFileNameWithoutExtension(PathProvider.EditorTxtFile));
+				.OpenDocumentInEditorWithTaskSelect(PathProvider.EditorTxtFile);
 
 			SelectTaskDialog.SelectTask();
 

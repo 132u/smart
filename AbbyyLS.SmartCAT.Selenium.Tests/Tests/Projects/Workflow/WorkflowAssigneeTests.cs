@@ -24,9 +24,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects.Workflow
 		[Test, Description("ТС-0511 Отказ после подтверждения")]
 		public void DeclineTaskTest()
 		{
-			_projectSettingsHelper.AssignTasksOnDocument(Path.GetFileNameWithoutExtension(PathProvider.RepetionsTxtFile), ThreadUser.NickName);
+			_projectSettingsHelper.AssignTasksOnDocument(PathProvider.RepetionsTxtFile, ThreadUser.NickName);
 
-			_projectSettingsPage.OpenDocumentInEditorWithTaskSelect(Path.GetFileNameWithoutExtension(PathProvider.RepetionsTxtFile));
+			_projectSettingsPage.OpenDocumentInEditorWithTaskSelect(PathProvider.RepetionsTxtFile);
 
 			_selectTaskDialog.SelectTask();
 
@@ -60,7 +60,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects.Workflow
 		[Test, Description("ТС-053 Отмена участия исполнителя назначенного этапа")]
 		public void DeclineAssigneeTest()
 		{
-			_projectSettingsHelper.AssignTasksOnDocument(Path.GetFileNameWithoutExtension(PathProvider.RepetionsTxtFile), ThreadUser.NickName);
+			_projectSettingsHelper.AssignTasksOnDocument(PathProvider.RepetionsTxtFile, ThreadUser.NickName);
 
 			_workspaceHelper
 				.GoToProjectsPage()
@@ -118,7 +118,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects.Workflow
 			_projectsPage
 				.OpenProjectInfo(_projectUniqueName)
 				.OpenDocumentInfoForProject(_projectUniqueName)
-				.ClickDocumentRef(Path.GetFileName(PathProvider.RepetionsTxtFile));
+				.ClickDocumentRef(PathProvider.RepetionsTxtFile);
 
 			_selectTaskDialog.SelectTask();
 
@@ -151,7 +151,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects.Workflow
 			_projectsPage
 				.OpenProjectInfo(_projectUniqueName)
 				.OpenDocumentInfoForProject(_projectUniqueName)
-				.ClickDocumentRef(Path.GetFileName(PathProvider.RepetionsTxtFile));
+				.ClickDocumentRef(PathProvider.RepetionsTxtFile);
 
 			_selectTaskDialog.SelectTask();
 

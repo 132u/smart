@@ -134,7 +134,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 
 			_workspaceHelper.GoToProjectSettingsPage(_projectUniqueName);
 
-			_projectSettingsPage.OpenDocumentInEditorWithTaskSelect(Path.GetFileNameWithoutExtension(PathProvider.EditorTxtFile));
+			_projectSettingsPage.OpenDocumentInEditorWithTaskSelect(PathProvider.EditorTxtFile);
 
 			_selectTaskDialog.SelectTask();
 
@@ -184,7 +184,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 
 			_workspaceHelper.GoToProjectSettingsPage(_projectUniqueName);
 
-			_projectSettingsPage.OpenDocumentInEditorWithTaskSelect(Path.GetFileNameWithoutExtension(PathProvider.EditorTxtFile));
+			_projectSettingsPage.OpenDocumentInEditorWithTaskSelect(PathProvider.EditorTxtFile);
 			_selectTaskDialog.SelectTask();
 
 			_editorPage.CloseTutorialIfExist();
@@ -204,7 +204,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 
 			_workspaceHelper.GoToProjectSettingsPage(_projectUniqueName);
 
-			_projectSettingsPage.OpenDocumentInEditorWithoutTaskSelect(Path.GetFileNameWithoutExtension(PathProvider.EditorTxtFile));
+			_projectSettingsPage.OpenDocumentInEditorWithoutTaskSelect(PathProvider.EditorTxtFile);
 
 			Assert.IsFalse(_editorPage.IsStageNameIsEmpty(),
 				"Произошла ошибка:\n название этапа проставлено.");
@@ -217,7 +217,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 
 			_workspaceHelper.GoToProjectSettingsPage(_projectUniqueName);
 
-			_projectSettingsPage.OpenDocumentInEditorWithTaskSelect(Path.GetFileNameWithoutExtension(PathProvider.EditorTxtFile));
+			_projectSettingsPage.OpenDocumentInEditorWithTaskSelect(PathProvider.EditorTxtFile);
 
 			_selectTaskDialog.SelectTask();
 
@@ -238,7 +238,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 				.ClickSaveButton();
 			
 			_workspaceHelper.GoToProjectSettingsPage(_projectUniqueName);
-			_projectSettingsPage.OpenDocumentInEditorWithTaskSelect(Path.GetFileNameWithoutExtension(PathProvider.EditorTxtFile));
+			_projectSettingsPage.OpenDocumentInEditorWithTaskSelect(PathProvider.EditorTxtFile);
 			
 			_selectTaskDialog.SelectTask();
 
@@ -259,7 +259,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 
 			_workspaceHelper.GoToProjectSettingsPage(_projectUniqueName);
 
-			_projectSettingsPage.OpenDocumentInEditorWithoutTaskSelect(Path.GetFileNameWithoutExtension(PathProvider.EditorTxtFile));
+			_projectSettingsPage.OpenDocumentInEditorWithoutTaskSelect(PathProvider.EditorTxtFile);
 			Assert.IsFalse(_editorPage.IsStageNameIsEmpty(), "Произошла ошибка:\n название этапа проставлено.");
 		}
 
@@ -311,7 +311,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 				.ClickSaveButton();
 
 			_workspaceHelper.GoToProjectSettingsPage(_projectUniqueName);
-			_projectSettingsPage.OpenDocumentInEditorWithTaskSelect(Path.GetFileNameWithoutExtension(PathProvider.EditorTxtFile));
+			_projectSettingsPage.OpenDocumentInEditorWithTaskSelect(PathProvider.EditorTxtFile);
 
 			_selectTaskDialog.SelectTask();
 
@@ -365,7 +365,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 				.SetResponsible(ThreadUser.NickName, false)
 				.ClickSaveAssignButtonProjectSettingPage();
 
-			_projectSettingsPage.OpenDocumentInEditorWithTaskSelect(Path.GetFileNameWithoutExtension(PathProvider.DocumentFile));
+			_projectSettingsPage.OpenDocumentInEditorWithTaskSelect(PathProvider.DocumentFile);
 
 			_selectTaskDialog.SelectTask();
 
@@ -377,7 +377,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 			_editorPage.ClickHomeButtonExpectingProjectSettingsPage();
 
 			_projectSettingsPage
-				.ClickDocumentProgress(Path.GetFileNameWithoutExtension(PathProvider.DocumentFile))
+				.ClickDocumentProgress(PathProvider.DocumentFile)
 				.ClickAssignButtonInDocumentInfo();
 
 			_taskAssignmentPage
@@ -385,7 +385,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 				.SetResponsible(_secondUser.NickName, false)
 				.ClickSaveAssignButtonProjectSettingPage();
 
-			_projectSettingsPage.OpenDocumentInEditorWithoutTaskSelect(Path.GetFileNameWithoutExtension(PathProvider.DocumentFile));
+			_projectSettingsPage.OpenDocumentInEditorWithoutTaskSelect(PathProvider.DocumentFile);
 		}
 	}
 }

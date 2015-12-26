@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 
 using OpenQA.Selenium;
 
@@ -25,10 +26,10 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 			_editorPage = new EditorPage(Driver);
 		}
 
-		public ProjectSettingsHelper AssignTasksOnDocument(string documentName, string nickName, int taskNumber = 1)
+		public ProjectSettingsHelper AssignTasksOnDocument(string filePath, string nickName, int taskNumber = 1)
 		{
 			_projectPage
-				.ClickDocumentProgress(documentName)
+				.ClickDocumentProgress(filePath)
 				.ClickAssignButtonInDocumentInfo();
 
 			_taskAssignmentPage.SelectAssigneesForEntireDocument(taskNumber);

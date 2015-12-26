@@ -194,10 +194,11 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 		/// <summary>
 		/// Кликнуть по ссылке на документ (открыть его)
 		/// </summary>
-		public SelectTaskDialog ClickDocumentRef(string documentName)
+		public SelectTaskDialog ClickDocumentRef(string documentPath)
 		{
-			CustomTestContext.WriteLine("Кликнуть по ссылке на документ {0} (открыть его).", documentName);
-			DocumentRef = Driver.SetDynamicValue(How.XPath, DOCUMENT_REF, documentName);
+			var documentname = Path.GetFileName(documentPath);
+			CustomTestContext.WriteLine("Кликнуть по ссылке на документ {0} (открыть его).", documentname);
+			DocumentRef = Driver.SetDynamicValue(How.XPath, DOCUMENT_REF, documentname);
 			DocumentRef.Click();
 			// Sleep нужен, чтоб вторая вкладка успела открыться, иначе количество открытых вкладок посчитается неправильно 
 			Thread.Sleep(1000);
@@ -295,8 +296,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 		/// </summary>
 		/// <param name="projectName">имя проекта</param>
 		/// <param name="documentName">имя документа</param>
-		public ProjectsPage SelectDocument(string projectName, string documentName)
+		public ProjectsPage SelectDocument(string projectName, string documentPath)
 		{
+			var documentName = Path.GetFileName(documentPath);
 			CustomTestContext.WriteLine("Отметить чекбокс документа {0} в проекте {1}", documentName, projectName);
 			DocumentCheckBox = Driver.SetDynamicValue(How.XPath, DOCUMENT_CHECKBOX, projectName, documentName);
 			DocumentCheckBox.Click();
@@ -399,7 +401,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 
 			foreach (var file in filePathList)
 			{
-				SelectDocument(projectName, Path.GetFileNameWithoutExtension(file));
+				SelectDocument(projectName, file);
 			}
 			
 			ClickProjectAssignButton(projectName);

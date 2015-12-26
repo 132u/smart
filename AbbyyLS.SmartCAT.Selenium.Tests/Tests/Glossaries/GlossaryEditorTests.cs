@@ -47,10 +47,10 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 				.GoToProjectSettingsPage(_projectName)
 				.UploadDocument(new []{PathProvider.DocumentFile})
 				.RefreshPage<ProjectSettingsPage, ProjectSettingsHelper>()
-				.AssignTasksOnDocument(Path.GetFileNameWithoutExtension(PathProvider.DocumentFile), ThreadUser.NickName);
+				.AssignTasksOnDocument(PathProvider.DocumentFile, ThreadUser.NickName);
 
 			_projectSettingsPage
-				.OpenDocumentInEditorWithTaskSelect(Path.GetFileNameWithoutExtension(PathProvider.DocumentFile));
+				.OpenDocumentInEditorWithTaskSelect(PathProvider.DocumentFile);
 
 			_selectTaskDialog.SelectTask();
 
@@ -415,7 +415,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 			_workspaceHelper.GoToProjectSettingsPage(_projectName);
 
 			_projectSettingsPage
-				.OpenDocumentInEditorWithTaskSelect(Path.GetFileNameWithoutExtension(PathProvider.DocumentFile));
+				.OpenDocumentInEditorWithTaskSelect(PathProvider.DocumentFile);
 
 			_selectTaskDialog.SelectTask();
 

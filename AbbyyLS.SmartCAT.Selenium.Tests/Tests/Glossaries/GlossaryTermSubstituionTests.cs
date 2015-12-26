@@ -41,7 +41,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 					createNewTm: true);
 
 			_projectsPage.ClickProject(_projectUniqueName);
-			_projectSettingsHelper.AssignTasksOnDocument(Path.GetFileNameWithoutExtension(PathProvider.EditorTxtFile), ThreadUser.NickName);
+			_projectSettingsHelper.AssignTasksOnDocument(PathProvider.EditorTxtFile, ThreadUser.NickName);
 
 			_workspaceHelper.GoToGlossariesPage();
 
@@ -65,7 +65,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 
 			_projectSettingsPage
 				.SelectGlossaryByName(_glossaryUniqueName)
-				.OpenDocumentInEditorWithTaskSelect(Path.GetFileNameWithoutExtension(PathProvider.EditorTxtFile));
+				.OpenDocumentInEditorWithTaskSelect(PathProvider.EditorTxtFile);
 
 			_selectTaskDialog.SelectTask();
 
@@ -101,7 +101,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 
 			_projectSettingsPage
 				.SelectGlossaryByName(_glossaryUniqueName)
-				.OpenDocumentInEditorWithTaskSelect(Path.GetFileNameWithoutExtension(PathProvider.EditorTxtFile));
+				.OpenDocumentInEditorWithTaskSelect(PathProvider.EditorTxtFile);
 
 			_selectTaskDialog.SelectTask();
 
@@ -138,7 +138,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 
 			_projectSettingsPage
 				.SelectGlossaryByName(_glossaryUniqueName)
-				.OpenDocumentInEditorWithTaskSelect(Path.GetFileNameWithoutExtension(PathProvider.EditorTxtFile));
+				.OpenDocumentInEditorWithTaskSelect(PathProvider.EditorTxtFile);
 
 			_selectTaskDialog.SelectTask();
 

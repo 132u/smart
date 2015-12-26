@@ -84,7 +84,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersRights
 
 			_projectSettingsHelper.GoToProjectSettingsPage(_projectUniqueName);
 
-			_projectSettingsHelper.AssignTasksOnDocument(Path.GetFileNameWithoutExtension(document1), AdditionalUser.NickName);
+			_projectSettingsHelper.AssignTasksOnDocument(document1, AdditionalUser.NickName);
 
 			_workspaceHelper.SignOut();
 
@@ -95,7 +95,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersRights
 
 			_projectsPage
 				.OpenProjectInfo(_projectUniqueName)
-				.ClickDocumentRef(Path.GetFileNameWithoutExtension(document1));
+				.ClickDocumentRef(document1);
 
 			Assert.IsTrue(_editorPage.IsEditorPageOpened(),
 				"Произошла ошибка:\nРедактор не открылся.");
@@ -106,7 +106,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersRights
 
 			_projectsPage
 				.OpenProjectInfo(_projectUniqueName)
-				.ClickDocumentRef(Path.GetFileNameWithoutExtension(document2));
+				.ClickDocumentRef(document2);
 
 			Assert.IsTrue(_editorPage.IsEditorPageOpened(),
 				"Произошла ошибка:\nРедактор не открылся.");
@@ -132,8 +132,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersRights
 				.SaveSettings();
 
 			_projectSettingsHelper
-				.AssignTasksOnDocument(Path.GetFileNameWithoutExtension(document1), AdditionalUser.NickName)
-				.AssignTasksOnDocument(Path.GetFileNameWithoutExtension(document2), AdditionalUser.NickName, taskNumber: 2);
+				.AssignTasksOnDocument(document1, AdditionalUser.NickName)
+				.AssignTasksOnDocument(document2, AdditionalUser.NickName, taskNumber: 2);
 
 			_workspaceHelper.SignOut();
 
@@ -144,7 +144,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersRights
 			
 			_projectsPage
 				.OpenProjectInfo(_projectUniqueName)
-				.ClickDocumentRef(Path.GetFileNameWithoutExtension(document1));
+				.ClickDocumentRef(document1);
 
 			Assert.AreEqual("Translation (T):", _editorPage.GetStage(),
 				"Произошла ошибка:\nНевреное название этапа.");
@@ -155,7 +155,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersRights
 
 			_projectsPage
 				.OpenProjectInfo(_projectUniqueName)
-				.ClickDocumentRef(Path.GetFileNameWithoutExtension(document2));
+				.ClickDocumentRef(document2);
 
 			Assert.AreEqual("Editing (E):", _editorPage.GetStage(),
 				"Произошла ошибка:\nНевреное название этапа.");
@@ -169,7 +169,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersRights
 
 			_projectSettingsHelper.GoToProjectSettingsPage(_projectUniqueName);
 
-			_projectSettingsHelper.AssignTasksOnDocument(Path.GetFileNameWithoutExtension(document1), 				AdditionalUser.NickName);
+			_projectSettingsHelper.AssignTasksOnDocument(document1, AdditionalUser.NickName);
 
 			_workspaceHelper.SignOut();
 
@@ -180,7 +180,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersRights
 
 			_projectsPage
 				.OpenProjectInfo(_projectUniqueName)
-				.ClickDocumentRef(Path.GetFileNameWithoutExtension(document1));
+				.ClickDocumentRef(document1);
 
 			Assert.AreEqual("Translation (T):", _editorPage.GetStage(),
 				"Произошла ошибка:\nНевреное название этапа.");
@@ -199,7 +199,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersRights
 
 			_projectSettingsHelper
 				.GoToProjectSettingsPage(_projectUniqueName)
-				.AssignTasksOnDocument(Path.GetFileNameWithoutExtension(document1), AdditionalUser.NickName);
+				.AssignTasksOnDocument(document1, AdditionalUser.NickName);
 
 			_workspaceHelper.SignOut();
 
@@ -210,7 +210,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersRights
 
 			_projectsPage
 				.OpenProjectInfo(_projectUniqueName)
-				.ClickDocumentRef(Path.GetFileNameWithoutExtension(document1));
+				.ClickDocumentRef(document1);
 
 			_selectTaskDialog.SelectTask();
 
@@ -223,7 +223,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersRights
 				.CloseTutorialIfExist()
 				.ClickHomeButtonExpectingProjectSettingsPage();
 
-			_projectSettingsPage.OpenDocumentInEditorWithoutTaskSelect(Path.GetFileNameWithoutExtension(document2));
+			_projectSettingsPage.OpenDocumentInEditorWithoutTaskSelect(document2);
 			
 			Assert.IsTrue(_editorPage.IsEditorPageOpened(),
 				"Произошла ошибка:\nРедактор не открылся.");
@@ -249,8 +249,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersRights
 				.SaveSettings();
 
 			_projectSettingsHelper
-				.AssignTasksOnDocument(Path.GetFileNameWithoutExtension(document1), AdditionalUser.NickName)
-				.AssignTasksOnDocument(Path.GetFileNameWithoutExtension(document2), AdditionalUser.NickName, taskNumber: 2);
+				.AssignTasksOnDocument(document1, AdditionalUser.NickName)
+				.AssignTasksOnDocument(document2, AdditionalUser.NickName, taskNumber: 2);
 
 			_workspaceHelper.SignOut();
 
@@ -261,7 +261,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersRights
 
 			_projectsPage
 				.OpenProjectInfo(_projectUniqueName)
-				.ClickDocumentRef(Path.GetFileNameWithoutExtension(document1));
+				.ClickDocumentRef(document1);
 
 			_selectTaskDialog.SelectTask();
 
@@ -274,7 +274,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersRights
 				.CloseTutorialIfExist()
 				.ClickHomeButtonExpectingProjectSettingsPage();
 
-			_projectSettingsPage.OpenDocumentInEditorWithTaskSelect(Path.GetFileNameWithoutExtension(document2));
+			_projectSettingsPage.OpenDocumentInEditorWithTaskSelect(document2);
 
 			_selectTaskDialog.SelectTask(TaskMode.Editing);
 
@@ -293,7 +293,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersRights
 			_projectSettingsHelper.GoToProjectSettingsPage(_projectUniqueName);
 
 			_projectSettingsHelper.AssignTasksOnDocument(
-				Path.GetFileNameWithoutExtension(document1),
+				document1,
 				AdditionalUser.NickName);
 
 			_workspaceHelper.SignOut();
@@ -305,7 +305,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersRights
 
 			_projectsPage
 				.OpenProjectInfo(_projectUniqueName)
-				.ClickDocumentRef(Path.GetFileNameWithoutExtension(document1));
+				.ClickDocumentRef(document1);
 
 			Assert.AreEqual("Translation (T):", _editorPage.GetStage(),
 				"Произошла ошибка:\nНевреное название этапа.");
@@ -324,7 +324,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersRights
 
 			_projectSettingsHelper
 				.GoToProjectSettingsPage(_projectUniqueName)
-				.AssignTasksOnDocument(Path.GetFileNameWithoutExtension(document1), AdditionalUser.NickName);
+				.AssignTasksOnDocument(document1, AdditionalUser.NickName);
 
 			_workspaceHelper.SignOut();
 
@@ -335,7 +335,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersRights
 
 			_projectsPage
 				.OpenProjectInfo(_projectUniqueName)
-				.ClickDocumentRef(Path.GetFileNameWithoutExtension(document1));
+				.ClickDocumentRef(document1);
 
 			_selectTaskDialog.SelectTask();
 
@@ -350,7 +350,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersRights
 
 			_projectsPage
 				.OpenProjectInfo(_projectUniqueName)
-				.ClickDocumentRef(Path.GetFileNameWithoutExtension(document2));
+				.ClickDocumentRef(document2);
 
 			Assert.IsTrue(_editorPage.IsEditorPageOpened(),
 				"Произошла ошибка:\nРедактор не открылся.");
@@ -376,8 +376,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersRights
 				.SaveSettings();
 
 			_projectSettingsHelper
-				.AssignTasksOnDocument(Path.GetFileNameWithoutExtension(document1), AdditionalUser.NickName)
-				.AssignTasksOnDocument(Path.GetFileNameWithoutExtension(document2), AdditionalUser.NickName, taskNumber: 2);
+				.AssignTasksOnDocument(document1, AdditionalUser.NickName)
+				.AssignTasksOnDocument(document2, AdditionalUser.NickName, taskNumber: 2);
 
 			_workspaceHelper.SignOut();
 
@@ -388,7 +388,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersRights
 
 			_projectsPage
 				.OpenProjectInfo(_projectUniqueName)
-				.ClickDocumentRef(Path.GetFileNameWithoutExtension(document1));
+				.ClickDocumentRef(document1);
 			
 			_selectTaskDialog.SelectTask();
 
@@ -403,7 +403,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersRights
 
 			_projectsPage
 				.OpenProjectInfo(_projectUniqueName)
-				.ClickDocumentRef(Path.GetFileNameWithoutExtension(document2));
+				.ClickDocumentRef(document2);
 
 			_selectTaskDialog.SelectTask(TaskMode.Editing);
 
