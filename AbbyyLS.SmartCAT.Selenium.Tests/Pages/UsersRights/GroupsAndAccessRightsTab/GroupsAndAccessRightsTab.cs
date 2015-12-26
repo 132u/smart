@@ -292,7 +292,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.UsersRights
 		{
 			CustomTestContext.WriteLine("Проверить, удалось ли добавить группе право на просмотр проектов");
 
-			return Driver.WaitUntilElementIsDisplay(By.XPath(VIEW_PROJECTS_RIGHT_TEXT));
+			return Driver.SetDynamicValue(How.XPath, VIEW_PROJECTS_RIGHT_TEXT, groupName).Displayed;
 		}
 
 		/// <summary>
@@ -303,7 +303,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.UsersRights
 		{
 			CustomTestContext.WriteLine("Проверить, удалось ли добавить группе право на создание проектов");
 
-			return  Driver.WaitUntilElementIsDisplay(By.XPath(CREATE_PROJECTS_RIGHT_TEXT));
+			return  Driver.SetDynamicValue(How.XPath, CREATE_PROJECTS_RIGHT_TEXT, groupName).Displayed;
 		}
 
 		/// <summary>
