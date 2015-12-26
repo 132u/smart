@@ -18,28 +18,28 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Editor
 		{
 			_projectSettingsHelper = new ProjectSettingsHelper(Driver);
 
-			EditorPage
+			_editorPage
 				.FillSegmentTargetField()
 				.ConfirmSegmentTranslation()
 				.ClickHomeButtonExpectingProjectSettingsPage();
 
 			_projectSettingsHelper.OpenWorkflowSettings();
 
-			SettingsDialog
+			_settingsDialog
 				.AddTask(WorkflowTask.Editing)
 				.SaveSettings();
 
-			ProjectSettingsHelper.AssignTasksOnDocument(PathProvider.EditorTxtFile, ThreadUser.NickName, taskNumber: 2);
+			_projectSettingsHelper.AssignTasksOnDocument(PathProvider.EditorTxtFile, ThreadUser.NickName, taskNumber: 2);
 
-			ProjectSettingsPage.OpenDocumentInEditorWithTaskSelect(PathProvider.EditorTxtFile);
+			_projectSettingsPage.OpenDocumentInEditorWithTaskSelect(PathProvider.EditorTxtFile);
 
-			SelectTaskDialog.SelectTask(TaskMode.Editing);
+			_selectTaskDialog.SelectTask(TaskMode.Editing);
 
-			Assert.IsFalse(EditorPage.IsSegmentLocked(), "Произошла ошибка:\n сегмент залочен");
+			Assert.IsFalse(_editorPage.IsSegmentLocked(), "Произошла ошибка:\n сегмент залочен");
 
-			EditorPage.RollBack();
+			_editorPage.RollBack();
 
-			Assert.IsTrue(EditorPage.IsSegmentLocked(), "Произошла ошибка:\n сегмент не залочен");
+			Assert.IsTrue(_editorPage.IsSegmentLocked(), "Произошла ошибка:\n сегмент не залочен");
 		}
 
 		private ProjectSettingsHelper _projectSettingsHelper;

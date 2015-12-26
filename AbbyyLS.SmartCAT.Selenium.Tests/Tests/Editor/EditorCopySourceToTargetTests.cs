@@ -12,9 +12,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Editor
 		[Test(Description = "Проверяет копирование текста из сорса в таргет с помощью кнопки")]
 		public void CopySourceToTargetButtonTest()
 		{
-			EditorPage.ClickCopySourceToTargetButton();
+			_editorPage.ClickCopySourceToTargetButton();
 
-			Assert.AreEqual(EditorPage.GetSourceText(rowNumber: 1), EditorPage.GetTargetText(rowNumber: 1),
+			Assert.AreEqual(_editorPage.GetSourceText(rowNumber: 1), _editorPage.GetTargetText(rowNumber: 1),
 				"Произошла ошибка:\n в сегменте исходный текст не совпадает с таргетом");
 
 		}
@@ -22,9 +22,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Editor
 		[Test(Description = "Проверяет копирование текста из сорса в таргет нажатием Ctrl+Insert")]
 		public void CopySourceToTargetHotkeyTest()
 		{
-			EditorPage.CopySourceToTargetHotkey();
+			_editorPage.CopySourceToTargetHotkey();
 
-			Assert.AreEqual(EditorPage.GetSourceText(rowNumber: 1), EditorPage.GetTargetText(rowNumber: 1),
+			Assert.AreEqual(_editorPage.GetSourceText(rowNumber: 1), _editorPage.GetTargetText(rowNumber: 1),
 				"Произошла ошибка:\n в сегменте исходный текст не совпадает с таргетом");
 		}
 	}

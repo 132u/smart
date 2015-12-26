@@ -19,7 +19,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Editor
 		[Test(Description = "Проверяет открытие формы 'Специальные символы' с помощью кнопки")]
 		public void CharacterButtonTest()
 		{
-			EditorPage.ClickCharacterButton();
+			_editorPage.ClickCharacterButton();
 
 			Assert.IsTrue(_specialCharactersForm.IsSpecialCharactersFormOpened(),
 				"Произошла ошибка:\n не появилась форма 'Специальные символы'");
@@ -28,7 +28,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Editor
 		[Test(Description = "Проверяет открытие формы 'Специальные символы' нажатием Ctrl+Shift+I")]
 		public void CharacterHotkeyTest()
 		{
-			EditorPage.OpenSpecialCharacterFormByHotKey();
+			_editorPage.OpenSpecialCharacterFormByHotKey();
 
 			Assert.IsTrue(_specialCharactersForm.IsSpecialCharactersFormOpened(),
 				"Произошла ошибка:\n не появилась форма 'Специальные символы'");

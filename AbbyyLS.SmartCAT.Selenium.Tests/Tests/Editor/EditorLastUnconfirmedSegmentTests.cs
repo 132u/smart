@@ -12,52 +12,52 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Editor
 		[Test(Description = "Проверяет переход к следующему неподтвержденному сегменту с помощью кнопки (при 2 сегментах)")]
 		public void LastUnconfirmedSegmentButtonTest()
 		{
-			EditorPage
+			_editorPage
 				.FillSegmentTargetField()
 				.ConfirmSegmentTranslation()
 				.ClickOnTargetCellInSegment()
 				.ClickLastUnconfirmedButton();
 
-			Assert.IsTrue(EditorPage.IsSegmentSelected(segmentNumber: 2),
+			Assert.IsTrue(_editorPage.IsSegmentSelected(segmentNumber: 2),
 				"Произошла ошибка:\n сегмент не выделен, не подсвечен голубым цветом.");
 		}
 
 		[Test(Description = "Проверяет переход к следующему неподтвержденному нажатием F9 (при 2 сегментах)")]
 		public void LastUnconfirmedSegmentHotKeyTest()
 		{
-			EditorPage
+			_editorPage
 				.FillSegmentTargetField()
 				.ConfirmSegmentTranslation()
 				.ClickOnTargetCellInSegment()
 				.SelectLastUnconfirmedSegmentByHotKey();
 
-			Assert.IsTrue(EditorPage.IsSegmentSelected(segmentNumber: 2),
+			Assert.IsTrue(_editorPage.IsSegmentSelected(segmentNumber: 2),
 				"Произошла ошибка:\n сегмент не выделен, не подсвечен голубым цветом.");
 		}
 
 		[Test(Description = "Проверяет переход к следующему неподтвержденному сегменту с помощью кнопки (при 3 сегментах)")]
 		public void LastUnconfirmedButtonSkipSegmentTest()
 		{
-			EditorPage
+			_editorPage
 				.FillSegmentTargetField(rowNumber: 2)
 				.ConfirmSegmentTranslation()
 				.ClickOnTargetCellInSegment()
 				.ClickLastUnconfirmedButton();
 
-			Assert.IsTrue(EditorPage.IsSegmentSelected(segmentNumber: 3),
+			Assert.IsTrue(_editorPage.IsSegmentSelected(segmentNumber: 3),
 				"Произошла ошибка:\n сегмент не выделен, не подсвечен голубым цветом.");
 		}
 
 		[Test(Description = "Проверяет переход к следующему неподтвержденному нажатием F9 (при 3 сегментах)")]
 		public void LastUnconfirmedHotkeySkipSegmentTest()
 		{
-			EditorPage
+			_editorPage
 				.FillSegmentTargetField(rowNumber: 2)
 				.ConfirmSegmentTranslation()
 				.ClickOnTargetCellInSegment()
 				.SelectLastUnconfirmedSegmentByHotKey();
 
-			Assert.IsTrue(EditorPage.IsSegmentSelected(segmentNumber: 3),
+			Assert.IsTrue(_editorPage.IsSegmentSelected(segmentNumber: 3),
 				"Произошла ошибка:\n сегмент не выделен, не подсвечен голубым цветом.");
 		}
 	}

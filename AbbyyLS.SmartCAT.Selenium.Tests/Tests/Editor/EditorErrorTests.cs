@@ -19,7 +19,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Editor
 		[Test(Description = "Проверяет открытие диалога поиска ошибок с помощью кнопки")]
 		public void FindErrorButtonTest()
 		{
-			EditorPage.ClickFindErrorButton();
+			_editorPage.ClickFindErrorButton();
 
 			Assert.IsTrue(_errorsDialog.IsErrorsDialogOpened(),
 				"Произошла ошибка:\n не появился диалог поиска ошибок");
@@ -28,7 +28,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Editor
 		[Test(Description = "Проверяет открытие диалога поиска ошибок нажатием F7")]
 		public void FindErrorHotkeyTest()
 		{
-			EditorPage.OpenFindErrorsDialogByHotkey();
+			_editorPage.OpenFindErrorsDialogByHotkey();
 
 			Assert.IsTrue(_errorsDialog.IsErrorsDialogOpened(),
 				"Произошла ошибка:\n не появился диалог поиска ошибок");

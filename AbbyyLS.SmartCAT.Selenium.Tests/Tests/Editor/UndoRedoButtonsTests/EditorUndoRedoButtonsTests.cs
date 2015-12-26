@@ -16,17 +16,17 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Editor
 		{
 			var targetText = "some text";
 
-			EditorPage
+			_editorPage
 				.FillTarget(targetText)
 				.ClickOnTargetCellInSegment()
 				.ClickUndoButton();
 
-			Assert.AreEqual(EditorPage.GetTargetText(_segmentNumber), String.Empty,
+			Assert.AreEqual(_editorPage.GetTargetText(_segmentNumber), String.Empty,
 				"Произошла ошибка:\n Таргет для сегмента №{0} не очистился после клика по кнопке Отмены.", _segmentNumber);
 			
-			EditorPage.ClickRedoButton();
+			_editorPage.ClickRedoButton();
 
-			Assert.AreEqual(targetText, EditorPage.GetTargetText(_segmentNumber),
+			Assert.AreEqual(targetText, _editorPage.GetTargetText(_segmentNumber),
 				"Произошла ошибка:\n Текст в таргете для сегмента №{0} не восстановился после клика по кнопке Отмены.", _segmentNumber);
 		}
 
@@ -35,67 +35,67 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Editor
 		{
 			var targetText = "some text";
 
-			EditorPage
+			_editorPage
 				.FillTarget(targetText)
 				.ClickOnTargetCellInSegment()
 				.PressUndoHotkey();
 
-			Assert.AreEqual(EditorPage.GetTargetText(_segmentNumber), String.Empty,
+			Assert.AreEqual(_editorPage.GetTargetText(_segmentNumber), String.Empty,
 				"Произошла ошибка:\n Таргет для сегмента №{0} не очистился после клика по кнопке Отмены.", _segmentNumber);
 
-			EditorPage.PressRedoHotkey();
+			_editorPage.PressRedoHotkey();
 
-			Assert.AreEqual(targetText, EditorPage.GetTargetText(_segmentNumber),
+			Assert.AreEqual(targetText, _editorPage.GetTargetText(_segmentNumber),
 				"Произошла ошибка:\n Текст в таргете для сегмента №{0} не восстановился после клика по кнопке Отмены.", _segmentNumber);
 		}
 
 		[Test]
 		public void UndoRedoButtonAfterSegmentConfirmationTest()
 		{
-			var sourceText = EditorPage.GetSourceText(_segmentNumber);
+			var sourceText = _editorPage.GetSourceText(_segmentNumber);
 
-			EditorPage
+			_editorPage
 				.ClickCopySourceToTargetButton()
 				.ConfirmSegmentTranslation()
 				.ClickUndoButton();
 
-			Assert.AreEqual(sourceText, EditorPage.GetTargetText(_segmentNumber),
+			Assert.AreEqual(sourceText, _editorPage.GetTargetText(_segmentNumber),
 				"Произошла ошибка:\n Неверный текст в таргете сегмента №{0}.", _segmentNumber);
 
-			Assert.IsFalse(EditorPage.IsSegmentConfirmed(_segmentNumber),
+			Assert.IsFalse(_editorPage.IsSegmentConfirmed(_segmentNumber),
 				"Произошла ошибка:\n Сегмент №{0} подтвержден.", _segmentNumber);
 
-			EditorPage.ClickRedoButton();
+			_editorPage.ClickRedoButton();
 
-			Assert.AreEqual(sourceText, EditorPage.GetTargetText(_segmentNumber),
+			Assert.AreEqual(sourceText, _editorPage.GetTargetText(_segmentNumber),
 				"Произошла ошибка:\n Неверный текст в таргете сегмента №{0}.", _segmentNumber);
 
-			Assert.IsTrue(EditorPage.IsSegmentConfirmed(_segmentNumber),
+			Assert.IsTrue(_editorPage.IsSegmentConfirmed(_segmentNumber),
 				"Произошла ошибка:\n  Сегмент №{0} не подтвержден.", _segmentNumber);
 		}
 
 		[Test]
 		public void UndoRedoHotkeyAfterSegmentConfirmationTest()
 		{
-			var sourceText = EditorPage.GetSourceText(_segmentNumber);
+			var sourceText = _editorPage.GetSourceText(_segmentNumber);
 
-			EditorPage
+			_editorPage
 				.ClickCopySourceToTargetButton()
 				.ConfirmSegmentTranslation()
 				.PressUndoHotkey();
 
-			Assert.AreEqual(sourceText, EditorPage.GetTargetText(_segmentNumber),
+			Assert.AreEqual(sourceText, _editorPage.GetTargetText(_segmentNumber),
 				"Произошла ошибка:\n Неверный текст в таргете сегмента №{0}.", _segmentNumber);
 
-			Assert.IsFalse(EditorPage.IsSegmentConfirmed(_segmentNumber),
+			Assert.IsFalse(_editorPage.IsSegmentConfirmed(_segmentNumber),
 				"Произошла ошибка:\n Сегмент №{0} подтвержден.", _segmentNumber);
 
-			EditorPage.PressRedoHotkey();
+			_editorPage.PressRedoHotkey();
 
-			Assert.AreEqual(sourceText, EditorPage.GetTargetText(_segmentNumber),
+			Assert.AreEqual(sourceText, _editorPage.GetTargetText(_segmentNumber),
 				"Произошла ошибка:\n Неверный текст в таргете сегмента №{0}.", _segmentNumber);
 
-			Assert.IsTrue(EditorPage.IsSegmentConfirmed(_segmentNumber),
+			Assert.IsTrue(_editorPage.IsSegmentConfirmed(_segmentNumber),
 				"Произошла ошибка:\n  Сегмент №{0} не подтвержден.", _segmentNumber);
 		}
 

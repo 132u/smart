@@ -15,32 +15,32 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Editor
 		[SetUp]
 		public void SetupTest()
 		{
-			CreateProjectHelper = new CreateProjectHelper(Driver);
-			ProjectSettingsPage = new ProjectSettingsPage(Driver);
-			SettingsDialog = new SettingsDialog(Driver);
-			ProjectSettingsHelper = new ProjectSettingsHelper(Driver);
-			EditorPage = new EditorPage(Driver);
-			SelectTaskDialog = new SelectTaskDialog(Driver);
+			_createProjectHelper = new CreateProjectHelper(Driver);
+			_projectSettingsPage = new ProjectSettingsPage(Driver);
+			_settingsDialog = new SettingsDialog(Driver);
+			_projectSettingsHelper = new ProjectSettingsHelper(Driver);
+			_editorPage = new EditorPage(Driver);
+			_selectTaskDialog = new SelectTaskDialog(Driver);
 
-			var projectUniqueName = CreateProjectHelper.GetProjectUniqueName();
+			var projectUniqueName = _createProjectHelper.GetProjectUniqueName();
 
-			CreateProjectHelper
+			_createProjectHelper
 				.CreateNewProject(projectUniqueName, filePath: PathProvider.EditorTxtFile)
 				.GoToProjectSettingsPage(projectUniqueName)
 				.AssignTasksOnDocument(PathProvider.EditorTxtFile, ThreadUser.NickName);
 
-			ProjectSettingsPage.OpenDocumentInEditorWithTaskSelect(PathProvider.EditorTxtFile);
+			_projectSettingsPage.OpenDocumentInEditorWithTaskSelect(PathProvider.EditorTxtFile);
 
-			SelectTaskDialog.SelectTask();
+			_selectTaskDialog.SelectTask();
 
-			EditorPage.CloseTutorialIfExist();
+			_editorPage.CloseTutorialIfExist();
 		}
 
-		protected CreateProjectHelper CreateProjectHelper;
-		protected ProjectSettingsHelper ProjectSettingsHelper;
-		protected ProjectSettingsPage ProjectSettingsPage;
-		protected SettingsDialog SettingsDialog;
-		public EditorPage EditorPage;
-		public SelectTaskDialog SelectTaskDialog;
+		protected CreateProjectHelper _createProjectHelper;
+		protected ProjectSettingsHelper _projectSettingsHelper;
+		protected ProjectSettingsPage _projectSettingsPage;
+		protected SettingsDialog _settingsDialog;
+		protected EditorPage _editorPage;
+		protected SelectTaskDialog _selectTaskDialog;
 	}
 }

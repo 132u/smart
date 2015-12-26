@@ -12,24 +12,24 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Editor
 		[Test(Description = "Проверяет подтверждение сегмента с помощью кнопки")]
 		public void ConfirmButtonTest()
 		{
-			EditorPage
+			_editorPage
 				.FillSegmentTargetField()
 				.CloseTutorialIfExist()
 				.ConfirmSegmentTranslation();
 
-			Assert.IsTrue(EditorPage.IsSegmentConfirmed(),
+			Assert.IsTrue(_editorPage.IsSegmentConfirmed(),
 				"Произошла ошибка:\n не удалось подтвердить сегмент");
 		}
 
 		[Test(Description = "Проверяет подтверждение сегмента нажатием Ctrl+Enter")]
 		public void ConfirmHotkeyTest()
 		{
-			EditorPage
+			_editorPage
 				.FillSegmentTargetField("Some words for example")
 				.ClickOnTargetCellInSegment()
 				.ConfirmSegmentByHotkeys();
 
-			Assert.IsTrue(EditorPage.IsSegmentConfirmed(),
+			Assert.IsTrue(_editorPage.IsSegmentConfirmed(),
 				"Произошла ошибка:\n не удалось подтвердить сегмент");
 		}
 	}
