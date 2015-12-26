@@ -187,8 +187,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.ProjectGroups
 				.ClickCreateGlossaryButton()
 				.ClickProjectGroupsList();
 
-			Assert.IsTrue(_newGlossaryDialog.IsProjectGroupExistInList(projectGroup),
-				"Произошла ошибка:\n  группа проектов отсутствует в списке при создании глоссария");
+			Assert.IsFalse(_newGlossaryDialog.IsProjectGroupExistInList(projectGroup),
+				"Произошла ошибка:\n Группа проектов присутствует в списке при создании глоссария");
 		}
 
 		private ProjectGroupsPage _projectGroupsPage;
