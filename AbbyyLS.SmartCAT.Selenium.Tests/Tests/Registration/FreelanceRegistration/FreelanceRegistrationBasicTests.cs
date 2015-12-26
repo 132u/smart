@@ -14,8 +14,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Registration
 		{
 			StartPage = StartPage.FreelanceRegistration;
 		}
-		
-		[Test]
+
+		[Test, Ignore("Тест заигнорен, так как регистрация изменилась,необходимо подтверждение email по ссылке из письма PRX-14166")]
 		public void RegistrationNewFreelancer()
 		{
 			_freelanceRegistrationFirstPage
@@ -32,7 +32,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Registration
 				"Произошла ошибка:\nНеверное имя фрилансера в верхней панели.");
 		}
 
-		[Test]
+		[Test, Ignore("Тест заигнорен, так как регистрация изменилась,необходимо подтверждение email по ссылке из письма PRX-14166")]
 		public void LoginAfterRegistration()
 		{
 			_freelanceRegistrationFirstPage
