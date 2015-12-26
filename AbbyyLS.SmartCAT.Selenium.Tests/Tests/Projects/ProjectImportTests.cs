@@ -94,7 +94,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 				.GoToProjectSettingsPage(_projectUniqueName)
 				.UploadDocument(new []{PathProvider.DocumentFile});
 
-			Assert.IsTrue(_projectSettingsPage.IsDocumentExist(Path.GetFileNameWithoutExtension(PathProvider.DocumentFile)),
+			Assert.IsTrue(_projectSettingsPage.IsDocumentExist(PathProvider.DocumentFile),
 				"Произошла ошибка:\n документ {0} отсутствует в проекте.", PathProvider.DocumentFile);
 		}
 

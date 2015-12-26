@@ -454,9 +454,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings
 		/// <param name="documentName">имя документа</param>
 		public bool IsDocumentExist(string documentName)
 		{
-			CustomTestContext.WriteLine("Проверить, что документ '{0}' есть в проекте.", documentName);
+			CustomTestContext.WriteLine("Проверить, что документ '{0}' есть в проекте.", Path.GetFileName(documentName));
 
-			return Driver.WaitUntilElementIsDisplay(By.XPath(DOCUMENT_LIST_ITEM.Replace("*#*", documentName)));
+			return Driver.WaitUntilElementIsDisplay(By.XPath(DOCUMENT_LIST_ITEM.Replace("*#*", Path.GetFileName(documentName))));
 		}
 
 		#endregion
