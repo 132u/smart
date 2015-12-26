@@ -1,35 +1,23 @@
 ﻿using NUnit.Framework;
 
+using AbbyyLS.SmartCAT.Selenium.Admin.Tests.InitialProjectTests;
 using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
-using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects;
-using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog;
-using AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers;
 using AbbyyLS.SmartCAT.Selenium.Tests.Tests;
 using AbbyyLS.SmartCAT.Selenium.Tests;
 using AbbyyLS.SmartCAT.Selenium.Tests.DataStructures;
 
 namespace AbbyyLS.SmartCAT.Selenium.Admin.Tests
 {
-	class InitialProjectTests<TWebDriverProvider> : BaseTest<TWebDriverProvider> where TWebDriverProvider : IWebDriverProvider, new()
+	class InitialProjectCorporateAccountTests<TWebDriverProvider> : InitialProjectBaseTests<TWebDriverProvider> where TWebDriverProvider : IWebDriverProvider, new()
 	{
-		public InitialProjectTests()
+		public InitialProjectCorporateAccountTests()
 		{
 			GlobalSetup.SetUp();
 			StartPage = StartPage.Workspace;
 		}
 
-		[SetUp]
-		public void SeInitialProjectTests()
-		{
-			_newProjectDocumentUploadPage = new NewProjectDocumentUploadPage(Driver);
-			_newProjectSettingsPage = new NewProjectSettingsPage(Driver);
-			_newProjectWorkflowPage = new NewProjectWorkflowPage(Driver);
-			_projectsPage = new ProjectsPage(Driver);
-			_createProjectHelper = new CreateProjectHelper(Driver);
-		}
-
 		[Test, Category("Project tests")]
-		public void CreateFirstProject()
+		public void CreateFirstProjectCorporateAccount()
 		{
 			var projectUniqueName = _createProjectHelper.GetProjectUniqueName();
 
@@ -52,12 +40,5 @@ namespace AbbyyLS.SmartCAT.Selenium.Admin.Tests
 			Assert.IsTrue(_projectsPage.IsProjectExist(projectUniqueName),
 				"Произошла ошибка: \nне найден проект с новым именем");
 		}
-
-		private LoginHelper _loginHelper;
-		private NewProjectDocumentUploadPage _newProjectDocumentUploadPage;
-		private NewProjectSettingsPage _newProjectSettingsPage;
-		private CreateProjectHelper _createProjectHelper;
-		private NewProjectWorkflowPage _newProjectWorkflowPage;
-		private ProjectsPage _projectsPage;
 	}
 }

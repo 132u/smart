@@ -56,7 +56,9 @@
     <Compile Include="ApiIntegrationAttribute.cs" />
     <Compile Include="Tests\InitialDataTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Tests\InitialProjectTests.cs" />
+    <Compile Include="Tests\InitialProjectTests\InitialProjectBaseTests.cs" />
+    <Compile Include="Tests\InitialProjectTests\InitialProjectCorporateAccountTests.cs" />
+    <Compile Include="Tests\InitialProjectTests\InitialProjectPersonalAccountTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
