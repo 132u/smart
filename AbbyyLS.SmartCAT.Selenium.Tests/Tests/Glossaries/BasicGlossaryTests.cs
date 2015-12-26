@@ -183,7 +183,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 		{
 			_glossaryHelper.CreateGlossary(_glossaryUniqueName);
 
-			_glossaryPage.OpenGlossaryProperties();
+			_glossaryPage.OpenGlossaryStructure();
 
 			_glossaryStructureDialog.AddNewSystemField(GlossarySystemField.Topic);
 
