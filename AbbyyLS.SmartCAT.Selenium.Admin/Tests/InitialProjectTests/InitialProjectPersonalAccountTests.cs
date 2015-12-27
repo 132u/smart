@@ -19,30 +19,32 @@ namespace AbbyyLS.SmartCAT.Selenium.Admin.Tests
 		public  void SetUp()
 		{
 			AdditionalUser = TakeUser(ConfigurationManager.AdditionalUsers);
-			_loginHelper.Authorize(StartPage.PersonalAccount, AdditionalUser);
 		}
 
 		[Test, Category("Project tests")]
-		public void CreateFirstProjectPersonalAccount()
+		public void CreateFirstProjectAdditionalUsersPersonalAccount()
 		{
-			var projectUniqueName = _createProjectHelper.GetProjectUniqueName();
+			foreach (var user in ConfigurationManager.AdditionalUsersList)
+			{
+				_loginHelper.Authorize(StartPage.PersonalAccount, user);
+				var projectUniqueName = _createProjectHelper.GetProjectUniqueName();
 
-			Assert.IsTrue(_newProjectDocumentUploadPage.IsNewProjectDocumentUploadPageOpened(),
-				"Произошла ошибка:\nНе открылась первая страница визарда создания проекта.");
+				Assert.IsTrue(_newProjectDocumentUploadPage.IsNewProjectDocumentUploadPageOpened(),
+					"Произошла ошибка:\nНе открылась первая страница визарда создания проекта.");
 
-			_newProjectDocumentUploadPage
-				.UploadDocumentFile(PathProvider.DocumentFile)
-				.ClickSettingsButton();
+				_newProjectDocumentUploadPage.UploadDocumentFile(PathProvider.DocumentFile)
+					.ClickSettingsButton();
 
-			_newProjectSettingsPage.FillGeneralProjectInformation(
-				projectUniqueName,
-				sourceLanguage: Language.English,
-				targetLanguage: Language.Russian);
+				_newProjectSettingsPage.FillGeneralProjectInformation(
+					projectUniqueName,
+					sourceLanguage: Language.English,
+					targetLanguage: Language.Russian);
 
-			_newProjectWorkflowPage.ClickCreateProjectButton();
+				_newProjectWorkflowPage.ClickCreateProjectButton();
 
-			Assert.IsTrue(_projectsPage.IsProjectExist(projectUniqueName),
-				"Произошла ошибка: \nне найден проект с новым именем");
+				Assert.IsTrue(_projectsPage.IsProjectExist(projectUniqueName),
+					"Произошла ошибка: \nне найден проект с новым именем");
+			}
 		}
 	}
 }
