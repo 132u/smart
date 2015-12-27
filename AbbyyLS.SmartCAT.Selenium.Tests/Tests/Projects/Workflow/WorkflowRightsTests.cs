@@ -164,7 +164,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects.Workflow
 				.ClickDocumentRef(PathProvider.EditorTxtFile)
 				.CloseTutorialIfExist();
 
-			_editorPage.FillTarget(_text, rowNumber: 1)
+			_editorPage
+				.FillTarget(_text, rowNumber: 1)
 				.ConfirmSegmentTranslation()
 				.FillTarget(text2, rowNumber: 2)
 				.ConfirmSegmentTranslation();

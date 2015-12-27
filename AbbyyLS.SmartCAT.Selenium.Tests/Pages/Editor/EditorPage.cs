@@ -337,6 +337,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		{
 			CustomTestContext.WriteLine("Получить текст из таргет сегмента №{0}.", rowNumber);
 			var target = Driver.SetDynamicValue(How.XPath, TARGET_CELL, (rowNumber - 1).ToString());
+			target.Scroll();
 
 			return target.Text.Trim();
 		}
@@ -1140,7 +1141,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 
 		protected const string CONFIRM_BTN = "//a[@id='confirm-btn']";
 		protected const string FIND_ERROR_BTN_ID = "qa-error-btn";
-		protected const string FINISH_TUTORIAL_BUTTON = "//span[contains(text(),'Finish') and contains(@id, 'button')]";
+		protected const string FINISH_TUTORIAL_BUTTON = "//span[contains(text(),'Finish')]";
 		protected const string AUTOSAVING = "//div[contains(text(), 'Saving')]";
 		protected const string SPELLCHECK_PATH = "//div[contains(text(), '1')]/ancestor::tr//span[contains(@class,'spellcheck') and contains(string(), '*#*')]";
 		protected const string REVISION_PATH = "//div[@id='revisions-body']//table[1]//td[contains(@class,'revision-type-cell')]//div[text()='*#*']";

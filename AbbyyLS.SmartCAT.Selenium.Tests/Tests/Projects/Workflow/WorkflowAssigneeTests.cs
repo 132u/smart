@@ -153,8 +153,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects.Workflow
 				.OpenDocumentInfoForProject(_projectUniqueName)
 				.ClickDocumentRef(PathProvider.RepetionsTxtFile);
 
-			_selectTaskDialog.SelectTask();
-
 			_editorPage.CloseTutorialIfExist();
 
 			_editorPage
