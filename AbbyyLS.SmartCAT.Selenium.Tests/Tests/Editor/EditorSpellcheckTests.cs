@@ -141,13 +141,17 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Editor
 
 			_spellcheckDictionaryDialog.DeleteWordFromDictionary(_wordsToAdd[4]);
 
-			_editorPage.FillSegmentTargetField(_wordsToAdd[4]);
+			_editorPage
+				.FillSegmentTargetField(_wordsToAdd[4])
+				.ClickOnTargetCellInSegment();
 
 			Assert.IsTrue(_editorPage.IsLastRevisionEqualToExpected(RevisionType.ManualInput),
 				"Произошла ошибка:\n тип последней ревизии не соответствует ожидаемому");
 
+			_editorPage.ClickOnTargetCellInSegment();
+
 			Assert.IsTrue(_editorPage.IsUnderlineForWordExist(_wordsToAdd[4]),
-				"Произошла ошибка:\n не удалось найти слово {0} подчеркнутых.", _wordsToAdd[4]);
+				"Произошла ошибка:\n не удалось найти слово {0} подчеркнутым.", _wordsToAdd[4]);
 		}
 
 		[TestCase("Планета")]
