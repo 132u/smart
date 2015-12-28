@@ -196,7 +196,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 		/// </summary>
 		public SelectTaskDialog ClickDocumentRef(string documentPath)
 		{
-			var documentname = Path.GetFileName(documentPath);
+			var documentname = Path.GetFileNameWithoutExtension(documentPath);
 			CustomTestContext.WriteLine("Кликнуть по ссылке на документ {0} (открыть его).", documentname);
 			DocumentRef = Driver.SetDynamicValue(How.XPath, DOCUMENT_REF, documentname);
 			DocumentRef.Click();

@@ -76,11 +76,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace
 		public ProjectsPage ClickProjectsSubmenu()
 		{
 			CustomTestContext.WriteLine("Нажать кнопку 'Проекты'.");
-			if (!IsProjectsMenuExpanded())
-			{
-				ExpandProjectMenu();
-			}
-
 			ProjectsButton.Click();
 
 			return new ProjectsPage(Driver).GetPage();
@@ -687,9 +682,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace
 
 		protected const string RESOURCES_MENU ="//li[contains(@class, 'js-menuitem-Resources')]";
 		protected const string EXPAND_RESOURCES_MENU = "//li[contains(@class, 'js-menuitem-Resources')]//a";
-		protected const string PROJECTS_BUTTON = "//a[contains(@href,'/Workspace')]";
+		protected const string PROJECTS_BUTTON = "//a[@href ='/Workspace']";
 		protected const string PROJECTS_MENU = "//li//a//span[text()='Projects']";
-		protected const string USERS_RIGHTS_BUTTON = "//a[contains(@href,'/Users/Index')]";
+		protected const string USERS_RIGHTS_BUTTON = "//a[contains(@href,'/Users/Index') and contains(@class,'mainmenu')]";
 		protected const string CLIENTS_BUTTON = "//a[contains(@href,'/Clients/Index')]";
 		protected const string TRANSLATION_MEMORIES_BUTTON = "//a[contains(@href,'/TranslationMemories/Index')]";
 		protected const string GLOSSARY = ".//a[contains(@href,'/Glossaries')]";
