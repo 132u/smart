@@ -197,7 +197,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Authorization
 			_signInPage.SubmitForm(email, password);
 
 			Assert.IsTrue(_selectAccountForm.IsChooseProfileFormDisplayed(),
-				"Произошла ошибка:\n сообщение о ненайденном аккаунте отсутствует.");
+				"Произошла ошибка:\n страница с выбором профиля не открылась.");
 		}
 
 		[Test]
@@ -246,7 +246,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Authorization
 			_signInPage.SubmitForm(email, password);
 
 			Assert.IsTrue(_selectAccountForm.IsChooseProfileFormDisplayed(),
-				"Произошла ошибка:\n сообщение о ненайденном аккаунте отсутствует.");
+				"Произошла ошибка:\n страница с выбором профиля не открылась");
 		}
 
 		private AdminHelper _adminHelper;
