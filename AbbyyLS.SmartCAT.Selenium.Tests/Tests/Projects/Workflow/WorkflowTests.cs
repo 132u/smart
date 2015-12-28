@@ -3,7 +3,6 @@
 using AbbyyLS.SmartCAT.Selenium.Tests.DataStructures;
 using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
 using AbbyyLS.SmartCAT.Selenium.Tests.FeatureAttributes;
-using AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects.Workflow;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 {

@@ -12,7 +12,7 @@ using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.UsersRights;
 using AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers;
 
-namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects.Workflow
+namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 {
 	[Parallelizable(ParallelScope.Fixtures)]
 	[Standalone]
