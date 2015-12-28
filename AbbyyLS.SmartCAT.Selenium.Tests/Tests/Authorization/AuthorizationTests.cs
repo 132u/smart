@@ -196,7 +196,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Authorization
 		{
 			_signInPage.SubmitForm(email, password);
 
-			Assert.IsTrue(_selectAccountForm.IsAccountNotFoundMessageDisplayed(),
+			Assert.IsTrue(_selectAccountForm.IsChooseProfileFormDisplayed(),
 				"Произошла ошибка:\n сообщение о ненайденном аккаунте отсутствует.");
 		}
 
@@ -245,7 +245,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Authorization
 
 			_signInPage.SubmitForm(email, password);
 
-			Assert.IsTrue(_selectAccountForm.IsAccountNotFoundMessageDisplayed(),
+			Assert.IsTrue(_selectAccountForm.IsChooseProfileFormDisplayed(),
 				"Произошла ошибка:\n сообщение о ненайденном аккаунте отсутствует.");
 		}
 

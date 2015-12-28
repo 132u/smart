@@ -87,11 +87,11 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Login
 		/// <summary>
 		/// Проверить наличие сообщения о ненайденном аккаунте
 		/// </summary>
-		public bool IsAccountNotFoundMessageDisplayed()
+		public bool IsChooseProfileFormDisplayed()
 		{
 			CustomTestContext.WriteLine("Проверить наличие сообщения о ненайденном аккаунте.");
 
-			return Driver.WaitUntilElementIsDisplay(By.XPath(MESSAGE_ACCOUNT_NOT_FOUND));
+			return Driver.WaitUntilElementIsDisplay(By.XPath(FREELANCE_PROFILE)) && Driver.WaitUntilElementIsDisplay(By.XPath(CORPORATE_PROFILE));
 		}
 
 		#endregion
@@ -110,7 +110,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Login
 		protected const string EUROPE_ACCOUNT_LIST = "//li[@translate='region-ru']//following-sibling::li//a[contains(@ng-click,'signInAccount')]";
 		protected const string USA_ACCOUNT_LIST = "//li[@translate='region-us']//following-sibling::li//a[contains(@ng-click,'signInAccount')]";
 		protected const string WAITING_SERVER_RESPONSE_MESSAGE = "//div[@ng-show='accountWatitngServerResponse']/span";
-		protected const string MESSAGE_ACCOUNT_NOT_FOUND = "//b[@translate='ACCOUNT-NOT-FOUND-SIGNED']";
+		protected const string FREELANCE_PROFILE = "//div[contains(@data-bind, 'chooseFreelancerProfile')]";
+		protected const string CORPORATE_PROFILE = "//div[contains(@data-bind, 'chooseCorporateProfile')]";
 
 		protected const string EUROPE_HEADER = "//li[@translate='region-ru']";
 
