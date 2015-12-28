@@ -514,14 +514,14 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 			CustomTestContext.WriteLine("Ввести в поле поиска по проектам '{0}'", projectName);
 			ProjectSearchField.SetText(projectName);
 			CustomTestContext.WriteLine("Нажать 'Поиск'");
-			ProjectSearchButton.Click();
+			ProjectSearchButton.ScrollAndClick();
 
 			var isProjectExist = Driver.WaitUntilElementIsDisplay(By.XPath(PROJECT_REF.Replace("*#*", projectName)), 5);
 
 			CustomTestContext.WriteLine("Очистить поле поиска по проектам");
 			ProjectSearchField.Clear();
 			CustomTestContext.WriteLine("Нажать 'Поиск'");
-			ProjectSearchButton.Click();
+			ProjectSearchButton.ScrollAndClick();
 
 			return isProjectExist;
 		}
