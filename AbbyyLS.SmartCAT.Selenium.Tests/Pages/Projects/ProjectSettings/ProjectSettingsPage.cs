@@ -115,7 +115,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings
 		/// <param name="documentName">имя документа</param>
 		public SelectTaskDialog OpenDocumentInEditorWithTaskSelect(string documentPath)
 		{
-			var documentName = Path.GetFileName(documentPath);
+			var documentName = Path.GetFileNameWithoutExtension(documentPath);
 			CustomTestContext.WriteLine("Кликнуть по ссылке на документ {0} (открыть его).", documentName);
 			DocumentRefference = Driver.SetDynamicValue(How.XPath, DOCUMENT_REF, documentName);
 			DocumentRefference.Click();
@@ -136,7 +136,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings
 		/// <param name="documentPath">имя документа</param>
 		public EditorPage OpenDocumentInEditorWithoutTaskSelect(string documentPath)
 		{
-			var documetnName = Path.GetFileName(documentPath);
+			var documetnName = Path.GetFileNameWithoutExtension(documentPath);
 			CustomTestContext.WriteLine("Кликнуть по ссылке на документ {0} (открыть его).", documetnName);
 			DocumentRefference = Driver.SetDynamicValue(How.XPath, DOCUMENT_REF, documetnName);
 			DocumentRefference.Click();
@@ -199,7 +199,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings
 		/// <param name="filePath">путь до документа</param>
 		public ProjectSettingsPage ClickDocumentCheckbox(string filePath)
 		{
-			var documentName = Path.GetFileName(filePath);
+			var documentName = Path.GetFileNameWithoutExtension(filePath);
 			CustomTestContext.WriteLine("Кликнуть чекбокс у документа {0}.", documentName);
 			DocumentCheckbox = Driver.SetDynamicValue(How.XPath, DOCUMENT_CHECKBOX, documentName);
 			DocumentCheckbox.Click();
@@ -213,7 +213,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings
 		/// <param name="filePath">путь до документа</param>
 		public ProjectSettingsPage ClickDocumentProgress(string filePath)
 		{
-			var fileName = Path.GetFileName(filePath);
+			var fileName = Path.GetFileNameWithoutExtension(filePath);
 			CustomTestContext.WriteLine("Нажать на поле прогресс строке документа {0}.", fileName);
 			DocumentProgress = Driver.SetDynamicValue(How.XPath, DOCUMENT_PROGRESS, fileName);
 			DocumentProgress.Click();

@@ -298,7 +298,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 		/// <param name="documentName">имя документа</param>
 		public ProjectsPage SelectDocument(string projectName, string documentPath)
 		{
-			var documentName = Path.GetFileName(documentPath);
+			var documentName = Path.GetFileNameWithoutExtension(documentPath);
 			CustomTestContext.WriteLine("Отметить чекбокс документа {0} в проекте {1}", documentName, projectName);
 			DocumentCheckBox = Driver.SetDynamicValue(How.XPath, DOCUMENT_CHECKBOX, projectName, documentName);
 			DocumentCheckBox.Click();
