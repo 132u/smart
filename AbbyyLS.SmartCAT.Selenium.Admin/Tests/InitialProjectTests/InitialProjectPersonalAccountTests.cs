@@ -13,12 +13,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Admin.Tests
 		public InitialProjectPersonalAccountTests()
 		{
 			GlobalSetup.SetUp();
-		}
-
-		[SetUp]
-		public  void SetUp()
-		{
-			AdditionalUser = TakeUser(ConfigurationManager.AdditionalUsers);
+			StartPage = StartPage.SignIn;
 		}
 
 		[Test, Category("Project tests")]
@@ -26,7 +21,12 @@ namespace AbbyyLS.SmartCAT.Selenium.Admin.Tests
 		{
 			foreach (var user in ConfigurationManager.AdditionalUsersList)
 			{
-				_loginHelper.Authorize(StartPage.PersonalAccount, user);
+				_loginHelper.LogInSmartCat(
+					user.Login,
+					user.NickName,
+					user.Password,
+					"Personal");
+
 				var projectUniqueName = _createProjectHelper.GetProjectUniqueName();
 
 				Assert.IsTrue(_newProjectDocumentUploadPage.IsNewProjectDocumentUploadPageOpened(),
