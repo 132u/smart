@@ -30,6 +30,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Authorization
 			_linkedInPage = new LinkedInPage(Driver);
 			_selectAccountForm = new SelectAccountForm(Driver);
 			_workspacePage = new WorkspacePage(Driver);
+			_selectProfileForm=new SelectProfileForm(Driver);
 		}
 
 		[TestCase("Personal", LoginHelper.EuropeTestServerName)]
@@ -196,7 +197,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Authorization
 		{
 			_signInPage.SubmitForm(email, password);
 
-			Assert.IsTrue(_selectAccountForm.IsChooseProfileFormDisplayed(),
+			Assert.IsTrue(_selectProfileForm.IsSelectProfileFormOpened(),
 				"Произошла ошибка:\n страница с выбором профиля не открылась.");
 		}
 
@@ -245,7 +246,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Authorization
 
 			_signInPage.SubmitForm(email, password);
 
-			Assert.IsTrue(_selectAccountForm.IsChooseProfileFormDisplayed(),
+			Assert.IsTrue(_selectProfileForm.IsSelectProfileFormOpened(),
 				"Произошла ошибка:\n страница с выбором профиля не открылась");
 		}
 
@@ -257,6 +258,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Authorization
 		private GooglePage _googlePage;
 		private LinkedInPage _linkedInPage;
 		private SelectAccountForm _selectAccountForm;
+		private SelectProfileForm _selectProfileForm;
 		private WorkspacePage _workspacePage;
 	}
 }

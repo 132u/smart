@@ -83,17 +83,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Login
 
 			return Driver.WaitUntilElementIsDisplay(By.XPath(EUROPE_HEADER));
 		}
-
-		/// <summary>
-		/// Проверить наличие сообщения о ненайденном аккаунте
-		/// </summary>
-		public bool IsChooseProfileFormDisplayed()
-		{
-			CustomTestContext.WriteLine("Проверить наличие сообщения о ненайденном аккаунте.");
-
-			return Driver.WaitUntilElementIsDisplay(By.XPath(FREELANCE_PROFILE)) && Driver.WaitUntilElementIsDisplay(By.XPath(CORPORATE_PROFILE));
-		}
-
+		
 		#endregion
 
 		#region Объявление элементов страницы

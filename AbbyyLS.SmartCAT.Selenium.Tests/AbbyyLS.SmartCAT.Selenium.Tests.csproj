@@ -74,6 +74,7 @@
     <Compile Include="Pages\Admin\AdminManagementPaidServicesPage.cs" />
     <Compile Include="Drivers\Navigation.cs" />
     <Compile Include="ConfigurationManager.cs" />
+    <Compile Include="Pages\Login\SelectProfileForm.cs" />
     <Compile Include="Pages\Projects\AssignmentPages\AttentionPopup.cs" />
     <Compile Include="Pages\Projects\AssignmentPages\DistributeSegmentsBetweenAssigneesPage.cs" />
     <Compile Include="Pages\Projects\AssignmentPages\ReassignDialog.cs" />
