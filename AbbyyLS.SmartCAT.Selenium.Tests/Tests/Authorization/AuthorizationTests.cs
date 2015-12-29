@@ -195,7 +195,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Authorization
 		[TestCase("AolUserivanpetrov2@mailforspam.com", "12trC89p", Ignore = "PRX-10821")] // Неактивный AOL-аккаунт
 		public void SignInWithAolAccount(string email, string password)
 		{
-			_signInPage.SubmitForm(email, password);
+			_signInPage.SubmitFormExpectingSelectProfileForm(email, password);
 
 			Assert.IsTrue(_selectProfileForm.IsSelectProfileFormOpened(),
 				"Произошла ошибка:\n страница с выбором профиля не открылась.");
@@ -244,7 +244,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Authorization
 				.CreateUserWithSpecificAccount(email, nickName, password, accountName);
 			_commonHelper.GoToSignInPage();
 
-			_signInPage.SubmitForm(email, password);
+			_signInPage.SubmitFormExpectingSelectProfileForm(email, password);
 
 			Assert.IsTrue(_selectProfileForm.IsSelectProfileFormOpened(),
 				"Произошла ошибка:\n страница с выбором профиля не открылась");

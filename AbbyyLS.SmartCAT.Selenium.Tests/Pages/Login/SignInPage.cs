@@ -66,10 +66,17 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Login
 		public SelectAccountForm ClickSubmitButton()
 		{
 			CustomTestContext.WriteLine("Нажать 'Sign In'.");
-
 			SubmitButton.JavaScriptClick();
 
 			return new SelectAccountForm(Driver).GetPage();
+		}
+
+		public SelectProfileForm ClickSubmitButtonExpectingSelectProfileForm()
+		{
+			CustomTestContext.WriteLine("Нажать 'Sign In'.");
+			SubmitButton.JavaScriptClick();
+
+			return new SelectProfileForm(Driver).GetPage();
 		}
 
 		/// <summary>
@@ -136,6 +143,20 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Login
 			ClickSubmitButton();
 
 			return new SelectAccountForm(Driver).GetPage();
+		}
+
+		/// <summary>
+		/// Авторизация
+		/// </summary>
+		/// <param name="login">логин (email)</param>
+		/// <param name="password">пароль</param>
+		public SelectProfileForm SubmitFormExpectingSelectProfileForm(string login, string password)
+		{
+			SetLogin(login);
+			SetPassword(password);
+			ClickSubmitButtonExpectingSelectProfileForm();
+
+			return new SelectProfileForm(Driver).GetPage();
 		}
 
 		#endregion
