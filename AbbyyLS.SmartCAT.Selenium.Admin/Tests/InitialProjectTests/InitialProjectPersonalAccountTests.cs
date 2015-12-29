@@ -32,7 +32,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Admin.Tests
 				Assert.IsTrue(_newProjectDocumentUploadPage.IsNewProjectDocumentUploadPageOpened(),
 					"Произошла ошибка:\nНе открылась первая страница визарда создания проекта.");
 
-				_newProjectDocumentUploadPage.UploadDocumentFile(PathProvider.DocumentFile)
+				_newProjectDocumentUploadPage
+					.UploadDocumentFile(PathProvider.DocumentFile)
 					.ClickSettingsButton();
 
 				_newProjectSettingsPage.FillGeneralProjectInformation(
@@ -44,6 +45,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Admin.Tests
 
 				Assert.IsTrue(_projectsPage.IsProjectExist(projectUniqueName),
 					"Произошла ошибка: \nне найден проект с новым именем");
+
+				_workspaceHelper.SignOut();
 			}
 		}
 	}
