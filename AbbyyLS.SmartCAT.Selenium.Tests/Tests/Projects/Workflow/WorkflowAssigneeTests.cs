@@ -84,6 +84,12 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 		{
 			AdditionalUser = TakeUser(ConfigurationManager.AdditionalUsers);
 
+			_workspaceHelper.GoToUsersPage();
+
+			_usersTab
+				.ClickGroupsButton()
+				.RemoveUserFromAllGroups(AdditionalUser.NickName);
+
 			var text2 = "Translation 2";
 			var startRange = 1;
 			var endRange = 6;
@@ -119,7 +125,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 				.OpenProjectInfo(_projectUniqueName)
 				.OpenDocumentInfoForProject(_projectUniqueName)
 				.ClickDocumentRef(PathProvider.RepetionsTxtFile);
-
+				
 			_selectTaskDialog.SelectTask();
 
 			_editorPage.CloseTutorialIfExist();
@@ -152,7 +158,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 				.OpenProjectInfo(_projectUniqueName)
 				.OpenDocumentInfoForProject(_projectUniqueName)
 				.ClickDocumentRef(PathProvider.RepetionsTxtFile);
-
+			
 			_editorPage.CloseTutorialIfExist();
 
 			_editorPage
