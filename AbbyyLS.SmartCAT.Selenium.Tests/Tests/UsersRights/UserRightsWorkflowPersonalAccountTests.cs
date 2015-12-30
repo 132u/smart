@@ -1,6 +1,4 @@
-﻿using System.IO;
-
-using NUnit.Framework;
+﻿using NUnit.Framework;
 
 using AbbyyLS.SmartCAT.Selenium.Tests.DataStructures;
 using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
@@ -10,6 +8,7 @@ using AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersRights
 {
+	[Parallelizable(ParallelScope.Fixtures)]
 	class UserRightsWorkflowPersonalAccountTests<TWebDriverSettings> : BaseTest<TWebDriverSettings> where TWebDriverSettings : IWebDriverProvider, new()
 	{
 		public UserRightsWorkflowPersonalAccountTests()

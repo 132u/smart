@@ -1,12 +1,11 @@
 ﻿using System;
 
-using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog;
-
 using NUnit.Framework;
 
 using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Login;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects;
+using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Registration.FreelanceRegistration;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace;
 using AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers;

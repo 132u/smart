@@ -1,6 +1,4 @@
-﻿using System.IO;
-
-using NUnit.Framework;
+﻿using NUnit.Framework;
 
 using AbbyyLS.SmartCAT.Selenium.Tests.DataStructures;
 using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;

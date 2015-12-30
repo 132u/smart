@@ -20,6 +20,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Admin.Tests.InitialProjectTests
 			_projectsPage = new ProjectsPage(Driver);
 			_createProjectHelper = new CreateProjectHelper(Driver);
 			_loginHelper = new LoginHelper(Driver);
+			_workspacePage = new WorkspacePage(Driver);
 		}
 
 		protected LoginHelper _loginHelper;
