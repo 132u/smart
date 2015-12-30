@@ -86,6 +86,9 @@
     <Compile Include="DataStructures\GlossaryCustomFieldType.cs" />
     <Compile Include="Pages\Projects\CreateProjectDialog\NewProjectDocumentUploadPage.cs" />
     <Compile Include="Pages\Projects\CreateProjectDialog\NewProjectWorkflowPage.cs" />
+    <Compile Include="Pages\Projects\ProjectSettings\EditTranslationMemoryDialog.cs" />
+    <Compile Include="Pages\Projects\ProjectSettings\NewTranslationMemoryDialog.cs" />
+    <Compile Include="Pages\Projects\ProjectSettings\PretranslationDialog.cs" />
     <Compile Include="Pages\Projects\TaskDeclineDialog.cs" />
     <Compile Include="Pages\Registration\FreelanceRegistration\FreelanceRegistrationFirstPage.cs" />
     <Compile Include="Pages\Registration\FreelanceRegistration\FreelanceRegistrationSignInPage.cs" />
@@ -235,6 +238,10 @@
     <Compile Include="Tests\Editor\EditorChangeCaseButtonsTests.cs" />
     <Compile Include="Tests\Editor\EditorLastUnconfirmedSegmentTests.cs" />
     <Compile Include="Tests\Editor\EditorHomeButtonTests.cs" />
+    <Compile Include="Tests\Editor\RevisionsTests\EditorRevisionMTAndTMCatTests.cs" />
+    <Compile Include="Tests\Editor\RevisionsTests\EditorRevisionTBCatTests.cs" />
+    <Compile Include="Tests\Editor\RevisionsTests\EditorRevisionTests.cs" />
+    <Compile Include="Tests\Editor\RevisionsTests\EditorRevisionXliffTests.cs" />
     <Compile Include="Tests\Editor\UndoRedoButtonsTests\EditorUndoRedoButtonsTests.cs" />
     <Compile Include="Tests\Editor\UndoRedoButtonsTests\EditorUndoRedoCatPasteTests.cs" />
     <Compile Include="Tests\GlobalSetup.cs" />

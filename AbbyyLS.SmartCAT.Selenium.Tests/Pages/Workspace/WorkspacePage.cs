@@ -432,7 +432,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace
 
 			return GetPage();
 		}
-
+		
 		/// <summary>
 		/// Смена языка локали
 		/// </summary>

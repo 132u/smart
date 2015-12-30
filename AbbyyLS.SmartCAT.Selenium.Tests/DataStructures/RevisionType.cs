@@ -12,9 +12,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.DataStructures
 		InsertMT,
 		[Description("TM insertion")]
 		InsertTM,
-		[Description("TB insertion")]
-		Restored,
 		[Description("Restored")]
+		Restored,
+		[Description("TB insertion")]
 		InsertTb,
 		[Description("Pretranslation")]
 		Pretranslation

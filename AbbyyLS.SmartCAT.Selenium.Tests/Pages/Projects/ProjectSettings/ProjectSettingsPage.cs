@@ -40,6 +40,17 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings
 		#region Простые методы страницы
 
 		/// <summary>
+		/// Нажать кнопку Pretranslate.
+		/// </summary>
+		public PretranslationDialog ClickPretranslateButton()
+		{
+			CustomTestContext.WriteLine("Нажать кнопку Pretranslate.");
+			PretranslateButton.Click();
+
+			return new PretranslationDialog(Driver).GetPage();
+		}
+
+		/// <summary>
 		/// Выбрать тип экспорта
 		/// </summary>
 		/// <param name="exportType">тип экспорта</param>
@@ -323,6 +334,17 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings
 			SortByQA.Click();
 		}
 
+		/// <summary>
+		/// Нажать кнопку редактирования памяти перевода.
+		/// </summary>
+		public EditTranslationMemoryDialog ClickEditTranslatioinMemoryButton()
+		{
+			CustomTestContext.WriteLine("Нажать кнопку редактирования памяти перевода.");
+			EditTranslationMemoryButton.Click();
+
+			return new EditTranslationMemoryDialog(Driver).GetPage();
+		}
+
 		#endregion
 
 		#region Составные методы
@@ -415,7 +437,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings
 		/// </summary>
 		public bool IsProjectSettingsPageOpened()
 		{
-			return Driver.WaitUntilElementIsDisplay(By.XPath(SETTINGS_BUTTON));
+			return IsDialogBackgroundDisappeared() && Driver.WaitUntilElementIsDisplay(By.XPath(SETTINGS_BUTTON));
 		}
 
 		/// <summary>
@@ -522,12 +544,15 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings
 		[FindsBy(How = How.XPath, Using = PRETRANSLATE_BUTTON)]
 		protected IWebElement PretranslateButton { get; set; }
 
+		[FindsBy(How = How.XPath, Using = EDIT_TRANSLATION_MEMORY_BUTTOON)]
+		protected IWebElement EditTranslationMemoryButton { get; set; }
+
 		protected IWebElement DocumentProgress { get; set; }
 
 		protected IWebElement DocumentRefference { get; set; }
 		
 		protected IWebElement ProjectsTableCheckbox { get; set; }
-
+		
 		#endregion
 
 		#region Описания XPath элементов страницы
@@ -570,6 +595,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings
 		protected const string GLOSSARY_CHECKBOX = "//div[@class='g-page']//table//tbody[@data-bind='foreach: glossaries']//tr[*#*]//input";
 		protected const string EDIT_GLOSSARY_SAVE_BUTTON = "//div[contains(@data-bind,'click: saveGlossaries')]";
 		protected const string PRETRANSLATE_BUTTON = "//div[contains(@data-bind,'click: pretranslate')]";
+		protected const string EDIT_TRANSLATION_MEMORY_BUTTOON = "//div[@data-bind='click: editTranslationMemories']//a[contains(@class, 'g-graybtn')]";
 
 		#endregion
 	}

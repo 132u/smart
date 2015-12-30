@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Threading;
+using System.Windows.Forms;
 
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.PageObjects;
@@ -594,6 +595,17 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		}
 
 		/// <summary>
+		/// Нажать кнопку Restore.
+		/// </summary>
+		public EditorPage ClickRestoreButton()
+		{
+			CustomTestContext.WriteLine("Нажать кнопку Restore.");
+			RestoreButton.Click();
+
+			return GetPage();
+		}
+
+		/// <summary>
 		/// Получить процентр прогресс бара
 		/// </summary>
 		public float GetPercentInProgressBar()
@@ -614,6 +626,88 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 			return result;
 		}
 
+		/// <summary>
+		/// Кликнуть по вкладке ревизий
+		/// </summary>
+		public EditorPage ClickRevisionTab()
+		{
+			CustomTestContext.WriteLine("Кликнуть по вкладке ревизий");
+			RevisionTab.Click();
+
+			return GetPage();
+		}
+
+		/// <summary>
+		/// Посчитать количество ревизий.
+		/// </summary>
+		public int GetRevisionsCount()
+		{
+			CustomTestContext.WriteLine("Посчитать количество ревизий.");
+
+			return Driver.GetElementsCount(By.XPath(REVISION_LIST));
+		}
+
+		/// <summary>
+		/// Получить текст удаленной части слова.
+		/// </summary>
+		/// <param name="revisionNumber">номер ревизии</param>
+		public string GetRevisionDeleteChangedPart(int revisionNumber = 1)
+		{
+			CustomTestContext.WriteLine("Получить текст удаленной части слова.");
+			DeleteChangedPart = Driver.SetDynamicValue(How.XPath, REVISION_DELETE_CHANGE_PART, revisionNumber.ToString());
+
+			return DeleteChangedPart.Text;
+		}
+
+		/// <summary>
+		/// Получить текст добавленной части слова.
+		/// </summary>
+		/// <param name="revisionNumber">номер ревизии</param>
+		public string GetRevisionInsertChangedPart(int revisionNumber = 1)
+		{
+			CustomTestContext.WriteLine("Получить текст добавленной части слова.");
+			InsertChangedPart = Driver.SetDynamicValue(How.XPath, REVISION_INSERT_CHANGE_PART, revisionNumber.ToString());
+
+			return InsertChangedPart.Text;
+		}
+
+		/// <summary>
+		/// Получить имя пользователя, создавшего ревизию.
+		/// </summary>
+		/// <param name="revisionNumber">номер ревизии</param>
+		public string GetRevisionUserName(int revisionNumber = 1)
+		{
+			CustomTestContext.WriteLine("Получить имя пользователя, создавшего ревизию.");
+			User = Driver.SetDynamicValue(How.XPath, REVISION_USER_COLUNM, revisionNumber.ToString());
+
+			return User.Text;
+		}
+
+		/// <summary>
+		/// Выделить ревизию
+		/// </summary>
+		/// <param name="revisionNumber">номер ревизии</param>
+		public EditorPage SelectRevision(int revisionNumber = 1)
+		{
+			CustomTestContext.WriteLine("Выделить ревизию №{0}.", revisionNumber);
+			Revision = Driver.SetDynamicValue(How.XPath, REVISION_IN_LIST, revisionNumber.ToString());
+			Revision.AdvancedClick();
+
+			return GetPage();
+		}
+
+		/// <summary>
+		/// Получить тип ревизии
+		/// </summary>
+		/// <param name="revisionNumber">номер ревизии</param>
+		public string GetRevisionType(int revisionNumber = 1)
+		{
+			CustomTestContext.WriteLine("Получить тип ревизии №{0}.", revisionNumber);
+			Driver.WaitUntilElementIsDisplay(By.XPath(REVISION_TYPE.Replace("*#*", revisionNumber.ToString())));
+			Type = Driver.SetDynamicValue(How.XPath, REVISION_TYPE, revisionNumber.ToString());
+
+			return Type.Text;
+		}
 		#endregion
 
 		#region Составные методы страницы
@@ -639,6 +733,20 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 			highlightedWords.Sort();
 
 			return highlightedWords;
+		}
+		
+		/// <summary>
+		/// Открыть вкладку ревизий
+		/// </summary>
+		public EditorPage OpenRevisionTab()
+		{
+			CustomTestContext.WriteLine("Открыть вкладку ревизий");
+			if (!IsRevisionTableDisplayed())
+			{
+				ClickRevisionTab();
+			}
+
+			return GetPage();
 		}
 
 		/// <summary>
@@ -794,9 +902,50 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 			return GetPage();
 		}
 
+		/// <summary>
+		/// Вставить перевод из CAT-панели с помощью хоткея Ctrl + "номер подстановки"
+		/// </summary>
+		/// <param name="catType">CAT-тип</param>
+		/// <param name="targetRowNumber">номер строки таргета</param>
+		public EditorPage PasteTranslationFromCATByHotkey(CatType catType, int targetRowNumber = 1)
+		{
+			ClickOnTargetCellInSegment(targetRowNumber);
+			
+			var catRowNumber = CatTypeRowNumber(catType);
+
+			Driver.SendHotKeys(catRowNumber.ToString(), control: true);
+
+			if (GetTargetText(targetRowNumber) != GetCatTranslationText(catRowNumber))
+			{
+				throw new Exception("Текст из таргет сегмента совпадает с текстом перевода из CAT-панели");
+			}
+
+			return GetPage();
+		}
+
 		#endregion
 
 		#region Методы, проверяющие состояние страницы
+
+		/// <summary>
+		/// Проверить, что отображается таблица ревизий.
+		/// </summary>
+		private bool IsRevisionTableDisplayed()
+		{
+			CustomTestContext.WriteLine("Проверить, что отображается таблица ревизий.");
+
+			return RevisionTable.Displayed;
+		}
+
+		/// <summary>
+		/// Проверить, что кнопка Restore неактивна
+		/// </summary>
+		public bool IsRestoreButtonDisabled()
+		{
+			CustomTestContext.WriteLine("Проверить, что кнопка Restore неактивна.");
+
+			return RestoreButton.GetAttribute("class").Contains("x-btn-disabled");
+		}
 
 		/// <summary>
 		/// Проверить, что появился диалог подтверждения сохранения уже существующего термина
@@ -1135,6 +1284,32 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		[FindsBy(How = How.Id, Using = REDO_BUTTON)]
 		protected IWebElement RedoButton { get; set; }
 
+		[FindsBy(How = How.Id, Using = RESTORE_BUTTON)]
+		protected IWebElement RestoreButton { get; set; }
+
+		[FindsBy(How = How.Id, Using = REVISION_TAB)]
+		protected IWebElement RevisionTab { get; set; }
+
+		[FindsBy(How = How.Id, Using = REVISION_TABLE)]
+		protected IWebElement RevisionTable { get; set; }
+
+		[FindsBy(How = How.Id, Using = REVISION_LIST)]
+		protected IWebElement RevisionList { get; set; }
+
+		[FindsBy(How = How.XPath, Using = REVISION_DELETE_CHANGE_PART)]
+		protected IWebElement RevisionDeleteChangePart { get; set; }
+
+		[FindsBy(How = How.XPath, Using = REVISION_INSERT_CHANGE_PART)]
+		protected IWebElement RevisionInsertChangePart { get; set; }
+
+		[FindsBy(How = How.XPath, Using = REVISION_USER_COLUNM)]
+		protected IWebElement RevisionUserColunm { get; set; }
+
+		protected IWebElement Revision;
+		protected IWebElement DeleteChangedPart;
+		protected IWebElement InsertChangedPart;
+		protected IWebElement User;
+		protected IWebElement Type;
 		#endregion
 
 		#region Описание XPath элементов страницы
@@ -1198,6 +1373,17 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		protected const string HIGHLIGHTED_SEGMENT = "//*[@id='segments-body']//div//div//table[*#*]//div//pre//span";
 		protected const string SOURCE_CAT_TERMS = ".//div[@id='cat-body']//table//tbody//tr//td[2]//div";
 
+
+		protected const string RESTORE_BUTTON = "revision-rollback-btn";
+		protected const string REVISION_TAB = "revisions-tab";
+		protected const string REVISION_TABLE = "revisions-body";
+		protected const string REVISION_LIST = "//div[@id='revisions-body']//table";
+		protected const string REVISION_IN_LIST = "//div[@id='revisions-body']//table[*#*]//td[2]//div//pre";
+		protected const string REVISION_TYPE = "//div[@id='revisions-body']//table[*#*]//td[contains(@class,'revision-type-cell')]";
+		protected const string REVISION_DELETE_CHANGE_PART = "//div[@id='revisions-body']//table[*#*]//td[contains(@class,'revision-text-cell')]//del";
+		protected const string REVISION_INSERT_CHANGE_PART = "//div[@id='revisions-body']//table[*#*]//td[contains(@class,'revision-text-cell')]//ins";
+		protected const string REVISION_USER_COLUNM = "//div[@id='revisions-body']//table[*#*]//td[contains(@class,'revision-user-cell')]";
+		protected const string USER_COLUMN = "//div[@id='gridcolumn-1105']//span";
 		#endregion
 	}
 }
