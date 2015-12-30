@@ -189,7 +189,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 		/// <param name="dateTime">дата</param>
 		public TaskAssignmentPage FillDeadlineManually(string dateTime, int taskNumber = 1 )
 		{
-			CustomTestContext.WriteLine("Ввести дату вручную.");
+			CustomTestContext.WriteLine("Ввести дату {0} вручную.", dateTime);
 			Driver.SetDynamicValue(How.XPath, DEADLINE, taskNumber.ToString()).SetText(dateTime);
 			CloseDeadlineCalendar();
 

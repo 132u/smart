@@ -72,7 +72,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 		[Test(Description = "ТС-144")]
 		public void SaveDeadlineInRussianLocaleTest()
 		{
-			var date = DateTime.Now.ToString("d");
+			var date = DateTime.Now.ToString("d", new CultureInfo("ru-RU"));
 
 			_createProjectHelper.CreateNewProject(_projectUniqueName, filePath: PathProvider.EditorTxtFile);
 
@@ -128,7 +128,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 					WorkflowTask.Proofreading,
 					WorkflowTask.Editing,
 					WorkflowTask.Postediting},
-				deadline:Deadline.NextMonth
+				deadline: Deadline.FillDeadlineDate,
+				deadlineDate: DateTime.Now.AddMonths(2).ToString("d", CultureInfo.InvariantCulture)
 				);
 
 			_projectsPage.ClickProject(_projectUniqueName);
