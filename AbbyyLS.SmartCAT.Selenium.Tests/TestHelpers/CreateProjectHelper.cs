@@ -8,12 +8,15 @@ using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 {
-	public class CreateProjectHelper : WorkspaceHelper
+	public class CreateProjectHelper
 	{
-		public CreateProjectHelper(WebDriver driver) : base(driver)
-		{
-			_projectsPage = new ProjectsPage(Driver);
+		public WebDriver Driver { get; private set; }
 
+		public CreateProjectHelper(WebDriver driver)
+		{
+			Driver = driver;
+
+			_projectsPage = new ProjectsPage(Driver);
 			_newProjectDocumentUploadPage = new NewProjectDocumentUploadPage(Driver);
 			_newProjectSettingsPage = new NewProjectSettingsPage(Driver);
 			_newProjectWorkflowPage = new NewProjectWorkflowPage(Driver);
@@ -77,8 +80,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 				_newProjectEditGlossaryDialog
 					.FillGlossaryName(glossaryName)
-					.ClickSaveButton()
-					.WaitUntilDialogBackgroundDisappeared();
+					.ClickSaveButton();
 			}
 
 			if (createNewTm)

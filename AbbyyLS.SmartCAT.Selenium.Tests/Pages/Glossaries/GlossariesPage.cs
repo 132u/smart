@@ -26,7 +26,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 
 		public new void LoadPage()
 		{
-			Driver.WaitPageTotalLoad();
 			if (!IsGlossariesPageOpened())
 			{
 				throw new XPathLookupException("Произошла ошибка:\n не загрузилась страница с глоссариями");
@@ -300,7 +299,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 		/// </summary>
 		public bool IsGlossariesPageOpened()
 		{
-			return Driver.WaitUntilElementIsDisplay(By.XPath(GLOSSARY_TABLE));
+			return IsDialogBackgroundDisappeared() &&
+				Driver.WaitUntilElementIsDisplay(By.XPath(GLOSSARY_TABLE));
 		}
 
 		#endregion

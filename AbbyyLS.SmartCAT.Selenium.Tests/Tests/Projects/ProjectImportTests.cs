@@ -8,6 +8,7 @@ using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.DocumentUploadDialog;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings;
+using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace;
 using AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
@@ -19,14 +20,16 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 		[SetUp]
 		public void Setup()
 		{
-			_workspaceHelper = new WorkspaceHelper(Driver);
-			_workspaceHelper.GoToProjectsPage();
+			_workspacePage = new WorkspacePage(Driver);
 			_createProjectHelper = new CreateProjectHelper(Driver);
+			_projectSettingsHelper = new ProjectSettingsHelper(Driver);
 			_projectUniqueName = _createProjectHelper.GetProjectUniqueName();
 			_documentUploadGeneralInformationDialog = new DocumentUploadGeneralInformationDialog(Driver);
 			_newProjectDocumentUploadPage = new NewProjectDocumentUploadPage(Driver);
 			_projectSettingsPage = new ProjectSettingsPage(Driver);
 			_projectsPage = new ProjectsPage(Driver);
+
+			_workspacePage.GoToProjectsPage();
 		}
 
 		[Test]
@@ -89,10 +92,11 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 		[Test]
 		public void ImportDocumentAfterCreationTest()
 		{
-			_createProjectHelper
-				.CreateNewProject(_projectUniqueName)
-				.GoToProjectSettingsPage(_projectUniqueName)
-				.UploadDocument(new []{PathProvider.DocumentFile});
+			_createProjectHelper.CreateNewProject(_projectUniqueName);
+
+			_projectsPage.ClickProject(_projectUniqueName);
+
+			_projectSettingsHelper.UploadDocument(new []{PathProvider.DocumentFile});
 
 			Assert.IsTrue(_projectSettingsPage.IsDocumentExist(PathProvider.DocumentFile),
 				"Произошла ошибка:\n документ {0} отсутствует в проекте.", PathProvider.DocumentFile);
@@ -101,9 +105,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 		[Test]
 		public void ImportDuplicateDocumentTest()
 		{
-			_createProjectHelper
-				.CreateNewProject(_projectUniqueName, PathProvider.DocumentFile)
-				.GoToProjectSettingsPage(_projectUniqueName);
+			_createProjectHelper.CreateNewProject(_projectUniqueName, PathProvider.DocumentFile);
+
+			_projectsPage.ClickProject(_projectUniqueName);
 
 			_projectSettingsPage.ClickDocumentUploadButton();
 
@@ -117,8 +121,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 		private string _projectUniqueName;
 
 		private CreateProjectHelper _createProjectHelper;
-		private WorkspaceHelper _workspaceHelper;
-
+		private ProjectSettingsHelper _projectSettingsHelper;
+		private WorkspacePage _workspacePage;
 		private DocumentUploadGeneralInformationDialog _documentUploadGeneralInformationDialog;
 		private NewProjectDocumentUploadPage _newProjectDocumentUploadPage;
 		private ProjectsPage _projectsPage;

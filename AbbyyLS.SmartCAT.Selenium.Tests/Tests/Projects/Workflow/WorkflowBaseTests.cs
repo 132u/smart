@@ -10,6 +10,7 @@ using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.DocumentUploadDialog;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.UsersRights;
+using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace;
 using AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
@@ -34,7 +35,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 			_newProjectDocumentUploadPage = new NewProjectDocumentUploadPage(Driver);
 			_editorPage = new EditorPage(Driver);
 			_projectSettingsPage = new ProjectSettingsPage(Driver);
-			_workspaceHelper = new WorkspaceHelper(Driver);
 			_taskDeclineDialog = new TaskDeclineDialog(Driver);
 			_taskAssignmentPage = new TaskAssignmentPage(Driver);
 			_loginHelper = new LoginHelper(Driver);
@@ -45,6 +45,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 			_distributeDocumentBetweenAssigneesPage = new DistributeDocumentBetweenAssigneesPage(Driver);
 			_newGroupDialog = new NewGroupDialog(Driver);
 			_groupsAndAccessRightsTab = new GroupsAndAccessRightsTab(Driver);
+			_workspacePage = new WorkspacePage(Driver);
 
 			_projectUniqueName = _createProjectHelper.GetProjectUniqueName();
 		}
@@ -71,7 +72,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 		protected NewProjectWorkflowPage _newProjectWorkflowPage;
 		protected NewProjectSettingsPage _newProjectSettingsPage;
 		protected EditorPage _editorPage;
-		protected WorkspaceHelper _workspaceHelper;
 		protected DistributeDocumentBetweenAssigneesPage _distributeDocumentBetweenAssigneesPage;
 		protected DistributeSegmentsBetweenAssigneesPage _distributeSegmentsBetweenAssigneesPage;
 		protected DocumentUploadGeneralInformationDialog _documentUploadGeneralInformationDialog;
@@ -84,5 +84,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 		protected UsersTab _usersTab;
 		protected NewGroupDialog _newGroupDialog;
 		protected GroupsAndAccessRightsTab _groupsAndAccessRightsTab;
+		protected WorkspacePage _workspacePage;
 	}
 }

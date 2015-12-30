@@ -10,6 +10,7 @@ using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings;
+using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace;
 using AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
@@ -22,7 +23,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 		public void GlossaryTermSubstituionTestsSetUp()
 		{
 			_glossaryHelper = new GlossariesHelper(Driver);
-			_workspaceHelper = new WorkspaceHelper(Driver);
+			_workspacePage = new WorkspacePage(Driver);
 			_glossaryPage = new GlossaryPage(Driver);
 			_projectsPage = new ProjectsPage(Driver);
 			_createProjectHelper = new CreateProjectHelper(Driver);
@@ -43,7 +44,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 			_projectsPage.ClickProject(_projectUniqueName);
 			_projectSettingsHelper.AssignTasksOnDocument(PathProvider.EditorTxtFile, ThreadUser.NickName);
 
-			_workspaceHelper.GoToGlossariesPage();
+			_workspacePage.GoToGlossariesPage();
 
 			_glossaryHelper.CreateGlossary(_glossaryUniqueName);
 		}
@@ -59,7 +60,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 
 			_glossaryPage.CreateTerms(dictionary);
 
-			_workspaceHelper.GoToProjectsPage();
+			_workspacePage.GoToProjectsPage();
 
 			_projectsPage.ClickProject(_projectUniqueName);
 
@@ -95,7 +96,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 
 			_glossaryPage.CreateTerms(dictionary);
 			
-			_workspaceHelper.GoToProjectsPage();
+			_workspacePage.GoToProjectsPage();
 
 			_projectsPage.ClickProject(_projectUniqueName);
 
@@ -132,7 +133,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 
 			_glossaryPage.CreateTerms(dictionary);
 
-			_workspaceHelper.GoToProjectsPage();
+			_workspacePage.GoToProjectsPage();
 			
 			_projectsPage.ClickProject(_projectUniqueName);
 
@@ -162,7 +163,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 		protected string _projectUniqueName;
 		protected ProjectsPage _projectsPage;
 		private GlossariesHelper _glossaryHelper;
-		private WorkspaceHelper _workspaceHelper;
+		private WorkspacePage _workspacePage;
 		private string _glossaryUniqueName;
 		private TestUser _secondUser;
 		private ProjectSettingsPage _projectSettingsPage;

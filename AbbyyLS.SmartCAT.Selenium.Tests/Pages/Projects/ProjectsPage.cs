@@ -34,7 +34,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 
 		public new void LoadPage()
 		{
-			Driver.WaitPageTotalLoad();
 			if (!IsProjectsPageOpened())
 			{
 				throw new XPathLookupException("Произошла ошибка:\n не удалось перейти на вкладку \"Проекты\".");
@@ -418,7 +417,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 		/// </summary>
 		public bool IsProjectsPageOpened()
 		{
-			return Driver.WaitUntilElementIsDisplay(By.XPath(PROJECT_SEARCH_FIELD), timeout: 45);
+			return IsDialogBackgroundDisappeared() &&
+				Driver.WaitUntilElementIsDisplay(By.XPath(PROJECTS_TABLE_XPATH), timeout: 45);
 		}
 
 		/// <summary>

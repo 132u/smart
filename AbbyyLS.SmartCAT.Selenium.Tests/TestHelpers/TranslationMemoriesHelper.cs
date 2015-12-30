@@ -10,10 +10,14 @@ using AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 {
-	public class TranslationMemoriesHelper : WorkspaceHelper
+	public class TranslationMemoriesHelper
 	{
-		public TranslationMemoriesHelper(WebDriver driver) : base(driver)
+		public WebDriver Driver { get; private set; }
+
+		public TranslationMemoriesHelper(WebDriver driver)
 		{
+			Driver = driver;
+
 			_newTranslationMemoryDialog = new NewTranslationMemoryDialog(Driver);
 			_translationMemoriesPage = new TranslationMemoriesPage(Driver);
 			_translationMemoriesFilterDialog = new TranslationMemoriesFilterDialog(Driver);
@@ -75,8 +79,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 			{
 				throw new XPathLookupException("Произошла ошибка:\n диалог создания ТМ не закрылся");
 			}
-
-			_translationMemoriesPage.WaitUntilDialogBackgroundDisappeared();
 
 			return this;
 		}

@@ -24,7 +24,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersRights
 			
 			_createProjectHelper = new CreateProjectHelper(Driver);
 			_projectSettingsHelper = new ProjectSettingsHelper(Driver);
-			_workspaceHelper = new WorkspaceHelper(Driver);
 
 			_taskAssignmentPage = new TaskAssignmentPage(Driver);
 			_projectsPage = new ProjectsPage(Driver);
@@ -56,7 +55,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersRights
 
 		protected CreateProjectHelper _createProjectHelper;
 		protected ProjectSettingsHelper _projectSettingsHelper;
-		protected WorkspaceHelper _workspaceHelper;
 
 		protected TaskAssignmentPage _taskAssignmentPage;
 		protected ProjectsPage _projectsPage;

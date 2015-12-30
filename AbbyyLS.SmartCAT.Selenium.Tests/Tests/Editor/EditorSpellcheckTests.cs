@@ -6,6 +6,7 @@ using AbbyyLS.SmartCAT.Selenium.Tests.DataStructures;
 using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
 using AbbyyLS.SmartCAT.Selenium.Tests.FeatureAttributes;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor;
+using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings;
 using AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers;
 
@@ -19,6 +20,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Editor
 		public void SetupTest()
 		{
 			_createProjectHelper = new CreateProjectHelper(Driver);
+			_projectSettingsHelper = new ProjectSettingsHelper(Driver);
+			_projectsPage = new ProjectsPage(Driver);
 			_projectSettingsPage = new ProjectSettingsPage(Driver);
 			_editorPage = new EditorPage(Driver);
 			_spellcheckDictionaryDialog = new SpellcheckDictionaryDialog(Driver);
@@ -27,9 +30,12 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Editor
 
 			var projectName = _createProjectHelper.GetProjectUniqueName();
 
-			_createProjectHelper
-				.CreateNewProject(projectName, createNewTm: true, filePath: PathProvider.DocumentFile)
-				.GoToProjectSettingsPage(projectName)
+			_createProjectHelper.CreateNewProject(
+				projectName, createNewTm: true, filePath: PathProvider.DocumentFile);
+
+			_projectsPage.ClickProject(projectName);
+
+			_projectSettingsHelper
 				.AssignTasksOnDocument(PathProvider.DocumentFile, ThreadUser.NickName);
 
 			_projectSettingsPage
@@ -241,7 +247,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Editor
 		};
 
 		private CreateProjectHelper _createProjectHelper;
-
+		private ProjectSettingsHelper _projectSettingsHelper;
+		private ProjectsPage _projectsPage;
 		private ProjectSettingsPage _projectSettingsPage;
 		private EditorPage _editorPage;
 		private SpellcheckDictionaryDialog _spellcheckDictionaryDialog;

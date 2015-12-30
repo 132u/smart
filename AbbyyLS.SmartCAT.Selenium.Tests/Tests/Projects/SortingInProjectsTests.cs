@@ -2,6 +2,7 @@
 
 using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
 using AbbyyLS.SmartCAT.Selenium.Tests.FeatureAttributes;
+using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings;
 using AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers;
 
@@ -16,12 +17,14 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 		public void SetupSortingInProjectsTests()
 		{
 			_createProjectHelper = new CreateProjectHelper(Driver);
+			_projectsPage = new ProjectsPage(Driver);
 			_projectSettingsPage = new ProjectSettingsPage(Driver);
 
 			var projectUniqueName = _createProjectHelper.GetProjectUniqueName();
-			_createProjectHelper
-				.CreateNewProject(projectUniqueName, filePath: PathProvider.DocumentFile)
-				.GoToProjectSettingsPage(projectUniqueName);
+
+			_createProjectHelper.CreateNewProject(projectUniqueName, filePath: PathProvider.DocumentFile);
+
+			_projectsPage.ClickProject(projectUniqueName);
 		}
 
 		[Test]
@@ -87,6 +90,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 				"Произошла ошибка: \n при сортировке появился Alert.");
 		}
 
+		private ProjectsPage _projectsPage;
 		private CreateProjectHelper _createProjectHelper;
 		private ProjectSettingsPage _projectSettingsPage;
 	}

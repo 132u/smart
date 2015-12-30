@@ -6,6 +6,7 @@ using AbbyyLS.SmartCAT.Selenium.Tests.DataStructures;
 ﻿using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
 ﻿using AbbyyLS.SmartCAT.Selenium.Tests.FeatureAttributes;
 ﻿using AbbyyLS.SmartCAT.Selenium.Tests.Pages.LingvoDictionaries;
+﻿using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace;
 ﻿using AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.LingvoDictionaries
@@ -26,7 +27,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.LingvoDictionaries
 			_adminHelper = new AdminHelper(Driver);
 			_commonHelper = new CommonHelper(Driver);
 			_loginHelper = new LoginHelper(Driver);
-			_workspaceHelper = new WorkspaceHelper(Driver);
+			_workspacePage = new WorkspacePage(Driver);
 			_lingvoDictionariesPage = new LingvoDictionariesPage(Driver);
 			_accountUniqueName = AdminHelper.GetAccountUniqueName();
 		}
@@ -42,15 +43,21 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.LingvoDictionaries
 				.AddUserToSpecificAccount(ThreadUser.Login, _accountUniqueName);
 
 			_commonHelper.GoToSignInPage();
+
 			_loginHelper.LogInSmartCat(
 				ThreadUser.Login,
 				ThreadUser.NickName,
 				ThreadUser.Password,
 				_accountUniqueName);
 
-			_workspaceHelper
-				.AssertLingvoDictionariesDisplayed()
-				.GoToLingvoDictionariesPage();
+			_workspacePage
+				.OpenHideMenuIfClosed()
+				.ExpandResourcesIfNotExpanded();
+
+			Assert.IsTrue(_workspacePage.IsLingvoDictionariesMenuItemDisplayed(),
+				"Произошла ошибка:\n в меню отсутствует 'Lingvo Dictionaries'");
+
+			_workspacePage.GoToLingvoDictionariesPage();
 
 			Assert.IsTrue(_lingvoDictionariesPage.IsLingvoDictionariesListNotEmpty(),
 				"Произошла ошибка:\n список словарей пуст.");
@@ -76,7 +83,11 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.LingvoDictionaries
 				ThreadUser.Password,
 				_accountUniqueName);
 
-			_workspaceHelper.GoToLingvoDictionariesPage();
+			_workspacePage.GoToLingvoDictionariesPage();
+
+			_workspacePage
+				.OpenHideMenuIfClosed()
+				.ExpandResourcesIfNotExpanded();
 
 			Assert.IsTrue(_lingvoDictionariesPage.IsLingvoDictionariesListMatchExpected(includedDictionaryList),
 				"Произошла ошибка:\n список словарей на странице не совпадает с ожидаемым");
@@ -103,7 +114,12 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.LingvoDictionaries
 				ThreadUser.Password,
 				_accountUniqueName);
 
-			_workspaceHelper.AssertLingvoDictionariesIsNotDisplayed();
+			_workspacePage
+				.OpenHideMenuIfClosed()
+				.ExpandResourcesIfNotExpanded();
+
+			Assert.IsFalse(_workspacePage.IsLingvoDictionariesMenuItemDisplayed(),
+				"Произошла ошибка:\n 'Lingvo Dictionaries' присутствует в меню.");
 		}
 
 		[Test]
@@ -123,9 +139,14 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.LingvoDictionaries
 				ThreadUser.Password,
 				_accountUniqueName);
 
-			_workspaceHelper
-				.AssertLingvoDictionariesDisplayed()
-				.GoToLingvoDictionariesPage();
+			_workspacePage
+				.OpenHideMenuIfClosed()
+				.ExpandResourcesIfNotExpanded();
+
+			Assert.IsTrue(_workspacePage.IsLingvoDictionariesMenuItemDisplayed(),
+				"Произошла ошибка:\n в меню отсутствует 'Lingvo Dictionaries'");
+
+			_workspacePage.GoToLingvoDictionariesPage();
 
 			Assert.IsTrue(_lingvoDictionariesPage.IsLingvoDictionariesListNotEmpty(),
 				"Произошла ошибка:\n список словарей пуст.");
@@ -133,7 +154,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.LingvoDictionaries
 
 		private string _accountUniqueName;
 		private AdminHelper _adminHelper;
-		private WorkspaceHelper _workspaceHelper;
+		private WorkspacePage _workspacePage;
 		private LoginHelper _loginHelper;
 		private CommonHelper _commonHelper;
 		private LingvoDictionariesPage _lingvoDictionariesPage;

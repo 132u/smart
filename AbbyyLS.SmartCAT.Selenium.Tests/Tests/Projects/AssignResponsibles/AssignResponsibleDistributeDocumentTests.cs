@@ -99,9 +99,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 			Assert.IsTrue(_distributeDocumentBetweenAssigneesPage.IsAssigneeEmptyDropdownDisplayed(),
 				"Произошла ошибка:\nНе отображется пустой дропдаун в таблице.");
 
-			_workspaceHelper.GoToProjectsPage();
+			_workspacePage.GoToProjectsPage();
 
-			_workspaceHelper.GoToProjectSettingsPage(_projectUniqueName);
+			_projectsPage.ClickProject(_projectUniqueName);
 
 			_projectSettingsPage.OpenDocumentInEditorWithoutTaskSelect(PathProvider.LongTxtFile);
 

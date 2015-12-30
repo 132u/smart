@@ -1,6 +1,7 @@
 ﻿using NUnit.Framework;
 
 using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
+using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace;
 using AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.TranslationMemories
@@ -11,10 +12,10 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.TranslationMemories
 		[SetUp]
 		public void SetUp()
 		{
-			_workspaceHelper = new WorkspaceHelper(Driver);
 			_translationMemoriesHelper = new TranslationMemoriesHelper(Driver);
-			_workspaceHelper.GoToTranslationMemoriesPage();
 			_tmName = TranslationMemoriesHelper.GetTranslationMemoryUniqueName();
+
+			WorkspacePage.GoToTranslationMemoriesPage();
 		}
 
 		[Test]
@@ -36,14 +37,14 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.TranslationMemories
 				.IsFileImportCompleteNotifierDisplayed();
 
 			// костыль PRX-13801
-			_workspaceHelper.RefreshPage();
+			WorkspacePage.RefreshPage<WorkspacePage>();
 
 			var unitsCountAfter = TranslationMemoriesPage
 										.OpenTranslationMemoryInformation(_tmName)
 										.GetUnitsCount();
 
 			Assert.AreNotEqual(unitsCountBefore, unitsCountAfter,
-				string.Format("Произошла ошибка:\n количество юнитов не изменилось."));
+				"Произошла ошибка:\n количество юнитов не изменилось");
 		}
 
 		[Test]
@@ -230,6 +231,5 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.TranslationMemories
 
 		private TranslationMemoriesHelper _translationMemoriesHelper;
 		private string _tmName;
-		private WorkspaceHelper _workspaceHelper;
 	}
 }

@@ -5,6 +5,7 @@ using OpenQA.Selenium;
 using OpenQA.Selenium.Support.PageObjects;
 
 using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
+using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries.SuggestedTerms;
 using AbbyyLS.SmartCAT.Selenium.Tests.TestFramework;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
@@ -25,7 +26,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 
 		public new void LoadPage()
 		{
-			Driver.WaitPageTotalLoad();
 			if (!IsSuggestedTermsPageForAllGlossariesOpened())
 			{
 				throw new XPathLookupException("Произошла ошибка:\n не загрузилась общая страница Suggested Terms");
@@ -58,6 +58,17 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 			term.HoverElement();
 
 			return GetPage();
+		}
+
+		/// <summary>
+		/// Нажать кнопку 'Accept suggest'
+		/// </summary>
+		public SelectGlossaryDialog ClickAcceptSuggestButtonExpectingSelectGlossaryDialog(int termNumber)
+		{
+			CustomTestContext.WriteLine("Нажать кнопку 'Accept suggest' термина №{0}.", termNumber);
+			Driver.SetDynamicValue(How.XPath, ACCEPT_SUGGEST_BUTTON, termNumber.ToString()).JavaScriptClick();
+
+			return new SelectGlossaryDialog(Driver).GetPage();
 		}
 
 		/// <summary>
@@ -103,6 +114,20 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 		/// Нажать кнопку редактирования предложенного термина
 		/// </summary>
 		/// <param name="rowNumber">номер строки</param>
+		public SelectGlossaryDialog ClickEditSuggestTermButtonExpectingSelectGlossaryDialog(int rowNumber)
+		{
+			CustomTestContext.WriteLine("Нажать кнопку редактирования предложенного термина №{0}.", rowNumber);
+			EditSuggestTermButton = Driver.SetDynamicValue(How.XPath, EDIT_SUGGEST_TERM_BUTTON, rowNumber.ToString());
+			EditSuggestTermButton.Click();
+			Driver.WaitUntilElementIsDisplay(By.XPath(ACCEPT_TERM_BUTTON_IN_EDIT_MODE));
+
+			return new SelectGlossaryDialog(Driver).GetPage();
+		}
+
+		/// <summary>
+		/// Нажать кнопку редактирования предложенного термина
+		/// </summary>
+		/// <param name="rowNumber">номер строки</param>
 		public SuggestedTermsPageForAllGlossaries ClickEditSuggestTermButton(int rowNumber)
 		{
 			CustomTestContext.WriteLine("Нажать кнопку редактирования предложенного термина №{0}.", rowNumber);
@@ -132,40 +157,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 		{
 			CustomTestContext.WriteLine("Выбрать глоссарий в дропдауне.");
 			Driver.SetDynamicValue(How.XPath, GLOSSARY_IN_DROPDOWN, glossaryName).Click();
-
-			return GetPage();
-		}
-
-		/// <summary>
-		/// Нажать на выпадающий список глоссариев в диалоге выбора глоссария
-		/// </summary>
-		public SuggestedTermsPageForAllGlossaries ClickSelectGlossaryDropdownInSelectDialog()
-		{
-			CustomTestContext.WriteLine("Нажать на выпадающий список глоссариев в диалоге выбора глоссария.");
-			SelectGlossaryDropdown.Click();
-
-			return GetPage();
-		}
-
-		/// <summary>
-		/// Выбрать глоссарий
-		/// </summary>
-		/// <param name="glossaryName">название глоссария</param>
-		public SuggestedTermsPageForAllGlossaries SelectGlossaryInSelectDialog(string glossaryName)
-		{
-			CustomTestContext.WriteLine("Выбрать {0} глоссарий.", glossaryName);
-			Driver.SetDynamicValue(How.XPath, GLOSSARY_IN_SELECT_GLOSSARY_DIALOG, glossaryName).Click();
-
-			return GetPage();
-		}
-
-		/// <summary>
-		/// Нажать кнопку Ok
-		/// </summary>
-		public SuggestedTermsPageForAllGlossaries ClickOkButton()
-		{
-			CustomTestContext.WriteLine("Нажать кнопку Ok.");
-			OkButton.Click();
 
 			return GetPage();
 		}
@@ -227,45 +218,31 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 		/// <param name="termValue">термин</param>
 		/// <param name="chooseGlossary">выбор глоссария</param>
 		/// <param name="glossaryToChoose">выбранный глоссарий</param>
-		public SuggestedTermsPageForAllGlossaries EditSuggestTermInSuggestedTermsPageForAllGlossaries(
-			string glossaryName,
-			string termValue,
-			string glossaryToChoose = null)
+		public SelectGlossaryDialog EditSuggestTermInSuggestedTermsPageForAllGlossaries(
+			string glossaryName = "")
 		{
 			var termRowNumber = GetTermRowNumberByGlossaryName(glossaryName);
 
 			HoverSuggestedTermRow(termRowNumber);
-			ClickEditSuggestTermButton(termRowNumber);
+			var selectGlossaryDialog = ClickEditSuggestTermButtonExpectingSelectGlossaryDialog(termRowNumber);
 
-			if (glossaryToChoose != null)
-			{
-				if (!IsSelectGlossaryDialogDisplayed())
-				{
-					throw new InvalidElementStateException("Произошла ошибка:\nДиалог выбора глоссария не появился.");
-				}
-
-				SelectGlossaryForSuggestedTerm(glossaryToChoose);
-			}
-
-			FillSuggestedTermInEditMode(termNumber: 1, termValue: termValue);
-			FillSuggestedTermInEditMode(termNumber: 2, termValue: termValue);
-			ClickAcceptTermButtonInEditMode();
-
-			return GetPage();
+			return selectGlossaryDialog;
 		}
 
 		/// <summary>
-		/// Выбрать глоссарий для предложенного термина
+		/// Принять предложенный термин
 		/// </summary>
+		/// <param name="chooseGlossary">выбор глоссария</param>
 		/// <param name="glossaryName">имя глоссария</param>
-		public SuggestedTermsPageForAllGlossaries SelectGlossaryForSuggestedTerm(string glossaryName)
+		public SelectGlossaryDialog AcceptSuggestTermExpectingSelectGlossaryDialog(
+			string glossaryName = "")
 		{
-			ClickSelectGlossaryDropdownInSelectDialog();
-			SelectGlossaryInSelectDialog(glossaryName);
-			ClickOkButton();
-			WaitUntilDialogBackgroundDisappeared();
+			var termRowNumber = GetTermRowNumberByGlossaryName(glossaryName);
 
-			return GetPage();
+			HoverSuggestedTermRow(termRowNumber);
+			var selectGlossaryDialog = ClickAcceptSuggestButtonExpectingSelectGlossaryDialog(termRowNumber);
+
+			return selectGlossaryDialog.GetPage();
 		}
 
 		/// <summary>
@@ -274,28 +251,12 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 		/// <param name="chooseGlossary">выбор глоссария</param>
 		/// <param name="glossaryName">имя глоссария</param>
 		public SuggestedTermsPageForAllGlossaries AcceptSuggestTermInSuggestedTermsPageForAllGlossaries(
-			bool chooseGlossary = false,
 			string glossaryName = "")
 		{
 			var termRowNumber = GetTermRowNumberByGlossaryName(glossaryName);
 
 			HoverSuggestedTermRow(termRowNumber);
 			ClickAcceptSuggestButton(termRowNumber);
-
-			if (!chooseGlossary)
-			{
-				if(!IsAcceptSuggestButtonDisappeared(glossaryName))
-				{
-					throw new InvalidElementStateException("Произошла ошибка:\nПодтвержденный предложенный термин не исчез из списка.");
-				}
-			}
-			else
-			{
-				if (!IsSelectGlossaryDialogDisplayed())
-				{
-					throw new InvalidElementStateException("Произошла ошибка:\nДиалог выбора глоссария не появился.");
-				}
-			}
 
 			return GetPage();
 		}
@@ -354,7 +315,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 		/// </summary>
 		public bool IsSuggestedTermsPageForAllGlossariesOpened()
 		{
-			return Driver.WaitUntilElementIsDisplay(By.XPath(SUGGEST_TERMS_TABLE));
+			return IsDialogBackgroundDisappeared() &&
+				Driver.WaitUntilElementIsDisplay(By.XPath(SUGGEST_TERMS_TABLE));
 		}
 
 		/// <summary>
@@ -366,16 +328,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 			CustomTestContext.WriteLine("Проверить, что строка с термином № исчезла.", rowNumber);
 
 			return Driver.WaitUntilElementIsDisappeared(By.XPath(SUGGESTED_TERM_ROW.Replace("*#*", rowNumber.ToString())));
-		}
-
-		/// <summary>
-		/// Проверить, что диалог выбора глоссария появился
-		/// </summary>
-		public bool IsSelectGlossaryDialogDisplayed()
-		{
-			CustomTestContext.WriteLine("Проверить, что диалог выбора глоссария появился");
-
-			return Driver.WaitUntilElementIsDisplay(By.XPath(SELECT_GLOSSARY_DROPDOWN));
 		}
 
 		/// <summary>
@@ -399,12 +351,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 		[FindsBy(How = How.XPath, Using = GLOSSARIES_DROPDOWN)]
 		protected IWebElement GlossariesDropdown { get; set; }
 
-		[FindsBy(How = How.XPath, Using = OK_BUTTON)]
-		protected IWebElement OkButton { get; set; }
-
-		[FindsBy(How = How.XPath, Using = SELECT_GLOSSARY_DROPDOWN)]
-		protected IWebElement SelectGlossaryDropdown { get; set; }
-
 		[FindsBy(How = How.XPath, Using = ACCEPT_TERM_BUTTON_IN_EDIT_MODE)]
 		protected IWebElement AcceptTermButtonInEditMode { get; set; }
 
@@ -413,10 +359,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 		#endregion
 
 		#region Описания XPath элементов
-
-		protected const string GLOSSARY_IN_SELECT_GLOSSARY_DIALOG = "//span[contains(@class,'js-dropdown__item')][contains(text(),'*#*')]";
-		protected const string SELECT_GLOSSARY_DROPDOWN= "//div[contains(@class,'js-select-glossary-popup')]//span[contains(@class,'js-dropdown')]";
-		protected const string OK_BUTTON = "//input[contains(@class, 'js-glossary-selected-button')]";
 
 		protected const string GLOSSARY_IN_DROPDOWN = "//span[contains(@class,'js-dropdown__item')][contains(text(),'*#*')]";
 		protected const string GLOSSARIES_DROPDOWN = "//span[contains(@class,'js-dropdown')]";

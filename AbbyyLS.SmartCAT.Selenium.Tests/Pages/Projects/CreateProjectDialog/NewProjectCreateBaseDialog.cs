@@ -103,7 +103,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 			CreateProjectFinishButton.JavaScriptClick();
 
 			WaitCreateProjectDialogDisappear();
-			AssertDialogBackgroundDisappeared<ProjectsPage>(Driver);
 
 			return new ProjectsPage(Driver).GetPage();
 		}

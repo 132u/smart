@@ -3,24 +3,23 @@ using System.ComponentModel;
 using System.Linq;
 using System.Threading;
 
-using NUnit.Framework;
-
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.PageObjects;
 
-using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Billing;
 using AbbyyLS.SmartCAT.Selenium.Tests.DataStructures;
 using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
-using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects;
+using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Billing;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Client;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.LingvoDictionaries;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Login;
+using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.ProjectGroups;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Search;
-using AbbyyLS.SmartCAT.Selenium.Tests.TestFramework;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.UsersRights;
+using AbbyyLS.SmartCAT.Selenium.Tests.TestFramework;
+using AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace
 {
@@ -44,20 +43,13 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace
 
 		public void LoadPage()
 		{
-			Driver.WaitPageTotalLoad();
 			if (!IsWorkspacePageOpened())
 			{
-				Assert.Fail("Произошла ошибка:\n не загрузилась страница с workspace.");
+				throw new XPathLookupException("Произошла ошибка:\n не загрузилась страница с workspace");
 			}
 		}
 
-		/// <summary>
-		/// Проверить, открылась ли страница
-		/// </summary>
-		public bool IsWorkspacePageOpened()
-		{
-			return Driver.WaitUntilElementIsDisplay(By.XPath(USER_PICTURE));
-		}
+		#region Простые методы страницы
 
 		/// <summary>
 		/// Нажать на кнопку "пользователи и права"
@@ -68,17 +60,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace
 			UsersRightsButton.Click();
 
 			return new UsersTab(Driver).GetPage();
-		}
-
-		/// <summary>
-		/// Выбрать вкладку "Проекты"
-		/// </summary>
-		public ProjectsPage ClickProjectsSubmenu()
-		{
-			CustomTestContext.WriteLine("Нажать кнопку 'Проекты'.");
-			ProjectsButton.Click();
-
-			return new ProjectsPage(Driver).GetPage();
 		}
 
 		/// <summary>
@@ -148,65 +129,12 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace
 		}
 
 		/// <summary>
-		/// Выбрать вкладку "Проекты", ожидая алерт
-		/// </summary>
-		public void ClickProjectsSubmenuAssumingAlert()
-		{
-			CustomTestContext.WriteLine("Нажать кнопку 'Проекты', ожидая алерт.");
-			OpenHideMenuIfClosed();
-			if (!IsProjectsMenuExpanded())
-			{
-				ExpandProjectMenu();
-			}
-
-			ProjectsButton.Click();
-		}
-
-		/// <summary>
-		/// Развернуть меню ресурсов, если оно свернуто
-		/// </summary>
-		public WorkspacePage ExpandResourcesIfNotExpanded()
-		{
-			IWebElement resourcesMenu;
-			try
-			{
-				resourcesMenu = Driver.FindElement(By.XPath(RESOURCES_MENU));
-			}
-			catch (StaleElementReferenceException)
-			{
-				CustomTestContext.WriteLine("StaleElementReferenceException: Не удалось найти элемент. Предпринять повторную попытку.");
-				resourcesMenu = Driver.FindElement(By.XPath(RESOURCES_MENU));
-			}
-
-			if (!resourcesMenu.GetAttribute("class").Contains("nested-expanded"))
-			{
-				ExpandResourcesMenuButton.Click();
-			}
-
-			return GetPage();
-		}
-
-		/// <summary>
 		/// Нажать на имя пользователя и аккаунт, чтобы появилась плашка "Настройки профиля"
 		/// </summary>
 		public WorkspacePage ClickAccount()
 		{
 			CustomTestContext.WriteLine("Нажать на имя пользователя и аккаунт, чтобы появилась плашка 'Настройки профиля'.");
-			Driver.WaitUntilElementIsDisplay(By.XPath(ACCOUNT));
 			Account.JavaScriptClick();
-
-			return GetPage();
-		}
-
-		/// <summary>
-		/// Проверить, что настройки профиля открылись.
-		/// </summary>
-		public WorkspacePage AssertAccountProfileDisplayed()
-		{
-			CustomTestContext.WriteLine("Проверить, что настройки профиля открылись.");
-
-			Assert.IsTrue(Driver.WaitUntilElementIsDisplay(By.XPath(LOGOFF)),
-				"Произошла ошибка:\n настройки профиля не открылись.");
 
 			return GetPage();
 		}
@@ -217,12 +145,14 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace
 		public BillingPage ClickLicenseAndServices()
 		{
 			CustomTestContext.WriteLine("Нажать на 'Licenses and Services'.");
-			Driver.WaitUntilElementIsDisplay(By.XPath(LICENSES_AND_SERVICES));
 			LicenseAndServices.Click();
 
 			return new BillingPage(Driver);
 		}
 
+		/// <summary>
+		/// Переключиться  в окно 'Управление лицензиями'
+		/// </summary>
 		public BillingPage SwitchToLicenseAndServicesWindow()
 		{
 			CustomTestContext.WriteLine("Переключиться  в окно 'Управление лицензиями'");
@@ -259,9 +189,254 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace
 		}
 
 		/// <summary>
+		/// Вернуть количество уведомлений об экспорте
+		/// </summary>
+		public int GetCountExportNotifiers()
+		{
+			CustomTestContext.WriteLine("Узнать, сколько уведомлений есть на данный момент.");
+			var countExportNotifiers = Driver.GetElementList(By.XPath(NOTIFIER_LIST)).Count;
+			CustomTestContext.WriteLine("Обнаружено {0} уведомлений.", countExportNotifiers);
+
+			return countExportNotifiers;
+		}
+
+		/// <summary>
+		/// Нажать Search в меню.
+		/// </summary>
+		public SearchPage ClickSearchButton()
+		{
+			CustomTestContext.WriteLine("Нажать Search в меню.");
+			SearchMenu.Click();
+
+			return new SearchPage(Driver).GetPage();
+		}
+
+		/// <summary>
+		/// Обновить страницу
+		/// </summary>
+		public T RefreshPage<T>() where T : class, IAbstractPage<T>
+		{
+			CustomTestContext.WriteLine("Обновить страницу.");
+			Driver.Navigate().Refresh();
+
+			var instance = Activator.CreateInstance(typeof(T), new object[] { Driver }) as T;
+			return instance.GetPage();
+		}
+
+		/// <summary>
+		/// Закрыть алерт
+		/// </summary>
+		public T AcceptAlert<T>() where T : class, IAbstractPage<T>
+		{
+			CustomTestContext.WriteLine("Закрыть алерт");
+			Driver.SwitchTo().Alert().Accept();
+
+			var instance = Activator.CreateInstance(typeof(T), new object[] { Driver }) as T;
+			return instance.GetPage();
+		}
+
+		/// <summary>
+		/// Закрыть все показанные уведомления
+		/// </summary>
+		public T CloseAllNotifications<T>() where T : class, IAbstractPage<T>
+		{
+			CustomTestContext.WriteLine("Закрыть все показанные уведомления.");
+			Driver.WaitUntilElementIsDisplay(By.XPath(ALL_NOTIFICATIONS));
+			var notificationsCount = Driver.GetElementList(By.XPath(ALL_NOTIFICATIONS)).Count;
+
+			for (var i = notificationsCount; i > 0; i--)
+			{
+				CustomTestContext.WriteLine("Закрыть сообщение №{0}.", i);
+				Notification = Driver.SetDynamicValue(How.XPath, CLOSE_NOTIFICATION_BUTTON, i.ToString());
+				Notification.Click();
+			}
+
+			var instance = Activator.CreateInstance(typeof(T), new object[] { Driver }) as T;
+			return instance.GetPage();
+		}
+
+		#endregion
+
+		#region Составные методы
+
+		/// <summary>
+		/// Выйти из SmartCAT, закрыв alert
+		/// </summary>
+		public SignInPage SignOutExpectingAlert()
+		{
+			ClickAccount();
+			ClickSignOutAssumingAlert();
+			Driver.SwitchTo().Alert().Accept();
+
+			return new SignInPage(Driver).GetPage();
+		}
+
+
+		/// <summary>
+		/// Перейти на страницу со списком клиентов
+		/// </summary>
+		public ClientsPage GoToClientsPage()
+		{
+			OpenHideMenuIfClosed();
+			ClickClientsButton();
+
+			return new ClientsPage(Driver).GetPage();
+		}
+
+		/// <summary>
+		/// Перейти на страницу со списком TM
+		/// </summary>
+		public TranslationMemoriesPage GoToTranslationMemoriesPage()
+		{
+			OpenHideMenuIfClosed();
+			ExpandResourcesIfNotExpanded();
+			ClickTranslationMemoriesButton();
+
+			return new TranslationMemoriesPage(Driver).GetPage();
+		}
+
+		/// <summary>
+		/// Перейти на страницу со списком глоссариев
+		/// </summary>
+		public GlossariesPage GoToGlossariesPage()
+		{
+			OpenHideMenuIfClosed();
+			ExpandResourcesIfNotExpanded();
+			ClickGlossariesButton();
+
+			return new GlossariesPage(Driver).GetPage();
+		}
+
+		/// <summary>
+		/// Перейти на страницу со списком групп проектов
+		/// </summary>
+		public ProjectGroupsPage GoToProjectGroupsPage()
+		{
+			OpenHideMenuIfClosed();
+			ClickProjectGroupsButton();
+
+			return new ProjectGroupsPage(Driver).GetPage();
+		}
+
+		/// <summary>
+		/// Перейти на страницу "Пользователи и права"
+		/// </summary>
+		public UsersTab GoToUsersPage()
+		{
+			OpenHideMenuIfClosed();
+			ClickUsersRightsButton();
+
+			return new UsersTab(Driver).GetPage();
+		}
+
+		/// <summary>
+		/// Перейти на страницу поиска
+		/// </summary>
+		public SearchPage GoToSearchPage()
+		{
+			OpenHideMenuIfClosed();
+			ExpandResourcesIfNotExpanded();
+			ClickSearchButton();
+
+			return new SearchPage(Driver).GetPage();
+		}
+
+		/// <summary>
+		/// Перейти на страницу со словарями Lingvo
+		/// </summary>
+		public LingvoDictionariesPage GoToLingvoDictionariesPage()
+		{
+			OpenHideMenuIfClosed();
+			ExpandResourcesIfNotExpanded();
+			ClickLingvoDictionariesButton();
+
+			return new LingvoDictionariesPage(Driver).GetPage();
+		}
+
+		/// <summary>
+		/// Перейти на страницу со списком проектов
+		/// </summary>
+		public ProjectsPage GoToProjectsPage()
+		{
+			OpenHideMenuIfClosed();
+			ClickProjectsSubmenu();
+
+			return new ProjectsPage(Driver).GetPage();
+		}
+
+		/// <summary>
+		/// Выйти из аккаунта
+		/// </summary>
+		public SignInPage SignOut()
+		{
+			ClickAccount();
+			ClickSignOut();
+
+			return new SignInPage(Driver).GetPage();
+		}
+
+		/// <summary>
+		/// Перейти на страницу биллинга
+		/// </summary>
+		public BillingPage GoToBillingPage()
+		{
+			ClickAccount();
+			ClickLicenseAndServices();
+			SwitchToLicenseAndServicesWindow();
+
+			return new BillingPage(Driver).GetPage();
+		}
+
+		/// <summary>
+		/// Выбрать вкладку "Проекты"
+		/// </summary>
+		public ProjectsPage ClickProjectsSubmenu()
+		{
+			CustomTestContext.WriteLine("Нажать кнопку 'Проекты'.");
+			
+			if (!IsProjectsMenuExpanded())
+			{
+				ExpandProjectMenu();
+			}
+
+			ProjectsButton.Click();
+
+			return new ProjectsPage(Driver).GetPage();
+		}
+
+		/// <summary>
+		/// Нажать на пункт меню "Проекты", без ожидания загрузки каких-либо страниц
+		/// </summary>
+		public void ClickProjectsSubmenuExpectingAlert()
+		{
+			CustomTestContext.WriteLine("Нажать на пункт меню 'Проекты', без ожидания загрузки каких-либо страниц");
+			OpenHideMenuIfClosed();
+			
+			if (!IsProjectsMenuExpanded())
+			{
+				ExpandProjectMenu();
+			}
+
+			ProjectsButton.Click();
+		}
+
+		/// <summary>
+		/// Развернуть меню ресурсов, если оно свернуто
+		/// </summary>
+		public WorkspacePage ExpandResourcesIfNotExpanded()
+		{
+			if (!ResourcesMenu.GetAttribute("class").Contains("nested-expanded"))
+			{
+				ExpandResourcesMenuButton.Click();
+			}
+
+			return GetPage();
+		}
+
+		/// <summary>
 		/// Смена языка локали
 		/// </summary>
-		public WorkspacePage SelectLocale(Language language = Language.English)
+		public WorkspacePage SetLocale(Language language = Language.English)
 		{
 			CustomTestContext.WriteLine("Сменить язык локали на {0}, если необходимо.", language);
 			// Sleep нужен для предотвращения ошибки "unknown error: Element is not clickable at point"
@@ -295,122 +470,124 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace
 		/// <summary>
 		/// Закрыть подсказку (если она открыта) сразу после входа в SmartCAT
 		/// </summary>
-		public WorkspacePage CloseHelpIfOpened()
+		public WorkspacePage CloseHelp()
 		{
 			CustomTestContext.WriteLine("Проверить, открыта ли подсказка при входе в SmartCAT.");
 
-			if (Driver.WaitUntilElementIsDisplay(By.XPath(CLOSE_HELP_BUTTON), timeout:3))
+			CloseHelpButton.Click();
+
+			return GetPage();
+		}
+
+		/// <summary>
+		/// Открыть CAT меню слева
+		/// </summary>
+		public WorkspacePage OpenHideMenuIfClosed()
+		{
+			if (!CatMenu.Displayed)
 			{
-				CustomTestContext.WriteLine("Закрыть окно подсказки сразу после входа в SmartCAT");
-				CloseHelpButton.Click();
-				Driver.WaitUntilElementIsDisappeared(By.XPath(DIALOG_BACKGROUND));
+				CustomTestContext.WriteLine("Открыть CAT меню слева.");
+				Driver.WaitUntilElementIsDisplay(By.XPath(CAT_MENU_OPEN_BUTTON), 20);
+				CatMenuOpenButton.JavaScriptClick();
 			}
 
-			
 			return GetPage();
 		}
 
 		/// <summary>
-		/// Вернуть количество уведомлений об экспорте
+		/// Выбрать язык интерфейса
 		/// </summary>
-		public int GetCountExportNotifiers()
+		/// <param name="language">язык</param>
+		public WorkspacePage SelectLocale(Language language)
 		{
-			CustomTestContext.WriteLine("Узнать, сколько уведомлений есть на данный момент.");
-			var countExportNotifiers = Driver.GetElementList(By.XPath(NOTIFIER_LIST)).Count;
-			CustomTestContext.WriteLine("Обнаружено {0} уведомлений.", countExportNotifiers);
+			SetLocale(language);
 
-			return countExportNotifiers;
-		}
-
-		/// <summary>
-		/// Проверить, что фон диалога исчез
-		/// </summary>
-		public T AssertDialogBackgroundDisappeared<T>(WebDriver driver) where T : class, IAbstractPage<T>
-		{
-			CustomTestContext.WriteLine("Дождаться закрытия фона диалога.");
-
-			Assert.IsTrue(Driver.WaitUntilElementIsDisappeared(By.XPath(DIALOG_BACKGROUND)),
-				"Ошибка: фон диалога не закрылся.");
-
-			var instance = Activator.CreateInstance(typeof(T), new object[] { driver }) as T;
-			return instance.GetPage();
-		}
-
-		/// <summary>
-		/// Дождаться, что фон диалога исчез
-		/// </summary>
-		public void WaitUntilDialogBackgroundDisappeared()
-		{
-			CustomTestContext.WriteLine("Проверить, что фон диалога исчез.");
-
-			if (!Driver.WaitUntilElementIsDisappeared(By.XPath(DIALOG_BACKGROUND)))
+			if (language == Language.Russian)
 			{
-				throw new XPathLookupException("Произошла ошибка: фон диалога не закрылся");
+				RefreshPage<WorkspacePage>();
 			}
-		}
-
-		/// <summary>
-		/// Проверить, что 'Lingvo Dictionaries' отсутствует в меню
-		/// </summary>
-		public WorkspacePage AssertLingvoDictionariesMenuIsNotDisplayed()
-		{
-			CustomTestContext.WriteLine("Проверить, что 'Lingvo Dictionaries' отсутствует в меню.");
-
-			Assert.IsFalse(Driver.GetIsElementExist(By.XPath(LINGVO_DICTIONARIES_MENU)),
-				"Произошла ошибка:\n 'Lingvo Dictionaries' присутствует в меню.");
 
 			return GetPage();
 		}
 
 		/// <summary>
-		/// Проверить, что 'Lingvo Dictionaries' присутствует в меню
+		/// Предварительная настройка workspace: закрытие тура, выбор языка, проверка пользователя
 		/// </summary>
-		public WorkspacePage AssertLingvoDictionariesDisplayed()
+		/// <param name="nickName">имя пользователя</param>
+		/// <param name="accountName">имя аккаунта</param>
+		/// <param name="language">язык интерфейса</param>
+		public WorkspacePage SetUp(
+			string nickName,
+			string accountName = LoginHelper.TestAccountName,
+			Language language = Language.English)
 		{
-			CustomTestContext.WriteLine("Проверить, существует ли 'Lingvo Dictionaries' в меню.");
+			if (!IsUserNameMatchExpected(nickName))
+			{
+				throw new Exception(
+					"Произошла ошибка:\n Имя пользователя в черной плашке не совпадает с ожидаемым именем");
+			}
 
-			Assert.IsTrue(LingvoDictionaries.Displayed,
-				"Произошла ошибка:\n в меню отсутствует 'Lingvo Dictionaries'.");
+			if (!IsAccountNameMatchExpected(accountName))
+			{
+				throw new Exception(
+					"Произошла ошибка:\n название аккаунта в черной плашке не совпадает с ожидаемым именем.");
+			}
+
+			SetLocale(language);
 
 			return GetPage();
 		}
 
-		/// <summary>
-		/// Нажать Search в меню.
-		/// </summary>
-		public SearchPage ClickSearchButton()
-		{
-			CustomTestContext.WriteLine("Нажать Search в меню.");
-			SearchMenu.Click();
+		#endregion
 
-			return new SearchPage(Driver).GetPage();
+		#region Методы, проверяющие состояние страницы
+
+		/// <summary>
+		/// Проверить, открылась ли страница
+		/// </summary>
+		public bool IsWorkspacePageOpened()
+		{
+			return IsDialogBackgroundDisappeared() &&
+				Driver.WaitUntilElementIsDisplay(By.XPath(USER_PICTURE));
+		}
+
+		/// <summary>
+		/// Проверить, раскрыт ли пункт меню Проекты.
+		/// </summary>
+		public bool IsProjectsMenuExpanded()
+		{
+			CustomTestContext.WriteLine("Проверить, раскрыт ли пункт меню Проекты.");
+
+			return Driver.WaitUntilElementIsDisplay(By.XPath(PROJECTS_BUTTON));
+		}
+
+		/// <summary>
+		/// Проверить, что пункт 'Lingvo Dictionaries' присутствует в меню и видим
+		/// </summary>
+		public bool IsLingvoDictionariesMenuItemDisplayed()
+		{
+			CustomTestContext.WriteLine("Проверить, что пункт 'Lingvo Dictionaries' присутствует в меню и видим");
+
+			return Driver.GetIsElementExist(By.XPath(LINGVO_DICTIONARIES_MENU)) && LingvoDictionaries.Displayed;
 		}
 
 		/// <summary>
 		/// Проверить, что имя пользователя в черной плашке совпадает с ожидаемым
 		/// </summary>
 		/// <param name="expectedUserName">ожидаемое имя</param>
-		public WorkspacePage AssertUserNameMatch(string expectedUserName)
+		public bool IsUserNameMatchExpected(string expectedUserName)
 		{
-			CustomTestContext.WriteLine("Проверить, что имя {0} пользователя в черной плашке совпадает с ожидаемым именем {1}.",
-				currentUserName(), expectedUserName);
+			CustomTestContext.WriteLine(
+				"Проверить, что имя пользователя в черной плашке совпадает с ожидаемым именем {0}",
+				expectedUserName);
 
-			Assert.AreEqual(expectedUserName, currentUserName(),
-				"Произошла ошибка:\n Имя пользователя в черной плашке не совпадает с ожидаемым именем.");
+			var userName = UserName.Text;
+			var index = userName.IndexOf("\r", StringComparison.Ordinal);
 
-			return GetPage();
-		}
-
-		/// <summary>
-		/// Проверить, что имя пользователя в черной плашке совпадает с ожидаемым
-		/// </summary>
-		/// <param name="expectedUserName">ожидаемое имя</param>
-		public bool IsNickNameMatch(string expectedUserName)
-		{
-			var userName = currentUserName();
-
-			CustomTestContext.WriteLine("Проверить, что имя {0} пользователя в черной плашке совпадает с ожидаемым именем {1}.",
-				userName, expectedUserName);
+			if (index > 0)
+			{
+				userName = userName.Substring(0, index);
+			}
 
 			return userName == expectedUserName;
 		}
@@ -419,68 +596,25 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace
 		/// Проверить, что название аккаунта в черной плашке совпадает с ожидаемым
 		/// </summary>
 		/// <param name="expectedAccountName">ожидаемое имя</param>
-		public WorkspacePage AssertAccountNameMatch(string expectedAccountName)
+		public bool IsAccountNameMatchExpected(string expectedAccountName)
 		{
-			CustomTestContext.WriteLine("Проверить, что название {0} аккаунта в черной плашке совпадает с ожидаемым именем {1}.",
-				currentAccount(), expectedAccountName);
+			CustomTestContext.WriteLine(
+				"Проверить, что название аккаунта в черной плашке совпадает с ожидаемым именем {0}",
+				expectedAccountName);
 
-			Assert.AreEqual(expectedAccountName, currentAccount(),
-				"Произошла ошибка:\n название аккаунта в черной плашке не совпадает с ожидаемым именем.");
-
-			return GetPage();
-		}
-
-		/// <summary>
-		/// Проверить, что название аккаунта в черной плашке совпадает с ожидаемым
-		/// </summary>
-		/// <param name="expectedAccountName">ожидаемое имя</param>
-		public bool IsAccountNameMatch(string expectedAccountName)
-		{
-			CustomTestContext.WriteLine("Проверить, что название {0} аккаунта в черной плашке совпадает с ожидаемым именем {1}.",
-				currentAccount(), expectedAccountName);
-
-			return currentAccount() == expectedAccountName;
+			return CurrentAccountName.Text == expectedAccountName;
 		}
 
 		/// <summary>
 		/// Проверить, что список аккаунтов содержит нужный аккаунт
 		/// </summary>
 		/// <param name="accountName">имя аккаунт</param>
-		public WorkspacePage AssertAccountListContainsAccountName(string accountName)
+		public bool IsAccountListContainsAccountName(string accountName)
 		{
 			CustomTestContext.WriteLine("Проверить, что список аккаунтов содержит {0} аккаунт.", accountName);
+			AccountNameInList = Driver.SetDynamicValue(How.XPath, ACCOUNT_NAME_IN_LIST, accountName);
 
-			Assert.IsTrue(Driver.SetDynamicValue(How.XPath, ACCOUNT_NAME_IN_LIST, accountName).Displayed,
-				"Произошла ошибка:\n список аккаунтов не содержит {0} аккаунт.", accountName);
-
-			return GetPage();
-		}
-
-		public WorkspacePage OpenHideMenuIfClosed()
-		{
-			Driver.WaitPageTotalLoad();
-
-			if (!getIsLeftMenuDisplay())
-			{
-				assertCatMenuButtonDisplay();
-
-				CustomTestContext.WriteLine("Открыть CAT меню слева.");
-				CatMenuOpenButton.JavaScriptClick();
-			}
-
-			return GetPage();
-		}
-
-		/// <summary>
-		/// Обновить страницу
-		/// </summary>
-		public T RefreshPage<T>() where T : class, IAbstractPage<T>
-		{
-			CustomTestContext.WriteLine("Обновить страницу.");
-			Driver.Navigate().Refresh();
-
-			var instance = Activator.CreateInstance(typeof(T), new object[] { Driver }) as T;
-			return instance.GetPage();
+			return AccountNameInList.Displayed;
 		}
 
 		/// <summary>
@@ -502,106 +636,14 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace
 		}
 
 		/// <summary>
-		/// Закрыть алерт
+		/// Проверить, что фон диалога исчез
 		/// </summary>
-		public ProjectsPage AcceptAlert()
+		public bool IsDialogBackgroundDisappeared()
 		{
-			CustomTestContext.WriteLine("Закрыть алерт");
-			Driver.SwitchTo().Alert().Accept();
-
-			return new ProjectsPage(Driver).GetPage();
+			return Driver.WaitUntilElementIsDisappeared(By.XPath(DIALOG_BACKGROUND), 5);
 		}
 
-		/// <summary>
-		/// Закрыть алерт
-		/// </summary>
-		public SignInPage AcceptAlertSwitchToSignInPage()
-		{
-			CustomTestContext.WriteLine("Закрыть алерт");
-			Driver.SwitchTo().Alert().Accept();
-
-			return new SignInPage(Driver).GetPage();
-		}
-
-		/// <summary>
-		/// Проверить, раскрыт ли пункт меню Проекты.
-		/// </summary>
-		public bool IsProjectsMenuExpanded()
-		{
-			CustomTestContext.WriteLine("Проверить, раскрыт ли пункт меню Проекты.");
-
-			return Driver.WaitUntilElementIsDisplay(By.XPath(PROJECTS_BUTTON));
-		}
-
-		/// <summary>
-		/// Закрыть все показанные уведомления
-		/// </summary>
-		public T CloseAllNotifications<T>() where T : class, IAbstractPage<T>
-		{
-			CustomTestContext.WriteLine("Закрыть все показанные уведомления.");
-			Driver.WaitUntilElementIsDisplay(By.XPath(ALL_NOTIFICATIONS), timeout: 30);
-			var notificationsCount = Driver.GetElementList(By.XPath(ALL_NOTIFICATIONS)).Count;
-
-			for (var i = notificationsCount; i > 0; i--)
-			{
-				CustomTestContext.WriteLine("Закрыть сообщение №{0}.", i);
-				Notification = Driver.SetDynamicValue(How.XPath, CLOSE_NOTIFICATION_BUTTON, i.ToString());
-				Notification.Click();
-			}
-
-			var instance = Activator.CreateInstance(typeof(T), new object[] { Driver }) as T;
-			return instance.GetPage();
-		}
-
-		/// <summary>
-		/// Вернуть раскрыто ли главное меню слева
-		/// </summary>
-		private bool getIsLeftMenuDisplay()
-		{
-			CustomTestContext.WriteLine("Вернуть, раскрыто ли главное меню слева.");
-
-			return CatMenu.Displayed;
-		}
-
-		private WorkspacePage assertCatMenuButtonDisplay()
-		{
-			CustomTestContext.WriteLine("Проверить, что кнопка открытия меню отображается на странице.");
-
-			Assert.IsTrue(Driver.WaitUntilElementIsDisplay(By.XPath(CAT_MENU_OPEN_BUTTON), 20),
-				"Произошла ошибка:\n кнопка открытия меню не отображается на странице.");
-
-			return GetPage();
-		}
-
-		/// <summary>
-		/// Получить имя пользователя из черной плашки
-		/// </summary>
-		/// <returns>имя пользователя</returns>
-		private string currentUserName()
-		{
-			CustomTestContext.WriteLine("Получить имя пользователя из черной плашки.");
-
-			var accountName = UserName.Text;
-			var index = accountName.IndexOf("\r", StringComparison.Ordinal);
-
-			if (index > 0)
-			{
-				accountName = accountName.Substring(0, index);
-			}
-
-			return accountName;
-		}
-
-		/// <summary>
-		/// Получить имя текущего аккаунта
-		/// </summary>
-		/// <returns>имя текущего аккаунта</returns>
-		private string currentAccount()
-		{
-			CustomTestContext.WriteLine("Получить имя текущего аккаунта.");
-
-			return CurrentAccountName.Text;
-		}
+		#endregion
 
 		#region Объявление элементов страницы
 
@@ -667,7 +709,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace
 		[FindsBy(How = How.XPath, Using = PROJECTS_MENU)]
 		protected IWebElement ProjectsMenu { get; set; }
 		
-		[FindsBy(How = How.XPath, Using = ACCOUNT_NAME_IN_LIST)]
 		protected IWebElement AccountNameInList { get; set; }
 
 		protected IWebElement Notification { get; set; }

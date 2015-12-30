@@ -3,7 +3,7 @@
 using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
 using AbbyyLS.SmartCAT.Selenium.Tests.FeatureAttributes;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.ProjectGroups;
-using AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers;
+using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.ProjectGroups
 {
@@ -16,14 +16,14 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.ProjectGroups
 		[SetUp]
 		public void Initialization()
 		{
-			_workspaceHelper = new WorkspaceHelper(Driver);
+			_workspacePage = new WorkspacePage(Driver);
 			_projectGroupsPage = new ProjectGroupsPage(Driver);
 		}
 
 		[Test]
 		public void SortByNameTest()
 		{
-			_workspaceHelper.GoToProjectGroupsPage();
+			_workspacePage.GoToProjectGroupsPage();
 
 			_projectGroupsPage.ClickSortByNameAssumingAlert();
 
@@ -31,7 +31,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.ProjectGroups
 				"Произошла ошибка: \n при сортировке появился Alert.");
 		}
 
-		private WorkspaceHelper _workspaceHelper;
+		private WorkspacePage _workspacePage;
 		private ProjectGroupsPage _projectGroupsPage;
 	}
 }

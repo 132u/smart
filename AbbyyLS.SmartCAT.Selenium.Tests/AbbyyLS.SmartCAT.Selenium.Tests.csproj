@@ -68,12 +68,14 @@
     <Compile Include="ExplicitAttributes\UserDataExplicitAttribute.cs" />
     <Compile Include="Pages\Editor\ConfirmTermWithoutTranskationDialog.cs" />
     <Compile Include="Pages\Glossaries\FilterDialog.cs" />
+    <Compile Include="Pages\Glossaries\SuggestedTerms\SelectGlossaryDialog.cs" />
     <Compile Include="Pages\Glossaries\SuggestedTerms\SuggestedTermsForCurrentGlossariesPage.cs" />
     <Compile Include="Pages\Glossaries\SuggestedTerms\SuggestTermDialog.cs" />
     <Compile Include="Pages\Glossaries\SuggestedTerms\SuggestedTermsForAllGlossariesPage.cs" />
     <Compile Include="Pages\Admin\AdminManagementPaidServicesPage.cs" />
     <Compile Include="Drivers\Navigation.cs" />
     <Compile Include="ConfigurationManager.cs" />
+    <Compile Include="Pages\Glossaries\TermAlreadyExistsDialog.cs" />
     <Compile Include="Pages\Login\SelectProfileForm.cs" />
     <Compile Include="Pages\Projects\AssignmentPages\AttentionPopup.cs" />
     <Compile Include="Pages\Projects\AssignmentPages\DistributeSegmentsBetweenAssigneesPage.cs" />
@@ -227,7 +229,6 @@
     <Compile Include="TestHelpers\LoginHelper.cs" />
     <Compile Include="TestHelpers\ProjectSettingsHelper.cs" />
     <Compile Include="TestHelpers\TranslationMemoriesHelper.cs" />
-    <Compile Include="TestHelpers\WorkspaceHelper.cs" />
     <Compile Include="TestSettingDefinition.cs" />
     <Compile Include="Tests\Authorization\AuthorizationTests.cs" />
     <Compile Include="Tests\Editor\CatPanelResultTests.cs" />

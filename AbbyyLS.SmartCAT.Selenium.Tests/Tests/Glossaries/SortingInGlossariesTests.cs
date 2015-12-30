@@ -4,6 +4,7 @@ using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
 using AbbyyLS.SmartCAT.Selenium.Tests.FeatureAttributes;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.ProjectGroups;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries;
+using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace;
 using AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
@@ -18,9 +19,10 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 		{
 			_glossariesPage = new GlossariesPage(Driver);
 			_projectGroupsPage = new ProjectGroupsPage(Driver);
-			_workspaceHelper = new WorkspaceHelper(Driver);
+			_workspacePage = new WorkspacePage(Driver);
 			_glossariesHelper = new GlossariesHelper(Driver);
-			_glossariesHelper.GoToGlossariesPage();
+
+			_workspacePage.GoToGlossariesPage();
 		}
 
 		[Test]
@@ -70,14 +72,15 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 			var glossaryUniqueName = GlossariesHelper.UniqueGlossaryName();
 			var projectGroupUniqueName = _projectGroupsPage.GetProjectGroupUniqueName();
 
-			_workspaceHelper.GoToProjectGroupsPage();
+			_workspacePage.GoToProjectGroupsPage();
 
 			_projectGroupsPage.CreateProjectGroup(projectGroupUniqueName);
 
-			_glossariesHelper
-				.GoToGlossariesPage()
-				.CreateGlossary(glossaryUniqueName, projectGroupName: projectGroupUniqueName)
-				.GoToGlossariesPage();
+			_workspacePage.GoToGlossariesPage();
+
+			_glossariesHelper.CreateGlossary(glossaryUniqueName, projectGroupName: projectGroupUniqueName);
+
+			_workspacePage.GoToGlossariesPage();
 
 			_glossariesPage.ClickSortByProjectGroupsAssumingAlert();
 
@@ -110,10 +113,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 		}
 
 		private GlossariesHelper _glossariesHelper;
-
 		private GlossariesPage _glossariesPage;
-
-		private WorkspaceHelper _workspaceHelper;
+		private WorkspacePage _workspacePage;
 		private ProjectGroupsPage _projectGroupsPage;
 	}
 }

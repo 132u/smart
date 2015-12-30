@@ -30,7 +30,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Registration
 
 			_adminHelper = new AdminHelper(Driver);
 			_commonHelper = new CommonHelper(Driver);
-			_workspaceHelper = new WorkspaceHelper(Driver);
 
 			int _companyNameMaxLenght = 40;
 
@@ -67,9 +66,11 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Registration
 				.FillCompanyDataSecondStep(_firstName, _lastName, _companyName, _subDomain, companyType: CompanyType.LanguageServiceProvider)
 				.ClickCreateCorporateAccountButton();
 
-			_workspaceHelper
-				.CloseTour()
-				.AssertUserNameAndAccountNameCorrect(_firstName + " " + _lastName, _companyName);
+			Assert.IsTrue(_workspacePage.IsUserNameMatchExpected(_firstName + " " + _lastName),
+				"Произошла ошибка:\n Имя пользователя в черной плашке не совпадает с ожидаемым именем");
+
+			Assert.IsTrue(_workspacePage.IsAccountNameMatchExpected(_companyName),
+				"Произошла ошибка:\n название аккаунта в черной плашке не совпадает с ожидаемым именем");
 		}
 		
 		[Test]
@@ -89,9 +90,11 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Registration
 				.FillCompanyDataSecondStep(_firstName, _lastName, _companyName, _subDomain, companyType: CompanyType.LanguageServiceProvider)
 				.ClickCreateCorporateAccountButton();
 
-			_workspaceHelper
-				.CloseTour()
-				.AssertUserNameAndAccountNameCorrect(_firstName + " " + _lastName, _companyName);
+			Assert.IsTrue(_workspacePage.IsUserNameMatchExpected(_firstName + " " + _lastName),
+				"Произошла ошибка:\n Имя пользователя в черной плашке не совпадает с ожидаемым именем");
+
+			Assert.IsTrue(_workspacePage.IsAccountNameMatchExpected(_companyName),
+				"Произошла ошибка:\n название аккаунта в черной плашке не совпадает с ожидаемым именем");
 		}
 
 		[TestCase(false)]
@@ -119,9 +122,11 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Registration
 					companyType: CompanyType.LanguageServiceProvider)
 				.ClickCreateCorporateAccountButton();
 
-			_workspaceHelper
-				.CloseTour()
-				.AssertUserNameAndAccountNameCorrect(_firstName + " " + _lastName, _companyName);
+			Assert.IsTrue(_workspacePage.IsUserNameMatchExpected(_firstName + " " + _lastName),
+				"Произошла ошибка:\n Имя пользователя в черной плашке не совпадает с ожидаемым именем");
+
+			Assert.IsTrue(_workspacePage.IsAccountNameMatchExpected(_companyName),
+				"Произошла ошибка:\n название аккаунта в черной плашке не совпадает с ожидаемым именем");
 		}
 
 		[Test]
@@ -149,19 +154,22 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Registration
 					companyType: CompanyType.LanguageServiceProvider)
 				.ClickCreateCorporateAccountButton();
 
-			_workspaceHelper
-				.CloseTour()
-				.AssertUserNameAndAccountNameCorrect(_firstName + " " + _lastName, _companyName)
-				.SignOutAssumingAlert();
+			Assert.IsTrue(_workspacePage.IsUserNameMatchExpected(_firstName + " " + _lastName),
+				"Произошла ошибка:\n Имя пользователя в черной плашке не совпадает с ожидаемым именем");
+
+			Assert.IsTrue(_workspacePage.IsAccountNameMatchExpected(_companyName),
+				"Произошла ошибка:\n название аккаунта в черной плашке не совпадает с ожидаемым именем");
+
+			_workspacePage.SignOutExpectingAlert();
 
 			_signInPage
 				.SubmitForm(_email, _password)
 				.SelectAccount(_companyName);
 
-			Assert.IsTrue(_workspacePage.IsNickNameMatch(_firstName + " " + _lastName),
+			Assert.IsTrue(_workspacePage.IsUserNameMatchExpected(_firstName + " " + _lastName),
 				"Произошла ошибка:\n имя пользователя в черной плашке не совпадает с ожидаемым именем.");
 
-			Assert.IsTrue(_workspacePage.IsAccountNameMatch(_companyName),
+			Assert.IsTrue(_workspacePage.IsAccountNameMatchExpected(_companyName),
 				"Произошла ошибка:\n название аккаунта в черной плашке не совпадает с ожидаемым именем.");
 		}
 
@@ -176,11 +184,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Registration
 
 		private AdminHelper _adminHelper;
 		private CommonHelper _commonHelper;
-		private WorkspaceHelper _workspaceHelper;
 		private CompanyRegistrationFirstPage _companyRegistrationFirstPage;
 		private CompanyRegistrationSecondPage _companyRegistrationSecondPage;
 		private CompanyRegistrationSignInPage _companyRegistrationSignInPage;
-
 		private SignInPage _signInPage;
 		private WorkspacePage _workspacePage;
 	}

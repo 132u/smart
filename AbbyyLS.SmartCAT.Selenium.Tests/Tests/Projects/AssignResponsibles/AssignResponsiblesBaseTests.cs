@@ -8,6 +8,7 @@ using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.AssignmentPages;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.DocumentUploadDialog;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.UsersRights;
+using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace;
 using AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
@@ -20,8 +21,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 			_loginHelper = new LoginHelper(Driver);
 			_commonHelper = new CommonHelper(Driver);
 			_createProjectHelper = new CreateProjectHelper(Driver);
-			_workspaceHelper = new WorkspaceHelper(Driver);
-			_workspaceHelper.GoToProjectsPage();
+			_workspacePage = new WorkspacePage(Driver);
 			_createProjectHelper = new CreateProjectHelper(Driver);
 			_distributeDocumentBetweenAssigneesPage = new DistributeDocumentBetweenAssigneesPage(Driver);
 			_documentUploadGeneralInformationDialog = new DocumentUploadGeneralInformationDialog(Driver);
@@ -37,9 +37,12 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 			_selectTaskDialog = new SelectTaskDialog(Driver);
 			_userTab = new UsersTab(Driver);
 			_newGroupDialog = new NewGroupDialog(Driver);
+			_projectSettingsHelper = new ProjectSettingsHelper(Driver);
 			_projectUniqueName = _createProjectHelper.GetProjectUniqueName();
 			_secondUser = null;
 			_thirdUser = null;
+
+			_workspacePage.GoToProjectsPage();
 		}
 
 		[TearDown]
@@ -57,7 +60,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 
 		protected string _projectUniqueName;
 		protected CreateProjectHelper _createProjectHelper;
-		protected WorkspaceHelper _workspaceHelper;
+		protected WorkspacePage _workspacePage;
 		protected CommonHelper _commonHelper;
 		protected LoginHelper _loginHelper;
 		protected DocumentUploadGeneralInformationDialog _documentUploadGeneralInformationDialog;
@@ -67,6 +70,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 		protected ProjectsPage _projectsPage;
 		protected ProjectSettingsPage _projectSettingsPage;
 		protected CreateProjectHelper _сreateProjectHelper;
+		protected ProjectSettingsHelper _projectSettingsHelper;
 		protected DistributeDocumentBetweenAssigneesPage _distributeDocumentBetweenAssigneesPage;
 		protected DistributeSegmentsBetweenAssigneesPage _distributeSegmentsBetweenAssigneesPage;
 		protected AttentionPopup _attentionPopup;

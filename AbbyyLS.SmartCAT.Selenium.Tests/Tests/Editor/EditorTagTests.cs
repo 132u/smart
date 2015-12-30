@@ -5,6 +5,7 @@ using NUnit.Framework;
 using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
 using AbbyyLS.SmartCAT.Selenium.Tests.FeatureAttributes;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor;
+using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects;
 using AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings;
 
@@ -18,15 +19,19 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Editor
 		public void SetupTest()
 		{
 			_createProjectHelper = new CreateProjectHelper(Driver);
+			_projectSettingsHelper = new ProjectSettingsHelper(Driver);
+			_projectsPage = new ProjectsPage(Driver);
 			_editorPage = new EditorPage(Driver);
 			_selectTaskDialog = new SelectTaskDialog(Driver);
 			_projectSettingsPage = new ProjectSettingsPage(Driver);
 
 			var projectUniqueName = _createProjectHelper.GetProjectUniqueName();
 
-			_createProjectHelper
-				.CreateNewProject(projectUniqueName, filePath: PathProvider.DocumentFile)
-				.GoToProjectSettingsPage(projectUniqueName)
+			_createProjectHelper.CreateNewProject(projectUniqueName, filePath: PathProvider.DocumentFile);
+
+			_projectsPage.ClickProject(projectUniqueName);
+
+			_projectSettingsHelper
 				.AssignTasksOnDocument(PathProvider.DocumentFile, ThreadUser.NickName);
 
 			_projectSettingsPage
@@ -58,6 +63,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Editor
 		}
 
 		private CreateProjectHelper _createProjectHelper;
+		private ProjectSettingsHelper _projectSettingsHelper;
+		private ProjectsPage _projectsPage;
 		private ProjectSettingsPage _projectSettingsPage;
 		private EditorPage _editorPage;
 		private SelectTaskDialog _selectTaskDialog;

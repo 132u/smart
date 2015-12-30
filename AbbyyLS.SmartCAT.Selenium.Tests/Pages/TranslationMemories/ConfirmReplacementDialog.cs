@@ -6,7 +6,7 @@ using AbbyyLS.SmartCAT.Selenium.Tests.TestFramework;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories
 {
-	class ConfirmReplacementDialog : ImportTmxDialog, IAbstractPage<ConfirmReplacementDialog>
+	public class ConfirmReplacementDialog : ImportTmxDialog, IAbstractPage<ConfirmReplacementDialog>
 	{
 		public ConfirmReplacementDialog(WebDriver driver) : base(driver)
 		{

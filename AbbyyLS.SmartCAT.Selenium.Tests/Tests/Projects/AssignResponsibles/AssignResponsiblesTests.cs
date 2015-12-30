@@ -22,7 +22,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 				tasks: new[] { WorkflowTask.Translation, WorkflowTask.Proofreading }
 				);
 
-			_workspaceHelper.GoToProjectSettingsPage(_projectUniqueName);
+			_projectsPage.ClickProject(_projectUniqueName);
 
 			_projectSettingsPage
 				.ClickSettingsButton()
@@ -58,7 +58,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 					WorkflowTask.Editing}
 				);
 
-			_workspaceHelper.GoToProjectSettingsPage(_projectUniqueName);
+			_projectsPage.ClickProject(_projectUniqueName);
 
 			_projectSettingsPage
 				.ClickDocumentUploadButton()
@@ -69,9 +69,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 				.WaitUntilUploadDocumentDialogDissapeared()
 				.WaitUntilDocumentProcessed();
 
-			_workspaceHelper
-				.GoToProjectsPage()
-				.OpenAssignDialog(_projectUniqueName, documentNumber: 1);
+			_workspacePage.GoToProjectsPage();
+
+			_projectsPage.OpenAssignDialog(_projectUniqueName, documentNumber: 1);
 
 			_taskAssignmentPage
 				.SetResponsible(ThreadUser.NickName, isGroup: false, taskNumber: 1)
@@ -127,7 +127,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 				.SetResponsible(ThreadUser.NickName, isGroup: false, taskNumber: 2)
 				.ClickSaveButton();
 
-			_workspaceHelper.GoToProjectSettingsPage(_projectUniqueName);
+			_projectsPage.ClickProject(_projectUniqueName);
 
 			_projectSettingsPage.OpenDocumentInEditorWithTaskSelect(PathProvider.EditorTxtFile);
 		}

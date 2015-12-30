@@ -5,6 +5,7 @@ using NUnit.Framework;
 using AbbyyLS.SmartCAT.Selenium.Tests.DataStructures;
 using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor;
+using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings;
 using AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers;
 
@@ -17,8 +18,10 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Editor
 		public void SetupTest()
 		{
 			_createProjectHelper = new CreateProjectHelper(Driver);
+			_projectSettingsHelper = new ProjectSettingsHelper(Driver);
 			_selectTaskDialog = new SelectTaskDialog(Driver);
 			_editorPage = new EditorPage(Driver);
+			_projectsPage = new ProjectsPage(Driver);
 			_projectSettingsPage = new ProjectSettingsPage(Driver);
 
 			var projectUniqueName = _createProjectHelper.GetProjectUniqueName();
@@ -30,8 +33,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Editor
 				tmxFilePath: PathProvider.TmxFileForMatchTest,
 				useMachineTranslation: true);
 
-			_createProjectHelper
-				.GoToProjectSettingsPage(projectUniqueName)
+			_projectsPage.ClickProject(projectUniqueName);
+
+			_projectSettingsHelper
 				.AssignTasksOnDocument(PathProvider.TxtFileForMatchTest, ThreadUser.NickName);
 
 			_projectSettingsPage
@@ -80,6 +84,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Editor
 		}
 
 		private CreateProjectHelper _createProjectHelper;
+		private ProjectSettingsHelper _projectSettingsHelper;
+		private ProjectsPage _projectsPage;
 		private ProjectSettingsPage _projectSettingsPage;
 		private EditorPage _editorPage;
 		private SelectTaskDialog _selectTaskDialog;

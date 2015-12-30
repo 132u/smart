@@ -3,7 +3,7 @@
 using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
 using AbbyyLS.SmartCAT.Selenium.Tests.FeatureAttributes;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.UsersRights;
-using AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers;
+using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersRights
 {
@@ -16,8 +16,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersRights
 		public void SetupSortingInUsersRightsTests()
 		{
 			_usersTab = new UsersTab(Driver);
-			_workspaceHelper = new WorkspaceHelper(Driver);
-			_workspaceHelper.GoToUsersPage();
+			_workspacePage = new WorkspacePage(Driver);
+
+			_workspacePage.GoToUsersPage();
 		}
 
 		[Test]
@@ -84,7 +85,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersRights
 				"Произошла ошибка: \n при сортировке появился Alert.");
 		}
 
-		private WorkspaceHelper _workspaceHelper;
+		private WorkspacePage _workspacePage;
 		private UsersTab _usersTab;
 	}
 }

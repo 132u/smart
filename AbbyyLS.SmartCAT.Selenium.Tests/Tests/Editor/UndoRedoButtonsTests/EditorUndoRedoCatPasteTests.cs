@@ -1,11 +1,10 @@
-﻿using System.IO;
-
-using NUnit.Framework;
+﻿using NUnit.Framework;
 
 using AbbyyLS.SmartCAT.Selenium.Tests.DataStructures;
 using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
 using AbbyyLS.SmartCAT.Selenium.Tests.FeatureAttributes;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor;
+using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings;
 using AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers;
 
@@ -20,10 +19,11 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Editor.UndoRedoButtonsTests
 		{
 			_createProjectHelper = new CreateProjectHelper(Driver);
 			_editorPage = new EditorPage(Driver);
-			_workspaceHelper = new WorkspaceHelper(Driver);
 			_projectSettingsPage = new ProjectSettingsPage(Driver);
 			SettingsDialog = new SettingsDialog(Driver);
 			SelectTaskDialog = new SelectTaskDialog(Driver);
+			_projectsPage = new ProjectsPage(Driver);
+			_projectSettingsHelper = new ProjectSettingsHelper(Driver);
 			
 			var projectUniqueName = _createProjectHelper.GetProjectUniqueName();
 			
@@ -33,8 +33,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Editor.UndoRedoButtonsTests
 				tmxFilePath: PathProvider.EditorTmxFile,
 				createNewTm: true);
 
-			_workspaceHelper
-				.GoToProjectSettingsPage(projectUniqueName)
+			_projectsPage.ClickProject(projectUniqueName);
+
+			_projectSettingsHelper
 				.AssignTasksOnDocument(PathProvider.EditorTxtFile, ThreadUser.NickName);
 
 			_projectSettingsPage
@@ -91,8 +92,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Editor.UndoRedoButtonsTests
 		private CreateProjectHelper _createProjectHelper;
 		private EditorPage _editorPage;
 		private ProjectSettingsPage _projectSettingsPage;
-		private WorkspaceHelper _workspaceHelper;
 		protected SettingsDialog SettingsDialog;
 		public SelectTaskDialog SelectTaskDialog;
+		private ProjectsPage _projectsPage;
+		private ProjectSettingsHelper _projectSettingsHelper;
 	}
 }

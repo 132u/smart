@@ -56,7 +56,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 		{
 			CustomTestContext.WriteLine("Нажать кнопку Save в диалоге изменения сруктуры глоссария.");
 			SaveButton.Click();
-			WaitUntilDialogBackgroundDisappeared();
 
 			return new GlossaryPage(Driver).GetPage();
 		}
@@ -246,7 +245,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 			SelectSystemField(systemField);
 			ClickAddSystemFieldButton();
 			var glossaryPage = ClickSaveButton();
-			   
+
 			return glossaryPage.GetPage();
 		}
 

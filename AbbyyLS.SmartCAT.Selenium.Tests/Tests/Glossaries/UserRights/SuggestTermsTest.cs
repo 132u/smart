@@ -6,6 +6,8 @@ using AbbyyLS.SmartCAT.Selenium.Tests.DataStructures;
 using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
 using AbbyyLS.SmartCAT.Selenium.Tests.FeatureAttributes;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries;
+using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries.SuggestedTerms;
+using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace;
 using AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
@@ -17,26 +19,27 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 		[SetUp]
 		public void TestFixtureSetUp()
 		{
-			_workspaceHelper = new WorkspaceHelper(Driver);
+			_workspacePage = new WorkspacePage(Driver);
 			_glossariesHelper = new GlossariesHelper(Driver);
 			_suggestTermDialog = new SuggestTermDialog(Driver);
 			_glossaryPage = new GlossaryPage(Driver);
 			_glossariesPage = new GlossariesPage(Driver);
 			_suggestedTermsPageForCurrentGlossaries = new SuggestedTermsPageForCurrentGlossaries(Driver);
 			_suggestedTermsPageForAllGlossaries = new SuggestedTermsPageForAllGlossaries(Driver);
+			_selectGlossaryDialog = new SelectGlossaryDialog(Driver);
 
 			_term1 = "term1";
 			_term2 = "term2";
 
 			_glossaryName = GlossariesHelper.UniqueGlossaryName();
 
-			_workspaceHelper.GoToGlossariesPage();
+			_workspacePage.GoToGlossariesPage();
 
 			_glossariesPage.ClickSuggestedTermsButton();
 
 			_suggestedTermsPageForAllGlossaries.DeleteAllSuggestTerms();
 
-			_workspaceHelper.GoToGlossariesPage();
+			_workspacePage.GoToGlossariesPage();
 		}
 
 		[Test]
@@ -46,7 +49,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 
 			var suggestedTermsByGlossaryCountBefore = _suggestedTermsPageForAllGlossaries.GetTermsByGlossaryNameCount();
 
-			_glossariesHelper.GoToGlossariesPage();
+			_workspacePage.GoToGlossariesPage();
 
 			_glossariesPage.ClickSuggestTermButton();
 
@@ -63,9 +66,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 		[Test]
 		public void SuggestTermWithGlossaryTest()
 		{
-			_glossariesHelper
-				.CreateGlossary(_glossaryName)
-				.GoToGlossariesPage();
+			_glossariesHelper.CreateGlossary(_glossaryName);
+
+			_workspacePage.GoToGlossariesPage();
 
 			_glossariesPage.ClickSuggestTermButton();
 
@@ -90,7 +93,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 				.FillSuggestTermDialog(glossary: _glossaryName)
 				.ClickSaveButtonExpectingGlossaryPage();
 
-			_glossariesHelper.GoToGlossariesPage();
+			_workspacePage.GoToGlossariesPage();
 
 			_glossariesPage.ClickSuggestedTermsButton();
 
@@ -103,10 +106,11 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 		{
 			var glossaryName2 = GlossariesHelper.UniqueGlossaryName();
 
-			_glossariesHelper
-				.CreateGlossary(_glossaryName)
-				.GoToGlossariesPage()
-				.CreateGlossary(glossaryName2);
+			_glossariesHelper.CreateGlossary(_glossaryName);
+
+			_workspacePage.GoToGlossariesPage();
+
+			_glossariesHelper.CreateGlossary(glossaryName2);
 
 			_glossaryPage.ClickSuggestTermButton();
 
@@ -114,7 +118,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 				.FillSuggestTermDialog(glossary: _glossaryName)
 				.ClickSaveButtonExpectingGlossaryPage();
 
-			_glossariesHelper.GoToGlossariesPage();
+			_workspacePage.GoToGlossariesPage();
 
 			_glossariesPage.ClickSuggestedTermsButton();
 
@@ -129,9 +133,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 
 			var suggestedTermsByGlossaryCountBefore = _suggestedTermsPageForAllGlossaries.GetTermsByGlossaryNameCount();
 
-			_glossariesHelper
-				.GoToGlossariesPage()
-				.CreateGlossary(_glossaryName);
+			_workspacePage.GoToGlossariesPage();
+
+			_glossariesHelper.CreateGlossary(_glossaryName);
 
 			_glossaryPage.ClickSuggestTermButton();
 
@@ -139,7 +143,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 				.FillSuggestTermDialog(glossary: "")
 				.ClickSaveButtonExpectingGlossaryPage();
 
-			_glossariesHelper.GoToGlossariesPage();
+			_workspacePage.GoToGlossariesPage();
 
 			_glossariesPage.ClickSuggestedTermsButton();
 
@@ -210,7 +214,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 
 			_glossaryPage.CreateTerm(_term1, _term2);
 
-			_workspaceHelper.GoToGlossariesPage();
+			_workspacePage.GoToGlossariesPage();
 
 			_glossariesPage.ClickSuggestTermButton();
 
@@ -238,7 +242,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 
 			_glossaryPage.CreateTerm(_term1, _term2);
 
-			_workspaceHelper.GoToGlossariesPage();
+			_workspacePage.GoToGlossariesPage();
 
 			_glossariesPage.ClickSuggestTermButton();
 
@@ -278,14 +282,14 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 				.FillSuggestTermDialog(term1: _term1, term2: _term2)
 				.ClickSaveButtonExpectingGlossaryPage();
 
-			_glossariesHelper.GoToGlossariesPage();
+			_workspacePage.GoToGlossariesPage();
 
 			_glossariesPage.ClickSuggestedTermsButton();
 
 			_suggestedTermsPageForAllGlossaries
 				.AcceptSuggestTermInSuggestedTermsPageForAllGlossaries(glossaryName: _glossaryName);
 
-			_workspaceHelper.GoToGlossariesPage();
+			_workspacePage.GoToGlossariesPage();
 
 			_glossariesPage.ClickGlossaryRow(_glossaryName);
 
@@ -312,7 +316,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 			_suggestedTermsPageForCurrentGlossaries
 				.AcceptSuggestTermInSuggestedTermsPageForCurrentGlossary(termRowNumber: 1);
 
-			_workspaceHelper.GoToGlossariesPage();
+			_workspacePage.GoToGlossariesPage();
 
 			_glossariesPage.ClickGlossaryRow(_glossaryName);
 
@@ -336,9 +340,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 				.FillSuggestTermDialog(term1: _term1, term2: _term2)
 				.ClickSaveButtonExpectingGlossaryPage();
 
-			_glossariesHelper
-				.GoToGlossariesPage()
-				.CreateGlossary(glossaryName2);
+			_workspacePage.GoToGlossariesPage();
+
+			_glossariesHelper.CreateGlossary(glossaryName2);
 
 			_glossaryPage.ClickSuggestedTermsButton();
 
@@ -346,7 +350,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 				.SelectGlossaryInSuggestedTermsPageForCurrentGlossary(_glossaryName)
 				.AcceptSuggestTermInSuggestedTermsPageForCurrentGlossary(termRowNumber: 1);
 
-			_workspaceHelper.GoToGlossariesPage();
+			_workspacePage.GoToGlossariesPage();
 
 			_glossariesPage.ClickGlossaryRow(_glossaryName);
 
@@ -360,9 +364,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 		[Test]
 		public void AcceptSuggestedTermWithoutGlossaryFromGlossariesPageTest()
 		{
-			_glossariesHelper
-				.CreateGlossary(_glossaryName)
-				.GoToGlossariesPage();
+			_glossariesHelper.CreateGlossary(_glossaryName);
+
+			_workspacePage.GoToGlossariesPage();
 
 			_glossariesPage.ClickSuggestTermButton();
 
@@ -373,10 +377,11 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 			_glossariesPage.ClickSuggestedTermsButton();
 
 			_suggestedTermsPageForAllGlossaries
-				.AcceptSuggestTermInSuggestedTermsPageForAllGlossaries(chooseGlossary: true)
-				.SelectGlossaryForSuggestedTerm(_glossaryName);
+				.AcceptSuggestTermExpectingSelectGlossaryDialog();
 
-			_workspaceHelper.GoToGlossariesPage();
+			_selectGlossaryDialog.SelectGlossaryForSuggestedTerm(_glossaryName);
+
+			_workspacePage.GoToGlossariesPage();
 
 			_glossariesPage.ClickGlossaryRow(_glossaryName);
 
@@ -445,7 +450,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 			_suggestedTermsPageForCurrentGlossaries
 				.EditSuggestTermInSuggestedTermsPageForCurrentGlossary(termRowNumber: 1, termValue: editTerm);
 
-			_workspaceHelper.GoToGlossariesPage();
+			_workspacePage.GoToGlossariesPage();
 
 			_glossariesPage.ClickGlossaryRow(_glossaryName);
 
@@ -469,7 +474,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 				.FillSuggestTermDialog(term1: _term1, term2: _term2)
 				.ClickSaveButtonExpectingGlossaryPage();
 
-			_glossariesHelper.GoToGlossariesPage();
+			_workspacePage.GoToGlossariesPage();
 
 			_glossariesPage.ClickSuggestTermButton();
 
@@ -480,12 +485,16 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 			_glossariesPage.ClickSuggestedTermsButton();
 
 			_suggestedTermsPageForAllGlossaries
-				.EditSuggestTermInSuggestedTermsPageForAllGlossaries(
-					glossaryName: "",
-					termValue: editTerm,
-					glossaryToChoose: _glossaryName);
+				.EditSuggestTermInSuggestedTermsPageForAllGlossaries();
 
-			_workspaceHelper.GoToGlossariesPage();
+			_selectGlossaryDialog.SelectGlossaryForSuggestedTerm(_glossaryName);
+
+			_suggestedTermsPageForAllGlossaries
+				.FillSuggestedTermInEditMode(termNumber: 1, termValue: editTerm)
+				.FillSuggestedTermInEditMode(termNumber: 2, termValue: editTerm)
+				.ClickAcceptTermButtonInEditMode();
+
+			_workspacePage.GoToGlossariesPage();
 
 			_glossariesPage.ClickGlossaryRow(_glossaryName);
 
@@ -540,7 +549,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 			_suggestedTermsPageForCurrentGlossaries.AddSynonimInSuggestedTermsPageForCurrentGlossary(
 					termRowNumber: 1, addButtonNumber: 2, synonymValue: synonym);
 
-			_workspaceHelper.GoToGlossariesPage();
+			_workspacePage.GoToGlossariesPage();
 
 			_glossariesPage.ClickGlossaryRow(_glossaryName);
 
@@ -576,7 +585,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 		private string _term2;
 		private string _glossaryName;
 
-		private WorkspaceHelper _workspaceHelper;
+		private WorkspacePage _workspacePage;
+		private SelectGlossaryDialog _selectGlossaryDialog;
 		private GlossariesHelper _glossariesHelper;
 		private SuggestTermDialog _suggestTermDialog;
 		private GlossaryPage _glossaryPage;

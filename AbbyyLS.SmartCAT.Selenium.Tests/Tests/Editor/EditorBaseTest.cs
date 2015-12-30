@@ -5,6 +5,7 @@ using NUnit.Framework;
 using AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers;
 using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor;
+using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Editor
@@ -16,6 +17,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Editor
 		public void SetupTest()
 		{
 			_createProjectHelper = new CreateProjectHelper(Driver);
+			_projectsPage = new ProjectsPage(Driver);
 			_projectSettingsPage = new ProjectSettingsPage(Driver);
 			_settingsDialog = new SettingsDialog(Driver);
 			_projectSettingsHelper = new ProjectSettingsHelper(Driver);
@@ -24,12 +26,14 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Editor
 
 			var projectUniqueName = _createProjectHelper.GetProjectUniqueName();
 
-			_createProjectHelper
-				.CreateNewProject(projectUniqueName, filePath: PathProvider.EditorTxtFile)
-				.GoToProjectSettingsPage(projectUniqueName)
+			_createProjectHelper.CreateNewProject(projectUniqueName, filePath: PathProvider.EditorTxtFile);
+
+			_projectsPage.ClickProject(projectUniqueName);
+
+			_projectSettingsHelper
 				.AssignTasksOnDocument(PathProvider.EditorTxtFile, ThreadUser.NickName);
 
-			_projectSettingsPage.OpenDocumentInEditorWithTaskSelect(PathProvider.EditorTxtFile);
+			_projectSettingsPage.OpenDocumentInEditorWithTaskSelect(Path.GetFileNameWithoutExtension(PathProvider.EditorTxtFile));
 
 			_selectTaskDialog.SelectTask();
 
@@ -41,6 +45,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Editor
 		protected ProjectSettingsPage _projectSettingsPage;
 		protected SettingsDialog _settingsDialog;
 		protected EditorPage _editorPage;
+		protected ProjectsPage _projectsPage;
 		protected SelectTaskDialog _selectTaskDialog;
 	}
 }

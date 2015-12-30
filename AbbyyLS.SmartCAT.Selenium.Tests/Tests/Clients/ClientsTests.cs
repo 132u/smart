@@ -5,7 +5,7 @@ using AbbyyLS.SmartCAT.Selenium.Tests.FeatureAttributes;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Client;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories;
-using AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers;
+using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Clients
 {
@@ -18,15 +18,15 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Clients
 		[SetUp]
 		public void SetUpClientTest()
 		{
-			_workspaceHelper = new WorkspaceHelper(Driver);
-			_workspaceHelper.GoToClientsPage();
+			_workspacePage = new WorkspacePage(Driver);
 			_clientsPage = new ClientsPage(Driver);
 			_translationMemoriesPage = new TranslationMemoriesPage(Driver);
 			_newTranslationMemoryDialog = new NewTranslationMemoryDialog(Driver);
 			_glossariesPage = new GlossariesPage(Driver);
 			_newGlossaryDialog = new NewGlossaryDialog(Driver);
-
 			_clientName = _clientsPage.GetClientUniqueName();
+
+			_workspacePage.GoToClientsPage();
 		}
 
 		[Test]
@@ -64,7 +64,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Clients
 		{
 			_clientsPage.CreateNewClient(_clientName);
 
-			_workspaceHelper.GoToTranslationMemoriesPage();
+			_workspacePage.GoToTranslationMemoriesPage();
 
 			_translationMemoriesPage
 				.ClickCreateNewTmButton()
@@ -79,7 +79,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Clients
 		{
 			_clientsPage.CreateNewClient(_clientName);
 
-			_workspaceHelper.GoToGlossariesPage();
+			_workspacePage.GoToGlossariesPage();
 
 			_glossariesPage
 				.ClickCreateGlossaryButton()
@@ -148,8 +148,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Clients
 			_clientsPage
 				.CreateNewClient(_clientName)
 				.DeleteClient(_clientName);
-			
-			_workspaceHelper.GoToTranslationMemoriesPage();
+
+			_workspacePage.GoToTranslationMemoriesPage();
 
 			_translationMemoriesPage
 				.ClickCreateNewTmButton()
@@ -166,7 +166,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Clients
 				.CreateNewClient(_clientName)
 				.DeleteClient(_clientName);
 
-			_workspaceHelper.GoToGlossariesPage();
+			_workspacePage.GoToGlossariesPage();
 
 			_glossariesPage
 				.ClickCreateGlossaryButton()
@@ -179,7 +179,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Clients
 		private ClientsPage _clientsPage;
 		private TranslationMemoriesPage _translationMemoriesPage;
 		private NewTranslationMemoryDialog _newTranslationMemoryDialog;
-		private WorkspaceHelper _workspaceHelper;
+		private WorkspacePage _workspacePage;
 		private GlossariesPage _glossariesPage;
 		private NewGlossaryDialog _newGlossaryDialog;
 

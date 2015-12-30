@@ -1,6 +1,4 @@
-﻿using System.IO;
-
-using NUnit.Framework;
+﻿using NUnit.Framework;
 
 using AbbyyLS.SmartCAT.Selenium.Tests.DataStructures;
 using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
@@ -12,6 +10,7 @@ using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.DocumentUploadDialog;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.UsersRights;
+using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace;
 using AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersRights
@@ -38,7 +37,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersRights
 			_newProjectDocumentUploadPage = new NewProjectDocumentUploadPage(Driver);
 			_editorPage = new EditorPage(Driver);
 			_projectSettingsPage = new ProjectSettingsPage(Driver);
-			_workspaceHelper = new WorkspaceHelper(Driver);
+			_workspacePage = new WorkspacePage(Driver);
 			_taskAssignmentPage = new TaskAssignmentPage(Driver);
 			_loginHelper = new LoginHelper(Driver);
 			_usersTab = new UsersTab(Driver);
@@ -51,19 +50,20 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersRights
 
 			_projectUniqueName = _createProjectHelper.GetProjectUniqueName();
 
-			_createProjectHelper
-				.CreateNewProject(_projectUniqueName, filePath: document1)
-				.GoToProjectSettingsPage(_projectUniqueName);
+			_createProjectHelper.CreateNewProject(_projectUniqueName, filePath: document1);
+
+			_projectsPage.ClickProject(_projectUniqueName);
 
 			_projectSettingsHelper.UploadDocument(new[] { document2 });
 
 			_groupName = _groupsAndAccessRightsTab.GetGroupUniqueName();
 
-			_workspaceHelper.GoToUsersPage();
+			_workspacePage.GoToUsersPage();
 
 			_usersTab.ClickGroupsButton();
 
 			_groupsAndAccessRightsTab.RemoveUserFromAllGroups(AdditionalUser.NickName);
+
 			_newGroupDialog
 				.OpenNewGroupDialog()
 				.CreateNewGroup(_groupName);
@@ -80,13 +80,13 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersRights
 
 			_groupsAndAccessRightsTab.ClickSaveButton(_groupName);
 
-			_workspaceHelper.GoToProjectsPage();
+			_workspacePage.GoToProjectsPage();
 
-			_projectSettingsHelper.GoToProjectSettingsPage(_projectUniqueName);
+			_projectsPage.ClickProject(_projectUniqueName);
 
 			_projectSettingsHelper.AssignTasksOnDocument(document1, AdditionalUser.NickName);
 
-			_workspaceHelper.SignOut();
+			_workspacePage.SignOut();
 
 			_loginHelper.LogInSmartCat(
 				AdditionalUser.Login,
@@ -121,9 +121,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersRights
 
 			_groupsAndAccessRightsTab.ClickSaveButton(_groupName);
 
-			_workspaceHelper.GoToProjectsPage();
+			_workspacePage.GoToProjectsPage();
 
-			_projectSettingsHelper.GoToProjectSettingsPage(_projectUniqueName);
+			_projectsPage.ClickProject(_projectUniqueName);
 
 			_projectSettingsHelper.OpenWorkflowSettings();
 
@@ -135,7 +135,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersRights
 				.AssignTasksOnDocument(document1, AdditionalUser.NickName)
 				.AssignTasksOnDocument(document2, AdditionalUser.NickName, taskNumber: 2);
 
-			_workspaceHelper.SignOut();
+			_workspacePage.SignOut();
 
 			_loginHelper.LogInSmartCat(
 				AdditionalUser.Login,
@@ -165,13 +165,13 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersRights
 		[Description("ТС-73")]
 		public void NoViewRightToProjectTest()
 		{
-			_workspaceHelper.GoToProjectsPage();
+			_workspacePage.GoToProjectsPage();
 
-			_projectSettingsHelper.GoToProjectSettingsPage(_projectUniqueName);
+			_projectsPage.ClickProject(_projectUniqueName);
 
 			_projectSettingsHelper.AssignTasksOnDocument(document1, AdditionalUser.NickName);
 
-			_workspaceHelper.SignOut();
+			_workspacePage.SignOut();
 
 			_loginHelper.LogInSmartCat(
 				AdditionalUser.Login,
@@ -195,13 +195,14 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersRights
 
 			_groupsAndAccessRightsTab.ClickSaveButton(_groupName);
 
-			_workspaceHelper.GoToProjectsPage();
+			_workspacePage.GoToProjectsPage();
+
+			_projectsPage.ClickProject(_projectUniqueName);
 
 			_projectSettingsHelper
-				.GoToProjectSettingsPage(_projectUniqueName)
 				.AssignTasksOnDocument(document1, AdditionalUser.NickName);
 
-			_workspaceHelper.SignOut();
+			_workspacePage.SignOut();
 
 			_loginHelper.LogInSmartCat(
 				AdditionalUser.Login,
@@ -238,9 +239,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersRights
 
 			_groupsAndAccessRightsTab.ClickSaveButton(_groupName);
 
-			_workspaceHelper.GoToProjectsPage();
+			_workspacePage.GoToProjectsPage();
 
-			_projectSettingsHelper.GoToProjectSettingsPage(_projectUniqueName);
+			_projectsPage.ClickProject(_projectUniqueName);
 
 			_projectSettingsHelper.OpenWorkflowSettings();
 
@@ -252,7 +253,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersRights
 				.AssignTasksOnDocument(document1, AdditionalUser.NickName)
 				.AssignTasksOnDocument(document2, AdditionalUser.NickName, taskNumber: 2);
 
-			_workspaceHelper.SignOut();
+			_workspacePage.SignOut();
 
 			_loginHelper.LogInSmartCat(
 				AdditionalUser.Login,
@@ -288,15 +289,15 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersRights
 		[Description("ТС-742")]
 		public void NoManageRightToProjectTest()
 		{
-			_workspaceHelper.GoToProjectsPage();
+			_workspacePage.GoToProjectsPage();
 
-			_projectSettingsHelper.GoToProjectSettingsPage(_projectUniqueName);
+			_projectsPage.ClickProject(_projectUniqueName);
 
 			_projectSettingsHelper.AssignTasksOnDocument(
 				document1,
 				AdditionalUser.NickName);
 
-			_workspaceHelper.SignOut();
+			_workspacePage.SignOut();
 
 			_loginHelper.LogInSmartCat(
 				AdditionalUser.Login,
@@ -320,13 +321,14 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersRights
 
 			_groupsAndAccessRightsTab.ClickSaveButton(_groupName);
 
-			_workspaceHelper.GoToProjectsPage();
+			_workspacePage.GoToProjectsPage();
+
+			_projectsPage.ClickProject(_projectUniqueName);
 
 			_projectSettingsHelper
-				.GoToProjectSettingsPage(_projectUniqueName)
 				.AssignTasksOnDocument(document1, AdditionalUser.NickName);
 
-			_workspaceHelper.SignOut();
+			_workspacePage.SignOut();
 
 			_loginHelper.LogInSmartCat(
 				AdditionalUser.Login,
@@ -365,9 +367,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersRights
 
 			_groupsAndAccessRightsTab.ClickSaveButton(_groupName);
 
-			_workspaceHelper.GoToProjectsPage();
+			_workspacePage.GoToProjectsPage();
 
-			_workspaceHelper.GoToProjectSettingsPage(_projectUniqueName);
+			_projectsPage.ClickProject(_projectUniqueName);
 
 			_projectSettingsHelper.OpenWorkflowSettings();
 
@@ -379,7 +381,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersRights
 				.AssignTasksOnDocument(document1, AdditionalUser.NickName)
 				.AssignTasksOnDocument(document2, AdditionalUser.NickName, taskNumber: 2);
 
-			_workspaceHelper.SignOut();
+			_workspacePage.SignOut();
 
 			_loginHelper.LogInSmartCat(
 				AdditionalUser.Login,
@@ -433,7 +435,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersRights
 		protected NewProjectWorkflowPage _newProjectWorkflowPage;
 		protected NewProjectSettingsPage _newProjectSettingsPage;
 		protected EditorPage _editorPage;
-		protected WorkspaceHelper _workspaceHelper;
+		protected WorkspacePage _workspacePage;
 		protected DistributeDocumentBetweenAssigneesPage _distributeDocumentBetweenAssigneesPage;
 		protected DistributeSegmentsBetweenAssigneesPage _distributeSegmentsBetweenAssigneesPage;
 		protected DocumentUploadGeneralInformationDialog _documentUploadGeneralInformationDialog;

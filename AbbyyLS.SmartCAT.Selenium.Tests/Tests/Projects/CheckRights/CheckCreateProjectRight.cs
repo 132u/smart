@@ -9,6 +9,7 @@ using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.DocumentUploadDialog;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.UsersRights;
+using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace;
 using AbbyyLS.SmartCAT.Selenium.Tests.TestFramework;
 using AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers;
 
@@ -26,7 +27,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 		public void OneTimeSetUp()
 		{
 			_createProjectHelper = new CreateProjectHelper(Driver);
-			_workspaceHelper = new WorkspaceHelper(Driver);
+			_workspacePage = new WorkspacePage(Driver);
 			_loginHelper = new LoginHelper(Driver);
 			_projectsPage = new ProjectsPage(Driver);
 			_deleteDialog = new DeleteDialog(Driver);
@@ -44,9 +45,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 
 			_loginHelper.Authorize(StartPage.Workspace, ThreadUser);
 
-			_workspaceHelper
-				.CloseTour()
-				.GoToUsersPage();
+			_workspacePage.GoToUsersPage();
 
 			_usersTab
 				.ClickGroupsButton()
@@ -63,15 +62,13 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 
 			_groupsAndAccessRightsTab.AddUserToGroupIfNotAlredyAdded(groupName, AdditionalUser.NickName);
 
-			_workspaceHelper.SignOut();
+			_workspacePage.SignOut();
 		}
 
 		[SetUp]
 		public void SetUp()
 		{
 			_loginHelper.Authorize(StartPage.Workspace, AdditionalUser);
-
-			_workspaceHelper.CloseTour();
 
 			_exportNotification.CancelAllNotifiers<ProjectsPage>();
 
@@ -297,7 +294,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 		}
 
 		protected CreateProjectHelper _createProjectHelper;
-		protected WorkspaceHelper _workspaceHelper;
+		protected WorkspacePage _workspacePage;
 		protected LoginHelper _loginHelper;
 		private string _projectUniqueName;
 

@@ -7,10 +7,14 @@ using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 {
-	public class GlossariesHelper : WorkspaceHelper
+	public class GlossariesHelper
 	{
-		public GlossariesHelper(WebDriver driver) : base(driver)
+		public WebDriver Driver { get; private set; }
+
+		public GlossariesHelper(WebDriver driver)
 		{
+			Driver = driver;
+
 			_glossariesPage = new GlossariesPage(Driver);
 			_newGlossaryDialog = new NewGlossaryDialog(Driver);
 		}
@@ -62,9 +66,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 			}
 			else
 			{
-				_newGlossaryDialog
-					.ClickSaveGlossaryButton()
-					.AssertDialogBackgroundDisappeared<GlossaryPage>(Driver);
+				_newGlossaryDialog.ClickSaveGlossaryButton();
 			}
 
 			return this;

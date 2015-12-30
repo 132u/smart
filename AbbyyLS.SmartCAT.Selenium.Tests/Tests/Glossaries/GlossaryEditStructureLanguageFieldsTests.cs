@@ -4,6 +4,7 @@ using AbbyyLS.SmartCAT.Selenium.Tests.DataStructures;
 using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
 using AbbyyLS.SmartCAT.Selenium.Tests.FeatureAttributes;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries;
+using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace;
 using AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
@@ -16,14 +17,14 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 		public void SetUpGlossaryEditStructureLanguageFieldsTests()
 		{
 			_glossaryHelper = new GlossariesHelper(Driver);
-			_workspaceHelper = new WorkspaceHelper(Driver);
+			_workspacePage = new WorkspacePage(Driver);
 			_glossaryPage = new GlossaryPage(Driver);
 			_glossaryHelper = new GlossariesHelper(Driver);
 			_glossaryStructureDialog = new GlossaryStructureDialog(Driver);
 
 			_glossaryUniqueName = GlossariesHelper.UniqueGlossaryName();
 
-			_workspaceHelper.GoToGlossariesPage();
+			_workspacePage.GoToGlossariesPage();
 
 			_glossaryHelper.CreateGlossary(_glossaryUniqueName);
 
@@ -84,7 +85,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 		}
 
 		private GlossariesHelper _glossaryHelper;
-		private WorkspaceHelper _workspaceHelper;
+		private WorkspacePage _workspacePage;
 		private GlossaryPage _glossaryPage;
 		private GlossaryStructureDialog _glossaryStructureDialog;
 		private string _glossaryUniqueName;

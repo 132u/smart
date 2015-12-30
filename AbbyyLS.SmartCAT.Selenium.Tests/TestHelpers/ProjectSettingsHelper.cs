@@ -13,10 +13,14 @@ using AbbyyLS.SmartCAT.Selenium.Tests.TestFramework;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 {
-	public class ProjectSettingsHelper : WorkspaceHelper
+	public class ProjectSettingsHelper
 	{
-		public ProjectSettingsHelper(WebDriver driver) : base(driver)
+		public WebDriver Driver { get; private set; }
+
+		public ProjectSettingsHelper(WebDriver driver)
 		{
+			Driver = driver;
+
 			_documentSettingsDialog = new DocumentSettingsDialog(Driver);
 			_projectPage = new ProjectSettingsPage(Driver);
 			_documentUploadGeneralInformationDialog = new DocumentUploadGeneralInformationDialog(Driver);
@@ -129,7 +133,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 				.HoverGlossaryTableDocumentSettingsDialog()
 				.ClickGlossaryByName(glossaryName)
 				.ClickSaveButton<ProjectSettingsPage>(Driver)
-				.AssertDialogBackgroundDisappeared<ProjectSettingsPage>(Driver)
+				.WaitDeleteDocumentDialogDissappeared()
 				.ClickDocumentProgress(documentName);
 
 			return this;

@@ -7,6 +7,7 @@ using NUnit.Framework;
 using AbbyyLS.SmartCAT.Selenium.Tests.DataStructures;
 using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries;
+using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace;
 using AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
@@ -17,7 +18,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 		[SetUp]
 		public void GlossariesSetUp()
 		{
-			_workspaceHelper = new WorkspaceHelper(Driver);
+			_workspacePage = new WorkspacePage(Driver);
 			_glossaryPage = new GlossaryPage(Driver);
 			_glossariesPage = new GlossariesPage(Driver);
 			_newGlossaryDialog = new NewGlossaryDialog(Driver);
@@ -25,16 +26,18 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 			_glossaryImportDialog = new GlossaryImportDialog(Driver);
 			_glossarySuccessImportDialog = new GlossarySuccessImportDialog(Driver);
 			_glossaryStructureDialog = new GlossaryStructureDialog(Driver);
-			_glossaryHelper = _workspaceHelper.GoToGlossariesPage();
+			_glossariesHelper = new GlossariesHelper(Driver);
 			_glossaryUniqueName = GlossariesHelper.UniqueGlossaryName();
+
+			_workspacePage.GoToGlossariesPage();
 		}
 
 		[Test]
 		public void CreateGlossaryTest()
 		{
-			_glossaryHelper
-				.CreateGlossary(_glossaryUniqueName)
-				.GoToGlossariesPage();
+			_glossariesHelper.CreateGlossary(_glossaryUniqueName);
+
+			_workspacePage.GoToGlossariesPage();
 
 			Assert.IsTrue(_glossariesPage.IsGlossaryExist(_glossaryUniqueName),
 				"Произошла ошибка:\n глоссарий отсутствует в списке");
@@ -44,7 +47,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 		[Test]
 		public void CreateGlossaryWithoutNameTest()
 		{
-			_glossaryHelper.CreateGlossary("", errorExpected: true);
+			_glossariesHelper.CreateGlossary("", errorExpected: true);
 
 			Assert.IsTrue(_newGlossaryDialog.IsSpecifyGlossaryNameErrorDisplayed(),
 				"Произошла ошибка:\n сообщение 'Specify glossary name' не появилось.");
@@ -53,11 +56,11 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 		[Test]
 		public void CreateGlossaryWithExistingNameTest()
 		{
-			_glossaryHelper
-				.CreateGlossary(_glossaryUniqueName)
-				.GoToGlossariesPage();
+			_glossariesHelper.CreateGlossary(_glossaryUniqueName);
 
-			_glossaryHelper.CreateGlossary(_glossaryUniqueName, errorExpected: true);
+			_workspacePage.GoToGlossariesPage();
+
+			_glossariesHelper.CreateGlossary(_glossaryUniqueName, errorExpected: true);
 
 			Assert.IsTrue(_newGlossaryDialog.IsExistNameErrorDisplayed(),
 				"Произошла ошибка:\n сообщение 'A glossary with this name already exists' не появилось");
@@ -95,9 +98,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 		[Ignore("PRX-10784"), Test]
 		public void CreatedDateGlossaryTest()
 		{
-			_glossaryHelper
-				.CreateGlossary(_glossaryUniqueName)
-				.GoToGlossariesPage();
+			_glossariesHelper.CreateGlossary(_glossaryUniqueName);
+
+			_workspacePage.GoToGlossariesPage();
 
 			Assert.IsTrue(_glossariesPage.IsDateModifiedMatchCurrentDate(_glossaryUniqueName),
 				"Произошла ошибка:\n дата создания глоссария не совпадет с текущей датой");
@@ -106,9 +109,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 		[Test]
 		public void ModifiedDateGlossaryTest()
 		{
-			_glossaryHelper
-				.CreateGlossary(_glossaryUniqueName)
-				.GoToGlossariesPage();
+			_glossariesHelper.CreateGlossary(_glossaryUniqueName);
+
+			_workspacePage.GoToGlossariesPage();
 
 			var modifiedDateBefore = _glossariesPage.GlossaryDateModified(_glossaryUniqueName);
 
@@ -119,7 +122,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 
 			_glossaryPage.CreateTerm();
 
-			_workspaceHelper.GoToGlossariesPage();
+			_workspacePage.GoToGlossariesPage();
 
 			var modifiedDateAfter = _glossariesPage.GlossaryDateModified(_glossaryUniqueName);
 
@@ -130,9 +133,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 		[Test]
 		public void ModifiedByAuthorTest()
 		{
-			_glossaryHelper
-				.CreateGlossary(_glossaryUniqueName)
-				.GoToGlossariesPage();
+			_glossariesHelper.CreateGlossary(_glossaryUniqueName);
+
+			_workspacePage.GoToGlossariesPage();
 
 			var modifiedBy = _glossariesPage.GetModifiedByAuthor(_glossaryUniqueName);
 
@@ -143,7 +146,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 		[Test]
 		public void DeleteGlossaryTest()
 		{
-			_glossaryHelper.CreateGlossary(_glossaryUniqueName);
+			_glossariesHelper.CreateGlossary(_glossaryUniqueName);
 
 			_glossaryPage.OpenGlossaryProperties();
 
@@ -161,7 +164,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 		[Test]
 		public void DeleteLanguageExistTermTest()
 		{
-			_glossaryHelper.CreateGlossary(_glossaryUniqueName);
+			_glossariesHelper.CreateGlossary(_glossaryUniqueName);
 
 			_glossaryPage
 				.CreateTerm()
@@ -181,7 +184,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 		[Test]
 		public void EditGlossaryStructureTest()
 		{
-			_glossaryHelper.CreateGlossary(_glossaryUniqueName);
+			_glossariesHelper.CreateGlossary(_glossaryUniqueName);
 
 			_glossaryPage.OpenGlossaryStructure();
 
@@ -196,7 +199,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 		[Test]
 		public void ImportGlossaryTest()
 		{
-			_glossaryHelper.CreateGlossary(_glossaryUniqueName);
+			_glossariesHelper.CreateGlossary(_glossaryUniqueName);
 
 			_glossaryPage.ClickImportButton();
 
@@ -213,7 +216,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 		[Test]
 		public void ImportGlossaryReplaceAllTermsTest()
 		{
-			_glossaryHelper.CreateGlossary(_glossaryUniqueName);
+			_glossariesHelper.CreateGlossary(_glossaryUniqueName);
 
 			_glossaryPage
 				.CreateTerm()
@@ -234,7 +237,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 		[Test]
 		public void ExportGlossaryTest()
 		{
-			_glossaryHelper.CreateGlossary(_glossaryUniqueName);
+			_glossariesHelper.CreateGlossary(_glossaryUniqueName);
 
 			_glossaryPage
 				.CreateTerm()
@@ -252,7 +255,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 		{
 			var newGlossaryName = GlossariesHelper.UniqueGlossaryName();
 
-			_glossaryHelper.CreateGlossary(_glossaryUniqueName);
+			_glossariesHelper.CreateGlossary(_glossaryUniqueName);
 
 			_glossaryPage.OpenGlossaryProperties();
 
@@ -260,7 +263,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 				.FillGlossaryName(newGlossaryName)
 				.ClickSaveButton();
 
-			_glossaryHelper.GoToGlossariesPage();
+			_workspacePage.GoToGlossariesPage();
 
 			Assert.IsTrue(_glossariesPage.IsGlossaryExist(newGlossaryName),
 				"Произошла ошибка:\n глоссарий отсутствует в списке");
@@ -272,10 +275,11 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 		[Test]
 		public void ChangeGlossaryExistingNameTest()
 		{
-			_glossaryHelper
-				.CreateGlossary(_glossaryUniqueName)
-				.GoToGlossariesPage()
-				.CreateGlossary(_glossaryUniqueName + "2");
+			_glossariesHelper.CreateGlossary(_glossaryUniqueName);
+
+			_workspacePage.GoToGlossariesPage();
+
+			_glossariesHelper.CreateGlossary(_glossaryUniqueName + "2");
 
 			_glossaryPage.OpenGlossaryProperties();
 
@@ -291,7 +295,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 		[TestCase(" ")]
 		public void ChangeGlossaryEmptyNameTest(string newGlossaryName)
 		{
-			_glossaryHelper.CreateGlossary(_glossaryUniqueName);
+			_glossariesHelper.CreateGlossary(_glossaryUniqueName);
 
 			_glossaryPage.OpenGlossaryProperties();
 
@@ -306,7 +310,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 		[Test]
 		public void OpenStructureFromPropertiesTest()
 		{
-			_glossaryHelper.CreateGlossary(_glossaryUniqueName);
+			_glossariesHelper.CreateGlossary(_glossaryUniqueName);
 
 			_glossaryPage.OpenGlossaryProperties();
 
@@ -316,7 +320,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 		[Test]
 		public void CreateMultiLanguageGlossaryTest()
 		{
-			_glossaryHelper
+			_glossariesHelper
 				.CreateGlossary(
 					_glossaryUniqueName,
 					languageList: new List<Language>
@@ -325,15 +329,16 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 							 Language.French,
 							 Language.Japanese,
 							 Language.Lithuanian
-						})
-				.GoToGlossariesPage();
+						});
+
+			_workspacePage.GoToGlossariesPage();
 
 			Assert.IsTrue(_glossariesPage.IsGlossaryExist(_glossaryUniqueName),
 				"Произошла ошибка:\n глоссарий отсутствует в списке");
 		}
 
-		private GlossariesHelper _glossaryHelper;
-		private WorkspaceHelper _workspaceHelper;
+		private GlossariesHelper _glossariesHelper;
+		private WorkspacePage _workspacePage;
 		private GlossaryPage _glossaryPage;
 		private GlossariesPage _glossariesPage;
 		private NewGlossaryDialog _newGlossaryDialog;

@@ -7,8 +7,10 @@ using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
 using AbbyyLS.SmartCAT.Selenium.Tests.FeatureAttributes;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries;
+using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.UsersRights;
+using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace;
 using AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
@@ -21,7 +23,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 		public void GlossariesSetUp()
 		{
 			_createProjectHelper = new CreateProjectHelper(Driver);
-			_workspaceHelper = new WorkspaceHelper(Driver);
+			_projectSettingsHelper = new ProjectSettingsHelper(Driver);
+			_workspacePage = new WorkspacePage(Driver);
 			_editorPage = new EditorPage(Driver);
 			_selectTaskDialog = new SelectTaskDialog(Driver);
 			_addTermDialog = new AddTermDialog(Driver);
@@ -30,23 +33,24 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 			_confirmTermWithoutTranskationDialog = new ConfirmTermWithoutTranskationDialog(Driver);
 			_glossaryPage = new GlossaryPage(Driver);
 			_glossariesPage = new GlossariesPage(Driver);
-
+			_projectsPage = new ProjectsPage(Driver);
 			_projectName = _createProjectHelper.GetProjectUniqueName();
 			_glossaryName = GlossariesHelper.UniqueGlossaryName();
 
-			_workspaceHelper.GoToUsersPage();
+			_workspacePage.GoToUsersPage();
 
 			_usersTab
 				.ClickGroupsButton()
 				.AddUserToGroupIfNotAlredyAdded("Administrators", ThreadUser.NickName);
 
-			_workspaceHelper.GoToProjectsPage();
+			_workspacePage.GoToProjectsPage();
 
-			_createProjectHelper
-				.CreateNewProject(_projectName, glossaryName: _glossaryName)
-				.GoToProjectSettingsPage(_projectName)
+			_createProjectHelper.CreateNewProject(_projectName, glossaryName: _glossaryName);
+
+			_projectsPage.ClickProject(_projectName);
+
+			_projectSettingsHelper
 				.UploadDocument(new []{PathProvider.DocumentFile})
-				.RefreshPage<ProjectSettingsPage, ProjectSettingsHelper>()
 				.AssignTasksOnDocument(PathProvider.DocumentFile, ThreadUser.NickName);
 
 			_projectSettingsPage
@@ -137,7 +141,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 
 			_editorPage.ClickHomeButtonExpectingProjectSettingsPage();
 
-			_workspaceHelper.GoToGlossariesPage();
+			_workspacePage.GoToGlossariesPage();
 
 			_glossariesPage.ClickGlossaryRow(_glossaryName);
 
@@ -166,7 +170,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 
 			_editorPage.ClickHomeButtonExpectingProjectSettingsPage();
 
-			_workspaceHelper.GoToGlossariesPage();
+			_workspacePage.GoToGlossariesPage();
 
 			_glossariesPage.ClickGlossaryRow(_glossaryName);
 
@@ -189,7 +193,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 
 			_editorPage.ClickHomeButtonExpectingProjectSettingsPage();
 
-			_workspaceHelper.GoToGlossariesPage();
+			_workspacePage.GoToGlossariesPage();
 
 			_glossariesPage.ClickGlossaryRow(_glossaryName);
 
@@ -214,7 +218,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 
 			_editorPage.ClickHomeButtonExpectingProjectSettingsPage();
 
-			_workspaceHelper.GoToGlossariesPage();
+			_workspacePage.GoToGlossariesPage();
 
 			_glossariesPage.ClickGlossaryRow(_glossaryName);
 
@@ -242,7 +246,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 
 			_editorPage.ClickHomeButtonExpectingProjectSettingsPage();
 
-			_workspaceHelper.GoToGlossariesPage();
+			_workspacePage.GoToGlossariesPage();
 
 			_glossariesPage.ClickGlossaryRow(_glossaryName);
 
@@ -281,7 +285,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 
 			_editorPage.ClickHomeButtonExpectingProjectSettingsPage();
 
-			_workspaceHelper.GoToGlossariesPage();
+			_workspacePage.GoToGlossariesPage();
 
 			_glossariesPage.ClickGlossaryRow(_glossaryName);
 
@@ -320,7 +324,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 
 			_editorPage.ClickHomeButtonExpectingProjectSettingsPage();
 
-			_workspaceHelper.GoToGlossariesPage();
+			_workspacePage.GoToGlossariesPage();
 
 			_glossariesPage.ClickGlossaryRow(_glossaryName);
 
@@ -358,7 +362,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 
 			_editorPage.ClickHomeButtonExpectingProjectSettingsPage();
 
-			_workspaceHelper.GoToGlossariesPage();
+			_workspacePage.GoToGlossariesPage();
 
 			_glossariesPage.ClickGlossaryRow(_glossaryName);
 
@@ -382,7 +386,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 
 			_editorPage.ClickHomeButtonExpectingProjectSettingsPage();
 
-			_workspaceHelper.GoToGlossariesPage();
+			_workspacePage.GoToGlossariesPage();
 
 			_glossariesPage.ClickGlossaryRow(_glossaryName);
 
@@ -405,14 +409,15 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 
 			_editorPage.ClickHomeButtonExpectingProjectSettingsPage();
 
-			_workspaceHelper.GoToGlossariesPage();
+			_workspacePage.GoToGlossariesPage();
 
 			_glossariesPage.ClickGlossaryRow(_glossaryName);
 
 			_glossaryPage.DeleteTerm(source);
 
-			_workspaceHelper.GoToProjectsPage();
-			_workspaceHelper.GoToProjectSettingsPage(_projectName);
+			_workspacePage.GoToProjectsPage();
+
+			_projectsPage.ClickProject(_projectName);
 
 			_projectSettingsPage
 				.OpenDocumentInEditorWithTaskSelect(PathProvider.DocumentFile);
@@ -425,7 +430,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 
 			_editorPage.ClickHomeButtonExpectingProjectSettingsPage();
 
-			_workspaceHelper.GoToGlossariesPage();
+			_workspacePage.GoToGlossariesPage();
 
 			_glossariesPage.ClickGlossaryRow(_glossaryName);
 
@@ -437,13 +442,15 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 		}
 
 		private CreateProjectHelper _createProjectHelper;
-		private WorkspaceHelper _workspaceHelper;
+		private ProjectSettingsHelper _projectSettingsHelper;
+		private WorkspacePage _workspacePage;
 		private EditorPage _editorPage;
 		private SelectTaskDialog _selectTaskDialog;
 		private AddTermDialog _addTermDialog;
 		private ConfirmTermWithoutTranskationDialog _confirmTermWithoutTranskationDialog;
 
 		private UsersTab _usersTab;
+		private ProjectsPage _projectsPage;
 		private ProjectSettingsPage _projectSettingsPage;
 		private GlossaryPage _glossaryPage;
 		private GlossariesPage _glossariesPage;

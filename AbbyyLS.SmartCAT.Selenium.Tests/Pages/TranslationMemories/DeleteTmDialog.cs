@@ -8,7 +8,7 @@ using AbbyyLS.SmartCAT.Selenium.Tests.TestFramework;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories
 {
-	class DeleteTmDialog : TranslationMemoriesPage, IAbstractPage<DeleteTmDialog>
+	public class DeleteTmDialog : TranslationMemoriesPage, IAbstractPage<DeleteTmDialog>
 	{
 		public DeleteTmDialog(WebDriver driver) : base(driver)
 		{
@@ -24,7 +24,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories
 
 		public new void LoadPage()
 		{
-			if (IsDeleteConfirmatonDialogPresent())
+			if (!IsDeleteConfirmatonDialogPresent())
 			{
 				throw new XPathLookupException("Произошла ошибка: \nне открылся диалог подтверждения удаления ТМ");
 			}

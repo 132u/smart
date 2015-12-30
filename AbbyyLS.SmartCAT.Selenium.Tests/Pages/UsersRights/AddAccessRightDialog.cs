@@ -103,11 +103,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.UsersRights
 			ClickNextButton();
 			ClickForAnyProjectRadio();
 
-			var GroupsAndAccessRightsTab = ClickAddRightButton();
+			var groupsAndAccessRightsTab = ClickAddRightButton();
 
-			WaitUntilDialogBackgroundDisappeared();
-
-			return GroupsAndAccessRightsTab;
+			return groupsAndAccessRightsTab;
 		}
 
 		/// <summary>
@@ -123,8 +121,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.UsersRights
 			SelectProject(projectName);
 
 			var GroupsAndAccessRightsTab = ClickAddRightButton();
-
-			WaitUntilDialogBackgroundDisappeared();
 
 			return GroupsAndAccessRightsTab;
 		}

@@ -23,7 +23,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 
 		public new void LoadPage()
 		{
-			Driver.WaitPageTotalLoad();
 			if (!IsSuggestedTermsPageForCurrentGlossariesOpened())
 			{
 				throw new XPathLookupException("Произошла ошибка:\n не загрузилась страница Suggested Terms");

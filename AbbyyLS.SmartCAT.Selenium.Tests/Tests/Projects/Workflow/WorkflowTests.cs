@@ -50,9 +50,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 				_projectUniqueName,
 				tasks: new[] { WorkflowTask.Translation, WorkflowTask.Proofreading });
 
-			_createProjectHelper
-				.GoToProjectSettingsPage(_projectUniqueName)
-				.OpenWorkflowSettings();
+			_projectsPage.ClickProject(_projectUniqueName);
+
+			_projectSettingsHelper.OpenWorkflowSettings();
 
 			Assert.IsTrue(_settingsDialog.IsWorkflowTaskCountMatchExpected(taskCount: 2),
 				"Произошла ошибка:\n неверное количество добавленных задач");
@@ -72,9 +72,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 		{
 			_createProjectHelper.CreateNewProject(_projectUniqueName, tasks: new[] { task, task });
 
-			_createProjectHelper
-				.GoToProjectSettingsPage(_projectUniqueName)
-				.OpenWorkflowSettings();
+			_projectsPage.ClickProject(_projectUniqueName);
+
+			_projectSettingsHelper.OpenWorkflowSettings();
 
 			Assert.IsTrue(_settingsDialog.IsWorkflowTaskCountMatchExpected(taskCount: 2),
 				"Произошла ошибка:\n неверное количество добавленных задач");
@@ -91,9 +91,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 		{
 			_createProjectHelper.CreateNewProject(_projectUniqueName);
 
-			_createProjectHelper
-				.GoToProjectSettingsPage(_projectUniqueName)
-				.OpenWorkflowSettings();
+			_projectsPage.ClickProject(_projectUniqueName);
+
+			_projectSettingsHelper.OpenWorkflowSettings();
 
 			_settingsDialog
 				.AddTask(WorkflowTask.Proofreading)
@@ -116,9 +116,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 		{
 			_createProjectHelper.CreateNewProject(_projectUniqueName);
 
-			_createProjectHelper
-				.GoToProjectSettingsPage(_projectUniqueName)
-				.OpenWorkflowSettings();
+			_projectsPage.ClickProject(_projectUniqueName);
+
+			_projectSettingsHelper.OpenWorkflowSettings();
 
 			_settingsDialog
 				.AddTask(WorkflowTask.Proofreading)
@@ -162,9 +162,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 				_projectUniqueName,
 				tasks: new[] { WorkflowTask.Translation, WorkflowTask.Proofreading });
 
-			_createProjectHelper
-				.GoToProjectSettingsPage(_projectUniqueName)
-				.OpenWorkflowSettings();
+			_projectsPage.ClickProject(_projectUniqueName);
+
+			_projectSettingsHelper.OpenWorkflowSettings();
 
 			_settingsDialog.ClickDeleteTaskButton(taskNumber: 1);
 
@@ -209,9 +209,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 				_projectUniqueName,
 				tasks: new[] { WorkflowTask.Translation, WorkflowTask.Proofreading });
 
-			_createProjectHelper
-				.GoToProjectSettingsPage(_projectUniqueName)
-				.OpenWorkflowSettings();
+			_projectsPage.ClickProject(_projectUniqueName);
+
+			_projectSettingsHelper.OpenWorkflowSettings();
 
 			_settingsDialog
 				.ClickDeleteTaskButton()
@@ -234,9 +234,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 		{
 			_createProjectHelper.CreateNewProject(_projectUniqueName);
 
-			_createProjectHelper
-				.GoToProjectSettingsPage(_projectUniqueName)
-				.OpenWorkflowSettings();
+			_projectsPage.ClickProject(_projectUniqueName);
+
+			_projectSettingsHelper.OpenWorkflowSettings();
 
 			_settingsDialog.EditTask(WorkflowTask.Proofreading, taskNumber: 1);
 

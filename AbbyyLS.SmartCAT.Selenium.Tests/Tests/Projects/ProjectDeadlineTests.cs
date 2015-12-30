@@ -5,6 +5,7 @@ using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
 using AbbyyLS.SmartCAT.Selenium.Tests.FeatureAttributes;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog;
+using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace;
 using AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
@@ -16,9 +17,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 		[SetUp]
 		public void SetUpProjectDeadlineTest()
 		{
-			_workspaceHelper = new WorkspaceHelper(Driver);
+			_workspacePage = new WorkspacePage(Driver);
 			_createProjectHelper = new CreateProjectHelper(Driver);
-
 			_projectsPage = new ProjectsPage(Driver);
 			_newProjectDocumentUploadPage = new NewProjectDocumentUploadPage(Driver);
 			_newProjectSettingsPage = new NewProjectSettingsPage(Driver);
@@ -26,7 +26,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 
 			_projectUniqueName = _createProjectHelper.GetProjectUniqueName();
 
-			_workspaceHelper.GoToProjectsPage();
+			_workspacePage.GoToProjectsPage();
 		}
 
 		[TestCase(Deadline.CurrentDate)]
@@ -71,8 +71,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 		private string _projectUniqueName;
 
 		private CreateProjectHelper _createProjectHelper;
-		private WorkspaceHelper _workspaceHelper;
-
+		private WorkspacePage _workspacePage;
 		private ProjectsPage _projectsPage;
 		private NewProjectDocumentUploadPage _newProjectDocumentUploadPage;
 		private NewProjectSettingsPage _newProjectSettingsPage;

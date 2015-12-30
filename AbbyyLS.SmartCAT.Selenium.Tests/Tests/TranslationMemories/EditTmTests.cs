@@ -77,7 +77,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.TranslationMemories
 			Assert.IsTrue(TranslationMemoriesPage.IsTranslationMemoryExist(translationMemoryNewName),
 				"Произошла ошибка:\n ТМ {0} не представлена в списке ТМ", translationMemoryNewName);
 
-			WorkspaceHelper.GoToProjectsPage();
+			WorkspacePage.GoToProjectsPage();
 
 			ProjectsPage.ClickCreateProjectButton();
 

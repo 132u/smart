@@ -3,8 +3,6 @@
 using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
 using AbbyyLS.SmartCAT.Selenium.Tests.FeatureAttributes;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories;
-using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace;
-using AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.TranslationMemories
 {
@@ -17,8 +15,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.TranslationMemories
 		public void SetupSortingInTranslationMemoriesTests()
 		{
 			_translationMemoriesPage = new TranslationMemoriesPage(Driver);
-			_translationMemoriesHelper = new TranslationMemoriesHelper(Driver);
-			_translationMemoriesHelper.GoToTranslationMemoriesPage();
+			_translationMemoriesPage.GoToTranslationMemoriesPage();
 			_translationMemoriesPage.CloseAllNotifications<TranslationMemoriesPage>();
 		}
 
@@ -40,7 +37,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.TranslationMemories
 				"Произошла ошибка: \n при сортировке появился Alert.");
 		}
 
-		private TranslationMemoriesHelper _translationMemoriesHelper;
 		private TranslationMemoriesPage _translationMemoriesPage;
 	}
 }

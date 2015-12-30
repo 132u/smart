@@ -76,8 +76,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.DocumentUploadDialog
 				throw new Exception("Произошла ошибка: \n не удалось дождаться закрытия диалога добавления файла в проект.");
 			}
 
-			WaitUntilDialogBackgroundDisappeared();
-
 			return new ProjectsPage(Driver).GetPage();
 		}
 

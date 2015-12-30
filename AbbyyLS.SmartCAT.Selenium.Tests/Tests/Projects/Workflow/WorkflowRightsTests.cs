@@ -19,7 +19,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 
 			_groupName = _groupsAndAccessRightsTab.GetGroupUniqueName();
 
-			_workspaceHelper.GoToUsersPage();
+			_workspacePage.GoToUsersPage();
 
 			_usersTab
 				.ClickGroupsButton()
@@ -34,11 +34,13 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 
 			_groupsAndAccessRightsTab.AddUserToGroupIfNotAlredyAdded(_groupName, AdditionalUser.NickName);
 
-			_workspaceHelper.GoToProjectsPage();
+			_workspacePage.GoToProjectsPage();
 
-			_createProjectHelper
-				.CreateNewProject(_projectUniqueName, filePath: PathProvider.EditorTxtFile)
-				.GoToProjectSettingsPage(_projectUniqueName)
+			_createProjectHelper.CreateNewProject(_projectUniqueName, filePath: PathProvider.EditorTxtFile);
+
+			_projectsPage.ClickProject(_projectUniqueName);
+
+			_projectSettingsHelper
 				.AssignTasksOnDocument(Path.GetFileName(PathProvider.EditorTxtFile), AdditionalUser.NickName);
 		}
 
@@ -51,7 +53,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 				.AddTask(WorkflowTask.Editing)
 				.SaveSettings();
 
-			_workspaceHelper.SignOut();
+			_workspacePage.SignOut();
 
 			_loginHelper.LogInSmartCat(
 				AdditionalUser.Login,
@@ -75,7 +77,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 				.AddTask(WorkflowTask.Editing)
 				.SaveSettings();
 
-			_workspaceHelper.GoToProjectsPage();
+			_workspacePage.GoToProjectsPage();
 
 			_projectsPage
 				.OpenProjectInfo(_projectUniqueName)
@@ -86,7 +88,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 				.SetResponsible(AdditionalUser.NickName, isGroup: false, taskNumber: 2)
 				.ClickSaveButton();
 
-			_workspaceHelper.SignOut();
+			_workspacePage.SignOut();
 
 			_loginHelper.LogInSmartCat(
 				AdditionalUser.Login,
@@ -110,8 +112,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 				.ClickWorkflowTab()
 				.AddTask(WorkflowTask.Editing)
 				.SaveSettings();
-		
-			_workspaceHelper.GoToProjectsPage();
+
+			_workspacePage.GoToProjectsPage();
 
 			_projectsPage
 				.OpenProjectInfo(_projectUniqueName)
@@ -122,7 +124,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 				.SetResponsible(AdditionalUser.NickName, isGroup: false, taskNumber: 2)
 				.ClickSaveButton();
 
-			_workspaceHelper
+			_workspacePage
 				.GoToProjectsPage()
 				.OpenAssignDialog(_projectUniqueName);
 
@@ -130,7 +132,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 				.ClickCancelAssignButton(taskNumber: 1)
 				.ClickSaveButton();
 
-			_workspaceHelper.SignOut();
+			_workspacePage.SignOut();
 
 			_loginHelper.LogInSmartCat(
 				AdditionalUser.Login,
@@ -152,7 +154,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 		{
 			var text2 = "Translation 2";
 
-			_workspaceHelper.SignOut();
+			_workspacePage.SignOut();
 
 			_loginHelper.LogInSmartCat(
 				AdditionalUser.Login,
@@ -173,7 +175,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 
 			_editorPage.ClickHomeButtonExpectingProjectsPage();
 
-			_workspaceHelper.SignOut();
+			_workspacePage.SignOut();
 
 			_loginHelper.LogInSmartCat(ThreadUser.Login, ThreadUser.NickName, ThreadUser.Password);
 
@@ -183,7 +185,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 				.ClickCancelAssignButton()
 				.ClickSaveButton();
 
-			_workspaceHelper.GoToProjectsPage();
+			_workspacePage.GoToProjectsPage();
 
 			_projectsPage
 				.OpenProjectInfo(_projectUniqueName)
@@ -199,7 +201,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 
 			_editorPage.ClickHomeButtonExpectingProjectSettingsPage();
 
-			_workspaceHelper.SignOut();
+			_workspacePage.SignOut();
 
 			_loginHelper.LogInSmartCat(
 				AdditionalUser.Login,

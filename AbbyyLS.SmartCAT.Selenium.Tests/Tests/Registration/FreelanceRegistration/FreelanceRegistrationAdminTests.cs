@@ -37,7 +37,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Registration
 			Assert.IsTrue(_newProjectDocumentUploadPage.IsNewProjectDocumentUploadPageOpened(),
 				"Произошла ошибка:\nСтраница поректов не открылась.");
 
-			Assert.IsTrue(_workspacePage.IsNickNameMatch(_nickName),
+			Assert.IsTrue(_workspacePage.IsUserNameMatchExpected(_nickName),
 				"Произошла ошибка:\nНеверное имя фрилансера в верхней панели.");
 		}
 
@@ -72,13 +72,11 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Registration
 			_freelanceRegistrationSignInPage
 				.FillSignInForm(_email, _password)
 				.ClickSignInButtonWithInactivePersonalAccount();
-			
-			_workspacePage.CloseHelpIfOpened();
 
-			Assert.IsTrue(_workspacePage.IsNickNameMatch(_nickName),
+			Assert.IsTrue(_workspacePage.IsUserNameMatchExpected(_nickName),
 				"Произошла ошибка:\nНеверное имя фрилансера в верхней панели.");
 
-			Assert.IsTrue(_workspacePage.IsAccountNameMatch(LoginHelper.PersonalAccountName),
+			Assert.IsTrue(_workspacePage.IsAccountNameMatchExpected(LoginHelper.PersonalAccountName),
 				"Произошла ошибка:\n название аккаунта в черной плашке не совпадает с названием.");
 		}
 
@@ -95,12 +93,10 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Registration
 				.FillSignInForm(_email, _password)
 				.ClickSignInButtonWithActivePersonalAccount();
 
-			_workspacePage.CloseHelpIfOpened();
-
-			Assert.IsTrue(_workspacePage.IsNickNameMatch(_nickName),
+			Assert.IsTrue(_workspacePage.IsUserNameMatchExpected(_nickName),
 				"Произошла ошибка:\nНеверное имя фрилансера в верхней панели.");
 
-			Assert.IsTrue(_workspacePage.IsAccountNameMatch(LoginHelper.PersonalAccountName),
+			Assert.IsTrue(_workspacePage.IsAccountNameMatchExpected(LoginHelper.PersonalAccountName),
 				"Произошла ошибка:\n название аккаунта в черной плашке не совпадает с названием.");
 		}
 		

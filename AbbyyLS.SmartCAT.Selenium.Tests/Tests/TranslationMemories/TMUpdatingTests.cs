@@ -1,7 +1,7 @@
 ﻿using NUnit.Framework;
 
 using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
-using AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories;
+using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace;
 using AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.TranslationMemories
@@ -12,11 +12,11 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.TranslationMemories
 		[SetUp]
 		public void SetUp()
 		{
-			_workspaceHelper = new WorkspaceHelper(Driver);
+			_workspacePage = new WorkspacePage(Driver);
 			_translationMemoriesHelper = new TranslationMemoriesHelper(Driver);
-
-			_workspaceHelper.GoToTranslationMemoriesPage();
 			_tmName = TranslationMemoriesHelper.GetTranslationMemoryUniqueName();
+
+			_workspacePage.GoToTranslationMemoriesPage();
 		}
 
 		[Test]
@@ -196,7 +196,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.TranslationMemories
 				.EnterFileName(PathProvider.DocumentFile)
 				.ClickImportButtonExpectingReplacementConfirmation();
 				
-			ConfirmReplacementDialog.ClickConfirmReplacementButton();
+			ConfirmReplacementDialog.ClickConfirmReplacementButtonExpectingError();
 
 			Assert.IsTrue(TranslationMemoriesPage.IsImportValidationErrorMessageDisplayed(),
 				"Произошла ошибка:\n не сработала валидация");
@@ -223,6 +223,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.TranslationMemories
 
 		private TranslationMemoriesHelper _translationMemoriesHelper;
 		private string _tmName;
-		private WorkspaceHelper _workspaceHelper;
+		private WorkspacePage _workspacePage;
 	}
 }

@@ -3,7 +3,7 @@
 using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
 using AbbyyLS.SmartCAT.Selenium.Tests.FeatureAttributes;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Client;
-using AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers;
+using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Clients
 {
@@ -16,9 +16,10 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Clients
 		[SetUp]
 		public void Initialization()
 		{
-			_workspaceHelper = new WorkspaceHelper(Driver);
-			_workspaceHelper.GoToClientsPage();
+			_workspacePage = new WorkspacePage(Driver);
 			_clientsPage = new ClientsPage(Driver);
+
+			_workspacePage.GoToClientsPage();
 		}
 
 		[Test]
@@ -30,6 +31,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Clients
 		}
 
 		private ClientsPage _clientsPage;
-		private WorkspaceHelper _workspaceHelper;
+		private WorkspacePage _workspacePage;
 	}
 }

@@ -186,7 +186,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Billing
 		{
 			BillingPage.ClickLogo();
 
-			WorkspaceHelper
+			WorkspacePage
 				.SelectLocale(firstLanguage)
 				.GoToBillingPage();
 
@@ -195,7 +195,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Billing
 
 			BillingPage.ClickLogo();
 
-			WorkspaceHelper
+			WorkspacePage
 				.SelectLocale(secondLanguage)
 				.GoToBillingPage();
 

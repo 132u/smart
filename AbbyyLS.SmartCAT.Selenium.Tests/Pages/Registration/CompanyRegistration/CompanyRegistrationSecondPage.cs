@@ -102,10 +102,22 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Registration
 		public WorkspacePage ClickCreateCorporateAccountButton()
 		{
 			CustomTestContext.WriteLine("Нажать кнопку 'Create Corporate Account' на втором шаге регистрации компании.");
-            Driver.WaitUntilElementIsEnabled(By.XPath(CREATE_ACCOUNT_COMPANY_BUTTON));
+			Driver.WaitUntilElementIsEnabled(By.XPath(CREATE_ACCOUNT_COMPANY_BUTTON));
 			CreateAccountCompanyButton.Click();
 
-			return new WorkspacePage(Driver);
+			return new WorkspacePage(Driver).GetPage();
+		}
+
+		/// <summary>
+		/// Нажать кнопку 'Create Corporate Account' на втором шаге регистрации компании 
+		/// </summary>
+		public CompanyRegistrationSecondPage ClickCreateCorporateAccountButtonExpectingError()
+		{
+			CustomTestContext.WriteLine("Нажать кнопку 'Create Corporate Account' на втором шаге регистрации компании.");
+			Driver.WaitUntilElementIsEnabled(By.XPath(CREATE_ACCOUNT_COMPANY_BUTTON));
+			CreateAccountCompanyButton.Click();
+
+			return GetPage();
 		}
 
 		/// <summary>

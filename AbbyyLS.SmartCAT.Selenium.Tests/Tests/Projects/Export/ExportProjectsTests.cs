@@ -7,6 +7,7 @@ using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
 using AbbyyLS.SmartCAT.Selenium.Tests.FeatureAttributes;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings;
+using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace;
 using AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
@@ -21,24 +22,26 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 		{
 			_createProjectHelper = new CreateProjectHelper(Driver);
 			_projectSettingsHelper = new ProjectSettingsHelper(Driver);
-			_workspaceHelper = new WorkspaceHelper(Driver);
+			_workspacePage = new WorkspacePage(Driver);
 			_projectsPage = new ProjectsPage(Driver);
 			_projectSettingsPage = new ProjectSettingsPage(Driver);
 			_exportNotification = new ExportNotification(Driver);
 
 			_projectUniqueName = _createProjectHelper.GetProjectUniqueName();
 
-			_workspaceHelper.GoToProjectsPage();
+			_workspacePage.GoToProjectsPage();
 
 			_exportNotification.CancelAllNotifiers<ProjectsPage>();
 
 			_createProjectHelper.CreateNewProject(_projectUniqueName, filePath: PathProvider.DocumentFileToConfirm1);
 
-			_workspaceHelper
-				.GoToProjectSettingsPage(_projectUniqueName)
+			_projectsPage.ClickProject(_projectUniqueName);
+
+			_projectSettingsHelper
 				.AssignTasksOnDocument(PathProvider.DocumentFileToConfirm1, ThreadUser.NickName)
-				.CreateRevision(Path.GetFileNameWithoutExtension(PathProvider.DocumentFileToConfirm1))
-				.GoToProjectsPage();
+				.CreateRevision(Path.GetFileNameWithoutExtension(PathProvider.DocumentFileToConfirm1));
+
+			_workspacePage.GoToProjectsPage();
 		}
 
 		[TestCase(ExportType.Source)]
@@ -46,7 +49,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 		[TestCase(ExportType.Target)]
 		public void ExportDocumentTest(ExportType exportType)
 		{
-			_workspaceHelper.GoToProjectSettingsPage(_projectUniqueName);
+			_projectsPage.ClickProject(_projectUniqueName);
 
 			_projectSettingsPage
 				.ClickDocumentCheckbox(PathProvider.DocumentFileToConfirm1)
@@ -130,13 +133,14 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 		[TestCase(ExportType.Target)]
 		public void ExportMultiDocumentsTest(ExportType exportType)
 		{
-			_workspaceHelper.GoToProjectSettingsPage(_projectUniqueName);
+			_projectsPage.ClickProject(_projectUniqueName);
 
 			_projectSettingsHelper
 				.UploadDocument(new[] {PathProvider.DocumentFileToConfirm2})
 				.AssignTasksOnDocument(PathProvider.DocumentFileToConfirm2, ThreadUser.NickName)
-				.CreateRevision(Path.GetFileNameWithoutExtension(PathProvider.DocumentFileToConfirm2))
-				.GoToProjectsPage();
+				.CreateRevision(Path.GetFileNameWithoutExtension(PathProvider.DocumentFileToConfirm2));
+
+			_workspacePage.GoToProjectsPage();
 
 			_projectsPage
 				.ClickProjectCheckboxInList(_projectUniqueName)
@@ -156,7 +160,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 		private CreateProjectHelper _createProjectHelper;
 		private ProjectSettingsHelper _projectSettingsHelper;
 		private ProjectsPage _projectsPage;
-		private WorkspaceHelper _workspaceHelper;
+		private WorkspacePage _workspacePage;
 		private ProjectSettingsPage _projectSettingsPage;
 		private ExportNotification _exportNotification;
 	}

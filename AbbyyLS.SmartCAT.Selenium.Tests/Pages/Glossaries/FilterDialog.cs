@@ -228,7 +228,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 		{
 			CustomTestContext.WriteLine("Нажать кнопку Apply.");
 			ApplyButton.Click();
-			AssertDialogBackgroundDisappeared<GlossaryPage>(Driver);
 
 			return new GlossaryPage(Driver).GetPage();
 		}

@@ -24,7 +24,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 		{
 			_createProjectHelper = new CreateProjectHelper(Driver);
 			_projectSettingsHelper = new ProjectSettingsHelper(Driver);
-			_workspaceHelper = new WorkspaceHelper(Driver);
 			_projectsPage = new ProjectsPage(Driver);
 			_documentSettingsDialog = new DocumentSettingsDialog(Driver);
 			_projectSettingsPage = new ProjectSettingsPage(Driver);
@@ -34,7 +33,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 
 			_projectUniqueName = _createProjectHelper.GetProjectUniqueName();
 
-			_workspaceHelper.GoToProjectsPage();
+			_workspacePage.GoToProjectsPage();
 
 			_exportNotification.CancelAllNotifiers<ProjectsPage>();
 
@@ -72,16 +71,16 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 					break;
 
 				case PlaceSearchNotifier.ProjectSettingsPage:
-					_workspaceHelper.GoToProjectSettingsPage(_projectUniqueName);
+					_projectsPage.ClickProject(_projectUniqueName);
 					break;
 
 				case PlaceSearchNotifier.GlossariesPage:
-					_workspaceHelper.GoToGlossariesPage();
+					_workspacePage.GoToGlossariesPage();
 
 					Assert.IsTrue(_workspacePage.GetCountExportNotifiers() == 0,
 						"Произошла ошибка:\n остались открытые уведомления");
 
-					_workspaceHelper.GoToProjectsPage();
+					_workspacePage.GoToProjectsPage();
 					break;
 
 				default:
@@ -150,10 +149,11 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 
 			_createProjectHelper.CreateNewProject(projectUniqueName2, filePath: PathProvider.DocumentFileToConfirm1);
 
-			_workspaceHelper
-				.GoToProjectSettingsPage(projectUniqueName2)
-				.UploadDocument(new[] {PathProvider.DocumentFileToConfirm2})
-				.GoToProjectsPage();
+			_projectsPage.ClickProject(projectUniqueName2);
+
+			_projectSettingsHelper.UploadDocument(new[] {PathProvider.DocumentFileToConfirm2});
+
+			_workspacePage.GoToProjectsPage();
 
 			_projectsPage
 				.ClickProjectCheckboxInList(_projectUniqueName)
@@ -173,10 +173,11 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 
 			_createProjectHelper.CreateNewProject(projectUniqueName2, filePath: PathProvider.DocumentFileToConfirm1);
 
-			_workspaceHelper
-				.GoToProjectSettingsPage(projectUniqueName2)
-				.UploadDocument(new[] {PathProvider.DocumentFileToConfirm2})
-				.GoToProjectsPage();
+			_projectsPage.ClickProject(projectUniqueName2);
+
+			_projectSettingsHelper.UploadDocument(new[] {PathProvider.DocumentFileToConfirm2});
+
+			_workspacePage.GoToProjectsPage();
 
 			_projectsPage
 				.ClickProjectCheckboxInList(_projectUniqueName)
@@ -244,10 +245,11 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 
 			_createProjectHelper.CreateNewProject(projectUniqueName2, filePath: PathProvider.DocumentFileToConfirm1);
 
-			_workspaceHelper
-				.GoToProjectSettingsPage(projectUniqueName2)
-				.UploadDocument(new[] {PathProvider.DocumentFileToConfirm2})
-				.GoToProjectsPage();
+			_projectsPage.ClickProject(projectUniqueName2);
+
+			_projectSettingsHelper.UploadDocument(new[] {PathProvider.DocumentFileToConfirm2});
+
+			_workspacePage.GoToProjectsPage();
 
 			_projectsPage
 				.ClickProjectCheckboxInList(_projectUniqueName)
@@ -275,10 +277,11 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 
 			_createProjectHelper.CreateNewProject(projectUniqueName2, filePath: PathProvider.DocumentFileToConfirm1);
 
-			_workspaceHelper
-				.GoToProjectSettingsPage(projectUniqueName2)
-				.UploadDocument(new[] {PathProvider.DocumentFileToConfirm2})
-				.GoToProjectsPage();
+			_projectsPage.ClickProject(projectUniqueName2);
+
+			_projectSettingsHelper.UploadDocument(new[] {PathProvider.DocumentFileToConfirm2});
+
+			_workspacePage.GoToProjectsPage();
 
 			_projectsPage
 				.ClickProjectCheckboxInList(_projectUniqueName)
@@ -318,10 +321,11 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 
 			_createProjectHelper.CreateNewProject(projectUniqueName2, filePath: PathProvider.DocumentFileToConfirm1);
 
-			_workspaceHelper
-				.GoToProjectSettingsPage(projectUniqueName2)
-				.UploadDocument(new[] {PathProvider.DocumentFileToConfirm2})
-				.GoToProjectsPage();
+			_projectsPage.ClickProject(projectUniqueName2);
+
+			_projectSettingsHelper.UploadDocument(new[] {PathProvider.DocumentFileToConfirm2});
+
+			_workspacePage.GoToProjectsPage();
 
 			_projectsPage
 				.ClickProjectCheckboxInList(projectUniqueName2)
@@ -374,7 +378,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 			_documentSettingsDialog
 				.SetDocumentName(newDocumentName)
 				.ClickSaveButton<ProjectsPage>(Driver)
-				.AssertDialogBackgroundDisappeared<ProjectsPage>(Driver);
+				.WaitCreateProjectDialogDisappear();
 
 			_projectsPage
 				.ClickDownloadInDocumentButton(_projectUniqueName)
@@ -394,7 +398,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 		[TestCase(PlaceSearchNotifier.GlossariesPage)]
 		public void ExportSaveNotifierOnProjectSettingsPage(PlaceSearchNotifier placeSearch)
 		{
-			_workspaceHelper.GoToProjectSettingsPage(_projectUniqueName);
+			_projectsPage.ClickProject(_projectUniqueName);
 
 			_projectSettingsPage
 				.ClickDocumentCheckbox(PathProvider.DocumentFileToConfirm1)
@@ -404,21 +408,22 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 			switch (placeSearch)
 			{
 				case PlaceSearchNotifier.ProjectsPage:
-					_workspaceHelper.GoToProjectsPage();
+					_workspacePage.GoToProjectsPage();
 					break;
 
 				case PlaceSearchNotifier.ProjectSettingsPage:
-					_workspaceHelper.RefreshPage();
+					_workspacePage.RefreshPage<WorkspacePage>();
 					break;
 
 				case PlaceSearchNotifier.GlossariesPage:
-					_workspaceHelper.GoToGlossariesPage();
+					_workspacePage.GoToGlossariesPage();
 
 					Assert.AreEqual(_workspacePage.GetCountExportNotifiers(), 0,
 						"Произошла ошибка:\n остались открытые уведомления");
 
-					_workspaceHelper.GoToProjectsPage();
-					_workspaceHelper.GoToProjectSettingsPage(_projectUniqueName);
+					_workspacePage.GoToProjectsPage();
+
+					_projectsPage.ClickProject(_projectUniqueName);
 					break;
 
 				default:
@@ -437,20 +442,22 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 
 			_createProjectHelper.CreateNewProject(projectUniqueName2, filePath: PathProvider.DocumentFileToConfirm1);
 
-			_workspaceHelper
-				.GoToProjectSettingsPage(projectUniqueName2)
-				.UploadDocument(new[] {PathProvider.DocumentFileToConfirm2})
-				.GoToProjectsPage();
+			_projectsPage.ClickProject(projectUniqueName2);
 
-			_workspaceHelper.GoToProjectSettingsPage(_projectUniqueName);
+			_projectSettingsHelper.UploadDocument(new[] {PathProvider.DocumentFileToConfirm2});
+
+			_workspacePage.GoToProjectsPage();
+
+			_projectsPage.ClickProject(_projectUniqueName);
 
 			_projectSettingsPage
 				.ClickDocumentCheckbox(PathProvider.DocumentFileToConfirm1)
 				.ClickDownloadInMainMenuButton()
 				.ClickExportType(ExportType.Source);
 
-			_workspaceHelper.GoToProjectsPage();
-			_workspaceHelper.GoToProjectSettingsPage(projectUniqueName2);
+			_workspacePage.GoToProjectsPage();
+
+			_projectsPage.ClickProject(projectUniqueName2);
 
 			Assert.IsTrue(_exportNotification.IsExportNotifiersCountMatchExpected(expectedCount: 1),
 				"Произошла ошибка:\n не появилось ожидаемое кол-во уведомлений");
@@ -510,10 +517,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 		private ProjectSettingsHelper _projectSettingsHelper;
 		private ProjectsPage _projectsPage;
 		private DocumentSettingsDialog _documentSettingsDialog;
-		private WorkspaceHelper _workspaceHelper;
+		private WorkspacePage _workspacePage;
 		private ProjectSettingsPage _projectSettingsPage;
 		private ExportNotification _exportNotification;
-		private WorkspacePage _workspacePage;
 		private DocumentUploadGeneralInformationDialog _documentUploadGeneralInformationDialog;
 	}
 }

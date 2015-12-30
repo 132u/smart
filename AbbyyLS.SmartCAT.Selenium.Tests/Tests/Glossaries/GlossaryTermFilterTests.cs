@@ -8,6 +8,7 @@ using AbbyyLS.SmartCAT.Selenium.Tests.DataStructures;
 using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Login;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries;
+using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace;
 using AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers;
 using AbbyyLS.SmartCAT.Selenium.Tests.TestFramework;
 
@@ -22,7 +23,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 			_glossaryUniqueName = GlossariesHelper.UniqueGlossaryName();
 
 			_glossaryHelper = new GlossariesHelper(Driver);
-			_workspaceHelper = new WorkspaceHelper(Driver);
+			_workspacePage = new WorkspacePage(Driver);
 			_commonHelper = new CommonHelper(Driver);
 			_glossaryPropertiesDialog = new GlossaryPropertiesDialog(Driver);
 			_newGlossaryDialog = new NewGlossaryDialog(Driver);
@@ -30,11 +31,11 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 			_filterDialog = new FilterDialog(Driver);
 			_signInPage = new SignInPage(Driver);
 			_secondUser = null;
-            _glossariesPage = new GlossariesPage(Driver);
+			_glossariesPage = new GlossariesPage(Driver);
 
-			_glossaryHelper
-				.GoToGlossariesPage()
-				.CreateGlossary(_glossaryUniqueName);
+			_workspacePage.GoToGlossariesPage();
+
+			_glossaryHelper.CreateGlossary(_glossaryUniqueName);
 
 			_glossaryPage.CreateTerm();
 		}
@@ -150,7 +151,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 		[Test]
 		public void AuthorFilterTest()
 		{
-			_workspaceHelper.SignOut();
+			_workspacePage.SignOut();
 
 			_secondUser = TakeUser(ConfigurationManager.Users);
 
@@ -159,13 +160,13 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 				.SubmitForm(_secondUser.Login, _secondUser.Password)
 				.SelectAccount();
 
-			_glossaryHelper.GoToGlossariesPage();
+			_workspacePage.GoToGlossariesPage();
 
 			_glossariesPage.ClickGlossaryRow(_glossaryUniqueName);
 
 			_glossaryPage.CreateTerm(firstTerm: "term1FromSecondUser", secondTerm: "term2FromSecondUser");
 
-			_workspaceHelper.RefreshPage();
+			_workspacePage.RefreshPage<WorkspacePage>();
 
 			_glossaryPage
 				.ClickFilterButton()
@@ -190,13 +191,13 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 
 			_glossaryPage.CreateTerm(firstTerm: "term1FromFirstUser", secondTerm: "term2FromFirstUser");
 
-			_workspaceHelper.SignOut();
+			_workspacePage.SignOut();
 
 			_signInPage
 				.SubmitForm(_secondUser.Login, _secondUser.Password)
 				.SelectAccount();
 
-			_glossaryHelper.GoToGlossariesPage();
+			_workspacePage.GoToGlossariesPage();
 
 			_glossariesPage.ClickGlossaryRow(_glossaryUniqueName);
 
@@ -205,7 +206,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 				.CreateTerm(firstTerm: "term1FromSecondUser", secondTerm: "term2FromSecondUser");
 
 			//TODO Убрать рефреш, когда пофиксят PRX-12015
-			_workspaceHelper.RefreshPage();
+			_workspacePage.RefreshPage<WorkspacePage>();
 
 			_glossaryPage
 				.ClickFilterButton()
@@ -287,7 +288,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 		public void ClearFilterTest()
 		{
 			//TODO Убрать рефреш, когда пофиксят PRX-12015
-			_workspaceHelper.RefreshPage();
+			_workspacePage.RefreshPage<WorkspacePage>();
 
 			var termsBeforeFilter = _glossaryPage.GetTermList();
 
@@ -326,7 +327,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 		public void CancelFilterTest()
 		{
 			//TODO Убрать рефреш, когда пофиксят PRX-12015
-			_workspaceHelper.RefreshPage();
+			_workspacePage.RefreshPage<WorkspacePage>();
 
 			var termsBeforeFilter = _glossaryPage.GetTermList();
 
@@ -352,7 +353,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 		public void ClearPanelFilterTest(string filter)
 		{
 			//TODO Убрать рефреш, когда пофиксят PRX-12015
-			_workspaceHelper.RefreshPage();
+			_workspacePage.RefreshPage<WorkspacePage>();
 
 			_glossaryPage
 				.ClickFilterButton()
@@ -586,7 +587,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 		private GlossaryPropertiesDialog _glossaryPropertiesDialog;
 		private CommonHelper _commonHelper;
 		private GlossariesHelper _glossaryHelper;
-		private WorkspaceHelper _workspaceHelper;
+		private WorkspacePage _workspacePage;
 		private NewGlossaryDialog _newGlossaryDialog;
 		private GlossariesPage _glossariesPage;
 		private string _glossaryUniqueName;

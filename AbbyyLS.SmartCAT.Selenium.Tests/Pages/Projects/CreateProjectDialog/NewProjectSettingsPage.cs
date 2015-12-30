@@ -27,7 +27,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 
 		public new void LoadPage()
 		{
-			Driver.WaitPageTotalLoad();
 			if (!IsNewProjectSettingsPageOpened())
 			{
 				throw new XPathLookupException(
@@ -484,9 +483,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 		/// </summary>
 		public bool IsNewProjectSettingsPageOpened()
 		{
-			ProjectNameInput.Scroll();
-
-			return Driver.WaitUntilElementIsDisplay(By.XPath(PROJECT_NAME_INPUT));
+			return IsDialogBackgroundDisappeared() &&
+				Driver.WaitUntilElementIsDisplay(By.XPath(PROJECT_NAME_INPUT));
 		}
 
 		/// <summary>

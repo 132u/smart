@@ -6,6 +6,7 @@ using AbbyyLS.SmartCAT.Selenium.Tests.DataStructures;
 using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
 using AbbyyLS.SmartCAT.Selenium.Tests.FeatureAttributes;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor;
+using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings;
 using AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers;
 
@@ -19,6 +20,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Editor
 		public void SetupTest()
 		{
 			_createProjectHelper = new CreateProjectHelper(Driver);
+			_projectSettingsHelper = new ProjectSettingsHelper(Driver);
+			_projectsPage = new ProjectsPage(Driver);
 			_addTermDialog = new AddTermDialog(Driver);
 			_editorPage = new EditorPage(Driver);
 			_selectTaskDialog = new SelectTaskDialog(Driver);
@@ -32,8 +35,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Editor
 				filePath: PathProvider.TxtFileForMatchTest,
 				glossaryName: _glossaryUniqueName);
 
-			_createProjectHelper
-				.GoToProjectSettingsPage(projectUniqueName)
+			_projectsPage.ClickProject(projectUniqueName);
+
+			_projectSettingsHelper
 				.AssignTasksOnDocument(PathProvider.TxtFileForMatchTest, ThreadUser.NickName);
 
 			_projectSettingsPage
@@ -62,6 +66,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Editor
 		}
 
 		private CreateProjectHelper _createProjectHelper;
+		private ProjectSettingsHelper _projectSettingsHelper;
+		private ProjectsPage _projectsPage;
 		private ProjectSettingsPage _projectSettingsPage;
 		private AddTermDialog _addTermDialog;
 		private EditorPage _editorPage;

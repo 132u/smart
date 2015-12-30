@@ -43,14 +43,12 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Authorization
 
 			_selectAccountForm.SelectAccount(account, dataServer);
 
-			_workspacePage
-				.CloseHelpIfOpened()
-				.SelectLocale();
+			_workspacePage.SetLocale();
 
-			Assert.IsTrue(_workspacePage.IsNickNameMatch(ThreadUser.NickName),
+			Assert.IsTrue(_workspacePage.IsUserNameMatchExpected(ThreadUser.NickName),
 				"Произошла ошибка:\n имя пользователя в черной плашке не совпадает с ожидаемым именем.");
 
-			Assert.IsTrue(_workspacePage.IsAccountNameMatch(account),
+			Assert.IsTrue(_workspacePage.IsAccountNameMatchExpected(account),
 				"Произошла ошибка:\n название аккаунта в черной плашке не совпадает с ожидаемым именем.");
 		}
 
@@ -125,14 +123,12 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Authorization
 
 			_selectAccountForm.SelectAccount(LoginHelper.TestAccountName);
 
-			_workspacePage
-				.CloseHelpIfOpened()
-				.SelectLocale();
+			_workspacePage.SetLocale();
 
-			Assert.IsTrue(_workspacePage.IsNickNameMatch(ConfigurationManager.SocialNetworksUserList[0].NickName),
+			Assert.IsTrue(_workspacePage.IsUserNameMatchExpected(ConfigurationManager.SocialNetworksUserList[0].NickName),
 				"Произошла ошибка:\n имя пользователя в черной плашке не совпадает с ожидаемым именем.");
 
-			Assert.IsTrue(_workspacePage.IsAccountNameMatch(LoginHelper.TestAccountName),
+			Assert.IsTrue(_workspacePage.IsAccountNameMatchExpected(LoginHelper.TestAccountName),
 				"Произошла ошибка:\n название аккаунта в черной плашке не совпадает с ожидаемым именем.");
 		}
 
@@ -145,14 +141,12 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Authorization
 
 			_selectAccountForm.SelectAccount(LoginHelper.TestAccountName);
 
-			_workspacePage
-				.CloseHelpIfOpened()
-				.SelectLocale();
+			_workspacePage.SetLocale();
 
-			Assert.IsTrue(_workspacePage.IsNickNameMatch(ConfigurationManager.SocialNetworksUserList[0].NickName),
+			Assert.IsTrue(_workspacePage.IsUserNameMatchExpected(ConfigurationManager.SocialNetworksUserList[0].NickName),
 				"Произошла ошибка:\n имя пользователя в черной плашке не совпадает с ожидаемым именем.");
 
-			Assert.IsTrue(_workspacePage.IsAccountNameMatch(LoginHelper.TestAccountName),
+			Assert.IsTrue(_workspacePage.IsAccountNameMatchExpected(LoginHelper.TestAccountName),
 				"Произошла ошибка:\n название аккаунта в черной плашке не совпадает с ожидаемым именем.");
 		}
 
@@ -165,14 +159,12 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Authorization
 
 			_selectAccountForm.SelectAccount(LoginHelper.TestAccountName);
 
-			_workspacePage
-				.CloseHelpIfOpened()
-				.SelectLocale();
+			_workspacePage.SetLocale();
 
-			Assert.IsTrue(_workspacePage.IsNickNameMatch(ConfigurationManager.SocialNetworksUserList[0].NickName),
+			Assert.IsTrue(_workspacePage.IsUserNameMatchExpected(ConfigurationManager.SocialNetworksUserList[0].NickName),
 				"Произошла ошибка:\n имя пользователя в черной плашке не совпадает с ожидаемым именем.");
 
-			Assert.IsTrue(_workspacePage.IsAccountNameMatch(LoginHelper.TestAccountName),
+			Assert.IsTrue(_workspacePage.IsAccountNameMatchExpected(LoginHelper.TestAccountName),
 				"Произошла ошибка:\n название аккаунта в черной плашке не совпадает с ожидаемым именем.");
 		}
 
@@ -184,7 +176,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Authorization
 			_selectAccountForm.SelectAccount();
 
 			_workspacePage
-				.CloseHelpIfOpened()
 				.ClickAccount()
 				.ClickSignOut();
 
@@ -219,14 +210,12 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Authorization
 
 			_selectAccountForm.SelectAccount(accountName);
 
-			_workspacePage
-				.CloseHelpIfOpened()
-				.SelectLocale();
+			_workspacePage.SetLocale();
 
-			Assert.IsTrue(_workspacePage.IsNickNameMatch(nickName),
+			Assert.IsTrue(_workspacePage.IsUserNameMatchExpected(nickName),
 				"Произошла ошибка:\n имя пользователя в черной плашке не совпадает с ожидаемым именем.");
 
-			Assert.IsTrue(_workspacePage.IsAccountNameMatch(accountName),
+			Assert.IsTrue(_workspacePage.IsAccountNameMatchExpected(accountName),
 				"Произошла ошибка:\n название аккаунта в черной плашке не совпадает с ожидаемым именем.");
 		}
 

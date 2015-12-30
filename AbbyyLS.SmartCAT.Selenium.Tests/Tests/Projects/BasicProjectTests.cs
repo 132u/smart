@@ -21,16 +21,16 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 		[SetUp]
 		public void SetUpBaseProjectTest()
 		{
-			_workspaceHelper = new WorkspaceHelper(Driver);
-			_workspaceHelper.GoToProjectsPage();
+			_projectSettingsHelper = new ProjectSettingsHelper(Driver);
 			_createProjectHelper = new CreateProjectHelper(Driver);
 			_projectsPage = new ProjectsPage(Driver);
 			_deleteDialog = new DeleteDialog(Driver);
 			_newProjectDocumentUploadPage = new NewProjectDocumentUploadPage(Driver);
 			_newProjectSettingsPage = new NewProjectSettingsPage(Driver);
 			_workspacePage = new WorkspacePage(Driver);
-
 			_projectUniqueName = _createProjectHelper.GetProjectUniqueName();
+
+			_workspacePage.GoToProjectsPage();
 		}
 
 		[Test]
@@ -192,9 +192,11 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 		[Test]
 		public void DeleteDocumentFromProject()
 		{
-			_createProjectHelper
-				.CreateNewProject(_projectUniqueName)
-				.GoToProjectSettingsPage(_projectUniqueName)
+			_createProjectHelper.CreateNewProject(_projectUniqueName);
+
+			_projectsPage.ClickProject(_projectUniqueName);
+
+			_projectSettingsHelper
 				.UploadDocument(new []{PathProvider.DocumentFile})
 				.DeleteDocument(Path.GetFileNameWithoutExtension(PathProvider.DocumentFile));
 		}
@@ -204,12 +206,12 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 		{
 			_projectsPage.ClickCreateProjectButton();
 
-			_workspacePage.ClickProjectsSubmenuAssumingAlert();
+			_workspacePage.ClickProjectsSubmenuExpectingAlert();
 
 			Assert.IsTrue(_workspacePage.IsAlertExist(),
 				"Произошла ошибка: \n Не появился алере о несохраненных данных.");
 
-			_workspacePage.AcceptAlert();
+			_workspacePage.AcceptAlert<ProjectsPage>();
 
 			Assert.IsTrue(_projectsPage.IsProjectsPageOpened(),
 				"Произошла ошибка: \n страница со списком проектов не открылась.");
@@ -231,13 +233,11 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 		private string _projectUniqueName;
 		private const string _longName = "12345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890";
 
-		private WorkspaceHelper _workspaceHelper;
-		private CreateProjectHelper _createProjectHelper;
 		private WorkspacePage _workspacePage;
-
+		private CreateProjectHelper _createProjectHelper;
+		private ProjectSettingsHelper _projectSettingsHelper;
 		private ProjectsPage _projectsPage;
 		private DeleteDialog _deleteDialog;
-
 		private NewProjectDocumentUploadPage _newProjectDocumentUploadPage;
 		private NewProjectSettingsPage _newProjectSettingsPage;
 	}

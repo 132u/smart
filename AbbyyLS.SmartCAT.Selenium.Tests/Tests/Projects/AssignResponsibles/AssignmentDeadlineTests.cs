@@ -77,7 +77,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 
 			_projectsPage.OpenAssignDialog(_projectUniqueName);
 
-			_workspaceHelper.SelectLocale(Language.Russian);
+			_workspacePage.SelectLocale(Language.Russian);
 
 			_taskAssignmentPage
 				.FillDeadlineManually(date)
@@ -99,7 +99,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 			_createProjectHelper.CreateNewProject(_projectUniqueName, filePath: PathProvider.EditorTxtFile);
 			_projectsPage.OpenAssignDialog(_projectUniqueName);
 
-			_workspaceHelper.SelectLocale(Language.Russian);
+			_workspacePage.SelectLocale(Language.Russian);
 
 			_taskAssignmentPage
 				.FillInvalidDeadlineManually(deadline)
@@ -130,7 +130,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 				deadline:Deadline.NextMonth
 				);
 
-			_workspaceHelper.GoToProjectSettingsPage(_projectUniqueName);
+			_projectsPage.ClickProject(_projectUniqueName);
 
 			_projectSettingsPage
 				.ClickDocumentUploadButton()
@@ -141,7 +141,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 				.WaitUntilUploadDocumentDialogDissapeared()
 				.WaitUntilDocumentProcessed();
 
-			_workspaceHelper.GoToProjectsPage();
+			_workspacePage.GoToProjectsPage();
 
 			_projectsPage.OpenAssignDialog(_projectUniqueName);
 
@@ -195,9 +195,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 				deadline:Deadline.NextMonth
 				);
 
-			_workspaceHelper.GoToProjectSettingsPage(_projectUniqueName);
+			_projectsPage.ClickProject(_projectUniqueName);
 
-			_workspaceHelper.GoToProjectsPage();
+			_workspacePage.GoToProjectsPage();
 			
 			_projectsPage.OpenAssignDialog(_projectUniqueName);
 			
@@ -224,9 +224,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 					WorkflowTask.Editing}
 				);
 
-			_workspaceHelper.GoToProjectSettingsPage(_projectUniqueName);
+			_projectsPage.ClickProject(_projectUniqueName);
 
-			_workspaceHelper.GoToProjectsPage();
+			_workspacePage.GoToProjectsPage();
 			
 			_projectsPage.OpenAssignDialog(_projectUniqueName);
 
@@ -254,9 +254,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 					WorkflowTask.Editing}
 				);
 
-			_workspaceHelper.GoToProjectSettingsPage(_projectUniqueName);
+			_projectsPage.ClickProject(_projectUniqueName);
 
-			_workspaceHelper.GoToProjectsPage();
+			_workspacePage.GoToProjectsPage();
 			
 			_projectsPage.OpenAssignDialog(_projectUniqueName);
 
@@ -288,9 +288,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 					WorkflowTask.Editing}
 				);
 
-			_workspaceHelper.GoToProjectSettingsPage(_projectUniqueName);
+			_projectsPage.ClickProject(_projectUniqueName);
 
-			_workspaceHelper.GoToProjectsPage();
+			_workspacePage.GoToProjectsPage();
 			
 			_projectsPage.OpenAssignDialog(_projectUniqueName);
 			
@@ -301,9 +301,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 			Assert.IsTrue(_attentionPopup.IsAttentionPopupOpened(),
 				"Произошла ошибка:\n Не открылось сообщением о том что дедлайн позже дедлайна проекта.");
 
-			_attentionPopup
-				.ClickSaveButton()
-				.WaitUntilDialogBackgroundDisappeared();
+			_attentionPopup.ClickSaveButton();
 
 			Assert.IsTrue(_projectsPage.IsProjectsPageOpened(), "Произошла ошибка:\n Не открылась страница проектов.");
 

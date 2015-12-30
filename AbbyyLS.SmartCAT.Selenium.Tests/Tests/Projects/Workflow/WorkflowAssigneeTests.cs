@@ -16,9 +16,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 		[SetUp]
 		public void WorkflowAssigneeTestsSetUp()
 		{
-			_createProjectHelper
-				.CreateNewProject(_projectUniqueName, filePath: PathProvider.RepetionsTxtFile)
-				.GoToProjectSettingsPage(_projectUniqueName);
+			_createProjectHelper.CreateNewProject(_projectUniqueName, filePath: PathProvider.RepetionsTxtFile);
+
+			_projectsPage.ClickProject(_projectUniqueName);
 		}
 
 		[Test, Description("ТС-0511 Отказ после подтверждения")]
@@ -43,7 +43,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 
 			_editorPage.ClickHomeButtonExpectingProjectSettingsPage();
 
-			_workspaceHelper.GoToProjectsPage();
+			_workspacePage.GoToProjectsPage();
 
 			_projectsPage.DeclineTaskInDocumentInfo(_projectUniqueName);
 
@@ -62,7 +62,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 		{
 			_projectSettingsHelper.AssignTasksOnDocument(PathProvider.RepetionsTxtFile, ThreadUser.NickName);
 
-			_workspaceHelper
+			_workspacePage
 				.GoToProjectsPage()
 				.OpenAssignDialog(_projectUniqueName);
 
@@ -70,7 +70,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 				.ClickCancelAssignButton()
 				.ClickSaveButton();
 
-			_workspaceHelper
+			_workspacePage
 				.GoToProjectsPage()
 				.OpenProjectInfo(_projectUniqueName)
 				.OpenDocumentInfoForProject(_projectUniqueName);
@@ -84,7 +84,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 		{
 			AdditionalUser = TakeUser(ConfigurationManager.AdditionalUsers);
 
-			_workspaceHelper.GoToUsersPage();
+			_workspacePage.GoToUsersPage();
 
 			_usersTab
 				.ClickGroupsButton()
@@ -94,7 +94,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 			var startRange = 1;
 			var endRange = 6;
 
-			_workspaceHelper.GoToProjectsPage();
+			_workspacePage.GoToProjectsPage();
 
 			_projectsPage.OpenAssignDialog(_projectUniqueName, documentNumber: 1);
 
@@ -119,7 +119,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 				.ClickAssignButton()
 				.ClickSaveButton();
 
-			_workspaceHelper.GoToProjectsPage();
+			_workspacePage.GoToProjectsPage();
 
 			_projectsPage
 				.OpenProjectInfo(_projectUniqueName)
@@ -147,7 +147,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 
 			_editorPage.ClickHomeButtonExpectingProjectSettingsPage();
 
-			_workspaceHelper.SignOut();
+			_workspacePage.SignOut();
 
 			_loginHelper.LogInSmartCat(
 				AdditionalUser.Login,

@@ -6,7 +6,6 @@ using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.ProjectGroups;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace;
-using AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.ProjectGroups
 {
@@ -24,9 +23,10 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.ProjectGroups
 			_newTranslationMemoryDialog = new NewTranslationMemoryDialog(Driver);
 			_glossariesPage = new GlossariesPage(Driver);
 			_newGlossaryDialog = new NewGlossaryDialog(Driver);
-			_workspaceHelper = new WorkspaceHelper(Driver);
-			_workspaceHelper.GoToProjectGroupsPage();
+			_workspacePage = new WorkspacePage(Driver);
 			_projectGroup = _projectGroupsPage.GetProjectGroupUniqueName();
+
+			_workspacePage.GoToProjectGroupsPage();
 		}
 
 		[Test]
@@ -67,7 +67,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.ProjectGroups
 		{
 			_projectGroupsPage.CreateProjectGroup(_projectGroup);
 
-			_workspaceHelper.GoToTranslationMemoriesPage();
+			_workspacePage.GoToTranslationMemoriesPage();
 
 			_translationMemoriesPage
 				.ClickCreateNewTmButton()
@@ -85,7 +85,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.ProjectGroups
 		{
 			_projectGroupsPage.CreateProjectGroup(_projectGroup);
 
-			_workspaceHelper.GoToGlossariesPage();
+			_workspacePage.GoToGlossariesPage();
 
 			_glossariesPage
 				.ClickCreateGlossaryButton()
@@ -158,7 +158,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.ProjectGroups
 			Assert.IsFalse(_projectGroupsPage.IsProjectGroupExist(_projectGroup),
 				"Произошла ошибка:\n группа проектов {0} присутствует в списке", _projectGroup);
 
-			_workspaceHelper.GoToTranslationMemoriesPage();
+			_workspacePage.GoToTranslationMemoriesPage();
 
 			_translationMemoriesPage
 				.ClickCreateNewTmButton()
@@ -181,7 +181,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.ProjectGroups
 				.DeleteProjectGroup(projectGroup)
 				.RefreshPage<WorkspacePage>();
 
-			_workspaceHelper.GoToGlossariesPage();
+			_workspacePage.GoToGlossariesPage();
 
 			_glossariesPage
 				.ClickCreateGlossaryButton()
@@ -196,7 +196,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.ProjectGroups
 		private NewTranslationMemoryDialog _newTranslationMemoryDialog;
 		private GlossariesPage _glossariesPage;
 		private NewGlossaryDialog _newGlossaryDialog;
-		private WorkspaceHelper _workspaceHelper;
+		private WorkspacePage _workspacePage;
 		private string _projectGroup;
 	}
 }

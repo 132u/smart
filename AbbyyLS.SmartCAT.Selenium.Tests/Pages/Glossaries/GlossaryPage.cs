@@ -30,7 +30,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 
 		public new void LoadPage()
 		{
-			Driver.WaitPageTotalLoad();
 			if (!IsGlossaryPageOpened())
 			{
 				throw new XPathLookupException("Произошла ошибка:\n не загрузилась страница глоссария");
@@ -97,6 +96,19 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 			Driver.WaitUntilElementIsDisappeared(By.XPath(TERM_SAVE_BUTTON));
 
 			return GetPage();
+		}
+
+		/// <summary>
+		/// Нажать на галочку для сохраенния термина
+		/// </summary>
+		public TermAlreadyExistsDialog ClickSaveTermButtonExpectingTermAlreadyExistsDialog()
+		{
+			CustomTestContext.WriteLine("Нажать на галочку для сохраенния термина.");
+			TermSaveButton.Click();
+
+			Driver.WaitUntilElementIsDisappeared(By.XPath(TERM_SAVE_BUTTON));
+
+			return new TermAlreadyExistsDialog(Driver).GetPage();
 		}
 
 		/// <summary>
@@ -863,23 +875,23 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 		/// <summary>
 		/// Открыть структуру глоссария
 		/// </summary>
-		public GlossaryPage OpenGlossaryStructure()
+		public GlossaryStructureDialog OpenGlossaryStructure()
 		{
 			ExpandEditGlossaryMenu();
-			ClickGlossaryStructure();
+			var glossaryStructureDialog = ClickGlossaryStructure();
 
-			return GetPage();
+			return glossaryStructureDialog.GetPage();
 		}
 
 		/// <summary>
 		/// Открыть настройки глоссария
 		/// </summary>
-		public GlossaryPage OpenGlossaryProperties()
+		public GlossaryPropertiesDialog OpenGlossaryProperties()
 		{
 			ExpandEditGlossaryMenu();
-			ClickGlossaryProperties();
+			var glossaryPropertiesDialog = ClickGlossaryProperties();
 
-			return GetPage();
+			return glossaryPropertiesDialog.GetPage();
 		}
 
 		/// <summary>
@@ -1169,7 +1181,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 		/// </summary>
 		public bool IsGlossaryPageOpened()
 		{
-			return Driver.WaitUntilElementIsDisplay(By.XPath(NEW_ENTRY_BUTTON), timeout: 30);
+			return IsDialogBackgroundDisappeared() &&
+			       Driver.WaitUntilElementIsDisplay(By.XPath(NEW_ENTRY_BUTTON), timeout: 30);
 		}
 
 		/// <summary>
@@ -1434,16 +1447,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 			var rangeList = new List<DateTime> { startDate, endDate };
 
 			return dateTimeList.SequenceEqual(rangeList);
-		}
-
-		/// <summary>
-		/// Проверить, отображается ли сообщение 'The term already exists'
-		/// </summary>
-		public bool IsExistTermErrorDisplayed()
-		{
-			CustomTestContext.WriteLine("Проверить, отображается ли сообщение 'The term already exists'.");
-
-			return Driver.WaitUntilElementIsDisplay(By.XPath(ALREADY_EXIST_TERM_ERROR));
 		}
 
 		/// <summary>
@@ -1733,7 +1736,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 		protected const string CUSTOM_TERM_ROWS = "//tr[@class='l-corpr__trhover clickable js-concept-row']";
 		protected const string CLOSE_EXPAND_TERMS_BUTTON = "//i[contains(@class,'js-close-all')]";
 		protected const string DEFAULT_TERM_ROWS = "//tr[@class='l-corpr__trhover js-concept-row']";
-		protected const string ALREADY_EXIST_TERM_ERROR = "//span[contains(text(),'The term already exists')]";
 		protected const string EMPTY_TERM_ERROR = "//div[contains(text(),'Please add at least one term.')]";
 		protected const string SYNONYM_PLUS_BUTTON = "//tr[contains(@class, 'js-concept')]//td[*#*]//span[contains(@class,'js-add-term')]//i";
 		protected const string SYNONYM_INPUT = "//tr[contains(@class, 'js-concept')]//td[*#*]//div//input[contains(@class,'js-term')]";

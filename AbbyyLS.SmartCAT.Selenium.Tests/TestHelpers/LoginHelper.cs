@@ -1,6 +1,7 @@
 ﻿using AbbyyLS.SmartCAT.Selenium.Tests.DataStructures;
 using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Login;
+using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace;
 using AbbyyLS.SmartCAT.Selenium.Tests.TestFramework;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
@@ -15,7 +16,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 			_adminHelper = new AdminHelper(Driver);
 			_commonHelper = new CommonHelper(Driver);
 			_signInPage = new SignInPage(Driver);
-			_workspaceHelper = new WorkspaceHelper(Driver);
+			_workspacePage = new WorkspacePage(Driver);
 		}
 
 		public LoginHelper LogInSmartCat(
@@ -29,7 +30,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 				.SubmitForm(login, password)
 				.SelectAccount(accountName, EuropeTestServerName);
 				
-			_workspaceHelper.SetUp(nickName, accountName);
+			_workspacePage.SetUp(nickName, accountName);
 
 			return this;
 		}
@@ -84,7 +85,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 		private readonly AdminHelper _adminHelper;
 		private readonly CommonHelper _commonHelper;
 		private readonly SignInPage _signInPage;
-		private readonly WorkspaceHelper _workspaceHelper;
+		private readonly WorkspacePage _workspacePage;
 
 		public const string TestAccountName = "TestAccount";
 		public const string PersonalAccountName = "Personal";

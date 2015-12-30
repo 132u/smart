@@ -6,6 +6,7 @@ using AbbyyLS.SmartCAT.Selenium.Tests.DataStructures;
 using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Billing;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Billing.LicenseDialog;
+using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace;
 using AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Billing
@@ -22,8 +23,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Billing
 		{
 			LoginHelper = new LoginHelper(Driver);
 			CommonHelper = new CommonHelper(Driver);
-			WorkspaceHelper = new WorkspaceHelper(Driver);
-
+			WorkspacePage = new WorkspacePage(Driver);
 			BillingPage = new BillingPage(Driver);
 			LicenseBaseDialog = new LicenseBaseDialog(Driver);
 			LicenseExtendDialog = new LicenseExtendDialog(Driver);
@@ -56,13 +56,12 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Billing
 				ThreadUser.Password,
 				accountUniqueName);
 
-			WorkspaceHelper.GoToBillingPage();
+			WorkspacePage.GoToBillingPage();
 		}
 
 		protected LoginHelper LoginHelper;
 		protected CommonHelper CommonHelper;
-		protected WorkspaceHelper WorkspaceHelper;
-
+		protected WorkspacePage WorkspacePage;
 		public BillingPage BillingPage;
 		public LicenseBaseDialog LicenseBaseDialog;
 		public LicenseExtendDialog LicenseExtendDialog;

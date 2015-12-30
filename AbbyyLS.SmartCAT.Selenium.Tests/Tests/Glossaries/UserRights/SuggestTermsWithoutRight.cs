@@ -3,6 +3,7 @@
 using AbbyyLS.SmartCAT.Selenium.Tests.DataStructures;
 using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries;
+using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace;
 using AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
@@ -20,7 +21,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 		{
 			_loginHelper = new LoginHelper(Driver);
 			_glossariesHelper = new GlossariesHelper(Driver);
-			_workspaceHelper = new WorkspaceHelper(Driver);
+			_workspacePage = new WorkspacePage(Driver);
 			_glossariesPage = new GlossariesPage(Driver);
 
 			_glossaryName = GlossariesHelper.UniqueGlossaryName();
@@ -45,7 +46,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 		[Test]
 		public void SuggestTermsRightPersonalAccountTest()
 		{
-			_workspaceHelper.GoToGlossariesPage();
+			_workspacePage.GoToGlossariesPage();
 
 			Assert.IsFalse(_glossariesPage.IsSuggestedTermsButtonExist(),
 				"Произошла ошибка:\nКнопка 'Suggested Terms' присутствует");
@@ -63,7 +64,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 		}
 
 		private string _glossaryName;
-		private WorkspaceHelper _workspaceHelper;
+		private WorkspacePage _workspacePage;
 		private LoginHelper _loginHelper;
 		private GlossariesHelper _glossariesHelper;
 		private GlossariesPage _glossariesPage;

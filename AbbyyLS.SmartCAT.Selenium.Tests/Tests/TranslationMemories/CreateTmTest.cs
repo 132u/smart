@@ -1,10 +1,9 @@
-﻿using AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers;
-
-using NUnit.Framework;
+﻿using NUnit.Framework;
 
 using AbbyyLS.SmartCAT.Selenium.Tests.DataStructures;
 using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
 using AbbyyLS.SmartCAT.Selenium.Tests.FeatureAttributes;
+using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.TranslationMemories
@@ -81,8 +80,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.TranslationMemories
 		public void CreateMultilanguageTM()
 		{
 			TranslationMemoriesHelper
-				.CreateTranslationMemory(UniqueTMName, targetLanguage: Language.Russian, secondTargetLanguage: Language.Lithuanian)
-				.GoToProjectsPage();
+				.CreateTranslationMemory(UniqueTMName, targetLanguage: Language.Russian, secondTargetLanguage: Language.Lithuanian);
+
+			WorkspacePage.GoToProjectsPage();
 
 			ProjectsPage.ClickCreateProjectButton();
 
@@ -98,9 +98,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.TranslationMemories
 
 			NewProjectSetUpTMDialog.ClickCancelButton();
 
-			WorkspacePage.ClickProjectsSubmenuAssumingAlert();
+			WorkspacePage.ClickProjectsSubmenuExpectingAlert();
 
-			WorkspacePage.AcceptAlert();
+			WorkspacePage.AcceptAlert<ProjectsPage>();
 
 			ProjectsPage.ClickCreateProjectButton();
 

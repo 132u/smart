@@ -68,7 +68,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.UsersRights
 		{
 			SetNewGroupName(groupName);
 			ClickSaveNewGroupButton();
-			WaitUntilDialogBackgroundDisappeared();
 
 			return new GroupsAndAccessRightsTab(Driver).GetPage();
 		}

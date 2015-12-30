@@ -25,13 +25,13 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 
 		public new void LoadPage()
 		{
-            if (!IsDocumentSettingsDialogOpened())
+			if (!IsDocumentSettingsDialogOpened())
 			{
-			    throw new XPathLookupException("Произошла ошибка:\n не появился диалог настроек документа");
+				throw new XPathLookupException("Произошла ошибка:\n не появился диалог настроек документа");
 			}
 		}
 
-        #region Простые методы страницы
+		#region Простые методы страницы
 
 		/// <summary>
 		/// Задать имя документа
@@ -52,24 +52,26 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 			CustomTestContext.WriteLine("Нажать кнопку сохранения");
 			SaveButton.Click();
 
-			var instance = Activator.CreateInstance(typeof(T), new object[] { driver }) as T;
+			var instance = Activator.CreateInstance(typeof (T), new object[] {driver}) as T;
 			return instance.GetPage();
 		}
 
 		/// <summary>
 		/// Выбрать МТ в настройках документа
 		/// </summary>
-		public DocumentSettingsDialog SelectMachineTranslation(MachineTranslationType machineTranslationType = MachineTranslationType.DefaultMT)
+		public DocumentSettingsDialog SelectMachineTranslation(
+			MachineTranslationType machineTranslationType = MachineTranslationType.DefaultMT)
 		{
-			
-			var machineTranslationCheckbox = Driver.SetDynamicValue(How.XPath, MT_CHECKBOX_INPUT, machineTranslationType.Description());
+
+			MachineTranslationCheckbox = Driver.SetDynamicValue(How.XPath, MT_CHECKBOX_INPUT,
+				machineTranslationType.Description());
 
 			CustomTestContext.WriteLine("Проверить, что Мachine Тranslation {0} не выбрано.", machineTranslationType);
 
-			if (!machineTranslationCheckbox.Selected)
+			if (!MachineTranslationCheckbox.Selected)
 			{
 				CustomTestContext.WriteLine("Выбрать Мachine Тranslation {0} в настройках документа.", machineTranslationType);
-				machineTranslationCheckbox.Click();
+				MachineTranslationCheckbox.Click();
 			}
 
 			return GetPage();
@@ -102,15 +104,18 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 		/// <summary>
 		/// Убрать галочку для Мachine Тranslation
 		/// </summary>>
-		public DocumentSettingsDialog UnselectMachineTranslation(MachineTranslationType machineTranslationType = MachineTranslationType.DefaultMT)
+		public DocumentSettingsDialog UnselectMachineTranslation(
+			MachineTranslationType machineTranslationType = MachineTranslationType.DefaultMT)
 		{
 			CustomTestContext.WriteLine("Проверить, что Мachine Тranslation {0} выбрано.", machineTranslationType);
-			var machineTranslationCheckbox = Driver.SetDynamicValue(How.XPath, MT_CHECKBOX_INPUT, machineTranslationType.Description());
+			MachineTranslationCheckbox = Driver.SetDynamicValue(How.XPath, MT_CHECKBOX_INPUT,
+				machineTranslationType.Description());
 
-			if (machineTranslationCheckbox.Selected)
+			if (MachineTranslationCheckbox.Selected)
 			{
-				CustomTestContext.WriteLine("Убрать галочку для Мachine Тranslation {0} в настройках документа.", machineTranslationType);
-				machineTranslationCheckbox.Click();
+				CustomTestContext.WriteLine("Убрать галочку для Мachine Тranslation {0} в настройках документа.",
+					machineTranslationType);
+				MachineTranslationCheckbox.Click();
 			}
 
 			return GetPage();
@@ -123,7 +128,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 		public ProjectsPage CloseDocumentSettings(string projectName)
 		{
 			ClickSaveButton<ProjectsPage>(Driver);
-			AssertDialogBackgroundDisappeared<ProjectsPage>(Driver);
 			WaitUntilProjectLoadSuccessfully(projectName);
 
 			return new ProjectsPage(Driver).GetPage();
@@ -137,25 +141,28 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 		/// Проверить, что стоит галочка в чекбоксе машинного перевода
 		/// </summary>
 		/// <param name="machineTranslationType">тип машинного перевода</param>
-		public bool IsMachineTranslationSelected(MachineTranslationType machineTranslationType = MachineTranslationType.DefaultMT)
+		public bool IsMachineTranslationSelected(
+			MachineTranslationType machineTranslationType = MachineTranslationType.DefaultMT)
 		{
-			CustomTestContext.WriteLine("Проверить, что стоит галочка в чекбоксе машинного перевода типа {0}.", machineTranslationType);
-			var machineTranslationCheckbox = Driver.SetDynamicValue(How.XPath, MT_CHECKBOX_INPUT, machineTranslationType.Description());
+			CustomTestContext.WriteLine("Проверить, что стоит галочка в чекбоксе машинного перевода типа {0}.",
+				machineTranslationType);
+			MachineTranslationCheckbox = Driver.SetDynamicValue(How.XPath, MT_CHECKBOX_INPUT,
+				machineTranslationType.Description());
 
-			return machineTranslationCheckbox.Selected;
+			return MachineTranslationCheckbox.Selected;
 		}
 
 		/// <summary>
-        /// Проверить, открылся ли диалог настроек документа
-        /// </summary>
-	    public bool IsDocumentSettingsDialogOpened()
-	    {
-	        return Driver.WaitUntilElementIsDisplay(By.XPath(TITLE));
-	    }
+		/// Проверить, открылся ли диалог настроек документа
+		/// </summary>
+		public bool IsDocumentSettingsDialogOpened()
+		{
+			return Driver.WaitUntilElementIsDisplay(By.XPath(TITLE));
+		}
 
-        #endregion
+		#endregion
 
-        #region Объявление элементов страницы
+		#region Объявление элементов страницы
 
 		[FindsBy(How = How.XPath, Using = NAME_INPUT)]
 		protected IWebElement Name { get; set; }
@@ -169,11 +176,13 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 		[FindsBy(How = How.XPath, Using = GLOSSARY_TABLE)]
 		protected IWebElement GlossaryTable { get; set; }
 
-		protected  IWebElement GlossaryCheckbox { get; set; }
+		protected IWebElement GlossaryCheckbox { get; set; }
 
-        #endregion
+		protected IWebElement MachineTranslationCheckbox { get; set; }
 
-        #region Описания XPath элементов
+		#endregion
+
+		#region Описания XPath элементов
 
 		protected const string TITLE = "(//h2[text()='Document Settings'])[3]";
 		protected const string NAME_INPUT = "//div[contains(@class,'document-settings')][3]//input[contains(@data-bind,'value: name')]";
@@ -182,7 +191,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 		protected const string MT_CHECKBOX = "//span[text()='*#*']/../../preceding-sibling::td";
 		protected const string GLOSSARY_BY_NAME_XPATH = "(//h2[text()='Document Settings']//..//..//table[contains(@class,'l-corpr__tbl')]//tbody[@data-bind='foreach: glossaries']//tr[contains(string(), '*#*')])[1]//td//input";
 		protected const string GLOSSARY_TABLE = "//div[contains(@class, 'single-target-document-settings')][2]//tbody[contains(@data-bind, 'glossaries')]";
-	
-        #endregion
-    }
+
+		#endregion
+	}
 }

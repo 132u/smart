@@ -10,7 +10,7 @@ using AbbyyLS.SmartCAT.Selenium.Tests.TestFramework;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories
 {
-	class ImportTmxDialog : WorkspacePage, IAbstractPage<ImportTmxDialog>
+	public class ImportTmxDialog : WorkspacePage, IAbstractPage<ImportTmxDialog>
 	{
 		public ImportTmxDialog(WebDriver driver) : base(driver)
 		{
@@ -66,7 +66,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories
 		{
 			CustomTestContext.WriteLine("Нажать кнопку 'Import' в окне 'Import TMX files'");
 			ImportButton.Click();
-			WaitUntilDialogBackgroundDisappeared();
 
 			return new TranslationMemoriesPage(Driver).GetPage();
 		}

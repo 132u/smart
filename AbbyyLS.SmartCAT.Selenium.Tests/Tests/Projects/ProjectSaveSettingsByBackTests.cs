@@ -5,6 +5,7 @@ using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
 using AbbyyLS.SmartCAT.Selenium.Tests.FeatureAttributes;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog;
+using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace;
 using AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
@@ -15,7 +16,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 		[SetUp]
 		public void SetUp()
 		{
-			_workspaceHelper = new WorkspaceHelper(Driver);
+			_workspacePage = new WorkspacePage(Driver);
 			_createProjectHelper = new CreateProjectHelper(Driver);
 			_newProjectSelectGlossariesDialog = new NewProjectSelectGlossariesDialog(Driver);
 			_newProjectDocumentUploadPage = new NewProjectDocumentUploadPage(Driver);
@@ -23,10 +24,10 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 			_newProjectSetUpTMDialog = new NewProjectSetUpTMDialog(Driver);
 			_newProjectSetUpPretranslationDialog = new NewProjectSetUpPretranslationDialog(Driver);
 			_newProjectWorkflowPage = new NewProjectWorkflowPage(Driver);
-
 			_projectsPage = new ProjectsPage(Driver);
-			_workspaceHelper.GoToProjectsPage();
 			_projectUniqueName = _createProjectHelper.GetProjectUniqueName();
+
+			_workspacePage.GoToProjectsPage();
 		}
 
 		[Test, Standalone]
@@ -187,7 +188,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 		private string _projectUniqueName;
 
 		private CreateProjectHelper _createProjectHelper;
-		private WorkspaceHelper _workspaceHelper;
+		private WorkspacePage _workspacePage;
 		private ProjectsPage _projectsPage;
 		private NewProjectDocumentUploadPage _newProjectDocumentUploadPage;
 		private NewProjectSettingsPage _newProjectSettingsPage;

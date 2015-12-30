@@ -3,7 +3,7 @@
 using AbbyyLS.SmartCAT.Selenium.Tests.DataStructures;
 using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.UsersRights;
-using AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers;
+using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersRights
 {
@@ -14,14 +14,13 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersRights
 		[SetUp]
 		public void Initialize()
 		{
-			_workspaceHelper = new WorkspaceHelper(Driver);
 			_groupsAndAccessRightsTab = new GroupsAndAccessRightsTab(Driver);
+			_workspacePage = new WorkspacePage(Driver);
 			_addAccessRightDialog = new AddAccessRightDialog(Driver);
 			_newGroupDialog = new NewGroupDialog(Driver);
-
-			_workspaceHelper.GoToUsersPage();
-
 			_groupName = _groupsAndAccessRightsTab.GetGroupUniqueName();
+
+			_workspacePage.GoToUsersPage();
 		}
 
 		[Test]
@@ -94,7 +93,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersRights
 				"Произошла ошибка:\n не удалось добавить пользователя в группу");
 		}
 
-		private WorkspaceHelper _workspaceHelper;
+		private WorkspacePage _workspacePage;
 		private GroupsAndAccessRightsTab _groupsAndAccessRightsTab;
 		private AddAccessRightDialog _addAccessRightDialog;
 		protected NewGroupDialog _newGroupDialog;

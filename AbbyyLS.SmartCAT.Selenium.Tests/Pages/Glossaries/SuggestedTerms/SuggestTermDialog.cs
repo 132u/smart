@@ -76,7 +76,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 		{
 			CustomTestContext.WriteLine("Нажать кнопку Save, ожидая открытия страницы глоссария");
 			SaveButon.Click();
-			WaitUntilDialogBackgroundDisappeared();
 
 			return new GlossaryPage(Driver).GetPage();
 		}
@@ -88,7 +87,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 		{
 			CustomTestContext.WriteLine("Нажать кнопку Save, ожидая открытия страницы со списком глоссариев");
 			SaveButon.Click();
-			WaitUntilDialogBackgroundDisappeared();
 
 			return new GlossariesPage(Driver).GetPage();
 		}
@@ -144,7 +142,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 		{
 			CustomTestContext.WriteLine("Нажать кнопку Cancel, ожидая открытия страницы со списком глоссариев");
 			CancelButon.Click();
-			WaitUntilDialogBackgroundDisappeared();
 
 			return new GlossariesPage(Driver).GetPage();
 		}
@@ -156,7 +153,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 		{
 			CustomTestContext.WriteLine("Нажать кнопку Cancel, ожидая открытия страницы глоссария");
 			CancelButon.Click();
-			WaitUntilDialogBackgroundDisappeared();
 
 			return new GlossaryPage(Driver).GetPage();
 		}
@@ -168,7 +164,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 		{
 			CustomTestContext.WriteLine("Нажать кнопку 'Save term anyway', ожидая открытия страницы со списком глоссариев");
 			SaveTermAnywayButon.Click();
-			WaitUntilDialogBackgroundDisappeared();
 
 			return new GlossariesPage(Driver).GetPage();
 		}
@@ -180,7 +175,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 		{
 			CustomTestContext.WriteLine("Нажать кнопку 'Save term anyway', ожидая открытия страницы глоссария");
 			SaveTermAnywayButon.Click();
-			WaitUntilDialogBackgroundDisappeared();
 
 			return new GlossaryPage(Driver).GetPage();
 		}

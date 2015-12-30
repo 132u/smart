@@ -24,7 +24,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Registration.FreelanceRegistrati
 			_signInPage = new SignInPage(Driver);
 			_workspacePage = new WorkspacePage(Driver);
 			_projectsPage = new ProjectsPage(Driver);
-			_workspaceHelper = new WorkspaceHelper(Driver);
 			_loginHelper = new LoginHelper(Driver);
 			_adminHelper = new AdminHelper(Driver);
 			_commonHelper = new CommonHelper(Driver);
@@ -53,7 +52,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Registration.FreelanceRegistrati
 		protected FreelanceRegistrationFirstPage _freelanceRegistrationFirstPage;
 		protected FreelanceRegistrationSignInPage _freelanceRegistrationSignInPage;
 		protected SignInPage _signInPage;
-		protected WorkspaceHelper _workspaceHelper;
 		protected LoginHelper _loginHelper;
 		protected AdminHelper _adminHelper;
 		protected CommonHelper _commonHelper;

@@ -67,12 +67,12 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories
 		/// <summary>
 		/// Нажать кнопку Delete в информации о ТМ
 		/// </summary>
-		public TranslationMemoriesPage ClickDeleteButtonInTMInfo()
+		public DeleteTmDialog ClickDeleteButtonInTMInfo()
 		{
 			CustomTestContext.WriteLine("Нажать кнопку Delete.");
 			DeleteButton.Click();
 
-			return GetPage();
+			return new DeleteTmDialog(Driver).GetPage();
 		}
 
 		/// <summary>
@@ -315,12 +315,12 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories
 		/// <summary>
 		/// Нажать на кнопку 'Update TM'
 		/// </summary>
-		public TranslationMemoriesPage ClickUpdateTmButton()
+		public ImportTmxDialog ClickUpdateTmButton()
 		{
 			CustomTestContext.WriteLine("Нажать на кнопку 'Update TM'");
 			UpdateTmButton.Click();
 
-			return GetPage();
+			return new ImportTmxDialog(Driver).GetPage();
 		}
 
 		/// <summary>
@@ -337,12 +337,12 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories
 		/// <summary>
 		/// Нажать на кнопку Add TMX
 		/// </summary>
-		public TranslationMemoriesPage ClickAddTmxButton()
+		public ImportTmxDialog ClickAddTmxButton()
 		{
 			CustomTestContext.WriteLine("Нажать на кнопку 'Add TMX'");
 			AddTmxButton.Click();
 
-			return GetPage();
+			return new ImportTmxDialog(Driver).GetPage();
 		}
 
 		/// <summary>
@@ -575,7 +575,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories
 		/// </summary>
 		public bool IsTranslationMemoriesPageOpened()
 		{
-			return Driver.WaitUntilElementIsDisplay(By.XPath(ADD_TM_BTN));
+			return IsDialogBackgroundDisappeared() &&
+				Driver.WaitUntilElementIsDisplay(By.XPath(ADD_TM_BTN));
 		}
 
 		/// <summary>
@@ -595,7 +596,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories
 		{
 			CustomTestContext.WriteLine("Получить, открыта ли информация о ТМ {0}", tmName);
 
-			return Driver.WaitUntilElementIsDisplay(By.XPath(TM_INFORMATION_FORM.Replace("*#*", tmName)));
+			return Driver.ElementIsDisplayed(By.XPath(TM_INFORMATION_FORM.Replace("*#*", tmName)));
 		}
 
 		/// <summary>
@@ -822,6 +823,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories
 		protected IWebElement TopicInList { get; set; }
 
 		protected IWebElement RemoveFilterButton { get; set; }
+
+		protected IWebElement TmInformationForm { get; set; }
 
 		#endregion
 

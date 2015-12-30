@@ -13,9 +13,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.TranslationMemories
 		[Test]
 		public void CreateTMCheckProjectCreateTMListTest()
 		{
-			TranslationMemoriesHelper
-				.CreateTranslationMemory(UniqueTMName)
-				.GoToProjectsPage();
+			TranslationMemoriesHelper.CreateTranslationMemory(UniqueTMName);
+
+			WorkspacePage.GoToProjectsPage();
 
 			ProjectsPage.ClickCreateProjectButton();
 
@@ -42,7 +42,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.TranslationMemories
 			Assert.IsTrue(TranslationMemoriesPage.IsTranslationMemoryExist(UniqueTMName),
 				"Произошла ошибка:\n ТМ {0} не представлена в списке ТМ", UniqueTMName);
 
-			WorkspaceHelper.GoToProjectsPage();
+			WorkspacePage.GoToProjectsPage();
 
 			ProjectsPage.ClickCreateProjectButton();
 

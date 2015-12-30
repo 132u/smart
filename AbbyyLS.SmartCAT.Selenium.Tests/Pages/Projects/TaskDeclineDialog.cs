@@ -38,7 +38,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings
 		{
 			CustomTestContext.WriteLine("Нажать кнопку Decline.");
 			DeclineButton.Click();
-			AssertDialogBackgroundDisappeared<ProjectsPage>(Driver);
 
 			return new ProjectsPage(Driver).GetPage();
 		}

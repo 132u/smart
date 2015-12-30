@@ -5,8 +5,10 @@ using NUnit.Framework;
 using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
 using AbbyyLS.SmartCAT.Selenium.Tests.FeatureAttributes;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor;
+using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.UsersRights;
+using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace;
 using AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
@@ -19,36 +21,43 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 		public void GlossariesSetUp()
 		{
 			_createProjectHelper = new CreateProjectHelper(Driver);
-			_workspaceHelper = new WorkspaceHelper(Driver);
 			_usersTab = new UsersTab(Driver);
+			_projectSettingsHelper = new ProjectSettingsHelper(Driver);
+			_glossariesHelper = new GlossariesHelper(Driver);
+			_workspacePage = new WorkspacePage(Driver);
 			_projectSettingsPage = new ProjectSettingsPage(Driver);
 			_editorPage = new EditorPage(Driver);
 			_selectTaskDialog = new SelectTaskDialog(Driver);
 			_addTermDialog = new AddTermDialog(Driver);
+			_projectsPage = new ProjectsPage(Driver);
 
 			_projectName = _createProjectHelper.GetProjectUniqueName();
 			_glossary1Name = GlossariesHelper.UniqueGlossaryName();
 			_glossary2Name = GlossariesHelper.UniqueGlossaryName();
 			_glossary3Name = GlossariesHelper.UniqueGlossaryName();
 
-			_workspaceHelper.GoToUsersPage();
+			_workspacePage.GoToUsersPage();
 
 			_usersTab
 				.ClickGroupsButton()
 				.AddUserToGroupIfNotAlredyAdded("Administrators", ThreadUser.NickName);
 
-			_workspaceHelper
-				.GoToGlossariesPage()
-				.CreateGlossary(_glossary1Name)
-				.GoToGlossariesPage()
-				.CreateGlossary(_glossary2Name)
-				.GoToProjectsPage();
+			_workspacePage.GoToGlossariesPage();
 
-			_createProjectHelper
-				.CreateNewProject(_projectName, glossaryName: _glossary3Name)
-				.GoToProjectSettingsPage(_projectName)
+			_glossariesHelper.CreateGlossary(_glossary1Name);
+
+			_workspacePage.GoToGlossariesPage();
+
+			_glossariesHelper.CreateGlossary(_glossary2Name);
+
+			_workspacePage.GoToProjectsPage();
+
+			_createProjectHelper.CreateNewProject(_projectName, glossaryName: _glossary3Name);
+
+			_projectsPage.ClickProject(_projectName);
+
+			_projectSettingsHelper
 				.UploadDocument(new []{PathProvider.DocumentFile})
-				.RefreshPage<ProjectSettingsPage, ProjectSettingsHelper>()
 				.AssignTasksOnDocument(PathProvider.DocumentFile, ThreadUser.NickName)
 				.AddGlossaryToDocument(PathProvider.DocumentFile, _glossary1Name)
 				.AddGlossaryToDocument(PathProvider.DocumentFile, _glossary2Name);
@@ -125,8 +134,11 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 		private string _glossary3Name;
 
 		private CreateProjectHelper _createProjectHelper;
+		private ProjectSettingsHelper _projectSettingsHelper;
+		private GlossariesHelper _glossariesHelper;
+		private ProjectsPage _projectsPage;
 		private ProjectSettingsPage _projectSettingsPage;
-		private WorkspaceHelper _workspaceHelper;
+		private WorkspacePage _workspacePage;
 		private EditorPage _editorPage;
 		private SelectTaskDialog _selectTaskDialog;
 		private UsersTab _usersTab;

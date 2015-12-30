@@ -236,7 +236,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.UsersRights
 		/// </summary>
 		public bool IsGroupsAndAccessRightsTabOpened()
 		{
-			return Driver.WaitUntilElementIsDisplay(By.XPath(CREATE_GROUP_BUTTON));
+			return IsDialogBackgroundDisappeared() &&
+				Driver.WaitUntilElementIsDisplay(By.XPath(CREATE_GROUP_BUTTON));
 		}
 
 		/// <summary>

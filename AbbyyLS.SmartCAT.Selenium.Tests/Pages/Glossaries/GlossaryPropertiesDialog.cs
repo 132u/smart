@@ -72,7 +72,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 		{
 			CustomTestContext.WriteLine("Нажать кнопку Save");
 			SaveButton.Click();
-			WaitUntilDialogBackgroundDisappeared();
 
 			return new GlossaryPage(Driver).GetPage();
 		}

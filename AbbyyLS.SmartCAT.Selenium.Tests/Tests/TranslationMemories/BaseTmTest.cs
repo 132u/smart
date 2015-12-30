@@ -15,10 +15,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.TranslationMemories
 		[SetUp]
 		public void SetUpTmTests()
 		{
-			WorkspaceHelper = new WorkspaceHelper(Driver);
 			TranslationMemoriesHelper = new TranslationMemoriesHelper(Driver);
 			CreateProjectHelper = new CreateProjectHelper(Driver);
-
+			TranslationMemoriesHelper = new TranslationMemoriesHelper(Driver);
 			WorkspacePage = new WorkspacePage(Driver);
 			TranslationMemoriesPage = new TranslationMemoriesPage(Driver);
 			TranslationMemoriesFilterDialog = new TranslationMemoriesFilterDialog(Driver);
@@ -31,10 +30,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.TranslationMemories
 			NewProjectSetUpTMDialog = new NewProjectSetUpTMDialog(Driver);
 			ConfirmReplacementDialog = new ConfirmReplacementDialog(Driver);
 			DeleteTmDialog = new DeleteTmDialog(Driver);
-
 			UniqueTMName = TranslationMemoriesHelper.GetTranslationMemoryUniqueName();
 
-			TranslationMemoriesHelper = WorkspaceHelper.GoToTranslationMemoriesPage();
+			WorkspacePage.GoToTranslationMemoriesPage();
 			TranslationMemoriesPage.CloseAllNotifications<TranslationMemoriesPage>();
 		}
 
@@ -46,7 +44,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.TranslationMemories
 		public TranslationMemoriesFilterDialog TranslationMemoriesFilterDialog;
 		public NewTranslationMemoryDialog NewTranslationMemoryDialog;
 		public ImportTmxDialog ImportTmxDialog;
-		public WorkspaceHelper WorkspaceHelper;
 		public WorkspacePage WorkspacePage;
 		public ProjectsPage ProjectsPage;
 		public NewProjectDocumentUploadPage NewProjectDocumentUploadPage;

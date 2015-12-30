@@ -7,6 +7,7 @@ using AbbyyLS.SmartCAT.Selenium.Tests.DataStructures;
 using AbbyyLS.SmartCAT.Selenium.Tests.FeatureAttributes;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.LingvoDictionaries;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Search;
+using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace;
 using AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.LingvoDictionaries
@@ -27,7 +28,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.LingvoDictionaries
 			_adminHelper = new AdminHelper(Driver);
 			_commonHelper = new CommonHelper(Driver);
 			_loginHelper = new LoginHelper(Driver);
-			_workspaceHelper = new WorkspaceHelper(Driver);
+			_workspacePage = new WorkspacePage(Driver);
 
 			_searchPage = new SearchPage(Driver);
 			_lingvoDictionariesPage = new LingvoDictionariesPage(Driver);
@@ -49,6 +50,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.LingvoDictionaries
 					.AddUserToSpecificAccount(ThreadUser.Login, accountUniqueName);
 
 				_commonHelper.GoToSignInPage();
+
 				_loginHelper.LogInSmartCat(
 					ThreadUser.Login,
 					ThreadUser.NickName,
@@ -56,14 +58,19 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.LingvoDictionaries
 					accountUniqueName);
 			}
 
-			_workspaceHelper
-				.AssertLingvoDictionariesDisplayed()
-				.GoToLingvoDictionariesPage();
+			_workspacePage
+				.OpenHideMenuIfClosed()
+				.ExpandResourcesIfNotExpanded();
+
+			Assert.IsTrue(_workspacePage.IsLingvoDictionariesMenuItemDisplayed(),
+				"Произошла ошибка:\n в меню отсутствует 'Lingvo Dictionaries'");
+
+			_workspacePage.GoToLingvoDictionariesPage();
 
 			Assert.IsTrue(_lingvoDictionariesPage.IsLingvoDictionariesListNotEmpty(),
 				"Произошла ошибка:\n список словарей пуст.");
 
-			_workspaceHelper.GotToSearchPage();
+			_workspacePage.GoToSearchPage();
 		}
 
 		[Test]
@@ -144,7 +151,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.LingvoDictionaries
 
 		private AdminHelper _adminHelper;
 		private LoginHelper _loginHelper;
-		private WorkspaceHelper _workspaceHelper;
+		private WorkspacePage _workspacePage;
 		private CommonHelper _commonHelper;
 
 		private SearchPage _searchPage;

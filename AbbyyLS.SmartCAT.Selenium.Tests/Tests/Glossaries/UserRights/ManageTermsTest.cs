@@ -8,6 +8,7 @@ using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Search;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.UsersRights;
+using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace;
 using AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersRights
@@ -18,21 +19,22 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersRights
 		[SetUp]
 		public void SetUp()
 		{
-			_workspaceHelper = new WorkspaceHelper(Driver);
+			_workspacePage = new WorkspacePage(Driver);
+			_glossaryHelper = new GlossariesHelper(Driver);
 			_searchPage = new SearchPage(Driver);
 			_usersTab = new UsersTab(Driver);
 			_glossaryPage = new GlossaryPage(Driver);
 			_glossaryStructureDialog = new GlossaryStructureDialog(Driver);
+			_glossaryUniqueName = GlossariesHelper.UniqueGlossaryName();
+			_termAlreadyExistsDialog = new TermAlreadyExistsDialog(Driver);
 
-			_workspaceHelper.GoToUsersPage();
+			_workspacePage.GoToUsersPage();
 
 			_usersTab
 				.ClickGroupsButton()
 				.AddUserToGroupIfNotAlredyAdded("Administrators", ThreadUser.NickName);
 
-			_glossaryHelper = _workspaceHelper.GoToGlossariesPage();
-
-			_glossaryUniqueName = GlossariesHelper.UniqueGlossaryName();
+			_workspacePage.GoToGlossariesPage();
 		}
 
 		[Test]
@@ -68,13 +70,19 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersRights
 		[Test]
 		public void CreateExistingTermTest()
 		{
+			var firstTerm = "firstTerm";
+			var secondTerm = "secondTerm";
+
 			_glossaryHelper.CreateGlossary(_glossaryUniqueName);
 
-			_glossaryPage
-				.CreateTerm()
-				.CreateTerm();
+			_glossaryPage.CreateTerm(firstTerm, secondTerm);
 
-			Assert.IsTrue(_glossaryPage.IsExistTermErrorDisplayed(),
+			_glossaryPage
+				.ClickNewEntryButton()
+				.FillAllTerm(firstTerm, secondTerm)
+				.ClickSaveTermButtonExpectingTermAlreadyExistsDialog();
+
+			Assert.IsTrue(_termAlreadyExistsDialog.IsTermAlreadyExistsDialogOpened(),
 				"Произошла ошибка:\n сообщение 'The term already exists' не появилось.");
 		}
 
@@ -234,13 +242,13 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersRights
 
 			_glossaryPage.CreateTerm(firstTerm, secondTerm + DateTime.UtcNow.Ticks);
 
-			_workspaceHelper.GoToGlossariesPage();
+			_workspacePage.GoToGlossariesPage();
 
 			_glossaryHelper.CreateGlossary(glossaryUniqueName2);
 
 			_glossaryPage.CreateTerm(firstTerm, secondTerm + DateTime.UtcNow.Ticks);
 
-			_workspaceHelper.GotToSearchPage();
+			_workspacePage.GoToSearchPage();
 
 			_searchPage.InitSearch(uniqueData);
 
@@ -329,12 +337,12 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersRights
 		}
 
 		private GlossariesHelper _glossaryHelper;
-		private WorkspaceHelper _workspaceHelper;
-
+		private WorkspacePage _workspacePage;
 		private SearchPage _searchPage;
 		private UsersTab _usersTab;
 		private GlossaryPage _glossaryPage;
 		private GlossaryStructureDialog _glossaryStructureDialog;
+		private TermAlreadyExistsDialog _termAlreadyExistsDialog;
 
 		private string _glossaryUniqueName;
 	}

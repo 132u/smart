@@ -52,7 +52,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.TranslationMemories
 
 			DeleteTmDialog.ConfirmReplacement();
 
-			WorkspaceHelper.GoToProjectsPage();
+			WorkspacePage.GoToProjectsPage();
 
 			ProjectsPage.ClickCreateProjectButton();
 

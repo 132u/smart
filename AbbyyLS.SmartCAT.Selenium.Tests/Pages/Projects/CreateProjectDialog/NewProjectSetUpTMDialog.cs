@@ -82,7 +82,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 		{
 			CustomTestContext.WriteLine("Нажать кнопку Cancel в окне выбора TM");
 			CancelButton.Click();
-			WaitUntilDialogBackgroundDisappeared();
 
 			return new NewProjectSettingsPage(Driver).GetPage();
 		}

@@ -8,6 +8,7 @@ using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
 using AbbyyLS.SmartCAT.Selenium.Tests.ExplicitAttributes;
 using AbbyyLS.SmartCAT.Selenium.Tests.FeatureAttributes;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Registration;
+using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace;
 using AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Registration
@@ -28,7 +29,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Registration
 			_companyRegistrationSecondPage = new CompanyRegistrationSecondPage(Driver);
 			_companyRegistrationSignInPage = new CompanyRegistrationSignInPage(Driver);
 
-			_workspaceHelper = new WorkspaceHelper(Driver);
+			_workspacePage = new WorkspacePage(Driver);
 			_commonHelper = new CommonHelper(Driver);
 			_loginHelper = new LoginHelper(Driver);
 
@@ -57,9 +58,11 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Registration
 					companyType: CompanyType.LanguageServiceProvider)
 				.ClickCreateCorporateAccountButton();
 
-			_workspaceHelper
-				.CloseTour()
-				.AssertUserNameAndAccountNameCorrect(_firstName + " " + _lastName, _maximumCompanyName);
+			Assert.IsTrue(_workspacePage.IsUserNameMatchExpected(_firstName + " " + _lastName),
+				"Произошла ошибка:\n Имя пользователя в черной плашке не совпадает с ожидаемым именем");
+
+			Assert.IsTrue(_workspacePage.IsAccountNameMatchExpected(_maximumCompanyName),
+				"Произошла ошибка:\n название аккаунта в черной плашке не совпадает с ожидаемым именем");
 		}
 
 		[Test]
@@ -80,9 +83,11 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Registration
 					companyType: CompanyType.LanguageServiceProvider)
 				.ClickCreateCorporateAccountButton();
 
-			_workspaceHelper
-				.CloseTour()
-				.AssertUserNameAndAccountNameCorrect(_firstName + " " + _lastName, minimumCompanyName);
+			Assert.IsTrue(_workspacePage.IsUserNameMatchExpected(_firstName + " " + _lastName),
+				"Произошла ошибка:\n Имя пользователя в черной плашке не совпадает с ожидаемым именем");
+
+			Assert.IsTrue(_workspacePage.IsAccountNameMatchExpected(minimumCompanyName),
+				"Произошла ошибка:\n название аккаунта в черной плашке не совпадает с ожидаемым именем");
 		}
 
 		[Test]
@@ -106,10 +111,13 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Registration
 					companyType: CompanyType.LanguageServiceProvider)
 				.ClickCreateCorporateAccountButton();
 
-			_workspaceHelper
-				.CloseTour()
-				.AssertUserNameAndAccountNameCorrect(_firstName + " " + _lastName, _maximumCompanyName)
-				.SignOutAssumingAlert();
+			Assert.IsTrue(_workspacePage.IsUserNameMatchExpected(_firstName + " " + _lastName),
+				"Произошла ошибка:\n Имя пользователя в черной плашке не совпадает с ожидаемым именем");
+
+			Assert.IsTrue(_workspacePage.IsAccountNameMatchExpected(_maximumCompanyName),
+				"Произошла ошибка:\n название аккаунта в черной плашке не совпадает с ожидаемым именем");
+
+			_workspacePage.SignOutExpectingAlert();
 
 			_commonHelper.GoToCompanyRegistration();
 
@@ -128,12 +136,16 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Registration
 					companyType: CompanyType.LanguageServiceProvider)
 				.ClickCreateCorporateAccountButton();
 
-			_workspaceHelper
-				.CloseTour()
-				.AssertUserNameAndAccountNameCorrect(
-					firstNameForSecondCompany + " " + lastNameForSecondCompany,
-					companyNameForSecondCompany)
-				.AssertAccountExistInList(_maximumCompanyName);
+			Assert.IsTrue(_workspacePage.IsUserNameMatchExpected(firstNameForSecondCompany + " " + lastNameForSecondCompany),
+				"Произошла ошибка:\n Имя пользователя в черной плашке не совпадает с ожидаемым именем");
+
+			Assert.IsTrue(_workspacePage.IsAccountNameMatchExpected(companyNameForSecondCompany),
+				"Произошла ошибка:\n название аккаунта в черной плашке не совпадает с ожидаемым именем");
+
+			_workspacePage.ClickAccount();
+
+			Assert.IsTrue(_workspacePage.IsAccountListContainsAccountName(_maximumCompanyName),
+				"Произошла ошибка:\n список аккаунтов не содержит {0} аккаунт.", _maximumCompanyName);
 		}
 
 		/// <summary>
@@ -161,9 +173,11 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Registration
 				.FillCompanyDataSecondStep(_firstName, _lastName, _maximumCompanyName, _subDomain, companyType: CompanyType.LanguageServiceProvider)
 				.ClickCreateCorporateAccountButton();
 
-			_workspaceHelper
-				.CloseTour()
-				.AssertUserNameAndAccountNameCorrect(_firstName + " " + _lastName, _maximumCompanyName);
+			Assert.IsTrue(_workspacePage.IsUserNameMatchExpected(_firstName + " " + _lastName),
+				"Произошла ошибка:\n Имя пользователя в черной плашке не совпадает с ожидаемым именем");
+
+			Assert.IsTrue(_workspacePage.IsAccountNameMatchExpected(_maximumCompanyName),
+				"Произошла ошибка:\n название аккаунта в черной плашке не совпадает с ожидаемым именем");
 		}
 
 		[TestCase(CompanyRegistrationField.FirstName)]
@@ -275,7 +289,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Registration
 							_subDomain,
 							companyType: CompanyType.EmptyCompanyType)
 						.DoubleClickCompanyTypeDropdown()
-						.ClickCreateCorporateAccountButton();
+						.ClickCreateCorporateAccountButtonExpectingError();
 
 					Assert.IsTrue(_companyRegistrationSecondPage.IsCreateCorporateAccountButtonInactive(),
 						"Произошла ошибка:\n кнопка 'Create Corporate Account' активна.");
@@ -504,9 +518,11 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Registration
 
 			_companyRegistrationSecondPage.ClickCreateCorporateAccountButton();
 
-			_workspaceHelper
-				.CloseTour()
-				.AssertUserNameAndAccountNameCorrect(_firstName + " " + _lastName, _maximumCompanyName);
+			Assert.IsTrue(_workspacePage.IsUserNameMatchExpected(_firstName + " " + _lastName),
+				"Произошла ошибка:\n Имя пользователя в черной плашке не совпадает с ожидаемым именем");
+
+			Assert.IsTrue(_workspacePage.IsAccountNameMatchExpected(_maximumCompanyName),
+				"Произошла ошибка:\n название аккаунта в черной плашке не совпадает с ожидаемым именем");
 		}
 
 		[TestCase("wwwasddddddd")]
@@ -560,10 +576,13 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Registration
 				.FillCompanyDataSecondStep(_firstName, _lastName, _maximumCompanyName, _subDomain, companyType: CompanyType.LanguageServiceProvider)
 				.ClickCreateCorporateAccountButton();
 
-			_workspaceHelper
-				.CloseTour()
-				.AssertUserNameAndAccountNameCorrect(_firstName + " " + _lastName, _maximumCompanyName)
-				.SignOutAssumingAlert();
+			Assert.IsTrue(_workspacePage.IsUserNameMatchExpected(_firstName + " " + _lastName),
+				"Произошла ошибка:\n Имя пользователя в черной плашке не совпадает с ожидаемым именем");
+
+			Assert.IsTrue(_workspacePage.IsAccountNameMatchExpected(_maximumCompanyName),
+				"Произошла ошибка:\n название аккаунта в черной плашке не совпадает с ожидаемым именем");
+
+			_workspacePage.SignOutExpectingAlert();
 
 			_commonHelper.GoToCompanyRegistration();
 
@@ -594,10 +613,13 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Registration
 				.FillCompanyDataSecondStep(_firstName, _lastName, _maximumCompanyName, _subDomain, companyType: CompanyType.LanguageServiceProvider)
 				.ClickCreateCorporateAccountButton();
 
-			_workspaceHelper
-				.CloseTour()
-				.AssertUserNameAndAccountNameCorrect(_firstName + " " + _lastName, _maximumCompanyName)
-				.SignOutAssumingAlert();
+			Assert.IsTrue(_workspacePage.IsUserNameMatchExpected(_firstName + " " + _lastName),
+				"Произошла ошибка:\n Имя пользователя в черной плашке не совпадает с ожидаемым именем");
+
+			Assert.IsTrue(_workspacePage.IsAccountNameMatchExpected(_maximumCompanyName),
+				"Произошла ошибка:\n название аккаунта в черной плашке не совпадает с ожидаемым именем");
+
+			_workspacePage.SignOutExpectingAlert();
 
 			_commonHelper.GoToCompanyRegistration();
 
@@ -609,9 +631,14 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Registration
 				"Произошла ошибка:\n сообщение 'You have already signed up for one of the ABBYY services with this email.' не появилось.");
 
 			_commonHelper.GoToSignInPage();
+
 			_loginHelper.LogInSmartCat(_email, _nickName, _password, _maximumCompanyName);
 
-			_workspaceHelper.AssertUserNameAndAccountNameCorrect(_firstName + " " + _lastName, _maximumCompanyName);
+			Assert.IsTrue(_workspacePage.IsUserNameMatchExpected(_firstName + " " + _lastName),
+				"Произошла ошибка:\n Имя пользователя в черной плашке не совпадает с ожидаемым именем");
+
+			Assert.IsTrue(_workspacePage.IsAccountNameMatchExpected(_maximumCompanyName),
+				"Произошла ошибка:\n название аккаунта в черной плашке не совпадает с ожидаемым именем");
 		}
 
 		[Test]
@@ -625,12 +652,16 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Registration
 				.FillCompanyDataSecondStep(_firstName, _lastName, _maximumCompanyName, _subDomain, companyType: CompanyType.LanguageServiceProvider)
 				.ClickCreateCorporateAccountButton();
 
-			_workspaceHelper
-				.CloseTour()
-				.AssertUserNameAndAccountNameCorrect(_firstName + " " + _lastName, _maximumCompanyName)
-				.SignOutAssumingAlert();
+			Assert.IsTrue(_workspacePage.IsUserNameMatchExpected(_firstName + " " + _lastName),
+				"Произошла ошибка:\n Имя пользователя в черной плашке не совпадает с ожидаемым именем");
+
+			Assert.IsTrue(_workspacePage.IsAccountNameMatchExpected(_maximumCompanyName),
+				"Произошла ошибка:\n название аккаунта в черной плашке не совпадает с ожидаемым именем");
+
+			_workspacePage.SignOutExpectingAlert();
 
 			_commonHelper.GoToSignInPage();
+
 			_loginHelper.LogInSmartCat(_email, _nickName, _password, _maximumCompanyName);
 		}
 
@@ -643,7 +674,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Registration
 		private string _nickName;
 		private int _companyNameMaxLenght = 40;
 
-		private WorkspaceHelper _workspaceHelper;
+		private WorkspacePage _workspacePage;
 		private CommonHelper _commonHelper;
 		private LoginHelper _loginHelper;
 		private CompanyRegistrationFirstPage _companyRegistrationFirstPage;

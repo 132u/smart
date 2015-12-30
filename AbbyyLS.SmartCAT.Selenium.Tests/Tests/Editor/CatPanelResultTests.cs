@@ -19,6 +19,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Editor
 		public void SetupCatPanelResultsTest()
 		{
 			_createProjectHelper = new CreateProjectHelper(Driver);
+			_projectSettingsHelper = new ProjectSettingsHelper(Driver);
 			_projectSettingsPage = new ProjectSettingsPage(Driver);
 			_projectUniqueName = _createProjectHelper.GetProjectUniqueName();
 			_projectsPage = new ProjectsPage(Driver);
@@ -36,8 +37,11 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Editor
 					_projectUniqueName,
 					filePath: PathProvider.EditorTxtFile,
 					createNewTm: true,
-					tmxFilePath: PathProvider.EditorTmxFile)
-				.GoToProjectSettingsPage(_projectUniqueName)
+					tmxFilePath: PathProvider.EditorTmxFile);
+
+			_projectsPage.ClickProject(_projectUniqueName);
+
+			_projectSettingsHelper
 				.AssignTasksOnDocument(PathProvider.EditorTxtFile, ThreadUser.NickName);
 
 			_projectSettingsPage
@@ -75,8 +79,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Editor
 
 			_documentSettingsDialog.CloseDocumentSettings(_projectUniqueName);
 
-			_createProjectHelper
-				.GoToProjectSettingsPage(_projectUniqueName)
+			_projectsPage.ClickProject(_projectUniqueName);
+
+			_projectSettingsHelper
 				.AssignTasksOnDocument(PathProvider.DocumentFile, ThreadUser.NickName);
 
 			_projectSettingsPage.OpenDocumentInEditorWithTaskSelect(PathProvider.DocumentFile);
@@ -112,8 +117,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Editor
 			Assert.IsTrue(_documentSettingsDialog.IsMachineTranslationSelected(),
 				"Произошла ошибка:\nМашинный перевод не выбран ");
 
-			_createProjectHelper
-				.GoToProjectSettingsPage(_projectUniqueName)
+			_projectsPage.ClickProject(_projectUniqueName);
+
+			_projectSettingsHelper
 				.AssignTasksOnDocument(PathProvider.DocumentFile, ThreadUser.NickName);
 
 			_projectSettingsPage
@@ -131,6 +137,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Editor
 
 		private string _projectUniqueName;
 		private CreateProjectHelper _createProjectHelper;
+		private ProjectSettingsHelper _projectSettingsHelper;
 		private ProjectsPage _projectsPage;
 		private DocumentSettingsDialog _documentSettingsDialog;
 		private ProjectSettingsPage _projectSettingsPage;

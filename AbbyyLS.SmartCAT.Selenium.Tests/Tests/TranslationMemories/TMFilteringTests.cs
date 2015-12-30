@@ -9,6 +9,8 @@ using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Login;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Client;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.ProjectGroups;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories;
+using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace;
+using AbbyyLS.SmartCAT.Selenium.Tests.TestFramework;
 using AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.TranslationMemories
@@ -21,13 +23,13 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.TranslationMemories
 		public void TestFixtureSetUp()
 		{
 			_loginHelper = new LoginHelper(Driver);
-			_workspaceHelper = new WorkspaceHelper(Driver);
 			_translationMemoriesHelper = new TranslationMemoriesHelper(Driver);
 
 			_signInPage = new SignInPage(Driver);
 			_clientsPage = new ClientsPage(Driver);
 			_projectGroupsPage = new ProjectGroupsPage(Driver);
 			_translationMemoriesPage = new TranslationMemoriesPage(Driver);
+			_workspacePage = new WorkspacePage(Driver);
 			
 			_projectGroupName_1 = _projectGroupsPage.GetProjectGroupUniqueName();
 			_projectGroupName_2 = _projectGroupsPage.GetProjectGroupUniqueName();
@@ -35,21 +37,22 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.TranslationMemories
 			_clientName_2 = _clientsPage.GetClientUniqueName();
 			_tmForFilteringName_1 = _translationMemoriesHelper.GetTranslationMemoryUniqueName();
 			_tmForFilteringName_2 = _translationMemoriesHelper.GetTranslationMemoryUniqueName();
-
+			CustomTestContext.WriteLine("!!!!!!!!!!!!!!!!!!!!!!!");
 			_loginHelper.Authorize(StartPage.Workspace, ThreadUser);
-			_workspaceHelper.GoToProjectGroupsPage();
+
+			_workspacePage.GoToProjectGroupsPage();
 
 			_projectGroupsPage
 				.CreateProjectGroup(_projectGroupName_1)
 				.CreateProjectGroup(_projectGroupName_2);
 
-			_workspaceHelper.GoToClientsPage();
+			_workspacePage.GoToClientsPage();
 
 			_clientsPage
 				.CreateNewClient(_clientName_1)
 				.CreateNewClient(_clientName_2);
 
-			_workspaceHelper.GoToTranslationMemoriesPage();
+			_workspacePage.GoToTranslationMemoriesPage();
 
 			_translationMemoriesHelper
 				.CreateTranslationMemory(_tmForFilteringName_1, Language.French, targetLanguage: Language.German)
@@ -67,7 +70,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.TranslationMemories
 		{
 			_secondUser = null;
 
-			TranslationMemoriesHelper.GoToTranslationMemoriesPage();
+			WorkspacePage.GoToTranslationMemoriesPage();
 
 			TranslationMemoriesPage.ClearFiltersPanelIfExist();
 		}
@@ -227,16 +230,17 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.TranslationMemories
 			_tmForFilteringName_3 = TranslationMemoriesHelper.GetTranslationMemoryUniqueName();
 			_secondUser = TakeUser(ConfigurationManager.Users);
 
-			_workspaceHelper.SignOut();
+			WorkspacePage.SignOut();
+
 			_signInPage
 				.SubmitForm(_secondUser.Login, _secondUser.Password)
 				.SelectAccount();
 
-			_workspaceHelper
-				.CloseTour()
-				.GoToTranslationMemoriesPage()
-				.CreateTranslationMemory(_tmForFilteringName_3)
-				.RefreshPage();
+			WorkspacePage.GoToTranslationMemoriesPage();
+
+			_translationMemoriesHelper.CreateTranslationMemory(_tmForFilteringName_3);
+
+			WorkspacePage.RefreshPage<WorkspacePage>();
 			
 			_translationMemoriesHelper.CreateNewTMFilter(setAuthorFilter: _secondUser.NickName);
 
@@ -335,12 +339,13 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.TranslationMemories
 				"Произошла ошибка:\n ТМ {0} представлена в списке ТМ", _tmForFilteringName_2);
 		}
 
-		private WorkspaceHelper _workspaceHelper;
 		private LoginHelper _loginHelper;
 		private TranslationMemoriesHelper _translationMemoriesHelper;
 		private ProjectGroupsPage _projectGroupsPage;
 		private ClientsPage _clientsPage;
 		private TranslationMemoriesPage _translationMemoriesPage;
+		private SignInPage _signInPage;
+		private WorkspacePage _workspacePage;
 
 		private string _tmForFilteringName_1 = "TmForFiltering_First";
 		private string _tmForFilteringName_2 = "TmForFiltering_Second";
@@ -353,6 +358,5 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.TranslationMemories
 		private const string _topicName_2 = "Science and technology";
 		private const string _commonTopicName = "All topics";
 		private TestUser _secondUser;
-		private SignInPage _signInPage;
 	}
 }

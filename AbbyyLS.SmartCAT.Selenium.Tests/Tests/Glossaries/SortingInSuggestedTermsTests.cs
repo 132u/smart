@@ -3,6 +3,7 @@
 using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
 using AbbyyLS.SmartCAT.Selenium.Tests.FeatureAttributes;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries;
+using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace;
 using AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
@@ -16,12 +17,14 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 		public void SetupSortingInSuggestedTermsTests()
 		{
 			_glossaryPage = new GlossaryPage(Driver);
+			_workspacePage = new WorkspacePage(Driver);
 			_glossariesHelper = new GlossariesHelper(Driver);
 
 			var glossaryUniqueName = GlossariesHelper.UniqueGlossaryName();
-			_glossariesHelper
-				.GoToGlossariesPage()
-				.CreateGlossary(glossaryUniqueName);
+
+			_workspacePage.GoToGlossariesPage();
+
+			_glossariesHelper.CreateGlossary(glossaryUniqueName);
 		}
 
 		[Test]
@@ -50,5 +53,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 
 		private GlossariesHelper _glossariesHelper;
 		private GlossaryPage _glossaryPage;
+		private WorkspacePage _workspacePage;
 	}
 }

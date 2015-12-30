@@ -3,6 +3,7 @@ using AbbyyLS.SmartCAT.Selenium.Tests.DataStructures;
 using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
 using AbbyyLS.SmartCAT.Selenium.Tests.FeatureAttributes;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries;
+using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace;
 using AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
@@ -15,14 +16,15 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 		public void SetUp()
 		{
 			var glossaryUniqueName = GlossariesHelper.UniqueGlossaryName();
-			_workspaceHelper = new WorkspaceHelper(Driver);
+
+			_glossariesHelper = new GlossariesHelper(Driver);
+			_workspacePage = new WorkspacePage(Driver);
 			_glossaryStructureDialog = new GlossaryStructureDialog(Driver);
+			_glossaryPage = new GlossaryPage(Driver);
 
-			_workspaceHelper
-				.GoToGlossariesPage()
-				.CreateGlossary(glossaryUniqueName);
+			_workspacePage.GoToGlossariesPage();
 
-			_glossaryPage = new GlossaryPage(Driver).GetPage();
+			_glossariesHelper.CreateGlossary(glossaryUniqueName);
 
 			_glossaryPage.OpenGlossaryStructure();
 
@@ -83,8 +85,10 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 				"Произошла ошибка:\nВ поле {0} неверное значение.", termField);
 		}
 
-		private WorkspaceHelper _workspaceHelper;
+		private WorkspacePage _workspacePage;
 		private GlossaryPage _glossaryPage;
 		private GlossaryStructureDialog _glossaryStructureDialog;
+
+		private GlossariesHelper _glossariesHelper;
 	}
 }
