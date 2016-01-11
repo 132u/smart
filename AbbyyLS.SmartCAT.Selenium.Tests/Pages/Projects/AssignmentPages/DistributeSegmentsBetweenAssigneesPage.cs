@@ -190,10 +190,12 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.AssignmentPages
 		public string GetDistributedRange(int rangeNumber = 1)
 		{
 			CustomTestContext.WriteLine("Получить номер первого и последнего сегмента для {0} распределенного диапазона.", rangeNumber);
+			var DistributedStartRange = Driver.SetDynamicValue(How.XPath, DISTRIBUTED_START_RANGE, rangeNumber.ToString());
+			var DistributedEndRange = Driver.SetDynamicValue(How.XPath, DISTRIBUTED_END_RANGE, rangeNumber.ToString());
 
-			return
-				Driver.SetDynamicValue(How.XPath, DISTRIBUTED_START_RANGE, rangeNumber.ToString()).Text
-				+ "-" + Driver.SetDynamicValue(How.XPath, DISTRIBUTED_END_RANGE, rangeNumber.ToString()).Text;
+			DistributedStartRange.Scroll();
+
+			return DistributedStartRange.Text + "-" + DistributedEndRange.Text;
 		}
 
 		/// <summary>
@@ -331,7 +333,10 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.AssignmentPages
 
 		[FindsBy(How = How.XPath, Using = BACK_BUTTON)]
 		protected IWebElement BackButton { get; set; }
-		
+
+		protected IWebElement DistributedStartRange { get; set; }
+		protected IWebElement DistributedEndRange { get; set; }
+
 		#endregion
 
 		#region Описание XPath элементов
