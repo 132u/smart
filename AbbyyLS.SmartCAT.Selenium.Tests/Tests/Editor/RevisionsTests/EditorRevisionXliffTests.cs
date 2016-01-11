@@ -13,6 +13,7 @@ using AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Editor.RevisionsTests
 {
+	[Parallelizable(ParallelScope.Fixtures)]
 	class EditorRevisionXliffTests<TWebDriverProvider> : BaseTest<TWebDriverProvider> where TWebDriverProvider : IWebDriverProvider, new()
 	{
 		[SetUp]
