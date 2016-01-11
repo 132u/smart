@@ -1,1 +1,0 @@
-﻿public enum LOCALE_LANGUAGE_SELECT { English, Russian };
