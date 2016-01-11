@@ -1029,7 +1029,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		/// </summary>
 		public bool IsEditorPageOpened()
 		{
-			return Driver.WaitUntilElementIsDisplay(By.XPath(SEGMENTS_BODY), timeout: 60);
+			return IsSavingStatusDisappeared() &&
+				Driver.WaitUntilElementIsDisplay(By.XPath(SEGMENTS_BODY), timeout: 60);
 		}
 
 		/// <summary>
@@ -1310,6 +1311,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 
 		[FindsBy(How = How.XPath, Using = REVISION_USER_COLUNM)]
 		protected IWebElement RevisionUserColunm { get; set; }
+
+		[FindsBy(How = How.XPath, Using = SEGMENTS_BODY)]
+		protected IWebElement SegmentsTable { get; set; }
 
 		protected IWebElement Revision;
 		protected IWebElement DeleteChangedPart;

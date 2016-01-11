@@ -5,8 +5,7 @@ using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
 using System.Threading;
-using AbbyyLS.SmartCAT.Selenium.Tests.TestFramework;
-using NLog;
+
 using NUnit.Framework;
 
 using OpenQA.Selenium;
@@ -15,12 +14,13 @@ using OpenQA.Selenium.Remote;
 using OpenQA.Selenium.Support.PageObjects;
 using OpenQA.Selenium.Support.UI;
 
+using AbbyyLS.SmartCAT.Selenium.Tests.TestFramework;
+
 namespace AbbyyLS.SmartCAT.Selenium.Tests.Drivers
 {
 	public class WebDriver : IWebDriver
 	{
-		public static Logger Logger = LogManager.GetCurrentClassLogger();
-		public static readonly TimeSpan ImplicitWait = new TimeSpan(0, 0, 0, 5);
+		public static readonly TimeSpan ImplicitWait = new TimeSpan(0, 0, 0, 3);
 		public static readonly TimeSpan NoWait = new TimeSpan(0, 0, 0, 0);
 		private Navigation _customNavigate;
 
@@ -29,20 +29,19 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Drivers
 			_tempFolder = Path.Combine(tempFolder, Guid.NewGuid().ToString());
 			_driver = provider.GetWebDriver(_tempFolder, downloadDirectory);
 
-			_driver.Manage().Timeouts().ImplicitlyWait(TimeSpan.FromSeconds(15));
+			_driver.Manage().Timeouts().ImplicitlyWait(TimeSpan.FromSeconds(3));
 			_driver.Manage().Timeouts().SetPageLoadTimeout(TimeSpan.FromSeconds(60));
 			_driver.Manage().Window.Maximize();
 			
 			_customNavigate = new Navigation(_driver);
 			
-			Logger.Info("Браузер {0}", _driver.Capabilities.BrowserName);
-			Logger.Info("Версия {0}", _driver.Capabilities.Version);
-			Logger.Info("Платформа {0}", _driver.Capabilities.Platform);
-			Logger.Info("JavaScript enabled {0}", _driver.Capabilities.IsJavaScriptEnabled);
+			CustomTestContext.WriteLine("Браузер {0}", _driver.Capabilities.BrowserName);
+			CustomTestContext.WriteLine("Версия {0}", _driver.Capabilities.Version);
+			CustomTestContext.WriteLine("Платформа {0}", _driver.Capabilities.Platform);
+			CustomTestContext.WriteLine("JavaScript enabled {0}", _driver.Capabilities.IsJavaScriptEnabled);
 
-			Logger.Info("Браузер создан");
+			CustomTestContext.WriteLine("Браузер создан");
 		}
-
 
 		#region Реализация интерфейса IWebDriver
 
@@ -74,19 +73,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Drivers
 
 		public IWebElement FindElement(By by)
 		{
-			IWebElement element;
-
-			try
-			{
-				element = _driver.FindElement(by);
-			}
-			catch (StaleElementReferenceException)
-			{
-				Logger.Warn("StaleElementReferenceException: Не удалось найти элемент {0}. Предпринять повторную попытку поиска.", by);
-				element = _driver.FindElement(by);
-			}
-
-			return element;
+			return _driver.FindElement(by);
 		}
 
 		public ReadOnlyCollection<IWebElement> FindElements(By by)
@@ -121,32 +108,14 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Drivers
 
 		#endregion
 
-
+		/// <summary>
+		/// Выполнить JavaScript
+		/// </summary>
+		/// <param name="script">script</param>
+		/// <param name="args">аргументы</param>
 		public object ExecuteScript(string script, params object[] args)
 		{
 			return ((IJavaScriptExecutor)_driver).ExecuteScript(script, args);
-		}
-
-		/// <summary>
-		/// Проверить, доступен ли элемент на странице
-		/// </summary>
-		/// <param name="by">локатор</param>
-		public bool ElementIsEnabled(By by)
-		{
-			var enabled = false;
-			_driver.Manage().Timeouts().ImplicitlyWait(NoWait);
-
-			try
-			{
-				enabled = _driver.FindElement(by).Enabled;
-			}
-			catch (NoSuchElementException)
-			{
-			}
-
-			_driver.Manage().Timeouts().ImplicitlyWait(ImplicitWait);
-
-			return enabled;
 		}
 
 		/// <summary>
@@ -160,17 +129,11 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Drivers
 
 			try
 			{
-				return wait.Until(d => ((WebDriver)d).ElementIsEnabled(by));
+				return wait.Until(d => ((WebDriver)d).FindElement(by).Enabled);
 			}
 			catch (WebDriverTimeoutException)
 			{
 				return false;
-			}
-			catch (StaleElementReferenceException)
-			{
-				Logger.Warn("StaleElementReferenceException: WaitUntilElementIsEnabled: " + by);
-
-				return WaitUntilElementIsEnabled(by, timeout);
 			}
 		}
 
@@ -180,29 +143,16 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Drivers
 		/// <param name="by">локатор</param>
 		public bool ElementIsDisplayed(By by)
 		{
-			var present = false;
-			_driver.Manage().Timeouts().ImplicitlyWait(NoWait);
+			var wait = new WebDriverWait(this, TimeSpan.FromSeconds(0));
 
 			try
 			{
-				present = _driver.FindElement(by).Displayed;
+				return wait.Until(d => ((WebDriver)d).FindElement(by).Displayed);
 			}
-			catch (NoSuchElementException)
+			catch (WebDriverTimeoutException)
 			{
+				return false;
 			}
-			catch (InvalidOperationException exception)
-			{
-				// Exception является багой возникающей в Selenium 2.43.1
-				// https://code.google.com/p/selenium/issues/detail?id=7977
-
-				Logger.Warn("InvalidOperationException: ElementIsPresent {0}", exception.Message);
-				Logger.Debug("Обновить страницу браузера.");
-				_driver.Navigate().Refresh();
-			}
-
-			_driver.Manage().Timeouts().ImplicitlyWait(ImplicitWait);
-
-			return present;
 		}
 
 		/// <summary>
@@ -216,17 +166,11 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Drivers
 
 			try
 			{
-				return wait.Until(d => ((WebDriver)d).ElementIsDisplayed(by));
+				return wait.Until(d => ((WebDriver)d).FindElement(by).Displayed);
 			}
 			catch (WebDriverTimeoutException)
 			{
 				return false;
-			}
-			catch (StaleElementReferenceException)
-			{
-				Logger.Warn("StaleElementReferenceException: WaitUntilElementIsDisplayed: " + by);
-
-				return WaitUntilElementIsDisplay(by, timeout);
 			}
 		}
 
@@ -241,19 +185,33 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Drivers
 
 			try
 			{
-				return wait.Until(d => !((WebDriver)d).ElementIsDisplayed(by));
+				return wait.Until(ExpectedConditions.InvisibilityOfElementLocated(by));
 			}
 			catch (WebDriverTimeoutException)
 			{
 				return false;
 			}
-			catch (StaleElementReferenceException)
-			{
-				Logger.Warn("StaleElementReferenceException: WaitUntilElementIsDisappeared: " + by);
+		}
 
-				return WaitUntilElementIsDisappeared(by, timeout);
+		/// <summary>
+		/// Ждем, когда элемент станет кликабельным
+		/// </summary>
+		/// <param name="by">локатор</param>
+		/// <param name="timeout">время ожидания</param>
+		public IWebElement WaitUntilElementIsClickable(By by, int timeout = 10)
+		{
+			var wait = new WebDriverWait(this, TimeSpan.FromSeconds(timeout));
+
+			try
+			{
+				return wait.Until(ExpectedConditions.ElementToBeClickable(by));
+			}
+			catch (WebDriverTimeoutException)
+			{
+				return null;
 			}
 		}
+
 
 		/// <summary>
 		/// Вернуть список эелементов
@@ -267,12 +225,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Drivers
 			try
 			{
 				elementsList = _driver.FindElements(by);
-			}
-			catch (StaleElementReferenceException)
-			{
-				Logger.Warn("StaleElementReferenceException: GetElementList: " + @by);
-
-				return GetElementList(by);
 			}
 			catch (Exception ex)
 			{
@@ -291,19 +243,11 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Drivers
 		/// <returns>список текстов</returns>
 		public List<string> GetTextListElement(By by)
 		{
-			Logger.Trace("Вернуть список текстов элементов");
+			CustomTestContext.WriteLine("Вернуть список текстов элементов");
 
-			try
-			{
-				var elList = GetElementList(by);
+			var elList = GetElementList(by);
 
-				return elList.Select(el => el.Text).ToList();
-			}
-			catch (StaleElementReferenceException staleElementReferenceException)
-			{
-				Logger.Warn("StaleElementReferenceException: GetTextListElement: " + by.ToString(), staleElementReferenceException);
-				return GetTextListElement(by);
-			}
+			return elList.Select(el => el.Text).ToList();
 		}
 
 		/// <summary>
@@ -312,15 +256,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Drivers
 		/// <param name="by">локатор</param>
 		public int GetElementsCount(By by)
 		{
-			try
-			{
-				return _driver.FindElements(by).Count;
-			}
-			catch (StaleElementReferenceException staleElementReferenceException)
-			{
-				Logger.Warn("StaleElementReferenceException: GetElementsCount: " + by.ToString(), staleElementReferenceException);
-				return GetElementsCount(by);
-			}
+			return _driver.FindElements(by).Count;
 		}
 
 		/// <summary>
@@ -372,12 +308,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Drivers
 				Assert.Fail("Ошибка: не удалось найти элемент How " +
 					how + " Using " + locator.Replace("*#*", value).Replace("*##*", value2));
 			}
-			catch (StaleElementReferenceException)
-			{
-				Logger.Warn("StaleElementReferenceException: GetIsElementDisplay: " + "How " +
-					how + " Using " + locator.Replace("*#*", value).Replace("*##*", value2));
-				return SetDynamicValue(how, locator, value);
-			}
 			catch (Exception ex)
 			{
 				Assert.Fail("Ошибка: " + ex.Message + "How " +
@@ -414,14 +344,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Drivers
 				_driver.FindElement(by);
 				return true;
 			}
-			catch (StaleElementReferenceException staleElementReferenceException)
-			{
-				Logger.Warn("StaleElementReferenceException: GetIsElementExist: " + by.ToString(), staleElementReferenceException);
-				return GetIsElementExist(by);
-			}
 			catch (NoSuchElementException)
 			{
-				Logger.Trace("NoSuchElementException: GetIsElementExist: " + by.ToString());
 				return false;
 			}
 		}
@@ -490,6 +414,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Drivers
 		{
 			var wait = new WebDriverWait(_driver, ImplicitWait);
 			var timeout = wait.Timeout.Seconds;
+
 			try
 			{
 				wait.Timeout = TimeSpan.FromSeconds(maxWait);
@@ -500,12 +425,12 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Drivers
 			}
 			catch (WebDriverTimeoutException)
 			{
-				Logger.Trace("Не удалось дождаться загрузки страницы.");
+				CustomTestContext.WriteLine("Не удалось дождаться загрузки страницы.");
 				return false;
 			}
 			catch (Exception ex)
 			{
-				Logger.Trace("Во время ожидания загрузки страницы произошла ошибка:" + ex.Message);
+				CustomTestContext.WriteLine("Во время ожидания загрузки страницы произошла ошибка:" + ex.Message);
 				return false;
 			}
 			finally
@@ -564,12 +489,12 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Drivers
 			}
 			catch (Exception ex)
 			{
-				Logger.Warn("Ошибка. Не удалось удалить временную папку {0}. Причина: {1}", _tempFolder, ex);
+				CustomTestContext.WriteLine("Ошибка. Не удалось удалить временную папку {0}. Причина: {1}", _tempFolder, ex);
 			}
 
 			GC.SuppressFinalize(this);
 
-			Logger.Info("Браузер остановлен");
+			CustomTestContext.WriteLine("Браузер остановлен");
 		}
 
 		~WebDriver()

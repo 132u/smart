@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 
 using OpenQA.Selenium;
 
@@ -89,7 +88,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 			_documentUploadGeneralInformationDialog
 				.ClickFinish<ProjectSettingsPage>()
-				.WaitUntilUploadDocumentDialogDissapeared()
 				.WaitUntilDocumentProcessed();
 
 			return this;
@@ -105,8 +103,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 			_projectPage
 				.ClickProjectsTableCheckbox(documentName)
 				.ClickDeleteButton()
-				.ConfirmDelete()
-				.WaitDeleteDocumentDialogDissappeared();
+				.ConfirmDelete();
 
 			return this;
 		}
@@ -133,7 +130,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 				.HoverGlossaryTableDocumentSettingsDialog()
 				.ClickGlossaryByName(glossaryName)
 				.ClickSaveButton<ProjectSettingsPage>(Driver)
-				.WaitDeleteDocumentDialogDissappeared()
 				.ClickDocumentProgress(documentName);
 
 			return this;
