@@ -247,6 +247,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace
 			for (var i = notificationsCount; i > 0; i--)
 			{
 				CustomTestContext.WriteLine("Закрыть сообщение №{0}.", i);
+				Driver.WaitUntilElementIsDisplay(By.XPath(CLOSE_NOTIFICATION_BUTTON.Replace("*#*", i.ToString())));
 				Notification = Driver.SetDynamicValue(How.XPath, CLOSE_NOTIFICATION_BUTTON, i.ToString());
 				Notification.Click();
 			}
