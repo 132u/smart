@@ -403,6 +403,12 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 				FinishTutorialButton.Click();
 			}
 
+			if (!Driver.WaitUntilElementIsDisappeared(By.XPath(FINISH_TUTORIAL_BUTTON)))
+			{
+				CustomTestContext.WriteLine("Вторая попытка закрыть подсказку.");
+				FinishTutorialButton.Click();
+			}
+
 			return GetPage();
 		}
 		
