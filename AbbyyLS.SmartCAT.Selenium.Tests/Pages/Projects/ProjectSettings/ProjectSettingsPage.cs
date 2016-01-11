@@ -30,7 +30,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings
 
 		public new void LoadPage()
 		{
-			Driver.WaitPageTotalLoad();
 			if (!IsProjectSettingsPageOpened())
 			{
 				throw new XPathLookupException("Произошла ошибка:\n не удалось перейти на вкладку проекта.");
@@ -219,20 +218,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings
 		}
 
 		/// <summary>
-		/// Нажать на прогресс в строке документа
-		/// </summary>
-		/// <param name="filePath">путь до документа</param>
-		public ProjectSettingsPage ClickDocumentProgress(string filePath)
-		{
-			var fileName = Path.GetFileNameWithoutExtension(filePath);
-			CustomTestContext.WriteLine("Нажать на поле прогресс строке документа {0}.", fileName);
-			DocumentProgress = Driver.SetDynamicValue(How.XPath, DOCUMENT_PROGRESS, fileName);
-			DocumentProgress.Click();
-
-			return GetPage();
-		}
-
-		/// <summary>
 		/// Нажать кнопку 'Настройки'
 		/// </summary>
 		public SettingsDialog ClickSettingsButton()
@@ -350,6 +335,25 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings
 		#region Составные методы
 
 		/// <summary>
+		/// Нажать на прогресс в строке документа
+		/// </summary>
+		/// <param name="filePath">путь до документа</param>
+		public ProjectSettingsPage ClickDocumentProgress(string filePath)
+		{
+			var fileName = Path.GetFileNameWithoutExtension(filePath);
+			CustomTestContext.WriteLine("Нажать на поле прогресс строке документа {0}.", fileName);
+			DocumentProgress = Driver.SetDynamicValue(How.XPath, DOCUMENT_PROGRESS, fileName);
+			DocumentProgress.HoverElement();
+
+			Driver.WaitUntilElementIsDisplay(By.XPath(PROGRESS_TOOLTIP));
+
+			DocumentProgress = Driver.SetDynamicValue(How.XPath, DOCUMENT_PROGRESS, fileName);
+			DocumentProgress.Click();
+
+			return GetPage();
+		}
+
+		/// <summary>
 		/// Выбрать глоссарий по названию
 		/// </summary>
 		/// <param name="nameGlossary">название глоссария</param>
@@ -388,56 +392,12 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings
 		#region Методы, проверяющие состояние страницы
 
 		/// <summary>
-		/// Ожидаем закрытия диалога удаления документа
-		/// </summary>
-		public ProjectSettingsPage WaitDeleteDocumentDialogDissappeared()
-		{
-			CustomTestContext.WriteLine("Дождаться закрытия диалога удаления документа.");
-
-			if(!Driver.WaitUntilElementIsDisappeared(By.XPath(DELETE_DOCUMENT_DIALOG)))
-			{
-				throw new InvalidElementStateException("Произошла ошибка:\n диалог удаления документа не закрылся.");
-			}
-
-			return GetPage();
-		}
-
-		/// <summary>
-		/// Дождаться закрытия диалога импорта документа
-		/// </summary>
-		public ProjectSettingsPage WaitUntilUploadDocumentDialogDissapeared()
-		{
-			CustomTestContext.WriteLine("Дождаться закрытия диалога импорта документа.");
-
-			if (!Driver.WaitUntilElementIsDisappeared(By.XPath(IMPORT_DIALOG)))
-			{
-				throw new InvalidElementStateException("Произошла ошибка:\n диалог импорта документа не закрылся");
-			}
-
-			return GetPage();
-		}
-
-		/// <summary>
-		/// Проверить, что диалог настроек проекта закрылся
-		/// </summary>
-		public ProjectSettingsPage WaitUntilSettingsDialogDissappear()
-		{
-			CustomTestContext.WriteLine("Проверить, что диалог настроек проекта закрылся.");
-
-			if (!Driver.WaitUntilElementIsDisappeared(By.XPath(PROJECT_SETTIGS_HEADER)))
-			{
-				throw new InvalidElementStateException("Произошла ошибка:\n Диалог настроек проекта не закрылся.");
-			}
-
-			return GetPage();
-		}
-
-		/// <summary>
 		/// Проверить, открылась ли страница настроек проекта
 		/// </summary>
 		public bool IsProjectSettingsPageOpened()
 		{
-			return IsDialogBackgroundDisappeared() && Driver.WaitUntilElementIsDisplay(By.XPath(SETTINGS_BUTTON));
+			return IsDialogBackgroundDisappeared() &&
+				Driver.WaitUntilElementIsDisplay(By.XPath(SETTINGS_BUTTON));
 		}
 
 		/// <summary>
@@ -452,7 +412,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings
 				Driver.Navigate().Refresh();
 			}
 
-			if (Driver.ElementIsDisplayed(By.XPath(LOAD_DOC_IMG)))
+			if (Driver.WaitUntilElementIsDisplay(By.XPath(LOAD_DOC_IMG)))
 			{
 				throw new InvalidElementStateException("Произошла ошибка:\n документ загружается слишком долго");
 			}
@@ -547,6 +507,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings
 		[FindsBy(How = How.XPath, Using = EDIT_TRANSLATION_MEMORY_BUTTOON)]
 		protected IWebElement EditTranslationMemoryButton { get; set; }
 
+		[FindsBy(How = How.XPath, Using = PROGRESS_TOOLTIP)]
+		protected IWebElement ProgressTooltip { get; set; }
+
 		protected IWebElement DocumentProgress { get; set; }
 
 		protected IWebElement DocumentRefference { get; set; }
@@ -596,6 +559,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings
 		protected const string EDIT_GLOSSARY_SAVE_BUTTON = "//div[contains(@data-bind,'click: saveGlossaries')]";
 		protected const string PRETRANSLATE_BUTTON = "//div[contains(@data-bind,'click: pretranslate')]";
 		protected const string EDIT_TRANSLATION_MEMORY_BUTTOON = "//div[@data-bind='click: editTranslationMemories']//a[contains(@class, 'g-graybtn')]";
+		protected const string PROGRESS_TOOLTIP = "//table[@class='l-workflow-progress-tooltip']";
 
 		#endregion
 	}

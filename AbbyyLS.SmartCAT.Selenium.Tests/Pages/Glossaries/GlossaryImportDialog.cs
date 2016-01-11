@@ -77,7 +77,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 		/// </summary>
 		public bool IsGlossaryImportDialogOpened()
 		{
-			return Driver.WaitUntilElementIsDisplay(By.XPath(IMPORT_BUTTON));
+			return Driver.WaitUntilElementIsDisplay(By.XPath(IMPORT_BUTTON)) &&
+				(Driver.WaitUntilElementIsClickable(By.XPath(REPLACE_ALL_BUTTON)) != null) &&
+				(Driver.WaitUntilElementIsClickable(By.XPath(IMPORT_BUTTON)) != null);
 		}
 
 		[FindsBy(How = How.XPath, Using = IMPORT_GLOSSARY_INPUT)]

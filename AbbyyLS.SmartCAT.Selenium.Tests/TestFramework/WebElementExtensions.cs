@@ -1,8 +1,5 @@
 ﻿using System;
 
-using NLog;
-using NUnit.Framework;
-
 using OpenQA.Selenium;
 using OpenQA.Selenium.Interactions;
 using OpenQA.Selenium.Internal;
@@ -15,8 +12,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestFramework
 	/// </summary>
 	public static class WebElementExtensions
 	{
-		public static Logger Logger = LogManager.GetCurrentClassLogger();
-
 		/// <summary>
 		/// Вводим текст, предварительно отчистив поле web-элемента
 		/// </summary>
@@ -37,7 +32,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestFramework
 				}
 				catch (ElementNotVisibleException exception)
 				{
-					Logger.Warn("ElementNotVisibleException: SendKeys {0}", exception.Message);
+					CustomTestContext.WriteLine("ElementNotVisibleException: SendKeys {0}", exception.Message);
 				}
 
 				expectedText = expectedText ?? text;
@@ -47,7 +42,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestFramework
 
 			if (webElement.GetAttribute("value") != expectedText && webElement.Text.TrimEnd(' ') != expectedText)
 			{
-				Assert.Fail("Произошла ошибка:\nНеверный текст в элементе");
+				throw new Exception("Произошла ошибка:\nНеверный текст в элементе");
 			}
 		}
 
@@ -91,13 +86,16 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestFramework
 		public static void JavaScriptClick(this IWebElement webElement)
 		{
 			var driver = webElement.getDriverFromWebElement();
+
 			try
 			{
 				((IJavaScriptExecutor)driver).ExecuteScript("arguments[0].click();", webElement);
 			}
 			catch (Exception ex)
 			{
-				Assert.Fail("Произошла ошибка при попытке клика с помощью JavaScript на web-элемент: {0}", ex.Message);
+				throw new Exception(string.Format(
+					"Произошла ошибка при попытке клика с помощью JavaScript на web-элемент: {0}",
+					ex.Message));
 			}
 		}
 
@@ -137,7 +135,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestFramework
 			}
 			catch (StaleElementReferenceException staleElementReferenceException)
 			{
-				Logger.Warn("StaleElementReferenceException: GetElementAttribute: " + webElement.TagName, staleElementReferenceException);
+				CustomTestContext.WriteLine("StaleElementReferenceException: GetElementAttribute: " + webElement.TagName, staleElementReferenceException);
 
 				return GetElementAttribute(webElement, attr);
 			}
@@ -156,12 +154,13 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestFramework
 			}
 			catch (StaleElementReferenceException)
 			{
-				Logger.Warn("StaleElementReferenceException: Не удалось кликнуть по элементу после скроллинга. Предпринять повторную попытку.");
+				CustomTestContext.WriteLine("StaleElementReferenceException: Не удалось кликнуть по элементу после скроллинга. Предпринять повторную попытку.");
 				webElement.Click();
 			}
 			catch (Exception ex)
 			{
-				Assert.Fail("Произошла ошибка при попытки клика на web-элемент: {0}", ex.Message);
+				throw new Exception(string.Format(
+					"Произошла ошибка при попытки клика на web-элемент: {0}", ex.Message));
 			}
 		}
 
@@ -189,7 +188,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestFramework
 			}
 			catch (StaleElementReferenceException staleElementReferenceException)
 			{
-				Logger.Warn("StaleElementReferenceException: DoubleClickElement: " + webElement.TagName, staleElementReferenceException);
+				CustomTestContext.WriteLine(
+					"StaleElementReferenceException: DoubleClickElement: "
+					+ webElement.TagName, staleElementReferenceException);
 				DoubleClick(webElement);
 			}
 		}
@@ -207,7 +208,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestFramework
 			}
 			catch (StaleElementReferenceException staleElementReferenceException)
 			{
-				Logger.Warn("StaleElementReferenceException: GetIsInputChecked: " + webElement.TagName, staleElementReferenceException);
+				CustomTestContext.WriteLine(
+					"StaleElementReferenceException: GetIsInputChecked: "
+					+ webElement.TagName, staleElementReferenceException);
 				return GetIsInputChecked(webElement);
 			}
 		}
@@ -219,15 +222,14 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestFramework
 		{
 			var driver = getDriverFromWebElement(webElement);
 
-			Logger.Trace("Скроллинг страницы до того момента, пока web-элемент не станет видимым");
-
 			try
 			{
 				((IJavaScriptExecutor)driver).ExecuteScript("arguments[0].scrollIntoView(true); window.scrollBy(0,-200);", webElement);
 			}
 			catch (Exception ex)
 			{
-				Assert.Fail("При попытке скроллинга страницы произошла ошибка: " + ex.Message);
+				throw new Exception(string.Format(
+					"При попытке скроллинга страницы произошла ошибка: " + ex.Message));
 			}
 		}
 

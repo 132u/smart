@@ -115,7 +115,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings
 		{
 			CustomTestContext.WriteLine("Нажать кнопку Save и дождаться закрытия окна");
 			SaveButton.Click();
-			WaitUntilSettingsDialogDissappear();
 
 			return new ProjectSettingsPage(Driver).GetPage();
 		}
@@ -127,7 +126,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings
 		{
 			CustomTestContext.WriteLine("Нажать кнопку Cancel и дождаться закрытия окна");
 			CancelButton.Click();
-			WaitUntilSettingsDialogDissappear();
 
 			return new ProjectSettingsPage(Driver).GetPage();
 		}

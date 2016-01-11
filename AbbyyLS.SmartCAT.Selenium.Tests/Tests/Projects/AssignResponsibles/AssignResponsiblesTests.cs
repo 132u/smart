@@ -66,7 +66,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 
 			_documentUploadGeneralInformationDialog
 				.ClickFinish<ProjectSettingsPage>()
-				.WaitUntilUploadDocumentDialogDissapeared()
 				.WaitUntilDocumentProcessed();
 
 			_workspacePage.GoToProjectsPage();
