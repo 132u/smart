@@ -13,7 +13,6 @@ using AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers;
 namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 {
 	[Parallelizable(ParallelScope.Fixtures)]
-	[Ignore("Отключено до реализации PRX-13888")]
 	[Standalone]
 	class ExportProjectsTests<TWebDriverProvider> : BaseTest<TWebDriverProvider> where TWebDriverProvider : IWebDriverProvider, new()
 	{
