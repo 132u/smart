@@ -465,20 +465,20 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 			// т.к. мы не ждем пол минуты или минуту, а делаем проверку через 10 секунд.
 			if (!Driver.WaitUntilElementIsDisappeared(By.XPath(PROJECT_LOAD_IMG_XPATH.Replace("*#*", projectName))))
 			{
-				RefreshPage<WorkspacePage>();
+				RefreshPage<ProjectsPage>();
 			}
 
 			if (!Driver.WaitUntilElementIsDisappeared(By.XPath(PROJECT_LOAD_IMG_XPATH.Replace("*#*", projectName))))
 			{
-				RefreshPage<WorkspacePage>();
+				RefreshPage<ProjectsPage>();
 			}
 
 			if (!Driver.WaitUntilElementIsDisappeared(By.XPath(PROJECT_LOAD_IMG_XPATH.Replace("*#*", projectName))))
 			{
-				RefreshPage<WorkspacePage>();
+				RefreshPage<ProjectsPage>();
 			}
 
-			return Driver.WaitUntilElementIsDisappeared(By.XPath(PROJECT_LOAD_IMG_XPATH.Replace("*#*", projectName)), 30);
+			return Driver.WaitUntilElementIsDisappeared(By.XPath(PROJECT_LOAD_IMG_XPATH.Replace("*#*", projectName)));
 		}
 
 		/// <summary>

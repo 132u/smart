@@ -182,13 +182,17 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Drivers
 		public bool WaitUntilElementIsDisappeared(By by, int timeout = 10)
 		{
 			var wait = new WebDriverWait(this, TimeSpan.FromSeconds(timeout));
+			_driver.Manage().Timeouts().ImplicitlyWait(TimeSpan.FromSeconds(0));
 
 			try
 			{
-				return wait.Until(ExpectedConditions.InvisibilityOfElementLocated(by));
+				_driver.Manage().Timeouts().ImplicitlyWait(TimeSpan.FromSeconds(3));
+				var result = wait.Until(ExpectedConditions.InvisibilityOfElementLocated(by));
+				return result;
 			}
 			catch (WebDriverTimeoutException)
 			{
+				_driver.Manage().Timeouts().ImplicitlyWait(TimeSpan.FromSeconds(3));
 				return false;
 			}
 		}
@@ -339,13 +343,17 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Drivers
 		/// </summary>
 		public bool GetIsElementExist(By by)
 		{
+			_driver.Manage().Timeouts().ImplicitlyWait(TimeSpan.FromSeconds(0));
+
 			try
 			{
 				_driver.FindElement(by);
+				_driver.Manage().Timeouts().ImplicitlyWait(TimeSpan.FromSeconds(3));
 				return true;
 			}
 			catch (NoSuchElementException)
 			{
+				_driver.Manage().Timeouts().ImplicitlyWait(TimeSpan.FromSeconds(3));
 				return false;
 			}
 		}

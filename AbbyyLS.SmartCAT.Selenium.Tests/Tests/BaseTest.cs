@@ -94,7 +94,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests
 		public TestUser TakeUser(ConcurrentBag<TestUser> users)
 		{
 			TestUser user = null;
-			var timer = 0;
+			var timer = 1;
 
 			while (!users.TryTake(out user) && timer <= 300)
 			{
@@ -106,8 +106,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests
 			{
 				throw new Exception("Произошла ошибка:\n нет пользователей в очереди");
 			}
-			
-			CustomTestContext.WriteLine("Пользователь {0} взят из очереди.", user.Login);
+
+			CustomTestContext.WriteLine("Пользователь {0} взят из очереди после {1} попытки.", user.Login, timer);
 			
 			return user;
 		}

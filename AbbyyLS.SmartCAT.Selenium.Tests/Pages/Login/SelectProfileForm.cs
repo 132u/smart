@@ -1,14 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using OpenQA.Selenium;
+using OpenQA.Selenium.Support.PageObjects;
 
 using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
 using AbbyyLS.SmartCAT.Selenium.Tests.TestFramework;
-
-using OpenQA.Selenium;
-using OpenQA.Selenium.Support.PageObjects;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Login
 {
@@ -73,7 +67,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Login
 
 
 		#endregion
-
 
 
 		#region Описание XPath элементов

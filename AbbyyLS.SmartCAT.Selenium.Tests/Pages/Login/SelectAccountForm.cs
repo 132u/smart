@@ -53,8 +53,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Login
 		{
 			CustomTestContext.WriteLine("Проверить кол-во ссылок на аккаунты на всех серверах.");
 			var europeAccountsCount = Driver.GetElementsCount(By.XPath(EUROPE_ACCOUNT_LIST));
-			var usaAccountsCount = Driver.GetElementsCount(By.XPath(USA_ACCOUNT_LIST));
-			var totalAccountCount = europeAccountsCount + usaAccountsCount;
+			// На 12.01.2016 USA сервер недоступен на тестовых стендах. Проверка занимает 3 секунды на тест.
+			//var usaAccountsCount = Driver.GetElementsCount(By.XPath(USA_ACCOUNT_LIST));
+			var totalAccountCount = europeAccountsCount; // + usaAccountsCount;
 
 			CustomTestContext.WriteLine("Ссылок на аккаунты на всех серверах '{0}'", totalAccountCount);
 

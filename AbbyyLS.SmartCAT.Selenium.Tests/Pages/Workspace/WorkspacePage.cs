@@ -641,7 +641,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace
 		/// </summary>
 		public bool IsDialogBackgroundDisappeared()
 		{
-			return Driver.WaitUntilElementIsDisappeared(By.XPath(DIALOG_BACKGROUND), 5);
+			return Driver.WaitUntilElementIsDisappeared(By.XPath(DIALOG_BACKGROUND));
 		}
 
 		#endregion

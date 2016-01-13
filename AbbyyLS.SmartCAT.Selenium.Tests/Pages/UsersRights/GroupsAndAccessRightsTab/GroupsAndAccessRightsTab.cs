@@ -64,10 +64,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.UsersRights
 		public GroupsAndAccessRightsTab ClickEditGroupButton(string groupName)
 		{
 			CustomTestContext.WriteLine("Нажать кнопку 'Редактировать группу'.");
-			Driver.WaitUntilElementIsDisplay(By.XPath(EDIT_GROUP_BUTTON));
 			EditGroupButton = Driver.SetDynamicValue(How.XPath, EDIT_GROUP_BUTTON, groupName);
 			EditGroupButton.Click();
-			Driver.WaitUntilElementIsDisappeared(By.XPath(EDIT_GROUP_BUTTON));
 
 			return GetPage();
 		}
@@ -249,7 +247,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.UsersRights
 		{
 			CustomTestContext.WriteLine("Проверить, есть ли пользователь {0} в группе {1}.", userName, groupName);
 			
-			return Driver.ElementIsDisplayed(By.XPath(GROUP_USER.Replace("*#*", groupName).Replace("*##*", userName)));
+			return Driver.GetIsElementExist(By.XPath(GROUP_USER.Replace("*#*", groupName).Replace("*##*", userName)));
 		}
 		
 		/// <summary>
