@@ -34,9 +34,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Authorization
 		}
 
 		[TestCase("Personal", LoginHelper.EuropeTestServerName)]
-		[TestCase("Personal", LoginHelper.USATestServerName)]
+		[TestCase("Personal", LoginHelper.USATestServerName, IgnoreReason = "SCAT-757")]
 		[TestCase("TestAccount", LoginHelper.EuropeTestServerName)]
-		[TestCase("TestAccount", LoginHelper.USATestServerName)]
+		[TestCase("TestAccount", LoginHelper.USATestServerName, IgnoreReason = "SCAT-757")]
 		public void AuthorizationWithCorrectCredentials(string account, string dataServer)
 		{
 			_signInPage.SubmitForm(ThreadUser.Login, ThreadUser.Password);
