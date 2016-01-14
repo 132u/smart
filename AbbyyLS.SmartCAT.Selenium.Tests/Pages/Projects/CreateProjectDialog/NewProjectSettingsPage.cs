@@ -284,7 +284,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 		public NewProjectSettingsPage ExpandAdvancedSettings()
 		{
 			CustomTestContext.WriteLine("Раскрыть дополнительные настройки, нажав переключатель");
-			if (!IsAdvancedSettingsSectionDisplayed())
+			if (!IsAdvancedSettingsSectionExist())
 			{
 				AdvancedSwitch.Click();
 			}
@@ -471,11 +471,11 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 		/// <summary>
 		/// Проверить, что секция расширенных настроек открыта
 		/// </summary>
-		public bool IsAdvancedSettingsSectionDisplayed()
+		public bool IsAdvancedSettingsSectionExist()
 		{
 			CustomTestContext.WriteLine("Проверить, что секция расширенных настроек открыта.");
 
-			return Driver.WaitUntilElementIsDisplay(By.XPath(ADVANCED_SETTINGS_SECTION));
+			return Driver.GetIsElementExist(By.XPath(ADVANCED_SETTINGS_SECTION));
 		}
 
 		/// <summary>

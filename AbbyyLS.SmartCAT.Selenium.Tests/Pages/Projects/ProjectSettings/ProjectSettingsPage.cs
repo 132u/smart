@@ -406,13 +406,26 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings
 		public ProjectSettingsPage WaitUntilDocumentProcessed()
 		{
 			CustomTestContext.WriteLine("Дождаться загрузки документа");
+			// Практически все, что сделано в этом методе является быстрым незамысловатым костылем,
+			// пока не пофиксили баг с крутилкой. Тройной рефреш позволяет тестам проходить быстрее,
+			// т.к. мы не ждем пол минуты или минуту, а делаем проверку через 10 секунд.
 
-			if (!Driver.WaitUntilElementIsDisappeared(By.XPath(LOAD_DOC_IMG), 30))
+			if (!Driver.WaitUntilElementIsDisappeared(By.XPath(LOAD_DOC_IMG)))
 			{
-				Driver.Navigate().Refresh();
+				RefreshPage<ProjectSettingsPage>();
 			}
 
-			if (Driver.WaitUntilElementIsDisplay(By.XPath(LOAD_DOC_IMG)))
+			if (!Driver.WaitUntilElementIsDisappeared(By.XPath(LOAD_DOC_IMG)))
+			{
+				RefreshPage<ProjectSettingsPage>();
+			}
+
+			if (!Driver.WaitUntilElementIsDisappeared(By.XPath(LOAD_DOC_IMG)))
+			{
+				RefreshPage<ProjectSettingsPage>();
+			}
+
+			if (!Driver.WaitUntilElementIsDisappeared(By.XPath(LOAD_DOC_IMG)))
 			{
 				throw new InvalidElementStateException("Произошла ошибка:\n документ загружается слишком долго");
 			}
