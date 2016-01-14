@@ -52,8 +52,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Editor
 			_projectSettingsPage.OpenDocumentInEditorWithTaskSelect(Path.GetFileNameWithoutExtension(PathProvider.EditorTxtFile));
 
 			_selectTaskDialog.SelectTask();
-
-			_editorPage.CloseTutorialIfExist();
 		}
 		
 		[Test]

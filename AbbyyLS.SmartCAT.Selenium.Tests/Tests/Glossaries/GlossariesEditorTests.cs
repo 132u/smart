@@ -64,8 +64,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 				.OpenDocumentInEditorWithTaskSelect(PathProvider.DocumentFile);
 
 			_selectTaskDialog.SelectTask();
-
-			_editorPage.CloseTutorialIfExist();
 		}
 
 		[Test(Description = "Проверяет выпадающий список с глоссариями, при создании проекта подключалось 2 глоссария")]

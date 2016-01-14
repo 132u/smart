@@ -100,9 +100,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersRights
 			Assert.IsTrue(_editorPage.IsEditorPageOpened(),
 				"Произошла ошибка:\nРедактор не открылся.");
 
-			_editorPage
-				.CloseTutorialIfExist()
-				.ClickHomeButtonExpectingProjectsPage();
+			_editorPage.ClickHomeButtonExpectingProjectsPage();
 
 			_projectsPage
 				.OpenProjectInfo(_projectUniqueName)
@@ -149,9 +147,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersRights
 			Assert.AreEqual("Translation (T):", _editorPage.GetStage(),
 				"Произошла ошибка:\nНевреное название этапа.");
 
-			_editorPage
-				.CloseTutorialIfExist()
-				.ClickHomeButtonExpectingProjectsPage();
+			_editorPage.ClickHomeButtonExpectingProjectsPage();
 
 			_projectsPage
 				.OpenProjectInfo(_projectUniqueName)
@@ -215,14 +211,10 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersRights
 
 			_selectTaskDialog.SelectTask();
 
-			_editorPage.CloseTutorialIfExist();
-
 			Assert.AreEqual("Translation (T):", _editorPage.GetStage(),
 				"Произошла ошибка:\nНевреное название этапа.");
 
-			_editorPage
-				.CloseTutorialIfExist()
-				.ClickHomeButtonExpectingProjectSettingsPage();
+			_editorPage.ClickHomeButtonExpectingProjectSettingsPage();
 
 			_projectSettingsPage.OpenDocumentInEditorWithoutTaskSelect(document2);
 			
@@ -266,20 +258,14 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersRights
 
 			_selectTaskDialog.SelectTask();
 
-			_editorPage.CloseTutorialIfExist();
-
 			Assert.AreEqual("Translation (T):", _editorPage.GetStage(),
 				"Произошла ошибка:\nНевреное название этапа.");
 
-			_editorPage
-				.CloseTutorialIfExist()
-				.ClickHomeButtonExpectingProjectSettingsPage();
+			_editorPage.ClickHomeButtonExpectingProjectSettingsPage();
 
 			_projectSettingsPage.OpenDocumentInEditorWithTaskSelect(document2);
 
 			_selectTaskDialog.SelectTask(TaskMode.Editing);
-
-			_editorPage.CloseTutorialIfExist();
 
 			Assert.AreEqual("Editing (E):", _editorPage.GetStage(),
 				"Произошла ошибка:\nНевреное название этапа.");
@@ -341,14 +327,10 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersRights
 
 			_selectTaskDialog.SelectTask();
 
-			_editorPage.CloseTutorialIfExist();
-
 			Assert.AreEqual("Translation (T):", _editorPage.GetStage(),
 				"Произошла ошибка:\nНевреное название этапа.");
 
-			_editorPage
-				.CloseTutorialIfExist()
-				.ClickHomeButtonExpectingProjectsPage();
+			_editorPage.ClickHomeButtonExpectingProjectsPage();
 
 			_projectsPage
 				.OpenProjectInfo(_projectUniqueName)
@@ -394,14 +376,10 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersRights
 			
 			_selectTaskDialog.SelectTask();
 
-			_editorPage.CloseTutorialIfExist();
-
 			Assert.AreEqual("Translation (T):", _editorPage.GetStage(),
 				"Произошла ошибка:\nНевреное название этапа.");
 
-			_editorPage
-				.CloseTutorialIfExist()
-				.ClickHomeButtonExpectingProjectsPage();
+			_editorPage.ClickHomeButtonExpectingProjectsPage();
 
 			_projectsPage
 				.OpenProjectInfo(_projectUniqueName)

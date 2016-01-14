@@ -41,9 +41,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Editor
 
 			_selectTaskDialog.SelectTask();
 
-			_editorPage
-				.CloseTutorialIfExist()
-				.ClickSpellcheckDictionaryButton();
+			_editorPage.ClickSpellcheckDictionaryButton();
 
 			_spellcheckDictionaryDialog.RemoveAllWordsFromDictionary();
 		}

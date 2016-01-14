@@ -55,8 +55,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 				.OpenDocumentInEditorWithTaskSelect(PathProvider.DocumentFile);
 
 			_selectTaskDialog.SelectTask();
-
-			_editorPage.CloseTutorialIfExist();
 		}
 
 		[Test(Description = "Проверят открытие формы добавления теримна с помощью кнопки")]

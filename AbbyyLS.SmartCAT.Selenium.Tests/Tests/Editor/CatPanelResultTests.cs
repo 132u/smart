@@ -47,8 +47,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Editor
 			
 			_selectTaskDialog.SelectTask();
 
-			_editorPage.CloseTutorialIfExist();
-
 			Assert.IsTrue(_editorPage.IsCatTableExist(), "Произошла ошибка:\nCAT-панель пустая.");
 
 			Assert.AreNotEqual(_editorPage.CatTypeRowNumber(CatType.TM), 0,
@@ -86,8 +84,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Editor
 			
 			_selectTaskDialog.SelectTask();
 
-			_editorPage.CloseTutorialIfExist();
-
 			Assert.IsTrue(_editorPage.IsCatTableExist(), "Произошла ошибка:\nCAT-панель пустая.");
 
 			Assert.AreNotEqual(_editorPage.CatTypeRowNumber(CatType.MT), 0,
@@ -124,8 +120,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Editor
 				.OpenDocumentInEditorWithTaskSelect(PathProvider.DocumentFile);
 
 			_selectTaskDialog.SelectTask();
-
-			_editorPage.CloseTutorialIfExist();
 
 			Assert.IsTrue(_editorPage.IsCatTableExist(), "Произошла ошибка:\nCAT-панель пустая.");
 

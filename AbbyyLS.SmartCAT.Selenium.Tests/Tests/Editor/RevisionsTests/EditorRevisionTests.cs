@@ -226,8 +226,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Editor
 
 			_selectTaskDialog.SelectTask();
 
-			_editorPage.CloseTutorialIfExist();
-
 			_editorPage
 				.FillSegmentTargetField(secondWord)
 				.ConfirmSegmentTranslation()

@@ -138,8 +138,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 
 			_selectTaskDialog.SelectTask();
 
-			_editorPage.CloseTutorialIfExist();
-
 			Assert.AreEqual("Translation (T):", _editorPage.GetStage(),
 				"Произошла ошибка:\n В шапке редактора отсутствует нужная задача.");
 		}
@@ -187,8 +185,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 			_projectSettingsPage.OpenDocumentInEditorWithTaskSelect(PathProvider.EditorTxtFile);
 			_selectTaskDialog.SelectTask();
 
-			_editorPage.CloseTutorialIfExist();
-
 			Assert.AreEqual("Translation (T):", _editorPage.GetStage(),
 				"Произошла ошибка:\n В шапке редактора отсутствует нужная задача.");
 
@@ -222,8 +218,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 
 			_selectTaskDialog.SelectTask();
 
-			_editorPage.CloseTutorialIfExist();
-
 			Assert.AreEqual("Translation (T):", _editorPage.GetStage(),
 				"Произошла ошибка:\n В шапке редактора отсутствует нужная задача.");
 		}
@@ -243,8 +237,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 			_projectSettingsPage.OpenDocumentInEditorWithTaskSelect(PathProvider.EditorTxtFile);
 			
 			_selectTaskDialog.SelectTask();
-
-			_editorPage.CloseTutorialIfExist();
 
 			Assert.AreEqual("Translation (T):", _editorPage.GetStage(),
 				"Произошла ошибка:\n В шапке редактора отсутствует нужная задача.");
@@ -318,8 +310,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 
 			_selectTaskDialog.SelectTask();
 
-			_editorPage.CloseTutorialIfExist();
-
 			Assert.AreEqual("Translation (T):", _editorPage.GetStage(),
 				"Произошла ошибка:\n В шапке редактора отсутствует нужная задача.");
 
@@ -372,8 +362,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 			_projectSettingsPage.OpenDocumentInEditorWithTaskSelect(PathProvider.DocumentFile);
 
 			_selectTaskDialog.SelectTask();
-
-			_editorPage.CloseTutorialIfExist();
 
 			Assert.AreEqual("Translation (T):", _editorPage.GetStage(),
 				"Произошла ошибка:\n В шапке редактора отсутствует нужная задача.");

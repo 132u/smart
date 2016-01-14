@@ -42,8 +42,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Editor
 
 			_selectTaskDialog.SelectTask();
 
-			_editorPage.CloseTutorialIfExist();
-
 			Assert.AreEqual(RevisionType.Pretranslation.Description(), _editorPage.GetRevisionType(),
 						"Произошла ошибка:\nНеверный тип ревизии.");
 		}

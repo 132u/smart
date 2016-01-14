@@ -36,8 +36,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Editor
 				.OpenDocumentInEditorWithTaskSelect(PathProvider.DocumentFile);
 
 			_selectTaskDialog.SelectTask();
-
-			_editorPage.CloseTutorialIfExist();
 		}
 
 		[Test(Description = "Проверяет вставку тега с помощью кнопки")]

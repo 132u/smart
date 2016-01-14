@@ -42,8 +42,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Editor
 				.OpenDocumentInEditorWithTaskSelect(PathProvider.EditorTxtFile);
 
 			SelectTaskDialog.SelectTask();
-
-			_editorPage.CloseTutorialIfExist();
 		}
 
 		[Test]

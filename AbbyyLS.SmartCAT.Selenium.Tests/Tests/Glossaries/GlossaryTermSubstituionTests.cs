@@ -69,8 +69,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 
 			_selectTaskDialog.SelectTask();
 
-			_editorPage.CloseTutorialIfExist();
-
 			var highlightedSegmentTerms = _editorPage.GetHighlightedWords(segmentNumber: 1);
 			var catTerms = _editorPage.GetCatSourceTerms();
 			
@@ -104,8 +102,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 				.OpenDocumentInEditorWithTaskSelect(PathProvider.EditorTxtFile);
 
 			_selectTaskDialog.SelectTask();
-
-			_editorPage.CloseTutorialIfExist();
 
 			var highlightedSegmentTerms = _editorPage.GetHighlightedWords(segmentNumber: 3);
 			var catTerms = _editorPage.GetCatSourceTerms();
@@ -141,8 +137,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 				.OpenDocumentInEditorWithTaskSelect(PathProvider.EditorTxtFile);
 
 			_selectTaskDialog.SelectTask();
-
-			_editorPage.CloseTutorialIfExist();
 
 			var highlightedTermsSecondSegments = _editorPage.GetHighlightedWords(segmentNumber: 2);
 			var highlightedTermsThirdSegments = _editorPage.GetHighlightedWords(segmentNumber: 3);

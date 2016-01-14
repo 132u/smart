@@ -29,8 +29,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 
 			_selectTaskDialog.SelectTask();
 
-			_editorPage.CloseTutorialIfExist();
-
 			_editorPage
 				.FillTarget(_text, rowNumber: 1)
 				.ConfirmSegmentTranslation()
@@ -127,8 +125,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 				
 			_selectTaskDialog.SelectTask();
 
-			_editorPage.CloseTutorialIfExist();
-
 			_editorPage
 				.FillTarget(_text)
 				.ConfirmSegmentTranslation();
@@ -157,8 +153,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 				.OpenProjectInfo(_projectUniqueName)
 				.OpenDocumentInfoForProject(_projectUniqueName)
 				.ClickDocumentRef(PathProvider.RepetionsTxtFile);
-			
-			_editorPage.CloseTutorialIfExist();
 
 			_editorPage
 				.ClickOnTargetCellInSegment(rowNumber: 9)

@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Threading;
-using System.Windows.Forms;
 
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.PageObjects;
@@ -40,6 +39,10 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 			if (!IsEditorPageOpened())
 			{
 				throw new XPathLookupException("Произошла ошибка:\n не удалось открыть документ в редакторе");
+			}
+			if (!IsEditorDialogBackgroundDesappeared())
+			{
+				CloseTutorial();
 			}
 		}
 
@@ -393,17 +396,13 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		/// <summary>
 		/// Закрыть туториал, если он виден
 		/// </summary>
-		public EditorPage CloseTutorialIfExist()
+		public EditorPage CloseTutorial()
 		{
 			CustomTestContext.WriteLine("Проверить, видна ли подсказка");
 
-			if (Driver.WaitUntilElementIsDisplay(By.XPath(FINISH_TUTORIAL_BUTTON), timeout: 5))
-			{
-				CustomTestContext.WriteLine("Закрыть подсказку.");
-				FinishTutorialButton.Click();
-			}
+			FinishTutorialButton.Click();
 
-			if (!Driver.WaitUntilElementIsDisappeared(By.XPath(FINISH_TUTORIAL_BUTTON)))
+			if (!Driver.WaitUntilElementIsDisappeared(By.XPath(FINISH_TUTORIAL_BUTTON), timeout: 3))
 			{
 				CustomTestContext.WriteLine("Вторая попытка закрыть подсказку.");
 				FinishTutorialButton.Click();
@@ -1025,6 +1024,14 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		}
 
 		/// <summary>
+		/// Проверить, закрылся ли фон диалога в редакторе
+		/// </summary>
+		public bool IsEditorDialogBackgroundDesappeared()
+		{
+			return Driver.WaitUntilElementIsDisappeared(By.XPath(EDITOR_DIALOG_BACKGROUND), 5);
+		}
+
+		/// <summary>
 		/// Проверить, открылся ли редактор
 		/// </summary>
 		public bool IsEditorPageOpened()
@@ -1383,7 +1390,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		protected const string HIGHLIGHTED_SEGMENT = "//*[@id='segments-body']//div//div//table[*#*]//div//pre//span";
 		protected const string SOURCE_CAT_TERMS = ".//div[@id='cat-body']//table//tbody//tr//td[2]//div";
 
-
 		protected const string RESTORE_BUTTON = "revision-rollback-btn";
 		protected const string REVISION_TAB = "revisions-tab";
 		protected const string REVISION_TABLE = "revisions-body";
@@ -1394,6 +1400,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		protected const string REVISION_INSERT_CHANGE_PART = "//div[@id='revisions-body']//table[*#*]//td[contains(@class,'revision-text-cell')]//ins";
 		protected const string REVISION_USER_COLUNM = "//div[@id='revisions-body']//table[*#*]//td[contains(@class,'revision-user-cell')]";
 		protected const string USER_COLUMN = "//div[@id='gridcolumn-1105']//span";
+
+		protected const string EDITOR_DIALOG_BACKGROUND = "//div[contains(@class,'x-mask callout-mask')]";
+
 		#endregion
 	}
 }

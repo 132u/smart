@@ -52,8 +52,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 			_selectTaskDialog.SelectTask();
 
-			_editorPage.CloseTutorialIfExist();
-
 			if (!_editorPage.IsTargetDisplayed())
 			{
 				throw new XPathLookupException("Произошла ошибка:\n сегмент с не появился.");

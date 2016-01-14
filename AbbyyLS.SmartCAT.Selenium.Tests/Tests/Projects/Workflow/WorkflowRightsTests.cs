@@ -164,8 +164,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 			_projectsPage
 				.OpenProjectInfo(_projectUniqueName)
 				.OpenDocumentInfoForProject(_projectUniqueName)
-				.ClickDocumentRef(PathProvider.EditorTxtFile)
-				.CloseTutorialIfExist();
+				.ClickDocumentRef(PathProvider.EditorTxtFile);
 
 			_editorPage
 				.FillTarget(_text, rowNumber: 1)
@@ -190,8 +189,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 			_projectsPage
 				.OpenProjectInfo(_projectUniqueName)
 				.OpenDocumentInfoForProject(_projectUniqueName)
-				.ClickDocumentRef(PathProvider.EditorTxtFile)
-				.CloseTutorialIfExist();
+				.ClickDocumentRef(PathProvider.EditorTxtFile);
 
 			Assert.AreEqual(_text, _editorPage.GetTargetText(rowNumber: 1),
 				"Произошла ошибка:\n Неверное значение в таргете сегмента №1.");
