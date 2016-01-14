@@ -63,17 +63,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace
 		}
 
 		/// <summary>
-		/// Раскрыть пункт меню Проекты
-		/// </summary>
-		public WorkspacePage ExpandProjectMenu()
-		{
-			CustomTestContext.WriteLine("Раскрыть пункт меню Проекты");
-			ProjectsMenu.Click();
-
-			return GetPage();
-		}
-
-		/// <summary>
 		/// Выбрать вкладку "Клиенты"
 		/// </summary>
 		public ClientsPage ClickClientsButton()
@@ -394,12 +383,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace
 		public ProjectsPage ClickProjectsSubmenu()
 		{
 			CustomTestContext.WriteLine("Нажать кнопку 'Проекты'.");
-			
-			if (!IsProjectsMenuExpanded())
-			{
-				ExpandProjectMenu();
-			}
-
 			ProjectsButton.Click();
 
 			return new ProjectsPage(Driver).GetPage();
@@ -412,12 +395,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace
 		{
 			CustomTestContext.WriteLine("Нажать на пункт меню 'Проекты', без ожидания загрузки каких-либо страниц");
 			OpenHideMenuIfClosed();
-			
-			if (!IsProjectsMenuExpanded())
-			{
-				ExpandProjectMenu();
-			}
-
 			ProjectsButton.Click();
 		}
 
