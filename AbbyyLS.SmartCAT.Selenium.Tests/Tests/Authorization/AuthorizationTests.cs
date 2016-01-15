@@ -10,29 +10,14 @@ using AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers;
 namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Authorization
 {
 	[Parallelizable(ParallelScope.Fixtures)]
-	internal class AuthorizationTests<TWebDriverProvider> : BaseTest<TWebDriverProvider>
+	internal class AuthorizationTests<TWebDriverProvider> : AuthorizationBaseTest<TWebDriverProvider>
 		where TWebDriverProvider : IWebDriverProvider, new()
 	{
 		public AuthorizationTests()
 		{
 			StartPage = StartPage.SignIn;
 		}
-
-		[SetUp]
-		public void Initialization()
-		{
-			_adminHelper = new AdminHelper(Driver);
-			_commonHelper = new CommonHelper(Driver);
-
-			_signInPage = new SignInPage(Driver);
-			_facebookPage = new FacebookPage(Driver);
-			_googlePage = new GooglePage(Driver);
-			_linkedInPage = new LinkedInPage(Driver);
-			_selectAccountForm = new SelectAccountForm(Driver);
-			_workspacePage = new WorkspacePage(Driver);
-			_selectProfileForm=new SelectProfileForm(Driver);
-		}
-
+		
 		[TestCase("Personal", LoginHelper.EuropeTestServerName)]
 		[TestCase("Personal", LoginHelper.USATestServerName, IgnoreReason = "SCAT-757")]
 		[TestCase("TestAccount", LoginHelper.EuropeTestServerName)]
@@ -238,16 +223,5 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Authorization
 			Assert.IsTrue(_selectProfileForm.IsSelectProfileFormOpened(),
 				"Произошла ошибка:\n страница с выбором профиля не открылась");
 		}
-
-		private AdminHelper _adminHelper;
-		private CommonHelper _commonHelper;
-
-		private SignInPage _signInPage;
-		private FacebookPage _facebookPage;
-		private GooglePage _googlePage;
-		private LinkedInPage _linkedInPage;
-		private SelectAccountForm _selectAccountForm;
-		private SelectProfileForm _selectProfileForm;
-		private WorkspacePage _workspacePage;
 	}
 }

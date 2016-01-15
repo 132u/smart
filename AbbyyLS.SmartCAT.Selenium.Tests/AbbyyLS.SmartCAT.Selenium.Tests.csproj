@@ -64,6 +64,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Configs\UserInfoConfig.cs" />
+    <Compile Include="DataStructures\AccountType.cs" />
     <Compile Include="DataStructures\DateRange.cs" />
     <Compile Include="ExplicitAttributes\UserDataExplicitAttribute.cs" />
     <Compile Include="Pages\Editor\ConfirmTermWithoutTranskationDialog.cs" />
@@ -233,6 +234,8 @@
     <Compile Include="TestHelpers\ProjectSettingsHelper.cs" />
     <Compile Include="TestHelpers\TranslationMemoriesHelper.cs" />
     <Compile Include="TestSettingDefinition.cs" />
+    <Compile Include="Tests\Authorization\AuthorizationBaseTest.cs" />
+    <Compile Include="Tests\Authorization\AuthorizationDifferentAccountTypeTests.cs" />
     <Compile Include="Tests\Authorization\AuthorizationTests.cs" />
     <Compile Include="Tests\Editor\CatPanelResultTests.cs" />
     <Compile Include="Tests\Editor\EditorChangeCaseButtonsTests.cs" />

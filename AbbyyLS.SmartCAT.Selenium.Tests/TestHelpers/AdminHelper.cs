@@ -71,7 +71,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 			List<string> features = null,
 			bool packagesNeed = false,
 			bool unlimitedUseServices = false,
-			string accountType = LoginHelper.LanguageServiceProviderAccountType)
+			AccountType accountType = AccountType.LanguageServiceProvider)
 		{
 			accountName = accountName ?? "TestAccount" + new Guid();
 			

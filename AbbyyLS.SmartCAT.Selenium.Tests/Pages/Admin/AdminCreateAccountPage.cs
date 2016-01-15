@@ -8,9 +8,8 @@ using OpenQA.Selenium;
 using OpenQA.Selenium.Support.PageObjects;
 
 using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
-
+using AbbyyLS.SmartCAT.Selenium.Tests.DataStructures;
 using AbbyyLS.SmartCAT.Selenium.Tests.TestFramework;
-
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Admin
 {
@@ -124,10 +123,10 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Admin
 		/// <summary>
 		/// Выбрать тип корпоративного аккаунта
 		/// </summary>
-		public AdminCreateAccountPage SetEnterpriseAccountType(string accountType)
+		public AdminCreateAccountPage SetEnterpriseAccountType(AccountType accountType)
 		{
 			CustomTestContext.WriteLine("Выбрать тип корпоративного аккаунта: {0}", accountType);
-			EnterpriseAccountTypeDropdown.SelectOptionByText(accountType);
+			EnterpriseAccountTypeDropdown.SelectOptionByText(accountType.ToString());
 
 			return GetPage();
 		}
