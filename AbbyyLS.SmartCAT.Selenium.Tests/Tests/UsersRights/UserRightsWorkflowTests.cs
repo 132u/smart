@@ -95,7 +95,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersRights
 
 			_projectsPage
 				.OpenProjectInfo(_projectUniqueName)
-				.ClickDocumentRef(document1);
+				.ClickDocumentRefExpectingEditorPage(document1);
 
 			Assert.IsTrue(_editorPage.IsEditorPageOpened(),
 				"Произошла ошибка:\nРедактор не открылся.");
@@ -104,7 +104,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersRights
 
 			_projectsPage
 				.OpenProjectInfo(_projectUniqueName)
-				.ClickDocumentRef(document2);
+				.ClickDocumentRefExpectingEditorPage(document2);
 
 			Assert.IsTrue(_editorPage.IsEditorPageOpened(),
 				"Произошла ошибка:\nРедактор не открылся.");
@@ -142,7 +142,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersRights
 			
 			_projectsPage
 				.OpenProjectInfo(_projectUniqueName)
-				.ClickDocumentRef(document1);
+				.ClickDocumentRefExpectingEditorPage(document1);
 
 			Assert.AreEqual("Translation (T):", _editorPage.GetStage(),
 				"Произошла ошибка:\nНевреное название этапа.");
@@ -151,7 +151,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersRights
 
 			_projectsPage
 				.OpenProjectInfo(_projectUniqueName)
-				.ClickDocumentRef(document2);
+				.ClickDocumentRefExpectingEditorPage(document2);
 
 			Assert.AreEqual("Editing (E):", _editorPage.GetStage(),
 				"Произошла ошибка:\nНевреное название этапа.");
@@ -176,7 +176,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersRights
 
 			_projectsPage
 				.OpenProjectInfo(_projectUniqueName)
-				.ClickDocumentRef(document1);
+				.ClickDocumentRefExpectingEditorPage(document1);
 
 			Assert.AreEqual("Translation (T):", _editorPage.GetStage(),
 				"Произошла ошибка:\nНевреное название этапа.");
@@ -207,7 +207,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersRights
 
 			_projectsPage
 				.OpenProjectInfo(_projectUniqueName)
-				.ClickDocumentRef(document1);
+				.ClickDocumentRefExpectingSelectTaskDialog(document1);
 
 			_selectTaskDialog.SelectTask();
 
@@ -254,7 +254,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersRights
 
 			_projectsPage
 				.OpenProjectInfo(_projectUniqueName)
-				.ClickDocumentRef(document1);
+				.ClickDocumentRefExpectingSelectTaskDialog(document1);
 
 			_selectTaskDialog.SelectTask();
 
@@ -292,7 +292,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersRights
 
 			_projectsPage
 				.OpenProjectInfo(_projectUniqueName)
-				.ClickDocumentRef(document1);
+				.ClickDocumentRefExpectingEditorPage(document1);
 
 			Assert.AreEqual("Translation (T):", _editorPage.GetStage(),
 				"Произошла ошибка:\nНевреное название этапа.");
@@ -323,7 +323,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersRights
 
 			_projectsPage
 				.OpenProjectInfo(_projectUniqueName)
-				.ClickDocumentRef(document1);
+				.ClickDocumentRefExpectingSelectTaskDialog(document1);
 
 			_selectTaskDialog.SelectTask();
 
@@ -334,7 +334,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersRights
 
 			_projectsPage
 				.OpenProjectInfo(_projectUniqueName)
-				.ClickDocumentRef(document2);
+				.ClickDocumentRefExpectingEditorPage(document2);
 
 			Assert.IsTrue(_editorPage.IsEditorPageOpened(),
 				"Произошла ошибка:\nРедактор не открылся.");
@@ -372,7 +372,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersRights
 
 			_projectsPage
 				.OpenProjectInfo(_projectUniqueName)
-				.ClickDocumentRef(document1);
+				.ClickDocumentRefExpectingSelectTaskDialog(document1);
 			
 			_selectTaskDialog.SelectTask();
 
@@ -383,7 +383,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersRights
 
 			_projectsPage
 				.OpenProjectInfo(_projectUniqueName)
-				.ClickDocumentRef(document2);
+				.ClickDocumentRefExpectingSelectTaskDialog(document2);
 
 			_selectTaskDialog.SelectTask(TaskMode.Editing);
 

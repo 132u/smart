@@ -191,12 +191,12 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 		}
 
 		/// <summary>
-		/// Кликнуть по ссылке на документ (открыть его)
+		/// Кликнуть по ссылке на документ (открыть его) ожидая открытие редактора
 		/// </summary>
-		public SelectTaskDialog ClickDocumentRef(string documentPath)
+		public EditorPage ClickDocumentRefExpectingEditorPage(string documentPath)
 		{
 			var documentname = Path.GetFileNameWithoutExtension(documentPath);
-			CustomTestContext.WriteLine("Кликнуть по ссылке на документ {0} (открыть его).", documentname);
+			CustomTestContext.WriteLine("Кликнуть по ссылке на документ {0} (открыть его) ожидая открытие редактора.", documentname);
 			DocumentRef = Driver.SetDynamicValue(How.XPath, DOCUMENT_REF, documentname);
 			DocumentRef.Click();
 			// Sleep нужен, чтоб вторая вкладка успела открыться, иначе количество открытых вкладок посчитается неправильно 
@@ -207,7 +207,27 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 				Driver.SwitchTo().Window(Driver.WindowHandles.Last());
 			}
 
-			return new SelectTaskDialog(Driver);
+			return new EditorPage(Driver).GetPage();
+		}
+
+		/// <summary>
+		/// Кликнуть по ссылке на документ (открыть его) ожидая диалог выбора задачи
+		/// </summary>
+		public SelectTaskDialog ClickDocumentRefExpectingSelectTaskDialog(string documentPath)
+		{
+			var documentname = Path.GetFileNameWithoutExtension(documentPath);
+			CustomTestContext.WriteLine("Кликнуть по ссылке на документ {0} (открыть его) ожидая диалог выбора задачи.", documentname);
+			DocumentRef = Driver.SetDynamicValue(How.XPath, DOCUMENT_REF, documentname);
+			DocumentRef.Click();
+			// Sleep нужен, чтоб вторая вкладка успела открыться, иначе количество открытых вкладок посчитается неправильно 
+			Thread.Sleep(1000);
+			if (Driver.WindowHandles.Count > 1)
+			{
+				Driver.SwitchTo().Window(Driver.WindowHandles.First()).Close();
+				Driver.SwitchTo().Window(Driver.WindowHandles.Last());
+			}
+
+			return new SelectTaskDialog(Driver).GetPage();
 		}
 
 		/// <summary>
