@@ -692,12 +692,13 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		/// Выделить ревизию
 		/// </summary>
 		/// <param name="revisionNumber">номер ревизии</param>
-		public EditorPage SelectRevision(int revisionNumber = 1)
+		public EditorPage SelectRevision(string revisionText = "Translation", int revisionNumber = 1)
 		{
 			CustomTestContext.WriteLine("Выделить ревизию №{0}.", revisionNumber);
-			Revision = Driver.SetDynamicValue(How.XPath, REVISION_IN_LIST, revisionNumber.ToString());
-			Revision.AdvancedClick();
-
+			Driver.WaitUntilElementIsDisplay(By.XPath(REVISION_IN_LIST.Replace("*#*", revisionNumber.ToString()).Replace("*##*", revisionText)));
+			Revision = Driver.SetDynamicValue(How.XPath, REVISION_IN_LIST, revisionNumber.ToString(), revisionText);
+			Revision.Click();
+			
 			return GetPage();
 		}
 
@@ -1394,7 +1395,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		protected const string REVISION_TAB = "revisions-tab";
 		protected const string REVISION_TABLE = "revisions-body";
 		protected const string REVISION_LIST = "//div[@id='revisions-body']//table";
-		protected const string REVISION_IN_LIST = "//div[@id='revisions-body']//table[*#*]//td[2]//div//pre";
+		protected const string REVISION_IN_LIST = "//div[@id='revisions-body']//table[*#*]//td[2]//div//pre[contains(text(),'*##*')]";
 		protected const string REVISION_TYPE = "//div[@id='revisions-body']//table[*#*]//td[contains(@class,'revision-type-cell')]";
 		protected const string REVISION_DELETE_CHANGE_PART = "//div[@id='revisions-body']//table[*#*]//td[contains(@class,'revision-text-cell')]//del";
 		protected const string REVISION_INSERT_CHANGE_PART = "//div[@id='revisions-body']//table[*#*]//td[contains(@class,'revision-text-cell')]//ins";
