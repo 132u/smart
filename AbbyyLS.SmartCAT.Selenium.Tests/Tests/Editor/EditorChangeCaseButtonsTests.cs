@@ -284,7 +284,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Editor
 				"Произошла ошибка:\n Неверный текст в таргете.");
 		}
 
-		[Ignore("PRX-13884")]
+		[Ignore("PRX-4034")]
 		[Test]
 		public void ChangeCaseFirstWordByButtonNonStandardTest()
 		{
@@ -348,7 +348,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Editor
 				"Произошла ошибка:\n Неверный текст в таргете.");
 		}
 
-		[Ignore("PRX-13884")]
+		[Ignore("PRX-4034")]
 		[Test]
 		public void ChangeCaseFirstWordByHotkeyNonStandardTest()
 		{

@@ -85,7 +85,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.TranslationMemories
 				"Произошла ошибка:\n сообщение об ошибке во время импорта TMX файла не появилось");
 		}
 
-		[Test, Ignore("PRX-11603")]
+		[Test]
 		public void UpdateTmxWithoutBodyEndTagTest()
 		{
 			_translationMemoriesHelper.CreateTranslationMemory(_tmName, importFilePath: PathProvider.EditorTmxFile);
@@ -104,7 +104,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.TranslationMemories
 				"Произошла ошибка:\n сообщение об ошибке во время импорта TMX файла не появилось");
 		}
 
-		[Test, Ignore("PRX-11603")]
+		[Test]
 		public void UpdateTmxWithLongSegValueTest()
 		{
 			_translationMemoriesHelper.CreateTranslationMemory(_tmName, importFilePath: PathProvider.EditorTmxFile);
@@ -123,7 +123,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.TranslationMemories
 				"Произошла ошибка:\n сообщение об ошибке во время импорта TMX файла не появилось");
 		}
 
-		[Test, Ignore("PRX-11603")]
+		[Test]
 		public void UpdateTmxWithoutTuEndTagTest()
 		{
 			_translationMemoriesHelper.CreateTranslationMemory(_tmName, importFilePath: PathProvider.EditorTmxFile);
@@ -142,7 +142,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.TranslationMemories
 				"Произошла ошибка:\n сообщение об ошибке во время импорта TMX файла не появилось");
 		}
 
-		[Test, Ignore("PRX-13475")]
+		[Test, Ignore("PRX-3690")]
 		public void UpdateTmxWithUnicodeCharactersTest()
 		{
 			_translationMemoriesHelper.CreateTranslationMemory(_tmName, importFilePath: PathProvider.EditorTmxFile);
@@ -164,7 +164,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.TranslationMemories
 				"Произошла ошибка:\n сообщение о окончании импорта TMX файла не появилось");
 		}
 
-		[Test, Ignore("PRX-11603")]
+		[Test]
 		public void UpdateTxtWithTmxExtensionTest()
 		{
 			_translationMemoriesHelper.CreateTranslationMemory(_tmName, importFilePath: PathProvider.EditorTmxFile);
