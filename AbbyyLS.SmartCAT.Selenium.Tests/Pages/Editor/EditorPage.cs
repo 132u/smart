@@ -1020,6 +1020,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		public bool IsCatTableExist()
 		{
 			CustomTestContext.WriteLine("Проверить, присутствует ли таблица в CAT-панели");
+			Driver.WaitUntilElementIsDisplay(By.XPath(CAT_TABLE));
 
 			return Driver.GetIsElementExist(By.XPath(CAT_TABLE));
 		}
