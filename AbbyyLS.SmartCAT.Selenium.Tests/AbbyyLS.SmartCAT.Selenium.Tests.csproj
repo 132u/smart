@@ -245,6 +245,9 @@
     <Compile Include="Tests\Authorization\AuthorizationBaseTest.cs" />
     <Compile Include="Tests\Authorization\AuthorizationDifferentAccountTypeTests.cs" />
     <Compile Include="Tests\Authorization\AuthorizationTests.cs" />
+    <Compile Include="Tests\Clients\BaseClientsTests.cs" />
+    <Compile Include="Tests\Clients\CreateClientTests.cs" />
+    <Compile Include="Tests\Clients\DeleteClientTests.cs" />
     <Compile Include="Tests\Coursera\LeaderboardTests.cs" />
     <Compile Include="Tests\Editor\CatPanelResultTests.cs" />
     <Compile Include="Tests\Editor\EditorChangeCaseButtonsTests.cs" />
@@ -287,7 +290,7 @@
     <Compile Include="Tests\BaseTest.cs" />
     <Compile Include="Tests\Billing\BaseBillingTests.cs" />
     <Compile Include="Tests\Projects\ChangeProjectNameTests.cs" />
-    <Compile Include="Tests\Clients\ClientsTests.cs" />
+    <Compile Include="Tests\Clients\ChangeClientTests.cs" />
     <Compile Include="Tests\Billing\BillingTests.cs" />
     <Compile Include="Tests\Billing\BuyLicensePackageTests.cs" />
     <Compile Include="Configs\ThreadUserConfig.cs" />
