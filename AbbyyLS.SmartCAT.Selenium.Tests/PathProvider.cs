@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.IO;
 
 using NConfiguration;
@@ -393,6 +395,17 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests
 		}
 
 		/// <summary>
+		/// Путь к папке тестовых файлов для курсеры
+		/// </summary>
+		private static string сourseraFilesTestFolder
+		{
+			get
+			{
+				return new Uri(Path.Combine(FilesDirectory, "FilesForCoursera")).LocalPath;
+			}
+		}
+
+		/// <summary>
 		/// Путь к папке тестовых файлов на match'и
 		/// </summary>
 		private static string filesForMatchTestFolder
@@ -423,6 +436,18 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests
 			{
 				return new Uri(Path.Combine(FilesDirectory, "FileForTestTM")).LocalPath;
 			}
+		}
+
+		public static IList<string> GetFilesFromCourseraFolder()
+		{
+			var files = new List<string>();
+			var filesInFolder = new DirectoryInfo((Path.Combine(FilesDirectory, "FilesForCoursera"))).GetFiles();
+			foreach (FileInfo file in filesInFolder)
+			{
+				files.Add(file.FullName);
+			}
+
+			return files;
 		}
 
 		public static string FilesDirectory

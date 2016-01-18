@@ -1,5 +1,6 @@
 ﻿using AbbyyLS.SmartCAT.Selenium.Tests.DataStructures;
 using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
+using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Coursera;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Login;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace;
 using AbbyyLS.SmartCAT.Selenium.Tests.TestFramework;
@@ -17,6 +18,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 			_commonHelper = new CommonHelper(Driver);
 			_signInPage = new SignInPage(Driver);
 			_workspacePage = new WorkspacePage(Driver);
+			_courseraHomePage = new CourseraHomePage(Driver);
+			_courseraSignInDialog = new CourseraSignInDialog(Driver);
 		}
 
 		public LoginHelper LogInSmartCat(
@@ -32,6 +35,21 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 				
 			_workspacePage.SetUp(nickName, accountName);
 
+			return this;
+		}
+
+		/// <summary>
+		/// Авторизоваться в курсере
+		/// </summary>
+		/// <param name="login">логин</param>
+		/// <param name="password">пароль</param>
+		public LoginHelper LogInCoursera(
+			string login,
+			string password)
+		{
+			_courseraHomePage.ClickJoinButton();
+			_courseraSignInDialog.LoginInCoursera(login, password);
+			
 			return this;
 		}
 
@@ -74,6 +92,10 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 					LogInSmartCat(user.Login, user.NickName, user.Password, "Personal");
 					break;
 
+				case StartPage.Coursera:
+					_commonHelper.GoToCoursera();
+					break;
+
 				default:
 					_commonHelper.GoToSignInPage();
 					LogInSmartCat(user.Login, user.NickName, user.Password);
@@ -85,7 +107,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 		private readonly AdminHelper _adminHelper;
 		private readonly CommonHelper _commonHelper;
 		private readonly SignInPage _signInPage;
+		private readonly CourseraHomePage _courseraHomePage;
 		private readonly WorkspacePage _workspacePage;
+		private readonly CourseraSignInDialog _courseraSignInDialog;
 
 		public const string TestAccountName = "TestAccount";
 		public const string PersonalAccountName = "Personal";

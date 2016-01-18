@@ -92,11 +92,20 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.InitialData
 
 		[Test, Category("Admin tests")]
 		[ApiIntegration]
-		public void CreatePersonalAccountForThreadUsers()
+		public void CreateThreadUsersWithRequiredAccounts()
 		{
+			_adminHelper.CreateAccountIfNotExist(
+					LoginHelper.CourseraVenture,
+					LoginHelper.CourseraAccountName,
+					workflow: true,
+					features:
+					new List<string> { Feature.Clients.ToString(), Feature.Crowd.ToString(), Feature.LingvoDictionaries.ToString(), });
+
 			foreach (var user in ConfigurationManager.ThreadUsersList)
 			{
-				_adminHelper.CreateUserWithPersonalAccount(user.Login, user.Login, user.Password);
+				_adminHelper
+					.CreateUserWithPersonalAccount(user.Login, user.Login, user.Password)
+					.AddUserToSpecificAccount(user.Login, LoginHelper.CourseraAccountName);
 			}
 		}
 

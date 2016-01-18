@@ -6,6 +6,8 @@
 		Editing,
 		Proofreading,
 		Postediting,
+		CrowdTranslation,
+		CrowdReview,
 		Empty
 	};
 }

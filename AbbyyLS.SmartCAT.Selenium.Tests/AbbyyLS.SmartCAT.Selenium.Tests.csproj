@@ -63,10 +63,18 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Configs\CourseraServerConfig.cs" />
     <Compile Include="Configs\UserInfoConfig.cs" />
     <Compile Include="DataStructures\AccountType.cs" />
     <Compile Include="DataStructures\DateRange.cs" />
     <Compile Include="ExplicitAttributes\UserDataExplicitAttribute.cs" />
+    <Compile Include="Pages\Coursera\CoursePage.cs" />
+    <Compile Include="Pages\Coursera\CourseraHomePage.cs" />
+    <Compile Include="Pages\Coursera\CourseraSignInDialog.cs" />
+    <Compile Include="Pages\Coursera\CoursesPage.cs" />
+    <Compile Include="Pages\Coursera\HeaderMenu.cs" />
+    <Compile Include="Pages\Coursera\LeaderboardPage.cs" />
+    <Compile Include="Pages\Coursera\ProfilePage.cs" />
     <Compile Include="Pages\Editor\ConfirmTermWithoutTranskationDialog.cs" />
     <Compile Include="Pages\Glossaries\FilterDialog.cs" />
     <Compile Include="Pages\Glossaries\SuggestedTerms\SelectGlossaryDialog.cs" />
@@ -237,6 +245,7 @@
     <Compile Include="Tests\Authorization\AuthorizationBaseTest.cs" />
     <Compile Include="Tests\Authorization\AuthorizationDifferentAccountTypeTests.cs" />
     <Compile Include="Tests\Authorization\AuthorizationTests.cs" />
+    <Compile Include="Tests\Coursera\LeaderboardTests.cs" />
     <Compile Include="Tests\Editor\CatPanelResultTests.cs" />
     <Compile Include="Tests\Editor\EditorChangeCaseButtonsTests.cs" />
     <Compile Include="Tests\Editor\EditorLastUnconfirmedSegmentTests.cs" />

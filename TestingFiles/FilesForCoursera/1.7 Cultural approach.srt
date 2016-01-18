@@ -1,0 +1,305 @@
+1
+00:00:08,800 --> 00:00:12,233
+We have just discussed an alternative to the 
+linear effect oriented approach. 
+
+2
+00:00:12,233 --> 00:00:15,066
+One that looks at message construction and 
+interpretation,  
+
+3
+00:00:15,066 --> 00:00:18,466
+and leaves room for multiple meanings of a 
+message.  
+
+4
+00:00:18,466 --> 00:00:22,266
+The third perspective I want to discuss is a 
+continuation of this line of thought  
+
+5
+00:00:22,266 --> 00:00:26,232
+but shifts the focus to cultural and social 
+aspects of communication. 
+
+6
+00:00:26,233 --> 00:00:29,566
+This approach deals with how we use 
+communication to give
+
+7
+00:00:29,566 --> 00:00:33,132
+meaning to the world around us, construct our 
+own social reality,
+
+8
+00:00:33,133 --> 00:00:33,166
+
+
+9
+00:00:33,166 --> 00:00:37,499
+the role of communication in group dynamics 
+and social interaction.
+
+10
+00:00:37,500 --> 00:00:43,400
+This perspective makes use of insights from the 
+field of sociology, social psychology and 
+anthropology,
+
+11
+00:00:43,400 --> 00:00:47,566
+where much attention is given to the social 
+context in which communication takes place.
+
+12
+00:00:47,566 --> 00:00:51,166
+It sees communication as the means to share 
+and reinforce ideas,
+
+13
+00:00:51,166 --> 00:00:54,299
+thereby constantly creating and adapting our 
+culture. 
+
+14
+00:00:54,300 --> 00:00:56,800
+Also it sees people as social animals,
+
+15
+00:00:56,800 --> 00:01:00,633
+as such we are constantly involved in social 
+group dynamics.
+
+16
+00:01:00,633 --> 00:01:03,933
+To illustrate this approach, letâs examine this 
+communication model,
+
+17
+00:01:03,933 --> 00:01:06,466
+proposed by Newcomb as early as 1953. 
+
+18
+00:01:06,466 --> 00:01:10,799
+The model starts out with two familiar elements: 
+sender and receiver.
+
+19
+00:01:10,800 --> 00:01:12,966
+Letâs call them person A and person B. 
+
+20
+00:01:12,966 --> 00:01:16,966
+Newcomb thought that the main purpose of 
+communication is to maintain some sort of
+
+21
+00:01:16,966 --> 00:01:20,699
+balance, a harmony or equilibrium in a social 
+system.
+
+22
+00:01:20,700 --> 00:01:20,733
+
+
+23
+00:01:20,733 --> 00:01:23,233
+He therefore introduced a new element,
+
+24
+00:01:23,233 --> 00:01:25,899
+the social environment that person A and person 
+B share. 
+
+25
+00:01:25,900 --> 00:01:29,900
+Weâll call this shared social environment X for 
+now. 
+
+26
+00:01:29,900 --> 00:01:36,666
+These three elements A, B and X, are all 
+connected to each other in one social system,
+
+27
+00:01:36,666 --> 00:01:41,232
+if one element changes, this changes the 
+relationship of the three. 
+
+28
+00:01:41,233 --> 00:01:42,299
+I will give an example.
+
+29
+00:01:42,300 --> 00:01:46,433
+Letâs say person A is David and person B is 
+Shirley. 
+
+30
+00:01:46,433 --> 00:01:48,766
+Shirley and David are colleagues in the same 
+department,
+
+31
+00:01:48,766 --> 00:01:51,066
+so this is their shared social environment.
+
+32
+00:01:51,066 --> 00:01:53,932
+If David quits his job to work somewhere else 
+
+33
+00:01:53,933 --> 00:01:58,266
+this means that they no longer have that same 
+shared social environment,
+
+34
+00:01:58,266 --> 00:02:00,032
+their workplace and shared office lunches. 
+
+35
+00:02:00,033 --> 00:02:04,733
+This will inevitably change the relationship 
+between Dave and Shirley. 
+
+36
+00:02:04,733 --> 00:02:07,666
+Perhaps theyâll decide they enjoyed their lunch 
+breaks so much
+
+37
+00:02:07,666 --> 00:02:09,132
+they will now have coffee each month,
+
+38
+00:02:09,133 --> 00:02:11,299
+even though they donât work together any more, 
+
+39
+00:02:11,300 --> 00:02:14,100
+thereby going from collegues to friends.
+
+40
+00:02:14,100 --> 00:02:19,500
+In another scenario David changes jobs within 
+the company and now becomes Shirleyâs boss. 
+
+41
+00:02:19,500 --> 00:02:22,700
+This will also influence their relationship 
+somehow. 
+
+42
+00:02:22,700 --> 00:02:25,933
+Will they still continue to have friendly lunches 
+each day? 
+
+43
+00:02:25,933 --> 00:02:27,866
+X can take many forms,
+
+44
+00:02:27,866 --> 00:02:33,399
+the place you work, political allegiance, a group 
+you belong to, it can even be a person.
+
+45
+00:02:33,400 --> 00:02:36,333
+Letâs say X is another co-worker named Ellen. 
+
+46
+00:02:36,333 --> 00:02:38,966
+David and Shirley both like Ellen,
+
+47
+00:02:38,966 --> 00:02:42,299
+ until Ellen and Shirley get into a fight. 
+
+48
+00:02:42,300 --> 00:02:45,633
+Now Davids relationship with the both of them 
+will change, 
+
+49
+00:02:45,633 --> 00:02:49,133
+he might choose sides or set himself up as a 
+neutral party.
+
+50
+00:02:49,133 --> 00:02:54,466
+Regardless of his choice, a new social balance 
+will be found, and equilibrium restored.
+
+51
+00:02:54,466 --> 00:02:58,066
+This according to Newcomb is the main function 
+of communication. 
+
+52
+00:02:58,066 --> 00:03:02,399
+Later other scientists have continued with this 
+idea, making other theories that
+
+53
+00:03:02,400 --> 00:03:06,066
+specifically looked at mediated, individual, mass 
+or group communication.
+
+54
+00:03:06,066 --> 00:03:08,966
+ In later weeks weâll go more in depth on this. 
+
+55
+00:03:08,966 --> 00:03:12,966
+To go back to the core of Newcomb's model, 
+and also the core of this third approach: 
+
+56
+00:03:12,966 --> 00:03:15,532
+Communication helps us get along with each 
+other,
+
+57
+00:03:15,533 --> 00:03:17,666
+make sense of the social world around us 
+
+58
+00:03:17,666 --> 00:03:20,266
+and enables us to function as social animals. 
+
+59
+00:03:20,266 --> 00:03:24,132
+Therefore, itâs crucial for a stable and healthy 
+society. 
+
+60
+00:03:24,133 --> 00:03:28,099
+Because without communication, we don't really 
+feel part of society. 
+
+61
+00:03:28,100 --> 00:03:33,000
+We canât position ourselves in social reality, for 
+instance by aligning ourselves with in-groups
+
+62
+00:03:33,000 --> 00:03:36,800
+or opposing ourselves against out-groups. 
+
+63
+00:03:36,800 --> 00:03:41,233
+Central to this approach is the notion that 
+people construct a cultural and social reality
+
+64
+00:03:41,233 --> 00:03:44,899
+by constantly communicating values, attitudes 
+and ideas. 
+
+65
+00:03:44,900 --> 00:03:49,733
+This idea is sometimes called social 
+constructionism.
+

@@ -98,6 +98,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.DocumentUploadDialog
 			var fileName = Path.GetFileName(file);
 
 			CustomTestContext.WriteLine("Проверить, что файл {0} загрузился", fileName);
+			Driver.SetDynamicValue(How.XPath, UPLOADED_FILE, fileName).Scroll();
 
 			return Driver.WaitUntilElementIsDisplay(By.XPath(UPLOADED_FILE.Replace("*#*", fileName)));
 		}

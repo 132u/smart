@@ -7,6 +7,7 @@
 		SignIn,
 		Workspace,
 		PersonalAccount,
-		FreelanceRegistration
+		FreelanceRegistration,
+		Coursera
 	}
 }

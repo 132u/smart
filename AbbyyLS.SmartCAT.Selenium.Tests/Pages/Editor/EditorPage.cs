@@ -10,6 +10,7 @@ using Keys = OpenQA.Selenium.Keys;
 
 using AbbyyLS.SmartCAT.Selenium.Tests.DataStructures;
 using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
+using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Coursera;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings;
 using AbbyyLS.SmartCAT.Selenium.Tests.TestFramework;
@@ -68,6 +69,17 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 			HomeButton.Click();
 
 			return new ProjectsPage(Driver).GetPage();
+		}
+
+		/// <summary>
+		/// Нажать кнопку "Домой" для перехода на страницу курсов курсеры.
+		/// </summary>
+		public CoursesPage ClickHomeButtonExpectingCourseraCoursesPage()
+		{
+			CustomTestContext.WriteLine("Нажать кнопку 'Домой' для перехода на страницу курсов курсеры.");
+			HomeButton.Click();
+
+			return new CoursesPage(Driver).GetPage();
 		}
 
 		/// <summary>

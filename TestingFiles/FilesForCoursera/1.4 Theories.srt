@@ -1,0 +1,308 @@
+1
+00:00:08,000 --> 00:00:10,866
+Concepts play an important role in all theories. 
+
+2
+00:00:10,866 --> 00:00:14,866
+Theories in their simples definition are all 
+statements about reality 
+
+3
+00:00:14,866 --> 00:00:17,999
+that seek to explain or predict the relation 
+between phenomena. 
+
+4
+00:00:19,000 --> 00:00:19,200
+
+
+5
+00:00:19,200 --> 00:00:24,266
+For instance, the theory of gravity predicts that if I 
+drop a pen, it will fall to the floor. 
+
+6
+00:00:24,266 --> 00:00:29,599
+A specific predicted result, derived from theory, 
+we call a hypothesis.
+
+7
+00:00:29,600 --> 00:00:34,866
+Whenever we visualise these statements this is 
+called a model. 
+
+8
+00:00:34,866 --> 00:00:38,266
+Usually the arrows and lines in these models 
+represent hypotheses.
+
+9
+00:00:38,266 --> 00:00:43,599
+The box on the left in this model represents the 
+presumed cause, dropping the pencil. 
+
+10
+00:00:43,600 --> 00:00:51,300
+We call this the independent variable. The other 
+is the presumed effect, or the dependent variable. 
+
+11
+00:00:51,300 --> 00:00:55,266
+If we change our example and look at the theory 
+that giving someone a gift
+
+12
+00:00:55,266 --> 00:00:57,366
+causes them to like you better.
+
+13
+00:00:57,366 --> 00:01:00,032
+Than the independent variable here is giftgiving.
+
+14
+00:01:00,366 --> 00:01:04,799
+and the dependent variable is how much you are 
+being liked by someone.
+
+15
+00:01:04,800 --> 00:01:11,366
+So we can proof or disproof our hypotheses, and 
+in extension the connected theory,
+
+16
+00:01:11,366 --> 00:01:14,232
+by actually dropping a pen or giving a gift
+
+17
+00:01:14,233 --> 00:01:18,466
+and check if the results correspond with the 
+expected results.
+
+18
+00:01:18,466 --> 00:01:19,666
+
+
+19
+00:01:19,666 --> 00:01:23,699
+In other words, we test and improve our theories 
+with use of research.
+
+20
+00:01:23,700 --> 00:01:27,233
+This can be primary research, where we collect 
+our own data.
+
+21
+00:01:27,233 --> 00:01:30,766
+Or by studying the results of others, so called 
+secondary research.
+
+22
+00:01:32,366 --> 00:01:33,299
+
+
+23
+00:01:33,300 --> 00:01:36,700
+We have several main means in our field to 
+gather data.
+
+24
+00:01:36,700 --> 00:01:41,100
+The first is observation, simply observing the 
+phenomenon.
+
+25
+00:01:41,100 --> 00:01:46,033
+Secondly we conduct experiments, where we try 
+to limit to amount of interfering variables
+
+26
+00:01:46,033 --> 00:01:51,099
+so we can actually proof a causal relation 
+between the dependent and independent variable. 
+
+27
+00:01:51,100 --> 00:01:52,966
+
+
+28
+00:01:52,966 --> 00:01:58,566
+We also use surveys, which is a questionnaire 
+spread amongst a sample of respondents.
+
+29
+00:01:58,566 --> 00:02:00,799
+The results are usually quantified.
+
+30
+00:02:00,800 --> 00:02:06,000
+For a more in depth exploration of attitudes we 
+conduct qualitative interviews.
+
+31
+00:02:06,000 --> 00:02:09,900
+Finally we study the message itself. This is called 
+content analysis.
+
+32
+00:02:11,433 --> 00:02:15,066
+It can be done systematically, where the results 
+are later quantified. 
+
+33
+00:02:15,066 --> 00:02:17,332
+Or it can be done in a qualitative fashion.
+
+34
+00:02:17,333 --> 00:02:18,766
+
+
+35
+00:02:18,766 --> 00:02:23,499
+Of course this is the ideal scientific situation. In 
+reality many theories canât be tested.
+
+36
+00:02:23,500 --> 00:02:27,366
+For instance because we can not observe the 
+presumed relation. 
+
+37
+00:02:27,366 --> 00:02:31,199
+The theory that âeverything happens for a reasonâ 
+might be true, 
+
+38
+00:02:31,200 --> 00:02:34,500
+but we donât really have access to the methods to 
+test this.
+
+39
+00:02:34,500 --> 00:02:37,000
+Sometimes a theory will combine a set of 
+theories.
+
+40
+00:02:37,000 --> 00:02:39,233
+For instance The Uses and Gratification Theory: 
+
+41
+00:02:39,233 --> 00:02:43,466
+which is a complex theory that we will discuss 
+later in depth in this class. 
+
+42
+00:02:43,466 --> 00:02:47,766
+The point for now is that it contains several ideas 
+about reality.
+
+43
+00:02:47,766 --> 00:02:51,566
+First of all, people make conscious decisions 
+regarding their use of media.
+
+44
+00:02:51,566 --> 00:02:55,332
+Secondly, people are conscious of their media-
+related needs. 
+
+45
+00:02:55,333 --> 00:03:00,666
+Thirdly, people select the media that is best 
+suited to fulfill their needs. 
+
+46
+00:03:00,666 --> 00:03:03,732
+These are only a few elements of this theory, but 
+my point is
+
+47
+00:03:03,733 --> 00:03:08,266
+that even though these different statements can 
+be tested and proven independently,
+
+48
+00:03:08,266 --> 00:03:11,699
+they are still part of the same theoretical 
+framework and therefore
+
+49
+00:03:11,700 --> 00:03:15,200
+collectively labeled as Uses and Gratification 
+Theory.
+
+50
+00:03:15,200 --> 00:03:19,300
+So the definition of theory is not as easy as we 
+first thought.
+
+51
+00:03:21,566 --> 00:03:21,732
+
+
+52
+00:03:21,733 --> 00:03:25,866
+Some theories donât even predict anything but 
+serve more as perspectives on reality
+
+53
+00:03:25,866 --> 00:03:27,999
+or to sum up an approach.
+
+54
+00:03:28,000 --> 00:03:31,833
+They tell us it is important to study some aspects 
+of that reality more thoroughly.
+
+55
+00:03:32,866 --> 00:03:33,366
+
+
+56
+00:03:33,366 --> 00:03:37,566
+For instance âstakeholder theoryâ tells us we 
+should study the stakeholders in any situation
+
+57
+00:03:37,566 --> 00:03:39,932
+and be aware of their various interests and 
+agendas.
+
+58
+00:03:39,933 --> 00:03:42,533
+These perspectives are sometimes called 
+theory,
+
+59
+00:03:42,533 --> 00:03:44,833
+but we also use the words paradigms or 
+approaches,
+
+60
+00:03:44,833 --> 00:03:48,266
+since they donât really fit the dominant definition of 
+scientific theory.
+
+61
+00:03:49,300 --> 00:03:49,700
+
+
+62
+00:03:49,700 --> 00:03:52,333
+That definition stresses that theories have 
+predictive value. 
+
+63
+00:03:52,333 --> 00:03:55,466
+And these paradigms or approaches serve more 
+as view glasses, 
+
+64
+00:03:55,466 --> 00:03:57,132
+which we use to study the world.
+
+65
+00:03:58,200 --> 00:04:02,366
+They amplify some aspects of reality and guide 
+our research. 
+

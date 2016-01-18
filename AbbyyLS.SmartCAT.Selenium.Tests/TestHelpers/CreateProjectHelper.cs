@@ -123,6 +123,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 			return "Test Project" + "-" + Guid.NewGuid();
 		}
 
+		public const string CourseraProjectName = "CourseraProject";
+
 		private readonly ProjectsPage _projectsPage;
 
 		private readonly NewProjectDocumentUploadPage _newProjectDocumentUploadPage;

@@ -1,0 +1,310 @@
+1
+00:00:09,266 --> 00:00:16,699
+During the sixties critics stood up, they objected 
+against this linear effect-oriented approach
+
+2
+00:00:16,700 --> 00:00:21,900
+They argued that many people give a different 
+meaning to a message than was intended,
+
+3
+00:00:21,900 --> 00:00:24,633
+but why should that be wrong?
+
+4
+00:00:24,633 --> 00:00:27,866
+Instead, they focused on the recipients of 
+communication
+
+5
+00:00:27,866 --> 00:00:32,132
+and how they give meaning to a message, using 
+their own unqiue toolkit
+
+6
+00:00:32,133 --> 00:00:38,333
+with their own backgrounds and experiences, 
+knowledge, emotions, et cetera.
+
+7
+00:00:38,333 --> 00:00:43,399
+So in this model, this non-linear model, there is 
+no wrong outcome,
+
+8
+00:00:43,400 --> 00:00:45,666
+there is no wrong communication
+
+9
+00:00:45,666 --> 00:00:48,499
+Everyone gives meaning to a message in there 
+own unique way
+
+10
+00:00:48,500 --> 00:00:50,400
+This idea was hardly new.
+
+11
+00:00:50,400 --> 00:00:54,300
+Scientists had studied the phenomenon of 
+polysemic messages for a long time. 
+
+12
+00:00:54,300 --> 00:00:59,333
+Polysemic meaning exactly that, different 
+people interpreting a message in a different way.  
+
+13
+00:00:59,333 --> 00:01:03,333
+According to these scientists each act of 
+communication relies
+
+14
+00:01:03,333 --> 00:01:07,366
+on a communication system, without which we 
+wouldn't understand each other.  
+
+15
+00:01:07,366 --> 00:01:10,899
+The study of these systems iscalled semiotics or semiology,
+
+16
+00:01:10,900 --> 00:01:13,433
+the so called study of âsignsâ and âsignificationâ.
+
+17
+00:01:13,433 --> 00:01:16,666
+A sign is basically everything that 
+communicates something. 
+
+18
+00:01:16,666 --> 00:01:19,866
+A spoken word, a gesture, a glance, a photo, a 
+cartoon,
+
+19
+00:01:19,866 --> 00:01:23,366
+a written sentence, a hieroglyph, they are all 
+signs. 
+
+20
+00:01:23,366 --> 00:01:27,366
+The process of giving meaning to these signs is 
+called signification. 
+
+21
+00:01:27,366 --> 00:01:31,766
+Without going to deep into this fascinating topic, 
+itâs important to briefly discuss 
+
+22
+00:01:31,766 --> 00:01:35,232
+the influence of semiotic theories on mass 
+communication theory. 
+
+23
+00:01:35,233 --> 00:01:40,633
+This approach views communication not as a 
+linear process but as an exchange of meaning.
+
+24
+00:01:40,633 --> 00:01:46,299
+The sender puts meaning in a message and the 
+receiver takes meaning from a message.
+
+25
+00:01:46,300 --> 00:01:48,500
+Under influence of semiotic theories,
+
+26
+00:01:48,500 --> 00:01:51,766
+communication scientists became more 
+interested in the reception of a message
+
+27
+00:01:51,766 --> 00:01:56,399
+and acknowledged that communication can 
+indeed have multiple valid outcomes.  
+
+28
+00:01:56,400 --> 00:01:58,966
+Letâs look at this classic model for example,
+
+29
+00:01:58,966 --> 00:02:02,232
+proposed by linguist Roman Jacobson in 1960.
+
+30
+00:02:02,233 --> 00:02:06,233
+He starts with familiar elements from Shannon 
+and Weavers transmission model: 
+
+31
+00:02:06,233 --> 00:02:10,233
+An addresser sends a message to an 
+addressee using a channel. 
+
+32
+00:02:10,233 --> 00:02:12,799
+He added to the model elements from semiotics   
+
+33
+00:02:12,800 --> 00:02:16,500
+Like the idea that every message refers to 
+something outside of the message,
+
+34
+00:02:16,500 --> 00:02:18,466
+which he called context. 
+
+35
+00:02:18,466 --> 00:02:22,932
+Also, the specific form that our communication 
+takes, for instance a written word,
+
+36
+00:02:22,933 --> 00:02:27,466
+ made up of letters, is called a code.  
+
+37
+00:02:27,466 --> 00:02:30,132
+Successful communication, according to 
+Jacobson,
+
+38
+00:02:30,133 --> 00:02:33,933
+can only exist when all of these elements are in 
+place. 
+
+39
+00:02:33,933 --> 00:02:37,433
+Also, each act of communication has one 
+dominant function
+
+40
+00:02:37,433 --> 00:02:42,066
+that relates to one of these elements in this 
+model. 
+
+41
+00:02:42,066 --> 00:02:46,899
+Let's review these functions that Jacobson 
+identified. 
+
+42
+00:02:46,900 --> 00:02:49,900
+When the primary purpose of a message is to 
+communicate
+
+43
+00:02:49,900 --> 00:02:54,633
+the emotions and attitudes of a sender, this is 
+called the emotive function. 
+
+44
+00:02:54,633 --> 00:02:57,533
+For instance when I write a love letter to my 
+girlfriend.
+
+45
+00:02:57,533 --> 00:02:59,733
+The second function is conative. 
+
+46
+00:02:59,733 --> 00:03:02,833
+If a receiver is directly addressed to do 
+something specific.
+
+47
+00:03:02,833 --> 00:03:07,766
+An example is a commercial that tells us to 
+âbuy this flavour of ice cream!â. 
+
+48
+00:03:07,766 --> 00:03:11,499
+The referential or descriptive function 
+corresponds with the context 
+
+49
+00:03:11,500 --> 00:03:15,200
+and happens when a message primarily 
+describes a situation.
+
+50
+00:03:15,200 --> 00:03:18,533
+Perhaps a news report is a good example for 
+this. 
+
+51
+00:03:18,533 --> 00:03:22,299
+Sometimes the main purpose of communicating 
+is to keep the lines open, 
+
+52
+00:03:22,300 --> 00:03:25,300
+when we have coffee each week with a friend for 
+instance. 
+
+53
+00:03:25,300 --> 00:03:29,000
+This is called a phatic function and relates to the 
+channel. 
+
+54
+00:03:29,000 --> 00:03:32,600
+A poetic function means that the message is an 
+end in itself,
+
+55
+00:03:32,600 --> 00:03:38,266
+a painting for example that aims at being a 
+beautiful and aesthetically pleasing piece of art.
+
+56
+00:03:38,266 --> 00:03:41,299
+And finally there is the metalingual function,
+
+57
+00:03:41,300 --> 00:03:44,200
+when we use communication to explain the 
+codes that we use. 
+
+58
+00:03:44,200 --> 00:03:46,233
+For instance a dictionary. 
+
+59
+00:03:46,233 --> 00:03:49,499
+Another example is the explanation Iâm giving 
+right now,
+
+60
+00:03:49,500 --> 00:03:53,000
+in which we are discussing concepts from the 
+field of semiotics.
+
+61
+00:03:53,000 --> 00:03:55,833
+By focusing on the meaning of a message, 
+
+62
+00:03:55,833 --> 00:03:58,699
+signs, signification and the main function of a 
+message, 
+
+63
+00:03:58,700 --> 00:04:02,433
+Jacobson has given us a model that is very 
+different from the transmission model. 
+
+64
+00:04:02,433 --> 00:04:05,299
+Itâs also a good starting point to discuss a third 
+perspective
+
+65
+00:04:05,300 --> 00:04:09,333
+that offers again a new angle with which to view 
+our field.
+

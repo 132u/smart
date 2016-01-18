@@ -25,6 +25,16 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 		}
 
 		/// <summary>
+		/// Переход на страницу курсеры.
+		/// </summary>
+		public void GoToCoursera()
+		{
+			CustomTestContext.WriteLine("Переход на страницу курсеры.", ConfigurationManager.CourseraUrl);
+
+			Driver.Navigate().GoToUrl(ConfigurationManager.CourseraUrl);
+		}
+
+		/// <summary>
 		/// Переход на страницу регистрации компаний /corp-reg.
 		/// </summary>
 		public void GoToCompanyRegistration()

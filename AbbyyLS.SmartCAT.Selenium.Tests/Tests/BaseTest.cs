@@ -130,7 +130,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests
 
 		public TestUser ThreadUser { get; protected set; }
 		public TestUser AdditionalUser { get; protected set; }
+		public TestUser CourseraUser { get; protected set; }
 		protected StartPage StartPage = StartPage.Workspace;
-		private LoginHelper _loginHelper;
+		protected LoginHelper _loginHelper;
 	}
 }

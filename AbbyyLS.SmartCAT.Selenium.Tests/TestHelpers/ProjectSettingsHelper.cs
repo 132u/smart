@@ -80,7 +80,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 			{
 				if (!_documentUploadGeneralInformationDialog.IsFileUploaded(filePath))
 				{
-					throw new Exception("Произошла ошибка: '\nдокумент не загружен");
+					throw new Exception("Произошла ошибка: '\nдокумент " + filePath + " не загружен");
 				}
 			}
 
