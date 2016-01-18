@@ -23,6 +23,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestFramework
 			var i = 0;
 			do
 			{
+				CustomTestContext.WriteLine("Попытка ввода текста №{0}", i);
 				i++;
 				webElement.Clear();
 
@@ -42,6 +43,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestFramework
 
 			if (webElement.GetAttribute("value") != expectedText && webElement.Text.TrimEnd(' ') != expectedText)
 			{
+				CustomTestContext.WriteLine("ebElement.GetAttribute('value')= {0},\nexpectedText= {1}, \nwebElement.Text.TrimEnd(' ')= {2}", webElement.GetAttribute("value"), expectedText, webElement.Text.TrimEnd(' '));
 				throw new Exception("Произошла ошибка:\nНеверный текст в элементе");
 			}
 		}
