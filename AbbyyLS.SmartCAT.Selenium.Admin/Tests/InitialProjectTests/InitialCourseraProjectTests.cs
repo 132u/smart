@@ -28,7 +28,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Admin.Tests.InitialCourseraProjectTests
 			_loginHelper.LogInCoursera(ThreadUser.Login, ThreadUser.Password);
 		}
 
-		[Test]
+		[Test, Category("Project tests")]
 		public void CreateCourseraProject()
 		{
 			_courseraHomePage.ClickWorkspaceButton();
