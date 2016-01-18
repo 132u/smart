@@ -1401,7 +1401,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		protected const string WORKFLOW_COLUMN = "//td[contains(@class, 'segmentworkflowcolumn')]";
 
 		protected const string PROGRESS_BAR = "//div[contains(@class, 'x-progress-bar x-progress-bar-default')]";
-		protected const string HIGHLIGHTED_SEGMENT = "//*[@id='segments-body']//div//div//table[*#*]//div//pre//span";
+		protected const string HIGHLIGHTED_SEGMENT = "//*[@id='segments-body']//div//div//table[*#*]//td[3]//div//span";
 		protected const string SOURCE_CAT_TERMS = ".//div[@id='cat-body']//table//tbody//tr//td[2]//div";
 
 		protected const string RESTORE_BUTTON = "revision-rollback-btn";
