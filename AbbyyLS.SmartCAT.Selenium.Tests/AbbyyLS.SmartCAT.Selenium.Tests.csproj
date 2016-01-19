@@ -275,9 +275,12 @@
     <Compile Include="Tests\Editor\EditorCopySourceToTargetTests.cs" />
     <Compile Include="Tests\Glossaries\GlossaryEditStructureTermFieldsTest.cs" />
     <Compile Include="Tests\Glossaries\GlossaryTermFilterTests.cs" />
-    <Compile Include="Tests\Glossaries\GlossaryTermSubstituionTests.cs" />
+    <Compile Include="Tests\Glossaries\GlossaryTermHighlightingTests.cs" />
     <Compile Include="Tests\Glossaries\UserRights\SuggestTermsTest.cs" />
     <Compile Include="Tests\Glossaries\UserRights\SuggestTermsWithoutRight.cs" />
+    <Compile Include="Tests\ProjectGroups\ChangeProjectGroupTests.cs" />
+    <Compile Include="Tests\ProjectGroups\DeleteProjectGroupTests.cs" />
+    <Compile Include="Tests\ProjectGroups\ProjectGroupsBaseTest.cs" />
     <Compile Include="Tests\Projects\AssignResponsibles\AssignmentDeadlineTests.cs" />
     <Compile Include="Tests\Projects\AssignResponsibles\AssignResponsibleDistributeDocumentTests.cs" />
     <Compile Include="Tests\Projects\AssignResponsibles\AssignResponsiblesBaseTests.cs" />
@@ -306,7 +309,7 @@
     <Compile Include="Tests\Registration\CompanyRegistration\AdminCompanyRegistrationTests.cs" />
     <Compile Include="Tests\Registration\CompanyRegistration\CompanyRegistrationTests.cs" />
     <Compile Include="Tests\Projects\ProjectDeadlineTests.cs" />
-    <Compile Include="Tests\ProjectGroups\ProjectGroupsTest.cs" />
+    <Compile Include="Tests\ProjectGroups\CreateProjectGroupTests.cs" />
     <Compile Include="Tests\Projects\ProjectImportTests.cs" />
     <Compile Include="Tests\Glossaries\SortingInSuggestedTermsTests.cs" />
     <Compile Include="Tests\Projects\ProjectSaveSettingsByBackTests.cs" />
