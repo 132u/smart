@@ -185,7 +185,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Editor
 				"Произошла ошибка:\nНеверно выделена часть удаленного слова.");
 		}
 
-		[Test]
+		[Test, Ignore("PRX-14628")]
 		public void TwoUsersRevisionsTest()
 		{
 			_secondUser = TakeUser(ConfigurationManager.Users);
