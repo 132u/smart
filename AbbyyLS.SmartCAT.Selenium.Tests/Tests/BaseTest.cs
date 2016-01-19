@@ -3,9 +3,7 @@ using System.Collections.Concurrent;
 using System.IO;
 using System.Linq;
 using System.Threading;
-using System.Threading.Tasks;
 
-using NLog;
 using NUnit.Framework;
 using NUnit.Framework.Interfaces;
 
@@ -13,8 +11,6 @@ using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
 using AbbyyLS.SmartCAT.Selenium.Tests.DataStructures;
 using AbbyyLS.SmartCAT.Selenium.Tests.TestFramework;
 using AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers;
-
-using OpenQA.Selenium;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests
 {

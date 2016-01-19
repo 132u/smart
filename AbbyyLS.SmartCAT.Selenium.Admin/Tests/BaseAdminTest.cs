@@ -1,0 +1,25 @@
+﻿using NUnit.Framework;
+
+using AbbyyLS.SmartCAT.Selenium.Tests.DataStructures;
+using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
+using AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers;
+using AbbyyLS.SmartCAT.Selenium.Tests.Tests;
+
+namespace AbbyyLS.SmartCAT.Selenium.Admin.Tests
+{
+	public class BaseAdminTest<TWebDriverProvider> : BaseTest<TWebDriverProvider> where TWebDriverProvider : IWebDriverProvider, new()
+	{
+		public BaseAdminTest()
+		{
+			StartPage = StartPage.Admin;
+		}
+
+		[SetUp]
+		public void SetUpInitialDataTests()
+		{
+			_adminHelper = new AdminHelper(Driver);
+		}
+
+		protected AdminHelper _adminHelper;
+	}
+}

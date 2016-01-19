@@ -1,21 +1,20 @@
 ﻿using NUnit.Framework;
 
-using AbbyyLS.SmartCAT.Selenium.Admin.Tests.InitialProjectTests;
 using AbbyyLS.SmartCAT.Selenium.Tests;
 using AbbyyLS.SmartCAT.Selenium.Tests.DataStructures;
 using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Coursera;
 using AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers;
-using AbbyyLS.SmartCAT.Selenium.Tests.Tests;
+using AbbyyLS.SmartCAT.Selenium.Admin.FeatureAttributes;
 
-namespace AbbyyLS.SmartCAT.Selenium.Admin.Tests.InitialCourseraProjectTests
+namespace AbbyyLS.SmartCAT.Selenium.Admin.Tests
 {
 	[Parallelizable(ParallelScope.Fixtures)]
+	[Coursera]
 	class InitialCourseraProjectTests<TWebDriverProvider> : InitialProjectBaseTests<TWebDriverProvider> where TWebDriverProvider : IWebDriverProvider, new()
 	{
 		public InitialCourseraProjectTests()
 		{
-			GlobalSetup.SetUp();
 			StartPage = StartPage.Coursera;
 		}
 
@@ -28,7 +27,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Admin.Tests.InitialCourseraProjectTests
 			_loginHelper.LogInCoursera(ThreadUser.Login, ThreadUser.Password);
 		}
 
-		[Test, Category("Project tests")]
+		[Test]
 		public void CreateCourseraProject()
 		{
 			_courseraHomePage.ClickWorkspaceButton();

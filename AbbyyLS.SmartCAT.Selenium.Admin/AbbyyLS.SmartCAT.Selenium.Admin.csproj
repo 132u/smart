@@ -53,13 +53,26 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ApiIntegrationAttribute.cs" />
-    <Compile Include="Tests\InitialProjectTests\InitialCourseraProjectTests.cs" />
-    <Compile Include="Tests\InitialDataTests.cs" />
+    <Compile Include="FeatureAttributes\ApiIntegrationAttribute.cs" />
+    <Compile Include="FeatureAttributes\CourseraAttribute.cs" />
+    <Compile Include="FeatureAttributes\CreateAccountAttribute.cs" />
+    <Compile Include="FeatureAttributes\CreateUsersAttribute.cs" />
+    <Compile Include="FeatureAttributes\InitDataAttribute.cs" />
+    <Compile Include="Tests\CreateDefaultDictionaryPackage.cs" />
+    <Compile Include="Tests\InitialCreateAccounts\CreateCorporateAccount.cs" />
+    <Compile Include="Tests\InitialCreateAccounts\CreateCourseraCorporateAccount.cs" />
+    <Compile Include="Tests\InitialCreateAccounts\CreatePerevedemCorporateAccount.cs" />
+    <Compile Include="Tests\InitialCreateUsers\CreateAdditionalUsers.cs" />
+    <Compile Include="Tests\InitialCreateUsers\CreateCourseraUsers.cs" />
+    <Compile Include="Tests\InitialCreateUsers\CreateSocialNetworksUsers.cs" />
+    <Compile Include="Tests\InitialCreateUsers\CreateThreadUsers.cs" />
+    <Compile Include="Tests\InitialCreateProjects\InitialCourseraProjectTests.cs" />
+    <Compile Include="Tests\BaseAdminTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Tests\InitialProjectTests\InitialProjectBaseTests.cs" />
-    <Compile Include="Tests\InitialProjectTests\InitialProjectCorporateAccountTests.cs" />
-    <Compile Include="Tests\InitialProjectTests\InitialProjectPersonalAccountTests.cs" />
+    <Compile Include="Tests\InitialCreateProjects\InitialProjectBaseTests.cs" />
+    <Compile Include="Tests\InitialCreateProjects\InitialProjectCorporateAccountTests.cs" />
+    <Compile Include="Tests\InitialCreateProjects\InitialProjectPersonalAccountTests.cs" />
+    <Compile Include="Tests\SetUp.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
