@@ -104,14 +104,13 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 			_selectTaskDialog.SelectTask();
 
 			var highlightedSegmentTerms = _editorPage.GetHighlightedWords(segmentNumber: 3);
-			var catTerms = _editorPage.GetCatSourceTerms();
 
 			Assert.IsTrue(_editorPage.IsCatTableExist(), "Произошла ошибка:\nCAT-панель пустая.");
 
-			Assert.AreEqual(1, _editorPage.CatTypeRowNumber(CatType.TB),
+			Assert.IsTrue(_editorPage.IsCatTypeExist(CatType.TB),
 				"Произошла ошибка:\nВ CAT-панели отсутствует подстановка {0}.", CatType.TB);
 
-			Assert.AreEqual(highlightedSegmentTerms, catTerms,
+			Assert.IsTrue(_editorPage.IsWordsMatchCatWords(highlightedSegmentTerms),
 				"Произошла ошибка:\nПодсвеченные слова в сегменте не соответствуют терминам САТ.");
 		}
 

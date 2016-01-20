@@ -348,7 +348,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		/// <summary>
 		/// Получить текст из таргет сегмента
 		/// </summary>
-		/// <param name="segmentNumber">номер строки сегмента</param>
+		/// <param name="rowNumber">номер строки сегмента</param>
 		public string GetTargetText(int rowNumber)
 		{
 			CustomTestContext.WriteLine("Получить текст из таргет сегмента №{0}.", rowNumber);
@@ -386,7 +386,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		/// </summary>
 		public List<string> GetCatSourceTerms()
 		{
-			CustomTestContext.WriteLine("Получить термины первой колонкив в Cat-панели.");
+			CustomTestContext.WriteLine("Получить термины первой колонки в Cat-панели.");
 			var catSoursesTerms = Driver.GetTextListElement(By.XPath(SOURCE_CAT_TERMS));
 			catSoursesTerms.Sort();
 
@@ -726,6 +726,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 
 			return Type.Text;
 		}
+
 		#endregion
 
 		#region Составные методы страницы
@@ -1021,9 +1022,43 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 			}
 			catch (Exception)
 			{
-
 				throw new XPathLookupException("Произошла ошибка:\nЗначок блокировки сегмента не отображается в редакторе.");
 			}
+		}
+
+		/// <summary>
+		/// Проверить, что только все переданные слова есть в CAT-панели
+		/// </summary>
+		/// <param name="words">список слов</param>
+		public bool IsWordsMatchCatWords(List<string> words)
+		{
+			CustomTestContext.WriteLine("Проверить, что только все переданные слова есть в CAT-панели");
+
+			return Driver.GetElementsCount(By.XPath(CAT_TYPE_LIST_IN_PANEL)) == words.Count 
+				&& words.All(word =>
+				{
+					if (Driver.GetIsElementExist(By.XPath(CAT_SOURCE.Replace("*#*", word))))
+					{
+						CustomTestContext.WriteLine("Слово '{0}' есть в CAT-панели", word);
+						return true;
+					}
+					else
+					{
+						CustomTestContext.WriteLine("Слово '{0}' отсутствует в CAT-панели", word);
+						return false;
+					}
+				});
+		}
+
+		/// <summary>
+		/// Проверить, что подстановка нужного типа есть в CAT-панели
+		/// </summary>
+		/// <param name="type">типа</param>
+		public bool IsCatTypeExist(CatType type)
+		{
+			CustomTestContext.WriteLine("Проверить, что подстановка типа {0} есть в CAT-панели", type);
+
+			return Driver.GetIsElementExist(By.XPath(CAT_TYPE.Replace("*#*", type.ToString())));
 		}
 
 		/// <summary>
@@ -1032,7 +1067,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		public bool IsCatTableExist()
 		{
 			CustomTestContext.WriteLine("Проверить, присутствует ли таблица в CAT-панели");
-			Driver.WaitUntilElementIsDisplay(By.XPath(CAT_TABLE));
 
 			return Driver.GetIsElementExist(By.XPath(CAT_TABLE));
 		}
@@ -1389,6 +1423,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		protected const string CAT_TYPE_LIST_IN_PANEL = ".//div[@id='cat-body']//table//td[3]/div";
 		protected const string CAT_TRANSLATION = ".//div[@id='cat-body']//table[*#*]//td[contains(@class, 'test-cat-target')]/div";
 		protected const string CAT_TYPE = ".//div[@id='cat-body']//table//td[3]/div[text()='*#*']";
+		protected const string CAT_SOURCE = ".//div[@id='cat-body']//table//td[contains(@class, 'test-cat-source')]/div[text()='*#*']";
 
 		protected const string PERCENT_COLOR = "//table[@data-recordindex='*#*' and contains(@id, 'tableview')]//td[6]//div//span";
 
