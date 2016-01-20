@@ -10,7 +10,7 @@ using AbbyyLS.SmartCAT.Selenium.Admin.FeatureAttributes;
 namespace AbbyyLS.SmartCAT.Selenium.Admin.Tests
 {
 	[Parallelizable(ParallelScope.Fixtures)]
-	[Coursera]
+	[CreateProject]
 	class InitialCourseraProjectTests<TWebDriverProvider> : InitialProjectBaseTests<TWebDriverProvider> where TWebDriverProvider : IWebDriverProvider, new()
 	{
 		public InitialCourseraProjectTests()
@@ -30,16 +30,31 @@ namespace AbbyyLS.SmartCAT.Selenium.Admin.Tests
 		[Test]
 		public void CreateCourseraProject()
 		{
-			_courseraHomePage.ClickWorkspaceButton();
+			_courseraHomePage.ClickWorkspaceButtonWithoutWaiting();
 
-			_createProjectHelper.CreateNewProject(
-				CreateProjectHelper.CourseraProjectName,
-				tasks: new[] { 
-					WorkflowTask.CrowdTranslation,
-					WorkflowTask.CrowdReview});
+			if (!_newProjectDocumentUploadPage.IsNewProjectDocumentUploadPageOpened())
+			{
+				_projectsPage.ClickCreateProjectButton();
+			}
+
+			_newProjectDocumentUploadPage
+				.UploadDocumentFile(PathProvider.DocumentFile)
+				.ClickSettingsButton();
+
+			_newProjectSettingsPage
+				.FillGeneralProjectInformation(CreateProjectHelper.CourseraProjectName)
+				.ClickNextButton();
+
+			_newProjectWorkflowPage
+				.ClickClearButton()
+				.ClickNewTaskButton(WorkflowTask.CrowdTranslation)
+				.ClickNewTaskButton(WorkflowTask.CrowdReview)
+				.ClickCreateProjectButton();
+
+			Assert.IsTrue(_projectsPage.IsProjectExist(CreateProjectHelper.CourseraProjectName),
+				"Произошла ошибка: \nне найден проект с новым именем");
 
 			_projectsPage.ClickProject(CreateProjectHelper.CourseraProjectName);
-
 			_projectSettingsHelper.UploadDocument(PathProvider.GetFilesFromCourseraFolder());
 		}
 

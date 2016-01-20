@@ -47,6 +47,15 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Coursera
 		}
 
 		/// <summary>
+		/// Нажать кнопку Workspace без ожидания открытия страницы
+		/// </summary>
+		public void ClickWorkspaceButtonWithoutWaiting()
+		{
+			CustomTestContext.WriteLine("Нажать кнопку Workspace без ожидания открытия страницы");
+			WorkspaceButton.Click();
+		}
+
+		/// <summary>
 		/// Нажать кнопку Join.
 		/// </summary>
 		public CourseraSignInDialog ClickJoinButton()
