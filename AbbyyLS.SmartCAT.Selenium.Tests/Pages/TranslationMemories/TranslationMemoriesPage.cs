@@ -862,7 +862,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories
 		protected const string SEARCH_TM_FIELD = "//input[@name='searchTMName']";
 
 		protected const string FILE_IMPORT_NOTIFIER = "//div[contains(@class, 'notifications')]//span[contains(text(),'units imported from file')]";
-		protected const string FILE_IMPORT_ERROR_NOTIFIER = "//div[contains(@class, 'notifications')]//span[contains(text(),'There was an error while importing translation units')]";
+		protected const string FILE_IMPORT_ERROR_NOTIFIER = "//div[contains(@class, 'notifications')]//span[contains(text(),'An error occurred while importing')]";
 		protected const string FILE_IMPORT_ADDING_NOTIFIER = "//span[contains(text(), 'Adding translation units from the file')]";
 
 		protected const string SEGMENT_SPAN = "//span[contains(@data-bind, 'unitCount')]";
