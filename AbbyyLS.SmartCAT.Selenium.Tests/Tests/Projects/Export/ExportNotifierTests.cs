@@ -99,7 +99,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 				.ClickDownloadInDocumentButton(_projectUniqueName)
 				.ClickExportType(ExportType.Source);
 
-			Assert.IsTrue(_exportNotification.IsNotificationContainsText(Path.GetFileName(PathProvider.DocumentFileToConfirm1)),
+			Assert.IsTrue(_exportNotification.IsUpperNotificationContainsText(Path.GetFileName(PathProvider.DocumentFileToConfirm1)),
 				"Произошла ошибка:\n сообщение не содержит искомый текст");
 		}
 
@@ -111,7 +111,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 				.ClickDownloadInMainMenuButton()
 				.ClickExportType(ExportType.Source);
 
-			Assert.IsTrue(_exportNotification.IsNotificationContainsText(Path.GetFileName(PathProvider.DocumentFileToConfirm1)),
+			Assert.IsTrue(_exportNotification.IsUpperNotificationContainsText(Path.GetFileName(PathProvider.DocumentFileToConfirm1)),
 				"Произошла ошибка:\n сообщение не содержит искомый текст");
 		}
 
@@ -137,7 +137,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 				.ClickExportType(ExportType.Source);
 
 			string expextedText = "Documents";
-			Assert.IsTrue(_exportNotification.IsNotificationContainsText(expextedText),
+			Assert.IsTrue(_exportNotification.IsUpperNotificationContainsText(expextedText),
 				"Произошла ошибка:\n сообщение не содержит искомый текст: {0}", expextedText);
 		}
 
@@ -161,7 +161,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 				.ClickExportType(ExportType.Source);
 
 			string expextedText = "Documents";
-			Assert.IsTrue(_exportNotification.IsNotificationContainsText(expextedText),
+			Assert.IsTrue(_exportNotification.IsUpperNotificationContainsText(expextedText),
 				"Произошла ошибка:\n сообщение не содержит искомый текст: {0}", expextedText);
 		}
 
@@ -472,7 +472,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 				.ClickDownloadInMainMenuButton()
 				.ClickExportType(ExportType.Source);
 
-			Assert.IsTrue(_exportNotification.IsNotificationContainsText(Path.GetFileName(PathProvider.DocumentFileToConfirm1)),
+			Assert.IsTrue(_exportNotification.IsUpperNotificationContainsText(Path.GetFileName(PathProvider.DocumentFileToConfirm1)),
 				"Произошла ошибка:\n сообщение не содержит искомый текст");
 		}
 
@@ -491,7 +491,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 				.ClickDownloadInMainMenuButton()
 				.ClickExportType(ExportType.Source);
 
-			Assert.IsTrue(_exportNotification.IsNotificationContainsText("Documents"),
+			Assert.IsTrue(_exportNotification.IsUpperNotificationContainsText("Documents"),
 				"Произошла ошибка:\n сообщение не содержит искомый текст");
 		}
 
@@ -505,7 +505,13 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 				.ClickDownloadInMainMenuButton()
 				.ClickExportType(ExportType.Source);
 
-			Assert.IsTrue(_exportNotification.IsNotificationContainsCurrentDate(),
+			var expectedDate = String.Format("{0}/{1}/{2} {3}:", 
+				DateTime.Now.Month, 
+				DateTime.Now.Day,
+				DateTime.Now.Year,
+				DateTime.Now.Hour);
+
+			Assert.IsTrue(_exportNotification.IsUpperNotificationContainsText(expectedDate),
 				"Произошла ошибка:\n сообщение не содержит требуемую дату.");
 		}
 

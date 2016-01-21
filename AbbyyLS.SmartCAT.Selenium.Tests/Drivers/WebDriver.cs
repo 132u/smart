@@ -175,6 +175,28 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Drivers
 		}
 
 		/// <summary>
+		/// Ждем, появится ли элемент в DOM
+		/// </summary>
+		/// <param name="by">локатор</param>
+		/// <param name="timeout">время ожидания</param>
+		public bool WaitUntilElementIsAppear(By by, int timeout = 10)
+		{
+			var wait = new WebDriverWait(this, TimeSpan.FromSeconds(timeout));
+
+			try
+			{
+				wait.Until(d => d.FindElement(by));
+				_driver.Manage().Timeouts().ImplicitlyWait(ImplicitWait);
+				return true;
+			}
+			catch (WebDriverTimeoutException)
+			{
+				_driver.Manage().Timeouts().ImplicitlyWait(ImplicitWait);
+				return false;
+			}
+		}
+
+		/// <summary>
 		/// Ждем, пропадет ли элемент
 		/// </summary>
 		/// <param name="by">локатор</param>

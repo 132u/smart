@@ -176,42 +176,14 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 		}
 
 		/// <summary>
-		/// Проверить, что сообщение содержит текст, который передан в качестве аргумента
+		/// Проверить, что верхнее сообщение содержит текст, который передан в качестве аргумента
 		/// </summary>
 		/// <param name="text">текст</param>
-		public bool IsNotificationContainsText(string text)
+		public bool IsUpperNotificationContainsText(string text)
 		{
-			CustomTestContext.WriteLine("Проверить, что сообщение содержит текст: '{0}'", text);
+			CustomTestContext.WriteLine("Проверить, что верхнее сообщение содержит текст: '{0}'", text);
 
-			return Driver.WaitUntilElementIsDisplay(By.XPath(NOTIFIER_MESSAGE_BY_TEXT.Replace("*#*", text)));
-		}
-
-		/// <summary>
-		/// Проверить, что в сообщении указана дата, которая не расходится с текущей более,чем на один час
-		/// </summary>
-		public bool IsNotificationContainsCurrentDate()
-		{
-			CustomTestContext.WriteLine("Проверить, что в сообщении указана дата, которая не расходится с текущей более, чем на один час");
-			CustomTestContext.WriteLine("Пробуем распарсить дату и привести к формату: MM/dd/yy hh:mm");
-
-			var notifierText = NotifierMessage.Text;
-			var startIndex = notifierText.IndexOf("/") - 2;
-			var month = notifierText.Substring(startIndex, 2);
-			startIndex += 3; // "mm/" = 3
-			var day = notifierText.Substring(startIndex, 2);
-			startIndex += 3; // "dd/" = 3
-			var year = notifierText.Substring(startIndex, 4);
-			startIndex += 5; // "yyyy " = 5;
-			var hour = notifierText.Substring(startIndex, 2);
-			startIndex += 3; // "hh:" = 3
-			var min = notifierText.Substring(startIndex, 2);
-
-			CustomTestContext.WriteLine("Результат парсинга = {0}/{1}/{2} {3}:{4}", month, day, year, hour, min);
-
-			var notifierDate = new DateTime(int.Parse(year), int.Parse(month), int.Parse(day), int.Parse(hour), int.Parse(min), 0);
-			var timeSubtract = DateTime.Now.Subtract(notifierDate).Hours;
-
-			return timeSubtract == 0;
+			return Driver.WaitUntilElementIsAppear(By.XPath(NOTIFIER_MESSAGE_BY_TEXT.Replace("*#*", text)));
 		}
 
 		#endregion
@@ -295,9 +267,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 		[FindsBy(How = How.XPath, Using = NOTIFIER_CANCEL_BTN)]
 		protected IWebElement CancelNotifierButton { get; set; }
 
-		[FindsBy(How = How.XPath, Using = NOTIFIER_MESSAGE)]
-		protected IWebElement NotifierMessage { get; set; }
-
 		protected IWebElement NotificationByNumber { get; set; }
 
 		#endregion
@@ -307,7 +276,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 		protected const string NOTIFIER_CANCEL_BTN = "//div[@id='notifications-block']//div[contains(@class,'notifications-item')]//div[not(contains(@style,'none'))]//a[contains(text(),'Close')]";
 		protected const string NOTIFIER_DOWNLOAD_BTN = "//div[@id='notifications-block']//div[contains(@class,'notifications-item')]//div[not(contains(@style,'none'))]//a[contains(text(),'Download')]";
 		protected const string NOTIFIER_MESSAGE = "//div[@id='notifications-block']//div[contains(@class,'notifications-item')]//span[@data-bind='html: message']";
-		protected const string NOTIFIER_MESSAGE_BY_TEXT = "//div[@id='notifications-block']//div[contains(@class,'notifications-item')]//span[@data-bind='html: message'][contains(text(),'*#*')]";
+		protected const string NOTIFIER_MESSAGE_BY_TEXT = "//div[@id='notifications-block']//div[contains(@class,'notifications-item')]//div[not(@style)]//span[@data-bind='html: message'][contains(text(),'*#*')]";
 		protected const string NOTIFIER_ITEM = "//div[@id='notifications-block']//div[contains(@class,'notifications-item')][*#*]";
 
 		#endregion
