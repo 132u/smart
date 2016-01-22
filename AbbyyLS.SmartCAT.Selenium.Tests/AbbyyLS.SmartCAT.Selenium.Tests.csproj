@@ -244,7 +244,9 @@
     <Compile Include="TestSettingDefinition.cs" />
     <Compile Include="Tests\Authorization\AuthorizationBaseTest.cs" />
     <Compile Include="Tests\Authorization\AuthorizationDifferentAccountTypeTests.cs" />
-    <Compile Include="Tests\Authorization\AuthorizationTests.cs" />
+    <Compile Include="Tests\Authorization\AuthorizationWithCorrectCredentialsTests.cs" />
+    <Compile Include="Tests\Authorization\AuthorizationViaSocialNetworksTests.cs" />
+    <Compile Include="Tests\Authorization\AuthorizationWithIncorectCredentials.cs" />
     <Compile Include="Tests\Clients\BaseClientsTests.cs" />
     <Compile Include="Tests\Clients\CreateClientTests.cs" />
     <Compile Include="Tests\Clients\DeleteClientTests.cs" />
