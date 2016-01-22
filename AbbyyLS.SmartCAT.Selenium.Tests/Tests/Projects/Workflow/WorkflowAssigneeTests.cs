@@ -134,10 +134,10 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 			Assert.AreEqual(_text, _editorPage.GetTargetText(rowNumber: 4),
 				"Произошла ошибка:\n Перевод не подставился в репетишен.");
 
-			Assert.AreEqual(String.Empty, _editorPage.GetTargetText(rowNumber: 7),
+			Assert.AreEqual(_text, _editorPage.GetTargetText(rowNumber: 7),
 				"Произошла ошибка:\n Перевод не подставился в репетишен.");
 
-			Assert.AreEqual(String.Empty, _editorPage.GetTargetText(rowNumber: 10),
+			Assert.AreEqual(_text, _editorPage.GetTargetText(rowNumber: 10),
 				"Произошла ошибка:\n Перевод не подставился в репетишен.");
 
 			_editorPage.ClickHomeButtonExpectingProjectSettingsPage();
@@ -164,10 +164,10 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 			Assert.AreEqual(text2, _editorPage.GetTargetText(rowNumber: 11),
 				"Произошла ошибка:\n Перевод не подставился в репетишен.");
 
-			Assert.AreEqual(String.Empty, _editorPage.GetTargetText(rowNumber: 2),
+			Assert.AreEqual(text2, _editorPage.GetTargetText(rowNumber: 2),
 				"Произошла ошибка:\n Перевод не подставился в репетишен.");
 
-			Assert.AreEqual(String.Empty, _editorPage.GetTargetText(rowNumber: 5),
+			Assert.AreEqual(text2, _editorPage.GetTargetText(rowNumber: 5),
 				"Произошла ошибка:\n Перевод не подставился в репетишен.");
 		}
 	}
