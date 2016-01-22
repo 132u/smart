@@ -174,7 +174,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 		{
 			CustomTestContext.WriteLine("Проверить, что показывается {0} уведомлений", expectedCount);
 
-			return Driver.WaitUntilElementIsDisplay(By.XPath(NOTIFIER_ITEM.Replace("*#*", expectedCount.ToString())));
+			return Driver.WaitUntilElementIsAppear(By.XPath(NOTIFIER_ITEM.Replace("*#*", expectedCount.ToString())));
 		}
 
 		/// <summary>
