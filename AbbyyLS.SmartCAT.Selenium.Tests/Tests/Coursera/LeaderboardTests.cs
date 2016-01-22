@@ -31,14 +31,22 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Coursera
 			CourseraUser = TakeUser(ConfigurationManager.CourseraUsers);
 
 			_loginHelper.LogInCoursera(CourseraUser.Login, CourseraUser.Password);
+
+			_courseraHomePage.ClickSelectCourse();
+			_coursesPage.ClickCourse(CreateProjectHelper.CourseraProjectName);
+			_coursePage.OpenLecture();
+
+			_editorPage
+				.FillTarget("coursera test")
+				.ConfirmSegmentTranslation()
+				.ClickHomeButtonExpectingCourseraCoursesPage();
+
+			_header.ClickLeaderboardMenu();
 		}
 		
 		[Test]
 		public void UserNameExistInLeaderboardTest()
 		{
-			_courseraHomePage.ClickSelectCourse();
-			_header.ClickLeaderboardMenu();
-
 			Assert.IsTrue(_leaderboardPage.IsUserNameDisplayed(CourseraUser.NickName),
 				"Произошла ошибка:\nПользователь {0} отсутствует в списке лидеров.", CourseraUser.NickName);
 		}
@@ -46,9 +54,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Coursera
 		[Test]
 		public void UserPositionNubmerMatchTest()
 		{
-			_courseraHomePage.ClickSelectCourse();
-			_header.ClickLeaderboardMenu();
-
 			var positionNumberInLeaderboard = _leaderboardPage.GetUserLeaderboardPositionNumber(CourseraUser.NickName);
 
 			_header.ClickProfile();
@@ -62,9 +67,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Coursera
 		[Test]
 		public void UserRatingMatchTest()
 		{
-			_courseraHomePage.ClickSelectCourse();
-			_header.ClickLeaderboardMenu();
-
 			var ratingInLeaderboard = _leaderboardPage.GetUserLeaderboardRating(CourseraUser.NickName);
 
 			_header.ClickProfile();
@@ -78,16 +80,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Coursera
 		[Test, Ignore("Необходимо уточнение по логике")]
 		public void CourseLeaderboardTest()
 		{
-			_courseraHomePage.ClickSelectCourse();
-			_coursesPage.ClickCourse(CreateProjectHelper.CourseraProjectName);
-			_coursePage.OpenLecture();
-
-			_editorPage
-				.FillTarget("coursera test")
-				.ConfirmSegmentTranslation()
-				.ClickHomeButtonExpectingCourseraCoursesPage();
-
-			_header.ClickLeaderboardMenu();
 			_leaderboardPage.SelectCourse(CreateProjectHelper.CourseraProjectName);
 
 			Assert.IsTrue(_leaderboardPage.IsUserNameDisplayed(CourseraUser.NickName),
@@ -97,17 +89,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Coursera
 		[Test, Ignore("Необходимо уточнение по логике")]
 		public void CourseLeaderboardCompareRating()
 		{
-			_courseraHomePage.ClickSelectCourse();
-			_coursesPage.ClickCourse(CreateProjectHelper.CourseraProjectName);
-			_coursePage.OpenLecture();
-
-			_editorPage
-				.FillTarget("coursera test")
-				.ConfirmSegmentTranslation()
-				.ClickHomeButtonExpectingCourseraCoursesPage();
-
-			_header.ClickLeaderboardMenu();
-
 			var commonRating = _leaderboardPage.GetUserLeaderboardRating(CourseraUser.NickName);
 
 			_leaderboardPage.SelectCourse(CreateProjectHelper.CourseraProjectName);
