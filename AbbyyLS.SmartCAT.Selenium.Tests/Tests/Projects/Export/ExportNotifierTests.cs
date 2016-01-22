@@ -386,9 +386,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 			Assert.IsTrue(_exportNotification.IsExportNotificationDisplayed(),
 				"Произошла ошибка:\n сообщение со ссылкой на скачивание документа не появилось");
 
-			var message = _exportNotification.GetTextNotificationByNumber(1);
-
-			Assert.IsTrue(message.Contains(newDocumentName),
+			Assert.IsTrue(_exportNotification.IsUpperNotificationContainsText(newDocumentName),
 				"Произошла ошибка:\n экспортируется документ со старым названием");
 		}
 
