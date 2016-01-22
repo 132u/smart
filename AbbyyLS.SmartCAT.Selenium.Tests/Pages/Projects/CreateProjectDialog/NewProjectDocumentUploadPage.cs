@@ -282,7 +282,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 		protected const string UPLOADED_TMX = "//td[@class='filename']//span[text()='*#*']//..//..//..//..//..//..//..//div[contains(@data-bind , 'stopBubble: true')]";
 		protected const string SETTINGS_BUTTON = "//div[contains(@class,'first-animated-btn') and not(contains(@disabled, 'true'))]";
 		protected const string CANCEL_BUTTON = "//a[contains(@data-bind,'cancel')]";
-		protected const string DELETE_DOCUMENT_BUTTON = "//td[@class='filename']//span[text()='*#*']//ancestor::table//preceding-sibling::i[contains(@data-bind,'removeDocument')]";
+		protected const string DELETE_DOCUMENT_BUTTON = "//td[@class='filename']//span[text()='*#*']//ancestor::table//preceding-sibling::div//i[contains(@data-bind,'removeDocument')]";
 		protected const string DUPLICATE_NAME_ERROR = "//div[contains(@class,'js-info-popup')]//span[contains(string(),'The following files have already been added to the project')]";
 		protected const string ERROR_FORMAT_DOCUMENT_MESSAGE = "//td[@class='filename']//span[@class='errorFileName' and text()='*#*']/../span[@class='mess-err' and @data-bind='if: unsupportedFormat' and text()='Unknown format']";
 		protected const string PROJECT_NAME_INPUT = "//div[@class='edit_proj_title']//input[@name='name']";
