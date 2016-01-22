@@ -6,7 +6,7 @@ using AbbyyLS.SmartCAT.Selenium.Tests.TestFramework;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Registration
 {
-	class CompanyRegistrationFirstPage : IAbstractPage<CompanyRegistrationFirstPage>
+	public class CompanyRegistrationFirstPage : IAbstractPage<CompanyRegistrationFirstPage>
 	{
 		public WebDriver Driver { get; protected set; }
 

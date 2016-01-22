@@ -309,7 +309,9 @@
     <Compile Include="Tests\Projects\Workflow\WorkflowBaseTests.cs" />
     <Compile Include="Tests\Projects\Workflow\WorkflowRightsTests.cs" />
     <Compile Include="Tests\Registration\CompanyRegistration\AdminCompanyRegistrationTests.cs" />
-    <Compile Include="Tests\Registration\CompanyRegistration\CompanyRegistrationTests.cs" />
+    <Compile Include="Tests\Registration\CompanyRegistration\CompanyRegistrationBaseTest.cs" />
+    <Compile Include="Tests\Registration\CompanyRegistration\CompanyRegistrationInvalidDataTests.cs" />
+    <Compile Include="Tests\Registration\CompanyRegistration\CompanyRegistrationValidDataTests.cs" />
     <Compile Include="Tests\Projects\ProjectDeadlineTests.cs" />
     <Compile Include="Tests\ProjectGroups\CreateProjectGroupTests.cs" />
     <Compile Include="Tests\Projects\ProjectImportTests.cs" />
