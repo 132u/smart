@@ -1,5 +1,6 @@
 ﻿using NUnit.Framework;
 
+using AbbyyLS.SmartCAT.Selenium.Tests.DataStructures;
 using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
 using AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers;
 
@@ -9,6 +10,11 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Authorization
 	class AuthorizationViaSocialNetworksTests<TWebDriverProvider> : AuthorizationBaseTest<TWebDriverProvider>
 		where TWebDriverProvider : IWebDriverProvider, new()
 	{
+		public AuthorizationViaSocialNetworksTests()
+		{
+			StartPage = StartPage.SignIn;
+		}
+
 		[Test]
 		public void AuthorizationViaFacebook()
 		{

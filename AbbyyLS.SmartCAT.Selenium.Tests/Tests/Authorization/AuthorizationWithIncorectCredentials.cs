@@ -2,6 +2,7 @@
 
 using NUnit.Framework;
 
+using AbbyyLS.SmartCAT.Selenium.Tests.DataStructures;
 using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Authorization
@@ -10,6 +11,11 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Authorization
 	class AuthorizationWithIncorectCredentials<TWebDriverProvider> : AuthorizationBaseTest<TWebDriverProvider>
 		where TWebDriverProvider : IWebDriverProvider, new()
 	{
+		public AuthorizationWithIncorectCredentials()
+		{
+			StartPage = StartPage.SignIn;
+		}
+
 		[Test]
 		public void AuthorizationWithWrongPassword()
 		{

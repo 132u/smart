@@ -7,10 +7,10 @@ using AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers;
 namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Authorization
 {
 	[Parallelizable(ParallelScope.Fixtures)]
-	internal class AuthorizationTests<TWebDriverProvider> : AuthorizationBaseTest<TWebDriverProvider>
+	internal class AuthorizationWithCorrectCredentialsTests<TWebDriverProvider> : AuthorizationBaseTest<TWebDriverProvider>
 		where TWebDriverProvider : IWebDriverProvider, new()
 	{
-		public AuthorizationTests()
+		public AuthorizationWithCorrectCredentialsTests()
 		{
 			StartPage = StartPage.SignIn;
 		}
