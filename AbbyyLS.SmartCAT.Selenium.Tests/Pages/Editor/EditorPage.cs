@@ -1068,7 +1068,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		{
 			CustomTestContext.WriteLine("Проверить, присутствует ли таблица в CAT-панели");
 
-			return Driver.WaitUntilElementIsDisplay(By.XPath(CAT_TABLE));
+			return Driver.WaitUntilElementIsAppear(By.XPath(CAT_TABLE));
 		}
 
 		/// <summary>
