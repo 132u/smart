@@ -320,8 +320,8 @@
     <Compile Include="Tests\Projects\Workflow\WorkflowPersonalAccountTests.cs" />
     <Compile Include="Tests\Registration\FreelanceRegistration\FreelanceRegistrationAdminTests.cs" />
     <Compile Include="Tests\Registration\FreelanceRegistration\FreelanceRegistrationBaseTests.cs" />
-    <Compile Include="Tests\Registration\FreelanceRegistration\FreelanceRegistrationBasicTests.cs" />
-    <Compile Include="Tests\Registration\FreelanceRegistration\FreelanceRegistrationValidationTests.cs" />
+    <Compile Include="Tests\Registration\FreelanceRegistration\FreelanceRegistrationValidDataTests.cs" />
+    <Compile Include="Tests\Registration\FreelanceRegistration\FreelanceRegistrationInvalidDataTests.cs" />
     <Compile Include="Tests\TranslationMemories\TMExportTests.cs" />
     <Compile Include="Tests\TranslationMemories\TMFilteringTests.cs" />
     <Compile Include="Tests\Glossaries\UserRights\ManageTermsTest.cs" />
