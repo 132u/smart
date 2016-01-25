@@ -85,7 +85,15 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 			{
 				//sleep стоит,чтобы закрываемые уведомления успевали пропадать
 				Thread.Sleep(1000);
-				CancelNotifierButton.Click();
+				if (Driver.WaitUntilElementIsClickable(By.XPath(NOTIFIER_CANCEL_BTN)) != null)
+				{
+					CustomTestContext.WriteLine("Закрыть уведомление №{0}", i);
+					CancelNotifierButton.Click();
+				}
+				else
+				{
+					CustomTestContext.WriteLine("Уведомление №{0} не стало кликабильным. Не закрыто.", i);
+				}
 			}
 
 			var instance = Activator.CreateInstance(typeof(T), Driver) as T;
