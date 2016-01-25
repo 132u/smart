@@ -19,6 +19,16 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 
 			_glossariesHelper.CreateGlossary(_glossaryUniqueName);
 		}
+		
+		[Test]
+		public void NewEntryEditModeTest()
+		{
+			_glossaryPage.ClickNewEntryButton();
+
+			Assert.IsTrue(_glossaryPage.IsCreationModeActivated(),
+				"Произошла ошибка:\n новый термин не открыт в расширенном режиме");
+		}
+
 
 		[Test]
 		public void CreateDefaultTermTest()
@@ -154,6 +164,24 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 
 			Assert.IsTrue(_glossaryPage.IsDefaultTermsCountMatchExpected(expectedTermCount: 0),
 				"Произошла ошибка:\n неверное количество терминов");
+		}
+
+		[Test]
+		public void DeleteLanguageExistTermTest()
+		{
+			_glossaryPage
+				.CreateTerm()
+				.OpenGlossaryProperties();
+
+			var languagesCountBefore = _glossaryPropertiesDialog.LanguagesCount();
+
+			_glossaryPropertiesDialog.CancelDeleteLanguageInPropertiesDialog();
+
+			var languagesCountAfter = _glossaryPropertiesDialog.LanguagesCount();
+
+			Assert.AreEqual(languagesCountBefore, languagesCountAfter,
+				"Произошла ошибка:\n количество языков {0} не совпадает с {1} в диалоге свойств глоссария.",
+				languagesCountBefore, languagesCountAfter);
 		}
 
 		private TermAlreadyExistsDialog _termAlreadyExistsDialog;

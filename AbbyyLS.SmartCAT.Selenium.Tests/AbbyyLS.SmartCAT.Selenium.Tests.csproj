@@ -265,6 +265,8 @@
     <Compile Include="Tests\Glossaries\ChangeGlossaryTests\ChangeGlossaryNameTests.cs" />
     <Compile Include="Tests\Glossaries\CreateGlossaryTests\CreateGlossaryInvalidDataTests.cs" />
     <Compile Include="Tests\Glossaries\CreateGlossaryTests\CreateGlossaryTests.cs" />
+    <Compile Include="Tests\Glossaries\DeleteGlossaryTests\DeleteGlossaryTests.cs" />
+    <Compile Include="Tests\Glossaries\ExportGlossaryTests\ExportGlossaryTests.cs" />
     <Compile Include="Tests\Glossaries\GlossaryInEditorTests\GlossariesEditorTests.cs" />
     <Compile Include="Tests\Glossaries\GlossaryInEditorTests\GlossaryEditorTests.cs" />
     <Compile Include="Tests\Editor\MatchColumnTests\EditorMatchColumnMTSubstitutionTests.cs" />

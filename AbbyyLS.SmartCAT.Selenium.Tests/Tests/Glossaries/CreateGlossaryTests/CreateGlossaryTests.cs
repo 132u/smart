@@ -119,5 +119,18 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 			Assert.IsTrue(_glossariesPage.IsGlossaryExist(_glossaryUniqueName),
 				"Произошла ошибка:\n глоссарий отсутствует в списке");
 		}
+
+		[Test]
+		public void OpenStructureDialogFromPropertiesDialogTest()
+		{
+			_glossariesHelper.CreateGlossary(_glossaryUniqueName);
+
+			_glossaryPage.OpenGlossaryProperties();
+
+			_glossaryPropertiesDialog.ClickAdvancedButton();
+
+			Assert.IsTrue(_glossaryStructureDialog.IsGlossaryStructureDialogOpened(),
+				"Произошла ошибка: не открылся диалог изменения структуры глоссария");
+		}
 	}
 }
