@@ -904,7 +904,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		{
 			ClickOnTargetCellInSegment(targetRowNumber);
 
-			if (!Driver.WaitUntilElementIsDisplay(By.XPath(CAT_TYPE.Replace("*#*", catType.ToString()))))
+			if (!Driver.WaitUntilElementIsAppear(By.XPath(CAT_TYPE.Replace("*#*", catType.ToString()))))
 			{
 				throw new XPathLookupException(
 					string.Format("Произошла ошибка:\n Не появился тип {0} в CAT-панели", catType));
