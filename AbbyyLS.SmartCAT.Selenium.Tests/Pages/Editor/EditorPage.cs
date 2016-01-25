@@ -1235,7 +1235,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		{
 			CustomTestContext.WriteLine("Проверить, что новый термин сохранен");
 
-			return Driver.WaitUntilElementIsDisplay(By.XPath(TERM_SAVED_MESSAGE));
+			return Driver.WaitUntilElementIsAppear(By.XPath(TERM_SAVED_MESSAGE));
 		}
 
 		/// <summary>
