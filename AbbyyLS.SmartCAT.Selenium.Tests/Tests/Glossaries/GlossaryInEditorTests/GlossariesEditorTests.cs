@@ -13,7 +13,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 {
 	[Parallelizable(ParallelScope.Fixtures)]
 	[Standalone]
-	class GlossariesEditorTests<TWebDriverProvider> : BaseTest<TWebDriverProvider> where TWebDriverProvider : IWebDriverProvider, new()
+	class GlossariesEditorTests<TWebDriverProvider>
+		: BaseTest<TWebDriverProvider> where TWebDriverProvider : IWebDriverProvider, new()
 	{
 		[SetUp]
 		public void GlossariesSetUp()
@@ -33,12 +34,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 			_glossary1Name = GlossariesHelper.UniqueGlossaryName();
 			_glossary2Name = GlossariesHelper.UniqueGlossaryName();
 			_glossary3Name = GlossariesHelper.UniqueGlossaryName();
-
-			_workspacePage.GoToUsersPage();
-
-			_usersTab
-				.ClickGroupsButton()
-				.AddUserToGroupIfNotAlredyAdded("Administrators", ThreadUser.NickName);
 
 			_workspacePage.GoToGlossariesPage();
 

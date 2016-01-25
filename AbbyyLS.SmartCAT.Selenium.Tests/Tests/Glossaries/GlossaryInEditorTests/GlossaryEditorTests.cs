@@ -15,7 +15,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 {
 	[Parallelizable(ParallelScope.Fixtures)]
 	[Standalone]
-	class GlossaryEditorTests<TWebDriverProvider> : BaseTest<TWebDriverProvider> where TWebDriverProvider : IWebDriverProvider, new()
+	class GlossaryEditorTests<TWebDriverProvider>
+		: BaseTest<TWebDriverProvider> where TWebDriverProvider : IWebDriverProvider, new()
 	{
 		[SetUp]
 		public void GlossariesSetUp()
@@ -34,12 +35,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 			_projectsPage = new ProjectsPage(Driver);
 			_projectName = _createProjectHelper.GetProjectUniqueName();
 			_glossaryName = GlossariesHelper.UniqueGlossaryName();
-
-			_workspacePage.GoToUsersPage();
-
-			_usersTab
-				.ClickGroupsButton()
-				.AddUserToGroupIfNotAlredyAdded("Administrators", ThreadUser.NickName);
 
 			_workspacePage.GoToProjectsPage();
 
