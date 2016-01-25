@@ -49,7 +49,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Editor
 
 			Assert.IsTrue(_editorPage.IsCatTableExist(), "Произошла ошибка:\nCAT-панель пустая.");
 
-			Assert.AreNotEqual(_editorPage.CatTypeRowNumber(CatType.TM), 0,
+			Assert.IsTrue(_editorPage.IsCatTypeExist(CatType.TM),
 				"Произошла ошибка:\nВ CAT-панели отсутствует подстановка {0}.", CatType.TM);
 
 			Assert.AreEqual(_editorPage.CatTranslationMatchPercent(rowNumber: 1), 94,
@@ -86,7 +86,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Editor
 
 			Assert.IsTrue(_editorPage.IsCatTableExist(), "Произошла ошибка:\nCAT-панель пустая.");
 
-			Assert.AreNotEqual(_editorPage.CatTypeRowNumber(CatType.MT), 0,
+			Assert.IsTrue(_editorPage.IsCatTypeExist(CatType.MT),
 				"Произошла ошибка:\nВ CAT-панели отсутствует подстановка {0}.", CatType.MT);
 
 			Assert.IsTrue(_editorPage.IsMTSourceTextMatchSourceText(segmentNumber: 1),
@@ -123,7 +123,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Editor
 
 			Assert.IsTrue(_editorPage.IsCatTableExist(), "Произошла ошибка:\nCAT-панель пустая.");
 
-			Assert.AreNotEqual(_editorPage.CatTypeRowNumber(CatType.MT), 0,
+			Assert.IsTrue(_editorPage.IsCatTypeExist(CatType.MT),
 				"Произошла ошибка:\nВ CAT-панели отсутствует подстановка {0}.", CatType.MT);
 		}
 
