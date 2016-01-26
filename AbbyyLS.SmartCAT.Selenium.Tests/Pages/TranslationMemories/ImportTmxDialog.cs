@@ -94,6 +94,34 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories
 
 		#endregion
 
+		#region Составные методы страницы
+
+		/// <summary>
+		/// Импортировать Tmx файл
+		/// </summary>
+		/// <param name="filePath">путь до файла</param>
+		public TranslationMemoriesPage ImportTmxFile(string filePath)
+		{
+			EnterFileName(PathProvider.TxtWithTmxExtension);
+			var translationMemoriesPage = ClickImportButton();
+
+			return translationMemoriesPage.GetPage();
+		}
+
+		/// <summary>
+		/// Импортировать Tmx файл, ожидая диалог подтверждения
+		/// </summary>
+		/// <param name="filePath">путь до файла</param>
+		public ConfirmReplacementDialog ImportTmxFileExpectingConfirmation(string filePath)
+		{
+			EnterFileName(PathProvider.WithoutTuEndTag);
+			var confirmReplacementDialog = ClickImportButtonExpectingReplacementConfirmation();
+
+			return confirmReplacementDialog.GetPage();
+		}
+
+		#endregion
+
 		#region Методы, проверяющие состояние страницы
 
 		/// <summary>

@@ -373,7 +373,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories
 		public bool GetFiltersIsExist()
 		{
 			CustomTestContext.WriteLine("Вернуть, действуют ли сейчас какие-то фильтры");
-			var filtersIsExist = Driver.WaitUntilElementIsDisplay(By.XPath(CLEAR_ALL_FILTERS_BUTTON));
+			var filtersIsExist = Driver.WaitUntilElementIsDisplay(By.XPath(CLEAR_ALL_FILTERS_BUTTON), timeout: 3);
 			CustomTestContext.WriteLine("Фильтры обнаружены: {0}", filtersIsExist);
 
 			return filtersIsExist;
@@ -564,6 +564,27 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories
 			}
 
 			return GetPage();
+		}
+
+		/// <summary>
+		/// Открыть диалог импорта Tmx (режим обновления TM)
+		/// </summary>
+		/// <param name="tmName">имя памяти перевода</param>
+		/// <param name="update">true - обновление (замена), false - добавление</param>
+		public ImportTmxDialog OpenImportTmxDialog(string tmName, bool update)
+		{
+			OpenTranslationMemoryInformation(tmName);
+
+			if (update)
+			{
+				ClickUpdateTmButton();
+			}
+			else
+			{
+				ClickAddTmxButton();
+			}
+
+			return new ImportTmxDialog(Driver).GetPage();
 		}
 
 		#endregion
