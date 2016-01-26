@@ -79,20 +79,25 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 		/// </summary>
 		public T CancelAllNotifiers<T>() where T : class, IAbstractPage<T>
 		{
+			CustomTestContext.WriteLine("Закрыть все уведомления");
+
 			var countNotifiers = GetCountExportNotifiers();
 
 			for (int i = 0; i < countNotifiers; i++)
 			{
 				//sleep стоит,чтобы закрываемые уведомления успевали пропадать
 				Thread.Sleep(1000);
-				if (Driver.WaitUntilElementIsClickable(By.XPath(NOTIFIER_CANCEL_BTN)) != null)
+				var cancelNotifierButton = Driver.WaitUntilElementIsClickable(By.XPath(NOTIFIER_CANCEL_BTN));
+				if (cancelNotifierButton != null)
 				{
 					CustomTestContext.WriteLine("Закрыть уведомление №{0}", i);
-					CancelNotifierButton.Click();
+					cancelNotifierButton.Click();
 				}
 				else
 				{
-					CustomTestContext.WriteLine("Уведомление №{0} не стало кликабильным. Не закрыто.", i);
+					CustomTestContext.WriteLine(
+						"Уведомление №{0} не стало кликабильным. Вызвать метод снова, чтобы работать с актуальным числом уведомлений.", i);
+					CancelAllNotifiers<T>();
 				}
 			}
 
