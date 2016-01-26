@@ -2,7 +2,7 @@
 
 using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
 
-namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.TranslationMemories.ImportTmxFilesTests
+namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.TranslationMemories
 {
 	[Parallelizable(ParallelScope.Fixtures)]
 	class TmUploadingInvalidDataTests<TWebDriverProvider>
@@ -81,7 +81,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.TranslationMemories.ImportTmxFil
 
 			TranslationMemoriesPage.OpenImportTmxDialog(UniqueTMName, update: false);
 
-			ImportTmxDialog.ImportTmxFile(PathProvider.DocumentFile);
+			ImportTmxDialog
+				.EnterFileName(PathProvider.DocumentFile)
+				.ClickImportButtonExpectingError();
 
 			Assert.IsTrue(TranslationMemoriesPage.IsImportValidationErrorMessageDisplayed(),
 				"Произошла ошибка:\n не сработала валидация");
@@ -94,7 +96,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.TranslationMemories.ImportTmxFil
 
 			TranslationMemoriesPage.OpenImportTmxDialog(UniqueTMName, update: false);
 
-			ImportTmxDialog.ImportTmxFile(string.Empty);
+			ImportTmxDialog
+				.EnterFileName(string.Empty)
+				.ClickImportButtonExpectingError();
 
 			Assert.IsTrue(TranslationMemoriesPage.IsImportValidationErrorMessageDisplayed(),
 				"Произошла ошибка:\n не сработала валидация");

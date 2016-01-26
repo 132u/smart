@@ -109,8 +109,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.TranslationMemories
 
 			ConfirmReplacementDialog.ClickConfirmReplacementButtonExpectingError();
 
-			ImportTmxDialog.ClickImportButtonExpectingError();
-
 			Assert.IsTrue(TranslationMemoriesPage.IsImportValidationErrorMessageDisplayed(),
 				"Произошла ошибка:\n не сработала валидация");
 		}

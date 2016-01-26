@@ -230,7 +230,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace
 		public T CloseAllNotifications<T>() where T : class, IAbstractPage<T>
 		{
 			CustomTestContext.WriteLine("Закрыть все показанные уведомления.");
-			Driver.WaitUntilElementIsDisplay(By.XPath(ALL_NOTIFICATIONS));
+			Driver.WaitUntilElementIsDisplay(By.XPath(ALL_NOTIFICATIONS), timeout: 3);
 			var notificationsCount = Driver.GetElementList(By.XPath(ALL_NOTIFICATIONS)).Count;
 
 			for (var i = notificationsCount; i > 0; i--)

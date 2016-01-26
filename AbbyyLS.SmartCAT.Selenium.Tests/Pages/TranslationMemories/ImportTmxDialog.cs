@@ -26,7 +26,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories
 
 		public new void LoadPage()
 		{
-			if (IsImportTmxPageOpened())
+			if (!IsImportTmxPageOpened())
 			{
 				throw new XPathLookupException("Произошла ошибка: \nне открылся диалог импорта TMX файла");
 			}
@@ -102,7 +102,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories
 		/// <param name="filePath">путь до файла</param>
 		public TranslationMemoriesPage ImportTmxFile(string filePath)
 		{
-			EnterFileName(PathProvider.TxtWithTmxExtension);
+			EnterFileName(filePath);
 			var translationMemoriesPage = ClickImportButton();
 
 			return translationMemoriesPage.GetPage();
@@ -114,7 +114,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories
 		/// <param name="filePath">путь до файла</param>
 		public ConfirmReplacementDialog ImportTmxFileExpectingConfirmation(string filePath)
 		{
-			EnterFileName(PathProvider.WithoutTuEndTag);
+			EnterFileName(filePath);
 			var confirmReplacementDialog = ClickImportButtonExpectingReplacementConfirmation();
 
 			return confirmReplacementDialog.GetPage();
@@ -129,7 +129,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories
 		/// </summary>
 		public bool IsImportTmxPageOpened()
 		{
-			return Driver.WaitUntilElementIsDisplay(By.XPath(UPDATE_TM_IMPORT_BUTTON));
+			return Driver.WaitUntilElementIsClickable(By.XPath(CANCEL_BTN)) != null;
 		}
 
 		#endregion
@@ -148,6 +148,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories
 
 		protected const string UPDATE_TM_IMPORT_FILE_INPUT = "//h2[text()='Import TMX Files']//..//..//input[@name='file']";
 		protected const string UPDATE_TM_IMPORT_BUTTON = "(//h2[text()='Import TMX Files']//..//..//input[@value='Import'])[2]";
+		protected const string CANCEL_BTN = "(//h2[text()='Import TMX Files']//..//..//a[@class='g-popupbox__cancel js-popup-close'])[2]";
 
 		#endregion
 	}

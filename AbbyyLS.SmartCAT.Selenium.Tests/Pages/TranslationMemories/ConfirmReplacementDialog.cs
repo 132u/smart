@@ -22,7 +22,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories
 
 		public new void LoadPage()
 		{
-			if (IsConfirmReplacementMessageDisplayed())
+			if (!IsConfirmReplacementMessageDisplayed())
 			{
 				throw new XPathLookupException("Произошла ошибка: \nне открылся диалог подтверждения замены при импорте");
 			}
@@ -61,7 +61,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories
 		/// </summary>
 		public bool IsConfirmReplacementMessageDisplayed()
 		{
-			return Driver.WaitUntilElementIsDisplay(By.XPath(UPDATE_TM_CONFIRM_REPLACEMENT));
+			return Driver.WaitUntilElementIsDisplay(By.XPath(CANCEL_BTN));
 		}
 
 		#endregion
@@ -76,6 +76,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories
 		#region Описания XPath элементов
 
 		protected const string UPDATE_TM_CONFIRM_REPLACEMENT = "//span[text()='Confirmation']//..//..//..//input[@value='Continue']";
+		protected const string CANCEL_BTN = "//span[text()='Confirmation']//..//..//..//a[@class='g-popupbox__cancel js-cancel-btn js-popup-close']";
 
 		#endregion
 	}
