@@ -128,6 +128,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 			_editorPage
 				.FillTarget(_text)
 				.ConfirmSegmentTranslation();
+
+			Assert.IsTrue(_editorPage.IsSegmentConfirmed(),
+				"Произошла ошибка:\n Сегмент №1не подтвердился");
 			//Sleep необходим, так как репетишены подставляются с задержкой (1 секунды не хватает)
 			Thread.Sleep(2000);
 
@@ -158,6 +161,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 				.ClickOnTargetCellInSegment(rowNumber: 9)
 				.FillSegmentTargetField(text2, rowNumber: 8)
 				.ConfirmSegmentTranslation();
+
+			Assert.IsTrue(_editorPage.IsSegmentConfirmed(rowNumber: 8),
+				"Произошла ошибка:\n Сегмент №8не подтвердился");
 			//Sleep необходим, так как репетишены подставляются с задержкой (1 секунды не хватает)
 			Thread.Sleep(2000);
 
