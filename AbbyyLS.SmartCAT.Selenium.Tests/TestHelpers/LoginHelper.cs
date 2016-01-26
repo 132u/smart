@@ -48,7 +48,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 			string password)
 		{
 			_courseraHomePage.ClickJoinButton();
-			_courseraSignInDialog.LoginInCoursera(login, password);
+			_courseraSignInDialog
+				.LoginInCoursera(login, password)
+				.ClickSigInButton();
 			
 			return this;
 		}

@@ -62,7 +62,8 @@
     <Compile Include="Tests\InitialCreateAccounts\CreateCourseraCorporateAccount.cs" />
     <Compile Include="Tests\InitialCreateAccounts\CreatePerevedemCorporateAccount.cs" />
     <Compile Include="Tests\InitialCreateUsers\CreateAdditionalUsers.cs" />
-    <Compile Include="Tests\InitialCreateUsers\CreateCourseraUsers.cs" />
+    <Compile Include="Tests\InitialCreateUsers\CreateCrowdsourceCourceraUsers.cs" />
+    <Compile Include="Tests\InitialCreateUsers\CreateReviewerCourceraUsers.cs" />
     <Compile Include="Tests\InitialCreateUsers\CreateSocialNetworksUsers.cs" />
     <Compile Include="Tests\InitialCreateUsers\CreateThreadUsers.cs" />
     <Compile Include="Tests\InitialCreateProjects\InitialCourseraProjectTests.cs" />

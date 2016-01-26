@@ -71,6 +71,7 @@
     <Compile Include="Pages\Coursera\CoursePage.cs" />
     <Compile Include="Pages\Coursera\CourseraHomePage.cs" />
     <Compile Include="Pages\Coursera\CourseraSignInDialog.cs" />
+    <Compile Include="Pages\Coursera\CourseraSignUpDialog.cs" />
     <Compile Include="Pages\Coursera\CoursesPage.cs" />
     <Compile Include="Pages\Coursera\HeaderMenu.cs" />
     <Compile Include="Pages\Coursera\LeaderboardPage.cs" />

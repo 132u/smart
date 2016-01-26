@@ -23,6 +23,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests
 		[DataMember(Name = "Activated", IsRequired = false)]
 		public bool Activated { get; set; }
 
+		[DataMember(Name = "IsCrowdsource", IsRequired = false)]
+		public bool IsCrowdsource { get; set; }
+
 		[DataMember(Name = "StandaloneUrl", IsRequired = false)]
 		public string StandaloneUrl { get; set; }
 	}

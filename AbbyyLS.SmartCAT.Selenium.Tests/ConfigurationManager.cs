@@ -19,7 +19,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests
 
 			TestUserList = testUsersConfig.Users;
 			TestCompanyList = testUsersConfig.Companies;
-			CourseraUserList = testUsersConfig.CourseraUsers;
+			CourseraReviewerUserList = testUsersConfig.CourseraUsers.Where(x=>x.IsCrowdsource == false).ToList();
+			CourseraCrowdsourceUserList = testUsersConfig.CourseraUsers.Where(x => x.IsCrowdsource).ToList();
 			AolUserList = testUsersConfig.AolUsers;
 			SocialNetworksUserList = testUsersConfig.SocialNetworksUsers;
 
@@ -48,18 +49,23 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests
 				var domainName = string.Concat(user.Login.TakeWhile(c => c != '@'));
 				user.StandaloneUrl = string.Format("{0}{1}:{2}@{3}", prefix, domainName, user.Password, serverConfig.Url);
 			}
-
-			CourseraUserList = testUsersConfig.CourseraUsers;
-
-			foreach (TestUser user in CourseraUserList)
+			
+			foreach (TestUser user in CourseraReviewerUserList)
 			{
 				var domainName = string.Concat(user.Login.TakeWhile(c => c != '@'));
 				user.StandaloneUrl = string.Format("{0}{1}:{2}@{3}", prefix, domainName, user.Password, serverConfig.Url);
 			}
-
+			
+			foreach (TestUser user in CourseraCrowdsourceUserList)
+			{
+				var domainName = string.Concat(user.Login.TakeWhile(c => c != '@'));
+				user.StandaloneUrl = string.Format("{0}{1}:{2}@{3}", prefix, domainName, user.Password, serverConfig.Url);
+			}
+			
 			Users = new ConcurrentBag<TestUser>(ThreadUsersList);
 			AdditionalUsers = new ConcurrentBag<TestUser>(AdditionalUsersList);
-			CourseraUsers = new ConcurrentBag<TestUser>(CourseraUserList);
+			CourseraUsers = new ConcurrentBag<TestUser>(CourseraReviewerUserList);
+			CourseraCrowdsourceUsers = new ConcurrentBag<TestUser>(CourseraCrowdsourceUserList);
 			UsersInfoList = new List<TestUser>(UsersInfoList);
 		}
 
@@ -77,9 +83,11 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests
 		public static ConcurrentBag<TestUser> Users { get; set; }
 		public static ConcurrentBag<TestUser> AdditionalUsers { get; set; }
 		public static ConcurrentBag<TestUser> CourseraUsers { get; set; }
+		public static ConcurrentBag<TestUser> CourseraCrowdsourceUsers { get; set; }
 		public static List<TestUser> TestUserList { get; private set; }
 		public static List<TestUser> TestCompanyList { get; private set; }
-		public static List<TestUser> CourseraUserList { get; private set; }
+		public static List<TestUser> CourseraReviewerUserList { get; private set; }
+		public static List<TestUser> CourseraCrowdsourceUserList { get; private set; }
 		public static List<TestUser> AolUserList { get; private set; }
 		public static List<TestUser> SocialNetworksUserList { get; private set; }
 		public static List<TestUser> ThreadUsersList { get; private set; }

@@ -28,9 +28,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Coursera
 			_editorPage = new EditorPage(Driver);
 			_profilePage = new ProfilePage(Driver);
 
-			CourseraUser = TakeUser(ConfigurationManager.CourseraUsers);
+			CourseraCrowdsourceUser = TakeUser(ConfigurationManager.CourseraCrowdsourceUsers);
 
-			_loginHelper.LogInCoursera(CourseraUser.Login, CourseraUser.Password);
+			_loginHelper.LogInCoursera(CourseraCrowdsourceUser.Login, CourseraCrowdsourceUser.Password);
 
 			_courseraHomePage.ClickSelectCourse();
 			_coursesPage.ClickCourse(CreateProjectHelper.CourseraProjectName);
@@ -47,14 +47,14 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Coursera
 		[Test]
 		public void UserNameExistInLeaderboardTest()
 		{
-			Assert.IsTrue(_leaderboardPage.IsUserNameDisplayed(CourseraUser.NickName),
-				"Произошла ошибка:\nПользователь {0} отсутствует в списке лидеров.", CourseraUser.NickName);
+			Assert.IsTrue(_leaderboardPage.IsUserNameDisplayed(CourseraCrowdsourceUser.NickName),
+				"Произошла ошибка:\nПользователь {0} отсутствует в списке лидеров.", CourseraCrowdsourceUser.NickName);
 		}
 
 		[Test]
 		public void UserPositionNubmerMatchTest()
 		{
-			var positionNumberInLeaderboard = _leaderboardPage.GetUserLeaderboardPositionNumber(CourseraUser.NickName);
+			var positionNumberInLeaderboard = _leaderboardPage.GetUserLeaderboardPositionNumber(CourseraCrowdsourceUser.NickName);
 
 			_header.ClickProfile();
 
@@ -67,7 +67,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Coursera
 		[Test]
 		public void UserRatingMatchTest()
 		{
-			var ratingInLeaderboard = _leaderboardPage.GetUserLeaderboardRating(CourseraUser.NickName);
+			var ratingInLeaderboard = _leaderboardPage.GetUserLeaderboardRating(CourseraCrowdsourceUser.NickName);
 
 			_header.ClickProfile();
 
@@ -82,18 +82,18 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Coursera
 		{
 			_leaderboardPage.SelectCourse(CreateProjectHelper.CourseraProjectName);
 
-			Assert.IsTrue(_leaderboardPage.IsUserNameDisplayed(CourseraUser.NickName),
+			Assert.IsTrue(_leaderboardPage.IsUserNameDisplayed(CourseraCrowdsourceUser.NickName),
 				"Произошла ошибка:\nПользователя нет в списке лидеров.");
 		}
 
 		[Test, Ignore("Необходимо уточнение по логике")]
 		public void CourseLeaderboardCompareRating()
 		{
-			var commonRating = _leaderboardPage.GetUserLeaderboardRating(CourseraUser.NickName);
+			var commonRating = _leaderboardPage.GetUserLeaderboardRating(CourseraCrowdsourceUser.NickName);
 
 			_leaderboardPage.SelectCourse(CreateProjectHelper.CourseraProjectName);
 
-			var courseRating = _leaderboardPage.GetUserLeaderboardRating(CourseraUser.NickName);
+			var courseRating = _leaderboardPage.GetUserLeaderboardRating(CourseraCrowdsourceUser.NickName);
 
 			Assert.Less(courseRating, commonRating,
 				"Произошла ошибка:\nОбщий рейтинг меньше рейтинга курса.");

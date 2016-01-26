@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?> 
 <configuration>
 
 	<TestUsers>
@@ -6,22 +6,22 @@
 		<AolUser Login = "ssssssss213123s@mail.ru"	Password = "aol3mailru@mail.ru" Activated = "true" /> <!--активированный AOL пользователь -->
 		<AolUser Login = "AolUserivanpetrov2@mailforspam.com"	Password = "12trC89p" Activated = "false" /> <!--неактивированный AOL пользователь -->
 
-		<CourseraUser Login="testuserivanpetrov@mailforspam.com"	Password="12trC89p" NickName="Иван Петров" Activated= "true"/>
-		<CourseraUser Login="testuservasyasidorov@mailforspam.com"	Password="48df5T56" NickName="Вася Сидоров" Activated= "true"/>
-		<CourseraUser Login="testusermarinaolegovna@mailforspam.com"	Password="8rfgDfre7" NickName="Марина Олеговна" Activated= "true"/>
-		<CourseraUser Login="testusermolgavladimirova@mailforspam.com"	Password="7cdRfs85" NickName="Ольга Владимирова" Activated= "true"/>
-		<CourseraUser Login="testuserpavelkrasov@mailforspam.com"	Password="fererG785" NickName="Павел Красов" Activated= "true"/>
-		<CourseraUser Login="testusernikolaylebedev@mailforspam.com"	Password="789Fwf5rr" NickName="Николай Лебедев" Activated= "true"/>
-		<CourseraUser Login="testuseredgarivanov@mailforspam.com"	Password="fre78Ff*5" NickName="Эдгар Иванов" Activated= "true"/>
-		<CourseraUser Login="testuserfedyavasilyev@mailforspam.com"	Password="fver5433f" NickName="Федя Васильев" Activated= "true"/>
-		<CourseraUser Login="testuserartursokolov@mailforspam.com"	Password="fce344geeD" NickName="Артур Соколов" Activated= "true"/>
-		<CourseraUser Login="testuserantonborisov@mailforspam.com"	Password="3rDvfr64r" NickName="Антон Борисов" Activated= "true"/>
-		<CourseraUser Login="testuserritinamamedova@mailforspam.com"	Password="3re3Feeer" NickName="Ритина Мамедова" Activated= "true"/>
-		<CourseraUser Login="testusermariyatitova@mailforspam.com"	Password="342Fwef5F" NickName="Мария Титова" Activated= "true" />
-		<CourseraUser Login="testuserigorkarpov@mailforspam.com"	Password="dfdftg4332" NickName="Игорь Карпов" Activated= "true"/>
-		<CourseraUser Login="testuservasilisaandreeva@mailforspam.com"	Password="vdffFrre54" NickName="Василиса Андреева" Activated= "true"/>
-		<CourseraUser Login="testusernatalyamalceva@mailforspam.com"	Password="vfe43FRg3" NickName="Наталья Мальцева" Activated= "true"/>
-		<CourseraUser Login="testuserolegarcer@mailforspam.com"	Password="fere54Ged" NickName="Олег Арцер" Activated= "true"/>
+		<CourseraUser Login="testuserivanpetrov@mailforspam.com"	Password="12trC89p" NickName="Иван Петров" Name="Иван" Surname="Петров" Activated= "true" IsCrowdsource = "false"/>
+		<CourseraUser Login="testuservasyasidorov@mailforspam.com"	Password="48df5T56" NickName="Вася Сидоров" Name="Вася" Surname="Сидоров" Activated= "true" IsCrowdsource = "false"/>
+		<CourseraUser Login="testusermarinaolegovna@mailforspam.com"	Password="8rfgDfre7" NickName="Марина Олеговна" Name="Марина" Surname="Олеговна" Activated= "true" IsCrowdsource = "false"/>
+		<CourseraUser Login="testusermolgavladimirova@mailforspam.com"	Password="7cdRfs85" NickName="Ольга Владимирова" Name="Ольга" Surname="Владимирова" Activated= "true" IsCrowdsource = "false"/>
+		<CourseraUser Login="testuserpavelkrasov@mailforspam.com"	Password="fererG785" NickName="Павел Красов" Name="Павел" Surname="Красов" Activated= "true" IsCrowdsource = "false"/>
+		<CourseraUser Login="testusernikolaylebedev@mailforspam.com"	Password="789Fwf5rr" NickName="Николай Лебедев" Name="Николай" Surname="Лебедев" Activated= "true" IsCrowdsource = "false"/>
+		<CourseraUser Login="testuseredgarivanov@mailforspam.com"	Password="fre78Ff*5" NickName="Эдгар Иванов" Name="Эдгар" Surname="Иванов" Activated= "true" IsCrowdsource = "false"/>
+		<CourseraUser Login="testuserfedyavasilyev@mailforspam.com"	Password="fver5433f" NickName="Федя Васильев" Name="Федя" Surname="Васильев" Activated= "true" IsCrowdsource = "false"/>
+		<CourseraUser Login="testuserartursokolov@mailforspam.com"	Password="fce344geeD" NickName="Артур Соколов" Name="Артур" Surname="Соколов" Activated= "true" IsCrowdsource = "true"/>
+		<CourseraUser Login="testuserantonborisov@mailforspam.com"	Password="3rDvfr64r" NickName="Антон Борисов" Name="Антон" Surname="Борисов" Activated= "true" IsCrowdsource = "true"/>
+		<CourseraUser Login="testuserritinamamedova@mailforspam.com"	Password="3re3Feeer" NickName="Ритина Мамедова" Name="Ритина" Surname="Мамедова" Activated= "true" IsCrowdsource = "true"/>
+		<CourseraUser Login="testusermariyatitova@mailforspam.com"	Password="342Fwef5F" NickName="Мария Титова" Name="Мария" Surname="Титова" Activated= "true" IsCrowdsource = "true" />
+		<CourseraUser Login="testuserigorkarpov@mailforspam.com"	Password="dfdftg4332" NickName="Игорь Карпов" Name="Игорь" Surname="Карпов" Activated= "true" IsCrowdsource = "true"/>
+		<CourseraUser Login="testuservasilisaandreeva@mailforspam.com"	Password="vdffFrre54" NickName="Василиса Андреева" Name="Василиса" Surname="Андреева" Activated= "true" IsCrowdsource = "true"/>
+		<CourseraUser Login="testusernatalyamalceva@mailforspam.com"	Password="vfe43FRg3" NickName="Наталья Мальцева" Name="Наталья" Surname="Мальцева" Activated= "true" IsCrowdsource = "true"/>
+		<CourseraUser Login="testuserolegarcer@mailforspam.com"	Password="fere54Ged" NickName="Олег Арцер" Name="Олег" Surname="Арцер" Activated= "true" IsCrowdsource = "true"/>
 
 		<SocialNetworksUser Login = "smaartcat@gmail.com"	Password = "smaartcattest" Activated = "true" NickName="smart cat"/><!-- пользователь Google+,Facebook и LinkedIn -->
 

@@ -34,12 +34,12 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Coursera
 		#region Простые методы страницы
 
 		/// <summary>
-		/// Ввести логин.
+		/// Ввести email.
 		/// </summary>
 		/// <param name="email">email</param>
 		public CourseraSignInDialog FillEmail(string email)
 		{
-			CustomTestContext.WriteLine("Ввести логин {0}.", email);
+			CustomTestContext.WriteLine("Ввести email {0}.", email);
 			Email.SetText(email);
 
 			return GetPage();
@@ -60,12 +60,23 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Coursera
 		/// <summary>
 		/// Нажать кнопку SigIn.
 		/// </summary>
-		public CourseraSignInDialog ClickSigInButton()
+		public CourseraHomePage ClickSigInButton()
 		{
 			CustomTestContext.WriteLine("Нажать кнопку SigIn.");
 			SigInButton.Click();
 
-			return GetPage();
+			return new CourseraHomePage(Driver).GetPage();
+		}
+
+		/// <summary>
+		/// Нажать кнопку SigIn с переходом на вкладку регистрации.
+		/// </summary>
+		public CourseraSignUpDialog ClickSigInButtonRedirectionOnRegistartionTab()
+		{
+			CustomTestContext.WriteLine("Нажать кнопку SigIn с переходом на вкладку регистрации.");
+			SigInButton.Click();
+
+			return new CourseraSignUpDialog(Driver).GetPage();
 		}
 
 		#endregion
@@ -77,14 +88,13 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Coursera
 		/// </summary>
 		/// <param name="email">логин</param>
 		/// <param name="password">пароль</param>
-		public CourseraHomePage LoginInCoursera(string email, string password)
+		public CourseraSignInDialog LoginInCoursera(string email, string password)
 		{
 			CustomTestContext.WriteLine("Заполнить форму авторизации.");
 			FillEmail(email);
 			FillPassword(password);
-			ClickSigInButton();
 			
-			return new CourseraHomePage(Driver).GetPage();
+			return GetPage();
 		}
 
 		#endregion
