@@ -3,6 +3,7 @@
 using AbbyyLS.SmartCAT.Selenium.Admin.FeatureAttributes;
 using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
 using AbbyyLS.SmartCAT.Selenium.Tests;
+using AbbyyLS.SmartCAT.Selenium.Tests.DataStructures;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Coursera;
 using AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers;
 
@@ -38,7 +39,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Admin.Tests.InitialCreateUsers
 					.FillRegistrationForm(user.Name, user.Surname)
 					.ClickSignUpButton();
 
-				_commonHelper.GoToAdminUrl();
+				_loginHelper.Authorize(StartPage.Admin, ThreadUser);
 			}
 		}
 
