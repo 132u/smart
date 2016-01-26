@@ -1,49 +1,29 @@
 ﻿using NUnit.Framework;
 
-using AbbyyLS.SmartCAT.Selenium.Tests.DataStructures;
 using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
 using AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers;
-using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Coursera;
-using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Coursera
 {
 	[Parallelizable(ParallelScope.Fixtures)]
-	class LeaderboardTests<TWebDriverProvider> : BaseTest<TWebDriverProvider>
+	class LeaderboardTests<TWebDriverProvider> : CourseraBaseTests<TWebDriverProvider>
 		where TWebDriverProvider : IWebDriverProvider, new()
 	{
-		public LeaderboardTests()
-		{
-			StartPage = StartPage.Coursera;
-		}
-
 		[SetUp]
 		public void LeaderboardTestsSetUp()
 		{
-			_courseraHomePage = new CourseraHomePage(Driver);
-			_leaderboardPage = new LeaderboardPage(Driver);
-			_coursesPage = new CoursesPage(Driver);
-			_header = new HeaderMenu(Driver);
-			_coursePage = new CoursePage(Driver);
-			_editorPage = new EditorPage(Driver);
-			_profilePage = new ProfilePage(Driver);
-
-			CourseraCrowdsourceUser = TakeUser(ConfigurationManager.CourseraCrowdsourceUsers);
-
 			_loginHelper.LogInCoursera(CourseraCrowdsourceUser.Login, CourseraCrowdsourceUser.Password);
-
 			_courseraHomePage.ClickSelectCourse();
 			_coursesPage.ClickCourse(CreateProjectHelper.CourseraProjectName);
 			_coursePage.OpenLecture();
 
-			_editorPage
-				.FillTarget("coursera test")
+			_editorPage.FillTarget("coursera test")
 				.ConfirmSegmentTranslation()
 				.ClickHomeButtonExpectingCourseraCoursesPage();
 
-			_header.ClickLeaderboardMenu();
+			_header.GoToLeaderboardPage();
 		}
-		
+
 		[Test]
 		public void UserNameExistInLeaderboardTest()
 		{
@@ -56,7 +36,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Coursera
 		{
 			var positionNumberInLeaderboard = _leaderboardPage.GetUserLeaderboardPositionNumber(CourseraCrowdsourceUser.NickName);
 
-			_header.ClickProfile();
+			_header.GoToUserProfile();
 
 			var positionNumberInProfile = _profilePage.GetUserProfilePositionNumber();
 
@@ -69,7 +49,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Coursera
 		{
 			var ratingInLeaderboard = _leaderboardPage.GetUserLeaderboardRating(CourseraCrowdsourceUser.NickName);
 
-			_header.ClickProfile();
+			_header.GoToUserProfile();
 
 			var ratingInProfile = _profilePage.GetUserProfileRating();
 
@@ -80,6 +60,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Coursera
 		[Test, Ignore("Необходимо уточнение по логике")]
 		public void CourseLeaderboardTest()
 		{
+			_header.GoToLeaderboardPage();
 			_leaderboardPage.SelectCourse(CreateProjectHelper.CourseraProjectName);
 
 			Assert.IsTrue(_leaderboardPage.IsUserNameDisplayed(CourseraCrowdsourceUser.NickName),
@@ -98,13 +79,5 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Coursera
 			Assert.Less(courseRating, commonRating,
 				"Произошла ошибка:\nОбщий рейтинг меньше рейтинга курса.");
 		}
-
-		private EditorPage _editorPage;
-		private HeaderMenu _header;
-		private ProfilePage _profilePage;
-		private CourseraHomePage _courseraHomePage;
-		private LeaderboardPage _leaderboardPage;
-		private CoursesPage _coursesPage;
-		private CoursePage _coursePage;
 	}
 }

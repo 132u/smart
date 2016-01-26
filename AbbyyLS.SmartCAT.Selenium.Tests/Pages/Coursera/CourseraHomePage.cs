@@ -35,6 +35,31 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Coursera
 
 		#region Простые методы страницы
 
+
+		/// <summary>
+		/// Получить никнейм пользователя.
+		/// </summary>
+		/// <returns>никнейм пользователя</returns>
+		public string GetNickname()
+		{
+			CustomTestContext.WriteLine("Получить никнейм пользователя.");
+
+			return Nickname.Text;
+		}
+
+		/// <summary>
+		/// Получить имя автора перевода.
+		/// </summary>
+		/// <param name="translation">перевод</param>
+		public string GetAuthorInEventList(string translation)
+		{
+			CustomTestContext.WriteLine("Получить имя автора перевода '{0}' в списке событий.", translation);
+			AuthorInEventList = Driver.SetDynamicValue(How.XPath, AUTHOR_IN_EVENT_LIST, translation);
+			AuthorInEventList.Scroll();
+
+			return AuthorInEventList.Text.Replace("...", "");
+		}
+
 		/// <summary>
 		/// Нажать кнопку Workspace.
 		/// </summary>
@@ -77,6 +102,17 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Coursera
 			return new CoursesPage(Driver).GetPage();
 		}
 
+		/// <summary>
+		/// Нажать на имя пользователя.
+		/// </summary>
+		public UserProfilePage ClickProfile()
+		{
+			CustomTestContext.WriteLine("Нажать на имя пользователя.");
+			Nickname.ScrollAndClick();
+
+			return new UserProfilePage(Driver).GetPage();
+		}
+
 		#endregion
 
 		#region Составные методы страницы
@@ -84,13 +120,26 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Coursera
 		#endregion
 		
 		#region Методы, проверяющие состояние страницы
-
+		
 		/// <summary>
 		/// Проверить, что открылась главная страница курсеры
 		/// </summary>
 		public bool IsCourseraHomePageOpened()
 		{
 			return IsSignInDialogDisappeared() && Driver.WaitUntilElementIsDisplay(By.XPath(LANGUAGE));
+		}
+
+		/// <summary>
+		/// Проверить, что перевод отображается в списке событий.
+		/// </summary>
+		/// <param name="targetTranslation">перевод</param>
+		public bool IsTargetTranslationDisplayedInEventList(string targetTranslation)
+		{
+			CustomTestContext.WriteLine("Проверить, что перевод {0} отображается в списке событий.", targetTranslation);
+			TargetTranslationInEventList = Driver.SetDynamicValue(How.XPath, TARGET_TRANSLATION_INEVENT_LIST, targetTranslation);
+			TargetTranslationInEventList.Scroll();
+
+			return TargetTranslationInEventList.Displayed;
 		}
 
 		#endregion
@@ -106,6 +155,12 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Coursera
 		[FindsBy(How = How.XPath, Using = WORKSPACE_BUTTON)]
 		protected IWebElement WorkspaceButton { get; set; }
 
+		[FindsBy(How = How.XPath, Using = NICKNAME)]
+		protected IWebElement Nickname { get; set; }
+		protected IWebElement TargetTranslationInEventList { get; set; }
+
+		protected IWebElement AuthorInEventList { get; set; }
+
 		#endregion
 
 		#region Описание XPath элементов
@@ -114,6 +169,10 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Coursera
 		protected const string SELECT_COURSE_BUTTON = ".//a[contains(@href,'Courses') and @class='btn-green']";
 		protected const string WORKSPACE_BUTTON = ".//a[contains(@href,'Workspace')]";
 		protected const string LANGUAGE = "//div[@class='langSelect']";
+		protected const string NICKNAME = "//a[@class='user-link']";
+		protected const string TARGET_TRANSLATION_INEVENT_LIST = ".//table[@class='last-events']//tr//td[4]/span[contains(@data-bind,'target')][contains(text(),'*#*')]";
+		protected const string AUTHOR_IN_EVENT_LIST = ".//table[@class='last-events']//tr//td[4]/span[contains(@data-bind,'target')][contains(text(),'*#*')]/../..//td[@class='col-1']//a[contains(@data-bind, 'userName')]";
+
 		#endregion
 	}
 }

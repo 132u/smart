@@ -54,17 +54,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests
 		[TearDown]
 		public void TeardownBase()
 		{
-			try
-			{
-				if (TestContext.CurrentContext.Result.Outcome.Status.Equals(TestStatus.Failed))
-				{
-					Driver.TakeScreenshot(Path.Combine(PathProvider.ResultsFolderPath, "FailedTests"));
-				}
-			}
-			catch (Exception ex)
-			{
-				CustomTestContext.WriteLine("Ошибка при снятии скриншота {0}", ex.ToString());
-			}
+			TakeScreenshotIfTestFailed();
 
 			CustomTestContext.WriteLine("Окончание работы теста {0}", TestContext.CurrentContext.Test.Name);
 
@@ -84,6 +74,16 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests
 			if (Driver != null)
 			{
 				Driver.Dispose();
+			}
+
+			if (CourseraReviewerUser != null)
+			{
+				ReturnUser(ConfigurationManager.CourseraReviewerUsers, CourseraReviewerUser);
+			}
+
+			if (CourseraCrowdsourceUser != null)
+			{
+				ReturnUser(ConfigurationManager.CourseraCrowdsourceUsers, CourseraCrowdsourceUser);
 			}
 		}
 
@@ -124,9 +124,24 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests
 			}
 		}
 
+		public void TakeScreenshotIfTestFailed()
+		{
+			try
+			{
+				if (TestContext.CurrentContext.Result.Outcome.Status.Equals(TestStatus.Failed))
+				{
+					Driver.TakeScreenshot(Path.Combine(PathProvider.ResultsFolderPath, "FailedTests"));
+				}
+			}
+			catch (Exception ex)
+			{
+				CustomTestContext.WriteLine("Ошибка при снятии скриншота {0}", ex.ToString());
+			}
+		}
+
 		public TestUser ThreadUser { get; protected set; }
 		public TestUser AdditionalUser { get; protected set; }
-		public TestUser CourseraUser { get; protected set; }
+		public TestUser CourseraReviewerUser { get; protected set; }
 		public TestUser CourseraCrowdsourceUser { get; protected set; }
 		protected StartPage StartPage = StartPage.Workspace;
 		protected LoginHelper _loginHelper;

@@ -33,27 +33,71 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Coursera
 		}
 
 		#region Простые методы страницы
+		
+		/// <summary>
+		/// Получить никнейм пользователя в меню.
+		/// </summary>
+		/// <returns>никнейм пользователя</returns>
+		public string GetNickname()
+		{
+			CustomTestContext.WriteLine("Получить никнейм пользователя в меню.");
+
+			return Nickname.Text;
+		}
 
 		/// <summary>
-		/// Нажать на ссылку Leaderboard в меню.
+		/// Перейти на страницу курсов.
 		/// </summary>
-		public LeaderboardPage ClickLeaderboardMenu()
+		public CoursesPage GoToCoursesPage()
 		{
-			CustomTestContext.WriteLine("Нажать на ссылку Leaderboard в меню.");
+			CustomTestContext.WriteLine("Перейти на страницу курсов.");
+			Courses.Click();
+
+			return new CoursesPage(Driver).GetPage();
+		}
+
+		/// <summary>
+		/// Перейти на страницу Leaderboard.
+		/// </summary>
+		public LeaderboardPage GoToLeaderboardPage()
+		{
+			CustomTestContext.WriteLine("Перейти на страницу Leaderboard.");
 			LeaderboardMenu.Click();
 
 			return new LeaderboardPage(Driver).GetPage();
 		}
 
 		/// <summary>
-		/// Нажать на ссылку на профиль пользователя.
+		/// Перейти на страницу профиля пользователя.
 		/// </summary>
-		public ProfilePage ClickProfile()
+		public UserProfilePage GoToUserProfile()
 		{
-			CustomTestContext.WriteLine("Нажать на ссылку на профиль пользователя.");
+			CustomTestContext.WriteLine("Перейти на страницу профиля пользователя.");
 			Profile.Click();
 
-			return new ProfilePage(Driver).GetPage();
+			return new UserProfilePage(Driver).GetPage();
+		}
+
+		/// <summary>
+		/// Перейти на главную страницу.
+		/// </summary>
+		public CourseraHomePage GoToHomePage()
+		{
+			CustomTestContext.WriteLine("Перейти на главную страницу.");
+			HomePage.Click();
+
+			return new CourseraHomePage(Driver).GetPage();
+		}
+
+		/// <summary>
+		/// Нажать кнопку Sign Out.
+		/// </summary>
+		public CourseraHomePage ClickSignOut()
+		{
+			CustomTestContext.WriteLine("Нажать кнопку Sign Out.");
+			SignOut.Click();
+
+			return new CourseraHomePage(Driver).GetPage();
 		}
 
 		#endregion
@@ -65,6 +109,26 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Coursera
 		#region Методы, проверяющие состояние страницы
 
 		/// <summary>
+		/// Проверить, что фото пользователя отображается в меню.
+		/// </summary>
+		public bool IsPhotoUserDisplayed()
+		{
+			CustomTestContext.WriteLine("Проверить, что фото пользователя  отображается в меню.");
+			
+			return Photo.GetAttribute("src").Contains("/avatar/");
+		}
+
+		/// <summary>
+		/// Проверить, что отображается имя пользователя.
+		/// </summary>
+		public bool IsUserNicknameDisplayed()
+		{
+			CustomTestContext.WriteLine("Проверить, что отображается имя пользователя.");
+
+			return Photo.GetAttribute("src").Contains("/avatar/");
+		}
+
+		/// <summary>
 		/// Проверить, что диалога формы авторизации исчез
 		/// </summary>
 		public bool IsSignInDialogDisappeared()
@@ -73,11 +137,21 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Coursera
 		}
 
 		/// <summary>
-		/// Проверить, что открылась страница лидеров.
+		/// Проверить, что открылось меню.
 		/// </summary>
 		private bool IsHeaderMenuOpened()
 		{
 			return Driver.WaitUntilElementIsDisplay(By.XPath(LEADERBOARD));
+		}
+
+		/// <summary>
+		/// Проверить, что диалог реадктирования профиля закрылся.
+		/// </summary>
+		public bool IsEditProfileDialogDisappeared()
+		{
+			CustomTestContext.WriteLine("Проверить, что диалог реадктирования профиля закрылся.");
+
+			return Driver.WaitUntilElementIsDisappeared(By.XPath(CHANGE_PASSWORD_TAB));
 		}
 
 		#endregion
@@ -90,13 +164,34 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Coursera
 		[FindsBy(How = How.XPath, Using = PROFILE)]
 		protected IWebElement Profile { get; set; }
 
+		[FindsBy(How = How.XPath, Using = HOME_PAGE)]
+		protected IWebElement HomePage { get; set; }
+
+		[FindsBy(How = How.XPath, Using = NICKNAME)]
+		protected IWebElement Nickname { get; set; }
+
+		[FindsBy(How = How.XPath, Using = COURSES)]
+		protected IWebElement Courses { get; set; }
+
+		[FindsBy(How = How.XPath, Using = PHOTO)]
+		protected IWebElement Photo { get; set; }
+
+		[FindsBy(How = How.XPath, Using = SIGN_OUT)]
+		protected IWebElement SignOut { get; set; }
+
 		#endregion
 
 		#region Описание XPath элементов
 
+		protected const string CHANGE_PASSWORD_TAB = "//label[contains(@data-bind, 'changePassword().hasPassword()')]";
+		protected const string COURSES = ".//a[contains(@href,'/Courses')]";
 		protected const string LEADERBOARD = ".//a[contains(@href,'/Leaderboard')]";
 		protected const string PROFILE = ".//a[contains(@href,'/Profile')]";
 		protected const string SIGN_IN_BUTTON = ".//input[@type ='submit']";
+		protected const string HOME_PAGE = ".//span[@class ='up']";
+		protected const string NICKNAME = "//a[@class='user-name']";
+		protected const string PHOTO = ".//div[@id='main-menu']//span[contains(@class,'menu-user-link')]/img";
+		protected const string SIGN_OUT = "//button[contains(@data-bind, 'logout')]";
 
 		#endregion
 	}

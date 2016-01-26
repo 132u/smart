@@ -73,9 +73,10 @@
     <Compile Include="Pages\Coursera\CourseraSignInDialog.cs" />
     <Compile Include="Pages\Coursera\CourseraSignUpDialog.cs" />
     <Compile Include="Pages\Coursera\CoursesPage.cs" />
+    <Compile Include="Pages\Coursera\EditProfileDialog.cs" />
     <Compile Include="Pages\Coursera\HeaderMenu.cs" />
     <Compile Include="Pages\Coursera\LeaderboardPage.cs" />
-    <Compile Include="Pages\Coursera\ProfilePage.cs" />
+    <Compile Include="Pages\Coursera\UserProfilePage.cs" />
     <Compile Include="Pages\Editor\ConfirmTermWithoutTranskationDialog.cs" />
     <Compile Include="Pages\Glossaries\FilterDialog.cs" />
     <Compile Include="Pages\Glossaries\SuggestedTerms\SelectGlossaryDialog.cs" />
@@ -251,7 +252,13 @@
     <Compile Include="Tests\Clients\BaseClientsTests.cs" />
     <Compile Include="Tests\Clients\CreateClientTests.cs" />
     <Compile Include="Tests\Clients\DeleteClientTests.cs" />
+    <Compile Include="Tests\Coursera\CourseraBaseTests.cs" />
     <Compile Include="Tests\Coursera\LeaderboardTests.cs" />
+    <Compile Include="Tests\Coursera\UserProfileTests\InvalidUserNameTests.cs" />
+    <Compile Include="Tests\Coursera\UserProfileTests\PasswordTests.cs" />
+    <Compile Include="Tests\Coursera\UserProfileTests\UserNameTests.cs" />
+    <Compile Include="Tests\Coursera\UserProfileTests\UserProfileBaseTests.cs" />
+    <Compile Include="Tests\Coursera\UserProfileTests\UserProfileTests.cs" />
     <Compile Include="Tests\Editor\CatPanelResultTests.cs" />
     <Compile Include="Tests\Editor\EditorChangeCaseButtonsTests.cs" />
     <Compile Include="Tests\Editor\EditorLastUnconfirmedSegmentTests.cs" />

@@ -684,8 +684,20 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		{
 			CustomTestContext.WriteLine("Получить имя пользователя, создавшего ревизию.");
 			User = Driver.SetDynamicValue(How.XPath, REVISION_USER_COLUNM, revisionNumber.ToString());
-
+			
 			return User.Text;
+		}
+
+		/// <summary>
+		/// Получить имя пользователя, создавшего ревизию.
+		/// </summary>
+		/// <param name="revisionNumber">номер ревизии</param>
+		public string GetSegmentTranslationUserName(int revisionNumber = 1)
+		{
+			CustomTestContext.WriteLine("Получить имя пользователя на вкладке 'Segment translation'.");
+			SegmentTranslationUserColumn = Driver.SetDynamicValue(How.XPath, SEGMENT_TRANSLATION_USER_COLUMN, revisionNumber.ToString());
+			
+			return SegmentTranslationUserColumn.Text;
 		}
 
 		/// <summary>
@@ -1356,7 +1368,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 
 		[FindsBy(How = How.XPath, Using = SEGMENTS_BODY)]
 		protected IWebElement SegmentsTable { get; set; }
-
+		protected IWebElement SegmentTranslationUserColumn { get; set; }
 		protected IWebElement Revision;
 		protected IWebElement DeleteChangedPart;
 		protected IWebElement InsertChangedPart;
@@ -1436,7 +1448,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		protected const string REVISION_INSERT_CHANGE_PART = "//div[@id='revisions-body']//table[*#*]//td[contains(@class,'revision-text-cell')]//ins";
 		protected const string REVISION_USER_COLUNM = "//div[@id='revisions-body']//table[*#*]//td[contains(@class,'revision-user-cell')]";
 		protected const string USER_COLUMN = "//div[@id='gridcolumn-1105']//span";
-
+		protected const string SEGMENT_TRANSLATION_USER_COLUMN = ".//div[@id='translations-body']//table[*#*]//td[2]//div";
 		protected const string EDITOR_DIALOG_BACKGROUND = "//div[contains(@class,'x-mask callout-mask')]";
 
 		#endregion

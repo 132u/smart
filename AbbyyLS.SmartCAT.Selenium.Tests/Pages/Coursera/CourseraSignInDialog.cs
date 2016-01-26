@@ -64,7 +64,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Coursera
 		{
 			CustomTestContext.WriteLine("Нажать кнопку SigIn.");
 			SigInButton.Click();
-
+			
 			return new CourseraHomePage(Driver).GetPage();
 		}
 

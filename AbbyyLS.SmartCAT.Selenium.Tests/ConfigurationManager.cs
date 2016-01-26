@@ -64,7 +64,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests
 			
 			Users = new ConcurrentBag<TestUser>(ThreadUsersList);
 			AdditionalUsers = new ConcurrentBag<TestUser>(AdditionalUsersList);
-			CourseraUsers = new ConcurrentBag<TestUser>(CourseraReviewerUserList);
+			CourseraReviewerUsers = new ConcurrentBag<TestUser>(CourseraReviewerUserList);
 			CourseraCrowdsourceUsers = new ConcurrentBag<TestUser>(CourseraCrowdsourceUserList);
 			UsersInfoList = new List<TestUser>(UsersInfoList);
 		}
@@ -82,7 +82,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests
 
 		public static ConcurrentBag<TestUser> Users { get; set; }
 		public static ConcurrentBag<TestUser> AdditionalUsers { get; set; }
-		public static ConcurrentBag<TestUser> CourseraUsers { get; set; }
+		public static ConcurrentBag<TestUser> CourseraReviewerUsers { get; set; }
 		public static ConcurrentBag<TestUser> CourseraCrowdsourceUsers { get; set; }
 		public static List<TestUser> TestUserList { get; private set; }
 		public static List<TestUser> TestCompanyList { get; private set; }

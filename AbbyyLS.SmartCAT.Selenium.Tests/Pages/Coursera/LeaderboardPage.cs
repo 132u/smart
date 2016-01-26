@@ -38,6 +38,19 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Coursera
 		#region Простые методы страницы
 
 		/// <summary>
+		/// Нажать на имя пользователя.
+		/// </summary>
+		/// <param name="userName">имя пользователя</param>
+		public UserProfilePage ClickUserName(string userName)
+		{
+			CustomTestContext.WriteLine("Нажать на имя пользователя {0}.", userName);
+			UserName = Driver.SetDynamicValue(How.XPath, USER_NAME_IN_LIST, userName);
+			UserName.Click();
+
+			return new UserProfilePage(Driver).GetPage();
+		}
+
+		/// <summary>
 		/// Раскрыть список курсов.
 		/// </summary>
 		public LeaderboardPage ExpandCoursesDropdown()
@@ -88,6 +101,17 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Coursera
 		{
 			return Driver.WaitUntilElementIsDisplay(By.Id(COURSES_DROPDOWN));
 		}
+		
+		/// <summary>
+		/// Проверить, что фото пользователя в списке лидеров.
+		/// </summary>
+		public new bool IsPhotoUserDisplayed()
+		{
+			CustomTestContext.WriteLine("Проверить, что фото пользователя отображается в списке лидеров.");
+
+			return UserPhoto.GetAttribute("src").Contains("/avatar/");
+
+		}
 
 		/// <summary>
 		/// Проверить, что пользователь присутствует в списке лидеров.
@@ -124,6 +148,18 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Coursera
 		}
 
 		/// <summary>
+		/// Получить имя пользователя в таблице лидеров по номеру строки
+		/// </summary>
+		/// <param name="rowNumber">номер строки</param>
+		public string GetUserNameInList(int rowNumber = 1)
+		{
+			CustomTestContext.WriteLine("Получить имя пользователя в таблице лидеров строка №{0}.", rowNumber);
+			UserRow = Driver.SetDynamicValue(How.XPath, USER_ROW, (rowNumber + 3).ToString());
+
+			return UserRow.Text;
+		}
+
+		/// <summary>
 		/// Получить рейтинг пользователя в списке лидеров.
 		/// </summary>
 		/// <param name="userName">имя пользователя</param>
@@ -151,10 +187,13 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Coursera
 		[FindsBy(How = How.Id, Using = COURSES_DROPDOWN)]
 		protected IWebElement CoursesDropdown { get; set; }
 
+		[FindsBy(How = How.XPath, Using = USER_PHOTO)]
+		protected IWebElement UserPhoto { get; set; }
+		
 		protected IWebElement CourseOption { get; set; }
 
 		protected IWebElement UserName { get; set; }
-
+		protected IWebElement UserRow { get; set; }
 		#endregion
 
 		#region Описание XPath элементов
@@ -164,6 +203,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Coursera
 		protected const string USER_RATING_IN_LIST = "//div[@class='rating']//tr[not(contains(@style,'display: none;'))][contains(@class,'active')]//td[contains(@data-bind,'rating')]";
 		protected const string COURSES_DROPDOWN = "select_courses_rat";
 		protected const string COURSE_OPTION = "//select[@id='select_courses_rat']/option[text() = '*#*']";
+		protected const string USER_PHOTO = "//div[@class='rating']//tr[contains(@class,'active')]//td//img";
+		protected const string USER_ROW = "//div[@class='rating']//tr[*#*]//td[3]//a[contains(@data-bind,'name')]";
 
 		#endregion
 	}
