@@ -578,20 +578,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		}
 
 		/// <summary>
-		/// Получить список текстов подстановок типа МТ из кат панели.
-		/// </summary>
-		public List<string> GetMTSourceTextList()
-		{
-			CustomTestContext.WriteLine("Получить список текстов подстановок типа МТ из кат панели.");
-			var terms = Driver.GetTextListElement(By.XPath(MT_SOURCE_TEXT_IN_CAT_PANEL));
-
-			return terms.Select(g => g.Trim()).ToList();
-		}
-
-		/// <summary>
 		/// Нажать хоткей Shift F3 для изменения регистра.
 		/// </summary>
-		/// <param name="segmentNumber">номер сегмента<</param>
 		public EditorPage PressChangeCaseHotKey()
 		{
 			CustomTestContext.WriteLine("Нажать хоткей Shift F3 для изменения регистра.");
@@ -1003,10 +991,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		public bool IsMTSourceTextMatchSourceText(int segmentNumber = 1)
 		{
 			CustomTestContext.WriteLine("Проверить, что текст из CAT-подстановки МТ соответствуют тексту в сорсе сегмента №{0}.", segmentNumber);
-			var MTSourceTextListInCatPanel = GetMTSourceTextList()[segmentNumber - 1];
 			var sourceText = GetSourceText(segmentNumber);
 
-			return MTSourceTextListInCatPanel == sourceText;
+			return Driver.GetIsTextToBePresentInElementLocated(By.XPath(MT_SOURCE_TEXT_IN_CAT_PANEL), sourceText);
 		}
 
 		/// <summary>
@@ -1419,7 +1406,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		protected const string MATCH_COLUMN = "//div[@id='segments-body']//table[*#*]//tbody//td[contains(@class,'matchcolum')]";
 		protected const string TARGET_MATCH_COLUMN_PERCENT = "//table[@data-recordindex='*#*' and contains(@id, 'tableview')]//td[6]//div//span";
 		protected const string CAT_PANEL_PERCENT_MATCH = ".//div[@id='cat-body']//table[*#*]//tbody//tr//td[3]//div//span";
-		protected const string MT_SOURCE_TEXT_IN_CAT_PANEL = ".//div[@id='cat-body']//table//tbody//tr//div[text()='MT']//..//preceding-sibling::td[contains(@class, 'test-cat-source')]";
+		protected const string MT_SOURCE_TEXT_IN_CAT_PANEL = ".//div[@id='cat-body']//table//tbody//tr//div[text()='MT']//..//preceding-sibling::td[contains(@class, 'test-cat-source')]/div";
 		protected const string CAT_TYPE_LIST_IN_PANEL = ".//div[@id='cat-body']//table//td[3]/div";
 		protected const string CAT_TRANSLATION = ".//div[@id='cat-body']//table[*#*]//td[contains(@class, 'test-cat-target')]/div";
 		protected const string CAT_TYPE = ".//div[@id='cat-body']//table//td[3]/div[text()='*#*']";

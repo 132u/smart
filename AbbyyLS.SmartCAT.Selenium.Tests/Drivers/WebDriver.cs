@@ -286,6 +286,24 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Drivers
 		}
 
 		/// <summary>
+		/// Проверить, существует ли элемент, содержащий заданный текст
+		/// </summary>
+		/// <param name="by">локатор</param>
+		/// <param name="text">текст</param>
+		public bool GetIsTextToBePresentInElementLocated(By by, string text)
+		{
+			var wait = new WebDriverWait(this, ImplicitWait);
+			try
+			{
+				return wait.Until(ExpectedConditions.TextToBePresentInElementLocated(by, text));
+			}
+			catch (WebDriverTimeoutException)
+			{
+				return false;
+			}
+		}
+
+		/// <summary>
 		/// Присваиваем значение элементу с динамическим локатором
 		/// </summary>
 		/// <param name="how">как ищем (Xpath и т.д.)</param>
