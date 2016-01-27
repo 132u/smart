@@ -114,7 +114,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Coursera
 				"Произошла ошибка:\nНеверное имя пользователя в ревизии перевода");
 		}
 
-		[Test]
+		[Test, Ignore("PRX-14767")]
 		public void CheckEventListBeforeEditProfileTest()
 		{
 			_courseraHomePage.ClickSelectCourse();
@@ -143,13 +143,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Coursera
 			_editProfileDialog.EditProfile(_newUserName, _newUserSurname);
 
 			_header.GoToHomePage();
-
-			// костыль PRX-14767
-			Thread.Sleep(1000);
-			_header.RefreshPage<CourseraHomePage>();
-			Thread.Sleep(2000);
-			_header.RefreshPage<CourseraHomePage>();
-
+			
 			Assert.IsTrue(_newFullName.Contains(_courseraHomePage.GetAuthorInEventList(_translationText)),
 				"Произошла ошибка:\nНеверное имя автора перевода '{0}' в списке событий.", _translationText);
 		}

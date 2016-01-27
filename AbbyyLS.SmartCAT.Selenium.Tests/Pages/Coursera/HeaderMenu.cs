@@ -159,11 +159,11 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Coursera
 		}
 
 		/// <summary>
-		/// Проверить, что диалог реадктирования профиля закрылся.
+		/// Проверить, что диалог реадактирования профиля закрылся.
 		/// </summary>
 		public bool IsEditProfileDialogDisappeared()
 		{
-			CustomTestContext.WriteLine("Проверить, что диалог реадктирования профиля закрылся.");
+			CustomTestContext.WriteLine("Проверить, что диалог реадактирования профиля закрылся.");
 
 			return Driver.WaitUntilElementIsDisappeared(By.XPath(CHANGE_PASSWORD_TAB));
 		}
