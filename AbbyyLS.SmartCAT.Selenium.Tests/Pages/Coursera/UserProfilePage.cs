@@ -166,7 +166,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Coursera
 		protected const string EDIT_PROFILE_BUTTON = ".//button[contains(@data-popup,'editor-form')]";
 		protected const string USER_PHOTO = ".//div[contains(@class,'profile-description')]/..//img";
 		protected const string ABOUT_ME = "//div[@data-bind='text: about']";
-		protected const string ABOUT_MYSELF_TITLE = "//span[@class='profile-about-title']";
+		protected const string ABOUT_MYSELF_TITLE = "//div[@class='profile-description']//span[@class='profile-about-title' and contains(text(),'myself')]";
 		protected const string CHANGE_PASSWORD_TAB = "//label[contains(@data-bind, 'changePassword().hasPassword()')]";
 
 		#endregion

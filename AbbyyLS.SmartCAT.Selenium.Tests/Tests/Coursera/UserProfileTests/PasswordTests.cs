@@ -2,18 +2,12 @@
 
 using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
 
-namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Coursera.UserProfileTests
+namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Coursera
 {
 	[Parallelizable(ParallelScope.Fixtures)]
 	class PasswordTests<TWebDriverProvider> : UserProfileBaseTests<TWebDriverProvider>
 		where TWebDriverProvider : IWebDriverProvider, new()
 	{
-		[SetUp]
-		public void PasswordTestsSetUp()
-		{
-			_loginHelper.LogInCoursera(CourseraReviewerUser.Login, CourseraReviewerUser.Password);
-		}
-
 		[TestCase("0123456")]
 		[TestCase("012345")]
 		public void ChangePasswordTest(string newPassword)
@@ -26,13 +20,13 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Coursera.UserProfileTests
 
 			_editProfileDialog
 				.ClickChangePasswordTab()
-				.ChangePassword(oldPassword: CourseraReviewerUser.Password, newPassword: newPassword);
+				.ChangePassword(oldPassword: CourseraCrowdsourceUser.Password, newPassword: newPassword);
 
 			_header.ClickSignOut();
 
-			_loginHelper.LogInCoursera(CourseraReviewerUser.Login, newPassword);
+			_loginHelper.LogInCoursera(CourseraCrowdsourceUser.Login, newPassword);
 
-			Assert.AreEqual(CourseraReviewerUser.NickName, _courseraHomePage.GetNickname(),
+			Assert.AreEqual(CourseraCrowdsourceUser.NickName, _courseraHomePage.GetNickname(),
 				"Произошла ошибка:\nНе удалось войти в курсеру с новым паролем.");
 		}
 
@@ -45,7 +39,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Coursera.UserProfileTests
 
 			_editProfileDialog
 				.ClickChangePasswordTab()
-				.ChangePasswordExpectingError(oldPassword: CourseraReviewerUser.Password, newPassword: "123");
+				.ChangePasswordExpectingError(oldPassword: CourseraCrowdsourceUser.Password, newPassword: "123");
 
 			Assert.IsTrue(_editProfileDialog.IsShortPasswordErrorDisplayed(),
 				"Произошла ошибка:\nНе появилось сообщение 'Password is too short'.");
@@ -57,9 +51,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Coursera.UserProfileTests
 
 			_header.ClickSignOut();
 
-			_loginHelper.LogInCoursera(CourseraReviewerUser.Login, CourseraReviewerUser.Password);
+			_loginHelper.LogInCoursera(CourseraCrowdsourceUser.Login, CourseraCrowdsourceUser.Password);
 
-			Assert.AreEqual(CourseraReviewerUser.NickName, _courseraHomePage.GetNickname(),
+			Assert.AreEqual(CourseraCrowdsourceUser.NickName, _courseraHomePage.GetNickname(),
 				"Произошла ошибка:\nНе удалось войти в курсеру.");
 		}
 
@@ -82,20 +76,20 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Coursera.UserProfileTests
 		[Test]
 		public void ChangePasswordNewEqualOldTest()
 		{
-			_oldPassword = CourseraReviewerUser.Password;
+			_oldPassword = CourseraCrowdsourceUser.Password;
 			_header.GoToUserProfile();
 
 			_profilePage.ClickEditProfileButton();
 
 			_editProfileDialog
 				.ClickChangePasswordTab()
-				.ChangePassword(oldPassword: CourseraReviewerUser.Password, newPassword: CourseraReviewerUser.Password);
+				.ChangePassword(oldPassword: CourseraCrowdsourceUser.Password, newPassword: CourseraCrowdsourceUser.Password);
 
 			_header.ClickSignOut();
 
-			_loginHelper.LogInCoursera(CourseraReviewerUser.Login, CourseraReviewerUser.Password);
+			_loginHelper.LogInCoursera(CourseraCrowdsourceUser.Login, CourseraCrowdsourceUser.Password);
 
-			Assert.AreEqual(CourseraReviewerUser.NickName, _courseraHomePage.GetNickname(),
+			Assert.AreEqual(CourseraCrowdsourceUser.NickName, _courseraHomePage.GetNickname(),
 				"Произошла ошибка:\nНе удалось войти в курсеру.");
 		}
 
@@ -110,7 +104,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Coursera.UserProfileTests
 
 			_editProfileDialog
 				.ClickChangePasswordTab()
-				.ChangePasswordExpectingError(oldPassword: CourseraReviewerUser.Password, newPassword: newPassword, confirmPassword: newPassword + "123")
+				.ChangePasswordExpectingError(oldPassword: CourseraCrowdsourceUser.Password, newPassword: newPassword, confirmPassword: newPassword + "123")
 				.ClickPasswordSaveButton();
 
 			Assert.IsTrue(_editProfileDialog.IsPasswordMismatchErrorDisplayed(),
@@ -138,11 +132,11 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Coursera.UserProfileTests
 
 			_profilePage.ClickEditProfileButton();
 
-			_oldPassword = _oldPassword ?? CourseraReviewerUser.Password;
+			_oldPassword = _oldPassword ?? CourseraCrowdsourceUser.Password;
 
 			_editProfileDialog
 				.ClickChangePasswordTab()
-				.ChangePasswordExpectingError(oldPassword: _oldPassword, newPassword: CourseraReviewerUser.Password, confirmPassword: CourseraReviewerUser.Password)
+				.ChangePasswordExpectingError(oldPassword: _oldPassword, newPassword: CourseraCrowdsourceUser.Password, confirmPassword: CourseraCrowdsourceUser.Password)
 				.ClickPasswordSaveButton();
 		}
 

@@ -5,7 +5,7 @@ using NUnit.Framework;
 using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Coursera;
 
-namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Coursera.UserProfileTests
+namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Coursera
 {
 	class UserProfileBaseTests<TWebDriverProvider> : CourseraBaseTests<TWebDriverProvider>
 		where TWebDriverProvider : IWebDriverProvider, new()
@@ -19,6 +19,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Coursera.UserProfileTests
 			_newFullName = _newUserName + " " + _newUserSurname;
 			_translationText = "Test" + Guid.NewGuid();
 			_filePath = PathProvider.ImageFile;
+
+			_loginHelper.LogInCoursera(CourseraCrowdsourceUser.Login, CourseraCrowdsourceUser.Password);
 		}
 
 		protected EditProfileDialog _editProfileDialog;

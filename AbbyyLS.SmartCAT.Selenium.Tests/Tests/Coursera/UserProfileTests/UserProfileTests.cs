@@ -3,7 +3,6 @@
 using NUnit.Framework;
 
 using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
-using AbbyyLS.SmartCAT.Selenium.Tests.Tests.Coursera.UserProfileTests;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Coursera
 {
@@ -11,12 +10,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Coursera
 	class UserProfileTests<TWebDriverProvider> : UserProfileBaseTests<TWebDriverProvider>
 		where TWebDriverProvider : IWebDriverProvider, new()
 	{
-		[SetUp]
-		public void UserProfileTestsSetUp()
-		{
-			_loginHelper.LogInCoursera(CourseraReviewerUser.Login, CourseraReviewerUser.Password);
-		}
-
 		[Test]
 		public void ChangeAboutMeTest()
 		{
@@ -64,7 +57,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Coursera
 
 			_header.GoToUserProfile();
 
-			Assert.AreEqual(CourseraReviewerUser.NickName, _profilePage.GetNickname(),
+			Assert.AreEqual(CourseraCrowdsourceUser.NickName, _profilePage.GetNickname(),
 				"Произошла ошибка:\nНеверное имя пользователя.");
 		}
 
@@ -75,7 +68,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Coursera
 
 			_coursesPage.GoToLeaderboardPage();
 
-			_leaderboardPage.ClickUserName(CourseraReviewerUser.NickName);
+			_leaderboardPage.ClickUserName(CourseraCrowdsourceUser.NickName);
 
 			Assert.IsTrue(_profilePage.IsUserProfilePageOpened(),
 				"Произошла ошибка:\nНе открылась страница пользователя.");

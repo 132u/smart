@@ -2,17 +2,11 @@
 
 using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
 
-namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Coursera.UserProfileTests
+namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Coursera
 {
 	class InvalidUserNameTests<TWebDriverProvider> : UserProfileBaseTests<TWebDriverProvider>
 		where TWebDriverProvider : IWebDriverProvider, new()
 	{
-		[SetUp]
-		public void InvalidUserNameTestsSetUp()
-		{
-			_loginHelper.LogInCoursera(CourseraReviewerUser.Login, CourseraReviewerUser.Password);
-		}
-
 		[TestCase(" ")]
 		[TestCase("")]
 		public void FillInvalidNameTest(string name)

@@ -1,21 +1,18 @@
 ﻿using System;
+using System.Threading;
+
+using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Coursera;
 
 using NUnit.Framework;
 
 using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
 using AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers;
 
-namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Coursera.UserProfileTests
+namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Coursera
 {
 	class UserNameTests<TWebDriverProvider> : UserProfileBaseTests<TWebDriverProvider>
 		where TWebDriverProvider : IWebDriverProvider, new()
 	{
-		[SetUp]
-		public void UserNameTestsSetUp()
-		{
-			_loginHelper.LogInCoursera(CourseraCrowdsourceUser.Login, CourseraCrowdsourceUser.Password);
-		}
-
 		[Test]
 		public void ChangeUserNameCheckProfilePageTest()
 		{
@@ -147,6 +144,12 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Coursera.UserProfileTests
 
 			_header.GoToHomePage();
 
+			// костыль PRX-14767
+			Thread.Sleep(1000);
+			_header.RefreshPage<CourseraHomePage>();
+			Thread.Sleep(2000);
+			_header.RefreshPage<CourseraHomePage>();
+
 			Assert.IsTrue(_newFullName.Contains(_courseraHomePage.GetAuthorInEventList(_translationText)),
 				"Произошла ошибка:\nНеверное имя автора перевода '{0}' в списке событий.", _translationText);
 		}
@@ -191,9 +194,13 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Coursera.UserProfileTests
 			{
 				_editorPage.ClickHomeButtonExpectingCourseraCoursesPage();
 			}
-
+			else if (_courseraHomePage.IsCourseraHomePageOpened())
+			{
+				_courseraHomePage.GoToHomePage();
+			}
+			
 			_header.GoToUserProfile();
-
+			
 			_profilePage.ClickEditProfileButton();
 
 			_editProfileDialog.EditProfile(CourseraReviewerUser.Name, CourseraReviewerUser.Surname);
