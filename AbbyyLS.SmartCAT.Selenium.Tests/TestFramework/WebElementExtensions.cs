@@ -106,8 +106,17 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestFramework
 		/// </summary>
 		public static void HoverElement(this IWebElement webElement)
 		{
-			var actionBuilder = new Actions(getDriverFromWebElement(webElement));
-			actionBuilder.MoveToElement(webElement).Build().Perform();
+			try
+			{
+				var actionBuilder = new Actions(getDriverFromWebElement(webElement));
+				actionBuilder.MoveToElement(webElement).Build().Perform();
+			}
+			catch (StaleElementReferenceException staleElementReferenceException)
+			{
+				CustomTestContext.WriteLine(
+					"StaleElementReferenceException: HoverElement: " + webElement.TagName, staleElementReferenceException);
+				webElement.HoverElement();
+			}
 		}
 
 		/// <summary>
@@ -171,7 +180,16 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestFramework
 		/// </summary>
 		public static void Scroll(this IWebElement webElement)
 		{
-			webElement.scrollToWebElement();
+			try
+			{
+				webElement.scrollToWebElement();
+			}
+			catch (StaleElementReferenceException staleElementReferenceException)
+			{
+				CustomTestContext.WriteLine(
+					"StaleElementReferenceException: Scroll: " + webElement.TagName, staleElementReferenceException);
+				webElement.Scroll();
+			}
 		}
 
 		/// <summary>

@@ -322,13 +322,20 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		/// <param name="rowNumber">номер строки в CAT-панели</param>
 		public EditorPage DoubleClickCatPanel(int rowNumber)
 		{
-			CustomTestContext.WriteLine("Двойной клик по строке №{0} с переводом в CAT-панели.", rowNumber);
 			var cat = Driver.SetDynamicValue(How.XPath, CAT_TRANSLATION, rowNumber.ToString());
+
+			CustomTestContext.WriteLine("Прокрутить кат панель до строки №{0}.", rowNumber);
 
 			cat.Scroll();
 			// Sleep не убирать, без него не скролится
 			Thread.Sleep(1000);
+
+			CustomTestContext.WriteLine("Навести курсор на строку кат панели №{0}.", rowNumber);
+
 			cat.HoverElement();
+
+			CustomTestContext.WriteLine("Двойной клик по строке №{0} с переводом в CAT-панели.", rowNumber);
+
 			cat.DoubleClick();
 
 			return GetPage();
