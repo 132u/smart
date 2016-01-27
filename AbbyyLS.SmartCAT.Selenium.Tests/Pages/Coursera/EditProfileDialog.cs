@@ -177,8 +177,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Coursera
 		public UserProfilePage ChangePassword(string newPassword, string oldPassword)
 		{
 			CustomTestContext.WriteLine("Поменять пароль.");
-			FillNewPassword(newPassword);
 			FillOldPassword(oldPassword);
+			FillNewPassword(newPassword);
 			FillConfirmPassword(newPassword);
 			ClickPasswordSaveButton();
 
