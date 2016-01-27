@@ -131,14 +131,12 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 		[TestCase(ExportType.Target)]
 		public void ExportMultiDocumentsTest(ExportType exportType)
 		{
-			var document2 = PathProvider.EditorTxtFile;
-
 			_projectsPage.ClickProject(_projectUniqueName);
 
 			_projectSettingsHelper
-				.UploadDocument(new[] {document2})
-				.AssignTasksOnDocument(document2, ThreadUser.NickName)
-				.CreateRevision(Path.GetFileNameWithoutExtension(document2));
+				.UploadDocument(new[] {PathProvider.DocumentFileToConfirm2})
+				.AssignTasksOnDocument(PathProvider.DocumentFileToConfirm2, ThreadUser.NickName)
+				.CreateRevision(Path.GetFileNameWithoutExtension(PathProvider.DocumentFileToConfirm2));
 
 			_workspacePage.GoToProjectsPage();
 
