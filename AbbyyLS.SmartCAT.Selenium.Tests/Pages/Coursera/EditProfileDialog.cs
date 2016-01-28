@@ -246,7 +246,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Coursera
 		{
 			CustomTestContext.WriteLine("Проверить, что диалог реадктирования профиля открылся.");
 
-			return Driver.WaitUntilElementIsDisplay(By.XPath(CHANGE_PASSWORD_TAB));
+			return Driver.WaitUntilElementIsAppear(By.XPath(CHANGE_PASSWORD_TAB));
 
 		}
 
