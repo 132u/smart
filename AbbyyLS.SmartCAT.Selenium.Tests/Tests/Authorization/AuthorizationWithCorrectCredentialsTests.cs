@@ -72,10 +72,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Authorization
 				.CreateUserWithSpecificAccount(email, nickName, password, accountName);
 			_commonHelper.GoToSignInPage();
 
-			_signInPage.SubmitForm(email, password);
-
-			_selectAccountForm.SelectAccount(accountName);
-
+			_signInPage.SubmitFormExpectingWorkspacePage(email, password);
+			
 			_workspacePage.SetLocale();
 
 			Assert.IsTrue(_workspacePage.IsUserNameMatchExpected(nickName),

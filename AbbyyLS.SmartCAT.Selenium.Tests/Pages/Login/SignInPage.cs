@@ -1,4 +1,6 @@
-﻿using OpenQA.Selenium;
+﻿using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace;
+
+using OpenQA.Selenium;
 using OpenQA.Selenium.Support.PageObjects;
 
 using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
@@ -69,6 +71,17 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Login
 			SubmitButton.JavaScriptClick();
 
 			return new SelectAccountForm(Driver).GetPage();
+		}
+
+		/// <summary>
+		/// Нажать кнопку "Sign In"
+		/// </summary>
+		public WorkspacePage ClickSubmitButtonExpectingWorkspacePage()
+		{
+			CustomTestContext.WriteLine("Нажать 'Sign In'.");
+			SubmitButton.JavaScriptClick();
+
+			return new WorkspacePage(Driver).GetPage();
 		}
 
 		public SelectProfileForm ClickSubmitButtonExpectingSelectProfileForm()
@@ -143,6 +156,20 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Login
 			ClickSubmitButton();
 
 			return new SelectAccountForm(Driver).GetPage();
+		}
+
+		/// <summary>
+		/// Авторизация
+		/// </summary>
+		/// <param name="login">логин (email)</param>
+		/// <param name="password">пароль</param>
+		public WorkspacePage SubmitFormExpectingWorkspacePage(string login, string password)
+		{
+			SetLogin(login);
+			SetPassword(password);
+			ClickSubmitButtonExpectingWorkspacePage();
+
+			return new WorkspacePage(Driver).GetPage();
 		}
 
 		/// <summary>
