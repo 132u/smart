@@ -355,7 +355,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 		/// </summary>
 		public bool IsGlossaryStructureDialogOpened()
 		{
-			return Driver.WaitUntilElementIsDisplay(By.XPath(GLOSSARY_STRUCTURE_DIALOG_HEADER));
+			return Driver.WaitUntilElementIsAppear(By.XPath(GLOSSARY_STRUCTURE_DIALOG_HEADER));
 		}
 
 		#endregion
@@ -413,7 +413,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 		protected const string REQUIRED_CHECKBOX = "//input[contains(@class,'js-required')]";
 		protected const string DEFAULT_VALUE = "//td[contains(@class,'js-default-editor-placeholder')]//input[contains(@class,'js-submit-input')]";
 		protected const string ADD_CUSTOM_FIELD_BUTTON = "//div[contains(@class,'js-add-custom-attribute')]";
-		protected const string GLOSSARY_STRUCTURE_DIALOG_HEADER = "//h2[contains(text(), 'Structure')]";
+		protected const string GLOSSARY_STRUCTURE_DIALOG_HEADER = ".//div[contains(@class,'js-popup-edit-structure')][contains(@style,'display: block')]";
 		protected const string ITEMS_LIST_FIELD = "//table[contains(@class,'l-editgloss__tblEditStructure')]//input[contains(@class,'js-choice-values')]";
 
 		protected const string ADD_SYSTEM_FIELD_BUTTON = "//div[contains(@class, 'js-popup-edit-structure')]//div[contains(@class, 'addinlist')]//div//a";
