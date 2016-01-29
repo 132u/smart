@@ -181,7 +181,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 			_glossaryPage
 				.ClickNewEntryButton()
 				.FillTermInLanguagesAndTermsSection()
-				.UploadMediaFile(fieldName, PathProvider.AudioFile)
+				.UploadMediaFile(PathProvider.AudioFile)
 				.ClickSaveEntryButton();
 
 			Assert.IsTrue(_glossaryPage.IsMediaFileMatchExpected(Path.GetFileName(PathProvider.AudioFile), fieldName),
@@ -213,7 +213,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 				"Произошла ошибка:\n поле {0} не подсвечено красным цветом.", fieldName);
 
 			_glossaryPage
-				.UploadMediaFile(fieldName, PathProvider.AudioFile)
+				.UploadMediaFile(PathProvider.AudioFile)
 				.ClickSaveEntryButton();
 
 			Assert.IsTrue(_glossaryPage.IsMediaFileMatchExpected(Path.GetFileName(PathProvider.AudioFile), fieldName),

@@ -201,16 +201,12 @@
     <Compile Include="Pages\Projects\CreateProjectDialog\NewProjectCreateBaseDialog.cs" />
     <Compile Include="Pages\Projects\DocumentSettingsDialog.cs" />
     <Compile Include="Pages\Projects\ExportNotification.cs" />
-    <Compile Include="Pages\Projects\DocumentUploadDialog\DocumentUploadTaskAssignmentDialog.cs" />
     <Compile Include="Pages\Registration\CompanyRegistration\CompanyRegistrationSignInPage.cs" />
     <Compile Include="Pages\Projects\DocumentUploadDialog\DocumentUploadBaseDialog.cs" />
-    <Compile Include="Pages\Projects\DocumentUploadDialog\DocumentUploadSetUpTMDialog.cs" />
     <Compile Include="Pages\Projects\ProjectSettings\SettingsDialog.cs" />
     <Compile Include="Pages\Projects\AssignmentPages\TaskAssignmentPage.cs" />
     <Compile Include="Pages\TranslationMemories\NewTranslationMemoryDialog.cs" />
     <Compile Include="Pages\TranslationMemories\TranslationMemoriesPage.cs" />
-    <Compile Include="Pages\Projects\CreateProjectDialog\NewProjectCreateTMDialog.cs" />
-    <Compile Include="Pages\Projects\CreateProjectDialog\NewProjectGeneralInformationDialog.cs" />
     <Compile Include="Pages\Projects\CreateProjectDialog\NewProjectSelectGlossariesDialog.cs" />
     <Compile Include="Pages\Projects\CreateProjectDialog\NewProjectSetUpMTDialog.cs" />
     <Compile Include="Pages\Projects\CreateProjectDialog\NewProjectSetUpTMDialog.cs" />

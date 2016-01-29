@@ -31,7 +31,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 			_projectsPage = new ProjectsPage(Driver);
 			_deleteDialog = new DeleteDialog(Driver);
 			_exportNotification = new ExportNotification(Driver);
-			_newProjectGeneralInformationDialog = new NewProjectGeneralInformationDialog(Driver);
 			_documentUploadGeneralInformationDialog = new DocumentUploadGeneralInformationDialog(Driver);
 			_usersTab = new UsersTab(Driver);
 			_addAccessRightDialog = new AddAccessRightDialog(Driver);
@@ -298,7 +297,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 		private string _projectUniqueName;
 
 		private DocumentUploadGeneralInformationDialog _documentUploadGeneralInformationDialog;
-		private NewProjectGeneralInformationDialog _newProjectGeneralInformationDialog;
 		private UsersTab _usersTab;
 		private AddAccessRightDialog _addAccessRightDialog;
 		private ProjectsPage _projectsPage;

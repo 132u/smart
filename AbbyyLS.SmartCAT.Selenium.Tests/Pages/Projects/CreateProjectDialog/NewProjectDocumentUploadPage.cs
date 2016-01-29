@@ -1,5 +1,4 @@
 ﻿using System.IO;
-using System.Threading;
 
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.PageObjects;
@@ -34,6 +33,18 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 			}
 		}
 
+		/// <summary>
+		/// Ввести путь к файлу в поле импорта
+		/// </summary>
+		/// <param name="pathFile">путь до файла</param>
+		public NewProjectDocumentUploadPage SetFileName(string pathFile)
+		{
+			CustomTestContext.WriteLine("Ввести путь к файлу {0} в поле импорта.", pathFile);
+			UploadDocumentInput.SendKeys(pathFile);
+
+			return GetPage();
+		}
+
 		#region Простые методы страницы
 
 		/// <summary>
@@ -48,69 +59,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 		}
 
 		/// <summary>
-		/// Загрузка документа
-		/// </summary>
-		/// <param name="pathFile">путь к файлу</param>
-		public NewProjectDocumentUploadPage UploadDocumentFile(string pathFile)
-		{
-			CustomTestContext.WriteLine("Загрузить файл: {0}.", pathFile);
-			Driver.ExecuteScript("arguments[0].style[\"display\"] = \"block\";" +
-				"arguments[0].style[\"visibility\"] = \"visible\";",
-				UploadDocumentInput);
-			UploadDocumentInput.SendKeys(pathFile);
-
-			if (!IsDocumentFileUploaded(pathFile))
-			{
-				CustomTestContext.WriteLine("Первая попытка добавить файл была неудачной. Попробовать ещё раз.");
-				Driver.ExecuteScript("arguments[0].style[\"display\"] = \"block\";" +
-					"arguments[0].style[\"visibility\"] = \"visible\";",
-					UploadDocumentInput);
-				UploadDocumentInput.SendKeys(pathFile);
-			}
-
-			return GetPage();
-		}
-
-		/// <summary>
-		/// Загрузка документа
-		/// </summary>
-		/// <param name="tmxFilePath">путь к файлу</param>
-		public NewProjectDocumentUploadPage UploadTmxFile(string tmxFilePath)
-		{
-			CustomTestContext.WriteLine("Загрузить файл: {0}.", tmxFilePath);
-			Driver.ExecuteScript("arguments[0].style[\"display\"] = \"block\";" +
-				"arguments[0].style[\"visibility\"] = \"visible\";",
-				UploadDocumentInput);
-			UploadDocumentInput.SendKeys(tmxFilePath);
-
-			if (!IsTmxFileUploaded(tmxFilePath))
-			{
-				CustomTestContext.WriteLine("Первая попытка добавить файл была неудачной. Попробовать ещё раз.");
-				Driver.ExecuteScript("arguments[0].style[\"display\"] = \"block\";" +
-					"arguments[0].style[\"visibility\"] = \"visible\";",
-					UploadDocumentInput);
-				UploadDocumentInput.SendKeys(tmxFilePath);
-			}
-
-			return GetPage();
-		}
-
-		/// <summary>
-		/// Загрузка файла с ожиданием ошибки
-		/// </summary>
-		/// <param name="pathFile">путь к файлу</param>
-		public NewProjectDocumentUploadPage UploadDocumentExpectingError(string pathFile)
-		{
-			CustomTestContext.WriteLine("Загрузить файл: {0}.", pathFile);
-			Driver.ExecuteScript("arguments[0].style[\"display\"] = \"block\";" +
-				"arguments[0].style[\"visibility\"] = \"visible\";",
-				UploadDocumentInput);
-			UploadDocumentInput.SendKeys(pathFile);
-
-			return GetPage();
-		}
-
-		/// <summary>
 		/// Нажать на кнопку 'Settings' на странице загрузки документа
 		/// </summary>
 		public NewProjectSettingsPage ClickSettingsButton()
@@ -120,17 +68,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 			SettingsButton.Click();
 
 			return new NewProjectSettingsPage(Driver).GetPage();
-		}
-
-		/// <summary>
-		/// Нажать на кнопку 'Отмены' на странице загрузки документа
-		/// </summary>
-		public ProjectsPage ClickCancelButton()
-		{
-			CustomTestContext.WriteLine("Нажать на кнопку 'Отмены' на странице загрузки документа");
-			CancelButton.Click();
-
-			return new ProjectsPage(Driver).GetPage();
 		}
 
 		/// <summary>
@@ -162,6 +99,19 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 		#endregion
 
 		#region Составные методы страницы
+
+		/// <summary>
+		/// Загрузка документа
+		/// </summary>
+		/// <param name="pathFile">путь к файлу</param>
+		public NewProjectDocumentUploadPage UploadDocumentFile(string pathFile)
+		{
+			CustomTestContext.WriteLine("Загрузить файл: {0}.", pathFile);
+			makeInputDialogVisible();
+			SetFileName(pathFile);
+
+			return GetPage();
+		}
 
 		/// <summary>
 		/// Удалить документ
@@ -246,6 +196,23 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 			var actualProjectName = ProjectNameInput.GetAttribute("value");
 
 			return actualProjectName == expectedProjectName;
+		}
+
+		#endregion
+
+		#region Вспомогательные методы
+
+		/// <summary>
+		/// Выполнить скрипт для того, чтобы сделать диалог импорта видимым для теста
+		/// </summary>
+		private NewProjectDocumentUploadPage makeInputDialogVisible()
+		{
+			CustomTestContext.WriteLine("Выполнить скрипт для того, чтобы сделать диалог импорта видимым для теста");
+			Driver.ExecuteScript("arguments[0].style[\"display\"] = \"block\";" +
+				"arguments[0].style[\"visibility\"] = \"visible\";", 
+				UploadDocumentInput);
+
+			return GetPage();
 		}
 
 		#endregion

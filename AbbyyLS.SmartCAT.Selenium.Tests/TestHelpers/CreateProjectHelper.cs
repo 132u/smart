@@ -58,7 +58,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 				if (tmxFilePath != null)
 				{
-					_newProjectDocumentUploadPage.UploadTmxFile(tmxFilePath);
+					_newProjectDocumentUploadPage.UploadDocumentFile(tmxFilePath);
 
 					if (!_newProjectDocumentUploadPage.IsTmxFileUploaded(tmxFilePath))
 					{

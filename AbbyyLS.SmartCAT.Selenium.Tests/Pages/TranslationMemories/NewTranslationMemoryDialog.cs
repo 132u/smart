@@ -1,5 +1,4 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.PageObjects;
@@ -140,19 +139,10 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories
 		/// </summary>
 		public NewTranslationMemoryDialog UploadFile(string pathToFile)
 		{
-			CustomTestContext.WriteLine(string.Format("Загрузить ТМX документ {0} во время создания создания ТМ", pathToFile));
-
-			try
-			{
-				Driver.ExecuteScript("$(\"input:file\").removeClass(\"g-hidden\").css(\"opacity\", 100)");
-				UploadFileField.SendKeys(pathToFile);
-				Driver.ExecuteScript("$(\".js-import-file-form .js-control\").data(\"controller\").filenameLink.text($(\".js-import-file-form .js-control\").data(\"controller\").fileInput.val());");
-				Driver.ExecuteScript("$(\".js-import-file-form .js-control\").data(\"controller\").trigger(\"valueChanged\");");
-			}
-			catch (Exception ex)
-			{
-				throw new Exception(string.Format("Произошла ошибка при попытке загрузки файла: {0}", ex.Message));
-			}
+			makeInputDialogVisible();
+			SetFileName(pathToFile);
+			initializeHiddenElementForValidation();
+			fileNameValidation();
 
 			return GetPage();
 		}
@@ -164,6 +154,18 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories
 		{
 			CustomTestContext.WriteLine("Открыть список групп проектов  при создании ТМ.");
 			ProjectGroupsDropDown.Click();
+
+			return GetPage();
+		}
+
+		/// <summary>
+		/// Ввести путь к файлу в поле импорта
+		/// </summary>
+		/// <param name="filePath">путь до файла</param>
+		public NewTranslationMemoryDialog SetFileName(string filePath)
+		{
+			CustomTestContext.WriteLine("Ввести путь к файлу {0} в поле импорта.", filePath);
+			UploadFileField.SendKeys(filePath);
 
 			return GetPage();
 		}
@@ -281,6 +283,43 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories
 			CustomTestContext.WriteLine("Проверить, что имеется ошибка о загрузке файла с неподходящим расширением (не TMX файл)");
 
 			return ErrorTranslationMemoryWithNotTmx.Displayed;
+		}
+
+		#endregion
+
+		#region Вспомогательные методы
+
+		/// <summary>
+		/// Выполнить скрипт для того, чтобы сделать диалог импорта видимым для теста
+		/// </summary>
+		private NewTranslationMemoryDialog makeInputDialogVisible()
+		{
+			CustomTestContext.WriteLine("Выполнить скрипт для того, чтобы сделать диалог импорта видимым для теста");
+			Driver.ExecuteScript("$(\"input:file\").removeClass(\"g-hidden\").css(\"opacity\", 100)");
+
+			return GetPage();
+		}
+
+		/// <summary>
+		/// Инициализировать скрытый элемнт, необходимый для загрузки документа
+		/// </summary>
+		private NewTranslationMemoryDialog initializeHiddenElementForValidation()
+		{
+			CustomTestContext.WriteLine("Инициализировать скрытый элемнт, необходимый для загрузки документа");
+			Driver.ExecuteScript("$(\".js-import-file-form .js-control\").data(\"controller\").filenameLink.text($(\".js-import-file-form .js-control\").data(\"controller\").fileInput.val());");
+
+			return GetPage();
+		}
+
+		/// <summary>
+		/// Выполнить скрипт для прохождения валидации импорта
+		/// </summary>
+		private NewTranslationMemoryDialog fileNameValidation()
+		{
+			CustomTestContext.WriteLine("Выполнить скрипт для прохождения валидации импорта");
+			Driver.ExecuteScript("$(\".js-import-file-form .js-control\").data(\"controller\").trigger(\"valueChanged\");");
+
+			return GetPage();
 		}
 
 		#endregion

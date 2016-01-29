@@ -27,18 +27,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.DocumentUploadDialog
 			return instance.GetPage();
 		}
 
-		/// <summary>
-		/// Нажать кнопку 'Далее'
-		/// </summary>
-		public T ClickNext<T>() where T : class, IAbstractPage<T>
-		{
-			CustomTestContext.WriteLine("Нажать кнопку 'Далее'.");
-			NextButton.Click();
-
-			var instance = Activator.CreateInstance(typeof(T), new object[] { Driver }) as T;
-			return instance.GetPage();
-		}
-
 		[FindsBy(How = How.XPath, Using = FINISH_BUTTON)]
 		protected IWebElement FinishButton { get; set; }
 

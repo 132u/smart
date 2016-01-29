@@ -106,7 +106,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Coursera
 		/// <summary>
 		/// Ввести новый пароль
 		/// </summary>
-		/// <param name="surname">пароль</param>
+		/// <param name="password">пароль</param>
 		public EditProfileDialog FillNewPassword(string password)
 		{
 			CustomTestContext.WriteLine("Ввести новый пароль {0}.", password);
@@ -118,7 +118,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Coursera
 		/// <summary>
 		/// Ввести старый пароль
 		/// </summary>
-		/// <param name="surname">пароль</param>
+		/// <param name="password">пароль</param>
 		public EditProfileDialog FillOldPassword(string password)
 		{
 			CustomTestContext.WriteLine("Ввести старый пароль {0}.", password);
@@ -130,7 +130,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Coursera
 		/// <summary>
 		/// Ввести подтверждение пароля
 		/// </summary>
-		/// <param name="surname">пароль</param>
+		/// <param name="password">пароль</param>
 		public EditProfileDialog FillConfirmPassword(string password)
 		{
 			CustomTestContext.WriteLine("Ввести подтверждение пароля {0}.", password);
@@ -151,15 +151,12 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Coursera
 		}
 
 		/// <summary>
-		/// Загрузить фото пользователя.
+		/// Ввести путь к файлу в поле импорта
 		/// </summary>
-		/// <param name="pathFile">пусть к файлу</param>
-		public EditProfileDialog UploadUserPhoto(string pathFile)
+		/// <param name="pathFile">путь до файла</param>
+		public EditProfileDialog SetUserPhotoFileName(string pathFile)
 		{
-			CustomTestContext.WriteLine("Загрузить фото пользователя.");
-			Driver.ExecuteScript(
-						"$(\"input:file\").removeClass(\"g-hidden\").css(\"opacity\", 100).css(\"width\", 500)");
-			
+			CustomTestContext.WriteLine("Ввести путь к файлу {0} в поле импорта.", pathFile);
 			UploadPhotoInput.SendKeys(pathFile);
 
 			return GetPage();
@@ -168,6 +165,18 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Coursera
 		#endregion
 
 		#region Составные методы страницы
+
+		/// <summary>
+		/// Загрузить фото пользователя.
+		/// </summary>
+		/// <param name="pathFile">пусть к файлу</param>
+		public EditProfileDialog UploadUserPhoto(string pathFile)
+		{
+			makeInputDialogVisible();
+			SetUserPhotoFileName(pathFile);
+
+			return GetPage();
+		}
 
 		/// <summary>
 		/// Поменять пароль
@@ -190,6 +199,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Coursera
 		/// </summary>
 		/// <param name="newPassword">новый парль</param>
 		/// <param name="oldPassword">старый пароль</param>
+		/// <param name="confirmPassword">подтверждение пароля</param>
 		public EditProfileDialog ChangePasswordExpectingError(string newPassword, string oldPassword, string confirmPassword = null)
 		{
 			CustomTestContext.WriteLine("Поменять пароль, ожидая ошибку.");
@@ -205,6 +215,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Coursera
 		/// </summary>
 		/// <param name="name">имя</param>
 		/// <param name="surname">фамилия</param>
+		/// <param name="aboutMe">информация о полльзователе</param>
 		/// <param name="pathUserPhoto">путь к файлу</param>
 		public UserProfilePage EditProfile(string name = null, string surname = null, string aboutMe = null, string pathUserPhoto = null)
 		{
@@ -353,7 +364,22 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Coursera
 		}
 
 		#endregion
-		
+
+		#region Вспомогательные методы
+
+		/// <summary>
+		/// Выполнить скрипт для того, чтобы сделать диалог импорта видимым для теста
+		/// </summary>
+		private EditProfileDialog makeInputDialogVisible()
+		{
+			CustomTestContext.WriteLine("Выполнить скрипт для того, чтобы сделать диалог импорта видимым для теста");
+			Driver.ExecuteScript("$(\"input:file\").removeClass(\"g-hidden\").css(\"opacity\", 100).css(\"width\", 500)");
+
+			return GetPage();
+		}
+
+		#endregion
+
 		#region Объявление элементов страницы
 
 		[FindsBy(How = How.XPath, Using = NAME)]

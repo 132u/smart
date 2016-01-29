@@ -102,7 +102,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 			var fieldName = GlossarySystemField.Multimedia.Description();
 
 			_glossaryPage
-				.UploadMediaFile(fieldName, PathProvider.AudioFile)
+				.UploadMediaFile(PathProvider.AudioFile)
 				.ClickSaveEntryButton();
 
 			Assert.IsTrue(_glossaryPage.IsMediaFileMatchExpected(Path.GetFileName(PathProvider.AudioFile), fieldName),

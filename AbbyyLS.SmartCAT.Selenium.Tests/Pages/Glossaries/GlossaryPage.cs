@@ -803,46 +803,67 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 			return ModifiedByFilterLabel.Text;
 		}
 
-		#endregion
-
-		#region Составные методы страницы
-
 		/// <summary>
-		/// Загрузка файла мультимедиа.
+		/// Ввести путь к медиа файлу в поле импорта
 		/// </summary>
-		/// <param name="filepath">путь к файлу</param>
-		/// <param name="fieldName">имя поля</param>
-		public GlossaryPage UploadMediaFile(string fieldName, string filepath)
+		/// <param name="filepath">путь до файла</param>
+		public GlossaryPage SetMediaFileName(string filepath)
 		{
-			CustomTestContext.WriteLine("Загрузка файла {0}.\nВвести путь к файлу в системное окно.", filepath);
-			AddMultimediaLink.HoverElement();
-			try
-			{
-				Driver.ExecuteScript("$(\"input:file[name = Multimedia]\").removeClass(\"g-hidden\").css(\"opacity\", 100).css(\"width\", 500)");
-				Driver.FindElement(By.XPath("//input[@type='file' and @name='Multimedia']")).SendKeys(filepath);
-			}
-			catch
-			{
-				CustomTestContext.WriteLine("Элемент отсутствует");
-			}
-
-			try
-			{
-				Driver.ExecuteScript("$(\"input:file[name = x1]\").removeClass(\"g-hidden\").css(\"opacity\", 100).css(\"width\", 500)");
-				Driver.FindElement(By.XPath("//input[@type='file' and @name='x1']")).SendKeys(filepath);
-			}
-			catch
-			{
-				CustomTestContext.WriteLine("Элемент отсутствует");
-			}
-
-			Driver.WaitUntilElementIsDisplay(By.XPath(DELETE_IMAGE_BUTTON));
-
-			CustomTestContext.WriteLine("Проверить, что прогресс загрузки медиа файла исчез.", fieldName);
-			Driver.WaitUntilElementIsDisappeared(By.XPath(PROGRESS_MEDIA_FILE.Replace("*#*", fieldName)), timeout: 45);
+			CustomTestContext.WriteLine("Ввести путь к файлу {0} в поле импорта.", filepath);
+			AddMediaInput.SendKeys(filepath);
 
 			return GetPage();
 		}
+
+		/// <summary>
+		/// Ввести путь к файлу изображения в поле импорта (с мультимедиа)
+		/// </summary>
+		/// <param name="filepath">путь до файла</param>
+		public GlossaryPage SetImageWithMultimediaFileName(string filepath)
+		{
+			CustomTestContext.WriteLine("Ввести путь к файлу изображения {0} в поле импорта(с мультимедиа).", filepath);
+			AddImageInputWithMultimedia.SendKeys(filepath);
+
+			return GetPage();
+		}
+
+		/// <summary>
+		/// Ввести путь к файлу изображения в поле импорта
+		/// </summary>
+		/// <param name="filepath">путь до файла</param>
+		public GlossaryPage SetImageFileName(string filepath)
+		{
+			CustomTestContext.WriteLine("Ввести путь к файлу изображения {0} в поле импорта.", filepath);
+			AddImageInput.SendKeys(filepath);
+
+			return GetPage();
+		}
+
+		/// <summary>
+		/// Навести курсор мыши на ссылку добавления медиа файла
+		/// </summary>
+		public GlossaryPage HoverMultimediaLink()
+		{
+			CustomTestContext.WriteLine("Навести курсор мыши на ссылку добавления медиа файла");
+			AddMultimediaLink.HoverElement();
+
+			return GetPage();
+		}
+
+		/// <summary>
+		/// Навести курсор мыши на ссылку добавления изображения
+		/// </summary>
+		public GlossaryPage HoverImageWithMultimediaLink()
+		{
+			CustomTestContext.WriteLine("Навести курсор мыши на ссылку добавления изображения");
+			AddImageLink.HoverElement();
+
+			return GetPage();
+		}
+
+		#endregion
+
+		#region Составные методы страницы
 
 		/// <summary>
 		/// Выбрать значение в поле типа List
@@ -1126,23 +1147,12 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 		/// <summary>
 		/// Загрузка файла картинка.
 		/// </summary>
-		/// <param name="filepath">путь к файлу</param>
-		public GlossaryPage UploadImageFile(string filepath)
+		/// <param name="filePath">путь к файлу</param>
+		public GlossaryPage UploadImageFile(string filePath)
 		{
-			CustomTestContext.WriteLine("Загрузка файла {0}.\nВвести путь к файлу в системное окно.", filepath);
-			AddImageLink.HoverElement();
-
-			try
-			{
-				Driver.ExecuteScript(
-					"$(\"input:file[name = x1]\").removeClass(\"g-hidden\").css(\"opacity\", 100).css(\"width\", 500)");
-			}
-			catch
-			{
-				throw new Exception("Произошла ошибка: \nне удалось выполнить JavaScript в UploadImageFile");
-			}
-			
-			AddImageInput.SendKeys(filepath);
+			HoverImageWithMultimediaLink();
+			makeImageInputVisible();
+			SetImageFileName(filePath);
 			Driver.WaitUntilElementIsDisplay(By.XPath(DELETE_IMAGE_BUTTON));
 
 			return GetPage();
@@ -1151,22 +1161,26 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 		/// <summary>
 		/// Загрузка файла картинка и мультимедиа.
 		/// </summary>
-		/// <param name="filepath">путь к файлу</param>
-		public GlossaryPage UploadImageFileWithMultimedia(string filepath)
+		/// <param name="filePath">путь к файлу</param>
+		public GlossaryPage UploadImageFileWithMultimedia(string filePath)
 		{
-			CustomTestContext.WriteLine("Загрузка файла {0}.\nВвести путь к файлу в системное окно.", filepath);
-			AddImageLink.HoverElement();
+			HoverImageWithMultimediaLink();
+			makeImageWithMultimediaInputVisible();
+			SetImageWithMultimediaFileName(filePath);
+			Driver.WaitUntilElementIsDisplay(By.XPath(DELETE_IMAGE_BUTTON));
 
-			try
-			{
-				Driver.ExecuteScript("$(\"input:file[name = Image]\").removeClass(\"g-hidden\").css(\"opacity\", 100).css(\"width\", 500)");
-			}
-			catch
-			{
-				throw new Exception("Произошла ошибка: \nне удалось выполнить JavaScript в UploadImageFileWithMultimedia");
-			}
+			return GetPage();
+		}
 
-			AddImageInputWithMultimedia.SendKeys(filepath);
+		/// <summary>
+		/// Загрузка файла мультимедиа.
+		/// </summary>
+		/// <param name="filePath">путь к файлу</param>
+		public GlossaryPage UploadMediaFile(string filePath)
+		{
+			HoverMultimediaLink();
+			makeMultimediaInputVisible();
+			SetMediaFileName(filePath);
 			Driver.WaitUntilElementIsDisplay(By.XPath(DELETE_IMAGE_BUTTON));
 
 			return GetPage();
@@ -1558,6 +1572,43 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 
 		#endregion
 
+		#region Вспомогательные методы
+
+		/// <summary>
+		/// Выполнить скрипт для того, чтобы сделать диалог импорта медиа файла видимым для теста
+		/// </summary>
+		private GlossaryPage makeMultimediaInputVisible()
+		{
+			CustomTestContext.WriteLine("Выполнить скрипт для того, чтобы сделать диалог импорта медиа файла видимым для теста");
+			Driver.ExecuteScript("arguments[0].style[\"display\"] = \"block\";arguments[0].style[\"visibility\"] = \"visible\";", AddMediaInput);
+
+			return GetPage();
+		}
+
+		/// <summary>
+		/// Выполнить скрипт для того, чтобы сделать диалог импорта изображения(с мультимедиа) видимым для теста
+		/// </summary>
+		private GlossaryPage makeImageWithMultimediaInputVisible()
+		{
+			CustomTestContext.WriteLine("Выполнить скрипт для того, чтобы сделать диалог импорта изображения(с мультимедиа) видимым для теста");
+			Driver.ExecuteScript("$(\"input:file[name = Image]\").removeClass(\"g-hidden\").css(\"opacity\", 100).css(\"width\", 500)");
+
+			return GetPage();
+		}
+
+				/// <summary>
+		/// Выполнить скрипт для того, чтобы сделать диалог импорта изображения видимым для теста
+		/// </summary>
+		private GlossaryPage makeImageInputVisible()
+		{
+			CustomTestContext.WriteLine("Выполнить скрипт для того, чтобы сделать диалог импорта изображения видимым для теста");
+			Driver.ExecuteScript("$(\"input:file[name = x1]\").removeClass(\"g-hidden\").css(\"opacity\", 100).css(\"width\", 500)");
+
+			return GetPage();
+		}
+
+		#endregion
+
 		#region Объявление элементов страницы
 
 		[FindsBy(How = How.XPath, Using = FIRST_TERM)]
@@ -1667,6 +1718,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 
 		[FindsBy(How = How.XPath, Using = ADD_IMAGE_INPUT_WITH_MULTIMEDIA)]
 		protected IWebElement AddImageInputWithMultimedia { get; set; }
+
+		[FindsBy(How = How.XPath, Using = ADD_MEDIA_INPUT)]
+		protected IWebElement AddMediaInput { get; set; }
 
 		[FindsBy(How = How.XPath, Using = ADD_IMAGE_INPUT)]
 		protected IWebElement AddImageInput { get; set; }
@@ -1785,6 +1839,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 		protected const string ADD_IMAGE_INPUT_WITH_MULTIMEDIA = "//input[@type='file' and @name='Image']";
 		protected const string ADD_MULTIMEDIA_LINK = "//div[@class='l-editgloss__fileName js-filename-click-area js-tour-file-area']";
 		protected const string DELETE_IMAGE_BUTTON = "//div[@class='l-editgloss__rmvimgbtn js-clear-btn']";
+		protected const string ADD_MEDIA_INPUT = "//input[@type='file' and (@name='Multimedia' or @name='x1')]";
 
 		protected const string SYSTEM_FIELD_TEXTAREA_TYPE = "//div[contains(@class,'js-concept-attrs')]//div[contains(@class,'js-control')]//textarea[@name='*#*']";
 		protected const string SYSTEM_FIELD_DROPDOWN_TYPE = "//div[contains(@class,'js-concept-attrs')]//div[contains(@class,'js-control')]//div[contains(@class, 'js-edit')]//p[text()='*#*']";

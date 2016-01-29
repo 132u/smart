@@ -32,17 +32,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 		}
 
 		/// <summary>
-		/// Нажать на кнопку "Создать ТМ"
-		/// </summary>
-		public NewProjectCreateTMDialog ClickCreateTMButton()
-		{
-			CustomTestContext.WriteLine("Нажать кнопку 'Создать ТМ'.");
-			CreateTMButton.Click();
-
-			return new NewProjectCreateTMDialog(Driver).GetPage();
-		}
-
-		/// <summary>
 		/// Выбрать первую ТМ в списке
 		/// </summary>
 		public NewProjectSetUpTMDialog SelectFirstTM()
@@ -51,28 +40,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 			TMTableFirstItem.Click();
 			
 			return GetPage();
-		}
-
-		/// <summary>
-		/// Нажать кнопку 'Upload TM'
-		/// </summary>
-		public NewProjectCreateTMDialog ClickUploadTMButton()
-		{
-			CustomTestContext.WriteLine("Нажать кнопку 'Upload TM'.");
-			UploadTMButton.Click();
-
-			return new NewProjectCreateTMDialog(Driver).GetPage();
-		}
-
-		/// <summary>
-		/// Нажать кнопку Add в окне выбора TM
-		/// </summary>
-		public NewProjectSettingsPage ClickAddButton()
-		{
-			CustomTestContext.WriteLine("Нажать кнопку Add в окне выбора TM");
-			AddButton.Click();
-
-			return new NewProjectSettingsPage(Driver).GetPage();
 		}
 
 		/// <summary>
@@ -102,16 +69,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 			CustomTestContext.WriteLine("Проверить, что ТМ {0} представлена в списке при создании проекта.", translationMemoryName);
 
 			return Driver.GetIsElementExist(By.XPath(TM_ITEM.Replace("*#*", translationMemoryName)));
-		}
-
-		/// <summary>
-		/// Проверить, что диалог создания TM закрылся
-		/// </summary>
-		public bool IsNewProjectCreateTMDialogDisappeared()
-		{
-			CustomTestContext.WriteLine("Проверить, что диалог создания TM закрылся");
-
-			return Driver.WaitUntilElementIsDisappeared(By.XPath(NEW_TM_NAME_INPUT));
 		}
 
 		/// <summary>

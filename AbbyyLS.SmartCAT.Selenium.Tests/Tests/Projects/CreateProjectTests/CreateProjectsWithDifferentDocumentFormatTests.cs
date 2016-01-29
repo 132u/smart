@@ -80,7 +80,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 		{
 			_projectsPage.ClickCreateProjectButton();
 
-			_newProjectDocumentUploadPage.UploadDocumentExpectingError(PathProvider.AudioFile);
+			_newProjectDocumentUploadPage.UploadDocumentFile(PathProvider.AudioFile);
 
 			Assert.IsTrue(_newProjectDocumentUploadPage.IsWrongDocumentFormatErrorDisplayed(PathProvider.AudioFile),
 				"Произошла ошибка:\n не появилось сообщение о неверном формате загружаемого документа");

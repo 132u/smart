@@ -1,5 +1,4 @@
-﻿using System;
-using System.IO;
+﻿using System.IO;
 
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.PageObjects;
@@ -35,26 +34,13 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories
 		#region Простые методы страницы
 
 		/// <summary>
-		/// Ввести имя файла в окне 'Import TMX files'
+		/// Ввести путь к файлу в поле импорта
 		/// </summary>
-		/// <param name="fileName">имя файла</param>
-		public ImportTmxDialog EnterFileName(string fileName)
+		/// <param name="filePath">путь до файла</param>
+		public ImportTmxDialog SetFileName(string filePath)
 		{
-			CustomTestContext.WriteLine("Ввести имя файла в окне 'Import TMX files'");
-
-			try
-			{
-				Driver.ExecuteScript("$(\"input:file\").removeClass(\"g-hidden\").css(\"opacity\", 100)");
-				ImportFileInput.SendKeys(fileName);
-				//Чтобы не появилось валидационной ошибки, необходимо,
-				//помимо загрузки файла, заполнить следующий элемент
-				Driver.ExecuteScript(string.Format("document.getElementsByClassName('g-iblock l-editgloss__filelink js-filename-link')[1].innerHTML='{0}'", Path.GetFileName(fileName)));
-			}
-			catch (Exception)
-			{
-				CustomTestContext.WriteLine("Произошла ошибка:\n не удалось изменить параметры элементов.");
-				throw;
-			}
+			CustomTestContext.WriteLine("Ввести путь к файлу {0} в поле импорта.", filePath);
+			ImportFileInput.SendKeys(filePath);
 
 			return GetPage();
 		}
@@ -97,6 +83,19 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories
 		#region Составные методы страницы
 
 		/// <summary>
+		/// Ввести имя файла в окне 'Import TMX files'
+		/// </summary>
+		/// <param name="filePath">имя файла</param>
+		public ImportTmxDialog EnterFileName(string filePath)
+		{
+			makeInputDialogVisible();
+			SetFileName(filePath);
+			setFileNameForValidation(filePath);
+
+			return GetPage();
+		}
+
+		/// <summary>
 		/// Импортировать Tmx файл
 		/// </summary>
 		/// <param name="filePath">путь до файла</param>
@@ -130,6 +129,33 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories
 		public bool IsImportTmxPageOpened()
 		{
 			return Driver.WaitUntilElementIsClickable(By.XPath(CANCEL_BTN)) != null;
+		}
+
+		#endregion
+
+		#region Вспомогательные методы
+
+		/// <summary>
+		/// Выполнить скрипт для того, чтобы сделать диалог импорта видимым для теста
+		/// </summary>
+		private ImportTmxDialog makeInputDialogVisible()
+		{
+			CustomTestContext.WriteLine("Выполнить скрипт для того, чтобы сделать диалог импорта видимым для теста");
+			Driver.ExecuteScript("$(\"input:file\").removeClass(\"g-hidden\").css(\"opacity\", 100)");
+
+			return GetPage();
+		}
+
+		/// <summary>
+		/// Выполнить скрипт для прохождения валидации импорта
+		/// </summary>
+		/// /// <param name="filePath">путь до файла</param>
+		private ImportTmxDialog setFileNameForValidation(string filePath)
+		{
+			CustomTestContext.WriteLine("Выполнить скрипт для прохождения валидации импорта");
+			Driver.ExecuteScript(string.Format("document.getElementsByClassName('g-iblock l-editgloss__filelink js-filename-link')[1].innerHTML='{0}'", Path.GetFileName(filePath)));
+
+			return GetPage();
 		}
 
 		#endregion
