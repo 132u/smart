@@ -129,13 +129,12 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 		[Test]
 		public void CreateCustomTermInMultiLanguageGlossaryTest()
 		{
-			var languages = new List<Language>
-			{
-				Language.German,
-				Language.French,
-				Language.Japanese,
-				Language.Lithuanian
-			};
+			_glossaryPage.OpenGlossaryProperties();
+
+			_glossaryPropertiesDialog
+				.AddLangauge(Language.German)
+				.AddLangauge(Language.French)
+				.ClickSaveButton();
 
 			_glossaryPage.OpenGlossaryStructure();
 
@@ -147,7 +146,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 				.ClickSaveEntryButton()
 				.CloseExpandedTerms();
 
-			Assert.AreEqual(languages.Count, _glossaryPage.LanguageColumnCount(),
+			Assert.AreEqual(4, _glossaryPage.LanguageColumnCount(),
 				"Произошла ошибка:\n неверное количество колонок с языками.");
 
 			Assert.AreEqual(1, _glossaryPage.CustomTermsCount(),
