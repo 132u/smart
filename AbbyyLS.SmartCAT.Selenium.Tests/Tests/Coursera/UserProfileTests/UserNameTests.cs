@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Threading;
-
-using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Coursera;
 
 using NUnit.Framework;
 
@@ -10,6 +7,7 @@ using AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Coursera
 {
+	[Parallelizable(ParallelScope.Fixtures)]
 	class UserNameTests<TWebDriverProvider> : UserProfileBaseTests<TWebDriverProvider>
 		where TWebDriverProvider : IWebDriverProvider, new()
 	{
