@@ -41,7 +41,16 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.AssignmentPages
 		public DistributeSegmentsBetweenAssigneesPage ClickSegment(int segmentNumber = 1)
 		{
 			CustomTestContext.WriteLine("Кликнуть по сегменту №{0}", segmentNumber);
-			Driver.SetDynamicValue(How.XPath, SEGMENT, segmentNumber.ToString()).Click();
+			Segment = Driver.WaitUntilElementIsClickable(By.XPath(SEGMENT.Replace("*#*", segmentNumber.ToString())));
+
+			if (Segment != null)
+			{
+				Segment.Click();
+			}
+			else
+			{
+				throw new Exception(String.Format("Сегмент №{0} не стал кликабельным.", segmentNumber));
+			}
 
 			return GetPage();
 		}
@@ -116,7 +125,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.AssignmentPages
 		/// <summary>
 		/// Нажать по 'Select End Of Range' в контекстном меню
 		/// </summary>
-		/// <param name="segmentNumber">номер сегмента</param>
 		public DistributeSegmentsBetweenAssigneesPage ClickSelectEndOfRange()
 		{
 			CustomTestContext.WriteLine("Нажать по 'Select End Of Range' в контекстном меню.");
@@ -336,6 +344,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.AssignmentPages
 
 		protected IWebElement DistributedStartRange { get; set; }
 		protected IWebElement DistributedEndRange { get; set; }
+		protected IWebElement Segment { get; set; }
 
 		#endregion
 
