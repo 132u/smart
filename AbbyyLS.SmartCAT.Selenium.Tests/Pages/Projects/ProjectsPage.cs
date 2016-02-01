@@ -355,13 +355,13 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 		/// Нажать кнопку анализа проекта в открытой свёртке.
 		/// </summary>
 		/// <param name="projectName">имя проекта</param>
-		public AnalysisDialog ClickProjectAnalysisButton(string projectName)
+		public StatisticsPage ClickProjectStatisticsButtonExpectingBuildStatisticsPage(string projectName)
 		{
-			CustomTestContext.WriteLine("Нажать кнопку анализа проекта '{0}' в открытой свёртке.", projectName);
-			ProjectAnalysisButton = Driver.SetDynamicValue(How.XPath, PROJECT_ANALYSIS_BUTTON, projectName);
-			ProjectAnalysisButton.Click();
+			CustomTestContext.WriteLine("Нажать кнопку статистики проекта '{0}' в открытой свёртке, ожидая, что откроестя страница построения статистики.", projectName);
+			ProjectStatisticsButton = Driver.SetDynamicValue(How.XPath, PROJECT_STATISTICS_BUTTON, projectName);
+			ProjectStatisticsButton.Click();
 
-			return new AnalysisDialog(Driver).GetPage();
+			return new BuildStatisticsPage(Driver).GetPage();
 		}
 
 		/// <summary>
@@ -682,8 +682,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 		[FindsBy(How = How.XPath, Using = PROJECT_SETTINGS_BUTTON)]
 		protected IWebElement ProjectSettingsButton { get; set; }
 
-		[FindsBy(How = How.XPath, Using = PROJECT_ANALYSIS_BUTTON)]
-		protected IWebElement ProjectAnalysisButton { get; set; }
+		[FindsBy(How = How.XPath, Using = PROJECT_STATISTICS_BUTTON)]
+		protected IWebElement ProjectStatisticsButton { get; set; }
 
 		[FindsBy(How = How.XPath, Using = DECLINE_BUTTON)]
 		protected IWebElement DeclineButton { get; set; }
@@ -747,7 +747,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 		protected const string SIGN_IN_TO_CONNECTOR_BUTTON = "//span[contains(@class,'login-connector-btn')]";
 		protected const string QA_CHECK_BUTTON = "//table[contains(@class,'js-tasks-table')]//*[@class='js-name'][(local-name() ='a' or local-name() ='span') and text()='*#*']//ancestor::tr//following-sibling::tr[1]//div[contains(@data-bind,'qaCheck')]";
 		protected const string PROJECT_SETTINGS_BUTTON = "//table[contains(@class,'js-tasks-table')]//*[@class='js-name'][(local-name() ='a' or local-name() ='span') and text()='*#*']//ancestor::tr//following-sibling::tr[1]//div[contains(@data-bind,'edit')]";
-		protected const string PROJECT_ANALYSIS_BUTTON = "//table[contains(@class,'js-tasks-table')]//*[@class='js-name'][(local-name() ='a' or local-name() ='span') and text()='*#*']//ancestor::tr//following-sibling::tr[1]//div[contains(@data-bind, 'analysis')]";
+		protected const string PROJECT_STATISTICS_BUTTON = "//table[contains(@class,'js-tasks-table')]//*[@class='js-name'][(local-name() ='a' or local-name() ='span') and text()='*#*']//ancestor::tr//following-sibling::tr[1]//div[contains(@data-bind, 'Statistics')]";
 		protected const string UPLOAD_DOCUMENT_DIALOG = "//div[contains(@class,'js-popup-import-document')][2]";
 		protected const string DELETE_IN_PROJECT_BUTTON = "//table[contains(@class,'js-tasks-table')]//tr//*[@class='js-name'][(local-name() ='a' or local-name() ='span') and text()='*#*']//ancestor::tr//following-sibling::tr[1]//div[contains(@data-bind, 'deleteProject')]";
 		protected const string PREPARING_DOWNLOWD_MESSAGE = "//span[contains(text(), 'Preparing documents for download. Please wait')]";

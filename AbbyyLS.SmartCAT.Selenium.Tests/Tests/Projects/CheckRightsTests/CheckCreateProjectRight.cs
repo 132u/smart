@@ -282,13 +282,13 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 		}
 
 		[Test]
-		public void CheckAnalysisFormExist()
+		public void CheckStatisticsFormExist()
 		{
 			_createProjectHelper.CreateNewProject(_projectUniqueName, filePath: PathProvider.DocumentFile);
 
 			_projectsPage
 				.OpenProjectInfo(_projectUniqueName)
-				.ClickProjectAnalysisButton(_projectUniqueName);
+				.ClickProjectStatisticsButtonExpectingBuildStatisticsPage(_projectUniqueName);
 		}
 
 		protected CreateProjectHelper _createProjectHelper;

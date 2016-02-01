@@ -101,6 +101,8 @@
     <Compile Include="Pages\Projects\ProjectSettings\EditTranslationMemoryDialog.cs" />
     <Compile Include="Pages\Projects\ProjectSettings\NewTranslationMemoryDialog.cs" />
     <Compile Include="Pages\Projects\ProjectSettings\PretranslationDialog.cs" />
+    <Compile Include="Pages\Projects\StatisticsPage\StatisticsBasePage.cs" />
+    <Compile Include="Pages\Projects\StatisticsPage\BuildStatisticsPage.cs" />
     <Compile Include="Pages\Projects\TaskDeclineDialog.cs" />
     <Compile Include="Pages\Registration\FreelanceRegistration\FreelanceRegistrationFirstPage.cs" />
     <Compile Include="Pages\Registration\FreelanceRegistration\FreelanceRegistrationSignInPage.cs" />
@@ -139,7 +141,7 @@
     <Compile Include="FeatureAttributes\NotSupportedWithDomainAuthenticationAttribute.cs" />
     <Compile Include="Pages\Editor\SpecialCharactersForm.cs" />
     <Compile Include="Pages\Editor\AddTermDialog.cs" />
-    <Compile Include="Pages\Projects\AnalysisDialog.cs" />
+    <Compile Include="Pages\Projects\StatisticsPage\StatisticsPage.cs" />
     <Compile Include="Pages\Login\FacebookPage.cs" />
     <Compile Include="Pages\Login\GooglePage.cs" />
     <Compile Include="Pages\Login\LinkedInPage.cs" />
