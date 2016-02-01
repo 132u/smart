@@ -217,7 +217,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 		protected const string WORKFLOW_TASK_TYPE_LIST = "//div[@class='clearfix']//div[contains(@class,'task-name')]";
 		protected const string WORKFLOW_TASK_TYPE_ITEM = "//div[@class='clearfix']//div[contains(@class,'task-name')][text()='*#*']";
 		protected const string CLEAR_BUTTON = "//a[contains(@data-bind,'clearTasks')]";
-		protected const string DELETE_TASK_BUTTON = "//td[@class='task-num'][text()='*#*']//following-sibling::td//i[@class='remove']";
+		protected const string DELETE_TASK_BUTTON = "//td[@class='task-num'][text()='*#*']//following-sibling::td//i[contains(@class,'remove')]";
 		protected const string EMPTY_WORKFLOW_ERROR = "//div[contains(text(), 'Add at least one task to complete project creation.')]";
 
 		#endregion
