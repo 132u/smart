@@ -504,10 +504,10 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 				.ClickExportType(ExportType.Source);
 
 			var expectedDate = String.Format("{0}/{1}/{2} {3}:", 
-				DateTime.Now.Month, 
-				DateTime.Now.Day,
+				DateTime.Now.Month.ToString().PadLeft(2, '0'),
+				DateTime.Now.Day.ToString().PadLeft(2, '0'),
 				DateTime.Now.Year,
-				DateTime.Now.Hour);
+				DateTime.Now.Hour.ToString().PadLeft(2, '0'));
 
 			Assert.IsTrue(_exportNotification.IsUpperNotificationContainsText(expectedDate),
 				"Произошла ошибка:\n сообщение не содержит требуемую дату.");
