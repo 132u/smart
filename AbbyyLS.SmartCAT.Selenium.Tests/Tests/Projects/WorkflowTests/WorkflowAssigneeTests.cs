@@ -163,7 +163,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 				.ConfirmSegmentTranslation();
 
 			Assert.IsTrue(_editorPage.IsSegmentConfirmed(rowNumber: 8),
-				"Произошла ошибка:\n Сегмент №8не подтвердился");
+				"Произошла ошибка:\n Сегмент №8 не подтвердился");
+
+			Assert.IsTrue(_editorPage.IsAllSegmentsSavedMessageDisplayed(), "Произошла ошибка:\nТермин не сохранился.");
 			//Sleep необходим, так как репетишены подставляются с задержкой (1 секунды не хватает)
 			Thread.Sleep(2000);
 

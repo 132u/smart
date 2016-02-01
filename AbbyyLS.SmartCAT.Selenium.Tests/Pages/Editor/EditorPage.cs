@@ -362,7 +362,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		{
 			CustomTestContext.WriteLine("Получить текст из таргет сегмента №{0}.", rowNumber);
 			var target = Driver.SetDynamicValue(How.XPath, TARGET_CELL, (rowNumber - 1).ToString());
-			target.Scroll();
+			target.ScrollAndClick();
 
 			return target.Text.Trim();
 		}
