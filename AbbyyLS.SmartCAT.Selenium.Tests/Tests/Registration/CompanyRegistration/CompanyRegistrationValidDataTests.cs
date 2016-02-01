@@ -243,7 +243,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Registration
 
 			_commonHelper.GoToSignInPage();
 
-			_loginHelper.LogInSmartCat(_email, _nickName, _password, _maximumCompanyName);
+			_signInPage.SubmitFormExpectingWorkspacePage(_email, _password);
 
 			Assert.IsTrue(_workspacePage.IsUserNameMatchExpected(_firstName + " " + _lastName),
 				"Произошла ошибка:\n Имя пользователя в черной плашке не совпадает с ожидаемым именем");

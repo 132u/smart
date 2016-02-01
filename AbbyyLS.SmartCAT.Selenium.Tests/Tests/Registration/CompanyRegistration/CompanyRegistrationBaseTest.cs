@@ -1,5 +1,7 @@
 ﻿using System;
 
+using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Login;
+
 using NUnit.Framework;
 
 using AbbyyLS.SmartCAT.Selenium.Tests.DataStructures;
@@ -24,6 +26,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Registration
 			_companyRegistrationSecondPage = new CompanyRegistrationSecondPage(Driver);
 			_companyRegistrationSignInPage = new CompanyRegistrationSignInPage(Driver);
 
+			_signInPage=new SignInPage(Driver);
 			_workspacePage = new WorkspacePage(Driver);
 			_commonHelper = new CommonHelper(Driver);
 			_loginHelper = new LoginHelper(Driver);
@@ -46,6 +49,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Registration
 		protected string _nickName;
 		protected int _companyNameMaxLenght = 40;
 
+		protected SignInPage _signInPage;
 		protected WorkspacePage _workspacePage;
 		protected CommonHelper _commonHelper;
 		protected LoginHelper _loginHelper;
