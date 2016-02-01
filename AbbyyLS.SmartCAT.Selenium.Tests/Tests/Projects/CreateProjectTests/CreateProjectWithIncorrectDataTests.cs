@@ -37,6 +37,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 				"Произошла ошибка:\n поле 'Название' не отмечено ошибкой");
 		}
 
+		[Ignore("SCAT-821 требуется актуализация кейсов")]
 		[TestCase("")]
 		[TestCase(" ")]
 		public void CreateProjectEmptyNameTest(string projectName)

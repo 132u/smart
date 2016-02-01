@@ -16,7 +16,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 			_newProjectName = _createProjectHelper.GetProjectUniqueName();
 		}
 
-		[Test, Ignore("PRX-13070")]
+		[Test, Ignore("PRX-14306")]
 		public void ChangeProjectNameOnNew()
 		{
 			_projectsPage.ClickCreateProjectButton();
@@ -62,7 +62,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 				"Произошла ошибка:\n не появилось сообщение о существующем имени");
 		}
 
-		[Test, Ignore("PRX-13070")]
+		[Test, Ignore("PRX-14306")]
 		public void ChangeProjectNameOnDeleted()
 		{
 			_createProjectHelper.CreateNewProject(_projectUniqueName);
