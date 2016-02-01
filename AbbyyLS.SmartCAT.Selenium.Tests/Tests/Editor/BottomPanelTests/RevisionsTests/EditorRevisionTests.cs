@@ -25,11 +25,14 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Editor
 		{
 			_editorPage
 				.FillSegmentTargetField()
-				.ClickOnTargetCellInSegment()
-				.OpenRevisionTab();
+				.ClickOnTargetCellInSegment();
+
+			Assert.IsTrue(_editorPage.IsAllSegmentsSavedMessageDisplayed(), "Произошла ошибка:\nТермин не сохранился.");
+
+			_editorPage.OpenRevisionTab();
 
 			Assert.AreEqual(1, _editorPage.GetRevisionsCount(),
-				"Произошла ошибка:\nПеревод не появился в ревизиях");
+				"Произошла ошибка:\nНеверное количество ревизий.");
 
 			Assert.IsTrue(_editorPage.IsRestoreButtonDisabled(),
 				"Произошла ошибка:\nКнопка Restore активна.");

@@ -956,6 +956,16 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		#region Методы, проверяющие состояние страницы
 
 		/// <summary>
+		/// Проверить, что все термины сохранены
+		/// </summary>
+		public bool IsAllSegmentsSavedMessageDisplayed()
+		{
+			CustomTestContext.WriteLine("Проверить, что все термины сохранены.");
+
+			return Driver.WaitUntilElementIsDisplay(By.XPath(ALL_SEGMENTS_SAVED_STATUS));
+		}
+
+		/// <summary>
 		/// Проверить, что отображается таблица ревизий.
 		/// </summary>
 		private bool IsRevisionTableDisplayed()
