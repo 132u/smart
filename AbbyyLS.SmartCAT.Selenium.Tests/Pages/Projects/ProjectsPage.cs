@@ -536,7 +536,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 			CustomTestContext.WriteLine("Нажать 'Поиск'");
 			ProjectSearchButton.ScrollAndClick();
 
-			var isProjectExist = Driver.WaitUntilElementIsDisplay(By.XPath(PROJECT_REF.Replace("*#*", projectName)), 5);
+			var isProjectExist = Driver.WaitUntilElementIsAppear(By.XPath(PROJECT_REF.Replace("*#*", projectName)), 5);
 
 			CustomTestContext.WriteLine("Очистить поле поиска по проектам");
 			ProjectSearchField.Clear();
