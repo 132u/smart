@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.PageObjects;
@@ -39,7 +40,17 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 		public GlossarySuccessImportDialog ClickImportButtonInImportDialog()
 		{
 			CustomTestContext.WriteLine("Нажать кнопку Import в диалоге импорта глоссария.");
-			ImportButton.Click();
+
+			ImportButton = Driver.WaitUntilElementIsClickable(By.XPath(IMPORT_BUTTON));
+
+			if (ImportButton != null)
+			{
+				ImportButton.Click();
+			}
+			else
+			{
+				throw new Exception("Кнопка Import в диалоге импорта глоссария не стала кликабельной");
+			}
 
 			return new GlossarySuccessImportDialog(Driver).GetPage();
 		}
@@ -134,11 +145,10 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 		[FindsBy(How = How.XPath, Using = IMPORT_GLOSSARY_INPUT)]
 		protected IWebElement ImportGlossaryInput { get; set; }
 
-		[FindsBy(How = How.XPath, Using = IMPORT_BUTTON)]
-		protected IWebElement ImportButton { get; set; }
-
 		[FindsBy(How = How.XPath, Using = REPLACE_ALL_BUTTON)]
 		protected IWebElement ReplaceAllButton { get; set; }
+
+		protected IWebElement ImportButton { get; set; }
 
 		#endregion
 
