@@ -39,7 +39,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 				"Произошла ошибка:\n неверное количество терминов");
 		}
 
-		[Test]
+		[Test, Ignore("PRX-10924")]
 		public void CreateCustomTermTest()
 		{
 			_glossaryPage.OpenGlossaryStructure();
