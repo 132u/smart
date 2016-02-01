@@ -39,24 +39,12 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 		#region Простые методы страницы
 
 		/// <summary>
-		/// Кликнуть кнопку загрузки в сообщении об экспотре
+		/// Навести курсор на кнопку загрузки в сообщении об экспотре
 		/// </summary>
-		public T ClickDownloadNotifier<T>() where T : class, IAbstractPage<T>
+		public T HoverOnDownloadNotifierButton<T>() where T : class, IAbstractPage<T>
 		{
-			CustomTestContext.WriteLine("Кликнуть кнопку загрузки в сообщении об экспорте");
-			IWebElement element;
-
-			try
-			{
-				element = Driver.FindElement(By.XPath(NOTIFIER_DOWNLOAD_BTN));
-			}
-			catch (StaleElementReferenceException)
-			{
-				CustomTestContext.WriteLine("Не удалось найти кнопку загрузки в сообщении об экспорте. Предпринять повторную попытка.");
-				element = Driver.FindElement(By.XPath(NOTIFIER_DOWNLOAD_BTN));
-			}
-
-			element.JavaScriptClick();
+			CustomTestContext.WriteLine("Навести курсор на кнопку загрузки в сообщении об экспотре");
+			DownloadNotifierButton.HoverElement();
 
 			var instance = Activator.CreateInstance(typeof(T), Driver) as T;
 			return instance.GetPage();
@@ -147,6 +135,19 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 		#endregion
 
 		#region Составные методы страницы
+
+		/// <summary>
+		/// Кликнуть кнопку загрузки в сообщении об экспотре
+		/// </summary>
+		public T ClickDownloadNotifier<T>() where T : class, IAbstractPage<T>
+		{
+			CustomTestContext.WriteLine("Кликнуть кнопку загрузки в сообщении об экспорте");
+			HoverOnDownloadNotifierButton<T>();
+			DownloadNotifierButton.Click();
+
+			var instance = Activator.CreateInstance(typeof(T), Driver) as T;
+			return instance.GetPage();
+		}
 
 		/// <summary>
 		/// Перелючиться на уведомление по его номеру

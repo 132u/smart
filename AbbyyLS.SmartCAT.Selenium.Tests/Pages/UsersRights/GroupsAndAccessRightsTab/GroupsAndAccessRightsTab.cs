@@ -64,8 +64,16 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.UsersRights
 		public GroupsAndAccessRightsTab ClickEditGroupButton(string groupName)
 		{
 			CustomTestContext.WriteLine("Нажать кнопку 'Редактировать группу'.");
-			EditGroupButton = Driver.SetDynamicValue(How.XPath, EDIT_GROUP_BUTTON, groupName);
-			EditGroupButton.Click();
+			var editGroupButtonXpathReplaced = EDIT_GROUP_BUTTON.Replace("*#*", groupName);
+			if (Driver.WaitUntilElementIsDisplay(By.XPath(editGroupButtonXpathReplaced)))
+			{
+				EditGroupButton = Driver.FindElement(By.XPath(editGroupButtonXpathReplaced));
+				EditGroupButton.Click();
+			}
+			else
+			{
+				throw new Exception("Кнопка 'Редактировать кнопку' не стала видимой.");
+			}
 
 			return GetPage();
 		}
