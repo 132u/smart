@@ -168,6 +168,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		public EditorPage ClickUndoButton()
 		{
 			CustomTestContext.WriteLine("Нажать кнопку отмены.");
+			Driver.WaitUntilElementIsDisplay(By.XPath(UNDO_BUTTON));
 			UndoButton.Click();
 
 			return GetPage();
@@ -190,6 +191,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		public EditorPage PressUndoHotkey()
 		{
 			CustomTestContext.WriteLine("Нажать хоткей кнопки отмены Ctrl Z.");
+			Driver.WaitUntilElementIsDisplay(By.XPath(UNDO_BUTTON));
 			Driver.SendHotKeys("z", control: true);
 
 			return GetPage();
@@ -1346,7 +1348,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		[FindsBy(How = How.Id, Using = WORKFLOW_COLUMN)]
 		protected IWebElement WorkflowColumn { get; set; }
 		
-		[FindsBy(How = How.Id, Using = UNDO_BUTTON)]
+		[FindsBy(How = How.XPath, Using = UNDO_BUTTON)]
 		protected IWebElement UndoButton { get; set; }
 
 		[FindsBy(How = How.Id, Using = REDO_BUTTON)]
@@ -1403,7 +1405,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		protected const string HOME_BUTTON = "back-btn";
 		protected const string DICTIONARY_BUTTON = "dictionary-btn";
 		protected const string CHANGE_CASE_BUTTON = "change-case-btn";
-		protected const string UNDO_BUTTON = "undo-btn-btnEl";
+		protected const string UNDO_BUTTON = "//a[@id='undo-btn' and @aria-disabled='false']";
 		protected const string REDO_BUTTON = "redo-btn-btnEl";
 
 		protected const string ROW_NUMBER_ACTIVE_XPATH = ".//div[@id='segments-body']//table//td[contains(@class, 'x-grid-item-focused')]/../td[1]//div[contains(@class, 'row-numberer')]";
@@ -1421,7 +1423,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		protected const string CONCORDANCE_SEARCH= "concordance-search";
 
 		protected const string ALL_SEGMENTS_SAVED_STATUS = "//div[text()='All segments are saved.']";
-		protected const string SAVING_STATUS = "//div[@id='segmentsavingindicator-1048-innerCt' and contains(text(),'Saving')]";
+		protected const string SAVING_STATUS = "//divc[contains(@id, 'segmentsavingindicator') and contains(text(),'Saving')]";
 		protected const string MATCH_COLUMN = "//div[@id='segments-body']//table[*#*]//tbody//td[contains(@class,'matchcolum')]";
 		protected const string TARGET_MATCH_COLUMN_PERCENT = "//table[@data-recordindex='*#*' and contains(@id, 'tableview')]//td[6]//div//span";
 		protected const string CAT_PANEL_PERCENT_MATCH = ".//div[@id='cat-body']//table[*#*]//tbody//tr//td[3]//div//span";

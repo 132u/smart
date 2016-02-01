@@ -21,7 +21,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Editor
 				.ClickOnTargetCellInSegment()
 				.ClickUndoButton();
 
-			Assert.AreEqual(_editorPage.GetTargetText(_segmentNumber), String.Empty,
+			Assert.AreEqual(String.Empty, _editorPage.GetTargetText(_segmentNumber),
 				"Произошла ошибка:\n Таргет для сегмента №{0} не очистился после клика по кнопке Отмены.", _segmentNumber);
 			
 			_editorPage.ClickRedoButton();
@@ -40,7 +40,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Editor
 				.ClickOnTargetCellInSegment()
 				.PressUndoHotkey();
 
-			Assert.AreEqual(_editorPage.GetTargetText(_segmentNumber), String.Empty,
+			Assert.AreEqual(String.Empty, _editorPage.GetTargetText(_segmentNumber),
 				"Произошла ошибка:\n Таргет для сегмента №{0} не очистился после клика по кнопке Отмены.", _segmentNumber);
 
 			_editorPage.PressRedoHotkey();
