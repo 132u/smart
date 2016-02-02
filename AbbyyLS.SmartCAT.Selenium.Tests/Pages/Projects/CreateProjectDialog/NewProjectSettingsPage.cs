@@ -680,7 +680,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 		protected const string ADVANCED_SWITCH = "//div[@class='l-switch']//span[@class='mdl-switch__ripple-container mdl-js-ripple-effect mdl-ripple--center']";
 		protected const string SELECT_TM_BUTTON = "//div[@class='g-btn g-greenbtn ' and contains(@data-bind, 'addExistingTM')]//a";
 		protected const string ERROR_NAME_EXISTS = "//span[@data-message-id='isNameDuplicate']";
-		protected const string ERROR_DUPLICATE_LANG = "//span[contains(@data-bind,'targetLang == sourceLanguageId')]";
+		protected const string ERROR_DUPLICATE_LANG = "//span[contains(text(), 'The target language must be different from the source language.')]";
 		protected const string ERROR_FORBIDDEN_SYMBOLS_NAME = "//span[@data-message-id='nameHasInvalidChars']";
 		protected const string ERROR_NO_NAME = "//span[@data-message-id='isNameEmpty']";
 		protected const string ERROR_DEADLINE_DATE = "//div[@class='proj_deadline pull-right']//span[text()='Specify the deadline in the MM/DD/YYYY format.']";
