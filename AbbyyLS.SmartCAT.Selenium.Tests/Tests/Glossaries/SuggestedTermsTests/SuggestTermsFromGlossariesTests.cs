@@ -174,7 +174,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 				"Произошла ошибка:\n текст в термине не совпадает с ожидаемым.");
 		}
 
-		[Test]
+		[Test, Ignore("PRX-14852")]
 		public void DeleteSuggestedTermWithoutGlossaryTest()
 		{
 			_glossariesPage.ClickSuggestTermButton();
