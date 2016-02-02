@@ -8,6 +8,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Coursera
 {
 	[Parallelizable(ParallelScope.Fixtures)]
 	[Coursera]
+	[Ignore("Курсерные тесты отключены за нестабильность")]
 	class LeaderboardTests<TWebDriverProvider> : CourseraBaseTests<TWebDriverProvider>
 		where TWebDriverProvider : IWebDriverProvider, new()
 	{
