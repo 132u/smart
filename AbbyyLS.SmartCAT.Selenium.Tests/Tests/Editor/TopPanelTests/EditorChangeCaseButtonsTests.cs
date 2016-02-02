@@ -31,7 +31,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Editor
 			Assert.AreEqual(changedText1, _editorPage.GetTargetText(_segmentNumber),
 				"Произошла ошибка:\n Неверный текст в таргете.");
 
-			_editorPage.ClickChangeCaseButton();
+			_editorPage
+				.SelectAllTextByHotkey(_segmentNumber)
+				.ClickChangeCaseButton();
 
 			Assert.AreEqual(changedText2, _editorPage.GetTargetText(_segmentNumber),
 				"Произошла ошибка:\n Неверный текст в таргете.");
@@ -52,7 +54,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Editor
 			Assert.AreEqual(changedText1, _editorPage.GetTargetText(_segmentNumber),
 				"Произошла ошибка:\n Неверный текст в таргете.");
 
-			_editorPage.PressChangeCaseHotKey();
+			_editorPage
+				.SelectAllTextByHotkey(_segmentNumber)
+				.PressChangeCaseHotKey();
 
 			Assert.AreEqual(changedText2, _editorPage.GetTargetText(_segmentNumber),
 				"Произошла ошибка:\n Неверный текст в таргете.");
@@ -73,7 +77,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Editor
 			Assert.AreEqual(changedText1, _editorPage.GetTargetText(_segmentNumber),
 				"Произошла ошибка:\n Неверный текст в таргете.");
 
-			_editorPage.ClickChangeCaseButton();
+			_editorPage
+				.SelectLastWordByHotkey(_segmentNumber)
+				.ClickChangeCaseButton();
 
 			Assert.AreEqual(changedText2, _editorPage.GetTargetText(_segmentNumber),
 				"Произошла ошибка:\n Неверный текст в таргете.");
@@ -94,7 +100,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Editor
 			Assert.AreEqual(changedText1, _editorPage.GetTargetText(_segmentNumber),
 				"Произошла ошибка:\n Неверный текст в таргете.");
 
-			_editorPage.PressChangeCaseHotKey();
+			_editorPage
+				.SelectLastWordByHotkey(_segmentNumber)
+				.PressChangeCaseHotKey();
 
 			Assert.AreEqual(changedText2, _editorPage.GetTargetText(_segmentNumber),
 				"Произошла ошибка:\n Неверный текст в таргете.");
@@ -117,7 +125,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Editor
 				_editorPage.GetTargetText(_segmentNumber),
 				"Произошла ошибка:\n Неверный текст в таргете.");
 
-			_editorPage.ClickChangeCaseButton();
+			_editorPage
+				.SelectFirstWordInSegment(_segmentNumber, segmentType: SegmentType.Target)
+				.ClickChangeCaseButton();
 
 			Assert.AreEqual(
 				changedText2,
@@ -142,7 +152,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Editor
 				_editorPage.GetTargetText(_segmentNumber),
 				"Произошла ошибка:\n Неверный текст в таргете.");
 
-			_editorPage.PressChangeCaseHotKey();
+			_editorPage
+				.SelectFirstWordInSegment(_segmentNumber, segmentType: SegmentType.Target)
+				.PressChangeCaseHotKey();
 
 			Assert.AreEqual(
 				changedText2,
@@ -165,7 +177,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Editor
 			Assert.AreEqual(changedText1, _editorPage.GetTargetText(_segmentNumber),
 				"Произошла ошибка:\n Неверный текст в таргете.");
 
-			_editorPage.PressChangeCaseHotKey();
+			_editorPage
+				.SelectWordPartBeforeSpaceByHotkey("some-words for example")
+				.PressChangeCaseHotKey();
 
 			Assert.AreEqual(changedText2, _editorPage.GetTargetText(_segmentNumber),
 				"Произошла ошибка:\n Неверный текст в таргете.");
@@ -186,7 +200,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Editor
 			Assert.AreEqual(changedText1, _editorPage.GetTargetText(_segmentNumber),
 				"Произошла ошибка:\n Неверный текст в таргете.");
 
-			_editorPage.ClickChangeCaseButton();
+			_editorPage
+				.SelectWordPartBeforeSpaceByHotkey("some-words for example")
+				.ClickChangeCaseButton();
 
 			Assert.AreEqual(changedText2, _editorPage.GetTargetText(_segmentNumber),
 				"Произошла ошибка:\n Неверный текст в таргете.");
@@ -209,7 +225,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Editor
 				_editorPage.GetTargetText(_segmentNumber),
 				"Произошла ошибка:\n Неверный текст в таргете.");
 
-			_editorPage.ClickChangeCaseButton();
+			_editorPage
+				.SelectFewSymbolsInLastWordByHotkey(_segmentNumber, symbolsCount: 3)
+				.ClickChangeCaseButton();
 
 			Assert.AreEqual(
 				changedText2,
@@ -234,7 +252,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Editor
 				_editorPage.GetTargetText(_segmentNumber),
 				"Произошла ошибка:\n Неверный текст в таргете.");
 
-			_editorPage.PressChangeCaseHotKey();
+			_editorPage
+				.SelectFewSymbolsInLastWordByHotkey(_segmentNumber, symbolsCount: 3)
+				.PressChangeCaseHotKey();
 
 			Assert.AreEqual(
 				changedText2,
@@ -257,7 +277,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Editor
 			Assert.AreEqual(changedText1, _editorPage.GetTargetText(_segmentNumber),
 				"Произошла ошибка:\n Неверный текст в таргете.");
 
-			_editorPage.PressChangeCaseHotKey();
+			_editorPage
+				.SelectSecondThirdWordsByHotkey(_segmentNumber)
+				.PressChangeCaseHotKey();
 
 			Assert.AreEqual(changedText2, _editorPage.GetTargetText(_segmentNumber),
 				"Произошла ошибка:\n Неверный текст в таргете.");
@@ -278,7 +300,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Editor
 			Assert.AreEqual(changedText1, _editorPage.GetTargetText(_segmentNumber),
 				"Произошла ошибка:\n Неверный текст в таргете.");
 
-			_editorPage.ClickChangeCaseButton();
+			_editorPage
+				.SelectSecondThirdWordsByHotkey(_segmentNumber)
+				.ClickChangeCaseButton();
 
 			Assert.AreEqual(changedText2, _editorPage.GetTargetText(_segmentNumber),
 				"Произошла ошибка:\n Неверный текст в таргете.");
@@ -300,7 +324,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Editor
 			Assert.AreEqual(changedText1, _editorPage.GetTargetText(_segmentNumber),
 				"Произошла ошибка:\n Неверный текст в таргете.");
 
-			_editorPage.ClickChangeCaseButton();
+			_editorPage
+				.SelectFirstWordInSegment(_segmentNumber, segmentType: SegmentType.Target)
+				.ClickChangeCaseButton();
 
 			Assert.AreEqual(changedText2, _editorPage.GetTargetText(_segmentNumber),
 				"Произошла ошибка:\n Неверный текст в таргете.");
@@ -321,7 +347,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Editor
 			Assert.AreEqual(changedText1, _editorPage.GetTargetText(_segmentNumber),
 				"Произошла ошибка:\n Неверный текст в таргете.");
 
-			_editorPage.ClickChangeCaseButton();
+			_editorPage
+				.SelectFirstWordInSegment(_segmentNumber, segmentType: SegmentType.Target)
+				.ClickChangeCaseButton();
 
 			Assert.AreEqual(changedText2, _editorPage.GetTargetText(_segmentNumber),
 				"Произошла ошибка:\n Неверный текст в таргете.");
@@ -342,7 +370,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Editor
 			Assert.AreEqual(changedText1, _editorPage.GetTargetText(_segmentNumber),
 				"Произошла ошибка:\n Неверный текст в таргете.");
 
-			_editorPage.PressChangeCaseHotKey();
+			_editorPage
+				.SelectFirstWordInSegment(_segmentNumber, segmentType: SegmentType.Target)
+				.PressChangeCaseHotKey();
 
 			Assert.AreEqual(changedText2, _editorPage.GetTargetText(_segmentNumber),
 				"Произошла ошибка:\n Неверный текст в таргете.");
@@ -364,7 +394,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Editor
 			Assert.AreEqual(changedText1, _editorPage.GetTargetText(_segmentNumber),
 				"Произошла ошибка:\n Неверный текст в таргете.");
 
-			_editorPage.PressChangeCaseHotKey();
+			_editorPage
+				.SelectFirstWordInSegment(_segmentNumber, segmentType: SegmentType.Target)
+				.PressChangeCaseHotKey();
 
 			Assert.AreEqual(changedText2, _editorPage.GetTargetText(_segmentNumber),
 				"Произошла ошибка:\n Неверный текст в таргете.");
