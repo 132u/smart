@@ -319,31 +319,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		}
 
 		/// <summary>
-		/// Двойной клик по переводу в CAT-панели
-		/// </summary>
-		/// <param name="rowNumber">номер строки в CAT-панели</param>
-		public EditorPage DoubleClickCatPanel(int rowNumber)
-		{
-			var cat = Driver.SetDynamicValue(How.XPath, CAT_TRANSLATION, rowNumber.ToString());
-
-			CustomTestContext.WriteLine("Прокрутить кат панель до строки №{0}.", rowNumber);
-
-			cat.Scroll();
-			// Sleep не убирать, без него не скролится
-			Thread.Sleep(1000);
-
-			CustomTestContext.WriteLine("Навести курсор на строку кат панели №{0}.", rowNumber);
-
-			cat.HoverElement();
-
-			CustomTestContext.WriteLine("Двойной клик по строке №{0} с переводом в CAT-панели.", rowNumber);
-
-			cat.DoubleClick();
-
-			return GetPage();
-		}
-
-		/// <summary>
 		/// Нажать кнопку 'Add Term'
 		/// </summary>
 		public AddTermDialog ClickAddTermButton()
@@ -352,19 +327,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 			AddTermButton.Click();
 
 			return new AddTermDialog(Driver).GetPage();
-		}
-
-		/// <summary>
-		/// Получить текст из таргет сегмента
-		/// </summary>
-		/// <param name="rowNumber">номер строки сегмента</param>
-		public string GetTargetText(int rowNumber)
-		{
-			CustomTestContext.WriteLine("Получить текст из таргет сегмента №{0}.", rowNumber);
-			var target = Driver.SetDynamicValue(How.XPath, TARGET_CELL, (rowNumber - 1).ToString());
-			target.ScrollAndClick();
-
-			return target.Text.Trim();
 		}
 
 		/// <summary>
@@ -736,9 +698,81 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 			return Type.Text;
 		}
 
+		/// <summary>
+		/// Прокрутить страницу до нужного таргета по номеру сегмента
+		/// </summary>
+		/// <param name="segmentNumber">номер сегмента</param>
+		public EditorPage ScrollToTarget(int segmentNumber = 1)
+		{
+			CustomTestContext.WriteLine("Прокрутить страницу до таргета №{0}.", segmentNumber);
+			TargetCell = Driver.SetDynamicValue(How.XPath, TARGET_CELL, (segmentNumber - 1).ToString());
+			TargetCell.Scroll();
+
+			return GetPage();
+		}
+
+		/// <summary>
+		/// Прокрутить страницу до перевода в кат панели
+		/// </summary>
+		/// <param name="rowNumber">номер сегмента</param>
+		public EditorPage ScrollToTranslationInCatPanel(int rowNumber = 1)
+		{
+			CustomTestContext.WriteLine("Прокрутить страницу до перевода в сегменте №{0} в кат панели.", rowNumber);
+			var cat = Driver.SetDynamicValue(How.XPath, CAT_TRANSLATION, rowNumber.ToString());
+			cat.Scroll();
+
+			return GetPage();
+		}
+
+		/// <summary>
+		/// Навести курсор на перевод в кат панели
+		/// </summary>
+		/// <param name="rowNumber">номер сегмента</param>
+		public EditorPage HoverToTranslationInCatPanel(int rowNumber = 1)
+		{
+			CustomTestContext.WriteLine("Навести курсор на перевод сегмента №{0} в кат панели.", rowNumber);
+			var cat = Driver.SetDynamicValue(How.XPath, CAT_TRANSLATION, rowNumber.ToString());
+			cat.HoverElement();
+
+			return GetPage();
+		}
+
 		#endregion
 
 		#region Составные методы страницы
+
+		/// <summary>
+		/// Двойной клик по переводу в CAT-панели
+		/// </summary>
+		/// <param name="rowNumber">номер строки в CAT-панели</param>
+		public EditorPage DoubleClickCatPanel(int rowNumber)
+		{
+			ScrollToTranslationInCatPanel(rowNumber);
+			// Sleep не убирать, без него не скролится
+			Thread.Sleep(1000);
+			HoverToTranslationInCatPanel(rowNumber);
+			
+			CustomTestContext.WriteLine("Двойной клик по строке №{0} с переводом в CAT-панели.", rowNumber);
+
+			var cat = Driver.SetDynamicValue(How.XPath, CAT_TRANSLATION, rowNumber.ToString());
+			cat.DoubleClick();
+
+			return GetPage();
+		}
+
+		/// <summary>
+		/// Получить текст из таргет сегмента
+		/// </summary>
+		/// <param name="rowNumber">номер строки сегмента</param>
+		public string GetTargetText(int rowNumber)
+		{
+			CustomTestContext.WriteLine("Получить текст из таргет сегмента №{0}.", rowNumber);
+			ScrollToTarget(rowNumber);
+			TargetCell = Driver.SetDynamicValue(How.XPath, TARGET_CELL, (rowNumber - 1).ToString());
+			TargetCell.Click();
+
+			return TargetCell.Text.Trim();
+		}
 
 		/// <summary>
 		/// Получить список подсвеченных в сегменте слов

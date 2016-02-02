@@ -114,7 +114,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestFramework
 			catch (StaleElementReferenceException staleElementReferenceException)
 			{
 				CustomTestContext.WriteLine(
-					"StaleElementReferenceException: HoverElement: " + webElement.TagName, staleElementReferenceException);
+					"StaleElementReferenceException: HoverElement.", staleElementReferenceException);
 				webElement.HoverElement();
 			}
 		}
