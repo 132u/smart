@@ -8,6 +8,7 @@ using AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 {
+	[Ignore("PRX - 14852")]
 	class SuggestTermsBaseTest<TWebDriverProvider>
 		: BaseTest<TWebDriverProvider> where TWebDriverProvider : IWebDriverProvider, new()
 	{
