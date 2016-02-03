@@ -106,7 +106,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 		public DeleteDialog ClickDeleteButton()
 		{
 			CustomTestContext.WriteLine("Нажать на кнопку 'Удалить'.");
-			DeleteButton.Click();
+			DeleteButton.ScrollAndClick();
 
 			return new DeleteDialog(Driver).GetPage();
 		}
