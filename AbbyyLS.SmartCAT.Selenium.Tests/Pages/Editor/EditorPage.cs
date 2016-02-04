@@ -972,7 +972,17 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		public EditorPage PasteTranslationFromCATByHotkey(CatType catType, int targetRowNumber = 1)
 		{
 			ClickOnTargetCellInSegment(targetRowNumber);
-			
+
+			if (!IsCatTableExist())
+			{
+				throw new Exception(String.Format("Кат панель не появилась после клика по таргету сегмента №{0}", targetRowNumber));
+			}
+
+			if (!IsCatTypeExist(catType))
+			{
+				throw new Exception("Не удалось дождаться появления подстановки нужного вида в кат панели");
+			}
+
 			var catRowNumber = CatTypeRowNumber(catType);
 
 			Driver.SendHotKeys(catRowNumber.ToString(), control: true);
@@ -1110,7 +1120,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		{
 			CustomTestContext.WriteLine("Проверить, что подстановка типа {0} есть в CAT-панели", type);
 
-			return Driver.GetIsElementExist(By.XPath(CAT_TYPE.Replace("*#*", type.ToString())));
+			return Driver.WaitUntilElementIsAppear(By.XPath(CAT_TYPE.Replace("*#*", type.ToString())));
 		}
 
 		/// <summary>
@@ -1474,7 +1484,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		protected const string MT_SOURCE_TEXT_IN_CAT_PANEL = ".//div[@id='cat-body']//table//tbody//tr//div[text()='MT']//..//preceding-sibling::td[contains(@class, 'test-cat-source')]/div";
 		protected const string CAT_TYPE_LIST_IN_PANEL = ".//div[@id='cat-body']//table//td[3]/div";
 		protected const string CAT_TRANSLATION = ".//div[@id='cat-body']//table[*#*]//td[contains(@class, 'test-cat-target')]/div";
-		protected const string CAT_TYPE = ".//div[@id='cat-body']//table//td[3]/div[text()='*#*']";
+		protected const string CAT_TYPE = ".//div[@id='cat-body']//table//td[3]/div[contains(text(),'*#*')]";
 		protected const string CAT_SOURCE = ".//div[@id='cat-body']//table//td[contains(@class, 'test-cat-source')]/div[text()='*#*']";
 
 		protected const string PERCENT_COLOR = "//table[@data-recordindex='*#*' and contains(@id, 'tableview')]//td[6]//div//span";
