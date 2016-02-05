@@ -37,7 +37,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.TranslationMemories
 			// Для облегчения теста создадим имя ТМ таким, чтобы при создании проекта
 			// его можно было выбрать, не прибегая к прокрутке
 			var translationMemoryNewName = string.Concat("!", TranslationMemoriesHelper.GetTranslationMemoryUniqueName());
-			var importFilePath = needUploadTmx ? PathProvider.TMTestFile2 : null;
+			var importFilePath = needUploadTmx ? PathProvider.TmxFile : null;
 			var projectUniqueName = CreateProjectHelper.GetProjectUniqueName();
 			
 			TranslationMemoriesHelper.CreateTranslationMemory(UniqueTMName, importFilePath: importFilePath);
@@ -66,7 +66,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.TranslationMemories
 		[TestCase(false)]
 		public void EditTMComment(bool needUploadTmx)
 		{
-			var importFilePath = needUploadTmx ? PathProvider.TMTestFile2 : null;
+			var importFilePath = needUploadTmx ? PathProvider.TmxFile : null;
 
 			TranslationMemoriesHelper.CreateTranslationMemory(UniqueTMName, importFilePath: importFilePath);
 
@@ -109,7 +109,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.TranslationMemories
 		[ProjectGroups]
 		public void EditTmProjectGroups(bool needUploadTmx)
 		{
-			var importFilePath = needUploadTmx ? PathProvider.TMTestFile2 : null;
+			var importFilePath = needUploadTmx ? PathProvider.TmxFile : null;
 			string projectGroup;
 
 			TranslationMemoriesHelper.CreateTranslationMemory(UniqueTMName, importFilePath: importFilePath);

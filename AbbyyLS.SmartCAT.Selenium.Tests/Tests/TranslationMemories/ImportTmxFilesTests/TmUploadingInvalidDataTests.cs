@@ -1,4 +1,6 @@
-﻿using NUnit.Framework;
+﻿using System.IO;
+
+using NUnit.Framework;
 
 using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
 
@@ -8,81 +10,35 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.TranslationMemories
 	class TmUploadingInvalidDataTests<TWebDriverProvider>
 		: BaseTmTest<TWebDriverProvider> where TWebDriverProvider : IWebDriverProvider, new()
 	{
-
-		[Test, Ignore("PRX-11602")]
-		public void UploadTmxWithoutTmxEndTagTest()
+		[TestCase("withoutTmxEndTag.tmx", Ignore = "PRX-11602")]
+		[TestCase("withoutBodyEndTag.tmx")]
+		[TestCase("longSegValue.tmx")]
+		[TestCase("withoutTuEndTag.tmx")]
+		[TestCase("txtWithTmxExtension.tmx")]
+		public void UploadIncorrectTmxFileTest(string file)
 		{
-			TranslationMemoriesHelper.CreateTranslationMemory(UniqueTMName, importFilePath: PathProvider.EditorTmxFile);
+			TranslationMemoriesHelper.CreateTranslationMemory(UniqueTMName,
+				importFilePath: PathProvider.EditorTmxFile);
 
 			TranslationMemoriesPage.OpenImportTmxDialog(UniqueTMName, update: false);
 
-			ImportTmxDialog.ImportTmxFile(PathProvider.WithoutTmxEndTag);
+			ImportTmxDialog.ImportTmxFile(Path.Combine(PathProvider.IncorrectTmxFilesFolder, file));
 
 			Assert.IsTrue(TranslationMemoriesPage.IsFileImportFailedNotifierDisplayed(),
 				"Произошла ошибка:\n сообщение об ошибке во время импорта TMX файла не появилось");
 		}
 
-		[Test]
-		public void UploadTmxWithoutBodyEndTagTest()
+
+		[TestCase("docxFile.docx")]
+		public void UploadTMFileWithWrongExtensionTest(string file)
 		{
-			TranslationMemoriesHelper.CreateTranslationMemory(UniqueTMName, importFilePath: PathProvider.EditorTmxFile);
-
-			TranslationMemoriesPage.OpenImportTmxDialog(UniqueTMName, update: false);
-
-			ImportTmxDialog.ImportTmxFile(PathProvider.WithoutBodyEndTag);
-
-			Assert.IsTrue(TranslationMemoriesPage.IsFileImportFailedNotifierDisplayed(),
-				"Произошла ошибка:\n сообщение об ошибке во время импорта TMX файла не появилось");
-		}
-
-		[Test]
-		public void UploadTmxWithLongSegValueTest()
-		{
-			TranslationMemoriesHelper.CreateTranslationMemory(UniqueTMName, importFilePath: PathProvider.EditorTmxFile);
-
-			TranslationMemoriesPage.OpenImportTmxDialog(UniqueTMName, update: false);
-
-			ImportTmxDialog.ImportTmxFile(PathProvider.LongSegValue);
-
-			Assert.IsTrue(TranslationMemoriesPage.IsFileImportFailedNotifierDisplayed(),
-				"Произошла ошибка:\n сообщение об ошибке во время импорта TMX файла не появилось");
-		}
-
-		[Test]
-		public void UploadTmxWithoutTuEndTagTest()
-		{
-			TranslationMemoriesHelper.CreateTranslationMemory(UniqueTMName, importFilePath: PathProvider.EditorTmxFile);
-
-			TranslationMemoriesPage.OpenImportTmxDialog(UniqueTMName, update: false);
-
-			ImportTmxDialog.ImportTmxFile(PathProvider.WithoutTuEndTag);
-
-			Assert.IsTrue(TranslationMemoriesPage.IsFileImportFailedNotifierDisplayed(),
-				"Произошла ошибка:\n сообщение об ошибке во время импорта TMX файла не появилось");
-		}
-
-		[Test]
-		public void UploadTxtWithTmxExtensionTest()
-		{
-			TranslationMemoriesHelper.CreateTranslationMemory(UniqueTMName, importFilePath: PathProvider.EditorTmxFile);
-
-			TranslationMemoriesPage.OpenImportTmxDialog(UniqueTMName, update: false);
-
-			ImportTmxDialog.ImportTmxFile(PathProvider.TxtWithTmxExtension);
-
-			Assert.IsTrue(TranslationMemoriesPage.IsFileImportFailedNotifierDisplayed(),
-				"Произошла ошибка:\n сообщение об ошибке во время импорта TMX файла не появилось");
-		}
-
-		[Test]
-		public void UploadTMFileWithWrongExtensionTest()
-		{
-			TranslationMemoriesHelper.CreateTranslationMemory(UniqueTMName, importFilePath: PathProvider.EditorTmxFile);
+			TranslationMemoriesHelper.CreateTranslationMemory(UniqueTMName,
+				importFilePath: PathProvider.EditorTmxFile);
 
 			TranslationMemoriesPage.OpenImportTmxDialog(UniqueTMName, update: false);
 
 			ImportTmxDialog
-				.EnterFileName(PathProvider.DocumentFile)
+				.EnterFileName(Path.Combine(PathProvider.IncorrectTmxFilesFolder, file))
 				.ClickImportButtonExpectingError();
 
 			Assert.IsTrue(TranslationMemoriesPage.IsImportValidationErrorMessageDisplayed(),

@@ -84,7 +84,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 			var fieldName = GlossarySystemField.Image.Description();
 
 			_glossaryPage
-				.UploadImageFileWithMultimedia(PathProvider.ImageFile)
+				.UploadImageFileWithMultimedia(PathProvider.ImageFileForGlossariesTests)
 				.ClickSaveEntryButton();
 
 			Assert.IsTrue(_glossaryPage.IsImageFieldFilled(fieldName),
@@ -102,10 +102,10 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 			var fieldName = GlossarySystemField.Multimedia.Description();
 
 			_glossaryPage
-				.UploadMediaFile(PathProvider.AudioFile)
+				.UploadMediaFile(PathProvider.AudioFileForGlossariesTests)
 				.ClickSaveEntryButton();
 
-			Assert.IsTrue(_glossaryPage.IsMediaFileMatchExpected(Path.GetFileName(PathProvider.AudioFile), fieldName),
+			Assert.IsTrue(_glossaryPage.IsMediaFileMatchExpected(Path.GetFileName(PathProvider.AudioFileForGlossariesTests), fieldName),
 				"Произошла ошибка:\n неверное значение в поле {0} типа Media.", fieldName);
 				
 			_glossaryPage.CloseExpandedTerms();

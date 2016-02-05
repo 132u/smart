@@ -1,0 +1,224 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<tmx version="1.4">
+  <header creationtool="AbbyyLS.Tmx" creationtoolversion="2.4.30.20807" segtype="sentence" o-tmf="ATM" adminlang="en-US" srclang="en" datatype="plaintext" />
+  <body>
+    <tu creationdate="20141105T084113Z" changedate="20141105T084113Z">
+      <tuv xml:lang="en">
+        <prop type="x-context-post">&lt;seg&gt;Second phrase.&lt;/seg&gt;</prop>
+        <seg>first sentence.</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Первое предложение</seg>
+      </tuv>
+    </tu>
+    <tu creationdate="20141105T084118Z" changedate="20141105T084118Z">
+      <tuv xml:lang="en">
+        <prop type="x-context-pre">&lt;seg&gt;first sentence.&lt;/seg&gt;</prop>
+        <prop type="x-context-post">&lt;seg&gt;One more test sentence.&lt;/seg&gt;</prop>
+        <seg>Second phrase.</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Вторая фраза</seg>
+      </tuv>
+    </tu>
+    <tu creationdate="20141105T084128Z" changedate="20141105T084128Z">
+      <tuv xml:lang="en">
+        <prop type="x-context-pre">&lt;seg&gt;Second phrase.&lt;/seg&gt;</prop>
+        <prop type="x-context-post">&lt;seg&gt;Last sentence with different text.&lt;/seg&gt;</prop>
+        <seg>One more test sentence.</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Еще одно предложение</seg>
+      </tuv>
+    </tu>
+    <tu creationdate="20141105T084159Z" changedate="20141105T084159Z">
+      <tuv xml:lang="en">
+        <prop type="x-context-pre">&lt;seg&gt;One more test sentence.&lt;/seg&gt;</prop>
+        <prop type="x-context-post">&lt;seg&gt;third sentence.&lt;/seg&gt;</prop>
+        <seg>Last sentence with different text.</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Последнее предложение с другим текстом</seg>
+      </tuv>
+    </tu>
+    <tu creationdate="20141105T084234Z" changedate="20141105T084234Z">
+      <tuv xml:lang="en">
+        <prop type="x-context-pre">&lt;seg&gt;Last sentence with different text.&lt;/seg&gt;</prop>
+        <prop type="x-context-post">&lt;seg&gt;fourth phrase.&lt;/seg&gt;</prop>
+        <seg>third sentence.</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Третье предложение</seg>
+      </tuv>
+    </tu>
+    <tu creationdate="20141105T084246Z" changedate="20141105T084246Z">
+      <tuv xml:lang="en">
+        <prop type="x-context-pre">&lt;seg&gt;third sentence.&lt;/seg&gt;</prop>
+        <prop type="x-context-post">&lt;seg&gt;One more little sentence.&lt;/seg&gt;</prop>
+        <seg>fourth phrase.</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Четвертая фраза</seg>
+      </tuv>
+    </tu>
+    <tu creationdate="20141105T084255Z" changedate="20141105T084255Z">
+      <tuv xml:lang="en">
+        <prop type="x-context-pre">&lt;seg&gt;fourth phrase.&lt;/seg&gt;</prop>
+        <prop type="x-context-post">&lt;seg&gt;Another sentence with different text.&lt;/seg&gt;</prop>
+        <seg>One more little sentence.</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Еще одно небольшое предложение</seg>
+      </tuv>
+    </tu>
+    <tu creationdate="20141105T084310Z" changedate="20141105T084310Z">
+      <tuv xml:lang="en">
+        <prop type="x-context-pre">&lt;seg&gt;One more little sentence.&lt;/seg&gt;</prop>
+        <prop type="x-context-post">&lt;seg&gt;sixth sentence.&lt;/seg&gt;</prop>
+        <seg>Another sentence with different text.</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Дрегое предложение с новым текстом</seg>
+      </tuv>
+    </tu>
+    <tu creationdate="20141105T084315Z" changedate="20141105T084315Z">
+      <tuv xml:lang="en">
+        <prop type="x-context-pre">&lt;seg&gt;Another sentence with different text.&lt;/seg&gt;</prop>
+        <prop type="x-context-post">&lt;seg&gt;seventh phrase.&lt;/seg&gt;</prop>
+        <seg>sixth sentence.</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Шестое предложение</seg>
+      </tuv>
+    </tu>
+    <tu creationdate="20141105T084325Z" changedate="20141105T084325Z">
+      <tuv xml:lang="en">
+        <prop type="x-context-pre">&lt;seg&gt;sixth sentence.&lt;/seg&gt;</prop>
+        <prop type="x-context-post">&lt;seg&gt;One more test sentence obviously.&lt;/seg&gt;</prop>
+        <seg>seventh phrase.</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Седьмое предложение</seg>
+      </tuv>
+    </tu>
+    <tu creationdate="20141105T084407Z" changedate="20141105T084407Z">
+      <tuv xml:lang="en">
+        <prop type="x-context-pre">&lt;seg&gt;seventh phrase.&lt;/seg&gt;</prop>
+        <prop type="x-context-post">&lt;seg&gt;Last sentence with totally different text.&lt;/seg&gt;</prop>
+        <seg>One more test sentence obviously.</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Очевидно, еще одно предложение для проверки</seg>
+      </tuv>
+    </tu>
+    <tu creationdate="20141105T084448Z" changedate="20141105T084448Z">
+      <tuv xml:lang="en">
+        <prop type="x-context-pre">&lt;seg&gt;One more test sentence obviously.&lt;/seg&gt;</prop>
+        <prop type="x-context-post">&lt;seg&gt;thirteenth sentence.&lt;/seg&gt;</prop>
+        <seg>Last sentence with totally different text.</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Последнее предложение с абсолютно другим текстом</seg>
+      </tuv>
+    </tu>
+    <tu creationdate="20141105T084500Z" changedate="20141105T084500Z">
+      <tuv xml:lang="en">
+        <prop type="x-context-pre">&lt;seg&gt;Last sentence with totally different text.&lt;/seg&gt;</prop>
+        <prop type="x-context-post">&lt;seg&gt;plus one phrase.&lt;/seg&gt;</prop>
+        <seg>thirteenth sentence.</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Тринадцатое предложение</seg>
+      </tuv>
+    </tu>
+    <tu creationdate="20141105T084506Z" changedate="20141105T084506Z">
+      <tuv xml:lang="en">
+        <prop type="x-context-pre">&lt;seg&gt;thirteenth sentence.&lt;/seg&gt;</prop>
+        <prop type="x-context-post">&lt;seg&gt;One more nice sentence.&lt;/seg&gt;</prop>
+        <seg>plus one phrase.</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Еще одна фраза</seg>
+      </tuv>
+    </tu>
+    <tu creationdate="20141105T084516Z" changedate="20141105T084516Z">
+      <tuv xml:lang="en">
+        <prop type="x-context-pre">&lt;seg&gt;plus one phrase.&lt;/seg&gt;</prop>
+        <prop type="x-context-post">&lt;seg&gt;Last sentence honestly.&lt;/seg&gt;</prop>
+        <seg>One more nice sentence.</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Еще одно милое предложение</seg>
+      </tuv>
+    </tu>
+    <tu creationdate="20141105T084526Z" changedate="20141105T084526Z">
+      <tuv xml:lang="en">
+        <prop type="x-context-pre">&lt;seg&gt;One more nice sentence.&lt;/seg&gt;</prop>
+        <prop type="x-context-post">&lt;seg&gt;seventeenth sentence.&lt;/seg&gt;</prop>
+        <seg>Last sentence honestly.</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Честно, последнее предложение</seg>
+      </tuv>
+    </tu>
+    <tu creationdate="20141105T084535Z" changedate="20141105T084535Z">
+      <tuv xml:lang="en">
+        <prop type="x-context-pre">&lt;seg&gt;Last sentence honestly.&lt;/seg&gt;</prop>
+        <prop type="x-context-post">&lt;seg&gt;cool phrase.&lt;/seg&gt;</prop>
+        <seg>seventeenth sentence.</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Семнадцатое предложение</seg>
+      </tuv>
+    </tu>
+    <tu creationdate="20141105T084612Z" changedate="20141105T084612Z">
+      <tuv xml:lang="en">
+        <prop type="x-context-pre">&lt;seg&gt;seventeenth sentence.&lt;/seg&gt;</prop>
+        <prop type="x-context-post">&lt;seg&gt;One more wonderful sentence.&lt;/seg&gt;</prop>
+        <seg>cool phrase.</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Крутая фраза</seg>
+      </tuv>
+    </tu>
+    <tu creationdate="20141105T084623Z" changedate="20141105T084623Z">
+      <tuv xml:lang="en">
+        <prop type="x-context-pre">&lt;seg&gt;cool phrase.&lt;/seg&gt;</prop>
+        <prop type="x-context-post">&lt;seg&gt;Last sentence with interesting text.&lt;/seg&gt;</prop>
+        <seg>One more wonderful sentence.</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Еще одно замечательное предложение</seg>
+      </tuv>
+    </tu>
+    <tu creationdate="20141105T084633Z" changedate="20141105T084633Z">
+      <tuv xml:lang="en">
+        <prop type="x-context-pre">&lt;seg&gt;One more wonderful sentence.&lt;/seg&gt;</prop>
+        <prop type="x-context-post">&lt;seg&gt;stubborn sentence.&lt;/seg&gt;</prop>
+        <seg>Last sentence with interesting text.</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Последнее предложение с интересным текстом</seg>
+      </tuv>
+    </tu>
+    <tu creationdate="20141105T084639Z" changedate="20141105T084639Z">
+      <tuv xml:lang="en">
+        <prop type="x-context-pre">&lt;seg&gt;Last sentence with interesting text.&lt;/seg&gt;</prop>
+        <prop type="x-context-post">&lt;seg&gt;popular phrase.&lt;/seg&gt;</prop>
+        <seg>stubborn sentence.</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Упрямое предложение</seg>
+      </tuv>
+    </tu>
+    <tu creationdate="20141105T084649Z" changedate="20141105T084649Z">
+      <tuv xml:lang="en">
+        <prop type="x-context-pre">&lt;seg&gt;stubborn sentence.&lt;/seg&gt;</prop>
+        <seg>popular phrase.</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Популярная фраза</seg>
+      </tuv>
+    </tu>
+  </body>
+</tmx>

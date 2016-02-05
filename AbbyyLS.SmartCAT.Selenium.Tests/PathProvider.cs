@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 
@@ -10,71 +9,62 @@ using AbbyyLS.SmartCAT.Selenium.Tests.Configs;
 namespace AbbyyLS.SmartCAT.Selenium.Tests
 {
 	public static class PathProvider
-	{		
+	{
+		#region Файлы для тестов редактора
+
 		/// <summary>
-		/// Путь к тестовому файлу txt для проверки TM
+		/// Путь к тестовому файлу xlf
+		/// </summary>
+		public static string EditorXliffFile
+		{
+			get
+			{
+				return new Uri(Path.Combine(editorFilesFolder, "ТС-42.xlf")).LocalPath;
+			}
+		}
+
+		/// <summary>
+		/// Путь к тестовому файлу txt
 		/// </summary>
 		public static string EditorTxtFile
 		{
-			get 
+			get
 			{
-				return new Uri(Path.Combine(editorFilesFolder, "textWithoutTags.txt")).LocalPath; 
+				return new Uri(Path.Combine(editorFilesFolder, "EditorTxtFile.txt")).LocalPath;
 			}
 		}
 
 		/// <summary>
 		/// Путь к тестовому файлу txt с повторами
 		/// </summary>
-		public static string RepetionsTxtFile
+		public static string RepetitionsTxtFile
 		{
 			get
 			{
-				return new Uri(Path.Combine(FilesDirectory, "repetitionsTxtFile.txt")).LocalPath;
+				return new Uri(Path.Combine(editorFilesFolder, "repetitionsTxtFile.txt")).LocalPath;
 			}
 		}
 
 		/// <summary>
-		/// Путь к тестовому файлу tmx для проверки TM
+		/// Путь к тестовому файлу tmx
 		/// </summary>
-		public static string EditorTmxFile 
+		public static string EditorTmxFile
 		{
-			get 
-			{ 
-				return new Uri(Path.Combine(editorFilesFolder, "textWithoutTags.tmx")).LocalPath;
-			}
-		}
-
-		/// <summary>
-		/// Полный путь к документу без тегов
-		/// </summary>
-		public static string DocumentFileToConfirm1 
-		{
-			get 
-			{ 
-				return new Uri(Path.Combine(filesForConfirmFolder, "testToConfirm.txt")).LocalPath;
-			}
-		}
-
-		/// <summary>
-		/// Полный путь ко второму документу без тегов
-		/// </summary>
-		public static string DocumentFileToConfirm2
-		{
-			get 
-			{ 
-				return new Uri(Path.Combine(filesForConfirmFolder, "testToConfirm2.txt")).LocalPath;
+			get
+			{
+				return new Uri(Path.Combine(editorFilesFolder, "EditorTmxFile.tmx")).LocalPath;
 			}
 		}
 
 		/// <summary>
 		/// Путь к тестовому файлу txt на match'и
 		/// </summary>
-		public static string TxtFileForMatchTest 
+		public static string TxtFileForMatchTest
 		{
-			get 
-			{ 
+			get
+			{
 				return new Uri(Path.Combine(filesForMatchTestFolder, "TxtFileForMatchTest.docx")).LocalPath;
-			} 
+			}
 		}
 
 		/// <summary>
@@ -82,95 +72,44 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests
 		/// </summary>
 		public static string TmxFileForMatchTest
 		{
-			get 
-			{ 
+			get
+			{
 				return new Uri(Path.Combine(filesForMatchTestFolder, "TmxFileForMatchTest.tmx")).LocalPath;
 			}
 		}
 
 		/// <summary>
-		/// Путь к длинному тестовому текстовому файлу
+		/// Путь к папке тестовых файлов на match'и
 		/// </summary>
-		public static string LongTxtFile
-		{
-			get 
-			{ 
-				return new Uri(Path.Combine(longFilesTestFolder, "LongText.txt")).LocalPath;
-			}
-		}
-
-		/// <summary>
-		/// Путь к длинному тестовому файлу tmx
-		/// </summary>
-		public static string LongTmxFile
-		{
-			get 
-			{ 
-				return new Uri(Path.Combine(longFilesTestFolder, "LongTM.tmx")).LocalPath;
-			}
-		}
-
-		/// <summary>
-		/// Путь к длинному тестовому файлу tmx в одну строку
-		/// </summary>
-		public static string OneLineTmxFile
-		{
-			get 
-			{ 
-				return new Uri(Path.Combine(longFilesTestFolder, "OneLineTmx.tmx")).LocalPath;
-			}
-		}
-
-		/// <summary>
-		/// Путь к папке тестовых tmx
-		/// </summary>
-		public static string TMTestFolder
+		private static string filesForMatchTestFolder
 		{
 			get
 			{
-				return new Uri(Path.Combine(FilesDirectory, "TMTestFiles")).LocalPath;
+				return new Uri(Path.Combine(editorFilesFolder, "FilesForMatchTest")).LocalPath;
 			}
 		}
 
 		/// <summary>
-		/// Путь к папке файлов для тестирования форматов, поддерживаемые ОР
+		/// Путь к папке файлов для тестирования редактора
 		/// </summary>
-		public static string FilesForStandaloneDifferentFormatsFolder
+		private static string editorFilesFolder
 		{
 			get
 			{
-				return new Uri(Path.Combine(FilesDirectory, "FilesForStandaloneDifferentFormatsFolder")).LocalPath;
+				return new Uri(Path.Combine(FilesDirectory, "Editor")).LocalPath;
 			}
 		}
 
-		/// <summary>
-		/// Путь ко второму тестовому tmx файлу
-		/// </summary>
-		public static string TMTestFile2 
-		{
-			get 
-			{ 
-				return new Uri(Path.Combine(TMTestFolder, "TMFile2.tmx")).LocalPath;
-			}
-		}
-		
-		/// <summary>
-		/// Путь к тестовому файлу xlf
-		/// </summary>
-		public static string EditorXlfFile 
-		{
-			get
-			{
-				return new Uri(Path.Combine(Path.Combine(FilesDirectory, "Xliff"), "ТС-42.xlf")).LocalPath;
-			}
-		}
+		#endregion
+
+		#region Файлы для тестов проектов
 
 		/// <summary>
 		/// Полный путь к документу для загрузки
 		/// </summary>
-		public static string DocumentFile 
+		public static string DocumentFile
 		{
-			get 
+			get
 			{
 				return new Uri(Path.Combine(FilesDirectory, "littleEarth.docx")).LocalPath;
 			}
@@ -181,130 +120,134 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests
 		/// </summary>
 		public static string DocumentFile2
 		{
-			get 
+			get
 			{
 				return new Uri(Path.Combine(FilesDirectory, "English.docx")).LocalPath;
 			}
 		}
 
 		/// <summary>
+		/// Полный путь к документу без тегов
+		/// </summary>
+		public static string DocumentFileToConfirm1
+		{
+			get
+			{
+				return new Uri(Path.Combine(projectsFilesFolder, "testToConfirm.txt")).LocalPath;
+			}
+		}
+
+		/// <summary>
+		/// Полный путь ко второму документу без тегов
+		/// </summary>
+		public static string DocumentFileToConfirm2
+		{
+			get
+			{
+				return new Uri(Path.Combine(projectsFilesFolder, "testToConfirm2.txt")).LocalPath;
+			}
+		}
+
+		/// <summary>
+		/// Путь к длинному тестовому текстовому файлу
+		/// </summary>
+		public static string LongTxtFile
+		{
+			get
+			{
+				return new Uri(Path.Combine(projectsFilesFolder, "LongText.txt")).LocalPath;
+			}
+		}
+
+		/// <summary>
 		/// Путь к тестовому ttx файлу
 		/// </summary>
-		public static string TtxFile 
+		public static string TtxFile
 		{
-			get 
+			get
 			{
-				return new Uri(Path.Combine(FilesDirectory, "test.ttx")).LocalPath;
+				return new Uri(Path.Combine(projectsFilesFolder, "test.ttx")).LocalPath;
 			}
 		}
 
 		/// <summary>
-		/// Путь к тестовому txt файлу
+		/// Путь к папке файлов для тестирования форматов, поддерживаемых системой
 		/// </summary>
-		public static string TxtFile 
+		public static string SupportedFormatsFiles
 		{
-			get 
+			get
 			{
-				return new Uri(Path.Combine(FilesDirectory, "test.txt")).LocalPath;
+				return new Uri(Path.Combine(projectsFilesFolder, "SupportedFormatsFiles")).LocalPath;
 			}
 		}
 
 		/// <summary>
-		/// Путь к тестовому srt файлу
+		/// Путь к папке файлов для тестирования форматов, не поддерживаемых системой
 		/// </summary>
-		public static string SrtFile 
+		public static string UnSupportedFormatsFiles
 		{
-			get 
+			get
 			{
-				return new Uri(Path.Combine(FilesDirectory, "test.srt")).LocalPath;
+				return new Uri(Path.Combine(projectsFilesFolder, "UnSupportedFormatsFiles")).LocalPath;
 			}
 		}
 
 		/// <summary>
-		/// Путь к тестовому xliff файлу
+		/// Путь к папке файлов для тестирования редактора
 		/// </summary>
-		public static string XliffFile 
+		private static string projectsFilesFolder
 		{
-			get 
+			get
 			{
-				return new Uri(Path.Combine(FilesDirectory, "TC-10En.xliff")).LocalPath;
+				return new Uri(Path.Combine(FilesDirectory, "Projects")).LocalPath;
+			}
+		}
+
+		#endregion
+
+		#region Файлы для тестов TM
+
+		/// <summary>
+		/// Путь к длинному тестовому файлу tmx
+		/// </summary>
+		public static string LongTmxFile
+		{
+			get
+			{
+				return new Uri(Path.Combine(tmFilesFolder, "LongTM.tmx")).LocalPath;
+			}
+		}
+
+		/// <summary>
+		/// Путь к длинному тестовому файлу tmx в одну строку
+		/// </summary>
+		public static string OneLineTmxFile
+		{
+			get
+			{
+				return new Uri(Path.Combine(tmFilesFolder, "OneLineTmx.tmx")).LocalPath;
+			}
+		}
+
+		/// <summary>
+		/// Путь ко второму тестовому tmx файлу
+		/// </summary>
+		public static string TmxFile
+		{
+			get
+			{
+				return new Uri(Path.Combine(tmFilesFolder, "CorrectTmxEnRu.tmx")).LocalPath;
 			}
 		}
 
 		/// <summary>
 		/// Путь к тестовому файлу tmx
 		/// </summary>
-		public static string SecondTmFile 
-		{
-			get 
-			{
-				return new Uri(Path.Combine(FilesDirectory, "TextEngTestAddTMX.tmx")).LocalPath;
-			}
-		}
-
-		/// <summary>
-		/// Путь к файлу txt с расширением tmx
-		/// </summary>
-		public static string TxtWithTmxExtension
+		public static string SecondTmxFile
 		{
 			get
 			{
-				return new Uri(Path.Combine(TMTestFolder, "TxtWithTmxExtension.tmx")).LocalPath;
-			}
-		}
-
-		/// <summary>
-		/// Путь к файлу tmx с длинным значением в поле Seg
-		/// </summary>
-		public static string LongSegValue
-		{
-			get
-			{
-				return new Uri(Path.Combine(TMTestFolder, "longSegValue.tmx")).LocalPath;
-			}
-		}
-
-		/// <summary>
-		/// Путь к файлу tmx с отсутствующим закрывающим тегом tmx
-		/// </summary>
-		public static string WithoutTmxEndTag
-		{
-			get
-			{
-				return new Uri(Path.Combine(TMTestFolder, "withoutTmxEndTag.tmx")).LocalPath;
-			}
-		}
-
-		/// <summary>
-		/// Путь к файлу tmx с отсутствующим закрывающим тегом body
-		/// </summary>
-		public static string WithoutBodyEndTag
-		{
-			get
-			{
-				return new Uri(Path.Combine(TMTestFolder, "withoutBodyEndTag.tmx")).LocalPath;
-			}
-		}
-
-		/// <summary>
-		/// Путь к файлу tmx с отсутствующим закрывающим тегом tu
-		/// </summary>
-		public static string WithoutTuEndTag
-		{
-			get
-			{
-				return new Uri(Path.Combine(TMTestFolder, "withoutTuEndTag.tmx")).LocalPath;
-			}
-		}
-
-		/// <summary>
-		/// Путь к файлу tmx с отсутствующим закрывающим тегом seg
-		/// </summary>
-		public static string WithoutSegEndTag
-		{
-			get
-			{
-				return new Uri(Path.Combine(TMTestFolder, "withoutSegEndTag.tmx")).LocalPath;
+				return new Uri(Path.Combine(tmFilesFolder, "SecondCorrectTmxEnRu.tmx")).LocalPath;
 			}
 		}
 
@@ -315,40 +258,148 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests
 		{
 			get
 			{
-				return new Uri(Path.Combine(TMTestFolder, "withUnicodeCharacters.tmx")).LocalPath;
+				return new Uri(Path.Combine(tmFilesFolder, "withUnicodeCharacters.tmx")).LocalPath;
 			}
 		}
 
 		/// <summary>
-		/// Путь к тестовому файлу xlsx
+		/// Путь к папке с файлами для тестов TM
 		/// </summary>
-		public static string ImportGlossaryFile 
+		public static string IncorrectTmxFilesFolder
 		{
-			get 
+			get
 			{
-				return new Uri(Path.Combine(FilesDirectory, "TestGlossary.xlsx")).LocalPath;
+				return new Uri(Path.Combine(tmFilesFolder, "IncorrectTmxFiles")).LocalPath;
 			}
 		}
-		
+
+		/// <summary>
+		/// Путь к папке с файлами для тестов TM
+		/// </summary>
+		private static string tmFilesFolder
+		{
+			get
+			{
+				return new Uri(Path.Combine(FilesDirectory, "TM")).LocalPath;
+			}
+		}
+
+		#endregion
+
+		#region Файлы для тестов глоссариев
+
+		/// <summary>
+		/// Путь к тестовому файлу xlsx
+		/// </summary>
+		public static string GlossaryFileForImport
+		{
+			get
+			{
+				return new Uri(Path.Combine(glossariesFilesFolder, "TestGlossary.xlsx")).LocalPath;
+			}
+		}
+
 		/// <summary>
 		/// Путь к тестовому файлу jpg
 		/// </summary>
-		public static string ImageFile 
+		public static string ImageFileForGlossariesTests
 		{
-			get 
+			get
 			{
-				return new Uri(Path.Combine(FilesDirectory, "TestImage.jpg")).LocalPath;
+				return new Uri(Path.Combine(glossariesFilesFolder, "TestImage.jpg")).LocalPath;
 			}
 		}
-		
+
 		/// <summary>
 		/// Путь к тестовому файлу mp3
 		/// </summary>
-		public static string AudioFile 
+		public static string AudioFileForGlossariesTests
 		{
-			get 
+			get
 			{
-				return new Uri(Path.Combine(FilesDirectory, "TestAudio.mp3")).LocalPath;
+				return new Uri(Path.Combine(glossariesFilesFolder, "TestAudio.mp3")).LocalPath;
+			}
+		}
+
+		/// <summary>
+		/// Путь к папке с файлами для тестов глоссария
+		/// </summary>
+		private static string glossariesFilesFolder
+		{
+			get
+			{
+				return new Uri(Path.Combine(FilesDirectory, "Glossaries")).LocalPath;
+			}
+		}
+
+		#endregion
+
+		#region Файлы для тестов курсеры
+
+		/// <summary>
+		/// Получить файлы из папки FilesForCourseraProject
+		/// </summary>
+		/// <returns></returns>
+		public static IList<string> GetFilesFromCourseraFolder()
+		{
+			var files = new List<string>();
+			var filesInFolder = new DirectoryInfo(
+				Path.Combine(сourseraFilesTestFolder, "FilesForCourseraProject")).GetFiles();
+
+			foreach (FileInfo file in filesInFolder)
+			{
+				files.Add(file.FullName);
+			}
+
+			return files;
+		}
+
+		/// <summary>
+		/// Путь к папке тестовых файлов для курсеры
+		/// </summary>
+		private static string сourseraFilesTestFolder
+		{
+			get
+			{
+				return new Uri(Path.Combine(FilesDirectory, "Coursera")).LocalPath;
+			}
+		}
+
+		#endregion
+
+		/// <summary>
+		/// Путь к папке с тестовыми файлами
+		/// </summary>
+		public static string FilesDirectory
+		{
+			get
+			{
+				return new Uri(Path.Combine(
+					AppDomain.CurrentDomain.BaseDirectory, _pathConfig.FilesDirectory)).LocalPath;
+			}
+		}
+
+		/// <summary>
+		/// Путь к папке результатов тестов
+		/// </summary>
+		public static string ResultsFolderPath
+		{
+			get
+			{
+				return new Uri(Path.Combine(AppDomain.CurrentDomain.BaseDirectory,
+					_pathConfig.ResultDirectory)).LocalPath;
+			}
+		}
+
+		/// <summary>
+		/// Путь к папкам с драйверами
+		/// </summary>
+		public static string DriversTemporaryFolder
+		{
+			get
+			{
+				return new Uri(Path.Combine(AppDomain.CurrentDomain.BaseDirectory,
+					"WebDrivers")).LocalPath;
 			}
 		}
 
@@ -360,101 +411,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests
 			get
 			{
 				return new Uri(Path.Combine(ResultsFolderPath, "ExportFiles")).LocalPath;
-			}
-		}
-
-		/// <summary>
-		/// Путь к папке результатов тестов
-		/// </summary>
-		public static string ResultsFolderPath 
-		{
-			get
-			{
-				return new Uri(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, _pathConfig.ResultDirectory)).LocalPath;
-			}
-		}
-
-		public static string DriversTemporaryFolder
-		{
-			get
-			{
-				return new Uri(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "WebDrivers")).LocalPath;
-
-			}
-		}
-
-		/// <summary>
-		/// Путь к папке тестовых "длинных" файлов
-		/// </summary>
-		private static string longFilesTestFolder
-		{
-			get
-			{
-				return new Uri(Path.Combine(FilesDirectory, "LongTxtTmx")).LocalPath;
-			}
-		}
-
-		/// <summary>
-		/// Путь к папке тестовых файлов для курсеры
-		/// </summary>
-		private static string сourseraFilesTestFolder
-		{
-			get
-			{
-				return new Uri(Path.Combine(FilesDirectory, "FilesForCoursera")).LocalPath;
-			}
-		}
-
-		/// <summary>
-		/// Путь к папке тестовых файлов на match'и
-		/// </summary>
-		private static string filesForMatchTestFolder
-		{
-			get
-			{
-				return new Uri(Path.Combine(FilesDirectory, "FilesForMatchTest")).LocalPath;
-			}
-		}
-
-		/// <summary>
-		/// Путь к папке документов без тегов
-		/// </summary>
-		private static string filesForConfirmFolder
-		{
-			get
-			{
-				return new Uri(Path.Combine(FilesDirectory, "FilesForConfirm")).LocalPath;
-			}
-		}
-
-		/// <summary>
-		/// Путь к папке файлов для тестирования редактора
-		/// </summary>
-		private static string editorFilesFolder
-		{
-			get
-			{
-				return new Uri(Path.Combine(FilesDirectory, "FileForTestTM")).LocalPath;
-			}
-		}
-
-		public static IList<string> GetFilesFromCourseraFolder()
-		{
-			var files = new List<string>();
-			var filesInFolder = new DirectoryInfo((Path.Combine(FilesDirectory, "FilesForCoursera"))).GetFiles();
-			foreach (FileInfo file in filesInFolder)
-			{
-				files.Add(file.FullName);
-			}
-
-			return files;
-		}
-
-		public static string FilesDirectory
-		{
-			get
-			{
-				return new Uri(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, _pathConfig.FilesDirectory)).LocalPath;
 			}
 		}
 

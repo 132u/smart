@@ -6,7 +6,6 @@ using AbbyyLS.SmartCAT.Selenium.Tests.FeatureAttributes;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 {
-	[Category("QWERTY")]
 	[Parallelizable(ParallelScope.Fixtures)]
 	[Standalone]
 	class SuggestTermsFromGlossariesTests<TWebDriverProvider>

@@ -12,6 +12,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 	class CreateProjectsWithDifferentDocumentFormatTests<TWebDriverProvider>
 		: BaseProjectTest<TWebDriverProvider> where TWebDriverProvider : IWebDriverProvider, new()
 	{
+		[TestCase("jpcFile.jpc")]
+		[TestCase("tjsonFile.tjson")]
+		[TestCase("bmpFile.bmp")]
 		[TestCase("docFile.doc")]
 		[TestCase("docxFile.docx")]
 		[TestCase("htmFile.htm")]
@@ -59,7 +62,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 
 			_createProjectHelper.CreateNewProject(
 				projectUniqueName,
-				filePath: Path.Combine(PathProvider.FilesForStandaloneDifferentFormatsFolder, file),
+				filePath: Path.Combine(PathProvider.SupportedFormatsFiles, file),
 				expectingError: true);
 
 			Assert.IsTrue(_projectsPage.IsProjectAppearInList(projectUniqueName),
@@ -75,14 +78,16 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 				"Произошла ошибка: появилась пиктограмма предупреждения напротив проекта");
 		}
 
-		[Test]
-		public void ImportUnsupportedFileTest()
+		[TestCase("TestAudio.mp3")]
+		public void ImportUnsupportedFileTest(string file)
 		{
 			_projectsPage.ClickCreateProjectButton();
 
-			_newProjectDocumentUploadPage.UploadDocumentFile(PathProvider.AudioFile);
+			_newProjectDocumentUploadPage.UploadDocumentFile(
+				Path.Combine(PathProvider.UnSupportedFormatsFiles, file));
 
-			Assert.IsTrue(_newProjectDocumentUploadPage.IsWrongDocumentFormatErrorDisplayed(PathProvider.AudioFile),
+			Assert.IsTrue(_newProjectDocumentUploadPage.IsWrongDocumentFormatErrorDisplayed(
+				Path.Combine(PathProvider.UnSupportedFormatsFiles, file)),
 				"Произошла ошибка:\n не появилось сообщение о неверном формате загружаемого документа");
 		}
 	}

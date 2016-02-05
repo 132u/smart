@@ -48,7 +48,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.TranslationMemories
 
 			TranslationMemoriesPage.ClickAddTmxButton();
 
-			ImportTmxDialog.ImportTmxFile(PathProvider.TMTestFile2);
+			ImportTmxDialog.ImportTmxFile(PathProvider.TmxFile);
 
 			var unitsCountAfter = TranslationMemoriesPage
 										.OpenTranslationMemoryInformation(UniqueTMName)
@@ -65,7 +65,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.TranslationMemories
 
 			TranslationMemoriesPage.OpenImportTmxDialog(UniqueTMName, update: false);
 
-			ImportTmxDialog.ImportTmxFile(PathProvider.SecondTmFile);
+			ImportTmxDialog.ImportTmxFile(PathProvider.SecondTmxFile);
 
 			Assert.IsTrue(TranslationMemoriesPage.IsFileImportAddingNotifierDisappeared(),
 				"Произошла ошибка:\n сообщение о процессе импорта TMX файла не исчезло");

@@ -1,4 +1,6 @@
-﻿using NUnit.Framework;
+﻿using System.IO;
+
+using NUnit.Framework;
 
 using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
 
@@ -8,14 +10,20 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.TranslationMemories
 	class TmUpdatingInvalidDataTests<TWebDriverProvider>
 		: BaseTmTest<TWebDriverProvider> where TWebDriverProvider : IWebDriverProvider, new()
 	{
-		[Test, Ignore("PRX-11602")]
-		public void UpdateTmxWithoutTmxEndTagTest()
+		[TestCase("withoutTmxEndTag.tmx", Ignore = "PRX-11602")]
+		[TestCase("withoutBodyEndTag.tmx")]
+		[TestCase("longSegValue.tmx")]
+		[TestCase("withoutTuEndTag.tmx")]
+		[TestCase("txtWithTmxExtension.tmx")]
+		public void UpdateTmWithIncorrectTmxFileTest(string file)
 		{
-			TranslationMemoriesHelper.CreateTranslationMemory(UniqueTMName, importFilePath: PathProvider.EditorTmxFile);
+			TranslationMemoriesHelper.CreateTranslationMemory(UniqueTMName,
+				importFilePath: PathProvider.EditorTmxFile);
 
 			TranslationMemoriesPage.OpenImportTmxDialog(UniqueTMName, update: true);
 
-			ImportTmxDialog.ImportTmxFileExpectingConfirmation(PathProvider.WithoutTmxEndTag);
+			ImportTmxDialog.ImportTmxFileExpectingConfirmation(
+				Path.Combine(PathProvider.IncorrectTmxFilesFolder, file));
 
 			ConfirmReplacementDialog.ClickConfirmReplacementButton();
 
@@ -23,74 +31,16 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.TranslationMemories
 				"Произошла ошибка:\n сообщение об ошибке во время импорта TMX файла не появилось");
 		}
 
-		[Test]
-		public void UpdateTmxWithoutBodyEndTagTest()
+		[TestCase("docxFile.docx")]
+		public void UpdateTMImportValidation(string file)
 		{
-			TranslationMemoriesHelper.CreateTranslationMemory(UniqueTMName, importFilePath: PathProvider.EditorTmxFile);
+			TranslationMemoriesHelper.CreateTranslationMemory(UniqueTMName,
+				importFilePath: PathProvider.EditorTmxFile);
 
 			TranslationMemoriesPage.OpenImportTmxDialog(UniqueTMName, update: true);
 
-			ImportTmxDialog.ImportTmxFileExpectingConfirmation(PathProvider.WithoutBodyEndTag);
-
-			ConfirmReplacementDialog.ClickConfirmReplacementButton();
-
-			Assert.IsTrue(TranslationMemoriesPage.IsFileImportFailedNotifierDisplayed(),
-				"Произошла ошибка:\n сообщение об ошибке во время импорта TMX файла не появилось");
-		}
-
-		[Test]
-		public void UpdateTmxWithLongSegValueTest()
-		{
-			TranslationMemoriesHelper.CreateTranslationMemory(UniqueTMName, importFilePath: PathProvider.EditorTmxFile);
-
-			TranslationMemoriesPage.OpenImportTmxDialog(UniqueTMName, update: true);
-
-			ImportTmxDialog.ImportTmxFileExpectingConfirmation(PathProvider.LongSegValue);
-
-			ConfirmReplacementDialog.ClickConfirmReplacementButton();
-
-			Assert.IsTrue(TranslationMemoriesPage.IsFileImportFailedNotifierDisplayed(),
-				"Произошла ошибка:\n сообщение об ошибке во время импорта TMX файла не появилось");
-		}
-
-		[Test]
-		public void UpdateTmxWithoutTuEndTagTest()
-		{
-			TranslationMemoriesHelper.CreateTranslationMemory(UniqueTMName, importFilePath: PathProvider.EditorTmxFile);
-
-			TranslationMemoriesPage.OpenImportTmxDialog(UniqueTMName, update: true);
-
-			ImportTmxDialog.ImportTmxFileExpectingConfirmation(PathProvider.WithoutTuEndTag);
-
-			ConfirmReplacementDialog.ClickConfirmReplacementButton();
-
-			Assert.IsTrue(TranslationMemoriesPage.IsFileImportFailedNotifierDisplayed(),
-				"Произошла ошибка:\n сообщение об ошибке во время импорта TMX файла не появилось");
-		}
-
-		[Test]
-		public void UpdateTxtWithTmxExtensionTest()
-		{
-			TranslationMemoriesHelper.CreateTranslationMemory(UniqueTMName, importFilePath: PathProvider.EditorTmxFile);
-
-			TranslationMemoriesPage.OpenImportTmxDialog(UniqueTMName, update: true);
-
-			ImportTmxDialog.ImportTmxFileExpectingConfirmation(PathProvider.TxtWithTmxExtension);
-
-			ConfirmReplacementDialog.ClickConfirmReplacementButton();
-
-			Assert.IsTrue(TranslationMemoriesPage.IsFileImportFailedNotifierDisplayed(),
-				"Произошла ошибка:\n сообщение об ошибке во время импорта TMX файла не появилось");
-		}
-
-		[Test]
-		public void UpdateTMFileWithWrongExtensionTest()
-		{
-			TranslationMemoriesHelper.CreateTranslationMemory(UniqueTMName, importFilePath: PathProvider.EditorTmxFile);
-
-			TranslationMemoriesPage.OpenImportTmxDialog(UniqueTMName, update: true);
-
-			ImportTmxDialog.ImportTmxFileExpectingConfirmation(PathProvider.DocumentFile);
+			ImportTmxDialog.ImportTmxFileExpectingConfirmation(
+				Path.Combine(PathProvider.IncorrectTmxFilesFolder, file));
 
 			ConfirmReplacementDialog.ClickConfirmReplacementButtonExpectingError();
 

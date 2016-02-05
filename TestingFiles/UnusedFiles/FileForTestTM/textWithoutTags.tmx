@@ -1,0 +1,44 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<tmx version="1.4">
+  <header creationtool="AbbyyLS.Tmx" creationtoolversion="2.4.21.13034" segtype="sentence" o-tmf="ATM" adminlang="en-US" srclang="en" datatype="plaintext" />
+  <body>
+    <tu>
+      <tuv xml:lang="en">
+        <prop type="x-context-post">&lt;seg&gt;Second phrase.&lt;/seg&gt;</prop>
+        <seg>First sentence.</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Первое предложение.</seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv xml:lang="en">
+        <prop type="x-context-pre">&lt;seg&gt;First sentence.&lt;/seg&gt;</prop>
+        <prop type="x-context-post">&lt;seg&gt;One more test sentence.&lt;/seg&gt;</prop>
+        <seg>Second phrase.</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Вторая фраза.</seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv xml:lang="en">
+        <prop type="x-context-pre">&lt;seg&gt;Second phrase.&lt;/seg&gt;</prop>
+        <prop type="x-context-post">&lt;seg&gt;Last sentence with different text.&lt;/seg&gt;</prop>
+        <seg>One more test sentence.</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Еще одно тестовое предложение.</seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv xml:lang="en">
+        <prop type="x-context-pre">&lt;seg&gt;One more test sentence.&lt;/seg&gt;</prop>
+        <seg>Last sentence with different text.</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Последнее предложение с текстом.</seg>
+      </tuv>
+    </tu>
+  </body>
+</tmx>

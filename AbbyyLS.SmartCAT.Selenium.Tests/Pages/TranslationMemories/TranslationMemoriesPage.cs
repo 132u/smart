@@ -728,7 +728,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories
 		{
 			CustomTestContext.WriteLine("Проверить, что сообщение о процессе импорта TMX файла исчезло");
 
-			return Driver.WaitUntilElementIsDisappeared(By.XPath(FILE_IMPORT_ADDING_NOTIFIER), 30);
+			return Driver.WaitUntilElementIsDisappeared(By.XPath(FILE_IMPORT_ADDING_NOTIFIER), 40);
 		}
 
 		/// <summary>

@@ -16,7 +16,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 			_glossaryPage.ClickImportButton();
 
 			_glossaryImportDialog
-				.ImportGlossary(PathProvider.ImportGlossaryFile)
+				.ImportGlossary(PathProvider.GlossaryFileForImport)
 				.ClickImportButtonInImportDialog();
 
 			_glossarySuccessImportDialog.ClickCloseButton();
@@ -37,7 +37,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 
 			_glossaryImportDialog
 				.ClickReplaceTermsButton()
-				.ImportGlossary(PathProvider.ImportGlossaryFile)
+				.ImportGlossary(PathProvider.GlossaryFileForImport)
 				.ClickImportButtonInImportDialog();
 
 			_glossarySuccessImportDialog.ClickCloseButton();

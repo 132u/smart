@@ -32,13 +32,13 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Editor
 		{
 			var _projectUniqueName = _createProjectHelper.GetProjectUniqueName();
 
-			_createProjectHelper.CreateNewProject(_projectUniqueName, filePath: PathProvider.EditorXlfFile);
+			_createProjectHelper.CreateNewProject(_projectUniqueName, filePath: PathProvider.EditorXliffFile);
 
 			_projectsPage.ClickProject(_projectUniqueName);
 
-			_projectSettingsHelper.AssignTasksOnDocument(Path.GetFileNameWithoutExtension(PathProvider.EditorXlfFile), ThreadUser.NickName);
+			_projectSettingsHelper.AssignTasksOnDocument(Path.GetFileNameWithoutExtension(PathProvider.EditorXliffFile), ThreadUser.NickName);
 
-			_projectSettingsPage.OpenDocumentInEditorWithTaskSelect(Path.GetFileNameWithoutExtension(PathProvider.EditorXlfFile));
+			_projectSettingsPage.OpenDocumentInEditorWithTaskSelect(Path.GetFileNameWithoutExtension(PathProvider.EditorXliffFile));
 
 			_selectTaskDialog.SelectTask();
 

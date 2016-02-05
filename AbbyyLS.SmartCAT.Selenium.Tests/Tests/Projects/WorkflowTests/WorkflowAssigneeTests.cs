@@ -15,7 +15,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 		[SetUp]
 		public void WorkflowAssigneeTestsSetUp()
 		{
-			_createProjectHelper.CreateNewProject(_projectUniqueName, filePath: PathProvider.RepetionsTxtFile);
+			_createProjectHelper.CreateNewProject(_projectUniqueName, filePath: PathProvider.RepetitionsTxtFile);
 
 			_projectsPage.ClickProject(_projectUniqueName);
 		}
@@ -23,9 +23,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 		[Test, Description("ТС-0511 Отказ после подтверждения")]
 		public void DeclineTaskTest()
 		{
-			_projectSettingsHelper.AssignTasksOnDocument(PathProvider.RepetionsTxtFile, ThreadUser.NickName);
+			_projectSettingsHelper.AssignTasksOnDocument(PathProvider.RepetitionsTxtFile, ThreadUser.NickName);
 
-			_projectSettingsPage.OpenDocumentInEditorWithTaskSelect(PathProvider.RepetionsTxtFile);
+			_projectSettingsPage.OpenDocumentInEditorWithTaskSelect(PathProvider.RepetitionsTxtFile);
 
 			_selectTaskDialog.SelectTask();
 
@@ -57,7 +57,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 		[Test, Description("ТС-053 Отмена участия исполнителя назначенного этапа")]
 		public void DeclineAssigneeTest()
 		{
-			_projectSettingsHelper.AssignTasksOnDocument(PathProvider.RepetionsTxtFile, ThreadUser.NickName);
+			_projectSettingsHelper.AssignTasksOnDocument(PathProvider.RepetitionsTxtFile, ThreadUser.NickName);
 
 			_workspacePage
 				.GoToProjectsPage()
@@ -122,7 +122,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 			_projectsPage
 				.OpenProjectInfo(_projectUniqueName)
 				.OpenDocumentInfoForProject(_projectUniqueName)
-				.ClickDocumentRefExpectingSelectTaskDialog(PathProvider.RepetionsTxtFile);
+				.ClickDocumentRefExpectingSelectTaskDialog(PathProvider.RepetitionsTxtFile);
 				
 			_selectTaskDialog.SelectTask();
 
@@ -156,7 +156,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 			_projectsPage
 				.OpenProjectInfo(_projectUniqueName)
 				.OpenDocumentInfoForProject(_projectUniqueName)
-				.ClickDocumentRefExpectingEditorPage(PathProvider.RepetionsTxtFile);
+				.ClickDocumentRefExpectingEditorPage(PathProvider.RepetitionsTxtFile);
 
 			_editorPage
 				.ClickOnTargetCellInSegment(rowNumber: 9)

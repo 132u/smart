@@ -18,7 +18,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Coursera
 			_newUserSurname = "surname" + Guid.NewGuid().ToString().Substring(0, Guid.NewGuid().ToString().IndexOf("-"));
 			_newFullName = _newUserName + " " + _newUserSurname;
 			_translationText = "Test" + Guid.NewGuid();
-			_filePath = PathProvider.ImageFile;
 
 			_loginHelper.LogInCoursera(CourseraCrowdsourceUser.Login, CourseraCrowdsourceUser.Password);
 		}
@@ -29,6 +28,5 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Coursera
 		protected string _newUserSurname;
 		protected string _newFullName;
 		protected string _translationText;
-		protected string _filePath;
 	}
 }

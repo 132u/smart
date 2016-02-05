@@ -5,6 +5,7 @@ using AbbyyLS.SmartCAT.Selenium.Tests.FeatureAttributes;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.TranslationMemories
 {
+	[Category("QWERTY")]
 	[Parallelizable(ParallelScope.Fixtures)]
 	[Standalone]
 	class EditTmInvalidDataTests<TWebDriverProvider>
@@ -16,7 +17,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.TranslationMemories
 		[TestCase(false, " ")]
 		public void EditTMSaveWithInvalidNameTest(bool needUploadTmx, string invalidName)
 		{
-			var importFilePath = needUploadTmx ? PathProvider.TMTestFile2 : null;
+			var importFilePath = needUploadTmx ? PathProvider.TmxFile : null;
 
 			TranslationMemoriesHelper.CreateTranslationMemory(UniqueTMName, importFilePath: importFilePath);
 

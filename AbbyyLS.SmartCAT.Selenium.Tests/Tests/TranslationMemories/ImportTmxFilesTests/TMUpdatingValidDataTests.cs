@@ -19,7 +19,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.TranslationMemories
 
 			TranslationMemoriesPage.ClickUpdateTmButton();
 
-			ImportTmxDialog.ImportTmxFileExpectingConfirmation(PathProvider.TMTestFile2);
+			ImportTmxDialog.ImportTmxFileExpectingConfirmation(PathProvider.TmxFile);
 
 			ConfirmReplacementDialog.ClickConfirmReplacementButton();
 
@@ -38,7 +38,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.TranslationMemories
 
 			TranslationMemoriesPage.OpenImportTmxDialog(UniqueTMName, update: true);
 
-			ImportTmxDialog.ImportTmxFileExpectingConfirmation(PathProvider.SecondTmFile);
+			ImportTmxDialog.ImportTmxFileExpectingConfirmation(PathProvider.SecondTmxFile);
 
 			ConfirmReplacementDialog.ClickConfirmReplacementButton();
 

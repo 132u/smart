@@ -181,10 +181,10 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 			_glossaryPage
 				.ClickNewEntryButton()
 				.FillTermInLanguagesAndTermsSection()
-				.UploadMediaFile(PathProvider.AudioFile)
+				.UploadMediaFile(PathProvider.AudioFileForGlossariesTests)
 				.ClickSaveEntryButton();
 
-			Assert.IsTrue(_glossaryPage.IsMediaFileMatchExpected(Path.GetFileName(PathProvider.AudioFile), fieldName),
+			Assert.IsTrue(_glossaryPage.IsMediaFileMatchExpected(Path.GetFileName(PathProvider.AudioFileForGlossariesTests), fieldName),
 				"Произошла ошибка:\n неверное значение в поле {0} типа Media.", fieldName);
 				
 			_glossaryPage.CloseExpandedTerms();
@@ -213,10 +213,10 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 				"Произошла ошибка:\n поле {0} не подсвечено красным цветом.", fieldName);
 
 			_glossaryPage
-				.UploadMediaFile(PathProvider.AudioFile)
+				.UploadMediaFile(PathProvider.AudioFileForGlossariesTests)
 				.ClickSaveEntryButton();
 
-			Assert.IsTrue(_glossaryPage.IsMediaFileMatchExpected(Path.GetFileName(PathProvider.AudioFile), fieldName),
+			Assert.IsTrue(_glossaryPage.IsMediaFileMatchExpected(Path.GetFileName(PathProvider.AudioFileForGlossariesTests), fieldName),
 				"Произошла ошибка:\n неверное значение в поле {0} типа Media.", fieldName);
 
 			_glossaryPage.CloseExpandedTerms();
@@ -239,7 +239,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 			_glossaryPage
 				.ClickNewEntryButton()
 				.FillTermInLanguagesAndTermsSection()
-				.UploadImageFile(PathProvider.ImageFile)
+				.UploadImageFile(PathProvider.ImageFileForGlossariesTests)
 				.ClickSaveEntryButton();
 
 			Assert.IsTrue(_glossaryPage.IsImageFieldFilled(fieldName),
@@ -271,7 +271,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 				"Произошла ошибка:\n поле {0} не подсвечено красным цветом.", fieldName);
 
 			_glossaryPage
-				.UploadImageFile(PathProvider.ImageFile)
+				.UploadImageFile(PathProvider.ImageFileForGlossariesTests)
 				.ClickSaveEntryButton();
 
 			Assert.IsTrue(_glossaryPage.IsImageFieldFilled(fieldName),

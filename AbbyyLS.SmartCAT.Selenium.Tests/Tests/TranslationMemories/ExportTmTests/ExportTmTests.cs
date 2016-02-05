@@ -23,7 +23,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.TranslationMemories
 		public void ExportClearTMButtonTest(bool withImportFile)
 		{
 			TranslationMemoriesHelper
-				.CreateTranslationMemory(UniqueTMName, importFilePath: withImportFile ? PathProvider.TMTestFile2 : null);
+				.CreateTranslationMemory(UniqueTMName, importFilePath: withImportFile ? PathProvider.TmxFile : null);
 
 			TranslationMemoriesPage.ExportTM(UniqueTMName);
 

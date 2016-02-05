@@ -1,0 +1,464 @@
+﻿<?xml version="1.0" encoding="utf-16"?>
+<tmx version="1.4">
+  <header creationtool="AbbyyLS.Tmx" creationtoolversion="2.4.18.8615" segtype="sentence" o-tmf="ATM" adminlang="en-US" srclang="en" datatype="plaintext" />
+  <body>
+    <tu>
+      <tuv xml:lang="en">
+        <prop type="x-context-post">&lt;seg&gt;It is also the largest of the Solar System's four terrestrial planets.&lt;/seg&gt;</prop>
+        <seg>Earth is the third planet, and the densest and fifth-largest of the eight planets in the Solar System.</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Земля - третья Планета от Солнца, и плотные и пятое место из восьми планет Солнечной Системы.</seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv xml:lang="en">
+        <prop type="x-context-pre">&lt;seg&gt;Earth is the third planet from the Sun, and the densest and fifth-largest of the eight planets in the Solar System.&lt;/seg&gt;</prop>
+        <prop type="x-context-post">&lt;seg&gt;It is sometimes referred to as the world, the Blue Planet, or by its Latin name, Terra.&lt;/seg&gt;</prop>
+        <seg>It is also the biggest of the Solar System's four planets.</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Это также наибольшая из четырёх населенных планет солнечной Системы.</seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv xml:lang="en">
+        <prop type="x-context-pre">&lt;seg&gt;It is also the largest of the Solar System's four terrestrial planets.&lt;/seg&gt;</prop>
+        <prop type="x-context-post">&lt;seg&gt;Earth formed approximately 4.54 billion years ago, and life appeared on its surface within one billion years.&lt;/seg&gt;</prop>
+        <seg>It is sometimes referred to as the world or by its Latin name, Terra.</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Иногда именуется, как мир, Голубая планета, или его латинское название, Терра.</seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv xml:lang="en">
+        <prop type="x-context-pre">&lt;seg&gt;It is sometimes referred to as the world, the Blue Planet, or by its Latin name, Terra.&lt;/seg&gt;</prop>
+        <prop type="x-context-post">&lt;seg&gt;Earth's biosphere then significantly altered the atmospheric and other basic physical conditions, which enabled the proliferation of organisms as well as the formation of the ozone layer, which together with Earth's magnetic field blocked harmful solar radiation, and permitted formerly ocean-confined life to move safely to land.&lt;/seg&gt;</prop>
+        <seg>Earth formed approximately 4.54 billion years ago, and life appeared on its surface within one billion years.</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Земля образовалась примерно 4.54 миллиарда лет назад, и жизнь появилась на её поверхности в течение одного миллиарда лет.</seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv xml:lang="en">
+        <prop type="x-context-pre">&lt;seg&gt;Earth formed approximately 4.54 billion years ago, and life appeared on its surface within one billion years.&lt;/seg&gt;</prop>
+        <prop type="x-context-post">&lt;seg&gt;Thephysical properties of the Earth, as well as its geological history and orbit, have allowed life to persist.&lt;/seg&gt;</prop>
+        <seg>Earth's biosphere then significantly altered the atmospheric and other basic physical conditions, which enabled the proliferation of organisms as well as the formation of the ozone layer, which together with Earth's magnetic field blocked harmful solar radiation, and permitted formerly ocean-confined life to move safely to land.</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Биосфера Земли, то значительно изменили атмосферу и другие основные физические условия, которые позволили распространения организмов, а также формирование озонового слоя, который вместе с магнитным полем Земли заблокирован вредного солнечного излучения, и разрешенного ранее океанской жизни локализованным безопасно передвигаться на землю.</seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv xml:lang="en">
+        <prop type="x-context-pre">&lt;seg&gt;Earth's biosphere then significantly altered the atmospheric and other basic physical conditions, which enabled the proliferation of organisms as well as the formation of the ozone layer, which together with Earth's magnetic field blocked harmful solar radiation, and permitted formerly ocean-confined life to move safely to land.&lt;/seg&gt;</prop>
+        <prop type="x-context-post">&lt;seg&gt;Estimates on how much longer the planet will be able to continue to support life range from 500 million years (myr), to as long as 2.3 billion years (byr).&lt;/seg&gt;</prop>
+        <seg>Thephysical properties of the Earth, as well as its geological history and orbit, have allowed life to persist.</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>То, что многие свойства Земли, а также ее геологической истории и орбиты, позволили жизни, сохранится.</seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv xml:lang="en">
+        <prop type="x-context-pre">&lt;seg&gt;Thephysical properties of the Earth, as well as its geological history and orbit, have allowed life to persist.&lt;/seg&gt;</prop>
+        <prop type="x-context-post">&lt;seg&gt;Earth's lithosphere is divided into several rigid segments, or tectonic plates, that migrate across the surface over periods of many millions of years.&lt;/seg&gt;</prop>
+        <seg>Estimates on how much longer the planet will be able to continue to support life range from 500 million years (myr), to as long as 2.3 billion years (byr).</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Оценки на сколько больше планета сможет продолжать поддерживать диапазон жизни от 500 миллионов лет (MYR), до тех пор, как 2,3 млрд лет (BYR).</seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv xml:lang="en">
+        <prop type="x-context-pre">&lt;seg&gt;Estimates on how much longer the planet will be able to continue to support life range from 500 million years (myr), to as long as 2.3 billion years (byr).&lt;/seg&gt;</prop>
+        <prop type="x-context-post">&lt;seg&gt;About 71% of the surface is covered by salt water oceans, with the remainder consisting of continents and islands which together have many lakes and other sources of water that contribute to the hydrosphere.&lt;/seg&gt;</prop>
+        <seg>Earth's lithosphere is divided into several rigid segments, or tectonic plates, that migrate across the surface over periods of many millions of years.</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg></seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv xml:lang="en">
+        <prop type="x-context-pre">&lt;seg&gt;Earth's lithosphere is divided into several rigid segments, or tectonic plates, that migrate across the surface over periods of many millions of years.&lt;/seg&gt;</prop>
+        <prop type="x-context-post">&lt;seg&gt;Earth's poles are mostly covered with ice that is the solid ice of the Antarctic ice sheet and the sea ice that is the polar ice packs.&lt;/seg&gt;</prop>
+        <seg>About 71% of the surface is covered by salt water oceans, with the remainder consisting of continents and islands which together have many lakes and other sources of water that contribute to the hydrosphere.</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg></seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv xml:lang="en">
+        <prop type="x-context-pre">&lt;seg&gt;About 71% of the surface is covered by salt water oceans, with the remainder consisting of continents and islands which together have many lakes and other sources of water that contribute to the hydrosphere.&lt;/seg&gt;</prop>
+        <prop type="x-context-post">&lt;seg&gt;The planet's interior remains active, with a solid iron inner core, a liquid outer core that generates the magnetic field, and a thick layer of relatively solid mantle.&lt;/seg&gt;</prop>
+        <seg>Earth's poles are mostly covered with ice that is the solid ice of the Antarctic ice sheet and the sea ice that is the polar ice packs.</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg></seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv xml:lang="en">
+        <prop type="x-context-pre">&lt;seg&gt;Earth's poles are mostly covered with ice that is the solid ice of the Antarctic ice sheet and the sea ice that is the polar ice packs.&lt;/seg&gt;</prop>
+        <prop type="x-context-post">&lt;seg&gt;Earth gravitationally interacts with other objects in space, especially the Sun and the Moon.&lt;/seg&gt;</prop>
+        <seg>The planet's interior remains active, with a solid iron inner core, a liquid outer core that generates the magnetic field, and a thick layer of relatively solid mantle.</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg></seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv xml:lang="en">
+        <prop type="x-context-pre">&lt;seg&gt;The planet's interior remains active, with a solid iron inner core, a liquid outer core that generates the magnetic field, and a thick layer of relatively solid mantle.&lt;/seg&gt;</prop>
+        <prop type="x-context-post">&lt;seg&gt;During one orbit around the Sun, the Earth rotates about its own axis 366.26 times, creating 365.26 solar days, or one sidereal year.The Earth's axis of rotation is tilted 23.4° away from theperpendicular of its orbital plane, producing seasonal variations on the planet's surface with a period of one tropical year (365.24 solar days).&lt;/seg&gt;</prop>
+        <seg>Earth gravitationally interacts with other objects in space, especially the Sun and the Moon.</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg></seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv xml:lang="en">
+        <prop type="x-context-pre">&lt;seg&gt;Earth gravitationally interacts with other objects in space, especially the Sun and the Moon.&lt;/seg&gt;</prop>
+        <prop type="x-context-post">&lt;seg&gt;The Moon is Earth's only natural satellite.&lt;/seg&gt;</prop>
+        <seg>During one orbit around the Sun, the Earth rotates about its own axis 366.26 times, creating 365.26 solar days, or one sidereal year.The Earth's axis of rotation is tilted 23.4° away from theperpendicular of its orbital plane, producing seasonal variations on the planet's surface with a period of one tropical year (365.24 solar days).</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg></seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv xml:lang="en">
+        <prop type="x-context-pre">&lt;seg&gt;During one orbit around the Sun, the Earth rotates about its own axis 366.26 times, creating 365.26 solar days, or one sidereal year.The Earth's axis of rotation is tilted 23.4° away from theperpendicular of its orbital plane, producing seasonal variations on the planet's surface with a period of one tropical year (365.24 solar days).&lt;/seg&gt;</prop>
+        <prop type="x-context-post">&lt;seg&gt;It began orbiting the Earth about 4.53 billion years ago (bya).&lt;/seg&gt;</prop>
+        <seg>The Moon is Earth's only natural satellite.</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg></seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv xml:lang="en">
+        <prop type="x-context-pre">&lt;seg&gt;The Moon is Earth's only natural satellite.&lt;/seg&gt;</prop>
+        <prop type="x-context-post">&lt;seg&gt;The Moon's gravitational interaction with Earth stimulates ocean tides, stabilizes the axial tilt, and gradually slows the planet's rotation.&lt;/seg&gt;</prop>
+        <seg>It began orbiting the Earth about 4.53 billion years ago (bya).</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg></seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv xml:lang="en">
+        <prop type="x-context-pre">&lt;seg&gt;It began orbiting the Earth about 4.53 billion years ago (bya).&lt;/seg&gt;</prop>
+        <prop type="x-context-post">&lt;seg&gt;The planet is home to millions of species, including humans.&lt;/seg&gt;</prop>
+        <seg>The Moon's gravitational interaction with Earth stimulates ocean tides, stabilizes the axial tilt, and gradually slows the planet's rotation.</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg></seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv xml:lang="en">
+        <prop type="x-context-pre">&lt;seg&gt;The Moon's gravitational interaction with Earth stimulates ocean tides, stabilizes the axial tilt, and gradually slows the planet's rotation.&lt;/seg&gt;</prop>
+        <prop type="x-context-post">&lt;seg&gt;Both the mineral resources of the planet and the products of the biosphere contribute resources that are used to support a global human population.&lt;/seg&gt;</prop>
+        <seg>The planet is home to millions of species, including humans.</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg></seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv xml:lang="en">
+        <prop type="x-context-pre">&lt;seg&gt;The planet is home to millions of species, including humans.&lt;/seg&gt;</prop>
+        <prop type="x-context-post">&lt;seg&gt;These inhabitants are grouped into about 200 independent sovereign states, which interact through diplomacy, travel, trade, and military action.&lt;/seg&gt;</prop>
+        <seg>Both the mineral resources of the planet and the products of the biosphere contribute resources that are used to support a global human population.</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg></seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv xml:lang="en">
+        <prop type="x-context-pre">&lt;seg&gt;Both the mineral resources of the planet and the products of the biosphere contribute resources that are used to support a global human population.&lt;/seg&gt;</prop>
+        <prop type="x-context-post">&lt;seg&gt;Human cultures have developed many views of the planet, including its personification as a planetary deity, its shape as flat, its position as the center of the universe, and in the modern Gaia Principle, as a single, self-regulating organism in its own right.&lt;/seg&gt;</prop>
+        <seg>These inhabitants are grouped into about 200 independent sovereign states, which interact through diplomacy, travel, trade, and military action.</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg></seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv xml:lang="en">
+        <prop type="x-context-pre">&lt;seg&gt;These inhabitants are grouped into about 200 independent sovereign states, which interact through diplomacy, travel, trade, and military action.&lt;/seg&gt;</prop>
+        <prop type="x-context-post">&lt;seg&gt;The modern English noun earth developed from Middle English erthe (recorded in 1137), itself from Old English eorthe (dating from before 725), deriving from Proto-Germanic *erthō.&lt;/seg&gt;</prop>
+        <seg>Human cultures have developed many views of the planet, including its personification as a planetary deity, its shape as flat, its position as the center of the universe, and in the modern Gaia Principle, as a single, self-regulating organism in its own right.</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg></seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv xml:lang="en">
+        <prop type="x-context-pre">&lt;seg&gt;Human cultures have developed many views of the planet, including its personification as a planetary deity, its shape as flat, its position as the center of the universe, and in the modern Gaia Principle, as a single, self-regulating organism in its own right.&lt;/seg&gt;</prop>
+        <prop type="x-context-post">&lt;seg&gt;Earth has cognates in all other Germanic languages, including Dutch aarde, German Erde, and Swedish, Norwegian, and Danish jord.&lt;/seg&gt;</prop>
+        <seg>The modern English noun earth developed from Middle English erthe (recorded in 1137), itself from Old English eorthe (dating from before 725), deriving from Proto-Germanic *erthō.</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg></seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv xml:lang="en">
+        <prop type="x-context-pre">&lt;seg&gt;The modern English noun earth developed from Middle English erthe (recorded in 1137), itself from Old English eorthe (dating from before 725), deriving from Proto-Germanic *erthō.&lt;/seg&gt;</prop>
+        <prop type="x-context-post">&lt;seg&gt;The Earth is personified as a goddess in Germanic paganism (appearing as Jörð in Norse mythology, mother of the god Thor).&lt;/seg&gt;</prop>
+        <seg>Earth has cognates in all other Germanic languages, including Dutch aarde, German Erde, and Swedish, Norwegian, and Danish jord.</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg></seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv xml:lang="en">
+        <prop type="x-context-pre">&lt;seg&gt;Earth has cognates in all other Germanic languages, including Dutch aarde, German Erde, and Swedish, Norwegian, and Danish jord.&lt;/seg&gt;</prop>
+        <prop type="x-context-post">&lt;seg&gt;In general English usage, the name earth can be capitalized or spelled in lowercase interchangeably, either when used absolutely or prefixed with "the" (i.e. "Earth", "the Earth", "earth", or "the earth").&lt;/seg&gt;</prop>
+        <seg>The Earth is personified as a goddess in Germanic paganism (appearing as Jörð in Norse mythology, mother of the god Thor).</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg></seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv xml:lang="en">
+        <prop type="x-context-pre">&lt;seg&gt;The Earth is personified as a goddess in Germanic paganism (appearing as Jörð in Norse mythology, mother of the god Thor).&lt;/seg&gt;</prop>
+        <prop type="x-context-post">&lt;seg&gt;Many deliberately spell the name of the planet with a capital, both as "Earth" or "the Earth".&lt;/seg&gt;</prop>
+        <seg>In general English usage, the name earth can be capitalized or spelled in lowercase interchangeably, either when used absolutely or prefixed with "the" (i.e. "Earth", "the Earth", "earth", or "the earth").</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg></seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv xml:lang="en">
+        <prop type="x-context-pre">&lt;seg&gt;In general English usage, the name earth can be capitalized or spelled in lowercase interchangeably, either when used absolutely or prefixed with "the" (i.e. "Earth", "the Earth", "earth", or "the earth").&lt;/seg&gt;</prop>
+        <prop type="x-context-post">&lt;seg&gt;This is to distinguish it as a proper noun, distinct from the senses of the term as a mass noun or verb (e.g. referring to soil, the ground, earthing in the electrical sense, etc.).&lt;/seg&gt;</prop>
+        <seg>Many deliberately spell the name of the planet with a capital, both as "Earth" or "the Earth".</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg></seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv xml:lang="en">
+        <prop type="x-context-pre">&lt;seg&gt;Many deliberately spell the name of the planet with a capital, both as "Earth" or "the Earth".&lt;/seg&gt;</prop>
+        <prop type="x-context-post">&lt;seg&gt;Oxford spelling recognizes the lowercase form as the most common, with the capitalized form as a variant of it.&lt;/seg&gt;</prop>
+        <seg>This is to distinguish it as a proper noun, distinct from the senses of the term as a mass noun or verb (e.g. referring to soil, the ground, earthing in the electrical sense, etc.).</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg></seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv xml:lang="en">
+        <prop type="x-context-pre">&lt;seg&gt;This is to distinguish it as a proper noun, distinct from the senses of the term as a mass noun or verb (e.g. referring to soil, the ground, earthing in the electrical sense, etc.).&lt;/seg&gt;</prop>
+        <prop type="x-context-post">&lt;seg&gt;Another common convention is to spell the name with a capital when occurring absolutely (e.g. Earth's atmosphere) and lowercase when preceded by "the" (e.g. the atmosphere of the earth).&lt;/seg&gt;</prop>
+        <seg>Oxford spelling recognizes the lowercase form as the most common, with the capitalized form as a variant of it.</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg></seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv xml:lang="en">
+        <prop type="x-context-pre">&lt;seg&gt;Oxford spelling recognizes the lowercase form as the most common, with the capitalized form as a variant of it.&lt;/seg&gt;</prop>
+        <prop type="x-context-post">&lt;seg&gt;The term almost exclusively exists in lowercase when appearing in common phrases, even without "the" preceding it (e.g. "It does not cost the earth.", "What on earth are you doing?").&lt;/seg&gt;</prop>
+        <seg>Another common convention is to spell the name with a capital when occurring absolutely (e.g. Earth's atmosphere) and lowercase when preceded by "the" (e.g. the atmosphere of the earth).</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg></seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv xml:lang="en">
+        <prop type="x-context-pre">&lt;seg&gt;Another common convention is to spell the name with a capital when occurring absolutely (e.g. Earth's atmosphere) and lowercase when preceded by "the" (e.g. the atmosphere of the earth).&lt;/seg&gt;</prop>
+        <prop type="x-context-post">&lt;seg&gt;The history of the Earth concerns the development of the planet Earth from its formation to the present day.&lt;/seg&gt;</prop>
+        <seg>The term almost exclusively exists in lowercase when appearing in common phrases, even without "the" preceding it (e.g. "It does not cost the earth.", "What on earth are you doing?").</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg></seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv xml:lang="en">
+        <prop type="x-context-pre">&lt;seg&gt;The term almost exclusively exists in lowercase when appearing in common phrases, even without "the" preceding it (e.g. "It does not cost the earth.", "What on earth are you doing?").&lt;/seg&gt;</prop>
+        <prop type="x-context-post">&lt;seg&gt;Nearly all branches of natural science have contributed to the understanding of the main events of the Earth's past.&lt;/seg&gt;</prop>
+        <seg>The history of the Earth concerns the development of the planet Earth from its formation to the present day.</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg></seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv xml:lang="en">
+        <prop type="x-context-pre">&lt;seg&gt;The history of the Earth concerns the development of the planet Earth from its formation to the present day.&lt;/seg&gt;</prop>
+        <prop type="x-context-post">&lt;seg&gt;The age of Earth is approximately one-third of the age of the universe.&lt;/seg&gt;</prop>
+        <seg>Nearly all branches of natural science have contributed to the understanding of the main events of the Earth's past.</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg></seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv xml:lang="en">
+        <prop type="x-context-pre">&lt;seg&gt;Nearly all branches of natural science have contributed to the understanding of the main events of the Earth's past.&lt;/seg&gt;</prop>
+        <prop type="x-context-post">&lt;seg&gt;An immense amount of biological and geological change has occurred in that time span.&lt;/seg&gt;</prop>
+        <seg>The age of Earth is approximately one-third of the age of the universe.</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg></seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv xml:lang="en">
+        <prop type="x-context-pre">&lt;seg&gt;The age of Earth is approximately one-third of the age of the universe.&lt;/seg&gt;</prop>
+        <prop type="x-context-post">&lt;seg&gt;Earth formed around 4.54 billion (4.54×109) years ago by accretion from the solar nebula.&lt;/seg&gt;</prop>
+        <seg>An immense amount of biological and geological change has occurred in that time span.</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg></seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv xml:lang="en">
+        <prop type="x-context-pre">&lt;seg&gt;An immense amount of biological and geological change has occurred in that time span.&lt;/seg&gt;</prop>
+        <prop type="x-context-post">&lt;seg&gt;Volcanic outgassing likely created the primordial atmosphere, but it contained almost no oxygen and would have been toxic to humans and most modern life.&lt;/seg&gt;</prop>
+        <seg>Earth formed around 4.54 billion (4.54×109) years ago by accretion from the solar nebula.</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg></seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv xml:lang="en">
+        <prop type="x-context-pre">&lt;seg&gt;Earth formed around 4.54 billion (4.54×109) years ago by accretion from the solar nebula.&lt;/seg&gt;</prop>
+        <prop type="x-context-post">&lt;seg&gt;Much of the Earth was molten because of extreme volcanism and frequent collisions with other bodies.&lt;/seg&gt;</prop>
+        <seg>Volcanic outgassing likely created the primordial atmosphere, but it contained almost no oxygen and would have been toxic to humans and most modern life.</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg></seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv xml:lang="en">
+        <prop type="x-context-pre">&lt;seg&gt;Volcanic outgassing likely created the primordial atmosphere, but it contained almost no oxygen and would have been toxic to humans and most modern life.&lt;/seg&gt;</prop>
+        <prop type="x-context-post">&lt;seg&gt;One very large collision is thought to have been responsible for tilting the Earth at an angle and forming the Moon.&lt;/seg&gt;</prop>
+        <seg>Much of the Earth was molten because of extreme volcanism and frequent collisions with other bodies.</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg></seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv xml:lang="en">
+        <prop type="x-context-pre">&lt;seg&gt;Much of the Earth was molten because of extreme volcanism and frequent collisions with other bodies.&lt;/seg&gt;</prop>
+        <prop type="x-context-post">&lt;seg&gt;Over time, the planet cooled and formed a solid crust, allowing liquid water to exist on the surface.&lt;/seg&gt;</prop>
+        <seg>One very large collision is thought to have been responsible for tilting the Earth at an angle and forming the Moon.</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg></seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv xml:lang="en">
+        <prop type="x-context-pre">&lt;seg&gt;One very large collision is thought to have been responsible for tilting the Earth at an angle and forming the Moon.&lt;/seg&gt;</prop>
+        <prop type="x-context-post">&lt;seg&gt;The first life forms appeared between 3.8 and 3.5 billion years ago.&lt;/seg&gt;</prop>
+        <seg>Over time, the planet cooled and formed a solid crust, allowing liquid water to exist on the surface.</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg></seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv xml:lang="en">
+        <prop type="x-context-pre">&lt;seg&gt;Over time, the planet cooled and formed a solid crust, allowing liquid water to exist on the surface.&lt;/seg&gt;</prop>
+        <prop type="x-context-post">&lt;seg&gt;Photosynthetic life appeared around 2 billion years ago, enriching the atmosphere with oxygen.&lt;/seg&gt;</prop>
+        <seg>The first life forms appeared between 3.8 and 3.5 billion years ago.</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg></seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv xml:lang="en">
+        <prop type="x-context-pre">&lt;seg&gt;The first life forms appeared between 3.8 and 3.5 billion years ago.&lt;/seg&gt;</prop>
+        <prop type="x-context-post">&lt;seg&gt;Life remained mostly small and microscopic until about 580 million years ago, when complex multicellular life arose.&lt;/seg&gt;</prop>
+        <seg>Photosynthetic life appeared around 2 billion years ago, enriching the atmosphere with oxygen.</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg></seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv xml:lang="en">
+        <prop type="x-context-pre">&lt;seg&gt;Photosynthetic life appeared around 2 billion years ago, enriching the atmosphere with oxygen.&lt;/seg&gt;</prop>
+        <prop type="x-context-post">&lt;seg&gt;During the Cambrian period it experienced a rapid diversification into most major phyla.&lt;/seg&gt;</prop>
+        <seg>Life remained mostly small and microscopic until about 580 million years ago, when complex multicellular life arose.</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg></seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv xml:lang="en">
+        <prop type="x-context-pre">&lt;seg&gt;Life remained mostly small and microscopic until about 580 million years ago, when complex multicellular life arose.&lt;/seg&gt;</prop>
+        <prop type="x-context-post">&lt;seg&gt;Biological and geological change has been constantly occurring on our planet since the time of its formation.&lt;/seg&gt;</prop>
+        <seg>During the Cambrian period it experienced a rapid diversification into most major phyla.</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg></seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv xml:lang="en">
+        <prop type="x-context-pre">&lt;seg&gt;During the Cambrian period it experienced a rapid diversification into most major phyla.&lt;/seg&gt;</prop>
+        <prop type="x-context-post">&lt;seg&gt;Organisms continuously evolve, taking on new forms or going extinct in response to an ever-changing planet.&lt;/seg&gt;</prop>
+        <seg>Biological and geological change has been constantly occurring on our planet since the time of its formation.</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg></seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv xml:lang="en">
+        <prop type="x-context-pre">&lt;seg&gt;Biological and geological change has been constantly occurring on our planet since the time of its formation.&lt;/seg&gt;</prop>
+        <prop type="x-context-post">&lt;seg&gt;The process of plate tectonics has played a major role in the shaping of Earth's oceans and continents, as well as the life they harbor.&lt;/seg&gt;</prop>
+        <seg>Organisms continuously evolve, taking on new forms or going extinct in response to an ever-changing planet.</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg></seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv xml:lang="en">
+        <prop type="x-context-pre">&lt;seg&gt;Organisms continuously evolve, taking on new forms or going extinct in response to an ever-changing planet.&lt;/seg&gt;</prop>
+        <prop type="x-context-post">&lt;seg&gt;The biosphere, in turn, has had a significant effect on the atmosphere and other abiotic conditions on the planet, such as the formation of the ozone layer, the proliferation of oxygen, and the creation of soil.&lt;/seg&gt;</prop>
+        <seg>The process of plate tectonics has played a major role in the shaping of Earth's oceans and continents, as well as the life they harbor.</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg></seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv xml:lang="en">
+        <prop type="x-context-pre">&lt;seg&gt;The process of plate tectonics has played a major role in the shaping of Earth's oceans and continents, as well as the life they harbor.&lt;/seg&gt;</prop>
+        <seg>The biosphere, in turn, has had a significant effect on the atmosphere and other abiotic conditions on the planet, such as the formation of the ozone layer, the proliferation of oxygen, and the creation of soil.</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg></seg>
+      </tuv>
+    </tu>
+  </body>
+</tmx>
