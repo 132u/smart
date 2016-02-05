@@ -5,6 +5,7 @@ using OpenQA.Selenium;
 using OpenQA.Selenium.Support.PageObjects;
 
 using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
+using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries.SuggestedTerms;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace;
 using AbbyyLS.SmartCAT.Selenium.Tests.TestFramework;
 
@@ -216,12 +217,12 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 		/// <summary>
 		/// Нажать на кнопку 'Suggested Terms'
 		/// </summary>
-		public SuggestedTermsPageForAllGlossaries ClickSuggestedTermsButton()
+		public SuggestedTermsGlossariesPage ClickSuggestedTermsButton()
 		{
 			CustomTestContext.WriteLine("Нажать на кнопку 'Suggested Terms'.");
 			SuggestedTermsButton.Click();
 
-			return new SuggestedTermsPageForAllGlossaries(Driver).GetPage();
+			return new SuggestedTermsGlossariesPage(Driver).GetPage();
 		}
 
 		/// <summary>

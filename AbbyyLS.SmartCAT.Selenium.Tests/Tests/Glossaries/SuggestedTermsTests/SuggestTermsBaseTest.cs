@@ -1,4 +1,5 @@
-﻿using NUnit.Framework;
+﻿using System;
+using NUnit.Framework;
 
 using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries;
@@ -20,20 +21,14 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 			_suggestTermDialog = new SuggestTermDialog(Driver);
 			_glossaryPage = new GlossaryPage(Driver);
 			_glossariesPage = new GlossariesPage(Driver);
-			_suggestedTermsPageForCurrentGlossaries = new SuggestedTermsPageForCurrentGlossaries(Driver);
-			_suggestedTermsPageForAllGlossaries = new SuggestedTermsPageForAllGlossaries(Driver);
+			_suggestedTermsPageForCurrentGlossaries = new SuggestedTermsGlossaryPage(Driver);
+			_suggestedTermsPageForAllGlossaries = new SuggestedTermsGlossariesPage(Driver);
 			_selectGlossaryDialog = new SelectGlossaryDialog(Driver);
 
-			_term1 = "term1";
-			_term2 = "term2";
+			_term1 = "term-" + Guid.NewGuid();
+			_term2 = "term-" + Guid.NewGuid();
 
 			_glossaryName = GlossariesHelper.UniqueGlossaryName();
-
-			_workspacePage.GoToGlossariesPage();
-
-			_glossariesPage.ClickSuggestedTermsButton();
-
-			_suggestedTermsPageForAllGlossaries.DeleteAllSuggestTerms();
 
 			_workspacePage.GoToGlossariesPage();
 		}
@@ -48,7 +43,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 		protected SuggestTermDialog _suggestTermDialog;
 		protected GlossaryPage _glossaryPage;
 		protected GlossariesPage _glossariesPage;
-		protected SuggestedTermsPageForCurrentGlossaries _suggestedTermsPageForCurrentGlossaries;
-		protected SuggestedTermsPageForAllGlossaries _suggestedTermsPageForAllGlossaries;
+		protected SuggestedTermsGlossaryPage _suggestedTermsPageForCurrentGlossaries;
+		protected SuggestedTermsGlossariesPage _suggestedTermsPageForAllGlossaries;
 	}
 }

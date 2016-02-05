@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 using NUnit.Framework;
 
@@ -9,6 +10,7 @@ using AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 {
+	[Category("QWERTY")]
 	[Parallelizable(ParallelScope.Fixtures)]
 	[Standalone]
 	class SuggestTermsFromGlossaryTests<TWebDriverProvider>
@@ -22,15 +24,15 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 			_glossaryPage.ClickSuggestTermButton();
 
 			_suggestTermDialog
-				.FillSuggestTermDialog(glossary: _glossaryName)
+				.FillSuggestTermDialog(_term1, _term2, glossary: _glossaryName)
 				.ClickSaveButtonExpectingGlossaryPage();
 
 			_workspacePage.GoToGlossariesPage();
 
 			_glossariesPage.ClickSuggestedTermsButton();
 
-			Assert.AreEqual(1, _suggestedTermsPageForAllGlossaries.GetTermsByGlossaryNameCount(_glossaryName),
-				"Произошла Ошибка:\n Неверное количество терминов.");
+			Assert.IsTrue(_suggestedTermsPageForAllGlossaries.IsSuggestedTermDisplayed(_term1, _term2),
+				"Произошла ошибка: строка с термином не найдена в списке");
 		}
 
 		[Test]
@@ -47,24 +49,20 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 			_glossaryPage.ClickSuggestTermButton();
 
 			_suggestTermDialog
-				.FillSuggestTermDialog(glossary: _glossaryName)
+				.FillSuggestTermDialog(_term1, _term2, glossary: _glossaryName)
 				.ClickSaveButtonExpectingGlossaryPage();
 
 			_workspacePage.GoToGlossariesPage();
 
 			_glossariesPage.ClickSuggestedTermsButton();
 
-			Assert.AreEqual(1, _suggestedTermsPageForAllGlossaries.GetTermsByGlossaryNameCount(_glossaryName),
-				"Произошла Ошибка:\n Неверное количество терминов.");
+			Assert.IsTrue(_suggestedTermsPageForAllGlossaries.IsSuggestedTermDisplayed(_term1, _term2),
+				"Произошла ошибка: строка с термином не найдена в списке");
 		}
 
 		[Test]
-		public void SuggestTermWithoutGlossaryFromAnotherGlossaryTest()
+		public void SuggestTermWithoutGlossaryFromGlossaryTest()
 		{
-			_glossariesPage.ClickSuggestedTermsButton();
-
-			var suggestedTermsByGlossaryCountBefore = _suggestedTermsPageForAllGlossaries.GetTermsByGlossaryNameCount();
-
 			_workspacePage.GoToGlossariesPage();
 
 			_glossariesHelper.CreateGlossary(_glossaryName);
@@ -72,15 +70,15 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 			_glossaryPage.ClickSuggestTermButton();
 
 			_suggestTermDialog
-				.FillSuggestTermDialog(glossary: "")
+				.FillSuggestTermDialog(_term1, _term2, glossary: "")
 				.ClickSaveButtonExpectingGlossaryPage();
 
 			_workspacePage.GoToGlossariesPage();
 
 			_glossariesPage.ClickSuggestedTermsButton();
 
-			Assert.AreEqual(suggestedTermsByGlossaryCountBefore + 1, _suggestedTermsPageForAllGlossaries.GetTermsByGlossaryNameCount(),
-				"Произошла Ошибка:\n Неверное количество терминов.");
+			Assert.IsTrue(_suggestedTermsPageForAllGlossaries.IsSuggestedTermDisplayed(_term1, _term2),
+				"Произошла ошибка: строка с термином не найдена в списке");
 		}
 
 		[Test]
@@ -103,8 +101,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 
 			_glossaryPage.ClickSuggestedTermsButton();
 
-			Assert.AreEqual(0, _suggestedTermsPageForCurrentGlossaries.GetSuggestedTermsCount(),
-				"Произошла ошибка:\nНеверное количество терминов.");
+			Assert.IsFalse(_suggestedTermsPageForCurrentGlossaries.IsSuggestedTermDisplayed(_term1, _term2),
+				"Произошла ошибка: строка с термином найдена в списке");
 		}
 
 		[Test]
@@ -127,16 +125,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 
 			_glossaryPage.ClickSuggestedTermsButton();
 
-			Assert.IsTrue(_suggestedTermsPageForCurrentGlossaries.IsTermValueMatchExpected(
-				expectedTermValue: _term1, rowNumber: 1, columnNumber: 1),
-				"Произошла ошибка:\nНеверное значение в термине");
-
-			Assert.IsTrue(_suggestedTermsPageForCurrentGlossaries.IsTermValueMatchExpected(
-				expectedTermValue: _term2, rowNumber: 1, columnNumber: 2),
-				"Произошла ошибка:\nНеверное значение в термине");
-
-			Assert.AreEqual(1, _suggestedTermsPageForCurrentGlossaries.GetSuggestedTermsCount(),
-				"Произошла ошибка:\nНеверное количество терминов.");
+			Assert.IsTrue(_suggestedTermsPageForCurrentGlossaries.IsSuggestedTermDisplayed(_term1, _term2),
+				"Произошла ошибка: строка с термином не найдена в списке");
 		}
 
 		[Test]
@@ -152,8 +142,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 
 			_glossaryPage.ClickSuggestedTermsButton();
 
-			_suggestedTermsPageForCurrentGlossaries
-				.AcceptSuggestTermInSuggestedTermsPageForCurrentGlossary(termRowNumber: 1);
+			_suggestedTermsPageForCurrentGlossaries.AcceptSuggestedTerm(_term1, _term2);
 
 			_workspacePage.GoToGlossariesPage();
 
@@ -162,7 +151,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 			Assert.IsTrue(_glossaryPage.IsGlossaryContainsCorrectTermsCount(expectedTermsCount: 1),
 				"Произошла ошибка:\n глоссарий содержит неверное количество терминов");
 
-			Assert.AreEqual(_term1, _glossaryPage.FirstTermText(),
+			Assert.IsTrue(_glossaryPage.IsSingleTermWithTranslationExists(_term1, _term2),
 				"Произошла ошибка:\n текст в термине не совпадает с ожидаемым.");
 		}
 
@@ -186,8 +175,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 			_glossaryPage.ClickSuggestedTermsButton();
 
 			_suggestedTermsPageForCurrentGlossaries
-				.SelectGlossaryInSuggestedTermsPageForCurrentGlossary(_glossaryName)
-				.AcceptSuggestTermInSuggestedTermsPageForCurrentGlossary(termRowNumber: 1);
+				.SelectGlossary(_glossaryName)
+				.AcceptSuggestedTerm(_term1, _term2);
 
 			_workspacePage.GoToGlossariesPage();
 
@@ -196,7 +185,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 			Assert.IsTrue(_glossaryPage.IsGlossaryContainsCorrectTermsCount(expectedTermsCount: 1),
 				"Произошла ошибка:\n глоссарий содержит неверное количество терминов");
 
-			Assert.AreEqual(_term1, _glossaryPage.FirstTermText(),
+			Assert.IsTrue(_glossaryPage.IsSingleTermWithTranslationExists(_term1, _term2),
 				"Произошла ошибка:\n текст в термине не совпадает с ожидаемым.");
 		}
 
@@ -213,11 +202,10 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 
 			_glossaryPage.ClickSuggestedTermsButton();
 
-			_suggestedTermsPageForCurrentGlossaries
-				.DeleteSuggestTermInSuggestedTermsPageForCurrentGlossary(termRowNumber: 1);
+			_suggestedTermsPageForCurrentGlossaries.DeleteSuggestedTerm(_term1, _term2);
 
-			Assert.AreEqual(0, _suggestedTermsPageForCurrentGlossaries.GetSuggestedTermsCount(),
-				"Произошла ошибка:\nНеверное количество терминов.");
+			Assert.IsFalse(_suggestedTermsPageForCurrentGlossaries.IsSuggestedTermDisplayed(_term1, _term2),
+				"Произошла ошибка: строка с термином найдена в списке");
 		}
 
 		[Test]
@@ -237,7 +225,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 		[Test]
 		public void EditFromGlossaryTest()
 		{
-			var editTerm = "editTerm";
+			var editTerm1 = "editTerm-" + Guid.NewGuid();
+			var editTerm2 = "editTerm-" + Guid.NewGuid();
 
 			_glossariesHelper.CreateGlossary(_glossaryName);
 
@@ -249,8 +238,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 
 			_glossaryPage.ClickSuggestedTermsButton();
 
-			_suggestedTermsPageForCurrentGlossaries
-				.EditSuggestTermInSuggestedTermsPageForCurrentGlossary(termRowNumber: 1, termValue: editTerm);
+			_suggestedTermsPageForCurrentGlossaries.EditSuggestedTerm(_term1, _term2, editTerm1, editTerm2);
 
 			_workspacePage.GoToGlossariesPage();
 
@@ -259,7 +247,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 			Assert.IsTrue(_glossaryPage.IsGlossaryContainsCorrectTermsCount(expectedTermsCount: 1),
 				"Произошла ошибка:\n глоссарий содержит неверное количество терминов");
 
-			Assert.AreEqual(editTerm, _glossaryPage.FirstTermText(),
+			Assert.IsTrue(_glossaryPage.IsSingleTermWithTranslationExists(editTerm1, editTerm2),
 				"Произошла ошибка:\n текст в термине не совпадает с ожидаемым.");
 		}
 
@@ -278,8 +266,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 
 			_glossaryPage.ClickSuggestedTermsButton();
 
-			_suggestedTermsPageForCurrentGlossaries.AddSynonimInSuggestedTermsPageForCurrentGlossary(
-					termRowNumber: 1, addButtonNumber: 2, synonymValue: synonym);
+			_suggestedTermsPageForCurrentGlossaries.AddSynonim(
+				_term1, _term2, addButtonNumber: 2, synonymValue: synonym);
 
 			_workspacePage.GoToGlossariesPage();
 
@@ -288,7 +276,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 			Assert.IsTrue(_glossaryPage.IsGlossaryContainsCorrectTermsCount(expectedTermsCount: 1),
 				"Произошла ошибка:\n глоссарий содержит неверное количество терминов");
 
-			Assert.IsTrue(_glossaryPage.IsTermContainsExpectedSynonyms(columnNumber: 2, synonyms: new List<string> { _term2, synonym }),
+			Assert.IsTrue(_glossaryPage.IsTermContainsExpectedSynonyms(
+				columnNumber: 2, synonyms: new List<string> { _term2, synonym }),
 				"Произошла ошибка:\nНеверный список синонимов");
 		}
 

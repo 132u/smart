@@ -6,7 +6,7 @@ using AbbyyLS.SmartCAT.Selenium.Tests.TestFramework;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries.SuggestedTerms
 {
-	public class SelectGlossaryDialog : SuggestedTermsPageForAllGlossaries, IAbstractPage<SelectGlossaryDialog>
+	public class SelectGlossaryDialog : SuggestedTermsGlossariesPage, IAbstractPage<SelectGlossaryDialog>
 	{
 		public SelectGlossaryDialog(WebDriver driver) : base(driver)
 		{
@@ -56,12 +56,12 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries.SuggestedTerms
 		/// <summary>
 		/// Нажать кнопку Ok
 		/// </summary>
-		public SuggestedTermsPageForAllGlossaries ClickOkButton()
+		public SuggestedTermsGlossariesPage ClickOkButton()
 		{
 			CustomTestContext.WriteLine("Нажать кнопку Ok.");
 			OkButton.Click();
 
-			return new SuggestedTermsPageForAllGlossaries(Driver).GetPage();
+			return new SuggestedTermsGlossariesPage(Driver).GetPage();
 		}
 
 		#endregion
@@ -72,7 +72,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries.SuggestedTerms
 		/// Выбрать глоссарий для предложенного термина
 		/// </summary>
 		/// <param name="glossaryName">имя глоссария</param>
-		public SuggestedTermsPageForAllGlossaries SelectGlossaryForSuggestedTerm(string glossaryName)
+		public SuggestedTermsGlossariesPage SelectGlossaryForSuggestedTerm(string glossaryName)
 		{
 			ClickSelectGlossaryDropdownInSelectDialog();
 			SelectGlossaryInSelectDialog(glossaryName);
