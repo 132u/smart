@@ -407,11 +407,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Drivers
 			Directory.CreateDirectory(path);
 
 			var nameParts = TestContext.CurrentContext.Test.FullName.Split('.');
-
 			var className = nameParts[6].Replace('<', '(').Replace('>', ')');
-			
-
 			var screenName = TestContext.CurrentContext.Test.Name;
+
 			if (screenName.Contains("("))
 			{
 				// Убрать из названия теста аргументы (файлы)
@@ -420,23 +418,39 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Drivers
 
 			var fileName = String.Format("{0} {1}{2}",
 				Path.Combine(path, className + "." + screenName), DateTime.Now.ToString("yyyy.MM.dd HH.mm.ss"), ".png");
+
 			Screenshot screenShot;
 
-			try
-			{
-				screenShot = ((ITakesScreenshot)_driver).GetScreenshot();
-			}
-			catch (UnhandledAlertException)
-			{
-				var alert = _driver.SwitchTo().Alert();
-				CustomTestContext.WriteLine("Ошибка: необработанный алерт. Текст алерта: {0}.", alert.Text);
-				alert.Accept();
-				screenShot = ((ITakesScreenshot)_driver).GetScreenshot();
-			}
+			CloseAlertIfExist();
+
+			screenShot = ((ITakesScreenshot)_driver).GetScreenshot();
 
 			screenShot.SaveAsFile(fileName, ImageFormat.Png);
 
 			return fileName;
+		}
+
+		/// <summary>
+		/// Закрыть алерт, если он найден на странице
+		/// </summary>
+		public void CloseAlertIfExist()
+		{
+			WebDriverWait wait = new WebDriverWait(this, TimeSpan.FromSeconds(0));
+			
+			if (wait.Until(ExpectedConditions.AlertIsPresent()) != null)
+			{
+				CustomTestContext.WriteLine("Произошла ошибка: появился необработанный Alert");
+				var alert = _driver.SwitchTo().Alert();
+				CustomTestContext.WriteLine("Текст Alert'а: {0}.", alert.Text);
+				alert.Accept();
+			}
+
+			// Временная проверка. Есть подозрение, что алерт не всегда
+			// закрывается с  помощью метода alert.Accept()
+			if (wait.Until(ExpectedConditions.AlertIsPresent()) != null)
+			{
+				CustomTestContext.WriteLine("Произошла ошибка: Alert не закрылся с помощью alert.Accept()");
+			}
 		}
 
 		/// <summary>

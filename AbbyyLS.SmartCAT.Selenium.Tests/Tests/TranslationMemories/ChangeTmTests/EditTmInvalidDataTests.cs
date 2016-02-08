@@ -5,7 +5,6 @@ using AbbyyLS.SmartCAT.Selenium.Tests.FeatureAttributes;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.TranslationMemories
 {
-	[Category("QWERTY")]
 	[Parallelizable(ParallelScope.Fixtures)]
 	[Standalone]
 	class EditTmInvalidDataTests<TWebDriverProvider>

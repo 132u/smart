@@ -54,6 +54,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests
 		[TearDown]
 		public void TeardownBase()
 		{
+			Driver.CloseAlertIfExist();
+
 			TakeScreenshotIfTestFailed();
 
 			CustomTestContext.WriteLine("Окончание работы теста {0}", TestContext.CurrentContext.Test.Name);
