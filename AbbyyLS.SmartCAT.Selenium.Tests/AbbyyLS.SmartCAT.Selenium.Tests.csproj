@@ -69,6 +69,7 @@
     <Compile Include="DataStructures\DateRange.cs" />
     <Compile Include="ExplicitAttributes\UserDataExplicitAttribute.cs" />
     <Compile Include="FeatureAttributes\CourseraAttribute.cs" />
+    <Compile Include="Pages\Coursera\CompleteRegistrationDialog.cs" />
     <Compile Include="Pages\Coursera\CoursePage.cs" />
     <Compile Include="Pages\Coursera\CourseraHomePage.cs" />
     <Compile Include="Pages\Coursera\CourseraSignInDialog.cs" />

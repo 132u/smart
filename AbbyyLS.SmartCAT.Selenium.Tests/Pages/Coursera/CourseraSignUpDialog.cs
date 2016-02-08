@@ -61,12 +61,12 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Coursera
 		/// <summary>
 		/// Нажать кнопку SignUp.
 		/// </summary>
-		public CourseraSignUpDialog ClickSignUpButton()
+		public CompleteRegistrationDialog ClickSignUpButton()
 		{
 			CustomTestContext.WriteLine("Нажать кнопку SignUp.");
 			SignUpButton.Click();
 
-			return GetPage();
+			return new CompleteRegistrationDialog(Driver).GetPage();
 		}
 
 		/// <summary>
@@ -146,6 +146,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Coursera
 		protected const string SURNAME = ".//input[@name ='surname']";
 		protected const string CANCEL_BUTTON = "//div[contains(@id,'login')]//div[@class='cancel']";
 		protected const string THANKS_MESSAGE = "//p[contains(text(),'Thanks for the registration')]";
+
 		#endregion
 	}
 }
