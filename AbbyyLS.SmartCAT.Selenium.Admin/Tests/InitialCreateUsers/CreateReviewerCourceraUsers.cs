@@ -1,10 +1,11 @@
-﻿using NUnit.Framework;
+﻿using System.Linq;
+
+using NUnit.Framework;
 
 using AbbyyLS.SmartCAT.Selenium.Tests;
 using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
 using AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers;
 using AbbyyLS.SmartCAT.Selenium.Admin.FeatureAttributes;
-using AbbyyLS.SmartCAT.Selenium.Admin.Tests.InitialCreateUsers;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Coursera;
 
 namespace AbbyyLS.SmartCAT.Selenium.Admin.Tests
@@ -25,7 +26,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Admin.Tests
 		[Test]
 		public void CreateReviewerUsers()
 		{
-			foreach (var user in ConfigurationManager.CourseraReviewerUserList)
+			foreach (var user in ConfigurationManager.CourseraReviewerUserList.ToList())
 			{
 				_adminHelper
 					.CreateNewUser(user.Login, user.Login, user.Password, aolUser: true)

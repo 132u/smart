@@ -1,4 +1,6 @@
-﻿using NUnit.Framework;
+﻿using System.Linq;
+
+using NUnit.Framework;
 
 using AbbyyLS.SmartCAT.Selenium.Tests;
 using AbbyyLS.SmartCAT.Selenium.Tests.DataStructures;
@@ -19,7 +21,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Admin.Tests
 		[Test]
 		public void CreateFirstProjectAdditionalUsersPersonalAccount()
 		{
-			foreach (var user in ConfigurationManager.AdditionalUsersList)
+			foreach (var user in ConfigurationManager.AdditionalUsersList.ToList())
 			{
 				_loginHelper.LogInSmartCat(
 					user.Login,

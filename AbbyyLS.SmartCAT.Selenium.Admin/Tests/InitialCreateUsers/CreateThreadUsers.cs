@@ -1,4 +1,6 @@
-﻿using NUnit.Framework;
+﻿using System.Linq;
+
+using NUnit.Framework;
 
 using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
 using AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers;
@@ -15,7 +17,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Admin.Tests
 		[ApiIntegration]
 		public void CreateThreadUsersWithRequiredAccounts()
 		{
-			foreach (var user in ConfigurationManager.ThreadUsersList)
+			foreach (var user in ConfigurationManager.ThreadUsersList.ToList())
 			{
 				_adminHelper
 					.CreateUserWithPersonalAccount(user.Login, user.Login, user.Password)

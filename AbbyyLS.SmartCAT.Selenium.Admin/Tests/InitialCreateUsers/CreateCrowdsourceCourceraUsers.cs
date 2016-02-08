@@ -1,4 +1,6 @@
-﻿using NUnit.Framework;
+﻿using System.Linq;
+
+using NUnit.Framework;
 
 using AbbyyLS.SmartCAT.Selenium.Admin.FeatureAttributes;
 using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
@@ -7,7 +9,7 @@ using AbbyyLS.SmartCAT.Selenium.Tests.DataStructures;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Coursera;
 using AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers;
 
-namespace AbbyyLS.SmartCAT.Selenium.Admin.Tests.InitialCreateUsers
+namespace AbbyyLS.SmartCAT.Selenium.Admin.Tests
 {
 	[Parallelizable(ParallelScope.Fixtures)]
 	[CreateUsers]
@@ -25,7 +27,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Admin.Tests.InitialCreateUsers
 		[Test]
 		public void CreateCrowdsourceUsers()
 		{
-			foreach (var user in ConfigurationManager.CourseraCrowdsourceUserList)
+			foreach (var user in ConfigurationManager.CourseraCrowdsourceUserList.ToList())
 			{
 				_adminHelper.CreateNewUser(user.Login, user.Login, user.Password, aolUser: true);
 				_commonHelper.GoToCoursera();

@@ -1,4 +1,6 @@
-﻿using NUnit.Framework;
+﻿using System.Linq;
+
+using NUnit.Framework;
 
 using AbbyyLS.SmartCAT.Selenium.Tests;
 using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
@@ -13,7 +15,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Admin.Tests
 		[Test]
 		public void CreateSocialNetworksAccounts()
 		{
-			foreach (var user in ConfigurationManager.SocialNetworksUserList)
+			foreach (var user in ConfigurationManager.SocialNetworksUserList.ToList())
 			{
 				_adminHelper.CreateUserWithPersonalAccount(user.Login, user.Login, user.Password);
 			}

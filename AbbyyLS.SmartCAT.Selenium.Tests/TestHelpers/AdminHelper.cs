@@ -174,7 +174,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 		private void addFeatures(IList<string> features)
 		{
-			foreach (var feature in features)
+			foreach (var feature in features.ToList())
 			{
 				_adminCreateAccountPage
 					.SelectFeature(feature)
