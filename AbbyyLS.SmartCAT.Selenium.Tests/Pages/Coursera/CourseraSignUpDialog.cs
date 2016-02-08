@@ -61,10 +61,22 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Coursera
 		/// <summary>
 		/// Нажать кнопку SignUp.
 		/// </summary>
-		public CourseraHomePage ClickSignUpButton()
+		public CourseraSignUpDialog ClickSignUpButton()
 		{
 			CustomTestContext.WriteLine("Нажать кнопку SignUp.");
 			SignUpButton.Click();
+
+			return GetPage();
+		}
+
+		/// <summary>
+		/// Нажать кнопку Cancel.
+		/// </summary>
+		public CourseraHomePage ClickCancelButton()
+		{
+			CustomTestContext.WriteLine("Нажать кнопку Cancel.");
+			var d=Driver.WaitUntilElementIsEnabled(By.XPath(CANCEL_BUTTON));
+			CancelButton.Click();
 
 			return new CourseraHomePage(Driver).GetPage();
 		}
@@ -99,6 +111,16 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Coursera
 			return Driver.WaitUntilElementIsDisplay(By.XPath(NAME));
 		}
 
+		/// <summary>
+		/// Проверить, что появилось сообщение о окончании регистраци.
+		/// </summary>
+		public bool IsThanksMessageDisplayed()
+		{
+			CustomTestContext.WriteLine("Проверить, что появилось сообщение о окончании регистраци.");
+
+			return Driver.WaitUntilElementIsDisplay(By.XPath(THANKS_MESSAGE));
+		}
+
 		#endregion
 		
 		#region Объявление элементов страницы
@@ -112,6 +134,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Coursera
 		[FindsBy(How = How.XPath, Using = SURNAME)]
 		protected IWebElement Surname { get; set; }
 
+		[FindsBy(How = How.XPath, Using = CANCEL_BUTTON)]
+		protected IWebElement CancelButton { get; set; }
+
 		#endregion
 
 		#region Описание XPath элементов
@@ -119,7 +144,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Coursera
 		protected const string SIGN_UP_BUTTON = "//form[@id='login-form-register']//input[@class='btn-orange']";
 		protected const string NAME = "//input[@name='name']";
 		protected const string SURNAME = ".//input[@name ='surname']";
-
+		protected const string CANCEL_BUTTON = "//div[contains(@id,'login')]//div[@class='cancel']";
+		protected const string THANKS_MESSAGE = "//p[contains(text(),'Thanks for the registration')]";
 		#endregion
 	}
 }

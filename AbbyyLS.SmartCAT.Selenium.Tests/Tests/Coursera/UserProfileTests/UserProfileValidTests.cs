@@ -6,14 +6,28 @@ using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
 using AbbyyLS.SmartCAT.Selenium.Tests.FeatureAttributes;
 using AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers;
 
-namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Coursera
+namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Coursera.UserProfileTests
 {
 	[Parallelizable(ParallelScope.Fixtures)]
 	[Coursera]
-	[Ignore("Курсерные тесты отключены за нестабильность")]
-	class UserNameTests<TWebDriverProvider> : UserProfileBaseTests<TWebDriverProvider>
+	class UserProfileValidTests<TWebDriverProvider> : UserProfileBaseTests<TWebDriverProvider>
 		where TWebDriverProvider : IWebDriverProvider, new()
 	{
+		[Test]
+		public void ChangeAboutMeTest()
+		{
+			string aboutMeInformation = "About Me Info " + Guid.NewGuid();
+
+			_header.GoToUserProfile();
+
+			_profilePage.ClickEditProfileButton();
+
+			_editProfileDialog.EditProfile(aboutMe: aboutMeInformation);
+
+			Assert.AreEqual(aboutMeInformation, _profilePage.GetAboutMeInformation(),
+				"Произошла ошибка:\nНеверная информация о пользователе.");
+		}
+
 		[Test]
 		public void ChangeUserNameCheckProfilePageTest()
 		{
@@ -144,7 +158,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Coursera
 			_editProfileDialog.EditProfile(_newUserName, _newUserSurname);
 
 			_header.GoToHomePage();
-			
+
 			Assert.IsTrue(_newFullName.Contains(_courseraHomePage.GetAuthorInEventList(_translationText)),
 				"Произошла ошибка:\nНеверное имя автора перевода '{0}' в списке событий.", _translationText);
 		}
@@ -180,25 +194,43 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Coursera
 				"Произошла ошибка:\nНеверное имя автора перевода '{0}' в списке событий.", _translationText);
 		}
 
-		[TearDown]
-		public new void TeardownBase()
+		[TestCase("0123456")]
+		[TestCase("012345")]
+		public void ChangePasswordTest(string newPassword)
 		{
-			TakeScreenshotIfTestFailed();
-
-			if (_editorPage.IsEditorPageOpened())
-			{
-				_editorPage.ClickHomeButtonExpectingCourseraCoursesPage();
-			}
-			else if (_courseraHomePage.IsCourseraHomePageOpened())
-			{
-				_courseraHomePage.GoToHomePage();
-			}
-			
 			_header.GoToUserProfile();
-			
+
 			_profilePage.ClickEditProfileButton();
 
-			_editProfileDialog.EditProfile(CourseraReviewerUser.Name, CourseraReviewerUser.Surname);
+			_editProfileDialog
+				.ClickChangePasswordTab()
+				.ChangePassword(newPassword, _password);
+
+			_header.ClickSignOut();
+
+			_loginHelper.LogInCoursera(_login, newPassword);
+
+			Assert.AreEqual(_newFullName, _courseraHomePage.GetNickname(),
+				"Произошла ошибка:\nНе удалось войти в курсеру с новым паролем.");
+		}
+
+		[Test]
+		public void ChangePasswordNewEqualOldTest()
+		{
+			_header.GoToUserProfile();
+
+			_profilePage.ClickEditProfileButton();
+
+			_editProfileDialog
+				.ClickChangePasswordTab()
+				.ChangePassword(oldPassword: _password, newPassword: _password);
+
+			_header.ClickSignOut();
+
+			_loginHelper.LogInCoursera(_login, _password);
+
+			Assert.AreEqual(_newFullName, _courseraHomePage.GetNickname(),
+				"Произошла ошибка:\nНе удалось войти в курсеру.");
 		}
 	}
 }

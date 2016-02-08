@@ -181,7 +181,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Coursera
 		/// <summary>
 		/// Поменять пароль
 		/// </summary>
-		/// <param name="newPassword">новый парль</param>
+		/// <param name="newPassword">новый пароль</param>
 		/// <param name="oldPassword">старый пароль</param>
 		public UserProfilePage ChangePassword(string newPassword, string oldPassword)
 		{

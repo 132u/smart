@@ -147,7 +147,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Coursera
 		/// </summary>
 		public bool IsSignInDialogDisappeared()
 		{
-			return Driver.WaitUntilElementIsDisappeared(By.XPath(SIGN_IN_BUTTON));
+			return Driver.WaitUntilElementIsDisappeared(By.XPath(SIGN_IN_FORM));
 		}
 
 		/// <summary>
@@ -206,6 +206,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Coursera
 		protected const string NICKNAME = "//a[@class='user-name']";
 		protected const string PHOTO = ".//div[@id='main-menu']//span[contains(@class,'menu-user-link')]/img";
 		protected const string SIGN_OUT = "//button[contains(@data-bind, 'logout')]";
+		protected const string SIGN_IN_FORM = "//div[@id='login-form']";
 
 		#endregion
 	}

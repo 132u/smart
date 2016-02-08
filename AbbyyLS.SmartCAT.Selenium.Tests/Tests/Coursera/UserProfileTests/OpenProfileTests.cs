@@ -1,6 +1,4 @@
-﻿using System;
-
-using NUnit.Framework;
+﻿using NUnit.Framework;
 
 using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
 using AbbyyLS.SmartCAT.Selenium.Tests.FeatureAttributes;
@@ -9,25 +7,15 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Coursera
 {
 	[Parallelizable(ParallelScope.Fixtures)]
 	[Coursera]
-	[Ignore("Курсерные тесты отключены за нестабильность")]
-	class UserProfileTests<TWebDriverProvider> : UserProfileBaseTests<TWebDriverProvider>
+	class OpenProfileTests<TWebDriverProvider> : CourseraBaseTests<TWebDriverProvider>
 		where TWebDriverProvider : IWebDriverProvider, new()
 	{
-		[Test]
-		public void ChangeAboutMeTest()
+		[SetUp]
+		public void OpenProfileTestsSetUp()
 		{
-			string aboutMeInformation = "About Me Info " + Guid.NewGuid();
-
-			_header.GoToUserProfile();
-
-			_profilePage.ClickEditProfileButton();
-
-			_editProfileDialog.EditProfile(aboutMe: aboutMeInformation);
-
-			Assert.AreEqual(aboutMeInformation, _profilePage.GetAboutMeInformation(),
-				"Произошла ошибка:\nНеверная информация о пользователе.");
+			_loginHelper.LogInCoursera(CourseraCrowdsourceUser.Login, CourseraCrowdsourceUser.Password);
 		}
-
+		
 		[Test]
 		public void OpenProfileFromHomePage()
 		{

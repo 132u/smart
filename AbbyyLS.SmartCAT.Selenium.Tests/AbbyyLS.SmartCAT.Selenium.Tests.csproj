@@ -254,11 +254,10 @@
     <Compile Include="Tests\Clients\DeleteClientTests.cs" />
     <Compile Include="Tests\Coursera\CourseraBaseTests.cs" />
     <Compile Include="Tests\Coursera\LeaderboardTests.cs" />
-    <Compile Include="Tests\Coursera\UserProfileTests\InvalidUserNameTests.cs" />
-    <Compile Include="Tests\Coursera\UserProfileTests\PasswordTests.cs" />
-    <Compile Include="Tests\Coursera\UserProfileTests\UserNameTests.cs" />
     <Compile Include="Tests\Coursera\UserProfileTests\UserProfileBaseTests.cs" />
-    <Compile Include="Tests\Coursera\UserProfileTests\UserProfileTests.cs" />
+    <Compile Include="Tests\Coursera\UserProfileTests\UserProfileInvalidTests.cs" />
+    <Compile Include="Tests\Coursera\UserProfileTests\OpenProfileTests.cs" />
+    <Compile Include="Tests\Coursera\UserProfileTests\UserProfileValidTests.cs" />
     <Compile Include="Tests\Editor\SidePanelTests\CatPanelTests\CatPanelResultTests.cs" />
     <Compile Include="Tests\Editor\TopPanelTests\EditorChangeCaseButtonsTests.cs" />
     <Compile Include="Tests\Editor\TopPanelTests\EditorLastUnconfirmedSegmentTests.cs" />
