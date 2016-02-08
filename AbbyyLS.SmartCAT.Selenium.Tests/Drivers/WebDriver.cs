@@ -435,19 +435,21 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Drivers
 		/// </summary>
 		public void CloseAlertIfExist()
 		{
-			WebDriverWait wait = new WebDriverWait(this, TimeSpan.FromSeconds(0));
-			
-			if (wait.Until(ExpectedConditions.AlertIsPresent()) != null)
+			try
 			{
-				CustomTestContext.WriteLine("Произошла ошибка: появился необработанный Alert");
 				var alert = _driver.SwitchTo().Alert();
+
+				CustomTestContext.WriteLine("Произошла ошибка: появился необработанный Alert");
 				CustomTestContext.WriteLine("Текст Alert'а: {0}.", alert.Text);
 				alert.Accept();
+			}
+			catch (NoAlertPresentException)
+			{
 			}
 
 			// Временная проверка. Есть подозрение, что алерт не всегда
 			// закрывается с  помощью метода alert.Accept()
-			if (wait.Until(ExpectedConditions.AlertIsPresent()) != null)
+			if (ExpectedConditions.AlertIsPresent() == null)
 			{
 				CustomTestContext.WriteLine("Произошла ошибка: Alert не закрылся с помощью alert.Accept()");
 			}
