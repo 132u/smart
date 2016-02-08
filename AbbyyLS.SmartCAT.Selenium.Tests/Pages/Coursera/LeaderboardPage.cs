@@ -199,7 +199,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Coursera
 		#region Описание XPath элементов
 
 		protected const string USER_NAME_IN_LIST = "//div[@class='rating']//tr[not(contains(@style,'display: none;'))]//td[3]//a[contains(text(),'*#*')]";
-		protected const string USER_POSITION_IN_LIST = "//div[@class='rating']//tr[not(contains(@style,'display: none;'))]//td[3]//a[contains(text(),'*#*')]//..//..//td[1]";
+		protected const string USER_POSITION_IN_LIST = "//div[@class='rating']//tr[not(contains(@style,'display: none;')) and @data-bind='visible: isUserLower']//td[3]//a[contains(text(),'*#*')]//..//..//td[1]";
 		protected const string USER_RATING_IN_LIST = "//div[@class='rating']//tr[not(contains(@style,'display: none;'))][contains(@class,'active')]//td[contains(@data-bind,'rating')]";
 		protected const string COURSES_DROPDOWN = "select_courses_rat";
 		protected const string COURSE_OPTION = "//select[@id='select_courses_rat']/option[text() = '*#*']";

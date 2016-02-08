@@ -43,7 +43,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Coursera
 			var positionNumberInProfile = _profilePage.GetUserProfilePositionNumber();
 
 			Assert.AreEqual(positionNumberInLeaderboard, positionNumberInProfile,
-				"Произошла ошибка:\nНомер позиции пользователя в списке лидеров и в профиле отличается.");
+				"Произошла ошибка:\nНомер позиции пользователя {0} в списке лидеров и в профиле отличается.", CourseraCrowdsourceUser.NickName);
 		}
 
 		[Test]
