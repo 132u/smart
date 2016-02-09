@@ -298,8 +298,14 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		public int CatTypeRowNumber(CatType catType)
 		{
 			CustomTestContext.WriteLine("Получить номер строки для {0} в CAT-панели.", catType);
+
+			// Sleep нужен чтобы все элементы CAT-панели успели появиться
+			Thread.Sleep(3000);
+
 			var rowNumber = 0;
 			var catTypeList = Driver.GetTextListElement(By.XPath(CAT_TYPE_LIST_IN_PANEL));
+
+			CustomTestContext.WriteLine("Количесвто элементов в CAT-панели - {0}", catTypeList.Count);
 
 			for (var i = 0; i < catTypeList.Count; ++i)
 			{
@@ -309,6 +315,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 					break;
 				}
 			}
+
+			CustomTestContext.WriteLine("Номер строки с нужным типом {0} в CAT-панели - {1}", catType, rowNumber);
 
 			if (rowNumber == 0)
 			{
@@ -745,7 +753,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		/// Двойной клик по переводу в CAT-панели
 		/// </summary>
 		/// <param name="rowNumber">номер строки в CAT-панели</param>
-		public EditorPage DoubleClickCatPanel(int rowNumber)
+		public EditorPage DoubleClickCatPanelRow(int rowNumber)
 		{
 			ScrollToTranslationInCatPanel(rowNumber);
 			// Sleep не убирать, без него не скролится
@@ -947,18 +955,15 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		{
 			ClickOnTargetCellInSegment(targetRowNumber);
 
-			if (!Driver.WaitUntilElementIsAppear(By.XPath(CAT_TYPE.Replace("*#*", catType.ToString()))))
-			{
-				throw new XPathLookupException(
-					string.Format("Произошла ошибка:\n Не появился тип {0} в CAT-панели", catType));
-			}
-
 			var catRowNumber = CatTypeRowNumber(catType);
-			DoubleClickCatPanel(catRowNumber);
+
+			DoubleClickCatPanelRow(catRowNumber);
 
 			if (GetTargetText(targetRowNumber) != GetCatTranslationText(catRowNumber))
 			{
-				throw new Exception("Текст из таргет сегмента совпадает с текстом перевода из CAT-панели");
+				throw new Exception(
+					string.Format("Текст из таргет сегмента {0} не совпадает с текстом перевода из CAT-панели {1}",
+					GetTargetText(targetRowNumber), GetCatTranslationText(catRowNumber)));
 			}
 
 			return GetPage();
@@ -989,7 +994,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 
 			if (GetTargetText(targetRowNumber) != GetCatTranslationText(catRowNumber))
 			{
-				throw new Exception("Текст из таргет сегмента совпадает с текстом перевода из CAT-панели");
+				throw new Exception(
+					string.Format("Текст из таргет сегмента {0} не совпадает с текстом перевода из CAT-панели {1}",
+					GetTargetText(targetRowNumber), GetCatTranslationText(catRowNumber)));
 			}
 
 			return GetPage();
@@ -1044,8 +1051,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		/// </summary>
 		public bool IsSavingStatusDisappeared()
 		{
-			CustomTestContext.WriteLine("Проверить, статус 'Saving...' исчез.");
-
 			return Driver.WaitUntilElementIsDisappeared(By.XPath(SAVING_STATUS));
 		}
 
