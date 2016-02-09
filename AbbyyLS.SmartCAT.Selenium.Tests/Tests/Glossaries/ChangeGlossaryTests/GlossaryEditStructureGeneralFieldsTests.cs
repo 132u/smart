@@ -40,7 +40,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 				.FillTermInLanguagesAndTermsSection();
 		}
 
-		[TestCase(GlossarySystemField.Interpretation), Ignore("PRX-10924")]
+		[TestCase(GlossarySystemField.Interpretation)]
 		[TestCase(GlossarySystemField.InterpretationSource)]
 		[TestCase(GlossarySystemField.Example)]
 		public void AddSystemFieldTextareaTypeTest(GlossarySystemField fieldName)
@@ -60,7 +60,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 				"Произошла ошибка:\n неверное количество терминов.");
 		}
 
-		[Test, Ignore("PRX-10924")]
+		[Test]
 		public void AddTopicSystemFieldTest()
 		{
 			var value = "Life";
@@ -78,7 +78,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 				"Произошла ошибка:\n неверное количество терминов.");
 		}
 
-		[Test, Ignore("PRX-10924")]
+		[Test]
 		public void AddImageFieldTest()
 		{
 			var fieldName = GlossarySystemField.Image.Description();
@@ -96,7 +96,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 				"Произошла ошибка:\n неверное количество терминов.");
 		}
 
-		[Test, Ignore("PRX-10924")]
+		[Test]
 		public void AddMultimediaFieldTest()
 		{
 			var fieldName = GlossarySystemField.Multimedia.Description();

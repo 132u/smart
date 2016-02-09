@@ -34,7 +34,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 
 		}
 
-		[TestCase(GlossarySystemField.Source), Ignore("PRX-10924")]
+		[TestCase(GlossarySystemField.Source)]
 		[TestCase(GlossarySystemField.Interpretation)]
 		[TestCase(GlossarySystemField.InterpretationSource)]
 		[TestCase(GlossarySystemField.Context)]
@@ -61,7 +61,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 				"Произошла ошибка:\nВ поле {0} неверное значение.", termField);
 		}
 
-		[TestCase(GlossarySystemField.Label), Ignore("PRX-10924")]
+		[TestCase(GlossarySystemField.Label)]
 		[TestCase(GlossarySystemField.Gender)]
 		[TestCase(GlossarySystemField.Number)]
 		[TestCase(GlossarySystemField.PartOfSpeech)]
