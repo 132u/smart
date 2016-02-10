@@ -189,6 +189,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Coursera
 			FillOldPassword(oldPassword);
 			FillNewPassword(newPassword);
 			FillConfirmPassword(newPassword);
+			NewPassword.Click();
+			Driver.WaitUntilElementIsDisappeared(By.XPath(PASSWORD_MISMATCH_ERROR));
 			ClickPasswordSaveButton();
 
 			return new UserProfilePage(Driver).GetPage();
