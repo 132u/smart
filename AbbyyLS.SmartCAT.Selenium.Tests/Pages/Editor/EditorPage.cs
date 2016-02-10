@@ -792,7 +792,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 			CustomTestContext.WriteLine("Получить список подсвеченных в сегменте №{0} слов.", segmentNumber);
 			var highlightedWords = new List<string>();
 
-			Driver.SetDynamicValue(How.XPath, SOURCE_CELL, (segmentNumber - 1).ToString()).ScrollAndClick();
+			Driver.SetDynamicValue(How.XPath, TARGET_CELL, (segmentNumber - 1).ToString()).ScrollAndClick();
 			var segmentCatSelectedList = Driver.GetElementList(By.XPath(HIGHLIGHTED_SEGMENT.Replace("*#*", segmentNumber.ToString())));
 
 			if (segmentCatSelectedList.Count > 0)
