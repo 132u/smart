@@ -548,10 +548,124 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		/// <summary>
 		/// Нажать Yes в окне подтверждения.
 		/// </summary>
+		/// <param name="author">автор</param>
+		/// <param name="translation">перевод</param>
 		public EditorPage Confirm()
 		{
 			CustomTestContext.WriteLine("Нажать Yes в окне подтверждения.");
 			ConfirmYesButton.Click();
+
+			return GetPage();
+		}
+
+		/// <summary>
+		/// Нажать кнопку голосования За.
+		/// </summary>
+		/// <param name="author">автор</param>
+		/// <param name="translation">перевод</param>
+		public EditorPage ClickVoteUpButton(string author, string translation)
+		{
+			CustomTestContext.WriteLine("Нажать кнопку голосования За перевода '{0}' автора {1}.", translation, author);
+			VoteUpButton = Driver.SetDynamicValue(How.XPath, VOTE_UP_BUTTON, author, translation);
+			VoteUpButton.Click();
+
+			return GetPage();
+		}
+		/// <summary>
+		/// Проскролить до кнопки голосования За.
+		/// </summary>
+		/// <param name="author">автор</param>
+		/// <param name="translation">перевод</param>
+		public EditorPage ScrollToVoteUpButton(string author, string translation)
+		{
+			CustomTestContext.WriteLine("Нажать кнопку голосования За перевода '{0}' автора {1}.", translation, author);
+			VoteUpButton = Driver.SetDynamicValue(How.XPath, VOTE_UP_BUTTON, author, translation);
+			VoteUpButton.Scroll();
+
+			return GetPage();
+		}
+
+		/// <summary>
+		/// Проскролить и нажать кнопку голосования За.
+		/// </summary>
+		/// <param name="author">автор</param>
+		/// <param name="translation">перевод</param>
+		public EditorPage ScrollAndClickVoteUpButton(string author, string translation)
+		{
+			CustomTestContext.WriteLine("Нажать кнопку голосования За перевода '{0}' автора {1}.", translation, author);
+			ScrollToVoteUpButton(author, translation);
+			ClickVoteUpButton(author, translation);
+
+			return GetPage();
+		}
+		public EditorPage ScrollToVoteCount(string author, string translation)
+		{
+			VoteCount = Driver.SetDynamicValue(How.XPath, VOTE_COUNT, author, translation);
+			VoteCount.Scroll();
+
+			return GetPage();
+		}
+
+		/// <summary>
+		/// Получить количество голосов.
+		/// </summary>
+		/// <param name="author">автор</param>
+		/// <param name="translation">перевод</param>
+		public int GetVoteCount(string author, string translation)
+		{
+			CustomTestContext.WriteLine("Получить количество голосов перевода '{0}' автора {1}.", translation, author);
+			Driver.WaitUntilElementIsDisplay(By.XPath(VOTE_COUNT.Replace("*#*", author).Replace("*##*", translation)));
+			VoteCount = Driver.SetDynamicValue(How.XPath, VOTE_COUNT, author, translation);
+			ScrollToVoteCount(author, translation);
+			var count = VoteCount.Text;
+			int result;
+
+			if (!int.TryParse(count, out result))
+			{
+				throw new Exception(string.Format("Произошла ошибка:\n не удалось преобразование количества голосов {0} в число.", count));
+			}
+
+			return result;
+		}
+
+		/// <summary>
+		///Проскролить до кнопки голосования Против.
+		/// </summary>
+		/// <param name="author">автор</param>
+		/// <param name="translation">перевод</param>
+		public EditorPage ScrollToVoteDownButton(string author, string translation)
+		{
+			CustomTestContext.WriteLine("Проскролить до кнопки голосования Против перевода '{0}' автора {1}.", translation, author);
+			VoteDownButton = Driver.SetDynamicValue(How.XPath, VOTE_DOWN_BUTTON, author, translation);
+			VoteDownButton.Scroll();
+
+			return GetPage();
+		}
+
+		/// <summary>
+		/// Нажать кнопку голосования Против.
+		/// </summary>
+		/// <param name="author">автор</param>
+		/// <param name="translation">перевод</param>
+		public EditorPage ClickVoteDownButton(string author, string translation)
+		{
+			CustomTestContext.WriteLine("Нажать кнопку голосования Против перевода '{0}' автора {1}.", translation, author);
+			VoteDownButton = Driver.SetDynamicValue(How.XPath, VOTE_DOWN_BUTTON, author, translation);
+			VoteDownButton.Click();
+
+			return GetPage();
+		}
+
+		/// <summary>
+		/// Проскролить и нажать кнопку голосования Против.
+		/// </summary>
+		/// <param name="author">автор</param>
+		/// <param name="translation">перевод</param>
+		public EditorPage ScrollAndClickVoteDownButton(string author, string translation)
+		{
+			CustomTestContext.WriteLine("Проскролить и нажать кнопку голосования Против перевода '{0}' автора {1}.", translation, author);
+			ScrollToVoteDownButton(author, translation);
+			ClickVoteDownButton(author, translation);
 
 			return GetPage();
 		}
@@ -1436,6 +1550,11 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 
 		[FindsBy(How = How.XPath, Using = SEGMENTS_BODY)]
 		protected IWebElement SegmentsTable { get; set; }
+
+		protected IWebElement VoteDownButton { get; set; }
+		protected IWebElement VoteUpButton { get; set; }
+		protected IWebElement VoteCount{ get; set; }
+
 		protected IWebElement SegmentTranslationUserColumn { get; set; }
 		protected IWebElement Revision;
 		protected IWebElement DeleteChangedPart;
@@ -1518,6 +1637,10 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		protected const string USER_COLUMN = "//div[@id='gridcolumn-1105']//span";
 		protected const string SEGMENT_TRANSLATION_USER_COLUMN = ".//div[@id='translations-body']//table[*#*]//td[2]//div";
 		protected const string EDITOR_DIALOG_BACKGROUND = "//div[contains(@class,'x-mask callout-mask')]";
+
+		protected const string VOTE_DOWN_BUTTON = "//div[@id='translations-body']//tbody//div[contains(text(), '*#*')]//../following-sibling::td//div[contains(text(), '*##*')]//../following-sibling::td//span[contains(@class,'minus')]";
+		protected const string VOTE_UP_BUTTON = "//div[@id='translations-body']//tbody//div[contains(text(), '*#*')]//../following-sibling::td//div[contains(text(), '*##*')]//../following-sibling::td//span[contains(@class,'plus')]";
+		protected const string VOTE_COUNT = "//div[@id='translations-body']//tbody//div[contains(text(), '*#*')]//../following-sibling::td//div[contains(text(), '*##*')]//../following-sibling::td//span[@class='rating-count']";
 
 		#endregion
 	}

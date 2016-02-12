@@ -84,7 +84,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Coursera.UserProfileTests
 
 			_coursesPage.ClickCourse(CreateProjectHelper.CourseraProjectName);
 
-			_coursePage.OpenLecture();
+			_coursePage.ClickLectureTab();
+
+			_lecturesTab.OpenLecture();
 
 			_editorPage
 				.FillTarget(translationText)
@@ -104,7 +106,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Coursera.UserProfileTests
 
 			_coursesPage.ClickCourse(CreateProjectHelper.CourseraProjectName);
 
-			_coursePage.OpenLecture();
+			_coursePage.ClickLectureTab();
+
+			_lecturesTab.OpenLecture();
 
 			_editorPage
 				.FillTarget(translationText)
@@ -121,7 +125,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Coursera.UserProfileTests
 
 			_coursesPage.ClickCourse(CreateProjectHelper.CourseraProjectName);
 
-			_coursePage.OpenLecture();
+			_coursePage.ClickLectureTab();
+
+			_lecturesTab.OpenLecture();
 
 			_editorPage.ClickOnTargetCellInSegment();
 
@@ -136,7 +142,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Coursera.UserProfileTests
 
 			_coursesPage.ClickCourse(CreateProjectHelper.CourseraProjectName);
 
-			_coursePage.OpenLecture();
+			_coursePage.ClickLectureTab();
+
+			_lecturesTab.OpenLecture();
 
 			_editorPage
 				.FillTarget(_translationText)
@@ -178,7 +186,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Coursera.UserProfileTests
 
 			_coursesPage.ClickCourse(CreateProjectHelper.CourseraProjectName);
 
-			_coursePage.OpenLecture();
+			_coursePage.ClickLectureTab();
+
+			_lecturesTab.OpenLecture();
 
 			_editorPage
 				.FillTarget(_translationText)

@@ -70,7 +70,8 @@
     <Compile Include="ExplicitAttributes\UserDataExplicitAttribute.cs" />
     <Compile Include="FeatureAttributes\CourseraAttribute.cs" />
     <Compile Include="Pages\Coursera\CompleteRegistrationDialog.cs" />
-    <Compile Include="Pages\Coursera\CoursePage.cs" />
+    <Compile Include="Pages\Coursera\CoursePage\CoursePage.cs" />
+    <Compile Include="Pages\Coursera\CoursePage\LecturesTab.cs" />
     <Compile Include="Pages\Coursera\CourseraHomePage.cs" />
     <Compile Include="Pages\Coursera\CourseraSignInDialog.cs" />
     <Compile Include="Pages\Coursera\CourseraSignUpDialog.cs" />
@@ -255,6 +256,7 @@
     <Compile Include="Tests\Clients\DeleteClientTests.cs" />
     <Compile Include="Tests\Coursera\CourseraBaseTests.cs" />
     <Compile Include="Tests\Coursera\LeaderboardTests.cs" />
+    <Compile Include="Tests\Coursera\RatingTests.cs" />
     <Compile Include="Tests\Coursera\UserProfileTests\UserProfileBaseTests.cs" />
     <Compile Include="Tests\Coursera\UserProfileTests\UserProfileInvalidTests.cs" />
     <Compile Include="Tests\Coursera\UserProfileTests\OpenProfileTests.cs" />

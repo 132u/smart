@@ -4,6 +4,7 @@ using AbbyyLS.SmartCAT.Selenium.Tests.DataStructures;
 using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Coursera;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor;
+using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Coursera.CoursePage;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Coursera
 {
@@ -26,6 +27,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Coursera
 			_editorPage = new EditorPage(Driver);
 			_profilePage = new UserProfilePage(Driver);
 			_editProfileDialog = new EditProfileDialog(Driver);
+			_lecturesTab = new LecturesTab(Driver);
 
 			CourseraReviewerUser = TakeUser(ConfigurationManager.CourseraReviewerUsers);
 			CourseraCrowdsourceUser = TakeUser(ConfigurationManager.CourseraCrowdsourceUsers);
@@ -43,6 +45,11 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Coursera
 			{
 				ReturnUser(ConfigurationManager.CourseraCrowdsourceUsers, CourseraCrowdsourceUser);
 			}
+
+			if (_secondUser != null)
+			{
+				ReturnUser(ConfigurationManager.CourseraCrowdsourceUsers, _secondUser);
+			}
 		}
 
 		protected EditorPage _editorPage;
@@ -53,5 +60,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Coursera
 		protected CoursesPage _coursesPage;
 		protected CoursePage _coursePage;
 		protected EditProfileDialog _editProfileDialog;
+		protected TestUser _secondUser;
+		protected LecturesTab _lecturesTab;
 	}
 }

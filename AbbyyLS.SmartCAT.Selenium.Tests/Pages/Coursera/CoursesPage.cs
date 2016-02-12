@@ -3,6 +3,7 @@ using OpenQA.Selenium.Support.PageObjects;
 
 using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
 using AbbyyLS.SmartCAT.Selenium.Tests.TestFramework;
+using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Coursera.CoursePage;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Coursera
 {
@@ -38,13 +39,13 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Coursera
 		/// Кликнуть по ссылке на курс.
 		/// </summary>
 		/// <param name="courseName">название курса</param>
-		public CoursePage ClickCourse(string courseName)
+		public CoursePage.CoursePage ClickCourse(string courseName)
 		{
 			CustomTestContext.WriteLine("Кликнуть по ссылке на курс {0}.", courseName);
 			Course = Driver.SetDynamicValue(How.XPath, COURSE, courseName);
 			Course.Click();
 
-			return new CoursePage(Driver).GetPage();
+			return new CoursePage.CoursePage(Driver).GetPage();
 		}
 
 		#endregion

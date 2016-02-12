@@ -15,9 +15,14 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Coursera
 		public void LeaderboardTestsSetUp()
 		{
 			_loginHelper.LogInCoursera(CourseraCrowdsourceUser.Login, CourseraCrowdsourceUser.Password);
+
 			_courseraHomePage.ClickSelectCourse();
+
 			_coursesPage.ClickCourse(CreateProjectHelper.CourseraProjectName);
-			_coursePage.OpenLecture();
+
+			_coursePage.ClickLectureTab();
+
+			_lecturesTab.OpenLecture();
 
 			_editorPage.FillTarget("coursera test")
 				.ConfirmSegmentTranslation()

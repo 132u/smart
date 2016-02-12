@@ -36,6 +36,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Coursera.UserProfileTests
 			_password = Guid.NewGuid().ToString();
 			
 			_adminHelper.CreateNewUser(_login, _login, _password, aolUser: false);
+
 			_commonHelper.GoToCoursera();
 
 			_courseraHomePage.ClickJoinButton();

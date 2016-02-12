@@ -5,31 +5,29 @@ using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor;
 using AbbyyLS.SmartCAT.Selenium.Tests.TestFramework;
 
-namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Coursera
+namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Coursera.CoursePage
 {
-	public class CoursePage : BaseObject, IAbstractPage<CoursePage>
+	public class LecturesTab : CoursePage, IAbstractPage<LecturesTab>
 	{
-		public WebDriver Driver { get; protected set; }
-
-		public CoursePage(WebDriver driver)
+		public LecturesTab(WebDriver driver):base(driver)
 		{
 			Driver = driver;
 			PageFactory.InitElements(Driver, this);
 		}
 
-		public CoursePage GetPage()
+		public LecturesTab GetPage()
 		{
-			var coursePage = new CoursePage(Driver);
-			InitPage(coursePage, Driver);
+			var lecturesPage = new LecturesTab(Driver);
+			InitPage(lecturesPage, Driver);
 
-			return coursePage;
+			return lecturesPage;
 		}
 
 		public void LoadPage()
 		{
-			if (!IsCoursePageOpened())
+			if (!IsLecturesPageOpened())
 			{
-				throw new XPathLookupException("Произошла ошибка:\n не загрузилась страница курса.");
+				throw new XPathLookupException("Произошла ошибка:\n не загрузилась страница лекций на странице курса.");
 			}
 		}
 
@@ -49,18 +47,13 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Coursera
 		}
 
 		#endregion
-
-		#region Составные методы страницы
-
-
-		#endregion
-
+		
 		#region Методы, проверяющие состояние страницы
 
 		/// <summary>
-		/// Проверить, что открылась страница курса.
+		/// Проверить, что открылась страница лекций.
 		/// </summary>
-		private bool IsCoursePageOpened()
+		private bool IsLecturesPageOpened()
 		{
 			return Driver.WaitUntilElementIsDisplay(By.XPath(LECTURES_TABLE));
 		}

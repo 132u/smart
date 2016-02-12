@@ -1,4 +1,6 @@
-﻿using OpenQA.Selenium;
+﻿using System;
+
+using OpenQA.Selenium;
 using OpenQA.Selenium.Support.PageObjects;
 
 using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
@@ -113,6 +115,84 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Coursera
 			return new UserProfilePage(Driver).GetPage();
 		}
 
+		/// <summary>
+		/// Нажать кнопку голосования За.
+		/// </summary>
+		public CourseraHomePage ClickVoteUpButton(string translation)
+		{
+			CustomTestContext.WriteLine("Нажать кнопку голосования За.");
+			VoteUpButton = Driver.SetDynamicValue(How.XPath, VOTE_UP_BUTTON, translation);
+			VoteUpButton.Click();
+			Driver.WaitUntilElementIsDisplay(By.XPath(VOTE_UP_LIKED_BUTTON));
+
+			return GetPage();
+		}
+		/// <summary>
+		/// Проскролить до кнопки голосования За.
+		/// </summary>
+		public CourseraHomePage ScrollVoteUpButton(string translation)
+		{
+			CustomTestContext.WriteLine("Проскролить до кнопки голосования За.");
+			VoteUpButton = Driver.SetDynamicValue(How.XPath, VOTE_UP_BUTTON, translation);
+			VoteUpButton.Scroll();
+
+			return GetPage();
+		}
+
+		/// <summary>
+		/// Нажать кнопку голосования Против.
+		/// </summary>
+		public CourseraHomePage ClickVoteDownButton(string translation)
+		{
+			CustomTestContext.WriteLine("Нажать кнопку голосования Против.");
+			ScrollVoteDownButton(translation);
+			VoteDownButton.Click();
+			Driver.WaitUntilElementIsDisplay(By.XPath(VOTE_DOWN_LIKED_BUTTON));
+
+			return GetPage();
+		}
+
+		/// <summary>
+		/// Проскролить до кнопки голосования Против.
+		/// </summary>
+		public CourseraHomePage ScrollVoteDownButton(string translation)
+		{
+			CustomTestContext.WriteLine("Проскролить до кнопки голосования Против.");
+			VoteDownButton = Driver.SetDynamicValue(How.XPath, VOTE_DOWN_BUTTON, translation);
+			VoteDownButton.Scroll();
+
+			return GetPage();
+		}
+
+		/// <summary>
+		/// Проскролить до количества голосов.
+		/// </summary>
+		public CourseraHomePage ScrollToVoteCount(string translation)
+		{
+			CustomTestContext.WriteLine("Проскролить до количества голосов.");
+			VoteCount = Driver.SetDynamicValue(How.XPath, VOTE_COUNT, translation);
+			VoteCount.Scroll();
+
+			return GetPage();
+		}
+
+		/// <summary>
+		/// Получить количество голосов за перевод.
+		/// </summary>
+		public int GetVoteCount(string translation)
+		{
+			CustomTestContext.WriteLine("Получить количество голосов за перевод {0}.", translation);
+			ScrollToVoteCount(translation);
+			int result;
+
+			if (!int.TryParse(VoteCount.Text, out result))
+			{
+				throw new Exception(string.Format("Произошла ошибка:\n не удалось преобразование количества голосов {0} в число.", VoteCount.Text));
+			}
+
+			return result;
+		}
+
 		#endregion
 
 		#region Составные методы страницы
@@ -158,8 +238,10 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Coursera
 		[FindsBy(How = How.XPath, Using = NICKNAME)]
 		protected IWebElement Nickname { get; set; }
 		protected IWebElement TargetTranslationInEventList { get; set; }
-
+		protected IWebElement VoteUpButton { get; set; }
+		protected IWebElement VoteDownButton { get; set; }
 		protected IWebElement AuthorInEventList { get; set; }
+		protected IWebElement VoteCount { get; set; }
 
 		#endregion
 
@@ -172,6 +254,11 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Coursera
 		protected const string NICKNAME = "//a[@class='user-link']";
 		protected const string TARGET_TRANSLATION_INEVENT_LIST = ".//table[@class='last-events']//tr//td[4]/span[contains(@data-bind,'target')][contains(text(),'*#*')]";
 		protected const string AUTHOR_IN_EVENT_LIST = ".//table[@class='last-events']//tr//td[4]/span[contains(@data-bind,'target')][contains(text(),'*#*')]/../..//td[@class='col-1']//a[contains(@data-bind, 'userName')]";
+		protected const string VOTE_UP_BUTTON = ".//table[@class='last-events']//tr//td[@class='col-4']//span[contains(text(),'*#*')]//..//..//td[@class='col-5']//div[@class='like']";
+		protected const string VOTE_UP_LIKED_BUTTON = ".//table[@class='last-events']//tr//td[@class='col-4']//span[contains(text(),'*#*')]//..//..//td[@class='col-5']//div[@class='liked']";
+		protected const string VOTE_DOWN_LIKED_BUTTON = ".//table[@class='last-events']//tr//td[@class='col-4']//span[contains(text(),'*#*')]//..//..//td[@class='col-5']//div[@class='disliked']";
+		protected const string VOTE_COUNT = ".//table[@class='last-events']//tr//td[@class='col-4']//span[contains(text(),'*#*')]//..//..//td[@class='col-5']//span[@data-bind='text: rating']";
+		protected const string VOTE_DOWN_BUTTON = ".//table[@class='last-events']//tr//td[@class='col-4']//span[contains(text(),'*#*')]//..//..//td[@class='col-5']//div[@class='dislike']";
 
 		#endregion
 	}
