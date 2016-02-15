@@ -64,6 +64,20 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Admin
 			return new AdminEditUserPage(Driver).GetPage();
 		}
 
+		/// <summary>
+		/// Найти пользователя по email
+		/// </summary>
+		/// <param name="email"> email </param>
+		public AdminEditUserPage FindUser(string email)
+		{
+			ClickSearchUserReference();
+			FillUserNameSearch(email);
+			ClickFindButton();
+			var adminEditUserPage = ClickEmailInSearchResultTable(email);
+
+			return adminEditUserPage.GetPage();
+		}
+
 		[FindsBy(How = How.XPath, Using = INPUT_SEARCH)]
 		protected IWebElement InputSearch { get; set; }
 

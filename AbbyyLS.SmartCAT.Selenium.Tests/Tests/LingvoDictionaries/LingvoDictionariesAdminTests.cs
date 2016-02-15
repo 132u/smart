@@ -5,6 +5,7 @@
 using AbbyyLS.SmartCAT.Selenium.Tests.DataStructures;
 ﻿using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
 ﻿using AbbyyLS.SmartCAT.Selenium.Tests.FeatureAttributes;
+﻿using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Admin;
 ﻿using AbbyyLS.SmartCAT.Selenium.Tests.Pages.LingvoDictionaries;
 ﻿using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace;
 ﻿using AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers;
@@ -25,6 +26,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.LingvoDictionaries
 		public void LingvoDictionariesSetUp()
 		{
 			_adminHelper = new AdminHelper(Driver);
+			_adminCreateAccountPage = new AdminCreateAccountPage(Driver);
 			_commonHelper = new CommonHelper(Driver);
 			_loginHelper = new LoginHelper(Driver);
 			_workspacePage = new WorkspacePage(Driver);
@@ -128,8 +130,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.LingvoDictionaries
 			_adminHelper
 				.CreateAccountIfNotExist(accountName: _accountUniqueName, features: new List<string> { Feature.LingvoDictionaries.ToString()})
 				.AddUserToSpecificAccount(ThreadUser.Login, _accountUniqueName)
-				.OpenEditModeForEnterpriceAccount(_accountUniqueName)
-				.AddAllDictionariesPackages();
+				.OpenEditModeForEnterpriceAccount(_accountUniqueName);
+
+			_adminCreateAccountPage.AddAllDictionariesPackages();
 
 			_commonHelper.GoToSignInPage();
 
@@ -154,6 +157,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.LingvoDictionaries
 
 		private string _accountUniqueName;
 		private AdminHelper _adminHelper;
+		private AdminCreateAccountPage _adminCreateAccountPage;
 		private WorkspacePage _workspacePage;
 		private LoginHelper _loginHelper;
 		private CommonHelper _commonHelper;

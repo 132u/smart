@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using System.Windows.Forms;
 
@@ -210,6 +211,26 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Admin
 			ManagementPaidServicesReference.Click();
 
 			return new AdminManagementPaidServicesPage(Driver).GetPage();
+		}
+
+
+		public AdminCreateAccountPage AddFeatures(IList<string> features)
+		{
+			foreach (var feature in features.ToList())
+			{
+				SelectFeature(feature);
+				ClickRightArrowToAddFeature();
+			}
+
+			return GetPage();
+		}
+
+		public AdminCreateAccountPage AddAllDictionariesPackages()
+		{
+			AddAllPackages();
+			ClickSaveButton();
+
+			return GetPage();
 		}
 
 		/// <summary>

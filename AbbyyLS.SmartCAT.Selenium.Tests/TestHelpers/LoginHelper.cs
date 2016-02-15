@@ -1,5 +1,6 @@
 ﻿using AbbyyLS.SmartCAT.Selenium.Tests.DataStructures;
 using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
+using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Admin;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Coursera;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Login;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace;
@@ -15,6 +16,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 		{
 			Driver = driver;
 			_adminHelper = new AdminHelper(Driver);
+			_adminSignInPage = new AdminSignInPage(Driver);
 			_commonHelper = new CommonHelper(Driver);
 			_signInPage = new SignInPage(Driver);
 			_workspacePage = new WorkspacePage(Driver);
@@ -28,7 +30,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 			string password,
 			string accountName = "TestAccount")
 		{
-			BaseObject.InitPage(_signInPage, Driver);
 			_signInPage
 				.SubmitForm(login, password)
 				.SelectAccount(accountName, EuropeTestServerName);
@@ -69,7 +70,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 			{
 				case StartPage.Admin:
 					_commonHelper.GoToAdminUrl();
-					_adminHelper.SignIn(user.Login, user.Password);
+					_adminSignInPage.SignIn(user.Login, user.Password);
 					break;
 
 				case StartPage.CompanyRegistration:
@@ -107,6 +108,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 		}
 
 		private readonly AdminHelper _adminHelper;
+		private readonly AdminSignInPage _adminSignInPage;
 		private readonly CommonHelper _commonHelper;
 		private readonly SignInPage _signInPage;
 		private readonly CourseraHomePage _courseraHomePage;

@@ -17,6 +17,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Admin
 		public AdminSignInPage(WebDriver driver)
 		{
 			Driver = driver;
+			PageFactory.InitElements(Driver, this);
 		}
 
 		public AdminSignInPage GetPage()
@@ -65,6 +66,20 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Admin
 			CustomTestContext.WriteLine("Нажать кнопку 'Submit'.");
 			SubmitButton.Click();
 			var adminLingvoProPage = new AdminLingvoProPage(Driver);
+
+			return adminLingvoProPage.GetPage();
+		}
+
+		/// <summary>
+		/// Логинимся в админку
+		/// </summary>
+		/// <param name="login">логин (email)</param>
+		/// <param name="password">пароль</param>
+		public AdminLingvoProPage SignIn(string login, string password)
+		{
+			SetLogin(login);
+			SetPassword(password);
+			var adminLingvoProPage = ClickSubmitButton();
 
 			return adminLingvoProPage.GetPage();
 		}

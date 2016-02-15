@@ -18,6 +18,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Admin
 		public AdminLingvoProPage(WebDriver driver)
 		{
 			Driver = driver;
+			PageFactory.InitElements(Driver, this);
 		}
 
 		public AdminLingvoProPage GetPage()

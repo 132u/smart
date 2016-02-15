@@ -4,6 +4,7 @@ using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Login;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace;
 using AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers;
+using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Admin;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Authorization
 {
@@ -16,6 +17,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Authorization
 			_adminHelper = new AdminHelper(Driver);
 			_commonHelper = new CommonHelper(Driver);
 
+			_adminSignInPage = new AdminSignInPage(Driver);
 			_signInPage = new SignInPage(Driver);
 			_facebookPage = new FacebookPage(Driver);
 			_googlePage = new GooglePage(Driver);
@@ -26,6 +28,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Authorization
 		}
 
 		protected AdminHelper _adminHelper;
+		protected AdminSignInPage _adminSignInPage;
 		protected CommonHelper _commonHelper;
 		protected SignInPage _signInPage;
 		protected FacebookPage _facebookPage;

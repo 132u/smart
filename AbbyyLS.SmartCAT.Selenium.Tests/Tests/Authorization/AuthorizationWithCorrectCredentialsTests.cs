@@ -67,9 +67,11 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Authorization
 			var password = "43abC12z";
 
 			_commonHelper.GoToAdminUrl();
-			_adminHelper
-				.SignIn(ThreadUser.Login, ThreadUser.Password)
-				.CreateUserWithSpecificAccount(email, nickName, password, accountName);
+
+			_adminSignInPage.SignIn(ThreadUser.Login, ThreadUser.Password);
+
+			_adminHelper.CreateUserWithSpecificAccount(email, nickName, password, accountName);
+
 			_commonHelper.GoToSignInPage();
 
 			_signInPage.SubmitFormExpectingWorkspacePage(email, password);
@@ -92,9 +94,11 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Authorization
 			var password= "13grC89p";
 
 			_commonHelper.GoToAdminUrl();
-			_adminHelper
-				.SignIn(ThreadUser.Login, ThreadUser.Password)
-				.CreateUserWithSpecificAccount(email, nickName, password, accountName);
+
+			_adminSignInPage.SignIn(ThreadUser.Login, ThreadUser.Password);
+
+			_adminHelper.CreateUserWithSpecificAccount(email, nickName, password, accountName);
+
 			_commonHelper.GoToSignInPage();
 
 			_signInPage.SubmitFormExpectingSelectProfileForm(email, password);
