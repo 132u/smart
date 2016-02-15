@@ -280,7 +280,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 		public static string GetAccountUniqueName()
 		{
-			return "AccountUniqueName" + Guid.NewGuid();
+			return "AccountUniqueName" + DateTime.UtcNow.Ticks;
 		}
 
 		/// <summary>
