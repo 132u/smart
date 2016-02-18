@@ -65,10 +65,10 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Login
 		/// <summary>
 		/// Нажать кнопку "Sign In"
 		/// </summary>
-		public SelectAccountForm ClickSubmitButton()
+		public SelectAccountForm ClickSignInButton()
 		{
 			CustomTestContext.WriteLine("Нажать 'Sign In'.");
-			SubmitButton.JavaScriptClick();
+			SignInButton.Click();
 
 			return new SelectAccountForm(Driver).GetPage();
 		}
@@ -79,7 +79,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Login
 		public WorkspacePage ClickSubmitButtonExpectingWorkspacePage()
 		{
 			CustomTestContext.WriteLine("Нажать 'Sign In'.");
-			SubmitButton.JavaScriptClick();
+			SignInButton.JavaScriptClick();
 
 			return new WorkspacePage(Driver).GetPage();
 		}
@@ -87,7 +87,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Login
 		public SelectProfileForm ClickSubmitButtonExpectingSelectProfileForm()
 		{
 			CustomTestContext.WriteLine("Нажать 'Sign In'.");
-			SubmitButton.JavaScriptClick();
+			SignInButton.JavaScriptClick();
 
 			return new SelectProfileForm(Driver).GetPage();
 		}
@@ -99,7 +99,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Login
 		{
 			CustomTestContext.WriteLine("Нажать 'Sign In'.");
 
-			SubmitButton.JavaScriptClick();
+			SignInButton.JavaScriptClick();
 
 			return GetPage();
 		}
@@ -153,7 +153,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Login
 		{
 			SetLogin(login);
 			SetPassword(password);
-			ClickSubmitButton();
+			ClickSignInButton();
 
 			return new SelectAccountForm(Driver).GetPage();
 		}
@@ -248,8 +248,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Login
 		[FindsBy(Using = PASSWORD_INPUT_ID)]
 		protected IWebElement Password { get; set; }
 
-		[FindsBy(Using = SUBMIT_BTN_ID)]
-		protected IWebElement SubmitButton { get; set; }
+		[FindsBy(How = How.XPath, Using = SING_IN_BUTTON)]
+		protected IWebElement SignInButton { get; set; }
 
 		[FindsBy(How = How.XPath, Using = ERROR_WRONG_PASSWORD)]
 		protected IWebElement WrongPasswordMessage { get; set; }
@@ -282,11 +282,11 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Login
 
 		#region Описание XPath элементов
 
-		protected const string LOGIN_FORM_XPATH = "//form[contains(@class, 'corp-login-form')]";
+		protected const string LOGIN_FORM_XPATH = "//form[contains(@class, 'form_auth')]";
 
 		protected const string EMAIL_INPUT_ID = "email";
 		protected const string PASSWORD_INPUT_ID = "password";
-		protected const string SUBMIT_BTN_ID = "btn-sign-in";
+		protected const string SING_IN_BUTTON= "//button[@click='signin']";
 
 		protected const string ERROR_WRONG_PASSWORD = "//span[@translate='ERR-WRONG-PASSWORD']";
 		protected const string ERROR_USER_NOT_FOUND = "//span[@translate='USER-NOT-FOUND-ERROR']";

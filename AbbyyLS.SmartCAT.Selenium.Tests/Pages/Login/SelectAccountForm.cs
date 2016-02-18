@@ -95,10 +95,10 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Login
 
 		#region Описание Xpath элементов
 
-		protected const string ACCOUNT_SELECTION_FORM = "//form[contains(@name, 'selectAccount')]";
+		protected const string ACCOUNT_SELECTION_FORM = "//div[contains(@data-bind, 'selectAccount')]";
 		protected const string US_ACCOUNT_REF_XPATH = "//li[@translate = 'region-us']/following-sibling::li[@class='ng-scope']//span[contains(string(), '*#*')]";
-		protected const string RU_ACCOUNT_REF_XPATH = "//li[@translate = 'region-ru']/following-sibling::li[@class='ng-scope']//span[string() = '*#*']";
-		protected const string EUROPE_ACCOUNT_LIST = "//li[@translate='region-ru']//following-sibling::li//a[contains(@ng-click,'signInAccount')]";
+		protected const string RU_ACCOUNT_REF_XPATH = "//span[contains(@data-bind, 'localRegionName') and text()='Europe']/../..//li[contains(@class,'choice-acc')]//following-sibling::li//a[contains(@data-bind , 'loginToAccount')]//span[text()='*#*']";
+		protected const string EUROPE_ACCOUNT_LIST = "//span[contains(@data-bind, 'localRegionName') and text()='Europe']/../..//li[contains(@class,'choice-acc')]//following-sibling::li//a[contains(@data-bind , 'loginToAccount')]";
 		protected const string USA_ACCOUNT_LIST = "//li[@translate='region-us']//following-sibling::li//a[contains(@ng-click,'signInAccount')]";
 		protected const string WAITING_SERVER_RESPONSE_MESSAGE = "//div[@ng-show='accountWatitngServerResponse']/span";
 		protected const string FREELANCE_PROFILE = "//div[contains(@data-bind, 'chooseFreelancerProfile')]";
