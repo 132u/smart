@@ -54,6 +54,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="FeatureAttributes\ApiIntegrationAttribute.cs" />
+    <Compile Include="FeatureAttributes\CourseraAttribute.cs" />
     <Compile Include="FeatureAttributes\CreateAccountAttribute.cs" />
     <Compile Include="FeatureAttributes\CreateUsersAttribute.cs" />
     <Compile Include="FeatureAttributes\InitDataAttribute.cs" />
