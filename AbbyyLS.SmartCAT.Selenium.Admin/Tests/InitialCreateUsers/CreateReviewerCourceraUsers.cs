@@ -11,7 +11,7 @@ using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Coursera;
 namespace AbbyyLS.SmartCAT.Selenium.Admin.Tests
 {
 	[Parallelizable(ParallelScope.Fixtures)]
-	[CreateUsers]
+	//[CreateUsers]
 	[Coursera]
 	public class CreateReviewerCourceraUsers<TWebDriverProvider> : BaseAdminTest<TWebDriverProvider> where TWebDriverProvider : IWebDriverProvider, new()
 	{

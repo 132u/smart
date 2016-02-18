@@ -12,7 +12,7 @@ using AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers;
 namespace AbbyyLS.SmartCAT.Selenium.Admin.Tests
 {
 	[Parallelizable(ParallelScope.Fixtures)]
-	[CreateUsers]
+	//[CreateUsers]
 	[Coursera]
 	class CreateCrowdsourceCourceraUsers<TWebDriverProvider> : BaseAdminTest<TWebDriverProvider> where TWebDriverProvider : IWebDriverProvider, new()
 	{

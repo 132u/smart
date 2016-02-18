@@ -10,7 +10,7 @@ using AbbyyLS.SmartCAT.Selenium.Admin.FeatureAttributes;
 namespace AbbyyLS.SmartCAT.Selenium.Admin.Tests
 {
 	[Parallelizable(ParallelScope.Fixtures)]
-	[CreateProject]
+	//[CreateProject]
 	[Coursera]
 	class InitialCourseraProjectTests<TWebDriverProvider> : InitialProjectBaseTests<TWebDriverProvider> where TWebDriverProvider : IWebDriverProvider, new()
 	{
