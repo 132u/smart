@@ -713,7 +713,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace
 
 		protected const string USER_PICTURE = "//i[contains(@class, 'upic')]";
 		protected const string LOCALE_REF = "//div[contains(@class, 'langTools')]//i[contains(@class, '*#*')]";
-		protected const string LANGUAGE_BUTTON = "//div[contains(@class, 'language-menu')]//span[contains(@class, 'language-button')]//i";
+		protected const string LANGUAGE_BUTTON = "//div[contains(@class, 'language-menu')]//button[contains(@class, 'language-button')]//i";
 		protected const string ACCOUNT = "//div[contains(@class,'js-usermenu')]";
 		protected const string USER_NAME = "//div[contains(@class,'js-usermenu')]//span[contains(@class,'nameuser')]";
 		protected const string LOGOFF = ".//a[contains(@href,'Logout')]";
