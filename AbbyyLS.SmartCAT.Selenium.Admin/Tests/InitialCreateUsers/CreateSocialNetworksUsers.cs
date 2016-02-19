@@ -17,7 +17,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Admin.Tests
 		{
 			foreach (var user in ConfigurationManager.SocialNetworksUserList.ToList())
 			{
-				_adminHelper.CreateUserWithPersonalAccount(user.Login, user.Login, user.Password);
+				_adminHelper.CreateUserWithSpecificAndPersonalAccount(
+					user.Login, user.Name, user.Surname, user.Login, user.Password);
 			}
 		}
 	}

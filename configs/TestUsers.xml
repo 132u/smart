@@ -23,7 +23,7 @@
 		<CourseraUser Login="testusernatalyamalceva@mailforspam.com"	Password="vfe43FRg3" NickName="Наталья Мальцева" Name="Наталья" Surname="Мальцева" Activated= "true" IsCrowdsource = "true"/>
 		<CourseraUser Login="testuserolegarcer@mailforspam.com"	Password="fere54Ged" NickName="Олег Арцер" Name="Олег" Surname="Арцер" Activated= "true" IsCrowdsource = "true"/>
 
-		<SocialNetworksUser Login = "smaartcat@gmail.com"	Password = "smaartcattest" Activated = "true" NickName="smart cat"/><!-- пользователь Google+,Facebook и LinkedIn -->
+		<SocialNetworksUser Login = "smaartcat@gmail.com"	Password = "smaartcattest" Activated = "true" NickName="smart cat" Name="smart" SurName="cat" /><!-- пользователь Google+,Facebook и LinkedIn -->
 
 		<!--
 			<TestUser> - для тестирования регистрации юзеров, которые имею аакаунт в aol/coursera/perevedem (см 3.1-3.6 пункты в PRX-5601)

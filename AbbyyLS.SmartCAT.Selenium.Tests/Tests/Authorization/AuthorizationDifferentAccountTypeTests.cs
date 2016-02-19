@@ -43,7 +43,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Authorization
 						},
 					unlimitedUseServices: true,
 					accountType: accountType)
-				.CreateAccountAdminIfNotExist(ThreadUser.Login, ThreadUser.Name, ThreadUser.Surname, _accountUniqueName);
+				.AddUserToAdminGroupInAccountIfNotAdded(ThreadUser.Login, ThreadUser.Name, ThreadUser.Surname, _accountUniqueName);
 
 			_commonHelper.GoToSignInPage();
 

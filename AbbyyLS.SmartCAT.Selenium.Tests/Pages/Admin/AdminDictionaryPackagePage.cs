@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 
-using NUnit.Framework;
 using OpenQA.Selenium;
 
 using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
@@ -25,24 +24,44 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Admin
 
 		public new void LoadPage()
 		{
-			if (!Driver.WaitUntilElementIsDisplay(By.XPath(INCLUDED_DICTIONARIES_TABLE)))
+			if (!IsAdminDictionaryPackagePageOpened())
 			{
-				Assert.Fail("Произошла ошибка:\n не загрузилась страница пакета словарей.");
+				throw new Exception("Произошла ошибка:\n не загрузилась страница пакета словарей.");
 			}
 		}
+
+		#region Простые методы
 
 		/// <summary>
 		/// Получить список словарей, включенных в пакет
 		/// </summary>
 		/// <param name="packageName">имя пакета</param>
-		public List<String> IncludedDictionariesList()
+		public List<String> GetIncludedDictionariesList()
 		{
 			CustomTestContext.WriteLine("Получить список словарей, включенных в пакет");
 
 			return Driver.GetTextListElement(By.XPath(INCLUDED_DICTIONARIES_LIST));
 		}
 
+		#endregion
+
+		#region Методы, проверяющие состояние страницы
+
+		/// <summary>
+		/// Проверить, открыта ли страница пакета словарей
+		/// </summary>
+		public bool IsAdminDictionaryPackagePageOpened()
+		{
+			return Driver.WaitUntilElementIsDisplay(By.XPath(INCLUDED_DICTIONARIES_TABLE));
+		}
+
+		#endregion
+
+		#region Описания XPath элементов
+
 		protected const string INCLUDED_DICTIONARIES_LIST = "//table[contains(@name, 'dictionaries')]//select[contains(@id, 'right')]//option";
 		protected const string INCLUDED_DICTIONARIES_TABLE = "//table[contains(@name, 'dictionaries')]//select[contains(@id, 'right')]";
+
+		#endregion
 	}
 }

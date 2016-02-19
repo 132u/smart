@@ -1,4 +1,5 @@
-﻿using NUnit.Framework;
+﻿using System;
+
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.PageObjects;
 
@@ -12,6 +13,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Admin
 		public AdminPersonalAccountPage(WebDriver driver) : base(driver)
 		{
 		}
+
 		public new AdminPersonalAccountPage GetPage()
 		{
 			var adminPersonalAccountPage = new AdminPersonalAccountPage(Driver);
@@ -22,11 +24,13 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Admin
 
 		public new void LoadPage()
 		{
-			if (!Driver.WaitUntilElementIsDisplay(By.XPath(INPUT_SURNAME)))
+			if (!IsAdminPersonalAccountPageOpened())
 			{
-				Assert.Fail("Произошла ошибка:\n не загружена страница создания аккаунта.");
+				throw new Exception("Произошла ошибка:\n не загружена страница создания аккаунта.");
 			}
 		}
+
+		#region Простые методы
 
 		/// <summary>
 		/// Запонить поле 'Фамилия', когда создается новый перс аккаунт
@@ -38,15 +42,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Admin
 			Surname.SetText(surname);
 
 			return GetPage();
-		}
-
-		/// <summary>
-		/// Проверить, что стоит галочка в чекбоксе 'Active'
-		/// </summary>
-		public bool IsSelectedActiveCheckbox()
-		{
-			CustomTestContext.WriteLine("Проверить, что стоит галочка в чекбоксе 'Active'");
-			return ActiveCheckbox.GetIsInputChecked();
 		}
 
 		/// <summary>
@@ -71,6 +66,36 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Admin
 			return GetPage();
 		}
 
+		#endregion
+
+		#region Составные методы
+
+		#endregion
+
+		#region Методы, проверяющие состояние страницы
+
+		/// <summary>
+		/// Проверить, открылась ли страница создания персонального аккаунта
+		/// </summary>
+		public bool IsAdminPersonalAccountPageOpened()
+		{
+			return Driver.WaitUntilElementIsDisplay(By.XPath(INPUT_SURNAME));
+		}
+
+		/// <summary>
+		/// Проверить, что стоит галочка в чекбоксе 'Active'
+		/// </summary>
+		public bool IsSelectedActiveCheckbox()
+		{
+			CustomTestContext.WriteLine("Проверить, что стоит галочка в чекбоксе 'Active'");
+
+			return ActiveCheckbox.GetIsInputChecked();
+		}
+
+		#endregion
+
+		#region Объявление элементов страницы
+
 		[FindsBy(How = How.XPath, Using = INPUT_SURNAME)]
 		protected IWebElement Surname { get; set; }
 
@@ -80,8 +105,14 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Admin
 		[FindsBy(How = How.XPath, Using = SAVE_BUTTON_NEW_PEERS_ACC)]
 		protected IWebElement SaveButton { get; set; }
 
+		#endregion
+
+		#region Описания XPath элементов
+
 		protected const string INPUT_SURNAME = "//input[(@id = 'Surname')]";
 		protected const string ACTIVE_CHECKBOX = "//input[@type='checkbox' and @id='IsActive']";
 		protected const string SAVE_BUTTON_NEW_PEERS_ACC = "//p[@class='submit-area']/input";
+
+		#endregion
 	}
 }

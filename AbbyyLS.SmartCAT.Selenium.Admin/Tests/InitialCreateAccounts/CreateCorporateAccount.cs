@@ -30,7 +30,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Admin.Tests
 							Feature.Vendors.ToString()
 						},
 					unlimitedUseServices: true)
-				.CreateAccountAdminIfNotExist(ThreadUser.Login, ThreadUser.Name, ThreadUser.Surname, LoginHelper.TestAccountName);
+				.AddUserToAdminGroupInAccountIfNotAdded(ThreadUser.Login, ThreadUser.Name, ThreadUser.Surname, LoginHelper.TestAccountName);
 		}
 	}
 }

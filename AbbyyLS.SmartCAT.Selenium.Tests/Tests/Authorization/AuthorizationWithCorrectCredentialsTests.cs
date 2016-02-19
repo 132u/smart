@@ -73,7 +73,15 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Authorization
 
 			_adminSignInPage.SignIn(ThreadUser.Login, ThreadUser.Password);
 
-			_adminHelper.CreateUserWithSpecificAccount(email, nickName, password, accountName);
+			_adminHelper.CreateUserWithSpecificAndPersonalAccount(
+				email: email,
+				name: nickName,
+				surname: nickName,
+				nickName: nickName,
+				password: password,
+				accountName: accountName,
+				personalAccountActiveState: false,
+				aolUser: false);
 
 			_commonHelper.GoToSignInPage();
 
@@ -100,7 +108,15 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Authorization
 
 			_adminSignInPage.SignIn(ThreadUser.Login, ThreadUser.Password);
 
-			_adminHelper.CreateUserWithSpecificAccount(email, nickName, password, accountName);
+			_adminHelper.CreateUserWithSpecificAndPersonalAccount(
+				email: email,
+				name: nickName,
+				surname: nickName,
+				nickName: nickName,
+				password: password,
+				accountName: accountName,
+				personalAccountActiveState: false,
+				aolUser: false);
 
 			_commonHelper.GoToSignInPage();
 

@@ -1,16 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading;
 using System.Windows.Forms;
 
-using NUnit.Framework;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.PageObjects;
 
 using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
 using AbbyyLS.SmartCAT.Selenium.Tests.DataStructures;
 using AbbyyLS.SmartCAT.Selenium.Tests.TestFramework;
+using AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers;
+using OpenQA.Selenium.Support.UI;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Admin
 {
@@ -30,17 +30,20 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Admin
 
 		public new void LoadPage()
 		{
-			if (!Driver.WaitUntilElementIsDisplay(By.XPath(INPUT_NAME)))
+			if (!IsAdminCreateAccountPageOpened())
 			{
-				Assert.Fail("Произошла ошибка:\n не загружена страница создания аккаунта.");
+				throw new Exception("Произошла ошибка:\n не загружена страница создания аккаунта.");
 			}
 		}
+
+		#region Простые методы
 
 		/// <summary>
 		/// Выбрать дату окончания действия словаря
 		/// </summary>
 		public AdminCreateAccountPage SelectExpirationDate()
 		{
+			CustomTestContext.WriteLine("Выбрать дату окончания действия словаря");
 			var nextYear = DateTime.Today.AddYears(1).ToString("dd.MM.yyyy");
 			CustomTestContext.WriteLine("Установить дату '{0}'", nextYear);
 			DictionariesExtDate.SetText(nextYear);
@@ -60,50 +63,23 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Admin
 		}
 
 		/// <summary>
-		/// Закрыть окно с вопросом о Workflow
-		/// </summary>
-		public AdminCreateAccountPage AcceptWorkflowModalDialog()
-		{
-			try
-			{
-				// sleep нужен, чтоб диалог успел появиться
-				Thread.Sleep(1000);
-				if (Driver.SwitchTo().Alert().Text.Contains("Включение функции"
-					+ " workflow для аккаунта необратимо, обратное выключение "
-					+ "будет невозможно. Продолжить?"))
-				{
-					CustomTestContext.WriteLine("Закрыть модальное диалоговое окно");
-					Driver.SwitchTo().Alert().Accept();
-				}
-				// sleep нужен, чтобы диалог успел закрыться.
-				Thread.Sleep(500);
-			}
-			catch (NoAlertPresentException)
-			{
-				tryCloseExternalDialog();
-			}
-
-			return GetPage();
-		}
-
-		/// <summary>
-		/// Отметить Workflow чекбокс при создании корп аккаунта
+		/// Поставить галочку в Workflow чекбокс
 		/// </summary>
 		public AdminCreateAccountPage CheckWorkflowCheckbox()
 		{
-			CustomTestContext.WriteLine("Поставить галочку в  Workflow чекбокс");
+			CustomTestContext.WriteLine("Поставить галочку в Workflow чекбокс");
 			WorkflowCheckbox.Click();
 
 			return this;
 		}
 
 		/// <summary>
-		/// Ввести имя аккаунта
+		/// Ввести название аккаунта
 		/// </summary>
-		/// <param name="name">имя</param>
+		/// <param name="name">название</param>
 		public AdminCreateAccountPage FillAccountName(string name)
 		{
-			CustomTestContext.WriteLine("Ввести названия аккаунта " + name);
+			CustomTestContext.WriteLine("Ввести название аккаунта " + name);
 			Name.SetText(name);
 
 			return GetPage();
@@ -157,11 +133,11 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Admin
 		}
 
 		/// <summary>
-		/// Кликнуть стрелку, чтоб доавбить функию
+		/// Кликнуть стрелку 'вправо', чтоб добавить функию
 		/// </summary>
 		public AdminCreateAccountPage ClickRightArrowToAddFeature()
 		{
-			CustomTestContext.WriteLine("Кликнуть по стрелке, чтоб добавить функцию");
+			CustomTestContext.WriteLine("Кликнуть по стрелке 'вправо', чтоб добавить функцию");
 			FeaturesToRightArrow.Click();
 
 			return GetPage();
@@ -181,7 +157,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Admin
 		/// <summary>
 		/// Получить список включенных в аккаунт фич из правой таблицы.
 		/// </summary>
-		public List<string> FeaturesListInAccount()
+		public List<string> GetFeaturesListInAccount()
 		{
 			CustomTestContext.WriteLine("Получить список включенных в аккаунт фич из правой таблицы.");
 
@@ -194,7 +170,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Admin
 		public AdminCreateAccountPage ClickAddAllDisassemblesButton()
 		{
 			CustomTestContext.WriteLine("Нажать на кнопку добавления всех алгоритмов разбора документов.");
-
 			AddAllDisassemblesButton.Click();
 
 			return GetPage();
@@ -203,17 +178,22 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Admin
 		/// <summary>
 		/// Кликнуть по ссылке 'Управление платными услугами'
 		/// </summary>
-		/// <returns></returns>
 		public AdminManagementPaidServicesPage ClickManagementPaidServicesReference()
 		{
 			CustomTestContext.WriteLine("Кликнуть по ссылке 'Управление платными услугами'");
-
 			ManagementPaidServicesReference.Click();
 
 			return new AdminManagementPaidServicesPage(Driver).GetPage();
 		}
 
+		#endregion
 
+		#region Составные методы
+
+		/// <summary>
+		/// Добавить фичи
+		/// </summary>
+		/// <param name="features">список фич</param>
 		public AdminCreateAccountPage AddFeatures(IList<string> features)
 		{
 			foreach (var feature in features.ToList())
@@ -225,6 +205,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Admin
 			return GetPage();
 		}
 
+		/// <summary>
+		/// Добавить все пакеты словарей
+		/// </summary>
 		public AdminCreateAccountPage AddAllDictionariesPackages()
 		{
 			AddAllPackages();
@@ -234,15 +217,94 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Admin
 		}
 
 		/// <summary>
-		/// Закрыть открытый диалог
+		/// Закрыть окно с вопросом о Workflow
 		/// </summary>
-		private static void tryCloseExternalDialog()
+		public AdminCreateAccountPage AcceptWorkflowModalDialog()
 		{
-			CustomTestContext.WriteLine("Закрыть открытый диалог");
-			SendKeys.SendWait(@"{Enter}");
-			// sleep нужен, чтобы диалог успел закрыться.
-			Thread.Sleep(1000);
+			var wait = new WebDriverWait(Driver, TimeSpan.FromSeconds(5));
+
+			try
+			{
+				var alert = wait.Until(ExpectedConditions.AlertIsPresent());
+
+				if (alert.Text.Contains("Включение функции"
+					+ " workflow для аккаунта необратимо, обратное выключение "
+					+ "будет невозможно. Продолжить?"))
+				{
+					CustomTestContext.WriteLine("Закрыть модальное диалоговое окно");
+					alert.Accept();
+				}
+			}
+			catch (NoAlertPresentException)
+			{
+				CustomTestContext.WriteLine("Закрыть открытый диалог");
+				SendKeys.SendWait(@"{Enter}");
+			}
+
+			return GetPage();
 		}
+
+		/// <summary>
+		/// Заполнить форму создания нового аккаунта
+		/// </summary>
+		/// <param name="venture">затея</param>
+		/// <param name="accountName">название аккаунта</param>
+		/// <param name="workflow">включить workflow</param>
+		/// <param name="features">набор фич</param>
+		/// <param name="packagesNeed">нужны ли пакеты словарей</param>
+		/// <param name="accountType">тип аккаунта</param>
+		public AdminCreateAccountPage FillAccountCreationForm(
+			string venture,
+			string accountName,
+			bool workflow,
+			List<string> features,
+			bool packagesNeed,
+			AccountType accountType = AccountType.LanguageServiceProvider)
+		{
+			FillAccountName(accountName);
+			SetVenture(venture);
+			FillSubdomainName(accountName);
+			SetEnterpriseAccountType(accountType);
+
+			if (workflow)
+			{
+				CheckWorkflowCheckbox();
+				AcceptWorkflowModalDialog();
+			}
+
+			AddFeatures(features);
+			ClickAddAllDisassemblesButton();
+
+			if (features.Contains(Feature.LingvoDictionaries.ToString()))
+			{
+				SelectExpirationDate();
+
+				if (packagesNeed)
+				{
+					AddAllPackages();
+				}
+			}
+
+			ClickSaveButton();
+
+			return GetPage();
+		}
+
+		#endregion
+
+		#region Методы, проверяющие состояние страницы
+
+		/// <summary>
+		/// Проверить, открыта ли страница создания аккаунта
+		/// </summary>
+		public bool IsAdminCreateAccountPageOpened()
+		{
+			return Driver.WaitUntilElementIsDisplay(By.XPath(INPUT_NAME));
+		}
+
+		#endregion
+
+		#region Объявление элементов страниц
 
 		[FindsBy(How = How.XPath, Using = FEATURES_OPTIONS)]
 		protected IWebElement FeaturesOptions { get; set; }
@@ -280,6 +342,10 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Admin
 		[FindsBy(How = How.XPath, Using = ENTERPRISE_ACCOUNT_TYPE_DROPDOWN)]
 		protected IWebElement EnterpriseAccountTypeDropdown { get; set; }
 
+		#endregion
+
+		#region Описания XPath элементов
+
 		protected const string INPUT_NAME = "//input[(@id='Name')]";
 		protected const string FEATURES_OPTIONS = "//table[@name='Features']//select[@id='left']//option[@value='*#*']";
 		protected const string FEATURES_OPTIONS_IN_RIGHT_TABLE = "//table[@name='Features']//select[@id='right']//option";
@@ -293,5 +359,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Admin
 		protected const string ADD_ALL_DISASSEMBLES_BUTTON = "//table[@name='DisassembleDocumentMethodNames']//input[@name='allToRight']";
 		protected const string MANAGEMENT_PAID_SERVICES_REFERENCE = "//a[contains(@href,'PaidServices')]";
 		protected const string ENTERPRISE_ACCOUNT_TYPE_DROPDOWN = "//select[@id='EnterpriseAccountType']";
+
+		#endregion
 	}
 }

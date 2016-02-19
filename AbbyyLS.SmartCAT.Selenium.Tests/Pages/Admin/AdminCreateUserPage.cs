@@ -1,6 +1,5 @@
 ﻿using System;
 
-using NUnit.Framework;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.PageObjects;
 
@@ -25,11 +24,13 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Admin
 
 		public new void LoadPage()
 		{
-			if (!Driver.WaitUntilElementIsDisplay(By.XPath(INPUT_EMAIL)))
+			if (!IsAdminCreateUserPageOpened())
 			{
-				Assert.Fail("Произошла ошибка:\n не загружена страница создания пользователя.");
+				throw new Exception("Произошла ошибка:\n не загружена страница создания пользователя.");
 			}
 		}
+
+		#region Простые методы
 
 		/// <summary>
 		/// Заполнить поле email для нового пользователя
@@ -78,21 +79,66 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Admin
 		}
 
 		/// <summary>
-		/// Нажать кнопку 'Submit' при создании нового юзера
+		/// Нажать кнопку 'Submit' при создании нового юзера, ожидая страницу редактирования
 		/// </summary>
-		public T ClickSubmitButton<T>(WebDriver driver)where T: class, IAbstractPage<T>
+		public AdminEditUserPage ClickSubmitButtonExpectinEditUserPage()
 		{
 			CustomTestContext.WriteLine("Нажать кнопку 'Submit'.");
 			SaveButton.Click();
 
-			var instance = Activator.CreateInstance(typeof(T), new object[] { driver }) as T;
-			return instance.GetPage();
+			return new AdminEditUserPage(Driver).GetPage();
+		}
+
+		/// <summary>
+		/// Нажать кнопку 'Submit' при создании нового юзера
+		/// </summary>
+		public AdminCreateUserPage ClickSubmitButton()
+		{
+			CustomTestContext.WriteLine("Нажать кнопку 'Submit'.");
+			SaveButton.Click();
+
+			return GetPage();
+		}
+
+		#endregion
+
+		#region Составные методы
+
+		/// <summary>
+		/// Заполнить основную информацию о новом пользователе
+		/// </summary>
+		/// <param name="email">email</param>
+		/// <param name="nickName">ник</param>
+		/// <param name="password">пароль</param>
+		public AdminCreateUserPage FillGeneralInformationAboutNewUser(
+			string email,
+			string nickName,
+			string password)
+		{
+			FillEmail(email);
+			FillNickName(nickName);
+			FillPassword(password);
+			FillConfirmPassword(password);
+
+			return GetPage();
+		}
+
+		#endregion
+
+		#region Методы, проверяющие состояние страницы
+
+		/// <summary>
+		/// Проверить, открылась ли страница создания пользователя
+		/// </summary>
+		public bool IsAdminCreateUserPageOpened()
+		{
+			return Driver.WaitUntilElementIsDisplay(By.XPath(INPUT_EMAIL));
 		}
 
 		/// <summary>
 		/// Вернуть: сообщение "Пользователь с таким e-mail уже существует в AOL, теперь добавлен и в БД приложения"
 		/// </summary>
-		public bool GetIsUserExistMessageDisplay()
+		public bool IsUserExistMessageDisplayed()
 		{
 			var isExist = Driver.ElementIsDisplayed(By.XPath(USER_IS_EXIST_MSG));
 
@@ -101,8 +147,12 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Admin
 				CustomTestContext.WriteLine("Пользователь уже есть в AOL, добавлен в БД");
 			}
 
-			return isExist; 
+			return isExist;
 		}
+
+		#endregion
+
+		#region Объявление элементов страницы
 
 		[FindsBy(How = How.XPath, Using = INPUT_EMAIL)]
 		protected IWebElement Email { get; set; }
@@ -119,11 +169,17 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Admin
 		[FindsBy(How = How.XPath, Using = SAVE_BUTTON)]
 		protected IWebElement SaveButton { get; set; }
 
+		#endregion
+
+		#region Описания XPath элементов
+
 		protected const string INPUT_EMAIL = "//input[(@id = 'EMail')]";
 		protected const string NICKNAME = "//input[@id='Nickname']";
 		protected const string PASSWORD = "//div[6]/input[@class='inputField']";
 		protected const string CONFIRM_PASSWORD = "//div[8]/input[@class='inputField']";
 		protected const string SAVE_BUTTON = "//p[@class='submit-area']/input";
 		protected const string USER_IS_EXIST_MSG = "//fieldset//div[2]/span[contains(text(),'таким e-mail уже существует в AOL')]";
+
+		#endregion
 	}
 }

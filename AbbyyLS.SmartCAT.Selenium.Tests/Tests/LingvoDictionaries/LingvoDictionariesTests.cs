@@ -47,7 +47,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.LingvoDictionaries
 						Feature.Domains.ToString(),
 						Feature.LingvoDictionaries.ToString(),
 					})
-					.AddUserToSpecificAccount(ThreadUser.Login, accountUniqueName);
+					.AddUserToAdminGroupInAccountIfNotAdded(
+						ThreadUser.Login, ThreadUser.Name, ThreadUser.Surname, accountUniqueName);
 
 				_commonHelper.GoToSignInPage();
 

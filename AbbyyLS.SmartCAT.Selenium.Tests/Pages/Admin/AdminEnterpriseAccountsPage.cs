@@ -1,7 +1,7 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Threading;
 
-using NUnit.Framework;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.PageObjects;
 
@@ -10,9 +10,6 @@ using AbbyyLS.SmartCAT.Selenium.Tests.TestFramework;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Admin
 {
-	/// <summary>
-	/// Страничка с корпоративными аккаунтами
-	/// </summary>
 	public class AdminEnterpriseAccountsPage : AdminLingvoProPage, IAbstractPage<AdminEnterpriseAccountsPage>
 	{
 		public AdminEnterpriseAccountsPage(WebDriver driver) : base(driver)
@@ -29,11 +26,14 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Admin
 
 		public new void LoadPage()
 		{
-			if (!Driver.WaitUntilElementIsDisplay(By.XPath(SELECT_VENTURE), timeout: 25))
+			if (!IsAdminEnterpriseAccountsPageOpened())
 			{
-				Assert.Fail("Произошла ошибка:\n не загружена страничка AdminEnterpriseAccountsPage (Корпоративные аккаунты).");
+				throw new Exception(
+					"Произошла ошибка:\n не загружена страница корпоративных аккаунтов.");
 			}
 		}
+
+		#region Простые методы
 
 		/// <summary>
 		/// Выбрать затею
@@ -61,24 +61,12 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Admin
 		}
 
 		/// <summary>
-		/// Проверить, есть ли в таблице аккаунтов аккаунт с заданным именем
-		/// </summary>
-		/// <param name="accountName">имя аккаунта</param>
-		public bool IsAccountExists(string accountName)
-		{
-			CustomTestContext.WriteLine("Проверить, есть ли в таблице аккаунтов аккаунт с именем {0}.", accountName);
-			
-			return Driver.ElementIsDisplayed(By.XPath(MANAGE_USERS_REF.Replace("*#*", accountName)));
-		}
-
-		/// <summary>
 		/// Нажать 'Создать аккаунт'
 		/// </summary>
 		public AdminEnterpriseAccountsPage ClickCreateAccount()
 		{
 			CustomTestContext.WriteLine("Нажать 'Создать аккаунт'");
 			AddAccountRef.Click();
-			
 
 			return GetPage();
 		}
@@ -111,6 +99,37 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Admin
 			return new AdminCreateAccountPage(Driver).GetPage();
 		}
 
+		#endregion
+
+		#region Составные методы
+
+		#endregion
+
+		#region Методы, проверяющие состояние страницы
+
+		/// <summary>
+		/// Проверить, открыта ли страница корпоративных аккаунтов
+		/// </summary>
+		public bool IsAdminEnterpriseAccountsPageOpened()
+		{
+			return Driver.WaitUntilElementIsDisplay(By.XPath(SELECT_VENTURE), timeout: 25);
+		}
+
+		/// <summary>
+		/// Проверить, есть ли в таблице аккаунтов аккаунт с заданным именем
+		/// </summary>
+		/// <param name="accountName">имя аккаунта</param>
+		public bool IsAccountExists(string accountName)
+		{
+			CustomTestContext.WriteLine("Проверить, есть ли в таблице аккаунтов аккаунт с именем {0}.", accountName);
+
+			return Driver.ElementIsDisplayed(By.XPath(MANAGE_USERS_REF.Replace("*#*", accountName)));
+		}
+
+		#endregion
+
+		#region Объявление элементов страницы
+
 		[FindsBy(How = How.XPath, Using = SELECT_VENTURE)]
 		protected IWebElement SelectVenture { get; set; }
 
@@ -119,10 +138,15 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Admin
 
 		protected IWebElement ManageUsersRef { get; set; }
 
+		#endregion
+
+		#region Описания XPath элементов
+
 		protected const string SELECT_VENTURE = "//select[@id='VentureId']";
 		protected const string ADD_ACCOUNT_REF = "//a[contains(@href,'/EnterpriseAccounts/Edit')]";
 		protected const string MANAGE_USERS_REF = "//table//tr[contains(string(), '*#*')]//a[contains(@href,'/EnterpriseAccountUsers')]";
 		protected const string EDIT_BUTTON = "//td[text()='*#*']/../td[1]//a[contains(@href,'/EnterpriseAccounts/Edit')]";
 
+		#endregion
 	}
 }

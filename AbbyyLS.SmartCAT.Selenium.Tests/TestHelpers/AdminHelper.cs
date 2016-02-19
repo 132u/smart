@@ -61,84 +61,56 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 			features = features ?? Enum.GetNames(typeof(Feature)).ToList();
 
-			_adminLingvoProPage
-				.ClickEnterpriseAccountsLink()
-				.ChooseVenture(venture);
+			_adminLingvoProPage.ClickEnterpriseAccountsLink();
+
+			_adminEnterpriseAccountsPage.ChooseVenture(venture);
 
 			if (_adminEnterpriseAccountsPage.IsAccountExists(accountName))
 			{
 				_adminEnterpriseAccountsPage.ClickEditAccount(accountName);
 
-				var featuresInAccount = _adminCreateAccountPage.FeaturesListInAccount();
+				var featuresInAccount = _adminCreateAccountPage.GetFeaturesListInAccount();
 				assertFeaturesListsMatch(featuresInAccount, features);
 				_adminCreateAccountPage.ClickManagementPaidServicesReference();
 
 				if (unlimitedUseServices)
 				{
-					if (!_adminManagementPaidServicesPage.GetIsUnlimitedUnitsEnable())
-					{
-						_adminManagementPaidServicesPage
-							.ClickEnableUnlimitedUseServicesButton()
-							.AssertUnlimitedUseServicesEnabled()
-							.ClickEditAccountReference();
-					}
+					_adminManagementPaidServicesPage.EnableUnlimitedUseIfNotEnabled();
 				}
 				else
 				{
-					if (_adminManagementPaidServicesPage.GetIsUnlimitedUnitsEnable())
-					{
-						_adminManagementPaidServicesPage
-							.ClickDisableUnlimitedUseServicesButton()
-							.AssertUnlimitedUseServicesDisabled()
-							.ClickEditAccountReference();
-					}
+					_adminManagementPaidServicesPage.DisableUnlimitedUseIfNotDisabled();
 				}
 
-				_adminEnterpriseAccountsPage
-					.ClickEnterpriseAccountsLink()
-					.ClickManageUsersReference(accountName);
+				_adminManagementPaidServicesPage.ClickEditAccountReference();
+
+				_adminCreateAccountPage.ClickEnterpriseAccountsLink();
+
+				_adminEnterpriseAccountsPage.ClickManageUsersReference(accountName);
 
 				return this;
 			}
 
 			_adminEnterpriseAccountsPage
-					.ClickCreateAccount()
-					.SwitchToAdminCreateAccountWindow()
-					.FillAccountName(accountName)
-					.SetVenture(venture)
-					.FillSubdomainName(accountName)
-					.SetEnterpriseAccountType(accountType);
-			
-			if (workflow)
-			{
-				_adminCreateAccountPage
-					.CheckWorkflowCheckbox()
-					.AcceptWorkflowModalDialog();
-			}
+				.ClickCreateAccount()
+				.SwitchToAdminCreateAccountWindow();
 
-			_adminCreateAccountPage
-				.AddFeatures(features)
-				.ClickAddAllDisassemblesButton();
-
-			if (features.Contains(Feature.LingvoDictionaries.ToString()))
-			{
-				_adminCreateAccountPage.SelectExpirationDate();
-
-				if (packagesNeed)
-				{
-					_adminCreateAccountPage.AddAllPackages();
-				}
-			}
-
-			_adminCreateAccountPage.ClickSaveButton();
+			_adminCreateAccountPage.FillAccountCreationForm(
+				venture, accountName, workflow, features, packagesNeed, accountType);
 
 			if (unlimitedUseServices)
 			{
 				_adminCreateAccountPage
 					.ClickManagementPaidServicesReference()
-					.ClickEnableUnlimitedUseServicesButton()
-					.AssertUnlimitedUseServicesEnabled()
-					.ClickEditAccountReference();
+					.ClickEnableUnlimitedUseServicesButton();
+
+				if (!_adminManagementPaidServicesPage.IsUnlimitedUseServicesEnabled())
+				{
+					throw new Exception(
+						"Произошла ошибка:\n не удалось включить безлимитное использование услуг");
+				}
+
+				_adminManagementPaidServicesPage.ClickEditAccountReference();
 			}
 
 			_adminCreateAccountPage
@@ -155,24 +127,16 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 		/// <param name="userName">имя пользователя</param>
 		/// <param name="userSurname">фамилия пользователя</param>
 		/// <param name="accountName">имя аккааунта</param>
-		public AdminHelper CreateAccountAdminIfNotExist(
-			string userEmail, 
-			string userName, 
-			string userSurname, 
+		public AdminHelper AddUserToAdminGroupInAccountIfNotAdded(
+			string userEmail,
+			string userName,
+			string userSurname,
 			string accountName)
 		{
 			goToManageUsersPage(accountName);
 			
-			if (!_adminEnterpriseAccountUsersPage.IsUserAddedIntoAccount(userEmail))
-			{
-				_adminEnterpriseAccountUsersPage
-					.SetEmailToFindUserInput(userEmail)
-					.ClickFindUserButton()
-					.AssertUserFound(userEmail)
-					.SetUserSurname(userEmail, userSurname)
-					.SetUserName(userEmail, userName)
-					.ClickAddUserButton();
-			}
+			_adminEnterpriseAccountUsersPage.AddExistedUserToAccountIfNotAdded(
+				userEmail, userSurname, userName);
 
 			return this;
 		}
@@ -191,40 +155,24 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 			bool admin = false,
 			bool aolUser = false)
 		{
-			_adminLingvoProPage
-				.ClickCreateUserReference()
-				.FillEmail(email)
-				.FillNickName(nickName)
-				.FillPassword(password)
-				.FillConfirmPassword(password);
+			_adminLingvoProPage.ClickCreateUserReference();
+
+			_adminCreateUserPage.FillGeneralInformationAboutNewUser(email, nickName, password);
 			
 			if (aolUser)
 			{
-				_adminCreateUserPage.ClickSubmitButton<AdminCreateUserPage>(Driver);
+				_adminCreateUserPage.ClickSubmitButton();
 			}
 			else
 			{
-				_adminCreateUserPage.ClickSubmitButton<AdminEditUserPage>(Driver);
+				_adminCreateUserPage.ClickSubmitButtonExpectinEditUserPage();
 			}
 			
-			if (!_adminCreateUserPage.GetIsUserExistMessageDisplay() && admin)
+			if (!_adminCreateUserPage.IsUserExistMessageDisplayed() && admin)
 			{
 				_adminEditUserPage
 					.SelectAdminCheckbox()
 					.ClickSubmitButton();
-			}
-
-			return this;
-		}
-
-		/// <summary>
-		/// Чекнуть Admin чекбокс
-		/// </summary>
-		public AdminHelper CheckAdminCheckbox()
-		{
-			if (!_adminEditUserPage.GetIsAdminCheckboxIsChecked())
-			{
-				_adminEditUserPage.SelectAdminCheckbox();
 			}
 
 			return this;
@@ -237,7 +185,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 		/// <param name="state">статус перс аккаунта (активный или неактивный)</param>
 		public AdminHelper CreateNewPersonalAccount(string surname, bool state)
 		{
-			if (_adminEditUserPage.CheckEditPersonalAccountButtonExists())
+			if (_adminEditUserPage.IsEditPersonalAccountButtonExists())
 			{
 				_adminEditUserPage.ClickEditPersonalAccountButton();
 			}
@@ -252,28 +200,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 			{
 				_adminPersonalAccountPage.SelectActiveCheckbox();
 			}
+
 			_adminPersonalAccountPage.ClickSaveButtonPersonalAccount();
-
-			return this;
-		}
-
-		/// <summary>
-		/// Добавить пользователя в конкретный корпоративный аккаунт на странице Корпоративных аккаунтов
-		/// </summary>
-		/// <param name="login"> логин пользователя</param>
-		/// <param name="account"> название аккаунта </param>
-		public AdminHelper AddUserToSpecificAccount(string login, string account)
-		{
-			goToManageUsersPage(account);
-			
-			if (!_adminEnterpriseAccountUsersPage.IsUserAddedIntoAccount(login))
-			{
-				_adminEnterpriseAccountUsersPage
-					.SetEmailToFindUserInput(login)
-					.ClickFindUserButton()
-					.AssertUserFound(login)
-					.ClickAddUserButton();
-			}
 
 			return this;
 		}
@@ -284,19 +212,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 		}
 
 		/// <summary>
-		/// Переход на страницу редактирования пользователей
-		/// </summary>
-		/// <param name="accountName">имя аккаунта</param>
-		private AdminHelper goToManageUsersPage(string accountName)
-		{
-			_adminLingvoProPage
-					.ClickEnterpriseAccountsLink()
-					.ClickManageUsersReference(accountName);
-
-			return this;
-		}
-		
-		/// <summary>
 		/// Создать пакет словарей, если не существует
 		/// </summary>
 		/// <param name="dictionariesList">список словарей, null - все бесплатные словари</param>
@@ -305,7 +220,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 			List<string> dictionariesList = null, 
 			string packageName = "Общедоступные")
 		{
-			goToLingvoDictionariesPage();
+			_adminLingvoProPage.ClickDictionariesPackagesLink();
 
 			if (dictionariesList == null)
 			{
@@ -355,7 +270,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 				};
 			}
 
-			if (_adminDictionariesPackages.DictionaryPackageExist(packageName))
+			if (_adminDictionariesPackages.IsDictionaryPackageExist(packageName))
 			{
 				_adminDictionariesPackages
 					.ClickDictionaryPackageName(packageName);
@@ -377,12 +292,13 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 		public List<string> GetIncludedDictionariesList()
 		{
-			return _adminDictionaryPackage.IncludedDictionariesList();
+			return _adminDictionaryPackage.GetIncludedDictionariesList();
 		}
 
 		public AdminHelper GoToDictionaryPackagePage(string packageName)
 		{
-			goToLingvoDictionariesPage();
+			_adminLingvoProPage.ClickDictionariesPackagesLink();
+
 			_adminDictionariesPackages.ClickDictionaryPackageName(packageName);
 
 			return this;
@@ -397,44 +313,36 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 			return this;
 		}
 
-		public AdminHelper CreateUserWithPersonalAccount(
-			string email, 
+		/// <summary>
+		/// Создать пользователя в заданном аккаунте и создать персональный аккаунт для пользователя
+		/// </summary>
+		/// <param name="email">email</param>
+		/// <param name="name">имя</param>
+		/// <param name="surname">фамилия</param>
+		/// <param name="nickName">ник</param>
+		/// <param name="password">пароль</param>
+		/// <param name="accountName">название аккаунта</param>
+		/// <param name="personalAccountActiveState">активен ли персональный аккаунт</param>
+		/// <param name="aolUser">является ли AOL пользователем</param>
+		public AdminHelper CreateUserWithSpecificAndPersonalAccount(
+			string email,
+			string name,
+			string surname,
 			string nickName,
 			string password, 
 			string accountName = LoginHelper.TestAccountName,
-			bool activeState = true,
+			bool personalAccountActiveState = true,
 			bool aolUser = true)
 		{
 			CreateNewUser(email, nickName, password, admin: true, aolUser: aolUser);
 
 			_adminFindUserPage.FindUser(email);
 
-			CheckAdminCheckbox();
-			CreateNewPersonalAccount(email, state: activeState);
-			AddUserToSpecificAccount(email, accountName);
+			_adminEditUserPage.CheckAdminCheckboxIfNotChecked();
 
-			return this;
-		}
+			CreateNewPersonalAccount(email, state: personalAccountActiveState);
 
-		public AdminHelper CreateUserWithSpecificAccount(
-			string email,
-			string nickName,
-			string password,
-			string accountName = LoginHelper.TestAccountName)
-		{
-			CreateNewUser(email, nickName, password, admin: true, aolUser: true);
-
-			_adminFindUserPage.FindUser(email);
-
-			CheckAdminCheckbox();
-			AddUserToSpecificAccount(email, accountName);
-
-			return this;
-		}
-
-		private AdminHelper goToLingvoDictionariesPage()
-		{
-			_adminLingvoProPage.ClickDictionariesPackagesLink();
+			AddUserToAdminGroupInAccountIfNotAdded(email, name, surname, accountName);
 
 			return this;
 		}
@@ -457,6 +365,17 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 				"Произошла ошибка:\n списки фич не совпадают.");
 
 			return this;
+		}
+
+		/// <summary>
+		/// Переход на страницу редактирования пользователей
+		/// </summary>
+		/// <param name="accountName">имя аккаунта</param>
+		private void goToManageUsersPage(string accountName)
+		{
+			_adminLingvoProPage
+					.ClickEnterpriseAccountsLink()
+					.ClickManageUsersReference(accountName);
 		}
 
 		private const string _publicDictionaryPackageName = "Общедоступные";

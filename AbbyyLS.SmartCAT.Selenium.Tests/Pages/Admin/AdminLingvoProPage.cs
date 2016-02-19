@@ -1,16 +1,13 @@
-﻿using NUnit.Framework;
+﻿using System;
+
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.PageObjects;
 
 using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
 using AbbyyLS.SmartCAT.Selenium.Tests.TestFramework;
 
-
 namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Admin
 {
-	/// <summary>
-	/// Страничка Lingvo.Pro Admin
-	/// </summary>
 	public class AdminLingvoProPage : BaseObject, IAbstractPage<AdminLingvoProPage>
 	{
 		public WebDriver Driver { get; protected set; }
@@ -31,12 +28,14 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Admin
 		
 		public void LoadPage()
 		{
-			if (!Driver.WaitUntilElementIsDisplay(By.XPath(ENTERPRISE_ACCOUNTS_LINK)))
+			if (!IsAdminLingvoProPageOpened())
 			{
-				Assert.Fail("Произошла ошибка:\n не удалось зайти в админку.\n" +
+				throw new Exception("Произошла ошибка:\n не удалось зайти в админку.\n" +
 					" Не загружена страничка AdminLingvoProPage (Lingvo.Pro Admin).");
 			}
 		}
+
+		#region Простые методы
 
 		/// <summary>
 		/// Кликнуть по ссылке 'Корпоративные аккаунты'
@@ -94,6 +93,26 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Admin
 			return new AdminDictionariesPackagesPage(Driver).GetPage();
 		}
 
+		#endregion
+
+		#region Составные методы
+
+		#endregion
+
+		#region Методы, проверяющие состояние страницы
+
+		/// <summary>
+		/// Проверить, открыта ли страница Lingvo.Pro Admin
+		/// </summary>
+		public bool IsAdminLingvoProPageOpened()
+		{
+			return Driver.WaitUntilElementIsDisplay(By.XPath(ENTERPRISE_ACCOUNTS_LINK));
+		}
+
+		#endregion
+
+		#region Объявление элементов страниц
+
 		[FindsBy(How = How.XPath, Using = LETTERS_SEARCH_REF)]
 		protected IWebElement LettersSearchReference { get; set; }
 
@@ -109,11 +128,16 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Admin
 		[FindsBy(How = How.XPath, Using = ENTERPRISE_ACCOUNTS_LINK)]
 		protected IWebElement EnterpriseAccountsLink { get; set; }
 
+		#endregion
+
+		#region Описания XPath элементов
+
 		protected const string LETTERS_SEARCH_REF = "//a[@href='/EMailTaskList']";
 		protected const string CREATE_USER_REF = "//a[@href='/Users/Create']";
 		protected const string SEARCH_USER_LINK = "//a[@href='/Users']";
 		protected const string DICTIONARY_PACKAGES_LINK = "//a[contains(@href,'/DictionariesPackages')]";
 		protected const string ENTERPRISE_ACCOUNTS_LINK = ".//a[@href='/EnterpriseAccounts']";
 
-	}	
+		#endregion
+	}
 }

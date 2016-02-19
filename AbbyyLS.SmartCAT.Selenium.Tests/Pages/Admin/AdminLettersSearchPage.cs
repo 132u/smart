@@ -1,6 +1,5 @@
 ﻿using System;
 
-using NUnit.Framework;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.PageObjects;
 
@@ -9,9 +8,6 @@ using AbbyyLS.SmartCAT.Selenium.Tests.TestFramework;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Admin
 {
-	/// <summary>
-	/// Поиск писем в админке
-	/// </summary>
 	public class AdminEmailsSearchPage : AdminLingvoProPage, IAbstractPage<AdminEmailsSearchPage>
 	{
 		public AdminEmailsSearchPage(WebDriver driver) : base(driver)
@@ -28,11 +24,13 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Admin
 
 		public new void LoadPage()
 		{
-			if (!Driver.WaitUntilElementIsDisplay(By.Id(SEARCH_EMAIL_INPUT_ID), timeout: 7))
+			if (!IsAdminLettersSearchPageOpened())
 			{
-				Assert.Fail("Произошла ошибка:\n не загружена страничка AdminEmailsSearchPage (Поиск писем в админке).");
+				throw new Exception("Произошла ошибка:\n не загружена страница поиска писем в админке.");
 			}
 		}
+
+		#region Простые методы
 
 		/// <summary>
 		/// Ввести email пользователя в поле для поиска
@@ -69,16 +67,35 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Admin
 			return GetPage();
 		}
 
+		#endregion
+
+		#region Составные методы
+
+		#endregion
+
+		#region Методы, проверяющие состояние страницы
+
+		/// <summary>
+		/// Проверить, открыта ли страница поиска писем в админке
+		/// </summary>
+		public bool IsAdminLettersSearchPageOpened()
+		{
+			return Driver.WaitUntilElementIsDisplay(By.Id(SEARCH_EMAIL_INPUT_ID));
+		}
+
 		/// <summary>
 		/// Проверить, сработал ли поиск и появилась ли таблица с письмами
 		/// </summary>
-		public AdminEmailsSearchPage AssertFoundEmailesAppeared()
+		public bool IsFoundEmailesTableAppeared()
 		{
-			Assert.IsTrue(Driver.WaitUntilElementIsDisplay(By.XPath(FOUND_EMAILS_TABLE), timeout: 7),
-				"Произошла ошибка:\n не появилась таблица с найденными письмами.");
+			CustomTestContext.WriteLine("Проверить, сработал ли поиск и появилась ли таблица с письмами");
 
-			return GetPage();
+			return Driver.WaitUntilElementIsDisplay(By.XPath(FOUND_EMAILS_TABLE));
 		}
+
+		#endregion
+
+		#region Объявление элементов страниц
 
 		[FindsBy(Using = SEARCH_EMAIL_INPUT_ID)]
 		protected IWebElement SearchEmailInput { get; set; }
@@ -89,9 +106,15 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Admin
 		[FindsBy(How = How.XPath, Using = FIND_BTN_XPATH)]
 		protected IWebElement FindButton { get; set; }
 
+		#endregion
+
+		#region Описания XPath элементов
+
 		protected const string SEARCH_EMAIL_INPUT_ID = "SearchEmail";
 		protected const string LIMIT_COUNT_INPUT_ID = "LimitCount";
 		protected const string FIND_BTN_XPATH = "//input[contains(@class, 'button initializeSearch')]";
 		protected const string FOUND_EMAILS_TABLE = "//table[contains(@class, 'foundEmails')]";
+
+		#endregion
 	}
 }

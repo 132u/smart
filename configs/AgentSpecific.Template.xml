@@ -26,16 +26,16 @@
 	</ThreadUsers>
 
 		<TestUsers>
-		<RightsTestUser Login="teamcity_additional1@mailforspam.com" Password="teamcity" NickName="Teamcity Additional1"/>
-		<RightsTestUser Login="teamcity_additional2@mailforspam.com" Password="teamcity" NickName="Teamcity Additional2"/>
-		<RightsTestUser Login="teamcity_additional3@mailforspam.com" Password="teamcity" NickName="Teamcity Additional3"/>
-		<RightsTestUser Login="teamcity_additional4@mailforspam.com" Password="teamcity" NickName="Teamcity Additional4"/>
-		<RightsTestUser Login="teamcity_additional5@mailforspam.com" Password="teamcity" NickName="Teamcity Additional5"/>
-		<RightsTestUser Login="teamcity_additional6@mailforspam.com" Password="teamcity" NickName="Teamcity Additional6"/>
-		<RightsTestUser Login="teamcity_additional7@mailforspam.com" Password="teamcity" NickName="Teamcity Additional7"/>
-		<RightsTestUser Login="teamcity_additional8@mailforspam.com" Password="teamcity" NickName="Teamcity Additional8"/>
-		<RightsTestUser Login="teamcity_additional9@mailforspam.com" Password="teamcity" NickName="Teamcity Additional9"/>
-		<RightsTestUser Login="teamcity_additional10@mailforspam.com" Password="teamcity" NickName="Teamcity Additional10"/>
+		<RightsTestUser Login="teamcity_additional1@mailforspam.com" Password="teamcity" NickName="Teamcity Additional1" Name="Teamcity" Surname="Additional1"/>
+		<RightsTestUser Login="teamcity_additional2@mailforspam.com" Password="teamcity" NickName="Teamcity Additional2" Name="Teamcity" Surname="Additional2"/>
+		<RightsTestUser Login="teamcity_additional3@mailforspam.com" Password="teamcity" NickName="Teamcity Additional3" Name="Teamcity" Surname="Additional3"/>
+		<RightsTestUser Login="teamcity_additional4@mailforspam.com" Password="teamcity" NickName="Teamcity Additional4" Name="Teamcity" Surname="Additional4"/>
+		<RightsTestUser Login="teamcity_additional5@mailforspam.com" Password="teamcity" NickName="Teamcity Additional5" Name="Teamcity" Surname="Additional5"/>
+		<RightsTestUser Login="teamcity_additional6@mailforspam.com" Password="teamcity" NickName="Teamcity Additional6" Name="Teamcity" Surname="Additional6"/>
+		<RightsTestUser Login="teamcity_additional7@mailforspam.com" Password="teamcity" NickName="Teamcity Additional7" Name="Teamcity" Surname="Additional7"/>
+		<RightsTestUser Login="teamcity_additional8@mailforspam.com" Password="teamcity" NickName="Teamcity Additional8" Name="Teamcity" Surname="Additional8"/>
+		<RightsTestUser Login="teamcity_additional9@mailforspam.com" Password="teamcity" NickName="Teamcity Additional9" Name="Teamcity" Surname="Additional9"/>
+		<RightsTestUser Login="teamcity_additional10@mailforspam.com" Password="teamcity" NickName="Teamcity Additional10" Name="Teamcity" Surname="Additional10"/>
 	</TestUsers>
 
 	<UserInfo Login="teamcity@mailforspam.com" Password="teamcity" NickName="Teamcity Test" Name="Teamcity" Surname="Test"/>

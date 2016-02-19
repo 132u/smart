@@ -1,4 +1,5 @@
-﻿using NUnit.Framework;
+﻿using System;
+
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.PageObjects;
 
@@ -7,9 +8,6 @@ using AbbyyLS.SmartCAT.Selenium.Tests.TestFramework;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Admin
 {
-	/// <summary>
-	/// Вход в админку
-	/// </summary>
 	public class AdminSignInPage : BaseObject, IAbstractPage<AdminSignInPage>
 	{
 		public WebDriver Driver { get; private set; }
@@ -30,9 +28,13 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Admin
 
 		public void LoadPage()
 		{
-			Assert.IsTrue(Driver.WaitUntilElementIsDisplay(By.XPath(LOGIN_FORM_XPATH)),
-				"Произошла ошибка:\n не загрузилась страница AdminSignInPage (вход в админку).");
+			if (!IsAdminSignInPageOpened())
+			{
+				throw new Exception("Произошла ошибка:\n не загрузилась страница входа в админку.");
+			}
 		}
+
+		#region Простые методы
 
 		/// <summary>
 		/// Ввести логин
@@ -70,6 +72,10 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Admin
 			return adminLingvoProPage.GetPage();
 		}
 
+		#endregion
+
+		#region Составные методы
+
 		/// <summary>
 		/// Логинимся в админку
 		/// </summary>
@@ -84,6 +90,22 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Admin
 			return adminLingvoProPage.GetPage();
 		}
 
+		#endregion
+
+		#region Методы, проверяющие состояние страницы
+
+		/// <summary>
+		/// Проверить, открылась ли страница входа в админку
+		/// </summary>
+		public bool IsAdminSignInPageOpened()
+		{
+			return Driver.WaitUntilElementIsDisplay(By.XPath(LOGIN_FORM_XPATH));
+		}
+
+		#endregion
+
+		#region Объявление элементов страницы
+
 		[FindsBy(How = How.XPath, Using = LOGIN_XPATH)]
 		protected IWebElement Login { get; set; }
 
@@ -93,10 +115,16 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Admin
 		[FindsBy(How = How.XPath, Using = SUBMIT_BTN_XPATH)]
 		protected IWebElement SubmitButton { get; set; }
 
+		#endregion
+
+		#region Описания XPath элементов
+
 		protected const string LOGIN_FORM_XPATH = "//form[contains(@action,'/Home/Login')]";
 		protected const string LOGIN_XPATH = "//input[@name='email']";
 		protected const string PASSWORD_XPATH = "//input[@name='password']";
 		protected const string SUBMIT_BTN_XPATH = "//input[@type='submit']";
+
+		#endregion
 	}
 }
 

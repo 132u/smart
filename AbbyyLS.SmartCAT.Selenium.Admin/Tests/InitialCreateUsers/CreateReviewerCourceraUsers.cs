@@ -31,7 +31,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Admin.Tests
 			{
 				_adminHelper
 					.CreateNewUser(user.Login, user.Login, user.Password, aolUser: true)
-					.AddUserToSpecificAccount(user.Login, LoginHelper.CourseraAccountName);
+					.AddUserToAdminGroupInAccountIfNotAdded(
+						user.Login, user.Name, user.Surname, LoginHelper.CourseraAccountName);
 			}
 		}
 

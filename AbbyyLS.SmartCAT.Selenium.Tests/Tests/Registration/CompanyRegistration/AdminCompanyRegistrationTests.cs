@@ -53,7 +53,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Registration
 			_adminHelper
 				.CreateNewUser(_email, _nickName, _password)
 				.CreateAccountIfNotExist(accountName: _accountUniqueName, workflow: true)
-				.AddUserToSpecificAccount(_email, _accountUniqueName);
+				.AddUserToAdminGroupInAccountIfNotAdded(_email, _firstName, _lastName, _accountUniqueName);
 
 			_commonHelper.GoToCompanyRegistration();
 
@@ -136,7 +136,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Registration
 			_adminHelper
 				.CreateNewUser(_email, _nickName, _password)
 				.CreateAccountIfNotExist(accountName: _accountUniqueName, workflow: true)
-				.AddUserToSpecificAccount(_email, _accountUniqueName);
+				.AddUserToAdminGroupInAccountIfNotAdded(_email, _firstName, _lastName, _accountUniqueName);
 
 			_commonHelper.GoToCompanyRegistration();
 

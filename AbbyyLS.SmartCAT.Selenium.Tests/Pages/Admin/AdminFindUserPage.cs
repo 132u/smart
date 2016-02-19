@@ -1,4 +1,5 @@
-﻿using NUnit.Framework;
+﻿using System;
+
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.PageObjects;
 
@@ -23,11 +24,14 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Admin
 
 		public new void LoadPage()
 		{
-			if (!Driver.WaitUntilElementIsDisplay(By.XPath(INPUT_SEARCH)))
+			if (!IsAdminFindUserPageOpened())
 			{
-				Assert.Fail("Произошла ошибка:\n не загружена страница поиска пользователя.");
+				throw new Exception(
+					"Произошла ошибка:\n не загружена страница поиска пользователя.");
 			}
 		}
+
+		#region Простые методы
 
 		/// <summary>
 		/// Ввести имя пользователя в поиск
@@ -64,6 +68,10 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Admin
 			return new AdminEditUserPage(Driver).GetPage();
 		}
 
+		#endregion
+
+		#region Составные методы
+
 		/// <summary>
 		/// Найти пользователя по email
 		/// </summary>
@@ -78,6 +86,22 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Admin
 			return adminEditUserPage.GetPage();
 		}
 
+		#endregion
+
+		#region Методы, проверяющие состояние страницы
+
+		/// <summary>
+		/// Проверить, открыта ли страница поиска пользователя
+		/// </summary>
+		public bool IsAdminFindUserPageOpened()
+		{
+			return Driver.WaitUntilElementIsDisplay(By.XPath(INPUT_SEARCH));
+		}
+
+		#endregion
+
+		#region Объявление элементов страниц
+
 		[FindsBy(How = How.XPath, Using = INPUT_SEARCH)]
 		protected IWebElement InputSearch { get; set; }
 
@@ -87,8 +111,14 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Admin
 		[FindsBy(How = How.XPath, Using = FIND_BTN)]
 		protected IWebElement FindButton { get; set; }
 
+		#endregion
+
+		#region Описания XPath элементов
+
 		protected const string INPUT_SEARCH = "//input[(@id = 'searchText')]";
 		protected const string EMAIL_IN_SEARCH_RES_TABLE = "//a[text()='*#*']";
 		protected const string FIND_BTN = "//form[@action='/Users']/input[2]";
+
+		#endregion
 	}
 }

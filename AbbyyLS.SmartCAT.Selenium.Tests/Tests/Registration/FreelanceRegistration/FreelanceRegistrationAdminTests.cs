@@ -63,7 +63,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Registration
 		{
 			_adminHelper
 				.CreateNewUser(_email, _nickName, _password)
-				.CreateAccountAdminIfNotExist(_email, _nickName, _nickName, LoginHelper.TestAccountName);
+				.AddUserToAdminGroupInAccountIfNotAdded(_email, _nickName, _nickName, LoginHelper.TestAccountName);
 
 			_commonHelper.GoToFreelanceRegistratioin();
 
@@ -83,7 +83,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Registration
 		[Test]
 		public void CreateNewUserWithActivePersonalAccountRegistration()
 		{
-			_adminHelper.CreateUserWithPersonalAccount(_email, _nickName, _password, aolUser: false);
+			_adminHelper.CreateUserWithSpecificAndPersonalAccount(
+				_email, _firstName, _lastName, _nickName, _password, aolUser: false);
 
 			_commonHelper.GoToFreelanceRegistratioin();
 

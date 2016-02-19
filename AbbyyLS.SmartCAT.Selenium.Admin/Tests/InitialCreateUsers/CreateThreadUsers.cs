@@ -20,8 +20,10 @@ namespace AbbyyLS.SmartCAT.Selenium.Admin.Tests
 			foreach (var user in ConfigurationManager.ThreadUsersList.ToList())
 			{
 				_adminHelper
-					.CreateUserWithPersonalAccount(user.Login, user.Login, user.Password)
-					.AddUserToSpecificAccount(user.Login, LoginHelper.CourseraAccountName);
+					.CreateUserWithSpecificAndPersonalAccount(
+						user.Login, user.Name, user.Surname, user.Login, user.Password)
+					.AddUserToAdminGroupInAccountIfNotAdded(
+						user.Login, user.Name, user.Surname, LoginHelper.CourseraAccountName);
 			}
 		}
 	}

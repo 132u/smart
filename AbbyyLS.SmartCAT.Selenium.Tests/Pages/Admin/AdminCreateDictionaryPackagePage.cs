@@ -1,6 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
-using NUnit.Framework;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.PageObjects;
 
@@ -25,11 +25,13 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Admin
 
 		public new void LoadPage()
 		{
-			if (!Driver.WaitUntilElementIsDisplay(By.XPath(DICTIONARY_PACKAGE_NAME)))
+			if (!IsAdminCreateDictionaryPackagePageOpened())
 			{
-				Assert.Fail("Произошла ошибка:\n не загрузилась страница создания пакета словарей.");
+				throw new Exception("Произошла ошибка:\n не загрузилась страница создания пакета словарей.");
 			}
 		}
+
+		#region Простые методы
 
 		/// <summary>
 		/// Ввести имя пакета словарей
@@ -55,21 +57,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Admin
 		}
 
 		/// <summary>
-		/// Выбрать словари для пакета
-		/// </summary>
-		public AdminCreateDictionaryPackagePage AddDictionariesToPackage(List<string> dictionariesList)
-		{
-			CustomTestContext.WriteLine("Выбрать словари для пакета.");
-			dictionariesList.ForEach(item =>
-			{
-				DictionariesList.SelectOptionByText(item);
-				AddDictionaryToPack.Click();
-			});
-
-			return GetPage();
-		}
-
-		/// <summary>
 		/// Нажать кнопку 'Создать пакет'
 		/// </summary>
 		public AdminCreateDictionaryPackagePage ClickCreateDictionaryPack()
@@ -79,6 +66,43 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Admin
 
 			return GetPage();
 		}
+
+		#endregion
+
+		#region Составные методы
+
+		/// <summary>
+		/// Выбрать словари для пакета
+		/// </summary>
+		public AdminCreateDictionaryPackagePage AddDictionariesToPackage(List<string> dictionariesList)
+		{
+			CustomTestContext.WriteLine("Выбрать словари для пакета.");
+
+			dictionariesList.ForEach(item =>
+			{
+				DictionariesList.SelectOptionByText(item);
+				AddDictionaryToPack.Click();
+			});
+
+			return GetPage();
+		}
+
+		#endregion
+
+		#region Методы, проверяющие состояние страницы
+
+		/// <summary>
+		/// Проверить открылась ли страница создания пакета словарей
+		/// </summary>
+		/// <returns></returns>
+		public bool IsAdminCreateDictionaryPackagePageOpened()
+		{
+			return Driver.WaitUntilElementIsDisplay(By.XPath(DICTIONARY_PACKAGE_NAME));
+		}
+
+		#endregion
+
+		#region Объявление элементов страницы
 
 		[FindsBy(How = How.XPath, Using = DICTIONARY_PACKAGE_NAME)]
 		protected IWebElement DictionaryPackageName { get; set; }
@@ -95,10 +119,16 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Admin
 		[FindsBy(How = How.XPath, Using = CREATE_DICTIONARY_PACK_BUTTON)]
 		protected IWebElement CreateDictionaryPackButton { get; set; }
 
+		#endregion
+
+		#region Описания XPath элементов
+
 		protected const string ADD_DICTIONARY_TO_PACK_BUTTON = "//input[@name='toRight']";
 		protected const string PUBLIC_DICTIONARY_CHECKBOX = "//input[@id='isPublic']";
 		protected const string DICTIONARY_PACKAGE_NAME = "//input[@id='packageName']";
 		protected const string DICTIONARIES_LIST = "//select[@id='left']";
 		protected const string CREATE_DICTIONARY_PACK_BUTTON = "//input[@data-ref='frmCreatePackage']";
+
+		#endregion
 	}
 }

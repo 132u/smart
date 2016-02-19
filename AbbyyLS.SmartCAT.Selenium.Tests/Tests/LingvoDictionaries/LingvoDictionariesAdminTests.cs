@@ -42,7 +42,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.LingvoDictionaries
 					accountName : _accountUniqueName,
 					features: new List<string> { Feature.LingvoDictionaries.ToString() },
 					packagesNeed: true)
-				.AddUserToSpecificAccount(ThreadUser.Login, _accountUniqueName);
+				.AddUserToAdminGroupInAccountIfNotAdded(
+					ThreadUser.Login, ThreadUser.Surname, ThreadUser.Name, _accountUniqueName);
 
 			_commonHelper.GoToSignInPage();
 
@@ -72,7 +73,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.LingvoDictionaries
 				.CreateAccountIfNotExist(
 					accountName: _accountUniqueName,
 					features: new List<string> { Feature.LingvoDictionaries.ToString() })
-				.AddUserToSpecificAccount(ThreadUser.Login, _accountUniqueName)
+				.AddUserToAdminGroupInAccountIfNotAdded(
+					ThreadUser.Login, ThreadUser.Name, ThreadUser.Surname, _accountUniqueName)
 				.GoToDictionaryPackagePage(AdminHelper.PublicDictionaryPackageName);
 
 			List<string> includedDictionaryList = _adminHelper.GetIncludedDictionariesList();
@@ -106,7 +108,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.LingvoDictionaries
 					Feature.Clients.ToString(),
 					Feature.Domains.ToString()
 				})
-				.AddUserToSpecificAccount(ThreadUser.Login, _accountUniqueName);
+				.AddUserToAdminGroupInAccountIfNotAdded(
+					ThreadUser.Login, ThreadUser.Name, ThreadUser.Surname, _accountUniqueName);
 
 			_commonHelper.GoToSignInPage();
 
@@ -129,7 +132,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.LingvoDictionaries
 		{
 			_adminHelper
 				.CreateAccountIfNotExist(accountName: _accountUniqueName, features: new List<string> { Feature.LingvoDictionaries.ToString()})
-				.AddUserToSpecificAccount(ThreadUser.Login, _accountUniqueName)
+				.AddUserToAdminGroupInAccountIfNotAdded(
+					ThreadUser.Login, ThreadUser.Name, ThreadUser.Surname, _accountUniqueName)
 				.OpenEditModeForEnterpriceAccount(_accountUniqueName);
 
 			_adminCreateAccountPage.AddAllDictionariesPackages();
