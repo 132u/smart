@@ -1,5 +1,4 @@
-﻿using NUnit.Framework;
-using OpenQA.Selenium;
+﻿using OpenQA.Selenium;
 using OpenQA.Selenium.Support.PageObjects;
 
 using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
@@ -7,23 +6,23 @@ using AbbyyLS.SmartCAT.Selenium.Tests.TestFramework;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 {
-	public class DeleteOpenProjectWithFileDialog : ProjectsPage, IAbstractPage<DeleteOpenProjectWithFileDialog>
+	public class DeleteProjectOrFileDialog : ProjectsPage, IAbstractPage<DeleteProjectOrFileDialog>
 	{
-		public DeleteOpenProjectWithFileDialog(WebDriver driver) : base(driver)
+		public DeleteProjectOrFileDialog(WebDriver driver) : base(driver)
 		{
 		}
 
-		public new DeleteOpenProjectWithFileDialog GetPage()
+		public new DeleteProjectOrFileDialog GetPage()
 		{
-			var newDeleteOpenProjectWithFileDialog = new DeleteOpenProjectWithFileDialog(Driver);
-			InitPage(newDeleteOpenProjectWithFileDialog, Driver);
+			var deleteProjectOrFileDialog = new DeleteProjectOrFileDialog(Driver);
+			InitPage(deleteProjectOrFileDialog, Driver);
 
-			return newDeleteOpenProjectWithFileDialog;
+			return deleteProjectOrFileDialog;
 		}
 
 		public new void LoadPage()
 		{
-			if (!IsDeleteOpenProjectWithFileDialogOpened())
+			if (!IsDeleteProjectOrFileDialogOpened())
 			{
 				throw new XPathLookupException("Произошла ошибка:\n не появился диалог удаления проекта с файлом");
 			}
@@ -46,11 +45,27 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 		}
 
 		/// <summary>
+		/// Нажать кнопку 'Удалить файл'
+		/// </summary>
+		public ProjectsPage ClickDeleteFileButton()
+		{
+			CustomTestContext.WriteLine("Нажать кнопку 'Удалить файл'.");
+			DeleteFileButton.Click();
+
+			if (!IsDeleteProjectWithFileDialogDissapeared())
+			{
+				throw new InvalidElementStateException("Произошла ошибка: \nне закрылся диалог удаления проекта с файлом");
+			}
+
+			return new ProjectsPage(Driver).GetPage();
+		}
+
+		/// <summary>
 		/// Проверить, открыт ли диалог удаления проекта с файлом
 		/// </summary>
-		public bool IsDeleteOpenProjectWithFileDialogOpened()
+		public bool IsDeleteProjectOrFileDialogOpened()
 		{
-			return Driver.WaitUntilElementIsDisplay(By.XPath(DELETE_DIALOG_WITH_FILE));
+			return Driver.WaitUntilElementIsDisplay(By.XPath(DELETE_DIALOG_OR_FILE));
 		}
 
 		/// <summary>
@@ -60,13 +75,17 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 		{
 			CustomTestContext.WriteLine("Проверить, что диалог удаления проекта с файлом закрылся");
 
-			return Driver.WaitUntilElementIsDisappeared(By.XPath(DELETE_DIALOG_WITH_FILE));
+			return Driver.WaitUntilElementIsDisappeared(By.XPath(DELETE_DIALOG_OR_FILE));
 		}
 
 		[FindsBy(How = How.XPath, Using = DELETE_PROJECT_BTN)]
 		protected IWebElement DeleteProjectButton { get; set; }
 
-		protected const string DELETE_DIALOG_WITH_FILE = "//div[contains(@class,'js-popup-confirm')]";
-		protected const string DELETE_PROJECT_BTN = "//div[contains(@class, 'js-popup-confirm')]//form[@class='js-ajax-form-submit']//input[@data-close-text='Close']";
+		[FindsBy(How = How.XPath, Using = DELETE_FILE_BTN)]
+		protected IWebElement DeleteFileButton { get; set; }
+
+		protected const string DELETE_DIALOG_OR_FILE = "//div[contains(@class,'js-popup-delete-mode')]";
+		protected const string DELETE_PROJECT_BTN = "//div[contains(@class, 'js-popup-delete-mode')]//form[@class='js-ajax-form-submit']//input[@value='Delete project(s)']";
+		protected const string DELETE_FILE_BTN = "//div[contains(@class, 'js-popup-delete-mode')]//form[@class='js-ajax-form-submit']//input[@value='Delete document(s)']";
 	}
 }

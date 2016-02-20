@@ -35,8 +35,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 			_projectsPage
 				.OpenProjectInfo(_projectUniqueName)
 				.ClickProjectCheckboxInList(_projectUniqueName)
-				.ClickDeleteOpenProjectWithFile()
-				.ClickDeleteProjectButton();
+				.ClickDeleteButton();
+
+			_deleteDialog.ClickConfirmDeleteButton();
 
 			Assert.IsFalse(_projectsPage.IsProjectExist(_projectUniqueName),
 				"Произошла ошибка:\n проект {0} найден в списке проектов", _projectUniqueName);
@@ -45,13 +46,19 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 		[Test]
 		public void DeleteDocumentFromProject()
 		{
+			var document = PathProvider.DocumentFile;
+
 			_createProjectHelper.CreateNewProject(_projectUniqueName);
 
 			_projectsPage.ClickProject(_projectUniqueName);
 
 			_projectSettingsHelper
-				.UploadDocument(new[] { PathProvider.DocumentFile })
-				.DeleteDocument(Path.GetFileNameWithoutExtension(PathProvider.DocumentFile));
+				.UploadDocument(new[] { document })
+				.DeleteDocument(Path.GetFileNameWithoutExtension(document));
+
+			Assert.IsTrue(
+				_projectsPage.IsDocumentRemovedFromProject(_projectUniqueName, document),
+				"Произошла ошибка: документ {0} присутствует в проекте {1}", document, _projectUniqueName);
 		}
 
 		[Test]

@@ -61,6 +61,11 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.DocumentUploadDialog
 			foreach (var pathFile in pathFiles)
 			{
 				SetFileName(pathFile);
+
+				if (!IsFileUploaded(pathFile))
+				{
+					throw new Exception("Произошла ошибка: документ не загрузился");
+				}
 			}
 			
 			return GetPage();

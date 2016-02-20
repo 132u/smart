@@ -305,7 +305,9 @@
     <Compile Include="Tests\Glossaries\TermsTests\DeleteTermTests.cs" />
     <Compile Include="Tests\Glossaries\TermsTests\SearchTermsTests.cs" />
     <Compile Include="Tests\Glossaries\SuggestedTermsTests\SuggestTermsBaseTest.cs" />
-    <Compile Include="Tests\Glossaries\UserRightsTests\SuggestTermsWithoutRight.cs" />
+    <Compile Include="Tests\UsersRights\CreateProjects\CreateProjectWithRightBaseTest.cs" />
+    <Compile Include="Tests\UsersRights\CreateProjects\FormsAndButtonsAvailabilityTests.cs" />
+    <Compile Include="Tests\UsersRights\SuggestTermsWithoutSpecifyingGlossary\SuggestTermsWithoutRight.cs" />
     <Compile Include="Tests\ProjectGroups\ChangeProjectGroupTests.cs" />
     <Compile Include="Tests\ProjectGroups\DeleteProjectGroupTests.cs" />
     <Compile Include="Tests\ProjectGroups\ProjectGroupsBaseTest.cs" />
@@ -325,7 +327,7 @@
     <Compile Include="Tests\Billing\BillingTests.cs" />
     <Compile Include="Tests\Billing\BuyLicensePackageTests.cs" />
     <Compile Include="Configs\ThreadUserConfig.cs" />
-    <Compile Include="Tests\Projects\CheckRightsTests\CheckCreateProjectRight.cs" />
+    <Compile Include="Tests\UsersRights\CreateProjects\CreateProjectWithRight.cs" />
     <Compile Include="Tests\Projects\CreateProjectTests\CreateProjectWithIncorrectDataTests.cs" />
     <Compile Include="Tests\Projects\CreateProjectTests\CreateProjectWithPersonalAccountTests.cs" />
     <Compile Include="Tests\Projects\DeleteProjectTests\DeleteProjectTests.cs" />
@@ -402,6 +404,19 @@
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Service References\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Tests\UsersRights\ManageClientsAndProjectGroups\" />
+    <Folder Include="Tests\UsersRights\ManageGlossaries\" />
+    <Folder Include="Tests\UsersRights\ManageGlossaryContent\" />
+    <Folder Include="Tests\UsersRights\ManagePaidResources\" />
+    <Folder Include="Tests\UsersRights\ManageProjects\" />
+    <Folder Include="Tests\UsersRights\ManageTMContent\" />
+    <Folder Include="Tests\UsersRights\ManageTMs\" />
+    <Folder Include="Tests\UsersRights\ManageUsers\" />
+    <Folder Include="Tests\UsersRights\SearchInGlossaries\" />
+    <Folder Include="Tests\UsersRights\SearchInTMs\" />
+    <Folder Include="Tests\UsersRights\ViewProjects\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -112,14 +112,17 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 		}
 
 		/// <summary>
-		/// Нажать на кнопку 'Удалить' с открытой свёрткой проекта и файлами.
+		/// Нажать на кнопку 'Удалить' с открытой свёрткой проекта и одним файлом в меню проекта
 		/// </summary>
-		public DeleteOpenProjectWithFileDialog ClickDeleteOpenProjectWithFile()
+		/// <param name="projectName">название проекта</param>
+		public DeleteProjectOrFileDialog ClickDeleteOpenProjectWithOneFileInProjectMenu(string projectName)
 		{
-			CustomTestContext.WriteLine("Нажать на кнопку 'Удалить'.");
-			DeleteButton.Click();
+			CustomTestContext.WriteLine(
+				"Нажать на кнопку 'Удалить' с открытой свёрткой проекта и одним файлом в меню проекта");
+			DeleteInProjectButton = Driver.SetDynamicValue(How.XPath, DELETE_IN_PROJECT_BUTTON, projectName);
+			DeleteInProjectButton.Click();
 
-			return new DeleteOpenProjectWithFileDialog(Driver).GetPage();
+			return new DeleteProjectOrFileDialog(Driver).GetPage();
 		}
 
 		/// <summary>
@@ -245,7 +248,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 		/// Нажать кнопку экспорта в меню проекта
 		/// </summary>
 		/// <param name="projectName">имя проекта</param>
-		public ProjectsPage ClickDownloadInProjectButton(string projectName)
+		public ProjectsPage ClickDownloadInProjectMenuButton(string projectName)
 		{
 			CustomTestContext.WriteLine("Нажать кнопку экспорта в меню проекта");
 			DownloadInProjectButton = Driver.SetDynamicValue(How.XPath, DOWNLOAD_IN_PROJECT_BUTTON, projectName);
@@ -329,7 +332,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 		/// Нажать кнопку удаления в меню проекта
 		/// </summary>
 		/// <param name="projectName">имя проекта</param>
-		public DeleteDialog ClickDeleteInProjectButton(string projectName)
+		public DeleteDialog ClickDeleteInProjectMenuButton(string projectName)
 		{
 			CustomTestContext.WriteLine("Нажать кнопку удаления в меню проекта {0}", projectName);
 			DeleteInProjectButton = Driver.SetDynamicValue(How.XPath, DELETE_IN_PROJECT_BUTTON, projectName);
@@ -586,6 +589,22 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 			return Driver.GetElementsCount(By.XPath(TASK_LIST));
 		}
 
+		/// <summary>
+		/// Проверить, присутствует ли ссылка на документ на странице
+		/// </summary>
+		/// <param name="documentPath">имя документа</param>
+		/// <param name="projectName">имя проекта</param>
+		public bool IsDocumentRemovedFromProject(string projectName, string documentPath)
+		{
+			var documentName = Path.GetFileName(documentPath);
+
+			CustomTestContext.WriteLine(
+				"Проверить, присутствует ли документ {0} на в проекте {1}", documentName, projectName);
+
+			return Driver.WaitUntilElementIsDisappeared(
+				By.XPath(DOCUMENT_REF_IN_PROJECT.Replace("*#*", projectName).Replace("*##*", documentName)));
+		}
+
 		#endregion
 
 		#region Методы, ожидающие определенного состояния страницы
@@ -740,6 +759,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 		protected const string PROJECT_CHECKBOX = ".//table[contains(@class,'js-tasks-table')]//tr//*[@class='js-name'][(local-name() ='a' or local-name() ='span') and text()='*#*']/../../../td[contains(@class,'checkbox')]";
 		protected const string OPEN_PROJECT = ".//table[contains(@class,'js-tasks-table')]//tr//*[@class='js-name'][(local-name() ='a' or local-name() ='span') and text()='*#*']/ancestor-or-self::tr";
 		protected const string DOCUMENT_REF = "//tr[contains(@class,'js-document-row')]//a[text()='*#*']";
+		protected const string DOCUMENT_REF_IN_PROJECT = "//table[contains(@class,'js-tasks-table')]//tr//*[@class='js-name'][(local-name() ='a' or local-name() ='span') and text()='*#*']//..//..//..//..//tr[contains(@class,'js-document-row')]//a[text()='*##*']";
 		protected const string DOWNLOAD_MAIN_MENU_BUTTON = "//div[contains(@class,'js-document-export-block')]";
 		protected const string DOWNLOAD_IN_PROJECT_BUTTON = "//table[contains(@class,'js-tasks-table')]//tr//*[@class='js-name'][(local-name() ='a' or local-name() ='span') and text()='*#*']//ancestor::tr//following-sibling::tr[1]//div[contains(@class,'js-buttons-left')]//li/div[contains(@data-bind, 'menuButton')]";
 		protected const string DOWNLOAD_IN_DOCUMENT_BUTTON ="//table[contains(@class,'js-tasks-table')]//tr//*[@class='js-name'][(local-name() ='a' or local-name() ='span') and text()='*#*']//ancestor::tr/following-sibling::tr[contains(@class,'js-document-row')][*##*]//following-sibling::tr[1]//div[contains(@class,'js-buttons-left')]//li";

@@ -44,7 +44,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 		{
 			_projectsPage
 				.OpenProjectInfo(_projectUniqueName)
-				.ClickDownloadInProjectButton(_projectUniqueName)
+				.ClickDownloadInProjectMenuButton(_projectUniqueName)
 				.ClickExportType(ExportType.Target);
 
 			_exportNotification.ClickCancelNotifier<ProjectsPage>();
@@ -60,7 +60,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 		{
 			_projectsPage
 				.OpenProjectInfo(_projectUniqueName)
-				.ClickDownloadInProjectButton(_projectUniqueName)
+				.ClickDownloadInProjectMenuButton(_projectUniqueName)
 				.ClickExportType(ExportType.Source);
 
 			switch (placeSearch)

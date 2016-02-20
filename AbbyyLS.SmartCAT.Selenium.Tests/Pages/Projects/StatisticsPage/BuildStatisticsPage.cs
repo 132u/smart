@@ -49,7 +49,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 		/// <summary>
 		/// Проверить, что открылась страница создания статистики
 		/// </summary>
-		private bool IsBuildStatisticsPageOpened()
+		public bool IsBuildStatisticsPageOpened()
 		{
 			return Driver.WaitUntilElementIsDisplay(By.XPath(BUILD_BUTTON));
 		}

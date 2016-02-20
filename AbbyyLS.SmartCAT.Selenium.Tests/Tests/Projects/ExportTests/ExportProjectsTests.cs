@@ -92,7 +92,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 		{
 			_projectsPage
 				.OpenProjectInfo(_projectUniqueName)
-				.ClickDownloadInProjectButton(_projectUniqueName)
+				.ClickDownloadInProjectMenuButton(_projectUniqueName)
 				.ClickExportType(exportType);
 
 			Assert.IsTrue(_exportNotification.IsExportNotificationDisplayed(),
