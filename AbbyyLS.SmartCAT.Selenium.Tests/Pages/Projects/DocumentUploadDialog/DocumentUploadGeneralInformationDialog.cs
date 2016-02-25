@@ -129,6 +129,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.DocumentUploadDialog
 		/// </summary>
 		public bool IsDocumentUploadGeneralInformationDialogOpened()
 		{
+			AddButton.Scroll();
+
 			return Driver.WaitUntilElementIsDisplay(By.XPath(ADD_BTN));
 		}
 
@@ -153,6 +155,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.DocumentUploadDialog
 
 		[FindsBy(How = How.XPath, Using = UPLOAD_FILE_INPUT)]
 		protected IWebElement UploadFileInput { get; set; }
+
+		[FindsBy(How = How.XPath, Using = ADD_BTN)]
+		protected IWebElement AddButton { get; set; }
 
 		protected const string ADD_BTN = ".//div[contains(@class,'js-popup-import-document')][2]//a[contains(@class,'js-add-file')]";
 		protected const string UPLOAD_FILE_INPUT = ".//div[contains(@class,'js-popup-import-document')][2]//input[@type = 'file']";
