@@ -1565,7 +1565,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 
 		#region Описание XPath элементов страницы
 
-		protected const string CONFIRM_BTN = "//a[@id='confirm-btn']";
+		protected const string CONFIRM_BTN = "//a[contains(@class, 'confirm-btn')]";
 		protected const string FIND_ERROR_BTN_ID = "qa-error-btn";
 		protected const string FINISH_TUTORIAL_BUTTON = "//span[contains(text(),'Finish')]";
 		protected const string AUTOSAVING = "//div[contains(text(), 'Saving')]";
