@@ -21,6 +21,11 @@ namespace AbbyyLS.SmartCAT.Selenium.Admin.Tests
 		{
 			var projectUniqueName = _createProjectHelper.GetProjectUniqueName();
 
+			if (!_newProjectDocumentUploadPage.IsNewProjectDocumentUploadPageOpened())
+			{
+				_projectsPage.ClickCreateProjectButton();
+			}
+
 			_newProjectDocumentUploadPage
 				.UploadDocumentFile(PathProvider.DocumentFile)
 				.ClickSettingsButton();
