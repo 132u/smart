@@ -56,9 +56,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Editor
 				"Произошла ошибка:\nНеверный процент совпадения в CAT-панели.");
 		}
 
-		[TestCase(MachineTranslationType.DefaultMT)]
+		[TestCase(MachineTranslationType.SmartCATTranslator)]
 		[TestCase(MachineTranslationType.Google)]
-		[TestCase(MachineTranslationType.MicrosoftBing)]
+		[TestCase(MachineTranslationType.MicrosoftTranslator)]
 		public void MTTest(MachineTranslationType machineTranslation)
 		{
 			_createProjectHelper

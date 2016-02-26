@@ -60,7 +60,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 		/// Выбрать МТ в настройках документа
 		/// </summary>
 		public DocumentSettingsDialog SelectMachineTranslation(
-			MachineTranslationType machineTranslationType = MachineTranslationType.DefaultMT)
+			MachineTranslationType machineTranslationType = MachineTranslationType.SmartCATTranslator)
 		{
 
 			MachineTranslationCheckbox = Driver.SetDynamicValue(How.XPath, MT_CHECKBOX_INPUT,
@@ -105,7 +105,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 		/// Убрать галочку для Мachine Тranslation
 		/// </summary>>
 		public DocumentSettingsDialog UnselectMachineTranslation(
-			MachineTranslationType machineTranslationType = MachineTranslationType.DefaultMT)
+			MachineTranslationType machineTranslationType = MachineTranslationType.SmartCATTranslator)
 		{
 			CustomTestContext.WriteLine("Проверить, что Мachine Тranslation {0} выбрано.", machineTranslationType);
 			MachineTranslationCheckbox = Driver.SetDynamicValue(How.XPath, MT_CHECKBOX_INPUT,
@@ -142,7 +142,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 		/// </summary>
 		/// <param name="machineTranslationType">тип машинного перевода</param>
 		public bool IsMachineTranslationSelected(
-			MachineTranslationType machineTranslationType = MachineTranslationType.DefaultMT)
+			MachineTranslationType machineTranslationType = MachineTranslationType.SmartCATTranslator)
 		{
 			CustomTestContext.WriteLine("Проверить, что стоит галочка в чекбоксе машинного перевода типа {0}.",
 				machineTranslationType);

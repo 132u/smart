@@ -4,13 +4,13 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.DataStructures
 {
 	public enum MachineTranslationType
 	{
-		[Description("Default MT")]
-		DefaultMT,
+		[Description("SmartCAT Translator")]
+		SmartCATTranslator,
 
 		[Description("Google")]
 		Google,
 
-		[Description("Microsoft Bing")]
-		MicrosoftBing,
+		[Description("Microsoft Translator")]
+		MicrosoftTranslator,
 	}
 }
