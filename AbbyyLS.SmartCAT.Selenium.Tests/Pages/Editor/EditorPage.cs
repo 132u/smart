@@ -1467,7 +1467,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		[FindsBy(How = How.Id, Using = LAST_CONFIRMED_BUTTON)]
 		protected IWebElement LastUnconfirmedButton { get; set; }
 		
-		[FindsBy(How = How.Id, Using = CHARACTER_BUTTON)]
+		[FindsBy(How = How.XPath, Using = CHARACTER_BUTTON)]
 		protected IWebElement CharacterButton { get; set; }
 		
 		[FindsBy(How = How.Id, Using = ADD_TERM_BUTTON)]
@@ -1575,7 +1575,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		protected const string LAST_CONFIRMED_BUTTON = "unfinished-btn";
 		protected const string ADD_TERM_BUTTON = "add-term-btn";
 		protected const string SELECTED_SEGMENT = "//table[*#*]//tr[@aria-selected='true']";
-		protected const string CHARACTER_BUTTON = "charmap-btn";
+		protected const string CHARACTER_BUTTON = "//a[@data-qtip='Insert Special Character (Ctrl+Shift+I)']";
 		protected const string INSERT_TAG_BUTTON = "tag-insert-btn";
 		protected const string COPY_BUTTON = "copy-btn-btnEl";
 		protected const string CONCORDANCE_BUTTON = "concordance-search-btn";
