@@ -388,7 +388,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories
 		protected const string TARGET_LANGUAGES = "//div[contains(@class,'ui-multiselect')]//ul[@class='ui-multiselect-checkboxes ui-helper-reset']//li//input[@value='*#*']";
 		protected const string SOURCE_LANGUAGES = "//span[contains(@class,'js-dropdown__item')][@data-id='*#*']";
 
-		protected const string ERROR_EXISTING_NAME = "//div[contains(@class,'js-popup-create-tm')][2]//div[contains(@class,'createtm__error')]//p[contains(text(),'The name should be unique.')]";
+		protected const string ERROR_EXISTING_NAME = "//div[contains(@class,'js-popup-create-tm')][2]//div[contains(@class,'createtm__error')]//p[contains(text(),'A translation memory with such a name already exists.')]";
 		protected const string ERROR_NO_NAME = "//div[contains(@class,'js-popup-create-tm')][2]//div[contains(@class,'createtm__error')]//p[contains(@data-message-id, 'name-required')]";
 		protected const string ERROR_NO_TARGET = "//div[contains(@class,'js-popup-create-tm')][2]//div[contains(@class,'createtm__error')]//p[contains(@data-message-id,'target-language-required')]";
 		protected const string ERROR_NO_TMX_FILE = "//div[contains(@class,'js-popup-create-tm')][2]//div[contains(@class,'createtm__error')]//p[contains(@data-message-id,'invalid-file-extension')]";
