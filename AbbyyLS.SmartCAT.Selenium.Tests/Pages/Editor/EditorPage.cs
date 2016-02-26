@@ -784,11 +784,11 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		/// <summary>
 		/// Получить имя пользователя, создавшего ревизию.
 		/// </summary>
-		/// <param name="revisionNumber">номер ревизии</param>
-		public string GetSegmentTranslationUserName(int revisionNumber = 1)
+		/// <param name="translation">перевод</param>
+		public string GetSegmentTranslationUserName(string translation)
 		{
 			CustomTestContext.WriteLine("Получить имя пользователя на вкладке 'Segment translation'.");
-			SegmentTranslationUserColumn = Driver.SetDynamicValue(How.XPath, SEGMENT_TRANSLATION_USER_COLUMN, revisionNumber.ToString());
+			SegmentTranslationUserColumn = Driver.SetDynamicValue(How.XPath, SEGMENT_TRANSLATION_USER_COLUMN, translation);
 			
 			return SegmentTranslationUserColumn.Text;
 		}
@@ -1635,7 +1635,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		protected const string REVISION_INSERT_CHANGE_PART = "//div[@id='revisions-body']//table[*#*]//td[contains(@class,'revision-text-cell')]//ins";
 		protected const string REVISION_USER_COLUNM = "//div[@id='revisions-body']//table[*#*]//td[contains(@class,'revision-user-cell')]";
 		protected const string USER_COLUMN = "//div[@id='gridcolumn-1105']//span";
-		protected const string SEGMENT_TRANSLATION_USER_COLUMN = ".//div[@id='translations-body']//table[*#*]//td[2]//div";
+		protected const string SEGMENT_TRANSLATION_USER_COLUMN = ".//div[@id='translations-body']//table//td[3]//div[contains(text(), '*#*')]/../..//td[2]";
 		protected const string EDITOR_DIALOG_BACKGROUND = "//div[contains(@class,'x-mask callout-mask')]";
 
 		protected const string VOTE_DOWN_BUTTON = "//div[@id='translations-body']//tbody//div[contains(text(), '*#*')]//../following-sibling::td//div[contains(text(), '*##*')]//../following-sibling::td//span[contains(@class,'minus')]";

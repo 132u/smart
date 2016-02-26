@@ -93,7 +93,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Coursera.UserProfileTests
 				.ConfirmSegmentTranslation()
 				.ClickOnTargetCellInSegment();
 
-			Assert.AreEqual(_newFullName, _editorPage.GetSegmentTranslationUserName(),
+			Assert.AreEqual(_newFullName, _editorPage.GetSegmentTranslationUserName(translationText),
 				"Произошла ошибка:\nНеверное имя пользователя в ревизии перевода");
 		}
 
@@ -131,7 +131,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Coursera.UserProfileTests
 
 			_editorPage.ClickOnTargetCellInSegment();
 
-			Assert.AreEqual(_newFullName, _editorPage.GetSegmentTranslationUserName(),
+			Assert.AreEqual(_newFullName, _editorPage.GetSegmentTranslationUserName(translationText),
 				"Произошла ошибка:\nНеверное имя пользователя в ревизии перевода");
 		}
 
