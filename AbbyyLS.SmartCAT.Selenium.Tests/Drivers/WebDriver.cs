@@ -427,6 +427,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Drivers
 
 			screenShot.SaveAsFile(fileName, ImageFormat.Png);
 
+			CustomTestContext.WriteLine("<img src=\"data:image/jpeg;base64," + screenShot.AsBase64EncodedString + "\"/>");
+
 			return fileName;
 		}
 
