@@ -1485,7 +1485,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		[FindsBy(How = How.XPath, Using = TAG)]
 		protected IWebElement Tag { get; set; }
 
-		[FindsBy(How = How.Id, Using = COPY_BUTTON)]
+		[FindsBy(How = How.XPath, Using = COPY_BUTTON)]
 		protected IWebElement CopyButton { get; set; }
 
 		[FindsBy(How = How.Id, Using = CONCORDANCE_BUTTON)]
@@ -1524,7 +1524,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		[FindsBy(How = How.XPath, Using = UNDO_BUTTON)]
 		protected IWebElement UndoButton { get; set; }
 
-		[FindsBy(How = How.Id, Using = REDO_BUTTON)]
+		[FindsBy(How = How.XPath, Using = REDO_BUTTON)]
 		protected IWebElement RedoButton { get; set; }
 
 		[FindsBy(How = How.Id, Using = RESTORE_BUTTON)]
@@ -1577,14 +1577,14 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		protected const string SELECTED_SEGMENT = "//table[*#*]//tr[@aria-selected='true']";
 		protected const string CHARACTER_BUTTON = "//a[@data-qtip='Insert Special Character (Ctrl+Shift+I)']";
 		protected const string INSERT_TAG_BUTTON = "tag-insert-btn";
-		protected const string COPY_BUTTON = "copy-btn-btnEl";
+		protected const string COPY_BUTTON = "//span[contains(@id, 'copysourcebutton')]";
 		protected const string CONCORDANCE_BUTTON = "concordance-search-btn";
 		protected const string ROLLBACK_BUTTON = "step-rollback-btn";
 		protected const string HOME_BUTTON = "back-btn";
 		protected const string DICTIONARY_BUTTON = "dictionary-btn";
 		protected const string CHANGE_CASE_BUTTON = "change-case-btn";
-		protected const string UNDO_BUTTON = "//a[@id='undo-btn' and @aria-disabled='false']";
-		protected const string REDO_BUTTON = "redo-btn-btnEl";
+		protected const string UNDO_BUTTON = "//a[contains(@id, 'undo') and @aria-disabled='false']";
+		protected const string REDO_BUTTON = "//a[contains(@id, 'redo') and @aria-disabled='false']";
 
 		protected const string ROW_NUMBER_ACTIVE_XPATH = ".//div[@id='segments-body']//table//td[contains(@class, 'x-grid-item-focused')]/../td[1]//div[contains(@class, 'row-numberer')]";
 	
