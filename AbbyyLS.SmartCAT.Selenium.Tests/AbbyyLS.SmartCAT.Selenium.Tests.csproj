@@ -91,6 +91,7 @@
     <Compile Include="Drivers\Navigation.cs" />
     <Compile Include="ConfigurationManager.cs" />
     <Compile Include="Pages\Glossaries\TermAlreadyExistsDialog.cs" />
+    <Compile Include="Pages\Login\CreateAccountPage.cs" />
     <Compile Include="Pages\Login\SelectProfileForm.cs" />
     <Compile Include="Pages\Projects\AssignmentPages\AttentionPopup.cs" />
     <Compile Include="Pages\Projects\AssignmentPages\DistributeSegmentsBetweenAssigneesPage.cs" />

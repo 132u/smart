@@ -1,4 +1,6 @@
-﻿using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace;
+﻿using System;
+
+using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace;
 
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.PageObjects;
@@ -79,18 +81,33 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Login
 		public WorkspacePage ClickSubmitButtonExpectingWorkspacePage()
 		{
 			CustomTestContext.WriteLine("Нажать 'Sign In'.");
-			SignInButton.JavaScriptClick();
+			SignInButton.Click();
 
 			return new WorkspacePage(Driver).GetPage();
 		}
 
+		/// <summary>
+		/// Нажать 'Sign In', ожидая открытие страницы выбора профиля.
+		/// </summary>
 		public SelectProfileForm ClickSubmitButtonExpectingSelectProfileForm()
 		{
-			CustomTestContext.WriteLine("Нажать 'Sign In'.");
-			SignInButton.JavaScriptClick();
+			CustomTestContext.WriteLine("Нажать 'Sign In', ожидая открытие страницы выбора профиля.");
+			SignInButton.Click();
 
 			return new SelectProfileForm(Driver).GetPage();
 		}
+
+		/// <summary>
+		/// Нажать 'Sign In', ожидая открытие страницы создания аккаунта.
+		/// </summary>
+		public CreateAccountPage ClickSubmitButtonExpectingCreateAccountPage()
+		{
+			CustomTestContext.WriteLine("Нажать 'Sign In', ожидая открытие страницы создания аккаунта.");
+			SignInButton.Click();
+
+			return new CreateAccountPage(Driver).GetPage();
+		}
+
 
 		/// <summary>
 		/// Нажать кнопку "Sign In" ожидая сообщение об ошибке
@@ -98,8 +115,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Login
 		public SignInPage ClickSubmitButtonExpectingError()
 		{
 			CustomTestContext.WriteLine("Нажать 'Sign In'.");
-
-			SignInButton.JavaScriptClick();
+			SignInButton.Click();
 
 			return GetPage();
 		}
@@ -110,7 +126,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Login
 		public FacebookPage ClickFacebookIcon()
 		{
 			CustomTestContext.WriteLine("Нажать иконку Faceebook.");
-
 			FacebookIcon.JavaScriptClick();
 
 			return new FacebookPage(Driver).GetPage();
@@ -186,6 +201,20 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Login
 			return new SelectProfileForm(Driver).GetPage();
 		}
 
+		/// <summary>
+		/// Авторизация
+		/// </summary>
+		/// <param name="login">логин (email)</param>
+		/// <param name="password">пароль</param>
+		public CreateAccountPage SubmitFormExpectingCreateAccountForm(string login, string password)
+		{
+			SetLogin(login);
+			SetPassword(password);
+			ClickSubmitButtonExpectingCreateAccountPage();
+
+			return new CreateAccountPage(Driver).GetPage();
+		}
+
 		#endregion
 
 		#region Методы, проверяющие состояние страницы
@@ -218,6 +247,21 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Login
 			CustomTestContext.WriteLine("Проверить, что на странице появилось сообщение о незаполненном пароле.");
 
 			return Driver.WaitUntilElementIsDisplay(By.XPath(ERROR_EMPTY_PASSWORD));
+		}
+
+		/// <summary>
+		/// Проверить, что  сообщение о незаполненном пароле исчезло.
+		/// </summary>
+		public SignInPage WaitEmptyPasswordMessageDisappeared()
+		{
+			CustomTestContext.WriteLine("Проверить, что  сообщение о незаполненном пароле исчезло.");
+
+			if (!Driver.WaitUntilElementIsDisappeared(By.XPath(ERROR_EMPTY_PASSWORD)))
+			{
+				throw new Exception("Произошла ошибка:\n Сообщение 'Enter password' не исчезло.");
+			}
+
+			return new SignInPage(Driver).GetPage();
 		}
 
 		/// <summary>
@@ -288,14 +332,14 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Login
 		protected const string PASSWORD_INPUT_ID = "password";
 		protected const string SING_IN_BUTTON= "//button[@click='signin']";
 
-		protected const string ERROR_WRONG_PASSWORD = "//span[@translate='ERR-WRONG-PASSWORD']";
-		protected const string ERROR_USER_NOT_FOUND = "//span[@translate='USER-NOT-FOUND-ERROR']";
-		protected const string ERROR_EMPTY_PASSWORD = "//span[@translate='ERR-NO-PASSWORD']";
-		protected const string ERROR_EMAIL_INVALID = "//span[@translate='EMAIL-INVALID']";
+		protected const string ERROR_WRONG_PASSWORD = "//div[contains(text(),'Wrong password')]";
+		protected const string ERROR_USER_NOT_FOUND = "//div[contains(text(), 'user with this email address does not exist')]";
+		protected const string ERROR_EMPTY_PASSWORD = "//div[contains(text(),'Enter a password')]";
+		protected const string ERROR_EMAIL_INVALID = "//div[contains(text(), 'Enter a valid email address')]";
 
-		protected const string FACEBOOK_ICON = "//a[@class='fb']";
-		protected const string GOOGLE_ICON = "//a[@class='gplus']";
-		protected const string LINKED_IN_ICON = "//a[@class='linkedin']";
+		protected const string FACEBOOK_ICON = "//a[contains(@class, 'fb')]";
+		protected const string GOOGLE_ICON = "//a[contains(@class, 'gplus')]";
+		protected const string LINKED_IN_ICON = "//a[contains(@class, 'link_in')]";
 
 		protected const string SIGN_UP_FREELANCE_BTN = "//a[@translate='FREELANCE']";
 		protected const string SIGN_UP_COMPANY_BTN = "//a[@translate='CORPORATE']";

@@ -25,6 +25,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Authorization
 			_selectAccountForm = new SelectAccountForm(Driver);
 			_workspacePage = new WorkspacePage(Driver);
 			_selectProfileForm = new SelectProfileForm(Driver);
+			_createAccountPage = new CreateAccountPage(Driver);
 		}
 
 		protected AdminHelper _adminHelper;
@@ -37,5 +38,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Authorization
 		protected SelectAccountForm _selectAccountForm;
 		protected SelectProfileForm _selectProfileForm;
 		protected WorkspacePage _workspacePage;
+		protected CreateAccountPage _createAccountPage;
 	}
 }

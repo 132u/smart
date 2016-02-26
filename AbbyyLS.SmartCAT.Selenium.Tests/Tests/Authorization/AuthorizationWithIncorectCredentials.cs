@@ -25,7 +25,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Authorization
 			_signInPage
 				.SetLogin(email)
 				.SetPassword(password)
-				.ClickSubmitButtonExpectingError();
+				.ClickSubmitButtonExpectingError()
+				.WaitEmptyPasswordMessageDisappeared();
 
 			Assert.IsTrue(_signInPage.IsWrongPasswordMessageDisplayed(),
 				"Произошла ошибка: \n на странице не появилось сообщение о неправильном пароле.");
@@ -40,7 +41,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Authorization
 			_signInPage
 				.SetLogin(email)
 				.SetPassword(password)
-				.ClickSubmitButtonExpectingError();
+				.ClickSubmitButtonExpectingError()
+				.WaitEmptyPasswordMessageDisappeared();
 
 			Assert.IsTrue(_signInPage.IsUserNotFoundMessageDisplayed(),
 				"Произошла ошибка: \n на странице не появилось сообщение о ненайденном пользователе.");
