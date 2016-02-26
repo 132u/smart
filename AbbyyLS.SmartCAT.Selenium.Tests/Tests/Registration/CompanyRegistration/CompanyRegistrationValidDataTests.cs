@@ -10,6 +10,7 @@ using AbbyyLS.SmartCAT.Selenium.Tests.FeatureAttributes;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Registration
 {
+	[Ignore("PRX-15132")]
 	[Parallelizable(ParallelScope.Fixtures)]
 	[PriorityMajor]
 	public class CompanyRegistrationValidDataTests<TWebDriverProvider> : CompanyRegistrationBaseTest<TWebDriverProvider> where TWebDriverProvider : IWebDriverProvider, new()

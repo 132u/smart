@@ -5,6 +5,7 @@ using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Registration
 {
+	[Ignore("PRX-15132")]
 	[Parallelizable(ParallelScope.Fixtures)]
 	class FreelanceRegistrationInvalidDataTests<TWebDriverProvider> : FreelanceRegistrationBaseTests<TWebDriverProvider> where TWebDriverProvider : IWebDriverProvider, new()
 	{
