@@ -12,6 +12,7 @@ using AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.LingvoDictionaries
 {
+	[Ignore("PRX-15290")]
 	[Parallelizable(ParallelScope.Fixtures)]
 	[LingvoDictionaries]
 	[Standalone]
