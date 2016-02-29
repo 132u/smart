@@ -101,7 +101,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace
 		public GlossariesPage ClickGlossariesButton()
 		{
 			CustomTestContext.WriteLine("Нажать кнопку 'Глоссарии'.");
-			GlossariesButton.Click();
+			GlossariesButton.JavaScriptClick();
 
 			return new GlossariesPage(Driver).GetPage();
 		}
@@ -383,7 +383,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace
 		public ProjectsPage ClickProjectsSubmenu()
 		{
 			CustomTestContext.WriteLine("Нажать кнопку 'Проекты'.");
-			ProjectsButton.Click();
+			ProjectsButton.JavaScriptClick();
 
 			return new ProjectsPage(Driver).GetPage();
 		}

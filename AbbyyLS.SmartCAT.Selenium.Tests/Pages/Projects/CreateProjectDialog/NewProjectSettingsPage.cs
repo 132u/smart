@@ -690,7 +690,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 		protected const string ADVANCED_SETTINGS_SECTION = "//div[@class='additional-settings-tabs']";
 		protected const string ADVANCED_SETTINGS_SWITCHER = "//label[@for='advancedSettingsSwitch']";
 		protected const string GLOSSARIES_TAB = "//ul[contains(@data-bind, 'advancedSettingsTabs')]//li[text()='Glossaries']";
-		protected const string CREATE_GLOSSARY_BUTTON = "//div[contains(@data-bind, 'createGlossary')]//a";
+		protected const string CREATE_GLOSSARY_BUTTON = "//div[contains(@data-bind, 'createGlossary')]";
 		protected const string EDIT_GLOSSARY_BUTTON = "//div[contains(@data-bind, 'switchDetailMode')][*#*]//div[contains(@class, 'right l-settings-icons')]//span[contains(@data-bind, 'edit')]";
 		protected const string GLOSSARY_ROW = "//div[contains(@data-bind, 'switchDetailMode')][*#*]";
 		#endregion
