@@ -9,6 +9,7 @@ using AbbyyLS.SmartCAT.Selenium.Admin.FeatureAttributes;
 
 namespace AbbyyLS.SmartCAT.Selenium.Admin.Tests
 {
+	[Ignore("PRX-15311")]
 	[Parallelizable(ParallelScope.Fixtures)]
 	[CreateAccount]
 	class CreatePerevedemCorporateAccount<TWebDriverProvider> : BaseAdminTest<TWebDriverProvider> where TWebDriverProvider : IWebDriverProvider, new()
