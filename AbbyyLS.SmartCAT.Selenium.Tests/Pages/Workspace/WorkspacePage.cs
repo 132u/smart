@@ -90,7 +90,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace
 		public TranslationMemoriesPage ClickTranslationMemoriesButton()
 		{
 			CustomTestContext.WriteLine("Нажать кнопку 'Память переводов'.");
-			TranslationMemoriesButton.Click();
+			TranslationMemoriesButton.JavaScriptClick();
 
 			return new TranslationMemoriesPage(Driver).GetPage();
 		}
