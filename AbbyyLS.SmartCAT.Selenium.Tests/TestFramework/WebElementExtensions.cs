@@ -254,6 +254,24 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestFramework
 		}
 
 		/// <summary>
+		/// Метод скроллит до того момента, пока web-элемент не станет видимым
+		/// </summary>
+		public static void ScrollDown(this IWebElement webElement)
+		{
+			var driver = getDriverFromWebElement(webElement);
+
+			try
+			{
+				((IJavaScriptExecutor)driver).ExecuteScript("arguments[0].scrollIntoView(true); window.scrollBy(0, 100);", webElement);
+			}
+			catch (Exception ex)
+			{
+				throw new Exception(string.Format(
+					"При попытке скроллинга страницы произошла ошибка: " + ex.Message));
+			}
+		}
+
+		/// <summary>
 		/// Получить драйвер из web-элемента
 		/// </summary>
 		/// <param name="webElement">элемент</param>

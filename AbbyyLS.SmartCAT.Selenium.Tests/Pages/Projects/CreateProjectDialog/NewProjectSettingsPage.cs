@@ -64,7 +64,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 		public NewProjectEditGlossaryDialog ClickEditGlossaryButton(int glossaryNumber)
 		{
 			CustomTestContext.WriteLine("Нажать на кнопку 'Edit Glossary' в панели 'Advanced Settings' для глоссария №{0}.", glossaryNumber);
-			Driver.SetDynamicValue(How.XPath, EDIT_GLOSSARY_BUTTON, glossaryNumber.ToString()).Click();
+			EditGlossaryButton = Driver.SetDynamicValue(How.XPath, EDIT_GLOSSARY_BUTTON, glossaryNumber.ToString());
+			EditGlossaryButton.Click();
 
 			return new NewProjectEditGlossaryDialog(Driver).GetPage();
 		}
@@ -75,7 +76,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 		public NewProjectSettingsPage HoverGlossaryRow(int glossaryNumber)
 		{
 			CustomTestContext.WriteLine("Навести курсор на глоссарий №{0} в панели 'Advanced Settings'.", glossaryNumber);
-			Driver.SetDynamicValue(How.XPath, GLOSSARY_ROW, glossaryNumber.ToString()).HoverElement();
+			GlossaryRow = Driver.SetDynamicValue(How.XPath, GLOSSARY_ROW, glossaryNumber.ToString());
+			GlossaryRow.ScrollDown();
+			GlossaryRow.HoverElement();
 
 			return GetPage();
 		}
@@ -651,6 +654,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 		protected IWebElement SourceLangItem { get; set; }
 
 		protected IWebElement TargetLangItem { get; set; }
+
+		protected IWebElement GlossaryRow { get; set; }
 
 		#endregion
 		
