@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Threading;
 
 using OpenQA.Selenium;
@@ -765,6 +766,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		{
 			CustomTestContext.WriteLine("Получить текст добавленной части слова.");
 			InsertChangedPart = Driver.SetDynamicValue(How.XPath, REVISION_INSERT_CHANGE_PART, revisionNumber.ToString());
+			InsertChangedPart.Scroll();
 
 			return InsertChangedPart.Text;
 		}
@@ -940,7 +942,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		public EditorPage SelectWordPartBeforeSpaceByHotkey(string text)
 		{
 			CustomTestContext.WriteLine("Выделение части строки до первого пробела Home+Shift+Right.");
-			Driver.SendHotKeys(Keys.Home);
+			Driver.SendHotKeys(Keys.Home, control:true);
 			var array = text.Split(' ');
 			for (int i = 0; i <= array[0].Length; i++)
 			{
@@ -988,7 +990,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		{
 			CustomTestContext.WriteLine("Нажать хоткей выделения второго и третьего слов. Номер строки: {0}", segmentNumber);
 			ClickOnTargetCellInSegment(segmentNumber);
-			Driver.SendHotKeys(Keys.Home);
+			Driver.SendHotKeys(Keys.Home, control:true);
 			Driver.SendHotKeys(Keys.Right, control: true);
 			Driver.SendHotKeys(Keys.Right,control: true, shift: true);
 			Driver.SendHotKeys(Keys.Right, control: true, shift: true);

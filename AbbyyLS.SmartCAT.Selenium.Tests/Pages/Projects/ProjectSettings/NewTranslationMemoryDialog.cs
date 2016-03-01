@@ -48,7 +48,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings
 		public EditTranslationMemoryDialog ClickSaveButton()
 		{
 			CustomTestContext.WriteLine("Нажать кнопку сохранения новой памяти перевода.");
-			SaveButton.Click();
+			SaveButton.JavaScriptClick();
 
 			return new EditTranslationMemoryDialog(Driver).GetPage();
 		}
