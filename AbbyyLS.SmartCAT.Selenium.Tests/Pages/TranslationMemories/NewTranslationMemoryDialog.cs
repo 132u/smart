@@ -107,7 +107,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories
 		public TranslationMemoriesPage ClickSaveTranslationMemory()
 		{
 			CustomTestContext.WriteLine("Нажать кнопку сохранения ТМ");
-			SaveTranslationMemoryButton.Click();
+			SaveTranslationMemoryButton.JavaScriptClick();
 
 			return new TranslationMemoriesPage(Driver).GetPage();
 		}
@@ -118,7 +118,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories
 		public NewTranslationMemoryDialog ClickSaveTranslationMemoryExpectingError()
 		{
 			CustomTestContext.WriteLine("Нажать кнопку сохранения ТМ, ожидая ошибку");
-			SaveTranslationMemoryButton.Click();
+			SaveTranslationMemoryButton.JavaScriptClick();
 
 			return GetPage();
 		}
@@ -129,7 +129,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories
 		public TranslationMemoriesPage ClickCancelTMCreation()
 		{
 			CustomTestContext.WriteLine("Нажать кнопку отмены сохранения ТМ");
-			CancelTranslationMemoryCreation.Click();
+			CancelTranslationMemoryCreation.JavaScriptClick();
 			
 			return new TranslationMemoriesPage(Driver).GetPage();
 		}
