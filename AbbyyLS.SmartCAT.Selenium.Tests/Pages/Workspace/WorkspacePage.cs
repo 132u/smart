@@ -395,7 +395,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace
 		{
 			CustomTestContext.WriteLine("Нажать на пункт меню 'Проекты', без ожидания загрузки каких-либо страниц");
 			OpenHideMenuIfClosed();
-			ProjectsButton.Click();
+			ProjectsButton.JavaScriptClick();
 		}
 
 		/// <summary>

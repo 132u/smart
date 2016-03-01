@@ -165,7 +165,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 		{
 			CustomTestContext.WriteLine("Выбрать язык перевода {0} из списка.", lang);
 			TargetLangItem = Driver.SetDynamicValue(How.XPath, TARGET_LANG_ITEM, lang.ToString());
-			TargetLangItem.Click();
+			TargetLangItem.ScrollAndClick();
 
 			return GetPage();
 		}
@@ -289,7 +289,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 			CustomTestContext.WriteLine("Раскрыть дополнительные настройки, нажав переключатель");
 			if (!IsAdvancedSettingsSectionExist())
 			{
-				AdvancedSwitch.Click();
+				AdvancedSwitch.JavaScriptClick();
 			}
 
 			return GetPage();
@@ -301,7 +301,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 		public NewProjectSetUpTMDialog ClickSelectTmButton()
 		{
 			CustomTestContext.WriteLine("Нажать кнопку 'Select' в расширенных настройках проекта");
-			SelectTmButton.Click();
+			SelectTmButton.JavaScriptClick();
 
 			return new NewProjectSetUpTMDialog(Driver).GetPage();
 		}

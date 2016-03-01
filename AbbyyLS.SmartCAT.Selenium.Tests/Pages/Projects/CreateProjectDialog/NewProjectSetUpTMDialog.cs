@@ -58,7 +58,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 		/// </summary>
 		public bool IsNewProjectSetUpTMDialogOpened()
 		{
-			return Driver.WaitUntilElementIsDisplay(By.XPath(ADD_BUTTON));
+			return Driver.GetIsElementExist(By.XPath(ADD_BUTTON));
 		}
 
 		/// <summary>
