@@ -1,4 +1,6 @@
-﻿using OpenQA.Selenium;
+﻿using System.Threading;
+
+using OpenQA.Selenium;
 using OpenQA.Selenium.Support.PageObjects;
 
 using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
@@ -37,7 +39,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings
 		public NewTranslationMemoryDialog FillName(string translationMemoryName)
 		{
 			CustomTestContext.WriteLine("Ввести имя {0} новой памяти перевода.", translationMemoryName);
-			Name.SetText(translationMemoryName);
+			Name.Clear();
+			Name.SendKeys(translationMemoryName);
+			Name.Click();
 
 			return GetPage();
 		}
@@ -48,7 +52,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings
 		public EditTranslationMemoryDialog ClickSaveButton()
 		{
 			CustomTestContext.WriteLine("Нажать кнопку сохранения новой памяти перевода.");
-			SaveButton.JavaScriptClick();
+			SaveButton.ScrollAndClick();
 
 			return new EditTranslationMemoryDialog(Driver).GetPage();
 		}
