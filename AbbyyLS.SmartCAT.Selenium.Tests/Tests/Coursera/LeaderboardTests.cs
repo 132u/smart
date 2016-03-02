@@ -38,7 +38,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Coursera
 				"Произошла ошибка:\nПользователь {0} отсутствует в списке лидеров.", CourseraCrowdsourceUser.NickName);
 		}
 
-		[Test]
+		[Test, Ignore("PRX-15404")]
 		public void UserPositionNubmerMatchTest()
 		{
 			var positionNumberInLeaderboard = _leaderboardPage.GetUserLeaderboardPositionNumber(CourseraCrowdsourceUser.NickName);
