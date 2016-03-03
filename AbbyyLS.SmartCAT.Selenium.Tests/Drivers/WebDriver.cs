@@ -474,12 +474,13 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Drivers
 		/// <summary>
 		/// Ожидает открытие новой вкладки браузера в течении трёх секунд
 		/// </summary>
-		public void WaitingOpeningNewTab()
+		/// <param name="timeout">время ожидания</param>
+		public void SwitchToNewBrowserTab(int timeout = 3)
 		{
 			var timer = 1;
 			bool flag = false;
 
-			while (!flag && timer <= 3)
+			while (!flag && timer <= timeout)
 			{
 				Thread.Sleep(1000);
 				timer++;
@@ -492,12 +493,12 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Drivers
 				}
 			}
 
-			if (timer > 3)
+			if (timer > timeout)
 			{
 				throw new Exception("Произошла ошибка:\n время ожидания открытия новой вкладки истекло");
 			}
 
-			CustomTestContext.WriteLine("Не открылась новая вкладка в браузере, после ожидания {0}х, секунд", timer);
+			CustomTestContext.WriteLine("Не открылась новая вкладка в браузере, после ожидания {0}х, секунд", timeout);
 		}
 
 		/// <summary>

@@ -196,7 +196,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace
 			CustomTestContext.WriteLine("Перейти на страницу 'Справка'.");
 			HelpPage.JavaScriptClick();
 
-			Driver.WaitingOpeningNewTab();
+			Driver.SwitchToNewBrowserTab();
 
 			return new HelpPage(Driver).GetPage();
 

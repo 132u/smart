@@ -217,13 +217,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 			CustomTestContext.WriteLine("Кликнуть по ссылке на документ {0} (открыть его) ожидая открытие редактора.", documentname);
 			DocumentRef = Driver.SetDynamicValue(How.XPath, DOCUMENT_REF, documentname);
 			DocumentRef.Click();
-			// Sleep нужен, чтоб вторая вкладка успела открыться, иначе количество открытых вкладок посчитается неправильно 
-			Thread.Sleep(1000);
-			if (Driver.WindowHandles.Count > 1)
-			{
-				Driver.SwitchTo().Window(Driver.WindowHandles.First()).Close();
-				Driver.SwitchTo().Window(Driver.WindowHandles.Last());
-			}
+
+			Driver.SwitchToNewBrowserTab();
 
 			return new EditorPage(Driver).GetPage();
 		}
@@ -237,13 +232,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 			CustomTestContext.WriteLine("Кликнуть по ссылке на документ {0} (открыть его) ожидая диалог выбора задачи.", documentname);
 			DocumentRef = Driver.SetDynamicValue(How.XPath, DOCUMENT_REF, documentname);
 			DocumentRef.Click();
-			// Sleep нужен, чтоб вторая вкладка успела открыться, иначе количество открытых вкладок посчитается неправильно 
-			Thread.Sleep(1000);
-			if (Driver.WindowHandles.Count > 1)
-			{
-				Driver.SwitchTo().Window(Driver.WindowHandles.First()).Close();
-				Driver.SwitchTo().Window(Driver.WindowHandles.Last());
-			}
+
+			Driver.SwitchToNewBrowserTab();
 
 			return new SelectTaskDialog(Driver).GetPage();
 		}
@@ -378,13 +368,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 			CustomTestContext.WriteLine("Нажать кнопку статистики проекта '{0}' в открытой свёртке, ожидая, что откроестя страница построения статистики.", projectName);
 			ProjectStatisticsButton = Driver.SetDynamicValue(How.XPath, PROJECT_STATISTICS_BUTTON, projectName);
 			ProjectStatisticsButton.Click();
-			// Sleep нужен, чтоб вторая вкладка успела открыться, иначе количество открытых вкладок посчитается неправильно 
-			Thread.Sleep(1000);
-			if (Driver.WindowHandles.Count > 1)
-			{
-				Driver.SwitchTo().Window(Driver.WindowHandles.First()).Close();
-				Driver.SwitchTo().Window(Driver.WindowHandles.Last());
-			}
+
+			Driver.SwitchToNewBrowserTab();
 
 			return new BuildStatisticsPage(Driver).GetPage();
 		}
