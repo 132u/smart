@@ -2,7 +2,7 @@
 using System.ComponentModel;
 using System.Linq;
 using System.Threading;
-
+using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Support;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.PageObjects;
 
@@ -175,6 +175,64 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace
 			CustomTestContext.WriteLine("Выйти из смартката, ожидая алерт.");
 
 			SignOutButton.JavaScriptClick();
+		}
+
+		/// <summary>
+		/// Нажать на кнопку информация(HelpMenu)
+		/// </summary>
+		public WorkspacePage ClickHelpMenuButton()
+		{
+			CustomTestContext.WriteLine("Нажать на кнопку информация.");
+			HelpMenuButton.JavaScriptClick();
+
+			return GetPage();
+		}
+
+		/// <summary>
+		/// Перейти на страницу 'Справка'
+		/// </summary>
+		public HelpPage ClickHelpPageInNewTab()
+		{
+			CustomTestContext.WriteLine("Перейти на страницу 'Справка'.");
+			HelpPage.JavaScriptClick();
+
+			Driver.WaitingOpeningNewTab();
+
+			return new HelpPage(Driver).GetPage();
+
+		}
+
+		/// <summary>
+		/// Перейти на страницу 'Видеоуроки'
+		/// </summary>
+		public VideoLessonsPage ClickVideoLessonsPage()
+		{
+			CustomTestContext.WriteLine("Перейти на страницу 'Видеоуроки'.");
+			VideoLessonsPage.JavaScriptClick();
+
+			return new VideoLessonsPage(Driver).GetPage();
+		}
+
+		/// <summary>
+		/// Перейти на страницу 'Ответы техподержки'
+		/// </summary>
+		public SupportFeedbackPage ClickSupportFeedbackPage()
+		{
+			CustomTestContext.WriteLine("Перейти на страницу 'Ответы техподержки'.");
+			SupportFeedbackPage.JavaScriptClick();
+
+			return new SupportFeedbackPage(Driver).GetPage();
+		}
+
+		/// <summary>
+		/// Открыть диалоговое окно 'Обратиться в техподдержку'
+		/// </summary>
+		public FeedbackDialog ClickSupportFeedbackDialog()
+		{
+			CustomTestContext.WriteLine("Открыть диалоговое окно 'Обратиться в техподдержку'.");
+			FeedbackDialog.JavaScriptClick();
+
+			return new FeedbackDialog(Driver).GetPage();
 		}
 
 		/// <summary>
@@ -649,6 +707,21 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace
 		[FindsBy(How = How.XPath, Using = SIGN_OUT_BUTTON)]
 		protected IWebElement SignOutButton { get; set; }
 
+		[FindsBy(How = How.XPath, Using = HELP_MENU)]
+		protected IWebElement HelpMenuButton { get; set; }
+
+		[FindsBy(How = How.XPath, Using = HELP_PAGE)]
+		protected IWebElement HelpPage { get; set; }
+
+		[FindsBy(How = How.XPath, Using = VIDEO_LESSONS_PAGE)]
+		protected IWebElement VideoLessonsPage { get; set; }
+
+		[FindsBy(How = How.XPath, Using = SUPPORT_FEEDBACK_PAGE)]
+		protected IWebElement SupportFeedbackPage { get; set; }
+
+		[FindsBy(How = How.XPath, Using = FEEDBACK_DIALOG)]
+		protected IWebElement FeedbackDialog { get; set; }
+
 		[FindsBy(How = How.XPath, Using = RESOURCES_MENU)]
 		protected IWebElement ResourcesMenu { get; set; }
 
@@ -672,7 +745,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace
 
 		[FindsBy(How = How.XPath, Using = SEARCH_MENU)]
 		protected IWebElement SearchMenu { get; set; }
-		
+
 		[FindsBy(How = How.XPath, Using = LANGUAGE_BUTTON)]
 		protected IWebElement LanguageButton { get; set; }
 
@@ -686,7 +759,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace
 
 		[FindsBy(How = How.XPath, Using = PROJECTS_MENU)]
 		protected IWebElement ProjectsMenu { get; set; }
-		
+
 		protected IWebElement AccountNameInList { get; set; }
 
 		protected IWebElement Notification { get; set; }
@@ -720,6 +793,11 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace
 		protected const string NOTIFIER_LIST = "//div[@id='notifications-block']//div[contains(@class,'notifications-item')]";
 		protected const string SIGN_OUT_BUTTON = ".//a[contains(@href,'Logout')]";
 		protected const string LICENSES_AND_SERVICES = "//a[contains(@class,'billing')]";
+		protected const string HELP_MENU = "//div[contains(@class, 'js-menu-help')]";
+		protected const string HELP_PAGE = "//div[contains(@class, 'js-help-submenu')]//a[contains(@href,'/Support/ShowHelp')]";
+		protected const string VIDEO_LESSONS_PAGE = "//div[contains(@class, 'js-help-submenu')]//a[contains(@href,'/Support/HelpPage')]";
+		protected const string SUPPORT_FEEDBACK_PAGE = "//div[contains(@class, 'js-help-submenu')]//a[contains(@href,'/Support/FeedbackList')]";
+		protected const string FEEDBACK_DIALOG = "//div[contains(@class, 'js-help-submenu')]//a[contains(@href,'#')]";
 
 		protected const string LANGUAGE_PICTURE = "//i[text()='*#*']";
 		protected const string DIALOG_BACKGROUND = "//div[contains(@class,'js-popup-bg')]";

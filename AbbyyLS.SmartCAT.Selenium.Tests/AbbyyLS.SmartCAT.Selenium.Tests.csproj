@@ -111,6 +111,10 @@
     <Compile Include="Pages\Registration\FreelanceRegistration\FreelanceRegistrationFirstPage.cs" />
     <Compile Include="Pages\Registration\FreelanceRegistration\FreelanceRegistrationSignInPage.cs" />
     <Compile Include="Pages\Projects\AssignmentPages\DistributeDocumentBetweenAssigneesPage.cs" />
+    <Compile Include="Pages\Support\FeedbackDialog.cs" />
+    <Compile Include="Pages\Support\HelpPage.cs" />
+    <Compile Include="Pages\Support\SupportFeedbackPage.cs" />
+    <Compile Include="Pages\Support\VideoLessonsPage.cs" />
     <Compile Include="Pages\TranslationMemories\ConfirmReplacementDialog.cs" />
     <Compile Include="Pages\TranslationMemories\DeleteTmDialog.cs" />
     <Compile Include="Pages\TranslationMemories\ImportTmxDialog.cs" />
@@ -306,6 +310,7 @@
     <Compile Include="Tests\Glossaries\TermsTests\DeleteTermTests.cs" />
     <Compile Include="Tests\Glossaries\TermsTests\SearchTermsTests.cs" />
     <Compile Include="Tests\Glossaries\SuggestedTermsTests\SuggestTermsBaseTest.cs" />
+    <Compile Include="Tests\SupportTests\WorkspaceSupportButtonsTests.cs" />
     <Compile Include="Tests\UsersRights\CreateProjects\CreateProjectWithRightBaseTest.cs" />
     <Compile Include="Tests\UsersRights\CreateProjects\FormsAndButtonsAvailabilityTests.cs" />
     <Compile Include="Tests\UsersRights\SuggestTermsWithoutSpecifyingGlossary\SuggestTermsWithoutRight.cs" />
