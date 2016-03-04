@@ -80,9 +80,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersRights.ManageProjects.Proje
 			_projectsPage
 				.OpenProjectInfo(_projectUniqueName)
 				.ClickDocumentRefExpectingSelectTaskDialog(PathProvider.DocumentFile2);
-
 			_selectTaskDialog.SelectTask();
-
+			
 			Assert.AreEqual("Translation (T):", _editorPage.GetStage(),
 				"Произошла ошибка:\n В шапке редактора отсутствует нужная задача.");
 		}
@@ -92,7 +91,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersRights.ManageProjects.Proje
 		{
 			_projectsPage.OpenProjectInfo(_projectUniqueName);
 
-			Assert.AreEqual(DocumentStatus.Created.ToString(), _projectsPage.GetProjectStatus(_projectUniqueName),
+			Assert.AreEqual(ProjectStatus.Created.ToString(), _projectsPage.GetProjectStatus(_projectUniqueName),
 				"Произошла ошибка:\n Неверный статус проекта {0}.", _projectUniqueName);
 
 			_projectsPage.OpenAssignDialog(_projectUniqueName, documentNumber: 2);
@@ -103,9 +102,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersRights.ManageProjects.Proje
 
 			_projectsPage
 				.OpenProjectInfo(_projectUniqueName)
-				.ClickDocumentRefExpectingSelectTaskDialog(PathProvider.DocumentFile);
-			_selectTaskDialog.SelectTask();
-
+				.ClickDocumentRefExpectingEditorPage(PathProvider.DocumentFile);
+			
 			_editorPage
 				.FillTarget("translation")
 				.ConfirmSegmentTranslation()
@@ -113,7 +111,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersRights.ManageProjects.Proje
 
 			_workspacePage.GoToProjectsPage();
 
-			Assert.AreEqual(DocumentStatus.InProgress.Description().ToLower(), _projectsPage.GetProjectStatus(_projectUniqueName).ToLower(),
+			Assert.AreEqual(ProjectStatus.InProgress.Description(), _projectsPage.GetProjectStatus(_projectUniqueName),
 				"Произошла ошибка:\n Неверный статус проекта {0}.", _projectUniqueName);
 		}
 

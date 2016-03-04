@@ -1,4 +1,6 @@
-﻿using NUnit.Framework;
+﻿using System.Threading;
+
+using NUnit.Framework;
 
 using AbbyyLS.SmartCAT.Selenium.Tests.DataStructures;
 using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
@@ -82,7 +84,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersRights.ManageProjects.Proje
 				"Произошла ошибка:\n Не появилось ожидаемое кол-во уведомлений");
 
 
-			Assert.IsTrue(_exportNotification.IsExportNotificationDisplayed(),
+			Assert.IsTrue(_exportNotification.IsExportNotificationDisplayed(timeout: 90),
 				"Произошла ошибка:\n сообщение со ссылкой на скачивание документа не появилось");
 
 			_exportNotification.ClickDownloadNotifier<Pages.Projects.ProjectSettings.ProjectSettingsPage>();

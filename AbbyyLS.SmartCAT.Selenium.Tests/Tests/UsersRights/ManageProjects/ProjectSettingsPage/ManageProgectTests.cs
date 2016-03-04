@@ -1,5 +1,7 @@
 ﻿using System.IO;
 
+using AbbyyLS.SmartCAT.Selenium.Tests.TestFramework;
+
 using NUnit.Framework;
 
 using AbbyyLS.SmartCAT.Selenium.Tests.DataStructures;
@@ -96,7 +98,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersRights.ManageProjects.Proje
 		}
 
 		[Test]
-		public void ProjectStatusTest()
+		public void DocumentStatusTest()
 		{
 			var file = Path.GetFileNameWithoutExtension(PathProvider.DocumentFile);
 
@@ -119,7 +121,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersRights.ManageProjects.Proje
 				.ConfirmSegmentTranslation()
 				.ClickHomeButtonExpectingProjectSettingsPage();
 
-			Assert.AreEqual(DocumentStatus.InProgress.ToString().ToLower(), _projectSettingsPage.GetProjectStatus(file).ToLower(),
+			Assert.AreEqual(DocumentStatus.InProgress.Description(), _projectSettingsPage.GetProjectStatus(file),
 				"Произошла ошибка:\n Неверный статус документа {0}.", file);
 		}
 

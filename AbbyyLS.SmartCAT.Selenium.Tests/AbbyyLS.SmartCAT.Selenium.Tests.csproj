@@ -68,6 +68,7 @@
     <Compile Include="DataStructures\AccountType.cs" />
     <Compile Include="DataStructures\DateRange.cs" />
     <Compile Include="DataStructures\DocumentStatus.cs" />
+    <Compile Include="DataStructures\ProjectStatus.cs" />
     <Compile Include="ExplicitAttributes\UserDataExplicitAttribute.cs" />
     <Compile Include="FeatureAttributes\CourseraAttribute.cs" />
     <Compile Include="Pages\Coursera\CompleteRegistrationDialog.cs" />
