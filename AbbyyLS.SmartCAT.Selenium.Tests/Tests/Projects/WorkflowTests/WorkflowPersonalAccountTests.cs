@@ -1,4 +1,6 @@
-﻿using NUnit.Framework;
+﻿using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings.SettingsDialog;
+
+using NUnit.Framework;
 
 using AbbyyLS.SmartCAT.Selenium.Tests.DataStructures;
 using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
@@ -22,7 +24,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 			_createProjectHelper = new CreateProjectHelper(Driver);
 			_projectSettingsHelper = new ProjectSettingsHelper(Driver);
 			_projectSettingsPage = new ProjectSettingsPage(Driver);
-			_settingsDialog = new SettingsDialog(Driver);
+			_settingsDialog = new ProjectSettingsDialog(Driver);
 			_projectsPage = new ProjectsPage(Driver);
 			_projectUniqueName = _createProjectHelper.GetProjectUniqueName();
 			_glossaryUniqueName = GlossariesHelper.UniqueGlossaryName();
@@ -66,7 +68,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 		private CreateProjectHelper _createProjectHelper;
 		private ProjectSettingsHelper _projectSettingsHelper;
 		private ProjectSettingsPage _projectSettingsPage;
-		private SettingsDialog _settingsDialog;
+		private ProjectSettingsDialog _settingsDialog;
 		private ProjectsPage _projectsPage;
 		private string _projectUniqueName;
 		private string _glossaryUniqueName;

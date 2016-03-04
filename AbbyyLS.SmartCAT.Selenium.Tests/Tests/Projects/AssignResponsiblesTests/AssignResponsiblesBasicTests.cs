@@ -156,7 +156,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 
 			_projectSettingsHelper.OpenWorkflowSettings();
 
-			_settingsDialog.ClickDeleteTaskButton();
+			_workflowSetUptab.ClickDeleteTaskButton();
 
 			Assert.IsTrue(_settingsDialog.IsConfirmDeleteDialogDislpayed(),
 				"Произошла ошибка:\n не появился диалог подтверждения удаления задачи");

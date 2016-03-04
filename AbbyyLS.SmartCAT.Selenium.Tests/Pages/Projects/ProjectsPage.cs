@@ -4,6 +4,8 @@ using System.IO;
 using System.Linq;
 using System.Threading;
 
+using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings.SettingsDialog;
+
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.PageObjects;
 
@@ -41,6 +43,19 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 		}
 		
 		#region Простые методы страницы
+
+		/// <summary>
+		/// Нажать кнопку 'QA Check'.
+		/// </summary>
+		/// <param name="projectName">имя проекта</param>
+		public QualityAssuranceDialog ClickQACheckButton(string projectName)
+		{
+			CustomTestContext.WriteLine("Нажать кнопку 'QA Check' у проекта '{0}'.", projectName);
+			QualityAssuranceCheckButton = Driver.SetDynamicValue(How.XPath, QA_CHECK_BUTTON, projectName);
+			QualityAssuranceCheckButton.Click();
+
+			return new QualityAssuranceDialog(Driver).GetPage();
+		}
 
 		/// <summary>
 		/// Выбрать тип экспорта
@@ -345,20 +360,20 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 		/// Нажать кнопку настроек проекта в открытой свёртке.
 		/// </summary>
 		/// <param name="projectName">имя проекта</param>
-		public SettingsDialog ClickProjectSettingsButton(string projectName)
+		public ProjectSettingsDialog ClickProjectSettingsButton(string projectName)
 		{
 			CustomTestContext.WriteLine("Нажать кнопку настроек проекта '{0}' в открытой свёртке.", projectName);
 			ProjectSettingsButton = Driver.SetDynamicValue(How.XPath, PROJECT_SETTINGS_BUTTON, projectName);
 			ProjectSettingsButton.Click();
 
-			return new SettingsDialog(Driver).GetPage();
+			return new ProjectSettingsDialog(Driver).GetPage();
 		}
 
 		/// <summary>
 		/// Нажать кнопку анализа проекта в открытой свёртке.
 		/// </summary>
 		/// <param name="projectName">имя проекта</param>
-		public StatisticsPage ClickProjectStatisticsButtonExpectingBuildStatisticsPage(string projectName)
+		public BuildStatisticsPage ClickProjectStatisticsButtonExpectingBuildStatisticsPage(string projectName)
 		{
 			CustomTestContext.WriteLine("Нажать кнопку статистики проекта '{0}' в открытой свёртке, ожидая, что откроестя страница построения статистики.", projectName);
 			ProjectStatisticsButton = Driver.SetDynamicValue(How.XPath, PROJECT_STATISTICS_BUTTON, projectName);
@@ -443,12 +458,44 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 		#region Методы, проверяющие состояние страницы
 
 		/// <summary>
+		/// Проверить, что отображается кнопка загрузки документа.
+		/// </summary>
+		public bool IsDocumentUploadButtonDisplayed()
+		{
+			CustomTestContext.WriteLine("Проверить, что отображается кнопка загрузки документа.");
+			
+			return Driver.WaitUntilElementIsDisplay(By.XPath(UPLOAD_DOCUMENT_BUTTON));
+		}
+
+		/// <summary>
 		/// Проверить, открылась ли страница 'Проекты'
 		/// </summary>
 		public bool IsProjectsPageOpened()
 		{
 			return IsDialogBackgroundDisappeared() &&
 				Driver.WaitUntilElementIsDisplay(By.XPath(PROJECTS_TABLE_XPATH), timeout: 45);
+		}
+
+		/// <summary>
+		/// Проверить, что кноgка Assig Task активна
+		/// </summary>
+		public bool IsAssignTaskButtonInDocumentPanelDisabled(string projectName, int documentNumber = 1)
+		{
+			CustomTestContext.WriteLine("Проверить, что кноgка Assig Task активна на вкладке документа.");
+			DocumentTaskAssignButton = Driver.SetDynamicValue(How.XPath, DOCUMENT_TASK_ASSIGN_BUTTON, projectName, documentNumber.ToString());
+
+			return DocumentTaskAssignButton.GetAttribute("class").Contains("disable");
+		}
+
+		/// <summary>
+		/// Проверить, что кноgка Assig Task активна
+		/// </summary>
+		public bool IsAssignTaskButtonInProjectPanelDisabled(string projectName)
+		{
+			CustomTestContext.WriteLine("Проверить, что кноgка Assig Task активна на вкладке проекта.");
+			ProjectAssignTaskButton = Driver.SetDynamicValue(How.XPath, PROJECT_TASK_ASSIGN_BUTTON, projectName);
+
+			return ProjectAssignTaskButton.GetAttribute("class").Contains("disable");
 		}
 
 		/// <summary>
@@ -571,12 +618,12 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 		/// Проверить, что кнопка 'QA Check' у проекта видима
 		/// </summary>
 		/// <param name="projectName">имя проекта</param>
-		public bool IsQACheckButtonDisplayed(string projectName)
+		public bool IsQualityAssuranceCheckButtonDisplayed(string projectName)
 		{
 			CustomTestContext.WriteLine("Проверить, что кнопка 'QA Check' у проекта '{0}' видима.", projectName);
-			var QACheckButton = Driver.SetDynamicValue(How.XPath, QA_CHECK_BUTTON, projectName);
+			QualityAssuranceCheckButton = Driver.SetDynamicValue(How.XPath, QA_CHECK_BUTTON, projectName);
 
-			return QACheckButton.Displayed;
+			return QualityAssuranceCheckButton.Displayed;
 		}
 
 		/// <summary>
@@ -603,6 +650,78 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 
 			return Driver.WaitUntilElementIsDisappeared(
 				By.XPath(DOCUMENT_REF_IN_PROJECT.Replace("*#*", projectName).Replace("*##*", documentName)));
+		}
+
+
+		/// <summary>
+		/// Проверить, что кнопка 'Add Files' отображается
+		/// </summary>
+		public bool IsAddFilesButtonDisplayed()
+		{
+			CustomTestContext.WriteLine(" Проверить, что кнопка 'Add Files' отображается.");
+			
+			return Driver.ElementIsDisplayed(By.XPath(UPLOAD_DOCUMENT_BUTTON));
+		}
+
+		/// <summary>
+		/// Проверить, что отображается кнопка 'Создать проект'
+		/// </summary>
+		public bool IsCreateProjectButtonDisplayed()
+		{
+			CustomTestContext.WriteLine("Проверить, что отображается кнопка 'Создать проект'.");
+
+			return Driver.WaitUntilElementIsDisplay(By.XPath(CREATE_PROJECT_BTN_XPATH));
+		}
+
+		/// <summary>
+		/// Проверить, что отображается зеленая кнопка 'Создать проект'
+		/// </summary>
+		public bool IsGreenCreateProjectButtonDisplayed()
+		{
+			CustomTestContext.WriteLine("Проверить, что отображается зеленая нопка 'Создать проект'.");
+			OpenHideMenuIfClosed();
+
+			return Driver.WaitUntilElementIsDisplay(By.XPath(GREEN_CREATE_PROJECT_BUTTON));
+		}
+
+		public bool IsMyTaskDisplayed(string projectName, int documentNumber = 1, WorkflowTask task = WorkflowTask.Translation)
+		{
+			CustomTestContext.WriteLine("Проверить, что отображается задача {0} для текущего пользователя в проекте {1}.", task, projectName);
+
+			return Driver.WaitUntilElementIsDisplay(By.XPath(
+				MY_TASK.Replace("*#*", projectName).Replace("*##*", documentNumber.ToString()).Replace("*###*", task.ToString())));
+		}
+
+		/// <summary>
+		/// Проверить, что кнопка Delete отображается
+		/// </summary>
+		public bool IsDeleteProjectButtonDisplayed()
+		{
+			CustomTestContext.WriteLine(" Проверить, что кнопка Delete отображается.");
+
+			return Driver.WaitUntilElementIsDisplay(By.XPath(DELETE_BUTTON));
+		}
+
+		/// <summary>
+		/// Проверить, что кнопка Delete отображается
+		/// </summary>
+		public bool IsDeleteFileButtonDisplayed(string projectName)
+		{
+			CustomTestContext.WriteLine(" Проверить, что кнопка Delete отображается.");
+
+			return Driver.WaitUntilElementIsDisplay(By.XPath(DELETE_IN_PROJECT_BUTTON.Replace("*#*", projectName)));
+		}
+
+		/// <summary>
+		/// Проверить, что отображается кнопка экспорта для документа
+		/// </summary>
+		/// <param name="projectName">название проекта</param>
+		/// <param name="documentNumber">номер документа</param>
+		public bool IsDocumentDownloadButtonDisplayed(string projectName, int documentNumber = 1)
+		{
+			CustomTestContext.WriteLine("Проверить, что отображается кнопка экспорта для документа {0} в проекте {1}.", documentNumber, projectName);
+
+			return Driver.WaitUntilElementIsDisplay(By.XPath(DOWNLOAD_IN_DOCUMENT_BUTTON.Replace("*#*", projectName).Replace("*##*", documentNumber.ToString())));
 		}
 
 		#endregion
@@ -714,6 +833,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 		[FindsBy(How = How.XPath, Using = DECLINE_BUTTON)]
 		protected IWebElement DeclineButton { get; set; }
 
+		[FindsBy(How = How.XPath, Using = GREEN_CREATE_PROJECT_BUTTON)]
+		protected IWebElement GreenCreateProjectButton { get; set; }
+
 		protected IWebElement DownloadInProjectButton { get; set; }
 
 		protected IWebElement DownloadInDocumentButton { get; set; }
@@ -729,13 +851,14 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 		protected IWebElement DocumentProgress { get; set; }
 
 		protected IWebElement DocumentTaskAssignButton {get; set;}
-
+		protected IWebElement MyTask {get; set;}
 		protected IWebElement DocumentRef { get; set; }
 
 		protected IWebElement DocumentCheckBox { get; set; }
 
 		protected IWebElement DeleteInProjectButton { get; set; }
-
+		protected IWebElement ProjectAssignTaskButton { get; set; }
+		protected IWebElement QualityAssuranceCheckButton { get; set; }
 		#endregion
 
 		#region Описания XPath элементов
@@ -780,6 +903,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 		protected const string PREPARING_DOWNLOWD_MESSAGE = "//span[contains(text(), 'Preparing documents for download. Please wait')]";
 		protected const string DECLINE_BUTTON = "//div[contains(@data-bind, 'actions.reject')]";
 		protected const string TASK_LIST = "//table[contains(@data-bind, 'workflowStagesForCurrentUser')]//tr";
+		protected const string GREEN_CREATE_PROJECT_BUTTON = "//div[@class='g-page']//div[contains(@class, 'corprmenu')]//a[contains(@href, 'NewProject') and contains(@class, 'corprmenu__project-btn')]";
+		protected const string MY_TASK = ".//table[contains(@class,'js-tasks-table')]//tr//*[@class='js-name'][(local-name() ='a' or local-name() ='span') and text()='*#*']/../../../following-sibling::tr[contains(@class, 'js-document-row')][*##*]/following-sibling::tr[contains(@class, 'js-document-panel')]//td[contains(@class,'my-assignments') and contains(text(),'*###*')]";
+
 		#endregion
 	}
 }

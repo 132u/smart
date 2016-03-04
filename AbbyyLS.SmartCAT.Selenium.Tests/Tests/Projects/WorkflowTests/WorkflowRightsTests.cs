@@ -49,7 +49,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 		{
 			_projectSettingsPage
 				.ClickSettingsButton()
-				.ClickWorkflowTab()
+				.ClickWorkflowTab();
+
+			_workflowSetUptab
 				.AddTask(WorkflowTask.Editing)
 				.SaveSettings();
 
@@ -73,7 +75,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 		{
 			_projectSettingsPage
 				.ClickSettingsButton()
-				.ClickWorkflowTab()
+				.ClickWorkflowTab();
+
+			_workflowSetUptab
 				.AddTask(WorkflowTask.Editing)
 				.SaveSettings();
 
@@ -109,7 +113,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 		{
 			_projectSettingsPage
 				.ClickSettingsButton()
-				.ClickWorkflowTab()
+				.ClickWorkflowTab();
+
+			_workflowSetUptab
 				.AddTask(WorkflowTask.Editing)
 				.SaveSettings();
 

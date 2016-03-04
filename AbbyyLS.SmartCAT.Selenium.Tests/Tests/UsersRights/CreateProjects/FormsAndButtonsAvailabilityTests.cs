@@ -22,7 +22,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersRights.CreateProjects
 
 			_projectsPage.OpenProjectInfo(_projectUniqueName);
 
-			Assert.IsTrue(_projectsPage.IsQACheckButtonDisplayed(_projectUniqueName),
+			Assert.IsTrue(_projectsPage.IsQualityAssuranceCheckButtonDisplayed(_projectUniqueName),
 				"Произошла ошибка:\n кнопка 'QA Check' у проекта '{0}' отсутствует", _projectUniqueName);
 		}
 

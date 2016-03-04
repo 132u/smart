@@ -6,7 +6,7 @@ using AbbyyLS.SmartCAT.Selenium.Tests.DataStructures;
 using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.DocumentUploadDialog;
-using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings;
+using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings.SettingsDialog;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.UsersRights;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace;
 using AbbyyLS.SmartCAT.Selenium.Tests.TestFramework;
@@ -35,7 +35,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersRights.CreateProjects
 			_addAccessRightDialog = new AddAccessRightDialog(Driver);
 			_newGroupDialog = new NewGroupDialog(Driver);
 			_groupsAndAccessRightsTab = new GroupsAndAccessRightsTab(Driver);
-			_settingsDialog = new SettingsDialog(Driver);
+			_settingsDialog = new ProjectSettingsDialog(Driver);
 			_buildStatisticsPage = new BuildStatisticsPage(Driver);
 			_deleteProjectOrFileDialog = new DeleteProjectOrFileDialog(Driver);
 
@@ -75,6 +75,15 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersRights.CreateProjects
 			_projectUniqueName = _createProjectHelper.GetProjectUniqueName();
 		}
 
+		[OneTimeTearDown]
+		public void OneTimeTearDown()
+		{
+			if (AdditionalUser != null)
+			{
+				ReturnUser(ConfigurationManager.AdditionalUsers, AdditionalUser);
+			}
+		}
+
 		protected CreateProjectHelper _createProjectHelper;
 		protected WorkspacePage _workspacePage;
 		protected LoginHelper _loginHelper;
@@ -88,7 +97,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersRights.CreateProjects
 		protected ExportNotification _exportNotification;
 		protected NewGroupDialog _newGroupDialog;
 		protected GroupsAndAccessRightsTab _groupsAndAccessRightsTab;
-		protected SettingsDialog _settingsDialog;
+		protected ProjectSettingsDialog _settingsDialog;
 		protected BuildStatisticsPage _buildStatisticsPage;
 		protected DeleteProjectOrFileDialog _deleteProjectOrFileDialog;
 	}

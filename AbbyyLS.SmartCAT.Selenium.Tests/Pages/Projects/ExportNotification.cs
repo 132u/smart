@@ -181,6 +181,16 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 		}
 
 		/// <summary>
+		/// Проверить, что сообщение со ссылкой на скачивание документа исчезло.
+		/// </summary>
+		public bool IsExportNotificationDisappeared()
+		{
+			CustomTestContext.WriteLine("Проверить, что сообщение со ссылкой на скачивание документа исчезло.");
+
+			return Driver.WaitUntilElementIsDisappeared(By.XPath(NOTIFIER_DOWNLOAD_BTN), timeout: 20);
+		}
+
+		/// <summary>
 		/// Проверить, что показывается нужное кол-во уведомлений
 		/// </summary>
 		/// <param name="expectedCount">ожидаемое кол-во</param>

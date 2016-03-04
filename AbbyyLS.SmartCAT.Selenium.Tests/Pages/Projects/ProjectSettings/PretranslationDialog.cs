@@ -1,4 +1,6 @@
-﻿using OpenQA.Selenium;
+﻿using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace;
+
+using OpenQA.Selenium;
 using OpenQA.Selenium.Support.PageObjects;
 
 using AbbyyLS.SmartCAT.Selenium.Tests.DataStructures;
@@ -78,6 +80,17 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings
 			return GetPage();
 		}
 
+		/// <summary>
+		/// Нажать кнопку Cancel.
+		/// </summary>
+		public ProjectSettingsPage ClickCancelButton()
+		{
+			CustomTestContext.WriteLine("Нажать кнопку Cancel.");
+			CancelButton.Click();
+
+			return new ProjectSettingsPage(Driver).GetPage();
+		}
+
 		#endregion
 
 		#region Составные методы страницы
@@ -130,6 +143,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings
 		[FindsBy(How = How.XPath, Using = ADD_INSERTION_RULE_BUTTON)]
 		protected IWebElement AddInsertionRuleButton { get; set; }
 
+		[FindsBy(How = How.XPath, Using = CANCEL_BUTTON)]
+		protected IWebElement CancelButton { get; set; }
+
 		[FindsBy(How = How.XPath, Using = RESOURCE_DROPDOWN)]
 		protected IWebElement ResourceDropdown { get; set; }
 
@@ -146,7 +162,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings
 		protected const string RESOURCE_DROPDOWN = "//div[contains(@class,'pretranslate')]//span[contains(@class, 'js-dropdown')]";
 		protected const string RESOURCE_OPTION = "//span[@title='*#*']";
 		protected const string SAVE_AND_RUN_BUTTON = "//div[contains(@class,'pretranslate')][2]//div[contains(@class, 'js-save')]";
-
+		protected const string CANCEL_BUTTON = "//div[contains(@class, 'js-popup-pretranslate')][2]//a[contains(@class, 'js-popup-close')]";
 		#endregion
 	}
 }

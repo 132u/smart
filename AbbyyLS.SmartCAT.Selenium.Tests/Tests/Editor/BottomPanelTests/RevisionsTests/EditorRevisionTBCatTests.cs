@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.IO;
 
+using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings.SettingsDialog;
+
 using NUnit.Framework;
 
 using AbbyyLS.SmartCAT.Selenium.Tests.DataStructures;
@@ -24,7 +26,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Editor
 		{
 			_createProjectHelper = new CreateProjectHelper(Driver);
 			_projectSettingsPage = new ProjectSettingsPage(Driver);
-			_settingsDialog = new SettingsDialog(Driver);
+			_settingsDialog = new ProjectSettingsDialog(Driver);
 			_projectSettingsHelper = new ProjectSettingsHelper(Driver);
 			_editorPage = new EditorPage(Driver);
 			_selectTaskDialog = new SelectTaskDialog(Driver);
@@ -90,7 +92,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Editor
 		protected CreateProjectHelper _createProjectHelper;
 		protected ProjectSettingsHelper _projectSettingsHelper;
 		protected ProjectSettingsPage _projectSettingsPage;
-		protected SettingsDialog _settingsDialog;
+		protected ProjectSettingsDialog _settingsDialog;
 		protected SignInPage _signInPage;
 		protected ProjectsPage _projectsPage;
 		protected EditorPage _editorPage;

@@ -67,6 +67,7 @@
     <Compile Include="Configs\UserInfoConfig.cs" />
     <Compile Include="DataStructures\AccountType.cs" />
     <Compile Include="DataStructures\DateRange.cs" />
+    <Compile Include="DataStructures\DocumentStatus.cs" />
     <Compile Include="ExplicitAttributes\UserDataExplicitAttribute.cs" />
     <Compile Include="FeatureAttributes\CourseraAttribute.cs" />
     <Compile Include="Pages\Coursera\CompleteRegistrationDialog.cs" />
@@ -102,9 +103,15 @@
     <Compile Include="DataStructures\GlossaryCustomFieldType.cs" />
     <Compile Include="Pages\Projects\CreateProjectDialog\NewProjectDocumentUploadPage.cs" />
     <Compile Include="Pages\Projects\CreateProjectDialog\NewProjectWorkflowPage.cs" />
+    <Compile Include="Pages\Projects\ProjectSettings\ConfirmDeclineTaskDialog.cs" />
     <Compile Include="Pages\Projects\ProjectSettings\EditTranslationMemoryDialog.cs" />
     <Compile Include="Pages\Projects\ProjectSettings\NewTranslationMemoryDialog.cs" />
     <Compile Include="Pages\Projects\ProjectSettings\PretranslationDialog.cs" />
+    <Compile Include="Pages\Projects\ProjectSettings\SettingsDialog\CancelConfirmationDialog.cs" />
+    <Compile Include="Pages\Projects\ProjectSettings\SettingsDialog\GeneralTab.cs" />
+    <Compile Include="Pages\Projects\ProjectSettings\SettingsDialog\QualityAssuranceSettings.cs" />
+    <Compile Include="Pages\Projects\ProjectSettings\SettingsDialog\WorkflowSetUpTab.cs" />
+    <Compile Include="Pages\Projects\QualityAssuranceDialog.cs" />
     <Compile Include="Pages\Projects\StatisticsPage\StatisticsBasePage.cs" />
     <Compile Include="Pages\Projects\StatisticsPage\BuildStatisticsPage.cs" />
     <Compile Include="Pages\Projects\TaskDeclineDialog.cs" />
@@ -214,7 +221,7 @@
     <Compile Include="Pages\Projects\ExportNotification.cs" />
     <Compile Include="Pages\Registration\CompanyRegistration\CompanyRegistrationSignInPage.cs" />
     <Compile Include="Pages\Projects\DocumentUploadDialog\DocumentUploadBaseDialog.cs" />
-    <Compile Include="Pages\Projects\ProjectSettings\SettingsDialog.cs" />
+    <Compile Include="Pages\Projects\ProjectSettings\SettingsDialog\ProjectSettingsDialog.cs" />
     <Compile Include="Pages\Projects\AssignmentPages\TaskAssignmentPage.cs" />
     <Compile Include="Pages\TranslationMemories\NewTranslationMemoryDialog.cs" />
     <Compile Include="Pages\TranslationMemories\TranslationMemoriesPage.cs" />
@@ -250,6 +257,7 @@
     <Compile Include="TestHelpers\LoginHelper.cs" />
     <Compile Include="TestHelpers\ProjectSettingsHelper.cs" />
     <Compile Include="TestHelpers\TranslationMemoriesHelper.cs" />
+    <Compile Include="TestHelpers\UserRightsHelper.cs" />
     <Compile Include="TestSettingDefinition.cs" />
     <Compile Include="Tests\Authorization\AuthorizationBaseTest.cs" />
     <Compile Include="Tests\Authorization\AuthorizationDifferentAccountTypeTests.cs" />
@@ -313,6 +321,11 @@
     <Compile Include="Tests\SupportTests\WorkspaceSupportButtonsTests.cs" />
     <Compile Include="Tests\UsersRights\CreateProjects\CreateProjectWithRightBaseTest.cs" />
     <Compile Include="Tests\UsersRights\CreateProjects\FormsAndButtonsAvailabilityTests.cs" />
+    <Compile Include="Tests\UsersRights\ManageProjects\ManageProgectBaseTests.cs" />
+    <Compile Include="Tests\UsersRights\ManageProjects\ProjectSettingsPage\ExportDocumentTests.cs" />
+    <Compile Include="Tests\UsersRights\ManageProjects\ProjectSettingsPage\ManageProgectTests.cs" />
+    <Compile Include="Tests\UsersRights\ManageProjects\ProjectsPage\FormsAndButtonsAvailabilityTests.cs" />
+    <Compile Include="Tests\UsersRights\ManageProjects\ProjectsPage\ManageProgectTests.cs" />
     <Compile Include="Tests\UsersRights\SuggestTermsWithoutSpecifyingGlossary\SuggestTermsWithoutRight.cs" />
     <Compile Include="Tests\ProjectGroups\ChangeProjectGroupTests.cs" />
     <Compile Include="Tests\ProjectGroups\DeleteProjectGroupTests.cs" />
@@ -322,6 +335,9 @@
     <Compile Include="Tests\Projects\AssignResponsiblesTests\AssignResponsiblesBaseTests.cs" />
     <Compile Include="Tests\Projects\AssignResponsiblesTests\AssignResponsiblesBasicTests.cs" />
     <Compile Include="Tests\Projects\AssignResponsiblesTests\AssignResponsiblesTests.cs" />
+    <Compile Include="Tests\UsersRights\ManageProjects\ProjectsPage\ExportDocumentTests.cs" />
+    <Compile Include="Tests\UsersRights\ManageProjects\FormsAndButtonsAvailabilityBaseTests.cs" />
+    <Compile Include="Tests\UsersRights\ManageProjects\ProjectSettingsPage\FormsAndButtonsAvailabilityTests.cs" />
     <Compile Include="Tests\Projects\CreateProjectTests\CreateProjectAutofillProjectNameTests.cs" />
     <Compile Include="Tests\Projects\BaseProjectTest.cs" />
     <Compile Include="Tests\Projects\CreateProjectTests\CreateProjectTests.cs" />
@@ -416,7 +432,6 @@
     <Folder Include="Tests\UsersRights\ManageGlossaries\" />
     <Folder Include="Tests\UsersRights\ManageGlossaryContent\" />
     <Folder Include="Tests\UsersRights\ManagePaidResources\" />
-    <Folder Include="Tests\UsersRights\ManageProjects\" />
     <Folder Include="Tests\UsersRights\ManageTMContent\" />
     <Folder Include="Tests\UsersRights\ManageTMs\" />
     <Folder Include="Tests\UsersRights\ManageUsers\" />

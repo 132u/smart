@@ -1,4 +1,6 @@
-﻿using NUnit.Framework;
+﻿using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings.SettingsDialog;
+
+using NUnit.Framework;
 
 using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
 using AbbyyLS.SmartCAT.Selenium.Tests.FeatureAttributes;
@@ -28,7 +30,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 			_projectSettingsHelper = new ProjectSettingsHelper(Driver);
 
 			_projectsPage = new ProjectsPage(Driver);
-			_settingsDialog = new SettingsDialog(Driver);
+			_settingsDialog = new ProjectSettingsDialog(Driver);
 			_selectTaskDialog = new SelectTaskDialog(Driver);
 			_newProjectWorkflowPage = new NewProjectWorkflowPage(Driver);
 			_newProjectSettingsPage = new NewProjectSettingsPage(Driver);
@@ -46,6 +48,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 			_newGroupDialog = new NewGroupDialog(Driver);
 			_groupsAndAccessRightsTab = new GroupsAndAccessRightsTab(Driver);
 			_workspacePage = new WorkspacePage(Driver);
+			_workflowSetUptab = new WorkflowSetUpTab(Driver);
 
 			_projectUniqueName = _createProjectHelper.GetProjectUniqueName();
 		}
@@ -65,7 +68,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 		protected ProjectSettingsHelper _projectSettingsHelper;
 
 		protected ProjectsPage _projectsPage;
-		protected SettingsDialog _settingsDialog;
+		protected ProjectSettingsDialog _settingsDialog;
 		protected ProjectSettingsPage _projectSettingsPage;
 		public SelectTaskDialog _selectTaskDialog;
 		protected NewProjectDocumentUploadPage _newProjectDocumentUploadPage;
@@ -85,5 +88,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 		protected NewGroupDialog _newGroupDialog;
 		protected GroupsAndAccessRightsTab _groupsAndAccessRightsTab;
 		protected WorkspacePage _workspacePage;
+		protected WorkflowSetUpTab _workflowSetUptab;
 	}
 }

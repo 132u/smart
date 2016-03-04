@@ -86,7 +86,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.UsersRights
 		{
 			CustomTestContext.WriteLine("Нажать кнопку 'Сохранить' ( настройки группы {0}).", groupName);
 			SaveButton = Driver.SetDynamicValue(How.XPath, SAVE_BUTTON, groupName);
-			SaveButton.Click();
+			SaveButton.ScrollAndClick();
 
 			return GetPage();
 		}
@@ -100,7 +100,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.UsersRights
 		{
 			CustomTestContext.WriteLine("Кликнуть на кнопку удаления юзера {0} из группы {1}", userName, groupName);
 			DeleteUserButton = Driver.SetDynamicValue(How.XPath, DELETE_USER_BUTTON, groupName, userName);
-			DeleteUserButton.Click();
+			DeleteUserButton.ScrollAndClick();
 
 			return GetPage();
 		}

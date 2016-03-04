@@ -26,7 +26,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 
 			_projectSettingsPage
 				.ClickSettingsButton()
-				.ClickWorkflowTab()
+				.ClickWorkflowTab();
+
+			_workflowSetUptab
 				.AddTask(WorkflowTask.Editing, taskNumber: 3)
 				.SaveSettings();
 

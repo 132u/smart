@@ -1,4 +1,6 @@
-﻿using NUnit.Framework;
+﻿using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings.SettingsDialog;
+
+using NUnit.Framework;
 
 using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages;
@@ -28,7 +30,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 			_taskAssignmentPage = new TaskAssignmentPage(Driver);
 			_groupsAndAccessRightsTab = new GroupsAndAccessRightsTab(Driver);
 			_projectsPage = new ProjectsPage(Driver);
-			_settingsDialog = new SettingsDialog(Driver);
+			_settingsDialog = new ProjectSettingsDialog(Driver);
 			_projectSettingsPage = new ProjectSettingsPage(Driver);
 			_attentionPopup = new AttentionPopup(Driver);
 			_distributeSegmentsBetweenAssigneesPage = new DistributeSegmentsBetweenAssigneesPage(Driver);
@@ -38,6 +40,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 			_userTab = new UsersTab(Driver);
 			_newGroupDialog = new NewGroupDialog(Driver);
 			_projectSettingsHelper = new ProjectSettingsHelper(Driver);
+			_workflowSetUptab = new WorkflowSetUpTab(Driver);
 			_projectUniqueName = _createProjectHelper.GetProjectUniqueName();
 			_secondUser = null;
 			_thirdUser = null;
@@ -64,7 +67,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 		protected CommonHelper _commonHelper;
 		protected LoginHelper _loginHelper;
 		protected DocumentUploadGeneralInformationDialog _documentUploadGeneralInformationDialog;
-		protected SettingsDialog _settingsDialog;
+		protected ProjectSettingsDialog _settingsDialog;
 		protected TaskAssignmentPage _taskAssignmentPage;
 		protected GroupsAndAccessRightsTab _groupsAndAccessRightsTab;
 		protected ProjectsPage _projectsPage;
@@ -81,5 +84,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 		protected TestUser _thirdUser;
 		protected UsersTab _userTab;
 		protected NewGroupDialog _newGroupDialog;
+		protected WorkflowSetUpTab _workflowSetUptab;
 	}
 }

@@ -8,6 +8,7 @@ using OpenQA.Selenium.Support.PageObjects;
 using AbbyyLS.SmartCAT.Selenium.Tests.DataStructures;
 using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor;
+using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings.SettingsDialog;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.DocumentUploadDialog;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace;
 using AbbyyLS.SmartCAT.Selenium.Tests.TestFramework;
@@ -60,6 +61,24 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings
 			ExportType.Click();
 
 			return GetPage();
+		}
+
+		/// <summary>
+		/// Нажать кнопку статистики.
+		/// </summary>
+		public BuildStatisticsPage ClickStatisticsButton()
+		{
+			CustomTestContext.WriteLine("Нажать кнопку статистики.");
+			StatisticsButton.Click();
+			// Sleep нужен, чтоб вторая вкладка успела открыться, иначе количество открытых вкладок посчитается неправильно 
+			Thread.Sleep(1000);
+			if (Driver.WindowHandles.Count > 1)
+			{
+				Driver.SwitchTo().Window(Driver.WindowHandles.First()).Close();
+				Driver.SwitchTo().Window(Driver.WindowHandles.Last());
+			}
+
+			return new BuildStatisticsPage(Driver).GetPage();
 		}
 
 		/// <summary>
@@ -117,6 +136,18 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings
 			AssignTasksButtonOnPanel.Click();
 
 			return new TaskAssignmentPage(Driver).GetPage();
+		}
+
+
+		/// <summary>
+		/// Нажать кнопку 'QA Check'.
+		/// </summary>
+		public QualityAssuranceDialog ClickQACheckButton(string projectName)
+		{
+			CustomTestContext.WriteLine("Нажать кнопку 'QA Check'.");
+			QaCheckButton.Click();
+
+			return new QualityAssuranceDialog(Driver).GetPage();
 		}
 
 		/// <summary>
@@ -198,10 +229,22 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings
 		public ProjectSettingsPage ClickDownloadInMainMenuButton()
 		{
 			CustomTestContext.WriteLine("Нажать кнопку экспорта в главном меню");
-			DownloadInMainMenuButton.Click();
+			DownloadButton.Click();
 
 			return GetPage();
 		}
+
+		/// <summary>
+		/// Нажать кнопку экспорта в свертке документа.
+		/// </summary>
+		public ProjectSettingsPage ClickDocumnetDownloadButton()
+		{
+			CustomTestContext.WriteLine("Нажать кнопку экспорта в свертке документа.");
+			DocumentDownloadButton.Click();
+
+			return GetPage();
+		}
+
 
 		/// <summary>
 		/// Кликнуть чекбокс у документа
@@ -220,12 +263,12 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings
 		/// <summary>
 		/// Нажать кнопку 'Настройки'
 		/// </summary>
-		public SettingsDialog ClickSettingsButton()
+		public ProjectSettingsDialog ClickSettingsButton()
 		{
 			CustomTestContext.WriteLine("Нажать кнопку 'Настройки'");
 			SettingsButton.JavaScriptClick();
 
-			return new SettingsDialog(Driver).GetPage();
+			return new ProjectSettingsDialog(Driver).GetPage();
 		}
 
 		/// <summary>
@@ -320,6 +363,16 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings
 		}
 
 		/// <summary>
+		/// Нажать кнопку Decline.
+		/// </summary>
+		public ConfirmDeclineTaskDialog ClickDeclineButton()
+		{
+			CustomTestContext.WriteLine("Нажать кнопку Decline.");
+			DeclineButton.Click();
+
+			return new ConfirmDeclineTaskDialog(Driver).GetPage();
+		}
+		/// <summary>
 		/// Нажать кнопку редактирования памяти перевода.
 		/// </summary>
 		public EditTranslationMemoryDialog ClickEditTranslatioinMemoryButton()
@@ -328,6 +381,27 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings
 			EditTranslationMemoryButton.Click();
 
 			return new EditTranslationMemoryDialog(Driver).GetPage();
+		}
+
+		/// <summary>
+		/// Получить название поректа.
+		/// </summary>
+		public string GetProjectName()
+		{
+			CustomTestContext.WriteLine("Получить название поректа.");
+
+			return ProjectName.Text.Trim();
+		}
+
+		/// <summary>
+		/// Получить статус проекта
+		/// </summary>
+		/// <param name="projectName">название проекта</param>
+		public string GetProjectStatus(string projectName)
+		{
+			CustomTestContext.WriteLine("Получить статус проекта.");
+
+			return Driver.SetDynamicValue(How.XPath, PROJECT_STATUS, projectName).Text;
 		}
 
 		#endregion
@@ -392,6 +466,46 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings
 		#region Методы, проверяющие состояние страницы
 
 		/// <summary>
+		/// Проверить, что для текущего пользователя отображается назначенная на него задача.
+		/// </summary>
+		public bool IsAssignTaskDisplayedForCurrentUser(TaskMode task)
+		{
+			CustomTestContext.WriteLine("Проверить, что для текущего пользователя отображается назначенная на него задача {0}.", task);
+
+			return Driver.WaitUntilElementIsDisplay(By.XPath(TASK_FOR_CURRENT_USER.Replace("*#*", task.ToString())));
+		}
+
+		/// <summary>
+		/// Проверить, что кнопка 'Add Files' отображается
+		/// </summary>
+		public bool IsAddFilesButtonDisplayed()
+		{
+			CustomTestContext.WriteLine("Проверить, что кнопка 'Add Files' отображается.");
+
+			return Driver.WaitUntilElementIsDisplay(By.XPath(ADD_FILES_BTN));
+		}
+
+		/// <summary>
+		/// Проверить, что кнопка 'Assign Task' неактивна.
+		/// </summary>
+		public bool IsAssignTaskButtonDisabled()
+		{
+			CustomTestContext.WriteLine("Проверить, что кнопка 'Assign Task' неактивна.");
+
+			return AssignTasksButtonOnPanel.GetAttribute("class").Contains("disable");
+		}
+		
+		/// <summary>
+		/// Проверить, что кнопка Download неактивна.
+		/// </summary>
+		public bool IsDownloadButtonDisabled()
+		{
+			CustomTestContext.WriteLine("Проверить, что кнопка Download неактивна.");
+
+			return DownloadButton.GetAttribute("class").Contains("disable");
+		}
+
+		/// <summary>
 		/// Проверить, открылась ли страница настроек проекта
 		/// </summary>
 		public bool IsProjectSettingsPageOpened()
@@ -453,6 +567,36 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings
 
 			return Driver.WaitUntilElementIsDisplay(By.XPath(DOCUMENT_LIST_ITEM.Replace("*#*", Path.GetFileNameWithoutExtension(documentName))));
 		}
+		
+		/// <summary>
+		/// Проверить, что отображается кнопка статистики.
+		/// </summary>
+		public bool IsStatisticsButtonDisplayed()
+		{
+			CustomTestContext.WriteLine("Проверить, что отображается кнопка статистики.");
+
+			return Driver.WaitUntilElementIsDisplay(By.XPath(STATISTICS_BUTTON));
+		}
+
+		/// <summary>
+		/// Проверить, что кнопка удаления файлов присутствует
+		/// </summary>
+		public bool IsDeleteFileButtonDisplayed()
+		{
+			CustomTestContext.WriteLine("Проверить, что кнопка удаления файлов присутствует.");
+
+			return Driver.WaitUntilElementIsDisplay(By.XPath(DELETE_BUTTON));
+		}
+
+		/// <summary>
+		/// Проверить, что кнопка 'QA Check' присутствует
+		/// </summary>
+		public bool IsQaCheckButtonDisplayed()
+		{
+			CustomTestContext.WriteLine("Проверить, что кнопка 'QA Check' присутствует.");
+
+			return Driver.WaitUntilElementIsDisplay(By.XPath(QA_CHECK_BUTTON));
+		}
 
 		#endregion
 
@@ -466,7 +610,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings
 
 		[FindsBy(How = How.XPath, Using = ASSIGN_TASKS_BTN_ON_PANEL)]
 		protected IWebElement AssignTasksButtonOnPanel { get; set; }
-
+		
 		[FindsBy(How = How.XPath, Using = ASSIGN_TASKS_BTN_IN_DOCUMENT_INFO)]
 		protected IWebElement AssignTasksButtonInDocumentInfo { get; set; }
 
@@ -476,11 +620,14 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings
 		[FindsBy(How = How.XPath, Using = SAVE_MT_BTN)]
 		protected IWebElement SaveMTButton { get; set; }
 
-		[FindsBy(How = How.XPath, Using = DELETE_BTN)]
+		[FindsBy(How = How.XPath, Using = DELETE_BUTTON)]
 		protected IWebElement DeleteButton { get; set; }
+		
+		[FindsBy(How = How.XPath, Using = DOWNLOAD_BUTTON)]
+		protected IWebElement DownloadButton { get; set; }
 
-		[FindsBy(How = How.XPath, Using = DOWNLOAD_MAIN_MENU_BUTTON)]
-		protected IWebElement DownloadInMainMenuButton { get; set; }
+		[FindsBy(How = How.XPath, Using = DOCUMENT_DOWNLOAD_BUTTON)]
+		protected IWebElement DocumentDownloadButton { get; set; }
 
 		protected IWebElement DocumentCheckbox { get; set; }
 
@@ -523,12 +670,24 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings
 		[FindsBy(How = How.XPath, Using = PROGRESS_TOOLTIP)]
 		protected IWebElement ProgressTooltip { get; set; }
 
-		protected IWebElement DocumentProgress { get; set; }
+		[FindsBy(How = How.XPath, Using = QA_CHECK_BUTTON)]
+		protected IWebElement QaCheckButton { get; set; }
 
+		[FindsBy(How = How.XPath, Using = STATISTICS_BUTTON)]
+		protected IWebElement StatisticsButton { get; set; }
+
+		[FindsBy(How = How.XPath, Using = DECLINE_BUTTON)]
+		protected IWebElement DeclineButton { get; set; }
+
+		[FindsBy(How = How.XPath, Using = PROJECT_NAME)]
+		protected IWebElement ProjectName { get; set; }
+
+		protected IWebElement DocumentProgress { get; set; }
+		protected IWebElement ProjectStatus { get; set; }
 		protected IWebElement DocumentRefference { get; set; }
 		
 		protected IWebElement ProjectsTableCheckbox { get; set; }
-		
+		protected IWebElement TaskForCurrentUser { get; set; }
 		#endregion
 
 		#region Описания XPath элементов страницы
@@ -548,10 +707,11 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings
 		protected const string SAVE_MT_BTN = ".//span[contains(@data-bind, 'click: saveMTEngines')]//a";
 		protected const string DEFAULT_MT_CHECKBOX = "//tbody[contains(@data-bind,'foreach: machineTranslators')]//tr[contains(string(), 'ABBYY')]//td[1]//input";
 		protected const string DEFAULT_MT_CHECKBOX_STATE = "//tbody[contains(@data-bind,'foreach: machineTranslators')]//tr[contains(string(), 'ABBYY')]//td[1]//input[@data-value='true']";
-		protected const string DELETE_BTN = "//div[contains(@data-bind, 'deleteDocuments')]";
+		protected const string DELETE_BUTTON = "//div[contains(@data-bind, 'deleteDocuments')]";
 		protected const string DOCUMENT_LIST_ITEM = ".//table[contains(@class,'js-documents-table')]//tbody//tr//a[text()='*#*']";
 		protected const string DELETE_DOCUMENT_DIALOG = "//div[contains(@class,'js-popup-confirm')]";
-		protected const string DOWNLOAD_MAIN_MENU_BUTTON = "//div[contains(@class,'js-document-export-block')]";
+		protected const string DOWNLOAD_BUTTON = "//div[contains(@class,'js-document-export-block')]";
+		protected const string DOCUMENT_DOWNLOAD_BUTTON = "//div[contains(@class,'doc-panel')]//div[contains(@class,'js-document-export-block')]";
 		protected const string DOCUMENT_CHECKBOX = ".//table[contains(@id,'JColResizer')]//tr[contains(string(), '*#*')]//td[2]//a//ancestor::td//preceding-sibling::td//input";
 		protected const string DOCUMENT_PROGRESS = "//td[div[a[text()='*#*']]]//following-sibling::td//div[contains(@class,'ui-progressbar__container')]";
 		protected const string DOCUMENT_SETTINGS_BUTTON = "//div[contains(@class, 'doc-panel-btns ')]//a[text()='Settings']";
@@ -572,6 +732,13 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings
 		protected const string PRETRANSLATE_BUTTON = "//div[contains(@data-bind,'click: pretranslate')]";
 		protected const string EDIT_TRANSLATION_MEMORY_BUTTOON = "//div[@data-bind='click: editTranslationMemories']//a[contains(@class, 'g-graybtn')]";
 		protected const string PROGRESS_TOOLTIP = "//table[@class='l-workflow-progress-tooltip']";
+
+		protected const string QA_CHECK_BUTTON = "//div[contains(@data-bind,'qaCheck')]";
+		protected const string STATISTICS_BUTTON = "//div[contains(@data-bind,'openStatistics')]";
+		protected const string PROJECT_NAME = "//a[@class='current-doc']";
+		protected const string TASK_FOR_CURRENT_USER = "//table[contains(@data-bind, 'workflowStagesForCurrentUser')]//td[contains(@class, 'assignments') and contains(text(),'*#*')]";
+		protected const string DECLINE_BUTTON = "//table[contains(@data-bind, 'workflowStagesForCurrentUser')]//div[contains(@data-bind, 'reject')]";
+		protected const string PROJECT_STATUS = "//tr[contains(@class, 'document-row')]//td//a[contains(text(),'*#*')]/../../..//td[contains(@class,'status')]//p";
 
 		#endregion
 	}

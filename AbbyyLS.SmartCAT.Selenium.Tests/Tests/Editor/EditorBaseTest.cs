@@ -1,5 +1,7 @@
 ﻿using System.IO;
 
+using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings.SettingsDialog;
+
 using NUnit.Framework;
 
 using AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers;
@@ -20,14 +22,14 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Editor
 			_createProjectHelper = new CreateProjectHelper(Driver);
 			_projectsPage = new ProjectsPage(Driver);
 			_projectSettingsPage = new ProjectSettingsPage(Driver);
-			_settingsDialog = new SettingsDialog(Driver);
+			_settingsDialog = new ProjectSettingsDialog(Driver);
 			_projectSettingsHelper = new ProjectSettingsHelper(Driver);
 			_editorPage = new EditorPage(Driver);
 			_selectTaskDialog = new SelectTaskDialog(Driver);
 			_signInPage = new SignInPage(Driver);
 			_workspacePage = new WorkspacePage(Driver);
 			_projectsPage = new ProjectsPage(Driver);
-
+			_workflowSetUptab = new WorkflowSetUpTab(Driver);
 			_projectUniqueName = _createProjectHelper.GetProjectUniqueName();
 
 			_createProjectHelper.CreateNewProject(_projectUniqueName, filePath: PathProvider.EditorTxtFile);
@@ -45,12 +47,13 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Editor
 		protected CreateProjectHelper _createProjectHelper;
 		protected ProjectSettingsHelper _projectSettingsHelper;
 		protected ProjectSettingsPage _projectSettingsPage;
-		protected SettingsDialog _settingsDialog;
+		protected ProjectSettingsDialog _settingsDialog;
 		protected EditorPage _editorPage;
 		protected SelectTaskDialog _selectTaskDialog;
 		protected SignInPage _signInPage;
 		protected ProjectsPage _projectsPage;
 		protected string _projectUniqueName;
 		protected WorkspacePage _workspacePage;
+		protected WorkflowSetUpTab _workflowSetUptab;
 	}
 }

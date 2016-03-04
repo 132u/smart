@@ -1,4 +1,6 @@
-﻿using NUnit.Framework;
+﻿using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings.SettingsDialog;
+
+using NUnit.Framework;
 
 using AbbyyLS.SmartCAT.Selenium.Tests.DataStructures;
 using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
@@ -30,7 +32,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersRights
 			_projectSettingsHelper = new ProjectSettingsHelper(Driver);
 
 			_projectsPage = new ProjectsPage(Driver);
-			_settingsDialog = new SettingsDialog(Driver);
+			_settingsDialog = new ProjectSettingsDialog(Driver);
 			_selectTaskDialog = new SelectTaskDialog(Driver);
 			_newProjectWorkflowPage = new NewProjectWorkflowPage(Driver);
 			_newProjectSettingsPage = new NewProjectSettingsPage(Driver);
@@ -47,6 +49,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersRights
 			_distributeDocumentBetweenAssigneesPage = new DistributeDocumentBetweenAssigneesPage(Driver);
 			_groupsAndAccessRightsTab = new GroupsAndAccessRightsTab(Driver);
 			_newGroupDialog = new NewGroupDialog(Driver);
+			_workflowSetUptab = new WorkflowSetUpTab(Driver);
 
 			_projectUniqueName = _createProjectHelper.GetProjectUniqueName();
 
@@ -125,7 +128,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersRights
 
 			_projectSettingsHelper.OpenWorkflowSettings();
 
-			_settingsDialog
+			_settingsDialog.ClickWorkflowTab();
+
+			_workflowSetUptab
 				.AddTask(WorkflowTask.Editing)
 				.SaveSettings();
 
@@ -237,7 +242,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersRights
 
 			_projectSettingsHelper.OpenWorkflowSettings();
 
-			_settingsDialog
+			_settingsDialog.ClickWorkflowTab();
+
+			_workflowSetUptab
 				.AddTask(WorkflowTask.Editing)
 				.SaveSettings();
 
@@ -355,7 +362,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersRights
 
 			_projectSettingsHelper.OpenWorkflowSettings();
 
-			_settingsDialog
+			_settingsDialog.ClickWorkflowTab();
+
+			_workflowSetUptab
 				.AddTask(WorkflowTask.Editing)
 				.SaveSettings();
 
@@ -406,7 +415,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersRights
 		protected ProjectSettingsHelper _projectSettingsHelper;
 
 		protected ProjectsPage _projectsPage;
-		protected SettingsDialog _settingsDialog;
+		protected ProjectSettingsDialog _settingsDialog;
 		protected ProjectSettingsPage _projectSettingsPage;
 		public SelectTaskDialog _selectTaskDialog;
 		protected NewProjectDocumentUploadPage _newProjectDocumentUploadPage;
@@ -425,6 +434,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersRights
 		protected AddAccessRightDialog _addAccessRightDialog;
 		protected GroupsAndAccessRightsTab _groupsAndAccessRightsTab;
 		protected NewGroupDialog _newGroupDialog;
+		protected WorkflowSetUpTab _workflowSetUptab ;
 		private string _groupName;
 
 		private string document1;

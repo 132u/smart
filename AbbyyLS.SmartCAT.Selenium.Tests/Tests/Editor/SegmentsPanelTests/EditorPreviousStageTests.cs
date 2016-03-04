@@ -1,4 +1,6 @@
-﻿using NUnit.Framework;
+﻿using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings.SettingsDialog;
+
+using NUnit.Framework;
 
 using AbbyyLS.SmartCAT.Selenium.Tests.DataStructures;
 using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
@@ -23,7 +25,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Editor
 
 			_projectSettingsHelper.OpenWorkflowSettings();
 
-			_settingsDialog
+			_settingsDialog.ClickWorkflowTab();
+
+			_workflowSetUptab
 				.AddTask(WorkflowTask.Editing)
 				.SaveSettings();
 
@@ -39,7 +43,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Editor
 
 			Assert.IsTrue(_editorPage.IsSegmentLocked(), "Произошла ошибка:\n сегмент не залочен");
 		}
-
+		
 		private ProjectSettingsHelper _projectSettingsHelper;
 	}
 }
