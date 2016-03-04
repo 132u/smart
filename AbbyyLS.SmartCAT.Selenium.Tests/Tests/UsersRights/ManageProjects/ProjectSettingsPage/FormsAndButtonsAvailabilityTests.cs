@@ -6,7 +6,7 @@ using NUnit.Framework;
 using AbbyyLS.SmartCAT.Selenium.Tests.DataStructures;
 using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
 
-namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersRights
+namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersRights.ManageProjects.ProjectSettingsPage
 {
 	[Parallelizable(ParallelScope.Fixtures)]
 	class FormsAndButtonsAvailabilityTests<TWebDriverProvider> : FormsAndButtonsAvailabilityBaseTests<TWebDriverProvider> where TWebDriverProvider : IWebDriverProvider, new()

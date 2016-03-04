@@ -5,7 +5,7 @@ using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects;
 using AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersRights.CreateProjects;
 
-namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersRights
+namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersRights.CreateProjects
 {
 	[Parallelizable(ParallelScope.Fixtures)]
 	class CreateProjectWithRight<TWebDriverProvider> : CreateProjectWithRightBaseTest<TWebDriverProvider>

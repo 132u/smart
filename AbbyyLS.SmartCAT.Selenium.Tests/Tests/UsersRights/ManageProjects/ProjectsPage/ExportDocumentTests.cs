@@ -2,9 +2,8 @@
 
 using AbbyyLS.SmartCAT.Selenium.Tests.DataStructures;
 using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
-using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects;
 
-namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersRights
+namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersRights.ManageProjects.ProjectsPage
 {
 	[Parallelizable(ParallelScope.Fixtures)]
 	class ExportDocumentTests<TWebDriverProvider> : FormsAndButtonsAvailabilityBaseTests<TWebDriverProvider> where TWebDriverProvider : IWebDriverProvider, new()
@@ -34,7 +33,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersRights
 			Assert.IsTrue(_exportNotification.IsExportNotificationDisplayed(),
 				"Произошла ошибка:\n сообщение со ссылкой на скачивание документа не появилось");
 
-			_exportNotification.ClickDownloadNotifier<ProjectsPage>();
+			_exportNotification.ClickDownloadNotifier<Pages.Projects.ProjectsPage>();
 
 			Assert.IsTrue(_exportNotification.IsFileDownloaded(
 				_exportNotification.GetExportFileNameMask(exportType, PathProvider.DocumentFile)),
@@ -54,7 +53,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersRights
 			Assert.IsTrue(_exportNotification.IsExportNotificationDisplayed(),
 				"Произошла ошибка:\n сообщение со ссылкой на скачивание документа не появилось");
 
-			_exportNotification.ClickDownloadNotifier<ProjectsPage>();
+			_exportNotification.ClickDownloadNotifier<Pages.Projects.ProjectsPage>();
 
 			Assert.IsTrue(_exportNotification.IsFileDownloaded(
 				_exportNotification.GetExportFileNameMask(exportType, PathProvider.DocumentFile)),
@@ -75,7 +74,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersRights
 			Assert.IsTrue(_exportNotification.IsExportNotificationDisplayed(),
 				"Произошла ошибка:\n сообщение со ссылкой на скачивание документа не появилось");
 
-			_exportNotification.ClickDownloadNotifier<ProjectsPage>();
+			_exportNotification.ClickDownloadNotifier<Pages.Projects.ProjectsPage>();
 
 			Assert.IsTrue(_exportNotification.IsFileDownloaded(
 				_exportNotification.GetExportFileNameMask(exportType, PathProvider.DocumentFile)),
@@ -95,7 +94,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersRights
 			Assert.IsTrue(_exportNotification.IsExportNotificationDisplayed(),
 				"Произошла ошибка:\n сообщение со ссылкой на скачивание документа не появилось");
 
-			_exportNotification.ClickDownloadNotifier<ProjectsPage>();
+			_exportNotification.ClickDownloadNotifier<Pages.Projects.ProjectsPage>();
 
 			Assert.IsTrue(_exportNotification.IsFileDownloaded(string.Format("Documents_*{0}.zip", exportType)),
 				"Произошла ошибка: файл не загрузился");

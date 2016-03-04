@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Windows.Forms.VisualStyles;
 
 using NUnit.Framework;
 
@@ -14,7 +15,7 @@ using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.DocumentUploadDialog;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings.SettingsDialog;
 using AbbyyLS.SmartCAT.Selenium.Tests.TestFramework;
 
-namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersRights
+namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersRights.ManageProjects
 {
 	class FormsAndButtonsAvailabilityBaseTests<TWebDriverProvider> : BaseTest<TWebDriverProvider> where TWebDriverProvider : IWebDriverProvider, new()
 	{
@@ -26,7 +27,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersRights
 				CustomTestContext.WriteLine("Начало работы теста {0}", TestContext.CurrentContext.Test.Name);
 				_loginHelper = new LoginHelper(Driver);
 				_loginHelper.Authorize(StartPage, AdditionalUser);
-				_exportNotification.CancelAllNotifiers<ProjectsPage>();
+				_exportNotification.CancelAllNotifiers<Pages.Projects.ProjectsPage>();
 			}
 			catch (Exception ex)
 			{
@@ -39,11 +40,11 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersRights
 		public void OneTimeSetUp()
 		{
 			_settingsDialog = new ProjectSettingsDialog(Driver);
-			_projectSettingsPage = new ProjectSettingsPage(Driver);
+			_projectSettingsPage = new Pages.Projects.ProjectSettings.ProjectSettingsPage(Driver);
 			_createProjectHelper = new CreateProjectHelper(Driver);
 			_workspacePage = new WorkspacePage(Driver);
 			_loginHelper = new LoginHelper(Driver);
-			_projectsPage = new ProjectsPage(Driver);
+			_projectsPage = new Pages.Projects.ProjectsPage(Driver);
 			_exportNotification = new ExportNotification(Driver);
 			_usersTab = new UsersTab(Driver);
 			_addAccessRightDialog = new AddAccessRightDialog(Driver);
@@ -112,11 +113,11 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersRights
 		protected string _projectUniqueName;
 		protected UsersTab _usersTab;
 		protected AddAccessRightDialog _addAccessRightDialog;
-		protected ProjectsPage _projectsPage;
+		protected Pages.Projects.ProjectsPage _projectsPage;
 		protected ExportNotification _exportNotification;
 		protected NewGroupDialog _newGroupDialog;
 		protected GroupsAndAccessRightsTab _groupsAndAccessRightsTab;
-		protected ProjectSettingsPage _projectSettingsPage;
+		protected Pages.Projects.ProjectSettings.ProjectSettingsPage _projectSettingsPage;
 		protected ProjectSettingsHelper _projectSettingsHelper;
 		protected PretranslationDialog _pretranslationDialog;
 		protected WorkflowSetUpTab _workflowSetUpTab;
