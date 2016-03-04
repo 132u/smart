@@ -300,7 +300,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 
 			var fullName = isGroup ? "Group: " + name : name;
 
-			if (!Driver.WaitUntilElementIsDisplay(By.XPath(ASSIGNEE_OPTION.Replace("*#*", fullName))))
+			if (!IsUserInAssigneeOptionsExist(fullName))
 			{
 				throw new XPathLookupException(string.Format("Произошла ошибка:\n пользователь {0} не найден в выпадающем"
 				+ " списке при назначении исполнителя на задачу", fullName));
@@ -409,6 +409,17 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 			CustomTestContext.WriteLine("Проверить, что отображается сообщение 'Please, specify the deadline in the format: MM/DD/YYYY'.");
 
 			return Driver.WaitUntilElementIsDisplay(By.XPath(WRONG_DEADLINE_FORMAT_ERROR));
+		}
+
+		/// <summary>
+		/// Проверить, что пользователь есть в списке на назначение.
+		/// </summary>
+		/// <param name="fullName">полное имя пользователя</param>
+		public bool IsUserInAssigneeOptionsExist(string fullName)
+		{
+			CustomTestContext.WriteLine("Проверить, что пользователь '{0}' есть в списке на назначение.", fullName);
+
+			return Driver.WaitUntilElementIsAppear(By.XPath(ASSIGNEE_OPTION.Replace("*#*", fullName)));
 		}
 
 		/// <summary>
