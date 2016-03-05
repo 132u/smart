@@ -10,7 +10,7 @@ using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
 namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersRights.ManageProjects.ProjectSettingsPage
 {
 	[Parallelizable(ParallelScope.Fixtures)]
-	class ManageProgectTests<TWebDriverProvider> : ManageProgectBaseTests<TWebDriverProvider> where TWebDriverProvider : IWebDriverProvider, new()
+	class ManageProjectTests<TWebDriverProvider> : ManageProjectBaseTests<TWebDriverProvider> where TWebDriverProvider : IWebDriverProvider, new()
 	{
 		[SetUp]
 		public void SetUp()

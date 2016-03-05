@@ -7,7 +7,7 @@ using AbbyyLS.SmartCAT.Selenium.Tests.TestFramework;
 namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersRights.ManageProjects.ProjectsPage
 {
 	[Parallelizable(ParallelScope.Fixtures)]
-	class ManageProgectTests<TWebDriverProvider> : ManageProgectBaseTests<TWebDriverProvider> where TWebDriverProvider : IWebDriverProvider, new()
+	class ManageProjectTests<TWebDriverProvider> : ManageProjectBaseTests<TWebDriverProvider> where TWebDriverProvider : IWebDriverProvider, new()
 	{
 		[Test]
 		public void SearchProjectTest()

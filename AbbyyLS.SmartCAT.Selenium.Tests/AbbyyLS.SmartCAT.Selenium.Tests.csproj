@@ -322,11 +322,11 @@
     <Compile Include="Tests\SupportTests\WorkspaceSupportButtonsTests.cs" />
     <Compile Include="Tests\UsersRights\CreateProjects\CreateProjectWithRightBaseTest.cs" />
     <Compile Include="Tests\UsersRights\CreateProjects\FormsAndButtonsAvailabilityTests.cs" />
-    <Compile Include="Tests\UsersRights\ManageProjects\ManageProgectBaseTests.cs" />
+    <Compile Include="Tests\UsersRights\ManageProjects\ManageProjectBaseTests.cs" />
     <Compile Include="Tests\UsersRights\ManageProjects\ProjectSettingsPage\ExportDocumentTests.cs" />
-    <Compile Include="Tests\UsersRights\ManageProjects\ProjectSettingsPage\ManageProgectTests.cs" />
+    <Compile Include="Tests\UsersRights\ManageProjects\ProjectSettingsPage\ManageProjectTests.cs" />
     <Compile Include="Tests\UsersRights\ManageProjects\ProjectsPage\FormsAndButtonsAvailabilityTests.cs" />
-    <Compile Include="Tests\UsersRights\ManageProjects\ProjectsPage\ManageProgectTests.cs" />
+    <Compile Include="Tests\UsersRights\ManageProjects\ProjectsPage\ManageProjectTests.cs" />
     <Compile Include="Tests\UsersRights\SuggestTermsWithoutSpecifyingGlossary\SuggestTermsWithoutRight.cs" />
     <Compile Include="Tests\ProjectGroups\ChangeProjectGroupTests.cs" />
     <Compile Include="Tests\ProjectGroups\DeleteProjectGroupTests.cs" />
