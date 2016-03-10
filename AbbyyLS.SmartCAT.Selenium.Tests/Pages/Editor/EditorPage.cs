@@ -1268,7 +1268,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		public bool IsEditorPageOpened()
 		{
 			return IsSavingStatusDisappeared() &&
-				Driver.WaitUntilElementIsDisplay(By.XPath(SEGMENTS_BODY), timeout: 60);
+				Driver.WaitUntilElementIsAppear(By.XPath(SEGMENTS_BODY), timeout: 60);
 		}
 
 		/// <summary>

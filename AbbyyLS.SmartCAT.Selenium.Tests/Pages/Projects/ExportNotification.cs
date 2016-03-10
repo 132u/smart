@@ -177,7 +177,12 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 		{
 			CustomTestContext.WriteLine("Проверить, есть ли сообщение со ссылкой на скачивание документа.");
 
-			return Driver.WaitUntilElementIsAppear(By.XPath(NOTIFIER_DOWNLOAD_BTN), timeout: timeout);
+			if (!Driver.WaitUntilElementIsAppear(By.XPath(NOTIFIER_DOWNLOAD_BTN), timeout: timeout))
+			{
+				RefreshPage<WorkspacePage>();
+			}
+
+			return Driver.WaitUntilElementIsAppear(By.XPath(NOTIFIER_DOWNLOAD_BTN));
 		}
 
 		/// <summary>
