@@ -173,7 +173,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 		/// <summary>
 		/// Проверить, присутствует ли уведомление
 		/// </summary>
-		public bool IsExportNotificationDisplayed(int timeout = 50)
+		public bool IsExportNotificationDisplayed(int timeout = 60)
 		{
 			CustomTestContext.WriteLine("Проверить, есть ли сообщение со ссылкой на скачивание документа.");
 
@@ -182,7 +182,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 				RefreshPage<WorkspacePage>();
 			}
 
-			return Driver.WaitUntilElementIsAppear(By.XPath(NOTIFIER_DOWNLOAD_BTN));
+			return Driver.WaitUntilElementIsAppear(By.XPath(NOTIFIER_DOWNLOAD_BTN), timeout: timeout);
 		}
 
 		/// <summary>

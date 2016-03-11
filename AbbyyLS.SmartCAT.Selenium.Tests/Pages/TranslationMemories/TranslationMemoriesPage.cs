@@ -597,8 +597,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories
 		public bool IsTranslationMemoriesPageOpened()
 		{
 			return IsDialogBackgroundDisappeared() &&
-				Driver.WaitUntilElementIsDisplay(By.XPath(ADD_TM_BTN)) &&
-				IsFileImportAddingNotifierDisappeared();
+				Driver.WaitUntilElementIsDisplay(By.XPath(ADD_TM_BTN));
 		}
 
 		/// <summary>
@@ -724,11 +723,16 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories
 		/// <summary>
 		/// Проверить, что сообщение о процессе импорта TMX файла исчезло
 		/// </summary>
-		public bool IsFileImportAddingNotifierDisappeared()
+		public bool IsFileImportAddingNotifierDisappeared(int timeout = 60)
 		{
 			CustomTestContext.WriteLine("Проверить, что сообщение о процессе импорта TMX файла исчезло");
 
-			return Driver.WaitUntilElementIsDisappeared(By.XPath(FILE_IMPORT_ADDING_NOTIFIER), 40);
+			if (!Driver.WaitUntilElementIsDisappeared(By.XPath(FILE_IMPORT_ADDING_NOTIFIER), timeout))
+			{
+				RefreshPage<WorkspacePage>();
+			}
+
+			return Driver.WaitUntilElementIsDisappeared(By.XPath(FILE_IMPORT_ADDING_NOTIFIER), timeout);
 		}
 
 		/// <summary>
