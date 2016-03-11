@@ -81,7 +81,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Authorization
 				password: password,
 				accountName: accountName,
 				personalAccountActiveState: false,
-				aolUser: false);
+				aolUser: true);
 
 			_commonHelper.GoToSignInPage();
 
@@ -116,7 +116,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Authorization
 				password: password,
 				accountName: accountName,
 				personalAccountActiveState: false,
-				aolUser: false);
+				aolUser: true);
 
 			_commonHelper.GoToSignInPage();
 
