@@ -23,7 +23,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestFramework
 			var i = 0;
 			do
 			{
-				CustomTestContext.WriteLine("Попытка ввода текста №{0}", i);
+				//CustomTestContext.WriteLine("Попытка ввода текста №{0}", i);
 				i++;
 				webElement.Clear();
 
