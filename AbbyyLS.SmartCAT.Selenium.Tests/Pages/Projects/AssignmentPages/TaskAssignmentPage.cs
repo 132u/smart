@@ -418,6 +418,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 		public bool IsUserInAssigneeOptionsExist(string fullName)
 		{
 			CustomTestContext.WriteLine("Проверить, что пользователь '{0}' есть в списке на назначение.", fullName);
+			Driver.FindElement(By.XPath(ASSIGNEE_OPTION.Replace("*#*", fullName))).Scroll();
 
 			return Driver.WaitUntilElementIsAppear(By.XPath(ASSIGNEE_OPTION.Replace("*#*", fullName)));
 		}

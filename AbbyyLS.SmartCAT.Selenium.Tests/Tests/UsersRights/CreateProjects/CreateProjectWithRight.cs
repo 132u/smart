@@ -65,6 +65,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersRights.CreateProjects
 
 			_projectsPage
 				.WaitUntilProjectLoadSuccessfully(_projectUniqueName)
+				.OpenProjectInfo(_projectUniqueName)
+				.OpenDocumentInfoForProject(_projectUniqueName)
+				.OpenDocumentInfoForProject(_projectUniqueName, documentNumber: 2)
 				.SelectDocument(_projectUniqueName, PathProvider.EditorTxtFile)
 				.ClickDownloadInProjectMenuButton(_projectUniqueName)
 				.ClickExportType(exportType);
@@ -93,6 +96,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersRights.CreateProjects
 			_projectsPage
 				.WaitUntilProjectLoadSuccessfully(_projectUniqueName)
 				.ClickProjectCheckboxInList(_projectUniqueName)
+				.OpenProjectInfo(_projectUniqueName)
 				.ClickDownloadInProjectMenuButton(_projectUniqueName)
 				.ClickExportType(exportType);
 

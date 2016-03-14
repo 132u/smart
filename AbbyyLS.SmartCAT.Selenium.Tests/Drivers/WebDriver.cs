@@ -479,6 +479,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Drivers
 		{
 			var timer = 1;
 			bool flag = false;
+			// Лог необходим для отладки теста SCAT-900 AssignUserOneTaskTest
+			CustomTestContext.WriteLine("Количество вкладок = {0}.", WindowHandles.Count);
 
 			while (!flag && timer <= timeout)
 			{
@@ -487,6 +489,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Drivers
 
 				if (WindowHandles.Count > 1)
 				{
+					// Лог необходим для отладки теста SCAT-900 AssignUserOneTaskTest
+					CustomTestContext.WriteLine("Количество вкладок = {0}.", WindowHandles.Count);
 					SwitchTo().Window(WindowHandles.First()).Close();
 					SwitchTo().Window(WindowHandles.Last());
 					flag = true;
