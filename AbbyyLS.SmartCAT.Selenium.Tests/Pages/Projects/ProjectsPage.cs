@@ -45,6 +45,17 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 		#region Простые методы страницы
 
 		/// <summary>
+		/// Нажать зеленую кнопку создания проекта.
+		/// </summary>
+		public NewProjectDocumentUploadPage ClickGreenCreateProjectButton()
+		{
+			CustomTestContext.WriteLine("Нажать зеленую кнопку создания проекта.");
+			GreenCreateProjectButton.Click();
+
+			return new NewProjectDocumentUploadPage(Driver).GetPage();
+		}
+
+		/// <summary>
 		/// Нажать кнопку 'QA Check'.
 		/// </summary>
 		/// <param name="projectName">имя проекта</param>

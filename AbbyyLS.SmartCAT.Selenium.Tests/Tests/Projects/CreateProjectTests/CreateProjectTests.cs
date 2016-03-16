@@ -43,6 +43,25 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 		}
 
 		[Test]
+		public void CreateProjectViaGreenCreateProjectButtonTest()
+		{
+			_projectsPage.ClickGreenCreateProjectButton();
+
+			_newProjectDocumentUploadPage
+				.UploadDocumentFile(PathProvider.DocumentFile)
+				.ClickSettingsButton();
+
+			_newProjectSettingsPage
+				.FillGeneralProjectInformation(_projectUniqueName)
+				.ClickNextButton();
+
+			_newProjectWorkflowPage.ClickCreateProjectButton();
+
+			Assert.IsTrue(_projectsPage.IsProjectAppearInList(_projectUniqueName),
+				"Произошла ошибка:\n проект {0} не появился в списке проектов.", _projectUniqueName);
+		}
+
+		[Test]
 		public void CreateProjectDeletedNameTest()
 		{
 			_createProjectHelper.CreateNewProject(_projectUniqueName);
