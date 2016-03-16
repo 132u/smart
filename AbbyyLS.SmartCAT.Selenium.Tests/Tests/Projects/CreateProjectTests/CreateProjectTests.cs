@@ -1,4 +1,7 @@
-﻿using NUnit.Framework;
+﻿using System.Collections.Generic;
+using System.IO;
+
+using NUnit.Framework;
 
 using AbbyyLS.SmartCAT.Selenium.Tests.DataStructures;
 using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
@@ -166,6 +169,57 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 
 			Assert.IsTrue(_projectSettingsPage.IsDocumentExist(PathProvider.DocumentFile),
 				"Произошла ошибка:\n документ {0} отсутствует в проекте.", PathProvider.DocumentFile);
+		}
+
+		[Test, Description("S-7138")]
+		public void CreateProjectFewLanguagesTest()
+		{
+			var documentFileName = Path.GetFileNameWithoutExtension(PathProvider.DocumentFile);
+			var ttxFileName = Path.GetFileNameWithoutExtension(PathProvider.TtxFile);
+			var expectedJobList = new List<string>
+				(
+					new []
+					{
+						documentFileName + "_fr",
+						documentFileName + "_ja",
+						documentFileName + "_ru",
+						ttxFileName + "_fr",
+						ttxFileName + "_ja",
+						ttxFileName + "_ru"
+					}
+				);
+
+			_projectsPage.ClickCreateProjectButton();
+
+			_newProjectDocumentUploadPage
+				.UploadDocumentFile(PathProvider.DocumentFile)
+				.UploadDocumentFile(PathProvider.TtxFile)
+				.ClickSettingsButton();
+
+			_newProjectSettingsPage
+				.FillProjectName(_projectUniqueName)
+				.SetDeadline(Deadline.NextMonth)
+				.SetSourceLanguage(Language.English)
+				.SetTargetLanguage(Language.French)
+				.SetTargetLanguage(Language.Russian)
+				.SetTargetLanguage(Language.Japanese)
+				.ClickNextButton();
+
+			_newProjectWorkflowPage.ClickCreateProjectButton();
+
+			Assert.IsTrue(_projectsPage.IsProjectAppearInList(_projectUniqueName),
+				"Произошла ошибка:\n проект {0} не появился в списке проектов.", _projectUniqueName);
+
+			_projectsPage
+				.OpenProjectInfo(_projectUniqueName)
+				.OpenDocumentInfoForProject(_projectUniqueName, documentNumber: 1)
+				.OpenDocumentInfoForProject(_projectUniqueName, documentNumber: 2);
+
+			expectedJobList.Sort();
+			var jobList = _projectsPage.GetJobList(_projectUniqueName);
+
+			Assert.AreEqual(expectedJobList, jobList,
+				"Произошла ошибка: Неверный спсико джобов.");
 		}
 	}
 }
