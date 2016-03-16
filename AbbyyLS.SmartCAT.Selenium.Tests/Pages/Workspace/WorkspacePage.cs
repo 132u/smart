@@ -806,7 +806,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace
 
 		protected const string ALL_NOTIFICATIONS = "//div[@class='g-notifications-item']";
 		protected const string NOTIFICATION = "//div[@class='g-notifications-item'][*#*]//span[2]/a";
-		protected const string CLOSE_NOTIFICATION_BUTTON = "//div[@class='g-notifications-item'][*#*]//a[contains(@data-bind, 'stopBubble')]";
+		protected const string CLOSE_NOTIFICATION_BUTTON = "//div[@class='g-notifications-item'][*#*]//button[contains(@data-bind, 'stopBubble')]";
 
 		#endregion
 	}

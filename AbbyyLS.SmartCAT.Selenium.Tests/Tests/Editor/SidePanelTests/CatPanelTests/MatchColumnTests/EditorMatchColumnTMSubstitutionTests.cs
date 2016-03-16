@@ -14,7 +14,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Editor
 {
 	[Parallelizable(ParallelScope.Fixtures)]
 	[Standalone]
-	public class EditorMatchColumnTMSubstitutionTests<TWebDriverProvider> : BaseTest<TWebDriverProvider> where TWebDriverProvider : IWebDriverProvider, new()
+	public class EditorMatchColumnTMSubstitutionTests<TWebDriverProvider> : BaseTest<TWebDriverProvider>
+		where TWebDriverProvider : IWebDriverProvider, new()
 	{
 		[SetUp]
 		public void SetupTest()
@@ -80,7 +81,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Editor
 
 			var catRowNumber = _editorPage.CatTypeRowNumber(CatType.TM);
 
-            Assert.IsTrue(_editorPage.IsCATPercentMatchTargetPercent(1, catRowNumber),
+			Assert.IsTrue(_editorPage.IsCATPercentMatchTargetPercent(1, catRowNumber),
 				"Произошла ошибка:\n Процент совпадения в CAT-панели и в таргете не совпадает.");
 		}
 
@@ -96,7 +97,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Editor
 
 			var catRowNumber = _editorPage.CatTypeRowNumber(CatType.TM);
 
-            Assert.IsTrue(_editorPage.IsCATPercentMatchTargetPercent(1, catRowNumber),
+			Assert.IsTrue(_editorPage.IsCATPercentMatchTargetPercent(1, catRowNumber),
 				"Произошла ошибка:\n Процент совпадения в CAT-панели и в таргете не совпадает.");
 		}
 
