@@ -1,10 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Threading;
-
-using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings.SettingsDialog;
 
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.PageObjects;
@@ -17,6 +13,7 @@ using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.DocumentUploadDialog;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace;
 using AbbyyLS.SmartCAT.Selenium.Tests.TestFramework;
+using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings.SettingsDialog;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 {
@@ -792,6 +789,19 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 			return DocumentRow.GetElementAttribute("class").Contains("opened");
 		}
 
+		/// <summary>
+		/// Получить спсиок джобов проекта
+		/// </summary>
+		/// <param name="projectName">название проекта</param>
+		public IList<string> GetJobList(string projectName)
+		{
+			CustomTestContext.WriteLine("Получить спсиок джобов проекта '{0}'.", projectName);
+			var jobList = Driver.GetTextListElement(By.XPath(JOB_LIST.Replace("*#*", projectName)));
+			jobList.Sort();
+
+			return jobList;
+		}
+
 		#endregion
 
 		#region Объявление элементов страницы
@@ -851,7 +861,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 		protected IWebElement DocumentRef { get; set; }
 
 		protected IWebElement DocumentCheckBox { get; set; }
-
+		protected IWebElement JobList { get; set; }
 		protected IWebElement DeleteInProjectButton { get; set; }
 		protected IWebElement ProjectAssignTaskButton { get; set; }
 		protected IWebElement QualityAssuranceCheckButton { get; set; }
@@ -901,6 +911,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 		protected const string TASK_LIST = "//table[contains(@data-bind, 'workflowStagesForCurrentUser')]//tr";
 		protected const string GREEN_CREATE_PROJECT_BUTTON = "//div[@class='g-page']//div[contains(@class, 'corprmenu')]//a[contains(@href, 'NewProject') and contains(@class, 'corprmenu__project-btn')]";
 		protected const string MY_TASK = ".//table[contains(@class,'js-tasks-table')]//tr//*[@class='js-name'][(local-name() ='a' or local-name() ='span') and text()='*#*']/../../../following-sibling::tr[contains(@class, 'js-document-row')][*##*]/following-sibling::tr[contains(@class, 'js-document-panel')]//td[contains(@class,'my-assignments') and contains(text(),'*###*')]";
+		protected const string JOB_LIST = "//a[text()='*#*']/../../../following-sibling::tr//../../../following-sibling::tr[contains(@class, 'js-document-row')]//a[contains(@class, 'project__doc-link')]";
 
 		#endregion
 	}
