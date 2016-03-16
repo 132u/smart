@@ -42,7 +42,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 				"Произошла ошибка:\n проект {0} не появился в списке проектов.", _projectUniqueName);
 		}
 
-		[Test]
+		[Test, Description("S-7137")]
 		public void CreateProjectViaGreenCreateProjectButtonTest()
 		{
 			_projectsPage.ClickGreenCreateProjectButton();
