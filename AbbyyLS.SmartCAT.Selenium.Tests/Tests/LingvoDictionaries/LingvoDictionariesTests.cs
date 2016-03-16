@@ -74,7 +74,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.LingvoDictionaries
 			_workspacePage.GoToSearchPage();
 		}
 
-		[Test]
+		[Test, Description("S-7297")]
 		public void SearchTest()
 		{
 			var search_query = "tester";

@@ -63,7 +63,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 				"Произошла ошибка:\n текст в термине не совпадает с ожидаемым.");
 		}
 
-		[Test]
+		[Test, Description("S-7295")]
 		public void SearchTermTest()
 		{
 			var uniqueData = DateTime.UtcNow.Ticks + "SearchTest";

@@ -86,7 +86,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 				task, taskNumber: 2), "Произошла ошибка:\n задача не соответствует ожидаемой");
 		}
 
-		[Test]
+		[Test, Description("S-7186")]
 		public void AddTaskForExistingProject()
 		{
 			_createProjectHelper.CreateNewProject(_projectUniqueName);
@@ -159,7 +159,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 				"Произошла ошибка:\n добавленная задача не соответствует ожидаемой");
 		}
 
-		[Test]
+		[Test, Description("S-7187")]
 		public void DeleteTaskOnExistingProject()
 		{
 			_createProjectHelper.CreateNewProject(
