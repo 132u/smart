@@ -98,7 +98,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Login
 			SetEmail(email);
 			// Авторизация меняется не в первый раз (то с одной страницей, то с двумя).
 			// Оставлю этот шаг на случай, если в будущем опять появится переход.
-			//ClickNextButton();
+			ClickNextButton();
 			SetPassword(password);
 			var selectAccountForm = ClickSubmitButton();
 

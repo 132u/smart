@@ -29,7 +29,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Login
 			Driver.WaitPageTotalLoad();
 			if (!IsCreateAccountPageOpened())
 			{
-				throw new XPathLookupException("Произошла ошибка:\n не загрузилась форма выбора профиля.");
+				throw new XPathLookupException("Произошла ошибка:\n не загрузилась форма создания аккаунта.");
 			}
 		}
 

@@ -100,23 +100,23 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Authorization
 		public void SignInWithCourseraAccount()
 		{
 			var accountName= "Coursera";
-			var email= "testusercoursera@mailforspam.com";
-			var nickName= "testusercoursera@mailforspam.com";
+			var email = "testusercoursera@mailforspam.com";
+			var nickName = "testusercoursera@mailforspam.com";
+			var name = "testusercoursera";
+			var surname = "testusercoursera";
 			var password= "13grC89p";
 
 			_commonHelper.GoToAdminUrl();
 
 			_adminSignInPage.SignIn(ThreadUser.Login, ThreadUser.Password);
 
-			_adminHelper.CreateUserWithSpecificAndPersonalAccount(
-				email: email,
-				name: nickName,
-				surname: nickName,
-				nickName: nickName,
-				password: password,
-				accountName: accountName,
-				personalAccountActiveState: false,
-				aolUser: true);
+			_adminHelper
+				.CreateNewUser(
+					email: email,
+					nickName: nickName,
+					password: password,
+					aolUser: true)
+				.AddUserToAdminGroupInAccountIfNotAdded(email, name, surname, accountName); ;
 
 			_commonHelper.GoToSignInPage();
 
