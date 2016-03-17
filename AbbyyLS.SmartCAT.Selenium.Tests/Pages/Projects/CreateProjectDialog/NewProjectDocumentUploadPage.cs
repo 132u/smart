@@ -143,10 +143,11 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 		/// <param name="filePath">путь до файла</param>
 		public bool IsDocumentFileUploaded(string filePath)
 		{
-			var fileName = Path.GetFileName(filePath);
-			CustomTestContext.WriteLine("Проверить, что документ {0} загрузился.", fileName);
+			var fileName = Path.GetFileNameWithoutExtension(filePath);
+			var extension = Path.GetExtension(filePath).ToLower();
+			CustomTestContext.WriteLine("Проверить, что документ {0} загрузился.", fileName + extension);
 
-			return Driver.WaitUntilElementIsDisplay(By.XPath(UPLOADED_DOCUMENT.Replace("*#*", fileName)), timeout: 120);
+			return Driver.WaitUntilElementIsDisplay(By.XPath(UPLOADED_DOCUMENT.Replace("*#*", fileName + extension)), timeout: 120);
 		}
 
 		/// <summary>
@@ -245,7 +246,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 		protected const string SKIP_DOCUMENT_UPLOAD_BUTTON = "//span[@class='skip-step']";
 		protected const string UPLOADED_DOCUMENT = "//div[contains(@class,'item')]//span[text()='*#*']//..//..//i[not(contains(@class,'loading')) and contains(@data-bind,'loading')]";
 		protected const string UPLOAD_DOCUMENT_INPUT = "//input[contains(@data-bind,'uploadFilesFromFileInput')]";
-		protected const string UPLOADED_TMX = "//td[@class='filename']//span[text()='*#*']//..//..//..//..//..//..//..//div[contains(@data-bind , 'stopBubble: true')]";
+		protected const string UPLOADED_TMX = "//div[contains(@class,'item')]//span[text()='*#*']//..//..//..//..//..//..//..//div[contains(@data-bind , 'stopBubble: true') and contains(@data-bind, 'selectTranslationMemory')]";
 		protected const string SETTINGS_BUTTON = "//div[contains(@class,'first-animated-btn') and not(contains(@disabled, 'true'))]";
 		protected const string CANCEL_BUTTON = "//a[contains(@data-bind,'cancel')]";
 		protected const string DELETE_DOCUMENT_BUTTON = "//td[@class='filename']//span[text()='*#*']//ancestor::table//preceding-sibling::div//i[contains(@data-bind,'removeDocument')]";
