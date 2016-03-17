@@ -24,7 +24,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 		{
 			_workspacePage.GoToUsersPage();
 
-			_usersTab.ClickGroupsButton()
+			_usersTab
+				.ClickGroupsButton()
 				.RemoveUserFromAllGroups(nickName)
 				.OpenNewGroupDialog();
 

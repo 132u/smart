@@ -281,6 +281,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 		public bool IsGlossaryExist(string glossaryName)
 		{
 			CustomTestContext.WriteLine("Проверить, что глоссарий {0} присутствует в списке.", glossaryName);
+			Driver.FindElement(By.XPath(GLOSSARY_ROW.Replace("*#*", glossaryName))).Scroll();
 
 			return Driver.WaitUntilElementIsDisplay(By.XPath(GLOSSARY_ROW.Replace("*#*", glossaryName)));
 		}
@@ -302,6 +303,16 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 		{
 			return IsDialogBackgroundDisappeared() &&
 				Driver.WaitUntilElementIsDisplay(By.XPath(GLOSSARY_TABLE));
+		}
+
+		/// <summary>
+		/// Проверить, отображается ли кнопка создания глоссария
+		/// </summary>
+		public bool IsCreateGlossaryButtonDisplayed()
+		{
+			CustomTestContext.WriteLine("Проверить, отображается ли кнопка создания глоссария.");
+
+			return Driver.GetIsElementExist(By.XPath(CREATE_GLOSSARY_BUTTON));
 		}
 
 		#endregion

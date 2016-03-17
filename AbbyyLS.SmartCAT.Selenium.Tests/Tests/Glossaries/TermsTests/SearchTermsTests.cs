@@ -38,7 +38,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 			Assert.IsTrue(_glossaryPage.IsDefaultTermsCountMatchExpected(expectedTermCount: 1),
 				"Произошла ошибка:\n неверное количество терминов");
 
-			Assert.AreEqual(term3, _glossaryPage.FirstTermText(),
+			Assert.AreEqual(term3, _glossaryPage.GetTermText(),
 				"Произошла ошибка:\n текст в термине не совпадает с ожидаемым.");
 		}
 
@@ -59,7 +59,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 			Assert.IsTrue(_glossaryPage.IsDefaultTermsCountMatchExpected(expectedTermCount: 1),
 				"Произошла ошибка:\n неверное количество терминов");
 
-			Assert.AreEqual(term3, _glossaryPage.FirstTermText(),
+			Assert.AreEqual(term3, _glossaryPage.GetTermText(),
 				"Произошла ошибка:\n текст в термине не совпадает с ожидаемым.");
 		}
 

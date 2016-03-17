@@ -598,13 +598,14 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 		}
 
 		/// <summary>
-		/// Получить текст из первого термина.
+		/// Получить текст из термина.
 		/// </summary>
-		public string FirstTermText()
+		public string GetTermText(int termNumber = 1)
 		{
-			CustomTestContext.WriteLine("Получить текст из первого термина.");
+			CustomTestContext.WriteLine("Получить текст из {0} термина.", termNumber);
+			Term = Driver.SetDynamicValue(How.XPath, TERM, termNumber.ToString());
 
-			return FirstTerm.Text.Trim();
+			return Term.Text.Trim();
 		}
 
 		/// <summary>
@@ -1196,7 +1197,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 		public bool IsGlossaryPageOpened()
 		{
 			return IsDialogBackgroundDisappeared() &&
-			       Driver.WaitUntilElementIsDisplay(By.XPath(NEW_ENTRY_BUTTON), timeout: 30);
+			       Driver.WaitUntilElementIsDisplay(By.XPath(SUGGEST_TERM_BUTTON), timeout: 30);
 		}
 
 		/// <summary>
@@ -1611,8 +1612,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 
 		#region Объявление элементов страницы
 
-		[FindsBy(How = How.XPath, Using = FIRST_TERM)]
-		protected IWebElement FirstTerm { get; set; }
+		[FindsBy(How = How.XPath, Using = TERM)]
+		protected IWebElement Term { get; set; }
 
 		[FindsBy(How = How.XPath, Using = SEARCH_INPUT)]
 		protected IWebElement SearchInput { get; set; }
@@ -1800,7 +1801,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 		protected const string CANCEL_BUTTON = "//tr[contains(@class, 'js-concept-row js-editing opened')]//i[contains(@class, 'js-cancel-btn')]";
 		protected const string SEARCH_INPUT = "//input[@name='searchTerm']";
 		protected const string SEARCH_BUTTON = "//a[@title='Search']";
-		protected const string FIRST_TERM = "//tr[contains(@class, 'js-concept-row')]//td[contains(@class,'glossaryShort')]//p";
+		protected const string TERM = "//tr[contains(@class, 'js-concept-row')]//td[contains(@class,'glossaryShort')][*#*]//p";
 		protected const string LANGUAGE_COLUMNS = "//tr[@class='js-table-header']//th[contains(@data-sort-by, 'Language')]";
 		protected const string EDIT_TERM_BUTTON = "//tr[contains(@class, 'js-concept-row')]//i[contains(@class,'js-edit-btn')]";
 		protected const string EDIT_ENTRY_BUTTON = "//div[contains(@class,'js-edit-btn')]";

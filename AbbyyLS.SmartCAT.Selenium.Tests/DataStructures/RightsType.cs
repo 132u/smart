@@ -4,6 +4,7 @@
 	{
 		ProjectCreation,
 		ProjectResourceManagement,
-		ProjectView
+		ProjectView,
+		GlossarySearch
 	}
 }

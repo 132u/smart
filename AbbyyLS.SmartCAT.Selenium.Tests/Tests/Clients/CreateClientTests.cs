@@ -65,7 +65,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Clients
 
 			_glossariesPage
 				.ClickCreateGlossaryButton()
-				.OpenClientsList();
+				.ClickClientsList();
 
 			Assert.IsTrue(_newGlossaryDialog.IsClientExistInList(_clientName),
 				"Произошла ошибка:\n клиент не отображается в списке клиентов при создании глоссария");

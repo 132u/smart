@@ -322,6 +322,7 @@
     <Compile Include="Tests\SupportTests\WorkspaceSupportButtonsTests.cs" />
     <Compile Include="Tests\UsersRights\CreateProjects\CreateProjectWithRightBaseTest.cs" />
     <Compile Include="Tests\UsersRights\CreateProjects\FormsAndButtonsAvailabilityTests.cs" />
+    <Compile Include="Tests\UsersRights\ManageGlossarySearch\ManageGlossarySearchTests.cs" />
     <Compile Include="Tests\UsersRights\ManageProjects\ManageProjectBaseTests.cs" />
     <Compile Include="Tests\UsersRights\ManageProjects\ProjectSettingsPage\ExportDocumentTests.cs" />
     <Compile Include="Tests\UsersRights\ManageProjects\ProjectSettingsPage\ManageProjectTests.cs" />

@@ -37,11 +37,24 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 		/// <summary>
 		/// Открыть список клиентов при создании глоссария
 		/// </summary>
-		public NewGlossaryDialog OpenClientsList()
+		public NewGlossaryDialog ClickClientsList()
 		{
 			CustomTestContext.WriteLine("Открыть список клиентов при создании глоссария");
 			ClientsList.Click();
 			Driver.WaitUntilElementIsDisplay(By.XPath(DROPDOWN_LIST));
+
+			return GetPage();
+		}
+
+		/// <summary>
+		/// Выбрать клиента в списке
+		/// </summary>
+		/// <param name="client">клиент</param>
+		public NewGlossaryDialog SelectClient(string client)
+		{
+			CustomTestContext.WriteLine("Выбрать клиента в списке.");
+			ClientItem = Driver.SetDynamicValue(How.XPath, CLIENT_ITEM, client);
+			ClientItem.Click();
 
 			return GetPage();
 		}
@@ -152,6 +165,17 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 		{
 			CustomTestContext.WriteLine("Нажать кнопку Add.");
 			AddButton.Click();
+
+			return GetPage();
+		}
+
+		/// <summary>
+		/// Нажать на поле комментария.
+		/// </summary>
+		public NewGlossaryDialog ClickComment()
+		{
+			CustomTestContext.WriteLine("Нажать на поле комментария.");
+			GlossaryComment.Click();
 
 			return GetPage();
 		}
@@ -280,13 +304,14 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 
 		[FindsBy(How = How.XPath, Using = ERROR_EXIST_NAME)]
 		protected IWebElement ErrorExistName { get; set; }
-
+		protected IWebElement ClientItem { get; set; }
 		protected IWebElement ProjectGroupsItem { get; set; }
 
 		#endregion
 
 		#region Описания XPath элементов
 
+		protected const string CLIENT_ITEM = "//span[contains(@class,'js-dropdown__list')]//span[@title='*#*']";
 		protected const string LANGUAGES_LIST = "//body/span[contains(@class,'js-dropdown')]//span[@title='*#*']";
 		protected const string GLOSSARY_NAME = ".//div[contains(@class,'js-popup-edit-glossary')][2]//input[@class='l-editgloss__nmtext']";
 		protected const string GLOSSARY_COMMENT = ".//div[contains(@class,'js-popup-edit-glossary')][2]//div[@class='l-editgloss__cont last']//textarea";
