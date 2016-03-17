@@ -51,18 +51,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 		}
 
 		/// <summary>
-		/// Закрыть уведомление
-		/// </summary>
-		public T ClickCancelNotifier<T>() where T : class, IAbstractPage<T>
-		{
-			CustomTestContext.WriteLine("Закрыть уведомление.");
-			CancelNotifierButton.Click();
-
-			var instance = Activator.CreateInstance(typeof(T), Driver) as T;
-			return instance.GetPage();
-		}
-
-		/// <summary>
 		/// Закрыть все уведомления
 		/// </summary>
 		public T CancelAllNotifiers<T>() where T : class, IAbstractPage<T>
@@ -71,22 +59,13 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 
 			var countNotifiers = GetCountExportNotifiers();
 
-			for (int i = 0; i < countNotifiers; i++)
+			for (int i = countNotifiers; i > 0; i--)
 			{
 				//sleep стоит,чтобы закрываемые уведомления успевали пропадать
 				Thread.Sleep(1000);
-				var cancelNotifierButton = Driver.WaitUntilElementIsClickable(By.XPath(NOTIFIER_CANCEL_BTN));
-				if (cancelNotifierButton != null)
-				{
-					CustomTestContext.WriteLine("Закрыть уведомление №{0}", i);
-					CancelNotifierButton.Click();
-				}
-				else
-				{
-					CustomTestContext.WriteLine(
-						"Уведомление №{0} не стало кликабильным. Вызвать метод снова, чтобы работать с актуальным числом уведомлений.", i);
-					CancelAllNotifiers<T>();
-				}
+				CancelNotifierButton = Driver.SetDynamicValue(How.XPath, NOTIFIER_CANCEL_BTN, i.ToString());
+				CustomTestContext.WriteLine("Закрыть уведомление №{0}", i);
+				CancelNotifierButton.Click();
 			}
 
 			var instance = Activator.CreateInstance(typeof(T), Driver) as T;
@@ -162,7 +141,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 		public string GetTextNotificationByNumber(int notificationNumber)
 		{
 			SwitchToNotificationByNumber(notificationNumber);
-		   
+
 			return GetTextUpperNotification();
 		}
 
@@ -295,7 +274,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 		[FindsBy(How = How.XPath, Using = NOTIFIER_DOWNLOAD_BTN)]
 		protected IWebElement DownloadNotifierButton { get; set; }
 
-		[FindsBy(How = How.XPath, Using = NOTIFIER_CANCEL_BTN)]
 		protected IWebElement CancelNotifierButton { get; set; }
 
 		protected IWebElement NotificationByNumber { get; set; }
@@ -304,7 +282,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 
 		#region Описания XPath элементов
 
-		protected const string NOTIFIER_CANCEL_BTN = "//div[@id='notifications-block']//div[contains(@class,'notifications-item')]//div[not(contains(@style,'none'))]//button//span[contains(text(), 'Close')]/..";
+		protected const string NOTIFIER_CANCEL_BTN = "(//div[@id='notifications-block']//div[contains(@class,'notifications-item')]//div[not(contains(@style,'none'))]//button//span[contains(text(), 'Close')]/..)[*#*]";
 		protected const string NOTIFIER_DOWNLOAD_BTN = "//div[@id='notifications-block']//div[contains(@class,'notifications-item')]//div[not(contains(@style,'none'))]//button//span[contains(text(),'Download')]/..";
 		protected const string NOTIFIER_MESSAGE = "//div[@id='notifications-block']//div[contains(@class,'notifications-item')]//span[@data-bind='html: message']";
 		protected const string NOTIFIER_MESSAGE_BY_TEXT = "//div[@id='notifications-block']//div[contains(@class,'notifications-item')]//div[not(@style)]//span[@data-bind='html: message'][contains(text(),'*#*')]";

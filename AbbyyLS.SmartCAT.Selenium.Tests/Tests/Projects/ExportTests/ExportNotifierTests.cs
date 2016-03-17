@@ -47,7 +47,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 				.ClickDownloadInProjectMenuButton(_projectUniqueName)
 				.ClickExportType(ExportType.Target);
 
-			_exportNotification.ClickCancelNotifier<ProjectsPage>();
+			_exportNotification.CancelAllNotifiers<ProjectsPage>();
 
 			Assert.IsTrue(_workspacePage.GetCountExportNotifiers() == 0,
 				"Произошла ошибка:\n остались открытые уведомления");
