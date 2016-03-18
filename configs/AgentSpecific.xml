@@ -11,8 +11,7 @@
 	/>
 
 	<ThreadUsers>
-		<ThreadUser Login="bobby@mailforspam.com" Password="YrdyNpnnu" NickName="Bobby Test" Name="Bobby" Surname="Test"/>
-		<ThreadUser Login="ringo123@mailforspam.com" Password="31415926" NickName="Ringo Star" Name="Ringo" Surname="Star"/>
+		<ThreadUser Login="i.khaptanova@mailforspam.com" Password="i.khaptanova" NickName="irina khaptanova" Name="irina" Surname="khaptanova"/>
 	</ThreadUsers>
 	
 	<TestUsers>

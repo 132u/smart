@@ -5,6 +5,7 @@
 		ProjectCreation,
 		ProjectResourceManagement,
 		ProjectView,
-		GlossarySearch
+		GlossarySearch,
+		TMManagement
 	}
 }

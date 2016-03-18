@@ -30,7 +30,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 			Language secondTargetLanguage = Language.NoLanguage,
 			string importFilePath = null,
 			DialogButtonType finalButtonType = DialogButtonType.Save,
-			bool isCreationErrorExpected = false)
+			bool isCreationErrorExpected = false,
+			string client = null,
+			string projectGroup = null)
 		{
 			_translationMemoriesPage.ClickCreateNewTmButton();
 
@@ -51,6 +53,16 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 			if (importFilePath != null)
 			{
 				_newTranslationMemoryDialog.UploadFile(importFilePath);
+			}
+
+			if (client != null)
+			{
+				_newTranslationMemoryDialog.SelectClient(client);
+			}
+
+			if (projectGroup != null)
+			{
+				_newTranslationMemoryDialog.SelectProjectGroup(projectGroup);
 			}
 
 			switch (finalButtonType)

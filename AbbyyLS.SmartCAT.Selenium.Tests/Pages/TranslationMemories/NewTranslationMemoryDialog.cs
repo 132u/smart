@@ -96,7 +96,33 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories
 		{
 			CustomTestContext.WriteLine("Раскрыть список клиентов");
 			CreateClientDropDown.Click();
-		    Driver.WaitUntilElementIsDisplay(By.XPath(CLIENT_LIST));
+			Driver.WaitUntilElementIsDisplay(By.XPath(CLIENT_LIST));
+
+			return GetPage();
+		}
+
+		/// <summary>
+		/// Выбрать клиента в дропдауне.
+		/// </summary>
+		/// <param name="clientName">имя клиента</param>
+		public NewTranslationMemoryDialog ClickClientOption(string clientName)
+		{
+			CustomTestContext.WriteLine("Выбрать клиента {0} в дропдауне.", clientName);
+			ClientOption = Driver.SetDynamicValue(How.XPath, CLIENT_ITEM, clientName);
+			ClientOption.Click();
+
+			return GetPage();
+		}
+
+		/// <summary>
+		/// Выбрать группу проектов в дропдауне.
+		/// </summary>
+		/// <param name="projectGroup">имя группы проектов</param>
+		public NewTranslationMemoryDialog ClickProjectGroupOption(string projectGroup)
+		{
+			CustomTestContext.WriteLine("Выбрать группу проектов {0} в дропдауне.", projectGroup);
+			ProjectOption = Driver.SetDynamicValue(How.XPath, PROJECT_GROUP_OPTION, projectGroup);
+			ProjectOption.Click();
 
 			return GetPage();
 		}
@@ -174,6 +200,29 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories
 
 		#region Составные методы страницы
 
+		/// <summary>
+		/// Выбрать клиента
+		/// </summary>
+		/// <param name="clientName">имя клиента</param>
+		public NewTranslationMemoryDialog SelectClient(string clientName)
+		{
+			OpenClientsList();
+			ClickClientOption(clientName);
+
+			return GetPage();
+		}
+
+		/// <summary>
+		/// Выбрать группу проектов
+		/// </summary>
+		/// <param name="projectGroup">имя клиента</param>
+		public NewTranslationMemoryDialog SelectProjectGroup(string projectGroup)
+		{
+			OpenProjectGroupsList();
+			ClickProjectGroupOption(projectGroup);
+
+			return GetPage();
+		}
 		/// <summary>
 		/// Выбрать target язык
 		/// </summary>
@@ -368,12 +417,15 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories
 		[FindsBy(How = How.XPath, Using = UPLOAD_FILE_FIELD)]
 		protected IWebElement UploadFileField { get; set; }
 
+		protected IWebElement ClientOption { get; set; }
+		protected IWebElement ProjectOption { get; set; }
 		#endregion
 
 		#region Описания XPath элементов
 
 		protected const string PROJECT_GROUPS_LIST = ".//div[contains(@class,'ui-multiselect-menu')][2]/ul//span[2]";
 		protected const string PROJECT_GROUP_FILTER= "//select[contains(@data-bind,'allDomainsList')]//following-sibling::div";
+		protected const string PROJECT_GROUP_OPTION = "//span[text()='*#*']//preceding-sibling::span//input[@name='multiselect_5']";
 
 		protected const string CLIENT = "//select[contains(@data-bind,'allClientsList')]//following-sibling::span";
 		protected const string CLIENT_LIST = "//select[contains(@data-bind,'allClientsList')]//following-sibling::span[contains(@class,'active')]";

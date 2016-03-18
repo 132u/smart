@@ -328,6 +328,8 @@
     <Compile Include="Tests\UsersRights\ManageProjects\ProjectSettingsPage\ManageProjectTests.cs" />
     <Compile Include="Tests\UsersRights\ManageProjects\ProjectsPage\FormsAndButtonsAvailabilityTests.cs" />
     <Compile Include="Tests\UsersRights\ManageProjects\ProjectsPage\ManageProjectTests.cs" />
+    <Compile Include="Tests\UsersRights\ManageTranslationMemories\ManageTranslationMemoriesBaseTests.cs" />
+    <Compile Include="Tests\UsersRights\ManageTranslationMemories\ManageTranslationMemoriesTests.cs" />
     <Compile Include="Tests\UsersRights\SuggestTermsWithoutSpecifyingGlossary\SuggestTermsWithoutRight.cs" />
     <Compile Include="Tests\ProjectGroups\ChangeProjectGroupTests.cs" />
     <Compile Include="Tests\ProjectGroups\DeleteProjectGroupTests.cs" />
@@ -435,7 +437,6 @@
     <Folder Include="Tests\UsersRights\ManageGlossaryContent\" />
     <Folder Include="Tests\UsersRights\ManagePaidResources\" />
     <Folder Include="Tests\UsersRights\ManageTMContent\" />
-    <Folder Include="Tests\UsersRights\ManageTMs\" />
     <Folder Include="Tests\UsersRights\ManageUsers\" />
     <Folder Include="Tests\UsersRights\SearchInGlossaries\" />
     <Folder Include="Tests\UsersRights\SearchInTMs\" />
