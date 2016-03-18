@@ -478,11 +478,10 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Drivers
 		public void SwitchToNewBrowserTab(int timeout = 3)
 		{
 			var timer = 1;
-			bool flag = false;
 			// Лог необходим для отладки теста SCAT-900 AssignUserOneTaskTest
 			CustomTestContext.WriteLine("Количество вкладок = {0}.", WindowHandles.Count);
 
-			while (!flag && timer <= timeout)
+			while (timer <= timeout)
 			{
 				Thread.Sleep(1000);
 				timer++;
@@ -492,8 +491,10 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Drivers
 					// Лог необходим для отладки теста SCAT-900 AssignUserOneTaskTest
 					CustomTestContext.WriteLine("Количество вкладок = {0}.", WindowHandles.Count);
 					SwitchTo().Window(WindowHandles.First()).Close();
+
 					SwitchTo().Window(WindowHandles.Last());
-					flag = true;
+
+					break;
 				}
 			}
 
@@ -501,8 +502,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Drivers
 			{
 				throw new Exception("Произошла ошибка:\n время ожидания открытия новой вкладки истекло");
 			}
-
-			CustomTestContext.WriteLine("Не открылась новая вкладка в браузере, после ожидания {0}х, секунд", timeout);
 		}
 
 		/// <summary>
