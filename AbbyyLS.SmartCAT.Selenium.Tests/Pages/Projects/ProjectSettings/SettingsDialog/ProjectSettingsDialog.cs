@@ -148,7 +148,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings.Setting
 		protected const string WORKFLOW_TAB = "(//div[contains(@class,'js-popup-edit')])[2]//a[contains(@data-bind,'workflowTab')]";
 		protected const string DELETE_TASK_BUTTON = "(//div[contains(@class,'js-popup-edit')][2]//a[contains(@data-bind,'deleteWorkflowStage')])[*#*]";
 		protected const string CONFIRM_DELETE_DIALOG = "//div[contains(@class,'js-popup-confirm')]";
-		protected const string SAVE_BUTTON = "//div[contains(@class, 'js-popup-wrapper js-popup-edit') and contains(@style, 'display: block')]//div[@class='g-popupbox__ft']//div//a";
+		protected const string SAVE_BUTTON = "//div[contains(@class, 'js-popup-bd js-popup-edit') and contains(@style, 'display: block')]//div[@class='g-popupbox__ft']//div//a";
 		protected const string WORKFLOW_LIST = "//div[contains(@class,'js-popup-edit')][2]//tbody[@data-bind='foreach: workflowStages']//tr//td[2]//span//span";
 		protected const string GEBERAL_TAB = "(//div[contains(@class,'js-popup-edit')])[2]//a[contains(@data-bind,'general')]";
 		#endregion
