@@ -169,7 +169,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings.Setting
 		
 		#region Описания XPath элементов
 
-		protected const string NEW_TASK_BUTTON = "//div[@class='g-popup-bd js-popup-bd js-popup-edit'][2]//div[contains(@data-bind, 'addWorkflowStage')]";
+		protected const string NEW_TASK_BUTTON = "//div[contains(@class, 'js-popup-wrapper js-popup-edit') and contains(@style, 'display: block')]//div[contains(@data-bind, 'addWorkflowStage')]//a";
 		protected const string TASK = "//div[contains(@class,'js-popup-edit')][2]//tbody[@data-bind='foreach: workflowStages']//tr[*#*]//td[2]//span//span";
 		protected const string TASK_LIST = "//span[contains(@class,'js-dropdown__item') and @title='*#*']";
 
