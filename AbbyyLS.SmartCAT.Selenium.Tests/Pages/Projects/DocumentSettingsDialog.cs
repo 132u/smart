@@ -5,6 +5,7 @@ using OpenQA.Selenium.Support.PageObjects;
 
 using AbbyyLS.SmartCAT.Selenium.Tests.DataStructures;
 using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
+using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings;
 using AbbyyLS.SmartCAT.Selenium.Tests.TestFramework;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
@@ -45,15 +46,25 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 		}
 
 		/// <summary>
-		/// Нажать кнопку сохранения
+		/// Нажать кнопку сохранения, ожидая страницу настрое проекта
 		/// </summary>
-		public T ClickSaveButton<T>(WebDriver driver) where T : class, IAbstractPage<T>
+		public ProjectSettingsPage ClickSaveButtonExpectingProjectSettingsPage()
 		{
-			CustomTestContext.WriteLine("Нажать кнопку сохранения");
-			SaveButton.Click();
+			CustomTestContext.WriteLine("Нажать кнопку сохранения, ожидая страницу настрое проекта");
+			SaveButtonProjectSettingsPage.Click();
 
-			var instance = Activator.CreateInstance(typeof (T), new object[] {driver}) as T;
-			return instance.GetPage();
+			return new ProjectSettingsPage(Driver).GetPage();
+		}
+
+		/// <summary>
+		/// Нажать кнопку сохранения, ожидая страницу со списком проектов
+		/// </summary>
+		public ProjectsPage ClickSaveButtonExpectingProjectsPage()
+		{
+			CustomTestContext.WriteLine("Нажать кнопку сохранения, ожидая страницу со списком проектов");
+			SaveButtonProjectsPage.Click();
+
+			return new ProjectsPage(Driver).GetPage();
 		}
 
 		/// <summary>
@@ -127,7 +138,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 		/// <param name="projectName">имя проекта</param>
 		public ProjectsPage CloseDocumentSettings(string projectName)
 		{
-			ClickSaveButton<ProjectsPage>(Driver);
+			ClickSaveButtonExpectingProjectsPage();
 			WaitUntilProjectLoadSuccessfully(projectName);
 
 			return new ProjectsPage(Driver).GetPage();
@@ -167,8 +178,11 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 		[FindsBy(How = How.XPath, Using = NAME_INPUT)]
 		protected IWebElement Name { get; set; }
 
-		[FindsBy(How = How.XPath, Using = SAVE_BUTTON)]
-		protected IWebElement SaveButton { get; set; }
+		[FindsBy(How = How.XPath, Using = SAVE_BUTTON_PROJECT_SETTINGS_PAGE)]
+		protected IWebElement SaveButtonProjectSettingsPage { get; set; }
+
+		[FindsBy(How = How.XPath, Using = SAVE_BUTTON_PROJECTS_PAGE)]
+		protected IWebElement SaveButtonProjectsPage { get; set; }
 
 		[FindsBy(How = How.XPath, Using = MT_CHECKBOX_INPUT)]
 		protected IWebElement MTCheckbox { get; set; }
@@ -186,7 +200,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 
 		protected const string TITLE = "(//h2[text()='Document Settings'])[3]";
 		protected const string NAME_INPUT = "//div[contains(@class,'document-settings')][3]//input[contains(@data-bind,'value: name')]";
-		protected const string SAVE_BUTTON = "//div[contains(@class,'g-popup-bd js-popup-bd js-popup-single-target-document-settings')][2]//div[contains(@data-bind,'click: save')]";
+		protected const string SAVE_BUTTON_PROJECT_SETTINGS_PAGE = "(//div[contains(@class,'g-popupbox js-popupbox l-editgloss')])[11]//div[contains(@data-bind,'save')]";
+		protected const string SAVE_BUTTON_PROJECTS_PAGE = "(//div[contains(@class,'g-popupbox js-popupbox l-editgloss')])[9]//div[contains(@data-bind,'save')]";
 		protected const string MT_CHECKBOX_INPUT = "//span[text()='*#*']/../../preceding-sibling::td//input";
 		protected const string MT_CHECKBOX = "//span[text()='*#*']/../../preceding-sibling::td";
 		protected const string GLOSSARY_BY_NAME_XPATH = "(//h2[text()='Document Settings']//..//..//table[contains(@class,'l-corpr__tbl')]//tbody[@data-bind='foreach: glossaries']//tr[contains(string(), '*#*')])[1]//td//input";

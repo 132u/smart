@@ -127,7 +127,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 			_documentSettingsDialog
 				.HoverGlossaryTableDocumentSettingsDialog()
 				.ClickGlossaryByName(glossaryName)
-				.ClickSaveButton<ProjectSettingsPage>(Driver)
+				.ClickSaveButtonExpectingProjectSettingsPage()
 				.ClickDocumentProgress(documentName);
 
 			return this;

@@ -376,7 +376,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 
 			_documentSettingsDialog
 				.SetDocumentName(newDocumentName)
-				.ClickSaveButton<ProjectsPage>(Driver)
+				.ClickSaveButtonExpectingProjectsPage()
 				.WaitCreateProjectDialogDisappear();
 
 			_projectsPage
