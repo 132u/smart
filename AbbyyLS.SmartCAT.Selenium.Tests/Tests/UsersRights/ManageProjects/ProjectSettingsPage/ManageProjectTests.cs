@@ -102,7 +102,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersRights.ManageProjects.Proje
 		{
 			var file = Path.GetFileNameWithoutExtension(PathProvider.DocumentFile);
 
-			Assert.AreEqual(DocumentStatus.Created.ToString(), _projectSettingsPage.GetProjectStatus(file),
+			Assert.AreEqual(DocumentStatus.Created.ToString(), _projectSettingsPage.GetDocumentStatus(file),
 				"Произошла ошибка:\n Неверный статус документа {0}.", file);
 
 			_projectSettingsPage
@@ -121,7 +121,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersRights.ManageProjects.Proje
 				.ConfirmSegmentTranslation()
 				.ClickHomeButtonExpectingProjectSettingsPage();
 
-			Assert.AreEqual(DocumentStatus.InProgress.Description(), _projectSettingsPage.GetProjectStatus(file),
+			Assert.AreEqual(DocumentStatus.InProgress.Description(), _projectSettingsPage.GetDocumentStatus(file),
 				"Произошла ошибка:\n Неверный статус документа {0}.", file);
 		}
 

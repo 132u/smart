@@ -394,14 +394,14 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings
 		}
 
 		/// <summary>
-		/// Получить статус проекта
+		/// Получить статус документа
 		/// </summary>
-		/// <param name="projectName">название проекта</param>
-		public string GetProjectStatus(string projectName)
+		/// <param name="fileName">название документа</param>
+		public string GetDocumentStatus(string fileName)
 		{
-			CustomTestContext.WriteLine("Получить статус проекта.");
+			CustomTestContext.WriteLine("Получить статус документа.");
 
-			return Driver.SetDynamicValue(How.XPath, PROJECT_STATUS, projectName).Text;
+			return Driver.SetDynamicValue(How.XPath, DOCUMENT_STATUS, fileName).Text;
 		}
 
 		#endregion
@@ -738,7 +738,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings
 		protected const string PROJECT_NAME = "//a[@class='current-doc']";
 		protected const string TASK_FOR_CURRENT_USER = "//table[contains(@data-bind, 'workflowStagesForCurrentUser')]//td[contains(@class, 'assignments') and contains(text(),'*#*')]";
 		protected const string DECLINE_BUTTON = "//table[contains(@data-bind, 'workflowStagesForCurrentUser')]//div[contains(@data-bind, 'reject')]";
-		protected const string PROJECT_STATUS = "//tr[contains(@class, 'document-row')]//td//a[contains(text(),'*#*')]/../../..//td[contains(@class,'status')]//p";
+		protected const string DOCUMENT_STATUS = "//tr[contains(@class, 'document-row')]//td//a[contains(text(),'*#*')]/../../..//td[contains(@class,'status')]//p";
 
 		#endregion
 	}

@@ -100,6 +100,19 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 		}
 
 		/// <summary>
+		/// Кликнуть по ссылке проекта без открытия страницы проекта
+		/// </summary>
+		/// <param name="projectName">имя проекта</param>
+		public ProjectsPage ClickProjectWithoutProjectSettingPageOpened(string projectName)
+		{
+			CustomTestContext.WriteLine("ККликнуть по ссылке проекта без открытия страницы проекта {0}.", projectName);
+			ProjectRef = Driver.SetDynamicValue(How.XPath, PROJECT_REF, projectName);
+			ProjectRef.JavaScriptClick();
+			
+			return GetPage();
+		}
+
+		/// <summary>
 		/// Нажать на кнопку 'Создать проект'
 		/// </summary>
 		public NewProjectDocumentUploadPage ClickCreateProjectButton()
@@ -108,6 +121,17 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 			CreateProjectButton.Click();
 
 			return new NewProjectDocumentUploadPage(Driver).GetPage();
+		}
+
+		/// <summary>
+		/// Поставить галочку в главном чекбоксе.
+		/// </summary>
+		public ProjectsPage ClickMainCheckbox()
+		{
+			CustomTestContext.WriteLine("Поставить галочку в главном чекбоксе.");
+			MainCheckboxe.Click();
+
+			return GetPage();
 		}
 
 		/// <summary>
@@ -393,6 +417,18 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 			return Driver.SetDynamicValue(How.XPath, PROJECT_STATUS, projectName).GetAttribute("title");
 		}
 
+		/// <summary>
+		/// Получить статус проекта
+		/// </summary>
+		/// <param name="projectName">название проекта</param>
+		public string GetProjectStatusRights(string projectName)
+		{
+			CustomTestContext.WriteLine("Получить статус проекта");
+			ProjectStatusRights = Driver.SetDynamicValue(How.XPath, PROJECT_STATUS_RIGHTS, projectName);
+
+			return ProjectStatusRights.Text;
+		}
+
 		#endregion
 
 		#region Составные методы страницы
@@ -458,6 +494,23 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 			CustomTestContext.WriteLine("Проверить, что отображается кнопка загрузки документа.");
 			
 			return Driver.WaitUntilElementIsDisplay(By.XPath(UPLOAD_DOCUMENT_BUTTON));
+		}
+
+		/// <summary>
+		/// Проверить, что все чекбоксы чекнуты
+		/// </summary>
+		public bool AreAllCheckboxesChecked()
+		{
+			CustomTestContext.WriteLine("Проверить, что все чекбоксы чекнуты.");
+			foreach (var checkbox in Driver.GetElementList(By.XPath(ALL_CHECKBOXES)))
+			{
+				if (!checkbox.Selected)
+				{
+					return false;
+				}
+			}
+
+			return true;
 		}
 
 		/// <summary>
@@ -677,6 +730,27 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 			return Driver.WaitUntilElementIsDisplay(By.XPath(GREEN_CREATE_PROJECT_BUTTON));
 		}
 
+		/// <summary>
+		/// Проверить, что раскрыта вкладка проекта
+		/// </summary>
+		/// <param name="projectName">имя проекта</param>
+		public bool IsProjectPanelExpanded(string projectName)
+		{
+			CustomTestContext.WriteLine("Проверить, что раскрыта вкладка проекта {0}", projectName);
+
+			return getClassAttributeProjectInfo(projectName).Contains("opened");
+		}
+
+		/// <summary>
+		/// Проверить, что отображается кнопка удалить
+		/// </summary>
+		public bool IsProjectDeleteButtonDisplayed()
+		{
+			CustomTestContext.WriteLine("Проверить, что отображается кнопка удалить");
+
+			return Driver.GetIsElementExist(By.XPath(DELETE_BUTTON));
+		}
+		
 		public bool IsMyTaskDisplayed(string projectName, int documentNumber = 1, WorkflowTask task = WorkflowTask.Translation)
 		{
 			CustomTestContext.WriteLine("Проверить, что отображается задача {0} для текущего пользователя в проекте {1}.", task, projectName);
@@ -806,6 +880,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 
 		#region Объявление элементов страницы
 
+		[FindsBy(How = How.XPath, Using = MAIN_CHECKBOXE)]
+		protected IWebElement MainCheckboxe { get; set; }
+
 		[FindsBy(How = How.XPath, Using = EXPORT_TYPE)]
 		protected IWebElement ExportType { get; set; }
 
@@ -865,6 +942,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 		protected IWebElement DeleteInProjectButton { get; set; }
 		protected IWebElement ProjectAssignTaskButton { get; set; }
 		protected IWebElement QualityAssuranceCheckButton { get; set; }
+		protected IWebElement ProjectStatusRights { get; set; }
+
 		#endregion
 
 		#region Описания XPath элементов
@@ -912,7 +991,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 		protected const string GREEN_CREATE_PROJECT_BUTTON = "//div[@class='g-page']//div[contains(@class, 'corprmenu')]//a[contains(@href, 'NewProject') and contains(@class, 'corprmenu__project-btn')]";
 		protected const string MY_TASK = ".//table[contains(@class,'js-tasks-table')]//tr//*[@class='js-name'][(local-name() ='a' or local-name() ='span') and text()='*#*']/../../../following-sibling::tr[contains(@class, 'js-document-row')][*##*]/following-sibling::tr[contains(@class, 'js-document-panel')]//td[contains(@class,'my-assignments') and contains(text(),'*###*')]";
 		protected const string JOB_LIST = "//a[text()='*#*']/../../../following-sibling::tr//../../../following-sibling::tr[contains(@class, 'js-document-row')]//a[contains(@class, 'project__doc-link')]";
-
+		protected const string ALL_CHECKBOXES = "//input[@type='checkbox']";
+		protected const string MAIN_CHECKBOXE = "//thead//tr[1]//input[@type='checkbox' and contains(@data-bind, 'allProjectsChecked')]";
+		protected const string PROJECT_STATUS_RIGHTS = ".//table[contains(@class,'js-tasks-table')]//tr//*[@class='js-name'][(local-name() ='a' or local-name() ='span') and text()='*#*']/../..//following-sibling::td//p[contains(@data-bind, 'displayStatus')]";
 		#endregion
 	}
 }

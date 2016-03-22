@@ -50,6 +50,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Windows.Forms" />
@@ -403,6 +404,9 @@
     <Compile Include="Tests\Projects\WorkflowTests\WorkflowTests.cs" />
     <Compile Include="Tests\UsersRights\UserRightsTests.cs" />
     <Compile Include="Tests\UsersRights\UserRightsWorkflowTests.cs" />
+    <Compile Include="Tests\UsersRights\ViewProjects\ViewProjectFormsAndButtonsAvailabilityTests.cs" />
+    <Compile Include="Tests\UsersRights\ViewProjects\ViewProjectBaseTests.cs" />
+    <Compile Include="Tests\UsersRights\ViewProjects\ViewProjectTests.cs" />
     <Compile Include="TestUser.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -442,7 +446,6 @@
     <Folder Include="Tests\UsersRights\ManageUsers\" />
     <Folder Include="Tests\UsersRights\SearchInGlossaries\" />
     <Folder Include="Tests\UsersRights\SearchInTMs\" />
-    <Folder Include="Tests\UsersRights\ViewProjects\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

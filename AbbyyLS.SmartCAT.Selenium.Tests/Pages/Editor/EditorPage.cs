@@ -112,7 +112,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		{
 			CustomTestContext.WriteLine("Нажать кнопку 'Подтвердить сегмент'.");
 			ConfirmButton.AdvancedClick();
-			Driver.WaitUntilElementIsDisplay(By.XPath(ALL_SEGMENTS_SAVED_STATUS));
+			Driver.WaitUntilElementIsDisplay(By.XPath(ALL_SEGMENTS_SAVED_STATUS), timeout: 30);
 
 			return GetPage();
 		}
@@ -1130,6 +1130,27 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 			CustomTestContext.WriteLine("Проверить, что все термины сохранены.");
 
 			return Driver.WaitUntilElementIsDisplay(By.XPath(ALL_SEGMENTS_SAVED_STATUS));
+		}
+
+		/// <summary>
+		/// Дождаться сообщения, что все термины сохранены.
+		/// </summary>
+		public EditorPage WaitAllSegmentsSavedMessageDisplayed()
+		{
+			CustomTestContext.WriteLine("Дождаться сообщения, что все термины сохранены.");
+			int t = 0;
+			while(t < 60 && !Driver.WaitUntilElementIsDisplay(By.XPath(ALL_SEGMENTS_SAVED_STATUS)))
+			{
+				Thread.Sleep(1000);
+				t++;
+			}
+
+			if (!Driver.WaitUntilElementIsDisplay(By.XPath(ALL_SEGMENTS_SAVED_STATUS)))
+			{
+				throw new Exception("Термины в редакторе не сохранились.");
+			}
+
+			return GetPage();
 		}
 
 		/// <summary>

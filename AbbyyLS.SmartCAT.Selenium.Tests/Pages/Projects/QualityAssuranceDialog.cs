@@ -36,7 +36,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 		/// </summary>
 		public bool IsQualityAssuranceDialogOpened()
 		{
-			return Driver.WaitUntilElementIsDisplay(By.XPath(CHECK_FOR_ERRORS_BUTTON));
+			return Driver.WaitUntilElementIsDisplay(By.XPath(DOWNLOAD_REPORT_BUTTON));
 		}
 
 		#endregion
@@ -51,7 +51,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 		#region Описания XPath элементов страницы
 
 		protected const string CHECK_FOR_ERRORS_BUTTON = "//div[contains(@class, 'qa-check-report-popup')][2]//div[contains(@data-bind, 'checkForErrors')]";
-
+		protected const string DOWNLOAD_REPORT_BUTTON = "//div[contains(@class, 'qa-check-report-popup')][2]//div[contains(@data-bind, 'downloadReport')]";
 		#endregion
 	}
 }
