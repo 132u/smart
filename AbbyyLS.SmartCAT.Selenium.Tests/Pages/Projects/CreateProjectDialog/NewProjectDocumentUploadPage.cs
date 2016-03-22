@@ -106,7 +106,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 		/// Загрузка документа
 		/// </summary>
 		/// <param name="filesPaths">путь к файлу</param>
-		public NewProjectDocumentUploadPage UploadDocumentFiles(IList<string> filesPaths)
+		/// <param name="errorExpecting">ожидание сообщения об ошибке</param>
+		public NewProjectDocumentUploadPage UploadDocumentFiles(
+			IList<string> filesPaths, bool errorExpecting = false)
 		{
 			foreach (var filePath in filesPaths)
 			{
@@ -114,9 +116,12 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 				makeInputDialogVisible();
 				SetFileName(filePath);
 
-				if (!IsDocumentFileUploaded(filePath))
+				if (!errorExpecting)
 				{
-					throw new Exception("Произошла ошибка: документ не загрузился");
+					if (!IsDocumentFileUploaded(filePath))
+					{
+						throw new Exception("Произошла ошибка: документ не загрузился");
+					}
 				}
 			}
 
@@ -282,7 +287,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 		protected const string CANCEL_BUTTON = "//a[contains(@data-bind,'cancel')]";
 		protected const string DELETE_DOCUMENT_BUTTON = "//span[text()='*#*']/../..//i[contains(@data-bind,'removeDocument')]";
 		protected const string DUPLICATE_NAME_ERROR = "//div[contains(@class,'js-info-popup')]//span[contains(string(),'The following files have already been added to the project')]";
-		protected const string ERROR_FORMAT_DOCUMENT_MESSAGE = "//td[@class='filename']//span[@class='errorFileName' and text()='*#*']/../span[@class='mess-err' and @data-bind='if: unsupportedFormat' and text()='Unknown format']";
+		protected const string ERROR_FORMAT_DOCUMENT_MESSAGE = "//div[@class='fileError']//span[contains(@class, 'errorFileName') and text()='*#*']/../span[@class='mess-err' and @data-bind='if: unsupportedFormat' and text()='Unknown format']";
 		protected const string PROJECT_NAME_INPUT = "//div[@class='edit_proj_title']//input[@name='name']";
 
 		#endregion
