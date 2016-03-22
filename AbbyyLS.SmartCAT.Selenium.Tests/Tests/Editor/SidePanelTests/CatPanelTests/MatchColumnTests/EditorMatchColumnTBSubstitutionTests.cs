@@ -30,7 +30,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Editor
 
 			_createProjectHelper.CreateNewProject(
 				projectName: projectUniqueName,
-				filePath: PathProvider.TxtFileForMatchTest,
+				filesPaths: new[] { PathProvider.TxtFileForMatchTest },
 				glossaryName: _glossaryUniqueName);
 
 			_projectsPage.ClickProject(projectUniqueName);

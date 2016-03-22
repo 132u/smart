@@ -13,7 +13,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 		[SetUp]
 		public void SetupSortingInProjectsTests()
 		{
-			_createProjectHelper.CreateNewProject(_projectUniqueName, filePath: PathProvider.DocumentFile);
+			_createProjectHelper.CreateNewProject(
+				_projectUniqueName, filesPaths: new[] { PathProvider.DocumentFile });
+
 			_projectsPage.ClickProject(_projectUniqueName);
 		}
 

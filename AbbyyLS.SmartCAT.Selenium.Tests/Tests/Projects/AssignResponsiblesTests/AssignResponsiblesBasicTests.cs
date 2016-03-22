@@ -16,7 +16,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 		[SetUp]
 		public void SetUpAssignResponsiblesBasicTests()
 		{
-			_createProjectHelper.CreateNewProject(_projectUniqueName, filePath: PathProvider.EditorTxtFile);
+			_createProjectHelper.CreateNewProject(
+				_projectUniqueName, filesPaths: new []{ PathProvider.EditorTxtFile });
 		}
 
 		[Test(Description = "ТС-11")]

@@ -36,7 +36,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 
 			_exportNotification.CancelAllNotifiers<ProjectsPage>();
 
-			_createProjectHelper.CreateNewProject(_projectUniqueName, filePath: PathProvider.DocumentFileToConfirm1);
+			_createProjectHelper.CreateNewProject(
+				_projectUniqueName, filesPaths: new[] { PathProvider.DocumentFileToConfirm1 });
 		}
 
 		[Test]
@@ -145,14 +146,13 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 		public void ExportProjectsCheckNotifierText()
 		{
 			var projectUniqueName2 = _createProjectHelper.GetProjectUniqueName();
+			var expextedText = "Documents";
 
-			_createProjectHelper.CreateNewProject(projectUniqueName2, filePath: PathProvider.DocumentFileToConfirm1);
-
-			_projectsPage.ClickProject(projectUniqueName2);
-
-			_projectSettingsHelper.UploadDocument(new[] {PathProvider.DocumentFileToConfirm2});
-
-			_workspacePage.GoToProjectsPage();
+			_createProjectHelper.CreateNewProject(
+				projectUniqueName2,
+				filesPaths: new[] {
+					PathProvider.DocumentFileToConfirm1,
+					PathProvider.DocumentFileToConfirm2 });
 
 			_projectsPage
 				.ClickProjectCheckboxInList(_projectUniqueName)
@@ -160,7 +160,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 				.ClickDownloadInMainMenuButton()
 				.ClickExportType(ExportType.Source);
 
-			string expextedText = "Documents";
 			Assert.IsTrue(_exportNotification.IsUpperNotificationContainsText(expextedText),
 				"Произошла ошибка:\n сообщение не содержит искомый текст: {0}", expextedText);
 		}
@@ -170,7 +169,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 		{
 			var projectUniqueName2 = _createProjectHelper.GetProjectUniqueName();
 
-			_createProjectHelper.CreateNewProject(projectUniqueName2, filePath: PathProvider.DocumentFileToConfirm1);
+			_createProjectHelper.CreateNewProject(
+				projectUniqueName2, filesPaths: new[] { PathProvider.DocumentFileToConfirm1 });
 
 			_projectsPage.ClickProject(projectUniqueName2);
 
@@ -242,13 +242,13 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 		{
 			var projectUniqueName2 = _createProjectHelper.GetProjectUniqueName();
 
-			_createProjectHelper.CreateNewProject(projectUniqueName2, filePath: PathProvider.DocumentFileToConfirm1);
-
-			_projectsPage.ClickProject(projectUniqueName2);
-
-			_projectSettingsHelper.UploadDocument(new[] {PathProvider.DocumentFileToConfirm2});
-
-			_workspacePage.GoToProjectsPage();
+			_createProjectHelper.CreateNewProject(
+				projectUniqueName2,
+				filesPaths: new[]
+				{
+					PathProvider.DocumentFileToConfirm1,
+					PathProvider.DocumentFileToConfirm2
+				});
 
 			_projectsPage
 				.ClickProjectCheckboxInList(_projectUniqueName)
@@ -274,13 +274,13 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 		{
 			var projectUniqueName2 = _createProjectHelper.GetProjectUniqueName();
 
-			_createProjectHelper.CreateNewProject(projectUniqueName2, filePath: PathProvider.DocumentFileToConfirm1);
-
-			_projectsPage.ClickProject(projectUniqueName2);
-
-			_projectSettingsHelper.UploadDocument(new[] {PathProvider.DocumentFileToConfirm2});
-
-			_workspacePage.GoToProjectsPage();
+			_createProjectHelper.CreateNewProject(
+				projectUniqueName2,
+				filesPaths: new[]
+				{
+					PathProvider.DocumentFileToConfirm1,
+					PathProvider.DocumentFileToConfirm2
+				});
 
 			_projectsPage
 				.ClickProjectCheckboxInList(_projectUniqueName)
@@ -318,13 +318,13 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 			var secondNotifierDocName = Path.GetFileNameWithoutExtension(PathProvider.DocumentFileToConfirm1);
 			var projectUniqueName2 = _createProjectHelper.GetProjectUniqueName();
 
-			_createProjectHelper.CreateNewProject(projectUniqueName2, filePath: PathProvider.DocumentFileToConfirm1);
-
-			_projectsPage.ClickProject(projectUniqueName2);
-
-			_projectSettingsHelper.UploadDocument(new[] {PathProvider.DocumentFileToConfirm2});
-
-			_workspacePage.GoToProjectsPage();
+			_createProjectHelper.CreateNewProject(
+				projectUniqueName2,
+				filesPaths: new[]
+				{
+					PathProvider.DocumentFileToConfirm1,
+					PathProvider.DocumentFileToConfirm2
+				});
 
 			_projectsPage
 				.ClickProjectCheckboxInList(projectUniqueName2)
@@ -437,13 +437,13 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 		{
 			var projectUniqueName2 = _createProjectHelper.GetProjectUniqueName();
 
-			_createProjectHelper.CreateNewProject(projectUniqueName2, filePath: PathProvider.DocumentFileToConfirm1);
-
-			_projectsPage.ClickProject(projectUniqueName2);
-
-			_projectSettingsHelper.UploadDocument(new[] {PathProvider.DocumentFileToConfirm2});
-
-			_workspacePage.GoToProjectsPage();
+			_createProjectHelper.CreateNewProject(
+				projectUniqueName2,
+				filesPaths: new[]
+				{
+					PathProvider.DocumentFileToConfirm1,
+					PathProvider.DocumentFileToConfirm2
+				});
 
 			_projectsPage.ClickProject(_projectUniqueName);
 

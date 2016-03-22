@@ -28,8 +28,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersRights.ManageProjects
 				_loginHelper.Authorize(StartPage.Workspace, ThreadUser);
 				_workspacePage.GoToProjectsPage();
 
-				_createProjectHelper.CreateNewProject(_projectUniqueName,
-					filePath: PathProvider.DocumentFile);
+				_createProjectHelper.CreateNewProject(
+					_projectUniqueName, filesPaths: new[] { PathProvider.DocumentFile });
 
 				_projectsPage
 					.OpenProjectInfo(_projectUniqueName)

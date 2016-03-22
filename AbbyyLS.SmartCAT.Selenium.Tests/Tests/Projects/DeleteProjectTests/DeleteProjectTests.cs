@@ -30,7 +30,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 		[Test]
 		public void DeleteProjectWithFileTest()
 		{
-			_createProjectHelper.CreateNewProject(_projectUniqueName, filePath: PathProvider.DocumentFile);
+			_createProjectHelper.CreateNewProject(
+				_projectUniqueName, filesPaths: new[] { PathProvider.DocumentFile });
 
 			_projectsPage
 				.OpenProjectInfo(_projectUniqueName)
@@ -64,14 +65,16 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 		[Test]
 		public void DeleteFileFromWizard()
 		{
+			var document = PathProvider.DocumentFile;
+
 			_projectsPage.ClickCreateProjectButton();
 
 			_newProjectDocumentUploadPage
-				.UploadDocumentFile(PathProvider.DocumentFile)
-				.DeleteDocument(Path.GetFileName(PathProvider.DocumentFile));
+				.UploadDocumentFiles(new[] { document })
+				.DeleteDocument(Path.GetFileName(document));
 
-			Assert.IsTrue(_newProjectDocumentUploadPage.IsFileDeleted(PathProvider.DocumentFile),
-				"Произошла ошибка:\n файл {0} не удалился.", PathProvider.DocumentFile);
+			Assert.IsTrue(_newProjectDocumentUploadPage.IsFileDeleted(document),
+				"Произошла ошибка:\n файл {0} не удалился.", document);
 		}
 	}
 }

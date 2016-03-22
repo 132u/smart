@@ -40,13 +40,13 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Editor
 			var _glossaryUniqueName = GlossariesHelper.UniqueGlossaryName();
 			_projectUniqueName = _createProjectHelper.GetProjectUniqueName();
 
-			_createProjectHelper
-				.CreateNewProject(
-					_projectUniqueName,
-					filePath: PathProvider.EditorTxtFile);
+			_createProjectHelper.CreateNewProject(
+				_projectUniqueName, filesPaths: new[] { PathProvider.EditorTxtFile });
 
 			_projectsPage.ClickProject(_projectUniqueName);
-			_projectSettingsHelper.AssignTasksOnDocument(Path.GetFileNameWithoutExtension(PathProvider.EditorTxtFile), ThreadUser.NickName);
+
+			_projectSettingsHelper.AssignTasksOnDocument(
+				Path.GetFileNameWithoutExtension(PathProvider.EditorTxtFile), ThreadUser.NickName);
 
 			_workspacePage.GoToGlossariesPage();
 

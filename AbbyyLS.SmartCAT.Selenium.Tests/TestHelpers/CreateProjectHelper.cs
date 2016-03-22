@@ -25,10 +25,10 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 		public CreateProjectHelper CreateNewProject(
 			string projectName,
-			string filePath = null,
+			IList<string> filesPaths = null,
 			string glossaryName = null,
 			bool createNewTm = false,
-			string tmxFilePath = null,
+			IList<string> tmxFilesPaths = null,
 			bool useMachineTranslation = false,
 			Language sourceLanguage = Language.English,
 			Language targetLanguage = Language.Russian,
@@ -40,30 +40,20 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 		{
 			_projectsPage.ClickCreateProjectButton();
 
-			if (filePath == null && tmxFilePath == null)
+			if (filesPaths == null && tmxFilesPaths == null)
 			{
 				_newProjectDocumentUploadPage.ClickSkipDocumentUploadButton();
 			}
 			else
 			{
-				if (filePath != null)
+				if (filesPaths != null)
 				{
-					_newProjectDocumentUploadPage.UploadDocumentFile(filePath);
-
-					if (!_newProjectDocumentUploadPage.IsDocumentFileUploaded(filePath))
-					{
-						throw new Exception(string.Format("Произошла ошибка: \n файл c именем {0} не загрузился.", filePath));
-					}
+					_newProjectDocumentUploadPage.UploadDocumentFiles(filesPaths);
 				}
 
-				if (tmxFilePath != null)
+				if (tmxFilesPaths != null)
 				{
-					_newProjectDocumentUploadPage.UploadDocumentFile(tmxFilePath);
-
-					if (!_newProjectDocumentUploadPage.IsTmxFileUploaded(tmxFilePath))
-					{
-						throw new Exception(string.Format("Произошла ошибка: \n tmx файл c именем {0} не загрузился.", tmxFilePath));
-					}
+					_newProjectDocumentUploadPage.UploadTmxFiles(tmxFilesPaths);
 				}
 
 				_newProjectDocumentUploadPage.ClickSettingsButton();

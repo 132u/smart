@@ -25,7 +25,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Editor
 
 			var projectUniqueName = _createProjectHelper.GetProjectUniqueName();
 
-			_createProjectHelper.CreateNewProject(projectUniqueName, filePath: PathProvider.DocumentFile);
+			_createProjectHelper.CreateNewProject(
+				projectUniqueName, filesPaths: new[] { PathProvider.DocumentFile });
 
 			_projectsPage.ClickProject(projectUniqueName);
 

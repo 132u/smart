@@ -18,7 +18,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersRights.CreateProjects
 		[Test]
 		public void QaCheckButtonExist()
 		{
-			_createProjectHelper.CreateNewProject(_projectUniqueName, filePath: PathProvider.DocumentFile);
+			_createProjectHelper.CreateNewProject(
+				_projectUniqueName, filesPaths: new []{ PathProvider.DocumentFile });
 
 			_projectsPage.OpenProjectInfo(_projectUniqueName);
 
@@ -29,7 +30,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersRights.CreateProjects
 		[Test]
 		public void CheckSettingsFormExist()
 		{
-			_createProjectHelper.CreateNewProject(_projectUniqueName, filePath: PathProvider.DocumentFile);
+			_createProjectHelper.CreateNewProject(
+				_projectUniqueName, filesPaths: new[] { PathProvider.DocumentFile });
 
 			_projectsPage
 				.OpenProjectInfo(_projectUniqueName)
@@ -42,7 +44,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersRights.CreateProjects
 		[Test]
 		public void CheckStatisticsFormExist()
 		{
-			_createProjectHelper.CreateNewProject(_projectUniqueName, filePath: PathProvider.DocumentFile);
+			_createProjectHelper.CreateNewProject(
+				_projectUniqueName, filesPaths: new[] { PathProvider.DocumentFile });
 
 			_projectsPage
 				.OpenProjectInfo(_projectUniqueName)

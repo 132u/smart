@@ -32,7 +32,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 
 			_exportNotification.CancelAllNotifiers<ProjectsPage>();
 
-			_createProjectHelper.CreateNewProject(_projectUniqueName, filePath: PathProvider.DocumentFileToConfirm1);
+			_createProjectHelper.CreateNewProject(
+				_projectUniqueName, filesPaths: new[] { PathProvider.DocumentFileToConfirm1 });
 
 			_projectsPage.ClickProject(_projectUniqueName);
 

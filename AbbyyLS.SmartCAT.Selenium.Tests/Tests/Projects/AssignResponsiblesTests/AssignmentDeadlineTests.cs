@@ -15,7 +15,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 		[Test(Description = "ТС-140")]
 		public void CancelDeadlineTest()
 		{
-			_createProjectHelper.CreateNewProject(_projectUniqueName, filePath: PathProvider.EditorTxtFile);
+			_createProjectHelper.CreateNewProject(
+				_projectUniqueName, filesPaths: new []{ PathProvider.EditorTxtFile});
 
 			_projectsPage.OpenAssignDialog(_projectUniqueName);
 
@@ -34,7 +35,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 		{
 			var date = DateTime.Now;
 
-			_createProjectHelper.CreateNewProject(_projectUniqueName, filePath: PathProvider.EditorTxtFile);
+			_createProjectHelper.CreateNewProject(
+				_projectUniqueName, filesPaths: new[] { PathProvider.EditorTxtFile });
 
 			_projectsPage.OpenAssignDialog(_projectUniqueName);
 
@@ -57,7 +59,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 		[TestCase("12.12.17")]
 		public void SaveInvalidDeadlineTest(string deadline)
 		{
-			_createProjectHelper.CreateNewProject(_projectUniqueName, filePath: PathProvider.EditorTxtFile);
+			_createProjectHelper.CreateNewProject(
+				_projectUniqueName, filesPaths: new[] { PathProvider.EditorTxtFile });
 
 			_projectsPage.OpenAssignDialog(_projectUniqueName);
 
@@ -74,7 +77,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 		{
 			var date = DateTime.Now.ToString("d", new CultureInfo("ru-RU"));
 
-			_createProjectHelper.CreateNewProject(_projectUniqueName, filePath: PathProvider.EditorTxtFile);
+			_createProjectHelper.CreateNewProject(
+				_projectUniqueName, filesPaths: new[] { PathProvider.EditorTxtFile });
 
 			_projectsPage.OpenAssignDialog(_projectUniqueName);
 
@@ -97,7 +101,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 		[TestCase("12/12/2017")]
 		public void SaveInvalidDeadlineInRussianLocaleTest(string deadline)
 		{
-			_createProjectHelper.CreateNewProject(_projectUniqueName, filePath: PathProvider.EditorTxtFile);
+			_createProjectHelper.CreateNewProject(
+				_projectUniqueName, filesPaths: new[] { PathProvider.EditorTxtFile });
+
 			_projectsPage.OpenAssignDialog(_projectUniqueName);
 
 			_workspacePage.SelectLocale(Language.Russian);
@@ -122,7 +128,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 
 			_createProjectHelper.CreateNewProject(
 				_projectUniqueName,
-				filePath: document1,
+				filesPaths: new []{ document1, document2, document3 },
 				tasks: new[] { 
 					WorkflowTask.Translation,
 					WorkflowTask.Proofreading,
@@ -133,16 +139,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 				);
 
 			_projectsPage.ClickProject(_projectUniqueName);
-
-			_projectSettingsPage
-				.ClickDocumentUploadButton()
-				.UploadDocument(new[] { document2, document3 });
-
-			_documentUploadGeneralInformationDialog
-				.ClickFinish<ProjectSettingsPage>()
-				.WaitUntilDocumentProcessed();
-
-			_workspacePage.GoToProjectsPage();
 
 			_projectsPage.OpenAssignDialog(_projectUniqueName);
 
@@ -188,7 +184,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 
 			_createProjectHelper.CreateNewProject(
 				_projectUniqueName,
-				filePath: PathProvider.EditorTxtFile,
+				filesPaths: new []{ PathProvider.EditorTxtFile },
 				tasks: new[] { 
 					WorkflowTask.Translation,
 					WorkflowTask.Proofreading,
@@ -196,10 +192,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 				deadline:Deadline.NextMonth
 				);
 
-			_projectsPage.ClickProject(_projectUniqueName);
-
-			_workspacePage.GoToProjectsPage();
-			
 			_projectsPage.OpenAssignDialog(_projectUniqueName);
 			
 			_taskAssignmentPage
@@ -218,17 +210,13 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 
 			_createProjectHelper.CreateNewProject(
 				_projectUniqueName,
-				filePath: PathProvider.EditorTxtFile,
+				filesPaths: new []{ PathProvider.EditorTxtFile },
 				tasks: new[] { 
 					WorkflowTask.Translation,
 					WorkflowTask.Proofreading,
 					WorkflowTask.Editing}
 				);
 
-			_projectsPage.ClickProject(_projectUniqueName);
-
-			_workspacePage.GoToProjectsPage();
-			
 			_projectsPage.OpenAssignDialog(_projectUniqueName);
 
 			_taskAssignmentPage
@@ -247,7 +235,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 
 			_createProjectHelper.CreateNewProject(
 				_projectUniqueName,
-				filePath: PathProvider.EditorTxtFile,
+				filesPaths: new []{ PathProvider.EditorTxtFile },
 				deadline: Deadline.CurrentDate,
 				tasks: new[] { 
 					WorkflowTask.Translation,
@@ -255,10 +243,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 					WorkflowTask.Editing}
 				);
 
-			_projectsPage.ClickProject(_projectUniqueName);
-
-			_workspacePage.GoToProjectsPage();
-			
 			_projectsPage.OpenAssignDialog(_projectUniqueName);
 
 			_taskAssignmentPage
@@ -281,7 +265,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 
 			_createProjectHelper.CreateNewProject(
 				_projectUniqueName,
-				filePath: PathProvider.EditorTxtFile,
+				filesPaths: new []{ PathProvider.EditorTxtFile },
 				deadline: Deadline.CurrentDate,
 				tasks: new[] { 
 					WorkflowTask.Translation,
@@ -289,10 +273,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 					WorkflowTask.Editing}
 				);
 
-			_projectsPage.ClickProject(_projectUniqueName);
-
-			_workspacePage.GoToProjectsPage();
-			
 			_projectsPage.OpenAssignDialog(_projectUniqueName);
 			
 			_taskAssignmentPage

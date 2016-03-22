@@ -27,7 +27,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Admin.Tests
 			}
 
 			_newProjectDocumentUploadPage
-				.UploadDocumentFile(PathProvider.DocumentFile)
+				.UploadDocumentFiles(new[] { PathProvider.DocumentFile })
 				.ClickSettingsButton();
 
 			_newProjectSettingsPage

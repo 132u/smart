@@ -29,7 +29,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersRights.CreateProjects
 		[Test]
 		public void AddDocumentToProjectTest()
 		{
-			_createProjectHelper.CreateNewProject(_projectUniqueName, filePath: PathProvider.EditorTxtFile);
+			_createProjectHelper.CreateNewProject(
+				_projectUniqueName, filesPaths: new[] { PathProvider.EditorTxtFile });
 
 			_projectsPage
 				.OpenProjectInfo(_projectUniqueName)
@@ -53,18 +54,11 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersRights.CreateProjects
 		[TestCase(ExportType.Target)]
 		public void DownloadDocumentTest(ExportType exportType)
 		{
-			_createProjectHelper.CreateNewProject(_projectUniqueName, filePath: PathProvider.EditorTxtFile);
+			_createProjectHelper.CreateNewProject(
+				_projectUniqueName,
+				filesPaths: new[] { PathProvider.EditorTxtFile, PathProvider.DocumentFileToConfirm1 });
 
 			_projectsPage
-				.OpenProjectInfo(_projectUniqueName)
-				.ClickDocumentUploadButton();
-
-			_documentUploadGeneralInformationDialog
-				.UploadDocument(new []{PathProvider.DocumentFileToConfirm1})
-				.ClickFihishUploadOnProjectsPage();
-
-			_projectsPage
-				.WaitUntilProjectLoadSuccessfully(_projectUniqueName)
 				.OpenProjectInfo(_projectUniqueName)
 				.OpenDocumentInfoForProject(_projectUniqueName)
 				.OpenDocumentInfoForProject(_projectUniqueName, documentNumber: 2)
@@ -83,18 +77,11 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersRights.CreateProjects
 		[TestCase(ExportType.Source)]
 		public void DownloadAllProjectDocumentsFromProjectMenuTest(ExportType exportType)
 		{
-			_createProjectHelper.CreateNewProject(_projectUniqueName, filePath: PathProvider.EditorTxtFile);
+			_createProjectHelper.CreateNewProject(
+				_projectUniqueName,
+				filesPaths: new[] { PathProvider.EditorTxtFile, PathProvider.DocumentFileToConfirm1 });
 
 			_projectsPage
-				.OpenProjectInfo(_projectUniqueName)
-				.ClickDocumentUploadButton();
-
-			_documentUploadGeneralInformationDialog
-				.UploadDocument(new []{PathProvider.DocumentFileToConfirm1})
-				.ClickFihishUploadOnProjectsPage();
-
-			_projectsPage
-				.WaitUntilProjectLoadSuccessfully(_projectUniqueName)
 				.ClickProjectCheckboxInList(_projectUniqueName)
 				.OpenProjectInfo(_projectUniqueName)
 				.ClickDownloadInProjectMenuButton(_projectUniqueName)
@@ -113,18 +100,11 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersRights.CreateProjects
 		[TestCase(ExportType.Source)]
 		public void DownloadAllDocumentsFromProjectTest(ExportType exportType)
 		{
-			_createProjectHelper.CreateNewProject(_projectUniqueName, filePath: PathProvider.EditorTxtFile);
+			_createProjectHelper.CreateNewProject(
+				_projectUniqueName,
+				filesPaths: new[] { PathProvider.EditorTxtFile, PathProvider.DocumentFileToConfirm1 });
 
 			_projectsPage
-				.OpenProjectInfo(_projectUniqueName)
-				.ClickDocumentUploadButton();
-
-			_documentUploadGeneralInformationDialog
-				.UploadDocument(new[] { PathProvider.DocumentFileToConfirm1 })
-				.ClickFihishUploadOnProjectsPage();
-
-			_projectsPage
-				.WaitUntilProjectLoadSuccessfully(_projectUniqueName)
 				.ClickProjectCheckboxInList(_projectUniqueName)
 				.ClickDownloadInMainMenuButton()
 				.ClickExportType(exportType);
@@ -141,7 +121,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersRights.CreateProjects
 		[Test]
 		public void DeleteProjectTest()
 		{
-			_createProjectHelper.CreateNewProject(_projectUniqueName, filePath: PathProvider.EditorTxtFile);
+			_createProjectHelper.CreateNewProject(
+				_projectUniqueName, filesPaths: new[] { PathProvider.EditorTxtFile });
 
 			_projectsPage
 				.ClickProjectCheckboxInList(_projectUniqueName)
@@ -156,7 +137,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersRights.CreateProjects
 		[Test]
 		public void DeleteProjectWhenProjectInfoOpenedTest()
 		{
-			_createProjectHelper.CreateNewProject(_projectUniqueName, filePath: PathProvider.EditorTxtFile);
+			_createProjectHelper.CreateNewProject(
+				_projectUniqueName, filesPaths: new[] { PathProvider.EditorTxtFile });
 
 			_projectsPage
 				.ClickProjectCheckboxInList(_projectUniqueName)
@@ -174,7 +156,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersRights.CreateProjects
 		{
 			var document = PathProvider.DocumentFile;
 
-			_createProjectHelper.CreateNewProject(_projectUniqueName, filePath: document);
+			_createProjectHelper.CreateNewProject(_projectUniqueName, filesPaths: new[] { document });
 
 			_projectsPage
 				.OpenProjectInfo(_projectUniqueName)
@@ -194,18 +176,10 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersRights.CreateProjects
 			var document1 = PathProvider.DocumentFile;
 			var document2 = PathProvider.DocumentFile2;
 
-			_createProjectHelper.CreateNewProject(_projectUniqueName, filePath: document1);
+			_createProjectHelper.CreateNewProject(
+				_projectUniqueName, filesPaths: new[] { document1, document2 });
 
 			_projectsPage
-				.OpenProjectInfo(_projectUniqueName)
-				.ClickDocumentUploadButton();
-
-			_documentUploadGeneralInformationDialog
-				.UploadDocument(new[] {document2})
-				.ClickFihishUploadOnProjectsPage();
-
-			_projectsPage
-				.WaitUntilProjectLoadSuccessfully(_projectUniqueName)
 				.OpenProjectInfo(_projectUniqueName)
 				.SelectDocument(_projectUniqueName, document1)
 				.SelectDocument(_projectUniqueName, document2)

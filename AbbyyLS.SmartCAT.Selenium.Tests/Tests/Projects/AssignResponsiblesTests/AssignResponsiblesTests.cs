@@ -18,7 +18,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 		{
 			_createProjectHelper.CreateNewProject(
 				_projectUniqueName,
-				filePath: PathProvider.EditorTxtFile,
+				filesPaths: new []{ PathProvider.EditorTxtFile },
 				tasks: new[] { WorkflowTask.Translation, WorkflowTask.Proofreading }
 				);
 
@@ -53,24 +53,12 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 
 			_createProjectHelper.CreateNewProject(
 				_projectUniqueName,
-				filePath: document1,
+				filesPaths: new []{ document1, document2, document3 },
 				tasks: new[] { 
 					WorkflowTask.Translation,
 					WorkflowTask.Proofreading,
 					WorkflowTask.Editing}
 				);
-
-			_projectsPage.ClickProject(_projectUniqueName);
-
-			_projectSettingsPage
-				.ClickDocumentUploadButton()
-				.UploadDocument(new[] { document2, document3 });
-
-			_documentUploadGeneralInformationDialog
-				.ClickFinish<ProjectSettingsPage>()
-				.WaitUntilDocumentProcessed();
-
-			_workspacePage.GoToProjectsPage();
 
 			_projectsPage.OpenAssignDialog(_projectUniqueName, documentNumber: 1);
 
@@ -114,14 +102,13 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 		{
 			_createProjectHelper.CreateNewProject(
 				_projectUniqueName,
-				filePath: PathProvider.EditorTxtFile,
+				filesPaths: new []{ PathProvider.EditorTxtFile },
 				tasks: new[] {
 						WorkflowTask.Translation,
 						WorkflowTask.Editing}
 				);
 
-			_projectsPage
-				.OpenAssignDialog(_projectUniqueName);
+			_projectsPage.OpenAssignDialog(_projectUniqueName);
 
 			_taskAssignmentPage
 				.SetResponsible(ThreadUser.NickName, isGroup: false)

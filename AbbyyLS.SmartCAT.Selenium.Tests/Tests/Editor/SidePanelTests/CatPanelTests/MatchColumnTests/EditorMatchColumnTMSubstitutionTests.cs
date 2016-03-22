@@ -34,9 +34,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Editor
 			_createProjectHelper
 				.CreateNewProject(
 					projectName: projectUniqueName,
-					filePath: PathProvider.TxtFileForMatchTest,
+					filesPaths: new[] { PathProvider.TxtFileForMatchTest },
 					createNewTm: true,
-					tmxFilePath: PathProvider.TmxFileForMatchTest);
+					tmxFilesPaths: new[] { PathProvider.TmxFileForMatchTest });
 
 			_workspacePage.GoToTranslationMemoriesPage();
 

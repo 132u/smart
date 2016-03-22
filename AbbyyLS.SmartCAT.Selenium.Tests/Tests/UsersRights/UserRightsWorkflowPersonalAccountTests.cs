@@ -34,7 +34,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersRights
 		[Test, Description("ТС-76")]
 		public void PersonalAccountWorkflowTest()
 		{
-			_createProjectHelper.CreateNewProject(_projectUniqueName, filePath: document1, personalAccount: true);
+			_createProjectHelper.CreateNewProject(
+				_projectUniqueName, filesPaths: new[] { document1 }, personalAccount: true);
 			
 			_projectsPage
 				.OpenProjectInfo(_projectUniqueName)

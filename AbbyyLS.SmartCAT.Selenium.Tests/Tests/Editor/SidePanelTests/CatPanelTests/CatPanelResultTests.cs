@@ -33,9 +33,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Editor
 			_createProjectHelper
 				.CreateNewProject(
 					_projectUniqueName,
-					filePath: PathProvider.EditorTxtFile,
+					filesPaths: new[] { PathProvider.EditorTxtFile },
 					createNewTm: true,
-					tmxFilePath: PathProvider.EditorTmxFile);
+					tmxFilesPaths: new[] { PathProvider.EditorTmxFile });
 
 			_projectsPage.ClickProject(_projectUniqueName);
 
@@ -64,7 +64,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Editor
 			_createProjectHelper
 				.CreateNewProject(
 					projectName: _projectUniqueName,
-					filePath: PathProvider.DocumentFile,
+					filesPaths: new[] { PathProvider.DocumentFile },
 					createNewTm: true);
 
 			_projectsPage
@@ -99,7 +99,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Editor
 			_createProjectHelper
 				.CreateNewProject(
 					projectName: _projectUniqueName,
-					filePath: PathProvider.DocumentFile,
+					filesPaths: new[] { PathProvider.DocumentFile },
 					createNewTm: true,
 					useMachineTranslation: true);
 

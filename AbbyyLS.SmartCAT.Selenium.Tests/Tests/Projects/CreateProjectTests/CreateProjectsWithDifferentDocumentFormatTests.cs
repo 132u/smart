@@ -62,7 +62,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 
 			_createProjectHelper.CreateNewProject(
 				projectUniqueName,
-				filePath: Path.Combine(PathProvider.SupportedFormatsFiles, file),
+				filesPaths: new[] { Path.Combine(PathProvider.SupportedFormatsFiles, file) },
 				expectingError: true);
 
 			Assert.IsTrue(_projectsPage.IsProjectAppearInList(projectUniqueName),
@@ -83,8 +83,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 		{
 			_projectsPage.ClickCreateProjectButton();
 
-			_newProjectDocumentUploadPage.UploadDocumentFile(
-				Path.Combine(PathProvider.UnSupportedFormatsFiles, file));
+			_newProjectDocumentUploadPage.UploadDocumentFiles(
+				new[] { Path.Combine(PathProvider.UnSupportedFormatsFiles, file) });
 
 			Assert.IsTrue(_newProjectDocumentUploadPage.IsWrongDocumentFormatErrorDisplayed(
 				Path.Combine(PathProvider.UnSupportedFormatsFiles, file)),

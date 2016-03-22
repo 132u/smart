@@ -32,7 +32,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Editor
 		{
 			var _projectUniqueName = _createProjectHelper.GetProjectUniqueName();
 
-			_createProjectHelper.CreateNewProject(_projectUniqueName, filePath: PathProvider.EditorXliffFile);
+			_createProjectHelper.CreateNewProject(
+				_projectUniqueName, filesPaths: new[] { PathProvider.EditorXliffFile });
 
 			_projectsPage.ClickProject(_projectUniqueName);
 

@@ -80,14 +80,13 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersRights.ManageProjects
 			
 			_workspacePage.GoToProjectsPage();
 
-			_createProjectHelper.CreateNewProject(_projectUniqueName, filePath: PathProvider.DocumentFile);
-			_projectsPage
-				.OpenProjectInfo(_projectUniqueName)
-				.ClickDocumentUploadButton();
-
-			_documentUploadGeneralInformationDialog
-				.UploadDocument(new[] { PathProvider.DocumentFile2 })
-				.ClickFihishUploadOnProjectsPage();
+			_createProjectHelper.CreateNewProject(
+				_projectUniqueName,
+				filesPaths: new[]
+				{
+					PathProvider.DocumentFile,
+					PathProvider.DocumentFile2
+				});
 
 			_workspacePage.SignOut();
 		}

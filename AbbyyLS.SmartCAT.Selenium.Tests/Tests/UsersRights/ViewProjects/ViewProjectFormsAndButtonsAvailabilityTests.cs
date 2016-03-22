@@ -17,7 +17,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersRights.ViewProjects
 		{
 			_workspacePage.GoToProjectsPage();
 
-			_createProjectHelper.CreateNewProject(_projectUniqueName, filePath: PathProvider.DocumentFile);
+			_createProjectHelper.CreateNewProject(
+				_projectUniqueName, filesPaths: new[] { PathProvider.DocumentFile });
+			
 			_projectsPage.OpenAssignDialog(_projectUniqueName);
 
 			_taskAssignmentPage

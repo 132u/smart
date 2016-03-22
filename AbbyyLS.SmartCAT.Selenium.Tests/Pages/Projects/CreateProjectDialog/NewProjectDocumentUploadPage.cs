@@ -1,4 +1,6 @@
-﻿using System.IO;
+﻿using System;
+using System.Collections.Generic;
+using System.IO;
 
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.PageObjects;
@@ -103,12 +105,41 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 		/// <summary>
 		/// Загрузка документа
 		/// </summary>
-		/// <param name="pathFile">путь к файлу</param>
-		public NewProjectDocumentUploadPage UploadDocumentFile(string pathFile)
+		/// <param name="filesPaths">путь к файлу</param>
+		public NewProjectDocumentUploadPage UploadDocumentFiles(IList<string> filesPaths)
 		{
-			CustomTestContext.WriteLine("Загрузить файл: {0}.", pathFile);
-			makeInputDialogVisible();
-			SetFileName(pathFile);
+			foreach (var filePath in filesPaths)
+			{
+				CustomTestContext.WriteLine("Загрузить файл: {0}.", filePath);
+				makeInputDialogVisible();
+				SetFileName(filePath);
+
+				if (!IsDocumentFileUploaded(filePath))
+				{
+					throw new Exception("Произошла ошибка: документ не загрузился");
+				}
+			}
+
+			return GetPage();
+		}
+
+		/// <summary>
+		/// Загрузка tmx
+		/// </summary>
+		/// <param name="filesPaths">путь к файлу</param>
+		public NewProjectDocumentUploadPage UploadTmxFiles(IList<string> filesPaths)
+		{
+			foreach (var filePath in filesPaths)
+			{
+				CustomTestContext.WriteLine("Загрузить файл: {0}.", filePath);
+				makeInputDialogVisible();
+				SetFileName(filePath);
+
+				if (!IsTmxFileUploaded(filePath))
+				{
+					throw new Exception("Произошла ошибка: tmx не загрузился");
+				}
+			}
 
 			return GetPage();
 		}

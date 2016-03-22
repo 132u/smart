@@ -52,14 +52,10 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersRights
 			_workflowSetUptab = new WorkflowSetUpTab(Driver);
 
 			_projectUniqueName = _createProjectHelper.GetProjectUniqueName();
-
-			_createProjectHelper.CreateNewProject(_projectUniqueName, filePath: document1);
-
-			_projectsPage.ClickProject(_projectUniqueName);
-
-			_projectSettingsHelper.UploadDocument(new[] { document2 });
-
 			_groupName = _groupsAndAccessRightsTab.GetGroupUniqueName();
+
+			_createProjectHelper.CreateNewProject(
+				_projectUniqueName, filesPaths: new[] { document1, document2 });
 
 			_workspacePage.GoToUsersPage();
 
@@ -70,7 +66,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersRights
 			_newGroupDialog
 				.OpenNewGroupDialog()
 				.CreateNewGroup(_groupName);
-				
+
 			_groupsAndAccessRightsTab.AddUserToGroupIfNotAlredyAdded(_groupName, AdditionalUser.NickName);
 		}
 

@@ -15,7 +15,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 		[SetUp]
 		public void WorkflowAssigneeTestsSetUp()
 		{
-			_createProjectHelper.CreateNewProject(_projectUniqueName, filePath: PathProvider.RepetitionsTxtFile);
+			_createProjectHelper.CreateNewProject(
+				_projectUniqueName, filesPaths: new[] { PathProvider.RepetitionsTxtFile });
 
 			_projectsPage.ClickProject(_projectUniqueName);
 		}

@@ -32,7 +32,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Editor
 			_workflowSetUptab = new WorkflowSetUpTab(Driver);
 			_projectUniqueName = _createProjectHelper.GetProjectUniqueName();
 
-			_createProjectHelper.CreateNewProject(_projectUniqueName, filePath: PathProvider.EditorTxtFile);
+			_createProjectHelper.CreateNewProject(
+				_projectUniqueName, filesPaths: new[] { PathProvider.EditorTxtFile });
 
 			_projectsPage.ClickProject(_projectUniqueName);
 

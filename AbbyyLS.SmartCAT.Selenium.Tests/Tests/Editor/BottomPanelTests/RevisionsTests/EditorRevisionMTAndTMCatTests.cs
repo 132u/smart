@@ -41,8 +41,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Editor
 			_createProjectHelper
 				.CreateNewProject(
 				_projectUniqueName,
-				filePath: PathProvider.EditorTxtFile,
-				tmxFilePath: PathProvider.EditorTmxFile,
+				filesPaths: new[] { PathProvider.EditorTxtFile },
+				tmxFilesPaths: new[] { PathProvider.EditorTmxFile },
 				createNewTm: true,
 				useMachineTranslation: true,
 				glossaryName: glossaryUniqueName);

@@ -93,7 +93,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 		[Test]
 		public void ImportDuplicateDocumentTest()
 		{
-			_createProjectHelper.CreateNewProject(_projectUniqueName, PathProvider.DocumentFile);
+			_createProjectHelper.CreateNewProject(
+				_projectUniqueName, filesPaths: new[] { PathProvider.DocumentFile });
 
 			_projectsPage.ClickProject(_projectUniqueName);
 
