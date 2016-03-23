@@ -109,7 +109,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 		public SuggestTermDialog ClickLanguageList(int languageNumber)
 		{
 			CustomTestContext.WriteLine("Нажать на выпадающий список языков №{0}.", languageNumber);
-			Driver.SetDynamicValue(How.XPath, LANGUAGE_LIST, languageNumber.ToString()).Click();
+			Driver.SetDynamicValue(How.XPath, LANGUAGE_DROPDOWN_ARROW, languageNumber.ToString()).Click();
 
 			return GetPage();
 		}
@@ -121,7 +121,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 		{
 			CustomTestContext.WriteLine("Вернуть название языка, установленного для термина №{0}.", languageNumber);
 
-			return Driver.SetDynamicValue(How.XPath, LANGUAGE_LIST, languageNumber.ToString()).Text.Trim();
+			return Driver.SetDynamicValue(How.XPath, LANGUAGE, languageNumber.ToString()).Text.Trim();
 		}
 
 		/// <summary>
@@ -263,7 +263,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 		protected const string GLOSSARY_DROPDOWN = "//span[contains(@class, 'js-dropdown addsuggglos')]";
 		protected const string GLOSSARU_IN_LIST = "//span[contains(@class,'js-dropdown__item')][@title='*#*']";
 		protected const string SAVE_BUTON = "//input[contains(@class, 'js-save-btn')]";
-		protected const string LANGUAGE_LIST = "//div[contains(@class, 'l-addsugg__contr lang js-language')][*#*]//span[contains(@class,'js-dropdown__text addsugglang')]";
+		protected const string LANGUAGE_DROPDOWN_ARROW = "//div[contains(@class, 'l-addsugg__contr lang js-language')][*#*]//span[contains(@class,'js-dropdown__text addsugglang')]/../..//i[contains(@class, 'down-arrow')]";
+		protected const string LANGUAGE = "//div[contains(@class, 'l-addsugg__contr lang js-language')][*#*]//span[contains(@class,'js-dropdown__text addsugglang')]";
 		protected const string LANGUAGE_OPTION = "//span[contains(@class,'js-dropdown__item')][@title='*#*']";
 		protected const string CANCEL_BUTTON = "//div[contains(@class,'js-add-suggest-popup')]//a[contains(@class,'g-popupbox__cancel js-popup-close')]";
 		protected const string DUPLICATE_ERROR = "//div[contains(@class,'js-duplicate-warning')]";

@@ -280,12 +280,14 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 				"Произошла ошибка:\nНеверный список синонимов");
 		}
 
-		[Test]
+		[Test, Ignore("PRX-15799")]
 		public void AutoReverseLanguagesTest()
 		{
 			_glossariesHelper.CreateGlossary(_glossaryName);
 
 			_glossaryPage.ClickSuggestTermButton();
+
+			_suggestTermDialog.FillSuggestTermDialog(term1: _term1, term2: _term2);
 
 			Assert.AreEqual(Language.English.ToString(), _suggestTermDialog.GetLanguageText(languageNumber: 1),
 				"Произошла ошибка:\nНеверный язык №1 в диалоге предложения термина.");
