@@ -84,7 +84,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories
 		public NewTranslationMemoryDialog SelectTargetLanguage(Language language)
 		{
 			CustomTestContext.WriteLine("Выбрать язык перевода {0}", language);
-			Driver.SetDynamicValue(How.XPath, TARGET_LANGUAGES, ((int)language).ToString()).Click();
+			Driver.SetDynamicValue(How.XPath, TARGET_LANGUAGES, ((int)language).ToString()).ScrollAndClick();
 
 			return GetPage();
 		}
