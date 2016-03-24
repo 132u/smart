@@ -78,7 +78,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 				"Произошла ошибка:\n неверное количество терминов.");
 		}
 
-		[Test]
+		[Test, Ignore("SCAT-935")]
 		public void AddImageFieldTest()
 		{
 			var fieldName = GlossarySystemField.Image.Description();
@@ -96,7 +96,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 				"Произошла ошибка:\n неверное количество терминов.");
 		}
 
-		[Test]
+		[Test, Ignore("SCAT-935")]
 		public void AddMultimediaFieldTest()
 		{
 			var fieldName = GlossarySystemField.Multimedia.Description();

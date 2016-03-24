@@ -167,7 +167,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 				"Произошла ошибка:\n неверное количество терминов.");
 		}
 
-		[Test]
+		[Test, Ignore("SCAT-935")]
 		public void AddMediaFieldTest()
 		{
 			var fieldName = "MediaField";
@@ -193,7 +193,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 				"Произошла ошибка:\n неверное количество терминов.");
 		}
 
-		[Test]
+		[Test, Ignore("SCAT-935")]
 		public void AddMediaRequiredFieldTest()
 		{
 			var fieldName = "MediaRequiredField";
@@ -225,7 +225,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 				"Произошла ошибка:\n неверное количество терминов.");
 		}
 
-		[Test]
+		[Test, Ignore("SCAT-935")]
 		public void AddImageFieldTest()
 		{
 			var fieldName = "ImageField";
@@ -251,7 +251,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 				"Произошла ошибка:\n неверное количество терминов.");
 		}
 
-		[Test]
+		[Test, Ignore("SCAT-935")]
 		public void AddImageRequiredFieldTest()
 		{
 			var fieldName = "ImageField";
