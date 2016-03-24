@@ -1197,7 +1197,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 		public bool IsGlossaryPageOpened()
 		{
 			return IsDialogBackgroundDisappeared() &&
-			       Driver.WaitUntilElementIsDisplay(By.XPath(SUGGEST_TERM_BUTTON), timeout: 30);
+			       Driver.WaitUntilElementIsDisplay(By.XPath(CONCEPTS_TABLE), timeout: 30);
 		}
 
 		/// <summary>
@@ -1867,7 +1867,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 		protected const string CLEAR_ALL_FILTERS_BUTTON = "//i[@title='Clear all filters']";
 		protected const string COMMON_CLEAR_FILTER_SECTION = "//div[@class='l-corpr__filter g-bold']";
 		protected const string DIAPASON_PANEL = "//div[@class='l-corpr__filterSection inline']";
-
+		protected const string CONCEPTS_TABLE = "//table[contains(@class,'js-concepts')]";
 		#endregion
 	}
 }
