@@ -1462,6 +1462,17 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 			return Driver.GetIsElementExist(By.XPath(WORKFLOW_COLUMN));
 		}
 
+		/// <summary>
+		/// Проверить, что появился треугольник с ошибкой, после подтверждения сегмента.
+		/// </summary>
+		/// <param name="segmentNumber">номер сегмента</param>
+		public bool IsYellowTriangleErrorLogoDisplayed(int segmentNumber = 1)
+		{
+			CustomTestContext.WriteLine("Проверить, что появился треугольник с ошибкой, после подтверждения сегмента.");
+
+			return Driver.WaitUntilElementIsDisplay(By.XPath(SEGMENT_ERROR_LOGO.Replace("*#*", segmentNumber.ToString())));
+		}
+
 		#endregion
 
 		#region Объявление элементов страницы
@@ -1474,6 +1485,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 
 		[FindsBy(Using = FIND_ERROR_BTN_ID)]
 		protected IWebElement FindErrorButton { get; set; }
+
+		[FindsBy(How = How.XPath, Using = SEGMENT_ERROR_LOGO)]
+		protected IWebElement SegmentErrorLogo { get; set; }
 
 		[FindsBy(How = How.Id, Using = HOME_BUTTON)]
 		protected IWebElement HomeButton { get; set; }
@@ -1619,6 +1633,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		protected const string SOURCE_CELL = "//table[@data-recordindex='*#*']//td[contains(@class, 'test-segment-source')]//div[contains(@id, 'segmenteditor')]";
 		protected const string TAG = "//div[contains(text(), '1')]//..//..//..//..//tr[1]//td[4]//div//img[contains(@class,'tag')]";
 		protected const string SEGMENT_LOCK = "//div[contains(text(), '*#*')]//..//..//..//div[contains(@class,'lock')][not(contains(@class,'inactive'))]";
+		protected const string SEGMENT_ERROR_LOGO = "(//table[contains(@class, 'x-grid-item')])[*#*]//div[contains(@class, 'sci-alert')]";
 
 		protected const string CHARACTER_FORM = "charmap";
 		protected const string CONCORDANCE_SEARCH= "concordance-search";
