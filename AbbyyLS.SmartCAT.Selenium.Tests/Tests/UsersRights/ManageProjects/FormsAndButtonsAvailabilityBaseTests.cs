@@ -17,6 +17,7 @@ using AbbyyLS.SmartCAT.Selenium.Tests.TestFramework;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersRights.ManageProjects
 {
+	[Parallelizable(ParallelScope.Fixtures)]
 	class FormsAndButtonsAvailabilityBaseTests<TWebDriverProvider> : BaseTest<TWebDriverProvider> where TWebDriverProvider : IWebDriverProvider, new()
 	{
 		[SetUp]
@@ -66,6 +67,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersRights.ManageProjects
 			_pretranslationDialog = new PretranslationDialog(Driver);
 			_userRightsHelper = new UserRightsHelper(Driver);
 			_documentUploadGeneralInformationDialog = new DocumentUploadGeneralInformationDialog(Driver);
+
+			// Нужен лог для отладки тестов SCAT-938
+			CustomTestContext.WriteLine("OneTimeSetUp FormsAndButtonsAvailabilityBaseTests.");
 
 			AdditionalUser = TakeUser(ConfigurationManager.AdditionalUsers);
 

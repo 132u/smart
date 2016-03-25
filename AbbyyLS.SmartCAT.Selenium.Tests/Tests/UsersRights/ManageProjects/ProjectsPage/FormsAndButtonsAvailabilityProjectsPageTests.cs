@@ -5,7 +5,7 @@ using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
 namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersRights.ManageProjects.ProjectsPage
 {
 	[Parallelizable(ParallelScope.Fixtures)]
-	class FormsAndButtonsAvailabilityTests<TWebDriverProvider> : FormsAndButtonsAvailabilityBaseTests<TWebDriverProvider> where TWebDriverProvider : IWebDriverProvider, new()
+	class FormsAndButtonsAvailabilityProjectsPageTests<TWebDriverProvider> : FormsAndButtonsAvailabilityBaseTests<TWebDriverProvider> where TWebDriverProvider : IWebDriverProvider, new()
 	{
 		[Test]
 		public void GreenCreateProjectButtonTest()

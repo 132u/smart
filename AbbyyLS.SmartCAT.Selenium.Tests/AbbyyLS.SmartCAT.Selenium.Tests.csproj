@@ -327,7 +327,7 @@
     <Compile Include="Tests\UsersRights\ManageProjects\ManageProjectBaseTests.cs" />
     <Compile Include="Tests\UsersRights\ManageProjects\ProjectSettingsPage\ExportDocumentTests.cs" />
     <Compile Include="Tests\UsersRights\ManageProjects\ProjectSettingsPage\ManageProjectTests.cs" />
-    <Compile Include="Tests\UsersRights\ManageProjects\ProjectsPage\FormsAndButtonsAvailabilityTests.cs" />
+    <Compile Include="Tests\UsersRights\ManageProjects\ProjectsPage\FormsAndButtonsAvailabilityProjectsPageTests.cs" />
     <Compile Include="Tests\UsersRights\ManageProjects\ProjectsPage\ManageProjectTests.cs" />
     <Compile Include="Tests\UsersRights\ManageTranslationMemories\ManageTranslationMemoriesBaseTests.cs" />
     <Compile Include="Tests\UsersRights\ManageTranslationMemories\ManageTranslationMemoriesTests.cs" />
@@ -342,7 +342,7 @@
     <Compile Include="Tests\Projects\AssignResponsiblesTests\AssignResponsiblesTests.cs" />
     <Compile Include="Tests\UsersRights\ManageProjects\ProjectsPage\ExportDocumentTests.cs" />
     <Compile Include="Tests\UsersRights\ManageProjects\FormsAndButtonsAvailabilityBaseTests.cs" />
-    <Compile Include="Tests\UsersRights\ManageProjects\ProjectSettingsPage\FormsAndButtonsAvailabilityTests.cs" />
+    <Compile Include="Tests\UsersRights\ManageProjects\ProjectSettingsPage\FormsAndButtonsAvailabilityProjectSettingsPageTests.cs" />
     <Compile Include="Tests\Projects\CreateProjectTests\CreateProjectAutofillProjectNameTests.cs" />
     <Compile Include="Tests\Projects\BaseProjectTest.cs" />
     <Compile Include="Tests\Projects\CreateProjectTests\CreateProjectTests.cs" />
