@@ -321,6 +321,7 @@
     <Compile Include="Tests\Glossaries\TermsTests\SearchTermsTests.cs" />
     <Compile Include="Tests\Glossaries\SuggestedTermsTests\SuggestTermsBaseTest.cs" />
     <Compile Include="Tests\SupportTests\WorkspaceSupportButtonsTests.cs" />
+    <Compile Include="Tests\TranslationMemories\SearchTmTests\SearchExamplesInTmTests.cs" />
     <Compile Include="Tests\UsersRights\CreateProjects\CreateProjectWithRightBaseTest.cs" />
     <Compile Include="Tests\UsersRights\CreateProjects\FormsAndButtonsAvailabilityTests.cs" />
     <Compile Include="Tests\UsersRights\ManageGlossarySearch\ManageGlossarySearchTests.cs" />

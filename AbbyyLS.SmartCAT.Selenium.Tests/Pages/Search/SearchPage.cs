@@ -129,6 +129,17 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Search
 			return termName.Text;
 		}
 
+		/// <summary>
+		/// Переключиться во вкладку 'Examples'
+		/// </summary>
+		public SearchPage SwitchToExamplesTab()
+		{
+			CustomTestContext.WriteLine("Переключиться во вкладку 'Examples'");
+			ExamplesTab.Click();
+
+			return GetPage();
+		}
+
 		#endregion
 
 		#region Составные методы страницы
@@ -182,7 +193,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Search
 		/// Проверить, что появились результаты поиска.
 		/// </summary>
 		/// <returns></returns>
-		public bool IsSearchResultDisplay()
+		public bool IsSearchResultDisplayed()
 		{
 			CustomTestContext.WriteLine("Проверить, что появились результаты поиска.");
 
@@ -259,12 +270,28 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Search
 			return Driver.WaitUntilElementIsDisplay(By.XPath(SEARCH_FORM_XPATH));
 		}
 
+		/// <summary>
+		/// Проверить, появилась ли надпись 'Примеры не найдены'
+		/// </summary>
+		public bool IsNoExamplesFoundMessageDisplayed()
+		{
+			CustomTestContext.WriteLine("Проверить, появилась ли надпись 'Примеры не найдены'");
+
+			return Driver.WaitUntilElementIsDisplay(By.XPath(NO_EXAMPLES_FOUND_IMAGE));
+		}
+
 		#endregion
 
 		#region Объявление элементов страницы
 
 		[FindsBy(How = How.Id, Using = SEARCH_FIELD)]
 		protected IWebElement SearchField { get; set; }
+
+		[FindsBy(How = How.XPath, Using = EXAMPLES_TAB)]
+		protected IWebElement ExamplesTab { get; set; }
+
+		[FindsBy(How = How.XPath, Using = NO_EXAMPLES_FOUND_IMAGE)]
+		protected IWebElement NoExamplesFoundImage { get; set; }
 
 		[FindsBy(How = How.Id, Using = SOURCE_LANGUAGE_LIST)]
 		protected IWebElement SourceLanguageList { get; set; }
@@ -299,6 +326,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Search
 		protected const string LANGUAGE_TARGET_OPTION = "//select[@id='SearchDestLang']//option[@value='*#*']";
 
 		protected const string DEFINITION_TAB = "//li[contains(@data-search-mode,'Interpret')]";
+		protected const string EXAMPLES_TAB = "//div[contains(@class, 'g-srctabs')]//a[text()='Examples']";
+		protected const string NO_EXAMPLES_FOUND_IMAGE = "//div[contains(@class, 'js-empty-icon-box')]";
 
 		protected const string AUTOREVERSED_MESSAGE = "//div[contains(@class,'js-language-autoreversed')]";
 		protected const string AUTOREVERSED_REFERENCE = "//div[contains(@class,'js-language-autoreversed')]//a[contains(@href,'/Translate')]";

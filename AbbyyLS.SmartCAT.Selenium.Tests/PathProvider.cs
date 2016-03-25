@@ -208,6 +208,17 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests
 		#region Файлы для тестов TM
 
 		/// <summary>
+		/// Путь к тестовому файлу tmx с примером перевода
+		/// </summary>
+		public static string TmForSearchTest
+		{
+			get
+			{
+				return new Uri(Path.Combine(tmFilesFolder, "SearchTranslationExampleTest.tmx")).LocalPath;
+			}
+		}
+
+		/// <summary>
 		/// Путь к длинному тестовому файлу tmx
 		/// </summary>
 		public static string LongTmxFile

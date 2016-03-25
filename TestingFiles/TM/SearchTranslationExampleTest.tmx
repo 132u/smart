@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<tmx version="1.4">
+<header creationtool="AbbyyLS.Tmx" creationtoolversion="2.4.31.21672" segtype="sentence" o-tmf="ATM" adminlang="en-US" srclang="en" datatype="plaintext" />
+<body>
+<tu creationdate="20141118T134918Z" changedate="20141118T134918Z">
+<tuv xml:lang="en">
+<prop type="x-context-pre">&lt;seg&gt;tricky line.&lt;/seg&gt;</prop>
+<seg>Hello world! (8a4fcecf-b9ec-419c-a947-89f44ac2ea63)</seg>
+</tuv>
+<tuv xml:lang="ru">
+<seg>Привет мир! (d005ce1e-6b83-49ab-ade6-75be22144801)</seg>
+</tuv>
+</tu>
+</body>
+</tmx>

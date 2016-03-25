@@ -81,7 +81,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.LingvoDictionaries
 
 			_searchPage.InitSearch(search_query);
 
-			Assert.IsTrue(_searchPage.IsSearchResultDisplay(),
+			Assert.IsTrue(_searchPage.IsSearchResultDisplayed(),
 				"Произошла ошибка: \n не появились результаты поиска.");
 		}
 
