@@ -44,7 +44,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersRights
 			_loginHelper = new LoginHelper(Driver);
 			_usersTab = new UsersTab(Driver);
 			_addAccessRightDialog = new AddAccessRightDialog(Driver);
-			_documentUploadGeneralInformationDialog = new DocumentUploadGeneralInformationDialog(Driver);
+			_documentUploadGeneralInformationDialog = new AddFilesStep(Driver);
 			_distributeSegmentsBetweenAssigneesPage = new DistributeSegmentsBetweenAssigneesPage(Driver);
 			_distributeDocumentBetweenAssigneesPage = new DistributeDocumentBetweenAssigneesPage(Driver);
 			_groupsAndAccessRightsTab = new GroupsAndAccessRightsTab(Driver);
@@ -421,7 +421,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersRights
 		protected WorkspacePage _workspacePage;
 		protected DistributeDocumentBetweenAssigneesPage _distributeDocumentBetweenAssigneesPage;
 		protected DistributeSegmentsBetweenAssigneesPage _distributeSegmentsBetweenAssigneesPage;
-		protected DocumentUploadGeneralInformationDialog _documentUploadGeneralInformationDialog;
+		protected AddFilesStep _documentUploadGeneralInformationDialog;
 		protected LoginHelper _loginHelper;
 		protected TaskAssignmentPage _taskAssignmentPage;
 		protected const string _text = "Translation";

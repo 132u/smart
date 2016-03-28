@@ -23,7 +23,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 			_newProjectSettingsPage = new NewProjectSettingsPage(Driver);
 			_workspacePage = new WorkspacePage(Driver);
 			_projectSettingsPage = new ProjectSettingsPage(Driver);
-			_documentUploadGeneralInformationDialog = new DocumentUploadGeneralInformationDialog(Driver);
+			_documentUploadGeneralInformationDialog = new AddFilesStep(Driver);
 			_newProjectWorkflowPage = new NewProjectWorkflowPage(Driver);
 
 			_projectUniqueName = _createProjectHelper.GetProjectUniqueName();
@@ -42,7 +42,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 		protected NewProjectDocumentUploadPage _newProjectDocumentUploadPage;
 		protected NewProjectSettingsPage _newProjectSettingsPage;
 		protected ProjectSettingsPage _projectSettingsPage;
-		protected DocumentUploadGeneralInformationDialog _documentUploadGeneralInformationDialog;
+		protected AddFilesStep _documentUploadGeneralInformationDialog;
 		protected NewProjectWorkflowPage _newProjectWorkflowPage;
 	}
 }

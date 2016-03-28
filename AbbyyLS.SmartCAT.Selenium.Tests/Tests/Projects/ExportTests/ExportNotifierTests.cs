@@ -28,7 +28,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 			_projectSettingsPage = new ProjectSettingsPage(Driver);
 			_exportNotification = new ExportNotification(Driver);
 			_workspacePage = new WorkspacePage(Driver);
-			_documentUploadGeneralInformationDialog = new DocumentUploadGeneralInformationDialog(Driver);
+			_documentUploadGeneralInformationDialog = new AddFilesStep(Driver);
 
 			_projectUniqueName = _createProjectHelper.GetProjectUniqueName();
 
@@ -523,6 +523,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 		private WorkspacePage _workspacePage;
 		private ProjectSettingsPage _projectSettingsPage;
 		private ExportNotification _exportNotification;
-		private DocumentUploadGeneralInformationDialog _documentUploadGeneralInformationDialog;
+		private AddFilesStep _documentUploadGeneralInformationDialog;
 	}
 }

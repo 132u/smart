@@ -30,7 +30,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersRights.CreateProjects
 			_projectsPage = new ProjectsPage(Driver);
 			_deleteDialog = new DeleteDialog(Driver);
 			_exportNotification = new ExportNotification(Driver);
-			_documentUploadGeneralInformationDialog = new DocumentUploadGeneralInformationDialog(Driver);
+			_documentUploadGeneralInformationDialog = new AddFilesStep(Driver);
 			_usersTab = new UsersTab(Driver);
 			_addAccessRightDialog = new AddAccessRightDialog(Driver);
 			_newGroupDialog = new NewGroupDialog(Driver);
@@ -89,7 +89,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersRights.CreateProjects
 		protected LoginHelper _loginHelper;
 		protected string _projectUniqueName;
 
-		protected DocumentUploadGeneralInformationDialog _documentUploadGeneralInformationDialog;
+		protected AddFilesStep _documentUploadGeneralInformationDialog;
 		protected UsersTab _usersTab;
 		protected AddAccessRightDialog _addAccessRightDialog;
 		protected ProjectsPage _projectsPage;

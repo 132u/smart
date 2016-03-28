@@ -10,25 +10,25 @@ using AbbyyLS.SmartCAT.Selenium.Tests.TestFramework;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.DocumentUploadDialog
 {
-	public class DocumentUploadGeneralInformationDialog : DocumentUploadBaseDialog, IAbstractPage<DocumentUploadGeneralInformationDialog>
+	public class AddFilesStep : DocumentUploadBaseDialog, IAbstractPage<AddFilesStep>
 	{
-		public DocumentUploadGeneralInformationDialog(WebDriver driver) : base(driver)
+		public AddFilesStep(WebDriver driver) : base(driver)
 		{
 		}
 
-		public new DocumentUploadGeneralInformationDialog GetPage()
+		public new AddFilesStep GetPage()
 		{
-			var documentUploadGeneralInformationDialog = new DocumentUploadGeneralInformationDialog(Driver);
-			InitPage(documentUploadGeneralInformationDialog, Driver);
+			var addFilesStep = new AddFilesStep(Driver);
+			InitPage(addFilesStep, Driver);
 
-			return documentUploadGeneralInformationDialog;
+			return addFilesStep;
 		}
 
 		public new void LoadPage()
 		{
-			if (!IsDocumentUploadGeneralInformationDialogOpened())
+			if (!IsAddFilesStepOpened())
 			{
-				throw new XPathLookupException("Произошла ошибка:\n не открылся диалог загрузки файла.");
+				throw new XPathLookupException("Произошла ошибка:\n не открылся шаг загрузки файла.");
 			}
 		}
 
@@ -38,12 +38,23 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.DocumentUploadDialog
 		/// Ввести путь к файлу в поле импорта
 		/// </summary>
 		/// <param name="pathFile">путь до файла</param>
-		public DocumentUploadGeneralInformationDialog SetFileName(string pathFile)
+		public AddFilesStep SetFileName(string pathFile)
 		{
 			CustomTestContext.WriteLine("Ввести путь к файлу {0} в поле импорта.", pathFile);
 			UploadFileInput.SendKeys(pathFile);
 
 			return GetPage();
+		}
+
+		/// <summary>
+		/// Нажать кнопку Next
+		/// </summary>
+		public SettingsResourcesStep ClickNextBurron()
+		{
+			CustomTestContext.WriteLine("Нажать кнопку Next.");
+			NextButton.Click();
+
+			return new SettingsResourcesStep(Driver).GetPage();
 		}
 
 		#endregion
@@ -54,18 +65,13 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.DocumentUploadDialog
 		/// Загрузка файлов
 		/// </summary>
 		/// <param name="pathFiles">список путей к файлам</param>
-		public DocumentUploadGeneralInformationDialog UploadDocument(IList<string> pathFiles)
+		public AddFilesStep UploadDocument(IList<string> filesPaths)
 		{
-			makeInputDialogVisible();
-
-			foreach (var pathFile in pathFiles)
+			foreach (var filePath in filesPaths)
 			{
-				SetFileName(pathFile);
-
-				if (!IsFileUploaded(pathFile))
-				{
-					throw new Exception("Произошла ошибка: документ не загрузился");
-				}
+				CustomTestContext.WriteLine("Загрузить файл: {0}.", filePath);
+				makeInputDialogVisible();
+				SetFileName(filePath);
 			}
 			
 			return GetPage();
@@ -97,7 +103,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.DocumentUploadDialog
 		{
 			CustomTestContext.WriteLine("Проверить, что диалог добавления файла в проект закрылся.");
 
-			return Driver.WaitUntilElementIsDisappeared(By.XPath(UPLOAD_DOCUMENT_DIALOG));
+			return Driver.WaitUntilElementIsDisappeared(By.XPath(ADD_FILES_TAB));
 		}
 
 		/// <summary>
@@ -127,11 +133,11 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.DocumentUploadDialog
 		/// <summary>
 		/// Проверить, открыт ли диалог загрузки файлов
 		/// </summary>
-		public bool IsDocumentUploadGeneralInformationDialogOpened()
+		public bool IsAddFilesStepOpened()
 		{
-			AddButton.Scroll();
+			AddFilesTab.Scroll();
 
-			return Driver.WaitUntilElementIsDisplay(By.XPath(ADD_BTN));
+			return Driver.WaitUntilElementIsDisplay(By.XPath(ADD_FILES_TAB));
 		}
 
 		#endregion
@@ -141,7 +147,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.DocumentUploadDialog
 		/// <summary>
 		/// Выполнить скрипт для того, чтобы сделать диалог импорта видимым для теста
 		/// </summary>
-		private DocumentUploadGeneralInformationDialog makeInputDialogVisible()
+		private AddFilesStep makeInputDialogVisible()
 		{
 			CustomTestContext.WriteLine("Выполнить скрипт для того, чтобы сделать диалог импорта видимым для теста");
 			Driver.ExecuteScript("arguments[0].style[\"display\"] = \"block\";" +
@@ -153,16 +159,27 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.DocumentUploadDialog
 
 		#endregion
 
+		#region Объявление элементов страницы
+
 		[FindsBy(How = How.XPath, Using = UPLOAD_FILE_INPUT)]
 		protected IWebElement UploadFileInput { get; set; }
 
-		[FindsBy(How = How.XPath, Using = ADD_BTN)]
-		protected IWebElement AddButton { get; set; }
+		[FindsBy(How = How.XPath, Using = SELECT_BUTTON)]
+		protected IWebElement SelectButton { get; set; }
 
-		protected const string ADD_BTN = ".//div[contains(@class,'js-popup-import-document')][2]//a[contains(@class,'js-add-file')]";
-		protected const string UPLOAD_FILE_INPUT = ".//div[contains(@class,'js-popup-import-document')][2]//input[@type = 'file']";
-		protected const string UPLOADED_FILE = ".//div[contains(@class,'js-popup-import-document')][2]//li[@class='js-file-list-item']//span[contains(string(), '*#*')]";
-		protected const string DUPLICATE_NAME_ERROR = "//div[contains(@class,'js-info-popup')]//span[contains(string(),'The following files have already been added to the project')]";
-		protected const string UPLOAD_DOCUMENT_DIALOG = "//div[contains(@class,'js-popup-import-document')][2]";
+		[FindsBy(How = How.XPath, Using = ADD_FILES_TAB)]
+		protected IWebElement AddFilesTab { get; set; }
+
+		#endregion
+
+		#region Описания XPath элементов
+
+		protected const string SELECT_BUTTON = "//div[contains(@data-bind, 'addFile')]";
+		protected const string ADD_FILES_TAB = "//li[contains(@data-bind, 'filesStep')]";
+		protected const string UPLOAD_FILE_INPUT = "//input[contains(@data-bind,'uploadFilesFromFileInput')]";
+		protected const string UPLOADED_FILE = "//li[contains(@class, 'docs__item')]//span[contains(text(),'*#*')]";
+		protected const string DUPLICATE_NAME_ERROR = "//span[contains(string(),'The following files have already been added to the project')]";
+
+		#endregion
 	}
 }

@@ -22,7 +22,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 			_documentSettingsDialog = new DocumentSettingsDialog(Driver);
 			_projectPage = new ProjectSettingsPage(Driver);
-			_documentUploadGeneralInformationDialog = new DocumentUploadGeneralInformationDialog(Driver);
+			_addFilesStep = new AddFilesStep(Driver);
 			_taskAssignmentPage = new TaskAssignmentPage(Driver);
 			_selectAssigneePage = new SelectAssigneePage(Driver);
 			_selectTaskDialog = new SelectTaskDialog(Driver);
@@ -78,13 +78,14 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 			foreach (var filePath in filePaths)
 			{
-				if (!_documentUploadGeneralInformationDialog.IsFileUploaded(filePath))
+				if (!_addFilesStep.IsFileUploaded(filePath))
 				{
 					throw new Exception("Произошла ошибка: '\nдокумент " + filePath + " не загружен");
 				}
 			}
 
-			_documentUploadGeneralInformationDialog
+			_addFilesStep
+				.ClickNextBurron()
 				.ClickFinish<ProjectSettingsPage>()
 				.WaitUntilDocumentProcessed();
 
@@ -135,7 +136,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 		private readonly ProjectSettingsPage _projectPage;
 		private readonly DocumentSettingsDialog _documentSettingsDialog;
-		private readonly DocumentUploadGeneralInformationDialog _documentUploadGeneralInformationDialog;
+		private readonly AddFilesStep _addFilesStep;
 		private readonly TaskAssignmentPage _taskAssignmentPage;
 		private readonly SelectAssigneePage _selectAssigneePage;
 		private readonly EditorPage _editorPage;

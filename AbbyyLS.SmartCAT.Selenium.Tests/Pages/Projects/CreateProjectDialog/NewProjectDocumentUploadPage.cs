@@ -280,7 +280,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 
 		protected const string DOCUMENT_UPLOAD_STEP = "//ul[@data-bind='foreach: steps']/li[1][contains(@class,'active')]";
 		protected const string SKIP_DOCUMENT_UPLOAD_BUTTON = "//span[@class='skip-step']";
-		protected const string UPLOADED_DOCUMENT = "//div[contains(@class,'item')]//span[text()='*#*']//..//..//i[not(contains(@class,'loading')) and contains(@data-bind,'loading')]";
+		protected const string UPLOADED_DOCUMENT = "//div[contains(@class,'item')]//span[text()='*#*']//..//..//span[not(contains(@class,'loading')) and contains(@data-bind,'loading')]";
 		protected const string UPLOAD_DOCUMENT_INPUT = "//input[contains(@data-bind,'uploadFilesFromFileInput')]";
 		protected const string UPLOADED_TMX = "//div[contains(@class,'item')]//span[text()='*#*']//..//..//..//..//..//..//..//div[contains(@data-bind , 'stopBubble: true') and contains(@data-bind, 'selectTranslationMemory')]";
 		protected const string SETTINGS_BUTTON = "//div[contains(@class,'first-animated-btn') and not(contains(@disabled, 'true'))]";

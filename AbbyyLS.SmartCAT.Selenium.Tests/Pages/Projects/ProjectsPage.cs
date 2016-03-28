@@ -342,12 +342,12 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 		/// <summary>
 		/// Нажать на кнопку загрузки файла
 		/// </summary>
-		public DocumentUploadGeneralInformationDialog ClickDocumentUploadButton()
+		public AddFilesStep ClickDocumentUploadButton()
 		{
 			CustomTestContext.WriteLine("Нажать на кнопку загрузки файла");
 			UploadDocumentButton.Click();
 
-			return new DocumentUploadGeneralInformationDialog(Driver).GetPage();
+			return new AddFilesStep(Driver).GetPage();
 		}
 
 		/// <summary>

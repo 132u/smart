@@ -33,7 +33,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.DocumentUploadDialog
 		[FindsBy(How = How.XPath, Using = NEXT_BUTTON)]
 		protected IWebElement NextButton { get; set; }
 
-		protected const string FINISH_BUTTON = ".//div[contains(@class,'js-popup-import-document')][2]//div[contains(@class,'js-finish js-upload-btn')]";
-		protected const string NEXT_BUTTON = ".//div[contains(@class,'js-popup-import-document')][2]//span[contains(@class,'js-next')]";
+		protected const string FINISH_BUTTON = "//div[contains(@data-bind, 'completeStep')]//a[contains(text(), 'Finish')]";
+		protected const string NEXT_BUTTON = "//div[contains(@data-bind, 'completeStep')]//a[contains(text(), 'Next')]";
 	}
 }

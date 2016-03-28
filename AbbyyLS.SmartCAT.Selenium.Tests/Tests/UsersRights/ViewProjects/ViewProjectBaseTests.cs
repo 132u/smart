@@ -25,7 +25,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersRights.ViewProjects
 			_loginHelper = new LoginHelper(Driver);
 			_projectsPage = new ProjectsPage(Driver);
 			_userRightsHelper = new UserRightsHelper(Driver);
-			_documentUploadGeneralInformationDialog = new DocumentUploadGeneralInformationDialog(Driver);
+			_documentUploadGeneralInformationDialog = new AddFilesStep(Driver);
 			_projectUniqueName = _createProjectHelper.GetProjectUniqueName();
 			_exportNotification = new ExportNotification(Driver);
 			_taskAssignmentPage = new TaskAssignmentPage(Driver);
@@ -57,7 +57,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersRights.ViewProjects
 
 		protected string _projectUniqueName;
 		protected UserRightsHelper _userRightsHelper;
-		protected DocumentUploadGeneralInformationDialog _documentUploadGeneralInformationDialog;
+		protected AddFilesStep _documentUploadGeneralInformationDialog;
 		protected CreateProjectHelper _createProjectHelper;
 		protected WorkspacePage _workspacePage;
 		protected ProjectsPage _projectsPage;

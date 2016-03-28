@@ -80,7 +80,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersRights.ManageProjects
 			_editorPage = new EditorPage(Driver);
 			_pretranslationDialog = new PretranslationDialog(Driver);
 			_userRightsHelper = new UserRightsHelper(Driver);
-			_documentUploadGeneralInformationDialog = new DocumentUploadGeneralInformationDialog(Driver);
+			_documentUploadGeneralInformationDialog = new AddFilesStep(Driver);
 
 			AdditionalUser = TakeUser(ConfigurationManager.AdditionalUsers);
 
@@ -102,7 +102,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersRights.ManageProjects
 				ReturnUser(ConfigurationManager.AdditionalUsers, AdditionalUser);
 			}
 		}
-		protected DocumentUploadGeneralInformationDialog _documentUploadGeneralInformationDialog;
+		protected AddFilesStep _documentUploadGeneralInformationDialog;
 		protected ProjectSettingsDialog _settingsDialog;
 		protected EditorPage _editorPage;
 		protected BuildStatisticsPage _statisticsPage;

@@ -42,7 +42,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 			_loginHelper = new LoginHelper(Driver);
 			_usersTab = new UsersTab(Driver);
 			_addAccessRightDialog = new AddAccessRightDialog(Driver);
-			_documentUploadGeneralInformationDialog = new DocumentUploadGeneralInformationDialog(Driver);
+			_documentUploadGeneralInformationDialog = new AddFilesStep(Driver);
 			_distributeSegmentsBetweenAssigneesPage = new DistributeSegmentsBetweenAssigneesPage(Driver);
 			_distributeDocumentBetweenAssigneesPage = new DistributeDocumentBetweenAssigneesPage(Driver);
 			_newGroupDialog = new NewGroupDialog(Driver);
@@ -77,7 +77,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 		protected EditorPage _editorPage;
 		protected DistributeDocumentBetweenAssigneesPage _distributeDocumentBetweenAssigneesPage;
 		protected DistributeSegmentsBetweenAssigneesPage _distributeSegmentsBetweenAssigneesPage;
-		protected DocumentUploadGeneralInformationDialog _documentUploadGeneralInformationDialog;
+		protected AddFilesStep _documentUploadGeneralInformationDialog;
 		protected LoginHelper _loginHelper;
 		protected TaskAssignmentPage _taskAssignmentPage;
 		protected TaskDeclineDialog _taskDeclineDialog;

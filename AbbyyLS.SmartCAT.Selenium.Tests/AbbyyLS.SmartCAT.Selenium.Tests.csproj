@@ -105,6 +105,7 @@
     <Compile Include="DataStructures\GlossaryCustomFieldType.cs" />
     <Compile Include="Pages\Projects\CreateProjectDialog\NewProjectDocumentUploadPage.cs" />
     <Compile Include="Pages\Projects\CreateProjectDialog\NewProjectWorkflowPage.cs" />
+    <Compile Include="Pages\Projects\DocumentUploadDialog\SettingsResourcesStep.cs" />
     <Compile Include="Pages\Projects\ProjectSettings\ConfirmDeclineTaskDialog.cs" />
     <Compile Include="Pages\Projects\ProjectSettings\EditTranslationMemoryDialog.cs" />
     <Compile Include="Pages\Projects\ProjectSettings\NewTranslationMemoryDialog.cs" />
@@ -234,7 +235,7 @@
     <Compile Include="Pages\Projects\DeleteOpenProjectWithFileDialog.cs" />
     <Compile Include="Pages\Projects\DeleteDialog.cs" />
     <Compile Include="Pages\Projects\ProjectSettings\DeleteDocumentDialog.cs" />
-    <Compile Include="Pages\Projects\DocumentUploadDialog\DocumentUploadGeneralInformationDialog.cs" />
+    <Compile Include="Pages\Projects\DocumentUploadDialog\AddFilesStep.cs" />
     <Compile Include="Pages\Projects\ProjectSettings\ProjectSettingsPage.cs" />
     <Compile Include="Pages\Projects\ProjectsPage.cs" />
     <Compile Include="Pages\UsersRights\UsersTab.cs" />
@@ -276,7 +277,6 @@
     <Compile Include="Tests\Coursera\UserProfileTests\UserProfileInvalidTests.cs" />
     <Compile Include="Tests\Coursera\UserProfileTests\OpenProfileTests.cs" />
     <Compile Include="Tests\Coursera\UserProfileTests\UserProfileValidTests.cs" />
-    <Compile Include="Tests\Editor\SegmentsPanelTests\AppearanceTriangleWithErrorTests.cs" />
     <Compile Include="Tests\Editor\SidePanelTests\CatPanelTests\CatPanelResultTests.cs" />
     <Compile Include="Tests\Editor\TopPanelTests\EditorChangeCaseButtonsTests.cs" />
     <Compile Include="Tests\Editor\TopPanelTests\EditorLastUnconfirmedSegmentTests.cs" />
@@ -322,7 +322,6 @@
     <Compile Include="Tests\Glossaries\TermsTests\SearchTermsTests.cs" />
     <Compile Include="Tests\Glossaries\SuggestedTermsTests\SuggestTermsBaseTest.cs" />
     <Compile Include="Tests\SupportTests\WorkspaceSupportButtonsTests.cs" />
-    <Compile Include="Tests\TranslationMemories\SearchTmTests\SearchExamplesInTmTests.cs" />
     <Compile Include="Tests\UsersRights\CreateProjects\CreateProjectWithRightBaseTest.cs" />
     <Compile Include="Tests\UsersRights\CreateProjects\FormsAndButtonsAvailabilityTests.cs" />
     <Compile Include="Tests\UsersRights\ManageGlossarySearch\ManageGlossarySearchTests.cs" />

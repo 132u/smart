@@ -26,7 +26,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 			_workspacePage = new WorkspacePage(Driver);
 			_createProjectHelper = new CreateProjectHelper(Driver);
 			_distributeDocumentBetweenAssigneesPage = new DistributeDocumentBetweenAssigneesPage(Driver);
-			_documentUploadGeneralInformationDialog = new DocumentUploadGeneralInformationDialog(Driver);
+			_documentUploadGeneralInformationDialog = new AddFilesStep(Driver);
 			_taskAssignmentPage = new TaskAssignmentPage(Driver);
 			_groupsAndAccessRightsTab = new GroupsAndAccessRightsTab(Driver);
 			_projectsPage = new ProjectsPage(Driver);
@@ -66,7 +66,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 		protected WorkspacePage _workspacePage;
 		protected CommonHelper _commonHelper;
 		protected LoginHelper _loginHelper;
-		protected DocumentUploadGeneralInformationDialog _documentUploadGeneralInformationDialog;
+		protected AddFilesStep _documentUploadGeneralInformationDialog;
 		protected ProjectSettingsDialog _settingsDialog;
 		protected TaskAssignmentPage _taskAssignmentPage;
 		protected GroupsAndAccessRightsTab _groupsAndAccessRightsTab;
