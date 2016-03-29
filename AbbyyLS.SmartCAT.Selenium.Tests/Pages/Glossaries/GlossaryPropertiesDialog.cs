@@ -254,7 +254,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 		[FindsBy(How = How.XPath, Using = ADD_LANGUAGE_BUTTON)]
 		protected IWebElement AddLanguageButton { get; set; }
 
-		[FindsBy(How = How.XPath, Using = LAST_LANGUAGE_DROPDOWN)]
+		[FindsBy(How = How.XPath, Using = LAST_LANGUAGE_DROPDOWN_ARROW)]
 		protected IWebElement LastLanguageDropdown { get; set; }
 
 		#endregion
@@ -263,7 +263,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 
 		protected const string LANGUAGE_OPTION = "//span[contains(@class, 'js-dropdown__item') and @data-id='*#*']";
 		protected const string ADD_LANGUAGE_BUTTON = ".//div[contains(@class,'js-popup-edit-glossary')][2]//div[contains(@data-bind, 'addLanguage')]";
-		protected const string LAST_LANGUAGE_DROPDOWN = ".//div[contains(@class,'js-popup-edit-glossary')][2]//div[contains(@data-bind, 'addLanguage')]//preceding-sibling::span[@class='g-iblock l-editgloss__control l-editgloss__lang'][1]//span/span";
+		protected const string LAST_LANGUAGE_DROPDOWN_ARROW = "(//span[contains(@class, 'editgloss__control l-editgloss__lang')])[last()]//span[contains(@class, 'dropdown')]//i";
 
 		protected const string GLOSSARY_PROPERTIES_DIALOG = ".//div[contains(@class,'js-popup-edit-glossary')][2]";
 		protected const string DELETE_GLOSSARY_BUTTON = ".//div[contains(@class,'js-popup-edit-glossary')][2]//div[contains(@data-bind, 'click: deleteGlossary')]";
