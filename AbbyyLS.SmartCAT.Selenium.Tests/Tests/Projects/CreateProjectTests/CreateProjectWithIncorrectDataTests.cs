@@ -9,8 +9,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 	[Parallelizable(ParallelScope.Fixtures)]
 	[PriorityMajor]
 	[Standalone]
-	class CreateProjectWithIncorrectDataTests<TWebDriverProvider>
-		: BaseProjectTest<TWebDriverProvider> where TWebDriverProvider : IWebDriverProvider, new()
+	class CreateProjectWithIncorrectDataTests<TWebDriverProvider>: BaseProjectTest<TWebDriverProvider> where TWebDriverProvider : IWebDriverProvider, new()
 	{
 		[TestCase("*")]
 		[TestCase("|")]
@@ -100,11 +99,11 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 
 			_projectSettingsPage.ClickDocumentUploadButton();
 
-			_documentUploadGeneralInformationDialog.UploadDocument(
+			_documentUploadGeneralInformationDialog.UploadDublicateDocument(
 				new[] { PathProvider.DocumentFile, PathProvider.DocumentFile });
 
-			Assert.IsTrue(_documentUploadGeneralInformationDialog.IsDuplicateDocumentNameErrorExist(),
-				"Произошла ошибка:\n нет появилась ошибка о том, что в проекте уже есть файл с таким именем.");
+			Assert.IsTrue(_dublicateFileErrorDialog.IsDublicateFileErrorDialogOpened(),
+				"Произошла ошибка: Не появилось сообщение о том, что файл уже загружен.");
 		}
 	}
 }

@@ -47,6 +47,18 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.DocumentUploadDialog
 		}
 
 		/// <summary>
+		/// Ввести путь к файлу в поле импорта
+		/// </summary>
+		/// <param name="pathFile">путь до файла</param>
+		public DublicateFileErrorDialog SetDublicateFileName(string pathFile)
+		{
+			CustomTestContext.WriteLine("Ввести путь к файлу {0} в поле импорта.", pathFile);
+			UploadFileInput.SendKeys(pathFile);
+
+			return new DublicateFileErrorDialog(Driver).GetPage();
+		}
+
+		/// <summary>
 		/// Нажать кнопку Next
 		/// </summary>
 		public SettingsResourcesStep ClickNextBurron()
@@ -75,6 +87,22 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.DocumentUploadDialog
 			}
 			
 			return GetPage();
+		}
+
+		/// <summary>
+		/// Загрузка файлов
+		/// </summary>
+		/// <param name="pathFiles">список путей к файлам</param>
+		public DublicateFileErrorDialog UploadDublicateDocument(IList<string> filesPaths)
+		{
+			foreach (var filePath in filesPaths)
+			{
+				CustomTestContext.WriteLine("Загрузить файл: {0}.", filePath);
+				makeInputDialogVisible();
+				SetDublicateFileName(filePath);
+			}
+
+			return new DublicateFileErrorDialog(Driver).GetPage();
 		}
 
 		/// <summary>

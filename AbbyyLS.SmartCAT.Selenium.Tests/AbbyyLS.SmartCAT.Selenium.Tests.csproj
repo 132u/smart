@@ -105,6 +105,7 @@
     <Compile Include="DataStructures\GlossaryCustomFieldType.cs" />
     <Compile Include="Pages\Projects\CreateProjectDialog\NewProjectDocumentUploadPage.cs" />
     <Compile Include="Pages\Projects\CreateProjectDialog\NewProjectWorkflowPage.cs" />
+    <Compile Include="Pages\Projects\DocumentUploadDialog\DublicateFileErrorDialog.cs" />
     <Compile Include="Pages\Projects\DocumentUploadDialog\SettingsResourcesStep.cs" />
     <Compile Include="Pages\Projects\ProjectSettings\ConfirmDeclineTaskDialog.cs" />
     <Compile Include="Pages\Projects\ProjectSettings\EditTranslationMemoryDialog.cs" />

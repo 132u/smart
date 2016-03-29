@@ -21,6 +21,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.DocumentUploadDialog
 		public T ClickFinish<T>() where T : class, IAbstractPage<T>
 		{
 			CustomTestContext.WriteLine("Нажать кнопку 'Готово'");
+			FinishButton.ScrollDown();
 			FinishButton.Click();
 
 			var instance = Activator.CreateInstance(typeof(T), new object[] { Driver }) as T;

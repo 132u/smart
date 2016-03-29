@@ -25,6 +25,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 			_projectSettingsPage = new ProjectSettingsPage(Driver);
 			_documentUploadGeneralInformationDialog = new AddFilesStep(Driver);
 			_newProjectWorkflowPage = new NewProjectWorkflowPage(Driver);
+			_dublicateFileErrorDialog = new DublicateFileErrorDialog(Driver);
 
 			_projectUniqueName = _createProjectHelper.GetProjectUniqueName();
 
@@ -34,6 +35,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 		protected string _projectUniqueName;
 		protected const string _longName = "12345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890";
 
+		protected DublicateFileErrorDialog _dublicateFileErrorDialog;
 		protected WorkspacePage _workspacePage;
 		protected CreateProjectHelper _createProjectHelper;
 		protected ProjectSettingsHelper _projectSettingsHelper;
