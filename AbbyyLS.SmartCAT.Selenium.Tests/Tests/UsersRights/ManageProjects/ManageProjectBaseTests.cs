@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Drawing;
 
 using NUnit.Framework;
 
@@ -29,15 +30,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersRights.ManageProjects
 				_workspacePage.GoToProjectsPage();
 
 				_createProjectHelper.CreateNewProject(
-					_projectUniqueName, filesPaths: new[] { PathProvider.DocumentFile });
+					_projectUniqueName, filesPaths: new[] { PathProvider.DocumentFile, PathProvider.DocumentFile2 });
 
-				_projectsPage
-					.OpenProjectInfo(_projectUniqueName)
-					.ClickDocumentUploadButton();
-
-				_documentUploadGeneralInformationDialog
-					.UploadDocument(new[] { PathProvider.DocumentFile2 })
-					.ClickFihishUploadOnProjectsPage();
 				_workspacePage.SignOut();
 
 				_loginHelper = new LoginHelper(Driver);
