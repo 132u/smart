@@ -137,9 +137,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 				deadline: Deadline.FillDeadlineDate,
 				deadlineDate: DateTime.Now.AddMonths(2).ToString("d", CultureInfo.InvariantCulture)
 				);
-
-			_projectsPage.ClickProject(_projectUniqueName);
-
+			
 			_projectsPage.OpenAssignDialog(_projectUniqueName);
 
 			_taskAssignmentPage

@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using System.Linq;
 
 using NUnit.Framework;
@@ -340,14 +341,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 
 			_projectsPage.ClickProject(_projectUniqueName);
 
-			_projectSettingsPage.ClickDocumentUploadButton();
-
-			_documentUploadGeneralInformationDialog.UploadDocument(new[] { PathProvider.DocumentFile });
-
-			Assert.IsTrue(_documentUploadGeneralInformationDialog.IsFileUploaded(PathProvider.DocumentFile),
-				"Произошла ошибка:\n не удалось загрузить файл.");
-
-			_documentUploadGeneralInformationDialog.ClickFinish<ProjectSettingsPage>();
+			_projectSettingsHelper.UploadDocument(new[] { PathProvider.DocumentFile });
 
 			_workspacePage.RefreshPage<WorkspacePage>();
 
