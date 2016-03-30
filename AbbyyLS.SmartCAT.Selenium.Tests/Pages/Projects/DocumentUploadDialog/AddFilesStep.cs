@@ -61,7 +61,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.DocumentUploadDialog
 		/// <summary>
 		/// Нажать кнопку Next
 		/// </summary>
-		public SettingsResourcesStep ClickNextBurron()
+		public SettingsResourcesStep ClickNextButton()
 		{
 			CustomTestContext.WriteLine("Нажать кнопку Next.");
 			NextButton.Click();

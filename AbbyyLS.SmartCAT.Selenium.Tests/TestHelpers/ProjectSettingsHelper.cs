@@ -85,7 +85,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 			}
 
 			_addFilesStep
-				.ClickNextBurron()
+				.ClickNextButton()
 				.ClickFinish<ProjectSettingsPage>()
 				.WaitUntilDocumentProcessed();
 

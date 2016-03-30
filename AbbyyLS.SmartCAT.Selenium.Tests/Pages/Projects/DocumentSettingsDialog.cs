@@ -200,7 +200,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 
 		protected const string TITLE = "(//h2[text()='Document Settings'])[3]";
 		protected const string NAME_INPUT = "//div[contains(@class,'document-settings')][3]//input[contains(@data-bind,'value: name')]";
-		protected const string SAVE_BUTTON_PROJECT_SETTINGS_PAGE = "(//div[contains(@class,'g-popupbox js-popupbox l-editgloss')])[11]//div[contains(@data-bind,'save')]";
+		protected const string SAVE_BUTTON_PROJECT_SETTINGS_PAGE = "//div[contains(@class,'single-target-document-settings')][2]//div[contains(@data-bind,'save')]";
 		protected const string SAVE_BUTTON_PROJECTS_PAGE = "//div[contains(@class,'single-target-document-settings')][2]//div[contains(@data-bind,'save')]";
 		protected const string MT_CHECKBOX_INPUT = "//span[text()='*#*']/../../preceding-sibling::td//input";
 		protected const string MT_CHECKBOX = "//span[text()='*#*']/../../preceding-sibling::td";
