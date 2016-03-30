@@ -28,8 +28,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 			_projectSettingsPage = new ProjectSettingsPage(Driver);
 			_exportNotification = new ExportNotification(Driver);
 			_workspacePage = new WorkspacePage(Driver);
-			_documentUploadGeneralInformationDialog = new AddFilesStep(Driver);
-
+			_addFilesStep = new AddFilesStep(Driver);
+			
 			_projectUniqueName = _createProjectHelper.GetProjectUniqueName();
 
 			_workspacePage.GoToProjectsPage();
@@ -121,16 +121,21 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 		{
 			_projectsPage
 				.OpenProjectInfo(_projectUniqueName)
-				.ClickDocumentUploadButton();
+				.ClickDocumentUploadButton()
+				.UploadDocument(new[] { PathProvider.DocumentFileToConfirm2 });
 
-			_documentUploadGeneralInformationDialog.UploadDocument(new[] { PathProvider.DocumentFileToConfirm2 });
-
-			if (!_documentUploadGeneralInformationDialog.IsFileUploaded(PathProvider.DocumentFileToConfirm2))
+			foreach (var filePath in new[] { PathProvider.DocumentFileToConfirm2 })
 			{
-				throw new Exception("Произошла ошибка: \n не удалось дождаться загрузки документа.");
+				if (!_addFilesStep.IsFileUploaded(filePath))
+				{
+					throw new Exception("Произошла ошибка: '\nдокумент " + filePath + " не загружен");
+				}
 			}
 
-			_documentUploadGeneralInformationDialog.ClickFihishUploadOnProjectsPage();
+			_addFilesStep
+				.ClickNextButton()
+				.ClickFinish<ProjectsPage>()
+				.WaitUntilProjectLoadSuccessfully(_projectUniqueName);
 
 			_projectsPage
 				.ClickProjectCheckboxInList(_projectUniqueName)
@@ -523,6 +528,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 		private WorkspacePage _workspacePage;
 		private ProjectSettingsPage _projectSettingsPage;
 		private ExportNotification _exportNotification;
-		private AddFilesStep _documentUploadGeneralInformationDialog;
+		private AddFilesStep _addFilesStep;
 	}
 }
