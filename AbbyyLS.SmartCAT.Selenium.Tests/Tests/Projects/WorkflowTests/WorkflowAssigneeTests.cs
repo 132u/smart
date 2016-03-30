@@ -77,7 +77,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 				"Произошла ошибка:\n Неверное количество задач.");
 		}
 
-		[Ignore("SCAT-796")]
 		[Test, Description("ТС-51 Работа с репетишенами")]
 		public void AssignRepetionsTest()
 		{

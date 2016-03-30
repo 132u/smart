@@ -893,7 +893,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 			CustomTestContext.WriteLine("Получить текст из таргет сегмента №{0}.", rowNumber);
 			ScrollToTarget(rowNumber);
 			TargetCell = Driver.SetDynamicValue(How.XPath, TARGET_CELL, (rowNumber - 1).ToString());
-			TargetCell.Click();
 
 			return TargetCell.Text.Trim();
 		}
