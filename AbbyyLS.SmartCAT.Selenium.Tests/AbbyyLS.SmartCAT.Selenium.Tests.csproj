@@ -331,8 +331,11 @@
     <Compile Include="Tests\UsersRights\ManageProjects\ProjectSettingsPage\ManageProjectTests.cs" />
     <Compile Include="Tests\UsersRights\ManageProjects\ProjectsPage\FormsAndButtonsAvailabilityProjectsPageTests.cs" />
     <Compile Include="Tests\UsersRights\ManageProjects\ProjectsPage\ManageProjectTests.cs" />
-    <Compile Include="Tests\UsersRights\ManageTranslationMemories\ManageTranslationMemoriesBaseTests.cs" />
-    <Compile Include="Tests\UsersRights\ManageTranslationMemories\ManageTranslationMemoriesTests.cs" />
+    <Compile Include="Tests\UsersRights\TranslationMemories\TranslationMemoriesSearch\TranslationMemoriesSearchSpecificClientTests.cs" />
+    <Compile Include="Tests\UsersRights\TranslationMemories\TranslationMemoriesSearch\TranslationMemoriesSearchTests.cs" />
+    <Compile Include="Tests\UsersRights\TranslationMemories\TranslationMemoriesUserRightsBaseTests.cs" />
+    <Compile Include="Tests\UsersRights\TranslationMemories\TranslationMemoriesManagement\ManageTranslationMemoriesBaseTests.cs" />
+    <Compile Include="Tests\UsersRights\TranslationMemories\TranslationMemoriesManagement\ManageTranslationMemoriesTests.cs" />
     <Compile Include="Tests\UsersRights\SuggestTermsWithoutSpecifyingGlossary\SuggestTermsWithoutRight.cs" />
     <Compile Include="Tests\ProjectGroups\ChangeProjectGroupTests.cs" />
     <Compile Include="Tests\ProjectGroups\DeleteProjectGroupTests.cs" />
@@ -444,10 +447,9 @@
     <Folder Include="Tests\UsersRights\ManageGlossaries\" />
     <Folder Include="Tests\UsersRights\ManageGlossaryContent\" />
     <Folder Include="Tests\UsersRights\ManagePaidResources\" />
-    <Folder Include="Tests\UsersRights\ManageTMContent\" />
     <Folder Include="Tests\UsersRights\ManageUsers\" />
     <Folder Include="Tests\UsersRights\SearchInGlossaries\" />
-    <Folder Include="Tests\UsersRights\SearchInTMs\" />
+    <Folder Include="Tests\UsersRights\TranslationMemories\TranslationMemoriesContent\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -6,6 +6,7 @@
 		ProjectResourceManagement,
 		ProjectView,
 		GlossarySearch,
-		TMManagement
+		TMManagement,
+		TMSearch
 	}
 }

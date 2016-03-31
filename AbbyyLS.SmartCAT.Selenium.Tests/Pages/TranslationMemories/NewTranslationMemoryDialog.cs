@@ -108,7 +108,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories
 		public NewTranslationMemoryDialog ClickClientOption(string clientName)
 		{
 			CustomTestContext.WriteLine("Выбрать клиента {0} в дропдауне.", clientName);
-			ClientOption = Driver.SetDynamicValue(How.XPath, CLIENT_ITEM, clientName);
+			ClientOption = Driver.SetDynamicValue(How.XPath, CLIENT_OPTION, clientName);
 			ClientOption.Click();
 
 			return GetPage();
@@ -430,6 +430,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories
 		protected const string CLIENT = "//select[contains(@data-bind,'allClientsList')]//following-sibling::span";
 		protected const string CLIENT_LIST = "//select[contains(@data-bind,'allClientsList')]//following-sibling::span[contains(@class,'active')]";
 		protected const string CLIENT_ITEM = "//select[contains(@data-bind,'allClientsList')]/option";
+		protected const string CLIENT_OPTION = "//span[contains(@title,'*#*')]";
 
 		protected const string TM_NAME_FIELD = "//div[contains(@class,'js-popup-create-tm')][2]//input[contains(@data-bind,'name')]";
 		protected const string SAVE_BUTTON = ".//div[contains(@class,'js-popup-create-tm')][2]//div[contains(@data-bind, 'click: save')]";

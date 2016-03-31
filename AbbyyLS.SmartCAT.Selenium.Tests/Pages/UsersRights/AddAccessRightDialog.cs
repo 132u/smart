@@ -32,6 +32,17 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.UsersRights
 		#region Простые методы страницы
 
 		/// <summary>
+		/// Выбрать радиокнопку 'Для конкретного клиента'.
+		/// </summary>
+		public AddAccessRightDialog ClickForSpecificClientRadiobutton()
+		{
+			CustomTestContext.WriteLine("Выбрать радиокнопку 'Для конкретного клиента'.");
+			ForSpecificClientRadioButton.Click();
+
+			return GetPage();
+		}
+
+		/// <summary>
 		/// Выбрать из списка право на создание проектов
 		/// </summary>
 		/// <param name="right">право</param>
@@ -112,6 +123,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.UsersRights
 		/// Добавить права
 		/// </summary>
 		/// <param name="right">тип права</param>
+		/// <param name="projectName">название проекта</param>
+
 		public GroupsAndAccessRightsTab AddRightToGroupSpecificProject(RightsType right, string projectName)
 		{
 			ClickRightRadio(right);
@@ -123,6 +136,24 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.UsersRights
 			var GroupsAndAccessRightsTab = ClickAddRightButton();
 
 			return GroupsAndAccessRightsTab;
+		}
+
+		/// <summary>
+		/// Добавить права
+		/// </summary>
+		/// <param name="right">тип права</param>
+		/// <param name="client">клиент</param>
+		public GroupsAndAccessRightsTab AddRightToGroupSpecificClient(RightsType right, string client)
+		{
+			ClickRightRadio(right);
+			ClickNextButton();
+			ClickForSpecificClientRadiobutton();
+			ClickNextButton();
+			SelectProject(client);
+
+			var groupsAndAccessRightsTab = ClickAddRightButton();
+
+			return groupsAndAccessRightsTab;
 		}
 
 		/// <summary>
@@ -169,13 +200,17 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.UsersRights
 
 		[FindsBy(How = How.XPath, Using = PROJECTS_DROPDOWN)]
 		protected IWebElement ProjectsDropdown { get; set; }
-		
+
+		[FindsBy(How = How.XPath, Using = FOR_SPECIFIC_CLIENT_RADIOBUTTON)]
+		protected IWebElement ForSpecificClientRadioButton { get; set; }
+
 		protected IWebElement RightRadio { get; set; }
 		protected IWebElement ProjectOption { get; set; }
 		#endregion
 
 		#region Описание XPath элементов
 
+		protected const string FOR_SPECIFIC_CLIENT_RADIOBUTTON = "//div[contains(@class, 'add-access-right-popup')][2]//div[contains(@data-bind, 'clientsList')]";
 		protected const string ADD_ACCESS_DIALOG = "//div[contains(@class,'js-add-access-right-popup')][2]";
 		protected const string ADD_RIGHT_BTN_XPATH = "//div[contains(@class, 'add-access-right-popup')][2]//div[contains(@data-bind, 'visible : canFinishWizard, click : finishWizard')]//a[string() = 'Add']";
 		protected const string NEXT_BTN_XPATH = "//div[contains(@class, 'add-access-right-popup')][2]//div[contains(@data-bind, 'click : moveToNextStep')]//a[string() = 'Next']";

@@ -597,7 +597,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories
 		public bool IsTranslationMemoriesPageOpened()
 		{
 			return IsDialogBackgroundDisappeared() &&
-				Driver.WaitUntilElementIsDisplay(By.XPath(ADD_TM_BTN));
+				Driver.WaitUntilElementIsDisplay(By.XPath(TRANSLATION_MEMORIES_TABLE));
 		}
 
 		/// <summary>
@@ -856,6 +856,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories
 
 		#region Описания XPath элементов
 
+		protected const string TRANSLATION_MEMORIES_TABLE = "//table[contains(@class, 'translationmemories')]";
 		protected const string ADD_TM_BTN = "//div[contains(@data-bind,'createTm')]//a";
 		protected const string CREATE_TM_DIALOG = "//div[contains(@class,'js-popup-create-tm')][2]";
 		protected const string TM_ROW = "//tr[contains(@class,'l-corpr__trhover clickable')]//span[text()='*#*']";
