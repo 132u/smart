@@ -188,14 +188,19 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 			string term2 = "term2",
 			Language language1 = Language.English,
 			Language language2 = Language.Russian,
+			bool defaultLanguages = false,
 			string glossary = null)
 		{
 			FillTerm(termNumber: 1, term: term1);
 			FillTerm(termNumber: 2, term: term2);
-			ClickLanguageList(languageNumber: 1);
-			SelectLanguageInList(language1);
-			ClickLanguageList(languageNumber: 2);
-			SelectLanguageInList(language2);
+
+			if (!defaultLanguages)
+			{
+				ClickLanguageList(languageNumber: 1);
+				SelectLanguageInList(language1);
+				ClickLanguageList(languageNumber: 2);
+				SelectLanguageInList(language2);
+			}
 
 			if (glossary != null)
 			{
@@ -264,6 +269,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 		protected const string GLOSSARU_IN_LIST = "//span[contains(@class,'js-dropdown__item')][@title='*#*']";
 		protected const string SAVE_BUTON = "//input[contains(@class, 'js-save-btn')]";
 		protected const string LANGUAGE_DROPDOWN_ARROW = "//div[contains(@class, 'l-addsugg__contr lang js-language')][*#*]//span[contains(@class,'js-dropdown__text addsugglang')]/../..//i[contains(@class, 'down-arrow')]";
+		protected const string LANGUAGE_LIST = "//div[contains(@class, 'l-addsugg__contr lang js-language')][*#*]//span[contains(@class,'js-dropdown__text addsugglang')]/../..//i[contains(@class, 'down-arrow')]";
 		protected const string LANGUAGE = "//div[contains(@class, 'l-addsugg__contr lang js-language')][*#*]//span[contains(@class,'js-dropdown__text addsugglang')]";
 		protected const string LANGUAGE_OPTION = "//span[contains(@class,'js-dropdown__item')][@title='*#*']";
 		protected const string CANCEL_BUTTON = "//div[contains(@class,'js-add-suggest-popup')]//a[contains(@class,'g-popupbox__cancel js-popup-close')]";

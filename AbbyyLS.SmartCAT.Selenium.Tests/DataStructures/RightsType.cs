@@ -7,6 +7,8 @@
 		ProjectView,
 		GlossarySearch,
 		TMManagement,
-		TMSearch
+		TMSearch,
+		GlossaryManagement,
+		GlossaryContentManagement
 	}
 }

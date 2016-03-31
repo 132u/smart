@@ -37,53 +37,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 		#region Простые методы страницы
 
 		/// <summary>
-		/// Нажать на вкладку Glossaries в панели 'Advanced Settings'.
-		/// </summary>
-		public NewProjectSettingsPage ClickGlossariesTab()
-		{
-			CustomTestContext.WriteLine("Нажать на вкладку Glossaries в панели 'Advanced Settings'.");
-			GlossariesTab.Click();
-
-			return GetPage();
-		}
-
-		/// <summary>
-		/// Нажать на кнопку 'Create Glossary' в панели 'Advanced Settings'.
-		/// </summary>
-		public NewProjectSettingsPage ClickCreateGlossaryButton()
-		{
-			CustomTestContext.WriteLine("Нажать на кнопку 'Create Glossary' в панели 'Advanced Settings'.");
-			CreateGlossaryButton.Click();
-
-			return GetPage();
-		}
-
-		/// <summary>
-		/// Нажать на кнопку 'Edit Glossary' в панели 'Advanced Settings'.
-		/// </summary>
-		public NewProjectEditGlossaryDialog ClickEditGlossaryButton(int glossaryNumber)
-		{
-			CustomTestContext.WriteLine("Нажать на кнопку 'Edit Glossary' в панели 'Advanced Settings' для глоссария №{0}.", glossaryNumber);
-			EditGlossaryButton = Driver.SetDynamicValue(How.XPath, EDIT_GLOSSARY_BUTTON, glossaryNumber.ToString());
-			EditGlossaryButton.Click();
-
-			return new NewProjectEditGlossaryDialog(Driver).GetPage();
-		}
-
-		/// <summary>
-		/// Навести курсор на глоссарий в панели 'Advanced Settings'.
-		/// </summary>
-		public NewProjectSettingsPage HoverGlossaryRow(int glossaryNumber)
-		{
-			CustomTestContext.WriteLine("Навести курсор на глоссарий №{0} в панели 'Advanced Settings'.", glossaryNumber);
-			GlossaryRow = Driver.SetDynamicValue(How.XPath, GLOSSARY_ROW, glossaryNumber.ToString());
-			GlossaryRow.ScrollDown();
-			GlossaryRow.HoverElement();
-
-			return GetPage();
-		}
-
-		/// <summary>
 		/// Ввести им проекта
 		/// </summary>
 		/// <param name="projectName">имя проекта</param>
@@ -282,9 +235,32 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 		}
 
 		/// <summary>
+		/// Нажать на дропдаун клиента.
+		/// </summary>
+		public NewProjectSettingsPage ClickClientDropdown()
+		{
+			CustomTestContext.WriteLine("Нажать на дропдаун клиента.");
+			ClientDropdown.Click();
+
+			return GetPage();
+		}
+		
+		/// <summary>
+		/// Выбрать клиента.
+		/// </summary>
+		public NewProjectSettingsPage ClickClientOptioin(string client)
+		{
+			CustomTestContext.WriteLine("Выбрать клиента.");
+			ClientOption = Driver.SetDynamicValue(How.XPath, CLIENT_OPTION, client);
+			ClientOption.Click();
+
+			return GetPage();
+		}
+
+		/// <summary>
 		/// Раскрыть дополнительные настройки, нажав переключатель
 		/// </summary>
-		public NewProjectSettingsPage ExpandAdvancedSettings()
+		public AdvancedSettingsSection ExpandAdvancedSettings()
 		{
 			CustomTestContext.WriteLine("Раскрыть дополнительные настройки, нажав переключатель");
 			if (!IsAdvancedSettingsSectionExist())
@@ -292,18 +268,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 				AdvancedSwitch.JavaScriptClick();
 			}
 
-			return GetPage();
-		}
-
-		/// <summary>
-		/// Нажать кнопку 'Select' в расширенных настройках проекта
-		/// </summary>
-		public NewProjectSetUpTMDialog ClickSelectTmButton()
-		{
-			CustomTestContext.WriteLine("Нажать кнопку 'Select' в расширенных настройках проекта");
-			SelectTmButton.JavaScriptClick();
-
-			return new NewProjectSetUpTMDialog(Driver).GetPage();
+			return new AdvancedSettingsSection(Driver).GetPage();
 		}
 
 		#endregion
@@ -410,16 +375,15 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 		}
 
 		/// <summary>
-		/// Переименовать глоссарий
+		/// Выбрать клиента
 		/// </summary>
-		/// <param name="glossaryName">название глоссария</param>
-		/// <param name="glossaryNumber">номер глоссария</param>
-		public NewProjectEditGlossaryDialog OpenEditGlossaryDialog(int glossaryNumber = 1)
+		/// <param name="client">клиент</param>
+		public NewProjectSettingsPage SelectClient(string client)
 		{
-			HoverGlossaryRow(glossaryNumber);
-			ClickEditGlossaryButton(glossaryNumber);
+			ClickClientDropdown();
+			ClickClientOptioin(client);
 
-			return new NewProjectEditGlossaryDialog(Driver).GetPage();
+			return GetPage();
 		}
 
 		#endregion
@@ -623,10 +587,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 
 		[FindsBy(How = How.XPath, Using = USE_MACHINE_TRANSLATION_INPUT)]
 		protected IWebElement UseMachineTranslationInput { get; set; }
-
-		[FindsBy(How = How.XPath, Using = SELECT_TM_BUTTON)]
-		protected IWebElement SelectTmButton { get; set; }
-
+		
 		[FindsBy(How = How.XPath, Using = ADVANCED_SWITCH)]
 		protected IWebElement AdvancedSwitch { get; set; }
 
@@ -642,20 +603,15 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 		[FindsBy(How = How.XPath, Using = GLOSSARIES_TAB)]
 		protected IWebElement GlossariesTab { get; set; }
 
-		[FindsBy(How = How.XPath, Using = CREATE_GLOSSARY_BUTTON)]
-		protected IWebElement CreateGlossaryButton { get; set; }
-
-		[FindsBy(How = How.XPath, Using = EDIT_GLOSSARY_BUTTON)]
-		protected IWebElement EditGlossaryButton { get; set; }
-
 		[FindsBy(How = How.XPath, Using = TARGET_MULTISELECT_XPATH)]
 		protected IWebElement TargetMultiselect { get; set; }
 
+		[FindsBy(How = How.XPath, Using = CLIENT_DROPDOWN)]
+		protected IWebElement ClientDropdown { get; set; }
+		protected IWebElement ClientOption { get; set; }
 		protected IWebElement SourceLangItem { get; set; }
 
 		protected IWebElement TargetLangItem { get; set; }
-
-		protected IWebElement GlossaryRow { get; set; }
 
 		#endregion
 		
@@ -683,7 +639,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 		protected const string NEXT_BUTTON = "//div[contains(@data-bind, 'click: $parent.completeStep')]//i[@class='icon-sc-arrow-right']";
 		protected const string USE_MACHINE_TRANSLATION_INPUT = "//div[contains(@data-bind, 'availableMachineTranslators')]//label//input";
 		protected const string ADVANCED_SWITCH = "//div[@class='l-switch']//span[@class='mdl-switch__ripple-container mdl-js-ripple-effect mdl-ripple--center']";
-		protected const string SELECT_TM_BUTTON = "//div[@class='g-btn g-greenbtn ' and contains(@data-bind, 'addExistingTM')]//a";
 		protected const string ERROR_NAME_EXISTS = "//span[@data-message-id='isNameDuplicate']";
 		protected const string ERROR_DUPLICATE_LANG = "//span[contains(text(), 'The target language must be different from the source language.')]";
 		protected const string ERROR_FORBIDDEN_SYMBOLS_NAME = "//span[@data-message-id='nameHasInvalidChars']";
@@ -695,9 +650,10 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 		protected const string ADVANCED_SETTINGS_SECTION = "//div[@class='additional-settings-tabs']";
 		protected const string ADVANCED_SETTINGS_SWITCHER = "//label[@for='advancedSettingsSwitch']";
 		protected const string GLOSSARIES_TAB = "//ul[contains(@data-bind, 'advancedSettingsTabs')]//li[text()='Glossaries']";
-		protected const string CREATE_GLOSSARY_BUTTON = "//div[contains(@data-bind, 'createGlossary')]";
-		protected const string EDIT_GLOSSARY_BUTTON = "//div[contains(@data-bind, 'switchDetailMode')][*#*]//div[contains(@class, 'right l-settings-icons')]//span[contains(@data-bind, 'edit')]";
-		protected const string GLOSSARY_ROW = "//div[contains(@data-bind, 'switchDetailMode')][*#*]";
+
+		protected const string CLIENT_DROPDOWN = "//input[contains(@placeholder, 'Select a client')]";
+		protected const string CLIENT_OPTION = "//li[@title='*#*']";
+
 		#endregion
 	}
 }

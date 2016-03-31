@@ -77,7 +77,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.UsersRights
 
 			return GetPage();
 		}
-
+		
 		/// <summary>
 		/// Нажать кнопку далее (при добавлении прав пользователя)
 		/// </summary>
@@ -133,11 +133,11 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.UsersRights
 			ClickNextButton();
 			SelectProject(projectName);
 
-			var GroupsAndAccessRightsTab = ClickAddRightButton();
+			var groupsAndAccessRightsTab = ClickAddRightButton();
 
-			return GroupsAndAccessRightsTab;
+			return groupsAndAccessRightsTab;
 		}
-
+		
 		/// <summary>
 		/// Добавить права
 		/// </summary>
@@ -195,29 +195,29 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.UsersRights
 		[FindsBy(How = How.XPath, Using = FOR_SPECIFIC_PROJECT_RADIO_XPATH)]
 		protected IWebElement ForSpecificProjectRadio { get; set; }
 
+		[FindsBy(How = How.XPath, Using = FOR_SPECIFIC_CLIENT_RADIOBUTTON)]
+		protected IWebElement ForSpecificClientRadioButton { get; set; }
+
 		[FindsBy(How = How.XPath, Using = NEXT_BTN_XPATH)]
 		protected IWebElement NextButton { get; set; }
 
 		[FindsBy(How = How.XPath, Using = PROJECTS_DROPDOWN)]
 		protected IWebElement ProjectsDropdown { get; set; }
-
-		[FindsBy(How = How.XPath, Using = FOR_SPECIFIC_CLIENT_RADIOBUTTON)]
-		protected IWebElement ForSpecificClientRadioButton { get; set; }
-
+		
 		protected IWebElement RightRadio { get; set; }
 		protected IWebElement ProjectOption { get; set; }
+		
 		#endregion
 
 		#region Описание XPath элементов
 
-		protected const string FOR_SPECIFIC_CLIENT_RADIOBUTTON = "//div[contains(@class, 'add-access-right-popup')][2]//div[contains(@data-bind, 'clientsList')]";
 		protected const string ADD_ACCESS_DIALOG = "//div[contains(@class,'js-add-access-right-popup')][2]";
 		protected const string ADD_RIGHT_BTN_XPATH = "//div[contains(@class, 'add-access-right-popup')][2]//div[contains(@data-bind, 'visible : canFinishWizard, click : finishWizard')]//a[string() = 'Add']";
 		protected const string NEXT_BTN_XPATH = "//div[contains(@class, 'add-access-right-popup')][2]//div[contains(@data-bind, 'click : moveToNextStep')]//a[string() = 'Next']";
 		protected const string FOR_ANY_PROJECT_RADIO_XPATH = "//div[contains(@class, 'add-access-right-popup')][2]//div[contains(@data-bind, 'hasUnrestrictedAccessScope')]";
 		protected const string FOR_SPECIFIC_PROJECT_RADIO_XPATH = "//div[contains(@class, 'add-access-right-popup')][2]//div[contains(@data-bind, 'specificObjectsList')]";
+		protected const string FOR_SPECIFIC_CLIENT_RADIOBUTTON = "//div[contains(@class, 'add-access-right-popup')][2]//div[contains(@data-bind, 'clientsList')]";
 		protected const string RIGHT_RADIO = "//input[@id='*#*']/../../label[@class='g-radiobtn']";
-
 		protected const string PROJECTS_DROPDOWN = "//div[contains(@class, 'add-access-right-popup')][2]//span[contains(@class, 'js-dropdown')]";
 		protected const string PROJECT_OPTION = "//span[@title='*#*']";
 

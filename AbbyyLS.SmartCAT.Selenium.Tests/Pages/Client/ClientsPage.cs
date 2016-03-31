@@ -64,6 +64,11 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Client
 			CustomTestContext.WriteLine("Нажать кнопку 'Сохранить'");
 			SaveClientButton.Click();
 
+			if (!Driver.WaitUntilElementIsDisappeared(By.XPath(SAVE_CLIENT)))
+			{
+				throw new Exception("Произошла ошибка: Кнопка сохранения клиента не исчезла.");
+			}
+
 			return GetPage();
 		}
 

@@ -20,6 +20,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 			_newProjectDocumentUploadPage = new NewProjectDocumentUploadPage(Driver);
 			_newProjectSettingsPage = new NewProjectSettingsPage(Driver);
 			_newProjectWorkflowPage = new NewProjectWorkflowPage(Driver);
+			_glossariesAdvancedSettingsSection = new GlossariesAdvancedSettingsSection(Driver);
 			_newProjectEditGlossaryDialog = new NewProjectEditGlossaryDialog(Driver);
 		}
 
@@ -63,11 +64,11 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 			if (glossaryName != null)
 			{
-				_newProjectSettingsPage
-					.ExpandAdvancedSettings()
+				_newProjectSettingsPage.ExpandAdvancedSettings()
 					.ClickGlossariesTab()
-					.ClickCreateGlossaryButton()
-					.OpenEditGlossaryDialog();
+					.ClickCreateGlossaryButton();
+
+				_glossariesAdvancedSettingsSection.OpenEditGlossaryDialog();
 
 				_newProjectEditGlossaryDialog
 					.FillGlossaryName(glossaryName)
@@ -121,5 +122,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 		private readonly NewProjectSettingsPage _newProjectSettingsPage;
 		private readonly NewProjectEditGlossaryDialog _newProjectEditGlossaryDialog;
 		private readonly NewProjectWorkflowPage _newProjectWorkflowPage;
+		private readonly GlossariesAdvancedSettingsSection _glossariesAdvancedSettingsSection;
 	}
 }

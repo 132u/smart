@@ -99,6 +99,8 @@
     <Compile Include="Pages\Projects\AssignmentPages\AttentionPopup.cs" />
     <Compile Include="Pages\Projects\AssignmentPages\DistributeSegmentsBetweenAssigneesPage.cs" />
     <Compile Include="Pages\Projects\AssignmentPages\ReassignDialog.cs" />
+    <Compile Include="Pages\Projects\CreateProjectDialog\AdvancedSettings\AdvancedSettingsSection.cs" />
+    <Compile Include="Pages\Projects\CreateProjectDialog\AdvancedSettings\GlossariesAdvancedSettingsSection.cs" />
     <Compile Include="Pages\Projects\CreateProjectDialog\NewProjectEditGlossaryDialog.cs" />
     <Compile Include="Pages\Projects\CreateProjectDialog\NewProjectSettingsPage.cs" />
     <Compile Include="Pages\Projects\CreateProjectDialog\NewProjectSetUpPretranslationDialog.cs" />
@@ -107,6 +109,8 @@
     <Compile Include="Pages\Projects\CreateProjectDialog\NewProjectWorkflowPage.cs" />
     <Compile Include="Pages\Projects\DocumentUploadDialog\DublicateFileErrorDialog.cs" />
     <Compile Include="Pages\Projects\DocumentUploadDialog\SettingsResourcesStep.cs" />
+    <Compile Include="Pages\Projects\CreateProjectDialog\AdvancedSettings\QualityAssuranceAdvancedSettingsSection.cs" />
+    <Compile Include="Pages\Projects\CreateProjectDialog\AdvancedSettings\TranslationMemoryAdvancedSettingsSection.cs" />
     <Compile Include="Pages\Projects\ProjectSettings\ConfirmDeclineTaskDialog.cs" />
     <Compile Include="Pages\Projects\ProjectSettings\EditTranslationMemoryDialog.cs" />
     <Compile Include="Pages\Projects\ProjectSettings\NewTranslationMemoryDialog.cs" />
@@ -325,7 +329,19 @@
     <Compile Include="Tests\SupportTests\WorkspaceSupportButtonsTests.cs" />
     <Compile Include="Tests\UsersRights\CreateProjects\CreateProjectWithRightBaseTest.cs" />
     <Compile Include="Tests\UsersRights\CreateProjects\FormsAndButtonsAvailabilityTests.cs" />
+    <Compile Include="Tests\UsersRights\ManageGlossaries\ManageGlossariesAndCreateProject\ManageGlossariesAndCreateProjectBaseTests.cs" />
+    <Compile Include="Tests\UsersRights\ManageGlossaries\ManageGlossariesAndCreateProject\ManageGlossariesAndCreateProjectTests.cs" />
+    <Compile Include="Tests\UsersRights\ManageGlossaries\ManageGlossariesCommonBaseTests.cs" />
     <Compile Include="Tests\UsersRights\ManageGlossarySearch\ManageGlossarySearchTests.cs" />
+    <Compile Include="Tests\UsersRights\ManageGlossaries\ManageGlossariesSpecificClient\ManageGlossariesAndManageProjectTests.cs" />
+    <Compile Include="Tests\UsersRights\ManageGlossaries\ManageGlossariesSpecificClient\ManageGlossariesSpecificClientBaseTests.cs" />
+    <Compile Include="Tests\UsersRights\ManageGlossaries\ManageGlossariesSpecificClient\ManageGlossariesSpecificClientTests.cs" />
+    <Compile Include="Tests\UsersRights\ManageGlossaries\ManageGlossaries\ManageGlossariesBaseTests.cs" />
+    <Compile Include="Tests\UsersRights\ManageGlossaries\ManageGlossaries\ManageGlossariesEditAdvansedSettingsTests.cs" />
+    <Compile Include="Tests\UsersRights\ManageGlossaries\ManageGlossaries\ManageGlossariesEditPropertiesTests.cs" />
+    <Compile Include="Tests\UsersRights\ManageGlossaries\ManageGlossaries\ManageGlossariesExportImportTests.cs" />
+    <Compile Include="Tests\UsersRights\ManageGlossaries\ManageGlossaries\ManageGlossariesTermTests.cs" />
+    <Compile Include="Tests\UsersRights\ManageGlossaries\ManageGlossaries\ManageGlossariesTests.cs" />
     <Compile Include="Tests\UsersRights\ManageProjects\ManageProjectBaseTests.cs" />
     <Compile Include="Tests\UsersRights\ManageProjects\ProjectSettingsPage\ExportDocumentTests.cs" />
     <Compile Include="Tests\UsersRights\ManageProjects\ProjectSettingsPage\ManageProjectTests.cs" />
@@ -444,8 +460,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Tests\UsersRights\ManageClientsAndProjectGroups\" />
-    <Folder Include="Tests\UsersRights\ManageGlossaries\" />
-    <Folder Include="Tests\UsersRights\ManageGlossaryContent\" />
     <Folder Include="Tests\UsersRights\ManagePaidResources\" />
     <Folder Include="Tests\UsersRights\ManageUsers\" />
     <Folder Include="Tests\UsersRights\SearchInGlossaries\" />

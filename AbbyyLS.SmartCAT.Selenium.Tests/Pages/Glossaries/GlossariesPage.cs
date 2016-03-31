@@ -281,9 +281,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 		public bool IsGlossaryExist(string glossaryName)
 		{
 			CustomTestContext.WriteLine("Проверить, что глоссарий {0} присутствует в списке.", glossaryName);
-			Driver.FindElement(By.XPath(GLOSSARY_ROW.Replace("*#*", glossaryName))).Scroll();
 
-			return Driver.WaitUntilElementIsDisplay(By.XPath(GLOSSARY_ROW.Replace("*#*", glossaryName)));
+			return Driver.GetIsElementExist(By.XPath(GLOSSARY_ROW.Replace("*#*", glossaryName)));
 		}
 
 		///<summary>

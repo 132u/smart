@@ -1246,7 +1246,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 		public bool IsCommentFilled(string comment)
 		{
 			CustomTestContext.WriteLine("Проверить, что комментарий содержит текст {0}.", comment);
-
+			
 			return comment == LanguageCommentViewMode.Text;
 		}
 
@@ -1398,8 +1398,14 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 		public bool IsImageFieldFilled(string fieldName)
 		{
 			CustomTestContext.WriteLine("Проверить, что поле {0} типа Image заполнено", fieldName);
+			var srcAttribute = Driver.SetDynamicValue(How.XPath, FILLED_IMAGE_FIELD, fieldName).GetAttribute("src");
 
-			return Driver.SetDynamicValue(How.XPath, FILLED_IMAGE_FIELD, fieldName).GetAttribute("src").Trim().Length > 0;
+			if (srcAttribute != null)
+			{
+				return srcAttribute.Trim().Length > 0;
+			}
+			
+			return false;
 		}
 
 		/// <summary>
@@ -1777,7 +1783,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 		protected const string LANGUAGE_HEADER_EDIT_MODE = "//div[contains(@class, 'corprtree')]//div[contains(@class, 'corprtree__langbox')][1]//div[contains(@class, 'l-inactive-lang')]";
 		protected const string LANGUAGE_HEADER_VIEW_MODE = "//div[contains(@class, 'js-lang-node')]//span[contains(text(), '*#*')]";
 		protected const string LANGUAGE_COMMENT_EDIT_MODE = "//div[contains(@class, 'lang-attrs')][1]//textarea[@name='Comment']";
-		protected const string LANGUAGE_COMMENT_VIEW_MODE = "//td[@class='l-corpr__tbledit-td js-details-panel']//div[@class='l-corpr__viewmode js-lang-attrs']//div[@class='js-control'][1]//div[contains(@class, 'viewmode__val js-value')]";
+		protected const string LANGUAGE_COMMENT_VIEW_MODE = "//td[contains(@class, 'js-details-panel')]//div[contains(@class, 'viewmode js-lang-attr')]//p[@title='Comment']/following-sibling::div";
 		protected const string ADD_BUTTON = "//div[@class='l-corprtree__langbox']['*#*']//div[contains(@class, 'l-inactive-lang')]//span[contains(@class, 'addbtn js-add-term')]";
 		protected const string TERM_LANGUAGE = "//span[@class='js-term-editor g-block l-corprtree__edittrasl']//input[contains(@class, 'txttrasl')]";
 		protected const string ADD_BUTTON_LIST = "//div[contains(@class, 'js-terms-tree')]//div[contains(@class, 'l-corprtree__langbox')]//i[contains(@class,'js-add-term')]";

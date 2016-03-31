@@ -466,6 +466,19 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings
 		#region Методы, проверяющие состояние страницы
 
 		/// <summary>
+		/// Проверить, что глоссарий выбран
+		/// </summary>
+		/// <param name="glossary">глоссарий</param>
+		public bool IsGlossaryChecked(string glossary)
+		{
+			CustomTestContext.WriteLine("Проверить, что глоссарий выбран.");
+			GlossaryCheckboxByName = Driver.SetDynamicValue(How.XPath, GLOSSARY_CHECKBOX_BY_NAME, glossary);
+			GlossaryCheckboxByName.Scroll();
+			
+			return GlossaryCheckboxByName.Selected;
+		}
+
+		/// <summary>
 		/// Проверить, что для текущего пользователя отображается назначенная на него задача.
 		/// </summary>
 		public bool IsAssignTaskDisplayedForCurrentUser(TaskMode task)
@@ -688,6 +701,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings
 		
 		protected IWebElement ProjectsTableCheckbox { get; set; }
 		protected IWebElement TaskForCurrentUser { get; set; }
+		protected IWebElement GlossaryCheckboxByName { get; set; }
 		#endregion
 
 		#region Описания XPath элементов страницы
@@ -739,7 +753,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings
 		protected const string TASK_FOR_CURRENT_USER = "//table[contains(@data-bind, 'workflowStagesForCurrentUser')]//td[contains(@class, 'assignments') and contains(text(),'*#*')]";
 		protected const string DECLINE_BUTTON = "//table[contains(@data-bind, 'workflowStagesForCurrentUser')]//div[contains(@data-bind, 'reject')]";
 		protected const string DOCUMENT_STATUS = "//tr[contains(@class, 'document-row')]//td//a[contains(text(),'*#*')]/../../..//td[contains(@class,'status')]//p";
-
+		protected const string GLOSSARY_CHECKBOX_BY_NAME = "//td//p[text()='*#*']/../preceding-sibling::td//input";
 		#endregion
 	}
 }

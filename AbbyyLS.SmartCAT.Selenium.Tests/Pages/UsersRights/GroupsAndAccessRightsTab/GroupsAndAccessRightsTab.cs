@@ -68,7 +68,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.UsersRights
 			if (Driver.WaitUntilElementIsDisplay(By.XPath(editGroupButtonXpathReplaced)))
 			{
 				EditGroupButton = Driver.FindElement(By.XPath(editGroupButtonXpathReplaced));
-				EditGroupButton.Click();
+				EditGroupButton.ScrollAndClick();
 			}
 			else
 			{

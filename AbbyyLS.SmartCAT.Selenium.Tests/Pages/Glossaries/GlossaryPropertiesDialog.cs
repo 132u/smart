@@ -35,10 +35,23 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 		/// <summary>
 		/// Ввести имя глоссария в диалоге свойств глоссария
 		/// </summary>
+		/// <param name="glossaryName">имя глоссария</param>
 		public GlossaryPropertiesDialog FillGlossaryName(string glossaryName)
 		{
 			CustomTestContext.WriteLine("Ввести имя глоссария {0} в диалоге свойств глоссария.", glossaryName);
 			GlossaryName.SetText(glossaryName);
+
+			return GetPage();
+		}
+
+		/// <summary>
+		/// Ввести комментарий в диалоге свойств глоссария
+		/// </summary>
+		/// <param name="comment">комментарий</param>
+		public GlossaryPropertiesDialog FillGlossaryComment(string comment)
+		{
+			CustomTestContext.WriteLine("Ввести комментарий в диалоге свойств глоссария.", comment);
+			Comment.SetText(comment);
 
 			return GetPage();
 		}
@@ -95,6 +108,48 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 			CustomTestContext.WriteLine("Получить количество языков в диалоге свойств глоссария.");
 
 			return Driver.GetElementsCount(By.XPath(LANGUAGE_LIST));
+		}		
+		
+		/// <summary>
+		/// Получить текст комментария в диалоге свойств глоссария
+		/// </summary>
+		public string GetGlossaryComment()
+		{
+			CustomTestContext.WriteLine("Получить текст комментария в диалоге свойств глоссария.");
+
+			return Comment.GetAttribute("value");
+		}
+
+		/// <summary>
+		/// Получить название клиента в диалоге свойств глоссария
+		/// </summary>
+		public string GetGlossaryClient()
+		{
+			CustomTestContext.WriteLine("Получить название клиента в диалоге свойств глоссария.");
+		
+			return ClientDropdown.Text;
+		}
+
+		/// <summary>
+		/// Получить язык
+		/// </summary>
+		/// <param name="languageNumber">номер языка</param>
+		public string GetLanguage(int languageNumber)
+		{
+			CustomTestContext.WriteLine("Получить язык №{0} в диалоге свойств глоссария.", languageNumber);
+			LanguageDropdown = Driver.SetDynamicValue(How.XPath, LANGUAGE_DROPDOWN, languageNumber.ToString());
+			
+			return LanguageDropdown.Text;
+		}
+
+		/// <summary>
+		/// Получить название группы поректа в диалоге свойств глоссария
+		/// </summary>
+		public string GetGlossaryProjectGroup()
+		{
+			CustomTestContext.WriteLine("Получить название группы поректа в диалоге свойств глоссария.");
+
+			return ProjectGroupDropdown.Text;
 		}
 
 		/// <summary>
@@ -156,6 +211,54 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 		}
 
 		/// <summary>
+		/// Нажать на дропдаун выбора клиента
+		/// </summary>
+		public GlossaryPropertiesDialog ClickClientDropdown()
+		{
+			CustomTestContext.WriteLine("Нажать на дропдаун выбора клиента.");
+			ClientDropdown.Click();
+
+			return GetPage();
+		}
+
+		/// <summary>
+		/// Нажать на дропдаун выбора группы проекта клиента
+		/// </summary>
+		public GlossaryPropertiesDialog ClickProjectGroupDropdown()
+		{
+			CustomTestContext.WriteLine("Нажать на дропдаун выбора группы проекта.");
+			ProjectGroupDropdown.Click();
+
+			return GetPage();
+		}
+
+		/// <summary>
+		/// Нажать на дропдаун выбора клиента
+		/// </summary>
+		/// <param name="client">клиент</param>
+		public GlossaryPropertiesDialog ClickClientOption(string client)
+		{
+			CustomTestContext.WriteLine("Нажать на дропдаун выбора клиента.");
+			ClientOption = Driver.SetDynamicValue(How.XPath, CLIENT_OPTION, client);
+			ClientOption.ScrollAndClick();
+
+			return GetPage();
+		}
+
+		/// <summary>
+		/// Нажать на дропдаун выбора группы проекта
+		/// </summary>
+		/// <param name="projectGroup">группа проекта</param>
+		public GlossaryPropertiesDialog ClickProjectGroupOption(string projectGroup)
+		{
+			CustomTestContext.WriteLine("Нажать на дропдаун выбора группы проекта.");
+			ProjectGroupOption = Driver.SetDynamicValue(How.XPath, PROJECT_GROUP_OPTION, projectGroup);
+			ProjectGroupOption.Click();
+
+			return GetPage();
+		}
+
+		/// <summary>
 		/// Выбрать язык в дропдауне
 		/// </summary>
 		/// <param name="language">язык</param>
@@ -169,9 +272,48 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 			return GetPage();
 		}
 
+		/// <summary>
+		/// Раскрыть дропдаун языка
+		/// </summary>
+		/// <param name="languageNumber">номер языка</param>
+		public GlossaryPropertiesDialog ClickLanguageDropdown(int languageNumber)
+		{
+			CustomTestContext.WriteLine("Раскрыть дропдаун языка №{0}.", languageNumber);
+			LanguageDropdown = Driver.SetDynamicValue(How.XPath, LANGUAGE_DROPDOWN, languageNumber.ToString());
+			LanguageDropdown.Click();
+
+			return GetPage();
+		}
+
 		#endregion
 
 		#region Составные методы страницы
+
+		/// <summary>
+		/// Выбрать клиента в дропдауне
+		/// </summary>
+		/// <param name="client">клиент</param>
+		public GlossaryPropertiesDialog SelectClient(string client)
+		{
+			ClickClientDropdown();
+			ClickClientOption(client);
+			GlossaryName.Click();
+
+			return GetPage();
+		}
+		
+		/// <summary>
+		/// Выбрать группу проекта в дропдауне
+		/// </summary>
+		/// <param name="projectGroup">группа проекта</param>
+		public GlossaryPropertiesDialog SelectProjectGroup(string projectGroup)
+		{
+			ClickProjectGroupDropdown();
+			ClickProjectGroupOption(projectGroup);
+			ClickProjectGroupDropdown();
+
+			return GetPage();
+		}
 
 		/// <summary>
 		/// Добавить язык
@@ -181,6 +323,19 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 		{
 			ClickAddLanguageButton();
 			ClickLastLanguageDropdown();
+			SelectLanguage(language);
+
+			return GetPage();
+		}
+
+		/// <summary>
+		/// Изменить язык
+		/// </summary>
+		/// <param name="language">язык</param>
+		/// <param name="languageNumber">номер языка</param>
+		public GlossaryPropertiesDialog EditLangauge(Language language, int languageNumber = 1)
+		{
+			ClickLanguageDropdown(languageNumber);
 			SelectLanguage(language);
 
 			return GetPage();
@@ -257,14 +412,29 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 		[FindsBy(How = How.XPath, Using = LAST_LANGUAGE_DROPDOWN_ARROW)]
 		protected IWebElement LastLanguageDropdown { get; set; }
 
+		[FindsBy(How = How.XPath, Using = CLIENT_DROPDOWN)]
+		protected IWebElement ClientDropdown { get; set; }
+
+		[FindsBy(How = How.XPath, Using = PROJECT_GROUP_DROPDOWN)]
+		protected IWebElement ProjectGroupDropdown { get; set; }
+
+		[FindsBy(How = How.XPath, Using = COMMENT)]
+		protected IWebElement Comment { get; set; }
+		protected IWebElement ClientOption { get; set; }
+		protected IWebElement LanguageDropdown { get; set; }
+		protected IWebElement ProjectGroupOption { get; set; }
 		#endregion
 
 		#region Описания XPath элементов
 
+		protected const string COMMENT = ".//div[contains(@class,'js-popup-edit-glossary')][2]//textarea[contains(@data-bind, 'comment')]";
 		protected const string LANGUAGE_OPTION = "//span[contains(@class, 'js-dropdown__item') and @data-id='*#*']";
 		protected const string ADD_LANGUAGE_BUTTON = ".//div[contains(@class,'js-popup-edit-glossary')][2]//div[contains(@data-bind, 'addLanguage')]";
 		protected const string LAST_LANGUAGE_DROPDOWN_ARROW = "(//span[contains(@class, 'editgloss__control l-editgloss__lang')])[last()]//span[contains(@class, 'dropdown')]//i";
-
+		protected const string CLIENT_DROPDOWN = "//span[contains(@class, 'dropdown boxtype')]";
+		protected const string CLIENT_OPTION = "//span[contains(@class, 'dropdown__list boxtype')]//span[@title='*#*']";
+		protected const string PROJECT_GROUP_OPTION = "//ul[contains(@class, 'multiselect-checkboxes')]//li//span[text()='*#*']/preceding-sibling::span";
+		protected const string PROJECT_GROUP_DROPDOWN = "//div[contains(@class, 'multiselect-text')]";
 		protected const string GLOSSARY_PROPERTIES_DIALOG = ".//div[contains(@class,'js-popup-edit-glossary')][2]";
 		protected const string DELETE_GLOSSARY_BUTTON = ".//div[contains(@class,'js-popup-edit-glossary')][2]//div[contains(@data-bind, 'click: deleteGlossary')]";
 		protected const string CONFIRM_DELETE_BUTTON = ".//div[contains(@class,'js-popup-edit-glossary')][2]//a[contains(@data-bind, 'click: deleteGlossary')]";
@@ -276,7 +446,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 		protected const string GLOSSARY_NAME = ".//div[contains(@class,'js-popup-edit-glossary')][2]//input[@class='l-editgloss__nmtext']";
 		protected const string SAVE_BUTTON = ".//div[contains(@class,'js-popup-edit-glossary')][2]//div[contains(@data-bind, 'click: save')]//a";
 		protected const string ADVANCED_BUTTON = ".//div[contains(@class,'js-popup-edit-glossary')][2]//a[contains(@data-bind,'click: saveAndEditStructure')]";
-	
+		protected const string LANGUAGE_DROPDOWN = "//span[contains(@class, 'g-iblock l-editgloss__control l-editgloss__lang')][*#*]//span[contains(@class, 'dropdown  g-drpdwn g-iblock')]//span";
+
 		#endregion
 	}
 }

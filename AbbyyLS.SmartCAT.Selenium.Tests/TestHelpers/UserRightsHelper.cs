@@ -33,7 +33,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 			_groupsAndAccessRightsTab.OpenAddRightsDialogForGroup(groupName);
 
-			_addAccessRightDialog.AddRightToGroupAnyProject(right)
+			_addAccessRightDialog
+				.AddRightToGroupAnyProject(right)
 				.ClickSaveButton(groupName);
 
 			_groupsAndAccessRightsTab.AddUserToGroupIfNotAlredyAdded(groupName, nickName);

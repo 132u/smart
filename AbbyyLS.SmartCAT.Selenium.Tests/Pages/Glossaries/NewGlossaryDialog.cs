@@ -1,5 +1,4 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.PageObjects;
@@ -179,7 +178,18 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 
 			return GetPage();
 		}
+		
+		/// <summary>
+		/// Нажать кнопку перехода к расширенным настройкам
+		/// </summary>
+		public GlossaryStructureDialog ClickAdvancedSettingsButton()
+		{
+			CustomTestContext.WriteLine("Нажать кнопку перехода к расшииренным настройкам.");
+			AdvancedSettingsButton.Click();
 
+			return new GlossaryStructureDialog(Driver).GetPage();
+		}
+		
 		/// <summary>
 		/// Нажать кнопку сохранения глоссария
 		/// </summary>
@@ -200,6 +210,16 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 			GlossarySaveButton.Click();
 
 			return GetPage();
+		}
+
+		/// <summary>
+		/// Получить название клиента.
+		/// </summary>
+		public string GetClientName()
+		{
+			CustomTestContext.WriteLine("Получить название клиента.");
+
+			return FixedClientName.Text;
 		}
 
 		#endregion
@@ -305,6 +325,13 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 		[FindsBy(How = How.XPath, Using = ERROR_EXIST_NAME)]
 		protected IWebElement ErrorExistName { get; set; }
 		protected IWebElement ClientItem { get; set; }
+
+		[FindsBy(How = How.XPath, Using = ADVANCED_SETTINGS_BUTTON)]
+		protected IWebElement AdvancedSettingsButton { get; set; }
+
+		[FindsBy(How = How.XPath, Using = FIXED_CLIENT_NAME)]
+		protected IWebElement FixedClientName { get; set; }
+
 		protected IWebElement ProjectGroupsItem { get; set; }
 
 		#endregion
@@ -332,6 +359,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 		protected const string NEW_GLOSSARY_DIALOG = ".//div[contains(@class,'js-popup-edit-glossary')][2]";
 		protected const string MULTISELECT_LIST = ".//ul[contains(@class,'ui-multiselect-checkboxes')]//span[contains(@class,'ui-multiselect-item-text')]";
 		protected const string PROJECT_GROUPS_ITEM = ".//ul[contains(@class,'ui-multiselect-checkboxes')]//span[text()='*#*']";
+		protected const string ADVANCED_SETTINGS_BUTTON = ".//div[contains(@class,'js-popup-edit-glossary')][2]//a[contains(@data-bind, 'saveAndEditStructure')]";
+		protected const string FIXED_CLIENT_NAME = ".//div[contains(@class,'js-popup-edit-glossary')][2]//div[contains(@data-bind,'clientName')]";
 
 		#endregion
 	}

@@ -15,6 +15,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.TranslationMemories
 		[SetUp]
 		public void SetUpTmTests()
 		{
+			_translationMemoryAdvancedSettingsSection = new TranslationMemoryAdvancedSettingsSection(Driver);
 			TranslationMemoriesHelper = new TranslationMemoriesHelper(Driver);
 			CreateProjectHelper = new CreateProjectHelper(Driver);
 			TranslationMemoriesHelper = new TranslationMemoriesHelper(Driver);
@@ -52,5 +53,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.TranslationMemories
 		public NewProjectSetUpTMDialog NewProjectSetUpTMDialog;
 		public ConfirmReplacementDialog ConfirmReplacementDialog;
 		public DeleteTmDialog DeleteTmDialog;
+		protected TranslationMemoryAdvancedSettingsSection _translationMemoryAdvancedSettingsSection;
 	}
 }

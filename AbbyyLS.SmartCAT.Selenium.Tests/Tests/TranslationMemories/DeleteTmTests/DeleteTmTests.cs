@@ -60,8 +60,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.TranslationMemories
 
 			NewProjectSettingsPage
 				.FillGeneralProjectInformation(CreateProjectHelper.GetProjectUniqueName())
-				.ExpandAdvancedSettings()
-				.ClickSelectTmButton();
+				.ExpandAdvancedSettings();
+
+			_translationMemoryAdvancedSettingsSection.ClickSelectTmButton();
 
 			Assert.IsFalse(NewProjectSetUpTMDialog.IsTranslationMemoryExist(UniqueTMName),
 				"Произошла ошибка:\n ТМ {0} представлена в списке при создании проекта.", UniqueTMName);
