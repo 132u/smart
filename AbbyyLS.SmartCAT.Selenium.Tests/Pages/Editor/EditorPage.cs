@@ -958,6 +958,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		{
 			CustomTestContext.WriteLine("Нажать хоткей выделения последнего слова в таргете Ctrl+Shift+Left. Номер строки: {0}", segmentNumber);
 			ClickOnTargetCellInSegment(segmentNumber);
+			Driver.SendHotKeys(Keys.End);
 			Driver.SendHotKeys(Keys.Left, control: true, shift: true);
 
 			return GetPage();
@@ -1007,6 +1008,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 				"Нажать хоткей выделения всего содержимого ячейки Ctrl+Shift+Home. Номер строки: {0}",
 				segmentNumber);
 			ClickOnTargetCellInSegment(segmentNumber);
+			Driver.SendHotKeys(Keys.End);
 			Driver.SendHotKeys(Keys.Home, control: true, shift: true);
 
 			return GetPage();
