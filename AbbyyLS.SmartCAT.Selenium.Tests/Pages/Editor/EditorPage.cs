@@ -42,7 +42,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 			{
 				throw new XPathLookupException("Произошла ошибка:\n не удалось открыть документ в редакторе");
 			}
-			if (!IsEditorDialogBackgroundDesappeared())
+			if (!IsEditorDialogBackgroundDisappeared())
 			{
 				CloseTutorial();
 			}
@@ -1279,7 +1279,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		/// <summary>
 		/// Проверить, закрылся ли фон диалога в редакторе
 		/// </summary>
-		public bool IsEditorDialogBackgroundDesappeared()
+		public bool IsEditorDialogBackgroundDisappeared()
 		{
 			return Driver.WaitUntilElementIsDisappeared(By.XPath(EDITOR_DIALOG_BACKGROUND), 5);
 		}

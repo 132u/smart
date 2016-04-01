@@ -77,7 +77,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 				"Произошла ошибка:\n Неверное количество задач.");
 		}
 
-		[Test, Description("ТС-51 Работа с репетишенами")]
+		[Test, Description("ТС-51 Работа с репетишенами"), Ignore("PRX-16006")]
 		public void AssignRepetionsTest()
 		{
 			AdditionalUser = TakeUser(ConfigurationManager.AdditionalUsers);
