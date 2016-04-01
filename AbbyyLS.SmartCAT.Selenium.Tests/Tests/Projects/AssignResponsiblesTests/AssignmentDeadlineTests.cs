@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Globalization;
 
+using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects;
+
 using NUnit.Framework;
 
 using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
@@ -20,7 +22,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 			_projectsPage.OpenAssignDialog(_projectUniqueName);
 
 			_taskAssignmentPage.OpenDatePicker();
-			_datePicker.SetDate();
+			_datePicker.SetDate<TaskAssignmentPage>();
 
 			_taskAssignmentPage.ClickCancelButton();
 
@@ -41,7 +43,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 			_projectsPage.OpenAssignDialog(_projectUniqueName);
 
 			_taskAssignmentPage.OpenDatePicker();
-			_datePicker.SetDate(date.Day);
+			_datePicker.SetDate<TaskAssignmentPage>(date.Day);
 
 			_taskAssignmentPage.ClickSaveButton();
 
@@ -64,7 +66,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 			_workspacePage.SelectLocale(Language.Russian);
 
 			_taskAssignmentPage.OpenDatePicker();
-			_datePicker.SetDate(date.Day);
+			_datePicker.SetDate<TaskAssignmentPage>(date.Day);
 
 			_taskAssignmentPage.ClickSaveButton();
 
@@ -110,36 +112,36 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 			_projectsPage.OpenAssignDialog(_projectUniqueName);
 
 			_taskAssignmentPage.OpenDatePicker();
-			_datePicker.SetDate(date1.Day, nextMonth: nextMonth1);
+			_datePicker.SetDate<TaskAssignmentPage>(date1.Day, nextMonth: nextMonth1);
 
 			_taskAssignmentPage.OpenDatePicker(taskNumber: 2);
-			_datePicker.SetDate(date1.Day, nextMonth: nextMonth1);
+			_datePicker.SetDate<TaskAssignmentPage>(date1.Day, nextMonth: nextMonth1);
 
 			_taskAssignmentPage.OpenDatePicker(taskNumber: 3);
-			_datePicker.SetDate(date1.Day, nextMonth: nextMonth1);
+			_datePicker.SetDate<TaskAssignmentPage>(date1.Day, nextMonth: nextMonth1);
 
 			_taskAssignmentPage.ClickSaveButton();
 
 			_projectsPage.OpenAssignDialog(_projectUniqueName, documentNumber: 2);
 
 			_taskAssignmentPage.OpenDatePicker();
-			_datePicker.SetDate(date1.Day, nextMonth: nextMonth1);
+			_datePicker.SetDate<TaskAssignmentPage>(date1.Day, nextMonth: nextMonth1);
 
 			_taskAssignmentPage.OpenDatePicker(taskNumber: 2);
-			_datePicker.SetDate(date1.Day, nextMonth: nextMonth1);
+			_datePicker.SetDate<TaskAssignmentPage>(date1.Day, nextMonth: nextMonth1);
 
 			_taskAssignmentPage.OpenDatePicker(taskNumber: 3);
-			_datePicker.SetDate(date1.Day, nextMonth: nextMonth1);
+			_datePicker.SetDate<TaskAssignmentPage>(date1.Day, nextMonth: nextMonth1);
 
 			_taskAssignmentPage.ClickSaveButton();
 
 			_projectsPage.OpenAssignDialog(_projectUniqueName, documentNumber: 3);
 
 			_taskAssignmentPage.OpenDatePicker();
-			_datePicker.SetDate(date1.Day, nextMonth: nextMonth1);
+			_datePicker.SetDate<TaskAssignmentPage>(date1.Day, nextMonth: nextMonth1);
 
 			_taskAssignmentPage.OpenDatePicker(taskNumber: 2);
-			_datePicker.SetDate(date2.Day, nextMonth: nextMonth2);
+			_datePicker.SetDate<TaskAssignmentPage>(date2.Day, nextMonth: nextMonth2);
 			
 			_taskAssignmentPage.ClickSaveButton();
 
@@ -187,10 +189,10 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 			_projectsPage.OpenAssignDialog(_projectUniqueName);
 			
 			_taskAssignmentPage.OpenDatePicker();
-			_datePicker.SetDate(date1.Day, nextMonth: nextMonth1);
+			_datePicker.SetDate<TaskAssignmentPage>(date1.Day, nextMonth: nextMonth1);
 
 			_taskAssignmentPage.OpenDatePicker(taskNumber: 2);
-			_datePicker.SetDate(date2.Day, nextMonth: nextMonth2);
+			_datePicker.SetDate<TaskAssignmentPage>(date2.Day, nextMonth: nextMonth2);
 
 			_taskAssignmentPage.ClickSaveAssignButtonExpectingError();
 
@@ -215,10 +217,10 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 			_projectsPage.OpenAssignDialog(_projectUniqueName);
 
 			_taskAssignmentPage.OpenDatePicker(taskNumber: 1);
-			_datePicker.SetDate(date.Day);
+			_datePicker.SetDate<TaskAssignmentPage>(date.Day);
 
 			_taskAssignmentPage.OpenDatePicker(taskNumber: 2);
-			_datePicker.SetDate(date.Day);
+			_datePicker.SetDate<TaskAssignmentPage>(date.Day);
 
 			_taskAssignmentPage.ClickSaveButton();
 
@@ -246,7 +248,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 			_taskAssignmentPage.OpenDatePicker(taskNumber: 3);
 			_datePicker
 				.ClickNextMonthArrow(count: 12)
-				.SetDate(date.Day);
+				.SetDate<TaskAssignmentPage>(date.Day);
 
 			_taskAssignmentPage.ClickSaveAssignButtonExpectingError();
 
@@ -279,7 +281,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 			_taskAssignmentPage.OpenDatePicker(taskNumber: 3);
 			_datePicker
 				.ClickNextMonthArrow(count: 12)
-				.SetDate(date.Day);
+				.SetDate<TaskAssignmentPage>(date.Day);
 
 			_taskAssignmentPage.ClickSaveAssignButtonExpectingError();
 

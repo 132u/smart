@@ -1,4 +1,6 @@
-﻿using OpenQA.Selenium;
+﻿using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.AssignmentPages;
+
+using OpenQA.Selenium;
 using OpenQA.Selenium.Support.PageObjects;
 
 using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
@@ -29,6 +31,28 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings.Setting
 		}
 		
 		#region Простые методы страницы
+
+		/// <summary>
+		/// Нажать кнопку удаления даты дедлайна.
+		/// </summary>
+		public GeneralTab ClickRemoveDateButton()
+		{
+			CustomTestContext.WriteLine("Нажать кнопку удаления даты дедлайна.");
+			RemoveDeadlineButton.Click();
+			
+			return GetPage();
+		}
+
+		/// <summary>
+		/// Открыть календарь.
+		/// </summary>
+		public GeneralTab OpenDatePicker()
+		{
+			CustomTestContext.WriteLine("Открыть календарь.");
+			DatePicker.Click();
+
+			return GetPage();
+		}
 
 		/// <summary>
 		/// Нажать кнопку контроля качества.
@@ -83,7 +107,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings.Setting
 		/// </summary>
 		public bool IsGeneralTabOpened()
 		{
-			return Driver.WaitUntilElementIsDisplay(By.XPath(DEADLINE));
+			return Driver.WaitUntilElementIsDisplay(By.XPath(SET_UP_QA_SETTINGS_BUTTON));
 		}
 
 		#endregion
@@ -102,10 +126,18 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings.Setting
 		[FindsBy(How = How.XPath, Using = DESCRIPTION)]
 		protected IWebElement Description { get; set; }
 
+		[FindsBy(How = How.XPath, Using = REMOVE_DEADLINE_BUTTON)]
+		protected IWebElement RemoveDeadlineButton { get; set; }
+
+		[FindsBy(How = How.XPath, Using = DATEPICKER)]
+		protected IWebElement DatePicker { get; set; }
+
 		#endregion
 		
 		#region Описания XPath элементов
 
+		protected const string DATEPICKER = "//datetimepicker//input";
+		protected const string REMOVE_DEADLINE_BUTTON = "//datetimepicker//span[contains(@class, 'remove-btn')]";
 		protected const string DEADLINE = "//input[contains(@class, 'hasDatepicker')]";
 		protected const string SET_UP_QA_SETTINGS_BUTTON = "//div[contains(@class,'popup-edit')][2]//div[contains(@data-bind, 'setupQaSettings')]";
 		protected const string NAME = "(//div[contains(@class,'js-popup-edit')])[2]//input[contains(@data-bind, 'value: name')]";

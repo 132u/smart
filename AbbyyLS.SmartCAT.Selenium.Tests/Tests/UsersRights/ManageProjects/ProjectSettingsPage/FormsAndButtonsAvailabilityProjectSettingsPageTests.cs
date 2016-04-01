@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Globalization;
 
+using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings.SettingsDialog;
+
 using NUnit.Framework;
 
 using AbbyyLS.SmartCAT.Selenium.Tests.DataStructures;
@@ -125,13 +127,16 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersRights.ManageProjects.Proje
 		[Test]
 		public void CancelGeneralSettingsTest()
 		{
-			var deadline = DateTime.Today.AddDays(1).ToString("d", new CultureInfo("en-US"));
+			var deadline = DateTime.Today.AddDays(1);
 			
 			_projectSettingsPage.ClickSettingsButton();
 
 			_generalTab
-				.EditDeadlineManually(deadline)
-				.CancelSettingsChanges();
+				.ClickRemoveDateButton()
+				.OpenDatePicker();
+			_datePicker.SetDate<GeneralTab>(deadline.Day);
+
+			_generalTab.CancelSettingsChanges();
 
 			Assert.IsFalse(_settingsDialog.IsSettingsDialogOpened(),
 				"Произошла ошибка:\n Диалог настроек проекта не закрылся.");
@@ -140,13 +145,16 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersRights.ManageProjects.Proje
 		[Test]
 		public void SaveGeneralSettingsTest()
 		{
-			var deadline = DateTime.Today.AddDays(1).ToString("d", new CultureInfo("en-US"));
+			var deadline = DateTime.Today.AddDays(1);
 
 			_projectSettingsPage.ClickSettingsButton();
 
 			_generalTab
-				.EditDeadlineManually(deadline)
-				.SaveSettings();
+				.ClickRemoveDateButton()
+				.OpenDatePicker();
+			_datePicker.SetDate<GeneralTab>(deadline.Day);
+
+			_generalTab.SaveSettings();
 
 			Assert.IsFalse(_settingsDialog.IsSettingsDialogOpened(),
 				"Произошла ошибка:\n Диалог настроек проекта не закрылся.");

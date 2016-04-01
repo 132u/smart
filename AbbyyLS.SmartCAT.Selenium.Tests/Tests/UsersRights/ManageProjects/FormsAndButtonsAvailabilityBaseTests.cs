@@ -1,5 +1,7 @@
 ﻿using System;
 
+using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.AssignmentPages;
+
 using NUnit.Framework;
 
 using AbbyyLS.SmartCAT.Selenium.Tests.DataStructures;
@@ -65,6 +67,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersRights.ManageProjects
 			_editorPage = new EditorPage(Driver);
 			_pretranslationDialog = new PretranslationDialog(Driver);
 			_userRightsHelper = new UserRightsHelper(Driver);
+			_datePicker = new DatePicker(Driver);
 			_documentUploadGeneralInformationDialog = new AddFilesStep(Driver);
 
 			// Нужен лог для отладки тестов SCAT-938
@@ -124,6 +127,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersRights.ManageProjects
 		protected PretranslationDialog _pretranslationDialog;
 		protected WorkflowSetUpTab _workflowSetUpTab;
 		protected GeneralTab _generalTab;
+		protected DatePicker _datePicker;
 		protected QualityAssuranceSettings _qualityAssuranceSettings;
 		protected CancelConfirmationDialog _cancelConfirmationDialog;
 		protected TaskAssignmentPage _taskAssignmentPage;

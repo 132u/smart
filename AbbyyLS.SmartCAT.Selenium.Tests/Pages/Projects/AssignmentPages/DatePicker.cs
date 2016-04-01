@@ -34,12 +34,16 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.AssignmentPages
 
 		#region Простые методы страницы
 
-		public TaskAssignmentPage ClickDoneButton()
+		/// <summary>
+		/// Нажать кнопку Done
+		/// </summary>
+		public T ClickDoneButton<T>() where T : class, IAbstractPage<T>
 		{
 			CustomTestContext.WriteLine("Нажать кнопку Done.");
 			DoneButton.Click();
 
-			return new TaskAssignmentPage(Driver).GetPage();
+			var instance = Activator.CreateInstance(typeof(T), new object[] { Driver }) as T;
+			return instance.GetPage();
 		}
 
 		/// <summary>
@@ -73,13 +77,13 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.AssignmentPages
 		#endregion
 
 		#region Составные методы страницы
-
+		
 		/// <summary>
 		/// Установить дату
 		/// </summary>
 		/// <param name="day">день</param>
 		/// <param name="nextMonth">следующий месяц</param>
-		public TaskAssignmentPage SetDate(int day = 20, bool nextMonth = false)
+		public T SetDate<T>(int day = 20, bool nextMonth = false) where T : class, IAbstractPage<T>
 		{
 			if (nextMonth)
 			{
@@ -87,14 +91,15 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.AssignmentPages
 			}
 
 			ClickDay(day);
-			ClickDoneButton();
+			ClickDoneButton<T>();
 
 			if(!Driver.WaitUntilElementIsDisappeared(By.XPath(DONE_BUTTON)))
 			{
 				throw new Exception("Произошла ошибка: Календарь не закрылся.");
 			}
 
-			return new TaskAssignmentPage(Driver).GetPage();
+			var instance = Activator.CreateInstance(typeof(T), new object[] { Driver }) as T;
+			return instance.GetPage();
 		}
 
 		#endregion
