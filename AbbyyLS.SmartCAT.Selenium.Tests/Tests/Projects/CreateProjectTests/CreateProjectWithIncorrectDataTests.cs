@@ -69,26 +69,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 				"Произошла ошибка:\n не отображается сообщение о том, что source и target языки совпадают");
 		}
 
-		[TestCase("03/03/20166")]
-		[TestCase("03 03/2016")]
-		[TestCase("0303/2016")]
-		[TestCase("033/03/2016")]
-		[TestCase("03/033/2016")]
-		[TestCase("03/03/201")]
-		public void InvalidDeadlineDateFormat(string dateFormat)
-		{
-			_projectsPage.ClickCreateProjectButton();
-
-			_newProjectDocumentUploadPage.ClickSkipDocumentUploadButton();
-
-			_newProjectSettingsPage.FillGeneralProjectInformation(_projectUniqueName,
-				deadline: Deadline.FillDeadlineDate,
-				date: dateFormat);
-
-			Assert.IsTrue(_newProjectSettingsPage.IsErrorDeadlineDateMessageDisplayed(),
-				"Произошла ошибка:\n При введении некорректной даты '{0}' не было сообщения о неверном формате даты", dateFormat);
-		}
-
 		[Test]
 		public void ImportDuplicateDocumentTest()
 		{

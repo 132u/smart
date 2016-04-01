@@ -41,7 +41,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 			Assert.IsTrue(_newProjectSettingsPage.IsProjectNameMatchExpected(_projectUniqueName),
 				"Произошла ошибка:\n имя проекта не совпадает с ожидаемым");
 
-			Assert.IsTrue(_newProjectSettingsPage.IsDeadlineDateMatchExpected(deadlineDate),
+			Assert.AreEqual(deadlineDate, _newProjectSettingsPage.GetDeadlineDate(),
 				"Произошла ошибка:\n в дэдлайне указана неверная дата");
 
 			Assert.IsTrue(_newProjectSettingsPage.IsSourceLanguageMatchExpected(Language.Japanese),

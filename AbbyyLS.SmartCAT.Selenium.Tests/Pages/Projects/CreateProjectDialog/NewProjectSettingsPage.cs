@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 
 using NUnit.Framework;
 
@@ -425,14 +426,13 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 		}
 
 		/// <summary>
-		/// Проверить, что в дэдлайне указана правильная дата
+		/// Получить значение в поле дэдлайна.
 		/// </summary>
-		/// <param name="expectedDate">ожидаемая дата</param>
-		public bool IsDeadlineDateMatchExpected(string expectedDate)
+		public string GetDeadlineDate()
 		{
-			CustomTestContext.WriteLine("Проверить, что в дэдлайне указана дата {0}", expectedDate);
+			CustomTestContext.WriteLine("Получить значение в поле дэдлайна.");
 
-			return expectedDate == DeadlineDateInput.GetAttribute("value");
+			return DeadlineValue.Text.Split(new[] { ' ' })[0].Trim();
 		}
 
 		/// <summary>
@@ -558,6 +558,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 		[FindsBy(How = How.XPath, Using = DEADLINE_DATE_INPUT)]
 		protected IWebElement DeadlineDateInput { get; set; }
 
+		[FindsBy(How = How.XPath, Using = DEADLINE_VALUE)]
+		protected IWebElement DeadlineValue { get; set; }
+
 		[FindsBy(How = How.XPath, Using = DEADLINE_DATE_CURRENT)]
 		protected IWebElement DeadlineDateCurrent { get; set; }
 
@@ -624,6 +627,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 		protected const string DEADLINE_DATE_NEXT_MONTH = "//div[contains(@id, 'ui-datepicker-div')]//a[contains(@class, 'ui-datepicker-next')]";
 		protected const string DEADLINE_DATE_PREV_MONTH = "//div[contains(@id, 'ui-datepicker-div')]//a[contains(@class, 'ui-datepicker-prev')]";
 		protected const string DEADLINE_DATE = "//div[contains(@id, 'ui-datepicker-div')]//table[contains(@class, 'ui-datepicker-calendar')]//tr[1]//td[count(a)!=0][1]";
+		protected const string DEADLINE_VALUE = "//div[contains(@class, 'project__datebox')]//span//span[contains(@data-bind,'formatDateTime')]";
 
 		protected const string SOURCE_LANG_DROPDOWN = "//div[@class='source_lang']//i";
 		protected const string SOURCE_LANG_SELECTED = "//div[@class='source_lang']//input[@title='*#*']";
