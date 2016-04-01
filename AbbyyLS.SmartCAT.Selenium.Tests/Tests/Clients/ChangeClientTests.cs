@@ -30,7 +30,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Clients
 		{
 			_clientsPage
 				.CreateNewClient(_clientName)
-				.RenameClient(_clientName, invalidName);
+				.RenameClient(_clientName, invalidName, errorExpected: true);
 
 			Assert.IsTrue(_clientsPage.IsClientEditModeEnabled(),
 				"Произошла ошибка:\n произошел выход из режима редактирования клиента.");
@@ -44,7 +44,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Clients
 			_clientsPage
 				.CreateNewClient(_clientName)
 				.CreateNewClient(clientSecondName)
-				.RenameClient(clientSecondName, _clientName);
+				.RenameClient(clientSecondName, _clientName, errorExpected: true);
 
 			Assert.IsTrue(_clientsPage.IsClientNameValidationErrorDisplayed(),
 				"Произошла ошибка:\n не появилась ошибка при создании клиента с некорректным именем");

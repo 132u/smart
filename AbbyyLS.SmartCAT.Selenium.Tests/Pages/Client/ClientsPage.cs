@@ -73,6 +73,17 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Client
 		}
 
 		/// <summary>
+		/// Нажать кнопку 'Сохранить', ожидая ошибку.
+		/// </summary>
+		public ClientsPage ClickSaveClientButtonExpectingError()
+		{
+			CustomTestContext.WriteLine("Нажать кнопку 'Сохранить', ожидая ошибку.");
+			SaveClientButton.Click();
+			
+			return GetPage();
+		}
+
+		/// <summary>
 		/// Навести курсор на клиент
 		/// </summary>
 		/// <param name="clientName">имя клиента</param>
@@ -140,11 +151,18 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Client
 		/// Создать нового клиента
 		/// </summary>
 		/// <param name="clientName"></param>
-		public ClientsPage CreateNewClient(string clientName)
+		public ClientsPage CreateNewClient(string clientName, bool errorExpected = false)
 		{
 			ScrollAndClickCreateClientButton();
 			FillClientName(clientName);
-			ClickSaveClientButton();
+			if (errorExpected)
+			{
+				ClickSaveClientButtonExpectingError();
+			}
+			else
+			{
+				ClickSaveClientButton();
+			}
 
 			return GetPage();
 		}
@@ -154,12 +172,19 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Client
 		/// </summary>
 		/// <param name="clientName"></param>
 		/// <param name="clientNewName"></param>
-		public ClientsPage RenameClient(string clientName, string clientNewName)
+		public ClientsPage RenameClient(string clientName, string clientNewName, bool errorExpected = false)
 		{
 			HoverCursorToClient(clientName);
 			ClickEditClientButton(clientName);
 			FillClientName(clientNewName);
-			ClickSaveClientButton();
+			if (errorExpected)
+			{
+				ClickSaveClientButtonExpectingError();
+			}
+			else
+			{
+				ClickSaveClientButton();
+			}
 
 			return GetPage();
 		}

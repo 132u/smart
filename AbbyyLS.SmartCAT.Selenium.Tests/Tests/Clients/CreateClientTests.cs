@@ -25,7 +25,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Clients
 		{
 			_clientsPage
 				.CreateNewClient(_clientName)
-				.CreateNewClient(_clientName);
+				.CreateNewClient(_clientName, errorExpected: true);
 
 			Assert.IsTrue(_clientsPage.IsClientNameValidationErrorDisplayed(),
 				"Произошла ошибка:\n не появилась ошибка при создании клиента с некорректным именем");
@@ -35,7 +35,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Clients
 		[TestCase(" ")]
 		public void CreateClientInvalidNameTest(string invalidName)
 		{
-			_clientsPage.CreateNewClient(invalidName);
+			_clientsPage.CreateNewClient(invalidName, errorExpected: true);
 
 			Assert.IsTrue(_clientsPage.IsClientEditModeEnabled(),
 				"Произошла ошибка:\n произошел выход из режима редактирования клиента.");
