@@ -4,6 +4,8 @@ using System.Globalization;
 using System.Linq;
 using System.Threading;
 
+using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.AssignmentPages;
+
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.PageObjects;
 
@@ -187,13 +189,13 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 		/// Ввести дату вручную.
 		/// </summary>
 		/// <param name="dateTime">дата</param>
-		public TaskAssignmentPage FillDeadlineManually(string dateTime, int taskNumber = 1 )
+		public DatePicker OpenDatePicker(int taskNumber = 1 )
 		{
-			CustomTestContext.WriteLine("Ввести дату {0} вручную.", dateTime);
-			Driver.SetDynamicValue(How.XPath, DEADLINE, taskNumber.ToString()).SetText(dateTime);
-			CloseDeadlineCalendar();
+			CustomTestContext.WriteLine("Отркыть календарь для аздачи №{0}.", taskNumber);
+			Deadline = Driver.SetDynamicValue(How.XPath, DEADLINE, taskNumber.ToString());
+			Deadline.Click();
 
-			return GetPage();
+			return new DatePicker(Driver).GetPage();
 		}
 
 		/// <summary>
@@ -234,11 +236,14 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 		/// Получить имя из колонки Assignnees.
 		/// </summary>
 		/// <param name="taskNumber">номер задачи</param>
-		public string GetAssignneeName(int taskNumber)
+		public List<string> GetAssignneeName(int taskNumber)
 		{
 			CustomTestContext.WriteLine("Получить имя из колонки Assignnees.");
+			var assigneeColumn = Driver.SetDynamicValue(How.XPath, ASSIGNEE_NAME, taskNumber.ToString()).Text;
+			var assignees = assigneeColumn.Split(new[] { ',' }).Select(a => a.Trim()).ToList();
+			assignees.Sort();
 
-			return Driver.SetDynamicValue(How.XPath, ASSIGNEE_NAME, taskNumber.ToString()).Text;
+			return assignees;
 		}
 
 		/// <summary>
@@ -363,14 +368,15 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 		public DateTime? GetDeadlineDate(int taskNumber = 1)
 		{
 			CustomTestContext.WriteLine("Получить значение из дедлайна.");
-			var value = Driver.FindElement(By.XPath(DEADLINE_VALUE.Replace("*#*", taskNumber.ToString()))).GetAttribute("value");
-
-			if (value == String.Empty)
+			if (!Driver.GetIsElementExist(By.XPath(DEADLINE_VALUE.Replace("*#*", taskNumber.ToString()))))
 			{
 				return null;
 			}
 
-			return DateTime.ParseExact(value, "yyyy-MM-dd", CultureInfo.InvariantCulture).Date;
+			var dateTime = Driver.FindElement(By.XPath(DEADLINE_VALUE.Replace("*#*", taskNumber.ToString()))).Text;
+			var date = dateTime.Split(new[] { ' ' })[0];
+
+			return DateTime.ParseExact(date, "MM/dd/yyyy", CultureInfo.InvariantCulture).Date;
 		}
 
 		/// <summary>
@@ -507,7 +513,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 		[FindsBy(How = How.XPath, Using = CANCEL_BUTTON)]
 		protected IWebElement CancelButton { get; set; }
 
-
 		[FindsBy(How = How.XPath, Using = DEADLINE_VALUE)]
 		protected IWebElement Deadline { get; set; }
 
@@ -544,8 +549,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 		protected const string SELECT_SEVERAL_ASSIGNEES_DROPDOWN = "//tr[*#*]//a[contains(@data-bind, 'setAssignmentsButtonTitle')]";
 
 		protected const string DIFFERENT_DEADLINE = "//tr[*#*]//td[contains(@class, 'l-assignments-different-values')]";
-		protected const string DEADLINE_VALUE = "//tr[*#*]//div[contains(@data-bind, 'datepicker')]//input[@class='js-submit-input']";
-		protected const string DEADLINE = "//tr[*#*]//div[contains(@data-bind, 'datepicker')]//input[contains(@class, 'hasDatepicker')]";
+		protected const string DEADLINE_VALUE = "//tr[*#*]//datetimepicker//span[contains(@data-bind, 'formatDateTime')]";
+		protected const string DEADLINE = "//tr[*#*]//datetimepicker//input[contains(@class, 'hasDatepicker')]";
 		protected const string DAY = "//table[contains(@class, 'datepicker-calendar')]//a[text()='*#*']";
 		protected const string FOOTER = "//li[contains(@class, 'footer')]";
 		protected const string WRONG_DEADLINE_FORMAT_ERROR = "//p[@data-message-id='wrong-deadline-format']";

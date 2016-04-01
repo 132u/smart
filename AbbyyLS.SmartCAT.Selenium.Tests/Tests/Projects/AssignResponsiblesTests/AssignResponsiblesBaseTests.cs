@@ -41,6 +41,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 			_newGroupDialog = new NewGroupDialog(Driver);
 			_projectSettingsHelper = new ProjectSettingsHelper(Driver);
 			_workflowSetUptab = new WorkflowSetUpTab(Driver);
+			_datePicker = new DatePicker(Driver);
 			_projectUniqueName = _createProjectHelper.GetProjectUniqueName();
 			_secondUser = null;
 			_thirdUser = null;
@@ -85,5 +86,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 		protected UsersTab _userTab;
 		protected NewGroupDialog _newGroupDialog;
 		protected WorkflowSetUpTab _workflowSetUptab;
+		protected DatePicker _datePicker;
 	}
 }

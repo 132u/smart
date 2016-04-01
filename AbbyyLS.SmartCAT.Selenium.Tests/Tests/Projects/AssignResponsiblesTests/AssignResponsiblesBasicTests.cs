@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 
@@ -278,7 +279,10 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 
 			_projectsPage.OpenAssignDialog(_projectUniqueName);
 
-			Assert.AreEqual(ThreadUser.NickName+", "+_secondUser.NickName, _taskAssignmentPage.GetAssignneeName(taskNumber: 1),
+			var assignees = new List<string> { ThreadUser.NickName, _secondUser.NickName };
+			assignees.Sort();
+
+			Assert.AreEqual(assignees, _taskAssignmentPage.GetAssignneeName(taskNumber: 1),
 				"Произошла ошибка:\nНеверные имена в колонке исполнителя.");
 		}
 

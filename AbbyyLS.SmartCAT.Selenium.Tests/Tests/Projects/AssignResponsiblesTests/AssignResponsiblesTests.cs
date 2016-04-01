@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System.Collections.Generic;
+using System.IO;
 
 using NUnit.Framework;
 
@@ -82,8 +83,11 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 				.ClickSaveButton();
 
 			_projectsPage.OpenAssignDialogForSelectedDocuments(_projectUniqueName, new[] { document1, document2, document3 });
-				
-			Assert.AreEqual(ThreadUser.NickName, _taskAssignmentPage.GetAssignneeName(1),
+
+			var assignee = new List<string> { ThreadUser.NickName};
+			assignee.Sort();
+
+			Assert.AreEqual(assignee, _taskAssignmentPage.GetAssignneeName(1),
 				"Произошла ошибка:\n Неверное имя в колонке Assignnees для задачи №1.");
 
 			Assert.IsTrue(_taskAssignmentPage.IsCancelButtonDisplayed(1),

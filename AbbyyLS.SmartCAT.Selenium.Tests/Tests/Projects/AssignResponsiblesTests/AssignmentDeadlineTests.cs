@@ -5,7 +5,6 @@ using NUnit.Framework;
 
 using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
 using AbbyyLS.SmartCAT.Selenium.Tests.DataStructures;
-using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 {
@@ -20,9 +19,10 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 
 			_projectsPage.OpenAssignDialog(_projectUniqueName);
 
-			_taskAssignmentPage
-				.FillDeadlineManually(DateTime.Now.ToString("d", CultureInfo.InvariantCulture))
-				.ClickCancelButton();
+			_taskAssignmentPage.OpenDatePicker();
+			_datePicker.SetDate();
+
+			_taskAssignmentPage.ClickCancelButton();
 
 			_projectsPage.OpenAssignDialog(_projectUniqueName);
 
@@ -40,9 +40,10 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 
 			_projectsPage.OpenAssignDialog(_projectUniqueName);
 
-			_taskAssignmentPage
-				.FillDeadlineManually(date.ToString("d", CultureInfo.InvariantCulture))
-				.ClickSaveButton();
+			_taskAssignmentPage.OpenDatePicker();
+			_datePicker.SetDate(date.Day);
+
+			_taskAssignmentPage.ClickSaveButton();
 
 			_projectsPage.OpenAssignDialog(_projectUniqueName);
 
@@ -50,32 +51,10 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 				"Произошла ошибка:\nНеверное значение в поле дедлайна.");
 		}
 
-		[Test(Description = "ТС-143")]
-		[TestCase("123123123")]
-		[TestCase("123-123-123")]
-		[TestCase("90.90.90")]
-		[TestCase("12/12/17")]
-		[TestCase("12.12.2017")]
-		[TestCase("12.12.17")]
-		public void SaveInvalidDeadlineTest(string deadline)
-		{
-			_createProjectHelper.CreateNewProject(
-				_projectUniqueName, filesPaths: new[] { PathProvider.EditorTxtFile });
-
-			_projectsPage.OpenAssignDialog(_projectUniqueName);
-
-			_taskAssignmentPage
-				.FillInvalidDeadlineManually(deadline)
-				.ClickSaveAssignButtonExpectingError();
-
-			Assert.IsTrue(_taskAssignmentPage.IsWrongDeadlineFormatErrorMessage(),
-				"Произошла ошибка:\nСообщение 'Please, specify the deadline in the format: MM/DD/YYYY' не появилось.");
-		}
-
 		[Test(Description = "ТС-144")]
 		public void SaveDeadlineInRussianLocaleTest()
 		{
-			var date = DateTime.Now.ToString("d", new CultureInfo("ru-RU"));
+			var date = DateTime.Now;
 
 			_createProjectHelper.CreateNewProject(
 				_projectUniqueName, filesPaths: new[] { PathProvider.EditorTxtFile });
@@ -84,48 +63,38 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 
 			_workspacePage.SelectLocale(Language.Russian);
 
-			_taskAssignmentPage
-				.FillDeadlineManually(date)
-				.ClickSaveButton();
+			_taskAssignmentPage.OpenDatePicker();
+			_datePicker.SetDate(date.Day);
+
+			_taskAssignmentPage.ClickSaveButton();
 
 			Assert.IsTrue(_projectsPage.IsProjectsPageOpened(),
 				"Произошла ошибка:\nНе открылась страница проектов.");
 		}
-
-		[Test(Description = "ТС-144")]
-		[TestCase("123123123")]
-		[TestCase("123-123-123")]
-		[TestCase("90.90.90")]
-		[TestCase("12.12.17")]
-		[TestCase("12/12/17")]
-		[TestCase("12/12/2017")]
-		public void SaveInvalidDeadlineInRussianLocaleTest(string deadline)
-		{
-			_createProjectHelper.CreateNewProject(
-				_projectUniqueName, filesPaths: new[] { PathProvider.EditorTxtFile });
-
-			_projectsPage.OpenAssignDialog(_projectUniqueName);
-
-			_workspacePage.SelectLocale(Language.Russian);
-
-			_taskAssignmentPage
-				.FillInvalidDeadlineManually(deadline)
-				.ClickSaveAssignButtonExpectingError();
-
-			Assert.IsTrue(_taskAssignmentPage.IsWrongDeadlineFormatErrorMessage(),
-				"Произошла ошибка:\nСообщение 'Please, specify the deadline in the format: MM/DD/YYYY' не появилось.");
-		}
-
+		
 		[Test(Description = "ТС-15")]
 		public void DeadlineViewTest()
 		{
+			var nextMonth1 = false;
+			var nextMonth2 = false;
 			var document1 = PathProvider.EditorTxtFile;
 			var document2 = PathProvider.DocumentFile;
 			var document3 = PathProvider.DocumentFile2;
 
-			var date1 = DateTime.Now.AddDays(2);
-			var date2 = DateTime.Now.AddDays(3);
+			var today = DateTime.Now;
+			var date1 = today.AddDays(2);
+			var date2 = today.AddDays(3);
 
+			if (today.Month < date1.Month)
+			{
+				nextMonth1 = true;
+			}
+
+			if (today.Month < date2.Month)
+			{
+				nextMonth2 = true;
+			}
+			
 			_createProjectHelper.CreateNewProject(
 				_projectUniqueName,
 				filesPaths: new []{ document1, document2, document3 },
@@ -140,31 +109,43 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 			
 			_projectsPage.OpenAssignDialog(_projectUniqueName);
 
-			_taskAssignmentPage
-				.FillDeadlineManually(date1.ToString("d", CultureInfo.InvariantCulture), taskNumber: 1)
-				.FillDeadlineManually(date1.ToString("d", CultureInfo.InvariantCulture), taskNumber: 2)
-				.FillDeadlineManually(date1.ToString("d", CultureInfo.InvariantCulture), taskNumber: 3)
-				.ClickSaveButton();
+			_taskAssignmentPage.OpenDatePicker();
+			_datePicker.SetDate(date1.Day, nextMonth: nextMonth1);
+
+			_taskAssignmentPage.OpenDatePicker(taskNumber: 2);
+			_datePicker.SetDate(date1.Day, nextMonth: nextMonth1);
+
+			_taskAssignmentPage.OpenDatePicker(taskNumber: 3);
+			_datePicker.SetDate(date1.Day, nextMonth: nextMonth1);
+
+			_taskAssignmentPage.ClickSaveButton();
 
 			_projectsPage.OpenAssignDialog(_projectUniqueName, documentNumber: 2);
 
-			_taskAssignmentPage
-				.FillDeadlineManually(date1.ToString("d", CultureInfo.InvariantCulture), taskNumber: 1)
-				.FillDeadlineManually(date1.ToString("d", CultureInfo.InvariantCulture), taskNumber: 2)
-				.FillDeadlineManually(date1.ToString("d", CultureInfo.InvariantCulture), taskNumber: 3)
-				
-				.ClickSaveButton();
+			_taskAssignmentPage.OpenDatePicker();
+			_datePicker.SetDate(date1.Day, nextMonth: nextMonth1);
+
+			_taskAssignmentPage.OpenDatePicker(taskNumber: 2);
+			_datePicker.SetDate(date1.Day, nextMonth: nextMonth1);
+
+			_taskAssignmentPage.OpenDatePicker(taskNumber: 3);
+			_datePicker.SetDate(date1.Day, nextMonth: nextMonth1);
+
+			_taskAssignmentPage.ClickSaveButton();
 
 			_projectsPage.OpenAssignDialog(_projectUniqueName, documentNumber: 3);
 
-			_taskAssignmentPage
-				.FillDeadlineManually(date1.ToString("d", CultureInfo.InvariantCulture), taskNumber: 1)
-				.FillDeadlineManually(date2.ToString("d", CultureInfo.InvariantCulture), taskNumber: 2)
-				.ClickSaveButton();
+			_taskAssignmentPage.OpenDatePicker();
+			_datePicker.SetDate(date1.Day, nextMonth: nextMonth1);
+
+			_taskAssignmentPage.OpenDatePicker(taskNumber: 2);
+			_datePicker.SetDate(date2.Day, nextMonth: nextMonth2);
+			
+			_taskAssignmentPage.ClickSaveButton();
 
 			_projectsPage.OpenAssignDialogForSelectedDocuments(_projectUniqueName, new[] { document1, document2, document3 });
-				
-			Assert.AreEqual(date1.Date, _taskAssignmentPage.GetDeadlineDate(taskNumber: 1),
+
+			Assert.AreEqual(date1, _taskAssignmentPage.GetDeadlineDate(taskNumber: 1),
 				"Произошла ошибка:\n Неверная дата в дедалйне для задачи №1.");
 
 			Assert.IsTrue(_taskAssignmentPage.IsDifferentDeadlineDisplayed(taskNumber: 2),
@@ -177,8 +158,21 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 		[Test(Description = "ТС-16")]
 		public void DeadlineIsEarlierThatPreviousValidationTest()
 		{
-			var date1 = DateTime.Now.AddDays(4).ToString("d", CultureInfo.InvariantCulture);
-			var date2 = DateTime.Now.AddDays(1).ToString("d", CultureInfo.InvariantCulture);
+			var nextMonth1 = false;
+			var nextMonth2 = false;
+			var today = DateTime.Now;
+			var date1 = today.AddDays(4);
+			var date2 = today.AddDays(1);
+
+			if (today.Month < date1.Month)
+			{
+				nextMonth1 = true;
+			}
+
+			if (today.Month < date2.Month)
+			{
+				nextMonth2 = true;
+			}
 
 			_createProjectHelper.CreateNewProject(
 				_projectUniqueName,
@@ -192,10 +186,13 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 
 			_projectsPage.OpenAssignDialog(_projectUniqueName);
 			
-			_taskAssignmentPage
-				.FillDeadlineManually(date1, taskNumber: 1)
-				.FillDeadlineManually(date2, taskNumber: 2)
-				.ClickSaveAssignButtonExpectingError();
+			_taskAssignmentPage.OpenDatePicker();
+			_datePicker.SetDate(date1.Day, nextMonth: nextMonth1);
+
+			_taskAssignmentPage.OpenDatePicker(taskNumber: 2);
+			_datePicker.SetDate(date2.Day, nextMonth: nextMonth2);
+
+			_taskAssignmentPage.ClickSaveAssignButtonExpectingError();
 
 			Assert.IsTrue(_taskAssignmentPage.IsDeadlineIsEarlierThatPreviousError(),
 				"Произошла ошибка:\n Не отображается сообщение 'The task deadline precedes the deadline for the previous task'.");
@@ -204,7 +201,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 		[Test(Description = "ТС-16")]
 		public void DeadlineIsEqualToPreviousValidationTest()
 		{
-			var date = DateTime.Now.ToString("d", CultureInfo.InvariantCulture);
+			var date = DateTime.Now;
 
 			_createProjectHelper.CreateNewProject(
 				_projectUniqueName,
@@ -217,19 +214,22 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 
 			_projectsPage.OpenAssignDialog(_projectUniqueName);
 
-			_taskAssignmentPage
-				.FillDeadlineManually(date, taskNumber: 1)
-				.FillDeadlineManually(date, taskNumber: 2)
-				.ClickSaveButton();
+			_taskAssignmentPage.OpenDatePicker(taskNumber: 1);
+			_datePicker.SetDate(date.Day);
+
+			_taskAssignmentPage.OpenDatePicker(taskNumber: 2);
+			_datePicker.SetDate(date.Day);
+
+			_taskAssignmentPage.ClickSaveButton();
 
 			Assert.IsTrue(_projectsPage.IsProjectsPageOpened(),
 				"Произошла ошибка:\n Не открылась страница проектов.");
 		}
-
-		[Test(Description = "ТС-16")]
+		
+		[Test(Description = "ТС-16"), Ignore("Контрол не доделан")]
 		public void DeadlineIsLaterThatProjectDeadlineCancelTest()
 		{
-			var date = DateTime.Now.AddYears(1).ToString("d", CultureInfo.InvariantCulture);
+			var date = DateTime.Now;
 
 			_createProjectHelper.CreateNewProject(
 				_projectUniqueName,
@@ -243,9 +243,12 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 
 			_projectsPage.OpenAssignDialog(_projectUniqueName);
 
-			_taskAssignmentPage
-				.FillDeadlineManually(date, taskNumber: 3)
-				.ClickSaveAssignButtonExpectingError();
+			_taskAssignmentPage.OpenDatePicker(taskNumber: 3);
+			_datePicker
+				.ClickNextMonthArrow(count: 12)
+				.SetDate(date.Day);
+
+			_taskAssignmentPage.ClickSaveAssignButtonExpectingError();
 
 			Assert.IsTrue(_attentionPopup.IsAttentionPopupOpened(),
 				"Произошла ошибка:\n Не открылось сообщением о том что дедлайн позже дедлайна проекта.");
@@ -256,7 +259,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 				"Произошла ошибка:\n Не отображается предупреждение(желтый восклицательный знак) в поле дедлайна.");
 		}
 
-		[Test(Description = "ТС-16")]
+		[Test(Description = "ТС-16"), Ignore("Контрол не доделан")]
 		public void DeadlineIsLaterThatProjectDeadlineSaveTest()
 		{
 			var date = DateTime.Now.AddYears(1);
@@ -273,9 +276,12 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 
 			_projectsPage.OpenAssignDialog(_projectUniqueName);
 			
-			_taskAssignmentPage
-				.FillDeadlineManually(date.ToString("d", CultureInfo.InvariantCulture), taskNumber: 3)
-				.ClickSaveAssignButtonExpectingError();
+			_taskAssignmentPage.OpenDatePicker(taskNumber: 3);
+			_datePicker
+				.ClickNextMonthArrow(count: 12)
+				.SetDate(date.Day);
+
+			_taskAssignmentPage.ClickSaveAssignButtonExpectingError();
 
 			Assert.IsTrue(_attentionPopup.IsAttentionPopupOpened(),
 				"Произошла ошибка:\n Не открылось сообщением о том что дедлайн позже дедлайна проекта.");

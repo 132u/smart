@@ -97,6 +97,7 @@
     <Compile Include="Pages\Login\CreateAccountPage.cs" />
     <Compile Include="Pages\Login\SelectProfileForm.cs" />
     <Compile Include="Pages\Projects\AssignmentPages\AttentionPopup.cs" />
+    <Compile Include="Pages\Projects\AssignmentPages\DatePicker.cs" />
     <Compile Include="Pages\Projects\AssignmentPages\DistributeSegmentsBetweenAssigneesPage.cs" />
     <Compile Include="Pages\Projects\AssignmentPages\ReassignDialog.cs" />
     <Compile Include="Pages\Projects\CreateProjectDialog\AdvancedSettings\AdvancedSettingsSection.cs" />
