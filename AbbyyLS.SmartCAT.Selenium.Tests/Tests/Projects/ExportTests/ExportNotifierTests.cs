@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using System.IO;
 
 using NUnit.Framework;
@@ -29,7 +30,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 			_exportNotification = new ExportNotification(Driver);
 			_workspacePage = new WorkspacePage(Driver);
 			_addFilesStep = new AddFilesStep(Driver);
-			
+
 			_projectUniqueName = _createProjectHelper.GetProjectUniqueName();
 
 			_workspacePage.GoToProjectsPage();
@@ -501,18 +502,14 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 		[Test]
 		public void ExportDocumentCheckNotifierDate()
 		{
+			var expectedDate = DateTime.Now.ToString("MM/dd/yyyy hh", CultureInfo.InvariantCulture);
+
 			_projectsPage.ClickProject(_projectUniqueName);
 
 			_projectSettingsPage
 				.ClickDocumentCheckbox(PathProvider.DocumentFileToConfirm1)
 				.ClickDownloadInMainMenuButton()
 				.ClickExportType(ExportType.Source);
-
-			var expectedDate = String.Format("{0}/{1}/{2} {3}:", 
-				DateTime.Now.Month.ToString().PadLeft(2, '0'),
-				DateTime.Now.Day.ToString().PadLeft(2, '0'),
-				DateTime.Now.Year,
-				DateTime.Now.Hour.ToString().PadLeft(2, '0'));
 
 			Assert.IsTrue(_exportNotification.IsUpperNotificationContainsText(expectedDate),
 				"Произошла ошибка:\n сообщение не содержит требуемую дату.");
