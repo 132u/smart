@@ -192,8 +192,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 		public DatePicker OpenDatePicker(int taskNumber = 1 )
 		{
 			CustomTestContext.WriteLine("Отркыть календарь для аздачи №{0}.", taskNumber);
-			Deadline = Driver.SetDynamicValue(How.XPath, DEADLINE, taskNumber.ToString());
-			Deadline.Click();
+			DeadlineIcon = Driver.SetDynamicValue(How.XPath, DEADLINE, taskNumber.ToString());
+			DeadlineIcon.Click();
 
 			return new DatePicker(Driver).GetPage();
 		}
@@ -524,7 +524,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 		protected IWebElement AssignButton { get; set; }
 
 		protected IWebElement CancelAssignButton { get; set; }
-
+		protected IWebElement DeadlineIcon { get; set; }
 		#endregion
 
 		#region Описание XPath элементов
@@ -550,7 +550,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 
 		protected const string DIFFERENT_DEADLINE = "//tr[*#*]//td[contains(@class, 'l-assignments-different-values')]";
 		protected const string DEADLINE_VALUE = "//tr[*#*]//datetimepicker//span[contains(@data-bind, 'formatDateTime')]";
-		protected const string DEADLINE = "//tr[*#*]//datetimepicker//input[contains(@class, 'hasDatepicker')]";
+		protected const string DEADLINE = "//tr[*#*]//datetimepicker//span[contains(@data-bind, 'showCalendarIcon')]";
 		protected const string DAY = "//table[contains(@class, 'datepicker-calendar')]//a[text()='*#*']";
 		protected const string FOOTER = "//li[contains(@class, 'footer')]";
 		protected const string WRONG_DEADLINE_FORMAT_ERROR = "//p[@data-message-id='wrong-deadline-format']";
