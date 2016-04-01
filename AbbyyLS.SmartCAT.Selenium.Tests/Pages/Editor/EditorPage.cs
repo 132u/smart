@@ -1043,10 +1043,10 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		/// </summary>
 		/// <param name="text">текст</param>
 		/// <param name="rowNumber">номер строки</param>
-		public EditorPage FillTarget(string text, int rowNumber = 1)
+		public EditorPage FillTarget(string text, int rowNumber = 1, bool clearField = true)
 		{
 			ClickOnTargetCellInSegment(rowNumber);
-			FillSegmentTargetField(text, rowNumber);
+			FillSegmentTargetField(text, rowNumber, clearField);
 
 			return GetPage();
 		}

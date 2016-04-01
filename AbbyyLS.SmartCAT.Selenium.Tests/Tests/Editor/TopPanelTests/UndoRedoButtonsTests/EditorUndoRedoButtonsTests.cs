@@ -17,7 +17,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Editor
 			var targetText = "some text";
 
 			_editorPage
-				.FillTarget(targetText)
+				.FillTarget(targetText, clearField: false)
 				.ClickOnTargetCellInSegment()
 				.ClickUndoButton();
 
@@ -36,7 +36,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Editor
 			var targetText = "some text";
 
 			_editorPage
-				.FillTarget(targetText)
+				.FillTarget(targetText, clearField: false)
 				.ClickOnTargetCellInSegment()
 				.PressUndoHotkey();
 
