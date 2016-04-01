@@ -9,6 +9,7 @@ using AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersRights.ManageTranslationMemories
 {
+	[Parallelizable(ParallelScope.Fixtures)]
 	class ManageTranslationMemoriesTests<TWebDriverProvider> : ManageTranslationMemoriesBaseTests<TWebDriverProvider> where TWebDriverProvider : IWebDriverProvider, new()
 	{
 		[Test]

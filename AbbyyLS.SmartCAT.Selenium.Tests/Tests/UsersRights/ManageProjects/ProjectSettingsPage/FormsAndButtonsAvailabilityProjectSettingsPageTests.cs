@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Globalization;
 
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings.SettingsDialog;
 

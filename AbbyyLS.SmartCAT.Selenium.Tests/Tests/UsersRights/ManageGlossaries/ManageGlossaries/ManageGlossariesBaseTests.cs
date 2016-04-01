@@ -10,7 +10,6 @@ using AbbyyLS.SmartCAT.Selenium.Tests.TestFramework;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersRights.ManageGlossaries
 {
-	[Parallelizable(ParallelScope.Fixtures)]
 	public class ManageGlossariesBaseTests<TWebDriverProvider> : ManageGlossariesCommonBaseTests<TWebDriverProvider> where TWebDriverProvider : IWebDriverProvider, new()
 	{
 		[OneTimeSetUp]
