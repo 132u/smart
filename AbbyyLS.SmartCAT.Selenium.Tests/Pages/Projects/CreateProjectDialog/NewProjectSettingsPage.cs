@@ -160,7 +160,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 		/// <summary>
 		/// Кликнуть на поле для ввода даты, чтобы появился всплывающий календарь
 		/// </summary>
-		public NewProjectSettingsPage ClickDeadlineDateField()
+		public NewProjectSettingsPage OpenCalendar()
 		{
 			CustomTestContext.WriteLine("Кликнуть на поле для ввода даты, чтобы появился всплывающий календарь.");
 			DeadlineDateField.Click();
@@ -284,7 +284,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 		public NewProjectSettingsPage SetDeadline(Deadline deadline, string date = null)
 		{
 			CustomTestContext.WriteLine("Выбрать дату дэдлайна.");
-			ClickDeadlineDateField();
+			OpenCalendar();
 
 			if (!IsCalendarDisplayed())
 			{
@@ -470,7 +470,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 		public bool IsDeadlineDateSelected()
 		{
 			CustomTestContext.WriteLine("Проверить, что дата дэдлайна выбрана.");
-			if (string.IsNullOrEmpty(DeadlineDateInput.GetAttribute("value")))
+			if (string.IsNullOrEmpty(DeadlineSetValue.Text))
 			{
 				return false;
 			}
@@ -564,6 +564,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 		[FindsBy(How = How.XPath, Using = DEADLINE_VALUE)]
 		protected IWebElement DeadlineValue { get; set; }
 
+		[FindsBy(How = How.XPath, Using = DEADLINE_SET_VALUE)]
+		protected IWebElement DeadlineSetValue { get; set; }
+
 		[FindsBy(How = How.XPath, Using = DEADLINE_DATE_CURRENT)]
 		protected IWebElement DeadlineDateCurrent { get; set; }
 
@@ -611,7 +614,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 
 		[FindsBy(How = How.XPath, Using = TARGET_MULTISELECT_XPATH)]
 		protected IWebElement TargetMultiselect { get; set; }
-
+		
 		[FindsBy(How = How.XPath, Using = CLIENT_DROPDOWN)]
 		protected IWebElement ClientDropdown { get; set; }
 		protected IWebElement ClientOption { get; set; }
@@ -628,12 +631,11 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 		protected const string DEADLINE_DATE_CURRENT = "//div[contains(@id, 'ui-datepicker-div')]//table[contains(@class, 'ui-datepicker-calendar')]//td[contains(@class, 'ui-datepicker-today')]//a";
 		protected const string DEADLINE_DATE_INPUT = "//div[contains(@class, 'project__datebox')]//input";
 		protected const string DEADLINE_DATE_NEXT_MONTH = "//div[contains(@id, 'ui-datepicker-div')]//a[contains(@class, 'ui-datepicker-next')]";
-		protected const string DEADLINE_DATE_FIELD = "//div[contains(@class, 'project__datebox')]";
-
+		protected const string DEADLINE_DATE_FIELD = "//datetimepicker//span[contains(@data-bind, 'watermark')]";
 		protected const string DEADLINE_DATE_PREV_MONTH = "//div[contains(@id, 'ui-datepicker-div')]//a[contains(@class, 'ui-datepicker-prev')]";
 		protected const string DEADLINE_DATE = "//div[contains(@id, 'ui-datepicker-div')]//table[contains(@class, 'ui-datepicker-calendar')]//tr[1]//td[count(a)!=0][1]";
 		protected const string DEADLINE_VALUE = "//div[contains(@class, 'project__datebox')]//span//span[contains(@data-bind,'formatDateTime')]";
-
+		protected const string DEADLINE_SET_VALUE = "//datetimepicker//span[contains(@class, 'datetimepicker__date')]";
 		protected const string SOURCE_LANG_DROPDOWN = "//div[@class='source_lang']//i";
 		protected const string SOURCE_LANG_SELECTED = "//div[@class='source_lang']//input[@title='*#*']";
 		protected const string SOURCE_LANG_ITEM = "//div[@class='source_lang']//li[@title = '*#*']";
