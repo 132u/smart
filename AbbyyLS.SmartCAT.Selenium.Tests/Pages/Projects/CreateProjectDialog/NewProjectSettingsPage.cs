@@ -160,10 +160,10 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 		/// <summary>
 		/// Кликнуть на поле для ввода даты, чтобы появился всплывающий календарь
 		/// </summary>
-		public NewProjectSettingsPage ClickDeadlineDateInput()
+		public NewProjectSettingsPage ClickDeadlineDateField()
 		{
 			CustomTestContext.WriteLine("Кликнуть на поле для ввода даты, чтобы появился всплывающий календарь.");
-			DeadlineDateInput.Click();
+			DeadlineDateField.Click();
 
 			return GetPage();
 		}
@@ -284,7 +284,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 		public NewProjectSettingsPage SetDeadline(Deadline deadline, string date = null)
 		{
 			CustomTestContext.WriteLine("Выбрать дату дэдлайна.");
-			ClickDeadlineDateInput();
+			ClickDeadlineDateField();
 
 			if (!IsCalendarDisplayed())
 			{
@@ -555,6 +555,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 		[FindsBy(How = How.XPath, Using = PROJECT_NAME_INPUT)]
 		protected IWebElement ProjectNameInput { get; set; }
 
+		[FindsBy(How = How.XPath, Using = DEADLINE_DATE_FIELD)]
+		protected IWebElement DeadlineDateField { get; set; }
+
 		[FindsBy(How = How.XPath, Using = DEADLINE_DATE_INPUT)]
 		protected IWebElement DeadlineDateInput { get; set; }
 
@@ -625,6 +628,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 		protected const string DEADLINE_DATE_CURRENT = "//div[contains(@id, 'ui-datepicker-div')]//table[contains(@class, 'ui-datepicker-calendar')]//td[contains(@class, 'ui-datepicker-today')]//a";
 		protected const string DEADLINE_DATE_INPUT = "//div[contains(@class, 'project__datebox')]//input";
 		protected const string DEADLINE_DATE_NEXT_MONTH = "//div[contains(@id, 'ui-datepicker-div')]//a[contains(@class, 'ui-datepicker-next')]";
+		protected const string DEADLINE_DATE_FIELD = "//div[contains(@class, 'project__datebox')]";
+
 		protected const string DEADLINE_DATE_PREV_MONTH = "//div[contains(@id, 'ui-datepicker-div')]//a[contains(@class, 'ui-datepicker-prev')]";
 		protected const string DEADLINE_DATE = "//div[contains(@id, 'ui-datepicker-div')]//table[contains(@class, 'ui-datepicker-calendar')]//tr[1]//td[count(a)!=0][1]";
 		protected const string DEADLINE_VALUE = "//div[contains(@class, 'project__datebox')]//span//span[contains(@data-bind,'formatDateTime')]";

@@ -73,8 +73,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 			Assert.IsTrue(_projectsPage.IsProjectsPageOpened(),
 				"Произошла ошибка:\nНе открылась страница проектов.");
 		}
-		
-		[Test(Description = "ТС-15")]
+
+		[Test(Description = "ТС-15"), Ignore("PRX-16000")]
 		public void DeadlineViewTest()
 		{
 			var nextMonth1 = false;
