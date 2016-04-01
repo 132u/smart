@@ -253,7 +253,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 		{
 			CustomTestContext.WriteLine("Нажать на дропдаун выбора группы проекта.");
 			ProjectGroupOption = Driver.SetDynamicValue(How.XPath, PROJECT_GROUP_OPTION, projectGroup);
-			ProjectGroupOption.Click();
+			ProjectGroupOption.ScrollAndClick();
 
 			return GetPage();
 		}
