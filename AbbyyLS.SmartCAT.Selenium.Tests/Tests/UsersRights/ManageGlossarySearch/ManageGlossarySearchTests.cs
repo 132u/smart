@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 using NUnit.Framework;
 
@@ -64,7 +65,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersRights.ManageGlossarySearch
 			_userRightsHelper.CreateGroupWithSpecificRights(
 				AdditionalUser.NickName,
 				groupName,
-				RightsType.GlossarySearch);
+				new List<RightsType>{RightsType.GlossarySearch});
 
 			_workspacePage.GoToClientsPage();
 			_clientsPage.CreateNewClient(_clientName);

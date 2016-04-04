@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 using NUnit.Framework;
 
@@ -21,7 +22,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersRights.TranslationMemories.
 			_userRightsHelper.CreateGroupWithSpecificRights(
 				AdditionalUser.NickName,
 				groupName,
-				RightsType.TMContentManagement);
+				new List<RightsType>{RightsType.TMContentManagement});
 		}
 	}
 }

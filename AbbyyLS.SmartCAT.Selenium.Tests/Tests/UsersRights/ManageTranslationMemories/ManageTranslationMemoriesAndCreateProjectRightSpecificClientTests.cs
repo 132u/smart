@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 using NUnit.Framework;
 
@@ -31,27 +32,21 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersRights.ManageTranslationMem
 
 			_workspacePage.GoToUsersPage();
 
-			_usersTab
-				.ClickGroupsButton()
-				.RemoveUserFromAllGroups(AdditionalUser.NickName)
-				.OpenNewGroupDialog();
-
-			_newGroupDialog.CreateNewGroup(_groupName);
+			_userRightsHelper.CreateGroupWithSpecificRights(
+				AdditionalUser.NickName,
+				_groupName,
+				new List<RightsType>
+				{
+					RightsType.ProjectResourceManagement, 
+					RightsType.ProjectCreation
+				});
+			
 			_groupsAndAccessRightsTab.OpenAddRightsDialogForGroup(_groupName);
 
 			_addAccessRightDialog.AddRightToGroupSpecificClient(RightsType.TMManagement, _clientName);
-			_groupsAndAccessRightsTab
-				.ClickSaveButton(_groupName)
-				.AddUserToGroupIfNotAlredyAdded(_groupName, AdditionalUser.NickName);
-			
-			_groupsAndAccessRightsTab.OpenAddRightsDialogForGroup(_groupName);
-			_addAccessRightDialog.AddRightToGroupAnyProject(RightsType.ProjectResourceManagement);
+
 			_groupsAndAccessRightsTab.ClickSaveButton(_groupName);
 
-			_groupsAndAccessRightsTab.OpenAddRightsDialogForGroup(_groupName);
-			_addAccessRightDialog.AddRightToGroupAnyProject(RightsType.ProjectCreation);
-			_groupsAndAccessRightsTab.ClickSaveButton(_groupName);
-			
 			_workspacePage.SignOut();
 		}
 

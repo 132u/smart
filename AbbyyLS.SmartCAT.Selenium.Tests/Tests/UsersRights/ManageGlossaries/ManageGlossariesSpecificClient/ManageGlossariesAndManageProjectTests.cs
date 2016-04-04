@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 using NUnit.Framework;
 
@@ -37,6 +38,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersRights.ManageGlossaries.Man
 			_newProjectWorkflowPage = new NewProjectWorkflowPage(Driver);
 			_projectSettingsPage = new ProjectSettingsPage(Driver);
 			_usersTab = new UsersTab(Driver);
+			_userRightsHelper = new UserRightsHelper(Driver);
 
 			_clientName = _clientsPage.GetClientUniqueName();
 			_clientName2 = _clientsPage.GetClientUniqueName();
@@ -49,28 +51,14 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersRights.ManageGlossaries.Man
 			_clientsPage.CreateNewClient(_clientName);
 			_clientsPage.CreateNewClient(_clientName2);
 
-			_workspacePage.GoToUsersPage();
-			_usersTab
-				.ClickGroupsButton()
-				.RemoveUserFromAllGroups(AdditionalUser.NickName)
-				.OpenNewGroupDialog();
-			
-			_newGroupDialog.CreateNewGroup(groupName);
+			_userRightsHelper.CreateGroupWithSpecificRights(
+				AdditionalUser.NickName,
+				groupName,
+				new List<RightsType> { RightsType.ProjectResourceManagement, RightsType.ProjectCreation });
 
 			_groupsAndAccessRightsTab.OpenAddRightsDialogForGroup(groupName);
 			_addAccessRightDialog.AddRightToGroupSpecificClient(RightsType.GlossaryManagement, _clientName);
 			_groupsAndAccessRightsTab.ClickSaveButton(groupName);
-
-			_groupsAndAccessRightsTab.OpenAddRightsDialogForGroup(groupName);
-			_addAccessRightDialog.AddRightToGroupAnyProject(RightsType.ProjectCreation);
-			_groupsAndAccessRightsTab.ClickSaveButton(groupName);
-
-			_groupsAndAccessRightsTab.OpenAddRightsDialogForGroup(groupName);
-			_addAccessRightDialog.AddRightToGroupAnyProject(RightsType.ProjectResourceManagement);
-
-			_groupsAndAccessRightsTab
-				.ClickSaveButton(groupName)
-				.AddUserToGroupIfNotAlredyAdded(groupName, AdditionalUser.NickName);
 
 			_workspacePage.SignOut();
 		}
@@ -165,6 +153,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersRights.ManageGlossaries.Man
 		private string _groupName;
 		private string _projectUniqueName;
 
+		private UserRightsHelper _userRightsHelper;
 		private ClientsPage _clientsPage;
 		private ExportNotification _exportNotification;
 		private WorkspacePage _workspacePage;

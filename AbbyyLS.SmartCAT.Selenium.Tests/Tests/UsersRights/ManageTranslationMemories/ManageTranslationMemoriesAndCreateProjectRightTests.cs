@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 using NUnit.Framework;
 
@@ -23,25 +24,16 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersRights.ManageTranslationMem
 
 			_loginHelper.Authorize(StartPage.Workspace, ThreadUser);
 
-			_workspacePage.GoToUsersPage();
-
-			_usersTab
-				.ClickGroupsButton()
-				.RemoveUserFromAllGroups(AdditionalUser.NickName);
-
 			_userRightsHelper.CreateGroupWithSpecificRights(
 				AdditionalUser.NickName,
 				_groupName,
-				RightsType.TMManagement);
-
-			_groupsAndAccessRightsTab.OpenAddRightsDialogForGroup(_groupName);
-			_addAccessRightDialog.AddRightToGroupAnyProject(RightsType.ProjectResourceManagement);
-			_groupsAndAccessRightsTab.ClickSaveButton(_groupName);
-
-			_groupsAndAccessRightsTab.OpenAddRightsDialogForGroup(_groupName);
-			_addAccessRightDialog.AddRightToGroupAnyProject(RightsType.ProjectCreation);
-			_groupsAndAccessRightsTab.ClickSaveButton(_groupName);
-
+				new List<RightsType>
+				{
+					RightsType.TMManagement,
+					RightsType.ProjectResourceManagement, 
+					RightsType.ProjectCreation
+				});
+			
 			_workspacePage.GoToTranslationMemoriesPage();
 			_translationMemoriesHelper.CreateTranslationMemory(_existingTranslationMemory);
 

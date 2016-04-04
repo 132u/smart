@@ -34,21 +34,11 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersRights.TranslationMemories.
 			_translationMemoriesHelper.CreateTranslationMemory(_translationMemoryWithClient, client: _commonClientName);
 			_translationMemoriesHelper.CreateTranslationMemory(_translationMemoryWithSecondClient, client: _commonClientName2);
 
-			_workspacePage.GoToUsersPage();
-			
-			_usersTab
-				.ClickGroupsButton()
-				.RemoveUserFromAllGroups(AdditionalUser.NickName)
-				.OpenNewGroupDialog();
-
-			_newGroupDialog.CreateNewGroup(groupName);
-
-			_groupsAndAccessRightsTab.OpenAddRightsDialogForGroup(groupName);
-
-			_addAccessRightDialog.AddRightToGroupSpecificClient(RightsType.TMSearch, _commonClientName);
-			_groupsAndAccessRightsTab
-				.ClickSaveButton(groupName)
-				.AddUserToGroupIfNotAlredyAdded(groupName, AdditionalUser.NickName);
+			_userRightsHelper.CreateGroupWithSpecificRightsAndSpecificClient(
+				AdditionalUser.NickName,
+				groupName,
+				RightsType.TMSearch,
+				_commonClientName);
 		}
 
 		[Test]

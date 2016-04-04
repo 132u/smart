@@ -1,4 +1,5 @@
 ﻿﻿using System;
+﻿using System.Collections.Generic;
 
 ﻿using NUnit.Framework;
 
@@ -42,7 +43,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersRights.ViewProjects
 			_userRightsHelper.CreateGroupWithSpecificRights(
 				AdditionalUser.NickName,
 				groupName,
-				RightsType.ProjectView);
+				new List<RightsType>{RightsType.ProjectView});
 		}
 
 		[OneTimeTearDown]

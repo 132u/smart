@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 using AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers;
 
@@ -32,21 +33,11 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersRights.ManageGlossariesComp
 			_workspacePage.GoToGlossariesPage();
 			_glossariesHelper.CreateGlossary(_commonGlossaryUniqueName, client: _commonClientName2);
 
-			_workspacePage.GoToUsersPage();
-
-			_usersTab
-				.ClickGroupsButton()
-				.RemoveUserFromAllGroups(AdditionalUser.NickName)
-				.OpenNewGroupDialog();
-			
-			_newGroupDialog.CreateNewGroup(_groupName);
-
-			_groupsAndAccessRightsTab.OpenAddRightsDialogForGroup(_groupName);
-
-			_addAccessRightDialog.AddRightToGroupSpecificClient(RightsType.GlossaryManagement, _commonClientName);
-			_groupsAndAccessRightsTab
-				.ClickSaveButton(_groupName)
-				.AddUserToGroupIfNotAlredyAdded(_groupName, AdditionalUser.NickName);
+			_userRightsHelper.CreateGroupWithSpecificRightsAndSpecificClient(
+				AdditionalUser.NickName,
+				_groupName,
+				RightsType.GlossaryManagement,
+				_commonClientName);
 		}
 	}
 }

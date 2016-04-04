@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 using NUnit.Framework;
 
@@ -23,7 +24,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersRights.ManageGlossaries
 			_userRightsHelper.CreateGroupWithSpecificRights(
 				AdditionalUser.NickName,
 				groupName,
-				RightsType.GlossaryManagement);
+				new List<RightsType>{RightsType.GlossaryManagement});
 		}
 
 		[SetUp]

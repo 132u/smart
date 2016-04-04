@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Drawing;
 
 using NUnit.Framework;
@@ -85,7 +86,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersRights.ManageProjects
 			_userRightsHelper.CreateGroupWithSpecificRights(
 				AdditionalUser.NickName,
 				groupName,
-				RightsType.ProjectResourceManagement);
+				new List<RightsType>{RightsType.ProjectResourceManagement});
 		}
 
 		[OneTimeTearDown]

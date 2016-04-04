@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.AssignmentPages;
 
@@ -81,7 +82,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersRights.ManageProjects
 			_userRightsHelper.CreateGroupWithSpecificRights(
 				AdditionalUser.NickName,
 				groupName,
-				RightsType.ProjectResourceManagement);
+				new List<RightsType>{RightsType.ProjectResourceManagement});
 			
 			_workspacePage.GoToProjectsPage();
 

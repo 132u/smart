@@ -42,7 +42,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersRights.ManageTranslationMem
 			_userRightsHelper.CreateGroupWithSpecificRights(
 				AdditionalUser.NickName,
 				_groupName,
-				RightsType.TMManagement);
+				new List<RightsType>{RightsType.TMManagement});
 
 			_workspacePage.SignOut();
 		}

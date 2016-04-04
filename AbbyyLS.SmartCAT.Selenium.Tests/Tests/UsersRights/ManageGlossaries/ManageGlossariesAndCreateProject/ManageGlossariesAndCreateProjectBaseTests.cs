@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 using NUnit.Framework;
 
@@ -23,16 +24,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersRights.ManageGlossaries.Man
 			_userRightsHelper.CreateGroupWithSpecificRights(
 				AdditionalUser.NickName,
 				groupName,
-				RightsType.GlossaryManagement);
-
-			_groupsAndAccessRightsTab.OpenAddRightsDialogForGroup(groupName);
-			_addAccessRightDialog.AddRightToGroupAnyProject(RightsType.ProjectResourceManagement);
-			_groupsAndAccessRightsTab.ClickSaveButton(groupName);
-
-			_groupsAndAccessRightsTab.OpenAddRightsDialogForGroup(groupName);
-			_addAccessRightDialog.AddRightToGroupAnyProject(RightsType.ProjectCreation);
-			_groupsAndAccessRightsTab.ClickSaveButton(groupName);
-
+				new List<RightsType> { RightsType.GlossaryManagement, RightsType.ProjectResourceManagement, RightsType.ProjectCreation });
+			
 			_workspacePage.SignOut();
 		}
 

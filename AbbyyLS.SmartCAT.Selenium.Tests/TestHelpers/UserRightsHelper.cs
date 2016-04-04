@@ -1,4 +1,6 @@
-﻿using AbbyyLS.SmartCAT.Selenium.Tests.DataStructures;
+﻿using System.Collections.Generic;
+
+using AbbyyLS.SmartCAT.Selenium.Tests.DataStructures;
 using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.UsersRights;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace;
@@ -20,7 +22,32 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 			_addAccessRightDialog = new AddAccessRightDialog(Driver);
 		}
 
-		public UserRightsHelper CreateGroupWithSpecificRights(string nickName, string groupName, RightsType right)
+		public UserRightsHelper CreateGroupWithSpecificRights(string nickName, string groupName, List<RightsType> rights)
+		{
+			_workspacePage.GoToUsersPage();
+
+			_usersTab
+				.ClickGroupsButton()
+				.RemoveUserFromAllGroups(nickName)
+				.OpenNewGroupDialog();
+
+			_newGroupDialog.CreateNewGroup(groupName);
+			
+			for (int i = 0; i < rights.Count; i++)
+			{
+				_groupsAndAccessRightsTab.OpenAddRightsDialogForGroup(groupName);
+
+				_addAccessRightDialog
+					.AddRightToGroupAnyProject(rights[i])
+					.ClickSaveButton(groupName);
+			}
+
+			_groupsAndAccessRightsTab.AddUserToGroupIfNotAlredyAdded(groupName, nickName);
+
+			return this;
+		}
+
+		public UserRightsHelper CreateGroupWithSpecificRightsAndSpecificClient(string nickName, string groupName, RightsType right, string client)
 		{
 			_workspacePage.GoToUsersPage();
 
@@ -33,9 +60,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 			_groupsAndAccessRightsTab.OpenAddRightsDialogForGroup(groupName);
 
-			_addAccessRightDialog
-				.AddRightToGroupAnyProject(right)
-				.ClickSaveButton(groupName);
+			_addAccessRightDialog.AddRightToGroupSpecificClient(right, client);
 
 			_groupsAndAccessRightsTab.AddUserToGroupIfNotAlredyAdded(groupName, nickName);
 

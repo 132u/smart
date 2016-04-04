@@ -149,7 +149,10 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.UsersRights
 				ClickGroupRow(groupName);
 			}
 
-			ClickEditGroupButton(groupName);
+			if (IsEditGroupButtonDisplayed(groupName))
+			{
+				ClickEditGroupButton(groupName);
+			}
 			
 			if (!IsUserExistInGroup(groupName, userName))
 			{
